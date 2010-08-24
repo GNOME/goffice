@@ -57,7 +57,7 @@ ioc_finalize (GObject *obj)
 	g_return_if_fail (GO_IS_IO_CONTEXT (obj));
 
 	ioc = GO_IO_CONTEXT (obj);
-	go_error_info_free (ioc->info);
+	go_slist_free_custom (ioc->info, (GFreeFunc) go_error_info_free);
 	if (ioc->impl) {
 		go_cmd_context_progress_set (ioc->impl, 0.0);
 		go_cmd_context_progress_message_set (ioc->impl, NULL);
@@ -193,7 +193,7 @@ go_io_error_info_set (GOIOContext *context, GOErrorInfo *error)
 
 	g_return_if_fail (context->info == NULL);
 
-	context->info = error;
+	context->info = g_slist_prepend (context->info, error);
 	context->error_occurred = TRUE;
 }
 
@@ -202,9 +202,15 @@ go_io_error_push (GOIOContext *context, GOErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
-
-	go_error_info_add_details (error, context->info);
-	context->info = error;
+	
+	if (context->info == NULL) {
+		go_error_info_add_details (error, NULL);
+		context->info = g_slist_append (NULL, error);
+	} else {
+		GOErrorInfo *info = context->info->data;
+		go_error_info_add_details (error, info);
+		context->info->data = error;
+	}
 }
 
 void
@@ -219,7 +225,8 @@ go_io_error_display (GOIOContext *context)
 			cc = context->impl;
 		else
 			cc = GO_CMD_CONTEXT (context);
-		go_cmd_context_error_info (cc, context->info);
+		go_cmd_context_error_info_list 
+			(cc, context->info);
 	}
 }
 
@@ -231,7 +238,7 @@ go_io_error_clear (GOIOContext *context)
 
 	context->error_occurred = FALSE;
 	context->warning_occurred = FALSE;
-	go_error_info_free (context->info);
+	go_slist_free_custom (context->info, (GFreeFunc) go_error_info_free);
 	context->info = NULL;
 }
 
@@ -470,7 +477,9 @@ go_io_warning (G_GNUC_UNUSED GOIOContext *context,
 void
 go_io_warning_varargs (GOIOContext *context, char const *fmt, va_list args)
 {
-	context->info = go_error_info_new_vprintf (GO_WARNING, fmt, args);
+	context->info = g_slist_prepend 
+		(context->info, go_error_info_new_vprintf 
+		 (GO_WARNING, fmt, args));
 	context->warning_occurred = TRUE;
 }
 

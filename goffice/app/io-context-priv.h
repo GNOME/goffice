@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GO_IO_CONTEXT_PRIV_H
 #define GO_IO_CONTEXT_PRIV_H
 
@@ -47,7 +48,7 @@ struct _GOIOContext {
 	GObject base;
 
 	GOCmdContext	*impl;
-	GOErrorInfo	*info;
+	GSList          *info; /* GSList of GOErrorInfo in reverse order */
 	gboolean	 error_occurred;
 	gboolean	 warning_occurred;
 

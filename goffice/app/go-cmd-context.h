@@ -43,6 +43,7 @@ void   go_cmd_context_error_export  (GOCmdContext *cc, char const *msg);
 void   go_cmd_context_error_invalid (GOCmdContext *cc,
 				     char const *msg, char const *val);
 void   go_cmd_context_error_info    (GOCmdContext *cc, GOErrorInfo *stack);
+void   go_cmd_context_error_info_list (GOCmdContext *cc, GSList *stack);
 
 /* An initial set of std errors */
 GQuark go_error_system  (void);

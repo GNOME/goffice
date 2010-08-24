@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-cmd-context.c : Error dispatch utilities.
  *
@@ -33,6 +34,16 @@ go_cmd_context_error_info (GOCmdContext *context, GOErrorInfo *stack)
 {
 	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 	GCC_CLASS (context)->error.error_info (context, stack);
+}
+
+void
+go_cmd_context_error_info_list (GOCmdContext *cc, GSList *stack)
+{
+	g_return_if_fail (GO_IS_CMD_CONTEXT (cc));
+	if (stack == NULL)
+		go_cmd_context_error_info (cc, NULL);
+	else
+		go_cmd_context_error_info (cc, g_slist_last (stack)->data);
 }
 
 void

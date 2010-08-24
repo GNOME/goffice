@@ -1,5 +1,9 @@
 goffice 0.8.10:
 
+Andreas:
+	* Make sure the first rather than the last error is shown.
+	* Plug leak.
+
 Jean:
 	* Always use real line width when evaluating dashes. [#442546]
 	* Update x and y limits when data change for xyz plots. [#627288]
