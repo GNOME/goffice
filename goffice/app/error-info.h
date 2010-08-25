@@ -21,7 +21,7 @@ GOErrorInfo *go_error_info_new_str_with_details_list (char const *msg, GSList *d
 GOErrorInfo *go_error_info_new_from_error_list	(GSList *errors);
 GOErrorInfo *go_error_info_new_from_errno		(void);
 void	   go_error_info_add_details		(GOErrorInfo *error, GOErrorInfo *details);
-void	   go_error_info_add_details_list	  	(GOErrorInfo *error, GSList *details);
+void	   go_error_info_add_details_list	(GOErrorInfo *error, GSList *details);
 void	   go_error_info_free			(GOErrorInfo *error);
 void	   go_error_info_print			(GOErrorInfo *error);
 char const*go_error_info_peek_message		(GOErrorInfo *error);

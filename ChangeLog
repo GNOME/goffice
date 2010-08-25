@@ -1,5 +1,11 @@
 2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/app/io-context.c (go_io_error_info_set): don't be overzealous
+	  while checking for problems
+	(go_io_error_push): skip useless code
+
+2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/app/go-cmd-context-impl.h (error_info_list): new method
 	* goffice/app/go-cmd-context.c (go_cmd_context_error_info_list):
 	  call error_info_list

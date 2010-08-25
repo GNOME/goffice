@@ -191,10 +191,12 @@ go_io_error_info_set (GOIOContext *context, GOErrorInfo *error)
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
 
-	g_return_if_fail (context->info == NULL);
-
 	context->info = g_slist_prepend (context->info, error);
-	context->error_occurred = TRUE;
+
+	if (go_error_info_peek_severity (error) < GO_ERROR)
+		context->warning_occurred = TRUE;
+	else
+		context->error_occurred = TRUE;
 }
 
 void
@@ -203,10 +205,9 @@ go_io_error_push (GOIOContext *context, GOErrorInfo *error)
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
 	
-	if (context->info == NULL) {
-		go_error_info_add_details (error, NULL);
-		context->info = g_slist_append (NULL, error);
-	} else {
+	if (context->info == NULL)
+		go_io_error_info_set (context, error);
+	else {
 		GOErrorInfo *info = context->info->data;
 		go_error_info_add_details (error, info);
 		context->info->data = error;
