@@ -19,6 +19,7 @@ Morten:
 	* Fix char-xmlChar confusion.
 	* Fix graph crash.  [#628259]
 	* Improve go_format_is_date.
+	* Improve handling of date axes with time-of-day.
 
 --------------------------------------------------------------------------
 goffice 0.8.9:

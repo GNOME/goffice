@@ -775,113 +775,89 @@ map_linear_calc_ticks (GogAxis *axis)
 	gog_axis_set_ticks (axis, t, ticks);
 }
 
-static gboolean
-add_days (GDate *d, int n)
-{
-	int m = 23936166 - g_date_get_julian (d);  /* 31-Dec-65535 */
+static const int j_horizon = 23936166;  /* 31-Dec-65535 */
 
-	if (n > m)
+typedef struct {
+	enum { DS_MONTHS, DS_DAYS } unit;
+	double n;
+} DateStep;
+
+/*
+ * Moral equivalent of "res = start + i * step".
+ *
+ * Note the date system: (GDate's) Julian day + fractional day.
+ */
+static gboolean
+dt_add (double *res, double start, double i, const DateStep *step)
+{
+	if (start <= 0 && start > j_horizon)
 		return FALSE;
 
-	g_date_add_days (d, n);
-	return TRUE;
-}
+	switch (step->unit) {
+	case DS_DAYS:
+		*res = start + i * step->n;
+		break;
+	case DS_MONTHS: {
+		GDate d;
+		int istart = (int)start;
+		int m;
+		double n = i * step->n;
 
-static gboolean
-add_months (GDate *d, int n)
-{
-	int m = (65535 - g_date_get_year (d)) * 12 +
-		(12 - g_date_get_month (d));
+		if (n < 0 || n != floor (n))
+			return FALSE;
 
-	if (n > m)
+		g_date_clear (&d, 1);
+		g_date_set_julian (&d, istart);
+		m = (65535 - g_date_get_year (&d)) * 12 +
+			(12 - g_date_get_month (&d));
+		if (n > m)
+			return FALSE;
+		g_date_add_months (&d, (int)n);
+
+		*res = g_date_get_julian (&d) + (start - istart);
+		break;
+	}
+	default:
 		return FALSE;
+	}
 
-	g_date_add_months (d, n);
-	return TRUE;
+	return *res > 0 && *res <= j_horizon;
 }
 
-static void
-map_week_calc_ticks (GogAxis *axis)
+/*
+ * Calculate a lower bound to the number of days in the step.  Accuracy is
+ * not terribly important.
+ */
+static double
+dt_inflen (const DateStep *step)
 {
-	GogAxisTick *ticks;
-	double major_tick, minor_tick;
-	double minimum, maximum, range;
-	GDate min_date;
-	int t, N, maj_i, min_i, maj_N, min_N;
-	int min_days, maj_days;
-
-	if (!gog_axis_get_bounds (axis, &minimum, &maximum) ||
-	    split_date (axis, minimum, &min_date))
-		return; /* Shouldn't happen.  */
-	range = maximum - minimum;
-
-	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
-	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
-
-	maj_days = (int)major_tick / 7 * 7;
-	maj_N = (int)(range / 7);
-
-	minor_tick = MIN (minor_tick, major_tick);
-	min_days = minor_tick < major_tick ? 1 : (int)minor_tick / 7 * 7;
-	min_N = maj_days / min_days;
-
-	while (1) {
-		double Nd = (maj_N + 1.0) * min_N + 1;
-		if (Nd <= GOG_AXIS_MAX_TICK_NBR) {
-			N = (int)Nd;
-			break;
-		}
-
-		/* Too many.  Now what?  */
-		if (min_N > 1) {
-			/*  Drop minor ticks.  */
-			min_N = 1;
-		} else {
-			/* Brutal.  */
-			maj_days *= maj_N;
-			maj_N = 1;
-		}
+	switch (step->unit) {
+	case DS_DAYS:
+		return step->n;
+	case DS_MONTHS:
+		return step->n * 28;
+	default:
+		return go_pinf;
 	}
+}
 
-	ticks = g_new0 (GogAxisTick, N);
 
-	t = 0;
-	for (maj_i = 0; t < N; maj_i++) {
-		GDate maj_d = min_date;
-		double maj_pos;
+static double
+dt_serial (double dt, const GODateConventions *date_conv)
+{
+	double dt0 = go_fake_floor (dt);
 
-		if (!add_days (&maj_d, maj_i * maj_days))
-			break;
+	if (dt0 > 0 && dt < j_horizon) {
+		GDate d;
+		int s;
 
-		maj_pos = go_date_g_to_serial (&maj_d, axis->date_conv);
-		if (maj_pos > maximum)
-			break;
+		g_date_clear (&d, 1);
+		g_date_set_julian (&d, (int)dt0);
 
-		ticks[t].position = maj_pos;
-		ticks[t].type = GOG_AXIS_TICK_MAJOR;
-		ticks[t].label = axis_format_value (axis, maj_pos);
-		t++;
-
-		for (min_i = 1; min_i < min_N; min_i++) {
-			GDate min_d = maj_d;
-			double min_pos;
-
-			if (!add_days (&min_d, min_i * min_days))
-				break;
-
-			min_pos = go_date_g_to_serial (&min_d, axis->date_conv);
-			if (min_pos > maximum)
-				break;
-
-			g_assert (t < N);
-			ticks[t].position = min_pos;
-			ticks[t].type = GOG_AXIS_TICK_MINOR;
-			ticks[t].label = NULL;
-			t++;
-		}
-	}
-
-	gog_axis_set_ticks (axis, t, ticks);
+		s = go_date_g_to_serial (&d, date_conv);
+		return s + (dt - dt0);
+	} else
+		return go_pinf;
 }
 
 static void
@@ -890,11 +866,11 @@ map_date_calc_ticks (GogAxis *axis)
 	GogAxisTick *ticks;
 	double major_tick, minor_tick;
 	double minimum, maximum, range, maj_months, min_months;
-	int t, N, maj_i, min_i, maj_N, min_N;
 	GDate min_date, max_date;
-	gboolean minor_is_days;
-	int min_days = 0;
-	gboolean major_is_weeks;
+	DateStep major_step, minor_step;
+	double start;
+	double maj_extra;
+	int N, t, maj_i;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum) ||
 	    split_date (axis, minimum, &min_date) ||
@@ -907,56 +883,93 @@ map_date_calc_ticks (GogAxis *axis)
 	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
 	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
 
-	major_is_weeks = (major_tick >= 7 && major_tick <= 28 &&
-			  major_tick == floor (major_tick) &&
-			  (int)major_tick % 7 == 0);
-	if (major_is_weeks) {
-		map_week_calc_ticks (axis);
-		return;
-	}
+	major_tick = MAX (major_tick, 0.0);
+	minor_tick = CLAMP (minor_tick, 0.0, major_tick);
 
 	maj_months = go_fake_round (major_tick / (DAYS_IN_YEAR / 12));
-	maj_months = CLAMP (maj_months, 1, G_MAXINT / 12);
-	maj_N = 1 + (int)ceil (range / (maj_months * (DAYS_IN_YEAR / 12)));
+	maj_months = CLAMP (maj_months, 0, G_MAXINT / 12);
+	if (maj_months == 0) {
+		major_step.unit = DS_DAYS;
+		major_step.n = major_tick;
+	} else {
+		major_step.unit = DS_MONTHS;
+		major_step.n = maj_months;
+	}
 
 	min_months = go_fake_round (minor_tick / (DAYS_IN_YEAR / 12));
 	min_months = CLAMP (min_months, 0, maj_months);
-	minor_is_days = (min_months == 0);
-	if (minor_is_days) {
-		min_days = (int)CLAMP (minor_tick, 1, 31);
-		min_N = 31 * maj_months / min_days;
-	} else
-		min_N = (int)(maj_months / min_months);
+	if (min_months == 0) {
+		minor_step.unit = DS_DAYS;
+		minor_step.n = minor_tick;
+	} else {
+		minor_step.unit = DS_MONTHS;
+		minor_step.n = min_months;
+	}
 
 	N = 0;
 	while (1) {
-		double Nd = (double)maj_N * min_N + 1;
+		double maj_N = range / dt_inflen (&major_step);
+		double min_N = range / dt_inflen (&minor_step);
+		double Nd = maj_N + min_N + 1;
+
 		if (Nd <= GOG_AXIS_MAX_TICK_NBR) {
 			N = (int)Nd;
 			break;
 		}
 
 		/* Too many.  Now what?  */
-		if (min_N > 1) {
+		if (min_N >= 2) {
 			/*  Drop minor ticks.  */
-			min_N = 1;
+			minor_step.n = go_pinf;
 		} else {
-			/* Brutal.  */
-			maj_months *= maj_N;
-			maj_N = 1;
+			switch (major_step.unit) {
+			case DS_MONTHS:
+				if (major_step.n < 12)
+					major_step.n = 12;
+				else
+					major_step.n *= 10;
+				break;
+			case DS_DAYS:
+				if (major_step.n < 1)
+					major_step.n = 1;
+				else {
+					major_step.unit = DS_MONTHS;
+					major_step.n = 1;
+				}
+				break;
+			default:
+				g_assert_not_reached ();
+			}
+
+			major_step.n = go_pinf;
 		}
+	}
+
+	start = g_date_get_julian (&min_date) +
+		(minimum - go_date_g_to_serial (&min_date, axis->date_conv));
+
+	switch (major_step.unit) {
+	case DS_MONTHS:
+		maj_extra = 1;
+		break;
+	case DS_DAYS:
+		maj_extra = 1 - 0.5 / N;
+		break;
+	default:
+		g_assert_not_reached ();
 	}
 
 	ticks = g_new0 (GogAxisTick, N);
 
 	t = 0;
 	for (maj_i = 0; t < N; maj_i++) {
-		GDate maj_d = min_date;
-		double maj_pos;
+		double maj_d, maj_dp1;
+		double maj_pos, maj_posp1, min_limit;
+		int min_i;
 
-		if (!add_months (&maj_d, maj_i * (int)maj_months))
+		if (!dt_add (&maj_d, start, maj_i, &major_step))
 			break;
-		maj_pos = go_date_g_to_serial (&maj_d, axis->date_conv);
+		maj_pos = dt_serial (maj_d, axis->date_conv);
 		if (maj_pos > maximum)
 			break;
 
@@ -965,29 +978,21 @@ map_date_calc_ticks (GogAxis *axis)
 		ticks[t].label = axis_format_value (axis, maj_pos);
 		t++;
 
-		if (maj_i == maj_N)
+		/* Calculate next major so we know when to stop minors.  */
+		if (!dt_add (&maj_dp1, start, maj_i + maj_extra, &major_step))
 			break;
+		maj_posp1 = dt_serial (maj_dp1, axis->date_conv);
+		min_limit = MIN (maximum, maj_posp1);
 
-		for (min_i = 1; min_i < min_N; min_i++) {
-			GDate min_d = maj_d;
+		for (min_i = 1; t < N; min_i++) {
+			double min_d;
 			double min_pos;
 
-			if (minor_is_days) {
-				int mths;
-				if (!add_days (&min_d, min_i * min_days))
-					break;
-				mths = 12 * (g_date_get_year (&min_d) -
-					     g_date_get_year (&maj_d)) +
-					(g_date_get_month (&min_d) -
-					 g_date_get_month (&maj_d));
-				if (mths >= (int)maj_months)
-					break;
-			} else {
-				if (!add_months (&min_d, min_i * (int)min_months))
-					break;
-			}
-			min_pos = go_date_g_to_serial (&min_d, axis->date_conv);
-			if (min_pos > maximum)
+			if (!dt_add (&min_d, maj_d, min_i, &minor_step))
+				break;
+
+			min_pos = dt_serial (min_d, axis->date_conv);
+			if (min_pos >= min_limit)
 				break;
 
 			ticks[t].position = min_pos;
