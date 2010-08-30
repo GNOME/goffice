@@ -4621,15 +4621,19 @@ go_format_is_var_width (GOFormat const *fmt)
  * go_format_is_date:
  * @fmt: Format to query
  *
- * Returns: TRUE if the format is a date format.
- * 	Returns FALSE if the format is not a date format.
- * 	Returns -1 if the format is inconsistent.
+ * Returns:
+ *      +2 if the format is a date format with time
+ *      +1 if the format is any other date format.
+ * 	 0 if the format is not a date format.
+ * 	-1 if the format is inconsistent.
  **/
 int
 go_format_is_date (GOFormat const *fmt)
 {
 	g_return_val_if_fail (fmt != NULL, -1);
-	return fmt->typ == GO_FMT_NUMBER && fmt->u.number.has_date;
+	if (go_format_get_family (fmt) != GO_FORMAT_DATE)
+		return 0;
+	return fmt->u.number.has_time ? +2 : +1;
 }
 #endif
 
@@ -4670,7 +4674,7 @@ go_format_month_before_day (GOFormat const *fmt)
 {
 	g_return_val_if_fail (fmt != NULL, -1);
 
-	if (go_format_is_date (fmt) != 1)
+	if (go_format_is_date (fmt) < 1)
 		return -1;
 	if (fmt->u.number.date_ybm)
 		return +2;

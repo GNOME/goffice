@@ -1,3 +1,10 @@
+2010-08-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_month_before_day): Fix test
+	for date format.
+	(go_format_is_date): Return also an indication of whether the
+	format has time-of-day.
+
 2010-08-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_date_calc_ticks): Fix condition

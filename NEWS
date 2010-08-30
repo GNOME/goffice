@@ -18,6 +18,7 @@ Morten:
 	* Plug leaks.
 	* Fix char-xmlChar confusion.
 	* Fix graph crash.  [#628259]
+	* Improve go_format_is_date.
 
 --------------------------------------------------------------------------
 goffice 0.8.9:
