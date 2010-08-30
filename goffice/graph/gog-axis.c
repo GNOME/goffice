@@ -907,7 +907,8 @@ map_date_calc_ticks (GogAxis *axis)
 	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
 	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
 
-	major_is_weeks = (major_tick > 0 && major_tick <= 28 &&
+	major_is_weeks = (major_tick >= 7 && major_tick <= 28 &&
+			  major_tick == floor (major_tick) &&
 			  (int)major_tick % 7 == 0);
 	if (major_is_weeks) {
 		map_week_calc_ticks (axis);

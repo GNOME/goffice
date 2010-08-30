@@ -17,6 +17,7 @@ Morten:
 	* Fix minor go_string_replace issue.
 	* Plug leaks.
 	* Fix char-xmlChar confusion.
+	* Fix graph crash.  [#628259]
 
 --------------------------------------------------------------------------
 goffice 0.8.9:
