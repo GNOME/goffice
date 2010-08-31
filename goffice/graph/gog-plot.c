@@ -508,10 +508,11 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 		/* now add the trend lines if any */
 		children = GOG_OBJECT (series)->children;
 		while (children) {
-			if (GOG_IS_TREND_LINE (children->data))
+			if (GOG_IS_TREND_LINE (children->data)) {
 				j++;
-			if (!gog_trend_line_has_legend (GOG_TREND_LINE (children->data)))
-				no_legend++;
+				if (!gog_trend_line_has_legend (GOG_TREND_LINE (children->data)))
+					no_legend++;
+			}
 			children = children->next;
 		}
 	}

@@ -204,7 +204,7 @@ go_editor_get_page (GOEditor *editor, char const *name)
 		if (strcmp (page->label, name))
 			return page->widget;
 	}
-
+	return NULL;
 }
 
 #endif
