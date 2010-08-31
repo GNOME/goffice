@@ -11,6 +11,7 @@ Jean:
 	* Do not crash when displaying cubic spline with no abscissa. [#627507]
 	* Do not save image filling with no image. [#627690]
 	* Don't use g_free instead of xmlFree. [#627700]
+	* Optionnaly delete trendlines from legend. [#628031]
 
 Morten:
 	* Limit formats to sane number of decimals.  [#627066]

@@ -1,3 +1,16 @@
+2010-08-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-plot.c (gog_plot_update_cardinality),
+	(gog_plot_foreach_elem): optionnaly delete trendlines from legend. [#628031]
+	* goffice/graph/gog-trend-line.c (gog_trend_line_set_property),
+	(gog_trend_line_get_property), (cb_show_in_legend),
+	(gog_trend_line_populate_editor), (gog_trend_line_class_init),
+	(gog_trend_line_init), (gog_trend_line_new_by_type),
+	(gog_trend_line_has_legend): ditto.
+	* goffice/graph/gog-trend-line.h: ditto.
+	* goffice/utils/go-editor.c (go_editor_get_page): new.
+	* goffice/utils/go-editor.h: ditto.
+
 2010-08-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_date_calc_ticks): Simplify and

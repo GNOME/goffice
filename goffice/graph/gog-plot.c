@@ -510,6 +510,8 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 		while (children) {
 			if (GOG_IS_TREND_LINE (children->data))
 				j++;
+			if (!gog_trend_line_has_legend (GOG_TREND_LINE (children->data)))
+				no_legend++;
 			children = children->next;
 		}
 	}
@@ -595,7 +597,8 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 			/* now add the trend lines if any */
 			children = GOG_OBJECT (ptr->data)->children;
 			while (children) {
-				if (GOG_IS_TREND_LINE (children->data)) {
+				if (GOG_IS_TREND_LINE (children->data) &&
+				    gog_trend_line_has_legend (GOG_TREND_LINE (children->data))) {
 					func (i, go_styled_object_get_style (children->data),
 					      gog_object_get_name (children->data), data);
 					i++;

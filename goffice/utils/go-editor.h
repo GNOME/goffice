@@ -45,6 +45,7 @@ void 		 go_editor_set_store_page  	  (GOEditor *editor, unsigned *store_page);
 void 		 go_editor_register_widget 	  (GOEditor *editor, GtkWidget *widget);
 GtkWidget  	*go_editor_get_registered_widget (GOEditor *editor, char const *name);
 GtkWidget 	*go_editor_get_notebook 	  (GOEditor *editor);
+GtkWidget 	*go_editor_get_page      	  (GOEditor *editor, char const *name);
 #endif
 
 G_END_DECLS

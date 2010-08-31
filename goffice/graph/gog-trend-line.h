@@ -41,6 +41,7 @@ GType gog_trend_line_get_type (void);
 
 GogTrendLine *gog_trend_line_new_by_name  (char const *id);
 GogTrendLine *gog_trend_line_new_by_type  (GogTrendLineType const *type);
+gboolean      gog_trend_line_has_legend (GogTrendLine const *line);
 
 G_END_DECLS
 

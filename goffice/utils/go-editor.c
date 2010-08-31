@@ -192,4 +192,17 @@ go_editor_get_notebook (GOEditor *editor)
 	return notebook;
 }
 
+GtkWidget *
+go_editor_get_page (GOEditor *editor, char const *name)
+{
+	GSList *ptr;
+	GOEditorPage *page;
+	for (ptr = editor->pages; ptr; ptr = ptr->next) {
+		page = (GOEditorPage *) ptr->data;
+		if (strcmp (page->label, name))
+			return page->widget;
+	}
+
+}
+
 #endif
