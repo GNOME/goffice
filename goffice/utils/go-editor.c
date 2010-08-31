@@ -23,6 +23,7 @@
 
 #include <goffice/goffice-config.h>
 #include <go-editor.h>
+#include <string.h>
 
 /**
  * go_editor_new:
@@ -43,7 +44,8 @@ go_editor_new (void)
 	return editor;
 }
 
-static void page_free (GOEditorPage *page)
+static void
+page_free (GOEditorPage *page)
 {
 	if (page->widget)
 		g_object_unref (page->widget);
