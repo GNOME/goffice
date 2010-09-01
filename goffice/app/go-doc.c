@@ -403,18 +403,23 @@ go_doc_get_images (GODoc *doc) {
 void
 go_doc_init_write (GODoc *doc, GsfXMLOut *output)
 {
-	if (doc->imagebuf != NULL)
-		g_critical ("Images buffer should be NULL");
-	doc->imagebuf = g_hash_table_new (g_str_hash, g_str_equal);
-	g_object_set_data (G_OBJECT (gsf_xml_out_get_output (output)), "document", doc);
+	g_return_if_fail (GO_IS_DOC (doc));
+	g_return_if_fail (doc->imagebuf == NULL);
+
+	doc->imagebuf = g_hash_table_new_full (g_str_hash, g_str_equal,
+					       g_free, NULL);
+	g_object_set_data (G_OBJECT (gsf_xml_out_get_output (output)),
+			   "document", doc);
 }
 
 void
 go_doc_init_read (GODoc *doc, GsfInput *input)
 {
-	if (doc->imagebuf != NULL)
-		g_critical ("Images buffer should be NULL");
-	doc->imagebuf = g_hash_table_new (g_str_hash, g_str_equal);
+	g_return_if_fail (GO_IS_DOC (doc));
+	g_return_if_fail (doc->imagebuf == NULL);
+
+	doc->imagebuf = g_hash_table_new_full (g_str_hash, g_str_equal,
+					       g_free, NULL);
 	g_object_set_data (G_OBJECT (input), "document", doc);
 }
 
@@ -444,7 +449,9 @@ go_doc_save_image (GODoc *doc, char const *id)
 	if (!g_hash_table_lookup (doc->imagebuf, id)) {
 		GOImage *image = g_hash_table_lookup (doc->images, id);
 		if (image)
-			g_hash_table_insert (doc->imagebuf, (gpointer) id, image);
+			g_hash_table_replace (doc->imagebuf,
+					      g_strdup (id),
+					      image);
 	}
 }
 
@@ -474,20 +481,23 @@ load_image_data (GsfXMLIn *xin, GsfXMLBlob *unknown)
 	go_image_load_data (image, xin);
 	real = go_doc_add_image (doc, go_image_get_name (image), image);
 	g_hash_table_remove (doc->imagebuf, (gpointer) go_image_get_name (image));
-	/* We have an issue if the image already existed and this can happen on pasting
-	 or if one day, we implement merging two documents (import a workbook as new sheets
-	 in an existing workbook). At the moment, I don't see any way to tell the clients
-	 to reference the image stored in the document instead of the one created by
-	 go_doc_image_fetch, so let's just make certain they share the same id. Anyway
-	 this should not happen very often (may be with a company logo?) and it is not so harmful
-	 since the duplicationwill not survive serialization. (Jean)
-	*/
+	/*
+	 * We have an issue if the image already existed and this can
+	 * happen on pasting or if one day, we implement merging two
+	 * documents (import a workbook as new sheets in an existing
+	 * workbook). At the moment, I don't see any way to tell the
+	 * clients to reference the image stored in the document instead
+	 * of the one created by go_doc_image_fetch, so let's just make
+	 * certain they share the same id. Anyway this should not happen
+	 * very often (may be with a company logo?) and it is not so
+	 * harmful since the duplicationwill not survive
+	 * serialization. (Jean)
+	 */
 	if (real == image)
 		g_object_unref (image);
 	else
 		go_image_set_name (image, go_image_get_name (real));
 	g_object_set_data (G_OBJECT (doc), "new image", NULL);
-
 }
 
 void
@@ -516,14 +526,16 @@ go_doc_end_read	(GODoc *doc)
 	doc->imagebuf = NULL;
 }
 
-GOImage*
+GOImage *
 go_doc_image_fetch (GODoc *doc, char const *id)
 {
 	GOImage *image = g_hash_table_lookup (doc->imagebuf, id);
 	if (!image) {
 		image = g_object_new (GO_TYPE_IMAGE, NULL);
 		go_image_set_name (image, id);
-		g_hash_table_insert (doc->imagebuf, (gpointer) go_image_get_name (image), image);
+		g_hash_table_replace (doc->imagebuf,
+				      g_strdup (go_image_get_name (image)),
+				      image);
 	}
 	return image;
 }

@@ -21,6 +21,7 @@ Morten:
 	* Fix graph crash.  [#628259]
 	* Improve go_format_is_date.
 	* Improve handling of date axes with time-of-day.
+	* Fix FMR on image load.  [Part of #628467]
 
 --------------------------------------------------------------------------
 goffice 0.8.9:

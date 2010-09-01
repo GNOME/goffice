@@ -1,12 +1,19 @@
+2010-09-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-doc.c (go_doc_init_read, go_doc_init_write): Make
+	->imagebug own the ids.
+	(go_doc_save_image, go_doc_image_fetch): Copy image ids.
+
 2010-08-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* goffice/app/go-cmd-context.c (go_cmd_context_class_init): this should be a 
-	  base init function, so change its name and arguments
+	* goffice/app/go-cmd-context.c (go_cmd_context_class_init): this
+	should be a base init function, so change its name and arguments
 
 2010-08-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot.c (gog_plot_update_cardinality),
-	(gog_plot_foreach_elem): optionnaly delete trendlines from legend. [#628031]
+	(gog_plot_foreach_elem): optionnaly delete trendlines from
+	legend. [#628031]
 	* goffice/graph/gog-trend-line.c (gog_trend_line_set_property),
 	(gog_trend_line_get_property), (cb_show_in_legend),
 	(gog_trend_line_populate_editor), (gog_trend_line_class_init),
