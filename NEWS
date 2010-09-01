@@ -12,6 +12,7 @@ Jean:
 	* Do not save image filling with no image. [#627690]
 	* Don't use g_free instead of xmlFree. [#627700]
 	* Optionnaly delete trendlines from legend. [#628031]
+	* Fix critical in go_doc_finalize. [#628467]
 
 Morten:
 	* Limit formats to sane number of decimals.  [#627066]

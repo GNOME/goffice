@@ -1,7 +1,12 @@
+2010-09-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-doc.c (load_image_data): don't unref the image at
+	this point. [#628467]
+
 2010-09-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-doc.c (go_doc_init_read, go_doc_init_write): Make
-	->imagebug own the ids.
+	->imagebuf own the ids.
 	(go_doc_save_image, go_doc_image_fetch): Copy image ids.
 
 2010-08-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>

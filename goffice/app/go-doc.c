@@ -490,12 +490,10 @@ load_image_data (GsfXMLIn *xin, GsfXMLBlob *unknown)
 	 * of the one created by go_doc_image_fetch, so let's just make
 	 * certain they share the same id. Anyway this should not happen
 	 * very often (may be with a company logo?) and it is not so
-	 * harmful since the duplicationwill not survive
+	 * harmful since the duplication will not survive
 	 * serialization. (Jean)
 	 */
-	if (real == image)
-		g_object_unref (image);
-	else
+	if (real != image)
 		go_image_set_name (image, go_image_get_name (real));
 	g_object_set_data (G_OBJECT (doc), "new image", NULL);
 }
