@@ -493,8 +493,10 @@ load_image_data (GsfXMLIn *xin, GsfXMLBlob *unknown)
 	 * harmful since the duplication will not survive
 	 * serialization. (Jean)
 	 */
-	if (real != image)
+	if (real != image) {
 		go_image_set_name (image, go_image_get_name (real));
+		g_object_unref (image);
+	}
 	g_object_set_data (G_OBJECT (doc), "new image", NULL);
 }
 
