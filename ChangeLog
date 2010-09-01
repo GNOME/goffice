@@ -1,3 +1,8 @@
+2010-08-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/app/go-cmd-context.c (go_cmd_context_class_init): this should be a 
+	  base init function, so change its name and arguments
+
 2010-08-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot.c (gog_plot_update_cardinality),

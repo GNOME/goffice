@@ -160,7 +160,7 @@ go_cmd_context_error_info_list_default 	(GOCmdContext *gcc, GSList *errs)
 }
 
 static void
-go_cmd_context_class_init (GOCmdContextClass *class, gpointer class_data)
+go_cmd_context_base_init (GOCmdContextClass *class)
 {
 #warning class->error_info_list should really be class->error.error_info_list
 	class->error_info_list = go_cmd_context_error_info_list_default;
@@ -174,7 +174,7 @@ go_cmd_context_get_type (void)
 	if (!go_cmd_context_type) {
 		static GTypeInfo const go_cmd_context_info = {
 			sizeof (GOCmdContextClass),	/* class_size */
-			(GClassInitFunc) go_cmd_context_class_init, /* base_init */
+			(GBaseInitFunc) go_cmd_context_base_init, /* base_init */
 			NULL,				/* base_finalize */
 		};
 
