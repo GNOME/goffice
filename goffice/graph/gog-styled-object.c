@@ -63,15 +63,18 @@ gog_styled_object_document_changed (GogObject *obj, GODoc *doc)
 	    (style->fill.type == GO_STYLE_FILL_IMAGE) &&
 	    (style->fill.image.image != NULL)) {
 		GOImage *image;
-		char *id = g_strdup (go_image_get_name (style->fill.image.image));
+		char *id = go_image_get_name (style->fill.image.image);
 		/* remove the (nnn) modifier if any */
-		int i = strlen (id) - 1;
-		if (id[i] == ')') {
-			i--;
-			while (id[i] >= '0' && id[i] <= '9')
+		if (id) {
+			int i = strlen (id) - 1;
+			id = g_strdup (id);
+			if (id[i] == ')') {
 				i--;
-			if (id[i] == '(')
-				id[i] = 0;
+				while (id[i] >= '0' && id[i] <= '9')
+					i--;
+				if (id[i] == '(')
+					id[i] = 0;
+			}
 		}
 		image = go_doc_add_image (doc, id, style->fill.image.image);
 		g_free (id);

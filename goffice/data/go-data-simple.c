@@ -349,6 +349,7 @@ go_data_vector_val_load_values (GODataVector *vec)
 	}
 	vec->minimum = minimum;
 	vec->maximum = maximum;
+	vec->len = val->n;
 	vec->base.flags |= GO_DATA_CACHE_IS_VALID;
 }
 
@@ -864,6 +865,7 @@ go_data_matrix_val_load_values (GODataMatrix *mat)
 	}
 	mat->minimum = minimum;
 	mat->maximum = maximum;
+	mat->size = val->size;
 	mat->base.flags |= GO_DATA_CACHE_IS_VALID;
 }
 

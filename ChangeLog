@@ -1,3 +1,14 @@
+2010-09-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/data/go-data-simple.c (go_data_vector_val_load_values),
+	(go_data_matrix_val_load_values): update base type sizes.
+	* goffice/graph/gog-styled-object.c
+	(gog_styled_object_document_changed): fixed a potential crasher. [#628671]
+	* goffice/utils/go-styled-object.c (go_styled_object_get_style): add
+	missing space.
+
 2010-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-doc.c (load_image_data): don't unref the image at
