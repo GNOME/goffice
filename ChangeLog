@@ -7,8 +7,6 @@
 
 2010-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
 	* goffice/data/go-data-simple.c (go_data_vector_val_load_values),
 	(go_data_matrix_val_load_values): update base type sizes.
 	* goffice/graph/gog-styled-object.c
