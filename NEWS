@@ -14,6 +14,7 @@ Jean:
 	* Optionnaly delete trendlines from legend. [#628031]
 	* Fix critical in go_doc_finalize. [#628467]
 	* Fixed a potential crasher in gog_styled_object_document_changed. [#628671]
+	* Fixed GOImage references management. [#628732]
 
 Morten:
 	* Limit formats to sane number of decimals.  [#627066]

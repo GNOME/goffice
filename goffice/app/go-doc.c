@@ -318,6 +318,13 @@ go_doc_update_meta_data (GODoc *doc)
 	g_signal_emit (G_OBJECT (doc), signals [METADATA_UPDATE], 0);
 }
 
+/** go_doc_get_image:
+ * @doc: a #GODoc
+ * @id: the image name
+ *
+ * Returns: the #GOImage is one exist with name @id. The caller does not own a
+ * reference.
+ */
 GOImage *
 go_doc_get_image (GODoc *doc, char const *id)
 {
@@ -345,6 +352,16 @@ check_for_pixbuf (gpointer key, gpointer img_, gpointer user)
 }
 #endif
 
+/** go_doc_add_image:
+ * @doc: a #GODoc
+ * @id: the image name or NULL
+ * @image: a #GOImage
+ *
+ * Adds @image to the document if no such image already exists. The name of
+ * the returned image might be different from @id, even if given.
+ * Returns: either @image, in which case the document adds a reference on it, or
+ * an identical image for which the owner does not own a reference.
+ */
 GOImage *
 go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
 {
@@ -419,7 +436,7 @@ go_doc_init_read (GODoc *doc, GsfInput *input)
 	g_return_if_fail (doc->imagebuf == NULL);
 
 	doc->imagebuf = g_hash_table_new_full (g_str_hash, g_str_equal,
-					       g_free, NULL);
+					       g_free, g_object_unref);
 	g_object_set_data (G_OBJECT (input), "document", doc);
 }
 
@@ -526,10 +543,23 @@ go_doc_end_read	(GODoc *doc)
 	doc->imagebuf = NULL;
 }
 
+/** go_doc_image_fetch:
+ * @doc: a #GODoc
+ * @id: the name for the new image.
+ *
+ * Searches for a #GOImage with name @id in the document image buffer and
+ * creates one if needed. The caller does not own a reference on the returned
+ * #GOImage.
+ * This function must be called after a call to go_doc_init_read(), otherwise
+ * it will emit a critical and return NULL.
+ * Returns: the found or created #GOImage.
+ */
 GOImage *
 go_doc_image_fetch (GODoc *doc, char const *id)
 {
-	GOImage *image = g_hash_table_lookup (doc->imagebuf, id);
+	GOImage *image;
+	g_return_val_if_fail (doc && doc->imagebuf, NULL);
+	image = g_hash_table_lookup (doc->imagebuf, id);
 	if (!image) {
 		image = g_object_new (GO_TYPE_IMAGE, NULL);
 		go_image_set_name (image, id);

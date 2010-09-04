@@ -1,3 +1,10 @@
+2010-09-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-doc.c (go_doc_init_read), (go_doc_image_fetch): fixed
+	GOImage references management. [#628732]
+	* goffice/graph/gog-styled-object.c
+	(gog_styled_object_document_changed): ditto.
+
 2010-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	reviewed by: <delete if not using a buddy>

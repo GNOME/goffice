@@ -63,11 +63,12 @@ gog_styled_object_document_changed (GogObject *obj, GODoc *doc)
 	    (style->fill.type == GO_STYLE_FILL_IMAGE) &&
 	    (style->fill.image.image != NULL)) {
 		GOImage *image;
-		char *id = go_image_get_name (style->fill.image.image);
+		char const *cur_id = go_image_get_name (style->fill.image.image);
+		char *id = NULL;
 		/* remove the (nnn) modifier if any */
-		if (id) {
-			int i = strlen (id) - 1;
-			id = g_strdup (id);
+		if (cur_id) {
+			int i = strlen (cur_id) - 1;
+			id = g_strdup (cur_id);
 			if (id[i] == ')') {
 				i--;
 				while (id[i] >= '0' && id[i] <= '9')
@@ -78,8 +79,10 @@ gog_styled_object_document_changed (GogObject *obj, GODoc *doc)
 		}
 		image = go_doc_add_image (doc, id, style->fill.image.image);
 		g_free (id);
-		g_object_unref (style->fill.image.image);
-		style->fill.image.image = image;
+		if (image != style->fill.image.image) {
+			g_object_unref (style->fill.image.image);
+			style->fill.image.image = g_object_ref (image);
+		}
 	}
 }
 
