@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-08-23 20:46+0000\n"
-"PO-Revision-Date: 2010-08-24 08:37+0200\n"
+"POT-Creation-Date: 2010-08-31 12:14+0000\n"
+"PO-Revision-Date: 2010-09-09 20:20+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Puede desactivar esta característica en forma segura, editando el archivo "
 "plugin.xml apropiado."
 
-#: ../goffice/app/go-cmd-context.c:65
+#: ../goffice/app/go-cmd-context.c:73
 #, c-format
 msgid "Invalid %s: '%s'"
 msgstr "%s inválido: «%s»"
@@ -216,76 +216,76 @@ msgstr "El cargado no tiene el método load_base.\n"
 msgid "Service '%s' not supported by loader."
 msgstr "El cargador no soporta el servicio «%s»."
 
-#: ../goffice/app/go-plugin-service.c:132
-#: ../goffice/app/go-plugin-service.c:835
+#: ../goffice/app/go-plugin-service.c:141
+#: ../goffice/app/go-plugin-service.c:840
 msgid "Error while loading plugin service."
 msgstr "Ha ocurrido un error al cargar el servicio de complementos."
 
-#: ../goffice/app/go-plugin-service.c:140
+#: ../goffice/app/go-plugin-service.c:149
 msgid "Initializing function inside plugin returned error."
 msgstr "La función de inicialización del complemento ha devuelto un error."
 
-#: ../goffice/app/go-plugin-service.c:158
+#: ../goffice/app/go-plugin-service.c:167
 msgid "Cleanup function inside plugin returned error."
 msgstr "La función de limpieza interna del complemento ha devuelto un error."
 
-#: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:61
+#: ../goffice/app/go-plugin-service.c:177 ../goffice/gtk/go-format-sel.c:61
 #: ../goffice/utils/go-format.c:734 ../goffice/utils/go-format.c:3684
 msgid "General"
 msgstr "General"
 
-#: ../goffice/app/go-plugin-service.c:319
+#: ../goffice/app/go-plugin-service.c:334
 msgid "File opener has no description"
 msgstr "El abridor de archivos no tiene descripción"
 
-#: ../goffice/app/go-plugin-service.c:353
+#: ../goffice/app/go-plugin-service.c:368
 #, c-format
 msgid "File opener - %s"
 msgstr "Abridor de archivos - %s"
 
-#: ../goffice/app/go-plugin-service.c:474
+#: ../goffice/app/go-plugin-service.c:489
 msgid "Error while reading file."
 msgstr "Error al leer archivo."
 
-#: ../goffice/app/go-plugin-service.c:642
+#: ../goffice/app/go-plugin-service.c:647
 msgid "File saver has no description"
 msgstr "El guardador de archivos no tiene descripción"
 
-#: ../goffice/app/go-plugin-service.c:685
+#: ../goffice/app/go-plugin-service.c:690
 #, c-format
 msgid "File saver - %s"
 msgstr "Guardador de archivos %s"
 
-#: ../goffice/app/go-plugin-service.c:745
+#: ../goffice/app/go-plugin-service.c:750
 msgid "Error while loading plugin for saving."
 msgstr "Error al cargar el complemento para guardar."
 
-#: ../goffice/app/go-plugin-service.c:747
+#: ../goffice/app/go-plugin-service.c:752
 msgid "Failed to load plugin for saving"
 msgstr "Falló al cargar el complemento para guardar"
 
-#: ../goffice/app/go-plugin-service.c:872
+#: ../goffice/app/go-plugin-service.c:877
 msgid "Plugin loader"
 msgstr "Cargador de complementos"
 
-#: ../goffice/app/go-plugin-service.c:897
+#: ../goffice/app/go-plugin-service.c:902
 msgid "GObject loader"
 msgstr "Cargador GObject"
 
-#: ../goffice/app/go-plugin-service.c:1004
+#: ../goffice/app/go-plugin-service.c:1009
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "No hay atributo «tipo» en el elemento «servicio»."
 
-#: ../goffice/app/go-plugin-service.c:1010
+#: ../goffice/app/go-plugin-service.c:1015
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "El tipo de servicio es desconocido: «%s»."
 
-#: ../goffice/app/go-plugin-service.c:1026
+#: ../goffice/app/go-plugin-service.c:1031
 msgid "Error reading service information."
 msgstr "Ha ocurrido un error al leer la información del servicio."
 
-#: ../goffice/app/go-plugin-service.c:1088
+#: ../goffice/app/go-plugin-service.c:1093
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -293,149 +293,149 @@ msgstr ""
 "Se debe cargar un servicio antes de activarlo (PLUGIN_ALWAYS_LOAD está "
 "establecido) pero la carga ha fallado."
 
-#: ../goffice/app/go-plugin.c:334
+#: ../goffice/app/go-plugin.c:346
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
 "El archivo contiene información del complemento con un identificador "
 "inválido (%s). Se esperaba %s."
 
-#: ../goffice/app/go-plugin.c:338
+#: ../goffice/app/go-plugin.c:350
 msgid "Couldn't read plugin info from file."
 msgstr "No se puede leer la información del complemento del archivo."
 
-#: ../goffice/app/go-plugin.c:483
+#: ../goffice/app/go-plugin.c:495
 msgid "Unknown name"
 msgstr "Nombre desconocido"
 
-#: ../goffice/app/go-plugin.c:578
+#: ../goffice/app/go-plugin.c:590
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "No hay soporte para el tipo de cargador «%s»."
 
-#: ../goffice/app/go-plugin.c:586
+#: ../goffice/app/go-plugin.c:598
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr "Error al intentar cargar «%s»."
 
-#: ../goffice/app/go-plugin.c:664
+#: ../goffice/app/go-plugin.c:676
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Ha ocurrido un error al leer la información del servicio #%d."
 
-#: ../goffice/app/go-plugin.c:745
+#: ../goffice/app/go-plugin.c:757
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "No se puede leer el archivo de información del complemento («%s»)."
 
-#: ../goffice/app/go-plugin.c:749
+#: ../goffice/app/go-plugin.c:761
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "El archivo «%s» no es un archivo válido de información de complementos."
 
-#: ../goffice/app/go-plugin.c:839
+#: ../goffice/app/go-plugin.c:844
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr ""
 "Han ocurrido errores al leer los servicios del complemento con "
 "identificador=«%s»."
 
-#: ../goffice/app/go-plugin.c:851
+#: ../goffice/app/go-plugin.c:856
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
 msgstr "El identificador del complemento contiene caracteres inválidos (%s)."
 
-#: ../goffice/app/go-plugin.c:855
+#: ../goffice/app/go-plugin.c:860
 msgid "Unknown plugin name."
 msgstr "Nombre desconocido del complemento."
 
-#: ../goffice/app/go-plugin.c:859
+#: ../goffice/app/go-plugin.c:864
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
 "No se encuentra definido un cargador para el complemento con identificador=«%"
 "s»."
 
-#: ../goffice/app/go-plugin.c:865
+#: ../goffice/app/go-plugin.c:870
 msgid "Plugin has no id."
 msgstr "El complemento no tiene identificador."
 
-#: ../goffice/app/go-plugin.c:906
+#: ../goffice/app/go-plugin.c:911
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Error inicializando el cargador del complemento («%s» )."
 
-#: ../goffice/app/go-plugin.c:937 ../goffice/app/go-plugin.c:1099
+#: ../goffice/app/go-plugin.c:942 ../goffice/app/go-plugin.c:1104
 msgid "Detected cyclic plugin dependencies."
 msgstr "Se han detectado dependencias cíclicas del complemento."
 
-#: ../goffice/app/go-plugin.c:961
+#: ../goffice/app/go-plugin.c:966
 #, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr "No se puede activar el complemento con identificador=«%s»."
 
-#: ../goffice/app/go-plugin.c:967 ../goffice/app/go-plugin.c:1145
+#: ../goffice/app/go-plugin.c:972 ../goffice/app/go-plugin.c:1150
 #, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
 msgstr "No se encuentra el complemento con identificador=«%s»."
 
-#: ../goffice/app/go-plugin.c:974
+#: ../goffice/app/go-plugin.c:979
 msgid "Error while activating plugin dependencies."
 msgstr "Error al activar las dependencias del complemento."
 
-#: ../goffice/app/go-plugin.c:988
+#: ../goffice/app/go-plugin.c:993
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Ha ocurrido un error al activar el servicio de complementos #%d."
 
-#: ../goffice/app/go-plugin.c:1044
+#: ../goffice/app/go-plugin.c:1049
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Ha ocurrido un error al desactivar el servicio de complementos #%d."
 
-#: ../goffice/app/go-plugin.c:1111 ../goffice/app/go-plugin.c:1132
+#: ../goffice/app/go-plugin.c:1116 ../goffice/app/go-plugin.c:1137
 msgid "Cannot load plugin loader."
 msgstr "No se puede cargar el cargador de complementos."
 
-#: ../goffice/app/go-plugin.c:1139
+#: ../goffice/app/go-plugin.c:1144
 #, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
 msgstr "No se pudo cargar el complemento con identificador=«%s»."
 
-#: ../goffice/app/go-plugin.c:1152
+#: ../goffice/app/go-plugin.c:1157
 msgid "Error while loading plugin dependencies."
 msgstr "Error al intentar cargar las dependencias del complemento."
 
-#: ../goffice/app/go-plugin.c:1342
+#: ../goffice/app/go-plugin.c:1347
 #, c-format
 msgid "Errors occurred while reading plugin information from file \"%s\"."
 msgstr ""
 "Han ocurrido errores al leer la información del complemento desde el archivo "
 "«%s»."
 
-#: ../goffice/app/go-plugin.c:1461
+#: ../goffice/app/go-plugin.c:1466
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "No se puede activar el complemento «%s» (ID: %s)."
 
-#: ../goffice/app/go-plugin.c:1496
+#: ../goffice/app/go-plugin.c:1501
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "No se puede desactivar el complemento «%s» (ID: %s)."
 
-#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1787
+#: ../goffice/app/go-plugin.c:1626 ../goffice/app/go-plugin.c:1792
 msgid "Errors while reading info about available plugins."
 msgstr ""
 "Ha ocurrido un error al leer la información sobre los complementos "
 "disponibles."
 
-#: ../goffice/app/go-plugin.c:1645
+#: ../goffice/app/go-plugin.c:1650
 msgid "Errors while deactivating plugins that are no longer on disk."
 msgstr ""
 "Ha ocurrido un error al desactivar el complementos que ya no están en el "
 "disco."
 
-#: ../goffice/app/go-plugin.c:1666
+#: ../goffice/app/go-plugin.c:1671
 #, c-format
 msgid ""
 "The following plugins are no longer on disk but are still active:\n"
@@ -447,16 +447,16 @@ msgstr ""
 "%s\n"
 "Debería reiniciar este programa ahora."
 
-#: ../goffice/app/go-plugin.c:1763 ../goffice/app/go-plugin.c:1854
+#: ../goffice/app/go-plugin.c:1768 ../goffice/app/go-plugin.c:1859
 msgid "Errors while reading info about new plugins."
 msgstr ""
 "Ocurrieron errores al leer la información sobre los complementos nuevos."
 
-#: ../goffice/app/go-plugin.c:1811 ../goffice/app/go-plugin.c:1878
+#: ../goffice/app/go-plugin.c:1816 ../goffice/app/go-plugin.c:1883
 msgid "Errors while activating plugins."
 msgstr "Han ocurrido errores al activar los complementos."
 
-#: ../goffice/app/go-plugin.c:1818 ../goffice/app/go-plugin.c:1885
+#: ../goffice/app/go-plugin.c:1823 ../goffice/app/go-plugin.c:1890
 msgid "Errors while initializing plugin system."
 msgstr "Han ocurrido errores al inicializar el sistema de complementos."
 
@@ -527,7 +527,7 @@ msgid "The rotation around center position"
 msgstr "La rotación alrededor de la posición del centro"
 
 #: ../goffice/canvas/goc-arc.c:479 ../goffice/canvas/goc-rectangle.c:360
-#: ../goffice/graph/gog-axis.c:2550 ../goffice/graph/gog-grid.c:116
+#: ../goffice/graph/gog-axis.c:2556 ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:332
 msgid "Type"
 msgstr "Tipo"
@@ -955,11 +955,11 @@ msgstr "La anchura del widget"
 msgid "The widget height"
 msgstr "La altura del widget"
 
-#: ../goffice/component/go-component-factory.c:58
+#: ../goffice/component/go-component-factory.c:69
 msgid "Component Engine"
 msgstr "Motor de componentes"
 
-#: ../goffice/component/go-component-factory.c:197
+#: ../goffice/component/go-component-factory.c:208
 msgid "Component Type"
 msgstr "Tipo de componente"
 
@@ -1261,116 +1261,116 @@ msgstr "Radianes"
 msgid "Grads"
 msgstr "Gradientes"
 
-#: ../goffice/graph/gog-axis.c:1372
+#: ../goffice/graph/gog-axis.c:1378
 msgid "Discrete"
 msgstr "Discreto"
 
-#: ../goffice/graph/gog-axis.c:1372
+#: ../goffice/graph/gog-axis.c:1378
 msgid "Discrete mapping"
 msgstr "Mapeo discreto"
 
-#: ../goffice/graph/gog-axis.c:1384 ../goffice/utils/go-line.c:118
+#: ../goffice/graph/gog-axis.c:1390 ../goffice/utils/go-line.c:118
 #: ../goffice/utils/go-line.c:329 ../plugins/reg_linear/reg-types.xml.in.h:3
 msgid "Linear"
 msgstr "Lineal"
 
-#: ../goffice/graph/gog-axis.c:1384
+#: ../goffice/graph/gog-axis.c:1390
 msgid "Linear mapping"
 msgstr "Mapeado lineal"
 
-#: ../goffice/graph/gog-axis.c:1396
+#: ../goffice/graph/gog-axis.c:1402
 msgid "Log"
 msgstr "Log"
 
-#: ../goffice/graph/gog-axis.c:1396
+#: ../goffice/graph/gog-axis.c:1402
 msgid "Logarithm mapping"
 msgstr "Mapeo logarítmico"
 
-#: ../goffice/graph/gog-axis.c:2411 ../goffice/graph/gog-axis.c:2421
+#: ../goffice/graph/gog-axis.c:2417 ../goffice/graph/gog-axis.c:2427
 msgid "M_inimum"
 msgstr "Mí_nimo"
 
-#: ../goffice/graph/gog-axis.c:2412 ../goffice/graph/gog-axis.c:2422
+#: ../goffice/graph/gog-axis.c:2418 ../goffice/graph/gog-axis.c:2428
 msgid "M_aximum"
 msgstr "M_áximo"
 
-#: ../goffice/graph/gog-axis.c:2413
+#: ../goffice/graph/gog-axis.c:2419
 msgid "Categories between _ticks"
 msgstr "Categorías entre _tics"
 
-#: ../goffice/graph/gog-axis.c:2414
+#: ../goffice/graph/gog-axis.c:2420
 msgid "Categories between _labels"
 msgstr "Categorías entre _etiquetas"
 
-#: ../goffice/graph/gog-axis.c:2423
+#: ../goffice/graph/gog-axis.c:2429
 msgid "Ma_jor ticks"
 msgstr "Tics ma_yores"
 
-#: ../goffice/graph/gog-axis.c:2424
+#: ../goffice/graph/gog-axis.c:2430
 msgid "Mi_nor ticks"
 msgstr "Tics me_nores"
 
-#: ../goffice/graph/gog-axis.c:2478 ../goffice/math/go-distribution.c:163
+#: ../goffice/graph/gog-axis.c:2484 ../goffice/math/go-distribution.c:163
 #: ../goffice/math/go-distribution.c:164
 msgid "Scale"
 msgstr "Escala"
 
-#: ../goffice/graph/gog-axis.c:2494
+#: ../goffice/graph/gog-axis.c:2500
 msgid "Format"
 msgstr "Formato"
 
-#: ../goffice/graph/gog-axis.c:2526
+#: ../goffice/graph/gog-axis.c:2532
 msgid "MajorGrid"
 msgstr "RejillaMayor"
 
-#: ../goffice/graph/gog-axis.c:2529
+#: ../goffice/graph/gog-axis.c:2535
 msgid "MinorGrid"
 msgstr "RejillaMenor"
 
-#: ../goffice/graph/gog-axis.c:2532
+#: ../goffice/graph/gog-axis.c:2538
 msgid "AxisLine"
 msgstr "LíneaDelEje"
 
-#: ../goffice/graph/gog-axis.c:2535
+#: ../goffice/graph/gog-axis.c:2541
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../goffice/graph/gog-axis.c:2551
+#: ../goffice/graph/gog-axis.c:2557
 msgid "Numerical type of this axis"
 msgstr "Tipo numérico de este eje"
 
-#: ../goffice/graph/gog-axis.c:2555
+#: ../goffice/graph/gog-axis.c:2561
 msgid "Invert axis"
 msgstr "Invertir eje"
 
-#: ../goffice/graph/gog-axis.c:2556
+#: ../goffice/graph/gog-axis.c:2562
 msgid "Scale from high to low rather than low to high"
 msgstr "Escalar de grande a pequeño en lugar de de pequeño a grande"
 
-#: ../goffice/graph/gog-axis.c:2560
+#: ../goffice/graph/gog-axis.c:2566
 msgid "MapName"
 msgstr "NombreDelMapa"
 
-#: ../goffice/graph/gog-axis.c:2561
+#: ../goffice/graph/gog-axis.c:2567
 msgid "The name of the map for scaling"
 msgstr "El nombre del mapa que escalar"
 
-#: ../goffice/graph/gog-axis.c:2566
+#: ../goffice/graph/gog-axis.c:2572
 msgid "Assigned XL format"
 msgstr "Formato XL asignado"
 
-#: ../goffice/graph/gog-axis.c:2567
+#: ../goffice/graph/gog-axis.c:2573
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "El formato asignado por el usuario que usar para las etiquetas no discretas "
 "de los ejes (formato XL)"
 
-#: ../goffice/graph/gog-axis.c:2572 ../goffice/graph/gog-axis.c:2573
+#: ../goffice/graph/gog-axis.c:2578 ../goffice/graph/gog-axis.c:2579
 msgid "Rotation of circular axis"
 msgstr "Rotación del eje circular"
 
-#: ../goffice/graph/gog-axis.c:2580 ../goffice/graph/gog-axis.c:2581
+#: ../goffice/graph/gog-axis.c:2586 ../goffice/graph/gog-axis.c:2587
 msgid "Polar axis set unit"
 msgstr "Unidad del eje polar"
 
@@ -1435,7 +1435,7 @@ msgstr "Gráfico"
 msgid "Title"
 msgstr "Título"
 
-#: ../goffice/graph/gog-chart.c:630
+#: ../goffice/graph/gog-chart.c:630 ../goffice/graph/gog-trend-line.c:97
 msgid "Legend"
 msgstr "Leyenda"
 
@@ -1698,7 +1698,7 @@ msgid "Data"
 msgstr "Datos"
 
 #: ../goffice/graph/gog-label.c:330 ../goffice/graph/gog-reg-curve.c:71
-#: ../plugins/plot_xy/gog-xy.c:1927
+#: ../goffice/graph/gog-trend-line.c:92 ../plugins/plot_xy/gog-xy.c:1927
 msgid "Details"
 msgstr "Detalles"
 
@@ -1912,15 +1912,15 @@ msgstr "Número de puntos que separan las gráficas en la rejilla"
 msgid "Plot Engine"
 msgstr "Motor de gráficos"
 
-#: ../goffice/graph/gog-plot-engine.c:297
+#: ../goffice/graph/gog-plot-engine.c:298
 msgid "Plot Type"
 msgstr "Tipo de gráfico"
 
-#: ../goffice/graph/gog-plot-engine.c:373
+#: ../goffice/graph/gog-plot-engine.c:374
 msgid "Regression Curve Engine"
 msgstr "Motor de curvas de regresión "
 
-#: ../goffice/graph/gog-plot-engine.c:563
+#: ../goffice/graph/gog-plot-engine.c:565
 msgid "Regression Curve Type"
 msgstr "Tipo de curvas de regresión"
 
@@ -2016,11 +2016,11 @@ msgstr "Interpolación predeterminada"
 msgid "Default type of series line interpolation"
 msgstr "Tipo predeterminado de series de líneas de interpolación"
 
-#: ../goffice/graph/gog-plot.c:992
+#: ../goffice/graph/gog-plot.c:995
 msgid "Move plot area"
 msgstr "Mover el área del gráfico"
 
-#: ../goffice/graph/gog-plot.c:1044
+#: ../goffice/graph/gog-plot.c:1047
 msgid "Resize plot area"
 msgstr "Redimensionar el área del gráfico"
 
@@ -2159,7 +2159,7 @@ msgstr "Curva de regresión"
 msgid "Trend line"
 msgstr "Línea de tendencia"
 
-#: ../goffice/graph/gog-series.c:678
+#: ../goffice/graph/gog-series.c:678 ../goffice/graph/gog-trend-line.c:151
 msgid "Has-legend"
 msgstr "Tiene leyenda"
 
@@ -2205,9 +2205,28 @@ msgstr "Predeterminado"
 msgid "Guppi"
 msgstr "Guppi"
 
-#: ../goffice/graph/gog-trend-line.c:39
+#: ../goffice/graph/gog-trend-line.c:90
+#: ../plugins/plot_barcol/gog-barcol.c:150
+#: ../plugins/plot_barcol/gog-minmax.c:198
+#: ../plugins/plot_distrib/gog-boxplot.c:162
+#: ../plugins/plot_distrib/gog-histogram.c:313
+#: ../plugins/plot_pie/gog-pie.c:273 ../plugins/plot_pie/gog-pie.c:436
+#: ../plugins/plot_radar/gog-radar.c:503 ../plugins/plot_surface/gog-xyz.c:99
+#: ../plugins/plot_surface/gog-xyz-surface.c:180
+#: ../plugins/plot_xy/gog-xy.c:428 ../plugins/plot_xy/gog-xy.c:704
+#: ../plugins/smoothing/gog-moving-avg.c:113
+#: ../plugins/smoothing/gog-exp-smooth.c:80
+msgid "Properties"
+msgstr "Propiedades"
+
+#: ../goffice/graph/gog-trend-line.c:132
 msgid "Trend Line"
 msgstr "Línea de tendencia"
+
+#: ../goffice/graph/gog-trend-line.c:152
+#| msgid "Should the series show up in legends"
+msgid "Should the trend line show up in legends"
+msgstr "Indica si la línea de tendencia se debe mostrar en las leyendas"
 
 #: ../goffice/graph/gog-view.c:56
 msgid "Select object"
@@ -4985,7 +5004,6 @@ msgid "_Size:"
 msgstr "_Tamaño:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:25
-#| msgid "Center"
 msgid "centered"
 msgstr "centrado"
 
@@ -5203,19 +5221,6 @@ msgstr "_Hueco:"
 #: ../plugins/plot_barcol/gog-barcol.c:138
 msgid "PlotBarCol"
 msgstr "GráficoBarCol"
-
-#: ../plugins/plot_barcol/gog-barcol.c:150
-#: ../plugins/plot_barcol/gog-minmax.c:198
-#: ../plugins/plot_distrib/gog-boxplot.c:162
-#: ../plugins/plot_distrib/gog-histogram.c:313
-#: ../plugins/plot_pie/gog-pie.c:273 ../plugins/plot_pie/gog-pie.c:436
-#: ../plugins/plot_radar/gog-radar.c:503 ../plugins/plot_surface/gog-xyz.c:99
-#: ../plugins/plot_surface/gog-xyz-surface.c:180
-#: ../plugins/plot_xy/gog-xy.c:428 ../plugins/plot_xy/gog-xy.c:704
-#: ../plugins/smoothing/gog-moving-avg.c:113
-#: ../plugins/smoothing/gog-exp-smooth.c:80
-msgid "Properties"
-msgstr "Propiedades"
 
 #: ../plugins/plot_barcol/gog-barcol.c:244
 #: ../plugins/plot_barcol/gog-minmax.c:224
