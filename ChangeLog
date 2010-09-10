@@ -1,3 +1,9 @@
+2010-09-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (map_date_get_dim_format): If we have a
+	date format is time-of-day (or even a time format), make sure the
+	format we use has full time-of-day.
+
 2010-09-04  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

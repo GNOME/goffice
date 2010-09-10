@@ -1025,8 +1025,17 @@ map_date_get_dim_format (GogAxis *axis, unsigned dim)
 {
 	switch (dim) {
 	case GOG_AXIS_ELEM_MIN:
-	case GOG_AXIS_ELEM_MAX:
+	case GOG_AXIS_ELEM_MAX: {
+		GOFormat *fmt = gog_axis_get_effective_format (axis);
+		/*
+		 * This is not a particular pretty solution to the problem
+		 * of bug #629121.  Improvements are welcome.
+		 */
+		if (go_format_is_date (fmt) == 2 ||
+		    go_format_is_time (fmt) >= 1)
+			return go_format_new_from_XL ("d-mmm-yy hh:mm:ss");
 		return go_format_new_magic (GO_FORMAT_MAGIC_MEDIUM_DATE);
+	}
 
 	case GOG_AXIS_ELEM_MAJOR_TICK:
 	case GOG_AXIS_ELEM_MINOR_TICK:
