@@ -50,6 +50,15 @@
 #include <goffice/gtk/goffice-gtk.h>
 #endif
 
+/**
+ * SECTION: gog-chart
+ * @short_description: A chart.
+ * @See_also: #GogPlot
+ *
+ * #GogChart wraps one or more #GogPlot objects, so that you can superimpose
+ * them on top of each other. In addition, the chart can have a title and a legend.
+*/
+
 static const struct {
 	char const *name;
 	GogAxisSet const axis_set;

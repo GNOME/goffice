@@ -44,6 +44,20 @@
 #define GOG_GRAPH_DEFAULT_WIDTH 	GO_CM_TO_PT (12.0)
 #define GOG_GRAPH_DEFAULT_HEIGHT 	GO_CM_TO_PT (8.0)
 
+/**
+ * SECTION: gog-graph
+ * @short_description: The graph object.
+ *
+ * A graph (in the abstract sense) in GOffice is an hierarical object model,
+ * with a #GogGraph object as the top-level object.
+ * Objects that can be part of a graph is a subclass of #GogObject. Those, and
+ * related objects have the prefix "Gog" in the class name.
+ * See #GogObject for how to manipulate the object model, and the individual
+ * classes for specifics.
+ *
+ * A #GogGraph can have 1 or more children in the roles "Chart" and "Title".
+ */
+
 enum {
 	GRAPH_PROP_0,
 	GRAPH_PROP_THEME,

@@ -1,5 +1,8 @@
 goffice 0.8.11:
 
+Jon Nordby:
+	* Update API documentation.
+
 Morten:
 	* Improve fractional days support for date axes.
 

@@ -1,3 +1,18 @@
+2010-09-20  Jon Nordby <jonn@openismus.com>
+
+	* docs/reference/goffice-docs.sgml: update API documentation.
+	* goffice/goffice.c: ditto.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-chart.c: ditto.
+	* goffice/graph/gog-graph.c: ditto.
+	* goffice/graph/gog-label.c: ditto.
+	* goffice/graph/gog-legend.c: ditto.
+	* goffice/graph/gog-object.c: ditto.
+	* goffice/graph/gog-plot.c: ditto.
+	* goffice/graph/gog-renderer.c: ditto.
+	* goffice/graph/gog-series.c: ditto.
+	* goffice/gtk/go-graph-widget.c:
+
 2010-09-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_date_get_dim_format): If we have a

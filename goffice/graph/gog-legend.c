@@ -40,6 +40,14 @@
 
 #include <math.h>
 
+/**
+ * SECTION: gog-legend
+ * @short_description: A legend.
+ *
+ * A legend shows the name of each #GogSeries and which colors they
+ * have in the plot. To use, add in the role "Legend" of a #GogChart.
+ */
+
 struct _GogLegend {
 	GogOutlinedObject base;
 

@@ -68,6 +68,45 @@ static char const *libgoffice_icon_dir   = GOFFICE_ICONDIR;
 static char const *libgoffice_locale_dir = GOFFICE_LOCALEDIR;
 static char const *libgoffice_lib_dir    = GOFFICE_LIBDIR;
 
+/**
+ * SECTION: goffice
+ * @Title: GOffice
+ *
+ * GOffice is a #GObject based C library. It provides easy API access to
+ * creating and manipulating graphs and canvases. See #GogGraph and #GocCanvas.
+ * It also includes a number of utilities and widgets that might be useful in
+ * office productivity software and similar.
+ *
+ * The GOffice code was originally a part of Gnumeric, but was split into a
+ * separate library in 2005. Today it is being used by projects such as
+ * Gnumeric, Gnucash, Abiword (optional), GChemUtils and more.
+ *
+ * GOffice is cross platform, with support for Windows, OSX, GNU/Linux,
+ * and other Unix-like systems. It can be built with or without GTK+
+ * integration support.
+ *
+ * To include GOffice use:
+ * <informalexample>
+ * <programlisting>
+ * #include <goffice/goffice.h>
+ * </programlisting>
+ * </informalexample>
+ * GOffice provides a pkg-config metadata file named
+ * "libgoffice-$major.$minor.pc", where $major and $minor denote which version
+ * GOffice is. So to link against GOffice 0.8 series, use:
+ * <informalexample>
+ * <programlisting>
+ * pkg-config --libs libgoffice-0.8
+ * </programlisting>
+ * </informalexample>
+ *
+ * API and ABI compatability is maintained per minor release series, e.g:
+ * all 0.8.x releases are ABI/API compatible with previous 0.8.x releases.
+ *
+ * As of September 2010, there are no bindings for other languages
+ * than C available.
+ */
+
 gchar const *
 go_sys_data_dir (void)
 {
@@ -86,6 +125,16 @@ go_sys_lib_dir (void)
 	return libgoffice_lib_dir;
 }
 
+
+/**
+ * libgoffice_init:
+ *
+ * Initialize GOffice.
+ *
+ * This function can be called several times; each call will
+ * increment a reference counter. Code that calls this function should call
+ * libgoffice_shutdown() when done to decrement the counter.
+ */
 static int initialized = 0;
 void
 libgoffice_init (void)
@@ -161,6 +210,12 @@ libgoffice_init (void)
 	initialized = TRUE;
 }
 
+/**
+ * libgoffice_shutdown:
+ *
+ * Decrements the counter for data initialized by libgoffice_init().
+ * When the counter reaches 0, the data is freed/cleaned up as appropriate.
+ */
 void
 libgoffice_shutdown (void)
 {

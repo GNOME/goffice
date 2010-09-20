@@ -27,6 +27,13 @@
 
 #include <string.h>
 
+/**
+ * SECTION: gog-series
+ * @short_description: A single data series.
+ *
+ * A #GogSeries represents a data series that can be added to a #GogPlot.
+ */
+
 /* Keep in sync with GogSeriesFillType enum */
 static struct {
 	GogSeriesFillType  type;

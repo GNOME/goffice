@@ -45,6 +45,21 @@
 
 #define GOG_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_PLOT, GogPlotClass))
 
+/**
+ * SECTION: gog-plot
+ * @short_description: A plot.
+ * @See_also: #GogChart, #GogSeries
+ *
+ * This is the object that visualizes data.
+ * To manipulate the data shown in the plot, use gog_plot_new_series() and
+ * gog_plot_clear_series()
+ *
+ * Plots are implemented as plug-ins, so make sure the plug-in system is
+ * initialized before trying to create one. See go_plugins_init()
+ *
+ * GOffice ships a number of common plot implementations by default.
+ */
+
 enum {
 	PLOT_PROP_0,
 	PLOT_PROP_VARY_STYLE_BY_ELEMENT,

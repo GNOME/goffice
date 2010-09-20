@@ -51,6 +51,14 @@
 
 #include <math.h>
 
+/**
+ * SECTION: gog-renderer
+ * @short_description: Rendering
+ *
+ * Note that #GogGraph has a functions for export/rendering, so you do not always
+ * need to use a #GogRenderer directly.
+*/
+
 enum {
 	RENDERER_PROP_0,
 	RENDERER_PROP_MODEL,

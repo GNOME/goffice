@@ -33,6 +33,16 @@
 /* this should be per model */
 #define PAD_HACK	4	/* pts */
 
+/**
+ * SECTION: gog-axis
+ * @short_description: An axis.
+ *
+ * An axis of a #GogPlot. The axis handles things like the bounds, ticks, and
+ * tick value formats.
+ * When used in plots with X/Y/Z axes, it can optionally have one
+ * #GogLabel objects in the role "Label".
+ */
+
 static struct {
 	GogAxisPolarUnit unit;
 	const char 	*name;

@@ -30,6 +30,13 @@
 
 static void go_graph_widget_request_update (GOGraphWidget *w);
 
+/**
+ * SECTION: go_graph_widget
+ * @short_description: Widget showing a #GogGraph.
+ *
+ * Utility widget for showing a #GogGraph.
+ */
+
 enum {
 	GRAPH_WIDGET_PROP_0,
 	GRAPH_WIDGET_PROP_ASPECT_RATIO,

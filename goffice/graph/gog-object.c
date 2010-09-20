@@ -27,6 +27,23 @@
 #include <string.h>
 #include <stdlib.h>
 
+/**
+ * SECTION: gog-object
+ * @short_description: The base class for graph objects.
+ * @See_also: #GogGraph
+ *
+ * Abstract base class that objects in the graph hierarchy are based on.
+ * This class handles manipulation of the object hierarchy, and positioning of
+ * objects in the graph.
+ *
+ * Every object has a name that is unique in the graph. It can have a parent
+ * and a list of children in specific roles (see #GogObjectRole).
+ * There can generally be several children in each role.
+ *
+ * If built with GTK+ support, each object also knows how to populate a widget
+ * that allows one to manipulate the attributes of that object. This can be used
+ * by #GOEditor to present a widget that allows manipulation of the whole graph.
+ */
 
 typedef struct {
 	char const *label;

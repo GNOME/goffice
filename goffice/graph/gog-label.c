@@ -26,6 +26,14 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * SECTION: gog-label
+ * @short_description: A text label.
+ *
+ * A text label for use in a graph.
+ * Can for instance be used as a title of a #GogChart or #GogGraph.
+ */
+
 static GType gog_text_view_get_type (void);
 
 enum {
