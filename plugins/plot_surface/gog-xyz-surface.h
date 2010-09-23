@@ -34,7 +34,11 @@ G_BEGIN_DECLS
  *-----------------------------------------------------------------------------
  */
 
-typedef GogContourPlot GogXYZContourPlot;
+
+typedef struct {
+	GogContourPlot base;
+	GogDatasetElement grid[2];       /* for preset cols and rows */
+} GogXYZContourPlot;
 typedef GogContourPlotClass GogXYZContourPlotClass;
 
 #define GOG_TYPE_XYZ_CONTOUR_PLOT	(gog_xyz_contour_plot_get_type ())
@@ -52,7 +56,10 @@ void  gog_xyz_contour_plot_register_type   (GTypeModule *module);
  *-----------------------------------------------------------------------------
  */
 
-typedef GogSurfacePlot GogXYZSurfacePlot;
+typedef struct {
+	GogSurfacePlot base;
+	GogDatasetElement grid[2];       /* for preset cols and rows */
+} GogXYZSurfacePlot;
 typedef GogSurfacePlotClass GogXYZSurfacePlotClass;
 
 #define GOG_TYPE_XYZ_SURFACE_PLOT	(gog_xyz_surface_plot_get_type ())

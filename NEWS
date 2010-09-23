@@ -1,5 +1,8 @@
 goffice 0.8.11:
 
+Jean:
+	* Implement custom grids in xyz plots. [#624273]
+	
 Jon Nordby:
 	* Update API documentation.
 

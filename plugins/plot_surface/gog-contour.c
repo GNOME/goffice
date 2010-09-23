@@ -288,7 +288,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		imax = plot->rows;
 		jmax = plot->columns;
 	}
-	if (imax ==0 || jmax == 0)
+	if (imax == 0 || jmax == 0)
 		return;
 
 	if (plot->plotted_data)

@@ -1,3 +1,14 @@
+2010-09-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-contour.c: implement
+	custom grids in xyz plots. [#624273]
+	* plugins/plot_surface/gog-contour.h: ditto.
+	* plugins/plot_surface/gog-xyz-surface-prefs.c: ditto.
+	* plugins/plot_surface/gog-xyz-surface-prefs.ui: ditto.
+	* plugins/plot_surface/gog-xyz-surface.c: ditto.
+	* plugins/plot_surface/gog-xyz-surface.h: ditto.
+	* plugins/plot_surface/gog-xyz.h: ditto.
+
 2010-09-20  Jon Nordby <jonn@openismus.com>
 
 	* docs/reference/goffice-docs.sgml: update API documentation.

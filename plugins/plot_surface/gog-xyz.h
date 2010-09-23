@@ -39,6 +39,7 @@ typedef struct {
 	unsigned rows, columns;
 	gboolean transposed;
 	gboolean data_xyz;
+	gboolean auto_x, auto_y; /* automatic limits for xyz plots */
 	struct {
 		double minima, maxima;
 		GOFormat *fmt;
