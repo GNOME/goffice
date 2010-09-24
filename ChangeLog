@@ -1,3 +1,10 @@
+2010-09-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-charmap-sel.c (charset_trans_array): Use charset
+	CP932 for what we claim is Shift_JIS.  See bug 627829 for details.
+	Patch from Yasuaki Taniguchi.
+	(cs_build_menu): Draw as radio buttons.
+
 2010-09-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-contour.c: implement

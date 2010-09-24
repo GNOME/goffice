@@ -8,6 +8,10 @@ Jon Nordby:
 
 Morten:
 	* Improve fractional days support for date axes.
+	* Improve appearance of charset selector.
+
+Yasuaki Taniguchi:
+	* Fix charset problem for Japanese.  [#627829]
 
 --------------------------------------------------------------------------
 goffice 0.8.10:

@@ -162,7 +162,7 @@ static CharsetInfo charset_trans_array[] = {
 	{N_("Icelandic (MacIcelandic)"),          "x-mac-icelandic",       LG_OTHER, CI_MINOR},
 	{N_("Japanese (EUC-JP)"),                 "EUC-JP",                LG_JAPANESE, CI_MINOR},
 	{N_("Japanese (ISO-2022-JP)"),            "ISO-2022-JP",           LG_JAPANESE, CI_MINOR},
-	{N_("Japanese (Shift_JIS)"),              "Shift_JIS",             LG_JAPANESE, CI_MINOR},
+	{N_("Japanese (Shift_JIS)"),              "CP932",             LG_JAPANESE, CI_MINOR},
 	{N_("Korean (EUC-KR)"),                   "EUC-KR",                LG_KOREAN, CI_MINOR},
 	{N_("Korean (ISO-2022-KR)"),              "ISO-2022-KR",           LG_KOREAN, CI_MINOR},
 	{N_("Korean (JOHAB)"),                    "x-johab",               LG_KOREAN, CI_MINOR},
@@ -380,6 +380,7 @@ cs_build_menu (GOCharmapSel *cs)
 				if (name) {
 					subitem = gtk_check_menu_item_new_with_label
 						(_(charset_trans->charset_title));
+					gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (subitem), TRUE);
 					gtk_widget_show (subitem);
 					gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
 					if (charset_trans->imp == CI_MAJOR)
@@ -413,6 +414,7 @@ cs_build_menu (GOCharmapSel *cs)
 							      get_locale_encoding_name (cs),
 							      NULL);
 		item = gtk_check_menu_item_new_with_label (locale_encoding_menu_title);
+		gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (item), TRUE);
 		g_free (locale_encoding_menu_title);
 		gtk_widget_show (item);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
