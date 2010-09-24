@@ -1,3 +1,7 @@
+2010-09-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/xl-surface.c (get_y_vector): fixed typo.
+
 2010-09-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-charmap-sel.c (charset_trans_array): Use charset

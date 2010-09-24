@@ -146,7 +146,7 @@ get_y_vector (GogPlot *plot)
 {
 	GSList *ptr;
 	int i;
-	char const ***y_labels = (GOG_IS_PLOT_CONTOUR (plot))?
+	char const ***y_labels = (GOG_IS_CONTOUR_PLOT (plot))?
 				&(XL_CONTOUR_PLOT (plot)->y_labels):
 				&(XL_SURFACE_PLOT (plot)->y_labels);
 
