@@ -8,7 +8,7 @@ Jon Nordby:
 
 Morten:
 	* Improve fractional days support for date axes.
-	* Improve appearance of charset selector.
+	* Draw charset/locale selectors with "radio" buttons.
 
 Yasuaki Taniguchi:
 	* Fix charset problem for Japanese.  [#627829]

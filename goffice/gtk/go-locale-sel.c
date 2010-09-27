@@ -434,10 +434,11 @@ ls_build_menu (GOLocaleSel *ls)
 		locale_trans = locale_trans_array;
 
 		while (locale_trans->lgroup != LG_LAST) {
-			GtkWidget *subitem;
 			if (locale_trans->lgroup == lgroup->lgroup && locale_trans->available) {
-					subitem = gtk_check_menu_item_new_with_label
-						(_(locale_trans->locale_title));
+				GtkWidget *subitem=
+					gtk_check_menu_item_new_with_label
+					(_(locale_trans->locale_title));
+					gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (subitem), TRUE);
 					gtk_widget_show (subitem);
 					gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
 					g_object_set_data (G_OBJECT (subitem), LOCALE_NAME_KEY,
@@ -467,6 +468,7 @@ ls_build_menu (GOLocaleSel *ls)
 						       locale_name, NULL);
 		g_free (locale_name);
 		item = gtk_check_menu_item_new_with_label (locale_menu_title);
+		gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (item), TRUE);
 		g_free (locale_menu_title);
 		gtk_widget_show (item);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
