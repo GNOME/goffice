@@ -1,3 +1,7 @@
+2010-10-01  Morten Welinder <terra@gnome.org>
+
+	* Release 0.8.11
+
 2010-09-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-locale-sel.c (ls_build_menu): Draw as radio
