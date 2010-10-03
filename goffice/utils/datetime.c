@@ -354,7 +354,7 @@ days_between_GO_BASIS_30Ep_360 (GDate const *from, GDate const *to)
  *
  * @in_order  : dates are considered in order
  *
- * returns    : Number of days strictly between from and to +1
+ * returns    : Number of days after the earlier and not after the later date
  *
  */
 
