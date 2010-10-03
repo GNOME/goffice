@@ -261,12 +261,18 @@ days_between_GO_BASIS_MSRB_30_360 (GDate const *from, GDate const *to)
 	m2 = g_date_get_month (to);
 	d2 = g_date_get_day (to);
 
-	if (m1 == 2 && g_date_is_last_of_month (from))
-		d1 = 30;
-	if (d2 == 31 && d1 >= 30)
-		d2 = 30;
+	if (d1 == d2 && m1 == m2 && y1 == y2)
+		return 0;
 	if (d1 == 31)
 		d1 = 30;
+	if (d2 == 31 && d1 == 30)
+		d2 = 30;
+
+	if (m1 == 2 && g_date_is_last_of_month (from)) {
+		if (m2 == 2 && g_date_is_last_of_month (to))
+			d2 = 30;
+		d1 = 30;
+	}
 
 	return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
 }
