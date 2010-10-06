@@ -2,6 +2,9 @@ goffice 0.8.12:
 
 Andreas
 	* Fix US 30/360 date calculations. [#631242][#630784]
+	
+Jean:
+	* Fixed sorting with accentuated characters. [#631504]
 
 --------------------------------------------------------------------------
 goffice 0.8.11:

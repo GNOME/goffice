@@ -326,8 +326,8 @@ go_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 {
 	return (gstr_a == gstr_b)
 		? 0
-		: strcmp (go_string_get_casefold (gstr_a),
-			  go_string_get_casefold (gstr_b));
+		: strcmp (go_string_get_casefolded_collate (gstr_a),
+			  go_string_get_casefolded_collate (gstr_b));
 }
 
 gboolean
@@ -393,11 +393,36 @@ go_string_get_casefold (GOString const *gstr)
 	if (0 != (gstri->flags & GO_STRING_HAS_COLLATE))
 		offset += GSF_LE_GET_GUINT32(gstri->base.str + offset) + 4 + 1;
 
+	if (0 == (gstri->flags & GO_STRING_HAS_CASEFOLD))
+		go_string_get_casefolded_collate (gstr);
+	return gstri->base.str + offset + 4;
+}
+
+char const *
+go_string_get_casefolded_collate (GOString const *gstr)
+{
+	GOStringImpl *gstri = (GOStringImpl *)gstr;
+	unsigned int offset;
+
+	if (NULL == gstr)
+		return "";
+
+	offset = GO_STRING_LEN (gstri) + 1;
+	if (0 != (gstri->flags & GO_STRING_HAS_COLLATE))
+		offset += GSF_LE_GET_GUINT32(gstri->base.str + offset) + 4 + 1;
+
 	if (0 == (gstri->flags & GO_STRING_HAS_CASEFOLD)) {
+		char *collate;
+		int len;
 		gchar *casefold = g_utf8_casefold (gstri->base.str, GO_STRING_LEN (gstri));
-		gstri->flags |= GO_STRING_HAS_CASEFOLD;
 		go_string_impl_append_extra (gstri, casefold, offset);
-	}
+		len = GSF_LE_GET_GUINT32(gstri->base.str + offset);
+		collate = g_utf8_collate_key (gstri->base.str + offset + 4, len);
+		offset += len + 4 + 1;
+		gstri->flags |= GO_STRING_HAS_CASEFOLD;
+		go_string_impl_append_extra (gstri, collate, offset);
+	} else
+		offset += GSF_LE_GET_GUINT32(gstri->base.str + offset) + 4 + 1;
 	return gstri->base.str + offset + 4;
 }
 

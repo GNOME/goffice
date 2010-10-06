@@ -53,6 +53,7 @@ guint32		  go_string_get_len	  (GOString const *gstr);
 unsigned int	  go_string_get_ref_count (GOString const *gstr);
 char const	 *go_string_get_collation (GOString const *gstr);
 char const	 *go_string_get_casefold  (GOString const *gstr);
+char const       *go_string_get_casefolded_collate (GOString const *gstr);
 
 PangoAttrList	 *go_string_get_markup	  (GOString const *gstr);
 GOStringPhonetic *go_string_get_phonetic  (GOString const *gstr);
