@@ -1,13 +1,8 @@
 2010-10-06  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* goffice/app/go-cmd-context-impl.h:
-	* goffice/app/go-cmd-context.c (go_cmd_context_get_response):
-	* goffice/app/go-cmd-context.h:
-	* goffice/app/goffice-app.h:
 	* goffice/utils/go-string.c (go_string_cmp_ignorecase),
-	(go_string_get_casefold), (go_string_get_casefolded_collate):
+	(go_string_get_casefold), (go_string_get_casefolded_collate): fixed
+	sorting with accentuated characters. [#631504]
 	* goffice/utils/go-string.h:
 
 2010-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
