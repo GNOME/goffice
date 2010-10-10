@@ -1,3 +1,7 @@
+2010-10-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* */*/*.ui: fixed orientation property for GtkVBox.
+
 2010-10-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-string.c (go_string_cmp_ignorecase),

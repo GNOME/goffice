@@ -70,6 +70,7 @@
     <child>
       <object class="GtkVBox" id="outline_box">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="outline_label">
             <property name="visible">True</property>
@@ -200,6 +201,7 @@
     <child>
       <object class="GtkVBox" id="line_box">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="line_label">
             <property name="visible">True</property>
@@ -332,6 +334,7 @@
     <child>
       <object class="GtkVBox" id="fill_box">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="fill_label">
             <property name="visible">True</property>
@@ -353,6 +356,7 @@
             <child>
               <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkHBox" id="hbox2">
@@ -426,6 +430,7 @@
                     <child>
                       <object class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkHBox" id="fill_gradient_box">
@@ -587,6 +592,7 @@
                         <child>
                           <object class="GtkVBox" id="vbox2">
                             <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkImage" id="fill_image_sample">
                                 <property name="width_request">100</property>
@@ -755,6 +761,7 @@
   <object class="GtkVBox" id="go_style_font_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkHBox" id="hbox5">
@@ -806,6 +813,7 @@
     <child>
       <object class="GtkVBox" id="marker_box">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="marker_label">
             <property name="visible">True</property>

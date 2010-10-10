@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="lower">-90</property>
@@ -9,6 +10,7 @@
   </object>
   <object class="GtkVBox" id="toplevel">
     <property name="visible">True</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkLabel" id="label72">
@@ -40,6 +42,7 @@
         <child>
           <object class="GtkVBox" id="vbox53">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkHBox" id="hbox58">

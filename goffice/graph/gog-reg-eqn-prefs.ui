@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkVBox" id="reg-eqn-prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">6</property>
     <child>
       <object class="GtkCheckButton" id="show_eq">

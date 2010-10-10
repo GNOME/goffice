@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="value">2</property>
@@ -10,6 +11,7 @@
   <object class="GtkVBox" id="mv-avg-prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">6</property>
     <child>
       <object class="GtkHBox" id="hbox1">
