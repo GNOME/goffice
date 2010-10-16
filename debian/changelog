@@ -1,3 +1,11 @@
+goffice (0.8.11-2) unstable; urgency=low
+
+  * [debian/libgoffice-0.8-8.symbols] New. Thanks Micha Lenk
+    <micha@debian.org>. (Closes: #599225)
+  * [debian/rules] Default to strict dpkg-gensymbols checks.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 16 Oct 2010 17:52:39 +0200
+
 goffice (0.8.11-1) unstable; urgency=low
 
   * New upstream stable release.
