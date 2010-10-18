@@ -130,25 +130,25 @@ go_image_format_to_mime (char const *format)
 
 static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
 	{GO_IMAGE_FORMAT_SVG, (char *) "svg",  (char *) N_("SVG (vector graphics)"),
-		(char *) "svg", FALSE, FALSE, TRUE},
+	 (char *) "svg", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_PNG, (char *) "png",  (char *) N_("PNG (raster graphics)"),
-		(char *) "png", TRUE,  TRUE, TRUE},
+	 (char *) "png", TRUE,  TRUE, TRUE},
 	{GO_IMAGE_FORMAT_JPG, (char *) "jpeg", (char *) N_("JPEG (photograph)"),
-		(char *) "jpg", TRUE,  TRUE, FALSE},
+	 (char *) "jpg", TRUE,  TRUE, FALSE},
 	{GO_IMAGE_FORMAT_PDF, (char *) "pdf",  (char *) N_("PDF (portable document format)"),
-		(char *) "pdf", FALSE, FALSE, TRUE},
+	 (char *) "pdf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_PS,  (char *) "ps",   (char *) N_("PS (postscript)"),
-		(char *) "ps",  FALSE, TRUE, TRUE},
+	 (char *) "ps",  FALSE, TRUE, TRUE},
 	{GO_IMAGE_FORMAT_EMF, (char *) "emf",  (char *) N_("EMF (extended metafile)"),
-		(char *) "emf", FALSE, FALSE, TRUE},
+	 (char *) "emf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_WMF, (char *) "wmf",  (char *) N_("WMF (windows metafile)"),
-		(char *) "wmf", FALSE, FALSE, TRUE},
+	 (char *) "wmf", FALSE, FALSE, TRUE},
 #ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
 	{GO_IMAGE_FORMAT_EPS,  (char *) "eps",   (char *) N_("EPS (encapsulated postscript)"),
-		(char *) "eps",  FALSE, TRUE, TRUE},
+	 (char *) "eps",  FALSE, TRUE, TRUE},
 #else
 	{GO_IMAGE_FORMAT_EPS,  (char *) "",   (char *) "",
-		(char *) "",  FALSE, FALSE, FALSE},
+	 (char *) "",  FALSE, FALSE, FALSE},
 #endif
 };
 
@@ -375,32 +375,32 @@ go_image_set_property (GObject *obj, guint param_id,
 		break;
 #ifdef GOFFICE_WITH_GTK
 	case IMAGE_PROP_PIXBUF: {
-			GdkPixbuf *pixbuf = GDK_PIXBUF (g_value_get_object (value));
-			if (!GDK_IS_PIXBUF (pixbuf))
-				break;
-			if (!gdk_pixbuf_get_has_alpha (pixbuf))
-				pixbuf = gdk_pixbuf_add_alpha (pixbuf, FALSE, 0, 0, 0);
-			else
-				g_object_ref (pixbuf);
-			if (image->pixbuf)
-				g_object_unref (image->pixbuf);
-			image->pixbuf = pixbuf;
-			g_free (image->data);
-			image->data = NULL;
-			image->width = gdk_pixbuf_get_width (pixbuf);
-			image->height = gdk_pixbuf_get_height (pixbuf);
-			image->rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-			image->target_cairo = FALSE;
-			if (image->thumbnail) {
-				g_object_unref (image->thumbnail);
-				image->thumbnail = NULL;
-			}
+		GdkPixbuf *pixbuf = GDK_PIXBUF (g_value_get_object (value));
+		if (!GDK_IS_PIXBUF (pixbuf))
+			break;
+		if (!gdk_pixbuf_get_has_alpha (pixbuf))
+			pixbuf = gdk_pixbuf_add_alpha (pixbuf, FALSE, 0, 0, 0);
+		else
+			g_object_ref (pixbuf);
+		if (image->pixbuf)
+			g_object_unref (image->pixbuf);
+		image->pixbuf = pixbuf;
+		g_free (image->data);
+		image->data = NULL;
+		image->width = gdk_pixbuf_get_width (pixbuf);
+		image->height = gdk_pixbuf_get_height (pixbuf);
+		image->rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+		image->target_cairo = FALSE;
+		if (image->thumbnail) {
+			g_object_unref (image->thumbnail);
+			image->thumbnail = NULL;
 		}
+	}
 		break;
 #endif
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 return; /* NOTE : RETURN */
+		return; /* NOTE : RETURN */
 	}
 
 	if (size_changed) {
@@ -440,7 +440,7 @@ go_image_get_property (GObject *obj, guint param_id,
 #endif
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 return; /* NOTE : RETURN */
+		return; /* NOTE : RETURN */
 	}
 }
 
@@ -469,24 +469,24 @@ go_image_class_init (GOImageClass *klass)
 	klass->get_property = go_image_get_property;
 	parent_klass = g_type_class_peek_parent (klass);
 	g_object_class_install_property (klass, IMAGE_PROP_WIDTH,
-		g_param_spec_uint ("width", _("Width"),
-			_("Image width in pixels"),
-			0, G_MAXUINT16, 0, G_PARAM_READWRITE));
+					 g_param_spec_uint ("width", _("Width"),
+							    _("Image width in pixels"),
+							    0, G_MAXUINT16, 0, G_PARAM_READWRITE));
 	g_object_class_install_property (klass, IMAGE_PROP_HEIGHT,
-		g_param_spec_uint ("height", _("Height"),
-			_("Image height in pixels"),
-			0, G_MAXUINT16, 0, G_PARAM_READWRITE));
+					 g_param_spec_uint ("height", _("Height"),
+							    _("Image height in pixels"),
+							    0, G_MAXUINT16, 0, G_PARAM_READWRITE));
 #ifdef GOFFICE_WITH_GTK
 	g_object_class_install_property (klass, IMAGE_PROP_PIXBUF,
-		g_param_spec_object ("pixbuf", _("Pixbuf"),
-			_("GdkPixbuf object from which the GOImage is built"),
-			GDK_TYPE_PIXBUF, G_PARAM_READWRITE));
+					 g_param_spec_object ("pixbuf", _("Pixbuf"),
+							      _("GdkPixbuf object from which the GOImage is built"),
+							      GDK_TYPE_PIXBUF, G_PARAM_READWRITE));
 #endif
 }
 
 GSF_CLASS (GOImage, go_image,
-		  go_image_class_init, NULL,
-		  G_TYPE_OBJECT)
+	   go_image_class_init, NULL,
+	   G_TYPE_OBJECT)
 
 cairo_t *
 go_image_get_cairo (GOImage *image)
@@ -506,20 +506,43 @@ go_image_get_cairo (GOImage *image)
 		image->target_cairo = TRUE;
 	}
 	surface = cairo_image_surface_create_for_data (
-              				image->data,
-							CAIRO_FORMAT_ARGB32,
-							image->width, image->height,
-               				image->rowstride);
+						       image->data,
+						       CAIRO_FORMAT_ARGB32,
+						       image->width, image->height,
+						       image->rowstride);
 	cairo = cairo_create (surface);
 	cairo_surface_destroy (surface);
 	image->target_cairo = TRUE;
 	return cairo;
 }
 
-cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image)
+static void
+cb_surface_destroyed (void *data)
+{
+	GOImage *image = GO_IMAGE (data);
+	/* We no longer need image->data.  */
+	g_object_unref (image);
+}
+
+/**
+ * go_image_create_cairo_pattern:
+ * @image: a GOImage.
+ *
+ * returns: a cairo_pattern usable for cairo_set_source.
+ *
+ * Note: this function has lifespan issues.  The resulting pattern in only
+ * valid until (a) a pixbuf is set for the, or (b) a pixbuf is _read_ from
+ * the image.  In either of these cases, the pattern must have been
+ * destroyed beforehand.  In particular, if the pattern has been attached
+ * to a surface, that surface must either be finished itself, or have had
+ * a new pattern attached.  See #632439.
+ */
+cairo_pattern_t *
+go_image_create_cairo_pattern (GOImage *image)
 {
 	cairo_surface_t *surface ;
 	cairo_pattern_t *pat;
+	static const cairo_user_data_key_t key;
 
 	g_return_val_if_fail (GO_IS_IMAGE (image), NULL);
 	if (image->data == NULL && image->pixbuf == NULL)
@@ -532,11 +555,14 @@ cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image)
 		pixbuf_to_cairo (image);
 		image->target_cairo = TRUE;
 	}
-	surface = cairo_image_surface_create_for_data (
-              				image->data,
-							CAIRO_FORMAT_ARGB32,
-							image->width, image->height,
-               				image->rowstride);
+	surface = cairo_image_surface_create_for_data
+		(image->data,
+		 CAIRO_FORMAT_ARGB32,
+		 image->width, image->height,
+		 image->rowstride);
+	g_object_ref (image);
+	cairo_surface_set_user_data (surface, &key,
+				     image, cb_surface_destroyed);
 	pat = cairo_pattern_create_for_surface (surface);
 	cairo_surface_destroy (surface);
 	return pat;

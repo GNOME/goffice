@@ -1,3 +1,10 @@
+2010-10-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-image.c (go_image_create_cairo_pattern):
+	Document lifespan.  Make the surface hold a ref to the image so
+	image->data stay valid until cairo is done with it.  This is a
+	btter fix for 632439.
+
 2010-10-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* */*/*.ui: fixed orientation property for GtkVBox.

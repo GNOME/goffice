@@ -230,7 +230,7 @@ go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
  * Prepares the cairo context @cr to fill a shape according to the
  * item style and canvas scale.
  *
- * Returns: %TRUE if the filling is not invisible
+ * Returns: %TRUE if the filling is not invisible.
  **/
 gboolean
 go_styled_object_set_cairo_fill (GOStyledObject const *so, cairo_t *cr)

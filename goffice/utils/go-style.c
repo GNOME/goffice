@@ -2105,7 +2105,7 @@ go_style_set_text_angle (GOStyle *style, double angle)
  * A pattern will be created only if the style has the corresponding field
  * and if it is not set to a none constant.
  *
- * return value: the pattern or NULL if it could not be created.
+ * Returns: the pattern or NULL if it could not be created.
  **/
 cairo_pattern_t *
 go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr)
