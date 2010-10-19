@@ -6,6 +6,9 @@ Andreas
 Jean:
 	* Fixed sorting with accentuated characters. [#631504]
 
+Morten:
+	* Fix GOImage-vs-cairo lifecycle issue.
+
 --------------------------------------------------------------------------
 goffice 0.8.11:
 
