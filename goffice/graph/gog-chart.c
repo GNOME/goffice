@@ -1331,7 +1331,7 @@ grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
 }
 
 static void
-plot_render (GogView *view, GogViewAllocation const *bbox)
+plot_render (GogView *view, GogViewAllocation const *bbox, GogPlotRenderingOrder order)
 {
 	GSList *ptr;
 	GogView *child_view;
@@ -1340,7 +1340,7 @@ plot_render (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 		child_view = ptr->data;
 		if (GOG_IS_PLOT (child_view->model) &&
-		    GOG_PLOT (child_view->model)->render_before_axes)
+		    GOG_PLOT (child_view->model)->rendering_order == order)
 			gog_view_render	(ptr->data, bbox);
 	}
 }
@@ -1380,12 +1380,13 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
 			if (!grid_line_rendered && GOG_IS_AXIS (child_view->model)) {
+				plot_render (view, bbox, GOG_PLOT_RENDERING_BEFORE_GRID);
 				grid_line_render (ptr, bbox);
-				plot_render (view, bbox);
+				plot_render (view, bbox, GOG_PLOT_RENDERING_BEFORE_AXIS);
 				grid_line_rendered = TRUE;
 			}
 			if (GOG_IS_PLOT (child_view->model)) {
-			    if (!GOG_PLOT (child_view->model)->render_before_axes)
+			    if (!GOG_PLOT (child_view->model)->rendering_order)
 				gog_view_render	(ptr->data, bbox);
 			} else if (!GOG_IS_LABEL (child_view->model))
 				gog_view_render	(ptr->data, bbox);

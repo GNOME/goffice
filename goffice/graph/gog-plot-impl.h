@@ -40,7 +40,10 @@ struct _GogPlot {
 	gboolean	 cardinality_valid;
 	unsigned	 index_num;
 	gboolean	 vary_style_by_element;
-	gboolean	 render_before_axes;
+	union {
+		GogPlotRenderingOrder rendering_order;
+		gboolean render_before_axes; /* Deprecated */
+	};
 	gchar		*plot_group;
 	char		*guru_hints;
 

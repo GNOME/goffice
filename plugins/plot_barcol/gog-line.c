@@ -377,7 +377,7 @@ gog_area_plot_class_init (GogObjectClass *gog_klass)
 static void
 gog_area_plot_init (GogPlot *plot)
 {
-	plot->render_before_axes = TRUE;
+	plot->rendering_order = GOG_PLOT_RENDERING_BEFORE_AXIS;
 	GOG_PLOT1_5D (plot)->support_drop_lines = TRUE;
 }
 

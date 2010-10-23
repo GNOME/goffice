@@ -304,6 +304,7 @@ plugins/plot_xy/gog-bubble-prefs.c
 [type: gettext/glade]plugins/plot_xy/gog-bubble-prefs.ui
 [type: gettext/glade]plugins/plot_xy/gog-xy-series-prefs.ui
 [type: gettext/glade]plugins/plot_xy/gog-xy-color-prefs.ui
+[type: gettext/glade]plugins/plot_xy/gog-xy-prefs.ui
 plugins/plot_xy/gog-xy.c
 plugins/plot_xy/gog-xy.h
 plugins/plot_xy/plot-types.xml.in

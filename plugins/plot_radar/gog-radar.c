@@ -371,7 +371,7 @@ static void
 gog_radar_area_plot_init (GogPlot *plot)
 {
 	GOG_RT_PLOT(plot)->default_style_has_fill = TRUE;
-	plot->render_before_axes = TRUE;
+	plot->rendering_order = GOG_PLOT_RENDERING_BEFORE_AXIS;
 }
 
 GSF_DYNAMIC_CLASS (GogRadarAreaPlot, gog_radar_area_plot,

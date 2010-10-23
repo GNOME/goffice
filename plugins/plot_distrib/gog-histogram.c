@@ -379,7 +379,7 @@ gog_histogram_plot_init (GogHistogramPlot *hist)
 {
 	GogPlot *plot = GOG_PLOT (hist);
 
-	plot->render_before_axes = TRUE;
+	plot->rendering_order = GOG_PLOT_RENDERING_BEFORE_AXIS;
 	hist->vertical = TRUE;
 }
 

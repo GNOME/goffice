@@ -1,3 +1,22 @@
+2010-10-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/goffice-graph.h: allow rendering of grids above plots.
+	[#632310]
+	* goffice/graph/gog-chart.c (plot_render), (gog_chart_view_render): ditto.
+	* goffice/graph/gog-plot-impl.h: ditto.
+	* goffice/graph/gog-plot.c (gog_plot_init): ditto.
+	* plugins/plot_barcol/gog-line.c (gog_area_plot_init): ditto.
+	* plugins/plot_distrib/gog-histogram.c (gog_histogram_plot_init): ditto.
+	* plugins/plot_radar/gog-radar.c (gog_radar_area_plot_init): ditto.
+	* plugins/plot_surface/gog-contour.c (gog_contour_plot_init): always show
+	the grids above contour plots.
+	* plugins/plot_surface/gog-surface.c (gog_surface_plot_init): updated
+	according to above changes.
+	* plugins/plot_xy/Makefile.am: add a property box for GogXYPlot.
+	* plugins/plot_xy/gog-xy.c (gog_xy_set_property),
+	(gog_xy_get_property), (display_before_grid_cb),
+	(gog_xy_plot_populate_editor), (gog_xy_plot_class_init): ditto.
+
 2010-10-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-image.c (go_image_create_cairo_pattern):

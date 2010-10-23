@@ -256,7 +256,8 @@ enum {
 	GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
 	GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
 	GOG_XY_PROP_DEFAULT_STYLE_HAS_FILL,
-	GOG_XY_PROP_USE_SPLINES
+	GOG_XY_PROP_USE_SPLINES,
+	GOG_XY_PROP_DISLAY_BEFORE_GRID
 };
 
 static GogObjectClass *xy_parent_klass;
@@ -289,6 +290,12 @@ gog_xy_set_property (GObject *obj, guint param_id,
 		break;
 	case GOG_XY_PROP_USE_SPLINES:
 		xy->use_splines = g_value_get_boolean (value);
+		break;
+	case GOG_XY_PROP_DISLAY_BEFORE_GRID:
+		GOG_PLOT (obj)->rendering_order = (g_value_get_boolean (value))?
+						GOG_PLOT_RENDERING_BEFORE_GRID:
+						GOG_PLOT_RENDERING_LAST;
+		gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -323,10 +330,53 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		}
 		g_value_set_boolean (value, use_splines);
 		break;
+	case GOG_XY_PROP_DISLAY_BEFORE_GRID:
+		g_value_set_boolean (value, GOG_PLOT (obj)->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
 }
+
+#ifdef GOFFICE_WITH_GTK
+static void
+display_before_grid_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "before-grid", gtk_toggle_button_get_active (btn), NULL);
+}
+#endif
+
+static void
+gog_xy_plot_populate_editor (GogObject *obj,
+			     GOEditor *editor,
+                             GogDataAllocator *dalloc,
+                             GOCmdContext *cc)
+{
+#ifdef GOFFICE_WITH_GTK
+	GtkBuilder *gui;
+	char const *dir;
+	char *path;
+
+	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
+	path = g_build_filename (dir, "gog-xy-prefs.ui", NULL);
+	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	g_free (path);
+
+	if (gui != NULL) {
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "before-grid");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				(GOG_PLOT (obj))->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+		g_signal_connect (G_OBJECT (w),
+			"toggled",
+			G_CALLBACK (display_before_grid_cb), obj);
+		w = go_gtk_builder_get_widget (gui, "gog-xy-prefs");
+		go_editor_add_page (editor, w, _("Properties"));
+		g_object_unref (gui);
+	}
+
+#endif
+	(GOG_OBJECT_CLASS (xy_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+};
 
 static void
 gog_xy_plot_class_init (GogPlotClass *plot_klass)
@@ -363,7 +413,14 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 			_("Should the plot use splines instead of linear interpolation"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DISLAY_BEFORE_GRID,
+		g_param_spec_boolean ("before-grid",
+			_("Displayed under the grids"),
+			_("Should the plot be displayed before the grids"),
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	gog_klass->type_name	= gog_xy_plot_type_name;
+	gog_klass->populate_editor = gog_xy_plot_populate_editor;
 
 	{
 		static GogSeriesDimDesc dimensions[] = {

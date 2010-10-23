@@ -239,7 +239,7 @@ gog_contour_plot_init (GogContourPlot *contour)
 {
 	GogPlot *plot = GOG_PLOT (contour);
 
-	plot->render_before_axes = TRUE;
+	plot->rendering_order = GOG_PLOT_RENDERING_BEFORE_GRID;
 	plot->vary_style_by_element = TRUE;
 }
 

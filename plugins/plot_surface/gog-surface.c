@@ -91,7 +91,7 @@ gog_surface_plot_init (GogSurfacePlot *surface)
 {
 	GogPlot *plot = GOG_PLOT (surface);
 
-	plot->render_before_axes = FALSE;
+	plot->rendering_order = GOG_PLOT_RENDERING_LAST;
 }
 
 GSF_DYNAMIC_CLASS (GogSurfacePlot, gog_surface_plot,

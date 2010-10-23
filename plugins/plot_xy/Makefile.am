@@ -19,6 +19,7 @@ if WITH_GTK
 xy_la_SOURCES  += gog-bubble-prefs.c
 dist_ui_DATA = \
 	gog-bubble-prefs.ui	\
+	gog-xy-prefs.ui	\
 	gog-xy-color-prefs.ui	\
 	gog-xy-series-prefs.ui
 endif

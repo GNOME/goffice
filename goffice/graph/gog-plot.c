@@ -415,7 +415,7 @@ gog_plot_init (GogPlot *plot, GogPlotClass const *derived_plot_klass)
 	plot->desc = derived_plot_klass->desc;
 	/* start as true so that we can queue an update when it changes */
 	plot->cardinality_valid = TRUE;
-	plot->render_before_axes = FALSE;
+	plot->rendering_order = GOG_PLOT_RENDERING_LAST;
 	plot->plot_group = NULL;
 	plot->guru_hints = NULL;
 	plot->interpolation = GO_LINE_INTERPOLATION_LINEAR;

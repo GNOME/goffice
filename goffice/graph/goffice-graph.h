@@ -193,6 +193,12 @@ typedef enum {
 	GOG_POSITION_PADDING	     = 1 << 16
 } GogObjectPosition;
 
+typedef enum {
+	GOG_PLOT_RENDERING_LAST,
+	GOG_PLOT_RENDERING_BEFORE_AXIS,
+	GOG_PLOT_RENDERING_BEFORE_GRID
+} GogPlotRenderingOrder;
+
 #define GOG_POSITION_IS_SPECIAL(pos) (((pos) & GOG_POSITION_SPECIAL)&&(!((pos) & GOG_POSITION_MANUAL)))
 #define GOG_POSITION_IS_PADDING(pos) (((pos) & GOG_POSITION_PADDING)&&(!((pos) & GOG_POSITION_MANUAL)))
 
