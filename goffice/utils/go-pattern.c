@@ -261,6 +261,7 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 		pattern_data = go_pattern_get_pattern (pattern);
 
 		cr_surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 8, 8);
+		cairo_surface_flush (cr_surface); /* documentation says this one must be called */
 		stride = cairo_image_surface_get_stride (cr_surface);
 		iter = cairo_image_surface_get_data (cr_surface);
 
@@ -279,6 +280,7 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 				iter += stride - 32;
 			}
 		}
+		cairo_surface_mark_dirty (cr_surface);
 
 		cr_pattern = cairo_pattern_create_for_surface (cr_surface);
 		cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);

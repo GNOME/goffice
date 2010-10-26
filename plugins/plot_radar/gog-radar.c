@@ -339,6 +339,85 @@ GSF_DYNAMIC_CLASS (GogRadarPlot, gog_radar_plot,
 
 /*****************************************************************************/
 
+enum {
+	PLOT_PROP_FILL_0,
+	PLOT_PROP_FILL_BEFORE_GRID,
+};
+
+static void
+gog_polar_area_set_property (GObject *obj, guint param_id,
+		     GValue const *value, GParamSpec *pspec)
+{
+	GogPlot *plot = GOG_PLOT (obj);
+	switch (param_id) {
+	case PLOT_PROP_FILL_BEFORE_GRID:
+		plot->rendering_order = (g_value_get_boolean (value))?
+					 GOG_PLOT_RENDERING_BEFORE_GRID:
+					 GOG_PLOT_RENDERING_LAST;
+		gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+static void
+gog_polar_area_get_property (GObject *obj, guint param_id,
+		     GValue *value, GParamSpec *pspec)
+{
+	GogPlot *plot = GOG_PLOT (obj);
+
+	switch (param_id) {
+	case PLOT_PROP_FILL_BEFORE_GRID:
+		g_value_set_boolean (value, plot->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+#ifdef GOFFICE_WITH_GTK
+static void
+display_before_grid_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "before-grid", gtk_toggle_button_get_active (btn), NULL);
+}
+#endif
+
+static void
+gog_polar_area_populate_editor (GogObject *obj,
+			     GOEditor *editor,
+                             GogDataAllocator *dalloc,
+                             GOCmdContext *cc)
+{
+#ifdef GOFFICE_WITH_GTK
+	GtkBuilder *gui;
+	char const *dir;
+	char *path;
+	GogObjectClass *gog_class = (GogObjectClass *) g_type_class_peek_parent (G_OBJECT_GET_CLASS (obj));
+
+	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_radar"));
+	path = g_build_filename (dir, "gog-polar-prefs.ui", NULL);
+	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	g_free (path);
+
+	if (gui != NULL) {
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "before-grid");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				(GOG_PLOT (obj))->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+		g_signal_connect (G_OBJECT (w),
+			"toggled",
+			G_CALLBACK (display_before_grid_cb), obj);
+		w = go_gtk_builder_get_widget (gui, "gog-polar-prefs");
+		go_editor_add_page (editor, w, _("Properties"));
+		g_object_unref (gui);
+	}
+
+#endif
+	gog_class->populate_editor (obj, editor, dalloc, cc);
+};
+
+/*****************************************************************************/
+
 #define GOG_TYPE_RADAR_AREA_PLOT  (gog_radar_area_plot_get_type ())
 #define GOG_RADAR_AREA_PLOT(o)	  (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_RADAR_AREA_PLOT, GogRadarAreaPlot))
 #define GOG_IS_PLOT_RADAR_AREA(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_RADAR_AREA_PLOT))
@@ -358,12 +437,23 @@ gog_radar_area_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotRadarArea");
 }
 static void
-gog_radar_area_plot_class_init (GogObjectClass *gog_klass)
+gog_radar_area_plot_class_init (GObjectClass *obj_class)
 {
-	GogPlotClass *plot_klass = (GogPlotClass *) gog_klass;
+	GogObjectClass *gog_klass = (GogObjectClass *) obj_class;
+	GogPlotClass *plot_klass = (GogPlotClass *) obj_class;
+
+	obj_class->get_property = gog_polar_area_get_property;
+	obj_class->set_property = gog_polar_area_set_property;
+	g_object_class_install_property (obj_class, PLOT_PROP_FILL_BEFORE_GRID,
+		g_param_spec_boolean ("before-grid",
+			_("Displayed under the grids"),
+			_("Should the plot be displayed before the grids"),
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 
+	gog_klass->populate_editor = gog_polar_area_populate_editor;
 	gog_klass->type_name	= gog_radar_area_plot_type_name;
 }
 
@@ -418,12 +508,23 @@ gog_polar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 }
 
 static void
-gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
+gog_polar_plot_class_init (GObjectClass *obj_class)
 {
-	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_klass;
+	GogObjectClass *gog_object_klass = (GogObjectClass *) obj_class;
+	GogPlotClass *gog_plot_klass = (GogPlotClass *) obj_class;
+
+	obj_class->get_property = gog_polar_area_get_property;
+	obj_class->set_property = gog_polar_area_set_property;
+	g_object_class_install_property (obj_class, PLOT_PROP_FILL_BEFORE_GRID,
+		g_param_spec_boolean ("before-grid",
+			_("Displayed under the grids"),
+			_("Should the plot be displayed before the grids"),
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	/* Fill in GOGObject superclass values */
 	gog_object_klass->type_name	= gog_polar_plot_type_name;
+	gog_object_klass->populate_editor = gog_polar_area_populate_editor;
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -449,7 +550,7 @@ gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 			| GO_STYLE_INTERPOLATION;
 	}
 
-	gog_plot_klass->series_type = gog_polar_series_get_type();
+	gog_plot_klass->series_type = gog_polar_series_get_type ();
 	gog_plot_klass->axis_get_bounds	= gog_polar_plot_axis_get_bounds;
 }
 

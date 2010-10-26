@@ -1,8 +1,6 @@
-2010-10-23  Jean Brefort  <jean.brefort@normalesup.org>
+2010-10-26  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* POTFILES.in:
+	* POTFILES.in: add new ui files.
 
 2010-10-01  Morten Welinder <terra@gnome.org>
 

@@ -77,7 +77,8 @@ enum {
 	BARCOL_PROP_0,
 	BARCOL_PROP_GAP_PERCENTAGE,
 	BARCOL_PROP_OVERLAP_PERCENTAGE,
-	BARCOL_PROP_HORIZONTAL
+	BARCOL_PROP_HORIZONTAL,
+	BARCOL_PROP_FILL_BEFORE_GRID
 };
 
 static GogObjectClass *gog_barcol_parent_klass;
@@ -101,6 +102,11 @@ gog_barcol_plot_set_property (GObject *obj, guint param_id,
 	case BARCOL_PROP_HORIZONTAL:
 		barcol->horizontal = g_value_get_boolean (value);
 		break;
+	case BARCOL_PROP_FILL_BEFORE_GRID:
+		GOG_PLOT (obj)->rendering_order = (g_value_get_boolean (value))?
+						GOG_PLOT_RENDERING_BEFORE_GRID:
+						GOG_PLOT_RENDERING_LAST;
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -123,6 +129,9 @@ gog_barcol_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case BARCOL_PROP_HORIZONTAL:
 		g_value_set_boolean (value, barcol->horizontal);
+		break;
+	case BARCOL_PROP_FILL_BEFORE_GRID:
+		g_value_set_boolean (value, GOG_PLOT (obj)->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -255,6 +264,12 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 		g_param_spec_boolean ("horizontal",
 			_("horizontal"),
 			_("horizontal bars or vertical columns"),
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, BARCOL_PROP_FILL_BEFORE_GRID,
+		g_param_spec_boolean ("before-grid",
+			_("Displayed under the grids"),
+			_("Should the plot be displayed before the grids"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 

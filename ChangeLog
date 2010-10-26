@@ -1,3 +1,40 @@
+2010-10-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-pattern.c (go_pattern_create_cairo_pattern): enclose
+	direct drawing between cairo_surface_flush and cairo_surface_mark_dirty
+	calls, making patterns work with cairo-1.10.
+	* plugins/plot_barcol/Makefile.am: allow all filled plots to be displayed
+	under the grid. [#632310]
+	* plugins/plot_barcol/gog-area-prefs.ui: ditto.
+	* plugins/plot_barcol/gog-barcol-prefs.c (display_before_grid_cb),
+	(gog_barcol_plot_pref): ditto.
+	* plugins/plot_barcol/gog-barcol-prefs.ui: ditto.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_plot_set_property),
+	(gog_barcol_plot_get_property), (gog_barcol_plot_class_init): ditto.
+	* plugins/plot_barcol/gog-dropbar.c (gog_dropbar_set_property),
+	(gog_dropbar_get_property), (display_before_grid_cb),
+	(gog_dropbar_populate_editor), (gog_dropbar_plot_class_init): ditto.
+	* plugins/plot_barcol/gog-line.c (gog_area_plot_set_property),
+	(gog_area_plot_get_property), (display_before_grid_cb),
+	(gog_area_plot_populate_editor), (gog_area_plot_class_init): ditto.
+	* plugins/plot_distrib/gog-boxplot-prefs.ui: ditto.
+	* plugins/plot_distrib/gog-boxplot.c (display_before_grid_cb),
+	(gog_box_plot_pref), (gog_box_plot_set_property),
+	(gog_box_plot_get_property), (gog_box_plot_class_init):
+	* plugins/plot_distrib/gog-histogram-prefs.ui: ditto.
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_get_property),
+	(gog_histogram_plot_set_property), (display_before_grid_cb),
+	(gog_histogram_plot_populate_editor),
+	(gog_histogram_plot_class_init): ditto.
+	* plugins/plot_radar/Makefile.am: ditto.
+	* plugins/plot_radar/gog-polar-prefs.ui: ditto.
+	* plugins/plot_radar/gog-radar.c (gog_polar_area_set_property),
+	(gog_polar_area_get_property), (display_before_grid_cb),
+	(gog_polar_area_populate_editor), (gog_radar_area_plot_class_init),
+	(gog_polar_plot_class_init): ditto.
+	* plugins/plot_xy/gog-xy-prefs.ui: ditto.
+
 2010-10-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/goffice-graph.h: allow rendering of grids above plots.

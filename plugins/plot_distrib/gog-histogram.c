@@ -216,7 +216,8 @@ gog_histogram_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 enum {
 	HISTOGRAM_PROP_0,
 	HISTOGRAM_PROP_VERTICAL,
-	HISTOGRAM_PROP_CUMULATIVE
+	HISTOGRAM_PROP_CUMULATIVE,
+	HISTOGRAM_PROP_BEFORE_GRID
 };
 
 static void
@@ -230,6 +231,9 @@ gog_histogram_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case HISTOGRAM_PROP_CUMULATIVE:
 		g_value_set_boolean (value, model->cumulative);
+		break;
+	case HISTOGRAM_PROP_BEFORE_GRID:
+		g_value_set_boolean (value, GOG_PLOT (obj)->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -256,6 +260,12 @@ gog_histogram_plot_set_property (GObject *obj, guint param_id,
 			model->cumulative = !model->cumulative;
 			gog_object_request_update (GOG_OBJECT (model));
 		}	
+		break;
+	case HISTOGRAM_PROP_BEFORE_GRID:
+		GOG_PLOT (obj)->rendering_order = (g_value_get_boolean (value))?
+						GOG_PLOT_RENDERING_BEFORE_GRID:
+						GOG_PLOT_RENDERING_LAST;
+		gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -287,6 +297,12 @@ cumulative_changed_cb (GtkToggleButton *btn, GogHistogramPlot *model)
 }
 
 static void
+display_before_grid_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "before-grid", gtk_toggle_button_get_active (btn), NULL);
+}
+
+static void
 gog_histogram_plot_populate_editor (GogObject *item,
 			      GOEditor *editor,
 			      G_GNUC_UNUSED GogDataAllocator *dalloc,
@@ -308,6 +324,13 @@ gog_histogram_plot_populate_editor (GogObject *item,
 		w = go_gtk_builder_get_widget (gui, "cumulative");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), hist->cumulative);
 		g_signal_connect (w, "toggled", G_CALLBACK (cumulative_changed_cb), hist);
+
+		w = go_gtk_builder_get_widget (gui, "before-grid");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				(GOG_PLOT (item))->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+		g_signal_connect (G_OBJECT (w),
+			"toggled",
+			G_CALLBACK (display_before_grid_cb), item);
 
 		w = go_gtk_builder_get_widget (gui, "histogram-prefs");
 		go_editor_add_page (editor, w , _("Properties"));
@@ -347,6 +370,12 @@ gog_histogram_plot_class_init (GogPlotClass *gog_plot_klass)
 		g_param_spec_boolean ("cumulative", 
 			_("Cumulative"),
 			_("Use cumulated data"), 
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, HISTOGRAM_PROP_BEFORE_GRID,
+		g_param_spec_boolean ("before-grid",
+			_("Displayed under the grids"),
+			_("Should the plot be displayed before the grids"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 

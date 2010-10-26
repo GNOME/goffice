@@ -39,6 +39,12 @@ cb_overlap_changed (GtkAdjustment *adj, GObject *barcol)
 	g_object_set (barcol, "overlap-percentage", (int) gtk_adjustment_get_value (adj), NULL);
 }
 
+static void
+display_before_grid_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "before-grid", gtk_toggle_button_get_active (btn), NULL);
+}
+
 GtkWidget *
 gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc)
 {
@@ -63,6 +69,13 @@ gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc)
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_overlap_changed), barcol);
+
+	w = go_gtk_builder_get_widget (gui, "before-grid");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+			(GOG_PLOT (barcol))->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (display_before_grid_cb), barcol);
 
 	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_barcol_prefs")));
 	g_object_unref (gui);

@@ -250,6 +250,7 @@ goffice/utils/regutf8.c
 goffice/utils/regutf8.h
 plugins/plot_barcol/gog-1.5d.c
 plugins/plot_barcol/gog-1.5d.h
+[type: gettext/glade]plugins/plot_barcol/gog-area-prefs.ui
 plugins/plot_barcol/gog-barcol-prefs.c
 [type: gettext/glade]plugins/plot_barcol/gog-barcol-prefs.ui
 plugins/plot_barcol/gog-barcol.c
@@ -282,6 +283,7 @@ plugins/plot_pie/plugin.xml.in
 plugins/plot_radar/gog-radar.c
 plugins/plot_radar/gog-radar.h
 [type: gettext/glade]plugins/plot_radar/gog-color-polar-prefs.ui
+[type: gettext/glade]plugins/plot_radar/gog-polar-prefs.ui
 plugins/plot_radar/plot-types.xml.in
 plugins/plot_radar/plugin.xml.in
 plugins/plot_surface/gog-contour.c

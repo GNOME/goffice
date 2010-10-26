@@ -353,6 +353,85 @@ GSF_DYNAMIC_CLASS (GogLinePlot, gog_line_plot,
 
 /*****************************************************************************/
 
+static GogObjectClass *gog_area_plot_parent_klass;
+
+enum {
+	AREA_PROP_FILL_0,
+	AREA_PROP_FILL_BEFORE_GRID
+};
+
+static void
+gog_area_plot_set_property (GObject *obj, guint param_id,
+		     GValue const *value, GParamSpec *pspec)
+{
+	GogPlot *plot = GOG_PLOT (obj);
+	switch (param_id) {
+	case AREA_PROP_FILL_BEFORE_GRID:
+		plot->rendering_order = (g_value_get_boolean (value))?
+					 GOG_PLOT_RENDERING_BEFORE_GRID:
+					 GOG_PLOT_RENDERING_LAST;
+		gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_area_plot_get_property (GObject *obj, guint param_id,
+		     GValue *value, GParamSpec *pspec)
+{
+	GogPlot *plot = GOG_PLOT (obj);
+
+	switch (param_id) {
+	case AREA_PROP_FILL_BEFORE_GRID:
+		g_value_set_boolean (value, plot->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+#ifdef GOFFICE_WITH_GTK
+static void
+display_before_grid_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "before-grid", gtk_toggle_button_get_active (btn), NULL);
+}
+#endif
+
+static void
+gog_area_plot_populate_editor (GogObject *obj,
+			     GOEditor *editor,
+                             GogDataAllocator *dalloc,
+                             GOCmdContext *cc)
+{
+#ifdef GOFFICE_WITH_GTK
+	GtkBuilder *gui;
+	char const *dir;
+	char *path;
+
+	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_barcol"));
+	path = g_build_filename (dir, "gog-area-prefs.ui", NULL);
+	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	g_free (path);
+
+	if (gui != NULL) {
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "before-grid");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				(GOG_PLOT (obj))->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+		g_signal_connect (G_OBJECT (w),
+			"toggled",
+			G_CALLBACK (display_before_grid_cb), obj);
+		w = go_gtk_builder_get_widget (gui, "gog-area-prefs");
+		go_editor_add_page (editor, w, _("Properties"));
+		g_object_unref (gui);
+	}
+
+#endif
+	gog_area_plot_parent_klass->populate_editor (obj, editor, dalloc, cc);
+};
+
 static char const *
 gog_area_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
@@ -364,13 +443,25 @@ gog_area_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 static void
-gog_area_plot_class_init (GogObjectClass *gog_klass)
+gog_area_plot_class_init (GObjectClass *gobject_klass)
 {
-	GogPlotClass *plot_klass = (GogPlotClass *) gog_klass;
+	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
+	GogPlotClass   *plot_klass = (GogPlotClass *) gobject_klass;
+	gog_area_plot_parent_klass = g_type_class_peek_parent (gobject_klass);
+
+	gobject_klass->set_property = gog_area_plot_set_property;
+	gobject_klass->get_property = gog_area_plot_get_property;
+	g_object_class_install_property (gobject_klass, AREA_PROP_FILL_BEFORE_GRID,
+		g_param_spec_boolean ("before-grid",
+			_("Displayed under the grids"),
+			_("Should the plot be displayed before the grids"),
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	plot_klass->series_type = gog_series1_5d_get_type ();
 
+	gog_klass->populate_editor = gog_area_plot_populate_editor;
 	gog_klass->type_name	= gog_area_plot_type_name;
 }
 

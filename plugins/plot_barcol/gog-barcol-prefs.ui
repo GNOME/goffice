@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">500</property>
@@ -15,7 +16,7 @@
   <object class="GtkTable" id="gog_barcol_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="n_rows">2</property>
+    <property name="n_rows">3</property>
     <property name="n_columns">3</property>
     <property name="column_spacing">12</property>
     <property name="row_spacing">6</property>
@@ -109,6 +110,23 @@
         <property name="top_attach">1</property>
         <property name="bottom_attach">2</property>
         <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="before-grid">
+        <property name="label" translatable="yes">_Display the grids above the plot</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_underline">True</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">2</property>
+        <property name="bottom_attach">3</property>
+        <property name="x_options"></property>
         <property name="y_options"></property>
       </packing>
     </child>

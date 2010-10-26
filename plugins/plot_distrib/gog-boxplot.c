@@ -101,6 +101,12 @@ cb_ratio_changed (GtkAdjustment *adj, GObject *boxplot)
 	g_object_set (boxplot, "radius-ratio", gtk_adjustment_get_value (adj) / 200., NULL);
 }
 
+static void
+display_before_grid_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "before-grid", gtk_toggle_button_get_active (btn), NULL);
+}
+
 static gpointer
 gog_box_plot_pref (GogObject *obj,
 		   GogDataAllocator *dalloc, GOCmdContext *cc)
@@ -145,6 +151,13 @@ gog_box_plot_pref (GogObject *obj,
 		gtk_widget_hide (w);
 	}
 
+	w = go_gtk_builder_get_widget (gui, "before-grid");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+			(GOG_PLOT (obj))->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (display_before_grid_cb), obj);
+
 	w = go_gtk_builder_get_widget (gui, "gog_box_plot_prefs");
 	g_object_set_data (G_OBJECT (w), "state", gui);
 	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (g_object_unref), gui);
@@ -171,6 +184,7 @@ enum {
 	BOX_PLOT_PROP_VERTICAL,
 	BOX_PLOT_PROP_OUTLIERS,
 	BOX_PLOT_PROP_RADIUS_RATIO,
+	BOX_PLOT_PROP_BEFORE_GRID
 };
 
 typedef struct {
@@ -220,6 +234,11 @@ gog_box_plot_set_property (GObject *obj, guint param_id,
 	case BOX_PLOT_PROP_RADIUS_RATIO:
 		boxplot->radius_ratio = g_value_get_double (value);
 		break;
+	case BOX_PLOT_PROP_BEFORE_GRID:
+		GOG_PLOT (obj)->rendering_order = (g_value_get_boolean (value))?
+						GOG_PLOT_RENDERING_BEFORE_GRID:
+						GOG_PLOT_RENDERING_LAST;
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
@@ -244,6 +263,9 @@ gog_box_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case BOX_PLOT_PROP_RADIUS_RATIO:
 		g_value_set_double (value, boxplot->radius_ratio);
+		break;
+	case BOX_PLOT_PROP_BEFORE_GRID:
+		g_value_set_boolean (value, GOG_PLOT (obj)->rendering_order == GOG_PLOT_RENDERING_BEFORE_GRID);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
@@ -388,6 +410,12 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 			_("Radius ratio"),
 			_("The ratio between the radius of the circles representing outliers and the rectangle width"),
 			0., 0.5, 0.125,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_BEFORE_GRID,
+		g_param_spec_boolean ("before-grid",
+			_("Displayed under the grids"),
+			_("Should the plot be displayed before the grids"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_box_plot_type_name;

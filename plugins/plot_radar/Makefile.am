@@ -13,7 +13,7 @@ radar_la_SOURCES = \
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
-ui_DATA = gog-color-polar-prefs.ui
+ui_DATA = gog-color-polar-prefs.ui gog-polar-prefs.ui
 
 @INTLTOOL_XML_RULE@
 
