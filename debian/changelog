@@ -1,3 +1,17 @@
+goffice (0.8.11-3) unstable; urgency=high
+
+  * Deal with symbol differences between architectures to fix FTBFS on
+    architectures where goffice is built without GOFFICE_WITH_LONG_DOUBLE
+    (i.e. architectures which do not have a "long double" data type with
+    more range or precision than "double"). (Closes: #601301).
+    Thanks Nobuhiro Iwamatsu <iwamatsu@nigauri.org> for reporting.
+  * [debian/libgoffice-0.8-8.symbols.longdouble] New, for symbols that are
+    only available when goffice is built with GOFFICE_WITH_LONG_DOUBLE.
+  * [debian/libgoffice-0.8-8.symbols] Include
+    libgoffice-0.8-8.symbols.longdouble on appropriate architectures.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 27 Oct 2010 12:56:59 +0200
+
 goffice (0.8.11-2) unstable; urgency=low
 
   * [debian/libgoffice-0.8-8.symbols] New. Thanks Micha Lenk

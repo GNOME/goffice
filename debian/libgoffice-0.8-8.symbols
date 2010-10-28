@@ -62,7 +62,6 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_action_combo_text_set_entry@Base 0.8.8
  go_action_combo_text_set_width@Base 0.8.8
  go_add_epsilon@Base 0.8.8
- go_add_epsilonl@Base 0.8.8
  go_arrow_clear@Base 0.8.8
  go_arrow_dup@Base 0.8.8
  go_arrow_get_type@Base 0.8.8
@@ -74,7 +73,6 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_ascii_strcase_equal@Base 0.8.8
  go_ascii_strcase_hash@Base 0.8.8
  go_ascii_strtod@Base 0.8.8
- go_ascii_strtold@Base 0.8.8
  go_atk_setup_label@Base 0.8.8
  go_basename_from_uri@Base 0.8.8
  go_bezier_spline_destroy@Base 0.8.8
@@ -161,51 +159,28 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_combo_text_new_default@Base 0.8.8
  go_combo_text_set_text@Base 0.8.8
  go_complex_add@Base 0.8.8
- go_complex_addl@Base 0.8.8
  go_complex_angle@Base 0.8.8
- go_complex_anglel@Base 0.8.8
  go_complex_conj@Base 0.8.8
- go_complex_conjl@Base 0.8.8
  go_complex_cos@Base 0.8.8
- go_complex_cosl@Base 0.8.8
  go_complex_div@Base 0.8.8
- go_complex_divl@Base 0.8.8
  go_complex_exp@Base 0.8.8
- go_complex_expl@Base 0.8.8
  go_complex_from_polar@Base 0.8.8
- go_complex_from_polarl@Base 0.8.8
  go_complex_from_string@Base 0.8.8
- go_complex_from_stringl@Base 0.8.8
  go_complex_init@Base 0.8.8
- go_complex_initl@Base 0.8.8
  go_complex_ln@Base 0.8.8
- go_complex_lnl@Base 0.8.8
  go_complex_mod@Base 0.8.8
- go_complex_modl@Base 0.8.8
  go_complex_mul@Base 0.8.8
- go_complex_mull@Base 0.8.8
  go_complex_pow@Base 0.8.8
- go_complex_powl@Base 0.8.8
  go_complex_real@Base 0.8.8
  go_complex_real_p@Base 0.8.8
- go_complex_real_pl@Base 0.8.8
- go_complex_reall@Base 0.8.8
  go_complex_scale_real@Base 0.8.8
- go_complex_scale_reall@Base 0.8.8
  go_complex_sin@Base 0.8.8
- go_complex_sinl@Base 0.8.8
  go_complex_sqrt@Base 0.8.8
- go_complex_sqrtl@Base 0.8.8
  go_complex_sub@Base 0.8.8
- go_complex_subl@Base 0.8.8
  go_complex_tan@Base 0.8.8
- go_complex_tanl@Base 0.8.8
  go_complex_to_polar@Base 0.8.8
- go_complex_to_polarl@Base 0.8.8
  go_complex_to_string@Base 0.8.8
- go_complex_to_stringl@Base 0.8.8
  go_complex_zero_p@Base 0.8.8
- go_complex_zero_pl@Base 0.8.8
  go_component_edit@Base 0.8.8
  go_component_emit_changed@Base 0.8.8
  go_component_get_command_context@Base 0.8.8
@@ -261,19 +236,12 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_coupdays@Base 0.8.8
  go_coupdaysnc@Base 0.8.8
  go_cspline_destroy@Base 0.8.8
- go_cspline_destroyl@Base 0.8.8
  go_cspline_get_deriv@Base 0.8.8
- go_cspline_get_derivl@Base 0.8.8
  go_cspline_get_derivs@Base 0.8.8
- go_cspline_get_derivsl@Base 0.8.8
  go_cspline_get_integrals@Base 0.8.8
- go_cspline_get_integralsl@Base 0.8.8
  go_cspline_get_value@Base 0.8.8
- go_cspline_get_valuel@Base 0.8.8
  go_cspline_get_values@Base 0.8.8
- go_cspline_get_valuesl@Base 0.8.8
  go_cspline_init@Base 0.8.8
- go_cspline_initl@Base 0.8.8
  go_data_date_conv@Base 0.8.8
  go_data_dup@Base 0.8.8
  go_data_emit_changed@Base 0.8.8
@@ -347,7 +315,6 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_date_weekday_name@Base 0.8.8
  go_date_weeknum@Base 0.8.8
  go_dcauchy@Base 0.8.8
- go_dcauchyl@Base 0.8.8
  go_destroy_password@Base 0.8.8
  go_dialog_guess_alternative_button_order@Base 0.8.8
  go_direction_get_type@Base 0.8.8
@@ -361,29 +328,20 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_dist_weibull_get_type@Base 0.8.8
  go_distribution_get_cumulative@Base 0.8.8
  go_distribution_get_cumulative_hazard@Base 0.8.8
- go_distribution_get_cumulative_hazardl@Base 0.8.8
- go_distribution_get_cumulativel@Base 0.8.8
  go_distribution_get_density@Base 0.8.8
- go_distribution_get_densityl@Base 0.8.8
  go_distribution_get_distribution_name@Base 0.8.8
  go_distribution_get_distribution_type@Base 0.8.8
  go_distribution_get_hazard@Base 0.8.8
- go_distribution_get_hazardl@Base 0.8.8
  go_distribution_get_inverse_survival@Base 0.8.8
- go_distribution_get_inverse_survivall@Base 0.8.8
  go_distribution_get_ppf@Base 0.8.8
- go_distribution_get_ppfl@Base 0.8.8
  go_distribution_get_survival@Base 0.8.8
- go_distribution_get_survivall@Base 0.8.8
  go_distribution_get_type@Base 0.8.8
  go_distribution_new@Base 0.8.8
  go_distribution_scale@Base 0.8.8
  go_distribution_type_from_string@Base 0.8.8
  go_distribution_type_to_string@Base 0.8.8
  go_dlnorm@Base 0.8.8
- go_dlnorml@Base 0.8.8
  go_dnorm@Base 0.8.8
- go_dnorml@Base 0.8.8
  go_doc_add_image@Base 0.8.8
  go_doc_control_get_doc@Base 0.8.8
  go_doc_control_get_type@Base 0.8.8
@@ -408,7 +366,6 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_doc_update_meta_data@Base 0.8.8
  go_doc_write@Base 0.8.8
  go_dweibull@Base 0.8.8
- go_dweibulll@Base 0.8.8
  go_editor_add_page@Base 0.8.8
  go_editor_free@Base 0.8.8
  go_editor_get_notebook@Base 0.8.8
@@ -436,15 +393,10 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_error_invalid@Base 0.8.8
  go_error_system@Base 0.8.8
  go_exponential_regression@Base 0.8.8
- go_exponential_regressionl@Base 0.8.8
  go_fake_ceil@Base 0.8.8
- go_fake_ceill@Base 0.8.8
  go_fake_floor@Base 0.8.8
- go_fake_floorl@Base 0.8.8
  go_fake_round@Base 0.8.8
- go_fake_roundl@Base 0.8.8
  go_fake_trunc@Base 0.8.8
- go_fake_truncl@Base 0.8.8
  go_file_access@Base 0.8.8
  go_file_create@Base 0.8.8
  go_file_format_level_get_type@Base 0.8.8
@@ -494,7 +446,6 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_filename_simplify@Base 0.8.8
  go_filename_to_uri@Base 0.8.8
  go_finite@Base 0.8.8
- go_finitel@Base 0.8.8
  go_font_as_str@Base 0.8.8
  go_font_cache_register@Base 0.8.8
  go_font_cache_unregister@Base 0.8.8
@@ -571,17 +522,13 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_format_sel_set_style_format@Base 0.8.8
  go_format_sel_show_preview@Base 0.8.8
  go_format_specialize@Base 0.8.8
- go_format_specializel@Base 0.8.8
  go_format_str_delocalize@Base 0.8.8
  go_format_str_localize@Base 0.8.8
  go_format_toggle_1000sep@Base 0.8.8
  go_format_unref@Base 0.8.8
  go_format_value@Base 0.8.8
  go_format_value_gstring@Base 0.8.8
- go_format_value_gstringl@Base 0.8.8
- go_format_valuel@Base 0.8.8
  go_fourier_fft@Base 0.8.8
- go_fourier_fftl@Base 0.8.8
  go_geometry_AABR_add@Base 0.8.8
  go_geometry_OBR_to_AABR@Base 0.8.8
  go_geometry_calc_label_anchor@Base 0.8.8
@@ -691,9 +638,7 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_line_interpolation_from_str@Base 0.8.8
  go_line_interpolation_supports_radial@Base 0.8.8
  go_linear_regression@Base 0.8.8
- go_linear_regressionl@Base 0.8.8
  go_linear_solve@Base 0.8.8
- go_linear_solvel@Base 0.8.8
  go_list_free_custom@Base 0.8.8
  go_list_index_custom@Base 0.8.8
  go_locale_24h@Base 0.8.8
@@ -715,9 +660,7 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_locale_sel_set_sensitive@Base 0.8.8
  go_locale_untranslated_booleans@Base 0.8.8
  go_logarithmic_fit@Base 0.8.8
- go_logarithmic_fitl@Base 0.8.8
  go_logarithmic_regression@Base 0.8.8
- go_logarithmic_regressionl@Base 0.8.8
  go_marker_assign@Base 0.8.8
  go_marker_create_cairo_surface@Base 0.8.8
  go_marker_dup@Base 0.8.8
@@ -744,9 +687,7 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_matrix3x3_to_euler@Base 0.8.8
  go_matrix3x3_transform@Base 0.8.8
  go_matrix_determinant@Base 0.8.8
- go_matrix_determinantl@Base 0.8.8
  go_matrix_invert@Base 0.8.8
- go_matrix_invertl@Base 0.8.8
  go_mem_chunk_alloc0@Base 0.8.8
  go_mem_chunk_alloc@Base 0.8.8
  go_mem_chunk_destroy@Base 0.8.8
@@ -760,11 +701,8 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_mime_type_get_description@Base 0.8.8
  go_ms_parser_read@Base 0.8.8
  go_nan@Base 0.8.8
- go_nanl@Base 0.8.8
  go_ninf@Base 0.8.8
- go_ninfl@Base 0.8.8
  go_non_linear_regression@Base 0.8.8
- go_non_linear_regressionl@Base 0.8.8
  go_object_properties_apply@Base 0.8.8
  go_object_properties_collect@Base 0.8.8
  go_object_properties_free@Base 0.8.8
@@ -818,19 +756,16 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_pattern_selector_set_colors@Base 0.8.8
  go_pattern_set_solid@Base 0.8.8
  go_pcauchy@Base 0.8.8
- go_pcauchyl@Base 0.8.8
  go_persist_dom_load@Base 0.8.8
  go_persist_get_type@Base 0.8.8
  go_persist_prep_sax@Base 0.8.8
  go_persist_sax_save@Base 0.8.8
  go_pinf@Base 0.8.8
- go_pinfl@Base 0.8.8
  go_pixbuf_get_from_cache@Base 0.8.8
  go_pixbuf_intelligent_scale@Base 0.8.8
  go_pixbuf_new_from_file@Base 0.8.8
  go_pixbuf_tile@Base 0.8.8
  go_plnorm@Base 0.8.8
- go_plnorml@Base 0.8.8
  go_plugin_activate@Base 0.8.8
  go_plugin_can_deactivate@Base 0.8.8
  go_plugin_db_activate_plugin_list@Base 0.8.8
@@ -898,83 +833,44 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_plugins_unregister_loader@Base 0.8.8
  go_pnorm@Base 0.8.8
  go_pnorm_both@Base 0.8.8
- go_pnorm_bothl@Base 0.8.8
- go_pnorml@Base 0.8.8
  go_pow10@Base 0.8.8
- go_pow10l@Base 0.8.8
  go_pow2@Base 0.8.8
- go_pow2l@Base 0.8.8
  go_power_regression@Base 0.8.8
- go_power_regressionl@Base 0.8.8
  go_ptr_array_insert@Base 0.8.8
  go_pweibull@Base 0.8.8
- go_pweibulll@Base 0.8.8
  go_qcauchy@Base 0.8.8
- go_qcauchyl@Base 0.8.8
  go_qlnorm@Base 0.8.8
- go_qlnorml@Base 0.8.8
  go_qnorm@Base 0.8.8
- go_qnorml@Base 0.8.8
  go_quad_add@Base 0.8.8
- go_quad_addl@Base 0.8.8
  go_quad_div@Base 0.8.8
- go_quad_divl@Base 0.8.8
  go_quad_dot_product@Base 0.8.8
- go_quad_dot_productl@Base 0.8.8
  go_quad_end@Base 0.8.8
- go_quad_endl@Base 0.8.8
  go_quad_functional@Base 0.8.8
- go_quad_functionall@Base 0.8.8
  go_quad_init@Base 0.8.8
- go_quad_initl@Base 0.8.8
  go_quad_mul12@Base 0.8.8
- go_quad_mul12l@Base 0.8.8
  go_quad_mul@Base 0.8.8
- go_quad_mull@Base 0.8.8
  go_quad_sqrt@Base 0.8.8
- go_quad_sqrtl@Base 0.8.8
  go_quad_start@Base 0.8.8
- go_quad_startl@Base 0.8.8
  go_quad_sub@Base 0.8.8
- go_quad_subl@Base 0.8.8
  go_quad_value@Base 0.8.8
- go_quad_valuel@Base 0.8.8
  go_qweibull@Base 0.8.8
- go_qweibulll@Base 0.8.8
  go_range_average@Base 0.8.8
- go_range_averagel@Base 0.8.8
  go_range_decreasing@Base 0.8.8
- go_range_decreasingl@Base 0.8.8
  go_range_devsq@Base 0.8.8
- go_range_devsql@Base 0.8.8
  go_range_fractile_inter@Base 0.8.8
  go_range_fractile_inter_nonconst@Base 0.8.8
- go_range_fractile_inter_nonconstl@Base 0.8.8
  go_range_fractile_inter_sorted@Base 0.8.8
- go_range_fractile_inter_sortedl@Base 0.8.8
- go_range_fractile_interl@Base 0.8.8
  go_range_increasing@Base 0.8.8
- go_range_increasingl@Base 0.8.8
  go_range_max@Base 0.8.8
  go_range_maxabs@Base 0.8.8
- go_range_maxabsl@Base 0.8.8
- go_range_maxl@Base 0.8.8
  go_range_median_inter@Base 0.8.8
  go_range_median_inter_nonconst@Base 0.8.8
- go_range_median_inter_nonconstl@Base 0.8.8
  go_range_median_inter_sorted@Base 0.8.8
- go_range_median_inter_sortedl@Base 0.8.8
- go_range_median_interl@Base 0.8.8
  go_range_min@Base 0.8.8
- go_range_minl@Base 0.8.8
  go_range_sort@Base 0.8.8
- go_range_sortl@Base 0.8.8
  go_range_sum@Base 0.8.8
- go_range_suml@Base 0.8.8
  go_range_sumsq@Base 0.8.8
- go_range_sumsql@Base 0.8.8
  go_range_vary_uniformly@Base 0.8.8
- go_range_vary_uniformlyl@Base 0.8.8
  go_regcomp@Base 0.8.8
  go_regerror@Base 0.8.8
  go_regexec@Base 0.8.8
@@ -982,11 +878,8 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_regexp_quote@Base 0.8.8
  go_regfree@Base 0.8.8
  go_regression_stat_destroy@Base 0.8.8
- go_regression_stat_destroyl@Base 0.8.8
  go_regression_stat_new@Base 0.8.8
- go_regression_stat_newl@Base 0.8.8
  go_render_general@Base 0.8.8
- go_render_generall@Base 0.8.8
  go_rint@Base 0.8.8
  go_rotation_sel_get_rotation@Base 0.8.8
  go_rotation_sel_get_type@Base 0.8.8
@@ -1043,7 +936,6 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_string_unref@Base 0.8.8
  go_strsplit_to_slist@Base 0.8.8
  go_strtod@Base 0.8.8
- go_strtold@Base 0.8.8
  go_strunescape@Base 0.8.8
  go_style_apply_theme@Base 0.8.8
  go_style_assign@Base 0.8.8
@@ -1076,13 +968,11 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_styled_object_set_style@Base 0.8.8
  go_styled_object_style_changed@Base 0.8.8
  go_sub_epsilon@Base 0.8.8
- go_sub_epsilonl@Base 0.8.8
  go_sys_data_dir@Base 0.8.8
  go_sys_icon_dir@Base 0.8.8
  go_sys_lib_dir@Base 0.8.8
  go_tool_item_set_tooltip_text@Base 0.8.8
  go_trunc@Base 0.8.8
- go_truncl@Base 0.8.8
  go_undo_binary_get_type@Base 0.8.8
  go_undo_binary_new@Base 0.8.8
  go_undo_combine@Base 0.8.8
@@ -1623,3 +1513,4 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  gog_xml_read_state_get_obj@Base 0.8.8
  libgoffice_init@Base 0.8.8
  libgoffice_shutdown@Base 0.8.8
+(arch=!armel !armhf !hppa !mips !mipsel !sh4)#include "libgoffice-0.8-8.symbols.longdouble"
