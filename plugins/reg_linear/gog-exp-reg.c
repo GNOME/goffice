@@ -30,7 +30,7 @@
 static double
 gog_exp_reg_curve_get_value_at (GogRegCurve *curve, double x)
 {
-	return curve->a[0] * pow (curve->a[1], x);
+	return exp (curve->a[0] + curve->a[1] * x);
 }
 
 static gchar const*
@@ -39,17 +39,17 @@ gog_exp_reg_curve_get_equation (GogRegCurve *curve)
 	if (!curve->equation) {
 		GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
 		if (lin->affine)
-			curve->equation = (curve->a[0] < 1.)?
-				((curve->a[1] < 1.)?
-					g_strdup_printf ("ln(y) = \xE2\x88\x92%gx \xE2\x88\x92 %g", -log (curve->a[1]), -log (curve->a[0])):
-					g_strdup_printf ("ln(y) = %gx \xE2\x88\x92% g", log (curve->a[1]), -log (curve->a[0]))):
-				((curve->a[1] < 1.)?
-					g_strdup_printf ("ln(y) = \xE2\x88\x92%gx + %g", -log (curve->a[1]), log (curve->a[0])):
-					g_strdup_printf ("ln(y) = %gx + %g", log (curve->a[1]), log (curve->a[0])));
+			curve->equation = (curve->a[0] < 0.)?
+				((curve->a[1] < 0.)?
+					g_strdup_printf ("ln(y) = \xE2\x88\x92%gx \xE2\x88\x92 %g", -curve->a[1], -curve->a[0]):
+					g_strdup_printf ("ln(y) = %gx \xE2\x88\x92% g", curve->a[1], -curve->a[0])):
+				((curve->a[1] < 0.)?
+					g_strdup_printf ("ln(y) = \xE2\x88\x92%gx + %g", -curve->a[1], curve->a[0]):
+					g_strdup_printf ("ln(y) = %gx + %g", curve->a[1], curve->a[0]));
 		else
-			curve->equation = (curve->a[1] < 1.)?
-				g_strdup_printf ("ln(y) = \xE2\x88\x92%gx", -log (curve->a[1])):
-				g_strdup_printf ("ln(y) = %gx", log (curve->a[1]));
+			curve->equation = (curve->a[1] < 0.)?
+				g_strdup_printf ("ln(y) = \xE2\x88\x92%gx", -curve->a[1]):
+				g_strdup_printf ("ln(y) = %gx", curve->a[1]);
 	}
 	return curve->equation;
 }
@@ -69,7 +69,7 @@ gog_exp_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 	GogLinRegCurveClass *lin_reg_klass = (GogLinRegCurveClass *) reg_curve_klass;
 	GogObjectClass *gog_object_klass = (GogObjectClass *) reg_curve_klass;
 
-	lin_reg_klass->lin_reg_func = go_exponential_regression;
+	lin_reg_klass->lin_reg_func = go_exponential_regression_as_log;
 
 	reg_curve_klass->get_value_at = gog_exp_reg_curve_get_value_at;
 	reg_curve_klass->get_equation = gog_exp_reg_curve_get_equation;

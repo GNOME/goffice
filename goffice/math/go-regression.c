@@ -1160,6 +1160,73 @@ SUFFIX(go_exponential_regression) (MATRIX xss, int dim,
 }
 
 /**
+ * go_exponential_regression_as_log:
+ * @xss: x-vectors (i.e. independent data)
+ * @dim: number of x-vectors
+ * @ys: y-vector (dependent data)
+ * @n: number of data points
+ * @affine: if %TRUE, a non-one multiplier is allowed
+ * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @stat_ : non-NULL storage for additional results.
+ *
+ * Performs one-dimensional linear regressions on the input points as 
+ * go_exponential_regression, but returns the logarithm of the coefficients instead
+ * or the coefficients themselves.
+ * Fits to "y = b * exp (m1*x1) * ... * exp (md*xd) " or equivalently to
+ * "ln y = ln b + x1 * m1 + ... + xd * md".
+ *
+ * Returns: #GORegressionResult as above.
+ **/
+GORegressionResult
+SUFFIX(go_exponential_regression_as_log) (MATRIX xss, int dim,
+				   const DOUBLE *ys, int n,
+				   gboolean affine,
+				   DOUBLE *res,
+				   SUFFIX(go_regression_stat_t) *stat_)
+{
+	DOUBLE *log_ys;
+	GORegressionResult result;
+	int i;
+
+	g_return_val_if_fail (dim >= 1, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (n >= 1, GO_REG_invalid_dimensions);
+
+	log_ys = g_new (DOUBLE, n);
+	for (i = 0; i < n; i++)
+		if (ys[i] > 0)
+			log_ys[i] = SUFFIX(log) (ys[i]);
+		else {
+			result = GO_REG_invalid_data;
+			goto out;
+		}
+
+	if (affine) {
+		int i;
+		DOUBLE **xss2 = g_new (DOUBLE *, dim + 1);
+
+		xss2[0] = g_new (DOUBLE, n);
+		for (i = 0; i < n; i++)
+			xss2[0][i] = 1;
+		memcpy (xss2 + 1, xss, dim * sizeof (DOUBLE *));
+
+		result = SUFFIX(general_linear_regression)
+			(xss2, dim + 1, log_ys,
+			 n, res, stat_, affine);
+		g_free (xss2[0]);
+		g_free (xss2);
+	} else {
+		res[0] = 0;
+		result = SUFFIX(general_linear_regression)
+			(xss, dim, log_ys, n,
+			 res + 1, stat_, affine);
+	}
+
+ out:
+	g_free (log_ys);
+	return result;
+}
+ 
+/**
  * go_power_regression:
  * @xss: x-vectors (i.e. independent data)
  * @dim: number of x-vectors
