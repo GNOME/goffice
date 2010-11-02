@@ -1113,49 +1113,13 @@ SUFFIX(go_exponential_regression) (MATRIX xss, int dim,
 				   DOUBLE *res,
 				   SUFFIX(go_regression_stat_t) *stat_)
 {
-	DOUBLE *log_ys;
-	GORegressionResult result;
+	GORegressionResult result = SUFFIX(go_exponential_regression_as_log) (xss, dim, ys, n, affine, res, stat_);
 	int i;
-
-	g_return_val_if_fail (dim >= 1, GO_REG_invalid_dimensions);
-	g_return_val_if_fail (n >= 1, GO_REG_invalid_dimensions);
-
-	log_ys = g_new (DOUBLE, n);
-	for (i = 0; i < n; i++)
-		if (ys[i] > 0)
-			log_ys[i] = SUFFIX(log) (ys[i]);
-		else {
-			result = GO_REG_invalid_data;
-			goto out;
-		}
-
-	if (affine) {
-		int i;
-		DOUBLE **xss2 = g_new (DOUBLE *, dim + 1);
-
-		xss2[0] = g_new (DOUBLE, n);
-		for (i = 0; i < n; i++)
-			xss2[0][i] = 1;
-		memcpy (xss2 + 1, xss, dim * sizeof (DOUBLE *));
-
-		result = SUFFIX(general_linear_regression)
-			(xss2, dim + 1, log_ys,
-			 n, res, stat_, affine);
-		g_free (xss2[0]);
-		g_free (xss2);
-	} else {
-		res[0] = 0;
-		result = SUFFIX(general_linear_regression)
-			(xss, dim, log_ys, n,
-			 res + 1, stat_, affine);
-	}
 
 	if (result == GO_REG_ok || result == GO_REG_near_singular_good)
 		for (i = 0; i < dim + 1; i++)
 			res[i] = SUFFIX(exp) (res[i]);
 
- out:
-	g_free (log_ys);
 	return result;
 }
 
