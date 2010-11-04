@@ -367,6 +367,7 @@ make_path_cspline (GogChartMap *map,
 				go_path_move_to (path, uu[0], vv[0]);
 				go_path_line_to (path, uu[1], vv[1]);
 			} else if (n_valid_points > 2) {
+				int j;
 				/* evaluate the spline */
 				spline = go_cspline_init (uu, vv, n_valid_points, type, p0, p1);
 				if (spline) {
@@ -374,14 +375,14 @@ make_path_cspline (GogChartMap *map,
 					x0 = uu[0];
 					y0 = vv[0];
 					go_path_move_to (path, x0, y0);
-					for (i = 1; i < spline->n; i++) {
-						x3 = uu[i];
-						y3 = vv[i];
+					for (j = 1; j < spline->n; j++) {
+						x3 = uu[j];
+						y3 = vv[j];
 						u = x3 - x0;
 						x1 = (2. * x0 + x3) / 3.;
 						x2 = (x0 + 2. * x3) / 3.;
-						y1 = y0 + spline->c[i-1] / 3. * u;
-						y2 = y0 + (2. * spline->c[i-1] + spline->b[i-1] * u) / 3. * u;
+						y1 = y0 + spline->c[j-1] / 3. * u;
+						y2 = y0 + (2. * spline->c[j-1] + spline->b[j-1] * u) / 3. * u;
 						go_path_curve_to (path, x1, y1, x2, y2, x3, y3);
 						x0 = x3;
 						y0 = y3;

@@ -8,6 +8,7 @@ Jean:
 	* Allow filled plots to be displayed behind the grids. [#632310]
 	* Fixed patterns with cairo-1.10.
 	* Fixed flawed exponential fit in graphs for small values. [#633735]
+	* Fixed an infinite loop condition in cubic spline evaluation. [#633965]
 
 Morten:
 	* Fix GOImage-vs-cairo lifecycle issue.
