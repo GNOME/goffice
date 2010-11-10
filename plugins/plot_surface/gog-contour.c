@@ -157,7 +157,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	for (; i < nticks; i++)
 		if (zticks[i].type == GOG_AXIS_TICK_MAJOR)
 			limits[j++] = zticks[i].position;
-	if (maximum > limits[j])
+	if (maximum > limits[j - 1])
 		limits[j] = maximum;
 	else
 		j--;

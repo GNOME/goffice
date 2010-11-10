@@ -1008,13 +1008,10 @@ gog_histogram_plot_series_update (GogObject *obj)
 		if (x_len > 1) {
 			series->real_y = g_new0 (double, x_len - 1);
 			for (i = 0; i < y_len && y[i] <= series->real_x[0]; i++);
-			for (max = 1;  i < y_len; i++)
+			for (max = 1; i < y_len; i++)
 				if (go_finite (y[i])) {
-					while (y[i] > series->real_x[max]) {
+					while (max < x_len - 1 && y[i] > series->real_x[max])
 						max++;
-						if (max == x_len - 1)
-							break;
-					}
 					series->real_y[max-1]++;
 			}
 			if (y__len > 0) {

@@ -1,3 +1,10 @@
+2010-11-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_series_update): fixed memory errors.
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem): ditto.
+
 2010-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-chart-map.c (make_path_cspline): fixed an infinite loop
