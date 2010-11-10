@@ -1,6 +1,12 @@
 2010-11-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_series_update): fixed a limit issue.
+	* tests/go-demo.c (insert_histogram_data): don't use raw data.
+
+2010-11-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-histogram.c
 	(gog_histogram_plot_series_update): fixed memory errors.
 	* plugins/plot_surface/gog-contour.c
 	(gog_contour_plot_foreach_elem): ditto.

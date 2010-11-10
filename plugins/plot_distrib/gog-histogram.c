@@ -1012,6 +1012,8 @@ gog_histogram_plot_series_update (GogObject *obj)
 				if (go_finite (y[i])) {
 					while (max < x_len - 1 && y[i] > series->real_x[max])
 						max++;
+					if (y[i] >  series->real_x[max])
+						break;
 					series->real_y[max-1]++;
 			}
 			if (y__len > 0) {
