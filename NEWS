@@ -12,6 +12,7 @@ Jean:
 
 Morten:
 	* Fix GOImage-vs-cairo lifecycle issue.
+	* Fix loading of weird themes.
 
 --------------------------------------------------------------------------
 goffice 0.8.11:

@@ -1,3 +1,11 @@
+2010-11-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-theme.c (themes_load_from_dir): Fix URI
+	handling.
+	(_gog_themes_init): Use g_get_home_dir.
+	(gog_theme_finalize): Remove the theme from the global list.
+	(_gog_themes_shutdown): Free the list of themes.
+
 2010-11-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-histogram.c

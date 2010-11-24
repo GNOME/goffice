@@ -224,7 +224,8 @@ static void
 gog_theme_finalize (GObject *obj)
 {
 	GogTheme *theme = GOG_THEME (obj);
-	unsigned i;
+
+	themes = g_slist_remove (themes, theme);
 
 	g_free (theme->name); theme->name = NULL;
 	g_free (theme->local_name); theme->local_name = NULL;
@@ -236,6 +237,7 @@ gog_theme_finalize (GObject *obj)
 	if (theme->class_aliases)
 		g_hash_table_destroy (theme->class_aliases);
 	if (theme->palette) {
+		unsigned i;
 		for (i = 0; i < theme->palette->len; i++)
 			g_object_unref (g_ptr_array_index (theme->palette, i));
 		g_ptr_array_free (theme->palette, TRUE);
@@ -1088,17 +1090,18 @@ themes_load_from_dir (char const *path)
 {
 	GDir *dir = g_dir_open (path, 0, NULL);
 	char const *d_name;
-	char *uri, *mime_type;
 
 	if (dir == NULL)
 		return;
 	while ((d_name = g_dir_read_name (dir)) != NULL) {
-		uri = g_strconcat ("file://", path, "/", d_name, NULL);
-		mime_type = go_get_mime_type (uri);
+		char *fullname = g_build_filename (path, d_name, NULL);
+		char *uri = go_filename_to_uri (fullname);
+		char *mime_type = go_get_mime_type (uri);
 		if (!strcmp (mime_type, "application/x-theme"))
 			theme_load_from_uri (uri);
 		g_free (mime_type);
 		g_free (uri);
+		g_free (fullname);
 	}
 	g_dir_close (dir);
 }
@@ -1107,7 +1110,6 @@ void
 _gog_themes_init (void)
 {
 	char *path;
-	char const *home;
 
 	build_predefined_themes ();
 
@@ -1115,8 +1117,8 @@ _gog_themes_init (void)
 	path = g_build_filename (go_sys_data_dir (), "themes", NULL);
 	themes_load_from_dir (path);
 	g_free (path);
-	home = getenv ("HOME");
-	path = g_strconcat (home, "/.goffice/themes", NULL);
+
+	path = g_build_filename (g_get_home_dir (), ".goffice", "themes", NULL);
 	themes_load_from_dir (path);
 	g_free (path);
 }
@@ -1124,10 +1126,12 @@ _gog_themes_init (void)
 void
 _gog_themes_shutdown (void)
 {
-	GSList *ptr;
-
-	if (default_theme != NULL)
+	if (default_theme != NULL) {
 		g_object_unref (default_theme);
-	for (ptr = themes; ptr != NULL ; ptr = ptr->next)
-		g_object_unref (ptr->data);
+		default_theme = NULL;
+	}
+
+	go_slist_free_custom (g_slist_copy (themes), g_object_unref);
+	g_slist_free (themes);
+	themes = NULL;
 }
