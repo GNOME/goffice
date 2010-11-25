@@ -1,3 +1,7 @@
+2010-11-25  Morten Welinder <terra@gnome.org>
+
+	* Release 0.8.12
+
 2010-11-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-theme.c (themes_load_from_dir): Fix URI
