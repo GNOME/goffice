@@ -42,6 +42,7 @@
  go_dlnorml@Base 0.8.8
  go_dnorml@Base 0.8.8
  go_dweibulll@Base 0.8.8
+ go_exponential_regression_as_logl@Base 0.8.12
  go_exponential_regressionl@Base 0.8.8
  go_fake_ceill@Base 0.8.8
  go_fake_floorl@Base 0.8.8

@@ -393,6 +393,7 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_error_invalid@Base 0.8.8
  go_error_system@Base 0.8.8
  go_exponential_regression@Base 0.8.8
+ go_exponential_regression_as_log@Base 0.8.12
  go_fake_ceil@Base 0.8.8
  go_fake_floor@Base 0.8.8
  go_fake_round@Base 0.8.8
@@ -919,6 +920,7 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_string_equal_rich@Base 0.8.8
  go_string_foreach_base@Base 0.8.8
  go_string_get_casefold@Base 0.8.8
+ go_string_get_casefolded_collate@Base 0.8.12
  go_string_get_collation@Base 0.8.8
  go_string_get_len@Base 0.8.8
  go_string_get_markup@Base 0.8.8
