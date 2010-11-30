@@ -1,3 +1,8 @@
+2010-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_text_to_odf): new
+	(go_format_output_to_odf): connect go_format_output_text_to_odf
+
 2010-11-25  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
