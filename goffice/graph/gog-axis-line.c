@@ -2078,6 +2078,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			break;
 	}
 
+	g_free (ticks_pos);
 	gog_chart_map_3d_free (c_map);
 
 	return FALSE;

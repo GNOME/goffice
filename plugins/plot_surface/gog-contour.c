@@ -1039,6 +1039,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	go_path_free (lines);
 	go_path_free (path);
 	g_object_unref (style);
+	g_free (color);
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);
 }

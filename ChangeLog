@@ -1,3 +1,10 @@
+2010-12-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (xyz_process): fixed a memory leak.
+	* plugins/plot_surface/gog-contour.c (gog_contour_view_render): ditto.
+	* tests/go-demo.c (insert_histogram_data), (main): ditto.
+	* tests/shapes-demo.c (open_file): ditto.
+
 2010-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_text_to_odf): new

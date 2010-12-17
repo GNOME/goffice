@@ -43,6 +43,7 @@ open_file (GocCanvas* canvas, char* filename)
 	while (-1 != getline (&s, &n, fd)) {
 		parse_line (canvas, s);
 	}
+	free (s);
 }
 
 static void

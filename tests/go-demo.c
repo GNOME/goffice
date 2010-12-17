@@ -222,7 +222,7 @@ insert_histogram_data (GogPlot *plot)
 
 	data = go_data_vector_val_new (indexs, 6, NULL);
 	gog_series_set_dim (series, 0, data, &error);
-	data = go_data_vector_val_new (values, 6, NULL);
+	data = go_data_vector_val_new (values, 5, NULL);
 	gog_series_set_dim (series, 1, data, &error);
 }
 
@@ -502,6 +502,9 @@ main (int argc, char *argv[])
 	gtk_widget_show_all (GTK_WIDGET (window));
 
 	gtk_main ();
+
+	g_object_unref (priv->xml);
+	g_free (priv);
 
 	/* Clean libgoffice stuff */
 	libgoffice_shutdown ();

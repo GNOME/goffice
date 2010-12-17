@@ -3,6 +3,9 @@ goffice 0.8.13:
 Andreas
 	* Write text formats to ODF. [#636158]
 
+Jean:
+	* Fixed memory leaks found by cppcheck analysis.
+
 --------------------------------------------------------------------------
 goffice 0.8.12:
 
