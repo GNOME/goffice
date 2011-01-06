@@ -692,9 +692,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				points[i][j].x = x;
 				points[i][j].y = y;
 			}
-			if (lines[i]) {
+			if (lines[i] && go_finite (y)) {
 				double y_target;
-				GogAxis *axis = GOG_PLOT (model)->axis[GOG_AXIS_X];
+				GogAxis *axis = GOG_PLOT (model)->axis[GOG_AXIS_Y];
 				GogAxisPosition pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
 				switch (pos) {
 				case GOG_AXIS_AT_LOW:

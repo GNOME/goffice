@@ -5,6 +5,7 @@ Andreas
 
 Jean:
 	* Fixed memory leaks found by cppcheck analysis.
+	* Fixed drop lines in line plots. [#638738]
 
 --------------------------------------------------------------------------
 goffice 0.8.12:
