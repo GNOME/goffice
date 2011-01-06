@@ -1,6 +1,6 @@
 2011-01-06  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* plugins/plot_barcol/gog-line.c (gog_line_view_render):fixed drop lines
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): fixed drop lines
 	in line plots. [#638738]
 
 2010-12-17  Jean Brefort  <jean.brefort@normalesup.org>
