@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&component=general\n"
 "POT-Creation-Date: 2011-01-06 10:25+0000\n"
-"PO-Revision-Date: 2011-01-10 21:18+0100\n"
+"PO-Revision-Date: 2011-01-11 21:50+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -447,64 +447,52 @@ msgid "Execute main loop iteration"
 msgstr "Izvedi ponovitev glavne zanke"
 
 #: ../goffice/canvas/goc-arc.c:437
-#, fuzzy
 msgid "xc"
 msgstr "xk"
 
 #: ../goffice/canvas/goc-arc.c:438
-#, fuzzy
 msgid "The arc center x coordinate"
-msgstr "Privzeta X koordinata okna"
+msgstr "Koordinata x središča loka"
 
 #: ../goffice/canvas/goc-arc.c:443
-#, fuzzy
 msgid "yc"
 msgstr "yk"
 
 #: ../goffice/canvas/goc-arc.c:444
-#, fuzzy
 msgid "The arc center y coordinate"
-msgstr "Privzeta X koordinata okna"
+msgstr "Koordinata y središča loka"
 
 #: ../goffice/canvas/goc-arc.c:449
-#, fuzzy
 msgid "xr"
-msgstr "xp"
+msgstr "xr"
 
 #: ../goffice/canvas/goc-arc.c:450
-#, fuzzy
 msgid "The arc x radius"
-msgstr "Radij vogala"
+msgstr "Radij x loka"
 
 #: ../goffice/canvas/goc-arc.c:455
-#, fuzzy
 msgid "yr"
-msgstr "leto"
+msgstr "yr"
 
 #: ../goffice/canvas/goc-arc.c:456
-#, fuzzy
 msgid "The arc y radius"
-msgstr "Radij vogala"
+msgstr "Radij y loka"
 
 #: ../goffice/canvas/goc-arc.c:461
-#, fuzzy
 msgid "ang1"
-msgstr "oranžna"
+msgstr "kot1"
 
 #: ../goffice/canvas/goc-arc.c:462
-#, fuzzy
 msgid "The arc start angle"
-msgstr "Desno kotni trikotnik"
+msgstr "Začetni kot loka"
 
 #: ../goffice/canvas/goc-arc.c:467
-#, fuzzy
 msgid "ang2"
-msgstr "oranžna"
+msgstr "kot2"
 
 #: ../goffice/canvas/goc-arc.c:468
-#, fuzzy
 msgid "The arc end angle"
-msgstr "Desno kotni trikotnik"
+msgstr "Končni kot loka"
 
 #: ../goffice/canvas/goc-arc.c:473
 #: ../goffice/canvas/goc-ellipse.c:263
@@ -528,7 +516,6 @@ msgid "Type"
 msgstr "Vrsta"
 
 #: ../goffice/canvas/goc-arc.c:480
-#, fuzzy
 msgid "The type of arc: arc, chord or pie"
 msgstr "Vrsta loka: lok, tetiva ali izsek."
 
@@ -539,9 +526,8 @@ msgstr "Začetek puščice"
 
 #: ../goffice/canvas/goc-arc.c:487
 #: ../goffice/canvas/goc-line.c:348
-#, fuzzy
 msgid "Arrow for line's start"
-msgstr "Pregled %(start_d)s. %(start_B)s %(start_Y)s - %(end_d)s. %(end_B)s %(end_Y)s"
+msgstr "Puščica za začetek črte"
 
 #: ../goffice/canvas/goc-arc.c:492
 #: ../goffice/canvas/goc-line.c:353
@@ -550,9 +536,8 @@ msgstr "Konec puščice"
 
 #: ../goffice/canvas/goc-arc.c:493
 #: ../goffice/canvas/goc-line.c:354
-#, fuzzy
 msgid "Arrow for line's end"
-msgstr "Onemogoči simbol za _konec vrstice"
+msgstr "Puščica za konec črte"
 
 #: ../goffice/canvas/goc-circle.c:169
 #: ../goffice/canvas/goc-ellipse.c:239
@@ -568,9 +553,8 @@ msgid "x"
 msgstr "x"
 
 #: ../goffice/canvas/goc-circle.c:170
-#, fuzzy
 msgid "The circle center horizontal position"
-msgstr "GtkAdjustment za vodoravno poravnavo"
+msgstr "Vodoravni položaj središča kroga"
 
 #: ../goffice/canvas/goc-circle.c:175
 #: ../goffice/canvas/goc-ellipse.c:245
@@ -585,9 +569,8 @@ msgid "y"
 msgstr "y"
 
 #: ../goffice/canvas/goc-circle.c:176
-#, fuzzy
 msgid "The circle center vertical position"
-msgstr "GtkAdjustment za navpično poravnavo"
+msgstr "Navpični položaj središča kroga"
 
 #: ../goffice/canvas/goc-circle.c:181
 msgid "Radius"
@@ -602,9 +585,8 @@ msgid "The ellipse left position (or right position in RTL mode)"
 msgstr ""
 
 #: ../goffice/canvas/goc-ellipse.c:246
-#, fuzzy
 msgid "The ellipse top position"
-msgstr "Položaj X glavnega okna"
+msgstr "Vrhnji položaj elipse"
 
 #: ../goffice/canvas/goc-ellipse.c:251
 #: ../goffice/canvas/goc-graph.c:431
@@ -638,9 +620,8 @@ msgstr "Višina elipse"
 
 #: ../goffice/canvas/goc-ellipse.c:264
 #: ../goffice/canvas/goc-rectangle.c:355
-#, fuzzy
 msgid "The rotation around top left position"
-msgstr "| @name mosaic-xoffset # . . . .lega zgornjega levega kota"
+msgstr "Vrtenje okoli zgornje leve točke"
 
 #. Note to translators: the following is a format string for a pair of coordinates
 #: ../goffice/canvas/goc-graph.c:346
@@ -681,14 +662,12 @@ msgid "The GogRenderer being displayed"
 msgstr "Prikazana GIcon"
 
 #: ../goffice/canvas/goc-group.c:244
-#, fuzzy
 msgid "The group horizontal offset"
-msgstr "Predogled tipkovnice, odmik X"
+msgstr "Vodoravni odmik skupine predmetov"
 
 #: ../goffice/canvas/goc-group.c:250
-#, fuzzy
 msgid "The group vertical offset"
-msgstr "Predogled tipkovnice, odmik X"
+msgstr "Navpični odmik skupine predmetov"
 
 #: ../goffice/canvas/goc-item.c:256
 msgid "Canvas"
@@ -712,60 +691,52 @@ msgid "x0"
 msgstr "x0"
 
 #: ../goffice/canvas/goc-line.c:324
-#, fuzzy
 msgid "The line start x coordinate"
-msgstr "Privzeta X koordinata okna"
+msgstr "Koordinata x začetka črte"
 
 #: ../goffice/canvas/goc-line.c:329
 msgid "y0"
 msgstr "y0"
 
 #: ../goffice/canvas/goc-line.c:330
-#, fuzzy
 msgid "The line start y coordinate"
-msgstr "Privzeta X koordinata okna"
+msgstr "Koordinata y začetka črte"
 
 #: ../goffice/canvas/goc-line.c:335
 msgid "x1"
 msgstr "x1"
 
 #: ../goffice/canvas/goc-line.c:336
-#, fuzzy
 msgid "The line end x coordinate"
-msgstr "_Znaki konca vrstice"
+msgstr "Koordinata x konca črte"
 
 #: ../goffice/canvas/goc-line.c:341
 msgid "y1"
 msgstr "y1"
 
 #: ../goffice/canvas/goc-line.c:342
-#, fuzzy
 msgid "The line end y coordinate"
-msgstr "_Znaki konca vrstice"
+msgstr "Koordinata y konca črte"
 
 #: ../goffice/canvas/goc-path.c:240
-#, fuzzy
 msgid "The path first point x coordinate"
-msgstr "Vnesite prvo pot."
+msgstr "Koordinata x prve točke poti"
 
 #: ../goffice/canvas/goc-path.c:246
-#, fuzzy
 msgid "The path first point y coordinate"
-msgstr "Vnesite prvo pot."
+msgstr "Koordinata y prve točke poti"
 
 #: ../goffice/canvas/goc-path.c:252
-#, fuzzy
 msgid "The rotation around first point position"
-msgstr "| @name mosaic-xoffset # . . . .lega zgornjega levega kota"
+msgstr "Vrtenje okoli položaja prve točke"
 
 #: ../goffice/canvas/goc-path.c:257
 msgid "Closed"
 msgstr "Zaprto"
 
 #: ../goffice/canvas/goc-path.c:258
-#, fuzzy
 msgid "The flag for closed path"
-msgstr "Sličica za zaprto razširitev"
+msgstr "Zastavica za zaprto pot"
 
 #: ../goffice/canvas/goc-path.c:263
 msgid "Path"
@@ -776,24 +747,20 @@ msgid "The path points"
 msgstr "Točke poti"
 
 #: ../goffice/canvas/goc-pixbuf.c:232
-#, fuzzy
 msgid "The image left position"
-msgstr "Premakni sliko levo"
+msgstr "Položaj leve točke slike"
 
 #: ../goffice/canvas/goc-pixbuf.c:238
-#, fuzzy
 msgid "The image top position"
-msgstr "Slika vodnega žiga za na vrh"
+msgstr "Položaj zgornje točke slike"
 
 #: ../goffice/canvas/goc-pixbuf.c:244
-#, fuzzy
 msgid "The image width or -1 to use the image width"
-msgstr "Uporabi \"%s\" za odpiranje izbrane slike"
+msgstr "Določena širina slike ali pa -1 za uporabo izvorne vrednosti"
 
 #: ../goffice/canvas/goc-pixbuf.c:250
-#, fuzzy
 msgid "The image height or -1 to use the image height"
-msgstr "Uporabi \"%s\" za odpiranje izbrane slike"
+msgstr "Določena višina slike ali pa -1 za uporabo izvorne vrednosti"
 
 #: ../goffice/canvas/goc-pixbuf.c:260
 #: ../goffice/utils/go-image.c:481
@@ -921,9 +888,8 @@ msgid "The text position"
 msgstr "Lega besedila"
 
 #: ../goffice/canvas/goc-text.c:441
-#, fuzzy
 msgid "The rotation around the anchor"
-msgstr "Drsi po diagramu"
+msgstr "Vrtenje okoli točke sidrišča"
 
 #: ../goffice/canvas/goc-text.c:446
 #: ../goffice/graph/gog-object.c:645
@@ -1015,14 +981,12 @@ msgid "The widget height"
 msgstr "Višina gradnika"
 
 #: ../goffice/component/go-component-factory.c:69
-#, fuzzy
 msgid "Component Engine"
 msgstr "Programnik enote"
 
 #: ../goffice/component/go-component-factory.c:208
-#, fuzzy
 msgid "Component Type"
-msgstr "Vrsta skripta"
+msgstr "Vrsta enote"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:203
 #: ../goffice/drawing/god-paragraph-attributes.c:204
@@ -2087,28 +2051,24 @@ msgid "Z axis:"
 msgstr "Os Z:"
 
 #: ../goffice/graph/gog-plot.c:179
-#, fuzzy
 msgid "Circular axis:"
-msgstr "_Ena os:"
+msgstr "Krožna os:"
 
 #: ../goffice/graph/gog-plot.c:180
-#, fuzzy
 msgid "Radial axis:"
-msgstr "_Ena os:"
+msgstr "Radialna os:"
 
 #: ../goffice/graph/gog-plot.c:181
-#, fuzzy
 msgid "Pseudo 3D axis:"
-msgstr "Glave, povezane z osjo"
+msgstr "Pseudo 3D os:"
 
 #: ../goffice/graph/gog-plot.c:182
 msgid "Color axis:"
 msgstr "Barvna os:"
 
 #: ../goffice/graph/gog-plot.c:183
-#, fuzzy
 msgid "Bubble axis:"
-msgstr "_Ena os:"
+msgstr "Mehurčna os:"
 
 #: ../goffice/graph/gog-plot.c:247
 msgid "Axes"
@@ -2119,9 +2079,8 @@ msgid "Series"
 msgstr "Serija"
 
 #: ../goffice/graph/gog-plot.c:370
-#, fuzzy
 msgid "Vary style by element"
-msgstr "Neznan style_set \"%s\" v elementu <%s>"
+msgstr "Spremeni slog po predmetih"
 
 #: ../goffice/graph/gog-plot.c:371
 msgid "Use a different style for each segments"
@@ -2132,18 +2091,16 @@ msgid "X axis"
 msgstr "Os X"
 
 #: ../goffice/graph/gog-plot.c:377
-#, fuzzy
 msgid "Reference to X axis"
-msgstr "Povezava na podobni vir."
+msgstr "Sklic osi x"
 
 #: ../goffice/graph/gog-plot.c:382
 msgid "Y axis"
 msgstr "Os Y"
 
 #: ../goffice/graph/gog-plot.c:383
-#, fuzzy
 msgid "Reference to Y axis"
-msgstr "Povezava na podobni vir."
+msgstr "Sklic osi y"
 
 #: ../goffice/graph/gog-plot.c:388
 msgid "Plot group"
@@ -2325,7 +2282,7 @@ msgstr "Ima legendo"
 
 #: ../goffice/graph/gog-series.c:686
 msgid "Should the series show up in legends"
-msgstr ""
+msgstr "Ali naj se vrednosti zaporedij podatkov izrišejo v legedni"
 
 #: ../goffice/graph/gog-series.c:691
 msgid "Interpolation"
@@ -2394,7 +2351,7 @@ msgstr "Trendna črta"
 
 #: ../goffice/graph/gog-trend-line.c:152
 msgid "Should the trend line show up in legends"
-msgstr ""
+msgstr "Ali naj se trendna črta izriše v legedni"
 
 #: ../goffice/graph/gog-view.c:56
 msgid "Select object"
@@ -5029,14 +4986,12 @@ msgid "6.25% Grey"
 msgstr "6.25% siva"
 
 #: ../goffice/utils/go-pattern.c:52
-#, fuzzy
 msgid "Horizontal Stripe"
-msgstr "Velikost steznega polja"
+msgstr "Vodoravni trak"
 
 #: ../goffice/utils/go-pattern.c:53
-#, fuzzy
 msgid "Vertical Stripe"
-msgstr "Velikost steznega polja"
+msgstr "Navpični trak"
 
 #: ../goffice/utils/go-pattern.c:54
 #, fuzzy
@@ -6168,7 +6123,7 @@ msgstr "Absolutna vrednost"
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
 msgid "Absolute value with white background"
-msgstr ""
+msgstr "Absolutna vrednost z belim ozadjem"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
@@ -6244,7 +6199,7 @@ msgstr "Razmik"
 
 #: ../plugins/plot_pie/gog-pie.c:324
 msgid "Total angle used as a percentage of the full circle"
-msgstr ""
+msgstr "Skupni kot določen kot odstotek celotnega kroga"
 
 #: ../plugins/plot_pie/gog-pie.c:329
 msgid "Show negative values"
@@ -7002,7 +6957,7 @@ msgstr "Linearna regresija"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:266
 msgid "If true, a non-zero constant is allowed"
-msgstr ""
+msgstr "Izbrana možnost dovoli uporabo konstante vrednosti ne-nič"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:271
 msgid "Dims"
