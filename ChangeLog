@@ -1,3 +1,9 @@
+2011-01-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-item.c (goc_item_raise), (goc_item_lower),
+	(goc_item_lower_to_bottom), (goc_item_raise_to_top): invalidate the item
+	after reordering to force a redraw? [#639840]
+
 2011-01-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-line.c (gog_line_view_render): fixed drop lines

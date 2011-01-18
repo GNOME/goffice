@@ -6,6 +6,7 @@ Andreas
 Jean:
 	* Fixed memory leaks found by cppcheck analysis.
 	* Fixed drop lines in line plots. [#638738]
+	* Invalidate canvas items after reordering to force a redraw? [#639840]
 
 --------------------------------------------------------------------------
 goffice 0.8.12:

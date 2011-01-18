@@ -582,7 +582,7 @@ goc_item_ungrab	(GocItem *item)
  * @n: the rank change
  *
  * Raises @item by @n steps inside its parent #GocGroup (or less if the list
- * is too short) in the item list so that it is displayed nrearer the top of
+ * is too short) in the item list so that it is displayed nearer the top of
  * the items stack.
  **/
 void
@@ -595,6 +595,7 @@ goc_item_raise (GocItem *item, int n)
 	else
 		item->parent->children = g_list_append (item->parent->children, item);
 	item->parent->children = g_list_remove_link (item->parent->children, orig);
+	goc_item_invalidate (item);
 }
 
 /**
@@ -616,6 +617,7 @@ goc_item_lower (GocItem *item, int n)
 	else
 		item->parent->children = g_list_prepend (item->parent->children, item);
 	item->parent->children = g_list_remove_link (item->parent->children, orig);
+	goc_item_invalidate (item);
 }
 
 /**
@@ -631,6 +633,7 @@ goc_item_lower_to_bottom (GocItem *item)
 	g_return_if_fail (item->parent != NULL);
 	item->parent->children = g_list_remove (item->parent->children, item);
 	item->parent->children = g_list_prepend (item->parent->children, item);
+	goc_item_invalidate (item);
 }
 
 /**
@@ -646,6 +649,7 @@ goc_item_raise_to_top (GocItem *item)
 	g_return_if_fail (item->parent != NULL);
 	item->parent->children = g_list_remove (item->parent->children, item);
 	item->parent->children = g_list_append (item->parent->children, item);
+	goc_item_invalidate (item);
 }
 
 void
