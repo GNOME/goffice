@@ -410,7 +410,6 @@ GOFormatCurrency const _go_format_currencies[] =
 	{ "[$DKK]",	N_("Denmark, Kroner"), TRUE, TRUE},
 	{ "[$DOP]",	N_("Dominican republic, Pesos"), TRUE, TRUE},
 	{ "[$DZD]",	N_("Algeria, Algerian Dinars"), TRUE, TRUE},
-	{ "[$EEK]",	N_("Estonia, Kroons"), TRUE, TRUE},
 	{ "[$EGP]",	N_("Egypt, Pounds"), TRUE, TRUE},
 	{ "[$ERN]",	N_("Eritrea, Nakfa"), TRUE, TRUE},
 	{ "[$ETB]",	N_("Ethiopia, Birr"), TRUE, TRUE},

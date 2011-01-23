@@ -1,3 +1,8 @@
+2011-01-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/formats.c (_go_format_currencies): delete EEK (Estonia
+	is now using the Euro
+
 2011-01-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-item.c (goc_item_raise), (goc_item_lower),
