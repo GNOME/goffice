@@ -37,8 +37,11 @@ render_val (double val, GOFormat const *fmt)
 {
 	if (fmt)
 		return go_format_value (fmt, val);
-	else
-		return g_strdup_printf ("%g", val);
+	else {
+		char buf[G_ASCII_DTOSTR_BUF_SIZE];
+		g_ascii_dtostr (buf, G_ASCII_DTOSTR_BUF_SIZE, val);
+		return g_strdup (buf);
+	}
 }
 
 
@@ -84,8 +87,9 @@ go_data_scalar_val_eq (GOData const *a, GOData const *b)
 static char *
 go_data_scalar_val_serialize (GOData const *dat, gpointer user)
 {
-	/* FIXME: shouldn't use _get_str.  */
-	return g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (dat)));
+	GODataScalarVal *sval = (GODataScalarVal *)dat;
+	GOFormat const *fmt = NULL;
+	return render_val (sval->val, fmt);
 }
 
 static gboolean
@@ -95,7 +99,7 @@ go_data_scalar_val_unserialize (GOData *dat, char const *str, gpointer user)
 	double tmp;
 	char *end;
 	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
-	tmp = strtod (str, &end);
+	tmp = g_ascii_strtod (str, &end);
 
 	if (end == str || *end != '\0' || errno == ERANGE)
 		return FALSE;
@@ -412,7 +416,7 @@ go_data_vector_val_unserialize (GOData *dat, char const *str, gpointer user)
 	vec->n = 0;
 	vec->notify = (GDestroyNotify) g_free;
 	while (1) {
-		val = g_strtod (end, &end);
+		val = g_ascii_strtod (end, &end);
 		g_array_append_val (values, val);
 		if (*end) {
 			if (!sep) {
@@ -933,7 +937,7 @@ go_data_matrix_val_unserialize (GOData *dat, char const *str, gpointer user)
 	mat->size.columns = 0;
 	mat->notify = g_free;
 	while (1) {
-		val = g_strtod (end, &end);
+		val = g_ascii_strtod (end, &end);
 		g_array_append_val (values, val);
 		if (*end) {
 			if (*end == col_sep)

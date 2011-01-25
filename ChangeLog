@@ -1,3 +1,9 @@
+2011-01-25  Jean Brefort  <jean.brefort@normalesup.org>
+	* goffice/data/go-data-simple.c (render_val),
+	(go_data_scalar_val_serialize), (go_data_scalar_val_unserialize),
+	(go_data_vector_val_unserialize), (go_data_matrix_val_unserialize):
+	use g_ascii_dtostr and g_ascii_strtod when serializing. [#640438]
+
 2011-01-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/formats.c (_go_format_currencies): delete EEK (Estonia
