@@ -1,6 +1,6 @@
 goffice 0.8.13:
 
-Andreas
+Andreas:
 	* Write text formats to ODF. [#636158]
 
 Jean:
@@ -8,6 +8,9 @@ Jean:
 	* Fixed drop lines in line plots. [#638738]
 	* Invalidate canvas items after reordering to force a redraw? [#639840]
 	* Fix axis limits serialization. [#640438]
+
+Morten:
+	* Fix problem with engineering formats.  [#640571]
 
 --------------------------------------------------------------------------
 goffice 0.8.12:

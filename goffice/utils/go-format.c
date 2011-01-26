@@ -2402,6 +2402,63 @@ fill_with_char (GString *str, PangoLayout *layout, gsize fill_pos,
 
 #endif
 
+static void
+SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
+{
+	int exponent_guess = 0;
+	int exponent;
+	int nde = 0;
+	char *epos;
+	char *dot;
+	const GString *decimal = go_locale_get_decimal ();
+
+	if (wd <= 1 || val == 0 || !SUFFIX(go_finite) (val)) {
+		g_string_printf (dst, "%.*" FORMAT_E, n, val);
+		return;
+	}
+
+	exponent_guess = (int)floor (SUFFIX(log10) (SUFFIX(fabs) (val)));
+	/* Extra digits we need assuming guess correct */
+	nde = (exponent_guess >= 0)
+		? exponent_guess % wd
+		: (wd - ((-exponent_guess) % wd)) % wd;
+
+	g_string_printf (dst, "%.*" FORMAT_E, n + nde, val);
+	epos = (char *)strchr (dst->str, 'E');
+	if (!epos)
+		return;
+
+	exponent = atoi (epos + 1);
+	g_string_truncate (dst, epos - dst->str);
+	if (exponent != exponent_guess) {
+		/*
+		 * We rounded from 9.99Exx to
+		 *                 1.00Eyy
+		 * with yy=xx+1.
+		 */
+		nde = (nde + 1) % wd;
+		if (nde == 0)
+			g_string_truncate (dst, dst->len - (wd - 1));
+		else
+			g_string_append_c (dst, '0');
+	}
+
+	dot = (char *)strstr (dst->str, decimal->str);
+	if (dot) {
+		memmove (dot, dot + decimal->len, nde);
+		memcpy (dot + nde, decimal->str, decimal->len);
+	} else {
+		while (nde > 0) {
+			g_string_append_c (dst, '0');
+			nde--;
+		}
+	}
+	exponent -= nde;
+
+	g_string_append_printf (dst, "E%+d", exponent);
+}
+
+
 
 #define INSERT_MINUS(pos) do {							\
 	if (unicode_minus)							\
@@ -2783,53 +2840,19 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_NUM_PRINTF_E: {
 			int n = *prg++;
 			int wd = *prg++;
-			const char *dot;
-			int exponent_guess = 0;
-			int nde = 0;
-			gboolean retry;
-			gboolean retried = FALSE;
-
-			if (wd > 1 && val != 0) {
-				exponent_guess = (int)floor (SUFFIX(log10) (SUFFIX(fabs) (val)));
-				nde = (exponent_guess >= 0)
-					? exponent_guess % wd
-					: (wd - ((-exponent_guess) % wd)) % wd;
-			}
+			char *dot;
+			const char *epos;
 
 			if (!numtxt)
 				numtxt = g_string_sized_new (100);
 
-			do {
-				const char *epos;
-				g_string_printf (numtxt, "%.*" FORMAT_E, n + nde, val);
-				epos = strchr (numtxt->str, 'E');
-				retry = FALSE;
-				if (epos) {
-					exponent = atoi (epos + 1);
-					g_string_truncate (numtxt, epos - numtxt->str);
-				}
+			SUFFIX(printf_engineering) (numtxt, val, n, wd);
 
-				if (wd > 1) {
-					char *dot;
-					if (exponent != exponent_guess && !retried) {
-						nde = (nde == wd - 1) ? 0 : nde + 1;
-						retry = !retried;
-						retried = TRUE;
-						continue;
-					}
-					dot = strstr (numtxt->str, decimal->str);
-					if (dot) {
-						memmove (dot, dot + decimal->len, nde);
-						memcpy (dot + nde, decimal->str, decimal->len);
-					} else {
-						while (nde > 0) {
-							g_string_append_c (numtxt, '0');
-							nde--;
-						}
-					}
-					exponent -= nde;
-				}
-			} while (retry);
+			epos = strchr (numtxt->str, 'E');
+			if (epos) {
+				exponent = atoi (epos + 1);
+				g_string_truncate (numtxt, epos - numtxt->str);
+			}
 
 			dot = strstr (numtxt->str, decimal->str);
 			if (dot) {
@@ -2840,10 +2863,6 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				/* Kill zeroes in "xxx.xxx000"  */
 				g_string_truncate (numtxt, i);
 			} else {
-				const char *epos = strchr (numtxt->str, 'E');
-				if (epos)
-					g_string_truncate (numtxt,
-							   epos - numtxt->str);
 				dotpos = numtxt->len;
 			}
 
