@@ -1040,6 +1040,14 @@ go_url_check_extension (gchar const *uri,
 	return res;
 }
 
+/**
+ * go_get_mime_type_for_data:
+ * @uri: the uri.
+ *
+ * returns: the mime type for the file as a newly allocated string. Needs to
+ * be freed with g_free().
+**/ 
+
 gchar *
 go_get_mime_type (gchar const *uri)
 {
@@ -1092,6 +1100,14 @@ go_get_mime_type (gchar const *uri)
 #endif
 }
 
+/**
+ * go_get_mime_type_for_data:
+ * @data: the data.
+ * @data_size: the data size
+ *
+ * returns: the mime type for the data as a newly allocated string. Needs to
+ * be freed with g_free().
+**/ 
 gchar *
 go_get_mime_type_for_data (gconstpointer data, int data_size)
 {
@@ -1123,6 +1139,15 @@ go_get_mime_type_for_data (gconstpointer data, int data_size)
 	return g_strdup ("application/octet-stream");
 #endif
 }
+
+/**
+ * go_mime_type_get_description:
+ * @mime_type: the mime type to describe.
+ *
+ * returns: the description for the mime type as a newly allocated string.
+ * Needs to be freed with g_free(). If the description is not found, the
+ * mime type itself will be returned.
+**/ 
 
 gchar *
 go_mime_type_get_description (gchar const *mime_type)
