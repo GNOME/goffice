@@ -1,3 +1,9 @@
+goffice (0.8.13-1) unstable; urgency=low
+
+  * New upstream stable release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 03 Feb 2011 20:31:12 +0100
+
 goffice (0.8.12-1) unstable; urgency=low
 
   * New upstream stable release.
