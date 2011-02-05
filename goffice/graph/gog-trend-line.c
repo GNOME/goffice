@@ -96,7 +96,7 @@ gog_trend_line_populate_editor (GogObject *gobj,
 		gtk_widget_show_all (box);
 		go_editor_add_page (editor, box, _("Legend"));
 	}
-	w = gtk_check_button_new_with_mnemonic ("_Show in Legend");
+	w = gtk_check_button_new_with_mnemonic (_("_Show in Legend"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 		gog_trend_line_has_legend (line));
 	g_signal_connect (G_OBJECT (w),
