@@ -290,7 +290,7 @@ gog_error_bar_prefs (GogSeries *series,
 		gtk_list_store_append (list, &iter);
 		gtk_list_store_set (list, &iter,
 				    0, pixbuf,
-				    1, display_combo_desc[i].label,
+				    1, _(display_combo_desc[i].label),
 				    2, display_combo_desc[i].display,
 				    -1);
 		g_object_unref (pixbuf);
