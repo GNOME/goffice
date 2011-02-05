@@ -509,7 +509,7 @@ gog_series_populate_editor (GogObject *gobj,
 	gtk_table_attach (table, gtk_hseparator_new (),
 		0, 2, row, row+1, GTK_FILL, 0, 0, 0);
 	row++;
-	w = gtk_check_button_new_with_mnemonic ("_Show in Legend");
+	w = gtk_check_button_new_with_mnemonic (_("_Show in Legend"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 		gog_series_has_legend (series));
 	g_signal_connect (G_OBJECT (w),
