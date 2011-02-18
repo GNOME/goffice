@@ -885,6 +885,7 @@ populate_menu (GOFormatSel *gfs)
 						 (1, G_TYPE_STRING));
 	gtk_tree_view_set_model (GTK_TREE_VIEW (gfs->format.menu),
 				 gfs->format.menu_model);
+	g_object_unref (gfs->format.menu_model);
 	selection = gtk_tree_view_get_selection
 		(GTK_TREE_VIEW(gfs->format.menu));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
@@ -1045,6 +1046,8 @@ nfs_init (GOFormatSel *gfs)
 	gfs->format.negative_types.view = GTK_TREE_VIEW (gfs->format.widget[F_NEGATIVE]);
 	gtk_tree_view_set_model (gfs->format.negative_types.view,
 				 GTK_TREE_MODEL (gfs->format.negative_types.model));
+	g_object_unref (gfs->format.negative_types.model);
+
 	column = gtk_tree_view_column_new_with_attributes
 		(_("Negative Number Format"),
 		 gtk_cell_renderer_text_new (),
@@ -1073,7 +1076,8 @@ nfs_init (GOFormatSel *gfs)
 	gfs->format.formats.model = gtk_list_store_new (1, G_TYPE_STRING);
 	gfs->format.formats.view = GTK_TREE_VIEW (gfs->format.widget[F_LIST]);
 	gtk_tree_view_set_model (gfs->format.formats.view,
-		GTK_TREE_MODEL (gfs->format.formats.model));
+				 GTK_TREE_MODEL (gfs->format.formats.model));
+	g_object_unref (gfs->format.formats.model);
 	column = gtk_tree_view_column_new_with_attributes (_("Number Formats"),
 		gtk_cell_renderer_text_new (),
 		"text",		0,

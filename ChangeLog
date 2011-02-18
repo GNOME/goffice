@@ -1,3 +1,9 @@
+2011-02-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (nfs_init): Plug leaks.
+	* goffice/gtk/go-font-sel.c (list_init): Ditto.
+	* goffice/gtk/go-image-sel.c (go_image_sel_new): Ditto.
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
