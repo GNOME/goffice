@@ -223,7 +223,7 @@ color_table_setup (GOComboColor *cc,
 {
 	g_return_if_fail (cc != NULL);
 
-	/* Tell the palette that we will be changing it's custom colors */
+	/* Tell the palette that we will be changing its custom colors */
 	cc->palette = (GOColorPalette *)go_color_palette_new (no_color_label,
 		cc->default_color, color_group);
 	g_signal_connect (cc->palette,

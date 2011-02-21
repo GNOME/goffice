@@ -392,7 +392,6 @@ go_color_palette_set_title (GOColorPalette *pal, char const *title)
  * @p : #GOColorPalette
  * @cg : #GOColorGroup
  *
- * Absorbs the reference to the group
  **/
 void
 go_color_palette_set_group (GOColorPalette *p, GOColorGroup *cg)
