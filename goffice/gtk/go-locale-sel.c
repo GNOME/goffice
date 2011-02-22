@@ -425,12 +425,9 @@ ls_build_menu (GOLocaleSel *ls)
 
 	while (lgroup->group_name) {
 		LocaleInfo const *locale_trans;
-		GtkMenu *submenu;
+		GtkMenu *submenu = NULL;
 		gint cnt = 0;
 
-		item = gtk_menu_item_new_with_label (_(lgroup->group_name));
-
-		submenu = GTK_MENU (gtk_menu_new ());
 		locale_trans = locale_trans_array;
 
 		while (locale_trans->lgroup != LG_LAST) {
@@ -438,22 +435,25 @@ ls_build_menu (GOLocaleSel *ls)
 				GtkWidget *subitem=
 					gtk_check_menu_item_new_with_label
 					(_(locale_trans->locale_title));
-					gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (subitem), TRUE);
-					gtk_widget_show (subitem);
-					gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
-					g_object_set_data (G_OBJECT (subitem), LOCALE_NAME_KEY,
-							   (locale_trans->actual_locale));
-					cnt++;
+				if (!submenu)
+					submenu = GTK_MENU (gtk_menu_new ());
+
+				gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (subitem), TRUE);
+				gtk_widget_show (subitem);
+				gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
+				g_object_set_data (G_OBJECT (subitem), LOCALE_NAME_KEY,
+						   (locale_trans->actual_locale));
+				cnt++;
 			}
 			locale_trans++;
 		}
-		if (cnt > 0) {
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
+		if (submenu) {
+			GtkWidget *item = gtk_menu_item_new_with_label (_(lgroup->group_name));
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item),
+						   GTK_WIDGET (submenu));
 			gtk_widget_show (item);
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			lg_cnt++;
-		} else {
-			g_object_unref (item);
 		}
                 lgroup++;
         }
