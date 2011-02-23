@@ -988,8 +988,9 @@ graph_guru_init_format_page (GraphGuruState *s)
 	s->prop_container = GTK_CONTAINER (w);
 	s->prop_model = gtk_tree_store_new (PLOT_ATTR_NUM_COLUMNS,
 				    G_TYPE_STRING, G_TYPE_POINTER);
-	s->prop_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (
-			GTK_TREE_MODEL (s->prop_model)));
+	s->prop_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model
+				      (GTK_TREE_MODEL (s->prop_model)));
+	g_object_unref (s->prop_model);
 	s->prop_selection = gtk_tree_view_get_selection (s->prop_view);
 	gtk_tree_selection_set_mode (s->prop_selection, GTK_SELECTION_BROWSE);
 	g_signal_connect_swapped (s->prop_selection,
@@ -1172,6 +1173,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 
 	typesel->list_view = GTK_TREE_VIEW (gtk_builder_get_object (gui, "type_treeview"));
 	gtk_tree_view_set_model (typesel->list_view, GTK_TREE_MODEL (typesel->model));
+	g_object_unref (typesel->model);
 	gtk_tree_view_append_column (typesel->list_view,
 		gtk_tree_view_column_new_with_attributes ("",
 			gtk_cell_renderer_pixbuf_new (),

@@ -117,6 +117,7 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 	/* add the list of known distributions in a combobox */
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
 	w = gtk_combo_box_new_with_model (GTK_TREE_MODEL (model));
+	g_object_unref (model);
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (w), renderer, FALSE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (w), renderer,

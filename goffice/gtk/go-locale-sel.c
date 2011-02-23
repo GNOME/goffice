@@ -426,7 +426,6 @@ ls_build_menu (GOLocaleSel *ls)
 	while (lgroup->group_name) {
 		LocaleInfo const *locale_trans;
 		GtkMenu *submenu = NULL;
-		gint cnt = 0;
 
 		locale_trans = locale_trans_array;
 
@@ -443,7 +442,6 @@ ls_build_menu (GOLocaleSel *ls)
 				gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
 				g_object_set_data (G_OBJECT (subitem), LOCALE_NAME_KEY,
 						   (locale_trans->actual_locale));
-				cnt++;
 			}
 			locale_trans++;
 		}

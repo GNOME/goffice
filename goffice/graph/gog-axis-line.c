@@ -527,6 +527,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
 		combo = go_gtk_builder_get_widget (gui, "cross_axis_combo");
 		gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (store));
+		g_object_unref (store);
 
 		cell = gtk_cell_renderer_text_new ();
 		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);

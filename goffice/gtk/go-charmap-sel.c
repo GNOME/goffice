@@ -363,12 +363,8 @@ cs_build_menu (GOCharmapSel *cs)
 
 	while (lgroup->group_name) {
 		CharsetInfo const *charset_trans;
-		GtkMenu *submenu;
-		gint cnt = 0;
+		GtkMenu *submenu = NULL;
 
-		item = gtk_menu_item_new_with_label (_(lgroup->group_name));
-
-		submenu = GTK_MENU (gtk_menu_new ());
 		charset_trans = charset_trans_array;
 
 		while (charset_trans->lgroup != LG_LAST) {
@@ -378,6 +374,8 @@ cs_build_menu (GOCharmapSel *cs)
 					? charset_trans->to_utf8_iconv_name
 					: charset_trans->from_utf8_iconv_name;
 				if (name) {
+					if (!submenu)
+						submenu = GTK_MENU (gtk_menu_new ());
 					subitem = gtk_check_menu_item_new_with_label
 						(_(charset_trans->charset_title));
 					gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (subitem), TRUE);
@@ -387,20 +385,20 @@ cs_build_menu (GOCharmapSel *cs)
 						cs_emphasize_label (GTK_LABEL (gtk_bin_get_child (GTK_BIN (subitem))));
 					g_object_set_data (G_OBJECT (subitem), CHARMAP_NAME_KEY,
 							   (gpointer)name);
-					cnt++;
 				} else if (0) {
 					g_print ("Unsupported: %s\n", charset_trans->aliases);
 				}
 			}
 			charset_trans++;
 		}
-		if (cnt > 0) {
+		if (submenu) {
+			GtkWidget *item =
+				gtk_menu_item_new_with_label (_(lgroup->group_name));
+
 			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
 			gtk_widget_show (item);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 			lg_cnt++;
-		} else {
-			g_object_unref (item);
 		}
                 lgroup++;
         }
