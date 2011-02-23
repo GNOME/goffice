@@ -1,3 +1,7 @@
+2011-02-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-undo.c (go_undo_*nary_finalize): chain to parent
+
 2011-02-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-charmap-sel.c (cs_build_menu): Plug leak.

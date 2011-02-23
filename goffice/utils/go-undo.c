@@ -171,6 +171,8 @@ go_undo_binary_finalize (GObject *o)
 		ua->disposea (ua->a);
 	if (ua->disposeb)
 		ua->disposeb (ua->b);
+
+	G_OBJECT_CLASS (go_undo_binary_parent_class)->finalize (o);
 }
 
 static void
@@ -233,6 +235,8 @@ go_undo_unary_finalize (GObject *o)
 
 	if (ua->disposea)
 		ua->disposea (ua->a);
+
+	G_OBJECT_CLASS (go_undo_unary_parent_class)->finalize (o);
 }
 
 static void
