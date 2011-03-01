@@ -1,3 +1,8 @@
+2011-03-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf-gconf.c (go_conf_get_node): Handle keys that
+	don't start in /apps/.
+
 2011-02-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-undo.c (go_undo_*nary_finalize): chain to parent

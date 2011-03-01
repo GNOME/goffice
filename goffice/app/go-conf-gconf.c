@@ -43,7 +43,9 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 	node = g_new (GOConfNode, 1);
 	node->root = !parent;
 	if (node->root) {
-		node->path = g_strconcat ("/apps/", key, NULL);
+		node->path = (key[0] == '/')
+			? g_strdup (key)
+			: g_strconcat ("/apps/", key, NULL);
 		gconf_client_add_dir (gconf_client, node->path,
 				      GCONF_CLIENT_PRELOAD_RECURSIVE,
 				      NULL);
