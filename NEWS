@@ -1,5 +1,8 @@
 goffice 0.8.14:
 
+Jean:
+	* Implement a GSettings backend for GOConf. [643767]
+
 Morten:
 	* Plug leaks.
 	* Allow GOConf to handle absolute keys.

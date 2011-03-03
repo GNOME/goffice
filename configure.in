@@ -135,24 +135,62 @@ fi
 
 AM_CONDITIONAL(GOFFICE_WITH_LASEM, $goffice_with_lasem)
 
-dnl *******************
-dnl Should we use gconf ?
-dnl *******************
-goffice_with_gconf=true
-AC_ARG_WITH(gconf, [  --without-gconf         Build without gconf use])
-if test "x$with_gconf" = xno; then
-	ui_msg="None (Gconf disabled by request)"
-	goffice_with_gconf=false
-else
-	dnl We shouldn't silently default to --without-gconf.
-	dnl If the requirements are not met, fail.
-	PKG_CHECK_MODULES(GCONF, gconf-2.0)
-fi
-if test "x$goffice_with_gconf" = "xtrue" ; then
-	AC_DEFINE(GOFFICE_WITH_GCONF, 1, [Define if GConf is used])
-	goffice_reqs="$goffice_reqs gconf-2.0"
-	EXTRA_DEPS="$EXTRA_DEPS gconf-2.0"
-fi
+dnl ***********************************
+dnl Which conf backend should be used?
+dnl ***********************************
+AC_ARG_WITH(config-backend, [  --with-config-backend=gconf|gsettings|keyfile|win32           Choose the config backend ])
+case $with_config_backend in
+	win32)
+		if test $with_win32 = no; then AC_MSG_ERROR([ win32 configuration backend only works for win32 builds ]);fi;
+		AC_DEFINE(GOFFICE_WITH_WINREG, 1, [Goffice uses Windows registry])
+		conf_msg="Windows registry"
+		;;
+	gconf)
+		if test $with_win32 = yes; then AC_MSG_ERROR([ gconf configuration backend does not work for win32 builds ]);fi;
+		AC_DEFINE(GOFFICE_WITH_GCONF, 1, [Goffice uses gconf])
+		EXTRA_DEPS="$EXTRA_DEPS gconf-2.0"
+		conf_msg="GConf"
+		goffice_reqs="$goffice_reqs gconf-2.0"
+		;;
+	gsettings)
+		AC_CHECK_LIB(gio-2.0,[g_settings_new],
+		[
+			AC_DEFINE(GOFFICE_WITH_GSETTINGS, 1, [Goffice uses gsettings])
+			conf_msg="GSettings
+
+WARNING: the GSettings backend is experimental, use it with care"
+		],[
+			AC_MSG_ERROR([ GSettings not available ])
+		])
+		;;
+	keyfile)
+		conf_msg="keyfile"
+		;;
+	*)
+		if test $with_win32 = yes; then
+			AC_DEFINE(GOFFICE_WITH_WINREG, 1, [Goffice uses Windows registry])
+			conf_msg="Windows registry"
+		else
+			PKG_CHECK_MODULES(GCONF, gconf-2.0,
+			[
+				EXTRA_DEPS="$EXTRA_DEPS gconf-2.0"
+				AC_DEFINE(GOFFICE_WITH_GCONF, 1, [Goffice uses gconf])
+				conf_msg="GConf"
+				goffice_reqs="$goffice_reqs gconf-2.0"
+			],[
+dnl Never use GSettings if not explicitly requested
+dnl				AC_CHECK_LIB(glib-2.0,[g_settings_new],
+dnl					[
+dnl						AC_DEFINE(GOFFICE_WITH_GSETTINGS, 1, [Goffice uses gsettings])
+dnl						conf_msg="GSettings"
+dnl					],[
+						conf_msg="keyfile"
+dnl					])
+			])
+		fi
+		;;
+esac
+
 
 dnl *******************
 dnl Should we use gtk ?
@@ -667,4 +705,5 @@ Configuration:
 	Long double support:	${float_msg}
 
 	UI:			${ui_msg}
+	Configuration backend:	${conf_msg}
 "

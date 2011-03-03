@@ -1,3 +1,9 @@
+2011-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: implement a GSettings backend for GOConf. [643767]
+	* goffice/app/go-conf.c: ditto.
+	* goffice/app/go-conf-gsettings.c: ditto.
+
 2011-03-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf-gconf.c (go_conf_get_node): Handle keys that
