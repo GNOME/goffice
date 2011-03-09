@@ -61,14 +61,14 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 	char *formatted = go_conf_format_id (key);
 	node = g_new0 (GOConfNode, 1);
 	if (parent) {
-		if (key) {
+		if (key && !parent->key) {
 			node->path = g_strconcat (parent->path, "/", key, NULL);
 			node->id = g_strconcat (parent->id, ".", formatted, NULL);
 		} else {
 			node->path = g_strdup (parent->path);
 			node->id = g_strdup (parent->id);
+			node->key = g_strdup (key? key: parent->key);
 		}
-		node->settings = g_hash_table_lookup (installed_schemas, node->id)? g_settings_new (node->id): NULL;
 	} else {
 		if (key[0] == '/') {
 			node->path = g_strdup (key);
@@ -77,8 +77,8 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 			node->path = g_strconcat ("/apps/", key, NULL);
 			node->id = g_strconcat ("org.gnome.", formatted, NULL);
 		}
-		node->settings = g_hash_table_lookup (installed_schemas, node->id)? g_settings_new (node->id): NULL;
 	}
+	node->settings = g_hash_table_lookup (installed_schemas, node->id)? g_settings_new (node->id): NULL;
 	g_free (formatted);
 	if (!node->settings) {
 		char *last_dot = strrchr (node->id, '.');
@@ -514,7 +514,7 @@ cb_key_changed (GSettings *settings,
 		real_key = g_strdup (cls->real_key);
 	} else
 		real_key = g_strconcat (cls->real_key, "/", key, NULL);
-	cls->monitor (cls->node, key , cls->data);
+	cls->monitor (cls->node, real_key , cls->data);
 	g_free (real_key);
 }
 
@@ -532,13 +532,12 @@ go_conf_add_monitor (GOConfNode *node, G_GNUC_UNUSED gchar const *key,
 	cls->monitor = monitor;
 	cls->node = node;
 	cls->data = data;
-	cls->key = g_strdup (key);
+	cls->key = g_strdup (key? key: node->key);
 	cls->real_key = (key)? g_strconcat (node->path, '/', key, NULL): g_strdup (node->path);
 	ret = g_signal_connect
 		(node->settings,
 		 "changed", G_CALLBACK (cb_key_changed),
 		 cls);
-	// FIXME: we need to destroy the closure at some point
 
 	g_hash_table_insert (closures, GUINT_TO_POINTER (ret), cls);
 	return ret;

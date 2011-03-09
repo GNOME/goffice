@@ -1,3 +1,10 @@
+2011-03-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/app/go-conf-gsettings.c (go_conf_get_node),
+	(cb_key_changed), (go_conf_add_monitor):
+
 2011-03-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: implement a GSettings backend for GOConf. [643767]

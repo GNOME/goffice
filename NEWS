@@ -2,6 +2,7 @@ goffice 0.8.14:
 
 Jean:
 	* Implement a GSettings backend for GOConf. [643767]
+	* Fix gnumeric crash when monitoring settings changes. [#644222]
 
 Morten:
 	* Plug leaks.
