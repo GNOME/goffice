@@ -1,13 +1,12 @@
 2011-03-09  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
 	* goffice/app/go-conf-gsettings.c (go_conf_get_node),
-	(cb_key_changed), (go_conf_add_monitor):
+	(cb_key_changed), (go_conf_add_monitor): fix gnumeric crash when
+	monitoring settings changes. [#644222]
 
 2011-03-03  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* configure.in: implement a GSettings backend for GOConf. [643767]
+	* configure.in: implement a GSettings backend for GOConf. [#643767]
 	* goffice/app/go-conf.c: ditto.
 	* goffice/app/go-conf-gsettings.c: ditto.
 
