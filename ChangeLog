@@ -1,3 +1,8 @@
+2011-03-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-combo-box.c (do_focus_change): Add cast because
+	gcc isn't smart enough to follow union rules before warning.
+
 2011-03-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-conf-gsettings.c (go_conf_get_node),
