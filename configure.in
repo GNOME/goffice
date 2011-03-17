@@ -135,6 +135,33 @@ fi
 
 AM_CONDITIONAL(GOFFICE_WITH_LASEM, $goffice_with_lasem)
 
+dnl *****************************
+AC_MSG_CHECKING([for Win32 platform])
+with_win32=no
+with_native_win32=no
+case $host_os in
+  mingw* | pw32* | cygwin*)
+    with_win32=yes
+    GOFFICE_PLUGIN_LDFLAGS="-Wl,--enable-runtime-pseudo-reloc,--export-all-symbols $GOFFICE_PLUGIN_LDFLAGS"
+    ;;
+esac
+AC_MSG_RESULT($with_win32)
+AM_CONDITIONAL(WITH_WIN32, test $with_win32 = yes)
+
+AC_MSG_CHECKING([for Win32 platform with no Cygwin])
+case $host_os in
+  mingw* | pw32*)
+    with_native_win32=yes
+    AC_ARG_VAR(WINDRES, [The windres executable (used by win32 builds only).])
+    AC_CHECK_TOOL(WINDRES, windres)
+    AC_ARG_VAR(LIBEXE, [The lib.exe executable (used by win32 builds only).])
+    AC_CHECK_PROG(LIBEXE, lib.exe, yes, no)
+    ;;
+esac
+AC_MSG_RESULT($with_native_win32)
+AM_CONDITIONAL(WITH_NATIVE_WIN32, test $with_native_win32 = yes)
+AM_CONDITIONAL(HAVE_LIBEXE, test x$LIBEXE = xyes)
+
 dnl ***********************************
 dnl Which conf backend should be used?
 dnl ***********************************
@@ -260,33 +287,6 @@ else
   AC_SUBST(RENDER_LIBS, "")
 fi
 unset xrender_libs
-
-dnl *****************************
-AC_MSG_CHECKING([for Win32 platform])
-with_win32=no
-with_native_win32=no
-case $host_os in
-  mingw* | pw32* | cygwin*)
-    with_win32=yes
-    GOFFICE_PLUGIN_LDFLAGS="-Wl,--enable-runtime-pseudo-reloc,--export-all-symbols $GOFFICE_PLUGIN_LDFLAGS"
-    ;;
-esac
-AC_MSG_RESULT($with_win32)
-AM_CONDITIONAL(WITH_WIN32, test $with_win32 = yes)
-
-AC_MSG_CHECKING([for Win32 platform with no Cygwin])
-case $host_os in
-  mingw* | pw32*)
-    with_native_win32=yes
-    AC_ARG_VAR(WINDRES, [The windres executable (used by win32 builds only).])
-    AC_CHECK_TOOL(WINDRES, windres)
-    AC_ARG_VAR(LIBEXE, [The lib.exe executable (used by win32 builds only).])
-    AC_CHECK_PROG(LIBEXE, lib.exe, yes, no)
-    ;;
-esac
-AC_MSG_RESULT($with_native_win32)
-AM_CONDITIONAL(WITH_NATIVE_WIN32, test $with_native_win32 = yes)
-AM_CONDITIONAL(HAVE_LIBEXE, test x$LIBEXE = xyes)
 
 dnl *****************************
 dnl FIXME: perhaps declare with AC_ARG_VAR?
