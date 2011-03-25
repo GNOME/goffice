@@ -5,7 +5,7 @@ AC_PREREQ(2.54)
 
 m4_define([goffice_version_epoch], [0])
 m4_define([goffice_version_major], [8])
-m4_define([goffice_version_minor], [14])
+m4_define([goffice_version_minor], [15])
 m4_define([goffice_version_extra], [])
 m4_define([goffice_full_version],
 	  [goffice_version_epoch.goffice_version_major.goffice_version_minor[]goffice_version_extra])

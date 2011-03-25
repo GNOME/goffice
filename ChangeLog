@@ -1,5 +1,9 @@
 2011-03-24  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2011-03-24  Morten Welinder <terra@gnome.org>
+
 	* Release 0.8.14
 
 2011-03-16  Morten Welinder  <terra@gnome.org>
