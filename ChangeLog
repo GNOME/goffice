@@ -1,3 +1,7 @@
+2011-03-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-style.c (fill_init): Don't leak the size group.
+
 2011-03-24  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

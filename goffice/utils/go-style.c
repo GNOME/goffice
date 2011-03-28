@@ -665,6 +665,9 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 
 	w = go_gtk_builder_get_widget (state->gui, "fill_box");
 	gtk_widget_show (GTK_WIDGET (w));
+
+	g_object_unref (state->fill.size_group);
+	state->fill.size_group = NULL;
 }
 
 /************************************************************************/
