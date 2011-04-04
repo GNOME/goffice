@@ -144,7 +144,7 @@ go_editor_get_registered_widget (GOEditor *editor, char const *name)
 }
 
 static void
-cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
+cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkWidget *p,
 		guint page_num, guint *store_page)
 {
 		*store_page = page_num;
