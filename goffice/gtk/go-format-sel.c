@@ -291,10 +291,10 @@ cb_decimals_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 }
 
 static void
-cb_separator_toggle (GtkObject *obj, GOFormatSel *gfs)
+cb_separator_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
 	gfs->format.details.thousands_sep =
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (gtk_widget_get_visible (gfs->format.widget[F_NEGATIVE]))
 		fillin_negative_samples (gfs);
@@ -303,9 +303,9 @@ cb_separator_toggle (GtkObject *obj, GOFormatSel *gfs)
 }
 
 static void
-cb_engineering_toggle (GtkObject *obj, GOFormatSel *gfs)
+cb_engineering_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
 		gfs->format.details.exponent_step = 3;
 	else
 		gfs->format.details.exponent_step = 1;
@@ -314,10 +314,10 @@ cb_engineering_toggle (GtkObject *obj, GOFormatSel *gfs)
 }
 
 static void
-cb_superscript_toggle (GtkObject *obj, GOFormatSel *gfs)
+cb_superscript_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
 	gfs->format.details.use_markup =
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	gtk_widget_set_sensitive (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON],
 				  gfs->format.details.use_markup);
 
@@ -325,10 +325,10 @@ cb_superscript_toggle (GtkObject *obj, GOFormatSel *gfs)
 }
 
 static void
-cb_superscript_hide_1_toggle (GtkObject *obj, GOFormatSel *gfs)
+cb_superscript_hide_1_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
 	gfs->format.details.simplify_mantissa =
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	draw_format_preview (gfs, TRUE);
 }
