@@ -58,7 +58,7 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 
 	and in the closed case:
 
-	|4 1 ...              1||b[0]  |     |y[1]-y[n]    |
+	|4 1 ...              1||b[0]  |     |y[1]-y[n-1]  |
 	|1 4 1 ...             ||b[1]  |     |y[2]-y[0]    |
 	|0 1 4 1 ...           ||b[2]  |     |y[3]-y[1]    |
 	|0 0 1 4 1 ...         ||...   | = 3 |...          |
@@ -150,9 +150,9 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 		/* We can now evaluate b[0]:
 		 b[0]=c[0]*(c[1]*b[0]+d[1])+d[0]+e[0]*(c[m]*b[0]+d[m])
 		 which rearranges to:
-		 b[0]*(1-c[0]*c[1]-e[0]*c[m])=c[0]*c[1]+d[0]+e[0]*d[m]
+		 b[0]*(1-c[0]*c[1]-e[0]*c[m])=c[0]*d[1]+d[0]+e[0]*d[m]
 		*/
-		b[0] = (c[0] * c[1] + d[0] + e[0] * d[m]) / (1. - c[0] * c[1] - e[0] * c[m]);
+		b[0] = (c[0] * d[1] + d[0] + e[0] * d[m]) / (1. - c[0] * c[1] - e[0] * c[m]);
 
 		/* Replacing b[0] now gives the other b values */
 		for (i = 1; i < n; i++) {
@@ -191,7 +191,7 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 			d[i] = c[i] * d[i+1] + d[i] + e[i] * d[m];
 			c[i] = t;
 		}
-		b[0] = (c[0] * c[1] + d[0] + e[0] * d[m]) / (1. - c[0] * c[1] - e[0] * c[m]);
+		b[0] = (c[0] * d[1] + d[0] + e[0] * d[m]) / (1. - c[0] * c[1] - e[0] * c[m]);
 		for (i = 1; i < n; i++) {
 			b[i] = c[i] * b[0] + d[i];
 		}

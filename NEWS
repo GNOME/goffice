@@ -1,5 +1,8 @@
 goffice 0.8.15:
 
+Jean:
+	* Fixed closed bezier spline evaluation. [#646700]
+
 Morten:
 	* Plug leaks.
 

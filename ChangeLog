@@ -1,3 +1,8 @@
+2011-04-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-bezier.c (go_bezier_spline_init): fixed closed bezier
+	spline evaluation. [#646700]
+
 2011-03-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-style.c (fill_init): Don't leak the size group.
