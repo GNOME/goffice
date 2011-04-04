@@ -33,9 +33,9 @@
 #include <goffice/gtk/go-graph-widget.h>
 
 static void
-on_quit (GtkObject *object)
+on_quit (GtkWidget *w)
 {
-	gtk_object_destroy (object);
+	gtk_widget_destroy (w);
 	gtk_main_quit ();
 }
 

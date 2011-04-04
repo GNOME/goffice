@@ -186,7 +186,7 @@ handle_color_sel (GtkColorSelectionDialog *dialog,
 		*res = GO_COLOR_CHANGE_A (*res, alpha);
 	}
 	/* destroy _before_ we emit */
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	return response_id == GTK_RESPONSE_OK;
 }
 

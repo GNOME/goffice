@@ -414,7 +414,7 @@ plot_type_menu_create (GogChildButton *child_button, Addition *addition)
 
 	if (closure.non_blank)
 		return closure.menu;
-	gtk_object_destroy (GTK_OBJECT (closure.menu));
+	gtk_widget_destroy (closure.menu);
 	return NULL;
 }
 
@@ -462,7 +462,7 @@ trend_line_type_menu_create (GogChildButton *child_button, Addition *addition)
 
 	if (closure.non_blank)
 		return closure.menu;
-	gtk_object_destroy (GTK_OBJECT (closure.menu));
+	gtk_widget_destroy (closure.menu);
 	return NULL;
 }
 

@@ -81,7 +81,7 @@ static void generate_all_charts (GtkNotebook *notebook);
 static void
 on_quit (GtkMenuItem *menuitem, gpointer user_data)
 {
-	gtk_object_destroy (user_data);
+	gtk_widget_destroy (user_data);
 	gtk_main_quit ();
 }
 

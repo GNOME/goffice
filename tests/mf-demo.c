@@ -1827,7 +1827,7 @@ init_esc (void)
 static void
 on_quit (GtkMenuItem *menuitem, gpointer user_data)
 {
-	gtk_object_destroy (user_data);
+	gtk_widget_destroy (user_data);
 	gtk_main_quit ();
 }
 
@@ -1894,13 +1894,13 @@ open_file (char const *filename, GtkWidget *nbook)
 }
 
 static void
-on_close (GtkObject *object, GtkWidget *nbook)
+on_close (GtkMenuItem *menuitem, GtkWidget *nbook)
 {
 	gtk_widget_destroy (gtk_notebook_get_nth_page (GTK_NOTEBOOK (nbook), gtk_notebook_get_current_page (GTK_NOTEBOOK (nbook))));
 }
 
 static void
-on_open (GtkObject *object, GtkWidget *nbook)
+on_open (GtkMenuItem *menuitem, GtkWidget *nbook)
 {
 	GtkWidget *dialog;
 
