@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-xy.h"
+#include "gog-xy-dropbar.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
@@ -2101,6 +2102,9 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_xy_series_view_register_type (module);
 	gog_xy_series_register_type (module);
 	gog_xy_series_element_register_type (module);
+	gog_xy_dropbar_plot_register_type (module);
+	gog_xy_dropbar_view_register_type (module);
+	gog_xy_dropbar_series_register_type (module);
 }
 
 G_MODULE_EXPORT void

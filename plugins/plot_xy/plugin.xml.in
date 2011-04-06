@@ -28,5 +28,10 @@
 				<_description>Stock Scatter plot types</_description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogXYDropBarPlot">
+			<information>
+				<_description>Scattered dropbar plotting engine</_description>
+			</information>
+		</service>
 	</services>
 </plugin>

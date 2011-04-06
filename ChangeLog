@@ -1,3 +1,10 @@
+2011-04-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-xy-dropbar-prefs.ui: implement dropbar plots with
+	linear or logarithmic index axis. [#646832]
+	* plugins/plot_xy/gog-xy-dropbar.c: ditto.
+	* plugins/plot_xy/gog-xy-dropbar.h: ditto.
+
 2011-04-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-bezier.c (go_bezier_spline_init): fixed closed bezier

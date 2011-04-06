@@ -153,20 +153,24 @@ cb_pending_plot_types_load (char const *path,
 	for (ptr = doc->xmlRootNode->xmlChildrenNode; ptr ; ptr = ptr->next)
 		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (ptr->name, "Family")) {
 			name	    = xmlGetProp (ptr, "_name");
-			image_file  = xmlGetProp (ptr, "sample_image_file");
-			if (!go_xml_node_get_int (ptr, "priority", &priority))
-				priority = 0;
-			axis_set_str = xmlGetProp (ptr, "axis_set");
-			axis_set = gog_axis_set_from_str (axis_set_str);
-			if (axis_set_str != NULL)
-				xmlFree (axis_set_str);
-			else
-				g_warning ("[GogPlotTypeService::plot_types_load] missing axis set type");
-			family = gog_plot_family_register (name, image_file, priority, axis_set);
-			if (family != NULL)
-				service->families = g_slist_prepend (service->families, family);
-			if (name != NULL) xmlFree (name);
-			if (image_file != NULL) xmlFree (image_file);
+			if (name) {
+				if (NULL == gog_plot_family_by_name  (name)) {
+					image_file  = xmlGetProp (ptr, "sample_image_file");
+					if (!go_xml_node_get_int (ptr, "priority", &priority))
+						priority = 0;
+					axis_set_str = xmlGetProp (ptr, "axis_set");
+					axis_set = gog_axis_set_from_str (axis_set_str);
+					if (axis_set_str != NULL)
+						xmlFree (axis_set_str);
+					else
+						g_warning ("[GogPlotTypeService::plot_types_load] missing axis set type");
+					family = gog_plot_family_register (name, image_file, priority, axis_set);
+					if (family != NULL)
+						service->families = g_slist_prepend (service->families, family);
+					if (image_file != NULL) xmlFree (image_file);
+				}
+				xmlFree (name);
+			}
 		}
 
 	for (ptr = doc->xmlRootNode->xmlChildrenNode; ptr ; ptr = ptr->next)

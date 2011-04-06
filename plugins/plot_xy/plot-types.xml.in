@@ -3,6 +3,7 @@
     <Family _name="XY"		sample_image_file="scatter.xpm" axis_set="xy" priority="100"/>
     <Family _name="Bubble"	sample_image_file="bubble.xpm" axis_set="xy"/>
     <Family _name="ColoredXY"	sample_image_file="color.xpm" axis_set="xy-color"/>
+	<Family _name="DropBar"	sample_image_file="dropbar.xpm" axis_set="xy"/>
 
     <Type _name="XY Points" row="1" col="1"
 	  engine="GogXYPlot" family="XY"
@@ -77,6 +78,24 @@
 	  sample_image_file="chart_colored_1_1.png">
 	  <property name="default-style-has-lines">FALSE</property>
 	  <property name="guru-hints">backplane</property>
+    </Type>
+
+	<!-- Drop bars are bars goint from an initial position
+	to a final position; the fill color is inverted when final position is lower
+	than the initial position; they may be used in stock plots. -->
+    <Type _name="Scattered Vertical Drop Bars" row="1" col="3"
+      engine="GogXYDropBarPlot" family="DropBar"
+      _description="Vertical drop bars with continuous X-axis."
+      sample_image_file="chart_dropbar_1_3.png">
+      <property name="horizontal">False</property>
+       <property name="guru-hints">backplane</property>
+    </Type>
+    <Type _name="Scattered Horizontal Drop Bars" row="1" col="4"
+      engine="GogXYDropBarPlot" family="DropBar"
+      _description="Horizontal drop bars with continuous Y-axis."
+      sample_image_file="chart_dropbar_1_4.png">
+      <property name="horizontal">True</property>
+      <property name="guru-hints">backplane</property>
     </Type>
 </Types>
 

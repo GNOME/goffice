@@ -8,7 +8,9 @@ xy_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
 
 xy_la_SOURCES = \
 	gog-xy.c	\
-	gog-xy.h
+	gog-xy.h \
+	gog-xy-dropbar.c	\
+	gog-xy-dropbar.h
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
@@ -21,7 +23,8 @@ dist_ui_DATA = \
 	gog-bubble-prefs.ui	\
 	gog-xy-prefs.ui	\
 	gog-xy-color-prefs.ui	\
-	gog-xy-series-prefs.ui
+	gog-xy-series-prefs.ui	\
+	gog-xy-dropbar-prefs.ui
 endif
 
 # do not use the intl-tool stuff to merge the text back
