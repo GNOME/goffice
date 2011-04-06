@@ -3,8 +3,8 @@
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="width-adj">
-    <property name="value">50</property>
-    <property name="upper">500</property>
+    <property name="value">5</property>
+    <property name="upper">50</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
