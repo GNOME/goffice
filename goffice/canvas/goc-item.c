@@ -433,25 +433,20 @@ goc_item_draw_region (GocItem const *item, cairo_t *cr,
 		klass->draw_region (item, cr, x0, y0, x1, y1): FALSE;
 }
 
-/**
- * goc_item_invalidate :
- * @item: #GocItem
- *
- * Force a redraw of @item bounding region.
- **/
-void
-goc_item_invalidate (GocItem *item)
+static void
+goc_item_maybe_invalidate (GocItem *item, gboolean ignore_visibility)
 {
 	GocGroup const *parent;
 	double x0, y0, x1, y1;
-
-	g_return_if_fail (GOC_IS_ITEM (item));
 
 	parent = item->parent;
 	if (!parent)
 		return;
 
 	if (!gtk_widget_get_realized (GTK_WIDGET (item->canvas)))
+		return;
+
+	if (!ignore_visibility && !item->visible)
 		return;
 
 	if (!item->cached_bounds)
@@ -465,6 +460,39 @@ goc_item_invalidate (GocItem *item)
 }
 
 /**
+ * goc_item_invalidate :
+ * @item: #GocItem
+ *
+ * Force a redraw of @item bounding region.
+ **/
+void
+goc_item_invalidate (GocItem *item)
+{
+	g_return_if_fail (GOC_IS_ITEM (item));
+
+	goc_item_maybe_invalidate (item, FALSE);
+}
+
+/**
+ * goc_item_set_visible :
+ * @item: #GocItem
+ * @visible: whether the item should be visible
+ *
+ * Either hides or shows @item as appropriate..
+ **/
+void
+goc_item_set_visible (GocItem *item, gboolean visible)
+{
+	g_return_if_fail (GOC_IS_ITEM (item));
+
+	visible = (visible != FALSE);
+	if (visible != item->visible) {
+		item->visible = visible;
+		goc_item_maybe_invalidate (item, TRUE);
+	}
+}
+
+/**
  * goc_item_show :
  * @item: #GocItem
  *
@@ -473,9 +501,7 @@ goc_item_invalidate (GocItem *item)
 void
 goc_item_show (GocItem *item)
 {
-	g_return_if_fail (GOC_IS_ITEM (item));
-	item->visible = TRUE;
-	goc_item_invalidate (item);
+	goc_item_set_visible (item, TRUE);
 }
 
 /**
@@ -487,9 +513,7 @@ goc_item_show (GocItem *item)
 void
 goc_item_hide (GocItem *item)
 {
-	g_return_if_fail (GOC_IS_ITEM (item));
-	item->visible = FALSE;
-	goc_item_invalidate (item);
+	goc_item_set_visible (item, FALSE);
 }
 
 /**

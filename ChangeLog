@@ -1,3 +1,14 @@
+2011-04-08  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-group.c: Cleanup list traversal.
+
+	* goffice/canvas/goc-item.c (goc_item_maybe_invalidate): New
+	function, extracted from goc_item_invalidate.  Avoid invalidating
+	invisible items.
+	(goc_item_set_visible): New function.
+	(goc_item_show, goc_item_hide): Base on goc_item_set_visible.
+	This avoids invalidation when nothing changes.
+
 2011-04-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-xy-dropbar-prefs.ui: implement dropbar plots with

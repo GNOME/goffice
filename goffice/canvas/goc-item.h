@@ -80,6 +80,7 @@ gboolean	 goc_item_draw_region	(GocItem const *item, cairo_t *cr,
 void		 goc_item_invalidate	(GocItem *item);
 void		 goc_item_show		(GocItem *item);
 void		 goc_item_hide		(GocItem *item);
+void		 goc_item_set_visible   (GocItem *item, gboolean visible);
 gboolean	 goc_item_is_visible	(GocItem *item);
 void		 goc_item_get_bounds	(GocItem const *item,
 					 double *x0, double *y0,

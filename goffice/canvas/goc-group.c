@@ -45,7 +45,7 @@ enum {
  **/
 static void
 goc_group_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+			GValue const *value, GParamSpec *pspec)
 {
 	GocGroup *group = GOC_GROUP (gobject);
 
@@ -66,7 +66,7 @@ goc_group_set_property (GObject *gobject, guint param_id,
 
 static void
 goc_group_get_property (GObject *gobject, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+			GValue *value, GParamSpec *pspec)
 {
 	GocGroup *group = GOC_GROUP (gobject);
 
@@ -92,21 +92,18 @@ goc_group_update_bounds (GocItem *item)
 	item->x0 = item->y0 = G_MAXDOUBLE;
 	item->x1 = item->y1 = -G_MAXDOUBLE;
 	if (group->children != NULL) {
-		GList *l = g_list_first (group->children);
-		while (l) {
-			if (l->data) {
-				goc_item_get_bounds (GOC_ITEM (l->data),
-						     &x0, &y0, &x1, &y1);
-				if (x0 < item->x0)
-					item->x0 = x0;
-				if (y0 < item->y0)
-					item->y0 = y0;
-				if (x1 > item->x1)
-					item->x1 = x1;
-				if (y1 > item->y1)
-					item->y1 = y1;
-			}
-			l = g_list_next (l);
+		GList *l;
+		for (l = group->children; l; l = l->next) {
+			GocItem *child = GOC_ITEM (l->data);
+			goc_item_get_bounds (child, &x0, &y0, &x1, &y1);
+			if (x0 < item->x0)
+				item->x0 = x0;
+			if (y0 < item->y0)
+				item->y0 = y0;
+			if (x1 > item->x1)
+				item->x1 = x1;
+			if (y1 > item->y1)
+				item->y1 = y1;
 		}
 		item->x0 += group->x;
 		item->y0 += group->y;
@@ -121,7 +118,7 @@ goc_group_draw_region (GocItem const *item, cairo_t *cr,
 		      double x1, double y1)
 {
 	GocGroup *group = GOC_GROUP (item);
-	GList *l = g_list_first (group->children);
+	GList *l = group->children;
 	if (!l)
 		return TRUE;
 	cairo_save (cr);
@@ -129,19 +126,17 @@ goc_group_draw_region (GocItem const *item, cairo_t *cr,
 	y0 -= group->y;
 	x1 -= group->x;
 	y1 -= group->y;
-	while (l) {
+	for (; l; l = l->next) {
 		double x, y, x_, y_;
 		GocItem *item = GOC_ITEM (l->data);
-		if (!goc_item_is_visible (item)) {
-			l = l->next;
+		if (!goc_item_is_visible (item))
 			continue;
-		}
+
 		goc_item_get_bounds (item, &x, &y, &x_, &y_);
 		if (x <= x1 && x_ >= x0 && y <= y1 && y_ >= y0) {
 			if (!goc_item_draw_region (item, cr, x0, y0, x1, y1))
 				goc_item_draw (item, cr);
 		}
-		l = g_list_next (l);
 	}
 	cairo_restore (cr);
 	return TRUE;
@@ -164,12 +159,12 @@ goc_group_distance (GocItem *item, double x, double y, GocItem **near_item)
 	double th = GOC_THRESHOLD / item->canvas->pixels_per_unit;
 	x -= group->x;
 	y -= group->y;
-	for (l = g_list_last (group->children); l; l = g_list_previous (l)) {
+	for (l = g_list_last (group->children); l; l = l->prev) {
 		GocItem *it = GOC_ITEM (l->data);
 		if (!it->visible || it->x0 > x + th || it->x1 < x - th
 		    || it->y0 > y + th || it->y1 < y - th)
 			continue;
-		dist = goc_item_distance (GOC_ITEM (l->data), x, y, &cur_item);
+		dist = goc_item_distance (it, x, y, &cur_item);
 		if (dist < result) {
 			*near_item = cur_item;
 			result = dist;
@@ -186,7 +181,7 @@ goc_group_realize (GocItem *item)
 	GocGroup *group = GOC_GROUP (item);
 	GList *l;
 
-	for (l = g_list_first (group->children); l; l = g_list_next (l)) {
+	for (l = group->children; l; l = l->next) {
 		GocItem *child = GOC_ITEM (l->data);
 		_goc_item_realize (child);
 	}
@@ -202,7 +197,7 @@ goc_group_unrealize (GocItem *item)
 
 	parent_klass->unrealize (item);
 
-	for (l = g_list_first (group->children); l; l = g_list_next (l)) {
+	for (l = group->children; l; l = l->next) {
 		GocItem *child = GOC_ITEM (l->data);
 		_goc_item_unrealize (child);
 	}
@@ -214,10 +209,11 @@ goc_group_notify_scrolled (GocItem *item)
 	GocGroup *group = GOC_GROUP (item);
 	GList *l;
 	GocItemClass *klass;
-	for (l = g_list_first (group->children); l; l = g_list_next (l)) {
-		klass = GOC_ITEM_GET_CLASS (l->data);
+	for (l = group->children; l; l = l->next) {
+		GocItem *child = GOC_ITEM (l->data);
+		klass = GOC_ITEM_GET_CLASS (child);
 		if (klass->notify_scrolled)
-			klass->notify_scrolled (GOC_ITEM (l->data));
+			klass->notify_scrolled (child);
 	}
 }
 
@@ -278,7 +274,7 @@ goc_group_new (GocGroup *parent)
 	g_return_val_if_fail (GOC_IS_GROUP (parent), NULL);
 
 	group = GOC_GROUP (g_object_new (GOC_TYPE_GROUP, NULL));
-	g_return_val_if_fail ((group != NULL), NULL);
+	g_return_val_if_fail (group != NULL, NULL);
 
 	goc_group_add_child (parent, GOC_ITEM (group));
 
