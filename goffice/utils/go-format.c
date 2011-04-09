@@ -838,10 +838,7 @@ go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 			break;
 
 		default:
-			if (g_ascii_isalpha (str[1]))
-				t = TOK_COLOR;
-			else
-				goto error;
+			t = TOK_COLOR;
 			break;
 		}
 

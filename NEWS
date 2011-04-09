@@ -1,5 +1,8 @@
 goffice 0.8.15:
 
+Andreas:
+	* Fix format string parsing with localized colour names. [#647324]
+
 Jean:
 	* Fixed closed bezier spline evaluation. [#646700]
 	* Implement dropbar plots with linear or logarithmic index axis. [#646832]

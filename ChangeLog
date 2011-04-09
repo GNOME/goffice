@@ -1,3 +1,8 @@
+2011-04-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_token2): localized colour
+	names need not start with an alphabetic ascii character.
+
 2011-04-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-group.c: Cleanup list traversal.
