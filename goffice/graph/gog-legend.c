@@ -479,7 +479,7 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 		gog_renderer_stroke_serie (renderer, line_path);
 		go_path_free (line_path);
 		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5, y);
-	} else {					/* area swatch */
+	} else if (base_style->interesting_fields & GO_STYLE_FILL) {					/* area swatch */
 		style = go_style_dup (base_style);
 		if (style->line.width > data->hairline_width)
 			style->line.width =
@@ -492,6 +492,19 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 
 		gog_renderer_push_style (renderer, style);
 		gog_renderer_draw_rectangle (renderer, &rectangle);
+	} else if (base_style->interesting_fields & GO_STYLE_MARKER) {					/* markers only */
+		style = go_style_dup (base_style);
+		g_return_if_fail (style != NULL);
+		y = data->y + glv->element_height / 2.;
+		gog_renderer_push_style (renderer, style);
+		go_marker_set_size (style->marker.mark,
+				    go_marker_get_size (style->marker.mark) *
+				    data->swatch_scale_a + data->swatch_scale_b);
+		/* Might be not the best horizontal position, but seems to work not that bad */
+		gog_renderer_draw_marker (renderer, data->x + glv->label_offset * 0.5, y);
+	} else {
+		g_warning ("Series with no valid style in legend? Please file a bug report.");
+		return;
 	}
 	gog_renderer_pop_style (renderer);
 

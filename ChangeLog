@@ -1,3 +1,8 @@
+2011-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-legend.c (cb_render_elements): fix legends for plots
+	with marker only style. [#647367]
+
 2011-04-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_token2): localized colour

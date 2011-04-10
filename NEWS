@@ -6,6 +6,7 @@ Andreas:
 Jean:
 	* Fixed closed bezier spline evaluation. [#646700]
 	* Implement dropbar plots with linear or logarithmic index axis. [#646832]
+	* Fix legends for plots with marker only style. [#647367]
 
 Morten:
 	* Plug leaks.
