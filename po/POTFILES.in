@@ -309,7 +309,8 @@ plugins/plot_xy/gog-bubble-prefs.c
 [type: gettext/glade]plugins/plot_xy/gog-xy-prefs.ui
 [type: gettext/glade]plugins/plot_xy/gog-xy-dropbar-prefs.ui
 plugins/plot_xy/gog-xy.h
-plugins/plot_xy/gog-xy-dropbar.cplugins/plot_xy/gog-xy.c
+plugins/plot_xy/gog-xy.c
+plugins/plot_xy/gog-xy-dropbar.c
 plugins/plot_xy/plot-types.xml.in
 plugins/plot_xy/plugin.xml.in
 plugins/reg_linear/gog-exp-reg.c
