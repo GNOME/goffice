@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice 0.9.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-01 10:44+0100\n"
-"PO-Revision-Date: 2011-03-01 10:52+0100\n"
+"POT-Creation-Date: 2011-04-13 19:48+0200\n"
+"PO-Revision-Date: 2011-04-13 19:50+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
@@ -215,7 +215,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Oppryddingsfunksjon  i tillegg returnerte en feil."
 
 #: ../goffice/app/go-plugin-service.c:177 ../goffice/gtk/go-format-sel.c:61
-#: ../goffice/utils/go-format.c:734 ../goffice/utils/go-format.c:3703
+#: ../goffice/utils/go-format.c:734 ../goffice/utils/go-format.c:3700
 msgid "General"
 msgstr "Generelt"
 
@@ -527,7 +527,7 @@ msgid "Arrow for line's end"
 msgstr ""
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
-#: ../goffice/canvas/goc-graph.c:413 ../goffice/canvas/goc-group.c:243
+#: ../goffice/canvas/goc-graph.c:413 ../goffice/canvas/goc-group.c:239
 #: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
 #: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
 #: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
@@ -539,7 +539,7 @@ msgid "The circle center horizontal position"
 msgstr ""
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
-#: ../goffice/canvas/goc-graph.c:419 ../goffice/canvas/goc-group.c:249
+#: ../goffice/canvas/goc-graph.c:419 ../goffice/canvas/goc-group.c:245
 #: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
 #: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
 #: ../goffice/canvas/goc-widget.c:324
@@ -570,6 +570,7 @@ msgstr "Topp-posisjon for ellipse"
 #: ../goffice/canvas/goc-graph.c:432 ../goffice/canvas/goc-pixbuf.c:243
 #: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:387 ../goffice/utils/go-image.c:472
+#: ../plugins/plot_xy/gog-xy-dropbar.c:317
 msgid "Width"
 msgstr "Bredde"
 
@@ -627,12 +628,12 @@ msgstr ""
 msgid "The GogRenderer being displayed"
 msgstr ""
 
-#: ../goffice/canvas/goc-group.c:244
+#: ../goffice/canvas/goc-group.c:240
 #, fuzzy
 msgid "The group horizontal offset"
 msgstr "Tynn horisontal krysskravering"
 
-#: ../goffice/canvas/goc-group.c:250
+#: ../goffice/canvas/goc-group.c:246
 msgid "The group vertical offset"
 msgstr ""
 
@@ -710,9 +711,8 @@ msgid "Path"
 msgstr "Sti"
 
 #: ../goffice/canvas/goc-path.c:264
-#, fuzzy
 msgid "The path points"
-msgstr "Posisjon for tekst"
+msgstr "Punkter for sti"
 
 #: ../goffice/canvas/goc-pixbuf.c:232
 msgid "The image left position"
@@ -821,7 +821,7 @@ msgid "The round rectangle ry"
 msgstr "Tekstbredde"
 
 #: ../goffice/canvas/goc-styled-item.c:161
-#: ../goffice/graph/gog-styled-object.c:209 ../goffice/utils/go-style.c:1041
+#: ../goffice/graph/gog-styled-object.c:209 ../goffice/utils/go-style.c:1044
 msgid "Style"
 msgstr "Stil"
 
@@ -860,7 +860,7 @@ msgid "The anchor point for the text"
 msgstr ""
 
 #: ../goffice/canvas/goc-text.c:452 ../goffice/gtk/go-format-sel.c:70
-#: ../goffice/gtk/go-rotation-sel.c:136 ../goffice/utils/go-style.c:907
+#: ../goffice/gtk/go-rotation-sel.c:136 ../goffice/utils/go-style.c:910
 msgid "Text"
 msgstr "Tekst"
 
@@ -903,18 +903,16 @@ msgid "Clip height for the text"
 msgstr ""
 
 #: ../goffice/canvas/goc-text.c:479
-#, fuzzy
 msgid "Wrap width"
-msgstr "Bredde"
+msgstr "Bredde for bryting"
 
 #: ../goffice/canvas/goc-text.c:480
 msgid "Wrap width for the text"
 msgstr ""
 
 #: ../goffice/canvas/goc-widget.c:312
-#, fuzzy
 msgid "Widget"
-msgstr "Bredde"
+msgstr "Komponent"
 
 #: ../goffice/canvas/goc-widget.c:313
 msgid "A pointer to the embedded widget"
@@ -929,14 +927,12 @@ msgid "The widget top position"
 msgstr ""
 
 #: ../goffice/canvas/goc-widget.c:332
-#, fuzzy
 msgid "The widget width"
-msgstr "Tekstbredde"
+msgstr "Bredde på komponent"
 
 #: ../goffice/canvas/goc-widget.c:338
-#, fuzzy
 msgid "The widget height"
-msgstr "Teksthøyde"
+msgstr "Høyde på komponent"
 
 #: ../goffice/component/go-component-factory.c:69
 #, fuzzy
@@ -1001,9 +997,8 @@ msgid "Bullet On"
 msgstr "Problemstørrelse"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:1
-#, fuzzy
 msgid "<b>Euler angles</b>"
-msgstr "<b>Verdier</b>"
+msgstr "<b>Euler-vinkler</b>"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:2
 msgid "Phi:"
@@ -1045,9 +1040,8 @@ msgid "Layout"
 msgstr "Utforming"
 
 #: ../goffice/graph/gog-axis-line.c:666
-#, fuzzy
 msgid "Axis position"
-msgstr "<b>Posisjon</b>"
+msgstr "Posisjon for akse"
 
 #: ../goffice/graph/gog-axis-line.c:667 ../goffice/graph/gog-axis-line.c:673
 msgid "Where to position an axis low, high, or crossing"
@@ -1655,7 +1649,6 @@ msgid "Numerical type of this backplane"
 msgstr ""
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
-#, fuzzy
 msgid "<b>Sample</b>"
 msgstr "<b>Eksempel</b>"
 
@@ -1710,7 +1703,7 @@ msgid "Data"
 msgstr "Data"
 
 #: ../goffice/graph/gog-label.c:338 ../goffice/graph/gog-reg-curve.c:71
-#: ../goffice/graph/gog-trend-line.c:92 ../plugins/plot_xy/gog-xy.c:1984
+#: ../goffice/graph/gog-trend-line.c:92 ../plugins/plot_xy/gog-xy.c:1985
 msgid "Details"
 msgstr "Detaljer"
 
@@ -1860,10 +1853,12 @@ msgid "Fill"
 msgstr "Fyll"
 
 #: ../goffice/graph/gog-object.c:67 ../plugins/plot_barcol/gog-dropbar.c:149
+#: ../plugins/plot_xy/gog-xy-dropbar.c:331
 msgid "Start"
 msgstr "Start"
 
 #: ../goffice/graph/gog-object.c:68 ../plugins/plot_barcol/gog-dropbar.c:151
+#: ../plugins/plot_xy/gog-xy-dropbar.c:333
 msgid "End"
 msgstr "Slutt"
 
@@ -1924,15 +1919,15 @@ msgstr ""
 msgid "Plot Engine"
 msgstr "Plottemotor"
 
-#: ../goffice/graph/gog-plot-engine.c:298
+#: ../goffice/graph/gog-plot-engine.c:302
 msgid "Plot Type"
 msgstr "Type plott"
 
-#: ../goffice/graph/gog-plot-engine.c:374
+#: ../goffice/graph/gog-plot-engine.c:378
 msgid "Regression Curve Engine"
 msgstr ""
 
-#: ../goffice/graph/gog-plot-engine.c:565
+#: ../goffice/graph/gog-plot-engine.c:569
 msgid "Regression Curve Type"
 msgstr ""
 
@@ -2244,8 +2239,9 @@ msgstr "Guppi"
 #: ../plugins/plot_radar/gog-radar.c:411 ../plugins/plot_radar/gog-radar.c:604
 #: ../plugins/plot_surface/gog-xyz.c:99
 #: ../plugins/plot_surface/gog-xyz-surface.c:253
-#: ../plugins/plot_xy/gog-xy.c:373 ../plugins/plot_xy/gog-xy.c:485
-#: ../plugins/plot_xy/gog-xy.c:761 ../plugins/smoothing/gog-moving-avg.c:113
+#: ../plugins/plot_xy/gog-xy.c:374 ../plugins/plot_xy/gog-xy.c:486
+#: ../plugins/plot_xy/gog-xy.c:762 ../plugins/plot_xy/gog-xy-dropbar.c:159
+#: ../plugins/smoothing/gog-moving-avg.c:113
 #: ../plugins/smoothing/gog-exp-smooth.c:80
 msgid "Properties"
 msgstr "Egenskaper"
@@ -4284,9 +4280,8 @@ msgid "Nicaragua, Gold Cordobas"
 msgstr "Nicaragua, gull-cordoba"
 
 #: ../goffice/utils/formats.c:474
-#, fuzzy
 msgid "Norway, Norwegian Krone"
-msgstr "Norge, krone"
+msgstr "Norge, norsk krone"
 
 #: ../goffice/utils/formats.c:475
 #, fuzzy
@@ -4986,11 +4981,11 @@ msgstr "Forgrunn:"
 msgid "Background:"
 msgstr "Bakgrunn:"
 
-#: ../goffice/utils/go-style.c:806
+#: ../goffice/utils/go-style.c:809
 msgid "Markers"
 msgstr "Markører"
 
-#: ../goffice/utils/go-style.c:878
+#: ../goffice/utils/go-style.c:881
 msgid "Font"
 msgstr "Skrift"
 
@@ -5231,7 +5226,7 @@ msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr ""
 
 #: ../plugins/plot_barcol/gog-1.5d.c:338 ../plugins/plot_pie/gog-pie.c:317
-#: ../plugins/plot_xy/gog-xy.c:585
+#: ../plugins/plot_xy/gog-xy.c:586
 msgid "In 3d"
 msgstr ""
 
@@ -5275,8 +5270,8 @@ msgstr "Linjer"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:642
 #: ../plugins/plot_radar/gog-radar.c:1352
-#: ../plugins/plot_radar/gog-radar.c:1478 ../plugins/plot_xy/gog-xy.c:2057
-#: ../plugins/plot_xy/gog-xy.c:2063
+#: ../plugins/plot_radar/gog-radar.c:1478 ../plugins/plot_xy/gog-xy.c:2058
+#: ../plugins/plot_xy/gog-xy.c:2064
 #, fuzzy
 msgid "GogErrorBar *"
 msgstr "Feillinjer"
@@ -5287,6 +5282,7 @@ msgstr "Feillinjer"
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
 #: ../plugins/plot_radar/gog-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
 msgid "_Display the grids above the plot"
 msgstr ""
 
@@ -5343,7 +5339,7 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-boxplot.c:416
 #: ../plugins/plot_distrib/gog-histogram.c:377
 #: ../plugins/plot_radar/gog-radar.c:449 ../plugins/plot_radar/gog-radar.c:520
-#: ../plugins/plot_xy/gog-xy.c:418
+#: ../plugins/plot_xy/gog-xy.c:419 ../plugins/plot_xy/gog-xy-dropbar.c:305
 msgid "Displayed under the grids"
 msgstr "Vist under rutenettene"
 
@@ -5353,7 +5349,7 @@ msgstr "Vist under rutenettene"
 #: ../plugins/plot_distrib/gog-boxplot.c:417
 #: ../plugins/plot_distrib/gog-histogram.c:378
 #: ../plugins/plot_radar/gog-radar.c:450 ../plugins/plot_radar/gog-radar.c:521
-#: ../plugins/plot_xy/gog-xy.c:419
+#: ../plugins/plot_xy/gog-xy.c:420 ../plugins/plot_xy/gog-xy-dropbar.c:306
 msgid "Should the plot be displayed before the grids"
 msgstr ""
 
@@ -5381,7 +5377,7 @@ msgstr "Forvalgte markører"
 
 #: ../plugins/plot_barcol/gog-line.c:327
 #: ../plugins/plot_barcol/gog-minmax.c:237
-#: ../plugins/plot_radar/gog-radar.c:230 ../plugins/plot_xy/gog-xy.c:395
+#: ../plugins/plot_radar/gog-radar.c:230 ../plugins/plot_xy/gog-xy.c:396
 msgid "Should the default style of a series include markers"
 msgstr ""
 
@@ -5403,6 +5399,7 @@ msgstr "Plottlinje"
 
 #: ../plugins/plot_barcol/gog-minmax.c:230
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_xy/gog-xy-dropbar.c:311
 msgid "Horizontal"
 msgstr "Horisontal"
 
@@ -5515,6 +5512,7 @@ msgid "Column"
 msgstr "Kolonne"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:70
+#: ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "DropBar"
 msgstr ""
 
@@ -6216,8 +6214,8 @@ msgstr ""
 msgid "Default fill"
 msgstr "Forvalgt fyll"
 
-#: ../plugins/plot_radar/gog-radar.c:237 ../plugins/plot_xy/gog-xy.c:407
-#: ../plugins/plot_xy/gog-xy.c:841
+#: ../plugins/plot_radar/gog-radar.c:237 ../plugins/plot_xy/gog-xy.c:408
+#: ../plugins/plot_xy/gog-xy.c:842
 msgid "Should the default style of a series include fill"
 msgstr ""
 
@@ -6260,18 +6258,18 @@ msgstr "Størrelsesorden"
 msgid "PlotColorPolar"
 msgstr "PlottRadar"
 
-#: ../plugins/plot_radar/gog-radar.c:730 ../plugins/plot_xy/gog-xy.c:846
+#: ../plugins/plot_radar/gog-radar.c:730 ../plugins/plot_xy/gog-xy.c:847
 msgid "hide-outliers"
 msgstr ""
 
-#: ../plugins/plot_radar/gog-radar.c:731 ../plugins/plot_xy/gog-xy.c:847
+#: ../plugins/plot_radar/gog-radar.c:731 ../plugins/plot_xy/gog-xy.c:848
 msgid "Hide data outside of the color axis bounds"
 msgstr ""
 
 #: ../plugins/plot_radar/gog-radar.c:743 ../plugins/plot_surface/gog-xyz.c:398
 #: ../plugins/plot_surface/gog-xyz-surface.c:463
 #: ../plugins/plot_surface/xl-surface.c:304
-#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:859
+#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:860
 msgid "Z"
 msgstr "Z"
 
@@ -6398,15 +6396,15 @@ msgstr ""
 #: ../plugins/plot_surface/gog-xyz.c:394
 #: ../plugins/plot_surface/gog-xyz-surface.c:459
 #: ../plugins/plot_surface/xl-surface.c:302
-#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:427
-#: ../plugins/plot_xy/gog-xy.c:597 ../plugins/plot_xy/gog-xy.c:855
+#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:428
+#: ../plugins/plot_xy/gog-xy.c:598 ../plugins/plot_xy/gog-xy.c:856
 msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:396
 #: ../plugins/plot_surface/gog-xyz-surface.c:461
-#: ../plugins/plot_xy/gog-xy.c:429 ../plugins/plot_xy/gog-xy.c:599
-#: ../plugins/plot_xy/gog-xy.c:857
+#: ../plugins/plot_xy/gog-xy.c:430 ../plugins/plot_xy/gog-xy.c:600
+#: ../plugins/plot_xy/gog-xy.c:858
 msgid "Y"
 msgstr "Y"
 
@@ -6593,217 +6591,275 @@ msgstr ""
 msgid "_Use nul value instead of invalid"
 msgstr ""
 
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
+#, fuzzy
+msgid "Bar _width:"
+msgstr "Bredde"
+
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
+#, fuzzy
+msgid "_Horizontal"
+msgstr "Horisontal"
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: ../plugins/plot_xy/gog-xy.c:273
+#: ../plugins/plot_xy/gog-xy.c:274
 msgid "PlotXY"
 msgstr "PlottXY"
 
-#: ../plugins/plot_xy/gog-xy.c:394
+#: ../plugins/plot_xy/gog-xy.c:395
 msgid "Has markers by default"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:400 ../plugins/plot_xy/gog-xy.c:834
+#: ../plugins/plot_xy/gog-xy.c:401 ../plugins/plot_xy/gog-xy.c:835
 msgid "Has lines by default"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:401 ../plugins/plot_xy/gog-xy.c:835
+#: ../plugins/plot_xy/gog-xy.c:402 ../plugins/plot_xy/gog-xy.c:836
 msgid "Should the default style of a series include lines"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:406 ../plugins/plot_xy/gog-xy.c:840
+#: ../plugins/plot_xy/gog-xy.c:407 ../plugins/plot_xy/gog-xy.c:841
 msgid "Has fill by default"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:412
+#: ../plugins/plot_xy/gog-xy.c:413
 #, fuzzy
 msgid "Use splines"
 msgstr "XY-linjer"
 
-#: ../plugins/plot_xy/gog-xy.c:413
+#: ../plugins/plot_xy/gog-xy.c:414
 msgid "Should the plot use splines instead of linear interpolation"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:473
+#: ../plugins/plot_xy/gog-xy.c:474
 msgid "PlotBubble"
 msgstr "PlottBoble"
 
-#: ../plugins/plot_xy/gog-xy.c:573
+#: ../plugins/plot_xy/gog-xy.c:574
 msgid "Size as area"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:574
+#: ../plugins/plot_xy/gog-xy.c:575
 msgid "Display size as area instead of diameter"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:579
+#: ../plugins/plot_xy/gog-xy.c:580
 msgid "Show negatives"
 msgstr "Vis negative verdier"
 
-#: ../plugins/plot_xy/gog-xy.c:580
+#: ../plugins/plot_xy/gog-xy.c:581
 #, fuzzy
 msgid "Draw bubbles for negative values"
 msgstr "Vis _negative verdier"
 
-#: ../plugins/plot_xy/gog-xy.c:586
+#: ../plugins/plot_xy/gog-xy.c:587
 msgid "Draw 3d bubbles"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:591
+#: ../plugins/plot_xy/gog-xy.c:592
 #, fuzzy
 msgid "Bubble scale"
 msgstr "Boble"
 
-#: ../plugins/plot_xy/gog-xy.c:592
+#: ../plugins/plot_xy/gog-xy.c:593
 msgid "Fraction of default radius used for display"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:601 ../plugins/plot_xy/plot-types.xml.in.h:1
+#: ../plugins/plot_xy/gog-xy.c:602 ../plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Boble"
 
 #. xgettext : the base for how to name map like plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
-#: ../plugins/plot_xy/gog-xy.c:726
+#: ../plugins/plot_xy/gog-xy.c:727
 #, fuzzy
 msgid "XYColor"
 msgstr "Fa_rge:"
 
-#: ../plugins/plot_xy/gog-xy.c:1989 ../plugins/plot_xy/gog-xy.c:2056
+#: ../plugins/plot_xy/gog-xy.c:1990 ../plugins/plot_xy/gog-xy.c:2057
 #, fuzzy
 msgid "X error bars"
 msgstr "Feil under lesing av linje"
 
-#: ../plugins/plot_xy/gog-xy.c:1992 ../plugins/plot_xy/gog-xy.c:2062
+#: ../plugins/plot_xy/gog-xy.c:1993 ../plugins/plot_xy/gog-xy.c:2063
 #, fuzzy
 msgid "Y error bars"
 msgstr "Feil under lesing av linje"
 
-#: ../plugins/plot_xy/gog-xy.c:2001
+#: ../plugins/plot_xy/gog-xy.c:2002
 #, fuzzy
 msgid "Horizontal drop lines"
 msgstr "Horisontal stripe "
 
-#: ../plugins/plot_xy/gog-xy.c:2009
+#: ../plugins/plot_xy/gog-xy.c:2010
 #, fuzzy
 msgid "Vertical drop lines"
 msgstr "Vertikal stripe"
 
-#: ../plugins/plot_xy/gog-xy.c:2068
+#: ../plugins/plot_xy/gog-xy.c:2069
 #, fuzzy
 msgid "Invalid as zero"
 msgstr "Ugyldig passord"
 
-#: ../plugins/plot_xy/gog-xy.c:2069
+#: ../plugins/plot_xy/gog-xy.c:2070
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2074
+#: ../plugins/plot_xy/gog-xy.c:2075
 msgid "Clamp at start"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2075
+#: ../plugins/plot_xy/gog-xy.c:2076
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2080
+#: ../plugins/plot_xy/gog-xy.c:2081
 msgid "Clamp at end"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2081
+#: ../plugins/plot_xy/gog-xy.c:2082
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+
+#. xgettext : the base for how to name drop bar/col plot objects
+#. * eg The 2nd drop bar/col plot in a chart will be called
+#. * 	PlotDropBar2
+#: ../plugins/plot_xy/gog-xy-dropbar.c:290
+#, fuzzy
+msgid "PlotXYDropBar"
+msgstr "Plottområde"
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:312
+#, fuzzy
+msgid "Whether to use horizontal bars"
+msgstr "Tynn horisontal krysskravering"
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:318
+msgid "Bars width as a percetage of the plot width"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:329
+#, fuzzy
+msgid "Positions"
+msgstr "Posisjon"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 #, fuzzy
 msgid "ColoredXY"
 msgstr "Fa_rge:"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:3
+#: ../plugins/plot_xy/plot-types.xml.in.h:4
+#, fuzzy
+msgid "Horizontal drop bars with continuous Y-axis."
+msgstr "Horisontal stripe "
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:5
 msgid "Interpolate between multi-dimensional points with Bezier splines."
 msgstr ""
 
 #. really 3_1
-#: ../plugins/plot_xy/plot-types.xml.in.h:5
+#: ../plugins/plot_xy/plot-types.xml.in.h:7
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:6
+#: ../plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Linearly interpolate between multi-dimensional points."
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:7
+#: ../plugins/plot_xy/plot-types.xml.in.h:9
 msgid "Map"
 msgstr "Kart"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:8
+#: ../plugins/plot_xy/plot-types.xml.in.h:10
 msgid "Markers at each point."
 msgstr "Markører ved hvert punkt."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:9
+#: ../plugins/plot_xy/plot-types.xml.in.h:11
 msgid "Multi-dimensional points with circle at each point."
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:10
+#: ../plugins/plot_xy/plot-types.xml.in.h:12
 msgid ""
 "Multi-dimensional points with data dependent color marker at each point."
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:11
+#: ../plugins/plot_xy/plot-types.xml.in.h:13
+#, fuzzy
+msgid "Scattered Horizontal Drop Bars"
+msgstr "Horisontal stripe "
+
+#. Drop bars are bars goint from an initial position
+#. to a final position; the fill color is inverted when final position is lower
+#. than the initial position; they may be used in stock plots.
+#: ../plugins/plot_xy/plot-types.xml.in.h:17
+#, fuzzy
+msgid "Scattered Vertical Drop Bars"
+msgstr "Vertikal stripe"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "Stepped curve using the first y value."
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:12
+#: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "Stepped curve using the last y value."
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:13
+#: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "Stepped curve using the mean y value."
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:14
+#: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "Stepped curve using the nearest y value."
 msgstr ""
 
+#. Drop bars are bars goint from an initial position
+#. to a final position; the fill color is inverted when final position is lower
+#. than the initial position; they may be used in stock plots.
+#: ../plugins/plot_xy/plot-types.xml.in.h:25
+#, fuzzy
+msgid "Vertical drop bars with continuous X-axis."
+msgstr "Vertikal stripe"
+
 #. really 3_1
-#: ../plugins/plot_xy/plot-types.xml.in.h:16
+#: ../plugins/plot_xy/plot-types.xml.in.h:27
 msgid "XY"
 msgstr "XY"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:17
+#: ../plugins/plot_xy/plot-types.xml.in.h:28
 msgid "XY Lines"
 msgstr "XY-linjer"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:18
+#: ../plugins/plot_xy/plot-types.xml.in.h:29
 msgid "XY Points"
 msgstr "XY-punkter"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:19
+#: ../plugins/plot_xy/plot-types.xml.in.h:30
 #, fuzzy
 msgid "XY Splines"
 msgstr "XY-linjer"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:20
+#: ../plugins/plot_xy/plot-types.xml.in.h:31
 msgid "XY Steps Center"
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:21
+#: ../plugins/plot_xy/plot-types.xml.in.h:32
 msgid "XY Steps End"
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:22
+#: ../plugins/plot_xy/plot-types.xml.in.h:33
 msgid "XY Steps Mean"
 msgstr ""
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:23
+#: ../plugins/plot_xy/plot-types.xml.in.h:34
 msgid "XY Steps Start"
 msgstr ""
 
@@ -6829,6 +6885,11 @@ msgid "Charting : XY/Scatter/Bubble"
 msgstr ""
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
+#, fuzzy
+msgid "Scattered dropbar plotting engine"
+msgstr "Motor for områdeplott"
+
+#: ../plugins/plot_xy/plugin.xml.in.h:7
 msgid "Stock Scatter plot types"
 msgstr ""
 
