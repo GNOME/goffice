@@ -24,6 +24,8 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-geometry.h>
 
+#include <glib/gi18n-lib.h>
+
 #define dist(x0, y0, x1, y1) hypot((x0) - (x1),(y0) - (y1))
 
 /**
@@ -290,20 +292,28 @@ go_direction_is_forward (GODirection d)
 	return (d & 1) != 0;
 }
 
+static GEnumValue const directions[] = {
+	{ GO_DIRECTION_NONE,	"GO_DIRECTION_NONE",	N_("none") },
+	{ GO_DIRECTION_DOWN,	"GO_DIRECTION_DOWN",	N_("down") },
+	{ GO_DIRECTION_UP,	"GO_DIRECTION_UP",	N_("up") },
+	{ GO_DIRECTION_RIGHT,	"GO_DIRECTION_RIGHT",	N_("right") },
+	{ GO_DIRECTION_LEFT,	"GO_DIRECTION_LEFT",	N_("left") },
+	{ 0, NULL, NULL }
+};
+
 GType
 go_direction_get_type (void)
 {
 	static GType etype = 0;
 	if (etype == 0) {
-		static GEnumValue const values[] = {
-			{ GO_DIRECTION_NONE,	"GO_DIRECTION_NONE",	"none" },
-			{ GO_DIRECTION_DOWN,	"GO_DIRECTION_DOWN",	"down" },
-			{ GO_DIRECTION_UP,	"GO_DIRECTION_UP",	"up" },
-			{ GO_DIRECTION_RIGHT,	"GO_DIRECTION_RIGHT",	"right" },
-			{ GO_DIRECTION_LEFT,	"GO_DIRECTION_LEFT",	"left" },
-			{ 0, NULL, NULL }
-		};
-		etype = g_enum_register_static (g_intern_static_string ("GODirection"), values);
+		etype = g_enum_register_static (g_intern_static_string ("GODirection"), directions);
 	}
 	return etype;
+}
+
+char const *
+go_direction_get_name (GODirection d)
+{
+	g_return_val_if_fail (d < G_N_ELEMENTS (directions), NULL);
+	return _(directions[d].value_nick);
 }

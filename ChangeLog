@@ -1,3 +1,10 @@
+2011-04-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-geometry.c (go_direction_get_type),
+	(go_direction_get_name): make nick names localizable since they are
+	used in a gnumeric dialog.
+	* goffice/utils/go-geometry.h: ditto.
+
 2011-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-legend.c (cb_render_elements): fix legends for plots

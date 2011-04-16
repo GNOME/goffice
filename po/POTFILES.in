@@ -225,6 +225,8 @@ goffice/utils/go-font.c
 goffice/utils/go-font.h
 goffice/utils/go-format.c
 goffice/utils/go-format.h
+goffice/utils/go-geometry.c
+goffice/utils/go-geometry.h
 goffice/utils/go-glib-extras.c
 goffice/utils/go-glib-extras.h
 goffice/utils/go-gradient.c
