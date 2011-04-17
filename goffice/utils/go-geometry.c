@@ -314,6 +314,10 @@ go_direction_get_type (void)
 char const *
 go_direction_get_name (GODirection d)
 {
+	unsigned i;
 	g_return_val_if_fail (d < G_N_ELEMENTS (directions), NULL);
-	return _(directions[d].value_nick);
+	for (i = 0; i < G_N_ELEMENTS (directions); i++)
+		if (d == (GODirection) directions[i].value)
+			return _(directions[i].value_nick);
+	return NULL;
 }
