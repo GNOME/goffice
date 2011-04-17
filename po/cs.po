@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-04-06 13:40+0000\n"
-"PO-Revision-Date: 2011-04-06 22:53+0200\n"
+"POT-Creation-Date: 2011-04-16 14:47+0000\n"
+"PO-Revision-Date: 2011-04-17 10:20+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Čistící funkce v zásuvném modulu vrátila chybu."
 
 #: ../goffice/app/go-plugin-service.c:177 ../goffice/gtk/go-format-sel.c:61
-#: ../goffice/utils/go-format.c:734 ../goffice/utils/go-format.c:3703
+#: ../goffice/utils/go-format.c:734 ../goffice/utils/go-format.c:3700
 msgid "General"
 msgstr "Obecné"
 
@@ -543,7 +543,7 @@ msgid "Arrow for line's end"
 msgstr "Šipka na konci čáry"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
-#: ../goffice/canvas/goc-graph.c:413 ../goffice/canvas/goc-group.c:243
+#: ../goffice/canvas/goc-graph.c:413 ../goffice/canvas/goc-group.c:239
 #: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
 #: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
 #: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
@@ -555,7 +555,7 @@ msgid "The circle center horizontal position"
 msgstr "Svislá poloha středu kružnice"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
-#: ../goffice/canvas/goc-graph.c:419 ../goffice/canvas/goc-group.c:249
+#: ../goffice/canvas/goc-graph.c:419 ../goffice/canvas/goc-group.c:245
 #: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
 #: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
 #: ../goffice/canvas/goc-widget.c:324
@@ -586,6 +586,7 @@ msgstr "Poloha vrcholu elipsy"
 #: ../goffice/canvas/goc-graph.c:432 ../goffice/canvas/goc-pixbuf.c:243
 #: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:387 ../goffice/utils/go-image.c:472
+#: ../plugins/plot_xy/gog-xy-dropbar.c:317
 msgid "Width"
 msgstr "Šířka"
 
@@ -642,11 +643,11 @@ msgstr "Vykreslování"
 msgid "The GogRenderer being displayed"
 msgstr "Zobrazovaný GogRenderer"
 
-#: ../goffice/canvas/goc-group.c:244
+#: ../goffice/canvas/goc-group.c:240
 msgid "The group horizontal offset"
 msgstr "Vodorovný posun skupiny"
 
-#: ../goffice/canvas/goc-group.c:250
+#: ../goffice/canvas/goc-group.c:246
 msgid "The group vertical offset"
 msgstr "Svislý posun skupiny"
 
@@ -1835,10 +1836,12 @@ msgid "Fill"
 msgstr "Vyplnit"
 
 #: ../goffice/graph/gog-object.c:67 ../plugins/plot_barcol/gog-dropbar.c:149
+#: ../plugins/plot_xy/gog-xy-dropbar.c:331
 msgid "Start"
 msgstr "Začátek"
 
 #: ../goffice/graph/gog-object.c:68 ../plugins/plot_barcol/gog-dropbar.c:151
+#: ../plugins/plot_xy/gog-xy-dropbar.c:333
 msgid "End"
 msgstr "Konec"
 
@@ -2208,7 +2211,8 @@ msgstr "Guppi"
 #: ../plugins/plot_surface/gog-xyz.c:99
 #: ../plugins/plot_surface/gog-xyz-surface.c:253
 #: ../plugins/plot_xy/gog-xy.c:374 ../plugins/plot_xy/gog-xy.c:486
-#: ../plugins/plot_xy/gog-xy.c:762 ../plugins/smoothing/gog-moving-avg.c:113
+#: ../plugins/plot_xy/gog-xy.c:762 ../plugins/plot_xy/gog-xy-dropbar.c:159
+#: ../plugins/smoothing/gog-moving-avg.c:113
 #: ../plugins/smoothing/gog-exp-smooth.c:80
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -4573,6 +4577,28 @@ msgstr "Žlutá"
 msgid "color"
 msgstr "barva"
 
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:75
+msgid "none"
+msgstr "nic"
+
+#: ../goffice/utils/go-geometry.c:297
+msgid "down"
+msgstr "dolů"
+
+#: ../goffice/utils/go-geometry.c:298
+msgid "up"
+msgstr "nahoru"
+
+#: ../goffice/utils/go-geometry.c:299
+#| msgid "Right"
+msgid "right"
+msgstr "vpravo"
+
+#: ../goffice/utils/go-geometry.c:300
+#| msgid "Left"
+msgid "left"
+msgstr "vlevo"
+
 #: ../goffice/utils/go-glib-extras.c:872
 msgid "yes"
 msgstr "ano"
@@ -4726,10 +4752,6 @@ msgstr "PRAVDA"
 #: ../goffice/utils/go-locale.c:514
 msgid "FALSE"
 msgstr "NEPRAVDA"
-
-#: ../goffice/utils/go-marker.c:75
-msgid "none"
-msgstr "nic"
 
 #: ../goffice/utils/go-marker.c:76
 msgid "square"
@@ -5201,6 +5223,7 @@ msgstr "GogErrorBar *"
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
 #: ../plugins/plot_radar/gog-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
 msgid "_Display the grids above the plot"
 msgstr "Nad _diagramem zobrazit mřížky"
 
@@ -5255,7 +5278,7 @@ msgstr "vodorovné pruhy nebo svislé sloupce"
 #: ../plugins/plot_distrib/gog-boxplot.c:416
 #: ../plugins/plot_distrib/gog-histogram.c:377
 #: ../plugins/plot_radar/gog-radar.c:449 ../plugins/plot_radar/gog-radar.c:520
-#: ../plugins/plot_xy/gog-xy.c:419
+#: ../plugins/plot_xy/gog-xy.c:419 ../plugins/plot_xy/gog-xy-dropbar.c:305
 msgid "Displayed under the grids"
 msgstr "Zobrazovat pod mřížkou"
 
@@ -5265,7 +5288,7 @@ msgstr "Zobrazovat pod mřížkou"
 #: ../plugins/plot_distrib/gog-boxplot.c:417
 #: ../plugins/plot_distrib/gog-histogram.c:378
 #: ../plugins/plot_radar/gog-radar.c:450 ../plugins/plot_radar/gog-radar.c:521
-#: ../plugins/plot_xy/gog-xy.c:420
+#: ../plugins/plot_xy/gog-xy.c:420 ../plugins/plot_xy/gog-xy-dropbar.c:306
 msgid "Should the plot be displayed before the grids"
 msgstr "Zda by se měl diagram zobrazovat před mřížkou"
 
@@ -5313,6 +5336,7 @@ msgstr "DiagramMinMax"
 
 #: ../plugins/plot_barcol/gog-minmax.c:230
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_xy/gog-xy-dropbar.c:311
 msgid "Horizontal"
 msgstr "Vodorovně"
 
@@ -6456,6 +6480,16 @@ msgstr "Měnit bar_vy podle bubliny"
 msgid "_Use nul value instead of invalid"
 msgstr "Po_užít nulové hodnoty místo neplatných"
 
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
+#| msgid "Wrap width"
+msgid "Bar _width:"
+msgstr "Šířk_a pruhu:"
+
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
+#| msgid "Horizontal"
+msgid "_Horizontal"
+msgstr "Vo_dorovně"
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
@@ -6578,12 +6612,34 @@ msgstr ""
 "Sklon v konci interpolované křivky, která používá interpolaci splajnou s "
 "okrajovými podmínkami."
 
+#. xgettext : the base for how to name drop bar/col plot objects
+#. * eg The 2nd drop bar/col plot in a chart will be called
+#. * 	PlotDropBar2
+#: ../plugins/plot_xy/gog-xy-dropbar.c:290
+#| msgid "PlotDropBar"
+msgid "PlotXYDropBar"
+msgstr "DiagramObjemovýXY"
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:312
+#| msgid "The group horizontal offset"
+msgid "Whether to use horizontal bars"
+msgstr "Zda použít vodorovné pruhy"
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:318
+#| msgid "How far the bars/cols overlap as a percentage of the width"
+msgid "Bars width as a percetage of the plot width"
+msgstr "Šířka pruhu jako procentuální podíl ze šířky diagramu"
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:329
+#| msgid "Position"
+msgid "Positions"
+msgstr "Polohy"
+
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 msgid "ColoredXY"
 msgstr "Barevný XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:4
-#| msgid "Horizontal drop bars."
 msgid "Horizontal drop bars with continuous Y-axis."
 msgstr "Vodorovný objemový s průběžnou osou Y."
 
@@ -6621,7 +6677,6 @@ msgid ""
 msgstr "Vícerozměrné body s kroužkem v barvě podle dat v každém bodě."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:13
-#| msgid "Horizontal Drop Bars"
 msgid "Scattered Horizontal Drop Bars"
 msgstr "Rozptylový vodorovný objemový"
 
@@ -6629,7 +6684,6 @@ msgstr "Rozptylový vodorovný objemový"
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:17
-#| msgid "Vertical Drop Bars"
 msgid "Scattered Vertical Drop Bars"
 msgstr "Rozptylový svislý objemový"
 
@@ -6653,7 +6707,6 @@ msgstr "Schodovitá křivka používající nejbližší hodnotu y."
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:25
-#| msgid "Vertical drop bars."
 msgid "Vertical drop bars with continuous X-axis."
 msgstr "Svislý objemový s průběžnou osou X."
 
@@ -6711,7 +6764,6 @@ msgid "Charting : XY/Scatter/Bubble"
 msgstr "Sestavování grafů: XY/korelační/bublinové"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
-#| msgid "2D scatter plotting engine"
 msgid "Scattered dropbar plotting engine"
 msgstr "Generování rozptylových objemových diagramů"
 
@@ -7141,9 +7193,6 @@ msgstr "Křivka vyhlazená klouzavým průměrem"
 #~ "Vzorek\n"
 #~ "Přechod\n"
 #~ "Obrázek"
-
-#~ msgid "How far the bars/cols overlap as a percentage of the width"
-#~ msgstr "Jak moc se pruhy/sloupce překrývají jako procenta šířky"
 
 #~ msgid "Separation between groups as a percentage of bar/col width"
 #~ msgstr "Oddělení mezi skupinami jako procenta šířky pruhu/sloupce"
