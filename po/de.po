@@ -48,8 +48,8 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-04-09 23:51+0000\n"
-"PO-Revision-Date: 2011-04-10 16:57+0100\n"
+"POT-Creation-Date: 2011-04-16 14:47+0000\n"
+"PO-Revision-Date: 2011-04-20 20:43+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@freenet.de>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -623,6 +623,7 @@ msgstr "Die obere Position der Ellipse"
 #: ../goffice/canvas/goc-graph.c:432 ../goffice/canvas/goc-pixbuf.c:243
 #: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:387 ../goffice/utils/go-image.c:472
+#: ../plugins/plot_xy/gog-xy-dropbar.c:317
 msgid "Width"
 msgstr "Breite"
 
@@ -1872,10 +1873,12 @@ msgid "Fill"
 msgstr "Füllen"
 
 #: ../goffice/graph/gog-object.c:67 ../plugins/plot_barcol/gog-dropbar.c:149
+#: ../plugins/plot_xy/gog-xy-dropbar.c:331
 msgid "Start"
 msgstr "Anfang"
 
 #: ../goffice/graph/gog-object.c:68 ../plugins/plot_barcol/gog-dropbar.c:151
+#: ../plugins/plot_xy/gog-xy-dropbar.c:333
 msgid "End"
 msgstr "Ende"
 
@@ -2249,7 +2252,8 @@ msgstr "Guppi"
 #: ../plugins/plot_surface/gog-xyz.c:99
 #: ../plugins/plot_surface/gog-xyz-surface.c:253
 #: ../plugins/plot_xy/gog-xy.c:374 ../plugins/plot_xy/gog-xy.c:486
-#: ../plugins/plot_xy/gog-xy.c:762 ../plugins/smoothing/gog-moving-avg.c:113
+#: ../plugins/plot_xy/gog-xy.c:762 ../plugins/plot_xy/gog-xy-dropbar.c:159
+#: ../plugins/smoothing/gog-moving-avg.c:113
 #: ../plugins/smoothing/gog-exp-smooth.c:80
 msgid "Properties"
 msgstr "Eigenschaften"
@@ -4621,6 +4625,26 @@ msgstr "Gelb"
 msgid "color"
 msgstr "Farbe"
 
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:75
+msgid "none"
+msgstr "Keine"
+
+#: ../goffice/utils/go-geometry.c:297
+msgid "down"
+msgstr "nach unten"
+
+#: ../goffice/utils/go-geometry.c:298
+msgid "up"
+msgstr "nach oben"
+
+#: ../goffice/utils/go-geometry.c:299
+msgid "right"
+msgstr "rechts"
+
+#: ../goffice/utils/go-geometry.c:300
+msgid "left"
+msgstr "links"
+
 #: ../goffice/utils/go-glib-extras.c:872
 msgid "yes"
 msgstr "ja"
@@ -4774,10 +4798,6 @@ msgstr "WAHR"
 #: ../goffice/utils/go-locale.c:514
 msgid "FALSE"
 msgstr "FALSCH"
-
-#: ../goffice/utils/go-marker.c:75
-msgid "none"
-msgstr "Keine"
 
 #: ../goffice/utils/go-marker.c:76
 msgid "square"
@@ -5248,6 +5268,7 @@ msgstr "GogErrorBar *"
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
 #: ../plugins/plot_radar/gog-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
 msgid "_Display the grids above the plot"
 msgstr "Die _Gitter über dem Graph anzeigen"
 
@@ -5302,7 +5323,7 @@ msgstr "Horizontale Balken oder vertikale Säulen"
 #: ../plugins/plot_distrib/gog-boxplot.c:416
 #: ../plugins/plot_distrib/gog-histogram.c:377
 #: ../plugins/plot_radar/gog-radar.c:449 ../plugins/plot_radar/gog-radar.c:520
-#: ../plugins/plot_xy/gog-xy.c:419
+#: ../plugins/plot_xy/gog-xy.c:419 ../plugins/plot_xy/gog-xy-dropbar.c:305
 msgid "Displayed under the grids"
 msgstr "Unter den Gittern anzeigen"
 
@@ -5312,7 +5333,7 @@ msgstr "Unter den Gittern anzeigen"
 #: ../plugins/plot_distrib/gog-boxplot.c:417
 #: ../plugins/plot_distrib/gog-histogram.c:378
 #: ../plugins/plot_radar/gog-radar.c:450 ../plugins/plot_radar/gog-radar.c:521
-#: ../plugins/plot_xy/gog-xy.c:420
+#: ../plugins/plot_xy/gog-xy.c:420 ../plugins/plot_xy/gog-xy-dropbar.c:306
 msgid "Should the plot be displayed before the grids"
 msgstr "Soll der Graph vor dem Raster angezeigt werden?"
 
@@ -5360,6 +5381,7 @@ msgstr "PlotMinMax"
 
 #: ../plugins/plot_barcol/gog-minmax.c:230
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_xy/gog-xy-dropbar.c:311
 msgid "Horizontal"
 msgstr "Horizontal"
 
@@ -6502,6 +6524,14 @@ msgstr "Farben nach Blasen _variieren"
 msgid "_Use nul value instead of invalid"
 msgstr "N_ull anstelle von ungültigen Werten verwenden"
 
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
+msgid "Bar _width:"
+msgstr "Balkenb_reite:"
+
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
+msgid "_Horizontal"
+msgstr "_Horizontal"
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
@@ -6624,6 +6654,25 @@ msgid ""
 msgstr ""
 "Steigung am Ende der interpolierten Kurve bei Verwendung von Interpolation "
 "mit abgeschnittenen Splines"
+
+#. xgettext : the base for how to name drop bar/col plot objects
+#. * eg The 2nd drop bar/col plot in a chart will be called
+#. * 	PlotDropBar2
+#: ../plugins/plot_xy/gog-xy-dropbar.c:290
+msgid "PlotXYDropBar"
+msgstr "PlotXYDropBar"
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:312
+msgid "Whether to use horizontal bars"
+msgstr "Gibt an, ob horizontale Balken verwendet werden sollen"
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:318
+msgid "Bars width as a percetage of the plot width"
+msgstr "Balkenbreite als Prozentsatz der Ansichtsbreite"
+
+#: ../plugins/plot_xy/gog-xy-dropbar.c:329
+msgid "Positions"
+msgstr "Positionen"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 msgid "ColoredXY"
@@ -7023,4 +7072,3 @@ msgstr "Exponentielle Glättungs-Engine"
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Moving average smoothed curve"
 msgstr "Geglättete Kurve des gleitenden Mittelwerts"
-
