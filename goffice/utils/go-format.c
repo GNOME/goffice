@@ -196,6 +196,7 @@ typedef enum {
 } GOFormatOp;
 
 typedef enum {
+	TOK_NULL = 0,
 	TOK_GENERAL = 256,	/* General	*/
 
 	TOK_STRING,		/* "xyz"	*/
@@ -1194,7 +1195,7 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 		break;
 	}
 
-	case 0:
+	case TOK_NULL:
 		break;
 
 	default:
