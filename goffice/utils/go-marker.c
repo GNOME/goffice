@@ -313,8 +313,8 @@ go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scal
 
 	cr_surface = cairo_surface_create_similar (current_cr_surface,
 						   CAIRO_CONTENT_COLOR_ALPHA,
-						   2.0 * offset,
-						   2.0 * offset);
+						   ceil (2.0 * offset),
+						   ceil (2.0 * offset));
 	cr_tmp = cairo_create (cr_surface);
 
 	go_marker_render (marker, cr_tmp, offset, offset, scale);
