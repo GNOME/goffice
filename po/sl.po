@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-04-20 18:45+0000\n"
-"PO-Revision-Date: 2011-04-21 21:46+0100\n"
+"POT-Creation-Date: 2011-05-06 06:25+0000\n"
+"PO-Revision-Date: 2011-05-09 21:25+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-Country: SLOVENIA\n"
@@ -104,11 +104,11 @@ msgstr "Ali je bil dokument spremenjen."
 
 #: ../goffice/app/go-doc.c:146
 msgid "Pristine"
-msgstr ""
+msgstr "Pristno"
 
 #: ../goffice/app/go-doc.c:147
 msgid "Whether the document is unchanged since it was created."
-msgstr "Ali se je dokument od  ustvarjanja dalje spremenil."
+msgstr "Ali je dokument od  ustvarjanja dalje ostal nespremenjen."
 
 #: ../goffice/app/go-doc.c:397
 #: ../goffice/utils/go-style-prefs.ui.h:8
@@ -218,8 +218,8 @@ msgstr "Funkcija čiščenja znotraj vstavka je vrnila napako."
 
 #: ../goffice/app/go-plugin-service.c:177
 #: ../goffice/gtk/go-format-sel.c:61
-#: ../goffice/utils/go-format.c:734
-#: ../goffice/utils/go-format.c:3700
+#: ../goffice/utils/go-format.c:735
+#: ../goffice/utils/go-format.c:3701
 msgid "General"
 msgstr "Splošno"
 
@@ -776,9 +776,8 @@ msgid "points"
 msgstr "točk"
 
 #: ../goffice/canvas/goc-polyline.c:229
-#, fuzzy
 msgid "The polyline vertices"
-msgstr "Neznana podvrsta mnogokotne črte: %d\n"
+msgstr "Oglišča mnogokotne črte"
 
 #: ../goffice/canvas/goc-polyline.c:234
 #: ../goffice/canvas/goc-polygon.c:350
@@ -790,9 +789,8 @@ msgid "Use a Bezier cubic spline as line"
 msgstr "Uporabi Bezierjev kubični zlepek kot črto"
 
 #: ../goffice/canvas/goc-polygon.c:345
-#, fuzzy
 msgid "The polygon vertices"
-msgstr "Obračanje poligona:: %s"
+msgstr "Oglišča mnogokotnika"
 
 #: ../goffice/canvas/goc-polygon.c:351
 msgid "Use a Bezier closed cubic spline as contour"
@@ -812,7 +810,7 @@ msgstr "velikosti"
 
 #: ../goffice/canvas/goc-polygon.c:362
 msgid "If set, the polygon will be split as several polygons according to the given sizes. Each size must be at least 3. Values following an invalid value will be discarded. Setting the \"point\" property will reset the sizes."
-msgstr "Izbrana možnost določa, da bo poligon razdeljen na več manjših poligonov glede na podano velikost. Vsaka velikost mora biti vsaj vrednosti 3. Vrednosti za neveljavno vrednostjo bodo prezrte. Z določevanjem lastnosti \"točke\" bodo vse velikosti počiščene."
+msgstr "Izbrana možnost določa, da bo mnogokotnik razdeljen na več manjših mnogokotnikov glede na podano velikost. Vsaka velikost mora biti vsaj 3. Vrednosti za neveljavno vrednostjo bodo prezrte. Z določevanjem lastnosti \"točke\" bodo vse velikosti počiščene."
 
 #: ../goffice/canvas/goc-rectangle.c:331
 msgid "The rectangle left position (or right position in RTL mode)"
@@ -1517,36 +1515,32 @@ msgid "xpos"
 msgstr "xpos"
 
 #: ../goffice/graph/gog-chart.c:694
-#, fuzzy
 msgid "Horizontal chart position in graph grid"
-msgstr "Vodoravna pozicija grafikona na mreži grafa"
+msgstr "Vodoravni položaj diagrama na mreži"
 
 #: ../goffice/graph/gog-chart.c:698
 msgid "ypos"
 msgstr "ypos"
 
 #: ../goffice/graph/gog-chart.c:699
-#, fuzzy
 msgid "Vertical chart position in graph grid"
-msgstr "Navpična pozicija grafikona na mreži grafa"
+msgstr "Navpični položaj diagrama na mreži"
 
 #: ../goffice/graph/gog-chart.c:702
 msgid "columns"
 msgstr "stolpci"
 
 #: ../goffice/graph/gog-chart.c:703
-#, fuzzy
 msgid "Number of columns in graph grid"
-msgstr "Število stolpcev v igri po meri"
+msgstr "Število stolpcev na mreži grafa"
 
 #: ../goffice/graph/gog-chart.c:706
 msgid "rows"
 msgstr "vrstice"
 
 #: ../goffice/graph/gog-chart.c:707
-#, fuzzy
 msgid "Number of rows in graph grid"
-msgstr "Število vrstic v igri po meri"
+msgstr "Število vrstic na mreži grafa"
 
 #. Note for translators: first string represent the new child object and second string is the parent object
 #: ../goffice/graph/gog-child-button.c:501
@@ -1661,18 +1655,16 @@ msgid "Theme name"
 msgstr "Ime teme"
 
 #: ../goffice/graph/gog-graph.c:382
-#, fuzzy
 msgid "The name of the theme for elements of the graph"
-msgstr "Za to temo je element <name> naveden dvakrat"
+msgstr "Ime teme za predmete grafa"
 
 #: ../goffice/graph/gog-graph.c:388
 msgid "Logical graph width, in points"
 msgstr "Logična širina grafov, v točkah"
 
 #: ../goffice/graph/gog-graph.c:394
-#, fuzzy
 msgid "Logical graph height, in points"
-msgstr "Višina slike v točkah"
+msgstr "Logična višina grafa v točkah"
 
 #: ../goffice/graph/gog-graph.c:399
 msgid "Document"
@@ -1770,9 +1762,8 @@ msgid "Show equation"
 msgstr "Prikaži enačbo"
 
 #: ../goffice/graph/gog-label.c:399
-#, fuzzy
 msgid "Show the equation on the graph"
-msgstr "Pokaži VLC v opravilni vrstici"
+msgstr "Pokaži izraz na grafu"
 
 #: ../goffice/graph/gog-label.c:404
 msgid "Show coefficient"
@@ -3064,38 +3055,32 @@ msgid "Deci_mal places:"
 msgstr "Deci_malna mesta:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:3
-#, fuzzy
 msgid "Display amounts in traditional accounting styles."
-msgstr "Prikazuj zneske v tradicionalnem računovodskem stilu."
+msgstr "Izpiši zneske v običajnem računovodskem slogu."
 
-# Razlaganja?
 #: ../goffice/gtk/go-format-sel.ui.h:4
-#, fuzzy
 msgid "Display and input values as strings with no interpretation."
-msgstr "Prikaži in vnesi vrednost kot nize brez interpretacij."
+msgstr "Prikaži in vnesi vrednost kot nize brez razlage."
 
 #: ../goffice/gtk/go-format-sel.ui.h:5
 msgid "Display currency amounts."
 msgstr "Prikaži zneske valut."
 
 #: ../goffice/gtk/go-format-sel.ui.h:6
-#, fuzzy
 msgid "Display dates and optionally times of day."
-msgstr "Prikazuj datume in izbirno tudi čase dneva."
+msgstr "Izpiši datum in izbirno čas dneva."
 
 #: ../goffice/gtk/go-format-sel.ui.h:7
-#, fuzzy
 msgid "Display numeric values with a fixed number of decimals."
-msgstr "Prikazuj številčne vrednosti z stalnim številom decimalk."
+msgstr "Izpiši številčne vrednosti z določenim številom decimalnih mest."
 
 #: ../goffice/gtk/go-format-sel.ui.h:8
 msgid "Display times of day."
 msgstr "Prikaži čas dneva."
 
 #: ../goffice/gtk/go-format-sel.ui.h:9
-#, fuzzy
 msgid "Display values as closest fractional approximation."
-msgstr "Prikazuj vrednosti kot čim natančnejše približke."
+msgstr "Izpiši vrednosti kot najbližje približke ulomka."
 
 #: ../goffice/gtk/go-format-sel.ui.h:10
 msgid "Display values as percentages."
@@ -3105,7 +3090,7 @@ msgstr "Prikaži vrednosti kot odstotke."
 #: ../goffice/gtk/go-format-sel.ui.h:11
 #, fuzzy
 msgid "Display values with power-of-ten scaling."
-msgstr "Prikazuj vrednosti po večanju po deseticah."
+msgstr "Izpiši vrednosti po večanju po deseticah."
 
 #: ../goffice/gtk/go-format-sel.ui.h:12
 msgid "Format c_ode:"
@@ -3140,11 +3125,9 @@ msgstr "Neposredno določi vrsto sloga XL."
 msgid "Use _superscript"
 msgstr "Uporabi _nadpisano"
 
-# slovenski-prevajalci predlaga superskript
 #: ../goffice/gtk/go-format-sel.ui.h:20
-#, fuzzy
 msgid "Use superscript for exponent (e.g. 4&#xD7;10&#xB2;)"
-msgstr "Za potenco uporabi nadpisano (npr. 4&#xD7;10&#xB2;)"
+msgstr "Uporabi nadpisani zapis za potenco (npr. 4&#xD7;10&#xB2;)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10&#xB2;)"
@@ -4637,73 +4620,73 @@ msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabve, zimbabski dolar"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:440
+#: ../goffice/utils/go-format.c:441
 msgid "*Long Date Format"
 msgstr "*Dolg zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:448
+#: ../goffice/utils/go-format.c:449
 msgid "*Medium Date Format"
 msgstr "*Srednji zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:456
+#: ../goffice/utils/go-format.c:457
 msgid "*Short Date Format"
 msgstr "*Kratek zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:469
+#: ../goffice/utils/go-format.c:470
 msgid "*Short Date/Time Format"
 msgstr "*Kratek zapis datuma/časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:484
+#: ../goffice/utils/go-format.c:485
 msgid "*Long Time Format"
 msgstr "*Dolg zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:496
+#: ../goffice/utils/go-format.c:497
 msgid "*Medium Time Format"
 msgstr "*Srednji zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:508
+#: ../goffice/utils/go-format.c:509
 msgid "*Short Time Format"
 msgstr "*Kratek zapis časa"
 
-#: ../goffice/utils/go-format.c:542
+#: ../goffice/utils/go-format.c:543
 msgid "Black"
 msgstr "Črna"
 
-#: ../goffice/utils/go-format.c:543
+#: ../goffice/utils/go-format.c:544
 msgid "Blue"
 msgstr "Modra"
 
-#: ../goffice/utils/go-format.c:544
+#: ../goffice/utils/go-format.c:545
 msgid "Cyan"
 msgstr "Sinja"
 
-#: ../goffice/utils/go-format.c:545
+#: ../goffice/utils/go-format.c:546
 msgid "Green"
 msgstr "Zelena"
 
-#: ../goffice/utils/go-format.c:546
+#: ../goffice/utils/go-format.c:547
 msgid "Magenta"
 msgstr "Škrlatna"
 
-#: ../goffice/utils/go-format.c:547
+#: ../goffice/utils/go-format.c:548
 msgid "Red"
 msgstr "Rdeča"
 
-#: ../goffice/utils/go-format.c:548
+#: ../goffice/utils/go-format.c:549
 msgid "White"
 msgstr "Bela"
 
-#: ../goffice/utils/go-format.c:549
+#: ../goffice/utils/go-format.c:550
 msgid "Yellow"
 msgstr "Rumena"
 
-#: ../goffice/utils/go-format.c:569
+#: ../goffice/utils/go-format.c:570
 msgid "color"
 msgstr "barva"
 
@@ -5196,9 +5179,8 @@ msgid "Unmatched left bracket."
 msgstr "Levi uklepaj nima para."
 
 #: ../goffice/utils/regutf8.c:49
-#, fuzzy
 msgid "Parenthesis imbalance."
-msgstr "Zamikanje oklepajev"
+msgstr "Neskladnost oklepajev"
 
 #: ../goffice/utils/regutf8.c:50
 msgid "Unmatched \\{."
@@ -5340,9 +5322,8 @@ msgstr "Vrednosti"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:578
 #: ../plugins/plot_barcol/gog-1.5d.c:641
-#, fuzzy
 msgid "Error bars"
-msgstr "_Vodoravne proge"
+msgstr "Stolpci intervala napake"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:598
 #, fuzzy
@@ -5365,7 +5346,6 @@ msgstr "Vrstice"
 #: ../plugins/plot_radar/gog-radar.c:1478
 #: ../plugins/plot_xy/gog-xy.c:2058
 #: ../plugins/plot_xy/gog-xy.c:2064
-#, fuzzy
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -5393,7 +5373,6 @@ msgstr "_Vrzel:"
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
 #: ../plugins/plot_barcol/gog-barcol.c:147
-#, fuzzy
 msgid "PlotBarCol"
 msgstr "PlotBarCol"
 
@@ -5690,12 +5669,12 @@ msgstr ""
 #: ../plugins/plot_barcol/plot-types.xml.in.h:92
 #, fuzzy
 msgid "Percentage Areas"
-msgstr "Odstotek polnjenja:"
+msgstr "Odstotna območja"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:93
 #, fuzzy
 msgid "Percentage Bars"
-msgstr "Računanje stolpcev odstotkov ..."
+msgstr "Odstotni stolpci"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:94
 #, fuzzy
@@ -5864,14 +5843,12 @@ msgid "_Layout"
 msgstr "_Razporeditev"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
-#, fuzzy
 msgid "First Y category label:"
-msgstr "prva nalepka na prvem delovnem listu (privzeto=1)"
+msgstr "Oznaka prve Y kategorije"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
-#, fuzzy
 msgid "Second Y category label:"
-msgstr "Usmerjevalnik z označenim preklopnikom"
+msgstr "Oznaka druge Y kategorije"
 
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
 msgid "_Cumulative"
@@ -5901,9 +5878,8 @@ msgid "Whether outliers should be taken into account and displayed"
 msgstr ""
 
 #: ../plugins/plot_distrib/gog-boxplot.c:410
-#, fuzzy
 msgid "Radius ratio"
-msgstr "Razmerje velikosti:"
+msgstr "Razmerje radija"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:411
 msgid "The ratio between the radius of the circles representing outliers and the rectangle width"
@@ -6017,12 +5993,14 @@ msgid "CumulativeHistogram"
 msgstr "Združevalni strnjen stolpični diagram."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:3
+#, fuzzy
 msgid "HBoxPlotOutliers"
-msgstr ""
+msgstr "HBoxPlotOutliers"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:4
+#, fuzzy
 msgid "HBoxPlots"
-msgstr ""
+msgstr "HBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
 msgid "Histogram."
@@ -6058,12 +6036,14 @@ msgid "Statistics"
 msgstr "Statistika"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:38
+#, fuzzy
 msgid "VBoxPlotOutliers"
-msgstr ""
+msgstr "VBoxPlotOutliers"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:39
+#, fuzzy
 msgid "VBoxPlots"
-msgstr ""
+msgstr "VBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:40
 msgid "Vertical Box-Plot showing outliers."
@@ -6375,7 +6355,7 @@ msgstr "Z"
 #: ../plugins/plot_radar/gog-radar.c:1351
 #, fuzzy
 msgid "Radial error bars"
-msgstr "Računanje stolpcev odstotkov ..."
+msgstr "Krožni interval napake"
 
 #: ../plugins/plot_radar/gog-radar.c:1326
 #, fuzzy
@@ -6386,7 +6366,7 @@ msgstr "Primerjaj celotne vrstice"
 #: ../plugins/plot_radar/gog-radar.c:1477
 #, fuzzy
 msgid "Angular error bars"
-msgstr "Računanje stolpcev odstotkov ..."
+msgstr "Kotni interval napake"
 
 #: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
@@ -6768,15 +6748,13 @@ msgstr "XYBarva"
 
 #: ../plugins/plot_xy/gog-xy.c:1990
 #: ../plugins/plot_xy/gog-xy.c:2057
-#, fuzzy
 msgid "X error bars"
-msgstr "_Vodoravne proge"
+msgstr "Stolpci intervala napake X"
 
 #: ../plugins/plot_xy/gog-xy.c:1993
 #: ../plugins/plot_xy/gog-xy.c:2063
-#, fuzzy
 msgid "Y error bars"
-msgstr "_Vodoravne proge"
+msgstr "Stolpci intervala napake Y"
 
 #: ../plugins/plot_xy/gog-xy.c:2002
 msgid "Horizontal drop lines"
@@ -7088,7 +7066,7 @@ msgstr "Logaritemska regresijska krivulja"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:7
 msgid "Polynomial"
-msgstr "Polinomsko"
+msgstr "Polinom"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:8
 msgid "Polynomial regression curve"
@@ -7226,8 +7204,9 @@ msgstr "Glajena krivulja premikajočega povprečja"
 
 #~ msgid "Estonia, Kroons"
 #~ msgstr "Estonija, krooni"
+
 #~ msgid "_Columns:"
 #~ msgstr "_Stolpci:"
+
 #~ msgid "_Rows:"
 #~ msgstr "_Vrstice:"
-
