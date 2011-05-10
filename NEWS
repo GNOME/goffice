@@ -11,6 +11,7 @@ Jean:
 
 Morten:
 	* Plug leaks.
+	* Detect more cases of linear-regression gone bad.
 
 --------------------------------------------------------------------------
 goffice 0.8.14:

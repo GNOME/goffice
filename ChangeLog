@@ -1,3 +1,9 @@
+2011-05-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (general_linear_regression): Always
+	compute stat information.  If we get negative R-squared, mark
+	result as bad.
+
 2011-05-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-marker.c (go_marker_create_cairo_surface): don't

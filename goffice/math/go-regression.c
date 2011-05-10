@@ -676,14 +676,20 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 	int i,j;
 	gboolean has_result;
 	void *state;
+	gboolean has_stat;
 
 	ZERO_VECTOR (result, xdim);
 
-	if (stat_)
-		memset (stat_, 0, sizeof (stat_));
+	has_stat = (stat_ != NULL);
+	if (!has_stat)
+		stat_ = SUFFIX(go_regression_stat_new)();
 
-	if (xdim > n)
-		return GO_REG_not_enough_data;
+	memset (stat_, 0, sizeof (stat_));
+
+	if (xdim > n) {
+		regerr = GO_REG_not_enough_data;
+		goto out;
+	}
 
 	state = SUFFIX(go_quad_start) ();
 
@@ -726,7 +732,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 		}
 	}
 
-	if (stat_ && has_result) {
+	if (has_result) {
 		GORegressionResult err2;
 		QUAD *inv = g_new (QUAD, xdim);
 		int err;
@@ -757,6 +763,14 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 		stat_->sqr_r = (stat_->ss_total == 0)
 			? 1
 			: 1 - stat_->ss_resid / stat_->ss_total;
+		if (stat_->sqr_r < 0) {
+			/*
+			 * This is an indication that something has gone wrong
+			 * numerically.
+			 */
+			regerr = GO_REG_near_singular_bad;
+		}
+
 		/* FIXME: we want to guard against division by zero.  */
 		stat_->adj_sqr_r = 1 - stat_->ss_resid * (n - 1) /
 			((n - xdim) * stat_->ss_total);
@@ -803,7 +817,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 				g_printerr ("inv[%d]=%" FORMAT_g "\n",
 					    k,
 					    SUFFIX(go_quad_value) (&inv[k]));
-				//regerr = GO_REG_near_singular_bad;
+				regerr = GO_REG_near_singular_bad;
 			}
 			{
 				QUAD p;
@@ -845,6 +859,9 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 	g_free (qresult);
 	FREE_MATRIX (Q, xdim, n);
 	FREE_MATRIX (R, xdim, xdim);
+out:
+	if (!has_stat)
+		SUFFIX(go_regression_stat_destroy) (stat_);
 #endif
 
 	return regerr;
