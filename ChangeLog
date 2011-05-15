@@ -1,3 +1,10 @@
+2011-05-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-format.c (go_format_parse_sequential),
+	(go_format_output_date_to_odf),
+	(go_format_output_scientific_number_to_odf): fixed some gcc-4.6 warnings.
+	[#649355]
+
 2011-05-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (general_linear_regression): Always
