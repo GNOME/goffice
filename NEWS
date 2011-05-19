@@ -8,6 +8,7 @@ Jean:
 	* Implement dropbar plots with linear or logarithmic index axis. [#646832]
 	* Fix legends for plots with marker only style. [#647367]
 	* Don't use badly rounded values when clipping markers. [#649485]
+	* Implement probability plots with data as y values. [#650515]
 
 Morten:
 	* Plug leaks.

@@ -53,13 +53,28 @@ typedef GogPlotClass GogProbabilityPlotClass;
 static GogObjectClass *probability_plot_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
+
+static void
+data_as_y_toggled_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "data-as-y-values", gtk_toggle_button_get_active (btn), NULL);
+}
+
 static void
 gog_probability_plot_populate_editor (GogObject *item,
 			      GOEditor *editor,
 			      GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
-	GtkWidget *w = go_distribution_pref_new (G_OBJECT (item), dalloc, cc);
+	GtkWidget *w, *box = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (box), 12);
+	w = gtk_check_button_new_with_label (_("Use data as Y-values"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_PROBABILITY_PLOT (item)->data_as_yvals);
+	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (data_as_y_toggled_cb), item);
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, TRUE, 0);
+	gtk_widget_show_all (box);
+	go_editor_add_page (editor, box, _("Details"));
+	w = go_distribution_pref_new (G_OBJECT (item), dalloc, cc);
 	go_editor_add_page (editor, w, _("Distribution"));
 
 	(GOG_OBJECT_CLASS(probability_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
@@ -81,14 +96,25 @@ gog_probability_plot_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)) || series->base.num_elements == 0)
 			continue;
 
-		if (x_min > series->x[0])
-			x_min = series->x[0];
-		if (x_max < series->x[series->base.num_elements - 1])
-			x_max = series->x[series->base.num_elements - 1];
-		if (y_min > series->y[0])
-			y_min = series->y[0];
-		if (y_max < series->y[series->base.num_elements - 1])
-			y_max = series->y[series->base.num_elements - 1];
+		if (plot->data_as_yvals) {
+			if (x_min > series->y[0])
+				x_min = series->y[0];
+			if (x_max < series->y[series->base.num_elements - 1])
+				x_max = series->y[series->base.num_elements - 1];
+			if (y_min > series->x[0])
+				y_min = series->x[0];
+			if (y_max < series->x[series->base.num_elements - 1])
+				y_max = series->x[series->base.num_elements - 1];
+		} else {
+			if (x_min > series->x[0])
+				x_min = series->x[0];
+			if (x_max < series->x[series->base.num_elements - 1])
+				x_max = series->x[series->base.num_elements - 1];
+			if (y_min > series->y[0])
+				y_min = series->y[0];
+			if (y_max < series->y[series->base.num_elements - 1])
+				y_max = series->y[series->base.num_elements - 1];
+		}
 	}
 	if (plot->x.minima != x_min || plot->x.maxima != x_max) {
 		plot->x.minima = x_min;
@@ -138,7 +164,8 @@ enum {
 	PROBABILITY_PLOT_PROP_0,
 	PROBABILITY_PLOT_PROP_DISTRIBUTION,
 	PROBABILITY_PLOT_PROP_SHAPE_PARAM1,
-	PROBABILITY_PLOT_PROP_SHAPE_PARAM2
+	PROBABILITY_PLOT_PROP_SHAPE_PARAM2,
+	PROBABILITY_PLOT_PROP_DATA_AS_YVALS
 };
 
 static void
@@ -195,9 +222,14 @@ gog_probability_plot_set_property (GObject *obj, guint param_id,
 			g_strdup (name): NULL;
 		break;
 	}
+	case PROBABILITY_PLOT_PROP_DATA_AS_YVALS:
+		plot->data_as_yvals = g_value_get_boolean (value);
+		gog_object_request_update (GOG_OBJECT (obj));
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 return; /* NOTE : RETURN */
+		return; /* NOTE : RETURN */
 	}
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 
 static void
@@ -215,6 +247,9 @@ gog_probability_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case PROBABILITY_PLOT_PROP_SHAPE_PARAM2:
 		g_value_set_string (value, ((plot->shape_params[1].prop_name)? plot->shape_params[1].prop_name: NULL));
+		break;
+	case PROBABILITY_PLOT_PROP_DATA_AS_YVALS:
+		g_value_set_boolean (value, plot->data_as_yvals);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
@@ -266,6 +301,12 @@ gog_probability_plot_class_init (GogPlotClass *gog_plot_klass)
 			_("Second shape parameter"),
 			_("Name of the second shape parameter if any"),
 			"none",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PROBABILITY_PLOT_PROP_DATA_AS_YVALS,
+		g_param_spec_boolean ("data-as-y-values",
+			_("Data as Y values"),
+			_("whether the data should be mapped to the Y axis."),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_probability_plot_type_name;
@@ -405,10 +446,18 @@ gog_probability_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		nb = series->base.num_elements;
 		style = GOG_STYLED_OBJECT (series)->style;
 		gog_renderer_push_style (view->renderer, style);
-		for (i = 0; i < nb; i++) {
-			gog_renderer_draw_marker (view->renderer,
-						  gog_axis_map_to_view (x_map, series->x[i]),
-						  gog_axis_map_to_view (y_map, series->y[i]));
+		if (model->data_as_yvals) {
+			for (i = 0; i < nb; i++) {
+				gog_renderer_draw_marker (view->renderer,
+							  gog_axis_map_to_view (x_map, series->y[i]),
+							  gog_axis_map_to_view (y_map, series->x[i]));
+			}
+		} else {
+			for (i = 0; i < nb; i++) {
+				gog_renderer_draw_marker (view->renderer,
+							  gog_axis_map_to_view (x_map, series->x[i]),
+							  gog_axis_map_to_view (y_map, series->y[i]));
+			}
 		}
 		gog_renderer_pop_style (view->renderer);
 	}

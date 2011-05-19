@@ -42,6 +42,7 @@ typedef struct {
 		char *prop_name;
 		GogDatasetElement *elem;
 	} shape_params[2];
+	gboolean data_as_yvals;
 } GogProbabilityPlot;
 
 #define GOG_TYPE_PROBABILITY_PLOT	(gog_probability_plot_get_type ())

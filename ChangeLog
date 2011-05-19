@@ -1,3 +1,14 @@
+2011-05-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-probability-plot.c
+	(data_as_y_toggled_cb), (gog_probability_plot_populate_editor),
+	(gog_probability_plot_update), (gog_probability_plot_set_property),
+	(gog_probability_plot_get_property),
+	(gog_probability_plot_class_init),
+	(gog_probability_plot_view_render): implement data-as-y-values property.
+	[#650515]
+	* plugins/plot_distrib/gog-probability-plot.h: ditto.
+
 2011-05-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-format.c (go_format_parse_sequential),
