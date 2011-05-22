@@ -317,6 +317,7 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_dcauchy@Base 0.8.8
  go_destroy_password@Base 0.8.8
  go_dialog_guess_alternative_button_order@Base 0.8.8
+ go_direction_get_name@Base 0.8.15
  go_direction_get_type@Base 0.8.8
  go_direction_is_forward@Base 0.8.8
  go_direction_is_horizontal@Base 0.8.8
@@ -1066,6 +1067,7 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  goc_item_raise@Base 0.8.8
  goc_item_raise_to_top@Base 0.8.8
  goc_item_set@Base 0.8.8
+ goc_item_set_visible@Base 0.8.15
  goc_item_show@Base 0.8.8
  goc_item_ungrab@Base 0.8.8
  goc_line_get_type@Base 0.8.8

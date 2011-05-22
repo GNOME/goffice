@@ -161,6 +161,7 @@ install: build
 #	done
 
 	rm -f $(CURDIR)/debian/tmp/usr/lib/libgoffice-*.la
+	rm -f $(CURDIR)/debian/tmp/usr/lib/goffice/*/plugins/*/*.la
 
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will

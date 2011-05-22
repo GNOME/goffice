@@ -13,7 +13,7 @@ Build-Depends: debhelper (>= 7.0.0), dh-buildinfo,
  libxrender-dev, libxext-dev, libcairo2-dev (>= 1.2.0), libcairo2-doc
 Vcs-git: git://git.gnome.org/goffice
 Vcs-Browser: http://git.gnome.org/cgit/goffice/
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 
 Package: libgoffice-0.8-dev
 Section: libdevel
