@@ -1,5 +1,8 @@
 goffice 0.8.16:
 
+Morten:
+	* Fix long-double compilation issue.
+
 --------------------------------------------------------------------------
 goffice 0.8.15:
 

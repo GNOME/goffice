@@ -9,9 +9,11 @@ typedef struct {
 	double re, im;
 } go_complex;
 
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 typedef struct {
 	long double re, im;
 } go_complexl;
+#endif
 
 #include "go-math.h"
 
