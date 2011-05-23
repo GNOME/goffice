@@ -2,6 +2,7 @@ goffice 0.8.16:
 
 Morten:
 	* Fix long-double compilation issue.
+	* Improve accuracy of complex power.
 
 --------------------------------------------------------------------------
 goffice 0.8.15:

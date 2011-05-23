@@ -18,6 +18,7 @@
 
 #define DOUBLE double
 #define SUFFIX(_n) _n
+#define M_PIgo    3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117
 #define go_strto go_strtod
 #define GO_const(_n) _n
 
@@ -25,6 +26,7 @@
 #include "go-complex.c"
 #undef DOUBLE
 #undef SUFFIX
+#undef M_PIgo
 #undef go_strto
 #undef GO_const
 
@@ -33,6 +35,7 @@
 #endif
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
+#define M_PIgo    3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117L
 #define go_strto go_strtold
 #define GO_const(_n) _n ## L
 #endif
@@ -230,15 +233,43 @@ SUFFIX(go_complex_sqrt) (SUFFIX(go_complex) *dst, SUFFIX(go_complex) const *src)
 void
 SUFFIX(go_complex_pow) (SUFFIX(go_complex) *dst, SUFFIX(go_complex) const *a, SUFFIX(go_complex) const *b)
 {
-	SUFFIX(go_complex) lna, b_lna;
+	if (SUFFIX(go_complex_zero_p) (a) && SUFFIX(go_complex_real_p) (b)) {
+		if (b->re <= 0)
+			SUFFIX(go_complex_invalid) (dst);
+		else
+			SUFFIX(go_complex_real) (dst, 0);
+	} else {
+		DOUBLE res_r, res_a1, res_a2, res_a2_pi, r, arg;
+		SUFFIX(go_complex) F;
 
-	/* ln is not defined for reals less than or equal to zero.  */
-	if (SUFFIX(go_complex_real_p) (a) && SUFFIX(go_complex_real_p) (b))
-		SUFFIX(go_complex_init) (dst, SUFFIX(pow) (a->re, b->re), 0);
-	else {
-		SUFFIX(go_complex_ln) (&lna, a);
-		SUFFIX(go_complex_mul) (&b_lna, b, &lna);
-		SUFFIX(go_complex_exp) (dst, &b_lna);
+		SUFFIX(go_complex_to_polar) (&r, &arg, a);
+		res_r = SUFFIX(pow) (r, b->re) * SUFFIX(exp) (-b->im * arg);
+		res_a1 = b->im * SUFFIX(log) (r);
+		res_a2 = b->re * arg;
+		res_a2_pi = b->re * SUFFIX(go_complex_angle_pi) (a);
+
+		res_a2_pi = SUFFIX(fmod) (res_a2_pi, 2);
+		if (res_a2_pi < 0) res_a2_pi += 2;
+
+		/*
+		 * Problem: sometimes res_a2 is a nice fraction of pi.
+		 * Actually adding it will introduce pointless rounding
+		 * errors.
+		 */
+		if (res_a2_pi == 0.5) {
+			res_a2 = 0;
+			SUFFIX(go_complex_init) (&F, 0, 1);
+		} else if (res_a2_pi == 1) {
+			res_a2 = 0;
+			SUFFIX(go_complex_real) (&F, -1);
+		} else if (res_a2_pi == 1.5) {
+			res_a2 = 0;
+			SUFFIX(go_complex_init) (&F, 0, -1);
+		} else
+			SUFFIX(go_complex_real) (&F, 1);
+
+		SUFFIX(go_complex_from_polar) (dst, res_r, res_a1 + res_a2);
+		SUFFIX(go_complex_mul) (dst, dst, &F);
 	}
 }
 
@@ -251,6 +282,12 @@ void SUFFIX(go_complex_init) (SUFFIX(go_complex) *dst, DOUBLE re, DOUBLE im)
 }
 
 /* ------------------------------------------------------------------------- */
+
+void SUFFIX(go_complex_invalid) (SUFFIX(go_complex) *dst)
+{
+	dst->re = SUFFIX(go_nan);
+	dst->im = SUFFIX(go_nan);
+}
 
 void SUFFIX(go_complex_real) (SUFFIX(go_complex) *dst, DOUBLE re)
 {
@@ -284,6 +321,26 @@ DOUBLE  SUFFIX(go_complex_mod) (SUFFIX(go_complex) const *src)
 DOUBLE SUFFIX(go_complex_angle) (SUFFIX(go_complex) const *src)
 {
 	return SUFFIX(atan2) (src->im, src->re);
+}
+
+/* ------------------------------------------------------------------------- */
+/*
+ * Same as go_complex_angle, but divided by pi (which occasionally produces
+ * nice round numbers not suffering from rounding errors).
+ */
+
+DOUBLE SUFFIX(go_complex_angle_pi) (SUFFIX(go_complex) const *src)
+{
+	if (src->im == 0)
+		return (src->re >= 0 ? 0 : -1);
+
+	if (src->re == 0)
+		return (src->im >= 0 ? 0.5 : -0.5);
+
+	/* We could do quarters too */
+
+	/* Fallback.  */
+	return SUFFIX(go_complex_angle) (src) / M_PIgo;
 }
 
 /* ------------------------------------------------------------------------- */
