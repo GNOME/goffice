@@ -311,7 +311,14 @@ int SUFFIX(go_complex_zero_p) (SUFFIX(go_complex) const *src)
 
 /* ------------------------------------------------------------------------- */
 
-DOUBLE  SUFFIX(go_complex_mod) (SUFFIX(go_complex) const *src)
+int SUFFIX(go_complex_invalid_p) (SUFFIX(go_complex) const *src)
+{
+	return !(SUFFIX(go_finite) (src->re) && SUFFIX(go_finite) (src->im));
+}
+
+/* ------------------------------------------------------------------------- */
+
+DOUBLE SUFFIX(go_complex_mod) (SUFFIX(go_complex) const *src)
 {
 	return SUFFIX(hypot) (src->re, src->im);
 }
