@@ -3,6 +3,7 @@ goffice 0.8.16:
 Morten:
 	* Fix long-double compilation issue.
 	* Improve accuracy of complex power.
+	* Fix GOFormat problem resulting in "-0".  [#650928]
 
 --------------------------------------------------------------------------
 goffice 0.8.15:

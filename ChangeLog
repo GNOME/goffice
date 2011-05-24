@@ -1,3 +1,8 @@
+2011-05-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_execute): Remove "-" from
+	"-0" even when no dot is present.  Fixes #650928.
+
 2011-05-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-complex.c (go_complex_invalid)

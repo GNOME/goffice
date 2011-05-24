@@ -2899,8 +2899,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					g_string_erase (numtxt, 0, 1);
 					dotpos--;
 				}
-			} else
+			} else {
+				if (numtxt->str[0] == '-' &&
+				    numtxt->str[1] == '0' &&
+				    numtxt->len == 2)
+					g_string_erase (numtxt, 0, 1);
 				dotpos = numtxt->len;
+			}
 			break;
 		}
 
