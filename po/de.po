@@ -40,22 +40,21 @@
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 # Hendrik Richter <hendi@gnome-de.org>, 2005.
 # Mario Blättermann <mariobl@freenet.de>, 2009-2011.
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010.
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2010, 2011.
+# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-04-16 14:47+0000\n"
-"PO-Revision-Date: 2011-04-20 20:43+0100\n"
-"Last-Translator: Mario Blättermann <mariobl@freenet.de>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-05 15:09+0200\n"
+"PO-Revision-Date: 2011-06-05 15:10+0200\n"
+"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -122,8 +121,8 @@ msgstr ""
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
-"Sie können dieses Sicherheitsmerkmal ausschalten, indem Sie die entsprechende "
-"Datei »plugin.xml« bearbeiten."
+"Sie können dieses Sicherheitsmerkmal ausschalten, indem Sie die "
+"entsprechende Datei »plugin.xml« bearbeiten."
 
 #: ../goffice/app/go-cmd-context.c:73
 #, c-format
@@ -261,10 +260,10 @@ msgstr "Die Initialisierungsfunktion des Plugins gab einen Fehler zurück."
 
 #: ../goffice/app/go-plugin-service.c:167
 msgid "Cleanup function inside plugin returned error."
-msgstr "Die Aufräumfunktion im Plugin »%s« gab einen Fehler zurück."
+msgstr "Die Aufräumfunktion im Plugin gab einen Fehler zurück."
 
 #: ../goffice/app/go-plugin-service.c:177 ../goffice/gtk/go-format-sel.c:61
-#: ../goffice/utils/go-format.c:734 ../goffice/utils/go-format.c:3700
+#: ../goffice/utils/go-format.c:735 ../goffice/utils/go-format.c:3703
 msgid "General"
 msgstr "Allgemein"
 
@@ -324,8 +323,8 @@ msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
 msgstr ""
-"Ein Dienst muss vor seiner Aktivierung geladen werden (PLUGIN_ALWAYS_LOAD ist "
-"gesetzt), aber das Laden ist fehlgeschlagen."
+"Ein Dienst muss vor seiner Aktivierung geladen werden (PLUGIN_ALWAYS_LOAD "
+"ist gesetzt), aber das Laden ist fehlgeschlagen."
 
 #: ../goffice/app/go-plugin.c:346
 #, c-format
@@ -838,7 +837,8 @@ msgstr ""
 #: ../goffice/canvas/goc-rectangle.c:331
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr ""
-"Die linke Position des Rechtecks (oder rechte Position im linksläufigen Modus)"
+"Die linke Position des Rechtecks (oder rechte Position im linksläufigen "
+"Modus)"
 
 #: ../goffice/canvas/goc-rectangle.c:337
 msgid "The rectangle top position"
@@ -1387,10 +1387,11 @@ msgid "Assigned XL format"
 msgstr "Zugeordnetes XL-Format"
 
 #: ../goffice/graph/gog-axis.c:2592
-msgid "The user assigned format to use for non-discrete axis labels (XL format)"
+msgid ""
+"The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
-"Das vom Benutzer zugewiesene Format zur Verwendung für die Beschriftung nicht-"
-"diskreter Achsen (XL-Format)"
+"Das vom Benutzer zugewiesene Format zur Verwendung für die Beschriftung "
+"nicht-diskreter Achsen (XL-Format)"
 
 #: ../goffice/graph/gog-axis.c:2597 ../goffice/graph/gog-axis.c:2598
 msgid "Rotation of circular axis"
@@ -1484,7 +1485,8 @@ msgstr "Gibt an, ob die Kardinalität des Diagramms derzeit gültig ist"
 #: ../goffice/graph/gog-chart.c:683
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr ""
-"Position und Größe des Darstellungsbereiches als Prozentsatz der Diagrammgröße"
+"Position und Größe des Darstellungsbereiches als Prozentsatz der "
+"Diagrammgröße"
 
 #: ../goffice/graph/gog-chart.c:688
 msgid "Manual plot area"
@@ -1723,7 +1725,9 @@ msgid "Data"
 msgstr "Daten"
 
 #: ../goffice/graph/gog-label.c:338 ../goffice/graph/gog-reg-curve.c:71
-#: ../goffice/graph/gog-trend-line.c:92 ../plugins/plot_xy/gog-xy.c:1985
+#: ../goffice/graph/gog-trend-line.c:92
+#: ../plugins/plot_distrib/gog-probability-plot.c:76
+#: ../plugins/plot_xy/gog-xy.c:1985
 msgid "Details"
 msgstr "Details"
 
@@ -2241,7 +2245,8 @@ msgid "Guppi"
 msgstr "Guppi"
 
 # CHECK
-#: ../goffice/graph/gog-trend-line.c:90 ../plugins/plot_barcol/gog-barcol.c:159
+#: ../goffice/graph/gog-trend-line.c:90
+#: ../plugins/plot_barcol/gog-barcol.c:159
 #: ../plugins/plot_barcol/gog-dropbar.c:107
 #: ../plugins/plot_barcol/gog-line.c:427
 #: ../plugins/plot_barcol/gog-minmax.c:198
@@ -4555,73 +4560,73 @@ msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Simbabwe-Dollar"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:440
+#: ../goffice/utils/go-format.c:441
 msgid "*Long Date Format"
 msgstr "dddd, dd. mmmm yyyy"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:448
+#: ../goffice/utils/go-format.c:449
 msgid "*Medium Date Format"
 msgstr "d. mmm yyyy"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:456
+#: ../goffice/utils/go-format.c:457
 msgid "*Short Date Format"
 msgstr "d. m. yy"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:469
+#: ../goffice/utils/go-format.c:470
 msgid "*Short Date/Time Format"
 msgstr "d. m. yy, hh:mm"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:484
+#: ../goffice/utils/go-format.c:485
 msgid "*Long Time Format"
 msgstr "hh:mm:ss"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:496
+#: ../goffice/utils/go-format.c:497
 msgid "*Medium Time Format"
 msgstr "hh:mm"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:508
+#: ../goffice/utils/go-format.c:509
 msgid "*Short Time Format"
 msgstr "hh:mm"
 
-#: ../goffice/utils/go-format.c:542
+#: ../goffice/utils/go-format.c:543
 msgid "Black"
 msgstr "Schwarz"
 
-#: ../goffice/utils/go-format.c:543
+#: ../goffice/utils/go-format.c:544
 msgid "Blue"
 msgstr "Blau"
 
-#: ../goffice/utils/go-format.c:544
+#: ../goffice/utils/go-format.c:545
 msgid "Cyan"
 msgstr "Zyan"
 
-#: ../goffice/utils/go-format.c:545
+#: ../goffice/utils/go-format.c:546
 msgid "Green"
 msgstr "Grün"
 
-#: ../goffice/utils/go-format.c:546
+#: ../goffice/utils/go-format.c:547
 msgid "Magenta"
 msgstr "Magenta"
 
-#: ../goffice/utils/go-format.c:547
+#: ../goffice/utils/go-format.c:548
 msgid "Red"
 msgstr "Rot"
 
-#: ../goffice/utils/go-format.c:548
+#: ../goffice/utils/go-format.c:549
 msgid "White"
 msgstr "Weiß"
 
-#: ../goffice/utils/go-format.c:549
+#: ../goffice/utils/go-format.c:550
 msgid "Yellow"
 msgstr "Gelb"
 
-#: ../goffice/utils/go-format.c:569
+#: ../goffice/utils/go-format.c:570
 msgid "color"
 msgstr "Farbe"
 
@@ -5232,7 +5237,7 @@ msgstr "Beschriftungen"
 #: ../plugins/plot_barcol/gog-1.5d.c:349
 #: ../plugins/plot_distrib/gog-boxplot.c:431
 #: ../plugins/plot_distrib/gog-histogram.c:393
-#: ../plugins/plot_distrib/gog-probability-plot.c:277
+#: ../plugins/plot_distrib/gog-probability-plot.c:318
 #: ../plugins/plot_pie/gog-pie.c:338 ../plugins/plot_radar/gog-radar.c:321
 msgid "Values"
 msgstr "Werte"
@@ -5256,7 +5261,8 @@ msgstr "Bezugslinien"
 msgid "Lines"
 msgstr "Linien"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:642 ../plugins/plot_radar/gog-radar.c:1352
+#: ../plugins/plot_barcol/gog-1.5d.c:642
+#: ../plugins/plot_radar/gog-radar.c:1352
 #: ../plugins/plot_radar/gog-radar.c:1478 ../plugins/plot_xy/gog-xy.c:2058
 #: ../plugins/plot_xy/gog-xy.c:2064
 msgid "GogErrorBar *"
@@ -5549,16 +5555,16 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
-"In Balken angeordnete Unterkategorien als Prozentsätze der Gesamtsumme dieser "
-"Unterkategorien, gruppiert nach Hauptkategorien."
+"In Balken angeordnete Unterkategorien als Prozentsätze der Gesamtsumme "
+"dieser Unterkategorien, gruppiert nach Hauptkategorien."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:89
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
-"In Säulen angeordnete Unterkategorien als Prozentsätze der Gesamtsumme dieser "
-"Unterkategorien, gruppiert nach Hauptkategorien."
+"In Säulen angeordnete Unterkategorien als Prozentsätze der Gesamtsumme "
+"dieser Unterkategorien, gruppiert nach Hauptkategorien."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:90
 msgid "Minor categories stacked in horizontal bars grouped by major category."
@@ -5793,8 +5799,8 @@ msgstr "Limits"
 
 #: ../plugins/plot_distrib/gog-histogram.c:444
 msgid ""
-"Label for the first Y category. If not set or empty, \"First values\" will be "
-"used."
+"Label for the first Y category. If not set or empty, \"First values\" will "
+"be used."
 msgstr ""
 "Beschriftung der ersten Y-Kategorie. Falls leer oder nicht gesetzt, wird "
 "»Erste Werte« verwendet."
@@ -5823,8 +5829,12 @@ msgstr "Erste Werte"
 msgid "Second values"
 msgstr "Zweite Werte"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:63
-#: ../plugins/plot_distrib/gog-probability-plot.c:254
+#: ../plugins/plot_distrib/gog-probability-plot.c:71
+msgid "Use data as Y-values"
+msgstr "Daten als Y-Werte verwenden"
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:78
+#: ../plugins/plot_distrib/gog-probability-plot.c:289
 msgid "Distribution"
 msgstr "Distribution"
 
@@ -5844,32 +5854,40 @@ msgstr "Distribution"
 #. <property name="guru-hints">backplane</property>
 #. <property name="vertical">false</property>
 #. </Type>
-#: ../plugins/plot_distrib/gog-probability-plot.c:133
+#: ../plugins/plot_distrib/gog-probability-plot.c:159
 #: ../plugins/plot_distrib/plot-types.xml.in.h:36
 msgid "ProbabilityPlot"
 msgstr "WahrscheinlichkeitsDiagramm"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:255
+#: ../plugins/plot_distrib/gog-probability-plot.c:290
 msgid "A pointer to the GODistribution used by this plot"
 msgstr "Ein Zeiger zur GODistribution in diesem Graphen"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:260
+#: ../plugins/plot_distrib/gog-probability-plot.c:295
 msgid "Shape parameter"
 msgstr "Formparameter"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:261
+#: ../plugins/plot_distrib/gog-probability-plot.c:296
 msgid "Name of the first shape parameter if any"
 msgstr "Name des ersten Formparameters, falls vorhanden"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:266
+#: ../plugins/plot_distrib/gog-probability-plot.c:301
 msgid "Second shape parameter"
 msgstr "Zweiter Formparameter"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:267
+#: ../plugins/plot_distrib/gog-probability-plot.c:302
 msgid "Name of the second shape parameter if any"
 msgstr "Name des zweiten Formparameters, falls vorhanden"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:594
+#: ../plugins/plot_distrib/gog-probability-plot.c:307
+msgid "Data as Y values"
+msgstr "Daten als Y-Werte"
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:308
+msgid "whether the data should be mapped to the Y axis."
+msgstr "Gibt an, ob die Daten auf die Y-Achse abgebildet werden sollen."
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:643
 msgid "Regression line"
 msgstr "Regressionskurve"
 
@@ -6097,24 +6115,25 @@ msgstr "Halber Kreis"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:2
 msgid ""
-"Percentage of each contributor displayed as a segment of a ring with one ring "
-"for each series."
+"Percentage of each contributor displayed as a segment of a ring with one "
+"ring for each series."
 msgstr ""
 "Prozentsatz jedes einfließenden Wertes in jeweils in einem Ring pro "
 "Datenreihe angezeigt."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
 msgid ""
-"Percentage of each contributor displayed as a segment of a ring with one ring "
-"for each series; the wedges of the outside ring (corresponding to the last "
-"series) are split apart."
+"Percentage of each contributor displayed as a segment of a ring with one "
+"ring for each series; the wedges of the outside ring (corresponding to the "
+"last series) are split apart."
 msgstr ""
 "Prozentsatz jedes einfließenden Wertes in jeweils in einem Ring pro "
 "Datenreihe angezeigt, wobei der letzte äußere Ring (korrespondierend zur "
 "letzten Datenreihe) abgetrennt ist."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
-msgid "Percentage of each contributor in a half circle with wedges split apart."
+msgid ""
+"Percentage of each contributor in a half circle with wedges split apart."
 msgstr ""
 "Prozentsatz jedes einfließenden Wertes in einem Halbkreis mit abgetrennten "
 "Keilen."
@@ -6650,7 +6669,8 @@ msgstr "Am Ende abschneiden"
 
 #: ../plugins/plot_xy/gog-xy.c:2082
 msgid ""
-"Slope at end of the interpolated curve when using clamped spline interpolation"
+"Slope at end of the interpolated curve when using clamped spline "
+"interpolation"
 msgstr ""
 "Steigung am Ende der interpolierten Kurve bei Verwendung von Interpolation "
 "mit abgeschnittenen Splines"
@@ -6679,9 +6699,8 @@ msgid "ColoredXY"
 msgstr "ColoredXY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:4
-#, fuzzy
 msgid "Horizontal drop bars with continuous Y-axis."
-msgstr "Horizontale Bezugsbalken."
+msgstr "Horizontale Bezugsbalken mit fortlaufender Y-Achse."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:5
 msgid "Interpolate between multi-dimensional points with Bezier splines."
@@ -6713,23 +6732,22 @@ msgid "Multi-dimensional points with circle at each point."
 msgstr "Mehrdimensionale Punkte mit einem Kreis an jedem Punkt."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:12
-msgid "Multi-dimensional points with data dependent color marker at each point."
+msgid ""
+"Multi-dimensional points with data dependent color marker at each point."
 msgstr ""
 "Mehrdimensionale Punkte mit einer datenabhängigen Farbmarkierung an jedem "
 "Punkt."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:13
-#, fuzzy
 msgid "Scattered Horizontal Drop Bars"
-msgstr "Horizontale Bezugsbalken"
+msgstr "Verteilte horizontale Bezugsbalken"
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:17
-#, fuzzy
 msgid "Scattered Vertical Drop Bars"
-msgstr "Vertikale Bezugsbalken"
+msgstr "Verteilte vertikale Bezugsbalken"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "Stepped curve using the first y value."
@@ -6751,9 +6769,8 @@ msgstr "Stufenkurve, die den nächsten y-Wert verwendet."
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:25
-#, fuzzy
 msgid "Vertical drop bars with continuous X-axis."
-msgstr "Vertikale Bezugsbalken."
+msgstr "Vertikale Bezugsbalken mit fortlaufender X-Achse."
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:27
@@ -6809,9 +6826,8 @@ msgid "Charting : XY/Scatter/Bubble"
 msgstr "Diagrammdarstellung : XY/Streuung/Blasen"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
-#, fuzzy
 msgid "Scattered dropbar plotting engine"
-msgstr "2D-Streugraph-Engine"
+msgstr "Verteilte 2D-Streugraph-Engine"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:7
 msgid "Stock Scatter plot types"
@@ -7023,7 +7039,8 @@ msgstr "Anzahl der Interpolationsschritte"
 #: ../plugins/smoothing/gog-exp-smooth.c:73
 msgid ""
 "Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
-"If no value or a negative (or nul) value is provided, the default will be used"
+"If no value or a negative (or nul) value is provided, the default will be "
+"used"
 msgstr ""
 "Vorgegebene Periode ist 10 * (xmax - xmin)/(nvalues - 1)\n"
 "Wenn kein Wert oder ein negativer Wert (oder Null) angegeben wird, so wird "
