@@ -1,3 +1,8 @@
+2011-06-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_fraction_to_odf): in 
+	ODF 1.2 we do not need to use gnm:no-integer-part any more
+
 2011-05-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_execute): Remove "-" from
