@@ -33,6 +33,7 @@
 
 #include <goffice/goffice-config.h>
 #include <gsf/gsf-msole-utils.h>
+#include <gsf/gsf-opendoc-utils.h>
 #include "go-format.h"
 #include "go-locale.h"
 #include "go-font.h"
@@ -6002,8 +6003,21 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				gsf_xml_out_start_element (xout, NUMBER "fraction");
 				odf_add_bool (xout, NUMBER "grouping", FALSE);
 				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", 3);
-				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits",
-						     int_digits > 0 ? int_digits : 0);
+				if (int_digits >= 0)
+					gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", int_digits);
+				else
+#ifdef HAVE_GET_GSF_ODF_VERSION
+					if (get_gsf_odf_version () < 102)
+#endif
+						{
+							gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
+							if (with_extension)
+								gsf_xml_out_add_cstr_unchecked
+									(xout, GNMSTYLE "no-integer-part", "true");
+							
+						}
+				/* In ODF1.2, absence of NUMBER "min-integer-digits" means not to show an       */
+				/* integer part. In ODF 1.1 we used a foreign element: gnm:no-integer-part=true */
 				gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 1);
 				gsf_xml_out_end_element (xout); /* </number:fraction> */
 			}
@@ -6067,6 +6081,17 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 			if (int_digits >= 0)
 				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", int_digits);
+			else
+#ifdef HAVE_GET_GSF_ODF_VERSION
+				if (get_gsf_odf_version () < 102)
+#endif
+					{
+						gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
+						if (with_extension)
+							gsf_xml_out_add_cstr_unchecked
+								(xout, GNMSTYLE "no-integer-part", "true");
+
+					}
 			/* In ODF1.2, absence of NUMBER "min-integer-digits" means not to show an       */
 			/* integer part. In ODF 1.1 we used a foreign element: gnm:no-integer-part=true */
 			gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits",

@@ -476,6 +476,7 @@ LIBS="$GOFFICE_LIBS $LIBS"
 AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution cairo_ps_surface_set_eps)
 AC_CHECK_FUNCS(g_file_new_for_commandline_arg g_file_new_for_uri g_hash_table_iter_init)
 AC_CHECK_FUNCS(g_content_type_from_mime_type)
+AC_CHECK_FUNCS(get_gsf_odf_version)
 AC_CHECK_FUNCS(gtk_adjustment_get_page_size gtk_adjustment_get_upper \
 	gtk_color_selection_dialog_get_color_selection gtk_dialog_get_action_area \
 	gtk_layout_get_bin_window gtk_menu_shell_get_active gtk_selection_data_get_data \
