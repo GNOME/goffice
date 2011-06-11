@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-06-05 13:12+0000\n"
-"PO-Revision-Date: 2011-06-06 15:53+0100\n"
+"PO-Revision-Date: 2011-06-11 11:11+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -2054,7 +2054,7 @@ msgstr "Gurujev namig"
 
 #: ../goffice/graph/gog-plot.c:396
 msgid "Semicolon separated list of hints for automatic addition of objects in guru dialog"
-msgstr ""
+msgstr "S podpičjem ločen seznam Gurujevih namigov za samodejno dodajanje predmetov v pogovornem oknu."
 
 #: ../goffice/graph/gog-plot.c:402
 msgid "Default interpolation"
@@ -2103,7 +2103,7 @@ msgstr "Prikaži _enačbo"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:2
 msgid "Display _regression coefficient R&#xB2;"
-msgstr ""
+msgstr "Prikaži koeficient _regresije R&#xB2;"
 
 #: ../goffice/graph/gog-renderer.c:1547
 #: ../goffice/graph/gog-view.c:590
@@ -2120,7 +2120,7 @@ msgstr "Pogled"
 
 #: ../goffice/graph/gog-renderer.c:1554
 msgid "the GogView this renderer is displaying"
-msgstr ""
+msgstr "Predmet GogView, ki ga prikazuje izrisovalnik"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
 msgid "<b>Interpolation</b>"
@@ -3104,7 +3104,7 @@ msgstr "Uporabi nadpisani zapis za potenco (npr. 4&#xD7;10&#xB2;)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10&#xB2;)"
-msgstr ""
+msgstr "Kadar je decimalni del logaritma enak 1, pokaži le potenčni del (na primer: 10&#xB2;)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
 msgid "_Don't show 1xs"
@@ -4827,9 +4827,8 @@ msgid "Step at center"
 msgstr "Korak na sredini"
 
 #: ../goffice/utils/go-line.c:138
-#, fuzzy
 msgid "Step to mean"
-msgstr "Dejanje, povezano s korakom"
+msgstr "Korak do srednje vrednosti"
 
 #: ../goffice/utils/go-locale.c:513
 msgid "TRUE"
@@ -5152,9 +5151,8 @@ msgid "Invalid character class name."
 msgstr "Neveljavno ime razreda znaka."
 
 #: ../goffice/utils/regutf8.c:46
-#, fuzzy
 msgid "Trailing backslash."
-msgstr "Razširjena Backslash tipka"
+msgstr "Sledeče si povratne poševnice."
 
 #: ../goffice/utils/regutf8.c:47
 msgid "Invalid back reference."
@@ -6050,20 +6048,18 @@ msgstr "Preskoči"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
-#, fuzzy
 msgid "Slices start _at:"
-msgstr "Začetek števca"
+msgstr "Začni razrez _pri:"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
-#, fuzzy
 msgid "_Slice Separation:"
-msgstr "Privzeto ločevanje"
+msgstr "Ločevanje _rezin_"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
 msgid "_Vary colors by slice"
-msgstr "Raz_vrsti barve po prerezih"
+msgstr "Raz_vrsti barve po rezinah"
 
 #: ../plugins/plot_pie/gog-pie-series.ui.h:3
 msgid "_Separation:"
@@ -6071,13 +6067,12 @@ msgstr "_Ločilo:"
 
 #: ../plugins/plot_pie/gog-pie.c:110
 #: ../plugins/plot_pie/gog-pie.c:1300
-#, fuzzy
 msgid "Separation"
-msgstr "_Ločilo:"
+msgstr "Ločilnik"
 
 #: ../plugins/plot_pie/gog-pie.c:111
 msgid "Amount a slice is extended as a percentage of the radius"
-msgstr "Delež izrezka je razširjen kot odstotek radija"
+msgstr "Delež rezine je razširjen kot odstotek radija"
 
 #: ../plugins/plot_pie/gog-pie.c:259
 msgid "PlotPie"
@@ -6101,9 +6096,8 @@ msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr "Privzeta velikost rezine je razširjena kot odstotek radija."
 
 #: ../plugins/plot_pie/gog-pie.c:318
-#, fuzzy
 msgid "Draw 3d wedges"
-msgstr "3d (gumbi)"
+msgstr "Izriši 3D klinaste deleže"
 
 #: ../plugins/plot_pie/gog-pie.c:323
 #: ../plugins/smoothing/gog-moving-avg.c:196
@@ -6128,9 +6122,8 @@ msgid "PlotRing"
 msgstr "GrafKolobar"
 
 #: ../plugins/plot_pie/gog-pie.c:459
-#, fuzzy
 msgid "Center-size"
-msgstr "Velikost datoteke"
+msgstr "Velikost središča"
 
 #: ../plugins/plot_pie/gog-pie.c:460
 msgid "Size of the center hole as a percentage of the radius"
@@ -6159,9 +6152,8 @@ msgid "Degrees clockwise from 12 O'Clock"
 msgstr "Stopinje v smeri urinega kazalca od 12. ure."
 
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
-#, fuzzy
 msgid "Cen_ter size:"
-msgstr "Pokaži _osnovno velikost"
+msgstr "Velikost _središča:"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:1
 msgid "Half Pie"
@@ -6406,14 +6398,12 @@ msgid "PlotSurface"
 msgstr "Diagram - površinski"
 
 #: ../plugins/plot_surface/gog-xyz.c:381
-#, fuzzy
 msgid "Transposed"
 msgstr "Transponirano"
 
 #: ../plugins/plot_surface/gog-xyz.c:382
-#, fuzzy
 msgid "Transpose the plot"
-msgstr "Rešitev _grafa"
+msgstr "Transponiran izris grafa ali diagrama"
 
 #: ../plugins/plot_surface/gog-xyz.c:394
 #: ../plugins/plot_surface/gog-xyz-surface.c:459
@@ -6784,7 +6774,7 @@ msgstr "Večrazsežnostne točke s krogom v vsaki točki."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:12
 msgid "Multi-dimensional points with data dependent color marker at each point."
-msgstr ""
+msgstr "Večrazsežnostne točke s podatkovno odvisnimi barvnimi oznakami pri vsaki točki."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:13
 msgid "Scattered Horizontal Drop Bars"
@@ -6799,19 +6789,19 @@ msgstr "Raztreseni navpični vretenast diagram "
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "Stepped curve using the first y value."
-msgstr ""
+msgstr "Koračna krivulja s prvo vrednostjo y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "Stepped curve using the last y value."
-msgstr ""
+msgstr "Koračna krivulja z zadnjo vrednostjo y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "Stepped curve using the mean y value."
-msgstr ""
+msgstr "Koračna krivulja s srednjo vrednostjo y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "Stepped curve using the nearest y value."
-msgstr ""
+msgstr "Koračna krivulja s približno vrednostjo y."
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
@@ -6847,7 +6837,7 @@ msgstr "Konec korakov XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:33
 msgid "XY Steps Mean"
-msgstr ""
+msgstr "Koračna srednja vrednost XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:34
 msgid "XY Steps Start"
@@ -6862,7 +6852,6 @@ msgid "2D plots"
 msgstr "2D grafi"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:3
-#, fuzzy
 msgid "2D scatter plotting engine"
 msgstr "Programnik izrisa 2D raztresenega diagrama"
 
