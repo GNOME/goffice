@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-06-05 13:12+0000\n"
-"PO-Revision-Date: 2011-06-11 11:11+0100\n"
+"PO-Revision-Date: 2011-06-17 13:42+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -88,15 +88,15 @@ msgstr "Neveljavno %s: '%s'"
 
 #: ../goffice/app/go-doc.c:136
 msgid "URI"
-msgstr "URI"
+msgstr "Naslov URI"
 
 #: ../goffice/app/go-doc.c:137
 msgid "The URI associated with this document."
-msgstr "URI povezan s tem dokumentom."
+msgstr "Naslov URI povezan s tem dokumentom."
 
 #: ../goffice/app/go-doc.c:141
 msgid "Dirty"
-msgstr "Umazano"
+msgstr "Spremenjeno"
 
 #: ../goffice/app/go-doc.c:142
 msgid "Whether the document has been changed."
@@ -108,7 +108,7 @@ msgstr "Pristno"
 
 #: ../goffice/app/go-doc.c:147
 msgid "Whether the document is unchanged since it was created."
-msgstr "Ali je dokument od  ustvarjanja dalje ostal nespremenjen."
+msgstr "Ali je dokument od ustvarjanja dalje ostal nespremenjen."
 
 #: ../goffice/app/go-doc.c:397
 #: ../goffice/utils/go-style-prefs.ui.h:8
@@ -860,9 +860,8 @@ msgid "A pointer to the GOStyle object"
 msgstr "Kazalnik za predmet GOStyle"
 
 #: ../goffice/canvas/goc-styled-item.c:167
-#, fuzzy
 msgid "Scale line width"
-msgstr "Debelina črte puščice"
+msgstr "Širina črte merila"
 
 #: ../goffice/canvas/goc-styled-item.c:168
 msgid "Whether to scale the line width when zooming"
@@ -1135,9 +1134,8 @@ msgid "Size of the minor tick marks, in points"
 msgstr "Velikost oznak podrobnih točk osi (v točkah)"
 
 #: ../goffice/graph/gog-axis-line.c:722
-#, fuzzy
 msgid "Cross axis id"
-msgstr "ID trenutnega pogleda"
+msgstr "ID izhodišča osi"
 
 #: ../goffice/graph/gog-axis-line.c:723
 msgid "Which axis to cross"
@@ -1275,14 +1273,12 @@ msgid "Grads"
 msgstr "Gradiani"
 
 #: ../goffice/graph/gog-axis.c:1397
-#, fuzzy
 msgid "Discrete"
-msgstr "Diskretno"
+msgstr "Diskretne strukture"
 
 #: ../goffice/graph/gog-axis.c:1397
-#, fuzzy
 msgid "Discrete mapping"
-msgstr "Diskretni bloki"
+msgstr "Diskretne preslikave"
 
 #: ../goffice/graph/gog-axis.c:1409
 #: ../goffice/utils/go-line.c:118
@@ -1372,9 +1368,8 @@ msgid "MapName"
 msgstr "Ime preslikave"
 
 #: ../goffice/graph/gog-axis.c:2586
-#, fuzzy
 msgid "The name of the map for scaling"
-msgstr "URL radarske slike"
+msgstr "Ime zemljevida za določanje reda velikosti"
 
 #: ../goffice/graph/gog-axis.c:2591
 msgid "Assigned XL format"
@@ -1382,7 +1377,7 @@ msgstr "Določena XL oblika"
 
 #: ../goffice/graph/gog-axis.c:2592
 msgid "The user assigned format to use for non-discrete axis labels (XL format)"
-msgstr ""
+msgstr "Uporabniško določeni zapis za ne-diskretne oznake osi (zapis XL)"
 
 #: ../goffice/graph/gog-axis.c:2597
 #: ../goffice/graph/gog-axis.c:2598
@@ -1929,9 +1924,8 @@ msgid "Compass"
 msgstr "Kompas"
 
 #: ../goffice/graph/gog-object.c:628
-#, fuzzy
 msgid "Compass auto position flags"
-msgstr "| @name mosaic-position {0=auto,1=fixed} . . . .lega"
+msgstr "Smerne zastavice samodejnega določanja položaja"
 
 #: ../goffice/graph/gog-object.c:634
 msgid "Alignment flag"
@@ -2165,9 +2159,8 @@ msgid "Edge"
 msgstr "Rob"
 
 #: ../goffice/graph/gog-series.c:52
-#, fuzzy
 msgid "Self"
-msgstr "Samo"
+msgstr "Samo sebe"
 
 #: ../goffice/graph/gog-series.c:53
 msgid "Next series"
@@ -3038,7 +3031,7 @@ msgstr "Prikaži in vnesi vrednost kot nize brez razlage."
 
 #: ../goffice/gtk/go-format-sel.ui.h:5
 msgid "Display currency amounts."
-msgstr "Prikaži zneske valut."
+msgstr "Prikaži zneske denarnih enot."
 
 #: ../goffice/gtk/go-format-sel.ui.h:6
 msgid "Display dates and optionally times of day."
@@ -3060,11 +3053,9 @@ msgstr "Izpiši vrednosti kot najbližje približke ulomka."
 msgid "Display values as percentages."
 msgstr "Prikaži vrednosti kot odstotke."
 
-# ni primerno, vem, vzemi tole kot nek placeholder, dokler ne najdem primernejšega prevoda
 #: ../goffice/gtk/go-format-sel.ui.h:11
-#, fuzzy
 msgid "Display values with power-of-ten scaling."
-msgstr "Izpiši vrednosti po večanju po deseticah."
+msgstr "Izpiši vrednosti v desetiškem potenčnem redu velikosti"
 
 #: ../goffice/gtk/go-format-sel.ui.h:12
 msgid "Format c_ode:"
@@ -3112,7 +3103,7 @@ msgstr "_Ne pokaži 1xs"
 
 #: ../goffice/gtk/go-format-sel.ui.h:23
 msgid "_Engineering notation"
-msgstr "Inž_enirske opombe  "
+msgstr "Inž_enirske opombe"
 
 #: ../goffice/gtk/go-format-sel.ui.h:24
 msgid "_Format:"
@@ -3184,7 +3175,7 @@ msgstr "Avstralija"
 #. * "Country (locale)" when there is only one choice or one
 #. * very dominant language.
 #. *
-#. * Note: lots of people get very emotional over this.  Please
+#. * Note: lots of people get very emotional over this. Please
 #. * err on the safe side, if any.
 #.
 #: ../goffice/gtk/go-locale-sel.c:102
@@ -3883,7 +3874,7 @@ msgid "Shape factor"
 msgstr "Dejavnik oblike"
 
 #. The first column has three letter acronyms
-#. * for each currency.  They MUST start with '[$'
+#. * for each currency. They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
 #. 2010/08/12 Updated to match iso 4217
@@ -4013,7 +4004,7 @@ msgstr "Švica, franki"
 
 #: ../goffice/utils/formats.c:399
 msgid "Chile, Unidades de fomento"
-msgstr ""
+msgstr "Čile, Podporna denarna enota (UF)"
 
 #: ../goffice/utils/formats.c:400
 msgid "Chile, Pesos"
@@ -4293,7 +4284,7 @@ msgstr "Mehika, pesi"
 
 #: ../goffice/utils/formats.c:469
 msgid "Mexico, Unidades de Inversion"
-msgstr ""
+msgstr "Mehika, Investicijska enota (UI)"
 
 #: ../goffice/utils/formats.c:470
 msgid "Malaysia, Ringgits"
@@ -4521,7 +4512,7 @@ msgstr "Ameriška Samoa, tala"
 
 #: ../goffice/utils/formats.c:526
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "CFA, franki (BEAC)"
 
 #: ../goffice/utils/formats.c:527
 msgid "Silver, Ounces"
@@ -4533,7 +4524,7 @@ msgstr "Zlato, unče"
 
 #: ../goffice/utils/formats.c:529
 msgid "Bond Markets Units, European Coposite Units (EURCO)"
-msgstr ""
+msgstr "Delniške tržne enote (EURCO)"
 
 #: ../goffice/utils/formats.c:530
 msgid "European Monetary Units (E.M.U.-6)"
@@ -4541,11 +4532,11 @@ msgstr "Evropska monetarna enota (E.M.U.-6)"
 
 #: ../goffice/utils/formats.c:531
 msgid "European Units of Account 9 (E.U.A.-9)"
-msgstr "Evropska računska enota 9 (E.U.A.-9)"
+msgstr "Evropska računovodska enota 9 (E.U.A.-9)"
 
 #: ../goffice/utils/formats.c:532
 msgid "European Units of Account 17 (E.U.A.-17)"
-msgstr "Evropska računska enota 17 (E.U.A.-17)"
+msgstr "Evropska računovodska enota 17 (E.U.A.-17)"
 
 #: ../goffice/utils/formats.c:533
 msgid "East Caribbean Dollars"
@@ -4553,15 +4544,15 @@ msgstr "Vzhodnokaribski dolarji"
 
 #: ../goffice/utils/formats.c:534
 msgid "UIC-Francs"
-msgstr ""
+msgstr "UIC, franki"
 
 #: ../goffice/utils/formats.c:535
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "CFA, franki (BEACO)"
 
 #: ../goffice/utils/formats.c:536
 msgid "Comptoirs Francais du Pacifique, Francs"
-msgstr ""
+msgstr "Francosko pacifiško ozemlje, franki"
 
 #: ../goffice/utils/formats.c:537
 msgid "Palladium, Ounces"
@@ -4891,9 +4882,8 @@ msgid "hourglass"
 msgstr "peščena ura"
 
 #: ../goffice/utils/go-marker.c:90
-#, fuzzy
 msgid "left half bar"
-msgstr "Prikaži menijsko vrstico."
+msgstr "levi polovični palični"
 
 # vzorci diagramov in grafov
 #: ../goffice/utils/go-pattern.c:43
@@ -5221,7 +5211,7 @@ msgstr "Neveljavno določilo $ v nizu zamenjave"
 #: ../goffice/utils/regutf8.c:415
 #, c-format
 msgid "Invalid trailing backslash in replacement."
-msgstr ""
+msgstr "Neveljavne sledeče si povratne poševnice pri zamenjavi."
 
 #: ../goffice/utils/regutf8.c:892
 msgid "Search Text"
@@ -5283,7 +5273,7 @@ msgstr "V 3d"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:339
 msgid "Placeholder to allow us to round trip pseudo 3d state"
-msgstr ""
+msgstr "Držalo, ki omogoča postavitev navideznega 3-razsežnega stanja"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 #: ../plugins/plot_barcol/gog-dropbar.c:147
@@ -6884,9 +6874,8 @@ msgid "Affine"
 msgstr "Naklon"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:160
-#, fuzzy
 msgid "Uncheck to force zero intercept"
-msgstr "Za vsiljenje ničnega prehoda"
+msgstr "Izbrana možnost omogoča vsiljenje koordinatnega izhodišča osi pri vrednosti 0."
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
