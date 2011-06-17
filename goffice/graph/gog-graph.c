@@ -252,10 +252,10 @@ gog_graph_populate_editor (GogObject *gobj,
 
 		box = go_gtk_builder_get_widget (gui, "gog_graph_prefs");
 		go_editor_add_page (editor, box, _("Theme"));
-		g_object_unref (gui);
 
 		g_slist_free (theme_names);
 	}
+	g_object_unref (gui);
 
 	go_editor_set_store_page (editor, &graph_pref_page);
 }
