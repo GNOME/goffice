@@ -3,6 +3,7 @@
  go_ascii_strtold@Base 0.8.8
  go_complex_addl@Base 0.8.8
  go_complex_anglel@Base 0.8.8
+ go_complex_angle_pil@Base 0.8.16
  go_complex_conjl@Base 0.8.8
  go_complex_cosl@Base 0.8.8
  go_complex_divl@Base 0.8.8
@@ -10,6 +11,8 @@
  go_complex_from_polarl@Base 0.8.8
  go_complex_from_stringl@Base 0.8.8
  go_complex_initl@Base 0.8.8
+ go_complex_invalid_pl@Base 0.8.16
+ go_complex_invalidl@Base 0.8.16
  go_complex_lnl@Base 0.8.8
  go_complex_modl@Base 0.8.8
  go_complex_mull@Base 0.8.8

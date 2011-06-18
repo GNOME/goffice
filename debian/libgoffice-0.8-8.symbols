@@ -160,6 +160,7 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_combo_text_set_text@Base 0.8.8
  go_complex_add@Base 0.8.8
  go_complex_angle@Base 0.8.8
+ go_complex_angle_pi@Base 0.8.16
  go_complex_conj@Base 0.8.8
  go_complex_cos@Base 0.8.8
  go_complex_div@Base 0.8.8
@@ -167,6 +168,8 @@ libgoffice-0.8.so.8 libgoffice-0.8-8 #MINVER#
  go_complex_from_polar@Base 0.8.8
  go_complex_from_string@Base 0.8.8
  go_complex_init@Base 0.8.8
+ go_complex_invalid@Base 0.8.16
+ go_complex_invalid_p@Base 0.8.16
  go_complex_ln@Base 0.8.8
  go_complex_mod@Base 0.8.8
  go_complex_mul@Base 0.8.8

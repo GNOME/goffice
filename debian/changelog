@@ -1,3 +1,14 @@
+goffice (0.8.16-1) unstable; urgency=low
+
+  * New upstream stable release. Changes include
+    * Fix GOFormat problem resulting in "-0". (Closes: #627675)
+  * [debian/libgoffice-0.8-8.symbols,
+    debian/libgoffice-0.8-8.symbols.longdouble] Update for new symbols.
+  * [debian/rules] Added "build-arch" and "build-indep" targets; distribute
+    declaration of phony targets.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 18 Jun 2011 13:31:48 +0200
+
 goffice (0.8.15-1) unstable; urgency=low
 
   * New upstream stable release.
