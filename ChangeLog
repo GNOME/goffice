@@ -1,3 +1,11 @@
+2011-06-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-marker-selector.c
+	(go_marker_palette_render_func): Plug leak.
+
+	* goffice/graph/gog-series.c (gog_series_populate_editor): Make
+	sure we free the GtkBuilder object.
+
 2011-06-16  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
@@ -9,7 +17,7 @@
 2011-06-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: check for get_gsf_odf_version
-	* goffice/utils/go-format.c (go_format_output_fraction_to_odf): 
+	* goffice/utils/go-format.c (go_format_output_fraction_to_odf):
 	don't just assume that we are writing ODF 1.2
 
 2011-06-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>

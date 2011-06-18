@@ -596,8 +596,10 @@ gog_series_populate_editor (GogObject *gobj,
 				gtk_widget_set_sensitive (widget, FALSE);
 			widget = go_gtk_builder_get_widget (gui, "fill_type_prefs");
 			gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);
-			g_object_set_data_full (G_OBJECT (widget), "gui", gui,
-						(GDestroyNotify) g_object_unref);
+			g_object_set_data (G_OBJECT (widget), "gui", gui);
+
+			g_signal_connect_swapped (G_OBJECT (widget), "destroy",
+						  G_CALLBACK (g_object_unref), gui);
 		}
 	}
 

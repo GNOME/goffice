@@ -55,6 +55,7 @@ go_marker_palette_render_func (cairo_t *cr,
 	cairo_stroke (cr);
 
 	go_marker_render (marker, cr, area->x + area->width / 2.0, area->y + area->height / 2.0, 1.0);
+	g_object_unref (marker);
 }
 
 /**
