@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-06-05 13:12+0000\n"
-"PO-Revision-Date: 2011-06-17 13:42+0100\n"
+"PO-Revision-Date: 2011-06-18 14:49+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -27,15 +27,15 @@ msgstr "ID"
 
 #: ../goffice/app/file.c:460
 msgid "The identifier of the saver."
-msgstr "Določilo shranjevalnika"
+msgstr "Določilnik shranjevalnika"
 
 #: ../goffice/app/file.c:470
 msgid "MIME type"
-msgstr "Mime vrsta"
+msgstr "Vrsta MIME"
 
 #: ../goffice/app/file.c:471
 msgid "The MIME type of the saver."
-msgstr "Mime vrsta shranjevalnika."
+msgstr "Vrsta MIME shranjevalnika."
 
 #: ../goffice/app/file.c:480
 msgid "Extension"
@@ -43,7 +43,7 @@ msgstr "Pripona"
 
 #: ../goffice/app/file.c:481
 msgid "The standard file name extension of the saver."
-msgstr "Standardna pripona imena datoteka ne strežniku."
+msgstr "Standardna pripona imena datoteke na strežniku."
 
 #: ../goffice/app/file.c:490
 msgid "Description"
@@ -63,7 +63,7 @@ msgstr "Ali naj shranjevalnik prepiše datoteke."
 
 #: ../goffice/app/file.c:511
 msgid "Format Level"
-msgstr "Raven oblike"
+msgstr "Raven zapisa"
 
 #: ../goffice/app/file.c:522
 msgid "Scope"
@@ -71,15 +71,15 @@ msgstr "Obseg"
 
 #: ../goffice/app/file.c:523
 msgid "How much of a document is saved"
-msgstr "Koliko dokumenta je shranjenega"
+msgstr "Kolikšen delež dokumenta je shranjen"
 
 #: ../goffice/app/file.c:687
 msgid "Saving over old files of this type is disabled for safety."
-msgstr "Shranjevanje čez stare datoteke te vrste je onemogočeno zaradi varnosti."
+msgstr "Shranjevanje preko stare datoteke te vrste je onemogočeno zaradi varnosti."
 
 #: ../goffice/app/file.c:697
 msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
-msgstr "To varnostno zmožnost lahko izklopite z urejanjem primerne datoteke plugin.xml."
+msgstr "To varnostno zmožnost lahko onemogočite z urejanjem ustrezne datoteke plugin.xml."
 
 #: ../goffice/app/go-cmd-context.c:73
 #, c-format
@@ -100,7 +100,7 @@ msgstr "Spremenjeno"
 
 #: ../goffice/app/go-doc.c:142
 msgid "Whether the document has been changed."
-msgstr "Ali je bil dokument spremenjen."
+msgstr "Ali je dokument spremenjen."
 
 #: ../goffice/app/go-doc.c:146
 msgid "Pristine"
@@ -136,7 +136,7 @@ msgstr "Modul \"%s\" ima neskladen seznam odvisnosti."
 #: ../goffice/app/go-plugin-loader-module.c:75
 #, c-format
 msgid "Module \"%s\" depends on an invalid null dependency."
-msgstr "Modul \"%s\" je odvisen od neveljavne null odvisnosti."
+msgstr "Modul \"%s\" je odvisen od neveljavne prazne odvisnosti."
 
 #: ../goffice/app/go-plugin-loader-module.c:80
 #, c-format
@@ -419,7 +419,7 @@ msgid ""
 "%s.\n"
 "You should restart this program now."
 msgstr ""
-"Navedeni vstavki niso več na disku, vendar so so še dejavni:\n"
+"Navedeni vstavki niso več na disku, vendar so še dejavni:\n"
 "%s.\n"
 "Program je treba ponovno zagnati."
 
@@ -632,11 +632,11 @@ msgstr "(%s,%s)"
 
 #: ../goffice/canvas/goc-graph.c:414
 msgid "The graph left position"
-msgstr "Leva lega grafa"
+msgstr "Leva lega diagrama"
 
 #: ../goffice/canvas/goc-graph.c:420
 msgid "The graph top position"
-msgstr "Zgornja lega grafa"
+msgstr "Zgornja lega diagrama"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -645,7 +645,7 @@ msgstr "Zgornja lega grafa"
 #: ../goffice/graph/gog-graph.c:175
 #: ../goffice/graph/gog-graph.c:419
 msgid "Graph"
-msgstr "Graf"
+msgstr "Diagram"
 
 #: ../goffice/canvas/goc-graph.c:438
 msgid "The GogGraph this object displays"
@@ -1069,7 +1069,7 @@ msgstr "Lega osi"
 #: ../goffice/graph/gog-axis-line.c:667
 #: ../goffice/graph/gog-axis-line.c:673
 msgid "Where to position an axis low, high, or crossing"
-msgstr "Kje postaviti najnižno in najvišjo točko osi oziroma kje se križa"
+msgstr "Kje postaviti najnižjo in najvišjo točko osi oziroma kje se križa"
 
 #: ../goffice/graph/gog-axis-line.c:672
 msgid "Axis position (as a string)"
@@ -1079,8 +1079,6 @@ msgstr "Lega osi (kot niz)"
 msgid "Major labels"
 msgstr "Glavne oznake"
 
-# tick, ali tick mark,
-# beseda pomeni kljukica, vendar mislim da gre za oznake osi, tiste črtice, ki prikazujejo velikosti enot, naprimer ko pri matematiki narišemo ravnino z osema x in y, moramo narisati še tiste črtice, če ne profesorica odbije kako točko zaradi nejasnosti grafa :)
 #: ../goffice/graph/gog-axis-line.c:679
 msgid "Show labels for major ticks"
 msgstr "Pokaži označbe večjih oznak."
@@ -1091,7 +1089,7 @@ msgstr "Znotraj glavnih točk osi"
 
 #: ../goffice/graph/gog-axis-line.c:685
 msgid "Major tick marks inside the chart area"
-msgstr "Večje označbe znotraj območja grafikona"
+msgstr "Večje označbe znotraj območja diagrama"
 
 #: ../goffice/graph/gog-axis-line.c:690
 msgid "Outside major ticks"
@@ -1099,7 +1097,7 @@ msgstr "Izven glavnih točk osi"
 
 #: ../goffice/graph/gog-axis-line.c:691
 msgid "Major tick marks outside the chart area"
-msgstr "Večje oznake izven območja grafikona"
+msgstr "Večje oznake izven območja diagrama"
 
 #: ../goffice/graph/gog-axis-line.c:696
 msgid "Major tick size"
@@ -1115,7 +1113,7 @@ msgstr "Znotraj podrobnih točk osi"
 
 #: ../goffice/graph/gog-axis-line.c:704
 msgid "Minor tick marks inside the chart area"
-msgstr "Podrobne oznake znotraj območja grafikona"
+msgstr "Podrobne oznake znotraj območja diagrama"
 
 #: ../goffice/graph/gog-axis-line.c:709
 msgid "Outside minor ticks"
@@ -1123,7 +1121,7 @@ msgstr "Izven podrobnih točk osi"
 
 #: ../goffice/graph/gog-axis-line.c:710
 msgid "Minor tick marks outside the axis"
-msgstr "Podrobne oznake izven območja grafikona"
+msgstr "Podrobne oznake izven območja diagrama"
 
 #: ../goffice/graph/gog-axis-line.c:715
 msgid "Minor tick size"
@@ -1145,10 +1143,9 @@ msgstr "Katero os naj se seka"
 msgid "Axis padding"
 msgstr "Blazinjenje osi"
 
-# glej komentar area plot
 #: ../goffice/graph/gog-axis-line.c:730
 msgid "Distance from axis line to plot area, in points"
-msgstr "Razdalja med osno črto in grafom površine, v točkah"
+msgstr "Razdalja med osno črto in diagramom površine v točkah"
 
 #: ../goffice/graph/gog-axis-line.c:822
 msgid "Select axis"
@@ -1172,7 +1169,7 @@ msgstr "<b>Glavne točke osi</b>"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:3
 msgid "<b>Mapping</b>"
-msgstr "<b>Preslikavanje</b>"
+msgstr "<b>Preslikava</b>"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:4
 msgid "<b>Minor ticks</b>"
@@ -1345,7 +1342,7 @@ msgstr "Podrobna mreža"
 
 #: ../goffice/graph/gog-axis.c:2557
 msgid "AxisLine"
-msgstr "OsnaČrta"
+msgstr "Črta osi"
 
 #: ../goffice/graph/gog-axis.c:2560
 msgid "Label"
@@ -1387,13 +1384,12 @@ msgstr "Vrtenje krožne osi"
 #: ../goffice/graph/gog-axis.c:2605
 #: ../goffice/graph/gog-axis.c:2606
 msgid "Polar axis set unit"
-msgstr "Enota polarne osi"
+msgstr "Enota spiralne osi"
 
-# revod ki se uporablja pri OO
 #: ../goffice/graph/gog-chart.c:374
 #: ../goffice/graph/gog-chart.c:682
 msgid "Plot area"
-msgstr "Graf površine"
+msgstr "Površina diagrama"
 
 #: ../goffice/graph/gog-chart.c:584
 msgid "Backplane"
@@ -1433,7 +1429,7 @@ msgstr "Radialna os"
 
 #: ../goffice/graph/gog-chart.c:619
 msgid "Pseudo-3D-Axis"
-msgstr "Psevdo-3D-os"
+msgstr "Navidezna-3D-os"
 
 #: ../goffice/graph/gog-chart.c:623
 msgid "Bubble-Axis"
@@ -1443,10 +1439,9 @@ msgstr "Mehurčna os"
 msgid "Color-Axis"
 msgstr "Barvna os"
 
-# Prvotno je bilo izriši, a sem zato ker je povsod drugje uporabljena beseda graf, to spremenil, če se ti to zdi nerazumljivo mi sporoči, da ti razjasnim
 #: ../goffice/graph/gog-chart.c:631
 msgid "Plot"
-msgstr "Graf"
+msgstr "Diagram"
 
 #: ../goffice/graph/gog-chart.c:634
 #: ../goffice/graph/gog-graph.c:320
@@ -1459,7 +1454,6 @@ msgstr "Naslov"
 msgid "Legend"
 msgstr "Legenda"
 
-# Enačba?
 #: ../goffice/graph/gog-chart.c:645
 #: ../goffice/graph/gog-reg-curve.c:154
 msgid "Equation"
@@ -1475,19 +1469,19 @@ msgstr "Veljavna kardinalnost"
 
 #: ../goffice/graph/gog-chart.c:677
 msgid "Is the charts cardinality currently valid"
-msgstr "Ali je kardinalnost grafikonov trenutno veljavna"
+msgstr "Ali je kardinalnost diagramovtrenutno veljavna"
 
 #: ../goffice/graph/gog-chart.c:683
 msgid "Position and size of plot area, in percentage of chart size"
-msgstr "Položaj in velikost območja za izris v odstotkih velikosti grafa"
+msgstr "Položaj in velikost območja za izris v odstotkih velikosti diagrama"
 
 #: ../goffice/graph/gog-chart.c:688
 msgid "Manual plot area"
-msgstr "Ročni graf površine."
+msgstr "Ročni diagram površine."
 
 #: ../goffice/graph/gog-chart.c:689
 msgid "Is plot area manual"
-msgstr "Ali je območje grafa ustvarjeno ročno"
+msgstr "Ali je območje diagrama ustvarjeno ročno"
 
 #: ../goffice/graph/gog-chart.c:693
 msgid "xpos"
@@ -1511,7 +1505,7 @@ msgstr "stolpci"
 
 #: ../goffice/graph/gog-chart.c:703
 msgid "Number of columns in graph grid"
-msgstr "Število stolpcev na mreži grafa"
+msgstr "Število stolpcev na mreži diagrama"
 
 #: ../goffice/graph/gog-chart.c:706
 msgid "rows"
@@ -1519,7 +1513,7 @@ msgstr "vrstice"
 
 #: ../goffice/graph/gog-chart.c:707
 msgid "Number of rows in graph grid"
-msgstr "Število vrstic na mreži grafa"
+msgstr "Število vrstic na mreži diagrama"
 
 #. Note for translators: first string represent the new child object and second string is the parent object
 #: ../goffice/graph/gog-child-button.c:501
@@ -1623,11 +1617,11 @@ msgstr "Tema"
 
 #: ../goffice/graph/gog-graph.c:315
 msgid "Chart"
-msgstr "Graf"
+msgstr "Diagram"
 
 #: ../goffice/graph/gog-graph.c:376
 msgid "The theme for elements of the graph"
-msgstr "Tema za elemente grafa"
+msgstr "Tema za predmete diagrama"
 
 #: ../goffice/graph/gog-graph.c:381
 msgid "Theme name"
@@ -1635,15 +1629,15 @@ msgstr "Ime teme"
 
 #: ../goffice/graph/gog-graph.c:382
 msgid "The name of the theme for elements of the graph"
-msgstr "Ime teme za predmete grafa"
+msgstr "Ime teme za predmete diagrama"
 
 #: ../goffice/graph/gog-graph.c:388
 msgid "Logical graph width, in points"
-msgstr "Logična širina grafov, v točkah"
+msgstr "Logična širina diagramov v točkah"
 
 #: ../goffice/graph/gog-graph.c:394
 msgid "Logical graph height, in points"
-msgstr "Logična višina grafa v točkah"
+msgstr "Logična višina diagrama v točkah"
 
 #: ../goffice/graph/gog-graph.c:399
 msgid "Document"
@@ -1651,7 +1645,7 @@ msgstr "Dokument"
 
 #: ../goffice/graph/gog-graph.c:400
 msgid "the document for this graph"
-msgstr "dokument za ta graf"
+msgstr "dokument za ta diagram"
 
 #: ../goffice/graph/gog-graph.c:928
 msgid "the renderer for this view"
@@ -1675,7 +1669,7 @@ msgstr "<b>Vzorec</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
 msgid "<b>_Plot type</b>"
-msgstr "<b>Vrsta _grafa</b>"
+msgstr "<b>Vrsta _diagrama</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
 msgid "<b>_Subtype</b>"
@@ -1688,15 +1682,15 @@ msgstr "Ime"
 
 #: ../goffice/graph/gog-guru.c:1027
 msgid "Step 1 of 2: Select Chart Type"
-msgstr "Korak 1 od 2: Izbor vrste grafa"
+msgstr "Korak 1 od 2: Izbor vrste diagrama"
 
 #: ../goffice/graph/gog-guru.c:1035
 msgid "Step 2 of 2: Customize Chart"
-msgstr "Korak 2 od 2: prilagoditev grafa"
+msgstr "Korak 2 od 2: prilagoditev diagrama"
 
 #: ../goffice/graph/gog-guru.c:1040
 msgid "Customize Chart"
-msgstr "_Prilagodi graf"
+msgstr "_Prilagodi diagram"
 
 #: ../goffice/graph/gog-guru.c:1115
 msgid "_Insert"
@@ -1704,7 +1698,7 @@ msgstr "_Vstavi"
 
 #: ../goffice/graph/gog-guru.c:1183
 msgid "_Plot Type"
-msgstr "Vrsta _grafa"
+msgstr "Vrsta _diagrama"
 
 #: ../goffice/graph/gog-label.c:116
 msgid "Allow markup"
@@ -1741,7 +1735,7 @@ msgstr "Prikaži enačbo"
 
 #: ../goffice/graph/gog-label.c:399
 msgid "Show the equation on the graph"
-msgstr "Pokaži izraz na grafu"
+msgstr "Pokaži izraz na diagramu"
 
 #: ../goffice/graph/gog-label.c:404
 msgid "Show coefficient"
@@ -1749,7 +1743,7 @@ msgstr "Pokaži koeficient"
 
 #: ../goffice/graph/gog-label.c:405
 msgid "Show the correlation coefficient on the graph"
-msgstr "Na grafu prikaži primerjalni koeficient"
+msgstr "Na diagramu prikaži primerjalni koeficient"
 
 #: ../goffice/graph/gog-legend.c:218
 msgid "Swatch Size pts"
@@ -1951,15 +1945,15 @@ msgstr "Točke blazinjenja"
 
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
-msgstr "Število točk, ki ločujejo grafikone na mreži"
+msgstr "Število točk, ki ločujejo diagrame na mreži"
 
 #: ../goffice/graph/gog-plot-engine.c:56
 msgid "Plot Engine"
-msgstr "Programnik izrisa grafov"
+msgstr "Programnik izrisa diagrama "
 
 #: ../goffice/graph/gog-plot-engine.c:302
 msgid "Plot Type"
-msgstr "Vrsta grafa"
+msgstr "Vrsta diagrama"
 
 #: ../goffice/graph/gog-plot-engine.c:378
 msgid "Regression Curve Engine"
@@ -1991,7 +1985,7 @@ msgstr "Radialna os:"
 
 #: ../goffice/graph/gog-plot.c:181
 msgid "Pseudo 3D axis:"
-msgstr "Pseudo 3D os:"
+msgstr "Navidezna 3D os:"
 
 #: ../goffice/graph/gog-plot.c:182
 msgid "Color axis:"
@@ -2035,11 +2029,11 @@ msgstr "Sklic osi y"
 
 #: ../goffice/graph/gog-plot.c:389
 msgid "Plot group"
-msgstr "Skupina grafov"
+msgstr "Skupina diagramov"
 
 #: ../goffice/graph/gog-plot.c:390
 msgid "Name of plot group if any"
-msgstr "Ime skupine za izris, če je navedeno"
+msgstr "Ime skupine diagramov za izris, če je navedeno"
 
 # To je neke vrste "učiteljski namig".
 #: ../goffice/graph/gog-plot.c:395
@@ -2060,11 +2054,11 @@ msgstr "Privzeta vrsta interpolacije črt niza"
 
 #: ../goffice/graph/gog-plot.c:1012
 msgid "Move plot area"
-msgstr "Premakni graf površine"
+msgstr "Premakni površino diagrama"
 
 #: ../goffice/graph/gog-plot.c:1064
 msgid "Resize plot area"
-msgstr "Spremeni velikost grafa površine"
+msgstr "Spremeni velikost površine diagrama"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2215,7 +2209,7 @@ msgstr "Ima legendo"
 
 #: ../goffice/graph/gog-series.c:686
 msgid "Should the series show up in legends"
-msgstr "Ali naj se vrednosti nizov podatkov izrišejo v legedni"
+msgstr "Ali naj se vrednosti nizov podatkov izrišejo v legendi"
 
 #: ../goffice/graph/gog-series.c:691
 msgid "Interpolation"
@@ -3079,7 +3073,7 @@ msgstr "S_imbol:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:17
 msgid "Select an appropriate format automatically."
-msgstr "Samodejen izbor primerne vrste zapisa."
+msgstr "Samodejen izbor ustrezne vrste zapisa."
 
 #: ../goffice/gtk/go-format-sel.ui.h:18
 msgid "Specify an XL-style format directly"
@@ -3127,7 +3121,7 @@ msgstr "_Vrsta datoteke:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:4
 msgid "pixels/in"
-msgstr "točke/inčo"
+msgstr "točke/palec"
 
 #: ../goffice/gtk/go-image-sel.ui.h:1
 msgid "<b>Add an image</b>"
@@ -3244,7 +3238,7 @@ msgstr "Katar (ar_QA)"
 
 #: ../goffice/gtk/go-locale-sel.c:118
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Savdska Arabija (ar_SA)"
+msgstr "Savdova Arabija (ar_SA)"
 
 #: ../goffice/gtk/go-locale-sel.c:119
 msgid "Sudan (ar_SD)"
@@ -3700,7 +3694,7 @@ msgstr "Tajska (th_TH)"
 
 #: ../goffice/gtk/go-locale-sel.c:232
 msgid "Eritrea (ti_ER)"
-msgstr "Eritrija (ti_ER)"
+msgstr "Eritreja (ti_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
@@ -3828,7 +3822,7 @@ msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
-"Ni ustreznih dolovljenj za shranjevanje v\n"
+"Ni ustreznih dolvoljenj za shranjevanje v\n"
 "%s"
 
 #: ../goffice/gtk/goffice-gtk.c:1019
@@ -4698,7 +4692,7 @@ msgstr "SVG (vektorska grafika)"
 
 #: ../goffice/utils/go-image.c:134
 msgid "PNG (raster graphics)"
-msgstr "PNG (rasterska grafika)"
+msgstr "PNG (rastrska grafika)"
 
 #: ../goffice/utils/go-image.c:136
 msgid "JPEG (photograph)"
@@ -5166,7 +5160,7 @@ msgstr "Neveljavna vsebina \\{\\}."
 
 #: ../goffice/utils/regutf8.c:52
 msgid "Invalid range end."
-msgstr "Neveljaven koneč vrste."
+msgstr "Neveljaven konec vrste."
 
 #: ../goffice/utils/regutf8.c:53
 msgid "Out of memory."
@@ -5243,7 +5237,7 @@ msgstr "Prezri male/velike črke"
 
 #: ../goffice/utils/regutf8.c:921
 msgid "Ignore the case of letters."
-msgstr "Prezrtje velikosti črk."
+msgstr "Velikost črk bo prezrta."
 
 #: ../goffice/utils/regutf8.c:929
 msgid "Preserve Case"
@@ -5716,7 +5710,7 @@ msgstr "Navpične razponske črte."
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Area plotting engine"
-msgstr "Programnik izrisovanja površinskih grafov"
+msgstr "Programnik izrisovanja površin diagramov"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Bar/Col plotting engine"
@@ -5728,7 +5722,7 @@ msgstr "Diagrami: vrstični/stolpični/črtni/ploščinski"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Default 1.5d plot types"
-msgstr "Privzete 1.5d vrste grafov"
+msgstr "Privzete 1.5d vrste diagramov"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Drop Bar/Col plotting engine"
@@ -5736,7 +5730,7 @@ msgstr "Programnik izrisovanja vretenastih diagramov"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line plotting engine"
-msgstr "Programnik izrisovanja črtnih grafov"
+msgstr "Programnik izrisovanja črtnih diagramov in grafov"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:7
 msgid "Line, Area, Bar and Column plots"
@@ -5893,7 +5887,7 @@ msgstr "Založnik"
 #: ../plugins/plot_distrib/gog-probability-plot.c:159
 #: ../plugins/plot_distrib/plot-types.xml.in.h:36
 msgid "ProbabilityPlot"
-msgstr "Diagram - varjetnostni"
+msgstr "Diagram - verjetnostni"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:290
 msgid "A pointer to the GODistribution used by this plot"
@@ -5909,7 +5903,7 @@ msgstr "Ime prvega parametra oblike, če obstaja"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:301
 msgid "Second shape parameter"
-msgstr "Drugi prameter oblike"
+msgstr "Drugi parameter oblike"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:302
 msgid "Name of the second shape parameter if any"
@@ -5953,7 +5947,7 @@ msgstr "Vodoravni vretenasti diagram z izstopajočimi vrednostmi."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:8
 msgid "Horizontal Box-Plot."
-msgstr "Vodoravni kvantilni diagram."
+msgstr "Vodoravni vretenasti diagram."
 
 #. <Type _name="DoubleHistogram" row="3" col="3"
 #. engine="GogDoubleHistogramPlot" family="Statistics"
@@ -5970,7 +5964,7 @@ msgstr "Vodoravni kvantilni diagram."
 #. </Type>
 #: ../plugins/plot_distrib/plot-types.xml.in.h:22
 msgid "Probability plot."
-msgstr "Graf verjetnosti."
+msgstr "Diagram verjetnosti."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:37
 msgid "Statistics"
@@ -5990,15 +5984,15 @@ msgstr "Navpični vretenasti diagram z izstopajočimi vrednostmi."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:41
 msgid "Vertical Box-Plot."
-msgstr "Navpični kvantilni diagram."
+msgstr "Navpični vretenasti diagram."
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:1
 msgid "Box-plot plotting engine"
-msgstr "Programnik izrisa kvantilnega diagrama"
+msgstr "Programnik izrisa vretenastega diagrama"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:2
 msgid "Charting : distribution related plots"
-msgstr "Diagrami: grafi porazdelitev podatkov"
+msgstr "Diagrami: diagrami porazdelitev podatkov"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:3
 msgid "Histograms plotting engine"
@@ -6006,15 +6000,15 @@ msgstr "Programnik izrisa diagramov"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:4
 msgid "Probability plots engine"
-msgstr "Programnik izrisa grafov verjetnosti"
+msgstr "Programnik izrisa diagramov verjetnosti"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:5
 msgid "Statistics plot types"
-msgstr "Vrste statističnih grafov"
+msgstr "Vrste statističnih diagramov"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:6
 msgid "box-plots, histograms, and other distribution related plots"
-msgstr "kvantilni diagrami in drugi grafi porazdelitev podatkov"
+msgstr "vretenasti diagrami in drugi diagrami porazdelitev podatkov"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
@@ -6066,7 +6060,7 @@ msgstr "Delež rezine je razširjen kot odstotek radija"
 
 #: ../plugins/plot_pie/gog-pie.c:259
 msgid "PlotPie"
-msgstr "GrafTortica"
+msgstr "Diagram - tortni"
 
 #: ../plugins/plot_pie/gog-pie.c:305
 msgid "Initial angle"
@@ -6106,10 +6100,9 @@ msgstr "Pokaži negativne vrednosti"
 msgid "How negative values are displayed"
 msgstr "Kako naj bodo prikazane negativne vrednosti"
 
-# Lahko bi bil tudi prstan, vendar OO uporablja izraz kolobar
 #: ../plugins/plot_pie/gog-pie.c:422
 msgid "PlotRing"
-msgstr "GrafKolobar"
+msgstr "Diagram - kolobarni"
 
 #: ../plugins/plot_pie/gog-pie.c:459
 msgid "Center-size"
@@ -6121,7 +6114,7 @@ msgstr "Velikost središčne luknje v odstotkih velikosti polmera"
 
 #: ../plugins/plot_pie/gog-pie.c:620
 msgid "Move pie"
-msgstr "Premakni tortni graf"
+msgstr "Premakni tortni diagram"
 
 #: ../plugins/plot_pie/gog-pie.c:1173
 #, c-format
@@ -6147,15 +6140,15 @@ msgstr "Velikost _središča:"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:1
 msgid "Half Pie"
-msgstr "Polovični tortni graf"
+msgstr "Polovični tortni diagram"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:2
 msgid "Percentage of each contributor displayed as a segment of a ring with one ring for each series."
-msgstr "Odstotek vsakega prispevka prikazan kot delež obroča, z enim obročem vsakega niza."
+msgstr "Odstotek vsakega prispevka prikazan kot delež kolobarja z enim obročem vsakega niza."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
 msgid "Percentage of each contributor displayed as a segment of a ring with one ring for each series; the wedges of the outside ring (corresponding to the last series) are split apart."
-msgstr "Odstotek vsakega prispevka prikazan kot delež obroča, z enim obročem vsakega niza; klinasti deleži zunanjega obroča (ki sovpada z zadnjim nizom) so izrisani ločeno."
+msgstr "Odstotek vsakega prispevka prikazan kot delež kolobarja, z enim kolobarjem vsakega niza; klinasti deleži zunanjega kolobarja (ki sovpada z zadnjim nizom) so izrisani ločeno."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
 msgid "Percentage of each contributor in a half circle with wedges split apart."
@@ -6175,43 +6168,43 @@ msgstr "Odstotek vsakega sodelavca."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:8
 msgid "Pie"
-msgstr "Tortni graf"
+msgstr "Tortni diagram"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:9
 msgid "Ring"
-msgstr "Obročni graf"
+msgstr "Kolobarni diagram"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:10
 msgid "Split Half Pie"
-msgstr "Razdeljeni polovični tortni graf"
+msgstr "Razdeljeni polovični tortni diagram"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:11
 msgid "Split Pie"
-msgstr "Razdeljeni tortni graf"
+msgstr "Razdeljeni tortni diagram"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:12
 msgid "Split Ring"
-msgstr "Razdeljeni obročni graf"
+msgstr "Razdeljeni kolobarni diagram"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:1
 msgid "Charting : Pie/Ring"
-msgstr "Diagrami: tortični/obročni"
+msgstr "Diagrami: tortni/kolobarni"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:2
 msgid "Default pie types"
-msgstr "Privzete vrste tortnih grafov"
+msgstr "Privzete vrste tortnih diagramov"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie and Ring plots"
-msgstr "Grafi v obliki obročev in tortic"
+msgstr "Diagrami v obliki kolobarjev in tort"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
-msgstr "Programnik izrisa grafa tortice"
+msgstr "Programnik izrisa diagrama tortice"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
-msgstr "Programnik izrisa grafov kolobarjev"
+msgstr "Programnik izrisa kolobarnih diagramov"
 
 #: ../plugins/plot_radar/gog-radar.c:236
 msgid "Default fill"
@@ -6228,7 +6221,7 @@ msgstr "Ali naj privzeti slog nizov podatkov vključuje tudi barvno polnilo"
 #. * 	PlotRT2
 #: ../plugins/plot_radar/gog-radar.c:272
 msgid "PlotRadar"
-msgstr "Diagram - polarni"
+msgstr "Diagram - mrežni"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -6236,14 +6229,14 @@ msgstr "Diagram - polarni"
 #.
 #: ../plugins/plot_radar/gog-radar.c:437
 msgid "PlotRadarArea"
-msgstr "Diagram - ploščinski polarni"
+msgstr "Diagram - ploščinski mrežni"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotPolar2
 #: ../plugins/plot_radar/gog-radar.c:481
 msgid "PlotPolar"
-msgstr "Diagram - polarni"
+msgstr "Diagram - spiralni"
 
 #: ../plugins/plot_radar/gog-radar.c:531
 #: ../plugins/plot_radar/gog-radar.c:739
@@ -6260,7 +6253,7 @@ msgstr "Velikost"
 #. * 	PlotColoredPolar2
 #: ../plugins/plot_radar/gog-radar.c:650
 msgid "PlotColorPolar"
-msgstr "Diagram - barvni polarni"
+msgstr "Diagram - barvni spiralni"
 
 #: ../plugins/plot_radar/gog-radar.c:730
 #: ../plugins/plot_xy/gog-xy.c:847
@@ -6302,78 +6295,73 @@ msgstr "Skrij podatke izven omejitev barvne osi"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
-msgstr "Ploščinski polarni"
+msgstr "Ploščinski mrežni"
 
-# glej komentar za area radar
 #: ../plugins/plot_radar/plot-types.xml.in.h:2
 msgid "Area radar plot."
-msgstr "Graf zapolnjene mreže"
+msgstr "Ploščinski mrežni diagram."
 
-# gre za graf v obliki spirale
 #: ../plugins/plot_radar/plot-types.xml.in.h:3
 msgid "Colored Polar"
-msgstr "Obarvana spirala"
+msgstr "Obarvani spiralni"
 
-# glej komentar Area Radar
 #: ../plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Dotted Radar"
-msgstr "Mreža s točkami"
+msgstr "Točkovni mrežni"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Polar"
-msgstr "Spirala"
+msgstr "Spiralni"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:6
 msgid "Polar plot with colored marks."
-msgstr "Spiralni graf z barvnimi označbami "
+msgstr "Spiralni diagram z barvnimi označbami "
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:7
 msgid "Polar plot."
-msgstr "Spiralni graf."
+msgstr "Spiralni diagram."
 
-# glej komentar Radar area
 #: ../plugins/plot_radar/plot-types.xml.in.h:8
 msgid "Radar"
-msgstr "Mreža"
+msgstr "Mrežni diagram"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:9
 msgid "Radar plot with dots."
-msgstr "Mrežni graf s točkami."
+msgstr "Mrežni diagram s točkami."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:10
 msgid "Radar plot."
-msgstr "Graf mreža."
+msgstr "Mrežni diagram."
 
-# Polar -> spirala
-# Radar -> mreža
-# Charting = ??
+# Polar -> spiralni
+# Radar -> mrežni
 #: ../plugins/plot_radar/plugin.xml.in.h:1
 msgid "Charting : Polar/Radar"
-msgstr "Diagrami: spiralni/polarni"
+msgstr "Diagrami: spiralni/mrežni"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:2
 msgid "Default radar plot types"
-msgstr "Privzete vrste mrežnih grafov"
+msgstr "Privzete vrste mrežnih diagramov"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:3
 msgid "Polar and Radar plots"
-msgstr "Grafi spiral in mrež"
+msgstr "Spiralni in mrežni diagrami"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:4
 msgid "Polar plotting engine"
-msgstr "Programnik izrisa spiralnih grafov"
+msgstr "Programnik izrisa spiralnih diagramov"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:5
 msgid "Polar plotting engine with colored marks"
-msgstr "Programnik izrisa polarnega diagrama z barvnimi oznakami"
+msgstr "Programnik izrisa spiralnega diagrama z barvnimi oznakami"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:6
 msgid "Radar Area plotting engine"
-msgstr "Programnik izrisa grafa mreže s površino"
+msgstr "Programnik izrisa mrežnega površinskega diagrama"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:7
 msgid "Radar plotting engine"
-msgstr "Programnik izrisa mreže"
+msgstr "Programnik izrisa mrežnega diagrama"
 
 #. xgettext : the base for how to name contour plot objects
 #.
@@ -6495,27 +6483,27 @@ msgstr "Izriše površino iz skupka točk s tremi koordinatami"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:3
 msgid "Contour"
-msgstr "Obris"
+msgstr "Obrisni"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:4
 msgid "Contour plot."
-msgstr "Graf obrisa."
+msgstr "Obrisni diagram."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:5
 msgid "Surface"
-msgstr "Površina"
+msgstr "Površinski"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:6
 msgid "Surface plot."
-msgstr "Graf površine."
+msgstr "Površinski diagram."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:7
 msgid "XYZContour"
-msgstr "XYZObris"
+msgstr "XYZObrisni"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:8
 msgid "XYZSurface"
-msgstr "XYZPovršina"
+msgstr "XYZPovršinski"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
 msgid "Charting : Surfaces"
@@ -6523,27 +6511,27 @@ msgstr "Diagrami: površinski"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:2
 msgid "Contour plotting engine"
-msgstr "Programnik izrisa grafa obrisa"
+msgstr "Programnik izrisa obrisnega diagrama"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:3
 msgid "Default surface plot types"
-msgstr "Privzete vrste površinskih grafov"
+msgstr "Privzete vrste površinskih diagramov"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "Surface charts"
-msgstr "Grafi površin"
+msgstr "Površinski diagrami"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
 msgid "Surface plotting engine"
-msgstr "Programnik izrisa površinskih grafov"
+msgstr "Programnik izrisa površinskih diagramov"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:6
 msgid "XYZ contour plotting engine"
-msgstr "Programnik izrisa grafa XYZ obrisa"
+msgstr "Programnik izrisa obrisnega XYZ diagrama"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:7
 msgid "XYZ surface plotting engine"
-msgstr "Programnik izrisa grafa XYZ površine"
+msgstr "Programnik izrisa površinskega XYZ diagrama"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
 #, no-c-format
@@ -6626,7 +6614,7 @@ msgstr "Ali naj graf uporabi zlepke namesto linearne interpolacije vrednosti"
 
 #: ../plugins/plot_xy/gog-xy.c:474
 msgid "PlotBubble"
-msgstr "GrafMehurček"
+msgstr "Mehurčni diagram"
 
 #: ../plugins/plot_xy/gog-xy.c:574
 msgid "Size as area"
@@ -6646,11 +6634,11 @@ msgstr "Izriši mehurčni diagram za negativne vrednosti"
 
 #: ../plugins/plot_xy/gog-xy.c:587
 msgid "Draw 3d bubbles"
-msgstr "Nariši 3D oblačke"
+msgstr "Nariši 3D mehurčke"
 
 #: ../plugins/plot_xy/gog-xy.c:592
 msgid "Bubble scale"
-msgstr "Merilo oblačka"
+msgstr "Merilo mehurčka"
 
 #: ../plugins/plot_xy/gog-xy.c:593
 msgid "Fraction of default radius used for display"
@@ -6659,14 +6647,14 @@ msgstr "Delež privzetega radija uporabljenega za prikaz"
 #: ../plugins/plot_xy/gog-xy.c:602
 #: ../plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
-msgstr "Oblaček"
+msgstr "Mehurček"
 
 #. xgettext : the base for how to name map like plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
 #: ../plugins/plot_xy/gog-xy.c:727
 msgid "XYColor"
-msgstr "Barva XY"
+msgstr "Diagram - barvni XY"
 
 #: ../plugins/plot_xy/gog-xy.c:1990
 #: ../plugins/plot_xy/gog-xy.c:2057
@@ -6735,7 +6723,7 @@ msgstr "Obarvan XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:4
 msgid "Horizontal drop bars with continuous Y-axis."
-msgstr "Vodoravni vretenast diagram z naskončno osjo Y."
+msgstr "Vodoravni vretenast diagram z neskončno osjo Y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:5
 msgid "Interpolate between multi-dimensional points with Bezier splines."
@@ -6798,7 +6786,7 @@ msgstr "Koračna krivulja s približno vrednostjo y."
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:25
 msgid "Vertical drop bars with continuous X-axis."
-msgstr "Navpični vretenast diagram z naskončno osjo X."
+msgstr "Navpični vretenast diagram z neskončno osjo X."
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:27
@@ -6839,15 +6827,15 @@ msgstr "Programnik izrisovanja raztresenega diagrama"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
-msgstr "2D grafi"
+msgstr "2D diagrami"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:3
 msgid "2D scatter plotting engine"
-msgstr "Programnik izrisa 2D raztresenega diagrama"
+msgstr "Programnik izrisa 2-razsežnega raztresenega diagrama"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:4
 msgid "Bubble plotting engine"
-msgstr "Programnik izrisa grafov mehurčkov"
+msgstr "Programnik izrisa mehurčnih diagramov"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:5
 msgid "Charting : XY/Scatter/Bubble"
@@ -6855,7 +6843,7 @@ msgstr "Diagrami: XY/razpršeni/mehurčni"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
 msgid "Scattered dropbar plotting engine"
-msgstr "Programnik izrisovanja raztresenega vrtilnega diagrama"
+msgstr "Programnik izrisovanja raztresenega vretenastega diagrama"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:7
 msgid "Stock Scatter plot types"
@@ -7038,7 +7026,7 @@ msgstr "Premikajoče povprečje"
 
 #: ../plugins/smoothing/gog-moving-avg.c:197
 msgid "Number of averaged values"
-msgstr "Število povprečenih vrednosti"
+msgstr "Število povprečnih vrednosti"
 
 #: ../plugins/smoothing/gog-moving-avg.c:202
 msgid "Average X"
@@ -7046,7 +7034,7 @@ msgstr "Povprečni X"
 
 #: ../plugins/smoothing/gog-moving-avg.c:203
 msgid "Use averaged x values"
-msgstr "Uporabi povprečene vrednosti x"
+msgstr "Uporabi povprečne vrednosti x"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:1
 msgid "_Span:"
