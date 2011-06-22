@@ -1,3 +1,9 @@
+2011-06-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-graph.c (gog_graph_populate_editor): Force the
+	GtkComboxBox to drop its model on destroy to prevent theme leak if
+	the combo is leaked itself.  Fixes #652420.
+
 2011-06-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-marker-selector.c
