@@ -11,22 +11,22 @@
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005.
 # Chihau Chau <chihau@gmail.com>, 2009.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-05-06 06:25+0000\n"
-"PO-Revision-Date: 2011-05-08 22:57+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"POT-Creation-Date: 2011-05-19 10:54+0000\n"
+"PO-Revision-Date: 2011-06-23 18:59+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../goffice/app/file.c:459
 msgid "ID"
@@ -231,7 +231,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "La función de limpieza interna del complemento ha devuelto un error."
 
 #: ../goffice/app/go-plugin-service.c:177 ../goffice/gtk/go-format-sel.c:61
-#: ../goffice/utils/go-format.c:735 ../goffice/utils/go-format.c:3701
+#: ../goffice/utils/go-format.c:735 ../goffice/utils/go-format.c:3698
 msgid "General"
 msgstr "General"
 
@@ -332,7 +332,8 @@ msgstr "No se puede leer el archivo de información del complemento («%s»)."
 #: ../goffice/app/go-plugin.c:761
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "El archivo «%s» no es un archivo válido de información de complementos."
+msgstr ""
+"El archivo «%s» no es un archivo válido de información de complementos."
 
 #: ../goffice/app/go-plugin.c:844
 #, c-format
@@ -354,8 +355,8 @@ msgstr "Nombre desconocido del complemento."
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
-"No se encuentra definido un cargador para el complemento con identificador=«%"
-"s»."
+"No se encuentra definido un cargador para el complemento con "
+"identificador=«%s»."
 
 #: ../goffice/app/go-plugin.c:870
 msgid "Plugin has no id."
@@ -1700,7 +1701,9 @@ msgid "Data"
 msgstr "Datos"
 
 #: ../goffice/graph/gog-label.c:338 ../goffice/graph/gog-reg-curve.c:71
-#: ../goffice/graph/gog-trend-line.c:92 ../plugins/plot_xy/gog-xy.c:1985
+#: ../goffice/graph/gog-trend-line.c:92
+#: ../plugins/plot_distrib/gog-probability-plot.c:76
+#: ../plugins/plot_xy/gog-xy.c:1985
 msgid "Details"
 msgstr "Detalles"
 
@@ -5198,7 +5201,7 @@ msgstr "Etiquetas"
 #: ../plugins/plot_barcol/gog-1.5d.c:349
 #: ../plugins/plot_distrib/gog-boxplot.c:431
 #: ../plugins/plot_distrib/gog-histogram.c:393
-#: ../plugins/plot_distrib/gog-probability-plot.c:277
+#: ../plugins/plot_distrib/gog-probability-plot.c:318
 #: ../plugins/plot_pie/gog-pie.c:338 ../plugins/plot_radar/gog-radar.c:321
 msgid "Values"
 msgstr "Valores"
@@ -5797,8 +5800,13 @@ msgstr "Primeros valores"
 msgid "Second values"
 msgstr "Segundos valores"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:63
-#: ../plugins/plot_distrib/gog-probability-plot.c:254
+#: ../plugins/plot_distrib/gog-probability-plot.c:71
+#| msgid "Use averaged x values"
+msgid "Use data as Y-values"
+msgstr "Usar datos como valores Y"
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:78
+#: ../plugins/plot_distrib/gog-probability-plot.c:289
 msgid "Distribution"
 msgstr "Distribución"
 
@@ -5818,32 +5826,40 @@ msgstr "Distribución"
 #. <property name="guru-hints">backplane</property>
 #. <property name="vertical">false</property>
 #. </Type>
-#: ../plugins/plot_distrib/gog-probability-plot.c:133
+#: ../plugins/plot_distrib/gog-probability-plot.c:159
 #: ../plugins/plot_distrib/plot-types.xml.in.h:36
 msgid "ProbabilityPlot"
 msgstr "Gráfica de probabilidad"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:255
+#: ../plugins/plot_distrib/gog-probability-plot.c:290
 msgid "A pointer to the GODistribution used by this plot"
 msgstr "Un puntero a la GODistribution usada en esta gráfica"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:260
+#: ../plugins/plot_distrib/gog-probability-plot.c:295
 msgid "Shape parameter"
 msgstr "Parámetro de forma"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:261
+#: ../plugins/plot_distrib/gog-probability-plot.c:296
 msgid "Name of the first shape parameter if any"
 msgstr "Nombre del primer parámetro de forma si existe"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:266
+#: ../plugins/plot_distrib/gog-probability-plot.c:301
 msgid "Second shape parameter"
 msgstr "Segundo parámetro de forma"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:267
+#: ../plugins/plot_distrib/gog-probability-plot.c:302
 msgid "Name of the second shape parameter if any"
 msgstr "Nombre del segundo parámetro de forma si existe"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:594
+#: ../plugins/plot_distrib/gog-probability-plot.c:307
+msgid "Data as Y values"
+msgstr "Datos como valores Y"
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:308
+msgid "whether the data should be mapped to the Y axis."
+msgstr "indica si los datos se deben mapear en el eje Y."
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:643
 msgid "Regression line"
 msgstr "Línea de regresión"
 
