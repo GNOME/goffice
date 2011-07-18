@@ -6,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice 0.9.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-13 19:48+0200\n"
-"PO-Revision-Date: 2011-04-13 19:50+0200\n"
+"POT-Creation-Date: 2011-07-18 16:50+0200\n"
+"PO-Revision-Date: 2011-07-18 18:32+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
-"Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
+"Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr "ID"
 
 #: ../goffice/app/file.c:460
 msgid "The identifier of the saver."
-msgstr ""
+msgstr "Identifikator for lagrer."
 
 #: ../goffice/app/file.c:470
 msgid "MIME type"
@@ -29,7 +29,7 @@ msgstr "MIME-type"
 
 #: ../goffice/app/file.c:471
 msgid "The MIME type of the saver."
-msgstr ""
+msgstr "MIME-type for lagrer."
 
 #: ../goffice/app/file.c:480
 msgid "Extension"
@@ -37,7 +37,7 @@ msgstr "Filtype"
 
 #: ../goffice/app/file.c:481
 msgid "The standard file name extension of the saver."
-msgstr ""
+msgstr "Standard filnavn for lagrer."
 
 #: ../goffice/app/file.c:490
 msgid "Description"
@@ -45,7 +45,7 @@ msgstr "Beskrivelse"
 
 #: ../goffice/app/file.c:491
 msgid "The description of the saver."
-msgstr ""
+msgstr "Beskrivelse for lagrer."
 
 #: ../goffice/app/file.c:500
 msgid "Overwrite"
@@ -53,7 +53,7 @@ msgstr "Overskriv"
 
 #: ../goffice/app/file.c:501
 msgid "Whether the saver will overwrite files."
-msgstr ""
+msgstr "Om lagrer skal overskrive filer."
 
 #: ../goffice/app/file.c:511
 msgid "Format Level"
@@ -61,7 +61,7 @@ msgstr "Formatnivå"
 
 #: ../goffice/app/file.c:522
 msgid "Scope"
-msgstr ""
+msgstr "Omfang"
 
 #: ../goffice/app/file.c:523
 msgid "How much of a document is saved"
@@ -94,7 +94,7 @@ msgstr ""
 
 #: ../goffice/app/go-doc.c:141
 msgid "Dirty"
-msgstr ""
+msgstr "Endret"
 
 #: ../goffice/app/go-doc.c:142
 msgid "Whether the document has been changed."
@@ -215,7 +215,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Oppryddingsfunksjon  i tillegg returnerte en feil."
 
 #: ../goffice/app/go-plugin-service.c:177 ../goffice/gtk/go-format-sel.c:61
-#: ../goffice/utils/go-format.c:734 ../goffice/utils/go-format.c:3700
+#: ../goffice/utils/go-format.c:736 ../goffice/utils/go-format.c:3704
 msgid "General"
 msgstr "Generelt"
 
@@ -470,25 +470,23 @@ msgstr "yr"
 
 #: ../goffice/canvas/goc-arc.c:456
 msgid "The arc y radius"
-msgstr ""
+msgstr "Y-radius for bue"
 
 #: ../goffice/canvas/goc-arc.c:461
 msgid "ang1"
 msgstr "vnk1"
 
 #: ../goffice/canvas/goc-arc.c:462
-#, fuzzy
 msgid "The arc start angle"
-msgstr "Tekstbredde"
+msgstr "Startvinkel for bue"
 
 #: ../goffice/canvas/goc-arc.c:467
 msgid "ang2"
 msgstr "vnk2"
 
 #: ../goffice/canvas/goc-arc.c:468
-#, fuzzy
 msgid "The arc end angle"
-msgstr "Tekstbredde"
+msgstr "Sluttvinkel for bue"
 
 #: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
 #: ../goffice/canvas/goc-path.c:251 ../goffice/canvas/goc-rectangle.c:354
@@ -569,7 +567,7 @@ msgstr "Topp-posisjon for ellipse"
 #: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:431
 #: ../goffice/canvas/goc-graph.c:432 ../goffice/canvas/goc-pixbuf.c:243
 #: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
-#: ../goffice/graph/gog-graph.c:387 ../goffice/utils/go-image.c:472
+#: ../goffice/graph/gog-graph.c:402 ../goffice/utils/go-image.c:472
 #: ../plugins/plot_xy/gog-xy-dropbar.c:317
 msgid "Width"
 msgstr "Bredde"
@@ -581,7 +579,7 @@ msgstr "Bredde på ellipse"
 #: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:425
 #: ../goffice/canvas/goc-graph.c:426 ../goffice/canvas/goc-pixbuf.c:249
 #: ../goffice/canvas/goc-rectangle.c:348 ../goffice/canvas/goc-widget.c:337
-#: ../goffice/graph/gog-graph.c:393 ../goffice/utils/go-image.c:476
+#: ../goffice/graph/gog-graph.c:408 ../goffice/utils/go-image.c:476
 msgid "Height"
 msgstr "Høyde"
 
@@ -590,9 +588,8 @@ msgid "The ellipse height"
 msgstr "Høyde på ellipse"
 
 #: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-rectangle.c:355
-#, fuzzy
 msgid "The rotation around top left position"
-msgstr "Tynn horisontal stripe"
+msgstr "Rotasjon rundt øverste venstre posisjon"
 
 #. Note to translators: the following is a format string for a pair of coordinates
 #: ../goffice/canvas/goc-graph.c:346
@@ -602,17 +599,17 @@ msgstr "(%s,%s)"
 
 #: ../goffice/canvas/goc-graph.c:414
 msgid "The graph left position"
-msgstr ""
+msgstr "Venstre posisjon for graf"
 
 #: ../goffice/canvas/goc-graph.c:420
 msgid "The graph top position"
-msgstr ""
+msgstr "Øverste posisjon for graf"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: ../goffice/canvas/goc-graph.c:437 ../goffice/graph/gog-graph.c:175
-#: ../goffice/graph/gog-graph.c:419
+#: ../goffice/graph/gog-graph.c:434
 msgid "Graph"
 msgstr "Graf"
 
@@ -620,22 +617,22 @@ msgstr "Graf"
 msgid "The GogGraph this object displays"
 msgstr ""
 
-#: ../goffice/canvas/goc-graph.c:443 ../goffice/graph/gog-graph.c:927
+#: ../goffice/canvas/goc-graph.c:443 ../goffice/graph/gog-graph.c:942
+#, fuzzy
 msgid "Renderer"
-msgstr ""
+msgstr "Tegner"
 
 #: ../goffice/canvas/goc-graph.c:444
 msgid "The GogRenderer being displayed"
 msgstr ""
 
 #: ../goffice/canvas/goc-group.c:240
-#, fuzzy
 msgid "The group horizontal offset"
-msgstr "Tynn horisontal krysskravering"
+msgstr "Horisontal avstand for gruppe"
 
 #: ../goffice/canvas/goc-group.c:246
 msgid "The group vertical offset"
-msgstr ""
+msgstr "Vertikal avstand for gruppe"
 
 #: ../goffice/canvas/goc-item.c:256
 msgid "Canvas"
@@ -651,7 +648,7 @@ msgstr "Opphav"
 
 #: ../goffice/canvas/goc-item.c:263
 msgid "The group in which the item resides"
-msgstr ""
+msgstr "Gruppe hvor oppføringen holder til"
 
 #: ../goffice/canvas/goc-line.c:323
 msgid "x0"
@@ -659,7 +656,7 @@ msgstr "x0"
 
 #: ../goffice/canvas/goc-line.c:324
 msgid "The line start x coordinate"
-msgstr ""
+msgstr "X-koordinat for linjestart"
 
 #: ../goffice/canvas/goc-line.c:329
 msgid "y0"
@@ -667,7 +664,7 @@ msgstr "y0"
 
 #: ../goffice/canvas/goc-line.c:330
 msgid "The line start y coordinate"
-msgstr ""
+msgstr "Y-koordinat for linjestart"
 
 #: ../goffice/canvas/goc-line.c:335
 msgid "x1"
@@ -675,7 +672,7 @@ msgstr "x1"
 
 #: ../goffice/canvas/goc-line.c:336
 msgid "The line end x coordinate"
-msgstr ""
+msgstr "X-koordinat for linjeslutt"
 
 #: ../goffice/canvas/goc-line.c:341
 msgid "y1"
@@ -683,7 +680,7 @@ msgstr "y1"
 
 #: ../goffice/canvas/goc-line.c:342
 msgid "The line end y coordinate"
-msgstr ""
+msgstr "Y-koordinat for linjeslutt"
 
 #: ../goffice/canvas/goc-path.c:240
 msgid "The path first point x coordinate"
@@ -724,19 +721,19 @@ msgstr ""
 
 #: ../goffice/canvas/goc-pixbuf.c:244
 msgid "The image width or -1 to use the image width"
-msgstr ""
+msgstr "Bildebredde eller -1 for å bruke bildets bredde"
 
 #: ../goffice/canvas/goc-pixbuf.c:250
 msgid "The image height or -1 to use the image height"
-msgstr ""
+msgstr "Bildehøyde eller -1 for å bruke bildets høyde"
 
 #: ../goffice/canvas/goc-pixbuf.c:260 ../goffice/utils/go-image.c:481
 msgid "Pixbuf"
-msgstr ""
+msgstr "Pixbuf"
 
 #: ../goffice/canvas/goc-pixbuf.c:261
 msgid "The GdkPixbuf to display"
-msgstr ""
+msgstr "GdkPixbuf som skal vises"
 
 #: ../goffice/canvas/goc-polyline.c:229 ../goffice/canvas/goc-polygon.c:345
 msgid "points"
@@ -828,7 +825,7 @@ msgstr "Stil"
 #: ../goffice/canvas/goc-styled-item.c:162
 #: ../goffice/graph/gog-styled-object.c:210
 msgid "A pointer to the GOStyle object"
-msgstr ""
+msgstr "En peker til GOStyle-objektet"
 
 #: ../goffice/canvas/goc-styled-item.c:167
 #, fuzzy
@@ -849,7 +846,7 @@ msgstr "Posisjon for tekst"
 
 #: ../goffice/canvas/goc-text.c:441
 msgid "The rotation around the anchor"
-msgstr ""
+msgstr "Rotasjon rundt ankeret"
 
 #: ../goffice/canvas/goc-text.c:446 ../goffice/graph/gog-object.c:645
 msgid "Anchor"
@@ -857,7 +854,7 @@ msgstr "Anker"
 
 #: ../goffice/canvas/goc-text.c:447
 msgid "The anchor point for the text"
-msgstr ""
+msgstr "Ankerpunkt for teksten"
 
 #: ../goffice/canvas/goc-text.c:452 ../goffice/gtk/go-format-sel.c:70
 #: ../goffice/gtk/go-rotation-sel.c:136 ../goffice/utils/go-style.c:910
@@ -874,7 +871,7 @@ msgstr "Attributter"
 
 #: ../goffice/canvas/goc-text.c:456
 msgid "The attributes list as a PangoAttrList"
-msgstr ""
+msgstr "Attributtlisten som en PangoAttrList"
 
 #: ../goffice/canvas/goc-text.c:461
 msgid "Clip"
@@ -908,7 +905,7 @@ msgstr "Bredde for bryting"
 
 #: ../goffice/canvas/goc-text.c:480
 msgid "Wrap width for the text"
-msgstr ""
+msgstr "Brytningsbredde for teksten"
 
 #: ../goffice/canvas/goc-widget.c:312
 msgid "Widget"
@@ -1269,8 +1266,9 @@ msgid "Linear"
 msgstr "Lineær"
 
 #: ../goffice/graph/gog-axis.c:1409
+#, fuzzy
 msgid "Linear mapping"
-msgstr ""
+msgstr "Lineær"
 
 #: ../goffice/graph/gog-axis.c:1421
 msgid "Log"
@@ -1294,7 +1292,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:2439
 msgid "Categories between _labels"
-msgstr ""
+msgstr "Kategorier mellom eti_ketter"
 
 #: ../goffice/graph/gog-axis.c:2448
 #, fuzzy
@@ -1324,9 +1322,8 @@ msgid "MinorGrid"
 msgstr ""
 
 #: ../goffice/graph/gog-axis.c:2557
-#, fuzzy
 msgid "AxisLine"
-msgstr "Linje"
+msgstr "Linje for akse"
 
 #: ../goffice/graph/gog-axis.c:2560
 msgid "Label"
@@ -1334,12 +1331,11 @@ msgstr "Etikett"
 
 #: ../goffice/graph/gog-axis.c:2576
 msgid "Numerical type of this axis"
-msgstr ""
+msgstr "Numerisk type for denne aksen"
 
 #: ../goffice/graph/gog-axis.c:2580
-#, fuzzy
 msgid "Invert axis"
-msgstr "_Vend akse"
+msgstr "Vend akse"
 
 #: ../goffice/graph/gog-axis.c:2581
 msgid "Scale from high to low rather than low to high"
@@ -1356,7 +1352,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:2591
 msgid "Assigned XL format"
-msgstr ""
+msgstr "Tildelt XL-format"
 
 #: ../goffice/graph/gog-axis.c:2592
 msgid ""
@@ -1405,7 +1401,7 @@ msgstr "Z-akse"
 
 #: ../goffice/graph/gog-chart.c:611
 msgid "Circular-Axis"
-msgstr ""
+msgstr "Sirkulær akse"
 
 #: ../goffice/graph/gog-chart.c:615
 msgid "Radial-Axis"
@@ -1416,9 +1412,8 @@ msgid "Pseudo-3D-Axis"
 msgstr ""
 
 #: ../goffice/graph/gog-chart.c:623
-#, fuzzy
 msgid "Bubble-Axis"
-msgstr "Boble"
+msgstr "Bobleakse"
 
 #: ../goffice/graph/gog-chart.c:627
 #, fuzzy
@@ -1429,7 +1424,7 @@ msgstr "Fa_rge:"
 msgid "Plot"
 msgstr "Plott"
 
-#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:320
+#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:335
 #: ../goffice/graph/gog-legend.c:195
 msgid "Title"
 msgstr "Tittel"
@@ -1467,18 +1462,16 @@ msgid "Is plot area manual"
 msgstr ""
 
 #: ../goffice/graph/gog-chart.c:693
-#, fuzzy
 msgid "xpos"
-msgstr "Punkt"
+msgstr "xpos"
 
 #: ../goffice/graph/gog-chart.c:694
 msgid "Horizontal chart position in graph grid"
 msgstr ""
 
 #: ../goffice/graph/gog-chart.c:698
-#, fuzzy
 msgid "ypos"
-msgstr "Punkt"
+msgstr "ypos"
 
 #: ../goffice/graph/gog-chart.c:699
 msgid "Vertical chart position in graph grid"
@@ -1587,52 +1580,51 @@ msgid "°"
 msgstr "°"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:1
-#, fuzzy
 msgid "Forget user styles"
-msgstr "Stil for skrift:"
+msgstr "Glem brukerstiler"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:2
 msgid "Theme:"
 msgstr "Tema:"
 
-#: ../goffice/graph/gog-graph.c:254 ../goffice/graph/gog-graph.c:375
+#: ../goffice/graph/gog-graph.c:269 ../goffice/graph/gog-graph.c:390
 msgid "Theme"
 msgstr "Tema"
 
-#: ../goffice/graph/gog-graph.c:315
+#: ../goffice/graph/gog-graph.c:330
 msgid "Chart"
 msgstr "Plott"
 
-#: ../goffice/graph/gog-graph.c:376
+#: ../goffice/graph/gog-graph.c:391
 msgid "The theme for elements of the graph"
-msgstr ""
+msgstr "Tema for elementer i grafen"
 
-#: ../goffice/graph/gog-graph.c:381
+#: ../goffice/graph/gog-graph.c:396
 msgid "Theme name"
 msgstr "Navn på tema"
 
-#: ../goffice/graph/gog-graph.c:382
+#: ../goffice/graph/gog-graph.c:397
 msgid "The name of the theme for elements of the graph"
 msgstr ""
 
-#: ../goffice/graph/gog-graph.c:388
+#: ../goffice/graph/gog-graph.c:403
 msgid "Logical graph width, in points"
 msgstr ""
 
-#: ../goffice/graph/gog-graph.c:394
+#: ../goffice/graph/gog-graph.c:409
 #, fuzzy
 msgid "Logical graph height, in points"
 msgstr "Bildehøyde i piksler"
 
-#: ../goffice/graph/gog-graph.c:399
+#: ../goffice/graph/gog-graph.c:414
 msgid "Document"
 msgstr "Dokument"
 
-#: ../goffice/graph/gog-graph.c:400
+#: ../goffice/graph/gog-graph.c:415
 msgid "the document for this graph"
 msgstr ""
 
-#: ../goffice/graph/gog-graph.c:928
+#: ../goffice/graph/gog-graph.c:943
 msgid "the renderer for this view"
 msgstr ""
 
@@ -1653,14 +1645,12 @@ msgid "<b>Sample</b>"
 msgstr "<b>Eksempel</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
-#, fuzzy
 msgid "<b>_Plot type</b>"
-msgstr "<b>Mønster</b>"
+msgstr "<b>Type _plott</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
-#, fuzzy
 msgid "<b>_Subtype</b>"
-msgstr "<b>Stil</b>"
+msgstr "<b>_Undertype</b>"
 
 #: ../goffice/graph/gog-guru.c:1000 ../goffice/graph/gog-series.c:481
 msgid "Name"
@@ -1688,11 +1678,11 @@ msgstr "Type _plott"
 
 #: ../goffice/graph/gog-label.c:116
 msgid "Allow markup"
-msgstr ""
+msgstr "Tillat tekstmerking"
 
 #: ../goffice/graph/gog-label.c:117
 msgid "Support basic html-ish markup"
-msgstr ""
+msgstr "Støtte for grunnleggende HTML-lignende tekstmerking"
 
 #: ../goffice/graph/gog-label.c:179
 msgid "_Text:"
@@ -1703,7 +1693,9 @@ msgid "Data"
 msgstr "Data"
 
 #: ../goffice/graph/gog-label.c:338 ../goffice/graph/gog-reg-curve.c:71
-#: ../goffice/graph/gog-trend-line.c:92 ../plugins/plot_xy/gog-xy.c:1985
+#: ../goffice/graph/gog-trend-line.c:92
+#: ../plugins/plot_distrib/gog-probability-plot.c:76
+#: ../plugins/plot_xy/gog-xy.c:1985
 msgid "Details"
 msgstr "Detaljer"
 
@@ -1717,7 +1709,7 @@ msgstr "Vis likning"
 
 #: ../goffice/graph/gog-label.c:399
 msgid "Show the equation on the graph"
-msgstr ""
+msgstr "Vis likning på grafen"
 
 #: ../goffice/graph/gog-label.c:404
 msgid "Show coefficient"
@@ -1945,7 +1937,7 @@ msgstr "Z-akse:"
 
 #: ../goffice/graph/gog-plot.c:179
 msgid "Circular axis:"
-msgstr ""
+msgstr "Sirkulær akse:"
 
 #: ../goffice/graph/gog-plot.c:180
 msgid "Radial axis:"
@@ -1975,11 +1967,11 @@ msgstr "Rekker"
 
 #: ../goffice/graph/gog-plot.c:371
 msgid "Vary style by element"
-msgstr ""
+msgstr "Varier stil per element"
 
 #: ../goffice/graph/gog-plot.c:372
 msgid "Use a different style for each segments"
-msgstr ""
+msgstr "Bruk en forskjellig stil for hvert segment"
 
 #: ../goffice/graph/gog-plot.c:377
 msgid "X axis"
@@ -1987,7 +1979,7 @@ msgstr "X-akse"
 
 #: ../goffice/graph/gog-plot.c:378
 msgid "Reference to X axis"
-msgstr ""
+msgstr "Referanse til X-akse"
 
 #: ../goffice/graph/gog-plot.c:383
 msgid "Y axis"
@@ -1995,16 +1987,15 @@ msgstr "Y-akse"
 
 #: ../goffice/graph/gog-plot.c:384
 msgid "Reference to Y axis"
-msgstr ""
+msgstr "Referanse til Y-akse"
 
 #: ../goffice/graph/gog-plot.c:389
-#, fuzzy
 msgid "Plot group"
-msgstr "Type plott"
+msgstr "Plottgruppe"
 
 #: ../goffice/graph/gog-plot.c:390
 msgid "Name of plot group if any"
-msgstr ""
+msgstr "Navn på plottgruppe hvis relevant"
 
 #: ../goffice/graph/gog-plot.c:395
 msgid "Guru hints"
@@ -2017,23 +2008,20 @@ msgid ""
 msgstr ""
 
 #: ../goffice/graph/gog-plot.c:402
-#, fuzzy
 msgid "Default interpolation"
-msgstr "_Separasjon:"
+msgstr ""
 
 #: ../goffice/graph/gog-plot.c:403
 msgid "Default type of series line interpolation"
 msgstr ""
 
 #: ../goffice/graph/gog-plot.c:1012
-#, fuzzy
 msgid "Move plot area"
-msgstr "Plottområde"
+msgstr "Flytt plottområde"
 
 #: ../goffice/graph/gog-plot.c:1064
-#, fuzzy
 msgid "Resize plot area"
-msgstr "Plottområde"
+msgstr "Endre størrelse på plottområde"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2085,9 +2073,8 @@ msgid "the GogView this renderer is displaying"
 msgstr ""
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
-#, fuzzy
 msgid "<b>Interpolation</b>"
-msgstr "<b>Definisjon</b>"
+msgstr "<b>Interpolasjon</b>"
 
 #. derivative (curve slope) at first point for the clamped cubic spline
 #: ../goffice/graph/gog-series-prefs.ui.h:3
@@ -2104,9 +2091,8 @@ msgid "Fill _to:"
 msgstr "Fyll _til:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:7
-#, fuzzy
 msgid "S_kip invalid data"
-msgstr "Ugyldig passord"
+msgstr "_Hopp over ugyldige data"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:9
 msgid "content"
@@ -2122,7 +2108,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-series.c:49
 msgid "Origin"
-msgstr ""
+msgstr "Opprinnelse"
 
 #: ../goffice/graph/gog-series.c:51
 msgid "Edge"
@@ -2130,7 +2116,7 @@ msgstr "Kant"
 
 #: ../goffice/graph/gog-series.c:52
 msgid "Self"
-msgstr ""
+msgstr "Selv"
 
 #: ../goffice/graph/gog-series.c:53
 msgid "Next series"
@@ -2150,7 +2136,7 @@ msgstr "Indeks"
 
 #: ../goffice/graph/gog-series.c:219
 msgid "Index of the corresponding data element"
-msgstr ""
+msgstr "Indeks for korresponderende dataelement"
 
 #: ../goffice/graph/gog-series.c:512 ../goffice/graph/gog-trend-line.c:99
 #, fuzzy
@@ -2165,54 +2151,53 @@ msgstr ""
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:636
+#: ../goffice/graph/gog-series.c:638
 msgid "Point"
 msgstr "Punkt"
 
-#: ../goffice/graph/gog-series.c:642
+#: ../goffice/graph/gog-series.c:644
 msgid "Regression curve"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:650
+#: ../goffice/graph/gog-series.c:652
 #, fuzzy
 msgid "Trend line"
 msgstr "Rekker"
 
-#: ../goffice/graph/gog-series.c:685 ../goffice/graph/gog-trend-line.c:151
+#: ../goffice/graph/gog-series.c:687 ../goffice/graph/gog-trend-line.c:151
 #, fuzzy
 msgid "Has-legend"
 msgstr "Bakgrunn"
 
-#: ../goffice/graph/gog-series.c:686
+#: ../goffice/graph/gog-series.c:688
 msgid "Should the series show up in legends"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:691
-#, fuzzy
+#: ../goffice/graph/gog-series.c:693
 msgid "Interpolation"
-msgstr "Beskrivelse"
+msgstr "Interpolering"
 
-#: ../goffice/graph/gog-series.c:692
+#: ../goffice/graph/gog-series.c:694
 #, fuzzy
 msgid "Type of line interpolation"
 msgstr "Beskrivelse"
 
-#: ../goffice/graph/gog-series.c:697
+#: ../goffice/graph/gog-series.c:699
 #, fuzzy
 msgid "Interpolation skip invalid"
 msgstr "Beskrivelse"
 
-#: ../goffice/graph/gog-series.c:698
+#: ../goffice/graph/gog-series.c:700
 msgid "Should the series interpolation ignore the invalid data"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:703
+#: ../goffice/graph/gog-series.c:705
 msgid "Fill type"
 msgstr "Type fyll"
 
-#: ../goffice/graph/gog-series.c:704
+#: ../goffice/graph/gog-series.c:706
 msgid "How to fill the area"
-msgstr ""
+msgstr "Hvordan området skal fylles"
 
 #: ../goffice/graph/gog-smoothed-curve.c:52
 msgid "Smoothed Curve"
@@ -2866,11 +2851,11 @@ msgstr "egendefinert"
 
 #: ../goffice/gtk/go-color-palette.c:459 ../goffice/gtk/go-color-palette.c:713
 msgid "Custom Color..."
-msgstr "Egendefinert farge..."
+msgstr "Egendefinert farge …"
 
 #: ../goffice/gtk/go-color-selector.c:206
 msgid "Custom color..."
-msgstr "Egendefinert farge..."
+msgstr "Egendefinert farge …"
 
 #: ../goffice/gtk/go-combo-box.c:265
 msgid "Add tearoffs to menus"
@@ -2985,15 +2970,15 @@ msgstr ""
 
 #: ../goffice/gtk/go-format-sel.ui.h:5
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Vis valutamengder."
 
 #: ../goffice/gtk/go-format-sel.ui.h:6
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Vis dato og alternativt klokkeslett."
 
 #: ../goffice/gtk/go-format-sel.ui.h:7
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Vis numeriske verdier med et fast antall desimaler."
 
 #: ../goffice/gtk/go-format-sel.ui.h:8
 msgid "Display times of day."
@@ -3093,7 +3078,7 @@ msgstr "Navn:"
 
 #: ../goffice/gtk/go-image-sel.ui.h:3 ../goffice/utils/go-style-prefs.ui.h:22
 msgid "_Select..."
-msgstr "_Velg..."
+msgstr "_Velg …"
 
 #: ../goffice/gtk/go-locale-sel.c:63
 msgid "Western Europe"
@@ -3721,11 +3706,11 @@ msgstr "Meny"
 
 #: ../goffice/gtk/go-optionmenu.c:419
 msgid "The menu of options"
-msgstr ""
+msgstr "Meny med alternativer"
 
 #: ../goffice/gtk/go-palette.c:373
 msgid "Custom..."
-msgstr "Egendefinert..."
+msgstr "Egendefinert …"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
 msgid "<b>Orientation</b>"
@@ -3850,7 +3835,6 @@ msgid "Armenia, Drams"
 msgstr "Armenia, dram"
 
 #: ../goffice/utils/formats.c:372
-#, fuzzy
 msgid "Netherlands antilles, Guilders"
 msgstr "De nederlandske antillene, gylden"
 
@@ -3912,12 +3896,10 @@ msgid "Bolivia, Bolivianos"
 msgstr "Bolivia, boliviano"
 
 #: ../goffice/utils/formats.c:387
-#, fuzzy
 msgid "Bolivia, Mvdol"
-msgstr "Bolivia, boliviano"
+msgstr "Bolivia, mvdol"
 
 #: ../goffice/utils/formats.c:388
-#, fuzzy
 msgid "Brazil, Brazilian Real"
 msgstr "Brasil, real"
 
@@ -3950,18 +3932,16 @@ msgid "Congo, the democratic republic of, Congolese Francs"
 msgstr ""
 
 #: ../goffice/utils/formats.c:396
-#, fuzzy
 msgid "Switzerland, WIR Euros"
-msgstr "Sveits, francs"
+msgstr "Sveits, WIR euro"
 
 #: ../goffice/utils/formats.c:397
 msgid "Switzerland, Francs"
 msgstr "Sveits, francs"
 
 #: ../goffice/utils/formats.c:398
-#, fuzzy
 msgid "Switzerland, WIR Francs"
-msgstr "Sveits, francs"
+msgstr "Sveits, WIR francs"
 
 #: ../goffice/utils/formats.c:399
 msgid "Chile, Unidades de fomento"
@@ -3984,12 +3964,10 @@ msgid "Colombia, Unidades de Valor Real"
 msgstr ""
 
 #: ../goffice/utils/formats.c:404
-#, fuzzy
 msgid "Costa rica, Colones"
 msgstr "Costa Rica, colones"
 
 #: ../goffice/utils/formats.c:405
-#, fuzzy
 msgid "Cuba, Pesos Convertibles"
 msgstr "Kuba, pesos"
 
@@ -3998,14 +3976,12 @@ msgid "Cuba, Pesos"
 msgstr "Kuba, pesos"
 
 #: ../goffice/utils/formats.c:407
-#, fuzzy
 msgid "Cape verde, Escudos"
 msgstr "Kapp Verde, escudos"
 
 #: ../goffice/utils/formats.c:408
-#, fuzzy
 msgid "Czech republic, Koruny"
-msgstr "Tjekkia, koruny"
+msgstr "Tjekkiske republikk, koruny"
 
 #: ../goffice/utils/formats.c:409
 msgid "Djibouti, Francs"
@@ -4016,14 +3992,12 @@ msgid "Denmark, Kroner"
 msgstr "Danmark, kroner"
 
 #: ../goffice/utils/formats.c:411
-#, fuzzy
 msgid "Dominican republic, Pesos"
 msgstr "Den dominikanske republikk, pesos"
 
 #: ../goffice/utils/formats.c:412
-#, fuzzy
 msgid "Algeria, Algerian Dinars"
-msgstr "Aleria, dinarer"
+msgstr "Algerie, dinarer"
 
 #: ../goffice/utils/formats.c:413
 msgid "Egypt, Pounds"
@@ -4038,9 +4012,8 @@ msgid "Ethiopia, Birr"
 msgstr "Etiopia, birr"
 
 #: ../goffice/utils/formats.c:416
-#, fuzzy
 msgid "Euro Members Countries, Euros"
-msgstr "Euro-medlemsland, Euro"
+msgstr "Euro-medlemsland, euro"
 
 #: ../goffice/utils/formats.c:417
 msgid "Fiji, Dollars"
@@ -4051,7 +4024,6 @@ msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Falklandsøyenes, pund"
 
 #: ../goffice/utils/formats.c:419
-#, fuzzy
 msgid "United kingdom, Pounds"
 msgstr "Storbritannia, pund"
 
@@ -4108,9 +4080,8 @@ msgid "Indonesia, Rupiahs"
 msgstr "Indonesia, rupiahs"
 
 #: ../goffice/utils/formats.c:433
-#, fuzzy
 msgid "Israel, New Sheqels"
-msgstr "Israel, shekels"
+msgstr "Israel, nye shekel"
 
 #: ../goffice/utils/formats.c:434
 msgid "India, Rupees"
@@ -4125,7 +4096,6 @@ msgid "Iran, Rials"
 msgstr "Iran, rial"
 
 #: ../goffice/utils/formats.c:437
-#, fuzzy
 msgid "Iceland, Krohur"
 msgstr "Island, kroner"
 
@@ -4162,21 +4132,18 @@ msgid "Korea (North), Won"
 msgstr "Nord-Korea, won"
 
 #: ../goffice/utils/formats.c:446
-#, fuzzy
 msgid "Korea (South) Wons"
-msgstr "Sør-Korea, Won"
+msgstr "Sør-Korea, won"
 
 #: ../goffice/utils/formats.c:447
 msgid "Kuwait, Dinars"
 msgstr "Kuwait, dinarer"
 
 #: ../goffice/utils/formats.c:448
-#, fuzzy
 msgid "Cayman islands, Dollars"
 msgstr "Caymanøyene, dollar"
 
 #: ../goffice/utils/formats.c:449
-#, fuzzy
 msgid "Kazakhstan, Tenge"
 msgstr "Kasakhstan, tenge"
 
@@ -4234,9 +4201,8 @@ msgid "Mongolia, Tugriks"
 msgstr "Mongolia, tugrik"
 
 #: ../goffice/utils/formats.c:463
-#, fuzzy
 msgid "Macao, Patacas"
-msgstr "Macau, pataca"
+msgstr "Macao, pataca"
 
 #: ../goffice/utils/formats.c:464
 msgid "Mauritania, Ouguiyas"
@@ -4247,9 +4213,8 @@ msgid "Mauritius, Rupees"
 msgstr "Mauritius, rupi"
 
 #: ../goffice/utils/formats.c:466
-#, fuzzy
 msgid "Maldives (Maldive Islands), Rufiyaas"
-msgstr "Maldivene, Rufiyaa"
+msgstr "Maldivene, rufiyaa"
 
 #: ../goffice/utils/formats.c:467
 msgid "Malawi, Kwachas"
@@ -4284,12 +4249,10 @@ msgid "Norway, Norwegian Krone"
 msgstr "Norge, norsk krone"
 
 #: ../goffice/utils/formats.c:475
-#, fuzzy
 msgid "Nepal, Nepalese Rupees"
-msgstr "Nepal, rupi"
+msgstr "Nepal, nepalesiske rupi"
 
 #: ../goffice/utils/formats.c:476
-#, fuzzy
 msgid "New zealand, Dollars"
 msgstr "New Zealand, dollar"
 
@@ -4302,7 +4265,6 @@ msgid "Panama, Balboa"
 msgstr "Panama, balboa"
 
 #: ../goffice/utils/formats.c:479
-#, fuzzy
 msgid "Peru, Nuevo Soles"
 msgstr "Peru, nuevos soles"
 
@@ -4331,14 +4293,12 @@ msgid "Qatar, Rials"
 msgstr "Qatar, rial"
 
 #: ../goffice/utils/formats.c:486
-#, fuzzy
 msgid "Romania, New Lei"
-msgstr "Romania, lei"
+msgstr "Romania, nye lei"
 
 #: ../goffice/utils/formats.c:487
-#, fuzzy
 msgid "Serbia, Dinars"
-msgstr "Irak, dinarer"
+msgstr "Serbia, dinarer"
 
 #: ../goffice/utils/formats.c:488
 msgid "Russia, Rubles"
@@ -4349,7 +4309,6 @@ msgid "Rwanda, Rwanda Francs"
 msgstr "Rwanda, franc"
 
 #: ../goffice/utils/formats.c:490
-#, fuzzy
 msgid "Saudi arabia, Riyals"
 msgstr "Saudi-Arabia, riyal"
 
@@ -4362,9 +4321,8 @@ msgid "Seychelles, Rupees"
 msgstr "Seychellene, rupi"
 
 #: ../goffice/utils/formats.c:493
-#, fuzzy
 msgid "Sudan, Pounds"
-msgstr "Syria, pund"
+msgstr "Sudan, pund"
 
 #: ../goffice/utils/formats.c:494
 msgid "International Monetary Fund (I.M.F), SDR"
@@ -4383,7 +4341,6 @@ msgid "Saint Helena, Ascension and Tristan da Cunha, Pounds"
 msgstr ""
 
 #: ../goffice/utils/formats.c:498
-#, fuzzy
 msgid "Sierra leone, Leones"
 msgstr "Sierra Leone, leone"
 
@@ -4392,12 +4349,10 @@ msgid "Somalia, Shillings"
 msgstr "Somalia, shilling"
 
 #: ../goffice/utils/formats.c:500
-#, fuzzy
 msgid "Suriname, Dollars"
-msgstr "Singapore, dollar"
+msgstr "Surinam, dollar"
 
 #: ../goffice/utils/formats.c:501
-#, fuzzy
 msgid "São Tome and Principe, Dobras"
 msgstr "Sao Tome og Principe, dobra"
 
@@ -4418,9 +4373,8 @@ msgid "Thailand, Baht"
 msgstr "Thailand, baht"
 
 #: ../goffice/utils/formats.c:506
-#, fuzzy
 msgid "Tajikistan, Somoni"
-msgstr "Tadsjikistan, rubler"
+msgstr "Tadsjikistan, somoni"
 
 #: ../goffice/utils/formats.c:507
 msgid "Turkmenistan, Manats"
@@ -4431,7 +4385,6 @@ msgid "Tunisia, Dinars"
 msgstr "Tunisia, dinarer"
 
 #: ../goffice/utils/formats.c:509
-#, fuzzy
 msgid "Tonga, Pa'angas"
 msgstr "Tonga, pa'anga"
 
@@ -4464,14 +4417,12 @@ msgid "United States of America, Dollars"
 msgstr "USA, dollar"
 
 #: ../goffice/utils/formats.c:517
-#, fuzzy
 msgid "United States of America, Dollars (Next day)"
-msgstr "USA, dollar"
+msgstr "USA, dollar (neste dag)"
 
 #: ../goffice/utils/formats.c:518
-#, fuzzy
 msgid "United States of America, Dollars (Same day)"
-msgstr "USA, dollar"
+msgstr "USA, dollar (samme dag)"
 
 #: ../goffice/utils/formats.c:519
 msgid "Uruguay, Pesos en Unidades Indexadas"
@@ -4555,7 +4506,6 @@ msgid "Yemen, Rials"
 msgstr "Jemen, rial"
 
 #: ../goffice/utils/formats.c:539
-#, fuzzy
 msgid "South Africa, Rands"
 msgstr "Sør-Afrika, rand"
 
@@ -4568,86 +4518,103 @@ msgid "Namibia, Dollars"
 msgstr "Namibia, dollar"
 
 #: ../goffice/utils/formats.c:542
-#, fuzzy
 msgid "Zambia, Zambian Kwacha"
-msgstr "Zambia, kwacha"
+msgstr "Zambia, zambiske kwacha"
 
 #: ../goffice/utils/formats.c:543
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, dollar"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:440
+#: ../goffice/utils/go-format.c:442
 msgid "*Long Date Format"
-msgstr ""
+msgstr "*Langt datoformat"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:448
-#, fuzzy
+#: ../goffice/utils/go-format.c:450
 msgid "*Medium Date Format"
-msgstr "Tallformater"
+msgstr "*Middels datoformat"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:456
+#: ../goffice/utils/go-format.c:458
 msgid "*Short Date Format"
-msgstr ""
+msgstr "*Kort datoformat"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:469
+#: ../goffice/utils/go-format.c:471
 msgid "*Short Date/Time Format"
 msgstr ""
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:484
+#: ../goffice/utils/go-format.c:486
 msgid "*Long Time Format"
 msgstr ""
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:496
-#, fuzzy
+#: ../goffice/utils/go-format.c:498
 msgid "*Medium Time Format"
-msgstr "Tallformater"
+msgstr "*Middels tidformat"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:508
+#: ../goffice/utils/go-format.c:510
 msgid "*Short Time Format"
-msgstr ""
+msgstr "*Kort tidformat"
 
-#: ../goffice/utils/go-format.c:542
+#: ../goffice/utils/go-format.c:544
 msgid "Black"
 msgstr "Sort"
 
-#: ../goffice/utils/go-format.c:543
+#: ../goffice/utils/go-format.c:545
 msgid "Blue"
 msgstr "Blå"
 
-#: ../goffice/utils/go-format.c:544
+#: ../goffice/utils/go-format.c:546
 msgid "Cyan"
 msgstr "Cyan"
 
-#: ../goffice/utils/go-format.c:545
+#: ../goffice/utils/go-format.c:547
 msgid "Green"
 msgstr "Grønn"
 
-#: ../goffice/utils/go-format.c:546
+#: ../goffice/utils/go-format.c:548
 msgid "Magenta"
 msgstr "Magenta"
 
-#: ../goffice/utils/go-format.c:547
+#: ../goffice/utils/go-format.c:549
 msgid "Red"
 msgstr "Rød"
 
-#: ../goffice/utils/go-format.c:548
+#: ../goffice/utils/go-format.c:550
 msgid "White"
 msgstr "Hvit"
 
-#: ../goffice/utils/go-format.c:549
+#: ../goffice/utils/go-format.c:551
 msgid "Yellow"
 msgstr "Gul"
 
-#: ../goffice/utils/go-format.c:569
+#: ../goffice/utils/go-format.c:571
 msgid "color"
 msgstr "farge"
+
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:75
+msgid "none"
+msgstr "ingen"
+
+#: ../goffice/utils/go-geometry.c:297
+msgid "down"
+msgstr "ned"
+
+#: ../goffice/utils/go-geometry.c:298
+msgid "up"
+msgstr "opp"
+
+#: ../goffice/utils/go-geometry.c:299
+msgid "right"
+msgstr "høyre"
+
+#: ../goffice/utils/go-geometry.c:300
+msgid "left"
+msgstr "venstre"
 
 #: ../goffice/utils/go-glib-extras.c:872
 msgid "yes"
@@ -4717,43 +4684,43 @@ msgstr "Helfylt"
 
 #: ../goffice/utils/go-line.c:88
 msgid "Dot"
-msgstr ""
+msgstr "Prikk"
 
 #: ../goffice/utils/go-line.c:90
 msgid "Dash dot"
-msgstr ""
+msgstr "Strek prikk"
 
 #: ../goffice/utils/go-line.c:92
 msgid "Dash dot dot"
-msgstr ""
+msgstr "Strek prikk prikk"
 
 #: ../goffice/utils/go-line.c:94
 msgid "Dash dot dot dot"
-msgstr ""
+msgstr "Strek prikk prikk prikk"
 
 #: ../goffice/utils/go-line.c:96
 msgid "Short dash"
-msgstr ""
+msgstr "Kort strek"
 
 #: ../goffice/utils/go-line.c:98
 msgid "Dash"
-msgstr ""
+msgstr "Strek"
 
 #: ../goffice/utils/go-line.c:100
 msgid "Long dash"
-msgstr ""
+msgstr "Lang strek"
 
 #: ../goffice/utils/go-line.c:102
 msgid "Very long dash"
-msgstr ""
+msgstr "Meget lang strek"
 
 #: ../goffice/utils/go-line.c:104
 msgid "Long dash dash"
-msgstr ""
+msgstr "Lang strek strek"
 
 #: ../goffice/utils/go-line.c:106
 msgid "Long dash dash dash"
-msgstr ""
+msgstr "Lang strek strek strek"
 
 #: ../goffice/utils/go-line.c:120
 msgid "Bezier cubic spline"
@@ -4803,10 +4770,6 @@ msgstr "SANN"
 #: ../goffice/utils/go-locale.c:514
 msgid "FALSE"
 msgstr "USANN"
-
-#: ../goffice/utils/go-marker.c:75
-msgid "none"
-msgstr "ingen"
 
 #: ../goffice/utils/go-marker.c:76
 msgid "square"
@@ -5022,9 +4985,8 @@ msgid "O_utline:"
 msgstr "O_mriss:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:11
-#, fuzzy
 msgid "Pattern"
-msgstr "_Mønster:"
+msgstr "Mønster"
 
 #: ../goffice/utils/go-style-prefs.ui.h:12
 msgid "Sha_pe:"
@@ -5071,9 +5033,8 @@ msgid "_Size:"
 msgstr "_Størrelse:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:25
-#, fuzzy
 msgid "centered"
-msgstr "Senter"
+msgstr "sentrert"
 
 #: ../goffice/utils/go-style-prefs.ui.h:27
 msgid "stretched"
@@ -5124,9 +5085,8 @@ msgid "Invalid contents of \\{\\}."
 msgstr ""
 
 #: ../goffice/utils/regutf8.c:52
-#, fuzzy
 msgid "Invalid range end."
-msgstr "Ugyldig passord"
+msgstr "Ugyldig slutt på område."
 
 #: ../goffice/utils/regutf8.c:53
 msgid "Out of memory."
@@ -5138,11 +5098,11 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:55
 msgid "Premature end of pattern."
-msgstr ""
+msgstr "For tidlig slutt på mønster."
 
 #: ../goffice/utils/regutf8.c:56
 msgid "Pattern is too big."
-msgstr ""
+msgstr "Mønster er for stort."
 
 #: ../goffice/utils/regutf8.c:57
 msgid "Unmatched ) or \\)"
@@ -5151,17 +5111,17 @@ msgstr ""
 #: ../goffice/utils/regutf8.c:359
 #, c-format
 msgid "Search string must not be empty."
-msgstr ""
+msgstr "Søkestrengen må ikke være tom."
 
 #: ../goffice/utils/regutf8.c:369
 #, c-format
 msgid "Replacement string must be set."
-msgstr ""
+msgstr "Erstatningsstrengen må være satt."
 
 #: ../goffice/utils/regutf8.c:381
 #, c-format
 msgid "Invalid search pattern (%s)"
-msgstr ""
+msgstr "Ugyldig søkemønster (%s)"
 
 #: ../goffice/utils/regutf8.c:405
 #, c-format
@@ -5228,7 +5188,7 @@ msgstr ""
 #: ../plugins/plot_barcol/gog-1.5d.c:338 ../plugins/plot_pie/gog-pie.c:317
 #: ../plugins/plot_xy/gog-xy.c:586
 msgid "In 3d"
-msgstr ""
+msgstr "I 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:339
 msgid "Placeholder to allow us to round trip pseudo 3d state"
@@ -5244,7 +5204,7 @@ msgstr "Etiketter"
 #: ../plugins/plot_barcol/gog-1.5d.c:349
 #: ../plugins/plot_distrib/gog-boxplot.c:431
 #: ../plugins/plot_distrib/gog-histogram.c:393
-#: ../plugins/plot_distrib/gog-probability-plot.c:277
+#: ../plugins/plot_distrib/gog-probability-plot.c:318
 #: ../plugins/plot_pie/gog-pie.c:338 ../plugins/plot_radar/gog-radar.c:321
 msgid "Values"
 msgstr "Verdier"
@@ -5497,7 +5457,7 @@ msgstr "Område"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:66
 msgid "Area plot."
-msgstr ""
+msgstr "Områdeplott."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:67
 msgid "Areas"
@@ -5757,14 +5717,12 @@ msgid "Second Y category label:"
 msgstr ""
 
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
-#, fuzzy
 msgid "_Cumulative"
-msgstr "Relativ"
+msgstr "_Kumulativ"
 
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:3
-#, fuzzy
 msgid "_Vertical"
-msgstr "Vertikal"
+msgstr "_Vertikal"
 
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
@@ -5853,8 +5811,12 @@ msgstr "Absoluttverdi"
 msgid "Second values"
 msgstr "Vis _negative verdier"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:63
-#: ../plugins/plot_distrib/gog-probability-plot.c:254
+#: ../plugins/plot_distrib/gog-probability-plot.c:71
+msgid "Use data as Y-values"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:78
+#: ../plugins/plot_distrib/gog-probability-plot.c:289
 msgid "Distribution"
 msgstr "Spredning"
 
@@ -5874,32 +5836,40 @@ msgstr "Spredning"
 #. <property name="guru-hints">backplane</property>
 #. <property name="vertical">false</property>
 #. </Type>
-#: ../plugins/plot_distrib/gog-probability-plot.c:133
+#: ../plugins/plot_distrib/gog-probability-plot.c:159
 #: ../plugins/plot_distrib/plot-types.xml.in.h:36
 msgid "ProbabilityPlot"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:255
+#: ../plugins/plot_distrib/gog-probability-plot.c:290
 msgid "A pointer to the GODistribution used by this plot"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:260
+#: ../plugins/plot_distrib/gog-probability-plot.c:295
 msgid "Shape parameter"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:261
+#: ../plugins/plot_distrib/gog-probability-plot.c:296
 msgid "Name of the first shape parameter if any"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:266
+#: ../plugins/plot_distrib/gog-probability-plot.c:301
 msgid "Second shape parameter"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:267
+#: ../plugins/plot_distrib/gog-probability-plot.c:302
 msgid "Name of the second shape parameter if any"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:594
+#: ../plugins/plot_distrib/gog-probability-plot.c:307
+msgid "Data as Y values"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:308
+msgid "whether the data should be mapped to the Y axis."
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-probability-plot.c:643
 #, fuzzy
 msgid "Regression line"
 msgstr "Rekker"
@@ -5951,9 +5921,8 @@ msgstr "Horisontal stripe "
 #. <property name="vertical">false</property>
 #. </Type>
 #: ../plugins/plot_distrib/plot-types.xml.in.h:22
-#, fuzzy
 msgid "Probability plot."
-msgstr "Radarplott."
+msgstr "Sannsynlighetsplott."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:37
 msgid "Statistics"
@@ -6087,14 +6056,12 @@ msgid "Total angle used as a percentage of the full circle"
 msgstr ""
 
 #: ../plugins/plot_pie/gog-pie.c:329
-#, fuzzy
 msgid "Show negative values"
-msgstr "Vis _negative verdier"
+msgstr "Vis negative verdier"
 
 #: ../plugins/plot_pie/gog-pie.c:330
-#, fuzzy
 msgid "How negative values are displayed"
-msgstr "Vis _negative verdier"
+msgstr "Hvordan negative verdier vises"
 
 #: ../plugins/plot_pie/gog-pie.c:422
 msgid "PlotRing"
@@ -6581,7 +6548,7 @@ msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:8
 msgid "_Size represented by:"
-msgstr ""
+msgstr "_Størrelse representert av:"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:9
 msgid "_Vary colors by bubble"
@@ -6597,9 +6564,8 @@ msgid "Bar _width:"
 msgstr "Bredde"
 
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
-#, fuzzy
 msgid "_Horizontal"
-msgstr "Horisontal"
+msgstr "_Horisontal"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -6639,7 +6605,7 @@ msgstr "PlottBoble"
 
 #: ../plugins/plot_xy/gog-xy.c:574
 msgid "Size as area"
-msgstr ""
+msgstr "Størrelse som område"
 
 #: ../plugins/plot_xy/gog-xy.c:575
 msgid "Display size as area instead of diameter"
@@ -6650,13 +6616,12 @@ msgid "Show negatives"
 msgstr "Vis negative verdier"
 
 #: ../plugins/plot_xy/gog-xy.c:581
-#, fuzzy
 msgid "Draw bubbles for negative values"
-msgstr "Vis _negative verdier"
+msgstr "Vis bobler for negative verdier"
 
 #: ../plugins/plot_xy/gog-xy.c:587
 msgid "Draw 3d bubbles"
-msgstr ""
+msgstr "Tegn 3D-bobler"
 
 #: ../plugins/plot_xy/gog-xy.c:592
 #, fuzzy
@@ -6700,9 +6665,8 @@ msgid "Vertical drop lines"
 msgstr "Vertikal stripe"
 
 #: ../plugins/plot_xy/gog-xy.c:2069
-#, fuzzy
 msgid "Invalid as zero"
-msgstr "Ugyldig passord"
+msgstr "Ugyldig som null"
 
 #: ../plugins/plot_xy/gog-xy.c:2070
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
@@ -6746,9 +6710,8 @@ msgid "Bars width as a percetage of the plot width"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:329
-#, fuzzy
 msgid "Positions"
-msgstr "Posisjon"
+msgstr "Posisjoner"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 #, fuzzy
@@ -6925,9 +6888,8 @@ msgid "Dims"
 msgstr ""
 
 #: ../plugins/reg_linear/gog-lin-reg.c:272
-#, fuzzy
 msgid "Number of x-vectors"
-msgstr "Tallformater"
+msgstr "Antall x-vektorer"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -7134,7 +7096,7 @@ msgstr "Motor for områdeplott"
 
 #: ../plugins/smoothing/plugin.xml.in.h:3
 msgid "Smoothed curves"
-msgstr ""
+msgstr "Utjevnede kurver"
 
 #: ../plugins/smoothing/plugin.xml.in.h:4
 msgid "Smoothed curves types"
