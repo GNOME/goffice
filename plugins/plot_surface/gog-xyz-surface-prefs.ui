@@ -128,7 +128,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkHBox" id="rows-box">
+      <object class="GtkBox" id="rows-box">
         <property name="visible">True</property>
         <child>
           <object class="GtkLabel" id="rows-nb-lbl">
@@ -167,7 +167,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkHBox" id="cols-box">
+      <object class="GtkBox" id="cols-box">
         <property name="visible">True</property>
         <child>
           <object class="GtkLabel" id="cols-nb-lbl">

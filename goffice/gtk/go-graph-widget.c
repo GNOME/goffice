@@ -24,7 +24,6 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -131,26 +130,19 @@ go_graph_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	GTK_WIDGET_CLASS (graph_parent_klass)->size_allocate (widget, allocation);
 }
 
-
 static gboolean
-go_graph_widget_expose_event (GtkWidget *widget, GdkEventExpose *event)
+go_graph_widget_draw (GtkWidget *widget, cairo_t *cairo)
 {
 	GOGraphWidget *w = GO_GRAPH_WIDGET (widget);
-	GdkDrawable *drawable = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
-	cairo_t *cairo;
 	cairo_surface_t *surface;
 
-	if (event->window != drawable)
-		return FALSE;
 
 	surface = gog_renderer_get_cairo_surface (w->renderer);
 	if (surface != NULL) {
-		cairo = gdk_cairo_create (drawable);
 		cairo_rectangle (cairo, w->xoffset, w->yoffset, w->width, w->height);
 		cairo_clip (cairo);
 		cairo_set_source_surface (cairo, surface, w->xoffset, w->yoffset);
 		cairo_paint (cairo);
-		cairo_destroy (cairo);
 	}
 
 	return FALSE;
@@ -205,8 +197,8 @@ go_graph_widget_motion_notify_event (GtkWidget *widget,
 
 	if (gw->button_pressed) {
 		GtkAdjustment *hadjustment, *vadjustment;
-		hadjustment = gtk_layout_get_hadjustment (GTK_LAYOUT (gw));
-		vadjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (gw));
+		hadjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (gw));
+		vadjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (gw));
 		gdk_window_get_pointer (gtk_widget_get_window (widget),
 					&x, &y, NULL);
 
@@ -339,7 +331,7 @@ go_graph_widget_class_init (GOGraphWidgetClass *klass)
 	object_class->get_property = go_graph_widget_get_property;
 	object_class->set_property = go_graph_widget_set_property;
 	widget_class->size_allocate = go_graph_widget_size_allocate;
-	widget_class->expose_event = go_graph_widget_expose_event;
+	widget_class->draw = go_graph_widget_draw;
 	widget_class->button_press_event = go_graph_widget_button_press_event;
 	widget_class->button_release_event = go_graph_widget_button_release_event;
 	widget_class->motion_notify_event = go_graph_widget_motion_notify_event;

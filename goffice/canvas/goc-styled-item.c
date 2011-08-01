@@ -137,8 +137,8 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
  * @gsi: the object on which the signal is emitted
  * @style: the new #GOStyle.
  *
- * The ::style-changed signal is emitted when a new style 
- * has been set on a styled item. 
+ * The ::style-changed signal is emitted when a new style
+ * has been set on a styled item.
  **/
 	goc_styled_item_signals [STYLE_CHANGED] = g_signal_new ("style-changed",
 		G_TYPE_FROM_CLASS (goc_klass),
@@ -268,7 +268,7 @@ GSF_CLASS_FULL (GocStyledItem, goc_styled_item, NULL, NULL,
  * go_styled_object_set_cairo_line().
  *
  * If the item drawing used goc_group_cairo_transform(),
- * scale-line-width should be %FALSE to avoid scaling twice, or 
+ * scale-line-width should be %FALSE to avoid scaling twice, or
  * go_styled_object_set_cairo_line() should be called directly instead.
  * Returns: %TRUE if the line is not invisible
  **/

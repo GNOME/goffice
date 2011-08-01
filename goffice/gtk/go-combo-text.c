@@ -7,7 +7,6 @@
 #include "go-combo-text.h"
 #include "go-combo-box.h"
 #include <goffice/utils/go-marshalers.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -21,6 +20,76 @@ struct _GOComboText {
 	GtkWidget *scroll;
 	int rows;
 };
+
+/*****************************************************************************
+ * A private simple scrolled window just needed for size request             *
+ *****************************************************************************/
+static GType go_scrolled_window_get_type (void);
+static GtkWidgetClass *go_scrolled_window_parent_class;
+
+typedef GtkScrolledWindow GOScrolledWindow;
+typedef GtkScrolledWindowClass GOScrolledWindowClass;
+
+static void
+go_scrolled_window_get_preferred_height (GtkWidget *widget, gint *minimum_height, gint *natural_height)
+{
+	GtkRequisition list_req;
+	int mon_width, mon_height, border_width;
+	GdkRectangle rect;
+	GdkScreen    *screen;
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (widget));
+	GOComboText *ct;
+
+	go_scrolled_window_parent_class->get_preferred_height (widget, minimum_height, natural_height);
+
+	if (GTK_IS_VIEWPORT (child))
+		child = gtk_bin_get_child (GTK_BIN (child));
+	ct = GO_COMBO_TEXT (g_object_get_data (G_OBJECT (child), "go-combo"));
+	/* In a Xinerama setup, use geometry of the actual display unit.  */
+	screen = gtk_widget_get_screen (widget);
+	if (screen == NULL)
+		/* Looks like this will happen when
+		 * embedded as a bonobo component */
+		screen = gdk_screen_get_default ();
+
+	gdk_screen_get_monitor_geometry (screen, 0, &rect);
+	mon_width  = rect.width;
+	mon_height = rect.height;
+	border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
+	gtk_widget_get_preferred_size (child, &list_req, NULL);
+	if (*minimum_height < list_req.height) {
+		int height       = list_req.height;
+
+		if (child != NULL) {
+			/* Make room for a whole number of items which don't
+			 * overflow the screen, but no more than 20. */
+			int avail_height, nitems;
+
+			avail_height = mon_height - 20
+				- border_width * 2 + 4;
+			nitems = MIN (20, avail_height * ct->rows / list_req.height);
+			height = nitems *  list_req.height / ct->rows;
+			if (height > list_req.height)
+				height = list_req.height;
+		}
+
+		*minimum_height = height +
+			border_width * 2;
+	}
+
+	*minimum_height = *natural_height = MIN (*minimum_height, mon_height - 20);
+}
+
+static void
+go_scrolled_window_class_init (GtkWidgetClass *klass)
+{
+	go_scrolled_window_parent_class = g_type_class_peek_parent (klass);
+	klass->get_preferred_height = go_scrolled_window_get_preferred_height;
+}
+
+GSF_CLASS (GOScrolledWindow, go_scrolled_window,
+	   go_scrolled_window_class_init, NULL,
+	   GTK_TYPE_SCROLLED_WINDOW)
 
 typedef struct {
 	GOComboBoxClass	base;
@@ -108,61 +177,6 @@ cb_list_changed (GtkTreeView *list, gpointer data)
 }
 
 static void
-cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
-			GOComboText *ct)
-{
-	GtkRequisition list_req, w_req;
-	GtkAllocation allocation;
-	int mon_width, mon_height, border_width;
-	GdkRectangle rect;
-	GdkScreen    *screen;
-
-	/* In a Xinerama setup, use geometry of the actual display unit.  */
-	screen = gtk_widget_get_screen (widget);
-	if (screen == NULL)
-		/* Looks like this will happen when
-		 * embedded as a bonobo component */
-		screen = gdk_screen_get_default ();
-
-	gdk_screen_get_monitor_geometry (screen, 0, &rect);
-	mon_width  = rect.width;
-	mon_height = rect.height;
-	border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
-
-	gtk_widget_size_request	(ct->list, &list_req);
-	if (requisition->height < list_req.height) {
-		int height       = list_req.height;
-		GtkWidget const *w = ct->list;
-
-		if (w != NULL) {
-			/* Make room for a whole number of items which don't
-			 * overflow the screen, but no more than 20. */
-			int avail_height, nitems;
-
-			gtk_widget_get_child_requisition (GTK_WIDGET (w), &w_req);
-			avail_height = mon_height - 20
-				- border_width * 2 + 4;
-			nitems = MIN (20, avail_height * ct->rows / w_req.height);
-			height = nitems *  w_req.height / ct->rows;
-			if (height > list_req.height)
-				height = list_req.height;
-		}
-
-		/* FIXME : Why do we need 4 ??
-		 * without it things end up scrolling.
-		 */
-		requisition->height = height +
-			border_width * 2 + 4;
-	}
-
-	gtk_widget_get_allocation (ct->entry, &allocation);
-	requisition->width  = MAX (requisition->width,
-				   allocation.width + border_width * 2);
-	requisition->width  = MIN (requisition->width, mon_width - 20);
-	requisition->height = MIN (requisition->height, mon_height - 20);
-}
-
-static void
 cb_screen_changed (GOComboText *ct, GdkScreen *previous_screen)
 {
 	GtkWidget *w = GTK_WIDGET (ct);
@@ -186,6 +200,7 @@ go_combo_text_init (GOComboText *ct)
 	ct->rows = 0;
 	ct->entry = gtk_entry_new ();
 	ct->list = gtk_tree_view_new ();
+	g_object_set_data (G_OBJECT (ct->list), "go-combo", ct);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ct->list), FALSE);
 	store = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (ct->list), GTK_TREE_MODEL (store));
@@ -199,7 +214,7 @@ go_combo_text_init (GOComboText *ct)
 	g_signal_connect (G_OBJECT (ct->list), "cursor_changed",
 			  G_CALLBACK (cb_list_changed), ct);
 
-	ct->scroll = gtk_scrolled_window_new (NULL, NULL);
+	ct->scroll = g_object_new (go_scrolled_window_get_type (), NULL);
 
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (ct->scroll),
@@ -218,9 +233,6 @@ go_combo_text_init (GOComboText *ct)
 	g_signal_connect (G_OBJECT (ct->entry),
 		"activate",
 		G_CALLBACK (cb_entry_activate), (gpointer) ct);
-	g_signal_connect (G_OBJECT (ct->scroll),
-		"size_request",
-		G_CALLBACK (cb_scroll_size_request), (gpointer) ct);
 
 	gtk_widget_show (ct->entry);
 	go_combo_box_construct (GO_COMBO_BOX (ct),
@@ -232,10 +244,10 @@ go_combo_text_init (GOComboText *ct)
 }
 
 static void
-go_combo_text_destroy (GtkObject *object)
+go_combo_text_destroy (GtkWidget *widget)
 {
-	GtkObjectClass *parent;
-	GOComboText *ct = GO_COMBO_TEXT (object);
+	GtkWidgetClass *parent;
+	GOComboText *ct = GO_COMBO_TEXT (widget);
 
 	if (ct->list != NULL) {
 		g_signal_handlers_disconnect_by_func (G_OBJECT (ct),
@@ -245,11 +257,11 @@ go_combo_text_destroy (GtkObject *object)
 
 	parent = g_type_class_peek (GO_TYPE_COMBO_BOX);
 	if (parent && parent->destroy)
-		(*parent->destroy) (object);
+		(*parent->destroy) (widget);
 }
 
 static void
-go_combo_text_class_init (GtkObjectClass *klass)
+go_combo_text_class_init (GtkWidgetClass *klass)
 {
 	klass->destroy = &go_combo_text_destroy;
 

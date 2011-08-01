@@ -272,11 +272,9 @@ static void
 goc_widget_draw (GocItem const *item, cairo_t *cr)
 {
 	GocWidget *widget = GOC_WIDGET (item);
-	if (item->canvas->cur_event == NULL)
-		return; /* we do not draw for off-screen rendering, at least until this is implemented in gtk+ */
-	 gtk_container_propagate_expose (GTK_CONTAINER (item->canvas),
-					widget->widget,
-					(GdkEventExpose *) goc_canvas_get_cur_event (item->canvas));
+	gtk_container_propagate_draw (GTK_CONTAINER (item->canvas),
+				      widget->widget,
+				      cr);
 }
 
 static void

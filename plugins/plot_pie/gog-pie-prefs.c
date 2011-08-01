@@ -24,7 +24,6 @@
 
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 GtkWidget *gog_pie_series_element_pref   (GogPieSeriesElement *element, GOCmdContext *cc);
 

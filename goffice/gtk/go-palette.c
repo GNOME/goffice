@@ -21,7 +21,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
@@ -203,15 +202,12 @@ go_palette_finalize (GObject *object)
 }
 
 static gboolean
-cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
+cb_swatch_draw (GtkWidget *swatch, cairo_t *cr, GOPalette *palette)
 {
 	if (palette->priv->swatch_render) {
-		cairo_t *cr;
 		GdkRectangle area;
 		int index;
 		GtkAllocation allocation;
-
-		cr = gdk_cairo_create (gtk_widget_get_window (swatch));
 
 		gtk_widget_get_allocation (swatch, &allocation);
 		area.x = 0;
@@ -223,7 +219,6 @@ cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
 
 		(palette->priv->swatch_render) (cr, &area, index, palette->priv->data);
 
-		cairo_destroy (cr);
 	}
 	return TRUE;
 }
@@ -258,7 +253,7 @@ go_palette_menu_item_new (GOPalette *palette, int index)
 		char const *tip;
 
 		tip = priv->get_tooltip (index, priv->data);
-		go_widget_set_tooltip_text (item, tip);
+		gtk_widget_set_tooltip_text (item, tip);
 	}
 
 	g_signal_connect (item, "activate", G_CALLBACK (cb_menu_item_activate), palette);
@@ -406,7 +401,7 @@ go_palette_swatch_new (GOPalette *palette, int index)
 	swatch = gtk_drawing_area_new ();
 
 	g_object_set_data (G_OBJECT (swatch), "index", GINT_TO_POINTER (index));
-	g_signal_connect (G_OBJECT (swatch), "expose-event", G_CALLBACK (cb_swatch_expose), palette);
+	g_signal_connect (G_OBJECT (swatch), "draw", G_CALLBACK (cb_swatch_draw), palette);
 	gtk_widget_set_size_request (swatch,
 				     palette->priv->swatch_width,
 				     palette->priv->swatch_height);

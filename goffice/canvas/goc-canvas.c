@@ -22,7 +22,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
@@ -44,29 +43,43 @@
 static GObjectClass *parent_klass;
 
 static gboolean
-expose_cb (GocCanvas *canvas, GdkEventExpose *event, G_GNUC_UNUSED gpointer data)
+goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 {
 	double x0, y0, x1, y1;
 	double ax0, ay0, ax1, ay1;
+	GocCanvas *canvas = GOC_CANVAS (widget);
+	GdkEventExpose *event = (GdkEventExpose *) gtk_get_current_event ();
 
-       if (event->count)
-		return TRUE;
-	goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
-	if (canvas->direction == GOC_DIRECTION_RTL) {
-		ax1 = (double)  (canvas->width - event->area.x) / canvas->pixels_per_unit + canvas->scroll_x1;
-		ax0 = (double) (canvas->width - event->area.x - event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+	if (event && event->type == GDK_EXPOSE) {
+		if (event->count)
+			return TRUE;
+		goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
+		if (canvas->direction == GOC_DIRECTION_RTL) {
+			ax1 = (double) (canvas->width - event->area.x) / canvas->pixels_per_unit + canvas->scroll_x1;
+			ax0 = (double) (canvas->width - event->area.x - event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+		} else {
+			ax0 = (double) event->area.x / canvas->pixels_per_unit + canvas->scroll_x1;
+			ax1 = ((double) event->area.x + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+		}
+		ay0 = (double) event->area.y / canvas->pixels_per_unit + canvas->scroll_y1;
+		ay1 = ((double) event->area.y + event->area.height) / canvas->pixels_per_unit + canvas->scroll_y1;
+		if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0) {
+			canvas->cur_event = (GdkEvent *) event;
+			goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
+		}
 	} else {
-		ax0 = (double) event->area.x / canvas->pixels_per_unit + canvas->scroll_x1;
-		ax1 = ((double) event->area.x + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
-	}
-	ay0 = (double) event->area.y / canvas->pixels_per_unit + canvas->scroll_y1;
-	ay1 = ((double) event->area.y + event->area.height) / canvas->pixels_per_unit + canvas->scroll_y1;
-	if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0) {
-		cairo_t *cr = gdk_cairo_create (event->window);
-		canvas->cur_event = (GdkEvent *) event;
-		goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
-		cairo_destroy (cr);
-		canvas->cur_event = NULL;
+		goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
+		if (canvas->direction == GOC_DIRECTION_RTL) {
+			ax1 = (double)  canvas->width / canvas->pixels_per_unit + canvas->scroll_x1;
+			ax0 = canvas->scroll_x1;
+		} else {
+			ax0 = canvas->scroll_x1;
+			ax1 = (double)  canvas->width / canvas->pixels_per_unit + canvas->scroll_x1;
+		}
+		ay0 = canvas->scroll_y1;
+		ay1 = (double) canvas->height / canvas->pixels_per_unit + canvas->scroll_y1;
+		if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0)
+			goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
 	}
 	return TRUE;
 }
@@ -255,9 +268,13 @@ goc_canvas_dispose (GObject *obj)
 static void
 goc_canvas_class_init (GObjectClass *klass)
 {
+	GtkWidgetClass *widget_klass = (GtkWidgetClass *) klass;
+
 	parent_klass = g_type_class_peek_parent (klass);
 	klass->finalize = goc_canvas_finalize;
 	klass->dispose = goc_canvas_dispose;
+
+	widget_klass->draw = goc_canvas_draw;
 }
 
 static void
@@ -281,7 +298,6 @@ goc_canvas_init (GocCanvas *canvas)
 	g_signal_connect (G_OBJECT (w), "button-press-event", G_CALLBACK (button_press_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "button-release-event", G_CALLBACK (button_release_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "motion-notify-event", G_CALLBACK (motion_cb), NULL);
-	g_signal_connect (G_OBJECT (w), "expose-event", G_CALLBACK (expose_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "key_press_event", (GCallback) key_press_cb, NULL);
 	g_signal_connect (G_OBJECT (w), "key_release_event", (GCallback) key_release_cb, NULL);
 	g_signal_connect (G_OBJECT (w), "size-allocate", (GCallback) size_changed_cb, NULL);
@@ -585,7 +601,7 @@ goc_canvas_get_direction (GocCanvas *canvas)
  * @y: the vertical position as a widget coordinate.
  * @x_: where to store the horizontal position as a canvas coordinate.
  * @y_: where to store the vertical position as a canvas coordinate.
- * 
+ *
  * Retrieves the canvas coordinates given the position in the widget.
  **/
 void

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <interface>
-  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">100</property>
@@ -36,17 +36,17 @@
       </row>
     </data>
   </object>
-  <object class="GtkVBox" id="gog_plot_prefs">
+  <object class="GtkBox" id="gog_plot_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkVBox" id="plot_area_box">
+      <object class="GtkBox" id="plot_area_box">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
-          <object class="GtkHBox" id="hbox1">
+          <object class="GtkBox" id="hbox1">
             <property name="visible">True</property>
             <property name="spacing">12</property>
             <child>

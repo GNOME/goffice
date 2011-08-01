@@ -19,7 +19,6 @@
  * USA
  */
 #include <goffice/goffice-config.h>
-#include <goffice/gtk/go-gtk-compat.h>
 #include "go-action-combo-pixmaps.h"
 #include "go-combo-pixmaps.h"
 #include "go-combo-box.h"
@@ -40,29 +39,8 @@ typedef GtkToolItemClass GOToolComboPixmapsClass;
 
 static GType go_tool_combo_pixmaps_get_type (void);
 
-#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-static gboolean
-go_tool_combo_pixmaps_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
-				   char const *tip_text,
-				   char const *tip_private)
-{
-	GOToolComboPixmaps *self = (GOToolComboPixmaps *)tool_item;
-	go_combo_box_set_tooltip (GO_COMBO_BOX (self->combo), tooltips,
-				  tip_text, tip_private);
-	return TRUE;
-}
-#endif
-
-static void
-go_tool_combo_pixmaps_class_init (GtkToolItemClass *tool_item_klass)
-{
-#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-	tool_item_klass->set_tooltip = go_tool_combo_pixmaps_set_tooltip;
-#endif
-}
-
 static GSF_CLASS (GOToolComboPixmaps, go_tool_combo_pixmaps,
-	   go_tool_combo_pixmaps_class_init, NULL,
+	   NULL, NULL,
 	   GTK_TYPE_TOOL_ITEM)
 
 /*****************************************************************************/
@@ -105,8 +83,7 @@ make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
 	} else
 		size = GTK_ICON_SIZE_MENU;
 
-	return gtk_widget_render_icon (tool, stock_id, size,
-				       "GOActionComboPixmaps");
+	return gtk_widget_render_icon_pixbuf (tool, stock_id, size);
 }
 
 
@@ -191,10 +168,9 @@ go_action_combo_pixmaps_create_menu_item (GtkAction *a)
 
 	for ( ; el->stock_id != NULL ; el++)
 		go_menu_pixmaps_add_element (submenu,
-			gtk_widget_render_icon (GTK_WIDGET (item),
+			gtk_widget_render_icon_pixbuf (GTK_WIDGET (item),
 				el->stock_id,
-				GTK_ICON_SIZE_MENU,
-				"GOActionComboPixmaps"),
+				GTK_ICON_SIZE_MENU),
 			el->id);
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));

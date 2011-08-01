@@ -20,7 +20,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -31,7 +30,7 @@ typedef struct {
 } g3d_point;
 
 struct _GO3DRotationSel {
-	GtkHBox		 box;
+	GtkBox		 box;
 	GtkBuilder	*gui;
 	GtkRange	*fovscale;
 	double		 psi;
@@ -57,7 +56,7 @@ struct _GO3DRotationSel {
 };
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 	void (* psi_changed) (GO3DRotationSel *g3d, int angle);
 	void (* theta_changed) (GO3DRotationSel *g3d, int angle);
 	void (* phi_changed) (GO3DRotationSel *g3d, int angle);
@@ -191,13 +190,13 @@ static void
 cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 {
 	GocGroup  *group = GOC_GROUP (goc_canvas_get_root (canvas));
-	GtkStyle *style = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (canvas)));
 	int i;
 	GOStyle *go_style;
 	double mgn = g3d->margin - 2 + g3d->radius;
-	style->bg[GTK_STATE_NORMAL] = style->white;
-	gtk_widget_set_style (GTK_WIDGET (canvas), style);
-	g_object_unref (style);
+	GdkRGBA color = {1., 1., 1., 1.};
+
+	gtk_widget_override_background_color (GTK_WIDGET (canvas),
+	                                      GTK_STATE_NORMAL, &color);
 
 	for (i = 0; i < 6; ++i) {
 		g3d->cube_polygons[i] = goc_item_new (group,
@@ -296,10 +295,11 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event,
 		x -= g3d->bank_dial_x;
 		y -= g3d->bank_dial_y;
 		r = g3d->bank_dial_r;
-		gdk_pointer_grab (gtk_layout_get_bin_window (&canvas->base), FALSE,
-			GDK_POINTER_MOTION_MASK
-			| GDK_BUTTON_RELEASE_MASK, NULL, NULL,
-			event->time);
+		gdk_device_grab (gdk_event_get_device ((GdkEvent *) event),
+		                 gtk_layout_get_bin_window (&canvas->base),
+		                 GDK_OWNERSHIP_APPLICATION, FALSE,
+				 GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+				 NULL, event->time);
 
 		if (x * x + y * y <= r * r) {
 			g3d->motion_handle = g_signal_connect (G_OBJECT (canvas),
@@ -314,8 +314,8 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event,
 	} else if (event->type == GDK_BUTTON_RELEASE) {
 		if (g3d->motion_handle == 0)
 			return TRUE;
-		gdk_display_pointer_ungrab (gtk_widget_get_display (GTK_WIDGET (canvas)),
-			event->time);
+		gdk_device_ungrab (gdk_event_get_device ((GdkEvent *) event),
+		                   event->time);
 		g_signal_handler_disconnect (canvas, g3d->motion_handle);
 		g3d->motion_handle = 0;
 		g_signal_emit (G_OBJECT (g3d),
@@ -389,7 +389,7 @@ g3d_class_init (GObjectClass *klass)
 	GObjectClass *gobj_class = (GObjectClass *) klass;
 	gobj_class->finalize = g3d_finalize;
 
-	g3d_parent_class = g_type_class_peek (gtk_hbox_get_type ());
+	g3d_parent_class = g_type_class_peek (gtk_box_get_type ());
 	g3d_signals [MATRIX_CHANGED] = g_signal_new ("matrix-changed",
 		G_OBJECT_CLASS_TYPE (klass), G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GO3DRotationSelClass, psi_changed),
@@ -423,7 +423,7 @@ g3d_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (GO3DRotationSel, go_3d_rotation_sel,
-	   g3d_class_init, g3d_init, GTK_TYPE_HBOX)
+	   g3d_class_init, g3d_init, GTK_TYPE_BOX)
 
 GtkWidget *
 go_3d_rotation_sel_new (void)

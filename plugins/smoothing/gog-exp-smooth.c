@@ -62,7 +62,7 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 	GtkWidget *label, *box, *w = go_gtk_builder_get_widget (gui, "steps");
 	GtkTable *table;
 
-	go_widget_set_tooltip_text (w, _("Number of interpolation steps"));
+	gtk_widget_set_tooltip_text (w, _("Number of interpolation steps"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 10, G_MAXINT);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), es->steps);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (steps_changed_cb), obj);
@@ -70,7 +70,7 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));
 	box = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (box), w);
-	go_widget_set_tooltip_text (box, _("Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
+	gtk_widget_set_tooltip_text (box, _("Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
 					"If no value or a negative (or nul) value is provided, the "
 					"default will be used"));
 	gtk_widget_show_all (box);

@@ -133,7 +133,7 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 				cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
 					polyline->points[i].y - polyline->points[0].y * flag);
 		}
-		
+
 		return TRUE;
 	}
 

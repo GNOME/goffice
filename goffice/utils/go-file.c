@@ -34,7 +34,7 @@
 #include <windows.h>
 #include <io.h>
 #endif
-#ifdef HAVE_GTK_SHOW_URI
+#ifdef GOFFICE_WITH_GTK
 #include <gtk/gtk.h>
 #endif
 #include <string.h>
@@ -987,7 +987,7 @@ go_url_encode (gchar const *text, int type)
 GError *
 go_url_show (gchar const *url)
 {
-#ifdef HAVE_GTK_SHOW_URI
+#ifdef GOFFICE_WITH_GTK
 	GError *error = NULL;
 	gtk_show_uri (NULL, url, GDK_CURRENT_TIME, &error);
 	return error;
@@ -1046,7 +1046,7 @@ go_url_check_extension (gchar const *uri,
  *
  * returns: the mime type for the file as a newly allocated string. Needs to
  * be freed with g_free().
-**/ 
+**/
 
 gchar *
 go_get_mime_type (gchar const *uri)
@@ -1107,7 +1107,7 @@ go_get_mime_type (gchar const *uri)
  *
  * returns: the mime type for the data as a newly allocated string. Needs to
  * be freed with g_free().
-**/ 
+**/
 gchar *
 go_get_mime_type_for_data (gconstpointer data, int data_size)
 {
@@ -1147,12 +1147,11 @@ go_get_mime_type_for_data (gconstpointer data, int data_size)
  * returns: the description for the mime type as a newly allocated string.
  * Needs to be freed with g_free(). If the description is not found, the
  * mime type itself will be returned.
-**/ 
+**/
 
 gchar *
 go_mime_type_get_description (gchar const *mime_type)
 {
-#ifdef HAVE_G_CONTENT_TYPE_FROM_MIME_TYPE
 	char *content_type = g_content_type_from_mime_type (mime_type);
 	char *description = NULL;
 	if (content_type) {
@@ -1160,9 +1159,6 @@ go_mime_type_get_description (gchar const *mime_type)
 		g_free (content_type);
 	}
 	return description ? description : g_strdup (mime_type);
-#else
-	return g_content_type_get_description (mime_type);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

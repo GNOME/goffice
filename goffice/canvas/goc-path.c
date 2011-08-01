@@ -60,11 +60,11 @@ goc_path_set_property (GObject *gobject, guint param_id,
 	case PATH_PROP_ROTATION:
 		path->rotation = g_value_get_double (value);
 		break;
-		
+
 	case PATH_PROP_CLOSED:
 		path->closed = g_value_get_boolean (value);
 		break;
-		
+
 	case PATH_PROP_PATH:
 		path->path = g_value_peek_pointer (value);
 		break;

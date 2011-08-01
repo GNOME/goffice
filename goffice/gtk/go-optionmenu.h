@@ -56,6 +56,7 @@ struct _GOOptionMenu
 	GtkMenuShell *menu;
 	GtkMenuItem *selected;
 	GtkLabel *button_label;
+	gboolean active;
 };
 
 struct _GOOptionMenuClass

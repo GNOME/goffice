@@ -70,7 +70,7 @@ struct _GOPath {
 	GOPathDataBuffer *data_buffer_tail;
 
 	GOPathOptions 	  options;
-	unsigned	  refs; 
+	unsigned	  refs;
 };
 
 static void

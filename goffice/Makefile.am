@@ -1,4 +1,4 @@
-SUBDIRS = utils data app graph math ms-compat
+SUBDIRS = utils data app graph math
 
 lib_LTLIBRARIES = libgoffice-@GOFFICE_API_VER@.la
 
@@ -8,14 +8,12 @@ libgoffice_@GOFFICE_API_VER@_la_LIBADD = 			\
 	data/libgoffice-data.la			\
 	graph/libgoffice-graph.la		\
 	math/libgoffice-math.la		\
-	ms-compat/libgoffice-ms-compat.la	\
 	$(GOFFICE_LIBS)
 
 if WITH_GTK
-SUBDIRS += gtk drawing component canvas
+SUBDIRS += gtk component canvas
 libgoffice_@GOFFICE_API_VER@_la_LIBADD += 			\
 	gtk/libgoffice-gtk.la			\
-	drawing/libgoffice-drawing.la		\
 	component/libgoffice-component.la	\
 	canvas/libgoffice-canvas.la
 endif
@@ -51,6 +49,7 @@ goffice-paths.h: Makefile
 	echo '#define GOFFICE_LIBDIR "$(goffice_libdir)"'; \
 	echo '#define GOFFICE_ICONDIR "$(goffice_icondir)"'; \
 	echo '#define GOFFICE_LOCALEDIR "$(goffice_localedir)"'; \
+	echo '#define GOFFICE_EXTERNPLUGINDIR "$(goffice_externplugindir)"'; \
 	echo ''; \
 	echo '#endif /* GOFFICE_PATHS_H */'; \
 	) >$@

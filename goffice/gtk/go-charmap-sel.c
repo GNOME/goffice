@@ -221,14 +221,14 @@ charset_order (const void *_a, const void *_b)
 static GHashTable *encoding_hash;
 
 struct _GOCharmapSel {
-	GtkHBox box;
+	GtkBox box;
 	GOOptionMenu *encodings;
 	GtkMenu *encodings_menu;
 	GOCharmapSelTestDirection test;
 };
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	gboolean (* charmap_changed) (GOCharmapSel *cs, char const *new_charmap);
 } GOCharmapSelClass;
@@ -553,7 +553,7 @@ cs_class_init (GtkWidgetClass *widget_klass)
 }
 
 GSF_CLASS (GOCharmapSel, go_charmap_sel,
-	   cs_class_init, cs_init, GTK_TYPE_HBOX)
+	   cs_class_init, cs_init, GTK_TYPE_BOX)
 
 GtkWidget *
 go_charmap_sel_new (GOCharmapSelTestDirection test)

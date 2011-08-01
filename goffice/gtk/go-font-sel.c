@@ -10,7 +10,6 @@
  */
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -20,7 +19,7 @@
 #include <string.h>
 
 struct _GOFontSel {
-	GtkHBox		box;
+	GtkBox		box;
 	GtkBuilder	*gui;
 
 	GtkWidget	*font_name_entry;
@@ -41,7 +40,7 @@ struct _GOFontSel {
 };
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	void (* font_changed) (GOFontSel *gfs, PangoAttrList *modfications);
 } GOFontSelClass;
@@ -52,7 +51,7 @@ enum {
 };
 
 static guint gfs_signals[LAST_SIGNAL] = { 0 };
-static GtkObjectClass *gfs_parent_class;
+static GtkWidgetClass *gfs_parent_class;
 
 static void
 go_font_sel_add_attr (GOFontSel *gfs, PangoAttribute *attr0, PangoAttribute *attr1)
@@ -92,7 +91,7 @@ cb_list_adjust (GtkTreeView* view)
 		GtkAllocation allocation;
 		GtkRequisition requisition;
 		gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
-		gtk_widget_get_child_requisition (GTK_WIDGET (view), &requisition);
+		gtk_widget_get_preferred_size (GTK_WIDGET (view), &requisition, NULL);
 		path = gtk_tree_model_get_path (model, &iter);
 		scroll = GTK_SCROLLED_WINDOW (gtk_widget_get_parent (GTK_WIDGET (view)));
 		height = allocation.height;
@@ -378,9 +377,9 @@ gfs_init (GOFontSel *gfs)
 }
 
 static void
-gfs_destroy (GtkObject *object)
+gfs_destroy (GtkWidget *widget)
 {
-	GOFontSel *gfs = GO_FONT_SEL (object);
+	GOFontSel *gfs = GO_FONT_SEL (widget);
 
 	if (gfs->gui) {
 		g_object_unref (G_OBJECT (gfs->gui));
@@ -407,17 +406,17 @@ gfs_destroy (GtkObject *object)
 	g_slist_free (gfs->font_sizes);
 	gfs->font_sizes = NULL;
 
-	gfs_parent_class->destroy (object);
+	gfs_parent_class->destroy (widget);
 }
 
 static void
 gfs_class_init (GObjectClass *klass)
 {
-	GtkObjectClass *gto_class = (GtkObjectClass *) klass;
+	GtkWidgetClass *gto_class = (GtkWidgetClass *) klass;
 
 	gto_class->destroy = gfs_destroy;
 
-	gfs_parent_class = g_type_class_peek (gtk_hbox_get_type ());
+	gfs_parent_class = g_type_class_peek (gtk_box_get_type ());
 
 	gfs_signals [FONT_CHANGED] =
 		g_signal_new (
@@ -431,7 +430,7 @@ gfs_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (GOFontSel, go_font_sel,
-	   gfs_class_init, gfs_init, GTK_TYPE_HBOX)
+	   gfs_class_init, gfs_init, GTK_TYPE_BOX)
 
 GtkWidget *
 go_font_sel_new (void)

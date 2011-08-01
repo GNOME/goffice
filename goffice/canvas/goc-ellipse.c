@@ -112,10 +112,10 @@ goc_ellipse_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocEllipse *ellipse = GOC_ELLIPSE (item);
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-	
+
 	if (0 == ellipse->width && 0 == ellipse->height)
 		return FALSE;
-		
+
 	cairo_save(cr);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, ellipse->x + ellipse->width/2., ellipse->y + ellipse->height/2.);

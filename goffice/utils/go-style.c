@@ -526,7 +526,7 @@ fill_image_init (StylePrefState *state)
 
 	sample = go_gtk_builder_get_widget (state->gui, "fill_image_sample");
 	gtk_widget_set_size_request (sample, HSCALE + 10, VSCALE + 10);
-	type   = go_gtk_builder_get_widget (state->gui, "fill_image_fit");
+	type   = go_gtk_builder_get_widget (state->gui, "fill-image-fit");
 
 	state->fill.image.image = NULL;
 
@@ -655,9 +655,9 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	}
 	fill_update_visibilies (type, state);
 
-	w = go_gtk_builder_get_widget (state->gui, "fill_type_menu");
+	w = go_gtk_builder_get_widget (state->gui, "fill-type-menu");
 	if (state->doc == NULL)
-		gtk_combo_box_remove_text (GTK_COMBO_BOX (w), FILL_TYPE_IMAGE);
+		gtk_combo_box_text_remove (GTK_COMBO_BOX_TEXT (w), FILL_TYPE_IMAGE);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), type);
 	g_signal_connect (G_OBJECT (w),
 		"changed",
@@ -904,7 +904,7 @@ text_layout_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmd
 		style->text_layout.angle);
 	g_signal_connect (G_OBJECT (w), "rotation-changed",
 		G_CALLBACK (cb_angle_changed), state);
-	box = gtk_vbox_new (FALSE, 6);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 12);
 	go_editor_add_page (editor, box, _("Text"));

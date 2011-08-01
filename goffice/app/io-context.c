@@ -204,7 +204,7 @@ go_io_error_push (GOIOContext *context, GOErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
-	
+
 	if (context->info == NULL)
 		go_io_error_info_set (context, error);
 	else {
@@ -226,7 +226,7 @@ go_io_error_display (GOIOContext *context)
 			cc = context->impl;
 		else
 			cc = GO_CMD_CONTEXT (context);
-		go_cmd_context_error_info_list 
+		go_cmd_context_error_info_list
 			(cc, context->info);
 	}
 }
@@ -478,8 +478,8 @@ go_io_warning (G_GNUC_UNUSED GOIOContext *context,
 void
 go_io_warning_varargs (GOIOContext *context, char const *fmt, va_list args)
 {
-	context->info = g_slist_prepend 
-		(context->info, go_error_info_new_vprintf 
+	context->info = g_slist_prepend
+		(context->info, go_error_info_new_vprintf
 		 (GO_WARNING, fmt, args));
 	context->warning_occurred = TRUE;
 }

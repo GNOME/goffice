@@ -23,7 +23,6 @@
 #include "gog-xy.h"
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <string.h>
 

@@ -390,7 +390,7 @@ static void
 cb_cross_location_changed (GtkWidget *editor, AxisBasePrefs *state)
 {
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (gtk_builder_get_object (state->gui, "axis_cross")),
+		(GTK_TOGGLE_BUTTON (gtk_builder_get_object (state->gui, "axis-cross")),
 		 TRUE);
 }
 
@@ -407,7 +407,7 @@ cb_cross_axis_changed (GtkComboBox *combo, AxisBasePrefs *state)
 	state->axis_base->crossed_axis_id = g_value_get_uint (&value);
 
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (gtk_builder_get_object (state->gui, "axis_cross")),
+		(GTK_TOGGLE_BUTTON (gtk_builder_get_object (state->gui, "axis-cross")),
 		 TRUE);
 
 	g_value_unset (&value);
@@ -424,15 +424,15 @@ cb_position_toggled (GtkWidget *button, AxisBasePrefs *state)
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
 		return;
 
-	if (g_ascii_strcasecmp ("axis_high", widget_name) == 0)
+	if (g_ascii_strcasecmp ("axis-high", widget_name) == 0)
 		position = GOG_AXIS_AT_HIGH;
-	else if (g_ascii_strcasecmp ("axis_cross", widget_name) == 0)
+	else if (g_ascii_strcasecmp ("axis-cross", widget_name) == 0)
 		position = GOG_AXIS_CROSS;
 	else
 		position = GOG_AXIS_AT_LOW;
 
 	if (position != axis_base->position)
-		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "padding_spinbutton"),
+		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "padding-spinbutton"),
 					  position != GOG_AXIS_CROSS);
 
 	if (position != GOG_AXIS_CROSS) {
@@ -525,7 +525,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		AxisBasePrefs *state;
 
 		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
-		combo = go_gtk_builder_get_widget (gui, "cross_axis_combo");
+		combo = go_gtk_builder_get_widget (gui, "cross-axis-combo");
 		gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (store));
 		g_object_unref (store);
 
@@ -560,7 +560,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		deditor = gog_data_allocator_editor
 			(dalloc, GOG_DATASET (axis_base),
 			 GOG_AXIS_ELEM_CROSS_POINT, GOG_DATA_SCALAR);
-		container = go_gtk_builder_get_widget (gui, "cross_location_alignment");
+		container = go_gtk_builder_get_widget (gui, "cross-at-grid");
 		gtk_container_add (GTK_CONTAINER (container), GTK_WIDGET (deditor));
 		gtk_widget_show_all (container);
 
@@ -573,17 +573,17 @@ gog_axis_base_populate_editor (GogObject *gobj,
 				  G_CALLBACK (cb_cross_location_changed), state);
 		g_signal_connect_swapped (G_OBJECT (combo), "destroy", G_CALLBACK (axis_base_pref_free), state);
 
-		w = go_gtk_builder_get_widget (gui, "axis_low");
+		w = go_gtk_builder_get_widget (gui, "axis-low");
 		if (axis_base->position == GOG_AXIS_AT_LOW)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
 				  G_CALLBACK (cb_position_toggled), state);
-		w = go_gtk_builder_get_widget (gui, "axis_cross");
+		w = go_gtk_builder_get_widget (gui, "axis-cross");
 		if (axis_base->position == GOG_AXIS_CROSS)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
 				  G_CALLBACK (cb_position_toggled), state);
-		w = go_gtk_builder_get_widget (gui, "axis_high");
+		w = go_gtk_builder_get_widget (gui, "axis-high");
 		if (axis_base->position == GOG_AXIS_AT_HIGH)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
@@ -591,7 +591,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 		hide_position_box = FALSE;
 	} else {
-		w = go_gtk_builder_get_widget (gui, "cross_box");
+		w = go_gtk_builder_get_widget (gui, "cross-at-grid");
 		gtk_widget_hide (w);
 	}
 
@@ -599,19 +599,19 @@ gog_axis_base_populate_editor (GogObject *gobj,
 	    axis_type == GOG_AXIS_Y ||
 	    axis_type == GOG_AXIS_Z ||
 	    axis_type == GOG_AXIS_RADIAL) {
-		w = go_gtk_builder_get_widget (gui, "padding_spinbutton");
+		w = go_gtk_builder_get_widget (gui, "padding-spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis_base->padding);
 		g_signal_connect (G_CALLBACK (w), "value-changed",
 				  G_CALLBACK (cb_padding_changed), axis_base);
 		gtk_widget_set_sensitive (w, axis_base->position != GOG_AXIS_CROSS);
 		hide_position_box = FALSE;
 	} else {
-		w = go_gtk_builder_get_widget (gui, "padding_box");
+		w = go_gtk_builder_get_widget (gui, "padding-grid");
 		gtk_widget_hide (w);
 	}
 
 	if (hide_position_box) {
-		w = go_gtk_builder_get_widget (gui, "position_box");
+		w = go_gtk_builder_get_widget (gui, "position-grid");
 		gtk_widget_hide (w);
 	}
 
@@ -628,12 +628,12 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 	if (gog_axis_is_discrete (axis_base->axis)) {
 		/* Hide minor tick properties */
-		GtkWidget *w = go_gtk_builder_get_widget (gui, "minor_tick_box");
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "minor-tick-grid");
 		gtk_widget_hide (w);
 	}
 
 	go_editor_add_page (editor,
-			     go_gtk_builder_get_widget (gui, "axis_base_pref_box"),
+			     go_gtk_builder_get_widget (gui, "axis-base-pref-grid"),
 			     _("Layout"));
 	g_object_unref (gui);
 
@@ -1268,7 +1268,7 @@ axis_line_render (GogAxisBase *axis_base,
 			label_pos.x = obrs[j].x;
 			label_pos.y = obrs[j].y;
 			gog_renderer_draw_gostring (renderer, ticks[j].str,
-						    &label_pos, GTK_ANCHOR_CENTER);
+						    &label_pos, GO_ANCHOR_CENTER);
 		}
 	}
 	g_free (obrs);
@@ -1475,7 +1475,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 			     !go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_first))) {
 				gog_renderer_draw_gostring 
 					(renderer, ticks[i].str,
-					 &label_pos, GTK_ANCHOR_CENTER);
+					 &label_pos, GO_ANCHOR_CENTER);
 				txt_obr_old = txt_obr;
 			}
 			if (!first_label_done) {

@@ -167,7 +167,7 @@ gog_label_populate_editor (GogObject *gobj,
 			   GOCmdContext *cc)
 {
 	static guint label_pref_page = 0;
-	GtkWidget *hbox = gtk_hbox_new (FALSE, 12);
+	GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	GtkWidget *alignment = gtk_alignment_new (0, 0, 1, 0);
 	GtkWidget *editor_widget =
 		GTK_WIDGET
@@ -475,7 +475,7 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_draw_rectangle (view->renderer, &rect);
 		}
 		gog_renderer_draw_text (view->renderer, str,
-					&view->residual, GTK_ANCHOR_NW, FALSE);
+					&view->residual, GO_ANCHOR_NW, FALSE);
 		g_free (str);
 	}
 	gog_renderer_pop_style (view->renderer);

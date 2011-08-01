@@ -117,7 +117,7 @@ setup_page (GtkNotebook *notebook, const gchar *service_id)
 	GOStyle *style;
 	PangoFontDescription *desc;
 
-	child = gtk_vbox_new (FALSE, 0);
+	child = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_notebook_append_page (notebook, child, gtk_label_new (service_id));
 	/* Create a graph widget and add it to the GtkVBox */
 	w = go_graph_widget_new (NULL);

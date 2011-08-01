@@ -122,7 +122,7 @@ GogTool		*gog_view_get_tool_at_point 	(GogView *view, double x, double y,
 GogView 	*gog_view_get_view_at_point	(GogView *view, double x, double y,
 						 GogObject **obj, GogTool **tool);
 char		*gog_view_get_tip_at_point      (GogView *view, double x, double y);
-    
+
     /* protected */
 void gog_view_size_child_request (GogView *view,
 				  GogViewRequisition const *available,

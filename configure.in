@@ -93,24 +93,25 @@ PKG_PROG_PKG_CONFIG
 
 dnl *****************************
 goffice_reqs="
-	glib-2.0		>= 2.8.0
-	gobject-2.0		>= 2.16.0
-	gmodule-2.0		>= 2.16.0
-	gio-2.0			>= 2.16.0
+	glib-2.0		>= 2.28.0
+	gobject-2.0		>= 2.28.0
+	gmodule-2.0		>= 2.28.0
+	gio-2.0			>= 2.28.0
 	libgsf-1		>= 1.14.9
 	libxml-2.0		>= 2.4.12
-	pango			>= 1.8.1
-	pangocairo		>= 1.8.1
-	cairo			>= 1.2.0
+	pango			>= 1.24.0
+	pangocairo		>= 1.24.0
+	cairo			>= 1.10.0
 "
+
 goffice_gtk_reqs="
-	gtk+-2.0		>= 2.12.0
+	gtk+-3.0		>= 3.0.0
 "
 
 surfaces_reqs="
-	cairo-ps		>= 1.2.0
-	cairo-pdf		>= 1.2.0
-	cairo-svg		>= 1.2.0
+	cairo-ps		>= 1.10.0
+	cairo-pdf		>= 1.10.0
+	cairo-svg		>= 1.10.0
 "
 
 PKG_CHECK_MODULES(surfaces, $surfaces_reqs)
@@ -124,16 +125,17 @@ dnl ***********************
 goffice_with_lasem=false
 AC_ARG_WITH(lasem, [  --with-lasem          Build with lasem use])
 if test "x$with_lasem" = xyes; then
-	PKG_CHECK_MODULES(Lasem, lasem-0.2 >= 0.2.0)
+	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.3.1)
 	goffice_with_lasem=true
 fi
 if test "x$goffice_with_lasem" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_LASEM, 1, [Define if Lasem is used])
-	goffice_reqs="$goffice_reqs lasem-0.2 >= 0.2.0 "
-	EXTRA_DEPS="$EXTRA_DEPS lasem-0.2"
+	goffice_reqs="$goffice_reqs lasem-0.4 >= 0.3.1 "
+	EXTRA_DEPS="$EXTRA_DEPS lasem-0.4"
 fi
 
 AM_CONDITIONAL(GOFFICE_WITH_LASEM, $goffice_with_lasem)
+
 
 dnl *****************************
 AC_MSG_CHECKING([for Win32 platform])
@@ -237,21 +239,6 @@ fi
 if test "x$goffice_with_gtk" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_GTK, 1, [Define if UI is built])
 	goffice_reqs="$goffice_reqs $goffice_gtk_reqs"
-
-	dnl ***************************
-	dnl Is gtk_show_uri available ?
-	dnl ***************************
-
-	SAVE_CFLAGS=$CFLAGS
-	SAVE_LIBS=$LIBS
-	CFLAGS="$CFLAGS $TK_CFLAGS"
-	LIBS="$GTK_LIBS $LIBS"
-	AC_CHECK_FUNC([gtk_show_uri],[have_gtk_show_uri=yes],[have_gtk_show_uri=false])
-	CFLAGS=$SAVE_CFLAGS
-	LIBS=$SAVE_LIBS
-	if test "x$have_gtk_show_uri" = xyes; then
-		AC_DEFINE(HAVE_GTK_SHOW_URI, 1, [Define to 1 if you have the `have_gtk_show_uri' function.])
-	fi
 fi
 
 AM_CONDITIONAL(WITH_GTK,   $goffice_with_gtk)
@@ -306,7 +293,7 @@ fi
 
 dnl disable for in stable release, re-enable for development series
 gtk_disable_deprecated=no
-if test XXX$goffice_devel = yes; then
+if test $goffice_devel = yes; then
 	CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
 	CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
 	if test "x$goffice_with_gtk" = "xtrue"; then
@@ -465,66 +452,15 @@ dnl Handle systems that have stuff in -lm.
 AC_CHECK_FUNCS(log)
 if test $ac_cv_func_log = no; then
   AC_CHECK_LIB(m, log,
-        [AC_DEFINE(HAVE_LOG, 1,
+        [AC_DEFINE(H,AVE_LOG, 1,
 		[Define if the log function is available]
 	 )
          LIBS="$LIBS -lm"])
 fi
 
-SAVE_LIBS=$LIBS
-LIBS="$GOFFICE_LIBS $LIBS"
-AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution cairo_ps_surface_set_eps)
-AC_CHECK_FUNCS(g_file_new_for_commandline_arg g_file_new_for_uri g_hash_table_iter_init)
-AC_CHECK_FUNCS(g_content_type_from_mime_type)
-AC_CHECK_FUNCS(get_gsf_odf_version)
-AC_CHECK_FUNCS(gtk_adjustment_get_page_size gtk_adjustment_get_upper \
-	gtk_color_selection_dialog_get_color_selection gtk_dialog_get_action_area \
-	gtk_layout_get_bin_window gtk_menu_shell_get_active gtk_selection_data_get_data \
-	gtk_selection_data_get_length gtk_selection_data_get_target gtk_tearoff_menu_item_get_torn_off \
-	gtk_tearoff_menu_item_set_torn_off gtk_widget_get_allocation gtk_widget_get_has_window \
-	gtk_widget_get_state gtk_widget_get_style gtk_widget_get_visible gtk_widget_get_window \
-	gtk_widget_has_focus gtk_widget_get_mapped gtk_widget_get_realized gtk_widget_set_can_default \
-	gtk_widget_is_sensitive gtk_widget_send_focus_change gtk_widget_set_can_focus \
-	gtk_widget_set_receives_default gtk_window_get_default_widget)
-LIBS=$SAVE_LIBS
-
-SAVE_CFLAGS=$CFLAGS
-SAVE_LIBS=$LIBS
-CFLAGS="$CFLAGS $GOFFICE_CFLAGS"
-LIBS="$GOFFICE_LIBS $LIBS"
-AC_MSG_CHECKING([for G_REGEX_ERROR_STRAY_BACKSLASH])
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gregex.h>]], [[GRegexError error=G_REGEX_ERROR_STRAY_BACKSLASH;]])],
-               [AC_DEFINE(HAVE_G_REGEX_ERROR_STRAY_BACKSLASH, 1, [Define if G_REGEX_ERROR_STRAY_BACKSLASH is defined])
-	        glib_has_G_REGEX_ERROR_STRAY_BACKSLASH=yes
-                AC_MSG_RESULT(yes)],
-               [AC_MSG_RESULT(no)
-	        glib_has_G_REGEX_ERROR_STRAY_BACKSLASH=no])
-if test "x$goffice_with_gtk" = "xtrue" ; then
-  AC_CHECK_FUNCS(gtk_dialog_get_response_for_widget)
-  AC_CHECK_FUNCS(gtk_widget_set_tooltip_text gtk_tool_item_set_tooltip_text,
-		 [test $gtk_disable_deprecated = no || gtk_disable_deprecated=yes])
-  AC_CHECK_FUNCS(gdk_cairo_set_source_pixbuf gdk_x11_drawable_get_xdisplay)
-fi
-CFLAGS=$SAVE_CFLAGS
-LIBS=$SAVE_LIBS
 if test $gtk_disable_deprecated = yes; then
   CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
 fi
-
-if test "x$glib_has_G_REGEX_ERROR_STRAY_BACKSLASH" = "xno"; then
-  dnl Check for working pcre
-  AC_CHECK_HEADER(pcre.h,[], AC_MSG_ERROR([Header files for PCRE were not found]))
-  AC_CHECK_LIB(pcre,pcre_compile2,[], AC_MSG_ERROR([The PCRE library is missing or too old]))
-  AC_MSG_CHECKING([for UTF-8 support in pcre])
-  if (pcretest -C 2>&1) | grep -i "^ *UTF-8 support" >/dev/null; then
-      AC_MSG_RESULT(yes)
-      LIBS="$LIBS -lpcre"
-      EXTRA_LIBS="$EXTRA_LIBS -lpcre"
-  else
-      AC_MSG_ERROR([The installed PCRE library is not configured for UTF-8 support.])
-  fi
-fi
-
 
 AC_DEFUN([GOFFICE_CHECK_FUNC],
 [AC_CHECK_FUNC([$1],
@@ -644,6 +580,7 @@ AC_SUBST(goffice_icondir, '${datadir}/pixmaps/goffice/${VERSION}')
 AC_SUBST(goffice_localedir, '${prefix}/${DATADIRNAME}/locale')
 dnl
 AC_SUBST(goffice_plugindir, '${goffice_libdir}/plugins')
+AC_SUBST(goffice_externplugindir, '${libdir}/goffice/${GOFFICE_API_VER}/plugins')
 
 dnl Export to goffice-config.h and goffice-features.h
 AC_DEFINE(GOFFICE_VERSION, "goffice_full_version",

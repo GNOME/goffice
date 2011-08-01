@@ -1470,7 +1470,7 @@ gog_axis_map_set_by_num (GogAxis *axis, gint num)
 }
 
 static void
-gog_axis_map_populate_combo (GogAxis *axis, GtkComboBox *combo)
+gog_axis_map_populate_combo (GogAxis *axis, GtkComboBoxText *combo)
 {
 	unsigned i;
 
@@ -1478,9 +1478,9 @@ gog_axis_map_populate_combo (GogAxis *axis, GtkComboBox *combo)
 
 	for (i = 0; i < G_N_ELEMENTS (map_descs); i++) {
 		const char *thisname = map_descs[i]->name;
-		gtk_combo_box_append_text (combo, _(thisname));
+		gtk_combo_box_text_append_text (combo, _(thisname));
 		if (!g_ascii_strcasecmp (thisname, axis->map_desc->name))
-			gtk_combo_box_set_active (combo, i);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), i);
 	}
 }
 #endif
@@ -2335,7 +2335,7 @@ cb_update_dim_editor (GogObject *gobj, ElemToggleData *closure)
 }
 
 static void
-make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
+make_dim_editor (GogDataset *set, GtkGrid *grid, unsigned dim,
 		 GogDataAllocator *dalloc, char const *dim_name)
 {
 	ElemToggleData *info;
@@ -2373,10 +2373,11 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 
 	g_object_weak_ref (G_OBJECT (toggle), (GWeakNotify) elem_toggle_data_free, info);
 
-	gtk_table_attach (table, toggle,
-		0, 1, dim + 1, dim + 2, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (table, editor,
-		1, 2, dim + 1, dim + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach (grid, toggle,
+		0, dim + 1, 1, 1);
+	g_object_set (G_OBJECT (editor), "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, editor,
+		1, dim + 1, 1, 1);
 
 }
 
@@ -2396,18 +2397,18 @@ cb_map_combo_changed (GtkComboBox *combo,
 }
 
 static void
-gog_axis_populate_polar_unit_combo (GogAxis *axis, GtkComboBox *combo)
+gog_axis_populate_polar_unit_combo (GogAxis *axis, GtkComboBoxText *combo)
 {
 	unsigned i, id = 0;
 
 	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	for (i = 0; i < G_N_ELEMENTS (polar_units); i++) {
-		gtk_combo_box_append_text (combo, _(polar_units[i].name));
+		gtk_combo_box_text_append_text (combo, _(polar_units[i].name));
 		if (polar_units[i].unit == axis->polar_unit)
 			id = i;
 	}
-	gtk_combo_box_set_active (combo, id);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combo), id);
 }
 
 static void
@@ -2445,7 +2446,7 @@ gog_axis_populate_editor (GogObject *gobj,
 		"invert-axis"
 	};
 	GtkWidget *w;
-	GtkTable  *table;
+	GtkGrid *grid;
 	unsigned i = 0;
 	GogAxis *axis = GOG_AXIS (gobj);
 	GogAxisPrefState *state;
@@ -2461,7 +2462,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	g_object_ref (G_OBJECT (axis));
 
 	/* Bounds Page */
-	table = GTK_TABLE (gtk_builder_get_object (gui, "bound_table"));
+	grid = GTK_GRID (gtk_builder_get_object (gui, "bound-grid"));
 	if (axis->is_discrete) {
 		static char const * const dim_names[] = {
 			N_("M_inimum"),
@@ -2470,7 +2471,7 @@ gog_axis_populate_editor (GogObject *gobj,
 			N_("Categories between _labels")
 		};
 		for (i = GOG_AXIS_ELEM_MIN; i < GOG_AXIS_ELEM_CROSS_POINT ; i++)
-			make_dim_editor (set, table, i, dalloc,
+			make_dim_editor (set, grid, i, dalloc,
 					 _(dim_names[i]));
 	} else {
 		static char const * const dim_names[] = {
@@ -2481,40 +2482,42 @@ gog_axis_populate_editor (GogObject *gobj,
 		};
 
 		for (i = GOG_AXIS_ELEM_MIN; i < GOG_AXIS_ELEM_CROSS_POINT ; i++)
-			make_dim_editor (set, table, i, dalloc,
+			make_dim_editor (set, grid, i, dalloc,
 					 _(dim_names[i]));
 	}
-	gtk_widget_show_all (GTK_WIDGET (table));
+	gtk_widget_show_all (GTK_WIDGET (grid));
 
 	/* Details page */
 	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_CIRCULAR) {
-		GtkComboBox *box = go_gtk_builder_combo_box_init_text (gui, "map_type_combo");
+		GtkComboBoxText *box = GTK_COMBO_BOX_TEXT (gtk_builder_get_object (gui, "map-type-combo"));
 		gog_axis_map_populate_combo (axis, box);
 		g_signal_connect_object (G_OBJECT (box),
 					 "changed",
 					 G_CALLBACK (cb_map_combo_changed),
 					 axis, 0);
 	} else {
-		GtkWidget *w = go_gtk_builder_get_widget (gui, "map_type_box");
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "map-label");
+		gtk_widget_hide (w);
+		w = go_gtk_builder_get_widget (gui, "map-type-combo");
 		gtk_widget_hide (w);
 	}
 
 	if (!axis->is_discrete && gog_axis_get_atype (axis) == GOG_AXIS_CIRCULAR) {
 		GtkWidget *w;
-		GtkComboBox *box = go_gtk_builder_combo_box_init_text (gui, "polar_unit_combo");
+		GtkComboBoxText *box = GTK_COMBO_BOX_TEXT (gtk_builder_get_object (gui, "polar-unit-combo"));
 		gog_axis_populate_polar_unit_combo (axis, box);
 		g_signal_connect (G_OBJECT (box),
 				  "changed",
 				  G_CALLBACK (cb_polar_unit_changed),
 				  state);
 
-		w = go_gtk_builder_get_widget (gui, "circular_rotation_spinbutton");
+		w = go_gtk_builder_get_widget (gui, "circular-rotation-spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis->circular_rotation);
 		g_signal_connect_object (G_OBJECT (w), "value-changed",
 					 G_CALLBACK (cb_rotation_changed),
 					 axis, 0);
 	} else {
-		GtkWidget *w = go_gtk_builder_get_widget (gui, "circular_table");
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "circular-grid");
 		gtk_widget_hide (w);
 	}
 
@@ -2530,7 +2533,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	}
 
 	go_editor_add_page (editor,
-			     go_gtk_builder_get_widget (gui, "axis_pref_box"),
+			     go_gtk_builder_get_widget (gui, "axis-pref-grid"),
 			     _("Scale"));
 
 	if (gog_object_is_visible (axis) && gog_axis_get_atype (axis) < GOG_AXIS_VIRTUAL) {
@@ -2554,7 +2557,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	    }
 	}
 
-	g_object_set_data_full (gtk_builder_get_object (gui, "axis_pref_box"),
+	g_object_set_data_full (gtk_builder_get_object (gui, "axis-pref-grid"),
 				"state", state, (GDestroyNotify) gog_axis_pref_state_free);
 	g_object_unref (gui);
 

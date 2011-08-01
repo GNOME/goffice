@@ -910,7 +910,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (num_series <= 0)
 		return;
-	
+
 	separation_max = .0;
 	outline_width_max = .0;
 	if ((style = go_styled_object_get_style (GO_STYLED_OBJECT (series))))

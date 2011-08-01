@@ -39,45 +39,9 @@ typedef GtkToolItemClass GOToolComboTextClass;
 #define GO_IS_TOOL_COMBO_TEXT(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TYPE_TOOL_COMBO_TEXT))
 
 static GType go_tool_combo_text_get_type (void);
-#if 0
-static void
-go_tool_combo_text_finalize (GObject *obj)
-{
-	/* Call parent->finalize (obj).  */
-}
-static gboolean
-go_tool_combo_text_create_menu_proxy (GtkToolItem *tool_item)
-{
-}
-#endif
-
-#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-static gboolean
-go_tool_combo_text_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
-				char const *tip_text,
-				char const *tip_private)
-{
-	GOToolComboText *self = (GOToolComboText *)tool_item;
-	go_combo_box_set_tooltip (GO_COMBO_BOX (self->combo), tooltips,
-				  tip_text, tip_private);
-	return TRUE;
-}
-#endif
-
-static void
-go_tool_combo_text_class_init (GtkToolItemClass *tool_item_klass)
-{
-#if 0
-	gobject_klass->finalize		   = go_tool_combo_text_finalize;
-	tool_item_klass->create_menu_proxy = go_tool_combo_text_create_menu_proxy;
-#endif
-#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-	tool_item_klass->set_tooltip	   = go_tool_combo_text_set_tooltip;
-#endif
-}
 
 static GSF_CLASS (GOToolComboText, go_tool_combo_text,
-	   go_tool_combo_text_class_init, NULL,
+	   NULL, NULL,
 	   GTK_TYPE_TOOL_ITEM)
 
 /*****************************************************************************/

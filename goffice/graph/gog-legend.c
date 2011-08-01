@@ -511,7 +511,7 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 	pos.x = data->x + glv->label_offset;
 	pos.y = data->y + glv->element_height / 2.0;
 	pos.w = pos.h = -1;
-	gog_renderer_draw_text (renderer, name, &pos, GTK_ANCHOR_W, FALSE);
+	gog_renderer_draw_text (renderer, name, &pos, GO_ANCHOR_W, FALSE);
 
 	if (style != base_style && style != NULL)
 		g_object_unref (style);

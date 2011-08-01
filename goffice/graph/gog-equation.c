@@ -19,12 +19,10 @@
  * USA
  */
 
-#include <lsmmathmldocument.h>
-#include <lsmdomparser.h>
-#include <lsmmathmlmathelement.h>
+#include <lsmdom.h>
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-equation.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -40,7 +38,12 @@ struct _GogEquation {
 
 	char *itex;
 	gboolean inline_mode;
-	LsmMathmlDocument *mathml;
+
+	LsmDomDocument *mathml;
+	LsmDomNode *math_element;
+	LsmDomNode *style_element;
+	LsmDomNode *itex_element;
+	LsmDomNode *itex_string;
 };
 
 typedef struct {
@@ -108,57 +111,47 @@ gog_equation_populate_editor (GogObject *obj,
 static void
 _update_equation_style (GogEquation *equation, const GOStyle *style)
 {
-	LsmMathmlStyle *math_style;
-	LsmMathmlMathElement *math_element;
+	LsmDomElement *style_element;
 	PangoFontDescription *font_description;
+	char *value;
 
-	if (equation->mathml == NULL)
-		return;
+	style_element = LSM_DOM_ELEMENT (equation->style_element);
 
-	math_element = lsm_mathml_document_get_root_element (equation->mathml);
-	if (math_element == NULL)
-		return;
-
-	math_style = lsm_mathml_math_element_get_default_style (math_element);
-	if (math_style == NULL)
-		return;
-
-	lsm_mathml_style_set_math_color (math_style,
-				      GO_COLOR_DOUBLE_R (style->font.color),
-				      GO_COLOR_DOUBLE_G (style->font.color),
-				      GO_COLOR_DOUBLE_B (style->font.color),
-				      GO_COLOR_DOUBLE_A (style->font.color));
+	value = g_strdup_printf ("#%02x%02x%02x",
+				 GO_COLOR_UINT_R (style->font.color),
+				 GO_COLOR_UINT_G (style->font.color),
+				 GO_COLOR_UINT_B (style->font.color));
+	lsm_dom_element_set_attribute (style_element, "mathcolor", value);
+	g_free (value);
 
 	font_description = style->font.font->desc;
 	if (font_description != NULL) {
-		LsmMathmlVariant math_variant;
-
 		if (pango_font_description_get_weight (font_description) >= PANGO_WEIGHT_BOLD) {
 			if (pango_font_description_get_style (font_description) == PANGO_STYLE_NORMAL)
-				math_variant = LSM_MATHML_VARIANT_BOLD;
+				lsm_dom_element_set_attribute (style_element, "mathvariant", "bold");
 			else
-				math_variant = LSM_MATHML_VARIANT_BOLD_ITALIC;
+				lsm_dom_element_set_attribute (style_element, "mathvariant", "bold-italic");
 		} else {
 			if (pango_font_description_get_style (font_description) == PANGO_STYLE_NORMAL)
-				math_variant = LSM_MATHML_VARIANT_NORMAL;
+				lsm_dom_element_set_attribute (style_element, "mathvariant", "normal");
 			else
-				math_variant = LSM_MATHML_VARIANT_ITALIC;
+				lsm_dom_element_set_attribute (style_element, "mathvariant", "italic");
 		}
 
-		lsm_mathml_style_set_math_family (math_style, pango_font_description_get_family (font_description));
-		lsm_mathml_style_set_math_size_pt
-			(math_style, pango_units_to_double (pango_font_description_get_size (font_description)));
-		lsm_mathml_style_set_math_variant (math_style, math_variant);
-	}
+		lsm_dom_element_set_attribute (style_element, "mathfamily",
+					       pango_font_description_get_family (font_description));
 
-	lsm_mathml_math_element_set_default_style (math_element, math_style);
+		value = g_strdup_printf ("%gpt", pango_units_to_double (
+				pango_font_description_get_size (font_description)));
+		lsm_dom_element_set_attribute (style_element, "mathsize", value);
+		g_free (value);
+	}
 }
 
 static void
 gog_equation_update (GogObject *obj)
 {
 	GogEquation *equation = GOG_EQUATION (obj);
-	LsmMathmlDocument *mathml;
 	GString *itex;
 	char *itex_iter;
 	char *prev_char = '\0';
@@ -198,40 +191,19 @@ gog_equation_update (GogObject *obj)
 		}
 	}
 
-	if (equation->inline_mode)
-		itex = g_string_new ("$");
-	else
-		itex = g_string_new ("$$");
-	g_string_append (itex, equation->itex);
+	itex = g_string_new (equation->itex);
 	if (add_dash)
 		g_string_append_c (itex, '-');
 	for (j = 0; j < n_unclosed_braces; j++)
 		g_string_append_c (itex, '}');
-	if (equation->inline_mode)
-		itex = g_string_append (itex, "$");
-	else
-		itex = g_string_append (itex, "$$");
 
-	mathml = lsm_mathml_document_new_from_itex (itex->str, itex->len, NULL);
-
-	/* Keep the last valid mathml document if the itex -> mathml conversion fails.
-	 * It keep the equation from disappearing when the current equation entry is not a
-	 * well formed itex expression. */
-
-	if (mathml != NULL) {
-		if (lsm_mathml_document_get_root_element (mathml) != NULL || is_blank) {
-			if (equation->mathml != NULL)
-				g_object_unref (equation->mathml);
-
-			equation->mathml = mathml;
-
-			_update_equation_style (equation,
-						go_styled_object_get_style (GO_STYLED_OBJECT (equation)));
-		} else
-			g_object_unref (mathml);
-	}
+	lsm_dom_element_set_attribute (LSM_DOM_ELEMENT (equation->style_element), "displaystyle",
+				       equation->inline_mode ? "false" : "true");
+	lsm_dom_node_set_node_value (equation->itex_string, itex->str);
 
 	g_string_free (itex, TRUE);
+
+	lsm_dom_document_save_to_path (equation->mathml, "goffice.mml", NULL);
 }
 
 static void
@@ -349,7 +321,17 @@ gog_equation_init (GogEquation *equation)
 {
 	equation->itex = NULL;
 	equation->inline_mode = FALSE;
-	equation->mathml = NULL;
+
+	equation->mathml = lsm_dom_implementation_create_document (NULL, "math");
+	equation->math_element = LSM_DOM_NODE (lsm_dom_document_create_element (equation->mathml, "math"));
+	equation->style_element = LSM_DOM_NODE (lsm_dom_document_create_element (equation->mathml, "mstyle"));
+	equation->itex_element = LSM_DOM_NODE (lsm_dom_document_create_element (equation->mathml, "lasem:itex"));
+	equation->itex_string = LSM_DOM_NODE (lsm_dom_document_create_text_node (equation->mathml, ""));
+
+	lsm_dom_node_append_child (LSM_DOM_NODE (equation->mathml), equation->math_element);
+	lsm_dom_node_append_child (equation->math_element, equation->style_element);
+	lsm_dom_node_append_child (equation->style_element, equation->itex_element);
+	lsm_dom_node_append_child (equation->itex_element, equation->itex_string);
 }
 
 GSF_CLASS (GogEquation, gog_equation,
@@ -359,7 +341,7 @@ GSF_CLASS (GogEquation, gog_equation,
 typedef struct {
 	GogOutlinedView		 base;
 
-	LsmMathmlView 		*mathml_view;
+	LsmDomView 		*mathml_view;
 } GogEquationView;
 
 typedef GogOutlinedViewClass	GogEquationViewClass;
@@ -390,9 +372,7 @@ gog_equation_view_size_request (GogView *view,
 		return;
 	}
 
-	lsm_dom_view_set_document (LSM_DOM_VIEW (equation_view->mathml_view),
-				   LSM_DOM_DOCUMENT (equation->mathml));
-	lsm_dom_view_get_size (LSM_DOM_VIEW (equation_view->mathml_view), &width, &height);
+	lsm_dom_view_get_size (equation_view->mathml_view, &width, &height, NULL);
 
 	obr.w = gog_renderer_pt2r_x (view->renderer, width);
 	obr.h = gog_renderer_pt2r_y (view->renderer, height);
@@ -420,12 +400,19 @@ gog_equation_view_render (GogView *view,
 	if (equation->mathml == NULL)
 		return;
 
-	lsm_dom_view_set_document (LSM_DOM_VIEW (equation_view->mathml_view),
-				   LSM_DOM_DOCUMENT (equation->mathml));
 	gog_renderer_push_style (view->renderer, go_styled_object_get_style (GO_STYLED_OBJECT(equation)));
 	gog_renderer_draw_equation (view->renderer, equation_view->mathml_view,
 				    view->residual.x + view->residual.w / 2., view->residual.y + view->residual.h / 2.);
 	gog_renderer_pop_style (view->renderer);
+}
+
+static void
+gog_equation_view_state_init (GogView *view)
+{
+	GogEquationView *equation_view = GOG_EQUATION_VIEW (view);
+	GogEquation *equation = GOG_EQUATION (view->model);
+
+	equation_view->mathml_view = lsm_dom_document_create_view (equation->mathml);
 }
 
 static void
@@ -447,6 +434,7 @@ gog_equation_view_class_init (GogEquationViewClass *gview_klass)
 	equation_view_parent_klass = g_type_class_peek_parent (gview_klass);
 
 	gobject_klass->finalize	   = gog_equation_view_finalize;
+	view_klass->state_init     = gog_equation_view_state_init;
 	view_klass->size_request   = gog_equation_view_size_request;
 	view_klass->render	   = gog_equation_view_render;
 }
@@ -454,9 +442,6 @@ gog_equation_view_class_init (GogEquationViewClass *gview_klass)
 static void
 gog_equation_view_init (GObject *object)
 {
-	GogEquationView *view = GOG_EQUATION_VIEW (object);
-
-	view->mathml_view = lsm_mathml_view_new (NULL);
 }
 
 GSF_CLASS (GogEquationView, gog_equation_view,

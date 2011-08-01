@@ -40,6 +40,10 @@
 	* goffice/utils/go-string.c (go_string_new_rich): ensure we have determined
 	the byte_len (if it was negative or zero)
 
+2011-08-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* all files: port to gtk+-3.0.
+
 2011-08-01  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Branch to 0.9.0.

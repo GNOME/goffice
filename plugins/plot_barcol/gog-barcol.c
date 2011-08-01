@@ -462,7 +462,7 @@ gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSer
 
 			if (i >= lengths[j])
 				continue;
-			
+
 			tmp = vals[j][i];
 			valid = TRUE;
 			if (!gog_axis_map_finite (map, tmp)) {

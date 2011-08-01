@@ -27,6 +27,7 @@
 
 G_BEGIN_DECLS
 
+
 struct _GocText {
 	GocStyledItem base;
 
@@ -35,7 +36,7 @@ struct _GocText {
 	gboolean clipped;
 	double clip_width, clip_height, wrap_width;
 	char *text;
-	GtkAnchorType anchor;
+	GOAnchorType anchor;
 	PangoAttrList *attributes;
 	PangoLayout *layout;
 };

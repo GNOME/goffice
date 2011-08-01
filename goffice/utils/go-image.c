@@ -20,10 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-image.h>
-#include <goffice/utils/go-cairo.h>
-#include <glib/gi18n-lib.h>
+#include <goffice/goffice.h>
 #include <string.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-impl-utils.h>
@@ -59,9 +56,7 @@ go_mime_to_image_format (char const *mime_type)
 		"image/x-emf", "emf",
 		"application/pdf", "pdf",
 		"application/postscript", "ps",
-#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
 		"image/x-eps", "eps",
-#endif
 	};
 
 	for (i = 0; i < G_N_ELEMENTS (exceptions); i += 2)
@@ -94,9 +89,7 @@ go_image_format_to_mime (char const *format)
 		"emf", "image/x-emf",
 		"pdf", "application/pdf",
 		"ps", "application/postscript",
-#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
 		"eps", "image/x-eps",
-#endif
 	};
 
 	if (format == NULL)
@@ -143,13 +136,8 @@ static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
 	 (char *) "emf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_WMF, (char *) "wmf",  (char *) N_("WMF (windows metafile)"),
 	 (char *) "wmf", FALSE, FALSE, TRUE},
-#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
 	{GO_IMAGE_FORMAT_EPS,  (char *) "eps",   (char *) N_("EPS (encapsulated postscript)"),
 	 (char *) "eps",  FALSE, TRUE, TRUE},
-#else
-	{GO_IMAGE_FORMAT_EPS,  (char *) "",   (char *) "",
-	 (char *) "",  FALSE, FALSE, FALSE},
-#endif
 };
 
 static void

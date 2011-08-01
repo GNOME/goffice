@@ -19,12 +19,7 @@
  * USA
  */
 #include <goffice/goffice-config.h>
-#include <goffice/gtk/go-gtk-compat.h>
 #include "go-action-combo-color.h"
-#include "go-combo-color.h"
-#include "go-combo-box.h"
-#include "go-color-palette.h"
-#include "goffice-gtk.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -41,27 +36,6 @@ typedef GtkToolItemClass GOToolComboColorClass;
 #define GO_IS_TOOL_COMBO_COLOR(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TYPE_TOOL_COMBO_COLOR))
 
 static GType go_tool_combo_color_get_type (void);
-
-#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-static gboolean
-go_tool_combo_color_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
-				 char const *tip_text,
-				 char const *tip_private)
-{
-	GOToolComboColor *self = (GOToolComboColor *)tool_item;
-	go_combo_box_set_tooltip (GO_COMBO_BOX (self->combo), tooltips,
-				  tip_text, tip_private);
-	return TRUE;
-}
-#endif
-
-static void
-go_tool_combo_color_class_init (GtkToolItemClass *tool_item_class)
-{
-#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-	tool_item_class->set_tooltip = go_tool_combo_color_set_tooltip;
-#endif
-}
 
 static GdkPixbuf *
 make_icon (GtkAction *a, GtkWidget *tool)
@@ -98,7 +72,7 @@ make_icon (GtkAction *a, GtkWidget *tool)
 
 
 static GSF_CLASS (GOToolComboColor, go_tool_combo_color,
-	   go_tool_combo_color_class_init, NULL,
+	   NULL, NULL,
 	   GTK_TYPE_TOOL_ITEM)
 
 /*****************************************************************************/

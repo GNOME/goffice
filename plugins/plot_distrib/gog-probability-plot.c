@@ -423,7 +423,7 @@ gog_probability_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
-	
+
 	area = gog_chart_view_get_plot_area (view->parent);
 	chart_map = gog_chart_map_new (chart, area,
 				       GOG_PLOT (model)->axis[GOG_AXIS_X],

@@ -73,6 +73,9 @@ GtkWidget *go_gtk_builder_get_widget (GtkBuilder *gui,
 				      char const *widget_name);
 GtkComboBox *go_gtk_builder_combo_box_init_text (GtkBuilder *gui,
 						 char const *widget_name);
+void	   go_gtk_combo_box_append_text (GtkComboBox *combo, char const *str);
+void	   go_gtk_combo_box_remove_text (GtkComboBox *combo, int position);
+
 int	   go_gtk_builder_group_value (GtkBuilder *gui,
 				       char const * const group[]);
 
@@ -112,9 +115,6 @@ gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *uri,
 void	   go_atk_setup_label	 	(GtkWidget *label, GtkWidget *target);
 
 void       go_dialog_guess_alternative_button_order (GtkDialog *dialog);
-
-void       go_widget_set_tooltip_text (GtkWidget *widget, const gchar *tip);
-void       go_tool_item_set_tooltip_text (GtkToolItem *item, const gchar *tip);
 
 void 	   go_menu_position_below (GtkMenu *menu, gint *x, gint *y,
 				   gint *push_in, gpointer user_data);

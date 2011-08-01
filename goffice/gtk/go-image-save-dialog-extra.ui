@@ -9,12 +9,12 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkVBox" id="image_save_dialog_extra">
+  <object class="GtkBox" id="image_save_dialog_extra">
     <property name="visible">True</property>
     <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
-      <object class="GtkHBox" id="file_type_box">
+      <object class="GtkBox" id="file_type_box">
         <property name="visible">True</property>
         <property name="spacing">6</property>
         <child>

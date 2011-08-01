@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 gchar const *go_sys_data_dir (void);
 gchar const *go_sys_icon_dir (void);
 gchar const *go_sys_lib_dir (void);
-
+gchar const *go_sys_extern_plugin_dir (void);
 G_END_DECLS
 
 #endif /* GOFFICE_PRIV_H */

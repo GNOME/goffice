@@ -67,7 +67,7 @@ main (int argc, char *argv[])
 	gtk_window_set_title (GTK_WINDOW (window), "pie demo");
 	g_signal_connect (window, "destroy", gtk_main_quit, NULL);
 
-	box = gtk_vbox_new (FALSE, 0);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	w = gtk_button_new_from_stock (GTK_STOCK_QUIT);
 	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_quit), window);
 	gtk_box_pack_end (GTK_BOX (box), w, FALSE, FALSE, 0);

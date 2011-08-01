@@ -438,7 +438,7 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_size_group_add_widget (widget_size_group, w);
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_COMPASS);
 		for (i = 0; i < G_N_ELEMENTS (position_compass); i++) {
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_compass[i].label));
+			go_gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_compass[i].label));
 			if (position_compass[i].flags == flags)
 				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 		}
@@ -455,7 +455,7 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_size_group_add_widget (widget_size_group, w);
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_ALIGNMENT);
 		for (i = 0; i < G_N_ELEMENTS (position_alignment); i++) {
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_alignment[i].label));
+			go_gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_alignment[i].label));
 			if (position_alignment[i].flags == flags)
 				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 		}
@@ -498,7 +498,7 @@ gog_object_populate_editor (GogObject *gobj,
 		w =  GTK_WIDGET (go_gtk_builder_combo_box_init_text (gui, "anchor_combo"));
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
 		for (i = 0; i < G_N_ELEMENTS (position_anchor); i++) {
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_anchor[i].label));
+			go_gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_anchor[i].label));
 			if (i == 0 || position_anchor[i].flags == flags)
 				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 		}

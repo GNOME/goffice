@@ -91,7 +91,7 @@ gog_trend_line_populate_editor (GogObject *gobj,
 	if (!box)
 		box = go_editor_get_page (editor, _("Details"));
 	if (!box) {
-		box = gtk_vbox_new (FALSE, 6);
+		box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 		gtk_container_set_border_width (GTK_CONTAINER (box), 12);
 		gtk_widget_show_all (box);
 		go_editor_add_page (editor, box, _("Legend"));

@@ -8,7 +8,7 @@
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
-  <object class="GtkVBox" id="toplevel">
+  <object class="GtkBox" id="toplevel">
     <property name="visible">True</property>
     <property name="orientation">vertical</property>
     <property name="spacing">12</property>
@@ -26,7 +26,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkHBox" id="hbox44">
+      <object class="GtkBox" id="hbox44">
         <property name="visible">True</property>
         <child>
           <object class="GtkLabel" id="label73">
@@ -40,12 +40,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox53">
+          <object class="GtkBox" id="vbox53">
             <property name="visible">True</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
-              <object class="GtkHBox" id="hbox58">
+              <object class="GtkBox" id="hbox58">
                 <property name="visible">True</property>
                 <child>
                   <object class="GtkScrolledWindow" id="rotate_canvas_container">
@@ -74,7 +74,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="hbox39">
+              <object class="GtkBox" id="hbox39">
                 <property name="visible">True</property>
                 <property name="spacing">6</property>
                 <child>

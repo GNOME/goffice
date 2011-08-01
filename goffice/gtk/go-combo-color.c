@@ -257,13 +257,13 @@ go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
  * signal to be emitted.
  */
 void
-go_combo_color_set_color_gdk (GOComboColor *cc, GdkColor *color)
+go_combo_color_set_color_gdk (GOComboColor *cc, GdkRGBA *color)
 {
 /* FIXME FIXME FIXME convert to GOColor */
 	g_return_if_fail (GO_IS_COMBO_COLOR (cc));
 
 	if (color != NULL)
-		go_color_palette_set_current_color (cc->palette, GO_COLOR_FROM_GDK (*color));
+		go_color_palette_set_current_color (cc->palette, GO_COLOR_FROM_GDK_RGBA (*color));
 	else
 		go_color_palette_set_color_to_default (cc->palette);
 }

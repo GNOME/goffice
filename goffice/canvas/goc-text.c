@@ -48,6 +48,38 @@ enum {
 
 static GocItemClass *parent_class;
 
+#define GO_TYPE_ANCHOR_TYPE go_anchor_type_get_type ()
+GType go_anchor_type_get_type (void);
+
+GType
+go_anchor_type_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GO_ANCHOR_CENTER,	"GO_ANCHOR_CENTER",	"center" },
+			{ GO_ANCHOR_NORTH_WEST,	"GO_ANCHOR_NORTH_WEST",	"north-west" },
+			{ GO_ANCHOR_NORTH_EAST,	"GO_ANCHOR_NORTH_EAST",	"north-east" },
+			{ GO_ANCHOR_SOUTH,	"GO_ANCHOR_SOUTH",	"south" },
+			{ GO_ANCHOR_SOUTH_WEST,	"GO_ANCHOR_SOUTH_WEST",	"south-west" },
+			{ GO_ANCHOR_SOUTH_EAST,	"GO_ANCHOR_SOUTH_EAST",	"south-east" },
+			{ GO_ANCHOR_WEST,	"GO_ANCHOR_WEST",	"west" },
+			{ GO_ANCHOR_EAST,	"GO_ANCHOR_EAST",	"east" },
+			{ GO_ANCHOR_N,	"GO_ANCHOR_Ngo_anchor_type_get_type",	"n" },
+			{ GO_ANCHOR_NW,	"GO_ANCHOR_NW",	"nw" },
+			{ GO_ANCHOR_NE,	"GO_ANCHOR_NE",	"ne" },
+			{ GO_ANCHOR_S,	"GO_ANCHOR_S",	"s" },
+			{ GO_ANCHOR_SW,	"GO_ANCHOR_SW",	"sw" },
+			{ GO_ANCHOR_SE,	"GO_ANCHOR_SE",	"se" },
+			{ GO_ANCHOR_W,	"GO_ANCHOR_W",	"w" },
+			{ GO_ANCHOR_E,	"GO_ANCHOR_E",	"e" },
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static (g_intern_static_string ("GOAnchorType"), values);
+	}
+	return etype;
+}
+
 static void
 goc_text_set_property (GObject *gobject, guint param_id,
 		       GValue const *value, GParamSpec *pspec)
@@ -68,7 +100,7 @@ goc_text_set_property (GObject *gobject, guint param_id,
 		break;
 
 	case TEXT_PROP_ANCHOR:
-		text->anchor =  (GtkAnchorType) g_value_get_enum (value);
+		text->anchor =  (GOAnchorType) g_value_get_enum (value);
 		break;
 
 	case TEXT_PROP_TEXT:
@@ -225,7 +257,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 	GocText *text = GOC_TEXT (item);
 	PangoRectangle rect;
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-	
+
 	pango_layout_get_extents (text->layout, NULL, &rect);
 	text->w = (double) rect.width / PANGO_SCALE;
 	text->h = (double) rect.height / PANGO_SCALE;
@@ -233,18 +265,18 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 	item->y0 = text->y;
 	/* adjust horizontally */
 	switch (text->anchor) {
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_NORTH:
-	case GTK_ANCHOR_SOUTH:
+	case GO_ANCHOR_CENTER:
+	case GO_ANCHOR_NORTH:
+	case GO_ANCHOR_SOUTH:
 		item->x0 -= text->w / 2.;
 		break;
-	case GTK_ANCHOR_NORTH_WEST:
-	case GTK_ANCHOR_SOUTH_WEST:
-	case GTK_ANCHOR_WEST:
+	case GO_ANCHOR_NORTH_WEST:
+	case GO_ANCHOR_SOUTH_WEST:
+	case GO_ANCHOR_WEST:
 		break;
-	case GTK_ANCHOR_NORTH_EAST:
-	case GTK_ANCHOR_SOUTH_EAST:
-	case GTK_ANCHOR_EAST:
+	case GO_ANCHOR_NORTH_EAST:
+	case GO_ANCHOR_SOUTH_EAST:
+	case GO_ANCHOR_EAST:
 		item->x0 -= text->w;
 		break;
 	default: /* should not occur */
@@ -252,18 +284,18 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 	}
 	/* adjust vertically */
 	switch (text->anchor) {
-	case GTK_ANCHOR_NORTH:
-	case GTK_ANCHOR_NORTH_WEST:
-	case GTK_ANCHOR_NORTH_EAST:
+	case GO_ANCHOR_NORTH:
+	case GO_ANCHOR_NORTH_WEST:
+	case GO_ANCHOR_NORTH_EAST:
 		break;
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_WEST:
-	case GTK_ANCHOR_EAST:
+	case GO_ANCHOR_CENTER:
+	case GO_ANCHOR_WEST:
+	case GO_ANCHOR_EAST:
 		item->y0 -= text->h / 2.;
 		break;
-	case GTK_ANCHOR_SOUTH:
-	case GTK_ANCHOR_SOUTH_WEST:
-	case GTK_ANCHOR_SOUTH_EAST:
+	case GO_ANCHOR_SOUTH:
+	case GO_ANCHOR_SOUTH_WEST:
+	case GO_ANCHOR_SOUTH_EAST:
 		item->y0 -= text->h;
 		break;
 	default: /* should not occur */
@@ -305,9 +337,9 @@ goc_text_distance (GocItem *item, double x, double y, GocItem **near_item)
 	cairo_surface_t *surface;
 	cairo_t *cr;
 	double res = 20;
-	
+
 	*near_item = item;
-	
+
 	if (!text->layout)
 		return res;
 
@@ -328,7 +360,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	GocText *text = GOC_TEXT (item);
 	double x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x, y = text->y;
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-	
+
 	PangoLayout *pl;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	if (!text->text)
@@ -344,18 +376,18 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 		pango_layout_set_attributes (pl, text->attributes);
 	/* adjust horizontally */
 	switch (text->anchor) {
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_NORTH:
-	case GTK_ANCHOR_SOUTH:
+	case GO_ANCHOR_CENTER:
+	case GO_ANCHOR_NORTH:
+	case GO_ANCHOR_SOUTH:
 		x -= text->w / 2.;
 		break;
-	case GTK_ANCHOR_NORTH_WEST:
-	case GTK_ANCHOR_SOUTH_WEST:
-	case GTK_ANCHOR_WEST:
+	case GO_ANCHOR_NORTH_WEST:
+	case GO_ANCHOR_SOUTH_WEST:
+	case GO_ANCHOR_WEST:
 		break;
-	case GTK_ANCHOR_NORTH_EAST:
-	case GTK_ANCHOR_SOUTH_EAST:
-	case GTK_ANCHOR_EAST:
+	case GO_ANCHOR_NORTH_EAST:
+	case GO_ANCHOR_SOUTH_EAST:
+	case GO_ANCHOR_EAST:
 		x -= text->w;
 		break;
 	default: /* should not occur */
@@ -363,18 +395,18 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	}
 	/* adjust vertically */
 	switch (text->anchor) {
-	case GTK_ANCHOR_NORTH:
-	case GTK_ANCHOR_NORTH_WEST:
-	case GTK_ANCHOR_NORTH_EAST:
+	case GO_ANCHOR_NORTH:
+	case GO_ANCHOR_NORTH_WEST:
+	case GO_ANCHOR_NORTH_EAST:
 		break;
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_WEST:
-	case GTK_ANCHOR_EAST:
+	case GO_ANCHOR_CENTER:
+	case GO_ANCHOR_WEST:
+	case GO_ANCHOR_EAST:
 		y -= text->h / 2.;
 		break;
-	case GTK_ANCHOR_SOUTH:
-	case GTK_ANCHOR_SOUTH_WEST:
-	case GTK_ANCHOR_SOUTH_EAST:
+	case GO_ANCHOR_SOUTH:
+	case GO_ANCHOR_SOUTH_WEST:
+	case GO_ANCHOR_SOUTH_EAST:
 		y -= text->h;
 		break;
 	default: /* should not occur */
@@ -445,7 +477,7 @@ goc_text_class_init (GocItemClass *item_klass)
 		g_param_spec_enum ("anchor",
 			_("Anchor"),
 			_("The anchor point for the text"),
-			GTK_TYPE_ANCHOR_TYPE, GTK_ANCHOR_CENTER,
+			GO_TYPE_ANCHOR_TYPE, GO_ANCHOR_CENTER,
 		        GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, TEXT_PROP_TEXT,
 		g_param_spec_string ("text",

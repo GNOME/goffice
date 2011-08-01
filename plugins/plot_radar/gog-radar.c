@@ -983,7 +983,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (gog_error_bar_is_visible (polar_series->a_errors)) {
 					GogErrorBar const *bar = polar_series->a_errors;
 					if (gog_error_bar_get_bounds (bar, count, &errmin, &errmax)) {
-						gog_error_bar_render (bar, view->renderer, 
+						gog_error_bar_render (bar, view->renderer,
 								      chart_map,
 								      c_vals[count], r_vals[count],
 								      errmin, errmax,
@@ -1297,7 +1297,7 @@ gog_rt_series_finalize (GObject *obj)
 	GogRTSeries *series = GOG_RT_SERIES (obj);
 
 	if (series->r_errors != NULL) {
-		g_object_unref (series->r_errors); 
+		g_object_unref (series->r_errors);
 		series->r_errors = NULL;
 	}
 
@@ -1347,10 +1347,10 @@ gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 	obj_klass->populate_editor = gog_rt_series_populate_editor;
 #endif
 	g_object_class_install_property (gobject_klass, RT_SERIES_PROP_RERRORS,
-		g_param_spec_object ("r-errors", 
+		g_param_spec_object ("r-errors",
 			_("Radial error bars"),
 			_("GogErrorBar *"),
-			GOG_TYPE_ERROR_BAR, 
+			GOG_TYPE_ERROR_BAR,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	series_klass->has_interpolation = TRUE;
@@ -1441,7 +1441,7 @@ gog_polar_series_finalize (GObject *obj)
 	GogPolarSeries *series = GOG_POLAR_SERIES (obj);
 
 	if (series->a_errors != NULL) {
-		g_object_unref (series->a_errors); 
+		g_object_unref (series->a_errors);
 		series->a_errors = NULL;
 	}
 
@@ -1473,10 +1473,10 @@ gog_polar_series_class_init (GogObjectClass *gog_klass)
 	gog_klass->populate_editor = gog_polar_series_populate_editor;
 #endif
 	g_object_class_install_property (gobject_klass, POLAR_SERIES_PROP_AERRORS,
-		g_param_spec_object ("a-errors", 
+		g_param_spec_object ("a-errors",
 			_("Angular error bars"),
 			_("GogErrorBar *"),
-			GOG_TYPE_ERROR_BAR, 
+			GOG_TYPE_ERROR_BAR,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 

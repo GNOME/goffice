@@ -19,14 +19,13 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
 struct _GORotationSel {
-	GtkHBox		 box;
+	GtkBox		 box;
 	GtkBuilder	*gui;
 	int		 angle;
 
@@ -41,7 +40,7 @@ struct _GORotationSel {
 };
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 	void (* rotation_changed) (GORotationSel *grs, int angle);
 } GORotationSelClass;
 
@@ -105,10 +104,10 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 	GocGroup  *group = goc_canvas_get_root (canvas);
 	int i;
 	GOStyle *go_style;
-	GtkStyle *style = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (canvas)));
-	style->bg[GTK_STATE_NORMAL] = style->white;
-	gtk_widget_set_style (GTK_WIDGET (canvas), style);
-	g_object_unref (style);
+	GdkRGBA color = {1., 1., 1., 1.};
+
+	gtk_widget_override_background_color (GTK_WIDGET (canvas),
+	                                      GTK_STATE_NORMAL, &color);
 
 	for (i = 0 ; i <= 12 ; i++) {
 		double rad = (i-6) * M_PI / 12.;
@@ -187,9 +186,11 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event, GORotationSel
 	if (event->type == GDK_BUTTON_PRESS) {
 		set_rot_from_point (grs, event->x, event->y);
 		if (grs->motion_handle == 0) {
-			gdk_pointer_grab (gtk_layout_get_bin_window (&canvas->base), FALSE,
-				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-				NULL, NULL, event->time);
+			gdk_device_grab (gdk_event_get_device ((GdkEvent *) event),
+			                 gtk_layout_get_bin_window (&canvas->base),
+			                 GDK_OWNERSHIP_APPLICATION, FALSE,
+					 GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+					 NULL, event->time);
 
 			grs->motion_handle = g_signal_connect (G_OBJECT (canvas), "motion_notify_event",
 				G_CALLBACK (cb_rotate_motion_notify_event), grs);
@@ -197,8 +198,8 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event, GORotationSel
 		return TRUE;
 	} else if (event->type == GDK_BUTTON_RELEASE) {
 		if (grs->motion_handle != 0) {
-			gdk_display_pointer_ungrab (gtk_widget_get_display (GTK_WIDGET (canvas)),
-				event->time);
+			gdk_device_ungrab (gdk_event_get_device ((GdkEvent *) event),
+			                   event->time);
 			g_signal_handler_disconnect (canvas, grs->motion_handle);
 			grs->motion_handle = 0;
 		}
@@ -263,7 +264,7 @@ grs_class_init (GObjectClass *klass)
 	GObjectClass *gobj_class = (GObjectClass *) klass;
 	gobj_class->finalize = grs_finalize;
 
-	grs_parent_class = g_type_class_peek (gtk_hbox_get_type ());
+	grs_parent_class = g_type_class_peek (gtk_box_get_type ());
 	grs_signals [ROTATION_CHANGED] = g_signal_new ("rotation-changed",
 		G_OBJECT_CLASS_TYPE (klass),	G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GORotationSelClass, rotation_changed),
@@ -273,7 +274,7 @@ grs_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (GORotationSel, go_rotation_sel,
-	   grs_class_init, grs_init, GTK_TYPE_HBOX)
+	   grs_class_init, grs_init, GTK_TYPE_BOX)
 
 GtkWidget *
 go_rotation_sel_new (void)

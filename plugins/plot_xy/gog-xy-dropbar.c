@@ -151,7 +151,7 @@ gog_xy_dropbar_populate_editor (GogObject *obj,
 			"toggled",
 			G_CALLBACK (horizontal_cb), obj);
 		w = go_gtk_builder_get_widget (gui, "width-btn");
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), dropbar->width); 
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), dropbar->width);
 		g_signal_connect (G_OBJECT (w),
 			"value_changed",
 			G_CALLBACK (value_changed_cb), obj);
@@ -318,7 +318,7 @@ gog_xy_dropbar_plot_class_init (GObjectClass *gobject_klass)
 			_("Bars width as a percetage of the plot width"),
 			0., 20., 5.,   /* using arbitrarily 20%. as maximum value */
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
-	
+
 	gog_object_klass->type_name	= gog_xy_dropbar_plot_type_name;
 	gog_object_klass->update	= gog_xy_dropbar_plot_update;
 	gog_object_klass->view_type	= gog_xy_dropbar_view_get_type ();

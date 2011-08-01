@@ -175,9 +175,9 @@ cb_swatch_release_event (GtkWidget *button, GdkEventButton *event, GOComboPixmap
 static gboolean
 cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *combo)
 {
-	if (event->keyval == GDK_Return ||
-	    event->keyval == GDK_KP_Enter ||
-	    event->keyval == GDK_space)
+	if (event->keyval == GDK_KEY_Return ||
+	    event->keyval == GDK_KEY_KP_Enter ||
+	    event->keyval == GDK_KEY_space)
 		return swatch_activated (combo, button);
 	else
 		return FALSE;
@@ -204,7 +204,7 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 	g_return_if_fail (GO_IS_COMBO_PIXMAPS (combo));
 
 	/* Wrap inside a vbox with a border so that we can see the focus indicator */
-	box = gtk_vbox_new (FALSE, 0);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_image_new_from_pixbuf (pixbuf),
 			    TRUE, TRUE, 0);
@@ -216,7 +216,7 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 	gtk_container_add (GTK_CONTAINER (button), box);
 
 	if (tooltip != NULL)
-		go_widget_set_tooltip_text (button, tooltip);
+		gtk_widget_set_tooltip_text (button, tooltip);
 
 	col = combo->elements->len;
 	row = col / combo->cols;

@@ -269,13 +269,13 @@ locale_order (const void *_a, const void *_b)
 static GHashTable *locale_hash;
 
 struct _GOLocaleSel {
-	GtkHBox box;
+	GtkBox box;
 	GOOptionMenu *locales;
 	GtkMenu *locales_menu;
 };
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	gboolean (* locale_changed) (GOLocaleSel *ls, char const *new_locale);
 } GOLocaleSelClass;
@@ -547,7 +547,7 @@ ls_class_init (GtkWidgetClass *widget_klass)
 }
 
 GSF_CLASS (GOLocaleSel, go_locale_sel,
-	   ls_class_init, ls_init, GTK_TYPE_HBOX)
+	   ls_class_init, ls_init, GTK_TYPE_BOX)
 
 GtkWidget *
 go_locale_sel_new (void)

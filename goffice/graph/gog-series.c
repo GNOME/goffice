@@ -154,7 +154,7 @@ gog_series_element_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS(gse_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	w = gtk_hbox_new (FALSE, 12);
+	w = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (w), gtk_label_new (_("Index:")),
 			    FALSE, FALSE, 0);
 	spin_button = gtk_spin_button_new_with_range (0, G_MAXINT, 1);
@@ -165,7 +165,7 @@ gog_series_element_populate_editor (GogObject *gobj,
 			  G_CALLBACK (cb_index_changed), gobj);
 	gtk_box_pack_start(GTK_BOX (w), spin_button, FALSE, FALSE, 0);
 	if (gse_vbox == NULL) {
-		vbox = gtk_vbox_new (FALSE, 6);
+		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 	} else
 		vbox = gse_vbox;
@@ -458,7 +458,7 @@ gog_series_populate_editor (GogObject *gobj,
 	GogDataset *set = GOG_DATASET (gobj);
 	GogSeriesDesc const *desc;
 	GogDataType data_type;
-	GtkComboBox *combo = NULL;
+	GtkComboBoxText *combo = NULL;
 
 	g_return_if_fail (series->plot != NULL);
 
@@ -491,7 +491,7 @@ gog_series_populate_editor (GogObject *gobj,
 	}
 
 	if (has_shared) {
-		gtk_table_attach (table, gtk_hseparator_new (),
+		gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL),
 			0, 2, row, row+1, GTK_FILL, 0, 0, 0);
 		row++;
 	}
@@ -506,7 +506,7 @@ gog_series_populate_editor (GogObject *gobj,
 				desc->dim[i].name, desc->dim[i].priority, TRUE);
 	}
 
-	gtk_table_attach (table, gtk_hseparator_new (),
+	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL),
 		0, 2, row, row+1, GTK_FILL, 0, 0, 0);
 	row++;
 	w = gtk_check_button_new_with_mnemonic (_("_Show in Legend"));
@@ -537,16 +537,16 @@ gog_series_populate_editor (GogObject *gobj,
 			gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 			widget = go_gtk_builder_get_widget (gui, "interpolation-table");
 			/* create an interpolation type combo and populate it */
-			combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+			combo = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
 			if (set & 1 << GOG_AXIS_RADIAL)
 				for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++) {
 					if (go_line_interpolation_supports_radial (i))
-						gtk_combo_box_append_text (combo, _(go_line_interpolation_as_label (i)));
+						gtk_combo_box_text_append_text (combo, _(go_line_interpolation_as_label (i)));
 				}
 			else
 				for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++)
-					gtk_combo_box_append_text (combo, _(go_line_interpolation_as_label (i)));
-			gtk_combo_box_set_active (combo, series->interpolation);
+					gtk_combo_box_text_append_text (combo, _(go_line_interpolation_as_label (i)));
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), series->interpolation);
 			g_signal_connect (combo, "changed",
 					  G_CALLBACK (cb_line_interpolation_changed), series);
 			gtk_table_attach (GTK_TABLE (widget), GTK_WIDGET (combo), 1, 2,
@@ -587,7 +587,7 @@ gog_series_populate_editor (GogObject *gobj,
 		gui = go_gtk_builder_new ("gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
 			widget = go_gtk_builder_get_widget (gui, "fill_type_combo");
-			gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (widget));
+				gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (widget));
 			g_signal_connect (G_OBJECT (widget), "changed",
 					  G_CALLBACK (cb_fill_type_changed), series);
 			if (combo)
@@ -1175,7 +1175,7 @@ gog_series_populate_fill_type_combo (GogSeries const *series, GtkComboBox *combo
 	for (i = 0; series_klass->valid_fill_type_list[i] != GOG_SERIES_FILL_TYPE_INVALID; i++) {
 		fill_type = series_klass->valid_fill_type_list[i];
 		if (fill_type >= 0 && fill_type < GOG_SERIES_FILL_TYPE_INVALID) {
-			gtk_combo_box_append_text (combo, _(_fill_type_infos[fill_type].label));
+			go_gtk_combo_box_append_text (combo, _(_fill_type_infos[fill_type].label));
 			if (fill_type == series->fill_type)
 				gtk_combo_box_set_active (combo, i);
 		}

@@ -20,7 +20,6 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include "go-color-selector.h"
 
@@ -161,18 +160,14 @@ cb_color_dialog_response (GtkColorSelectionDialog *color_dialog,
 
 	if (response == GTK_RESPONSE_OK) {
 		GOColorSelectorState *state;
-		GdkColor gdk_color;
+		GdkRGBA gdk_color;
 		GOColor color;
-		guint16 alpha;
 
-		gtk_color_selection_get_current_color (GTK_COLOR_SELECTION (color_selection),
+		gtk_color_selection_get_current_rgba (GTK_COLOR_SELECTION (color_selection),
 						       &gdk_color);
-		alpha = gtk_color_selection_get_current_alpha (GTK_COLOR_SELECTION (color_selection));
 		state = go_selector_get_user_data (selector);
 
-		color = GO_COLOR_FROM_GDK (gdk_color);
-		alpha >>= 8;
-		color = GO_COLOR_CHANGE_A (color, alpha);
+		color = GO_COLOR_FROM_GDK_RGBA (gdk_color);
 		if (!go_color_selector_set_color (selector, color))
 			/* Index is not necessarly changed, but swatch may change */
 			go_selector_activate (selector);
@@ -186,7 +181,7 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 {
 	GtkWidget *color_dialog;
 	GtkWidget *color_selection;
-	GdkColor gdk_color;
+	GdkRGBA gdk_color;
 	GOColor color;
 	GOColorSelectorState *state = go_selector_get_user_data (selector);
 
@@ -194,11 +189,8 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 	if (color_dialog != NULL) {
 		color_selection = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (color_dialog));
 		color = go_color_selector_get_color (selector, NULL);
-		gtk_color_selection_set_current_color (GTK_COLOR_SELECTION (color_selection),
-						       go_color_to_gdk (color, &gdk_color));
-		if (state->allow_alpha)
-			gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection),
-						       GO_COLOR_UINT_A (color) * 257);
+		gtk_color_selection_set_current_rgba (GTK_COLOR_SELECTION (color_selection),
+						       go_color_to_gdk_rgba (color, &gdk_color));
 		gtk_window_present (GTK_WINDOW (color_dialog));
 		return;
 	}
@@ -209,8 +201,8 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 	g_object_set_data_full (G_OBJECT (selector), "color-dialog", color_dialog,
 				(GDestroyNotify) gtk_widget_destroy);
 	color = go_color_selector_get_color (selector, NULL);
-	gtk_color_selection_set_current_color (GTK_COLOR_SELECTION (color_selection),
-					       go_color_to_gdk (color, &gdk_color));
+	gtk_color_selection_set_current_rgba (GTK_COLOR_SELECTION (color_selection),
+					       go_color_to_gdk_rgba (color, &gdk_color));
 	if (state->allow_alpha)
 		gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection),
 					       GO_COLOR_UINT_A (color) * 257);

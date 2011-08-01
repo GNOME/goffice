@@ -1150,7 +1150,7 @@ SUFFIX(go_exponential_regression) (MATRIX xss, int dim,
  * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_ : non-NULL storage for additional results.
  *
- * Performs one-dimensional linear regressions on the input points as 
+ * Performs one-dimensional linear regressions on the input points as
  * go_exponential_regression, but returns the logarithm of the coefficients instead
  * or the coefficients themselves.
  * Fits to "y = b * exp (m1*x1) * ... * exp (md*xd) " or equivalently to
@@ -1206,7 +1206,7 @@ SUFFIX(go_exponential_regression_as_log) (MATRIX xss, int dim,
 	g_free (log_ys);
 	return result;
 }
- 
+
 /**
  * go_power_regression:
  * @xss: x-vectors (i.e. independent data)

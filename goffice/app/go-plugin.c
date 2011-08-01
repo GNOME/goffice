@@ -1724,8 +1724,10 @@ append_dir (gpointer data, G_GNUC_UNUSED gpointer user_data)
 static void
 go_plugins_set_dirs (GSList *plugin_dirs)
 {
-	if (!go_plugin_dirs)
+	if (!go_plugin_dirs) {
 		go_plugin_dirs = g_slist_prepend (NULL, go_plugins_get_plugin_dir ());
+		go_plugin_dirs = g_slist_append (go_plugin_dirs, g_strdup (go_sys_extern_plugin_dir ()));
+	}
 	g_slist_foreach (plugin_dirs, append_dir, NULL);
 	g_slist_free (plugin_dirs);
 }

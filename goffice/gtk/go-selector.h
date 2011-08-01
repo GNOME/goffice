@@ -39,14 +39,14 @@ typedef struct _GOSelectorClass   GOSelectorClass;
 
 struct _GOSelector
 {
-	GtkHBox parent;
+	GtkBox parent;
 
 	GOSelectorPrivate *priv;
 };
 
 struct _GOSelectorClass
 {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	/* signals */
 	void (*activate)		(GtkWidget *selector);

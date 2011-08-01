@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <interface>
-  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkListStore" id="model1">
     <columns>
@@ -13,7 +13,7 @@
       </row>
     </data>
   </object>
-  <object class="GtkVBox" id="interpolation_prefs">
+  <object class="GtkBox" id="interpolation_prefs">
     <property name="visible">True</property>
     <property name="orientation">vertical</property>
     <child>
@@ -123,11 +123,11 @@
       </packing>
     </child>
   </object>
-  <object class="GtkVBox" id="fill_type_prefs">
+  <object class="GtkBox" id="fill_type_prefs">
     <property name="visible">True</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkHBox" id="hbox1">
+      <object class="GtkBox" id="hbox1">
         <property name="visible">True</property>
         <property name="spacing">12</property>
         <child>

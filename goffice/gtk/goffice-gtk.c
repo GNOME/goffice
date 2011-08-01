@@ -22,9 +22,9 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 #include <goffice/goffice-priv.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gdk/gdkkeysyms.h>
+
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
 #include <glib/gi18n-lib.h>
@@ -40,6 +40,10 @@
 
 #define PREVIEW_HSIZE 150
 #define PREVIEW_VSIZE 150
+
+#ifndef GDK_KEY_Escape
+#       define GDK_KEY_Escape GDK_Escape
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -251,6 +255,38 @@ go_gtk_builder_combo_box_init_text (GtkBuilder *gui, char const *widget_name)
 	return box;
 }
 
+void
+go_gtk_combo_box_append_text (GtkComboBox *combo, char const *str)
+{
+	GtkListStore *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
+	g_return_if_fail (str != NULL);
+
+	model = GTK_LIST_STORE (gtk_combo_box_get_model (combo));
+	gtk_list_store_append (model, &iter);
+	gtk_list_store_set (model, &iter, 0, str, -1);
+}
+
+void
+go_gtk_combo_box_remove_text (GtkComboBox *combo, int position)
+{
+	GtkTreeModel *model;
+	GtkListStore *store;
+	GtkTreeIter iter;
+
+	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (combo));
+	g_return_if_fail (position >= 0);
+
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
+	store = GTK_LIST_STORE (model);
+	g_return_if_fail (GTK_IS_LIST_STORE (store));
+
+	if (gtk_tree_model_iter_nth_child (model, &iter, NULL, position))
+		gtk_list_store_remove (store, &iter);
+}
+
 int
 go_gtk_builder_group_value (GtkBuilder *gui, char const * const group[])
 {
@@ -382,7 +418,7 @@ go_gtk_window_set_transient (GtkWindow *toplevel, GtkWindow *window)
 static gint
 cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 {
-	if(e->keyval == GDK_Escape) {
+	if(e->keyval == GDK_KEY_Escape) {
 		gtk_widget_destroy (w);
 		return TRUE;
 	}
@@ -483,7 +519,7 @@ filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
 		ext++;
 
 		if (!have_pixbufexts) {
-			GSList *l, *pixbuf_fmts = gdk_pixbuf_get_formats ();
+			GSList *pixbuf_fmts = gdk_pixbuf_get_formats ();
 
 			for (l = pixbuf_fmts; l != NULL; l = l->next) {
 				GdkPixbufFormat *fmt = l->data;
@@ -602,7 +638,7 @@ gui_image_chooser_new (gboolean is_save)
 
 	/* Preview */
 	{
-		GtkWidget *vbox = gtk_vbox_new (FALSE, 2);
+		GtkWidget *vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 		GtkWidget *preview_image = gtk_image_new ();
 		GtkWidget *preview_label = gtk_label_new ("");
 
@@ -730,7 +766,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			for (l = supported_formats, i = 0; l != NULL; l = l->next, i++) {
 				format = GPOINTER_TO_UINT (l->data);
 				format_info = go_image_get_format_info (format);
-				gtk_combo_box_append_text (format_combo, _(format_info->desc));
+				go_gtk_combo_box_append_text (format_combo, _(format_info->desc));
 				if (format == state->format)
 					gtk_combo_box_set_active (format_combo, i);
 			}
@@ -1137,69 +1173,6 @@ go_gtk_query_yes_no (GtkWindow *parent, gboolean default_answer,
 		go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
-#ifndef HAVE_GTK_WIDGET_SET_TOOLTIP_TEXT
-static GtkTooltips *
-get_tooltips (GObject *obj)
-{
-	GtkTooltips *tips = g_object_get_data (obj, "-go-tips");
-
-	if (!tips) {
-		tips = gtk_tooltips_new ();
-
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
-		g_object_ref_sink (tips);
-#else
-		g_object_ref (tips);
-		gtk_object_sink (GTK_OBJECT (tips));
-#endif
-		g_object_set_data_full (obj, "-go-tips", tips,
-					(GDestroyNotify)g_object_unref);
-	}
-
-	return tips;
-}
-#endif
-
-void
-go_widget_set_tooltip_text (GtkWidget *widget, char const *tip)
-{
-#ifdef HAVE_GTK_WIDGET_SET_TOOLTIP_TEXT
-	gtk_widget_set_tooltip_text (widget, tip);
-#else
-	GtkTooltips *tips = get_tooltips (G_OBJECT (widget));
-	gtk_tooltips_set_tip (tips, widget, tip, NULL);
-#endif
-}
-
-void
-go_tool_item_set_tooltip_text (GtkToolItem *item, char const *tip)
-{
-#ifdef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-	gtk_tool_item_set_tooltip_text (item, tip);
-#else
-	GtkTooltips *tips = get_tooltips (G_OBJECT (item));
-	gtk_tool_item_set_tooltip (item, tips, tip, NULL);
-#endif
-}
-
-
-#ifndef HAVE_GTK_DIALOG_GET_RESPONSE_FOR_WIDGET
-/* This is public from 2.8 onwards.   */
-static gint
-gtk_dialog_get_response_for_widget (GtkDialog *dialog, GtkWidget *widget)
-{
-	struct {
-		gint response_id;
-	} const *rd = g_object_get_data (G_OBJECT (widget),
-				   "gtk-dialog-response-data");
-	if (!rd)
-		return GTK_RESPONSE_NONE;
-	else
-		return rd->response_id;
-}
-#endif
-
-
 /**
  * go_dialog_guess_alternative_button_order:
  * @dialog : #GtkDialog
@@ -1312,7 +1285,7 @@ go_menu_position_below (GtkMenu  *menu,
 		sy += size.y;
 	}
 
-	gtk_widget_size_request (GTK_WIDGET (menu), &req);
+	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &req, NULL);
 
 	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_LTR)
 		*x = sx;
@@ -1354,11 +1327,7 @@ go_menu_position_below (GtkMenu  *menu,
 GError *
 go_gtk_url_show (gchar const *url, GdkScreen *screen)
 {
-#if defined(HAVE_GTK_SHOW_URI)
 	GError *error = NULL;
 	gtk_show_uri (screen, url, GDK_CURRENT_TIME, &error);
 	return error;
-#else
-	return go_url_show (url);
-#endif
 }

@@ -7,7 +7,7 @@
     <property name="step_increment">10</property>
     <property name="page_increment">50</property>
   </object>
-  <object class="GtkVBox" id="gog_pie_series_element_prefs">
+  <object class="GtkBox" id="gog_pie_series_element_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
     <property name="orientation">vertical</property>

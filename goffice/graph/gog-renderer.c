@@ -777,11 +777,11 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 }
 
 /**
- * gog_renderer_draw_layout :
+ * gog_renderer_draw_gostring :
  * @rend   : #GogRenderer
  * @gostring : the #GOString to draw
  * @pos    : #GogViewAllocation
- * @anchor : #GtkAnchorType how to draw relative to @pos
+ * @anchor : #GOAnchorType how to draw relative to @pos
  *
  * Have @rend draw @layout in the at @pos.{x,y} anchored by the @anchor corner.
  * If @pos.w or @pos.h are >= 0 then clip the results to less than that size.
@@ -789,7 +789,7 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 
 void
 gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
-			GogViewAllocation const *pos, GtkAnchorType anchor)
+			GogViewAllocation const *pos, GOAnchorType anchor)
 {
 	PangoLayout *layout;
 	PangoContext *context;
@@ -828,20 +828,20 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 	go_geometry_OBR_to_AABR (&obr, &aabr);
 
 	switch (anchor) {
-		case GTK_ANCHOR_NW: case GTK_ANCHOR_W: case GTK_ANCHOR_SW:
+		case GO_ANCHOR_NW: case GO_ANCHOR_W: case GO_ANCHOR_SW:
 			obr.x += aabr.w / 2.0;
 			break;
-		case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
+		case GO_ANCHOR_NE : case GO_ANCHOR_SE : case GO_ANCHOR_E :
 			obr.x -= aabr.w / 2.0;
 			break;
 		default : break;
 	}
 
 	switch (anchor) {
-		case GTK_ANCHOR_NW: case GTK_ANCHOR_N: case GTK_ANCHOR_NE:
+		case GO_ANCHOR_NW: case GO_ANCHOR_N: case GO_ANCHOR_NE:
 			obr.y += aabr.h / 2.0;
 			break;
-		case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
+		case GO_ANCHOR_SE : case GO_ANCHOR_S : case GO_ANCHOR_SW :
 			obr.y -= aabr.h / 2.0;
 			break;
 		default : break;
@@ -875,7 +875,7 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 
 void
 gog_renderer_draw_text (GogRenderer *rend, char const *text,
-			GogViewAllocation const *pos, GtkAnchorType anchor,
+			GogViewAllocation const *pos, GOAnchorType anchor,
 			gboolean use_markup)
 {
 	cairo_t *cairo;
@@ -1310,60 +1310,32 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 	switch (format) {
 		case GO_IMAGE_FORMAT_EPS:
 			rend->marker_as_surface = FALSE;
-#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
 			surface = cairo_ps_surface_create_for_stream
 				(_cairo_write_func,
 				 output, width_in_pts, height_in_pts);
 			cairo_ps_surface_set_eps (surface, TRUE);
-#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
 			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
-#endif
 			goto do_export_vectorial;
-#else
-			g_warning ("[GogRendererCairo::export_image] cairo EPS backend missing");
-			return FALSE;
-#endif
 		case GO_IMAGE_FORMAT_PDF:
 			rend->marker_as_surface = FALSE;
-#ifdef CAIRO_HAS_PDF_SURFACE
 			surface = cairo_pdf_surface_create_for_stream
 				(_cairo_write_func,
 				 output, width_in_pts, height_in_pts);
-#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
 			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
-#endif
 			goto do_export_vectorial;
-#else
-			g_warning ("[GogRendererCairo::export_image] cairo PDF backend missing");
-			return FALSE;
-#endif
 		case GO_IMAGE_FORMAT_PS:
 			rend->marker_as_surface = FALSE;
-#ifdef CAIRO_HAS_PS_SURFACE
 			surface = cairo_ps_surface_create_for_stream
 				(_cairo_write_func,
 				 output, width_in_pts, height_in_pts);
-#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
 			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
-#endif
 			goto do_export_vectorial;
-#else
-			g_warning ("[GogRendererCairo::export_image] cairo PS backend missing");
-			return FALSE;
-#endif
 		case GO_IMAGE_FORMAT_SVG:
 			rend->marker_as_surface = TRUE;
-#ifdef CAIRO_HAS_SVG_SURFACE
 			surface = cairo_svg_surface_create_for_stream
 				(_cairo_write_func,
 				 output, width_in_pts, height_in_pts);
-#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
 			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
-#endif
-#else
-			g_warning ("[GogRendererCairo::export_image] cairo SVG backend missing");
-			return FALSE;
-#endif
 do_export_vectorial:
 			rend->scale = 1.0;
 			cairo = cairo_create (surface);
@@ -1434,19 +1406,19 @@ gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
 #ifdef GOFFICE_WITH_LASEM
 
 void
-gog_renderer_draw_equation (GogRenderer *renderer, LsmMathmlView *mathml_view, double x, double y)
+gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, double x, double y)
 {
 	cairo_t *cairo;
 	double w, h, alpha;
 
 	g_return_if_fail (GOG_IS_RENDERER (renderer));
-	g_return_if_fail (LSM_IS_MATHML_VIEW (mathml_view));
+	g_return_if_fail (LSM_IS_DOM_VIEW (mathml_view));
 	g_return_if_fail (renderer->cur_style != NULL);
 
 	cairo = renderer->cairo;
 
 	alpha = -renderer->cur_style->text_layout.angle * M_PI / 180.0;
-	lsm_dom_view_get_size (LSM_DOM_VIEW (mathml_view), &w, &h);
+	lsm_dom_view_get_size (LSM_DOM_VIEW (mathml_view), &w, &h, NULL);
 	w *= renderer->scale;
 	h *= renderer->scale;
 	x = x - (w / 2.0) * cos (alpha) + (h / 2.0) * sin (alpha);
@@ -1458,8 +1430,7 @@ gog_renderer_draw_equation (GogRenderer *renderer, LsmMathmlView *mathml_view, d
 	cairo_rotate (cairo, alpha);
 	cairo_scale (cairo, renderer->scale_x, renderer->scale_y);
 
-	lsm_dom_view_set_cairo (LSM_DOM_VIEW (mathml_view), cairo);
-	lsm_dom_view_render (LSM_DOM_VIEW (mathml_view), 0., 0.);
+	lsm_dom_view_render (LSM_DOM_VIEW (mathml_view), cairo, 0., 0.);
 
 	cairo_restore (cairo);
 }

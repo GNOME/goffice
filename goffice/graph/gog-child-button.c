@@ -22,9 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
-#include <gdk/gdkpixbuf.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <glib/gi18n-lib.h>
@@ -46,7 +44,7 @@ static void 	gog_child_button_free_additions 	(GogChildButton *child_button);
 
 struct _GogChildButton
 {
-	GtkHBox parent;
+	GtkBox parent;
 
 	GtkWidget	*toggle_button;
 	GtkMenu 	*menu;
@@ -59,10 +57,10 @@ struct _GogChildButton
 
 struct _GogChildButtonClass
 {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
-G_DEFINE_TYPE (GogChildButton, gog_child_button, GTK_TYPE_HBOX)
+G_DEFINE_TYPE (GogChildButton, gog_child_button, GTK_TYPE_BOX)
 
 static void
 gog_child_button_init (GogChildButton *child_button)

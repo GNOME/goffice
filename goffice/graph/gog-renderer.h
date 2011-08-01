@@ -29,42 +29,13 @@
 #include <gdk/gdk.h>
 #else
 typedef struct _GdkPixbuf GdkPixbuf;
-typedef enum
-{
-  GTK_ANCHOR_CENTER,
-  GTK_ANCHOR_NORTH,
-  GTK_ANCHOR_NORTH_WEST,
-  GTK_ANCHOR_NORTH_EAST,
-  GTK_ANCHOR_SOUTH,
-  GTK_ANCHOR_SOUTH_WEST,
-  GTK_ANCHOR_SOUTH_EAST,
-  GTK_ANCHOR_WEST,
-  GTK_ANCHOR_EAST,
-  GTK_ANCHOR_N		= GTK_ANCHOR_NORTH,
-  GTK_ANCHOR_NW		= GTK_ANCHOR_NORTH_WEST,
-  GTK_ANCHOR_NE		= GTK_ANCHOR_NORTH_EAST,
-  GTK_ANCHOR_S		= GTK_ANCHOR_SOUTH,
-  GTK_ANCHOR_SW		= GTK_ANCHOR_SOUTH_WEST,
-  GTK_ANCHOR_SE		= GTK_ANCHOR_SOUTH_EAST,
-  GTK_ANCHOR_W		= GTK_ANCHOR_WEST,
-  GTK_ANCHOR_E		= GTK_ANCHOR_EAST
-} GtkAnchorType;
 #endif
 
 #ifdef GOFFICE_WITH_LASEM
-#include <lsmmathmlview.h>
+#include <lsmdomview.h>
 #endif
 
 #include <cairo.h>
-#ifdef CAIRO_HAS_SVG_SURFACE
-#define GOG_RENDERER_CAIRO_WITH_SVG
-#endif
-#ifdef CAIRO_HAS_PDF_SURFACE
-#define GOG_RENDERER_CAIRO_WITH_PDF
-#endif
-#ifdef CAIRO_HAS_PS_SURFACE
-#define GOG_RENDERER_CAIRO_WITH_PS
-#endif
 
 G_BEGIN_DECLS
 /* We need to define an hair line width for the svg and gnome_print renderer.
@@ -116,13 +87,13 @@ void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, 
-				   GtkAnchorType anchor,
+				   GOAnchorType anchor,
 				   gboolean use_markup);
 
 void  gog_renderer_draw_gostring  (GogRenderer *rend,
 				   GOString *str,
 				   GogViewAllocation const *pos, 
-				   GtkAnchorType anchor);
+				   GOAnchorType anchor);
 
 void  gog_renderer_get_gostring_OBR   (GogRenderer *rend, GOString *str,
 				       GOGeometryOBR *obr);
@@ -154,7 +125,7 @@ gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat form
 GogRenderer 	*gog_renderer_new 		(GogGraph *graph);
 
 #ifdef GOFFICE_WITH_LASEM
-void		 gog_renderer_draw_equation	(GogRenderer *renderer, LsmMathmlView *mathml_view,
+void		 gog_renderer_draw_equation	(GogRenderer *renderer, LsmDomView *mathml_view,
 						 double x, double y);
 #endif
 

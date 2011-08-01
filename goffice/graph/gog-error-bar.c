@@ -20,7 +20,6 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/gtk/go-gtk-compat.h>
 #include "gog-error-bar.h"
 #include "gog-series-impl.h"
 #include "gog-plot-impl.h"
@@ -713,7 +712,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 			cap_min = FALSE;
 		} else
 			cap_min = TRUE;
-			
+
 		gog_chart_map_2D_to_view (map, x, (start ? y + plus : y),
 							  &xx, &yy);
 		path = go_path_new ();

@@ -37,20 +37,20 @@
 /**
  * SECTION:gog-theme
  * @short_description: a list of default styles to apply to appropriate graph elements.
- * 
+ *
  * The library provides two hard coded themes, "Default", and "Guppi". Other themes
  * are described in files, some of which might be distributed with the library.
- * 
+ *
  * A file defining a theme is an xml file with a &lt;GogTheme&gt; root node. The contents
  * must be: _name|name+, _description?|description*, GOStyle+.
- * 
+ *
  * _name and name nodes:
  *
  * The _name node should be used for themes distributed with goffice, localized
  * names will be in *.po files and only the default name for "C" locale needs to
  * be there. Other files need at least one name node for the default name, and
  * might have some translated names with an appropriate "xml:lang" attribute.
- * 
+ *
  * _description and description nodes:
  *
  * These work just like name nodes. The difference is that no description node is
@@ -1026,7 +1026,7 @@ desc_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 elem_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	struct theme_load_state	*state = (struct theme_load_state *) xin->user_state; 
+	struct theme_load_state	*state = (struct theme_load_state *) xin->user_state;
 	char const *role = NULL, *class_name = NULL;
 	GOStyle *style;
 	unsigned i;

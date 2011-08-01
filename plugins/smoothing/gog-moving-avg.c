@@ -101,12 +101,12 @@ gog_moving_avg_populate_editor (GogObject *obj,
 	char	 *path = g_build_filename (dir, "gog-moving-avg.ui", NULL);
 	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 	GtkWidget *w = go_gtk_builder_get_widget (gui, "span");
-	go_widget_set_tooltip_text (w, _("Number of values from which to calculate an average"));
+	gtk_widget_set_tooltip_text (w, _("Number of values from which to calculate an average"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 2, G_MAXINT);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), ma->span);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (span_changed_cb), obj);
 	w = go_gtk_builder_get_widget (gui, "xavg");
-	go_widget_set_tooltip_text (w, _("Whether to average x values as well or use the last one"));
+	gtk_widget_set_tooltip_text (w, _("Whether to average x values as well or use the last one"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), ma->xavg);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (xavg_toggled_cb), obj);
 	w = go_gtk_builder_get_widget (gui, "mv-avg-prefs");

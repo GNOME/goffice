@@ -371,7 +371,7 @@ goc_group_remove_child (GocGroup *parent, GocItem *item)
  *
  * Adds @group horizontal offset to @x0 and @x1, and vertical offset to @y0
  * and @y1. This function is called recursively so that when returning @x0,
- * @y0, @x1, and @y1 are absolute coordinates in canvas space, 
+ * @y0, @x1, and @y1 are absolute coordinates in canvas space,
  **/
 void
 goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *x1, double *y1)
@@ -395,7 +395,7 @@ goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *
  *
  * Adds @group horizontal offset to @x0, and vertical offset to @y0.
  * This function is called recursively so that when returning @x0 and
- * @y0 are absolute coordinates in canvas space, 
+ * @y0 are absolute coordinates in canvas space,
  **/
 void
 goc_group_adjust_coords (GocGroup const *group, double *x, double *y)

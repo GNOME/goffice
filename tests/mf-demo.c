@@ -44,8 +44,8 @@ typedef struct {
 	double y;
 	double curx;
 	double cury;
-	gint curfg; 
-	gint curbg; 
+	gint curfg;
+	gint curbg;
 	gint curfnt;
 	gint curpal;
 	gint curreg;
@@ -54,7 +54,7 @@ typedef struct {
 	guint pfm;
 	Color bkclr;
 	Color txtclr;
-} DC; 
+} DC;
 
 typedef struct {
 	guint type; /* 1 pen, 2 brush, 3 font, 4 region, 5 palette */
@@ -203,9 +203,9 @@ void mr_poly (GsfInput* input, Page* pg, GocCanvas* canvas, int type);
 int find_obj (Page* pg);
 void read_color (GsfInput* input, Color* clr);
 void read_point (GsfInput* input, double* y, double* x);
-void set_anchor (Page* pg, GtkAnchorType* anchor);
+void set_anchor (Page* pg, GOAnchorType* anchor);
 void set_align (GsfInput* input, Page* pg, double* x, double* y);
-void set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GtkAnchorType* anchor, double* x, double* y);
+void set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GOAnchorType* anchor, double* x, double* y);
 char* symbol_to_utf (char* txt);
 char* mtextra_to_utf (char* txt);
 
@@ -222,8 +222,8 @@ init_dc (DC *dc)
 	dc->y = 0;
 	dc->curx = 0;
 	dc->cury = 0;
-	dc->curfg = -1; 
-	dc->curbg = -1; 
+	dc->curfg = -1;
+	dc->curbg = -1;
 	dc->curfnt = -1;
 	dc->curpal = -1;
 	dc->curreg = -1;
@@ -263,7 +263,7 @@ mr_convcoord (double* x, double* y, Page* pg)
 }
 
 void
-set_anchor (Page* pg, GtkAnchorType* anchor)
+set_anchor (Page* pg, GOAnchorType* anchor)
 {
 	DC *dc;
 
@@ -273,39 +273,39 @@ set_anchor (Page* pg, GtkAnchorType* anchor)
 	case 0: /* right */
 		switch(dc->txtalign & 24) {
 			case 0: /* top */
-				*anchor = GTK_ANCHOR_SOUTH_WEST;
+				*anchor = GO_ANCHOR_SOUTH_WEST;
 				break;
 			case 8: /* bottom */
-				*anchor = GTK_ANCHOR_NORTH_WEST;
+				*anchor = GO_ANCHOR_NORTH_WEST;
 				break;
 			case 24: /* baseline */
-				*anchor = GTK_ANCHOR_WEST;
+				*anchor = GO_ANCHOR_WEST;
 				break;
 		}
 		break;
 	case 2: /* left */
 		switch(dc->txtalign & 24) {
 			case 0: /* top */
-				*anchor = GTK_ANCHOR_SOUTH_EAST;
+				*anchor = GO_ANCHOR_SOUTH_EAST;
 				break;
 			case 8: /* bottom */
-				*anchor = GTK_ANCHOR_NORTH_EAST;
+				*anchor = GO_ANCHOR_NORTH_EAST;
 				break;
 			case 24: /* baseline */
-				*anchor = GTK_ANCHOR_EAST;
+				*anchor = GO_ANCHOR_EAST;
 				break;
 		}
 		break;
 	case 6: /* center */
 		switch(dc->txtalign & 24) {
 			case 0: /* top */
-				*anchor = GTK_ANCHOR_SOUTH;
+				*anchor = GO_ANCHOR_SOUTH;
 				break;
 			case 8: /* bottom */
-				*anchor = GTK_ANCHOR_NORTH;
+				*anchor = GO_ANCHOR_NORTH;
 				break;
 			case 24: /* baseline */
-				*anchor = GTK_ANCHOR_CENTER;
+				*anchor = GO_ANCHOR_CENTER;
 				break;
 		}
 	}
@@ -330,7 +330,7 @@ set_align (GsfInput* input, Page* pg, double* x, double* y)
 }
 
 void
-set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GtkAnchorType* anchor, double* x, double* y)
+set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GOAnchorType* anchor, double* x, double* y)
 {
 	GocItem *gocitem;
 	char *utxt;
@@ -351,7 +351,7 @@ set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GtkAnchorType* anchor
 		} else {
 			utxt = g_convert (txt, len, "utf8", font->charset, NULL, NULL, NULL);
 		}
-		
+
 	} else {
 		utxt = g_convert (txt, len, "utf8", "ASCII", NULL, NULL, NULL);
 	}
@@ -400,10 +400,10 @@ find_obj (Page* pg)
 	return i;
 }
 
-typedef void 
+typedef void
 (*Handler) (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas);
 
-Handler mfrec_dump[70] = 
+Handler mfrec_dump[70] =
 {
 	mr0, mr1, mr2, mr3, mr4, mr5, mr6, mr7, mr8, mr9,
 	mr10, mr11, mr12, mr13, mr14, mr15, mr16, mr17, mr18, mr19,
@@ -430,7 +430,7 @@ parse (GsfInput* input, GocCanvas* canvas)
 	double x1, y1, x2, y2, w, h;
 	DC *dc;
 
-	mypg = malloc (sizeof (Page));  
+	mypg = malloc (sizeof (Page));
 	fsize = gsf_input_size (input);
 	data = gsf_input_read (input, 4, NULL);
 	switch (GSF_LE_GET_GUINT32 (data)) {
@@ -477,7 +477,7 @@ parse (GsfInput* input, GocCanvas* canvas)
 				dc->VPx = mypg->h * w / h;
 			}
 			mypg->zoom = dc->VPx / w;
-			mypg->type = 1; 
+			mypg->type = 1;
 			dc->Wx = w;
 			dc->Wy = h;
 		} else {
@@ -485,7 +485,7 @@ parse (GsfInput* input, GocCanvas* canvas)
 		}
 
 		gsf_input_seek (input, offset, G_SEEK_SET);
-		while (offset < fsize - 6) {  // check if it's end of file already
+		while (offset < fsize - 6) {  /* check if it's end of file already */
 			data = gsf_input_read (input, 4, NULL);
 			rsize = GSF_LE_GET_GUINT32 (data);
 			data = gsf_input_read (input, 2, NULL);
@@ -525,7 +525,7 @@ set_font (Page *pg, GocItem *item)
 
 	mfo = g_hash_table_lookup (pg->mfobjs, GINT_TO_POINTER (dc->curfnt));
 	font = mfo->values;
-	// convert font values to PangoAttrList
+	/* convert font values to PangoAttrList */
 	if (font->escape > 0) {
 		rot = (double) (font->escape % 3600) * M_PI / 1800.;
 		goc_item_set (item, "rotation", M_PI * 2 - rot, NULL);
@@ -598,7 +598,7 @@ stroke (Page *pg, GocItem *item)
 		if (3 > (pstyle & 0xF000) >> 12) {
 			style->line.join = capjoin[(pstyle & 0xF000) >> 12];
 		}
-		
+
 		if (pstyle > 5)
 			pstyle = 0;
 		style->line.dash_type = dashes[pstyle];
@@ -658,10 +658,10 @@ fill (Page *pg, GocItem *item)
 void
 mr0 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-//g_print("!EOF ");
+/*	g_print("!EOF ");*/
 }
 
-// -------------- SaveDC ----------------
+/* -------------- SaveDC ---------------- */
 void
 mr1 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
@@ -675,16 +675,16 @@ mr1 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas
 void
 mr2 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("RealizePalette ");
+/*	g_print("RealizePalette ");*/
 }
 
 void
 mr3 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("SetPalEntries ");
+/*	g_print("SetPalEntries ");*/
 }
 
-// ------------- CreatePalette ------------
+/* ------------- CreatePalette ------------ */
 void
 mr4 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
@@ -696,7 +696,7 @@ mr4 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas
 	g_hash_table_insert ((*pg).mfobjs, GINT_TO_POINTER (find_obj (pg)), mf);
 }
 
-// ------------- SetBKMode -----------------
+/* ------------- SetBKMode ----------------- */
 void
 mr5 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
@@ -712,23 +712,23 @@ mr5 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas
 void
 mr6 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("SetMapMode ");
+/*	g_print("SetMapMode ");*/
 }
 
 void
 mr7 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("SetROP2 ");
+/*	g_print("SetROP2 ");*/
 }
 
-// ------------- SetReLabs -------------
+/* ------------- SetReLabs ------------- */
 void
 mr8 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
 	/* FIXME: Exclude, should never be used */
 }
 
-// ----------------- SetPolyfillMode -----------------
+/* ----------------- SetPolyfillMode ----------------- */
 void
 mr9 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
@@ -747,16 +747,16 @@ mr9 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas
 void
 mr10 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("SetStrechBLTMode ");
+/*	g_print("SetStrechBLTMode ");*/
 }
 
 void
 mr11 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("SetTextCharExtra ");
+/*	g_print("SetTextCharExtra ");*/
 }
 
-// ---------------- RestoreDC -----------------------
+/* ---------------- RestoreDC ----------------------- */
 void
 mr12 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
@@ -775,22 +775,22 @@ mr12 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canva
 void
 mr13 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("InvertRegion ");
+/*	g_print("InvertRegion ");*/
 }
 
 void
 mr14 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("PaintRegion ");
+/*	g_print("PaintRegion ");*/
 }
 
 void
 mr15 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("SelectClipRegion ");
+/*	g_print("SelectClipRegion ");*/
 }
 
-// -------------------- Select Object -----------------
+/* -------------------- Select Object ----------------- */
 void
 mr16 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -802,7 +802,7 @@ mr16 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	data = gsf_input_read (input, 2, NULL);
 	idx = GSF_LE_GET_GUINT16 (data);
- 
+
 	mf = g_hash_table_lookup (pg->mfobjs, GINT_TO_POINTER (idx));
 	switch (mf->type) {
 	case 1:
@@ -826,7 +826,7 @@ mr16 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gsf_input_seek (input, -2, G_SEEK_CUR);
 }
 
-// ---------------- SetTextAlign -----------------------
+/* ---------------- SetTextAlign ----------------------- */
 void
 mr17 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -842,10 +842,10 @@ mr17 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr18 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("ResizePalette ");
+/*	g_print("ResizePalette ");*/
 }
 
-// --------------- DIBCreatePatternBrush --------------
+/* --------------- DIBCreatePatternBrush -------------- */
 void
 mr19 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -861,7 +861,7 @@ mr19 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gint32 rollback = 6 - rsize * 2;
 
 	brush = malloc (sizeof (Brush));
-	brush->style = 3; // DibPattern brush
+	brush->style = 3; /* DibPattern brush */
 	gsf_input_seek(input, 8, G_SEEK_CUR);
 	data = gsf_input_read (input, 4, NULL);
 	w = GSF_LE_GET_GUINT32 (data);
@@ -908,7 +908,7 @@ mr19 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	brush->bdata.width = w;
 	brush->bdata.height = h;
 	brush->bdata.data = gpb;
-	
+
 	mf = malloc (sizeof (MFobj));
 	mf->type = 2;
 	mf->values = brush;
@@ -916,14 +916,14 @@ mr19 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 
 }
 
-//  -------------- SetLayout --------------------
+/* -------------- SetLayout -------------------- */
 void
 mr20 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 
 }
 
-//  -------------- DeleteObject --------------------
+/* -------------- DeleteObject -------------------- */
 void
 mr21 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -936,7 +936,7 @@ mr21 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gsf_input_seek(input, -2, G_SEEK_CUR);
 }
 
-//  -------------- CreatePatternBrush --------------------
+/*  -------------- CreatePatternBrush -------------------- */
 void
 mr22 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -948,7 +948,7 @@ mr22 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	g_hash_table_insert ((*pg).mfobjs, GINT_TO_POINTER (find_obj (pg)), mf);
 }
 
-//  -------------- SetBKColor --------------------
+/*  -------------- SetBKColor -------------------- */
 void
 mr23 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -959,7 +959,7 @@ mr23 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gsf_input_seek (input, -3, G_SEEK_CUR);
 }
 
-//  -------------- SetTextColor --------------------
+/*  -------------- SetTextColor -------------------- */
 void
 mr24 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -973,10 +973,10 @@ mr24 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr25 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("SetTextJustification ");
+/*	g_print("SetTextJustification ");*/
 }
 
-// ---------------- SetWindowOrg -----------------
+/* ---------------- SetWindowOrg ----------------- */
 void
 mr26 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -987,7 +987,7 @@ mr26 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
 
-//  ---------------- SetWindowExt -------------------
+/*  ---------------- SetWindowExt ------------------- */
 void
 mr27 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1008,29 +1008,29 @@ mr27 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	}
 }
 
-//  ----------------- SetViewportOrg -------------------
+/*  ----------------- SetViewportOrg ------------------- */
 void
 mr28 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 	DC *dc;
 
 	dc = &g_array_index (pg->dcs, DC, pg->curdc);
-	read_point (input, &dc->VPOy, &dc->VPOx); 
+	read_point (input, &dc->VPOy, &dc->VPOx);
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
 
-//  ----------------- SetViewportExt --------------------
+/*  ----------------- SetViewportExt -------------------- */
 void
 mr29 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 	DC *dc;
 
 	dc = &g_array_index (pg->dcs, DC, pg->curdc);
-	read_point (input, &dc->VPy, &dc->VPx); 
+	read_point (input, &dc->VPy, &dc->VPx);
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
 
-// ------------------- OffsetWindowOrg ------------------
+/* ------------------- OffsetWindowOrg ------------------ */
 void
 mr30 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1044,7 +1044,7 @@ mr30 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
 
-// ------------------- OffsetViewportOrg ----------------
+/* ------------------- OffsetViewportOrg ---------------- */
 void
 mr31 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1058,7 +1058,7 @@ mr31 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
 
-//  ------------------ LineTo --------------------
+/*  ------------------ LineTo -------------------- */
 void
 mr32 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1077,7 +1077,7 @@ mr32 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	stroke (pg, gocitem);
 }
 
-//  ------------------ MoveTo --------------------
+/*  ------------------ MoveTo -------------------- */
 void
 mr33 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1095,28 +1095,28 @@ mr33 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr34 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("OffsetClipRgn ");
+/*	g_print("OffsetClipRgn ");*/
 }
 
 void
 mr35 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("FillRegion ");
+/*	g_print("FillRegion ");*/
 }
 
 void
 mr36 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("SetMapperFlags ");
+/*	g_print("SetMapperFlags ");*/
 }
 
 void
 mr37 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("SelectPalette ");
+/*	g_print("SelectPalette ");*/
 }
 
-//  ------------------ CreatePenIndirect -------------------
+/*  ------------------ CreatePenIndirect ------------------- */
 void
 mr38 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1142,7 +1142,7 @@ mr38 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 }
 
 
-// ----------------- CreateFontIndirect -------------
+/* ----------------- CreateFontIndirect ------------- */
 void
 mr39 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1241,7 +1241,7 @@ mr39 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	g_hash_table_insert ((*pg).mfobjs, GINT_TO_POINTER (find_obj (pg)), mf);
 }
 
-// ---------------- CreateBrushIndirect ---------------
+/* ---------------- CreateBrushIndirect --------------- */
 void
 mr40 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1255,7 +1255,7 @@ mr40 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	read_color (input, &brush->clr);
 	gsf_input_seek (input, 1, G_SEEK_CUR); /* skip "clr.a" */
 	data = gsf_input_read (input, 2, NULL);
-	brush->hatch = GSF_LE_GET_GUINT16 (data); 
+	brush->hatch = GSF_LE_GET_GUINT16 (data);
 	gsf_input_seek (input, -8, G_SEEK_CUR);
 	mf = malloc (sizeof (MFobj));
 	mf->type = 2;
@@ -1291,14 +1291,14 @@ mr_poly (GsfInput* input, Page* pg, GocCanvas* canvas, int type)
 	gsf_input_seek (input, -len * 4 - 2, G_SEEK_CUR);
 }
 
-//  ---------- Polygon ----------------
+/*  ---------- Polygon ---------------- */
 void
 mr41 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 	mr_poly (input, pg, canvas, 0);
 }
 
-//  ---------- Polyline ----------------
+/*  ---------- Polyline ---------------- */
 void
 mr42 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1308,25 +1308,25 @@ mr42 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr43 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("ScaleWindowExtEx ");
+/*	g_print("ScaleWindowExtEx ");*/
 }
 
 void
 mr44 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("ScaleViewportExt ");
+/*	g_print("ScaleViewportExt ");*/
 }
 
 void
 mr45 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("ExcludeClipRect ");
+/*	g_print("ExcludeClipRect ");*/
 }
 
 void
 mr46 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("IntersectClipRect ");
+/*	g_print("IntersectClipRect ");*/
 }
 
 void
@@ -1367,7 +1367,7 @@ mr_rect (GsfInput* input, Page* pg, GocCanvas* canvas, int type)
 	gsf_input_seek (input, -8, G_SEEK_CUR);
 }
 
-// ----------------- Ellipse ---------------
+/* ----------------- Ellipse --------------- */
 void
 mr47 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1377,10 +1377,10 @@ mr47 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr48 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("FloodFill ");
+/*	g_print("FloodFill ");*/
 }
 
-//  ---------------- Rectangle --------------
+/*  ---------------- Rectangle -------------- */
 void
 mr49 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1390,22 +1390,22 @@ mr49 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr50 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("SetPixel ");
+/*	g_print("SetPixel ");*/
 }
 
 void
 mr51 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("FrameRegion ");
+/*	g_print("FrameRegion ");*/
 }
 
 void
 mr52 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("AnimatePalette ");
+/*	g_print("AnimatePalette ");*/
 }
 
-//---------------- TextOut --------------------
+/*---------------- TextOut -------------------- */
 void
 mr53 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1413,7 +1413,7 @@ mr53 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	char *txt;
 	double x, y;
 	int len, shift = 0;
-	GtkAnchorType anchor = GTK_ANCHOR_NORTH_WEST;
+	GOAnchorType anchor = GO_ANCHOR_NORTH_WEST;
 
 	set_anchor (pg, &anchor);
 	data = gsf_input_read (input, 2, NULL);
@@ -1429,7 +1429,7 @@ mr53 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	set_text (pg, canvas, txt, len, &anchor, &x, &y);
 }
 
-//  ------------ PolyPolygon ------------
+/*  ------------ PolyPolygon ------------ */
 void
 mr54 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1447,7 +1447,7 @@ mr54 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	npoly = GSF_LE_GET_GINT16 (data);
 	curpos = gsf_input_tell (input);
 	array = goc_int_array_new (npoly);
-	
+
 	for (j = 0; j < npoly; j++) {
 		gsf_input_seek (input, curpos + j * 2, G_SEEK_SET);
 		data = gsf_input_read (input, 2, NULL);
@@ -1474,31 +1474,31 @@ mr54 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr55 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("ExtFloodFill ");
+/*	g_print("ExtFloodFill ");*/
 }
 
-//  ---------------- RoundRect ----------------------
+/*  ---------------- RoundRect ---------------------- */
 void
 mr56 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-	mr_rect (input, pg, canvas, 15); 
+	mr_rect (input, pg, canvas, 15);
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
 
 void
 mr57 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("PatBLT ");
+/*	g_print("PatBLT ");*/
 }
 
-// ------------------ Escape ------------------------
+/* ------------------ Escape ------------------------ */
 void
 mr58 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 
 }
 
-//------------------ CreateRegion ------------------
+/* ------------------ CreateRegion ------------------ */
 void
 mr59 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1516,7 +1516,7 @@ mr_arc (GsfInput* input, Page* pg, GocCanvas* canvas, int type)
 	Arc *arc;
 	GocItem *gocitem;
 	double a1, a2, xc, yc, rx, ry;
-	
+
 	arc = malloc (sizeof (Arc));
 	read_point (input, &arc->ye, &arc->xe);
 	read_point (input, &arc->ys, &arc->xs);
@@ -1548,21 +1548,21 @@ mr_arc (GsfInput* input, Page* pg, GocCanvas* canvas, int type)
 		fill (pg, gocitem);
 }
 
-//  ---------------- Arc ----------------
+/*  ---------------- Arc ---------------- */
 void
 mr60 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 	mr_arc (input, pg, canvas, 0);
 }
 
-//  ----------------- Pie -----------------
+/*  ----------------- Pie ----------------- */
 void
 mr61 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 	mr_arc (input, pg, canvas, 2);
 }
 
-//  ---------------- Chord ------------------
+/*  ---------------- Chord ------------------ */
 void
 mr62 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1572,16 +1572,16 @@ mr62 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr63 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("BitBLT ");
+/*	g_print("BitBLT ");*/
 }
 
 void
 mr64 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("DIBBitBLT ");
+/*	g_print("DIBBitBLT ");*/
 }
 
-// ----------------- ExtTextOut ----------------
+/* ----------------- ExtTextOut ---------------- */
 void
 mr65 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1589,7 +1589,7 @@ mr65 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	char *txt;
 	double x, y;
 	int len, flag;
-	GtkAnchorType anchor = GTK_ANCHOR_SOUTH_WEST;
+	GOAnchorType anchor = GO_ANCHOR_SOUTH_WEST;
 
 	set_anchor (pg, &anchor);
 	set_align (input, pg, &x, &y);
@@ -1606,23 +1606,23 @@ mr65 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr66 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("StretchBlt ");
+/*	g_print("StretchBlt ");*/
 }
 
-// ----------------- DIBStretchBlt -----------------------
+/* ----------------- DIBStretchBlt ----------------------- */
 void
 mr67 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-
+/*	g_print("DIBStretchBlt ");*/
 }
 
 void
 mr68 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("SetDIBtoDEV ");
+/*	g_print("SetDIBtoDEV ");*/
 }
 
-// ---------------- StretchDIB --------------------
+/* ---------------- StretchDIB -------------------- */
 void
 mr69 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
@@ -1817,7 +1817,7 @@ init_esc (void)
 		0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0025, 0x0026, 0x002A, 0x0100, 0x0102,
 		0x0200, 0x0201, 0x0202, 0x0801, 0x0C01, 0x1000, 0x1001, 0x1002, 0x100E, 0x100F,
 		0x1010, 0x1013, 0x1014, 0x1015, 0x1016, 0x1017, 0x1018, 0x1019, 0x101A, 0x11D8};
-		
+
 	escrecords = g_hash_table_new (g_direct_hash, g_direct_equal);
 	for (i = 0; i < 60; i++)
 		g_hash_table_insert (escrecords, GINT_TO_POINTER (escid[i]), GINT_TO_POINTER (escarray[i]));
@@ -1835,7 +1835,7 @@ static void
 my_test (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 {
 	double ppu=1.;
-	
+
 	ppu = goc_canvas_get_pixels_per_unit (canvas);
 	if (1 == event->button) {
 		ppu = ppu / 1.5;
@@ -1874,9 +1874,9 @@ open_file (char const *filename, GtkWidget *nbook)
 		return;
 	}
 
-	canvas =g_object_new (GOC_TYPE_CANVAS, NULL);
+	canvas = g_object_new (GOC_TYPE_CANVAS, NULL);
 	doc = g_object_new (GO_TYPE_DOC, NULL);
-	goc_canvas_set_document (canvas, doc); 
+	goc_canvas_set_document (canvas, doc);
 	g_signal_connect_swapped (canvas, "button-press-event", G_CALLBACK (my_test), canvas);
 
 	window = gtk_scrolled_window_new (NULL, NULL);
@@ -1925,7 +1925,7 @@ on_open (GtkMenuItem *menuitem, GtkWidget *nbook)
 int
 main (int argc, char *argv[])
 {
-	GtkWidget *window, *file_menu, *menu_bar, *file_item, *open_item, *close_item, *quit_item, *box, *nbook;
+	GtkWidget *window, *file_menu, *menu_bar, *file_item, *open_item, *close_item, *quit_item, *grid, *nbook;
 
 	gtk_init (&argc, &argv);
 	gsf_init ();
@@ -1936,9 +1936,11 @@ main (int argc, char *argv[])
 	gtk_window_set_title (GTK_WINDOW (window), "MF demo");
 	g_signal_connect (window, "destroy", gtk_main_quit, NULL);
 
-	box = gtk_vbox_new (FALSE, 0);
+	grid = gtk_grid_new ();
+	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
 	menu_bar = gtk_menu_bar_new ();
 	nbook = gtk_notebook_new ();
+	g_object_set (G_OBJECT (nbook), "expand", TRUE, "margin", 2, NULL);
 
 	file_menu = gtk_menu_new();
 	file_item = gtk_menu_item_new_with_label ("File");
@@ -1955,11 +1957,11 @@ main (int argc, char *argv[])
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (file_item), file_menu);
 
-	gtk_menu_bar_append(GTK_MENU_BAR (menu_bar), file_item );
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), file_item );
 
-	gtk_box_pack_start (GTK_BOX (box), menu_bar, FALSE, FALSE, 2);
-	gtk_box_pack_start (GTK_BOX (box), nbook, TRUE, TRUE, 2);
-	gtk_container_add (GTK_CONTAINER (window), box);
+	gtk_container_add (GTK_CONTAINER (grid), menu_bar);
+	gtk_container_add (GTK_CONTAINER (grid), nbook);
+	gtk_container_add (GTK_CONTAINER (window), grid);
 	gtk_widget_show_all (GTK_WIDGET (window));
 
 	if (argc > 1)

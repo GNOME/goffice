@@ -253,13 +253,13 @@ gog_histogram_plot_set_property (GObject *obj, guint param_id,
 			/* force axis bounds reevaluation */
 			model->x.minima = model->y.minima = G_MAXDOUBLE;
 			gog_object_request_update (GOG_OBJECT (model));
-		}	
+		}
 		break;
 	case HISTOGRAM_PROP_CUMULATIVE:
 		if (g_value_get_boolean (value) != model->cumulative) {
 			model->cumulative = !model->cumulative;
 			gog_object_request_update (GOG_OBJECT (model));
-		}	
+		}
 		break;
 	case HISTOGRAM_PROP_BEFORE_GRID:
 		GOG_PLOT (obj)->rendering_order = (g_value_get_boolean (value))?
@@ -284,7 +284,7 @@ vertical_changed_cb (GtkToggleButton *btn, GogHistogramPlot *model)
 		gog_object_request_update (GOG_OBJECT (model));
 		/* force axis bounds reevaluation */
 		model->x.minima = model->y.minima = G_MAXDOUBLE;
-	}	
+	}
 }
 
 static void
@@ -293,7 +293,7 @@ cumulative_changed_cb (GtkToggleButton *btn, GogHistogramPlot *model)
 	if (gtk_toggle_button_get_active (btn) != model->cumulative) {
 		model->cumulative = !model->cumulative;
 		gog_object_request_update (GOG_OBJECT (model));
-	}	
+	}
 }
 
 static void
@@ -361,15 +361,15 @@ gog_histogram_plot_class_init (GogPlotClass *gog_plot_klass)
 	gobject_klass->set_property = gog_histogram_plot_set_property;
 
 	g_object_class_install_property (gobject_klass, HISTOGRAM_PROP_VERTICAL,
-		g_param_spec_boolean ("vertical", 
+		g_param_spec_boolean ("vertical",
 			_("Vertical"),
-			_("Draw the histogram vertically or horizontally"), 
+			_("Draw the histogram vertically or horizontally"),
 			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, HISTOGRAM_PROP_CUMULATIVE,
-		g_param_spec_boolean ("cumulative", 
+		g_param_spec_boolean ("cumulative",
 			_("Cumulative"),
-			_("Use cumulated data"), 
+			_("Use cumulated data"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, HISTOGRAM_PROP_BEFORE_GRID,
@@ -760,35 +760,35 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 					alloc.x = area->x + 2; /* FIXME: replace 2 by something configurable */
 					alloc.y = area->y + 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GTK_ANCHOR_NORTH_WEST, FALSE);
+							        GO_ANCHOR_NORTH_WEST, FALSE);
 					text = (text2)? text2: _("Second values");
 					alloc.y = area->y + area->h - 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GTK_ANCHOR_SOUTH_WEST, FALSE);
+							        GO_ANCHOR_SOUTH_WEST, FALSE);
 				} else {
 					alloc.x = area->x + area->w - 2; /* FIXME: replace 2 by something configurable */
 					alloc.y = area->y + area->h - 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GTK_ANCHOR_SOUTH_EAST, FALSE);
+							        GO_ANCHOR_SOUTH_EAST, FALSE);
 					text = (text2)? text2: _("Second values");
 					alloc.x = area->x + 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GTK_ANCHOR_SOUTH_WEST, FALSE);
+							        GO_ANCHOR_SOUTH_WEST, FALSE);
 				}
 			} else {
 				alloc.x = area->x + area->w - 2; /* FIXME: replace 2 by something configurable */
 				alloc.y = area->y + 2;
 				gog_renderer_draw_text (view->renderer, text, &alloc,
-					                GTK_ANCHOR_NORTH_EAST, FALSE);
+					                GO_ANCHOR_NORTH_EAST, FALSE);
 				text = (text2)? text2: _("Second values");
 				if (model->vertical) {
 					alloc.y = area->y + area->h - 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GTK_ANCHOR_SOUTH_EAST, FALSE);
+							        GO_ANCHOR_SOUTH_EAST, FALSE);
 				} else {
 					alloc.x = area->x + 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GTK_ANCHOR_NORTH_WEST, FALSE);
+							        GO_ANCHOR_NORTH_WEST, FALSE);
 				}
 			}
 			g_free (text1);

@@ -33,7 +33,6 @@
 
 #include <goffice/goffice-config.h>
 #include "go-optionmenu.h"
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
@@ -132,7 +131,7 @@ go_option_menu_position (GtkMenu  *menu,
 
 	widget = GTK_WIDGET (option_menu);
 
-	gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
+	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &requisition, NULL);
 	menu_width = requisition.width;
 
 	gdk_window_get_origin (gtk_widget_get_window (widget), &menu_xpos, &menu_ypos);
@@ -147,13 +146,13 @@ go_option_menu_position (GtkMenu  *menu,
 
 		if (GTK_IS_CHECK_MENU_ITEM (child) &&
 		    gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (child))) {
-			gtk_widget_get_child_requisition (child, &requisition);
+			gtk_widget_get_preferred_size (child, &requisition, NULL);
 			menu_ypos -= requisition.height / 2;
 			break;
 		}
 
 		if (gtk_widget_get_visible (child)) {
-			gtk_widget_get_child_requisition (child, &requisition);
+			gtk_widget_get_preferred_size (child, &requisition, NULL);
 			menu_ypos -= requisition.height;
 		}
 
@@ -202,8 +201,8 @@ go_option_menu_key_press (GtkWidget   *widget,
 	GOOptionMenu *option_menu = GO_OPTION_MENU (widget);
 
 	switch (event->keyval) {
-	case GDK_KP_Space:
-	case GDK_space:
+	case GDK_KEY_KP_Space:
+	case GDK_KEY_space:
 		gtk_menu_popup (GTK_MENU (option_menu->menu), NULL, NULL,
 				go_option_menu_position, option_menu,
 				0, event->time);
@@ -213,12 +212,21 @@ go_option_menu_key_press (GtkWidget   *widget,
 	return FALSE;
 }
 
-
 static void
 cb_select (GtkMenuItem *item, GOOptionMenu *option_menu)
 {
 	go_option_menu_select_item (option_menu, item);
 	g_signal_emit (option_menu, signals[CHANGED], 0);
+	option_menu->active = TRUE;
+}
+
+
+static void
+cb_unselect (GtkMenuItem *item, GOOptionMenu *option_menu)
+{
+	go_option_menu_select_item (option_menu, item);
+	g_signal_emit (option_menu, signals[CHANGED], 0);
+	option_menu->active = FALSE;
 }
 
 static void
@@ -238,14 +246,19 @@ handle_menu_signals (GOOptionMenu *option_menu, gboolean connect)
 			if (sub)
 				children = g_list_concat (children,
 							  gtk_container_get_children (GTK_CONTAINER (sub)));
-			else if (connect)
+			else if (connect) {
 				g_signal_connect (child, "activate",
 						  G_CALLBACK (cb_select),
 						  option_menu);
-
-			else
+				g_signal_connect (child, "deactivate",
+						  G_CALLBACK (cb_unselect),
+						  option_menu);
+			} else {
 				g_signal_handlers_disconnect_by_func
 					(child, G_CALLBACK (cb_select), option_menu);
+				g_signal_handlers_disconnect_by_func
+					(child, G_CALLBACK (cb_unselect), option_menu);
+			}
 
 		}
 	}
@@ -265,7 +278,7 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 		return;
 
 	if (option_menu->menu) {
-		if (gtk_menu_shell_get_active (option_menu->menu))
+		if (option_menu->active)
 			gtk_menu_shell_cancel (option_menu->menu);
 
 		handle_menu_signals (option_menu, FALSE);
@@ -275,6 +288,7 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 	}
 
 	option_menu->menu = shell;
+	option_menu->active = FALSE;
 
 	if (shell) {
 		g_object_ref (shell);
@@ -370,13 +384,13 @@ go_option_menu_get_property (GObject            *object,
 }
 
 static void
-go_option_menu_destroy (GtkObject *object)
+go_option_menu_destroy (GtkWidget *widget)
 {
 	GOOptionMenu *option_menu;
 
-	g_return_if_fail (GO_IS_OPTION_MENU (object));
+	g_return_if_fail (GO_IS_OPTION_MENU (widget));
 
-	option_menu = GO_OPTION_MENU (object);
+	option_menu = GO_OPTION_MENU (widget);
 
 	if (option_menu->menu) {
 		gtk_widget_destroy (GTK_WIDGET (option_menu->menu));
@@ -385,14 +399,13 @@ go_option_menu_destroy (GtkObject *object)
 	}
 	option_menu->selected = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	GTK_WIDGET_CLASS (parent_class)->destroy (widget);
 }
 
 static void
 go_option_menu_class_init (GOOptionMenuClass *class)
 {
 	GObjectClass *gobject_class = (GObjectClass*) class;
-	GtkObjectClass *object_class = (GtkObjectClass*) class;
 	GtkWidgetClass *widget_class = (GtkWidgetClass*) class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -408,7 +421,7 @@ go_option_menu_class_init (GOOptionMenuClass *class)
 
 	gobject_class->set_property = go_option_menu_set_property;
 	gobject_class->get_property = go_option_menu_get_property;
-	object_class->destroy = go_option_menu_destroy;
+	widget_class->destroy = go_option_menu_destroy;
 	widget_class->button_press_event = go_option_menu_button_press;
 	widget_class->key_press_event = go_option_menu_key_press;
 
@@ -431,7 +444,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	gtk_widget_set_can_default (GTK_WIDGET (option_menu), FALSE);
 	gtk_widget_set_receives_default (GTK_WIDGET (option_menu), FALSE);
 
-	box = GTK_BOX (gtk_hbox_new (FALSE, FALSE));
+	box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0));
 
 	option_menu->menu = NULL;
 	option_menu->selected = NULL;
@@ -444,7 +457,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	g_object_set (arrow, "xalign", 0.75, NULL);
 	gtk_box_pack_end (box, arrow, FALSE, FALSE, 0);
 
-	sep = gtk_vseparator_new ();
+	sep = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
 	gtk_box_pack_end (box, sep, FALSE, FALSE, 0);
 
 	gtk_container_add (GTK_CONTAINER (option_menu), GTK_WIDGET (box));

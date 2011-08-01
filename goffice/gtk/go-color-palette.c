@@ -29,7 +29,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 #include <goffice/utils/go-marshalers.h>
 
 #include <gdk/gdkkeysyms.h>
@@ -40,7 +39,7 @@
 #include <string.h>
 
 struct _GOColorPalette {
-	GtkVBox	base;
+	GtkBox	base;
 
 	GOColorGroup *group;
 	GOColor	      selection, default_color;
@@ -56,7 +55,7 @@ struct _GOColorPalette {
 };
 
 typedef struct {
-	GtkVBoxClass base;
+	GtkBoxClass base;
 
 	/* Signals emited by this widget */
 	void (*color_changed) (GOColorPalette *pal, GOColor color,
@@ -154,15 +153,13 @@ create_color_sel (GObject *action_proxy, GOColor c, GCallback handler, gboolean 
 	GtkWidget *w = gtk_color_selection_dialog_new (title), *hb;
 	GtkColorSelectionDialog *dialog = GTK_COLOR_SELECTION_DIALOG (w);
 	GtkColorSelection *colorsel = GTK_COLOR_SELECTION (gtk_color_selection_dialog_get_color_selection (dialog));
-	GdkColor gdk;
+	GdkRGBA gdk;
 
 	g_object_get (G_OBJECT (w), "help-button", &hb, NULL);
 	gtk_widget_hide (hb);
-	gtk_color_selection_set_current_color (colorsel,
-		go_color_to_gdk (c, &gdk));
 	gtk_color_selection_set_has_opacity_control (colorsel, allow_alpha);
-	if (allow_alpha)
-		gtk_color_selection_set_current_alpha (colorsel, GO_COLOR_UINT_A(c) * 257);
+	gtk_color_selection_set_current_rgba (colorsel,
+		go_color_to_gdk_rgba (c, &gdk));
 
 	g_signal_connect_object (dialog,
 		"response", handler, action_proxy, 0);
@@ -176,14 +173,11 @@ handle_color_sel (GtkColorSelectionDialog *dialog,
 		  gint response_id, GOColor *res)
 {
 	if (response_id == GTK_RESPONSE_OK) {
-		GdkColor gdk;
+		GdkRGBA gdk;
 		GtkColorSelection *colorsel = GTK_COLOR_SELECTION (gtk_color_selection_dialog_get_color_selection (dialog));
-		guint16 alpha = gtk_color_selection_get_current_alpha (colorsel);
 
-		gtk_color_selection_get_current_color (colorsel, &gdk);
-		*res = GO_COLOR_FROM_GDK (gdk);
-		alpha >>= 8;
-		*res = GO_COLOR_CHANGE_A (*res, alpha);
+		gtk_color_selection_get_current_rgba (colorsel, &gdk);
+		*res = GO_COLOR_FROM_GDK_RGBA (gdk);
 	}
 	/* destroy _before_ we emit */
 	gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -226,9 +220,15 @@ go_color_palette_class_init (GObjectClass *gobject_class)
 			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
 }
 
+static void
+go_color_palette_init (GObject *obj)
+{
+	g_object_set (obj, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+}
+
 GSF_CLASS (GOColorPalette, go_color_palette,
-	   go_color_palette_class_init, NULL,
-	   GTK_TYPE_VBOX)
+	   go_color_palette_class_init, go_color_palette_init,
+	   GTK_TYPE_BOX)
 
 /*
  * Find out if a color is in the default palette (not in the custom colors!)
@@ -265,12 +265,12 @@ static void
 cb_history_changed (GOColorPalette *pal)
 {
 	int i;
-	GdkColor gdk;
+	GdkRGBA gdk;
 	GOColorGroup *group = pal->group;
 
 	for (i = 0 ; i < GO_COLOR_GROUP_HISTORY_SIZE ; i++)
-		gtk_widget_modify_bg (pal->swatches [i], GTK_STATE_NORMAL,
-			go_color_to_gdk (group->history[i], &gdk));
+		gtk_widget_override_background_color (pal->swatches [i], GTK_STATE_NORMAL,
+			go_color_to_gdk_rgba (group->history[i], &gdk));
 #if 0
 	if (next_swatch != NULL) {
 		next_swatch->style->bg[GTK_STATE_NORMAL] = *new_color;
@@ -292,14 +292,16 @@ swatch_activated (GOColorPalette *pal, GtkBin *button)
 {
 	GList *tmp = gtk_container_get_children (GTK_CONTAINER (gtk_bin_get_child (button)));
 	GtkWidget *swatch = (tmp != NULL) ? tmp->data : NULL;
-	GtkStyle *style;
+	GtkStyleContext *style_ctx;
+	GdkRGBA rgba;
 
 	g_list_free (tmp);
 
 	g_return_if_fail (swatch != NULL);
 
-	style = gtk_widget_get_style (swatch);
-	set_color (pal, GO_COLOR_FROM_GDK (style->bg[GTK_STATE_NORMAL]),
+	style_ctx = gtk_widget_get_style_context (swatch);
+	gtk_style_context_get_background_color (style_ctx, GTK_STATE_NORMAL, &rgba);
+	set_color (pal, GO_COLOR_FROM_GDK_RGBA (rgba),
 		   FALSE, TRUE, FALSE);
 }
 
@@ -314,9 +316,9 @@ cb_swatch_release_event (GtkBin *button, GdkEventButton *event, GOColorPalette *
 static gboolean
 cb_swatch_key_press (GtkBin *button, GdkEventKey *event, GOColorPalette *pal)
 {
-	if (event->keyval == GDK_Return ||
-	    event->keyval == GDK_KP_Enter ||
-	    event->keyval == GDK_space) {
+	if (event->keyval == GDK_KEY_Return ||
+	    event->keyval == GDK_KEY_KP_Enter ||
+	    event->keyval == GDK_KEY_space) {
 		swatch_activated (pal, button);
 		return TRUE;
 	} else
@@ -334,22 +336,22 @@ go_color_palette_button_new (GOColorPalette *pal, GtkTable* table,
 			     gint col, gint row)
 {
         GtkWidget *button, *swatch, *box;
-	GdkColor   gdk;
+	GdkRGBA   gdk;
 
 	swatch = gtk_drawing_area_new ();
-	gtk_widget_modify_bg (swatch, GTK_STATE_NORMAL,
-		go_color_to_gdk (color_name->color, &gdk));
+	gtk_widget_override_background_color (swatch, GTK_STATE_NORMAL,
+		go_color_to_gdk_rgba (color_name->color, &gdk));
 	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 
 	/* Wrap inside a vbox with a border so that we can see the focus indicator */
-	box = gtk_vbox_new (FALSE, 0);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 2);
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (swatch), TRUE, TRUE, 0);
 
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_container_add (GTK_CONTAINER (button), box);
-	go_widget_set_tooltip_text (button, _(color_name->name));
+	gtk_widget_set_tooltip_text (button, _(color_name->name));
 
 	gtk_table_attach (table, button, col, col+1, row, row+1,
 		GTK_FILL, GTK_FILL, 0, 0);

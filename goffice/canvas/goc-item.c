@@ -22,7 +22,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -414,7 +413,7 @@ goc_item_draw (GocItem const *item, cairo_t *cr)
  * @y0: the lowest vertical bound of the region to draw
  * @x1: the highest horizontal bound of the region to draw
  * @y1: the highest vertical bound of the region to draw
- * 
+ *
  * Renders @item using @cr, limiting all drawings to the region limited by
  * @x0, @y0, @x1, and @y1. If this function returns %FALSE, #goc_item_draw
  * should be called. There is no need to call this function directly.

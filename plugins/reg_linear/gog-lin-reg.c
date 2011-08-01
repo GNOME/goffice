@@ -157,7 +157,7 @@ gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 	g_object_get (G_OBJECT (table), "n-rows", &rows, "n-columns", &columns, NULL);
 	gtk_table_resize (table, rows + 1, columns);
 	w = gtk_check_button_new_with_label (_("Affine"));
-	go_widget_set_tooltip_text (w, _("Uncheck to force zero intercept"));
+	gtk_widget_set_tooltip_text (w, _("Uncheck to force zero intercept"));
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 0, columns, rows, rows + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), lin->affine);

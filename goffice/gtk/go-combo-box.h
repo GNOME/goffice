@@ -38,12 +38,12 @@ typedef struct _GOComboBoxPrivate GOComboBoxPrivate;
 typedef struct _GOComboBoxClass   GOComboBoxClass;
 
 struct _GOComboBox {
-	GtkHBox hbox;
+	GtkBox hbox;
 	GOComboBoxPrivate *priv;
 };
 
 struct _GOComboBoxClass {
-	GtkHBoxClass	base;
+	GtkBoxClass	base;
 
 	/* virtual */
 	void  (*set_title) (GOComboBox *cbox, char const *title);

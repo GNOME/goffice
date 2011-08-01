@@ -53,7 +53,7 @@ enum {
 	ARC_TYPE_CHORD,
 	ARC_TYPE_PIE
 };
-	
+
 static void
 goc_arc_set_property (GObject *gobject, guint param_id,
 				    GValue const *value, GParamSpec *pspec)
@@ -145,7 +145,7 @@ goc_arc_get_property (GObject *gobject, guint param_id,
 	case ARC_PROP_TYPE:
 		g_value_set_int (value, arc->type);
 		break;
-		
+
 	case ARC_PROP_START_ARROW:
 		g_value_set_boxed (value, &arc->start_arrow);
 		break;
@@ -165,11 +165,11 @@ goc_arc_start (GocItem const *item, double *x, double *y, double *phi)
 	GocArc *arc = GOC_ARC (item);
 	double x1, y1, s;
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-	
+
 	x1 = arc->xr * cos (atan2 (arc->xr / arc->yr * sin (arc->ang1), cos (arc->ang1)));
 	y1 = arc->yr * sin (atan2 (arc->xr / arc->yr * sin (arc->ang1), cos (arc->ang1)));
 	s = sqrt (x1 * x1 + y1 * y1);
-	
+
 	(*x) = arc->xc + s * cos (arc->ang1 - arc->rotation) * sign;
 	(*y) = arc->yc - s * sin (arc->ang1 - arc->rotation);
 	(*phi) = atan2 (arc->yr * arc->yr * x1, arc->xr * arc->xr * y1) + arc->rotation;
@@ -184,7 +184,7 @@ goc_arc_end (GocItem const *item, double *x, double *y, double *phi)
 	GocArc *arc = GOC_ARC (item);
 	double x1, y1, s;
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-	
+
 	x1 = arc->xr * cos (atan2 (arc->xr / arc->yr * sin (arc->ang2), cos (arc->ang2)));
 	y1 = arc->yr * sin (atan2 (arc->xr / arc->yr * sin (arc->ang2), cos (arc->ang2)));
 	s = sqrt (x1 * x1 + y1 * y1);
@@ -208,7 +208,7 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 	double rsign = sign;
 
 	w = style->line.width? style->line.width / 2.0: 0.5;
-	
+
 	if (0 == end) {
 		arrow = arc->start_arrow;
 		goc_arc_start (item, &x, &y, &phi);
@@ -216,7 +216,7 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 		arrow = arc->end_arrow;
 		goc_arc_end (item, &x, &y, &phi);
 	}
-	
+
 	cairo_save (cr);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, arc->xc, arc->yc);
@@ -225,7 +225,7 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 		cairo_translate (cr, arc->xc, arc->yc);
 		rsign = 1;
 	}
-	
+
 	switch (arrow.typ) {
 	case GO_ARROW_KITE:
 		cairo_save (cr);
@@ -244,7 +244,7 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 		cairo_close_path (cr);
 		cairo_restore (cr);
 		break;
-		
+
 	case GO_ARROW_OVAL:
 		cairo_save (cr);
 		cairo_translate (cr, (x - arc->xc) * sign, y - arc->yc);
@@ -259,9 +259,9 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 	default:
 		g_assert_not_reached ();
 	}
-	
+
 	cairo_restore (cr);
-	
+
 }
 
 static gboolean
@@ -374,7 +374,7 @@ static void
 goc_arc_draw (GocItem const *item, cairo_t *cr)
 {
 	GocArc *arc = GOC_ARC (item);
-	
+
 
 	cairo_save(cr);
 
@@ -480,7 +480,7 @@ goc_arc_class_init (GocItemClass *item_klass)
 			_("The type of arc: arc, chord or pie"),
 			0, 2, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-			
+
 	g_object_class_install_property (obj_klass, ARC_PROP_START_ARROW,
 		g_param_spec_boxed ("start-arrow",
 			_("Start Arrow"),

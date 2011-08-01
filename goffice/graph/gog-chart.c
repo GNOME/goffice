@@ -717,10 +717,10 @@ static void
 gog_chart_init (GogChart *chart)
 {
 	chart->x_pos =
-	chart->y_pos = 
-	chart->cols  = 		
+	chart->y_pos =
+	chart->cols  =
 	chart->rows  =
-	chart->x_pos_actual = 
+	chart->x_pos_actual =
 	chart->y_pos_actual = 0;
 
 	/* start as true so that we can queue an update when it changes */

@@ -67,6 +67,7 @@ static char const *libgoffice_data_dir   = GOFFICE_DATADIR;
 static char const *libgoffice_icon_dir   = GOFFICE_ICONDIR;
 static char const *libgoffice_locale_dir = GOFFICE_LOCALEDIR;
 static char const *libgoffice_lib_dir    = GOFFICE_LIBDIR;
+static char const *libgoffice_extern_plugin_dir = GOFFICE_EXTERNPLUGINDIR;
 
 /**
  * SECTION: goffice
@@ -123,6 +124,12 @@ gchar const *
 go_sys_lib_dir (void)
 {
 	return libgoffice_lib_dir;
+}
+
+gchar const *
+go_sys_extern_plugin_dir (void)
+{
+	return libgoffice_extern_plugin_dir;
 }
 
 

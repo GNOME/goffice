@@ -194,7 +194,7 @@ gog_plot_populate_editor (GogObject *obj,
 	GtkCellRenderer *cell;
 
 	g_return_if_fail (chart != NULL);
-	
+
 	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_XY) {
 		GtkWidget *combo;
 		GtkWidget *table = gtk_table_new (0, 1, FALSE);

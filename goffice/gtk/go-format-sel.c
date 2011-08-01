@@ -22,7 +22,6 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 #include <goffice/utils/go-marshalers.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -100,7 +99,7 @@ typedef enum {
 } FormatWidget;
 
 struct  _GOFormatSel {
-	GtkHBox   box;
+	GtkBox   box;
 	GtkBuilder *gui;
 
 	gpointer  value;
@@ -142,7 +141,7 @@ struct  _GOFormatSel {
 };
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	gboolean  (*format_changed)   (GOFormatSel *gfs, char const *fmt);
 	char     *(*generate_preview) (GOFormatSel *gfs, char *fmt);
@@ -851,8 +850,8 @@ study_format (GOFormat const *fmt, GOFormatDetails *details)
 		const char *str = go_format_as_XL (fmt);
 		if (!find_builtin (str, details->family, FALSE))
 			details->family = FMT_CUSTOM;
-	}	
-	
+	}
+
 	return details->family;
 }
 
@@ -992,7 +991,7 @@ nfs_init (GOFormatSel *gfs)
 		/* request width in number of chars */
 		context = gtk_widget_get_pango_context (w);
 		metrics = pango_context_get_metrics (context,
-						     gtk_widget_get_style(w)->font_desc,
+						     gtk_style_context_get_font (gtk_widget_get_style_context (w), GTK_STATE_NORMAL),
 						     pango_context_get_language (context));
 		char_width = pango_font_metrics_get_approximate_char_width (metrics);
 		gtk_widget_set_size_request (w, PANGO_PIXELS (char_width) * FORMAT_PREVIEW_MAX, -1);
@@ -1159,7 +1158,7 @@ go_format_sel_finalize (GObject *obj)
 		gfs->gui = NULL;
 	}
 
-	G_OBJECT_CLASS (g_type_class_peek (GTK_TYPE_HBOX))->finalize (obj);
+	G_OBJECT_CLASS (g_type_class_peek (GTK_TYPE_BOX))->finalize (obj);
 }
 
 static gboolean
@@ -1201,7 +1200,7 @@ nfs_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (GOFormatSel, go_format_sel,
-	   nfs_class_init, nfs_init, GTK_TYPE_HBOX)
+	   nfs_class_init, nfs_init, GTK_TYPE_BOX)
 
 /**
  * go_format_sel_new_full:

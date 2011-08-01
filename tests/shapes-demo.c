@@ -19,7 +19,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <goffice/gtk/go-gtk-compat.h>
 #include <goffice/goffice.h>
 
 
@@ -32,9 +31,9 @@ open_file (GocCanvas* canvas, char* filename)
 	FILE	*fd;
 	char	*s;
 	size_t	n = 64;
-	
+
 	s = (char *) malloc (n + 1);
-	
+
 	if (NULL == (fd = fopen (filename, "r"))) {
 		g_print ("The file can't be opened!\n");
 		return;
@@ -76,12 +75,12 @@ my_test (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 	double x,y;
 	GOStyle *style;
 	double ppu=1.;
-	
+
 	g_print ("# %.0f %.0f Button: %d. ", event->x, event->y, event->button);
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return;
-		
+
 	x = (canvas->direction == GOC_DIRECTION_RTL)?
 		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
 		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
@@ -121,7 +120,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 	int		cmd = -1;
 	GocPoints *points;
 	GocIntArray *array;
-	
+
 	/* check for "comment" */
 	if (g_str_has_prefix (entry, "#"))
 		return;
@@ -320,7 +319,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 		} else {
 			on_open (canvas);
 		}
-		
+
 		break;
 	default:
 		break;
@@ -336,7 +335,7 @@ enter_callback (GocCanvas* canvas, GtkWidget *entry, G_GNUC_UNUSED gpointer data
 {
 	char *entry_text;
 	const gchar *clean = "";
-			
+
 	entry_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	if (0 != gtk_entry_get_text_length (GTK_ENTRY (entry))) {
 		g_print ("%s\n", entry_text);
@@ -349,7 +348,7 @@ enter_callback (GocCanvas* canvas, GtkWidget *entry, G_GNUC_UNUSED gpointer data
 int
 main (int argc, char *argv[])
 {
-	GtkWidget *window, *box, *hbox, *widget;
+	GtkWidget *window, *grid, *widget;
 	GocCanvas *canvas;
 
 
@@ -363,23 +362,23 @@ main (int argc, char *argv[])
 	gtk_window_set_title (GTK_WINDOW (window), "shapes demo");
 	g_signal_connect (window, "destroy", gtk_main_quit, NULL);
 
-	box = gtk_vbox_new (FALSE, 0);
-	hbox = gtk_hbox_new (FALSE, 0);
-	canvas =g_object_new (GOC_TYPE_CANVAS, NULL);
+	grid = gtk_grid_new ();
+	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+	canvas = g_object_new (GOC_TYPE_CANVAS, "expand", TRUE, NULL);
 	g_signal_connect_swapped (canvas, "button-press-event", G_CALLBACK (my_test), canvas);
-	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(canvas), TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET(canvas));
 
-	widget = gtk_hseparator_new ();
-	gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
+	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_container_add (GTK_CONTAINER (grid), widget);
 
 
 	widget = gtk_entry_new ();
 	gtk_entry_set_max_length (GTK_ENTRY (widget), 80);
 	g_signal_connect_swapped (G_OBJECT (widget), "activate", G_CALLBACK (enter_callback), canvas);
 
-	gtk_box_pack_end (GTK_BOX (box), widget, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (grid), widget);
 
-	gtk_container_add (GTK_CONTAINER (window), box);
+	gtk_container_add (GTK_CONTAINER (window), grid);
 	gtk_widget_show_all (GTK_WIDGET (window));
 	if (argc > 1)
 		open_file (canvas, *(argv+1));

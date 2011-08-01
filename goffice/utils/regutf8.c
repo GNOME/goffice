@@ -7,9 +7,6 @@
 
 #include <goffice/goffice-config.h>
 #include "regutf8.h"
-#ifndef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
-#include <pcre.h>
-#endif
 #include "go-glib-extras.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -21,11 +18,7 @@ void
 go_regfree (GORegexp *gor)
 {
 	if (gor->ppcre) {
-#ifdef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
 		g_regex_unref (gor->ppcre);
-#else
-		pcre_free (gor->ppcre);
-#endif
 		gor->ppcre = NULL;
 	}
 }
@@ -70,7 +63,6 @@ go_regerror (int errcode, const GORegexp *gor, char *dst, size_t dstsize)
 int
 go_regcomp (GORegexp *gor, const char *pat, int cflags)
 {
-#ifdef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
 	GError *error = NULL;
 	GRegex *r;
 	int coptions =
@@ -119,47 +111,6 @@ go_regcomp (GORegexp *gor, const char *pat, int cflags)
 		gor->nosub = (cflags & GO_REG_NOSUB) != 0;
 		return 0;
 	}
-#else
-	const char *errorptr;
-	int errorofs, errorcode;
-	pcre *r;
-	int coptions =
-		PCRE_UTF8 |
-		PCRE_NO_UTF8_CHECK |
-		((cflags & GO_REG_ICASE) ? PCRE_CASELESS : 0) |
-		((cflags & GO_REG_NEWLINE) ? PCRE_MULTILINE : 0);
-
-	if (&pcre_compile2 == NULL) {
-		g_error ("libgoffice has been dynamically linked against a libpcre\n"
-				"that lacks the pcre_compile2 function.  This indicates a\n"
-				"distribution dependency problem.  Please report this at\n"
-				"bugzilla.gnome.org and for you distribution.");
-	}
-
-	gor->ppcre = r = pcre_compile2 (pat, coptions,
-			&errorcode, &errorptr, &errorofs,
-			NULL);
-
-	if (r == NULL) {
-		switch (errorcode) {
-		case 1: case 2: case 3: case 37: return GO_REG_EESCAPE;
-		case 4: case 5: return GO_REG_EBRACE;
-		case 6: return GO_REG_EBRACK;
-		case 7: case 30: return GO_REG_ECTYPE;
-		case 8: return GO_REG_ERANGE;
-		case 9: case 10: return GO_REG_BADRPT;
-		case 14: case 18: case 22: return GO_REG_EPAREN;
-		case 15: return GO_REG_ESUBREG;
-		case 19: case 20: return GO_REG_ESIZE;
-		case 21: return GO_REG_ESPACE;
-		default: return GO_REG_BADPAT;
-		}
-	} else {
-		gor->re_nsub = pcre_info (r, NULL, NULL);
-		gor->nosub = (cflags & GO_REG_NOSUB) != 0;
-		return 0;
-	}
-#endif
 	return 0;
 }
 
@@ -167,7 +118,6 @@ int
 go_regexec (const GORegexp *gor, const char *txt,
 	    size_t nmatch, GORegmatch *pmatch, int eflags)
 {
-#ifdef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
 	int eoptions =
 		((eflags & GO_REG_NOTBOL) ? G_REGEX_MATCH_NOTBOL : 0) |
 		((eflags & GO_REG_NOTEOL) ? G_REGEX_MATCH_NOTEOL : 0);
@@ -196,62 +146,6 @@ go_regexec (const GORegexp *gor, const char *txt,
 		g_match_info_free (match_info);
 
 	return matched ? GO_REG_NOERROR : GO_REG_NOMATCH;
-#else
-	size_t txtlen = strlen (txt);
-	int eoptions =
-		((eflags & GO_REG_NOTBOL) ? PCRE_NOTBOL : 0) |
-		((eflags & GO_REG_NOTEOL) ? PCRE_NOTEOL : 0);
-	int res;
-	int *offsets, *allocated;
-	int offsetcount;
-	if (gor->nosub)
-		nmatch = 0;
-
-	if (nmatch > 0) {
-		/* Paranoia.  */
-		if (nmatch >= G_MAXINT / sizeof (int) / 3)
-			return GO_REG_ESPACE;
-
-		offsetcount = nmatch * 3;
-		offsets = allocated = g_try_new (int, offsetcount);
-		if (!offsets)
-			return GO_REG_ESPACE;
-	} else {
-		offsets = allocated = NULL;
-		offsetcount = 0;
-	}
-
-	res = pcre_exec (gor->ppcre, NULL, txt, txtlen, 0, eoptions,
-			offsets, offsetcount);
-	if (res >= 0) {
-		int i;
-
-		if (res == 0) res = nmatch;
-
-		for (i = 0; i < res; i++) {
-			pmatch[i].rm_so = offsets[i * 2];
-			pmatch[i].rm_eo = offsets[i * 2 + 1];
-		}
-		for (; i < (int)nmatch; i++) {
-			pmatch[i].rm_so = -1;
-			pmatch[i].rm_eo = -1;
-		}
-		g_free (allocated);
-		return GO_REG_NOERROR;
-	}
-
-	g_free (allocated);
-	switch (res) {
-	case PCRE_ERROR_NOMATCH:
-		return GO_REG_NOMATCH;
-	case PCRE_ERROR_BADUTF8:
-	case PCRE_ERROR_BADUTF8_OFFSET:
-		/* POSIX doesn't seem to foresee this kind of error.  */
-		return GO_REG_BADPAT;
-	default:
-		return GO_REG_ESPACE;
-	}
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

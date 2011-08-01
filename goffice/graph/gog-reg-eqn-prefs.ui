@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <interface>
-  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkVBox" id="reg-eqn-prefs">
+  <object class="GtkBox" id="reg-eqn-prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
     <property name="orientation">vertical</property>

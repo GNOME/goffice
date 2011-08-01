@@ -955,7 +955,7 @@ gog_xy_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries 
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
-	/* because series and overrides are GSLists, we have to copy the lists and to 
+	/* because series and overrides are GSLists, we have to copy the lists and to
 	 reverse them to get the right point (in case of overlap) */
 	ser = g_slist_reverse (g_slist_copy (model->base.series));
 	for (ptr = ser ; ptr != NULL ; ptr = ptr->next) {

@@ -219,7 +219,7 @@ goc_graph_update_bounds (GocItem *item)
 	item->y0 = graph->y;
 	item->x1 = graph->x + graph->w;
 	item->y1 = graph->y + graph->h;
-	gog_renderer_update (graph->renderer, 
+	gog_renderer_update (graph->renderer,
 				      (int) (graph->w * item->canvas->pixels_per_unit),
 				      (int) (graph->h * item->canvas->pixels_per_unit));
 }

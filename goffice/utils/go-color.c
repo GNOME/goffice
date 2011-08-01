@@ -43,9 +43,9 @@ go_color_from_str (gchar const *str, GOColor *res)
 	}
 #ifdef GOFFICE_WITH_GTK
 	 else {
-		GdkColor color;
-		if (gdk_color_parse (str, &color)) {
-			*res = GO_COLOR_FROM_GDK (color);
+		GdkRGBA color;
+		if (gdk_rgba_parse (&color, str)) {
+			*res = GO_COLOR_FROM_GDK_RGBA (color);
 			return TRUE;
 		}
 	}
@@ -82,15 +82,13 @@ go_color_to_pango (GOColor color, gboolean is_fore)
 #ifdef GOFFICE_WITH_GTK
 #include <gdk/gdk.h>
 
-GdkColor *
-go_color_to_gdk	(GOColor color, GdkColor *res)
+GdkRGBA *
+go_color_to_gdk_rgba (GOColor color, GdkRGBA *res)
 {
-	res->red    = GO_COLOR_UINT_R (color);
-	res->red   |= (res->red << 8);
-	res->green  = GO_COLOR_UINT_G (color);
-	res->green |= (res->green << 8);
-	res->blue   = GO_COLOR_UINT_B (color);
-	res->blue  |= (res->blue << 8);
+	res->red    = GO_COLOR_DOUBLE_R (color);
+	res->green  = GO_COLOR_DOUBLE_G (color);
+	res->blue   = GO_COLOR_DOUBLE_B (color);
+	res->alpha  = GO_COLOR_DOUBLE_A (color);
 
 	return res;
 }

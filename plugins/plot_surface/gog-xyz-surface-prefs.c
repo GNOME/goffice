@@ -23,7 +23,6 @@
 #include "gog-xyz-surface.h"
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <string.h>
 
@@ -116,7 +115,7 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 		gtk_widget_hide (state->x_entry);
 	w = go_gtk_builder_get_widget (gui, "calc-cols-btn");
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_cols_toggled), state);
-		
+
 	state->y_spin = w = go_gtk_builder_get_widget (gui, "rows_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), plot->rows);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),

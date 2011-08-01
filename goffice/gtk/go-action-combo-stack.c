@@ -19,7 +19,6 @@
  * USA
  */
 #include <goffice/goffice-config.h>
-#include <goffice/gtk/go-gtk-compat.h>
 #include "go-action-combo-stack.h"
 #include "go-combo-box.h"
 #include "goffice-gtk.h"
@@ -109,7 +108,7 @@ cb_button_release_event (GtkWidget *list, GdkEventButton *e, gpointer data)
 
 	if (stack->last_key != NULL) {
 		gint dummy, w, h;
-		gdk_window_get_geometry (e->window, &dummy, &dummy, &w, &h, &dummy);
+		gdk_window_get_geometry (e->window, &dummy, &dummy, &w, &h);
 		if (0 <= e->x && e->x < w && 0 <= e->y && e->y < h)
 			g_signal_emit (stack, go_combo_stack_signals [POP], 0,
 				       stack->last_key);
@@ -170,8 +169,8 @@ go_combo_stack_init (GOComboStack *stack)
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 
 	stack->scrolled = gtk_scrolled_window_new (
-		gtk_tree_view_get_hadjustment (stack->list),
-		gtk_tree_view_get_vadjustment (stack->list));
+		gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (stack->list)),
+		gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (stack->list)));
 	scrolled = GTK_SCROLLED_WINDOW (stack->scrolled);
 	gtk_scrolled_window_set_policy (scrolled,
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
@@ -231,29 +230,8 @@ typedef GtkToolItemClass GOToolComboStackClass;
 
 static GType go_tool_combo_stack_get_type (void);
 
-#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-static gboolean
-go_tool_combo_stack_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
-				 char const *tip_text,
-				 char const *tip_private)
-{
-	GOToolComboStack *self = (GOToolComboStack *)tool_item;
-	go_combo_box_set_tooltip (GO_COMBO_BOX (self->combo), tooltips,
-				  tip_text, tip_private);
-	return TRUE;
-}
-#endif
-
-static void
-go_tool_combo_stack_class_init (GtkToolItemClass *tool_item_klass)
-{
-#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
-	tool_item_klass->set_tooltip = go_tool_combo_stack_set_tooltip;
-#endif
-}
-
 static GSF_CLASS (GOToolComboStack, go_tool_combo_stack,
-	   go_tool_combo_stack_class_init, NULL,
+	   NULL, NULL,
 	   GTK_TYPE_TOOL_ITEM)
 
 /*****************************************************************************/

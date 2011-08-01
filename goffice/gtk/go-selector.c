@@ -21,7 +21,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/gtk/goffice-gtk.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include "go-selector.h"
 
@@ -71,7 +70,7 @@ struct _GOSelectorPrivate {
 	gboolean			dnd_initialized;
 };
 
-G_DEFINE_TYPE (GOSelector, go_selector, GTK_TYPE_HBOX)
+G_DEFINE_TYPE (GOSelector, go_selector, GTK_TYPE_BOX)
 
 static void
 go_selector_init (GOSelector *selector)
@@ -96,7 +95,7 @@ go_selector_init (GOSelector *selector)
 				G_CALLBACK (go_selector_key_press), selector);
 	gtk_widget_show (priv->button);
 
-	priv->box = gtk_hbox_new (FALSE, 0);
+	priv->box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_container_add (GTK_CONTAINER (priv->button),
 			   priv->box);
 	gtk_widget_show (priv->box);
@@ -107,7 +106,7 @@ go_selector_init (GOSelector *selector)
 			    priv->alignment, TRUE, TRUE, 0);
 	gtk_widget_show (priv->alignment);
 
-	priv->separator = gtk_vseparator_new ();
+	priv->separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
 	gtk_box_pack_start (GTK_BOX (priv->box),
 			    priv->separator, FALSE, FALSE, 0);
 	gtk_widget_show (priv->separator);
@@ -156,6 +155,7 @@ go_selector_finalize (GObject *object)
 
 	priv = GO_SELECTOR (object)->priv;
 
+	GO_SELECTOR (object)->priv = NULL; /* we need that to avoid side effects when destroying the palette */
 	if (priv->palette)
 		g_object_unref (priv->palette);
 	g_free (priv->dnd_type.target);
@@ -251,8 +251,10 @@ go_selector_popdown (GOSelector *selector)
 
 	priv = selector->priv;
 
-	gtk_menu_popdown (GTK_MENU (priv->palette));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), FALSE);
+	if (priv) {
+		gtk_menu_popdown (GTK_MENU (priv->palette));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), FALSE);
+	}
 }
 
 static void
@@ -280,7 +282,7 @@ go_selector_key_press (GtkWidget   *widget,
 
 	priv = selector->priv;
 
-	if ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) &&
+	if ((event->keyval == GDK_KEY_Down || event->keyval == GDK_KEY_KP_Down) &&
 	    state == GDK_MOD1_MASK) {
 		go_selector_popup (selector);
 		return TRUE;
@@ -294,36 +296,36 @@ go_selector_key_press (GtkWidget   *widget,
 
 	switch (event->keyval)
 	{
-		case GDK_Down:
-		case GDK_KP_Down:
+		case GDK_KEY_Down:
+		case GDK_KEY_KP_Down:
 			if (priv->selected_index < n_swatches - 1) {
 				index = priv->selected_index + 1;
 				found = TRUE;
 				break;
 			}
 			/* else fall through */
-		case GDK_Page_Up:
-		case GDK_KP_Page_Up:
-		case GDK_Home:
-		case GDK_KP_Home:
+		case GDK_KEY_Page_Up:
+		case GDK_KEY_KP_Page_Up:
+		case GDK_KEY_Home:
+		case GDK_KEY_KP_Home:
 			if (priv->selected_index != 0) {
 				index = 0;
 				found = TRUE;
 			}
 			break;
 
-		case GDK_Up:
-		case GDK_KP_Up:
+		case GDK_KEY_Up:
+		case GDK_KEY_KP_Up:
 			if (priv->selected_index  > 0) {
 				index = priv->selected_index - 1;
 				found = TRUE;
 				break;
 			}
 			/* else fall through */
-		case GDK_Page_Down:
-		case GDK_KP_Page_Down:
-		case GDK_End:
-		case GDK_KP_End:
+		case GDK_KEY_Page_Down:
+		case GDK_KEY_KP_Page_Down:
+		case GDK_KEY_End:
+		case GDK_KEY_KP_End:
 			if (priv->selected_index != n_swatches - 1) {
 				index = n_swatches - 1;
 				found = TRUE;

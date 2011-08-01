@@ -178,7 +178,7 @@ goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 
 	if (polygon->nb_points == 0)
 		return FALSE;
-		
+
 	cairo_set_fill_rule (cr, priv->fill_rule);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, polygon->points[0].x, polygon->points[0].y);
@@ -212,7 +212,7 @@ goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 				cairo_line_to (cr, (polygon->points[i].x - polygon->points[0].x * flag) * sign,
 						polygon->points[i].y - polygon->points[0].y * flag);
 			cairo_close_path (cr);
-			
+
 		} else {
 		    for (i = 1; i < (int) polygon->nb_points; i++)
 			cairo_line_to (cr, (polygon->points[i].x - polygon->points[0].x * flag) * sign,
@@ -220,7 +220,7 @@ goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 		    cairo_close_path (cr);
 		}
 	}
-	
+
 	return TRUE;
 }
 

@@ -35,7 +35,6 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>

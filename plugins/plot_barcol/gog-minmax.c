@@ -30,7 +30,6 @@
 #include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-styled-object.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>

@@ -3,6 +3,10 @@ goffice 0.9.0:
 Andreas:
 	* Use pango attributes for formatting. [#584380][#651561]
 
+Jean:
+	* Port to gtk+-3.0.
+	* Add a plugin directory for extern plugins, independent from micro version.
+
 --------------------------------------------------------------------------
 goffice 0.8.17:
 

@@ -24,7 +24,6 @@
 #include <goffice/goffice-priv.h>
 
 #include <goffice/goffice.h>
-#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -257,22 +256,22 @@ cb_key_press_event (G_GNUC_UNUSED GtkWidget *wrapper,
 	row = type->row;
 
 	switch (event->keyval){
-	case GDK_KP_Left:	case GDK_Left:
+	case GDK_KEY_KP_Left:	case GDK_KEY_Left:
 		corner = GTK_CORNER_BOTTOM_RIGHT;
 		--col;
 		break;
 
-	case GDK_KP_Up:	case GDK_Up:
+	case GDK_KEY_KP_Up:	case GDK_KEY_Up:
 		corner = GTK_CORNER_BOTTOM_RIGHT;
 		--row;
 		break;
 
-	case GDK_KP_Right:	case GDK_Right:
+	case GDK_KEY_KP_Right:	case GDK_KEY_Right:
 		corner = GTK_CORNER_TOP_LEFT;
 		++col;
 		break;
 
-	case GDK_KP_Down:	case GDK_Down:
+	case GDK_KEY_KP_Down:	case GDK_KEY_Down:
 		corner = GTK_CORNER_TOP_LEFT;
 		++row;
 		break;
@@ -465,12 +464,6 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 		closure.current_item);
 	g_object_set_data (G_OBJECT (group), ROWS_KEY,
 		GUINT_TO_POINTER (closure.max_row));
-}
-
-static void
-cb_canvas_realized (GtkLayout *widget)
-{
-	gdk_window_set_back_pixmap (gtk_layout_get_bin_window (widget), NULL, FALSE);
 }
 
 static void
@@ -1124,16 +1117,18 @@ static void
 typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 {
 	GtkWidget *w = gtk_entry_new ();
-	GtkStyle *gstyle = gtk_widget_get_style (w);
-	GdkColor  *color = &gstyle->base [gtk_widget_has_focus (typesel->canvas)
-		? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+	GtkStyleContext *style_context = gtk_widget_get_style_context (w);
+	GdkRGBA  rgba;
 	GOColor    select_color;
 	GOStyle   *style;
 
-	select_color = ((color->red >> 8) & 0xff)   << 24;
-	select_color |= ((color->green >> 8) & 0xff) << 16;
-	select_color |= ((color->blue >> 8) & 0xff)  << 8;
-	select_color |= 0x40; /* alpha of 25% */
+	gtk_style_context_get_background_color (style_context,
+	                                        gtk_widget_has_focus (typesel->canvas)
+											? GTK_STATE_SELECTED : GTK_STATE_ACTIVE,
+                                            &rgba);
+	if (rgba.alpha > 0.40)
+				rgba.alpha = 0.40;
+	select_color = GO_COLOR_FROM_GDK_RGBA (rgba);
 
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (typesel->selector));
 	style->fill.pattern.back = select_color;
@@ -1161,7 +1156,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	typesel->max_priority_so_far = -1;
 	s->type_selector = typesel;
 
-	selector = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "type_selector")));
+	selector = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "type-selector")));
 
 	/* List of family types */
 	typesel->model = gtk_list_store_new (PLOT_FAMILY_NUM_COLUMNS,
@@ -1171,7 +1166,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (typesel->model),
 		PLOT_FAMILY_TYPE_NAME, GTK_SORT_ASCENDING);
 
-	typesel->list_view = GTK_TREE_VIEW (gtk_builder_get_object (gui, "type_treeview"));
+	typesel->list_view = GTK_TREE_VIEW (gtk_builder_get_object (gui, "type-treeview"));
 	gtk_tree_view_set_model (typesel->list_view, GTK_TREE_MODEL (typesel->model));
 	g_object_unref (typesel->model);
 	gtk_tree_view_append_column (typesel->list_view,
@@ -1189,8 +1184,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	/* Setup an canvas to display the sample image & the sample plot. */
 	typesel->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	g_object_connect (typesel->canvas,
-		"signal::realize", G_CALLBACK (cb_canvas_realized), typesel,
-		"signal_after::key_press_event", G_CALLBACK (cb_key_press_event), typesel,
+	    "signal_after::key_press_event", G_CALLBACK (cb_key_press_event), typesel,
 		"signal::button_press_event", G_CALLBACK (cb_button_press_event), typesel,
 		"swapped_signal::focus_in_event", G_CALLBACK (typesel_set_selection_color), typesel,
 		"swapped_signal::focus_out_event", G_CALLBACK (typesel_set_selection_color), typesel,
@@ -1357,11 +1351,10 @@ void
 gog_guru_add_custom_widget (GtkWidget *guru, GtkWidget *custom)
 {
 	GraphGuruState *state = g_object_get_data (G_OBJECT (guru), "state");
-	GtkBox *box = GTK_BOX (gtk_widget_get_parent (
-	    					gtk_widget_get_parent (
-							 gtk_widget_get_parent (state->type_selector->canvas))));
+	GtkWidget *w = gtk_widget_get_parent (gtk_widget_get_parent (state->type_selector->canvas));
+	GtkGrid *box = GTK_GRID (gtk_widget_get_parent (w));
 	if (custom) {
-		gtk_box_pack_start (GTK_BOX (box), custom, FALSE, TRUE, 0);
+		gtk_grid_attach_next_to (GTK_GRID (box), custom, w, GTK_POS_BOTTOM, 1, 1);
 		g_object_set_data (G_OBJECT (custom), "graph", state->graph);
 		gtk_widget_show_all (custom);
 	}

@@ -6173,7 +6173,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 							if (with_extension)
 								gsf_xml_out_add_cstr_unchecked
 									(xout, GNMSTYLE "no-integer-part", "true");
-							
+
 						}
 				/* In ODF1.2, absence of NUMBER "min-integer-digits" means not to show an       */
 				/* integer part. In ODF 1.1 we used a foreign element: gnm:no-integer-part=true */

@@ -982,7 +982,7 @@ update_cursor (GogGraphView *view, GogTool *tool, GdkWindow *window)
 		/* FIXME: gdk_display_get_default is probably not a good idea */
 		cursor = gdk_cursor_new_for_display (gdk_display_get_default (), cursor_type);
 		gdk_window_set_cursor (window, cursor);
-		gdk_cursor_unref (cursor);
+		g_object_unref (cursor);
 	}
 }
 #endif
@@ -1134,15 +1134,9 @@ GSList *
 gog_graph_get_supported_image_formats (void)
 {
 	static GOImageFormat supported_formats[] = {
-#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
 		GO_IMAGE_FORMAT_EPS,
-#endif
-#ifdef GOG_RENDERER_CAIRO_WITH_PS
 		GO_IMAGE_FORMAT_PS,
-#endif
-#ifdef GOG_RENDERER_CAIRO_WITH_PDF
 		GO_IMAGE_FORMAT_PDF,
-#endif
 		GO_IMAGE_FORMAT_JPG,
 		GO_IMAGE_FORMAT_PNG,
 		GO_IMAGE_FORMAT_SVG
