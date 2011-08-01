@@ -4,8 +4,8 @@ dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
 
 m4_define([goffice_version_epoch], [0])
-m4_define([goffice_version_major], [8])
-m4_define([goffice_version_minor], [18])
+m4_define([goffice_version_major], [9])
+m4_define([goffice_version_minor], [0])
 m4_define([goffice_version_extra], [])
 m4_define([goffice_full_version],
 	  [goffice_version_epoch.goffice_version_major.goffice_version_minor[]goffice_version_extra])
@@ -38,7 +38,7 @@ AC_SUBST([VERSION_IFACE], [version_iface])
 
 dnl Almost like epoch.major but development versions look forward to the next
 dnl stable release.
-AC_SUBST([GOFFICE_API_VER], [0.8])
+AC_SUBST([GOFFICE_API_VER], [0.10])
 
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(goffice/goffice-config.h)
