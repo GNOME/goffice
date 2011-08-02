@@ -3163,7 +3163,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			val = fraction.d;
 			break;
 
-		case OP_NUM_FRACTION_BLANK:
+		case OP_NUM_FRACTION_BLANK: {
+			gsize total_chars = g_utf8_strlen (dst->str + fraction.nominator_start, -1);
+			gsize denom_chars = g_utf8_strlen (dst->str + fraction.denominator_start, -1);
+			gsize nom_chars = total_chars - denom_chars - 1;
+			int diff = denom_chars - nom_chars;
+			
 			if (fraction.n == 0) {
 				/* Replace all added characters by spaces of the right length.  */
 				char const *f = dst->str + fraction.nominator_start;
@@ -3209,8 +3214,53 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					memset (dst->str + fraction.nominator_start, ' ', chars);
 					g_string_truncate (dst, fraction.nominator_start + chars);
 				}
+			} 
+
+			if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
+				if (diff > 0) {
+					/* We should insert properly sized spaces. Here we use FIGURE SPACE U+2007 */
+					int i;
+					guint start = (fraction.n == 0) ? dst->len : fraction.nominator_start;
+					GList *plist, *l;
+					GString *zero_str = g_string_sized_new (diff + 1);
+
+					for (i = diff; i > 0; i--)
+						g_string_append_c (zero_str, '0');
+
+					plist = pango_itemize (pango_layout_get_context (layout),
+							       zero_str->str,
+							       0,
+							       diff,
+							       attrs,
+							       NULL);
+					for (l = plist; l != NULL; l = l->next) {
+						PangoItem *pi = l->data;
+						PangoGlyphString *glyphs = pango_glyph_string_new ();
+						PangoAttribute *attr;
+						PangoRectangle ink_rect;
+						PangoRectangle logical_rect;
+						
+						pango_shape (zero_str->str, diff, &pi->analysis, glyphs);
+						pango_glyph_string_extents (glyphs,
+									    pi->analysis.font,
+									    &ink_rect,
+									    &logical_rect);
+						pango_glyph_string_free (glyphs);
+						
+						attr = pango_attr_shape_new (&ink_rect, &logical_rect);
+						attr->start_index = start;
+						attr->end_index = start + 1;
+						g_string_insert_c (dst, start, ' ');
+						pango_attr_list_insert (attrs, attr);
+						
+						start++;
+					}
+					go_list_free_custom (plist, (GFreeFunc) pango_item_free);
+					g_string_free (zero_str, TRUE);
+				}
 			}
 			break;
+		}
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
