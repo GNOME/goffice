@@ -40,7 +40,7 @@ void
 go_cmd_context_error_info_list (GOCmdContext *cc, GSList *stack)
 {
 	g_return_if_fail (GO_IS_CMD_CONTEXT (cc));
-	GCC_CLASS (cc)->error_info_list (cc, stack);
+	GCC_CLASS (cc)->error.error_info_list (cc, stack);
 }
 
 void
@@ -162,8 +162,7 @@ go_cmd_context_error_info_list_default 	(GOCmdContext *gcc, GSList *errs)
 static void
 go_cmd_context_base_init (GOCmdContextClass *class)
 {
-#warning class->error_info_list should really be class->error.error_info_list
-	class->error_info_list = go_cmd_context_error_info_list_default;
+	class->error.error_info_list = go_cmd_context_error_info_list_default;
 }
 
 GType

@@ -1,5 +1,13 @@
 2011-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/app/go-cmd-context-impl.h (GOCmdContextClass): move
+	error_info_list field to the error substruct
+	* goffice/app/go-cmd-context.c (go_cmd_context_error_info_list): adjust
+	for the move of the error_info_list field
+	(go_cmd_context_error_info_list_default): ditto
+
+2011-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_execute): insert space in case
 	of short nominators
 
