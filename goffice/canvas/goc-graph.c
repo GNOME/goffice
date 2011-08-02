@@ -235,8 +235,7 @@ format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 		 go_format_measure_strlen,
 		 go_font_metrics_unit,
 		 fmt,
-		 x, 'F', NULL,
-		 NULL,
+		 x, 'F', NULL, NULL,
 		 width, date_conv, TRUE);
 	if (err) {
 		/* Invalid number for format.  */

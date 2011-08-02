@@ -180,6 +180,8 @@ typedef enum {
 	OP_NUM_MARK_MANTISSA,
 	OP_NUM_SIMPLIFY_MANTISSA,
 	OP_NUM_SIMPLIFY_EXPONENT,
+	OP_MARKUP_SUPERSCRIPT_START,
+	OP_MARKUP_SUPERSCRIPT_END,
 #endif
 	OP_NUM_FRACTION,	/* wholep explicitp (digits|denominator) */
 	OP_NUM_FRACTION_WHOLE,
@@ -1770,11 +1772,7 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 			ADD_OP (OP_NUM_SIMPLIFY_MANTISSA);
 		ADD_OP2 (OP_CHAR, '1');
 		ADD_OP2 (OP_CHAR, '0');
-		ADD_OP2 (OP_CHAR, '<');
-		ADD_OP2 (OP_CHAR, 's');
-		ADD_OP2 (OP_CHAR, 'u');
-		ADD_OP2 (OP_CHAR, 'p');
-		ADD_OP2 (OP_CHAR, '>');
+		ADD_OP  (OP_MARKUP_SUPERSCRIPT_START);
 	} else
 #endif
 		ADD_OP2 (OP_CHAR, 'E');
@@ -1786,14 +1784,9 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 
 #ifdef ALLOW_EE_MARKUP
 	if (use_markup) {
-		ADD_OP2 (OP_CHAR, '<');
-		ADD_OP2 (OP_CHAR, '/');
-		ADD_OP2 (OP_CHAR, 's');
-		ADD_OP2 (OP_CHAR, 'u');
-		ADD_OP2 (OP_CHAR, 'p');
-		ADD_OP2 (OP_CHAR, '>');
 		if (simplify_mantissa)
 			ADD_OP (OP_NUM_SIMPLIFY_EXPONENT);
+		ADD_OP  (OP_MARKUP_SUPERSCRIPT_END);
 	}
 #endif
 
@@ -2316,6 +2309,8 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_NUM_MARK_MANTISSA);
 		REGULAR(OP_NUM_SIMPLIFY_MANTISSA);
 		REGULAR(OP_NUM_SIMPLIFY_EXPONENT);
+		REGULAR(OP_MARKUP_SUPERSCRIPT_START);
+		REGULAR(OP_MARKUP_SUPERSCRIPT_END);
 #endif
 		REGULAR(OP_NUM_FRACTION_WHOLE);
 		REGULAR(OP_NUM_FRACTION_NOMINATOR);
@@ -2498,11 +2493,19 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		DOUBLE w, n, d;
 		gsize nominator_start, denominator_start;
 	} fraction;
+	char *oldlocale = NULL;
 #ifdef ALLOW_EE_MARKUP
 	int mantissa_start = -1;
 	int special_mantissa = INT_MAX;
+	PangoAttrList *attrs = NULL;
+	GSList *markup_stack = NULL;
+
+	if (layout) {
+		attrs = pango_attr_list_copy (pango_layout_get_attributes (layout));
+		if (attrs == NULL)
+			attrs = pango_attr_list_new ();
+	}
 #endif
-	char *oldlocale = NULL;
 
 	memset (&fraction, 0, sizeof (fraction));
 
@@ -2511,8 +2514,15 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		switch (op) {
 		case OP_END:
-			if (layout)
+			if (layout) {
 				pango_layout_set_text (layout, dst->str, -1);
+#ifdef ALLOW_EE_MARKUP
+
+				pango_layout_set_attributes (layout, attrs);
+				pango_attr_list_unref (attrs);
+				g_slist_free (markup_stack);
+#endif
+			}
 			if (numtxt)
 				g_string_free (numtxt, TRUE);
 			if (oldlocale) {
@@ -3063,6 +3073,33 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				g_string_append_c (dst, '0');
 			}
 			break;
+
+		case OP_MARKUP_SUPERSCRIPT_START:
+			if (layout)
+				markup_stack = g_slist_prepend 
+					(markup_stack, GSIZE_TO_POINTER (dst->len));
+			break;
+
+		case OP_MARKUP_SUPERSCRIPT_END: 
+			if (layout) {
+				guint start = 0, 
+					end = (guint)dst->len;
+				PangoAttribute *attr;
+				if (markup_stack) {
+					start = (guint)GPOINTER_TO_SIZE (markup_stack->data);
+					markup_stack = g_slist_delete_link (markup_stack, markup_stack);
+				}
+				 /* FIXME: we need to calculate the right rise value */
+				attr = pango_attr_rise_new (5000);
+				attr->start_index = start;
+				attr->end_index = end;
+				pango_attr_list_insert (attrs, attr);
+				attr = pango_attr_scale_new (PANGO_SCALE_SMALL);
+				attr->start_index = start;
+				attr->end_index = end;
+				pango_attr_list_insert (attrs, attr);
+			}
+			break;
 #endif
 
 		case OP_NUM_FRACTION: {
@@ -3128,10 +3165,50 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_NUM_FRACTION_BLANK:
 			if (fraction.n == 0) {
-				/* Replace all added characters by spaces.  */
-				gsize chars = g_utf8_strlen (dst->str + fraction.nominator_start, -1);
-				memset (dst->str + fraction.nominator_start, ' ', chars);
-				g_string_truncate (dst, fraction.nominator_start + chars);
+				/* Replace all added characters by spaces of the right length.  */
+				char const *f = dst->str + fraction.nominator_start;
+				gsize chars = g_utf8_strlen (f, -1);
+				
+				if (chars > 0) {
+					/* We have layouts that have no fontmap set, we need to avoid them */
+					if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
+						guint start = fraction.nominator_start;
+						GList *plist, *l;
+						gint length = dst->len - fraction.nominator_start;
+						plist = pango_itemize (pango_layout_get_context (layout),
+								       dst->str,
+								       f - dst->str,
+								       length,
+								       attrs,
+								       NULL);
+						chars = 0;
+						for (l = plist; l != NULL; l = l->next) {
+							PangoItem *pi = l->data;
+							PangoGlyphString *glyphs = pango_glyph_string_new ();
+							PangoAttribute *attr;
+							PangoRectangle ink_rect;
+							PangoRectangle logical_rect;
+
+							pango_shape (f, length, &pi->analysis, glyphs);
+							pango_glyph_string_extents (glyphs,
+										    pi->analysis.font,
+										    &ink_rect,
+										    &logical_rect);
+							pango_glyph_string_free (glyphs);
+
+							attr = pango_attr_shape_new (&ink_rect, &logical_rect);
+							attr->start_index = start;
+							attr->end_index = start + 1;
+							pango_attr_list_insert (attrs, attr);
+							start++;
+							chars++;
+						}
+						go_list_free_custom (plist, (GFreeFunc) pango_item_free);
+					} 
+					
+					memset (dst->str + fraction.nominator_start, ' ', chars);
+					g_string_truncate (dst, fraction.nominator_start + chars);
+				}
 			}
 			break;
 
@@ -3452,6 +3529,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	return;
 }
 
+#define FREE_NEW_STR do { if (new_str) (void)g_string_free (new_str, TRUE); } while (0)
 
 GOFormatNumberError
 SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
@@ -3465,19 +3543,37 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 				 gboolean unicode_minus)
 {
 	gboolean inhibit = FALSE;
+	GString *new_str =  NULL;
+	GOFormatNumberError err;
 
 	g_return_val_if_fail (type == 'F' || sval != NULL,
 			      (GOFormatNumberError)-1);
 
-	g_string_truncate (str, 0);
+	if (str == NULL)
+		new_str = str = g_string_new (NULL);
+	else
+		g_string_truncate (str, 0);
 
 	if (fmt)
 		fmt = SUFFIX(go_format_specialize) (fmt, val, type, &inhibit);
 	if (!fmt)
 		fmt = go_format_general ();
-
 	if (go_color)
 		*go_color = fmt->color;
+
+	if (layout && fmt->color != 0) {
+		PangoAttrList *attrs;
+		PangoAttribute *attr;
+		attrs = pango_attr_list_ref (pango_layout_get_attributes (layout));
+		if (attrs == NULL)
+			attrs = pango_attr_list_new ();
+		attr = go_color_to_pango (fmt->color, TRUE);
+		attr->start_index = 0;
+		attr->end_index = G_MAXUINT;
+		pango_attr_list_insert (attrs, attr);
+		pango_layout_set_attributes (layout, attrs);
+		pango_attr_list_unref (attrs);
+	}
 
 	if (type == 'F') {
 		switch (fmt->typ) {
@@ -3488,14 +3584,17 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 				(layout, str, measure, metrics,
 				 val,
 				 col_width, unicode_minus);
+			FREE_NEW_STR;
 			return GO_FORMAT_NUMBER_OK;
 
 		case GO_FMT_NUMBER:
 			if (val < 0) {
 #ifndef ALLOW_NEGATIVE_TIMES
 				if (fmt->u.number.has_date ||
-				    fmt->u.number.has_time)
+				    fmt->u.number.has_time) {
+					FREE_NEW_STR;
 					return GO_FORMAT_NUMBER_DATE_ERROR;
+				}
 #endif
 				if (inhibit)
 					val = SUFFIX(fabs)(val);
@@ -3504,16 +3603,20 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 			g_printerr ("Executing %s\n", fmt->format);
 			go_format_dump_program (fmt->u.number.program);
 #endif
-			return SUFFIX(go_format_execute)
+
+			err = SUFFIX(go_format_execute)
 				(layout, str,
 				 measure, metrics,
 				 fmt->u.number.program,
 				 col_width,
 				 val, sval, date_conv,
 				 unicode_minus);
-
+			FREE_NEW_STR;
+			return err;
+			
 		case GO_FMT_EMPTY:
 			SETUP_LAYOUT;
+			FREE_NEW_STR;
 			return GO_FORMAT_NUMBER_OK;
 
 		default:
@@ -3521,26 +3624,30 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 		case GO_FMT_MARKUP:
 		case GO_FMT_COND:
 			SETUP_LAYOUT;
+			FREE_NEW_STR;
 			return GO_FORMAT_NUMBER_INVALID_FORMAT;
 		}
 	} else {
 		switch (fmt->typ) {
 		case GO_FMT_TEXT:
-			return SUFFIX(go_format_execute)
+			err = SUFFIX(go_format_execute)
 				(layout, str,
 				 measure, metrics,
 				 fmt->u.text.program,
 				 col_width,
 				 val, sval, date_conv,
 				 unicode_minus);
-
+			FREE_NEW_STR;
+			return err;
 		case GO_FMT_NUMBER:
 			g_string_assign (str, sval);
 			SETUP_LAYOUT;
+			FREE_NEW_STR;
 			return GO_FORMAT_NUMBER_OK;
 
 		case GO_FMT_EMPTY:
 			SETUP_LAYOUT;
+			FREE_NEW_STR;
 			return GO_FORMAT_NUMBER_OK;
 
 		default:
@@ -3548,10 +3655,13 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 		case GO_FMT_MARKUP:
 		case GO_FMT_COND:
 			SETUP_LAYOUT;
+			FREE_NEW_STR;
 			return GO_FORMAT_NUMBER_INVALID_FORMAT;
 		}
 	}
 }
+
+#undef FREE_NEW_STR
 
 /**
  * go_format_value:
@@ -3572,8 +3682,7 @@ SUFFIX(go_format_value) (GOFormat const *fmt, DOUBLE val)
 		 go_format_measure_strlen,
 		 go_font_metrics_unit,
 		 fmt,
-		 val, 'F', NULL,
-		 NULL,
+		 val, 'F', NULL, NULL,
 		 -1, NULL, FALSE);
 	if (err) {
 		/* Invalid number for format.  */

@@ -1,3 +1,40 @@
+2011-08-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* configure.in: disable gtk depreciation check
+	* goffice/graph/gog-axis-line.c: replace ticks.labels with ticks.str
+	throughout;
+	gog_renderer_get_text_OBR with gog_renderer_get_gostring_OBR, and
+	gog_renderer_draw_text with gog_renderer_draw_gostring as required
+	byt he ticks change
+	* goffice/graph/gog-axis.c replace ticks.labels with ticks.str
+	throughout and use gog_axis_ticks_set_text to initialize
+	(gog_get_layout): new
+	(gog_axis_ticks_set_text): new
+	(axis_format_value): add GOString argument and change all callers
+	* goffice/graph/gog-axis.h: replace ticks.labels with ticks.str
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_gostring): new
+	(gog_renderer_draw_text): use gog_renderer_draw_gostring
+	(gog_renderer_get_gostring_OBR): new
+	(gog_renderer_get_text_OBR): use gog_renderer_get_gostring_OBR
+	(gog_renderer_get_gostring_OBR): new
+	* goffice/graph/gog-renderer.h (gog_renderer_draw_gostring): new
+	* goffice/gtk/go-format-sel.c (generate_preview): use PangoAttrList
+	(draw_format_preview): ditto
+	(nfs_init): create buffer tags
+	* goffice/utils/go-format.c (go_format_parse_number_E): use attributes
+	(go_format_execute): use attributes
+	(go_format_value_gstring): use attributes instead of passing colour
+	* goffice/utils/go-pango-extras.c
+	(go_load_pango_attributes_into_buffer_filter): new
+	(go_load_pango_attributes_into_buffer_named_filter): new
+	(go_create_std_tags_for_buffer): new
+	(go_load_pango_byte_to_char): new
+	(go_load_pango_attributes_into_buffer): new
+	* goffice/utils/go-pango-extras.h (go_create_std_tags_for_buffer): new
+	(go_load_pango_attributes_into_buffer): new
+	* goffice/utils/go-string.c (go_string_new_rich): ensure we have determined
+	the byte_len (if it was negative or zero)
+
 2011-08-01  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Branch to 0.9.0.

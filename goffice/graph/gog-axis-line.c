@@ -1054,9 +1054,9 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	obrs = g_new0 (GOGeometryOBR, tick_nbr);
 	for (i = 0; i < tick_nbr; i++) {
-		if (ticks[i].label != NULL) {
+		if (ticks[i].str != NULL) {
 			GOGeometryOBR *obr = obrs + i;
-			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, obr);
+			gog_renderer_get_gostring_OBR (renderer, ticks[i].str, obr);
 			if (obr->w > label_size_max
 			    || obr->h > label_size_max) {
 				label_size_max = MAX (obr->w, obr->h);
@@ -1066,7 +1066,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	}
 
 	for (i = 0; i < tick_nbr; i++) {
-		if (ticks[i].label != NULL) {
+		if (ticks[i].str != NULL) {
 			GOGeometryOBR *obr = obrs + i;
 			pos = gog_axis_map_to_view (map, ticks[i].position);
 			obr->w += label_padding;
@@ -1166,9 +1166,9 @@ axis_line_render (GogAxisBase *axis_base,
 		obrs = g_new0 (GOGeometryOBR, tick_nbr);
 		indexmap = g_new0 (unsigned int, tick_nbr);
 		for (i = 0; i < tick_nbr; i++) {
-			if (ticks[i].label != NULL) {
+			if (ticks[i].str != NULL) {
 				GOGeometryOBR *obr = obrs + i;
-				gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, obr);
+				gog_renderer_get_gostring_OBR (renderer, ticks[i].str, obr);
 				if (obr->w > label_size_max
 				    || obr->h > label_size_max) {
 					label_size_max = MAX (obr->w, obr->h);
@@ -1216,7 +1216,7 @@ axis_line_render (GogAxisBase *axis_base,
 			}
 		}
 
-		if (ticks[i].label != NULL && draw_labels) {
+		if (ticks[i].str != NULL && draw_labels) {
 			GOGeometryOBR *obr = obrs + i;
 			obr->w += label_padding;
 			go_geometry_calc_label_position (obr, axis_angle, tick_len,
@@ -1267,9 +1267,8 @@ axis_line_render (GogAxisBase *axis_base,
 			GogViewAllocation label_pos;
 			label_pos.x = obrs[j].x;
 			label_pos.y = obrs[j].y;
-			gog_renderer_draw_text (renderer, ticks[j].label,
-						&label_pos, GTK_ANCHOR_CENTER,
-						TRUE);
+			gog_renderer_draw_gostring (renderer, ticks[j].str,
+						    &label_pos, GTK_ANCHOR_CENTER);
 		}
 	}
 	g_free (obrs);
@@ -1338,8 +1337,8 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		angle = gog_axis_map_to_view (map, ticks[i].position);
 		gog_chart_map_2D_to_view (c_map, ticks[i].position, position, &x, &y);
 
-		if (ticks[i].label != NULL && draw_labels) {
-			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, &txt_obr);
+		if (ticks[i].str != NULL && draw_labels) {
+			gog_renderer_get_gostring_OBR (renderer, ticks[i].str, &txt_obr);
 			txt_obr.w += label_padding;
 			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len,
 							 GO_SIDE_LEFT, GO_SIDE_AUTO);
@@ -1460,10 +1459,10 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 			}
 		}
 
-		if (ticks[i].label != NULL && draw_labels) {
+		if (ticks[i].str != NULL && draw_labels) {
 			gog_chart_map_2D_to_view (c_map, ticks[i].position, position,
 						  &label_pos.x, &label_pos.y);
-			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, &txt_obr);
+			gog_renderer_get_gostring_OBR (renderer, ticks[i].str, &txt_obr);
 			txt_obr.w += label_padding;
 			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len,
 							 GO_SIDE_LEFT, GO_SIDE_AUTO);
@@ -1474,8 +1473,9 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 			if (!first_label_done ||
 			    (!go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_old) &&
 			     !go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_first))) {
-				gog_renderer_draw_text (renderer, ticks[i].label,
-							&label_pos, GTK_ANCHOR_CENTER, TRUE);
+				gog_renderer_draw_gostring 
+					(renderer, ticks[i].str,
+					 &label_pos, GTK_ANCHOR_CENTER);
 				txt_obr_old = txt_obr;
 			}
 			if (!first_label_done) {
@@ -2061,10 +2061,12 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			if (axis_base->major_tick_labeled) {
 				label_w = label_h = 0;
 				for (i = 0; i < tick_nbr; i++) {
-					if (ticks[i].label == NULL)
+					if (ticks[i].str == NULL)
 						continue;
-					gog_renderer_get_text_OBR (view->renderer,
-						ticks[i].label, TRUE, &obr);
+					gog_renderer_get_text_OBR 
+						(view->renderer,
+						 ticks[i].str->str, 
+						 FALSE, &obr);
 					if (obr.w > label_w)
 						label_w = obr.w;
 					if (obr.h > label_h)

@@ -105,6 +105,22 @@ struct _GogAxis {
 
 static void gog_axis_set_ticks (GogAxis *axis,int tick_nbr, GogAxisTick *ticks);
 
+static PangoLayout *
+gog_get_layout (void)
+{
+	PangoContext *context = pango_context_new ();
+	PangoLayout *layout = pango_layout_new (context);
+	g_object_unref (context);
+	return layout;
+}
+
+static void
+gog_axis_ticks_set_text (GogAxisTick *ticks, char const *str)
+{
+	go_string_unref (ticks->str);
+	ticks->str = go_string_new (str);
+}
+
 static GogAxisTick *
 create_invalid_axis_ticks (double min, double max)
 {
@@ -114,8 +130,9 @@ create_invalid_axis_ticks (double min, double max)
 	ticks[0].position = min;
 	ticks[1].position = max;
 	ticks[0].type = ticks[1].type = GOG_AXIS_TICK_MAJOR;
-	ticks[0].label = g_strdup ("##");
-	ticks[1].label = g_strdup ("##");
+	ticks[0].str = ticks[1].str = NULL;
+	gog_axis_ticks_set_text (&ticks[0], "##");
+	gog_axis_ticks_set_text (&ticks[1], "##");
 
 	return ticks;
 }
@@ -139,26 +156,36 @@ gog_axis_get_effective_format (GogAxis const *axis)
 	return axis->format;
 }
 
-static char *
-axis_format_value (GogAxis *axis, double val)
+static void
+axis_format_value (GogAxis *axis, double val, GOString **str)
 {
 	GOFormat *fmt = gog_axis_get_effective_format (axis);
-	GString *res = g_string_sized_new (20);
 	const GODateConventions *date_conv = axis->date_conv;
-	GOFormatNumberError err = go_format_value_gstring
-		(NULL, res,
+	GOFormatNumberError err;
+	PangoLayout *layout = gog_get_layout ();
+
+	g_return_if_fail (layout != NULL);
+
+	go_string_unref (*str);
+
+	err = go_format_value_gstring
+		(layout, NULL,
 		 go_format_measure_strlen,
 		 go_font_metrics_unit,
 		 fmt,
-		 val, 'F', NULL,
-		 NULL,
+		 val, 'F', NULL, NULL,
 		 -1, date_conv, TRUE);
-	if (err) {
-		/* Invalid number for format.  */
-		g_string_assign (res, "#####");
-	}
-
-	return g_string_free (res, FALSE);
+	if (err)
+		*str = go_string_new ("#####");
+	else
+		*str = go_string_new_rich 
+			(g_strdup (pango_layout_get_text (layout)),
+			 -1,
+			 FALSE,
+			 pango_attr_list_ref (pango_layout_get_attributes (layout)),
+			 NULL);
+	
+	g_object_unref (layout);
 }
 
 static gboolean
@@ -345,22 +372,25 @@ map_discrete_calc_ticks (GogAxis *axis)
 	for (i = 0; i < tick_nbr; i++) {
 		ticks[i].position = tick_start + (double) (i) * major_tick;
 		ticks[i].type = GOG_AXIS_TICK_MAJOR;
-		ticks[i].label = NULL;
+		ticks[i].str = NULL;
 	}
 	for (i = 0, j = tick_nbr; i < label_nbr; i++, j++) {
+		char *label;
 		ticks[j].position = go_rint (label_start + (double) (i) * major_label);
 		index = ticks[j].position - 1;
 		ticks[j].type = GOG_AXIS_TICK_NONE;
+		ticks[j].str = NULL;
 		if (axis->labels != NULL) {
 			if (index < (int) go_data_get_vector_size (axis->labels) && index >= 0) {
-				char *label = go_data_get_vector_string (axis->labels, index);
-				ticks[j].label = g_markup_escape_text (label, -1);
+				label = go_data_get_vector_string (axis->labels, index);
+				gog_axis_ticks_set_text(&ticks[j], label);
 				g_free (label);
-			} else
-				ticks[j].label = NULL;
+			}
+		} else {
+			label = g_strdup_printf ("%d", index + 1);
+			gog_axis_ticks_set_text (&ticks[j], label);
+			g_free (label);
 		}
-		else
-			ticks[j].label = g_strdup_printf ("%d", index + 1);
 	}
 
 	gog_axis_set_ticks (axis, tick_nbr + label_nbr, ticks);
@@ -761,7 +791,7 @@ map_linear_calc_ticks (GogAxis *axis)
 			g_assert (t < N);
 			ticks[t].position = maj_pos;
 			ticks[t].type = GOG_AXIS_TICK_MAJOR;
-			ticks[t].label = axis_format_value (axis, maj_pos);
+			axis_format_value (axis, maj_pos, &ticks[t].str);
 			t++;
 		}
 
@@ -775,7 +805,7 @@ map_linear_calc_ticks (GogAxis *axis)
 			g_assert (t < N);
 			ticks[t].position = min_pos;
 			ticks[t].type = GOG_AXIS_TICK_MINOR;
-			ticks[t].label = NULL;
+			ticks[t].str = NULL;
 			t++;
 		}
 	}
@@ -985,7 +1015,7 @@ map_date_calc_ticks (GogAxis *axis)
 
 		ticks[t].position = maj_pos;
 		ticks[t].type = GOG_AXIS_TICK_MAJOR;
-		ticks[t].label = axis_format_value (axis, maj_pos);
+		axis_format_value (axis, maj_pos, &ticks[t].str);
 		t++;
 
 		/* Calculate next major so we know when to stop minors.  */
@@ -1007,7 +1037,7 @@ map_date_calc_ticks (GogAxis *axis)
 
 			ticks[t].position = min_pos;
 			ticks[t].type = GOG_AXIS_TICK_MINOR;
-			ticks[t].label = NULL;
+			ticks[t].str = NULL;
 			t++;
 		}
 	}
@@ -1035,6 +1065,7 @@ map_date_get_dim_format (GogAxis *axis, unsigned dim)
 {
 	switch (dim) {
 	case GOG_AXIS_ELEM_MIN:
+
 	case GOG_AXIS_ELEM_MAX: {
 		GOFormat *fmt = gog_axis_get_effective_format (axis);
 		/*
@@ -1349,7 +1380,7 @@ map_log_calc_ticks (GogAxis *axis)
 			g_assert (t < N);
 			ticks[t].position = maj_pos;
 			ticks[t].type = GOG_AXIS_TICK_MAJOR;
-			ticks[t].label = axis_format_value (axis, maj_pos);
+		        axis_format_value (axis, maj_pos, &ticks[t].str);
 			t++;
 		}
 
@@ -1373,7 +1404,7 @@ map_log_calc_ticks (GogAxis *axis)
 			g_assert (t < N);
 			ticks[t].position = min_pos;
 			ticks[t].type = GOG_AXIS_TICK_MINOR;
-			ticks[t].label = NULL;
+			ticks[t].str = NULL;
 			t++;
 		}
 	}
@@ -1778,7 +1809,7 @@ gog_axis_set_ticks (GogAxis *axis, int tick_nbr, GogAxisTick *ticks)
 
 	if (axis->ticks != NULL) {
 		for (i = 0; i < axis->tick_nbr; i++)
-			g_free (axis->ticks[i].label);
+			go_string_unref (axis->ticks[i].str);
 
 		g_free (axis->ticks);
 	}

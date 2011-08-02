@@ -115,9 +115,17 @@ void  gog_renderer_draw_selection_rectangle	(GogRenderer *renderer, GogViewAlloc
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
-				   GogViewAllocation const *pos, GtkAnchorType anchor,
+				   GogViewAllocation const *pos, 
+				   GtkAnchorType anchor,
 				   gboolean use_markup);
 
+void  gog_renderer_draw_gostring  (GogRenderer *rend,
+				   GOString *str,
+				   GogViewAllocation const *pos, 
+				   GtkAnchorType anchor);
+
+void  gog_renderer_get_gostring_OBR   (GogRenderer *rend, GOString *str,
+				       GOGeometryOBR *obr);
 void  gog_renderer_get_text_OBR   (GogRenderer *rend, char const *text,
 				   gboolean use_markup, GOGeometryOBR *obr);
 void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text,

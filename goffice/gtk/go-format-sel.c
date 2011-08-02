@@ -160,12 +160,12 @@ static guint go_format_sel_signals [LAST_SIGNAL] = { 0 };
 static void format_entry_set_text (GOFormatSel *gfs, const gchar *text);
 
 static char *
-generate_preview (GOFormatSel *gfs, GOColor *c)
+generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)
 {
 	char *res = NULL;
 	g_signal_emit (G_OBJECT (gfs),
 		       go_format_sel_signals [GENERATE_PREVIEW], 0,
-		       c, &res);
+		       attrs, &res);
 	return res;
 }
 
@@ -174,8 +174,7 @@ draw_format_preview (GOFormatSel *gfs, gboolean regen_format)
 {
 	char *preview;
 	GOFormat const *sf = NULL;
-	GOColor c = 0;
-	GdkColor gdk_color;
+	PangoAttrList *attrs = NULL;
 	gsize len;
 
 	if (regen_format) {
@@ -196,22 +195,23 @@ draw_format_preview (GOFormatSel *gfs, gboolean regen_format)
 	if (NULL == (sf = gfs->format.spec))
 		return;
 
-	if (NULL == (preview = generate_preview (gfs, &c)))
+	if (NULL == (preview = generate_preview (gfs, &attrs)))
 		return;
 
 	len = g_utf8_strlen (preview, -1);
 	if (len > FORMAT_PREVIEW_MAX)
-		strcpy (g_utf8_offset_to_pointer (preview, FORMAT_PREVIEW_MAX - 5),
+		strcpy (g_utf8_offset_to_pointer (preview, 
+						  FORMAT_PREVIEW_MAX - 5),
 			"...");
 
 	gtk_text_buffer_set_text (gfs->format.preview_buffer, preview, -1);
-	if (c != 0)
-		go_color_to_gdk (c, &gdk_color);
-	else
-		gdk_color_parse ("black", &gdk_color);
 
-	gtk_widget_modify_text (GTK_WIDGET (gfs->format.preview),
-				GTK_STATE_NORMAL, &gdk_color);
+	go_load_pango_attributes_into_buffer (attrs, 
+					      gfs->format.preview_buffer,
+					      preview);
+
+	pango_attr_list_unref (attrs);
+
 	g_free (preview);
 }
 
@@ -999,6 +999,7 @@ nfs_init (GOFormatSel *gfs)
 		pango_font_metrics_unref (metrics);
 	}
 	gfs->format.preview_buffer = gtk_text_view_get_buffer (gfs->format.preview);
+	go_create_std_tags_for_buffer (gfs->format.preview_buffer);
 
 	gfs->format.menu = go_gtk_builder_get_widget (gfs->gui, "format_menu");
 	populate_menu (gfs);

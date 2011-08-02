@@ -44,8 +44,8 @@ typedef enum {
 
 typedef struct {
 	double		 position;
-	GogAxisTickTypes	 type;
-	char 		*label;
+	GogAxisTickTypes type;
+	GOString        *str;
 } GogAxisTick;
 
 typedef struct _GogAxisMap GogAxisMap;

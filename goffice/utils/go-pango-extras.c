@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-pango-extras.c: Various utility routines that should have been in pango.
  *
@@ -7,6 +8,8 @@
 
 #include <goffice/goffice-config.h>
 #include "go-pango-extras.h"
+#include "go-glib-extras.h"
+#include <string.h>
 
 struct cb_splice {
 	guint pos, len;
@@ -243,4 +246,234 @@ go_pango_attr_list_is_empty (const PangoAttrList *attrs)
 		(void)pango_attr_list_filter ((PangoAttrList *)attrs,
 					      cb_empty, &empty);
 	return empty;
+}
+
+static gboolean
+go_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
+					  G_GNUC_UNUSED gpointer data)
+{
+	return ((PANGO_ATTR_FOREGROUND == attribute->klass->type) ||
+		(PANGO_ATTR_UNDERLINE == attribute->klass->type) ||
+		(PANGO_ATTR_RISE == attribute->klass->type));
+}
+
+static gboolean
+go_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute,
+						    G_GNUC_UNUSED gpointer data)
+{
+	return ((PANGO_ATTR_STYLE == attribute->klass->type) ||
+		(PANGO_ATTR_WEIGHT == attribute->klass->type) ||
+		(PANGO_ATTR_STRIKETHROUGH == attribute->klass->type));
+}
+
+void
+go_create_std_tags_for_buffer (GtkTextBuffer *buffer)
+{
+	gtk_text_buffer_create_tag (buffer, "PANGO_STYLE_NORMAL", "style", PANGO_STYLE_NORMAL,
+				    "style-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_STYLE_ITALIC", "style", PANGO_STYLE_ITALIC,
+				    "style-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_STRIKETHROUGH_TRUE", "strikethrough", TRUE,
+				    "strikethrough-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_STRIKETHROUGH_FALSE", "strikethrough", FALSE,
+				    "strikethrough-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_THIN", "weight", 100,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_ULTRALIGHT", "weight", PANGO_WEIGHT_ULTRALIGHT,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_LIGHT", "weight", PANGO_WEIGHT_LIGHT,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_BOOK", "weight", 380,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_NORMAL", "weight", PANGO_WEIGHT_NORMAL,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_MEDIUM", "weight", 500,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_SEMIBOLD", "weight", PANGO_WEIGHT_SEMIBOLD,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_BOLD", "weight", PANGO_WEIGHT_BOLD,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_ULTRABOLD", "weight", PANGO_WEIGHT_ULTRABOLD,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_HEAVY", "weight", PANGO_WEIGHT_HEAVY,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_ULTRAHEAVY", "weight", 1000,
+				    "weight-set", TRUE, NULL);
+}
+
+static gint
+go_load_pango_byte_to_char (gchar const *str, gint byte)
+{
+	if (byte >= (gint)strlen (str))
+		return g_utf8_strlen (str, -1);
+	return g_utf8_pointer_to_offset (str, g_utf8_prev_char (str + byte + 1));
+}
+
+void
+go_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer, gchar const *str)
+{
+	PangoAttrIterator * iter;
+	PangoAttrList  *copied_markup;
+	PangoAttrList  *our_markup;
+
+	if (markup == NULL)
+		return;
+
+/* For some styles we create named tags. The names are taken from the Pango enums */
+
+	copied_markup = pango_attr_list_copy (markup);
+	our_markup = pango_attr_list_filter (copied_markup,
+					     go_load_pango_attributes_into_buffer_named_filter,
+					     NULL);
+	pango_attr_list_unref (copied_markup);
+	if (our_markup != NULL) {
+		iter = pango_attr_list_get_iterator (our_markup);
+
+		do {
+			GSList *attr = pango_attr_iterator_get_attrs (iter);
+			if (attr != NULL) {
+				GSList *ptr;
+				gint start, end;
+				GtkTextIter start_iter, end_iter;
+				char const *name;
+
+				pango_attr_iterator_range (iter, &start, &end);
+				start = go_load_pango_byte_to_char (str, start);
+				end = go_load_pango_byte_to_char (str, end);
+				gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
+				gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
+
+				for (ptr = attr; ptr != NULL; ptr = ptr->next) {
+					PangoAttribute *attribute = ptr->data;
+					GtkTextTag *tag;
+					int val;
+
+					switch (attribute->klass->type) {
+					case PANGO_ATTR_STYLE:
+						name = (((PangoAttrInt *)attribute)->value
+							== PANGO_STYLE_NORMAL)
+							? "PANGO_STYLE_NORMAL" :
+							"PANGO_STYLE_ITALIC";
+						tag = gtk_text_tag_table_lookup
+							(gtk_text_buffer_get_tag_table (buffer),
+							 name);
+						gtk_text_buffer_apply_tag (buffer, tag,
+									   &start_iter, &end_iter);
+						break;
+					case PANGO_ATTR_STRIKETHROUGH:
+						name = (((PangoAttrInt *)attribute)->value) ?
+							"PANGO_STRIKETHROUGH_TRUE" :
+							"PANGO_STRIKETHROUGH_FALSE";
+						tag = gtk_text_tag_table_lookup
+							(gtk_text_buffer_get_tag_table (buffer),
+							 name);
+						gtk_text_buffer_apply_tag (buffer, tag,
+									   &start_iter, &end_iter);
+						break;
+					case PANGO_ATTR_WEIGHT:
+						val = ((PangoAttrInt *)attribute)->value;
+						if (val < (PANGO_WEIGHT_THIN + PANGO_WEIGHT_ULTRALIGHT)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_THIN",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_ULTRALIGHT + PANGO_WEIGHT_LIGHT)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_ULTRALIGHT",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_LIGHT + PANGO_WEIGHT_BOOK)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_LIGHT",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_BOOK + PANGO_WEIGHT_NORMAL)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_BOOK",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_NORMAL + PANGO_WEIGHT_MEDIUM)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_NORMAL",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_MEDIUM + PANGO_WEIGHT_SEMIBOLD)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_MEDIUM",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_SEMIBOLD + PANGO_WEIGHT_BOLD)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_SEMIBOLD",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_BOLD + PANGO_WEIGHT_ULTRABOLD)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_BOLD",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_ULTRABOLD + PANGO_WEIGHT_HEAVY)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_ULTRABOLD",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_HEAVY + PANGO_WEIGHT_ULTRAHEAVY)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_HEAVY",
+											   &start_iter, &end_iter);
+						else gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_ULTRAHEAVY",
+											&start_iter, &end_iter);
+						break;
+					default:
+						break;
+					}
+				}
+				go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
+			}
+		} while (pango_attr_iterator_next (iter));
+		pango_attr_iterator_destroy (iter);
+		pango_attr_list_unref (our_markup);
+	}
+
+/* For other styles (that are not at true/false type styles) we use unnamed styles */
+
+	copied_markup = pango_attr_list_copy (markup);
+	our_markup = pango_attr_list_filter (copied_markup,
+					     go_load_pango_attributes_into_buffer_filter,
+					     NULL);
+	pango_attr_list_unref (copied_markup);
+	if (our_markup != NULL) {
+		iter = pango_attr_list_get_iterator (our_markup);
+
+		do {
+			GSList *attr = pango_attr_iterator_get_attrs (iter);
+			if (attr != NULL) {
+				char *string;
+				GSList *ptr;
+				gint start, end;
+				GtkTextIter start_iter, end_iter;
+				GtkTextTag *tag = gtk_text_buffer_create_tag (buffer, NULL, NULL);
+				for (ptr = attr; ptr != NULL; ptr = ptr->next) {
+					PangoAttribute *attribute = ptr->data;
+					switch (attribute->klass->type) {
+					case PANGO_ATTR_FOREGROUND:
+						string = pango_color_to_string
+							(&((PangoAttrColor *)attribute)->color);
+						g_object_set (G_OBJECT (tag),
+							      "foreground", string,
+							      "foreground-set", TRUE,
+							      NULL);
+						g_free (string);
+						break;
+					case PANGO_ATTR_UNDERLINE:
+						g_object_set (G_OBJECT (tag),
+							      "underline",
+							      ((PangoAttrInt *)attribute)->value,
+							      "underline-set", TRUE,
+							      NULL);
+						break;
+					case PANGO_ATTR_RISE:
+						g_object_set (G_OBJECT (tag),
+							      "rise",
+							      ((PangoAttrInt *)attribute)->value,
+							      "rise-set", TRUE,
+							      NULL);
+						break;
+					default:
+						break;
+					}
+				}
+				pango_attr_iterator_range (iter, &start, &end);
+				start = go_load_pango_byte_to_char (str, start);
+				end = go_load_pango_byte_to_char (str, end);
+				gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
+				gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
+				gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
+				go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
+			}
+		} while (pango_attr_iterator_next (iter));
+		pango_attr_iterator_destroy (iter);
+		pango_attr_list_unref (our_markup);
+	}
 }

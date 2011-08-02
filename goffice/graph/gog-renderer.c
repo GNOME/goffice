@@ -777,51 +777,51 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 }
 
 /**
- * gog_renderer_draw_text :
+ * gog_renderer_draw_layout :
  * @rend   : #GogRenderer
- * @text   : the string to draw
+ * @gostring : the #GOString to draw
  * @pos    : #GogViewAllocation
  * @anchor : #GtkAnchorType how to draw relative to @pos
- * @use_markup: wether to use pango markup
  *
- * Have @rend draw @text in the at @pos.{x,y} anchored by the @anchor corner.
+ * Have @rend draw @layout in the at @pos.{x,y} anchored by the @anchor corner.
  * If @pos.w or @pos.h are >= 0 then clip the results to less than that size.
  **/
 
 void
-gog_renderer_draw_text (GogRenderer *rend, char const *text,
-			GogViewAllocation const *pos, GtkAnchorType anchor,
-			gboolean use_markup)
+gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
+			GogViewAllocation const *pos, GtkAnchorType anchor)
 {
 	PangoLayout *layout;
 	PangoContext *context;
-	cairo_t *cairo = rend->cairo;
+	cairo_t *cairo;
 	GOGeometryOBR obr;
 	GOGeometryAABR aabr;
 	GOStyle const *style;
 	int iw, ih;
+	PangoAttrList *attr;
 
+	g_return_if_fail (str != NULL);
 	g_return_if_fail (GOG_IS_RENDERER (rend));
 	g_return_if_fail (rend->cur_style != NULL);
-	g_return_if_fail (text != NULL);
 
-	if (*text == '\0')
-		return;
-
+	cairo = rend->cairo;
 	style = rend->cur_style;
 
+	/* Note: orig layout may not have been created using cairo! */
 	layout = pango_cairo_create_layout (cairo);
 	context = pango_layout_get_context (layout);
+	pango_layout_set_text (layout, str->str, -1);
+	attr = go_string_get_markup (str);
+	if (attr)
+		pango_layout_set_attributes (layout, attr);
 	pango_cairo_context_set_resolution (context, 72.0);
-	if (use_markup)
-		pango_layout_set_markup (layout, text, -1);
-	else
-		pango_layout_set_text (layout, text, -1);
 	pango_layout_set_font_description (layout, style->font.font->desc);
 	pango_layout_get_size (layout, &iw, &ih);
 
-	obr.w = rend->scale * ((double) iw + (double) PANGO_SCALE / 2.0) / (double) PANGO_SCALE;
-	obr.h = rend->scale * ((double) ih + (double) PANGO_SCALE / 2.0) /(double) PANGO_SCALE;
+	obr.w = rend->scale * ((double) iw + (double) PANGO_SCALE / 2.0) 
+		/ (double) PANGO_SCALE;
+	obr.h = rend->scale * ((double) ih + (double) PANGO_SCALE / 2.0) 
+		/(double) PANGO_SCALE;
 	obr.alpha = -style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
 	obr.y = pos->y;
@@ -849,14 +849,112 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 
 	cairo_save (cairo);
 	cairo_set_source_rgba (cairo, GO_COLOR_TO_CAIRO (style->font.color));
-	cairo_move_to (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) + (obr.h / 2.0) * sin (obr.alpha),
-		       obr.y - (obr.w / 2.0) * sin (obr.alpha) - (obr.h / 2.0) * cos (obr.alpha));
+	cairo_move_to (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) + 
+		       (obr.h / 2.0) * sin (obr.alpha),
+		       obr.y - (obr.w / 2.0) * sin (obr.alpha) - 
+		       (obr.h / 2.0) * cos (obr.alpha));
 	cairo_rotate (cairo, obr.alpha);
 	cairo_scale (cairo, rend->scale, rend->scale);
 	pango_cairo_show_layout (cairo, layout);
 	cairo_restore (cairo);
 	g_object_unref (layout);
 }
+
+
+/**
+ * gog_renderer_draw_text :
+ * @rend   : #GogRenderer
+ * @text   : the string to draw
+ * @pos    : #GogViewAllocation
+ * @anchor : #GtkAnchorType how to draw relative to @pos
+ * @use_markup: wether to use pango markup
+ *
+ * Have @rend draw @text in the at @pos.{x,y} anchored by the @anchor corner.
+ * If @pos.w or @pos.h are >= 0 then clip the results to less than that size.
+ **/
+
+void
+gog_renderer_draw_text (GogRenderer *rend, char const *text,
+			GogViewAllocation const *pos, GtkAnchorType anchor,
+			gboolean use_markup)
+{
+	cairo_t *cairo;
+	GOString *str;
+	PangoAttrList *attr_list = NULL;
+	char *m_text = NULL;
+
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (text != NULL);
+
+	if (*text == '\0')
+		return;
+
+	cairo = rend->cairo;
+	if (use_markup && pango_parse_markup  (text, -1, 0,
+					       &attr_list, &m_text,
+					       NULL, NULL))
+		str = go_string_new_rich (m_text, -1, FALSE, attr_list, NULL);
+	else
+		str = go_string_new (text);
+	gog_renderer_draw_gostring (rend, str, pos, anchor);
+	go_string_unref (str);
+}
+
+/**
+ * gog_renderer_get_text_OBR :
+ * @rend: #GogRenderer
+ * @gostring: the string to draw
+ * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
+ **/
+void
+gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str, GOGeometryOBR *obr)
+{
+	GOStyle const *style;
+	PangoLayout *layout;
+	PangoContext *context;
+	PangoRectangle logical;
+	cairo_t *cairo;
+	PangoAttrList *attr;
+
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (rend->cur_style != NULL);
+	g_return_if_fail (obr != NULL);
+
+	cairo = rend->cairo;
+	obr->x = obr->y = 0;
+	if (str->str == NULL || *(str->str) == '\0') {
+		/* Make sure invisible things don't skew size */
+		obr->w = obr->h = 0;
+		obr->alpha = 0;
+		return;
+	}
+
+	style = rend->cur_style;
+	layout = pango_cairo_create_layout (cairo);
+	context = pango_layout_get_context (layout);
+	pango_layout_set_text (layout, str->str, -1);
+	attr = go_string_get_markup (str);
+	if (attr)
+		pango_layout_set_attributes (layout, attr);
+	pango_cairo_context_set_resolution (context, 72.0);
+	pango_layout_set_font_description (layout, style->font.font->desc);
+	pango_layout_get_extents (layout, NULL, &logical);
+	g_object_unref (layout);
+
+	obr->w = rend->scale * ((double) logical.width + (double) PANGO_SCALE / 2.0) 
+		/ (double) PANGO_SCALE;
+	obr->h = rend->scale * ((double) logical.height + (double) PANGO_SCALE / 2.0) 
+		/(double) PANGO_SCALE;
+
+	/* Make sure invisible things don't skew size */
+	if (obr->w == 0)
+		obr->h = 0;
+	else if (obr->h == 0)
+		obr->w = 0;
+
+	obr->alpha = - style->text_layout.angle * M_PI / 180.0;
+}
+
 
 /**
  * gog_renderer_get_text_OBR :
@@ -869,48 +967,25 @@ void
 gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
 			   gboolean use_markup, GOGeometryOBR *obr)
 {
-	GOStyle const *style;
-	PangoLayout *layout;
-	PangoContext *context;
-	PangoRectangle logical;
-	cairo_t *cairo = rend->cairo;
+	cairo_t *cairo;
+	GOString *str;
+	PangoAttrList *attr_list = NULL;
+	char *m_text = NULL;
 
 	g_return_if_fail (GOG_IS_RENDERER (rend));
-	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
-	g_return_if_fail (obr != NULL);
 
-	obr->x = obr->y = 0;
-	if (*text == '\0') {
-		/* Make sure invisible things don't skew size */
-		obr->w = obr->h = 0;
-		obr->alpha = 0;
-		return;
-	}
+	cairo = rend->cairo;
 
-	style = rend->cur_style;
-
-	layout = pango_cairo_create_layout (cairo);
-	context = pango_layout_get_context (layout);
-	pango_cairo_context_set_resolution (context, 72.0);
-	if (use_markup)
-		pango_layout_set_markup (layout, text, -1);
+	if (use_markup && pango_parse_markup  (text, -1, 0,
+					       &attr_list, &m_text,
+					       NULL, NULL))
+		str = go_string_new_rich (m_text, -1, FALSE, attr_list, NULL);
 	else
-		pango_layout_set_text (layout, text, -1);
-	pango_layout_set_font_description (layout, style->font.font->desc);
-	pango_layout_get_extents (layout, NULL, &logical);
-	g_object_unref (layout);
+		str = go_string_new (text);
+	gog_renderer_get_gostring_OBR (rend, str, obr);
+	go_string_unref (str);
 
-	obr->w = rend->scale * ((double) logical.width + (double) PANGO_SCALE / 2.0) / (double) PANGO_SCALE;
-	obr->h = rend->scale * ((double) logical.height + (double) PANGO_SCALE / 2.0) /(double) PANGO_SCALE;
-
-	/* Make sure invisible things don't skew size */
-	if (obr->w == 0)
-		obr->h = 0;
-	else if (obr->h == 0)
-		obr->w = 0;
-
-	obr->alpha = - style->text_layout.angle * M_PI / 180.0;
 }
 
 /**

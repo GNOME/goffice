@@ -221,10 +221,12 @@ go_string_new_rich (char const *str,
 	/* TODO : when we use a better representation for attributes (eg array
 	 * of GOFont indicies) look into sharing rich strings */
 
+	if (byte_len <= 0)
+		byte_len = strlen (str);
 	rich = g_slice_new (GOStringRichImpl);
 	rich->base.base.str	= str;
 	rich->base.hash		= g_str_hash (str);
-	rich->base.flags	= ((byte_len > 0) ? (guint32) byte_len : strlen (str)) | GO_STRING_IS_RICH;
+	rich->base.flags	=  ((guint32) byte_len) | GO_STRING_IS_RICH;
 	rich->base.ref_count	= 1;
 	rich->markup		= markup;
 	rich->phonetic		= phonetic;
