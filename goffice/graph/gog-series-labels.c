@@ -40,7 +40,7 @@ enum {
 struct {
 	char const *label;
 	GogSeriesLabelsPos pos;
-} positions [] = 
+} positions [] =
 {
 	{ N_("Centered"), GOG_SERIES_LABELS_CENTERED },
 	{ N_("Top"), GOG_SERIES_LABELS_TOP },
@@ -566,7 +566,7 @@ gog_series_labels_parent_changed (GogObject *obj, gboolean was_set)
 			break;
 		}
 	}
-	
+
 }
 
 static void
@@ -578,7 +578,7 @@ gog_series_labels_finalize (GObject *obj)
 	series_labels_parent_klass->finalize (obj);
 }
 
-static void 
+static void
 gog_series_labels_class_init (GObjectClass *obj_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *) obj_klass;

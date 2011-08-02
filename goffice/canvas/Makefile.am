@@ -4,6 +4,7 @@ libgoffice_canvas_la_SOURCES =	\
 	goc-arc.c		\
 	goc-canvas.c		\
 	goc-circle.c		\
+	goc-component.c		\
 	goc-ellipse.c		\
 	goc-graph.c		\
 	goc-group.c		\
@@ -24,6 +25,7 @@ libgoffice_canvas_la_HEADERS =	\
 	goc-arc.h		\
 	goc-canvas.h		\
 	goc-circle.h		\
+	goc-component.h		\
 	goc-ellipse.h		\
 	goc-graph.h		\
 	goc-group.h		\

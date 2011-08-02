@@ -1473,7 +1473,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 			if (!first_label_done ||
 			    (!go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_old) &&
 			     !go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_first))) {
-				gog_renderer_draw_gostring 
+				gog_renderer_draw_gostring
 					(renderer, ticks[i].str,
 					 &label_pos, GO_ANCHOR_CENTER);
 				txt_obr_old = txt_obr;
@@ -2063,9 +2063,9 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				for (i = 0; i < tick_nbr; i++) {
 					if (ticks[i].str == NULL)
 						continue;
-					gog_renderer_get_text_OBR 
+					gog_renderer_get_text_OBR
 						(view->renderer,
-						 ticks[i].str->str, 
+						 ticks[i].str->str,
 						 FALSE, &obr);
 					if (obr.w > label_w)
 						label_w = obr.w;

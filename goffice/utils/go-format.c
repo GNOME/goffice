@@ -3076,13 +3076,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_MARKUP_SUPERSCRIPT_START:
 			if (layout)
-				markup_stack = g_slist_prepend 
+				markup_stack = g_slist_prepend
 					(markup_stack, GSIZE_TO_POINTER (dst->len));
 			break;
 
-		case OP_MARKUP_SUPERSCRIPT_END: 
+		case OP_MARKUP_SUPERSCRIPT_END:
 			if (layout) {
-				guint start = 0, 
+				guint start = 0,
 					end = (guint)dst->len;
 				PangoAttribute *attr;
 				if (markup_stack) {
@@ -3168,12 +3168,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			gsize denom_chars = g_utf8_strlen (dst->str + fraction.denominator_start, -1);
 			gsize nom_chars = total_chars - denom_chars - 1;
 			int diff = denom_chars - nom_chars;
-			
+
 			if (fraction.n == 0) {
 				/* Replace all added characters by spaces of the right length.  */
 				char const *f = dst->str + fraction.nominator_start;
 				gsize chars = g_utf8_strlen (f, -1);
-				
+
 				if (chars > 0) {
 					/* We have layouts that have no fontmap set, we need to avoid them */
 					if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
@@ -3209,12 +3209,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 							chars++;
 						}
 						go_list_free_custom (plist, (GFreeFunc) pango_item_free);
-					} 
-					
+					}
+
 					memset (dst->str + fraction.nominator_start, ' ', chars);
 					g_string_truncate (dst, fraction.nominator_start + chars);
 				}
-			} 
+			}
 
 			if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
 				if (diff > 0) {
@@ -3239,20 +3239,20 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 						PangoAttribute *attr;
 						PangoRectangle ink_rect;
 						PangoRectangle logical_rect;
-						
+
 						pango_shape (zero_str->str, diff, &pi->analysis, glyphs);
 						pango_glyph_string_extents (glyphs,
 									    pi->analysis.font,
 									    &ink_rect,
 									    &logical_rect);
 						pango_glyph_string_free (glyphs);
-						
+
 						attr = pango_attr_shape_new (&ink_rect, &logical_rect);
 						attr->start_index = start;
 						attr->end_index = start + 1;
 						g_string_insert_c (dst, start, ' ');
 						pango_attr_list_insert (attrs, attr);
-						
+
 						start++;
 					}
 					go_list_free_custom (plist, (GFreeFunc) pango_item_free);
@@ -3663,7 +3663,7 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 				 unicode_minus);
 			FREE_NEW_STR;
 			return err;
-			
+
 		case GO_FMT_EMPTY:
 			SETUP_LAYOUT;
 			FREE_NEW_STR;

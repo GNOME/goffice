@@ -86,13 +86,13 @@ void  gog_renderer_draw_selection_rectangle	(GogRenderer *renderer, GogViewAlloc
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
-				   GogViewAllocation const *pos, 
+				   GogViewAllocation const *pos,
 				   GOAnchorType anchor,
 				   gboolean use_markup);
 
 void  gog_renderer_draw_gostring  (GogRenderer *rend,
 				   GOString *str,
-				   GogViewAllocation const *pos, 
+				   GogViewAllocation const *pos,
 				   GOAnchorType anchor);
 
 void  gog_renderer_get_gostring_OBR   (GogRenderer *rend, GOString *str,

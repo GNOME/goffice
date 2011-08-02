@@ -1,5 +1,30 @@
 2011-08-02  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: needs librsvg.
+	* goffice/canvas/Makefile.am:  add component support to the canvas.
+	* goffice/canvas/goc-component.c: ditto.
+	* goffice/canvas/goc-component.h: ditto.
+	* goffice/canvas/goffice-canvas.h: ditto.
+	* goffice/component/Makefile.am: revisited the component API.
+	* goffice/component/go-component-factory.c: ditto.
+	* goffice/component/go-component-factory.h: ditto.
+	* goffice/component/go-component-mime-dialog.c: ditto.
+	* goffice/component/go-component-mime-dialog.h: ditto.
+	* goffice/component/go-component.c: ditto.
+	* goffice/component/go-component.h: ditto.
+	* goffice/component/goffice-component.h: ditto.
+	* goffice/graph/gog-axis-line.c: cleaned out extra spaces.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-renderer.c: ditto.
+	* goffice/graph/gog-renderer.h: ditto.
+	* goffice/graph/gog-series-labels.c: ditto.
+	* goffice/gtk/go-format-sel.c: ditto.
+	* goffice/utils/go-format.c: ditto.
+	* goffice/utils/go-pango-extras.h: ditto.
+	* plugins/plot_barcol/gog-barcol.c: ditto.
+
+2011-08-02  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/data/go-data-impl.h: add markup support.
 	* goffice/data/go-data.c: ditto.
 	* goffice/data/go-data.h: ditto.

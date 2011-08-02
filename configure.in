@@ -102,6 +102,7 @@ goffice_reqs="
 	pango			>= 1.24.0
 	pangocairo		>= 1.24.0
 	cairo			>= 1.10.0
+	librsvg-2.0		>= 2.22.0
 "
 
 goffice_gtk_reqs="
@@ -132,6 +133,18 @@ if test "x$goffice_with_lasem" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_LASEM, 1, [Define if Lasem is used])
 	goffice_reqs="$goffice_reqs lasem-0.4 >= 0.3.1 "
 	EXTRA_DEPS="$EXTRA_DEPS lasem-0.4"
+fi
+
+goffice_with_rsvg=false
+AC_ARG_WITH(librsvg, [  --with-librsvg          Build with librsvg use])
+if test "x$with_librsvg" = xyes; then
+	PKG_CHECK_MODULES(rsvg, librsvg-2.0 >= 2.22.0)
+	goffice_with_rsvg=true
+fi
+if test "x$goffice_with_rsvg" = "xtrue" ; then
+	AC_DEFINE(GOFFICE_WITH_RSVG, 1, [Define if librsvg is used])
+	goffice_reqs="$goffice_reqs librsvg-2.0 >= 2.22.0 "
+	EXTRA_DEPS="$EXTRA_DEPS librsvg-2.0"
 fi
 
 AM_CONDITIONAL(GOFFICE_WITH_LASEM, $goffice_with_lasem)

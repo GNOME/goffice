@@ -13,8 +13,8 @@ void go_pango_attr_list_unset (PangoAttrList  *list,
 			       PangoAttrType type);
 gboolean go_pango_attr_list_is_empty (const PangoAttrList *attrs);
 
-void go_load_pango_attributes_into_buffer (PangoAttrList *markup, 
-					   GtkTextBuffer *buffer, 
+void go_load_pango_attributes_into_buffer (PangoAttrList *markup,
+					   GtkTextBuffer *buffer,
 					   gchar const *str);
 void go_create_std_tags_for_buffer (GtkTextBuffer *buffer);
 

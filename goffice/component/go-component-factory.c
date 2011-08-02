@@ -330,7 +330,7 @@ GOComponent *
 go_component_new_by_mime_type (char const *mime_type)
 {
 	GType type;
-	GOMimeType *mtype = g_hash_table_lookup (mime_types, mime_type);
+	GOMimeType *mtype = (mime_types)? g_hash_table_lookup (mime_types, mime_type): NULL;
 	if (mtype == NULL)
 		return NULL;
 	type = g_type_from_name (mtype->component_type_name);
@@ -369,4 +369,17 @@ go_component_new_by_mime_type (char const *mime_type)
 	}
 
 	return g_object_new (type, "mime-type", mime_type, NULL);
+}
+
+void go_components_add_filter (GtkFileChooser *chooser)
+{
+	GtkFileFilter* filter;
+	GSList *ptr;
+
+	g_return_if_fail (GTK_IS_FILE_CHOOSER (chooser));
+
+	filter = gtk_file_filter_new ();
+	for (ptr = mime_types_names; ptr != NULL; ptr = ptr->next)
+		gtk_file_filter_add_mime_type (filter, (char const *) ptr->data);
+	gtk_file_chooser_set_filter (chooser, filter);
 }

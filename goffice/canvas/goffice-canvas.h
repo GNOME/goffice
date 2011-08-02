@@ -44,6 +44,7 @@ typedef struct _GocStyledItem	GocStyledItem;
 typedef struct _GocText		GocText;
 typedef struct _GocWidget	GocWidget;
 typedef struct _GocGraph	GocGraph;
+typedef struct _GocComponent	GocComponent;
 
 G_END_DECLS
 
@@ -56,6 +57,7 @@ G_END_DECLS
 #include <goffice/canvas/goc-utils.h>
 
 #include <goffice/canvas/goc-circle.h>
+#include <goffice/canvas/goc-component.h>
 #include <goffice/canvas/goc-ellipse.h>
 #include <goffice/canvas/goc-graph.h>
 #include <goffice/canvas/goc-group.h>

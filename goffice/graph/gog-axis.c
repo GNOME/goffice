@@ -178,13 +178,13 @@ axis_format_value (GogAxis *axis, double val, GOString **str)
 	if (err)
 		*str = go_string_new ("#####");
 	else
-		*str = go_string_new_rich 
+		*str = go_string_new_rich
 			(g_strdup (pango_layout_get_text (layout)),
 			 -1,
 			 FALSE,
 			 pango_attr_list_ref (pango_layout_get_attributes (layout)),
 			 NULL);
-	
+
 	g_object_unref (layout);
 }
 

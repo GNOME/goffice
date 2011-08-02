@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goffice-component.h :
+ * goc-component.h :
  *
- * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2010 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -15,24 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
 
-#ifndef GOFFICE_COMPONENT_H
-#define GOFFICE_COMPONENT_H
+#ifndef GOC_COMPONENT_H
+#define GOC_COMPONENT_H
 
-#include <glib.h>
+#include <goffice/goffice.h>
+#include <goffice/component/goffice-component.h>
 
 G_BEGIN_DECLS
 
-typedef struct _GOComponent GOComponent;
-typedef struct _GOComponentType GOComponentType;
-typedef struct _GOComponentMimeDialog GOComponentMimeDialog;
+#define GOC_TYPE_COMPONENT	(goc_component_get_type ())
+#define GOC_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_COMPONENT, GocComponent))
+#define GOC_IS_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_COMPONENT))
 
-#include <goffice/component/go-component.h>
-#include <goffice/component/go-component-factory.h>
-#include <goffice/component/go-component-mime-dialog.h>
+GType goc_component_get_type (void);
+
+GOComponent * goc_component_get_object (GocComponent *component);
+
 G_END_DECLS
 
-#endif	/* GOFFICE_COMPONENT_H */
+#endif  /* GOC_COMPONENT_H */

@@ -2,7 +2,7 @@
 /*
  * go-component.h :
  *
- * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2005-2010 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -30,6 +30,13 @@ G_BEGIN_DECLS
 
 GO_VAR_DECL double GOCXres, GOCYres;
 
+typedef enum {
+	GO_SNAPSHOT_NONE,
+	GO_SNAPSHOT_SVG,
+	GO_SNAPSHOT_PNG,
+	GO_SNAPSHOT_MAX
+} GOSnapshotType;
+
 struct _GOComponent {
 	GObject parent;
 
@@ -39,8 +46,13 @@ struct _GOComponent {
 	double default_width, default_ascent, default_descent;
 	gboolean needs_window, resizable, editable;
 	char const *data;
+	GDestroyNotify destroy_notify;
+	gpointer destroy_data;
 	int length;
 	GdkWindow *window;
+	GOSnapshotType snapshot_type;
+	void *snapshot_data;
+	size_t snapshot_length;
 };
 
 struct _GOComponentClass {
@@ -71,6 +83,7 @@ typedef struct _GOComponentClass GOComponentClass;
 
 GType	  go_component_get_type (void);
 GOComponent  *go_component_new_by_mime_type	(char const *mime_type);
+GOComponent  *go_component_new_from_uri	(char const *uri);
 
 void go_component_set_default_size (GOComponent *component,
 				    double width, double ascent, double descent);
@@ -89,6 +102,14 @@ void go_component_emit_changed (GOComponent *component);
 void go_component_set_command_context (GOCmdContext *cc);
 GOCmdContext *go_component_get_command_context (void);
 void go_component_render (GOComponent *component, cairo_t *cr, double width, double height);
+void go_component_get_size (GOComponent *component, double *width, double *height);
+
+void go_component_write_xml_sax (GOComponent *component, GsfXMLOut *output);
+typedef void (*GOComponentSaxHandler)(GOComponent *component, gpointer user_data);
+void go_component_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
+				       GOComponentSaxHandler handler, gpointer user_data);
+
+GOSnapshotType go_component_build_snapshot (GOComponent *component);
 
 G_END_DECLS
 

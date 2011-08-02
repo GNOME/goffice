@@ -867,7 +867,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 			gog_renderer_pop_style (view->renderer);
 		}
-			
+
 	gog_chart_map_free (chart_map);
 }
 

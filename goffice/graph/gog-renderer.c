@@ -818,9 +818,9 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 	pango_layout_set_font_description (layout, style->font.font->desc);
 	pango_layout_get_size (layout, &iw, &ih);
 
-	obr.w = rend->scale * ((double) iw + (double) PANGO_SCALE / 2.0) 
+	obr.w = rend->scale * ((double) iw + (double) PANGO_SCALE / 2.0)
 		/ (double) PANGO_SCALE;
-	obr.h = rend->scale * ((double) ih + (double) PANGO_SCALE / 2.0) 
+	obr.h = rend->scale * ((double) ih + (double) PANGO_SCALE / 2.0)
 		/(double) PANGO_SCALE;
 	obr.alpha = -style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
@@ -849,9 +849,9 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 
 	cairo_save (cairo);
 	cairo_set_source_rgba (cairo, GO_COLOR_TO_CAIRO (style->font.color));
-	cairo_move_to (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) + 
+	cairo_move_to (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) +
 		       (obr.h / 2.0) * sin (obr.alpha),
-		       obr.y - (obr.w / 2.0) * sin (obr.alpha) - 
+		       obr.y - (obr.w / 2.0) * sin (obr.alpha) -
 		       (obr.h / 2.0) * cos (obr.alpha));
 	cairo_rotate (cairo, obr.alpha);
 	cairo_scale (cairo, rend->scale, rend->scale);
@@ -941,9 +941,9 @@ gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str, GOGeometryOBR *
 	pango_layout_get_extents (layout, NULL, &logical);
 	g_object_unref (layout);
 
-	obr->w = rend->scale * ((double) logical.width + (double) PANGO_SCALE / 2.0) 
+	obr->w = rend->scale * ((double) logical.width + (double) PANGO_SCALE / 2.0)
 		/ (double) PANGO_SCALE;
-	obr->h = rend->scale * ((double) logical.height + (double) PANGO_SCALE / 2.0) 
+	obr->h = rend->scale * ((double) logical.height + (double) PANGO_SCALE / 2.0)
 		/(double) PANGO_SCALE;
 
 	/* Make sure invisible things don't skew size */

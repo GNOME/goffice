@@ -199,13 +199,13 @@ draw_format_preview (GOFormatSel *gfs, gboolean regen_format)
 
 	len = g_utf8_strlen (preview, -1);
 	if (len > FORMAT_PREVIEW_MAX)
-		strcpy (g_utf8_offset_to_pointer (preview, 
+		strcpy (g_utf8_offset_to_pointer (preview,
 						  FORMAT_PREVIEW_MAX - 5),
 			"...");
 
 	gtk_text_buffer_set_text (gfs->format.preview_buffer, preview, -1);
 
-	go_load_pango_attributes_into_buffer (attrs, 
+	go_load_pango_attributes_into_buffer (attrs,
 					      gfs->format.preview_buffer,
 					      preview);
 

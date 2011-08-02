@@ -47,6 +47,7 @@ gboolean go_components_support_clipboard (char const *mime_type);
 void go_components_add_mime_type (char *mime, GOMimePriority priority, char const *service_id);
 void go_components_set_mime_suffix (char const *mime, char const *suffix);
 char const *go_components_get_mime_suffix (char const *mime);
+void go_components_add_filter (GtkFileChooser *chooser);
 
 void _goc_plugin_services_init (void);
 void _goc_plugin_services_shutdown (void);

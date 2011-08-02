@@ -2,7 +2,7 @@
 /*
  * go-component.c :
  *
- * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2005-2010 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -22,8 +22,39 @@
 #include <goffice/goffice-config.h>
 #include <goffice/component/goffice-component.h>
 #include <goffice/component/go-component.h>
-
+#include <gsf/gsf-libxml.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-input.h>
+#include <gsf/gsf-output-memory.h>
+#include <gio/gio.h>
+#include <cairo-svg.h>
+#include <librsvg/rsvg.h>
+#include <librsvg/rsvg-cairo.h>
+#include <string.h>
+
+static struct {
+	GOSnapshotType type;
+	char const *name;
+} snapshot_types[GO_SNAPSHOT_MAX] = {
+	{ GO_SNAPSHOT_NONE, "none"},
+	{ GO_SNAPSHOT_SVG, "svg"},
+	{ GO_SNAPSHOT_PNG, "png"}
+};
+
+static GOSnapshotType
+go_snapshot_type_from_string (char const *name)
+{
+	unsigned i;
+	GOSnapshotType ret = GO_SNAPSHOT_NONE;
+
+	for (i = 0; i < GO_SNAPSHOT_MAX; i++) {
+		if (strcmp (snapshot_types[i].name, name) == 0) {
+			ret = snapshot_types[i].type;
+			break;
+		}
+	}
+	return ret;
+}
 
 /**
  * GOComponentClass:
@@ -58,6 +89,12 @@ enum {
 	LAST_SIGNAL
 };
 static gulong go_component_signals [LAST_SIGNAL] = { 0, };
+
+enum {
+	GO_COMPONENT_SNAPSHOT_NONE,
+	GO_COMPONENT_SNAPSHOT_SVG,
+	GO_COMPONENT_SNAPSHOT_PNG,
+};
 
 static GObjectClass *component_parent_klass;
 
@@ -125,6 +162,11 @@ go_component_finalize (GObject *obj)
 
 	g_free (component->mime_type);
 
+	if (component->destroy_notify != NULL) {
+		component->destroy_notify (component->destroy_data);
+		component->destroy_notify = NULL;
+	}
+
 	(*component_parent_klass->finalize) (obj);
 }
 
@@ -140,7 +182,7 @@ go_component_class_init (GOComponentClass *klass)
 
 	g_object_class_install_property (gobject_klass, COMPONENT_PROP_MIME_TYPE,
 		g_param_spec_string ("mime-type", "mime-type", "mime type of the content of the component",
-			NULL, G_PARAM_READWRITE));
+			NULL, (GParamFlags) (G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY)));
 	g_object_class_install_property (gobject_klass, COMPONENT_PROP_WIDTH,
 		g_param_spec_double ("width", "Width",
 			"Component width",
@@ -184,6 +226,123 @@ go_component_init (GOComponent *component)
 GSF_CLASS_ABSTRACT (GOComponent, go_component,
 		    go_component_class_init, go_component_init,
 		    G_TYPE_OBJECT)
+
+/******************************************************************************
+ * GOComponentSnapshot: component class used when actual class is not         *
+ * available, just displays the snapshot                                      *
+ ******************************************************************************/
+
+typedef struct {
+	GOComponent base;
+	gpointer *image;
+} GOComponentSnapshot;
+typedef GOComponentClass GOComponentSnapshotClass;
+
+GType go_component_snapshot_get_type (void);
+
+static GObjectClass *snapshot_parent_klass;
+
+static void
+go_component_snapshot_render (GOComponent *component, cairo_t *cr,
+			double width, double height)
+{
+	GOComponentSnapshot *snapshot = (GOComponentSnapshot *) component;
+	switch (component->snapshot_type) {
+	case GO_SNAPSHOT_SVG:
+#if defined(GOFFICE_WITH_RSVG)
+		if (snapshot->image == NULL) {
+			GError *err = NULL;
+			snapshot->image = (void *) rsvg_handle_new_from_data (
+							component->snapshot_data,
+							component->snapshot_length,
+							&err);
+			if (err) {
+				g_error_free (err);
+				if (snapshot->image)
+					g_object_unref (snapshot->image);
+				snapshot->image = NULL;
+			}
+		}
+		if (snapshot->image != NULL) {
+			RsvgDimensionData dim;
+			double scalex = 1., scaley = 1.;
+			cairo_save (cr);
+			rsvg_handle_get_dimensions (RSVG_HANDLE (snapshot->image), &dim);
+			cairo_user_to_device_distance (cr, &scalex, &scaley);
+			cairo_scale (cr, width * scalex / dim.width,
+						 height * scaley / dim.height);
+			rsvg_handle_render_cairo (RSVG_HANDLE (snapshot->image), cr);
+			cairo_restore (cr);
+		}
+		break;
+#elif defined(GOFFICE_WITH_LASEM)
+		/* TODO: implement a Lasem based svg rendering when possible */
+#endif
+	case GO_SNAPSHOT_PNG: {
+		cairo_pattern_t *pattern;
+		if (snapshot->image == NULL) {
+			GInputStream *in = g_memory_input_stream_new_from_data (
+						component->snapshot_data,
+						component->snapshot_length,
+						NULL);
+			GError *err = NULL;
+			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_stream (in, NULL, &err);
+			if (err) {
+				g_error_free (err);
+			} else
+				snapshot->image = (void *) go_image_new_from_pixbuf (pixbuf);
+			if (pixbuf)
+				g_object_unref (pixbuf);
+
+		}
+		cairo_rectangle (cr, 0, 0, width, height);
+		if (snapshot->image != NULL) {
+			int w, h;
+			double scalex = 1., scaley = 1.;
+			cairo_matrix_t matrix;
+			pattern = go_image_create_cairo_pattern (GO_IMAGE (snapshot->image));
+			g_object_get (snapshot->image, "width", &w, "height", &h, NULL);
+			cairo_user_to_device_distance (cr, &scalex, &scaley);
+			cairo_matrix_init_scale (&matrix,
+						 w / width * scalex,
+						 h / height * scaley);
+			cairo_pattern_set_matrix (pattern, &matrix);
+		} else
+			pattern = cairo_pattern_create_rgba (1, 1, 1, 1);
+		cairo_set_source (cr, pattern);
+		cairo_pattern_destroy (pattern);
+		cairo_fill (cr);
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+static void
+go_component_shapshot_finalize (GObject *obj)
+{
+	GOComponentSnapshot *snapshot = (GOComponentSnapshot *) obj;
+
+	if (G_IS_OBJECT (snapshot->image))
+		g_object_unref (G_OBJECT (snapshot->image));
+
+	(*snapshot_parent_klass->finalize) (obj);
+}
+
+static void
+go_component_snapshot_class_init (GOComponentClass *klass)
+{
+	snapshot_parent_klass = g_type_class_peek_parent (klass);
+	((GObjectClass *) klass)->finalize = go_component_shapshot_finalize;
+	klass->render = go_component_snapshot_render;
+}
+
+GSF_CLASS (GOComponentSnapshot, go_component_snapshot,
+	go_component_snapshot_class_init, NULL,
+	GO_TYPE_COMPONENT)
+
+/******************************************************************************/
 
 void
 go_component_set_default_size (GOComponent *component, double width, double ascent, double descent)
@@ -255,13 +414,23 @@ go_component_get_data (GOComponent *component, gpointer *data, int *length,
 		       GDestroyNotify *clearfunc, gpointer *user_data)
 {
 	GOComponentClass *klass;
+	gboolean res =  FALSE;
 
 	g_return_val_if_fail (GO_IS_COMPONENT (component), FALSE);
 
-	klass = GO_COMPONENT_GET_CLASS(component);
+	if (component->destroy_notify != NULL) {
+		component->destroy_notify (component->destroy_data);
+		component->destroy_notify = NULL;
+	}
+
+	klass = GO_COMPONENT_GET_CLASS (component);
 	if (klass->get_data)
-		return klass->get_data (component, data, length, clearfunc, user_data);
-	return FALSE;
+		res = klass->get_data (component, data, length, clearfunc, user_data);
+	if (res) {
+		component->data = (char const *) *data;
+		component->length = *length;
+	}
+	return res;
 }
 
 void
@@ -324,6 +493,10 @@ go_component_emit_changed (GOComponent *component)
 {
 	g_return_if_fail (GO_IS_COMPONENT (component));
 
+	g_free (component->snapshot_data);
+	component->snapshot_data = NULL;
+	component->snapshot_length = 0;
+
 	g_signal_emit (G_OBJECT (component),
 		go_component_signals [CHANGED], 0);
 }
@@ -344,4 +517,268 @@ GOCmdContext *
 go_component_get_command_context (void)
 {
 	return goc_cc;
+}
+
+void
+go_component_get_size (GOComponent *component, double *width, double *height)
+{
+	*width = component->width;
+	if (component->height == 0.)
+		component->height = component->ascent >+ component->descent;
+	*height = component->height;
+}
+
+void
+go_component_write_xml_sax (GOComponent *component, GsfXMLOut *output)
+{
+	guint i, nbprops;
+	GType    prop_type;
+	GValue	 value;
+	GParamSpec **specs = g_object_class_list_properties (
+				G_OBJECT_GET_CLASS (component), &nbprops);
+
+	gsf_xml_out_start_element (output, "GOComponent");
+	gsf_xml_out_add_cstr (output, "mime-type", component->mime_type);
+	gsf_xml_out_add_float (output, "width", component->width, 3);
+	gsf_xml_out_add_float (output, "height", component->height, 3);
+	/* save needed component specific properties */
+	for (i = 0; i < nbprops; i++)
+		if (specs[i]->flags & GOC_PARAM_PERSISTENT) {
+			prop_type = G_PARAM_SPEC_VALUE_TYPE (specs[i]);
+			memset (&value, 0, sizeof (value));
+			g_value_init (&value, prop_type);
+			g_object_get_property  (G_OBJECT (component), specs[i]->name, &value);
+			if (!g_param_value_defaults (specs[i], &value))
+				gsf_xml_out_add_gvalue (output, specs[i]->name, &value);
+			g_value_unset (&value);
+		}
+	gsf_xml_out_start_element (output, "data");
+	if (component->length == 0)
+		go_component_get_data (component, (void **) &component->data, &component->length,
+		                       &component->destroy_notify, &component->destroy_data);
+	gsf_xml_out_add_base64 (output, NULL, component->data, component->length);
+	gsf_xml_out_end_element (output);
+	if (component->snapshot_type != GO_SNAPSHOT_NONE && component->snapshot_data == NULL)
+		go_component_build_snapshot (component);
+	if (component->snapshot_data != NULL) {
+		gsf_xml_out_start_element (output, "snapshot");
+		gsf_xml_out_add_cstr (output, "type", component->snapshot_type == GO_SNAPSHOT_SVG? "svg": "png");
+		gsf_xml_out_add_base64 (output, NULL, component->snapshot_data, component->snapshot_length);
+		gsf_xml_out_end_element (output);
+	}
+	gsf_xml_out_end_element (output);
+}
+
+typedef struct {
+	GOComponent	*component;
+	unsigned	 dimension_id;
+
+	GOComponentSaxHandler handler;
+	gpointer user_data;
+} GOCompXMLReadState;
+
+static void
+_go_component_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GOCompXMLReadState *state = (GOCompXMLReadState *) xin->user_state;
+	char const *mime_type = NULL;
+	int i;
+	double width = 1., height = 1.;
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (0 == strcmp (attrs[i], "mime-type"))
+			mime_type = (char const *) attrs[i+1];
+		else if (0 == strcmp (attrs[i], "width"))
+			width = go_ascii_strtod ((char const *) attrs[i+1], NULL);
+		else if (0 == strcmp (attrs[i], "height"))
+			height = go_ascii_strtod ((char const *) attrs[i+1], NULL);
+
+	g_return_if_fail (mime_type);
+	state->component = go_component_new_by_mime_type (mime_type);
+	if (!state->component) {
+		state->component = g_object_new (go_component_snapshot_get_type (), NULL);
+		state->component->mime_type = g_strdup (mime_type);
+		state->component->width = width;
+		state->component->height = height;
+	} else for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2) {
+		GParamSpec *prop_spec;
+		GValue res;
+		memset (&res, 0, sizeof (res));
+		prop_spec = g_object_class_find_property (
+				G_OBJECT_GET_CLASS (state->component), attrs[i]);
+		if (prop_spec && (prop_spec->flags & GOC_PARAM_PERSISTENT) &&
+			gsf_xml_gvalue_from_str (&res,
+				G_TYPE_FUNDAMENTAL (G_PARAM_SPEC_VALUE_TYPE (prop_spec)),
+				attrs[i+1])) {
+			g_object_set_property (G_OBJECT (state->component), attrs[i], &res);
+			g_value_unset (&res);
+		}
+	}
+
+}
+
+static void
+_go_component_load_data (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GOCompXMLReadState *state = (GOCompXMLReadState *) xin->user_state;
+	GOComponentClass *klass;
+	GOComponent *component = state->component;
+	size_t length;
+
+	g_return_if_fail (component);
+
+	component->data = component->destroy_data = g_base64_decode (xin->content->str, &length);
+	component->destroy_notify = g_free;
+	component->length = length;
+	klass = GO_COMPONENT_GET_CLASS (component);
+	if (klass->set_data)
+		klass->set_data (component);
+}
+
+static void
+_go_component_start_snapshot (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GOCompXMLReadState *state = (GOCompXMLReadState *) xin->user_state;
+	int i;
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (0 == strcmp (attrs[i], "type"))
+			state->component->snapshot_type = go_snapshot_type_from_string ((char const *) attrs[i+1]);
+}
+
+static void
+_go_component_load_snapshot (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GOCompXMLReadState *state = (GOCompXMLReadState *) xin->user_state;
+	size_t length;
+	state->component->snapshot_data = g_base64_decode (xin->content->str, &length);
+	state->component->snapshot_length = length;
+}
+
+static void
+_go_component_sax_parser_done (GsfXMLIn *xin, GOCompXMLReadState *state)
+{
+	(*state->handler) (state->component, state->user_data);
+	g_free (state);
+}
+
+void
+go_component_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
+				GOComponentSaxHandler handler, gpointer user_data)
+{
+	static GsfXMLInNode const dtd[] = {
+	  GSF_XML_IN_NODE (GO_COMP, GO_COMP, -1, "GOComponent",	GSF_XML_NO_CONTENT, &_go_component_start, NULL),
+	    GSF_XML_IN_NODE (GO_COMP, GO_COMP_DATA, -1, "data", GSF_XML_CONTENT, NULL, &_go_component_load_data),
+	    GSF_XML_IN_NODE (GO_COMP, GO_COMP_SNAPSHOT, -1, "snapshot", GSF_XML_CONTENT, &_go_component_start_snapshot, &_go_component_load_snapshot),
+	  GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *doc = NULL;
+	GOCompXMLReadState *state;
+
+	if (NULL == doc)
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+	state = g_new0 (GOCompXMLReadState, 1);
+	state->handler = handler;
+	state->user_data = user_data;
+	gsf_xml_in_push_state (xin, doc, state,
+		(GsfXMLInExtDtor) _go_component_sax_parser_done, attrs);
+}
+
+struct write_state {
+	size_t length;
+	GsfOutput *output;
+};
+
+static cairo_status_t
+gsf_output_from_cairo (struct write_state *state, unsigned char *data, unsigned int length)
+{
+	if (gsf_output_write (state->output, length, data)) {
+		state->length += length;
+		return CAIRO_STATUS_SUCCESS;
+	} else
+		return CAIRO_STATUS_WRITE_ERROR;
+}
+
+GOSnapshotType
+go_component_build_snapshot (GOComponent *component)
+{
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	cairo_status_t status;
+	GOSnapshotType res;
+	struct write_state state;
+
+	g_return_val_if_fail (GO_IS_COMPONENT (component), GO_SNAPSHOT_NONE);
+
+	state.output = gsf_output_memory_new ();
+	state.length = 0;
+
+	switch (component->snapshot_type) {
+	case GO_SNAPSHOT_SVG:
+		surface = cairo_svg_surface_create_for_stream (
+                                     (cairo_write_func_t) gsf_output_from_cairo,
+                                     &state,
+                                     component->width * 72,
+                                     component->height * 72);
+		cr = cairo_create (surface);
+		go_component_render (component, cr, component->width * 72, component->height * 72);
+		break;
+	case GO_SNAPSHOT_PNG:
+		surface = cairo_image_surface_create (
+		                                     CAIRO_FORMAT_ARGB32,
+		                                     component->width * 300,
+		                                     component->height * 300);
+		cr = cairo_create (surface);
+		go_component_render (component, cr, component->width * 300, component->height * 300);
+		cairo_surface_write_to_png_stream (surface,
+		                     (cairo_write_func_t) gsf_output_from_cairo,
+		                     &state);
+		break;
+	default:
+		return GO_SNAPSHOT_NONE;
+	}
+	if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS) {
+	} else
+		res = GO_SNAPSHOT_NONE;
+
+	cairo_surface_destroy (surface);
+	status = cairo_status (cr);
+	cairo_destroy (cr);
+	if (status == CAIRO_STATUS_SUCCESS && state.length > 0) {
+		component->snapshot_length = state.length;
+		component->snapshot_data = g_new (char, state.length);
+		memcpy(component->snapshot_data, gsf_output_memory_get_bytes ((GsfOutputMemory *) state.output), state.length);
+	}
+	g_object_unref (state.output);
+	return res;
+}
+
+GOComponent  *
+go_component_new_from_uri (char const *uri)
+{
+	char *mime_type;
+	GsfInput *input;
+	GOComponent *component;
+	GError *err;
+	size_t length;
+	char *data;
+
+	g_return_val_if_fail (uri && *uri, NULL);
+
+	mime_type = go_get_mime_type (uri);
+	if (!mime_type)
+		return NULL;
+	component = go_component_new_by_mime_type (mime_type);
+	g_free (mime_type);
+	input = go_file_open (uri, &err);
+	if (err) {
+		g_error_free (err);
+		return NULL;
+	}
+	length = gsf_input_size (input);
+	data = g_new (guint8, length);
+	gsf_input_read (input, length, data);
+	go_component_set_data (component, data, length);
+	component->destroy_notify = g_free;
+	return component;
 }
