@@ -76,7 +76,7 @@ go_component_mime_dialog_init (GOComponentMimeDialog *dlg)
 		l = l->next;
 	}
 	dlg->list = GTK_TREE_MODEL (list);
-	gtk_container_addt (GTK_CONTAINER (gtk_dialog_get_content_area (&dlg->base)), w, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (&dlg->base)), w);
 	gtk_widget_show_all (gtk_dialog_get_content_area (&dlg->base));
 }
 
