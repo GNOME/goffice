@@ -62,6 +62,10 @@ char *		go_data_get_scalar_string	(GOData *data);
 char *		go_data_get_vector_string	(GOData *data, unsigned int column);
 char *		go_data_get_matrix_string	(GOData *data, unsigned int row, unsigned int column);
 
+PangoAttrList *	go_data_get_scalar_markup	(GOData *data);
+PangoAttrList *	go_data_get_vector_markup	(GOData *data, unsigned int column);
+PangoAttrList *	go_data_get_matrix_markup	(GOData *data, unsigned int row, unsigned int column);
+
 /*************************************************************************/
 
 #define GO_TYPE_DATA_SCALAR	(go_data_scalar_get_type ())
@@ -72,6 +76,7 @@ GType go_data_scalar_get_type (void);
 
 double      go_data_scalar_get_value  (GODataScalar *val);
 char const *go_data_scalar_get_str    (GODataScalar *val);
+PangoAttrList *go_data_scalar_get_markup    (GODataScalar *val);
 
 /*************************************************************************/
 
@@ -85,6 +90,7 @@ int	 go_data_vector_get_len    (GODataVector *vec);
 double	*go_data_vector_get_values (GODataVector *vec);
 double	 go_data_vector_get_value  (GODataVector *vec, unsigned i);
 char	*go_data_vector_get_str    (GODataVector *vec, unsigned i);
+PangoAttrList *go_data_vector_get_markup (GODataVector *vec, unsigned i);
 void	 go_data_vector_get_minmax (GODataVector *vec, double *min, double *max);
 gboolean go_data_vector_increasing (GODataVector *vec);
 gboolean go_data_vector_decreasing (GODataVector *vec);
@@ -102,6 +108,7 @@ GODataMatrixSize	 go_data_matrix_get_size    (GODataMatrix *mat);
 double	*go_data_matrix_get_values (GODataMatrix *mat);
 double	 go_data_matrix_get_value  (GODataMatrix *mat, unsigned i, unsigned j);
 char	*go_data_matrix_get_str    (GODataMatrix *mat, unsigned i, unsigned j);
+PangoAttrList *go_data_matrix_get_markup (GODataMatrix *mat, unsigned i, unsigned j);
 void	 go_data_matrix_get_minmax (GODataMatrix *mat, double *min, double *max);
 
 G_END_DECLS

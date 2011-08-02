@@ -1,3 +1,20 @@
+2011-08-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-impl.h: add markup support.
+	* goffice/data/go-data.c: ditto.
+	* goffice/data/go-data.h: ditto.
+	* goffice/goffice.c: add initial support for data labels.
+	* goffice/graph/Makefile.am: ditto.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-series-impl.h: ditto.
+	* goffice/graph/gog-series-labels-prefs.ui: ditto.
+	* goffice/graph/gog-series-labels.c: ditto.
+	* goffice/graph/gog-series-labels.h: ditto.
+	* goffice/graph/gog-theme.c: ditto.
+	* plugins/plot_barcol/gog-1.5d.c: add support for d	ata labels in bar/col
+	plots.
+	* plugins/plot_barcol/gog-barcol.c: ditto.
+
 2011-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/app/go-cmd-context-impl.h (GOCmdContextClass): move

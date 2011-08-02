@@ -811,6 +811,16 @@ static void build_predefined_themes (void)
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
 
+	/* series labels */
+	style = go_style_new ();
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0; /* none */
+	style->line.color = GO_COLOR_BLACK;
+	style->fill.type = GO_STYLE_FILL_NONE;
+	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_WHITE);
+	go_style_set_font_desc (style, pango_font_description_from_string ("Sans 6"));
+	gog_theme_add_element (theme, style, NULL, "GogSeriesLabels", NULL);
+
 #ifdef GOFFICE_WITH_LASEM
 	/* Equations */
 	style = go_style_new ();
@@ -935,6 +945,16 @@ static void build_predefined_themes (void)
 	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_WHITE);
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
+
+	/* series labels */
+	style = go_style_new ();
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0; /* none */
+	style->line.color = GO_COLOR_BLACK;
+	style->fill.type = GO_STYLE_FILL_NONE;
+	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_WHITE);
+	go_style_set_font_desc (style, pango_font_description_from_string ("Sans 6"));
+	gog_theme_add_element (theme, style, NULL, "GogSeriesLabels", NULL);
 
 #ifdef GOFFICE_WITH_LASEM
 	/* Equations */

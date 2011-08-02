@@ -204,7 +204,7 @@ gog_plot1_5d_update (GogObject *obj)
 		if (model->fmt == NULL)
 			model->fmt = go_data_preferred_fmt (series->base.values[1].data);
 		model->date_conv = go_data_date_conv (series->base.values[1].data);
-		index_dim = GOG_SERIES (series)->values[0].data;
+		index_dim = series->base.values[0].data;
 	}
 	axis = gog_plot1_5d_get_index_axis (model);
 	if (model->num_elements != num_elements ||
@@ -391,8 +391,7 @@ series_lines_can_add (GogObject const *parent)
 	plots and lines with dropbars and high-low lines */
 	if (GOG_IS_PLOT_BARCOL (plot) && plot->type == GOG_1_5D_NORMAL)
 		return FALSE;
-	return (plot->support_series_lines &&
-								!series->has_series_lines);
+	return (plot->support_series_lines && !series->has_series_lines);
 }
 
 static void
@@ -483,29 +482,29 @@ gog_series1_5d_update (GogObject *obj)
 {
 	double *vals;
 	int len = 0;
-	GogSeries1_5d *series = GOG_SERIES1_5D (obj);
-	unsigned old_num = series->base.num_elements;
+	GogSeries *series = GOG_SERIES (obj);
+	unsigned old_num = series->num_elements;
 
-	if (series->base.values[1].data != NULL) {
-		vals = go_data_get_values (series->base.values[1].data);
-		len = go_data_get_vector_size (series->base.values[1].data);
+	if (series->values[1].data != NULL) {
+		vals = go_data_get_values (series->values[1].data);
+		len = go_data_get_vector_size (series->values[1].data);
 	}
-	series->base.num_elements = len;
+	series->num_elements = len;
 
-	if (series->base.plot->desc.series.num_dim == 3) {
+	if (series->plot->desc.series.num_dim == 3) {
 		int tmp = 0;
-		if (series->base.values[2].data != NULL) {
-			vals = go_data_get_values (series->base.values[2].data);
-			tmp = go_data_get_vector_size (series->base.values[2].data);
+		if (series->values[2].data != NULL) {
+			vals = go_data_get_values (series->values[2].data);
+			tmp = go_data_get_vector_size (series->values[2].data);
 		}
 		if (tmp < len)
 			len = tmp;
 	}
 
 	/* queue plot for redraw */
-	gog_object_request_update (GOG_OBJECT (series->base.plot));
-	if (old_num != series->base.num_elements)
-		gog_plot_request_cardinality_update (series->base.plot);
+	gog_object_request_update (GOG_OBJECT (series->plot));
+	if (old_num != series->num_elements)
+		gog_plot_request_cardinality_update (series->plot);
 
 	if (gog_series1_5d_parent_klass->update)
 		gog_series1_5d_parent_klass->update (obj);

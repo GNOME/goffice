@@ -256,6 +256,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogBarColPlot const *model = GOG_BARCOL_PLOT (view->model);
 	GogPlot1_5d const *gog_1_5d_model = GOG_PLOT1_5D (view->model);
 	GogSeries1_5d const *series;
+	GogSeries const *base_series;
 	GogAxisMap *x_map, *y_map, *val_map;
 	GogViewAllocation work;
 	double *start_vals, *end_vals;
@@ -302,7 +303,8 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
-		if (!gog_series_is_valid (GOG_SERIES (series)))
+		base_series = GOG_SERIES (series);
+		if (!gog_series_is_valid (base_series))
 			continue;
 		prec_valid = FALSE;
 		neg_style = go_style_dup ((GOG_STYLED_OBJECT (series))->style);
@@ -310,10 +312,10 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		neg_style->fill.pattern.back ^= 0xffffff00;
 		neg_style->fill.pattern.fore ^= 0xffffff00;
 		x = offset;
-		start_vals = go_data_get_values (series->base.values[1].data);
-		n = go_data_get_vector_size (series->base.values[1].data);
-		end_vals = go_data_get_values (series->base.values[2].data);
-		tmp = go_data_get_vector_size (series->base.values[2].data);
+		start_vals = go_data_get_values (base_series->values[1].data);
+		n = go_data_get_vector_size (base_series->values[1].data);
+		end_vals = go_data_get_values (base_series->values[2].data);
+		tmp = go_data_get_vector_size (base_series->values[2].data);
 		if (n > tmp)
 			n = tmp;
 

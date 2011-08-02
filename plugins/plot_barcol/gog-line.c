@@ -164,11 +164,12 @@ static void
 gog_line_series_update (GogObject *obj)
 {
 	GogLineSeries *series = GOG_LINE_SERIES (obj);
-	unsigned i, nb = series->base.base.num_elements;
+	GogSeries *base_series = GOG_SERIES (obj);
+	unsigned i, nb = base_series->num_elements;
 	GSList *ptr;
 	(GOG_OBJECT_CLASS (series_parent_klass))->update (obj);
-	if (nb != series->base.base.num_elements) {
-		nb = series->base.base.num_elements;
+	if (nb != base_series->num_elements) {
+		nb = base_series->num_elements;
 		g_free (series->x);
 		series->x = g_new (double, nb);
 		for (i = 0; i < nb; i++)
@@ -499,6 +500,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogPlot1_5d const *model = GOG_PLOT1_5D (view->model);
 	GogPlot1_5dType const type = model->type;
 	GogSeries1_5d const *series;
+	GogSeries const *base_series;
 	GogChart *chart = GOG_CHART (view->model->parent);
 	GogChartMap *chart_map;
 	GogViewAllocation const *area;
@@ -571,15 +573,16 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	i = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
+		base_series = GOG_SERIES (series);
 
-		if (!gog_series_is_valid (GOG_SERIES (series))) {
+		if (!gog_series_is_valid (base_series)) {
 			vals[i] = NULL;
 			lengths[i] = 0;
 			continue;
 		}
 
-		vals[i] = go_data_get_values (series->base.values[1].data);
-		lengths[i] = go_data_get_vector_size (series->base.values[1].data);
+		vals[i] = go_data_get_values (base_series->values[1].data);
+		lengths[i] = go_data_get_vector_size (base_series->values[1].data);
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
 
 		paths[i] = go_path_new ();

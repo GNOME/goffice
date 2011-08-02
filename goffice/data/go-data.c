@@ -510,6 +510,50 @@ go_data_get_matrix_string (GOData *data, unsigned int row, unsigned int column)
 	return go_data_get_string (data, 2, coordinates);
 }
 
+static PangoAttrList *
+go_data_get_markup (GOData *data, unsigned int n_coordinates, unsigned int *coordinates)
+{
+	GODataClass const *data_class;
+	unsigned int n_dimensions;
+
+	g_return_val_if_fail (GO_IS_DATA (data), NULL);
+
+	data_class = GO_DATA_GET_CLASS (data);
+
+	n_dimensions = data_class->get_n_dimensions (data);
+	if (n_dimensions != n_coordinates) {
+		g_warning ("[GOData::get_markup] Wrong number of coordinates (given %d - needed %d)",
+			   n_coordinates, n_dimensions);
+
+		return NULL;
+	}
+
+	return (data_class->get_markup)? data_class->get_markup (data, coordinates): NULL;
+}
+
+PangoAttrList *
+go_data_get_scalar_markup (GOData *data)
+{
+	return go_data_get_markup (data, 0, NULL);
+}
+
+PangoAttrList *
+go_data_get_vector_markup (GOData *data, unsigned int column)
+{
+	return go_data_get_markup (data, 1, &column);
+}
+
+PangoAttrList *
+go_data_get_matrix_markup (GOData *data, unsigned int row, unsigned int column)
+{
+	unsigned int coordinates[2];
+
+	coordinates[0] = column;
+	coordinates[1] = row;
+
+	return go_data_get_markup (data, 2, coordinates);
+}
+
 /*************************************************************************/
 
 #define GO_DATA_SCALAR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_DATA_SCALAR, GODataScalarClass))
@@ -555,6 +599,12 @@ _data_scalar_get_string (GOData *data, unsigned int *coordinates)
 	return g_strdup (go_data_scalar_get_str ((GODataScalar *) data));
 }
 
+static PangoAttrList *
+_data_scalar_get_markup (GOData *data, unsigned int *coordinates)
+{
+	return pango_attr_list_copy (go_data_scalar_get_markup ((GODataScalar *) data));
+}
+
 static void
 go_data_scalar_class_init (GODataClass *data_class)
 {
@@ -563,6 +613,7 @@ go_data_scalar_class_init (GODataClass *data_class)
 	data_class->get_bounds =	_data_scalar_get_bounds;
 	data_class->get_value =		_data_scalar_get_value;
 	data_class->get_string =	_data_scalar_get_string;
+	data_class->get_markup =	_data_scalar_get_markup;
 }
 
 GSF_CLASS_ABSTRACT (GODataScalar, go_data_scalar,
@@ -583,8 +634,16 @@ char const *
 go_data_scalar_get_str (GODataScalar *scalar)
 {
 	GODataScalarClass const *klass = GO_DATA_SCALAR_GET_CLASS (scalar);
-	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (klass != NULL, "");
 	return (*klass->get_str) (scalar);
+}
+
+PangoAttrList *
+go_data_scalar_get_markup (GODataScalar *scalar)
+{
+	GODataScalarClass const *klass = GO_DATA_SCALAR_GET_CLASS (scalar);
+	g_return_val_if_fail (klass != NULL, NULL);
+	return (klass->get_markup)? (*klass->get_markup) (scalar): NULL;
 }
 
 /*************************************************************************/
@@ -637,6 +696,12 @@ _data_vector_get_string (GOData *data, unsigned int *coordinates)
 	return go_data_vector_get_str ((GODataVector *) data, coordinates[0]);
 }
 
+static PangoAttrList *
+_data_vector_get_markup (GOData *data, unsigned int *coordinates)
+{
+	return go_data_vector_get_markup ((GODataVector *) data, coordinates[0]);
+}
+
 static void
 go_data_vector_class_init (GODataClass *data_class)
 {
@@ -647,6 +712,7 @@ go_data_vector_class_init (GODataClass *data_class)
 	data_class->get_bounds =	_data_vector_get_bounds;
 	data_class->get_value =		_data_vector_get_value;
 	data_class->get_string =	_data_vector_get_string;
+	data_class->get_markup =	_data_vector_get_markup;
 }
 
 GSF_CLASS_ABSTRACT (GODataVector, go_data_vector,
@@ -717,6 +783,21 @@ go_data_vector_get_str (GODataVector *vec, unsigned i)
 	if (res == NULL)
 		return g_strdup ("");
 	return res;
+}
+
+PangoAttrList *
+go_data_vector_get_markup (GODataVector *vec, unsigned i)
+{
+	GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
+
+	g_return_val_if_fail (klass != NULL, NULL);
+	if (! (vec->base.flags & GO_DATA_VECTOR_LEN_CACHED)) {
+		(*klass->load_len) (vec);
+		g_return_val_if_fail (vec->base.flags & GO_DATA_VECTOR_LEN_CACHED, NULL);
+	}
+	g_return_val_if_fail ((int)i < vec->len, NULL);
+
+	return (klass->get_markup)? (*klass->get_markup) (vec, i): NULL;
 }
 
 void
@@ -816,6 +897,12 @@ _data_matrix_get_string (GOData *data, unsigned int *coordinates)
 	return go_data_matrix_get_str ((GODataMatrix *) data, coordinates[1], coordinates[0]);
 }
 
+static PangoAttrList *
+_data_matrix_get_markup (GOData *data, unsigned int *coordinates)
+{
+	return go_data_matrix_get_markup ((GODataMatrix *) data, coordinates[1], coordinates[0]);
+}
+
 static void
 go_data_matrix_class_init (GODataClass *data_class)
 {
@@ -826,6 +913,7 @@ go_data_matrix_class_init (GODataClass *data_class)
 	data_class->get_bounds =	_data_matrix_get_bounds;
 	data_class->get_value =		_data_matrix_get_value;
 	data_class->get_string =	_data_matrix_get_string;
+	data_class->get_markup =	_data_matrix_get_markup;
 }
 
 GSF_CLASS_ABSTRACT (GODataMatrix, go_data_matrix,
@@ -886,7 +974,7 @@ go_data_matrix_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 	GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
 	char *res;
 
-	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (klass != NULL, g_strdup (""));
 	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
 		(*klass->load_size) (mat);
 		g_return_val_if_fail (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED, g_strdup (""));
@@ -897,6 +985,21 @@ go_data_matrix_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 	if (res == NULL)
 		return g_strdup ("");
 	return res;
+}
+
+PangoAttrList *
+go_data_matrix_get_markup (GODataMatrix *mat, unsigned i, unsigned j)
+{
+	GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+
+	g_return_val_if_fail (klass != NULL, NULL);
+	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
+		(*klass->load_size) (mat);
+		g_return_val_if_fail (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED, NULL);
+	}
+	g_return_val_if_fail (((int)i < mat->size.rows) && ((int)j < mat->size.columns), NULL);
+
+	return (klass->get_markup)? (*klass->get_markup) (mat, i, j): NULL;
 }
 
 void

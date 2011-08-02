@@ -67,8 +67,15 @@ gog_barcol_series_class_init (GogSeriesClass *series_klass)
 	series_klass->series_element_type = GOG_TYPE_BARCOL_SERIES_ELEMENT;
 }
 
+static void
+gog_barcol_series_init (GogSeries *series)
+{
+	series->allowed_pos = GOG_SERIES_LABELS_CENTERED | GOG_SERIES_LABELS_OUTSIDE
+		| GOG_SERIES_LABELS_INSIDE | GOG_SERIES_LABELS_NEAR_ORIGIN;
+}
+
 GSF_DYNAMIC_CLASS (GogBarColSeries, gog_barcol_series,
-	gog_barcol_series_class_init, NULL,
+	gog_barcol_series_class_init, gog_barcol_series_init,
 	GOG_SERIES1_5D_TYPE)
 
 /******************************************************************************/
@@ -368,12 +375,20 @@ typedef struct {
 	double		y;
 } ErrorBarData;
 
+typedef struct {
+	double		 x;
+	double 		 y;
+	char		*str;
+	GOAnchorType    anchor;
+} LabelData;
+
 static int
 gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)
 {
 	GogBarColPlot const *model = GOG_BARCOL_PLOT (view->base.model);
 	GogPlot1_5d const *gog_1_5d_model = GOG_PLOT1_5D (model);
 	GogSeries1_5d const *pseries;
+	GogSeries const *base_series;
 	GogChart *chart = GOG_CHART (view->base.model->parent);
 	GogChartMap *chart_map;
 	GogAxisMap *x_map, *y_map, *map;
@@ -413,10 +428,11 @@ gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSer
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		pseries = ptr->data;
-		if (!gog_series_is_valid (GOG_SERIES (pseries)))
+		base_series = GOG_SERIES (pseries);
+		if (!gog_series_is_valid (base_series))
 			continue;
-		vals[i] = go_data_get_values (pseries->base.values[1].data);
-		lengths[i] = go_data_get_vector_size (pseries->base.values[1].data);
+		vals[i] = go_data_get_values (base_series->values[1].data);
+		lengths[i] = go_data_get_vector_size (base_series->values[1].data);
 		i++;
 	}
 
@@ -533,13 +549,14 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogBarColPlot const *model = GOG_BARCOL_PLOT (view->model);
 	GogPlot1_5d const *gog_1_5d_model = GOG_PLOT1_5D (view->model);
 	GogSeries1_5d const *series;
+	GogSeries const *base_series;
 	GogChart *chart = GOG_CHART (view->model->parent);
 	GogChartMap *chart_map;
 	GogViewAllocation work;
 	GogViewAllocation const *area;
 	GogRenderer *rend = view->renderer;
 	GogAxisMap *x_map, *y_map, *map;
-	gboolean is_vertical = ! (model->horizontal), valid;
+	gboolean is_vertical = ! (model->horizontal), valid, inverted;
 	double **vals, sum, neg_base, pos_base, tmp;
 	double x;
 	double col_step, group_step, offset, data_scale;
@@ -555,9 +572,11 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	unsigned *lengths;
 	double plus, minus;
-	GogObjectRole const *role = NULL;
+	GogObjectRole const *role = NULL, *lbl_role = NULL;
 	GogSeriesElement *gse;
 	GList const **overrides;
+	GogSeriesLabels **labels;
+	LabelData **label_pos;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -576,6 +595,9 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
 	map = is_vertical ? y_map : x_map;
+	inverted = gog_axis_is_inverted (is_vertical?
+	                                 GOG_PLOT (model)->axis[GOG_AXIS_Y]:
+		                         GOG_PLOT (model)->axis[GOG_AXIS_X]);
 
 	vals = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
@@ -585,14 +607,19 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	lines = g_alloca (num_series * sizeof (GogSeriesLines *));
 	paths = g_alloca (num_series * sizeof (GOPath *));
 	overrides = g_alloca (num_series * sizeof (GSList *));
+	labels = g_alloca (num_series * sizeof (GogSeriesLabels *));
+	label_pos = g_alloca (num_series * sizeof (gpointer));
 
 	i = 0;
-	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
 		series = ptr->data;
-		if (!gog_series_is_valid (GOG_SERIES (series)))
+		base_series = GOG_SERIES (series);
+		if (!gog_series_is_valid (base_series)) {
+			lengths[i] = 0;
 			continue;
-		vals[i] = go_data_get_values (series->base.values[1].data);
-		lengths[i] = go_data_get_vector_size (series->base.values[1].data);
+		}
+		vals[i] = go_data_get_values (base_series->values[1].data);
+		lengths[i] = go_data_get_vector_size (base_series->values[1].data);
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
 		errors[i] = series->errors;
 		overrides[i] = gog_series_get_overrides (GOG_SERIES (series));
@@ -609,7 +636,15 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			paths[i] = go_path_new ();
 		} else
 			lines[i] = NULL;
-		i++;
+		if (!lbl_role)
+			lbl_role = gog_object_find_role_by_name (GOG_OBJECT (series), "Data labels");
+		labels[i] = (GogSeriesLabels *) gog_object_get_child_by_role (GOG_OBJECT (series), lbl_role);
+		if (labels[i]) {
+			label_pos[i] = g_malloc (sizeof (LabelData) * lengths[i]);
+			for (j = 0; j < lengths[i]; j++)
+				label_pos[i][j].str = go_data_get_vector_string (base_series->values[1].data, j);
+		} else
+			label_pos[i] = NULL;
 	}
 
 	/* work in coordinates drawing bars from the top */
@@ -712,6 +747,92 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 							 gog_axis_map_to_view (y_map, work.y + work.h));
 				}
 			}
+			if (labels[j] != NULL) {
+				unsigned offset;
+				g_object_get (labels[j], "offset", &offset, NULL);
+				switch (gog_series_labels_get_position (labels[j])) {
+				default:
+				case GOG_SERIES_LABELS_CENTERED:
+					label_pos[j][i].anchor = GO_ANCHOR_CENTER;
+					if (is_vertical) {
+						label_pos[j][i].x =  gog_axis_map_to_view (x_map, work.y + work.h / 2.);
+						label_pos[j][i].y =  gog_axis_map_to_view (y_map, work.x + work.w / 2.);
+					} else {
+						label_pos[j][i].y =  gog_axis_map_to_view (y_map, work.y + work.h / 2.);
+						label_pos[j][i].x =  gog_axis_map_to_view (x_map, work.x + work.w / 2.);
+					}
+					break;
+				case GOG_SERIES_LABELS_OUTSIDE:
+					if (is_vertical) {
+						label_pos[j][i].x =  gog_axis_map_to_view (x_map, work.y + work.h / 2.);
+						label_pos[j][i].y =  gog_axis_map_to_view (y_map, work.x + work.w);
+						if (inverted) {
+							label_pos[j][i].anchor =  GO_ANCHOR_NORTH;
+							label_pos[j][i].y += offset;
+						} else {
+							label_pos[j][i].anchor = GO_ANCHOR_SOUTH;
+							label_pos[j][i].y -= offset;
+						}
+					} else {
+						label_pos[j][i].y =  gog_axis_map_to_view (y_map, work.y + work.h / 2.);
+						label_pos[j][i].x =  gog_axis_map_to_view (x_map, work.x + work.w);
+						if (inverted) {
+							label_pos[j][i].anchor = GO_ANCHOR_EAST;
+							label_pos[j][i].x -= offset;
+						} else {
+							label_pos[j][i].anchor = GO_ANCHOR_WEST;
+							label_pos[j][i].x += offset;
+						}
+					}
+					break;
+				case GOG_SERIES_LABELS_INSIDE:
+					if (is_vertical) {
+						label_pos[j][i].x =  gog_axis_map_to_view (x_map, work.y + work.h / 2.);
+						label_pos[j][i].y =  gog_axis_map_to_view (y_map, work.x + work.w);
+						if (inverted) {
+							label_pos[j][i].anchor = GO_ANCHOR_SOUTH;
+							label_pos[j][i].y -= offset;
+						} else {
+							label_pos[j][i].anchor =  GO_ANCHOR_NORTH;
+							label_pos[j][i].y += offset;
+						}
+					} else {
+						label_pos[j][i].y =  gog_axis_map_to_view (y_map, work.y + work.h / 2.);
+						label_pos[j][i].x =  gog_axis_map_to_view (x_map, work.x + work.w);
+						if (inverted) {
+							label_pos[j][i].anchor = GO_ANCHOR_WEST;
+							label_pos[j][i].x += offset;
+						} else {
+							label_pos[j][i].anchor = GO_ANCHOR_EAST;
+							label_pos[j][i].x -= offset;
+						}
+					}
+					break;
+				case GOG_SERIES_LABELS_NEAR_ORIGIN:
+					if (is_vertical) {
+						label_pos[j][i].x =  gog_axis_map_to_view (x_map, work.y + work.h / 2.);
+						label_pos[j][i].y =  gog_axis_map_to_view (y_map, work.x);
+						if (inverted) {
+							label_pos[j][i].anchor =  GO_ANCHOR_NORTH;
+							label_pos[j][i].y += offset;
+						} else {
+							label_pos[j][i].anchor = GO_ANCHOR_SOUTH;
+							label_pos[j][i].y -= offset;
+						}
+					} else {
+						label_pos[j][i].y =  gog_axis_map_to_view (y_map, work.y + work.h / 2.);
+						label_pos[j][i].x =  gog_axis_map_to_view (x_map, work.x);
+						if (inverted) {
+							label_pos[j][i].anchor = GO_ANCHOR_EAST;
+							label_pos[j][i].x -= offset;
+						} else {
+							label_pos[j][i].anchor = GO_ANCHOR_WEST;
+							label_pos[j][i].x += offset;
+						}
+					}
+					break;
+				}
+			}
 		}
 	}
 	/*Now draw error bars and clean*/
@@ -733,6 +854,20 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			go_path_free (paths[i]);
 		}
 
+	/* Draw data labels if any */
+	for (i = 0; i < num_series; i++)
+		if (labels[i] != NULL) {
+			GogViewAllocation alloc;
+			gog_renderer_push_style (view->renderer, go_styled_object_get_style (GO_STYLED_OBJECT (labels[i])));
+			for (j = 0; j < lengths[i]; j++) {
+				alloc.x = label_pos[i][j].x;
+				alloc.y = label_pos[i][j].y;
+				gog_renderer_draw_text (view->renderer, label_pos[i][j].str, &alloc, label_pos[i][j].anchor, FALSE);
+				g_free (label_pos[i][j].str);
+			}
+			gog_renderer_pop_style (view->renderer);
+		}
+			
 	gog_chart_map_free (chart_map);
 }
 

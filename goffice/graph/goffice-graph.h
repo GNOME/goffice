@@ -56,7 +56,8 @@ typedef struct _GogEquation	GogEquation;
 typedef struct _GogRegCurve	GogRegCurve;
 typedef struct _GogRegEqn	GogRegEqn;
 typedef struct _GogTrendLineType	GogTrendLineType;
-typedef struct _GogSeriesLines GogSeriesLines;
+typedef struct _GogSeriesLines  GogSeriesLines;
+typedef struct _GogSeriesLabels GogSeriesLabels;
 typedef struct _GogSmoothedCurve	GogSmoothedCurve;
 typedef struct _Gog3DBox	Gog3DBox;
 
@@ -199,6 +200,18 @@ typedef enum {
 	GOG_PLOT_RENDERING_BEFORE_GRID
 } GogPlotRenderingOrder;
 
+typedef enum {
+	GOG_SERIES_LABELS_DEFAULT_POS = 0,
+	GOG_SERIES_LABELS_CENTERED = 1,
+	GOG_SERIES_LABELS_TOP = 1 << 1,
+	GOG_SERIES_LABELS_BOTTOM = 1 << 2,
+	GOG_SERIES_LABELS_LEFT = 1 << 3,
+	GOG_SERIES_LABELS_RIGHT = 1 << 4,
+	GOG_SERIES_LABELS_OUTSIDE = 1 << 5,
+	GOG_SERIES_LABELS_INSIDE = 1 << 6,
+	GOG_SERIES_LABELS_NEAR_ORIGIN = 1 << 7,
+} GogSeriesLabelsPos;
+
 #define GOG_POSITION_IS_SPECIAL(pos) (((pos) & GOG_POSITION_SPECIAL)&&(!((pos) & GOG_POSITION_MANUAL)))
 #define GOG_POSITION_IS_PADDING(pos) (((pos) & GOG_POSITION_PADDING)&&(!((pos) & GOG_POSITION_MANUAL)))
 
@@ -255,6 +268,7 @@ G_END_DECLS
 #include <goffice/graph/gog-reg-curve.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-series-lines.h>
+#include <goffice/graph/gog-series-labels.h>
 #include <goffice/graph/gog-smoothed-curve.h>
 #include <goffice/graph/gog-theme.h>
 

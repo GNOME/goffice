@@ -84,6 +84,9 @@ struct _GogSeries {
 
 	GOLineInterpolation	interpolation;
 	gboolean interpolation_skip_invalid;
+	/* data related to data labels */
+	GogSeriesLabelsPos default_pos;
+	unsigned allowed_pos; /* if 0, no data labels can be addded */
 };
 
 typedef struct {

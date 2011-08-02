@@ -30,6 +30,7 @@ libgoffice_graph_la_SOURCES = \
 	gog-trend-line.c		\
 	gog-reg-curve.c			\
 	gog-smoothed-curve.c	\
+	gog-series-labels.c		\
 	gog-series-lines.c		\
 	gog-data-set.c			\
 	\
@@ -66,7 +67,8 @@ libgoffice_graph_la_HEADERS = \
 	gog-error-bar.h			\
 	gog-trend-line.h		\
 	gog-reg-curve.h			\
-	gog-smoothed-curve.h		\
+	gog-smoothed-curve.h	\
+	gog-series-labels.h		\
 	gog-series-lines.h		\
 	gog-data-set.h			\
 	gog-renderer.h
@@ -90,8 +92,9 @@ dist_ui_DATA = \
 	gog-axis-prefs.ui		\
 	gog-error-bar-prefs.ui	\
 	gog-reg-curve-prefs.ui	\
-	gog-reg-eqn-prefs.ui		\
+	gog-reg-eqn-prefs.ui	\
 	gog-series-prefs.ui		\
+	gog-series-labels-prefs.ui	\
 	gog-3d-box-prefs.ui
 
 if GOFFICE_WITH_LASEM

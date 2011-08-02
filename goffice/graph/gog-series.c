@@ -300,6 +300,23 @@ role_series_element_pre_remove (GogObject *parent, GogObject *child)
 	series->overrides = g_list_remove (series->overrides, child);
 }
 
+static gboolean
+role_series_labels_can_add (GogObject const *parent)
+{
+	GogSeries *series = GOG_SERIES (parent);
+
+	return (series->allowed_pos != 0);
+}
+
+static void
+role_series_labels_post_add (GogObject *parent, GogObject *child)
+{
+	GogSeries *series = GOG_SERIES (parent);
+	GogSeriesLabels *labels = GOG_SERIES_LABELS (child);
+	gog_series_labels_set_allowed_position (labels, series->allowed_pos);
+	gog_series_labels_set_default_position (labels, series->default_pos);
+}
+
 static void
 gog_series_finalize (GObject *obj)
 {
@@ -657,6 +674,14 @@ gog_series_class_init (GogSeriesClass *klass)
 		  regression_curve_post_add,
 		  regression_curve_pre_remove,
 		  NULL },
+		{ N_("Data labels"), "GogSeriesLabels",	3,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  role_series_labels_can_add,
+		  NULL,
+		  NULL,
+		  role_series_labels_post_add,
+		  NULL,
+		  NULL }
 	};
 	unsigned int i;
 
@@ -724,6 +749,7 @@ gog_series_init (GogSeries *series)
 	series->index = -1;
 	series->acceptable_children = 0;
 	series->interpolation = GO_LINE_INTERPOLATION_LINEAR;
+	series->default_pos = GOG_SERIES_LABELS_CENTERED;
 }
 
 static void
