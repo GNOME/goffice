@@ -39,19 +39,6 @@ enum {
 	POLYGON_PROP_SIZES
 };
 
-typedef struct {
-	gboolean fill_rule;
-	unsigned nb_sizes;
-	int *sizes;
-} GocPolygonPriv;
-
-static void goc_polygon_priv_free (gpointer data)
-{
-	GocPolygonPriv *priv = (GocPolygonPriv *) data;
-	g_free (priv->sizes);
-	g_free (priv);
-}
-
 static GocStyledItemClass *parent_class;
 
 static void
@@ -59,6 +46,7 @@ goc_polygon_finalize (GObject *obj)
 {
 	GocPolygon *polygon = GOC_POLYGON (obj);
 	g_free (polygon->points);
+	g_free (polygon->sizes);
 	((GObjectClass *) parent_class)->finalize (obj);
 }
 
@@ -67,7 +55,6 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 			  GValue const *value, GParamSpec *pspec)
 {
 	GocPolygon *polygon = GOC_POLYGON (gobject);
-	GocPolygonPriv *priv = g_object_get_data (gobject, "polygon-private");
 
 	switch (param_id) {
 	case POLYGON_PROP_POINTS: {
@@ -83,32 +70,32 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 			polygon->points = NULL;
 		/* reset sizes */
 		g_free (priv->sizes);
-		priv->sizes = NULL;
-		priv->nb_sizes = 0;
+		polygon->sizes = NULL;
+		polygon->nb_sizes = 0;
 		break;
 	}
 	case POLYGON_PROP_SPLINE:
 		polygon->use_spline = g_value_get_boolean (value);
 		break;
 	case POLYGON_PROP_FILL_RULE:
-		priv->fill_rule = g_value_get_boolean (value);
+		polygon->fill_rule = g_value_get_boolean (value);
 		break;
 	case POLYGON_PROP_SIZES: {
 		unsigned i, avail = polygon->nb_points - 3;
 		GocIntArray *array = (GocIntArray *) g_value_get_boxed (value);
-		g_free (priv->sizes);
-		priv->sizes = NULL;
-		priv->nb_sizes = 0;
+		g_free (polygon->sizes);
+		polygon->sizes = NULL;
+		polygon->nb_sizes = 0;
 		for (i = 0; i < array->n; i++) {
 			if (array->vals[i] < 3 || array->vals[i] > (int) avail)
 				break;
 			avail -= array->vals[i];
-			priv->nb_sizes++;
+			polygon->nb_sizes++;
 		}
-		if (priv->nb_sizes > 0) {
-			priv->sizes = g_new (int, priv->nb_sizes);
-			for (i = 0; i < priv->nb_sizes; i++)
-				priv->sizes[i] = array->vals[i];
+		if (polygon->nb_sizes > 0) {
+			polygon->sizes = g_new (int, polygon->nb_sizes);
+			for (i = 0; i < polygon->nb_sizes; i++)
+				polygon->sizes[i] = array->vals[i];
 		}
 		break;
 	}
@@ -135,7 +122,6 @@ goc_polygon_get_property (GObject *gobject, guint param_id,
 				    GValue *value, GParamSpec *pspec)
 {
 	GocPolygon *polygon = GOC_POLYGON (gobject);
-	GocPolygonPriv *priv = g_object_get_data (gobject, "polygon-private");
 
 	switch (param_id) {
 	case POLYGON_PROP_POINTS: {
@@ -151,13 +137,13 @@ goc_polygon_get_property (GObject *gobject, guint param_id,
 		g_value_set_boolean (value, polygon->use_spline);
 		break;
 	case POLYGON_PROP_FILL_RULE:
-		g_value_set_boolean (value, priv->fill_rule);
+		g_value_set_boolean (value, polygon->fill_rule);
 		break;
 	case POLYGON_PROP_SIZES: {
 		unsigned i;
-		GocIntArray *array = goc_int_array_new (priv->nb_sizes);
+		GocIntArray *array = goc_int_array_new (polygon->nb_sizes);
 		for (i = 0; i < array->n; i++)
-			array->vals[i] = priv->sizes[i];
+			array->vals[i] = polygon->sizes[i];
 		g_value_set_boxed (value, array);
 		goc_int_array_unref (array);
 		break;
@@ -172,14 +158,13 @@ static gboolean
 goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
-	GocPolygonPriv *priv = g_object_get_data (G_OBJECT (polygon), "polygon-private");
 	unsigned snum;
 	int i, j;
 
 	if (polygon->nb_points == 0)
 		return FALSE;
 
-	cairo_set_fill_rule (cr, priv->fill_rule);
+	cairo_set_fill_rule (cr, polygon->fill_rule);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, polygon->points[0].x, polygon->points[0].y);
 		cairo_move_to (cr, 0., 0.);
@@ -195,16 +180,16 @@ goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 		cairo_restore (cr);
 	} else {
 		double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-		if (priv->nb_sizes > 0) {
+		if (polygon->nb_sizes > 0) {
 			snum = 0;
-			for (j = 0; j < (int) priv->nb_sizes; j++) {
+			for (j = 0; j < (int) polygon->nb_sizes; j++) {
 				cairo_move_to (cr, (polygon->points[snum].x - polygon->points[0].x * flag) * sign,
 					polygon->points[snum].y - polygon->points[0].y * flag);
-				for (i = 1; i < priv->sizes[j]; i++)
+				for (i = 1; i < polygon->sizes[j]; i++)
 					cairo_line_to (cr, (polygon->points[snum + i].x - polygon->points[0].x * flag) * sign,
 						polygon->points[snum + i].y - polygon->points[0].y * flag);
 				cairo_close_path (cr);
-				snum += priv->sizes[j];
+				snum += polygon->sizes[j];
 			}
 			cairo_move_to (cr, (polygon->points[snum].x - polygon->points[0].x * flag) * sign,
 						polygon->points[snum].y - polygon->points[0].y * flag);
@@ -370,13 +355,6 @@ goc_polygon_class_init (GocItemClass *item_klass)
 	item_klass->draw = goc_polygon_draw;
 }
 
-static void
-goc_polygon_init (GocPolygon *polygon)
-{
-	GocPolygonPriv *priv = g_new0 (GocPolygonPriv, 1);
-	g_object_set_data_full (G_OBJECT (polygon), "polygon-private", priv, goc_polygon_priv_free);
-}
-
 GSF_CLASS (GocPolygon, goc_polygon,
-	   goc_polygon_class_init, goc_polygon_init,
+	   goc_polygon_class_init, NULL,
 	   GOC_TYPE_STYLED_ITEM)

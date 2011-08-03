@@ -27,11 +27,22 @@
 
 G_BEGIN_DECLS
 
+enum {
+	GOC_RECTANGLE_CORNER_NORMAL		= 0,
+	GOC_RECTANGLE_NW_CORNER_ROUND	= 1,
+	GOC_RECTANGLE_NE_CORNER_ROUND	= 2,
+	GOC_RECTANGLE_SW_CORNER_ROUND	= 4,
+	GOC_RECTANGLE_SE_CORNER_ROUND	= 8,
+	GOC_RECTANGLE_ALL_CORNERS_ROUND	= 15,
+};
+
 struct _GocRectangle {
 	GocStyledItem base;
 
 	double rotation; /* rotation around the center in radians */
 	double x, y, width, height;
+	int type;
+	double rx, ry;
 };
 
 typedef GocStyledItemClass GocRectangleClass;

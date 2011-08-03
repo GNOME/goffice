@@ -35,6 +35,9 @@ struct _GocPolygon {
 	GocPoint *points;
 	unsigned nb_points;
 	gboolean use_spline;
+	gboolean fill_rule;
+	unsigned nb_sizes;
+	int *sizes;
 };
 
 #define GOC_TYPE_POLYGON	(goc_polygon_get_type ())

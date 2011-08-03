@@ -33,20 +33,6 @@
 **/
 
 enum {
-	GOC_RECTANGLE_CORNER_NORMAL		= 0,
-	GOC_RECTANGLE_NW_CORNER_ROUND	= 1,
-	GOC_RECTANGLE_NE_CORNER_ROUND	= 2,
-	GOC_RECTANGLE_SW_CORNER_ROUND	= 4,
-	GOC_RECTANGLE_SE_CORNER_ROUND	= 8,
-	GOC_RECTANGLE_ALL_CORNERS_ROUND	= 15,
-};
-
-typedef struct {
-	int type;
-	double rx, ry;
-} GocRectPriv;
-
-enum {
 	RECT_PROP_0,
 	RECT_PROP_X,
 	RECT_PROP_Y,
@@ -63,7 +49,6 @@ goc_rectangle_set_property (GObject *gobject, guint param_id,
 				    GValue const *value, GParamSpec *pspec)
 {
 	GocRectangle *rect = GOC_RECTANGLE (gobject);
-	GocRectPriv *priv = g_object_get_data (gobject, "rect-private");
 
 	switch (param_id) {
 	case RECT_PROP_X:
@@ -87,15 +72,15 @@ goc_rectangle_set_property (GObject *gobject, guint param_id,
 		break;
 
 	case RECT_PROP_RX:
-		priv->rx = g_value_get_double (value);
+		rect->rx = g_value_get_double (value);
 		break;
 
 	case RECT_PROP_RY:
-		priv->ry = g_value_get_double (value);
+		rect->ry = g_value_get_double (value);
 		break;
 
 	case RECT_PROP_TYPE:
-		priv->type = g_value_get_int (value);
+		rect->type = g_value_get_int (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -110,7 +95,6 @@ goc_rectangle_get_property (GObject *gobject, guint param_id,
 				    GValue *value, GParamSpec *pspec)
 {
 	GocRectangle *rect = GOC_RECTANGLE (gobject);
-	GocRectPriv *priv = g_object_get_data (gobject, "rect-private");
 
 	switch (param_id) {
 	case RECT_PROP_X:
@@ -134,15 +118,15 @@ goc_rectangle_get_property (GObject *gobject, guint param_id,
 		break;
 
 	case RECT_PROP_RX:
-		g_value_set_double (value, priv->rx);
+		g_value_set_double (value, rect->rx);
 		break;
 
 	case RECT_PROP_RY:
-		g_value_set_double (value, priv->ry);
+		g_value_set_double (value, rect->ry);
 		break;
 
 	case RECT_PROP_TYPE:
-		g_value_set_int (value, priv->type);
+		g_value_set_int (value, rect->type);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -154,7 +138,6 @@ static gboolean
 goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocRectangle *rect = GOC_RECTANGLE (item);
-	GocRectPriv *priv = g_object_get_data (G_OBJECT (rect), "rect-private");
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 
 	if (0 == rect->width && 0 == rect->height)
@@ -167,48 +150,48 @@ goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 		cairo_translate (cr, rect->x, rect->y);
 	}
 	cairo_rotate (cr, rect->rotation * sign);
-	if (0 == priv->type || 0 == priv->rx || 0 == priv->ry) {
+	if (0 == rect->type || 0 == rect->rx || 0 == rect->ry) {
 		cairo_rectangle (cr, 0., 0., (int) rect->width * sign, (int) rect->height);
 	} else {
 
-		if (priv->type&1) {
-			cairo_move_to (cr, priv->rx, 0.);
+		if (rect->type & 1) {
+			cairo_move_to (cr, rect->rx, 0.);
 			cairo_save (cr);
-			cairo_translate (cr, priv->rx, priv->ry);
-			cairo_scale (cr, priv->rx, priv->ry);
+			cairo_translate (cr, rect->rx, rect->ry);
+			cairo_scale (cr, rect->rx, rect->ry);
 			cairo_arc_negative (cr, 0. , 0. ,1. , -M_PI/2. , M_PI);
 			cairo_restore (cr);
 		} else {
 			cairo_move_to (cr, 0., 0.);
 		}
 
-		if (priv->type&8) {
-			cairo_line_to (cr, 0., rect->height - priv->ry);
+		if (rect->type & 8) {
+			cairo_line_to (cr, 0., rect->height - rect->ry);
 			cairo_save (cr);
-			cairo_translate (cr, priv->rx, rect->height - priv->ry);
-			cairo_scale (cr, priv->rx, priv->ry);
+			cairo_translate (cr, rect->rx, rect->height - rect->ry);
+			cairo_scale (cr, rect->rx, rect->ry);
 			cairo_arc_negative (cr, 0., 0. ,1. , M_PI, M_PI/2.);
 			cairo_restore (cr);
 		} else {
 			cairo_line_to (cr, 0., rect->height);
 		}
 
-		if (priv->type&4) {
-			cairo_line_to (cr, rect->width - priv->rx, rect->height);
+		if (rect->type & 4) {
+			cairo_line_to (cr, rect->width - rect->rx, rect->height);
 			cairo_save (cr);
-			cairo_translate (cr, rect->width - priv->rx, rect->height - priv->ry);
-			cairo_scale (cr, priv->rx, priv->ry);
+			cairo_translate (cr, rect->width - rect->rx, rect->height - rect->ry);
+			cairo_scale (cr, rect->rx, rect->ry);
 			cairo_arc_negative (cr, 0., 0. ,1. , M_PI/2., 0.);
 			cairo_restore (cr);
 		} else {
 			cairo_line_to (cr, rect->width, rect->height);
 		}
 
-		if (priv->type&2) {
-			cairo_line_to (cr, rect->width, priv->ry);
+		if (rect->type & 2) {
+			cairo_line_to (cr, rect->width, rect->ry);
 			cairo_save (cr);
-			cairo_translate (cr, rect->width - priv->rx, priv->ry);
-			cairo_scale (cr, priv->rx, priv->ry);
+			cairo_translate (cr, rect->width - rect->rx, rect->ry);
+			cairo_scale (cr, rect->rx, rect->ry);
 			cairo_arc_negative (cr, 0., 0. ,1. , 0., -M_PI/2.);
 			cairo_restore (cr);
 		} else {
@@ -381,13 +364,6 @@ goc_rectangle_class_init (GocItemClass *item_klass)
 	item_klass->draw = goc_rectangle_draw;
 }
 
-static void
-goc_rectangle_init (GocRectangle *rect)
-{
-	GocRectPriv *priv = g_new0 (GocRectPriv, 1);
-	g_object_set_data_full (G_OBJECT (rect), "rect-private", priv, g_free);
-}
-
 GSF_CLASS (GocRectangle, goc_rectangle,
-	   goc_rectangle_class_init, goc_rectangle_init,
+	   goc_rectangle_class_init, NULL,
 	   GOC_TYPE_STYLED_ITEM)
