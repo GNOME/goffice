@@ -1,5 +1,17 @@
 2011-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-polygon.c (goc_polygon_set_property): make it
+	compile again.
+	* goffice/graph/gog-label.c (gog_text_get_markup),
+	(gog_label_get_markup), (gog_label_class_init),
+	(gog_text_view_render): add support for rich text labels.
+	* goffice/graph/gog-label.h: ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_get_text_AABR),
+	(gog_renderer_get_gostring_AABR): ditto.
+	* goffice/graph/gog-renderer.h: ditto.
+
+2011-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-polygon.c (goc_polygon_finalize),
 	(goc_polygon_set_property), (goc_polygon_get_property),
 	(goc_polygon_prepare_path): replaced private structures by public data.

@@ -143,6 +143,21 @@ gog_text_get_str (GogText *text)
 	return NULL;
 }
 
+PangoAttrList *
+gog_text_get_markup (GogText *text)
+{
+	GogTextClass *klass;
+
+	g_return_val_if_fail (GOG_IS_TEXT (text), NULL);
+
+       	klass = GOG_TEXT_GET_CLASS (text);
+
+	if (klass->get_markup != NULL)
+		return (*klass->get_markup) (text);
+
+	return NULL;
+}
+
 GSF_CLASS_ABSTRACT (GogText, gog_text,
 		    gog_text_class_init, gog_text_init,
 		    GOG_TYPE_OUTLINED_OBJECT);
@@ -201,6 +216,19 @@ gog_label_get_str (GogText *text)
 	return NULL;
 }
 
+static PangoAttrList *
+gog_label_get_markup (GogText *text)
+{
+	GogLabel *label = GOG_LABEL (text);
+
+	g_return_val_if_fail (GOG_IS_LABEL (label), NULL);
+
+	if (label->text.data != NULL)
+		return go_data_get_scalar_markup (label->text.data);
+
+	return NULL;
+}
+
 static void
 gog_label_finalize (GObject *obj)
 {
@@ -221,6 +249,7 @@ gog_label_class_init (GogLabelClass *klass)
 	label_parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->finalize	   = gog_label_finalize;
 	got_klass->get_str	   = gog_label_get_str;
+	got_klass->get_markup	   = gog_label_get_markup;
 }
 
 static void
@@ -460,6 +489,9 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
+		GOString *gostr = go_string_new_rich (str, -1, FALSE,
+		                                      gog_label_get_markup (text),
+		                                      NULL);
 		double outline = gog_renderer_line_size (view->renderer,
 							 goo->base.style->line.width);
 		if (style->fill.type != GO_STYLE_FILL_NONE || outline > 0.) {
@@ -467,15 +499,15 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 			GOGeometryAABR aabr;
 			double pad_x = gog_renderer_pt2r_x (view->renderer, goo->padding_pts);
 			double pad_y = gog_renderer_pt2r_y (view->renderer, goo->padding_pts);
-
-			gog_renderer_get_text_AABR (view->renderer, str, FALSE, &aabr);
+			gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr);
 			rect = view->allocation;
 			rect.w = aabr.w + 2. * outline + pad_x;
 			rect.h = aabr.h + 2. * outline + pad_y;
 			gog_renderer_draw_rectangle (view->renderer, &rect);
 		}
-		gog_renderer_draw_text (view->renderer, str,
-					&view->residual, GO_ANCHOR_NW, FALSE);
+		gog_renderer_draw_gostring (view->renderer, gostr,
+		                            &view->residual, GO_ANCHOR_NW);
+		go_string_unref (gostr);
 		g_free (str);
 	}
 	gog_renderer_pop_style (view->renderer);

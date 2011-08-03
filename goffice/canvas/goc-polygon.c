@@ -69,7 +69,7 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 		} else
 			polygon->points = NULL;
 		/* reset sizes */
-		g_free (priv->sizes);
+		g_free (polygon->sizes);
 		polygon->sizes = NULL;
 		polygon->nb_sizes = 0;
 		break;

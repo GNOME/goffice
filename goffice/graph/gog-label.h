@@ -36,6 +36,7 @@ typedef struct {
 	GogOutlinedObjectClass base;
 
 	char *(*get_str)    (GogText *text);
+	PangoAttrList *(*get_markup)    (GogText *text);
 } GogTextClass;
 
 #define GOG_TYPE_TEXT		(gog_text_get_type ())
@@ -45,6 +46,7 @@ typedef struct {
 
 GType gog_text_get_type (void);
 char *gog_text_get_str (GogText *text);
+PangoAttrList *gog_text_get_markup (GogText *text);
 
 #define GOG_TYPE_LABEL	(gog_label_get_type ())
 #define GOG_LABEL(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LABEL, GogLabel))

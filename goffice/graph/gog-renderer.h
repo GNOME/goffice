@@ -99,6 +99,8 @@ void  gog_renderer_get_gostring_OBR   (GogRenderer *rend, GOString *str,
 				       GOGeometryOBR *obr);
 void  gog_renderer_get_text_OBR   (GogRenderer *rend, char const *text,
 				   gboolean use_markup, GOGeometryOBR *obr);
+void gog_renderer_get_gostring_AABR (GogRenderer *rend, GOString *str,
+                                     GOGeometryAABR *aabr);
 void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text,
 				   gboolean use_markup, GOGeometryAABR *aabr);
 

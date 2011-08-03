@@ -992,7 +992,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
  * gog_renderer_get_text_AABR :
  * @rend: #GogRenderer
  * @text: the string to draw
- * @use_markup: wether to use pango markup
+ * @use_markup: whether to use pango markup
  * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
  **/
 void
@@ -1002,6 +1002,22 @@ gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
 	GOGeometryOBR obr;
 
 	gog_renderer_get_text_OBR (rend, text, use_markup, &obr);
+	go_geometry_OBR_to_AABR (&obr, aabr);
+}
+
+/**
+ * gog_renderer_get_gostring_AABR :
+ * @rend: #GogRenderer
+ * @string: the string to draw
+ * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
+ **/
+void
+gog_renderer_get_gostring_AABR (GogRenderer *rend, GOString *str,
+			    GOGeometryAABR *aabr)
+{
+	GOGeometryOBR obr;
+
+	gog_renderer_get_gostring_OBR (rend, str, &obr);
 	go_geometry_OBR_to_AABR (&obr, aabr);
 }
 
