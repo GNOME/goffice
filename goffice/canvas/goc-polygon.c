@@ -219,7 +219,7 @@ goc_polygon_update_bounds (GocItem *item)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
-		mode =1;
+		mode = 1;
 	else if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
 		mode = 2;
 	if (mode && goc_polygon_prepare_path (item, cr, 0)) {
