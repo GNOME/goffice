@@ -220,15 +220,6 @@ cb_select (GtkMenuItem *item, GOOptionMenu *option_menu)
 	option_menu->active = TRUE;
 }
 
-
-static void
-cb_unselect (GtkMenuItem *item, GOOptionMenu *option_menu)
-{
-	go_option_menu_select_item (option_menu, item);
-	g_signal_emit (option_menu, signals[CHANGED], 0);
-	option_menu->active = FALSE;
-}
-
 static void
 handle_menu_signals (GOOptionMenu *option_menu, gboolean connect)
 {
@@ -246,19 +237,13 @@ handle_menu_signals (GOOptionMenu *option_menu, gboolean connect)
 			if (sub)
 				children = g_list_concat (children,
 							  gtk_container_get_children (GTK_CONTAINER (sub)));
-			else if (connect) {
+			else if (connect)
 				g_signal_connect (child, "activate",
 						  G_CALLBACK (cb_select),
 						  option_menu);
-				g_signal_connect (child, "deactivate",
-						  G_CALLBACK (cb_unselect),
-						  option_menu);
-			} else {
+			else
 				g_signal_handlers_disconnect_by_func
 					(child, G_CALLBACK (cb_select), option_menu);
-				g_signal_handlers_disconnect_by_func
-					(child, G_CALLBACK (cb_unselect), option_menu);
-			}
 
 		}
 	}
@@ -282,6 +267,7 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 			gtk_menu_shell_cancel (option_menu->menu);
 
 		handle_menu_signals (option_menu, FALSE);
+		option_menu->active = FALSE;
 
 		gtk_menu_detach (GTK_MENU (option_menu->menu));
 		g_object_unref (option_menu->menu);

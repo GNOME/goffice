@@ -110,6 +110,8 @@ goc_group_update_bounds (GocItem *item)
 		item->x1 += group->x;
 		item->y1 += group->y;
 	}
+	if (group->clip_path) {
+	}
 }
 
 static gboolean
@@ -122,6 +124,12 @@ goc_group_draw_region (GocItem const *item, cairo_t *cr,
 	if (!l)
 		return TRUE;
 	cairo_save (cr);
+	if (group->clip_path) {
+		cairo_translate (cr, group->x , group->y);
+		cairo_set_fill_rule (cr, group->clip_rule);
+		go_path_to_cairo (group->clip_path, GO_PATH_DIRECTION_FORWARD, cr);
+		cairo_clip (cr);
+	}
 	x0 -= group->x;
 	y0 -= group->y;
 	x1 -= group->x;
@@ -171,6 +179,9 @@ goc_group_distance (GocItem *item, double x, double y, GocItem **near_item)
 		}
 		if (result == 0.)
 			break;
+	}
+	// check if the click is not outside the clipping region
+	if (group->clip_path) {
 	}
 	return result;
 }
@@ -439,4 +450,13 @@ goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double 
 		else
 			cairo_translate (cr, x - canvas->scroll_x1, y - canvas->scroll_y1);
 	}
+}
+
+void
+goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t clip_rule)
+{
+	g_return_if_fail (GOC_IS_GROUP (group));
+	group->clip_path = clip_path;
+	group->clip_rule = clip_rule;
+	goc_item_bounds_changed (GOC_ITEM (group));
 }

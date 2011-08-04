@@ -1,5 +1,15 @@
 2011-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-group.c (goc_group_update_bounds),
+	(goc_group_draw_region), (goc_group_distance),
+	(goc_group_cairo_transform), (goc_group_set_clip_path): start support for
+	clipping at the GocGroup level.
+	* goffice/canvas/goc-group.h:
+	* goffice/gtk/go-optionmenu.c (handle_menu_signals),
+	(go_option_menu_set_menu): don't use an unexisting sgnal.
+
+2011-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/data/go-data-impl.h: fix get_markup method declaration.
 	* goffice/graph/gog-renderer.c (gog_renderer_draw_text),
 	(gog_renderer_get_text_OBR): removed obsolete variables.

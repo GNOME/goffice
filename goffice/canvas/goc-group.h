@@ -32,6 +32,8 @@ struct _GocGroup {
 
 	double			 x, y;  /* group offset */
 	GList			*children;
+	GOPath			*clip_path;
+	cairo_fill_rule_t       clip_rule;
 };
 
 typedef struct _GocGroupClass GocGroupClass;
@@ -53,6 +55,7 @@ void goc_group_remove_child (GocGroup *parent, GocItem *item);
 void goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *x1, double *y1);
 void goc_group_adjust_coords (GocGroup const *group, double *x, double *y);
 void goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double y);
+void goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t clip_rule);
 
 G_END_DECLS
 
