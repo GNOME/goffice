@@ -1,3 +1,9 @@
+2011-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-impl.h: fix get_markup method declaration.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_text),
+	(gog_renderer_get_text_OBR): removed obsolete variables.
+
 2011-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-polygon.c (goc_polygon_set_property): make it

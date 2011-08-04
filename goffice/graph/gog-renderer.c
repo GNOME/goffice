@@ -878,7 +878,6 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 			GogViewAllocation const *pos, GOAnchorType anchor,
 			gboolean use_markup)
 {
-	cairo_t *cairo;
 	GOString *str;
 	PangoAttrList *attr_list = NULL;
 	char *m_text = NULL;
@@ -889,7 +888,6 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 	if (*text == '\0')
 		return;
 
-	cairo = rend->cairo;
 	if (use_markup && pango_parse_markup  (text, -1, 0,
 					       &attr_list, &m_text,
 					       NULL, NULL))
@@ -967,15 +965,12 @@ void
 gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
 			   gboolean use_markup, GOGeometryOBR *obr)
 {
-	cairo_t *cairo;
 	GOString *str;
 	PangoAttrList *attr_list = NULL;
 	char *m_text = NULL;
 
 	g_return_if_fail (GOG_IS_RENDERER (rend));
 	g_return_if_fail (text != NULL);
-
-	cairo = rend->cairo;
 
 	if (use_markup && pango_parse_markup  (text, -1, 0,
 					       &attr_list, &m_text,
@@ -1008,7 +1003,7 @@ gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
 /**
  * gog_renderer_get_gostring_AABR :
  * @rend: #GogRenderer
- * @string: the string to draw
+ * @str: the string to draw
  * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
  **/
 void
