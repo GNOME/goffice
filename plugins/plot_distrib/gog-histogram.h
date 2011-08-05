@@ -31,7 +31,7 @@ typedef struct {
 
 	struct {
 		double minima, maxima;
-		GOFormat *fmt;
+		GOFormat const *fmt;
 		GODateConventions const *date_conv;
 	} x, y;
 	gboolean vertical;
