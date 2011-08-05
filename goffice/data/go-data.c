@@ -602,7 +602,7 @@ _data_scalar_get_string (GOData *data, unsigned int *coordinates)
 static PangoAttrList *
 _data_scalar_get_markup (GOData *data, unsigned int *coordinates)
 {
-	return pango_attr_list_copy (go_data_scalar_get_markup ((GODataScalar *) data));
+	return pango_attr_list_copy ((PangoAttrList *) go_data_scalar_get_markup ((GODataScalar *) data));
 }
 
 static void
@@ -638,7 +638,7 @@ go_data_scalar_get_str (GODataScalar *scalar)
 	return (*klass->get_str) (scalar);
 }
 
-PangoAttrList *
+PangoAttrList const *
 go_data_scalar_get_markup (GODataScalar *scalar)
 {
 	GODataScalarClass const *klass = GO_DATA_SCALAR_GET_CLASS (scalar);

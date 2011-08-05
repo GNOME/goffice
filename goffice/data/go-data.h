@@ -76,7 +76,7 @@ GType go_data_scalar_get_type (void);
 
 double      go_data_scalar_get_value  (GODataScalar *val);
 char const *go_data_scalar_get_str    (GODataScalar *val);
-PangoAttrList *go_data_scalar_get_markup    (GODataScalar *val);
+PangoAttrList const *go_data_scalar_get_markup    (GODataScalar *val);
 
 /*************************************************************************/
 

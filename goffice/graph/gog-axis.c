@@ -121,6 +121,13 @@ gog_axis_ticks_set_text (GogAxisTick *ticks, char const *str)
 	ticks->str = go_string_new (str);
 }
 
+static void
+gog_axis_ticks_set_markup (GogAxisTick *ticks, char const *str, PangoAttrList *l)
+{
+	go_string_unref (ticks->str);
+	ticks->str = go_string_new_rich (str, -1, TRUE, l, NULL);
+}
+
 static GogAxisTick *
 create_invalid_axis_ticks (double min, double max)
 {
@@ -382,8 +389,12 @@ map_discrete_calc_ticks (GogAxis *axis)
 		ticks[j].str = NULL;
 		if (axis->labels != NULL) {
 			if (index < (int) go_data_get_vector_size (axis->labels) && index >= 0) {
+				PangoAttrList *l = go_data_get_vector_markup (axis->labels, index);
 				label = go_data_get_vector_string (axis->labels, index);
-				gog_axis_ticks_set_text(&ticks[j], label);
+				if (l != NULL)
+					gog_axis_ticks_set_markup (&ticks[j], label, l);
+				else
+					gog_axis_ticks_set_text (&ticks[j], label);
 				g_free (label);
 			}
 		} else {

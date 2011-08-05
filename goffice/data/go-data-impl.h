@@ -92,7 +92,7 @@ typedef struct {
 	void	 (*load_values) (GODataVector *vec);
 	double	 (*get_value)   (GODataVector *vec, unsigned i);
 	char	*(*get_str)	(GODataVector *vec, unsigned i);
-	PangoAttrList const *(*get_markup) (GODataVector *data, unsigned i);
+	PangoAttrList *(*get_markup) (GODataVector *data, unsigned i);
 } GODataVectorClass;
 
 #define	GO_DATA_MATRIX_SIZE_CACHED GO_DATA_SIZE_CACHED
@@ -112,7 +112,7 @@ typedef struct {
 	void	 (*load_values) (GODataMatrix *vec);
 	double	 (*get_value)   (GODataMatrix *mat, unsigned i, unsigned j);
 	char	*(*get_str)	(GODataMatrix *mat, unsigned i, unsigned j);
-	PangoAttrList const *(*get_markup) (GODataMatrix *mat, unsigned i, unsigned j);
+	PangoAttrList *(*get_markup) (GODataMatrix *mat, unsigned i, unsigned j);
 } GODataMatrixClass;
 
 G_END_DECLS

@@ -82,12 +82,17 @@ replace_rich_base_with_plain (GOStringRichImpl *rich)
 	if ((rich->base.flags & GO_STRING_IS_SHARED)) {
 		GSList *shares = g_hash_table_lookup (go_strings_shared, res->base.str);
 		unsigned n = g_slist_length (shares);
-		g_assert (rich->base.ref_count > n);
+		g_assert (rich->base.ref_count >= n);
+		if (n == 0)
+			res->flags &= ~GO_STRING_IS_SHARED;
 		rich->base.flags &= ~GO_STRING_IS_SHARED;
 		rich->base.ref_count -= n;
+		if (rich->base.ref_count == 0) {
+			rich->base.ref_count = 1;
+			rich->base.base.str = g_strdup (rich->base.base.str); /* don't free the string */
+			go_string_unref ((GOString *) rich);
+		}
 		res->ref_count += n;
-		/* ignore result, assignment is just to make the compiler shutup */
-		shares = g_slist_insert (shares, res, 1);
 	} else
 		g_hash_table_insert (go_strings_shared, (gpointer) res->base.str,
 			g_slist_prepend (NULL, rich));
@@ -236,10 +241,7 @@ go_string_new_rich (char const *str,
 		g_hash_table_insert (go_strings_base, rich, rich);
 	} else {
 		go_string_ref (&base->base);
-		if (str != rich->base.base.str) { /* watch for people doing something stupid */
-			if (!copy) g_free ((char *)str);
-			rich->base.base.str = base->base.str;
-		}
+		rich->base.base.str = base->base.str;
 		rich->base.flags |= GO_STRING_IS_DEPENDENT;
 		if ((base->flags & GO_STRING_IS_SHARED)) {
 			GSList *shares = g_hash_table_lookup (go_strings_shared, rich->base.base.str);
@@ -298,7 +300,8 @@ go_string_unref (GOString *gstr)
 			g_hash_table_remove (go_strings_base, gstr);
 			g_free ((gpointer)gstr->str);
 		}
-		g_slice_free1 (sizeof (GOStringImpl), gstr);
+		g_slice_free1 ((impl->flags & GO_STRING_IS_RICH?
+		        		sizeof (GOStringRichImpl): sizeof (GOStringImpl)), gstr);
 	}
 }
 

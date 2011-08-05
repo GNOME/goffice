@@ -1,3 +1,13 @@
+2011-08-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-impl.h: sanitize the get_murkup API.
+	* goffice/data/go-data.c (_data_scalar_get_markup):
+	* goffice/data/go-data.h: ditto.
+	* goffice/graph/gog-axis.c (gog_axis_ticks_set_markup),
+	(map_discrete_calc_ticks): use markup for discrete axes tip labels.
+	* goffice/utils/go-string.c (replace_rich_base_with_plain),
+	(go_string_new_rich), (go_string_unref):
+
 2011-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-group.c (goc_group_update_bounds),
