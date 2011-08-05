@@ -1,5 +1,11 @@
 2011-08-05  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_format_get_details): Deduce
+	exponent_digits.
+	(go_format_generate_scientific_str): Add right number of exponent
+	digits.
+	(go_format_details_init): Reset exponent_digits.
+
 	* goffice/data/go-data.c (go_data_preferred_fmt): Constify.  Fixes
 	#635072.  All callers adjusted.
 

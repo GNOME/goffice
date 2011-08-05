@@ -5253,8 +5253,12 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 
 	if (details->use_markup)
 		g_string_append (dst, "EE0");
-	else
-		g_string_append (dst, "E+00");
+	else {
+		/* Maximum not terribly important. */
+		int digits = CLAMP (details->exponent_digits, 1, 10);
+		g_string_append (dst, "E+");
+		go_string_append_c_n (dst, '0', digits);
+	}
 }
 #endif
 
@@ -5501,6 +5505,7 @@ go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
 				  family == GO_FORMAT_CURRENCY);
 	details->magic = GO_FORMAT_MAGIC_NONE;
 	details->exponent_step = 1;
+	details->exponent_digits = 2;
 	details->min_digits = 1;
 }
 #endif
@@ -5618,12 +5623,23 @@ go_format_get_details (GOFormat const *fmt,
 				      (comma[3] == '0' || comma[3] == '#'));
 
 		if (dst->family == GO_FORMAT_SCIENTIFIC) {
-			const char *mend = dot ? dot : strchr (str, 'E');
+			const char *epos = strchr (str, 'E');
+			const char *mend = dot ? dot : epos;
 			dst->use_markup = (strstr (str, "EE0") != NULL);
 			dst->exponent_step = mend - str;
 			dst->simplify_mantissa = mend != str && mend[-1] == '#';
 			if (dst->simplify_mantissa)
 				dst->min_digits = 0;
+
+			dst->exponent_digits = 0;
+			if (dst->use_markup) epos++;
+			epos++;
+			if (epos[0] == '+' || epos[0] == '-')
+				epos++;
+			while (epos[0] == '0' || epos[0] == '#' || epos[0] == '?') {
+				epos++;
+				dst->exponent_digits++;
+			}
 		}
 
 		if (exact != NULL) {

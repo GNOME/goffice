@@ -92,8 +92,11 @@ typedef struct {
 
 	/* SCIENTIFIC: */
 	int exponent_step;
+	int exponent_digits;
 	gboolean use_markup;
 	gboolean simplify_mantissa;
+
+	int expansion[30];
 } GOFormatDetails;
 
 /*************************************************************************/

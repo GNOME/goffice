@@ -7,6 +7,9 @@ Jean:
 	* Port to gtk+-3.0.
 	* Add a plugin directory for extern plugins, independent from micro version.
 
+Morten:
+	* Recognize scientific formats with longer exponents.
+
 --------------------------------------------------------------------------
 goffice 0.8.17:
 
