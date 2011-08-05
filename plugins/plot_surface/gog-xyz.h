@@ -42,7 +42,7 @@ typedef struct {
 	gboolean auto_x, auto_y; /* automatic limits for xyz plots */
 	struct {
 		double minima, maxima;
-		GOFormat *fmt;
+		GOFormat const *fmt;
 		GODateConventions const *date_conv;
 	} x, y, z;
 	double *plotted_data;

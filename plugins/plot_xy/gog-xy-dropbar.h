@@ -34,7 +34,7 @@ typedef struct {
 	double width;
 	struct axes_data {
 		double minima, maxima;
-		GOFormat *fmt;
+		GOFormat const *fmt;
 		GODateConventions const *date_conv;
 	} x, y;
 } GogXYDropBarPlot;

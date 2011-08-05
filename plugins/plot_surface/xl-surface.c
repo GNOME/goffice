@@ -172,7 +172,7 @@ xl_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 {
 	GogXYZPlot *xyz = GOG_XYZ_PLOT (plot);
 	GOData *vec = NULL;
-	GOFormat *fmt;
+	GOFormat const *fmt;
 
 	if (axis == GOG_AXIS_X) {
 		XLXYZSeries *series = XL_XYZ_SERIES (plot->series->data);

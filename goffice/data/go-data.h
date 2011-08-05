@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 GType 		go_data_get_type 		(void);
 GOData *	go_data_dup			(GOData const *src);
 gboolean  	go_data_eq			(GOData const *a, GOData const *b);
-GOFormat *	go_data_preferred_fmt 		(GOData const *dat);
+GOFormat const *go_data_preferred_fmt 		(GOData const *dat);
 GODateConventions const *go_data_date_conv	(GOData const *dat);
 
 char *		go_data_serialize		(GOData const *dat, gpointer user);

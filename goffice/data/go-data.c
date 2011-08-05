@@ -145,7 +145,7 @@ go_data_eq (GOData const *a, GOData const *b)
  *
  * Returns: the fmt preferred by the the data
  **/
-GOFormat *
+GOFormat const *
 go_data_preferred_fmt (GOData const *dat)
 {
 	GODataClass const *klass = GO_DATA_GET_CLASS (dat);

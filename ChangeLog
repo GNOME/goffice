@@ -1,3 +1,8 @@
+2011-08-05  Morten Welinder  <terra@gnome.org>
+
+	* goffice/data/go-data.c (go_data_preferred_fmt): Constify.  Fixes
+	#635072.  All callers adjusted.
+
 2011-08-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data-impl.h: sanitize the get_murkup API.

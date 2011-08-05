@@ -256,7 +256,7 @@ gog_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	GogXYZPlot *xyz = GOG_XYZ_PLOT (plot);
 	GOData *vec = NULL;
 	double min, max;
-	GOFormat *fmt;
+	GOFormat const *fmt;
 	if (!plot->series)
 		return NULL;
 	series = GOG_XYZ_SERIES (plot->series->data);
