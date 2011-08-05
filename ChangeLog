@@ -1,3 +1,14 @@
+2011-08-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/goffice-graph.h: add support for rich text in legends.
+	* goffice/graph/gog-legend.c (cb_size_elements), (cb_swatch_scale),
+	(cb_render_elements): ditto.
+	* goffice/graph/gog-plot.c (gog_plot_foreach_elem): ditto.
+	* goffice/utils/go-string.c (replace_rich_base_with_plain): don't leak
+	a string.
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem):  add support for rich text in legends.
+
 2011-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c

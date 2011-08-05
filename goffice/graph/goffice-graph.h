@@ -88,7 +88,7 @@ typedef struct {
 } GogViewPadding;
 
 typedef void (*GogEnumFunc) (unsigned i, gpointer style,
-			     char const *name, gpointer data);
+			     char const *name, PangoAttrList *l, gpointer data);
 
 typedef enum {
 	GOG_AXIS_UNKNOWN = -1,

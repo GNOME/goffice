@@ -88,7 +88,6 @@ replace_rich_base_with_plain (GOStringRichImpl *rich)
 		res->ref_count += n;
 		if (rich->base.ref_count == 0) {
 			rich->base.ref_count = 1;
-			rich->base.base.str = g_strdup (rich->base.base.str); /* don't free the string */
 			go_string_unref ((GOString *) rich);
 		} else {
 			shares = g_slist_prepend (shares, rich);

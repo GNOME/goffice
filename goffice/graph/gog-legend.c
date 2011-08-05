@@ -272,12 +272,17 @@ static GogViewClass *lview_parent_klass;
 
 static void
 cb_size_elements (unsigned i, GOStyle const *style,
-		  char const *name, GogLegendView *glv)
+		  char const *name, PangoAttrList *l, GogLegendView *glv)
 {
 	GogView *view = GOG_VIEW (glv);
 	GOGeometryAABR aabr;
 
-	gog_renderer_get_text_AABR (view->renderer, name, FALSE, &aabr);
+	if (l) {
+		GOString *str = go_string_new_rich (name, -1, TRUE, l, NULL);
+		gog_renderer_get_gostring_AABR (view->renderer, str, &aabr);
+		go_string_unref (str);
+	} else
+		gog_renderer_get_text_AABR (view->renderer, name, FALSE, &aabr);
 
 	if (glv->element_width < aabr.w)
 		glv->element_width = aabr.w;
@@ -383,7 +388,7 @@ typedef struct {
 
 static void
 cb_swatch_scale (unsigned i, GOStyle const *style, char const *name,
-		 SwatchScaleClosure *data)
+		 PangoAttrList *l, SwatchScaleClosure *data)
 {
 	GOStyleLine const *line = NULL;
 	double size;
@@ -417,6 +422,8 @@ cb_swatch_scale (unsigned i, GOStyle const *style, char const *name,
 		scale = 0;
 	if (data->line_scale > scale)
 		data->line_scale = scale;
+	if (l)
+		pango_attr_list_unref (l);
 }
 
 typedef struct {
@@ -433,7 +440,7 @@ typedef struct {
 
 static void
 cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
-		    RenderClosure *data)
+		    PangoAttrList *l, RenderClosure *data)
 {
 	GogView const *view = data->view;
 	GogLegendView *glv = GOG_LEGEND_VIEW (view);
@@ -511,7 +518,12 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 	pos.x = data->x + glv->label_offset;
 	pos.y = data->y + glv->element_height / 2.0;
 	pos.w = pos.h = -1;
-	gog_renderer_draw_text (renderer, name, &pos, GO_ANCHOR_W, FALSE);
+	if (l) {
+		GOString *str = go_string_new_rich (name, -1, TRUE, l, NULL);
+		gog_renderer_draw_gostring (view->renderer, str, &pos, GO_ANCHOR_W);
+		go_string_unref (str);
+	} else
+		gog_renderer_draw_text (renderer, name, &pos, GO_ANCHOR_W, FALSE);
 
 	if (style != base_style && style != NULL)
 		g_object_unref (style);

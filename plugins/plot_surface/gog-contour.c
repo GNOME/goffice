@@ -182,14 +182,14 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 			style->fill.pattern.back = color[i];
 			label = g_strdup_printf ("[%g%s %g%c", limits[j - i - 1], separator,
 						limits[j - i], (limits[i - j] > minimum)? '[':']');
-			(func) (i, style, label, data);
+			(func) (i, style, label, NULL, data);
 			g_free (label);
 		}
 		if (limits[i - j] > minimum) {
 			gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, style->interesting_fields);
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[i - j]);
-			(func) (i, style, label, data);
+			(func) (i, style, label, NULL, data);
 			g_free (label);
 		}
 	} else {
@@ -197,7 +197,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 			style->fill.pattern.back = color[0];
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[0]);
-			(func) (0, style, label, data);
+			(func) (0, style, label, NULL, data);
 			g_free (label);
 			i = 1;
 			j++;
@@ -207,7 +207,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 			style->fill.pattern.back = color[i];
 			label = g_strdup_printf ("[%g%s %g%c", limits[i], separator,
 						limits[i + 1], (i == j - 1)? ']':'[');
-			(func) (i, style, label, data);
+			(func) (i, style, label, NULL, data);
 			g_free (label);
 		}
 	}

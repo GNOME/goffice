@@ -583,6 +583,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 	GList *overrides;
+	PangoAttrList *pl;
 
 	g_return_if_fail (GOG_IS_PLOT (plot));
 	if (!plot->cardinality_valid)
@@ -607,8 +608,11 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 
 		for (; ptr != NULL ; ptr = ptr->next) {
 			if (!only_visible || gog_series_has_legend (ptr->data)) {
+				GOData *dat = gog_dataset_get_dim (GOG_DATASET (ptr->data), -1);
 				func (i, go_styled_object_get_style (ptr->data),
-				      gog_object_get_name (ptr->data), data);
+				      gog_object_get_name (ptr->data),
+				      (dat? go_data_get_scalar_markup (dat): NULL),
+				      data);
 				i++;
 			}
 			/* now add the trend lines if any */
@@ -617,7 +621,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 				if (GOG_IS_TREND_LINE (children->data) &&
 				    gog_trend_line_has_legend (GOG_TREND_LINE (children->data))) {
 					func (i, go_styled_object_get_style (children->data),
-					      gog_object_get_name (children->data), data);
+					      gog_object_get_name (children->data), NULL, data);
 					i++;
 				}
 				children = children->next;
@@ -647,13 +651,16 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 
 		gog_theme_fillin_style (theme, tmp_style, GOG_OBJECT (series),
 			plot->index_num + i, tmp_style->interesting_fields);
-		if (labels != NULL)
+		if (labels != NULL) {
 			label = (i < num_labels) ? go_data_get_vector_string (labels, i) : g_strdup ("");
-		else
+			pl = (i < num_labels)? go_data_get_vector_markup (labels, i): NULL;
+		} else {
 			label = NULL;
+			pl = NULL;
+		}
 		if (label == NULL)
 			label = g_strdup_printf ("%d", i);
-		(func) (i, tmp_style, label, data);
+		(func) (i, tmp_style, label, pl, data);
 		g_free (label);
 	}
 	g_object_unref (style);
