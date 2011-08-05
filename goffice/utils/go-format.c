@@ -6720,15 +6720,19 @@ go_format_output_scientific_number_element_to_odf (GsfXMLOut *xout,
 						   int min_decimal_digits,
 						   int min_exponent_digits,
 						   gboolean comma_seen,
-						   gboolean engineering)
+						   gboolean engineering,
+						   gboolean use_literal_E,
+						   gboolean with_extension)
 {
 	gsf_xml_out_start_element (xout, NUMBER "scientific-number");
 	gsf_xml_out_add_int (xout, NUMBER "decimal-places", min_decimal_digits);
 	odf_add_bool (xout, NUMBER "grouping", comma_seen);
 	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", min_integer_digits);
 	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", min_exponent_digits);
-	if (engineering)
-		odf_add_bool (xout, GNMSTYLE "engineering", TRUE);
+	if (with_extension) {
+		odf_add_bool (xout, GNMSTYLE "engineering", engineering);
+		odf_add_bool (xout, GNMSTYLE "literal-E", use_literal_E);
+	}
 	gsf_xml_out_end_element (xout); /* </number:number> */
 }
 
@@ -6805,18 +6809,29 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			break;
 
 		case 'e':
-		case 'E':
+		case 'E': {
+			gboolean use_literal_E;
+
 			if (number_completed)
 				break;
+
+			if (*xl == 'e' || *xl == 'E') {
+				xl++;
+				use_literal_E = FALSE;
+			} else
+				use_literal_E = TRUE;
+			
 			while (*xl == '0' || *xl == '+' || *xl == '-')
 				if (*xl++ == '0')
 					min_exponent_digits++;
 			go_format_output_scientific_number_element_to_odf
 				(xout, min_integer_digits, min_decimal_digits,
 				 min_exponent_digits, comma_seen,
-				 with_extension && hashes > 0 && (hashes + min_integer_digits == 3));
+				 hashes > 0 && (hashes + min_integer_digits == 3),
+				 use_literal_E, with_extension);
 			number_completed = TRUE;
 			break;
+		}
 
 		case TOK_COLOR: {
 			GOColor color;

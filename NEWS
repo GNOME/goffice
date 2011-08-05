@@ -2,6 +2,7 @@ goffice 0.9.0:
 
 Andreas:
 	* Use pango attributes for formatting. [#584380][#651561]
+	* Fix output of scientific number formats with EE to ODF.
 
 Jean:
 	* Port to gtk+-3.0.
