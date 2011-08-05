@@ -316,11 +316,6 @@ if test $goffice_devel = yes; then
 	# gtk+ handled later
 		gtk_disable_deprecated=maybe
 	fi
-	if test "x$goffice_with_gnome" = "xtrue"; then
-		CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
-		CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
-		CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
-	fi
 fi
 
 dnl ****************************
