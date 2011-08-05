@@ -5,7 +5,12 @@
 
 2011-08-05  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/data/go-data-impl.h: sanitize the get_murkup API.
+	* goffice/utils/go-string.c (replace_rich_base_with_plain): don't loose
+	the ancient base if not destroyed.
+
+2011-08-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-impl.h: sanitize the get_markup API.
 	* goffice/data/go-data.c (_data_scalar_get_markup): ditto.
 	* goffice/data/go-data.h: ditto.
 	* goffice/graph/gog-axis.c (gog_axis_ticks_set_markup),
