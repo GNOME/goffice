@@ -8,6 +8,7 @@ Jean:
 	* Port to gtk+-3.0.
 	* Add a plugin directory for extern plugins, independent from micro version.
 	* Allow the frame around a chart label to rotate with the text. [647147]
+	* Chart labels accept rich text. [#417631]
 
 Morten:
 	* Recognize scientific formats with longer exponents.
