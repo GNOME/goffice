@@ -572,6 +572,13 @@
                       <object class="GtkComboBoxText" id="fill-type-menu">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <items>
+                          <item translatable="yes">None</item>
+                          <item translatable="yes">Pattern</item>
+                          <item translatable="yes">Bicolor gradient</item>
+                          <item translatable="yes">Unicolor gradient</item>
+                          <item translatable="yes">Image</item>
+                        </items>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -918,9 +925,6 @@
                           </packing>
                         </child>
                         <child>
-                          <placeholder/>
-                        </child>
-                        <child>
                           <object class="GtkComboBoxText" id="fill-image-fit">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -934,6 +938,9 @@
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                       </object>
                       <packing>

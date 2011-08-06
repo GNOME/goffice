@@ -487,6 +487,41 @@ gog_renderer_fill_shape (GogRenderer *renderer, GOPath const *path)
 	_draw_shape (renderer, path, TRUE, FALSE);
 }
 
+static void
+_draw_rotated_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean stroke, gboolean rotate_bg)
+{
+	GOStyle const *style;
+	GOPathOptions line_options;
+	double width;
+
+	g_return_if_fail (GOG_IS_RENDERER (renderer));
+	g_return_if_fail (renderer->cur_style != NULL);
+	g_return_if_fail (GO_IS_PATH (path));
+
+        style = renderer->cur_style;
+
+	line_options = go_path_get_options (path);
+	width = stroke ? _grc_line_size (renderer, style->line.width,
+					 line_options & GO_PATH_OPTIONS_SNAP_WIDTH) : 0;
+
+	cairo_save (renderer->cairo);
+	cairo_rotate (renderer->cairo, -renderer->cur_style->text_layout.angle *M_PI / 180.);
+	path_interpret (renderer, path, width);
+
+	if (fill) {
+		if (rotate_bg) {
+			emit_fill (renderer, stroke);
+			cairo_restore (renderer->cairo);
+		} else {
+			cairo_restore (renderer->cairo);
+			emit_fill (renderer, stroke);
+		}
+	}
+
+	if (stroke)
+		emit_line (renderer, FALSE, go_path_get_options (path));
+}
+
 /*****************************************************************************/
 
 /**
@@ -659,6 +694,45 @@ void
 gog_renderer_fill_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
 	_draw_rectangle (rend, rect, TRUE, FALSE);
+}
+
+static void
+_draw_rotated_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill, gboolean stroke, gboolean rotate_bg)
+{
+	GOStyle const *style;
+	GOPath *path;
+	gboolean narrow = (rect->w < 3.) || (rect->h < 3.);
+	double o, o_2;
+
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (GO_IS_STYLE (rend->cur_style));
+
+	style = rend->cur_style;
+	narrow |= !go_style_is_outline_visible (style);
+
+	path = go_path_new ();
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+
+	if (!narrow) {
+		o = gog_renderer_line_size (rend, style->line.width);
+		o_2 = o / 2.;
+	} else
+		o = o_2 = 0.;
+
+	go_path_rectangle (path, 0., 0., rect->w - o, rect->h - o);
+
+	cairo_save (rend->cairo);
+	cairo_translate (rend->cairo, rect->x - o_2, rect->y - o_2);
+	_draw_rotated_shape (rend, path, fill, stroke && !narrow, rotate_bg);
+	cairo_restore (rend->cairo);
+
+	go_path_free (path);
+}
+
+void
+gog_renderer_draw_rotated_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean rotate_bg)
+{
+	_draw_rotated_rectangle (rend, rect, TRUE, TRUE, rotate_bg);
 }
 
 /**

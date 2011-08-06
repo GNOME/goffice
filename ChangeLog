@@ -1,3 +1,18 @@
+2011-08-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-label.c (gog_text_set_property),
+	(gog_text_get_property), (gog_text_class_init), (rotate_frame_cb),
+	(rotate_bg_cb), (allow_markup_cb), (gog_label_populate_editor),
+	(gog_label_class_init), (gog_text_view_size_request),
+	(gog_text_view_render): allow rotation of the frame along with the text.
+	[#647147]
+	* goffice/graph/gog-label.h:
+	* goffice/graph/gog-renderer.c (_draw_rotated_shape),
+	(gog_renderer_fill_rectangle), (_draw_rotated_rectangle),
+	(gog_renderer_draw_rotated_rectangle):
+	* goffice/graph/gog-renderer.h:
+	* goffice/utils/go-style-prefs.ui:
+
 2011-08-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/goffice-graph.h: add support for rich text in legends.

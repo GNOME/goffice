@@ -38,7 +38,9 @@ static GType gog_text_view_get_type (void);
 
 enum {
 	TEXT_PROP_0,
-	TEXT_PROP_ALLOW_MARKUP
+	TEXT_PROP_ALLOW_MARKUP,
+	TEXT_PROP_ROTATE_FRAME,
+	TEXT_PROP_ROTATE_BG
 };
 
 static GObjectClass *text_parent_klass;
@@ -52,6 +54,12 @@ gog_text_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case TEXT_PROP_ALLOW_MARKUP :
 		text->allow_markup = g_value_get_boolean (value);
+		break;
+	case TEXT_PROP_ROTATE_FRAME:
+		text->rotate_frame = g_value_get_boolean (value);
+		break;
+	case TEXT_PROP_ROTATE_BG:
+		text->rotate_bg = g_value_get_boolean (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -69,6 +77,12 @@ gog_text_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case TEXT_PROP_ALLOW_MARKUP :
 		g_value_set_boolean (value, text->allow_markup);
+		break;
+	case TEXT_PROP_ROTATE_FRAME:
+		g_value_set_boolean (value, text->rotate_frame);
+		break;
+	case TEXT_PROP_ROTATE_BG:
+		g_value_set_boolean (value, text->rotate_bg);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -115,7 +129,20 @@ gog_text_class_init (GogTextClass *klass)
 		g_param_spec_boolean ("allow-markup",
 			_("Allow markup"),
 			_("Support basic html-ish markup"),
-			TRUE,
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+
+	g_object_class_install_property (gobject_klass, TEXT_PROP_ROTATE_FRAME,
+		g_param_spec_boolean ("rotate-frame",
+			_("Rotate the frame with the text"),
+			_("Whether the frame should be rotated with the text"),
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, TEXT_PROP_ROTATE_BG,
+		g_param_spec_boolean ("rotate-bg",
+			_("Rotate the background with the text"),
+			_("Whether the background should be rotated with the text"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type		= gog_text_view_get_type ();
@@ -169,12 +196,35 @@ struct _GogLabel {
 
 	GogDatasetElement text;
 };
+enum {
+	LABEL_PROP_0,
+};
+
 
 typedef GogTextClass GogLabelClass;
 
 static GObjectClass *label_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
+
+static void
+rotate_frame_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "rotate-frame", gtk_toggle_button_get_active (btn), NULL);
+}
+
+static void
+rotate_bg_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "rotate-bg", gtk_toggle_button_get_active (btn), NULL);
+}
+
+static void
+allow_markup_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "allow-markup", gtk_toggle_button_get_active (btn), NULL);
+}
+
 static void
 gog_label_populate_editor (GogObject *gobj,
 			   GOEditor *editor,
@@ -182,21 +232,39 @@ gog_label_populate_editor (GogObject *gobj,
 			   GOCmdContext *cc)
 {
 	static guint label_pref_page = 0;
-	GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-	GtkWidget *alignment = gtk_alignment_new (0, 0, 1, 0);
+	GtkWidget *grid = gtk_grid_new ();
 	GtkWidget *editor_widget =
 		GTK_WIDGET
 		(gog_data_allocator_editor (dalloc, GOG_DATASET (gobj),
 					    0, GOG_DATA_SCALAR));
+	GtkWidget *w;
 
-	gtk_container_set_border_width (GTK_CONTAINER (alignment), 12);
-	gtk_box_pack_start (GTK_BOX (hbox),
-		gtk_label_new_with_mnemonic (_("_Text:")), FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), editor_widget, TRUE, TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (alignment), hbox);
-	gtk_widget_show_all (alignment);
+	g_object_set (G_OBJECT (grid),
+	              "margin", 12,
+	              "row-spacing", 12,
+	              "column-spacing", 6,
+	              NULL);
+	g_object_set (G_OBJECT (editor_widget), "hexpand", TRUE, NULL);
 
-	go_editor_add_page (editor, alignment, _("Data"));
+	gtk_grid_attach (GTK_GRID (grid),
+		gtk_label_new_with_mnemonic (_("_Text:")), 0, 0, 1, 1);
+	gtk_grid_attach (GTK_GRID (grid), editor_widget, 1, 0, 1, 1);
+	w = gtk_check_button_new_with_label (_("Rotate frame with text"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->rotate_frame);
+	g_signal_connect (w, "toggled", G_CALLBACK (rotate_frame_cb), gobj);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, 1, 2, 1);
+	w = gtk_check_button_new_with_label (_("Rotate background with text"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->rotate_bg);
+	g_signal_connect (w, "toggled", G_CALLBACK (rotate_bg_cb), gobj);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, 2, 2, 1);
+	w = gtk_check_button_new_with_label (_("Interpret text as markup"));
+	gtk_widget_set_tooltip_text (w, _("Interpret the text as an html like markup as described at http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->allow_markup);
+	g_signal_connect (w, "toggled", G_CALLBACK (allow_markup_cb), gobj);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, 3, 2, 1);
+	gtk_widget_show_all (grid);
+
+	go_editor_add_page (editor, grid, _("Details"));
 
 	(GOG_OBJECT_CLASS(label_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 	go_editor_set_store_page (editor, &label_pref_page);
@@ -245,11 +313,11 @@ gog_label_class_init (GogLabelClass *klass)
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 	gog_klass->populate_editor = gog_label_populate_editor;
 #endif
-
 	label_parent_klass = g_type_class_peek_parent (klass);
-	gobject_klass->finalize	   = gog_label_finalize;
-	got_klass->get_str	   = gog_label_get_str;
-	got_klass->get_markup	   = gog_label_get_markup;
+	gobject_klass->finalize	    = gog_label_finalize;
+
+	got_klass->get_str	    = gog_label_get_str;
+	got_klass->get_markup	    = gog_label_get_markup;
 }
 
 static void
@@ -465,15 +533,34 @@ gog_text_view_size_request (GogView *v,
 {
 	GogText *text = GOG_TEXT (v->model);
 	char *str = gog_text_get_str (text);
+	PangoAttrList *pl = text->allow_markup? NULL: gog_text_get_markup (text);
 	GOGeometryAABR aabr;
 
 	req->w = req->h = 0.;
 	if (str != NULL) {
-		gog_renderer_push_style (v->renderer, text->base.base.style);
-		gog_renderer_get_text_AABR (v->renderer, str, FALSE, &aabr);
+		GOString *gostr = pl? go_string_new_rich (str, -1, FALSE,
+		                                      gog_text_get_markup (text),
+		                                      NULL): NULL;
+		GOStyle *style = go_style_dup (text->base.base.style);
+		double rot = fabs (style->text_layout.angle / 180 * M_PI);
+		if (text->rotate_frame)
+			style->text_layout.angle = 0.;
+		gog_renderer_push_style (v->renderer, style);
+		if (gostr) {
+			gog_renderer_get_gostring_AABR (v->renderer, gostr, &aabr);
+			go_string_unref (gostr);
+		} else
+			gog_renderer_get_text_AABR (v->renderer, str, text->allow_markup, &aabr);
 		gog_renderer_pop_style (v->renderer);
-		req->w = aabr.w;
-		req->h = aabr.h;
+		g_object_unref (style);
+		if (text->rotate_frame) {
+			req->w = aabr.w * cos (rot) + aabr.h * sin (rot);
+			req->h = aabr.w * sin (rot) + aabr.h * cos (rot);
+		} else {
+			req->w = aabr.w;
+			req->h = aabr.h;
+		}
+		go_string_unref (gostr);
 		g_free (str);
 	}
 	text_view_parent_klass->size_request (v, available, req);
@@ -486,28 +573,56 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (text);
 	GOStyle *style = text->base.base.style;
 	char *str = gog_text_get_str (text);
+	PangoAttrList *pl = text->allow_markup? NULL: gog_text_get_markup (text);
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
-		GOString *gostr = go_string_new_rich (str, -1, FALSE,
-		                                      gog_label_get_markup (text),
-		                                      NULL);
+		GOString *gostr = pl? go_string_new_rich (str, -1, FALSE,
+		                                      gog_text_get_markup (text),
+		                                      NULL): NULL;
 		double outline = gog_renderer_line_size (view->renderer,
 							 goo->base.style->line.width);
 		if (style->fill.type != GO_STYLE_FILL_NONE || outline > 0.) {
 			GogViewAllocation rect;
 			GOGeometryAABR aabr;
+			GOStyle *rect_style = NULL;
 			double pad_x = gog_renderer_pt2r_x (view->renderer, goo->padding_pts);
 			double pad_y = gog_renderer_pt2r_y (view->renderer, goo->padding_pts);
-			gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr);
-			rect = view->allocation;
-			rect.w = aabr.w + 2. * outline + pad_x;
-			rect.h = aabr.h + 2. * outline + pad_y;
-			gog_renderer_draw_rectangle (view->renderer, &rect);
+			double rot = style->text_layout.angle / 180 * M_PI;
+			if (text->rotate_frame) {
+				rect_style = go_style_dup (text->base.base.style);
+				rect_style->text_layout.angle = 0.;
+				gog_renderer_push_style (view->renderer, rect_style);
+			}
+			if (gostr)
+				gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr);
+			else
+				gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr);
+			if (text->rotate_frame) {
+				rect = view->allocation;
+				rect.w = aabr.w + 2. * outline + pad_x;
+				rect.h = aabr.h + 2. * outline + pad_y;
+				if (rot > 0.)
+					rect.y += rect.w * sin (rot);
+				else
+					rect.x -= rect.h * sin (rot);
+				gog_renderer_pop_style (view->renderer);
+				g_object_unref (rect_style);
+			} else {
+				rect = view->allocation;
+				rect.w = aabr.w + 2. * outline + pad_x;
+				rect.h = aabr.h + 2. * outline + pad_y;
+			}
+			gog_renderer_draw_rotated_rectangle (view->renderer, &rect, text->rotate_bg);
 		}
-		gog_renderer_draw_gostring (view->renderer, gostr,
-		                            &view->residual, GO_ANCHOR_NW);
-		go_string_unref (gostr);
+		if (gostr) {
+			gog_renderer_draw_gostring (view->renderer, gostr,
+		                    		&view->residual, GO_ANCHOR_NW);
+			go_string_unref (gostr);
+		} else
+			gog_renderer_draw_text (view->renderer, str,
+		                    		&view->residual, GO_ANCHOR_NW,
+			                        text->allow_markup);
 		g_free (str);
 	}
 	gog_renderer_pop_style (view->renderer);

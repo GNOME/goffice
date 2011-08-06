@@ -30,6 +30,8 @@ typedef struct {
 	GogOutlinedObject base;
 
 	gboolean	  allow_markup;
+	gboolean	  rotate_frame;
+	gboolean	  rotate_bg;
 } GogText;
 
 typedef struct {

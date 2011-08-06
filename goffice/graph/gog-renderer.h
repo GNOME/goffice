@@ -72,6 +72,7 @@ void  gog_renderer_stroke_circle 	(GogRenderer *rend, double x, double y, double
 void  gog_renderer_fill_circle	 	(GogRenderer *rend, double x, double y, double r);
 
 void  gog_renderer_draw_rectangle	(GogRenderer *rend, GogViewAllocation const *rect);
+void  gog_renderer_draw_rotated_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean rotate_bg);
 void  gog_renderer_stroke_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);
 void  gog_renderer_fill_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);
 
