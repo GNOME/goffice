@@ -81,6 +81,8 @@ gboolean      gog_axis_get_bounds 	  (GogAxis const *axis,
 void	      gog_axis_set_bounds 	  (GogAxis *axis,
 					   double minimum, double maximum);
 void 	      gog_axis_set_extents 	  (GogAxis *axis, double start, double stop);
+void          gog_axis_get_effective_span (GogAxis const *axis,
+					   double *start, double *end);
 GOFormat     *gog_axis_get_format	  (GogAxis const *axis);
 GOFormat     *gog_axis_get_effective_format (GogAxis const *axis);
 gboolean      gog_axis_set_format	  (GogAxis *axis, GOFormat *fmt);

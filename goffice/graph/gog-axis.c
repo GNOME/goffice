@@ -92,6 +92,7 @@ struct _GogAxis {
 
 	GogAxisTick	*ticks;
 	unsigned	 tick_nbr;
+	double span_start, span_end;    /* percent of used area */
 };
 
 /*****************************************************************************/
@@ -1578,6 +1579,11 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
 	map->data = NULL;
 	map->is_valid = FALSE;
 
+	if (axis->type != GOG_AXIS_CIRCULAR) {
+		offset += axis->span_start * length;
+		length *= axis->span_end - axis->span_start;
+	}
+
 	if (map->desc->init != NULL)
 		map->is_valid = map->desc->init (map, offset, length);
 
@@ -1708,11 +1714,16 @@ void
 gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 {
 	g_return_if_fail (map != NULL);
-
+	
 	if (map->axis->inverted)
 		map->desc->map_bounds (map, stop, start);
 	else
 		map->desc->map_bounds (map, start, stop);
+	if (map->axis->type != GOG_AXIS_CIRCULAR) {
+		double buf = (*stop - *start) / (map->axis->span_end - map->axis->span_start);
+		*start -= map->axis->span_start * buf;
+		*stop = *start + buf;
+	}
 }
 
 /**
@@ -1731,8 +1742,13 @@ void
 gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
 	g_return_if_fail (map != NULL);
-
+	
 	map->desc->map_bounds (map, minimum, maximum);
+	if (map->axis->type != GOG_AXIS_CIRCULAR) {
+		double buf = (*minimum - *maximum) / (map->axis->span_end - map->axis->span_start);
+		*maximum -= map->axis->span_start * buf;
+		*minimum = *maximum + buf;
+	}
 }
 
 /**
@@ -1873,7 +1889,9 @@ enum {
 	AXIS_PROP_MAP,
 	AXIS_PROP_ASSIGNED_FORMAT_STR_XL,
 	AXIS_PROP_CIRCULAR_ROTATION,
-	AXIS_PROP_POLAR_UNIT
+	AXIS_PROP_POLAR_UNIT,
+	AXIS_PROP_SPAN_START,
+	AXIS_PROP_SPAN_END
 };
 
 /*****************************************************************************/
@@ -2066,6 +2084,20 @@ gog_axis_set_property (GObject *obj, guint param_id,
 		}
 		break;
 	}
+	case AXIS_PROP_SPAN_START:
+		if (axis->type != GOG_AXIS_CIRCULAR) {
+			double new_value = g_value_get_double (value);
+			g_return_if_fail (new_value < axis->span_end); 
+			axis->span_start = new_value;
+		}
+		break;
+	case AXIS_PROP_SPAN_END:
+		if (axis->type != GOG_AXIS_CIRCULAR) {
+			double new_value = g_value_get_double (value);
+			g_return_if_fail (new_value > axis->span_start); 
+			axis->span_end = new_value;
+		}
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -2108,6 +2140,12 @@ gog_axis_get_property (GObject *obj, guint param_id,
 		break;
 	case AXIS_PROP_POLAR_UNIT:
 		g_value_set_string (value, polar_units[axis->polar_unit].name);
+		break;
+	case AXIS_PROP_SPAN_START:
+		g_value_set_double (value, axis->span_start);
+		break;
+	case AXIS_PROP_SPAN_END:
+		g_value_set_double (value, axis->span_end);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -2447,6 +2485,24 @@ cb_rotation_changed (GtkSpinButton *spin, GogAxis *axis)
 }
 
 static void
+cb_start_changed (GtkSpinButton *spin, GogAxis *axis)
+{
+	double val = gtk_spin_button_get_value (spin);
+	GtkAdjustment *adj = GTK_ADJUSTMENT (g_object_get_data (G_OBJECT (spin), "other-adj"));
+	gtk_adjustment_set_lower (adj, fmin (val + 1, axis->span_end * 100.));
+	g_object_set (axis, "span-start", val /100., NULL);
+}
+
+static void
+cb_end_changed (GtkSpinButton *spin, GogAxis *axis)
+{
+	double val = gtk_spin_button_get_value (spin);
+	GtkAdjustment *adj = GTK_ADJUSTMENT (g_object_get_data (G_OBJECT (spin), "other-adj"));
+	gtk_adjustment_set_upper (adj, fmax (val - 1, axis->span_start * 100.));
+	g_object_set (axis, "span-end", val /100., NULL);
+}
+
+static void
 gog_axis_populate_editor (GogObject *gobj,
 			  GOEditor *editor,
 			  GogDataAllocator *dalloc,
@@ -2546,6 +2602,28 @@ gog_axis_populate_editor (GogObject *gobj,
 	go_editor_add_page (editor,
 			     go_gtk_builder_get_widget (gui, "axis-pref-grid"),
 			     _("Scale"));
+
+	/* effective area */
+	if (axis->type != GOG_AXIS_CIRCULAR) {
+		GtkAdjustment *adj;
+		double start = axis->span_start * 100., end = axis->span_end * 100.;
+		w = go_gtk_builder_get_widget (gui, "start-btn");
+		adj = GTK_ADJUSTMENT (gtk_builder_get_object (gui, "end-adj"));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), start);
+		gtk_adjustment_set_lower (adj, fmin (start + 1., end));
+		g_signal_connect (w, "value_changed", G_CALLBACK (cb_start_changed), axis);
+		g_object_set_data (G_OBJECT (w), "other-adj", adj);
+		w = go_gtk_builder_get_widget (gui, "end-btn");
+		adj = GTK_ADJUSTMENT (gtk_builder_get_object (gui, "start-adj"));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), end);
+		gtk_adjustment_set_upper (adj, fmax (end - 1., start));
+		g_signal_connect (w, "value_changed", G_CALLBACK (cb_end_changed), axis);
+		g_object_set_data (G_OBJECT (w), "other-adj", adj);
+		go_editor_add_page (editor,
+		                    go_gtk_builder_get_widget (gui, "area-grid"),
+		                    _("Span"));
+	}
+
 
 	if (gog_object_is_visible (axis) && gog_axis_get_atype (axis) < GOG_AXIS_VIRTUAL) {
 	    /* Style page */
@@ -2651,6 +2729,18 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			_("Polar axis set unit"),
 			polar_units[GOG_AXIS_POLAR_UNIT_DEGREES].name,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_SPAN_START,
+		g_param_spec_double ("span-start",
+			_("Axis start position"),
+			_("Position of the plot area at which the axis effective area starts, expressed as a percentage of the available position. Defaults to 0.0"),
+			0., 1., 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_SPAN_END,
+		g_param_spec_double ("span-end",
+			_("Axis end position"),
+			_("Position of the plot area at which the axis effective area ends, expressed as a percentage of the available position. Defaults to 1.0"),
+			0., 1., 1.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
@@ -2686,6 +2776,8 @@ gog_axis_init (GogAxis *axis)
 
 	axis->ticks = NULL;
 	axis->tick_nbr = 0;
+	axis->span_start = 0.;
+	axis->span_end = 1.;
 }
 
 static void
@@ -2820,6 +2912,15 @@ gog_axis_set_bounds (GogAxis *axis, double minimum, double maximum)
 		gog_dataset_set_dim (GOG_DATASET (axis), GOG_AXIS_ELEM_MAX,
 				     data, NULL);
 	}
+}
+
+void
+gog_axis_get_effective_span (GogAxis const *axis, double *start, double *end)
+{
+	g_return_if_fail (GOG_IS_AXIS (axis));
+
+	*start = axis->span_start;
+	*end = axis->span_end;
 }
 
 /**

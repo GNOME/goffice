@@ -1,3 +1,17 @@
+2011-08-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): fix when an axis
+	does not use all the available space.
+	* goffice/graph/gog-axis-prefs.ui: allows an axis to use only part of
+	available space. [#654392]
+	* goffice/graph/gog-axis.c (gog_axis_map_new),
+	(gog_axis_map_get_extents), (gog_axis_map_get_bounds),
+	(gog_axis_set_property), (gog_axis_get_property),
+	(cb_start_changed), (cb_end_changed), (gog_axis_populate_editor),
+	(gog_axis_class_init), (gog_axis_init), (gog_axis_set_bounds),
+	(gog_axis_get_effective_span): ditto.
+	* goffice/graph/gog-axis.h: ditto.
+
 2011-08-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-label.c (gog_text_set_property),

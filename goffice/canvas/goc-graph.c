@@ -248,16 +248,17 @@ format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 static void
 goc_graph_do_tooltip (GocGraph *graph)
 {
-	GogView *view;
+	GogView *view, *base_view;
 	char *buf = NULL, *s1 = NULL, *s2 = NULL;
 	GogObject *obj;
 	GogChart *chart;
 	GogViewAllocation alloc;
 	double xpos, ypos;
-	GogChartMap *map;
-	GogAxis *x_axis, *y_axis;
+	GogChartMap *map = NULL;
+	GogAxis *x_axis, *y_axis = NULL;
 	GogAxisSet set;
-	GSList *l;
+	GogPlot *plot;
+	GSList *l, *ptr;
 	GOFormat *format;
 	GocItem *item = (GocItem *)graph;
 	double x = graph->coords.x;
@@ -271,9 +272,9 @@ goc_graph_do_tooltip (GocGraph *graph)
 	y -= ypos;
 
 	/* get the GogView at the cursor position */
-	g_object_get (G_OBJECT (graph->renderer), "view", &view, NULL);
-	g_object_unref (view); /* we don't need a reference */
-	gog_view_get_view_at_point (view, x, y, &obj, NULL);
+	g_object_get (G_OBJECT (graph->renderer), "view", &base_view, NULL);
+	g_object_unref (base_view); /* we don't need a reference */
+	gog_view_get_view_at_point (base_view, x, y, &obj, NULL);
 	if (!obj)
 		goto tooltip;
 	chart = GOG_CHART (gog_object_get_parent_typed (obj, GOG_TYPE_CHART));
@@ -284,35 +285,57 @@ goc_graph_do_tooltip (GocGraph *graph)
 	l = gog_object_get_children (GOG_OBJECT (chart), gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
 	if (l == NULL)
 		return;
-	view = gog_view_find_child_view (view, GOG_OBJECT (l->data));
-	g_slist_free (l);
-	if (!view)
-		return;
-	alloc = view->allocation;
-	switch (set) {
-	case GOG_AXIS_SET_XY:
-		/* get the axis */
-		l = gog_chart_get_axes (chart, GOG_AXIS_X);
-		x_axis = GOG_AXIS (l->data);
-		g_slist_free (l);
-		l = gog_chart_get_axes (chart, GOG_AXIS_Y);
-		y_axis = GOG_AXIS (l->data);
-		g_slist_free (l);
-		break;
-	case GOG_AXIS_SET_RADAR:
-		/* get the axis */
-		l = gog_chart_get_axes (chart, GOG_AXIS_CIRCULAR);
-		x_axis = GOG_AXIS (l->data);
-		g_slist_free (l);
-		l = gog_chart_get_axes (chart, GOG_AXIS_RADIAL);
-		y_axis = GOG_AXIS (l->data);
-		g_slist_free (l);
-		break;
-	default:
-		buf = gog_view_get_tip_at_point (view, x, y);
-		goto tooltip;
+	ptr = l;
+	while (ptr) {
+		view = gog_view_find_child_view (base_view, GOG_OBJECT (ptr->data));
+		if (view) {
+			double start, end;
+			alloc = view->allocation;
+			plot = GOG_PLOT (ptr->data);
+			switch (set) {
+			case GOG_AXIS_SET_XY:
+				/* get the axis */
+				x_axis = gog_plot_get_axis (plot, GOG_AXIS_X);
+				gog_axis_get_effective_span (x_axis, &start, &end);
+				if (x < alloc.x + alloc.w * start || x > alloc.x + alloc.w * end) 
+					break;
+				y_axis = gog_plot_get_axis (plot, GOG_AXIS_Y);
+				gog_axis_get_effective_span (y_axis, &start, &end);
+				if (y < alloc.y + alloc.h * (1. - start) && y > alloc.y + alloc.h * (1. - end))
+					map = gog_chart_map_new (chart, &alloc, x_axis, y_axis, NULL, FALSE);
+				break;
+			case GOG_AXIS_SET_RADAR: {
+				double a, r, min, max;
+				/* get the axis */
+				x_axis = gog_plot_get_axis (plot, GOG_AXIS_CIRCULAR);
+				y_axis = gog_plot_get_axis (plot, GOG_AXIS_RADIAL);
+				map = gog_chart_map_new (chart, &alloc, x_axis, y_axis, NULL, FALSE);
+				gog_axis_get_bounds (y_axis, &min, &max);
+				r = min - 1;
+				if (gog_chart_map_is_valid (map))
+					gog_chart_map_view_to_2D (map, x, y, &a, &r);
+				if (r < min || r > max) {
+					gog_chart_map_free (map);
+					map = NULL;
+				}
+				break;
+			}
+			default:
+				buf = gog_view_get_tip_at_point (view, x, y);
+				g_slist_free (l);
+				goto tooltip;
+			}
+			if (map != NULL)
+				break;
+			view = NULL;
+		}
+		ptr = ptr->next;
 	}
-	map = gog_chart_map_new (chart, &alloc, x_axis, y_axis, NULL, FALSE);
+	g_slist_free (l);
+	if (view == NULL) {
+		gtk_widget_set_tooltip_markup (GTK_WIDGET (item->canvas), NULL);
+		return;
+	}
 	if (gog_chart_map_is_valid (map) &&
 				x >= alloc.x && x < alloc.x + alloc.w &&
 				y >= alloc.y && y < alloc.y + alloc.h) {

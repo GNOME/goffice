@@ -13,6 +13,99 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="start-adj">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="end-adj">
+    <property name="upper">100</property>
+    <property name="value">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkGrid" id="area-grid">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="border_width">12</property>
+    <property name="row_spacing">12</property>
+    <property name="column_spacing">6</property>
+    <child>
+      <object class="GtkLabel" id="label13">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">&lt;b&gt;Effective area&lt;/b&gt; (as % of available room)</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">3</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label14">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_left">12</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">Start:</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="start-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">●</property>
+        <property name="invisible_char_set">True</property>
+        <property name="adjustment">start-adj</property>
+        <property name="digits">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="end-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">●</property>
+        <property name="invisible_char_set">True</property>
+        <property name="adjustment">end-adj</property>
+        <property name="digits">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">2</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label15">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">End:</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">2</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+  </object>
   <object class="GtkGrid" id="axis-base-pref-grid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -205,9 +298,6 @@
                 <property name="height">1</property>
               </packing>
             </child>
-            <child>
-              <placeholder/>
-            </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -280,15 +370,6 @@
         <property name="width">2</property>
         <property name="height">1</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <object class="GtkGrid" id="minor-tick-grid">
@@ -536,9 +617,6 @@
                 <property name="height">1</property>
               </packing>
             </child>
-            <child>
-              <placeholder/>
-            </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -546,9 +624,6 @@
             <property name="width">2</property>
             <property name="height">1</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </object>
       <packing>
