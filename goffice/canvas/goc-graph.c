@@ -297,7 +297,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 				/* get the axis */
 				x_axis = gog_plot_get_axis (plot, GOG_AXIS_X);
 				gog_axis_get_effective_span (x_axis, &start, &end);
-				if (x < alloc.x + alloc.w * start || x > alloc.x + alloc.w * end) 
+				if (x < alloc.x + alloc.w * start || x > alloc.x + alloc.w * end)
 					break;
 				y_axis = gog_plot_get_axis (plot, GOG_AXIS_Y);
 				gog_axis_get_effective_span (y_axis, &start, &end);

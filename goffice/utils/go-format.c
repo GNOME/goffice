@@ -6820,7 +6820,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				use_literal_E = FALSE;
 			} else
 				use_literal_E = TRUE;
-			
+
 			while (*xl == '0' || *xl == '+' || *xl == '-')
 				if (*xl++ == '0')
 					min_exponent_digits++;

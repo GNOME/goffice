@@ -1714,7 +1714,7 @@ void
 gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 {
 	g_return_if_fail (map != NULL);
-	
+
 	if (map->axis->inverted)
 		map->desc->map_bounds (map, stop, start);
 	else
@@ -1742,7 +1742,7 @@ void
 gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
 	g_return_if_fail (map != NULL);
-	
+
 	map->desc->map_bounds (map, minimum, maximum);
 	if (map->axis->type != GOG_AXIS_CIRCULAR) {
 		double buf = (*minimum - *maximum) / (map->axis->span_end - map->axis->span_start);
@@ -2087,14 +2087,14 @@ gog_axis_set_property (GObject *obj, guint param_id,
 	case AXIS_PROP_SPAN_START:
 		if (axis->type != GOG_AXIS_CIRCULAR) {
 			double new_value = g_value_get_double (value);
-			g_return_if_fail (new_value < axis->span_end); 
+			g_return_if_fail (new_value < axis->span_end);
 			axis->span_start = new_value;
 		}
 		break;
 	case AXIS_PROP_SPAN_END:
 		if (axis->type != GOG_AXIS_CIRCULAR) {
 			double new_value = g_value_get_double (value);
-			g_return_if_fail (new_value > axis->span_start); 
+			g_return_if_fail (new_value > axis->span_start);
 			axis->span_end = new_value;
 		}
 		break;
