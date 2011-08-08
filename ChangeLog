@@ -1,3 +1,10 @@
+2011-08-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_execute): n digits means atmast
+	10^n -1
+	(go_format_generate_scientific_str): use number of exponent digits
+	even if markup is used
+
 2011-08-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): fix when an axis

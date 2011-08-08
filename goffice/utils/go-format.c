@@ -3120,7 +3120,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			} else {
 				int digits = *prg++;
 				int ni, di;
-				go_continued_fraction (aval, SUFFIX(go_pow10) (digits), &ni, &di);
+				go_continued_fraction (aval, SUFFIX(go_pow10) (digits) - 1, &ni, &di);
 				fraction.n = ni;
 				fraction.d = di;
 			}
@@ -5239,6 +5239,7 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 	/* Maximum not terribly important. */
 	int step = CLAMP (details->exponent_step, 1, 10);
 	int num_decimals = CLAMP (details->num_decimals, 0, MAX_DECIMALS);
+	int digits;
 
 	go_string_append_c_n (dst, '#', step - 1);
 	if (details->simplify_mantissa)
@@ -5252,13 +5253,13 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 	}
 
 	if (details->use_markup)
-		g_string_append (dst, "EE0");
-	else {
-		/* Maximum not terribly important. */
-		int digits = CLAMP (details->exponent_digits, 1, 10);
-		g_string_append (dst, "E+");
-		go_string_append_c_n (dst, '0', digits);
-	}
+		g_string_append_c (dst, 'E');
+
+	/* Maximum not terribly important. */
+	digits = CLAMP (details->exponent_digits, 1, 10);
+	g_string_append (dst, "E+");
+	go_string_append_c_n (dst, '0', digits);
+	
 }
 #endif
 
