@@ -415,8 +415,12 @@ go_locale_month_before_day (void)
 		{
 			TCHAR str[2];
 			GetLocaleInfo (LOCALE_USER_DEFAULT, LOCALE_IDATE, str, 2);
-			month_first = str[0] != L'1';
-			/* FIXME: Figure out if year comes first.  */
+			if (str[0] == L'1')
+				month_first = 0;
+			else if (str[0] == L'2')
+				month_first = 2;
+			else
+				month_first = 1;
 		}
 
 #elif defined(HAVE_LANGINFO_H)

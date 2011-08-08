@@ -1,5 +1,10 @@
 2011-08-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-locale.c (go_locale_month_before_day): in MSWindows
+	also consider where the year is.
+
+2011-08-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_execute): n digits means atmast
 	10^n -1
 	(go_format_generate_scientific_str): use number of exponent digits

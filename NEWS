@@ -5,6 +5,7 @@ Andreas:
 	* Fix output of scientific number formats with EE to ODF.
 	* Fix interpretation of marked-up scientific number format. [#656056]
 	* Fix fraction rendering for unspecified denominators. [#656043]
+	* Fix date format on Windows. [#655573]
 
 Jean:
 	* Port to gtk+-3.0.
