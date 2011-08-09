@@ -29,6 +29,32 @@ static GType gog_smoothed_curve_view_get_type (void);
 
 static GObjectClass *smoothed_curve_parent_klass;
 
+#ifdef GOFFICE_WITH_GTK
+static void
+gog_smoothed_curve_populate_editor (GogObject	*gobj,
+			       GOEditor	*editor,
+			       GogDataAllocator	*dalloc,
+			       GOCmdContext	*cc)
+{
+	GtkWidget *w, *child;
+	GtkGrid *grid;
+	GogDataset *set = GOG_DATASET (gobj);
+
+	w = gtk_grid_new ();
+	grid = GTK_GRID (w);
+	g_object_set (G_OBJECT (grid), "margin", 12, "row-spacing", 12, NULL);
+	child = gtk_label_new (_("(Name):"));
+	gtk_grid_attach (grid, child, 0, 0, 1, 1);
+	child = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, -1, GOG_DATA_SCALAR));
+	g_object_set (G_OBJECT (child), "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, child, 1, 0, 1, 1);
+	gtk_widget_show_all (w);
+	go_editor_add_page (editor, w, _("Details"));
+
+	(GOG_OBJECT_CLASS (smoothed_curve_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+}
+#endif
+
 static void
 gog_smoothed_curve_init_style (GogStyledObject *gso, GOStyle *style)
 {
@@ -43,6 +69,11 @@ gog_smoothed_curve_finalize (GObject *obj)
 	GogSmoothedCurve *curve = GOG_SMOOTHED_CURVE (obj);
 	g_free (curve->x);
 	g_free (curve->y);
+	if (curve->name != NULL) {
+		gog_dataset_finalize (GOG_DATASET (obj));
+		g_free (curve->name); /* aliased pointer */
+		curve->name = NULL;
+	}
 	(*smoothed_curve_parent_klass->finalize) (obj);
 }
 
@@ -64,6 +95,9 @@ gog_smoothed_curve_class_init (GogObjectClass *gog_klass)
 	style_klass->init_style = gog_smoothed_curve_init_style;
 	gog_klass->type_name	= gog_smoothed_curve_type_name;
 	gog_klass->view_type	= gog_smoothed_curve_view_get_type ();
+#ifdef GOFFICE_WITH_GTK
+	gog_klass->populate_editor  = gog_smoothed_curve_populate_editor;
+#endif
 }
 
 static void
@@ -71,12 +105,50 @@ gog_smoothed_curve_init (GogSmoothedCurve *curve)
 {
 	curve->nb = 0;
 	curve->x = curve->y = NULL;
+	curve->name = g_new0 (GogDatasetElement, 1);
 }
 
-GSF_CLASS_ABSTRACT (GogSmoothedCurve, gog_smoothed_curve,
-	   gog_smoothed_curve_class_init, gog_smoothed_curve_init,
-	   GOG_TYPE_TREND_LINE)
+static void
+gog_smoothed_curve_dataset_dims (GogDataset const *set, int *first, int *last)
+{
+	*first = -1;
+	*last = -1;
+}
 
+static GogDatasetElement *
+gog_smoothed_curve_dataset_get_elem (GogDataset const *set, int dim_i)
+{
+	GogSmoothedCurve const *sc = GOG_SMOOTHED_CURVE (set);
+	g_return_val_if_fail (dim_i == -1, NULL);
+	return sc->name;
+}
+
+static void
+gog_smoothed_curve_dataset_dim_changed (GogDataset *set, int dim_i)
+{
+	g_return_if_fail (dim_i == -1);
+	{
+		GogSmoothedCurve const *sc = GOG_SMOOTHED_CURVE (set);
+		GOData *name_src = sc->name->data;
+		char *name = (name_src != NULL)
+			? go_data_get_scalar_string (name_src) : NULL;
+		gog_object_set_name (GOG_OBJECT (set), name, NULL);
+	}
+}
+
+static void
+gog_smoothed_curve_dataset_init (GogDatasetClass *iface)
+{
+	iface->get_elem	   = gog_smoothed_curve_dataset_get_elem;
+	iface->dims	   = gog_smoothed_curve_dataset_dims;
+	iface->dim_changed	   = gog_smoothed_curve_dataset_dim_changed;
+}
+
+GSF_CLASS_FULL (GogSmoothedCurve, gog_smoothed_curve,
+	   NULL, NULL, gog_smoothed_curve_class_init, NULL,
+           gog_smoothed_curve_init, GOG_TYPE_TREND_LINE, G_TYPE_FLAG_ABSTRACT,
+	   GSF_INTERFACE (gog_smoothed_curve_dataset_init, GOG_TYPE_DATASET))
+ 
 /****************************************************************************/
 
 typedef GogView		GogSmoothedCurveView;

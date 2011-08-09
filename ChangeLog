@@ -1,3 +1,15 @@
+2011-08-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-smoothed-curve.c
+	(gog_smoothed_curve_populate_editor),
+	(gog_smoothed_curve_finalize), (gog_smoothed_curve_class_init),
+	(gog_smoothed_curve_init), (gog_smoothed_curve_dataset_dims),
+	(gog_smoothed_curve_dataset_get_elem),
+	(gog_smoothed_curve_dataset_dim_changed),
+	(gog_smoothed_curve_dataset_init): add support for smoothed curve renaming.
+	[#656148].
+	* goffice/graph/gog-smoothed-curve.h:
+
 2011-08-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-locale.c (go_locale_month_before_day): in MSWindows
