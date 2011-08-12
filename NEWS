@@ -17,6 +17,7 @@ Jean:
 
 Morten:
 	* Recognize scientific formats with longer exponents.
+	* Fix problem with sticky format colouring.
 
 --------------------------------------------------------------------------
 goffice 0.8.17:

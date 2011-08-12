@@ -1,3 +1,9 @@
+2011-08-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_value_gstring): Avoid
+	changing attribute list we don't own.  Fixes problem with sticky
+	format colours.
+
 2011-08-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-smoothed-curve.c

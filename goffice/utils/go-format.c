@@ -3612,11 +3612,13 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 		*go_color = fmt->color;
 
 	if (layout && fmt->color != 0) {
-		PangoAttrList *attrs;
+		/*
+		 * We ignore fully-transparent black, no-one should be able to
+		 * specify that as a color anyway.  And it is invisible.
+		 */
+		PangoAttrList *attrs = pango_layout_get_attributes (layout);
 		PangoAttribute *attr;
-		attrs = pango_attr_list_ref (pango_layout_get_attributes (layout));
-		if (attrs == NULL)
-			attrs = pango_attr_list_new ();
+		attrs = attrs ? pango_attr_list_copy (attrs) : pango_attr_list_new ();
 		attr = go_color_to_pango (fmt->color, TRUE);
 		attr->start_index = 0;
 		attr->end_index = G_MAXUINT;
