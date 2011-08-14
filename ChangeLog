@@ -1,3 +1,16 @@
+2011-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/app/go-plugin-loader-module.c
+	(go_plugin_loader_module_func_file_open): add argument and adjust
+	call to loader_data->module_func_file_open
+	* goffice/app/go-plugin-service.h (plugin_func_file_open):
+	add argument
+	* goffice/app/go-plugin-service.c (_GOPluginServiceFileOpener):
+	add field
+	(go_plugin_service_file_opener_read_xml): load "encoding_dependent"
+	(go_plugin_file_opener_open): adjust call to plugin_func_file_open
+	(go_plugin_file_opener_new): use service_file_opener->encoding_dependent
+
 2011-08-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data-impl.h: add new is_valid method.

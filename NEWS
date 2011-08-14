@@ -6,6 +6,7 @@ Andreas:
 	* Fix interpretation of marked-up scientific number format. [#656056]
 	* Fix fraction rendering for unspecified denominators. [#656043]
 	* Fix date format on Windows. [#655573]
+	* Extend encoding specification from file-openers to plugin services.
 
 Jean:
 	* Port to gtk+-3.0.

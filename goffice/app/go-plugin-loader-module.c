@@ -10,6 +10,7 @@
 #include "module-plugin-defs.h"
 
 #include <goffice/app/file.h>
+#include <goffice/app/file-priv.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-loader.h>
@@ -228,7 +229,8 @@ static void
 go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService *service,
 					 GOIOContext *io_context,
 					 gpointer   FIXME_FIXME_workbook_view,
-					 GsfInput  *input)
+					GsfInput  *input,
+					char const *enc)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
@@ -236,8 +238,17 @@ go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService 
 	g_return_if_fail (input != NULL);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	loader_data->module_func_file_open (fo, io_context,
-		FIXME_FIXME_workbook_view, input);
+	if (fo->encoding_dependent) {
+		void (*module_func_file_open) (GOFileOpener const *fo, char const *enc,
+					       GOIOContext *io_context,
+					       gpointer FIXME_FIXME_workbook_view,
+					       GsfInput *input);
+		module_func_file_open = (gpointer)(loader_data->module_func_file_open);
+		module_func_file_open (fo, enc, io_context,
+				       FIXME_FIXME_workbook_view, input);
+	} else
+		loader_data->module_func_file_open (fo, io_context,
+						    FIXME_FIXME_workbook_view, input);
 }
 
 static char *

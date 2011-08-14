@@ -217,6 +217,7 @@ struct _GOPluginServiceFileOpener {
 
 	gint priority;
 	gboolean has_probe;
+	gboolean encoding_dependent;
 	gchar *description;
 	GSList *suffixes;	/* list of char * */
 	GSList *mimes;		/* list of char * */
@@ -266,6 +267,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 {
 	int priority;
 	gboolean has_probe;
+	gboolean encoding_dependent;
 	xmlNode *information_node;
 	gchar *description;
 
@@ -277,6 +279,8 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 
 	if (!go_xml_node_get_bool (tree, "probe", &has_probe))
 		has_probe = TRUE;
+	if (!go_xml_node_get_bool (tree, "encoding_dependent", &encoding_dependent))
+		encoding_dependent = FALSE;
 
 	information_node = go_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
@@ -327,6 +331,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 
 		service_file_opener->priority = priority;
 		service_file_opener->has_probe = has_probe;
+		service_file_opener->encoding_dependent	= encoding_dependent;
 		service_file_opener->description = description;
 		service_file_opener->suffixes	= suffixes;
 		service_file_opener->mimes	= mimes;
@@ -470,7 +475,7 @@ go_plugin_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
 }
 
 static void
-go_plugin_file_opener_open (GOFileOpener const *fo, gchar const *unused_enc,
+go_plugin_file_opener_open (GOFileOpener const *fo, gchar const *enc,
 			     GOIOContext *io_context,
 			     gpointer FIXME_FIXME_workbook_view,
 			     GsfInput *input)
@@ -491,7 +496,7 @@ go_plugin_file_opener_open (GOFileOpener const *fo, gchar const *unused_enc,
 	}
 
 	g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
-	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, FIXME_FIXME_workbook_view, input);
+	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, FIXME_FIXME_workbook_view, input, enc);
 }
 
 static void
@@ -531,7 +536,7 @@ go_plugin_file_opener_new (GOPluginService *service)
 		service_file_opener->description,
 		go_str_slist_dup (service_file_opener->suffixes),
 		go_str_slist_dup (service_file_opener->mimes),
-		FALSE, NULL, NULL);
+		service_file_opener->encoding_dependent, NULL, NULL);
 	fo->service = service;
 	g_free (opener_id);
 

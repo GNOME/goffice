@@ -87,7 +87,7 @@ void         go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
 
 char const *go_file_opener_get_id		  (GOFileOpener const *fo);
 char const *go_file_opener_get_description	  (GOFileOpener const *fo);
-gboolean    go_file_opener_is_encoding_dependent (GOFileOpener const *fo);
+gboolean    go_file_opener_is_encoding_dependent  (GOFileOpener const *fo);
 gboolean    go_file_opener_can_probe		  (GOFileOpener const *fo,
 						   GOFileProbeLevel pl);
 GSList const *go_file_opener_get_suffixes	  (GOFileOpener const *fo);

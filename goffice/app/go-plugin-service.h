@@ -41,7 +41,7 @@ typedef struct {
 	void     (*plugin_func_file_open) (
 	         GOFileOpener const *fo, GOPluginService *service,
 	         GOIOContext *io_context, gpointer fixme_workbook_view,
-		 GsfInput *input);
+		 GsfInput *input, char const *enc);
 } GOPluginServiceFileOpenerCallbacks;
 
 
