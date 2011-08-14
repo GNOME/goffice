@@ -37,6 +37,7 @@ GOData *	go_data_dup			(GOData const *src);
 gboolean  	go_data_eq			(GOData const *a, GOData const *b);
 GOFormat const *go_data_preferred_fmt 		(GOData const *dat);
 GODateConventions const *go_data_date_conv	(GOData const *dat);
+gboolean	go_data_is_valid		(GOData const *dat);
 
 char *		go_data_serialize		(GOData const *dat, gpointer user);
 gboolean  	go_data_unserialize		(GOData *dat, char const *str, gpointer user);

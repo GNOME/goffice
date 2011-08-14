@@ -560,7 +560,7 @@ gog_series_labels_parent_changed (GogObject *obj, gboolean was_set)
 		switch (plot->desc.series.dim[j].ms_type) {
 		case GOG_MS_DIM_VALUES:
 			labels->format = g_strdup_printf ("%%%u", j);
-				j = plot->desc.series.num_dim; /* ensure we exit the loop */
+			j = plot->desc.series.num_dim; /* ensure we exit the loop */
 			break;
 		default:
 			break;
@@ -570,11 +570,121 @@ gog_series_labels_parent_changed (GogObject *obj, gboolean was_set)
 }
 
 static void
+gog_series_labels_changed (GogObject *obj, gboolean size)
+{
+	gog_object_emit_changed (gog_object_get_parent (obj), size);
+}
+
+struct attr_closure {
+	PangoAttrList *l;
+	unsigned offset;
+};
+
+static gboolean
+attr_position (PangoAttribute *attr, gpointer data)
+{
+	struct attr_closure *c = (struct attr_closure *) data;
+	PangoAttribute *new_attr = pango_attribute_copy (attr);
+	new_attr->start_index += c->offset;
+	new_attr->end_index += c->offset;
+	pango_attr_list_change (c->l, new_attr);
+	return FALSE;
+}
+
+static void
+gog_series_labels_update (GogObject *obj)
+{
+	GogSeriesLabels *labels = GOG_SERIES_LABELS (obj);
+	GogObject *parent = gog_object_get_parent (GOG_OBJECT (obj));
+	unsigned i, n;
+	if (labels->elements) {
+		n = labels->n_elts;
+		for (i = 0; i < n; i++)
+			go_string_unref (labels->elements[i].str);
+		g_free (labels->elements);
+	}
+	if (GOG_IS_SERIES (parent)) {
+		GogSeries *series = GOG_SERIES (parent);
+		labels->n_elts = n = gog_series_num_elements (series);
+		labels->elements = g_new0 (GogSeriesLabelElt, n);
+		for (i = 0; i < n; i++) {
+			GString *str = g_string_new ("");
+			unsigned index;
+			PangoAttrList *markup = pango_attr_list_new (), *l;
+			char const *format = labels->format;
+			char *next;
+			while (*format) {
+				if (*format == '%') {
+					format++;
+					switch (*format) {
+					case 0: /* protect from an unexpected string end */
+						break;
+					case 'c':
+						next = go_data_get_vector_string (labels->custom_labels.data, i);
+						if (next) {
+							index = str->len;
+							g_string_append (str, next);
+							g_free (next);
+							l = go_data_get_vector_markup (labels->custom_labels.data, i);
+							if (l) {
+								struct attr_closure c;
+								c.l = markup;
+								c.offset = index;
+								pango_attr_list_filter (l, attr_position, &c);
+								pango_attr_list_unref (l);
+							}
+						}
+						break;
+					case 'l':
+						break;
+					case '0':
+					case '1':
+					case '2':
+					case '3':
+					case '4':
+					case '5':
+					case '6':
+					case '7':
+					case '8':
+					case '9':
+						index = *format - '0';
+						next = go_data_get_vector_string (series->values[index].data, i);
+						if (next) {
+							g_string_append (str, next);
+							g_free (next);
+						}
+						break;
+					case '%':
+						g_string_append_c (str, '%');
+						break;
+					default:
+						continue;
+					}
+					format++;
+				} else {
+					next = g_utf8_next_char (format);
+					g_string_append_len (str, format, next - format);
+					format = next;
+				}
+			}
+			labels->elements[i].str = go_string_new_rich (g_string_free (str, FALSE), -1, FALSE, markup, NULL);
+		}
+	} else
+		labels->elements = NULL; /* FIXME: might be a SeriesElement */
+}
+
+static void
 gog_series_labels_finalize (GObject *obj)
 {
 	GogSeriesLabels *labels = GOG_SERIES_LABELS (obj);
 	gog_dataset_finalize (GOG_DATASET (obj));
 	g_free (labels->format);
+	if (labels->elements) {
+		unsigned i, n = labels->n_elts;
+		for (i = 0; i < n; i++)
+			go_string_unref (labels->elements[i].str);
+		g_free (labels->elements);
+	}
 	series_labels_parent_klass->finalize (obj);
 }
 
@@ -611,6 +721,8 @@ gog_series_labels_class_init (GObjectClass *obj_klass)
 	gog_klass->populate_editor = gog_series_labels_populate_editor;
 #endif
 	gog_klass->parent_changed = gog_series_labels_parent_changed;
+	gog_klass->changed = gog_series_labels_changed;
+	gog_klass->update = gog_series_labels_update;
 	style_klass->init_style = gog_series_labels_init_style;
 }
 
@@ -632,7 +744,7 @@ gog_series_labels_dataset_get_elem (GogDataset const *set, int dim_i)
 static void
 gog_series_labels_dataset_dim_changed (GogDataset *set, int dim_i)
 {
-	gog_object_request_update (GOG_OBJECT (set));
+	gog_object_request_update (gog_object_get_parent (GOG_OBJECT (set)));
 }
 
 static void
@@ -717,4 +829,23 @@ gog_series_labels_get_position (GogSeriesLabels const *lbls)
 {
 	return (lbls->position == GOG_SERIES_LABELS_DEFAULT_POS)?
 		lbls->default_pos: lbls->position;
+}
+
+GogSeriesLabelElt const *gog_series_labels_scalar_get_element (GogSeriesLabels const *lbls)
+{
+	g_return_val_if_fail (GOG_IS_SERIES_LABELS (lbls), NULL);
+	return lbls->elements;
+}
+
+GogSeriesLabelElt const *gog_series_labels_vector_get_element (GogSeriesLabels const *lbls, unsigned n)
+{
+	GogObject *obj;
+	g_return_val_if_fail (GOG_IS_SERIES_LABELS (lbls) && lbls->elements != NULL, NULL);
+	obj= gog_object_get_parent (GOG_OBJECT (lbls));
+	if (GOG_IS_SERIES (obj)) {
+		GogSeries *series = GOG_SERIES (obj);
+		g_return_val_if_fail (n < gog_series_num_elements (series), NULL);
+		return lbls->elements + n;
+	}
+	return NULL;
 }

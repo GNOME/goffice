@@ -209,6 +209,14 @@ go_data_unserialize (GOData *dat, char const *str, gpointer user)
 	return (*klass->unserialize) (dat, str, user);
 }
 
+gboolean
+go_data_is_valid (GOData const *data)
+{
+	GODataClass const *klass = GO_DATA_GET_CLASS (data);
+	g_return_val_if_fail (klass != NULL, FALSE);
+	return (klass->is_valid != NULL)? (*klass->is_valid) (data): FALSE;
+}
+
 /**
  * go_data_emit_changed :
  * @dat : #GOData

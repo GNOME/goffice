@@ -378,8 +378,8 @@ typedef struct {
 typedef struct {
 	double		 x;
 	double 		 y;
-	char		*str;
-	GOAnchorType    anchor;
+	GogSeriesLabelElt const	*elt;
+	GOAnchorType     anchor;
 } LabelData;
 
 static int
@@ -642,7 +642,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (labels[i]) {
 			label_pos[i] = g_malloc (sizeof (LabelData) * lengths[i]);
 			for (j = 0; j < lengths[i]; j++)
-				label_pos[i][j].str = go_data_get_vector_string (base_series->values[1].data, j);
+				label_pos[i][j].elt = gog_series_labels_vector_get_element (labels[i] , j);
 		} else
 			label_pos[i] = NULL;
 	}
@@ -862,8 +862,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			for (j = 0; j < lengths[i]; j++) {
 				alloc.x = label_pos[i][j].x;
 				alloc.y = label_pos[i][j].y;
-				gog_renderer_draw_text (view->renderer, label_pos[i][j].str, &alloc, label_pos[i][j].anchor, FALSE);
-				g_free (label_pos[i][j].str);
+				gog_renderer_draw_gostring (view->renderer, label_pos[i][j].elt->str, &alloc, label_pos[i][j].anchor);
 			}
 			gog_renderer_pop_style (view->renderer);
 		}

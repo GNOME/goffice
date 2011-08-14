@@ -58,6 +58,7 @@ typedef struct {
 	double		(*get_value)		(GOData *data, unsigned int *coordinates);
 	char *		(*get_string)		(GOData *data, unsigned int *coordinates);
 	PangoAttrList * (*get_markup)		(GOData *data, unsigned int *coordinates);
+	gboolean	(*is_valid)		(GOData const *data);
 
 	/* signals */
 	void (*changed)	(GOData *dat);

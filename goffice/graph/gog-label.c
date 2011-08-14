@@ -560,7 +560,6 @@ gog_text_view_size_request (GogView *v,
 			req->w = aabr.w;
 			req->h = aabr.h;
 		}
-		go_string_unref (gostr);
 		g_free (str);
 	}
 	text_view_parent_klass->size_request (v, available, req);

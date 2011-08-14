@@ -1,3 +1,16 @@
+2011-08-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-impl.h: add new is_valid method.
+	* goffice/data/go-data.c (go_data_is_valid): ditto.
+	* goffice/data/go-data.h: ditto.
+	* goffice/graph/gog-label.c (gog_text_view_size_request): don't unref a
+	GOString twice.
+	* goffice/graph/gog-series-labels.c: more work on data labels.
+	* goffice/graph/gog-series-labels.h: ditto.
+	* goffice/graph/gog-series.c (role_series_labels_can_add),
+	(gog_series_update): ditto.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): ditto.
+
 2011-08-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_value_gstring): Avoid

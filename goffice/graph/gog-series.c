@@ -305,7 +305,7 @@ role_series_labels_can_add (GogObject const *parent)
 {
 	GogSeries *series = GOG_SERIES (parent);
 
-	return (series->allowed_pos != 0);
+	return (series->allowed_pos != 0 && gog_object_get_child_by_name (parent, "Data labels") == NULL);
 }
 
 static void
@@ -628,7 +628,12 @@ static void
 gog_series_update (GogObject *obj)
 {
 	GogSeries *series = GOG_SERIES (obj);
+	GogObjectRole const *role = gog_object_find_role_by_name (obj, "Data labels");
+	GSList *l = gog_object_get_children (obj, role), *ptr;
 	series->needs_recalc = FALSE;
+	for (ptr = l; ptr; ptr = ptr->next)
+		gog_object_request_update (ptr->data);
+	g_slist_free (l);
 }
 
 static void

@@ -27,6 +27,11 @@
 
 G_BEGIN_DECLS
 
+typedef struct  {
+	GOString *str;
+	double legend_offset, legend_width, width, height;
+} GogSeriesLabelElt;
+
 struct _GogSeriesLabels {
 	GogOutlinedObject base;
 
@@ -37,6 +42,8 @@ struct _GogSeriesLabels {
 	unsigned offset; /* position offset in pixels */
 	char *format;
 	GogDatasetElement custom_labels;
+	unsigned n_elts;
+	GogSeriesLabelElt *elements;
 };
 
 #define GOG_TYPE_SERIES_LABELS		(gog_series_labels_get_type ())
@@ -49,6 +56,8 @@ void gog_series_labels_set_allowed_position (GogSeriesLabels *lbls, unsigned all
 void gog_series_labels_set_position (GogSeriesLabels *lbls, GogSeriesLabelsPos pos);
 void gog_series_labels_set_default_position (GogSeriesLabels *lbls, GogSeriesLabelsPos pos);
 GogSeriesLabelsPos gog_series_labels_get_position (GogSeriesLabels const *lbls);
+GogSeriesLabelElt const *gog_series_labels_scalar_get_element (GogSeriesLabels const *lbls);
+GogSeriesLabelElt const *gog_series_labels_vector_get_element (GogSeriesLabels const *lbls, unsigned n);
 
 G_END_DECLS
 
