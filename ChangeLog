@@ -1,3 +1,16 @@
+2011-08-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_invalidate): add a one pixel wide
+	margin to the invalidated region to avoid pixels dust. 
+	* goffice/canvas/goc-text.c (goc_text_prepare_draw),
+	(goc_text_draw): ensure that the rotation is around the anchor point.
+	* goffice/graph/gog-series-labels.c (used_selection_changed_cb),
+	(raise_cb), (lower_cb), (position_changed_cb),
+	(gog_series_labels_changed), (gog_series_labels_update): ensure that all
+	changes instant apply in the preview.
+	* goffice/gtk/go-rotation-sel.c (cb_rotate_changed),
+	(cb_rotate_canvas_realize): replaced the GtkLabel by a GocText item.
+
 2011-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/app/go-plugin-loader-module.c

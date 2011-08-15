@@ -460,11 +460,11 @@ goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, doubl
 		x0 = canvas->width - x1;
 		x1 = canvas->width - tmp;
 	}
-	if (x1 > x0 && y1 > y0)
+	if (x1 > x0 && y1 > y0) /* invalidate with an extra one pixel wide margin */
 		gtk_widget_queue_draw_area (GTK_WIDGET (canvas),
-					    (int) floor (x0), (int) floor (y0),
-					    (int) ceil (x1) - (int) floor (x0),
-		                            (int) ceil (y1) - (int) floor (y0));
+					    (int) floor (x0) - 1, (int) floor (y0) - 1,
+					    (int) ceil (x1) - (int) floor (x0) + 2,
+		                            (int) ceil (y1) - (int) floor (y0) + 2);
 }
 
 /**

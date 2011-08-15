@@ -120,6 +120,7 @@ used_selection_changed_cb (struct SeriesLabelsState *state)
 	}
 	gtk_widget_set_sensitive (state->remove,
 	                          count > 0 && gtk_tree_selection_count_selected_rows (state->used_sel));
+	gog_object_emit_changed (GOG_OBJECT (state->labels), TRUE);
 }
 
 static void
@@ -185,7 +186,7 @@ raise_cb (G_GNUC_UNUSED GtkButton *btn, struct SeriesLabelsState *state)
 			gtk_list_store_move_before (state->used_list, &iter, &prev);
 	gtk_tree_model_get_iter_first (model, &iter);
 	used_selection_changed_cb (state);
-	gog_object_emit_changed (GOG_OBJECT (state->labels), TRUE);
+	gog_object_emit_changed (GOG_OBJECT (state->labels), FALSE);
 }
 
 static void
@@ -219,7 +220,7 @@ lower_cb (G_GNUC_UNUSED GtkButton *btn, struct SeriesLabelsState *state)
 		gtk_list_store_move_before (state->used_list, &last, &prev);
 	}
 	used_selection_changed_cb (state);
-	gog_object_emit_changed (GOG_OBJECT (state->labels), TRUE);
+	gog_object_emit_changed (GOG_OBJECT (state->labels), FALSE);
 }
 
 static void
@@ -241,6 +242,7 @@ position_changed_cb (GtkComboBox *box, struct SeriesLabelsState *state)
 			gtk_widget_set_sensitive (state->offset_lbl, TRUE);
 		}
 	}
+	gog_object_emit_changed (GOG_OBJECT (state->labels), TRUE);
 }
 
 static void
@@ -573,6 +575,7 @@ static void
 gog_series_labels_changed (GogObject *obj, gboolean size)
 {
 	gog_object_emit_changed (gog_object_get_parent (obj), size);
+	gog_object_request_update (gog_object_get_parent (obj));
 }
 
 struct attr_closure {
@@ -596,6 +599,8 @@ gog_series_labels_update (GogObject *obj)
 {
 	GogSeriesLabels *labels = GOG_SERIES_LABELS (obj);
 	GogObject *parent = gog_object_get_parent (GOG_OBJECT (obj));
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (obj));
+	int height = pango_font_description_get_size (style->font.font->desc);
 	unsigned i, n;
 	if (labels->elements) {
 		n = labels->n_elts;
@@ -635,8 +640,20 @@ gog_series_labels_update (GogObject *obj)
 							}
 						}
 						break;
-					case 'l':
+					case 'l': {
+						/* add room for the legend entry */
+						PangoRectangle rect;
+						PangoAttribute *attr;
+						rect.x = rect.y = 0;
+						rect.height = 1; /* only the width is important */
+						rect.width = 2 * height; /* FIXME, should not always be 2 */
+						attr = pango_attr_shape_new (&rect, &rect);
+						attr->start_index = str->len;
+						g_string_append_c (str, 'o');
+						attr->end_index = str->len;
+						pango_attr_list_insert (markup, attr);
 						break;
+					}
 					case '0':
 					case '1':
 					case '2':

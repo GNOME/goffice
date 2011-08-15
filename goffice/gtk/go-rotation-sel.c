@@ -84,17 +84,11 @@ cb_rotate_changed (GORotationSel *grs)
 	if (grs->text) {
 		double x = 15.0;
 		double y = 100.0;
-		double rad = grs->angle * M_PI / 180.;
-		double w = grs->rot_width * cos (fabs (rad)) + grs->rot_height * sin (fabs (rad));
-		double h = grs->rot_width * sin (fabs (rad)) + grs->rot_height * cos (fabs (rad));
-		x -= grs->rot_height * sin (fabs (rad)) / 2;
-		y -= grs->rot_height * cos (rad) / 2;
-		if (rad >= 0)
-			y -= grs->rot_width * sin (rad);
+		double rad = -grs->angle * M_PI / 180.;
+		if (rad < 0)
+			rad += 2 * M_PI;
 		goc_item_set (grs->text, "x", x, "y", y,
-		              "width", w, "height", h, NULL);
-		gtk_label_set_angle (GTK_LABEL (grs->text_widget),
-			(grs->angle + 360) % 360);
+		              "rotation", rad, NULL);
 	}
 }
 
@@ -131,10 +125,11 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 	go_style->line.color = GO_COLOR_BLACK;
 
 	{
-		int w, h;
-		GtkWidget *tw = grs->text_widget = gtk_label_new (_("Text"));
+		double x, y, w, h;
+		PangoContext *ctxt = gtk_widget_get_pango_context (GTK_WIDGET (canvas));
+		PangoFontDescription const *desc = pango_context_get_font_description (ctxt);
 		PangoAttrList *attrs = pango_attr_list_new ();
-		PangoAttribute *attr = pango_attr_scale_new (1.3);
+		PangoAttribute *attr = pango_attr_size_new (1.3 * pango_font_description_get_size (desc));
 		attr->start_index = 0;
 		attr->end_index = -1;
 		pango_attr_list_insert (attrs, attr);
@@ -144,16 +139,14 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 		attr->end_index = -1;
 		pango_attr_list_insert (attrs, attr);
 #endif
-		gtk_label_set_attributes (GTK_LABEL (tw), attrs);
+		grs->text = goc_item_new (group, GOC_TYPE_TEXT,
+			"text", _("Text"), "attributes", attrs,
+		         "anchor", GO_ANCHOR_W, "x", 15., "y", 100., NULL);
+		goc_item_get_bounds (grs->text, &x, &y, &w, &h);
 		pango_attr_list_unref (attrs);
 
-		pango_layout_get_pixel_size (gtk_label_get_layout (GTK_LABEL (tw)), &w, &h);
-		grs->rot_width  = w;
-		grs->rot_height = h;
-
-		grs->text = goc_item_new (group, GOC_TYPE_WIDGET,
-			"widget", tw, NULL);
-		gtk_widget_show (tw);
+		grs->rot_width  = w - x;
+		grs->rot_height = h - y;
 	}
 
 	cb_rotate_changed (grs);

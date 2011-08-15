@@ -256,7 +256,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
 	PangoRectangle rect;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1., dx, dy;
 
 	pango_layout_get_extents (text->layout, NULL, &rect);
 	text->w = (double) rect.width / PANGO_SCALE;
@@ -268,7 +268,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_NORTH:
 	case GO_ANCHOR_SOUTH:
-		item->x0 -= text->w / 2.;
+		dx = -text->w / 2.;
 		break;
 	case GO_ANCHOR_NORTH_WEST:
 	case GO_ANCHOR_SOUTH_WEST:
@@ -277,7 +277,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 	case GO_ANCHOR_NORTH_EAST:
 	case GO_ANCHOR_SOUTH_EAST:
 	case GO_ANCHOR_EAST:
-		item->x0 -= text->w;
+		dx = -text->w;
 		break;
 	default: /* should not occur */
 		break;
@@ -291,12 +291,12 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_WEST:
 	case GO_ANCHOR_EAST:
-		item->y0 -= text->h / 2.;
+		dy = -text->h / 2.;
 		break;
 	case GO_ANCHOR_SOUTH:
 	case GO_ANCHOR_SOUTH_WEST:
 	case GO_ANCHOR_SOUTH_EAST:
-		item->y0 -= text->h;
+		dy = -text->h;
 		break;
 	default: /* should not occur */
 		break;
@@ -305,9 +305,9 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 	cairo_translate (cr, item->x0, item->y0);
 	cairo_rotate (cr, text->rotation * sign);
 	if (text->clip_height > 0. && text->clip_width > 0.) {
-		cairo_rectangle (cr, 0., 0., text->clip_width, text->clip_height);
+		cairo_rectangle (cr, dx, dy, text->clip_width, text->clip_height);
 	} else {
-		cairo_rectangle (cr, 0., 0., text->w, text->h);
+		cairo_rectangle (cr, dx, dy, text->w, text->h);
 	}
 	cairo_restore (cr);
 }
@@ -358,7 +358,8 @@ static void
 goc_text_draw (GocItem const *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
-	double x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x, y = text->y;
+	double x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x,
+	       y = text->y, dx = 0., dy = 0.;
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 
 	PangoLayout *pl;
@@ -379,7 +380,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_NORTH:
 	case GO_ANCHOR_SOUTH:
-		x -= text->w / 2.;
+		dx = -text->w / 2.;
 		break;
 	case GO_ANCHOR_NORTH_WEST:
 	case GO_ANCHOR_SOUTH_WEST:
@@ -388,7 +389,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	case GO_ANCHOR_NORTH_EAST:
 	case GO_ANCHOR_SOUTH_EAST:
 	case GO_ANCHOR_EAST:
-		x -= text->w;
+		dx = -text->w;
 		break;
 	default: /* should not occur */
 		break;
@@ -402,12 +403,12 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_WEST:
 	case GO_ANCHOR_EAST:
-		y -= text->h / 2.;
+		dy = -text->h / 2.;
 		break;
 	case GO_ANCHOR_SOUTH:
 	case GO_ANCHOR_SOUTH_WEST:
 	case GO_ANCHOR_SOUTH_EAST:
-		y -= text->h;
+		dy = -text->h;
 		break;
 	default: /* should not occur */
 		break;
@@ -416,7 +417,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	cairo_set_source_rgb (cr, 0., 0., 0.);
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_rotate (cr, text->rotation * sign);
-	cairo_move_to (cr, 0., 0.);
+	cairo_move_to (cr, dx, dy);
 	if (text->clip_height > 0. && text->clip_width > 0.) {
 		cairo_rectangle (cr, 0., 0., text->clip_width, text->clip_height);
 		cairo_clip (cr);
