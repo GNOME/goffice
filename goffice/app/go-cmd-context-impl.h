@@ -27,10 +27,6 @@ typedef struct {
 #define GO_CMD_CONTEXT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GO_TYPE_CMD_CONTEXT, GOCmdContextClass))
 #define GO_IS_CMD_CONTEXT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE((k), GO_TYPE_CMD_CONTEXT))
 
-/* protected, these do not really belong here, they are associated with io-context */
-void  go_cmd_context_progress_set	  (GOCmdContext *gcc, double f);
-void  go_cmd_context_progress_message_set (GOCmdContext *gcc, char const *msg);
-
 G_END_DECLS
 
 #endif /* GO_CMD_CONTEXT_IMPL_H */

@@ -1,7 +1,15 @@
+2011-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/app/go-cmd-context-impl.h (go_cmd_context_progress_set):
+	remove
+	(go_cmd_context_progress_message_set): remove
+	* goffice/app/go-cmd-context.h (go_cmd_context_progress_set): add
+	(go_cmd_context_progress_message_set): add
+
 2011-08-15  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/canvas/goc-canvas.c (goc_canvas_invalidate): add a one pixel wide
-	margin to the invalidated region to avoid pixels dust. 
+	* goffice/canvas/goc-canvas.c (goc_canvas_invalidate): add a one pixel
+	wide margin to the invalidated region to avoid pixels dust.
 	* goffice/canvas/goc-text.c (goc_text_prepare_draw),
 	(goc_text_draw): ensure that the rotation is around the anchor point.
 	* goffice/graph/gog-series-labels.c (used_selection_changed_cb),
