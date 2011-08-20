@@ -1090,6 +1090,151 @@ gog_renderer_get_gostring_AABR (GogRenderer *rend, GOString *str,
 	go_geometry_OBR_to_AABR (&obr, aabr);
 }
 
+void
+gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
+                              GogViewAllocation const *pos, GOAnchorType anchor,
+                              GOStyle *legend_style)
+{
+	/* things are a bit different from gog_renderer_draw_gostring, so the
+	 * code must be copied */
+	PangoLayout *layout;
+	PangoContext *context;
+	cairo_t *cairo;
+	GOGeometryOBR obr;
+	GOGeometryAABR aabr;
+	GOStyle const *style;
+	int iw, ih;
+	PangoAttrList *attrs;
+	PangoRectangle rect;
+
+	g_return_if_fail (elt != NULL && elt->str != NULL);
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (rend->cur_style != NULL);
+
+	cairo = rend->cairo;
+	style = rend->cur_style;
+
+	/* Note: orig layout may not have been created using cairo! */
+	layout = pango_cairo_create_layout (cairo);
+	context = pango_layout_get_context (layout);
+	pango_layout_set_text (layout, elt->str->str, -1);
+	attrs = pango_attr_list_copy (go_string_get_markup (elt->str));
+	pango_layout_set_font_description (layout, style->font.font->desc);
+	if (attrs)
+		pango_layout_set_attributes (layout, attrs);
+	pango_cairo_context_set_resolution (context, 72.0);
+	/*now get the real size */
+	pango_layout_get_size (layout, &iw, &ih);
+	if (elt->legend_pos >= 0) {
+		/* we need to add enough room to draw the legend entry */
+		PangoRectangle rect;
+		PangoAttribute *attr;
+		rect.x = rect.y = 0;
+		pango_layout_get_size (layout, &iw, &ih);
+		rect.height = 1; /* only the width is important */
+		rect.width = (legend_style->interesting_fields & GO_STYLE_LINE)? 2 * ih: ih; 
+		attr = pango_attr_shape_new (&rect, &rect);
+		attr->start_index = elt->legend_pos;
+		attr->end_index = elt->legend_pos + 1;
+		pango_attr_list_insert (attrs, attr);
+		pango_layout_set_attributes (layout, attrs);
+		pango_layout_get_size (layout, &iw, &ih);
+	}
+	pango_attr_list_unref (attrs);
+
+	obr.w = rend->scale * ((double) iw + (double) PANGO_SCALE / 2.0)
+		/ (double) PANGO_SCALE;
+	obr.h = rend->scale * ((double) ih + (double) PANGO_SCALE / 2.0)
+		/(double) PANGO_SCALE;
+	obr.alpha = -style->text_layout.angle * M_PI / 180.0;
+	obr.x = pos->x;
+	obr.y = pos->y;
+	go_geometry_OBR_to_AABR (&obr, &aabr);
+
+	switch (anchor) {
+		case GO_ANCHOR_NW: case GO_ANCHOR_W: case GO_ANCHOR_SW:
+			obr.x += aabr.w / 2.0;
+			break;
+		case GO_ANCHOR_NE : case GO_ANCHOR_SE : case GO_ANCHOR_E :
+			obr.x -= aabr.w / 2.0;
+			break;
+		default : break;
+	}
+
+	switch (anchor) {
+		case GO_ANCHOR_NW: case GO_ANCHOR_N: case GO_ANCHOR_NE:
+			obr.y += aabr.h / 2.0;
+			break;
+		case GO_ANCHOR_SE : case GO_ANCHOR_S : case GO_ANCHOR_SW :
+			obr.y -= aabr.h / 2.0;
+			break;
+		default : break;
+	}
+
+	cairo_save (cairo);
+	cairo_set_source_rgba (cairo, GO_COLOR_TO_CAIRO (style->font.color));
+	cairo_translate (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) +
+		       (obr.h / 2.0) * sin (obr.alpha),
+		       obr.y - (obr.w / 2.0) * sin (obr.alpha) -
+		       (obr.h / 2.0) * cos (obr.alpha));
+	cairo_rotate (cairo, obr.alpha);
+	cairo_scale (cairo, rend->scale, rend->scale);
+	pango_cairo_show_layout (cairo, layout);
+	/* now draw the legen entry if needed */
+	if (elt->legend_pos >= 0 && legend_style != NULL) {
+		GOStyle *style = go_style_dup (legend_style);
+		GogViewAllocation rectangle;
+		double x, y,w, h;
+		pango_layout_index_to_pos (layout, elt->legend_pos, &rect);
+		x = (double) rect.x / PANGO_SCALE;
+		y = (double) rect.y / PANGO_SCALE;
+		w = (double) rect.width / PANGO_SCALE;
+		h = (double) rect.height / PANGO_SCALE;
+		if (style->interesting_fields & GO_STYLE_LINE) { /* line and marker */
+			GOPath *line_path;
+			if (style->line.width > h / 3.)
+				style->line.width = h / 3.;
+			if (go_marker_get_size (style->marker.mark) > h)
+				go_marker_set_size (style->marker.mark, h);
+			gog_renderer_push_style (rend, style);
+			line_path = go_path_new ();
+			y += h / 2.;
+			go_path_move_to (line_path, x, y);
+			go_path_line_to (line_path, x + w, y);
+			if (style->interesting_fields & GO_STYLE_FILL) {
+				rectangle.x = x;
+				rectangle.y = y;
+				rectangle.w = w;
+				rectangle.h = h / 2.0;
+				gog_renderer_fill_rectangle (rend, &rectangle);
+			}
+			gog_renderer_stroke_serie (rend, line_path);
+			go_path_free (line_path);
+			gog_renderer_draw_marker (rend, x + w / 2., y);
+		} else if (style->interesting_fields & GO_STYLE_FILL) {/* area */
+			if (style->line.width > h / 3.)
+				style->line.width = h / 3.;
+
+			rectangle.x = x;
+			rectangle.y = y;
+			rectangle.w = w;
+			rectangle.h = h;
+
+			gog_renderer_push_style (rend, style);
+			gog_renderer_draw_rectangle (rend, &rectangle);
+		} else if (style->interesting_fields & GO_STYLE_MARKER) {					/* markers only */
+			if (go_marker_get_size (style->marker.mark) > h)
+				go_marker_set_size (style->marker.mark, h);
+			gog_renderer_push_style (rend, style);
+			gog_renderer_draw_marker (rend, x + w / 2., y + h / 2.);
+		}
+		gog_renderer_pop_style (rend);
+		g_object_unref (style);
+	}
+	cairo_restore (cairo);
+	g_object_unref (layout);
+}
+
 static void
 _free_marker_data (GogRenderer *rend)
 {

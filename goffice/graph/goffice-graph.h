@@ -266,9 +266,9 @@ G_END_DECLS
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-reg-curve.h>
+#include <goffice/graph/gog-series-labels.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-series-lines.h>
-#include <goffice/graph/gog-series-labels.h>
 #include <goffice/graph/gog-smoothed-curve.h>
 #include <goffice/graph/gog-theme.h>
 

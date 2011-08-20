@@ -21,7 +21,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-series-labels.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -599,8 +599,6 @@ gog_series_labels_update (GogObject *obj)
 {
 	GogSeriesLabels *labels = GOG_SERIES_LABELS (obj);
 	GogObject *parent = gog_object_get_parent (GOG_OBJECT (obj));
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (obj));
-	int height = pango_font_description_get_size (style->font.font->desc);
 	unsigned i, n;
 	if (labels->elements) {
 		n = labels->n_elts;
@@ -618,6 +616,7 @@ gog_series_labels_update (GogObject *obj)
 			PangoAttrList *markup = pango_attr_list_new (), *l;
 			char const *format = labels->format;
 			char *next;
+			labels->elements[i].legend_pos = -1;
 			while (*format) {
 				if (*format == '%') {
 					format++;
@@ -641,17 +640,8 @@ gog_series_labels_update (GogObject *obj)
 						}
 						break;
 					case 'l': {
-						/* add room for the legend entry */
-						PangoRectangle rect;
-						PangoAttribute *attr;
-						rect.x = rect.y = 0;
-						rect.height = 1; /* only the width is important */
-						rect.width = 2 * height; /* FIXME, should not always be 2 */
-						attr = pango_attr_shape_new (&rect, &rect);
-						attr->start_index = str->len;
-						g_string_append_c (str, 'o');
-						attr->end_index = str->len;
-						pango_attr_list_insert (markup, attr);
+						labels->elements[i].legend_pos = str->len;
+						g_string_append_c (str, ' '); /* this one will be replaced by the legend entry */
 						break;
 					}
 					case '0':

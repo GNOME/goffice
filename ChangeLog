@@ -1,3 +1,16 @@
+2011-08-20  Jean Brefort  <jean.brefort@normalesup.org>
+	* goffice/graph/goffice-graph.h: fix include order.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_data_label): new function.
+	* goffice/graph/gog-renderer.h: ditto.
+	* goffice/graph/gog-series-labels.c (gog_series_labels_update): make legend
+	entry in label work.
+	* goffice/graph/gog-series-labels.h: ditto.
+	* goffice/graph/gog-view.c (gog_view_get_natural_size): new function
+	(see #629794)
+	* goffice/graph/gog-view.h: ditto.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): use 
+	gog_renderer_draw_data_label.
+
 2011-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/app/go-cmd-context-impl.h (go_cmd_context_progress_set):

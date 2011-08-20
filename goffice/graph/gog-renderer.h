@@ -91,6 +91,10 @@ void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GOAnchorType anchor,
 				   gboolean use_markup);
 
+void  gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
+                                    GogViewAllocation const *pos, GOAnchorType anchor,
+                                    GOStyle *legend_style);
+
 void  gog_renderer_draw_gostring  (GogRenderer *rend,
 				   GOString *str,
 				   GogViewAllocation const *pos,

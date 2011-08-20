@@ -862,7 +862,11 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			for (j = 0; j < lengths[i]; j++) {
 				alloc.x = label_pos[i][j].x;
 				alloc.y = label_pos[i][j].y;
-				gog_renderer_draw_gostring (view->renderer, label_pos[i][j].elt->str, &alloc, label_pos[i][j].anchor);
+				gog_renderer_draw_data_label (view->renderer,
+				                              label_pos[i][j].elt,
+				                              &alloc,
+				                              label_pos[i][j].anchor,
+				                              styles[i]);
 			}
 			gog_renderer_pop_style (view->renderer);
 		}

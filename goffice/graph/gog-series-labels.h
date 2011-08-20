@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 
 typedef struct  {
 	GOString *str;
-	double legend_offset, legend_width, width, height;
+	int legend_pos;
 } GogSeriesLabelElt;
 
 struct _GogSeriesLabels {

@@ -92,6 +92,7 @@ typedef struct {
 
 	void	 (*build_toolkit)		(GogView *view);
 	char    *(*get_tip_at_point)		(GogView *view, double x, double y);
+	void	 (*natural_size)    		(GogView *view, GogViewRequisition *req);
 } GogViewClass;
 
 #define GOG_TYPE_VIEW		(gog_view_get_type ())
@@ -114,6 +115,7 @@ void       gog_view_size_allocate    (GogView *view, GogViewAllocation const *al
 gboolean   gog_view_update_sizes     (GogView *view);
 GogView   *gog_view_find_child_view  (GogView const *container,
 				      GogObject const *target_model);
+void       gog_view_get_natural_size (GogView *view, GogViewRequisition *requisition);
 
 GSList const	*gog_view_get_toolkit		(GogView *view);
 void 		 gog_view_render_toolkit 	(GogView *view);
