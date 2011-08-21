@@ -120,9 +120,15 @@ goc_widget_notify_scrolled (GocItem *item)
 	x1 = item->x1;
 	y1 = item->y1;
 	goc_group_adjust_bounds (parent, &x0, &y0, &x1, &y1);
-	x0 = (x0 - item->canvas->scroll_x1) * item->canvas->pixels_per_unit;
+	if (item->canvas->direction == GOC_DIRECTION_LTR) {
+		x0 = (x0 - item->canvas->scroll_x1) * item->canvas->pixels_per_unit;
+		x1 = (x1 - item->canvas->scroll_x1) * item->canvas->pixels_per_unit;
+	} else {
+		double tmp = x1;
+		x1 = item->canvas->width - (x0 - item->canvas->scroll_x1) * item->canvas->pixels_per_unit;
+		x0 = item->canvas->width - (tmp - item->canvas->scroll_x1) * item->canvas->pixels_per_unit;
+	}
 	y0 = (y0 - item->canvas->scroll_y1) * item->canvas->pixels_per_unit;
-	x1 = (x1 - item->canvas->scroll_x1) * item->canvas->pixels_per_unit;
 	y1 = (y1 - item->canvas->scroll_y1) * item->canvas->pixels_per_unit;
 	gtk_widget_set_size_request (widget->widget, x1 - x0, y1 - y0);
 	/* ensure we don't wrap throught he infinite */

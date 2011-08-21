@@ -1,4 +1,12 @@
+2011-08-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-widget.c (goc_widget_notify_scrolled): fix widgets
+	position inside an RTL canvas.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_data_label): enhance
+	scale use.
+
 2011-08-20  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/goffice-graph.h: fix include order.
 	* goffice/graph/gog-renderer.c (gog_renderer_draw_data_label): new function.
 	* goffice/graph/gog-renderer.h: ditto.

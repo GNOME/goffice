@@ -1178,18 +1178,16 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 		       obr.y - (obr.w / 2.0) * sin (obr.alpha) -
 		       (obr.h / 2.0) * cos (obr.alpha));
 	cairo_rotate (cairo, obr.alpha);
-	cairo_scale (cairo, rend->scale, rend->scale);
-	pango_cairo_show_layout (cairo, layout);
 	/* now draw the legen entry if needed */
 	if (elt->legend_pos >= 0 && legend_style != NULL) {
 		GOStyle *style = go_style_dup (legend_style);
 		GogViewAllocation rectangle;
 		double x, y,w, h;
 		pango_layout_index_to_pos (layout, elt->legend_pos, &rect);
-		x = (double) rect.x / PANGO_SCALE;
-		y = (double) rect.y / PANGO_SCALE;
-		w = (double) rect.width / PANGO_SCALE;
-		h = (double) rect.height / PANGO_SCALE;
+		x = (double) rect.x / PANGO_SCALE * rend->scale;
+		y = (double) rect.y / PANGO_SCALE * rend->scale;
+		w = (double) rect.width / PANGO_SCALE * rend->scale;
+		h = (double) rect.height / PANGO_SCALE * rend->scale;
 		if (style->interesting_fields & GO_STYLE_LINE) { /* line and marker */
 			GOPath *line_path;
 			if (style->line.width > h / 3.)
@@ -1231,6 +1229,8 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 		gog_renderer_pop_style (rend);
 		g_object_unref (style);
 	}
+	cairo_scale (cairo, rend->scale, rend->scale);
+	pango_cairo_show_layout (cairo, layout);
 	cairo_restore (cairo);
 	g_object_unref (layout);
 }

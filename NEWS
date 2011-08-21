@@ -15,6 +15,7 @@ Jean:
 	* Chart labels accept rich text. [#417631]
 	* Axes can use only a part of available space. [#654392]
 	* Add support for smoothed curve renaming. [#656148].
+	* Fix widgets position inside an RTL canvas.
 
 Morten:
 	* Recognize scientific formats with longer exponents.
