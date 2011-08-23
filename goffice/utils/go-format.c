@@ -5628,7 +5628,7 @@ go_format_get_details (GOFormat const *fmt,
 		if (dst->family == GO_FORMAT_SCIENTIFIC) {
 			const char *epos = strchr (str, 'E');
 			const char *mend = dot ? dot : epos;
-			dst->use_markup = (strstr (str, "EE0") != NULL);
+			dst->use_markup = (strstr (str, "EE") != NULL);
 			dst->exponent_step = mend - str;
 			dst->simplify_mantissa = mend != str && mend[-1] == '#';
 			if (dst->simplify_mantissa)

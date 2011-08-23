@@ -842,7 +842,9 @@ study_format (GOFormat const *fmt, GOFormatDetails *details)
 		    !details->thousands_sep)
 			exact = FALSE;
 
-		if (details->min_digits != 1)
+		if ((details->min_digits > 1) ||
+		    (details->family != GO_FORMAT_SCIENTIFIC 
+		     && details->min_digits == 0))
 			exact = FALSE;
 	}
 

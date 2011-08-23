@@ -1,3 +1,10 @@
+2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/gtk/go-format-sel.c (study_format): in scientific formatting the
+	selector also handles details->min_digits == 0
+	* goffice/utils/go-format.c (go_format_get_details): EE+ can also occur in
+	scientific formatting
+
 2011-08-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-widget.c (goc_widget_notify_scrolled): fix widgets
