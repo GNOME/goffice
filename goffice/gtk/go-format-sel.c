@@ -93,6 +93,7 @@ typedef enum {
 	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
 	F_DECIMAL_SPIN,		F_ENGINEERING_BUTTON,
 	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
+	F_EXP_DIGITS,           F_EXP_DIGITS_LABEL,
 	F_NEGATIVE_LABEL,	F_NEGATIVE_SCROLL,	F_NEGATIVE,
 	F_DECIMAL_LABEL,	F_CODE_LABEL,
 	F_MAX_WIDGET
@@ -281,6 +282,18 @@ static void
 cb_decimals_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 {
 	gfs->format.details.num_decimals =
+		gtk_spin_button_get_value_as_int (spin);
+
+	if (gtk_widget_get_visible (gfs->format.widget[F_NEGATIVE]))
+		fillin_negative_samples (gfs);
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_exp_digits_changed (GtkSpinButton *spin, GOFormatSel *gfs)
+{
+	gfs->format.details.exponent_digits =
 		gtk_spin_button_get_value_as_int (spin);
 
 	if (gtk_widget_get_visible (gfs->format.widget[F_NEGATIVE]))
@@ -479,6 +492,8 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_ENGINEERING_BUTTON,
 			F_SUPERSCRIPT_BUTTON,
 			F_SUPERSCRIPT_HIDE_1_BUTTON,
+			F_EXP_DIGITS,
+			F_EXP_DIGITS_LABEL,
 			F_MAX_WIDGET
 		},
 		/* Text */
@@ -628,6 +643,12 @@ stays:
 				gtk_widget_set_sensitive (w, gfs->format.details.use_markup);
 			} else
 				show_widget = FALSE;
+			break;
+
+		case F_EXP_DIGITS:
+			gtk_spin_button_set_value 
+				(GTK_SPIN_BUTTON (gfs->format.widget[F_EXP_DIGITS]),
+						   gfs->format.details.exponent_digits);
 			break;
 
 		case F_ENGINEERING_BUTTON:
@@ -943,6 +964,8 @@ nfs_init (GOFormatSel *gfs)
 		"format_engineering_button",
 		"format_superscript_button",
 		"format_superscript_hide_1_button",
+		"format_exp_digits",
+		"format_exp_digits_label",
 		"format_negatives_label",
 		"format_negatives_scroll",
 		"format_negatives",
@@ -1065,6 +1088,8 @@ nfs_init (GOFormatSel *gfs)
 		G_CALLBACK (cb_format_negative_form_selected), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_DECIMAL_SPIN]), "value_changed",
 		G_CALLBACK (cb_decimals_changed), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_EXP_DIGITS]), "value_changed",
+		G_CALLBACK (cb_exp_digits_changed), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SEPARATOR]), "toggled",
 		G_CALLBACK (cb_separator_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_ENGINEERING_BUTTON]), "toggled",

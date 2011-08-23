@@ -1,33 +1,44 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 2.12 -->
-  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">30</property>
     <property name="step_increment">1</property>
     <property name="page_increment">3</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="lower">1</property>
+    <property name="upper">20</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkBox" id="number_box">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">12</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkBox" id="hbox1">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkBox" id="vbox1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkBox" id="vbox4">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label6">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Ca_tegories:</property>
                     <property name="use_underline">True</property>
@@ -58,26 +69,35 @@
                         <accessibility>
                           <relation type="labelled-by" target="label6"/>
                         </accessibility>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection1"/>
+                        </child>
                       </object>
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
               </object>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="preview_box">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label7">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Preview:</property>
                     <property name="use_underline">True</property>
@@ -116,12 +136,15 @@
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -135,16 +158,19 @@
         <child>
           <object class="GtkBox" id="vbox2">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkTable" id="table1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="n_rows">2</property>
                 <property name="n_columns">2</property>
                 <child>
                   <object class="GtkLabel" id="format_number_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display numeric values with a fixed number of decimals.</property>
@@ -153,13 +179,13 @@
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="format_currency_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display currency amounts.</property>
@@ -168,13 +194,13 @@
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="format_accounting_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display amounts in traditional accounting styles.</property>
@@ -183,13 +209,13 @@
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="format_date_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display dates and optionally times of day.</property>
@@ -198,13 +224,13 @@
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="format_time_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display times of day.</property>
@@ -220,6 +246,7 @@
                 <child>
                   <object class="GtkLabel" id="format_fraction_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display values as closest fractional approximation.</property>
@@ -228,13 +255,13 @@
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="format_scientific_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display values with power-of-ten scaling.</property>
@@ -243,13 +270,13 @@
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="format_text_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display and input values as strings with no interpretation.</property>
@@ -258,13 +285,13 @@
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="format_custom_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Specify an XL-style format directly</property>
@@ -273,13 +300,13 @@
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="format_special_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="wrap">True</property>
@@ -294,6 +321,7 @@
                 <child>
                   <object class="GtkLabel" id="format_percentage_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Display values as percentages.</property>
@@ -309,6 +337,7 @@
                 <child>
                   <object class="GtkLabel" id="format_general_explanation">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="label" translatable="yes">Select an appropriate format automatically.</property>
@@ -324,25 +353,30 @@
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkSeparator" id="hseparator1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="format_decimal_box">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="format_decimal_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Deci_mal places:</property>
                     <property name="use_underline">True</property>
@@ -353,8 +387,8 @@
                     </accessibility>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -381,6 +415,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="draw_indicator">True</property>
                   </object>
@@ -394,7 +429,58 @@
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="format_decimal_box1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkLabel" id="format_exp_digits_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">Minimum number of e_xponent digits:</property>
+                    <property name="use_underline">True</property>
+                    <property name="justify">center</property>
+                    <property name="mnemonic_widget">format_number_decimals</property>
+                    <accessibility>
+                      <relation type="label-for" target="format_number_decimals"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="format_exp_digits">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">●</property>
+                    <property name="invisible_char_set">True</property>
+                    <property name="adjustment">adjustment2</property>
+                    <property name="climb_rate">1</property>
+                    <property name="numeric">True</property>
+                    <accessibility>
+                      <relation type="labelled-by" target="format_decimal_label"/>
+                    </accessibility>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -404,18 +490,20 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="tooltip_text" translatable="yes">Restrict exponent to multiples of 3</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="format_superscript_box">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
@@ -424,7 +512,8 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip_text" translatable="yes">Use superscript for exponent (e.g. 4&#xD7;10&#xB2;)</property>
+                    <property name="tooltip_text" translatable="yes">Use superscript for exponent (e.g. 4×10²)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="draw_indicator">True</property>
                   </object>
@@ -437,14 +526,16 @@
                 <child>
                   <object class="GtkAlignment" id="alignment1">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="left_padding">24</property>
                     <child>
                       <object class="GtkCheckButton" id="format_superscript_hide_1_button">
-                        <property name="label" translatable="yes">_Don't show 1&#215;s</property>
+                        <property name="label" translatable="yes">_Don't show 1×s</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">When mantissa is equal to 1, only show exponent part (e.g. 10&#xB2;)</property>
+                        <property name="tooltip_text" translatable="yes">When mantissa is equal to 1, only show exponent part (e.g. 10²)</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
@@ -460,16 +551,18 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">4</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="format_symbol_box">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="format_symbol_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">S_ymbol:</property>
                     <property name="use_underline">True</property>
@@ -486,20 +579,20 @@
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">5</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
               </packing>
             </child>
             <child>
               <object class="GtkTable" id="table2">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="n_rows">2</property>
                 <property name="row_spacing">6</property>
                 <child>
                   <object class="GtkScrolledWindow" id="format_list_scroll">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="format_list">
@@ -510,6 +603,9 @@
                         <accessibility>
                           <relation type="labelled-by" target="format_list_label"/>
                         </accessibility>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection2"/>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -522,8 +618,6 @@
                   <object class="GtkScrolledWindow" id="format_negatives_scroll">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="format_negatives">
@@ -533,6 +627,9 @@
                         <accessibility>
                           <relation type="labelled-by" target="format_negatives_label"/>
                         </accessibility>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection3"/>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -544,6 +641,7 @@
                 <child>
                   <object class="GtkLabel" id="format_list_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">_Format:</property>
                     <property name="use_underline">True</property>
@@ -560,6 +658,7 @@
                 <child>
                   <object class="GtkLabel" id="format_negatives_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Negative number _format:</property>
                     <property name="use_underline">True</property>
@@ -575,16 +674,20 @@
                 </child>
               </object>
               <packing>
-                <property name="position">6</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">7</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="format_code_box">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="format_code_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Format c_ode:</property>
                     <property name="use_underline">True</property>
@@ -608,22 +711,29 @@
                     </accessibility>
                   </object>
                   <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">7</property>
+                <property name="fill">True</property>
+                <property name="position">8</property>
               </packing>
             </child>
           </object>
           <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
         <property name="position">0</property>
       </packing>
     </child>

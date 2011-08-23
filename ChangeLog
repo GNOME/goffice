@@ -1,5 +1,12 @@
 2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/gtk/go-format-sel.c (cb_exp_digits_changed): new
+	(fmt_dialog_enable_widgets): add widgets
+	(nfs_init): connect above callback
+	* goffice/gtk/go-format-sel.ui: add widgets and format others better
+
+2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/gtk/go-format-sel.ui: use unicode chanracter for "times" instead
 	of x
 
