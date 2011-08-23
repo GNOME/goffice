@@ -1,5 +1,10 @@
 2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/gtk/go-format-sel.ui: use unicode chanracter for "times" instead
+	of x
+
+2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/gtk/go-format-sel.c (study_format): in scientific formatting the
 	selector also handles details->min_digits == 0
 	* goffice/utils/go-format.c (go_format_get_details): EE+ can also occur in
@@ -23,7 +28,7 @@
 	* goffice/graph/gog-view.c (gog_view_get_natural_size): new function
 	(see #629794)
 	* goffice/graph/gog-view.h: ditto.
-	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): use 
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): use
 	gog_renderer_draw_data_label.
 
 2011-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
