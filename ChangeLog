@@ -1,5 +1,9 @@
 2011-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_get_details): handle fractions
+
+2011-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/gtk/go-format-sel.c (FormatWidget): add widgets for fraction
 	formatting
 	(cb_denominator_changed): new

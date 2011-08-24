@@ -5713,6 +5713,58 @@ go_format_get_details (GOFormat const *fmt,
 		break;
 	}
 
+	case GO_FORMAT_FRACTION: {
+ 		gchar **tokens = g_strsplit_set (str, " /", 3);
+		int numerator_base;
+		char const *integer;
+		int d;
+
+		/* Since it is a fraction we get at least 2 tokens */
+		g_return_if_fail (tokens + 1 != NULL);
+
+		dst->split_fraction = (tokens[2] != NULL && strlen (tokens[0]) > 0);
+		if (dst->split_fraction) {
+			integer = tokens[0];
+			dst->min_digits = 0;
+			while (*integer != 0)
+				if (*integer++ == '0')
+					dst->min_digits++;
+			numerator_base = 1;
+		} else
+			numerator_base = 0;
+		
+		integer = tokens[numerator_base];
+		dst->numerator_min_digits = 0;
+		while (*integer != 0)
+			if (*integer++ == '0')
+				dst->numerator_min_digits++;
+
+		integer = tokens[numerator_base + 1];
+		d = atoi (integer);
+		if (d > 1) {
+			dst->denominator = d;
+			dst->automatic_denominator = FALSE;
+		} else {
+			dst->automatic_denominator = TRUE;
+			dst->denominator_min_digits = 0;
+			dst->denominator_max_digits = 0;
+			while (*integer != 0) {
+				dst->denominator_max_digits++;
+				if (*integer++ == '0')
+					dst->denominator_min_digits++;
+			}
+		}
+
+		g_strfreev (tokens);	
+
+		if (exact != NULL) {
+			newstr = g_string_new (NULL);
+			go_format_generate_str (newstr, dst);
+		}
+
+		break;
+	}
+
 	default:
 		break;
 	}
