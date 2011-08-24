@@ -1,3 +1,24 @@
+2011-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/gtk/go-format-sel.c (FormatWidget): add widgets for fraction
+	formatting
+	(cb_denominator_changed): new
+	(cb_max_denom_digits_changed): new
+	(cb_min_integer_digits_changed): new
+	(cb_min_denom_digits_changed): new
+	(cb_exp_digits_changed): check for active type
+	(cb_split_fraction_toggle): new
+	(cb_fraction_automatic_toggle): new
+	(fmt_dialog_enable_widgets): increase maximum number of widgets per format
+	type, add widgets for fraction formatting
+	(nfs_init): connect new callbacks
+	* goffice/gtk/go-format-sel.ui: add widgets for fraction formatting
+	* goffice/utils/go-format.c (go_format_generate_fraction_str): new
+	(go_format_generate_str): call go_format_generate_fraction_str
+	(go_format_details_init): initialize new fields
+	* goffice/utils/go-format.h (GOFormatDetails): add fields to support
+	fractions
+
 2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/gtk/go-format-sel.c (cb_exp_digits_changed): new

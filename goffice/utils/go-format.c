@@ -5267,6 +5267,45 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 
 #ifdef DEFINE_COMMON
 static void
+go_format_generate_fraction_str (GString *dst, GOFormatDetails const *details)
+{
+	/* Maximum not terribly important. */
+	int numerator_min_digits = CLAMP (details->numerator_min_digits, 0, 30);
+	
+	if (details->split_fraction) {
+		/* Maximum not terribly important. */
+		int min_digits = CLAMP (details->min_digits, 0, 30);
+		if (min_digits > 0)
+			go_string_append_c_n (dst, '0', min_digits);
+		else
+			g_string_append_c (dst, '#');
+		g_string_append_c (dst, ' ');
+	}
+	
+	if  (numerator_min_digits > 0)
+		go_string_append_c_n (dst, '0', numerator_min_digits);
+	else
+		g_string_append_c (dst, '?');
+	
+	g_string_append_c (dst, '/');
+	
+	if (details->automatic_denominator) {
+		int denominator_max_digits = CLAMP (details->denominator_max_digits, 1, 30);
+		int denominator_min_digits = CLAMP (details->denominator_min_digits, 
+						    0, denominator_max_digits);
+		go_string_append_c_n (dst, '?', 
+				      denominator_max_digits - denominator_min_digits);
+		go_string_append_c_n (dst, '0', 
+				      denominator_min_digits);
+	} else {
+		int denominator = CLAMP (details->denominator, 2, G_MAXINT);
+		g_string_append_printf (dst, "%d", denominator); 
+	}
+}
+#endif
+
+#ifdef DEFINE_COMMON
+static void
 go_format_generate_accounting_str (GString *dst,
 				   GOFormatDetails const *details)
 {
@@ -5468,6 +5507,9 @@ go_format_generate_str (GString *dst, GOFormatDetails const *details)
 	case GO_FORMAT_SCIENTIFIC:
 		go_format_generate_scientific_str (dst, details);
 		break;
+	case GO_FORMAT_FRACTION:
+		go_format_generate_fraction_str (dst, details);
+		break;
 	default:
 		break;
 	}
@@ -5510,6 +5552,12 @@ go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
 	details->exponent_step = 1;
 	details->exponent_digits = 2;
 	details->min_digits = 1;
+	details->split_fraction = TRUE;
+	details->numerator_min_digits = 1;
+	details->denominator_min_digits = 1;
+	details->denominator_max_digits = 1;
+	details->denominator = 8;
+	details->automatic_denominator = TRUE;
 }
 #endif
 

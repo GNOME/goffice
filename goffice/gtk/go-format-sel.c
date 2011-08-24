@@ -96,6 +96,18 @@ typedef enum {
 	F_EXP_DIGITS,           F_EXP_DIGITS_LABEL,
 	F_NEGATIVE_LABEL,	F_NEGATIVE_SCROLL,	F_NEGATIVE,
 	F_DECIMAL_LABEL,	F_CODE_LABEL,
+	F_FRACTION_SEPARATE_INTEGER,
+	F_FRACTION_MIN_INTEGER_DIGITS_LABEL,
+	F_FRACTION_MIN_INTEGER_DIGITS,
+	F_FRACTION_MIN_NUMERATOR_DIGITS_LABEL,
+	F_FRACTION_SPECIFIED,
+	F_FRACTION_AUTOMATIC,
+	F_FRACTION_DENOMINATOR_LABEL,
+	F_FRACTION_DENOMINATOR,
+	F_FRACTION_MAX_DENOM_DIGITS_LABEL,
+	F_FRACTION_MIN_DENOM_DIGITS_LABEL,
+	F_FRACTION_MAX_DENOM_DIGITS,
+	F_FRACTION_MIN_DENOM_DIGITS,
 	F_MAX_WIDGET
 } FormatWidget;
 
@@ -291,13 +303,57 @@ cb_decimals_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 }
 
 static void
-cb_exp_digits_changed (GtkSpinButton *spin, GOFormatSel *gfs)
+cb_denominator_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 {
-	gfs->format.details.exponent_digits =
+	gfs->format.details.denominator =
 		gtk_spin_button_get_value_as_int (spin);
 
-	if (gtk_widget_get_visible (gfs->format.widget[F_NEGATIVE]))
-		fillin_negative_samples (gfs);
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_max_denom_digits_changed (GtkSpinButton *spin, GOFormatSel *gfs)
+{
+	int val = gtk_spin_button_get_value_as_int (spin);
+
+	gfs->format.details.denominator_max_digits = val;
+	gtk_spin_button_set_range
+		 (GTK_SPIN_BUTTON (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS]),
+		  1, val);
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_min_integer_digits_changed (GtkSpinButton *spin, GOFormatSel *gfs)
+{
+	gfs->format.details.min_digits =
+		gtk_spin_button_get_value_as_int (spin);
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_min_denom_digits_changed (GtkSpinButton *spin, GOFormatSel *gfs)
+{
+	gfs->format.details.denominator_min_digits =
+		gtk_spin_button_get_value_as_int (spin);
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_exp_digits_changed (GtkSpinButton *spin, GOFormatSel *gfs)
+{
+	int val = gtk_spin_button_get_value_as_int (spin);
+
+	if (gfs->format.current_type == GO_FORMAT_FRACTION)
+		gfs->format.details.numerator_min_digits = val;
+	else {
+		gfs->format.details.exponent_digits = val;
+		if (gtk_widget_get_visible (gfs->format.widget[F_NEGATIVE]))
+			fillin_negative_samples (gfs);
+	}
 
 	draw_format_preview (gfs, TRUE);
 }
@@ -341,6 +397,36 @@ cb_superscript_hide_1_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
 	gfs->format.details.simplify_mantissa =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_split_fraction_toggle (GtkWidget *w, GOFormatSel *gfs)
+{
+	gboolean act = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	gfs->format.details.split_fraction = act;
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS_LABEL],
+				  act);
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS],
+				  act);
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_fraction_automatic_toggle (GtkWidget *w, GOFormatSel *gfs)
+{
+	gboolean act =gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	gfs->format.details.automatic_denominator = act;
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS_LABEL], 
+				  act);
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS_LABEL], 
+				  act);
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS], act);
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS], act);
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_DENOMINATOR_LABEL], !act);
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_DENOMINATOR], !act);
 
 	draw_format_preview (gfs, TRUE);
 }
@@ -410,7 +496,7 @@ static void
 fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 {
 	SETUP_LOCALE_SWITCH;
-	static FormatWidget const contents[][12] = {
+	static FormatWidget const contents[][15] = {
 		/* General */
 		{
 			F_GENERAL_EXPLANATION,
@@ -479,9 +565,19 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Fraction */
 		{
 			F_FRACTION_EXPLANATION,
-			F_LIST_LABEL,
-			F_LIST_SCROLL,
-			F_LIST,
+			F_FRACTION_SEPARATE_INTEGER,
+			F_FRACTION_MIN_INTEGER_DIGITS_LABEL,
+			F_FRACTION_MIN_INTEGER_DIGITS,
+			F_FRACTION_MIN_NUMERATOR_DIGITS_LABEL,
+			F_EXP_DIGITS,
+			F_FRACTION_SPECIFIED,
+			F_FRACTION_AUTOMATIC,
+			F_FRACTION_DENOMINATOR_LABEL,
+			F_FRACTION_DENOMINATOR,
+			F_FRACTION_MAX_DENOM_DIGITS_LABEL,
+			F_FRACTION_MIN_DENOM_DIGITS_LABEL,
+			F_FRACTION_MAX_DENOM_DIGITS,
+			F_FRACTION_MIN_DENOM_DIGITS,
 			F_MAX_WIDGET
 		},
 		/* Scientific */
@@ -567,7 +663,6 @@ stays:
 				;
 			case GO_FORMAT_DATE:
 			case GO_FORMAT_TIME:
-			case GO_FORMAT_FRACTION:
 				start = end = page;
 				break;
 
@@ -623,7 +718,7 @@ stays:
 			break;
 
 		case F_DECIMAL_SPIN:
-			gtk_spin_button_set_value (GTK_SPIN_BUTTON (gfs->format.widget[F_DECIMAL_SPIN]),
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
 						   gfs->format.details.num_decimals);
 			break;
 
@@ -646,20 +741,82 @@ stays:
 			break;
 
 		case F_EXP_DIGITS:
-			gtk_spin_button_set_value 
-				(GTK_SPIN_BUTTON (gfs->format.widget[F_EXP_DIGITS]),
-						   gfs->format.details.exponent_digits);
+			if (page == GO_FORMAT_FRACTION)
+				gtk_spin_button_set_value 
+					(GTK_SPIN_BUTTON (w),
+					 gfs->format.details.numerator_min_digits);
+			else
+				gtk_spin_button_set_value 
+					(GTK_SPIN_BUTTON (w),
+					 gfs->format.details.exponent_digits);
 			break;
 
 		case F_ENGINEERING_BUTTON:
 			gtk_toggle_button_set_active
-				(GTK_TOGGLE_BUTTON (gfs->format.widget[F_ENGINEERING_BUTTON]),
+				(GTK_TOGGLE_BUTTON (w),
 				 gfs->format.details.exponent_step == 3);
 			break;
 
 		case F_SEPARATOR:
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gfs->format.widget[F_SEPARATOR]),
-						      gfs->format.details.thousands_sep);
+			gtk_toggle_button_set_active 
+				(GTK_TOGGLE_BUTTON (w),
+				 gfs->format.details.thousands_sep);
+			break;
+
+		case F_FRACTION_SEPARATE_INTEGER:
+			gtk_toggle_button_set_active 
+				(GTK_TOGGLE_BUTTON (w),
+				 gfs->format.details.split_fraction);
+			break;
+
+		case F_FRACTION_MIN_INTEGER_DIGITS:
+			gtk_spin_button_set_value 
+				(GTK_SPIN_BUTTON (w), 
+				 gfs->format.details.min_digits);
+			gtk_widget_set_sensitive 
+				(w, gfs->format.details.split_fraction);
+			gtk_widget_set_sensitive 
+				(gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS_LABEL], 
+				 gfs->format.details.split_fraction);
+			break;
+
+		case F_FRACTION_AUTOMATIC:
+			gtk_toggle_button_set_active 
+				(GTK_TOGGLE_BUTTON (w),
+				 gfs->format.details.automatic_denominator);
+			break;
+
+		case F_FRACTION_DENOMINATOR:
+			gtk_spin_button_set_value 
+				(GTK_SPIN_BUTTON (w),
+				 gfs->format.details.denominator);
+			gtk_widget_set_sensitive 
+				(w, !gfs->format.details.automatic_denominator);
+			gtk_widget_set_sensitive 
+				(gfs->format.widget[F_FRACTION_DENOMINATOR_LABEL], 
+				 !gfs->format.details.automatic_denominator);
+			break;
+
+		case F_FRACTION_MAX_DENOM_DIGITS:
+			gtk_spin_button_set_value 
+				(GTK_SPIN_BUTTON (w),
+				 gfs->format.details.denominator_max_digits);
+			gtk_widget_set_sensitive 
+				(w, gfs->format.details.automatic_denominator);
+			gtk_widget_set_sensitive 
+				(gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS_LABEL], 
+				 gfs->format.details.automatic_denominator);
+			break;
+
+		case F_FRACTION_MIN_DENOM_DIGITS:
+			gtk_spin_button_set_value 
+				(GTK_SPIN_BUTTON (w),
+				 gfs->format.details.denominator_min_digits);
+			gtk_widget_set_sensitive 
+				(w, gfs->format.details.automatic_denominator);
+			gtk_widget_set_sensitive 
+				(gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS_LABEL], 
+				 gfs->format.details.automatic_denominator);
 			break;
 
 		default:
@@ -971,6 +1128,18 @@ nfs_init (GOFormatSel *gfs)
 		"format_negatives",
 		"format_decimal_label",
 		"format_code_label",
+		"format_separate_integer_part",
+		"format_minimum_integer_digits_label",
+		"format_minimum_integer_digits",
+		"format_minimum_numerator_digits_label",
+		"format_fraction_specified_button",
+		"format_fraction_automatic_button",
+		"format_denominator_label",
+		"format_denominator",
+		"format_max_denominator_digits_label",
+		"format_min_denominator_digits_label",
+		"format_maximum_denominator_digits",
+		"format_minimum_denominator_digits",
 		NULL
 	};
 
@@ -1096,8 +1265,24 @@ nfs_init (GOFormatSel *gfs)
 		G_CALLBACK (cb_engineering_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_BUTTON]), "toggled",
 		G_CALLBACK (cb_superscript_toggle), gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON]), "toggled",
-		G_CALLBACK (cb_superscript_hide_1_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON]), 
+			  "toggled", G_CALLBACK (cb_superscript_hide_1_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_AUTOMATIC]), 
+			  "toggled", G_CALLBACK (cb_fraction_automatic_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_SEPARATE_INTEGER]), 
+			  "toggled", G_CALLBACK (cb_split_fraction_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS]), 
+			  "value_changed",
+			  G_CALLBACK (cb_min_integer_digits_changed), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_DENOMINATOR]), 
+			  "value_changed",
+			  G_CALLBACK (cb_denominator_changed), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS]), 
+			  "value_changed",
+			  G_CALLBACK (cb_max_denom_digits_changed), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS]), 
+			  "value_changed",
+			  G_CALLBACK (cb_min_denom_digits_changed), gfs);	
 
 	/* setup custom format list */
 	gfs->format.formats.model = gtk_list_store_new (1, G_TYPE_STRING);

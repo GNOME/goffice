@@ -73,7 +73,7 @@ typedef struct {
 	GOFormatFamily family;
 	GOFormatMagic magic;
 
-	/* NUMBER, SCIENTIFIC, CURRENCY, ACCOUNTING, PERCENTAGE: */
+	/* NUMBER, SCIENTIFIC, CURRENCY, ACCOUNTING, FRACTION, PERCENTAGE: */
 	int min_digits;
 	int num_decimals;
 
@@ -95,6 +95,14 @@ typedef struct {
 	int exponent_digits;
 	gboolean use_markup;
 	gboolean simplify_mantissa;
+
+	/* FRACTION: */
+	gboolean automatic_denominator;
+	gboolean split_fraction;
+	int numerator_min_digits;
+	int denominator_min_digits;
+	int denominator_max_digits;
+	int denominator;
 
 	int expansion[30];
 } GOFormatDetails;

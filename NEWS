@@ -8,6 +8,7 @@ Andreas:
 	* Fix date format on Windows. [#655573]
 	* Extend encoding specification from file-openers to plugin services.
 	* Improve the scientific number formats selector. [#657187][#623847]
+	* Improve fraction format selector. [#117215]
 
 Jean:
 	* Port to gtk+-3.0.
