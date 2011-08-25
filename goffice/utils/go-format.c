@@ -1973,12 +1973,13 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 					   0, 3, NULL))
 		return NULL;
 	scale += pstate->scale;
-#ifdef ALLOW_PI_SLASH
-	if (inhibit_blank && pi_scale)
-		ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
-#endif
 	ADD_OP (OP_NUM_FRACTION_ALIGN);
-	if (!inhibit_blank)
+	if (inhibit_blank) {
+#ifdef ALLOW_PI_SLASH
+		if (pi_scale)
+			ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
+#endif
+	} else
 		ADD_OP (OP_NUM_FRACTION_BLANK);
 	if (!inhibit_blank_whole)
 		ADD_OP (OP_NUM_FRACTION_BLANK_WHOLE);

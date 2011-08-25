@@ -1,5 +1,10 @@
 2011-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (gogo_format_parse_number_fraction):
+	don't use both OP_NUM_FRACTION_SIMPLIFY_PI and OP_NUM_FRACTION_BLANK
+
+2011-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_parse_number_fraction): use
 	OP_NUM_FRACTION_SLASH and OP_NUM_FRACTION_ALIGN
 	(UNICODE_PI): use "mathematical small italic pi"
