@@ -1,5 +1,20 @@
 2011-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/gtk/go-format-sel.c (study_format): scientific number
+	formatting with min_digits =0 and =1 are effectively indistinguishable
+	(fmt_dialog_enable_widgets): set the range of the F_EXP_DIGITS widget
+	depending on format_type
+	* goffice/utils/go-format.c (go_format_parse_number_new_1): add argument
+	and change all callers
+	(go_format_parse_number_fraction): write OP_NUM_FRACTION_BLANK_WHOLE if
+	appropriate
+	(blank_characters): new
+	(go_format_execute): use blank_characters and handle OP_NUM_FRACTION_BLANK_WHOLE
+	(go_format_generate_fraction_str): write full numerator
+	(cnt_digits): new
+
+2011-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/gtk/go-format-sel.c (study_format): the fraction selector
 	interface handles min_digits.
 

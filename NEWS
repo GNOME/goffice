@@ -9,6 +9,7 @@ Andreas:
 	* Extend encoding specification from file-openers to plugin services.
 	* Improve the scientific number formats selector. [#657187][#623847]
 	* Improve fraction format selector. [#117215]
+	* Fix rendering of # ???/??? format. [#656043]
 
 Jean:
 	* Port to gtk+-3.0.

@@ -188,6 +188,7 @@ typedef enum {
 	OP_NUM_FRACTION_NOMINATOR,
 	OP_NUM_FRACTION_DENOMINATOR,
 	OP_NUM_FRACTION_BLANK,
+	OP_NUM_FRACTION_BLANK_WHOLE,
 #ifdef ALLOW_PI_SLASH
 	OP_NUM_FRACTION_SCALE_PI,
 	OP_NUM_FRACTION_SIMPLIFY_PI,
@@ -1521,7 +1522,8 @@ comma_is_thousands (const char *str)
 static gboolean
 go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			      int tno_start, int tno_end,
-			      int E_part, int frac_part)
+			      int E_part, int frac_part,
+			      gboolean *inhibit_blank)
 {
 	int decimals = 0;
 	int whole_digits = 0;
@@ -1535,6 +1537,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 	int i;
 	int tno_numstart = -1;
 	int force_zero_pos = frac_part == 3 ? pstate->force_zero_pos : INT_MAX;
+	gboolean inhibit_b = FALSE;
 
 	for (i = tno_start; i < tno_end; i++) {
 		const GOFormatParseItem *ti = &GET_TOKEN(i);
@@ -1552,7 +1555,10 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			whole_part = FALSE;
 			break;
 
-		case '0': case '?': case '#':
+		case '0': 
+			inhibit_b = TRUE;
+			/* no break */
+		case '?': case '#':
 			if (first_digit_pos == -1)
 				first_digit_pos = i;
 			if (whole_part)
@@ -1680,6 +1686,9 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 	}
 
 	pstate->scale = scale;
+
+	if (inhibit_blank)
+		*inhibit_blank = inhibit_b;
 	return TRUE;
 
  error:
@@ -1696,7 +1705,7 @@ go_format_parse_number_plain (GOFormatParseState *pstate)
 
 	if (!go_format_parse_number_new_1 (prg, pstate,
 					   0, pstate->tokens->len,
-					   0, 0))
+					   0, 0, NULL))
 		return NULL;
 
 	handle_fill (prg, pstate);
@@ -1761,7 +1770,7 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 
 	if (!go_format_parse_number_new_1 (prg, pstate,
 					   0, pstate->tno_E,
-					   1, 0))
+					   1, 0, NULL))
 		return NULL;
 
 	ADD_OP (OP_NUM_VAL_EXPONENT);
@@ -1779,7 +1788,7 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 
 	if (!go_format_parse_number_new_1 (prg, pstate,
 					   tno_exp_start, tno_end,
-					   2, 0))
+					   2, 0, NULL))
 		return NULL;
 
 #ifdef ALLOW_EE_MARKUP
@@ -1814,6 +1823,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	gboolean explicit_denom = FALSE;
 	int denominator_digits = 0;
 	gboolean inhibit_blank = FALSE;
+	gboolean inhibit_blank_whole = TRUE;
 	int scale = 0;
 #ifdef ALLOW_PI_SLASH
 	gboolean pi_scale = (tno_slash >= 2 &&
@@ -1935,7 +1945,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 		ADD_OP (OP_NUM_FRACTION_WHOLE);
 		if (!go_format_parse_number_new_1 (prg, pstate,
 						   0, tno_endwhole + 1,
-						   0, 1))
+						   0, 1, &inhibit_blank_whole))
 			return NULL;
 		scale += pstate->scale;
 	}
@@ -1945,7 +1955,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	if (!go_format_parse_number_new_1 (prg, pstate,
 					   tno_endwhole + 1,
 					   pi_scale ? tno_slash - 2 :tno_slash,
-					   0, 2))
+					   0, 2, NULL))
 		return NULL;
 	scale += pstate->scale;
 
@@ -1957,13 +1967,15 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	ADD_OP (OP_NUM_FRACTION_DENOMINATOR);
 	if (!go_format_parse_number_new_1 (prg, pstate,
 					   tno_slash + 1, tno_suffix,
-					   0, 3))
+					   0, 3, NULL))
 		return NULL;
 	scale += pstate->scale;
 	if (!inhibit_blank)
 		ADD_OP (OP_NUM_FRACTION_BLANK);
+	if (!inhibit_blank_whole)
+		ADD_OP (OP_NUM_FRACTION_BLANK_WHOLE);
 #ifdef ALLOW_PI_SLASH
-	else if (pi_scale)
+	if (inhibit_blank && pi_scale)
 		ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
 #endif
 
@@ -2316,6 +2328,7 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_NUM_FRACTION_NOMINATOR);
 		REGULAR(OP_NUM_FRACTION_DENOMINATOR);
 		REGULAR(OP_NUM_FRACTION_BLANK);
+		REGULAR(OP_NUM_FRACTION_BLANK_WHOLE);
 #ifdef ALLOW_PI_SLASH
 		REGULAR(OP_NUM_FRACTION_SCALE_PI);
 		REGULAR(OP_NUM_FRACTION_SIMPLIFY_PI);
@@ -2449,6 +2462,48 @@ SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
 	g_string_append_printf (dst, "E%+d", exponent);
 }
 
+#ifdef DEFINE_COMMON
+static int
+blank_characters (GString *dst, PangoAttrList *attrs, int start, int length, 
+		  PangoLayout *layout)
+{
+	int count = 0;
+	/* We have layouts that have no fontmap set, we need to avoid them */
+	if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
+		GList *plist, *l;
+		plist = pango_itemize (pango_layout_get_context (layout),
+				       dst->str,
+				       start,
+				       length,
+				       attrs,
+				       NULL);
+		for (l = plist; l != NULL; l = l->next) {
+			PangoItem *pi = l->data;
+			PangoGlyphString *glyphs = pango_glyph_string_new ();
+			PangoAttribute *attr;
+			PangoRectangle ink_rect;
+			PangoRectangle logical_rect;
+			
+			pango_shape (dst->str + start, length, &pi->analysis, glyphs);
+			pango_glyph_string_extents (glyphs,
+						    pi->analysis.font,
+						    &ink_rect,
+						    &logical_rect);
+			pango_glyph_string_free (glyphs);
+			
+			attr = pango_attr_shape_new (&ink_rect, &logical_rect);
+			attr->start_index = start + count;
+			attr->end_index = start + count + 1;
+			pango_attr_list_insert (attrs, attr);
+			count++;
+		}
+		go_list_free_custom (plist, (GFreeFunc) pango_item_free);
+	}
+	return count;
+}
+#endif
+
+
 
 
 #define INSERT_MINUS(pos) do {							\
@@ -2491,23 +2546,23 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	int exponent = 0;
 	struct {
 		DOUBLE w, n, d;
-		gsize nominator_start, denominator_start;
-	} fraction;
+		gsize whole_start, nominator_start, denominator_start;
+		gboolean blanked;
+	} fraction = {0., 0., 0., 0, 0, 0, FALSE};
 	char *oldlocale = NULL;
+	PangoAttrList *attrs = NULL;
+
 #ifdef ALLOW_EE_MARKUP
 	int mantissa_start = -1;
 	int special_mantissa = INT_MAX;
-	PangoAttrList *attrs = NULL;
 	GSList *markup_stack = NULL;
+#endif
 
 	if (layout) {
 		attrs = pango_attr_list_copy (pango_layout_get_attributes (layout));
 		if (attrs == NULL)
 			attrs = pango_attr_list_new ();
 	}
-#endif
-
-	memset (&fraction, 0, sizeof (fraction));
 
 	while (1) {
 		GOFormatOp op = *prg++;
@@ -2516,10 +2571,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_END:
 			if (layout) {
 				pango_layout_set_text (layout, dst->str, -1);
+				if (attrs) {
+					pango_layout_set_attributes (layout, attrs);
+					pango_attr_list_unref (attrs);
+					attrs = NULL;
+				}
 #ifdef ALLOW_EE_MARKUP
-
-				pango_layout_set_attributes (layout, attrs);
-				pango_attr_list_unref (attrs);
 				g_slist_free (markup_stack);
 #endif
 			}
@@ -2943,8 +3000,9 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_NUM_MOVETO_ONES: {
 			numi = dotpos;
-			/* Ignore the zero in "0.xxx" */
-			if (numi == 1 && numtxt->str[0] == '0' && numtxt->str[dotpos] != 0)
+			/* Ignore the zero in "0.xxx" or "0 xx/xx" */
+			if (numi == 1 && numtxt->str[0] == '0' && 
+			    numtxt->str[dotpos] != 0)
 				numi--;
 			numpos = dst->len;
 			break;
@@ -3150,6 +3208,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 #endif
 
 		case OP_NUM_FRACTION_WHOLE:
+			fraction.whole_start = dst->len;
 			val = fraction.w;
 			break;
 
@@ -3171,48 +3230,21 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 			if (fraction.n == 0) {
 				/* Replace all added characters by spaces of the right length.  */
-				char const *f = dst->str + fraction.nominator_start;
-				gsize chars = g_utf8_strlen (f, -1);
+				char const *f;
+				gsize chars;
+
+				f = dst->str + fraction.nominator_start;
+				chars = g_utf8_strlen (f, -1);
 
 				if (chars > 0) {
-					/* We have layouts that have no fontmap set, we need to avoid them */
-					if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
-						guint start = fraction.nominator_start;
-						GList *plist, *l;
-						gint length = dst->len - fraction.nominator_start;
-						plist = pango_itemize (pango_layout_get_context (layout),
-								       dst->str,
-								       f - dst->str,
-								       length,
-								       attrs,
-								       NULL);
-						chars = 0;
-						for (l = plist; l != NULL; l = l->next) {
-							PangoItem *pi = l->data;
-							PangoGlyphString *glyphs = pango_glyph_string_new ();
-							PangoAttribute *attr;
-							PangoRectangle ink_rect;
-							PangoRectangle logical_rect;
-
-							pango_shape (f, length, &pi->analysis, glyphs);
-							pango_glyph_string_extents (glyphs,
-										    pi->analysis.font,
-										    &ink_rect,
-										    &logical_rect);
-							pango_glyph_string_free (glyphs);
-
-							attr = pango_attr_shape_new (&ink_rect, &logical_rect);
-							attr->start_index = start;
-							attr->end_index = start + 1;
-							pango_attr_list_insert (attrs, attr);
-							start++;
-							chars++;
-						}
-						go_list_free_custom (plist, (GFreeFunc) pango_item_free);
-					}
-
-					memset (dst->str + fraction.nominator_start, ' ', chars);
-					g_string_truncate (dst, fraction.nominator_start + chars);
+					int count = blank_characters (dst, attrs, fraction.nominator_start, 
+								      dst->len - fraction.nominator_start, layout);
+					
+					if (count == 0)
+						count = chars;
+					memset (dst->str + fraction.nominator_start, ' ', count);
+					g_string_truncate (dst, fraction.nominator_start + count);
+					fraction.blanked = TRUE;
 				}
 			}
 
@@ -3261,6 +3293,14 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			break;
 		}
+
+		case OP_NUM_FRACTION_BLANK_WHOLE: 
+			if (!fraction.blanked) {
+				char *zero = dst->str + fraction.whole_start;
+				if (*zero == '0')
+					*zero = ' ';
+			}
+			break;
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
@@ -5266,11 +5306,30 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 #endif
 
 #ifdef DEFINE_COMMON
+static int
+cnt_digits (int d)
+{
+	int cnt = 0;
+
+	while (d > 0) {
+		cnt++;
+		d /= 10;
+	}
+
+	return cnt;
+}
+#endif
+
+#ifdef DEFINE_COMMON
 static void
 go_format_generate_fraction_str (GString *dst, GOFormatDetails const *details)
 {
 	/* Maximum not terribly important. */
 	int numerator_min_digits = CLAMP (details->numerator_min_digits, 0, 30);
+	int denominator_max_digits = CLAMP (details->denominator_max_digits, 1, 30);
+	int denominator_min_digits = CLAMP (details->denominator_min_digits, 0, denominator_max_digits);
+	int denominator = CLAMP (details->denominator, 2, G_MAXINT);
+	int num_digits;
 	
 	if (details->split_fraction) {
 		/* Maximum not terribly important. */
@@ -5281,26 +5340,26 @@ go_format_generate_fraction_str (GString *dst, GOFormatDetails const *details)
 			g_string_append_c (dst, '#');
 		g_string_append_c (dst, ' ');
 	}
+
+	if (details->automatic_denominator)
+		num_digits = denominator_max_digits - numerator_min_digits;
+	else
+		num_digits = cnt_digits (denominator) - numerator_min_digits;
 	
+	if (num_digits > 0)
+		go_string_append_c_n (dst, '?', num_digits);
 	if  (numerator_min_digits > 0)
 		go_string_append_c_n (dst, '0', numerator_min_digits);
-	else
-		g_string_append_c (dst, '?');
-	
+
 	g_string_append_c (dst, '/');
 	
 	if (details->automatic_denominator) {
-		int denominator_max_digits = CLAMP (details->denominator_max_digits, 1, 30);
-		int denominator_min_digits = CLAMP (details->denominator_min_digits, 
-						    0, denominator_max_digits);
 		go_string_append_c_n (dst, '?', 
 				      denominator_max_digits - denominator_min_digits);
 		go_string_append_c_n (dst, '0', 
 				      denominator_min_digits);
-	} else {
-		int denominator = CLAMP (details->denominator, 2, G_MAXINT);
+	} else
 		g_string_append_printf (dst, "%d", denominator); 
-	}
 }
 #endif
 

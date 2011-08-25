@@ -741,14 +741,17 @@ stays:
 			break;
 
 		case F_EXP_DIGITS:
-			if (page == GO_FORMAT_FRACTION)
+			if (page == GO_FORMAT_FRACTION) {
+				gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 0, 30);
 				gtk_spin_button_set_value 
 					(GTK_SPIN_BUTTON (w),
 					 gfs->format.details.numerator_min_digits);
-			else
+			} else {
+				gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 1, 10);
 				gtk_spin_button_set_value 
 					(GTK_SPIN_BUTTON (w),
 					 gfs->format.details.exponent_digits);
+			}
 			break;
 
 		case F_ENGINEERING_BUTTON:
@@ -1021,9 +1024,7 @@ study_format (GOFormat const *fmt, GOFormatDetails *details)
 			exact = FALSE;
 
 		if ((details->family != GO_FORMAT_FRACTION) 
-		    && ((details->min_digits > 1) ||
-			(details->family != GO_FORMAT_SCIENTIFIC 
-			 && details->min_digits == 0)))
+		    && (details->min_digits > 1))
 			exact = FALSE;
 	}
 
