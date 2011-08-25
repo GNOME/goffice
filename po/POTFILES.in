@@ -39,6 +39,7 @@ goffice/app/io-context.h
 goffice/app/module-plugin-defs.h
 goffice/canvas/goc-arc.c
 goffice/canvas/goc-circle.c
+goffice/canvas/goc-component.c
 goffice/canvas/goc-ellipse.c
 goffice/canvas/goc-graph.c
 goffice/canvas/goc-group.c
@@ -46,8 +47,8 @@ goffice/canvas/goc-item.c
 goffice/canvas/goc-line.c
 goffice/canvas/goc-path.c
 goffice/canvas/goc-pixbuf.c
-goffice/canvas/goc-polyline.c
 goffice/canvas/goc-polygon.c
+goffice/canvas/goc-polyline.c
 goffice/canvas/goc-rectangle.c
 goffice/canvas/goc-styled-item.c
 goffice/canvas/goc-text.c
@@ -139,10 +140,12 @@ goffice/graph/gog-reg-curve.c
 [type: gettext/glade]goffice/graph/gog-reg-eqn-prefs.ui
 goffice/graph/gog-renderer.c
 goffice/graph/gog-renderer.h
-goffice/graph/gog-series-impl.h
-[type: gettext/glade]goffice/graph/gog-series-prefs.ui
 goffice/graph/gog-series.c
 goffice/graph/gog-series.h
+goffice/graph/gog-series-impl.h
+goffice/graph/gog-series-labels.c
+[type: gettext/glade]goffice/graph/gog-series-labels-prefs.ui
+[type: gettext/glade]goffice/graph/gog-series-prefs.ui
 goffice/graph/gog-smoothed-curve.c
 goffice/graph/gog-styled-object.c
 goffice/graph/gog-styled-object.h
