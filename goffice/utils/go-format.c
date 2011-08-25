@@ -189,6 +189,8 @@ typedef enum {
 	OP_NUM_FRACTION_DENOMINATOR,
 	OP_NUM_FRACTION_BLANK,
 	OP_NUM_FRACTION_BLANK_WHOLE,
+	OP_NUM_FRACTION_ALIGN,
+	OP_NUM_FRACTION_SLASH,
 #ifdef ALLOW_PI_SLASH
 	OP_NUM_FRACTION_SCALE_PI,
 	OP_NUM_FRACTION_SIMPLIFY_PI,
@@ -357,7 +359,7 @@ typedef struct {
 } GOFormatParseState;
 
 #define REPEAT_CHAR_MARKER 0
-#define UNICODE_PI 0x03c0
+#define UNICODE_PI 0x1d70b  /* mathematical small italic pi */
 #define UNICODE_TIMES 0x00D7
 #define UNICODE_MINUS 0x2212
 #define UNICODE_EURO 0x20ac
@@ -1959,6 +1961,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 		return NULL;
 	scale += pstate->scale;
 
+	ADD_OP (OP_NUM_FRACTION_SLASH);
 	if (pi_scale)
 		ADD_OPuc (OP_CHAR, UNICODE_PI); /* "pi" */
 	ADD_OP2 (OP_CHAR, '/');
@@ -1970,14 +1973,15 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 					   0, 3, NULL))
 		return NULL;
 	scale += pstate->scale;
-	if (!inhibit_blank)
-		ADD_OP (OP_NUM_FRACTION_BLANK);
-	if (!inhibit_blank_whole)
-		ADD_OP (OP_NUM_FRACTION_BLANK_WHOLE);
 #ifdef ALLOW_PI_SLASH
 	if (inhibit_blank && pi_scale)
 		ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
 #endif
+	ADD_OP (OP_NUM_FRACTION_ALIGN);
+	if (!inhibit_blank)
+		ADD_OP (OP_NUM_FRACTION_BLANK);
+	if (!inhibit_blank_whole)
+		ADD_OP (OP_NUM_FRACTION_BLANK_WHOLE);
 
 	for (i = tno_suffix; i < tno_end; i++) {
 		const GOFormatParseItem *ti = &GET_TOKEN(i);
@@ -2329,6 +2333,8 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_NUM_FRACTION_DENOMINATOR);
 		REGULAR(OP_NUM_FRACTION_BLANK);
 		REGULAR(OP_NUM_FRACTION_BLANK_WHOLE);
+		REGULAR(OP_NUM_FRACTION_ALIGN);
+		REGULAR(OP_NUM_FRACTION_SLASH);
 #ifdef ALLOW_PI_SLASH
 		REGULAR(OP_NUM_FRACTION_SCALE_PI);
 		REGULAR(OP_NUM_FRACTION_SIMPLIFY_PI);
@@ -2463,6 +2469,66 @@ SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
 }
 
 #ifdef DEFINE_COMMON
+static void
+go_format_get_logical_rect (PangoRectangle *rect, GString *dst, PangoAttrList *attrs, int start, 
+			    int length, PangoLayout *layout)
+{
+	GList *plist, *l;
+	
+	plist = pango_itemize (pango_layout_get_context (layout), dst->str, start, length, attrs, NULL);
+	for (l = plist; l != NULL; l = l->next) {
+		PangoItem *pi = l->data;
+		PangoGlyphString *glyphs = pango_glyph_string_new ();
+		PangoRectangle ink_rect;
+		PangoRectangle logical_rect;
+		
+		pango_shape (dst->str + pi->offset, pi->length, &pi->analysis, glyphs);
+		pango_glyph_string_extents (glyphs,
+					    pi->analysis.font,
+					    &ink_rect,
+					    &logical_rect);
+		pango_glyph_string_free (glyphs);
+		if (l == plist)
+			*rect = logical_rect;
+		else
+			rect->width += logical_rect.width;
+	}
+	go_list_free_custom (plist, (GFreeFunc) pango_item_free);
+
+}
+#endif
+
+#ifdef DEFINE_COMMON
+static int
+go_format_desired_width (PangoLayout *layout, PangoAttrList *attrs, int digits)
+{
+	char str[2] = {'0',0};
+	const gchar *strp = &(str[0]);
+	GList *plist, *l;
+	int width = 0;
+
+	plist = pango_itemize (pango_layout_get_context (layout), strp, 0, 1, attrs, NULL);
+	for (l = plist; l != NULL; l = l->next) {
+		PangoItem *pi = l->data;
+		PangoGlyphString *glyphs = pango_glyph_string_new ();
+		PangoRectangle ink_rect;
+		PangoRectangle logical_rect;
+		
+		pango_shape (strp + pi->offset, pi->length, &pi->analysis, glyphs);
+		pango_glyph_string_extents (glyphs,
+					    pi->analysis.font,
+					    &ink_rect,
+					    &logical_rect);
+		pango_glyph_string_free (glyphs);
+		width += logical_rect.width;
+	}
+	go_list_free_custom (plist, (GFreeFunc) pango_item_free);
+	
+	return (int)(1.1 * width *digits);
+}
+#endif
+
+#ifdef DEFINE_COMMON
 static int
 blank_characters (GString *dst, PangoAttrList *attrs, int start, int length, 
 		  PangoLayout *layout)
@@ -2470,39 +2536,38 @@ blank_characters (GString *dst, PangoAttrList *attrs, int start, int length,
 	int count = 0;
 	/* We have layouts that have no fontmap set, we need to avoid them */
 	if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
-		GList *plist, *l;
-		plist = pango_itemize (pango_layout_get_context (layout),
-				       dst->str,
-				       start,
-				       length,
-				       attrs,
-				       NULL);
-		for (l = plist; l != NULL; l = l->next) {
-			PangoItem *pi = l->data;
-			PangoGlyphString *glyphs = pango_glyph_string_new ();
-			PangoAttribute *attr;
-			PangoRectangle ink_rect;
-			PangoRectangle logical_rect;
-			
-			pango_shape (dst->str + start, length, &pi->analysis, glyphs);
-			pango_glyph_string_extents (glyphs,
-						    pi->analysis.font,
-						    &ink_rect,
-						    &logical_rect);
-			pango_glyph_string_free (glyphs);
-			
-			attr = pango_attr_shape_new (&ink_rect, &logical_rect);
-			attr->start_index = start + count;
-			attr->end_index = start + count + 1;
-			pango_attr_list_insert (attrs, attr);
-			count++;
-		}
-		go_list_free_custom (plist, (GFreeFunc) pango_item_free);
+		PangoRectangle logical_rect = {0, 0, 0, 2 * PANGO_SCALE};
+		PangoAttribute *attr;
+		PangoAttrList *new_attrs = pango_attr_list_new ();
+		go_format_get_logical_rect (&logical_rect, dst, attrs, start, 
+					    length, layout);
+		attr = pango_attr_shape_new (&logical_rect, &logical_rect);
+		attr->start_index = 0;
+		attr->end_index = 1;
+		pango_attr_list_insert (new_attrs, attr);
+		g_string_insert_c (dst, start, ' ');
+		pango_attr_list_splice (attrs, new_attrs, start, 1);
+		pango_attr_list_unref (new_attrs);
+		count = 1;
 	}
 	return count;
 }
 #endif
 
+#ifdef DEFINE_COMMON
+static int
+cnt_digits (int d)
+{
+	int cnt = 0;
+
+	while (d > 0) {
+		cnt++;
+		d /= 10;
+	}
+
+	return cnt;
+}
+#endif
 
 
 
@@ -2546,9 +2611,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	int exponent = 0;
 	struct {
 		DOUBLE w, n, d;
+		int digits;
 		gsize whole_start, nominator_start, denominator_start;
 		gboolean blanked;
-	} fraction = {0., 0., 0., 0, 0, 0, FALSE};
+	} fraction = {0., 0., 0., 0, 0, 0, 0, FALSE};
 	char *oldlocale = NULL;
 	PangoAttrList *attrs = NULL;
 
@@ -3174,11 +3240,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				prg += sizeof (plaind);
 
 				fraction.d = plaind;
+				fraction.digits = cnt_digits (fraction.d);
 				fraction.n = SUFFIX(floor) (0.5 + aval * fraction.d);
 			} else {
-				int digits = *prg++;
 				int ni, di;
-				go_continued_fraction (aval, SUFFIX(go_pow10) (digits) - 1, &ni, &di);
+				fraction.digits = *prg++;
+				go_continued_fraction (aval, SUFFIX(go_pow10) (fraction.digits) - 1, &ni, &di);
 				fraction.n = ni;
 				fraction.d = di;
 			}
@@ -3217,17 +3284,44 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			val = fraction.n;
 			break;
 
+		case OP_NUM_FRACTION_SLASH: 
+			{
+				int desired_width = go_format_desired_width (layout, attrs, fraction.digits);
+				int length;
+				PangoRectangle logical_rect = {0, 0, 0, 2 * PANGO_SCALE};
+				char *end = dst->str + dst->len;
+				char *nom = dst->str + fraction.nominator_start;
+				end = g_utf8_prev_char (end);
+				while (!g_unichar_isdigit (g_utf8_get_char (end)) && end > nom)
+					end = g_utf8_prev_char (end);
+				end = g_utf8_find_next_char (end, NULL);
+				length = end - nom; 
+
+				go_format_get_logical_rect (&logical_rect, dst, attrs, fraction.nominator_start, 
+							    length, layout);
+
+				if (logical_rect.width < desired_width) {
+					PangoAttribute *attr;
+					PangoAttrList *new_attrs = pango_attr_list_new ();
+					logical_rect.width = desired_width - logical_rect.width;
+					attr = pango_attr_shape_new (&logical_rect, &logical_rect);
+					attr->start_index = 0;
+					attr->end_index = 1;
+					pango_attr_list_insert (new_attrs, attr);
+					g_string_insert_c (dst, fraction.nominator_start, ' ');
+					pango_attr_list_splice (attrs, new_attrs, fraction.nominator_start, 1);
+					pango_attr_list_unref (new_attrs);
+					fraction.nominator_start++;
+				}
+			}
+			break;
+
 		case OP_NUM_FRACTION_DENOMINATOR:
 			fraction.denominator_start = dst->len;
 			val = fraction.d;
 			break;
 
 		case OP_NUM_FRACTION_BLANK: {
-			gsize total_chars = g_utf8_strlen (dst->str + fraction.nominator_start, -1);
-			gsize denom_chars = g_utf8_strlen (dst->str + fraction.denominator_start, -1);
-			gsize nom_chars = total_chars - denom_chars - 1;
-			int diff = denom_chars - nom_chars;
-
 			if (fraction.n == 0) {
 				/* Replace all added characters by spaces of the right length.  */
 				char const *f;
@@ -3240,57 +3334,15 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					int count = blank_characters (dst, attrs, fraction.nominator_start, 
 								      dst->len - fraction.nominator_start, layout);
 					
-					if (count == 0)
+					if (count == 0) {
 						count = chars;
-					memset (dst->str + fraction.nominator_start, ' ', count);
+						memset (dst->str + fraction.nominator_start, ' ', count);
+					}
 					g_string_truncate (dst, fraction.nominator_start + count);
 					fraction.blanked = TRUE;
 				}
 			}
 
-			if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
-				if (diff > 0) {
-					/* We should insert properly sized spaces. Here we use FIGURE SPACE U+2007 */
-					int i;
-					guint start = (fraction.n == 0) ? dst->len : fraction.nominator_start;
-					GList *plist, *l;
-					GString *zero_str = g_string_sized_new (diff + 1);
-
-					for (i = diff; i > 0; i--)
-						g_string_append_c (zero_str, '0');
-
-					plist = pango_itemize (pango_layout_get_context (layout),
-							       zero_str->str,
-							       0,
-							       diff,
-							       attrs,
-							       NULL);
-					for (l = plist; l != NULL; l = l->next) {
-						PangoItem *pi = l->data;
-						PangoGlyphString *glyphs = pango_glyph_string_new ();
-						PangoAttribute *attr;
-						PangoRectangle ink_rect;
-						PangoRectangle logical_rect;
-
-						pango_shape (zero_str->str, diff, &pi->analysis, glyphs);
-						pango_glyph_string_extents (glyphs,
-									    pi->analysis.font,
-									    &ink_rect,
-									    &logical_rect);
-						pango_glyph_string_free (glyphs);
-
-						attr = pango_attr_shape_new (&ink_rect, &logical_rect);
-						attr->start_index = start;
-						attr->end_index = start + 1;
-						g_string_insert_c (dst, start, ' ');
-						pango_attr_list_insert (attrs, attr);
-
-						start++;
-					}
-					go_list_free_custom (plist, (GFreeFunc) pango_item_free);
-					g_string_free (zero_str, TRUE);
-				}
-			}
 			break;
 		}
 
@@ -3299,6 +3351,26 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				char *zero = dst->str + fraction.whole_start;
 				if (*zero == '0')
 					*zero = ' ';
+			}
+			break;
+
+		case OP_NUM_FRACTION_ALIGN: 
+			if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
+				int desired_width = go_format_desired_width (layout, attrs, fraction.digits);
+				PangoRectangle logical_rect = {0, 0, 0, 2 * PANGO_SCALE};
+
+				go_format_get_logical_rect (&logical_rect, dst, attrs, fraction.denominator_start, 
+							    dst->len - fraction.denominator_start, layout);
+				if (logical_rect.width < desired_width) {
+					PangoAttribute *attr;
+					int start = dst->len;
+					logical_rect.width = desired_width - logical_rect.width;
+					attr = pango_attr_shape_new (&logical_rect, &logical_rect);
+					attr->start_index = start;
+					attr->end_index = start + 1;
+					g_string_append_c (dst, ' ');
+					pango_attr_list_insert (attrs, attr);
+				}
 			}
 			break;
 
@@ -5302,21 +5374,6 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 	g_string_append (dst, "E+");
 	go_string_append_c_n (dst, '0', digits);
 	
-}
-#endif
-
-#ifdef DEFINE_COMMON
-static int
-cnt_digits (int d)
-{
-	int cnt = 0;
-
-	while (d > 0) {
-		cnt++;
-		d /= 10;
-	}
-
-	return cnt;
 }
 #endif
 
