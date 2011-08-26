@@ -108,6 +108,8 @@ typedef enum {
 	F_FRACTION_MIN_DENOM_DIGITS_LABEL,
 	F_FRACTION_MAX_DENOM_DIGITS,
 	F_FRACTION_MIN_DENOM_DIGITS,
+	F_FRACTION_PI_SCALE,
+	F_BASE_SEPARATOR,
 	F_MAX_WIDGET
 } FormatWidget;
 
@@ -415,6 +417,15 @@ cb_split_fraction_toggle (GtkWidget *w, GOFormatSel *gfs)
 }
 
 static void
+cb_pi_scale_toggle (GtkWidget *w, GOFormatSel *gfs)
+{
+	gboolean act = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	gfs->format.details.pi_scale = act;
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
 cb_fraction_automatic_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
 	gboolean act =gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -496,7 +507,7 @@ static void
 fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 {
 	SETUP_LOCALE_SWITCH;
-	static FormatWidget const contents[][15] = {
+	static FormatWidget const contents[][17] = {
 		/* General */
 		{
 			F_GENERAL_EXPLANATION,
@@ -578,6 +589,8 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_FRACTION_MIN_DENOM_DIGITS_LABEL,
 			F_FRACTION_MAX_DENOM_DIGITS,
 			F_FRACTION_MIN_DENOM_DIGITS,
+			F_FRACTION_PI_SCALE,
+			F_BASE_SEPARATOR,
 			F_MAX_WIDGET
 		},
 		/* Scientific */
@@ -820,6 +833,12 @@ stays:
 			gtk_widget_set_sensitive 
 				(gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS_LABEL], 
 				 gfs->format.details.automatic_denominator);
+			break;
+
+		case F_FRACTION_PI_SCALE:
+			gtk_toggle_button_set_active 
+				(GTK_TOGGLE_BUTTON (w),
+				 gfs->format.details.pi_scale);
 			break;
 
 		default:
@@ -1142,6 +1161,9 @@ nfs_init (GOFormatSel *gfs)
 		"format_min_denominator_digits_label",
 		"format_maximum_denominator_digits",
 		"format_minimum_denominator_digits",
+		"format_pi_scale_check",
+
+		"format_base_separator",
 		NULL
 	};
 
@@ -1273,6 +1295,9 @@ nfs_init (GOFormatSel *gfs)
 			  "toggled", G_CALLBACK (cb_fraction_automatic_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_SEPARATE_INTEGER]), 
 			  "toggled", G_CALLBACK (cb_split_fraction_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_PI_SCALE]), 
+			  "toggled",
+			  G_CALLBACK (cb_pi_scale_toggle), gfs);	
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS]), 
 			  "value_changed",
 			  G_CALLBACK (cb_min_integer_digits_changed), gfs);

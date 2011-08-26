@@ -107,7 +107,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define DEBUG_PROGRAMS
+#undef DEBUG_PROGRAMS
 #undef DEBUG_REF_COUNT
 
 /***************************************************************************/
@@ -5405,7 +5405,10 @@ go_format_generate_fraction_str (GString *dst, GOFormatDetails const *details)
 	if  (numerator_min_digits > 0)
 		go_string_append_c_n (dst, '0', numerator_min_digits);
 
-	g_string_append_c (dst, '/');
+	if (details->pi_scale)
+		g_string_append (dst, " pi/");
+	else
+		g_string_append_c (dst, '/');
 	
 	if (details->automatic_denominator) {
 		go_string_append_c_n (dst, '?', 
@@ -5664,9 +5667,8 @@ go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
 	details->magic = GO_FORMAT_MAGIC_NONE;
 	details->exponent_step = 1;
 	details->exponent_digits = 2;
-	details->min_digits = 1;
+	details->min_digits = (family == GO_FORMAT_FRACTION) ? 0 : 1;
 	details->split_fraction = TRUE;
-	details->numerator_min_digits = 1;
 	details->denominator_min_digits = 1;
 	details->denominator_max_digits = 1;
 	details->denominator = 8;
@@ -5827,7 +5829,8 @@ go_format_get_details (GOFormat const *fmt,
 	}
 
 	case GO_FORMAT_FRACTION: {
- 		gchar **tokens = g_strsplit_set (str, " /", 3);
+		char *c_str = pango_trim_string (str);
+ 		gchar **tokens = g_strsplit_set (c_str, " /", 3);
 		int numerator_base;
 		char const *integer;
 		int d;
@@ -5835,7 +5838,10 @@ go_format_get_details (GOFormat const *fmt,
 		/* Since it is a fraction we get at least 2 tokens */
 		g_return_if_fail (tokens + 1 != NULL);
 
-		dst->split_fraction = (tokens[2] != NULL && strlen (tokens[0]) > 0);
+		dst->pi_scale = (NULL != strstr (str, "pi/"));
+
+		dst->split_fraction = (tokens[2] != NULL) && (0 != strcmp (tokens[1], "pi"));
+
 		if (dst->split_fraction) {
 			integer = tokens[0];
 			dst->min_digits = 0;
@@ -5862,13 +5868,18 @@ go_format_get_details (GOFormat const *fmt,
 			dst->denominator_min_digits = 0;
 			dst->denominator_max_digits = 0;
 			while (*integer != 0) {
-				dst->denominator_max_digits++;
-				if (*integer++ == '0')
+				if (*integer == '#' || *integer == '?' 
+				    || g_ascii_isdigit (*integer)) 
+					dst->denominator_max_digits++;
+				if (*integer == '0') {
 					dst->denominator_min_digits++;
+				}
+				integer++;
 			}
 		}
 
 		g_strfreev (tokens);	
+		g_free (c_str);
 
 		if (exact != NULL) {
 			newstr = g_string_new (NULL);

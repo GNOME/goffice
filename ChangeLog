@@ -1,5 +1,18 @@
 2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/gtk/go-format-sel.ui: add as-multiple-of-pi checkbox and sep.
+	* goffice/gtk/go-format-sel.c (FormatWidget): add new widgets
+	(cb_pi_scale_toggle): new
+	(fmt_dialog_enable_widgets): handle new widgets
+	(nfs_init): handle new widgets
+	* goffice/utils/go-format.h (GOFormatDetails): add new field
+	* goffice/utils/go-format.c (go_format_generate_fraction_str):
+	handle pi-slash
+	(go_format_details_init): adjust initialisation
+	(go_format_get_details): handle pi-slash
+
+2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_parse_number_fraction): write
 	OP_NUM_VAL_SIGN
 	(go_format_execute): keep the sign attached to val

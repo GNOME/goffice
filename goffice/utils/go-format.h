@@ -99,6 +99,7 @@ typedef struct {
 	/* FRACTION: */
 	gboolean automatic_denominator;
 	gboolean split_fraction;
+	gboolean pi_scale;
 	int numerator_min_digits;
 	int denominator_min_digits;
 	int denominator_max_digits;
