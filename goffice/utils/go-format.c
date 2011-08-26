@@ -40,6 +40,7 @@
 #include "go-color.h"
 #include "datetime.h"
 #include "go-glib-extras.h"
+#include "go-pango-extras.h"
 #include <goffice/math/go-math.h>
 #include <glib/gi18n-lib.h>
 
@@ -360,6 +361,7 @@ typedef struct {
 
 #define REPEAT_CHAR_MARKER 0
 #define UNICODE_PI 0x1d70b  /* mathematical small italic pi */
+#define UNICODE_PI_number_of_bytes 4
 #define UNICODE_TIMES 0x00D7
 #define UNICODE_MINUS 0x2212
 #define UNICODE_EURO 0x20ac
@@ -2530,11 +2532,10 @@ go_format_desired_width (PangoLayout *layout, PangoAttrList *attrs, int digits)
 #endif
 
 #ifdef DEFINE_COMMON
-static int
+static void
 blank_characters (GString *dst, PangoAttrList *attrs, int start, int length, 
 		  PangoLayout *layout)
 {
-	int count = 0;
 	/* We have layouts that have no fontmap set, we need to avoid them */
 	if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
 		PangoRectangle logical_rect = {0, 0, 0, 2 * PANGO_SCALE};
@@ -2549,9 +2550,10 @@ blank_characters (GString *dst, PangoAttrList *attrs, int start, int length,
 		g_string_insert_c (dst, start, ' ');
 		pango_attr_list_splice (attrs, new_attrs, start, 1);
 		pango_attr_list_unref (new_attrs);
-		count = 1;
-	}
-	return count;
+		g_string_erase (dst, start + 1, length);
+		go_pango_attr_list_erase (attrs, start + 1, length);
+	} else
+		memset (dst->str + start, ' ', length);
 }
 #endif
 
@@ -3325,21 +3327,9 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_NUM_FRACTION_BLANK: {
 			if (fraction.n == 0) {
 				/* Replace all added characters by spaces of the right length.  */
-				char const *f;
-				gsize chars;
-
-				f = dst->str + fraction.nominator_start;
-				chars = g_utf8_strlen (f, -1);
-
-				if (chars > 0) {
-					int count = blank_characters (dst, attrs, fraction.nominator_start, 
-								      dst->len - fraction.nominator_start, layout);
-					
-					if (count == 0) {
-						count = chars;
-						memset (dst->str + fraction.nominator_start, ' ', count);
-					}
-					g_string_truncate (dst, fraction.nominator_start + count);
+				if (dst->len > fraction.nominator_start) {
+					blank_characters (dst, attrs, fraction.nominator_start, 
+							  dst->len - fraction.nominator_start, layout);
 					fraction.blanked = TRUE;
 				}
 			}
@@ -3348,10 +3338,17 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		}
 
 		case OP_NUM_FRACTION_BLANK_WHOLE: 
-			if (!fraction.blanked) {
-				char *zero = dst->str + fraction.whole_start;
-				if (*zero == '0')
-					*zero = ' ';
+			if (!fraction.blanked && fraction.w == 0) {
+				gsize p = fraction.whole_start;
+				while (dst->str[p] && dst->str[p] != '0')
+					p++;
+
+				if (dst->str[p]) {
+					g_string_erase (dst, p, 1);
+					go_pango_attr_list_erase (attrs, p, 1);
+					fraction.nominator_start--;
+					fraction.denominator_start--;					
+				}
 			}
 			break;
 
@@ -3379,22 +3376,26 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
 			if (fraction.n != 0 && fraction.d == 1) {
 				/* Remove "/1".  */
-				g_string_truncate (dst,
-						   fraction.denominator_start - 1);
+				blank_characters (dst, attrs, fraction.denominator_start - 1, 
+							  dst->len - fraction.denominator_start + 1, layout);
 			}
 
-			if (fraction.n == 0) {
+			if (fraction.n == 0)
 				/* Replace the whole thing by "0".  */
-				g_string_truncate (dst,
-						   fraction.nominator_start);
-				g_string_append_c (dst, '0');
-			} else if (fraction.n == 1 || fraction.n == -1) {
+				blank_characters (dst, attrs, 
+						  fraction.denominator_start - 1 - UNICODE_PI_number_of_bytes, 
+						  dst->len - fraction.denominator_start + 1 + UNICODE_PI_number_of_bytes, 
+						  layout);
+			else if (fraction.n == 1 || fraction.n == -1) {
 				/* Remove "1".  */
 				gsize p = fraction.nominator_start;
 				while (dst->str[p] && dst->str[p] != '1')
 					p++;
-				if (dst->str[p])
+				if (dst->str[p]) {
 					g_string_erase (dst, p, 1);
+					go_pango_attr_list_erase (attrs, p, 1);
+					fraction.denominator_start--;
+				}
 			}
 			break;
 #endif

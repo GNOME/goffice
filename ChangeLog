@@ -1,6 +1,14 @@
+2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (blank_characters): also remove the characters
+	themselves
+	(go_format_execute): move code to blank_characters; erase rather
+	than overwrite for OP_NUM_FRACTION_BLANK_WHOLE; consider alignment
+	for OP_NUM_FRACTION_SIMPLIFY_PI
+
 2011-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* goffice/utils/go-format.c (gogo_format_parse_number_fraction):
+	* goffice/utils/go-format.c (go_format_parse_number_fraction):
 	don't use both OP_NUM_FRACTION_SIMPLIFY_PI and OP_NUM_FRACTION_BLANK
 
 2011-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>

@@ -4,7 +4,7 @@ Andreas:
 	* Use pango attributes for formatting. [#584380][#651561]
 	* Fix output of scientific number formats with EE to ODF.
 	* Fix interpretation of marked-up scientific number format. [#656056]
-	* Fix fraction rendering. [#656043][#657288]
+	* Fix fraction rendering. [#656043][#657288][#657379]
 	* Fix date format on Windows. [#655573]
 	* Extend encoding specification from file-openers to plugin services.
 	* Improve the scientific number formats selector. [#657187][#623847]
