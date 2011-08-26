@@ -107,7 +107,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#undef DEBUG_PROGRAMS
+#define DEBUG_PROGRAMS
 #undef DEBUG_REF_COUNT
 
 /***************************************************************************/
@@ -192,9 +192,13 @@ typedef enum {
 	OP_NUM_FRACTION_BLANK_WHOLE,
 	OP_NUM_FRACTION_ALIGN,
 	OP_NUM_FRACTION_SLASH,
+	OP_NUM_FRACTION_SIGN,
+	OP_NUM_FRACTION_SIMPLIFY,
 #ifdef ALLOW_PI_SLASH
+	OP_NUM_FRACTION_BLANK_PI,
 	OP_NUM_FRACTION_SCALE_PI,
 	OP_NUM_FRACTION_SIMPLIFY_PI,
+	OP_NUM_FRACTION_PI_SUM_START,
 #endif
 	OP_NUM_GENERAL_MARK,
 	OP_NUM_GENERAL_DO,
@@ -362,6 +366,7 @@ typedef struct {
 #define REPEAT_CHAR_MARKER 0
 #define UNICODE_PI 0x1d70b  /* mathematical small italic pi */
 #define UNICODE_PI_number_of_bytes 4
+#define UNICODE_THINSPACE 0x2009
 #define UNICODE_TIMES 0x00D7
 #define UNICODE_MINUS 0x2212
 #define UNICODE_EURO 0x20ac
@@ -1954,7 +1959,18 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 						   0, 1, &inhibit_blank_whole))
 			return NULL;
 		scale += pstate->scale;
+		
+		if (pi_scale) {
+			ADD_OPuc (OP_CHAR, UNICODE_THINSPACE);
+			ADD_OPuc (OP_CHAR, UNICODE_PI); /* "pi" */
+			ADD_OP (OP_NUM_FRACTION_PI_SUM_START);
+			ADD_OPuc (OP_CHAR, UNICODE_THINSPACE);
+			ADD_OP (OP_NUM_FRACTION_SIGN);
+			ADD_OPuc (OP_CHAR, UNICODE_THINSPACE);
+		}
 	}
+
+
 	ADD_OP (OP_NUM_DISABLE_THOUSANDS);
 
 	ADD_OP (OP_NUM_FRACTION_NOMINATOR);
@@ -1978,13 +1994,16 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 		return NULL;
 	scale += pstate->scale;
 	ADD_OP (OP_NUM_FRACTION_ALIGN);
-	if (inhibit_blank) {
+	ADD_OP (OP_NUM_FRACTION_SIMPLIFY);
 #ifdef ALLOW_PI_SLASH
-		if (pi_scale)
-			ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
-#endif
+	if (pi_scale) {
+		ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
+		if (!inhibit_blank)
+			ADD_OP (OP_NUM_FRACTION_BLANK_PI);
 	} else
-		ADD_OP (OP_NUM_FRACTION_BLANK);
+#endif
+		if (!inhibit_blank)
+			ADD_OP (OP_NUM_FRACTION_BLANK);
 	if (!inhibit_blank_whole)
 		ADD_OP (OP_NUM_FRACTION_BLANK_WHOLE);
 
@@ -2318,6 +2337,7 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_NUM_DISABLE_THOUSANDS);
 		REGULAR(OP_NUM_SIGN);
 		REGULAR(OP_NUM_VAL_SIGN);
+		REGULAR(OP_NUM_FRACTION_SIGN);
 		REGULAR(OP_NUM_MOVETO_ONES);
 		REGULAR(OP_NUM_MOVETO_DECIMALS);
 		REGULAR(OP_NUM_REST_WHOLE);
@@ -2340,9 +2360,12 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_NUM_FRACTION_BLANK_WHOLE);
 		REGULAR(OP_NUM_FRACTION_ALIGN);
 		REGULAR(OP_NUM_FRACTION_SLASH);
+		REGULAR(OP_NUM_FRACTION_SIMPLIFY);
 #ifdef ALLOW_PI_SLASH
+		REGULAR(OP_NUM_FRACTION_BLANK_PI);
 		REGULAR(OP_NUM_FRACTION_SCALE_PI);
 		REGULAR(OP_NUM_FRACTION_SIMPLIFY_PI);
+		REGULAR(OP_NUM_FRACTION_PI_SUM_START);
 #endif
 		REGULAR(OP_NUM_GENERAL_MARK);
 		REGULAR(OP_NUM_GENERAL_DO);
@@ -2617,9 +2640,9 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	struct {
 		DOUBLE w, n, d, val;
 		int digits;
-		gsize whole_start, nominator_start, denominator_start;
-		gboolean blanked;
-	} fraction = {0., 0., 0., 0., 0, 0, 0, 0, FALSE};
+		gsize whole_start, nominator_start, denominator_start, pi_sum_start;
+		gboolean blanked, use_whole;
+	} fraction = {0., 0., 0., 0., 0, 0, 0, 0, 0, FALSE, FALSE};
 	char *oldlocale = NULL;
 	PangoAttrList *attrs = NULL;
 
@@ -2640,6 +2663,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		switch (op) {
 		case OP_END:
+			while (dst->str[0] == ' ') {
+				g_string_erase (dst, 0, 1);
+				go_pango_attr_list_erase (attrs, 0, 1);
+			}
 			if (layout) {
 				pango_layout_set_text (layout, dst->str, -1);
 				if (attrs) {
@@ -3069,6 +3096,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				INSERT_MINUS(numpos);
 			break;
 
+		case OP_NUM_FRACTION_SIGN:
+			if (fraction.val < 0)
+				INSERT_MINUS(numpos);
+			else
+				g_string_insert_c (dst, numpos, '+');
+			break;
+
 		case OP_NUM_MOVETO_ONES: {
 			numi = dotpos;
 			/* Ignore the zero in "0.xxx" or "0 xx/xx" */
@@ -3236,6 +3270,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			gboolean explicit_denom = *prg++;
 			DOUBLE aval = SUFFIX(go_add_epsilon) (SUFFIX(fabs)(val));
 
+			fraction.val = val;
 			fraction.w = SUFFIX(floor) (aval);
 			aval -= fraction.w;
 
@@ -3273,6 +3308,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 #endif
 
 		case OP_NUM_FRACTION_WHOLE:
+			fraction.use_whole = TRUE;
 			fraction.whole_start = dst->len;
 			val = fraction.w;
 			break;
@@ -3319,7 +3355,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			val = fraction.d;
 			break;
 
-		case OP_NUM_FRACTION_BLANK: {
+		case OP_NUM_FRACTION_BLANK:
 			if (fraction.n == 0) {
 				/* Replace all added characters by spaces of the right length.  */
 				if (dst->len > fraction.nominator_start) {
@@ -3328,21 +3364,47 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					fraction.blanked = TRUE;
 				}
 			}
-
 			break;
-		}
+
+		case OP_NUM_FRACTION_PI_SUM_START:
+			fraction.pi_sum_start = dst->len;
+			break;
+
+		case OP_NUM_FRACTION_BLANK_PI:
+			if (fraction.n == 0) {
+				/* Replace all added characters by spaces of the right length.  */
+				if (dst->len > fraction.nominator_start) {
+					blank_characters (dst, attrs, fraction.pi_sum_start, 
+							  dst->len - fraction.pi_sum_start, layout);
+					fraction.blanked = TRUE;
+				}
+			}
+			break;
 
 		case OP_NUM_FRACTION_BLANK_WHOLE: 
 			if (!fraction.blanked && fraction.w == 0) {
-				gsize p = fraction.whole_start;
-				while (dst->str[p] && dst->str[p] != '0')
-					p++;
-
-				if (dst->str[p]) {
-					g_string_erase (dst, p, 1);
-					go_pango_attr_list_erase (attrs, p, 1);
-					fraction.nominator_start--;
-					fraction.denominator_start--;					
+				gsize start = fraction.whole_start;
+				gsize length = fraction.nominator_start - start;
+				g_string_erase (dst, start, length);
+				go_pango_attr_list_erase (attrs, start, length);
+				fraction.nominator_start -= length;
+				fraction.denominator_start -= length;
+				fraction.pi_sum_start = 0;
+			} else if (fraction.pi_sum_start > 0) {
+				if (fraction.w == 1) {
+					gsize start = fraction.whole_start;
+					gsize length = fraction.pi_sum_start 
+						- UNICODE_PI_number_of_bytes - start;
+					g_string_erase (dst, start, length);
+					go_pango_attr_list_erase (attrs, start, length);
+					fraction.nominator_start -= length;
+					fraction.denominator_start -= length;
+					fraction.pi_sum_start = 0;				
+				} else if (fraction.w == 0) {
+					blank_characters 
+						(dst, attrs, 
+						 fraction.pi_sum_start - UNICODE_PI_number_of_bytes, 
+						 UNICODE_PI_number_of_bytes, layout);
 				}
 			}
 			break;
@@ -3367,30 +3429,27 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			break;
 
+		case OP_NUM_FRACTION_SIMPLIFY:
+			if (fraction.d == 1 && (fraction.n != 0 || !fraction.use_whole))
+				blank_characters (dst, attrs, fraction.denominator_start - 1,
+						  2, layout);
+			break;
+
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
-			if (fraction.n != 0 && fraction.d == 1) {
-				/* Remove "/1".  */
-				blank_characters (dst, attrs, fraction.denominator_start - 1, 
-							  dst->len - fraction.denominator_start + 1, layout);
-			}
-
-			if (fraction.n == 0)
-				/* Replace the whole thing by "0".  */
-				blank_characters (dst, attrs, 
-						  fraction.denominator_start - 1 - UNICODE_PI_number_of_bytes, 
-						  dst->len - fraction.denominator_start + 1 + UNICODE_PI_number_of_bytes, 
+			if (fraction.n == 0 && !fraction.use_whole) {
+				gsize start = fraction.denominator_start - 1 
+					- UNICODE_PI_number_of_bytes;
+				blank_characters (dst, attrs, start, UNICODE_PI_number_of_bytes, 
 						  layout);
-			else if (fraction.n == 1 || fraction.n == -1) {
+				fraction.denominator_start -= UNICODE_PI_number_of_bytes - 1;
+			} else if (fraction.n == 1 || fraction.n == -1) {
 				/* Remove "1".  */
 				gsize p = fraction.nominator_start;
-				while (dst->str[p] && dst->str[p] != '1')
-					p++;
-				if (dst->str[p]) {
-					g_string_erase (dst, p, 1);
-					go_pango_attr_list_erase (attrs, p, 1);
-					fraction.denominator_start--;
-				}
+				gsize length = fraction.denominator_start - p - 1 -
+					UNICODE_PI_number_of_bytes;
+				blank_characters (dst, attrs, p, length, layout);
+				fraction.denominator_start -= length - 1;
 			}
 			break;
 #endif
@@ -5834,13 +5893,15 @@ go_format_get_details (GOFormat const *fmt,
 		int numerator_base;
 		char const *integer;
 		int d;
+		gboolean pi_token;
 
 		/* Since it is a fraction we get at least 2 tokens */
-		g_return_if_fail (tokens + 1 != NULL);
+		g_return_if_fail (tokens[1] != NULL);
 
 		dst->pi_scale = (NULL != strstr (str, "pi/"));
+		pi_token = (0 == strcmp (tokens[1], "pi"));
 
-		dst->split_fraction = (tokens[2] != NULL) && (0 != strcmp (tokens[1], "pi"));
+		dst->split_fraction = (tokens[2] != NULL) && !pi_token;
 
 		if (dst->split_fraction) {
 			integer = tokens[0];
@@ -5858,7 +5919,7 @@ go_format_get_details (GOFormat const *fmt,
 			if (*integer++ == '0')
 				dst->numerator_min_digits++;
 
-		integer = tokens[numerator_base + 1];
+		integer = tokens[numerator_base + (pi_token ? 2 : 1)];
 		d = atoi (integer);
 		if (d > 1) {
 			dst->denominator = d;

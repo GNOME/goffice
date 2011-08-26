@@ -1,5 +1,13 @@
 2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (GOFormatOp): add ops
+	(go_format_parse_number_fraction): create more program steps for fractions
+	(go_format_dump_program): handle new ops
+	(go_format_execute): ditto
+        (go_format_get_details): be more careful to take the right tokens
+
+2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/gtk/go-format-sel.ui: fix tooltips
 
 2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
