@@ -1,5 +1,11 @@
 2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_parse_number_fraction): write
+	OP_NUM_VAL_SIGN
+	(go_format_execute): keep the sign attached to val
+
+2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (blank_characters): also remove the characters
 	themselves
 	(go_format_execute): move code to blank_characters; erase rather

@@ -107,7 +107,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#undef DEBUG_PROGRAMS
+#define DEBUG_PROGRAMS
 #undef DEBUG_REF_COUNT
 
 /***************************************************************************/
@@ -1945,6 +1945,8 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	else
 		ADD_OP (MIN (10, denominator_digits));
 
+	ADD_OP (OP_NUM_VAL_SIGN);
+
 	if (tno_endwhole != -1) {
 		ADD_OP (OP_NUM_FRACTION_WHOLE);
 		if (!go_format_parse_number_new_1 (prg, pstate,
@@ -2613,11 +2615,11 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	gboolean digit_count = 0;
 	int exponent = 0;
 	struct {
-		DOUBLE w, n, d;
+		DOUBLE w, n, d, val;
 		int digits;
 		gsize whole_start, nominator_start, denominator_start;
 		gboolean blanked;
-	} fraction = {0., 0., 0., 0, 0, 0, 0, FALSE};
+	} fraction = {0., 0., 0., 0., 0, 0, 0, 0, FALSE};
 	char *oldlocale = NULL;
 	PangoAttrList *attrs = NULL;
 
@@ -3259,13 +3261,6 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			if (!wp)
 				fraction.n += fraction.d * fraction.w;
-
-			if (val < 0) {
-				if (wp)
-					fraction.w = 0 - fraction.w;
-				else
-					fraction.n = 0 - fraction.n;
-			}
 
 			break;
 		}
