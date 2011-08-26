@@ -1,5 +1,9 @@
 2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/gtk/go-format-sel.ui: fix tooltips
+
+2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/gtk/go-format-sel.ui: add as-multiple-of-pi checkbox and sep.
 	* goffice/gtk/go-format-sel.c (FormatWidget): add new widgets
 	(cb_pi_scale_toggle): new
