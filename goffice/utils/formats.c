@@ -275,6 +275,9 @@ _go_currency_date_format_init (void)
 		go_format_unref (fmt);
 	}
 	add_dt_format (dt_hash, FALSE, &N, "yyyy-mm-dd hh:mm:ss");
+	/* ISO 8601 (zulu time only for now) */
+	add_dt_format (dt_hash, FALSE, &N, "yyyy-mm-dd\"T\"hh:mm:ss\"Z\"");
+
 
 	g_hash_table_destroy (dt_hash);
 
@@ -309,9 +312,6 @@ _go_currency_date_format_init (void)
 	/* Elapsed time.  */
 	add_dt_format (dt_hash, TRUE, &N, "[h]:mm:ss");
 	add_dt_format (dt_hash, TRUE, &N, "[mm]:ss");
-
-	/* ISO 8601 (zulu time only for now) */
-	add_dt_format (dt_hash, TRUE, &N, "yyyy-mm-dd\"T\"hh:mm:ss\"Z\"");
 
 	g_hash_table_destroy (dt_hash);
 }
