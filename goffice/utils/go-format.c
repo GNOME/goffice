@@ -2518,13 +2518,16 @@ go_format_get_logical_rect (PangoRectangle *rect, GString *dst, PangoAttrList *a
 {
 	GList *plist, *l;
 	PangoRectangle logical_rect = {0, 0, 0, 0};
+	PangoContext *context;
 
-	if (layout == NULL) {
+	if (layout == NULL || 
+	    (context = pango_layout_get_context (layout)) == NULL 
+	    || pango_context_get_font_map (context) == NULL) {
 		*rect = logical_rect;
 		return;
 	} 
 	
-	plist = pango_itemize (pango_layout_get_context (layout), dst->str, start, length, attrs, NULL);
+	plist = pango_itemize (context, dst->str, start, length, attrs, NULL);
 	for (l = plist; l != NULL; l = l->next) {
 		PangoItem *pi = l->data;
 		PangoGlyphString *glyphs = pango_glyph_string_new ();
@@ -2554,11 +2557,14 @@ go_format_desired_width (PangoLayout *layout, PangoAttrList *attrs, int digits)
 	const gchar *strp = &(str[0]);
 	GList *plist, *l;
 	int width = 0;
+	PangoContext *context;
 
-	if (layout == NULL)
+	if (layout == NULL || 
+	    (context = pango_layout_get_context (layout)) == NULL 
+	    || pango_context_get_font_map (context) == NULL)
 		return 0;
 
-	plist = pango_itemize (pango_layout_get_context (layout), strp, 0, 1, attrs, NULL);
+	plist = pango_itemize (context, strp, 0, 1, attrs, NULL);
 	for (l = plist; l != NULL; l = l->next) {
 		PangoItem *pi = l->data;
 		PangoGlyphString *glyphs = pango_glyph_string_new ();
