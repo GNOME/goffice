@@ -1,5 +1,10 @@
 2011-08-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_get_logical_rect): handle NULL layout
+	(go_format_desired_width): ditto
+
+2011-08-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/formats.c (_go_currency_date_format_init): ISO 8601 should
 	be with the other date-time formats
 
