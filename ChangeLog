@@ -1,3 +1,13 @@
+2011-08-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (GOFormatOp): add ops
+	(go_format_parse_number_fraction): create more program steps for fractions
+	(go_format_dump_program): handle new ops
+	(go_format_execute): ditto
+	* goffice/gtk/go-format-sel.ui: change spin button bounds
+	* goffice/gtk/go-format-sel.c (cb_max_denom_digits_changed): permit
+	0 denominator digits
+
 2011-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (GOFormatOp): add ops

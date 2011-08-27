@@ -107,7 +107,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define DEBUG_PROGRAMS
+#undef DEBUG_PROGRAMS
 #undef DEBUG_REF_COUNT
 
 /***************************************************************************/
@@ -194,10 +194,12 @@ typedef enum {
 	OP_NUM_FRACTION_SLASH,
 	OP_NUM_FRACTION_SIGN,
 	OP_NUM_FRACTION_SIMPLIFY,
+	OP_NUM_FRACTION_SIMPLIFY_NUMERATOR,
 #ifdef ALLOW_PI_SLASH
 	OP_NUM_FRACTION_BLANK_PI,
 	OP_NUM_FRACTION_SCALE_PI,
 	OP_NUM_FRACTION_SIMPLIFY_PI,
+	OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI,
 	OP_NUM_FRACTION_PI_SUM_START,
 #endif
 	OP_NUM_GENERAL_MARK,
@@ -1832,6 +1834,8 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	gboolean explicit_denom = FALSE;
 	int denominator_digits = 0;
 	gboolean inhibit_blank = FALSE;
+	gboolean inhibit_blank_denom = FALSE;
+	gboolean inhibit_blank_numerator = FALSE;
 	gboolean inhibit_blank_whole = TRUE;
 	int scale = 0;
 #ifdef ALLOW_PI_SLASH
@@ -1977,7 +1981,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	if (!go_format_parse_number_new_1 (prg, pstate,
 					   tno_endwhole + 1,
 					   pi_scale ? tno_slash - 2 :tno_slash,
-					   0, 2, NULL))
+					   0, 2, &inhibit_blank_numerator))
 		return NULL;
 	scale += pstate->scale;
 
@@ -1990,20 +1994,29 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	ADD_OP (OP_NUM_FRACTION_DENOMINATOR);
 	if (!go_format_parse_number_new_1 (prg, pstate,
 					   tno_slash + 1, tno_suffix,
-					   0, 3, NULL))
+					   0, 3, &inhibit_blank_denom))
 		return NULL;
 	scale += pstate->scale;
 	ADD_OP (OP_NUM_FRACTION_ALIGN);
-	ADD_OP (OP_NUM_FRACTION_SIMPLIFY);
 #ifdef ALLOW_PI_SLASH
 	if (pi_scale) {
-		ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
 		if (!inhibit_blank)
 			ADD_OP (OP_NUM_FRACTION_BLANK_PI);
+		if (!inhibit_blank_denom)
+			ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
+		if (!inhibit_blank_numerator)
+			ADD_OP (OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI);
+		
 	} else
 #endif
-		if (!inhibit_blank)
-			ADD_OP (OP_NUM_FRACTION_BLANK);
+		{
+			if (!inhibit_blank)
+				ADD_OP (OP_NUM_FRACTION_BLANK);
+			if (!inhibit_blank_denom)
+				ADD_OP (OP_NUM_FRACTION_SIMPLIFY);
+			if (!inhibit_blank_numerator)
+				ADD_OP (OP_NUM_FRACTION_SIMPLIFY_NUMERATOR);			
+		}
 	if (!inhibit_blank_whole)
 		ADD_OP (OP_NUM_FRACTION_BLANK_WHOLE);
 
@@ -2361,10 +2374,12 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_NUM_FRACTION_ALIGN);
 		REGULAR(OP_NUM_FRACTION_SLASH);
 		REGULAR(OP_NUM_FRACTION_SIMPLIFY);
+		REGULAR(OP_NUM_FRACTION_SIMPLIFY_NUMERATOR);
 #ifdef ALLOW_PI_SLASH
 		REGULAR(OP_NUM_FRACTION_BLANK_PI);
 		REGULAR(OP_NUM_FRACTION_SCALE_PI);
 		REGULAR(OP_NUM_FRACTION_SIMPLIFY_PI);
+		REGULAR(OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI);
 		REGULAR(OP_NUM_FRACTION_PI_SUM_START);
 #endif
 		REGULAR(OP_NUM_GENERAL_MARK);
@@ -3429,21 +3444,23 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			break;
 
+			
+#ifdef ALLOW_PI_SLASH
+		case OP_NUM_FRACTION_SIMPLIFY_PI:
+#endif
 		case OP_NUM_FRACTION_SIMPLIFY:
-			if (fraction.d == 1 && (fraction.n != 0 || !fraction.use_whole))
+			if (!fraction.blanked && fraction.d == 1)
 				blank_characters (dst, attrs, fraction.denominator_start - 1,
 						  2, layout);
 			break;
 
+		case OP_NUM_FRACTION_SIMPLIFY_NUMERATOR:
+			/* Nothing to simplify */
+			break;
+
 #ifdef ALLOW_PI_SLASH
-		case OP_NUM_FRACTION_SIMPLIFY_PI:
-			if (fraction.n == 0 && !fraction.use_whole) {
-				gsize start = fraction.denominator_start - 1 
-					- UNICODE_PI_number_of_bytes;
-				blank_characters (dst, attrs, start, UNICODE_PI_number_of_bytes, 
-						  layout);
-				fraction.denominator_start -= UNICODE_PI_number_of_bytes - 1;
-			} else if (fraction.n == 1 || fraction.n == -1) {
+		case OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI:
+			if (!fraction.blanked && (fraction.n == 1 || fraction.n == -1)) {
 				/* Remove "1".  */
 				gsize p = fraction.nominator_start;
 				gsize length = fraction.denominator_start - p - 1 -
@@ -5728,7 +5745,6 @@ go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
 	details->exponent_digits = 2;
 	details->min_digits = (family == GO_FORMAT_FRACTION) ? 0 : 1;
 	details->split_fraction = TRUE;
-	details->denominator_min_digits = 1;
 	details->denominator_max_digits = 1;
 	details->denominator = 8;
 	details->automatic_denominator = TRUE;

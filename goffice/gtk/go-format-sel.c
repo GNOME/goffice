@@ -321,7 +321,7 @@ cb_max_denom_digits_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 	gfs->format.details.denominator_max_digits = val;
 	gtk_spin_button_set_range
 		 (GTK_SPIN_BUTTON (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS]),
-		  1, val);
+		  0, val);
 
 	draw_format_preview (gfs, TRUE);
 }
