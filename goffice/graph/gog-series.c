@@ -312,9 +312,22 @@ static void
 role_series_labels_post_add (GogObject *parent, GogObject *child)
 {
 	GogSeries *series = GOG_SERIES (parent);
+	GogSeriesDesc const *desc;
+	unsigned i;
 	GogSeriesLabels *labels = GOG_SERIES_LABELS (child);
 	gog_series_labels_set_allowed_position (labels, series->allowed_pos);
 	gog_series_labels_set_default_position (labels, series->default_pos);
+	/* default is to show values */
+
+	/* Are there any shared dimensions */
+	desc = &series->plot->desc.series;
+	for (i = 0; i < desc->num_dim; i++)
+		if (desc->dim[i].ms_type == GOG_MS_DIM_VALUES)
+			break;
+	labels->format = (i != desc->num_dim)?
+		                            g_strdup_printf ("%%%u", i):
+		                            g_strdup ("");
+	
 }
 
 static void
@@ -1010,6 +1023,33 @@ void
 gog_series_set_dim (GogSeries *series, int dim_i, GOData *val, GError **err)
 {
 	gog_dataset_set_dim (GOG_DATASET (series), dim_i, val, err);
+}
+
+int
+gog_series_map_XL_dim (GogSeries const *series, GogMSDimType ms_type)
+{
+	GogSeriesDesc const *desc = &series->plot->desc.series;
+	unsigned i = desc->num_dim;
+
+	if (ms_type == GOG_MS_DIM_LABELS)
+		return -1;
+	while (i-- > 0)
+		if (desc->dim[i].ms_type == ms_type)
+			return i;
+	return -2;
+}
+
+void
+gog_series_set_XL_dim (GogSeries *series, GogMSDimType ms_type, GOData *val, GError **err)
+{
+	int dim;
+	g_return_if_fail (series !=NULL);
+	dim = gog_series_map_XL_dim (series, ms_type);
+	if (dim >= -1) {
+		gog_series_set_dim (series, dim, val, err);
+		return;
+	}
+	g_object_unref (val);
 }
 
 /**

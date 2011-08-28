@@ -1,3 +1,23 @@
+2011-08-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-widget.c (goc_widget_draw): draw using gtk_widget_draw.
+	* goffice/goffice.c (libgoffice_init): new GogDataLabel type.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_data_label): use overriden
+	style if given.
+	* goffice/graph/gog-series-labels.c: new GogDataLabel type.
+	* goffice/graph/gog-series-labels.h: ditto.
+	* goffice/graph/gog-series.c (role_series_labels_post_add): set a default
+	format, (gog_series_map_XL_dim), (gog_series_set_XL_dim): new functions.
+	* goffice/graph/gog-series.h: new functions.
+	* goffice/graph/gog-theme.c (build_predefined_themes): new GogDataLabel type
+	* goffice/utils/go-style.c (go_style_is_auto): new function.
+	* goffice/utils/go-style.h: ditto.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): allow for
+	points in data labels.
+	* plugins/plot_xy/gog-xy.c (gog_xy_series_init): set a default label
+	position.
+
 2011-08-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_desired_width): check for fontmap

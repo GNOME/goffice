@@ -278,9 +278,13 @@ static void
 goc_widget_draw (GocItem const *item, cairo_t *cr)
 {
 	GocWidget *widget = GOC_WIDGET (item);
-	gtk_container_propagate_draw (GTK_CONTAINER (item->canvas),
-				      widget->widget,
-				      cr);
+	int x, y;
+	gtk_container_child_get (GTK_CONTAINER (item->canvas), widget->widget,
+	                         "x", &x, "y", &y, NULL);
+	cairo_save (cr);
+	cairo_translate (cr, x, y);
+	gtk_widget_draw (widget->widget, cr);
+	cairo_restore (cr);
 }
 
 static void

@@ -749,8 +749,16 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 			if (labels[j] != NULL) {
 				unsigned offset;
-				g_object_get (labels[j], "offset", &offset, NULL);
-				switch (gog_series_labels_get_position (labels[j])) {
+				GogSeriesLabelsPos position;
+				GogObject *point = label_pos[j][i].elt->point;
+				if (point) {
+					g_object_get (point, "offset", &offset, NULL);
+					position = gog_data_label_get_position (GOG_DATA_LABEL (point));
+				} else {
+					g_object_get (labels[j], "offset", &offset, NULL);
+					position = gog_series_labels_get_position (labels[j]);
+				}
+				switch (position) {
 				default:
 				case GOG_SERIES_LABELS_CENTERED:
 					label_pos[j][i].anchor = GO_ANCHOR_CENTER;

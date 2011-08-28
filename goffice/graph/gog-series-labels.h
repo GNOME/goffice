@@ -30,7 +30,35 @@ G_BEGIN_DECLS
 typedef struct  {
 	GOString *str;
 	int legend_pos;
+	GogObject *point;
 } GogSeriesLabelElt;
+
+
+struct _GogDataLabel {
+	GogOutlinedObject base;
+
+	/* private */
+	unsigned index;
+	GogSeriesLabelsPos position;
+	GogSeriesLabelsPos default_pos;
+	unsigned allowed_pos;
+	unsigned offset; /* position offset in pixels */
+	char *format;
+	GogDatasetElement custom_label;
+	GogSeriesLabelElt element;
+};
+
+#define GOG_TYPE_DATA_LABEL		(gog_data_label_get_type ())
+#define GOG_DATA_LABEL(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_DATA_LABEL, GogDataLabel))
+#define GOG_IS_DATA_LABEL(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_DATA_LABEL))
+
+GType gog_data_label_get_type (void);
+
+void gog_data_label_set_allowed_position (GogDataLabel *lbl, unsigned allowed);
+void gog_data_label_set_position (GogDataLabel *lbl, GogSeriesLabelsPos pos);
+void gog_data_label_set_default_position (GogDataLabel *lbl, GogSeriesLabelsPos pos);
+GogSeriesLabelsPos gog_data_label_get_position (GogDataLabel const *lbl);
+GogSeriesLabelElt const *gog_data_label_get_element (GogDataLabel const *lbl);
 
 struct _GogSeriesLabels {
 	GogOutlinedObject base;
@@ -44,6 +72,7 @@ struct _GogSeriesLabels {
 	GogDatasetElement custom_labels;
 	unsigned n_elts;
 	GogSeriesLabelElt *elements;
+	GList *overrides;
 };
 
 #define GOG_TYPE_SERIES_LABELS		(gog_series_labels_get_type ())

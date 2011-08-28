@@ -207,6 +207,7 @@ libgoffice_init (void)
 	(void) GOG_TYPE_ERROR_BAR;
 	(void) GOG_TYPE_REG_EQN;
 	(void) GOG_TYPE_SERIES_LABELS;
+	(void) GOG_TYPE_DATA_LABEL;
 	(void) GOG_TYPE_SERIES_LINES;
 	(void) GO_TYPE_DATA_SCALAR_VAL;
 	(void) GO_TYPE_DATA_SCALAR_STR;

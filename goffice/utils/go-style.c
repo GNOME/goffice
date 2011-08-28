@@ -2005,6 +2005,16 @@ go_style_force_auto (GOStyle *style)
 	style->text_layout.auto_angle = TRUE;
 }
 
+gboolean
+go_style_is_auto (GOStyle *style)
+{
+	return style->marker.auto_shape && style->marker.auto_outline_color &&
+	       style->marker.auto_fill_color && style->line.auto_dash &&
+	       style->line.auto_color && style->fill.auto_type &&
+	       style->fill.auto_fore && style->fill.auto_back &&
+	       style->font.auto_scale && style->text_layout.auto_angle;
+}
+
 /**
  * go_style_set_marker :
  * @style : #GOStyle

@@ -1800,6 +1800,9 @@ gog_xy_series_init (GObject *obj)
 	GOG_XY_INTERPOLATION_CLAMPS (series->interpolation_props)->series = series;
 	gog_dataset_set_dim (series->interpolation_props, 0, go_data_scalar_val_new (0.), NULL);
 	gog_dataset_set_dim (series->interpolation_props, 1, go_data_scalar_val_new (0.), NULL);
+	GOG_SERIES (series)->allowed_pos = GOG_SERIES_LABELS_CENTERED | GOG_SERIES_LABELS_LEFT
+		| GOG_SERIES_LABELS_RIGHT | GOG_SERIES_LABELS_TOP | GOG_SERIES_LABELS_BOTTOM;
+	GOG_SERIES (series)->default_pos = GOG_SERIES_LABELS_TOP;
 }
 
 static void

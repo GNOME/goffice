@@ -139,6 +139,7 @@ gboolean   go_style_is_line_visible	(GOStyle const *style);
 gboolean   go_style_is_outline_visible	(GOStyle const *style);
 gboolean   go_style_is_fill_visible	(GOStyle const *style);
 void	   go_style_force_auto		(GOStyle *style);
+gboolean   go_style_is_auto		(GOStyle *style);
 
 #ifdef GOFFICE_WITH_GTK
 void 	   go_style_populate_editor 	(GOStyle *style,

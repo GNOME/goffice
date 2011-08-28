@@ -58,6 +58,9 @@ void	      gog_series_set_name   (GogSeries *series,
 				     GODataScalar *name_src, GError **err);
 void	      gog_series_set_dim    (GogSeries *series, int dim_i,
 				     GOData *val, GError **err);
+void          gog_series_set_XL_dim (GogSeries *series, GogMSDimType ms_type,
+                                     GOData *val, GError **err);
+int           gog_series_map_XL_dim (GogSeries const *series, GogMSDimType ms_type);
 void	      gog_series_set_index  (GogSeries *series,
 				     int ind, gboolean is_manual);
 

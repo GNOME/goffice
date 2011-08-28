@@ -1112,7 +1112,9 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 	g_return_if_fail (rend->cur_style != NULL);
 
 	cairo = rend->cairo;
-	style = rend->cur_style;
+	style = (GO_IS_STYLED_OBJECT (elt->point))?
+		go_styled_object_get_style (GO_STYLED_OBJECT (elt->point)):
+		rend->cur_style;
 
 	/* Note: orig layout may not have been created using cairo! */
 	layout = pango_cairo_create_layout (cairo);
