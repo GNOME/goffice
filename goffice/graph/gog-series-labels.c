@@ -141,17 +141,17 @@ used_selection_changed_cb (struct SeriesLabelsState *state)
 			switch (dim) {
 			case -1:
 				new_format = (*format)?
-						g_strconcat (*format, " %c", NULL):
+						g_strconcat (*format, "%s%c", NULL):
 						g_strdup ("%c");
 				break;
 			case -2:
 				new_format = (*format)?
-						g_strconcat (*format, " %l", NULL):
+						g_strconcat (*format, "%s%l", NULL):
 						g_strdup ("%l");
 				break;
 			default:
 				new_format = (*format)?
-						g_strdup_printf ("%s %%%d", *format, dim):
+						g_strdup_printf ("%s%%s%%%d", *format, dim):
 						g_strdup_printf ("%%%d", dim);
 			}
 			g_free (*format);
@@ -524,6 +524,10 @@ gog_series_labels_populate_editor (GogObject *gobj,
 	                                           GOG_IS_DATA_LABEL (gobj)? GOG_DATA_SCALAR: GOG_DATA_VECTOR));
 	gtk_widget_show (w);
 	gtk_grid_attach (GTK_GRID (labels_prefs), w, 2, 6, 3, 1);
+	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 1, 
+	                                           GOG_DATA_SCALAR));
+	gtk_widget_show (w);
+	gtk_grid_attach (GTK_GRID (labels_prefs), w, 2, 7, 3, 1);
 
 	g_object_set_data_full (G_OBJECT (labels_prefs), "state", state, g_free);
 
@@ -724,14 +728,14 @@ gog_data_label_update (GogObject *obj)
 			case 0: /* protect from an unexpected string end */
 				break;
 			case 'c':
-				next = GO_IS_DATA (lbl->custom_label.data)?
-					go_data_get_scalar_string (lbl->custom_label.data):
+				next = GO_IS_DATA (lbl->custom_label[0].data)?
+					go_data_get_scalar_string (lbl->custom_label[0].data):
 					NULL;
 				if (next) {
 					index = str->len;
 					g_string_append (str, next);
 					g_free (next);
-					l = go_data_get_scalar_markup (lbl->custom_label.data);
+					l = go_data_get_scalar_markup (lbl->custom_label[0].data);
 					if (l) {
 						struct attr_closure c;
 						c.l = markup;
@@ -765,6 +769,9 @@ gog_data_label_update (GogObject *obj)
 				break;
 			case '%':
 				g_string_append_c (str, '%');
+				break;
+			case 's':
+				g_string_append (str, lbl->separator);
 				break;
 			default:
 				continue;
@@ -826,23 +833,34 @@ gog_data_label_class_init (GObjectClass *obj_klass)
 }
 
 static void
+gog_data_label_init (GogDataLabel *lbl)
+{
+	lbl->separator = g_strdup (" ");
+}
+
+static void
 gog_data_label_dataset_dims (GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
-	*last = 0;
+	*last = 1;
 }
 
 static GogDatasetElement *
 gog_data_label_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogDataLabel const *dl = GOG_DATA_LABEL (set);
-	g_return_val_if_fail (0 == dim_i, NULL);
-	return (GogDatasetElement *) &dl->custom_label;
+	g_return_val_if_fail (0 == dim_i || 1 == dim_i, NULL);
+	return (GogDatasetElement *) &dl->custom_label + dim_i;
 }
 
 static void
 gog_data_label_dataset_dim_changed (GogDataset *set, int dim_i)
 {
+	if (dim_i == 1) {
+		GogDataLabel *dl = GOG_DATA_LABEL (set);
+		g_free (dl->separator);
+		dl->separator = go_data_get_scalar_string (dl->custom_label[1].data);
+	}
 	gog_object_request_update (gog_object_get_parent (GOG_OBJECT (set)));
 }
 
@@ -856,7 +874,7 @@ gog_data_label_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogDataLabel, gog_data_label,
 		NULL, NULL, gog_data_label_class_init, NULL,
-		NULL, GOG_TYPE_OUTLINED_OBJECT, 0,
+		gog_data_label_init, GOG_TYPE_OUTLINED_OBJECT, 0,
                 GSF_INTERFACE (gog_data_label_dataset_init, GOG_TYPE_DATASET))
 
 void gog_data_label_set_allowed_position (GogDataLabel *lbl, unsigned allowed)
@@ -1123,12 +1141,12 @@ gog_series_labels_update (GogObject *obj)
 						case 0: /* protect from an unexpected string end */
 							break;
 						case 'c':
-							next = go_data_get_vector_string (labels->custom_labels.data, i);
+							next = go_data_get_vector_string (labels->custom_labels[0].data, i);
 							if (next) {
 								index = str->len;
 								g_string_append (str, next);
 								g_free (next);
-								l = go_data_get_vector_markup (labels->custom_labels.data, i);
+								l = go_data_get_vector_markup (labels->custom_labels[0].data, i);
 								if (l) {
 									struct attr_closure c;
 									c.l = markup;
@@ -1163,6 +1181,9 @@ gog_series_labels_update (GogObject *obj)
 						case '%':
 							g_string_append_c (str, '%');
 							break;
+						case 's':
+							g_string_append (str, labels->separator);
+							break;
 						default:
 							continue;
 						}
@@ -1186,6 +1207,7 @@ gog_series_labels_finalize (GObject *obj)
 	GogSeriesLabels *labels = GOG_SERIES_LABELS (obj);
 	gog_dataset_finalize (GOG_DATASET (obj));
 	g_free (labels->format);
+	g_free (labels->separator);
 	if (labels->elements) {
 		unsigned i, n = labels->n_elts;
 		for (i = 0; i < n; i++)
@@ -1302,23 +1324,34 @@ gog_series_labels_class_init (GObjectClass *obj_klass)
 }
 
 static void
+gog_series_labels_init (GogSeriesLabels *lbls)
+{
+	lbls->separator = g_strdup (" ");
+}
+
+static void
 gog_series_labels_dataset_dims (GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
-	*last = 0;
+	*last = 1;
 }
 
 static GogDatasetElement *
 gog_series_labels_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogSeriesLabels const *sl = GOG_SERIES_LABELS (set);
-	g_return_val_if_fail (0 == dim_i, NULL);
-	return (GogDatasetElement *) &sl->custom_labels;
+	g_return_val_if_fail (0 == dim_i || 1 == dim_i, NULL);
+	return (GogDatasetElement *) &sl->custom_labels + dim_i;
 }
 
 static void
 gog_series_labels_dataset_dim_changed (GogDataset *set, int dim_i)
 {
+	if (dim_i == 1) {
+		GogSeriesLabels *sl = GOG_SERIES_LABELS (set);
+		g_free (sl->separator);
+		sl->separator = go_data_get_scalar_string (sl->custom_labels[1].data);
+	}
 	gog_object_request_update (gog_object_get_parent (GOG_OBJECT (set)));
 }
 
@@ -1332,7 +1365,7 @@ gog_series_labels_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogSeriesLabels, gog_series_labels,
 		NULL, NULL, gog_series_labels_class_init, NULL,
-		NULL, GOG_TYPE_OUTLINED_OBJECT, 0,
+		gog_series_labels_init, GOG_TYPE_OUTLINED_OBJECT, 0,
                 GSF_INTERFACE (gog_series_labels_dataset_init, GOG_TYPE_DATASET))
 
 void

@@ -44,7 +44,8 @@ struct _GogDataLabel {
 	unsigned allowed_pos;
 	unsigned offset; /* position offset in pixels */
 	char *format;
-	GogDatasetElement custom_label;
+	char *separator;
+	GogDatasetElement custom_label[2];
 	GogSeriesLabelElt element;
 };
 
@@ -69,7 +70,8 @@ struct _GogSeriesLabels {
 	unsigned allowed_pos;
 	unsigned offset; /* position offset in pixels */
 	char *format;
-	GogDatasetElement custom_labels;
+	char *separator;
+	GogDatasetElement custom_labels[2];
 	unsigned n_elts;
 	GogSeriesLabelElt *elements;
 	GList *overrides;

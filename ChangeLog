@@ -1,3 +1,11 @@
+2011-08-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series-labels-prefs.ui: add a separator for labels.
+	* goffice/graph/gog-series-labels.c: ditto.
+	* goffice/graph/gog-series-labels.h: ditto.
+	* goffice/utils/go-pango-extras.c (go_pango_attr_list_erase): fix a
+	critical.
+
 2011-08-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-widget.c (goc_widget_draw): draw using gtk_widget_draw.
