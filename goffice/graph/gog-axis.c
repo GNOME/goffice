@@ -755,7 +755,10 @@ map_linear_calc_ticks (GogAxis *axis)
 	min_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
 	if (min_step <= 0.) min_step = maj_step;
 	while (1) {
-		double ratio = go_fake_floor (maj_step / min_step);
+		/* add 0.9 there because the ratio might not be an integer
+		 * or there might be rounding errors, more than 0.9 would
+		 * put a minor tick quite near the next major tick, see #657670) */
+		double ratio = go_fake_floor (maj_step / min_step + 0.9);
 		double Nd = (maj_N + 2) * ratio;
 		if (Nd >= 10 * GOG_AXIS_MAX_TICK_NBR)
 			min_step *= 10;

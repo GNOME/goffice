@@ -270,6 +270,10 @@ goc_graph_do_tooltip (GocGraph *graph)
 	goc_group_adjust_coords (item->parent, &xpos, &ypos);
 	x -= xpos;
 	y -= ypos;
+	/* multiply by the zoom level, because the graph has been adjusted,
+	 * fixes #657694 */
+	x *= item->canvas->pixels_per_unit;
+	y *= item->canvas->pixels_per_unit;
 
 	/* get the GogView at the cursor position */
 	g_object_get (G_OBJECT (graph->renderer), "view", &base_view, NULL);
@@ -399,7 +403,7 @@ goc_graph_motion (GocItem *item, double x, double y)
 				       graph);
 	}
 
-	/* When the timer first, use the last (x,y) we have.  */
+	/* When the timer fires, use the last (x,y) we have.  */
 	graph->coords.x = x;
 	graph->coords.y = y;
 

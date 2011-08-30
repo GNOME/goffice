@@ -18,6 +18,11 @@ Jean:
 	* Axes can use only a part of available space. [#654392]
 	* Add support for smoothed curve renaming. [#656148].
 	* Fix widgets position inside an RTL canvas.
+	* Fix minor ticks number. [#657670]
+	* Displays correct coordinates when moving the mouse on a zoomed1
+	chart. [#657696]
+	* Don't crash when pseudo3d axis has too large manual ticks
+	spacing. [#657695]
 
 Morten:
 	* Recognize scientific formats with longer exponents.

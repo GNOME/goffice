@@ -169,28 +169,34 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 		nticks = gog_axis_get_ticks (axis, &zticks);
 		map = gog_axis_map_new (axis, 0, 1);
 		x = g_new (double, nticks);
-		for (i = j = 0; i < nticks; i++)
-			if (zticks[i].type == GOG_AXIS_TICK_MAJOR) {
-				x[j++] = gog_axis_map_to_view (map, zticks[i].position);
+		if (nticks > 1) {
+			for (i = j = 0; i < nticks; i++)
+				if (zticks[i].type == GOG_AXIS_TICK_MAJOR) {
+					x[j++] = gog_axis_map_to_view (map, zticks[i].position);
+				}
+			max = --j;
+			if (x[1] > x[0]) {
+				if (x[0] > EPSILON) {
+					offset = 1.;
+					max++;
+				}
+				if (x[j] < 1. - EPSILON)
+					max++;
+				slope = 1 / (x[1] - x[0]);
+			} else {
+				offset = j;
+				if (x[0] < 1. - EPSILON)
+					max++;
+				if (x[j] > EPSILON) {
+					max++;
+					offset += 1.;
+				}
+				slope = 1 / (x[0] - x[1]);
 			}
-		max = --j;
-		if (x[1] > x[0]) {
-			if (x[0] > EPSILON) {
-				offset = 1.;
-				max++;
-			}
-			if (x[j] < 1. - EPSILON)
-				max++;
-			slope = 1 / (x[1] - x[0]);
 		} else {
-			offset = j;
-			if (x[0] < 1. - EPSILON)
-				max++;
-			if (x[j] > EPSILON) {
-				max++;
-				offset += 1.;
-			}
-			slope = 1 / (x[0] - x[1]);
+			slope = 0.;
+			max = 1;
+			x[0] = 0.; /* is this needed? */
 		}
 		for (k = 0; k < n; ++k) {
 			val = gog_axis_map_to_view (map, data[k]);

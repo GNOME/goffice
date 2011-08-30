@@ -1,3 +1,15 @@
+2011-08-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip),
+	(goc_graph_motion): appropriately scale the position. [#657694]
+	* goffice/graph/gog-axis.c (map_linear_calc_ticks): always display the
+	correct minor axis ticks. [#657670]
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem): don't crash when pseudo3d axis has too
+	largemanula ticks spacing. [#657695]
+	* plugins/plot_surface/gog-xyz-surface.c
+	(gog_xyz_surface_plot_build_matrix): ditto.
+
 2011-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_get_logical_rect): change to
