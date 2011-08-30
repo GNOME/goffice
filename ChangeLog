@@ -1,3 +1,10 @@
+2011-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_get_logical_rect): change to
+	go_format_get_width and change all callers
+	(blank_characters): rewrite
+	* goffice/gtk/go-format-sel.ui: fix spelling
+
 2011-08-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series-labels-prefs.ui: add a separator for labels.
