@@ -1,3 +1,10 @@
+2011-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/graph/gog-axis.c (axis_format_value): trim label. [#657670]
+	* goffice/utils/go-string.c (find_shape_attr): new
+	(go_string_trim): new
+	* goffice/utils/go-string.h (go_string_trim): new
+
 2011-08-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip),

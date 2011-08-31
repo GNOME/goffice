@@ -651,3 +651,68 @@ go_string_equal_rich (gconstpointer gstr_a, gconstpointer gstr_b)
 
 	return go_string_equal (gstr_a, gstr_b);
 }
+
+static gboolean
+find_shape_attr (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
+{
+	return (attribute->klass->type == PANGO_ATTR_SHAPE);
+}
+
+/**
+ * go_string_trim
+ **/
+GOString *
+go_string_trim (GOString *gstr, gboolean internal)
+{
+	/*TODO: handle phonetics */
+	GOStringImpl *impl = (GOStringImpl *)gstr;
+	char *text = NULL;
+	char const *ctext;
+	PangoAttrList *attrs;
+	char const *t;
+	int cnt, len;
+
+	if ((impl->flags & GO_STRING_IS_RICH) == 0)
+		return gstr;
+	
+	attrs = go_string_get_markup (gstr);
+	t = ctext = text = g_strdup (gstr->str);
+	if (attrs != NULL)
+		attrs = pango_attr_list_copy (attrs);		
+	while (*t != 0 && *t == ' ')
+		t++;
+	cnt = t - text;
+	if (cnt > 0) {
+		len = strlen (t);
+		memmove (text, t, len + 1);
+		go_pango_attr_list_erase (attrs, 0, cnt);
+	} else
+		len = strlen(ctext);
+	t = ctext + len - 1;
+	while (t > ctext && *t == ' ')
+		t--;
+	cnt = ((t - ctext) + 1);
+	if (len > cnt) {
+		text[cnt] = '\0';
+		go_pango_attr_list_erase (attrs, cnt, len - cnt);
+	}
+
+	if (internal) {
+		PangoAttrList *at = pango_attr_list_filter (attrs, find_shape_attr, NULL);
+		char *tt = text;
+		if (at) pango_attr_list_unref (at);
+		while (NULL != (tt = strchr (tt, ' '))) {
+			if (tt[1] == ' ') {
+				go_pango_attr_list_erase (attrs, tt - text, 1);
+				memmove (tt + 1, tt + 2, strlen(tt + 2) + 1);
+				continue;
+			}
+			tt++;
+		}
+	}
+
+	go_string_unref (gstr);
+
+	return go_string_new_rich (text, -1, FALSE, attrs, NULL);
+}
+

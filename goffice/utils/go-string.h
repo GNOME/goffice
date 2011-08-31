@@ -63,6 +63,7 @@ int	  go_string_cmp_ignorecase	(gconstpointer gstr_a, gconstpointer gstr_b);
 gboolean  go_string_equal		(gconstpointer gstr_a, gconstpointer gstr_b);
 gboolean  go_string_equal_ignorecase	(gconstpointer gstr_a, gconstpointer gstr_b);
 gboolean  go_string_equal_rich		(gconstpointer gstr_a, gconstpointer gstr_b);
+GOString *go_string_trim                (GOString *gstr, gboolean internal);
 
 GOString *go_string_ERROR (void);
 
