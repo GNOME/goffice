@@ -1118,6 +1118,7 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 
 	/* Note: orig layout may not have been created using cairo! */
 	layout = pango_cairo_create_layout (cairo);
+	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
 	context = pango_layout_get_context (layout);
 	pango_layout_set_text (layout, elt->str->str, -1);
 	attrs = pango_attr_list_copy (go_string_get_markup (elt->str));
@@ -1840,6 +1841,12 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+}
+
+double
+gog_renderer_get_scale (GogRenderer *renderer)
+{
+	return renderer->scale;
 }
 
 GSF_CLASS (GogRenderer, gog_renderer,

@@ -1,3 +1,10 @@
+2011-08-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_data_label): center
+	multiline label, (gog_renderer_get_scale): new function.
+	* goffice/graph/gog-renderer.h: ditto.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): support data labels.
+
 2011-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/graph/gog-axis.c (axis_format_value): trim label. [#657670]

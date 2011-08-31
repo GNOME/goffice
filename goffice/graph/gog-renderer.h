@@ -131,6 +131,7 @@ gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat form
 
 GogRenderer 	*gog_renderer_new 		(GogGraph *graph);
 
+double		 gog_renderer_get_scale		(GogRenderer *renderer);
 #ifdef GOFFICE_WITH_LASEM
 void		 gog_renderer_draw_equation	(GogRenderer *renderer, LsmDomView *mathml_view,
 						 double x, double y);

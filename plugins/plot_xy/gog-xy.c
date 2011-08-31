@@ -1080,6 +1080,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double x_baseline, y_baseline;
 	gboolean show_marks, show_lines, show_fill, show_negatives, in_3d, size_as_area = TRUE;
 	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model), hide_outliers = TRUE;
+	GogObjectRole const *lbl_role = NULL;
 
 	MarkerData **markers;
 	unsigned *num_markers;
@@ -1496,6 +1497,139 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 		}
 
+	/* render series labels */
+	for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
+		GSList *labels, *cur;
+		double const *cur_x, *cur_y, *cur_z;
+		GogViewAllocation alloc;
+		GOAnchorType anchor;
+		double msize;
+
+		series = ptr->data;
+		markers[j] = NULL;
+		z_vals = NULL;
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
+		if (style->interesting_fields & GO_STYLE_MARKER)
+			msize = (double) go_marker_get_size (style->marker.mark)
+				/ 2. * gog_renderer_get_scale (view->renderer);
+		else 
+			msize = style->line.width / .7;
+
+		if (!gog_series_is_valid (GOG_SERIES (series)))
+			continue;
+
+		if (!lbl_role)
+			lbl_role = gog_object_find_role_by_name (GOG_OBJECT (series), "Data labels");
+		labels = gog_object_get_children (GOG_OBJECT (series), lbl_role);
+		if (g_slist_length (labels) == 0) {
+			g_slist_free (labels);
+			continue;
+		}
+		if (GOG_IS_BUBBLE_PLOT (model)) {
+			double zmin;
+			go_data_get_bounds (series->base.values[2].data, &zmin, &zmax);
+			show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
+			if ((! go_finite (zmax)) || (!show_negatives && (zmax <= 0))) continue;
+			rmax = MIN (view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO
+						* GOG_BUBBLE_PLOT (view->model)->bubble_scale;
+			size_as_area = GOG_BUBBLE_PLOT (view->model)->size_as_area;
+			if (show_negatives) {
+				zmin = fabs (zmin);
+				if (zmin > zmax) zmax = zmin;
+			}
+			n = gog_series_get_xyz_data (GOG_SERIES (series), &x_vals, &y_vals, &z_vals);
+		}
+		else
+			n = gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
+		if (n < 1) {
+			g_slist_free (labels);
+			continue;
+		}
+		for (cur = labels; cur != NULL; cur = cur->next) {
+			GogSeriesLabels *lbls = GOG_SERIES_LABELS (cur->data);
+			GogSeriesLabelElt const *Elt;
+			unsigned offset, cur_offset;
+			GogSeriesLabelsPos position, cur_position;
+			g_object_get (lbls, "offset", &offset, NULL);
+			position = gog_series_labels_get_position (lbls);
+			cur_x = x_vals;
+			cur_y = y_vals;
+			cur_z = z_vals;
+			gog_renderer_push_style (view->renderer, go_styled_object_get_style (GO_STYLED_OBJECT (lbls)));
+			overrides = gog_series_get_overrides (GOG_SERIES (series));
+			for (i = 1 ; i <= n ; i++) {
+				x = x_vals ? *cur_x++ : i;
+				y = *cur_y++;
+				if (GOG_IS_BUBBLE_PLOT(model)) {
+					z = *cur_z++;
+					if (isnan (z) || !go_finite (z))
+						continue;
+				}
+				if (isnan (y) || isnan (x))
+					continue;
+				/* We are checking with go_finite here because isinf
+				   if not available everywhere.  Note, that NANs
+				   have been ruled out.  */
+				if (!gog_axis_map_finite (y_map, y))
+					y = (series->invalid_as_zero)? 0: go_nan; /* excel is just sooooo consistent */
+				if (!gog_axis_map_finite (x_map, x))
+					x =  (series->invalid_as_zero)? 0: go_nan;
+				alloc.x = gog_axis_map_to_view (x_map, x);
+				alloc.y = gog_axis_map_to_view (y_map, y);
+				Elt = gog_series_labels_vector_get_element (lbls, i - 1);
+				if (Elt->point) {
+					g_object_get (Elt->point, "offset", &cur_offset, NULL);
+					cur_position = gog_data_label_get_position (GOG_DATA_LABEL (Elt->point));
+				} else {
+					cur_offset = offset;
+					cur_position = position;
+				}
+				if (GOG_IS_BUBBLE_PLOT (model)) {
+					cur_offset += msize + ((size_as_area) ?
+							    sqrt (z / zmax) :
+							    z / zmax) * rmax;
+				} else if (overrides &&
+					   GOG_SERIES_ELEMENT (overrides->data)->index == i) {
+					GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (overrides->data));
+					cur_offset += (style->interesting_fields & GO_STYLE_MARKER)?
+						      go_marker_get_size (style->marker.mark)
+						      / 2. * gog_renderer_get_scale (view->renderer):
+					              msize;
+				} else
+					cur_offset += msize;
+				switch (cur_position) {
+				default:
+				case GOG_SERIES_LABELS_CENTERED:
+					anchor = GO_ANCHOR_CENTER;
+					break;
+				case GOG_SERIES_LABELS_TOP:
+					alloc.y -= cur_offset;
+					anchor = GO_ANCHOR_SOUTH;
+					break;
+				case GOG_SERIES_LABELS_BOTTOM:
+					alloc.y += cur_offset;
+					anchor = GO_ANCHOR_NORTH;
+					break;
+				case GOG_SERIES_LABELS_LEFT:
+					alloc.x -= cur_offset;
+					anchor = GO_ANCHOR_EAST;
+					break;
+				case GOG_SERIES_LABELS_RIGHT:
+					alloc.x += cur_offset;
+					anchor = GO_ANCHOR_WEST;
+					break;
+				}
+				gog_renderer_draw_data_label (view->renderer,
+				                              Elt,
+				                              &alloc,
+				                              anchor,
+				                              style);
+			}
+			gog_renderer_pop_style (view->renderer);
+		}
+		g_slist_free (labels);
+	}
+	
 	/* Now render children, may be should come before markers? */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
