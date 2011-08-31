@@ -12,22 +12,22 @@
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005.
 # Chihau Chau <chihau@gmail.com>, 2009.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # 
-# Jorge González <jorgegonz@svn.gnome.org>, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011., 2011.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-08-31 03:20+0000\n"
-"PO-Revision-Date: 2011-08-31 10:23Centra\n"
+"POT-Creation-Date: 2011-08-31 17:14+0000\n"
+"PO-Revision-Date: 2011-08-31 19:17+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: ../goffice/app/file.c:459
 msgid "ID"
@@ -333,7 +333,8 @@ msgstr "No se puede leer el archivo de información del complemento («%s»)."
 #: ../goffice/app/go-plugin.c:761
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "El archivo «%s» no es un archivo válido de información de complementos."
+msgstr ""
+"El archivo «%s» no es un archivo válido de información de complementos."
 
 #: ../goffice/app/go-plugin.c:844
 #, c-format
@@ -355,8 +356,8 @@ msgstr "Nombre desconocido del complemento."
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
-"No se encuentra definido un cargador para el complemento con identificador=«%"
-"s»."
+"No se encuentra definido un cargador para el complemento con "
+"identificador=«%s»."
 
 #: ../goffice/app/go-plugin.c:870
 msgid "Plugin has no id."
@@ -1807,7 +1808,7 @@ msgstr ""
 #: ../goffice/graph/gog-smoothed-curve.c:52
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:76
-#: ../plugins/plot_xy/gog-xy.c:1988
+#: ../plugins/plot_xy/gog-xy.c:2122
 msgid "Details"
 msgstr "Detalles"
 
@@ -2171,19 +2172,19 @@ msgstr "Visualizar _ecuación"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Visualizar el coeficiente de _regresión R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1825 ../goffice/graph/gog-view.c:590
+#: ../goffice/graph/gog-renderer.c:1826 ../goffice/graph/gog-view.c:590
 msgid "Model"
 msgstr "Modelo"
 
-#: ../goffice/graph/gog-renderer.c:1826
+#: ../goffice/graph/gog-renderer.c:1827
 msgid "The GogGraph this renderer displays"
 msgstr "la GogGraph que este renderizador muestra"
 
-#: ../goffice/graph/gog-renderer.c:1831
+#: ../goffice/graph/gog-renderer.c:1832
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1832
+#: ../goffice/graph/gog-renderer.c:1833
 msgid "the GogView this renderer is displaying"
 msgstr "la GogView que está mostrando este renderizador"
 
@@ -2308,10 +2309,9 @@ msgid "Near origin"
 msgstr "Cerca del origen"
 
 #: ../goffice/graph/gog-series-labels.c:370
-#, fuzzy
 #| msgid "Custom labels"
 msgid "Custom label"
-msgstr "Etiquetas personalizadas"
+msgstr "Etiqueta personalizada"
 
 #: ../goffice/graph/gog-series-labels.c:379
 msgid "Custom labels"
@@ -2356,10 +2356,9 @@ msgid "Custom labels:"
 msgstr "Etiquetas personalizadas:"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:2
-#, fuzzy
 #| msgid "_Separation:"
 msgid "Separator:"
-msgstr "_Separación:"
+msgstr "Separador:"
 
 # offset=!compensar
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:3
@@ -3150,7 +3149,7 @@ msgstr "Formatos numéricos"
 
 #: ../goffice/gtk/go-format-sel.ui.h:1
 msgid "As multiple of 𝜋"
-msgstr ""
+msgstr "Como múltiplo de 𝜋"
 
 #: ../goffice/gtk/go-format-sel.ui.h:2
 msgid "Automatic denominator"
@@ -3265,6 +3264,8 @@ msgid ""
 "Split fractions with absolute value larger than 1  into an integer part and "
 "a fractional part (e.g. 4 5/6)"
 msgstr ""
+"Dividir fracciones cuyo valor absolutio sea mayor que 1 en una parte entera "
+"y una fraccional (ej. 4 5/6)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:30
 msgid "Use _superscript"
@@ -3281,7 +3282,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-format-sel.ui.h:33
 msgid "Write the fractions as multiples of 𝜋 (e.g. 9 𝜋/4 or 2 𝜋 + 𝜋/4)"
-msgstr ""
+msgstr "Escribir las fracciones como múltiplos de 𝜋 (ej. 9 𝜋/4 o 2 𝜋 + 𝜋/4)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:34
 msgid "_Don't show 1×s"
@@ -5437,8 +5438,8 @@ msgstr "Líneas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:641
 #: ../plugins/plot_radar/gog-radar.c:1352
-#: ../plugins/plot_radar/gog-radar.c:1478 ../plugins/plot_xy/gog-xy.c:2061
-#: ../plugins/plot_xy/gog-xy.c:2067
+#: ../plugins/plot_radar/gog-radar.c:1478 ../plugins/plot_xy/gog-xy.c:2195
+#: ../plugins/plot_xy/gog-xy.c:2201
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -6801,36 +6802,36 @@ msgstr "Burbuja"
 msgid "XYColor"
 msgstr "Color XY"
 
-#: ../plugins/plot_xy/gog-xy.c:1993 ../plugins/plot_xy/gog-xy.c:2060
+#: ../plugins/plot_xy/gog-xy.c:2127 ../plugins/plot_xy/gog-xy.c:2194
 msgid "X error bars"
 msgstr "Barras de error de X"
 
-#: ../plugins/plot_xy/gog-xy.c:1996 ../plugins/plot_xy/gog-xy.c:2066
+#: ../plugins/plot_xy/gog-xy.c:2130 ../plugins/plot_xy/gog-xy.c:2200
 msgid "Y error bars"
 msgstr "Barras de error de Y"
 
-#: ../plugins/plot_xy/gog-xy.c:2005
+#: ../plugins/plot_xy/gog-xy.c:2139
 msgid "Horizontal drop lines"
 msgstr "Líneas deslizantes horizontales"
 
-#: ../plugins/plot_xy/gog-xy.c:2013
+#: ../plugins/plot_xy/gog-xy.c:2147
 msgid "Vertical drop lines"
 msgstr "Líneas deslizantes verticales"
 
-#: ../plugins/plot_xy/gog-xy.c:2072
+#: ../plugins/plot_xy/gog-xy.c:2206
 msgid "Invalid as zero"
 msgstr "No válido como cero"
 
-#: ../plugins/plot_xy/gog-xy.c:2073
+#: ../plugins/plot_xy/gog-xy.c:2207
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
 
-#: ../plugins/plot_xy/gog-xy.c:2078
+#: ../plugins/plot_xy/gog-xy.c:2212
 msgid "Clamp at start"
 msgstr "Fijar al comienzo"
 
-#: ../plugins/plot_xy/gog-xy.c:2079
+#: ../plugins/plot_xy/gog-xy.c:2213
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -6838,11 +6839,11 @@ msgstr ""
 "Pendiente al inicio de la curva interpolada al usar interpolación de splin "
 "sujeto"
 
-#: ../plugins/plot_xy/gog-xy.c:2084
+#: ../plugins/plot_xy/gog-xy.c:2218
 msgid "Clamp at end"
 msgstr "Fijar al final"
 
-#: ../plugins/plot_xy/gog-xy.c:2085
+#: ../plugins/plot_xy/gog-xy.c:2219
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
