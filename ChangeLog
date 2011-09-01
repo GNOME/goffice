@@ -1,3 +1,12 @@
+2011-09-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series-impl.h: add support for values as percent in
+	data labels.
+	* goffice/graph/gog-series-labels.c: ditto.
+	* goffice/graph/gog-series-labels.h: ditto.
+	* goffice/graph/gog-series.c: ditto.
+	* goffice/graph/gog-series.h: ditto.
+
 2011-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_parse_number_E):

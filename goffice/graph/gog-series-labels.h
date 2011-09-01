@@ -47,6 +47,7 @@ struct _GogDataLabel {
 	char *separator;
 	GogDatasetElement custom_label[2];
 	GogSeriesLabelElt element;
+	gboolean supports_percent;
 };
 
 #define GOG_TYPE_DATA_LABEL		(gog_data_label_get_type ())
@@ -75,6 +76,7 @@ struct _GogSeriesLabels {
 	unsigned n_elts;
 	GogSeriesLabelElt *elements;
 	GList *overrides;
+	gboolean supports_percent;
 };
 
 #define GOG_TYPE_SERIES_LABELS		(gog_series_labels_get_type ())

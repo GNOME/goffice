@@ -100,10 +100,13 @@ typedef struct {
 	GType			 series_element_type;
 
 	/* Virtuals */
-	void (*dim_changed) (GogSeries *series, int dim_i);
-	unsigned (*get_xy_data) (GogSeries const *series,
-					double const **x, double const **y);
+	void        (*dim_changed) (GogSeries *series, int dim_i);
+	unsigned    (*get_xy_data) (GogSeries const *series,
+	                            double const **x, double const **y);
 	GogDataset *(*get_interpolation_params) (GogSeries const *series);
+	gboolean    (*get_data_as_percent) (GogSeries const *series,
+	                                    double const **pc);
+
 } GogSeriesClass;
 
 #define GOG_SERIES_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_SERIES, GogSeriesClass))

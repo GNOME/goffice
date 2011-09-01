@@ -327,7 +327,7 @@ role_series_labels_post_add (GogObject *parent, GogObject *child)
 	labels->format = (i != desc->num_dim)?
 		                            g_strdup_printf ("%%%u", i):
 		                            g_strdup ("");
-	
+	labels->supports_percent = GOG_SERIES_GET_CLASS (series)->get_data_as_percent != NULL;
 }
 
 static void
@@ -1276,4 +1276,16 @@ gog_series_get_interpolation_params (GogSeries const *series)
 	return (series_klass->get_interpolation_params)?
 			series_klass->get_interpolation_params (series):
 			NULL;
+}
+
+gboolean
+gog_series_get_data_as_percent (GogSeries const *series, double const **pc)
+{
+	GogSeriesClass *series_klass;
+
+	g_return_val_if_fail (GOG_IS_SERIES (series), FALSE);
+	series_klass = GOG_SERIES_GET_CLASS (series);
+	return (series_klass->get_data_as_percent)?
+			series_klass->get_data_as_percent (series, pc):
+			FALSE;
 }

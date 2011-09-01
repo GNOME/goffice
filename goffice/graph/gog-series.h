@@ -74,6 +74,8 @@ unsigned	  gog_series_get_xyz_data  	(GogSeries const *series,
 						 double const **x,
 						 double const **y,
 						 double const **z);
+gboolean	  gog_series_get_data_as_percent (GogSeries const *series,
+						  double const **pc);
 
 GogSeriesFillType gog_series_get_fill_type 	(GogSeries const *series);
 void 		  gog_series_set_fill_type 	(GogSeries *series, GogSeriesFillType fill_type);

@@ -149,6 +149,16 @@ used_selection_changed_cb (struct SeriesLabelsState *state)
 						g_strconcat (*format, "%s%l", NULL):
 						g_strdup ("%l");
 				break;
+			case -3:
+				new_format = (*format)?
+						g_strconcat (*format, "%s%n", NULL):
+						g_strdup ("%n");
+				break;
+			case -4:
+				new_format = (*format)?
+						g_strconcat (*format, "%s%p", NULL):
+						g_strdup ("%p");
+				break;
 			default:
 				new_format = (*format)?
 						g_strdup_printf ("%s%%s%%%d", *format, dim):
@@ -343,6 +353,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 	char *format;
 	GogObjectClass *parent_class;
 	char const *custom_lbl;
+	gboolean supports_percent;
 
 	gui = go_gtk_builder_new ("gog-series-labels-prefs.ui", GETTEXT_PACKAGE, cc);
 	labels_prefs = go_gtk_builder_get_widget (gui, "series-labels-prefs");
@@ -356,6 +367,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 		default_pos = lbl->default_pos;
 		format = lbl->format;
 		offset = lbl->offset;
+		supports_percent = lbl->supports_percent;
 		parent_class = GOG_OBJECT_CLASS (data_label_parent_klass);
 		grid = gtk_grid_new ();
 		gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
@@ -375,6 +387,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 		default_pos = lbls->default_pos;
 		format = lbls->format;
 		offset = lbls->offset;
+		supports_percent = lbls->supports_percent;
 		parent_class = GOG_OBJECT_CLASS (series_labels_parent_klass);
 		custom_lbl = _("Custom labels");
 	}
@@ -463,6 +476,18 @@ gog_series_labels_populate_editor (GogObject *gobj,
 				gtk_list_store_set (state->used_list, &iter, 0, _("Legend entry"), 1, -2, -1);
 				dims = g_slist_prepend (dims, GINT_TO_POINTER (-2));
 				break;
+			case 'n':
+				gtk_list_store_append (state->used_list, &iter);
+				gtk_list_store_set (state->used_list, &iter, 0, _("Series name"), 1, -3, -1);
+				dims = g_slist_prepend (dims, GINT_TO_POINTER (-3));
+				break;
+			case 'p':
+				if (supports_percent) {
+					gtk_list_store_append (state->used_list, &iter);
+					gtk_list_store_set (state->used_list, &iter, 0, _("Values as percent"), 1, -4, -1);
+					dims = g_slist_prepend (dims, GINT_TO_POINTER (-4));
+				}
+				break;
 			case '0':
 			case '1':
 			case '2':
@@ -517,6 +542,14 @@ gog_series_labels_populate_editor (GogObject *gobj,
 		if (!g_slist_find (dims, GINT_TO_POINTER (-2))) {
 			gtk_list_store_append (state->avail_list, &iter);
 			gtk_list_store_set (state->avail_list, &iter, 0, _("Legend entry"), 1, -2, -1);
+		}
+		if (!g_slist_find (dims, GINT_TO_POINTER (-3))) {
+			gtk_list_store_append (state->avail_list, &iter);
+			gtk_list_store_set (state->avail_list, &iter, 0, _("Series name"), 1, -3, -1);
+		}
+		if (supports_percent && !g_slist_find (dims, GINT_TO_POINTER (-4))) {
+			gtk_list_store_append (state->avail_list, &iter);
+			gtk_list_store_set (state->avail_list, &iter, 0, _("Values as percent"), 1, -4, -1);
 		}
 		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->avail_list), 1, GTK_SORT_ASCENDING);
 	}
@@ -750,6 +783,27 @@ gog_data_label_update (GogObject *obj)
 				g_string_append_c (str, ' '); /* this one will be replaced by the legend entry */
 				break;
 			}
+			case 'n': {
+				/* add the series name */
+				if (series->values[-1].data) {
+					next = go_data_get_scalar_string (series->values[-1].data);
+					g_string_append (str, next);
+					g_free (next);
+				} else
+					g_string_append (str, gog_object_get_name (GOG_OBJECT (series)));
+				break;
+			}
+			case 'p': {
+				double const *pc;
+				if (gog_series_get_data_as_percent (series, &pc)) {
+					/* Note to translators: a space might be needed before '%%' in some languages */
+					/* FIXME: should the number of digits be customizable? */
+					next = g_strdup_printf (_("%.1f%%"), pc[lbl->index]);
+					g_string_append (str, next); /* this one will be replaced by the legend entry */
+					g_free (next);
+				}
+				break;
+			}
 			case '0':
 			case '1':
 			case '2':
@@ -859,8 +913,11 @@ gog_data_label_dataset_dim_changed (GogDataset *set, int dim_i)
 	if (dim_i == 1) {
 		GogDataLabel *dl = GOG_DATA_LABEL (set);
 		g_free (dl->separator);
-		dl->separator = go_data_get_scalar_string (dl->custom_label[1].data);
+		dl->separator = GO_IS_DATA (dl->custom_label[1].data)?
+			go_data_get_scalar_string (dl->custom_label[1].data):
+			g_strdup (" ");
 	}
+	gog_object_emit_changed (gog_object_get_parent (GOG_OBJECT (set)), TRUE);
 	gog_object_request_update (gog_object_get_parent (GOG_OBJECT (set)));
 }
 
@@ -1069,6 +1126,7 @@ gog_series_labels_get_property (GObject *obj, guint param_id,
 	}
 }
 
+#if 0
 static void
 gog_series_labels_parent_changed (GogObject *obj, gboolean was_set)
 {
@@ -1078,6 +1136,7 @@ gog_series_labels_parent_changed (GogObject *obj, gboolean was_set)
 
 	if (!was_set)
 		return;
+
 	plot = (GogPlot *) gog_object_get_parent_typed (obj, GOG_TYPE_PLOT);
 	g_free (labels->format);
 	labels->format = NULL;
@@ -1094,6 +1153,7 @@ gog_series_labels_parent_changed (GogObject *obj, gboolean was_set)
 	}
 
 }
+#endif
 
 static void
 gog_series_labels_changed (GogObject *obj, gboolean size)
@@ -1117,6 +1177,7 @@ gog_series_labels_update (GogObject *obj)
 	}
 	if (GOG_IS_SERIES (parent)) {
 		GogSeries *series = GOG_SERIES (parent);
+		double const *pc = NULL;
 		labels->n_elts = n = gog_series_num_elements (series);
 		labels->elements = g_new0 (GogSeriesLabelElt, n);
 		override = labels->overrides;
@@ -1159,6 +1220,26 @@ gog_series_labels_update (GogObject *obj)
 						case 'l': {
 							labels->elements[i].legend_pos = str->len;
 							g_string_append_c (str, ' '); /* this one will be replaced by the legend entry */
+							break;
+						}
+						case 'n': {
+							/* add the series name */
+							if (series->values[-1].data) {
+								next = go_data_get_scalar_string (series->values[-1].data);
+								g_string_append (str, next);
+								g_free (next);
+							} else
+								g_string_append (str, gog_object_get_name (GOG_OBJECT (series)));
+							break;
+						}
+						case 'p': {
+							if (pc || gog_series_get_data_as_percent (series, &pc)) {
+								/* Note to translators: a space might be needed before '%%' in some languages */
+								/* FIXME: should the number of digits be customizable? */
+								next = g_strdup_printf (_("%.1f%%"), pc[i]);
+								g_string_append (str, next); /* this one will be replaced by the legend entry */
+								g_free (next);
+							}
 							break;
 						}
 						case '0':
@@ -1261,6 +1342,7 @@ role_data_label_post_add (GogObject *parent, GogObject *child)
 	lbl->default_pos = lbls->default_pos;
 	lbl->allowed_pos = lbls->allowed_pos;
 	lbl->position = lbls->position;
+	lbl->supports_percent = lbls->supports_percent;
 }
 
 static void
@@ -1317,7 +1399,7 @@ gog_series_labels_class_init (GObjectClass *obj_klass)
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_series_labels_populate_editor;
 #endif
-	gog_klass->parent_changed = gog_series_labels_parent_changed;
+/*	gog_klass->parent_changed = gog_series_labels_parent_changed;*/
 	gog_klass->changed = gog_series_labels_changed;
 	gog_klass->update = gog_series_labels_update;
 	style_klass->init_style = gog_series_labels_init_style;
@@ -1350,9 +1432,11 @@ gog_series_labels_dataset_dim_changed (GogDataset *set, int dim_i)
 	if (dim_i == 1) {
 		GogSeriesLabels *sl = GOG_SERIES_LABELS (set);
 		g_free (sl->separator);
-		sl->separator = go_data_get_scalar_string (sl->custom_labels[1].data);
+		sl->separator = GO_IS_DATA (sl->custom_labels[1].data)?
+			go_data_get_scalar_string (sl->custom_labels[1].data):
+			g_strdup (" ");
 	}
-	gog_object_request_update (gog_object_get_parent (GOG_OBJECT (set)));
+	gog_object_emit_changed (gog_object_get_parent (GOG_OBJECT (set)), TRUE);
 }
 
 static void
