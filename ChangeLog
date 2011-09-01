@@ -1,5 +1,12 @@
 2011-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_parse_number_new_1): mark
+	the end of the number
+	(go_format_dump_program): support new op
+	(go_format_execute): watch for stuff following the E
+
+2011-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/gtk/go-format-sel.c (cb_si_toggle): new
 	(fmt_dialog_enable_widgets): handle si_button
 	(format_entry_set_text): check for null text

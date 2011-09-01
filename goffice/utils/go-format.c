@@ -177,6 +177,7 @@ typedef enum {
 	OP_NUM_EXPONENT_SIGN,	/* forced-p */
 	OP_NUM_EXPONENT_1,
 	OP_NUM_VAL_EXPONENT,
+	OP_NUM_STORE_POS,
 #ifdef ALLOW_EE_MARKUP
 	OP_NUM_MARK_MANTISSA,
 	OP_NUM_SIMPLIFY_MANTISSA,
@@ -1692,6 +1693,8 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 
 	one_pos = (dot_pos == -1) ? tno_end - 1 : dot_pos - 1;
 	ADD_OP (OP_NUM_MOVETO_ONES);
+	if (E_part == 2)
+		ADD_OP (OP_NUM_STORE_POS);
 	for (i = one_pos; i >= tno_numstart; i--) {
 		const GOFormatParseItem *ti = &GET_TOKEN(i);
 
@@ -2444,6 +2447,7 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_NUM_DENUM_DIGIT_Q);
 		REGULAR(OP_NUM_EXPONENT_1);
 		REGULAR(OP_NUM_VAL_EXPONENT);
+		REGULAR(OP_NUM_STORE_POS);
 #ifdef ALLOW_EE_MARKUP
 		REGULAR(OP_NUM_MARK_MANTISSA);
 		REGULAR(OP_NUM_SIMPLIFY_MANTISSA);
@@ -2790,6 +2794,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	size_t dotpos = 0;
 	size_t numi = 0;
 	int numpos = -1;
+	int numpos_end = -1;
 	int generalpos = -1;
 	const GString *decimal = go_locale_get_decimal ();
 	const GString *comma = go_locale_get_thousand ();
@@ -3288,11 +3293,17 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				char c = numtxt->str[--numi];
 				digit_count++;
 				if (thousands && digit_count > 3 &&
-				    digit_count % 3 == 1)
+				    digit_count % 3 == 1) {
 					g_string_insert_len (dst, numpos,
 							     comma->str,
 							     comma->len);
+					if (numpos_end >= 0)
+						numpos_end += comma->len;
+				}
 				g_string_insert_c (dst, numpos, c);
+				if (numpos_end >= 0)
+					numpos_end++;
+				
 			}
 			break;
 
@@ -3323,8 +3334,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			    digit_count % 3 == 1) {
 				g_string_insert_len (dst, numpos,
 						     comma->str, comma->len);
+				if (numpos_end >= 0)
+					numpos_end += comma->len;
 			}
 			g_string_insert_c (dst, numpos, c);
+			if (numpos_end >= 0)
+				numpos_end++;
 			break;
 		}
 
@@ -3379,6 +3394,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			val = SUFFIX (fabs) (exponent);
 			break;
 
+		case OP_NUM_STORE_POS:
+			numpos_end = numpos;
+			break;
+
 		case OP_NUM_EXPONENT_1:
 			exponent = 1;
 			break;
@@ -3395,8 +3414,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_NUM_SIMPLIFY_MARKUP_MANTISSA:
 			if (special_mantissa == 0) {
-				g_string_truncate (dst, mantissa_start);
-				g_string_append_c (dst, '0');
+				g_string_erase (dst, mantissa_start, 
+						numpos_end - mantissa_start);
+				g_string_insert_c (dst, mantissa_start, '0');
+				numpos_end = mantissa_start + 1;
 			}
 			break;
 
@@ -3409,7 +3430,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_MARKUP_SUPERSCRIPT_END:
 			if (layout) {
 				guint start = 0,
-					end = (guint)dst->len;
+					end = (guint)numpos_end;
 				PangoAttribute *attr;
 				if (markup_stack) {
 					start = (guint)GPOINTER_TO_SIZE (markup_stack->data);
@@ -3434,18 +3455,22 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			break;
 
 		case OP_NUM_SIMPLIFY_EXPONENT_SI:
-			if (exponent == 0 && si_pos > 0) {
-				int len = dst->len - si_pos;
+			if (exponent == 0 && si_pos > 0 && numpos_end >= 0) {
+				int len = numpos_end - si_pos;
 				if (attrs)
 					go_pango_attr_list_erase (attrs, si_pos, len);
 				g_string_erase (dst, si_pos, len);
+				numpos_end = si_pos;
 			}
 			break;
 
 		case OP_NUM_SI_EXPONENT:
-			g_string_append_c (dst, ' ');
-			if (si_str != NULL)
-				g_string_append (dst, si_str);
+			g_string_insert_c (dst, numpos_end, ' ');
+			numpos_end++;
+			if (si_str != NULL) {
+				g_string_insert (dst, numpos_end, si_str);
+				numpos_end += strlen (si_str);
+			}
 			si_pos = 0;
 			break;
 #endif
