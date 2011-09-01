@@ -1,5 +1,13 @@
 2011-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_parse_number_E):
+	use OP_NUM_SIMPLIFY_MANTISSA_SI instead of OP_NUM_SIMPLIFY_MANTISSA
+	if appropriate
+	(go_format_execute): handle OP_NUM_SIMPLIFY_MANTISSA_SI
+	(go_format_dump_program): ditto
+
+2011-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_parse_number_new_1): mark
 	the end of the number
 	(go_format_dump_program): support new op

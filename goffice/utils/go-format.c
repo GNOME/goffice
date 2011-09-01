@@ -186,6 +186,7 @@ typedef enum {
 	OP_MARKUP_SUPERSCRIPT_END,
 #endif
 #ifdef ALLOW_SI_APPEND
+	OP_NUM_SIMPLIFY_MANTISSA_SI,
 	OP_NUM_REDUCE_EXPONENT_SI,
 	OP_NUM_SIMPLIFY_EXPONENT_SI,
 	OP_NUM_SI_EXPONENT,
@@ -1869,8 +1870,12 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 #ifdef ALLOW_EE_MARKUP
 	if (use_markup) {
 		ADD_OPuc (OP_CHAR, UNICODE_TIMES);
-		if (simplify_mantissa)
-			ADD_OP (OP_NUM_SIMPLIFY_MANTISSA);
+		if (simplify_mantissa) {
+			if (append_SI)
+				ADD_OP (OP_NUM_SIMPLIFY_MANTISSA_SI);
+			else
+				ADD_OP (OP_NUM_SIMPLIFY_MANTISSA);
+		}
 		ADD_OP2 (OP_CHAR, '1');
 		ADD_OP2 (OP_CHAR, '0');
 		ADD_OP  (OP_MARKUP_SUPERSCRIPT_START);
@@ -2456,6 +2461,7 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_MARKUP_SUPERSCRIPT_END);
 #endif
 #ifdef ALLOW_SI_APPEND
+		REGULAR(OP_NUM_SIMPLIFY_MANTISSA_SI);
 		REGULAR(OP_NUM_REDUCE_EXPONENT_SI);
 		REGULAR(OP_NUM_SIMPLIFY_EXPONENT_SI);
 		REGULAR(OP_NUM_SI_EXPONENT);
@@ -2803,7 +2809,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	int exponent = 0;
 #ifdef ALLOW_SI_APPEND
 	char const *si_str = NULL;
-	int si_pos = 0;
+	int si_pos = -1;
 #endif
 	struct {
 		DOUBLE w, n, d, val;
@@ -3449,6 +3455,14 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			break;
 #endif
 #ifdef ALLOW_SI_APPEND
+		case OP_NUM_SIMPLIFY_MANTISSA_SI:
+			if (exponent != 0 && special_mantissa != INT_MAX) {
+				g_string_truncate (dst, mantissa_start);
+				si_pos = mantissa_start;
+			}
+			
+			break;
+
 		case OP_NUM_REDUCE_EXPONENT_SI:
 			exponent -= si_reduction (exponent, &si_str);
 			si_pos = dst->len;
@@ -3471,7 +3485,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				g_string_insert (dst, numpos_end, si_str);
 				numpos_end += strlen (si_str);
 			}
-			si_pos = 0;
+			si_pos = -1;
 			break;
 #endif
 
