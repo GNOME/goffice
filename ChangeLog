@@ -1,3 +1,21 @@
+2011-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/gtk/go-format-sel.c (cb_si_toggle): new
+	(fmt_dialog_enable_widgets): handle si_button
+	(format_entry_set_text): check for null text
+	(nfs_init): connect cb_si_toggle
+	* goffice/gtk/go-format-sel.ui: add si_button
+	* goffice/utils/go-format.h: move defs here from the .c file
+	* goffice/utils/go-format.c: move defs to .h file
+	(go_format_token2): split E token into separate tokens
+	(go_format_preparse): handle new tokens
+	(go_format_parse_number_new_1): new ' scale
+	(go_format_parse_number_E): support SI prefixes
+	(si_reduction): new
+	(go_format_execute): support SI prefixes
+	(go_format_generate_scientific_str): appens SI marker
+	(go_format_get_details): store SI info
+
 2011-08-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_draw_data_label): center

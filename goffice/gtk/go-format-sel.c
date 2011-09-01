@@ -93,6 +93,7 @@ typedef enum {
 	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
 	F_DECIMAL_SPIN,		F_ENGINEERING_BUTTON,
 	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
+	F_SI_BUTTON,
 	F_EXP_DIGITS,           F_EXP_DIGITS_LABEL,
 	F_NEGATIVE_LABEL,	F_NEGATIVE_SCROLL,	F_NEGATIVE,
 	F_DECIMAL_LABEL,	F_CODE_LABEL,
@@ -384,6 +385,15 @@ cb_engineering_toggle (GtkWidget *w, GOFormatSel *gfs)
 }
 
 static void
+cb_si_toggle (GtkWidget *w, GOFormatSel *gfs)
+{
+	gfs->format.details.append_SI =
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
 cb_superscript_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
 	gfs->format.details.use_markup =
@@ -589,8 +599,10 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_FRACTION_MIN_DENOM_DIGITS_LABEL,
 			F_FRACTION_MAX_DENOM_DIGITS,
 			F_FRACTION_MIN_DENOM_DIGITS,
+#ifdef ALLOW_PI_SLASH
 			F_FRACTION_PI_SCALE,
 			F_BASE_SEPARATOR,
+#endif
 			F_MAX_WIDGET
 		},
 		/* Scientific */
@@ -603,6 +615,9 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_SUPERSCRIPT_HIDE_1_BUTTON,
 			F_EXP_DIGITS,
 			F_EXP_DIGITS_LABEL,
+#ifdef ALLOW_SI_APPEND
+			F_SI_BUTTON,
+#endif
 			F_MAX_WIDGET
 		},
 		/* Text */
@@ -736,20 +751,24 @@ stays:
 			break;
 
 		case F_SUPERSCRIPT_BUTTON:
+#ifdef ALLOW_EE_MARKUP
 			if (gfs->show_format_with_markup) {
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 							      gfs->format.details.use_markup);
 			} else
+#endif
 				show_widget = FALSE;
 			break;
 
 		case F_SUPERSCRIPT_HIDE_1_BUTTON:
+#ifdef ALLOW_EE_MARKUP
 			if (gfs->show_format_with_markup) {
 
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 							      gfs->format.details.simplify_mantissa);
 				gtk_widget_set_sensitive (w, gfs->format.details.use_markup);
 			} else
+#endif
 				show_widget = FALSE;
 			break;
 
@@ -765,6 +784,16 @@ stays:
 					(GTK_SPIN_BUTTON (w),
 					 gfs->format.details.exponent_digits);
 			}
+			break;
+
+		case F_SI_BUTTON:
+			gtk_toggle_button_set_active 
+#ifdef ALLOW_SI_APPEND
+				(GTK_TOGGLE_BUTTON (w),
+				 gfs->format.details.append_SI);
+#else
+				(GTK_TOGGLE_BUTTON (w), FALSE);
+#endif
 			break;
 
 		case F_ENGINEERING_BUTTON:
@@ -836,9 +865,13 @@ stays:
 			break;
 
 		case F_FRACTION_PI_SCALE:
-			gtk_toggle_button_set_active 
+			gtk_toggle_button_set_active
+#ifdef ALLOW_PI_SLASH
 				(GTK_TOGGLE_BUTTON (w),
 				 gfs->format.details.pi_scale);
+#else
+				(GTK_TOGGLE_BUTTON (w), FALSE);			
+#endif
 			break;
 
 		default:
@@ -925,7 +958,7 @@ format_entry_set_text (GOFormatSel *gfs, const gchar *text)
 	GtkEntry *entry = GTK_ENTRY (gfs->format.widget[F_ENTRY]);
 
 	g_signal_handler_block (entry, gfs->format.entry_changed_id);
-	gtk_entry_set_text (entry, text);
+	gtk_entry_set_text (entry, text ? text : "");
 	g_signal_handler_unblock (entry, gfs->format.entry_changed_id);
 	cb_format_entry_changed (GTK_EDITABLE (entry), gfs);
 }
@@ -1142,6 +1175,7 @@ nfs_init (GOFormatSel *gfs)
 		"format_engineering_button",
 		"format_superscript_button",
 		"format_superscript_hide_1_button",
+		"format_si_button",
 		"format_exp_digits",
 		"format_exp_digits_label",
 		"format_negatives_label",
@@ -1289,6 +1323,8 @@ nfs_init (GOFormatSel *gfs)
 		G_CALLBACK (cb_engineering_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_BUTTON]), "toggled",
 		G_CALLBACK (cb_superscript_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_BUTTON]), "toggled",
+		G_CALLBACK (cb_si_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON]), 
 			  "toggled", G_CALLBACK (cb_superscript_hide_1_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_AUTOMATIC]), 

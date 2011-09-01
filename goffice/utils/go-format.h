@@ -95,6 +95,7 @@ typedef struct {
 	int exponent_digits;
 	gboolean use_markup;
 	gboolean simplify_mantissa;
+	gboolean append_SI;
 
 	/* FRACTION: */
 	gboolean automatic_denominator;
@@ -107,6 +108,13 @@ typedef struct {
 
 	int expansion[30];
 } GOFormatDetails;
+
+/*************************************************************************/
+
+/* We need these in the format selector */
+#define ALLOW_EE_MARKUP
+#define ALLOW_SI_APPEND
+#define ALLOW_PI_SLASH
 
 /*************************************************************************/
 

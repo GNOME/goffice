@@ -53,10 +53,10 @@
 
 #define OBSERVE_XL_CONDITION_LIMITS
 #define OBSERVE_XL_EXPONENT_1
-#define ALLOW_EE_MARKUP
-#define ALLOW_PI_SLASH
 #define ALLOW_NEGATIVE_TIMES
 #define MAX_DECIMALS 100
+
+/* Note that the header file contains ALLOW_EE_MARKUP ALLOW_SI_APPEND ALLOW_PI_SLASH */
 
 /* ------------------------------------------------------------------------- */
 
@@ -180,10 +180,16 @@ typedef enum {
 #ifdef ALLOW_EE_MARKUP
 	OP_NUM_MARK_MANTISSA,
 	OP_NUM_SIMPLIFY_MANTISSA,
-	OP_NUM_SIMPLIFY_EXPONENT,
+	OP_NUM_SIMPLIFY_MARKUP_MANTISSA,
 	OP_MARKUP_SUPERSCRIPT_START,
 	OP_MARKUP_SUPERSCRIPT_END,
 #endif
+#ifdef ALLOW_SI_APPEND
+	OP_NUM_REDUCE_EXPONENT_SI,
+	OP_NUM_SIMPLIFY_EXPONENT_SI,
+	OP_NUM_SI_EXPONENT,
+#endif
+
 	OP_NUM_FRACTION,	/* wholep explicitp (digits|denominator) */
 	OP_NUM_FRACTION_WHOLE,
 	OP_NUM_FRACTION_NOMINATOR,
@@ -231,6 +237,17 @@ typedef enum {
 
 	TOK_DECIMAL,            /* Decimal sep  */
 	TOK_THOUSAND,           /* Thousand sep */
+
+	TOK_EXP,                /* E */
+#ifdef ALLOW_EE_MARKUP
+	TOK_EXP_MU,             /* EE */
+#endif
+#ifdef ALLOW_SI_APPEND
+	TOK_EXP_SI,             /* ESI */
+#endif
+#if defined(ALLOW_EE_MARKUP) && defined(ALLOW_SI_APPEND)
+	TOK_EXP_MU_SI,          /* EESI */
+#endif
 
 	TOK_ERROR
 } GOFormatToken;
@@ -302,6 +319,7 @@ struct _GOFormat {
 			guchar *program;
 			unsigned int E_format    : 1;
 			unsigned int use_markup  : 1;
+			unsigned int use_SI      : 1;
 			unsigned int has_date    : 1;
 			unsigned int date_ybm    : 1;  /* year, then month.  */
 			unsigned int date_mbd    : 1;  /* month, then day.  */
@@ -876,8 +894,30 @@ go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 	case '#':
 	case '?':
 	case '%':
+		tt = TT_ALLOWED_IN_NUMBER | TT_STARTS_NUMBER;
+		break;
+
 	case 'E':
 		tt = TT_ALLOWED_IN_NUMBER | TT_STARTS_NUMBER;
+#ifdef ALLOW_SI_APPEND
+		if (str[1] == 'S' && str[2] == 'I') {
+			t = TOK_EXP_SI,
+			len = 3;
+		} else 
+#endif
+#if defined(ALLOW_EE_MARKUP) && defined(ALLOW_SI_APPEND)
+		if (str[1] == 'E' && str[2] == 'S' && str[3] == 'I') {
+			t = TOK_EXP_MU_SI;
+			len = 4;
+		} else 
+#endif
+#ifdef ALLOW_EE_MARKUP
+	        if (str[1] == 'E') {
+			t = TOK_EXP_MU;
+			len = 2;
+		} else
+#endif
+			t = TOK_EXP;
 		break;
 
 	case '@':
@@ -1064,15 +1104,19 @@ go_format_preparse (const char *str, GOFormatParseState *pstate,
 			ntokens++;
 			break;
 
-		case 'E':
-			ntokens++;
-			if (pstate->tno_E >= 0) {
+		case TOK_EXP:
 #ifdef ALLOW_EE_MARKUP
-				if (pstate->tno_E == tno - 1)
-					break;
+		case TOK_EXP_MU:
 #endif
+#ifdef ALLOW_SI_APPEND
+		case TOK_EXP_SI:
+#endif
+#if defined(ALLOW_EE_MARKUP) && defined(ALLOW_SI_APPEND)
+		case TOK_EXP_MU_SI:
+#endif
+			ntokens++;
+			if (pstate->tno_E >= 0)
 				goto error;
-			}
 			pstate->tno_E = tno;
 			break;
 
@@ -1579,8 +1623,13 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			break;
 
 		case '%':
-			if (E_part != 2)
-				scale += 2;
+			if (E_part != 1 && E_part != 2)
+ 				scale += 2;
+ 			break;
+ 
+		case '\'':
+			if (E_part == 1)
+				scale += 3;
 			break;
 
 		case TOK_THOUSAND:
@@ -1605,7 +1654,8 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 	if (E_part == 1) {
 		if (tno_numstart == -1)
 			goto error;
-
+		if (scale)
+			ADD_OP2 (OP_NUM_SCALE, scale);
 		ADD_OP3 (OP_NUM_PRINTF_E, decimals, whole_digits);
 #ifdef OBSERVE_XL_EXPONENT_1
 		if (whole_digits + decimals == 0) {
@@ -1617,7 +1667,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 		}
 #endif
 	} else {
-		if (scale && !frac_part)
+		if (scale && !frac_part && E_part != 2)
 			ADD_OP2 (OP_NUM_SCALE, scale);
 		ADD_OP2 (OP_NUM_PRINTF_F, decimals);
 		if (thousands && !inhibit_thousands)
@@ -1668,6 +1718,10 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			if (frac_part == 3)
 				ADD_OP2 (OP_CHAR, ',');
 			break;
+		case '\'':
+			if (E_part == 1)
+				break;
+			/* Fall through */
 		default:
 			handle_common_token (ti->tstr, ti->token, prg);
 		}
@@ -1690,6 +1744,10 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 				break;
 			case TOK_THOUSAND:
 				break;
+			case '\'':
+				if (E_part == 1)
+					break;
+				/* Fall through */
 			default:
 				handle_common_token (ti->tstr, ti->token, prg);
 			}
@@ -1732,29 +1790,39 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 {
 	GOFormat *fmt;
 	GString *prg;
-	gboolean use_markup;
+	gboolean use_markup = FALSE;
+	gboolean append_SI = FALSE;
+	gboolean simplify_mantissa = TRUE;
 	int tno_end = pstate->tokens->len;
 	int tno_exp_start = pstate->tno_E + 2;
-	gboolean simplify_mantissa;
 
 	if (tno_exp_start >= tno_end)
 		return NULL;
-	switch (GET_TOKEN (pstate->tno_E + 1).token) {
-	case '-':
-		use_markup = FALSE;
-		simplify_mantissa = FALSE;
-		pstate->forced_exponent_sign = FALSE;
-		break;
-	case '+':
-		use_markup = FALSE;
-		simplify_mantissa = FALSE;
-		pstate->forced_exponent_sign = TRUE;
-		break;
-#ifdef ALLOW_EE_MARKUP
-	case 'E': {
-		int i;
 
+	switch (GET_TOKEN (pstate->tno_E).token) {
+#ifdef ALLOW_SI_APPEND
+	case TOK_EXP_SI:
+		append_SI = TRUE;
+		break;
+#endif
+#if defined(ALLOW_EE_MARKUP) && defined(ALLOW_SI_APPEND)
+	case TOK_EXP_MU_SI:
+		append_SI = TRUE;
 		use_markup = TRUE;
+		break;
+#endif
+#ifdef ALLOW_EE_MARKUP
+	case TOK_EXP_MU:
+		use_markup = TRUE;
+		break;
+#endif
+	case TOK_EXP:
+	default:
+		break;
+	}
+
+	if (use_markup) {
+		int i;
 		pstate->forced_exponent_sign =
 			(GET_TOKEN (tno_exp_start).token == '+');
 		if (pstate->forced_exponent_sign)
@@ -1769,12 +1837,18 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 				break;
 			}
 		}
+	} else
+		simplify_mantissa = FALSE;
 
+	switch (GET_TOKEN (pstate->tno_E + 1).token) {
+	case '-':
+		pstate->forced_exponent_sign = FALSE;
 		break;
-	}
-#endif
+	case '+':
+		pstate->forced_exponent_sign = TRUE;
+		break;
 	default:
-		return NULL;
+		break;
 	}
 
 	prg = g_string_new (NULL);
@@ -1784,6 +1858,10 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 					   1, 0, NULL))
 		return NULL;
 
+#ifdef ALLOW_SI_APPEND
+	if (append_SI)
+		ADD_OP (OP_NUM_REDUCE_EXPONENT_SI);
+#endif
 	ADD_OP (OP_NUM_VAL_EXPONENT);
 #ifdef ALLOW_EE_MARKUP
 	if (use_markup) {
@@ -1805,8 +1883,14 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 #ifdef ALLOW_EE_MARKUP
 	if (use_markup) {
 		if (simplify_mantissa)
-			ADD_OP (OP_NUM_SIMPLIFY_EXPONENT);
+			ADD_OP (OP_NUM_SIMPLIFY_MARKUP_MANTISSA);
 		ADD_OP  (OP_MARKUP_SUPERSCRIPT_END);
+	}
+#endif
+#ifdef ALLOW_SI_APPEND
+	if (append_SI) {
+		ADD_OP  (OP_NUM_SIMPLIFY_EXPONENT_SI);
+		ADD_OP  (OP_NUM_SI_EXPONENT);
 	}
 #endif
 
@@ -1816,6 +1900,7 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 	fmt->u.number.program = g_string_free (prg, FALSE);
 	fmt->u.number.E_format = TRUE;
 	fmt->u.number.use_markup = use_markup;
+	fmt->u.number.use_SI = append_SI;
 	fmt->u.number.scale_is_2 = (pstate->scale == 2);
 	return fmt;
 }
@@ -2362,9 +2447,14 @@ go_format_dump_program (const guchar *prg)
 #ifdef ALLOW_EE_MARKUP
 		REGULAR(OP_NUM_MARK_MANTISSA);
 		REGULAR(OP_NUM_SIMPLIFY_MANTISSA);
-		REGULAR(OP_NUM_SIMPLIFY_EXPONENT);
+		REGULAR(OP_NUM_SIMPLIFY_MARKUP_MANTISSA);
 		REGULAR(OP_MARKUP_SUPERSCRIPT_START);
 		REGULAR(OP_MARKUP_SUPERSCRIPT_END);
+#endif
+#ifdef ALLOW_SI_APPEND
+		REGULAR(OP_NUM_REDUCE_EXPONENT_SI);
+		REGULAR(OP_NUM_SIMPLIFY_EXPONENT_SI);
+		REGULAR(OP_NUM_SI_EXPONENT);
 #endif
 		REGULAR(OP_NUM_FRACTION_WHOLE);
 		REGULAR(OP_NUM_FRACTION_NOMINATOR);
@@ -2624,6 +2714,48 @@ cnt_digits (int d)
 }
 #endif
 
+#if defined(ALLOW_SI_APPEND) && defined (DEFINE_COMMON)
+static int
+si_reduction (int exponent, char const **si)
+{
+	static struct {
+		char const *prefix;
+		int power;
+	} si_prefixes[] = {
+		{"Y" , 24},
+		{"Z" , 21},
+		{"E" , 18},
+		{"P" , 15},
+		{"T" , 12},
+		{"G" ,  9},
+		{"M" ,  6},
+		{"k" ,  3},
+		{"h" ,  2},
+		{"da" , 1},
+		{"" ,  0},
+		{"d" , -1},
+		{"c" , -2},
+		{"m" , -3},
+		{"\302\265" , -6},
+		{"n" , -9},
+		{"p" ,-12},
+		{"f" ,-15},
+		{"a" ,-18},
+		{"z" ,-21},
+		{"y" ,-24}
+	};
+	guint i;
+	
+	for (i = 0; i < G_N_ELEMENTS (si_prefixes); i++)
+		if (si_prefixes[i].power <= exponent)
+			break;
+	
+	*si = si_prefixes[i].prefix;
+	return si_prefixes[i].power;
+}
+
+#endif
+
 
 
 #define INSERT_MINUS(pos) do {							\
@@ -2664,6 +2796,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	gboolean thousands = FALSE;
 	gboolean digit_count = 0;
 	int exponent = 0;
+#ifdef ALLOW_SI_APPEND
+	char const *si_str = NULL;
+	int si_pos = 0;
+#endif
 	struct {
 		DOUBLE w, n, d, val;
 		int digits;
@@ -3257,7 +3393,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				g_string_truncate (dst, mantissa_start);
 			break;
 
-		case OP_NUM_SIMPLIFY_EXPONENT:
+		case OP_NUM_SIMPLIFY_MARKUP_MANTISSA:
 			if (special_mantissa == 0) {
 				g_string_truncate (dst, mantissa_start);
 				g_string_append_c (dst, '0');
@@ -3289,6 +3425,28 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				attr->end_index = end;
 				pango_attr_list_insert (attrs, attr);
 			}
+			break;
+#endif
+#ifdef ALLOW_SI_APPEND
+		case OP_NUM_REDUCE_EXPONENT_SI:
+			exponent -= si_reduction (exponent, &si_str);
+			si_pos = dst->len;
+			break;
+
+		case OP_NUM_SIMPLIFY_EXPONENT_SI:
+			if (exponent == 0 && si_pos > 0) {
+				int len = dst->len - si_pos;
+				if (attrs)
+					go_pango_attr_list_erase (attrs, si_pos, len);
+				g_string_erase (dst, si_pos, len);
+			}
+			break;
+
+		case OP_NUM_SI_EXPONENT:
+			g_string_append_c (dst, ' ');
+			if (si_str != NULL)
+				g_string_append (dst, si_str);
+			si_pos = 0;
 			break;
 #endif
 
@@ -5456,10 +5614,13 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 
 	if (details->use_markup)
 		g_string_append_c (dst, 'E');
+	g_string_append_c (dst, 'E');
+	if (details->append_SI)
+		g_string_append_len (dst, "SI", 2);
 
 	/* Maximum not terribly important. */
 	digits = CLAMP (details->exponent_digits, 1, 10);
-	g_string_append (dst, "E+");
+	g_string_append_c (dst, '+');
 	go_string_append_c_n (dst, '0', digits);
 	
 }
@@ -5881,6 +6042,7 @@ go_format_get_details (GOFormat const *fmt,
 		if (dst->family == GO_FORMAT_SCIENTIFIC) {
 			const char *epos = strchr (str, 'E');
 			const char *mend = dot ? dot : epos;
+			dst->append_SI = (strstr (str, "ESI") != NULL);
 			dst->use_markup = (strstr (str, "EE") != NULL);
 			dst->exponent_step = mend - str;
 			dst->simplify_mantissa = mend != str && mend[-1] == '#';
