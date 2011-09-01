@@ -1,5 +1,10 @@
 2011-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-text.c (goc_text_prepare_draw): always initialize
+	dx and dy variables.
+
+2011-09-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-series-impl.h: add support for values as percent in
 	data labels.
 	* goffice/graph/gog-series-labels.c: ditto.

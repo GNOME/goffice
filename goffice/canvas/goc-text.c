@@ -263,6 +263,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 	text->h = (double) rect.height / PANGO_SCALE;
 	item->x0 = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x;
 	item->y0 = text->y;
+	dx = dy = 0;
 	/* adjust horizontally */
 	switch (text->anchor) {
 	case GO_ANCHOR_CENTER:
