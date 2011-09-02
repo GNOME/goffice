@@ -24,6 +24,7 @@ Jean:
 	chart. [#657696]
 	* Don't crash when pseudo3d axis has too large manual ticks
 	spacing. [#657695]
+	* Use data format for discrete axis. [#641901]
 
 Morten:
 	* Recognize scientific formats with longer exponents.

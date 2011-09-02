@@ -393,17 +393,24 @@ map_discrete_calc_ticks (GogAxis *axis)
 		if (axis->labels != NULL) {
 			if (index < (int) go_data_get_vector_size (axis->labels) && index >= 0) {
 				PangoAttrList *l = go_data_get_vector_markup (axis->labels, index);
-				label = go_data_get_vector_string (axis->labels, index);
-				if (l != NULL)
+				if (l != NULL) {
+					label = go_data_get_vector_string (axis->labels, index);
 					gog_axis_ticks_set_markup (&ticks[j], label, l);
-				else
-					gog_axis_ticks_set_text (&ticks[j], label);
-				g_free (label);
+					g_free (label);
+				} else {
+					double val = go_data_get_vector_value (axis->labels, index);
+					if (go_finite (val)) 
+						axis_format_value (axis, val, &ticks[j].str);
+					else {
+						label = go_data_get_vector_string (axis->labels, index);
+						gog_axis_ticks_set_text (&ticks[j], label);
+						g_free (label);
+					}
+				}
 			}
 		} else {
 			label = g_strdup_printf ("%d", index + 1);
 			gog_axis_ticks_set_text (&ticks[j], label);
-			g_free (label);
 		}
 	}
 
@@ -2635,7 +2642,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	    (GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
 	    /* Format page */
-	    if (!axis->is_discrete) {
+	    {
 		    GOFormat *fmt = gog_axis_get_effective_format (axis);
 		    w = go_format_sel_new_full (TRUE);
 		    state->format_selector = w;
