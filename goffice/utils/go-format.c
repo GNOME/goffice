@@ -2756,7 +2756,7 @@ si_reduction (int exponent, char const **si)
 	};
 	guint i;
 	
-	for (i = 0; i < G_N_ELEMENTS (si_prefixes); i++)
+	for (i = 0; i < G_N_ELEMENTS (si_prefixes) - 1; i++)
 		if (si_prefixes[i].power <= exponent)
 			break;
 	
