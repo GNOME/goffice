@@ -96,6 +96,8 @@ typedef struct {
 	gboolean use_markup;
 	gboolean simplify_mantissa;
 	gboolean append_SI;
+	gchar *appended_SI_unit;
+	int scale;
 
 	/* FRACTION: */
 	gboolean automatic_denominator;
@@ -162,6 +164,7 @@ void      go_format_generate_number_str (GString *dst,
 					 const char *prefix,
 					 const char *postfix);
 GOFormatDetails *go_format_details_new  (GOFormatFamily family);
+void  go_format_details_finalize        (GOFormatDetails *details);
 void  go_format_details_free            (GOFormatDetails *details);
 void  go_format_details_init            (GOFormatDetails *details,
 					 GOFormatFamily family);

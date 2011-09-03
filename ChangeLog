@@ -1,3 +1,22 @@
+2011-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/gtk/go-format-sel.ui: new widgets
+	* goffice/gtk/go-format-sel.c (_GOFormatSel): new fields
+	(load_si_combo): new
+	(cb_si_toggle): enable/disable new widgets
+	(cb_si_unit_toggle): new
+	(cb_si_combo_changed): new
+	(fmt_dialog_enable_widgets): handle new widgets
+	(nfs_init): ditto
+	(go_format_sel_finalize): finalize details
+	* goffice/utils/go-format.h (go_format_details_finalize): new
+	and add new fields
+	* goffice/utils/go-format.c (go_format_generate_scientific_str):
+	use new fields
+	(go_format_details_finalize): new
+	(go_format_details_free): use go_format_details_finalize
+	(go_format_get_details): consider new fields
+
 2011-09-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c: use data format for discrete axis. [#641901]

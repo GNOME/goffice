@@ -5650,7 +5650,8 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 		g_string_append_c (dst, '.');
 		go_string_append_c_n (dst, '0', num_decimals);
 	}
-
+	if (details->scale == 3)
+		g_string_append_c (dst, '\'');
 	if (details->use_markup)
 		g_string_append_c (dst, 'E');
 	g_string_append_c (dst, 'E');
@@ -5661,7 +5662,12 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 	digits = CLAMP (details->exponent_digits, 1, 10);
 	g_string_append_c (dst, '+');
 	go_string_append_c_n (dst, '0', digits);
-	
+
+	if (details->append_SI && details->appended_SI_unit != NULL) {
+		g_string_append_c (dst, '\"');
+		g_string_append (dst, details->appended_SI_unit);
+		g_string_append_c (dst, '\"');
+	}
 }
 #endif
 
@@ -5936,9 +5942,19 @@ go_format_details_new (GOFormatFamily family)
 
 #ifdef DEFINE_COMMON
 void
+go_format_details_finalize (GOFormatDetails *details)
+{
+	g_free (details->appended_SI_unit);
+	details->appended_SI_unit = NULL;
+	/* We do not own ->currency.  */
+}
+#endif
+
+#ifdef DEFINE_COMMON
+void
 go_format_details_free (GOFormatDetails *details)
 {
-	/* We do not own ->currency.  */
+	go_format_details_finalize (details);
 	g_free (details);
 }
 #endif
@@ -6083,6 +6099,7 @@ go_format_get_details (GOFormat const *fmt,
 			const char *mend = dot ? dot : epos;
 			dst->append_SI = (strstr (str, "ESI") != NULL);
 			dst->use_markup = (strstr (str, "EE") != NULL);
+			dst->scale = ((strstr (str, "'E") != NULL) ? 3 : 0);
 			dst->exponent_step = mend - str;
 			dst->simplify_mantissa = mend != str && mend[-1] == '#';
 			if (dst->simplify_mantissa)
@@ -6188,6 +6205,18 @@ go_format_get_details (GOFormat const *fmt,
 
 	if (newstr) {
 		*exact = (strcmp (str, newstr->str) == 0);
+		if (!*exact && dst->family == GO_FORMAT_SCIENTIFIC &&
+		    dst->append_SI && g_str_has_prefix (str, newstr->str) &&
+		    str [newstr->len] == '\"') {
+			int len = strlen (str);
+			if (str [len - 1] == '\"') {
+				dst->appended_SI_unit = g_strndup (str + newstr->len + 1,
+								   len - newstr->len - 2);
+				g_string_truncate (newstr, 0);
+				go_format_generate_str (newstr, dst);
+				*exact = (strcmp (str, newstr->str) == 0);
+			}
+		}
 		g_string_free (newstr, TRUE);
 	}
 }

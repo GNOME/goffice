@@ -93,7 +93,8 @@ typedef enum {
 	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
 	F_DECIMAL_SPIN,		F_ENGINEERING_BUTTON,
 	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
-	F_SI_BUTTON,
+	F_SI_BUTTON,            F_SI_CUSTOM_UNIT_BUTTON,
+	F_SI_SI_UNIT_BUTTON,	F_SI_UNIT_COMBO,
 	F_EXP_DIGITS,           F_EXP_DIGITS_LABEL,
 	F_NEGATIVE_LABEL,	F_NEGATIVE_SCROLL,	F_NEGATIVE,
 	F_DECIMAL_LABEL,	F_CODE_LABEL,
@@ -151,6 +152,8 @@ struct  _GOFormatSel {
 		gulong          entry_changed_id;
 		GOFormat const	*spec;
 		gint		current_type;
+
+		char *default_si_unit;
 
 		GOFormatDetails details;
 	} format;
@@ -293,6 +296,65 @@ fillin_negative_samples (GOFormatSel *gfs)
 	END_LOCALE_SWITCH;
 }
 
+static struct {
+	char const *name;
+	char const * unit;
+	int scale;
+} si_units[] = {
+	{N_("A (ampere)"), "A", 0},
+	{N_("Bq (becquerel)"), "Bq", 0},
+	{N_("cd (candela)"), "cd", 0},
+	{N_("C (coulomb)"), "C", 0},
+	{N_("\302\260C (degree Celsius)"), "\302\260C", 0},
+	{N_("F (farad)"), "F", 0},
+	{N_("Gy (gray)"), "Gy", 0},
+	{N_("H (henry)"), "H", 0},
+	{N_("Hz (hertz)"), "Hz", 0},
+	{N_("J (joule)"), "J", 0},
+	{N_("K (kelvin)"), "K", 0},
+	{N_("kg (kilogram)"), "kg", 3},
+	{N_("lm (lumen)"), "lm", 0},
+	{N_("lx (lux)"), "lx", 0},
+	{N_("m (meter)"), "m", 0},
+	{N_("mol (mole)"), "mol", 0},
+	{N_("N (newton)"), "N", 0},
+	{N_("\316\251 (ohm)"), "\316\251", 0},
+	{N_("Pa (pascal)"), "Pa", 0},
+	{N_("rad (radian)"), "rad", 0},
+	{N_("s (second)"), "s", 0},
+	{N_("S (siemens)"), "S", 0},
+	{N_("sr (steradian)"), "sr", 0},
+	{N_("Sv (sievert)"), "Sv", 0},
+	{N_("T (tesla)"), "T", 0},
+	{N_("kat (katal)"), "kat", 0},
+	{N_("V (volt)"), "V", 0},
+	{N_("W (watt)"), "W", 0},
+	{N_("Wb (weber)"), "Wb", 0}
+};
+
+static void
+load_si_combo (GtkWidget *w, GOFormatSel *gfs)
+{
+	GtkComboBox *c = GTK_COMBO_BOX (w);
+	GtkListStore *store = GTK_LIST_STORE (gtk_combo_box_get_model (c));
+	guint i;
+	GtkCellRenderer  *cell;
+
+	for (i = 0; i < G_N_ELEMENTS (si_units); i++)
+		gtk_list_store_insert_with_values 
+			(store, NULL, i,
+			 0, _(si_units[i].name),
+			 1, si_units[i].unit,
+			 2, si_units[i].scale,
+			 -1);
+	cell = gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(c), cell, TRUE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(c), cell, "text", 
+				       0, NULL);
+	gtk_combo_box_set_id_column (c, 1);
+}
+
+
 static void
 cb_decimals_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 {
@@ -387,10 +449,48 @@ cb_engineering_toggle (GtkWidget *w, GOFormatSel *gfs)
 static void
 cb_si_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
-	gfs->format.details.append_SI =
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	gfs->format.details.append_SI = active;
+
+	gtk_widget_set_sensitive (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON],
+				  active);
+	gtk_widget_set_sensitive (gfs->format.widget[F_SI_SI_UNIT_BUTTON],
+				  active);
+	gtk_widget_set_sensitive (gfs->format.widget[F_SI_UNIT_COMBO],
+				  active);
 
 	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_si_unit_toggle (GtkWidget *w, GOFormatSel *gfs)
+{
+	g_free (gfs->format.details.appended_SI_unit);
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))) {
+		GtkComboBox *c = GTK_COMBO_BOX (gfs->format.widget[F_SI_UNIT_COMBO]);
+		GtkTreeIter iter;
+		GtkTreeModel *store = gtk_combo_box_get_model (c);
+		if (gtk_combo_box_get_active_iter (c, &iter)) {
+			gtk_tree_model_get (store, &iter, 1, &gfs->format.details.appended_SI_unit,
+					    2, &gfs->format.details.scale, -1);
+			if (gfs->format.details.scale == 3) {
+				char *text = gfs->format.details.appended_SI_unit;
+				gfs->format.details.appended_SI_unit = g_strdup (text + 1);
+				g_free (text);
+			}
+		} else
+			gfs->format.details.appended_SI_unit = NULL;
+	} else
+		gfs->format.details.appended_SI_unit = g_strdup (gfs->format.default_si_unit);
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_si_combo_changed (GtkWidget *w, GOFormatSel *gfs)
+{
+	cb_si_unit_toggle (gfs->format.widget[F_SI_SI_UNIT_BUTTON], gfs);
 }
 
 static void
@@ -617,6 +717,9 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_EXP_DIGITS_LABEL,
 #ifdef ALLOW_SI_APPEND
 			F_SI_BUTTON,
+			F_SI_CUSTOM_UNIT_BUTTON,
+			F_SI_SI_UNIT_BUTTON,
+			F_SI_UNIT_COMBO,
 #endif
 			F_MAX_WIDGET
 		},
@@ -787,14 +890,85 @@ stays:
 			break;
 
 		case F_SI_BUTTON:
-			gtk_toggle_button_set_active 
 #ifdef ALLOW_SI_APPEND
+			gtk_toggle_button_set_active 
 				(GTK_TOGGLE_BUTTON (w),
 				 gfs->format.details.append_SI);
 #else
+			gtk_toggle_button_set_active 
 				(GTK_TOGGLE_BUTTON (w), FALSE);
+			show_widget = FALSE;
 #endif
 			break;
+
+		case F_SI_CUSTOM_UNIT_BUTTON:
+#ifdef ALLOW_SI_APPEND
+			/* This is set through F_SI_UNIT_COMBO */
+#else
+				show_widget = FALSE;
+#endif
+			break;
+
+		case F_SI_SI_UNIT_BUTTON:
+#ifdef ALLOW_SI_APPEND
+			/* This is set through F_SI_UNIT_COMBO */
+#else
+				show_widget = FALSE;
+#endif
+			break;
+
+		case F_SI_UNIT_COMBO: {
+#ifdef ALLOW_SI_APPEND
+			gint row = -1;
+			guint ii;
+
+			if (gfs->format.details.appended_SI_unit != NULL) {
+				char const *unit = gfs->format.details.appended_SI_unit;
+				if (unit[0] == 'g' && unit[1] == 0)
+					unit = "kg";
+				for (ii = 0; ii < G_N_ELEMENTS (si_units); ii++) 
+					if (0 == strcmp (si_units[ii].unit, unit)) {
+						row = (gint)ii;
+						break;
+					}
+			}
+					
+			if (row == -1) {
+				if (gfs->format.details.appended_SI_unit == NULL) {
+					gtk_button_set_label 
+						(GTK_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
+						 _("Append no further unit."));
+					g_free (gfs->format.default_si_unit);
+					gfs->format.default_si_unit = NULL;
+				} else {
+					gchar *label;
+					gfs->format.default_si_unit 
+						= g_strdup (gfs->format.details.appended_SI_unit);
+					label = g_strdup_printf (_("Append \'%s\'."), 
+								 gfs->format.default_si_unit);
+					gtk_button_set_label 
+						(GTK_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
+						 label);
+					g_free (label);
+				}
+			} else
+				gtk_combo_box_set_active_id (GTK_COMBO_BOX (w), si_units[row].unit);
+			
+			if (row >= 0)
+				gtk_toggle_button_set_active 
+					(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_SI_UNIT_BUTTON]),
+					 TRUE);
+			else
+				gtk_toggle_button_set_active 
+					(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
+					 TRUE);
+				
+
+#else
+				show_widget = FALSE;
+#endif
+			break;
+		}
 
 		case F_ENGINEERING_BUTTON:
 			gtk_toggle_button_set_active
@@ -1175,7 +1349,10 @@ nfs_init (GOFormatSel *gfs)
 		"format_engineering_button",
 		"format_superscript_button",
 		"format_superscript_hide_1_button",
-		"format_si_button",
+		"format_SI_button",
+		"format_SI_custom_unit_button",
+		"format_SI_SI_unit_button",
+		"format_SI_unit_combo",
 		"format_exp_digits",
 		"format_exp_digits_label",
 		"format_negatives_label",
@@ -1225,6 +1402,7 @@ nfs_init (GOFormatSel *gfs)
 	go_format_ref (gfs->format.spec);
 
 	gfs->format.preview = NULL;
+	gfs->format.default_si_unit = NULL;
 
 	/* The handlers will set the format family later.  -1 flags that
 	 * all widgets are already hidden. */
@@ -1325,6 +1503,12 @@ nfs_init (GOFormatSel *gfs)
 		G_CALLBACK (cb_superscript_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_BUTTON]), "toggled",
 		G_CALLBACK (cb_si_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_SI_UNIT_BUTTON]), 
+			  "toggled", G_CALLBACK (cb_si_unit_toggle), gfs);
+	load_si_combo (gfs->format.widget[F_SI_UNIT_COMBO], gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_UNIT_COMBO]), 
+			  "changed", G_CALLBACK (cb_si_combo_changed), gfs);
+	
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON]), 
 			  "toggled", G_CALLBACK (cb_superscript_hide_1_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_AUTOMATIC]), 
@@ -1423,6 +1607,9 @@ go_format_sel_finalize (GObject *obj)
 	go_format_unref (gfs->format.spec);
 	gfs->format.spec = NULL;
 
+	g_free (gfs->format.default_si_unit);
+	gfs->format.default_si_unit = NULL;
+
 	if (gfs->format.size_group) {
 		g_object_unref (gfs->format.size_group);
 		gfs->format.size_group = NULL;
@@ -1432,6 +1619,8 @@ go_format_sel_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (gfs->gui));
 		gfs->gui = NULL;
 	}
+
+	go_format_details_finalize (&gfs->format.details);
 
 	G_OBJECT_CLASS (g_type_class_peek (GTK_TYPE_BOX))->finalize (obj);
 }
