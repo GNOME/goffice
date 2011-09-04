@@ -399,7 +399,7 @@ map_discrete_calc_ticks (GogAxis *axis)
 					g_free (label);
 				} else {
 					double val = go_data_get_vector_value (axis->labels, index);
-					if (go_finite (val)) 
+					if (go_finite (val))
 						axis_format_value (axis, val, &ticks[j].str);
 					else {
 						label = go_data_get_vector_string (axis->labels, index);

@@ -148,7 +148,7 @@ GSF_CLASS_FULL (GogSmoothedCurve, gog_smoothed_curve,
 	   NULL, NULL, gog_smoothed_curve_class_init, NULL,
            gog_smoothed_curve_init, GOG_TYPE_TREND_LINE, G_TYPE_FLAG_ABSTRACT,
 	   GSF_INTERFACE (gog_smoothed_curve_dataset_init, GOG_TYPE_DATASET))
- 
+
 /****************************************************************************/
 
 typedef GogView		GogSmoothedCurveView;

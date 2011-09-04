@@ -1512,7 +1512,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (style->interesting_fields & GO_STYLE_MARKER)
 			msize = (double) go_marker_get_size (style->marker.mark)
 				/ 2. * gog_renderer_get_scale (view->renderer);
-		else 
+		else
 			msize = style->line.width / .7;
 
 		if (!gog_series_is_valid (GOG_SERIES (series)))
@@ -1629,7 +1629,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		g_slist_free (labels);
 	}
-	
+
 	/* Now render children, may be should come before markers? */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);

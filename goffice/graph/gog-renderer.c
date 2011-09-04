@@ -1135,7 +1135,7 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 		rect.x = rect.y = 0;
 		pango_layout_get_size (layout, &iw, &ih);
 		rect.height = 1; /* only the width is important */
-		rect.width = (legend_style->interesting_fields & GO_STYLE_LINE)? 2 * ih: ih; 
+		rect.width = (legend_style->interesting_fields & GO_STYLE_LINE)? 2 * ih: ih;
 		attr = pango_attr_shape_new (&rect, &rect);
 		attr->start_index = elt->legend_pos;
 		attr->end_index = elt->legend_pos + 1;

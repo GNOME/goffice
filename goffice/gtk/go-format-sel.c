@@ -341,7 +341,7 @@ load_si_combo (GtkWidget *w, GOFormatSel *gfs)
 	GtkCellRenderer  *cell;
 
 	for (i = 0; i < G_N_ELEMENTS (si_units); i++)
-		gtk_list_store_insert_with_values 
+		gtk_list_store_insert_with_values
 			(store, NULL, i,
 			 0, _(si_units[i].name),
 			 1, si_units[i].unit,
@@ -349,7 +349,7 @@ load_si_combo (GtkWidget *w, GOFormatSel *gfs)
 			 -1);
 	cell = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(c), cell, TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(c), cell, "text", 
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(c), cell, "text",
 				       0, NULL);
 	gtk_combo_box_set_id_column (c, 1);
 }
@@ -540,9 +540,9 @@ cb_fraction_automatic_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
 	gboolean act =gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	gfs->format.details.automatic_denominator = act;
-	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS_LABEL], 
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS_LABEL],
 				  act);
-	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS_LABEL], 
+	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS_LABEL],
 				  act);
 	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS], act);
 	gtk_widget_set_sensitive (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS], act);
@@ -878,12 +878,12 @@ stays:
 		case F_EXP_DIGITS:
 			if (page == GO_FORMAT_FRACTION) {
 				gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 0, 30);
-				gtk_spin_button_set_value 
+				gtk_spin_button_set_value
 					(GTK_SPIN_BUTTON (w),
 					 gfs->format.details.numerator_min_digits);
 			} else {
 				gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 1, 10);
-				gtk_spin_button_set_value 
+				gtk_spin_button_set_value
 					(GTK_SPIN_BUTTON (w),
 					 gfs->format.details.exponent_digits);
 			}
@@ -891,11 +891,11 @@ stays:
 
 		case F_SI_BUTTON:
 #ifdef ALLOW_SI_APPEND
-			gtk_toggle_button_set_active 
+			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (w),
 				 gfs->format.details.append_SI);
 #else
-			gtk_toggle_button_set_active 
+			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (w), FALSE);
 			show_widget = FALSE;
 #endif
@@ -926,43 +926,43 @@ stays:
 				char const *unit = gfs->format.details.appended_SI_unit;
 				if (unit[0] == 'g' && unit[1] == 0)
 					unit = "kg";
-				for (ii = 0; ii < G_N_ELEMENTS (si_units); ii++) 
+				for (ii = 0; ii < G_N_ELEMENTS (si_units); ii++)
 					if (0 == strcmp (si_units[ii].unit, unit)) {
 						row = (gint)ii;
 						break;
 					}
 			}
-					
+
 			if (row == -1) {
 				if (gfs->format.details.appended_SI_unit == NULL) {
-					gtk_button_set_label 
+					gtk_button_set_label
 						(GTK_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
 						 _("Append no further unit."));
 					g_free (gfs->format.default_si_unit);
 					gfs->format.default_si_unit = NULL;
 				} else {
 					gchar *label;
-					gfs->format.default_si_unit 
+					gfs->format.default_si_unit
 						= g_strdup (gfs->format.details.appended_SI_unit);
-					label = g_strdup_printf (_("Append \'%s\'."), 
+					label = g_strdup_printf (_("Append \'%s\'."),
 								 gfs->format.default_si_unit);
-					gtk_button_set_label 
+					gtk_button_set_label
 						(GTK_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
 						 label);
 					g_free (label);
 				}
 			} else
 				gtk_combo_box_set_active_id (GTK_COMBO_BOX (w), si_units[row].unit);
-			
+
 			if (row >= 0)
-				gtk_toggle_button_set_active 
+				gtk_toggle_button_set_active
 					(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_SI_UNIT_BUTTON]),
 					 TRUE);
 			else
-				gtk_toggle_button_set_active 
+				gtk_toggle_button_set_active
 					(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
 					 TRUE);
-				
+
 
 #else
 				show_widget = FALSE;
@@ -977,64 +977,64 @@ stays:
 			break;
 
 		case F_SEPARATOR:
-			gtk_toggle_button_set_active 
+			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (w),
 				 gfs->format.details.thousands_sep);
 			break;
 
 		case F_FRACTION_SEPARATE_INTEGER:
-			gtk_toggle_button_set_active 
+			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (w),
 				 gfs->format.details.split_fraction);
 			break;
 
 		case F_FRACTION_MIN_INTEGER_DIGITS:
-			gtk_spin_button_set_value 
-				(GTK_SPIN_BUTTON (w), 
+			gtk_spin_button_set_value
+				(GTK_SPIN_BUTTON (w),
 				 gfs->format.details.min_digits);
-			gtk_widget_set_sensitive 
+			gtk_widget_set_sensitive
 				(w, gfs->format.details.split_fraction);
-			gtk_widget_set_sensitive 
-				(gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS_LABEL], 
+			gtk_widget_set_sensitive
+				(gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS_LABEL],
 				 gfs->format.details.split_fraction);
 			break;
 
 		case F_FRACTION_AUTOMATIC:
-			gtk_toggle_button_set_active 
+			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (w),
 				 gfs->format.details.automatic_denominator);
 			break;
 
 		case F_FRACTION_DENOMINATOR:
-			gtk_spin_button_set_value 
+			gtk_spin_button_set_value
 				(GTK_SPIN_BUTTON (w),
 				 gfs->format.details.denominator);
-			gtk_widget_set_sensitive 
+			gtk_widget_set_sensitive
 				(w, !gfs->format.details.automatic_denominator);
-			gtk_widget_set_sensitive 
-				(gfs->format.widget[F_FRACTION_DENOMINATOR_LABEL], 
+			gtk_widget_set_sensitive
+				(gfs->format.widget[F_FRACTION_DENOMINATOR_LABEL],
 				 !gfs->format.details.automatic_denominator);
 			break;
 
 		case F_FRACTION_MAX_DENOM_DIGITS:
-			gtk_spin_button_set_value 
+			gtk_spin_button_set_value
 				(GTK_SPIN_BUTTON (w),
 				 gfs->format.details.denominator_max_digits);
-			gtk_widget_set_sensitive 
+			gtk_widget_set_sensitive
 				(w, gfs->format.details.automatic_denominator);
-			gtk_widget_set_sensitive 
-				(gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS_LABEL], 
+			gtk_widget_set_sensitive
+				(gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS_LABEL],
 				 gfs->format.details.automatic_denominator);
 			break;
 
 		case F_FRACTION_MIN_DENOM_DIGITS:
-			gtk_spin_button_set_value 
+			gtk_spin_button_set_value
 				(GTK_SPIN_BUTTON (w),
 				 gfs->format.details.denominator_min_digits);
-			gtk_widget_set_sensitive 
+			gtk_widget_set_sensitive
 				(w, gfs->format.details.automatic_denominator);
-			gtk_widget_set_sensitive 
-				(gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS_LABEL], 
+			gtk_widget_set_sensitive
+				(gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS_LABEL],
 				 gfs->format.details.automatic_denominator);
 			break;
 
@@ -1044,7 +1044,7 @@ stays:
 				(GTK_TOGGLE_BUTTON (w),
 				 gfs->format.details.pi_scale);
 #else
-				(GTK_TOGGLE_BUTTON (w), FALSE);			
+				(GTK_TOGGLE_BUTTON (w), FALSE);
 #endif
 			break;
 
@@ -1249,7 +1249,7 @@ study_format (GOFormat const *fmt, GOFormatDetails *details)
 		    !details->thousands_sep)
 			exact = FALSE;
 
-		if ((details->family != GO_FORMAT_FRACTION) 
+		if ((details->family != GO_FORMAT_FRACTION)
 		    && (details->min_digits > 1))
 			exact = FALSE;
 	}
@@ -1503,33 +1503,33 @@ nfs_init (GOFormatSel *gfs)
 		G_CALLBACK (cb_superscript_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_BUTTON]), "toggled",
 		G_CALLBACK (cb_si_toggle), gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_SI_UNIT_BUTTON]), 
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_SI_UNIT_BUTTON]),
 			  "toggled", G_CALLBACK (cb_si_unit_toggle), gfs);
 	load_si_combo (gfs->format.widget[F_SI_UNIT_COMBO], gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_UNIT_COMBO]), 
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SI_UNIT_COMBO]),
 			  "changed", G_CALLBACK (cb_si_combo_changed), gfs);
-	
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON]), 
+
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON]),
 			  "toggled", G_CALLBACK (cb_superscript_hide_1_toggle), gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_AUTOMATIC]), 
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_AUTOMATIC]),
 			  "toggled", G_CALLBACK (cb_fraction_automatic_toggle), gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_SEPARATE_INTEGER]), 
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_SEPARATE_INTEGER]),
 			  "toggled", G_CALLBACK (cb_split_fraction_toggle), gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_PI_SCALE]), 
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_PI_SCALE]),
 			  "toggled",
-			  G_CALLBACK (cb_pi_scale_toggle), gfs);	
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS]), 
+			  G_CALLBACK (cb_pi_scale_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MIN_INTEGER_DIGITS]),
 			  "value_changed",
 			  G_CALLBACK (cb_min_integer_digits_changed), gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_DENOMINATOR]), 
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_DENOMINATOR]),
 			  "value_changed",
 			  G_CALLBACK (cb_denominator_changed), gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS]), 
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MAX_DENOM_DIGITS]),
 			  "value_changed",
 			  G_CALLBACK (cb_max_denom_digits_changed), gfs);
-	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS]), 
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FRACTION_MIN_DENOM_DIGITS]),
 			  "value_changed",
-			  G_CALLBACK (cb_min_denom_digits_changed), gfs);	
+			  G_CALLBACK (cb_min_denom_digits_changed), gfs);
 
 	/* setup custom format list */
 	gfs->format.formats.model = gtk_list_store_new (1, G_TYPE_STRING);

@@ -674,11 +674,11 @@ go_string_trim (GOString *gstr, gboolean internal)
 
 	if ((impl->flags & GO_STRING_IS_RICH) == 0)
 		return gstr;
-	
+
 	attrs = go_string_get_markup (gstr);
 	t = ctext = text = g_strdup (gstr->str);
 	if (attrs != NULL)
-		attrs = pango_attr_list_copy (attrs);		
+		attrs = pango_attr_list_copy (attrs);
 	while (*t != 0 && *t == ' ')
 		t++;
 	cnt = t - text;

@@ -29,8 +29,10 @@ G_BEGIN_DECLS
 struct _GocWidget {
 	GocItem base;
 
+	/* private */
 	double x, y, w, h;
-	GtkWidget *widget;
+	GtkWidget *widget, *ofbox;
+	double scale, rotation; /* rotation is not in use for now */
 };
 
 typedef GocItemClass GocWidgetClass;

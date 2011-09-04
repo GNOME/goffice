@@ -905,13 +905,13 @@ go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 		if (str[1] == 'S' && str[2] == 'I') {
 			t = TOK_EXP_SI,
 			len = 3;
-		} else 
+		} else
 #endif
 #if defined(ALLOW_EE_MARKUP) && defined(ALLOW_SI_APPEND)
 		if (str[1] == 'E' && str[2] == 'S' && str[3] == 'I') {
 			t = TOK_EXP_MU_SI;
 			len = 4;
-		} else 
+		} else
 #endif
 #ifdef ALLOW_EE_MARKUP
 	        if (str[1] == 'E') {
@@ -1612,7 +1612,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			whole_part = FALSE;
 			break;
 
-		case '0': 
+		case '0':
 			inhibit_b = TRUE;
 			/* no break */
 		case '?': case '#':
@@ -1628,7 +1628,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			if (E_part != 1 && E_part != 2)
  				scale += 2;
  			break;
- 
+
 		case '\'':
 			if (E_part == 1)
 				scale += 3;
@@ -2056,7 +2056,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 						   0, 1, &inhibit_blank_whole))
 			return NULL;
 		scale += pstate->scale;
-		
+
 		if (pi_scale) {
 			/* ADD_OPuc (OP_CHAR, UNICODE_THINSPACE); */
 			ADD_OPuc (OP_CHAR, UNICODE_PI); /* "pi" */
@@ -2099,7 +2099,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 			ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
 		if (!inhibit_blank_numerator)
 			ADD_OP (OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI);
-		
+
 	} else
 #endif
 		{
@@ -2108,7 +2108,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 			if (!inhibit_blank_denom)
 				ADD_OP (OP_NUM_FRACTION_SIMPLIFY);
 			if (!inhibit_blank_numerator)
-				ADD_OP (OP_NUM_FRACTION_SIMPLIFY_NUMERATOR);			
+				ADD_OP (OP_NUM_FRACTION_SIMPLIFY_NUMERATOR);
 		}
 	if (!inhibit_blank_whole)
 		ADD_OP (OP_NUM_FRACTION_BLANK_WHOLE);
@@ -2613,23 +2613,23 @@ SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
 
 #ifdef DEFINE_COMMON
 static int
-go_format_get_width (GString *dst, PangoAttrList *attrs, int start, 
+go_format_get_width (GString *dst, PangoAttrList *attrs, int start,
 		     int length, PangoLayout *layout)
 {
 	GList *plist, *l;
 	PangoContext *context;
 	int width = 0;
 
-	if (layout == NULL || 
-	    (context = pango_layout_get_context (layout)) == NULL 
+	if (layout == NULL ||
+	    (context = pango_layout_get_context (layout)) == NULL
 	    || pango_context_get_font_map (context) == NULL)
 		return 0;
-	
+
 	plist = pango_itemize (context, dst->str, start, length, attrs, NULL);
 	for (l = plist; l != NULL; l = l->next) {
 		PangoItem *pi = l->data;
 		PangoGlyphString *glyphs = pango_glyph_string_new ();
-		
+
 		pango_shape (dst->str + pi->offset, pi->length, &pi->analysis, glyphs);
 		width += pango_glyph_string_get_width (glyphs);
 		pango_glyph_string_free (glyphs);
@@ -2649,8 +2649,8 @@ go_format_desired_width (PangoLayout *layout, PangoAttrList *attrs, int digits)
 	int width = 0;
 	PangoContext *context;
 
-	if (layout == NULL || 
-	    (context = pango_layout_get_context (layout)) == NULL 
+	if (layout == NULL ||
+	    (context = pango_layout_get_context (layout)) == NULL
 	    || pango_context_get_font_map (context) == NULL)
 		return 0;
 
@@ -2660,7 +2660,7 @@ go_format_desired_width (PangoLayout *layout, PangoAttrList *attrs, int digits)
 		PangoGlyphString *glyphs = pango_glyph_string_new ();
 		PangoRectangle ink_rect;
 		PangoRectangle logical_rect;
-		
+
 		pango_shape (strp + pi->offset, pi->length, &pi->analysis, glyphs);
 		pango_glyph_string_extents (glyphs,
 					    pi->analysis.font,
@@ -2670,7 +2670,7 @@ go_format_desired_width (PangoLayout *layout, PangoAttrList *attrs, int digits)
 		width += logical_rect.width;
 	}
 	go_list_free_custom (plist, (GFreeFunc) pango_item_free);
-	
+
 	return (int)(1.1 * width *digits);
 }
 #endif
@@ -2678,7 +2678,7 @@ go_format_desired_width (PangoLayout *layout, PangoAttrList *attrs, int digits)
 
 #ifdef DEFINE_COMMON
 static void
-blank_characters (GString *dst, PangoAttrList *attrs, int start, int length, 
+blank_characters (GString *dst, PangoAttrList *attrs, int start, int length,
 		  PangoLayout *layout)
 {
 	/* We have layouts that have no fontmap set, we need to avoid them */
@@ -2755,11 +2755,11 @@ si_reduction (int exponent, char const **si)
 		{"y" ,-24}
 	};
 	guint i;
-	
+
 	for (i = 0; i < G_N_ELEMENTS (si_prefixes) - 1; i++)
 		if (si_prefixes[i].power <= exponent)
 			break;
-	
+
 	*si = si_prefixes[i].prefix;
 	return si_prefixes[i].power;
 }
@@ -3280,7 +3280,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_NUM_MOVETO_ONES: {
 			numi = dotpos;
 			/* Ignore the zero in "0.xxx" or "0 xx/xx" */
-			if (numi == 1 && numtxt->str[0] == '0' && 
+			if (numi == 1 && numtxt->str[0] == '0' &&
 			    numtxt->str[dotpos] != 0)
 				numi--;
 			numpos = dst->len;
@@ -3309,7 +3309,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				g_string_insert_c (dst, numpos, c);
 				if (numpos_end >= 0)
 					numpos_end++;
-				
+
 			}
 			break;
 
@@ -3420,7 +3420,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_NUM_SIMPLIFY_MARKUP_MANTISSA:
 			if (special_mantissa == 0) {
-				g_string_erase (dst, mantissa_start, 
+				g_string_erase (dst, mantissa_start,
 						numpos_end - mantissa_start);
 				g_string_insert_c (dst, mantissa_start, '0');
 				numpos_end = mantissa_start + 1;
@@ -3460,7 +3460,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				g_string_truncate (dst, mantissa_start);
 				si_pos = mantissa_start;
 			}
-			
+
 			break;
 
 		case OP_NUM_REDUCE_EXPONENT_SI:
@@ -3542,7 +3542,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			val = fraction.n;
 			break;
 
-		case OP_NUM_FRACTION_SLASH: 
+		case OP_NUM_FRACTION_SLASH:
 			{
 				int desired_width = go_format_desired_width (layout, attrs, fraction.digits);
 				int length;
@@ -3553,10 +3553,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				while (!g_unichar_isdigit (g_utf8_get_char (end)) && end > nom)
 					end = g_utf8_prev_char (end);
 				end = g_utf8_find_next_char (end, NULL);
-				length = end - nom; 
+				length = end - nom;
 
-				logical_rect.width = go_format_get_width 
-					(dst, attrs, fraction.nominator_start, 
+				logical_rect.width = go_format_get_width
+					(dst, attrs, fraction.nominator_start,
 					 length, layout);
 
 				if (logical_rect.width < desired_width) {
@@ -3584,7 +3584,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			if (fraction.n == 0) {
 				/* Replace all added characters by spaces of the right length.  */
 				if (dst->len > fraction.nominator_start) {
-					blank_characters (dst, attrs, fraction.nominator_start, 
+					blank_characters (dst, attrs, fraction.nominator_start,
 							  dst->len - fraction.nominator_start, layout);
 					fraction.blanked = TRUE;
 				}
@@ -3606,7 +3606,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			break;
 
-		case OP_NUM_FRACTION_BLANK_WHOLE: 
+		case OP_NUM_FRACTION_BLANK_WHOLE:
 			if (!fraction.blanked && fraction.w == 0) {
 				gsize start = fraction.whole_start;
 				gsize length = fraction.nominator_start - start;
@@ -3618,23 +3618,23 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			} else if (fraction.pi_sum_start > 0) {
 				if (fraction.w == 1) {
 					gsize start = fraction.whole_start;
-					gsize length = fraction.pi_sum_start 
+					gsize length = fraction.pi_sum_start
 						- UNICODE_PI_number_of_bytes - start;
 					g_string_erase (dst, start, length);
 					go_pango_attr_list_erase (attrs, start, length);
 					fraction.nominator_start -= length;
 					fraction.denominator_start -= length;
-					fraction.pi_sum_start = 0;				
+					fraction.pi_sum_start = 0;
 				} else if (fraction.w == 0) {
-					blank_characters 
-						(dst, attrs, 
-						 fraction.pi_sum_start - UNICODE_PI_number_of_bytes, 
+					blank_characters
+						(dst, attrs,
+						 fraction.pi_sum_start - UNICODE_PI_number_of_bytes,
 						 UNICODE_PI_number_of_bytes, layout);
 				}
 			}
 			break;
 
-		case OP_NUM_FRACTION_ALIGN: 
+		case OP_NUM_FRACTION_ALIGN:
 			if (layout && pango_context_get_font_map (pango_layout_get_context (layout))) {
 				int desired_width = go_format_desired_width (layout, attrs, fraction.digits);
 				PangoRectangle logical_rect = {0, 0, 0, 2 * PANGO_SCALE};
@@ -3656,7 +3656,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			break;
 
-			
+
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
 #endif
@@ -5681,7 +5681,7 @@ go_format_generate_fraction_str (GString *dst, GOFormatDetails const *details)
 	int denominator_min_digits = CLAMP (details->denominator_min_digits, 0, denominator_max_digits);
 	int denominator = CLAMP (details->denominator, 2, G_MAXINT);
 	int num_digits;
-	
+
 	if (details->split_fraction) {
 		/* Maximum not terribly important. */
 		int min_digits = CLAMP (details->min_digits, 0, 30);
@@ -5696,7 +5696,7 @@ go_format_generate_fraction_str (GString *dst, GOFormatDetails const *details)
 		num_digits = denominator_max_digits - numerator_min_digits;
 	else
 		num_digits = cnt_digits (denominator) - numerator_min_digits;
-	
+
 	if (num_digits > 0)
 		go_string_append_c_n (dst, '?', num_digits);
 	if  (numerator_min_digits > 0)
@@ -5706,14 +5706,14 @@ go_format_generate_fraction_str (GString *dst, GOFormatDetails const *details)
 		g_string_append (dst, " pi/");
 	else
 		g_string_append_c (dst, '/');
-	
+
 	if (details->automatic_denominator) {
-		go_string_append_c_n (dst, '?', 
+		go_string_append_c_n (dst, '?',
 				      denominator_max_digits - denominator_min_digits);
-		go_string_append_c_n (dst, '0', 
+		go_string_append_c_n (dst, '0',
 				      denominator_min_digits);
 	} else
-		g_string_append_printf (dst, "%d", denominator); 
+		g_string_append_printf (dst, "%d", denominator);
 }
 #endif
 
@@ -6161,7 +6161,7 @@ go_format_get_details (GOFormat const *fmt,
 			numerator_base = 1;
 		} else
 			numerator_base = 0;
-		
+
 		integer = tokens[numerator_base];
 		dst->numerator_min_digits = 0;
 		while (*integer != 0)
@@ -6178,8 +6178,8 @@ go_format_get_details (GOFormat const *fmt,
 			dst->denominator_min_digits = 0;
 			dst->denominator_max_digits = 0;
 			while (*integer != 0) {
-				if (*integer == '#' || *integer == '?' 
-				    || g_ascii_isdigit (*integer)) 
+				if (*integer == '#' || *integer == '?'
+				    || g_ascii_isdigit (*integer))
 					dst->denominator_max_digits++;
 				if (*integer == '0') {
 					dst->denominator_min_digits++;
@@ -6188,7 +6188,7 @@ go_format_get_details (GOFormat const *fmt,
 			}
 		}
 
-		g_strfreev (tokens);	
+		g_strfreev (tokens);
 		g_free (c_str);
 
 		if (exact != NULL) {

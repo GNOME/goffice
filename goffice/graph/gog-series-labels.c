@@ -553,11 +553,11 @@ gog_series_labels_populate_editor (GogObject *gobj,
 		}
 		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->avail_list), 1, GTK_SORT_ASCENDING);
 	}
-	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0, 
+	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0,
 	                                           GOG_IS_DATA_LABEL (gobj)? GOG_DATA_SCALAR: GOG_DATA_VECTOR));
 	gtk_widget_show (w);
 	gtk_grid_attach (GTK_GRID (labels_prefs), w, 2, 6, 3, 1);
-	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 1, 
+	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 1,
 	                                           GOG_DATA_SCALAR));
 	gtk_widget_show (w);
 	gtk_grid_attach (GTK_GRID (labels_prefs), w, 2, 7, 3, 1);
