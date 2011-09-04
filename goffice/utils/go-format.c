@@ -6709,6 +6709,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean fraction_completed = FALSE;
 	gboolean string_is_open = FALSE;
 	gboolean color_completed = FALSE;
+	gboolean pi_scale = FALSE;
 
 
 	gsf_xml_out_start_element (xout, NUMBER "number-style");
@@ -6820,6 +6821,9 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			/* integer part. In ODF 1.1 we used a foreign element: gnm:no-integer-part=true */
 			gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits",
 					     min_numerator_digits);
+			if (pi_scale && with_extension) {
+				gsf_xml_out_add_cstr_unchecked (xout, GNMSTYLE "display-factor", "pi");
+			}
 			gsf_xml_out_end_element (xout); /* </number:fraction> */
 			fraction_completed = TRUE;
 			fraction_in_progress = FALSE;
@@ -6902,6 +6906,13 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			g_string_append_c (accum, '.');
 			break;
 
+		case 'p':
+			if (fraction_in_progress && g_str_has_prefix (token, "pi/")) {
+				pi_scale = TRUE;
+				xl++;
+				break;
+			}
+			/* no break */
 		default:
 			ODF_OPEN_STRING;
 			g_string_append_c (accum, t);
