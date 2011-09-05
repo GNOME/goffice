@@ -49,6 +49,7 @@ struct _GocOffscreenBox
 	GtkWidget *child;
 	GdkWindow *offscreen_window;
 	gdouble angle, scale;
+	cairo_surface_t *surf;
 };
 
 struct _GocOffscreenBoxClass
@@ -370,33 +371,35 @@ goc_offscreen_box_draw (GtkWidget *widget,
 
 	window = gtk_widget_get_window (widget);
 	if (gtk_cairo_should_draw_window (cr, window)) {
-		cairo_surface_t *surface;
 
 		if (offscreen_box->child && gtk_widget_get_visible (offscreen_box->child)) {
-			surface = gdk_offscreen_window_get_surface (offscreen_box->offscreen_window);
-
 #if 0
 			gtk_widget_get_allocation (offscreen_box->child, &child_area);
-
+			
 			/* transform */
 			cairo_translate (cr, child_area.width / 2, child_area.height / 2);
 			cairo_rotate (cr, offscreen_box->angle);
 			cairo_translate (cr, -child_area.width / 2, -child_area.height / 2);
 #endif
-			cairo_scale (cr, offscreen_box->scale, offscreen_box->scale);
-			cairo_set_source_surface (cr, surface, 0, 0);
+			cairo_set_source_surface (cr, offscreen_box->surf, 0, 0);
 			cairo_paint (cr);
 		}
 
 	} else if (gtk_cairo_should_draw_window (cr, offscreen_box->offscreen_window)) {
-		gtk_render_background (gtk_widget_get_style_context (widget), cr,
-		                       0, 0,
-		                       gdk_window_get_width (offscreen_box->offscreen_window),
-		                       gdk_window_get_height (offscreen_box->offscreen_window));
-
-		if (offscreen_box->child)
-			gtk_container_propagate_draw (GTK_CONTAINER (widget),
-						      offscreen_box->child, cr);
+		GtkAllocation area;
+		cairo_t *cairo;
+		if (offscreen_box->surf)
+			cairo_surface_destroy (offscreen_box->surf);
+		gtk_widget_get_allocation (widget, &area);
+		offscreen_box->surf = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+		                                                  area.width,
+		                                                  area.height);
+		if (offscreen_box->child) {
+			cairo = cairo_create (offscreen_box->surf);
+			cairo_scale (cairo, offscreen_box->scale, offscreen_box->scale);
+			gtk_widget_draw (offscreen_box->child, cairo);
+			cairo_destroy (cairo);
+		}
 	}
 
 	return FALSE;

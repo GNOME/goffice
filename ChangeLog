@@ -1,3 +1,8 @@
+2011-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-widget.c (goc_offscreen_box_draw): enhance widget
+	rendering.
+
 2011-09-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-widget.c: make sheet widgets scalable. [#605434]
