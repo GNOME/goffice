@@ -218,6 +218,7 @@ goc_offscreen_box_realize (GtkWidget *widget)
 	window = gdk_window_new (gtk_widget_get_parent_window (widget),
 	                         &attributes, attributes_mask);
 	gtk_widget_set_window (widget, window);
+	gdk_window_set_composited (window, TRUE);
 	gdk_window_set_user_data (window, widget);
 
 	g_signal_connect (window, "pick-embedded-child",
@@ -362,49 +363,6 @@ goc_offscreen_box_damage (GtkWidget      *widget,
 	return TRUE;
 }
 
-static gboolean
-goc_offscreen_box_draw (GtkWidget *widget,
-                        cairo_t   *cr)
-{
-	GocOffscreenBox *offscreen_box = GOC_OFFSCREEN_BOX (widget);
-	GdkWindow *window;
-
-	window = gtk_widget_get_window (widget);
-	if (gtk_cairo_should_draw_window (cr, window)) {
-
-		if (offscreen_box->child && gtk_widget_get_visible (offscreen_box->child)) {
-#if 0
-			gtk_widget_get_allocation (offscreen_box->child, &child_area);
-			
-			/* transform */
-			cairo_translate (cr, child_area.width / 2, child_area.height / 2);
-			cairo_rotate (cr, offscreen_box->angle);
-			cairo_translate (cr, -child_area.width / 2, -child_area.height / 2);
-#endif
-			cairo_set_source_surface (cr, offscreen_box->surf, 0, 0);
-			cairo_paint (cr);
-		}
-
-	} else if (gtk_cairo_should_draw_window (cr, offscreen_box->offscreen_window)) {
-		GtkAllocation area;
-		cairo_t *cairo;
-		if (offscreen_box->surf)
-			cairo_surface_destroy (offscreen_box->surf);
-		gtk_widget_get_allocation (widget, &area);
-		offscreen_box->surf = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
-		                                                  area.width,
-		                                                  area.height);
-		if (offscreen_box->child) {
-			cairo = cairo_create (offscreen_box->surf);
-			cairo_scale (cairo, offscreen_box->scale, offscreen_box->scale);
-			gtk_widget_draw (offscreen_box->child, cairo);
-			cairo_destroy (cairo);
-		}
-	}
-
-	return FALSE;
-}
-
 static void
 goc_offscreen_box_add (GtkContainer *container,
 		       GtkWidget    *widget)
@@ -451,7 +409,6 @@ goc_offscreen_box_class_init (GocOffscreenBoxClass *klass)
 	widget_class->get_preferred_width = goc_offscreen_box_get_preferred_width;
 	widget_class->get_preferred_height = goc_offscreen_box_get_preferred_height;
 	widget_class->size_allocate = goc_offscreen_box_size_allocate;
-	widget_class->draw = goc_offscreen_box_draw;
 
 	g_signal_override_class_closure (g_signal_lookup ("damage-event", GTK_TYPE_WIDGET),
 		           GOC_TYPE_OFFSCREEN_BOX,
@@ -756,6 +713,21 @@ goc_widget_distance (GocItem *item, double x, double y, GocItem **near_item)
 }
 
 static void
+goc_widget_draw (GocItem const *item, cairo_t *cr)
+{
+	GocWidget *widget = GOC_WIDGET (item);
+	GocOffscreenBox *ofbox = GOC_OFFSCREEN_BOX (widget->ofbox);
+	int x, y;
+	gtk_container_child_get (GTK_CONTAINER (item->canvas), widget->ofbox,
+	                         "x", &x, "y", &y, NULL);
+	cairo_save (cr);
+	cairo_translate (cr, x, y);
+	cairo_scale (cr, ofbox->scale, ofbox->scale);
+	gtk_widget_draw (ofbox->child, cr);
+	cairo_restore (cr);
+}
+
+static void
 goc_widget_dispose (GObject *object)
 {
 	GocWidget *item = GOC_WIDGET (object);
@@ -816,6 +788,7 @@ goc_widget_class_init (GocItemClass *item_klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	item_klass->distance = goc_widget_distance;
+	item_klass->draw = goc_widget_draw;
 	item_klass->update_bounds = goc_widget_update_bounds;
 	item_klass->notify_scrolled = goc_widget_notify_scrolled;
 }

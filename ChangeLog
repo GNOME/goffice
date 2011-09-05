@@ -1,5 +1,11 @@
 2011-09-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-widget.c (goc_offscreen_box_realize),
+	(goc_offscreen_box_class_init), (goc_widget_draw),
+	(goc_widget_class_init): reimplement widget transparency.
+
+2011-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-widget.c (goc_offscreen_box_draw): enhance widget
 	rendering.
 
