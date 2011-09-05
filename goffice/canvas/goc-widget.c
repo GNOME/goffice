@@ -612,9 +612,9 @@ goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
 					item->ofbox, item->x, item->y);
 		goc_widget_notify_scrolled (GOC_ITEM (item));
 		/* we need to propagate some signals to the parent item */
-		g_signal_connect (item->ofbox, "enter-notify-event",
+		g_signal_connect (widget, "enter-notify-event",
 				  G_CALLBACK (enter_notify_cb), item);
-		g_signal_connect (item->ofbox, "button-press-event",
+		g_signal_connect (widget, "button-press-event",
 				  G_CALLBACK (button_press_cb), item);
 	}
 }
@@ -724,6 +724,7 @@ goc_widget_draw (GocItem const *item, cairo_t *cr)
 	cairo_translate (cr, x, y);
 	cairo_scale (cr, ofbox->scale, ofbox->scale);
 	gtk_widget_draw (ofbox->child, cr);
+	cairo_new_path (cr);
 	cairo_restore (cr);
 }
 

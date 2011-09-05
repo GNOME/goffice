@@ -1,5 +1,10 @@
 2011-09-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-widget.c (goc_widget_set_widget): fixed signals target,
+	(goc_widget_draw): create a new path before exiting to avoid unwanted lines.
+
+2011-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-widget.c (goc_offscreen_box_realize),
 	(goc_offscreen_box_class_init), (goc_widget_draw),
 	(goc_widget_class_init): reimplement widget transparency.
