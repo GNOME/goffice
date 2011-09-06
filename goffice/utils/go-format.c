@@ -59,6 +59,9 @@
 /* Define ALLOW_DENOM_REMOVAL to remove /1s. This is not XL compatible.*/
 #undef ALLOW_DENOM_REMOVAL
 
+/* Define ALLOW_NO_SIGN_AFTER_E to permit formats such as '00E00' and '00E +00' */
+#undef ALLOW_NO_SIGN_AFTER_E 
+
 /* Note that the header file contains ALLOW_EE_MARKUP ALLOW_SI_APPEND ALLOW_PI_SLASH */
 
 /* ------------------------------------------------------------------------- */
@@ -1857,6 +1860,10 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 		pstate->forced_exponent_sign = TRUE;
 		break;
 	default:
+#ifndef ALLOW_NO_SIGN_AFTER_E
+		if (!use_markup && !append_SI)
+			return NULL;
+#endif
 		break;
 	}
 
@@ -2846,10 +2853,6 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		switch (op) {
 		case OP_END:
-			while (dst->str[0] == ' ') {
-				g_string_erase (dst, 0, 1);
-				go_pango_attr_list_erase (attrs, 0, 1);
-			}
 			if (layout) {
 				pango_layout_set_text (layout, dst->str, -1);
 				if (attrs) {
