@@ -6755,6 +6755,8 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			/* fall through */
 		case '#': case '?': {
 			int i = 1;
+			char const *slash;
+			char const *look;
 			if (fraction_completed) {
 				zeroes = 0;
 				break;
@@ -6767,10 +6769,19 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				xl++; i++;
 			}
 			if (zeroes > 0 && *(xl - 1) != '0') zeroes++;
-			if (*xl == '/')
-				min_numerator_digits = zeroes;
-			else
-				int_digits = zeroes;
+
+			slash = strchr (xl, '/');
+			if (slash) {
+				for (look = xl; look < slash; look++)
+					if (*look == '0' || *look == '?' || *look == '#')
+						break;
+				if (look < slash)
+					int_digits = zeroes;
+				else
+					min_numerator_digits = zeroes;
+				zeroes = 0;
+				break;
+			} 
 			zeroes = 0;
 			break;
 		}
@@ -6790,8 +6801,6 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				if (g_ascii_isdigit (*xl)) digits ++;
 				xl++; i++;
 			}
-			if (!g_ascii_isdigit (*(xl - 1)))
-				zeroes++;
 
 			gsf_xml_out_start_element (xout, NUMBER "fraction");
 			odf_add_bool (xout, NUMBER "grouping", FALSE);
