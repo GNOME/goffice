@@ -56,6 +56,9 @@
 #define ALLOW_NEGATIVE_TIMES
 #define MAX_DECIMALS 100
 
+/* Define ALLOW_DENOM_REMOVAL to remove /1s. This is not XL compatible.*/
+#undef ALLOW_DENOM_REMOVAL
+
 /* Note that the header file contains ALLOW_EE_MARKUP ALLOW_SI_APPEND ALLOW_PI_SLASH */
 
 /* ------------------------------------------------------------------------- */
@@ -201,8 +204,10 @@ typedef enum {
 	OP_NUM_FRACTION_ALIGN,
 	OP_NUM_FRACTION_SLASH,
 	OP_NUM_FRACTION_SIGN,
+#ifdef ALLOW_DENOM_REMOVAL
 	OP_NUM_FRACTION_SIMPLIFY,
 	OP_NUM_FRACTION_SIMPLIFY_NUMERATOR,
+#endif
 #ifdef ALLOW_PI_SLASH
 	OP_NUM_FRACTION_BLANK_PI,
 	OP_NUM_FRACTION_SCALE_PI,
@@ -2105,10 +2110,12 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 		{
 			if (!inhibit_blank)
 				ADD_OP (OP_NUM_FRACTION_BLANK);
-			if (!inhibit_blank_denom)
+#ifdef ALLOW_DENOM_REMOVAL
+			if (!inhibit_blank_denom && !inhibit_blank_whole)
 				ADD_OP (OP_NUM_FRACTION_SIMPLIFY);
 			if (!inhibit_blank_numerator)
 				ADD_OP (OP_NUM_FRACTION_SIMPLIFY_NUMERATOR);
+#endif
 		}
 	if (!inhibit_blank_whole)
 		ADD_OP (OP_NUM_FRACTION_BLANK_WHOLE);
@@ -2473,8 +2480,10 @@ go_format_dump_program (const guchar *prg)
 		REGULAR(OP_NUM_FRACTION_BLANK_WHOLE);
 		REGULAR(OP_NUM_FRACTION_ALIGN);
 		REGULAR(OP_NUM_FRACTION_SLASH);
+#ifdef ALLOW_DENOM_REMOVAL
 		REGULAR(OP_NUM_FRACTION_SIMPLIFY);
 		REGULAR(OP_NUM_FRACTION_SIMPLIFY_NUMERATOR);
+#endif
 #ifdef ALLOW_PI_SLASH
 		REGULAR(OP_NUM_FRACTION_BLANK_PI);
 		REGULAR(OP_NUM_FRACTION_SCALE_PI);
@@ -2815,8 +2824,8 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		DOUBLE w, n, d, val;
 		int digits;
 		gsize whole_start, nominator_start, denominator_start, pi_sum_start;
-		gboolean blanked, use_whole;
-	} fraction = {0., 0., 0., 0., 0, 0, 0, 0, 0, FALSE, FALSE};
+		gboolean blanked, use_whole, denom_blanked;
+	} fraction = {0., 0., 0., 0., 0, 0, 0, 0, 0, FALSE, FALSE, FALSE};
 	char *oldlocale = NULL;
 	PangoAttrList *attrs = NULL;
 
@@ -3659,16 +3668,31 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
-#endif
-		case OP_NUM_FRACTION_SIMPLIFY:
 			if (!fraction.blanked && fraction.d == 1)
 				blank_characters (dst, attrs, fraction.denominator_start - 1,
 						  2, layout);
 			break;
-
-		case OP_NUM_FRACTION_SIMPLIFY_NUMERATOR:
-			/* Nothing to simplify */
+#endif
+#ifdef ALLOW_DENOM_REMOVAL
+		case OP_NUM_FRACTION_SIMPLIFY:
+			if (!fraction.blanked && fraction.d == 1 &&  fraction.w == 0) {
+				blank_characters (dst, attrs, fraction.denominator_start - 1,
+						  2, layout);
+				fraction.denom_blanked = TRUE;
+			}
 			break;
+#endif
+
+#ifdef ALLOW_DENOM_REMOVAL
+		case OP_NUM_FRACTION_SIMPLIFY_NUMERATOR:
+			if (fraction.denom_blanked && fraction.n == 0){
+				gsize p = fraction.nominator_start;
+				gsize length = fraction.denominator_start - p;
+				blank_characters (dst, attrs, p, length, layout);
+				fraction.denominator_start -= length - 1;
+			}
+			break;
+#endif
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI:

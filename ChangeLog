@@ -1,5 +1,11 @@
 2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_execute): conditionalize denominator
+	simplification (and disable)
+	(go_format_parse_number_fraction): ditto
+
+2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_output_fraction_to_odf): fix
 	int_digits and don't force a 0 into the denominator
 
