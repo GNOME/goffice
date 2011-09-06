@@ -2107,7 +2107,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	if (pi_scale) {
 		if (!inhibit_blank)
 			ADD_OP (OP_NUM_FRACTION_BLANK_PI);
-		if (!inhibit_blank_denom)
+		if (!inhibit_blank_denom && !inhibit_blank_whole)
 			ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
 		if (!inhibit_blank_numerator)
 			ADD_OP (OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI);
@@ -3671,9 +3671,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
-			if (!fraction.blanked && fraction.d == 1)
+			if (!fraction.blanked && fraction.d == 1 &&  
+			    fraction.w == 0) {
 				blank_characters (dst, attrs, fraction.denominator_start - 1,
 						  2, layout);
+				fraction.denom_blanked = TRUE;
+			}
 			break;
 #endif
 #ifdef ALLOW_DENOM_REMOVAL
@@ -3699,7 +3702,8 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI:
-			if (!fraction.blanked && (fraction.n == 1 || fraction.n == -1)) {
+			if (!fraction.blanked && 
+			    (fraction.n == 1 || fraction.n == -1)) {
 				/* Remove "1".  */
 				gsize p = fraction.nominator_start;
 				gsize length = fraction.denominator_start - p - 1 -

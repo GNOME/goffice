@@ -1,5 +1,11 @@
 2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_parse_number_fraction): make
+	denominator simplification slightly less eager
+	(go_format_execute): ditto
+
+2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_parse_number_E): make sure to
 	fail on '00E00' and '00E +00'
 	(go_format_execute): keep the leading whitespace
