@@ -10,6 +10,7 @@ Andreas:
 	* Improve the scientific number formats selector. [#657187][#623847]
 	* Improve fraction format selector. [#117215]
 	* Support SI prefixes and units  in scientific format selector. [#588516]
+	* Show in-use custom formats in teh custom format selector. [#658472]
 
 Jean:
 	* Port to gtk+-3.0.

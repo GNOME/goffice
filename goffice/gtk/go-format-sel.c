@@ -565,6 +565,8 @@ fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 		GOFormatMagic magic = go_format_get_magic (f);
 		gboolean found;
 
+		go_format_set_build_in (f, TRUE);
+
 		gtk_list_store_append (gfs->format.formats.model, &iter);
 		gtk_list_store_set (gfs->format.formats.model, &iter,
 				    0, fmt, -1);
@@ -612,6 +614,33 @@ find_builtin (const char *fmtstr, int page, gboolean def)
 	return candidates[list_elem];
 }
 
+typedef struct {
+	GOFormatSel *gfs;
+	GtkTreeIter *select;
+} fmt_dialog_closure_t;
+
+static void
+fmt_dialog_load_true_custom_cb (char const *key, GOFormat const *fmt, 
+				fmt_dialog_closure_t *cl)
+{
+	GtkTreeIter iter;
+	char *fmt_string;
+	if (go_format_is_build_in (fmt))
+		return;
+	fmt_string = go_format_str_localize (key);
+	gtk_list_store_insert_with_values (cl->gfs->format.formats.model, &iter,
+					   0, 0, fmt_string, -1);
+	g_free (fmt_string);
+	if (cl->select->stamp == 0) {
+		GOFormatMagic cur_magic = go_format_get_magic (cl->gfs->format.spec);
+		GOFormatMagic magic = go_format_get_magic (fmt);
+		gboolean found = cur_magic
+			? (cur_magic == magic)
+			: go_format_eq (fmt, cl->gfs->format.spec);
+		if (found)
+			*(cl->select) = iter;
+	}
+}
 
 static void
 fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
@@ -808,12 +837,14 @@ stays:
 				fmt_dialog_init_fmt_list (gfs,
 					_go_format_builtins[start], &select);
 
+			if  (page == FMT_CUSTOM) {
+				fmt_dialog_closure_t cl = {gfs, &select};
+				
+				go_format_foreach ((GHFunc)fmt_dialog_load_true_custom_cb, &cl);
+			}
+
 			/* If this is the custom page and the format has
 			* not been found append it */
-			/* TODO We should add the list of other custom formats created.
-			*      It should be easy.  All that is needed is a way to differentiate
-			*      the std formats and the custom formats in the GOFormat hash.
-			*/
 			if  (page == FMT_CUSTOM && select.stamp == 0) {
 				const char *fmtstr = go_format_as_XL (gfs->format.spec);
 				char *tmp = go_format_str_localize (fmtstr);

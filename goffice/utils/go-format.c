@@ -316,7 +316,9 @@ struct _GOFormat {
 	unsigned int typ : 8;
 	unsigned int ref_count : 24;
 	GOColor color;
-	unsigned char has_fill;
+	unsigned int has_fill : 7;
+	/* Note: is_build_in is only set by the format selector! */
+	unsigned int is_build_in : 1;
 	GOFormatMagic magic;
 	char *format;
 	union {
@@ -577,6 +579,29 @@ static long double beyond_precisionl;
 
 /* WARNING : Global */
 static GHashTable *style_format_hash = NULL;
+
+typedef struct  {
+	GHFunc func; 
+	gpointer user_data;
+} _go_format_foreach_t;
+
+static void
+go_format_refcount_cb (char *key, GOFormat *fmt, 
+		       _go_format_foreach_t *cl)
+{
+	if (fmt->ref_count > 1)
+		cl->func (key, fmt, cl->user_data);
+}
+
+void 
+go_format_foreach (GHFunc func, gpointer user_data)
+{
+	if (style_format_hash != NULL) {
+		_go_format_foreach_t cl = {func, user_data};
+		g_hash_table_foreach  (style_format_hash, 
+				       (GHFunc) go_format_refcount_cb, &cl);
+	}
+}
 
 /* used to generate formats when delocalizing so keep the leadings caps */
 static struct {
@@ -1181,6 +1206,8 @@ go_format_create (GOFormatClass cl, const char *format)
 	fmt->typ = cl;
 	fmt->ref_count = 1;
 	fmt->format = g_strdup (format);
+	/* Note: is_build_in is only set to TRUE by the format selector! */
+	fmt->is_build_in = FALSE;
 	return fmt;
 }
 
@@ -5234,6 +5261,25 @@ go_format_is_var_width (GOFormat const *fmt)
 	default:
 		return FALSE;
 	}
+}
+#endif
+
+#ifdef DEFINE_COMMON
+void      
+go_format_set_build_in (GOFormat *fmt, gboolean build_in)
+{
+	g_return_if_fail (fmt != NULL);
+	fmt->is_build_in = build_in;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+gboolean  
+go_format_is_build_in (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, TRUE);
+	/* Note: is_build_in is only set by the format selector! */
+	return fmt->is_build_in;
 }
 #endif
 

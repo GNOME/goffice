@@ -143,6 +143,7 @@ void go_render_generall (PangoLayout *layout, GString *str,
 /*************************************************************************/
 
 GOFormat *go_format_new_from_XL		(char const *str);
+void      go_format_set_build_in        (GOFormat *fmt, gboolean build_in);
 GOFormat *go_format_new_markup		(PangoAttrList *markup, gboolean add_ref);
 
 /* these do not add a reference to the result */
@@ -185,6 +186,7 @@ gboolean  go_format_is_text             (GOFormat const *fmt);
 gboolean  go_format_is_var_width        (GOFormat const *fmt);
 int       go_format_is_date             (GOFormat const *fmt);
 int       go_format_is_time             (GOFormat const *fmt);
+gboolean  go_format_is_build_in         (GOFormat const *fmt);
 
 int       go_format_month_before_day    (GOFormat const *fmt);
 gboolean  go_format_has_hour            (GOFormat const *fmt);
@@ -242,13 +244,15 @@ GOFormat *go_format_inc_precision	(GOFormat const *fmt);
 GOFormat *go_format_dec_precision	(GOFormat const *fmt);
 GOFormat *go_format_toggle_1000sep	(GOFormat const *fmt);
 
+
+
 /******************* GOFormat ODF Support ********************************/
 
 char *go_format_odf_style_map (GOFormat const *fmt, int cond_part);
 gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				  int cond_part, char const *name,
 				  gboolean with_extension);
-
+void go_format_foreach (GHFunc func, gpointer user_data);
 
 /*************************************************************************/
 

@@ -1,5 +1,17 @@
 2011-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.h (go_format_set_build_in): new
+	(go_format_is_build_in): new
+	(go_format_foreach): new
+	* goffice/utils/go-format.c (go_format_set_build_in): new
+	(go_format_is_build_in): new
+	(go_format_foreach): new
+	(go_format_refcount_cb): new
+	* goffice/gtk/go-format-sel.c (fmt_dialog_load_true_custom_cb): new
+	(fmt_dialog_enable_widgets): call fmt_dialog_load_true_custom_cb
+
+2011-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (handle_common_token): try harder to find the
 	locale, Ubuntu, for example, does not understand fi_FI but fi_FI.utf-8.
 
