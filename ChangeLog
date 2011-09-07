@@ -1,3 +1,8 @@
+2011-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (handle_common_token): try harder to find the
+	locale, Ubuntu, for example, does not understand fi_FI but fi_FI.utf-8.
+
 2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_parse_number_fraction): make

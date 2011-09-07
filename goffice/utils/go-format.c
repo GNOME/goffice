@@ -1233,6 +1233,7 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 		char *oldlocale;
 		GOFormatLocale locale;
 		const char *lang;
+		char *lname = NULL;
 		gsize nchars;
 		gboolean ok = go_format_parse_locale (tstr, &locale, &nchars);
 		/* Already parsed elsewhere */
@@ -1252,15 +1253,26 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 
 		oldlocale = g_strdup (setlocale (LC_ALL, NULL));
 		ok = setlocale (LC_ALL, lang) != NULL;
+
+		if (!ok) {
+			char *lname = g_strdup_printf ("%s.utf-8",lang);
+			lang = lname;
+			ok = setlocale (LC_ALL, lang) != NULL;
+			
+		}
+
 		setlocale (LC_ALL, oldlocale);
 		g_free (oldlocale);
 
-		if (!ok)
+		if (!ok) {
+			g_free (lname);
 			break;
+		}
 		ADD_OP (OP_LOCALE);
 		g_string_append_len (prg, (void *)&locale, sizeof (locale));
 		/* Include the terminating zero: */
 		g_string_append_len (prg, lang, strlen (lang) + 1);
+		g_free (lname);
 		break;
 	}
 
