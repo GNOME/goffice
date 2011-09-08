@@ -578,27 +578,12 @@ static long double beyond_precisionl;
 /* WARNING : Global */
 static GHashTable *style_format_hash = NULL;
 
-typedef struct  {
-	GHFunc func; 
-	gpointer user_data;
-} _go_format_foreach_t;
-
-static void
-go_format_refcount_cb (char *key, GOFormat *fmt, 
-		       _go_format_foreach_t *cl)
-{
-	if (fmt->ref_count > 1)
-		cl->func (key, fmt, cl->user_data);
-}
-
 void 
 go_format_foreach (GHFunc func, gpointer user_data)
 {
-	if (style_format_hash != NULL) {
-		_go_format_foreach_t cl = {func, user_data};
+	if (style_format_hash != NULL)
 		g_hash_table_foreach  (style_format_hash, 
-				       (GHFunc) go_format_refcount_cb, &cl);
-	}
+				       func, user_data);
 }
 
 /* used to generate formats when delocalizing so keep the leadings caps */
@@ -5131,8 +5116,15 @@ go_format_unref (GOFormat const *gf_)
 		   G_GNUC_FUNCTION,
 		   gf, gf->format, gf->ref_count);
 #endif
-	if (gf->ref_count != 0)
+	if (gf->ref_count > 1)
 		return;
+
+	if (gf->ref_count == 1) {
+		if (NULL != style_format_hash && 
+		    gf_ == g_hash_table_lookup (style_format_hash, gf_->format))
+			g_hash_table_remove (style_format_hash, gf_->format);
+		return;
+	}
 
 	switch (gf->typ) {
 	case GO_FMT_COND: {

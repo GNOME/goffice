@@ -1,5 +1,11 @@
 2011-09-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_refcount_cb): deleted
+	(go_format_foreach): just wrap the GHFunc
+	(go_format_unref): don't keep GOFormats that are just in the hash
+
+2011-09-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.h (go_format_set_build_in): deleted again
 	(go_format_is_build_in): deleted again
 	* goffice/utils/go-format.c (go_format_set_build_in): deleted again
