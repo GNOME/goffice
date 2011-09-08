@@ -17,7 +17,7 @@ Jean:
 	* Add a plugin directory for extern plugins, independent from micro version.
 	* Allow the frame around a chart label to rotate with the text. [647147]
 	* Chart labels accept rich text. [#417631]
-	* Axes can use only a part of available space. [#654392]
+	* Axes can use only a part of available space. [#654392][#513137]
 	* Add support for smoothed curve renaming. [#656148].
 	* Fix widgets position inside an RTL canvas.
 	* Fix minor ticks number. [#657670]

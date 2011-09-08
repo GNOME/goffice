@@ -1,3 +1,9 @@
+2011-09-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): fixed axis title
+	automatic position by taking actual axis span into account.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): fixed are filling.
+
 2011-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.h (go_format_set_build_in): new

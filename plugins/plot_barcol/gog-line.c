@@ -744,7 +744,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (type == GOG_1_5D_NORMAL || i == 0) {
 				GOPath *close_path = go_path_new ();
 				go_path_move_to (close_path, gog_axis_map_to_view (x_map, 1), y_zero);
-				go_path_line_to (close_path, gog_axis_map_to_view (x_map, lengths[i] + 1), y_zero);
+				go_path_line_to (close_path, gog_axis_map_to_view (x_map, lengths[i]), y_zero);
 				gog_renderer_fill_serie (view->renderer, paths[i], close_path);
 				gog_renderer_stroke_serie (view->renderer, close_path);
 				go_path_free (close_path);

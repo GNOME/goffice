@@ -3361,6 +3361,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	GogChart *chart = GOG_CHART (gog_object_get_parent (view->model));
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
+	double start, end;
 
 	available.w = bbox->w;
 	available.h = bbox->h;
@@ -3384,9 +3385,10 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 						return;
 					}
 					gog_view_size_request (child, &available, &req);
+					gog_axis_get_effective_span (axis, &start, &end);
 					if (type == GOG_AXIS_X) {
 						child_bbox.x = plot_area->x +
-							(plot_area->w - req.w) / 2.0;
+							(plot_area->w * (start + end) - req.w) / 2.0;
 						child_bbox.w = req.w;
 						child_bbox.h = req.h;
 						switch (axis_pos) {
@@ -3402,7 +3404,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 						tmp.h -= req.h + pad_h;
 					} else {
 						child_bbox.y = plot_area->y +
-							(plot_area->h - req.h) / 2.0;
+							(plot_area->h * (start + end) - req.h) / 2.0;
 						child_bbox.h = req.h;
 						child_bbox.w = req.w;
 						switch (axis_pos) {
