@@ -317,8 +317,6 @@ struct _GOFormat {
 	unsigned int ref_count : 24;
 	GOColor color;
 	unsigned int has_fill : 7;
-	/* Note: is_build_in is only set by the format selector! */
-	unsigned int is_build_in : 1;
 	GOFormatMagic magic;
 	char *format;
 	union {
@@ -1206,8 +1204,6 @@ go_format_create (GOFormatClass cl, const char *format)
 	fmt->typ = cl;
 	fmt->ref_count = 1;
 	fmt->format = g_strdup (format);
-	/* Note: is_build_in is only set to TRUE by the format selector! */
-	fmt->is_build_in = FALSE;
 	return fmt;
 }
 
@@ -5261,25 +5257,6 @@ go_format_is_var_width (GOFormat const *fmt)
 	default:
 		return FALSE;
 	}
-}
-#endif
-
-#ifdef DEFINE_COMMON
-void      
-go_format_set_build_in (GOFormat *fmt, gboolean build_in)
-{
-	g_return_if_fail (fmt != NULL);
-	fmt->is_build_in = build_in;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-gboolean  
-go_format_is_build_in (GOFormat const *fmt)
-{
-	g_return_val_if_fail (fmt != NULL, TRUE);
-	/* Note: is_build_in is only set by the format selector! */
-	return fmt->is_build_in;
 }
 #endif
 

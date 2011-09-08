@@ -143,7 +143,6 @@ void go_render_generall (PangoLayout *layout, GString *str,
 /*************************************************************************/
 
 GOFormat *go_format_new_from_XL		(char const *str);
-void      go_format_set_build_in        (GOFormat *fmt, gboolean build_in);
 GOFormat *go_format_new_markup		(PangoAttrList *markup, gboolean add_ref);
 
 /* these do not add a reference to the result */
@@ -186,7 +185,6 @@ gboolean  go_format_is_text             (GOFormat const *fmt);
 gboolean  go_format_is_var_width        (GOFormat const *fmt);
 int       go_format_is_date             (GOFormat const *fmt);
 int       go_format_is_time             (GOFormat const *fmt);
-gboolean  go_format_is_build_in         (GOFormat const *fmt);
 
 int       go_format_month_before_day    (GOFormat const *fmt);
 gboolean  go_format_has_hour            (GOFormat const *fmt);

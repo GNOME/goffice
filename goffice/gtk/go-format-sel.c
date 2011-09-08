@@ -554,7 +554,7 @@ cb_fraction_automatic_toggle (GtkWidget *w, GOFormatSel *gfs)
 
 static void
 fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
-			  GtkTreeIter *select)
+			  GtkTreeIter *select, GHashTable *fhash)
 {
 	GOFormatMagic cur_magic = go_format_get_magic (gfs->format.spec);
 
@@ -565,12 +565,12 @@ fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 		GOFormatMagic magic = go_format_get_magic (f);
 		gboolean found;
 
-		go_format_set_build_in (f, TRUE);
-
 		gtk_list_store_append (gfs->format.formats.model, &iter);
 		gtk_list_store_set (gfs->format.formats.model, &iter,
 				    0, fmt, -1);
 		g_free (fmt);
+		if (fhash)
+			g_hash_table_insert (fhash, *formats, GINT_TO_POINTER (1));
 
 		/* Magic formats are fully defined by their magic.  */
 		found = cur_magic
@@ -617,6 +617,7 @@ find_builtin (const char *fmtstr, int page, gboolean def)
 typedef struct {
 	GOFormatSel *gfs;
 	GtkTreeIter *select;
+	GHashTable  *hash;
 } fmt_dialog_closure_t;
 
 static void
@@ -625,7 +626,7 @@ fmt_dialog_load_true_custom_cb (char const *key, GOFormat const *fmt,
 {
 	GtkTreeIter iter;
 	char *fmt_string;
-	if (go_format_is_build_in (fmt))
+	if (cl->hash != NULL && NULL != g_hash_table_lookup (cl->hash, key))
 		return;
 	fmt_string = go_format_str_localize (key);
 	gtk_list_store_insert_with_values (cl->gfs->format.formats.model, &iter,
@@ -817,6 +818,10 @@ stays:
 		case F_LIST: {
 			int start = 0, end = -1;
 			GtkTreeIter select;
+			GHashTable *fhash = NULL;
+
+			if  (page == FMT_CUSTOM)
+				fhash = g_hash_table_new (g_str_hash, g_str_equal);
 
 			switch (page) {
 			default :
@@ -834,14 +839,16 @@ stays:
 			select.stamp = 0;
 			gtk_list_store_clear (gfs->format.formats.model);
 			for (; start <= end ; ++start)
-				fmt_dialog_init_fmt_list (gfs,
-					_go_format_builtins[start], &select);
+				fmt_dialog_init_fmt_list (gfs, _go_format_builtins[start], 
+							  &select, fhash);
 
 			if  (page == FMT_CUSTOM) {
-				fmt_dialog_closure_t cl = {gfs, &select};
-				
+				fmt_dialog_closure_t cl = {gfs, &select, fhash};
 				go_format_foreach ((GHFunc)fmt_dialog_load_true_custom_cb, &cl);
 			}
+
+			if (fhash)
+				g_hash_table_unref (fhash);
 
 			/* If this is the custom page and the format has
 			* not been found append it */
