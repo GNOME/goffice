@@ -51,7 +51,7 @@ dnl Make sure these two won't clash.  Put the following to goffice-config.h:
 AH_BOTTOM([/* Don't include goffice-features.h, it's a subset of goffice-config.h. */
 #define GOFFICE_FEATURES_H])
 
-AM_MAINTAINER_MODE
+AM_MAINTAINER_MODE([enable])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
