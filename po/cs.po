@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-08-09 05:43+0000\n"
-"PO-Revision-Date: 2011-08-09 13:45+0200\n"
+"POT-Creation-Date: 2011-09-03 08:35+0000\n"
+"PO-Revision-Date: 2011-09-10 07:12+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -133,26 +133,26 @@ msgstr "Objekty"
 msgid "Loading plugin '%s' that contains the object '%s'"
 msgstr "Načítá se zásuvný modul „%s“, který obsahuje objekt „%s“"
 
-#: ../goffice/app/go-plugin-loader-module.c:56
+#: ../goffice/app/go-plugin-loader-module.c:57
 msgid "Module file name not given."
 msgstr "Název souboru s modulem není zadán."
 
-#: ../goffice/app/go-plugin-loader-module.c:67
+#: ../goffice/app/go-plugin-loader-module.c:68
 #, c-format
 msgid "Module \"%s\" has an inconsistent dependency list."
 msgstr "Modul „%s“ obsahuje nekonzistentní seznam závislostí."
 
-#: ../goffice/app/go-plugin-loader-module.c:75
+#: ../goffice/app/go-plugin-loader-module.c:76
 #, c-format
 msgid "Module \"%s\" depends on an invalid null dependency."
 msgstr "Modul „%s“ závisí na neplatné prázdné závislosti."
 
-#: ../goffice/app/go-plugin-loader-module.c:80
+#: ../goffice/app/go-plugin-loader-module.c:81
 #, c-format
 msgid "Module \"%s\" depends on an unknown dependency '%s'."
 msgstr "Modul „%s“ závisí na neznámé závislosti „%s“."
 
-#: ../goffice/app/go-plugin-loader-module.c:85
+#: ../goffice/app/go-plugin-loader-module.c:86
 #, c-format
 msgid ""
 "Module \"%s\" was built with version %s of %s, but this executable supplied "
@@ -161,43 +161,43 @@ msgstr ""
 "Modul „%1$s“ byl sestaven s %3$s verze %2$s, ale tento spustitelný soubor "
 "poskytuje verzi %4$s."
 
-#: ../goffice/app/go-plugin-loader-module.c:103
+#: ../goffice/app/go-plugin-loader-module.c:104
 msgid "Dynamic module loading is not supported in this system."
 msgstr "Dynamické načítání modulů není v tomto systému podporováno."
 
-#: ../goffice/app/go-plugin-loader-module.c:113
+#: ../goffice/app/go-plugin-loader-module.c:114
 #, c-format
 msgid "Unable to open module file \"%s\"."
 msgstr "Soubor s modulem „%s“ nelze otevřít."
 
-#: ../goffice/app/go-plugin-loader-module.c:121
+#: ../goffice/app/go-plugin-loader-module.c:122
 #, c-format
 msgid "Module \"%s\" doesn't contain (\"go_plugin_header\" symbol)."
 msgstr "Modul „%s“ neobsahuje (symbol „go_plugin_header“)."
 
-#: ../goffice/app/go-plugin-loader-module.c:125
+#: ../goffice/app/go-plugin-loader-module.c:126
 #, c-format
 msgid "Module \"%s\" has an invalid magic number."
 msgstr "Modul „%s“ má neplatné magické číslo."
 
-#: ../goffice/app/go-plugin-loader-module.c:152
+#: ../goffice/app/go-plugin-loader-module.c:153
 #, c-format
 msgid "Unable to close module file \"%s\"."
 msgstr "Nelze uzavřít soubor s modulem „%s“."
 
-#: ../goffice/app/go-plugin-loader-module.c:292
-#: ../goffice/app/go-plugin-loader-module.c:354
+#: ../goffice/app/go-plugin-loader-module.c:303
+#: ../goffice/app/go-plugin-loader-module.c:365
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Soubor s modulem „%s“ má neplatný formát."
 
-#: ../goffice/app/go-plugin-loader-module.c:295
-#: ../goffice/app/go-plugin-loader-module.c:357
+#: ../goffice/app/go-plugin-loader-module.c:306
+#: ../goffice/app/go-plugin-loader-module.c:368
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Soubor neobsahuje funkci „%s“."
 
-#: ../goffice/app/go-plugin-loader-module.c:421
+#: ../goffice/app/go-plugin-loader-module.c:432
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Modul neobsahuje funkci „%s“."
@@ -216,7 +216,7 @@ msgid "Service '%s' not supported by loader."
 msgstr "Služba „%s“ není zavaděčem podporována."
 
 #: ../goffice/app/go-plugin-service.c:141
-#: ../goffice/app/go-plugin-service.c:840
+#: ../goffice/app/go-plugin-service.c:845
 msgid "Error while loading plugin service."
 msgstr "Chyba při načítání služby pro zásuvné moduly."
 
@@ -229,62 +229,62 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Čistící funkce v zásuvném modulu vrátila chybu."
 
 #: ../goffice/app/go-plugin-service.c:177 ../goffice/gtk/go-format-sel.c:60
-#: ../goffice/utils/go-format.c:738 ../goffice/utils/go-format.c:3863
+#: ../goffice/utils/go-format.c:770 ../goffice/utils/go-format.c:4262
 msgid "General"
 msgstr "Obecné"
 
-#: ../goffice/app/go-plugin-service.c:334
+#: ../goffice/app/go-plugin-service.c:339
 msgid "File opener has no description"
 msgstr "Program na otevírání souborů nemá popis"
 
-#: ../goffice/app/go-plugin-service.c:368
+#: ../goffice/app/go-plugin-service.c:373
 #, c-format
 msgid "File opener - %s"
 msgstr "Program na otevírání souborů – %s"
 
-#: ../goffice/app/go-plugin-service.c:489
+#: ../goffice/app/go-plugin-service.c:494
 msgid "Error while reading file."
 msgstr "Chyba při čtení souboru."
 
-#: ../goffice/app/go-plugin-service.c:647
+#: ../goffice/app/go-plugin-service.c:652
 msgid "File saver has no description"
 msgstr "Program na ukládání souborů s nemá popis"
 
-#: ../goffice/app/go-plugin-service.c:690
+#: ../goffice/app/go-plugin-service.c:695
 #, c-format
 msgid "File saver - %s"
 msgstr "Program na ukládání souborů – %s"
 
-#: ../goffice/app/go-plugin-service.c:750
+#: ../goffice/app/go-plugin-service.c:755
 msgid "Error while loading plugin for saving."
 msgstr "Chyba při načítání zásuvného modulu na ukládání."
 
-#: ../goffice/app/go-plugin-service.c:752
+#: ../goffice/app/go-plugin-service.c:757
 msgid "Failed to load plugin for saving"
 msgstr "Selhalo načtení zásuvného modulu na ukládání."
 
-#: ../goffice/app/go-plugin-service.c:877
+#: ../goffice/app/go-plugin-service.c:882
 msgid "Plugin loader"
 msgstr "Zavaděč zásuvných modulů"
 
-#: ../goffice/app/go-plugin-service.c:902
+#: ../goffice/app/go-plugin-service.c:907
 msgid "GObject loader"
 msgstr "Zavaděč pro GObject"
 
-#: ../goffice/app/go-plugin-service.c:1009
+#: ../goffice/app/go-plugin-service.c:1014
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Chybí atribut „type“ v elementu „service“."
 
-#: ../goffice/app/go-plugin-service.c:1015
+#: ../goffice/app/go-plugin-service.c:1020
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Neznámý typ služby: %s."
 
-#: ../goffice/app/go-plugin-service.c:1031
+#: ../goffice/app/go-plugin-service.c:1036
 msgid "Error reading service information."
 msgstr "Chyba při čtení informací o službě."
 
-#: ../goffice/app/go-plugin-service.c:1093
+#: ../goffice/app/go-plugin-service.c:1098
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -505,9 +505,10 @@ msgstr "úhel2"
 msgid "The arc end angle"
 msgstr "Koncový úhel oblouku"
 
-#: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
-#: ../goffice/canvas/goc-path.c:251 ../goffice/canvas/goc-rectangle.c:337
-#: ../goffice/canvas/goc-text.c:472 ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-component.c:293
+#: ../goffice/canvas/goc-ellipse.c:263 ../goffice/canvas/goc-path.c:251
+#: ../goffice/canvas/goc-rectangle.c:337 ../goffice/canvas/goc-text.c:474
+#: ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
 msgstr "Natočení"
 
@@ -516,7 +517,7 @@ msgid "The rotation around center position"
 msgstr "Natočení kolem středové pozice"
 
 #: ../goffice/canvas/goc-arc.c:479 ../goffice/canvas/goc-rectangle.c:343
-#: ../goffice/graph/gog-axis.c:2698 ../goffice/graph/gog-grid.c:116
+#: ../goffice/graph/gog-axis.c:2710 ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:332
 msgid "Type"
 msgstr "Typ"
@@ -541,11 +542,12 @@ msgstr "Šipka na konci"
 msgid "Arrow for line's end"
 msgstr "Šipka na konci čáry"
 
-#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
-#: ../goffice/canvas/goc-graph.c:435 ../goffice/canvas/goc-group.c:250
-#: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
-#: ../goffice/canvas/goc-rectangle.c:313 ../goffice/canvas/goc-text.c:460
-#: ../goffice/canvas/goc-widget.c:316 ../goffice/utils/go-marker.c:83
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:269
+#: ../goffice/canvas/goc-ellipse.c:239 ../goffice/canvas/goc-graph.c:439
+#: ../goffice/canvas/goc-group.c:250 ../goffice/canvas/goc-path.c:239
+#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-text.c:462 ../goffice/canvas/goc-widget.c:326
+#: ../goffice/utils/go-marker.c:83
 msgid "x"
 msgstr "x"
 
@@ -553,11 +555,11 @@ msgstr "x"
 msgid "The circle center horizontal position"
 msgstr "Svislá poloha středu kružnice"
 
-#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
-#: ../goffice/canvas/goc-graph.c:441 ../goffice/canvas/goc-group.c:256
-#: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
-#: ../goffice/canvas/goc-rectangle.c:319 ../goffice/canvas/goc-text.c:466
-#: ../goffice/canvas/goc-widget.c:322
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:275
+#: ../goffice/canvas/goc-ellipse.c:245 ../goffice/canvas/goc-graph.c:445
+#: ../goffice/canvas/goc-group.c:256 ../goffice/canvas/goc-path.c:245
+#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-text.c:468 ../goffice/canvas/goc-widget.c:332
 msgid "y"
 msgstr "y"
 
@@ -573,6 +575,48 @@ msgstr "Poloměr"
 msgid "The circle radius"
 msgstr "Poloměr kružnice"
 
+#: ../goffice/canvas/goc-component.c:270
+#| msgid "The widget left position"
+msgid "The object left position"
+msgstr "Poloha levé strany objektu"
+
+#: ../goffice/canvas/goc-component.c:276
+#| msgid "The widget top position"
+msgid "The object top position"
+msgstr "Poloha horní strany objektu"
+
+#: ../goffice/canvas/goc-component.c:281 ../goffice/canvas/goc-component.c:282
+#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:451
+#: ../goffice/canvas/goc-graph.c:452 ../goffice/canvas/goc-pixbuf.c:249
+#: ../goffice/canvas/goc-rectangle.c:331 ../goffice/canvas/goc-widget.c:345
+#: ../goffice/graph/gog-graph.c:408 ../goffice/utils/go-image.c:464
+msgid "Height"
+msgstr "Výška"
+
+#: ../goffice/canvas/goc-component.c:287 ../goffice/canvas/goc-component.c:288
+#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:457
+#: ../goffice/canvas/goc-graph.c:458 ../goffice/canvas/goc-pixbuf.c:243
+#: ../goffice/canvas/goc-rectangle.c:325 ../goffice/canvas/goc-widget.c:339
+#: ../goffice/graph/gog-graph.c:402 ../goffice/utils/go-image.c:460
+#: ../plugins/plot_xy/gog-xy-dropbar.c:317
+msgid "Width"
+msgstr "Šířka"
+
+#: ../goffice/canvas/goc-component.c:294
+#| msgid "The rotation around center position"
+msgid "The rotation around center, only available for windowless components"
+msgstr ""
+"Natočení kolem středové pozice; je k dispozici jen pro bezokenní komponenty"
+
+#: ../goffice/canvas/goc-component.c:299
+#| msgid "Objects"
+msgid "Object"
+msgstr "Objekt"
+
+#: ../goffice/canvas/goc-component.c:300
+msgid "The embedded GOComponent object"
+msgstr "Vložený objekt GOComponent"
+
 #: ../goffice/canvas/goc-ellipse.c:240
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Poloha levé strany elipsy (nebo pravé v režimu zprava doleva)"
@@ -581,24 +625,9 @@ msgstr "Poloha levé strany elipsy (nebo pravé v režimu zprava doleva)"
 msgid "The ellipse top position"
 msgstr "Poloha vrcholu elipsy"
 
-#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-pixbuf.c:243
-#: ../goffice/canvas/goc-rectangle.c:325 ../goffice/canvas/goc-widget.c:329
-#: ../goffice/graph/gog-graph.c:402 ../goffice/utils/go-image.c:460
-#: ../plugins/plot_xy/gog-xy-dropbar.c:317
-msgid "Width"
-msgstr "Šířka"
-
 #: ../goffice/canvas/goc-ellipse.c:252
 msgid "The ellipse width"
 msgstr "Šířka elipsy"
-
-#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-graph.c:448 ../goffice/canvas/goc-pixbuf.c:249
-#: ../goffice/canvas/goc-rectangle.c:331 ../goffice/canvas/goc-widget.c:335
-#: ../goffice/graph/gog-graph.c:408 ../goffice/utils/go-image.c:464
-msgid "Height"
-msgstr "Výška"
 
 #: ../goffice/canvas/goc-ellipse.c:258
 msgid "The ellipse height"
@@ -609,36 +638,36 @@ msgid "The rotation around top left position"
 msgstr "Natočení okolo levé horní pozice"
 
 #. Note to translators: the following is a format string for a pair of coordinates
-#: ../goffice/canvas/goc-graph.c:368
+#: ../goffice/canvas/goc-graph.c:372
 #, c-format
 msgid "(%s,%s)"
 msgstr "(%s, %s)"
 
-#: ../goffice/canvas/goc-graph.c:436
+#: ../goffice/canvas/goc-graph.c:440
 msgid "The graph left position"
 msgstr "Poloha levé strany grafu"
 
-#: ../goffice/canvas/goc-graph.c:442
+#: ../goffice/canvas/goc-graph.c:446
 msgid "The graph top position"
 msgstr "Poloha horní strany grafu"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:459 ../goffice/graph/gog-graph.c:175
+#: ../goffice/canvas/goc-graph.c:463 ../goffice/graph/gog-graph.c:175
 #: ../goffice/graph/gog-graph.c:434
 msgid "Graph"
 msgstr "Graf"
 
-#: ../goffice/canvas/goc-graph.c:460
+#: ../goffice/canvas/goc-graph.c:464
 msgid "The GogGraph this object displays"
 msgstr "GogGraph, který tento objekt zobrazuje"
 
-#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:942
+#: ../goffice/canvas/goc-graph.c:469 ../goffice/graph/gog-graph.c:942
 msgid "Renderer"
 msgstr "Vykreslování"
 
-#: ../goffice/canvas/goc-graph.c:466
+#: ../goffice/canvas/goc-graph.c:470
 msgid "The GogRenderer being displayed"
 msgstr "Zobrazovaný GogRenderer"
 
@@ -750,25 +779,17 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "Objekt GdkPixbuf, který se má zobrazit"
 
-#: ../goffice/canvas/goc-polyline.c:229 ../goffice/canvas/goc-polygon.c:330
+#: ../goffice/canvas/goc-polygon.c:330 ../goffice/canvas/goc-polyline.c:229
 msgid "points"
 msgstr "body"
-
-#: ../goffice/canvas/goc-polyline.c:229
-msgid "The polyline vertices"
-msgstr "Vrcholy lomené čáry"
-
-#: ../goffice/canvas/goc-polyline.c:234 ../goffice/canvas/goc-polygon.c:335
-msgid "Use spline"
-msgstr "Použít splajnu"
-
-#: ../goffice/canvas/goc-polyline.c:235
-msgid "Use a Bezier cubic spline as line"
-msgstr "Použít pro čáru Beziérovu kubickou splajnu"
 
 #: ../goffice/canvas/goc-polygon.c:330
 msgid "The polygon vertices"
 msgstr "Vrcholy polygonu"
+
+#: ../goffice/canvas/goc-polygon.c:335 ../goffice/canvas/goc-polyline.c:234
+msgid "Use spline"
+msgstr "Použít splajnu"
 
 #: ../goffice/canvas/goc-polygon.c:336
 msgid "Use a Bezier closed cubic spline as contour"
@@ -796,6 +817,14 @@ msgstr ""
 "dané velikosti. Každá z velikostí musí být nejméně 3. Hodnoty následující za "
 "neplatnou hodnotou budou zahozeny. Nastavení vlastnosti „point“ (bod) "
 "nastaví velikosti na výchozí hodnoty."
+
+#: ../goffice/canvas/goc-polyline.c:229
+msgid "The polyline vertices"
+msgstr "Vrcholy lomené čáry"
+
+#: ../goffice/canvas/goc-polyline.c:235
+msgid "Use a Bezier cubic spline as line"
+msgstr "Použít pro čáru Beziérovu kubickou splajnu"
 
 #: ../goffice/canvas/goc-rectangle.c:314
 msgid "The rectangle left position (or right position in RTL mode)"
@@ -851,96 +880,96 @@ msgstr "Škálovat tloušťku čáry"
 msgid "Whether to scale the line width when zooming"
 msgstr "Zda měnit velikost tloušťky čáry při změně měřítka"
 
-#: ../goffice/canvas/goc-text.c:461
+#: ../goffice/canvas/goc-text.c:463
 msgid "The text horizontal position"
 msgstr "Vodorovná poloha textu"
 
-#: ../goffice/canvas/goc-text.c:467
+#: ../goffice/canvas/goc-text.c:469
 msgid "The text position"
 msgstr "Poloha textu"
 
-#: ../goffice/canvas/goc-text.c:473
+#: ../goffice/canvas/goc-text.c:475
 msgid "The rotation around the anchor"
 msgstr "Natočení okolo ukotvení"
 
-#: ../goffice/canvas/goc-text.c:478 ../goffice/graph/gog-object.c:645
+#: ../goffice/canvas/goc-text.c:480 ../goffice/graph/gog-object.c:645
 msgid "Anchor"
 msgstr "Ukotvení"
 
-#: ../goffice/canvas/goc-text.c:479
+#: ../goffice/canvas/goc-text.c:481
 msgid "The anchor point for the text"
 msgstr "Kotevní bod textu"
 
-#: ../goffice/canvas/goc-text.c:484 ../goffice/gtk/go-format-sel.c:69
-#: ../goffice/gtk/go-rotation-sel.c:135 ../goffice/utils/go-style.c:910
+#: ../goffice/canvas/goc-text.c:486 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-rotation-sel.c:143 ../goffice/utils/go-style.c:910
 msgid "Text"
 msgstr "Text"
 
-#: ../goffice/canvas/goc-text.c:485
+#: ../goffice/canvas/goc-text.c:487
 msgid "The text to display"
 msgstr "Text, který se má zobrazit"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:490
 msgid "Attributes"
 msgstr "Atributy"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:490
 msgid "The attributes list as a PangoAttrList"
 msgstr "Seznam atributů v podobě PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:495
 msgid "Clip"
 msgstr "Oříznout"
 
-#: ../goffice/canvas/goc-text.c:494
+#: ../goffice/canvas/goc-text.c:496
 msgid "Whether to clip or not"
 msgstr "Zda oříznout nebo ne"
 
-#: ../goffice/canvas/goc-text.c:499
+#: ../goffice/canvas/goc-text.c:501
 msgid "Clip width"
 msgstr "Šířka ořezu"
 
-#: ../goffice/canvas/goc-text.c:500
+#: ../goffice/canvas/goc-text.c:502
 msgid "Clip width for the text"
 msgstr "Šířka ořezu pro text"
 
-#: ../goffice/canvas/goc-text.c:505
+#: ../goffice/canvas/goc-text.c:507
 msgid "Clip height"
 msgstr "Výška ořezu"
 
-#: ../goffice/canvas/goc-text.c:506
+#: ../goffice/canvas/goc-text.c:508
 msgid "Clip height for the text"
 msgstr "Výška ořezu pro text"
 
-#: ../goffice/canvas/goc-text.c:511
+#: ../goffice/canvas/goc-text.c:513
 msgid "Wrap width"
 msgstr "Šířka zalomení"
 
-#: ../goffice/canvas/goc-text.c:512
+#: ../goffice/canvas/goc-text.c:514
 msgid "Wrap width for the text"
 msgstr "Šířka zalomení pro text"
 
-#: ../goffice/canvas/goc-widget.c:310
+#: ../goffice/canvas/goc-widget.c:320
 msgid "Widget"
 msgstr "Widget"
 
-#: ../goffice/canvas/goc-widget.c:311
+#: ../goffice/canvas/goc-widget.c:321
 msgid "A pointer to the embedded widget"
 msgstr "Ukazatel na vložený widget"
 
-#: ../goffice/canvas/goc-widget.c:317
+#: ../goffice/canvas/goc-widget.c:327
 msgid "The widget left position"
 msgstr "Poloha levé strany weidgetu"
 
-#: ../goffice/canvas/goc-widget.c:323
+#: ../goffice/canvas/goc-widget.c:333
 msgid "The widget top position"
 msgstr "Poloha horní strany weidgetu"
 
-#: ../goffice/canvas/goc-widget.c:330
+#: ../goffice/canvas/goc-widget.c:340
 msgid "The widget width"
 msgstr "Šířka widgetu"
 
-#: ../goffice/canvas/goc-widget.c:336
+#: ../goffice/canvas/goc-widget.c:346
 msgid "The widget height"
 msgstr "Výška widgetu"
 
@@ -1261,130 +1290,130 @@ msgstr "Radiány"
 msgid "Grads"
 msgstr "Grady"
 
-#: ../goffice/graph/gog-axis.c:1440
+#: ../goffice/graph/gog-axis.c:1452
 msgid "Discrete"
 msgstr "Diskrétní"
 
-#: ../goffice/graph/gog-axis.c:1440
+#: ../goffice/graph/gog-axis.c:1452
 msgid "Discrete mapping"
 msgstr "Diskrétní mapování"
 
-#: ../goffice/graph/gog-axis.c:1452 ../goffice/utils/go-line.c:118
+#: ../goffice/graph/gog-axis.c:1464 ../goffice/utils/go-line.c:118
 #: ../goffice/utils/go-line.c:329 ../plugins/reg_linear/reg-types.xml.in.h:3
 msgid "Linear"
 msgstr "Lineární"
 
-#: ../goffice/graph/gog-axis.c:1452
+#: ../goffice/graph/gog-axis.c:1464
 msgid "Linear mapping"
 msgstr "Lineární mapování"
 
-#: ../goffice/graph/gog-axis.c:1464
+#: ../goffice/graph/gog-axis.c:1476
 msgid "Log"
 msgstr "Logaritmické"
 
-#: ../goffice/graph/gog-axis.c:1464
+#: ../goffice/graph/gog-axis.c:1476
 msgid "Logarithm mapping"
 msgstr "Logaritmické mapování"
 
-#: ../goffice/graph/gog-axis.c:2535 ../goffice/graph/gog-axis.c:2545
+#: ../goffice/graph/gog-axis.c:2547 ../goffice/graph/gog-axis.c:2557
 msgid "M_inimum"
 msgstr "M_inimum"
 
-#: ../goffice/graph/gog-axis.c:2536 ../goffice/graph/gog-axis.c:2546
+#: ../goffice/graph/gog-axis.c:2548 ../goffice/graph/gog-axis.c:2558
 msgid "M_aximum"
 msgstr "M_aximum"
 
-#: ../goffice/graph/gog-axis.c:2537
+#: ../goffice/graph/gog-axis.c:2549
 msgid "Categories between _ticks"
 msgstr "Kategorie mezi _značkami"
 
-#: ../goffice/graph/gog-axis.c:2538
+#: ../goffice/graph/gog-axis.c:2550
 msgid "Categories between _labels"
 msgstr "Kategorie mezi _popisky"
 
-#: ../goffice/graph/gog-axis.c:2547
+#: ../goffice/graph/gog-axis.c:2559
 msgid "Ma_jor ticks"
 msgstr "H_lavní značky"
 
-#: ../goffice/graph/gog-axis.c:2548
+#: ../goffice/graph/gog-axis.c:2560
 msgid "Mi_nor ticks"
 msgstr "Ve_dlejší značky"
 
-#: ../goffice/graph/gog-axis.c:2604 ../goffice/math/go-distribution.c:163
+#: ../goffice/graph/gog-axis.c:2616 ../goffice/math/go-distribution.c:163
 #: ../goffice/math/go-distribution.c:164
 msgid "Scale"
 msgstr "Měřítko"
 
-#: ../goffice/graph/gog-axis.c:2624 ../plugins/plot_pie/gog-pie.c:323
+#: ../goffice/graph/gog-axis.c:2636 ../plugins/plot_pie/gog-pie.c:323
 #: ../plugins/smoothing/gog-moving-avg.c:196
 msgid "Span"
 msgstr "Rozsah"
 
-#: ../goffice/graph/gog-axis.c:2642
+#: ../goffice/graph/gog-axis.c:2654 ../goffice/graph/gog-series-labels.c:870
+#: ../goffice/graph/gog-series-labels.c:1394
 msgid "Format"
 msgstr "Formát"
 
-#: ../goffice/graph/gog-axis.c:2674
+#: ../goffice/graph/gog-axis.c:2686
 msgid "MajorGrid"
 msgstr "HlavníMřížka"
 
-#: ../goffice/graph/gog-axis.c:2677
+#: ../goffice/graph/gog-axis.c:2689
 msgid "MinorGrid"
 msgstr "VedlejšíMřížka"
 
-#: ../goffice/graph/gog-axis.c:2680
+#: ../goffice/graph/gog-axis.c:2692
 msgid "AxisLine"
 msgstr "ČáraOsy"
 
-#: ../goffice/graph/gog-axis.c:2683
+#: ../goffice/graph/gog-axis.c:2695
 msgid "Label"
 msgstr "Popisek"
 
-#: ../goffice/graph/gog-axis.c:2699
+#: ../goffice/graph/gog-axis.c:2711
 msgid "Numerical type of this axis"
 msgstr "Číselný typ této osy"
 
-#: ../goffice/graph/gog-axis.c:2703
+#: ../goffice/graph/gog-axis.c:2715
 msgid "Invert axis"
 msgstr "Převrátit osu"
 
-#: ../goffice/graph/gog-axis.c:2704
+#: ../goffice/graph/gog-axis.c:2716
 msgid "Scale from high to low rather than low to high"
 msgstr "Měřítko od horní do dolní meze namísto od dolní do horní"
 
-#: ../goffice/graph/gog-axis.c:2708
+#: ../goffice/graph/gog-axis.c:2720
 msgid "MapName"
 msgstr "NázevMapy"
 
-#: ../goffice/graph/gog-axis.c:2709
+#: ../goffice/graph/gog-axis.c:2721
 msgid "The name of the map for scaling"
 msgstr "Název mapy pro měřítko"
 
-#: ../goffice/graph/gog-axis.c:2714
+#: ../goffice/graph/gog-axis.c:2726
 msgid "Assigned XL format"
 msgstr "Přiřazený formát XL"
 
-#: ../goffice/graph/gog-axis.c:2715
+#: ../goffice/graph/gog-axis.c:2727
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "Uživatelem přiřazený formát pro použití u popisků nediskrétních os (formát "
 "XL)"
 
-#: ../goffice/graph/gog-axis.c:2720 ../goffice/graph/gog-axis.c:2721
+#: ../goffice/graph/gog-axis.c:2732 ../goffice/graph/gog-axis.c:2733
 msgid "Rotation of circular axis"
 msgstr "Otočení kruhové osy"
 
-#: ../goffice/graph/gog-axis.c:2728 ../goffice/graph/gog-axis.c:2729
+#: ../goffice/graph/gog-axis.c:2740 ../goffice/graph/gog-axis.c:2741
 msgid "Polar axis set unit"
 msgstr "Jednotky polárních os"
 
-#: ../goffice/graph/gog-axis.c:2734
-#| msgid "Axis position"
+#: ../goffice/graph/gog-axis.c:2746
 msgid "Axis start position"
 msgstr "Poloha počátku osy"
 
-#: ../goffice/graph/gog-axis.c:2735
+#: ../goffice/graph/gog-axis.c:2747
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
@@ -1392,12 +1421,11 @@ msgstr ""
 "Poloha v oblasti diagramu, ve které osa skutečně začíná, vyjádřeno v "
 "procentech z dostupné polohy. Výchozí je 0.0"
 
-#: ../goffice/graph/gog-axis.c:2740
-#| msgid "Axis position"
+#: ../goffice/graph/gog-axis.c:2752
 msgid "Axis end position"
 msgstr "Poloha konce osy"
 
-#: ../goffice/graph/gog-axis.c:2741
+#: ../goffice/graph/gog-axis.c:2753
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
@@ -1575,8 +1603,8 @@ msgid "Dis_play:"
 msgstr "Z_obrazovat:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:9
-#: ../goffice/graph/gog-error-bar.c:74 ../goffice/gtk/go-format-sel.c:1111
-#: ../goffice/gtk/go-format-sel.c:1276 ../goffice/utils/formats.c:352
+#: ../goffice/graph/gog-error-bar.c:74 ../goffice/gtk/go-format-sel.c:1570
+#: ../goffice/gtk/go-format-sel.c:1740 ../goffice/utils/formats.c:352
 #: ../goffice/utils/go-line.c:84
 msgid "None"
 msgstr "Nic"
@@ -1688,7 +1716,7 @@ msgstr "<b>_Typ diagramu</b>"
 msgid "<b>_Subtype</b>"
 msgstr "<b>_Podtyp</b>"
 
-#: ../goffice/graph/gog-guru.c:993 ../goffice/graph/gog-series.c:498
+#: ../goffice/graph/gog-guru.c:993 ../goffice/graph/gog-series.c:511
 msgid "Name"
 msgstr "Název"
 
@@ -1721,12 +1749,10 @@ msgid "Support basic html-ish markup"
 msgstr "Podpora základních značek html"
 
 #: ../goffice/graph/gog-label.c:137
-#| msgid "Wrap width for the text"
 msgid "Rotate the frame with the text"
 msgstr "Otáčet rámeček spolu s textem"
 
 #: ../goffice/graph/gog-label.c:138
-#| msgid "whether the data should be mapped to the Y axis."
 msgid "Whether the frame should be rotated with the text"
 msgstr "Zda by se měl rámeček otáčet spolu s textem"
 
@@ -1735,7 +1761,6 @@ msgid "Rotate the background with the text"
 msgstr "Otáčet pozadí spolu s textem"
 
 #: ../goffice/graph/gog-label.c:144
-#| msgid "whether the data should be mapped to the Y axis."
 msgid "Whether the background should be rotated with the text"
 msgstr "Zda by se mělo pozadí otáčet spolu s textem"
 
@@ -1765,10 +1790,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-label.c:267 ../goffice/graph/gog-label.c:435
 #: ../goffice/graph/gog-reg-curve.c:71
+#: ../goffice/graph/gog-series-labels.c:567
 #: ../goffice/graph/gog-smoothed-curve.c:52
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:76
-#: ../plugins/plot_xy/gog-xy.c:1985
+#: ../plugins/plot_xy/gog-xy.c:2122
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -1860,6 +1886,7 @@ msgid "_Object position:"
 msgstr "Poloha _objektu:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:13
+#: ../goffice/graph/gog-series-labels-prefs.ui.h:4
 msgid "_Position:"
 msgstr "_Poloha:"
 
@@ -1878,7 +1905,7 @@ msgid "page 3"
 msgstr "strana 3"
 
 #: ../goffice/graph/gog-object.c:55 ../goffice/graph/gog-object.c:74
-#: ../goffice/graph/gog-series.c:47
+#: ../goffice/graph/gog-series.c:47 ../goffice/graph/gog-series-labels.c:38
 msgid "Top"
 msgstr "Nahoru"
 
@@ -1887,7 +1914,7 @@ msgid "Top right"
 msgstr "Vpravo nahoru"
 
 #: ../goffice/graph/gog-object.c:57 ../goffice/graph/gog-object.c:78
-#: ../goffice/graph/gog-series.c:48
+#: ../goffice/graph/gog-series.c:48 ../goffice/graph/gog-series-labels.c:41
 msgid "Right"
 msgstr "Vpravo"
 
@@ -1896,7 +1923,7 @@ msgid "Bottom right"
 msgstr "Vpravo dolů"
 
 #: ../goffice/graph/gog-object.c:59 ../goffice/graph/gog-object.c:80
-#: ../goffice/graph/gog-series.c:45
+#: ../goffice/graph/gog-series.c:45 ../goffice/graph/gog-series-labels.c:39
 msgid "Bottom"
 msgstr "Dolů"
 
@@ -1905,7 +1932,7 @@ msgid "Bottom left"
 msgstr "Vlevo dolů"
 
 #: ../goffice/graph/gog-object.c:61 ../goffice/graph/gog-object.c:76
-#: ../goffice/graph/gog-series.c:46
+#: ../goffice/graph/gog-series.c:46 ../goffice/graph/gog-series-labels.c:40
 msgid "Left"
 msgstr "Vlevo"
 
@@ -1933,6 +1960,8 @@ msgid "Center"
 msgstr "Střed"
 
 #: ../goffice/graph/gog-object.c:576 ../goffice/graph/gog-object.c:621
+#: ../goffice/graph/gog-series-labels.c:858
+#: ../goffice/graph/gog-series-labels.c:1382
 msgid "Position"
 msgstr "Poloha"
 
@@ -2129,21 +2158,226 @@ msgstr "Zobrazit ro_vnici"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Zobrazit _regresní koeficient R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1678 ../goffice/graph/gog-view.c:590
+#: ../goffice/graph/gog-renderer.c:1826 ../goffice/graph/gog-view.c:590
 msgid "Model"
 msgstr "Model"
 
-#: ../goffice/graph/gog-renderer.c:1679
+#: ../goffice/graph/gog-renderer.c:1827
 msgid "The GogGraph this renderer displays"
 msgstr "GogGraph, který toto vykreslení zobrazuje"
 
-#: ../goffice/graph/gog-renderer.c:1684
+#: ../goffice/graph/gog-renderer.c:1832
 msgid "View"
 msgstr "Zobrazení"
 
-#: ../goffice/graph/gog-renderer.c:1685
+#: ../goffice/graph/gog-renderer.c:1833
 msgid "the GogView this renderer is displaying"
 msgstr "Objekt GogView, který se tímto vykreslením zobrazí"
+
+#: ../goffice/graph/gog-series.c:43
+msgid "Y origin"
+msgstr "Počátek Y"
+
+#: ../goffice/graph/gog-series.c:44
+msgid "X origin"
+msgstr "Počátek X"
+
+#: ../goffice/graph/gog-series.c:49
+msgid "Origin"
+msgstr "Počátek"
+
+#: ../goffice/graph/gog-series.c:51
+msgid "Edge"
+msgstr "Hranu"
+
+#: ../goffice/graph/gog-series.c:52
+msgid "Self"
+msgstr "Sebe sama"
+
+#: ../goffice/graph/gog-series.c:53
+msgid "Next series"
+msgstr "Další řady"
+
+#: ../goffice/graph/gog-series.c:158 ../goffice/graph/gog-series-labels.c:374
+msgid "Index:"
+msgstr "Index:"
+
+#: ../goffice/graph/gog-series.c:177 ../plugins/plot_pie/gog-pie.c:89
+msgid "Settings"
+msgstr "Nastavení"
+
+#: ../goffice/graph/gog-series.c:218 ../goffice/graph/gog-series-labels.c:876
+msgid "Index"
+msgstr "Index"
+
+#: ../goffice/graph/gog-series.c:219 ../goffice/graph/gog-series-labels.c:877
+msgid "Index of the corresponding data element"
+msgstr "Index odpovídajícího datového prvku"
+
+#: ../goffice/graph/gog-series.c:542 ../goffice/graph/gog-trend-line.c:99
+msgid "_Show in Legend"
+msgstr "_Zobrazit v legendě"
+
+#: ../goffice/graph/gog-series.c:552
+msgid "Data"
+msgstr "Data"
+
+#: ../goffice/graph/gog-series.c:597
+msgid "Derivative at first point of the clamped cubic spline."
+msgstr "Derivace v prvním bodě u kubické splajny s okrajovými podmínkami."
+
+#: ../goffice/graph/gog-series.c:601
+msgid "Derivative at last point of the clamped cubic spline."
+msgstr "Derivace v posledním bodě u kubické splajny s okrajovými podmínkami."
+
+#: ../goffice/graph/gog-series.c:673 ../goffice/graph/gog-series-labels.c:1359
+msgid "Point"
+msgstr "Bod"
+
+#: ../goffice/graph/gog-series.c:679
+msgid "Regression curve"
+msgstr "Regresní křivka"
+
+#: ../goffice/graph/gog-series.c:687
+msgid "Trend line"
+msgstr "Čára trendu"
+
+#: ../goffice/graph/gog-series.c:695
+msgid "Data labels"
+msgstr "Popisky dat"
+
+#: ../goffice/graph/gog-series.c:730 ../goffice/graph/gog-trend-line.c:151
+msgid "Has-legend"
+msgstr "Má legendu"
+
+#: ../goffice/graph/gog-series.c:731
+msgid "Should the series show up in legends"
+msgstr "Zda by se měly řady zobrazit v legendách"
+
+#: ../goffice/graph/gog-series.c:736
+msgid "Interpolation"
+msgstr "Interpolace"
+
+#: ../goffice/graph/gog-series.c:737
+msgid "Type of line interpolation"
+msgstr "Typ interpolace čáry"
+
+#: ../goffice/graph/gog-series.c:742
+msgid "Interpolation skip invalid"
+msgstr "Přeskakovat neplatné v interpolaci"
+
+#: ../goffice/graph/gog-series.c:743
+msgid "Should the series interpolation ignore the invalid data"
+msgstr "Zda by měla interpolace řady ignorovat neplatná data"
+
+#: ../goffice/graph/gog-series.c:748
+msgid "Fill type"
+msgstr "Typ výplně"
+
+#: ../goffice/graph/gog-series.c:749
+msgid "How to fill the area"
+msgstr "Jak vyplnit oblast"
+
+#: ../goffice/graph/gog-series-labels.c:37
+#| msgid "Center"
+msgid "Centered"
+msgstr "Na střed"
+
+#: ../goffice/graph/gog-series-labels.c:42
+#| msgid "O_utside"
+msgid "Outside"
+msgstr "Vně"
+
+#: ../goffice/graph/gog-series-labels.c:43
+#| msgid "I_nside"
+msgid "Inside"
+msgstr "Uvnitř"
+
+#: ../goffice/graph/gog-series-labels.c:44
+#| msgid "Y origin"
+msgid "Near origin"
+msgstr "Poblíž zdroje"
+
+#: ../goffice/graph/gog-series-labels.c:382
+#| msgid "Custom"
+msgid "Custom label"
+msgstr "Vlastní popisek"
+
+#: ../goffice/graph/gog-series-labels.c:392
+#| msgid "Data labels"
+msgid "Custom labels"
+msgstr "Vlastní popisky"
+
+#: ../goffice/graph/gog-series-labels.c:423
+msgid "Available data"
+msgstr "Dostupná data"
+
+#: ../goffice/graph/gog-series-labels.c:431
+#| msgid "Use cumulated data"
+msgid "Used data"
+msgstr "Použitá data"
+
+#: ../goffice/graph/gog-series-labels.c:476
+#: ../goffice/graph/gog-series-labels.c:544
+#| msgid "Legend"
+msgid "Legend entry"
+msgstr "Položka legendy"
+
+#: ../goffice/graph/gog-series-labels.c:481
+#: ../goffice/graph/gog-series-labels.c:548
+#| msgid "Series lines"
+msgid "Series name"
+msgstr "Názvy řad"
+
+#: ../goffice/graph/gog-series-labels.c:487
+#: ../goffice/graph/gog-series-labels.c:552
+#| msgid "Display values as percentages."
+msgid "Values as percent"
+msgstr "Hodnoty jako procenta"
+
+#. Note to translators: a space might be needed before '%%' in some languages
+#. FIXME: should the number of digits be customizable?
+#: ../goffice/graph/gog-series-labels.c:801
+#: ../goffice/graph/gog-series-labels.c:1239
+#, c-format
+msgid "%.1f%%"
+msgstr "%.1f %%"
+
+#: ../goffice/graph/gog-series-labels.c:859
+#: ../goffice/graph/gog-series-labels.c:1383
+msgid "Position of the label relative to the data graphic element"
+msgstr "Umístění popisku relativně vůči grafickému prvku dat"
+
+#: ../goffice/graph/gog-series-labels.c:864
+#: ../goffice/graph/gog-series-labels.c:1388
+msgid "Offset"
+msgstr "Posunutí"
+
+#: ../goffice/graph/gog-series-labels.c:865
+#: ../goffice/graph/gog-series-labels.c:1389
+#| msgid "The rotation around top left position"
+msgid "Offset to add to the label position"
+msgstr "O kolik se má umístění popisku posunout"
+
+#: ../goffice/graph/gog-series-labels.c:871
+#: ../goffice/graph/gog-series-labels.c:1395
+#| msgid "*Long Date Format"
+msgid "Label format"
+msgstr "Formát popisku"
+
+#: ../goffice/graph/gog-series-labels-prefs.ui.h:1
+#| msgid "Categories labels"
+msgid "Custom labels:"
+msgstr "Vlastní popisky:"
+
+#: ../goffice/graph/gog-series-labels-prefs.ui.h:2
+#| msgid "_Separation:"
+msgid "Separator:"
+msgstr "Oddělovač:"
+
+#: ../goffice/graph/gog-series-labels-prefs.ui.h:3
+msgid "_Offset:"
+msgstr "P_osunutí:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
 msgid "<b>Interpolation</b>"
@@ -2171,113 +2405,7 @@ msgstr "Přes_kočit neplatná data"
 msgid "content"
 msgstr "obsah"
 
-#: ../goffice/graph/gog-series.c:43
-msgid "Y origin"
-msgstr "Počátek Y"
-
-#: ../goffice/graph/gog-series.c:44
-msgid "X origin"
-msgstr "Počátek X"
-
-#: ../goffice/graph/gog-series.c:49
-msgid "Origin"
-msgstr "Počátek"
-
-#: ../goffice/graph/gog-series.c:51
-msgid "Edge"
-msgstr "Hranu"
-
-#: ../goffice/graph/gog-series.c:52
-msgid "Self"
-msgstr "Sebe sama"
-
-#: ../goffice/graph/gog-series.c:53
-msgid "Next series"
-msgstr "Další řady"
-
-#: ../goffice/graph/gog-series.c:158
-msgid "Index:"
-msgstr "Index:"
-
-#: ../goffice/graph/gog-series.c:177 ../plugins/plot_pie/gog-pie.c:89
-msgid "Settings"
-msgstr "Nastavení"
-
-#: ../goffice/graph/gog-series.c:218
-msgid "Index"
-msgstr "Index"
-
-#: ../goffice/graph/gog-series.c:219
-msgid "Index of the corresponding data element"
-msgstr "Index odpovídajícího datového prvku"
-
-#: ../goffice/graph/gog-series.c:529 ../goffice/graph/gog-trend-line.c:99
-msgid "_Show in Legend"
-msgstr "_Zobrazit v legendě"
-
-#: ../goffice/graph/gog-series.c:539
-msgid "Data"
-msgstr "Data"
-
-#: ../goffice/graph/gog-series.c:584
-msgid "Derivative at first point of the clamped cubic spline."
-msgstr "Derivace v prvním bodě u kubické splajny s okrajovými podmínkami."
-
-#: ../goffice/graph/gog-series.c:588
-msgid "Derivative at last point of the clamped cubic spline."
-msgstr "Derivace v posledním bodě u kubické splajny s okrajovými podmínkami."
-
-#: ../goffice/graph/gog-series.c:655
-msgid "Point"
-msgstr "Bod"
-
-#: ../goffice/graph/gog-series.c:661
-msgid "Regression curve"
-msgstr "Regresní křivka"
-
-#: ../goffice/graph/gog-series.c:669
-msgid "Trend line"
-msgstr "Čára trendu"
-
-#: ../goffice/graph/gog-series.c:677
-#| msgid "Major labels"
-msgid "Data labels"
-msgstr "Popisky dat"
-
-#: ../goffice/graph/gog-series.c:712 ../goffice/graph/gog-trend-line.c:151
-msgid "Has-legend"
-msgstr "Má legendu"
-
-#: ../goffice/graph/gog-series.c:713
-msgid "Should the series show up in legends"
-msgstr "Zda by se měly řady zobrazit v legendách"
-
-#: ../goffice/graph/gog-series.c:718
-msgid "Interpolation"
-msgstr "Interpolace"
-
-#: ../goffice/graph/gog-series.c:719
-msgid "Type of line interpolation"
-msgstr "Typ interpolace čáry"
-
-#: ../goffice/graph/gog-series.c:724
-msgid "Interpolation skip invalid"
-msgstr "Přeskakovat neplatné v interpolaci"
-
-#: ../goffice/graph/gog-series.c:725
-msgid "Should the series interpolation ignore the invalid data"
-msgstr "Zda by měla interpolace řady ignorovat neplatná data"
-
-#: ../goffice/graph/gog-series.c:730
-msgid "Fill type"
-msgstr "Typ výplně"
-
-#: ../goffice/graph/gog-series.c:731
-msgid "How to fill the area"
-msgstr "Jak vyplnit oblast"
-
 #: ../goffice/graph/gog-smoothed-curve.c:46
-#| msgid "(_Name):"
 msgid "(Name):"
 msgstr "(Název):"
 
@@ -2291,7 +2419,7 @@ msgid "Default"
 msgstr "Výchozí"
 
 #. Guppi
-#: ../goffice/graph/gog-theme.c:838
+#: ../goffice/graph/gog-theme.c:848
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -2305,7 +2433,7 @@ msgstr "Guppi"
 #: ../plugins/plot_pie/gog-pie.c:273 ../plugins/plot_pie/gog-pie.c:436
 #: ../plugins/plot_radar/gog-radar.c:411 ../plugins/plot_radar/gog-radar.c:604
 #: ../plugins/plot_surface/gog-xyz.c:99
-#: ../plugins/plot_surface/gog-xyz-surface.c:253
+#: ../plugins/plot_surface/gog-xyz-surface.c:259
 #: ../plugins/plot_xy/gog-xy.c:374 ../plugins/plot_xy/gog-xy.c:486
 #: ../plugins/plot_xy/gog-xy.c:762 ../plugins/plot_xy/gog-xy-dropbar.c:159
 #: ../plugins/smoothing/gog-moving-avg.c:113
@@ -3025,112 +3153,305 @@ msgstr "Speciální"
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ../goffice/gtk/go-format-sel.c:1052
+#: ../goffice/gtk/go-format-sel.c:304
+msgid "A (ampere)"
+msgstr "A (ampér)"
+
+#: ../goffice/gtk/go-format-sel.c:305
+msgid "Bq (becquerel)"
+msgstr "Bq (becquerel)"
+
+#: ../goffice/gtk/go-format-sel.c:306
+msgid "cd (candela)"
+msgstr "cd (candela)"
+
+#: ../goffice/gtk/go-format-sel.c:307
+msgid "C (coulomb)"
+msgstr "C (coulomb)"
+
+#: ../goffice/gtk/go-format-sel.c:308
+msgid "°C (degree Celsius)"
+msgstr "°C (stupeň Celsia)"
+
+#: ../goffice/gtk/go-format-sel.c:309
+msgid "F (farad)"
+msgstr "F (farad)"
+
+#: ../goffice/gtk/go-format-sel.c:310
+#| msgid "gray"
+msgid "Gy (gray)"
+msgstr "Gy (gray)"
+
+#: ../goffice/gtk/go-format-sel.c:311
+msgid "H (henry)"
+msgstr "H (henry)"
+
+#: ../goffice/gtk/go-format-sel.c:312
+msgid "Hz (hertz)"
+msgstr "Hz (hertz)"
+
+#: ../goffice/gtk/go-format-sel.c:313
+msgid "J (joule)"
+msgstr "J (joule)"
+
+#: ../goffice/gtk/go-format-sel.c:314
+msgid "K (kelvin)"
+msgstr "K (kelvin)"
+
+#: ../goffice/gtk/go-format-sel.c:315
+msgid "kg (kilogram)"
+msgstr "kg (kilogram)"
+
+#: ../goffice/gtk/go-format-sel.c:316
+msgid "lm (lumen)"
+msgstr "lm (lumen)"
+
+#: ../goffice/gtk/go-format-sel.c:317
+msgid "lx (lux)"
+msgstr "lx (lux)"
+
+#: ../goffice/gtk/go-format-sel.c:318
+msgid "m (meter)"
+msgstr "m (metr)"
+
+#: ../goffice/gtk/go-format-sel.c:319
+msgid "mol (mole)"
+msgstr "mol (mol)"
+
+#: ../goffice/gtk/go-format-sel.c:320
+msgid "N (newton)"
+msgstr "N (newton)"
+
+#: ../goffice/gtk/go-format-sel.c:321
+msgid "Ω (ohm)"
+msgstr "Ω (ohm)"
+
+#: ../goffice/gtk/go-format-sel.c:322
+msgid "Pa (pascal)"
+msgstr "Pa (pascal)"
+
+#: ../goffice/gtk/go-format-sel.c:323
+msgid "rad (radian)"
+msgstr "rad (radián)"
+
+#: ../goffice/gtk/go-format-sel.c:324
+msgid "s (second)"
+msgstr "s (sekunda)"
+
+#: ../goffice/gtk/go-format-sel.c:325
+msgid "S (siemens)"
+msgstr "S (siemens)"
+
+#: ../goffice/gtk/go-format-sel.c:326
+msgid "sr (steradian)"
+msgstr "sr (steradian)"
+
+#: ../goffice/gtk/go-format-sel.c:327
+msgid "Sv (sievert)"
+msgstr "Sv (sievert)"
+
+#: ../goffice/gtk/go-format-sel.c:328
+msgid "T (tesla)"
+msgstr "T (tesla)"
+
+#: ../goffice/gtk/go-format-sel.c:329
+msgid "kat (katal)"
+msgstr "kat (katal)"
+
+#: ../goffice/gtk/go-format-sel.c:330
+msgid "V (volt)"
+msgstr "V (volt)"
+
+#: ../goffice/gtk/go-format-sel.c:331
+msgid "W (watt)"
+msgstr "W (watt)"
+
+#: ../goffice/gtk/go-format-sel.c:332
+msgid "Wb (weber)"
+msgstr "Wb (weber)"
+
+#: ../goffice/gtk/go-format-sel.c:940 ../goffice/gtk/go-format-sel.ui.h:3
+msgid "Append no further unit."
+msgstr "Nepřipojovat žádnou další jednotku."
+
+#: ../goffice/gtk/go-format-sel.c:947
+#, c-format
+msgid "Append '%s'."
+msgstr "Připojovat „%s“."
+
+#: ../goffice/gtk/go-format-sel.c:1482
 msgid "Negative Number Format"
 msgstr "Formát záporného čísla"
 
-#: ../goffice/gtk/go-format-sel.c:1081
+#: ../goffice/gtk/go-format-sel.c:1540
 msgid "Number Formats"
 msgstr "Formáty čísla"
 
 #: ../goffice/gtk/go-format-sel.ui.h:1
+msgid "Append SI prefix"
+msgstr "Připojovat předponu SI"
+
+#: ../goffice/gtk/go-format-sel.ui.h:2
+msgid "Append an SI prefix (e.g. instead of 4×10⁶ show 4M)"
+msgstr "Připojovat předponu SI (např. místo 4×10⁶ zobrazovat 4M)"
+
+#: ../goffice/gtk/go-format-sel.ui.h:4
+msgid "Append the SI unit:"
+msgstr "Připojovat jednotku SI:"
+
+#: ../goffice/gtk/go-format-sel.ui.h:5
+msgid "As multiple of 𝜋"
+msgstr "Jako násobky 𝜋"
+
+#: ../goffice/gtk/go-format-sel.ui.h:6
+#| msgid "Automatic"
+msgid "Automatic denominator"
+msgstr "Jmenovatel automaticky"
+
+#: ../goffice/gtk/go-format-sel.ui.h:7
 msgid "Ca_tegories:"
 msgstr "_Kategorie:"
 
-#: ../goffice/gtk/go-format-sel.ui.h:2
+#: ../goffice/gtk/go-format-sel.ui.h:8
 msgid "Deci_mal places:"
 msgstr "Počet desetinných _míst:"
 
-#: ../goffice/gtk/go-format-sel.ui.h:3
+#: ../goffice/gtk/go-format-sel.ui.h:9
+msgid "Denominator:"
+msgstr "Jmenovatel:"
+
+#: ../goffice/gtk/go-format-sel.ui.h:10
 msgid "Display amounts in traditional accounting styles."
 msgstr "Zobrazovat částky v tradičních účetních stylech."
 
-#: ../goffice/gtk/go-format-sel.ui.h:4
+#: ../goffice/gtk/go-format-sel.ui.h:11
 msgid "Display and input values as strings with no interpretation."
 msgstr "Zobrazovat a vkládat hodnoty jako řetězce bez interpretace."
 
-#: ../goffice/gtk/go-format-sel.ui.h:5
+#: ../goffice/gtk/go-format-sel.ui.h:12
 msgid "Display currency amounts."
 msgstr "Zobrazovat finanční částky."
 
-#: ../goffice/gtk/go-format-sel.ui.h:6
+#: ../goffice/gtk/go-format-sel.ui.h:13
 msgid "Display dates and optionally times of day."
 msgstr "Zobrazovat data a případně časy."
 
-#: ../goffice/gtk/go-format-sel.ui.h:7
+#: ../goffice/gtk/go-format-sel.ui.h:14
 msgid "Display numeric values with a fixed number of decimals."
 msgstr "Zobrazovat číselné hodnoty s pevným počtem desetinných míst."
 
-#: ../goffice/gtk/go-format-sel.ui.h:8
+#: ../goffice/gtk/go-format-sel.ui.h:15
 msgid "Display times of day."
 msgstr "Zobrazovat časy."
 
-#: ../goffice/gtk/go-format-sel.ui.h:9
+#: ../goffice/gtk/go-format-sel.ui.h:16
 msgid "Display values as closest fractional approximation."
 msgstr "Zobrazovat hodnoty jako nejbližší finanční aproximaci."
 
-#: ../goffice/gtk/go-format-sel.ui.h:10
+#: ../goffice/gtk/go-format-sel.ui.h:17
 msgid "Display values as percentages."
 msgstr "Zobrazovat hodnoty jako procenta."
 
-#: ../goffice/gtk/go-format-sel.ui.h:11
+#: ../goffice/gtk/go-format-sel.ui.h:18
 msgid "Display values with power-of-ten scaling."
 msgstr "Zobrazovat hodnoty v exponenciálním tvaru s mocninami deseti."
 
-#: ../goffice/gtk/go-format-sel.ui.h:12
+#: ../goffice/gtk/go-format-sel.ui.h:19
 msgid "Format c_ode:"
 msgstr "_Kód formátu:"
 
-#: ../goffice/gtk/go-format-sel.ui.h:13
+#: ../goffice/gtk/go-format-sel.ui.h:20
+msgid "Maximum number of denominator digits:"
+msgstr "Maximální počet číslic jmenovatele:"
+
+#: ../goffice/gtk/go-format-sel.ui.h:21
+msgid "Minimum number of _numerator digits:"
+msgstr "Mi_nimální počet číslic čitatele:"
+
+#: ../goffice/gtk/go-format-sel.ui.h:22
+msgid "Minimum number of denominator digits:"
+msgstr "Minimální počet číslic jmenovatele:"
+
+#: ../goffice/gtk/go-format-sel.ui.h:23
+msgid "Minimum number of e_xponent digits:"
+msgstr "Minimální počet číslic e_xponentu:"
+
+#: ../goffice/gtk/go-format-sel.ui.h:24
+msgid "Minimum number of integer digits:"
+msgstr "Minimální počet číslic celého čísla:"
+
+#: ../goffice/gtk/go-format-sel.ui.h:25
 msgid "Negative number _format:"
 msgstr "Formát zá_porného čísla:"
 
-#: ../goffice/gtk/go-format-sel.ui.h:14
+#: ../goffice/gtk/go-format-sel.ui.h:26
 msgid "Preview:"
 msgstr "Náhled:"
 
-#: ../goffice/gtk/go-format-sel.ui.h:15
+#: ../goffice/gtk/go-format-sel.ui.h:27
 msgid "Restrict exponent to multiples of 3"
 msgstr "Omezit exponent na násobek 3"
 
-#: ../goffice/gtk/go-format-sel.ui.h:16
+#: ../goffice/gtk/go-format-sel.ui.h:28
 msgid "S_ymbol:"
 msgstr "_Symbol:"
 
-#: ../goffice/gtk/go-format-sel.ui.h:17
+#: ../goffice/gtk/go-format-sel.ui.h:29
 msgid "Select an appropriate format automatically."
 msgstr "Automaticky vybrat vhodný formát."
 
-#: ../goffice/gtk/go-format-sel.ui.h:18
+#: ../goffice/gtk/go-format-sel.ui.h:30
+msgid "Show _separate integer part"
+msgstr "Zobrazovat zvlášť celočí_selnou část"
+
+#: ../goffice/gtk/go-format-sel.ui.h:31
+msgid "Specified denominator:"
+msgstr "Určený jmenovatel:"
+
+#: ../goffice/gtk/go-format-sel.ui.h:32
 msgid "Specify an XL-style format directly"
 msgstr "Přímo určit formát stylu XL"
 
-#: ../goffice/gtk/go-format-sel.ui.h:19
+#: ../goffice/gtk/go-format-sel.ui.h:33
+msgid ""
+"Split fractions with absolute value larger than 1  into an integer part and "
+"a fractional part (e.g. 4 5/6)"
+msgstr ""
+"Rozdělit zlomky s absolutní hodnotou větší než 1 na celou část a zlomkovou "
+"část (např. 4 5/7)"
+
+#: ../goffice/gtk/go-format-sel.ui.h:34
 msgid "Use _superscript"
 msgstr "Použít _horní index"
 
-#: ../goffice/gtk/go-format-sel.ui.h:20
-msgid "Use superscript for exponent (e.g. 4&#xD7;10&#xB2;)"
-msgstr "Pro exponenty použít horní index (např. 4&#xD7;10&#xB2;)"
+#: ../goffice/gtk/go-format-sel.ui.h:35
+#| msgid "Use superscript for exponent (e.g. 4&#xD7;10&#xB2;)"
+msgid "Use superscript for exponent (e.g. 4×10²)"
+msgstr "Pro exponenty použít horní index (např. 4×10²)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:21
-msgid "When mantissa is equal to 1, only show exponent part (e.g. 10&#xB2;)"
-msgstr ""
-"Pokud je mantisa rovna 1, zobrazit pouze část s exponentem (např. 10&#xB2;)"
+#: ../goffice/gtk/go-format-sel.ui.h:36
+#| msgid "When mantissa is equal to 1, only show exponent part (e.g. 10&#xB2;)"
+msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
+msgstr "Pokud je mantisa rovna 1, zobrazit pouze část s exponentem (např. 10²)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:22
-msgid "_Don't show 1xs"
-msgstr "_Nezobrazovat mantisy 1x"
+#: ../goffice/gtk/go-format-sel.ui.h:37
+msgid "Write the fractions as multiples of 𝜋 (e.g. 9 𝜋/4 or 2 𝜋 + 𝜋/4)"
+msgstr "Zapisovat zlomky jako násobky 𝜋 (např. 9 𝜋/4 nebo 2 𝜋 + 𝜋/4)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:23
+#: ../goffice/gtk/go-format-sel.ui.h:38
+#| msgid "_Don't show 1xs"
+msgid "_Don't show 1×s"
+msgstr "_Nezobrazovat mantisy 1×"
+
+#: ../goffice/gtk/go-format-sel.ui.h:39
 msgid "_Engineering notation"
 msgstr "Inž_enýrská notace"
 
-#: ../goffice/gtk/go-format-sel.ui.h:24
+#: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "_Format:"
 msgstr "_Formát:"
 
-#: ../goffice/gtk/go-format-sel.ui.h:25
+#: ../goffice/gtk/go-format-sel.ui.h:41
 msgid "_Use separator for 1000s"
 msgstr "Po_užívat oddělovač tisíců"
 
@@ -4603,73 +4924,73 @@ msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, dolar"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:444
+#: ../goffice/utils/go-format.c:476
 msgid "*Long Date Format"
 msgstr "*Dlouhý formát data"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:452
+#: ../goffice/utils/go-format.c:484
 msgid "*Medium Date Format"
 msgstr "*Střední formát data"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:460
+#: ../goffice/utils/go-format.c:492
 msgid "*Short Date Format"
 msgstr "*Krátký formát data"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:473
+#: ../goffice/utils/go-format.c:505
 msgid "*Short Date/Time Format"
 msgstr "*Krátký formát data/času"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:488
+#: ../goffice/utils/go-format.c:520
 msgid "*Long Time Format"
 msgstr "*Dlouhý formát času"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:500
+#: ../goffice/utils/go-format.c:532
 msgid "*Medium Time Format"
 msgstr "*Střední formát času"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:512
+#: ../goffice/utils/go-format.c:544
 msgid "*Short Time Format"
 msgstr "*Krátký formát času"
 
-#: ../goffice/utils/go-format.c:546
+#: ../goffice/utils/go-format.c:578
 msgid "Black"
 msgstr "Černá"
 
-#: ../goffice/utils/go-format.c:547
+#: ../goffice/utils/go-format.c:579
 msgid "Blue"
 msgstr "Modrá"
 
-#: ../goffice/utils/go-format.c:548
+#: ../goffice/utils/go-format.c:580
 msgid "Cyan"
 msgstr "Azurová"
 
-#: ../goffice/utils/go-format.c:549
+#: ../goffice/utils/go-format.c:581
 msgid "Green"
 msgstr "Zelená"
 
-#: ../goffice/utils/go-format.c:550
+#: ../goffice/utils/go-format.c:582
 msgid "Magenta"
 msgstr "Purpurová"
 
-#: ../goffice/utils/go-format.c:551
+#: ../goffice/utils/go-format.c:583
 msgid "Red"
 msgstr "Červená"
 
-#: ../goffice/utils/go-format.c:552
+#: ../goffice/utils/go-format.c:584
 msgid "White"
 msgstr "Bílá"
 
-#: ../goffice/utils/go-format.c:553
+#: ../goffice/utils/go-format.c:585
 msgid "Yellow"
 msgstr "Žlutá"
 
-#: ../goffice/utils/go-format.c:573
+#: ../goffice/utils/go-format.c:605
 msgid "color"
 msgstr "barva"
 
@@ -5274,8 +5595,8 @@ msgstr "Čáry"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:641
 #: ../plugins/plot_radar/gog-radar.c:1352
-#: ../plugins/plot_radar/gog-radar.c:1478 ../plugins/plot_xy/gog-xy.c:2058
-#: ../plugins/plot_xy/gog-xy.c:2064
+#: ../plugins/plot_radar/gog-radar.c:1478 ../plugins/plot_xy/gog-xy.c:2195
+#: ../plugins/plot_xy/gog-xy.c:2201
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -6253,7 +6574,7 @@ msgid "Hide data outside of the color axis bounds"
 msgstr "Skrýt data vně barevných hranic osy"
 
 #: ../plugins/plot_radar/gog-radar.c:743 ../plugins/plot_surface/gog-xyz.c:398
-#: ../plugins/plot_surface/gog-xyz-surface.c:463
+#: ../plugins/plot_surface/gog-xyz-surface.c:469
 #: ../plugins/plot_surface/xl-surface.c:304
 #: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:860
 msgid "Z"
@@ -6367,7 +6688,7 @@ msgid "Transpose the plot"
 msgstr "Transponovat diagram"
 
 #: ../plugins/plot_surface/gog-xyz.c:394
-#: ../plugins/plot_surface/gog-xyz-surface.c:459
+#: ../plugins/plot_surface/gog-xyz-surface.c:465
 #: ../plugins/plot_surface/xl-surface.c:302
 #: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:428
 #: ../plugins/plot_xy/gog-xy.c:598 ../plugins/plot_xy/gog-xy.c:856
@@ -6375,7 +6696,7 @@ msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:396
-#: ../plugins/plot_surface/gog-xyz-surface.c:461
+#: ../plugins/plot_surface/gog-xyz-surface.c:467
 #: ../plugins/plot_xy/gog-xy.c:430 ../plugins/plot_xy/gog-xy.c:600
 #: ../plugins/plot_xy/gog-xy.c:858
 msgid "Y"
@@ -6387,45 +6708,45 @@ msgstr "Transponovat"
 
 #. xgettext : the base for how to name surface plot objects
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:230
+#: ../plugins/plot_surface/gog-xyz-surface.c:236
 msgid "PlotXYZContour"
 msgstr "DiagramVrstevnicovýXYZ"
 
 #. xgettext : the base for how to name surface plot objects
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:238
+#: ../plugins/plot_surface/gog-xyz-surface.c:244
 msgid "PlotXYZSurface"
 msgstr "DiagramPovrchovýXYZ"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:428
+#: ../plugins/plot_surface/gog-xyz-surface.c:434
 msgid "Rows"
 msgstr "Řádky"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:429
+#: ../plugins/plot_surface/gog-xyz-surface.c:435
 msgid "Number of rows"
 msgstr "Počet řádků"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:434
+#: ../plugins/plot_surface/gog-xyz-surface.c:440
 msgid "Auto Rows"
 msgstr "Automatické řádky"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:435
+#: ../plugins/plot_surface/gog-xyz-surface.c:441
 msgid "Whether the rows limts should be evaluated"
 msgstr "Zda by se mělo vyhodnocovat omezení řádků"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:440
+#: ../plugins/plot_surface/gog-xyz-surface.c:446
 msgid "Columns"
 msgstr "Sloupce"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:441
+#: ../plugins/plot_surface/gog-xyz-surface.c:447
 msgid "Number of columns"
 msgstr "Počet sloupců"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:446
+#: ../plugins/plot_surface/gog-xyz-surface.c:452
 msgid "Auto Columns"
 msgstr "Automatické sloupce"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:447
+#: ../plugins/plot_surface/gog-xyz-surface.c:453
 msgid "Whether the columns limts should be evaluated"
 msgstr "Zda by se mělo vyhodnocovat omezení sloupců"
 
@@ -6632,35 +6953,35 @@ msgstr "Bublinový"
 msgid "XYColor"
 msgstr "BarevnýXY"
 
-#: ../plugins/plot_xy/gog-xy.c:1990 ../plugins/plot_xy/gog-xy.c:2057
+#: ../plugins/plot_xy/gog-xy.c:2127 ../plugins/plot_xy/gog-xy.c:2194
 msgid "X error bars"
 msgstr "Sloupce chyby X"
 
-#: ../plugins/plot_xy/gog-xy.c:1993 ../plugins/plot_xy/gog-xy.c:2063
+#: ../plugins/plot_xy/gog-xy.c:2130 ../plugins/plot_xy/gog-xy.c:2200
 msgid "Y error bars"
 msgstr "Sloupce chyby Y"
 
-#: ../plugins/plot_xy/gog-xy.c:2002
+#: ../plugins/plot_xy/gog-xy.c:2139
 msgid "Horizontal drop lines"
 msgstr "Vodorovné přívodní čáry"
 
-#: ../plugins/plot_xy/gog-xy.c:2010
+#: ../plugins/plot_xy/gog-xy.c:2147
 msgid "Vertical drop lines"
 msgstr "Svislé přívodní čáry"
 
-#: ../plugins/plot_xy/gog-xy.c:2069
+#: ../plugins/plot_xy/gog-xy.c:2206
 msgid "Invalid as zero"
 msgstr "Neplatné jako nula"
 
-#: ../plugins/plot_xy/gog-xy.c:2070
+#: ../plugins/plot_xy/gog-xy.c:2207
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr "Při kreslení značek nebo bublin nahradit neplatné hodnoty hodnotou 0"
 
-#: ../plugins/plot_xy/gog-xy.c:2075
+#: ../plugins/plot_xy/gog-xy.c:2212
 msgid "Clamp at start"
 msgstr "Okrajová podmínka v začátku"
 
-#: ../plugins/plot_xy/gog-xy.c:2076
+#: ../plugins/plot_xy/gog-xy.c:2213
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -6668,11 +6989,11 @@ msgstr ""
 "Sklon v začátku interpolované křivky, která používá interpolaci splajnou s "
 "okrajovými podmínkami."
 
-#: ../plugins/plot_xy/gog-xy.c:2081
+#: ../plugins/plot_xy/gog-xy.c:2218
 msgid "Clamp at end"
 msgstr "Okrajová podmínka v konci"
 
-#: ../plugins/plot_xy/gog-xy.c:2082
+#: ../plugins/plot_xy/gog-xy.c:2219
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
