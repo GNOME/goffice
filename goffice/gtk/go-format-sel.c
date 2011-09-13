@@ -570,7 +570,9 @@ fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 				    0, fmt, -1);
 		g_free (fmt);
 		if (fhash)
-			g_hash_table_insert (fhash, *formats, GINT_TO_POINTER (1));
+			g_hash_table_insert (fhash,
+					     (gpointer)(*formats),
+					     GINT_TO_POINTER (1));
 
 		/* Magic formats are fully defined by their magic.  */
 		found = cur_magic
