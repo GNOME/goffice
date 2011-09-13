@@ -661,7 +661,7 @@ gchar *
 go_file_get_owner_name (char const *uri)
 {
 	char const *name;
-	char *nameutf8 = NULL;
+	GString *nameutf8 = NULL;
 	GFile *file = g_file_new_for_uri (uri);
 	GError *error = NULL;
 	GFileInfo *info = g_file_query_info (file,
@@ -675,8 +675,8 @@ go_file_get_owner_name (char const *uri)
 
 	name = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_OWNER_USER);
 	(void) go_guess_encoding (name, strlen (name),
-				  NULL, &nameutf8);
-	return nameutf8;
+				  NULL, &nameutf8, NULL);
+	return (nameutf8 ? g_string_free (nameutf8, FALSE) : NULL);
 }
 
 /*
@@ -687,7 +687,7 @@ gchar *
 go_file_get_group_name (char const *uri)
 {
 	char const *name;
-	char *nameutf8 = NULL;
+	GString *nameutf8 = NULL;
 	GFile *file = g_file_new_for_uri (uri);
 	GError *error = NULL;
 	GFileInfo *info = g_file_query_info (file,
@@ -701,8 +701,8 @@ go_file_get_group_name (char const *uri)
 
 	name = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_OWNER_GROUP);
 	(void) go_guess_encoding (name, strlen (name),
-				  NULL, &nameutf8);
-	return nameutf8;
+				  NULL, &nameutf8, NULL);
+	return (nameutf8 ? g_string_free (nameutf8, FALSE) : NULL);
 }
 
 GOFilePermissions *

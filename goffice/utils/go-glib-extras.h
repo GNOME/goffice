@@ -80,7 +80,8 @@ void        go_string_replace           (GString *target,
 
 char const *go_guess_encoding		(char const *raw, gsize len,
 					 char const *user_guess,
-					 char **utf8_str);
+					 GString **utf8_str,
+					 guint *truncated);
 
 char const *go_get_real_name		(void);
 void	    go_destroy_password	(char *passwd);

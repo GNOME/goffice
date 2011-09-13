@@ -695,7 +695,7 @@ go_str_compare (void const *x, void const *y)
 
 const char *
 go_guess_encoding (const char *raw, size_t len, const char *user_guess,
-		   char **utf8_str)
+		   GString **utf8_str, guint *truncated)
 {
 	int try;
 	gboolean debug = FALSE;
@@ -706,6 +706,8 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 		char const *guess = NULL;
 		GError *error = NULL;
 		char *utf8_data;
+		gsize bytes_written = 0;
+		gsize bytes_read = 0;
 
 		switch (try) {
 		case 1: guess = user_guess; break;
@@ -743,20 +745,25 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 			g_print ("Trying %s as encoding.\n", guess);
 
 		utf8_data = g_convert (raw, len, "UTF-8", guess,
-				       NULL, NULL, &error);
+				       &bytes_read, &bytes_written, &error);
 		if (!error) {
 			/*
-			 * We can actually fail this test when gues is UTF-8,
+			 * We can actually fail this test when guess is UTF-8,
 			 * see #401588.
 			 */
-			if (!g_utf8_validate (utf8_data, -1, NULL))
+			if (!g_utf8_validate (utf8_data, -1, NULL)) {
+				g_free (utf8_data);
 				continue;
+			}
 			if (debug)
 				g_print ("Guessed %s as encoding.\n", guess);
 			if (utf8_str)
-				*utf8_str = utf8_data;
+				*utf8_str = g_string_new_len 
+					(utf8_data, bytes_written);
 			else
 				g_free (utf8_data);
+			if (truncated)
+				*truncated = len - bytes_read;
 			return guess;
 		}
 
@@ -782,10 +789,14 @@ go_get_real_name (void)
 			name = g_get_real_name ();
 		if (name == NULL)
 			name = g_get_user_name ();
-		if (name != NULL)
+		if (name != NULL) {
+			GString *converted_name = NULL;
 			(void) go_guess_encoding (name, strlen (name),
-				NULL, &go_real_name);
-		else
+						  NULL, &converted_name, NULL);
+			if (converted_name)
+				go_real_name = g_string_free (converted_name, FALSE);
+		}
+		if (go_real_name == NULL)
 			go_real_name = (char *)"unknown";
 	}
 	return go_real_name;

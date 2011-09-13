@@ -1,3 +1,13 @@
+2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-file.c (go_file_get_owner_name): adjust call
+	to go_guess_encoding
+	(go_file_get_group_name): ditto
+	* goffice/utils/go-glib-extras.h (go_guess_encoding): change
+	arguments
+	* goffice/utils/go-glib-extras.c (go_guess_encoding): change
+	arguments and change all callers
+
 2011-09-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_refcount_cb): deleted
