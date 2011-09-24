@@ -1,3 +1,9 @@
+2011-09-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-color-palette.c (draw_color_cb),
+	(go_color_palette_button_new): ensure that the colors are always displayed,
+	even with the most stupid theme.
+
 2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-file.c (go_file_get_owner_name): adjust call
