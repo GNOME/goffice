@@ -49,7 +49,6 @@ struct _GocOffscreenBox
 	GtkWidget *child;
 	GdkWindow *offscreen_window;
 	gdouble angle, scale;
-	cairo_surface_t *surf;
 };
 
 struct _GocOffscreenBoxClass
@@ -728,6 +727,12 @@ goc_widget_draw (GocItem const *item, cairo_t *cr)
 	cairo_restore (cr);
 }
 
+static GdkWindow *
+goc_widget_get_window (GocItem *item)
+{
+	return gtk_widget_get_window (GOC_WIDGET (item)->ofbox);
+}
+
 static void
 goc_widget_dispose (GObject *object)
 {
@@ -792,6 +797,7 @@ goc_widget_class_init (GocItemClass *item_klass)
 	item_klass->draw = goc_widget_draw;
 	item_klass->update_bounds = goc_widget_update_bounds;
 	item_klass->notify_scrolled = goc_widget_notify_scrolled;
+	item_klass->get_window = goc_widget_get_window;
 }
 
 GSF_CLASS (GocWidget, goc_widget,

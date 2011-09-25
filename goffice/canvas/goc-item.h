@@ -59,6 +59,7 @@ struct _GocItemClass {
 	gboolean		(*key_pressed) (GocItem *item, GdkEventKey* ev);
 	gboolean		(*key_released) (GocItem *item, GdkEventKey* ev);
 	void			(*notify_scrolled) (GocItem *item);
+	GdkWindow*		(*get_window) (GocItem *item);
 };
 
 #define GOC_TYPE_ITEM	(goc_item_get_type ())
@@ -85,6 +86,8 @@ gboolean	 goc_item_is_visible	(GocItem *item);
 void		 goc_item_get_bounds	(GocItem const *item,
 					 double *x0, double *y0,
 					 double *x1, double *y1);
+GocGroup	*goc_item_get_parent    (GocItem *item);
+GdkWindow       *goc_item_get_window    (GocItem *item);
 void		 goc_item_bounds_changed (GocItem *item);
 void		 goc_item_grab		(GocItem *item);
 void		 goc_item_ungrab	(GocItem *item);

@@ -599,6 +599,29 @@ goc_item_ungrab	(GocItem *item)
 	goc_canvas_ungrab_item (item->canvas);
 }
 
+static void
+goc_item_reordered (GocItem *item, int n)
+{
+	GocGroup *group = item->parent;
+	GList *cur = g_list_find (group->children, item);
+	GdkWindow *window;
+	if (n > 0) {
+		while (cur) {
+			window = goc_item_get_window (GOC_ITEM (cur->data));
+			if (window)
+				gdk_window_raise (window);
+			cur = cur->next;
+		}
+	} else {
+		while (cur) {
+			window = goc_item_get_window (GOC_ITEM (cur->data));
+			if (window)
+				gdk_window_lower (window);
+			cur = cur->prev;
+		}
+	}
+}
+
 /**
  * goc_item_raise :
  * @item: #GocItem
@@ -619,6 +642,7 @@ goc_item_raise (GocItem *item, int n)
 		item->parent->children = g_list_append (item->parent->children, item);
 	item->parent->children = g_list_remove_link (item->parent->children, orig);
 	goc_item_invalidate (item);
+	goc_item_reordered (item, n);
 }
 
 /**
@@ -641,6 +665,7 @@ goc_item_lower (GocItem *item, int n)
 		item->parent->children = g_list_prepend (item->parent->children, item);
 	item->parent->children = g_list_remove_link (item->parent->children, orig);
 	goc_item_invalidate (item);
+	goc_item_reordered (item, -n);
 }
 
 /**
@@ -657,6 +682,7 @@ goc_item_lower_to_bottom (GocItem *item)
 	item->parent->children = g_list_remove (item->parent->children, item);
 	item->parent->children = g_list_prepend (item->parent->children, item);
 	goc_item_invalidate (item);
+	goc_item_reordered (item, G_MININT);
 }
 
 /**
@@ -673,6 +699,7 @@ goc_item_raise_to_top (GocItem *item)
 	item->parent->children = g_list_remove (item->parent->children, item);
 	item->parent->children = g_list_append (item->parent->children, item);
 	goc_item_invalidate (item);
+	goc_item_reordered (item, G_MAXINT);
 }
 
 void
@@ -691,4 +718,17 @@ _goc_item_unrealize (GocItem *item)
 		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 		klass->unrealize (item);
 	}
+}
+
+GocGroup *
+goc_item_get_parent (GocItem *item)
+{
+	return item->parent;
+}
+
+GdkWindow *
+goc_item_get_window (GocItem *item)
+{
+	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
+	return (klass->get_window)? klass->get_window (item): NULL;
 }
