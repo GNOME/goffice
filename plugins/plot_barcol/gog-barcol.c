@@ -112,7 +112,7 @@ gog_barcol_plot_set_property (GObject *obj, guint param_id,
 	case BARCOL_PROP_FILL_BEFORE_GRID:
 		GOG_PLOT (obj)->rendering_order = (g_value_get_boolean (value))?
 						GOG_PLOT_RENDERING_BEFORE_GRID:
-						GOG_PLOT_RENDERING_LAST;
+						GOG_PLOT_RENDERING_BEFORE_AXIS;
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -300,6 +300,7 @@ gog_barcol_plot_init (GogBarColPlot *model)
 {
 	model->gap_percentage = 150;
 	GOG_PLOT1_5D (model)->support_series_lines = TRUE;
+	GOG_PLOT (model)->rendering_order = GOG_PLOT_RENDERING_BEFORE_AXIS;
 }
 
 GSF_DYNAMIC_CLASS (GogBarColPlot, gog_barcol_plot,

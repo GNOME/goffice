@@ -1,3 +1,9 @@
+2011-09-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_plot_set_property),
+	(gog_barcol_plot_init): draw columns/bars plots before the axes so that
+	axis labels are always visible.
+
 2011-09-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-item.c (goc_item_reordered), (goc_item_raise),
