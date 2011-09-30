@@ -1,3 +1,7 @@
+2011-09-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_dirname_from_uri): Plug leak.
+
 2011-09-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-barcol.c (gog_barcol_plot_set_property),
