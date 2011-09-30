@@ -74,7 +74,7 @@ SUFFIX(sum_helper) (DOUBLE const *xs, int n, int *all_id)
 
 	i = SUFFIX(identical_helper) (xs, n);
 	*all_id = (i == n);
-	sum = i ? 0 : i * (LDOUBLE)(xs[0]);
+	sum = i ? i * (LDOUBLE)(xs[0]) : 0;
 
 	for (; i < n; i++)
 		sum += xs[i];
