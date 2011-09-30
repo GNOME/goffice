@@ -42,13 +42,41 @@
 
 /* ------------------------------------------------------------------------- */
 
-static LDOUBLE
-SUFFIX(sum_helper) (DOUBLE const *xs, int n)
+static int
+SUFFIX(identical_helper) (DOUBLE const *xs, int n)
 {
-	LDOUBLE sum = 0;
+	DOUBLE x;
 	int i;
 
-	for (i = 0; i < n; i++)
+	if (n <= 1)
+		return n;
+
+	x = xs[0];
+	for (i = 1; i < n; i++)
+		if (x != xs[i])
+			break;
+
+	return i;
+}
+
+static LDOUBLE
+SUFFIX(sum_helper) (DOUBLE const *xs, int n, int *all_id)
+{
+	LDOUBLE sum;
+	int i;
+
+	/*
+	 * We treat the an initial constant part special in order to catch
+	 * the important special case of completely constant.  We do not
+	 * want to accumulate rounding errors even though the extra 11?
+	 * bits in long double will shield us from n<2^11, give or take.
+	 */
+
+	i = SUFFIX(identical_helper) (xs, n);
+	*all_id = (i == n);
+	sum = i ? 0 : i * (LDOUBLE)(xs[0]);
+
+	for (; i < n; i++)
 		sum += xs[i];
 
 	return sum;
@@ -60,7 +88,8 @@ SUFFIX(sum_helper) (DOUBLE const *xs, int n)
 int
 SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
 {
-	*res = SUFFIX(sum_helper) (xs, n);
+	int all_id;
+	*res = SUFFIX(sum_helper) (xs, n, &all_id);
 	return 0;
 }
 
@@ -89,10 +118,15 @@ SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 int
 SUFFIX(go_range_average) (DOUBLE const *xs, int n, DOUBLE *res)
 {
+	int all_id;
+
 	if (n <= 0)
 		return 1;
 
-	*res = SUFFIX(sum_helper) (xs, n) / n;
+	*res = SUFFIX(sum_helper) (xs, n, &all_id) / n;
+	if (all_id)
+		*res = xs[0];
+
 	return 0;
 }
 
@@ -154,8 +188,13 @@ SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
 	LDOUBLE q = 0;
 
 	if (n > 0) {
-		int i;
-		LDOUBLE m = SUFFIX(sum_helper) (xs, n) / n;
+		int i, all_id;
+		LDOUBLE m = SUFFIX(sum_helper) (xs, n, &all_id) / n;
+
+		if (all_id) {
+			*res = 0;
+			return 0;
+		}
 
 		for (i = 0; i < n; i++) {
 			LDOUBLE dx = xs[i] - m;

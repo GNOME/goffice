@@ -31,6 +31,7 @@ Jean:
 Morten:
 	* Recognize scientific formats with longer exponents.
 	* Fix problem with sticky format colouring.
+	* Improve certain range functions in corner cases.  [#660564]
 
 --------------------------------------------------------------------------
 goffice 0.8.17:
