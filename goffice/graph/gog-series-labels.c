@@ -1437,6 +1437,7 @@ gog_series_labels_dataset_dim_changed (GogDataset *set, int dim_i)
 			g_strdup (" ");
 	}
 	gog_object_emit_changed (gog_object_get_parent (GOG_OBJECT (set)), TRUE);
+	gog_object_request_update (GOG_OBJECT (set));
 }
 
 static void
