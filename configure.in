@@ -460,7 +460,7 @@ dnl Handle systems that have stuff in -lm.
 AC_CHECK_FUNCS(log)
 if test $ac_cv_func_log = no; then
   AC_CHECK_LIB(m, log,
-        [AC_DEFINE(H,AVE_LOG, 1,
+        [AC_DEFINE(HAVE_LOG, 1,
 		[Define if the log function is available]
 	 )
          LIBS="$LIBS -lm"])
