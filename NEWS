@@ -28,6 +28,7 @@ Jean:
 	* Use data format for discrete axis. [#641901]
 	* Make sheet widgets scalable. [#605434]
 	* Update series labels when needed. [658527]
+	* Fix background images issues in graphs. [#660917]
 
 Morten:
 	* Recognize scientific formats with longer exponents.

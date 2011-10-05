@@ -1,3 +1,8 @@
+2011-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk8go-image-sel.c: make the dialog work again. [#660917]
+	* goffice/utils/go-style-prefs.ui: fix a widget size.
+
 2011-10-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series-labels.c
