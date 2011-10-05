@@ -41,6 +41,7 @@ struct _GOImageSelState {
 	GtkEntry    *name_entry;
 	GtkIconView *icon_view;
 	GtkListStore *model;
+	GtkWidget *add_button;
 	char *uri;
 };
 
@@ -51,6 +52,8 @@ cb_file_image_select (GtkWidget *cc, GOImageSelState *state)
 
 	state->uri = go_gtk_select_image (GTK_WINDOW (gtk_widget_get_toplevel (cc)),
 				   NULL);
+	gtk_widget_set_sensitive (state->add_button,
+	                          state->uri != NULL && strlen (gtk_entry_get_text (state->name_entry)) > 0);
 }
 
 static void
@@ -99,6 +102,7 @@ cb_image_add (GtkWidget *cc, GOImageSelState *state)
 	}
 	g_free (image_name);
 	gtk_entry_set_text (state->name_entry, "");
+	gtk_widget_set_sensitive (state->add_button, FALSE);
 }
 
 static gint
@@ -178,6 +182,13 @@ add_image_cb (char const *key, GOImage *image, GOImageSelState *state)
 	gtk_tree_path_free (path);
 }
 
+static void
+name_entry_activate_cb (GOImageSelState *state)
+{
+	gtk_widget_set_sensitive (state->add_button,
+	                          state->uri != NULL && strlen (gtk_entry_get_text (state->name_entry)) > 0);
+}
+
 /**
  * go_image_sel_new
  * @doc		: The #GODoc owning the image collection
@@ -212,15 +223,19 @@ go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)
 		"clicked",
 		G_CALLBACK (cb_file_image_select), state);
 
-	w = go_gtk_builder_get_widget (state->gui, "add");
-	g_signal_connect (G_OBJECT (w),
+	state->add_button = go_gtk_builder_get_widget (state->gui, "add");
+	g_signal_connect (G_OBJECT (state->add_button),
 		"clicked",
 		G_CALLBACK (cb_image_add), state);
+	gtk_widget_set_sensitive (state->add_button, FALSE);
 
 	state->name_entry = GTK_ENTRY (gtk_builder_get_object (state->gui, "name-entry"));
+	g_signal_connect_swapped (G_OBJECT (state->name_entry), "activate", G_CALLBACK (name_entry_activate_cb), state);
 	state->icon_view = GTK_ICON_VIEW (gtk_builder_get_object (state->gui, "image-iconview"));
 	state->model = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 	gtk_icon_view_set_model (state->icon_view , GTK_TREE_MODEL (state->model));
+	gtk_icon_view_set_text_column (state->icon_view, 1);
+	gtk_icon_view_set_pixbuf_column (state->icon_view, 0);
 	g_object_unref (state->model);
 
 	/* Set sort column and function */
