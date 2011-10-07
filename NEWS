@@ -10,11 +10,12 @@ Andreas:
 	* Improve the scientific number formats selector. [#657187][#623847]
 	* Improve fraction format selector. [#117215]
 	* Support SI prefixes and units  in scientific format selector. [#588516]
-	* Show in-use custom formats in teh custom format selector. [#658472]
+	* Show in-use custom formats in the custom format selector. [#658472]
 
 Jean:
 	* Port to gtk+-3.0.
-	* Add a plugin directory for extern plugins, independent from micro version.
+	* Add a plugin directory for extern plugins, independent from micro
+	  version.
 	* Allow the frame around a chart label to rotate with the text. [647147]
 	* Chart labels accept rich text. [#417631]
 	* Axes can use only a part of available space. [#654392][#513137]
