@@ -8,7 +8,8 @@ libgoffice_@GOFFICE_API_VER@_la_LIBADD = 			\
 	data/libgoffice-data.la			\
 	graph/libgoffice-graph.la		\
 	math/libgoffice-math.la		\
-	$(GOFFICE_LIBS)
+	$(GOFFICE_LIBS)	\
+	$(GTK_MAC_LIBS)
 
 if WITH_GTK
 SUBDIRS += gtk component canvas

@@ -57,6 +57,10 @@
 #undef STRICT
 #endif
 
+#ifdef GTKOSXAPPLICATION
+#include <gtkosxapplication.h>
+#endif
+
 #ifdef GOFFICE_WITH_LASEM
 #include <goffice/graph/gog-equation.h>
 #endif
@@ -172,6 +176,24 @@ libgoffice_init (void)
 		"lib", "goffice", GOFFICE_VERSION, NULL);
 	g_free (dir);
 	}
+#else
+#ifdef GTKOSXAPPLICATION
+    if (quartz_application_get_bundle_id ())
+    {
+        gchar *dir;
+
+        dir = quartz_application_get_resource_path ();
+	libgoffice_data_dir = g_build_filename (dir,
+		"share", "goffice", GOFFICE_VERSION, NULL);
+	libgoffice_icon_dir = g_build_filename (dir,
+		"share", "pixmaps", "goffice", GOFFICE_VERSION, NULL);
+	libgoffice_locale_dir = g_build_filename (dir,
+		"share", "locale", NULL);
+	libgoffice_lib_dir = g_build_filename (dir,
+		"lib", "goffice", GOFFICE_VERSION, NULL);
+	g_free (dir);       
+    }
+#endif /* GTKOSXAPPLICATION */
 #endif
 
 	bindtextdomain (GETTEXT_PACKAGE, libgoffice_locale_dir);

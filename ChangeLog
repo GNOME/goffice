@@ -1,3 +1,10 @@
+2011-10-09  Gerald Niel
+
+	* configure.in: fixed plugins load from a Mac OSX bundle. [#661264]
+	* goffice.mk: ditto.
+	* goffice/Makefile.am: ditto.
+	* goffice/goffice.c (libgoffice_init): ditto.
+
 2011-10-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk8go-image-sel.c: make the dialog work again. [#660917]

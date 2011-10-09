@@ -36,6 +36,9 @@ Morten:
 	* Fix problem with sticky format colouring.
 	* Improve certain range functions in corner cases.  [#660564]
 
+Gerald Niel:
+	* Plugins not found when using in bundle for Mac OSX. [#661264]
+
 --------------------------------------------------------------------------
 goffice 0.8.17:
 

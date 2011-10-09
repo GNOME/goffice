@@ -177,6 +177,51 @@ AC_MSG_RESULT($with_native_win32)
 AM_CONDITIONAL(WITH_NATIVE_WIN32, test $with_native_win32 = yes)
 AM_CONDITIONAL(HAVE_LIBEXE, test x$LIBEXE = xyes)
 
+dnl ================================================================
+dnl check for osx platform
+dnl ================================================================
+os_osx=no
+AC_MSG_CHECKING([for Mac OS X platform])
+case "$host" in
+  rhapsody* | darwin[1567].*)
+    AC_MSG_RESULT([darwin, but too old])
+    AC_MSG_ERROR([This platform is not supported, please update to latest  darwin])
+    ;;
+  *-*-darwin*)
+    platform_osx=yes
+    ;;
+  *)
+    platform_osx=no
+    ;;
+esac
+AC_MSG_RESULT([$platform_osx])
+AM_CONDITIONAL(PLATFORM_OSX, test "$platform_osx" = "yes")
+if test "x$platform_osx" = xyes; then
+  AC_DEFINE([OS_OSX],[1],[Defined if system is Mac OS X])
+  dnl check for native osx
+  gdk_windowing=`$PKG_CONFIG --variable=target gdk-2.0`
+  AC_MSG_CHECKING([for GDK-Quartz])
+
+  if test "x$gdk_windowing" = xquartz; then
+        platform=darwin/quartz
+        AC_MSG_RESULT(yes)
+        AC_DEFINE(GDK_QUARTZ,[1],[Using GDK Quartz (not X11)])
+        PKG_CHECK_MODULES(GTK_MAC, gtk-mac-integration, [os_osx=yes], [os_osx=no])
+        dnl AC_MSG_RESULT(${os_osx})
+        if test "x$os_osx" = xyes; then
+	      AC_DEFINE([GTKOSXAPPLICATION],[1],[Defined if app is GtkOSXApplication])
+	      AC_SUBST(GTK_MAC_LIBS)
+	      AC_SUBST(GTK_MAC_CFLAGS)
+        fi
+  else
+	AC_MSG_RESULT(no)
+    os_osx=no
+  fi
+else
+    os_osx=no
+fi
+
+
 dnl ***********************************
 dnl Which conf backend should be used?
 dnl ***********************************
@@ -232,7 +277,6 @@ dnl					])
 		fi
 		;;
 esac
-
 
 dnl *******************
 dnl Should we use gtk ?
@@ -652,4 +696,5 @@ Configuration:
 
 	UI:			${ui_msg}
 	Configuration backend:	${conf_msg}
+    Build gtk_mac_integration:	${os_osx}
 "
