@@ -177,41 +177,6 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 }
 
 static void
-gog_dataset_dom_load (GogDataset *set, xmlNode *node, gpointer user)
-{
-	xmlNode *ptr;
-	xmlChar *id, *val, *type;
-
-	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
-		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
-			continue;
-		if (!strcmp (ptr->name, "data"))
-			break;
-	}
-	if (ptr == NULL)
-		return;
-	for (ptr = ptr->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
-		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
-			continue;
-		if (!strcmp (ptr->name, "dimension")) {
-			id   = xmlGetProp (ptr, (xmlChar const *) "id");
-			type = xmlGetProp (ptr, (xmlChar const *) "type");
-			val  = xmlNodeGetContent (ptr);
-			if (id != NULL && type != NULL && val != NULL) {
-				unsigned dim_id = strtoul (id, NULL, 0);
-				GOData *dat = g_object_new (g_type_from_name (type), NULL);
-				if (dat != NULL && go_data_unserialize (dat, val, user))
-					gog_dataset_set_dim (set, dim_id, dat, NULL);
-			}
-
-			if (id != NULL)	  xmlFree (id);
-			if (type != NULL) xmlFree (type);
-			if (val != NULL)  xmlFree (val);
-		}
-	}
-}
-
-static void
 gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output, gpointer user)
 {
 	GOData  *dat;
@@ -277,69 +242,6 @@ gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output, gpointer user
 		gog_object_write_xml_sax (ptr->data, output, user);
 
 	gsf_xml_out_end_element (output); /* </GogObject> */
-}
-
-GogObject *
-gog_object_new_from_xml (GogObject *parent, xmlNode *node, gpointer user)
-{
-	xmlChar   *role, *name, *val, *type_name;
-	xmlNode   *ptr;
-	GogObject *res = NULL;
-	gboolean explicitly_typed_role = FALSE;
-
-	type_name = xmlGetProp (node, (xmlChar const *) "type");
-	if (type_name != NULL) {
-		GType type = g_type_from_name (type_name);
-		if (type == 0) {
-			GogPlot *plot = gog_plot_new_by_name (type_name);
-			if (plot)
-				res = GOG_OBJECT (plot);
-			else
-				res = GOG_OBJECT (gog_trend_line_new_by_name (type_name));
-		} else
-			res = g_object_new (type, NULL);
-		xmlFree (type_name);
-		explicitly_typed_role = TRUE;
-		g_return_val_if_fail (res != NULL, NULL);
-	}
-	role = xmlGetProp (node, (xmlChar const *) "role");
-	if (role == NULL) {
-		g_return_val_if_fail (parent == NULL, NULL);
-	} else {
-		/* FIXME */
-		if (strcmp (role, GOG_BACKPLANE_OLD_ROLE_NAME) == 0)
-			res = gog_object_add_by_name (parent, GOG_BACKPLANE_NEW_ROLE_NAME, res);
-		else
-			res = gog_object_add_by_name (parent, role, res);
-		xmlFree (role);
-	}
-
-	g_return_val_if_fail (res != NULL, NULL);
-
-	res->explicitly_typed_role = explicitly_typed_role;
-
-	if (GO_IS_PERSIST (res))
-		go_persist_dom_load (GO_PERSIST (res), node);
-	if (GOG_IS_DATASET (res))	/* convenience to save data */
-		gog_dataset_dom_load (GOG_DATASET (res), node, user);
-
-	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
-		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
-			continue;
-		if (!strcmp (ptr->name, "property")) {
-			name = xmlGetProp (ptr, "name");
-			if (name == NULL) {
-				g_warning ("missing name for property entry");
-				continue;
-			}
-			val = xmlNodeGetContent (ptr);
-			gog_object_set_arg_full (name, val, res, ptr);
-			xmlFree (val);
-			xmlFree (name);
-		} else if (!strcmp (ptr->name, "GogObject"))
-			gog_object_new_from_xml (res, ptr, user);
-	}
-	return res;
 }
 
 typedef struct {
@@ -600,8 +502,10 @@ gogo_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	if (state->obj_stack->next != NULL) {
 		state->obj = state->obj_stack->data;
 		state->obj_stack = g_slist_remove (state->obj_stack, state->obj);
-	} else
+	} else {
 		g_slist_free (state->obj_stack);
+		state->obj_stack = NULL;
+	}
 }
 
 static void
@@ -611,29 +515,45 @@ go_sax_parser_done (GsfXMLIn *xin, GogXMLReadState *state)
 	g_free (state);
 }
 
+static GsfXMLInNode const gog_dtd[] = {
+  GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ, -1, "GogObject",	GSF_XML_NO_CONTENT, &gogo_start, &gogo_end),
+    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ_PROP, -1, "property", GSF_XML_CONTENT, &gogo_prop_start, &gogo_prop_end),
+    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ_DATA, -1, "data", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (GOG_OBJ_DATA, GOG_DATA_DIM, -1, "dimension", GSF_XML_CONTENT, &gogo_dim_start, &gogo_dim_end),
+    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ, -1, "GogObject",	GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE_END
+};
+static GsfXMLInDoc *gog_sax_doc = NULL;
 void
 gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 			    GogObjectSaxHandler	handler,
 			    gpointer            user_unserialize,
 			    gpointer		user_data)
 {
-	static GsfXMLInNode const dtd[] = {
-	  GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ, -1, "GogObject",	GSF_XML_NO_CONTENT, &gogo_start, &gogo_end),
-	    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ_PROP, -1, "property", GSF_XML_CONTENT, &gogo_prop_start, &gogo_prop_end),
-	    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ_DATA, -1, "data", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (GOG_OBJ_DATA, GOG_DATA_DIM, -1, "dimension", GSF_XML_CONTENT, &gogo_dim_start, &gogo_dim_end),
-	    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ, -1, "GogObject",	GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE_END
-	};
-	static GsfXMLInDoc *doc = NULL;
 	GogXMLReadState *state;
 
-	if (NULL == doc)
-		doc = gsf_xml_in_doc_new (dtd, NULL);
+	if (NULL == gog_sax_doc)
+		gog_sax_doc = gsf_xml_in_doc_new (gog_dtd, NULL);
 	state = g_new0 (GogXMLReadState, 1);
 	state->handler = handler;
 	state->user_data = user_data;
 	state->user_unserialize = user_unserialize;
-	gsf_xml_in_push_state (xin, doc, state,
+	gsf_xml_in_push_state (xin, gog_sax_doc, state,
 		(GsfXMLInExtDtor) go_sax_parser_done, attrs);
+}
+
+GogObject *
+gog_object_new_from_input (GsfInput *input,
+                           gpointer user_unserialize)
+{
+	GogObject *res = NULL;
+	GogXMLReadState *state = g_new0 (GogXMLReadState, 1);
+	if (NULL == gog_sax_doc)
+		gog_sax_doc = gsf_xml_in_doc_new (gog_dtd, NULL);
+	state->user_unserialize = user_unserialize;
+	if (gsf_xml_in_doc_parse (gog_sax_doc, input, state)) {
+		res = state->obj;
+	}
+	g_free (state);
+	return res;
 }

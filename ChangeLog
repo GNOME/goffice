@@ -1,3 +1,12 @@
+2011-10-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-plugin.c: removed deprecated go_plugins_add().
+	* goffice/app/go-plugin.h: ditto.
+	* goffice/graph/gog-object-xml.c (gog_object_new_from_input): new function
+	to remlace gog_object_new_from_xml.
+	* goffice/graph/gog-object-xml.h: ditto.
+	* goffice/graph/gog-plot-impl.h: removed deprecated declaration.
+
 2011-10-09  Gerald Niel
 
 	* configure.in: fixed plugins load from a Mac OSX bundle. [#661264]

@@ -1741,8 +1741,8 @@ go_plugins_set_dirs (GSList *plugin_dirs)
  * @activate_new_plugins : activate plugins we have no seen before.
  * @default_loader_type : importer to use by default.
  *
- * Initializes the plugin subsystem. Don't call this function more than
- * once.
+ * Initializes the plugin subsystem. Might be called several times to add
+ * new plugins.
  **/
 void
 go_plugins_init (GOCmdContext *context,
@@ -1809,73 +1809,6 @@ go_plugins_init (GOCmdContext *context,
 			plugin_file_state_dir_hash,
 			(GHFunc) ghf_collect_new_plugins,
 			&plugin_list);
-
-	plugin_list = g_slist_reverse (plugin_list);
-	go_plugin_db_activate_plugin_list (plugin_list, &error);
-	g_slist_free (plugin_list);
-	if (error != NULL) {
-		GO_SLIST_PREPEND (error_list, go_error_info_new_str_with_details (
-			_("Errors while activating plugins."), error));
-	}
-
-	/* report initialization errors */
-	if (error_list != NULL) {
-		GO_SLIST_REVERSE (error_list);
-		error = go_error_info_new_str_with_details_list (
-		        _("Errors while initializing plugin system."),
-		        error_list);
-
-		go_cmd_context_error_info (context, error);
-		go_error_info_free (error);
-	}
-}
-
-/**
- * go_plugins_add:
- * @context     : #GOCmdContext used to report errors
- * @known_states : A list of known states (defined how ?)
- * @active_plugins: A list of active plugins
- * @plugin_dirs :a list of directories to search for plugins
- * @default_loader_type : importer to use by default.
- *
- * Adds new plugins to currently used plugins.
- * Deprecated: this function is deprecated and should not be used at all. It will be removed
- * during next development cycle. Use go_plugins_init() instead.
- **/
-void
-go_plugins_add (GOCmdContext *context,
-		GSList const *known_states,
-		GSList const *active_plugins,
-		GSList *plugin_dirs,
-		GType  default_loader_type)
-{
-	GSList *error_list = NULL;
-	GOErrorInfo *error;
-	GSList *plugin_list;
-
-	go_default_loader_type = default_loader_type;
-	go_plugins_set_dirs (plugin_dirs);
-	go_plugins_rescan (&error, NULL);
-	if (error != NULL) {
-		GO_SLIST_PREPEND (error_list, go_error_info_new_str_with_details (
-			_("Errors while reading info about new plugins."), error));
-	}
-
-	GO_SLIST_FOREACH (known_states, char, state_str,
-		PluginFileState *state;
-
-		state = plugin_file_state_from_string (state_str);
-		if (state != NULL)
-			g_hash_table_insert (plugin_file_state_dir_hash, state->dir_name, state);
-	);
-	plugin_file_state_hash_changed = FALSE;
-
-	plugin_list = NULL;
-	GO_SLIST_FOREACH (active_plugins, char, plugin_id,
-		GOPlugin *plugin = go_plugins_get_plugin_by_id (plugin_id);
-		if (plugin != NULL && !go_plugin_is_active (plugin))
-			GO_SLIST_PREPEND (plugin_list, plugin);
-	);
 
 	plugin_list = g_slist_reverse (plugin_list);
 	go_plugin_db_activate_plugin_list (plugin_list, &error);

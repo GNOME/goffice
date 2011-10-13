@@ -30,15 +30,15 @@ G_BEGIN_DECLS
 void	   gog_object_set_arg	   (char const *name, char const *val, GogObject *obj);
 void	   gog_object_write_xml_sax(GogObject const *obj, GsfXMLOut *output, gpointer user);
 
-/* deprecated as soon as sax import works */
-GogObject *gog_object_new_from_xml (GogObject *parent, xmlNode *node, gpointer user);
-
 typedef void (*GogObjectSaxHandler)(GogObject *obj, gpointer user_data);
 void	   gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 				       GogObjectSaxHandler handler,
 				       gpointer user_unserialize,
 				       gpointer user_data);
 GogObject *gog_xml_read_state_get_obj (GsfXMLIn *xin);
+GogObject *gog_object_new_from_input (GsfInput *input,
+                                      gpointer user_unserialize);
+
 
 G_END_DECLS
 
