@@ -118,20 +118,14 @@ go_gtk_builder_new (char const *uifile,
 		    char const *domain, GOCmdContext *gcc)
 {
 	GtkBuilder *gui;
-	char *f;
 	GError *error = NULL;
 
 	g_return_val_if_fail (uifile != NULL, NULL);
 
-	if (!g_path_is_absolute (uifile))
-		f = g_build_filename (go_sys_data_dir (), "ui", uifile, NULL);
-	else
-		f = g_strdup (uifile);
-
 	gui = gtk_builder_new ();
 	if (domain)
 		gtk_builder_set_translation_domain (gui, domain);
-	if (!gtk_builder_add_from_file (gui, f, &error)) {
+	if (!gtk_builder_add_from_file (gui, uifile, &error)) {
 		g_object_unref (gui);
 		gui = NULL;
 	}
@@ -141,15 +135,36 @@ go_gtk_builder_new (char const *uifile,
 			msg = g_strdup (error->message);
 			g_error_free (error);
 		} else
-			msg = g_strdup_printf (_("Unable to open file '%s'"), f);
+			msg = g_strdup_printf (_("Unable to open file '%s'"), uifile);
 		go_cmd_context_error_system (gcc, msg);
 		g_free (msg);
 	} else if (error)
 		g_error_free (error);
-	g_free (f);
 
 	return gui;
 }
+
+/*
+ * Variant of go_gtk_builder_new that searchs goffice directories
+ * for files.
+ */
+GtkBuilder *
+go_gtk_builder_new_internal (char const *uifile,
+			     char const *domain, GOCmdContext *gcc)
+{
+	char *f;
+	GtkBuilder *res;
+
+	if (g_path_is_absolute (uifile))
+		return go_gtk_builder_new (uifile, domain, gcc);
+
+	f = g_build_filename (go_sys_data_dir (), "ui", uifile, NULL);
+	res = go_gtk_builder_new (f, domain, gcc);
+	g_free (f);
+
+	return res;
+}
+
 
 /**
  * go_gtk_builder_signal_connect :
@@ -753,8 +768,8 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 
-	gui = go_gtk_builder_new ("go-image-save-dialog-extra.ui",
-			       GETTEXT_PACKAGE, NULL);
+	gui = go_gtk_builder_new_internal ("go-image-save-dialog-extra.ui",
+					   GETTEXT_PACKAGE, NULL);
 	if (gui != NULL) {
 		GtkWidget *widget;
 

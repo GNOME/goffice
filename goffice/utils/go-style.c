@@ -742,7 +742,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	if (!enable)
 		return;
 
-	gui = go_gtk_builder_new ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -856,7 +856,7 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 
 	g_return_if_fail (style->font.font != NULL);
 
-	gui = go_gtk_builder_new ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -1032,7 +1032,7 @@ go_style_populate_editor (GOStyle *style,
 		state->doc = NULL;
 
 	if ((enable & (GO_STYLE_OUTLINE | GO_STYLE_LINE | GO_STYLE_FILL)) != 0) {
-		gui = go_gtk_builder_new ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
+		gui = go_gtk_builder_new_internal ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui == NULL) {
 			g_free (state);
 			return;

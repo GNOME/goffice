@@ -1,3 +1,10 @@
+2011-10-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_builder_new): Move
+	default-directory code from here...
+	(go_gtk_builder_new_internal): ...to here.
+	* */*.c: change to use go_gtk_builder_new_internal as appropriate.
+
 2011-10-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-plugin.c: removed deprecated go_plugins_add().

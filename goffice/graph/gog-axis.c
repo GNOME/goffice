@@ -2532,7 +2532,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	GogDataset *set = GOG_DATASET (gobj);
 	GtkBuilder *gui;
 
-	gui = go_gtk_builder_new ("gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

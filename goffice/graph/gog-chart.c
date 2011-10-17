@@ -319,7 +319,7 @@ gog_chart_populate_editor (GogObject *gobj,
 
 	g_return_if_fail (chart != NULL);
 
-	gui = go_gtk_builder_new ("gog-plot-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("gog-plot-prefs.ui", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
 
 	(GOG_OBJECT_CLASS(chart_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);

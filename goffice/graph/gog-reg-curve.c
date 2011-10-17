@@ -62,7 +62,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	GtkBuilder *gui;
 	GogDataset *set = GOG_DATASET (gobj);
 
-	gui = go_gtk_builder_new ("gog-reg-curve-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("gog-reg-curve-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

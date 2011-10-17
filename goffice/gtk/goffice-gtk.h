@@ -57,6 +57,8 @@ G_BEGIN_DECLS
 
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
+GtkBuilder *go_gtk_builder_new_internal (char const *uifile,
+					 char const *domain, GOCmdContext *gcc);
 GtkBuilder *go_gtk_builder_new (char const *uifile,
 				char const *domain, GOCmdContext *gcc);
 gulong	   go_gtk_builder_signal_connect (GtkBuilder *gui,

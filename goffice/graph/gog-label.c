@@ -426,7 +426,7 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 	GtkBuilder *gui;
 	GogRegEqn *reg_eqn = GOG_REG_EQN (gobj);
 
-	gui = go_gtk_builder_new ("gog-reg-eqn-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("gog-reg-eqn-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
