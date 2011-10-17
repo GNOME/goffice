@@ -125,7 +125,18 @@ go_gtk_builder_new (char const *uifile,
 	gui = gtk_builder_new ();
 	if (domain)
 		gtk_builder_set_translation_domain (gui, domain);
-	if (!gtk_builder_add_from_file (gui, uifile, &error)) {
+
+	if (strncmp (uifile, "res:", 4) == 0) {
+		size_t len;
+		gconstpointer data = go_rsm_lookup (uifile + 4, &len);
+		if (!data) {
+			g_object_unref (gui);
+			gui = NULL;
+		} else if (!gtk_builder_add_from_string (gui, data, len, &error)) {
+			g_object_unref (gui);
+			gui = NULL;
+		}
+	} else if (!gtk_builder_add_from_file (gui, uifile, &error)) {
 		g_object_unref (gui);
 		gui = NULL;
 	}
@@ -155,7 +166,7 @@ go_gtk_builder_new_internal (char const *uifile,
 	char *f;
 	GtkBuilder *res;
 
-	if (g_path_is_absolute (uifile))
+	if (g_path_is_absolute (uifile) || strncmp (uifile, "res:", 4) == 0)
 		return go_gtk_builder_new (uifile, domain, gcc);
 
 	f = g_build_filename (go_sys_data_dir (), "ui", uifile, NULL);

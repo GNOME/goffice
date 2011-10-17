@@ -121,6 +121,7 @@ G_END_DECLS
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-pattern.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-rsm.h>
 #include <goffice/utils/go-string.h>
 #include <goffice/utils/go-styled-object.h>
 #include <goffice/utils/go-style.h>

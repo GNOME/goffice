@@ -18,6 +18,7 @@ libgoffice_utils_la_SOURCES =	\
 	go-path.c		\
 	go-pattern.c		\
 	go-geometry.c		\
+	go-rsm.c		\
 	go-string.c		\
 	go-undo.c		\
 	datetime.c		\
@@ -61,6 +62,7 @@ libgoffice_utils_la_HEADERS = 	\
 	go-persist.h		\
 	go-bezier.h		\
 	go-editor.h		\
+	go-rsm.h		\
 	go-style.h		\
 	go-styled-object.h
 

@@ -205,6 +205,7 @@ libgoffice_init (void)
 	_go_conf_init ();
 	_go_fonts_init ();
 	_go_math_init ();
+	_go_rsm_init ();
 
 	/* keep trigger happy linkers from leaving things out */
 	_go_plugin_services_init ();
@@ -263,6 +264,7 @@ libgoffice_shutdown (void)
 	_go_number_format_shutdown ();
 	_go_string_shutdown ();
 	_go_locale_shutdown ();
+	_go_rsm_shutdown ();
 #ifdef G_OS_WIN32
 	/* const_cast, we created these above */
 	g_free ((char *)libgoffice_data_dir);
