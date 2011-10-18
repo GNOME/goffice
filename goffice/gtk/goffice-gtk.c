@@ -31,6 +31,7 @@
 #include <glib/gstdio.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
+#include <gsf/gsf-input-memory.h>
 
 #include <string.h>
 #ifdef HAVE_UNISTD_H
@@ -103,6 +104,27 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
 	return button;
 }
 
+
+static gboolean
+apply_ui_from_file (GtkBuilder *gui, GsfInput *src, GError **error)
+{
+	size_t size;
+	gconstpointer data;
+	gboolean res;
+
+	if (!src)
+		return FALSE;
+
+	/* Takes ownership of src.  */
+	src = gsf_input_uncompress (src);
+	size = gsf_input_size (src);
+	data = gsf_input_read (src, size, NULL);
+	res = gtk_builder_add_from_string (gui, data, size, error);
+	g_object_unref (src);
+	return res;
+}
+
+
 /**
  * go_gtk_builder_new :
  * @uifile : the name of the file load
@@ -112,13 +134,22 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
  * Simple utility to open ui files
  *
  * Returns: a new #GtkBuilder or NULL
- **/
+ *
+ * @uifile should be one of these:
+ *
+ * res:NAME  -- data from resource manager
+ * data:DATA -- data right here
+ * filename  -- data from local file
+ *
+ * Data may be compressed, regardless of source.
+**/
 GtkBuilder *
 go_gtk_builder_new (char const *uifile,
 		    char const *domain, GOCmdContext *gcc)
 {
 	GtkBuilder *gui;
 	GError *error = NULL;
+	gboolean ok = FALSE;
 
 	g_return_val_if_fail (uifile != NULL, NULL);
 
@@ -129,17 +160,24 @@ go_gtk_builder_new (char const *uifile,
 	if (strncmp (uifile, "res:", 4) == 0) {
 		size_t len;
 		gconstpointer data = go_rsm_lookup (uifile + 4, &len);
-		if (!data) {
-			g_object_unref (gui);
-			gui = NULL;
-		} else if (!gtk_builder_add_from_string (gui, data, len, &error)) {
-			g_object_unref (gui);
-			gui = NULL;
-		}
-	} else if (!gtk_builder_add_from_file (gui, uifile, &error)) {
+		GsfInput *src = data
+			? gsf_input_memory_new (data, len, FALSE)
+			: NULL;
+		ok = apply_ui_from_file (gui, src, &error);
+	} else if (strncmp (uifile, "data:", 5) == 0) {
+		const char *data = uifile + 5;
+		GsfInput *src = gsf_input_memory_new (data, strlen (data), FALSE);
+		ok = apply_ui_from_file (gui, src, &error);
+	} else {
+		GsfInput *src = gsf_input_stdio_new (uifile, &error);
+		ok = apply_ui_from_file (gui, src, &error);
+	}
+
+	if (!ok) {
 		g_object_unref (gui);
 		gui = NULL;
 	}
+
 	if (gui == NULL && gcc != NULL) {
 		char *msg;
 		if (error) {

@@ -1,3 +1,8 @@
+2011-10-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_builder_new): Handle
+	compressed ui data (regardless of source).
+
 2011-10-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-rsm.c: New file.
