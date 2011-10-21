@@ -57,8 +57,11 @@ GOConfNode *
 go_conf_get_node (GOConfNode *parent, gchar const *key)
 {
 	GOConfNode *node;
+	char *formatted;
 
-	char *formatted = go_conf_format_id (key);
+	g_return_val_if_fail (parent || key, NULL);
+
+	formatted = go_conf_format_id (key);
 	node = g_new0 (GOConfNode, 1);
 	if (parent) {
 		if (key && !parent->key) {
