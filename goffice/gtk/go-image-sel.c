@@ -38,73 +38,81 @@ struct _GOImageSelState {
 
 	/* GUI accessors */
 	GtkBuilder    *gui;
-	GtkEntry    *name_entry;
 	GtkIconView *icon_view;
 	GtkListStore *model;
-	GtkWidget *add_button;
+	GtkWidget *ok_button;
 	char *uri;
+	char *name;
 };
+
+static void
+cb_entry_destroyed (GtkEntry *entry, G_GNUC_UNUSED GdkEvent *event, GOImageSelState *state)
+{
+	char const *new_name = gtk_entry_get_text (entry);
+	if (new_name && *new_name && !go_doc_get_image (state->doc, new_name)) {
+		g_free (state->name);
+		state->name = g_strdup (new_name);
+	}
+}
 
 static void
 cb_file_image_select (GtkWidget *cc, GOImageSelState *state)
 {
-	g_free (state->uri);
-
-	state->uri = go_gtk_select_image (GTK_WINDOW (gtk_widget_get_toplevel (cc)),
-				   NULL);
-	gtk_widget_set_sensitive (state->add_button,
-	                          state->uri != NULL && strlen (gtk_entry_get_text (state->name_entry)) > 0);
-}
-
-static void
-cb_image_add (GtkWidget *cc, GOImageSelState *state)
-{
-	char const *name;
-	char *image_name, *filename;
+	GtkWidget *box, *w;
+	char *new_name, *filename;
+	unsigned n = 1; 
 	GError *error = NULL;
 	GOImage *image, *real_image;
-	if (!state->uri)
-		return;
-	name = gtk_entry_get_text (state->name_entry);
-	filename = go_filename_from_uri (state->uri);
-	g_free (state->uri);
-	state->uri = NULL;
-	if (!(name && strlen (name))) {
-		char *basename = g_path_get_basename (filename);
-		char *dot = strrchr (basename, '.');
-		image_name = (dot)? g_strndup (basename, dot - basename): g_strdup (basename);
-		g_free (basename);
-	} else
-		image_name = g_strdup (name);
-	image = go_image_new_from_file (filename, &error);
-	g_free (filename);
-	if (error) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
-	if (image) {
-		real_image = go_doc_add_image (state->doc, image_name, image);
-		if (real_image == image) {
-			/* add the new image to the list */
-			GtkTreeIter iter;
-			GtkTreePath *path;
-			gtk_list_store_append (state->model, &iter);
-			gtk_list_store_set (state->model, &iter,
-					    0, go_image_get_thumbnail (real_image),
-					    1, go_image_get_name (real_image),
-					    -1);
-			path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model), &iter);
-			gtk_icon_view_select_path (state->icon_view, path);
-			gtk_tree_path_free (path);
-		}
-		g_object_unref (image);
-	}
-	g_free (image_name);
-	gtk_entry_set_text (state->name_entry, "");
-	gtk_widget_set_sensitive (state->add_button, FALSE);
-}
 
+	/* FIXME: use a GtkGrid there */
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+	w = gtk_label_new (_("New image name"));
+	gtk_container_add (GTK_CONTAINER (box), w);
+	w = gtk_entry_new ();
+	while (1) {
+		new_name = g_strdup_printf (_("image%u"), n++);
+		if (!go_doc_get_image (state->doc, new_name))
+			break;
+		g_free (new_name);
+	}
+	gtk_entry_set_text (GTK_ENTRY (w), new_name);
+	g_signal_connect (G_OBJECT (w), "focus-out-event", G_CALLBACK (cb_entry_destroyed), state);
+	state->name = new_name;
+	gtk_container_add (GTK_CONTAINER (box), w);
+	gtk_widget_show_all (box);
+	
+	g_free (state->uri);
+
+	state->uri = go_gtk_select_image_with_extra_widget (GTK_WINDOW (gtk_widget_get_toplevel (cc)),
+				   NULL, box);
+	if (state->uri) {
+		filename = go_filename_from_uri (state->uri);
+		image = go_image_new_from_file (filename, &error);
+		g_free (filename);
+		if (error) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+			error = NULL;
+		}
+		if (image) {
+			real_image = go_doc_add_image (state->doc, state->name, image);
+			if (real_image == image) {
+				/* add the new image to the list */
+				GtkTreeIter iter;
+				GtkTreePath *path;
+				gtk_list_store_append (state->model, &iter);
+				gtk_list_store_set (state->model, &iter,
+						    0, go_image_get_thumbnail (real_image),
+						    1, go_image_get_name (real_image),
+						    -1);
+				path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model), &iter);
+				gtk_icon_view_select_path (state->icon_view, path);
+				gtk_tree_path_free (path);
+			}
+			g_object_unref (image);
+		}
+	}
+}
 static gint
 sort_func (GtkTreeModel *model,
 	   GtkTreeIter  *a,
@@ -127,6 +135,7 @@ sort_func (GtkTreeModel *model,
 static gboolean
 delete_event_cb (GtkWidget *cc, GdkEvent *event, GOImageSelState *state)
 {
+	g_free (state->name);
 	g_free (state->uri);
 	g_free (state);
 	return FALSE;
@@ -154,6 +163,7 @@ ok_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
 	} else
 		*(state->result) = NULL;
 	gtk_widget_destroy (state->dialog);
+	g_free (state->name);
 	g_free (state->uri);
 	g_free (state);
 }
@@ -183,10 +193,12 @@ add_image_cb (char const *key, GOImage *image, GOImageSelState *state)
 }
 
 static void
-name_entry_activate_cb (GOImageSelState *state)
+cb_selection_changed (GtkIconView *view, GOImageSelState *state)
 {
-	gtk_widget_set_sensitive (state->add_button,
-	                          state->uri != NULL && strlen (gtk_entry_get_text (state->name_entry)) > 0);
+	GList *l = gtk_icon_view_get_selected_items (view);
+	gtk_widget_set_sensitive (state->ok_button, l != NULL);
+	g_list_foreach (l, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (l);
 }
 
 /**
@@ -223,20 +235,17 @@ go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)
 		"clicked",
 		G_CALLBACK (cb_file_image_select), state);
 
-	state->add_button = go_gtk_builder_get_widget (state->gui, "add");
-	g_signal_connect (G_OBJECT (state->add_button),
-		"clicked",
-		G_CALLBACK (cb_image_add), state);
-	gtk_widget_set_sensitive (state->add_button, FALSE);
-
-	state->name_entry = GTK_ENTRY (gtk_builder_get_object (state->gui, "name-entry"));
-	g_signal_connect_swapped (G_OBJECT (state->name_entry), "activate", G_CALLBACK (name_entry_activate_cb), state);
 	state->icon_view = GTK_ICON_VIEW (gtk_builder_get_object (state->gui, "image-iconview"));
 	state->model = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 	gtk_icon_view_set_model (state->icon_view , GTK_TREE_MODEL (state->model));
 	gtk_icon_view_set_text_column (state->icon_view, 1);
 	gtk_icon_view_set_pixbuf_column (state->icon_view, 0);
 	g_object_unref (state->model);
+
+	/* populate the list */
+	hash = go_doc_get_images (doc);
+	if (hash)
+		g_hash_table_foreach (hash, (GHFunc) add_image_cb, state);
 
 	/* Set sort column and function */
 	gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (state->model),
@@ -245,15 +254,12 @@ go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->model),
 					    GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
 					    GTK_SORT_ASCENDING);
-
-	/* populate the list */
-	hash = go_doc_get_images (doc);
-	if (hash)
-		g_hash_table_foreach (hash, (GHFunc) add_image_cb, state);
+	g_signal_connect (state->icon_view, "selection-changed", G_CALLBACK (cb_selection_changed), state);
 
 	/* buttons */
-	w = go_gtk_builder_get_widget (state->gui, "ok-button");
-	g_signal_connect (w, "clicked", G_CALLBACK (ok_button_clicked_cb), state);
+	state->ok_button = go_gtk_builder_get_widget (state->gui, "ok-button");
+	g_signal_connect (state->ok_button, "clicked", G_CALLBACK (ok_button_clicked_cb), state);
+	gtk_widget_set_sensitive (state->ok_button, FALSE);
 	w = go_gtk_builder_get_widget (state->gui, "cancel-button");
 	g_signal_connect (w, "clicked", G_CALLBACK (cancel_button_clicked_cb), state);
 

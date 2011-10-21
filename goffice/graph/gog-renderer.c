@@ -1524,10 +1524,8 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 	cairo_surface_t *surface = NULL;
 	gboolean status;
 	GdkPixbuf *pixbuf;
-#ifdef GOFFICE_WITH_GTK
 	GdkPixbuf *output_pixbuf;
 	gboolean result;
-#endif
 	double width_in_pts, height_in_pts;
 
 	g_return_val_if_fail (GOG_IS_RENDERER (rend), FALSE);
@@ -1594,7 +1592,6 @@ do_export_vectorial:
 			if (pixbuf == NULL)
 				return FALSE;
 			format_info = go_image_get_format_info (format);
-#ifdef GOFFICE_WITH_GTK
 			if (!format_info->alpha_support)
 				output_pixbuf = gdk_pixbuf_composite_color_simple
 					(pixbuf,
@@ -1612,7 +1609,6 @@ do_export_vectorial:
 			if (!format_info->alpha_support)
 				g_object_unref (output_pixbuf);
 			return result;
-#endif
 	}
 
 	return FALSE;

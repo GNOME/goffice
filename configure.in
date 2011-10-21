@@ -103,6 +103,7 @@ goffice_reqs="
 	pangocairo		>= 1.24.0
 	cairo			>= 1.10.0
 	librsvg-2.0		>= 2.22.0
+	gdk-pixbuf-2.0	>= 2.22.0
 "
 
 goffice_gtk_reqs="
@@ -133,18 +134,6 @@ if test "x$goffice_with_lasem" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_LASEM, 1, [Define if Lasem is used])
 	goffice_reqs="$goffice_reqs lasem-0.4 >= 0.3.1 "
 	EXTRA_DEPS="$EXTRA_DEPS lasem-0.4"
-fi
-
-goffice_with_rsvg=false
-AC_ARG_WITH(librsvg, [  --with-librsvg          Build with librsvg use])
-if test "x$with_librsvg" = xyes; then
-	PKG_CHECK_MODULES(rsvg, librsvg-2.0 >= 2.22.0)
-	goffice_with_rsvg=true
-fi
-if test "x$goffice_with_rsvg" = "xtrue" ; then
-	AC_DEFINE(GOFFICE_WITH_RSVG, 1, [Define if librsvg is used])
-	goffice_reqs="$goffice_reqs librsvg-2.0 >= 2.22.0 "
-	EXTRA_DEPS="$EXTRA_DEPS librsvg-2.0"
 fi
 
 AM_CONDITIONAL(GOFFICE_WITH_LASEM, $goffice_with_lasem)
@@ -243,9 +232,7 @@ case $with_config_backend in
 		AC_CHECK_LIB(gio-2.0,[g_settings_new],
 		[
 			AC_DEFINE(GOFFICE_WITH_GSETTINGS, 1, [Goffice uses gsettings])
-			conf_msg="GSettings
-
-WARNING: the GSettings backend is experimental, use it with care"
+			conf_msg="GSettings"
 		],[
 			AC_MSG_ERROR([ GSettings not available ])
 		])
@@ -258,22 +245,8 @@ WARNING: the GSettings backend is experimental, use it with care"
 			AC_DEFINE(GOFFICE_WITH_WINREG, 1, [Goffice uses Windows registry])
 			conf_msg="Windows registry"
 		else
-			PKG_CHECK_MODULES(GCONF, gconf-2.0,
-			[
-				EXTRA_DEPS="$EXTRA_DEPS gconf-2.0"
-				AC_DEFINE(GOFFICE_WITH_GCONF, 1, [Goffice uses gconf])
-				conf_msg="GConf"
-				goffice_reqs="$goffice_reqs gconf-2.0"
-			],[
-dnl Never use GSettings if not explicitly requested
-dnl				AC_CHECK_LIB(glib-2.0,[g_settings_new],
-dnl					[
-dnl						AC_DEFINE(GOFFICE_WITH_GSETTINGS, 1, [Goffice uses gsettings])
-dnl						conf_msg="GSettings"
-dnl					],[
-						conf_msg="keyfile"
-dnl					])
-			])
+			AC_DEFINE(GOFFICE_WITH_GSETTINGS, 1, [Goffice uses gsettings])
+			conf_msg="GSettings"
 		fi
 		;;
 esac

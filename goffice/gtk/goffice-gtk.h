@@ -106,6 +106,7 @@ void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,
 void       go_gtk_nonmodal_dialog	(GtkWindow *toplevel, GtkWindow *dialog);
 gboolean   go_gtk_file_sel_dialog	(GtkWindow *toplevel, GtkWidget *w);
 char	  *go_gtk_select_image		(GtkWindow *toplevel, const char *initial);
+char	  *go_gtk_select_image_with_extra_widget (GtkWindow *toplevel, char const *initial, GtkWidget *extra);
 char      *go_gui_get_image_save_info 	(GtkWindow *toplevel,
 					 GSList *supported_formats,
 					 GOImageFormat *ret_format,

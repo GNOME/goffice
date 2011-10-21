@@ -724,6 +724,12 @@ gui_image_chooser_new (gboolean is_save)
 char *
 go_gtk_select_image (GtkWindow *toplevel, char const *initial)
 {
+	return go_gtk_select_image_with_extra_widget (toplevel, initial, NULL);
+}
+
+char *
+go_gtk_select_image_with_extra_widget (GtkWindow *toplevel, char const *initial, GtkWidget *extra)
+{
 	char const *key = "go_gtk_select_image";
 	char *uri = NULL;
 	GtkFileChooser *fsel;
@@ -731,6 +737,8 @@ go_gtk_select_image (GtkWindow *toplevel, char const *initial)
 	g_return_val_if_fail (GTK_IS_WINDOW (toplevel), NULL);
 
 	fsel = gui_image_chooser_new (FALSE);
+	if (GTK_IS_WIDGET (extra))
+		gtk_file_chooser_set_extra_widget (fsel, extra);
 
 	if (!initial)
 		initial = g_object_get_data (G_OBJECT (toplevel), key);
