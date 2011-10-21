@@ -6,12 +6,11 @@ EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 	goffice.mk \
 	goffice-plugins.mk \
 	libgoffice.pc.in \
-	acinclude.m4		\
 	intltool-extract.in	\
 	intltool-update.in	\
 	intltool-merge.in
 
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update doltcompile doltlibtool
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 
