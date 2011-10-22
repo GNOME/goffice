@@ -26,6 +26,12 @@
 
 G_BEGIN_DECLS
 
+#define GO_SUPERSCRIPT_SCALE PANGO_SCALE_SMALL
+#define GO_SUBSCRIPT_SCALE PANGO_SCALE_SMALL
+#define GO_SUPERSCRIPT_RISE 5000
+#define GO_SUBSCRIPT_RISE -5000
+
+
 /* Keep these sequential, they are used as the index for _go_format_builtins */
 typedef enum {
 	GO_FORMAT_UNKNOWN	= -1,

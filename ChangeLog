@@ -1,3 +1,8 @@
+2011-10-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.h: add format defines
+	* goffice/utils/go-format.c (go_format_execute): use these defines
+
 2011-10-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-image-sel.c (cb_entry_focus_out),
@@ -12,8 +17,8 @@
 2011-10-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: make GSettings the default configuration backend.
-	* goffice/graph/gog-renderer.c (gog_renderer_export_image): use GdkPixbuf
-	even in the no gtk build.
+	* goffice/graph/gog-renderer.c (gog_renderer_export_image): use
+	GdkPixbuf even in the no gtk build.
 	* goffice/gtk/go-image-sel.c: redesigned.
 	* goffice/gtk/go-image-sel.ui: ditto.
 	* goffice/gtk/goffice-gtk.c (go_gtk_select_image),

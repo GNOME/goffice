@@ -3474,12 +3474,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					start = (guint)GPOINTER_TO_SIZE (markup_stack->data);
 					markup_stack = g_slist_delete_link (markup_stack, markup_stack);
 				}
-				 /* FIXME: we need to calculate the right rise value */
-				attr = pango_attr_rise_new (5000);
+				attr = pango_attr_rise_new 
+					(GO_SUPERSCRIPT_RISE);
 				attr->start_index = start;
 				attr->end_index = end;
 				pango_attr_list_insert (attrs, attr);
-				attr = pango_attr_scale_new (PANGO_SCALE_SMALL);
+				attr = pango_attr_scale_new 
+					(GO_SUPERSCRIPT_SCALE);
 				attr->start_index = start;
 				attr->end_index = end;
 				pango_attr_list_insert (attrs, attr);
