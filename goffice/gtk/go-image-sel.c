@@ -46,7 +46,7 @@ struct _GOImageSelState {
 };
 
 static void
-cb_entry_destroyed (GtkEntry *entry, G_GNUC_UNUSED GdkEvent *event, GOImageSelState *state)
+cb_entry_focus_out (GtkEntry *entry, G_GNUC_UNUSED GdkEvent *event, GOImageSelState *state)
 {
 	char const *new_name = gtk_entry_get_text (entry);
 	if (new_name && *new_name && !go_doc_get_image (state->doc, new_name)) {
@@ -76,7 +76,7 @@ cb_file_image_select (GtkWidget *cc, GOImageSelState *state)
 		g_free (new_name);
 	}
 	gtk_entry_set_text (GTK_ENTRY (w), new_name);
-	g_signal_connect (G_OBJECT (w), "focus-out-event", G_CALLBACK (cb_entry_destroyed), state);
+	g_signal_connect (G_OBJECT (w), "focus-out-event", G_CALLBACK (cb_entry_focus_out), state);
 	state->name = new_name;
 	gtk_container_add (GTK_CONTAINER (box), w);
 	gtk_widget_show_all (box);
@@ -108,8 +108,16 @@ cb_file_image_select (GtkWidget *cc, GOImageSelState *state)
 				path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model), &iter);
 				gtk_icon_view_select_path (state->icon_view, path);
 				gtk_tree_path_free (path);
+			} else {
+				g_object_unref (image);
+				image = g_object_ref (real_image);
 			}
-			g_object_unref (image);
+			*(state->result) = image;
+			gtk_dialog_response (GTK_DIALOG (state->dialog), GTK_RESPONSE_OK);
+			gtk_widget_destroy (state->dialog);
+			g_free (state->name);
+			g_free (state->uri);
+			g_free (state);
 		}
 	}
 }
@@ -135,6 +143,7 @@ sort_func (GtkTreeModel *model,
 static gboolean
 delete_event_cb (GtkWidget *cc, GdkEvent *event, GOImageSelState *state)
 {
+	gtk_widget_destroy (state->dialog);
 	g_free (state->name);
 	g_free (state->uri);
 	g_free (state);
@@ -172,6 +181,7 @@ static void
 cancel_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
 {
 	gtk_widget_destroy (state->dialog);
+	g_free (state->name);
 	g_free (state->uri);
 	g_free (state);
 }
