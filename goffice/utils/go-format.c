@@ -3470,17 +3470,50 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				guint start = 0,
 					end = (guint)numpos_end;
 				PangoAttribute *attr;
+				double font_scale = 1.;
+				double scale = 1.;
+				int rise = 0;
+
 				if (markup_stack) {
 					start = (guint)GPOINTER_TO_SIZE (markup_stack->data);
 					markup_stack = g_slist_delete_link (markup_stack, markup_stack);
 				}
+
+				if (attrs != NULL) {
+					PangoAttrIterator *iter = pango_attr_list_get_iterator (attrs);
+					gint range_start, range_end;
+					gboolean at_end = FALSE;
+					pango_attr_iterator_range (iter, &range_start, &range_end);	
+					while (range_end <= (int) start && 
+					       (at_end = pango_attr_iterator_next (iter)))
+						pango_attr_iterator_range (iter, &range_start, &range_end);
+					if (!at_end && range_start <= (int) start) {
+						PangoAttribute *pa;
+						PangoFontDescription *desc = pango_font_description_new ();
+
+						pango_attr_iterator_get_font (iter, desc, NULL, NULL);
+						font_scale = pango_font_description_get_size (desc)/
+							(double)PANGO_SCALE/10.;
+						pango_font_description_free (desc);
+
+						pa = pango_attr_iterator_get
+							(iter, PANGO_ATTR_SCALE);
+						if (pa)
+							scale = ((PangoAttrFloat *)pa)->value;
+						pa = pango_attr_iterator_get
+							(iter, PANGO_ATTR_RISE);
+						if (pa)
+							rise = ((PangoAttrInt *)pa)->value;
+					}
+					pango_attr_iterator_destroy (iter);
+				}
 				attr = pango_attr_rise_new 
-					(GO_SUPERSCRIPT_RISE);
+					(GO_SUPERSCRIPT_RISE * font_scale + rise);
 				attr->start_index = start;
 				attr->end_index = end;
 				pango_attr_list_insert (attrs, attr);
 				attr = pango_attr_scale_new 
-					(GO_SUPERSCRIPT_SCALE);
+					(GO_SUPERSCRIPT_SCALE * scale);
 				attr->start_index = start;
 				attr->end_index = end;
 				pango_attr_list_insert (attrs, attr);

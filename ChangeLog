@@ -1,5 +1,10 @@
 2011-10-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_execute): consider the
+	existing attributes
+
+2011-10-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.h: add format defines
 	* goffice/utils/go-format.c (go_format_execute): use these defines
 

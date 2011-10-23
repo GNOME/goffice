@@ -11,6 +11,8 @@ Andreas:
 	* Improve fraction format selector. [#117215]
 	* Support SI prefixes and units  in scientific format selector. [#588516]
 	* Show in-use custom formats in the custom format selector. [#658472]
+	* Render superscripts in scientific formats with regard to font size
+	and scale. [#425685]
 
 Jean:
 	* Port to gtk+-3.0.
