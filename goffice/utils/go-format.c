@@ -3482,12 +3482,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				if (attrs != NULL) {
 					PangoAttrIterator *iter = pango_attr_list_get_iterator (attrs);
 					gint range_start, range_end;
-					gboolean at_end = FALSE;
+					gboolean not_at_end = TRUE;
 					pango_attr_iterator_range (iter, &range_start, &range_end);	
 					while (range_end <= (int) start && 
-					       (at_end = pango_attr_iterator_next (iter)))
+					       (not_at_end = pango_attr_iterator_next (iter)))
 						pango_attr_iterator_range (iter, &range_start, &range_end);
-					if (!at_end && range_start <= (int) start) {
+					if (not_at_end && range_start <= (int) start) {
 						PangoAttribute *pa;
 						PangoFontDescription *desc = pango_font_description_new ();
 
