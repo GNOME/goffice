@@ -25,7 +25,7 @@
 #include <goffice/goffice-priv.h>
 
 /**
- * go_pixbuf_intelligent_scale:
+ * go_gdk_pixbuf_intelligent_scale:
  * @buf: a #GdkPixbuf
  * @width: new width
  * @height: new height
@@ -36,7 +36,7 @@
  **/
 
 GdkPixbuf *
-go_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
+go_gdk_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
 {
 	GdkPixbuf *scaled;
 	int w, h;
@@ -60,7 +60,7 @@ go_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
 }
 
 /**
- * go_pixbuf_new_from_file:
+ * go_gdk_pixbuf_new_from_file:
  * @filename : pixbuf filename
  *
  * Utility routine to create pixbufs from file @name in the goffice_icon_dir.
@@ -69,7 +69,7 @@ go_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
  **/
 
 GdkPixbuf *
-go_pixbuf_new_from_file (char const *filename)
+go_gdk_pixbuf_new_from_file (char const *filename)
 {
 	char *path;
 	GdkPixbuf *pixbuf;
@@ -89,7 +89,7 @@ go_pixbuf_new_from_file (char const *filename)
 }
 
 /**
- * go_pixbuf_get_from_cache:
+ * go_gdk_pixbuf_get_from_cache:
  * @filename: pixbuf filename
  *
  * Retrieves a pixbuf from the image cache, loading it from the file
@@ -99,7 +99,7 @@ go_pixbuf_new_from_file (char const *filename)
  **/
 
 GdkPixbuf *
-go_pixbuf_get_from_cache (char const *filename)
+go_gdk_pixbuf_get_from_cache (char const *filename)
 {
 	static GHashTable *cache = NULL;
 	GdkPixbuf *pixbuf;
@@ -114,7 +114,7 @@ go_pixbuf_get_from_cache (char const *filename)
 		cache = g_hash_table_new_full (g_str_hash, g_str_equal,
 					       NULL, g_object_unref);
 
-	pixbuf = go_pixbuf_new_from_file (filename);
+	pixbuf = go_gdk_pixbuf_new_from_file (filename);
 	if (pixbuf != NULL)
 		g_hash_table_insert (cache, (gpointer) filename, pixbuf);
 
@@ -123,7 +123,7 @@ go_pixbuf_get_from_cache (char const *filename)
 
 
 /**
- * go_pixbuf_tile:
+ * go_gdk_pixbuf_tile:
  * @src: source pixbuf
  * @w: desired width
  * @h: desired height
@@ -134,7 +134,7 @@ go_pixbuf_get_from_cache (char const *filename)
  * The fractional tiles are spead evenly left-right and top-bottom.
  */
 GdkPixbuf *
-go_pixbuf_tile (GdkPixbuf const *src, guint w, guint h)
+go_gdk_pixbuf_tile (GdkPixbuf const *src, guint w, guint h)
 {
 	int src_w, src_h;
 	int tile_x, tile_y;

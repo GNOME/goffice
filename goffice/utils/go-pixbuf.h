@@ -20,15 +20,15 @@
 #ifndef GO_PIXBUF_H
 #define GO_PIXBUF_H
 
-#include <gdk/gdk.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
 
-GdkPixbuf 	*go_pixbuf_intelligent_scale	(GdkPixbuf *buf,
-						 guint width, guint height);
-GdkPixbuf 	*go_pixbuf_new_from_file	(char const *filename);
-GdkPixbuf 	*go_pixbuf_get_from_cache 	(char const *filename);
-GdkPixbuf	*go_pixbuf_tile			(GdkPixbuf const *src,
+GdkPixbuf 	*go_gdk_pixbuf_intelligent_scale (GdkPixbuf *buf,
+						  guint width, guint height);
+GdkPixbuf 	*go_gdk_pixbuf_new_from_file	(char const *filename);
+GdkPixbuf 	*go_gdk_pixbuf_get_from_cache 	(char const *filename);
+GdkPixbuf	*go_gdk_pixbuf_tile		(GdkPixbuf const *src,
 						 guint w, guint h);
 
 G_END_DECLS

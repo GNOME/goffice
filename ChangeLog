@@ -1,3 +1,13 @@
+2011-10-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-pixbuf.c: moved to utils.
+	* goffice/gtk/go-pixbuf.h: ditto.
+	* goffice/utils/go-pixbuf.c (go_gdk_pixbuf_intelligent_scale),
+	(go_gdk_pixbuf_new_from_file), (go_gdk_pixbuf_get_from_cache),
+	(go_gdk_pixbuf_tile):rename the functions to prepare for GOPixbuf (GOImage
+	split).
+	* goffice/utils/go-pixbuf.h: ditto.
+
 2011-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_execute): fix sense of

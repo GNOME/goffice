@@ -113,6 +113,7 @@ G_END_DECLS
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-gradient.h>
 #include <goffice/utils/go-image.h>
+#include <goffice/utils/go-pixbuf.h>
 #include <goffice/utils/go-libxml-extras.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-locale.h>

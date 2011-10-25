@@ -169,8 +169,14 @@ go_gtk_builder_new (char const *uifile,
 		GsfInput *src = gsf_input_memory_new (data, strlen (data), FALSE);
 		ok = apply_ui_from_file (gui, src, &error);
 	} else {
+		/* we need to set the current directory so that the builder can find pixbufs */
+		char *curdir = g_get_current_dir (), *uidir = g_path_get_dirname (uifile);
 		GsfInput *src = gsf_input_stdio_new (uifile, &error);
+		g_chdir (uidir);
+		g_free (uidir);
 		ok = apply_ui_from_file (gui, src, &error);
+		g_chdir (curdir);
+		g_free (curdir);
 	}
 
 	if (!ok) {
@@ -642,7 +648,7 @@ update_preview_cb (GtkFileChooser *chooser)
 		}
 
 		if (buf) {
-			GdkPixbuf *pixbuf = go_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
+			GdkPixbuf *pixbuf = go_gdk_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
 			gtk_image_set_from_pixbuf (GTK_IMAGE (image), pixbuf);
 			g_object_unref (pixbuf);
 			gtk_widget_show (image);

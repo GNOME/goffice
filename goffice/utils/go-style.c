@@ -142,7 +142,7 @@ go_style_set_image_preview (GOImage *pix, StylePrefState *state)
 
 	w = go_gtk_builder_get_widget (state->gui, "fill_image_sample");
 
-	scaled = go_pixbuf_intelligent_scale (go_image_get_pixbuf (pix), HSCALE, VSCALE);
+	scaled = go_gdk_pixbuf_intelligent_scale (go_image_get_pixbuf (pix), HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
 

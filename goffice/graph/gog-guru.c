@@ -384,7 +384,7 @@ cb_plot_types_init (char const *id, GogPlotType *type,
 	double x1, y1, w, h;
 	GocItem *item;
 	int col, row;
-	GdkPixbuf *image = go_pixbuf_get_from_cache (type->sample_image_file);
+	GdkPixbuf *image = go_gdk_pixbuf_get_from_cache (type->sample_image_file);
 
 	g_return_if_fail (image != NULL);
 
@@ -440,7 +440,7 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 
 	gtk_list_store_append (typesel->model, &iter);
 	gtk_list_store_set (typesel->model, &iter,
-		PLOT_FAMILY_TYPE_IMAGE,		go_pixbuf_get_from_cache (family->sample_image_file),
+		PLOT_FAMILY_TYPE_IMAGE,		go_gdk_pixbuf_get_from_cache (family->sample_image_file),
 		PLOT_FAMILY_TYPE_NAME,		_(family->name),
 		PLOT_FAMILY_TYPE_CANVAS_GROUP,	group,
 		-1);

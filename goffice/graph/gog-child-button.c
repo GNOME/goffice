@@ -372,7 +372,7 @@ cb_plot_family_menu_create (char const *id,
 	menu = gtk_image_menu_item_new_with_label (_(family->name));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu),
 		gtk_image_new_from_pixbuf (
-			go_pixbuf_get_from_cache (family->sample_image_file)));
+			go_gdk_pixbuf_get_from_cache (family->sample_image_file)));
 	gtk_menu_shell_append (GTK_MENU_SHELL (closure->menu), menu);
 	closure->non_blank = TRUE;
 
@@ -387,7 +387,7 @@ cb_plot_family_menu_create (char const *id,
 		w = gtk_image_menu_item_new_with_label (_(type->name));
 		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (w),
 			gtk_image_new_from_pixbuf (
-				go_pixbuf_get_from_cache (type->sample_image_file)));
+				go_gdk_pixbuf_get_from_cache (type->sample_image_file)));
 		g_object_set_data (G_OBJECT (w), ADDITION_KEY, closure->addition);
 		g_object_set_data (G_OBJECT (w), PLOT_TYPE_KEY, type);
 		g_signal_connect (G_OBJECT (w), "activate",

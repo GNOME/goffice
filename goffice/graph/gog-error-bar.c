@@ -20,19 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "gog-error-bar.h"
-#include "gog-series-impl.h"
-#include "gog-plot-impl.h"
-#include "gog-object-xml.h"
-#include "gog-data-allocator.h"
-#include "gog-renderer.h"
-#include <goffice/data/go-data-impl.h>
-#include <goffice/data/go-data.h>
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-path.h>
-#include <goffice/utils/go-persist.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-libxml-extras.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
@@ -53,7 +41,6 @@ static GObjectClass *error_bar_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <goffice/gtk/go-pixbuf.h>
 #include <goffice/gtk/go-color-selector.h>
 
 typedef struct {
@@ -283,7 +270,7 @@ gog_error_bar_prefs (GogSeries *series,
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 1, NULL);
 
 	for (i = 0; i < G_N_ELEMENTS (display_combo_desc); i++) {
-		pixbuf = go_pixbuf_new_from_file (direction == GOG_ERROR_BAR_DIRECTION_HORIZONTAL ?
+		pixbuf = go_gdk_pixbuf_new_from_file (direction == GOG_ERROR_BAR_DIRECTION_HORIZONTAL ?
 						  display_combo_desc[i].h_pixbuf :
 						  display_combo_desc[i].v_pixbuf);
 		gtk_list_store_append (list, &iter);

@@ -49,7 +49,6 @@
 #include <goffice/gtk/go-marker-selector.h>
 #include <goffice/gtk/go-optionmenu.h>
 #include <goffice/gtk/go-pattern-selector.h>
-#include <goffice/gtk/go-pixbuf.h>
 #include <goffice/gtk/go-rotation-sel.h>
 
 
