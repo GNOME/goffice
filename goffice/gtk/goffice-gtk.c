@@ -106,21 +106,32 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
 
 
 static gboolean
-apply_ui_from_file (GtkBuilder *gui, GsfInput *src, GError **error)
+apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
+		    GError **error)
 {
-	size_t size;
-	gconstpointer data;
 	gboolean res;
+	GsfInput *orig_src;
 
 	if (!src)
 		return FALSE;
 
-	/* Takes ownership of src.  */
+	orig_src = g_object_ref (src);
 	src = gsf_input_uncompress (src);
-	size = gsf_input_size (src);
-	data = gsf_input_read (src, size, NULL);
-	res = gtk_builder_add_from_string (gui, data, size, error);
+	if (uifile && src == orig_src) {
+		/*
+		 * This is sad, but see bugs 662503 and 662679.  Since
+		 * ui files can contain relative filenames we must use
+		 * the _file interface to load such files.  Do no
+		 * compress such files for the time being.
+		 */
+		res = gtk_builder_add_from_file (gui, uifile, error);
+	} else {
+		size_t size = gsf_input_size (src);
+		gconstpointer data = gsf_input_read (src, size, NULL);
+		res = gtk_builder_add_from_string (gui, data, size, error);
+	}
 	g_object_unref (src);
+	g_object_unref (orig_src);
 	return res;
 }
 
@@ -163,15 +174,15 @@ go_gtk_builder_new (char const *uifile,
 		GsfInput *src = data
 			? gsf_input_memory_new (data, len, FALSE)
 			: NULL;
-		ok = apply_ui_from_file (gui, src, &error);
+		ok = apply_ui_from_file (gui, src, NULL, &error);
 	} else if (strncmp (uifile, "data:", 5) == 0) {
 		const char *data = uifile + 5;
 		GsfInput *src = gsf_input_memory_new (data, strlen (data), FALSE);
-		ok = apply_ui_from_file (gui, src, &error);
+		ok = apply_ui_from_file (gui, src, NULL, &error);
 	} else {
 		/* we need to set the current directory so that the builder can find pixbufs */
 		GsfInput *src = gsf_input_stdio_new (uifile, &error);
-		ok = apply_ui_from_file (gui, src, &error);
+		ok = apply_ui_from_file (gui, src, uifile, &error);
 	}
 
 	if (!ok) {

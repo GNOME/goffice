@@ -1,3 +1,8 @@
+2011-10-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (apply_ui_from_file): Add filename
+	argument and use it to partially work around bug #662679.
+
 2011-10-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-pixbuf.c: moved to utils.
