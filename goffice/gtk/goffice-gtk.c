@@ -170,13 +170,8 @@ go_gtk_builder_new (char const *uifile,
 		ok = apply_ui_from_file (gui, src, &error);
 	} else {
 		/* we need to set the current directory so that the builder can find pixbufs */
-		char *curdir = g_get_current_dir (), *uidir = g_path_get_dirname (uifile);
 		GsfInput *src = gsf_input_stdio_new (uifile, &error);
-		g_chdir (uidir);
-		g_free (uidir);
 		ok = apply_ui_from_file (gui, src, &error);
-		g_chdir (curdir);
-		g_free (curdir);
 	}
 
 	if (!ok) {
