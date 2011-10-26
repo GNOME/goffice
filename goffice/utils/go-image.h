@@ -100,13 +100,16 @@ guint8 		*go_image_get_pixels 		(GOImage *image);
 void 		 go_image_fill 			(GOImage *image, GOColor color);
 
 void		 go_image_set_name		(GOImage *image, char const *name);
-char const	*go_image_get_name 		(GOImage *image);
+char const	*go_image_get_name 		(GOImage const *image);
 
 gboolean	 go_image_differ		(GOImage *first, GOImage *second);
 
 void		 go_image_save			(GOImage *image, GsfXMLOut *output);
 void		 go_image_load_attrs		(GOImage *image, GsfXMLIn *xin, xmlChar const **attrs);
 void		 go_image_load_data		(GOImage *image, GsfXMLIn *xin);
+
+double		 go_image_get_width		(GOImage const *image);
+double		 go_image_get_height		(GOImage const *image);
 
 /* Protected */
 void		 _go_image_changed		(GOImage *image, double width, double height);

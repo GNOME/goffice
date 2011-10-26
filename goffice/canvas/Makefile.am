@@ -9,6 +9,7 @@ libgoffice_canvas_la_SOURCES =	\
 	goc-graph.c		\
 	goc-group.c		\
 	goc-item.c		\
+	goc-image.c		\
 	goc-line.c		\
 	goc-path.c		\
 	goc-pixbuf.c		\
@@ -30,6 +31,7 @@ libgoffice_canvas_la_HEADERS =	\
 	goc-graph.h		\
 	goc-group.h		\
 	goc-item.h		\
+	goc-image.h		\
 	goc-line.h		\
 	goc-path.h		\
 	goc-pixbuf.h		\

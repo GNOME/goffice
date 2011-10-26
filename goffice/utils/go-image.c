@@ -462,7 +462,7 @@ go_image_set_name (GOImage *image, char const *name)
 }
 
 char const *
-go_image_get_name (GOImage *image)
+go_image_get_name (GOImage const *image)
 {
 	g_return_val_if_fail (GO_IS_IMAGE (image), NULL);
 	return image->name;
@@ -522,4 +522,16 @@ _go_image_changed (GOImage *image, double width, double height)
 		g_object_unref (image->thumbnail);
 		image->thumbnail = NULL;
 	}
+}
+
+double
+go_image_get_width (GOImage const *image)
+{
+	return image->width;
+}
+
+double
+go_image_get_height (GOImage const *image)
+{
+	return image->height;
 }

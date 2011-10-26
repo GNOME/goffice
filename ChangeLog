@@ -1,5 +1,16 @@
 2011-10-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-image.c (goc_image_set_property),
+	(goc_image_get_property), (goc_image_finalize),
+	(goc_image_update_bounds), (goc_image_distance), (goc_image_draw),
+	(goc_image_class_init): new canvas item displaying a GOImage.
+	* goffice/canvas/goc-image.h: ditto.
+	* goffice/canvas/goffice-canvas.h: ditto.
+	* goffice/canvas/Makefile.am: ditto.
+	* goffice/utils/go-style.c: fixed loading of image without type.
+
+2011-10-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* all files: add support for svg images using librsvg.
 
 2011-10-25  Morten Welinder  <terra@gnome.org>
