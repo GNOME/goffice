@@ -4,12 +4,23 @@
  *
  * Authors:
  *    Morten Welinder (terra@gnome.org)
+ *    Andreas J. Guelzow (aguelzow@pyrshep.ca)
  */
 
 #include <goffice/goffice-config.h>
 #include "go-pango-extras.h"
 #include "go-glib-extras.h"
 #include <string.h>
+
+static PangoAttrType go_pango_attr_subscript_type = PANGO_ATTR_INVALID;
+static PangoAttrType go_pango_attr_superscript_type = PANGO_ATTR_INVALID;
+
+struct _GOPangoAttrSuperscript {
+	PangoAttribute attr;
+};
+struct _GOPangoAttrSubscript {
+	PangoAttribute attr;
+};
 
 struct cb_splice {
 	guint pos, len;
@@ -479,4 +490,205 @@ go_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buf
 		pango_attr_iterator_destroy (iter);
 		pango_attr_list_unref (our_markup);
 	}
+}
+
+static gboolean
+filter_func (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
+{
+	PangoAttrType type = attribute->klass->type;
+	return (type != PANGO_ATTR_INVALID &&
+		(type == go_pango_attr_superscript_type ||
+		 type == go_pango_attr_subscript_type));
+}
+
+static void
+go_pango_translate_here (PangoAttrIterator *state_iter, 
+			 PangoAttrIterator *attr_iter, PangoAttrList *attrs)
+{
+	double font_scale = 1.;
+	double scale = 1.;
+	int rise = 0;
+	PangoAttribute *pa;
+	PangoFontDescription *desc = pango_font_description_new ();
+	GSList *the_attrs, *l;
+
+	pango_attr_iterator_get_font (state_iter, desc, NULL, NULL);
+	font_scale = pango_font_description_get_size (desc)/
+		(double)PANGO_SCALE/10.;
+	pango_font_description_free (desc);
+
+	pa = pango_attr_iterator_get
+		(state_iter, PANGO_ATTR_SCALE);
+	if (pa)
+		scale = ((PangoAttrFloat *)pa)->value;
+	pa = pango_attr_iterator_get
+		(state_iter, PANGO_ATTR_RISE);
+	if (pa)
+		rise = ((PangoAttrInt *)pa)->value;
+
+	/* We should probably figured out the default font size used */
+	/* rather than assuming it is 10 pts * scale */
+	if (font_scale == 0)
+		font_scale = scale;
+	
+	the_attrs = pango_attr_iterator_get_attrs (attr_iter);
+	for (l = the_attrs; l != NULL; l = l->next) {
+		PangoAttribute *attribute = l->data;
+		PangoAttrType type = attribute->klass->type;
+		/* If we haven't used a sub or superscript then */
+		/* go_pango_attr_*_type may still be PANGO_ATTR_INVALID */
+		if (type != PANGO_ATTR_INVALID) {
+			if (type == go_pango_attr_superscript_type) {
+				PangoAttribute *attr = pango_attr_scale_new
+					(GO_SUPERSCRIPT_SCALE * scale);
+				attr->start_index = attribute->start_index;
+				attr->end_index = attribute->end_index;
+				pango_attr_list_insert (attrs, attr);
+				attr = pango_attr_rise_new
+					(GO_SUPERSCRIPT_RISE * font_scale + rise);
+				attr->start_index = attribute->start_index;
+				attr->end_index = attribute->end_index;
+				pango_attr_list_insert (attrs, attr);
+			} else { /* go_pango_attr_subscript_type */
+				PangoAttribute *attr = pango_attr_scale_new
+					(GO_SUBSCRIPT_SCALE * scale);
+				attr->start_index = attribute->start_index;
+				attr->end_index = attribute->end_index;
+				pango_attr_list_insert (attrs, attr);
+				attr = pango_attr_rise_new
+					(GO_SUBSCRIPT_RISE * font_scale + rise);
+				attr->start_index = attribute->start_index;
+				attr->end_index = attribute->end_index;
+				pango_attr_list_insert (attrs, attr);
+			}
+		}
+	}
+	go_slist_free_custom (the_attrs, (GFreeFunc)pango_attribute_destroy);
+}
+
+
+PangoAttrList *
+go_pango_translate_attributes (PangoAttrList *attrs)
+{
+	PangoAttrList *n_attrs, *filtered;
+
+	if (attrs == NULL)
+		return NULL;
+
+	n_attrs = pango_attr_list_copy (attrs);
+	filtered = pango_attr_list_filter (n_attrs, filter_func, NULL);
+
+	if (filtered == NULL) {
+		pango_attr_list_unref (n_attrs);
+		return attrs;
+	} else {
+		PangoAttrIterator *iter, *f_iter;
+		iter = pango_attr_list_get_iterator (attrs);
+		f_iter = pango_attr_list_get_iterator (filtered);
+		do {
+			gint f_range_start, f_range_end;
+			gint range_start, range_end;
+			pango_attr_iterator_range (f_iter, &f_range_start, 
+						   &f_range_end);
+			pango_attr_iterator_range (iter, &range_start, 
+						   &range_end);
+			while (range_start < f_range_start) {
+				pango_attr_iterator_next (iter);
+				pango_attr_iterator_range (iter, &range_start, 
+						   &range_end);
+			} 
+			/* Now range_start == f_range_start since attrs */
+			/* includes filtered */
+			go_pango_translate_here (iter, f_iter, n_attrs);
+		} while (pango_attr_iterator_next (f_iter));
+		pango_attr_iterator_destroy (iter);
+		pango_attr_iterator_destroy (f_iter);
+	}
+	pango_attr_list_unref (filtered);
+	return n_attrs;
+}
+
+void
+go_pango_translate_layout (PangoLayout *layout)
+{
+	PangoAttrList *attrs, *n_attrs;
+
+	g_return_if_fail (layout != NULL);
+
+	attrs = pango_layout_get_attributes (layout);
+	n_attrs = go_pango_translate_attributes (attrs);
+	if (attrs != n_attrs) {
+		pango_layout_set_attributes (layout, n_attrs);
+		pango_attr_list_unref (n_attrs);
+	}
+	
+}
+
+static PangoAttribute *
+go_pango_attr_subscript_copy (G_GNUC_UNUSED PangoAttribute const *attr)
+{
+	return go_pango_attr_subscript_new ();
+}
+
+static PangoAttribute *
+go_pango_attr_superscript_copy (G_GNUC_UNUSED PangoAttribute const *attr)
+{
+	return go_pango_attr_superscript_new ();
+}
+
+static void
+go_pango_attr_destroy (PangoAttribute *attr)
+{
+	g_free (attr);
+}
+
+static gboolean
+go_pango_attr_compare (G_GNUC_UNUSED PangoAttribute const *attr1,
+		       G_GNUC_UNUSED PangoAttribute const *attr2)
+{
+	return TRUE;
+}
+
+PangoAttribute *
+go_pango_attr_subscript_new (void)
+{
+	GOPangoAttrSubscript *result;
+
+	static PangoAttrClass klass = {
+		0,
+		go_pango_attr_subscript_copy,
+		go_pango_attr_destroy,
+		go_pango_attr_compare
+	};
+
+	if (!klass.type)
+		klass.type = go_pango_attr_subscript_type =
+			pango_attr_type_register ("GOSubscript");
+
+	result = g_new (GOPangoAttrSubscript, 1);
+	result->attr.klass = &klass;
+
+	return (PangoAttribute *) result;
+}
+
+PangoAttribute *
+go_pango_attr_superscript_new (void)
+{
+	GOPangoAttrSuperscript *result;
+
+	static PangoAttrClass klass = {
+		0,
+		go_pango_attr_superscript_copy,
+		go_pango_attr_destroy,
+		go_pango_attr_compare
+	};
+
+	if (!klass.type)
+		klass.type = go_pango_attr_superscript_type =
+			pango_attr_type_register ("GOSuperscript");
+
+	result = g_new (GOPangoAttrSuperscript, 1);
+	result->attr.klass = &klass;
+
+	return (PangoAttribute *) result;
 }
