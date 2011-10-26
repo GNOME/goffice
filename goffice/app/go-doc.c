@@ -324,7 +324,7 @@ go_doc_update_meta_data (GODoc *doc)
  *
  * Returns: the #GOImage is one exist with name @id. The caller does not own a
  * reference.
- */
+ **/
 GOImage *
 go_doc_get_image (GODoc *doc, char const *id)
 {
@@ -342,7 +342,7 @@ go_doc_get_image (GODoc *doc, char const *id)
  * the returned image might be different from @id, even if given.
  * Returns: either @image, in which case the document adds a reference on it, or
  * an identical image for which the owner does not own a reference.
- */
+ **/
 GOImage *
 go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
 {
@@ -359,7 +359,7 @@ go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
 	/* check if the image is already there */
 	g_hash_table_iter_init (&iter, doc->images);
 	while (g_hash_table_iter_next (&iter, (void**) &key, (void**) &img))
-		if (go_image_same_pixbuf (image, img))
+		if (!go_image_differ (image, img))
 			return img;
 
 	if (!id || !*id)
@@ -445,15 +445,19 @@ static void
 load_image (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GODoc *doc = GO_DOC (xin->user_state);
-	GOImage *image;
+	GOImage *image = NULL;
 	xmlChar const **attr = 	attrs;
+	GType type = 0;
 	if (!*attr)
 		return;
-	while (*attr && strcmp (*attr, "name"))
-		attr += 2;
-	image = (GOImage *) g_hash_table_lookup (doc->imagebuf, attr[1]);
+	for (attr = attrs; *attr; attr += 2)
+		if (!strcmp (*attr, "name"))
+			image = (GOImage *) g_hash_table_lookup (doc->imagebuf, attr[1]);
+		else if (!strcmp (*attr, "type"))
+			type = g_type_from_name (attr[1]);
 	if (!image) /* this should not occur, but if it does, we might want to load the image? */
 		return;
+	g_return_if_fail (type == 0 || G_OBJECT_TYPE (image) == type);
 	go_image_load_attrs (image, xin, attrs);
 	g_object_set_data (G_OBJECT (doc), "new image", image);
 }
@@ -522,15 +526,15 @@ go_doc_end_read	(GODoc *doc)
  * This function must be called after a call to go_doc_init_read(), otherwise
  * it will emit a critical and return NULL.
  * Returns: the found or created #GOImage.
- */
+ **/
 GOImage *
-go_doc_image_fetch (GODoc *doc, char const *id)
+go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 {
 	GOImage *image;
 	g_return_val_if_fail (doc && doc->imagebuf, NULL);
 	image = g_hash_table_lookup (doc->imagebuf, id);
 	if (!image) {
-		image = g_object_new (GO_TYPE_IMAGE, NULL);
+		image = g_object_new (type, NULL);
 		go_image_set_name (image, id);
 		g_hash_table_replace (doc->imagebuf,
 				      g_strdup (go_image_get_name (image)),

@@ -41,13 +41,6 @@ go_persist_get_type (void)
 	return go_persist_type;
 }
 
-gboolean
-go_persist_dom_load (GOPersist *gp, xmlNode *node)
-{
-	g_return_val_if_fail (GO_IS_PERSIST (gp), FALSE);
-	return GO_PERSIST_GET_CLASS (gp)->dom_load (gp, node);
-}
-
 void
 go_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 {

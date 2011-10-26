@@ -221,23 +221,7 @@ emit_line (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 static void
 emit_fill (GogRenderer *rend, gboolean preserve)
 {
-	GOStyle const *style = rend->cur_style;
-	cairo_t *cr = rend->cairo;
-	cairo_pattern_t *cr_pattern = NULL;
-
-	cr_pattern = go_style_create_cairo_pattern (style, cr);
-	if (cr_pattern == NULL) {
-		if (!preserve)
-			cairo_new_path (cr);
-		return;
-	}
-	cairo_set_source (cr, cr_pattern);
-	cairo_pattern_destroy (cr_pattern);
-
-	if (preserve)
-		cairo_fill_preserve (cr);
-	else
-		cairo_fill (cr);
+	go_style_fill (rend->cur_style, rend->cairo, preserve);
 }
 
 static void
@@ -1524,8 +1508,10 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 	cairo_surface_t *surface = NULL;
 	gboolean status;
 	GdkPixbuf *pixbuf;
+#ifdef GOFFICE_WITH_GTK
 	GdkPixbuf *output_pixbuf;
 	gboolean result;
+#endif
 	double width_in_pts, height_in_pts;
 
 	g_return_val_if_fail (GOG_IS_RENDERER (rend), FALSE);
@@ -1592,6 +1578,7 @@ do_export_vectorial:
 			if (pixbuf == NULL)
 				return FALSE;
 			format_info = go_image_get_format_info (format);
+#ifdef GOFFICE_WITH_GTK
 			if (!format_info->alpha_support)
 				output_pixbuf = gdk_pixbuf_composite_color_simple
 					(pixbuf,
@@ -1609,6 +1596,7 @@ do_export_vectorial:
 			if (!format_info->alpha_support)
 				g_object_unref (output_pixbuf);
 			return result;
+#endif
 	}
 
 	return FALSE;

@@ -249,7 +249,7 @@ go_component_snapshot_render (GOComponent *component, cairo_t *cr,
 	GOComponentSnapshot *snapshot = (GOComponentSnapshot *) component;
 	switch (component->snapshot_type) {
 	case GO_SNAPSHOT_SVG:
-#if defined(GOFFICE_WITH_RSVG)
+		/* NOTE: we might use lasem here, and also use a GOSvg image */ 
 		if (snapshot->image == NULL) {
 			GError *err = NULL;
 			snapshot->image = (void *) rsvg_handle_new_from_data (
@@ -275,11 +275,7 @@ go_component_snapshot_render (GOComponent *component, cairo_t *cr,
 			cairo_restore (cr);
 		}
 		break;
-#elif defined(GOFFICE_WITH_LASEM)
-		/* TODO: implement a Lasem based svg rendering when possible */
-#endif
 	case GO_SNAPSHOT_PNG: {
-		cairo_pattern_t *pattern;
 		if (snapshot->image == NULL) {
 			GInputStream *in = g_memory_input_stream_new_from_data (
 						component->snapshot_data,
@@ -290,28 +286,26 @@ go_component_snapshot_render (GOComponent *component, cairo_t *cr,
 			if (err) {
 				g_error_free (err);
 			} else
-				snapshot->image = (void *) go_image_new_from_pixbuf (pixbuf);
+				snapshot->image = (void *) go_pixbuf_new_from_pixbuf (pixbuf);
 			if (pixbuf)
 				g_object_unref (pixbuf);
 
 		}
-		cairo_rectangle (cr, 0, 0, width, height);
 		if (snapshot->image != NULL) {
 			int w, h;
 			double scalex = 1., scaley = 1.;
-			cairo_matrix_t matrix;
-			pattern = go_image_create_cairo_pattern (GO_IMAGE (snapshot->image));
+			cairo_save (cr);
 			g_object_get (snapshot->image, "width", &w, "height", &h, NULL);
 			cairo_user_to_device_distance (cr, &scalex, &scaley);
-			cairo_matrix_init_scale (&matrix,
-						 w / width * scalex,
-						 h / height * scaley);
-			cairo_pattern_set_matrix (pattern, &matrix);
-		} else
-			pattern = cairo_pattern_create_rgba (1, 1, 1, 1);
-		cairo_set_source (cr, pattern);
-		cairo_pattern_destroy (pattern);
-		cairo_fill (cr);
+			cairo_scale (cr, width / w / scalex, height / h / scaley);
+			cairo_move_to (cr, 0, 0);
+			go_image_draw (GO_IMAGE (snapshot->image), cr);
+			cairo_restore (cr);
+		} else {
+			cairo_rectangle (cr, 0, 0, width, height);
+			cairo_set_source_rgb (cr, 1., 1., 1.);
+			cairo_fill (cr);
+		}
 		break;
 	}
 	default:

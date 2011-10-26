@@ -32,7 +32,6 @@ typedef struct _GOPersist GOPersist;
 typedef struct {
 	GTypeInterface base;
 
-	gboolean (*dom_load) (GOPersist *gp, xmlNode *node);
 	void	 (*prep_sax) (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs);
 	void     (*sax_save) (GOPersist const *gp, GsfXMLOut *output);
 } GOPersistClass;
@@ -46,7 +45,6 @@ typedef struct {
 
 GType go_persist_get_type (void);
 
-gboolean go_persist_dom_load (GOPersist *gp, xmlNode *node);
 void     go_persist_sax_save (GOPersist const *gp, GsfXMLOut *output);
 void	 go_persist_prep_sax (GOPersist *gp,
 			       GsfXMLIn *xin, xmlChar const **attrs);

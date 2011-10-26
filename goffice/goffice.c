@@ -22,28 +22,6 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 #include <goffice/goffice-priv.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-legend.h>
-#include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-grid.h>
-#include <goffice/graph/gog-grid-line.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-error-bar.h>
-#include <goffice/graph/gog-series-lines.h>
-#include <goffice/graph/gog-3d-box.h>
-#include <goffice/data/go-data-simple.h>
-#include <goffice/math/go-distribution.h>
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-font.h>
-#include <goffice/app/go-conf.h>
-#include <goffice/app/go-plugin-service.h>
-#include <goffice/component/go-component-factory.h>
 #include <gsf/gsf-utils.h>
 
 #include "goffice-paths.h"
@@ -235,6 +213,8 @@ libgoffice_init (void)
 	(void) GO_TYPE_DATA_SCALAR_VAL;
 	(void) GO_TYPE_DATA_SCALAR_STR;
 	(void) GOG_3D_BOX_TYPE;
+	(void) GO_TYPE_PIXBUF;
+	(void) GO_TYPE_SVG;
 	_gog_themes_init ();
 	_go_number_format_init ();
 	_go_currency_date_format_init ();

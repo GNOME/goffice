@@ -359,51 +359,6 @@ gog_error_bar_class_init (GogErrorBarClass *klass)
 	gobject_klass->finalize		= gog_error_bar_finalize;
 }
 
-static gboolean
-gog_error_bar_persist_dom_load (GOPersist *gp, xmlNode *node)
-{
-	GogErrorBar *bar = GOG_ERROR_BAR (gp);
-
-	gchar* str;
-	str = xmlGetProp (node, CC2XML ("error_type"));
-	if (str) {
-		if (!strcmp (str, "absolute"))
-			bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
-		else if (!strcmp (str, "relative"))
-			bar->type = GOG_ERROR_BAR_TYPE_RELATIVE;
-		else if (!strcmp (str, "percent"))
-			bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, CC2XML ("display"));
-	if (str) {
-		if (!strcmp (str, "none"))
-			bar->display = GOG_ERROR_BAR_DISPLAY_NONE;
-		else if (!strcmp (str, "positive"))
-			bar->display = GOG_ERROR_BAR_DISPLAY_POSITIVE;
-		else if (!strcmp (str, "negative"))
-			bar->display = GOG_ERROR_BAR_DISPLAY_NEGATIVE;
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, CC2XML ("width"));
-	if (str) {
-		bar->width = g_strtod (str, NULL);
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, CC2XML ("line_width"));
-	if (str) {
-		bar->style->line.width = g_strtod (str, NULL);
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, CC2XML ("color"));
-	if (str != NULL) {
-		go_color_from_str (str, &bar->style->line.color);
-		xmlFree (str);
-	}
-
-	return TRUE;
-}
-
 static void
 gog_error_bar_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 {
@@ -472,7 +427,6 @@ gog_error_bar_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **at
 static void
 gog_error_bar_persist_init (GOPersistClass *iface)
 {
-	iface->dom_load = gog_error_bar_persist_dom_load;
 	iface->prep_sax = gog_error_bar_persist_prep_sax;
 	iface->sax_save = gog_error_bar_persist_sax_save;
 }

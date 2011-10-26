@@ -223,30 +223,22 @@ go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
 }
 
 /**
- * go_styled_object_set_cairo_fill :
+ * go_styled_object_fill :
  * @so: #GOStyledObject
  * @cr: #cairo_t
+ * @preserve: whether the current path should be preserved
  *
- * Prepares the cairo context @cr to fill a shape according to the
+ * fills the current path according to the
  * item style and canvas scale.
  *
- * Returns: %TRUE if the filling is not invisible.
  **/
-gboolean
-go_styled_object_set_cairo_fill (GOStyledObject const *so, cairo_t *cr)
+void
+go_styled_object_fill (GOStyledObject const *so, cairo_t *cr, gboolean preserve)
 {
 	GOStyle const *style;
-	cairo_pattern_t *pat = NULL;
 
-	g_return_val_if_fail (GO_IS_STYLED_OBJECT (so), FALSE);
+	g_return_if_fail (GO_IS_STYLED_OBJECT (so));
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (so));
-	if (style->fill.type == GO_STYLE_FILL_NONE)
-		return FALSE;
-	pat = go_style_create_cairo_pattern (style, cr);
-	if (pat) {
-		cairo_set_source (cr, pat);
-		cairo_pattern_destroy (pat);
-	}
-	return TRUE;
+	go_style_fill (style, cr, preserve);
 }
 

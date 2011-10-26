@@ -20,6 +20,7 @@
 #ifndef GO_PIXBUF_H
 #define GO_PIXBUF_H
 
+#include <goffice/goffice.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
@@ -30,6 +31,15 @@ GdkPixbuf 	*go_gdk_pixbuf_new_from_file	(char const *filename);
 GdkPixbuf 	*go_gdk_pixbuf_get_from_cache 	(char const *filename);
 GdkPixbuf	*go_gdk_pixbuf_tile		(GdkPixbuf const *src,
 						 guint w, guint h);
+
+#define GO_TYPE_PIXBUF	(go_pixbuf_get_type ())
+#define GO_PIXBUF(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_PIXBUF, GOPixbuf))
+#define GO_IS_PIXBUF(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_PIXBUF))
+
+GType go_pixbuf_get_type (void);
+
+GOPixbuf	*go_pixbuf_new_from_pixbuf      (GdkPixbuf *pixbuf);
+int 		 go_pixbuf_get_rowstride 	(GOPixbuf *pixbuf);
 
 G_END_DECLS
 

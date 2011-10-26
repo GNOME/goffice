@@ -142,7 +142,7 @@ go_style_set_image_preview (GOImage *pix, StylePrefState *state)
 
 	w = go_gtk_builder_get_widget (state->gui, "fill_image_sample");
 
-	scaled = go_gdk_pixbuf_intelligent_scale (go_image_get_pixbuf (pix), HSCALE, VSCALE);
+	scaled = go_image_get_scaled_pixbuf (pix, HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
 
@@ -1273,20 +1273,6 @@ static struct {
 };
 
 static gboolean
-bool_prop (xmlNode *node, char const *name, gboolean *res)
-{
-	char *str = xmlGetProp (node, name);
-	if (str != NULL) {
-		*res = g_ascii_tolower (*str) == 't' ||
-			g_ascii_tolower (*str) == 'y' ||
-			strtol (str, NULL, 0);
-		xmlFree (str);
-		return TRUE;
-	}
-	return FALSE;
-}
-
-static gboolean
 bool_sax_prop (char const *name, char const *id, char const *val, gboolean *res)
 {
 	if (0 == strcmp (name, id)) {
@@ -1337,39 +1323,6 @@ image_tiling_as_str (GOImageType fstyle)
 		if (image_tiling_names[i].fstyle == fstyle)
 			return image_tiling_names[i].name;
 	return "stretched";
-}
-
-static void
-go_style_line_load (xmlNode *node, GOStyleLine *line)
-{
-	char *str;
-	gboolean tmp;
-
-	str = xmlGetProp (node, "dash");
-	if (str != NULL) {
-		line->dash_type = go_line_dash_from_str (str);
-		xmlFree (str);
-	}
-	if (bool_prop (node, "auto-dash", &tmp))
-		line->auto_dash = tmp;
-	str = xmlGetProp (node, "width");
-	if (str != NULL) {
-		line->width = g_strtod (str, NULL);
-		/* For compatibility with older graphs, when dash_type
-		 * didn't exist */
-		if (line->width < 0.) {
-			line->width = 0.;
-			line->dash_type = GO_LINE_NONE;
-		}
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, "color");
-	if (str != NULL) {
-		go_color_from_str (str, &line->color);
-		xmlFree (str);
-	}
-	if (bool_prop (node, "auto-color", &tmp))
-		line->auto_color = tmp;
 }
 
 static void
@@ -1445,6 +1398,7 @@ go_style_fill_sax_save (GsfXMLOut *output, GOStyle const *style)
 		gsf_xml_out_add_cstr_unchecked (output, "type",
 			image_tiling_as_str (style->fill.image.type));
 		gsf_xml_out_add_cstr (output, "name", go_image_get_name (style->fill.image.image));
+		gsf_xml_out_add_cstr (output, "type-name", G_OBJECT_TYPE_NAME (style->fill.image.image));
 		go_doc_save_image ((GODoc *) g_object_get_data (G_OBJECT (gsf_xml_out_get_output (output)), "document"), go_image_get_name (style->fill.image.image));
 		gsf_xml_out_end_element (output);
 		break;
@@ -1452,153 +1406,6 @@ go_style_fill_sax_save (GsfXMLOut *output, GOStyle const *style)
 		break;
 	}
 	gsf_xml_out_end_element (output);
-}
-
-static void
-go_style_gradient_load (xmlNode *node, GOStyle *style)
-{
-	char    *str = xmlGetProp (node, "direction");
-	if (str != NULL) {
-		style->fill.gradient.dir
-			= go_gradient_dir_from_str (str);
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, "start-color");
-	if (str != NULL) {
-		go_color_from_str (str, &style->fill.pattern.back);
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, "brightness");
-	if (str != NULL) {
-		go_style_set_fill_brightness (style, g_strtod (str, NULL));
-		xmlFree (str);
-	} else {
-		str = xmlGetProp (node, "end-color");
-		if (str != NULL) {
-			go_color_from_str (str, &style->fill.pattern.fore);
-			xmlFree (str);
-		}
-	}
-}
-
-static void
-go_style_image_load (xmlNode *node, GOStyle *style)
-{
-	char *str = xmlGetProp (node, "type");
-	if (str != NULL) {
-		style->fill.image.type = str_as_image_tiling (str);
-		xmlFree (str);
-	}
-	/* TODO: load the pixels */
-}
-
-static void
-go_style_fill_load (xmlNode *node, GOStyle *style)
-{
-	xmlNode *ptr;
-	gboolean tmp;
-	char    *str = xmlGetProp (node, "type");
-
-	if (str == NULL)
-		return;
-	style->fill.type = str_as_fill_style (str);
-	xmlFree (str);
-
-	style->fill.auto_type = FALSE;
-
-	if (bool_prop (node, "auto-type", &tmp))
-		style->fill.auto_type = tmp;
-	if (bool_prop (node, "is-auto", &tmp))
-		style->fill.auto_back = tmp;
-	if (bool_prop (node, "auto-fore", &tmp))
-		style->fill.auto_fore = tmp;
-
-	switch (style->fill.type) {
-	case GO_STYLE_FILL_PATTERN:
-		for (ptr = node->xmlChildrenNode ;
-		     ptr != NULL ; ptr = ptr->next) {
-			if (xmlIsBlankNode (ptr) || ptr->name == NULL)
-				continue;
-			if (strcmp (ptr->name, "pattern") == 0) {
-				str = xmlGetProp (ptr, "type");
-				if (str != NULL) {
-					style->fill.pattern.pattern
-						= go_pattern_from_str (str);
-					xmlFree (str);
-				}
-				str = xmlGetProp (ptr, "fore");
-				if (str != NULL) {
-					go_color_from_str (str, &style->fill.pattern.fore);
-					xmlFree (str);
-				}
-				str = xmlGetProp (ptr, "back");
-				if (str != NULL) {
-					go_color_from_str (str, &style->fill.pattern.back);
-					xmlFree (str);
-				}
-			}
-		}
-		break;
-	case GO_STYLE_FILL_GRADIENT:
-		for (ptr = node->xmlChildrenNode ;
-		     ptr != NULL ; ptr = ptr->next) {
-			if (xmlIsBlankNode (ptr) || ptr->name == NULL)
-				continue;
-			if (strcmp (ptr->name, "gradient") == 0)
-				go_style_gradient_load (ptr, style);
-		}
-		break;
-	case GO_STYLE_FILL_IMAGE:
-		for (ptr = node->xmlChildrenNode ;
-		     ptr != NULL ; ptr = ptr->next) {
-			if (xmlIsBlankNode (ptr) || ptr->name == NULL)
-				continue;
-			if (strcmp (ptr->name, "image") == 0) {
-				go_style_image_load (ptr, style);
-			}
-		}
-		break;
-	default:
-		break;
-	}
-}
-
-static void
-go_style_marker_load (xmlNode *node, GOStyle *style)
-{
-	char *str;
-	GOColor c;
-	GOMarker *marker = go_marker_dup (style->marker.mark);
-
-	str = xmlGetProp (node, "shape");
-	if (str != NULL) {
-		style->marker.auto_shape = TRUE;
-		bool_prop (node, "auto-shape", &style->marker.auto_shape);
-		go_marker_set_shape (marker, go_marker_shape_from_str (str));
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, "outline-color");
-	if (str != NULL) {
-		style->marker.auto_outline_color = TRUE;
-		bool_prop (node, "auto-outline", &style->marker.auto_outline_color);
-		if (go_color_from_str (str, &c))
-			go_marker_set_outline_color (marker, c);
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, "fill-color");
-	if (str != NULL) {
-		style->marker.auto_fill_color = TRUE;
-		bool_prop (node, "auto-fill", &style->marker.auto_fill_color);
-		if (go_color_from_str (str, &c))
-			go_marker_set_fill_color (marker, c);
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, "size");
-	if (str != NULL) {
-		go_marker_set_size (marker, g_strtod (str, NULL));
-		xmlFree (str);
-	}
-	go_style_set_marker (style, marker);
 }
 
 static void
@@ -1621,30 +1428,6 @@ go_style_marker_sax_save (GsfXMLOut *output, GOStyle const *style)
 }
 
 static void
-go_style_font_load (xmlNode *node, GOStyle *style)
-{
-	char *str;
-	gboolean tmp;
-
-	str = xmlGetProp (node, "color");
-	if (str != NULL) {
-		go_color_from_str (str, &style->font.color);
-		xmlFree (str);
-	}
-	str = xmlGetProp (node, "font");
-	if (str != NULL) {
-		PangoFontDescription *desc;
-
-		desc = pango_font_description_from_string (str);
-		if (desc != NULL)
-			go_style_set_font_desc (style, desc);
-		xmlFree (str);
-	}
-	if (bool_prop (node, "auto-scale", &tmp))
-		style->font.auto_scale = tmp;
-}
-
-static void
 go_style_font_sax_save (GsfXMLOut *output, GOStyle const *style)
 {
 	char *str;
@@ -1658,50 +1441,12 @@ go_style_font_sax_save (GsfXMLOut *output, GOStyle const *style)
 }
 
 static void
-go_style_text_layout_load (xmlNode *node, GOStyle *style)
-{
-	char *str;
-
-	str = xmlGetProp (node, "angle");
-	if (str != NULL) {
-		go_style_set_text_angle (style, g_strtod (str, NULL));
-		xmlFree (str);
-	}
-}
-
-static void
 go_style_text_layout_sax_save (GsfXMLOut *output, GOStyle const *style)
 {
 	gsf_xml_out_start_element (output, "text_layout");
 	if (!style->text_layout.auto_angle)
 		gsf_xml_out_add_float (output, "angle", style->text_layout.angle, 6);
 	gsf_xml_out_end_element (output);
-}
-
-static gboolean
-go_style_persist_dom_load (GOPersist *gp, xmlNode *node)
-{
-	GOStyle *style = GO_STYLE (gp);
-	xmlNode *ptr;
-
-	/* while reloading no need to reapply settings */
-	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
-		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
-			continue;
-		if (strcmp (ptr->name, "outline") == 0)
-			go_style_line_load (ptr, &style->line);
-		else if (strcmp (ptr->name, "line") == 0)
-			go_style_line_load (ptr, &style->line);
-		else if (strcmp (ptr->name, "fill") == 0)
-			go_style_fill_load (ptr, style);
-		else if (strcmp (ptr->name, "marker") == 0)
-			go_style_marker_load (ptr, style);
-		else if (strcmp (ptr->name, "font") == 0)
-			go_style_font_load (ptr, style);
-		else if (strcmp (ptr->name, "text_layout") == 0)
-			go_style_text_layout_load (ptr, style);
-	}
-	return TRUE;
 }
 
 static void
@@ -1764,14 +1509,21 @@ go_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GOStyle *style = GO_STYLE (xin->user_state);
 	GODoc *doc = (GODoc *) g_object_get_data (G_OBJECT (gsf_xml_in_get_input (xin)), "document");
+	xmlChar const *name = NULL, *type_name = NULL;
+	GType type;
 	g_return_if_fail (style->fill.type == GO_STYLE_FILL_NONE);
 	g_return_if_fail (GO_IS_DOC (doc));
 	/* TODO: load the pixels */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "type")) {
+		if (0 == strcmp (attrs[0], "type"))
 			style->fill.image.type = str_as_image_tiling (attrs[1]);
-		} else if (0 == strcmp (attrs[0], "name"))
-			style->fill.image.image = g_object_ref (go_doc_image_fetch (doc, attrs[1]));
+		else if (0 == strcmp (attrs[0], "name"))
+			name = attrs[1];
+		else if (0 == strcmp (attrs[0], "type-name"))
+			type_name = attrs[1];
+	type = type_name? g_type_from_name (type_name): GO_TYPE_PIXBUF;
+	if (name && type_name)
+		style->fill.image.image = g_object_ref (go_doc_image_fetch (doc, name, type));
 	if (style->fill.image.image != NULL)
 		style->fill.type = GO_STYLE_FILL_IMAGE;
 }
@@ -1925,7 +1677,6 @@ go_style_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 static void
 go_style_persist_init (GOPersistClass *iface)
 {
-	iface->dom_load = go_style_persist_dom_load;
 	iface->prep_sax = go_style_persist_prep_sax;
 	iface->sax_save = go_style_persist_sax_save;
 }
@@ -2109,22 +1860,10 @@ go_style_set_text_angle (GOStyle *style, double angle)
 	style->text_layout.auto_angle = FALSE;
 }
 
-/**
- * go_style_create_cairo_pattern:
- * @style : #GOStyle
- * @cr: a cairo context
- *
- * Create a cairo_patern_t using the current style settings for filling.
- * A pattern will be created only if the style has the corresponding field
- * and if it is not set to a none constant.
- *
- * Returns: the pattern or NULL if it could not be created.
- **/
-cairo_pattern_t *
-go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr)
+void
+go_style_fill (GOStyle const *style, cairo_t *cr, gboolean preserve)
 {
-	cairo_pattern_t *cr_pattern;
-	cairo_matrix_t cr_matrix;
+	cairo_pattern_t *cr_pattern = NULL;
 	double x[3], y[3];
 	int w, h;
 
@@ -2147,19 +1886,19 @@ go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr)
 		{2, 2, 0, 1}
 	};
 
-	g_return_val_if_fail (GO_IS_STYLE (style), NULL);
-
-	if (style->fill.type == GO_STYLE_FILL_NONE)
-		return NULL;
-
 	cairo_fill_extents (cr, &x[0], &y[0], &x[1], &y[1]);
-	if (go_sub_epsilon (fabs (x[0] - x[1])) <=0.0 ||
-	    go_sub_epsilon (fabs (y[0] - y[1])) <=0.0)
-		return NULL;
+	if (!GO_IS_STYLE (style) ||
+	    go_sub_epsilon (fabs (x[0] - x[1])) <=0.0 ||
+	    go_sub_epsilon (fabs (y[0] - y[1])) <=0.0) {
+		if (!preserve)
+			cairo_new_path (cr);
+		return;
+	    }
 
 	switch (style->fill.type) {
 		case GO_STYLE_FILL_PATTERN:
-			return go_pattern_create_cairo_pattern (&style->fill.pattern, cr);
+			cr_pattern = go_pattern_create_cairo_pattern (&style->fill.pattern, cr);
+			break;
 
 		case GO_STYLE_FILL_GRADIENT:
 			x[2] = (x[1] - x[0]) / 2.0 + x[0];
@@ -2174,48 +1913,71 @@ go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr)
 				GO_COLOR_TO_CAIRO (style->fill.pattern.back));
 			cairo_pattern_add_color_stop_rgba (cr_pattern, 1,
 				GO_COLOR_TO_CAIRO (style->fill.pattern.fore));
-			return cr_pattern;
+			break;
 
 		case GO_STYLE_FILL_IMAGE:
-			if (style->fill.image.image == NULL)
-				return cairo_pattern_create_rgba (1, 1, 1, 1);
-
-			cr_pattern = go_image_create_cairo_pattern (style->fill.image.image);
-			if (cr_pattern == NULL) {
-				/* don't reference anymore an invalid image */
-				((GOStyle *) style)->fill.image.image = NULL;
-				return cairo_pattern_create_rgba (1, 1, 1, 1);
+			if (!GO_IS_IMAGE (style->fill.image.image))
+				cr_pattern = cairo_pattern_create_rgba (1, 1, 1, 1);
+			else {
+				cairo_save (cr);
+				if (preserve)
+					cairo_clip_preserve (cr);
+				else
+					cairo_clip (cr);
+				g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
+				switch (style->fill.image.type) {
+					case GO_IMAGE_CENTERED:
+						cairo_translate (cr,
+						                 (x[1] - x[0] - w) / 2 + x[0],
+						                 (y[1] - y[0] - h) / 2 + y[0]);
+						go_image_draw (style->fill.image.image, cr);
+						break;
+					case GO_IMAGE_STRETCHED:
+						cairo_translate (cr, x[0], y[0]);
+						cairo_scale (cr, (x[1] - x[0]) / w, (y[1] - y[0]) / h);
+						go_image_draw (style->fill.image.image, cr);
+						break;
+					case GO_IMAGE_CENTERED_WALLPAPER: {
+						int n = go_fake_floor ((x[1] - x[0]) / w);
+						x[0] -= w - (x[1] - x[0] - n * w) / 2.;
+						n = go_fake_floor ((y[1] - y[0]) / h);
+						y[0] -= h - (y[1] - y[0] - n * h) / 2.;
+					}
+					case GO_IMAGE_WALLPAPER: {
+						double cx = x[0], cy;
+						while (cx < x[1]) {
+							cy = y[0];
+							while (cy < y[1]) {
+								cairo_save (cr);
+								cairo_translate (cr, cx, cy);
+								go_image_draw (style->fill.image.image, cr);
+								cairo_restore (cr);
+								cy += h;
+							}
+							cx += w;
+						}
+						break;
+					}
+				}
+				cairo_restore (cr);
+				return;
 			}
-			g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
-			switch (style->fill.image.type) {
-				case GO_IMAGE_CENTERED:
-					cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_NONE);
-					cairo_matrix_init_translate (&cr_matrix,
-								     -(x[1] - x[0] - w) / 2 - x[0],
-								     -(y[1] - y[0] - h) / 2 - y[0]);
-					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
-					break;
-				case GO_IMAGE_STRETCHED:
-					cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_NONE);
-					cairo_matrix_init_scale (&cr_matrix,
-								 w / (x[1] - x[0]),
-								 h / (y[1] - y[0]));
-					cairo_matrix_translate (&cr_matrix, -x[0], -y[0]);
-					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
-					break;
-				case GO_IMAGE_WALLPAPER:
-					cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
-					cairo_matrix_init_translate (&cr_matrix, -x[0], -y[0]);
-					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
-					break;
-			}
-			return cr_pattern;
 
 		case GO_STYLE_FILL_NONE:
-			return NULL;
+			if (!preserve)
+				cairo_new_path (cr);
+			break;
 	}
 
-	return NULL;
+	if (cr_pattern) {
+		cairo_set_source (cr, cr_pattern);
+		cairo_pattern_destroy (cr_pattern);
+
+		if (preserve)
+			cairo_fill_preserve (cr);
+		else
+			cairo_fill (cr);
+	}
 }
 
 gboolean

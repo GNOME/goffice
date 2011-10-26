@@ -220,7 +220,7 @@ goc_polygon_update_bounds (GocItem *item)
 	cr = cairo_create (surface);
 	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
 		mode = 1;
-	else if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
+	else if (go_style_is_fill_visible (go_styled_object_get_style (GO_STYLED_OBJECT (item))))
 		mode = 2;
 	if (mode && goc_polygon_prepare_path (item, cr, 0)) {
 		if (mode == 1)
@@ -258,8 +258,7 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 	goc_polygon_prepare_path (item, cr, 0);
-	if (style->fill.type != GO_STYLE_FILL_NONE) {
-		go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr);
+	if (go_style_is_fill_visible (style)) {
 		if (cairo_in_fill (cr, x, y))
 			res = 0;
 		else if ((item->x1 - item->x0 < 5 || item->y1 - item->y0 < 5) && style->line.dash_type == GO_LINE_NONE) {
@@ -285,8 +284,7 @@ goc_polygon_draw (GocItem const *item, cairo_t *cr)
 {
 	cairo_save (cr);
 	if (goc_polygon_prepare_path (item, cr, 1)) {
-		if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
-			cairo_fill_preserve (cr);
+		go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);
 
 		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
 			cairo_stroke (cr);

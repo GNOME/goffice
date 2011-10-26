@@ -68,28 +68,48 @@ GSList 			*go_image_get_formats_with_pixbuf_saver (void);
 
 GType go_image_get_type (void);
 
-cairo_t 	*go_image_get_cairo 		(GOImage *image);
-cairo_pattern_t *go_image_create_cairo_pattern 	(GOImage *image);
+struct _GOImage {
+	GObject parent;
+	guint8 *data;
+	double width, height;
+	GdkPixbuf *thumbnail;
+	char *name;
+};
 
-#ifdef GOFFICE_WITH_GTK
+typedef struct {
+	GObjectClass parent_klass;
+
+	GdkPixbuf *(*get_pixbuf) (GOImage *image);
+	GdkPixbuf *(*get_scaled_pixbuf) (GOImage *image, int width, int height);
+	gboolean (*same_content) (GOImage *img1, GOImage *img2);
+	void (*save) (GOImage *image, GsfXMLOut *output);
+	void (*load_attr) (GOImage *image, xmlChar const *attr_name, xmlChar const *attr_value);
+	void (*load_data) (GOImage *image, GsfXMLIn *xin);
+	void (*draw) (GOImage *image, cairo_t *cr);
+	gboolean (*differ) (GOImage *first, GOImage *second);
+} GOImageClass;
+
 GOImage 	*go_image_new_from_pixbuf 	(GdkPixbuf *pixbuf);
-GdkPixbuf 	*go_image_get_pixbuf 		(GOImage *image);
-GdkPixbuf 	*go_image_get_thumbnail		(GOImage *image);
-#endif
+GdkPixbuf const *go_image_get_thumbnail		(GOImage *image);
+GdkPixbuf       *go_image_get_pixbuf		(GOImage *image);
+GdkPixbuf       *go_image_get_scaled_pixbuf	(GOImage *image, int width, int height);
+void		 go_image_draw			(GOImage *image, cairo_t *cr);
 
 GOImage 	*go_image_new_from_file 	(const char *filename, GError **error);
 guint8 		*go_image_get_pixels 		(GOImage *image);
-int 		 go_image_get_rowstride 	(GOImage *image);
 void 		 go_image_fill 			(GOImage *image, GOColor color);
 
 void		 go_image_set_name		(GOImage *image, char const *name);
 char const	*go_image_get_name 		(GOImage *image);
 
-gboolean	 go_image_same_pixbuf		(GOImage *first, GOImage *second);
+gboolean	 go_image_differ		(GOImage *first, GOImage *second);
 
 void		 go_image_save			(GOImage *image, GsfXMLOut *output);
 void		 go_image_load_attrs		(GOImage *image, GsfXMLIn *xin, xmlChar const **attrs);
 void		 go_image_load_data		(GOImage *image, GsfXMLIn *xin);
+
+/* Protected */
+void		 _go_image_changed		(GOImage *image, double width, double height);
 
 G_END_DECLS
 

@@ -71,7 +71,7 @@ void		 go_doc_save_image	(GODoc *doc, char const *id);
 void		 go_doc_init_read	(GODoc *doc, GsfInput *input);
 void		 go_doc_read		(GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs);
 void		 go_doc_end_read	(GODoc *doc);
-GOImage		*go_doc_image_fetch 	(GODoc *doc, char const *id);
+GOImage		*go_doc_image_fetch 	(GODoc *doc, char const *id, GType type);
 
 G_END_DECLS
 

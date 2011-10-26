@@ -215,7 +215,7 @@ goc_rectangle_update_bounds (GocItem *item)
 	if (goc_rectangle_prepare_draw (item, cr, 0)) {
 		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
 			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
-		else if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
+		else if (go_style_is_fill_visible (go_styled_object_get_style (GO_STYLED_OBJECT (item))))
 			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 		else {
 			item->x0 = item->y0 = G_MAXDOUBLE;
@@ -273,8 +273,7 @@ goc_rectangle_draw (GocItem const *item, cairo_t *cr)
 {
 	cairo_save(cr);
 	if (goc_rectangle_prepare_draw (item, cr, 1)) {
-		if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
-			cairo_fill_preserve (cr);
+		go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);
 		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
 			cairo_stroke (cr);
 		} else {

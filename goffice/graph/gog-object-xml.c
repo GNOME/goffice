@@ -39,8 +39,8 @@
 #define GOG_BACKPLANE_OLD_ROLE_NAME	"Grid"
 #define GOG_BACKPLANE_NEW_ROLE_NAME	"Backplane"
 
-static void
-gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlNode *xml_node)
+void
+gog_object_set_arg (char const *name, char const *val, GogObject *obj)
 {
 	GParamSpec *pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (obj), name);
 	GType prop_type;
@@ -60,32 +60,7 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 			   g_type_name (prop_type), pspec->name);
 		return;
 	}
-
-	if (G_TYPE_FUNDAMENTAL (prop_type) == G_TYPE_OBJECT) {
-		g_value_init (&res, prop_type);
-		if (g_type_is_a (prop_type, G_TYPE_OBJECT)) {
-			xmlChar *type_name;
-			GType    type = 0;
-			GObject *val_obj;
-
-			success = FALSE;
-			type_name = xmlGetProp (xml_node,
-						(xmlChar const *) "type");
-			if (type_name != NULL) {
-				type = g_type_from_name (type_name);
-			}
-			xmlFree (type_name);
-			if (type != 0) {
-				val_obj = g_object_new (type, NULL);
-				if (GO_IS_PERSIST (val_obj) &&
-				    go_persist_dom_load (GO_PERSIST (val_obj), xml_node)) {
-					g_value_set_object (&res, val_obj);
-					success = TRUE;
-				}
-				g_object_unref (val_obj);
-			}
-		}
-	} else if (!gsf_xml_gvalue_from_str (&res, prop_type, val))
+	if (!gsf_xml_gvalue_from_str (&res, prop_type, val))
 		success = FALSE;
 
 	if (!success) {
@@ -94,12 +69,6 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 	} else
 		g_object_set_property (G_OBJECT (obj), name, &res);
 	g_value_unset (&res);
-}
-
-void
-gog_object_set_arg (char const *name, char const *val, GogObject *obj)
-{
-	gog_object_set_arg_full (name, val, obj, NULL);
 }
 
 static void

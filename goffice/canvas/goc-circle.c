@@ -117,8 +117,7 @@ goc_circle_draw (GocItem const *item, cairo_t *cr)
 	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
 	cairo_restore (cr);
 	/* Fill the shape */
-	if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
-		cairo_fill_preserve (cr);
+	go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);
 	/* Draw the line */
 	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))
 		cairo_stroke (cr);
