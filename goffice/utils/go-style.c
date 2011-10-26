@@ -1524,7 +1524,6 @@ go_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 	type = type_name? g_type_from_name (type_name): GO_TYPE_PIXBUF;
 	if (name && type)
 		style->fill.image.image = g_object_ref (go_doc_image_fetch (doc, name, type));
-printf("image=%p\n",style->fill.image.image);
 	if (style->fill.image.image != NULL)
 		style->fill.type = GO_STYLE_FILL_IMAGE;
 }
