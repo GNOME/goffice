@@ -14,6 +14,7 @@ libgoffice_utils_la_SOURCES =	\
 	go-image.c		\
 	go-pixbuf.c		\
 	go-svg.c		\
+	go-emf.c		\
 	go-line.c		\
 	go-locale.c		\
 	go-marker.c		\
@@ -48,6 +49,7 @@ libgoffice_utils_la_HEADERS = 	\
 	go-image.h		\
 	go-pixbuf.h		\
 	go-svg.h		\
+	go-emf.h		\
 	go-line.h		\
 	go-locale.h		\
 	go-marker.h		\

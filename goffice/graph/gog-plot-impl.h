@@ -77,6 +77,7 @@ typedef struct {
 
 	void       (*update_3d)		(GogPlot *plot);
 	void	   (*guru_helper)	(GogPlot *plot, char const *hint);
+	double	   (*get_percent)       (GogPlot *plot, unsigned series, unsigned index);
 } GogPlotClass;
 
 #define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_PLOT, GogPlotClass))

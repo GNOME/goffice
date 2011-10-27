@@ -166,11 +166,40 @@ go_svg_new_from_file (char const *filename, GError **error)
 	data = g_malloc (svg->data_length);
 	if (!data || !gsf_input_read (input, svg->data_length, data)) {
 		g_object_unref (svg);
+		g_free (data);
 		return NULL;
 	}
 	image = GO_IMAGE (svg);
 	image->data = data;
 	svg->handle = rsvg_handle_new_from_data (data, svg->data_length, error);
+	if (svg->handle == NULL) {
+		g_object_unref (svg);
+		return NULL;
+	}
+	rsvg_handle_get_dimensions (svg->handle, &dim);
+	image->width = dim.width;
+	image->height = dim.height;
+	return svg;
+}
+
+GOSvg *
+go_svg_new_from_data (char const *data, size_t length, GError **error)
+{
+	GOSvg *svg;
+	GOImage *image;
+	RsvgDimensionData dim;
+
+	g_return_val_if_fail (data != NULL && length != 0, NULL);
+	svg = g_object_new (GO_TYPE_SVG, NULL);
+	svg->data_length = length;
+	image = GO_IMAGE (svg);
+	image->data = g_malloc (length);
+	if (image->data == NULL) {
+		g_object_unref (svg);
+		return NULL;
+	}
+	memcpy (image->data, data, length);
+	svg->handle = rsvg_handle_new_from_data (image->data, svg->data_length, error);
 	if (svg->handle == NULL) {
 		g_object_unref (svg);
 		return NULL;

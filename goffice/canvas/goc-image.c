@@ -39,7 +39,11 @@ enum {
 	IMAGE_PROP_W,
 	IMAGE_PROP_H,
 	IMAGE_PROP_ROTATION,
-	IMAGE_PROP_IMAGE
+	IMAGE_PROP_IMAGE,
+	IMAGE_PROP_CROP_BOTTOM,
+	IMAGE_PROP_CROP_LEFT,
+	IMAGE_PROP_CROP_RIGHT,
+	IMAGE_PROP_CROP_TOP
 };
 
 static GocItemClass *parent_class;
@@ -75,6 +79,19 @@ goc_image_set_property (GObject *gobject, guint param_id,
 		if (image->image)
 			g_object_unref (image);
 		image->image = GO_IMAGE (g_object_ref (g_value_get_object (value)));
+		break;
+
+	case IMAGE_PROP_CROP_BOTTOM:
+		image->crop_bottom = g_value_get_double (value);
+		break;
+	case IMAGE_PROP_CROP_LEFT:
+		image->crop_left = g_value_get_double (value);
+		break;
+	case IMAGE_PROP_CROP_RIGHT:
+		image->crop_right = g_value_get_double (value);
+		break;
+	case IMAGE_PROP_CROP_TOP:
+		image->crop_top = g_value_get_double (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -116,6 +133,22 @@ goc_image_get_property (GObject *gobject, guint param_id,
 			g_value_set_object (value, G_OBJECT (image->image));
 		break;
 
+	case IMAGE_PROP_CROP_BOTTOM:
+		g_value_set_double (value, image->crop_bottom);
+		break;
+
+	case IMAGE_PROP_CROP_LEFT:
+		g_value_set_double (value, image->crop_left);
+		break;
+
+	case IMAGE_PROP_CROP_RIGHT:
+		g_value_set_double (value, image->crop_right);
+		break;
+
+	case IMAGE_PROP_CROP_TOP:
+		g_value_set_double (value, image->crop_top);
+		break;
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
@@ -135,13 +168,21 @@ static void
 goc_image_update_bounds (GocItem *item)
 {
 	GocImage *image = GOC_IMAGE (item);
+	double w, h;
 	if (!image->image)
 		return;
 	/* FIXME: take rotation into account */
+	w = go_image_get_width (image->image) - image->crop_left - image->crop_right;
+	h = go_image_get_height (image->image) - image->crop_top - image->crop_bottom;
+	if (w <= 0 || h <= 0) {
+		/* nothing visible, put it at origin */
+		item->x0 = item->x1 = image->x;
+		item->y0 = item->y1 = image->y;
+	}
 	item->x0 = floor (image->x);
 	item->y0 = floor (image->y);
-	item->x1 = ceil (image->x + ((image->width > 0.)? image->width: go_image_get_width (image->image)));
-	item->y1 = ceil (image->y + ((image->height > 0.)? image->height: go_image_get_height (image->image)));
+	item->x1 = ceil (image->x + ((image->width > 0.)? image->width: w));
+	item->y1 = ceil (image->y + ((image->height > 0.)? image->height: h));
 }
 
 static double
@@ -149,24 +190,22 @@ goc_image_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocImage *image = GOC_IMAGE (item);
 	/* FIXME: take rotation into account */
-	double dx, dy, w, h;
+	double dx, dy;
 	if (image->image == NULL)
 		return G_MAXDOUBLE;
-	w = (image->width >= 0.)? image->width: go_image_get_width (image->image);
-	h = (image->height >= 0.)? image->height: go_image_get_height (image->image);
-	if (x < image->x) {
-		dx = image->x - x;
-	} else if (x < image->x + w) {
+	if (x < item->x0) {
+		dx = item->x0 - x;
+	} else if (x < item->x1) {
 		dx = 0;
 	} else {
-		dx = x - image->x - w;
+		dx = x - item->x1;
 	}
-	if (y < image->y) {
-		dy = image->y - y;
-	} else if (y < image->y + h) {
+	if (y < item->y0) {
+		dy = item->y0 - y;
+	} else if (y < item->y1) {
 		dy = 0;
 	} else {
-		dy = y - image->y - h;
+		dy = y - item->y1;
 	}
 	*near_item = item;
 	return hypot (dx, dy);
@@ -202,6 +241,11 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 	cairo_rotate (cr, image->rotation);
 	if (scalex != 1. || scaley != 1.)
 		cairo_scale (cr, scalex, scaley);
+	cairo_translate (cr, -image->crop_left, -image->crop_top);
+	cairo_rectangle (cr, 0, 0,
+	                 go_image_get_width (image->image) - image->crop_left -  image->crop_right,
+	                 go_image_get_height (image->image) - image->crop_top -  image->crop_bottom);
+	cairo_clip (cr);
 	cairo_move_to (cr, 0, 0);
 	go_image_draw (image->image, cr);
 	cairo_restore (cr);
@@ -250,6 +294,26 @@ goc_image_class_init (GocItemClass *item_klass)
 	        g_param_spec_object ("image", _("Image"),
 	                _("The GOImage to display"),
 	                GO_TYPE_IMAGE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, IMAGE_PROP_CROP_BOTTOM,
+	        g_param_spec_double ("crop-bottom", _("Cropped bottom"),
+	                _("The cropped area at the image bottom"),
+	                0., G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, IMAGE_PROP_CROP_LEFT,
+	        g_param_spec_double ("crop-left", _("Cropped left"),
+	                _("The cropped area at the image left"),
+	                0., G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, IMAGE_PROP_CROP_RIGHT,
+	        g_param_spec_double ("crop-right", _("Cropped right"),
+	                _("The cropped area at the image right"),
+	                0., G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, IMAGE_PROP_CROP_TOP,
+	        g_param_spec_double ("crop-top", _("Cropped top"),
+	                _("The cropped area at the image top"),
+	                0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	item_klass->update_bounds = goc_image_update_bounds;

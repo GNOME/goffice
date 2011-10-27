@@ -37,6 +37,7 @@ typedef struct _GODateConventions	GODateConventions;
 typedef struct _GOImage			GOImage;
 typedef struct _GOPixbuf		GOPixbuf;
 typedef struct _GOSvg			GOSvg;
+typedef struct _GOEmf			GOEmf;
 typedef struct _GOPath GOPath;
 typedef struct _GOString GOString;
 typedef struct _GOStyle			GOStyle;
@@ -117,6 +118,7 @@ G_END_DECLS
 #include <goffice/utils/go-image.h>
 #include <goffice/utils/go-pixbuf.h>
 #include <goffice/utils/go-svg.h>
+#include <goffice/utils/go-emf.h>
 #include <goffice/utils/go-libxml-extras.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-locale.h>

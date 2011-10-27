@@ -362,10 +362,9 @@ go_image_class_init (GObjectClass *klass)
 							    0, G_MAXUINT16, 0, G_PARAM_READWRITE));
 }
 
-GSF_CLASS_FULL (GOImage, go_image,
-		NULL, NULL,
-		go_image_class_init, NULL, NULL,
-		G_TYPE_OBJECT, G_TYPE_FLAG_ABSTRACT, {})
+GSF_CLASS_ABSTRACT (GOImage, go_image,
+		go_image_class_init, NULL,
+		G_TYPE_OBJECT)
 
 void
 go_image_draw (GOImage *image, cairo_t *cr)
@@ -405,7 +404,7 @@ go_image_get_scaled_pixbuf (GOImage *image, int width, int height)
 }
 
 GOImage *
-go_image_new_from_file (const char *filename, GError **error)
+go_image_new_from_file (char const *filename, GError **error)
 {
 	char *mime, *name;
 	GOImageFormat format;
@@ -427,12 +426,12 @@ go_image_new_from_file (const char *filename, GError **error)
 	switch (format) {
 	case GO_IMAGE_FORMAT_SVG:
 		return GO_IMAGE (go_svg_new_from_file (filename, error));
-	case GO_IMAGE_FORMAT_PDF:
-	case GO_IMAGE_FORMAT_PS:
 	case GO_IMAGE_FORMAT_EMF:
 	case GO_IMAGE_FORMAT_WMF:
+		return GO_IMAGE (go_emf_new_from_file (filename, error));
+	case GO_IMAGE_FORMAT_PDF:
+	case GO_IMAGE_FORMAT_PS:
 	case GO_IMAGE_FORMAT_EPS:
-		break;
 	case GO_IMAGE_FORMAT_UNKNOWN:
 		break;
 	default: {
@@ -445,6 +444,29 @@ go_image_new_from_file (const char *filename, GError **error)
 	}
 	}
 	return NULL;
+}
+
+GOImage	*
+go_image_new_from_data (char const *type, guint8 const *data, gsize length, GError **error)
+{
+	char *real_type = NULL;
+	GOImage *image = NULL;
+	if (type == NULL || *type == 0) {
+		char *mime_type = go_get_mime_type_for_data (data, length);
+		real_type = go_mime_to_image_format (mime_type);
+		g_free (mime_type);
+		type = real_type;
+	}
+	g_return_val_if_fail (type != NULL, NULL);
+	if (!strcmp (type, "svg")) {
+		image = GO_IMAGE (go_svg_new_from_data (data, length, error));
+	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {
+		image = GO_IMAGE (go_emf_new_from_data (data, length, error));
+	} else {
+		/* FIXME: pixbuf */
+	}
+	g_free (real_type);
+	return image;
 }
 
 guint8 *

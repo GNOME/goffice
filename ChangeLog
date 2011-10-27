@@ -1,3 +1,23 @@
+2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c: new helper functions.
+	* goffice/canvas/goc-canvas.h: ditto.
+	* goffice/canvas/goc-image.c: add crop.
+	* goffice/canvas/goc-image.h: ditto.
+	* goffice/goffice.c: initialize new type.
+	* goffice/graph/gog-plot-impl.h: add get_percent method.
+	* goffice/graph/gog-plot.c: ditto.
+	* goffice/graph/gog-plot.h: ditto.
+	* goffice/utils/Makefile.am: new files.
+	* goffice/utils/go-emf.c: added for a future support of WMF images.
+	* goffice/utils/go-emf.h: ditto.
+	* goffice/utils/go-image.c: add go_image_from_data().
+	* goffice/utils/go-image.h: ditto.
+	* goffice/utils/go-svg.c: ditto.
+	* goffice/utils/go-svg.h: ditto.
+	* goffice/utils/goffice-utils.h: add GOEmf.
+	* tests/mf-demo.c: fixed GOImage usage.
+
 2011-10-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-pango-extras.c (go_pango_translate_here): allow for

@@ -644,7 +644,7 @@ fill (Page *pg, GocItem *item)
 		style->fill.pattern.fore = GO_COLOR_FROM_RGB (b->clr.r, b->clr.g, b->clr.b);
 		break;
 	case 3:
-		style->fill.image.image = go_image_new_from_pixbuf (b->bdata.data);
+		style->fill.image.image = GO_IMAGE (go_pixbuf_new_from_pixbuf (b->bdata.data));
 		style->fill.image.type = GO_IMAGE_WALLPAPER;
 		style->fill.type = GO_STYLE_FILL_IMAGE;
 		break;

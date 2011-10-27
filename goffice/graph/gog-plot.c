@@ -942,6 +942,15 @@ void gog_plot_clear_series (GogPlot *plot)
 	}
 }
 
+double
+gog_plot_get_percent_value (GogPlot *plot, unsigned series, unsigned index)
+{
+	GogPlotClass *klass;
+	g_return_val_if_fail (GOG_IS_PLOT (plot), go_nan);
+	klass = GOG_PLOT_GET_CLASS (plot);
+	return (klass->get_percent)? klass->get_percent (plot, series, index): go_nan;
+}
+
 /*****************************************************************************/
 
 #ifdef GOFFICE_WITH_GTK

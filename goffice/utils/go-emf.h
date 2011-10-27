@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-svg.h - SVG image support
+ * go-emf.h - EMF/WMF image support
  *
  * Copyright (C) 2011 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -20,22 +20,22 @@
  * USA
  */
  
-#ifndef GO_SVG_H
-#define GO_SVG_H
+#ifndef GO_EMF_H
+#define GO_EMF_H
 
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
-#define GO_TYPE_SVG	(go_svg_get_type ())
-#define GO_SVG(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_SVG, GOSvg))
-#define GO_IS_SVG(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_SVG))
+#define GO_TYPE_EMF	(go_emf_get_type ())
+#define GO_EMF(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_EMF, GOEmf))
+#define GO_IS_EMF(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_EMF))
 
-GType go_svg_get_type (void);
+GType go_emf_get_type (void);
 
-GOSvg *go_svg_new_from_file (char const *filename, GError **error);
-GOSvg *go_svg_new_from_data (char const *data, size_t length, GError **error);
+GOEmf *go_emf_new_from_file (char const *filename, GError **error);
+GOEmf *go_emf_new_from_data (char const *data, size_t length, GError **error);
 
 G_END_DECLS
 
-#endif /* GO_SVG_H */
+#endif /* GO_EMF_H */

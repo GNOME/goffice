@@ -73,6 +73,7 @@ void	   gog_plot_clear_series	(GogPlot *plot);
 
 int        gog_plot_view_get_data_at_point (GogPlotView *view,
 					    double x, double y, GogSeries **series);
+double	   gog_plot_get_percent_value   (GogPlot *plot, unsigned series, unsigned index);
 
 G_END_DECLS
 

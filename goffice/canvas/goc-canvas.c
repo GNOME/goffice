@@ -639,3 +639,16 @@ goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_)
 	if (y_)
 		*y_ = go_fake_round ((y - canvas->scroll_y1) * canvas->pixels_per_unit);
 }
+
+void
+goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double x1, double y1)
+{
+	goc_item_draw_region (GOC_ITEM (canvas->root), cr, x0, y0, x1, y1);
+}
+
+void
+goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, int *x1, int *y1)
+{
+	goc_item_get_bounds (GOC_ITEM (canvas->root), x0, y0, x1, y1);
+}
+                       

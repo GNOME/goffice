@@ -213,6 +213,7 @@ libgoffice_init (void)
 	(void) GO_TYPE_DATA_SCALAR_VAL;
 	(void) GO_TYPE_DATA_SCALAR_STR;
 	(void) GOG_3D_BOX_TYPE;
+	(void) GO_TYPE_EMF;
 	(void) GO_TYPE_PIXBUF;
 	(void) GO_TYPE_SVG;
 	_gog_themes_init ();
