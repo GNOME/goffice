@@ -511,7 +511,14 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 	PangoAttribute *pa;
 	PangoFontDescription *desc = pango_font_description_new ();
 	GSList *the_attrs, *l;
+	gint range_start, range_end;
 
+	pango_attr_iterator_range (attr_iter, &range_start, &range_end);
+	
+	if (range_start == range_end)
+		return;
+
+	desc = pango_font_description_new ();
 	pango_attr_iterator_get_font (state_iter, desc, NULL, NULL);
 	font_scale = pango_font_description_get_size (desc)/
 		(double)PANGO_SCALE/10.;
@@ -539,31 +546,30 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 		/* go_pango_attr_*_type may still be PANGO_ATTR_INVALID */
 		if (type != PANGO_ATTR_INVALID) {
 			if (type == go_pango_attr_superscript_type) {
-				PangoAttribute *attr = pango_attr_scale_new
-					(GO_SUPERSCRIPT_SCALE * scale);
-				attr->start_index = attribute->start_index;
-				attr->end_index = attribute->end_index;
-				pango_attr_list_insert (attrs, attr);
-				attr = pango_attr_rise_new
-					(GO_SUPERSCRIPT_RISE * font_scale + rise);
-				attr->start_index = attribute->start_index;
-				attr->end_index = attribute->end_index;
-				pango_attr_list_insert (attrs, attr);
+				scale *= GO_SUPERSCRIPT_SCALE;
+				rise += GO_SUPERSCRIPT_RISE * font_scale;
+				font_scale *= GO_SUPERSCRIPT_SCALE;
 			} else { /* go_pango_attr_subscript_type */
-				PangoAttribute *attr = pango_attr_scale_new
-					(GO_SUBSCRIPT_SCALE * scale);
-				attr->start_index = attribute->start_index;
-				attr->end_index = attribute->end_index;
-				pango_attr_list_insert (attrs, attr);
-				attr = pango_attr_rise_new
-					(GO_SUBSCRIPT_RISE * font_scale + rise);
-				attr->start_index = attribute->start_index;
-				attr->end_index = attribute->end_index;
-				pango_attr_list_insert (attrs, attr);
+				scale *= GO_SUBSCRIPT_SCALE;
+				rise += GO_SUBSCRIPT_RISE * font_scale;
+				font_scale *= GO_SUBSCRIPT_SCALE;
 			}
-		}
+		}	
 	}
 	go_slist_free_custom (the_attrs, (GFreeFunc)pango_attribute_destroy);
+
+	if (scale != 1.) {
+		PangoAttribute *attr = pango_attr_scale_new (scale);
+		attr->start_index = range_start;
+		attr->end_index = range_end;
+		pango_attr_list_insert (attrs, attr);
+	}
+	if (rise != 0) {
+		PangoAttribute *attr = pango_attr_rise_new (rise);
+		attr->start_index = range_start;
+		attr->end_index = range_end;
+		pango_attr_list_insert (attrs, attr);
+	}
 }
 
 
@@ -583,25 +589,26 @@ go_pango_translate_attributes (PangoAttrList *attrs)
 		return attrs;
 	} else {
 		PangoAttrIterator *iter, *f_iter;
-		iter = pango_attr_list_get_iterator (attrs);
 		f_iter = pango_attr_list_get_iterator (filtered);
 		do {
 			gint f_range_start, f_range_end;
 			gint range_start, range_end;
+			/* We need to restart everytime since we are changing n_attrs */
+			iter = pango_attr_list_get_iterator (n_attrs);
 			pango_attr_iterator_range (f_iter, &f_range_start, 
 						   &f_range_end);
 			pango_attr_iterator_range (iter, &range_start, 
 						   &range_end);
-			while (range_start < f_range_start) {
-				pango_attr_iterator_next (iter);
+			while (range_end <= f_range_start) {
+				if (!pango_attr_iterator_next (iter))
+					break;
 				pango_attr_iterator_range (iter, &range_start, 
 						   &range_end);
 			} 
-			/* Now range_start == f_range_start since attrs */
-			/* includes filtered */
+			/* Now range_end > f_range_start >= range_start */
 			go_pango_translate_here (iter, f_iter, n_attrs);
+			pango_attr_iterator_destroy (iter);
 		} while (pango_attr_iterator_next (f_iter));
-		pango_attr_iterator_destroy (iter);
 		pango_attr_iterator_destroy (f_iter);
 	}
 	pango_attr_list_unref (filtered);
@@ -646,7 +653,7 @@ static gboolean
 go_pango_attr_compare (G_GNUC_UNUSED PangoAttribute const *attr1,
 		       G_GNUC_UNUSED PangoAttribute const *attr2)
 {
-	return TRUE;
+	return FALSE;
 }
 
 PangoAttribute *

@@ -1,5 +1,13 @@
 2011-10-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-pango-extras.c (go_pango_translate_here): allow for
+	multiple overlapping subscript/superscript attributes
+	(go_pango_translate_attributes): allow for
+	multiple overlapping subscript/superscript attributes
+	(go_pango_attr_compare): return FALSE
+
+2011-10-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_execute): use GO's new
 	superscript andd subscript attributes
 	* goffice/utils/go-pango-extras.h (go_pango_translate_layout): new
