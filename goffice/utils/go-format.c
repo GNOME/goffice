@@ -4206,7 +4206,7 @@ _go_number_format_init (void)
 
 #ifdef DEFINE_COMMON
 static void
-cb_format_leak (gpointer key, gpointer value, gpointer user_data)
+cb_format_leak (G_GNUC_UNUSED gpointer key, gpointer value, G_GNUC_UNUSED gpointer user_data)
 {
 	GOFormat const *gf = value;
 	if (gf->ref_count != 1)
@@ -4852,7 +4852,13 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 			((c->blue & 0xff00) >> 8));
 		break;
 	default :
-		return FALSE; /* ignored */
+		if (a->klass->type == go_pango_attr_subscript_get_type ()) {
+			g_string_append (accum, "[subscript=1");
+			break;
+		} else if (a->klass->type == go_pango_attr_superscript_get_type ()) {
+			g_string_append (accum, "[superscript=1");
+			break;
+		} else return FALSE; /* ignored */
 	}
 	g_string_append_printf (accum, ":%u:%u]", a->start_index, a->end_index);
 	return FALSE;
@@ -4927,7 +4933,13 @@ go_format_parse_markup (char *str)
 					a = pango_attr_underline_new (PANGO_UNDERLINE_LOW);
 				else if (0 == strcmp (val, "error"))
 					a = pango_attr_underline_new (PANGO_UNDERLINE_ERROR);
-			}
+			} else if (0 == strncmp (str, "subscript", 9))
+				a = go_pango_attr_subscript_new ();
+			break;
+
+		case 11:
+			if (0 == strncmp (str, "superscript", 11))
+				a = go_pango_attr_superscript_new ();
 			break;
 
 		case 13:
@@ -7240,7 +7252,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 static void
 go_format_output_text_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
-				char const *name, int cond_part)
+				char const *name, G_GNUC_UNUSED int cond_part)
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);

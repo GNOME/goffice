@@ -12,9 +12,6 @@
 #include "go-glib-extras.h"
 #include <string.h>
 
-static PangoAttrType go_pango_attr_subscript_type = PANGO_ATTR_INVALID;
-static PangoAttrType go_pango_attr_superscript_type = PANGO_ATTR_INVALID;
-
 struct _GOPangoAttrSuperscript {
 	PangoAttribute attr;
 };
@@ -496,9 +493,8 @@ static gboolean
 filter_func (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
 {
 	PangoAttrType type = attribute->klass->type;
-	return (type != PANGO_ATTR_INVALID &&
-		(type == go_pango_attr_superscript_type ||
-		 type == go_pango_attr_subscript_type));
+	return (type == go_pango_attr_superscript_get_type () ||
+		type == go_pango_attr_subscript_get_type ());
 }
 
 static void
@@ -545,7 +541,7 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 		/* If we haven't used a sub or superscript then */
 		/* go_pango_attr_*_type may still be PANGO_ATTR_INVALID */
 		if (type != PANGO_ATTR_INVALID) {
-			if (type == go_pango_attr_superscript_type) {
+			if (type == go_pango_attr_superscript_get_type ()) {
 				scale *= GO_SUPERSCRIPT_SCALE;
 				rise += GO_SUPERSCRIPT_RISE * font_scale;
 				font_scale *= GO_SUPERSCRIPT_SCALE;
@@ -631,6 +627,31 @@ go_pango_translate_layout (PangoLayout *layout)
 	
 }
 
+PangoAttrType 
+go_pango_attr_subscript_get_type (void)
+{
+	static PangoAttrType go_pango_attr_subscript_type = PANGO_ATTR_INVALID;
+
+	if(go_pango_attr_subscript_type == PANGO_ATTR_INVALID)
+		go_pango_attr_subscript_type =
+			pango_attr_type_register ("GOSubscript");
+
+	return go_pango_attr_subscript_type;
+}
+
+PangoAttrType 
+go_pango_attr_superscript_get_type (void)
+{
+	static PangoAttrType go_pango_attr_superscript_type = PANGO_ATTR_INVALID;
+
+	if(go_pango_attr_superscript_type == PANGO_ATTR_INVALID)
+		go_pango_attr_superscript_type =
+			pango_attr_type_register ("GOSuperscript");
+
+	return go_pango_attr_superscript_type;
+}
+
+
 static PangoAttribute *
 go_pango_attr_subscript_copy (G_GNUC_UNUSED PangoAttribute const *attr)
 {
@@ -669,8 +690,7 @@ go_pango_attr_subscript_new (void)
 	};
 
 	if (!klass.type)
-		klass.type = go_pango_attr_subscript_type =
-			pango_attr_type_register ("GOSubscript");
+		klass.type = go_pango_attr_subscript_get_type ();
 
 	result = g_new (GOPangoAttrSubscript, 1);
 	result->attr.klass = &klass;
@@ -691,8 +711,7 @@ go_pango_attr_superscript_new (void)
 	};
 
 	if (!klass.type)
-		klass.type = go_pango_attr_superscript_type =
-			pango_attr_type_register ("GOSuperscript");
+		klass.type = go_pango_attr_superscript_get_type ();
 
 	result = g_new (GOPangoAttrSuperscript, 1);
 	result->attr.klass = &klass;

@@ -1,3 +1,18 @@
+2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (cb_attrs_as_string): handle super and
+	subscripts
+	(go_format_parse_markup): ditto
+	* goffice/utils/go-pango-extras.h (go_pango_attr_subscript_get_type):
+	new
+	(go_pango_attr_superscript_get_type): new
+	* goffice/utils/go-pango-extras.c (go_pango_attr_subscript_get_type):
+	new
+	(go_pango_attr_superscript_get_type): new
+	(filter_func): use the above
+	(go_pango_attr_subscript_new): ditto
+	(go_pango_attr_superscript_new): ditto
+
 2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c: new helper functions.
