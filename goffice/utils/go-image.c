@@ -25,6 +25,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+#include <librsvg/rsvg.h>
 
 static GOImageFormatInfo *pixbuf_image_format_infos = NULL;
 static GHashTable *pixbuf_mimes = NULL;
@@ -556,4 +557,20 @@ double
 go_image_get_height (GOImage const *image)
 {
 	return image->height;
+}
+
+static double _go_image_dpi_x = 96.,  _go_image_dpi_y = 96.;
+
+void
+go_image_set_default_dpi (double dpi_x, double dpi_y)
+{
+	_go_image_dpi_x = dpi_x;
+	_go_image_dpi_y = dpi_y;
+}
+
+void
+go_image_get_default_dpi (double *dpi_x, double *dpi_y)
+{
+	*dpi_x = _go_image_dpi_x;
+	*dpi_y = _go_image_dpi_y;
 }

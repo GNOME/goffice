@@ -15,6 +15,16 @@
 
 2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-emf.c: fixed a compilation warning.
+	* goffice/utils/go-image.c (go_image_get_height),
+	(go_image_set_default_dpi), (go_image_get_default_dpi): fixed svg image
+	size. [#628472]
+	* goffice/utils/go-image.h: ditto.
+	* goffice/utils/go-svg.c (go_svg_load_data),
+	(go_svg_new_from_file), (go_svg_new_from_data): ditto.
+
+2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-canvas.c: new helper functions.
 	* goffice/canvas/goc-canvas.h: ditto.
 	* goffice/canvas/goc-image.c: add crop.

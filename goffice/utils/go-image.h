@@ -112,6 +112,9 @@ void		 go_image_load_data		(GOImage *image, GsfXMLIn *xin);
 double		 go_image_get_width		(GOImage const *image);
 double		 go_image_get_height		(GOImage const *image);
 
+void		 go_image_set_default_dpi       (double dpi_x, double dpi_y);
+void		 go_image_get_default_dpi       (double *dpi_x, double *dpi_y);
+
 /* Protected */
 void		 _go_image_changed		(GOImage *image, double width, double height);
 

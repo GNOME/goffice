@@ -58,10 +58,13 @@ static void
 go_svg_load_data (GOImage *image, GsfXMLIn *xin)
 {
 	GOSvg *svg = GO_SVG (image);
+	double dpi_x, dpi_y;
 	svg->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
 	image->data = g_malloc (svg->data_length);
 	memcpy (image->data, xin->content->str, svg->data_length);
 	svg->handle = rsvg_handle_new_from_data (image->data, svg->data_length, NULL);
+	go_image_get_default_dpi (&dpi_x, &dpi_y);
+	rsvg_handle_set_dpi_x_y (svg->handle, dpi_x, dpi_y);
 }
 
 static void
@@ -160,6 +163,8 @@ go_svg_new_from_file (char const *filename, GError **error)
 	GsfInput *input = gsf_input_stdio_new (filename, error);
 	RsvgDimensionData dim;
 	GOImage *image;
+	double dpi_x, dpi_y;
+
 	if (!input)
 		return NULL;
 	svg->data_length = gsf_input_size (input);
@@ -176,6 +181,8 @@ go_svg_new_from_file (char const *filename, GError **error)
 		g_object_unref (svg);
 		return NULL;
 	}
+	go_image_get_default_dpi (&dpi_x, &dpi_y);
+	rsvg_handle_set_dpi_x_y (svg->handle, dpi_x, dpi_y);
 	rsvg_handle_get_dimensions (svg->handle, &dim);
 	image->width = dim.width;
 	image->height = dim.height;
@@ -188,6 +195,7 @@ go_svg_new_from_data (char const *data, size_t length, GError **error)
 	GOSvg *svg;
 	GOImage *image;
 	RsvgDimensionData dim;
+	double dpi_x, dpi_y;
 
 	g_return_val_if_fail (data != NULL && length != 0, NULL);
 	svg = g_object_new (GO_TYPE_SVG, NULL);
@@ -204,6 +212,8 @@ go_svg_new_from_data (char const *data, size_t length, GError **error)
 		g_object_unref (svg);
 		return NULL;
 	}
+	go_image_get_default_dpi (&dpi_x, &dpi_y);
+	rsvg_handle_set_dpi_x_y (svg->handle, dpi_x, dpi_y);
 	rsvg_handle_get_dimensions (svg->handle, &dim);
 	image->width = dim.width;
 	image->height = dim.height;

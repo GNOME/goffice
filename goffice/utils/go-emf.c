@@ -229,8 +229,10 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
  * Parsing code                                                               *
  * ****************************************************************************/
 
+#ifdef GOFFICE_EMF_SUPPORT
 static gboolean go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 {
 	/* FIXME: implement */
 	return FALSE;
 }
+#endif
