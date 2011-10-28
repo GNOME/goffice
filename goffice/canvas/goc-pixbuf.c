@@ -184,7 +184,7 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 	if (pixbuf->pixbuf == NULL || pixbuf->width == 0. || pixbuf->height == 0.)
 		return;
 
-	image = GO_IMAGE (go_pixbuf_new_from_pixbuf (pixbuf->pixbuf));
+	image = go_pixbuf_new_from_pixbuf (pixbuf->pixbuf);
 	if (pixbuf->width < 0.)
 		width = gdk_pixbuf_get_width (pixbuf->pixbuf);
 	else {

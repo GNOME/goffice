@@ -39,7 +39,9 @@ typedef GOImageClass GOEmfClass;
 
 static GObjectClass *parent_klass;
 
+#ifdef GOFFICE_EMF_SUPPORT
 static gboolean go_emf_parse (GOEmf *emf, GsfInput *input, GError **error);
+#endif
 
 static void
 go_emf_save (GOImage *image, GsfXMLOut *output)
@@ -155,7 +157,7 @@ GSF_CLASS (GOEmf, go_emf,
 	   go_emf_class_init, NULL,
 	   GO_TYPE_IMAGE)
 
-GOEmf *
+GOImage *
 go_emf_new_from_file (char const *filename, GError **error)
 {
 #ifdef GOFFICE_EMF_SUPPORT
@@ -189,18 +191,19 @@ go_emf_new_from_file (char const *filename, GError **error)
 	}
 	g_object_unref (input);
 
-	return emf;
+	return image;
 #else
 	return NULL;
 #endif
 }
 
-GOEmf *
+GOImage *
 go_emf_new_from_data (char const *data, size_t length, GError **error)
 {
 #ifdef GOFFICE_EMF_SUPPORT
 	GOEmf *emf = NULL;
 	GsfInput *input = gsf_input_memory_new (data, length, FALSE);
+	GOImage *image;
 
 	if (input == NULL) {
 		if (error)
@@ -212,14 +215,14 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
 	emf->data_length = gsf_input_size (input);
 	if (!go_emf_parse (emf, input, error)) {
 		g_object_unref (emf);
-		emf = NULL;
+		image = NULL;
 	} else {
-		GOImage *image = GO_IMAGE (emf);
+		*image = GO_IMAGE (emf);
 		image->data = g_malloc (length);
 		memcpy (image->data, data, length);
 	}
 	g_object_unref (input);
-	return emf;
+	return image;
 #else
 	return NULL;
 #endif

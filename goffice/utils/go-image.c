@@ -193,7 +193,7 @@ go_image_build_pixbuf_format_infos (void)
  * go_image_get_format_info:
  * @format: a #GOImageFormat
  *
- * Retrieves infromation associated to @format.
+ * Retrieves information associated to @format.
  *
  * returns: a #GOImageFormatInfo struct.
  **/
@@ -426,10 +426,10 @@ go_image_new_from_file (char const *filename, GError **error)
 	g_free (name);
 	switch (format) {
 	case GO_IMAGE_FORMAT_SVG:
-		return GO_IMAGE (go_svg_new_from_file (filename, error));
+		return go_svg_new_from_file (filename, error);
 	case GO_IMAGE_FORMAT_EMF:
 	case GO_IMAGE_FORMAT_WMF:
-		return GO_IMAGE (go_emf_new_from_file (filename, error));
+		return go_emf_new_from_file (filename, error);
 	case GO_IMAGE_FORMAT_PDF:
 	case GO_IMAGE_FORMAT_PS:
 	case GO_IMAGE_FORMAT_EPS:
@@ -438,7 +438,7 @@ go_image_new_from_file (char const *filename, GError **error)
 	default: {
 		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, error);
 		if (pixbuf) {
-			GOImage *image = (GOImage *) go_pixbuf_new_from_pixbuf (pixbuf);
+			GOImage *image = go_pixbuf_new_from_pixbuf (pixbuf);
 			g_object_unref (pixbuf);
 			return image;
 		}
@@ -448,7 +448,7 @@ go_image_new_from_file (char const *filename, GError **error)
 }
 
 GOImage	*
-go_image_new_from_data (char const *type, guint8 const *data, gsize length, GError **error)
+go_image_new_from_data (char const *type, guint8 const *data, gsize length, char **format, GError **error)
 {
 	char *real_type = NULL;
 	GOImage *image = NULL;
@@ -460,12 +460,14 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, GErr
 	}
 	g_return_val_if_fail (type != NULL, NULL);
 	if (!strcmp (type, "svg")) {
-		image = GO_IMAGE (go_svg_new_from_data (data, length, error));
+		image = go_svg_new_from_data (data, length, error);
 	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {
-		image = GO_IMAGE (go_emf_new_from_data (data, length, error));
+		image = go_emf_new_from_data (data, length, error);
 	} else {
 		/* FIXME: pixbuf */
 	}
+	if (format)
+		*format = g_strdup (type);
 	g_free (real_type);
 	return image;
 }

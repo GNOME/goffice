@@ -38,7 +38,7 @@ GdkPixbuf	*go_gdk_pixbuf_tile		(GdkPixbuf const *src,
 
 GType go_pixbuf_get_type (void);
 
-GOPixbuf	*go_pixbuf_new_from_pixbuf      (GdkPixbuf *pixbuf);
+GOImage		*go_pixbuf_new_from_pixbuf      (GdkPixbuf *pixbuf);
 int 		 go_pixbuf_get_rowstride 	(GOPixbuf *pixbuf);
 
 G_END_DECLS

@@ -13,23 +13,12 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="start-adj">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="end-adj">
-    <property name="upper">100</property>
-    <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
   <object class="GtkGrid" id="area-grid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">12</property>
-    <property name="row_spacing">12</property>
-    <property name="column_spacing">6</property>
+    <property name="row_spacing">6</property>
+    <property name="column_spacing">12</property>
     <child>
       <object class="GtkLabel" id="label13">
         <property name="visible">True</property>
@@ -105,13 +94,19 @@
         <property name="height">1</property>
       </packing>
     </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkGrid" id="axis-base-pref-grid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">12</property>
-    <property name="row_spacing">12</property>
-    <property name="column_spacing">6</property>
+    <property name="row_spacing">6</property>
+    <property name="column_spacing">12</property>
     <child>
       <object class="GtkLabel" id="label3">
         <property name="visible">True</property>
@@ -130,6 +125,7 @@
     <child>
       <object class="GtkCheckButton" id="major-tick-out">
         <property name="label" translatable="yes">_Outside</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
@@ -149,6 +145,7 @@
     <child>
       <object class="GtkCheckButton" id="major-tick-in">
         <property name="label" translatable="yes">_Inside</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
@@ -168,6 +165,7 @@
     <child>
       <object class="GtkCheckButton" id="major-tick-labeled">
         <property name="label" translatable="yes">_Show Labels</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
@@ -189,7 +187,8 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="margin_top">6</property>
-        <property name="column_spacing">6</property>
+        <property name="row_spacing">6</property>
+        <property name="column_spacing">12</property>
         <child>
           <object class="GtkLabel" id="label5">
             <property name="visible">True</property>
@@ -208,6 +207,7 @@
         <child>
           <object class="GtkRadioButton" id="axis-low">
             <property name="label" translatable="yes">_Low</property>
+            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -228,6 +228,7 @@
         <child>
           <object class="GtkRadioButton" id="axis-high">
             <property name="label" translatable="yes">_High</property>
+            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -253,9 +254,11 @@
             <property name="can_focus">False</property>
             <property name="margin_left">12</property>
             <property name="row_spacing">6</property>
+            <property name="column_spacing">12</property>
             <child>
               <object class="GtkRadioButton" id="axis-cross">
                 <property name="label" translatable="yes">_Cross</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -298,6 +301,24 @@
                 <property name="height">1</property>
               </packing>
             </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -312,6 +333,7 @@
             <property name="can_focus">False</property>
             <property name="margin_left">12</property>
             <property name="row_spacing">6</property>
+            <property name="column_spacing">12</property>
             <child>
               <object class="GtkLabel" id="label11">
                 <property name="visible">True</property>
@@ -355,6 +377,24 @@
                 <property name="height">1</property>
               </packing>
             </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -362,6 +402,24 @@
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
       <packing>
@@ -375,7 +433,8 @@
       <object class="GtkGrid" id="minor-tick-grid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="column_spacing">6</property>
+        <property name="row_spacing">6</property>
+        <property name="column_spacing">12</property>
         <child>
           <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
@@ -394,6 +453,7 @@
         <child>
           <object class="GtkCheckButton" id="minor-tick-out">
             <property name="label" translatable="yes">O_utside</property>
+            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -413,6 +473,7 @@
         <child>
           <object class="GtkCheckButton" id="minor-tick-in">
             <property name="label" translatable="yes">I_nside</property>
+            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -437,13 +498,22 @@
         <property name="height">3</property>
       </packing>
     </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkGrid" id="axis-pref-grid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">12</property>
-    <property name="row_spacing">12</property>
-    <property name="column_spacing">6</property>
+    <property name="row_spacing">6</property>
+    <property name="column_spacing">12</property>
     <child>
       <object class="GtkLabel" id="label1">
         <property name="visible">True</property>
@@ -493,8 +563,8 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="margin_left">12</property>
-        <property name="row_spacing">12</property>
-        <property name="column_spacing">6</property>
+        <property name="row_spacing">6</property>
+        <property name="column_spacing">12</property>
         <child>
           <object class="GtkComboBoxText" id="map-type-combo">
             <property name="visible">True</property>
@@ -527,6 +597,7 @@
         <child>
           <object class="GtkCheckButton" id="invert-axis">
             <property name="label" translatable="yes">_Invert axis</property>
+            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -546,8 +617,8 @@
           <object class="GtkGrid" id="circular-grid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="row_spacing">12</property>
-            <property name="column_spacing">6</property>
+            <property name="row_spacing">6</property>
+            <property name="column_spacing">12</property>
             <child>
               <object class="GtkLabel" id="label8">
                 <property name="visible">True</property>
@@ -617,6 +688,18 @@
                 <property name="height">1</property>
               </packing>
             </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -649,11 +732,40 @@
         <property name="height">1</property>
       </packing>
     </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="end-adj">
+    <property name="upper">100</property>
+    <property name="value">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="GtkListStore" id="model1">
     <columns>
       <!-- column-name gchararray1 -->
       <column type="gchararray"/>
     </columns>
+  </object>
+  <object class="GtkAdjustment" id="start-adj">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
 </interface>

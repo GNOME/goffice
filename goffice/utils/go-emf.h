@@ -33,8 +33,8 @@ G_BEGIN_DECLS
 
 GType go_emf_get_type (void);
 
-GOEmf *go_emf_new_from_file (char const *filename, GError **error);
-GOEmf *go_emf_new_from_data (char const *data, size_t length, GError **error);
+GOImage *go_emf_new_from_file (char const *filename, GError **error);
+GOImage *go_emf_new_from_data (char const *data, size_t length, GError **error);
 
 G_END_DECLS
 

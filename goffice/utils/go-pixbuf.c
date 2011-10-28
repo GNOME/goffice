@@ -464,7 +464,7 @@ GSF_CLASS (GOPixbuf, go_pixbuf,
 	   GO_TYPE_IMAGE)
 
 
-GOPixbuf *
+GOImage *
 go_pixbuf_new_from_pixbuf (GdkPixbuf *pixbuf)
 {
 	return g_object_new (GO_TYPE_PIXBUF, "pixbuf", pixbuf, NULL);

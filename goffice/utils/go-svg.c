@@ -155,7 +155,7 @@ GSF_CLASS (GOSvg, go_svg,
 	   GO_TYPE_IMAGE)
 
 
-GOSvg *
+GOImage *
 go_svg_new_from_file (char const *filename, GError **error)
 {
 	GOSvg *svg = g_object_new (GO_TYPE_SVG, NULL);
@@ -186,10 +186,10 @@ go_svg_new_from_file (char const *filename, GError **error)
 	rsvg_handle_get_dimensions (svg->handle, &dim);
 	image->width = dim.width;
 	image->height = dim.height;
-	return svg;
+	return image;
 }
 
-GOSvg *
+GOImage *
 go_svg_new_from_data (char const *data, size_t length, GError **error)
 {
 	GOSvg *svg;
@@ -217,5 +217,5 @@ go_svg_new_from_data (char const *data, size_t length, GError **error)
 	rsvg_handle_get_dimensions (svg->handle, &dim);
 	image->width = dim.width;
 	image->height = dim.height;
-	return svg;
+	return image;
 }

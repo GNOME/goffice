@@ -647,7 +647,7 @@ goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double 
 }
 
 void
-goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, int *x1, int *y1)
+goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, double *x1, double *y1)
 {
 	goc_item_get_bounds (GOC_ITEM (canvas->root), x0, y0, x1, y1);
 }

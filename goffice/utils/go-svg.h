@@ -33,8 +33,8 @@ G_BEGIN_DECLS
 
 GType go_svg_get_type (void);
 
-GOSvg *go_svg_new_from_file (char const *filename, GError **error);
-GOSvg *go_svg_new_from_data (char const *data, size_t length, GError **error);
+GOImage *go_svg_new_from_file (char const *filename, GError **error);
+GOImage *go_svg_new_from_data (char const *data, size_t length, GError **error);
 
 G_END_DECLS
 

@@ -1,3 +1,24 @@
+2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_get_bounds): fixed arguments type.
+	* goffice/canvas/goc-canvas.h: ditto.
+	* goffice/canvas/goc-pixbuf.c (goc_pixbuf_draw): cleaned.
+	* goffice/graph/gog-3d-box-prefs.ui: fixed GtkGrid spacing.
+	* goffice/graph/gog-axis-prefs.ui: ditto.
+	* goffice/graph/gog-guru-type-selector.ui: ditto.
+	* goffice/utils/go-emf.c (go_emf_new_from_file),
+	(go_emf_new_from_data): return GOImage*.
+	* goffice/utils/go-emf.h: ditto.
+	* goffice/utils/go-image.c (go_image_new_from_data): add an argument to
+	retrieve the type.
+	* goffice/utils/go-image.h: ditto.
+	* goffice/utils/go-pixbuf.c (go_pixbuf_new_from_pixbuf): return GOImage*.
+	* goffice/utils/go-pixbuf.h: ditto.
+	* goffice/utils/go-svg.c (go_svg_new_from_file),
+	(go_svg_new_from_data): ditto.
+	* goffice/utils/go-svg.h: ditto.
+	* plugins/plot_surface/gog-xyz-prefs.ui: fixed GtkGrid spacing.
+
 2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_execute): add arg to call of

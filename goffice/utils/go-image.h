@@ -95,7 +95,7 @@ GdkPixbuf       *go_image_get_scaled_pixbuf	(GOImage *image, int width, int heig
 void		 go_image_draw			(GOImage *image, cairo_t *cr);
 
 GOImage 	*go_image_new_from_file 	(char const *filename, GError **error);
-GOImage 	*go_image_new_from_data 	(char const *type, guint8 const *data, gsize length, GError **error);
+GOImage 	*go_image_new_from_data 	(char const *type, guint8 const *data, gsize length, char **format, GError **error);
 
 guint8 		*go_image_get_pixels 		(GOImage *image);
 void 		 go_image_fill 			(GOImage *image, GOColor color);

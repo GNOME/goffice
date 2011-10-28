@@ -75,7 +75,7 @@ GocDirection     goc_canvas_get_direction (GocCanvas *canvas);
 void		 goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_);
 void		 goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_);
 void		 goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double x1, double y1);
-void		 goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, int *x1, int *y1);
+void		 goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, double *x1, double *y1);
 
 G_END_DECLS
 

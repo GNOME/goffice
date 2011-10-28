@@ -4,8 +4,8 @@
   <object class="GtkTable" id="gog_xyz_prefs">
     <property name="visible">True</property>
     <property name="border_width">5</property>
-    <property name="column_spacing">5</property>
-    <property name="row_spacing">5</property>
+    <property name="column_spacing">12</property>
+    <property name="row_spacing">6</property>
     <child>
       <object class="GtkCheckButton" id="transpose">
         <property name="label" translatable="yes">Transpose</property>
