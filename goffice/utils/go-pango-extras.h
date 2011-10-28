@@ -7,8 +7,16 @@
 
 G_BEGIN_DECLS
 
-typedef struct _GOPangoAttrSuperscript GOPangoAttrSuperscript;
-typedef struct _GOPangoAttrSubscript GOPangoAttrSubscript;
+typedef struct {
+	PangoAttribute attr;
+	gboolean val;
+} GOPangoAttrSuperscript;
+
+typedef struct {
+	PangoAttribute attr;
+	gboolean val;
+} GOPangoAttrSubscript;
+
 
 void go_pango_attr_list_open_hole (PangoAttrList *tape, guint pos, guint len);
 void go_pango_attr_list_erase (PangoAttrList *attrs, guint pos, guint len);
@@ -24,8 +32,8 @@ void go_create_std_tags_for_buffer (GtkTextBuffer *buffer);
 
 PangoAttrList *go_pango_translate_attributes (PangoAttrList *attrs);
 void go_pango_translate_layout (PangoLayout *layout);
-PangoAttribute *go_pango_attr_subscript_new (void);
-PangoAttribute *go_pango_attr_superscript_new (void);
+PangoAttribute *go_pango_attr_subscript_new (gboolean val);
+PangoAttribute *go_pango_attr_superscript_new (gboolean val);
 PangoAttrType go_pango_attr_subscript_get_type (void);
 PangoAttrType go_pango_attr_superscript_get_type (void);
 

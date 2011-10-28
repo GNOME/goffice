@@ -1,5 +1,19 @@
 2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_execute): add arg to call of
+	go_pango_attr_superscript_new
+	(cb_attrs_as_string): write value of sub- and superscript attributes
+	* goffice/utils/go-pango-extras.h: publish GOPangoAttr* struct
+	(go_pango_attr_*_new): add argument
+	* goffice/utils/go-pango-extras.c (go_pango_translate_here): check
+	attribute values
+	(go_pango_attr_subscript_copy): copy attribute value
+	(go_pango_attr_superscript_copy): copy attribute value
+	(go_pango_attr_compare): replace with go_pango_attr_*_compare
+	(go_pango_attr_*_new): add argument
+
+2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (cb_attrs_as_string): handle super and
 	subscripts
 	(go_format_parse_markup): ditto

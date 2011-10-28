@@ -3476,7 +3476,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					markup_stack = g_slist_delete_link (markup_stack, markup_stack);
 				}
 				
-				attr = go_pango_attr_superscript_new ();
+				attr = go_pango_attr_superscript_new (TRUE);
 				attr->start_index = start;
 				attr->end_index = end;
 				pango_attr_list_insert (attrs, attr);
@@ -4853,10 +4853,14 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 		break;
 	default :
 		if (a->klass->type == go_pango_attr_subscript_get_type ()) {
-			g_string_append (accum, "[subscript=1");
+			g_string_append_printf (accum, "[subscript=%d", 
+						((GOPangoAttrSubscript *)a)->val ?
+						1:0);
 			break;
 		} else if (a->klass->type == go_pango_attr_superscript_get_type ()) {
-			g_string_append (accum, "[superscript=1");
+			g_string_append_printf (accum, "[superscript=%d",
+						((GOPangoAttrSuperscript *)a)->val ?
+						1:0);
 			break;
 		} else return FALSE; /* ignored */
 	}
@@ -4934,12 +4938,12 @@ go_format_parse_markup (char *str)
 				else if (0 == strcmp (val, "error"))
 					a = pango_attr_underline_new (PANGO_UNDERLINE_ERROR);
 			} else if (0 == strncmp (str, "subscript", 9))
-				a = go_pango_attr_subscript_new ();
+				a = go_pango_attr_subscript_new (atoi (val));
 			break;
 
 		case 11:
 			if (0 == strncmp (str, "superscript", 11))
-				a = go_pango_attr_superscript_new ();
+				a = go_pango_attr_superscript_new (atoi (val));
 			break;
 
 		case 13:

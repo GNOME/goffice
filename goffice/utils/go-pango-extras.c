@@ -12,13 +12,6 @@
 #include "go-glib-extras.h"
 #include <string.h>
 
-struct _GOPangoAttrSuperscript {
-	PangoAttribute attr;
-};
-struct _GOPangoAttrSubscript {
-	PangoAttribute attr;
-};
-
 struct cb_splice {
 	guint pos, len;
 	PangoAttrList *result;
@@ -538,34 +531,34 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 	for (l = the_attrs; l != NULL; l = l->next) {
 		PangoAttribute *attribute = l->data;
 		PangoAttrType type = attribute->klass->type;
-		/* If we haven't used a sub or superscript then */
-		/* go_pango_attr_*_type may still be PANGO_ATTR_INVALID */
-		if (type != PANGO_ATTR_INVALID) {
-			if (type == go_pango_attr_superscript_get_type ()) {
+		if (type == go_pango_attr_superscript_get_type ()) {
+			GOPangoAttrSuperscript *attr = (GOPangoAttrSuperscript *)attribute;
+			if (attr->val) {
 				scale *= GO_SUPERSCRIPT_SCALE;
 				rise += GO_SUPERSCRIPT_RISE * font_scale;
 				font_scale *= GO_SUPERSCRIPT_SCALE;
-			} else { /* go_pango_attr_subscript_type */
+			}
+		} else { /* go_pango_attr_subscript_type */
+			GOPangoAttrSubscript *attr = (GOPangoAttrSubscript *)attribute;
+			if (attr->val) {
 				scale *= GO_SUBSCRIPT_SCALE;
 				rise += GO_SUBSCRIPT_RISE * font_scale;
 				font_scale *= GO_SUBSCRIPT_SCALE;
 			}
-		}	
+		}
 	}
-	go_slist_free_custom (the_attrs, (GFreeFunc)pango_attribute_destroy);
 
-	if (scale != 1.) {
+	if (the_attrs != NULL) {
 		PangoAttribute *attr = pango_attr_scale_new (scale);
 		attr->start_index = range_start;
 		attr->end_index = range_end;
 		pango_attr_list_insert (attrs, attr);
-	}
-	if (rise != 0) {
-		PangoAttribute *attr = pango_attr_rise_new (rise);
+		attr = pango_attr_rise_new (rise);
 		attr->start_index = range_start;
 		attr->end_index = range_end;
 		pango_attr_list_insert (attrs, attr);
 	}
+	go_slist_free_custom (the_attrs, (GFreeFunc)pango_attribute_destroy);
 }
 
 
@@ -653,15 +646,17 @@ go_pango_attr_superscript_get_type (void)
 
 
 static PangoAttribute *
-go_pango_attr_subscript_copy (G_GNUC_UNUSED PangoAttribute const *attr)
+go_pango_attr_subscript_copy (PangoAttribute const *attr)
 {
-	return go_pango_attr_subscript_new ();
+	GOPangoAttrSubscript *at = (GOPangoAttrSubscript *)attr;
+	return go_pango_attr_subscript_new (at->val);
 }
 
 static PangoAttribute *
 go_pango_attr_superscript_copy (G_GNUC_UNUSED PangoAttribute const *attr)
 {
-	return go_pango_attr_superscript_new ();
+	GOPangoAttrSuperscript *at = (GOPangoAttrSuperscript *)attr;
+	return go_pango_attr_superscript_new (at->val);
 }
 
 static void
@@ -671,14 +666,25 @@ go_pango_attr_destroy (PangoAttribute *attr)
 }
 
 static gboolean
-go_pango_attr_compare (G_GNUC_UNUSED PangoAttribute const *attr1,
-		       G_GNUC_UNUSED PangoAttribute const *attr2)
+go_pango_attr_superscript_compare (PangoAttribute const *attr1,
+				   PangoAttribute const *attr2)
 {
-	return FALSE;
+	GOPangoAttrSuperscript *at1 = (GOPangoAttrSuperscript *)attr1;
+	GOPangoAttrSuperscript *at2 = (GOPangoAttrSuperscript *)attr2;
+	return (at1->val == at2->val);
+}
+
+static gboolean
+go_pango_attr_subscript_compare (PangoAttribute const *attr1,
+				 PangoAttribute const *attr2)
+{
+	GOPangoAttrSubscript *at1 = (GOPangoAttrSubscript *)attr1;
+	GOPangoAttrSubscript *at2 = (GOPangoAttrSubscript *)attr2;
+	return (at1->val == at2->val);
 }
 
 PangoAttribute *
-go_pango_attr_subscript_new (void)
+go_pango_attr_subscript_new (gboolean val)
 {
 	GOPangoAttrSubscript *result;
 
@@ -686,7 +692,7 @@ go_pango_attr_subscript_new (void)
 		0,
 		go_pango_attr_subscript_copy,
 		go_pango_attr_destroy,
-		go_pango_attr_compare
+		go_pango_attr_subscript_compare
 	};
 
 	if (!klass.type)
@@ -694,12 +700,13 @@ go_pango_attr_subscript_new (void)
 
 	result = g_new (GOPangoAttrSubscript, 1);
 	result->attr.klass = &klass;
+	result->val = val;
 
 	return (PangoAttribute *) result;
 }
 
 PangoAttribute *
-go_pango_attr_superscript_new (void)
+go_pango_attr_superscript_new (gboolean val)
 {
 	GOPangoAttrSuperscript *result;
 
@@ -707,7 +714,7 @@ go_pango_attr_superscript_new (void)
 		0,
 		go_pango_attr_superscript_copy,
 		go_pango_attr_destroy,
-		go_pango_attr_compare
+		go_pango_attr_superscript_compare
 	};
 
 	if (!klass.type)
@@ -715,6 +722,7 @@ go_pango_attr_superscript_new (void)
 
 	result = g_new (GOPangoAttrSuperscript, 1);
 	result->attr.klass = &klass;
+	result->val = val;
 
 	return (PangoAttribute *) result;
 }
