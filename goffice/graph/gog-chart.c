@@ -653,6 +653,12 @@ static GogObjectRole const roles[] = {
 	  role_3d_box_can_add, role_3d_box_can_remove, NULL, NULL, NULL, NULL, { -1 } }
 };
 
+static GogManualSizeMode
+gog_chart_get_manual_size_mode (GogObject *gobj)
+{
+	return GOG_MANUAL_SIZE_FULL;
+}
+
 static void
 gog_chart_class_init (GogObjectClass *gog_klass)
 {
@@ -669,7 +675,7 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 	gog_klass->populate_editor = NULL;
 #endif
 
-	gog_klass->can_manual_size = TRUE;
+	gog_klass->get_manual_size_mode = gog_chart_get_manual_size_mode;
 
 	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
 		g_param_spec_boolean ("cardinality-valid",

@@ -192,7 +192,13 @@ typedef enum {
 
 	GOG_POSITION_ANY_MANUAL      = 0xff80,
 
-	GOG_POSITION_PADDING	     = 1 << 16
+	GOG_POSITION_PADDING	     = 1 << 16,
+
+	GOG_POSITION_MANUAL_W        = 1 << 21, /* relative width */
+	GOG_POSITION_MANUAL_W_ABS    = 1 << 22, /* absolute width */
+	GOG_POSITION_MANUAL_H        = 1 << 23, /* relative height */
+	GOG_POSITION_MANUAL_H_ABS    = 1 << 24, /* absolute height */
+	GOG_POSITION_ANY_MANUAL_SIZE = 0xf00000
 } GogObjectPosition;
 
 typedef enum {

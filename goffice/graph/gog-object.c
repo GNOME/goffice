@@ -392,6 +392,14 @@ cb_chart_position_changed (GtkWidget *spin, ObjectPrefState *state)
 }
 
 static void
+cb_manual_size_changed (GtkComboBox *combo, ObjectPrefState *state)
+{
+	if (gtk_combo_box_get_active (combo) == 1) {
+	} else {
+	}
+}
+
+static void
 gog_object_populate_editor (GogObject *gobj,
 			    GOEditor *editor,
 			    G_GNUC_UNUSED GogDataAllocator *dalloc,
@@ -400,15 +408,13 @@ gog_object_populate_editor (GogObject *gobj,
 	GtkWidget *w;
 	GtkSizeGroup *widget_size_group, *label_size_group;
 	GtkBuilder *gui;
-	GogObjectClass *gog_klass;
 	GogObjectPosition allowable_positions, flags;
 	ObjectPrefState *state;
 	unsigned i;
+	GogManualSizeMode size_mode = gog_object_get_manual_size_mode (gobj);
 
 	if (gobj->role == NULL)
 		return;
-
-	gog_klass = GOG_OBJECT_GET_CLASS (gobj);
 
        	allowable_positions = gobj->role->allowable_positions;
 	if (!(allowable_positions & (GOG_POSITION_MANUAL | GOG_POSITION_COMPASS)))
@@ -505,7 +511,21 @@ gog_object_populate_editor (GogObject *gobj,
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_anchor_changed), state);
 		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (w), 3);
 
-		if (gog_klass->can_manual_size) {
+	}
+
+	if (size_mode == GOG_MANUAL_SIZE_AUTO)  {
+		w = go_gtk_builder_get_widget (gui, "manual_sizes");
+		gtk_widget_destroy (w);
+		w = go_gtk_builder_get_widget (gui, "size-select-box");
+		gtk_widget_destroy (w);
+	} else {
+		gboolean manual_size = flags & GOG_POSITION_ANY_MANUAL_SIZE;
+		w = go_gtk_builder_get_widget (gui, "object-size-combo");
+		gtk_combo_box_set_active (GTK_COMBO_BOX (w),
+		                          manual_size? 1: 0);
+		g_signal_connect (G_OBJECT (w),
+				  "changed", G_CALLBACK (cb_manual_size_changed), state);
+		if (manual_size && size_mode & GOG_MANUAL_SIZE_WIDTH) {
 			w = go_gtk_builder_get_widget (gui, "width_label");
 			gtk_size_group_add_widget (label_size_group, w);
 			w = go_gtk_builder_get_widget (gui, "width_spin");
@@ -514,7 +534,13 @@ gog_object_populate_editor (GogObject *gobj,
 			g_signal_connect (G_OBJECT (w), "value-changed",
 					  G_CALLBACK (cb_position_changed), state);
 			state->w_spin = w;
+		} else {
+			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width_label"));
+			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width_spin"));
+			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width-pc-lbl"));
+		}
 
+		if (manual_size && size_mode & GOG_MANUAL_SIZE_HEIGHT) {
 			w = go_gtk_builder_get_widget (gui, "height_label");
 			gtk_size_group_add_widget (label_size_group, w);
 			w = go_gtk_builder_get_widget (gui, "height_spin");
@@ -524,10 +550,13 @@ gog_object_populate_editor (GogObject *gobj,
 					  G_CALLBACK (cb_position_changed), state);
 			state->h_spin = w;
 		} else {
-			w = go_gtk_builder_get_widget (gui, "manual_sizes");
-			gtk_widget_hide (w);
+			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height_label"));
+			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height_spin"));
+			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height-pc-lbl"));
 		}
+
 	}
+
 	if (GOG_IS_CHART (gobj)) {
 		/* setting special notebook page */
 		int col, row, cols, rows;
@@ -607,7 +636,6 @@ gog_object_class_init (GObjectClass *klass)
 	gog_klass->populate_editor = gog_object_populate_editor;
 #endif
 
-	gog_klass->can_manual_size = FALSE;
 	gog_klass->use_parent_as_proxy = FALSE;
 
 	g_object_class_install_property (klass, OBJECT_PROP_ID,
@@ -1716,17 +1744,17 @@ gog_object_get_manual_allocation (GogObject *gobj,
 {
 	GogViewAllocation pos;
 	unsigned anchor;
+	GogManualSizeMode size_mode = gog_object_get_manual_size_mode (gobj);
 
 	pos.x = parent_allocation->x + gobj->manual_position.x * parent_allocation->w;
 	pos.y = parent_allocation->y + gobj->manual_position.y * parent_allocation->h;
 
-	if (GOG_OBJECT_GET_CLASS (gobj)->can_manual_size) {
-		pos.w = gobj->manual_position.w * parent_allocation->w;
-		pos.h = gobj->manual_position.h * parent_allocation->h;
-	} else {
-		pos.w = requisition->w;
-		pos.h = requisition->h;
-	}
+	pos.w = (size_mode & GOG_MANUAL_SIZE_WIDTH)?
+		gobj->manual_position.w * parent_allocation->w:
+		requisition->w;
+	pos.h = (size_mode & GOG_MANUAL_SIZE_HEIGHT)?
+		gobj->manual_position.h * parent_allocation->h:
+		requisition->h;
 
 	anchor = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
 
@@ -1853,4 +1881,12 @@ gog_object_document_changed (GogObject *obj, GODoc *doc)
 		GOG_OBJECT_GET_CLASS (obj)->document_changed (obj, doc);
 	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
 		gog_object_document_changed (GOG_OBJECT (ptr->data), doc);
+}
+
+GogManualSizeMode
+gog_object_get_manual_size_mode (GogObject *obj)
+{
+	if (GOG_OBJECT_GET_CLASS (obj)->get_manual_size_mode != NULL)
+		return GOG_OBJECT_GET_CLASS (obj)->get_manual_size_mode (obj);
+	return GOG_MANUAL_SIZE_AUTO;
 }

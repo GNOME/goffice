@@ -31,6 +31,13 @@ typedef enum {
 	GOG_OBJECT_NAME_MANUALLY = 3
 } GogObjectNamingConv;
 
+typedef enum {
+	GOG_MANUAL_SIZE_AUTO,   /* auto size, can't be changed */
+	GOG_MANUAL_SIZE_WIDTH,  /*=1*/
+	GOG_MANUAL_SIZE_HEIGHT, /*=2*/
+	GOG_MANUAL_SIZE_FULL    /*=3 or GOG_MANUAL_SIZE_WIDTH | GOG_MANUAL_SIZE_HEIGHT */
+} GogManualSizeMode;
+
 struct _GogObjectRole {
 	char const *id;	/* for persistence */
 	char const *is_a_typename;
@@ -82,7 +89,6 @@ typedef struct {
 
 	/* using some Private/Public statements to make gtk-doc happy since it does not like the ":1"*/
 	unsigned use_parent_as_proxy /*< private >*/:1/*< public >*/; /* when we change, pretend it was our parent */
-	unsigned can_manual_size /*< private >*/:1/*< public >*/;
 	unsigned roles_allocated /*< private >*/:1/*< public >*/;
 
 	/* Virtuals */
@@ -104,6 +110,7 @@ typedef struct {
 	void (*child_name_changed) (GogObject const *obj, GogObject const *child);
 	void (*children_reordered) (GogObject *obj);
 	void (*update_editor)	   (GogObject *obj);
+	GogManualSizeMode (*get_manual_size_mode) (GogObject *obj);
 } GogObjectClass;
 
 #define GOG_TYPE_OBJECT		(gog_object_get_type ())
@@ -173,6 +180,7 @@ void 	 gog_object_register_roles	  (GogObjectClass *klass,
 void 	 gog_object_request_editor_update (GogObject *obj);
 
 void	 gog_object_document_changed	  (GogObject *obj, GODoc *doc);
+GogManualSizeMode gog_object_get_manual_size_mode  (GogObject *obj);
 
 G_END_DECLS
 

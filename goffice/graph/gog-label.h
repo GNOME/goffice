@@ -32,6 +32,7 @@ typedef struct {
 	gboolean	  allow_markup;
 	gboolean	  rotate_frame;
 	gboolean	  rotate_bg;
+	gboolean	  allow_wrap;
 } GogText;
 
 typedef struct {

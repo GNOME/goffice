@@ -137,9 +137,7 @@ static GogTool gog_tool_move_object = {
 static gboolean
 gog_tool_resize_object_point (GogView *view, double x, double y, GogObject **gobj)
 {
-	GogObjectClass *gobj_klass = GOG_OBJECT_GET_CLASS (view->model);
-
-	if (!gobj_klass->can_manual_size)
+	if (GOG_MANUAL_SIZE_AUTO == gog_object_get_manual_size_mode (view->model))
 		return FALSE;
 
 	return gog_renderer_in_grip (x, y,
@@ -150,10 +148,7 @@ gog_tool_resize_object_point (GogView *view, double x, double y, GogObject **gob
 static void
 gog_tool_resize_object_render (GogView *view)
 {
-	GogObject *gobj = view->model;
-	GogObjectClass *gobj_klass = GOG_OBJECT_GET_CLASS (gobj);
-
-	if (!gobj_klass->can_manual_size)
+	if (GOG_MANUAL_SIZE_AUTO == gog_object_get_manual_size_mode (view->model))
 		return;
 
 	gog_renderer_draw_grip (view->renderer,

@@ -67,7 +67,6 @@ typedef struct {
 		GtkWidget *foreground_box;
 		GtkWidget *foreground_label;
 		GtkWidget *notebook;
-		GtkWidget *extension_box;
 		struct {
 			GtkWidget *selector;
 			GtkWidget *box;
@@ -137,14 +136,18 @@ go_style_set_image_preview (GOImage *pix, StylePrefState *state)
 			g_object_ref (state->fill.image.image);
 	}
 
-	if (pix == NULL)
+	if (pix == NULL) {
+		gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "fill_image_sample"));
+		gtk_label_set_text (GTK_LABEL (go_gtk_builder_get_widget (state->gui, "image-size-label")), _("No image!"));
 		return;
+	}
 
 	w = go_gtk_builder_get_widget (state->gui, "fill_image_sample");
 
 	scaled = go_image_get_scaled_pixbuf (pix, HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
+	gtk_widget_show (w);
 
 	w = go_gtk_builder_get_widget (state->gui, "image-size-label");
 	g_object_get (pix, "width", &width, "height", &height, NULL);
@@ -194,22 +197,22 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 {
 	GOStyle *style = state->style;
 	GOStyle *default_style = state->default_style;
-	GtkWidget *w, *table;
+	GtkWidget *w, *grid;
 
-	w = go_gtk_builder_get_widget (state->gui, "outline_box");
+	grid = go_gtk_builder_get_widget (state->gui, "outline-grid");
 	if (!enable) {
+		gtk_widget_hide (grid);
+		w = go_gtk_builder_get_widget (state->gui, "outline-label");
 		gtk_widget_hide (w);
 		return;
 	}
 
-	go_editor_register_widget (editor, w);
-
-	table = go_gtk_builder_get_widget (state->gui, "outline_table");
+	go_editor_register_widget (editor, grid);
 
 	/* DashType */
 	w = go_line_dash_selector_new (style->line.dash_type,
 				       default_style->line.dash_type);
-	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 2, 1);
 	g_signal_connect (G_OBJECT (w), "activate",
 			  G_CALLBACK (cb_outline_dash_type_changed), state);
 	/* Size */
@@ -224,8 +227,8 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		state->gui,
 		"outline_color", "outline_color_label",
 		G_CALLBACK (cb_outline_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
-	gtk_widget_show_all (table);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 1, 1, 1);
+	gtk_widget_show_all (grid);
 }
 
 
@@ -268,22 +271,22 @@ line_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 {
 	GOStyle *style = state->style;
 	GOStyle *default_style = state->default_style;
-	GtkWidget *w, *table;
+	GtkWidget *w, *grid;
 
-	w = go_gtk_builder_get_widget (state->gui, "line_box");
+	grid = go_gtk_builder_get_widget (state->gui, "line-grid");
 	if (!enable) {
+		gtk_widget_hide (grid);
+		w = go_gtk_builder_get_widget (state->gui, "line-label");
 		gtk_widget_hide (w);
 		return;
 	}
 
-	go_editor_register_widget (editor, w);
-
-	table = go_gtk_builder_get_widget (state->gui, "line_table");
+	go_editor_register_widget (editor, grid);
 
 	/* DashType */
 	w = go_line_dash_selector_new (style->line.dash_type,
 				       default_style->line.dash_type);
-	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 2, 1);
 	g_signal_connect (G_OBJECT (w), "activate",
 			  G_CALLBACK (cb_line_dash_type_changed), state);
 
@@ -300,8 +303,8 @@ line_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		state->gui,
 		"line_color", "line_color_label",
 		G_CALLBACK (cb_line_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
-	gtk_widget_show_all (table);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 1, 1, 1);
+	gtk_widget_show_all (grid);
 }
 
 static void cb_fill_background_color (GOSelector *selector, StylePrefState *state);
@@ -529,11 +532,11 @@ fill_image_init (StylePrefState *state)
 	type   = go_gtk_builder_get_widget (state->gui, "fill-image-fit");
 
 	state->fill.image.image = NULL;
+	go_style_set_image_preview (style->fill.image.image, state);
 
 	if (GO_STYLE_FILL_IMAGE == style->fill.type) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (type),
 			style->fill.image.type);
-		go_style_set_image_preview (style->fill.image.image, state);
 		state->fill.image.image = style->fill.image.image;
 		if (state->fill.image.image)
 			g_object_ref (state->fill.image.image);
@@ -577,7 +580,6 @@ fill_update_visibilies (FillType type, StylePrefState *state)
 		      fill_infos[type].show_brightness, NULL);
 	g_object_set (state->fill.foreground_box, "visible",
 		      !fill_infos[type].show_brightness, NULL);
-	g_object_set (state->fill.extension_box, "visible", type != FILL_TYPE_NONE, NULL);
 
 	if (fill_infos[type].show_gradient) {
 		gtk_label_set_text (GTK_LABEL (state->fill.foreground_label), _("Start:"));
@@ -614,12 +616,10 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	FillType type;
 
 	if (!enable) {
-		gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "fill_box"));
+		gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "fill-grid"));
+		gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "fill-label"));
 		return;
 	}
-
-	state->fill.extension_box = go_gtk_builder_get_widget (state->gui, "fill_extension_box");
-	go_editor_register_widget (editor, state->fill.extension_box);
 
 	state->fill.size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -630,7 +630,7 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		fill_image_init (state);
 	fill_update_selectors (state);
 
-	state->fill.notebook = go_gtk_builder_get_widget (state->gui, "fill_notebook");
+	state->fill.notebook = go_gtk_builder_get_widget (state->gui, "fill-notebook");
 
 	switch (state->style->fill.type) {
 		case GO_STYLE_FILL_PATTERN:
@@ -663,7 +663,7 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		"changed",
 		G_CALLBACK (cb_fill_type_changed), state);
 
-	w = go_gtk_builder_get_widget (state->gui, "fill_box");
+	w = go_gtk_builder_get_widget (state->gui, "fill-grid");
 	gtk_widget_show (GTK_WIDGET (w));
 
 	g_object_unref (state->fill.size_group);
@@ -1038,7 +1038,7 @@ go_style_populate_editor (GOStyle *style,
 			return;
 		}
 		state->gui = gui;
-		w = go_gtk_builder_get_widget (gui, "go_style_prefs");
+		w = go_gtk_builder_get_widget (gui, "go-style-prefs");
 		g_object_set_data (G_OBJECT (w), "state", state);
 		g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (go_style_pref_state_free), state);
 		go_editor_add_page (editor, w, _("Style"));

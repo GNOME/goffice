@@ -1,5 +1,27 @@
 2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/goffice-graph.h: some work on manual labels size.
+	* goffice/graph/gog-chart.c (gog_chart_get_manual_size_mode),
+	(gog_chart_class_init): ditto.
+	* goffice/graph/gog-label.c (gog_text_set_property),
+	(gog_text_get_property), (gog_text_get_manual_size_mode),
+	(gog_text_class_init), (wrap_cb), (gog_label_populate_editor):
+	* goffice/graph/gog-label.h: ditto.
+	* goffice/graph/gog-object-prefs.ui: ditto.
+	* goffice/graph/gog-object.c (cb_manual_size_changed),
+	(gog_object_populate_editor), (gog_object_class_init),
+	(gog_object_get_manual_allocation), (gog_object_document_changed),
+	(gog_object_get_manual_size_mode):
+	* goffice/graph/gog-object.h: ditto.
+	* goffice/graph/gog-view.c (gog_tool_resize_object_point),
+	(gog_tool_resize_object_render): ditto.
+	* goffice/utils/go-style-prefs.ui: redesigned the style prefs widget.
+	* goffice/utils/go-style.c (go_style_set_image_preview),
+	(outline_init), (line_init), (fill_image_init),
+	(fill_update_visibilies), (fill_init), (go_style_populate_editor): ditto.
+
+2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-canvas.c (goc_canvas_get_bounds): fixed arguments type.
 	* goffice/canvas/goc-canvas.h: ditto.
 	* goffice/canvas/goc-pixbuf.c (goc_pixbuf_draw): cleaned.

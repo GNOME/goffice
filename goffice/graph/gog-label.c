@@ -40,7 +40,8 @@ enum {
 	TEXT_PROP_0,
 	TEXT_PROP_ALLOW_MARKUP,
 	TEXT_PROP_ROTATE_FRAME,
-	TEXT_PROP_ROTATE_BG
+	TEXT_PROP_ROTATE_BG,
+	TEXT_PROP_ALLOW_WRAP
 };
 
 static GObjectClass *text_parent_klass;
@@ -60,6 +61,9 @@ gog_text_set_property (GObject *obj, guint param_id,
 		break;
 	case TEXT_PROP_ROTATE_BG:
 		text->rotate_bg = g_value_get_boolean (value);
+		break;
+	case TEXT_PROP_ALLOW_WRAP:
+		text->allow_wrap = g_value_get_boolean (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -83,6 +87,9 @@ gog_text_get_property (GObject *obj, guint param_id,
 		break;
 	case TEXT_PROP_ROTATE_BG:
 		g_value_set_boolean (value, text->rotate_bg);
+		break;
+	case TEXT_PROP_ALLOW_WRAP:
+		g_value_set_boolean (value, text->allow_wrap);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -112,6 +119,12 @@ gog_text_init_style (GogStyledObject *gso, GOStyle *style)
 		    && style->text_layout.auto_angle)
 			style->text_layout.angle = 90.0;
 	}
+}
+
+static GogManualSizeMode
+gog_text_get_manual_size_mode (GogObject *gobj)
+{
+	return GOG_TEXT (gobj)->allow_wrap? GOG_MANUAL_SIZE_WIDTH: GOG_MANUAL_SIZE_AUTO;
 }
 
 static void
@@ -144,8 +157,15 @@ gog_text_class_init (GogTextClass *klass)
 			_("Whether the background should be rotated with the text"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, TEXT_PROP_ALLOW_WRAP,
+		g_param_spec_boolean ("allow-wrap",
+			_("Wrap the text"),
+			_("Whether the text might be displayed using several lines"),
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type		= gog_text_view_get_type ();
+	gog_klass->get_manual_size_mode	= gog_text_get_manual_size_mode;
 	style_klass->init_style 	= gog_text_init_style;
 }
 
@@ -226,6 +246,12 @@ allow_markup_cb (GtkToggleButton *btn, GObject *obj)
 }
 
 static void
+wrap_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "allow-wrap", gtk_toggle_button_get_active (btn), NULL);
+}
+
+static void
 gog_label_populate_editor (GogObject *gobj,
 			   GOEditor *editor,
 			   GogDataAllocator *dalloc,
@@ -239,11 +265,19 @@ gog_label_populate_editor (GogObject *gobj,
 					    0, GOG_DATA_SCALAR));
 	GtkWidget *w;
 
-	g_object_set (G_OBJECT (grid),
-	              "margin", 12,
-	              "row-spacing", 12,
-	              "column-spacing", 6,
-	              NULL);
+	if (gtk_check_version (3, 2, 0)) /* Remove when we request 3.2.0 */
+		g_object_set (G_OBJECT (grid),
+			      "margin", 12,
+			      "row-spacing", 6,
+			      "column-spacing", 12,
+			      NULL);
+	else
+		g_object_set (G_OBJECT (grid),
+			      "margin", 12,
+			      "row-spacing", 12,
+			      "column-spacing", 6,
+			      NULL);
+
 	g_object_set (G_OBJECT (editor_widget), "hexpand", TRUE, NULL);
 
 	gtk_grid_attach (GTK_GRID (grid),
@@ -253,15 +287,19 @@ gog_label_populate_editor (GogObject *gobj,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->rotate_frame);
 	g_signal_connect (w, "toggled", G_CALLBACK (rotate_frame_cb), gobj);
 	gtk_grid_attach (GTK_GRID (grid), w, 0, 1, 2, 1);
+	w = gtk_check_button_new_with_label (_("Display the text on several lines if needed"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->allow_wrap);
+	g_signal_connect (w, "toggled", G_CALLBACK (wrap_cb), gobj);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, 2, 2, 1);
 	w = gtk_check_button_new_with_label (_("Rotate background with text"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->rotate_bg);
 	g_signal_connect (w, "toggled", G_CALLBACK (rotate_bg_cb), gobj);
-	gtk_grid_attach (GTK_GRID (grid), w, 0, 2, 2, 1);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, 3, 2, 1);
 	w = gtk_check_button_new_with_label (_("Interpret text as markup"));
 	gtk_widget_set_tooltip_text (w, _("Interpret the text as an html like markup as described at http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->allow_markup);
 	g_signal_connect (w, "toggled", G_CALLBACK (allow_markup_cb), gobj);
-	gtk_grid_attach (GTK_GRID (grid), w, 0, 3, 2, 1);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, 4, 2, 1);
 	gtk_widget_show_all (grid);
 
 	go_editor_add_page (editor, grid, _("Details"));
