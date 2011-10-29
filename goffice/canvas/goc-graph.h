@@ -36,6 +36,7 @@ struct _GocGraph {
 		guint timer_id;
 		double x, y;
 	} coords;
+	gpointer priv;
 };
 
 typedef GocItemClass GocGraphClass;

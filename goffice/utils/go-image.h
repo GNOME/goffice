@@ -22,10 +22,7 @@
 #include <goffice/goffice.h>
 #include <gsf/gsf-libxml.h>
 #include <cairo.h>
-
-#ifdef GOFFICE_WITH_GTK
-#	include <gdk-pixbuf/gdk-pixbuf.h>
-#endif
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
 

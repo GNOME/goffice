@@ -34,6 +34,7 @@ struct _GocLine {
 	double startx, starty, endx, endy;
 
 	GOArrow start_arrow, end_arrow;
+	gpointer priv;
 };
 
 typedef GocStyledItemClass GocLineClass;

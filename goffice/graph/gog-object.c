@@ -519,7 +519,7 @@ gog_object_populate_editor (GogObject *gobj,
 		w = go_gtk_builder_get_widget (gui, "size-select-box");
 		gtk_widget_destroy (w);
 	} else {
-		gboolean manual_size = flags & GOG_POSITION_ANY_MANUAL_SIZE;
+		gboolean manual_size = (flags = gog_object_get_position_flags (gobj, GOG_POSITION_ANY_MANUAL_SIZE)) != 0;
 		w = go_gtk_builder_get_widget (gui, "object-size-combo");
 		gtk_combo_box_set_active (GTK_COMBO_BOX (w),
 		                          manual_size? 1: 0);

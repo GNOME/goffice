@@ -38,6 +38,7 @@ struct _GocPolygon {
 	gboolean fill_rule;
 	unsigned nb_sizes;
 	int *sizes;
+	gpointer priv;
 };
 
 #define GOC_TYPE_POLYGON	(goc_polygon_get_type ())

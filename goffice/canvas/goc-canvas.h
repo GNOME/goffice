@@ -24,7 +24,9 @@
 #define GOC_CANVAS_H
 
 #include <goffice/goffice.h>
+#ifdef GOFFICE_WITH_GTK
 #include <gdk/gdk.h>
+#endif
 
 G_BEGIN_DECLS
 
@@ -35,7 +37,11 @@ typedef enum {
 } GocDirection;
 
 struct _GocCanvas {
+#ifdef GOFFICE_WITH_GTK
 	GtkLayout base;
+#else
+	GObject base;
+#endif
 	double scroll_x1, scroll_y1;
 	double pixels_per_unit;
 	int width, height;
@@ -43,11 +49,18 @@ struct _GocCanvas {
 	GocItem *grabbed_item;
 	GocItem	*last_item;
 	GODoc *document;
+#ifdef GOFFICE_WITH_GTK
 	GdkEvent *cur_event;
+#endif
 	GocDirection direction;
+	gpointer priv;
 };
 
+#ifdef GOFFICE_WITH_GTK
 typedef GtkLayoutClass GocCanvasClass;
+#else
+typedef GObjectClass GocCanvasClass;
+#endif
 
 #define GOC_TYPE_CANVAS	(goc_canvas_get_type ())
 #define GOC_CANVAS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_CANVAS, GocCanvas))
@@ -69,7 +82,9 @@ void		 goc_canvas_ungrab_item (GocCanvas *canvas);
 GocItem		*goc_canvas_get_grabbed_item (GocCanvas *canvas);
 void		 goc_canvas_set_document (GocCanvas *canvas, GODoc *document);
 GODoc		*goc_canvas_get_document (GocCanvas *canvas);
+#ifdef GOFFICE_WITH_GTK
 GdkEvent	*goc_canvas_get_cur_event (GocCanvas *canvas);
+#endif
 void		 goc_canvas_set_direction (GocCanvas *canvas, GocDirection direction);
 GocDirection     goc_canvas_get_direction (GocCanvas *canvas);
 void		 goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_);

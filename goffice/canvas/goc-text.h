@@ -39,6 +39,7 @@ struct _GocText {
 	GOAnchorType anchor;
 	PangoAttrList *attributes;
 	PangoLayout *layout;
+	gpointer priv;
 };
 
 typedef GocStyledItemClass GocTextClass;

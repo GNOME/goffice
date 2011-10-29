@@ -24,6 +24,7 @@
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+#include <pango/pangocairo.h>
 
 /**
  * SECTION:goc-text
@@ -207,6 +208,7 @@ goc_text_get_property (GObject *gobject, guint param_id,
 static void
 goc_text_realize (GocItem *item)
 {
+#ifdef GOFFICE_WITH_GTK
 	GocText *text = GOC_TEXT (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 
@@ -225,6 +227,7 @@ goc_text_realize (GocItem *item)
 	} else
 		pango_layout_set_width (text->layout, -1);
 	goc_item_bounds_changed (item);
+#endif
 }
 
 static void

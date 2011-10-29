@@ -33,6 +33,7 @@ struct _GocPath {
 	double rotation, x, y;
 	gboolean closed;
 	GOPath *path;
+	gpointer priv;
 };
 
 typedef GocStyledItemClass GocPathClass;

@@ -33,6 +33,7 @@ struct _GocImage {
 	double x, y, width, height, rotation;
 	double crop_left, crop_right, crop_top, crop_bottom;
 	GOImage *image;
+	gpointer priv;
 };
 typedef GocItemClass GocImageClass;
 

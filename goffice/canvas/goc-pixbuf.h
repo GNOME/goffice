@@ -32,6 +32,7 @@ struct _GocPixbuf {
 
 	double x, y, width, height, rotation;
 	GdkPixbuf *pixbuf;
+	gpointer priv;
 };
 typedef GocItemClass GocPixbufClass;
 

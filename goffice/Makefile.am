@@ -1,4 +1,4 @@
-SUBDIRS = utils data app graph math
+SUBDIRS = utils data app graph math canvas
 
 lib_LTLIBRARIES = libgoffice-@GOFFICE_API_VER@.la
 
@@ -12,7 +12,7 @@ libgoffice_@GOFFICE_API_VER@_la_LIBADD = 			\
 	$(GTK_MAC_LIBS)
 
 if WITH_GTK
-SUBDIRS += gtk component canvas
+SUBDIRS += gtk component
 libgoffice_@GOFFICE_API_VER@_la_LIBADD += 			\
 	gtk/libgoffice-gtk.la			\
 	component/libgoffice-component.la	\

@@ -22,7 +22,9 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
+#ifdef GOFFICE_WITH_GTK
+#       include <gtk/gtk.h>
+#endif
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
@@ -162,6 +164,7 @@ goc_item_leave_notify (GocItem *item, double x, double y)
 		FALSE;
 }
 
+#ifdef GOFFICE_WITH_GTK
 static gboolean
 goc_item_key_pressed (GocItem *item, GdkEventKey* ev)
 {
@@ -177,6 +180,7 @@ goc_item_key_released (GocItem *item, GdkEventKey* ev)
 		GOC_ITEM_GET_CLASS (item->parent)->key_released (GOC_ITEM (item->parent), ev):
 		FALSE;
 }
+#endif
 
 static void
 goc_item_realize (GocItem *item)
@@ -209,12 +213,14 @@ goc_item_dispose (GObject *object)
 			item->canvas->last_item = NULL;
 		if (item->canvas->grabbed_item == item)
 			item->canvas->grabbed_item = NULL;
+#ifdef GOFFICE_WITH_GTK
 		if (gtk_widget_get_realized (GTK_WIDGET (item->canvas))) {
 			item->cached_bounds = TRUE; /* avoids a call to update_bounds */
 			goc_item_invalidate (item);
 		}
+#endif
 	}
-
+	
 	if (item->parent != NULL)
 		goc_group_remove_child (item->parent, item);
 
@@ -271,8 +277,10 @@ goc_item_class_init (GocItemClass *item_klass)
 	item_klass->motion = goc_item_motion;
 	item_klass->enter_notify = goc_item_enter_notify;
 	item_klass->leave_notify = goc_item_leave_notify;
+#ifdef GOFFICE_WITH_GTK
 	item_klass->key_pressed = goc_item_key_pressed;
 	item_klass->key_released = goc_item_key_released;
+#endif
 }
 
 static void
@@ -442,9 +450,10 @@ goc_item_maybe_invalidate (GocItem *item, gboolean ignore_visibility)
 	if (!parent)
 		return;
 
+#ifdef GOFFICE_WITH_GTK
 	if (!gtk_widget_get_realized (GTK_WIDGET (item->canvas)))
 		return;
-
+#endif
 	if (!ignore_visibility && !item->visible)
 		return;
 
@@ -602,6 +611,7 @@ goc_item_ungrab	(GocItem *item)
 static void
 goc_item_reordered (GocItem *item, int n)
 {
+#ifdef GOFFICE_WITH_GTK
 	GocGroup *group = item->parent;
 	GList *cur = g_list_find (group->children, item);
 	GdkWindow *window;
@@ -620,6 +630,7 @@ goc_item_reordered (GocItem *item, int n)
 			cur = cur->prev;
 		}
 	}
+#endif
 }
 
 /**
@@ -726,9 +737,11 @@ goc_item_get_parent (GocItem *item)
 	return item->parent;
 }
 
+#ifdef GOFFICE_WITH_GTK
 GdkWindow *
 goc_item_get_window (GocItem *item)
 {
 	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 	return (klass->get_window)? klass->get_window (item): NULL;
 }
+#endif

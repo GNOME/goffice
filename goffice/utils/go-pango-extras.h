@@ -3,7 +3,10 @@
 #define GO_PANGO_EXTRAS_H
 
 #include <pango/pango.h>
+
+#ifdef GOFFICE_WITH_GTK
 #include <gtk/gtk.h>
+#endif
 
 G_BEGIN_DECLS
 
@@ -25,10 +28,12 @@ void go_pango_attr_list_unset (PangoAttrList  *list,
 			       PangoAttrType type);
 gboolean go_pango_attr_list_is_empty (const PangoAttrList *attrs);
 
+#ifdef GOFFICE_WITH_GTK
 void go_load_pango_attributes_into_buffer (PangoAttrList *markup,
 					   GtkTextBuffer *buffer,
 					   gchar const *str);
 void go_create_std_tags_for_buffer (GtkTextBuffer *buffer);
+#endif
 
 PangoAttrList *go_pango_translate_attributes (PangoAttrList *attrs);
 void go_pango_translate_layout (PangoLayout *layout);

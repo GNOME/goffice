@@ -31,6 +31,7 @@ struct _GocCircle {
 	GocStyledItem base;
 
 	double x, y, radius;
+	gpointer priv;
 };
 
 typedef GocStyledItemClass GocCircleClass;

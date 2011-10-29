@@ -95,7 +95,7 @@ goc_component_set_property (GObject *obj, guint param_id,
 	}
 	case COMPONENT_PROP_ROTATION: {
 		double r = g_value_get_double (value) / 180. * M_PI;
-		if (!component->component || go_component_needs_window (component->component) || r == component->rotation)
+		if (!component->component || r == component->rotation)
 			return;
 		component->rotation = r;
 		break;
@@ -291,7 +291,7 @@ goc_component_class_init (GocItemClass *item_klass)
 	g_object_class_install_property (obj_klass, COMPONENT_PROP_ROTATION,
 		g_param_spec_double ("rotation",
 			_("Rotation"),
-			_("The rotation around center, only available for windowless components"),
+			_("The rotation around center"),
 			0., 360., 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, COMPONENT_PROP_OBJECT,

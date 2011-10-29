@@ -58,7 +58,6 @@ G_END_DECLS
 #include <goffice/canvas/goc-utils.h>
 
 #include <goffice/canvas/goc-circle.h>
-#include <goffice/canvas/goc-component.h>
 #include <goffice/canvas/goc-ellipse.h>
 #include <goffice/canvas/goc-graph.h>
 #include <goffice/canvas/goc-group.h>
@@ -71,6 +70,9 @@ G_END_DECLS
 #include <goffice/canvas/goc-polygon.h>
 #include <goffice/canvas/goc-rectangle.h>
 #include <goffice/canvas/goc-text.h>
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/canvas/goc-component.h>
 #include <goffice/canvas/goc-widget.h>
+#endif
 
 #endif  /* GOFFICE_CANVAS_H */

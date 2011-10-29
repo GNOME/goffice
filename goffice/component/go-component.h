@@ -49,10 +49,10 @@ struct _GOComponent {
 	GDestroyNotify destroy_notify;
 	gpointer destroy_data;
 	int length;
-	GdkWindow *window;
 	GOSnapshotType snapshot_type;
 	void *snapshot_data;
 	size_t snapshot_length;
+	gpointer priv;
 };
 
 struct _GOComponentClass {
@@ -65,12 +65,19 @@ struct _GOComponentClass {
 	void (*set_data) (GOComponent *component);
 	void (*set_default_size) (GOComponent* component);
 	void (*set_size) (GOComponent *component);
-	void (*set_window) (GOComponent *component);
 	void (*render) (GOComponent *component, cairo_t *cr,
 			    double width, double height);
+	void (*reserved1) (void);
+	void (*reserved2) (void);
+	void (*reserved3) (void);
+	void (*reserved4) (void);
 
 	/* signals */
 	void (*changed) (GOComponent* component);
+	void (*reserved_signal1) (void);
+	void (*reserved_signal2) (void);
+	void (*reserved_signal3) (void);
+	void (*reserved_signal4) (void);
 };
 
 typedef struct _GOComponentClass GOComponentClass;
@@ -87,7 +94,6 @@ GOComponent  *go_component_new_from_uri	(char const *uri);
 
 void go_component_set_default_size (GOComponent *component,
 				    double width, double ascent, double descent);
-gboolean go_component_needs_window (GOComponent *component);
 void go_component_set_window (GOComponent *component, GdkWindow *window);
 void go_component_set_data (GOComponent *component,
 			    char const *data, int length);
@@ -110,6 +116,7 @@ void go_component_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 				       GOComponentSaxHandler handler, gpointer user_data);
 
 GOSnapshotType go_component_build_snapshot (GOComponent *component);
+void const *go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t *length);
 
 G_END_DECLS
 

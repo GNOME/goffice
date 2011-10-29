@@ -217,10 +217,8 @@ static void
 go_component_init (GOComponent *component)
 {
 	component->mime_type = NULL;
-	component->needs_window = FALSE;
 	component->editable = FALSE;
 	component->resizable = FALSE;
-	component->window = NULL;
 }
 
 GSF_CLASS_ABSTRACT (GOComponent, go_component,
@@ -361,33 +359,6 @@ go_component_set_default_size (GOComponent *component, double width, double asce
 		klass->set_default_size (component);
 }
 
-/**
- * go_component_needs_window:
- * @component: #GOComponent
- *
- * Returns: TRUE  if the component uses its own #GtkWindow.
- **/
-
-gboolean
-go_component_needs_window (GOComponent *component)
-{
-	g_return_val_if_fail (GO_IS_COMPONENT (component), FALSE);
-	return component->needs_window;
-}
-
-void
-go_component_set_window (GOComponent *component, GdkWindow *window)
-{
-	GOComponentClass *klass;
-
-	g_return_if_fail (GO_IS_COMPONENT (component));
-
-	klass = GO_COMPONENT_GET_CLASS(component);
-	component->window = window;
-	if (klass->set_window)
-		klass->set_window (component);
-}
-
 void
 go_component_set_data (GOComponent *component, char const *data, int length)
 {
@@ -439,6 +410,10 @@ go_component_set_size (GOComponent *component, double width, double height)
 	klass = GO_COMPONENT_GET_CLASS(component);
 	component->width = width;
 	component->height = height;
+	/* clear the snapshot */
+	g_free (component->snapshot_data);
+	component->snapshot_data = NULL;
+	component->snapshot_length = 0;
 	if (klass->set_size)
 		klass->set_size (component);
 }
@@ -518,7 +493,7 @@ go_component_get_size (GOComponent *component, double *width, double *height)
 {
 	*width = component->width;
 	if (component->height == 0.)
-		component->height = component->ascent >+ component->descent;
+		component->height = component->ascent + component->descent;
 	*height = component->height;
 }
 
@@ -731,8 +706,7 @@ go_component_build_snapshot (GOComponent *component)
 	default:
 		return GO_SNAPSHOT_NONE;
 	}
-	if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS) {
-	} else
+	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
 		res = GO_SNAPSHOT_NONE;
 
 	cairo_surface_destroy (surface);
@@ -775,4 +749,16 @@ go_component_new_from_uri (char const *uri)
 	go_component_set_data (component, data, length);
 	component->destroy_notify = g_free;
 	return component;
+}
+
+void const *
+go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t *length)
+{
+	if (component->snapshot_data == NULL)
+		go_component_build_snapshot (component);
+	if (type)
+		*type = component->snapshot_type;
+	if (length)
+		*length = component->snapshot_length;
+	return component->snapshot_data;
 }

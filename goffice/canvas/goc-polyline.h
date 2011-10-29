@@ -35,6 +35,7 @@ struct _GocPolyline {
 	GocPoint *points;
 	unsigned nb_points;
 	gboolean use_spline;
+	gpointer priv;
 };
 
 #define GOC_TYPE_POLYLINE	(goc_polyline_get_type ())

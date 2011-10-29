@@ -4,7 +4,6 @@ libgoffice_canvas_la_SOURCES =	\
 	goc-arc.c		\
 	goc-canvas.c		\
 	goc-circle.c		\
-	goc-component.c		\
 	goc-ellipse.c		\
 	goc-graph.c		\
 	goc-group.c		\
@@ -18,8 +17,13 @@ libgoffice_canvas_la_SOURCES =	\
 	goc-rectangle.c		\
 	goc-styled-item.c	\
 	goc-text.c		\
-	goc-utils.c		\
+	goc-utils.c
+
+if  WITH_GTK
+libgoffice_canvas_la_SOURCES += \
+	goc-component.c	\
 	goc-widget.c
+endif
 
 libgoffice_canvas_ladir = $(goffice_include_dir)/canvas
 libgoffice_canvas_la_HEADERS =	\

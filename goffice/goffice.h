@@ -54,9 +54,9 @@
 #include <goffice/data/goffice-data.h>
 #include <goffice/math/goffice-math.h>
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/canvas/goffice-canvas.h>
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <goffice/canvas/goffice-canvas.h>
 #endif
 
 G_BEGIN_DECLS

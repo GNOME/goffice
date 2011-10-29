@@ -43,6 +43,7 @@ struct _GocRectangle {
 	double x, y, width, height;
 	int type;
 	double rx, ry;
+	gpointer priv;
 };
 
 typedef GocStyledItemClass GocRectangleClass;

@@ -35,6 +35,7 @@ struct _GocItem {
 	gboolean		 visible;
 	gboolean		 realized;
 	double			 x0, y0, x1, y1; /* the bounds */
+	gpointer		 priv;
 };
 
 typedef struct _GocItemClass GocItemClass;
@@ -56,10 +57,16 @@ struct _GocItemClass {
 	gboolean		(*leave_notify) (GocItem *item, double x, double y);
 	void			(*realize) (GocItem *item);
 	void			(*unrealize) (GocItem *item);
+	void			(*notify_scrolled) (GocItem *item);
+#ifdef GOFFICE_WITH_GTK
 	gboolean		(*key_pressed) (GocItem *item, GdkEventKey* ev);
 	gboolean		(*key_released) (GocItem *item, GdkEventKey* ev);
-	void			(*notify_scrolled) (GocItem *item);
 	GdkWindow*		(*get_window) (GocItem *item);
+#endif
+	void (*reserved1) (void);
+	void (*reserved2) (void);
+	void (*reserved3) (void);
+	void (*reserved4) (void);
 };
 
 #define GOC_TYPE_ITEM	(goc_item_get_type ())
@@ -87,7 +94,9 @@ void		 goc_item_get_bounds	(GocItem const *item,
 					 double *x0, double *y0,
 					 double *x1, double *y1);
 GocGroup	*goc_item_get_parent    (GocItem *item);
+#ifdef GOFFICE_WITH_GTK
 GdkWindow       *goc_item_get_window    (GocItem *item);
+#endif
 void		 goc_item_bounds_changed (GocItem *item);
 void		 goc_item_grab		(GocItem *item);
 void		 goc_item_ungrab	(GocItem *item);

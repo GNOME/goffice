@@ -32,6 +32,7 @@ struct _GocStyledItem {
 
 	GOStyle	*style;
 	gboolean scale_line_width;
+	gpointer priv;
 };
 
 typedef struct _GocStyledItemClass GocStyledItemClass;
@@ -42,10 +43,14 @@ struct _GocStyledItemClass {
 	/*< public >*/
 	/* virtual */
 	void	  (*init_style)     	(GocStyledItem *item, GOStyle *style);
+	void (*reserved1) (void);
+	void (*reserved2) (void);
 
 	/*< private >*/
 	/* signal */
 	void (*style_changed) (GocStyledItem *item, GOStyle const *new_style);
+	void (*reserved_signal1) (void);
+	void (*reserved_signal2) (void);
 };
 
 #define GOC_TYPE_STYLED_ITEM	(goc_styled_item_get_type ())

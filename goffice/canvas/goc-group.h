@@ -34,12 +34,17 @@ struct _GocGroup {
 	GList			*children;
 	GOPath			*clip_path;
 	cairo_fill_rule_t       clip_rule;
+	gpointer		priv;
 };
 
 typedef struct _GocGroupClass GocGroupClass;
 struct _GocGroupClass
 {
 	GocItemClass base;
+	void (*reserved1) (void);
+	void (*reserved2) (void);
+	void (*reserved3) (void);
+	void (*reserved4) (void);
 };
 
 #define GOC_TYPE_GROUP	(goc_group_get_type ())

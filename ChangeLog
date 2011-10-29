@@ -1,3 +1,42 @@
+2011-10-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: allow the canvas in the without gtk build.
+	* goffice/canvas/Makefile.am: ditto.
+	* goffice/canvas/goc-arc.h: add placeholders for extensions.
+	* goffice/canvas/goc-canvas.c: ditto.
+	* goffice/canvas/goc-canvas.h: ditto.
+	* goffice/canvas/goc-circle.h: ditto.
+	* goffice/canvas/goc-component.c: ditto.
+	* goffice/canvas/goc-ellipse.h: ditto.
+	* goffice/canvas/goc-graph.c: ditto.
+	* goffice/canvas/goc-graph.h: ditto.
+	* goffice/canvas/goc-group.h: ditto.
+	* goffice/canvas/goc-image.h: ditto.
+	* goffice/canvas/goc-item.c: ditto.
+	* goffice/canvas/goc-item.h: ditto.
+	* goffice/canvas/goc-line.h: ditto.
+	* goffice/canvas/goc-path.h: ditto.
+	* goffice/canvas/goc-pixbuf.h: ditto.
+	* goffice/canvas/goc-polygon.h: ditto.
+	* goffice/canvas/goc-polyline.h: ditto.
+	* goffice/canvas/goc-rectangle.h: ditto.
+	* goffice/canvas/goc-styled-item.h: ditto.
+	* goffice/canvas/goc-text.c: ditto.
+	* goffice/canvas/goc-text.h: ditto.
+	* goffice/canvas/goc-widget.h: ditto.
+	* goffice/canvas/goffice-canvas.h: ditto.
+	* goffice/component/go-component.c: remove support for windowed components.
+	* goffice/component/go-component.h: ditto.
+	* goffice/goffice.h: fix the without gtk build.
+	* goffice/graph/gog-object.c: ditto.
+	* goffice/gtk/goffice-gtk.c: ditto.
+	* goffice/utils/go-emf.c: imported Valek's WMF parser and started an EMF
+	parser.
+	* goffice/utils/go-image.h: fix the without gtk build.
+	* goffice/utils/go-pango-extras.c: ditto.
+	* goffice/utils/go-pango-extras.h: ditto.
+	* plugins/plot_radar/gog-radar.c: ditto.
+
 2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/goffice-graph.h: some work on manual labels size.

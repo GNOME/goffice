@@ -412,8 +412,8 @@ gog_polar_area_populate_editor (GogObject *obj,
 		g_object_unref (gui);
 	}
 
-#endif
 	gog_class->populate_editor (obj, editor, dalloc, cc);
+#endif
 };
 
 /*****************************************************************************/

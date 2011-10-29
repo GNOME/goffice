@@ -36,6 +36,7 @@ struct _GocArc {
 	int type;
 
 	GOArrow start_arrow, end_arrow;
+	gpointer priv;
 };
 
 typedef GocStyledItemClass GocArcClass;

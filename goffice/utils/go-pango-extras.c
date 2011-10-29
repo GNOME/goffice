@@ -252,6 +252,7 @@ go_pango_attr_list_is_empty (const PangoAttrList *attrs)
 	return empty;
 }
 
+#ifdef GOFFICE_WITH_GTK
 static gboolean
 go_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
 					  G_GNUC_UNUSED gpointer data)
@@ -481,6 +482,7 @@ go_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buf
 		pango_attr_list_unref (our_markup);
 	}
 }
+#endif
 
 static gboolean
 filter_func (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)

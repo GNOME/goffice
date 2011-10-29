@@ -245,6 +245,7 @@ format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 	return g_string_free (res, FALSE);
 }
 
+#ifdef GOFFICE_WITH_GTK
 static void
 goc_graph_do_tooltip (GocGraph *graph)
 {
@@ -422,6 +423,7 @@ goc_graph_leave_notify (GocItem *item, double x, double y)
 	gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), NULL);
 	return ((GocItemClass*) parent_klass)->leave_notify (item, x, y);
 }
+#endif
 
 static void
 goc_graph_class_init (GocItemClass *item_klass)
@@ -474,8 +476,10 @@ goc_graph_class_init (GocItemClass *item_klass)
 	item_klass->draw = goc_graph_draw;
 	item_klass->update_bounds = goc_graph_update_bounds;
 	item_klass->distance = goc_graph_distance;
+#ifdef GOFFICE_WITH_GTK
 	item_klass->leave_notify = goc_graph_leave_notify;
 	item_klass->motion = goc_graph_motion;
+#endif
 }
 
 GSF_CLASS (GocGraph, goc_graph,

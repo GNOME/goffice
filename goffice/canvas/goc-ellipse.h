@@ -32,6 +32,7 @@ struct _GocEllipse {
 
 	double rotation; /* rotation around the center in radians */
 	double x, y, width, height;
+	gpointer priv;
 };
 
 typedef GocStyledItemClass GocEllipseClass;

@@ -33,6 +33,7 @@ struct _GocWidget {
 	double x, y, w, h;
 	GtkWidget *widget, *ofbox;
 	double scale, rotation; /* rotation is not in use for now */
+	gpointer priv;
 };
 
 typedef GocItemClass GocWidgetClass;

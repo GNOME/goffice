@@ -42,6 +42,8 @@
 
 static GObjectClass *parent_klass;
 
+#ifdef GOFFICE_WITH_GTK
+
 static gboolean
 goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 {
@@ -249,6 +251,8 @@ unrealize_cb (GocCanvas *canvas, G_GNUC_UNUSED gpointer data)
 	klass->unrealize (GOC_ITEM (canvas->root));
 }
 
+#endif
+
 static void
 goc_canvas_finalize (GObject *obj)
 {
@@ -268,25 +272,32 @@ goc_canvas_dispose (GObject *obj)
 static void
 goc_canvas_class_init (GObjectClass *klass)
 {
+#ifdef GOFFICE_WITH_GTK
 	GtkWidgetClass *widget_klass = (GtkWidgetClass *) klass;
+#endif
 
 	parent_klass = g_type_class_peek_parent (klass);
 	klass->finalize = goc_canvas_finalize;
 	klass->dispose = goc_canvas_dispose;
 
+#ifdef GOFFICE_WITH_GTK
 	widget_klass->draw = goc_canvas_draw;
+#endif
 }
 
 static void
 goc_canvas_init (GocCanvas *canvas)
 {
+#ifdef GOFFICE_WITH_GTK
 	GtkWidget *w = GTK_WIDGET (canvas);
-
+#endif
+	
 	canvas->root = GOC_GROUP (g_object_new (GOC_TYPE_GROUP, NULL));
 	canvas->root->base.canvas = canvas;
 	canvas->pixels_per_unit = 1.;
+#ifdef GOFFICE_WITH_GTK
 	gtk_widget_add_events (w,
-			   GDK_POINTER_MOTION_MASK |
+	                       GDK_POINTER_MOTION_MASK |
 			   GDK_BUTTON_MOTION_MASK |
 			   GDK_BUTTON_PRESS_MASK |
 			   GDK_2BUTTON_PRESS |
@@ -305,11 +316,16 @@ goc_canvas_init (GocCanvas *canvas)
 	g_signal_connect (G_OBJECT (w), "leave-notify-event", G_CALLBACK (leave_notify_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "realize", G_CALLBACK (realize_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "unrealize", G_CALLBACK (unrealize_cb), NULL);
+#endif
 }
 
 GSF_CLASS (GocCanvas, goc_canvas,
 	   goc_canvas_class_init, goc_canvas_init,
+#ifdef GOFFICE_WITH_GTK
 	   GTK_TYPE_LAYOUT)
+#else
+	   G_TYPE_OBJECT)
+#endif
 
 /**
  * goc_canvas_get_root :
@@ -370,8 +386,10 @@ goc_canvas_scroll_to (GocCanvas *canvas, double x, double y)
 	canvas->scroll_x1 = x;
 	canvas->scroll_y1 = y;
 	klass->notify_scrolled (GOC_ITEM (canvas->root));
+#ifdef GOFFICE_WITH_GTK
 	gtk_widget_queue_draw_area (GTK_WIDGET (canvas),
 					    0, 0, G_MAXINT, G_MAXINT);
+#endif
 }
 
 /**
@@ -410,8 +428,10 @@ goc_canvas_set_pixels_per_unit (GocCanvas *canvas, double pixels_per_unit)
 	klass = GOC_ITEM_GET_CLASS (canvas->root);
 	canvas->pixels_per_unit = pixels_per_unit;
 	klass->notify_scrolled (GOC_ITEM (canvas->root));
+#ifdef GOFFICE_WITH_GTK
 	gtk_widget_queue_draw_area (GTK_WIDGET (canvas),
 					    0, 0, G_MAXINT, G_MAXINT);
+#endif
 }
 
 /**
@@ -441,6 +461,7 @@ goc_canvas_get_pixels_per_unit (GocCanvas *canvas)
 void
 goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, double y1)
 {
+#ifdef GOFFICE_WITH_GTK
 	if (!gtk_widget_get_realized (GTK_WIDGET (canvas)))
 		return;
 	x0 = (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
@@ -465,6 +486,7 @@ goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, doubl
 					    (int) floor (x0) - 1, (int) floor (y0) - 1,
 					    (int) ceil (x1) - (int) floor (x0) + 2,
 		                            (int) ceil (y1) - (int) floor (y0) + 2);
+#endif
 }
 
 /**
@@ -553,6 +575,7 @@ goc_canvas_get_document (GocCanvas *canvas)
 	return canvas->document;
 }
 
+#ifdef GOFFICE_WITH_GTK
 /**
  * goc_canvas_get_cur_event :
  * @canvas : #GocCanvas
@@ -565,6 +588,7 @@ goc_canvas_get_cur_event (GocCanvas *canvas)
 	g_return_val_if_fail (GOC_IS_CANVAS (canvas), NULL);
 	return canvas->cur_event;
 }
+#endif
 
 /**
  * goc_canvas_ :
