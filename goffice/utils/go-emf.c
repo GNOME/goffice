@@ -245,8 +245,116 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
 #endif
 }
 
-
 #ifdef GOFFICE_EMF_SUPPORT
+
+/******************************************************************************
+ * DIB support, might go to a separate file
+ ******************************************************************************/
+typedef struct {
+	guint8 type; /* 0: BitmapCoreHeader, 1: BitmapInfoHeader */
+	unsigned width, height, planes, bit_count, compression,
+		 image_size, x_pixels_per_m, y_pixels_per_m,
+		 color_used, color_important;
+} GODibHeader;
+
+static void
+go_dib_read_header (GODibHeader *header, guint8 const *data)
+{
+	guint32 size = GSF_LE_GET_GUINT32 (data);
+	header->type = (size == 12)? 0: 1;
+	if (header->type == 0) {
+		header->width = GSF_LE_GET_GUINT16 (data + 4);
+		header->height = GSF_LE_GET_GUINT16 (data + 6);
+		header->planes = GSF_LE_GET_GUINT16 (data + 8);
+		header->bit_count = GSF_LE_GET_GUINT16 (data + 10);
+		/* other fields are unused */
+		header->compression = 0;
+		header->image_size = 0;
+		header->x_pixels_per_m = 0;
+		header->y_pixels_per_m = 0;
+		header->color_used = 0;
+		header->color_important = 0;
+	} else {
+		if (size != 40) {
+			/* Invalid header */
+			header->type = 255;
+			return;
+		}
+		header->width = GSF_LE_GET_GUINT32 (data + 4);
+		header->height = GSF_LE_GET_GUINT32 (data + 8);
+		header->planes = GSF_LE_GET_GUINT16 (data + 12);
+		header->bit_count = GSF_LE_GET_GUINT16 (data + 14);
+		header->compression = GSF_LE_GET_GUINT32 (data + 16);
+		header->image_size = GSF_LE_GET_GUINT32 (data + 20);
+		header->x_pixels_per_m = GSF_LE_GET_GUINT32 (data + 24);
+		header->y_pixels_per_m = GSF_LE_GET_GUINT32 (data + 28);
+		header->color_used = GSF_LE_GET_GUINT32 (data + 32);
+		header->color_important = GSF_LE_GET_GUINT32 (data + 36);
+	}
+}
+
+static GdkPixbuf *
+go_dib_create_pixbuf_from_data (GODibHeader const *header, guint8 const *data)
+{
+	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, header->width, header->height);
+	unsigned i, j;
+	unsigned dst_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	guint8 *row, *cur;
+	/* FIXME, this implementation is very incomplete */
+	switch (header->bit_count) {
+	case 0:
+		break;
+	case 1:
+		break;
+	case 4:
+		break;
+	case 8:
+		break;
+	case 16:
+		break;
+	case 24:
+		break;
+	case 32:
+		switch (header->compression) {
+		case 0:
+			if (header->type == 1 && header->width * header->height * 4 != header->image_size)
+				g_warning ("Invalid bitmap");
+			row = gdk_pixbuf_get_pixels (pixbuf) + header->height * dst_rowstride;
+			for (i = 0; i < header->height; i++) {
+				row -= dst_rowstride;
+				cur = row;
+				for (j = 0; j < header->width; j++) {
+					cur[0] = data[2];
+					cur[1] = data[1];
+					cur[2] = data[0];
+					cur[3] = 0xff;
+					data += 4;
+					cur += 4;
+				}
+			}
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 11:
+			break;
+		case 12:
+			break;
+		case 13:
+			break;
+		}
+		break;
+	}
+	return pixbuf;
+}
+
 /******************************************************************************
  * Parsing code                                                               
  *
@@ -270,6 +378,272 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
 
 #ifdef DEBUG_EMF_SUPPORT
 #       define d_(x)     g_print x
+
+char const *go_emf_dib_colors[] = {
+	"DIB_RGB_COLORS",
+	"DIB_PAL_COLORS",
+	"DIB_PAL_INDICES"
+};
+
+char const *go_emf_ternary_raster_operation[] = {
+	"BLACKNESS",
+	"DPSOON",
+	"DPSONA",
+	"PSON",
+	"SDPONA",
+	"DPON",
+	"PDSXNON",
+	"PDSAON",
+	"SDPNAA",
+	"PDSXON",
+	"DPNA",
+	"PSDNAON",
+	"SPNA",
+	"PDSNAON",
+	"PDSONON",
+	"PN",
+	"PDSONA",
+	"NOTSRCERASE",
+	"SDPXNON",
+	"SDPAON",
+	"DPSXNON",
+	"DPSAON",
+	"PSDPSANAXX",
+	"SSPXDSXAXN",
+	"SPXPDXA",
+	"SDPSANAXN",
+	"PDSPAOX",
+	"SDPSXAXN",
+	"PSDPAOX",
+	"DSPDXAXN",
+	"PDSOX",
+	"PDSOAN",
+	"DPSNAA",
+	"SDPXON",
+	"DSNA",
+	"SPDNAON",
+	"SPXDSXA",
+	"PDSPANAXN",
+	"SDPSAOX",
+	"SDPSXNOX",
+	"DPSXA",
+	"PSDPSAOXXN",
+	"DPSANA",
+	"SSPXPDXAXN",
+	"SPDSOAX",
+	"PSDNOX",
+	"PSDPXOX",
+	"PSDNOAN",
+	"PSNA",
+	"SDPNAON",
+	"SDPSOOX",
+	"NOTSRCCOPY",
+	"SPDSAOX",
+	"SPDSXNOX",
+	"SDPOX",
+	"SDPOAN",
+	"PSDPOAX",
+	"SPDNOX",
+	"SPDSXOX",
+	"SPDNOAN",
+	"PSX",
+	"SPDSONOX",
+	"SPDSNAOX",
+	"PSAN",
+	"PSDNAA",
+	"DPSXON",
+	"SDXPDXA",
+	"SPDSANAXN",
+	"SRCERASE",
+	"DPSNAON",
+	"DSPDAOX",
+	"PSDPXAXN",
+	"SDPXA",
+	"PDSPDAOXXN",
+	"DPSDOAX",
+	"PDSNOX",
+	"SDPANA",
+	"SSPXDSXOXN",
+	"PDSPXOX",
+	"PDSNOAN",
+	"PDNA",
+	"DSPNAON",
+	"DPSDAOX",
+	"SPDSXAXN",
+	"DPSONON",
+	"DSTINVERT",
+	"DPSOX",
+	"DPSOAN",
+	"PDSPOAX",
+	"DPSNOX",
+	"PATINVERT",
+	"DPSDONOX",
+	"DPSDXOX",
+	"DPSNOAN",
+	"DPSDNAOX",
+	"DPAN",
+	"PDSXA",
+	"DSPDSAOXXN",
+	"DSPDOAX",
+	"SDPNOX",
+	"SDPSOAX",
+	"DSPNOX",
+	"SRCINVERT",
+	"SDPSONOX",
+	"DSPDSONOXXN",
+	"PDSXXN",
+	"DPSAX",
+	"PSDPSOAXXN",
+	"SDPAX",
+	"PDSPDOAXXN",
+	"SDPSNOAX",
+	"PDXNAN",
+	"PDSANA",
+	"SSDXPDXAXN",
+	"SDPSXOX",
+	"SDPNOAN",
+	"DSPDXOX",
+	"DSPNOAN",
+	"SDPSNAOX",
+	"DSAN",
+	"PDSAX",
+	"DSPDSOAXXN",
+	"DPSDNOAX",
+	"SDPXNAN",
+	"SPDSNOAX",
+	"DPSXNAN",
+	"SPXDSXO",
+	"DPSAAN",
+	"DPSAA",
+	"SPXDSXON",
+	"DPSXNA",
+	"SPDSNOAXN",
+	"SDPXNA",
+	"PDSPNOAXN",
+	"DSPDSOAXX",
+	"PDSAXN",
+	"SRCAND",
+	"SDPSNAOXN",
+	"DSPNOA",
+	"DSPDXOXN",
+	"SDPNOA",
+	"SDPSXOXN",
+	"SSDXPDXAX",
+	"PDSANAN",
+	"PDSXNA",
+	"SDPSNOAXN",
+	"DPSDPOAXX",
+	"SPDAXN",
+	"PSDPSOAXX",
+	"DPSAXN",
+	"DPSXX",
+	"PSDPSONOXX",
+	"SDPSONOXN",
+	"DSXN",
+	"DPSNAX",
+	"SDPSOAXN",
+	"SPDNAX",
+	"DSPDOAXN",
+	"DSPDSAOXX",
+	"PDSXAN",
+	"DPA",
+	"PDSPNAOXN",
+	"DPSNOA",
+	"DPSDXOXN",
+	"PDSPONOXN",
+	"PDXN",
+	"DSPNAX",
+	"PDSPOAXN",
+	"DPSOA",
+	"DPSOXN",
+	"D",
+	"DPSONO",
+	"SPDSXAX",
+	"DPSDAOXN",
+	"DSPNAO",
+	"DPNO",
+	"PDSNOA",
+	"PDSPXOXN",
+	"SSPXDSXOX",
+	"SDPANAN",
+	"PSDNAX",
+	"DPSDOAXN",
+	"DPSDPAOXX",
+	"SDPXAN",
+	"PSDPXAX",
+	"DSPDAOXN",
+	"DPSNAO",
+	"MERGEPAINT",
+	"SPDSANAX",
+	"SDXPDXAN",
+	"DPSXO",
+	"DPSANO",
+	"MERGECOPY",
+	"SPDSNAOXN",
+	"SPDSONOXN",
+	"PSXN",
+	"SPDNOA",
+	"SPDSXOXN",
+	"SDPNAX",
+	"PSDPOAXN",
+	"SDPOA",
+	"SPDOXN",
+	"DPSDXAX",
+	"SPDSAOXN",
+	"SRCCOPY",
+	"SDPONO",
+	"SDPNAO",
+	"SPNO",
+	"PSDNOA",
+	"PSDPXOXN",
+	"PDSNAX",
+	"SPDSOAXN",
+	"SSPXPDXAX",
+	"DPSANAN",
+	"PSDPSAOXX",
+	"DPSXAN",
+	"PDSPXAX",
+	"SDPSAOXN",
+	"DPSDANAX",
+	"SPXDSXAN",
+	"SPDNAO",
+	"SDNO",
+	"SDPXO",
+	"SDPANO",
+	"PDSOA",
+	"PDSOXN",
+	"DSPDXAX",
+	"PSDPAOXN",
+	"SDPSXAX",
+	"PDSPAOXN",
+	"SDPSANAX",
+	"SPXPDXAN",
+	"SSPXDSXAX",
+	"DSPDSANAXXN",
+	"DPSAO",
+	"DPSXNO",
+	"SDPAO",
+	"SDPXNO",
+	"SRCPAINT",
+	"SDPNOO",
+	"PATCOPY",
+	"PDSONO",
+	"PDSNAO",
+	"PSNO",
+	"PSDNAO",
+	"PDNO",
+	"PDSXO",
+	"PDSANO",
+	"PDSAO",
+	"PDSXNO",
+	"DPO",
+	"PATPAINT",
+	"PSO",
+	"PSDNOO",
+	"DPSOO",
+	"WHITENESS"
+};
+
 #else
 #       define d_(x)
 #endif
@@ -1941,10 +2315,10 @@ go_emf_header (GOEmfState *state)
 		break;
 	}
 	
-	d_(("header with %u bytes\n", state->length));
+	d_(("\theader with %u bytes\n", state->length));
 	go_wmf_read_rectl (&state->dubounds, state->data);
 	go_wmf_read_rectl (&state->mmbounds, state->data + 16);
-	d_(("bounds are (mm): left=%g top=%g right=%g bottom=%g\n",
+	d_(("\tbounds are (mm): left=%g top=%g right=%g bottom=%g\n",
 	    (double) state->mmbounds.left / 100., (double) state->mmbounds.top / 100.,
 	    (double) state->mmbounds.right / 100., (double) state->mmbounds.bottom / 100.));
 
@@ -2500,14 +2874,47 @@ go_emf_setdibitstodevice (GOEmfState *state)
 static gboolean
 go_emf_stretchdibits (GOEmfState *state)
 {
-	GOEmfRectL rect;
-	gint32 x, y, cx, cy;
+	GOWmfRectL rect;
+	gint32 dst_x, dst_y, dst_cx, dst_cy;
+	gint32 src_x, src_y, src_cx, src_cy;
+	guint32 usage_src, op; 
+	guint32 header_pos, header_size, buffer_pos, buffer_size;
+	GODibHeader header;
+	GdkPixbuf *pixbuf;
+
 	d_(("stretchdibits\n"));
 	go_wmf_read_rectl (&rect, state->data);
-	x = GSF_LE_GET_GINT32 (data + 16);
-	y = GSF_LE_GET_GINT32 (data + 20);
-	cx = GSF_LE_GET_GINT32 (data + 24);
-	cy = GSF_LE_GET_GINT32 (data + 28);
+	dst_x = GSF_LE_GET_GINT32 (state->data + 16);
+	dst_y = GSF_LE_GET_GINT32 (state->data + 20);
+	src_x = GSF_LE_GET_GINT32 (state->data + 24);
+	src_y = GSF_LE_GET_GINT32 (state->data + 28);
+	src_cx = GSF_LE_GET_GINT32 (state->data + 32);
+	src_cy = GSF_LE_GET_GINT32 (state->data + 36);
+	header_pos = GSF_LE_GET_GUINT32 (state->data + 40) - 8; /* because data does not contain the id and size */
+	header_size = GSF_LE_GET_GUINT32 (state->data + 44);
+	buffer_pos = GSF_LE_GET_GUINT32 (state->data + 48) - 8;
+	buffer_size = GSF_LE_GET_GUINT32 (state->data + 52);
+	d_ (("\tbits header at %u (%u bytes), pixels at %u (%u bytes)\n",
+	     header_pos, header_size, buffer_pos, buffer_size));
+	usage_src = GSF_LE_GET_GUINT32 (state->data + 56);
+	op = GSF_LE_GET_GUINT32 (state->data + 60);
+	dst_cx = GSF_LE_GET_GINT32 (state->data + 64);
+	dst_cy = GSF_LE_GET_GINT32 (state->data + 68);
+	d_ (("\tsource format: %s, operation: %s\n", go_emf_dib_colors[usage_src], go_emf_ternary_raster_operation[op >> 16]));
+	d_ (("\tsource: x=%d y=%d cx=%d cy=%d\n",src_x, src_y, src_cx, src_cy));
+	d_ (("\tdestination: x=%d y=%d cx=%d cy=%d\n",dst_x, dst_y, dst_cx, dst_cy));
+	go_dib_read_header (&header, state->data + header_pos);
+	if (header.type == 0xff)
+		return FALSE;
+	pixbuf = go_dib_create_pixbuf_from_data (&header, state->data + buffer_pos);
+	if (src_x != 0 || src_y != 0 || src_cx != dst_cx || src_cy != dst_cy) {
+		/* FIXME: take src coordinates into account */
+	}
+	goc_item_new (goc_canvas_get_root (state->canvas),
+	              GOC_TYPE_PIXBUF, "pixbuf", pixbuf,
+	              "x", (double) dst_x, "y", (double) dst_y,
+		      "width", (double) dst_cx, "height", (double) dst_cy,
+	              NULL);
 	return TRUE;
 }
 

@@ -745,3 +745,16 @@ goc_item_get_window (GocItem *item)
 	return (klass->get_window)? klass->get_window (item): NULL;
 }
 #endif
+
+void
+goc_item_set_operator  (GocItem *item, cairo_operator_t op)
+{
+	item->op = op;
+	goc_item_invalidate (item);
+}
+
+cairo_operator_t
+goc_item_get_operator  (GocItem *item)
+{
+	return item->op;
+}
