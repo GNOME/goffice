@@ -336,6 +336,20 @@ cb_position_changed (GtkWidget *spin, ObjectPrefState *state)
 }
 
 static void
+cb_size_changed (GtkWidget *spin, ObjectPrefState *state)
+{
+	GogViewAllocation pos;
+	double value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)) / 100.0;
+
+       	gog_object_get_manual_position (state->gobj, &pos);
+	if (spin == state->w_spin)
+		pos.w = value;
+	else if (spin == state->h_spin)
+		pos.h = value;
+	gog_object_set_manual_position (state->gobj, &pos);
+}
+
+static void
 update_select_state (ObjectPrefState *state)
 {
 	if (state->position_select_combo) {
@@ -395,7 +409,27 @@ static void
 cb_manual_size_changed (GtkComboBox *combo, ObjectPrefState *state)
 {
 	if (gtk_combo_box_get_active (combo) == 1) {
+		if (state->w_spin) {
+			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "width_label"));
+			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "width_spin"));
+			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"));
+		}
+		if (state->h_spin) {
+			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "height_label"));
+			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "height_spin"));
+			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "height-pc-lbl"));
+		}
 	} else {
+		if (state->w_spin) {
+			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "width_label"));
+			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "width_spin"));
+			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"));
+		}
+		if (state->h_spin) {
+			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "height_label"));
+			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "height_spin"));
+			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "height-pc-lbl"));
+		}
 	}
 }
 
@@ -525,31 +559,33 @@ gog_object_populate_editor (GogObject *gobj,
 		                          manual_size? 1: 0);
 		g_signal_connect (G_OBJECT (w),
 				  "changed", G_CALLBACK (cb_manual_size_changed), state);
-		if (manual_size && size_mode & GOG_MANUAL_SIZE_WIDTH) {
+		if (size_mode & GOG_MANUAL_SIZE_WIDTH) {
 			w = go_gtk_builder_get_widget (gui, "width_label");
 			gtk_size_group_add_widget (label_size_group, w);
 			w = go_gtk_builder_get_widget (gui, "width_spin");
 			gtk_size_group_add_widget (widget_size_group, w);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.w * 100.0);
 			g_signal_connect (G_OBJECT (w), "value-changed",
-					  G_CALLBACK (cb_position_changed), state);
+					  G_CALLBACK (cb_size_changed), state);
 			state->w_spin = w;
-		} else {
+		}
+		if (!manual_size) {
 			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width_label"));
 			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width_spin"));
 			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width-pc-lbl"));
 		}
 
-		if (manual_size && size_mode & GOG_MANUAL_SIZE_HEIGHT) {
+		if (size_mode & GOG_MANUAL_SIZE_HEIGHT) {
 			w = go_gtk_builder_get_widget (gui, "height_label");
 			gtk_size_group_add_widget (label_size_group, w);
 			w = go_gtk_builder_get_widget (gui, "height_spin");
 			gtk_size_group_add_widget (widget_size_group, w);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.h * 100.0);
 			g_signal_connect (G_OBJECT (w), "value-changed",
-					  G_CALLBACK (cb_position_changed), state);
+					  G_CALLBACK (cb_size_changed), state);
 			state->h_spin = w;
-		} else {
+		}
+		if (!manual_size) {
 			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height_label"));
 			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height_spin"));
 			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height-pc-lbl"));

@@ -201,11 +201,12 @@ go_image_build_pixbuf_format_infos (void)
 GOImageFormatInfo const *
 go_image_get_format_info (GOImageFormat format)
 {
+	if (format == GO_IMAGE_FORMAT_UNKNOWN)
+		return NULL;
 	if (format > GO_IMAGE_FORMAT_UNKNOWN)
 		go_image_build_pixbuf_format_infos ();
 
 	g_return_val_if_fail (format >= 0 &&
-			      format != GO_IMAGE_FORMAT_UNKNOWN &&
 			      format <= GO_IMAGE_FORMAT_UNKNOWN + pixbuf_format_nbr, NULL);
 	if (format < GO_IMAGE_FORMAT_UNKNOWN)
 		return &image_format_infos[format];
@@ -224,6 +225,9 @@ GOImageFormat
 go_image_get_format_from_name (char const *name)
 {
 	unsigned i;
+
+	if (name == NULL)
+		return GO_IMAGE_FORMAT_UNKNOWN;
 
 	go_image_build_pixbuf_format_infos ();
 
@@ -458,7 +462,10 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 		g_free (mime_type);
 		type = real_type;
 	}
-	g_return_val_if_fail (type != NULL, NULL);
+	if (type == NULL) {
+		g_warning ("unrecognized image format");
+		return NULL;
+	}
 	if (!strcmp (type, "svg")) {
 		image = go_svg_new_from_data (data, length, error);
 	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {

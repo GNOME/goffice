@@ -913,24 +913,26 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	uri = gtk_file_chooser_get_uri (fsel);
 	if (format_combo) {
 		char *new_uri = NULL;
+		int index = gtk_combo_box_get_active (format_combo);
 
-		format = GPOINTER_TO_UINT (g_slist_nth_data
-			(supported_formats,
-			 gtk_combo_box_get_active (format_combo)));
-		format_info = go_image_get_format_info (format);
-		if (!go_url_check_extension (uri, format_info->ext, &new_uri) &&
-		    !go_gtk_query_yes_no (GTK_WINDOW (fsel), TRUE,
-		     _("The given file extension does not match the"
-		       " chosen file type. Do you want to use this name"
-		       " anyway?"))) {
-			g_free (new_uri);
-			g_free (uri);
-			uri = NULL;
-			goto loop;
-		} else {
+		if (index >= 0) {
+			format = GPOINTER_TO_UINT (g_slist_nth_data
+				(supported_formats, index));
+			format_info = go_image_get_format_info (format);
+			if (!go_url_check_extension (uri, format_info->ext, &new_uri) &&
+			    !go_gtk_query_yes_no (GTK_WINDOW (fsel), TRUE,
+			     _("The given file extension does not match the"
+			       " chosen file type. Do you want to use this name"
+			       " anyway?"))) {
+				g_free (new_uri);
+				g_free (uri);
+				uri = NULL;
+				goto loop;
+			}
 			g_free (uri);
 			uri = new_uri;
-		}
+		} else
+			format = GO_IMAGE_FORMAT_UNKNOWN;
 		*ret_format = format;
 	}
 	if (!go_gtk_url_is_writeable (GTK_WINDOW (fsel), uri, TRUE)) {
