@@ -502,7 +502,7 @@ go_conf_remove_monitor (guint monitor_id)
 		g_signal_handler_disconnect (cls->node->settings, monitor_id);
 		g_hash_table_remove (closures, GUINT_TO_POINTER (monitor_id));
 	} else
-		g_warning ("unkown GOConfMonitor id.");
+		g_warning ("unknown GOConfMonitor id.");
 }
 
 static void
