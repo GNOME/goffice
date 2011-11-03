@@ -245,6 +245,8 @@ go_string_new_rich (char const *str,
 		g_hash_table_insert (go_strings_base, rich, rich);
 	} else {
 		go_string_ref (&base->base);
+		if (!copy)
+			g_free (str);
 		rich->base.base.str = base->base.str;
 		rich->base.flags |= GO_STRING_IS_DEPENDENT;
 		if ((base->flags & GO_STRING_IS_SHARED)) {

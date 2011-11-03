@@ -43,6 +43,7 @@ Morten:
 	* Fix problem with sticky format colouring.
 	* Improve certain range functions in corner cases.  [#660564]
 	* Add resource manager for embedded files.
+	* Plug leaks.
 
 Gerald Niel:
 	* Plugins not found when using in bundle for Mac OSX. [#661264]

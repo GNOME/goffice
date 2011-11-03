@@ -1,3 +1,7 @@
+2011-11-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-string.c (go_string_new_rich): Plug leak.
+
 2011-10-31  Jean Brefort  <jean.brefort@normalesup.org>
 	* goffice/graph/gog-object.c (cb_size_changed),
 	(cb_manual_size_changed), (gog_object_populate_editor): made the manual
@@ -5,7 +9,7 @@
 	* goffice/gtk/goffice-gtk.c (go_gui_get_image_save_info): don't ask for
 	the extension when file type is unknown.
 	* goffice/utils/go-image.c (go_image_get_format_from_name),
-	(go_image_new_from_data): fixed behavior with unknown format. 
+	(go_image_new_from_data): fixed behavior with unknown format.
 
 2011-10-30  Jean Brefort  <jean.brefort@normalesup.org>
 
