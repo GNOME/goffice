@@ -445,14 +445,14 @@ cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
 {
 	GtkBuilder *gui = g_object_get_data (G_OBJECT (box), "gui");
 	GtkWidget *widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "skip-button"));
-	GtkWidget *table = go_gtk_builder_get_widget (gui, "clamps-table");
+	GtkWidget *grid = go_gtk_builder_get_widget (gui, "clamps-grid");
 	series->interpolation = gtk_combo_box_get_active (box);
 	gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
 	widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "fill-type"));
 	if (series->interpolation == GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE)
-		gtk_widget_show (table);
+		gtk_widget_show (grid);
 	else
-		gtk_widget_hide (table);
+		gtk_widget_hide (grid);
 	if (widget)
 		gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
 	gog_object_emit_changed (GOG_OBJECT (series), FALSE);
@@ -479,7 +479,7 @@ gog_series_populate_editor (GogObject *gobj,
 		   GOCmdContext *cc)
 {
 	static guint series_pref_page = 1;
-	GtkWidget *w, *box;
+	GtkWidget *w, *grid;
 	GtkTable  *table;
 	unsigned i, row = 0;
 	gboolean has_shared = FALSE;
@@ -553,8 +553,8 @@ gog_series_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	box = go_editor_get_registered_widget (editor, "line_box");
-	if (series_class->has_interpolation && box != NULL) {
+	grid = go_editor_get_registered_widget (editor, "line-grid");
+	if (series_class->has_interpolation && grid != NULL) {
 		GtkBuilder *gui;
 		GtkWidget *widget;
 
@@ -563,9 +563,8 @@ gog_series_populate_editor (GogObject *gobj,
 			int i;
 			GogAxisSet set = gog_plot_axis_set_pref (gog_series_get_plot (series));
 			GogDataset *clamp_set = gog_series_get_interpolation_params (series);
-			widget = go_gtk_builder_get_widget (gui, "interpolation_prefs");
-			gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
-			widget = go_gtk_builder_get_widget (gui, "interpolation-table");
+			widget = go_gtk_builder_get_widget (gui, "interpolation-prefs");
+			gtk_grid_attach (GTK_GRID (grid), widget, 0, 3, 4, 1);
 			/* create an interpolation type combo and populate it */
 			combo = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
 			if (set & 1 << GOG_AXIS_RADIAL)
@@ -579,28 +578,28 @@ gog_series_populate_editor (GogObject *gobj,
 			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), series->interpolation);
 			g_signal_connect (combo, "changed",
 					  G_CALLBACK (cb_line_interpolation_changed), series);
-			gtk_table_attach (GTK_TABLE (widget), GTK_WIDGET (combo), 1, 2,
-					  0, 1, (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-					  (GtkAttachOptions) (GTK_FILL | GTK_EXPAND), 0, 0);
-			gtk_widget_show_all (widget);
-			widget = go_gtk_builder_get_widget (gui, "interpolation-skip-invalid");
-			g_object_set_data (G_OBJECT (combo), "skip-button", widget);
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), series->interpolation_skip_invalid);
+			gtk_grid_attach (GTK_GRID (widget), GTK_WIDGET (combo), 1, 1, 1, 1),
+			w = go_gtk_builder_get_widget (gui, "interpolation-skip-invalid");
+			g_object_set_data (G_OBJECT (combo), "skip-button", w);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), series->interpolation_skip_invalid);
 			if (go_line_interpolation_auto_skip (series->interpolation))
-				gtk_widget_set_sensitive (widget, FALSE);
-			g_signal_connect (widget, "toggled",
+				gtk_widget_set_sensitive (w, FALSE);
+			g_signal_connect (w, "toggled",
 					  G_CALLBACK (cb_line_interpolation_skip_changed), series);
+			gtk_widget_show_all (widget);
 			if (clamp_set) {
 				GtkWidget *w;
-				widget = go_gtk_builder_get_widget (gui, "clamps-table");
+				widget = go_gtk_builder_get_widget (gui, "clamps-grid");
 				w = GTK_WIDGET (gog_data_allocator_editor (dalloc, clamp_set, 0, GOG_DATA_SCALAR));
 				gtk_widget_set_tooltip_text (w, _("Derivative at first point of the clamped cubic spline."));
 				gtk_widget_show (w);
-				gtk_table_attach (GTK_TABLE (widget), w, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+				gtk_widget_set_hexpand (w, TRUE);
+				gtk_grid_attach (GTK_GRID (widget), w, 1, 0, 2, 1);
 				w = GTK_WIDGET (gog_data_allocator_editor (dalloc, clamp_set, 1, GOG_DATA_SCALAR));
 				gtk_widget_set_tooltip_text (w, _("Derivative at last point of the clamped cubic spline."));
 				gtk_widget_show (w);
-				gtk_table_attach (GTK_TABLE (widget), w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+				gtk_widget_set_hexpand (w, TRUE);
+				gtk_grid_attach (GTK_GRID (widget), w, 1, 1, 2, 1);
 				if (series->interpolation != GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE)
 					gtk_widget_hide (widget);
 			}
@@ -609,8 +608,8 @@ gog_series_populate_editor (GogObject *gobj,
 		}
 	}
 
-	box = go_editor_get_registered_widget (editor, "fill_extension_box");
-	if (series_class->has_fill_type && box != NULL) {
+	grid = go_editor_get_registered_widget (editor, "fill-grid");
+	if (series_class->has_fill_type && grid != NULL) {
 		GtkBuilder *gui;
 		GtkWidget *widget;
 
@@ -625,7 +624,7 @@ gog_series_populate_editor (GogObject *gobj,
 			if (series->interpolation == GO_LINE_INTERPOLATION_CLOSED_SPLINE)
 				gtk_widget_set_sensitive (widget, FALSE);
 			widget = go_gtk_builder_get_widget (gui, "fill_type_prefs");
-			gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);
+			gtk_grid_attach (GTK_GRID (grid), widget, 0, 1, 3, 1);
 			g_object_set_data (G_OBJECT (widget), "gui", gui);
 
 			g_signal_connect_swapped (G_OBJECT (widget), "destroy",

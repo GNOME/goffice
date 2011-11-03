@@ -114,6 +114,7 @@ create_go_combo_color (StylePrefState *state,
 	GtkWidget *w;
 
 	w = go_color_selector_new (initial_color, automatic_color, group);
+	gtk_widget_set_halign (w, GTK_ALIGN_START);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (gtk_builder_get_object (gui, label_name)), w);
 	g_signal_connect (G_OBJECT (w), "activate", G_CALLBACK (func), state);
@@ -207,11 +208,10 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		return;
 	}
 
-	go_editor_register_widget (editor, grid);
-
 	/* DashType */
 	w = go_line_dash_selector_new (style->line.dash_type,
 				       default_style->line.dash_type);
+	gtk_widget_set_halign (w, GTK_ALIGN_START);
 	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 2, 1);
 	g_signal_connect (G_OBJECT (w), "activate",
 			  G_CALLBACK (cb_outline_dash_type_changed), state);
@@ -286,6 +286,7 @@ line_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	/* DashType */
 	w = go_line_dash_selector_new (style->line.dash_type,
 				       default_style->line.dash_type);
+	gtk_widget_set_halign (w, GTK_ALIGN_START);
 	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 2, 1);
 	g_signal_connect (G_OBJECT (w), "activate",
 			  G_CALLBACK (cb_line_dash_type_changed), state);
@@ -664,6 +665,7 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		G_CALLBACK (cb_fill_type_changed), state);
 
 	w = go_gtk_builder_get_widget (state->gui, "fill-grid");
+	go_editor_register_widget (editor, w);
 	gtk_widget_show (GTK_WIDGET (w));
 
 	g_object_unref (state->fill.size_group);

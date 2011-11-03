@@ -25,6 +25,7 @@
   <object class="GtkGrid" id="go-style-prefs">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="halign">start</property>
     <property name="row_spacing">6</property>
     <property name="column_spacing">24</property>
     <child>
@@ -36,18 +37,6 @@
         <property name="margin_left">18</property>
         <property name="row_spacing">6</property>
         <property name="column_spacing">12</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
         <child>
           <object class="GtkLabel" id="label37">
             <property name="visible">True</property>
@@ -98,6 +87,7 @@
           <object class="GtkSpinButton" id="outline_size_spin">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="halign">start</property>
             <property name="invisible_char">•</property>
             <property name="invisible_char_set">True</property>
             <property name="adjustment">adjustment1</property>
@@ -126,6 +116,18 @@
             <property name="height">1</property>
           </packing>
         </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
       </object>
       <packing>
         <property name="left_attach">0</property>
@@ -140,13 +142,13 @@
         <property name="can_focus">False</property>
         <property name="halign">start</property>
         <property name="valign">start</property>
-        <property name="margin_left">18</property>
         <property name="row_spacing">6</property>
         <property name="column_spacing">12</property>
         <child>
           <object class="GtkLabel" id="label36">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">18</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">St_yle:</property>
             <property name="use_underline">True</property>
@@ -162,6 +164,7 @@
           <object class="GtkLabel" id="line_color_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">18</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Co_lor:</property>
             <property name="use_underline">True</property>
@@ -177,6 +180,7 @@
           <object class="GtkLabel" id="line_size_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">18</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">_Size:</property>
             <property name="use_underline">True</property>
@@ -582,15 +586,6 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <object class="GtkBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -630,6 +625,15 @@
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="position">2</property>
@@ -655,15 +659,6 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
           <object class="GtkLabel" id="filler">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -675,6 +670,15 @@
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
       <packing>
