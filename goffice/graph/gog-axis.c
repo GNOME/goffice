@@ -126,7 +126,7 @@ static void
 gog_axis_ticks_set_markup (GogAxisTick *ticks, char const *str, PangoAttrList *l)
 {
 	go_string_unref (ticks->str);
-	ticks->str = go_string_new_rich (str, -1, TRUE, l, NULL);
+	ticks->str = go_string_new_rich (str, -1, l, NULL);
 }
 
 static GogAxisTick *
@@ -187,8 +187,7 @@ axis_format_value (GogAxis *axis, double val, GOString **str)
 		*str = go_string_new ("#####");
 	else {
 		*str = go_string_new_rich
-			(g_strdup (pango_layout_get_text (layout)),
-			 -1, FALSE,
+			(pango_layout_get_text (layout), -1,
 			 pango_attr_list_ref
 			 (pango_layout_get_attributes (layout)),
 			 NULL);

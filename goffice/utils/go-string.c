@@ -201,22 +201,12 @@ go_string_new_nocopy (char *str)
 	return str ? go_string_new_nocopy_len (str, strlen (str)) : NULL;
 }
 
-/**
- * go_string_new_rich :
- * @str : string.
- * @byte_len : < 0 will call strlen.
- * @copy : %TRUE @str should be copied when adding to the string table.
- * @markup : optionally %NULL list, GOString steals the ref.
- * @phonetic : optionally %NULL list of phonetic extensions, GOString steals the ref.
- *
- * Returns: a string.
- **/
-GOString *
-go_string_new_rich (char const *str,
-		    int byte_len,
-		    gboolean copy,
-		    PangoAttrList *markup,
-		    GOStringPhonetic *phonetic)
+static GOString *
+go_string_new_rich_impl (char *str,
+			 int byte_len,
+			 gboolean take_ownership,
+			 PangoAttrList *markup,
+			 GOStringPhonetic *phonetic)
 {
 	GOStringImpl *base;
 	GOStringRichImpl *rich;
@@ -241,11 +231,12 @@ go_string_new_rich (char const *str,
 	rich->phonetic		= phonetic;
 	base = g_hash_table_lookup (go_strings_base, rich);
 	if (NULL == base) {
-		if (copy) rich->base.base.str = g_strndup (str, byte_len);
+		if (!take_ownership)
+			rich->base.base.str = g_strndup (str, byte_len);
 		g_hash_table_insert (go_strings_base, rich, rich);
 	} else {
 		go_string_ref (&base->base);
-		if (!copy)
+		if (take_ownership)
 			g_free (str);
 		rich->base.base.str = base->base.str;
 		rich->base.flags |= GO_STRING_IS_DEPENDENT;
@@ -261,6 +252,43 @@ go_string_new_rich (char const *str,
 	}
 
 	return &rich->base.base;
+}
+
+/**
+ * go_string_new_rich :
+ * @str : string.
+ * @byte_len : < 0 will call strlen.
+ * @markup : optionally %NULL list, GOString steals the ref.
+ * @phonetic : optionally %NULL list of phonetic extensions, GOString steals the ref.
+ *
+ * Returns: a string.
+ **/
+GOString *
+go_string_new_rich (char const *str,
+		    int byte_len,
+		    PangoAttrList *markup,
+		    GOStringPhonetic *phonetic)
+{
+	return go_string_new_rich_impl ((char *)str, byte_len, FALSE,
+					markup, phonetic);
+}
+
+/**
+ * go_string_new_rich_nocopy :
+ * @str : string; GOString takes ownership
+ * @byte_len : < 0 will call strlen.
+ * @markup : optionally %NULL list, GOString steals the ref.
+ * @phonetic : optionally %NULL list of phonetic extensions, GOString steals the ref.
+ *
+ * Returns: a string.
+ **/
+GOString *
+go_string_new_rich_nocopy (char *str,
+			   int byte_len,
+			   PangoAttrList *markup,
+			   GOStringPhonetic *phonetic)
+{
+	return go_string_new_rich_impl (str, byte_len, TRUE, markup, phonetic);
 }
 
 GOString *
@@ -715,6 +743,5 @@ go_string_trim (GOString *gstr, gboolean internal)
 
 	go_string_unref (gstr);
 
-	return go_string_new_rich (text, -1, FALSE, attrs, NULL);
+	return go_string_new_rich_nocopy (text, -1, attrs, NULL);
 }
-

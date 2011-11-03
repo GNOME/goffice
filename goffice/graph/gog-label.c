@@ -576,9 +576,11 @@ gog_text_view_size_request (GogView *v,
 
 	req->w = req->h = 0.;
 	if (str != NULL) {
-		GOString *gostr = pl? go_string_new_rich (str, -1, FALSE,
-		                                      gog_text_get_markup (text),
-		                                      NULL): NULL;
+		GOString *gostr = pl
+			? go_string_new_rich (str, -1,
+					      gog_text_get_markup (text),
+					      NULL)
+			: NULL;
 		GOStyle *style = go_style_dup (text->base.base.style);
 		double rot = fabs (style->text_layout.angle / 180 * M_PI);
 		if (text->rotate_frame)
@@ -614,9 +616,11 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
-		GOString *gostr = pl? go_string_new_rich (str, -1, FALSE,
-		                                      gog_text_get_markup (text),
-		                                      NULL): NULL;
+		GOString *gostr = pl
+			? go_string_new_rich (str, -1,
+					      gog_text_get_markup (text),
+					      NULL)
+			: NULL;
 		double outline = gog_renderer_line_size (view->renderer,
 							 goo->base.style->line.width);
 		if (style->fill.type != GO_STYLE_FILL_NONE || outline > 0.) {

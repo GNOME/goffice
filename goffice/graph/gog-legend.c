@@ -278,7 +278,7 @@ cb_size_elements (unsigned i, GOStyle const *style,
 	GOGeometryAABR aabr;
 
 	if (l) {
-		GOString *str = go_string_new_rich (name, -1, TRUE, l, NULL);
+		GOString *str = go_string_new_rich (name, -1, l, NULL);
 		gog_renderer_get_gostring_AABR (view->renderer, str, &aabr);
 		go_string_unref (str);
 	} else
@@ -519,7 +519,7 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 	pos.y = data->y + glv->element_height / 2.0;
 	pos.w = pos.h = -1;
 	if (l) {
-		GOString *str = go_string_new_rich (name, -1, TRUE, l, NULL);
+		GOString *str = go_string_new_rich (name, -1, l, NULL);
 		gog_renderer_draw_gostring (view->renderer, str, &pos, GO_ANCHOR_W);
 		go_string_unref (str);
 	} else

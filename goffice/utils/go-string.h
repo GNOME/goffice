@@ -42,7 +42,10 @@ GOString   *go_string_new_nocopy	(char *str);
 GOString   *go_string_new_nocopy_len	(char *str, guint32 len);
 GOString   *go_string_new_rich		(char const *str,
 					 int byte_len,
-					 gboolean copy,
+					 PangoAttrList *markup,
+					 GOStringPhonetic *phonetic);
+GOString   *go_string_new_rich_nocopy	(char *str,
+					 int byte_len,
 					 PangoAttrList *markup,
 					 GOStringPhonetic *phonetic);
 

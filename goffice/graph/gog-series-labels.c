@@ -837,7 +837,7 @@ gog_data_label_update (GogObject *obj)
 			format = next;
 		}
 	}
-	lbl->element.str = go_string_new_rich (g_string_free (str, FALSE), -1, FALSE, markup, NULL);
+	lbl->element.str = go_string_new_rich_nocopy (g_string_free (str, FALSE), -1, markup, NULL);
 }
 
 static void
@@ -1275,7 +1275,7 @@ gog_series_labels_update (GogObject *obj)
 						format = next;
 					}
 				}
-				labels->elements[i].str = go_string_new_rich (g_string_free (str, FALSE), -1, FALSE, markup, NULL);
+				labels->elements[i].str = go_string_new_rich_nocopy (g_string_free (str, FALSE), -1, markup, NULL);
 			}
 		}
 	} else

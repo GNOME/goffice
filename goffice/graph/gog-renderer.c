@@ -949,7 +949,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 	if (use_markup && pango_parse_markup  (text, -1, 0,
 					       &attr_list, &m_text,
 					       NULL, NULL))
-		str = go_string_new_rich (m_text, -1, FALSE, attr_list, NULL);
+		str = go_string_new_rich_nocopy (m_text, -1, attr_list, NULL);
 	else
 		str = go_string_new (text);
 	gog_renderer_draw_gostring (rend, str, pos, anchor);
@@ -1033,7 +1033,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
 	if (use_markup && pango_parse_markup  (text, -1, 0,
 					       &attr_list, &m_text,
 					       NULL, NULL))
-		str = go_string_new_rich (m_text, -1, FALSE, attr_list, NULL);
+		str = go_string_new_rich_nocopy (m_text, -1, attr_list, NULL);
 	else
 		str = go_string_new (text);
 	gog_renderer_get_gostring_OBR (rend, str, obr);
