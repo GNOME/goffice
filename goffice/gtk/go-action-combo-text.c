@@ -160,7 +160,7 @@ go_action_combo_text_finalize (GObject *obj)
 {
 	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (obj);
 	g_free (taction->entry_val);
-	go_slist_free_custom (taction->elements, (GFreeFunc)g_free);
+	g_slist_free_full (taction->elements, (GDestroyNotify)g_free);
 	combo_text_parent->finalize (obj);
 }
 

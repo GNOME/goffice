@@ -16,7 +16,6 @@ GSList	*go_hash_values		(GHashTable *hash);
 
 GSList	*go_slist_map		(GSList const *list, GOMapFunc map_func);
 GSList	*go_slist_create	(gpointer item1, ...);
-void	 go_slist_free_custom	(GSList *list, GFreeFunc free_func);
 #define	 go_string_slist_copy(list) go_slist_map (list, (GOMapFunc) g_strdup)
 GSList	*go_strsplit_to_slist	(char const *str, gchar delimiter);
 #define GO_SLIST_FOREACH(list,valtype,val,stmnt) \
@@ -42,7 +41,6 @@ G_STMT_START { \
 	(list = g_slist_sort (list, cmp_func))
 
 gint go_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func);
-void go_list_free_custom  (GList *list, GFreeFunc free_func);
 #define GO_LIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
 	GList *go_l; \

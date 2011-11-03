@@ -414,7 +414,7 @@ go_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buf
 						break;
 					}
 				}
-				go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
+				g_slist_free_full (attr, (GDestroyNotify)pango_attribute_destroy);
 			}
 		} while (pango_attr_iterator_next (iter));
 		pango_attr_iterator_destroy (iter);
@@ -475,7 +475,7 @@ go_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buf
 				gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
 				gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
 				gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
-				go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
+				g_slist_free_full (attr, (GDestroyNotify)pango_attribute_destroy);
 			}
 		} while (pango_attr_iterator_next (iter));
 		pango_attr_iterator_destroy (iter);
@@ -560,7 +560,7 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 		attr->end_index = range_end;
 		pango_attr_list_insert (attrs, attr);
 	}
-	go_slist_free_custom (the_attrs, (GFreeFunc)pango_attribute_destroy);
+	g_slist_free_full (the_attrs, (GDestroyNotify)pango_attribute_destroy);
 }
 
 

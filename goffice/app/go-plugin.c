@@ -171,7 +171,7 @@ go_plugin_finalize (GObject *obj)
 		plugin->has_full_info = FALSE;
 		g_free (plugin->name);
 		g_free (plugin->description);
-		go_slist_free_custom (plugin->dependencies, plugin_dependency_free);
+		g_slist_free_full (plugin->dependencies, plugin_dependency_free);
 		g_free (plugin->loader_id);
 		if (plugin->loader_attrs != NULL) {
 			g_hash_table_destroy (plugin->loader_attrs);
@@ -179,7 +179,7 @@ go_plugin_finalize (GObject *obj)
 		if (plugin->loader != NULL) {
 			g_object_unref (plugin->loader);
 		}
-		go_slist_free_custom (plugin->services, g_object_unref);
+		g_slist_free_full (plugin->services, g_object_unref);
 	}
 	g_free (plugin->saved_textdomain);
 	plugin->saved_textdomain = NULL;
@@ -683,7 +683,7 @@ go_plugin_read_service_list (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_
 	if (error_list != NULL) {
 		GO_SLIST_REVERSE (error_list);
 		*ret_error = go_error_info_new_from_error_list (error_list);
-		go_slist_free_custom (service_list, g_object_unref);
+		g_slist_free_full (service_list, g_object_unref);
 		return NULL;
 	} else {
 		return g_slist_reverse (service_list);
@@ -869,7 +869,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 		} else
 			*ret_error = go_error_info_new_str (_("Plugin has no id."));
 
-		go_slist_free_custom (dependency_list, plugin_dependency_free);
+		g_slist_free_full (dependency_list, plugin_dependency_free);
 		g_free (plugin->loader_id);
 		if (plugin->loader_attrs != NULL)
 			g_hash_table_destroy (plugin->loader_attrs);
@@ -1254,7 +1254,7 @@ go_plugin_use_unref (GOPlugin *plugin)
  * Returns: the list of identifiers of plugins that @plugin depends on.
  * 	All these plugins will be automatically activated before activating the
  * 	@plugin itself.  The caller must free the returned list together with
- * 	the strings it points to (use go_slist_free_custom (list, g_free) to do
+ * 	the strings it points to (use g_slist_free_full (list, g_free) to do
  * 	this).
  **/
 GSList *
@@ -1671,7 +1671,7 @@ go_plugins_rescan (GOErrorInfo **ret_error, GSList **ret_new_plugins)
 			_("The following plugins are no longer on disk but are still active:\n"
 			  "%s.\nYou should restart this program now."), s->str));
 		g_string_free (s, TRUE);
-		go_slist_free_custom (still_active_ids, g_free);
+		g_slist_free_full (still_active_ids, g_free);
 	}
 
 	/* Find previously not available plugins */
@@ -1685,7 +1685,7 @@ go_plugins_rescan (GOErrorInfo **ret_error, GSList **ret_new_plugins)
 			g_object_ref (plugin);
 		}
 	);
-	go_slist_free_custom (new_available_plugins, g_object_unref);
+	g_slist_free_full (new_available_plugins, g_object_unref);
 	if (ret_new_plugins != NULL) {
 		*ret_new_plugins = g_slist_copy (added_plugins);
 	}
@@ -1870,14 +1870,14 @@ go_plugins_shutdown (void)
 		&used_plugin_state_strings);
 	if (!plugin_file_state_hash_changed &&
 	    g_hash_table_size (plugin_file_state_dir_hash) == g_slist_length (used_plugin_state_strings)) {
-		go_slist_free_custom (used_plugin_state_strings, g_free);
+		g_slist_free_full (used_plugin_state_strings, g_free);
 		used_plugin_state_strings = NULL;
 	}
 
 	g_hash_table_destroy (plugin_file_state_dir_hash);
 	g_hash_table_destroy (loader_services);
 	g_hash_table_destroy (available_plugins_id_hash);
-	go_slist_free_custom (available_plugins, g_object_unref);
+	g_slist_free_full (available_plugins, g_object_unref);
 
 	if (go_plugin_dirs) {
 		g_slist_foreach (go_plugin_dirs, (GFunc) g_free, NULL);

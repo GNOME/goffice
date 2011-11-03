@@ -138,24 +138,6 @@ go_slist_map (GSList const *list, GOMapFunc map_func)
 	return g_slist_reverse (list_copy);
 }
 
-/**
- * go_slist_free_custom:
- * @list: list of some items
- * @free_func: function freeing list item
- *
- * Clears a list, calling @free_func for each list item.
- **/
-void
-go_slist_free_custom (GSList *list, GFreeFunc free_func)
-{
-	GSList *l;
-
-	for (l = list; l != NULL; l = l->next) {
-		free_func (l->data);
-	}
-	g_slist_free (list);
-}
-
 gint
 go_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
 {
@@ -169,25 +151,6 @@ go_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
 	}
 
 	return -1;
-}
-
-/**
- * go_list_free_custom:
- * @list: list of some items
- * @free_func: function freeing list item
- *
- * Clears a list, calling @free_func for each list item.
- *
- */
-void
-go_list_free_custom (GList *list, GFreeFunc free_func)
-{
-	GList *l;
-
-	for (l = list; l != NULL; l = l->next) {
-		free_func (l->data);
-	}
-	g_list_free (list);
 }
 
 /**

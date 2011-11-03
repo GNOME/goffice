@@ -1171,7 +1171,7 @@ _gog_themes_shutdown (void)
 		default_theme = NULL;
 	}
 
-	go_slist_free_custom (g_slist_copy (themes), g_object_unref);
+	g_slist_free_full (g_slist_copy (themes), g_object_unref);
 	g_slist_free (themes);
 	themes = NULL;
 }

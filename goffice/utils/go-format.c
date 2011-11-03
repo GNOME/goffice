@@ -2670,7 +2670,7 @@ go_format_get_width (GString *dst, PangoAttrList *attrs, int start,
 		width += pango_glyph_string_get_width (glyphs);
 		pango_glyph_string_free (glyphs);
 	}
-	go_list_free_custom (plist, (GFreeFunc) pango_item_free);
+	g_list_free_full (plist, (GDestroyNotify) pango_item_free);
 	return width;
 }
 #endif
@@ -2705,7 +2705,7 @@ go_format_desired_width (PangoLayout *layout, PangoAttrList *attrs, int digits)
 		pango_glyph_string_free (glyphs);
 		width += logical_rect.width;
 	}
-	go_list_free_custom (plist, (GFreeFunc) pango_item_free);
+	g_list_free_full (plist, (GDestroyNotify) pango_item_free);
 
 	return (int)(1.1 * width *digits);
 }

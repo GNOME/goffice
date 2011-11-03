@@ -249,9 +249,9 @@ go_plugin_service_file_opener_finalize (GObject *obj)
 
 	g_free (service_file_opener->description);
 	service_file_opener->description = NULL;
-	go_slist_free_custom (service_file_opener->suffixes, g_free);
+	g_slist_free_full (service_file_opener->suffixes, g_free);
 	service_file_opener->suffixes = NULL;
-	go_slist_free_custom (service_file_opener->mimes, g_free);
+	g_slist_free_full (service_file_opener->mimes, g_free);
 	service_file_opener->mimes = NULL;
 	if (service_file_opener->opener != NULL) {
 		g_object_unref (service_file_opener->opener);
