@@ -12,7 +12,6 @@ typedef gpointer (*GOMapFunc) (gpointer value);
 void	 go_ptr_array_insert	(GPtrArray *array, gpointer value, int index);
 
 GSList	*go_hash_keys		(GHashTable *hash);
-GSList	*go_hash_values		(GHashTable *hash);
 
 GSList	*go_slist_map		(GSList const *list, GOMapFunc map_func);
 GSList	*go_slist_create	(gpointer item1, ...);

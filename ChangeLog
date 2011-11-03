@@ -1,6 +1,11 @@
+2011-11-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_hash_values): Remove.
+
 2011-11-03  Jean Brefort  <jean.brefort@normalesup.org>
-	* goffice/graph/gog-series.c (gog_series_populate_editor): fix interpolation
-	widgets visibility. [#663283]
+
+	* goffice/graph/gog-series.c (gog_series_populate_editor): fix
+	interpolation widgets visibility. [#663283]
 	* goffice/utils/go-style.c (outline_init), (line_init),
 	(fill_init), (go_style_populate_editor): enhanced layout.
 

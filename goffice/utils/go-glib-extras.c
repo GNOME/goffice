@@ -53,30 +53,6 @@ go_hash_keys (GHashTable *hash)
 	return accum;
 }
 
-static void
-cb_hash_collect_values (gpointer key, gpointer value, GSList **accum)
-{
-	*accum = g_slist_prepend (*accum, value);
-}
-
-/**
- * go_hash_values :
- * @hash : #GHashTable
- *
- * Collects an unordered list of the values in @hash.
- *
- * Returns: a list which the caller needs to free.
- * 	The content has not additional references added
- **/
-GSList *
-go_hash_values (GHashTable *hash)
-{
-	GSList *accum = NULL;
-	g_hash_table_foreach (hash,
-		(GHFunc )cb_hash_collect_values, &accum);
-	return accum;
-}
-
 /***************************************************************************/
 void
 go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
