@@ -385,7 +385,6 @@ map_discrete_calc_ticks (GogAxis *axis)
 		ticks[i].str = NULL;
 	}
 	for (i = 0, j = tick_nbr; i < label_nbr; i++, j++) {
-		char *label;
 		ticks[j].position = go_rint (label_start + (double) (i) * major_label);
 		index = ticks[j].position - 1;
 		ticks[j].type = GOG_AXIS_TICK_NONE;
@@ -394,7 +393,7 @@ map_discrete_calc_ticks (GogAxis *axis)
 			if (index < (int) go_data_get_vector_size (axis->labels) && index >= 0) {
 				PangoAttrList *l = go_data_get_vector_markup (axis->labels, index);
 				if (l != NULL) {
-					label = go_data_get_vector_string (axis->labels, index);
+					char *label = go_data_get_vector_string (axis->labels, index);
 					gog_axis_ticks_set_markup (&ticks[j], label, l);
 					g_free (label);
 				} else {
@@ -402,15 +401,16 @@ map_discrete_calc_ticks (GogAxis *axis)
 					if (go_finite (val))
 						axis_format_value (axis, val, &ticks[j].str);
 					else {
-						label = go_data_get_vector_string (axis->labels, index);
+						char *label = go_data_get_vector_string (axis->labels, index);
 						gog_axis_ticks_set_text (&ticks[j], label);
 						g_free (label);
 					}
 				}
 			}
 		} else {
-			label = g_strdup_printf ("%d", index + 1);
+			char *label = g_strdup_printf ("%d", index + 1);
 			gog_axis_ticks_set_text (&ticks[j], label);
+			g_free (label);
 		}
 	}
 
