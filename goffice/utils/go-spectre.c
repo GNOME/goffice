@@ -64,9 +64,11 @@ static void
 go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 {
 	GOSpectre *spectre = GO_SPECTRE (image);
+#ifdef GOFFICE_WITH_EPS
 	int width, height;
 	char *tmpname;
 	int f;
+#endif
 
 	spectre->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
 	image->data = g_malloc (spectre->data_length);
@@ -120,8 +122,8 @@ go_spectre_build_surface (GOSpectre *spectre)
 static void
 go_spectre_draw (GOImage *image, cairo_t *cr)
 {
-	GOSpectre *spectre = GO_SPECTRE (image);
 #ifdef GOFFICE_WITH_EPS
+	GOSpectre *spectre = GO_SPECTRE (image);
 	if (spectre->surface == NULL)
 		go_spectre_build_surface (spectre);
 	cairo_save (cr);
@@ -135,9 +137,9 @@ go_spectre_draw (GOImage *image, cairo_t *cr)
 static GdkPixbuf *
 go_spectre_get_pixbuf (GOImage *image)
 {
-	GOSpectre *spectre = GO_SPECTRE (image);
 	GdkPixbuf *res = NULL;
 #ifdef GOFFICE_WITH_EPS
+	GOSpectre *spectre = GO_SPECTRE (image);
 	cairo_surface_t *surface;
 	cairo_t *cr;
 	g_return_val_if_fail (spectre != NULL, NULL);
@@ -160,9 +162,10 @@ go_spectre_get_pixbuf (GOImage *image)
 
 static GdkPixbuf *
 go_spectre_get_scaled_pixbuf (GOImage *image, int width, int height)
-{	GOSpectre *spectre = GO_SPECTRE (image);
+{
 	GdkPixbuf *res = NULL;
 #ifdef GOFFICE_WITH_EPS
+	GOSpectre *spectre = GO_SPECTRE (image);
 	cairo_surface_t *surface;
 	cairo_t *cr;
 	g_return_val_if_fail (spectre != NULL, NULL);
