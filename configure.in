@@ -141,9 +141,8 @@ dnl ***************************
 dnl Should we use libspectre ?
 dnl ***************************
 
-goffice_with_eps=false
-PKG_CHECK_MODULES(EPS, libspectre >= 0.2.6)
 goffice_with_eps=true
+PKG_CHECK_MODULES(EPS, libspectre >= 0.2.6,[], [goffice_with_eps=false])
 if test "x$goffice_with_eps" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_EPS, 1, [Define if EPS is supported])
 	goffice_reqs="$goffice_reqs libspectre >= 0.2.6 "
