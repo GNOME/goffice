@@ -434,9 +434,12 @@ go_image_new_from_file (char const *filename, GError **error)
 	case GO_IMAGE_FORMAT_EMF:
 	case GO_IMAGE_FORMAT_WMF:
 		return go_emf_new_from_file (filename, error);
-	case GO_IMAGE_FORMAT_PDF:
-	case GO_IMAGE_FORMAT_PS:
 	case GO_IMAGE_FORMAT_EPS:
+#ifdef GOFFICE_WITH_EPS
+		return go_spectre_new_from_file (filename, error);
+#endif
+	case GO_IMAGE_FORMAT_PS: /* we might support ps with libspectre */
+	case GO_IMAGE_FORMAT_PDF:
 	case GO_IMAGE_FORMAT_UNKNOWN:
 		break;
 	default: {
@@ -470,6 +473,10 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 		image = go_svg_new_from_data (data, length, error);
 	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {
 		image = go_emf_new_from_data (data, length, error);
+#ifdef GOFFICE_WITH_EPS
+	} else if (!strcmp (type, "eps")) {
+		image = go_spectre_new_from_data (data, length, error);
+#endif
 	} else {
 		/* FIXME: pixbuf */
 	}

@@ -215,6 +215,7 @@ libgoffice_init (void)
 	(void) GOG_3D_BOX_TYPE;
 	(void) GO_TYPE_EMF;
 	(void) GO_TYPE_PIXBUF;
+	(void) GO_TYPE_SPECTRE;
 	(void) GO_TYPE_SVG;
 	_gog_themes_init ();
 	_go_number_format_init ();

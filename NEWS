@@ -37,6 +37,7 @@ Jean:
 	* Fix background images issues in graphs. [#660917]
 	* Make GSettings the default configuration backend.
 	* Add support for SVG images.
+	* Add some optional support for EPS images.
 
 Morten:
 	* Recognize scientific formats with longer exponents.

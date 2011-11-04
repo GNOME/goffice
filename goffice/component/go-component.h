@@ -86,8 +86,6 @@ typedef struct _GOComponentClass GOComponentClass;
 #define GO_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_COMPONENT, GOComponent))
 #define GO_IS_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_COMPONENT))
 
-#define GOC_PARAM_PERSISTENT	(1 << (G_PARAM_USER_SHIFT+0))
-
 GType	  go_component_get_type (void);
 GOComponent  *go_component_new_by_mime_type	(char const *mime_type);
 GOComponent  *go_component_new_from_uri	(char const *uri);

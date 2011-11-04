@@ -87,10 +87,11 @@ go_svg_get_pixbuf (GOImage *image)
 	rsvg_handle_render_cairo (svg->handle, cr);
 	cairo_destroy (cr);
 	res = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, image->width, image->height);
-	go_cairo_convert_data_from_pixbuf (gdk_pixbuf_get_pixels (res),
+	go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (res),
 	                                   cairo_image_surface_get_data (surface),
 	                                   image->width, image->height,
 	                                   cairo_image_surface_get_stride (surface));
+	cairo_surface_destroy (surface);
 	return res;
 }
 
@@ -108,10 +109,11 @@ go_svg_get_scaled_pixbuf (GOImage *image, int width, int height)
 	rsvg_handle_render_cairo (svg->handle, cr);
 	cairo_destroy (cr);
 	res = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
-	go_cairo_convert_data_from_pixbuf (gdk_pixbuf_get_pixels (res),
+	go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (res),
 	                                   cairo_image_surface_get_data (surface),
 	                                   width, height,
 	                                   cairo_image_surface_get_stride (surface));
+	cairo_surface_destroy (surface);
 	return res;
 }
 

@@ -512,7 +512,7 @@ go_component_write_xml_sax (GOComponent *component, GsfXMLOut *output)
 	gsf_xml_out_add_float (output, "height", component->height, 3);
 	/* save needed component specific properties */
 	for (i = 0; i < nbprops; i++)
-		if (specs[i]->flags & GOC_PARAM_PERSISTENT) {
+		if (specs[i]->flags & GO_PARAM_PERSISTENT) {
 			prop_type = G_PARAM_SPEC_VALUE_TYPE (specs[i]);
 			memset (&value, 0, sizeof (value));
 			g_value_init (&value, prop_type);
@@ -575,7 +575,7 @@ _go_component_start (GsfXMLIn *xin, xmlChar const **attrs)
 		memset (&res, 0, sizeof (res));
 		prop_spec = g_object_class_find_property (
 				G_OBJECT_GET_CLASS (state->component), attrs[i]);
-		if (prop_spec && (prop_spec->flags & GOC_PARAM_PERSISTENT) &&
+		if (prop_spec && (prop_spec->flags & GO_PARAM_PERSISTENT) &&
 			gsf_xml_gvalue_from_str (&res,
 				G_TYPE_FUNDAMENTAL (G_PARAM_SPEC_VALUE_TYPE (prop_spec)),
 				attrs[i+1])) {
