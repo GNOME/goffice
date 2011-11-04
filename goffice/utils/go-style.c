@@ -1515,7 +1515,6 @@ go_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 	GType type;
 	g_return_if_fail (style->fill.type == GO_STYLE_FILL_NONE);
 	g_return_if_fail (GO_IS_DOC (doc));
-	/* TODO: load the pixels */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type"))
 			style->fill.image.type = str_as_image_tiling (attrs[1]);

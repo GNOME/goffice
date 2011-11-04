@@ -478,12 +478,40 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 		image = go_spectre_new_from_data (data, length, error);
 #endif
 	} else {
-		/* FIXME: pixbuf */
+		GdkPixbufLoader *loader = gdk_pixbuf_loader_new_with_type (type, error);
+		if (loader) {
+			if (gdk_pixbuf_loader_write (loader, data, length, error))
+				image = go_pixbuf_new_from_pixbuf (gdk_pixbuf_loader_get_pixbuf (loader));
+			gdk_pixbuf_loader_close (loader, error);
+			g_object_unref (loader);
+		}
 	}
 	if (format)
 		*format = g_strdup (type);
 	g_free (real_type);
 	return image;
+}
+
+GOImage *
+go_image_new_for_format (char const *format)
+{
+	GType gtype = go_image_type_for_format (format);
+	return (gtype > 0)? g_object_new (gtype, NULL): NULL;
+}
+
+GType
+go_image_type_for_format (char const *format)
+{
+	g_return_val_if_fail (format && *format, 0);
+	if (!strcmp (format, "svg"))
+		return GO_TYPE_SVG;
+	if (!strcmp (format, "emf") || !strcmp (format, "wmf"))
+		return GO_TYPE_EMF;
+	 if (!strcmp (format, "eps"))
+		return GO_TYPE_SPECTRE;
+	if (go_image_get_format_from_name (format) != GO_IMAGE_FORMAT_UNKNOWN)
+		return GO_TYPE_PIXBUF;
+	return 0;
 }
 
 guint8 *

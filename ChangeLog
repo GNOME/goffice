@@ -1,5 +1,12 @@
 2011-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/gtk/go-image-sel.ui: make the icon selector larger.
+	* goffice/utils/go-image.c (go_image_new_from_data): add support for pixbuf,
+	(go_image_new_for_format), (go_image_type_for_format): new functions.
+	* goffice/utils/go-image.h: ditto.
+
+2011-11-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: add a test for libspectre presence.
 	* goffice/component/go-component.c (go_component_write_xml_sax),
 	(_go_component_start): remove obsolete GOC_PARAM_PERSISTENT.

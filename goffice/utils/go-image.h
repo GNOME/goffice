@@ -93,6 +93,8 @@ void		 go_image_draw			(GOImage *image, cairo_t *cr);
 
 GOImage 	*go_image_new_from_file 	(char const *filename, GError **error);
 GOImage 	*go_image_new_from_data 	(char const *type, guint8 const *data, gsize length, char **format, GError **error);
+GOImage 	*go_image_new_for_format   	(char const *format);
+GType		 go_image_type_for_format      	(char const *format);    
 
 guint8 		*go_image_get_pixels 		(GOImage *image);
 void 		 go_image_fill 			(GOImage *image, GOColor color);
