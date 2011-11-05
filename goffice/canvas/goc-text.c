@@ -148,7 +148,6 @@ goc_text_set_property (GObject *gobject, guint param_id,
 		return; /* NOTE : RETURN */
 	}
 	goc_item_bounds_changed (GOC_ITEM (gobject));
-
 }
 
 static void

@@ -1,5 +1,10 @@
 2011-11-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-item.c (goc_item_bounds_changed): invalidate new
+	position (and force a bound update). [#662393]
+
+2011-11-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-polyline.c (goc_polyline_finalize),
 	(goc_polyline_class_init): fix memory leak. [#663355]
 

@@ -90,7 +90,6 @@ cb_rotate_changed (GORotationSel *grs)
 		goc_item_set (grs->text, "x", x, "y", y,
 		              "rotation", rad, NULL);
 	}
-	gtk_widget_queue_draw (GTK_WIDGET (grs->rotate_canvas));
 }
 
 static void
