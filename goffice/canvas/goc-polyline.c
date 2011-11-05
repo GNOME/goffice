@@ -38,6 +38,8 @@ enum {
 	POLYLINE_PROP_SPLINE
 };
 
+static GObjectClass *parent_class;
+
 static void
 goc_polyline_set_property (GObject *gobject, guint param_id,
 				    GValue const *value, GParamSpec *pspec)
@@ -216,13 +218,23 @@ goc_polyline_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 }
 
 static void
+goc_polyline_finalize (GObject *obj)
+{
+	GocPolyline *polyline = GOC_POLYLINE (obj);
+	g_free (polyline->points);
+	parent_class->finalize (obj);
+}
+
+static void
 goc_polyline_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
+	parent_class = g_type_class_peek_parent (item_klass);
 
 	gsi_klass->init_style = goc_polyline_init_style;
 
+	obj_klass->finalize = goc_polyline_finalize;
 	obj_klass->get_property = goc_polyline_get_property;
 	obj_klass->set_property = goc_polyline_set_property;
         g_object_class_install_property (obj_klass, POLYLINE_PROP_POINTS,

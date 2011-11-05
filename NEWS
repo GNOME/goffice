@@ -38,6 +38,7 @@ Jean:
 	* Make GSettings the default configuration backend.
 	* Add support for SVG images.
 	* Add some optional support for EPS images. [#663078]
+	* Fixed a memory leak in GocPolyline code. [#663355]
 
 Morten:
 	* Recognize scientific formats with longer exponents.
