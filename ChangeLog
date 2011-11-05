@@ -6,6 +6,13 @@
 
 2011-11-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-emf.c (go_emf_get_canvas): new function,
+	(go_emf_new_from_file): fixed several issues.
+	* goffice/utils/go-emf.h: added a new prototype.
+	* tests/mf-demo.c (open_file), (main): use GOEmf to load the images.
+
+2011-11-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-item.c (goc_item_bounds_changed): invalidate new
 	position (and force a bound update). [#662393]
 

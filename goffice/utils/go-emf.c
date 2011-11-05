@@ -163,6 +163,12 @@ GSF_CLASS (GOEmf, go_emf,
 	   go_emf_class_init, go_emf_init,
 	   GO_TYPE_IMAGE)
 
+GObject *go_emf_get_canvas (GOEmf *emf)
+{
+	g_return_val_if_fail (GO_IS_EMF (emf), NULL);
+	return g_object_ref (emf->canvas);
+}
+
 GOImage *
 go_emf_new_from_file (char const *filename, GError **error)
 {
@@ -171,12 +177,13 @@ go_emf_new_from_file (char const *filename, GError **error)
 	GOImage *image;
 	GsfInput *input = gsf_input_stdio_new (filename, error);
 	guint8 *data;
+	size_t size;
 
 	if (input == NULL)
 		return NULL;
-	data = g_malloc (gsf_input_size (input));
-	if (!data || !gsf_input_read (input, emf->data_length, data)) {
-		g_object_unref (emf);
+	size = gsf_input_size (input);
+	data = g_malloc (size);
+	if (!data || !gsf_input_read (input, size, data)) {
 		g_free (data);
 		if (error)
 			*error = g_error_new (go_error_invalid (), 0,
@@ -185,8 +192,7 @@ go_emf_new_from_file (char const *filename, GError **error)
 	}
 	g_object_unref (input);
 	emf = g_object_new (GO_TYPE_EMF, NULL);
-	emf->data_length = gsf_input_size (input);
-	g_object_unref (input);
+	emf->data_length = size;
 
 	image = GO_IMAGE (emf);
 	image->data = data;
