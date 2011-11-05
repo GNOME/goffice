@@ -623,7 +623,7 @@ typedef struct {
 } fmt_dialog_closure_t;
 
 static void
-fmt_dialog_load_true_custom_cb (char const *key, GOFormat const *fmt, 
+fmt_dialog_load_true_custom_cb (char const *key, GOFormat const *fmt,
 				fmt_dialog_closure_t *cl)
 {
 	GtkTreeIter iter;
@@ -841,7 +841,7 @@ stays:
 			select.stamp = 0;
 			gtk_list_store_clear (gfs->format.formats.model);
 			for (; start <= end ; ++start)
-				fmt_dialog_init_fmt_list (gfs, _go_format_builtins[start], 
+				fmt_dialog_init_fmt_list (gfs, _go_format_builtins[start],
 							  &select, fhash);
 
 			if  (page == FMT_CUSTOM) {

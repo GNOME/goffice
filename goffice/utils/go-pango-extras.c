@@ -493,7 +493,7 @@ filter_func (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
 }
 
 static void
-go_pango_translate_here (PangoAttrIterator *state_iter, 
+go_pango_translate_here (PangoAttrIterator *state_iter,
 			 PangoAttrIterator *attr_iter, PangoAttrList *attrs)
 {
 	double font_scale = 1.;
@@ -505,7 +505,7 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 	gint range_start, range_end;
 
 	pango_attr_iterator_range (attr_iter, &range_start, &range_end);
-	
+
 	if (range_start == range_end)
 		return;
 
@@ -528,7 +528,7 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 	/* rather than assuming it is 10 pts * scale */
 	if (font_scale == 0)
 		font_scale = scale;
-	
+
 	the_attrs = pango_attr_iterator_get_attrs (attr_iter);
 	for (l = the_attrs; l != NULL; l = l->next) {
 		PangoAttribute *attribute = l->data;
@@ -586,16 +586,16 @@ go_pango_translate_attributes (PangoAttrList *attrs)
 			gint range_start, range_end;
 			/* We need to restart everytime since we are changing n_attrs */
 			iter = pango_attr_list_get_iterator (n_attrs);
-			pango_attr_iterator_range (f_iter, &f_range_start, 
+			pango_attr_iterator_range (f_iter, &f_range_start,
 						   &f_range_end);
-			pango_attr_iterator_range (iter, &range_start, 
+			pango_attr_iterator_range (iter, &range_start,
 						   &range_end);
 			while (range_end <= f_range_start) {
 				if (!pango_attr_iterator_next (iter))
 					break;
-				pango_attr_iterator_range (iter, &range_start, 
+				pango_attr_iterator_range (iter, &range_start,
 						   &range_end);
-			} 
+			}
 			/* Now range_end > f_range_start >= range_start */
 			go_pango_translate_here (iter, f_iter, n_attrs);
 			pango_attr_iterator_destroy (iter);
@@ -619,10 +619,10 @@ go_pango_translate_layout (PangoLayout *layout)
 		pango_layout_set_attributes (layout, n_attrs);
 		pango_attr_list_unref (n_attrs);
 	}
-	
+
 }
 
-PangoAttrType 
+PangoAttrType
 go_pango_attr_subscript_get_type (void)
 {
 	static PangoAttrType go_pango_attr_subscript_type = PANGO_ATTR_INVALID;
@@ -634,7 +634,7 @@ go_pango_attr_subscript_get_type (void)
 	return go_pango_attr_subscript_type;
 }
 
-PangoAttrType 
+PangoAttrType
 go_pango_attr_superscript_get_type (void)
 {
 	static PangoAttrType go_pango_attr_superscript_type = PANGO_ATTR_INVALID;

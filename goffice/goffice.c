@@ -169,7 +169,7 @@ libgoffice_init (void)
 		"share", "locale", NULL);
 	libgoffice_lib_dir = g_build_filename (dir,
 		"lib", "goffice", GOFFICE_VERSION, NULL);
-	g_free (dir);       
+	g_free (dir);
     }
 #endif /* GTKOSXAPPLICATION */
 #endif

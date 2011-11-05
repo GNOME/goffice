@@ -697,7 +697,7 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 			if (debug)
 				g_print ("Guessed %s as encoding.\n", guess);
 			if (utf8_str)
-				*utf8_str = g_string_new_len 
+				*utf8_str = g_string_new_len
 					(utf8_data, bytes_written);
 			else
 				g_free (utf8_data);

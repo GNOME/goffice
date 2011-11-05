@@ -247,7 +247,7 @@ go_component_snapshot_render (GOComponent *component, cairo_t *cr,
 	GOComponentSnapshot *snapshot = (GOComponentSnapshot *) component;
 	switch (component->snapshot_type) {
 	case GO_SNAPSHOT_SVG:
-		/* NOTE: we might use lasem here, and also use a GOSvg image */ 
+		/* NOTE: we might use lasem here, and also use a GOSvg image */
 		if (snapshot->image == NULL) {
 			GError *err = NULL;
 			snapshot->image = (void *) rsvg_handle_new_from_data (

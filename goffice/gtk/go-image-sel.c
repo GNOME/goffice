@@ -60,7 +60,7 @@ cb_file_image_select (GtkWidget *cc, GOImageSelState *state)
 {
 	GtkWidget *box, *w;
 	char *new_name, *filename;
-	unsigned n = 1; 
+	unsigned n = 1;
 	GError *error = NULL;
 	GOImage *image, *real_image;
 
@@ -80,7 +80,7 @@ cb_file_image_select (GtkWidget *cc, GOImageSelState *state)
 	state->name = new_name;
 	gtk_container_add (GTK_CONTAINER (box), w);
 	gtk_widget_show_all (box);
-	
+
 	g_free (state->uri);
 
 	state->uri = go_gtk_select_image_with_extra_widget (GTK_WINDOW (gtk_widget_get_toplevel (cc)),

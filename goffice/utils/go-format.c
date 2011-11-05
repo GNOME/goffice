@@ -60,7 +60,7 @@
 #undef ALLOW_DENOM_REMOVAL
 
 /* Define ALLOW_NO_SIGN_AFTER_E to permit formats such as '00E00' and '00E +00' */
-#undef ALLOW_NO_SIGN_AFTER_E 
+#undef ALLOW_NO_SIGN_AFTER_E
 
 /* Note that the header file contains ALLOW_EE_MARKUP ALLOW_SI_APPEND ALLOW_PI_SLASH */
 
@@ -578,11 +578,11 @@ static long double beyond_precisionl;
 /* WARNING : Global */
 static GHashTable *style_format_hash = NULL;
 
-void 
+void
 go_format_foreach (GHFunc func, gpointer user_data)
 {
 	if (style_format_hash != NULL)
-		g_hash_table_foreach  (style_format_hash, 
+		g_hash_table_foreach  (style_format_hash,
 				       func, user_data);
 }
 
@@ -1266,7 +1266,7 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 			char *lname = g_strdup_printf ("%s.utf-8",lang);
 			lang = lname;
 			ok = setlocale (LC_ALL, lang) != NULL;
-			
+
 		}
 
 		setlocale (LC_ALL, oldlocale);
@@ -3475,7 +3475,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					start = (guint)GPOINTER_TO_SIZE (markup_stack->data);
 					markup_stack = g_slist_delete_link (markup_stack, markup_stack);
 				}
-				
+
 				attr = go_pango_attr_superscript_new (TRUE);
 				attr->start_index = start;
 				attr->end_index = end;
@@ -3688,7 +3688,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
-			if (!fraction.blanked && fraction.d == 1 &&  
+			if (!fraction.blanked && fraction.d == 1 &&
 			    fraction.w == 0) {
 				blank_characters (dst, attrs, fraction.denominator_start - 1,
 						  2, layout);
@@ -3719,7 +3719,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_NUMERATOR_PI:
-			if (!fraction.blanked && 
+			if (!fraction.blanked &&
 			    (fraction.n == 1 || fraction.n == -1)) {
 				/* Remove "1".  */
 				gsize p = fraction.nominator_start;
@@ -4853,7 +4853,7 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 		break;
 	default :
 		if (a->klass->type == go_pango_attr_subscript_get_type ()) {
-			g_string_append_printf (accum, "[subscript=%d", 
+			g_string_append_printf (accum, "[subscript=%d",
 						((GOPangoAttrSubscript *)a)->val ?
 						1:0);
 			break;
@@ -5133,7 +5133,7 @@ go_format_unref (GOFormat const *gf_)
 		return;
 
 	if (gf->ref_count == 1) {
-		if (NULL != style_format_hash && 
+		if (NULL != style_format_hash &&
 		    gf_ == g_hash_table_lookup (style_format_hash, gf_->format))
 			g_hash_table_remove (style_format_hash, gf_->format);
 		return;
@@ -6852,7 +6852,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 					min_numerator_digits = zeroes;
 				zeroes = 0;
 				break;
-			} 
+			}
 			zeroes = 0;
 			break;
 		}

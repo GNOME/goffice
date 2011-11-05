@@ -220,7 +220,7 @@ goc_item_dispose (GObject *object)
 		}
 #endif
 	}
-	
+
 	if (item->parent != NULL)
 		goc_group_remove_child (item->parent, item);
 

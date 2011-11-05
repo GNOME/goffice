@@ -291,7 +291,7 @@ goc_canvas_init (GocCanvas *canvas)
 #ifdef GOFFICE_WITH_GTK
 	GtkWidget *w = GTK_WIDGET (canvas);
 #endif
-	
+
 	canvas->root = GOC_GROUP (g_object_new (GOC_TYPE_GROUP, NULL));
 	canvas->root->base.canvas = canvas;
 	canvas->pixels_per_unit = 1.;
@@ -675,4 +675,4 @@ goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, double *x1, do
 {
 	goc_item_get_bounds (GOC_ITEM (canvas->root), x0, y0, x1, y1);
 }
-                       
+

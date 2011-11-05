@@ -356,7 +356,7 @@ go_dib_create_pixbuf_from_data (GODibHeader const *header, guint8 const *data)
 }
 
 /******************************************************************************
- * Parsing code                                                               
+ * Parsing code
  *
  * Parse WMF file
  *
@@ -2314,7 +2314,7 @@ go_emf_header (GOEmfState *state)
 		d_(("Unknown type, crossing fingers\n"));
 		break;
 	}
-	
+
 	d_(("\theader with %u bytes\n", state->length));
 	go_wmf_read_rectl (&state->dubounds, state->data);
 	go_wmf_read_rectl (&state->mmbounds, state->data + 16);
@@ -2877,7 +2877,7 @@ go_emf_stretchdibits (GOEmfState *state)
 	GOWmfRectL rect;
 	gint32 dst_x, dst_y, dst_cx, dst_cy;
 	gint32 src_x, src_y, src_cx, src_cy;
-	guint32 usage_src, op; 
+	guint32 usage_src, op;
 	guint32 header_pos, header_size, buffer_pos, buffer_size;
 	GODibHeader header;
 	GdkPixbuf *pixbuf;
