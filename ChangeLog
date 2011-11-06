@@ -32,6 +32,8 @@
 
 2011-11-03  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/goffice-gtk.c (go_gtk_builder_new): Plug leak.
+
 	* goffice/utils/go-glib-extras.c (go_hash_values): Remove.
 
 2011-11-03  Jean Brefort  <jean.brefort@normalesup.org>

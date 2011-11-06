@@ -214,6 +214,7 @@ go_gtk_builder_new (char const *uifile,
 			}
 			ptr = ptr->next;
 		}
+		g_slist_free (l);
 	}
 	return gui;
 }
