@@ -52,9 +52,7 @@ go_conf_closure_free (GOConfClosure *cls)
 	g_free (cls);
 }
 
-#ifdef GOFFICE_WITH_GCONF
-#include "go-conf-gconf.c"
-#elif defined GOFFICE_WITH_WINREG
+#if defined GOFFICE_WITH_WINREG
 #include "go-conf-win32.c"
 #elif defined GOFFICE_WITH_GSETTINGS
 #include "go-conf-gsettings.c"

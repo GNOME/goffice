@@ -1,3 +1,9 @@
+2011-11-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: drop gconf support.
+	* goffice/app/go-conf.c: ditto.
+	* goffice/app/go-conf-gconf.c: ditto.
+
 2011-11-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-item.c (goc_item_bounds_changed): invalidate new

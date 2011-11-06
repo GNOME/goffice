@@ -40,6 +40,7 @@ Jean:
 	* Add some optional support for EPS images. [#663078]
 	* Fixed a memory leak in GocPolyline code. [#663355]
 	* Fixed pixels dust in text rotation selector. [#662393]
+	* Remove GConf support.
 
 Morten:
 	* Recognize scientific formats with longer exponents.

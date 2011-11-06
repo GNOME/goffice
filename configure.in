@@ -226,19 +226,12 @@ fi
 dnl ***********************************
 dnl Which conf backend should be used?
 dnl ***********************************
-AC_ARG_WITH(config-backend, [  --with-config-backend=gconf|gsettings|keyfile|win32           Choose the config backend ])
+AC_ARG_WITH(config-backend, [  --with-config-backend=gsettings|keyfile|win32           Choose the config backend ])
 case $with_config_backend in
 	win32)
 		if test $with_win32 = no; then AC_MSG_ERROR([ win32 configuration backend only works for win32 builds ]);fi;
 		AC_DEFINE(GOFFICE_WITH_WINREG, 1, [Goffice uses Windows registry])
 		conf_msg="Windows registry"
-		;;
-	gconf)
-		if test $with_win32 = yes; then AC_MSG_ERROR([ gconf configuration backend does not work for win32 builds ]);fi;
-		AC_DEFINE(GOFFICE_WITH_GCONF, 1, [Goffice uses gconf])
-		EXTRA_DEPS="$EXTRA_DEPS gconf-2.0"
-		conf_msg="GConf"
-		goffice_reqs="$goffice_reqs gconf-2.0"
 		;;
 	gsettings)
 		AC_CHECK_LIB(gio-2.0,[g_settings_new],
