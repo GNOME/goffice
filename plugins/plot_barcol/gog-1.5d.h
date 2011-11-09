@@ -48,6 +48,7 @@ typedef struct {
 	unsigned int support_lines : 1;
 	GOFormat const *fmt;
 	GODateConventions const *date_conv;
+	double  *sums; /* used to evaluate percent values */
 } GogPlot1_5d;
 
 typedef struct {
@@ -70,6 +71,7 @@ GType gog_plot1_5d_get_type (void);
 void  gog_plot1_5d_register_type (GTypeModule *module);
 
 GogAxis * gog_plot1_5d_get_index_axis (GogPlot1_5d *model);
+double _gog_plot1_5d_get_percent_value (GogPlot *plot, unsigned series, unsigned index);
 
 /***************************************************************************/
 

@@ -794,12 +794,12 @@ gog_data_label_update (GogObject *obj)
 				break;
 			}
 			case 'p': {
-				double const *pc;
-				if (gog_series_get_data_as_percent (series, &pc)) {
+				double pc = gog_plot_get_percent_value (series->plot, series->index, lbl->index);
+				if (go_finite (pc)) {
 					/* Note to translators: a space might be needed before '%%' in some languages */
 					/* FIXME: should the number of digits be customizable? */
-					next = g_strdup_printf (_("%.1f%%"), pc[lbl->index]);
-					g_string_append (str, next); /* this one will be replaced by the legend entry */
+					next = g_strdup_printf (_("%.1f%%"), pc);
+					g_string_append (str, next);
 					g_free (next);
 				}
 				break;
@@ -1177,7 +1177,6 @@ gog_series_labels_update (GogObject *obj)
 	}
 	if (GOG_IS_SERIES (parent)) {
 		GogSeries *series = GOG_SERIES (parent);
-		double const *pc = NULL;
 		labels->n_elts = n = gog_series_num_elements (series);
 		labels->elements = g_new0 (GogSeriesLabelElt, n);
 		override = labels->overrides;
@@ -1233,10 +1232,11 @@ gog_series_labels_update (GogObject *obj)
 							break;
 						}
 						case 'p': {
-							if (pc || gog_series_get_data_as_percent (series, &pc)) {
-								/* Note to translators: a space might be needed before '%%' in some languages */
+							double pc = gog_plot_get_percent_value (series->plot, series->index, i);
+							if (go_finite (pc)) {
+								/* Note to translators: a space might be needed before '%%' in someo_is_finie languages */
 								/* FIXME: should the number of digits be customizable? */
-								next = g_strdup_printf (_("%.1f%%"), pc[i]);
+								next = g_strdup_printf (_("%.1f%%"), pc);
 								g_string_append (str, next); /* this one will be replaced by the legend entry */
 								g_free (next);
 							}

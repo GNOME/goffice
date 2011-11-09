@@ -1,5 +1,21 @@
 2011-11-09  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-plot-impl.h: fixed macro name.
+	* goffice/graph/gog-series-impl.h: removed the get_percent_value member.
+	* goffice/graph/gog-series-labels.c (gog_data_label_update),
+	(gog_series_labels_update): really implement percent as label.
+	* goffice/graph/gog-series.c (role_series_labels_post_add),
+	(gog_series_get_interpolation_params): remove
+	gog_series_get_data_as_percent.
+	* goffice/graph/gog-series.h: ditto.
+	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update),
+	(_gog_plot1_5d_get_percent_value): implement percent as labels for bar/col
+	plots.
+	* plugins/plot_barcol/gog-1.5d.h: ditto.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_plot_class_init): ditto.
+
+2011-11-09  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/component/go-component.c (go_component_set_font): new function.
 	* goffice/component/go-component.h: ditto.
 	* goffice/utils/go-image.c (go_image_finalize),

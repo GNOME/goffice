@@ -168,6 +168,8 @@ gog_plot1_5d_update (GogObject *obj)
 	model->minima =  DBL_MAX;
 	model->maxima = -DBL_MAX;
 	gog_plot_1_5d_clear_formats (model);
+	g_free (model->sums);
+	model->sums = 0;
 
 	num_elements = num_series = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -379,6 +381,37 @@ gog_plot1_5d_init (GogPlot1_5d *plot)
 GSF_DYNAMIC_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,
 	gog_plot1_5d_class_init, gog_plot1_5d_init,
 	GOG_TYPE_PLOT)
+
+double _gog_plot1_5d_get_percent_value (GogPlot *plot, unsigned series, unsigned index)
+{ 
+	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
+	GogSeries1_5d const *ser = NULL, *cur;
+	GSList *ptr;
+	if (index >= model->num_elements)
+		return go_nan;
+	if (model->sums == NULL) {
+		unsigned i, j;
+		double *vals;
+		model->sums = g_new0 (double, model->num_elements);
+		for (i = 0, ptr = plot->series; i < model->num_series; i++, ptr = ptr->next) {
+			cur = ptr->data;
+			if (i == series)
+				ser = cur;
+			if (!gog_series_is_valid (GOG_SERIES (cur)))
+				continue;
+			vals = go_data_get_values (cur->base.values[1].data);
+			for (j = 0; j < cur->base.num_elements; j++)
+				model->sums[j] += vals[j];
+		}
+		
+	} else
+		for (ptr = plot->series ; ptr != NULL ; ptr = ptr->next)
+			if (0 == series--)
+				ser = ptr->data;
+	return (ser && gog_series_is_valid (GOG_SERIES (ser)) && index < ser->base.num_elements)?
+			go_data_get_vector_value (ser->base.values[1].data, index) / model->sums[index] * 100:
+			go_nan;
+}
 
 /*****************************************************************************/
 

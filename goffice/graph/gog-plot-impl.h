@@ -82,7 +82,7 @@ typedef struct {
 
 #define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_PLOT, GogPlotClass))
 #define GOG_IS_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_PLOT))
-#define GOG_PLOT_ITEM_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_PLOT, GogPlotClass))
+#define GOG_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_PLOT, GogPlotClass))
 
 /* protected */
 

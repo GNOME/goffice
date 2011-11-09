@@ -289,6 +289,7 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	plot_klass->desc.series.style_fields	= GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	plot_klass->series_type = gog_barcol_series_get_type ();
 	plot_klass->axis_get_bounds   		= gog_barcol_axis_get_bounds;
+	plot_klass->get_percent			= _gog_plot1_5d_get_percent_value;
 
 	gog_plot_1_5d_klass->swap_x_and_y = gog_barcol_swap_x_and_y;
 	gog_plot_1_5d_klass->update_stacked_and_percentage =

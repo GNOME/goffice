@@ -104,8 +104,6 @@ typedef struct {
 	unsigned    (*get_xy_data) (GogSeries const *series,
 	                            double const **x, double const **y);
 	GogDataset *(*get_interpolation_params) (GogSeries const *series);
-	gboolean    (*get_data_as_percent) (GogSeries const *series,
-	                                    double const **pc);
 
 } GogSeriesClass;
 
