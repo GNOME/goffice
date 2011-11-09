@@ -70,6 +70,7 @@ struct _GOImage {
 	guint8 *data;
 	double width, height;
 	GdkPixbuf *thumbnail;
+	GdkPixbuf *pixbuf;
 	char *name;
 };
 

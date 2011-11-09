@@ -67,6 +67,7 @@ struct _GOComponentClass {
 	void (*set_size) (GOComponent *component);
 	void (*render) (GOComponent *component, cairo_t *cr,
 			    double width, double height);
+	void (*set_font) (GOComponent *component, PangoFontDescription *desc);
 	void (*reserved1) (void);
 	void (*reserved2) (void);
 	void (*reserved3) (void);
@@ -107,6 +108,7 @@ void go_component_set_command_context (GOCmdContext *cc);
 GOCmdContext *go_component_get_command_context (void);
 void go_component_render (GOComponent *component, cairo_t *cr, double width, double height);
 void go_component_get_size (GOComponent *component, double *width, double *height);
+void go_component_set_font (GOComponent *component, PangoFontDescription *desc);
 
 void go_component_write_xml_sax (GOComponent *component, GsfXMLOut *output);
 typedef void (*GOComponentSaxHandler)(GOComponent *component, gpointer user_data);

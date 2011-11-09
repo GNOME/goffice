@@ -346,6 +346,8 @@ go_image_finalize (GObject *obj)
 	g_free (image->data);
 	if (image->thumbnail)
 		g_object_unref (image->thumbnail);
+	if (image->pixbuf)
+		g_object_unref (image->pixbuf);
 	g_free (image->name);
 	(parent_klass->finalize) (obj);
 }
@@ -391,7 +393,9 @@ go_image_get_thumbnail (GOImage *image)
 GdkPixbuf *
 go_image_get_pixbuf (GOImage *image)
 {
-	return ((GOImageClass *) G_OBJECT_GET_CLASS (image))->get_pixbuf (image);
+	if (image->pixbuf == NULL)
+		image->pixbuf = ((GOImageClass *) G_OBJECT_GET_CLASS (image))->get_pixbuf (image);
+	return g_object_ref (image->pixbuf);
 }
 
 GdkPixbuf *

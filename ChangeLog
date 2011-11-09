@@ -1,3 +1,11 @@
+2011-11-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component.c (go_component_set_font): new function.
+	* goffice/component/go-component.h: ditto.
+	* goffice/utils/go-image.c (go_image_finalize),
+	(go_image_get_pixbuf): cache the pixbuf.
+	* goffice/utils/go-image.h: ditto.
+
 2011-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: drop gconf support.
