@@ -418,18 +418,6 @@ go_conf_load_str_list (GOConfNode *node, gchar const *key)
 	return go_conf_get_str_list (node, key);
 }
 
-char *
-go_conf_get_short_desc (GOConfNode *node, gchar const *key)
-{
-	return NULL;
-}
-
-gchar *
-go_conf_get_long_desc  (GOConfNode *node, gchar const *key)
-{
-	return NULL;
-}
-
 void
 go_conf_sync (GOConfNode *node)
 {
