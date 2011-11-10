@@ -1,3 +1,8 @@
+2011-11-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf.h (go_conf_node_get_key_type)
+	(go_conf_get_value_as_str, go_conf_set_value_from_str): Delete.
+
 2011-11-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot-impl.h: fixed macro name.

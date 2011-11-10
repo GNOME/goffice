@@ -16,8 +16,6 @@ void	 go_conf_free_node	    (GOConfNode *node);
 
 gchar	*go_conf_get_short_desc     (GOConfNode *node, gchar const *key);
 gchar	*go_conf_get_long_desc      (GOConfNode *node, gchar const *key);
-GType	 go_conf_node_get_key_type	(GOConfNode *node, gchar const *key);
-gchar	*go_conf_get_value_as_str   (GOConfNode *node, gchar const *key);
 
 gboolean go_conf_get_bool	(GOConfNode *node, gchar const *key);
 gint	 go_conf_get_int	(GOConfNode *node, gchar const *key);

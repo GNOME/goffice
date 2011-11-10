@@ -355,44 +355,6 @@ go_conf_get_long_desc  (GOConfNode *node, gchar const *key)
 	return NULL;
 }
 
-gchar *
-go_conf_get_value_as_str (GOConfNode *node, gchar const *key)
-{
-	gchar *value_string;
-	GVariant *value = NULL;
-
-	if (node) {
-		if (key && !strchr (key, '/') &&  !strchr (key, '.'))
-			value = g_settings_get_value (node->settings, key);
-		else if (node->key)
-			value = g_settings_get_value (node->settings, node->key);
-	}
-	if (value == NULL) {
-		GOConfNode *real_node = go_conf_get_node (node, key);
-		value = real_node? g_settings_get_value (real_node->settings, real_node->key): NULL;
-		go_conf_free_node (real_node);
-	}
-	switch (g_variant_classify (value)) {
-	case 's':
-		value_string = g_strdup (g_variant_get_string (value, NULL));
-		break;
-	case 'i':
-		value_string = g_strdup_printf ("%i", g_variant_get_int32 (value));
-		break;
-	case 'd':
-		value_string = g_strdup_printf ("%f", g_variant_get_double (value));
-		break;
-	case 'b':
-		value_string = g_strdup (go_locale_boolean_name (g_variant_get_boolean (value)));
-		break;
-	default:
-		value_string = g_strdup ("ERROR FIXME");
-		break;
-	}
-
-	return value_string;
-}
-
 gboolean
 go_conf_get_bool (GOConfNode *node, gchar const *key)
 {
@@ -445,54 +407,6 @@ go_conf_get_str_list (GOConfNode *node, gchar const *key)
 {
 	return go_conf_load_str_list (node, key);
 }
-
-#if 0
-gboolean
-go_conf_set_value_from_str (GOConfNode *node, gchar const *key, gchar const *val_str)
-{
-	switch (go_conf_node_get_key_type (node, key)) {
-	case G_TYPE_STRING:
-		go_conf_set_string (node, key, val_str);
-		break;
-	case G_TYPE_FLOAT: {
-		GODateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
-		GnmValue *value = format_match_number (val_str, NULL, conv);
-		if (value != NULL) {
-			gnm_float the_float = value_get_as_float (value);
-			go_conf_set_double (node, key, the_float);
-		}
-		value_release (value);
-		break;
-	}
-	case G_TYPE_INT: {
-		GODateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
-		GnmValue *value = format_match_number (val_str, NULL, conv);
-		if (value != NULL) {
-			gint the_int = value_get_as_int (value);
-			go_conf_set_int (node, key, the_int);
-		}
-		value_release (value);
-		break;
-	}
-	case G_TYPE_BOOLEAN: {
-		GODateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
-		GnmValue *value = format_match_number (val_str, NULL, conv);
-		gboolean err, the_bool;
-		if (value != NULL) {
-			err = FALSE;
-			the_bool =  value_get_as_bool (value, &err);
-			go_conf_set_bool (node, key, the_bool);
-		}
-		value_release (value);
-		break;
-	}
-	default:
-		g_warning ("Unsupported gconf type in preference dialog");
-	}
-
-	return TRUE;
-}
-#endif
 
 void
 go_conf_remove_monitor (guint monitor_id)
