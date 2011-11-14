@@ -41,6 +41,8 @@ Jean:
 	* Fixed a memory leak in GocPolyline code. [#663355]
 	* Fixed pixels dust in text rotation selector. [#662393]
 	* Remove GConf support.
+	* Ensure that 0 is in the default values axis range for column, bar
+	and other 1.5d plots. [#663717]
 
 Morten:
 	* Recognize scientific formats with longer exponents.

@@ -1,3 +1,14 @@
+2011-11-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-component.c (goc_component_set_property): don't change
+	the size when not needed.
+	* goffice/component/go-component.c (go_component_get_mime_type),
+	(editor_destroy_cb), (go_component_edit),
+	(go_component_stop_editing): add new functions.
+	* goffice/component/go-component.h: ditto.
+	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_axis_get_bounds): ensure
+	that 0 is in the default values axis range. [#663717]
+
 2011-11-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf.h (go_conf_node_get_key_type)

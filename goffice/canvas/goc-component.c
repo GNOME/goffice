@@ -108,9 +108,11 @@ goc_component_set_property (GObject *obj, guint param_id,
 		if (component->component != NULL) {
 			g_object_ref (component->component);
 			/* set default or fixed size */
-			go_component_get_size (component->component, &component->w, &component->h);
-			component->w = GO_IN_TO_PT (component->w);
-			component->h = GO_IN_TO_PT (component->h);
+			if (component->w == 0 || component->h == 0 || !go_component_is_resizable (component->component)) {
+				go_component_get_size (component->component, &component->w, &component->h);
+				component->w = GO_IN_TO_PT (component->w);
+				component->h = GO_IN_TO_PT (component->h);
+			}
 		}
 		break;
 

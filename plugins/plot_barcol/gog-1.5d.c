@@ -286,6 +286,12 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		if (model->date_conv)
 			bounds->date_conv = model->date_conv;
 
+		if (plot->desc.series.num_dim == 4 && bounds->val.minima * bounds->val.maxima > 0) {
+			if (bounds->val.minima > 0)
+				bounds->val.minima = 0;
+			else
+				bounds->val.maxima = 0.;
+		}
 		return NULL;
 	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
 		GSList *ptr;

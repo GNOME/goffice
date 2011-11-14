@@ -52,6 +52,7 @@ struct _GOComponent {
 	GOSnapshotType snapshot_type;
 	void *snapshot_data;
 	size_t snapshot_length;
+	GtkWindow *editor;
 	gpointer priv;
 };
 
@@ -98,10 +99,12 @@ void go_component_set_data (GOComponent *component,
 			    char const *data, int length);
 gboolean go_component_get_data (GOComponent *component, gpointer *data, int *length,
 				GDestroyNotify *clearfunc, gpointer *user_data);
+char const *go_component_get_mime_type (GOComponent *component);
 void go_component_set_size (GOComponent *component, double width, double height);
 gboolean go_component_is_resizable (GOComponent *component);
 gboolean go_component_is_editable (GOComponent *component);
 GtkWindow* go_component_edit (GOComponent *component);
+void go_component_stop_editing (GOComponent *component);
 void go_component_emit_changed (GOComponent *component);
 
 void go_component_set_command_context (GOCmdContext *cc);

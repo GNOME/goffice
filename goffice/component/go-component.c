@@ -398,6 +398,12 @@ go_component_get_data (GOComponent *component, gpointer *data, int *length,
 	return res;
 }
 
+char const *
+go_component_get_mime_type (GOComponent *component)
+{
+	return component->mime_type;
+}
+
 void
 go_component_set_size (GOComponent *component, double width, double height)
 {
@@ -445,16 +451,37 @@ go_component_is_editable (GOComponent *component)
 	return component->editable;
 }
 
-GtkWindow *go_component_edit (GOComponent *component)
+static void
+editor_destroy_cb (GOComponent *component)
+{
+	component->editor = NULL;
+}
+
+GtkWindow *
+go_component_edit (GOComponent *component)
 {
 	GOComponentClass *klass;
 
 	g_return_val_if_fail (GO_IS_COMPONENT (component), NULL);
 
+	if (component->editor)
+		return component->editor;
 	klass = GO_COMPONENT_GET_CLASS(component);
-	if (component->editable && klass->edit)
-		return klass->edit (component);
-	return NULL;
+	if (component->editable && klass->edit) {
+		component->editor = klass->edit (component);
+		if (component->editor)
+			g_signal_connect_swapped (component->editor, "destroy",
+			                          G_CALLBACK (editor_destroy_cb),
+			                          component);
+	}
+	return component->editor;
+}
+
+void go_component_stop_editing (GOComponent *component)
+{
+	g_return_if_fail (GO_IS_COMPONENT (component));
+	if (component->editor)
+		gtk_widget_destroy (GTK_WIDGET (component->editor));
 }
 
 void
