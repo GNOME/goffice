@@ -286,6 +286,11 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		if (model->date_conv)
 			bounds->date_conv = model->date_conv;
 
+		/* We must ensure that the displayed range includes 0 so that
+		 * the bar length / column height / ... actually represents the
+		 * value. See https://bugzilla.gnome.org/show_bug.cgi?id=663717.
+		 * The check for num_dim is there because the requirement is less
+		 * obvious for dropbars. */
 		if (plot->desc.series.num_dim == 4 && bounds->val.minima * bounds->val.maxima > 0) {
 			if (bounds->val.minima > 0)
 				bounds->val.minima = 0;
