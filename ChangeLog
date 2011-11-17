@@ -1,3 +1,8 @@
+2011-11-16  Jody Goldberg <jody@gnome.org>
+
+	* goffice/canvas/goc-widget.c (goc_widget_set_widget) : clear the ofbox
+	  after unref.  Fixes slicer view combo.
+
 2011-11-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-component.c (goc_component_set_property): don't change

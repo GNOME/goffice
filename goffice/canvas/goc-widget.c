@@ -594,6 +594,7 @@ goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
 					      item->ofbox);
 
 		g_object_unref (item->ofbox);
+		item->ofbox = NULL;
 		g_object_unref (item->widget);
 	}
 
