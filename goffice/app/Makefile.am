@@ -54,7 +54,6 @@ UNUSED = \
 	go-service-impl.h
 
 EXTRA_DIST = $(UNUSED)		\
-	go-conf-gconf.c			\
 	go-conf-keyfile.c		\
 	go-conf-win32.c
 
