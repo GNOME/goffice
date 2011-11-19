@@ -55,6 +55,7 @@ UNUSED = \
 
 EXTRA_DIST = $(UNUSED)		\
 	go-conf-keyfile.c		\
+	go-conf-gsettings.c		\
 	go-conf-win32.c
 
 include $(top_srcdir)/goffice.mk
