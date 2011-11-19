@@ -1,3 +1,7 @@
+2011-11-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.ui: fixed a Gtk warning.
+
 2011-11-16  Jody Goldberg <jody@gnome.org>
 
 	* goffice/canvas/goc-widget.c (goc_widget_set_widget) : clear the ofbox
