@@ -28,7 +28,6 @@ G_BEGIN_DECLS
 
 typedef struct {
 	GogSmoothedCurve base;
-	GogDatasetElement *period;
 	unsigned steps;
 } GogExpSmooth;
 typedef GogSmoothedCurveClass GogExpSmoothClass;

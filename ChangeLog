@@ -1,5 +1,21 @@
 2011-11-19  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-trend-line.c (gog_trend_line_populate_editor): fixed
+	editor build.
+	* goffice/graph/gog-smoothed-curve.c
+	(gog_smoothed_curve_parent_changed),
+	(gog_smoothed_curve_class_init), (gog_smoothed_curve_init),
+	(gog_smoothed_curve_dataset_dims),
+	(gog_smoothed_curve_dataset_get_elem),
+	(gog_smoothed_curve_dataset_dim_changed): fixed data management in
+	exponential smoothing.
+	* goffice/graph/gog-smoothed-curve.h: ditto.
+	* plugins/smoothing/gog-exp-smooth.c (gog_exp_smooth_update),
+	(gog_exp_smooth_class_init), (gog_exp_smooth_init): ditto.
+	* plugins/smoothing/gog-exp-smooth.h: ditto.
+
+2011-11-19  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-guru.ui: fixed a Gtk warning.
 
 2011-11-16  Jody Goldberg <jody@gnome.org>

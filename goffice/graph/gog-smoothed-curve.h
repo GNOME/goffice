@@ -37,6 +37,7 @@ struct  _GogSmoothedCurve {
 
 typedef struct {
 	GogTrendLineClass base;
+	int max_dim;
 
 } GogSmoothedCurveClass;
 

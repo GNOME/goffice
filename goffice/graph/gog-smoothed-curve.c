@@ -84,17 +84,31 @@ gog_smoothed_curve_type_name (GogObject const *gobj)
 }
 
 static void
+gog_smoothed_curve_parent_changed (GogObject *obj, G_GNUC_UNUSED gboolean was_set)
+{
+	GogSmoothedCurve *sc = GOG_SMOOTHED_CURVE (obj);
+	if (sc->name == NULL) {
+		GogSmoothedCurveClass *klass = (GogSmoothedCurveClass *) G_OBJECT_GET_CLASS (obj);
+		sc->name = g_new0 (GogDatasetElement, klass->max_dim + 2);
+	}
+}
+
+static void
 gog_smoothed_curve_class_init (GogObjectClass *gog_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
+	GogSmoothedCurveClass *curve_klass = (GogSmoothedCurveClass *) gog_klass;
 	smoothed_curve_parent_klass = g_type_class_peek_parent (gog_klass);
 
 	gobject_klass->finalize = gog_smoothed_curve_finalize;
 
+	curve_klass->max_dim = -1;
 	style_klass->init_style = gog_smoothed_curve_init_style;
 	gog_klass->type_name	= gog_smoothed_curve_type_name;
+	gog_klass->parent_changed = gog_smoothed_curve_parent_changed;
 	gog_klass->view_type	= gog_smoothed_curve_view_get_type ();
+	
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor  = gog_smoothed_curve_populate_editor;
 #endif
@@ -105,34 +119,41 @@ gog_smoothed_curve_init (GogSmoothedCurve *curve)
 {
 	curve->nb = 0;
 	curve->x = curve->y = NULL;
-	curve->name = g_new0 (GogDatasetElement, 1);
 }
 
 static void
 gog_smoothed_curve_dataset_dims (GogDataset const *set, int *first, int *last)
 {
+	GogSmoothedCurveClass *klass = (GogSmoothedCurveClass *) G_OBJECT_GET_CLASS (set);
+
 	*first = -1;
-	*last = -1;
+	*last = klass->max_dim;
 }
 
 static GogDatasetElement *
 gog_smoothed_curve_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogSmoothedCurve const *sc = GOG_SMOOTHED_CURVE (set);
-	g_return_val_if_fail (dim_i == -1, NULL);
-	return sc->name;
+	GogSmoothedCurveClass *klass = (GogSmoothedCurveClass *) G_OBJECT_GET_CLASS (set);
+	g_return_val_if_fail (dim_i >= -1 && dim_i <= klass->max_dim, NULL);
+	dim_i++;
+	return sc->name + dim_i;
 }
 
 static void
 gog_smoothed_curve_dataset_dim_changed (GogDataset *set, int dim_i)
 {
-	g_return_if_fail (dim_i == -1);
+	GogSmoothedCurveClass *klass = (GogSmoothedCurveClass *) G_OBJECT_GET_CLASS (set);
+	g_return_if_fail (dim_i >= -1 && dim_i <= klass->max_dim);
 	{
 		GogSmoothedCurve const *sc = GOG_SMOOTHED_CURVE (set);
-		GOData *name_src = sc->name->data;
-		char *name = (name_src != NULL)
-			? go_data_get_scalar_string (name_src) : NULL;
-		gog_object_set_name (GOG_OBJECT (set), name, NULL);
+		if (dim_i == -1) {
+			GOData *name_src = sc->name->data;
+			char *name = (name_src != NULL)
+				? go_data_get_scalar_string (name_src) : NULL;
+			gog_object_set_name (GOG_OBJECT (set), name, NULL);
+		} else
+			gog_object_request_update (GOG_OBJECT (set));
 	}
 }
 

@@ -123,8 +123,8 @@ gog_exp_smooth_update (GogObject *obj)
 	}
 	go_range_min (x, n, &xmin);
 	go_range_max (x, n, &xmax);
-	if (es->period->data != NULL)
-		period = go_data_get_scalar_value (es->period->data);
+	if (es->base.name[1].data != NULL)
+		period = go_data_get_scalar_value (es->base.name[1].data);
 	if (period <= 0.)
 		period = 10. * (xmax - xmin) / (n - 1);
 
@@ -198,25 +198,12 @@ gog_exp_smooth_set_property (GObject *obj, guint param_id,
 }
 
 static void
-gog_exp_smooth_finalize (GObject *obj)
-{
-	GogExpSmooth *es = GOG_EXP_SMOOTH (obj);
-	if (es->period != NULL) {
-		gog_dataset_finalize (GOG_DATASET (obj));
-		g_free (es->period);
-		es->period = NULL;
-	}
-	(*exp_smooth_parent_klass->finalize) (obj);
-}
-
-static void
 gog_exp_smooth_class_init (GogSmoothedCurveClass *curve_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) curve_klass;
 	GogObjectClass *gog_object_klass = (GogObjectClass *) curve_klass;
 	exp_smooth_parent_klass = g_type_class_peek_parent (curve_klass);
 
-	gobject_klass->finalize = gog_exp_smooth_finalize;
 	gobject_klass->get_property = gog_exp_smooth_get_property;
 	gobject_klass->set_property = gog_exp_smooth_set_property;
 
@@ -225,6 +212,8 @@ gog_exp_smooth_class_init (GogSmoothedCurveClass *curve_klass)
 #endif
 	gog_object_klass->update = gog_exp_smooth_update;
 	gog_object_klass->type_name	= gog_exp_smooth_type_name;
+
+	curve_klass->max_dim = 0; 
 
 	g_object_class_install_property (gobject_klass, EXP_SMOOTH_PROP_STEPS,
 		g_param_spec_int ("steps",
@@ -238,39 +227,8 @@ static void
 gog_exp_smooth_init (GogExpSmooth *es)
 {
 	es->steps = 100;
-	es->period = g_new0 (GogDatasetElement, 1);
 }
 
-static void
-gog_exp_smooth_dataset_dims (GogDataset const *set, int *first, int *last)
-{
-	*first = 0;
-	*last = 0;
-}
-
-static GogDatasetElement *
-gog_exp_smooth_dataset_get_elem (GogDataset const *set, int dim_i)
-{
-	GogExpSmooth const *es = GOG_EXP_SMOOTH (set);
-	g_return_val_if_fail (dim_i == 0, NULL);
-	return es->period;
-}
-
-static void
-gog_exp_smooth_dataset_dim_changed (GogDataset *set, int dim_i)
-{
-	gog_object_request_update (GOG_OBJECT (set));
-}
-
-static void
-gog_exp_smooth_dataset_init (GogDatasetClass *iface)
-{
-	iface->get_elem	   = gog_exp_smooth_dataset_get_elem;
-	iface->dims	   = gog_exp_smooth_dataset_dims;
-	iface->dim_changed = gog_exp_smooth_dataset_dim_changed;
-}
-
-GSF_DYNAMIC_CLASS_FULL (GogExpSmooth, gog_exp_smooth,
-	 NULL, NULL, gog_exp_smooth_class_init, NULL,
-	gog_exp_smooth_init, GOG_TYPE_SMOOTHED_CURVE, 0,
-	GSF_INTERFACE (gog_exp_smooth_dataset_init, GOG_TYPE_DATASET))
+GSF_DYNAMIC_CLASS (GogExpSmooth, gog_exp_smooth,
+		   gog_exp_smooth_class_init, gog_exp_smooth_init,
+                   GOG_TYPE_SMOOTHED_CURVE)

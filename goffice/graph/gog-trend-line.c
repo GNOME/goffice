@@ -110,7 +110,9 @@ gog_trend_line_populate_editor (GogObject *gobj,
 		g_object_get (G_OBJECT (box), "n-rows", &nrows, "n-columns", &ncols, NULL);
 		gtk_table_resize (table, nrows + 1, ncols);
 		gtk_table_attach (table, w, 0, ncols, nrows, nrows + 1, GTK_FILL, 0, 0, 0);
-	} else
+	} else if (GTK_IS_CONTAINER (box))
+		gtk_container_add (GTK_CONTAINER (box), w);
+	else
 		g_warning ("Unsupported container");
 	gtk_widget_show (w);
 
