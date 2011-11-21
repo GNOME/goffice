@@ -73,7 +73,7 @@ go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 
 /**
  * go_slist_create:
- * @item1: itionally %NULL
+ * @item1: optionally %NULL
  * @Varargs : %NULL terminated list of additional items
  *
  * Creates a GList from NULL-terminated list of arguments.
@@ -709,6 +709,8 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 	}
 }
 
+static char *go_real_name = NULL;
+
 /**
  * go_get_real_name :
  *
@@ -718,9 +720,6 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 char const *
 go_get_real_name (void)
 {
-	/* We will leak this.  */
-	static char *go_real_name = NULL;
-
 	if (go_real_name == NULL) {
 		char const *name = getenv ("NAME");
 		if (name == NULL)
@@ -735,7 +734,7 @@ go_get_real_name (void)
 				go_real_name = g_string_free (converted_name, FALSE);
 		}
 		if (go_real_name == NULL)
-			go_real_name = (char *)"unknown";
+			go_real_name = g_strdup ("unknown");
 	}
 	return go_real_name;
 }
@@ -1028,4 +1027,11 @@ syntax:
 				    _("Syntax error"));
 	res = TRUE;
 	goto done;
+}
+
+void
+_go_glib_extras_shutdown (void)
+{
+	g_free (go_real_name);
+	go_real_name = NULL;
 }

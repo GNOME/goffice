@@ -236,6 +236,7 @@ libgoffice_shutdown (void)
 	if (--initialized)
 		return;
 	_gog_themes_shutdown ();
+	_go_glib_extras_shutdown ();
 	_go_fonts_shutdown ();
 	_go_conf_shutdown ();
 #ifdef GOFFICE_WITH_GTK
