@@ -1,3 +1,7 @@
+2011-11-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_guess_encoding): Plug leak.
+
 2011-11-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-trend-line.c (gog_trend_line_populate_editor): fixed
