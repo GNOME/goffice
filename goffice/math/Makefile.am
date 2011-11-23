@@ -1,6 +1,7 @@
 noinst_LTLIBRARIES = libgoffice-math.la
 
 libgoffice_math_la_SOURCES =	\
+	go-accumulator.c	\
 	go-math.c		\
 	go-rangefunc.c		\
 	go-regression.c		\
@@ -15,6 +16,7 @@ libgoffice_math_la_SOURCES =	\
 libgoffice_math_ladir = $(goffice_include_dir)/math
 libgoffice_math_la_HEADERS = 	\
 	goffice-math.h		\
+	go-accumulator.h	\
 	go-math.h		\
 	go-rangefunc.h		\
 	go-regression.h		\

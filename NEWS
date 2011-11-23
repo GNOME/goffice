@@ -48,6 +48,7 @@ Morten:
 	* Recognize scientific formats with longer exponents.
 	* Fix problem with sticky format colouring.
 	* Improve certain range functions in corner cases.  [#660564]
+	* Make go_range_sum perfect, modulo overflow.  [#664656]
 	* Add resource manager for embedded files.
 	* Plug leaks.
 

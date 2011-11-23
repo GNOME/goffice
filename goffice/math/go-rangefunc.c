@@ -8,6 +8,8 @@
 
 #include <goffice/goffice-config.h>
 #include "go-rangefunc.h"
+#include "go-accumulator.h"
+#include "go-quad.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -42,54 +44,27 @@
 
 /* ------------------------------------------------------------------------- */
 
-static int
-SUFFIX(identical_helper) (DOUBLE const *xs, int n)
+static SUFFIX(GOAccumulator)*
+SUFFIX(sum_helper) (DOUBLE const *xs, int n)
 {
-	DOUBLE x;
-	int i;
-
-	if (n <= 1)
-		return n;
-
-	x = xs[0];
-	for (i = 1; i < n; i++)
-		if (x != xs[i])
-			break;
-
-	return i;
+	SUFFIX(GOAccumulator) *acc = SUFFIX(go_accumulator_new) ();
+	while (n > 0) {
+		n--;
+		SUFFIX(go_accumulator_add) (acc, xs[n]);
+	}
+	return acc;
 }
 
-static LDOUBLE
-SUFFIX(sum_helper) (DOUBLE const *xs, int n, int *all_id)
-{
-	LDOUBLE sum;
-	int i;
-
-	/*
-	 * We treat the an initial constant part special in order to catch
-	 * the important special case of completely constant.  We do not
-	 * want to accumulate rounding errors even though the extra 11?
-	 * bits in long double will shield us from n<2^11, give or take.
-	 */
-
-	i = SUFFIX(identical_helper) (xs, n);
-	*all_id = (i == n);
-	sum = i ? i * (LDOUBLE)(xs[0]) : 0;
-
-	for (; i < n; i++)
-		sum += xs[i];
-
-	return sum;
-}
-
-/* ------------------------------------------------------------------------- */
 
 /* Arithmetic sum.  */
 int
 SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
 {
-	int all_id;
-	*res = SUFFIX(sum_helper) (xs, n, &all_id);
+	void *state = SUFFIX(go_accumulator_start) ();
+	SUFFIX(GOAccumulator) *acc = SUFFIX(sum_helper) (xs, n);
+	*res = SUFFIX(go_accumulator_value) (acc);
+	SUFFIX(go_accumulator_free) (acc);
+	SUFFIX(go_accumulator_end) (state);
 	return 0;
 }
 
@@ -97,20 +72,19 @@ SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
 int
 SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 {
-	/* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
-#ifdef HAVE_LONG_DOUBLE
-	long double x, sum = 0;
-#else
-	DOUBLE x, sum = 0;
-#endif
-	int i;
-
-	for (i = 0; i < n; i++) {
-		x = xs[i];
-		sum += x * x;
+	void *state = SUFFIX(go_accumulator_start) ();
+	SUFFIX(GOAccumulator) *acc = SUFFIX(go_accumulator_new) ();
+	while (n > 0) {
+		SUFFIX(GOQuad) q;
+		n--;
+		SUFFIX(go_quad_init) (&q, xs[n]);
+		SUFFIX(go_quad_mul) (&q, &q, &q);
+		SUFFIX(go_accumulator_add) (acc, q.h);
+		SUFFIX(go_accumulator_add) (acc, q.l);
 	}
-
-	*res = sum;
+	*res = SUFFIX(go_accumulator_value) (acc);
+	SUFFIX(go_accumulator_free) (acc);
+	SUFFIX(go_accumulator_end) (state);
 	return 0;
 }
 
@@ -118,15 +92,16 @@ SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 int
 SUFFIX(go_range_average) (DOUBLE const *xs, int n, DOUBLE *res)
 {
-	int all_id;
-
 	if (n <= 0)
 		return 1;
 
-	*res = SUFFIX(sum_helper) (xs, n, &all_id) / n;
-	if (all_id)
+	if (SUFFIX(go_range_constant) (xs, n)) {
 		*res = xs[0];
+		return 0;
+	}
 
+	SUFFIX(go_range_sum) (xs, n, res);
+	*res /= n;
 	return 0;
 }
 
@@ -172,9 +147,11 @@ SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
 		DOUBLE max = SUFFIX(fabs) (xs[0]);
 		int i;
 
-		for (i = 1; i < n; i++)
-			if (SUFFIX(fabs) (xs[i]) > max)
-				max = SUFFIX(fabs) (xs[i]);
+		for (i = 1; i < n; i++) {
+			DOUBLE xabs = SUFFIX(fabs) (xs[i]);
+			if (xabs > max)
+				max = xabs;
+		}
 		*res = max;
 		return 0;
 	} else
@@ -185,23 +162,46 @@ SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
 int
 SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
 {
-	LDOUBLE q = 0;
+	if (SUFFIX(go_range_constant) (xs, n))
+		*res = 0;
+	else {
+		void *state;
+		SUFFIX(GOAccumulator) *acc;
+		DOUBLE sum, sumh, suml;
+		SUFFIX(GOQuad) qavg, qtmp, qn;
 
-	if (n > 0) {
-		int i, all_id;
-		LDOUBLE m = SUFFIX(sum_helper) (xs, n, &all_id) / n;
+		state = SUFFIX(go_accumulator_start) ();
+		acc = SUFFIX(sum_helper) (xs, n);
+		sumh = SUFFIX(go_accumulator_value) (acc);
+		SUFFIX(go_accumulator_add) (acc, -sumh);
+		suml = SUFFIX(go_accumulator_value) (acc);
 
-		if (all_id) {
-			*res = 0;
-			return 0;
+		SUFFIX(go_quad_init) (&qavg, sumh);
+		SUFFIX(go_quad_init) (&qtmp, suml);
+		SUFFIX(go_quad_add) (&qavg, &qavg, &qtmp);
+		SUFFIX(go_range_sum) (xs, n, &sum);
+		SUFFIX(go_quad_init) (&qn, n);
+		SUFFIX(go_quad_div) (&qavg, &qavg, &qn);
+		/*
+		 * The just-generated qavg isn't exact, but should be
+		 * good to near-GOQuad precision.  We hope that's good
+		 * enough.
+		 */
+
+		SUFFIX(go_accumulator_clear) (acc);
+		while (n > 0) {
+			SUFFIX(GOQuad) q;
+			n--;
+			SUFFIX(go_quad_init) (&q, xs[n]);
+			SUFFIX(go_quad_sub) (&q, &q, &qavg);
+			SUFFIX(go_quad_mul) (&q, &q, &q);
+			SUFFIX(go_accumulator_add) (acc, q.h);
+			SUFFIX(go_accumulator_add) (acc, q.l);
 		}
-
-		for (i = 0; i < n; i++) {
-			LDOUBLE dx = xs[i] - m;
-			q += dx * dx;
-		}
+		*res = SUFFIX(go_accumulator_value) (acc);
+		SUFFIX(go_accumulator_free) (acc);
+		SUFFIX(go_accumulator_end) (state);
 	}
-	*res = q;
 	return 0;
 }
 
@@ -282,6 +282,16 @@ int
 SUFFIX(go_range_median_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res)
 {
 	return SUFFIX(go_range_fractile_inter_nonconst) (xs, n, res, 0.5);
+}
+
+int
+SUFFIX(go_range_constant) (DOUBLE const *xs, int n)
+{
+	int i;
+	for (i = 1; i < n; i++)
+		if (xs[0] != xs[i])
+			return 0;
+	return 1;
 }
 
 int

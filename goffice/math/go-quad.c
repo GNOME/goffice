@@ -4,7 +4,7 @@
  * Authors:
  *   Morten Welinder <terra@gnome.org>
  *
- * This follows "A Floating-Point Technoque for Extending the Available
+ * This follows "A Floating-Point Technique for Extending the Available
  * Precision" by T. J. Dekker in _Numerische Mathematik_ 18.
  * Springer Verlag 1971.
  *

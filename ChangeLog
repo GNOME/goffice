@@ -1,3 +1,11 @@
+2011-11-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-accumulator.c: New file.
+
+	* goffice/math/go-rangefunc.c (go_range_devsq, go_range_sumsq)
+	(go_range_sum, go_range_average): Base on GOAccumulator.
+	(go_range_constant): New function.
+
 2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/gtk/goffice-gtk.c (recent_func_log_func): new
