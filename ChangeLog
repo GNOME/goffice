@@ -1,3 +1,8 @@
+2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/gtk/goffice-gtk.c (recent_func_log_func): new
+	(go_gtk_file_sel_dialog): avoid gtk bug #664587
+
 2011-11-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_guess_encoding): Plug leak.
