@@ -601,6 +601,7 @@ go_gtk_file_sel_dialog (GtkWindow *toplevel, GtkWidget *w)
 
 	/* Hack: the gtk file dialog warns when it can't access a new file, so shut it up.  */
 	/* http://bugzilla.gnome.org/show_bug.cgi?id=664587 */
+	/* This hack should be unneccessary in GTK 3.3.5 and later  */
 	log_handler = g_log_set_handler (domain, G_LOG_LEVEL_WARNING,
 					 recent_func_log_func, NULL);
 	gtk_main ();
