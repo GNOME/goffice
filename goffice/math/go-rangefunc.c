@@ -7,9 +7,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-rangefunc.h"
-#include "go-accumulator.h"
-#include "go-quad.h"
+#include <goffice/goffice.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -75,12 +73,10 @@ SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 	void *state = SUFFIX(go_accumulator_start) ();
 	SUFFIX(GOAccumulator) *acc = SUFFIX(go_accumulator_new) ();
 	while (n > 0) {
+		DOUBLE x = xs[--n];
 		SUFFIX(GOQuad) q;
-		n--;
-		SUFFIX(go_quad_init) (&q, xs[n]);
-		SUFFIX(go_quad_mul) (&q, &q, &q);
-		SUFFIX(go_accumulator_add) (acc, q.h);
-		SUFFIX(go_accumulator_add) (acc, q.l);
+		SUFFIX(go_quad_mul12) (&q, x, x);
+		SUFFIX(go_accumulator_add_quad) (acc, &q);
 	}
 	*res = SUFFIX(go_accumulator_value) (acc);
 	SUFFIX(go_accumulator_free) (acc);
@@ -195,8 +191,7 @@ SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
 			SUFFIX(go_quad_init) (&q, xs[n]);
 			SUFFIX(go_quad_sub) (&q, &q, &qavg);
 			SUFFIX(go_quad_mul) (&q, &q, &q);
-			SUFFIX(go_accumulator_add) (acc, q.h);
-			SUFFIX(go_accumulator_add) (acc, q.l);
+			SUFFIX(go_accumulator_add_quad) (acc, &q);
 		}
 		*res = SUFFIX(go_accumulator_value) (acc);
 		SUFFIX(go_accumulator_free) (acc);

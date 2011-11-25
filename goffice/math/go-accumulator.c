@@ -15,8 +15,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-accumulator.h"
-#include "go-quad.h"
+#include <goffice/goffice.h>
 #include <math.h>
 #include <float.h>
 
@@ -24,7 +23,6 @@
 
 #define DOUBLE double
 #define SUFFIX(_n) _n
-#define DOUBLE_MANT_DIG DBL_MANT_DIG
 
 struct GOAccumulator_ {
 	GArray *partials;
@@ -35,10 +33,8 @@ struct GOAccumulator_ {
 #include "go-accumulator.c"
 #undef DOUBLE
 #undef SUFFIX
-#undef DOUBLE_MANT_DIG
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
-#define DOUBLE_MANT_DIG LDBL_MANT_DIG
 
 struct GOAccumulatorl_ {
 	GArray *partials;
@@ -117,6 +113,16 @@ SUFFIX(go_accumulator_add) (ACC *acc, DOUBLE x)
 	}
 	g_array_set_size (acc->partials, ui + 1);
 	g_array_index (acc->partials, DOUBLE, ui) = x;
+}
+
+void
+SUFFIX(go_accumulator_add_quad) (ACC *acc, const SUFFIX(GOQuad) *x)
+{
+	g_return_if_fail (acc != NULL);
+	g_return_if_fail (x != NULL);
+
+	SUFFIX(go_accumulator_add) (acc, x->h);
+	SUFFIX(go_accumulator_add) (acc, x->l);
 }
 
 DOUBLE

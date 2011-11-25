@@ -1,6 +1,15 @@
 #ifndef __GOFFICE_MATH_H
 #define __GOFFICE_MATH_H
 
+/* Forward stuff */
+typedef struct GOAccumulator_ GOAccumulator;
+typedef struct GOQuad_ GOQuad;
+
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+typedef struct GOAccumulatorl_ GOAccumulatorl;
+typedef struct GOQuadl_ GOQuadl;
+#endif
+
 #include <goffice/math/go-accumulator.h>
 #include <goffice/math/go-complex.h>
 #include <goffice/math/go-cspline.h>

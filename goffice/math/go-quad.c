@@ -17,7 +17,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-quad.h"
+#include <goffice/goffice.h>
 #include <math.h>
 
 /* Normalize cpu id.  */

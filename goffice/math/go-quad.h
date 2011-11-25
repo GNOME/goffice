@@ -5,10 +5,10 @@
 
 G_BEGIN_DECLS
 
-typedef struct {
+struct GOQuad_ {
 	double h;
 	double l;
-} GOQuad;
+};
 
 gboolean go_quad_functional (void);
 void *go_quad_start (void);
@@ -28,10 +28,10 @@ void go_quad_mul12 (GOQuad *res, double x, double y);
 void go_quad_dot_product (GOQuad *res, const GOQuad *a, const GOQuad *b, int n);
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
-typedef struct {
+struct GOQuadl_ {
 	long double h;
 	long double l;
-} GOQuadl;
+};
 
 gboolean go_quad_functionall (void);
 void *go_quad_startl (void);
