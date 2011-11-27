@@ -1,3 +1,7 @@
+2011-11-27  Morten Welinder <terra@gnome.org>
+
+	* Release 0.9.1
+
 2011-11-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component.c (go_component_export_image),
