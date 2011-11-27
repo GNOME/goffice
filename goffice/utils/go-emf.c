@@ -763,6 +763,43 @@ go_wmf_read_rectl (GOWmfRectL *rect, guint8 const *data)
 	rect->bottom = GSF_LE_GET_GINT32 (data + 12);
 }
 
+typedef enum {
+MM_TEXT = 0x01,
+MM_LOMETRIC = 0x02,
+MM_HIMETRIC = 0x03,
+MM_LOENGLISH = 0x04,
+MM_HIENGLISH = 0x05,
+MM_TWIPS = 0x06,
+MM_ISOTROPIC = 0x07,
+MM_ANISOTROPIC = 0x08
+} GOEmfMapMode;
+
+typedef enum
+{
+R2_BLACK = 0x0001,
+R2_NOTMERGEPEN = 0x0002,
+R2_MASKNOTPEN = 0x0003,
+R2_NOTCOPYPEN = 0x0004,
+R2_MASKPENNOT = 0x0005,
+R2_NOT = 0x0006,
+R2_XORPEN = 0x0007,
+R2_NOTMASKPEN = 0x0008,
+R2_MASKPEN = 0x0009,
+R2_NOTXORPEN = 0x000A,
+R2_NOP = 0x000B,
+R2_MERGENOTPEN = 0x000C,
+R2_COPYPEN = 0x000D,
+R2_MERGEPENNOT = 0x000E,
+R2_MERGEPEN = 0x000F,
+R2_WHITE = 0x0010
+} GOWmfOperation;
+
+typedef struct {
+	GOWmfOperation op;
+	gboolean fill_bg;
+	GocGroup *group;
+} GOEmfDC;
+
 typedef struct {
 	GocCanvas *canvas;
 	GError **error;
@@ -770,9 +807,15 @@ typedef struct {
 	unsigned length;
 	GOWmfRectL dubounds; /* bounds in device units */
 	GOWmfRectL mmbounds; /* bounds in mm/100 */
+	double dx, dy, dw, dh; /* view port in device units */
+	double wx, wy, ww, wh; /* window rectangle in logical unit */
+	GOEmfMapMode map_mode;
 	gboolean is_emf;	/* FIXME: might be EPS or WMF */
+	GOEmfDC *curDC;
+	GSList *dc_stack;
 } GOEmfState;
 
+#define CMM2PTS(x) (((double) x) * 72. / 254.)
 
 static char *
 go_wmf_mtextra_to_utf (char *txt)
@@ -942,6 +985,20 @@ go_wmf_mr_convcoord (double* x, double* y, GOWmfPage* pg)
 	dc = &g_array_index (pg->dcs, GOWmfDC, pg->curdc);
 	*x = (*x - dc->x) * dc->VPx / dc->Wx + dc->VPOx;
 	*y = (*y - dc->y) * dc->VPy / dc->Wy + dc->VPOy;
+}
+
+static void
+go_wmf_read_spoint (guint8 const *src, double* y, double* x)
+{
+	*x = GSF_LE_GET_GINT16 (src);
+	*y = GSF_LE_GET_GINT16 (src + 2);
+}
+
+static void
+go_wmf_read_lpoint (guint8 const *src, double* y, double* x)
+{
+	*x = GSF_LE_GET_GINT32 (src);
+	*y = GSF_LE_GET_GINT32 (src + 4);
 }
 
 static void
@@ -2383,28 +2440,40 @@ go_emf_polypolygon (GOEmfState *state)
 static gboolean
 go_emf_setwindowextex (GOEmfState *state)
 {
+	double dw, dh;
 	d_(("setwindowextex\n"));
+	go_wmf_read_lpoint (state->data, &dw, &dh);
+	d_(("\twindow size: %g x %g\n", dw, dh));
 	return TRUE;
 }
 
 static gboolean
 go_emf_setwindoworgex (GOEmfState *state)
 {
+	double dw, dh;
 	d_(("setwindoworgex\n"));
+	go_wmf_read_lpoint (state->data, &dw, &dh);
+	d_(("\twindow origin: %g x %g\n", dw, dh));
 	return TRUE;
 }
 
 static gboolean
 go_emf_setviewportextex (GOEmfState *state)
 {
+	double dw, dh;
 	d_(("setviewportextex\n"));
+	go_wmf_read_lpoint (state->data, &dw, &dh);
+	d_(("\tview port size: %g x %g\n", dw, dh));
 	return TRUE;
 }
 
 static gboolean
 go_emf_setviewportorgex (GOEmfState *state)
 {
+	double dw, dh;
 	d_(("setviewportorgex\n"));
+	go_wmf_read_lpoint (state->data, &dw, &dh);
+	d_(("\tview port origin: %g x %g\n", dw, dh));
 	return TRUE;
 }
 
@@ -2439,7 +2508,21 @@ go_emf_setmapperflags (GOEmfState *state)
 static gboolean
 go_emf_setmapmode (GOEmfState *state)
 {
+#ifdef DEBUG_EMF_SUPPORT
+char const *map_modes[] = {
+	"MM_TEXT",
+"MM_LOMETRIC",
+"MM_HIMETRIC",
+"MM_LOENGLISH",
+"MM_HIENGLISH",
+"MM_TWIPS",
+"MM_ISOTROPIC",
+"MM_ANISOTROPIC"
+};
+#endif
 	d_(("setmapmode\n"));
+	state->map_mode = GSF_LE_GET_GUINT32 (state->data);
+	d_(("\tmap mode is %s\n", map_modes[state->map_mode-1]));
 	return TRUE;
 }
 
@@ -2447,6 +2530,8 @@ static gboolean
 go_emf_setbkmode (GOEmfState *state)
 {
 	d_(("setbkmode\n"));
+	state->curDC->fill_bg = GSF_LE_GET_GINT32 (state->data) - 1;
+	d_(("\tbackground is %s\n", state->curDC->fill_bg? "filled": "transparent"));
 	return TRUE;
 }
 
@@ -2460,7 +2545,30 @@ go_emf_setpolyfillmode (GOEmfState *state)
 static gboolean
 go_emf_setrop2 (GOEmfState *state)
 {
+#ifdef DEBUG_EMF_SUPPORT
+char const *ops[] = {
+NULL,
+"R2_BLACK",
+"R2_NOTMERGEPEN",
+"R2_MASKNOTPEN",
+"R2_NOTCOPYPEN",
+"R2_MASKPENNOT",
+"R2_NOT",
+"R2_XORPEN",
+"R2_NOTMASKPEN",
+"R2_MASKPEN",
+"R2_NOTXORPEN",
+"R2_NOP",
+"R2_MERGENOTPEN",
+"R2_COPYPEN",
+"R2_MERGEPENNOT",
+"R2_MERGEPEN",
+"R2_WHITE"
+};
+#endif
 	d_(("setrop2\n"));
+	state->curDC->op = GSF_LE_GET_GINT32 (state->data);
+	d_(("\toperator is %x i.e. %s\n", state->curDC->op, ops[state->curDC->op]));
 	return TRUE;
 }
 
@@ -2530,7 +2638,18 @@ go_emf_excludecliprect (GOEmfState *state)
 static gboolean
 go_emf_intersectcliprect (GOEmfState *state)
 {
+	GOWmfRectL rect;
+	GOPath *path;
 	d_(("intersectcliprect\n"));
+	go_wmf_read_rectl (&rect, state->data);
+	d_(("clipping rectangle: left=%d top=%d right=%d bottom=%d\n",
+	    rect.left, rect.top, rect.right, rect.bottom));
+	state->curDC->group = GOC_GROUP (goc_item_new (state->curDC->group, GOC_TYPE_GROUP, NULL));
+	path = state->curDC->group->clip_path = go_path_new ();
+	/* FIXME adjust the coordinates */
+	go_path_rectangle (path, CMM2PTS(rect.left), CMM2PTS(rect.top),
+	                   CMM2PTS(rect.right - rect.left),
+	                   CMM2PTS(rect.bottom - rect.top));
 	return TRUE;
 }
 
@@ -2552,13 +2671,27 @@ static gboolean
 go_emf_savedc (GOEmfState *state)
 {
 	d_(("savedc\n"));
+	state->dc_stack = g_slist_prepend (state->dc_stack, state->curDC);
+	state->curDC = g_new (GOEmfDC, 1);
+	memcpy (state->curDC, state->dc_stack->data, sizeof (GOEmfDC));
 	return TRUE;
 }
 
 static gboolean
 go_emf_restoredc (GOEmfState *state)
 {
+	int n = GSF_LE_GET_GINT32 (state->data);
 	d_(("restoredc\n"));
+	d_(("\tpoping %d %s\n", -n, n == -1? "context": "contexts"));
+	if (n >= 0)
+		return FALSE;
+	while (n++ < 0) {
+		if (state->dc_stack == NULL)
+			return FALSE;
+		g_free (state->curDC);
+		state->curDC = state->dc_stack->data;
+		state->dc_stack = g_slist_delete_link (state->dc_stack, state->dc_stack);
+	}
 	return TRUE;
 }
 
@@ -3280,6 +3413,10 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 		GOEmfState state;
 		state.canvas = emf->canvas;
 		state.error = error;
+		state.map_mode = 0;
+		state.dc_stack = NULL;
+		state.curDC = g_new0 (GOEmfDC, 1);
+		state.curDC->group = state.canvas->root; 
 		offset = 4;
 		while ((offset += 4) < fsize && rid != 0xe) { /* EOF */
 			data = gsf_input_read (input, 4, NULL);
@@ -3298,6 +3435,14 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 			if (!data)
 				break;
 			rid = GSF_LE_GET_GUINT32 (data);
+		}
+		g_free (state.curDC);
+		if (state.dc_stack != NULL) {
+			g_slist_free_full (state.dc_stack, g_free);
+			if (error)
+				if (*error == NULL)
+					*error = g_error_new (go_error_invalid (), 0,
+					                      _("Invalid image data\n"));
 		}
 		if (rid != 0xe) {
 			if (error) {

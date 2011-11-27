@@ -121,6 +121,10 @@ void go_component_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 GOSnapshotType go_component_build_snapshot (GOComponent *component);
 void const *go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t *length);
 
+gboolean go_component_export_image (GOComponent *component, GOImageFormat format,
+                                GsfOutput *output, double x_dpi, double y_dpi);
+GOComponent *go_component_duplicate (GOComponent const *component);
+
 G_END_DECLS
 
 #endif	/* GOFFICE_COMPONENT_H */

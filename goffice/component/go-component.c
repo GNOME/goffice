@@ -796,3 +796,63 @@ void go_component_set_font (GOComponent *component, PangoFontDescription *desc)
 	if (klass->set_font)
 		klass->set_font (component, desc);
 }
+
+/**
+ * go_component_export_image:
+ * @component: a #GOComponent
+ * @format: image format for export
+ * @output: a #GsfOutput stream
+ * @x_dpi: x resolution of exported graph
+ * @y_dpi: y resolution of exported graph
+ *
+ * Exports an image of @graph in given @format, writing results in a #GsfOutput stream.
+ * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and
+ * @graph size (see @gog_graph_get_size()).
+ *
+ * returns: %TRUE if export succeed.
+ **/
+
+gboolean
+go_component_export_image (GOComponent *component, GOImageFormat format, GsfOutput *output,
+			double x_dpi, double y_dpi)
+{
+	return FALSE;
+}
+
+GOComponent *
+go_component_duplicate (GOComponent const *component)
+{
+	GOComponent *res;
+	char *buf;
+	int length;
+	void (*clearfunc) (gpointer) = NULL;
+	gpointer user_data = NULL;
+	GValue	 value;
+	guint i, nbprops;
+	GType    prop_type;
+	GParamSpec **specs;
+
+	g_return_val_if_fail (GO_IS_COMPONENT (component), NULL);
+
+	res = go_component_new_by_mime_type (component->mime_type);
+	res->width = component->width;
+	res->height = component->height;
+	/* first copy needed component specific properties */
+	specs = g_object_class_list_properties (G_OBJECT_GET_CLASS (component), &nbprops);
+	for (i = 0; i < nbprops; i++)
+		if (specs[i]->flags & GO_PARAM_PERSISTENT) {
+			prop_type = G_PARAM_SPEC_VALUE_TYPE (specs[i]);
+			memset (&value, 0, sizeof (value));
+			g_value_init (&value, prop_type);
+			g_object_get_property  (G_OBJECT (component), specs[i]->name, &value);
+			if (!g_param_value_defaults (specs[i], &value))
+				g_object_set_property (G_OBJECT (res), specs[i]->name, &value);
+			g_value_unset (&value);
+		}
+	/* and now the data */
+	go_component_get_data ((GOComponent *) component, (gpointer) &buf, &length, &clearfunc, &user_data);
+	go_component_set_data (res, buf, length);
+	if (clearfunc)
+		clearfunc ((user_data)? user_data: buf);
+	return res;
+}

@@ -1,3 +1,15 @@
+2011-11-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component.c (go_component_export_image),
+	(go_component_duplicate): new functions.
+	* goffice/component/go-component.h: ditto.
+	* goffice/utils/go-emf.c (go_wmf_read_spoint),
+	(go_wmf_read_lpoint), (go_emf_setwindowextex),
+	(go_emf_setwindoworgex), (go_emf_setviewportextex),
+	(go_emf_setviewportorgex), (go_emf_setmapmode), (go_emf_setbkmode),
+	(go_emf_setrop2), (go_emf_intersectcliprect), (go_emf_savedc),
+	(go_emf_restoredc), (go_emf_parse): implement some callbacks.
+
 2011-11-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-rangefunc.c (go_range_sumsq, go_range_devsq):
