@@ -112,6 +112,8 @@ typedef enum {
 	F_FRACTION_MIN_DENOM_DIGITS,
 	F_FRACTION_PI_SCALE,
 	F_BASE_SEPARATOR,
+	F_DECIMAL_GRID,
+	F_FRACTION_GRID,
 	F_MAX_WIDGET
 } FormatWidget;
 
@@ -129,7 +131,7 @@ struct  _GOFormatSel {
 
 	struct {
 		GtkTextView	*preview;
-		GtkWidget	*preview_box;
+		GtkWidget	*preview_grid;
 		GtkTextBuffer	*preview_buffer;
 
 		GtkWidget	*widget[F_MAX_WIDGET];
@@ -658,6 +660,7 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Number */
 		{
 			F_NUMBER_EXPLANATION,
+			F_DECIMAL_GRID,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_SEPARATOR,
@@ -669,6 +672,7 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Currency */
 		{
 			F_CURRENCY_EXPLANATION,
+			F_DECIMAL_GRID,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_SEPARATOR,
@@ -682,6 +686,7 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Accounting */
 		{
 			F_ACCOUNTING_EXPLANATION,
+			F_DECIMAL_GRID,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_SYMBOL_LABEL,
@@ -707,6 +712,7 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Percentage */
 		{
 			F_PERCENTAGE_EXPLANATION,
+			F_DECIMAL_GRID,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_SEPARATOR,
@@ -717,6 +723,7 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		},
 		/* Fraction */
 		{
+			F_FRACTION_GRID,
 			F_FRACTION_EXPLANATION,
 			F_FRACTION_SEPARATE_INTEGER,
 			F_FRACTION_MIN_INTEGER_DIGITS_LABEL,
@@ -740,6 +747,7 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Scientific */
 		{
 			F_SCIENTIFIC_EXPLANATION,
+			F_DECIMAL_GRID,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_ENGINEERING_BUTTON,
@@ -1415,6 +1423,8 @@ nfs_init (GOFormatSel *gfs)
 		"format_pi_scale_check",
 
 		"format_base_separator",
+		"format-decimal-grid",
+		"format-fraction-grid",
 		NULL
 	};
 
@@ -1435,7 +1445,7 @@ nfs_init (GOFormatSel *gfs)
 	if (gfs->gui == NULL)
 		return;
 
-	toplevel = go_gtk_builder_get_widget (gfs->gui, "number_box");
+	toplevel = go_gtk_builder_get_widget (gfs->gui, "number-grid");
 	gtk_box_pack_start (GTK_BOX (gfs), toplevel, TRUE, TRUE, 0);
 
 	gfs->format.spec = go_format_general ();
@@ -1450,7 +1460,7 @@ nfs_init (GOFormatSel *gfs)
 
 	study_format (gfs->format.spec, &gfs->format.details);
 
-	gfs->format.preview_box = go_gtk_builder_get_widget (gfs->gui, "preview_box");
+	gfs->format.preview_grid = go_gtk_builder_get_widget (gfs->gui, "preview-grid");
 	gfs->format.preview = GTK_TEXT_VIEW (gtk_builder_get_object (gfs->gui, "preview"));
 	{
 		PangoFontMetrics *metrics;
@@ -1504,7 +1514,7 @@ nfs_init (GOFormatSel *gfs)
 				   gfs->format.widget[F_DECIMAL_LABEL]);
 
 	/* hide preview by default until a value is set */
-	gtk_widget_hide (gfs->format.preview_box);
+	gtk_widget_hide (gfs->format.preview_grid);
 
 	/* setup the structure of the negative type list */
 	gfs->format.negative_types.model =
@@ -1616,8 +1626,8 @@ nfs_init (GOFormatSel *gfs)
 			GTK_LABEL (gtk_builder_get_object (gfs->gui, "format_symbol_label")),
 			GTK_WIDGET (combo));
 		/* add the combo to its container */
-		gtk_box_pack_start (GTK_BOX (gtk_builder_get_object (gfs->gui, "format_symbol_box")),
-				    GTK_WIDGET (combo), TRUE, TRUE, 0);
+		gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gfs->gui, "format-symbol-grid")),
+				    GTK_WIDGET (combo));
 	}
 
 	/* Setup special handler for Custom */
@@ -1818,7 +1828,7 @@ void
 go_format_sel_show_preview (GOFormatSel *gfs)
 {
 	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
-	gtk_widget_show (gfs->format.preview_box);
+	gtk_widget_show (gfs->format.preview_grid);
 	draw_format_preview (gfs, TRUE);
 }
 
@@ -1826,7 +1836,7 @@ void
 go_format_sel_hide_preview (GOFormatSel *gfs)
 {
 	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
-	gtk_widget_hide (gfs->format.preview_box);
+	gtk_widget_hide (gfs->format.preview_grid);
 }
 
 void

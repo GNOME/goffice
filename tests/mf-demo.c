@@ -118,6 +118,9 @@ main (int argc, char *argv[])
 {
 	GtkWidget *window, *file_menu, *menu_bar, *file_item, *open_item, *close_item, *quit_item, *grid, *nbook;
 
+#ifndef GOFFICE_WITH_EMF
+	g_assert ("Goffice must be built with emf support to make this demo work.");
+#endif
 	gtk_init (&argc, &argv);
 	libgoffice_init ();
 

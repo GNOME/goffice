@@ -1,3 +1,12 @@
+2011-11-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets),
+	(nfs_init), (go_format_sel_show_preview),
+	(go_format_sel_hide_preview): replaced GtkTable by GtkGrid.
+	* goffice/gtk/go-format-sel.ui: ditto.
+	* tests/mf-demo.c (main): works only if built with GOFFICE_WITH_EMF
+	defined.
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
