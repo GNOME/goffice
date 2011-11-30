@@ -114,6 +114,7 @@ typedef enum {
 	F_BASE_SEPARATOR,
 	F_DECIMAL_GRID,
 	F_FRACTION_GRID,
+	F_FRACTION_GRID1,
 	F_MAX_WIDGET
 } FormatWidget;
 
@@ -651,7 +652,7 @@ static void
 fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 {
 	SETUP_LOCALE_SWITCH;
-	static FormatWidget const contents[][17] = {
+	static FormatWidget const contents[][20] = {
 		/* General */
 		{
 			F_GENERAL_EXPLANATION,
@@ -724,6 +725,8 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Fraction */
 		{
 			F_FRACTION_GRID,
+			F_FRACTION_GRID1,
+			F_DECIMAL_GRID,
 			F_FRACTION_EXPLANATION,
 			F_FRACTION_SEPARATE_INTEGER,
 			F_FRACTION_MIN_INTEGER_DIGITS_LABEL,
@@ -1424,7 +1427,8 @@ nfs_init (GOFormatSel *gfs)
 
 		"format_base_separator",
 		"format-decimal-grid",
-		"format-fraction-grid",
+		"fraction-grid",
+		"fraction-grid1",
 		NULL
 	};
 
