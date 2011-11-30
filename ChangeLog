@@ -1,3 +1,8 @@
+2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets): set
+	initial sensitivity of SI unit checkboxes
+
 2011-11-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets),

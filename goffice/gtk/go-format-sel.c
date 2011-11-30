@@ -336,7 +336,7 @@ static struct {
 };
 
 static void
-load_si_combo (GtkWidget *w, GOFormatSel *gfs)
+load_si_combo (GtkWidget *w, G_GNUC_UNUSED GOFormatSel *gfs)
 {
 	GtkComboBox *c = GTK_COMBO_BOX (w);
 	GtkListStore *store = GTK_LIST_STORE (gtk_combo_box_get_model (c));
@@ -491,7 +491,7 @@ cb_si_unit_toggle (GtkWidget *w, GOFormatSel *gfs)
 }
 
 static void
-cb_si_combo_changed (GtkWidget *w, GOFormatSel *gfs)
+cb_si_combo_changed (G_GNUC_UNUSED GtkWidget *w, GOFormatSel *gfs)
 {
 	cb_si_unit_toggle (gfs->format.widget[F_SI_SI_UNIT_BUTTON], gfs);
 }
@@ -954,17 +954,19 @@ stays:
 
 		case F_SI_CUSTOM_UNIT_BUTTON:
 #ifdef ALLOW_SI_APPEND
+			gtk_widget_set_sensitive (w, gfs->format.details.append_SI);
 			/* This is set through F_SI_UNIT_COMBO */
 #else
-				show_widget = FALSE;
+			show_widget = FALSE;
 #endif
 			break;
 
 		case F_SI_SI_UNIT_BUTTON:
 #ifdef ALLOW_SI_APPEND
+			gtk_widget_set_sensitive (w, gfs->format.details.append_SI);
 			/* This is set through F_SI_UNIT_COMBO */
 #else
-				show_widget = FALSE;
+			show_widget = FALSE;
 #endif
 			break;
 
@@ -973,6 +975,7 @@ stays:
 			gint row = -1;
 			guint ii;
 
+			gtk_widget_set_sensitive (w, gfs->format.details.append_SI);
 			if (gfs->format.details.appended_SI_unit != NULL) {
 				char const *unit = gfs->format.details.appended_SI_unit;
 				if (unit[0] == 'g' && unit[1] == 0)
@@ -1680,10 +1683,10 @@ go_format_sel_finalize (GObject *obj)
 }
 
 static gboolean
-accumulate_first_string (GSignalInvocationHint *ihint,
-			 GValue                *accum_result,
-			 const GValue          *handler_result,
-			 gpointer               data)
+accumulate_first_string (G_GNUC_UNUSED GSignalInvocationHint *ihint,
+			 GValue                              *accum_result,
+			 const GValue                        *handler_result,
+			 G_GNUC_UNUSED gpointer               data)
 {
 	gchar const *str = g_value_get_string (handler_result);
 	if (NULL != str) {
