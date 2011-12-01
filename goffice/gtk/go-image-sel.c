@@ -234,7 +234,7 @@ go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)
 	state->doc = doc;
 	state->cc = cc;
 	state->result = image;
-	state->gui = go_gtk_builder_new_internal ("go-image-sel.ui", GETTEXT_PACKAGE, state->cc);
+	state->gui = go_gtk_builder_new_internal ("res:go:gtk/go-image-sel.ui", GETTEXT_PACKAGE, state->cc);
         if (state->gui == NULL) {
 		g_free (state);
                 return NULL;

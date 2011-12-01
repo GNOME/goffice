@@ -222,7 +222,7 @@ gog_graph_populate_editor (GogObject *gobj,
 	GSList *theme_names;
 	static guint graph_pref_page = 0;
 
-	gui = go_gtk_builder_new_internal ("gog-graph-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("res:go:graph/gog-graph-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

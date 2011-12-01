@@ -71,16 +71,17 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-graph-widget.h	\
 	go-image-sel.h
 
-uidir = $(goffice_datadir)/ui
-dist_ui_DATA = \
+EXTRA_DIST = $(UNUSED)
+
+# ui files should be listed here for distribution and one level up for
+# embedding
+EXTRA_DIST += \
 	go-rotation-sel.ui			\
 	go-font-sel.ui 				\
 	go-format-sel.ui 			\
- 	go-3d-rotation-sel.ui			\
-	go-image-save-dialog-extra.ui	\
+	go-3d-rotation-sel.ui			\
+	go-image-save-dialog-extra.ui		\
 	go-image-sel.ui
-
-EXTRA_DIST = $(UNUSED)
 
 include $(top_srcdir)/goffice.mk
 

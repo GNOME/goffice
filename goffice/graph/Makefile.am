@@ -1,3 +1,5 @@
+EXTRA_DIST =
+
 noinst_LTLIBRARIES = libgoffice-graph.la
 
 libgoffice_graph_la_SOURCES = \
@@ -82,28 +84,28 @@ if WITH_GTK
 				 gog-child-button.h
 endif
 
-uidir = $(goffice_datadir)/ui
-dist_ui_DATA = \
-	gog-guru.ui			\
-	gog-guru-type-selector.ui	\
-	gog-object-prefs.ui		\
-	gog-graph-prefs.ui		\
-	gog-plot-prefs.ui		\
+# ui files should be listed here for distribution and one level up for
+# embedding
+EXTRA_DIST += \
+	gog-3d-box-prefs.ui		\
 	gog-axis-prefs.ui		\
-	gog-error-bar-prefs.ui	\
-	gog-reg-curve-prefs.ui	\
-	gog-reg-eqn-prefs.ui	\
-	gog-series-prefs.ui		\
+	gog-equation-prefs.ui		\
+	gog-error-bar-prefs.ui		\
+	gog-graph-prefs.ui		\
+	gog-guru-type-selector.ui	\
+	gog-guru.ui			\
+	gog-object-prefs.ui		\
+	gog-plot-prefs.ui		\
+	gog-reg-curve-prefs.ui		\
+	gog-reg-eqn-prefs.ui		\
 	gog-series-labels-prefs.ui	\
-	gog-3d-box-prefs.ui
+	gog-series-prefs.ui
 
 if GOFFICE_WITH_LASEM
   libgoffice_graph_la_SOURCES += gog-equation.c
   libgoffice_graph_la_HEADERS += gog-equation.h
+  # Always distribute the ui file, see above
 endif
-
-# Always distribute the ui file.
-dist_ui_DATA += gog-equation-prefs.ui
 
 include $(top_srcdir)/goffice.mk
 

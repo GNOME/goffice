@@ -870,7 +870,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 
-	gui = go_gtk_builder_new_internal ("go-image-save-dialog-extra.ui",
+	gui = go_gtk_builder_new_internal ("res:go:gtk/go-image-save-dialog-extra.ui",
 					   GETTEXT_PACKAGE, NULL);
 	if (gui != NULL) {
 		GtkWidget *widget;

@@ -350,6 +350,9 @@ AC_CHECK_PROG(GLIB_GENMARSHAL, glib-genmarshal, glib-genmarshal)
 AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
 AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
 
+AC_ARG_VAR(PERL, [The Perl executable.])
+AC_CHECK_PROG(PERL, perl, perl)
+
 ## this should come after `AC_PROG_CC'
 ifdef([GNOME_COMPILE_WARNINGS],
 	[GNOME_COMPILE_WARNINGS] CFLAGS="$CFLAGS $WARN_CFLAGS",

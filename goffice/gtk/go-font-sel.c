@@ -339,7 +339,7 @@ gfs_init (GOFontSel *gfs)
 {
 	GtkWidget *w;
 
-	gfs->gui = go_gtk_builder_new_internal ("go-font-sel.ui", GETTEXT_PACKAGE, NULL);
+	gfs->gui = go_gtk_builder_new_internal ("res:go:gtk/go-font-sel.ui", GETTEXT_PACKAGE, NULL);
 	if (gfs->gui == NULL)
                 return;
 

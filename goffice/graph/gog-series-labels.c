@@ -355,7 +355,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 	char const *custom_lbl;
 	gboolean supports_percent;
 
-	gui = go_gtk_builder_new_internal ("gog-series-labels-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("res:go:graph/gog-series-labels-prefs.ui", GETTEXT_PACKAGE, cc);
 	labels_prefs = go_gtk_builder_get_widget (gui, "series-labels-prefs");
 	state->labels = gobj;
 

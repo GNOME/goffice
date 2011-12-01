@@ -558,7 +558,7 @@ gog_series_populate_editor (GogObject *gobj,
 		GtkBuilder *gui;
 		GtkWidget *widget;
 
-		gui = go_gtk_builder_new_internal ("gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
+		gui = go_gtk_builder_new_internal ("res:go:graph/gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
 			int i;
 			GogAxisSet set = gog_plot_axis_set_pref (gog_series_get_plot (series));
@@ -613,7 +613,7 @@ gog_series_populate_editor (GogObject *gobj,
 		GtkBuilder *gui;
 		GtkWidget *widget;
 
-		gui = go_gtk_builder_new_internal ("gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
+		gui = go_gtk_builder_new_internal ("res:go:graph/gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
 			widget = go_gtk_builder_get_widget (gui, "fill_type_combo");
 				gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (widget));

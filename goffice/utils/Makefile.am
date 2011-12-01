@@ -1,3 +1,4 @@
+EXTRA_DIST =
 patternsdir = $(goffice_datadir)/patterns
 dist_patterns_DATA = svg-patterns.xml
 
@@ -74,8 +75,9 @@ libgoffice_utils_la_HEADERS = 	\
 	go-style.h		\
 	go-styled-object.h
 
-uidir = $(goffice_datadir)/ui
-dist_ui_DATA = \
+# ui files should be listed here for distribution and one level up for
+# embedding
+EXTRA_DIST += \
 	go-style-prefs.ui
 
 CLEANFILES =			\

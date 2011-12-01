@@ -454,7 +454,7 @@ gog_object_populate_editor (GogObject *gobj,
 	if (!(allowable_positions & (GOG_POSITION_MANUAL | GOG_POSITION_COMPASS)))
 		return;
 
-	gui = go_gtk_builder_new_internal ("gog-object-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("res:go:graph/gog-object-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

@@ -43,6 +43,8 @@
 #include <goffice/graph/gog-equation.h>
 #endif
 
+#include "embedded-ui.c"
+
 int goffice_graph_debug_level = 0;
 
 static char const *libgoffice_data_dir   = GOFFICE_DATADIR;
@@ -184,6 +186,7 @@ libgoffice_init (void)
 	_go_fonts_init ();
 	_go_math_init ();
 	_go_rsm_init ();
+	go_register_ui_files ();
 
 	/* keep trigger happy linkers from leaving things out */
 	_go_plugin_services_init ();

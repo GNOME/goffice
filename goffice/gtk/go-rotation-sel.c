@@ -206,7 +206,7 @@ grs_init (GORotationSel *grs)
 {
 	GtkWidget *w;
 
-	grs->gui = go_gtk_builder_new_internal ("go-rotation-sel.ui", GETTEXT_PACKAGE, NULL);
+	grs->gui = go_gtk_builder_new_internal ("res:go:gtk/go-rotation-sel.ui", GETTEXT_PACKAGE, NULL);
 	if (grs->gui == NULL)
 		return;
 

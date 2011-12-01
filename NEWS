@@ -6,8 +6,14 @@ Andreas:
 	* Fix recognition of formats with SI prefix by format selector. 
 	[#665303]
 
+Morten:
+	* Embed ui files into library.
+
 --------------------------------------------------------------------------
 goffice 0.9.1:
+
+Morten:
+	* High-precision accumulator improvements.
 
 --------------------------------------------------------------------------
 goffice 0.9.0:

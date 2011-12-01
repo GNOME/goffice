@@ -227,7 +227,7 @@ gog_error_bar_prefs (GogSeries *series,
 	}
 	set = GOG_DATASET (series);
 
-	gui = go_gtk_builder_new_internal ("gog-error-bar-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new_internal ("res:go:graph/gog-error-bar-prefs.ui", GETTEXT_PACKAGE, cc);
 
 	/* Style properties */
 

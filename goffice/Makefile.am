@@ -25,7 +25,7 @@ libgoffice_@GOFFICE_API_VER@_la_DEPENDENCIES = goffice.def
 libgoffice_@GOFFICE_API_VER@_la_LDFLAGS += -no-undefined -export-symbols goffice.def
 endif
 
-BUILT_SOURCES =	goffice-paths.h
+BUILT_SOURCES =	goffice-paths.h embedded-ui.c
 CLEANFILES = $(BUILT_SOURCES)
 
 libgoffice_@GOFFICE_API_VER@_la_SOURCES = 	\
@@ -84,3 +84,34 @@ goffice-0.lib: libgoffice-@GOFFICE_API_VER@.la goffice.def
 	lib -name:libgoffice-0-$(VERSION_IFACE).dll -def:goffice.def -out:$@
 endif
 endif
+
+embedded_uis = \
+	graph/gog-3d-box-prefs.ui		\
+	graph/gog-axis-prefs.ui			\
+	graph/gog-equation-prefs.ui		\
+	graph/gog-error-bar-prefs.ui		\
+	graph/gog-graph-prefs.ui		\
+	graph/gog-guru-type-selector.ui		\
+	graph/gog-guru.ui			\
+	graph/gog-object-prefs.ui		\
+	graph/gog-plot-prefs.ui			\
+	graph/gog-reg-curve-prefs.ui		\
+	graph/gog-reg-eqn-prefs.ui		\
+	graph/gog-series-labels-prefs.ui	\
+	graph/gog-series-prefs.ui		\
+	gtk/go-3d-rotation-sel.ui		\
+	gtk/go-font-sel.ui			\
+	gtk/go-format-sel.ui			\
+	gtk/go-image-save-dialog-extra.ui	\
+	gtk/go-image-sel.ui			\
+	gtk/go-rotation-sel.ui			\
+	utils/go-style-prefs.ui
+
+
+embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis)
+	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
+		--id-prefix=go: \
+		--static \
+		--register-function=go_register_ui_files \
+		--register-file-function=go_rsm_register_file \
+		COMPRESS $(embedded_uis) >$(abs_builddir)/$@
