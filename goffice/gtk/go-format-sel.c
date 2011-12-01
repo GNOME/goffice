@@ -502,6 +502,8 @@ cb_si_unit_toggle (GtkWidget *w, GOFormatSel *gfs)
 static void
 cb_si_combo_changed (G_GNUC_UNUSED GtkWidget *w, GOFormatSel *gfs)
 {
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_SI_UNIT_BUTTON]),
+				      TRUE);
 	cb_si_unit_toggle (gfs->format.widget[F_SI_SI_UNIT_BUTTON], gfs);
 }
 

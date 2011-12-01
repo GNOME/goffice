@@ -1,6 +1,11 @@
 2011-12-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* goffice/gtk/go-format-sel.c (cb_si_unit_toggle): set the scale 
+	* goffice/gtk/go-format-sel.c (cb_si_combo_changed): check "Append
+	this SI unit" button
+
+2011-12-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/gtk/go-format-sel.c (cb_si_unit_toggle): set the scale
 	correctly
 
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
