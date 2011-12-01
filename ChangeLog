@@ -1,5 +1,10 @@
 2011-12-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_get_details): do not
+	mistake the scale symbol as mantissa
+
+2011-12-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/gtk/go-format-sel.c (cb_si_combo_changed): check "Append
 	this SI unit" button
 

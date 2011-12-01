@@ -6167,10 +6167,11 @@ go_format_get_details (GOFormat const *fmt,
 
 		if (dst->family == GO_FORMAT_SCIENTIFIC) {
 			const char *epos = strchr (str, 'E');
-			const char *mend = dot ? dot : epos;
+			const char *scale_pos = strstr (str, "'E");
+			const char *mend = dot ? dot : (scale_pos ? scale_pos : epos);
 			dst->append_SI = (strstr (str, "ESI") != NULL);
 			dst->use_markup = (strstr (str, "EE") != NULL);
-			dst->scale = ((strstr (str, "'E") != NULL) ? 3 : 0);
+			dst->scale = ((scale_pos != NULL) ? 3 : 0);
 			dst->exponent_step = mend - str;
 			dst->simplify_mantissa = mend != str && mend[-1] == '#';
 			if (dst->simplify_mantissa)
