@@ -301,7 +301,7 @@ fillin_negative_samples (GOFormatSel *gfs)
 
 static struct {
 	char const *name;
-	char const * unit;
+	char const *unit;
 	int scale;
 } si_units[] = {
 	{N_("A (ampere)"), "A", 0},
@@ -484,8 +484,17 @@ cb_si_unit_toggle (GtkWidget *w, GOFormatSel *gfs)
 			}
 		} else
 			gfs->format.details.appended_SI_unit = NULL;
-	} else
+	} else {
+		guint i;
 		gfs->format.details.appended_SI_unit = g_strdup (gfs->format.default_si_unit);
+		gfs->format.details.scale = 1;
+		if (gfs->format.details.appended_SI_unit != NULL)
+			for (i=0; i < G_N_ELEMENTS (si_units); i++)
+				if (0 == strcmp (si_units[i].unit, gfs->format.details.appended_SI_unit)) {
+					gfs->format.details.scale = si_units[i].scale;
+					break;
+				}
+	}
 
 	draw_format_preview (gfs, TRUE);
 }
