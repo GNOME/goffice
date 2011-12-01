@@ -3,6 +3,8 @@ goffice 0.9.2:
 Andreas:
 	* Improve sensitivity handling of SI related widgets in format selector.
 	* Fix scientific format with SI prefix selection. [#665301]
+	* Fix recognition of formats with SI prefix by format selector. 
+	[#665303]
 
 --------------------------------------------------------------------------
 goffice 0.9.1:

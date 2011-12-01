@@ -6180,6 +6180,10 @@ go_format_get_details (GOFormat const *fmt,
 			dst->exponent_digits = 0;
 			if (dst->use_markup) epos++;
 			epos++;
+			if (dst->use_markup)
+				epos++;
+			if (dst->append_SI)
+				epos += 2;
 			if (epos[0] == '+' || epos[0] == '-')
 				epos++;
 			while (epos[0] == '0' || epos[0] == '#' || epos[0] == '?') {
