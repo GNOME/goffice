@@ -1,6 +1,5 @@
-EXTRA_DIST =
-patternsdir = $(goffice_datadir)/patterns
-dist_patterns_DATA = svg-patterns.xml
+# listed here for distribution and one level up for embedding
+EXTRA_DIST = svg-patterns.xml go-style-prefs.ui
 
 noinst_LTLIBRARIES = libgoffice-utils.la
 libgoffice_utils_la_SOURCES =	\
@@ -16,7 +15,7 @@ libgoffice_utils_la_SOURCES =	\
 	go-pixbuf.c		\
 	go-svg.c		\
 	go-emf.c		\
-	go-spectre.c	\
+	go-spectre.c		\
 	go-line.c		\
 	go-locale.c		\
 	go-marker.c		\
@@ -52,7 +51,7 @@ libgoffice_utils_la_HEADERS = 	\
 	go-pixbuf.h		\
 	go-svg.h		\
 	go-emf.h		\
-	go-spectre.h	\
+	go-spectre.h		\
 	go-line.h		\
 	go-locale.h		\
 	go-marker.h		\
@@ -74,11 +73,6 @@ libgoffice_utils_la_HEADERS = 	\
 	go-rsm.h		\
 	go-style.h		\
 	go-styled-object.h
-
-# ui files should be listed here for distribution and one level up for
-# embedding
-EXTRA_DIST += \
-	go-style-prefs.ui
 
 CLEANFILES =			\
 	go-marshalers.h		\

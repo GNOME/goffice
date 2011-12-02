@@ -107,11 +107,14 @@ embedded_uis = \
 	gtk/go-rotation-sel.ui			\
 	utils/go-style-prefs.ui
 
+embedded_raw = utils/svg-patterns.xml
 
-embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis)
+embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis) $(embedded_raw)
 	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
 		--id-prefix=go: \
 		--static \
 		--register-function=go_register_ui_files \
 		--register-file-function=go_rsm_register_file \
-		COMPRESS $(embedded_uis) >$(abs_builddir)/$@
+		COMPRESS $(embedded_uis) \
+		NOCOMPRESS $(embedded_raw) \
+		>$(abs_builddir)/$@

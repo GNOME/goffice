@@ -8,6 +8,7 @@ Andreas:
 
 Morten:
 	* Embed ui files into library.
+	* Embed svg-patterns.xml too.
 
 --------------------------------------------------------------------------
 goffice 0.9.1:

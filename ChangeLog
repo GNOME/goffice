@@ -1,3 +1,10 @@
+2011-12-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/Makefile.am: Embed svg-patterns.xml without compression.
+
+	* goffice/utils/go-pattern.c (go_pattern_get_svg_path): Use
+	embedded resource, not a file.
+
 2011-12-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-path.c (goc_path_set_property): make it properly

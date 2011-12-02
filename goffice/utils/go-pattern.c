@@ -30,6 +30,7 @@
 #include <string.h>
 
 #define CC2XML(s) ((const xmlChar *)(s))
+#define CXML2C(s) ((const char *)(s))
 
 typedef struct {
 	char const *name;
@@ -153,32 +154,31 @@ go_pattern_get_pattern (GOPattern const *pat)
 xmlChar *
 go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height)
 {
-	char *path;
-	char *d = NULL;
-	xmlChar	  *name, *svg_path = NULL;
+	xmlChar	  *svg_path = NULL;
 	xmlDocPtr  doc;
 	xmlNodePtr ptr;
+	const char *data;
+	size_t length;
 
+	g_return_val_if_fail (pattern != NULL, NULL);
 	g_return_val_if_fail (pattern->pattern < GO_PATTERN_MAX, NULL);
 
-	path = g_build_filename (go_sys_data_dir(), "patterns", "svg-patterns.xml", NULL);
-	doc = go_xml_parse_file (path);
-	g_free (path);
-
+	data = go_rsm_lookup ("go:utils/svg-patterns.xml", &length);
+	doc = data ? xmlParseMemory (data, length) : NULL;
 	g_return_val_if_fail (doc != NULL, NULL);
 
 	for (ptr = doc->xmlRootNode->xmlChildrenNode;
-	     ptr != NULL && d == NULL ;
+	     ptr != NULL;
 	     ptr = ptr->next)
 	{
 		if (!xmlIsBlankNode (ptr) &&
 		    ptr->name &&
-		    !strcmp ((char *)ptr->name, "pattern"))
+		    !strcmp (CXML2C(ptr->name), "pattern"))
 		{
 			double value;
-			name = xmlGetProp (ptr, CC2XML ("name"));
+			xmlChar *name = xmlGetProp (ptr, CC2XML ("name"));
 			if (name != NULL) {
-				if (strcmp ((char *)name, go_patterns [pattern->pattern].str) == 0) {
+				if (strcmp (CXML2C(name), go_patterns [pattern->pattern].str) == 0) {
 					if (width != NULL &&
 						go_xml_node_get_double (ptr, "width", &value))
 					    *width = value;
