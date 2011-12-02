@@ -231,7 +231,7 @@ goc_path_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 static void
 goc_path_finalize (GObject *obj)
 {
-	GocPpathe *path = GOC_PATH (obj);
+	GocPath *path = GOC_PATH (obj);
 	if (path->path)
 		go_path_free (pth->path);
 	parent_class->finalize (obj);
