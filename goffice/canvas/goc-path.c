@@ -69,7 +69,7 @@ goc_path_set_property (GObject *gobject, guint param_id,
 
 	case PATH_PROP_PATH:
 		if (path->path)
-			go_path_free (pth->path);
+			go_path_free (path->path);
 		path->path = go_path_ref (g_value_get_boxed (value));
 		break;
 
@@ -233,7 +233,7 @@ goc_path_finalize (GObject *obj)
 {
 	GocPath *path = GOC_PATH (obj);
 	if (path->path)
-		go_path_free (pth->path);
+		go_path_free (path->path);
 	parent_class->finalize (obj);
 }
 
