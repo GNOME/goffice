@@ -33,6 +33,8 @@
  * #GocPath implements path drawing in the canvas.
 **/
 
+static GObjectClass *parent_class;
+
 enum {
 	PATH_PROP_0,
 	PATH_PROP_X,
@@ -66,7 +68,9 @@ goc_path_set_property (GObject *gobject, guint param_id,
 		break;
 
 	case PATH_PROP_PATH:
-		path->path = g_value_peek_pointer (value);
+		if (path->path)
+			go_path_free (pth->path);
+		path->path = go_path_ref (g_value_get_boxed (value));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -225,13 +229,24 @@ goc_path_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 }
 
 static void
+goc_path_finalize (GObject *obj)
+{
+	GocPpathe *path = GOC_PATH (obj);
+	if (path->path)
+		go_path_free (pth->path);
+	parent_class->finalize (obj);
+}
+
+static void
 goc_path_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
+	parent_class = g_type_class_peek_parent (item_klass);
 
 	gsi_klass->init_style = goc_path_init_style;
 
+	obj_klass->finalize = goc_path_finalize;
 	obj_klass->get_property = goc_path_get_property;
 	obj_klass->set_property = goc_path_set_property;
 	g_object_class_install_property (obj_klass, PATH_PROP_X,

@@ -1,3 +1,23 @@
+2011-12-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-path.c (goc_path_set_property): make it properly
+	manage the path.
+	* goffice/utils/go-emf.c (go_wmf_read_spoint),
+	(go_wmf_read_lpoint), (go_wmf_read_gocolor), (go_emf_dc_free),
+	(go_emf_convert_coords), (go_emf_polygon), (go_emf_polyline),
+	(go_emf_polybezierto), (go_emf_polylineto), (go_emf_polypolyline),
+	(go_emf_setwindowextex), (go_emf_setwindoworgex),
+	(go_emf_setviewportextex), (go_emf_setviewportorgex),
+	(go_emf_movetoex), (go_emf_intersectcliprect), (go_emf_savedc),
+	(go_emf_restoredc), (go_emf_selectobject), (go_emf_createpen),
+	(go_emf_createbrushindirect), (go_emf_beginpath), (go_emf_endpath),
+	(go_emf_closefigure), (go_emf_fillpath),
+	(go_emf_strokeandfillpath), (go_emf_strokepath),
+	(go_emf_polygon16), (go_emf_polyline16), (go_emf_polybezierto16),
+	(go_emf_polylineto16), (go_emf_parse): implement more.
+	* goffice/utils/go-path.c (go_path_ref): fixed a crasher.
+	* goffice/utils/go-path.h: ditto.
+
 2011-12-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/goffice.c: Include generated embedded-ui.c here and call

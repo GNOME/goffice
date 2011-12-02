@@ -220,12 +220,13 @@ go_path_free (GOPath *path)
  * Increments references count to @path.
  **/
 
-void
+GOPath *
 go_path_ref (GOPath *path)
 {
-	g_return_if_fail (path != NULL);
+	g_return_val_if_fail (path != NULL, NULL);
 
 	path->refs++;
+	return path;
 }
 
 GType

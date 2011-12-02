@@ -108,7 +108,7 @@ gog_smoothed_curve_class_init (GogObjectClass *gog_klass)
 	gog_klass->type_name	= gog_smoothed_curve_type_name;
 	gog_klass->parent_changed = gog_smoothed_curve_parent_changed;
 	gog_klass->view_type	= gog_smoothed_curve_view_get_type ();
-	
+
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor  = gog_smoothed_curve_populate_editor;
 #endif

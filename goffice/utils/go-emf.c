@@ -701,6 +701,33 @@ typedef struct {
 	guint16 flag;
 } GOWmfPen;
 
+typedef enum {
+	GO_EMF_OBJ_TYPE_INVALID = 0,
+	GO_EMF_OBJ_TYPE_PEN,
+	GO_EMF_OBJ_TYPE_BRUSH,
+	GO_EMF_OBJ_TYPE_MAX
+} GOEmfObjType;
+
+typedef struct {
+	GOEmfObjType obj_type;
+	guint32 style;
+	double width;
+	GOColor clr;
+} GOEmfPen;
+
+typedef struct {
+	GOEmfObjType obj_type;
+	guint32 style;
+	guint32 hatch;
+	GOColor clr;
+} GOEmfBrush;
+
+typedef union {
+	GOEmfObjType obj_type;
+	GOEmfPen pen;
+
+} GOEmfObject;
+
 typedef struct {
 	guint width;
 	guint height;
@@ -798,9 +825,13 @@ typedef struct {
 	GOWmfOperation op;
 	gboolean fill_bg;
 	GocGroup *group;
+	GOStyle *style;
+	GOPath *path;
+	gboolean closed_path;
 } GOEmfDC;
 
 typedef struct {
+	unsigned version;
 	GocCanvas *canvas;
 	GError **error;
 	guint8 const *data;
@@ -813,6 +844,7 @@ typedef struct {
 	gboolean is_emf;	/* FIXME: might be EPS or WMF */
 	GOEmfDC *curDC;
 	GSList *dc_stack;
+	GHashTable *mfobjs;
 } GOEmfState;
 
 #define CMM2PTS(x) (((double) x) * 72. / 254.)
@@ -988,14 +1020,14 @@ go_wmf_mr_convcoord (double* x, double* y, GOWmfPage* pg)
 }
 
 static void
-go_wmf_read_spoint (guint8 const *src, double* y, double* x)
+go_wmf_read_spoint (guint8 const *src, double *x, double *y)
 {
 	*x = GSF_LE_GET_GINT16 (src);
 	*y = GSF_LE_GET_GINT16 (src + 2);
 }
 
 static void
-go_wmf_read_lpoint (guint8 const *src, double* y, double* x)
+go_wmf_read_lpoint (guint8 const *src, double *x, double *y)
 {
 	*x = GSF_LE_GET_GINT32 (src);
 	*y = GSF_LE_GET_GINT32 (src + 4);
@@ -1121,6 +1153,12 @@ go_wmf_read_color (GsfInput* input, GOWmfColor* clr)
 	clr->g = *data;
 	data = gsf_input_read (input, 1, NULL);
 	clr->b = *data;
+}
+
+static GOColor
+go_wmf_read_gocolor (guint8 const *data)
+{
+	return GO_COLOR_FROM_RGB (data[0], data[1], data[2]);
 }
 
 static int
@@ -2363,6 +2401,20 @@ go_wmf_init_esc (void)
  * EMF parsing code
  *****************************************************************************/
 
+static void go_emf_dc_free (GOEmfDC *dc)
+{
+	if (dc->style)
+		g_object_unref (dc->style);
+	g_free (dc);
+}
+
+static void
+go_emf_convert_coords (GOEmfState *state, double *x, double *y)
+{
+	*x = (*x - state->dx) * state->dw / state->ww;
+	*y = (*y - state->dy) * state->dh / state->wh;
+}
+
 static gboolean
 go_emf_header (GOEmfState *state)
 {
@@ -2398,35 +2450,140 @@ go_emf_polybezier (GOEmfState *state)
 static gboolean
 go_emf_polygon (GOEmfState *state)
 {
+	unsigned nb_pts, n, offset;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
+	GocPoints *points;
+	double x, y;
 	d_(("polygon\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	nb_pts = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\t%u points\n", nb_pts));
+	points = goc_points_new (nb_pts);
+	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
+		go_wmf_read_lpoint (state->data + offset, &x, &y);
+		go_emf_convert_coords (state, &x, &y);
+		points->points[n].x = x;
+		points->points[n].y = y;
+		d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
+	}
+	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
+	              "points", points,
+	              "style", state->curDC->style,
+	              NULL);
 	return TRUE;
 }
 
 static gboolean
 go_emf_polyline (GOEmfState *state)
 {
+	unsigned nb_pts, n, offset;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
+	GocPoints *points;
+	double x, y;
 	d_(("polyline\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	nb_pts = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\t%u points\n", nb_pts));
+	points = goc_points_new (nb_pts);
+	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
+		go_wmf_read_lpoint (state->data + offset, &x, &y);
+		go_emf_convert_coords (state, &x, &y);
+		points->points[n].x = x;
+		points->points[n].y = y;
+		d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
+	}
+	goc_item_new (state->curDC->group, GOC_TYPE_POLYLINE,
+	              "points", points,
+	              "style", state->curDC->style,
+	              NULL);
 	return TRUE;
 }
 
 static gboolean
 go_emf_polybezierto (GOEmfState *state)
 {
+	unsigned count, n, offset;
+	double x0, y0, x1, y1, x2, y2;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polybezierto\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	count = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\tfound %u points\n", count));
+	if (count % 3 != 0)
+		return FALSE;
+	count /= 3;
+	for (n = 0, offset = 20; n < count; n++, offset += 24) {
+		go_wmf_read_lpoint (state->data + offset, &x0, &y0);
+		go_emf_convert_coords (state, &x0, &y0);
+		go_wmf_read_lpoint (state->data + offset + 8, &x1, &y1);
+		go_emf_convert_coords (state, &x1, &y1);
+		go_wmf_read_lpoint (state->data + offset + 16, &x2, &y2);
+		go_emf_convert_coords (state, &x2, &y2);
+		go_path_curve_to (state->curDC->path, x0, y0, x1, y1, x2, y2);
+		d_(("\tcurve to x0=%g y0=%g x1=%g y1=%g x2=%g y2=%g\n", x0, y0, x1, y1, x2, y2));
+	}
 	return TRUE;
 }
 
 static gboolean
 go_emf_polylineto (GOEmfState *state)
 {
+	unsigned count, n, offset;
+	double x, y;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polylineto\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	count = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\tfound %u points\n", count));
+	for (n = 0, offset = 20; n < count; n++, offset += 8) {
+		go_wmf_read_lpoint (state->data + offset, &x, &y);
+		go_emf_convert_coords (state, &x, &y);
+		go_path_line_to (state->curDC->path, x, y);
+		d_(("\tline to x=%g y0=%g\n", x, y));
+	}
 	return TRUE;
 }
 
 static gboolean
 go_emf_polypolyline (GOEmfState *state)
 {
+	unsigned nb_lines, nb_pts;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polypolyline\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	nb_lines = GSF_LE_GET_GUINT32 (state->data + 16);
+	nb_pts = GSF_LE_GET_GUINT32 (state->data + 20);
+	d_(("\t%u points in %u lines\n", nb_pts, nb_lines));
 	return TRUE;
 }
 
@@ -2440,40 +2597,36 @@ go_emf_polypolygon (GOEmfState *state)
 static gboolean
 go_emf_setwindowextex (GOEmfState *state)
 {
-	double dw, dh;
 	d_(("setwindowextex\n"));
-	go_wmf_read_lpoint (state->data, &dw, &dh);
-	d_(("\twindow size: %g x %g\n", dw, dh));
+	go_wmf_read_lpoint (state->data, &state->ww, &state->wh);
+	d_(("\twindow size: %g x %g\n", state->ww, state->wh));
 	return TRUE;
 }
 
 static gboolean
 go_emf_setwindoworgex (GOEmfState *state)
 {
-	double dw, dh;
 	d_(("setwindoworgex\n"));
-	go_wmf_read_lpoint (state->data, &dw, &dh);
-	d_(("\twindow origin: %g x %g\n", dw, dh));
+	go_wmf_read_lpoint (state->data, &state->wx, &state->wy);
+	d_(("\twindow origin: %g x %g\n", state->wx, state->wy));
 	return TRUE;
 }
 
 static gboolean
 go_emf_setviewportextex (GOEmfState *state)
 {
-	double dw, dh;
 	d_(("setviewportextex\n"));
-	go_wmf_read_lpoint (state->data, &dw, &dh);
-	d_(("\tview port size: %g x %g\n", dw, dh));
+	go_wmf_read_lpoint (state->data, &state->dw, &state->dh);
+	d_(("\tview port size: %g x %g\n", state->dw, state->dh));
 	return TRUE;
 }
 
 static gboolean
 go_emf_setviewportorgex (GOEmfState *state)
 {
-	double dw, dh;
 	d_(("setviewportorgex\n"));
-	go_wmf_read_lpoint (state->data, &dw, &dh);
-	d_(("\tview port origin: %g x %g\n", dw, dh));
+	go_wmf_read_lpoint (state->data, &state->dx, &state->dy);
+	d_(("\tview port origin: %g x %g\n", state->dx, state->dy));
 	return TRUE;
 }
 
@@ -2617,7 +2770,14 @@ go_emf_offsetcliprgn (GOEmfState *state)
 static gboolean
 go_emf_movetoex (GOEmfState *state)
 {
+	double x, y;
 	d_(("movetoex\n"));
+	if (state->curDC->path == NULL)
+		return FALSE;
+	go_wmf_read_lpoint (state->data, &x, &y);
+	go_emf_convert_coords (state, &x, &y);
+	go_path_move_to (state->curDC->path, x, y);
+	d_(("\tMove to x=%g y=%g\n", x, y));
 	return TRUE;
 }
 
@@ -2642,7 +2802,7 @@ go_emf_intersectcliprect (GOEmfState *state)
 	GOPath *path;
 	d_(("intersectcliprect\n"));
 	go_wmf_read_rectl (&rect, state->data);
-	d_(("clipping rectangle: left=%d top=%d right=%d bottom=%d\n",
+	d_(("\tclipping rectangle: left=%d top=%d right=%d bottom=%d\n",
 	    rect.left, rect.top, rect.right, rect.bottom));
 	state->curDC->group = GOC_GROUP (goc_item_new (state->curDC->group, GOC_TYPE_GROUP, NULL));
 	path = state->curDC->group->clip_path = go_path_new ();
@@ -2674,6 +2834,7 @@ go_emf_savedc (GOEmfState *state)
 	state->dc_stack = g_slist_prepend (state->dc_stack, state->curDC);
 	state->curDC = g_new (GOEmfDC, 1);
 	memcpy (state->curDC, state->dc_stack->data, sizeof (GOEmfDC));
+	state->curDC->style = go_style_new ();
 	return TRUE;
 }
 
@@ -2688,7 +2849,7 @@ go_emf_restoredc (GOEmfState *state)
 	while (n++ < 0) {
 		if (state->dc_stack == NULL)
 			return FALSE;
-		g_free (state->curDC);
+		go_emf_dc_free (state->curDC);
 		state->curDC = state->dc_stack->data;
 		state->dc_stack = g_slist_delete_link (state->dc_stack, state->dc_stack);
 	}
@@ -2709,24 +2870,292 @@ go_emf_modifyworldtransform (GOEmfState *state)
 	return TRUE;
 }
 
+enum {
+	GO_EMF_WHITE_BRUSH = 0x80000000,
+	GO_EMF_LTGRAY_BRUSH = 0x80000001,
+	GO_EMF_GRAY_BRUSH = 0x80000002,
+	GO_EMF_DKGRAY_BRUSH = 0x80000003,
+	GO_EMF_BLACK_BRUSH = 0x80000004,
+	GO_EMF_NULL_BRUSH = 0x80000005,
+	GO_EMF_WHITE_PEN = 0x80000006,
+	GO_EMF_BLACK_PEN = 0x80000007,
+	GO_EMF_NULL_PEN = 0x80000008,
+	GO_EMF_OEM_FIXED_FONT = 0x8000000A,
+	GO_EMF_ANSI_FIXED_FONT = 0x8000000B,
+	GO_EMF_ANSI_VAR_FONT = 0x8000000C,
+	GO_EMF_SYSTEM_FONT = 0x8000000D,
+	GO_EMF_DEVICE_DEFAULT_FONT = 0x8000000E,
+	GO_EMF_DEFAULT_PALETTE = 0x8000000F,
+	GO_EMF_SYSTEM_FIXED_FONT = 0x80000010,
+	GO_EMF_DEFAULT_GUI_FONT = 0x80000011,
+	GO_EMF_DC_BRUSH = 0x80000012,
+	GO_EMF_DC_PEN = 0x80000013
+};
+
 static gboolean
 go_emf_selectobject (GOEmfState *state)
 {
+	GOEmfObject *tool;
+	unsigned index;
 	d_(("selectobject\n"));
+	index = GSF_LE_GET_GUINT32 (state->data);
+	if (index < 0x80000000) {
+		tool = g_hash_table_lookup (state->mfobjs, GUINT_TO_POINTER (index));
+		if (tool == NULL) {
+			d_(("\tinvalid object of index %u\n", index));
+			return FALSE;
+		}
+		switch (tool->obj_type) {
+		case GO_EMF_OBJ_TYPE_PEN: {
+			GOEmfPen *pen = (GOEmfPen *) tool;
+			state->curDC->style->interesting_fields |= GO_STYLE_LINE;
+			switch (pen->style & 0xff) {
+			case 0:
+				state->curDC->style->line.dash_type = GO_LINE_SOLID;
+				break;
+			case 1:
+				state->curDC->style->line.dash_type = GO_LINE_DASH;
+				break;
+			case 2:
+				state->curDC->style->line.dash_type = GO_LINE_DOT;
+				break;
+			case 3:
+				state->curDC->style->line.dash_type = GO_LINE_DASH_DOT;
+				break;
+			case 4:
+				state->curDC->style->line.dash_type = GO_LINE_DASH_DOT_DOT;
+				break;
+			case 5:
+				state->curDC->style->line.dash_type = GO_LINE_NONE;
+				break;
+			case 6: /* FIXME */
+			case 7: /* FIXME */
+			case 8: /* FIXME */
+			default:
+				state->curDC->style->line.dash_type = GO_LINE_NONE;
+				g_warning ("Invalid pen style");
+				break;
+			}
+			state->curDC->style->line.auto_dash = FALSE;
+			state->curDC->style->line.width = pen->width;
+			state->curDC->style->line.color = pen->clr;
+			state->curDC->style->line.auto_color = FALSE;
+			switch ((pen->style & 0xf00) >> 16) {
+			case 0:
+				state->curDC->style->line.cap = CAIRO_LINE_CAP_ROUND;
+				break;
+			case 1:
+				state->curDC->style->line.cap = CAIRO_LINE_CAP_SQUARE;
+				break;
+			case 2:
+				state->curDC->style->line.cap = CAIRO_LINE_CAP_BUTT;
+				break;
+			}
+			switch ((pen->style & 0xf000) >> 24) {
+			case 0:
+				state->curDC->style->line.join = CAIRO_LINE_JOIN_ROUND;
+				break;
+			case 1:
+				state->curDC->style->line.join = CAIRO_LINE_JOIN_BEVEL;
+				break;
+			case 2:
+				state->curDC->style->line.join = CAIRO_LINE_JOIN_MITER;
+				break;
+			}
+			d_(("\tselected pen #%u\n", index));
+			break;
+		}
+		case GO_EMF_OBJ_TYPE_BRUSH: {
+			GOEmfBrush *brush = (GOEmfBrush *) tool;
+			state->curDC->style->interesting_fields |= GO_STYLE_FILL;
+			state->curDC->style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
+			state->curDC->style->fill.pattern.back = 0;
+			state->curDC->style->fill.pattern.fore = brush->clr;
+			state->curDC->style->fill.auto_back = FALSE;
+			state->curDC->style->fill.auto_fore = FALSE;
+			d_(("\tselected brush #%u\n", index));
+			break;
+		}
+		default:
+			d_(("\tinvalid object type %u\n", tool->obj_type));
+			return FALSE;
+		}
+	} else switch (index) {
+	case GO_EMF_WHITE_BRUSH:
+		d_(("\tWhite brush\n"));
+		break;
+	case GO_EMF_LTGRAY_BRUSH:
+		d_(("\tLight gray brush\n"));
+		break;
+	case GO_EMF_GRAY_BRUSH:
+		d_(("\tGray brush\n"));
+		break;
+	case GO_EMF_DKGRAY_BRUSH:
+		d_(("\tDark gray brush\n"));
+		break;
+	case GO_EMF_BLACK_BRUSH:
+		d_(("\tBlack brush\n"));
+		break;
+	case GO_EMF_NULL_BRUSH:
+		d_(("\tNull brush\n"));
+		break;
+	case GO_EMF_WHITE_PEN:
+		d_(("\tWhite pen\n"));
+		break;
+	case GO_EMF_BLACK_PEN:
+		d_(("\tWhite pen\n"));
+		break;
+	case GO_EMF_NULL_PEN:
+		d_(("\tWhite pen\n"));
+		break;
+	case GO_EMF_OEM_FIXED_FONT:
+		d_(("\tEOM fixed font\n"));
+		break;
+	case GO_EMF_ANSI_FIXED_FONT:
+		d_(("\tANSI fixed font\n"));
+		break;
+	case GO_EMF_ANSI_VAR_FONT:
+		d_(("\tANSI var font\n"));
+		break;
+	case GO_EMF_SYSTEM_FONT:
+		d_(("\tSystem font\n"));
+		break;
+	case GO_EMF_DEVICE_DEFAULT_FONT:
+		d_(("\tDevice default font\n"));
+		break;
+	case GO_EMF_DEFAULT_PALETTE:
+		d_(("\tDefault palette\n"));
+		break;
+	case GO_EMF_SYSTEM_FIXED_FONT:
+		d_(("\tSystem fixed font\n"));
+		break;
+	case GO_EMF_DEFAULT_GUI_FONT:
+		d_(("\tDefault GUI font\n"));
+		break;
+	case GO_EMF_DC_BRUSH:
+		d_(("\tDC brush\n"));
+		break;
+	case GO_EMF_DC_PEN:
+		d_(("\tDC pen\n"));
+		break;
+	default:
+		break;
+	}
 	return TRUE;
 }
 
 static gboolean
 go_emf_createpen (GOEmfState *state)
 {
+#ifdef DEBUG_EMF_SUPPORT
+char const *dashes[] = {
+"Solid",
+"Dash",
+"Dot",
+"Dash-dot",
+"Dash-dot-dot",
+"None",
+"Inside frame",
+"User style",
+"Alternate"
+};
+char const *join[]= {
+"round",
+"bevel",
+"mitter"
+};
+char const *cap[]= {
+"round",
+"square",
+"flat"
+};
+#endif
+	unsigned index;
+	GOEmfPen *pen = g_new0 (GOEmfPen, 1);
+	pen->obj_type = GO_EMF_OBJ_TYPE_PEN;
 	d_(("createpen\n"));
+	index = GSF_LE_GET_GUINT32 (state->data);
+	pen->style = GSF_LE_GET_GUINT32 (state->data + 4);
+	pen->width = GSF_LE_GET_GUINT32 (state->data + 8);
+	pen->clr = go_wmf_read_gocolor (state->data + 16);
+	d_(("\tpen index=%u style=%s width=%g color=%08x join=%s cap=%s%s\n",index,
+	    dashes[pen->style&0xf], pen->width, pen->clr,
+	    join[(pen->style&0xf000)>>24], cap[(pen->style&0xf00)>>16],
+	    pen->style&0x00010000? "Geometric": ""));
+	g_hash_table_replace (state->mfobjs, GUINT_TO_POINTER (index), pen);
 	return TRUE;
 }
+
+enum {
+	GO_EMF_HS_HORIZONTAL = 0x0000,
+	GO_EMF_HS_VERTICAL = 0x0001,
+	GO_EMF_HS_FDIAGONAL = 0x0002,
+	GO_EMF_HS_BDIAGONAL = 0x0003,
+	GO_EMF_HS_CROSS = 0x0004,
+	GO_EMF_HS_DIAGCROSS = 0x0005,
+	GO_EMF_HS_SOLIDCLR = 0x0006,
+	GO_EMF_HS_DITHEREDCLR = 0x0007,
+	GO_EMF_HS_SOLIDTEXTCLR = 0x0008,
+	GO_EMF_HS_DITHEREDTEXTCLR = 0x0009,
+	GO_EMF_HS_SOLIDBKCLR = 0x000A,
+	GO_EMF_HS_DITHEREDBKCLR = 0x000B
+};
+
+enum {
+	GO_EMF_BS_SOLID = 0x0000,
+	GO_EMF_BS_NULL = 0x0001,
+	GO_EMF_BS_HATCHED = 0x0002,
+	GO_EMF_BS_PATTERN = 0x0003,
+	GO_EMF_BS_INDEXED = 0x0004,
+	GO_EMF_BS_DIBPATTERN = 0x0005,
+	GO_EMF_BS_DIBPATTERNPT = 0x0006,
+	GO_EMF_BS_PATTERN8X8 = 0x0007,
+	GO_EMF_BS_DIBPATTERN8X8 = 0x0008,
+	GO_EMF_BS_MONOPATTERN = 0x0009
+};
 
 static gboolean
 go_emf_createbrushindirect (GOEmfState *state)
 {
+#ifdef DEBUG_EMF_SUPPORT
+	char const *brushes[] = {
+"BS_SOLID",
+"BS_NULL",
+"BS_HATCHED",
+"BS_PATTERN",
+"BS_INDEXED",
+"BS_DIBPATTERN",
+"BS_DIBPATTERNPT",
+"BS_PATTERN8X8",
+"BS_DIBPATTERN8X8",
+"BS_MONOPATTERN"
+};
+char const *hatches[] = {
+"HORIZONTAL",
+"HS_VERTICAL",
+"HS_FDIAGONAL",
+"HS_BDIAGONAL",
+"HS_CROSS",
+"HS_DIAGCROSS",
+"HS_SOLIDCLR",
+"HS_DITHEREDCLR",
+"HS_SOLIDTEXTCLR",
+"HS_DITHEREDTEXTCLR",
+"HS_SOLIDBKCLR",
+"HS_DITHEREDBKCLR"
+};
+#endif
+	unsigned index;
+	GOEmfBrush *brush = g_new0 (GOEmfBrush, 1);
+	brush->obj_type = GO_EMF_OBJ_TYPE_BRUSH;
 	d_(("createbrushindirect\n"));
+	index = GSF_LE_GET_GUINT32 (state->data);
+	brush->style = GSF_LE_GET_GUINT32 (state->data + 4);
+	brush->clr = go_wmf_read_gocolor (state->data + 8);
+	brush->hatch = GSF_LE_GET_GUINT32 (state->data + 12);
+	g_hash_table_replace (state->mfobjs, GUINT_TO_POINTER (index), brush);
+	d_(("\tbrush index=%u style=%s color=%08x hatch=%s\n",index,
+	    brushes[brush->style],brush->clr,hatches[brush->hatch]));
 	return TRUE;
 }
 
@@ -2867,6 +3296,10 @@ static gboolean
 go_emf_beginpath (GOEmfState *state)
 {
 	d_(("beginpath\n"));
+	if (state->curDC->path != NULL)
+		return FALSE;
+	state->curDC->path = go_path_new ();
+	state->curDC->closed_path = FALSE;
 	return TRUE;
 }
 
@@ -2874,20 +3307,37 @@ static gboolean
 go_emf_endpath (GOEmfState *state)
 {
 	d_(("endpath\n"));
-	return TRUE;
+	return state->curDC->path != NULL;
 }
 
 static gboolean
 go_emf_closefigure (GOEmfState *state)
 {
 	d_(("closefigure\n"));
+	if (state->curDC->path == NULL)
+		return FALSE;
+	go_path_close (state->curDC->path);
+	state->curDC->closed_path = TRUE;
 	return TRUE;
 }
 
 static gboolean
 go_emf_fillpath (GOEmfState *state)
 {
+	GOStyle *style;
 	d_(("fillpath\n"));
+	if (state->curDC->path == NULL)
+		return FALSE;
+	style = go_style_dup (state->curDC->style);
+	style->interesting_fields = GO_STYLE_FILL;
+	goc_item_new (state->curDC->group, GOC_TYPE_PATH,
+	              "path", state->curDC->path,
+	              "style", style,
+	              "closed", state->curDC->closed_path,
+	              NULL);
+	g_object_unref (style);
+	go_path_free (state->curDC->path);
+	state->curDC->path = NULL;
 	return TRUE;
 }
 
@@ -2895,13 +3345,34 @@ static gboolean
 go_emf_strokeandfillpath (GOEmfState *state)
 {
 	d_(("strokeandfillpath\n"));
+	if (state->curDC->path == NULL)
+		return FALSE;
+	goc_item_new (state->curDC->group, GOC_TYPE_PATH,
+	              "path", state->curDC->path,
+	              "style", state->curDC->style,
+	              "closed", state->curDC->closed_path,
+	              NULL);
+	go_path_free (state->curDC->path);
+	state->curDC->path = NULL;
 	return TRUE;
 }
 
 static gboolean
 go_emf_strokepath (GOEmfState *state)
 {
+	GOStyle *style;
 	d_(("strokepath\n"));
+	if (state->curDC->path == NULL)
+		return FALSE;
+	style = go_style_dup (state->curDC->style);
+	style->interesting_fields = GO_STYLE_LINE;
+	goc_item_new (state->curDC->group, GOC_TYPE_PATH,
+	              "path", state->curDC->path,
+	              "style", style,
+	              NULL);
+	g_object_unref (style);
+	go_path_free (state->curDC->path);
+	state->curDC->path = NULL;
 	return TRUE;
 }
 
@@ -3088,28 +3559,121 @@ go_emf_polybezier16 (GOEmfState *state)
 static gboolean
 go_emf_polygon16 (GOEmfState *state)
 {
+	unsigned nb_pts, n, offset;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
+	GocPoints *points;
+	double x, y;
 	d_(("polygon16\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	nb_pts = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\t%u points\n", nb_pts));
+	points = goc_points_new (nb_pts);
+	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
+		go_wmf_read_spoint (state->data + offset, &x, &y);
+		go_emf_convert_coords (state, &x, &y);
+		points->points[n].x = x;
+		points->points[n].y = y;
+		d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
+	}
+	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
+	              "points", points,
+	              "style", state->curDC->style,
+	              NULL);
 	return TRUE;
 }
 
 static gboolean
 go_emf_polyline16 (GOEmfState *state)
 {
+	unsigned nb_pts, n, offset;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
+	GocPoints *points;
+	double x, y;
 	d_(("polyline16\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	nb_pts = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\t%u points\n", nb_pts));
+	points = goc_points_new (nb_pts);
+	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
+		go_wmf_read_spoint (state->data + offset, &x, &y);
+		go_emf_convert_coords (state, &x, &y);
+		points->points[n].x = x;
+		points->points[n].y = y;
+		d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
+	}
+	goc_item_new (state->curDC->group, GOC_TYPE_POLYLINE,
+	              "points", points,
+	              "style", state->curDC->style,
+	              NULL);
 	return TRUE;
 }
 
 static gboolean
 go_emf_polybezierto16 (GOEmfState *state)
 {
+	unsigned count, n, offset;
+	double x0, y0, x1, y1, x2, y2;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polybezierto16\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	count = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\tfound %u points\n", count));
+	if (count % 3 != 0)
+		return FALSE;
+	count /= 3;
+	for (n = 0, offset = 20; n < count; n++, offset += 12) {
+		go_wmf_read_spoint (state->data + offset, &x0, &y0);
+		go_emf_convert_coords (state, &x0, &y0);
+		go_wmf_read_spoint (state->data + offset + 4, &x1, &y1);
+		go_emf_convert_coords (state, &x1, &y1);
+		go_wmf_read_spoint (state->data + offset + 8, &x2, &y2);
+		go_emf_convert_coords (state, &x2, &y2);
+		go_path_curve_to (state->curDC->path, x0, y0, x1, y1, x2, y2);
+		d_(("\tcurve to x0=%g y0=%g x1=%g y1=%g x2=%g y2=%g\n", x0, y0, x1, y1, x2, y2));
+	}
 	return TRUE;
 }
 
 static gboolean
 go_emf_polylineto16 (GOEmfState *state)
 {
+	unsigned count, n, offset;
+	double x, y;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polylineto16\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	count = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\tfound %u points\n", count));
+	for (n = 0, offset = 20; n < count; n++, offset += 4) {
+		go_wmf_read_spoint (state->data + offset, &x, &y);
+		go_emf_convert_coords (state, &x, &y);
+		go_path_line_to (state->curDC->path, x, y);
+		d_(("\tline to x=%g y0=%g\n", x, y));
+	}
 	return TRUE;
 }
 
@@ -3411,12 +3975,16 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 		return TRUE;
 	} else if (type == 3) {
 		GOEmfState state;
+		state.version = 3;
 		state.canvas = emf->canvas;
 		state.error = error;
 		state.map_mode = 0;
 		state.dc_stack = NULL;
 		state.curDC = g_new0 (GOEmfDC, 1);
-		state.curDC->group = state.canvas->root; 
+		state.curDC->style = go_style_new ();
+		state.curDC->group = state.canvas->root;
+		state.mfobjs = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+		                                     NULL, g_free);
 		offset = 4;
 		while ((offset += 4) < fsize && rid != 0xe) { /* EOF */
 			data = gsf_input_read (input, 4, NULL);
@@ -3436,9 +4004,10 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 				break;
 			rid = GSF_LE_GET_GUINT32 (data);
 		}
-		g_free (state.curDC);
+		go_emf_dc_free (state.curDC);
+		g_hash_table_destroy (state.mfobjs);
 		if (state.dc_stack != NULL) {
-			g_slist_free_full (state.dc_stack, g_free);
+			g_slist_free_full (state.dc_stack, (GDestroyNotify) go_emf_dc_free);
 			if (error)
 				if (*error == NULL)
 					*error = g_error_new (go_error_invalid (), 0,

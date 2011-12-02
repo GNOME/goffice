@@ -394,7 +394,7 @@ GSF_DYNAMIC_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,
 	GOG_TYPE_PLOT)
 
 double _gog_plot1_5d_get_percent_value (GogPlot *plot, unsigned series, unsigned index)
-{ 
+{
 	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
 	GogSeries1_5d const *ser = NULL, *cur;
 	GSList *ptr;
@@ -414,7 +414,7 @@ double _gog_plot1_5d_get_percent_value (GogPlot *plot, unsigned series, unsigned
 			for (j = 0; j < cur->base.num_elements; j++)
 				model->sums[j] += vals[j];
 		}
-		
+
 	} else
 		for (ptr = plot->series ; ptr != NULL ; ptr = ptr->next)
 			if (0 == series--)

@@ -213,7 +213,7 @@ gog_exp_smooth_class_init (GogSmoothedCurveClass *curve_klass)
 	gog_object_klass->update = gog_exp_smooth_update;
 	gog_object_klass->type_name	= gog_exp_smooth_type_name;
 
-	curve_klass->max_dim = 0; 
+	curve_klass->max_dim = 0;
 
 	g_object_class_install_property (gobject_klass, EXP_SMOOTH_PROP_STEPS,
 		g_param_spec_int ("steps",

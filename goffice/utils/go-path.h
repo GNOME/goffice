@@ -65,7 +65,7 @@ GType   go_path_get_type (void);
 
 GOPath *go_path_new 	      	(void);
 void 	go_path_clear	      	(GOPath *path);
-void    go_path_ref          	(GOPath *path);
+GOPath *go_path_ref          	(GOPath *path);
 void    go_path_free          	(GOPath *path);
 
 void    	go_path_set_options  	(GOPath *path, GOPathOptions options);
