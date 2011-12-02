@@ -112,6 +112,7 @@ gboolean go_parse_key_value (const char *options,
 			     GOParseKeyValueFunc handler,
 			     gpointer user);
 
+gboolean go_debug_flag (const char *flag);
 void _go_glib_extras_shutdown (void);
 
 G_END_DECLS

@@ -27,11 +27,13 @@ typedef struct {
   size_t len;
 } GORSMResource;
 
+static gboolean debug;
 static GHashTable *rsm;
 
 void
 _go_rsm_init (void)
 {
+  debug = go_debug_flag ("rsm");
   rsm = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 }
 
@@ -50,10 +52,24 @@ go_rsm_register_file (const char *id, gconstpointer data, size_t len)
   g_return_if_fail (id != NULL);
   g_return_if_fail (g_hash_table_lookup (rsm, id) == NULL);
 
+  if (debug)
+    g_printerr ("Registering resource [%s]\n", id);
   r = g_new (GORSMResource, 1);
   r->data = data;
   r->len = len;
   g_hash_table_insert (rsm, g_strdup (id), r);
+}
+
+void
+go_rsm_unregister_file (const char *id)
+{
+  g_return_if_fail (id != NULL);
+  g_return_if_fail (g_hash_table_lookup (rsm, id) == NULL);
+
+  if (debug)
+    g_printerr ("Unregistering resource [%s]\n", id);
+
+  g_hash_table_remove (rsm, id);
 }
 
 gconstpointer

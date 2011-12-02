@@ -64,11 +64,27 @@ go_gdk_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
 	return scaled;
 }
 
+static GdkPixbuf *
+new_from_data (gconstpointer data, size_t length)
+{
+	GdkPixbuf *res;
+	GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
+	gdk_pixbuf_loader_write (loader, data, length, NULL);
+	gdk_pixbuf_loader_close (loader, NULL);
+	res = gdk_pixbuf_loader_get_pixbuf (loader);
+	if (res)
+		g_object_ref (res);
+	g_object_unref (loader);
+	return res;
+}
+
 /**
  * go_gdk_pixbuf_new_from_file:
  * @filename : pixbuf filename
  *
  * Utility routine to create pixbufs from file @name in the goffice_icon_dir.
+ * As a special case, @filename may have the form "res:<resource name>" in
+ * which case the resource manager is queried instead of loading a file.
  *
  * Returns: a GdkPixbuf that the caller is responsible for.
  **/
@@ -76,19 +92,23 @@ go_gdk_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
 GdkPixbuf *
 go_gdk_pixbuf_new_from_file (char const *filename)
 {
-	char *path;
 	GdkPixbuf *pixbuf;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (g_path_is_absolute (filename))
-		path = g_strdup (filename);
-	else
-		path = g_build_filename (go_sys_icon_dir (), filename, NULL);
-
-	pixbuf = gdk_pixbuf_new_from_file (path, NULL);
-
-	g_free (path);
+	if (strncmp (filename, "res:", 4) == 0) {
+		size_t length;
+		const char *data = go_rsm_lookup (filename + 4, &length);
+		pixbuf = data
+			? new_from_data (data, length)
+			: NULL;
+	} else {
+		char *path = g_path_is_absolute (filename)
+			? g_strdup (filename)
+			: g_build_filename (go_sys_icon_dir (), filename, NULL);
+		pixbuf = gdk_pixbuf_new_from_file (path, NULL);
+		g_free (path);
+	}
 
 	return pixbuf;
 }

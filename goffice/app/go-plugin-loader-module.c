@@ -108,6 +108,11 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, GOErrorInfo **err)
 	full_module_file_name = g_build_filename (go_plugin_get_dir_name (
 		go_plugin_loader_get_plugin (loader)),
 		loader_module->module_file_name, NULL);
+
+	if (go_debug_flag ("modules"))
+		g_printerr ("Trying to load module file %s\n",
+			    full_module_file_name);
+
 	handle = g_module_open (full_module_file_name, G_MODULE_BIND_LAZY);
 	if (handle == NULL) {
 		*err = go_error_info_new_printf (

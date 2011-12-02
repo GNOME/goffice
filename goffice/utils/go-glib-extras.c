@@ -1029,6 +1029,16 @@ syntax:
 	goto done;
 }
 
+gboolean
+go_debug_flag (const char *flag)
+{
+	GDebugKey key;
+	key.key = (char *)flag;
+	key.value = 1;
+
+	return g_parse_debug_string (g_getenv ("GO_DEBUG"), &key, 1) != 0;
+}
+
 void
 _go_glib_extras_shutdown (void)
 {

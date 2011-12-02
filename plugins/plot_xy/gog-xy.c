@@ -47,6 +47,8 @@
 #include <gtk/gtk.h>
 #endif
 
+#include "embedded-stuff.c"
+
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
@@ -2242,9 +2244,12 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_xy_dropbar_plot_register_type (module);
 	gog_xy_dropbar_view_register_type (module);
 	gog_xy_dropbar_series_register_type (module);
+
+	register_embedded_stuff ();
 }
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	unregister_embedded_stuff ();
 }

@@ -32,7 +32,38 @@ endif
 plot-types.xml : plot-types.xml.in
 	cp $< $@
 
-EXTRA_DIST	= $(xml_in_files)
+embedded_stuff = \
+	chart_bubble_1_1.png	\
+	chart_bubble_1_2.png	\
+	chart_colored_1_1.png	\
+	chart_dropbar_1_3.png	\
+	chart_dropbar_1_4.png	\
+	chart_scatter_1_1.png	\
+	chart_scatter_2_1.png	\
+	chart_scatter_2_2.png	\
+	chart_scatter_3_1.png	\
+	chart_scatter_3_2.png	\
+	chart_scatter_3_3.png	\
+	chart_scatter_4_1.png	\
+	chart_scatter_4_2.png	\
+	chart_scatter_4_3.png	\
+	chart_scatter_4_4.png
+
+embedded-stuff.c: $(top_srcdir)/tools/embedder $(embedded_stuff)
+	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
+		--id-prefix=go:plot_xy/ \
+		--static \
+		--register-function=register_embedded_stuff \
+		--unregister-function=unregister_embedded_stuff \
+		--register-file-function=go_rsm_register_file \
+		--unregister-file-function=go_rsm_unregister_file \
+		NOCOMPRESS $(embedded_stuff) \
+		>$(abs_builddir)/$@
+
+BUILT_SOURCES =	embedded-stuff.c
+CLEANFILES = $(BUILT_SOURCES)
+
+EXTRA_DIST	= $(xml_in_files) $(embedded_stuff)
 DISTCLEANFILES	= $(xml_in_files:.xml.in=.xml)
 
 include $(top_srcdir)/goffice-plugins.mk

@@ -6,3 +6,4 @@ plot-types.xml
 plugin.xml
 *.lo
 *.la
+embedded-stuff.c

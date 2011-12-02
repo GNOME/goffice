@@ -101,7 +101,6 @@ struct _GraphGuruTypeSelector {
 	GocGroup *graph_group;
 
 	xmlNode const *plots;
-	GogPlotFamily	*current_family;
 	GogPlotType	*current_type;
 	GocGroup const *current_family_item;
 	GocItem const  *current_minor_item;
@@ -131,6 +130,7 @@ enum {
 #define ROLE_KEY		"role"
 #define STATE_KEY		"plot_type"
 #define ROWS_KEY		"rows-key"
+#define PIXBUFS_LOADED_KEY      "pixbufs-loaded"
 
 static void
 get_pos (int col, int row, double *x, double *y)
@@ -149,6 +149,7 @@ cb_typesel_sample_plot_resize (GocCanvas *canvas,
 			"height", (double)alloc->height,
 			NULL);
 }
+
 
 /*
  * graph_typeselect_minor :
@@ -188,6 +189,36 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 	plot = gog_plot_new_by_type (type);
 
 	g_return_if_fail (plot != NULL);
+
+	/* That that modules have been loaded we can get the pixbufs.  */
+	if (!g_object_get_data (G_OBJECT (item->parent), PIXBUFS_LOADED_KEY)) {
+		GList *p;
+		for (p = item->parent->children; p; p = p->next) {
+			GocItem *i = p->data;
+			GogPlotType *t = i
+				? g_object_get_data (G_OBJECT (i), PLOT_TYPE_KEY)
+				: NULL;
+			GdkPixbuf *image = t
+				? go_gdk_pixbuf_get_from_cache (t->sample_image_file)
+				: NULL;
+			if (image) {
+				double h = gdk_pixbuf_get_height (image);
+				double w = gdk_pixbuf_get_width (image);
+				if (w > MINOR_PIXMAP_WIDTH)
+					w = MINOR_PIXMAP_WIDTH;
+				if (h > MINOR_PIXMAP_HEIGHT)
+					h = MINOR_PIXMAP_HEIGHT;
+				goc_item_set (i,
+					      "pixbuf", image,
+					      "width", w,
+					      "height", h,
+					      NULL);
+			}
+		}
+		g_object_set_data (G_OBJECT (item->parent),
+				   PIXBUFS_LOADED_KEY,
+				   GINT_TO_POINTER (1));
+	}
 
 	if (s->chart != NULL) {
 		GogObject *obj = GOG_OBJECT (s->chart);
@@ -230,9 +261,6 @@ graph_typeselect_minor_x_y (GraphGuruTypeSelector *typesel,
 	if (item != NULL) {
 		if(item != typesel->selector)
 			graph_typeselect_minor (typesel, item);
-#if 0
-		goc_item_grab (item);
-#endif
 		return TRUE;
 	}
 
@@ -381,28 +409,21 @@ static void
 cb_plot_types_init (char const *id, GogPlotType *type,
 		    type_list_closure *closure)
 {
-	double x1, y1, w, h;
+	double x1, y1;
 	GocItem *item;
 	int col, row;
-	GdkPixbuf *image = go_gdk_pixbuf_get_from_cache (type->sample_image_file);
-
-	g_return_if_fail (image != NULL);
+	double h = MINOR_PIXMAP_HEIGHT;
+	double w = MINOR_PIXMAP_WIDTH;
 
 	col = type->col;
 	row = type->row;
 	get_pos (col, row, &x1, &y1);
-	w = gdk_pixbuf_get_width (image);
-	if (w > MINOR_PIXMAP_WIDTH)
-		w = MINOR_PIXMAP_WIDTH;
-	h = gdk_pixbuf_get_height (image);
-	if (h > MINOR_PIXMAP_HEIGHT)
-		h = MINOR_PIXMAP_HEIGHT;
 
 	item = goc_item_new (closure->group,
 		gog_guru_pixbuf_get_type (),
 		"x",	 x1,	"y",	  y1,
 		"width", w,	"height", h,
-		"pixbuf",	image,
+		/* no image */
 		NULL);
 	g_object_set_data (G_OBJECT (item), PLOT_TYPE_KEY, (gpointer)type);
 
