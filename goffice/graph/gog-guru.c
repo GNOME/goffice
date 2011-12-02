@@ -1180,6 +1180,9 @@ graph_guru_type_selector_new (GraphGuruState *s)
 			"text", PLOT_FAMILY_TYPE_NAME,
 			NULL));
 
+	gtk_label_set_mnemonic_widget (GTK_LABEL (gtk_builder_get_object (gui, "type_label")),
+				       GTK_WIDGET (typesel->list_view));
+
 
 	/* Setup an canvas to display the sample image & the sample plot. */
 	typesel->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
