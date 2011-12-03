@@ -87,15 +87,9 @@ gog_dropbar_populate_editor (GogObject *obj,
                              GOCmdContext *cc)
 {
 #ifdef GOFFICE_WITH_GTK
-	GtkBuilder *gui;
-	char const *dir;
-	char *path;
-
-	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_barcol"));
-	path = g_build_filename (dir, "gog-area-prefs.ui", NULL);
-	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-	g_free (path);
-
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_barcol/gog-area-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 	if (gui != NULL) {
 		GtkWidget *w = go_gtk_builder_get_widget (gui, "before-grid");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),

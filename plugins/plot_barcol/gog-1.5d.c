@@ -42,6 +42,8 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+#include "embedded-stuff.c"
+
 GOFFICE_PLUGIN_MODULE_HEADER;
 
 enum {
@@ -726,9 +728,12 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_minmax_series_register_type (module);
 	gog_minmax_plot_register_type (module);
 	gog_minmax_view_register_type (module);
+
+	register_embedded_stuff ();
 }
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	unregister_embedded_stuff ();
 }

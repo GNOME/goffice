@@ -48,12 +48,9 @@ GtkWidget *
 gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_barcol"));
-	char	 *path = g_build_filename (dir, "gog-barcol-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-
-	g_free (path);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_barcol/gog-barcol-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
         if (gui == NULL)
                 return NULL;
 

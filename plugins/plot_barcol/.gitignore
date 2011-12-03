@@ -7,3 +7,4 @@ plugin.xml
 *.loT
 *.la
 .libs
+embedded-stuff.c

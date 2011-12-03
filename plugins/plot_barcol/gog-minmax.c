@@ -176,14 +176,12 @@ gog_minmax_plot_populate_editor (GogObject *item,
 				 G_GNUC_UNUSED GogDataAllocator *dalloc,
 				 GOCmdContext *cc)
 {
-	GtkWidget  *w;
 	GogMinMaxPlot *minmax = GOG_MINMAX_PLOT (item);
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_barcol"));
-	char	 *path = g_build_filename (dir, "gog-minmax-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_barcol/gog-minmax-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
+	GtkWidget  *w;
 
-	g_free (path);
 	if (gui == NULL)
 		return;
 

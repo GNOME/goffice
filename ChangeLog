@@ -1,5 +1,7 @@
 2011-12-03  Morten Welinder  <terra@gnome.org>
 
+	* plugins/plot_barcol: embed stuff like plot_xy.
+
 	* plugins/plot_surface: embed stuff like plot_xy.
 
 2011-12-02  Morten Welinder  <terra@gnome.org>
