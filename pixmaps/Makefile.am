@@ -40,12 +40,4 @@ dist_icon_DATA = \
 	polar.png	\
 	scatter.xpm	\
 	stock.xpm	\
-	surface.xpm	\
-	\
-	bar-none.png 	\
-	bar-vplus.png 	\
-	bar-vminus.png 	\
-	bar-vboth.png	\
-	bar-hplus.png 	\
-	bar-hminus.png 	\
-	bar-hboth.png
+	surface.xpm

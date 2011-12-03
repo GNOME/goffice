@@ -14,4 +14,4 @@ stamp-h*
 *.lo
 *.la
 *~
-embedded-ui.c
+embedded-stuff.c

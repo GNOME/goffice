@@ -43,7 +43,7 @@
 #include <goffice/graph/gog-equation.h>
 #endif
 
-#include "embedded-ui.c"
+#include "embedded-stuff.c"
 
 int goffice_graph_debug_level = 0;
 

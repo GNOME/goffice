@@ -84,7 +84,7 @@ if WITH_GTK
 				 gog-child-button.h
 endif
 
-# ui files should be listed here for distribution and one level up for
+# Files should be listed here for distribution and one level up for
 # embedding
 EXTRA_DIST += \
 	gog-3d-box-prefs.ui		\
@@ -99,7 +99,15 @@ EXTRA_DIST += \
 	gog-reg-curve-prefs.ui		\
 	gog-reg-eqn-prefs.ui		\
 	gog-series-labels-prefs.ui	\
-	gog-series-prefs.ui
+	gog-series-prefs.ui		\
+	\
+	bar-none.png 			\
+	bar-vplus.png 			\
+	bar-vminus.png 			\
+	bar-vboth.png			\
+	bar-hplus.png 			\
+	bar-hminus.png 			\
+	bar-hboth.png
 
 if GOFFICE_WITH_LASEM
   libgoffice_graph_la_SOURCES += gog-equation.c

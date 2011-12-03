@@ -52,16 +52,31 @@ typedef struct {
 	double 		    width, line_width;
 } GogErrorBarEditor;
 
-static struct {
+static const struct {
 	char const 		*h_pixbuf;
 	char const 		*v_pixbuf;
 	char const 		*label;
 	GogErrorBarDisplay	 display;
 } display_combo_desc[] = {
-	{"bar-none.png",	"bar-none.png",		N_("None"),	GOG_ERROR_BAR_DISPLAY_NONE},
-	{"bar-hplus.png",	"bar-vplus.png",	N_("Positive"),	GOG_ERROR_BAR_DISPLAY_POSITIVE},
-	{"bar-hminus.png",	"bar-vminus.png",	N_("Negative"),	GOG_ERROR_BAR_DISPLAY_NEGATIVE},
-	{"bar-hboth.png",	"bar-vboth.png",	N_("Both"),	GOG_ERROR_BAR_DISPLAY_BOTH}
+	{"res:go:graph/bar-none.png",
+	 "res:go:graph/bar-none.png",
+	 N_("None"),
+	 GOG_ERROR_BAR_DISPLAY_NONE},
+
+	{"res:go:graph/bar-hplus.png",
+	 "res:go:graph/bar-vplus.png",
+	 N_("Positive"),
+	 GOG_ERROR_BAR_DISPLAY_POSITIVE},
+
+	{"res:go:graph/bar-hminus.png",
+	 "res:go:graph/bar-vminus.png",
+	 N_("Negative"),
+	 GOG_ERROR_BAR_DISPLAY_NEGATIVE},
+
+	{"res:go:graph/bar-hboth.png",
+	 "res:go:graph/bar-vboth.png",
+	 N_("Both"),
+	 GOG_ERROR_BAR_DISPLAY_BOTH}
 };
 
 static void

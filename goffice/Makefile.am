@@ -25,7 +25,7 @@ libgoffice_@GOFFICE_API_VER@_la_DEPENDENCIES = goffice.def
 libgoffice_@GOFFICE_API_VER@_la_LDFLAGS += -no-undefined -export-symbols goffice.def
 endif
 
-BUILT_SOURCES =	goffice-paths.h embedded-ui.c
+BUILT_SOURCES =	goffice-paths.h embedded-stuff.c
 CLEANFILES = $(BUILT_SOURCES)
 
 libgoffice_@GOFFICE_API_VER@_la_SOURCES = 	\
@@ -85,7 +85,8 @@ goffice-0.lib: libgoffice-@GOFFICE_API_VER@.la goffice.def
 endif
 endif
 
-embedded_uis = \
+# Note: Files also need to be listed in the relevant subdirectory
+embedded_stuff_compress = \
 	graph/gog-3d-box-prefs.ui		\
 	graph/gog-axis-prefs.ui			\
 	graph/gog-equation-prefs.ui		\
@@ -107,14 +108,24 @@ embedded_uis = \
 	gtk/go-rotation-sel.ui			\
 	utils/go-style-prefs.ui
 
-embedded_raw = utils/svg-patterns.xml
+embedded_stuff_raw = \
+	utils/svg-patterns.xml			\
+	graph/bar-none.png 			\
+	graph/bar-vplus.png 			\
+	graph/bar-vminus.png 			\
+	graph/bar-vboth.png			\
+	graph/bar-hplus.png 			\
+	graph/bar-hminus.png 			\
+	graph/bar-hboth.png
 
-embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis) $(embedded_raw)
+embedded_stuff = $(embedded_stuff_compress) $(embedded_stuff_raw)
+
+embedded-stuff.c: $(top_srcdir)/tools/embedder $(embedded_stuff)
 	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
 		--id-prefix=go: \
 		--static \
 		--register-function=go_register_ui_files \
 		--register-file-function=go_rsm_register_file \
-		COMPRESS $(embedded_uis) \
-		NOCOMPRESS $(embedded_raw) \
+		COMPRESS $(embedded_stuff_compress) \
+		NOCOMPRESS $(embedded_stuff_raw) \
 		>$(abs_builddir)/$@

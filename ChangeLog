@@ -1,5 +1,8 @@
 2011-12-03  Morten Welinder  <terra@gnome.org>
 
+	* goffice/graph/gog-error-bar.c (display_combo_desc): Embed error
+	bar pixmaps.
+
 	* plugins/plot_barcol: embed stuff like plot_xy.
 
 	* plugins/plot_surface: embed stuff like plot_xy.
