@@ -38,15 +38,11 @@ GtkWidget *
 gog_xyz_plot_pref (GogXYZPlot *plot, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_surface"));
-	char	 *path = g_build_filename (dir, "gog-xyz-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-
-	g_free (path);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_surface/gog-xyz-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
         if (gui == NULL)
                 return NULL;
-
 
 	w = go_gtk_builder_get_widget (gui, "transpose");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), plot->transposed);

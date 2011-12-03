@@ -80,15 +80,13 @@ cb_rows_toggled (GtkToggleButton *btn, XYZSurfPrefsState *state)
 GtkWidget *
 gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdContext *cc)
 {
+	GogDataset *set = GOG_DATASET (plot);
 	XYZSurfPrefsState *state;
 	GtkWidget  *w, *box;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_surface"));
-	char	 *path = g_build_filename (dir, "gog-xyz-surface-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-	GogDataset *set = GOG_DATASET (plot);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_surface/gog-xyz-surface-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 
-	g_free (path);
         if (gui == NULL)
                 return NULL;
 
