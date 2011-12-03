@@ -356,14 +356,9 @@ gog_xy_plot_populate_editor (GogObject *obj,
                              GOCmdContext *cc)
 {
 #ifdef GOFFICE_WITH_GTK
-	GtkBuilder *gui;
-	char const *dir;
-	char *path;
-
-	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	path = g_build_filename (dir, "gog-xy-prefs.ui", NULL);
-	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-	g_free (path);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_xy/gog-xy-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 
 	if (gui != NULL) {
 		GtkWidget *w = go_gtk_builder_get_widget (gui, "before-grid");
@@ -744,14 +739,9 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 				   GOCmdContext *cc)
 {
 #ifdef GOFFICE_WITH_GTK
-	GtkBuilder *gui;
-	char const *dir;
-	char *path;
-
-	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	path = g_build_filename (dir, "gog-xy-color-prefs.ui", NULL);
-	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-	g_free (path);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_xy/gog-xy-color-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 
 	if (gui != NULL) {
 		GtkWidget *w = go_gtk_builder_get_widget (gui, "hide-outliers");
@@ -2101,12 +2091,9 @@ gog_xy_series_populate_editor (GogObject *obj,
 {
 	GogXYSeries *series;
 	GtkWidget *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	char *path = g_build_filename (dir, "gog-xy-series-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-
-	g_free (path);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_xy/gog-xy-series-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 

@@ -128,15 +128,10 @@ gog_xy_dropbar_populate_editor (GogObject *obj,
                              GOCmdContext *cc)
 {
 #ifdef GOFFICE_WITH_GTK
-	GtkBuilder *gui;
-	char const *dir;
-	char *path;
 	GogXYDropBarPlot *dropbar = GOG_XY_DROPBAR_PLOT (obj);
-
-	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	path = g_build_filename (dir, "gog-xy-dropbar-prefs.ui", NULL);
-	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-	g_free (path);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_xy/gog-xy-dropbar-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 
 	if (gui != NULL) {
 		GtkWidget *w = go_gtk_builder_get_widget (gui, "before-grid");

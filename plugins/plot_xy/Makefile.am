@@ -1,6 +1,5 @@
 goffice_graph_xydir = $(goffice_plugindir)/plot_xy
 xmldir	 = $(goffice_graph_xydir)
-uidir = $(goffice_graph_xydir)
 
 goffice_graph_xy_LTLIBRARIES = xy.la
 xy_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
@@ -19,20 +18,14 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 if WITH_GTK
 xy_la_SOURCES  += gog-bubble-prefs.c
-dist_ui_DATA = \
-	gog-bubble-prefs.ui	\
-	gog-xy-prefs.ui	\
-	gog-xy-color-prefs.ui	\
-	gog-xy-series-prefs.ui	\
-	gog-xy-dropbar-prefs.ui
 endif
 
-# do not use the intl-tool stuff to merge the text back
-# its simpler to just use gettext directly
+# Do not use the intl-tool stuff to merge the text back;
+# it's simpler to just use gettext directly
 plot-types.xml : plot-types.xml.in
 	cp $< $@
 
-embedded_stuff = \
+embedded_stuff_raw = \
 	chart_bubble_1_1.png	\
 	chart_bubble_1_2.png	\
 	chart_colored_1_1.png	\
@@ -49,15 +42,23 @@ embedded_stuff = \
 	chart_scatter_4_3.png	\
 	chart_scatter_4_4.png
 
+embedded_stuff_compress = \
+	gog-bubble-prefs.ui	\
+	gog-xy-prefs.ui	\
+	gog-xy-color-prefs.ui	\
+	gog-xy-series-prefs.ui	\
+	gog-xy-dropbar-prefs.ui
+
+embedded_stuff = $(embedded_stuff_compress) $(embedded_stuff_raw)
+
 embedded-stuff.c: $(top_srcdir)/tools/embedder $(embedded_stuff)
 	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
 		--id-prefix=go:plot_xy/ \
 		--static \
 		--register-function=register_embedded_stuff \
 		--unregister-function=unregister_embedded_stuff \
-		--register-file-function=go_rsm_register_file \
-		--unregister-file-function=go_rsm_unregister_file \
-		NOCOMPRESS $(embedded_stuff) \
+		NOCOMPRESS $(embedded_stuff_raw) \
+		COMPRESS $(embedded_stuff_compress) \
 		>$(abs_builddir)/$@
 
 BUILT_SOURCES =	embedded-stuff.c

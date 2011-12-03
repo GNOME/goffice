@@ -67,12 +67,10 @@ GtkWidget *
 gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	char	 *path = g_build_filename (dir, "gog-bubble-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_xy/gog-bubble-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 
-	g_free (path);
         if (gui == NULL)
                 return NULL;
 

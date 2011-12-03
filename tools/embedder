@@ -11,8 +11,8 @@ my $WIDTH = 70;
 my $regfunc = undef;
 my $unregfunc = undef;
 my $regfuncstatic = 0;
-my $regfilefunc = undef;
-my $unregfilefunc = undef;
+my $regfilefunc = "go_rsm_register_file";
+my $unregfilefunc = "go_rsm_unregister_file";
 my $id_prefix = "";
 my @includes;
 
