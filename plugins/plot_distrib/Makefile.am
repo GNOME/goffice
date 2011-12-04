@@ -1,6 +1,5 @@
 goffice_graph_distribdir = $(goffice_plugindir)/plot_distrib
 xmldir	 = $(goffice_graph_distribdir)
-uidir = $(goffice_graph_distribdir)
 
 goffice_graph_distrib_LTLIBRARIES = distrib.la
 distrib_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
