@@ -1,3 +1,7 @@
+2011-12-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-plot-engine.c: Add debug code.
+
 2011-12-03  Morten Welinder  <terra@gnome.org>
 
 	* plugins/reg_linear: embed ui files into plugin.

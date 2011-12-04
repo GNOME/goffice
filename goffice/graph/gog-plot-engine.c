@@ -34,6 +34,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
+static gboolean debug;
+
 static GSList *refd_plugins;
 
 /***************************************************************************/
@@ -139,7 +141,7 @@ cb_pending_plot_types_load (char const *path,
 			    G_GNUC_UNUSED gpointer ignored)
 {
 	xmlNode *ptr, *prop;
-	xmlDoc *doc = go_xml_parse_file (path);
+	xmlDoc *doc;
 	GogPlotFamily *family = NULL;
 	GogPlotType *type;
 	int col, row, priority;
@@ -147,6 +149,9 @@ cb_pending_plot_types_load (char const *path,
 	xmlChar *axis_set_str;
 	GogAxisSet axis_set;
 
+	if (debug)
+		g_printerr ("Loading %s\n", path);
+	doc = go_xml_parse_file (path);
 	g_return_if_fail (doc != NULL && doc->xmlRootNode != NULL);
 
 	/* do the families before the types so that they are available */
@@ -457,9 +462,11 @@ cb_pending_trend_line_types_load (char const *path,
 			    G_GNUC_UNUSED gpointer ignored)
 {
 	xmlNode *ptr, *prop;
-	xmlDoc *doc = go_xml_parse_file (path);
+	xmlDoc *doc;
 	GogTrendLineType *type;
 
+	g_printerr ("Loading %s\n", path);
+	doc = go_xml_parse_file (path);
 	g_return_if_fail (doc != NULL && doc->xmlRootNode != NULL);
 
 	for (ptr = doc->xmlRootNode->xmlChildrenNode; ptr ; ptr = ptr->next)
@@ -617,6 +624,10 @@ GSF_CLASS (GogTrendLineService, gog_trend_line_service,
 void
 _gog_plugin_services_init (void)
 {
+	debug = go_debug_flag ("graph-plugin");
+	if (debug)
+		g_printerr ("graph-plugin init\n");
+
 	go_plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
 	go_plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
 	go_plugin_service_define ("trendline_engine", &gog_trend_line_engine_service_get_type);
@@ -626,6 +637,9 @@ _gog_plugin_services_init (void)
 void
 _gog_plugin_services_shutdown (void)
 {
+	if (debug)
+		g_printerr ("graph-plugin shutdown\n");
+
 	g_slist_foreach (refd_plugins, (GFunc)go_plugin_use_unref, NULL);
 	g_slist_foreach (refd_plugins, (GFunc)g_object_unref, NULL);
 	g_slist_free (refd_plugins);
