@@ -36,13 +36,10 @@ cb_element_separation_changed (GtkAdjustment *adj, GObject *element)
 GtkWidget *
 gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc)
 {
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_pie/gog-pie-series.ui",
+				    GETTEXT_PACKAGE, cc);
 	GtkWidget  *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
-	char	 *path = g_build_filename (dir, "gog-pie-series.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-
-	g_free (path);
         if (gui == NULL)
                 return NULL;
 
@@ -152,13 +149,12 @@ cb_update_editor (GogPiePlot *pie, PiePrefState *state)
 GtkWidget *
 gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 {
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_pie/gog-pie-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 	GtkWidget  *w;
-	char const *dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
-	char	 *path = g_build_filename (dir, "gog-pie-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 	PiePrefState *state;
 
-	g_free (path);
         if (gui == NULL)
                 return NULL;
 
@@ -194,14 +190,12 @@ cb_center_size_changed (GtkAdjustment *adj, GObject *ring)
 GtkWidget *
 gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 {
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_pie/gog-ring-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 	GtkWidget  *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
-	char	 *path = g_build_filename (dir, "gog-ring-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 	PiePrefState *state;
 
-	g_free (path);
         if (gui == NULL)
                 return NULL;
 

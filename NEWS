@@ -7,9 +7,9 @@ Andreas:
 	[#665303]
 
 Morten:
-	* Embed ui files into library.
-	* Embed svg-patterns.xml too.
-	* Start embedding icons into plugins.
+	* Embed library ui files into library.
+	* Embed svg-patterns.xml and error bar image files too.
+	* Embed icons into plugins.
 
 --------------------------------------------------------------------------
 goffice 0.9.1:

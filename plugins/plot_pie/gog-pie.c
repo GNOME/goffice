@@ -37,6 +37,8 @@
 #include <math.h>
 #include <string.h>
 
+#include "embedded-stuff.c"
+
 static GObjectClass *ppe_parent_klass;
 
 typedef GogSeriesElementClass GogPieSeriesElementClass;
@@ -1316,9 +1318,12 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_pie_view_register_type (module);
 	gog_pie_series_register_type (module);
 	gog_ring_plot_register_type (module);
+
+	register_embedded_stuff ();
 }
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	unregister_embedded_stuff ();
 }

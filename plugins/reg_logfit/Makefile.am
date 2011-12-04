@@ -15,8 +15,8 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-# do not use the intl-tool stuff to merge the text back
-# its simpler to just use gettext directly
+# Do not use the intl-tool stuff to merge the text back;
+# it's simpler to just use gettext directly
 reg-types.xml : reg-types.xml.in
 	cp $< $@
 

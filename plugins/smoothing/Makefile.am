@@ -22,8 +22,8 @@ dist_ui_DATA =	\
 			gog-moving-avg.ui	\
 			gog-exp-smooth.ui
 
-# do not use the intl-tool stuff to merge the text back
-# its simpler to just use gettext directly
+# Do not use the intl-tool stuff to merge the text back;
+# it's simpler to just use gettext directly
 types.xml : types.xml.in
 	cp $< $@
 

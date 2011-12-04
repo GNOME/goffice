@@ -23,8 +23,8 @@ if WITH_GTK
 endif
 @INTLTOOL_XML_RULE@
 
-# do not use the intl-tool stuff to merge the text back
-# its simpler to just use gettext directly
+# Do not use the intl-tool stuff to merge the text back;
+# it's simpler to just use gettext directly
 plot-types.xml : plot-types.xml.in
 	cp $< $@
 
