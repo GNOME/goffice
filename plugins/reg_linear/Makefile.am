@@ -1,6 +1,5 @@
 goffice_graph_linregdir = $(goffice_plugindir)/reg_linear
 xmldir	 = $(goffice_graph_linregdir)
-uidir = $(goffice_graph_linregdir)
 
 goffice_graph_linreg_LTLIBRARIES = linreg.la
 linreg_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
