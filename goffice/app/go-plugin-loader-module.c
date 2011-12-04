@@ -109,8 +109,8 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, GOErrorInfo **err)
 		go_plugin_loader_get_plugin (loader)),
 		loader_module->module_file_name, NULL);
 
-	if (go_debug_flag ("modules"))
-		g_printerr ("Trying to load module file %s\n",
+	if (go_debug_flag ("plugin"))
+		g_printerr ("Loading module file %s\n",
 			    full_module_file_name);
 
 	handle = g_module_open (full_module_file_name, G_MODULE_BIND_LAZY);
@@ -138,8 +138,11 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, GOErrorInfo **err)
 				(loader_module->plugin_init) (go_plugin_loader_get_plugin (loader), NULL);
 		}
 
-		if (*err != NULL)
+		if (*err != NULL) {
+			if (go_debug_flag ("plugin"))
+				g_printerr ("Error while loading module\n");
 			g_module_close (handle);
+		}
 	}
 	g_free (full_module_file_name);
 }
@@ -152,6 +155,16 @@ go_plugin_loader_module_unload_base (GOPluginLoader *loader, GOErrorInfo **ret_e
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	if (loader_module->plugin_shutdown != NULL) {
 		loader_module->plugin_shutdown (go_plugin_loader_get_plugin (loader), NULL);
+	}
+	if (go_debug_flag ("plugin")) {
+		char *full_module_file_name =
+			g_build_filename
+			(go_plugin_get_dir_name (go_plugin_loader_get_plugin (loader)),
+			 loader_module->module_file_name,
+			 NULL);
+
+		g_printerr ("Unloading %s\n", full_module_file_name);
+		g_free (full_module_file_name);
 	}
 	if (!g_module_close (loader_module->handle)) {
 		*ret_error = go_error_info_new_printf (
