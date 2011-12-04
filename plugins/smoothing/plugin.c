@@ -25,6 +25,8 @@
 #include "gog-moving-avg.h"
 #include "gog-exp-smooth.h"
 
+#include "embedded-stuff.c"
+
 GOFFICE_PLUGIN_MODULE_HEADER;
 
 /* Plugin initialization */
@@ -35,9 +37,12 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	gog_moving_avg_register_type (module);
 	gog_exp_smooth_register_type (module);
+
+	register_embedded_stuff ();
 }
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	unregister_embedded_stuff ();
 }

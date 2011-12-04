@@ -96,10 +96,9 @@ gog_moving_avg_populate_editor (GogObject *obj,
 				GOCmdContext *cc)
 {
 	GogMovingAvg *ma = GOG_MOVING_AVG (obj);
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_smoothing"));
-	char	 *path = g_build_filename (dir, "gog-moving-avg.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:smoothing/gog-moving-avg.ui",
+				    GETTEXT_PACKAGE, cc);
 	GtkWidget *w = go_gtk_builder_get_widget (gui, "span");
 	gtk_widget_set_tooltip_text (w, _("Number of values from which to calculate an average"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 2, G_MAXINT);

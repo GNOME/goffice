@@ -55,10 +55,9 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 {
 	GogExpSmooth *es = GOG_EXP_SMOOTH (obj);
 	GogDataset *set = GOG_DATASET (obj);
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_smoothing"));
-	char	 *path = g_build_filename (dir, "gog-exp-smooth.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:smoothing/gog-exp-smooth.ui",
+				    GETTEXT_PACKAGE, cc);
 	GtkWidget *label, *box, *w = go_gtk_builder_get_widget (gui, "steps");
 	GtkTable *table;
 
