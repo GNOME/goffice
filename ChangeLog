@@ -1,5 +1,8 @@
 2011-12-03  Morten Welinder  <terra@gnome.org>
 
+	* pixmaps/Makefile.am (dist_icon_DATA): Don't distribute unused
+	icon files.
+
 	* plugins/plot_distrib: embed stuff like plot_xy.
 
 	* goffice/graph/gog-error-bar.c (display_combo_desc): Embed error

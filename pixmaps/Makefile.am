@@ -1,19 +1,8 @@
 icondir = $(goffice_icondir)
 dist_icon_DATA = \
-	chart_cone_1_1.png	chart_cone_1_2.png	chart_cone_1_3.png	\
-	chart_cone_2_1.png	chart_cone_2_2.png	chart_cone_2_3.png	\
-	chart_cone_3_1.png  \
-	chart_cylinder_1_1.png	chart_cylinder_1_2.png	chart_cylinder_1_3.png	\
-	chart_cylinder_2_1.png	chart_cylinder_2_2.png	chart_cylinder_2_3.png	\
-	chart_cylinder_3_1.png  \
-	chart_pyramid_1_1.png	chart_pyramid_1_2.png	chart_pyramid_1_3.png	\
-	chart_pyramid_2_1.png	chart_pyramid_2_2.png	chart_pyramid_2_3.png	\
-	chart_pyramid_3_1.png \
 	chart_radar_1_1.png chart_radar_1_2.png chart_radar_1_3.png \
 	chart_polar_1_1.png \
 	chart_color_polar_1_1.png \
-	chart_stock_1_1.png	chart_stock_1_2.png \
-	chart_stock_2_1.png	chart_stock_2_2.png \
 	chart_pie_1_1.png	chart_pie_1_2.png	chart_pie_1_3.png	\
 	chart_pie_2_1.png	chart_pie_2_2.png	chart_pie_2_3.png	\
 	chart_pie_3_1.png	chart_pie_3_2.png	\
