@@ -22,6 +22,8 @@
 #include <goffice/goffice-config.h>
 #include <goffice/app/module-plugin-defs.h>
 
+#include "embedded-stuff.c"
+
 GOFFICE_PLUGIN_MODULE_HEADER;
 
 /* Plugin initialization */
@@ -54,9 +56,12 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_probability_plot_view_register_type (module);
 	gog_probability_plot_series_register_type (module);
 	gog_probability_plot_series_view_register_type (module);
+
+	register_embedded_stuff ();
 }
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	unregister_embedded_stuff ();
 }

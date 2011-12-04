@@ -18,11 +18,6 @@ dist_icon_DATA = \
 	chart_pie_2_1.png	chart_pie_2_2.png	chart_pie_2_3.png	\
 	chart_pie_3_1.png	chart_pie_3_2.png	\
 	chart_ring_1_1.png 	chart_ring_1_2.png \
-	chart_boxplot_1_1.png	chart_boxplot_1_2.png \
-	chart_boxplot_2_1.png	chart_boxplot_2_2.png \
-	chart_histogram_1_1.png chart_histogram_2_1.png \
-	chart_histogram_1_3.png chart_histogram_1_4.png \
-	chart_prob_1_1.png \
 	\
 	area.xpm 	\
 	bar.xpm		\

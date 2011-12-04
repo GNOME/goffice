@@ -310,12 +310,9 @@ gog_histogram_plot_populate_editor (GogObject *item,
 {
 	GtkWidget  *w;
 	GogHistogramPlot *hist = GOG_HISTOGRAM_PLOT (item);
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_distrib"));
-	char	 *path = g_build_filename (dir, "gog-histogram-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-
-	g_free (path);
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_distrib/gog-histogram-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
         if (gui != NULL) {
 		w = go_gtk_builder_get_widget (gui, "vertical");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), hist->vertical);
@@ -431,13 +428,9 @@ gog_double_histogram_plot_populate_editor (GogObject	*gobj,
 	GtkTable *table;
 	GtkWidget *w;
 	GogDataset *set = GOG_DATASET (gobj);
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_distrib"));
-	char	 *path = g_build_filename (dir, "gog-double-histogram-prefs.ui", NULL);
-	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
-
-	g_free (path);
-
+	GtkBuilder *gui =
+		go_gtk_builder_new ("res:go:plot_distrib/gog-double-histogram-prefs.ui",
+				    GETTEXT_PACKAGE, cc);
 	if (gui != NULL) {
 		table = GTK_TABLE (gtk_builder_get_object (gui, "double-histogram-prefs"));
 		w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));

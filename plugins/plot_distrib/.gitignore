@@ -6,3 +6,4 @@ plugin.xml
 .libs
 *.lo
 *.la
+embedded-stuff.c
