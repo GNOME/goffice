@@ -1,3 +1,8 @@
+2011-12-05  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-rsm.c (go_rsm_unregister_file): fix
+	precondition.
+
 2011-12-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-group.c (goc_group_init): initialize the transform
@@ -22,7 +27,7 @@
 	(go_emf_polygon16), (go_emf_polyline16), (go_emf_polybezierto16),
 	(go_emf_polylineto16), (go_emf_polypolyline16),
 	(go_emf_polypolygon16): more work.
-	
+
 
 2011-12-04  Morten Welinder  <terra@gnome.org>
 

@@ -40,6 +40,8 @@ _go_rsm_init (void)
 void
 _go_rsm_shutdown (void)
 {
+  if (debug)
+    g_printerr ("Shutting down with %d resources\n", g_hash_table_size (rsm));
   g_hash_table_destroy (rsm);
   rsm = NULL;
 }
@@ -64,7 +66,7 @@ void
 go_rsm_unregister_file (const char *id)
 {
   g_return_if_fail (id != NULL);
-  g_return_if_fail (g_hash_table_lookup (rsm, id) == NULL);
+  g_return_if_fail (g_hash_table_lookup (rsm, id) != NULL);
 
   if (debug)
     g_printerr ("Unregistering resource [%s]\n", id);
