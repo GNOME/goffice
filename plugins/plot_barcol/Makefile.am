@@ -1,5 +1,8 @@
 goffice_graph_barcoldir = $(goffice_plugindir)/plot_barcol
 xmldir	 = $(goffice_graph_barcoldir)
+icondir  = $(goffice_graph_barcoldir)
+
+icon_DATA = linegraph.xpm area.xpm bar.xpm column.xpm dropbar.xpm minmax.xpm
 
 goffice_graph_barcol_LTLIBRARIES = barcol.la
 barcol_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)

@@ -194,6 +194,139 @@ GSF_CLASS (GOPluginServiceGeneral, go_plugin_service_general,
 /****************************************************************************/
 
 /*
+ * GOPluginServiceResource
+ */
+
+typedef struct{
+	GOPluginServiceClass plugin_service_class;
+} GOPluginServiceResourceClass;
+
+struct _GOPluginServiceResource {
+	GOPluginService plugin_service;
+	char *id;
+	GString *value;
+};
+
+static GObjectClass *go_plugin_service_resource_parent_class;
+
+static void
+go_plugin_service_resource_init (GObject *obj)
+{
+}
+
+static void
+go_plugin_service_resource_finalize (GObject *obj)
+{
+	GOPluginServiceResource *sr = GO_PLUGIN_SERVICE_RESOURCE (obj);
+
+	if (sr->value) {
+		g_string_free (sr->value, TRUE);
+		sr->value = NULL;
+	}
+
+	go_plugin_service_resource_parent_class->finalize (obj);
+}
+
+static void
+go_plugin_service_resource_activate (GOPluginService *service, GOErrorInfo **ret_error)
+{
+	GOPluginServiceResource *sr = GO_PLUGIN_SERVICE_RESOURCE (service);
+	if (sr->value) {
+		go_rsm_register_file (sr->id, sr->value->str, sr->value->len);
+		service->is_active = TRUE;
+	}
+}
+
+
+static void
+go_plugin_service_resource_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
+{
+	GOPluginServiceResource *sr = GO_PLUGIN_SERVICE_RESOURCE (service);
+	if (sr->value) {
+		go_rsm_unregister_file (sr->id);
+		service->is_active = FALSE;
+	}
+}
+
+static char *
+go_plugin_service_resource_get_description (GOPluginService *service)
+{
+	return g_strdup (_("Resource"));
+}
+
+static void
+go_plugin_service_resource_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
+{
+	GOPluginServiceResource *sr = GO_PLUGIN_SERVICE_RESOURCE (service);
+	char *data;
+	gsize length;
+	xmlChar *file;
+
+	GO_INIT_RET_ERROR_INFO (ret_error);
+
+	sr->id = xml2c (go_xml_node_get_cstr (tree, "id"));
+	if (!sr->id)
+		goto error;
+
+	file = go_xml_node_get_cstr (tree, "file");
+	if (file) {
+		char *absfile;
+		gboolean ok;
+
+		if (!g_path_is_absolute (CXML2C (file))) {
+			char const *dir = go_plugin_get_dir_name
+				(go_plugin_service_get_plugin (service));
+			absfile = g_build_filename (dir, CXML2C (file), NULL);
+		} else
+			absfile = g_strdup (CXML2C (file));
+		xmlFree (file);
+		ok = g_file_get_contents (absfile, &data, &length, NULL);
+		g_printerr ("%s => %d\n", absfile, ok);
+		g_free (absfile);
+
+		if (!ok)
+			goto error;
+	} else {
+		data = xml2c (go_xml_node_get_cstr (tree, "data"));
+		length = strlen (data);
+	}
+	if (!data)
+		goto error;
+
+	/* No encoding case */
+	sr->value = g_string_sized_new (length);
+	g_string_append_len (sr->value, data, length);
+	g_free (data);
+	return;
+
+ error:
+	*ret_error = go_error_info_new_str (_("Invalid resource service"));
+	g_free (data);
+}
+
+static void
+go_plugin_service_resource_class_init (GObjectClass *gobject_class)
+{
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
+
+	go_plugin_service_resource_parent_class =
+		g_type_class_peek_parent (gobject_class);
+
+	gobject_class->finalize = go_plugin_service_resource_finalize;
+	plugin_service_class->activate = go_plugin_service_resource_activate;
+	plugin_service_class->deactivate = go_plugin_service_resource_deactivate;
+	plugin_service_class->get_description = go_plugin_service_resource_get_description;
+	plugin_service_class->read_xml = go_plugin_service_resource_read_xml;
+}
+
+GSF_CLASS (GOPluginServiceResource, go_plugin_service_resource,
+           go_plugin_service_resource_class_init,
+	   go_plugin_service_resource_init,
+           GO_TYPE_PLUGIN_SERVICE)
+
+/****************************************************************************/
+
+/*
  * GOPluginServiceFileOpener
  */
 
@@ -1133,16 +1266,17 @@ _go_plugin_services_init (void)
 		char const *type_str;
 		GOPluginServiceCreate ctor;
 	} const builtin_services[] = {
-		{ "general",		go_plugin_service_general_get_type},
-		{ "file_opener",	go_plugin_service_file_opener_get_type},
-		{ "file_saver",		go_plugin_service_file_saver_get_type},
-		{ "plugin_loader",	go_plugin_service_plugin_loader_get_type},
+		{ "general",	      go_plugin_service_general_get_type},
+		{ "resource",         go_plugin_service_resource_get_type},
+		{ "file_opener",      go_plugin_service_file_opener_get_type},
+		{ "file_saver",	      go_plugin_service_file_saver_get_type},
+		{ "plugin_loader",    go_plugin_service_plugin_loader_get_type},
 /* base classes, not really for direct external use,
  * put here for expositional purposes
  */
 #if 0
-		{ "gobject_loader",	go_plugin_service_gobject_loader_get_type}
-		{ "simple",		go_plugin_service_simple_get_type}
+		{ "gobject_loader",   go_plugin_service_gobject_loader_get_type}
+		{ "simple",	      go_plugin_service_simple_get_type}
 #endif
 	};
 	unsigned i;
@@ -1152,7 +1286,7 @@ _go_plugin_services_init (void)
 	services = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < G_N_ELEMENTS (builtin_services); i++)
 		go_plugin_service_define (builtin_services[i].type_str,
-				       builtin_services[i].ctor);
+					  builtin_services[i].ctor);
 }
 
 void

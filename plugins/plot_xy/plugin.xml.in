@@ -7,6 +7,19 @@
 		<attribute name="module_file" value="xy"/>
 	</loader>
 	<services>
+		<service type="resource"
+			 id="go:plot_xy/bubble.xpm"
+			 file="bubble.xpm"/>
+		<service type="resource"
+			 id="go:plot_xy/color.xpm"
+			 file="color.xpm"/>
+		<service type="resource"
+			 id="go:plot_xy/dropbar.xpm"
+			 file="dropbar.xpm"/>
+		<service type="resource"
+			 id="go:plot_xy/scatter.xpm"
+			 file="scatter.xpm"/>
+
 		<service type="plot_engine" id="GogXYPlot">
 			<information>
 				<_description>2D scatter plotting engine</_description>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
-	<Family _name="Line"	sample_image_file="linegraph.xpm" axis_set="xy"/>
-	<Family _name="Area"	sample_image_file="area.xpm" axis_set="xy"/>
-	<Family _name="Bar"	sample_image_file="bar.xpm" axis_set="xy" priority="80"/>
-	<Family _name="Column"	sample_image_file="column.xpm" axis_set="xy" priority="90"/>
-	<Family _name="DropBar"	sample_image_file="dropbar.xpm" axis_set="xy"/>
-	<Family _name="MinMax"	sample_image_file="minmax.xpm" axis_set="xy"/>
+	<Family _name="Line"	sample_image_file="res:go:plot_barcol/linegraph.xpm" axis_set="xy"/>
+	<Family _name="Area"	sample_image_file="res:go:plot_barcol/area.xpm" axis_set="xy"/>
+	<Family _name="Bar"	sample_image_file="res:go:plot_barcol/bar.xpm" axis_set="xy" priority="80"/>
+	<Family _name="Column"	sample_image_file="res:go:plot_barcol/column.xpm" axis_set="xy" priority="90"/>
+	<Family _name="DropBar"	sample_image_file="res:go:plot_barcol/dropbar.xpm" axis_set="xy"/>
+	<Family _name="MinMax"	sample_image_file="res:go:plot_barcol/minmax.xpm" axis_set="xy"/>
 
 	<Type _name="Unmarked Lines" row="1" col="1"
 		engine="GogLinePlot" family="Line"

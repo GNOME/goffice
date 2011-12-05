@@ -1,5 +1,7 @@
 2011-12-05  Morten Welinder  <terra@gnome.org>
 
+	* goffice/app/go-plugin-service.c: new "resource" service type.
+
 	* goffice/utils/go-rsm.c (go_rsm_unregister_file): fix
 	precondition.
 

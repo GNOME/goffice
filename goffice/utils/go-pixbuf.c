@@ -110,6 +110,9 @@ go_gdk_pixbuf_new_from_file (char const *filename)
 		g_free (path);
 	}
 
+	if (!pixbuf && go_debug_flag ("pixbuf"))
+		g_printerr ("Failed to load pixbuf from %s\n", filename);
+
 	return pixbuf;
 }
 

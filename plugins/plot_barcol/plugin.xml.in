@@ -8,6 +8,25 @@
 		<attribute name="module_file" value="barcol"/>
 	</loader>
 	<services>
+		<service type="resource"
+			 id="go:plot_barcol/linegraph.xpm"
+			 file="linegraph.xpm"/>
+		<service type="resource"
+			 id="go:plot_barcol/area.xpm"
+			 file="area.xpm"/>
+		<service type="resource"
+			 id="go:plot_barcol/bar.xpm"
+			 file="bar.xpm"/>
+		<service type="resource"
+			 id="go:plot_barcol/column.xpm"
+			 file="column.xpm"/>
+		<service type="resource"
+			 id="go:plot_barcol/dropbar.xpm"
+			 file="dropbar.xpm"/>
+		<service type="resource"
+			 id="go:plot_barcol/minmax.xpm"
+			 file="minmax.xpm"/>
+
 		<service type="plot_engine" id="GogLinePlot">
 			<information>
 				<_description>Line plotting engine</_description>

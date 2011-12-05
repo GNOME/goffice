@@ -27,6 +27,13 @@ typedef struct {
 	void (*plugin_func_cleanup) (GOPluginService *service, GOErrorInfo **ret_error);
 } GOPluginServiceGeneralCallbacks;
 
+#define GO_TYPE_PLUGIN_SERVICE_RESOURCE  (go_plugin_service_resource_get_type ())
+#define GO_PLUGIN_SERVICE_RESOURCE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_PLUGIN_SERVICE_RESOURCE, GOPluginServiceResource))
+#define GO_IS_PLUGIN_SERVICE_RESOURCE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_PLUGIN_SERVICE_RESOURCE))
+
+GType go_plugin_service_resource_get_type (void);
+typedef struct _GOPluginServiceResource GOPluginServiceResource;
+
 #define GO_TYPE_PLUGIN_SERVICE_FILE_OPENER  (go_plugin_service_file_opener_get_type ())
 #define GO_PLUGIN_SERVICE_FILE_OPENER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_PLUGIN_SERVICE_FILE_OPENER, GOPluginServiceFileOpener))
 #define GO_IS_PLUGIN_SERVICE_FILE_OPENER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_PLUGIN_SERVICE_FILE_OPENER))

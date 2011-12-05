@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
-    <Family _name="XY"		sample_image_file="scatter.xpm" axis_set="xy" priority="100"/>
-    <Family _name="Bubble"	sample_image_file="bubble.xpm" axis_set="xy"/>
-    <Family _name="ColoredXY"	sample_image_file="color.xpm" axis_set="xy-color"/>
-	<Family _name="DropBar"	sample_image_file="dropbar.xpm" axis_set="xy"/>
+    <Family _name="XY"		sample_image_file="res:go:plot_xy/scatter.xpm" axis_set="xy" priority="100"/>
+    <Family _name="Bubble"	sample_image_file="res:go:plot_xy/bubble.xpm" axis_set="xy"/>
+    <Family _name="ColoredXY"	sample_image_file="res:go:plot_xy/color.xpm" axis_set="xy-color"/>
+    <Family _name="DropBar"	sample_image_file="res:go:plot_xy/dropbar.xpm" axis_set="xy"/>
 
     <Type _name="XY Points" row="1" col="1"
 	  engine="GogXYPlot" family="XY"

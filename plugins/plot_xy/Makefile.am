@@ -1,5 +1,8 @@
 goffice_graph_xydir = $(goffice_plugindir)/plot_xy
 xmldir	 = $(goffice_graph_xydir)
+icondir	 = $(goffice_graph_xydir)
+
+icon_DATA = bubble.xpm color.xpm dropbar.xpm scatter.xpm
 
 goffice_graph_xy_LTLIBRARIES = xy.la
 xy_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
