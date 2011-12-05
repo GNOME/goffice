@@ -266,8 +266,14 @@ goc_group_class_init (GocItemClass *item_klass)
 	item_klass->notify_scrolled = goc_group_notify_scrolled;
 }
 
+static void
+goc_group_init (GocGroup *group)
+{
+	cairo_matrix_init_identity (&group->transform);
+}
+
 GSF_CLASS (GocGroup, goc_group,
-	   goc_group_class_init, NULL,
+	   goc_group_class_init, goc_group_init,
 	   GOC_TYPE_ITEM)
 
 /**

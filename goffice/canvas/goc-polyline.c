@@ -131,9 +131,20 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 			cairo_restore (cr);
 		} else {
 			double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-			for (i = 1; i < polyline->nb_points; i++)
-				cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
-					polyline->points[i].y - polyline->points[0].y * flag);
+			gboolean prev_valid = TRUE;
+			for (i = 1; i < polyline->nb_points; i++) {
+				if (go_finite (polyline->points[i].x)) {
+					if (prev_valid)
+						cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
+							polyline->points[i].y - polyline->points[0].y * flag);
+					else {
+						cairo_move_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
+							polyline->points[i].y - polyline->points[0].y * flag);
+						prev_valid = TRUE;
+					}
+				} else
+				    prev_valid = FALSE;
+			}
 		}
 
 		return TRUE;

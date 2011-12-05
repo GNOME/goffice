@@ -41,6 +41,7 @@ enum {
 	PATH_PROP_Y,
 	PATH_PROP_ROTATION,
 	PATH_PROP_CLOSED,
+	PATH_PROP_FILL_RULE,
 	PATH_PROP_PATH,
 };
 
@@ -65,6 +66,10 @@ goc_path_set_property (GObject *gobject, guint param_id,
 
 	case PATH_PROP_CLOSED:
 		path->closed = g_value_get_boolean (value);
+		break;
+
+	case PATH_PROP_FILL_RULE:
+		path->fill_rule = g_value_get_boolean (value);
 		break;
 
 	case PATH_PROP_PATH:
@@ -102,6 +107,10 @@ goc_path_get_property (GObject *gobject, guint param_id,
 		g_value_set_boolean (value, path->closed);
 		break;
 
+	case PATH_PROP_FILL_RULE:
+		g_value_set_boolean (value, path->fill_rule);
+		break;
+
 	case PATH_PROP_PATH:
 		g_value_set_boxed (value, &path->path);
 		break;
@@ -119,6 +128,7 @@ goc_path_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	double rsign = sign;
 
 	cairo_save (cr);
+	cairo_set_fill_rule (cr, path->fill_rule);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, path->x , path->y);
 		sign = 1;
@@ -273,6 +283,12 @@ goc_path_class_init (GocItemClass *item_klass)
 			_("The flag for closed path"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, PATH_PROP_FILL_RULE,
+		g_param_spec_boolean ("fill-rule",
+				      _("Fill rule"),
+				      _("Set fill rule to winding or even/odd"),
+				      FALSE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, PATH_PROP_PATH,
 		g_param_spec_boxed ("path",
 			_("Path"),

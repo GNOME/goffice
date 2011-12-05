@@ -32,6 +32,7 @@ struct _GocPath {
 
 	double rotation, x, y;
 	gboolean closed;
+	gboolean fill_rule;
 	GOPath *path;
 	gpointer priv;
 };

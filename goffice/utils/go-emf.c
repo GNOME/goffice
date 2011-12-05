@@ -705,6 +705,7 @@ typedef enum {
 	GO_EMF_OBJ_TYPE_INVALID = 0,
 	GO_EMF_OBJ_TYPE_PEN,
 	GO_EMF_OBJ_TYPE_BRUSH,
+	GO_EMF_OBJ_TYPE_FONT,
 	GO_EMF_OBJ_TYPE_MAX
 } GOEmfObjType;
 
@@ -722,10 +723,29 @@ typedef struct {
 	GOColor clr;
 } GOEmfBrush;
 
+typedef struct {
+	GOEmfObjType obj_type;
+	int size;
+	int width;
+	int escape;
+	int orient;
+	int weight;
+	gboolean italic;
+	gboolean under;
+	gboolean strike;
+	unsigned charset;
+	unsigned outprec;
+	unsigned clipprec;
+	unsigned quality;
+	unsigned pitch_and_family;
+	char facename[64];
+} GOEmfFont;
+
 typedef union {
 	GOEmfObjType obj_type;
 	GOEmfPen pen;
-
+	GOEmfBrush brush;
+	GOEmfFont font;
 } GOEmfObject;
 
 typedef struct {
@@ -755,10 +775,11 @@ typedef struct {
 
 typedef struct {
 	gpointer name;
-	gint16 size;
-	gint16 weight;
+	double size;
+	gint16 width;
 	gint16 escape;
 	gint16 orient;
+	gint16 weight;
 	gint italic;
 	gint under;
 	gint strike;
@@ -828,6 +849,9 @@ typedef struct {
 	GOStyle *style;
 	GOPath *path;
 	gboolean closed_path;
+	gboolean PolygonFillMode; /* TRUE: winding, FALSE: alternate */
+	unsigned text_align;
+	GOColor text_color;
 } GOEmfDC;
 
 typedef struct {
@@ -1020,14 +1044,14 @@ go_wmf_mr_convcoord (double* x, double* y, GOWmfPage* pg)
 }
 
 static void
-go_wmf_read_spoint (guint8 const *src, double *x, double *y)
+go_wmf_read_points (guint8 const *src, double *x, double *y)
 {
 	*x = GSF_LE_GET_GINT16 (src);
 	*y = GSF_LE_GET_GINT16 (src + 2);
 }
 
 static void
-go_wmf_read_lpoint (guint8 const *src, double *x, double *y)
+go_wmf_read_pointl (guint8 const *src, double *x, double *y)
 {
 	*x = GSF_LE_GET_GINT32 (src);
 	*y = GSF_LE_GET_GINT32 (src + 4);
@@ -2466,7 +2490,7 @@ go_emf_polygon (GOEmfState *state)
 	d_(("\t%u points\n", nb_pts));
 	points = goc_points_new (nb_pts);
 	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
-		go_wmf_read_lpoint (state->data + offset, &x, &y);
+		go_wmf_read_pointl (state->data + offset, &x, &y);
 		go_emf_convert_coords (state, &x, &y);
 		points->points[n].x = x;
 		points->points[n].y = y;
@@ -2498,7 +2522,7 @@ go_emf_polyline (GOEmfState *state)
 	d_(("\t%u points\n", nb_pts));
 	points = goc_points_new (nb_pts);
 	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
-		go_wmf_read_lpoint (state->data + offset, &x, &y);
+		go_wmf_read_pointl (state->data + offset, &x, &y);
 		go_emf_convert_coords (state, &x, &y);
 		points->points[n].x = x;
 		points->points[n].y = y;
@@ -2531,11 +2555,11 @@ go_emf_polybezierto (GOEmfState *state)
 		return FALSE;
 	count /= 3;
 	for (n = 0, offset = 20; n < count; n++, offset += 24) {
-		go_wmf_read_lpoint (state->data + offset, &x0, &y0);
+		go_wmf_read_pointl (state->data + offset, &x0, &y0);
 		go_emf_convert_coords (state, &x0, &y0);
-		go_wmf_read_lpoint (state->data + offset + 8, &x1, &y1);
+		go_wmf_read_pointl (state->data + offset + 8, &x1, &y1);
 		go_emf_convert_coords (state, &x1, &y1);
-		go_wmf_read_lpoint (state->data + offset + 16, &x2, &y2);
+		go_wmf_read_pointl (state->data + offset + 16, &x2, &y2);
 		go_emf_convert_coords (state, &x2, &y2);
 		go_path_curve_to (state->curDC->path, x0, y0, x1, y1, x2, y2);
 		d_(("\tcurve to x0=%g y0=%g x1=%g y1=%g x2=%g y2=%g\n", x0, y0, x1, y1, x2, y2));
@@ -2560,7 +2584,7 @@ go_emf_polylineto (GOEmfState *state)
 	count = GSF_LE_GET_GUINT32 (state->data + 16);
 	d_(("\tfound %u points\n", count));
 	for (n = 0, offset = 20; n < count; n++, offset += 8) {
-		go_wmf_read_lpoint (state->data + offset, &x, &y);
+		go_wmf_read_pointl (state->data + offset, &x, &y);
 		go_emf_convert_coords (state, &x, &y);
 		go_path_line_to (state->curDC->path, x, y);
 		d_(("\tline to x=%g y0=%g\n", x, y));
@@ -2571,7 +2595,9 @@ go_emf_polylineto (GOEmfState *state)
 static gboolean
 go_emf_polypolyline (GOEmfState *state)
 {
-	unsigned nb_lines, nb_pts;
+	unsigned nb_lines, nb_pts, n, l, i, nm, offset, loffset;
+	double x, y;
+	GocPoints *points;
 #ifdef DEBUG_EMF_SUPPORT
 	GOWmfRectL rect;
 #endif
@@ -2584,13 +2610,75 @@ go_emf_polypolyline (GOEmfState *state)
 	nb_lines = GSF_LE_GET_GUINT32 (state->data + 16);
 	nb_pts = GSF_LE_GET_GUINT32 (state->data + 20);
 	d_(("\t%u points in %u lines\n", nb_pts, nb_lines));
+	points = goc_points_new (nb_pts + nb_lines - 1);
+	offset = 24 + 4 * nb_lines;
+	loffset = 24;
+	i = 0;
+	l = 0;
+	while (1) {
+		nm = GSF_LE_GET_GUINT32 (state->data + loffset);
+		loffset += 4;
+		for (n = 0; n < nm; n++) {
+			go_wmf_read_pointl (state->data + offset, &x, &y);
+			go_emf_convert_coords (state, &x, &y);
+			points->points[i].x = x;
+			points->points[i++].y = y;
+			d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
+		}
+		l++;
+		if (l == nb_lines)
+			break;
+		points->points[i].x = go_nan;
+		points->points[i++].y = go_nan;
+	}
+	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
+	              "points", points,
+	              "style", state->curDC->style,
+	              NULL);
+	goc_points_unref (points);
 	return TRUE;
 }
 
 static gboolean
 go_emf_polypolygon (GOEmfState *state)
 {
+	unsigned nb_polygons, nb_pts, n, offset;
+	GocPoints *points;
+	GocIntArray *sizes;
+	double x, y;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polypolygon\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	nb_polygons = GSF_LE_GET_GUINT32 (state->data + 16);
+	nb_pts = GSF_LE_GET_GUINT32 (state->data + 20);
+	d_(("\t%u points in %u polygons\n", nb_pts, nb_polygons));
+	sizes = goc_int_array_new (nb_polygons);
+	points = goc_points_new (nb_pts);
+	for (n = 0, offset = 24; n < nb_polygons; n++, offset += 4) {
+		sizes->vals[n] = GSF_LE_GET_GUINT32 (state->data + offset);
+		d_(("\tfound size %u\n", sizes->vals[n]));
+	}
+	for (n = 0; n < nb_pts; n++, offset += 8) {
+		go_wmf_read_pointl (state->data + offset, &x, &y);
+		go_emf_convert_coords (state, &x, &y);
+		points->points[n].x = x;
+		points->points[n].y = y;
+		d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
+	}
+	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
+	              "points", points,
+	              "sizes", sizes,
+	              "fill-rule", !state->curDC->PolygonFillMode,
+	              "style", state->curDC->style,
+	              NULL);
+	goc_int_array_unref (sizes);
+	goc_points_unref (points);
 	return TRUE;
 }
 
@@ -2598,7 +2686,7 @@ static gboolean
 go_emf_setwindowextex (GOEmfState *state)
 {
 	d_(("setwindowextex\n"));
-	go_wmf_read_lpoint (state->data, &state->ww, &state->wh);
+	go_wmf_read_pointl (state->data, &state->ww, &state->wh);
 	d_(("\twindow size: %g x %g\n", state->ww, state->wh));
 	return TRUE;
 }
@@ -2607,7 +2695,7 @@ static gboolean
 go_emf_setwindoworgex (GOEmfState *state)
 {
 	d_(("setwindoworgex\n"));
-	go_wmf_read_lpoint (state->data, &state->wx, &state->wy);
+	go_wmf_read_pointl (state->data, &state->wx, &state->wy);
 	d_(("\twindow origin: %g x %g\n", state->wx, state->wy));
 	return TRUE;
 }
@@ -2616,7 +2704,7 @@ static gboolean
 go_emf_setviewportextex (GOEmfState *state)
 {
 	d_(("setviewportextex\n"));
-	go_wmf_read_lpoint (state->data, &state->dw, &state->dh);
+	go_wmf_read_pointl (state->data, &state->dw, &state->dh);
 	d_(("\tview port size: %g x %g\n", state->dw, state->dh));
 	return TRUE;
 }
@@ -2625,7 +2713,7 @@ static gboolean
 go_emf_setviewportorgex (GOEmfState *state)
 {
 	d_(("setviewportorgex\n"));
-	go_wmf_read_lpoint (state->data, &state->dx, &state->dy);
+	go_wmf_read_pointl (state->data, &state->dx, &state->dy);
 	d_(("\tview port origin: %g x %g\n", state->dx, state->dy));
 	return TRUE;
 }
@@ -2692,6 +2780,8 @@ static gboolean
 go_emf_setpolyfillmode (GOEmfState *state)
 {
 	d_(("setpolyfillmode\n"));
+	state->curDC->PolygonFillMode = GSF_LE_GET_GUINT32 (state->data) != 0;
+	d_(("\tpolygon fill mode is %s\n", state->curDC->PolygonFillMode? "alternate": "winding"));
 	return TRUE;
 }
 
@@ -2736,6 +2826,8 @@ static gboolean
 go_emf_settextalign (GOEmfState *state)
 {
 	d_(("settextalign\n"));
+	state->curDC->text_align = GSF_LE_GET_GUINT32 (state->data);
+	d_(("\talignment=%04x\n", state->curDC->text_align));
 	return TRUE;
 }
 
@@ -2750,6 +2842,8 @@ static gboolean
 go_emf_settextcolor (GOEmfState *state)
 {
 	d_(("settextcolor\n"));
+	state->curDC->text_color = go_wmf_read_gocolor (state->data);
+	d_(("\ttext color=%08x\n", state->curDC->text_color));
 	return TRUE;
 }
 
@@ -2774,7 +2868,7 @@ go_emf_movetoex (GOEmfState *state)
 	d_(("movetoex\n"));
 	if (state->curDC->path == NULL)
 		return FALSE;
-	go_wmf_read_lpoint (state->data, &x, &y);
+	go_wmf_read_pointl (state->data, &x, &y);
 	go_emf_convert_coords (state, &x, &y);
 	go_path_move_to (state->curDC->path, x, y);
 	d_(("\tMove to x=%g y=%g\n", x, y));
@@ -2974,6 +3068,9 @@ go_emf_selectobject (GOEmfState *state)
 			state->curDC->style->fill.auto_back = FALSE;
 			state->curDC->style->fill.auto_fore = FALSE;
 			d_(("\tselected brush #%u\n", index));
+			break;
+		}
+		case GO_EMF_OBJ_TYPE_FONT: {
 			break;
 		}
 		default:
@@ -3176,14 +3273,40 @@ go_emf_anglearc (GOEmfState *state)
 static gboolean
 go_emf_ellipse (GOEmfState *state)
 {
+	GOWmfRectL rect;
+	double x, y, h, w;
 	d_(("ellipse\n"));
+	go_wmf_read_rectl (&rect, state->data);
+	d_(("\tleft: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left, rect.right, rect.top, rect.bottom));
+	x = rect.left;
+	y = rect.top;
+	go_emf_convert_coords (state, &x, &y);
+	w = rect.right;
+	h = rect.bottom;
+	go_emf_convert_coords (state, &w, &h);
+	goc_item_new (state->curDC->group, GOC_TYPE_ELLIPSE,
+		      "x", x, "y", y, "width", w - x, "height", h - y, NULL);
 	return TRUE;
 }
 
 static gboolean
 go_emf_rectangle (GOEmfState *state)
 {
+	GOWmfRectL rect;
+	double x, y, h, w;
 	d_(("rectangle\n"));
+	go_wmf_read_rectl (&rect, state->data);
+	d_(("\tleft: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left, rect.right, rect.top, rect.bottom));
+	x = rect.left;
+	y = rect.top;
+	go_emf_convert_coords (state, &x, &y);
+	w = rect.right;
+	h = rect.bottom;
+	go_emf_convert_coords (state, &w, &h);
+	goc_item_new (state->curDC->group, GOC_TYPE_RECTANGLE,
+		      "x", x, "y", y, "width", w - x, "height", h - y, NULL);
 	return TRUE;
 }
 
@@ -3334,6 +3457,7 @@ go_emf_fillpath (GOEmfState *state)
 	              "path", state->curDC->path,
 	              "style", style,
 	              "closed", state->curDC->closed_path,
+	              "fill-rule", !state->curDC->PolygonFillMode,
 	              NULL);
 	g_object_unref (style);
 	go_path_free (state->curDC->path);
@@ -3351,6 +3475,7 @@ go_emf_strokeandfillpath (GOEmfState *state)
 	              "path", state->curDC->path,
 	              "style", state->curDC->style,
 	              "closed", state->curDC->closed_path,
+	              "fill-rule", !state->curDC->PolygonFillMode,
 	              NULL);
 	go_path_free (state->curDC->path);
 	state->curDC->path = NULL;
@@ -3531,7 +3656,33 @@ go_emf_stretchdibits (GOEmfState *state)
 static gboolean
 go_emf_extcreatefontindirectw (GOEmfState *state)
 {
+	unsigned index;
+	char *buf;
+	GOEmfFont *font = g_new0 (GOEmfFont, 1);
+	font->obj_type = GO_EMF_OBJ_TYPE_FONT;
 	d_(("extcreatefontindirectw\n"));
+	index = GSF_LE_GET_GUINT32 (state->data);
+	if (state->length > 332) {
+	} else {
+		font->size = GSF_LE_GET_GINT32 (state->data + 4) * state->dh / state->wh;
+		font->width = GSF_LE_GET_GINT32 (state->data + 8);
+		font->escape = GSF_LE_GET_GINT32 (state->data + 12);
+		font->orient = GSF_LE_GET_GINT32 (state->data + 16);
+		font->weight = GSF_LE_GET_GINT32 (state->data + 20);
+		font->italic = GSF_LE_GET_GUINT8 (state->data + 24);
+		font->under = GSF_LE_GET_GUINT8 (state->data + 25);
+		font->strike = GSF_LE_GET_GUINT8 (state->data + 26);
+		font->charset = GSF_LE_GET_GUINT8 (state->data + 27);
+		font->outprec = GSF_LE_GET_GUINT8 (state->data + 28);
+		font->clipprec = GSF_LE_GET_GUINT8 (state->data + 29);
+		font->quality = GSF_LE_GET_GUINT8 (state->data + 30);
+		font->pitch_and_family = GSF_LE_GET_GUINT8 (state->data + 31);
+		buf = g_utf16_to_utf8 ((gunichar2 const *) (state->data + 32), 32, NULL, NULL, NULL);
+		strncpy (font->facename, buf, 64);
+		g_free (buf);
+	}
+	g_hash_table_replace (state->mfobjs, GUINT_TO_POINTER (index), font);
+	d_(("\tfont index=%u face=%s size=%d\n",index,font->facename, font->size));
 	return TRUE;
 }
 
@@ -3545,7 +3696,10 @@ go_emf_exttextouta (GOEmfState *state)
 static gboolean
 go_emf_exttextoutw (GOEmfState *state)
 {
+	unsigned mode;
 	d_(("exttextoutw\n"));
+	mode = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\t graphic mode is %s\n", mode == 1? "compatible": "advanced"));
 	return TRUE;
 }
 
@@ -3575,7 +3729,7 @@ go_emf_polygon16 (GOEmfState *state)
 	d_(("\t%u points\n", nb_pts));
 	points = goc_points_new (nb_pts);
 	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
-		go_wmf_read_spoint (state->data + offset, &x, &y);
+		go_wmf_read_points (state->data + offset, &x, &y);
 		go_emf_convert_coords (state, &x, &y);
 		points->points[n].x = x;
 		points->points[n].y = y;
@@ -3607,7 +3761,7 @@ go_emf_polyline16 (GOEmfState *state)
 	d_(("\t%u points\n", nb_pts));
 	points = goc_points_new (nb_pts);
 	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
-		go_wmf_read_spoint (state->data + offset, &x, &y);
+		go_wmf_read_points (state->data + offset, &x, &y);
 		go_emf_convert_coords (state, &x, &y);
 		points->points[n].x = x;
 		points->points[n].y = y;
@@ -3640,11 +3794,11 @@ go_emf_polybezierto16 (GOEmfState *state)
 		return FALSE;
 	count /= 3;
 	for (n = 0, offset = 20; n < count; n++, offset += 12) {
-		go_wmf_read_spoint (state->data + offset, &x0, &y0);
+		go_wmf_read_points (state->data + offset, &x0, &y0);
 		go_emf_convert_coords (state, &x0, &y0);
-		go_wmf_read_spoint (state->data + offset + 4, &x1, &y1);
+		go_wmf_read_points (state->data + offset + 4, &x1, &y1);
 		go_emf_convert_coords (state, &x1, &y1);
-		go_wmf_read_spoint (state->data + offset + 8, &x2, &y2);
+		go_wmf_read_points (state->data + offset + 8, &x2, &y2);
 		go_emf_convert_coords (state, &x2, &y2);
 		go_path_curve_to (state->curDC->path, x0, y0, x1, y1, x2, y2);
 		d_(("\tcurve to x0=%g y0=%g x1=%g y1=%g x2=%g y2=%g\n", x0, y0, x1, y1, x2, y2));
@@ -3669,7 +3823,7 @@ go_emf_polylineto16 (GOEmfState *state)
 	count = GSF_LE_GET_GUINT32 (state->data + 16);
 	d_(("\tfound %u points\n", count));
 	for (n = 0, offset = 20; n < count; n++, offset += 4) {
-		go_wmf_read_spoint (state->data + offset, &x, &y);
+		go_wmf_read_points (state->data + offset, &x, &y);
 		go_emf_convert_coords (state, &x, &y);
 		go_path_line_to (state->curDC->path, x, y);
 		d_(("\tline to x=%g y0=%g\n", x, y));
@@ -3680,14 +3834,90 @@ go_emf_polylineto16 (GOEmfState *state)
 static gboolean
 go_emf_polypolyline16 (GOEmfState *state)
 {
+	unsigned nb_lines, nb_pts, n, l, i, nm, offset, loffset;
+	double x, y;
+	GocPoints *points;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polypolyline16\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	nb_lines = GSF_LE_GET_GUINT32 (state->data + 16);
+	nb_pts = GSF_LE_GET_GUINT32 (state->data + 20);
+	d_(("\t%u points in %u lines\n", nb_pts, nb_lines));
+	points = goc_points_new (nb_pts + nb_lines - 1);
+	offset = 24 + 4 * nb_lines;
+	loffset = 24;
+	i = 0;
+	l = 0;
+	while (1) {
+		nm = GSF_LE_GET_GUINT32 (state->data + loffset);
+		loffset += 4;
+		for (n = 0; n < nm; n++) {
+			go_wmf_read_points (state->data + offset, &x, &y);
+			go_emf_convert_coords (state, &x, &y);
+			points->points[i].x = x;
+			points->points[i++].y = y;
+			d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
+		}
+		l++;
+		if (l == nb_lines)
+			break;
+		points->points[i].x = go_nan;
+		points->points[i++].y = go_nan;
+	}
+	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
+	              "points", points,
+	              "style", state->curDC->style,
+	              NULL);
+	goc_points_unref (points);
 	return TRUE;
 }
 
 static gboolean
 go_emf_polypolygon16 (GOEmfState *state)
 {
+	unsigned nb_polygons, nb_pts, n, offset;
+	GocPoints *points;
+	GocIntArray *sizes;
+	double x, y;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polypolygon16\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	nb_polygons = GSF_LE_GET_GUINT32 (state->data + 16);
+	nb_pts = GSF_LE_GET_GUINT32 (state->data + 20);
+	d_(("\t%u points in %u polygons\n", nb_pts, nb_polygons));
+	sizes = goc_int_array_new (nb_polygons);
+	points = goc_points_new (nb_pts);
+	for (n = 0, offset = 24; n < nb_polygons; n++, offset += 4) {
+		sizes->vals[n] = GSF_LE_GET_GUINT32 (state->data + offset);
+		d_(("\tfound size %u\n", sizes->vals[n]));
+	}
+	for (n = 0; n < nb_pts; n++, offset += 8) {
+		go_wmf_read_points (state->data + offset, &x, &y);
+		go_emf_convert_coords (state, &x, &y);
+		points->points[n].x = x;
+		points->points[n].y = y;
+		d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
+	}
+	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
+	              "points", points,
+	              "sizes", sizes,
+	              "fill-rule", !state->curDC->PolygonFillMode,
+	              "style", state->curDC->style,
+	              NULL);
+	goc_int_array_unref (sizes);
+	goc_points_unref (points);
 	return TRUE;
 }
 
@@ -3765,107 +3995,107 @@ typedef gboolean (*GOEmfHandler) (GOEmfState* state);
 
 static  GOEmfHandler go_emf_handlers[] = {
 	NULL,
-	go_emf_header,			/* 0x0001 */
-	go_emf_polybezier,		/* 0x0002 */
-	go_emf_polygon,			/* 0x0003 */
-	go_emf_polyline,		/* 0x0004 */
-	go_emf_polybezierto,		/* 0x0005 */
-	go_emf_polylineto,		/* 0x0006 */
-	go_emf_polypolyline,		/* 0x0007 */
-	go_emf_polypolygon,		/* 0x0008 */
-	go_emf_setwindowextex,		/* 0x0009 */
-	go_emf_setwindoworgex,		/* 0x000A */
-	go_emf_setviewportextex,	/* 0x000B */
-	go_emf_setviewportorgex,	/* 0x000C */
-	go_emf_setbrushorgex,		/* 0x000D */
-	go_emf_eof,			/* 0x000E */
-	go_emf_setpixelv,		/* 0x000F */
-	go_emf_setmapperflags,		/* 0x0010 */
-	go_emf_setmapmode,		/* 0x0011 */
-	go_emf_setbkmode,		/* 0x0012 */
-	go_emf_setpolyfillmode,		/* 0x0013 */
-	go_emf_setrop2,			/* 0x0014 */
-	go_emf_setstretchbltmode,       /* 0x0015 */
-	go_emf_settextalign,		/* 0x0016 */
-	go_emf_setcoloradjustment,	/* 0x0017 */
-	go_emf_settextcolor,		/* 0x0018 */
-	go_emf_setbkcolor,		/* 0x0019 */
-	go_emf_offsetcliprgn,		/* 0x001A */
-	go_emf_movetoex,		/* 0x001B */
-	go_emf_setmetargn,		/* 0x001C */
-	go_emf_excludecliprect,		/* 0x001D */
-	go_emf_intersectcliprect,	/* 0x001E */
-	go_emf_scaleviewportextex,	/* 0x001F */
-	go_emf_scalewindowextex,	/* 0x0020 */
-	go_emf_savedc,			/* 0x0021 */
-	go_emf_restoredc,		/* 0x0022 */
-	go_emf_setworldtransform,	/* 0x0023 */
-	go_emf_modifyworldtransform,	/* 0x0024 */
-	go_emf_selectobject,		/* 0x0025 */
-	go_emf_createpen,		/* 0x0026 */
-	go_emf_createbrushindirect,	/* 0x0027 */
-	go_emf_deleteobject,		/* 0x0028 */
-	go_emf_anglearc,		/* 0x0029 */
-	go_emf_ellipse,			/* 0x002A */
-	go_emf_rectangle,		/* 0x002B */
-	go_emf_roundrect,		/* 0x002C */
-	go_emf_arc,			/* 0x002D */
-	go_emf_chord,			/* 0x002E */
-	go_emf_pie,			/* 0x002F */
-	go_emf_selectpalette,		/* 0x0030 */
-	go_emf_createpalette,		/* 0x0031 */
-	go_emf_setpaletteentries,	/* 0x0032 */
-	go_emf_resizepalette,		/* 0x0033 */
-	go_emf_realizepalette,		/* 0x0034 */
-	go_emf_extfloodfill,		/* 0x0035 */
-	go_emf_lineto,			/* 0x0036 */
-	go_emf_arcto,			/* 0x0037 */
-	go_emf_polydraw,		/* 0x0038 */
-	go_emf_setarcdirection,		/* 0x0039 */
-	go_emf_setmiterlimit,		/* 0x003A */
-	go_emf_beginpath,		/* 0x003B */
-	go_emf_endpath,			/* 0x003C */
-	go_emf_closefigure,		/* 0x003D */
-	go_emf_fillpath,		/* 0x003E */
-	go_emf_strokeandfillpath,	/* 0x003F */
-	go_emf_strokepath,		/* 0x0040 */
-	go_emf_flattenpath,		/* 0x0041 */
-	go_emf_widenpath,		/* 0x0042 */
-	go_emf_selectclippath,		/* 0x0043 */
-	go_emf_abortpath,		/* 0x0044 */
+	go_emf_header,			/* 0x0001 ok */
+	go_emf_polybezier,		/* 0x0002 todo */
+	go_emf_polygon,			/* 0x0003 ok */
+	go_emf_polyline,		/* 0x0004 ok */
+	go_emf_polybezierto,		/* 0x0005 ok */
+	go_emf_polylineto,		/* 0x0006 ok */
+	go_emf_polypolyline,		/* 0x0007 untested */
+	go_emf_polypolygon,		/* 0x0008 ok */
+	go_emf_setwindowextex,		/* 0x0009 ok */
+	go_emf_setwindoworgex,		/* 0x000A ok */
+	go_emf_setviewportextex,	/* 0x000B ok */
+	go_emf_setviewportorgex,	/* 0x000C ok */
+	go_emf_setbrushorgex,		/* 0x000D todo */
+	go_emf_eof,			/* 0x000E ok */
+	go_emf_setpixelv,		/* 0x000F todo */
+	go_emf_setmapperflags,		/* 0x0010 todo */
+	go_emf_setmapmode,		/* 0x0011 todo */
+	go_emf_setbkmode,		/* 0x0012 todo */
+	go_emf_setpolyfillmode,		/* 0x0013 ok */
+	go_emf_setrop2,			/* 0x0014 todo */
+	go_emf_setstretchbltmode,       /* 0x0015 todo */
+	go_emf_settextalign,		/* 0x0016 ok */
+	go_emf_setcoloradjustment,	/* 0x0017 todo */
+	go_emf_settextcolor,		/* 0x0018 ok */
+	go_emf_setbkcolor,		/* 0x0019 todo */
+	go_emf_offsetcliprgn,		/* 0x001A todo */
+	go_emf_movetoex,		/* 0x001B ok */
+	go_emf_setmetargn,		/* 0x001C todo */
+	go_emf_excludecliprect,		/* 0x001D todo */
+	go_emf_intersectcliprect,	/* 0x001E todo */
+	go_emf_scaleviewportextex,	/* 0x001F todo */
+	go_emf_scalewindowextex,	/* 0x0020 todo */
+	go_emf_savedc,			/* 0x0021 ok */
+	go_emf_restoredc,		/* 0x0022 ok */
+	go_emf_setworldtransform,	/* 0x0023 todo */
+	go_emf_modifyworldtransform,	/* 0x0024 todo */
+	go_emf_selectobject,		/* 0x0025 partial */
+	go_emf_createpen,		/* 0x0026 ok */
+	go_emf_createbrushindirect,	/* 0x0027 ok */
+	go_emf_deleteobject,		/* 0x0028 todo (if needed?) */
+	go_emf_anglearc,		/* 0x0029 todo */
+	go_emf_ellipse,			/* 0x002A untested */
+	go_emf_rectangle,		/* 0x002B untested */
+	go_emf_roundrect,		/* 0x002C todo */
+	go_emf_arc,			/* 0x002D todo */
+	go_emf_chord,			/* 0x002E todo */
+	go_emf_pie,			/* 0x002F todo */
+	go_emf_selectpalette,		/* 0x0030 todo */
+	go_emf_createpalette,		/* 0x0031 todo */
+	go_emf_setpaletteentries,	/* 0x0032 todo */
+	go_emf_resizepalette,		/* 0x0033 todo */
+	go_emf_realizepalette,		/* 0x0034 todo */
+	go_emf_extfloodfill,		/* 0x0035 todo */
+	go_emf_lineto,			/* 0x0036 ok */
+	go_emf_arcto,			/* 0x0037 todo */
+	go_emf_polydraw,		/* 0x0038 todo */
+	go_emf_setarcdirection,		/* 0x0039 todo */
+	go_emf_setmiterlimit,		/* 0x003A todo */
+	go_emf_beginpath,		/* 0x003B ok */
+	go_emf_endpath,			/* 0x003C ok */
+	go_emf_closefigure,		/* 0x003D ok */
+	go_emf_fillpath,		/* 0x003E ok */
+	go_emf_strokeandfillpath,	/* 0x003F ok */
+	go_emf_strokepath,		/* 0x0040 ok */
+	go_emf_flattenpath,		/* 0x0041 todo */
+	go_emf_widenpath,		/* 0x0042 todo */
+	go_emf_selectclippath,		/* 0x0043 todo */
+	go_emf_abortpath,		/* 0x0044 todo */
 	NULL,
-	go_emf_comment,			/* 0x0046 */
-	go_emf_fillrgn,			/* 0x0047 */
-	go_emf_framergn,		/* 0x0048 */
-	go_emf_invertrgn,		/* 0x0049 */
-	go_emf_paintrgn,		/* 0x004A */
-	go_emf_extselectcliprgn,	/* 0x004B */
-	go_emf_bitblt,			/* 0x004C */
-	go_emf_stretchblt,		/* 0x004D */
-	go_emf_maskblt,			/* 0x004E */
-	go_emf_plgblt,			/* 0x004F */
-	go_emf_setdibitstodevice,	/* 0x0050 */
-	go_emf_stretchdibits,		/* 0x0051 */
-	go_emf_extcreatefontindirectw,	/* 0x0052 */
-	go_emf_exttextouta,		/* 0x0053 */
-	go_emf_exttextoutw,		/* 0x0054 */
-	go_emf_polybezier16,		/* 0x0055 */
-	go_emf_polygon16,		/* 0x0056 */
-	go_emf_polyline16,		/* 0x0057 */
-	go_emf_polybezierto16,		/* 0x0058 */
-	go_emf_polylineto16,		/* 0x0059 */
-	go_emf_polypolyline16,		/* 0x005A */
-	go_emf_polypolygon16,		/* 0x005B */
-	go_emf_polydraw16,		/* 0x005C */
-	go_emf_createmonobrush,		/* 0x005D */
-	go_emf_createdibpatternbrushpt,	/* 0x005E */
-	go_emf_extcreatepen,		/* 0x005F */
-	go_emf_polytextouta,		/* 0x0060 */
-	go_emf_polytextoutw,		/* 0x0051 */
-	go_emf_seticmmode,		/* 0x0062 */
-	go_emf_createcolorspace,	/* 0x0063 */
-	go_emf_setcolorspace,		/* 0x0064 */
-	go_emf_deletecolorspace		/* 0x0065 */
+	go_emf_comment,			/* 0x0046 todo (if needed?) */
+	go_emf_fillrgn,			/* 0x0047 todo */
+	go_emf_framergn,		/* 0x0048 todo */
+	go_emf_invertrgn,		/* 0x0049 todo */
+	go_emf_paintrgn,		/* 0x004A todo */
+	go_emf_extselectcliprgn,	/* 0x004B todo */
+	go_emf_bitblt,			/* 0x004C todo */
+	go_emf_stretchblt,		/* 0x004D todo */
+	go_emf_maskblt,			/* 0x004E todo */
+	go_emf_plgblt,			/* 0x004F todo */
+	go_emf_setdibitstodevice,	/* 0x0050 todo */
+	go_emf_stretchdibits,		/* 0x0051 partial */
+	go_emf_extcreatefontindirectw,	/* 0x0052 partial */
+	go_emf_exttextouta,		/* 0x0053 todo */
+	go_emf_exttextoutw,		/* 0x0054 todo */
+	go_emf_polybezier16,		/* 0x0055 todo */
+	go_emf_polygon16,		/* 0x0056 untested */
+	go_emf_polyline16,		/* 0x0057 untested */
+	go_emf_polybezierto16,		/* 0x0058 untested */
+	go_emf_polylineto16,		/* 0x0059 untested */
+	go_emf_polypolyline16,		/* 0x005A untested */
+	go_emf_polypolygon16,		/* 0x005B untested */
+	go_emf_polydraw16,		/* 0x005C todo */
+	go_emf_createmonobrush,		/* 0x005D todo */
+	go_emf_createdibpatternbrushpt,	/* 0x005E todo */
+	go_emf_extcreatepen,		/* 0x005F todo */
+	go_emf_polytextouta,		/* 0x0060 todo */
+	go_emf_polytextoutw,		/* 0x0051 todo */
+	go_emf_seticmmode,		/* 0x0062 todo */
+	go_emf_createcolorspace,	/* 0x0063 todo */
+	go_emf_setcolorspace,		/* 0x0064 todo */
+	go_emf_deletecolorspace		/* 0x0065 todo */
 };
 
 /*****************************************************************************
