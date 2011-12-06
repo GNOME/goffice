@@ -73,7 +73,7 @@ embedded-stuff.c: $(top_srcdir)/tools/embedder $(embedded_stuff)
 BUILT_SOURCES =	embedded-stuff.c
 CLEANFILES = $(BUILT_SOURCES)
 
-EXTRA_DIST	= $(xml_in_files) $(embedded_stuff) $(plugin_resources)
-DISTCLEANFILES	= $(xml_in_files:.xml.in=.xml)
+EXTRA_DIST = $(xml_in_files) $(embedded_stuff) $(plugin_resources)
+DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
 include $(top_srcdir)/goffice-plugins.mk
