@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
-	<Family _name="Contour"	sample_image_file="contour.xpm" axis_set="pseudo-3d"/>
-	<Family _name="Surface"	sample_image_file="surface.xpm" axis_set="xyz"/>
+	<Family _name="Contour"	sample_image_file="res:go:plot_surface/contour.xpm" axis_set="pseudo-3d"/>
+	<Family _name="Surface"	sample_image_file="res:go:plot_surface/surface.xpm" axis_set="xyz"/>
 
 	<Type _name="Contour" row="1" col="1"
 		engine="GogContourPlot" family="Contour"

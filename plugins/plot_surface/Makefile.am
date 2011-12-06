@@ -28,6 +28,15 @@ surface_la_SOURCES += \
 	gog-xyz-surface-prefs.c
 endif
 
+plugin_resources = contour.xpm surface.xpm
+pofiles = $(wildcard $(top_srcdir)/po/*.po)
+
+plugin.xml: plugin.xml.in $(plugin_resources) $(pofiles) $(top_srcdir)/tools/embedder
+	LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
+	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/resource-embedder \
+		$@.tmp $@
+	rm -f $@.tmp
+
 # Do not use the intl-tool stuff to merge the text back;
 # it's simpler to just use gettext directly
 plot-types.xml : plot-types.xml.in
