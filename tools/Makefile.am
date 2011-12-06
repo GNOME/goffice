@@ -1,1 +1,1 @@
-EXTRA_DIST = dumpdef.pl embedder
+EXTRA_DIST = dumpdef.pl embedder resource-embedder

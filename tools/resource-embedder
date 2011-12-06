@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+
+# Copyright (C) 2011 Morten Welinder <terra@gnome.org>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of version 2.1 of the GNU Lesser General Public
+# License as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+# USA
+
+# This program is fairly dumb: we do search-and-replace on the text of
+# an xml file.  Don't expect anything fancy to work.
+
+use strict;
+use Getopt::Long;
+use English;
+
+my $myself = $0;
+$myself =~ s|^.*/||;
+
+my $srcfile = shift @ARGV;
+my $dstfile = shift @ARGV;
+
+my $data = &read_file ($srcfile);
+
+while ($data =~ m{(<service\s+type="resource"\s+id=".*")(\s+)file="(.*)"(\s*/>)}) {
+    my $filename = $3;
+    print STDERR "Embedding $filename\n";
+    my $file_data = &read_file ($filename);
+    my $encoded_data = &xml_encode ($file_data);
+    $data = $PREMATCH . $1 . $2 . "data=\"$encoded_data\"" . $4 . $POSTMATCH;
+}
+
+&write_file ($dstfile, $data);
+
+
+sub read_file
+{
+    my ($filename) = @_;
+
+    local (*FIL);
+    local $/ = undef;
+    open (*FIL, "<$filename") or die "$myself: cannot read $filename: $!\n";
+    my $data = <FIL>;
+    close (*FIL);
+    return $data;
+}
+
+sub write_file
+{
+    my ($filename,$data) = @_;
+
+    local (*FIL);
+    open (*FIL, ">$filename") or die "$myself: cannot write $filename: $!\n";
+    print FIL $data;
+    close (*FIL);
+}
+
+sub xml_encode {
+    my ($s) = @_;
+
+    my $res = "";
+
+    foreach my $c (split (//, $s)) {
+	my $ci = ord ($c);
+	if ($c eq "&") {
+	    $res .= '&amp;';
+	} elsif ($c eq "<") {
+	    $res .= '&lt;';
+	} elsif ($c eq ">") {
+	    $res .= '&gt;';
+	} elsif ($c eq '"') {
+	    $res .= '&quot;';
+	} elsif ($ci >= 32 && $ci < 127) {
+	    $res .= $c;
+	} elsif ($ci == 7) {
+	    die "$myself: cannot embed character 7\n";
+	} else  {
+	    $res .= '&#' . $ci . ";";
+	}
+    }
+
+    return $res;
+}
