@@ -8,6 +8,13 @@
 		<attribute name="module_file" value="pie"/>
 	</loader>
 	<services>
+		<service type="resource"
+			 id="go:plot_pie/pie.xpm"
+			 file="pie.xpm"/>
+		<service type="resource"
+			 id="go:plot_pie/doughnut.xpm"
+			 file="doughnut.xpm"/>
+
 		<service type="plot_engine" id="GogRingPlot">
 			<information>
 				<_description>Ring plotting engine</_description>
