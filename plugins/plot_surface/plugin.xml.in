@@ -13,7 +13,7 @@
 			 file="surface.xpm"/>
 		<service type="resource"
 			 id="go:plot_surface/contour.xpm"
-			 file="surface.xpm"/>
+			 file="contour.xpm"/>
 
 		<service type="plot_engine" id="GogContourPlot">
 			<information>
