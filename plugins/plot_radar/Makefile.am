@@ -14,6 +14,15 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
+plugin_resources = radar.xpm polar.xpm
+pofiles = $(wildcard $(top_srcdir)/po/*.po)
+
+plugin.xml: plugin.xml.in $(plugin_resources) $(pofiles) $(top_srcdir)/tools/embedder
+	LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
+	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/resource-embedder \
+		$@.tmp $@
+	rm -f $@.tmp
+
 # Do not use the intl-tool stuff to merge the text back;
 # it's simpler to just use gettext directly
 plot-types.xml : plot-types.xml.in
@@ -46,7 +55,7 @@ embedded-stuff.c: $(top_srcdir)/tools/embedder $(embedded_stuff)
 BUILT_SOURCES =	embedded-stuff.c
 CLEANFILES = $(BUILT_SOURCES)
 
-EXTRA_DIST = $(xml_in_files) $(embedded_stuff)
+EXTRA_DIST = $(xml_in_files) $(embedded_stuff) $(plugin_resources)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
 include $(top_srcdir)/goffice-plugins.mk

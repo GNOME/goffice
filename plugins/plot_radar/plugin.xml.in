@@ -8,6 +8,13 @@
 		<attribute name="module_file" value="radar"/>
 	</loader>
 	<services>
+		<service type="resource"
+			 id="go:plot_radar/radar.xpm"
+			 file="radar.xpm"/>
+		<service type="resource"
+			 id="go:plot_radar/polar.xpm"
+			 file="polar.xpm"/>
+
 		<service type="plot_engine" id="GogRadarPlot">
 			<information>
 				<_description>Radar plotting engine</_description>
