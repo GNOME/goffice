@@ -281,7 +281,6 @@ go_plugin_service_resource_read_xml (GOPluginService *service, xmlNode *tree, GO
 			absfile = g_strdup (CXML2C (file));
 		xmlFree (file);
 		ok = g_file_get_contents (absfile, &data, &length, NULL);
-		g_printerr ("%s => %d\n", absfile, ok);
 		g_free (absfile);
 
 		if (!ok)
