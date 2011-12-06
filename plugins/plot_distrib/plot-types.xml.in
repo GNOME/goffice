@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
-	<Family _name="Statistics"	sample_image_file="dist.xpm" axis_set="xy"/>
+	<Family _name="Statistics"	sample_image_file="res:go:plot_distrib/dist.xpm" axis_set="xy"/>
 
 	<Type _name="HBoxPlots" row="1" col="1"
 		engine="GogBoxPlot" family="Statistics"

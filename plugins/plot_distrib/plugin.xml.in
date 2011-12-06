@@ -11,6 +11,10 @@
 		<attribute name="module_file" value="distrib"/>
 	</loader>
 	<services>
+		<service type="resource"
+			 id="go:plot_distrib/dist.xpm"
+			 file="dist.xpm"/>
+
 		<service type="plot_engine" id="GogBoxPlot">
 			<information>
 				<_description>Box-plot plotting engine</_description>
