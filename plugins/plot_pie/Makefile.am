@@ -17,6 +17,7 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 if WITH_GTK
 pie_la_SOURCES += gog-pie-prefs.c
 endif
+
 plugin_resources = pie.xpm doughnut.xpm
 pofiles = $(wildcard $(top_srcdir)/po/*.po)
 
