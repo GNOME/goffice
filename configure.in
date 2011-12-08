@@ -654,7 +654,6 @@ plugins/plot_distrib/Makefile
 plugins/reg_linear/Makefile
 plugins/reg_logfit/Makefile
 plugins/smoothing/Makefile
-pixmaps/Makefile
 po/Makefile.in
 tests/Makefile
 tools/Makefile
