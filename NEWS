@@ -6,6 +6,10 @@ Andreas:
 	* Fix recognition of formats with SI prefix by format selector. 
 	[#665303]
 
+Jean:
+	* Fixed rounding errors in limits displayed in contour plot legend.
+	[#666292]
+
 Morten:
 	* Embed library ui files into library.
 	* Embed svg-patterns.xml and error bar image files too.

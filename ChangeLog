@@ -1,3 +1,9 @@
+2011-12-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem): fixed rounding errors in limits displayed
+	in the legend. [#666292]
+
 2011-12-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: remove pixmaps/Makefile.

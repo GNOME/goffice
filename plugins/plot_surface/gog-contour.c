@@ -140,16 +140,17 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	GOColor *color;
 	GogAxisTick *zticks;
 	double *limits;
-	double minimum, maximum;
+	double minimum, maximum, epsilon;
 	char const *separator = go_locale_get_decimal ()->str;
 
 	gog_axis_get_bounds (axis, &minimum, &maximum);
 
 	nticks = gog_axis_get_ticks (axis, &zticks);
 	i = j = 0;
+	epsilon = (maximum - minimum) / nticks * 1e-10; /* should avoid rounding errors */
 	while (zticks[i].type != GOG_AXIS_TICK_MAJOR)
 		i++;
-	if (minimum < zticks[i].position) {
+	if (zticks[i].position - minimum > epsilon) {
 		limits = g_new (double, nticks + 2);
 		limits[j++] = minimum;
 	} else
@@ -157,7 +158,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	for (; i < nticks; i++)
 		if (zticks[i].type == GOG_AXIS_TICK_MAJOR)
 			limits[j++] = zticks[i].position;
-	if (j == 0 || maximum > limits[j - 1])
+	if (j == 0 || maximum - limits[j - 1] > epsilon)
 		limits[j] = maximum;
 	else
 		j--;
@@ -181,11 +182,11 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 		for (i = 0; i < j; i++) {
 			style->fill.pattern.back = color[i];
 			label = g_strdup_printf ("[%g%s %g%c", limits[j - i - 1], separator,
-						limits[j - i], (limits[i - j] > minimum)? '[':']');
+						limits[j - i], (limits[i - j] - minimum > epsilon)? '[':']');
 			(func) (i, style, label, NULL, data);
 			g_free (label);
 		}
-		if (limits[i - j] > minimum) {
+		if (limits[i - j] - minimum > epsilon) {
 			gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, style->interesting_fields);
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[i - j]);
@@ -193,7 +194,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 			g_free (label);
 		}
 	} else {
-		if (minimum < limits[0]) {
+		if (epsilon < limits[0] - minimum) {
 			style->fill.pattern.back = color[0];
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[0]);
