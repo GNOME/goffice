@@ -89,7 +89,8 @@ void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos,
 				   GOAnchorType anchor,
-				   gboolean use_markup);
+				   gboolean use_markup,
+                                   GtkJustification justification, double width);
 
 void  gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
                                     GogViewAllocation const *pos, GOAnchorType anchor,
@@ -98,16 +99,19 @@ void  gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *
 void  gog_renderer_draw_gostring  (GogRenderer *rend,
 				   GOString *str,
 				   GogViewAllocation const *pos,
-				   GOAnchorType anchor);
+				   GOAnchorType anchor,
+                                   GtkJustification justification, double width);
 
 void  gog_renderer_get_gostring_OBR   (GogRenderer *rend, GOString *str,
-				       GOGeometryOBR *obr);
+				       GOGeometryOBR *obr, double max_width);
 void  gog_renderer_get_text_OBR   (GogRenderer *rend, char const *text,
-				   gboolean use_markup, GOGeometryOBR *obr);
+				   gboolean use_markup, GOGeometryOBR *obr,
+                                   double max_width);
 void gog_renderer_get_gostring_AABR (GogRenderer *rend, GOString *str,
-                                     GOGeometryAABR *aabr);
+                                     GOGeometryAABR *aabr, double max_width);
 void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text,
-				   gboolean use_markup, GOGeometryAABR *aabr);
+				   gboolean use_markup, GOGeometryAABR *aabr,
+                                   double max_width);
 
 void  gog_renderer_push_style     	(GogRenderer *rend, GOStyle const *style);
 void  gog_renderer_pop_style      	(GogRenderer *rend);

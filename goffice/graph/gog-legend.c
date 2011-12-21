@@ -279,10 +279,10 @@ cb_size_elements (unsigned i, GOStyle const *style,
 
 	if (l) {
 		GOString *str = go_string_new_rich (name, -1, l, NULL);
-		gog_renderer_get_gostring_AABR (view->renderer, str, &aabr);
+		gog_renderer_get_gostring_AABR (view->renderer, str, &aabr, -1.);
 		go_string_unref (str);
 	} else
-		gog_renderer_get_text_AABR (view->renderer, name, FALSE, &aabr);
+		gog_renderer_get_text_AABR (view->renderer, name, FALSE, &aabr, -1.);
 
 	if (glv->element_width < aabr.w)
 		glv->element_width = aabr.w;
@@ -520,10 +520,12 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 	pos.w = pos.h = -1;
 	if (l) {
 		GOString *str = go_string_new_rich (name, -1, l, NULL);
-		gog_renderer_draw_gostring (view->renderer, str, &pos, GO_ANCHOR_W);
+		gog_renderer_draw_gostring (view->renderer, str, &pos,
+		                            GO_ANCHOR_W, GTK_JUSTIFY_LEFT, -1.);
 		go_string_unref (str);
 	} else
-		gog_renderer_draw_text (renderer, name, &pos, GO_ANCHOR_W, FALSE);
+		gog_renderer_draw_text (renderer, name, &pos,
+		                        GO_ANCHOR_W, FALSE, GTK_JUSTIFY_LEFT, -1.);
 
 	if (style != base_style && style != NULL)
 		g_object_unref (style);

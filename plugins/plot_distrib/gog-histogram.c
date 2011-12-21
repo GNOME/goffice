@@ -753,35 +753,42 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 					alloc.x = area->x + 2; /* FIXME: replace 2 by something configurable */
 					alloc.y = area->y + 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GO_ANCHOR_NORTH_WEST, FALSE);
+							        GO_ANCHOR_NORTH_WEST, FALSE,
+					                        GTK_JUSTIFY_LEFT, -1.);
 					text = (text2)? text2: _("Second values");
 					alloc.y = area->y + area->h - 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GO_ANCHOR_SOUTH_WEST, FALSE);
+							        GO_ANCHOR_SOUTH_WEST, FALSE,
+					                        GTK_JUSTIFY_LEFT, -1.);
 				} else {
 					alloc.x = area->x + area->w - 2; /* FIXME: replace 2 by something configurable */
 					alloc.y = area->y + area->h - 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GO_ANCHOR_SOUTH_EAST, FALSE);
+							        GO_ANCHOR_SOUTH_EAST, FALSE,
+					                        GTK_JUSTIFY_LEFT, -1.);
 					text = (text2)? text2: _("Second values");
 					alloc.x = area->x + 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GO_ANCHOR_SOUTH_WEST, FALSE);
+							        GO_ANCHOR_SOUTH_WEST, FALSE,
+					                        GTK_JUSTIFY_LEFT, -1.);
 				}
 			} else {
 				alloc.x = area->x + area->w - 2; /* FIXME: replace 2 by something configurable */
 				alloc.y = area->y + 2;
 				gog_renderer_draw_text (view->renderer, text, &alloc,
-					                GO_ANCHOR_NORTH_EAST, FALSE);
+					                GO_ANCHOR_NORTH_EAST, FALSE,
+				                        GTK_JUSTIFY_LEFT, -1.);
 				text = (text2)? text2: _("Second values");
 				if (model->vertical) {
 					alloc.y = area->y + area->h - 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GO_ANCHOR_SOUTH_EAST, FALSE);
+							        GO_ANCHOR_SOUTH_EAST, FALSE,
+					                        GTK_JUSTIFY_LEFT, -1.);
 				} else {
 					alloc.x = area->x + 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
-							        GO_ANCHOR_NORTH_WEST, FALSE);
+							        GO_ANCHOR_NORTH_WEST, FALSE,
+					                        GTK_JUSTIFY_LEFT, -1.);
 				}
 			}
 			g_free (text1);

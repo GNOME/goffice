@@ -1,3 +1,22 @@
+2011-12-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (axis_line_get_bbox),
+	(axis_line_render), (axis_circle_get_bbox), (axis_circle_render),
+	(xyz_process): allow for multi-line labels.
+	* goffice/graph/gog-label.c (gog_label_set_property),
+	(gog_label_get_property), (gog_label_class_init), (gog_label_init),
+	(gog_text_view_size_request), (gog_text_view_render): ditto.
+	* goffice/graph/gog-legend.c (cb_size_elements),
+	(cb_render_elements): ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_gostring),
+	(gog_renderer_draw_text), (gog_renderer_get_gostring_OBR),
+	(gog_renderer_get_text_OBR), (gog_renderer_get_text_AABR),
+	(gog_renderer_get_gostring_AABR): add new arguments.
+	* goffice/graph/gog-renderer.h: ditto.
+	* goffice/utils/go-geometry.c: documentation typo.
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_view_render): fixed after API change.
+
 2011-12-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-contour.c

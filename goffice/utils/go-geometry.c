@@ -103,7 +103,7 @@ go_geometry_AABR_add (GOGeometryAABR *aabr0, GOGeometryAABR const *aabr1)
  * @obr: a #GOGeometryOBR
  * @aabr: a #GOGeometryAABR
  *
- * Stores Axis Aligned Bouding Rectangle of @obr in @aabr.
+ * Stores Axis Aligned Bounding Rectangle of @obr in @aabr.
  *
  **/
 void

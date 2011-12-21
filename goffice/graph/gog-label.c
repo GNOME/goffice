@@ -41,7 +41,7 @@ enum {
 	TEXT_PROP_ALLOW_MARKUP,
 	TEXT_PROP_ROTATE_FRAME,
 	TEXT_PROP_ROTATE_BG,
-	TEXT_PROP_ALLOW_WRAP
+	TEXT_PROP_ALLOW_WRAP,
 };
 
 static GObjectClass *text_parent_klass;
@@ -215,9 +215,11 @@ struct _GogLabel {
 	GogText base;
 
 	GogDatasetElement text;
+	GtkJustification justification;
 };
 enum {
 	LABEL_PROP_0,
+	LABEL_PROP_JUSTIFICATION
 };
 
 
@@ -336,6 +338,61 @@ gog_label_get_markup (GogText *text)
 }
 
 static void
+gog_label_set_property (GObject *obj, guint param_id,
+                        GValue const *value, GParamSpec *pspec)
+{
+	GogLabel *label = GOG_LABEL (obj);
+
+	switch (param_id) {
+	case LABEL_PROP_JUSTIFICATION: {
+		char const *str = g_value_get_string (value);
+		if (!strcmp (str, "left"))
+			label->justification = GTK_JUSTIFY_LEFT;
+		else if (!strcmp (str, "right"))
+			label->justification = GTK_JUSTIFY_RIGHT;
+		else if (!strcmp (str, "fill"))
+			label->justification = GTK_JUSTIFY_FILL;
+		else
+			label->justification = GTK_JUSTIFY_CENTER;
+		break;
+	}
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static void
+gog_label_get_property (GObject *obj, guint param_id,
+                        GValue *value, GParamSpec *pspec)
+{
+	GogLabel *label = GOG_LABEL (obj);
+
+	switch (param_id) {
+	case LABEL_PROP_JUSTIFICATION:
+		switch (label->justification) {
+		case GTK_JUSTIFY_CENTER:
+			g_value_set_string (value, "center");
+			break;
+		case GTK_JUSTIFY_LEFT:
+			g_value_set_string (value, "left");
+			break;
+		case GTK_JUSTIFY_RIGHT:
+			g_value_set_string (value, "right");
+			break;
+		case GTK_JUSTIFY_FILL:
+			g_value_set_string (value, "fill");
+			break;
+		}
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
 gog_label_finalize (GObject *obj)
 {
 	gog_dataset_finalize (GOG_DATASET (obj));
@@ -353,9 +410,23 @@ gog_label_class_init (GogLabelClass *klass)
 #endif
 	label_parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->finalize	    = gog_label_finalize;
+	gobject_klass->set_property = gog_label_set_property;
+	gobject_klass->get_property = gog_label_get_property;
+	g_object_class_install_property (gobject_klass, LABEL_PROP_JUSTIFICATION,
+		g_param_spec_string ("justification",
+			_("Text justification"),
+			_("Text justification as a string. Possible values are \"center\" (default value), \"left\", \"right\", or \"fill\"."),
+			"center",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	got_klass->get_str	    = gog_label_get_str;
 	got_klass->get_markup	    = gog_label_get_markup;
+}
+
+static void
+gog_label_init (GogLabel *label)
+{
+	label->justification = GTK_JUSTIFY_CENTER;
 }
 
 static void
@@ -387,7 +458,7 @@ gog_label_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogLabel, gog_label,
 		NULL, NULL, gog_label_class_init, NULL,
-		NULL, GOG_TYPE_TEXT, 0,
+		gog_label_init, GOG_TYPE_TEXT, 0,
 		GSF_INTERFACE (gog_label_dataset_init, GOG_TYPE_DATASET))
 
 /************************************************************************/
@@ -587,10 +658,10 @@ gog_text_view_size_request (GogView *v,
 			style->text_layout.angle = 0.;
 		gog_renderer_push_style (v->renderer, style);
 		if (gostr) {
-			gog_renderer_get_gostring_AABR (v->renderer, gostr, &aabr);
+			gog_renderer_get_gostring_AABR (v->renderer, gostr, &aabr, available->w);
 			go_string_unref (gostr);
 		} else
-			gog_renderer_get_text_AABR (v->renderer, str, text->allow_markup, &aabr);
+			gog_renderer_get_text_AABR (v->renderer, str, text->allow_markup, &aabr, available->w);
 		gog_renderer_pop_style (v->renderer);
 		g_object_unref (style);
 		if (text->rotate_frame) {
@@ -636,9 +707,9 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_push_style (view->renderer, rect_style);
 			}
 			if (gostr)
-				gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr);
+				gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr, view->allocation.w);
 			else
-				gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr);
+				gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr, view->allocation.w);
 			if (text->rotate_frame) {
 				rect = view->allocation;
 				rect.w = aabr.w + 2. * outline + pad_x;
@@ -658,12 +729,16 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		if (gostr) {
 			gog_renderer_draw_gostring (view->renderer, gostr,
-		                    		&view->residual, GO_ANCHOR_NW);
+			                            &view->residual, GO_ANCHOR_NW,
+			                            (GOG_IS_LABEL (text)? GOG_LABEL (text)->justification: GTK_JUSTIFY_LEFT),
+			                            view->allocation.w);
 			go_string_unref (gostr);
 		} else
 			gog_renderer_draw_text (view->renderer, str,
 		                    		&view->residual, GO_ANCHOR_NW,
-			                        text->allow_markup);
+			                        text->allow_markup,
+			                        (GOG_IS_LABEL (text)? GOG_LABEL (text)->justification: GTK_JUSTIFY_LEFT),
+			                        view->allocation.w);
 		g_free (str);
 	}
 	gog_renderer_pop_style (view->renderer);

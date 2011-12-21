@@ -847,7 +847,8 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 
 void
 gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
-			GogViewAllocation const *pos, GOAnchorType anchor)
+			    GogViewAllocation const *pos, GOAnchorType anchor,
+                            GtkJustification justification, double width)
 {
 	PangoLayout *layout;
 	PangoContext *context;
@@ -869,6 +870,22 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 	layout = pango_cairo_create_layout (cairo);
 	context = pango_layout_get_context (layout);
 	pango_layout_set_text (layout, str->str, -1);
+	if (width > 0)
+		pango_layout_set_width (layout, width * PANGO_SCALE / rend->scale);
+	switch (justification) {
+	case GTK_JUSTIFY_CENTER:
+		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+		break;
+	case GTK_JUSTIFY_LEFT:
+		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+		break;
+	case GTK_JUSTIFY_RIGHT:
+		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
+		break;
+	case GTK_JUSTIFY_FILL:
+		pango_layout_set_justify (layout, TRUE);
+		break;
+	}
 	attr = go_string_get_markup (str);
 	if (attr)
 		pango_layout_set_attributes (layout, attr);
@@ -934,7 +951,8 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 void
 gog_renderer_draw_text (GogRenderer *rend, char const *text,
 			GogViewAllocation const *pos, GOAnchorType anchor,
-			gboolean use_markup)
+			gboolean use_markup, GtkJustification justification,
+                        double width)
 {
 	GOString *str;
 	PangoAttrList *attr_list = NULL;
@@ -952,7 +970,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 		str = go_string_new_rich_nocopy (m_text, -1, attr_list, NULL);
 	else
 		str = go_string_new (text);
-	gog_renderer_draw_gostring (rend, str, pos, anchor);
+	gog_renderer_draw_gostring (rend, str, pos, anchor, justification, width);
 	go_string_unref (str);
 }
 
@@ -963,7 +981,8 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
  * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
  **/
 void
-gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str, GOGeometryOBR *obr)
+gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str,
+                               GOGeometryOBR *obr, double max_width)
 {
 	GOStyle const *style;
 	PangoLayout *layout;
@@ -989,6 +1008,8 @@ gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str, GOGeometryOBR *
 	layout = pango_cairo_create_layout (cairo);
 	context = pango_layout_get_context (layout);
 	pango_layout_set_text (layout, str->str, -1);
+	if (max_width > 0)
+		pango_layout_set_width (layout, max_width * PANGO_SCALE / rend->scale);
 	attr = go_string_get_markup (str);
 	if (attr)
 		pango_layout_set_attributes (layout, attr);
@@ -1021,7 +1042,8 @@ gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str, GOGeometryOBR *
  **/
 void
 gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
-			   gboolean use_markup, GOGeometryOBR *obr)
+			   gboolean use_markup, GOGeometryOBR *obr,
+                           double max_width)
 {
 	GOString *str;
 	PangoAttrList *attr_list = NULL;
@@ -1036,7 +1058,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
 		str = go_string_new_rich_nocopy (m_text, -1, attr_list, NULL);
 	else
 		str = go_string_new (text);
-	gog_renderer_get_gostring_OBR (rend, str, obr);
+	gog_renderer_get_gostring_OBR (rend, str, obr, max_width);
 	go_string_unref (str);
 
 }
@@ -1050,11 +1072,12 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
  **/
 void
 gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
-			    gboolean use_markup, GOGeometryAABR *aabr)
+			    gboolean use_markup, GOGeometryAABR *aabr,
+                            double max_width)
 {
 	GOGeometryOBR obr;
 
-	gog_renderer_get_text_OBR (rend, text, use_markup, &obr);
+	gog_renderer_get_text_OBR (rend, text, use_markup, &obr, max_width);
 	go_geometry_OBR_to_AABR (&obr, aabr);
 }
 
@@ -1066,11 +1089,11 @@ gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
  **/
 void
 gog_renderer_get_gostring_AABR (GogRenderer *rend, GOString *str,
-			    GOGeometryAABR *aabr)
+			    GOGeometryAABR *aabr, double max_width)
 {
 	GOGeometryOBR obr;
 
-	gog_renderer_get_gostring_OBR (rend, str, &obr);
+	gog_renderer_get_gostring_OBR (rend, str, &obr, max_width);
 	go_geometry_OBR_to_AABR (&obr, aabr);
 }
 
