@@ -1,3 +1,19 @@
+2011-12-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (handle_common_token): store shape
+	separately
+	(go_format_dump_program): handle OP_NUMERAL_SHAPE and make OP_LOCALE
+	more descriptive
+	(minus_shapes): new
+	(numeral_shapes): new
+	(convert_numerals): new
+	(INSERT_MINUS): use the correct symbol
+	(go_format_execute): handle numeral shape
+	(convert_minus): use the correct symbol
+	(go_render_general): add argument, change all callers, handle numeral
+	shape
+	* goffice/utils/go-format.h (go_render_general): add arguments
+
 2011-12-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c (axis_line_get_bbox),

@@ -5,6 +5,7 @@ Andreas:
 	* Fix scientific format with SI prefix selection. [#665301]
 	* Fix recognition of formats with SI prefix by format selector. 
 	[#665303]
+	* Handle numeral shapes for number formats.
 
 Jean:
 	* Fixed rounding errors in limits displayed in contour plot legend.
