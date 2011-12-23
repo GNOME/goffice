@@ -128,7 +128,7 @@ typedef enum {
 	OP_STRING,		/* 0-termined */
 	OP_FILL,		/* unichar */
 	OP_LOCALE,		/* locale langstr */
-	OP_NUMERAL_SHAPE,	/* n */
+	OP_NUMERAL_SHAPE,	/* flags shape */
 	/* ------------------------------- */
 	OP_DATE_ROUND,		/* decimals seen_elapsed */
 	OP_DATE_SPLIT,
@@ -298,6 +298,10 @@ typedef enum {
 	GO_FMT_COND_NONTEXT
 } GOFormatConditionOp;
 
+typedef enum {
+	GO_FMT_SHAPE_SIGNS = 1
+} GOFormatShapeFlags;
+
 typedef struct {
 	GOFormatConditionOp op;
 	unsigned implicit : 1;
@@ -309,7 +313,7 @@ typedef struct {
 } GOFormatCondition;
 
 typedef struct {
-	guint32 locale;
+	guint64 locale;
 } GOFormatLocale;
 
 
@@ -408,6 +412,7 @@ typedef struct {
 
 #define UTF8_MINUS "\xe2\x88\x92"
 #define UTF8_FULLWIDTH_MINUS "\357\274\215"
+#define UTF8_FULLWIDTH_PLUS  "\357\274\213"
 
 GOFormatFamily
 go_format_get_family (GOFormat const *fmt)
@@ -695,7 +700,8 @@ go_format_parse_locale (const char *str, GOFormatLocale *locale, gsize *nchars)
 	if (*str == '-') {
 		str++;
 		ull = g_ascii_strtoull (str, &end, 16);
-		if (str == end || errno == ERANGE || ull > G_MAXUINT)
+		if (str == end || errno == ERANGE || 
+		    ull > G_GINT64_CONSTANT(0x0001ffffffffffffU))
 			return FALSE;
 	} else {
 		ull = 0;
@@ -1246,7 +1252,7 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 		GOFormatLocale locale;
 		const char *lang;
 		gsize nchars;
-		guint shape;
+		guint shape, flags;
 		gboolean ok = go_format_parse_locale (tstr, &locale, &nchars);
 		/* Already parsed elsewhere */
 		g_return_if_fail (ok);
@@ -1286,9 +1292,10 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 			}
 			g_free (lname);
 		}
-		shape = (locale.locale & 0xff000000) >> 24;
-		if (shape != 0)
-			ADD_OP2 (OP_NUMERAL_SHAPE, shape);
+		shape = (locale.locale & G_GINT64_CONSTANT(0x0ff000000U)) >> 24;
+		flags = (locale.locale & G_GINT64_CONSTANT(0xf00000000U)) >> 32;
+		if (shape != 0 || flags != 0)
+			ADD_OP3 (OP_NUMERAL_SHAPE, flags, shape);
 		break;
 	}
 
@@ -1711,12 +1718,13 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 		if (thousands && !inhibit_thousands)
 			ADD_OP (OP_NUM_ENABLE_THOUSANDS);
 	}
-	ADD_OP (OP_NUM_SIGN);
 
 	for (i = tno_start; i < tno_numstart; i++) {
 		const GOFormatParseItem *ti = &GET_TOKEN(i);
 		handle_common_token (ti->tstr, ti->token, prg);
 	}
+	/* OP_NUM_SIGN requires that we already know the shape and shape-flags */
+	ADD_OP (OP_NUM_SIGN);
 
 	if (E_part == 1) {
 #ifdef ALLOW_EE_MARKUP
@@ -2210,7 +2218,7 @@ go_format_parse (const char *str)
 		if (!state.have_cond)
 			condition->implicit = TRUE;
 
-		magic_fmt_str = go_format_magic_fmt_str (state.locale.locale);
+		magic_fmt_str = go_format_magic_fmt_str (state.locale.locale & 0xffff);
 		if (magic_fmt_str) {
 			is_magic = TRUE;
 			/* Make the upcoming switch do nothing.  */
@@ -2385,13 +2393,13 @@ go_format_dump_program (const guchar *prg)
 			prg += strlen (lang) + 1;
 			g_printerr ("OP_LOCALE -- \"%s\" -- numeral shape: %#x -- calendar: %#x\n", 
 				    lang, 
-				    (locale.locale & 0xFF000000) >> 24,
-				    (locale.locale & 0x00FF0000) >> 16);
+				    (guint)((locale.locale & 0xFFF000000) >> 24),
+				    (guint)((locale.locale & 0x000FF0000) >> 16));
 			break;
 		}
 		case OP_NUMERAL_SHAPE:
-			g_printerr ("OP_NUMERAL_SHAPE %#x\n", prg[0]);
-			prg += 1;
+			g_printerr ("OP_NUMERAL_SHAPE flags:%#x shape:%#x\n", prg[0], prg[1]);
+			prg += 2;
 			break;
 		case OP_DATE_ROUND:
 			g_printerr ("OP_DATE_ROUND %d %d\n", prg[0], prg[1]);
@@ -2845,8 +2853,8 @@ static char const *minus_shapes[] =
 		UTF8_MINUS,          /* 18 Unused */
 		UTF8_MINUS,          /* 19 Unused */
 		UTF8_MINUS,          /* 1A Unused */
-		UTF8_MINUS,          /* 1B Japanese 1 ? */
-		UTF8_MINUS,          /* 1C Japanese 2 ? */
+		UTF8_FULLWIDTH_MINUS,    /* 1B Japanese 1 ? */
+		UTF8_FULLWIDTH_MINUS,    /* 1C Japanese 2 ? */
 		UTF8_FULLWIDTH_MINUS,    /* 1D Japanese 3 ? */
 		"\350\264\237",          /* 1E Simplified Chinese 1 */
 		"\350\264\237",          /* 1F Simplified Chinese 2 */
@@ -2858,6 +2866,50 @@ static char const *minus_shapes[] =
 		UTF8_FULLWIDTH_MINUS,    /* 25 Korean 2 ? */
 		UTF8_FULLWIDTH_MINUS,    /* 26 Korean 3 ? */
 		UTF8_FULLWIDTH_MINUS,    /* 27 Korean 4 ? */	
+	};
+
+static char const *plus_shapes[] =
+	{
+		"+",          /* 00 Unused */
+		"+",          /* 01 Unused */
+		"+",          /* 02 Arabic Indic */
+		"+",          /* 03 Extended Arabic Indic */
+		"+",          /* 04 Devanagari */
+		"+",          /* 05 Bengali */
+		"+",          /* 06 Gurmukhi */
+		"+",          /* 07 Gujarati */
+		"+",          /* 08 Orija */
+		"+",          /* 09 Tamil */
+		"+",          /* 0A Telugu */
+		"+",          /* 0B Kannada*/
+		"+",          /* 0C Malayalam*/
+		"+",          /* 0D Thai */
+		"+",          /* 0E Lao */
+		"+",          /* 0F Tibetan */
+		"+",          /* 10 Myanmar */
+		"+",          /* 11 Ethiopic ? Not really a decimal system */
+		"+",          /* 12 Khmer */
+		"+",          /* 13 Mongolian */
+		"+",          /* 14 Unused */
+		"+",          /* 15 Unused */
+		"+",          /* 16 Unused */
+		"+",          /* 17 Unused */
+		"+",          /* 18 Unused */
+		"+",          /* 19 Unused */
+		"+",          /* 1A Unused */
+		UTF8_FULLWIDTH_PLUS,    /* 1B Japanese 1 ? */
+		UTF8_FULLWIDTH_PLUS,    /* 1C Japanese 2 ? */
+		UTF8_FULLWIDTH_PLUS,    /* 1D Japanese 3 ? */
+		UTF8_FULLWIDTH_PLUS,    /* 1E Simplified Chinese 1 */
+		UTF8_FULLWIDTH_PLUS,    /* 1F Simplified Chinese 2 */
+		UTF8_FULLWIDTH_PLUS,    /* 20 Simplified Chinese 3 */
+		UTF8_FULLWIDTH_PLUS,    /* 21 Traditional Chinese 1 */
+		UTF8_FULLWIDTH_PLUS,    /* 22 Traditional Chinese 2 */
+		UTF8_FULLWIDTH_PLUS,    /* 23 Traditional Chinese 3 */
+		UTF8_FULLWIDTH_PLUS,    /* 24 Korean 1 ? */
+		UTF8_FULLWIDTH_PLUS,    /* 25 Korean 2 ? */
+		UTF8_FULLWIDTH_PLUS,    /* 26 Korean 3 ? */
+		UTF8_FULLWIDTH_PLUS,    /* 27 Korean 4 ? */	
 	};
 #endif
 
@@ -2939,6 +2991,7 @@ static char const *numeral_shapes[][10]
 };
 
 G_STATIC_ASSERT (G_N_ELEMENTS (minus_shapes) == G_N_ELEMENTS (numeral_shapes));
+G_STATIC_ASSERT (G_N_ELEMENTS (plus_shapes) == G_N_ELEMENTS (numeral_shapes));
 
 static gboolean
 convert_numerals (GString *str, gsize from, gsize to, guint shape)
@@ -2961,11 +3014,46 @@ convert_numerals (GString *str, gsize from, gsize to, guint shape)
 	}
 	return val;
 }
+
+static gboolean
+convert_sign (GString *str, size_t i, guint shape, guint shape_flags)
+{
+	gchar const *shaped_sign;
+	gchar const **shapes;
+	gchar const *sign;
+
+	switch (str->str[i]) {
+	case '-':
+		shapes = minus_shapes;
+		sign = UTF8_MINUS;
+		break;
+	case '+':
+		shapes = plus_shapes;
+		sign = "+";
+		break;
+	default:
+		return FALSE;
+	}
+
+	if (((shape_flags & GO_FMT_SHAPE_SIGNS) == 0) || 
+	    (shape <= 1) || 
+	    (shape > G_N_ELEMENTS (minus_shapes)))
+		shaped_sign = sign;
+	else
+		shaped_sign = shapes [shape];
+
+	if (*shaped_sign != '+')
+		go_string_replace (str, i, 1, shaped_sign, -1);
+	return TRUE;
+}
 #endif
 
 #define INSERT_MINUS(pos) do {						\
-		if (unicode_minus || (shape_flags && numeral_shape)) {	\
-			if (shape_flags && numeral_shape > 1 &&		\
+		if (unicode_minus ||					\
+		    ((shape_flags & GO_FMT_SHAPE_SIGNS) &&		\
+		     numeral_shape)) {					\
+			if ((shape_flags & GO_FMT_SHAPE_SIGNS) &&	\
+			    numeral_shape > 1 &&			\
 			    numeral_shape < G_N_ELEMENTS (minus_shapes)) \
 				g_string_insert				\
 					(dst, (pos),			\
@@ -2976,6 +3064,18 @@ convert_numerals (GString *str, gsize from, gsize to, guint shape)
 		} else							\
 			g_string_insert_c (dst, (pos), '-');		\
 	} while (0)
+
+#define INSERT_PLUS(pos) do {						\
+		if ((shape_flags & GO_FMT_SHAPE_SIGNS) &&		\
+		    numeral_shape > 1 &&				\
+		    numeral_shape < G_N_ELEMENTS (plus_shapes))		\
+			g_string_insert					\
+				(dst, (pos),				\
+				 plus_shapes[numeral_shape]);		\
+		else							\
+			g_string_insert_c (dst, (pos), '+');		\
+	} while (0)
+
 
 
 static GOFormatNumberError
@@ -3131,10 +3231,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			break;
 		}
 
-		case OP_NUMERAL_SHAPE: {
-			numeral_shape = *prg++;
+		case OP_NUMERAL_SHAPE:
+			shape_flags = (*prg++ & 0x000f);
+			numeral_shape = (*prg++ & 0x00ff);
 			break;
-		}
 
 		case OP_DATE_ROUND: {
 			int date_decimals = *prg++;
@@ -3607,7 +3707,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			gboolean forced = (*prg++ != 0);
 			if (exponent >= 0) {
 				if (forced)
-					g_string_insert_c (dst, numpos, '+');
+					INSERT_PLUS(numpos);
 			} else
 				INSERT_MINUS(numpos);
 			break;
@@ -3615,9 +3715,6 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_NUM_VAL_EXPONENT:
 			val = SUFFIX (fabs) (exponent);
-			/* FIXME: we need to fix the exponent handling */
-			/* until that time use only latin numerals */
-			numeral_shape = 0;
 			break;
 
 		case OP_NUM_STORE_POS:
@@ -3648,9 +3745,14 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			break;
 
 		case OP_MARKUP_SUPERSCRIPT_START:
-			if (layout)
+			if (layout) {
+				/* FIXME: we need to fix the exponent handling */
+				/* until that time use only latin numerals */
+				numeral_shape = 0;
+				
 				markup_stack = g_slist_prepend
 					(markup_stack, GSIZE_TO_POINTER (dst->len));
+			}
 			break;
 
 		case OP_MARKUP_SUPERSCRIPT_END:
@@ -3991,31 +4093,11 @@ go_format_measure_strlen (const GString *str,
 
 /*********************************************************************/
 
-#ifdef DEFINE_COMMON
-   static gboolean
-   convert_minus (GString *str, size_t i, guint shape, guint shape_flags)
-{
-	gchar const *minus;
-
-	if (str->str[i] != '-')
-		return FALSE;
-
-	if ((shape_flags == 0) || 
-	    (shape <= 1) || 
-	    (shape > G_N_ELEMENTS (minus_shapes)))
-		minus = UTF8_MINUS;
-	else
-		minus = minus_shapes [shape];
-	
-	go_string_replace (str, i, 1, minus, -1);
-	return TRUE;
-}
-#endif
-
-#define HANDLE_MINUS(i) do {						\
+#define HANDLE_SIGN(i) do {						\
 		if (unicode_minus ||					\
-		    (shape_flags && (num_shape > 1)))			\
-			convert_minus (str, (i), num_shape, shape_flags); \
+		    ((shape_flags & GO_FMT_SHAPE_SIGNS)			\
+		     && (num_shape > 1)))				\
+			convert_sign (str, (i), num_shape, shape_flags); \
 	} while (0)
 
 
@@ -4105,7 +4187,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		if (val == SUFFIX(floor) (val) || digs == maxdigits) {
 			g_string_printf (str, "%.0" FORMAT_f, val);
 			HANDLE_NUMERAL_SHAPE;
-			HANDLE_MINUS (0);
+			HANDLE_SIGN (0);
 			SETUP_LAYOUT;
 			return;
 		}
@@ -4117,7 +4199,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
 		g_string_printf (str, "%.0" FORMAT_f, val);
 		HANDLE_NUMERAL_SHAPE;
-		HANDLE_MINUS (0);
+		HANDLE_SIGN (0);
 		SETUP_LAYOUT;
 		w = measure (str, layout);
 		if (w > col_width)
@@ -4130,7 +4212,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	prec = maxdigits - digs;
 	g_string_printf (str, "%.*" FORMAT_f, prec, val);
 	HANDLE_NUMERAL_SHAPE;
-	HANDLE_MINUS (0);
+	HANDLE_SIGN (0);
 	while (str->str[str->len - 1] == '0') {
 		g_string_truncate (str, str->len - 1);
 		prec--;
@@ -4154,7 +4236,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		prec--;
 		g_string_printf (str, "%.*" FORMAT_f, prec, val);
 		HANDLE_NUMERAL_SHAPE;
-		HANDLE_MINUS (0);
+		HANDLE_SIGN (0);
 	}
 
 	SETUP_LAYOUT;
@@ -4179,9 +4261,9 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
 			g_string_printf (str, "%.0" FORMAT_E, val);
 			HANDLE_NUMERAL_SHAPE;
-			HANDLE_MINUS (0);
+			HANDLE_SIGN (0);
 			epos = strchr (str->str, 'E') - str->str;
-			HANDLE_MINUS (epos + 1);
+			HANDLE_SIGN (epos + 1);
 			SETUP_LAYOUT;
 			if (!rounds_to_0)
 				return;
@@ -4213,9 +4295,9 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		int w;
 
 		HANDLE_NUMERAL_SHAPE;
-		HANDLE_MINUS (0);
+		HANDLE_SIGN (0);
 		epos = strchr (str->str + prec + 1, 'E') - str->str;
-		HANDLE_MINUS (epos + 1);
+		HANDLE_SIGN (epos + 1);
 		SETUP_LAYOUT;
 		w = measure (str, layout);
 		if (w <= col_width)

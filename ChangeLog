@@ -1,3 +1,18 @@
+2011-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_parse_locale): allow for 33 bit
+	locale
+	(handle_common_token): handle shape-flags
+	(go_format_parse_number_new_1): write sign after common tokens
+	(go_format_parse): just look at the locale part for the magic
+	(go_format_dump_program): separate shape flags from shape
+	(plus_shapes): new
+	(convert_minus): change into convert_sign
+	(INSERT_PLUS): new
+	(INSERT_MINUS): look at the right part of the flag
+	(go_format_execute): consider shape_flags, use shapes for non-markup
+	scientific format
+
 2011-12-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (handle_common_token): store shape
