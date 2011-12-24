@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-12-08 16:29+0000\n"
-"PO-Revision-Date: 2011-12-08 21:21+0100\n"
+"POT-Creation-Date: 2011-12-23 23:26+0000\n"
+"PO-Revision-Date: 2011-12-24 20:18+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -219,8 +219,8 @@ msgstr "Funkcija čiščenja znotraj vstavka je vrnila napako."
 
 #: ../goffice/app/go-plugin-service.c:177
 #: ../goffice/gtk/go-format-sel.c:60
-#: ../goffice/utils/go-format.c:786
-#: ../goffice/utils/go-format.c:4310
+#: ../goffice/utils/go-format.c:796
+#: ../goffice/utils/go-format.c:4614
 msgid "General"
 msgstr "Splošno"
 
@@ -1798,32 +1798,32 @@ msgstr "Prelomi besedilo"
 msgid "Whether the text might be displayed using several lines"
 msgstr "Ali je besedilo mogoče izpisati v več vrsticah"
 
-#: ../goffice/graph/gog-label.c:284
+#: ../goffice/graph/gog-label.c:286
 msgid "_Text:"
 msgstr "_Besedilo:"
 
-#: ../goffice/graph/gog-label.c:286
+#: ../goffice/graph/gog-label.c:288
 msgid "Rotate frame with text"
 msgstr "Zavrti okvir z besedilom"
 
-#: ../goffice/graph/gog-label.c:290
+#: ../goffice/graph/gog-label.c:292
 msgid "Display the text on several lines if needed"
 msgstr "Po potrebi prikaži besedilo v več vrsticah"
 
-#: ../goffice/graph/gog-label.c:294
+#: ../goffice/graph/gog-label.c:296
 msgid "Rotate background with text"
 msgstr "Zavrti ozadje z besedilom"
 
-#: ../goffice/graph/gog-label.c:298
+#: ../goffice/graph/gog-label.c:300
 msgid "Interpret text as markup"
 msgstr "Tolmači besedilo kot označeno"
 
-#: ../goffice/graph/gog-label.c:299
+#: ../goffice/graph/gog-label.c:301
 msgid "Interpret the text as an html like markup as described at http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr "Tolmači besedilo kot označeno besedilo HTML, kot je opisano na naslovu http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 
-#: ../goffice/graph/gog-label.c:305
-#: ../goffice/graph/gog-label.c:473
+#: ../goffice/graph/gog-label.c:307
+#: ../goffice/graph/gog-label.c:544
 #: ../goffice/graph/gog-reg-curve.c:71
 #: ../goffice/graph/gog-series-labels.c:567
 #: ../goffice/graph/gog-smoothed-curve.c:52
@@ -1833,23 +1833,31 @@ msgstr "Tolmači besedilo kot označeno besedilo HTML, kot je opisano na naslovu
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: ../goffice/graph/gog-label.c:494
+#: ../goffice/graph/gog-label.c:417
+msgid "Text justification"
+msgstr "Poravnava besedila"
+
+#: ../goffice/graph/gog-label.c:418
+msgid "Text justification as a string. Possible values are \"center\" (default value), \"left\", \"right\", or \"fill\"."
+msgstr "Poravnava besedila zapisana kot niz. Dovoljene vrednosti so \"sredinsko\" (privzeta vrednosti), \"levo\", \"desno\", or \"obojestransko\"."
+
+#: ../goffice/graph/gog-label.c:565
 msgid "Regression Equation"
 msgstr "Enačba regresije"
 
-#: ../goffice/graph/gog-label.c:533
+#: ../goffice/graph/gog-label.c:604
 msgid "Show equation"
 msgstr "Prikaži enačbo"
 
-#: ../goffice/graph/gog-label.c:534
+#: ../goffice/graph/gog-label.c:605
 msgid "Show the equation on the graph"
 msgstr "Pokaži izraz na diagramu"
 
-#: ../goffice/graph/gog-label.c:539
+#: ../goffice/graph/gog-label.c:610
 msgid "Show coefficient"
 msgstr "Pokaži koeficient"
 
-#: ../goffice/graph/gog-label.c:540
+#: ../goffice/graph/gog-label.c:611
 msgid "Show the correlation coefficient on the graph"
 msgstr "Na diagramu prikaži primerjalni koeficient"
 
@@ -2216,20 +2224,20 @@ msgstr "Prikaži _enačbo"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Prikaži koeficient _regresije R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1810
+#: ../goffice/graph/gog-renderer.c:1833
 #: ../goffice/graph/gog-view.c:585
 msgid "Model"
 msgstr "Model"
 
-#: ../goffice/graph/gog-renderer.c:1811
+#: ../goffice/graph/gog-renderer.c:1834
 msgid "The GogGraph this renderer displays"
 msgstr "Predmet GogGraph prikazan v izrisovalniku"
 
-#: ../goffice/graph/gog-renderer.c:1816
+#: ../goffice/graph/gog-renderer.c:1839
 msgid "View"
 msgstr "Pogled"
 
-#: ../goffice/graph/gog-renderer.c:1817
+#: ../goffice/graph/gog-renderer.c:1840
 msgid "the GogView this renderer is displaying"
 msgstr "Predmet GogView, ki ga prikazuje izrisovalnik"
 
@@ -5011,73 +5019,73 @@ msgid "Invalid image data\n"
 msgstr "Neveljavni podatki slike\n"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:484
+#: ../goffice/utils/go-format.c:493
 msgid "*Long Date Format"
 msgstr "*Dolg zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:492
+#: ../goffice/utils/go-format.c:501
 msgid "*Medium Date Format"
 msgstr "*Srednji zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:500
+#: ../goffice/utils/go-format.c:509
 msgid "*Short Date Format"
 msgstr "*Kratek zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:513
+#: ../goffice/utils/go-format.c:522
 msgid "*Short Date/Time Format"
 msgstr "*Kratek zapis datuma/časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:528
+#: ../goffice/utils/go-format.c:537
 msgid "*Long Time Format"
 msgstr "*Dolg zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:540
+#: ../goffice/utils/go-format.c:549
 msgid "*Medium Time Format"
 msgstr "*Srednji zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:552
+#: ../goffice/utils/go-format.c:561
 msgid "*Short Time Format"
 msgstr "*Kratek zapis časa"
 
-#: ../goffice/utils/go-format.c:594
+#: ../goffice/utils/go-format.c:603
 msgid "Black"
 msgstr "Črna"
 
-#: ../goffice/utils/go-format.c:595
+#: ../goffice/utils/go-format.c:604
 msgid "Blue"
 msgstr "Modra"
 
-#: ../goffice/utils/go-format.c:596
+#: ../goffice/utils/go-format.c:605
 msgid "Cyan"
 msgstr "Sinja"
 
-#: ../goffice/utils/go-format.c:597
+#: ../goffice/utils/go-format.c:606
 msgid "Green"
 msgstr "Zelena"
 
-#: ../goffice/utils/go-format.c:598
+#: ../goffice/utils/go-format.c:607
 msgid "Magenta"
 msgstr "Škrlatna"
 
-#: ../goffice/utils/go-format.c:599
+#: ../goffice/utils/go-format.c:608
 msgid "Red"
 msgstr "Rdeča"
 
-#: ../goffice/utils/go-format.c:600
+#: ../goffice/utils/go-format.c:609
 msgid "White"
 msgstr "Bela"
 
-#: ../goffice/utils/go-format.c:601
+#: ../goffice/utils/go-format.c:610
 msgid "Yellow"
 msgstr "Rumena"
 
-#: ../goffice/utils/go-format.c:621
+#: ../goffice/utils/go-format.c:630
 msgid "color"
 msgstr "barva"
 
@@ -5706,7 +5714,7 @@ msgid "Series lines"
 msgstr "Črte nizov"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:650
-#: ../plugins/plot_distrib/gog-histogram.c:1080
+#: ../plugins/plot_distrib/gog-histogram.c:1087
 msgid "Drop lines"
 msgstr "Vretenasti"
 
@@ -6263,9 +6271,9 @@ msgid "First values"
 msgstr "Prve vrednosti"
 
 #: ../plugins/plot_distrib/gog-histogram.c:480
-#: ../plugins/plot_distrib/gog-histogram.c:757
-#: ../plugins/plot_distrib/gog-histogram.c:766
-#: ../plugins/plot_distrib/gog-histogram.c:776
+#: ../plugins/plot_distrib/gog-histogram.c:758
+#: ../plugins/plot_distrib/gog-histogram.c:769
+#: ../plugins/plot_distrib/gog-histogram.c:781
 msgid "Second values"
 msgstr "Druge vrednosti"
 
