@@ -313,13 +313,19 @@ go_unichar_issign (gunichar uc)
 	case 0x207a: /* Superscript plus */
 	case 0x208a: /* Subscript plus */
 	case 0x2795: /* Unicode heavy plus */
+	case 0xfb29: /* Hebrew plus */
+	case 0xfe62: /* Unicode small plus */
 	case 0xff0b: /* Variant of '+' for CJK */
 		return +1;
 	case '-':
+	/* case 0x2052: /\* Commercial minus *\/ */
 	case 0x207b: /* Superscript minus */
 	case 0x208b: /* Subscript minus */
 	case 0x2212: /* Unicode minus */
 	case 0x2796: /* Unicode heavy minus */
+	case 0x8ca0: /* Traditional Chinese minus */
+	case 0x8d1f: /* Simplified Chinese minus */
+	case 0xfe63: /* Unicode small minus */
 	case 0xff0d: /* Variant of '-' for CJK */
 		return -1;
 	default:
