@@ -305,6 +305,28 @@ go_string_replace (GString *target,
 		g_string_insert_len (target, pos, txt, newlen);
 }
 
+int
+go_unichar_issign (gunichar uc)
+{
+	switch (uc) {
+	case '+':
+	case 0x207a: /* Superscript plus */
+	case 0x208a: /* Subscript plus */
+	case 0x2795: /* Unicode heavy plus */
+	case 0xff0b: /* Variant of '+' for CJK */
+		return +1;
+	case '-':
+	case 0x207b: /* Superscript minus */
+	case 0x208b: /* Subscript minus */
+	case 0x2212: /* Unicode minus */
+	case 0x2796: /* Unicode heavy minus */
+	case 0xff0d: /* Variant of '-' for CJK */
+		return -1;
+	default:
+		return 0;
+	}
+}
+
 /* ------------------------------------------------------------------------- */
 
 /**

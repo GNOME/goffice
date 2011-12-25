@@ -1,3 +1,8 @@
+2011-12-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_unichar_issign): New
+	function.
+
 2011-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_parse_locale): allow for 33 bit
