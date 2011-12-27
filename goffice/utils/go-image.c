@@ -490,6 +490,20 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 			g_object_unref (loader);
 		}
 	}
+	if (image == NULL) {
+		GtkIconTheme *theme = gtk_icon_theme_get_default ();
+		GdkPixbuf *placeholder;
+		if (gtk_icon_theme_has_icon (theme,"unknown_image"))
+			placeholder = gtk_icon_theme_load_icon (theme, "unknown_image", 100, 0, NULL);
+		else if (gtk_icon_theme_has_icon (theme,"unknown"))
+			placeholder = gtk_icon_theme_load_icon (theme, "unknown", 100, 0, NULL);
+		else
+			placeholder = gtk_icon_theme_load_icon (theme,
+			                                        gtk_icon_theme_get_example_icon_name (theme),
+			                                        100, 0, NULL);
+		image = go_pixbuf_new_from_pixbuf (placeholder);
+		g_object_unref (placeholder);
+	}
 	if (format)
 		*format = g_strdup (type);
 	g_free (real_type);

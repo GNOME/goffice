@@ -541,7 +541,7 @@ go_font_sel_set_font (GOFontSel *gfs, GOFont const *font)
 		pango_font_description_get_weight (font->desc) >= PANGO_WEIGHT_BOLD,
 		pango_font_description_get_style (font->desc) != PANGO_STYLE_NORMAL);
 	go_font_sel_set_points (gfs,
-		pango_font_description_get_size (font->desc) / PANGO_SCALE);
+		((double) pango_font_description_get_size (font->desc)) / PANGO_SCALE);
 	go_font_sel_set_strike (gfs, font->strikethrough);
 	go_font_sel_set_uline (gfs, font->underline);
 	go_font_sel_set_color (gfs, font->color);

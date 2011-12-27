@@ -10,6 +10,7 @@ Andreas:
 Jean:
 	* Fixed rounding errors in limits displayed in contour plot legend.
 	[#666292]
+	* Support wrapped charts labels, partially fixes #643873.
 
 Morten:
 	* Embed library ui files into library.

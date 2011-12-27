@@ -1,3 +1,15 @@
+2011-12-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: inhibit eps support for now because it makes gnumeric
+	crash when using jpeg images.
+	* goffice/graph/gog-label.c (gog_text_set_property),
+	(gog_text_view_size_request), (gog_text_view_render): add justification for
+	multi lines text.
+	* goffice/gtk/go-font-sel.c (go_font_sel_set_font): allow non integer font
+	sizes.
+	* goffice/utils/go-image.c (go_image_new_from_data): always display an image
+	even when the format is not supported.
+
 2011-12-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-glib-extras.c (go_unichar_issign): add signs

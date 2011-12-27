@@ -69,7 +69,7 @@ gog_text_set_property (GObject *obj, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+	gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
 static void
@@ -644,6 +644,7 @@ gog_text_view_size_request (GogView *v,
 	char *str = gog_text_get_str (text);
 	PangoAttrList *pl = text->allow_markup? NULL: gog_text_get_markup (text);
 	GOGeometryAABR aabr;
+	double w = text->allow_wrap? available->w: -1.;
 
 	req->w = req->h = 0.;
 	if (str != NULL) {
@@ -658,10 +659,10 @@ gog_text_view_size_request (GogView *v,
 			style->text_layout.angle = 0.;
 		gog_renderer_push_style (v->renderer, style);
 		if (gostr) {
-			gog_renderer_get_gostring_AABR (v->renderer, gostr, &aabr, available->w);
+			gog_renderer_get_gostring_AABR (v->renderer, gostr, &aabr, w);
 			go_string_unref (gostr);
 		} else
-			gog_renderer_get_text_AABR (v->renderer, str, text->allow_markup, &aabr, available->w);
+			gog_renderer_get_text_AABR (v->renderer, str, text->allow_markup, &aabr, w);
 		gog_renderer_pop_style (v->renderer);
 		g_object_unref (style);
 		if (text->rotate_frame) {
@@ -684,6 +685,7 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 	GOStyle *style = text->base.base.style;
 	char *str = gog_text_get_str (text);
 	PangoAttrList *pl = text->allow_markup? NULL: gog_text_get_markup (text);
+	double w = text->allow_wrap? view->allocation.w: -1.;
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
@@ -707,9 +709,9 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_push_style (view->renderer, rect_style);
 			}
 			if (gostr)
-				gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr, view->allocation.w);
+				gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr, w);
 			else
-				gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr, view->allocation.w);
+				gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr, w);
 			if (text->rotate_frame) {
 				rect = view->allocation;
 				rect.w = aabr.w + 2. * outline + pad_x;
@@ -731,14 +733,14 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_draw_gostring (view->renderer, gostr,
 			                            &view->residual, GO_ANCHOR_NW,
 			                            (GOG_IS_LABEL (text)? GOG_LABEL (text)->justification: GTK_JUSTIFY_LEFT),
-			                            view->allocation.w);
+			                            w);
 			go_string_unref (gostr);
 		} else
 			gog_renderer_draw_text (view->renderer, str,
 		                    		&view->residual, GO_ANCHOR_NW,
 			                        text->allow_markup,
 			                        (GOG_IS_LABEL (text)? GOG_LABEL (text)->justification: GTK_JUSTIFY_LEFT),
-			                        view->allocation.w);
+			                        w);
 		g_free (str);
 	}
 	gog_renderer_pop_style (view->renderer);
