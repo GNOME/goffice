@@ -1,3 +1,14 @@
+2011-12-238 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_parse_number_new_1): handle locales
+	before starting the numbers
+	(numeral_shapes): adjust
+	(chinese_marker_shapes): new
+	(convert_numerals): handle chinese position markers
+	(handle_chinese): new
+	(go_format_execute): call handle_chinese
+	(HANDLE_NUMERAL_SHAPE): call handle_chinese
+
 2011-12-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: inhibit eps support for now because it makes gnumeric
