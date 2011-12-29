@@ -1,4 +1,9 @@
-2011-12-238 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2011-12-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (chinese_marker_shapes): add large markers
+	(handle_chinese): use '?' for larger than expected markers
+
+2011-12-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_parse_number_new_1): handle locales
 	before starting the numbers
