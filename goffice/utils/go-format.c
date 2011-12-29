@@ -299,7 +299,10 @@ typedef enum {
 } GOFormatConditionOp;
 
 typedef enum {
-	GO_FMT_SHAPE_SIGNS = 1
+	GO_FMT_SHAPE_SIGNS = 1,
+	/* GENERAL implies GO_FMT_POSITION_MARKERS whether this is set or not */
+	/* This is only useful for Chinese/Japanese/Korean numerals           */
+	GO_FMT_POSITION_MARKERS = 2 
 } GOFormatShapeFlags;
 
 typedef struct {
@@ -3340,22 +3343,26 @@ convert_sign (GString *str, size_t i, guint shape, guint shape_flags)
 }
 
 static void
-handle_chinese (GString *numtxt, const char **dot, guint numeral_shape)
+handle_chinese (GString *numtxt, const char **dot, guint numeral_shape, 
+		guint shape_flags)
 {
 	GString *ntxt;
 	char const *last;
 	gint i, wan;
 	gboolean wan_written = TRUE;
 	gboolean digit_written = FALSE;
-	gboolean suppress_ten;
-	if (numeral_shape < 0x1B || numeral_shape > 0x27)
+	gboolean suppress_ten, suppress_ten_always;
+	if ((shape_flags & GO_FMT_POSITION_MARKERS) == 0 || 
+	    numeral_shape < 0x1B || numeral_shape > 0x27)
 		return;
 	last = ((dot && *dot) ? *dot - 1 : numtxt->str + (numtxt->len - 1));
 	if (last <= numtxt->str + 1)
 		return;
 
 	ntxt = g_string_sized_new (100);
-	suppress_ten = (numeral_shape == 0x1b || numeral_shape == 0x1d || numeral_shape == 0x26);
+	suppress_ten = (numeral_shape == 0x1b || numeral_shape == 0x1d 
+			|| numeral_shape == 0x26);
+	suppress_ten_always = (numeral_shape == 0x26);
 	i = 0;
 	wan = 0;
 	while (last >= numtxt->str) {
@@ -3370,7 +3377,9 @@ handle_chinese (GString *numtxt, const char **dot, guint numeral_shape)
 				}
 				if (i > 0)
 					g_string_prepend_c (ntxt, 'a' + i - 1);
-				if (!suppress_ten || *last != '1')
+				if (!suppress_ten_always ||
+				    !(suppress_ten && wan == 0) || 
+				    *last != '1')
 					g_string_prepend_c (ntxt, *last);
 				digit_written = TRUE;
 			}
@@ -3876,7 +3885,8 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				numtxt = g_string_sized_new (100);
 			g_string_printf (numtxt, "%.*" FORMAT_f, n, val);
 			dot = strstr (numtxt->str, decimal->str);
-			handle_chinese (numtxt, &dot, numeral_shape);
+			handle_chinese (numtxt, &dot, 
+					numeral_shape, shape_flags);
 			if (dot) {
 				size_t i = numtxt->len;
 				dotpos = dot - numtxt->str;
@@ -4452,7 +4462,8 @@ go_format_measure_strlen (const GString *str,
 	do {								\
 	if (num_shape > 1) {						\
 		/* 0: not set; 1: Western */				\
-		handle_chinese (str, NULL, num_shape);		\
+		handle_chinese (str, NULL, num_shape,			\
+				shape_flags | GO_FMT_POSITION_MARKERS);	\
 		convert_numerals (str, 0, str->len - 1, num_shape);	\
 	}								\
 	} while (0)

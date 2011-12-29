@@ -1,5 +1,11 @@
 2011-12-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (GOFormatShapeFlags): new flag
+	(handle_chinese): add and use shape_flags argument, change all
+	callers
+
+2011-12-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (chinese_marker_shapes): add large markers
 	(handle_chinese): use '?' for larger than expected markers
 
