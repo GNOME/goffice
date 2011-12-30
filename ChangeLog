@@ -1,5 +1,13 @@
 2011-12-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (ethiopic_additional_digits): new
+	(convert_numerals): use ethiopic_additional_digits
+	(handle_ethiopic): new
+	(go_format_execute): call handle_ethiopic
+	(go_render_general): call handle_ethiopic
+
+2011-12-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (GOFormatShapeFlags): new flag
 	(handle_chinese): add and use shape_flags argument, change all
 	callers

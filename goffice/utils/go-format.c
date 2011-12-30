@@ -2996,7 +2996,21 @@ static char const *numeral_shapes[][10]
     "\354\230\244","\354\234\241","\354\271\240","\355\214\224","\352\265\254"}   /* 27 Korean 4 */
 };
 
-/* We still need to separate these in traditional and simplified */
+static char const *ethiopic_additional_digits[] =
+	{
+		"\341\215\262", /* 10 U+1372 */
+		"\341\215\263", /* 20 U+1373 */
+		"\341\215\264", /* 30 U+1374 */
+		"\341\215\265", /* 40 U+1375 */
+		"\341\215\266", /* 50 U+1376 */
+		"\341\215\267", /* 60 U+1377 */
+		"\341\215\270", /* 70 U+1378 */
+		"\341\215\271", /* 80 U+1379 */
+		"\341\215\272", /* 90 U+137A */
+		"\341\215\273", /* 100 U+137B */
+		"\341\215\274"  /* 10000 U+137C */
+	};
+
 static char const *chinese_marker_shapes[][20] =
 	{
 		{"\345\215\201", /* 10 U+5341 */
@@ -3305,7 +3319,16 @@ convert_numerals (GString *str, gsize from, gsize to, guint shape)
 				go_string_replace (str, i, 1, num_str, -1);
 				val = TRUE;
 			}
-		} 
+		} else if (shape == 0x11 && 
+			   str->str[i] >= 'a' &&
+			   str->str[i] <= 'k') {
+			gint num = str->str[i] - 'a';
+			char const *num_str = ethiopic_additional_digits[num];
+			if (*num_str != 0) {
+				go_string_replace (str, i, 1, num_str, -1);
+				val = TRUE;
+			}			
+		}
 	}
 	return val;
 }
@@ -3341,6 +3364,74 @@ convert_sign (GString *str, size_t i, guint shape, guint shape_flags)
 		go_string_replace (str, i, 1, shaped_sign, -1);
 	return TRUE;
 }
+
+static void
+handle_ethiopic (GString *numtxt, const char **dot, guint numeral_shape, 
+		guint shape_flags)
+{
+	gint last;
+	gboolean hundred = FALSE;
+	gboolean cnt = 0;
+	gint tail = 0;
+
+	if ((shape_flags & GO_FMT_POSITION_MARKERS) == 0 || 
+	    numeral_shape != 0x11)
+		return;
+	if (dot && *dot) {
+		last = *dot - numtxt->str - 1;
+		tail = numtxt->len - last - 1;
+	} else {
+		last = (int)numtxt->len - 1;
+	}
+	if (last == 0 && numtxt->str[0] == '0')
+		g_string_erase (numtxt, 0, 1);
+	else if (last > 0) {
+		for (; last >= 0; last--) {
+			char digit = numtxt->str[last];
+			if (digit >= '0' && digit <= '9') {
+				if (cnt == 2)
+					g_string_insert_c (numtxt, last + 1, 'j');
+				else if (cnt == 4)
+					g_string_insert_c (numtxt, last + 1, 'k');
+				if (hundred) {
+					if (digit == '0') {
+						if (numtxt->str[last + 1] == '0') {
+							if (numtxt->str[last + 2] == 'j')
+								g_string_erase (numtxt, last, 3);
+							else
+								g_string_erase (numtxt, last, 2);
+						} else {
+							g_string_erase (numtxt, last, 1);
+							if (numtxt->str[last] == '1' &&
+							    numtxt->str[last + 1] == 'j')
+								g_string_erase (numtxt, last, 1);
+						}
+					} else {
+						numtxt->str[last] += ('a'-'1');
+						if (numtxt->str[last + 1] == '0')
+							g_string_erase (numtxt, last + 1, 1);	
+					}
+				}
+				hundred = !hundred;
+				cnt++;
+				if (cnt > 5)
+					cnt -= 4;
+			}
+		}
+		if (hundred) {
+			if (numtxt->str[0] == '0')
+				g_string_erase (numtxt, 0, 2);
+			else
+				if (numtxt->str[0] == '1' &&
+				    numtxt->str[1] == 'j')
+					g_string_erase (numtxt, 0, 1);
+		}
+	}
+
+	if (dot && *dot)
+		*dot = numtxt->str + (numtxt->len - tail);
+}
+
 
 static void
 handle_chinese (GString *numtxt, const char **dot, guint numeral_shape, 
@@ -3887,6 +3978,8 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			dot = strstr (numtxt->str, decimal->str);
 			handle_chinese (numtxt, &dot, 
 					numeral_shape, shape_flags);
+			handle_ethiopic (numtxt, &dot, 
+					 numeral_shape, shape_flags);
 			if (dot) {
 				size_t i = numtxt->len;
 				dotpos = dot - numtxt->str;
@@ -4464,6 +4557,8 @@ go_format_measure_strlen (const GString *str,
 		/* 0: not set; 1: Western */				\
 		handle_chinese (str, NULL, num_shape,			\
 				shape_flags | GO_FMT_POSITION_MARKERS);	\
+		handle_ethiopic (str, NULL, num_shape,			\
+				 shape_flags | GO_FMT_POSITION_MARKERS); \
 		convert_numerals (str, 0, str->len - 1, num_shape);	\
 	}								\
 	} while (0)
