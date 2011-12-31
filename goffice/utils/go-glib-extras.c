@@ -665,7 +665,7 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 		   GString **utf8_str, guint *truncated)
 {
 	int try;
-	gboolean debug = FALSE;
+	gboolean debug = go_debug_flag ("encoding");
 
 	g_return_val_if_fail (raw != NULL, NULL);
 
@@ -709,7 +709,7 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 			continue;
 
 		if (debug)
-			g_print ("Trying %s as encoding.\n", guess);
+			g_printerr ("Trying %s as encoding.\n", guess);
 
 		utf8_data = g_convert (raw, len, "UTF-8", guess,
 				       &bytes_read, &bytes_written, &error);
@@ -723,7 +723,7 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 				continue;
 			}
 			if (debug)
-				g_print ("Guessed %s as encoding.\n", guess);
+				g_printerr ("Guessed %s as encoding.\n", guess);
 			if (utf8_str)
 				*utf8_str = g_string_new_len
 					(utf8_data, bytes_written);

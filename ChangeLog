@@ -1,3 +1,8 @@
+2011-12-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_guess_encoding): Hook up
+	existing debug code.
+
 2011-12-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (ethiopic_additional_digits): new
