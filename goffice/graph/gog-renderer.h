@@ -24,12 +24,7 @@
 #include <goffice/goffice.h>
 
 #include <gsf/gsf.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <gdk/gdk.h>
-#else
-typedef struct _GdkPixbuf GdkPixbuf;
-#endif
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef GOFFICE_WITH_LASEM
 #include <lsmdomview.h>
