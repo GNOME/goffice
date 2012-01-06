@@ -224,6 +224,9 @@ go_plugin_service_resource_finalize (GObject *obj)
 		sr->value = NULL;
 	}
 
+	g_free (sr->id);
+	sr->id = NULL;
+
 	go_plugin_service_resource_parent_class->finalize (obj);
 }
 
