@@ -1,3 +1,9 @@
+2012-01-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c (graph_typeselect_minor): fixed selector
+	position. [#667793]
+	* goffice/utils/go-cairo.h: set CAIRO_CLAMP to a larger value. [#645938]
+
 2012-01-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer.h: fixed GdkPixbuf usage. [#667005]

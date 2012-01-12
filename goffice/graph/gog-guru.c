@@ -176,14 +176,6 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 
 	g_return_if_fail (type != NULL);
 
-	typesel->current_type = type;
-	typesel->current_minor_item = item;
-	goc_item_get_bounds (item, &x1, &y1, &x2, &y2);
-	goc_item_set (GOC_ITEM (typesel->selector),
-		"x", x1-1., "y", y1-1.,
-		"width", x2-x1+2., "height", y2-y1+2.,
-		NULL);
-
 	enable_next_button = (s->plot == NULL);
 
 	plot = gog_plot_new_by_type (type);
@@ -219,6 +211,14 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 				   PIXBUFS_LOADED_KEY,
 				   GINT_TO_POINTER (1));
 	}
+
+	typesel->current_type = type;
+	typesel->current_minor_item = item;
+	goc_item_get_bounds (item, &x1, &y1, &x2, &y2);
+	goc_item_set (GOC_ITEM (typesel->selector),
+		"x", x1-1., "y", y1-1.,
+		"width", x2-x1+2., "height", y2-y1+2.,
+		NULL);
 
 	if (s->chart != NULL) {
 		GogObject *obj = GOG_OBJECT (s->chart);

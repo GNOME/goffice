@@ -12,6 +12,8 @@ Jean:
 	[#666292]
 	* Support wrapped charts labels, partially fixes #643873.
 	* Fixed GdkPixbuf usage. [#667005]
+	* Don't truncate images when exporting a chart. [#645938]
+	* Fixed graph type selector position. [#667793]
 
 Morten:
 	* Embed library ui files into library.
