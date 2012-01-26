@@ -1,3 +1,10 @@
+2012-01-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-doc.c (go_doc_set_dirty_time)
+	(go_doc_get_dirty_time): New function.
+	(go_doc_set_dirty): Set dirty time.
+	(go_doc_class_init): Install new dirty-time property.
+
 2012-01-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru.c (graph_typeselect_minor): fixed selector

@@ -35,6 +35,7 @@ enum {
 	PROP_0,
 	PROP_URI,
 	PROP_DIRTY,
+	PROP_DIRTY_TIME,
 	PROP_PRISTINE
 };
 enum {
@@ -60,6 +61,10 @@ go_doc_get_property (GObject *obj, guint property_id,
 		g_value_set_boolean (value, go_doc_is_dirty (doc));
 		break;
 
+	case PROP_DIRTY_TIME:
+		g_value_set_int64 (value, go_doc_get_dirty_time (doc));
+		break;
+
 	case PROP_PRISTINE:
 		g_value_set_boolean (value, go_doc_is_pristine (doc));
 		break;
@@ -83,6 +88,10 @@ go_doc_set_property (GObject *obj, guint property_id,
 
  	case PROP_DIRTY:
 		go_doc_set_dirty (doc, g_value_get_boolean (value));
+		break;
+
+ 	case PROP_DIRTY_TIME:
+		go_doc_set_dirty_time (doc, g_value_get_int64 (value));
 		break;
 
  	case PROP_PRISTINE:
@@ -141,6 +150,12 @@ go_doc_class_init (GObjectClass *object_class)
 		 g_param_spec_boolean ("dirty", _("Dirty"),
 			_("Whether the document has been changed."),
 			FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+        g_object_class_install_property (object_class, PROP_DIRTY_TIME,
+		 g_param_spec_int64 ("dirty-time", _("Dirty Time"),
+			_("When the document was first changed."),
+			G_MININT64, G_MAXINT64, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
         g_object_class_install_property (object_class, PROP_PRISTINE,
 		 g_param_spec_boolean ("pristine", _("Pristine"),
@@ -216,11 +231,13 @@ go_doc_set_dirty (GODoc *doc, gboolean is_dirty)
 	if (is_dirty == doc->modified)
 		return;
 
-	/* Dirtiness changed so no longer pristine.  */
-	go_doc_set_pristine (doc, FALSE);
-
 	doc->modified = is_dirty;
 	g_object_notify (G_OBJECT (doc), "dirty");
+
+	go_doc_set_dirty_time (doc, is_dirty ? g_get_real_time () : 0);
+
+	/* Dirtiness changed so no longer pristine.  */
+	go_doc_set_pristine (doc, FALSE);
 }
 
 /**
@@ -235,6 +252,40 @@ go_doc_is_dirty (GODoc const *doc)
 	g_return_val_if_fail (GO_IS_DOC (doc), FALSE);
 
 	return doc->modified;
+}
+
+/**
+ * go_doc_set_dirty_time :
+ * @doc : #GODoc
+ * @t : a timestamp from g_get_real_time
+ *
+ * Changes the dirty time, i.e., the time the document was first marked
+ * dirty.
+ **/
+void
+go_doc_set_dirty_time (GODoc *doc, gint64 t)
+{
+	g_return_if_fail (GO_IS_DOC (doc));
+
+	if (doc->first_modification_time == t)
+		return;
+
+	doc->first_modification_time = t;
+	g_object_notify (G_OBJECT (doc), "dirty-time");
+}
+
+/**
+ * go_doc_get_dirty_time :
+ * @doc : #GODoc
+ *
+ * Returns: the time (as in g_get_real_time()) the document was first marked
+ * dirty.
+ **/
+gint64
+go_doc_get_dirty_time (GODoc const *doc)
+{
+	g_return_val_if_fail (GO_IS_DOC (doc), 0);
+	return doc->first_modification_time;
 }
 
 /**

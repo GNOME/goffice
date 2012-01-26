@@ -34,8 +34,12 @@ GType go_doc_get_type (void);
 
 void     go_doc_set_pristine             (GODoc *doc, gboolean pristine);
 gboolean go_doc_is_pristine		 (GODoc const *doc);
+
 void	 go_doc_set_dirty		 (GODoc *doc, gboolean is_dirty);
 gboolean go_doc_is_dirty		 (GODoc const *doc);
+
+void     go_doc_set_dirty_time           (GODoc *doc, gint64 t);
+gint64   go_doc_get_dirty_time           (GODoc const *doc);
 
 gboolean	 go_doc_set_uri		 (GODoc *doc, char const *uri);
 char const	*go_doc_get_uri		 (GODoc const *doc);

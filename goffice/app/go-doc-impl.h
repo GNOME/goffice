@@ -31,6 +31,7 @@ struct _GODoc {
 	gchar		*uri;
 	GsfDocMetaData	*meta_data;
 	gboolean	 modified;
+	gint64           first_modification_time;
 	gboolean	 pristine;
 	GHashTable	*images;
 	GHashTable	*imagebuf; /* used when loading/saving images */
