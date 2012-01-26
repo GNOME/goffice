@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-12-23 23:26+0000\n"
-"PO-Revision-Date: 2011-12-24 20:18+0100\n"
+"POT-Creation-Date: 2012-01-26 21:04+0000\n"
+"PO-Revision-Date: 2012-01-26 22:10+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -87,31 +87,39 @@ msgstr "To varnostno zmožnost lahko onemogočite z urejanjem ustrezne datoteke 
 msgid "Invalid %s: '%s'"
 msgstr "Neveljavno %s: '%s'"
 
-#: ../goffice/app/go-doc.c:136
+#: ../goffice/app/go-doc.c:145
 msgid "URI"
 msgstr "Naslov URI"
 
-#: ../goffice/app/go-doc.c:137
+#: ../goffice/app/go-doc.c:146
 msgid "The URI associated with this document."
 msgstr "Naslov URI povezan s tem dokumentom."
 
-#: ../goffice/app/go-doc.c:141
+#: ../goffice/app/go-doc.c:150
 msgid "Dirty"
 msgstr "Spremenjeno"
 
-#: ../goffice/app/go-doc.c:142
+#: ../goffice/app/go-doc.c:151
 msgid "Whether the document has been changed."
 msgstr "Ali je dokument spremenjen."
 
-#: ../goffice/app/go-doc.c:146
+#: ../goffice/app/go-doc.c:155
+msgid "Dirty Time"
+msgstr "Čas prve spremembe"
+
+#: ../goffice/app/go-doc.c:156
+msgid "When the document was first changed."
+msgstr "Datum prve spremembe dokumenta."
+
+#: ../goffice/app/go-doc.c:161
 msgid "Pristine"
 msgstr "Pristno"
 
-#: ../goffice/app/go-doc.c:147
+#: ../goffice/app/go-doc.c:162
 msgid "Whether the document is unchanged since it was created."
 msgstr "Ali je dokument od ustvarjanja dalje ostal nespremenjen."
 
-#: ../goffice/app/go-doc.c:366
+#: ../goffice/app/go-doc.c:417
 #: ../goffice/canvas/goc-image.c:294
 msgid "Image"
 msgstr "Slika"
@@ -205,7 +213,7 @@ msgid "Service '%s' not supported by loader."
 msgstr "Storitev '%s' ni podprta z nalagalnikom."
 
 #: ../goffice/app/go-plugin-service.c:141
-#: ../goffice/app/go-plugin-service.c:977
+#: ../goffice/app/go-plugin-service.c:980
 msgid "Error while loading plugin service."
 msgstr "Napaka med nalaganjem storitve vstavkov."
 
@@ -219,71 +227,71 @@ msgstr "Funkcija čiščenja znotraj vstavka je vrnila napako."
 
 #: ../goffice/app/go-plugin-service.c:177
 #: ../goffice/gtk/go-format-sel.c:60
-#: ../goffice/utils/go-format.c:796
-#: ../goffice/utils/go-format.c:4614
+#: ../goffice/utils/go-format.c:799
+#: ../goffice/utils/go-format.c:5069
 msgid "General"
 msgstr "Splošno"
 
-#: ../goffice/app/go-plugin-service.c:254
+#: ../goffice/app/go-plugin-service.c:257
 msgid "Resource"
 msgstr "Vir"
 
-#: ../goffice/app/go-plugin-service.c:302
+#: ../goffice/app/go-plugin-service.c:305
 msgid "Invalid resource service"
 msgstr "Neveljavna storitev vira."
 
-#: ../goffice/app/go-plugin-service.c:471
+#: ../goffice/app/go-plugin-service.c:474
 msgid "File opener has no description"
 msgstr "Odpiralnik datoteke je brez opisa"
 
-#: ../goffice/app/go-plugin-service.c:505
+#: ../goffice/app/go-plugin-service.c:508
 #, c-format
 msgid "File opener - %s"
 msgstr "Odpiralnik datotek - %s"
 
-#: ../goffice/app/go-plugin-service.c:626
+#: ../goffice/app/go-plugin-service.c:629
 msgid "Error while reading file."
 msgstr "Napaka med branjem datoteke."
 
-#: ../goffice/app/go-plugin-service.c:784
+#: ../goffice/app/go-plugin-service.c:787
 msgid "File saver has no description"
 msgstr "Shranjevalnik datoteke je brez opisa"
 
-#: ../goffice/app/go-plugin-service.c:827
+#: ../goffice/app/go-plugin-service.c:830
 #, c-format
 msgid "File saver - %s"
 msgstr "Shranjevalnik datotek - %s"
 
-#: ../goffice/app/go-plugin-service.c:887
+#: ../goffice/app/go-plugin-service.c:890
 msgid "Error while loading plugin for saving."
 msgstr "Napaka med nalaganjem vstavka za shranjevanje."
 
-#: ../goffice/app/go-plugin-service.c:889
+#: ../goffice/app/go-plugin-service.c:892
 msgid "Failed to load plugin for saving"
 msgstr "Nalaganje vstavka za shranjevanje je spodletelo"
 
-#: ../goffice/app/go-plugin-service.c:1014
+#: ../goffice/app/go-plugin-service.c:1017
 msgid "Plugin loader"
 msgstr "Nalagalnik vstavkov"
 
-#: ../goffice/app/go-plugin-service.c:1039
+#: ../goffice/app/go-plugin-service.c:1042
 msgid "GObject loader"
 msgstr "Nalagalnik GObject"
 
-#: ../goffice/app/go-plugin-service.c:1146
+#: ../goffice/app/go-plugin-service.c:1149
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Za element \"storitve\" ni določila \"vrste\"."
 
-#: ../goffice/app/go-plugin-service.c:1152
+#: ../goffice/app/go-plugin-service.c:1155
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Neznana vrsta storitve: %s."
 
-#: ../goffice/app/go-plugin-service.c:1168
+#: ../goffice/app/go-plugin-service.c:1171
 msgid "Error reading service information."
 msgstr "Napaka med branjem podrobnosti storitve."
 
-#: ../goffice/app/go-plugin-service.c:1230
+#: ../goffice/app/go-plugin-service.c:1233
 msgid "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but loading failed."
 msgstr "Storitev je treba pred zagonom naložiti (PLUGIN_ALWAYS_LOAD je nastavljen), vendar je nalaganje spodletelo."
 
@@ -5019,73 +5027,73 @@ msgid "Invalid image data\n"
 msgstr "Neveljavni podatki slike\n"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:493
+#: ../goffice/utils/go-format.c:496
 msgid "*Long Date Format"
 msgstr "*Dolg zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:501
+#: ../goffice/utils/go-format.c:504
 msgid "*Medium Date Format"
 msgstr "*Srednji zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:509
+#: ../goffice/utils/go-format.c:512
 msgid "*Short Date Format"
 msgstr "*Kratek zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:522
+#: ../goffice/utils/go-format.c:525
 msgid "*Short Date/Time Format"
 msgstr "*Kratek zapis datuma/časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:537
+#: ../goffice/utils/go-format.c:540
 msgid "*Long Time Format"
 msgstr "*Dolg zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:549
+#: ../goffice/utils/go-format.c:552
 msgid "*Medium Time Format"
 msgstr "*Srednji zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:561
+#: ../goffice/utils/go-format.c:564
 msgid "*Short Time Format"
 msgstr "*Kratek zapis časa"
 
-#: ../goffice/utils/go-format.c:603
+#: ../goffice/utils/go-format.c:606
 msgid "Black"
 msgstr "Črna"
 
-#: ../goffice/utils/go-format.c:604
+#: ../goffice/utils/go-format.c:607
 msgid "Blue"
 msgstr "Modra"
 
-#: ../goffice/utils/go-format.c:605
+#: ../goffice/utils/go-format.c:608
 msgid "Cyan"
 msgstr "Sinja"
 
-#: ../goffice/utils/go-format.c:606
+#: ../goffice/utils/go-format.c:609
 msgid "Green"
 msgstr "Zelena"
 
-#: ../goffice/utils/go-format.c:607
+#: ../goffice/utils/go-format.c:610
 msgid "Magenta"
 msgstr "Škrlatna"
 
-#: ../goffice/utils/go-format.c:608
+#: ../goffice/utils/go-format.c:611
 msgid "Red"
 msgstr "Rdeča"
 
-#: ../goffice/utils/go-format.c:609
+#: ../goffice/utils/go-format.c:612
 msgid "White"
 msgstr "Bela"
 
-#: ../goffice/utils/go-format.c:610
+#: ../goffice/utils/go-format.c:613
 msgid "Yellow"
 msgstr "Rumena"
 
-#: ../goffice/utils/go-format.c:630
+#: ../goffice/utils/go-format.c:633
 msgid "color"
 msgstr "barva"
 
@@ -5110,20 +5118,20 @@ msgstr "desno"
 msgid "left"
 msgstr "levo"
 
-#: ../goffice/utils/go-glib-extras.c:820
+#: ../goffice/utils/go-glib-extras.c:848
 msgid "yes"
 msgstr "da"
 
-#: ../goffice/utils/go-glib-extras.c:826
+#: ../goffice/utils/go-glib-extras.c:854
 msgid "no"
 msgstr "ne"
 
-#: ../goffice/utils/go-glib-extras.c:1020
+#: ../goffice/utils/go-glib-extras.c:1048
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Navedena nit ni končana"
 
-#: ../goffice/utils/go-glib-extras.c:1027
+#: ../goffice/utils/go-glib-extras.c:1055
 #, c-format
 msgid "Syntax error"
 msgstr "Napaka skladnje"
