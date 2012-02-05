@@ -1,3 +1,14 @@
+2012-02-05  Jean Brefort  <jean.brefort@normalesup.org>
+	* goffice/graph/gog-axis-line.c (axis_line_render): limit the axis line
+	to its actual span.
+	* goffice/graph/gog-axis.c (gog_axis_map_get_extents),
+	(gog_axis_map_get_bounds): fix bounds for logarithmic axes using only
+	a partial range. [#669257]
+	* goffice/graph/gog-chart-map.c (xy_make_path): add ODF like Bezier cubic
+	spline interpolation. [#663356]
+	* goffice/utils/go-line.c: ditto.
+	* goffice/utils/goffice-utils.h: ditto.
+
 2012-01-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-doc.c (go_doc_set_dirty_time)

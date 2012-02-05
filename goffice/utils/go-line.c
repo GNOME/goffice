@@ -56,6 +56,7 @@
  * @GO_LINE_INTERPOLATION_STEP_CENTER_X: Steps centered around each point.
  * @GO_LINE_INTERPOLATION_STEP_CENTER_Y: Steps using mean y value.
  * @GO_LINE_INTERPOLATION_MAX: First invalid value.
+ * @GO_LINE_INTERPOLATION_ODF_SPLINE: ODF compatible Bezier cubic spline interpolation, cyclic if first and last points are identical.
  **/
 
 typedef struct {
@@ -121,6 +122,8 @@ static struct {
 		"spline",		TRUE,  FALSE },
 	{ GO_LINE_INTERPOLATION_CLOSED_SPLINE,		N_("Closed Bezier cubic spline"),
 		"closed-spline",	TRUE,  TRUE },
+	{ GO_LINE_INTERPOLATION_ODF_SPLINE,		N_("ODF compatible Bezier cubic spline"),
+		"odf-spline",		TRUE,  FALSE },
 	{ GO_LINE_INTERPOLATION_CUBIC_SPLINE,		N_("Natural cubic spline"),
 		"cspline",		FALSE, FALSE },
 	{ GO_LINE_INTERPOLATION_PARABOLIC_CUBIC_SPLINE,	N_("Cubic spline with parabolic extrapolation"),

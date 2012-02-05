@@ -521,6 +521,12 @@ xy_make_path (GogChartMap *map, double const *x, double const *y,
 		case GO_LINE_INTERPOLATION_STEP_CENTER_Y:
 			path = xy_make_path_step (map, x, y, n_points, interpolation, skip_invalid);
 			break;
+		case GO_LINE_INTERPOLATION_ODF_SPLINE:
+			if (x[0] == x[n_points - 1] && y[0] == y[n_points - 1])
+				path = make_path_spline (map, x, y, n_points - 1, TRUE, TRUE, skip_invalid);
+			else
+				path = make_path_spline (map, x, y, n_points, FALSE, FALSE, skip_invalid);
+			break;
 		default:
 			g_assert_not_reached ();
 	}

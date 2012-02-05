@@ -1131,12 +1131,14 @@ axis_line_render (GogAxisBase *axis_base,
 	is_line_visible = go_style_is_line_visible (style);
 	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
 
-	if (is_line_visible)
-	{
+	if (is_line_visible) {
+		/* draw the line only in the effective range */
+		double s, e;
+		gog_axis_get_effective_span (axis_base->axis, &s, &e);
 		path = go_path_new ();
 		go_path_set_options (path, sharp ? GO_PATH_OPTIONS_SHARP : 0);
-		go_path_move_to (path, x, y);
-		go_path_line_to (path, x + w, y + h);
+		go_path_move_to (path, x + w * s , y + h * s);
+		go_path_line_to (path, x + w * e, y + h * e);
 	}
 
 	map = gog_axis_map_new (axis_base->axis, 0., axis_length);

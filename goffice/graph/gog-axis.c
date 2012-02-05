@@ -1724,17 +1724,31 @@ gog_axis_map_get_baseline (GogAxisMap *map)
 void
 gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 {
+	double x0, x1;
 	g_return_if_fail (map != NULL);
 
-	if (map->axis->inverted)
-		map->desc->map_bounds (map, stop, start);
+	if (gog_axis_is_inverted (map->axis))
+		map->desc->map_bounds (map, &x1, &x0);
 	else
-		map->desc->map_bounds (map, start, stop);
+		map->desc->map_bounds (map, &x0, &x1);
 	if (map->axis->type != GOG_AXIS_CIRCULAR) {
-		double buf = (*stop - *start) / (map->axis->span_end - map->axis->span_start);
-		*start -= map->axis->span_start * buf;
-		*stop = *start + buf;
+		if (gog_axis_is_discrete (map->axis)) {
+			double buf = (x1 - x0) / (map->axis->span_end - map->axis->span_start);
+			x0 -= map->axis->span_start * buf;
+			x1 = x0 + buf;
+		} else {
+			double t, buf;
+			t = gog_axis_map_to_view (map, x0);
+			buf = (gog_axis_map_to_view (map, x1) - t) / (map->axis->span_end - map->axis->span_start);
+			t -= map->axis->span_start * buf;
+			x0 = gog_axis_map_from_view (map, t);
+			x1 = gog_axis_map_from_view (map, t + buf);
+		}
 	}
+	if (start)
+		*start = x0;
+	if (stop)
+		*stop = x1;
 }
 
 /**
@@ -1752,14 +1766,31 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 void
 gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
+	double x0, x1;
 	g_return_if_fail (map != NULL);
 
-	map->desc->map_bounds (map, minimum, maximum);
+	if (gog_axis_is_inverted (map->axis))
+		map->desc->map_bounds (map, &x1, &x0);
+	else
+		map->desc->map_bounds (map, &x0, &x1);
 	if (map->axis->type != GOG_AXIS_CIRCULAR) {
-		double buf = (*minimum - *maximum) / (map->axis->span_end - map->axis->span_start);
-		*maximum -= map->axis->span_start * buf;
-		*minimum = *maximum + buf;
+		if (gog_axis_is_discrete (map->axis)) {
+			double buf = (x1 - x0) / (map->axis->span_end - map->axis->span_start);
+			x0 -= map->axis->span_start * buf;
+			x1 = x0 + buf;
+		} else {
+			double t, buf;
+			t = gog_axis_map_to_view (map, x0);
+			buf = (gog_axis_map_to_view (map, x1) - t) / (map->axis->span_end - map->axis->span_start);
+			t -= map->axis->span_start * buf;
+			x0 = gog_axis_map_from_view (map, t);
+			x1 = gog_axis_map_from_view (map, t + buf);
+		}
 	}
+	if (minimum)
+		*minimum = (map->axis->inverted)? x1: x0;
+	if (maximum)
+		*maximum = (map->axis->inverted)? x0: x1;
 }
 
 /**
