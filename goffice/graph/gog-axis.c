@@ -3433,8 +3433,8 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 						}
 						tmp.h -= req.h + pad_h;
 					} else {
-						child_bbox.y = plot_area->y +
-							(plot_area->h * (start + end) - req.h) / 2.0;
+						child_bbox.y = plot_area->y + plot_area->h -
+							(plot_area->h * (start + end) + req.h) / 2.0;
 						child_bbox.h = req.h;
 						child_bbox.w = req.w;
 						switch (axis_pos) {

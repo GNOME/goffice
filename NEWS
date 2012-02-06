@@ -16,6 +16,7 @@ Jean:
 	* Add automatic Bezier spline interpolation. [663356]
 	* Fixed graph type selector position. [#667793]
 	* Fix bounds for partial range logarithmic axes. [#669257]
+	* Fix Y-axis label position. [#669325]
 
 Morten:
 	* Embed library ui files into library.

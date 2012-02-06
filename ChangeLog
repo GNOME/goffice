@@ -1,3 +1,9 @@
+2012-02-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): fix Y-axis label
+	position. [#669325]
+	* goffice/utils/go-line.c: fix documentation.
+
 2012-02-05  Jean Brefort  <jean.brefort@normalesup.org>
 	* goffice/graph/gog-axis-line.c (axis_line_render): limit the axis line
 	to its actual span.
