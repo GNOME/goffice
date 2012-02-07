@@ -1,8 +1,7 @@
 2012-02-07  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* goffice/graph/gog-renderer.c (gog_renderer_draw_gostring):
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_gostring): take subscript
+	and superscript into account.
 
 2012-02-06  Jean Brefort  <jean.brefort@normalesup.org>
 
