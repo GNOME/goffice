@@ -193,21 +193,19 @@ order_changed_cb (GtkSpinButton *btn, GObject *obj)
 static void
 gog_polynom_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 {
-	int rows, columns;
-	GtkWidget *w;
+	GtkWidget *l, *w;
 	GogLinRegCurve *lin = GOG_LIN_REG_CURVE (reg_curve);
 
 	((GogRegCurveClass*) gog_polynom_reg_curve_parent_klass)->populate_editor (reg_curve, table);
-	g_object_get (G_OBJECT (table), "n-rows", &rows, "n-columns", &columns, NULL);
-	gtk_table_resize (table, rows + 1, columns);
-	w = gtk_label_new (_("Order:"));
-	gtk_label_set_justify (GTK_LABEL (w), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (w);
-	gtk_table_attach (table, w, 0, 1, rows, rows + 1, 0, 0, 0, 0);
+	l = gtk_label_new (_("Order:"));
+	gtk_misc_set_alignment (GTK_MISC (l), 0., 0.5);
+	gtk_label_set_justify (GTK_LABEL (l), GTK_JUSTIFY_LEFT);
+	gtk_widget_show (l);
+	gtk_grid_attach_next_to (table, l, NULL, GTK_POS_BOTTOM, 1, 1);
 	w = gtk_spin_button_new_with_range (2, 10, 1);
 	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (w), 0);
 	gtk_widget_show (w);
-	gtk_table_attach (table, w, 1, columns, rows, rows + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach_next_to (table, w, l, GTK_POS_RIGHT, 1, 1);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), lin->dims);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (order_changed_cb), lin);
 }

@@ -47,7 +47,7 @@ struct _GocGroupClass
 	void (*reserved2) (void);
 	void (*reserved3) (void);
 	void (*reserved4) (void);
-};																																																																																																																																																																								
+};
 
 #define GOC_TYPE_GROUP	(goc_group_get_type ())
 #define GOC_GROUP(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_GROUP, GocGroup))

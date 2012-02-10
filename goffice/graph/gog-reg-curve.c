@@ -34,6 +34,7 @@ static GType gog_reg_curve_view_get_type (void);
 enum {
 	REG_CURVE_PROP_0,
 	REG_CURVE_PROP_SKIP_INVALID,
+	REG_CURVE_PROP_DRAWING_BOUNDS
 };
 
 static void
@@ -45,10 +46,51 @@ gog_reg_curve_init_style (GogStyledObject *gso, GOStyle *style)
 }
 
 #ifdef GOFFICE_WITH_GTK
+
+struct reg_curve_closure {
+	GtkWidget *al1, *al2, *rl1, *rl2, *fe1, *fe2;
+	GObject *rc;
+};
+
 static void
 skip_invalid_toggled_cb (GtkToggleButton* btn, GObject *obj)
 {
 	g_object_set (obj, "skip-invalid", gtk_toggle_button_get_active (btn), NULL);
+}
+
+
+static void
+limits_changed_cb (GtkComboBox* btn, struct reg_curve_closure *cl)
+{
+	GogRegCurveDrawingBounds db = gtk_combo_box_get_active (btn);
+	switch (db) {
+	case GOG_REG_CURVE_DRAWING_BOUNDS_NONE:
+		gtk_widget_hide (cl->al1);
+		gtk_widget_hide (cl->al2);
+		gtk_widget_hide (cl->rl1);
+		gtk_widget_hide (cl->rl2);
+		gtk_widget_hide (cl->fe1);
+		gtk_widget_hide (cl->fe2);
+		break;
+	case GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE:
+		gtk_widget_show (cl->al1);
+		gtk_widget_show (cl->al2);
+		gtk_widget_hide (cl->rl1);
+		gtk_widget_hide (cl->rl2);
+		gtk_widget_show (cl->fe1);
+		gtk_widget_show (cl->fe2);
+		break;
+	case GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE:
+		gtk_widget_hide (cl->al1);
+		gtk_widget_hide (cl->al2);
+		gtk_widget_show (cl->rl1);
+		gtk_widget_show (cl->rl2);
+		gtk_widget_show (cl->fe1);
+		gtk_widget_show (cl->fe2);
+		break;
+	}
+	GOG_REG_CURVE (cl->rc)->drawing_bounds = db;
+	gog_object_emit_changed (GOG_OBJECT (cl->rc), FALSE);
 }
 
 static void
@@ -58,9 +100,11 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 			       GOCmdContext	*cc)
 {
 	GtkWidget *w;
-	GtkTable *table;
+	GtkGrid *grid;
 	GtkBuilder *gui;
 	GogDataset *set = GOG_DATASET (gobj);
+	struct reg_curve_closure *cl;
+	GogRegCurveDrawingBounds db = GOG_REG_CURVE (gobj)->drawing_bounds;
 
 	gui = go_gtk_builder_new_internal ("res:go:graph/gog-reg-curve-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
@@ -70,24 +114,59 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 			     go_gtk_builder_get_widget (gui, "reg-curve-prefs"),
 			     _("Details"));
 
-	table = GTK_TABLE (gtk_builder_get_object (gui, "reg-curve-prefs"));
+	cl = g_new0 (struct reg_curve_closure, 1);
+	cl->rc = G_OBJECT (gobj);
+	grid = GTK_GRID (gtk_builder_get_object (gui, "reg-curve-prefs"));
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, -1, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
-	gtk_table_attach (table, w, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach (grid, w, 1, 0, 2, 1);
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
-	gtk_table_attach (table, w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach (grid, w, 1, 2, 2, 1);
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
-	gtk_table_attach (table, w, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach (grid, w, 1, 3, 2, 1);
 	w = go_gtk_builder_get_widget (gui, "skip-invalid");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 					(GOG_REG_CURVE (gobj))->skip_invalid);
 	g_signal_connect (G_OBJECT (w), "toggled",
 		G_CALLBACK (skip_invalid_toggled_cb), gobj);
+	cl->fe1 = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 2, GOG_DATA_SCALAR));
+	gtk_grid_attach (grid, cl->fe1, 1, 6, 2, 1);
+	cl->fe2 = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 3, GOG_DATA_SCALAR));
+	gtk_grid_attach (grid, cl->fe2, 1, 7, 2, 1);
+	cl->al1 = go_gtk_builder_get_widget (gui, "low-lbl");
+	cl->al2 = go_gtk_builder_get_widget (gui, "high-lbl");
+	cl->rl1 = go_gtk_builder_get_widget (gui, "first-lbl");
+	cl->rl2 = go_gtk_builder_get_widget (gui, "last-lbl");
+	switch (db) {
+	case GOG_REG_CURVE_DRAWING_BOUNDS_NONE:
+		gtk_widget_hide (cl->al1);
+		gtk_widget_hide (cl->al2);
+		gtk_widget_hide (cl->rl1);
+		gtk_widget_hide (cl->rl2);
+		break;
+	case GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE:
+		gtk_widget_hide (cl->rl1);
+		gtk_widget_hide (cl->rl2);
+		gtk_widget_show (cl->fe1);
+		gtk_widget_show (cl->fe2);
+		break;
+	case GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE:
+		gtk_widget_hide (cl->al1);
+		gtk_widget_hide (cl->al2);
+		gtk_widget_show (cl->fe1);
+		gtk_widget_show (cl->fe2);
+		break;
+	}
+	w = go_gtk_builder_get_widget (gui, "draw-limits-box");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), db);
+	g_signal_connect (G_OBJECT (w), "changed",
+		G_CALLBACK (limits_changed_cb), cl);
 	if ((GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor != NULL)
-		(GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor (GOG_REG_CURVE (gobj), table);
+		(GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor (GOG_REG_CURVE (gobj), grid);
 
+	g_object_set_data_full (G_OBJECT (grid), "rc-closure", cl, g_free);
 	g_object_unref (gui);
 
 	(GOG_OBJECT_CLASS (reg_curve_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
@@ -103,10 +182,24 @@ gog_reg_curve_get_property (GObject *obj, guint param_id,
 	case REG_CURVE_PROP_SKIP_INVALID:
 		g_value_set_boolean (value, rc->skip_invalid);
 		break;
+	case REG_CURVE_PROP_DRAWING_BOUNDS:
+		switch (rc->drawing_bounds) {
+		case GOG_REG_CURVE_DRAWING_BOUNDS_NONE:
+			g_value_set_string (value, "none");
+			break;
+		case GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE:
+			g_value_set_string (value, "absolute");
+			break;
+		case GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE:
+			g_value_set_string (value, "relative");
+			break;
+		}
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
+	gog_object_emit_changed (GOG_OBJECT (rc), FALSE);
 }
 
 static void
@@ -119,6 +212,17 @@ gog_reg_curve_set_property (GObject *obj, guint param_id,
 		rc->skip_invalid = g_value_get_boolean (value);
 		gog_object_request_update (GOG_OBJECT (obj));
 		break;
+	case REG_CURVE_PROP_DRAWING_BOUNDS: {
+		char const *str = g_value_get_string (value);
+		if (!strcmp (str, "absolute"))
+			rc->drawing_bounds = GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE;
+		else if (!strcmp (str, "relative"))
+			rc->drawing_bounds = GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE;
+		else
+			rc->drawing_bounds = GOG_REG_CURVE_DRAWING_BOUNDS_NONE;
+		gog_object_emit_changed (GOG_OBJECT (rc), FALSE);
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -183,27 +287,33 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 			_("Skip invalid data"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, REG_CURVE_PROP_DRAWING_BOUNDS,
+		g_param_spec_string ("drawing-bounds",
+			_("Drawing bounds"),
+			_("How the regression line should be limited, acceptable values are \"none\", \"absolute\", and \"relative\"."),
+			"none",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void
 gog_reg_curve_init (GogRegCurve *reg_curve)
 {
 	reg_curve->ninterp = 100;
-	reg_curve->bounds = g_new0 (GogDatasetElement,3) + 1;
+	reg_curve->bounds = g_new0 (GogDatasetElement,5) + 1;
 }
 
 static void
 gog_reg_curve_dataset_dims (GogDataset const *set, int *first, int *last)
 {
 	*first = -1;
-	*last = 1;
+	*last = 3;
 }
 
 static GogDatasetElement *
 gog_reg_curve_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogRegCurve const *rc = GOG_REG_CURVE (set);
-	g_return_val_if_fail (2 > dim_i, NULL);
+	g_return_val_if_fail (4 > dim_i, NULL);
 	g_return_val_if_fail (dim_i >= -1, NULL);
 	return rc->bounds + dim_i;
 }
@@ -287,7 +397,7 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogSeries *series = GOG_SERIES ((GOG_OBJECT (rc))->parent);
 	GogPlot *plot = series->plot;
 	GogChart *chart = GOG_CHART (GOG_OBJECT (plot)->parent);
-	GogAxisMap *x_map, *y_map;
+	GogAxisMap *x_map;
 	GogChartMap *chart_map;
 	GOStyle *style;
 	GOPath *path;
@@ -306,17 +416,92 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
-	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
 	gog_renderer_push_clip_rectangle (view->renderer, view->residual.x, view->residual.y,
 					  view->residual.w, view->residual.h);
 
 	x = g_new (double, rc->ninterp + 1);
 	y = g_new (double, rc->ninterp + 1);
-	delta_x = view->residual.w / rc->ninterp;
-	for (i = 0; i <= rc->ninterp; i++) {
-		x[i] = gog_axis_map_from_view (x_map, i * delta_x + view->residual.x);
-		y[i] = gog_reg_curve_get_value_at (rc, x[i]);
+	switch (rc->drawing_bounds) {
+	case GOG_REG_CURVE_DRAWING_BOUNDS_NONE:
+		delta_x = view->residual.w / rc->ninterp;
+		for (i = 0; i <= rc->ninterp; i++) {
+			x[i] = gog_axis_map_from_view (x_map, i * delta_x + view->residual.x);
+			y[i] = gog_reg_curve_get_value_at (rc, x[i]);
+		}
+		break;
+	case GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE: {
+		double min, max;
+		if (rc->bounds[2].data) {
+			min = go_data_get_scalar_value (rc->bounds[2].data);
+			if (min == go_nan || !go_finite (min))
+				min = gog_axis_map_from_view (x_map, view->residual.x);
+
+		} else
+			min = gog_axis_map_from_view (x_map, view->residual.x);
+		if (rc->bounds[3].data) {
+			max = go_data_get_scalar_value (rc->bounds[3].data);
+			if (max == go_nan || !go_finite (max))
+				max = gog_axis_map_from_view (x_map, view->residual.x + view->residual.w);
+
+		} else
+			max = gog_axis_map_from_view (x_map, view->residual.x + view->residual.w);
+
+		delta_x = (max - min) / rc->ninterp;
+		for (i = 0; i <= rc->ninterp; i++) {
+			x[i] = min + i * delta_x;
+			y[i] = gog_reg_curve_get_value_at (rc, x[i]);
+		}
+		break;
+	}
+	case GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE: {
+		double min, max, val;
+		GOData *data = NULL;
+		GogSeries *series = GOG_SERIES (gog_object_get_parent (GOG_OBJECT (rc)));
+		GogSeriesDesc *desc = &GOG_PLOT_GET_CLASS (series->plot)->desc.series;
+		int i;
+		/* first, look for the index values */
+		for (i = 0; i < (int) desc->num_dim; i++)
+			if (desc->dim[i].val_type == GOG_DIM_INDEX) {
+				data = series->values[i].data;
+				break;
+			}
+		if (data)
+			go_data_get_bounds (data, &min, &max);
+		else {
+			min = 0.;
+			max = series->num_elements - 1;
+		}
+		if (rc->bounds[0].data) {
+			val = go_data_get_scalar_value (rc->bounds[0].data);
+			if (val != go_nan && go_finite (val))
+				min = val;
+		}
+		if (rc->bounds[1].data) {
+			val = go_data_get_scalar_value (rc->bounds[1].data);
+			if (val != go_nan && go_finite (val))
+				max = val;
+		}
+		if (rc->bounds[2].data) {
+			val = go_data_get_scalar_value (rc->bounds[2].data);
+			if (val != go_nan && go_finite (val))
+				min -= val;
+
+		}
+		if (rc->bounds[3].data) {
+			val = go_data_get_scalar_value (rc->bounds[3].data);
+			if (val != go_nan && go_finite (val))
+				max += val;
+
+		}
+
+		delta_x = (max - min) / rc->ninterp;
+		for (i = 0; i <= rc->ninterp; i++) {
+			x[i] = min + i * delta_x;
+			y[i] = gog_reg_curve_get_value_at (rc, x[i]);
+		}
+		break;
+	}
 	}
 
 	path = gog_chart_map_make_path (chart_map, x, y, rc->ninterp + 1, GO_LINE_INTERPOLATION_CUBIC_SPLINE, FALSE, NULL);

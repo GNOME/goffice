@@ -1,3 +1,18 @@
+2012-02-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-reg-curve-prefs.ui: add limits to the regression curve
+	display range. [#669252]
+	* goffice/graph/gog-reg-curve.c (limits_changed_cb),
+	(gog_reg_curve_populate_editor), (gog_reg_curve_get_property),
+	(gog_reg_curve_set_property), (gog_reg_curve_class_init),
+	(gog_reg_curve_init), (gog_reg_curve_dataset_dims),
+	(gog_reg_curve_dataset_get_elem), (gog_reg_curve_view_render): ditto.
+	* goffice/graph/gog-reg-curve.h: ditto.
+	* plugins/reg_linear/gog-lin-reg.c
+	(gog_lin_reg_curve_populate_editor): ditto.
+	* plugins/reg_linear/gog-polynom-reg.c
+	(gog_polynom_reg_curve_populate_editor): ditto.
+
 2012-02-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_draw_gostring): take subscript

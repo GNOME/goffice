@@ -302,7 +302,7 @@ typedef enum {
 	GO_FMT_SHAPE_SIGNS = 1,
 	/* GENERAL implies GO_FMT_POSITION_MARKERS whether this is set or not */
 	/* This is only useful for Chinese/Japanese/Korean numerals           */
-	GO_FMT_POSITION_MARKERS = 2 
+	GO_FMT_POSITION_MARKERS = 2
 } GOFormatShapeFlags;
 
 typedef struct {
@@ -703,7 +703,7 @@ go_format_parse_locale (const char *str, GOFormatLocale *locale, gsize *nchars)
 	if (*str == '-') {
 		str++;
 		ull = g_ascii_strtoull (str, &end, 16);
-		if (str == end || errno == ERANGE || 
+		if (str == end || errno == ERANGE ||
 		    ull > G_GINT64_CONSTANT(0x0001ffffffffffffU))
 			return FALSE;
 	} else {
@@ -1276,19 +1276,19 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 			char *lname = NULL;
 			oldlocale = g_strdup (setlocale (LC_ALL, NULL));
 			ok = setlocale (LC_ALL, lang) != NULL;
-			
+
 			if (!ok) {
 				lname = g_strdup_printf ("%s.utf-8",lang);
 				lang = lname;
 				ok = setlocale (LC_ALL, lang) != NULL;
 			}
-			
+
 			setlocale (LC_ALL, oldlocale);
 			g_free (oldlocale);
-			
+
 			if (ok) {
 				ADD_OP (OP_LOCALE);
-				g_string_append_len (prg, (void *)&locale, 
+				g_string_append_len (prg, (void *)&locale,
 						     sizeof (locale));
 				/* Include the terminating zero: */
 				g_string_append_len (prg, lang, strlen (lang) + 1);
@@ -2396,8 +2396,8 @@ go_format_dump_program (const guchar *prg)
 			prg += sizeof (locale);
 			lang = (const char *)prg;
 			prg += strlen (lang) + 1;
-			g_printerr ("OP_LOCALE -- \"%s\" -- numeral shape: %#x -- calendar: %#x\n", 
-				    lang, 
+			g_printerr ("OP_LOCALE -- \"%s\" -- numeral shape: %#x -- calendar: %#x\n",
+				    lang,
 				    (guint)((locale.locale & 0xFFF000000) >> 24),
 				    (guint)((locale.locale & 0x000FF0000) >> 16));
 			break;
@@ -2870,7 +2870,7 @@ static char const *minus_shapes[] =
 		UTF8_FULLWIDTH_MINUS,    /* 24 Korean 1 ? */
 		UTF8_FULLWIDTH_MINUS,    /* 25 Korean 2 ? */
 		UTF8_FULLWIDTH_MINUS,    /* 26 Korean 3 ? */
-		UTF8_FULLWIDTH_MINUS,    /* 27 Korean 4 ? */	
+		UTF8_FULLWIDTH_MINUS,    /* 27 Korean 4 ? */
 	};
 
 static char const *plus_shapes[] =
@@ -2914,14 +2914,14 @@ static char const *plus_shapes[] =
 		UTF8_FULLWIDTH_PLUS,    /* 24 Korean 1 ? */
 		UTF8_FULLWIDTH_PLUS,    /* 25 Korean 2 ? */
 		UTF8_FULLWIDTH_PLUS,    /* 26 Korean 3 ? */
-		UTF8_FULLWIDTH_PLUS,    /* 27 Korean 4 ? */	
+		UTF8_FULLWIDTH_PLUS,    /* 27 Korean 4 ? */
 	};
 #endif
 
 
 #ifdef DEFINE_COMMON
 
-static char const *numeral_shapes[][10] 
+static char const *numeral_shapes[][10]
 = {{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL},                           /* 00 Unused */
    {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL},                           /* 01 Unused */
    {"\331\240","\331\241","\331\242","\331\243","\331\244","\331\245","\331\246",
@@ -3319,7 +3319,7 @@ convert_numerals (GString *str, gsize from, gsize to, guint shape)
 				go_string_replace (str, i, 1, num_str, -1);
 				val = TRUE;
 			}
-		} else if (shape == 0x11 && 
+		} else if (shape == 0x11 &&
 			   str->str[i] >= 'a' &&
 			   str->str[i] <= 'k') {
 			gint num = str->str[i] - 'a';
@@ -3327,7 +3327,7 @@ convert_numerals (GString *str, gsize from, gsize to, guint shape)
 			if (*num_str != 0) {
 				go_string_replace (str, i, 1, num_str, -1);
 				val = TRUE;
-			}			
+			}
 		}
 	}
 	return val;
@@ -3353,8 +3353,8 @@ convert_sign (GString *str, size_t i, guint shape, guint shape_flags)
 		return FALSE;
 	}
 
-	if (((shape_flags & GO_FMT_SHAPE_SIGNS) == 0) || 
-	    (shape <= 1) || 
+	if (((shape_flags & GO_FMT_SHAPE_SIGNS) == 0) ||
+	    (shape <= 1) ||
 	    (shape > G_N_ELEMENTS (minus_shapes)))
 		shaped_sign = sign;
 	else
@@ -3366,7 +3366,7 @@ convert_sign (GString *str, size_t i, guint shape, guint shape_flags)
 }
 
 static void
-handle_ethiopic (GString *numtxt, const char **dot, guint numeral_shape, 
+handle_ethiopic (GString *numtxt, const char **dot, guint numeral_shape,
 		guint shape_flags)
 {
 	gint last;
@@ -3374,7 +3374,7 @@ handle_ethiopic (GString *numtxt, const char **dot, guint numeral_shape,
 	gboolean cnt = 0;
 	gint tail = 0;
 
-	if ((shape_flags & GO_FMT_POSITION_MARKERS) == 0 || 
+	if ((shape_flags & GO_FMT_POSITION_MARKERS) == 0 ||
 	    numeral_shape != 0x11)
 		return;
 	if (dot && *dot) {
@@ -3409,7 +3409,7 @@ handle_ethiopic (GString *numtxt, const char **dot, guint numeral_shape,
 					} else {
 						numtxt->str[last] += ('a'-'1');
 						if (numtxt->str[last + 1] == '0')
-							g_string_erase (numtxt, last + 1, 1);	
+							g_string_erase (numtxt, last + 1, 1);
 					}
 				}
 				hundred = !hundred;
@@ -3434,7 +3434,7 @@ handle_ethiopic (GString *numtxt, const char **dot, guint numeral_shape,
 
 
 static void
-handle_chinese (GString *numtxt, const char **dot, guint numeral_shape, 
+handle_chinese (GString *numtxt, const char **dot, guint numeral_shape,
 		guint shape_flags)
 {
 	GString *ntxt;
@@ -3443,7 +3443,7 @@ handle_chinese (GString *numtxt, const char **dot, guint numeral_shape,
 	gboolean wan_written = TRUE;
 	gboolean digit_written = FALSE;
 	gboolean suppress_ten, suppress_ten_always;
-	if ((shape_flags & GO_FMT_POSITION_MARKERS) == 0 || 
+	if ((shape_flags & GO_FMT_POSITION_MARKERS) == 0 ||
 	    numeral_shape < 0x1B || numeral_shape > 0x27)
 		return;
 	last = ((dot && *dot) ? *dot - 1 : numtxt->str + (numtxt->len - 1));
@@ -3451,7 +3451,7 @@ handle_chinese (GString *numtxt, const char **dot, guint numeral_shape,
 		return;
 
 	ntxt = g_string_sized_new (100);
-	suppress_ten = (numeral_shape == 0x1b || numeral_shape == 0x1d 
+	suppress_ten = (numeral_shape == 0x1b || numeral_shape == 0x1d
 			|| numeral_shape == 0x26);
 	suppress_ten_always = (numeral_shape == 0x26);
 	i = 0;
@@ -3469,7 +3469,7 @@ handle_chinese (GString *numtxt, const char **dot, guint numeral_shape,
 				if (i > 0)
 					g_string_prepend_c (ntxt, 'a' + i - 1);
 				if (!suppress_ten_always ||
-				    !(suppress_ten && wan == 0) || 
+				    !(suppress_ten && wan == 0) ||
 				    *last != '1')
 					g_string_prepend_c (ntxt, *last);
 				digit_written = TRUE;
@@ -3976,9 +3976,9 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				numtxt = g_string_sized_new (100);
 			g_string_printf (numtxt, "%.*" FORMAT_f, n, val);
 			dot = strstr (numtxt->str, decimal->str);
-			handle_chinese (numtxt, &dot, 
+			handle_chinese (numtxt, &dot,
 					numeral_shape, shape_flags);
-			handle_ethiopic (numtxt, &dot, 
+			handle_ethiopic (numtxt, &dot,
 					 numeral_shape, shape_flags);
 			if (dot) {
 				size_t i = numtxt->len;
@@ -4125,7 +4125,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			g_string_append_c (dst, c);
 			if ((numeral_shape) > 1)  /* 0: not set; 1: Western */
-				convert_numerals (dst, dst->len - 1, dst->len - 1, 
+				convert_numerals (dst, dst->len - 1, dst->len - 1,
 						  numeral_shape);
 			break;
 		}
@@ -4199,7 +4199,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				/* FIXME: we need to fix the exponent handling */
 				/* until that time use only latin numerals */
 				numeral_shape = 0;
-				
+
 				markup_stack = g_slist_prepend
 					(markup_stack, GSIZE_TO_POINTER (dst->len));
 			}
@@ -4562,7 +4562,7 @@ go_format_measure_strlen (const GString *str,
 		convert_numerals (str, 0, str->len - 1, num_shape);	\
 	}								\
 	} while (0)
-	  
+
 /*
  * go_format_general:
  * @layout: Optional PangoLayout, probably preseeded with font attribute.

@@ -17,6 +17,7 @@ Jean:
 	* Fixed graph type selector position. [#667793]
 	* Fix bounds for partial range logarithmic axes. [#669257]
 	* Fix Y-axis label position. [#669325]
+	* Add limits to the regression curve display range. [#669252]
 
 Morten:
 	* Embed library ui files into library.

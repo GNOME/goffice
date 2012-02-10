@@ -150,16 +150,13 @@ affine_toggled_cb (GtkToggleButton *btn, GObject *obj)
 static void
 gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 {
-	int rows, columns;
 	GtkWidget *w;
 	GogLinRegCurve *lin = GOG_LIN_REG_CURVE (reg_curve);
 
-	g_object_get (G_OBJECT (table), "n-rows", &rows, "n-columns", &columns, NULL);
-	gtk_table_resize (table, rows + 1, columns);
 	w = gtk_check_button_new_with_label (_("Affine"));
 	gtk_widget_set_tooltip_text (w, _("Uncheck to force zero intercept"));
 	gtk_widget_show (w);
-	gtk_table_attach (table, w, 0, columns, rows, rows + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach_next_to (table, w, NULL, GTK_POS_BOTTOM, 1, 3);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), lin->affine);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (affine_toggled_cb), lin);
 }

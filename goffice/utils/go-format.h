@@ -136,7 +136,7 @@ void go_render_general  (PangoLayout *layout, GString *str,
 			 const GOFontMetrics *metrics,
 			 double val,
 			 int col_width,
-			 gboolean unicode_minus, 
+			 gboolean unicode_minus,
 			 guint numeral_shape,
 			 guint custom_shape_flags);
 #ifdef GOFFICE_WITH_LONG_DOUBLE
@@ -145,7 +145,7 @@ void go_render_generall (PangoLayout *layout, GString *str,
 			 const GOFontMetrics *metrics,
 			 long double val,
 			 int col_width,
-			 gboolean unicode_minus, 
+			 gboolean unicode_minus,
 			 guint numeral_shape,
 			 guint custom_shape_flags);
 #endif

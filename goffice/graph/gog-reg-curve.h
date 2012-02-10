@@ -26,18 +26,24 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GOG_REG_CURVE_DRAWING_BOUNDS_NONE,
+	GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE,
+	GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE
+} GogRegCurveDrawingBounds;
+
 struct  _GogRegCurve {
 	GogTrendLine	base;
 
-	GogSeries 	  *series;
 	gboolean  	   weighted;
-	GODataVector 	  *weights;
 	GogDatasetElement *bounds;       /* aliased to include the name as -1 */
 	gboolean	   skip_invalid; /* do not take into account invalid data */
 	int		   ninterp;	 /* how many points to use for display the curve as a vpath */
 	double		  *a;		 /* calculated coefficients, must be allocated by derived class */
 	double		   R2;		 /* squared regression coefficient */
 	char		  *equation;
+	GogRegCurveDrawingBounds drawing_bounds;
+	gpointer	   priv;
 };
 
 typedef struct {
@@ -46,6 +52,8 @@ typedef struct {
 	double 		(*get_value_at) (GogRegCurve *reg_curve, double x);
 	char const * 	(*get_equation) (GogRegCurve *reg_curve);
 	void 		(*populate_editor) (GogRegCurve *reg_curve, gpointer table);
+	void	        (*reserved1) (void);
+	void	        (*reserved2) (void);
 } GogRegCurveClass;
 
 #define GOG_TYPE_REG_CURVE	(gog_reg_curve_get_type ())

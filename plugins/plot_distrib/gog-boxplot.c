@@ -109,7 +109,7 @@ display_before_grid_cb (GtkToggleButton *btn, GObject *obj)
 static gpointer
 gog_box_plot_pref (GogObject *obj,
 		   GogDataAllocator *dalloc, GOCmdContext *cc)
-{	
+{
 	GogBoxPlot *boxplot = GOG_BOX_PLOT (obj);
 	GtkBuilder *gui =
 		go_gtk_builder_new ("res:go:plot_distrib/gog-boxplot-prefs.ui",
