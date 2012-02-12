@@ -18,6 +18,7 @@ Jean:
 	* Fix bounds for partial range logarithmic axes. [#669257]
 	* Fix Y-axis label position. [#669325]
 	* Add limits to the regression curve display range. [#669252]
+	* Don't move any other axis when changing an axis position. [#669050]
 
 Morten:
 	* Embed library ui files into library.

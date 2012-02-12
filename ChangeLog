@@ -1,3 +1,8 @@
+2012-02-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (cb_position_toggled): don't move any other
+	axis when changing an axis position. [#669050]
+
 2012-02-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-reg-curve-prefs.ui: add limits to the regression curve

@@ -435,24 +435,6 @@ cb_position_toggled (GtkWidget *button, AxisBasePrefs *state)
 		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "padding-spinbutton"),
 					  position != GOG_AXIS_CROSS);
 
-	if (position != GOG_AXIS_CROSS) {
-		axes = gog_chart_get_axes (axis_base->chart, gog_axis_get_atype (axis_base->axis));
-		for (aptr = axes; aptr != NULL; aptr = aptr->next) {
-			lines = gog_object_get_children (GOG_OBJECT (aptr->data), NULL);
-			lines = g_slist_prepend (lines, aptr->data);
-			for (lptr = lines; lptr != NULL; lptr = lptr->next) {
-				if (lptr->data == axis_base || !GOG_IS_AXIS_BASE (lptr->data))
-					continue;
-				if (position == gog_axis_base_get_position (GOG_AXIS_BASE (lptr->data))) {
-					gog_axis_base_set_position (GOG_AXIS_BASE (lptr->data),
-								    gog_axis_base_get_position (axis_base));
-					break;
-				}
-			}
-			g_slist_free (lines);
-		}
-		g_slist_free (axes);
-	}
 	gog_axis_base_set_position (axis_base, position);
 	gog_object_emit_changed (GOG_OBJECT (axis_base), TRUE);
 }
