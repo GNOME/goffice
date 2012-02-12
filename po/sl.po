@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-02-07 15:28+0000\n"
-"PO-Revision-Date: 2012-02-08 21:28+0100\n"
+"POT-Creation-Date: 2012-02-12 08:07+0000\n"
+"PO-Revision-Date: 2012-02-12 20:43+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1096,104 +1096,104 @@ msgstr "Eulerjev kot fi"
 msgid "Field of view"
 msgstr "Polje pogleda"
 
-#: ../goffice/graph/gog-axis-line.c:637
+#: ../goffice/graph/gog-axis-line.c:619
 msgid "Layout"
 msgstr "Postavitev"
 
-#: ../goffice/graph/gog-axis-line.c:666
+#: ../goffice/graph/gog-axis-line.c:648
 msgid "Axis position"
 msgstr "Lega osi"
 
-#: ../goffice/graph/gog-axis-line.c:667
-#: ../goffice/graph/gog-axis-line.c:673
+#: ../goffice/graph/gog-axis-line.c:649
+#: ../goffice/graph/gog-axis-line.c:655
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Kje postaviti najnižjo in najvišjo točko osi oziroma kje se križa"
 
-#: ../goffice/graph/gog-axis-line.c:672
+#: ../goffice/graph/gog-axis-line.c:654
 msgid "Axis position (as a string)"
 msgstr "Lega osi (kot niz)"
 
-#: ../goffice/graph/gog-axis-line.c:678
+#: ../goffice/graph/gog-axis-line.c:660
 msgid "Major labels"
 msgstr "Glavne oznake"
 
-#: ../goffice/graph/gog-axis-line.c:679
+#: ../goffice/graph/gog-axis-line.c:661
 msgid "Show labels for major ticks"
 msgstr "Pokaži označbe večjih oznak."
 
-#: ../goffice/graph/gog-axis-line.c:684
+#: ../goffice/graph/gog-axis-line.c:666
 msgid "Inside major ticks"
 msgstr "Znotraj glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:685
+#: ../goffice/graph/gog-axis-line.c:667
 msgid "Major tick marks inside the chart area"
 msgstr "Večje označbe znotraj območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:690
+#: ../goffice/graph/gog-axis-line.c:672
 msgid "Outside major ticks"
 msgstr "Izven glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:691
+#: ../goffice/graph/gog-axis-line.c:673
 msgid "Major tick marks outside the chart area"
 msgstr "Večje oznake izven območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:696
+#: ../goffice/graph/gog-axis-line.c:678
 msgid "Major tick size"
 msgstr "Velikost glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:697
+#: ../goffice/graph/gog-axis-line.c:679
 msgid "Size of the major tick marks, in points"
 msgstr "Velikost oznak glavnih točk osi (v točkah)"
 
-#: ../goffice/graph/gog-axis-line.c:703
+#: ../goffice/graph/gog-axis-line.c:685
 msgid "Inside minor ticks"
 msgstr "Znotraj podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:704
+#: ../goffice/graph/gog-axis-line.c:686
 msgid "Minor tick marks inside the chart area"
 msgstr "Podrobne oznake znotraj območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:709
+#: ../goffice/graph/gog-axis-line.c:691
 msgid "Outside minor ticks"
 msgstr "Izven podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:710
+#: ../goffice/graph/gog-axis-line.c:692
 msgid "Minor tick marks outside the axis"
 msgstr "Podrobne oznake izven območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:715
+#: ../goffice/graph/gog-axis-line.c:697
 msgid "Minor tick size"
 msgstr "Velikost podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:716
+#: ../goffice/graph/gog-axis-line.c:698
 msgid "Size of the minor tick marks, in points"
 msgstr "Velikost oznak podrobnih točk osi (v točkah)"
 
-#: ../goffice/graph/gog-axis-line.c:722
+#: ../goffice/graph/gog-axis-line.c:704
 msgid "Cross axis id"
 msgstr "ID izhodišča osi"
 
-#: ../goffice/graph/gog-axis-line.c:723
+#: ../goffice/graph/gog-axis-line.c:705
 msgid "Which axis to cross"
 msgstr "Katero os naj se seka"
 
-#: ../goffice/graph/gog-axis-line.c:729
+#: ../goffice/graph/gog-axis-line.c:711
 msgid "Axis padding"
 msgstr "Blazinjenje osi"
 
-#: ../goffice/graph/gog-axis-line.c:730
+#: ../goffice/graph/gog-axis-line.c:712
 msgid "Distance from axis line to plot area, in points"
 msgstr "Razdalja med osno črto in diagramom površine v točkah"
 
-#: ../goffice/graph/gog-axis-line.c:822
+#: ../goffice/graph/gog-axis-line.c:804
 msgid "Select axis"
 msgstr "Izbor osi"
 
-#: ../goffice/graph/gog-axis-line.c:928
+#: ../goffice/graph/gog-axis-line.c:910
 msgid "Set start bound"
 msgstr "Določi začetno mejo"
 
-#: ../goffice/graph/gog-axis-line.c:939
+#: ../goffice/graph/gog-axis-line.c:921
 msgid "Set stop bound"
 msgstr "Določi končno mejo"
 
@@ -1532,7 +1532,7 @@ msgid "Legend"
 msgstr "Legenda"
 
 #: ../goffice/graph/gog-chart.c:645
-#: ../goffice/graph/gog-reg-curve.c:154
+#: ../goffice/graph/gog-reg-curve.c:258
 msgid "Equation"
 msgstr "Izraz"
 
@@ -1604,6 +1604,7 @@ msgstr "_Strnjen način"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 #: ../goffice/graph/gog-error-bar.c:63
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
 #: ../goffice/gtk/go-format-sel.c:1638
 #: ../goffice/gtk/go-format-sel.c:1808
 #: ../goffice/utils/formats.c:352
@@ -1613,10 +1614,12 @@ msgid "None"
 msgstr "Brez"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:2
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
 msgid "Absolute"
 msgstr "Absolutno"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:3
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
 msgid "Relative"
 msgstr "Relativno"
 
@@ -1835,7 +1838,7 @@ msgstr "Tolmači besedilo kot označeno besedilo HTML, kot je opisano na naslovu
 
 #: ../goffice/graph/gog-label.c:307
 #: ../goffice/graph/gog-label.c:544
-#: ../goffice/graph/gog-reg-curve.c:71
+#: ../goffice/graph/gog-reg-curve.c:115
 #: ../goffice/graph/gog-series-labels.c:567
 #: ../goffice/graph/gog-smoothed-curve.c:52
 #: ../goffice/graph/gog-trend-line.c:92
@@ -2203,29 +2206,81 @@ msgid "Resize plot area"
 msgstr "Spremeni velikost površine diagrama"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
-msgid "Low bound:"
-msgstr "Spodnja meja:"
-
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
-msgid "High bound:"
-msgstr "Zgornja meja:"
-
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
-#: ../goffice/graph/gog-reg-curve.c:183
-msgid "Skip invalid data"
-msgstr "Preskoči neveljavne podatke"
-
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
 msgid "(_Name):"
 msgstr "(_Ime):"
 
-#: ../goffice/graph/gog-reg-curve.c:147
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
+msgid "Low bound:"
+msgstr "Spodnja meja:"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
+msgid "High bound:"
+msgstr "Zgornja meja:"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
+#: ../goffice/graph/gog-reg-curve.c:287
+msgid "Skip invalid data"
+msgstr "Preskoči neveljavne podatke"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
+msgid "<b>Used data</b>"
+msgstr "<b>Uporabljeni podatki</b>"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
+msgid "<b>Drawing Limits:</b>"
+msgstr "<b>Omejitve izrisa:</b>"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:7
+msgid ""
+"None: the line will be displayed for the whole visible range.\n"
+"Absolute: the line will be displayed between the given limits.\n"
+"Relative: the line will be displayed between the data range expanded according to the values given below."
+msgstr ""
+"Brez: črta bo prikazana za celoten obseg podakot.\n"
+"Absolutno: črta bo prikazana med podanimi mejami.\n"
+"Relativno: črta bo prikazana za podan obseg podatkov, vendar bo razširjena glede na vrednosti mej."
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:10
+msgid ""
+"None: the line will be displayed for the whole visible range.\n"
+"Absolute: the line will be displayed between the given limits.\n"
+"Relative: the line will be displayed between the data range expanded according to the values given below, with positive values enlarging the range."
+msgstr ""
+"Brez: črta bo prikazana za celoten obseg podakot.\n"
+"Absolutno: črta bo prikazana med podanimi mejami.\n"
+"Relativno: črta bo prikazana za podan obseg podatkov, vendar bo razširjena glede na vrednosti mej, s pozitivnimi vrednostmi, ki povečujejo obseg vrednosti."
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:16
+msgid "Low limit:"
+msgstr "Spodnja meja:"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:17
+msgid "High limit:"
+msgstr "Zgornja meja:"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:18
+msgid "Low span:"
+msgstr "Manjši razpon vrednosti"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:19
+msgid "High span:"
+msgstr "Večji razpon vrednosti"
+
+#: ../goffice/graph/gog-reg-curve.c:251
 msgid "Regression Curve"
 msgstr "Regresijska krivulja"
 
-#: ../goffice/graph/gog-reg-curve.c:182
+#: ../goffice/graph/gog-reg-curve.c:286
 msgid "Skip invalid"
 msgstr "Preskoči neveljavne"
+
+#: ../goffice/graph/gog-reg-curve.c:292
+msgid "Drawing bounds"
+msgstr "Meje izrisa"
+
+#: ../goffice/graph/gog-reg-curve.c:293
+msgid "How the regression line should be limited, acceptable values are \"none\", \"absolute\", and \"relative\"."
+msgstr "Kako naj bo omejena črta regresije. Dovoljene vrednosti so \"brez\", \"absolutno\" in \"relativno\"."
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
@@ -7312,31 +7367,31 @@ msgstr "Programnik izrisovanja raztresenega vretenastega diagrama"
 msgid "Exponential regression"
 msgstr "Potenčna regresija"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:159
-#: ../plugins/reg_linear/gog-lin-reg.c:265
+#: ../plugins/reg_linear/gog-lin-reg.c:156
+#: ../plugins/reg_linear/gog-lin-reg.c:262
 msgid "Affine"
 msgstr "Naklon"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:160
+#: ../plugins/reg_linear/gog-lin-reg.c:157
 msgid "Uncheck to force zero intercept"
 msgstr "Izbrana možnost omogoča vsiljenje koordinatnega izhodišča osi pri vrednosti 0."
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
-#: ../plugins/reg_linear/gog-lin-reg.c:174
+#: ../plugins/reg_linear/gog-lin-reg.c:171
 msgid "Linear regression"
 msgstr "Linearna regresija"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:266
+#: ../plugins/reg_linear/gog-lin-reg.c:263
 msgid "If true, a non-zero constant is allowed"
 msgstr "Izbrana možnost dovoli uporabo konstante vrednosti ne-nič"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:271
+#: ../plugins/reg_linear/gog-lin-reg.c:268
 msgid "Dims"
 msgstr "Mere"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:272
+#: ../plugins/reg_linear/gog-lin-reg.c:269
 msgid "Number of x-vectors"
 msgstr "Število x-vektorjev"
 
@@ -7347,14 +7402,14 @@ msgstr "Število x-vektorjev"
 msgid "Logarithmic regression"
 msgstr "Logaritemska regresija"
 
-#: ../plugins/reg_linear/gog-polynom-reg.c:203
+#: ../plugins/reg_linear/gog-polynom-reg.c:200
 msgid "Order:"
 msgstr "Red:"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Polynomial regression2
-#: ../plugins/reg_linear/gog-polynom-reg.c:222
+#: ../plugins/reg_linear/gog-polynom-reg.c:220
 msgid "Polynomial regression"
 msgstr "Polinomska regresija"
 
