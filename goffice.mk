@@ -19,7 +19,8 @@ list_of_sources:
 		echo $$i | grep '\.[ch]$$' >> $@.tmp; \
 	done
 	test -z "${SUBDIRS}" || for s in ${SUBDIRS}; do \
-		test -e $$s/list_of_sources && \
-		perl -pe "s{^}{$$s/}" $$s/list_of_sources >> $@.tmp; \
+		if test -e $$s/list_of_sources ; then \
+			perl -pe "s{^}{$$s/}" $$s/list_of_sources >> $@.tmp; \
+		fi; \
 	done
 	mv $@.tmp $@
