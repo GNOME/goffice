@@ -1,3 +1,9 @@
+2012-02-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-path.c (go_path_interpret), (go_path_to_cairo),
+	(go_path_copy), (go_path_append): cleaned GOPath API.
+	* goffice/utils/go-path.h: ditto.
+
 2012-02-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice.mk (list_of_sources): Create a list of sources at each

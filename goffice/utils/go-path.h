@@ -51,12 +51,12 @@ typedef struct {
 	double y;
 } GOPathPoint;
 
-typedef void (GOPathMoveToFunc) 	(void *closure, GOPathPoint const *point);
-typedef void (GOPathLineToFunc) 	(void *closure, GOPathPoint const *point);
-typedef void (GOPathCurveToFunc) 	(void *closure, GOPathPoint const *point0,
+typedef void (*GOPathMoveToFunc) 	(void *closure, GOPathPoint const *point);
+typedef void (*GOPathLineToFunc) 	(void *closure, GOPathPoint const *point);
+typedef void (*GOPathCurveToFunc) 	(void *closure, GOPathPoint const *point0,
 					 		GOPathPoint const *point1,
 							GOPathPoint const *point2);
-typedef void (GOPathClosePathFunc) 	(void *closure);
+typedef void (*GOPathClosePathFunc) 	(void *closure);
 
 GType   go_path_get_type (void);
 
@@ -98,10 +98,10 @@ void	go_path_rectangle	(GOPath *path, double x, double y,
 
 void	go_path_interpret	(GOPath const *path,
 				 GOPathDirection direction,
-				 GOPathMoveToFunc *move_to,
-				 GOPathLineToFunc *line_to,
-				 GOPathCurveToFunc *curve_to,
-				 GOPathClosePathFunc *close_path,
+				 GOPathMoveToFunc move_to,
+				 GOPathLineToFunc line_to,
+				 GOPathCurveToFunc curve_to,
+				 GOPathClosePathFunc close_path,
 				 void *closure);
 
 void    go_path_to_cairo	(GOPath const *path,

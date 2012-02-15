@@ -486,10 +486,10 @@ go_path_rectangle (GOPath *path,
 void
 go_path_interpret (GOPath const		*path,
 		   GOPathDirection 	 direction,
-		   GOPathMoveToFunc 	*move_to,
-		   GOPathLineToFunc 	*line_to,
-		   GOPathCurveToFunc 	*curve_to,
-		   GOPathClosePathFunc 	*close_path,
+		   GOPathMoveToFunc 	 move_to,
+		   GOPathLineToFunc 	 line_to,
+		   GOPathCurveToFunc 	 curve_to,
+		   GOPathClosePathFunc 	 close_path,
 		   void *closure)
 {
 	GOPathDataBuffer *buffer;
@@ -513,17 +513,17 @@ go_path_interpret (GOPath const		*path,
 
 				switch (action) {
 					case GO_PATH_ACTION_MOVE_TO:
-						(*move_to) (closure, &points[0]);
+						move_to (closure, &points[0]);
 						break;
 					case GO_PATH_ACTION_LINE_TO:
-						(*line_to) (closure, &points[0]);
+						line_to (closure, &points[0]);
 						break;
 					case GO_PATH_ACTION_CURVE_TO:
-						(*curve_to) (closure, &points[0], &points[1], &points[2]);
+						curve_to (closure, &points[0], &points[1], &points[2]);
 						break;
 					case GO_PATH_ACTION_CLOSE_PATH:
 					default:
-						(*close_path) (closure);
+						close_path (closure);
 						break;
 				}
 				points += action_n_args[action];
@@ -602,10 +602,10 @@ void
 go_path_to_cairo (GOPath const *path, GOPathDirection direction, cairo_t *cr)
 {
 	go_path_interpret (path, direction,
-			   (GOPathMoveToFunc *) go_path_cairo_move_to,
-			   (GOPathLineToFunc *) go_path_cairo_line_to,
-			   (GOPathCurveToFunc *) go_path_cairo_curve_to,
-			   (GOPathClosePathFunc *) cairo_close_path, cr);
+			   (GOPathMoveToFunc) go_path_cairo_move_to,
+			   (GOPathLineToFunc) go_path_cairo_line_to,
+			   (GOPathCurveToFunc) go_path_cairo_curve_to,
+			   (GOPathClosePathFunc) cairo_close_path, cr);
 }
 
 static void
@@ -644,10 +644,10 @@ GOPath *go_path_copy (GOPath const *path)
 	GOPath *new_path = go_path_new ();
 	new_path->options = path->options;
 	go_path_interpret (path, GO_PATH_DIRECTION_FORWARD,
-			   (GOPathMoveToFunc *) go_path_append_move_to,
-			   (GOPathLineToFunc *) go_path_append_line_to,
-			   (GOPathCurveToFunc *) go_path_append_curve_to,
-			   (GOPathClosePathFunc *) go_path_append_close, new_path);
+			   (GOPathMoveToFunc) go_path_append_move_to,
+			   (GOPathLineToFunc) go_path_append_line_to,
+			   (GOPathCurveToFunc) go_path_append_curve_to,
+			   (GOPathClosePathFunc) go_path_append_close, new_path);
 	return new_path;
 }
 
@@ -662,9 +662,9 @@ GOPath *go_path_copy (GOPath const *path)
 GOPath *go_path_append (GOPath *path1, GOPath const *path2)
 {
 	go_path_interpret (path2, GO_PATH_DIRECTION_FORWARD,
-			   (GOPathMoveToFunc *) go_path_append_move_to,
-			   (GOPathLineToFunc *) go_path_append_line_to,
-			   (GOPathCurveToFunc *) go_path_append_curve_to,
-			   (GOPathClosePathFunc *) go_path_append_close, path1);
+			   (GOPathMoveToFunc) go_path_append_move_to,
+			   (GOPathLineToFunc) go_path_append_line_to,
+			   (GOPathCurveToFunc) go_path_append_curve_to,
+			   (GOPathClosePathFunc) go_path_append_close, path1);
 	return path1;
 }
