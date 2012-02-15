@@ -12,7 +12,7 @@ include $(top_srcdir)/goffice-win32.mk
 
 all-local: list_of_sources
 
-list_of_sources:
+list_of_sources: Makefile
 	rm -f $@.tmp
 	touch $@.tmp
 	for i in $(SOURCES) $(HEADERS); do \
