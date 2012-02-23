@@ -269,7 +269,8 @@ go_io_progress_update (GOIOContext *ioc, gdouble f)
 
 	at_end = (f - ioc->last_progress > PROGRESS_UPDATE_STEP_END &&
 		  f + PROGRESS_UPDATE_STEP > 1);
-	if (at_end || f - ioc->last_progress >= PROGRESS_UPDATE_STEP) {
+	/* The use of fabs here means we can set progress back if we need to. */
+	if (at_end || fabs (f - ioc->last_progress) >= PROGRESS_UPDATE_STEP) {
 		GTimeVal tv;
 		double t;
 
