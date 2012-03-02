@@ -26,6 +26,11 @@ use English;
 my $myself = $0;
 $myself =~ s|^.*/||;
 
+my $filedir = ".";
+
+&GetOptions("file-dir=s" => \$filedir,
+    ) or die "$0: invalid usage -- inquire within\n";
+
 my $srcfile = shift @ARGV;
 my $dstfile = shift @ARGV;
 
@@ -45,6 +50,10 @@ while ($data =~ m{(<service\s+type="resource"\s+id=".*")(\s+)file="(.*)"(\s*/>)}
 sub read_file
 {
     my ($filename) = @_;
+
+    if ($filename !~ m|^/|) {
+	$filename = "$filedir/$filename";
+    }
 
     local (*FIL);
     local $/ = undef;

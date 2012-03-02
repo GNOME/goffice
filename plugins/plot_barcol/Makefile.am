@@ -28,9 +28,9 @@ endif
 plugin_resources = linegraph.xpm area.xpm bar.xpm column.xpm dropbar.xpm minmax.xpm
 pofiles = $(wildcard $(top_srcdir)/po/*.po)
 
-plugin.xml: plugin.xml.in $(plugin_resources) $(pofiles) $(top_srcdir)/tools/embedder
+plugin.xml: plugin.xml.in $(plugin_resources) $(pofiles) $(top_srcdir)/tools/resource-embedder
 	LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
-	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/resource-embedder \
+	@PERL@ $(abs_top_srcdir)/tools/resource-embedder --file-dir $(srcdir) \
 		$@.tmp $@
 	rm -f $@.tmp
 
