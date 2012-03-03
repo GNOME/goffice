@@ -419,7 +419,6 @@ cb_position_toggled (GtkWidget *button, AxisBasePrefs *state)
 	GogAxisBase *axis_base = state->axis_base;
 	GogAxisPosition position;
 	char const *widget_name = gtk_buildable_get_name (GTK_BUILDABLE (button));
-	GSList *lines, *axes, *aptr, *lptr;
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
 		return;

@@ -373,7 +373,7 @@ go_doc_update_meta_data (GODoc *doc)
  * @doc: a #GODoc
  * @id: the image name
  *
- * Returns: the #GOImage is one exist with name @id. The caller does not own a
+ * Return value: (transfer none): the #GOImage is one exist with name @id. The caller does not own a
  * reference.
  **/
 GOImage *

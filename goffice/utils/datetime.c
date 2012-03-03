@@ -450,8 +450,9 @@ go_coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
 
 /**
  * go_coupdays:
- * @settlement : #GDate
- * @maturity   : #GDate
+ * @settlement: #GDate
+ * @maturity: #GDate
+ * @conv: #GoCouponConvention
  *
  * Returns: the number of days in the coupon period of the settlement date.
  * Currently, returns negative numbers if the branch is not implemented.
@@ -483,9 +484,9 @@ go_coupdays (GDate const *settlement, GDate const *maturity,
 
 /**
  * go_coupdaybs:
- * @settlement : #GDate
- * @maturity : #GDate
- * @conv : #GoCouponConvention
+ * @settlement: #GDate
+ * @maturity: #GDate
+ * @conv: #GoCouponConvention
  *
  * Returns: the number of days from the beginning of the coupon period to the
  * 	settlement date.
@@ -500,9 +501,10 @@ go_coupdaybs (GDate const *settlement, GDate const *maturity,
 }
 
 /**
- * go_coupdaysnc :
- * @settlement :
- * @maturity :
+ * go_coupdaysnc:
+ * @settlement:
+ * @maturity:
+ * @conv: #GoCouponConvention
  *
  * Returns: the number of days from the settlement date to the next
  * coupon date.

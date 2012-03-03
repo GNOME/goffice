@@ -470,7 +470,7 @@ go_shell_arg_to_uri (char const *arg)
 
 /**
  * go_basename_from_uri:
- * @uri : The uri
+ * @uri: The uri
  *
  * Decode the final path component.  Returns as UTF-8 encoded suitable
  * for display.
@@ -488,7 +488,7 @@ go_basename_from_uri (char const *uri)
 
 /**
  * go_dirname_from_uri:
- * @uri : target
+ * @uri: target
  * @brief: if TRUE, hide "file://" if present.
  *
  * Decode the all but the final path component.  Returns as UTF-8 encoded
@@ -536,9 +536,9 @@ open_plain_file (char const *path, GError **err)
 
 
 /**
- * go_file_open :
- * @uri : target uri
- * @err : #GError
+ * go_file_open:
+ * @uri: target uri
+ * @err: #GError
  *
  * Try all available methods to open a file or return an error
  * Returns: non-%NULL on success
@@ -910,7 +910,7 @@ go_file_get_date_changed (char const *uri)
 
 /**
  * go_url_decode:
- * @text : constant buffer to decode.
+ * @text: constant buffer to decode.
  *
  * Decode the result of go_url_encode.
  *
@@ -946,8 +946,8 @@ go_url_decode (gchar const *text)
 
 /**
  * go_url_encode:
- * @text : The constant text to be encoded
- * @type : 0 : mailto, 1: file or http
+ * @text: The constant text to be encoded
+ * @type: 0 : mailto, 1: file or http
  *
  * url-encode a string according to RFC 2368.
  *
@@ -1005,9 +1005,9 @@ go_url_show (gchar const *url)
 
 /**
  * go_url_check_extension
- * @uri     : Uri
- * @std_ext : Standard extension for the content type
- * @new_uri : New uri
+ * @uri: Uri
+ * @std_ext: Standard extension for the content type
+ * @new_uri: New uri
  *
  * Modifies given @uri by adding the extension @std_ext if needed.
  * If no @std_ext is given or @uri already has some extension,

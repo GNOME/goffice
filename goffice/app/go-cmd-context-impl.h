@@ -14,7 +14,7 @@ typedef struct {
 					 char const *filename);
 	void    (*set_sensitive)	(GOCmdContext *gcc,
 					 gboolean sensitive);
-	struct {
+	struct _GOCmdContextIface {
 		void (*error)		(GOCmdContext *gcc, GError *err);
 		void (*error_info)  	(GOCmdContext *gcc, GOErrorInfo *err);
 		void (*error_info_list) (GOCmdContext *gcc, GSList *errs);

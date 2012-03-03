@@ -40,7 +40,7 @@ struct _GODoc {
 typedef struct {
 	GObjectClass	base;
 
-	struct {
+	struct _GOMetaDataIFace {
 		/* Reload doc statistics and update linked values */
 		void (*update)  (GODoc *doc);
 		void (*changed) (GODoc *doc);

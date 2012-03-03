@@ -26,7 +26,7 @@
 G_BEGIN_DECLS
 
 typedef struct {
-	struct {
+	struct _GogPlotBound {
 		double minima, maxima;
 	} val, logical;
 	gboolean is_discrete;

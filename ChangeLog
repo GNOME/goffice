@@ -1,3 +1,15 @@
+2012-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-cmd-context-impl.h: fixed for nested structs introspection.
+	* goffice/app/go-doc-impl.h: ditto.
+	* goffice/app/go-doc.c: fixed documentation layout issues.
+	* goffice/graph/gog-axis-line.c (cb_position_toggled): fixed unused
+	variables warnings.
+	* goffice/graph/gog-plot.h: fixed for nested structs introspection.
+	* goffice/utils/datetime.c: fixed documentation layout issues.
+	* goffice/utils/go-file.c: ditto.
+	* goffice/utils/go-style.h: fixed for nested structs introspection.
+
 2012-03-02  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
