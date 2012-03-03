@@ -1,3 +1,7 @@
+2012-03-02  Morten Welinder <terra@gnome.org>
+
+	* Release 0.9.2
+
 2012-02-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-path.c (go_path_interpret), (go_path_to_cairo),
