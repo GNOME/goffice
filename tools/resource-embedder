@@ -34,12 +34,12 @@ my $filedir = ".";
 my $srcfile = shift @ARGV;
 my $dstfile = shift @ARGV;
 
-my $data = &read_file ($srcfile);
+my $data = &read_file ($srcfile, undef);
 
 while ($data =~ m{(<service\s+type="resource"\s+id=".*")(\s+)file="(.*)"(\s*/>)}) {
     my $filename = $3;
     print STDERR "Embedding $filename\n";
-    my $file_data = &read_file ($filename);
+    my $file_data = &read_file ($filename, $filedir);
     my $encoded_data = &xml_encode ($file_data);
     $data = $PREMATCH . $1 . $2 . "data=\"$encoded_data\"" . $4 . $POSTMATCH;
 }
@@ -49,10 +49,10 @@ while ($data =~ m{(<service\s+type="resource"\s+id=".*")(\s+)file="(.*)"(\s*/>)}
 
 sub read_file
 {
-    my ($filename) = @_;
+    my ($filename,$dir) = @_;
 
-    if ($filename !~ m|^/|) {
-	$filename = "$filedir/$filename";
+    if ($filename !~ m|^/| && defined $dir) {
+	$filename = "$dir/$filename";
     }
 
     local (*FIL);
