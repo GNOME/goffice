@@ -24,3 +24,8 @@ list_of_sources: Makefile
 		fi; \
 	done
 	mv $@.tmp $@
+
+distclean-local: distclean-local-list_of_sources
+.PHONY: distclean-local-list_of_sources
+distclean-local-list_of_sources:
+	rm -f list_of_sources
