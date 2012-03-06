@@ -1,5 +1,8 @@
 goffice 0.9.3:
 
+Morten:
+	* Fix GOImage fallback for non-GUI case.
+
 --------------------------------------------------------------------------
 goffice 0.9.2:
 

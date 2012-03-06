@@ -1,3 +1,8 @@
+2012-03-06  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-image.c (go_image_new_from_data): Make fallback
+	work even in the non-GUI case.
+
 2012-03-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-cmd-context-impl.h: fixed for nested structs introspection.
