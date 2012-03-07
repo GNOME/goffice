@@ -1,3 +1,10 @@
+2012-03-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (cb_attrs_as_string): Tweak handling
+	of bold so PANGO_WEIGHT_NORMAL becomes 0 and PANGO_WEIGHT_BOLD
+	becomes 1.  PangoWeight->double->PangoWeight still round trips
+	unless you start below 100.
+
 2012-03-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-image.c (go_image_new_from_data): Make fallback

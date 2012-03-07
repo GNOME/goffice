@@ -5549,11 +5549,11 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 		return FALSE;
 
 	switch (a->klass->type) {
-	case PANGO_ATTR_FAMILY :
+	case PANGO_ATTR_FAMILY:
 		g_string_append_printf (accum, "[family=%s",
 			((PangoAttrString *)a)->value);
 		break;
-	case PANGO_ATTR_SIZE :
+	case PANGO_ATTR_SIZE:
 		g_string_append_printf (accum, "[size=%d",
 			((PangoAttrInt *)a)->value);
 		break;
@@ -5567,23 +5567,29 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 				((PangoAttrFloat *)a)->value);
 		g_string_append (accum, buf);
 		break;
-	case PANGO_ATTR_STYLE :
+	case PANGO_ATTR_STYLE:
 		g_string_append_printf (accum, "[italic=%d",
 			(((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) ? 1 : 0);
 		break;
-	case PANGO_ATTR_WEIGHT :
+	case PANGO_ATTR_WEIGHT: {
+		int w = ((PangoAttrInt *)a)->value;
 		/* We are scaling the weight so that earlier versions that used only 0/1 */
 		/* can still read the new formats and we can read the old ones. */
+		const int Z = PANGO_WEIGHT_NORMAL;
+		const double R = PANGO_WEIGHT_BOLD - Z;
+		double d = (w - Z) / R;
+		/* We cap to prevent older versions from seeing -1 or less.  */
+		if (d <= -1) d = -0.999;
 		g_string_append (accum, "[bold=");
-		g_ascii_formatd (buf, sizeof (buf), "%.3f",
-				(((PangoAttrInt *)a)->value - 399.)/300.);
+		g_ascii_formatd (buf, sizeof (buf), "%.3g", d);
 		g_string_append (accum, buf);
 		break;
-	case PANGO_ATTR_STRIKETHROUGH :
+	}
+	case PANGO_ATTR_STRIKETHROUGH:
 		g_string_append_printf (accum, "[strikethrough=%d",
 			((PangoAttrInt *)a)->value ? 1 : 0);
 		break;
-	case PANGO_ATTR_UNDERLINE :
+	case PANGO_ATTR_UNDERLINE:
 		switch (((PangoAttrInt *)a)->value) {
 		case PANGO_UNDERLINE_NONE :
 			g_string_append (accum, "[underline=none");
@@ -5603,14 +5609,14 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 		}
 		break;
 
-	case PANGO_ATTR_FOREGROUND :
+	case PANGO_ATTR_FOREGROUND:
 		c = &((PangoAttrColor *)a)->color;
 		g_string_append_printf (accum, "[color=%02xx%02xx%02x",
 			((c->red & 0xff00) >> 8),
 			((c->green & 0xff00) >> 8),
 			((c->blue & 0xff00) >> 8));
 		break;
-	default :
+	default:
 		if (a->klass->type == go_pango_attr_subscript_get_type ()) {
 			g_string_append_printf (accum, "[subscript=%d",
 						((GOPangoAttrSubscript *)a)->val ?
@@ -5663,9 +5669,13 @@ go_format_parse_markup (char *str)
 		case 4:
 			if (0 == strncmp (str, "size", 4))
 				a = pango_attr_size_new (atoi (val));
-			else if (0 == strncmp (str, "bold", 4))
-				a = pango_attr_weight_new ((int)(g_ascii_strtod (val, NULL) * 300. + 399.));
-			else if (0 == strncmp (str, "rise", 4))
+			else if (0 == strncmp (str, "bold", 4)) {
+				double d = g_ascii_strtod (val, NULL);
+				const int Z = PANGO_WEIGHT_NORMAL;
+				const double R = PANGO_WEIGHT_BOLD - Z;
+				int w = (int)(d * R + Z);
+				a = pango_attr_weight_new (w);
+			} else if (0 == strncmp (str, "rise", 4))
 				a = pango_attr_rise_new (atoi (val));
 			break;
 

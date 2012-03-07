@@ -2,6 +2,7 @@ goffice 0.9.3:
 
 Morten:
 	* Fix GOImage fallback for non-GUI case.
+	* Tweak bold attribute for rich text.
 
 --------------------------------------------------------------------------
 goffice 0.9.2:
