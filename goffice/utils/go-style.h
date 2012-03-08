@@ -90,7 +90,7 @@ struct _GOStyle {
 	GOStyleFlag	disable_theming;
 
 	GOStyleLine	line;
-	struct _GOStyle_Fill {
+	struct {
 		GOStyleFill	type;
 		gboolean	auto_type;
 		gboolean	auto_fore, auto_back;	/* share between pattern and gradient */
@@ -108,12 +108,12 @@ struct _GOStyle {
 		} image;
 	} fill;
 	GOStyleMark marker;
-	struct _GOStyle_Font {
+	struct {
 		GOColor		 color;
 		GOFont const 	*font;
 		gboolean 	 auto_scale;
 	} font;
-	struct _GOStyle_Text {
+	struct {
 		double		 angle;
 		gboolean	 auto_angle;
 	} text_layout;

@@ -1,5 +1,8 @@
 goffice 0.9.3:
 
+Jean:
+	* Add introspection support. [#670161]
+
 Morten:
 	* Fix GOImage fallback for non-GUI case.
 	* Tweak bold attribute for rich text.

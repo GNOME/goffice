@@ -312,6 +312,13 @@ GSF_CLASS (GocComponent, goc_component,
 	   goc_component_class_init, NULL,
 	   GOC_TYPE_ITEM)
 
+/**
+ * goc_component_get_object:
+ * @component: #GocComponent
+ *
+ * Returns: (transfer none): the embedded object.
+ */
+
 GOComponent * goc_component_get_object (GocComponent *component)
 {
 	g_return_val_if_fail (GOC_IS_COMPONENT (component), NULL);

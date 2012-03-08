@@ -129,3 +129,46 @@ embedded-stuff.c: $(top_srcdir)/tools/embedder $(embedded_stuff)
 		COMPRESS $(embedded_stuff_compress) \
 		NOCOMPRESS $(embedded_stuff_raw) \
 		>$(abs_builddir)/$@
+
+
+BUILT_GIRSOURCES = \
+	GOffice-@GOFFICE_API_VER@.gir
+
+GOffice-@GOFFICE_API_VER@.gir: list_of_sources
+GOffice-@GOFFICE_API_VER@.gir: libgoffice-@GOFFICE_API_VER@.la
+GOffice-@GOFFICE_API_VER@.gir: $(G_IR_SCANNER)
+	$(AM_V_GEN) $(G_IR_SCANNER) -v --namespace GOffice \
+	    --nsversion="@GOFFICE_API_VER@" \
+	    --add-include-path=$(srcdir) --add-include-path=. \
+	    --include=GObject-2.0 \
+	    --include=Gio-2.0 \
+	    --include=libxml2-2.0 \
+	    --include=cairo-1.0 \
+	    --include=Pango-1.0 \
+	    --include=Gtk-3.0 \
+	    --include=Gsf-1 \
+	    --identifier-prefix="GO" \
+	    --identifier-prefix="Go" \
+	    --symbol-prefix="go" \
+	    --symbol-prefix="libgoffice" \
+	    --accept-unprefixed \
+	    --library=libgoffice-@GOFFICE_API_VER@.la \
+	    --libtool="$(LIBTOOL)" \
+	    --nsversion="@GOFFICE_API_VER@" \
+	    --output $@ \
+	    --pkg libgoffice-@GOFFICE_API_VER@ \
+	    -I$(top_srcdir) \
+	    `cat $(srcdir)/list_of_sources`
+
+if HAVE_INTROSPECTION
+
+girdir = $(GIRDIR)
+gir_DATA = $(BUILT_GIRSOURCES)
+
+typelibsdir = $(TYPELIBDIR)
+typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
+
+%.typelib: %.gir $(G_IR_COMPILER)
+	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(G_IR_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)
+
+endif # HAVE_INTROSPECTION

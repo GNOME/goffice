@@ -1,3 +1,14 @@
+2012-03-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add introspection support. [#670161]
+	* goffice/Makefile.am: ditto.
+	* goffice/app/go-plugin-loader-module.h: ditto.
+	* goffice/canvas/goc-component.c: fixed introspection warnings.
+	* goffice/utils/go-font.c: ditto.
+	* goffice/utils/go-format.c: ditto.
+	* goffice/utils/go-glib-extras.c: ditto.
+	* goffice/utils/go-style.h: reversed some previous unneeded changes.
+
 2012-03-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (cb_attrs_as_string): Tweak handling

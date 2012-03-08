@@ -13,14 +13,15 @@ G_BEGIN_DECLS
 #define GO_PLUGIN_LOADER_MODULE_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_PLUGIN_LOADER_MODULE, GOPluginLoaderModuleClass))
 #define GO_IS_PLUGIN_LOADER_MODULE_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_PLUGIN_LOADER_MODULE))
 
+typedef void (*GOPluginMethod) (GOPlugin *plugin, GOCmdContext *cc);
 typedef struct {
 	GObject	base;
 
 	gchar *module_file_name;
 	GModule *handle;
 
-	void (*plugin_init)	(GOPlugin *plugin, GOCmdContext *cc);
-	void (*plugin_shutdown) (GOPlugin *plugin, GOCmdContext *cc);
+	GOPluginMethod plugin_init;
+	GOPluginMethod plugin_shutdown;
 } GOPluginLoaderModule;
 typedef GObjectClass GOPluginLoaderModuleClass;
 

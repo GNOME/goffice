@@ -74,11 +74,11 @@ go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 /**
  * go_slist_create:
  * @item1: optionally %NULL
- * @Varargs : %NULL terminated list of additional items
+ * @Varargs: %NULL terminated list of additional items
  *
  * Creates a GList from NULL-terminated list of arguments.
- *
- * Returns: created list.
+ * As the arguments are just copied to the list, the caller owns them.
+ * Returns: (transfer container): created list.
  **/
 GSList *
 go_slist_create (gpointer item1, ...)
@@ -98,9 +98,11 @@ go_slist_create (gpointer item1, ...)
 
 /**
  * go_slist_map:
- * @list        : list of some items
- * @map_func    : mapping function
+ * @list: list of some items
+ * @map_func: mapping function
  *
+ * The ownership of the list elements depends on map_func.
+ * Returns: (transfer container): the mapped list
  **/
 GSList *
 go_slist_map (GSList const *list, GOMapFunc map_func)
@@ -740,7 +742,7 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 static char *go_real_name = NULL;
 
 /**
- * go_get_real_name :
+ * go_get_real_name:
  *
  * Returns: a utf8 encoded string with the current user name.
  * 	Caller should _NOT_ free the result.
@@ -768,8 +770,8 @@ go_get_real_name (void)
 }
 
 /**
- * go_destroy_password :
- * @passwd : The buffer to clear
+ * go_destroy_password:
+ * @passwd: The buffer to clear
  *
  * Overwrite a string holding a password.  This is a separate routine to
  * ensure that the compiler does not try to outsmart us.
@@ -785,8 +787,8 @@ go_destroy_password (char *passwd)
 
 /**
  * go_object_toggle:
- * @object : #GObject
- * @property_name : name
+ * @object: #GObject
+ * @property_name: name
  *
  * Toggle a boolean object property.
  **/
