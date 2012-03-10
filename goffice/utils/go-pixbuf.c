@@ -80,7 +80,7 @@ new_from_data (gconstpointer data, size_t length)
 
 /**
  * go_gdk_pixbuf_new_from_file:
- * @filename : pixbuf filename
+ * @filename: pixbuf filename
  *
  * Utility routine to create pixbufs from file @name in the goffice_icon_dir.
  * As a special case, @filename may have the form "res:<resource name>" in

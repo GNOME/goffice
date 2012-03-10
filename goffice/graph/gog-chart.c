@@ -745,12 +745,12 @@ GSF_CLASS (GogChart, gog_chart,
 	   GOG_TYPE_OUTLINED_OBJECT)
 
 /**
- * gog_chart_get_position :
- * @chart : const #GogChart
- * @x :
- * @y :
- * @cols :
- * @rows :
+ * gog_chart_get_position:
+ * @chart: const #GogChart
+ * @x:
+ * @y:
+ * @cols:
+ * @rows:
  *
  * Returns: TRUE if the chart has been positioned.
  **/
@@ -772,7 +772,7 @@ gog_chart_get_position (GogChart const *chart,
 }
 
 /**
- * gog_chart_set_position :
+ * gog_chart_set_position:
  * @chart: #GogChart
  * @x:
  * @y:
@@ -800,9 +800,9 @@ gog_chart_set_position (GogChart *chart,
 }
 
 /**
- * gog_chart_get_plot_area :
- * @chart : #GogChart
- * @plot_area  : #GogViewAllocation
+ * gog_chart_get_plot_area:
+ * @chart: #GogChart
+ * @plot_area: #GogViewAllocation
  *
  * Stores plot area in plot_area, in fraction of chart size.
  *
@@ -819,8 +819,8 @@ gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area)
 
 /**
  * gog_chart_set_plot_area:
- * @chart : #GogChart
- * @plot_area  : #GogViewAllocation
+ * @chart: #GogChart
+ * @plot_area: #GogViewAllocation
  *
  * If plot_area != NULL, sets plot area size and location, in fraction
  * of chart size, and sets GogChart::is_plot_area_manual flag to TRUE.
@@ -993,9 +993,9 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 }
 
 /**
- * gog_chart_get_axes :
- * @chart : #GogChart
- * @target  : #GogAxisType
+ * gog_chart_get_axes:
+ * @chart: #GogChart
+ * @target: #GogAxisType
  *
  * Returns: a list which the caller must free of all axis of type @target
  * associated with @chart.
@@ -1027,7 +1027,7 @@ gog_chart_get_axes (GogChart const *chart, GogAxisType target)
 }
 
 /**
- * gog_chart_get_grid :
+ * gog_chart_get_grid:
  * @chart: #GogChart
  *
  * Returns: the grid associated with @chart if one exists

@@ -85,8 +85,8 @@ typedef struct {
 	void	 (*padding_request) 		(GogView *view, GogViewAllocation const *bbox,
 						 GogViewPadding *padding);
 	void	 (*size_request)    		(GogView *view, GogViewRequisition const *available,
-						 GogViewRequisition *req);
-	void	 (*size_allocate)   		(GogView *, GogViewAllocation const *bbox);
+						 GogViewRequisition *requisition);
+	void	 (*size_allocate)   		(GogView *view, GogViewAllocation const *allocation);
 
 	void	 (*render)        		(GogView *view, GogViewAllocation const *bbox);
 

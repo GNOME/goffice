@@ -152,10 +152,10 @@ cb_typesel_sample_plot_resize (GocCanvas *canvas,
 
 
 /*
- * graph_typeselect_minor :
+ * graph_typeselect_minor:
  *
- * @typesel :
- * @item : A CanvasItem in the selector.
+ * @typesel:
+ * @item: A CanvasItem in the selector.
  *
  * Moves the typesel::selector overlay above the @item.
  * Assumes that the item is visible
@@ -1275,8 +1275,8 @@ graph_guru_init (GraphGuruState *s)
 }
 
 /**
- * gog_guru_get_help_button :
- * @guru : #GtkWidget  (the result of gog_guru).
+ * gog_guru_get_help_button:
+ * @guru: #GtkWidget  (the result of gog_guru).
  *
  * Quick utility to allow application specific help.  Required until we clean
  * up the relationship between goffice and gnumeric to decide which parts of
@@ -1292,11 +1292,11 @@ gog_guru_get_help_button (GtkWidget *guru)
 }
 
 /**
- * gog_guru
- * @graph	: the graph to edit
- * @dalloc	: The data allocator to use for editing
- * @cc		: Where to report errors
- * @closure	: #GClosure
+ * gog_guru:
+ * @graph: the graph to edit
+ * @dalloc: The data allocator to use for editing
+ * @cc: Where to report errors
+ * @closure: #GClosure
  *
  * CHANGED 0.5.3
  * 	: drop the @toplevel window argument and have the callers handle

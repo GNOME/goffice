@@ -2960,7 +2960,7 @@ go_emf_setworldtransform (GOEmfState *state)
 static gboolean
 go_emf_modifyworldtransform (GOEmfState *state)
 {
-	d_(("modifyworldtransfor\n"));
+	d_(("modifyworldtransform\n"));
 	return TRUE;
 }
 
@@ -3383,7 +3383,14 @@ go_emf_extfloodfill (GOEmfState *state)
 static gboolean
 go_emf_lineto (GOEmfState *state)
 {
+	double x, y;
 	d_(("lineto\n"));
+	if (state->curDC->path == NULL)
+		return FALSE;
+	go_wmf_read_pointl (state->data, &x, &y);
+	go_emf_convert_coords (state, &x, &y);
+	go_path_line_to (state->curDC->path, x, y);
+	d_(("\tLine to x=%g y=%g\n", x, y));
 	return TRUE;
 }
 
@@ -4213,6 +4220,8 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 		state.curDC = g_new0 (GOEmfDC, 1);
 		state.curDC->style = go_style_new ();
 		state.curDC->group = state.canvas->root;
+		state.dx = state.dy = state.wx = state.wy = 0.;
+		state.dw = state.dh = state.ww = state.wh = 1.;
 		state.mfobjs = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		                                     NULL, g_free);
 		offset = 4;

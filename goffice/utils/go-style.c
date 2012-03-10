@@ -1093,7 +1093,7 @@ go_style_new (void)
 
 /**
  * go_style_dup:
- * @style : a source #GOStyle
+ * @style: a source #GOStyle
  *
  * Duplicates @style.
  *
@@ -1148,9 +1148,9 @@ go_style_assign (GOStyle *dst, GOStyle const *src)
 }
 
 /**
- * go_style_apply_theme :
- * @dst : #GOStyle
- * @src :  #GOStyle
+ * go_style_apply_theme:
+ * @dst: #GOStyle
+ * @src:  #GOStyle
  * @fields: the fields to which the copy should be limited
  *
  * Merge the attributes from @src onto the elements of @dst that were not user
@@ -1768,9 +1768,9 @@ go_style_is_auto (GOStyle *style)
 }
 
 /**
- * go_style_set_marker :
- * @style : #GOStyle
- * @marker : #GOMarker
+ * go_style_set_marker:
+ * @style: #GOStyle
+ * @marker: #GOMarker
  *
  * Absorb a reference to @marker and assign it to @style.
  **/
@@ -1788,8 +1788,8 @@ go_style_set_marker (GOStyle *style, GOMarker *marker)
 }
 
 /**
- * go_style_get_marker :
- * @style : #GOStyle
+ * go_style_get_marker:
+ * @style: #GOStyle
  *
  * Accessor for @style::marker, without referencing it.
  *
@@ -1846,8 +1846,8 @@ go_style_set_fill_brightness (GOStyle *style, double brightness)
 
 /**
  * go_style_set_text_angle:
- * @style : #GOStyle
- * @angle : text rotation in degrees
+ * @style: #GOStyle
+ * @angle: text rotation in degrees
  *
  * Set text rotation angle in degrees. Valid values are in the range
  * [-180.0° , 180.0°].

@@ -878,8 +878,8 @@ GSF_CLASS_FULL (GogSeries, gog_series,
 		GSF_INTERFACE (gog_series_dataset_init, GOG_TYPE_DATASET))
 
 /**
- * gog_series_get_plot :
- * @series : #GogSeries
+ * gog_series_get_plot:
+ * @series: #GogSeries
  *
  * Returns: the possibly NULL plot that contains this series.
  **/
@@ -891,8 +891,8 @@ gog_series_get_plot (GogSeries const *series)
 }
 
 /**
- * gog_series_is_valid :
- * @series : #GogSeries
+ * gog_series_is_valid:
+ * @series: #GogSeries
  *
  * Returns: the current cached validity.  Does not recheck
  **/
@@ -904,8 +904,8 @@ gog_series_is_valid (GogSeries const *series)
 }
 
 /**
- * gog_series_check_validity :
- * @series : #GogSeries
+ * gog_series_check_validity:
+ * @series: #GogSeries
  *
  * Updates the is_valid flag for a series.
  * This is an internal utility that should not really be necessary for general
@@ -931,8 +931,8 @@ gog_series_check_validity (GogSeries *series)
 }
 
 /**
- * gog_series_has_legend :
- * @series : #GogSeries
+ * gog_series_has_legend:
+ * @series: #GogSeries
  *
  * Returns: TRUE if the series has a visible legend entry
  **/
@@ -944,7 +944,7 @@ gog_series_has_legend (GogSeries const *series)
 }
 
 /**
- * gog_series_set_index :
+ * gog_series_set_index:
  * @series: #GogSeries
  * @ind: >= 0 assigns a new index, < 0 resets to auto
  * @is_manual: gboolean
@@ -979,7 +979,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 
 /**
  * gog_series_get_name:
- * @series : a #GogSeries
+ * @series: a #GogSeries
  *
  * Gets the _source_ of the name associated with the series.
  * NOTE : this is _NOT_ the actual name.
@@ -995,10 +995,10 @@ gog_series_get_name (GogSeries const *series)
 }
 
 /**
- * gog_series_set_name :
- * @series : a #GogSeries
- * @name_src : a #GODataScalar
- * @err : a #GError
+ * gog_series_set_name:
+ * @series: a #GogSeries
+ * @name_src: a #GODataScalar
+ * @err: a #GError
  *
  * Absorbs a ref to @name_src.
  *
@@ -1010,11 +1010,11 @@ gog_series_set_name (GogSeries *series, GODataScalar *name_src, GError **err)
 }
 
 /**
- * gog_series_set_dim :
- * @series : #GogSeries
- * @dim_i : Which dimension
- * @val   : #GOData
- * @err : optional #GError pointer
+ * gog_series_set_dim:
+ * @series: #GogSeries
+ * @dim_i: Which dimension
+ * @val: #GOData
+ * @err: optional #GError pointer
  *
  * Absorbs a ref to @val
  **/
@@ -1052,8 +1052,8 @@ gog_series_set_XL_dim (GogSeries *series, GogMSDimType ms_type, GOData *val, GEr
 }
 
 /**
- * gog_series_num_elements :
- * @series : #GogSeries
+ * gog_series_num_elements:
+ * @series: #GogSeries
  *
  * Returns: the number of elements in the series
  **/

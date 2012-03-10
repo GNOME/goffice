@@ -212,11 +212,11 @@ cb_selection_changed (GtkIconView *view, GOImageSelState *state)
 }
 
 /**
- * go_image_sel_new
- * @doc		: The #GODoc owning the image collection
- * @image	:  #GOImage
+ * go_image_sel_new:
+ * @doc: The #GODoc owning the image collection
+ * @image:  #GOImage
  *
- * Returns: and shows new image selector.
+ * Returns: (transfer full): and shows new image selector.
  **/
 GtkWidget *
 go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)

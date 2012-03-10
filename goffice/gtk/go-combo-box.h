@@ -46,11 +46,11 @@ struct _GOComboBoxClass {
 	GtkBoxClass	base;
 
 	/* virtual */
-	void  (*set_title) (GOComboBox *cbox, char const *title);
+	void  (*set_title) (GOComboBox *combo, char const *title);
 
 	/* invoked when the popup has been hidden, if the signal
 	 * returns TRUE, it means it should be killed */
-	gboolean   (*pop_down_done)   (GOComboBox *cbox, GtkWidget *);
+	gboolean   (*pop_down_done)   (GOComboBox *combo, GtkWidget *);
 };
 
 /* public */

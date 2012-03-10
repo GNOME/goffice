@@ -444,8 +444,8 @@ GSF_CLASS (GogGraph, gog_graph,
 	   GOG_TYPE_OUTLINED_OBJECT)
 
 /**
- * gog_graph_validate_chart_layout :
- * @graph : #GogGraph
+ * gog_graph_validate_chart_layout:
+ * @graph: #GogGraph
  *
  * Check the layout of the chart grid and ensure that there are no empty
  * cols or rows, and resize as necessary
@@ -544,10 +544,10 @@ gog_graph_num_rows (GogGraph const *graph)
 }
 
 /**
- * gog_graph_dup :
- * @graph : #GogGraph
+ * gog_graph_du :
+ * @grap : #GogGraph
  *
- * Returns: a deep copy of @graph.
+ * Returns: (transfer full) a deep copy of @graph.
  **/
 GogGraph *
 gog_graph_dup (GogGraph const *graph)
@@ -599,7 +599,7 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 }
 
 /**
- * gog_graph_get_data :
+ * gog_graph_get_data:
  * @graph: #GogGraph
  *
  * Returns: a list of the GOData objects that are data to the graph.
@@ -613,9 +613,9 @@ gog_graph_get_data (GogGraph const *graph)
 }
 
 /**
- * gog_graph_ref_data :
- * @graph : #GogGraph
- * @dat : #GOData
+ * gog_graph_ref_data:
+ * @graph: #GogGraph
+ * @dat: #GOData
  *
  * Returns: @dat or something equivalent to it that already exists in the graph.
  * 	Otherwise use @dat.  Adds a gobject ref to the target and increments a
@@ -663,9 +663,9 @@ gog_graph_ref_data (GogGraph *graph, GOData *dat)
 }
 
 /**
- * gog_graph_unref_data :
- * @graph : #GogGraph
- * @dat : #GOData
+ * gog_graph_unref_data:
+ * @graph: #GogGraph
+ * @dat: #GOData
  *
  **/
 void
@@ -718,8 +718,8 @@ cb_graph_idle (GogGraph *graph)
 }
 
 /**
- * gog_graph_request_update :
- * @graph : #GogGraph
+ * gog_graph_request_update:
+ * @graph: #GogGraph
  *
  * queue an update if one had not already be queued.
  *
@@ -743,8 +743,8 @@ gog_graph_request_update (GogGraph *graph)
 }
 
 /**
- * gog_graph_force_update :
- * @graph : #GogGraph
+ * gog_graph_force_update:
+ * @graph: #GogGraph
  *
  * Do an update now if one has been queued.
  **/
@@ -759,7 +759,7 @@ gog_graph_force_update (GogGraph *graph)
 	}
 }
 /**
- * gog_graph_get_size :
+ * gog_graph_get_size:
  * @graph: #GogGraph
  * @width: logical width in pts
  * @height: logical height in pts
@@ -1004,10 +1004,10 @@ update_action (GogGraphView *view, GogTool *tool, double x, double y)
 
 /**
  * gog_graph_view_handle_event:
- * @gview : #GogGraphView
- * @event : #GdkEvent
- * @x_offset : in pixels
- * @y_offset : in pixels
+ * @gview: #GogGraphView
+ * @event: #GdkEvent
+ * @x_offset: in pixels
+ * @y_offset: in pixels
  *
  * Handle events.
  **/
@@ -1076,7 +1076,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 #endif
 
 /**
- * gog_graph_view_get_selection :
+ * gog_graph_view_get_selection:
  * @gview: #GogGraphView
  *
  * Returns: current selected view.
@@ -1091,8 +1091,8 @@ gog_graph_view_get_selection (GogGraphView *gview)
 
 /**
  * gog_graph_view_set_selection
- * @gview : #GogGraphView
- * @gobj : new selected object
+ * @gview: #GogGraphView
+ * @gobj: new selected object
  *
  * Sets @gobj as current selection. If @gobj is different from previously
  * selected object, a selection-changed signal is emitted.

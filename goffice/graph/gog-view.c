@@ -611,8 +611,8 @@ gog_view_get_model (GogView const *view)
 }
 
 /**
- * gog_view_queue_redraw :
- * @view : a #GogView
+ * gog_view_queue_redraw:
+ * @view: a #GogView
  *
  * Requests a redraw for the entire graph.
  **/
@@ -626,8 +626,8 @@ gog_view_queue_redraw (GogView *view)
 }
 
 /**
- * gog_view_queue_resize :
- * @view : a #GogView
+ * gog_view_queue_resize:
+ * @view: a #GogView
  *
  * Flags a view to have its size renegotiated; should
  * be called when a model for some reason has a new size request.
@@ -664,9 +664,9 @@ gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewP
 
 /**
  * gog_view_size_request:
- * @view : a #GogView
- * @available : available space.
- * @requisition : a #GogViewRequisition.
+ * @view: a #GogView
+ * @available: available space.
+ * @requisition: a #GogViewRequisition.
  *
  * When called @available holds the available space and @requisition is populated
  * with the desired size based on that input and other elements of the view or
@@ -694,8 +694,8 @@ gog_view_size_request (GogView *view,
 }
 
 /**
- * gog_view_size_allocate :
- * @view : a #GogView
+ * gog_view_size_allocate:
+ * @view: a #GogView
  * @allocation: position and size to be allocated to @view
  *
  * Assign a size and position to a GogView.  Primarilly used by containers.
@@ -725,7 +725,7 @@ gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 
 /**
  * gog_view_update_sizes:
- * @view : #GogView
+ * @view: #GogView
  *
  * Returns: %TRUE if a redraw is necessary.
  **/
@@ -838,9 +838,9 @@ gog_view_size_child_request (GogView *view,
 }
 
 /**
- * gog_view_find_child_view :
- * @container : #GogView
- * @target_model : #GogObject
+ * gog_view_find_child_view:
+ * @container: #GogView
+ * @target_model: #GogObject
  *
  * Find the GogView contained in @container that corresponds to @model.
  *
@@ -884,8 +884,8 @@ gog_view_find_child_view  (GogView const *container, GogObject const *target_mod
 }
 
 /**
- * gog_view_render_toolkit :
- * @view : #GogView
+ * gog_view_render_toolkit:
+ * @view: #GogView
  *
  * Render toolkit elements.
  **/
@@ -906,8 +906,8 @@ gog_view_render_toolkit (GogView *view)
 }
 
 /**
- * gog_view_get_toolkit :
- * @view : #GogView
+ * gog_view_get_toolkit:
+ * @view: #GogView
  *
  * Returns: toolkit associated with given view.
  **/
@@ -927,10 +927,10 @@ gog_view_get_toolkit (GogView *view)
 
 /**
  * gog_view_get_tool_at_point:
- * @view : #GogView
- * @x : in coords
- * @y : in coords
- * @gobj : pointed object or NULL
+ * @view: #GogView
+ * @x: in coords
+ * @y: in coords
+ * @gobj: pointed object or NULL
  *
  * Returns: tool under cursor for a given view, or %NULL
  **/
@@ -958,11 +958,11 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
 
 /**
  * gog_view_get_view_at_point:
- * @view : #GogView
- * @x : cursor x position
- * @y : cursor y position
- * @obj : pointed object or NULL
- * @tool : pointed tool or NULL
+ * @view: #GogView
+ * @x: cursor x position
+ * @y: cursor y position
+ * @obj: pointed object or NULL
+ * @tool: pointed tool or NULL
  *
  * Gets view under cursor, searching recursively from @view. Corresponding object
  * is stored in @obj. This object may or may not be @view->model of pointed view.
@@ -1004,9 +1004,9 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 
 /**
  * gog_view_get_tip_at_point:
- * @view : #GogView
- * @x : x position
- * @y : y position
+ * @view: #GogView
+ * @x: x position
+ * @y: y position
  *
  * Gets a tip string related to the position as defined by (@x,@y) in @view.
  *

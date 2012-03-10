@@ -292,6 +292,15 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 	g_object_notify (G_OBJECT (option_menu), "menu");
 }
 
+
+/**
+ * go_option_menu_set_history:
+ * @selection: a list of indices giving the menu to select. 
+ *
+ * Selects an item. The last number in the list is the rank of the item to select
+ * in its menu and the previous ones are the ranks of the submenus containing 
+ * the item to select.
+ **/
 void
 go_option_menu_set_history (GOOptionMenu *option_menu, GSList *selection)
 {
@@ -321,7 +330,7 @@ go_option_menu_set_history (GOOptionMenu *option_menu, GSList *selection)
  *
  * Retrieves the currently selected menu item.
  *
- * Return value: the selected menu_item
+ * Returns: the selected menu_item
  **/
 
 GtkWidget *

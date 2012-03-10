@@ -344,7 +344,7 @@ go_color_selector_set_color (GOSelector *selector, GOColor color)
 /**
  * go_color_selector_get_color:
  * @selector: a #GOSelector
- * @is_auto : non-NULL result storage
+ * @is_auto: non-NULL result storage
  *
  * Retrieves current color selection of a #GOSelector
  * created via @go_color_selector_new. @is_auto will be set to
@@ -375,9 +375,9 @@ go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
 }
 
 /**
- * go_color_selector_set_allow_alpha :
- * @selector : #GOColorSelector
- * @allow_alpha : boolean
+ * go_color_selector_set_allow_alpha:
+ * @selector: #GOColorSelector
+ * @allow_alpha: boolean
  *
  * Should the custom colour selector allow the use of opacity.
  **/

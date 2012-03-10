@@ -1546,8 +1546,8 @@ gog_axis_map_set (GogAxis *axis, char const *name)
 }
 
 /**
- * gog_axis_map_is_valid
- * @map : a #GogAxisMap
+ * gog_axis_map_is_valid:
+ * @map: a #GogAxisMap
  *
  * Tests if @map was correctly initialized, i.e. if bounds are
  * valid.
@@ -1602,9 +1602,9 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
 }
 
 /**
- * gog_axis_map :
- * @map : a #GogAxisMap
- * @value : value to map to plot space.
+ * gog_axis_map:
+ * @map: a #GogAxisMap
+ * @value: value to map to plot space.
  *
  * Converts @value to plot coordinates. A value in [0,1.0] range means a data
  * within axis bounds.
@@ -1622,9 +1622,9 @@ gog_axis_map (GogAxisMap *map, double value)
 }
 
 /**
- * gog_axis_map_from_view :
- * @map : a #GogAxisMap
- * @value : value to unmap from canvas space.
+ * gog_axis_map_from_view:
+ * @map: a #GogAxisMap
+ * @value: value to unmap from canvas space.
  *
  * Converts value from canvas space to data space.
  *
@@ -1640,9 +1640,9 @@ gog_axis_map_from_view (GogAxisMap *map, double value)
 }
 
 /**
- * gog_axis_map_to_view :
- * @map : a #GogAxisMap
- * @value : value to map to canvas space
+ * gog_axis_map_to_view:
+ * @map: a #GogAxisMap
+ * @value: value to map to canvas space
  *
  * Converts value from data space to canvas space, using
  * offset and length parameters given to gog_axis_map_new.
@@ -1659,9 +1659,9 @@ gog_axis_map_to_view (GogAxisMap *map, double value)
 }
 
 /**
- * gog_axis_map_derivative_to_view :
- * @map : a #GogAxisMap
- * @value : value to map to canvas space
+ * gog_axis_map_derivative_to_view:
+ * @map: a #GogAxisMap
+ * @value: value to map to canvas space
  *
  * Returns: the derivative of the mapping expression at value.
  **/
@@ -1675,9 +1675,9 @@ gog_axis_map_derivative_to_view (GogAxisMap *map, double value)
 }
 
 /**
- * gog_axis_map_finite :
- * @map : a #GogAxisMap
- * @value : value to test
+ * gog_axis_map_finite:
+ * @map: a #GogAxisMap
+ * @value: value to test
  *
  * Tests whether @value is valid for the given @map.
  *
@@ -1693,8 +1693,8 @@ gog_axis_map_finite (GogAxisMap *map, double value)
 }
 
 /**
- * gog_axis_map_get_baseline :
- * @map : a #GogAxisMap
+ * gog_axis_map_get_baseline:
+ * @map: a #GogAxisMap
  *
  * Returns: the baseline for @map, in view coordinates,
  * 	clipped to offset and offset+length, where offset and length
@@ -1710,9 +1710,9 @@ gog_axis_map_get_baseline (GogAxisMap *map)
 
 /**
  * gog_axis_map_get_extents:
- * @map : a #GogAxisMap
- * @start : location to store start for this axis
- * @stop : location to store stop for this axis
+ * @map: a #GogAxisMap
+ * @start: location to store start for this axis
+ * @stop: location to store stop for this axis
  *
  * Gets start and stop for the given axis map in data coordinates. If
  * axis is not inverted, start = minimum and stop = maximum.  If axis is invalid,
@@ -1753,9 +1753,9 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 
 /**
  * gog_axis_map_get_bounds:
- * @map : a #GogAxisMap
- * @minimum : location to store minimum for this axis
- * @maximum : location to store maximum for this axis
+ * @map: a #GogAxisMap
+ * @minimum: location to store minimum for this axis
+ * @maximum: location to store maximum for this axis
  *
  * Gets bounds for the given axis map in data coordinates. If axis is invalid,
  * it'll return arbitrary bounds.
@@ -1822,8 +1822,8 @@ gog_axis_map_is_discrete (GogAxisMap *map)
 }
 
 /**
- * gog_axis_map_free :
- * @map : a #GogAxisMap
+ * gog_axis_map_free:
+ * @map: a #GogAxisMap
  *
  * Frees #GogAxisMap object.
  **/
@@ -2005,9 +2005,9 @@ role_label_can_add (GogObject const *parent)
 }
 
 /**
- * gog_axis_set_format :
- * @axis : #GogAxis
- * @fmt  : #GOFormat
+ * gog_axis_set_format:
+ * @axis: #GogAxis
+ * @fmt: #GOFormat
  *
  * Absorbs a reference to @fmt, and accepts NULL.
  *
@@ -2033,8 +2033,8 @@ gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
 }
 
 /**
- * gog_axis_get_format :
- * @axis :#GogAxis
+ * gog_axis_get_format:
+ * @axis: #GogAxis
  *
  * Returns: the format assigned to @axis but does not add a reference.
  **/
@@ -2219,10 +2219,10 @@ gog_axis_finalize (GObject *obj)
 }
 
 /**
- * gog_axis_get_entry :
- * @axis : #GogAxis
- * @i :
- * @user_defined : an optionally NULL pointr to gboolean
+ * gog_axis_get_entry:
+ * @axis: #GogAxis
+ * @i:
+ * @user_defined: an optionally NULL pointr to gboolean
  *
  * Returns: the value of axis element @i and sets @user_defined or
  * 	NaN on error
@@ -2863,8 +2863,8 @@ GSF_CLASS_FULL (GogAxis, gog_axis,
 
 
 /**
- * gog_axis_is_center_on_ticks :
- * @axis : #GogAxis
+ * gog_axis_is_center_on_ticks:
+ * @axis: #GogAxis
  *
  * Returns: TRUE if labels are centered on ticks when @axis is discrete
  **/
@@ -2876,8 +2876,8 @@ gog_axis_is_center_on_ticks (GogAxis const *axis)
 }
 
 /**
- * gog_axis_is_discrete :
- * @axis : #GogAxis
+ * gog_axis_is_discrete:
+ * @axis: #GogAxis
  *
  * Returns: TRUE if @axis enumerates a set of discrete items, rather than a
  * 	continuous value
@@ -2890,8 +2890,8 @@ gog_axis_is_discrete (GogAxis const *axis)
 }
 
 /**
- * gog_axis_is_inverted :
- * @axis : #GogAxis
+ * gog_axis_is_inverted:
+ * @axis: #GogAxis
  *
  * Returns: TRUE if @axis is inverted.
  **/
@@ -2903,10 +2903,10 @@ gog_axis_is_inverted (GogAxis const *axis)
 }
 
 /**
- * gog_axis_get_bounds :
- * @axis : #GogAxis
- * @minima : non-NULL storage for result
- * @maxima : non-NULL storage for result
+ * gog_axis_get_bounds:
+ * @axis: #GogAxis
+ * @minima: non-NULL storage for result
+ * @maxima: non-NULL storage for result
  *
  * Returns: %TRUE if the bounds stored in @minima and @maxima are sane
  **/
@@ -2924,10 +2924,10 @@ gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 }
 
 /**
- * gog_axis_set_bounds :
- * @axis : #GogAxis
- * @minimum : axis low bound
- * @maximum : axis high bound
+ * gog_axis_set_bounds:
+ * @axis: #GogAxis
+ * @minimum: axis low bound
+ * @maximum: axis high bound
  *
  * Sets axis bounds. If minimum or maximum are not finite values, corresponding
  * bound remains unchanged.
@@ -2966,10 +2966,10 @@ gog_axis_get_effective_span (GogAxis const *axis, double *start, double *end)
 }
 
 /**
- * gog_axis_set_extents :
- * @axis : #GogAxis
- * @start : axis start bound
- * @stop : axis stop bound
+ * gog_axis_set_extents:
+ * @axis: #GogAxis
+ * @start: axis start bound
+ * @stop: axis stop bound
  *
  * Set axis exents. It's a convenience function that sets axis bounds taking
  * into account invert flag.
@@ -2987,9 +2987,9 @@ gog_axis_set_extents (GogAxis *axis, double start, double stop)
 
 
 /**
- * gog_axis_get_ticks :
- * @axis : #GogAxis
- * @ticks : an array of #GogAxisTick
+ * gog_axis_get_ticks:
+ * @axis: #GogAxis
+ * @ticks: an array of #GogAxisTick
  *
  * An accessor to @axis->ticks.
  *
@@ -3006,9 +3006,9 @@ gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
 }
 
 /**
- * gog_axis_get_labels :
- * @axis : a #GogAxis
- * @plot_that_labeled_axis : a #GogPlot
+ * gog_axis_get_labels:
+ * @axis: a #GogAxis
+ * @plot_that_labeled_axis: a #GogPlot
  *
  * return value: the possibly NULL #GOData used as a label for this axis
  * along with the plot that it was associated with
@@ -3029,9 +3029,9 @@ gog_axis_get_labels (GogAxis const *axis, GogPlot **plot_that_labeled_axis)
 }
 
 /**
- * gog_axis_add_contributor :
- * @axis : #GogAxis
- * @contrib : #GogObject (can we relax this to use an interface ?)
+ * gog_axis_add_contributor:
+ * @axis: #GogAxis
+ * @contrib: #GogObject (can we relax this to use an interface ?)
  *
  * Register @contrib as taking part in the negotiation of @axis's bounds.
  **/
@@ -3047,9 +3047,9 @@ gog_axis_add_contributor (GogAxis *axis, GogObject *contrib)
 }
 
 /**
- * gog_axis_del_contributor :
- * @axis : #GogAxis
- * @contrib : #GogObject (can we relax this to use an interface ?)
+ * gog_axis_del_contributor:
+ * @axis: #GogAxis
+ * @contrib: #GogObject (can we relax this to use an interface ?)
  *
  * @contrib no longer takes part in the negotiation of @axis's bounds.
  **/
@@ -3099,9 +3099,9 @@ gog_axis_contributors (GogAxis *axis)
 }
 
 /**
- * gog_axis_bound_changed :
- * @axis : #GogAxis
- * @contrib : #GogObject
+ * gog_axis_bound_changed:
+ * @axis: #GogAxis
+ * @contrib: #GogObject
 **/
 void
 gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)

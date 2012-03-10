@@ -404,9 +404,9 @@ go_color_palette_set_title (GOColorPalette *pal, char const *title)
 }
 
 /**
- * go_color_palette_set_group :
- * @p : #GOColorPalette
- * @cg : #GOColorGroup
+ * go_color_palette_set_group:
+ * @p: #GOColorPalette
+ * @cg: #GOColorGroup
  *
  **/
 void
@@ -671,8 +671,8 @@ cb_menu_custom_activate (GtkWidget *button, GOMenuColor *menu)
  * @no_color_label: color label
  * @default_color: #GOColor
  * @cg: #GOColorGroup
- * @custom_dialog_title : optional string
- * @current_color : #GOColor
+ * @custom_dialog_title: optional string
+ * @current_color: #GOColor
  *
  * Returns:  a submenu with a palette of colours.  Caller is responsible for
  * 	creating an item to point to the submenu.

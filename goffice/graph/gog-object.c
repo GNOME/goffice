@@ -933,7 +933,7 @@ dataset_dup (GogDataset const *src, GogDataset *dst)
 }
 
 /**
- * gog_object_dup :
+ * gog_object_dup:
  * @src: #GogObject
  * @new_parent: #GogObject the parent tree for the object (can be NULL)
  * @datadup: a function to duplicate the data (a default one is used if NULL)
@@ -993,8 +993,8 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 }
 
 /**
- * gog_object_get_parent :
- * @obj : a #GogObject
+ * gog_object_get_parent:
+ * @obj: a #GogObject
  *
  * Returns: @obj's parent, potentially %NULL if it has not been added to a
  * 	heirarchy yet.  does not change ref-count in any way.
@@ -1026,8 +1026,8 @@ gog_object_get_parent_typed (GogObject const *obj, GType t)
 }
 
 /**
- * gog_object_get_graph :
- * @obj : const * #GogObject
+ * gog_object_get_graph:
+ * @obj: const * #GogObject
  *
  * Returns: the parent graph.
  **/
@@ -1051,8 +1051,8 @@ gog_object_get_theme (GogObject const *obj)
 }
 
 /**
- * gog_object_get_name :
- * @obj : a #GogObject
+ * gog_object_get_name:
+ * @obj: a #GogObject
  *
  * No need to free the result
  *
@@ -1066,10 +1066,10 @@ gog_object_get_name (GogObject const *obj)
 }
 
 /**
- * gog_object_set_name :
- * @obj : #GogObject
- * @name : The new name for @obj
- * @err : #GError
+ * gog_object_set_name:
+ * @obj: #GogObject
+ * @name: The new name for @obj
+ * @err: #GError
  *
  * Assign the new name and signals that it has changed.
  * NOTE : it _absorbs_ @name rather than copying it, and generates a new name
@@ -1096,9 +1096,9 @@ gog_object_set_name (GogObject *obj, char *name, GError **err)
 }
 
 /**
- * gog_object_get_children :
- * @obj : a #GogObject
- * @filter : an optional #GogObjectRole to use as a filter
+ * gog_object_get_children:
+ * @obj: a #GogObject
+ * @filter: an optional #GogObjectRole to use as a filter
  *
  * Returns: A list of @obj's Children.  Caller must free the list, but not the
  * 		children.
@@ -1120,9 +1120,9 @@ gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
 }
 
 /**
- * gog_object_get_child_by_role :
- * @obj : a #GogObject
- * @role : a #GogObjectRole to use as a filter
+ * gog_object_get_child_by_role:
+ * @obj: a #GogObject
+ * @role: a #GogObjectRole to use as a filter
  *
  * A convenience routine to find a unique child with @role.
  *
@@ -1142,9 +1142,9 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
 
 /**
  *
- * gog_object_get_child_by_name :
- * @obj : a #GogObject
- * @name : a #char to use as a role name filter
+ * gog_object_get_child_by_name:
+ * @obj: a #GogObject
+ * @name: a #char to use as a role name filter
  *
  * A convenience routine to find a unique child with role == @name
  *
@@ -1158,8 +1158,8 @@ gog_object_get_child_by_name (GogObject const *obj, char const *name)
 }
 
 /**
- * gog_object_is_deletable :
- * @obj : a #GogObject
+ * gog_object_is_deletable:
+ * @obj: a #GogObject
  *
  * Returns: %TRUE if @obj can be deleted.
  **/
@@ -1226,7 +1226,7 @@ gog_role_cmp_full (GogObjectRole const *a, GogObjectRole const *b)
 }
 
 /**
- * gog_object_possible_additions :
+ * gog_object_possible_additions:
  * @parent: a #GogObject
  *
  * Returns: a list of GogObjectRoles that could be added.
@@ -1253,10 +1253,10 @@ gog_object_possible_additions (GogObject const *parent)
 }
 
 /**
- * gog_object_can_reorder :
- * @obj : #GogObject
- * @inc_ok : optionally %NULL pointer for result.
- * @dec_ok : optionally %NULL pointer for result.
+ * gog_object_can_reorder:
+ * @obj: #GogObject
+ * @inc_ok: optionally %NULL pointer for result.
+ * @dec_ok: optionally %NULL pointer for result.
  *
  * If @obj can move forward or backward in its parents child list
  **/
@@ -1301,10 +1301,10 @@ gog_object_can_reorder (GogObject const *obj, gboolean *inc_ok, gboolean *dec_ok
 }
 
 /**
- * gog_object_reorder :
- * @obj : #GogObject
- * @inc :
- * @goto_max :
+ * gog_object_reorder:
+ * @obj: #GogObject
+ * @inc:
+ * @goto_max:
  *
  * Returns: the object just before @obj in the new ordering.
  **/
@@ -1359,7 +1359,7 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 }
 
 /**
- * gog_object_get_editor :
+ * gog_object_get_editor:
  * @obj: a #GogObject
  * @dalloc: a #GogDataAllocator
  * @cc: a #GOCmdContext
@@ -1399,7 +1399,7 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 }
 
 /**
- * gog_object_new_view :
+ * gog_object_new_view:
  * @obj: a #GogObject
  * @parent: parent view
  *
@@ -1488,7 +1488,7 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 }
 
 /**
- * gog_object_request_editor_update :
+ * gog_object_request_editor_update:
  * @obj: #GogObject
  *
  * Emits a update-editor signal. This signal should be used by object editors
@@ -1504,8 +1504,8 @@ gog_object_request_editor_update (GogObject *obj)
 /******************************************************************************/
 
 /**
- * gog_object_clear_parent :
- * @obj : #GogObject
+ * gog_object_clear_parent:
+ * @obj: #GogObject
  *
  * Does _not_ unref the child, which in effect adds a ref by freeing up the ref
  * previously associated with the parent.
@@ -1543,7 +1543,7 @@ gog_object_clear_parent (GogObject *obj)
 }
 
 /**
- * gog_object_set_parent :
+ * gog_object_set_parent:
  * @child: #GogObject.
  * @parent: #GogObject.
  * @id: optionally %NULL.
@@ -1592,10 +1592,10 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 }
 
 /**
- * gog_object_add_by_role :
- * @parent : #GogObject
- * @role : #GogObjectRole
- * @child : #GogObject
+ * gog_object_add_by_role:
+ * @parent: #GogObject
+ * @role: #GogObjectRole
+ * @child: #GogObject
  *
  * Absorb a ref to @child if it is non-NULL.
  * Returns: @child or a newly created object with @role.  Callers do _not_ own
@@ -1645,10 +1645,10 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 }
 
 /**
- * gog_object_add_by_name :
- * @parent : #GogObject
- * @role :
- * @child : optionally null #GogObject
+ * gog_object_add_by_name:
+ * @parent: #GogObject
+ * @role:
+ * @child: optionally null #GogObject
  *
  * Returns: a newly created child of @parent in @role.  If @child is provided,
  * it is assumed to be an unaffiliated object that will be assigned in @role.
@@ -1664,9 +1664,9 @@ gog_object_add_by_name (GogObject *parent,
 }
 
 /**
- * gog_object_set_invisible :
- * @obj : #GogObject
- * @invisible :
+ * gog_object_set_invisible:
+ * @obj: #GogObject
+ * @invisible:
  **/
 void
 gog_object_set_invisible (GogObject *obj, gboolean invisible)
@@ -1679,9 +1679,9 @@ gog_object_set_invisible (GogObject *obj, gboolean invisible)
 }
 
 /**
- * gog_object_get_position_flags :
- * @obj : #GogObject
- * @mask : #GogObjectPosition
+ * gog_object_get_position_flags:
+ * @obj: #GogObject
+ * @mask: #GogObjectPosition
  *
  * Returns: @obj's position flags, masked by @mask.
  **/
@@ -1693,7 +1693,7 @@ gog_object_get_position_flags (GogObject const *obj, GogObjectPosition mask)
 }
 
 /**
- * gog_object_set_position_flags :
+ * gog_object_set_position_flags:
  * @obj: #GogObject
  * @flags: #GogObjectPosition
  * @mask: #GogObjectPosition
@@ -1727,7 +1727,7 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
 }
 
 /**
- * gog_object_get_manual_position :
+ * gog_object_get_manual_position:
  * @obj: #GogObject
  * @pos: #GogViewAllocation
  *
@@ -1744,8 +1744,8 @@ gog_object_get_manual_position (GogObject *gobj, GogViewAllocation *pos)
 
 /**
  * gog_object_set_manual_position:
- * @obj : #GogObject
- * @pos : #GogViewAllocation
+ * @obj: #GogObject
+ * @pos: #GogViewAllocation
  *
  * set manual position of given object, in points.
  **/
@@ -1766,9 +1766,9 @@ gog_object_set_manual_position (GogObject *gobj, GogViewAllocation const *pos)
 
 /**
  * gog_object_get_manual_allocation:
- * @gobj : #GogObject
- * @parent_allocation : #GogViewAllocation
- * @requisition : #GogViewRequisition
+ * @gobj: #GogObject
+ * @parent_allocation: #GogViewAllocation
+ * @requisition: #GogViewRequisition
  *
  * Returns: manual allocation of a GogObject given its parent allocation and
  * its size request.
@@ -1885,7 +1885,7 @@ gog_object_allocate_roles (GogObjectClass *klass)
 }
 
 /**
- * gog_object_register_roles :
+ * gog_object_register_roles:
  * @klass: #GogObjectClass
  * @roles: #GogObjectRole
  * @n_roles: number of roles

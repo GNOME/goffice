@@ -211,7 +211,7 @@ void SUFFIX(go_cspline_destroy) (SUFFIX(GOCSpline) *sp)
 /**
  * go_cspline_get_value:
  * @sp: a spline structure returned by go_cspline_init.
- * @x : The value
+ * @x: The value
  *
  * sp must be a valid spline structure as returned by go_cspline_init.
  *
@@ -249,7 +249,7 @@ DOUBLE SUFFIX(go_cspline_get_value) (SUFFIX(GOCSpline) const *sp, DOUBLE x)
 /**
  * go_cspline_get_deriv:
  * @sp: a spline structure returned by go_cspline_init.
- * @x : the value
+ * @x: the value
  *
  * sp must be a valid spline structure as returned by go_cspline_init.
  *

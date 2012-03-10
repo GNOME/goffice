@@ -2,6 +2,7 @@ goffice 0.9.3:
 
 Jean:
 	* Add introspection support. [#670161]
+	* Make introspection build when libgoffice is not installed [#671699]
 
 Morten:
 	* Fix GOImage fallback for non-GUI case.

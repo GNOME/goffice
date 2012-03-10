@@ -51,8 +51,8 @@
 
 /**
  * go_gtk_button_new_with_stock:
- * @text : button label
- * @stock_id : id for stock icon
+ * @text: button label
+ * @stock_id: id for stock icon
  *
  * FROM : gedit
  * Creates a new GtkButton with custom label and stock image.
@@ -71,7 +71,7 @@ go_gtk_button_new_with_stock (char const *text, char const* stock_id)
 }
 
 /**
- * go_gtk_dialog_add_button :
+ * go_gtk_dialog_add_button:
  * @dialog: dialog you want to add a button
  * @text: button label
  * @stock_id: stock icon id
@@ -137,10 +137,10 @@ apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
 
 
 /**
- * go_gtk_builder_new :
- * @uifile : the name of the file load
- * @domain : the translation domain
- * @gcc : #GOCmdContext
+ * go_gtk_builder_new:
+ * @uifile: the name of the file load
+ * @domain: the translation domain
+ * @gcc: #GOCmdContext
  *
  * Simple utility to open ui files
  *
@@ -242,12 +242,12 @@ go_gtk_builder_new_internal (char const *uifile,
 
 
 /**
- * go_gtk_builder_signal_connect :
- * @gui : #GtkBuilder
- * @instance_name : widget name
- * @detailed_signal : signal name
- * @c_handler : #GCallback
- * @data : arbitrary
+ * go_gtk_builder_signal_connect:
+ * @gui: #GtkBuilder
+ * @instance_name: widget name
+ * @detailed_signal: signal name
+ * @c_handler: #GCallback
+ * @data: arbitrary
  *
  * Convenience wrapper around g_signal_connect for GtkBuilder.
  *
@@ -268,12 +268,12 @@ go_gtk_builder_signal_connect	(GtkBuilder	*gui,
 }
 
 /**
- * go_xml_builder_signal_connect_swapped :
- * @gui : #GtkBuilder
- * @instance_name : widget name
- * @detailed_signal : signal name
- * @c_handler : #GCallback
- * @data : arbitary
+ * go_xml_builder_signal_connect_swapped:
+ * @gui: #GtkBuilder
+ * @instance_name: widget name
+ * @detailed_signal: signal name
+ * @c_handler: #GCallback
+ * @data: arbitary
  *
  * Convenience wrapper around g_signal_connect_swapped for GtkBuilder.
  *
@@ -294,9 +294,9 @@ go_gtk_builder_signal_connect_swapped (GtkBuilder	*gui,
 }
 
 /**
- * go_gtk_builder_get_widget :
- * @gui : the #GtkBuilder
- * @widget_name : the name of the combo box in the ui file.
+ * go_gtk_builder_get_widget:
+ * @gui: the #GtkBuilder
+ * @widget_name: the name of the combo box in the ui file.
  *
  * Simple wrapper to #gtk_builder_get_object which returns the object
  * as a GtkWidget.
@@ -310,9 +310,9 @@ go_gtk_builder_get_widget (GtkBuilder *gui, char const *widget_name)
 }
 
 /**
- * go_gtk_builder_combo_box_init_text :
- * @gui : the #GtkBuilder
- * @widget_name : the name of the combo box in the ui file.
+ * go_gtk_builder_combo_box_init_text:
+ * @gui: the #GtkBuilder
+ * @widget_name: the name of the combo box in the ui file.
  *
  * searches the #GtkComboBox in @gui and ensures it has a model and a
  * renderer appropriate for using with #gtk_combo_box_append_text and friends.
@@ -422,8 +422,8 @@ go_gtk_editable_enters (GtkWindow *window, GtkWidget *w)
 }
 
 /**
- * go_gtk_widget_disable_focus :
- * @w : #GtkWidget
+ * go_gtk_widget_disable_focus:
+ * @w: #GtkWidget
  *
  * Convenience wrapper to disable focus on a container and it's children.
  **/
@@ -437,10 +437,10 @@ go_gtk_widget_disable_focus (GtkWidget *w)
 }
 
 /**
- * go_pango_measure_string :
- * @context : #PangoContext
- * @font_desc : #PangoFontDescription
- * @str : The text to measure.
+ * go_pango_measure_string:
+ * @context: #PangoContext
+ * @font_desc: #PangoFontDescription
+ * @str: The text to measure.
  *
  * A utility function to measure text.
  *
@@ -472,9 +472,9 @@ cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
 }
 
 /**
- * go_gtk_window_set_transient
- * @toplevel	: The calling window
- * @window      : the transient window
+ * go_gtk_window_set_transient:
+ * @toplevel: The calling window
+ * @window: the transient window
  *
  * Make the window a child of the workbook in the command context, if there is
  * one.  The function duplicates the positioning functionality in
@@ -517,9 +517,9 @@ cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 }
 
 /**
- * go_gtk_nonmodal_dialog :
- * @toplevel : #GtkWindow
- * @dialog : #GtkWindow
+ * go_gtk_nonmodal_dialog:
+ * @toplevel: #GtkWindow
+ * @dialog: #GtkWindow
  *
  * Utility to set @dialog as a transient of @toplevel
  * and to set up a handler for "Escape"
@@ -570,9 +570,9 @@ recent_func_log_func (G_GNUC_UNUSED const gchar   *log_domain,
 }
 
 /**
- * go_gtk_file_sel_dialog :
- * @toplevel : #GtkWindow
- * @w : #GtkWidget
+ * go_gtk_file_sel_dialog:
+ * @toplevel: #GtkWindow
+ * @w: #GtkWidget
  *
  * Runs a modal dialog to select a file.
  *
@@ -990,9 +990,9 @@ add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
 }
 
 /**
- * go_atk_setup_label :
- * @label : #GtkWidget
- * @target : #GtkWidget
+ * go_atk_setup_label:
+ * @label: #GtkWidget
+ * @target: #GtkWidget
  *
  * A convenience routine to setup label-for/labeled-by relationship between a
  * pair of widgets
@@ -1128,9 +1128,9 @@ go_gtk_help_button_init (GtkWidget *w, char const *data_dir, char const *app, ch
 
 /**
  * go_gtk_url_is_writeable:
- * @parent : #GtkWindow
- * @uri : the uri to test.
- * @overwrite_by_default : gboolean
+ * @parent: #GtkWindow
+ * @uri: the uri to test.
+ * @overwrite_by_default: gboolean
  *
  * Check if it makes sense to try saving.
  * If it's an existing file and writable for us, ask if we want to overwrite.
@@ -1190,8 +1190,8 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 
 /**
  * go_gtk_dialog_run:
- * @dialog : #GtkDialog
- * @parent : #GtkWindow
+ * @dialog: #GtkDialog
+ * @parent: #GtkWindow
  *
  * Pop up a dialog as child of a window.
  *
@@ -1296,7 +1296,7 @@ go_gtk_query_yes_no (GtkWindow *parent, gboolean default_answer,
 
 /**
  * go_dialog_guess_alternative_button_order:
- * @dialog : #GtkDialog
+ * @dialog: #GtkDialog
  *
  * This function inspects the buttons in the dialog and comes up
  * with a reasonable alternative dialog order.

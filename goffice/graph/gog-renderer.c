@@ -561,8 +561,8 @@ gog_renderer_push_clip_rectangle (GogRenderer *rend, double x, double y, double 
 }
 
 /**
- * gog_renderer_pop_clip :
- * @rend : #GogRenderer
+ * gog_renderer_pop_clip:
+ * @rend: #GogRenderer
  *
  * End the current clipping.
  **/
@@ -721,9 +721,9 @@ gog_renderer_draw_rotated_rectangle (GogRenderer *rend, GogViewAllocation const 
 
 /**
  * gog_renderer_draw_grip:
- * @renderer : #GogRenderer
- * @x : x position of grip
- * @y : y position of grip
+ * @renderer: #GogRenderer
+ * @x: x position of grip
+ * @y: y position of grip
  *
  * Draw a grip, used for moving/resizing of objects.
  **/
@@ -798,8 +798,8 @@ _get_marker_surface (GogRenderer *rend)
 }
 
 /**
- * gog_renderer_draw_marker :
- * @rend : #GogRenderer
+ * gog_renderer_draw_marker:
+ * @rend: #GogRenderer
  * @x: X-coordinate
  * @y: Y-coordinate
  **/
@@ -835,11 +835,12 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 }
 
 /**
- * gog_renderer_draw_gostring :
- * @rend   : #GogRenderer
- * @gostring : the #GOString to draw
- * @pos    : #GogViewAllocation
- * @anchor : #GOAnchorType how to draw relative to @pos
+ * gog_renderer_draw_gostring:
+ * @rend: #GogRenderer
+ * @str: the #GOString to draw
+ * @pos: #GogViewAllocation
+ * @anchor: #GOAnchorType how to draw relative to @pos
+ * @width: if positive, the maximum width to get a multiline string if needed. 
  *
  * Have @rend draw @layout in the at @pos.{x,y} anchored by the @anchor corner.
  * If @pos.w or @pos.h are >= 0 then clip the results to less than that size.
@@ -939,11 +940,11 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 
 
 /**
- * gog_renderer_draw_text :
- * @rend   : #GogRenderer
- * @text   : the string to draw
- * @pos    : #GogViewAllocation
- * @anchor : #GtkAnchorType how to draw relative to @pos
+ * gog_renderer_draw_text:
+ * @rend: #GogRenderer
+ * @text: the string to draw
+ * @pos: #GogViewAllocation
+ * @anchor: #GtkAnchorType how to draw relative to @pos
  * @use_markup: wether to use pango markup
  *
  * Have @rend draw @text in the at @pos.{x,y} anchored by the @anchor corner.
@@ -977,7 +978,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 }
 
 /**
- * gog_renderer_get_text_OBR :
+ * gog_renderer_get_text_OBR:
  * @rend: #GogRenderer
  * @gostring: the string to draw
  * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
@@ -1036,7 +1037,7 @@ gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str,
 
 
 /**
- * gog_renderer_get_text_OBR :
+ * gog_renderer_get_text_OBR:
  * @rend: #GogRenderer
  * @text: the string to draw
  * @use_markup: wether to use pango markup
@@ -1066,7 +1067,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
 }
 
 /**
- * gog_renderer_get_text_AABR :
+ * gog_renderer_get_text_AABR:
  * @rend: #GogRenderer
  * @text: the string to draw
  * @use_markup: whether to use pango markup
@@ -1084,7 +1085,7 @@ gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
 }
 
 /**
- * gog_renderer_get_gostring_AABR :
+ * gog_renderer_get_gostring_AABR:
  * @rend: #GogRenderer
  * @str: the string to draw
  * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
@@ -1403,7 +1404,7 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 
 /**
  * gog_renderer_get_pixbuf:
- * @renderer : #GogRenderer
+ * @renderer: #GogRenderer
  *
  * Returns: current pixbuf buffer from a renderer that can render into a pixbuf.
  * 	or %NULL on error.
@@ -1681,7 +1682,7 @@ gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, doub
 
 /**
  * gog_renderer_new:
- * @graph : graph model
+ * @graph: graph model
  *
  * Returns:  a new #GogRenderer which can render into a pixbuf, and sets @graph
  * 	as its model.

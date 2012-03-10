@@ -377,7 +377,7 @@ go_plugin_read_full_info_if_needed (GOPlugin *plugin)
 
 /**
  * go_plugin_get_textdomain:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: plugin's textdomain for use with textdomain(3) and d*gettext(3)
  * 	functions.
@@ -396,7 +396,7 @@ go_plugin_get_textdomain (GOPlugin *plugin)
 
 /**
  * go_plugin_is_active:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: TRUE if @plugin is active and FALSE otherwise.
  **/
@@ -429,8 +429,8 @@ static GSF_CLASS (GOPluginTypeModule, go_plugin_type_module,
 /**********************************************************/
 
 /**
- * go_plugin_get_type_module :
- * @plugin : #GOPlugin
+ * go_plugin_get_type_module:
+ * @plugin: #GOPlugin
  *
  * Returns: the GTypeModule associated with the plugin creating it if necessary.
  **/
@@ -449,7 +449,7 @@ go_plugin_get_type_module (GOPlugin *plugin)
 
 /**
  * go_plugin_get_dir_name:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: the name of the directory in which @plugin is located.
  * 	Returned string is != NULL and stays valid during @plugin's lifetime.
@@ -464,7 +464,7 @@ go_plugin_get_dir_name (GOPlugin *plugin)
 
 /**
  * go_plugin_get_id:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: the ID of @plugin (unique string used for idenfification of
  * 	plugin).  Returned string is != NULL and stays valid during @plugin's
@@ -480,7 +480,7 @@ go_plugin_get_id (GOPlugin *plugin)
 
 /**
  * go_plugin_get_name:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: textual name of @plugin. If the real name is not available
  * 	for some reason, automatically generated string will be returned.
@@ -499,7 +499,7 @@ go_plugin_get_name (GOPlugin *plugin)
 
 /**
  * go_plugin_get_description:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: textual description of @plugin or NULL if description is not
  * 	available.  Returned string stays valid during @plugin's lifetime.
@@ -517,7 +517,7 @@ go_plugin_get_description (GOPlugin *plugin)
 
 /**
  * go_plugin_is_loaded:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: TRUE if @plugin is loaded and FALSE otherwise.
  **/
@@ -534,8 +534,8 @@ go_plugin_is_loaded (GOPlugin *plugin)
 
 /**
  * plugins_register_loader:
- * @loader_id     : Loader's id
- * @service       : Plugin service of type "plugin_loader"
+ * @loader_id: Loader's id
+ * @service: Plugin service of type "plugin_loader"
  *
  * Registers new type of plugin loader identified by @loader_id (identifier
  * consists of loader's plugin id and service id concatenated using colon).
@@ -555,7 +555,7 @@ go_plugins_register_loader (gchar const *loader_id, GOPluginService *service)
 
 /**
  * plugins_unregister_loader:
- * @loader_id     : Loader's id
+ * @loader_id: Loader's id
  *
  * Unregisters a type of plugin loader identified by @loader_id. After
  * callingthis function Gnumeric will be unable to load plugins supported
@@ -919,8 +919,8 @@ plugin_get_loader_if_needed (GOPlugin *plugin, GOErrorInfo **ret_error)
 
 /**
  * go_plugin_activate:
- * @plugin : #GOPlugin
- * @ret_error   : Pointer used to report errors
+ * @plugin: #GOPlugin
+ * @ret_error: Pointer used to report errors
  *
  * Activates @plugin together with all its dependencies.
  * In case of error the plugin won't be activated and detailed error
@@ -1012,8 +1012,8 @@ go_plugin_activate (GOPlugin *plugin, GOErrorInfo **ret_error)
 
 /**
  * go_plugin_deactivate:
- * @plugin : #GOPlugin
- * @ret_error   : Pointer used to report errors
+ * @plugin: #GOPlugin
+ * @ret_error: Pointer used to report errors
  *
  * Dectivates @plugin. Its dependencies will NOT be automatically
  * deactivated.
@@ -1071,7 +1071,7 @@ go_plugin_deactivate (GOPlugin *plugin, GOErrorInfo **ret_error)
 
 /**
  * go_plugin_can_deactivate:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Tells if the plugin can be deactivated using go_plugin_deactivate.
  *
@@ -1169,9 +1169,9 @@ go_plugin_load_base (GOPlugin *plugin, GOErrorInfo **ret_error)
 
 /**
  * go_plugin_load_service:
- * @plugin : #GOPlugin
- * @service     : Plugin service
- * @ret_error   : Pointer used to report errors
+ * @plugin: #GOPlugin
+ * @service: Plugin service
+ * @ret_error: Pointer used to report errors
  *
  * Loads base part of the plugin if it is not loaded and then loads given
  * plugin service (prepares necessary part of the plugin for direct use).
@@ -1193,9 +1193,9 @@ go_plugin_load_service (GOPlugin *plugin, GOPluginService *service, GOErrorInfo 
 
 /**
  * go_plugin_unload_service:
- * @plugin : #GOPlugin
- * @service     : Plugin service
- * @ret_error   : Pointer used to report errors
+ * @plugin: #GOPlugin
+ * @service: Plugin service
+ * @ret_error: Pointer used to report errors
  *
  * ...
  * This function is intended for use by GOPluginService objects.
@@ -1216,7 +1216,7 @@ go_plugin_unload_service (GOPlugin *plugin, GOPluginService *service, GOErrorInf
 
 /**
  * go_plugin_use_ref:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  */
 void
 go_plugin_use_ref (GOPlugin *plugin)
@@ -1232,7 +1232,7 @@ go_plugin_use_ref (GOPlugin *plugin)
 
 /**
  * go_plugin_use_unref:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  **/
 void
 go_plugin_use_unref (GOPlugin *plugin)
@@ -1249,7 +1249,7 @@ go_plugin_use_unref (GOPlugin *plugin)
 
 /**
  * go_plugin_get_dependencies_ids:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: the list of identifiers of plugins that @plugin depends on.
  * 	All these plugins will be automatically activated before activating the
@@ -1271,7 +1271,7 @@ go_plugin_get_dependencies_ids (GOPlugin *plugin)
 
 /**
  * go_plugin_get_services:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: A list of services.  The list must not be freed or changed.
  **/
@@ -1285,7 +1285,7 @@ go_plugin_get_services (GOPlugin *plugin)
 
 /**
  * go_plugin_get_loader:
- * @plugin : #GOPlugin
+ * @plugin: #GOPlugin
  *
  * Returns: The loader.
  **/
@@ -1442,8 +1442,8 @@ go_plugin_list_read_for_all_dirs (GOErrorInfo **ret_error)
 
 /**
  * plugin_db_activate_plugin_list:
- * @plugins     : The list of plugins
- * @ret_error   : Pointer used to report errors
+ * @plugins: The list of plugins
+ * @ret_error: Pointer used to report errors
  *
  * Activates all plugins in the list. If some of the plugins cannot be
  * activated, the function reports this via @ret_error (errors don't
@@ -1477,8 +1477,8 @@ go_plugin_db_activate_plugin_list (GSList *plugins, GOErrorInfo **ret_error)
 
 /**
  * plugin_db_deactivate_plugin_list:
- * @plugins     : The list of plugins
- * @ret_error   : Pointer used to report errors
+ * @plugins: The list of plugins
+ * @ret_error: Pointer used to report errors
  *
  * Deactivates all plugins in the list. If some of the plugins cannot be
  * deactivated, the function reports this via @ret_error (errors don't
@@ -1544,7 +1544,7 @@ go_plugins_get_active_plugins (void)
 
 /**
  * plugins_get_plugin_by_id:
- * @plugin_id    : String containing plugin ID
+ * @plugin_id: String containing plugin ID
  *
  * Returns: GOPlugin object for plugin with ID equal to @plugin_id or NULL
  * 	if there's no plugin available with given id.  Function returns
@@ -1560,8 +1560,8 @@ go_plugins_get_plugin_by_id (gchar const *plugin_id)
 }
 
 /**
- * plugin_db_mark_plugin_for_deactivation :
- * @plugin : #GOPlugin
+ * plugin_db_mark_plugin_for_deactivation:
+ * @plugin: #GOPlugin
  * @mark:
  */
 void
@@ -1582,8 +1582,8 @@ go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark)
 }
 
 /**
- * plugin_db_is_plugin_marked_for_deactivation :
- * @plugin : #GOPlugin
+ * plugin_db_is_plugin_marked_for_deactivation:
+ * @plugin: #GOPlugin
  */
 gboolean
 go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *plugin)
@@ -1602,8 +1602,8 @@ ghf_set_state_old_unused (gpointer key, gpointer value, gpointer unused)
 
 /**
  * plugins_rescan:
- * @ret_error       : Pointer used to report errors
- * @ret_new_plugins : Optional pointer to return list of new plugins
+ * @ret_error: Pointer used to report errors
+ * @ret_new_plugins: Optional pointer to return list of new plugins
  *
  *
  */
@@ -1734,12 +1734,12 @@ go_plugins_set_dirs (GSList *plugin_dirs)
 
 /**
  * go_plugins_init:
- * @context     : #GOCmdContext used to report errors
- * @known_states : A list of known states (defined how ?)
+ * @context: #GOCmdContext used to report errors
+ * @known_states: A list of known states (defined how ?)
  * @active_plugins: A list of active plugins
- * @plugin_dirs :a list of directories to search for plugins
- * @activate_new_plugins : activate plugins we have no seen before.
- * @default_loader_type : importer to use by default.
+ * @plugin_dirs:a list of directories to search for plugins
+ * @activate_new_plugins: activate plugins we have no seen before.
+ * @default_loader_type: importer to use by default.
  *
  * Initializes the plugin subsystem. Might be called several times to add
  * new plugins.

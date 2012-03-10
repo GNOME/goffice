@@ -388,7 +388,7 @@ go_selector_set_active (GOSelector *selector, int index)
 /**
  * go_selector_get_active:
  * @selector: a #GOSelector
- * @is_auto : boolean
+ * @is_auto: boolean
  *
  * Retrieves current selection index, and set @is_auto to TRUE if
  * current selection was set by clicking on automatic palette item.

@@ -156,7 +156,7 @@ GOffice-@GOFFICE_API_VER@.gir: $(G_IR_SCANNER)
 	    --libtool="$(LIBTOOL)" \
 	    --nsversion="@GOFFICE_API_VER@" \
 	    --output $@ \
-	    --pkg libgoffice-@GOFFICE_API_VER@ \
+	    --pkg libgsf-1 \
 	    -I$(top_srcdir) \
 	    `cat $(srcdir)/list_of_sources`
 

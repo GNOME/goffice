@@ -142,10 +142,49 @@ dnl Should we use libspectre ?
 dnl ***************************
 
 goffice_with_eps=false
-PKG_CHECK_MODULES(EPS, libspectre >= 0.2.6,[], [goffice_with_eps=false])
+LIBGS_REQUIRED="9.06"
+LIBSPECTRE_REQUIRED="0.2.6"
+
+AC_CHECK_LIB(gs, gsapi_new_instance, have_libgs=yes, have_libgs=no)
+if test "x$have_libgs" = "xyes"; then
+    LIB_GS="-lgs"
+    save_LIBS=$LIBS
+    LIBS="$LIBS -lgs"
+    AC_LANG_PUSH(C)
+    AC_MSG_CHECKING([for libgs >= $LIBGS_REQUIRED])
+    AC_RUN_IFELSE([AC_LANG_PROGRAM(
+[[
+#include <ghostscript/iapi.h>
+]],
+[[
+    gsapi_revision_t gsrev;
+
+    if (gsapi_revision (&gsrev, sizeof (gsrev)) != 0)
+        return 1;
+    if (gsrev.revision < `echo "$LIBGS_REQUIRED" | sed -e 's/\.//'`)
+        return 1;
+]])],
+                   [have_libgs=yes],
+                   [have_libgs=no],
+                   [have_libgs=yes]
+    )
+    AC_MSG_RESULT($have_libgs)
+    AC_LANG_POP(C)
+    LIBS=$save_LIBS
+    if test "x$have_libgs" = "xno"; then
+        echo "You need libgs >= $LIBGS_REQUIRED in order to support embedded EPS"
+    else
+		PKG_CHECK_MODULES(libspectre, libspectre >= $LIBSPECTRE_REQUIRED,[goffice_with_eps=true], [goffice_with_eps=false])
+		if test "x$goffice_with_eps" = "xfalse"; then
+	        echo "You need libspectre >= $LIBSPECTRE_REQUIRED in order to support embedded EPS"
+		fi
+    fi
+else
+    echo "You need libgs in order to support embedded EPS"
+fi
 if test "x$goffice_with_eps" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_EPS, 1, [Define if EPS is supported])
-	goffice_reqs="$goffice_reqs libspectre >= 0.2.6 "
+	goffice_reqs="$goffice_reqs libspectre >= $LIBSPECTRE_REQUIRED"
 	EXTRA_DEPS="$EXTRA_DEPS libspectre"
 fi
 

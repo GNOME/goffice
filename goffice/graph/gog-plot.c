@@ -445,8 +445,8 @@ gog_plot_new_by_type (GogPlotType const *type)
  **/
 
 /**
- * gog_plot_new_series :
- * @plot : #GogPlot
+ * gog_plot_new_series:
+ * @plot: #GogPlot
  *
  * Returns: a new GogSeries of a type consistent with @plot.
  **/
@@ -489,8 +489,8 @@ gog_plot_request_cardinality_update (GogPlot *plot)
 }
 
 /**
- * gog_plot_update_cardinality :
- * @plot : #GogPlot
+ * gog_plot_update_cardinality:
+ * @plot: #GogPlot
  * @index_num: index offset for this plot
  *
  * Update cardinality and cache result. See @gog_chart_get_cardinality.
@@ -667,10 +667,10 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 }
 
 /**
- * gog_plot_get_series :
- * @plot : #GogPlot
+ * gog_plot_get_series:
+ * @plot: #GogPlot
  *
- * Returns: A list of the series in @plot.  Do not modify or free the list.
+ * Returns: (transfer none): A list of the series in @plot.  Do not modify or free the list.
  **/
 GSList const *
 gog_plot_get_series (GogPlot const *plot)
@@ -680,10 +680,10 @@ gog_plot_get_series (GogPlot const *plot)
 }
 
 /**
- * gog_plot_get_axis_bounds :
- * @plot : #GogPlot
- * @axis : #GogAxisType
- * @bounds : #GogPlotBoundInfo
+ * gog_plot_get_axis_bounds:
+ * @plot: #GogPlot
+ * @axis: #GogAxisType
+ * @bounds: #GogPlotBoundInfo
  *
  * Queries @plot for its axis preferences for @axis and stores the results in
  * @bounds.  All elements of @bounds are initialized to sane values before the
@@ -749,8 +749,8 @@ gog_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet axis_set)
 
 /**
  * gog_plot_set_axis:
- * @plot : #GogPlot
- * @axis : #GogAxis
+ * @plot: #GogPlot
+ * @axis: #GogAxis
  *
  * Connect @axis and @plot.
  **/
@@ -834,9 +834,9 @@ gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 }
 
 /**
- * gog_plot_axis_clear :
- * @plot : #GogPlot
- * @filter : #GogAxisSet
+ * gog_plot_axis_clear:
+ * @plot: #GogPlot
+ * @filter: #GogAxisSet
  *
  * A utility method to clear all existing axis associations flagged by @filter
  **/
@@ -1118,9 +1118,9 @@ GSF_CLASS_ABSTRACT (GogPlotView, gog_plot_view,
 
 /**
  * gog_plot_view_get_data_at_point:
- * @view : #GogPlotView
- * @x : x position
- * @y : y position
+ * @view: #GogPlotView
+ * @x: x position
+ * @y: y position
  * @series: where to store the series
  *
  * Search a data represented at (@x,@y) in @view and set @series on success.

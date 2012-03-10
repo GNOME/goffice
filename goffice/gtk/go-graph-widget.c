@@ -465,7 +465,7 @@ GSF_CLASS (GOGraphWidget, go_graph_widget,
  * go_graph_widget_get_graph :
  * @widget : #GOGraphWidget
  *
- * Returns: the #GogGraph embedded in the widget.
+ * Returns: (transfer none): the #GogGraph embedded in the widget.
  **/
 GogGraph *
 go_graph_widget_get_graph (GOGraphWidget *widget)
@@ -478,7 +478,7 @@ go_graph_widget_get_graph (GOGraphWidget *widget)
  * go_graph_widget_get_chart :
  * @widget : #GOGraphWidget
  *
- * Returns: the #GogChart created by go_graph_widget_new().
+ * Returns: (transfer none): the #GogChart created by go_graph_widget_new().
  **/
 GogChart *
 go_graph_widget_get_chart (GOGraphWidget *widget)
@@ -492,7 +492,7 @@ go_graph_widget_get_chart (GOGraphWidget *widget)
  * go_graph_widget_get_renderer :
  * @widget : #GOGraphWidget
  *
- * Returns: the #GogRenderer used by the widget.
+ * Returns: (transfer none): the #GogRenderer used by the widget.
  **/
 GogRenderer *go_graph_widget_get_renderer (GOGraphWidget *widget)
 {

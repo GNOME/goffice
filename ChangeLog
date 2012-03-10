@@ -1,3 +1,13 @@
+2012-03-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add a test for ghostscript to avoid crashes when using
+	libspectre.
+	* goffice/Makefile.am: make introspection build when libgoffice is not
+	installed [#671699]
+	* goffice/utils/go-emf.c (go_emf_modifyworldtransform): typo,
+	(go_emf_lineto): implement, (go_emf_parse): initialize more fields.
+	* other files: fix documentation for introspection.
+
 2012-03-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: add introspection support. [#670161]

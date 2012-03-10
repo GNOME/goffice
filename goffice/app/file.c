@@ -106,14 +106,14 @@ GSF_CLASS (GOFileOpener, go_file_opener,
 
 /**
  * go_file_opener_setup:
- * @fo          : Newly created GOFileOpener object
- * @id          : Optional ID of the opener (or NULL)
- * @description : Description of supported file format
- * @suffixes	: List of suffixes to associate with the opener
- * @mimes	: List of mime types to associate with the opener
+ * @fo: Newly created GOFileOpener object
+ * @id: Optional ID of the opener (or NULL)
+ * @description: Description of supported file format
+ * @suffixes: List of suffixes to associate with the opener
+ * @mimes: List of mime types to associate with the opener
  * @encoding_dependent: whether the opener depends on an encoding sel.
- * @probe_func  : Optional pointer to "probe" function (or NULL)
- * @open_func   : Pointer to "open" function
+ * @probe_func: Optional pointer to "probe" function (or NULL)
+ * @open_func: Pointer to "open" function
  *
  * Sets up GOFileOpener object, newly created with g_object_new function.
  * This is intended to be used only by GOFileOpener derivates.
@@ -142,12 +142,12 @@ go_file_opener_setup (GOFileOpener *fo, gchar const *id,
 
 /**
  * go_file_opener_new:
- * @id          : Optional ID of the opener (or NULL)
- * @description : Description of supported file format
- * @suffixes	: List of suffixes to associate with the opener
- * @mimes	: List of mime types to associate with the opener
- * @probe_func  : Optional pointer to "probe" function (or NULL)
- * @open_func   : Pointer to "open" function
+ * @id: Optional ID of the opener (or NULL)
+ * @description: Description of supported file format
+ * @suffixes: List of suffixes to associate with the opener
+ * @mimes: List of mime types to associate with the opener
+ * @probe_func: Optional pointer to "probe" function (or NULL)
+ * @open_func: Pointer to "open" function
  *
  * Creates new GOFileOpener object. Optional @id will be used
  * after registering it with go_file_opener_register function.
@@ -173,12 +173,12 @@ go_file_opener_new (gchar const *id,
 
 /**
  * go_file_opener_new_with_enc:
- * @id          : Optional ID of the opener (or NULL)
- * @description : Description of supported file format
- * @suffixes	: List of suffixes to associate with the opener
- * @mimes	: List of mime types to associate with the opener
- * @probe_func  : Optional pointer to "probe" function (or NULL)
- * @open_func   : Pointer to "open" function
+ * @id: Optional ID of the opener (or NULL)
+ * @description: Description of supported file format
+ * @suffixes: List of suffixes to associate with the opener
+ * @mimes: List of mime types to associate with the opener
+ * @probe_func: Optional pointer to "probe" function (or NULL)
+ * @open_func: Pointer to "open" function
  *
  * Creates new GOFileOpener object. Optional @id will be used
  * after registering it with go_file_opener_register function.
@@ -252,9 +252,9 @@ go_file_opener_get_mimes (GOFileOpener const *fo)
 
 /**
  * go_file_opener_probe:
- * @fo      : #GOFileOpener
- * @input   : #GsfInput
- * @pl	    : #GOFileProbeLevel
+ * @fo: #GOFileOpener
+ * @input: #GsfInput
+ * @pl: #GOFileProbeLevel
  *
  * Checks if a given file is supported by the opener.
  *
@@ -276,11 +276,11 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel 
 
 /**
  * go_file_opener_open:
- * @fo          : GOFileOpener object
- * @opt_enc     : Optional encoding
- * @io_context  : Context for i/o operation
+ * @fo: GOFileOpener object
+ * @opt_enc: Optional encoding
+ * @io_context: Context for i/o operation
  * @FIXME_workbook_view: Workbook View
- * @input       : Gsf input stream
+ * @input: Gsf input stream
  *
  * Reads content of @file_name file into workbook @wbv is attached to.
  * Results are reported using @io_context object, use
@@ -546,11 +546,11 @@ GSF_CLASS (GOFileSaver, go_file_saver,
 
 /**
  * go_file_saver_new:
- * @id          : Optional ID of the saver (or NULL)
- * @extension   : Optional default extension of saved files (or NULL)
- * @description : Description of supported file format
- * @level       : File format level
- * @save_func   : Pointer to "save" function
+ * @id: Optional ID of the saver (or NULL)
+ * @extension: Optional default extension of saved files (or NULL)
+ * @description: Description of supported file format
+ * @level: File format level
+ * @save_func: Pointer to "save" function
  *
  * Creates new GOFileSaver object. Optional @id will be used
  * after registering it with go_file_saver_register or
@@ -650,10 +650,10 @@ go_file_saver_set_export_options (GOFileSaver *fs,
 
 /**
  * go_file_saver_save:
- * @fs          : GOFileSaver object
- * @io_context  : Context for i/o operation
+ * @fs: GOFileSaver object
+ * @io_context: Context for i/o operation
  * @FIXME_workbook_view: Workbook View
- * @output      : Output stream
+ * @output: Output stream
  *
  * Saves @wbv and the workbook it is attached to into @output stream.
  * Results are reported using @io_context object, use
@@ -708,8 +708,8 @@ go_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 /**
  * go_file_saver_set_overwrite_files:
- * @fs          : GOFileSaver object
- * @overwrite   : A boolean value saying whether the saver should overwrite
+ * @fs: GOFileSaver object
+ * @overwrite: A boolean value saying whether the saver should overwrite
  *                existing files.
  *
  * Changes behaviour of the saver when saving a file. If @overwrite is set
@@ -784,8 +784,8 @@ cmp_int_less_than (gconstpointer list_i, gconstpointer i)
 
 /**
  * go_file_opener_register:
- * @fo          : GOFileOpener object
- * @priority    : Opener's priority
+ * @fo: GOFileOpener object
+ * @priority: Opener's priority
  *
  * Adds @fo opener to the list of available file openers, making it
  * available for Gnumeric i/o routines. The opener is registered with given
@@ -826,7 +826,7 @@ go_file_opener_register (GOFileOpener *fo, gint priority)
 
 /**
  * go_file_opener_unregister:
- * @fo          : GOFileOpener object previously registered using
+ * @fo: GOFileOpener object previously registered using
  *                go_file_opener_register
  *
  * Removes @fo opener from list of available file openers. Reference count
@@ -872,7 +872,7 @@ default_file_saver_cmp_priority (gconstpointer a, gconstpointer b)
 
 /**
  * go_file_saver_register:
- * @fs          : GOFileSaver object
+ * @fs: GOFileSaver object
  *
  * Adds @fs saver to the list of available file savers, making it
  * available for the user when selecting file format for save.
@@ -898,8 +898,8 @@ go_file_saver_register (GOFileSaver *fs)
 
 /**
  * go_file_saver_register_as_default:
- * @fs          : GOFileSaver object
- * @priority    : Saver's priority
+ * @fs: GOFileSaver object
+ * @priority: Saver's priority
  *
  * Adds @fs saver to the list of available file savers, making it
  * available for the user when selecting file format for save.
@@ -927,7 +927,7 @@ go_file_saver_register_as_default (GOFileSaver *fs, gint priority)
 
 /**
  * go_file_saver_unregister:
- * @fs          : GOFileSaver object previously registered using
+ * @fs: GOFileSaver object previously registered using
  *                go_file_saver_register or go_file_saver_register_as_default
  *
  * Removes @fs saver from list of available file savers. Reference count
@@ -1017,8 +1017,8 @@ go_file_saver_for_mime_type (gchar const *mime_type)
 }
 
 /**
- * go_file_saver_for_file_name :
- * @file_name : name
+ * go_file_saver_for_file_name:
+ * @file_name: name
  *
  * Searches for file saver with given @filename, registered using
  * go_file_opener_register
@@ -1043,7 +1043,7 @@ go_file_saver_for_file_name (char const *file_name)
 
 /**
  * go_file_opener_for_id:
- * @id : File opener's ID
+ * @id: File opener's ID
  *
  * Searches for file opener with given @id, registered using
  * go_file_opener_register
@@ -1062,7 +1062,7 @@ go_file_opener_for_id (gchar const *id)
 
 /**
  * go_file_saver_for_id:
- * @id : File saver's ID
+ * @id: File saver's ID
  *
  * Searches for file saver with given @id, registered using
  * go_file_saver_register or register_file_opener_as_default.
