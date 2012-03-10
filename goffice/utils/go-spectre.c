@@ -36,7 +36,6 @@ struct _GOSpectre {
 #ifdef GOFFICE_WITH_EPS
 	SpectreDocument *doc;
 #endif
-	gsize data_length;
 	cairo_surface_t *surface;
 };
 
@@ -51,7 +50,7 @@ go_spectre_save (GOImage *image, GsfXMLOut *output)
 		(image);
 	g_return_if_fail (spectre);
 	gsf_xml_out_add_base64 (output, NULL,
-			image->data, spectre->data_length);
+			image->data, image->data_length);
 }
 
 static void
@@ -63,16 +62,15 @@ go_spectre_load_attr (G_GNUC_UNUSED GOImage *image, G_GNUC_UNUSED xmlChar const 
 static void
 go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 {
-	GOSpectre *spectre = GO_SPECTRE (image);
 #ifdef GOFFICE_WITH_EPS
 	int width, height;
 	char *tmpname;
 	int f;
 #endif
 
-	spectre->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	image->data = g_malloc (spectre->data_length);
-	memcpy (image->data, xin->content->str, spectre->data_length);
+	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
+	image->data = g_malloc (image->data_length);
+	memcpy (image->data, xin->content->str, image->data_length);
 #ifdef GOFFICE_WITH_EPS
 	spectre->doc = spectre_document_new ();
 	if (spectre->doc == NULL)
@@ -190,10 +188,9 @@ go_spectre_get_scaled_pixbuf (GOImage *image, int width, int height)
 static gboolean
 go_spectre_differ (GOImage *first, GOImage *second)
 {
-	GOSpectre *sfirst = GO_SPECTRE (first), *ssecond = GO_SPECTRE (second);
-	if (sfirst->data_length != ssecond->data_length)
+	if (first->data_length != second->data_length)
 		return TRUE;
-	return memcmp (first->data, second->data, sfirst->data_length);
+	return memcmp (first->data, second->data, first->data_length);
 }
 
 static void

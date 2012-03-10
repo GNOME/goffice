@@ -32,7 +32,6 @@
 struct _GOSvg {
 	GOImage parent;
 	RsvgHandle *handle;
-	gsize data_length;
 };
 
 typedef GOImageClass GOSvgClass;
@@ -45,7 +44,7 @@ go_svg_save (GOImage *image, GsfXMLOut *output)
 	GOSvg *svg = GO_SVG (image);
 	g_return_if_fail (svg);
 	gsf_xml_out_add_base64 (output, NULL,
-			image->data, svg->data_length);
+			image->data, image->data_length);
 }
 
 static void
@@ -59,10 +58,10 @@ go_svg_load_data (GOImage *image, GsfXMLIn *xin)
 {
 	GOSvg *svg = GO_SVG (image);
 	double dpi_x, dpi_y;
-	svg->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	image->data = g_malloc (svg->data_length);
-	memcpy (image->data, xin->content->str, svg->data_length);
-	svg->handle = rsvg_handle_new_from_data (image->data, svg->data_length, NULL);
+	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
+	image->data = g_malloc (image->data_length);
+	memcpy (image->data, xin->content->str, image->data_length);
+	svg->handle = rsvg_handle_new_from_data (image->data, image->data_length, NULL);
 	go_image_get_default_dpi (&dpi_x, &dpi_y);
 	rsvg_handle_set_dpi_x_y (svg->handle, dpi_x, dpi_y);
 }
@@ -120,10 +119,9 @@ go_svg_get_scaled_pixbuf (GOImage *image, int width, int height)
 static gboolean
 go_svg_differ (GOImage *first, GOImage *second)
 {
-	GOSvg *sfirst = GO_SVG (first), *ssecond = GO_SVG (second);
-	if (sfirst->data_length != ssecond->data_length)
+	if (first->data_length != second->data_length)
 		return TRUE;
-	return memcmp (first->data, second->data, sfirst->data_length);
+	return memcmp (first->data, second->data, first->data_length);
 }
 
 static void
@@ -160,7 +158,7 @@ GSF_CLASS (GOSvg, go_svg,
 GOImage *
 go_svg_new_from_file (char const *filename, GError **error)
 {
-	GOSvg *svg = g_object_new (GO_TYPE_SVG, NULL);
+	GOSvg *svg;
 	guint8 *data;
 	GsfInput *input = gsf_input_stdio_new (filename, error);
 	RsvgDimensionData dim;
@@ -169,16 +167,17 @@ go_svg_new_from_file (char const *filename, GError **error)
 
 	if (!input)
 		return NULL;
-	svg->data_length = gsf_input_size (input);
-	data = g_malloc (svg->data_length);
-	if (!data || !gsf_input_read (input, svg->data_length, data)) {
+	svg = g_object_new (GO_TYPE_SVG, NULL);
+	image = GO_IMAGE (svg);
+	image->data_length = gsf_input_size (input);
+	data = g_malloc (image->data_length);
+	if (!data || !gsf_input_read (input, image->data_length, data)) {
 		g_object_unref (svg);
 		g_free (data);
 		return NULL;
 	}
-	image = GO_IMAGE (svg);
 	image->data = data;
-	svg->handle = rsvg_handle_new_from_data (data, svg->data_length, error);
+	svg->handle = rsvg_handle_new_from_data (data, image->data_length, error);
 	if (svg->handle == NULL) {
 		g_object_unref (svg);
 		return NULL;
@@ -201,15 +200,15 @@ go_svg_new_from_data (char const *data, size_t length, GError **error)
 
 	g_return_val_if_fail (data != NULL && length != 0, NULL);
 	svg = g_object_new (GO_TYPE_SVG, NULL);
-	svg->data_length = length;
 	image = GO_IMAGE (svg);
+	image->data_length = length;
 	image->data = g_malloc (length);
 	if (image->data == NULL) {
 		g_object_unref (svg);
 		return NULL;
 	}
 	memcpy (image->data, data, length);
-	svg->handle = rsvg_handle_new_from_data (image->data, svg->data_length, error);
+	svg->handle = rsvg_handle_new_from_data (image->data, image->data_length, error);
 	if (svg->handle == NULL) {
 		g_object_unref (svg);
 		return NULL;

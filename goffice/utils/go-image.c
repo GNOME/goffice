@@ -540,10 +540,12 @@ go_image_type_for_format (char const *format)
 	return 0;
 }
 
-guint8 *
-go_image_get_pixels (GOImage *image)
+guint8 const *
+go_image_get_data (GOImage *image, gsize *length)
 {
 	g_return_val_if_fail (image, NULL);
+	if (length)
+		*length = image->data_length;
 	return image->data;
 }
 

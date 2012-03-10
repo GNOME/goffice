@@ -457,6 +457,13 @@ editor_destroy_cb (GOComponent *component)
 	component->editor = NULL;
 }
 
+/**
+ * go_component_edit:
+ * @component: #GOComponent
+ *
+ * Opens a top level window editor for the component if it can be edited.
+ * Returns: (transfer none): the editor window or NULL
+ */
 GtkWindow *
 go_component_edit (GOComponent *component)
 {
@@ -497,7 +504,7 @@ go_component_emit_changed (GOComponent *component)
 		go_component_signals [CHANGED], 0);
 }
 
-static GOCmdContext *goc_cc;
+static GOCmdContext *goc_cc = NULL;
 
 void
 go_component_set_command_context (GOCmdContext *cc)
@@ -509,6 +516,11 @@ go_component_set_command_context (GOCmdContext *cc)
 		g_object_ref (goc_cc);
 }
 
+/**
+ * go_component_get_command_context:
+ *
+ * Returns: (transfer none): the command context used for components.
+ */
 GOCmdContext *
 go_component_get_command_context (void)
 {
@@ -658,6 +670,15 @@ _go_component_sax_parser_done (GsfXMLIn *xin, GOCompXMLReadState *state)
 	g_free (state);
 }
 
+/**
+ * go_component_sax_push_parser:
+ * @xin: #GsfInput
+ * @attrs: the current node attributes.
+ * @handler: (scope call): #GOComponentSaxHandler
+ * @user_data: data to pass to @handler
+ *
+ * Loads the component from the xml stream. @handler will be called when done.
+ */
 void
 go_component_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 				GOComponentSaxHandler handler, gpointer user_data)
@@ -778,6 +799,15 @@ go_component_new_from_uri (char const *uri)
 	return component;
 }
 
+/**
+ * go_component_get_snapshot:
+ * @component: #GOComponent
+ * @type: #GOSnapshotType
+ * @length: where to store the data length
+ *
+ * Returns a snapshot is either svg or png format for the component.
+ * Returns: (transfer none): the snapshot as an arry of bytes.
+ */
 void const *
 go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t *length)
 {
@@ -819,6 +849,13 @@ go_component_export_image (GOComponent *component, GOImageFormat format, GsfOutp
 	return FALSE;
 }
 
+/**
+ * go_component_duplicate:
+ * @component: a #GOComponent
+ *
+ * Duplicates the component.
+ * Returns: (transfer full): the duplicated component.
+ */
 GOComponent *
 go_component_duplicate (GOComponent const *component)
 {

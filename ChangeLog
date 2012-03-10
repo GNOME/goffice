@@ -1,5 +1,21 @@
 2012-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/component/go-component.c: add some doc.
+	* goffice/utils/go-emf.c (go_emf_save), (go_emf_load_data),
+	(go_emf_differ), (go_emf_new_from_file), (go_emf_new_from_data),
+	(go_emf_setworldtransform), (go_emf_modifyworldtransform),
+	(go_emf_createpen), (go_emf_polygon16), (go_emf_polyline16),
+	(go_emf_extcreatepen): more implementations and fixes.
+	* goffice/utils/go-image.c (go_image_get_data): new function, replaces
+	obsolete go_image_get_pixels.
+	* goffice/utils/go-image.h: ditto.
+	* goffice/utils/go-spectre.c (go_spectre_save),
+	(go_spectre_load_data), (go_spectre_differ): ditto.
+	* goffice/utils/go-svg.c (go_svg_save), (go_svg_load_data),
+	(go_svg_differ), (go_svg_new_from_file), (go_svg_new_from_data): ditto.
+
+2012-03-10  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: add a test for ghostscript to avoid crashes when using
 	libspectre.
 	* goffice/Makefile.am: make introspection build when libgoffice is not

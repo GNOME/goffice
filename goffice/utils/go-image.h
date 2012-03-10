@@ -72,6 +72,7 @@ struct _GOImage {
 	GdkPixbuf *thumbnail;
 	GdkPixbuf *pixbuf;
 	char *name;
+	gsize data_length;
 };
 
 typedef struct {
@@ -97,7 +98,7 @@ GOImage 	*go_image_new_from_data 	(char const *type, guint8 const *data, gsize l
 GOImage 	*go_image_new_for_format   	(char const *format);
 GType		 go_image_type_for_format      	(char const *format);
 
-guint8 		*go_image_get_pixels 		(GOImage *image);
+guint8 const	*go_image_get_data 		(GOImage *image, gsize *length);
 void 		 go_image_fill 			(GOImage *image, GOColor color);
 
 void		 go_image_set_name		(GOImage *image, char const *name);

@@ -295,10 +295,10 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 
 /**
  * go_option_menu_set_history:
- * @selection: a list of indices giving the menu to select. 
+ * @selection: a list of indices giving the menu to select.
  *
  * Selects an item. The last number in the list is the rank of the item to select
- * in its menu and the previous ones are the ranks of the submenus containing 
+ * in its menu and the previous ones are the ranks of the submenus containing
  * the item to select.
  **/
 void

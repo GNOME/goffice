@@ -32,7 +32,6 @@
 struct _GOEmf {
 	GOImage parent;
 	GocCanvas *canvas;
-	gsize data_length;
 };
 
 typedef GOImageClass GOEmfClass;
@@ -49,7 +48,7 @@ go_emf_save (GOImage *image, GsfXMLOut *output)
 	GOEmf *emf = GO_EMF (image);
 	g_return_if_fail (emf);
 	gsf_xml_out_add_base64 (output, NULL,
-			image->data, emf->data_length);
+			image->data, image->data_length);
 }
 
 static void
@@ -62,10 +61,20 @@ static void
 go_emf_load_data (GOImage *image, GsfXMLIn *xin)
 {
 	GOEmf *emf = GO_EMF (image);
-	emf->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	image->data = g_malloc (emf->data_length);
-	memcpy (image->data, xin->content->str, emf->data_length);
-	/* FIXME: build the canvas */
+	GError *error = NULL;
+	GsfInput *input;
+	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
+	image->data = g_malloc (image->data_length);
+	memcpy (image->data, xin->content->str, image->data_length);
+#ifdef GOFFICE_EMF_SUPPORT
+	input = gsf_input_memory_new (image->data, image->data_length, FALSE);
+	go_emf_parse (emf, input, &error);
+	g_object_unref (input);
+	if (error) {
+		// FIXME: emit at least a warning
+		g_error_free (error);
+	}
+#endif
 }
 
 static void
@@ -121,10 +130,9 @@ go_emf_get_scaled_pixbuf (GOImage *image, int width, int height)
 static gboolean
 go_emf_differ (GOImage *first, GOImage *second)
 {
-	GOEmf *sfirst = GO_EMF (first), *ssecond = GO_EMF (second);
-	if (sfirst->data_length != ssecond->data_length)
+	if (first->data_length != second->data_length)
 		return TRUE;
-	return memcmp (first->data, second->data, sfirst->data_length);
+	return memcmp (first->data, second->data, first->data_length);
 }
 
 static void
@@ -192,11 +200,11 @@ go_emf_new_from_file (char const *filename, GError **error)
 	}
 	g_object_unref (input);
 	emf = g_object_new (GO_TYPE_EMF, NULL);
-	emf->data_length = size;
 
 	image = GO_IMAGE (emf);
+	image->data_length = size;
 	image->data = data;
-	input = gsf_input_memory_new (data, emf->data_length, FALSE);
+	input = gsf_input_memory_new (data, image->data_length, FALSE);
 	if (!go_emf_parse (emf, input, error)) {
 		g_object_unref (emf);
 		emf = NULL;
@@ -231,13 +239,13 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
 		return NULL;
 	}
 	emf = g_object_new (GO_TYPE_EMF, NULL);
-	emf->data_length = gsf_input_size (input);
+	image = GO_IMAGE (emf);
+	image->data_length = gsf_input_size (input);
 	if (!go_emf_parse (emf, input, error)) {
 		g_object_unref (emf);
 		image = NULL;
 	} else {
 		double x0, y0, x1, y1;
-		image = GO_IMAGE (emf);
 		image->data = g_malloc (length);
 		memcpy (image->data, data, length);
 		goc_canvas_get_bounds (emf->canvas, &x0, &y0, &x1, &y1);
@@ -2953,14 +2961,45 @@ go_emf_restoredc (GOEmfState *state)
 static gboolean
 go_emf_setworldtransform (GOEmfState *state)
 {
+	double m11, m12, m21, m22, dx, dy;
 	d_(("setworldtransform\n"));
+	m11 = GSF_LE_GET_FLOAT (state->data);
+	m12 = GSF_LE_GET_FLOAT (state->data + 4);
+	m21 = GSF_LE_GET_FLOAT (state->data + 8);
+	m22 = GSF_LE_GET_FLOAT (state->data + 12);
+	dx = GSF_LE_GET_FLOAT (state->data + 16);
+	dy = GSF_LE_GET_FLOAT (state->data + 20);
+	d_(("\tm11 = %g m12 = %g dx=%g\n\tm21 = %g m22=%g dy=%g\n",
+	    m11, m12, dx, m21, m22, dy));
+	/* FIXME: do something with it */
 	return TRUE;
 }
 
 static gboolean
 go_emf_modifyworldtransform (GOEmfState *state)
 {
+#ifdef DEBUG_EMF_SUPPORT
+	char const *tmas[5] = {
+		NULL,
+		"MWT_IDENTITY",
+		"MWT_LEFTMULTIPLY",
+		"MWT_RIGHTMULTIPLY",
+		"MWT_SET"
+	};
+#endif
+	double m11, m12, m21, m22, dx, dy;
+	unsigned mode;
 	d_(("modifyworldtransform\n"));
+	m11 = GSF_LE_GET_FLOAT (state->data);
+	m12 = GSF_LE_GET_FLOAT (state->data + 4);
+	m21 = GSF_LE_GET_FLOAT (state->data + 8);
+	m22 = GSF_LE_GET_FLOAT (state->data + 12);
+	dx = GSF_LE_GET_FLOAT (state->data + 16);
+	dy = GSF_LE_GET_FLOAT (state->data + 20);
+	mode = GSF_LE_GET_GUINT32 (state + 24);
+	d_(("\tm11 = %g m12 = %g dx=%g\n\tm21 = %g m22=%g dy=%g\n\tmode = %s\n",
+	    m11, m12, dx, m21, m22, dy, tmas[mode]));
+	/* FIXME: do something with it */
 	return TRUE;
 }
 
@@ -3141,9 +3180,6 @@ go_emf_selectobject (GOEmfState *state)
 	return TRUE;
 }
 
-static gboolean
-go_emf_createpen (GOEmfState *state)
-{
 #ifdef DEBUG_EMF_SUPPORT
 char const *dashes[] = {
 "Solid",
@@ -3167,6 +3203,10 @@ char const *cap[]= {
 "flat"
 };
 #endif
+
+static gboolean
+go_emf_createpen (GOEmfState *state)
+{
 	unsigned index;
 	GOEmfPen *pen = g_new0 (GOEmfPen, 1);
 	pen->obj_type = GO_EMF_OBJ_TYPE_PEN;
@@ -3735,7 +3775,7 @@ go_emf_polygon16 (GOEmfState *state)
 	nb_pts = GSF_LE_GET_GUINT32 (state->data + 16);
 	d_(("\t%u points\n", nb_pts));
 	points = goc_points_new (nb_pts);
-	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
+	for (n = 0, offset = 20; n < nb_pts; n++, offset += 4) {
 		go_wmf_read_points (state->data + offset, &x, &y);
 		go_emf_convert_coords (state, &x, &y);
 		points->points[n].x = x;
@@ -3767,7 +3807,7 @@ go_emf_polyline16 (GOEmfState *state)
 	nb_pts = GSF_LE_GET_GUINT32 (state->data + 16);
 	d_(("\t%u points\n", nb_pts));
 	points = goc_points_new (nb_pts);
-	for (n = 0, offset = 20; n < nb_pts; n++, offset += 8) {
+	for (n = 0, offset = 20; n < nb_pts; n++, offset += 4) {
 		go_wmf_read_points (state->data + offset, &x, &y);
 		go_emf_convert_coords (state, &x, &y);
 		points->points[n].x = x;
@@ -3952,7 +3992,26 @@ go_emf_createdibpatternbrushpt (GOEmfState *state)
 static gboolean
 go_emf_extcreatepen (GOEmfState *state)
 {
+	unsigned index/*, offBmi, cbBmi, offBits, cbBits*/;
+	GOEmfPen *pen = g_new0 (GOEmfPen, 1);
+	pen->obj_type = GO_EMF_OBJ_TYPE_PEN;
 	d_(("extcreatepen\n"));
+	index = GSF_LE_GET_GUINT32 (state->data);
+/*	offBmi = GSF_LE_GET_GUINT32 (state->data + 4);
+	cbBmi = GSF_LE_GET_GUINT32 (state->data + 8);
+	offBits = GSF_LE_GET_GUINT32 (state->data + 12);
+	cbBits = GSF_LE_GET_GUINT32 (state->data + 16);
+	if (cbBmi != 0 || cbBits != NULL) {
+		FIXME: load DIB data if any
+	}*/
+	pen->style = GSF_LE_GET_GUINT32 (state->data + 20);
+	pen->width = GSF_LE_GET_GUINT32 (state->data + 24);
+	pen->clr = go_wmf_read_gocolor (state->data + 32);
+	d_(("\tpen index=%u style=%s width=%g color=%08x join=%s cap=%s%s\n",index,
+	    dashes[pen->style&0xf], pen->width, pen->clr,
+	    join[(pen->style&0xf000)>>24], cap[(pen->style&0xf00)>>16],
+	    pen->style&0x00010000? "Geometric": ""));
+	g_hash_table_replace (state->mfobjs, GUINT_TO_POINTER (index), pen);
 	return TRUE;
 }
 

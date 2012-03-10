@@ -840,7 +840,7 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
  * @str: the #GOString to draw
  * @pos: #GogViewAllocation
  * @anchor: #GOAnchorType how to draw relative to @pos
- * @width: if positive, the maximum width to get a multiline string if needed. 
+ * @width: if positive, the maximum width to get a multiline string if needed.
  *
  * Have @rend draw @layout in the at @pos.{x,y} anchored by the @anchor corner.
  * If @pos.w or @pos.h are >= 0 then clip the results to less than that size.
