@@ -952,21 +952,6 @@ go_url_encode (gchar const *text, int type)
 	return g_string_free (result, FALSE);
 }
 
-/* You probably want go_gtk_url_show instead! */
-GError *
-go_url_show (gchar const *url)
-{
-#ifdef GOFFICE_WITH_GTK
-	GError *error = NULL;
-	gtk_show_uri (NULL, url, GDK_CURRENT_TIME, &error);
-	return error;
-#else
-	GError *error = NULL;
-	g_app_info_launch_default_for_uri (url, NULL, &error);
-	return error;
-#endif
-}
-
 /**
  * go_url_check_extension
  * @uri: Uri

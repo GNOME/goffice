@@ -2726,7 +2726,6 @@ go_url_check_extension
 go_url_encode
 go_url_make_relative
 go_url_resolve_relative
-go_url_show
 go_url_simplify
 </SECTION>
 

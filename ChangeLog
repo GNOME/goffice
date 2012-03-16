@@ -1,5 +1,8 @@
 2012-03-16  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-file.c (go_url_show): Remove.  (Use
+	go_gtk_url_show instead.)
+
 	* goffice/gtk/goffice-gtk.c (go_gtk_help_button_init): Hook up
 	cb_help normally, ie., not swapped.
 	(go_help_display): Add argument screen so we can show help on the

@@ -838,7 +838,6 @@ go_file_open
 go_file_create
 go_file_split_urls
 go_url_encode
-go_url_show
 go_url_check_extension
 go_get_mime_type
 go_get_mime_type_for_data
