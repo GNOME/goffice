@@ -1035,10 +1035,10 @@ html_help (void)
 
 	return result;
 }
-
 #endif
+
 static void
-go_help_display (CBHelpPaths const *paths)
+go_help_display (CBHelpPaths const *paths, GdkScreen *screen)
 {
 #if defined(G_OS_WIN32)
 	static GHashTable* context_help_map = NULL;
@@ -1096,16 +1096,16 @@ go_help_display (CBHelpPaths const *paths)
 	}
 #else
 	char *uri = g_strconcat ("ghelp:", paths->app, "#", paths->link, NULL);
-	go_url_show (uri);
+	go_gtk_url_show (uri, screen);
 	g_free (uri);
 	return;
 #endif
 }
 
 static void
-cb_help (CBHelpPaths const *paths)
+cb_help (GtkWidget *w, CBHelpPaths const *paths)
 {
-	go_help_display (paths);
+	go_help_display (paths, gtk_widget_get_screen (w));
 }
 
 void
@@ -1121,9 +1121,10 @@ go_gtk_help_button_init (GtkWidget *w, char const *data_dir, char const *app, ch
 	paths->data_dir = data_dir;
 	paths->app	= app;
 	paths->link	= link;
-	g_signal_connect_data (G_OBJECT (w), "clicked",
-		G_CALLBACK (cb_help), (gpointer) paths,
-		(GClosureNotify)g_free, G_CONNECT_SWAPPED);
+	g_signal_connect_data (G_OBJECT (w),
+			       "clicked", G_CALLBACK (cb_help),
+			       (gpointer)paths, (GClosureNotify)g_free,
+			       0);
 }
 
 /**

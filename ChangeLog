@@ -1,5 +1,11 @@
 2012-03-16  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/goffice-gtk.c (go_gtk_help_button_init): Hook up
+	cb_help normally, ie., not swapped.
+	(go_help_display): Add argument screen so we can show help on the
+	right screen.  Use go_gtk_url_show, not go_url_show, for the same
+	reason.
+
 	* goffice/utils/go-file.c (go_url_decode): Remove.  Glib's
 	g_uri_unescape_string does the same thing.
 
