@@ -1,9 +1,7 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-file.c :
  *
- * Copyright (C) 2004,2009-2010 Morten Welinder (terra@gnome.org)
- * Copyright (C) 2004 Yukihiro Nakai  <nakai@gnome.gr.jp>
+ * Copyright (C) 2004,2009-2012 Morten Welinder (terra@gnome.org)
  * Copyright (C) 2003, Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -910,7 +908,7 @@ go_file_get_date_changed (char const *uri)
 
 /**
  * go_url_encode:
- * @text: The constant text to be encoded
+ * @uri_fragment: The uri part to be encoded
  * @type: 0 : mailto, 1: file or http
  *
  * url-encode a string according to RFC 2368.
@@ -918,38 +916,24 @@ go_file_get_date_changed (char const *uri)
  * Returns: an encoded string which the caller is responsible for freeing.
  **/
 gchar*
-go_url_encode (gchar const *text, int type)
+go_url_encode (gchar const *uri_fragment, int type)
 {
 	char const *good;
-	static char const hex[16] = "0123456789ABCDEF";
-	GString* result;
 
-	g_return_val_if_fail (text != NULL, NULL);
-	g_return_val_if_fail (*text != '\0', NULL);
+	g_return_val_if_fail (*uri_fragment != '\0', NULL);
 
 	switch (type) {
 	case 0: /* mailto: */
 		good = ".-_@";
 		break;
 	case 1: /* file: or http: */
-		good = "!$&'()*+,-./:=@_";
+		good = G_URI_RESERVED_CHARS_ALLOWED_IN_PATH;
 		break;
 	default:
 		return NULL;
 	}
 
-	result = g_string_new (NULL);
-	while (*text) {
-		unsigned char c = *text++;
-		if (g_ascii_isalnum (c) || strchr (good, c))
-			g_string_append_c (result, c);
-		else {
-			g_string_append_c (result, '%');
-			g_string_append_c (result, hex[c >> 4]);
-			g_string_append_c (result, hex[c & 0xf]);
-		}
-	}
-	return g_string_free (result, FALSE);
+	return g_uri_escape_string (uri_fragment, good, FALSE);
 }
 
 /**

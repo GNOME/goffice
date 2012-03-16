@@ -2,6 +2,8 @@
 
 	* goffice/utils/go-file.c (go_url_show): Remove.  (Use
 	go_gtk_url_show instead.)
+	(go_url_encode): Make this a thin wrapper over
+	g_uri_escape_string.
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_help_button_init): Hook up
 	cb_help normally, ie., not swapped.
