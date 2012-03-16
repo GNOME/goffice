@@ -1,3 +1,8 @@
+2012-03-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_url_decode): Remove.  Glib's
+	g_uri_unescape_string does the same thing.
+
 2012-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component.c: add some doc.

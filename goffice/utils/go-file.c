@@ -909,42 +909,6 @@ go_file_get_date_changed (char const *uri)
 /* ------------------------------------------------------------------------- */
 
 /**
- * go_url_decode:
- * @text: constant buffer to decode.
- *
- * Decode the result of go_url_encode.
- *
- * Returns: a decoded string which the caller is responsible for freeing.
- **/
-gchar*
-go_url_decode (gchar const *text)
-{
-	GString *result;
-
-	g_return_val_if_fail (text != NULL, NULL);
-	g_return_val_if_fail (*text != '\0', NULL);
-
-	result = g_string_new (NULL);
-	while (*text) {
-		unsigned char c = *text++;
-		if (c == '%') {
-			if (g_ascii_isxdigit (text[0]) && g_ascii_isxdigit (text[1])) {
-				g_string_append_c (result,
-						   (g_ascii_xdigit_value (text[0]) << 4) |
-						   g_ascii_xdigit_value (text[1]));
-				text += 2;
-			} else {
-				/* Bogus.  */
-				return g_string_free (result, TRUE);
-			}
-		} else
-			g_string_append_c (result, c);
-	}
-
-	return g_string_free (result, FALSE);
-}
-
-/**
  * go_url_encode:
  * @text: The constant text to be encoded
  * @type: 0 : mailto, 1: file or http

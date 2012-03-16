@@ -837,7 +837,6 @@ go_shell_argv_to_glib_encoding_free
 go_file_open
 go_file_create
 go_file_split_urls
-go_url_decode
 go_url_encode
 go_url_show
 go_url_check_extension

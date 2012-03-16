@@ -86,7 +86,6 @@ time_t go_file_get_date_changed  (char const *uri);
 
 gint	 go_file_access (char const *uri, gint mode);
 
-gchar	*go_url_decode		(gchar const *text);
 gchar	*go_url_encode		(gchar const *text, int type);
 GError	*go_url_show		(gchar const *url);
 gboolean go_url_check_extension (gchar const *uri,
