@@ -1218,14 +1218,15 @@ cb_format_list_select (GtkTreeSelection *selection, GOFormatSel *gfs)
 }
 
 static gboolean
-cb_format_currency_select (G_GNUC_UNUSED GtkWidget *ct,
-			   char * new_text, GOFormatSel *gfs)
+cb_format_currency_select (GtkComboBoxText *combo, GOFormatSel *gfs)
 {
 	int i;
+	char *new_text = gtk_combo_box_text_get_active_text (combo);
 
-	/* ignore the clear while assigning a new value */
-	if (!gfs->enable_edit || new_text == NULL || *new_text == '\0')
+	if (!gfs->enable_edit) {
+		g_free (new_text);
 		return FALSE;
+	}
 
 	for (i = 0; _go_format_currencies[i].symbol != NULL ; ++i) {
 		GOFormatCurrency const *ci = _go_format_currencies + i;
@@ -1239,6 +1240,8 @@ cb_format_currency_select (G_GNUC_UNUSED GtkWidget *ct,
 		fillin_negative_samples (gfs);
 
 	draw_format_preview (gfs, TRUE);
+
+	g_free (new_text);
 
 	return TRUE;
 }
@@ -1448,7 +1451,7 @@ nfs_init (GOFormatSel *gfs)
 
 	GtkWidget *tmp;
 	GtkTreeViewColumn *column;
-	GOComboText *combo;
+	GtkComboBoxText *combo;
 	char const *name;
 	int i;
 	GOFormatFamily page;
@@ -1517,7 +1520,7 @@ nfs_init (GOFormatSel *gfs)
 		gfs->format.widget[i] = tmp;
 	}
 
-	gfs->format.widget[F_SYMBOL] = go_combo_text_new (NULL);
+	gfs->format.widget[F_SYMBOL] = gtk_combo_box_text_new_with_entry ();
 	gtk_widget_hide (gfs->format.widget[F_SYMBOL]);
 
 	/* set minimum heights */
@@ -1618,17 +1621,19 @@ nfs_init (GOFormatSel *gfs)
 		G_CALLBACK (cb_format_list_select), gfs);
 
 	/* Setup handler Currency & Accounting currency symbols */
-	combo = GO_COMBO_TEXT (gfs->format.widget[F_SYMBOL]);
+	combo = GTK_COMBO_BOX_TEXT (gfs->format.widget[F_SYMBOL]);
 	if (combo != NULL) {
 		GSList *ptr, *l = NULL;
 		const char *desc;
+		GtkEntry *entry =
+			GTK_ENTRY (gtk_bin_get_child (GTK_BIN (combo)));
 
 		for (i = 0; _go_format_currencies[i].symbol != NULL ; ++i)
 			l = g_slist_prepend (l, _((gchar *)_go_format_currencies[i].description));
 		l = g_slist_sort (l, funny_currency_order);
 
 		for (ptr = l; ptr != NULL ; ptr = ptr->next)
-			go_combo_text_add_item (combo, ptr->data);
+			gtk_combo_box_text_append_text (combo, ptr->data);
 		g_slist_free (l);
 
 		desc = gfs->format.details.currency
@@ -1636,9 +1641,12 @@ nfs_init (GOFormatSel *gfs)
 			: NULL;
 		if (!desc)
 			desc = N_("None");
-		go_combo_text_set_text (combo, _(desc),
-					GO_COMBO_TEXT_FROM_TOP);
-		g_signal_connect (G_OBJECT (combo), "entry_changed",
+		gtk_entry_set_text (entry, _(desc));
+		g_object_set (entry,
+			      "editable", FALSE,
+			      "can-focus", FALSE,
+			      NULL);
+		g_signal_connect (G_OBJECT (combo), "changed",
 			G_CALLBACK (cb_format_currency_select), gfs);
 		gtk_label_set_mnemonic_widget (
 			GTK_LABEL (gtk_builder_get_object (gfs->gui, "format_symbol_label")),
@@ -1787,7 +1795,7 @@ void
 go_format_sel_set_style_format (GOFormatSel *gfs,
 				GOFormat const *style_format)
 {
-	GOComboText *combo;
+	GtkComboBoxText *combo;
 
 	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 	g_return_if_fail (style_format != NULL);
@@ -1799,15 +1807,16 @@ go_format_sel_set_style_format (GOFormatSel *gfs,
 
 	study_format (gfs->format.spec, &gfs->format.details);
 
-	combo = GO_COMBO_TEXT (gfs->format.widget[F_SYMBOL]);
+	combo = GTK_COMBO_BOX_TEXT (gfs->format.widget[F_SYMBOL]);
 	if (gfs->format.details.currency) {
 		const char *desc = gfs->format.details.currency
 			? gfs->format.details.currency->description
 			: NULL;
+		GtkEntry *entry =
+			GTK_ENTRY (gtk_bin_get_child (GTK_BIN (combo)));
 		if (!desc)
 			desc = N_("None");
-		go_combo_text_set_text (combo, _(desc),
-					GO_COMBO_TEXT_FROM_TOP);
+		gtk_entry_set_text (entry, _(desc));
 	}
 
 	set_format_category_menu_from_style (gfs);

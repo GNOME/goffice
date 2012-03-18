@@ -968,22 +968,6 @@ go_menu_pixmaps_add_element
 </SECTION>
 
 <SECTION>
-<FILE>go-combo-text</FILE>
-<TITLE>GOComboText</TITLE>
-GO_TYPE_COMBO_TEXT
-GO_COMBO_TEXT
-GO_IS_COMBO_TEXT
-GOComboText
-GOComboTextSearch
-go_combo_text_get_type
-go_combo_text_new
-go_combo_text_new_default
-go_combo_text_get_entry
-go_combo_text_set_text
-go_combo_text_add_item
-</SECTION>
-
-<SECTION>
 <FILE>go-charmap-sel</FILE>
 <TITLE>GOCharmapSel</TITLE>
 GO_TYPE_CHARMAP_SEL

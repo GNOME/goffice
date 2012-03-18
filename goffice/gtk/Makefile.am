@@ -16,7 +16,6 @@ libgoffice_gtk_la_SOURCES =		\
 	go-color-palette.c		\
 	go-combo-color.c		\
 	go-combo-pixmaps.c		\
-	go-combo-text.c			\
 	\
 	go-action-combo-color.c 	\
 	go-action-combo-pixmaps.c 	\
@@ -52,7 +51,6 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-color-palette.h		\
 	go-combo-color.h		\
 	go-combo-pixmaps.h		\
-	go-combo-text.h			\
 	\
 	go-action-combo-color.h 	\
 	go-action-combo-pixmaps.h 	\

@@ -8,6 +8,7 @@ Morten:
 	* Fix GOImage fallback for non-GUI case.
 	* Tweak bold attribute for rich text.
 	* Fix minor multihead issue with help buttons in dialogs.
+	* Eliminate GoComboText -- use GtkComboBoxText instead.
 
 --------------------------------------------------------------------------
 goffice 0.9.2:
