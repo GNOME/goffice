@@ -8222,8 +8222,16 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				hashes++;
 			break;
 
-		case 'e':
-		case 'E': {
+#ifdef ALLOW_SI_APPEND
+		case TOK_EXP_SI:
+#endif
+#ifdef ALLOW_EE_MARKUP
+		case TOK_EXP_MU:
+#ifdef ALLOW_SI_APPEND
+		case TOK_EXP_MU_SI:
+#endif
+#endif
+		case TOK_EXP: {
 			gboolean use_literal_E;
 
 			if (number_completed)

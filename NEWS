@@ -1,5 +1,7 @@
 goffice 0.9.3:
 
+Andreas:
+	* Fix output of scientific number formats to ODF. [#672353]
 Jean:
 	* Add introspection support. [#670161]
 	* Make introspection build when libgoffice is not installed [#671699]
