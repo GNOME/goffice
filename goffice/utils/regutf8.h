@@ -14,51 +14,51 @@ G_BEGIN_DECLS
  * Free Software Foundation, Inc.
  */
 enum {
-  GO_REG_NOERROR = 0,	/* Success.  */
-  GO_REG_NOMATCH,		/* Didn't find a match (for regexec).  */
+	GO_REG_NOERROR = 0,	/* Success.  */
+	GO_REG_NOMATCH,		/* Didn't find a match (for regexec).  */
 
-  /* POSIX regcomp return error codes.  (In the order listed in the
-     standard.)  */
-  GO_REG_BADPAT,		/* Invalid pattern.  */
-  GO_REG_ECOLLATE,		/* Inalid collating element.  */
-  GO_REG_ECTYPE,		/* Invalid character class name.  */
-  GO_REG_EESCAPE,		/* Trailing backslash.  */
-  GO_REG_ESUBREG,		/* Invalid back reference.  */
-  GO_REG_EBRACK,		/* Unmatched left bracket.  */
-  GO_REG_EPAREN,		/* Parenthesis imbalance.  */
-  GO_REG_EBRACE,		/* Unmatched \{.  */
-  GO_REG_BADBR,		/* Invalid contents of \{\}.  */
-  GO_REG_ERANGE,		/* Invalid range end.  */
-  GO_REG_ESPACE,		/* Ran out of memory.  */
-  GO_REG_BADRPT,		/* No preceding re for repetition op.  */
+	/* POSIX regcomp return error codes.  (In the order listed in the
+	   standard.)  */
+	GO_REG_BADPAT,		/* Invalid pattern.  */
+	GO_REG_ECOLLATE,		/* Inalid collating element.  */
+	GO_REG_ECTYPE,		/* Invalid character class name.  */
+	GO_REG_EESCAPE,		/* Trailing backslash.  */
+	GO_REG_ESUBREG,		/* Invalid back reference.  */
+	GO_REG_EBRACK,		/* Unmatched left bracket.  */
+	GO_REG_EPAREN,		/* Parenthesis imbalance.  */
+	GO_REG_EBRACE,		/* Unmatched \{.  */
+	GO_REG_BADBR,		/* Invalid contents of \{\}.  */
+	GO_REG_ERANGE,		/* Invalid range end.  */
+	GO_REG_ESPACE,		/* Ran out of memory.  */
+	GO_REG_BADRPT,		/* No preceding re for repetition op.  */
 
-  /* Error codes we've added.  */
-  GO_REG_EEND,		/* Premature end.  */
-  GO_REG_ESIZE,		/* Compiled pattern bigger than 2^16 bytes.  */
-  GO_REG_ERPAREN		/* Unmatched ) or \); not returned from regcomp.  */
+	/* Error codes we've added.  */
+	GO_REG_EEND,		/* Premature end.  */
+	GO_REG_ESIZE,		/* Compiled pattern bigger than 2^16 bytes.  */
+	GO_REG_ERPAREN		/* Unmatched ) or \); not returned from regcomp.  */
 };
 #define GO_REG_OK GO_REG_NOERROR
 
 /* eflags bits.  */
 enum {
-  GO_REG_NOTBOL = 1,
-  GO_REG_NOTEOL = 2
+	GO_REG_NOTBOL = 1,
+	GO_REG_NOTEOL = 2
 };
 
 /* cflags bits.  */
 enum {
-  GO_REG_EXTENDED = 1,
-  GO_REG_ICASE = 2,
-  GO_REG_NEWLINE = 4,
-  GO_REG_NOSUB = 8
+	GO_REG_EXTENDED = 1,
+	GO_REG_ICASE = 2,
+	GO_REG_NEWLINE = 4,
+	GO_REG_NOSUB = 8
 };
 
 /* Like POSIX' regex_t.  */
 typedef struct {
-  size_t re_nsub;
-  /*< private >*/
-  gboolean nosub;
-  void *ppcre;
+	size_t re_nsub;
+	/*< private >*/
+	gboolean nosub;
+	void *ppcre;
 } GORegexp;
 
 /* Like POSIX' regoff_t.  */
@@ -66,7 +66,7 @@ typedef int GORegoff;
 
 /* Like POSIX' regmatch_t.  */
 typedef struct {
-  GORegoff rm_so, rm_eo;
+	GORegoff rm_so, rm_eo;
 } GORegmatch;
 
 int go_regcomp (GORegexp * preg, const char *pattern, int cflags);

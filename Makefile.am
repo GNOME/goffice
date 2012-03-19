@@ -3,6 +3,7 @@
 SUBDIRS = goffice tests plugins po docs tools
 
 EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
+	COPYING-gpl2 COPYING-gpl3 \
 	goffice.mk \
 	goffice-plugins.mk \
 	libgoffice.pc.in \

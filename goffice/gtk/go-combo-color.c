@@ -1,7 +1,5 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * widget-color-combo.c - A color selector combo box
+ * go-color-combo.c - A color selector combo box
  * Copyright 2000-2004, Ximian, Inc.
  *
  * Authors:
@@ -16,8 +14,9 @@
  *   Jody Goldberg (jody@gnome.org)
  *
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License, version 2, as published by the Free Software Foundation.
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) version 3.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of

@@ -1,5 +1,3 @@
-/* vim: set sw=8: */
-
 /*
  * go-graph-guru.c:  The Graph guru
  *

@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 #ifndef GO_CMD_CONTEXT_IMPL_H
 #define GO_CMD_CONTEXT_IMPL_H
