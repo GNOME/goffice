@@ -7851,7 +7851,6 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		switch (t) {
 		case 0: case ';':
 			ODF_CLOSE_STRING;
-			number_seen = TRUE; /* since we need a number element */
 			ODF_WRITE_NUMBER;
 			gsf_xml_out_end_element (xout); /* </number:number-style> */
 			g_string_free (accum, TRUE);
