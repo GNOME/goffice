@@ -293,8 +293,10 @@ go_pixbuf_save (GOImage *image, GsfXMLOut *output)
 	g_return_if_fail (GO_IS_PIXBUF (image));
 	pixbuf = GO_PIXBUF (image);
 	gsf_xml_out_add_int (output, "rowstride", pixbuf->rowstride);
-	gsf_xml_out_add_base64 (output, NULL,
-			image->data, image->height * pixbuf->rowstride);
+	if (image->data)
+		gsf_xml_out_add_base64
+			(output, NULL,
+			 image->data, image->height * pixbuf->rowstride);
 }
 
 static void
