@@ -1,3 +1,8 @@
+2012-03-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_output_to_odf): Undo last
+	change.  Get version from output.
+
 2012-03-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_to_odf): Take extra

@@ -8349,7 +8349,6 @@ go_format_output_general_to_odf (GsfXMLOut *xout, char const *name, int cond_par
 gboolean
 go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			 int cond_part, char const *name,
-			 int odf_version,
 			 gboolean with_extension)
 {
 	gboolean pp = TRUE, result = TRUE;
@@ -8358,9 +8357,16 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	GOFormat const *act_fmt, *det_fmt = fmt;
 	GOFormatCondition *condition = NULL;
 	GOFormatFamily family;
+	int odf_version;
 
 	if (fmt == NULL)
 			return FALSE;
+
+#ifdef HAVE_GSF_ODF_OUT_GET_VERSION
+	odf_version = gsf_odf_out_get_version (GSF_ODF_OUT (xout));
+#else
+	odf_version = get_gsf_odf_version ();
+#endif
 
 	if (fmt->typ == GO_FMT_COND) {
 		g_return_val_if_fail (cond_part <= fmt->u.cond.n, FALSE);

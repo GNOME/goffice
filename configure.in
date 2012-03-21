@@ -530,6 +530,14 @@ if test $ac_cv_func_log = no; then
          LIBS="$LIBS -lm"])
 fi
 
+SAVE_CFLAGS=$CFLAGS
+SAVE_LIBS=$LIBS
+CFLAGS="$CFLAGS $GOFFICE_CFLAGS"
+LIBS="$GOFFICE_LIBS $LIBS"
+AC_CHECK_FUNCS(gsf_odf_out_get_version)
+CFLAGS=$SAVE_CFLAGS
+LIBS=$SAVE_LIBS
+
 if test $gtk_disable_deprecated = yes; then
   CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
 fi
