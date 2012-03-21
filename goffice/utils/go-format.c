@@ -7541,6 +7541,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 static void
 go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				  char const *name,
+				  int odf_version,
 				  gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
@@ -7575,17 +7576,13 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", 3);
 				if (int_digits >= 0)
 					gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", int_digits);
-				else
-#ifdef HAVE_GET_GSF_ODF_VERSION
-					if (get_gsf_odf_version () < 102)
-#endif
-						{
-							gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
-							if (with_extension)
-								gsf_xml_out_add_cstr_unchecked
-									(xout, GNMSTYLE "no-integer-part", "true");
+				else if (odf_version < 102) {
+					gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
+					if (with_extension)
+						gsf_xml_out_add_cstr_unchecked
+							(xout, GNMSTYLE "no-integer-part", "true");
 
-						}
+				}
 				/* In ODF1.2, absence of NUMBER "min-integer-digits" means not to show an       */
 				/* integer part. In ODF 1.1 we used a foreign element: gnm:no-integer-part=true */
 				gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 1);
@@ -7660,17 +7657,12 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 			if (int_digits >= 0)
 				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", int_digits);
-			else
-#ifdef HAVE_GET_GSF_ODF_VERSION
-				if (get_gsf_odf_version () < 102)
-#endif
-					{
-						gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
-						if (with_extension)
-							gsf_xml_out_add_cstr_unchecked
-								(xout, GNMSTYLE "no-integer-part", "true");
-
-					}
+			else if (odf_version < 102) {
+				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
+				if (with_extension)
+					gsf_xml_out_add_cstr_unchecked
+						(xout, GNMSTYLE "no-integer-part", "true");
+			}
 			/* In ODF1.2, absence of NUMBER "min-integer-digits" means not to show an       */
 			/* integer part. In ODF 1.1 we used a foreign element: gnm:no-integer-part=true */
 			gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits",
@@ -8357,6 +8349,7 @@ go_format_output_general_to_odf (GsfXMLOut *xout, char const *name, int cond_par
 gboolean
 go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			 int cond_part, char const *name,
+			 int odf_version,
 			 gboolean with_extension)
 {
 	gboolean pp = TRUE, result = TRUE;
@@ -8402,7 +8395,7 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		go_format_output_date_to_odf (xout, act_fmt, name, family, with_extension);
 		break;
 	case GO_FORMAT_FRACTION:
-		go_format_output_fraction_to_odf (xout, act_fmt, name, with_extension);
+		go_format_output_fraction_to_odf (xout, act_fmt, name, odf_version, with_extension);
 		break;
 	case GO_FORMAT_TEXT:
 		go_format_output_text_to_odf (xout, act_fmt, name, with_extension);

@@ -1,5 +1,9 @@
 2012-03-20  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_format_output_to_odf): Take extra
+	odf_version argument.
+	(go_format_output_fraction_to_odf): Ditto.  Caller changed.
+
 	* goffice/utils/go-pixbuf.c (go_pixbuf_save): Survive lack of
 	image data.
 
