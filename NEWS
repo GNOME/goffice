@@ -15,6 +15,7 @@ Morten:
 	* Fix minor multihead issue with help buttons in dialogs.
 	* Eliminate GoComboText -- use GtkComboBoxText instead.
 	* Avoid critical in GOPixbuf code.
+	* Work around intltool bug.  [#672771]
 
 --------------------------------------------------------------------------
 goffice 0.9.2:

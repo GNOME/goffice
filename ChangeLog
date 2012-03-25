@@ -1,3 +1,9 @@
+2012-03-25  Morten Welinder  <terra@gnome.org>
+
+	* tools/embedder (embed_data): When we go to a new line, clear the
+	nohex flag.  This avoids lines starting with three quotes which
+	confuse the heck out of intltool 0.50
+
 2012-03-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_to_odf): Undo last

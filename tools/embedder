@@ -134,6 +134,7 @@ sub embed_data {
 	if ($linelen == 0) {
 	    print "    \"";
 	    $linelen += 5;
+	    $nohex = 0;
 	} 
 
 	my $thisnohex = $nohex;
