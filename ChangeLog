@@ -1,5 +1,10 @@
 2012-03-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-image.c (goc_image_draw),
+	(goc_image_class_init): fixed cropped images rendering.
+
+2012-03-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/utils/go-pixbuf.c (go_pixbuf_save): fix pixbuf saving when cairo
 	data has not been generated. [see #672716]
 

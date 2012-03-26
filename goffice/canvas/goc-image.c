@@ -222,16 +222,16 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 		return;
 
 	if (image->width < 0.)
-		width = go_image_get_width (image->image);
+		width = go_image_get_width (image->image) * (1 - image->crop_left -image->crop_right);
 	else {
 		width = image->width;
-		scalex = width / go_image_get_width (image->image);
+		scalex = width / go_image_get_width (image->image) / (1 - image->crop_left -image->crop_right);
 	}
 	if (image->height < 0.)
-		height = go_image_get_height (image->image);
+		height = go_image_get_height (image->image) * (1 - image->crop_top -image->crop_bottom);
 	else {
 		height = image->height;
-		scaley = height / go_image_get_height (image->image);
+		scaley = height / go_image_get_height (image->image) / (1 - image->crop_top -image->crop_bottom);
 	}
 	cairo_save (cr);
 	x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
@@ -240,11 +240,10 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 	cairo_rotate (cr, image->rotation);
 	if (scalex != 1. || scaley != 1.)
 		cairo_scale (cr, scalex, scaley);
-	cairo_translate (cr, -image->crop_left, -image->crop_top);
-	cairo_rectangle (cr, 0, 0,
-	                 go_image_get_width (image->image) - image->crop_left -  image->crop_right,
-	                 go_image_get_height (image->image) - image->crop_top -  image->crop_bottom);
+	cairo_rectangle (cr, 0, 0, image->width, image->height);
 	cairo_clip (cr);
+	cairo_translate (cr, -go_image_get_width (image->image) * image->crop_left,
+	                 -go_image_get_height (image->image) * image->crop_top);
 	cairo_move_to (cr, 0, 0);
 	go_image_draw (image->image, cr);
 	cairo_restore (cr);
@@ -296,22 +295,22 @@ goc_image_class_init (GocItemClass *item_klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, IMAGE_PROP_CROP_BOTTOM,
 	        g_param_spec_double ("crop-bottom", _("Cropped bottom"),
-	                _("The cropped area at the image bottom"),
+	                _("The cropped area at the image bottom as a fraction of the image height"),
 	                0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, IMAGE_PROP_CROP_LEFT,
 	        g_param_spec_double ("crop-left", _("Cropped left"),
-	                _("The cropped area at the image left"),
+	                _("The cropped area at the image left of the image width"),
 	                0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, IMAGE_PROP_CROP_RIGHT,
 	        g_param_spec_double ("crop-right", _("Cropped right"),
-	                _("The cropped area at the image right"),
+	                _("The cropped area at the image right of the image width"),
 	                0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, IMAGE_PROP_CROP_TOP,
 	        g_param_spec_double ("crop-top", _("Cropped top"),
-	                _("The cropped area at the image top"),
+	                _("The cropped area at the image top as a fraction of the image height"),
 	                0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
