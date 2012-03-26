@@ -1,3 +1,8 @@
+2012-03-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-pixbuf.c (go_pixbuf_save): fix pixbuf saving when cairo
+	data has not been generated. [see #672716]
+
 2012-03-25  Morten Welinder  <terra@gnome.org>
 
 	* tools/embedder (embed_data): When we go to a new line, clear the
