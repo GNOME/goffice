@@ -114,12 +114,10 @@ go_spectre_build_surface (GOSpectre *spectre)
 	cairo_surface_set_user_data (spectre->surface, &key,
 				     data, (cairo_destroy_func_t) g_free);
 }
-#endif
 
-static void
+Sstatic void
 go_spectre_draw (GOImage *image, cairo_t *cr)
 {
-#ifdef GOFFICE_WITH_EPS
 	GOSpectre *spectre = GO_SPECTRE (image);
 	if (spectre->surface == NULL)
 		go_spectre_build_surface (spectre);
@@ -128,14 +126,12 @@ go_spectre_draw (GOImage *image, cairo_t *cr)
 	cairo_rectangle (cr, 0., 0., image->width, image->height);
 	cairo_fill (cr);
 	cairo_restore (cr);
-#endif
 }
 
 static GdkPixbuf *
 go_spectre_get_pixbuf (GOImage *image)
 {
 	GdkPixbuf *res = NULL;
-#ifdef GOFFICE_WITH_EPS
 	GOSpectre *spectre = GO_SPECTRE (image);
 	cairo_surface_t *surface;
 	cairo_t *cr;
@@ -153,7 +149,6 @@ go_spectre_get_pixbuf (GOImage *image)
 	                                   image->width, image->height,
 	                                   cairo_image_surface_get_stride (surface));
 	cairo_surface_destroy (surface);
-#endif
 	return res;
 }
 
@@ -161,7 +156,6 @@ static GdkPixbuf *
 go_spectre_get_scaled_pixbuf (GOImage *image, int width, int height)
 {
 	GdkPixbuf *res = NULL;
-#ifdef GOFFICE_WITH_EPS
 	GOSpectre *spectre = GO_SPECTRE (image);
 	cairo_surface_t *surface;
 	cairo_t *cr;
@@ -180,9 +174,9 @@ go_spectre_get_scaled_pixbuf (GOImage *image, int width, int height)
 	                                   width, height,
 	                                   cairo_image_surface_get_stride (surface));
 	cairo_surface_destroy (surface);
-#endif
 	return res;
 }
+#endif
 
 static gboolean
 go_spectre_differ (GOImage *first, GOImage *second)
@@ -216,9 +210,11 @@ go_spectre_class_init (GObjectClass *klass)
 	image_klass->save = go_spectre_save;
 	image_klass->load_attr = go_spectre_load_attr;
 	image_klass->load_data = go_spectre_load_data;
+#ifdef GOFFICE_WITH_EPS
 	image_klass->get_pixbuf = go_spectre_get_pixbuf;
 	image_klass->get_scaled_pixbuf = go_spectre_get_scaled_pixbuf;
 	image_klass->draw = go_spectre_draw;
+#endif
 	image_klass->differ = go_spectre_differ;
 }
 

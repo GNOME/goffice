@@ -352,21 +352,93 @@ go_image_finalize (GObject *obj)
 	(parent_klass->finalize) (obj);
 }
 
+/* default implementation for unsupported images */
 static void
-go_image_class_init (GObjectClass *klass)
+go_image_draw_fb (GOImage *image, cairo_t *cr)
 {
-	klass->finalize = go_image_finalize;
-	klass->set_property = go_image_set_property;
-	klass->get_property = go_image_get_property;
+	GdkPixbuf *placeholder = gtk_icon_theme_load_icon
+		(gtk_icon_theme_get_default (),
+		 "unknown_image", 100, 0, NULL);
+	double dx, dy;
+	int n;
+	n = go_fake_floor (image->width / gdk_pixbuf_get_width (placeholder));
+	dx = (image->width - n * gdk_pixbuf_get_width (placeholder)) / 2.;
+	n = go_fake_floor (image->height / gdk_pixbuf_get_height (placeholder));
+	dy = (image->height - n * gdk_pixbuf_get_height (placeholder)) / 2.;
+	cairo_save (cr);
+	cairo_rectangle (cr, 0., 0., image->width, image->height);
+	cairo_clip (cr);
+	cairo_rectangle (cr, -dx, -dy, image->width + dx, image->height + dy);
+	gdk_cairo_set_source_pixbuf (cr, placeholder, 0, 0);
+	cairo_pattern_set_extend (cairo_get_source (cr), CAIRO_EXTEND_REPEAT);
+	cairo_fill (cr);
+	cairo_restore (cr);
+}
+
+static GdkPixbuf *
+go_image_get_pixbuf_fb (GOImage *image)
+{
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+		                                                    image->width,
+		                                                    image->height);
+	cairo_t *cr = cairo_create (surface);
+	GdkPixbuf *ret, *placeholder = gtk_icon_theme_load_icon
+		(gtk_icon_theme_get_default (),
+		 "unknown_image", 100, 0, NULL);
+	double dx, dy;
+	int n;
+	n = go_fake_floor (image->width / gdk_pixbuf_get_width (placeholder));
+	dx = (image->width - n * gdk_pixbuf_get_width (placeholder)) / 2.;
+	n = go_fake_floor (image->height / gdk_pixbuf_get_height (placeholder));
+	dy = (image->height - n * gdk_pixbuf_get_height (placeholder)) / 2.;
+	cairo_rectangle (cr, 0., 0., image->width, image->height);
+	cairo_clip (cr);
+	cairo_rectangle (cr, -dx, -dy, image->width + dx, image->height + dy);
+	gdk_cairo_set_source_pixbuf (cr, placeholder, 0, 0);
+	cairo_pattern_set_extend (cairo_get_source (cr), CAIRO_EXTEND_REPEAT);
+	cairo_fill (cr);
+	cairo_destroy (cr);
+	ret = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, image->width, image->height);
+	if (cairo_image_surface_get_stride (surface) != gdk_pixbuf_get_rowstride (ret)) {
+		g_object_unref (ret);
+		ret = NULL;
+	} else
+		go_cairo_convert_data_from_pixbuf (gdk_pixbuf_get_pixels (ret),
+			                               cairo_image_surface_get_data (surface),
+			                               image->width, image->height,
+			                               gdk_pixbuf_get_rowstride (ret));
+	cairo_surface_destroy (surface);
+	return ret;
+}
+
+static GdkPixbuf *
+go_image_get_scaled_pixbuf_fb (GOImage *image, int width, int height)
+{
+	if (image->pixbuf == NULL)
+		image->pixbuf = go_image_get_pixbuf_fb (image);
+	return gdk_pixbuf_scale_simple (image->pixbuf, width, height, GDK_INTERP_BILINEAR);
+}
+
+static void
+go_image_class_init (GOImageClass *klass)
+{
+	GObjectClass *obj_klass = (GObjectClass *) klass;
+	obj_klass->finalize = go_image_finalize;
+	obj_klass->set_property = go_image_set_property;
+	obj_klass->get_property = go_image_get_property;
 	parent_klass = g_type_class_peek_parent (klass);
-	g_object_class_install_property (klass, IMAGE_PROP_WIDTH,
+	g_object_class_install_property (obj_klass, IMAGE_PROP_WIDTH,
 					 g_param_spec_uint ("width", _("Width"),
 							    _("Image width in pixels"),
 							    0, G_MAXUINT16, 0, G_PARAM_READWRITE));
-	g_object_class_install_property (klass, IMAGE_PROP_HEIGHT,
+	g_object_class_install_property (obj_klass, IMAGE_PROP_HEIGHT,
 					 g_param_spec_uint ("height", _("Height"),
 							    _("Image height in pixels"),
 							    0, G_MAXUINT16, 0, G_PARAM_READWRITE));
+
+	klass->draw = go_image_draw_fb;
+	klass->get_pixbuf = go_image_get_pixbuf_fb;
+	klass->get_scaled_pixbuf = go_image_get_scaled_pixbuf_fb;
 }
 
 GSF_CLASS_ABSTRACT (GOImage, go_image,
@@ -390,6 +462,7 @@ go_image_get_thumbnail (GOImage *image)
 		image->thumbnail = go_image_get_scaled_pixbuf (image, GO_THUMBNAIL_SIZE, GO_THUMBNAIL_SIZE);
 	return image->thumbnail;
 }
+
 GdkPixbuf *
 go_image_get_pixbuf (GOImage *image)
 {

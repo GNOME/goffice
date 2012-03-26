@@ -1,5 +1,17 @@
 2012-03-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-emf.c (go_emf_load_data), (go_emf_get_pixbuf),
+	(go_emf_class_init): use a fallback image when the actual image type is
+	not supported.
+	* goffice/utils/go-image.c (go_image_draw_fb),
+	(go_image_get_pixbuf_fb), (go_image_get_scaled_pixbuf_fb),
+	(go_image_class_init): ditto.
+	* goffice/utils/go-spectre.c (go_spectre_build_surface),
+	(go_spectre_draw), (go_spectre_get_pixbuf),
+	(go_spectre_get_scaled_pixbuf), (go_spectre_class_init): ditto.
+
+2012-03-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-image.c (goc_image_draw),
 	(goc_image_class_init): fixed cropped images rendering.
 

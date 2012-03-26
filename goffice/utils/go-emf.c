@@ -59,9 +59,11 @@ go_emf_load_attr (G_GNUC_UNUSED GOImage *image, G_GNUC_UNUSED xmlChar const *att
 static void
 go_emf_load_data (GOImage *image, GsfXMLIn *xin)
 {
+#ifdef GOFFICE_EMF_SUPPORT
 	GOEmf *emf = GO_EMF (image);
 	GError *error = NULL;
 	GsfInput *input;
+#endif
 	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
 	image->data = g_malloc (image->data_length);
 	memcpy (image->data, xin->content->str, image->data_length);
@@ -76,6 +78,7 @@ go_emf_load_data (GOImage *image, GsfXMLIn *xin)
 #endif
 }
 
+#ifdef GOFFICE_EMF_SUPPORT
 static void
 go_emf_draw (GOImage *image, cairo_t *cr)
 {
@@ -102,7 +105,6 @@ go_emf_get_pixbuf (GOImage *image)
 	                                   image->width, image->height,
 	                                   cairo_image_surface_get_stride (surface));
 	return res;
-	return NULL; /* FIXME */
 }
 
 static GdkPixbuf *
@@ -125,6 +127,7 @@ go_emf_get_scaled_pixbuf (GOImage *image, int width, int height)
 	                                   cairo_image_surface_get_stride (surface));
 	return res;
 }
+#endif
 
 static gboolean
 go_emf_differ (GOImage *first, GOImage *second)
@@ -154,9 +157,11 @@ go_emf_class_init (GObjectClass *klass)
 	image_klass->save = go_emf_save;
 	image_klass->load_attr = go_emf_load_attr;
 	image_klass->load_data = go_emf_load_data;
+#ifdef GOFFICE_EMF_SUPPORT
 	image_klass->get_pixbuf = go_emf_get_pixbuf;
 	image_klass->get_scaled_pixbuf = go_emf_get_scaled_pixbuf;
 	image_klass->draw = go_emf_draw;
+#endif
 	image_klass->differ = go_emf_differ;
 }
 
