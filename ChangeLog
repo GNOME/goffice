@@ -1,3 +1,11 @@
+2012-03-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-image.c (go_image_new_from_file),
+	(go_image_new_from_data): correctly store EPS images even when not
+	supported.
+	* goffice/utils/go-spectre.c (go_spectre_new_from_file),
+	(go_spectre_new_from_data): ditto.
+
 2012-03-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-emf.c (go_emf_load_data), (go_emf_get_pixbuf),

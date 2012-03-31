@@ -24,6 +24,9 @@
 #ifdef GOFFICE_WITH_EPS
 #       include <libspectre/spectre-document.h>
 #       include <libspectre/spectre-render-context.h>
+#else
+#		include <gsf/gsf-input-textline.h> 
+#		include <gsf/gsf-input-memory.h> 
 #endif
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input-stdio.h>
@@ -115,7 +118,7 @@ go_spectre_build_surface (GOSpectre *spectre)
 				     data, (cairo_destroy_func_t) g_free);
 }
 
-Sstatic void
+static void
 go_spectre_draw (GOImage *image, cairo_t *cr)
 {
 	GOSpectre *spectre = GO_SPECTRE (image);
@@ -225,24 +228,26 @@ GSF_CLASS (GOSpectre, go_spectre,
 GOImage *
 go_spectre_new_from_file (char const *filename, GError **error)
 {
-#ifdef GOFFICE_WITH_EPS
 	GOSpectre *spectre = g_object_new (GO_TYPE_SPECTRE, NULL);
 	guint8 *data;
 	GsfInput *input = gsf_input_stdio_new (filename, error);
+#ifdef GOFFICE_WITH_EPS
 	int width, height;
+#endif
 	GOImage *image;
 
 	if (!input)
 		return NULL;
-	spectre->data_length = gsf_input_size (input);
-	data = g_malloc (spectre->data_length);
-	if (!data || !gsf_input_read (input, spectre->data_length, data)) {
+	image = GO_IMAGE (spectre);
+	image->data_length = gsf_input_size (input);
+	data = g_malloc (image->data_length);
+	if (!data || !gsf_input_read (input, image->data_length, data)) {
 		g_object_unref (spectre);
 		g_free (data);
 		return NULL;
 	}
-	image = GO_IMAGE (spectre);
 	image->data = data;
+#ifdef GOFFICE_WITH_EPS
 	spectre->doc = spectre_document_new ();
 	if (spectre->doc == NULL) {
 		g_object_unref (spectre);
@@ -256,16 +261,33 @@ go_spectre_new_from_file (char const *filename, GError **error)
 	spectre_document_get_page_size (spectre->doc, &width, &height);
 	image->width = width;
 	image->height = height;
-	return image;
 #else
-	return NULL;
+	{
+		GsfInput *input = gsf_input_memory_new (image->data, image->data_length, FALSE);
+		GsfInputTextline *text = GSF_INPUT_TEXTLINE (gsf_input_textline_new (input));
+		guint8 *line;
+		while ((line = gsf_input_textline_ascii_gets (text)))
+			if (!strncmp (line, "%%BoundingBox: ", 15)) {
+				unsigned x0, x1, y0, y1;
+				if (sscanf (line + 15, "%u %u %u %u", &x0, &y0, &x1, &y1) == 4) {
+					image->width = x1 - x0;
+					image->height = y1 - y0;
+				} else {
+					image->width = 100;
+					image->height = 100;
+				}
+				break;
+			}
+	       g_object_unref (text);
+	       g_object_unref (input);
+	}
 #endif
+	return image;
 }
 
 GOImage *
 go_spectre_new_from_data (char const *data, size_t length, GError **error)
 {
-#ifdef GOFFICE_WITH_EPS
 	GOImage *image;
 	char *tmpname;
 	int f;
@@ -281,7 +303,4 @@ go_spectre_new_from_data (char const *data, size_t length, GError **error)
 	image = go_spectre_new_from_file (tmpname, error);
 	g_free (tmpname);
 	return image;
-#else
-	return NULL;
-#endif
 }
