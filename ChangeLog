@@ -1,3 +1,8 @@
+2012-04-20  Jean Brefort  <jean.brefort@normalesup.org>
+	* goffice/canvas/goc-canvas.c: fixed documentation.
+	* goffice/canvas/goc-group.c: ditto.
+	* goffice/canvas/goc-item.c: ditto.
+
 2012-03-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-image.c (go_image_new_from_file),

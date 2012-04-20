@@ -276,11 +276,11 @@ GSF_CLASS (GocGroup, goc_group,
 	   GOC_TYPE_ITEM)
 
 /**
- * goc_group_new :
+ * goc_group_new:
  * @parent: #GocGroup
  *
  * Creates a new #GocGroup as a child of @parent.
- * Returns: the newly created #GocGroup.
+ * Returns: (transfer none): the newly created #GocGroup.
  **/
 GocGroup*
 goc_group_new (GocGroup *parent)
@@ -298,7 +298,7 @@ goc_group_new (GocGroup *parent)
 }
 
 /**
- * goc_group_clear
+ * goc_group_clear:
  * @group: #GocGroup
  *
  * Destroys all @group children.
@@ -326,7 +326,7 @@ goc_group_clear (GocGroup *group)
 }
 
 /**
- * goc_group_add_child :
+ * goc_group_add_child:
  * @parent: #GocGroup
  * @item: #GocItem
  *
@@ -352,7 +352,7 @@ goc_group_add_child (GocGroup *parent, GocItem *item)
 }
 
 /**
- * goc_group_remove_child :
+ * goc_group_remove_child:
  * @parent: #GocGroup
  * @item: #GocItem
  *
@@ -378,7 +378,7 @@ goc_group_remove_child (GocGroup *parent, GocItem *item)
 }
 
 /**
- * goc_group_adjust_bounds
+ * goc_group_adjust_bounds:
  * @group: #GocGroup
  * @x0: first horizontal coordinate
  * @y0: first vertical coordinate
@@ -404,7 +404,7 @@ goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *
 }
 
 /**
- * goc_group_adjust_coords
+ * goc_group_adjust_coords:
  * @group: #GocGroup
  * @x: horizontal coordinate
  * @y: vertical coordinate
@@ -426,7 +426,7 @@ goc_group_adjust_coords (GocGroup const *group, double *x, double *y)
 }
 
 /**
- * goc_group_cairo_transform :
+ * goc_group_cairo_transform:
  * @group: #GocGroup
  * @cr: #cairo_t
  * @x: horizontal coordinate

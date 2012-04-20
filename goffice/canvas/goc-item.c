@@ -35,7 +35,7 @@
 **/
 
 /**
- * GocItem :
+ * GocItem:
  * @base: the parent object.
  * @canvas: the canvas in which the item is displayed.
  * @parent: the parent item.
@@ -84,7 +84,7 @@ enum {
 };
 
 /**
- * GocItemClass :
+ * GocItemClass:
  * @base: the parent class
  * @distance: returns the distance between the item and the point defined by
  * @x and @y. When the distance is larger than a few pixels, the result is not
@@ -304,7 +304,7 @@ _goc_item_update_bounds (GocItem *item)
 }
 
 /**
- * goc_item_new :
+ * goc_item_new:
  * @parent: parent #GocGroup for the new item
  * @type: #GType of the new item
  * @first_arg_name: property name or %NULL
@@ -313,7 +313,7 @@ _goc_item_update_bounds (GocItem *item)
  *
  * Creates a new item of type @type in group @group. Properties can be
  * set just the same way they are in #g_object_new.
- * Returns: the newly created #GocItem.
+ * Returns: (transfer none): the newly created #GocItem.
  **/
 GocItem*
 goc_item_new (GocGroup *parent, GType type, const gchar *first_arg_name, ...)
@@ -335,7 +335,7 @@ goc_item_new (GocGroup *parent, GType type, const gchar *first_arg_name, ...)
 }
 
 /**
- * goc_item_destroy :
+ * goc_item_destroy:
  * @item: #GocItem
  *
  * Destroys @item, removes it from its parent group and updates the canvas
@@ -349,7 +349,7 @@ goc_item_destroy (GocItem *item)
 }
 
 /**
- * goc_item_set :
+ * goc_item_set:
  * @item: #GocItem
  * @first_arg_name: property name or %NULL
  * @...: value for the first property, followed optionally by more
@@ -373,7 +373,7 @@ goc_item_set (GocItem *item, const gchar *first_arg_name, ...)
 }
 
 /**
- * goc_item_distance :
+ * goc_item_distance:
  * @item: #GocItem
  * @x: horizontal position
  * @y: vertical position
@@ -395,7 +395,7 @@ goc_item_distance (GocItem *item, double x, double y, GocItem **near_item)
 }
 
 /**
- * goc_item_draw :
+ * goc_item_draw:
  * @item: #GocItem
  * @cr: #cairo_t
  *
@@ -413,7 +413,7 @@ goc_item_draw (GocItem const *item, cairo_t *cr)
 }
 
 /**
- * goc_item_draw_region :
+ * goc_item_draw_region:
  * @item: #GocItem
  * @cr: #cairo_t
  * @x0: the lowest horizontal bound of the region to draw
@@ -467,7 +467,7 @@ goc_item_maybe_invalidate (GocItem *item, gboolean ignore_visibility)
 }
 
 /**
- * goc_item_invalidate :
+ * goc_item_invalidate:
  * @item: #GocItem
  *
  * Force a redraw of @item bounding region.
@@ -481,7 +481,7 @@ goc_item_invalidate (GocItem *item)
 }
 
 /**
- * goc_item_set_visible :
+ * goc_item_set_visible:
  * @item: #GocItem
  * @visible: whether the item should be visible
  *
@@ -500,7 +500,7 @@ goc_item_set_visible (GocItem *item, gboolean visible)
 }
 
 /**
- * goc_item_show :
+ * goc_item_show:
  * @item: #GocItem
  *
  * Makes @item visible.
@@ -512,7 +512,7 @@ goc_item_show (GocItem *item)
 }
 
 /**
- * goc_item_hide :
+ * goc_item_hide:
  * @item: #GocItem
  *
  * Hides @item.
@@ -524,7 +524,7 @@ goc_item_hide (GocItem *item)
 }
 
 /**
- * goc_item_is_visible :
+ * goc_item_is_visible:
  * @item: #GocItem
  *
  * Returns: %TRUE if @item is visible.
@@ -537,7 +537,7 @@ goc_item_is_visible (GocItem *item)
 }
 
 /**
- * goc_item_get_bounds :
+ * goc_item_get_bounds:
  * @item: #GocItem
  * @x0: where to store the lowest horizontal bound
  * @y0: where to store the lowest vertical bound
@@ -560,7 +560,7 @@ goc_item_get_bounds (GocItem const *item, double *x0, double *y0, double *x1, do
 }
 
 /**
- * goc_item_bounds_changed :
+ * goc_item_bounds_changed:
  * @item: #GocItem
  *
  * This function needs to be called each time the bounds of @item change. It
@@ -582,7 +582,7 @@ goc_item_bounds_changed (GocItem *item)
 }
 
 /**
- * goc_item_grab :
+ * goc_item_grab:
  * @item: #GocItem
  *
  * Grabs the item. This function will fail if another item is grabbed.
@@ -597,7 +597,7 @@ goc_item_grab (GocItem *item)
 }
 
 /**
- * goc_item_ungrab :
+ * goc_item_ungrab:
  * @item: #GocItem
  *
  * Ungrabs the item. This function will fail if @item is not grabbed.
@@ -635,7 +635,7 @@ goc_item_reordered (GocItem *item, int n)
 }
 
 /**
- * goc_item_raise :
+ * goc_item_raise:
  * @item: #GocItem
  * @n: the rank change
  *
@@ -658,7 +658,7 @@ goc_item_raise (GocItem *item, int n)
 }
 
 /**
- * goc_item_lower :
+ * goc_item_lower:
  * @item: #GocItem
  * @n: the rank change
  *
@@ -681,7 +681,7 @@ goc_item_lower (GocItem *item, int n)
 }
 
 /**
- * goc_item_lower_to_bottom :
+ * goc_item_lower_to_bottom:
  * @item: #GocItem
  *
  * Lowers @item to bottom inside its parent #GocGroup so that it will be at
@@ -698,7 +698,7 @@ goc_item_lower_to_bottom (GocItem *item)
 }
 
 /**
- * goc_item_raise_to_top :
+ * goc_item_raise_to_top:
  * @item: #GocItem
  *
  * Raises @item to front so that it becomes the toplevel item inside
@@ -732,6 +732,12 @@ _goc_item_unrealize (GocItem *item)
 	}
 }
 
+/**
+ * goc_item_get_parent:
+ * @item: #GocItem
+ *
+ * Returns: (transfer none): The item parent #GocGroup.
+ **/
 GocGroup *
 goc_item_get_parent (GocItem *item)
 {
@@ -739,6 +745,13 @@ goc_item_get_parent (GocItem *item)
 }
 
 #ifdef GOFFICE_WITH_GTK
+/**
+ * goc_item_get_window:
+ * @item: #GocItem
+ *
+ * Returns: (transfer none): The #GdkWindow associated with the item if any or
+ * NULL. Only #GocWidget owns a #GdkWindow.
+ **/
 GdkWindow *
 goc_item_get_window (GocItem *item)
 {
