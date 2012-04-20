@@ -25,8 +25,8 @@
 #       include <libspectre/spectre-document.h>
 #       include <libspectre/spectre-render-context.h>
 #else
-#		include <gsf/gsf-input-textline.h> 
-#		include <gsf/gsf-input-memory.h> 
+#		include <gsf/gsf-input-textline.h>
+#		include <gsf/gsf-input-memory.h>
 #endif
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input-stdio.h>

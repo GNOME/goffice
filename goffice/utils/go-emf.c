@@ -4260,7 +4260,7 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 			image->width = (state.mmbounds.right - state.mmbounds.left) / 2540. * 72.;
 			image->height = (state.mmbounds.bottom - state.mmbounds.top) / 2540. * 72.;
 		}
-		
+
 		return FALSE;
 #endif
 	default:
