@@ -1406,7 +1406,7 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
  * gog_renderer_get_pixbuf:
  * @renderer: #GogRenderer
  *
- * Returns: current pixbuf buffer from a renderer that can render into a pixbuf.
+ * Returns: (transfer none): current pixbuf buffer from a renderer that can render into a pixbuf.
  * 	or %NULL on error.
  **/
 GdkPixbuf *

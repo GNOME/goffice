@@ -1,4 +1,15 @@
 2012-04-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-renderer.c: fixed documentation.
+	* goffice/graph/gog-theme.c: ditto.
+	* goffice/utils/go-file.c: ditto.
+	* goffice/utils/go-emf.c (load_wmf_as_pixbuf), (go_emf_load_data),
+	(go_emf_new_from_file), (go_emf_new_from_data), (go_emf_parse): use
+	libwmf when not built with emf support, and load emf image size.
+	* goffice/utils/go-image.c (go_image_draw_fb): use the pixbuf when
+	available.
+
+2012-04-20  Jean Brefort  <jean.brefort@normalesup.org>
 	* goffice/canvas/goc-canvas.c: fixed documentation.
 	* goffice/canvas/goc-group.c: ditto.
 	* goffice/canvas/goc-item.c: ditto.

@@ -37,9 +37,7 @@ typedef GOImageClass GOEmfClass;
 
 static GObjectClass *parent_klass;
 
-#ifdef GOFFICE_EMF_SUPPORT
 static gboolean go_emf_parse (GOEmf *emf, GsfInput *input, GError **error);
-#endif
 
 static void
 go_emf_save (GOImage *image, GsfXMLOut *output)
@@ -55,6 +53,27 @@ go_emf_load_attr (G_GNUC_UNUSED GOImage *image, G_GNUC_UNUSED xmlChar const *att
 {
 	/* nothing to do */
 }
+
+#ifndef GOFFICE_EMF_SUPPORT
+static void load_wmf_as_pixbuf (GOImage *image, guint8 const *data, size_t length)
+{
+	GdkPixbufLoader *loader = gdk_pixbuf_loader_new_with_type ("wmf", NULL);
+
+	if (loader) {
+		gboolean ret = gdk_pixbuf_loader_write (loader, data, length, NULL);
+		/* Close in any case. But don't let error during closing
+		 * shadow error from loader_write.  */
+		gdk_pixbuf_loader_close (loader, NULL);
+		if (ret)
+			image->pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+		if (image->pixbuf)
+			g_object_ref (G_OBJECT (image->pixbuf));
+		g_object_unref (G_OBJECT (loader));
+		image->width = gdk_pixbuf_get_width (image->pixbuf);
+		image->height = gdk_pixbuf_get_height (image->pixbuf);
+	}
+}
+#endif
 
 static void
 go_emf_load_data (GOImage *image, GsfXMLIn *xin)
@@ -75,6 +94,8 @@ go_emf_load_data (GOImage *image, GsfXMLIn *xin)
 		// FIXME: emit at least a warning
 		g_error_free (error);
 	}
+#else
+	load_wmf_as_pixbuf (image, image->data, image->data_length);
 #endif
 }
 
@@ -184,7 +205,6 @@ GObject *go_emf_get_canvas (GOEmf *emf)
 GOImage *
 go_emf_new_from_file (char const *filename, GError **error)
 {
-#ifdef GOFFICE_EMF_SUPPORT
 	GOEmf *emf = NULL;
 	GOImage *image;
 	GsfInput *input = gsf_input_stdio_new (filename, error);
@@ -210,28 +230,25 @@ go_emf_new_from_file (char const *filename, GError **error)
 	image->data = data;
 	input = gsf_input_memory_new (data, image->data_length, FALSE);
 	if (!go_emf_parse (emf, input, error)) {
-		g_object_unref (emf);
-		emf = NULL;
-	}
-	g_object_unref (input);
-
-	if (emf) {
+		if (image->width < 1.) {
+			/* we load the size for an EMF file, so it should be WMF */
+			/* try to get a pixbuf */
+			load_wmf_as_pixbuf (image, data, size);
+		}
+	} else {
 		double x0, y0, x1, y1;
 		goc_canvas_get_bounds (emf->canvas, &x0, &y0, &x1, &y1);
 		image->width = x1;
 		image->height = y1;
 	}
+	g_object_unref (input);
 
 	return image;
-#else
-	return NULL;
-#endif
 }
 
 GOImage *
 go_emf_new_from_data (char const *data, size_t length, GError **error)
 {
-#ifdef GOFFICE_EMF_SUPPORT
 	GOEmf *emf = NULL;
 	GsfInput *input = gsf_input_memory_new (data, length, FALSE);
 	GOImage *image;
@@ -245,22 +262,22 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
 	emf = g_object_new (GO_TYPE_EMF, NULL);
 	image = GO_IMAGE (emf);
 	image->data_length = gsf_input_size (input);
+	image->data = g_malloc (length);
+	memcpy (image->data, data, length);
 	if (!go_emf_parse (emf, input, error)) {
-		g_object_unref (emf);
-		image = NULL;
+		if (image->width < 1.) {
+			/* we load the size for an EMF file, so it should be WMF */
+			/* try to get a pixbuf */
+			load_wmf_as_pixbuf (image, data, length);
+		}
 	} else {
 		double x0, y0, x1, y1;
-		image->data = g_malloc (length);
-		memcpy (image->data, data, length);
 		goc_canvas_get_bounds (emf->canvas, &x0, &y0, &x1, &y1);
 		image->width = x1;
 		image->height = y1;
 	}
 	g_object_unref (input);
 	return image;
-#else
-	return NULL;
-#endif
 }
 
 #ifdef GOFFICE_EMF_SUPPORT
@@ -810,6 +827,10 @@ typedef struct {
 	int type;
 } GOWmfPage;
 
+#else
+#	define d_(x)
+#endif
+
 typedef struct {
 	gint32 left, right, top, bottom;
 } GOWmfRectL;
@@ -882,6 +903,8 @@ typedef struct {
 	GSList *dc_stack;
 	GHashTable *mfobjs;
 } GOEmfState;
+
+#ifdef GOFFICE_EMF_SUPPORT
 
 #define CMM2PTS(x) (((double) x) * 72. / 254.)
 
@@ -2451,6 +2474,8 @@ go_emf_convert_coords (GOEmfState *state, double *x, double *y)
 	*y = (*y - state->dy) * state->dh / state->wh;
 }
 
+#endif
+
 static gboolean
 go_emf_header (GOEmfState *state)
 {
@@ -2475,6 +2500,8 @@ go_emf_header (GOEmfState *state)
 
 	return TRUE;
 }
+
+#ifdef GOFFICE_EMF_SUPPORT
 
 static gboolean
 go_emf_polybezier (GOEmfState *state)
@@ -4167,6 +4194,7 @@ static  GOEmfHandler go_emf_handlers[] = {
 	go_emf_setcolorspace,		/* 0x0064 todo */
 	go_emf_deletecolorspace		/* 0x0065 todo */
 };
+#endif
 
 /*****************************************************************************
  * EMF parsing code
@@ -4175,50 +4203,71 @@ static  GOEmfHandler go_emf_handlers[] = {
 static gboolean
 go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 {
+	const guint8  *data = {0};
+	guint32 offset = 0;
+	guint64 fsize = 0;
+	guint32 rsize = 3;
+#ifdef GOFFICE_EMF_SUPPORT
 	GHashTable	*mrecords, *escrecords;
 	GHashTable	*objs;
 	GOWmfPage *mypg;
-	guint32 rsize = 3;
 	int rid = 0, escfunc;
 	gint mr = 0;
-	const guint8  *data = {0};
 	guint32 type = 0; /* wmf, apm or emf */
-	guint32 offset = 0;
-	guint64 fsize = 0;
 	double x1, y1, x2, y2, w, h;
 	GOWmfDC *dc;
 
+#endif
 	fsize = gsf_input_size (input);
 	data = gsf_input_read (input, 4, NULL);
 	switch (GSF_LE_GET_GUINT32 (data)) {
 	case 0x9ac6cdd7:
 		d_ (("Aldus Placeable Metafile\n"));
+#ifdef GOFFICE_EMF_SUPPORT
 		type = 1;
 		offset = 40;
-		break;
+			break;
+#else
+		return FALSE;
+#endif
 	case 0x090001:
 		d_ (("Standard metafile\n"));
+#ifdef GOFFICE_EMF_SUPPORT
 		type = 2 ;
 		offset = 18;
 		break;
+#else
+		return FALSE;
+#endif
 	case 1:
+#ifdef GOFFICE_EMF_SUPPORT
 		type = 3;
 		rid = 1;
-#if 0
-		gsf_input_seek (input, 40, G_SEEK_SET);  /* 40 -- offset to EMF signature */
-			data = gsf_input_read (input, 4, NULL);
-		if (0x464D4520 == GSF_LE_GET_GUINT32 (data)) {
-			type = 3;
-			d_ (("EMF file\n"));
-		} else {
-			d_ (("Unknown type"));
-		}
-#endif
 		break;
+#else
+		{
+			GOEmfState state;
+			GOImage *image = GO_IMAGE (emf);
+			data = gsf_input_read (input, 4, NULL);
+			if (!data)
+				break;
+			rsize = GSF_LE_GET_GUINT32 (data) - 8;
+			if ((offset += rsize) > fsize)
+				break;
+			state.length = rsize;
+			state.data = gsf_input_read (input, rsize, NULL);
+			go_emf_header (&state);
+			image->width = (state.mmbounds.right - state.mmbounds.left) / 2540. * 72.;
+			image->height = (state.mmbounds.bottom - state.mmbounds.top) / 2540. * 72.;
+		}
+		
+		return FALSE;
+#endif
 	default:
 		d_ (("Unknown type\n"));
 	}
 
+#ifdef GOFFICE_EMF_SUPPORT
 	if (1 == type || 2 == type) {
 		mypg = malloc (sizeof (GOWmfPage));
 		mrecords = go_wmf_init_recs ();
@@ -4327,6 +4376,6 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 			return TRUE;
 		}
 	}
+#endif
 	return FALSE;
 }
-#endif

@@ -638,7 +638,7 @@ gog_theme_registry_add (GogTheme *theme, gboolean is_default)
  * gog_theme_registry_lookup:
  * @name: a theme name
  *
- * Returns: a #GogTheme from theme registry.
+ * Returns: (transfer none): a #GogTheme from theme registry.
  **/
 GogTheme *
 gog_theme_registry_lookup (char const *name)
@@ -660,7 +660,7 @@ gog_theme_registry_lookup (char const *name)
 /**
  * gog_theme_registry_get_theme_names:
  *
- * Returns: a newly allocated theme name list from theme registry.
+ * Returns: (element-type utf8) (transfer container): a newly allocated theme name list from theme registry.
  **/
 GSList *
 gog_theme_registry_get_theme_names (void)
