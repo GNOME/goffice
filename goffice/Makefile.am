@@ -162,11 +162,13 @@ GOffice-@GOFFICE_API_VER@.gir: $(G_IR_SCANNER)
 
 if HAVE_INTROSPECTION
 
-girdir = $(GIRDIR)
+girdir = $(datadir)/gir-1.0
 gir_DATA = $(BUILT_GIRSOURCES)
 
-typelibsdir = $(TYPELIBDIR)
+typelibsdir = $(libdir)/girepository-1.0
 typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
+
+CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 
 %.typelib: %.gir $(G_IR_COMPILER)
 	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(G_IR_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)
