@@ -54,9 +54,9 @@ go_emf_load_attr (G_GNUC_UNUSED GOImage *image, G_GNUC_UNUSED xmlChar const *att
 	/* nothing to do */
 }
 
-#ifndef GOFFICE_EMF_SUPPORT
 static void load_wmf_as_pixbuf (GOImage *image, guint8 const *data, size_t length)
 {
+#ifndef GOFFICE_EMF_SUPPORT
 	GdkPixbufLoader *loader = gdk_pixbuf_loader_new_with_type ("wmf", NULL);
 
 	if (loader) {
@@ -72,8 +72,8 @@ static void load_wmf_as_pixbuf (GOImage *image, guint8 const *data, size_t lengt
 		image->width = gdk_pixbuf_get_width (image->pixbuf);
 		image->height = gdk_pixbuf_get_height (image->pixbuf);
 	}
-}
 #endif
+}
 
 static void
 go_emf_load_data (GOImage *image, GsfXMLIn *xin)

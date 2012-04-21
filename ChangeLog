@@ -1,3 +1,7 @@
+2012-04-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-emf.c (load_wmf_as_pixbuf): fix build with EMF support.
+
 2012-04-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer.c: fixed documentation.
