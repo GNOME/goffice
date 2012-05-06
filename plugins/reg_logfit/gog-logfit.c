@@ -122,7 +122,7 @@ gog_log_fit_curve_get_equation (GogRegCurve *curve)
 						g_strdup_printf("y = %g + %g ln(\xE2\x88\x92%g \xE2\x88\x92 x)", curve->a[1], curve->a[2], -curve->a[3]))):
 				((curve-> a[1] < 0)?
 					((curve->a[2] < 0)?
-						g_strdup_printf("y = \xE2\x88\x92%g \xE2\x88\x9 2%g ln(%g \xE2\x88\x92 x)", -curve->a[1], -curve->a[2], curve->a[3]):
+						g_strdup_printf("y = \xE2\x88\x92%g \xE2\x88\x92 %g ln(%g \xE2\x88\x92 x)", -curve->a[1], -curve->a[2], curve->a[3]):
 						g_strdup_printf("y = \xE2\x88\x92%g + %g ln(%g \xE2\x88\x92 x)", -curve->a[1], curve->a[2], curve->a[3])):
 					((curve->a[2] < 0)?
 						g_strdup_printf("y = %g \xE2\x88\x92 %g ln(%g\xE2\x88\x92 x)", curve->a[1], -curve->a[2], curve->a[3]):

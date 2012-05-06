@@ -1,3 +1,8 @@
+2012-05-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/reg_logfit/gog-logfit.c (gog_log_fit_curve_get_equation): fixed
+	logfit equation typo. [#675560]
+
 2012-04-21  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
