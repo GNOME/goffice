@@ -41,6 +41,8 @@ PangoAttribute *go_pango_attr_superscript_new (gboolean val);
 PangoAttrType go_pango_attr_subscript_get_type (void);
 PangoAttrType go_pango_attr_superscript_get_type (void);
 
+char *go_pango_attrs_to_markup (PangoAttrList *attrs, char const *text);
+
 
 
 G_END_DECLS

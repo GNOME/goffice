@@ -1,3 +1,9 @@
+2012-05-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* utils/go-pango-extras.c (go_pango_attrs_to_markup): new
+	(go_pango_attr_as_markup_string): new
+	* utils/go-pango-extras.h (go_pango_attrs_to_markup): new
+
 2012-05-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-plot-engine.c
