@@ -465,7 +465,8 @@ cb_pending_trend_line_types_load (char const *path,
 	xmlDoc *doc;
 	GogTrendLineType *type;
 
-	g_printerr ("Loading %s\n", path);
+	if (debug)
+		g_printerr ("Loading %s\n", path);
 	doc = go_xml_parse_file (path);
 	g_return_if_fail (doc != NULL && doc->xmlRootNode != NULL);
 

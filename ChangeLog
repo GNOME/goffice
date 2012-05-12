@@ -1,3 +1,8 @@
+2012-05-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-plot-engine.c
+	(cb_pending_trend_line_types_load): Conditionalize debug print.
+
 2012-05-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/reg_logfit/gog-logfit.c (gog_log_fit_curve_get_equation): fixed
