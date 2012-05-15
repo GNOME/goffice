@@ -5,6 +5,7 @@ Andreas:
 
 Jean:
 	* Fixed logfit equation typo. [#675560]
+	* Fix text item position when clipped. [#676067]
 
 --------------------------------------------------------------------------
 goffice 0.9.3:

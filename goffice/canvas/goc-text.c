@@ -65,7 +65,7 @@ go_anchor_type_get_type (void)
 			{ GO_ANCHOR_SOUTH_EAST,	"GO_ANCHOR_SOUTH_EAST",	"south-east" },
 			{ GO_ANCHOR_WEST,	"GO_ANCHOR_WEST",	"west" },
 			{ GO_ANCHOR_EAST,	"GO_ANCHOR_EAST",	"east" },
-			{ GO_ANCHOR_N,	"GO_ANCHOR_Ngo_anchor_type_get_type",	"n" },
+			{ GO_ANCHOR_N,	"GO_ANCHOR_N",	"n" },
 			{ GO_ANCHOR_NW,	"GO_ANCHOR_NW",	"nw" },
 			{ GO_ANCHOR_NE,	"GO_ANCHOR_NE",	"ne" },
 			{ GO_ANCHOR_S,	"GO_ANCHOR_S",	"s" },
@@ -419,7 +419,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	cairo_set_source_rgb (cr, 0., 0., 0.);
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_rotate (cr, text->rotation * sign);
-	cairo_move_to (cr, dx, dy);
+	cairo_translate (cr, dx, dy);
 	if (text->clip_height > 0. && text->clip_width > 0.) {
 		cairo_rectangle (cr, 0., 0., text->clip_width, text->clip_height);
 		cairo_clip (cr);

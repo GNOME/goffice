@@ -33,8 +33,6 @@ struct _GocGroup {
 	GList			*children;
 	GOPath			*clip_path;
 	cairo_fill_rule_t       clip_rule;
-	cairo_matrix_t		transform; /* not used for now */
-	gboolean		transformed; /* TRUE if the matrix is not identity */
 	gpointer		priv;
 };
 

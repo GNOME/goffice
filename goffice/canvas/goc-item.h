@@ -36,6 +36,8 @@ struct _GocItem {
 	gboolean		 realized;
 	double			 x0, y0, x1, y1; /* the bounds */
 	cairo_operator_t	 op;
+	cairo_matrix_t		transform; /* not used for now */
+	gboolean		transformed; /* TRUE if the matrix is not identity */
 	gpointer		 priv;
 };
 
@@ -107,9 +109,11 @@ void		 goc_item_lower_to_bottom (GocItem *item);
 void		 goc_item_raise_to_top	(GocItem *item);
 void		 _goc_item_realize      (GocItem *item);
 void		 _goc_item_unrealize    (GocItem *item);
+void		 _goc_item_transform    (GocItem const *item, cairo_t *cr);
 
 void		 goc_item_set_operator  (GocItem *item, cairo_operator_t op);
 cairo_operator_t goc_item_get_operator  (GocItem *item);
+void		 goc_item_set_transform (GocItem *item, cairo_matrix_t *m);
 
 G_END_DECLS
 

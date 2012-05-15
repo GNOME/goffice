@@ -287,16 +287,17 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
  ******************************************************************************/
 typedef struct {
 	guint8 type; /* 0: BitmapCoreHeader, 1: BitmapInfoHeader */
-	unsigned width, height, planes, bit_count, compression,
+	unsigned size, width, height, planes, bit_count, compression,
 		 image_size, x_pixels_per_m, y_pixels_per_m,
 		 color_used, color_important;
+	GOColor *colors;
 } GODibHeader;
 
 static void
 go_dib_read_header (GODibHeader *header, guint8 const *data)
 {
-	guint32 size = GSF_LE_GET_GUINT32 (data);
-	header->type = (size == 12)? 0: 1;
+	header->size = GSF_LE_GET_GUINT32 (data);
+	header->type = (header->size == 12)? 0: 1;
 	if (header->type == 0) {
 		header->width = GSF_LE_GET_GUINT16 (data + 4);
 		header->height = GSF_LE_GET_GUINT16 (data + 6);
@@ -310,7 +311,7 @@ go_dib_read_header (GODibHeader *header, guint8 const *data)
 		header->color_used = 0;
 		header->color_important = 0;
 	} else {
-		if (size != 40) {
+		if (header->size != 40) {
 			/* Invalid header */
 			header->type = 255;
 			return;
@@ -326,6 +327,8 @@ go_dib_read_header (GODibHeader *header, guint8 const *data)
 		header->color_used = GSF_LE_GET_GUINT32 (data + 32);
 		header->color_important = GSF_LE_GET_GUINT32 (data + 36);
 	}
+	if (header->bit_count <= 16 && header->color_used == 0)
+		header->color_used = 1 << header->bit_count;
 }
 
 static GdkPixbuf *
@@ -333,8 +336,9 @@ go_dib_create_pixbuf_from_data (GODibHeader const *header, guint8 const *data)
 {
 	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, header->width, header->height);
 	unsigned i, j;
-	unsigned dst_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	unsigned dst_rowstride = gdk_pixbuf_get_rowstride (pixbuf), src_rowstride;
 	guint8 *row, *cur;
+	guint8 const *src_row;
 	/* FIXME, this implementation is very incomplete */
 	switch (header->bit_count) {
 	case 0:
@@ -344,6 +348,47 @@ go_dib_create_pixbuf_from_data (GODibHeader const *header, guint8 const *data)
 	case 4:
 		break;
 	case 8:
+		switch (header->compression) {
+		case 0:
+			src_rowstride = (header->width + 3) / 4 * 4;
+			if (header->type == 1  && header->image_size > 0 && src_rowstride * header->height != header->image_size)
+				g_warning ("Invalid bitmap size");
+			row = gdk_pixbuf_get_pixels (pixbuf) + header->height * dst_rowstride;
+			src_row = data;
+			for (i = 0; i < header->height; i++) {
+				row -= dst_rowstride;
+				cur = row;
+				data = src_row;
+				for (j = 0; j < header->width; j++) {
+					/* FIXME: this does not work if the color table is not RGB */
+					GOColor color = header->colors[*data];
+					cur[0] = GO_COLOR_UINT_R (color);
+					cur[1] = GO_COLOR_UINT_G (color);
+					cur[2] = GO_COLOR_UINT_B (color);
+					cur[3] = 0xff;
+					data ++;
+					cur += 4;
+				}
+				src_row += src_rowstride;
+			}
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 11:
+			break;
+		case 12:
+			break;
+		case 13:
+			break;
+		}
 		break;
 	case 16:
 		break;
@@ -368,21 +413,8 @@ go_dib_create_pixbuf_from_data (GODibHeader const *header, guint8 const *data)
 				}
 			}
 			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 11:
-			break;
-		case 12:
-			break;
-		case 13:
+		default:
+			g_warning ("Invalid compression for a DIB file");
 			break;
 		}
 		break;
@@ -885,6 +917,7 @@ typedef struct {
 	gboolean PolygonFillMode; /* TRUE: winding, FALSE: alternate */
 	unsigned text_align;
 	GOColor text_color;
+	cairo_matrix_t m;
 } GOEmfDC;
 
 typedef struct {
@@ -2221,8 +2254,8 @@ go_wmf_mr_arc (GsfInput* input, GOWmfPage* pg, GocCanvas* canvas, int type)
 	yc = (arc->b + arc->t) * 0.5;
 	rx = abs ((arc->l - arc->r) * 0.5);
 	ry = abs ((arc->b - arc->t) * 0.5);
-	a2 = atan2 (arc->xs - xc, arc->ys - yc);
-	a1 = atan2 (xc - arc->xe, yc - arc->ye);
+	a1 = atan2 (yc - arc->ys, arc->xs - xc);
+	a2 = atan2 (yc - arc->ye, arc->xe - xc);
 	arc->xs = xc;
 	arc->ys = yc;
 	arc->r = rx;
@@ -2480,6 +2513,7 @@ static gboolean
 go_emf_header (GOEmfState *state)
 {
 	guint32 signature = GSF_LE_GET_GINT32 (state->data + 32);
+	cairo_matrix_t m;
 	switch (signature) {
 	case 0x464D4520:
 		state->is_emf = TRUE;
@@ -2497,6 +2531,12 @@ go_emf_header (GOEmfState *state)
 	d_(("\tbounds are (mm): left=%g top=%g right=%g bottom=%g\n",
 	    (double) state->mmbounds.left / 100., (double) state->mmbounds.top / 100.,
 	    (double) state->mmbounds.right / 100., (double) state->mmbounds.bottom / 100.));
+	cairo_matrix_init_scale (&m,
+	                         ((double) (state->mmbounds.right - state->mmbounds.left)) / (state->dubounds.right - state->dubounds.left) / 2540. * 72.,
+	                         ((double) (state->mmbounds.bottom - state->mmbounds.top)) / (state->dubounds.bottom - state->dubounds.top) / 2540. * 72.);
+	m.x0 = -(double) state->mmbounds.left / 2540. * 72.;
+	m.y0 = -(double) state->mmbounds.top / 2540. * 72.;
+	goc_item_set_transform (GOC_ITEM (goc_canvas_get_root (state->canvas)), &m);
 
 	return TRUE;
 }
@@ -2506,7 +2546,45 @@ go_emf_header (GOEmfState *state)
 static gboolean
 go_emf_polybezier (GOEmfState *state)
 {
+	unsigned count, n, offset;
+	double x0, y0, x1, y1, x2, y2;
+	GOPath *path;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polybezier\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	count = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\tfound %u points\n", count));
+	if (count % 3 != 1)
+		return FALSE;
+	path = go_path_new ();
+	count /= 3;
+	go_wmf_read_pointl (state->data + 20, &x0, &y0);
+	go_emf_convert_coords (state, &x0, &y0);
+	d_(("\tmove to x0=%g y0=%g\n", x0, y0));
+	go_path_move_to (path, x0, y0);
+	for (n = 0, offset = 28; n < count; n++, offset += 24) {
+		go_wmf_read_pointl (state->data + offset, &x0, &y0);
+		go_emf_convert_coords (state, &x0, &y0);
+		go_wmf_read_pointl (state->data + offset + 8, &x1, &y1);
+		go_emf_convert_coords (state, &x1, &y1);
+		go_wmf_read_pointl (state->data + offset + 16, &x2, &y2);
+		go_emf_convert_coords (state, &x2, &y2);
+		go_path_curve_to (path, x0, y0, x1, y1, x2, y2);
+		d_(("\tcurve to x0=%g y0=%g x1=%g y1=%g x2=%g y2=%g\n", x0, y0, x1, y1, x2, y2));
+	}
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_PATH,
+	                                      "path", path,
+	                                      "style", state->curDC->style,
+	                                      "closed", FALSE,
+	                                      NULL),
+	                        &state->curDC->m);
+	go_path_free (path);
 	return TRUE;
 }
 
@@ -3002,16 +3080,23 @@ go_emf_setworldtransform (GOEmfState *state)
 	dy = GSF_LE_GET_FLOAT (state->data + 20);
 	d_(("\tm11 = %g m12 = %g dx=%g\n\tm21 = %g m22=%g dy=%g\n",
 	    m11, m12, dx, m21, m22, dy));
-	/* FIXME: do something with it */
+	cairo_matrix_init (&state->curDC->m, m11, m12, m21, m22, dx, dy);
 	return TRUE;
 }
+
+enum {
+	GO_MWT_IDENTITY = 0x01,
+	GO_MWT_LEFTMULTIPLY = 0x02,
+	GO_MWT_RIGHTMULTIPLY = 0x03,
+	GO_MWT_SET = 0x04
+};
 
 static gboolean
 go_emf_modifyworldtransform (GOEmfState *state)
 {
 #ifdef DEBUG_EMF_SUPPORT
 	char const *tmas[5] = {
-		NULL,
+		"INVALID",
 		"MWT_IDENTITY",
 		"MWT_LEFTMULTIPLY",
 		"MWT_RIGHTMULTIPLY",
@@ -3020,6 +3105,7 @@ go_emf_modifyworldtransform (GOEmfState *state)
 #endif
 	double m11, m12, m21, m22, dx, dy;
 	unsigned mode;
+	cairo_matrix_t m;
 	d_(("modifyworldtransform\n"));
 	m11 = GSF_LE_GET_FLOAT (state->data);
 	m12 = GSF_LE_GET_FLOAT (state->data + 4);
@@ -3027,10 +3113,26 @@ go_emf_modifyworldtransform (GOEmfState *state)
 	m22 = GSF_LE_GET_FLOAT (state->data + 12);
 	dx = GSF_LE_GET_FLOAT (state->data + 16);
 	dy = GSF_LE_GET_FLOAT (state->data + 20);
-	mode = GSF_LE_GET_GUINT32 (state + 24);
+	mode = GSF_LE_GET_GUINT32 (state->data + 24);
 	d_(("\tm11 = %g m12 = %g dx=%g\n\tm21 = %g m22=%g dy=%g\n\tmode = %s\n",
-	    m11, m12, dx, m21, m22, dy, tmas[mode]));
+	    m11, m12, dx, m21, m22, dy, tmas[(mode < 4)? mode: 0]));
 	/* FIXME: do something with it */
+	switch (mode) {
+	case GO_MWT_IDENTITY:
+		cairo_matrix_init_identity (&state->curDC->m);
+		break;
+	case GO_MWT_LEFTMULTIPLY:
+		cairo_matrix_init (&m, m11, m12, m21, m22, dx, dy);
+		cairo_matrix_multiply (&state->curDC->m, &m, &state->curDC->m);
+		break;
+	case GO_MWT_RIGHTMULTIPLY:
+		cairo_matrix_init (&m, m11, m12, m21, m22, dx, dy);
+		cairo_matrix_multiply (&state->curDC->m, &state->curDC->m, &m);
+		break;
+	case GO_MWT_SET:
+		cairo_matrix_init (&state->curDC->m, m11, m12, m21, m22, dx, dy);
+		break;
+	}
 	return TRUE;
 }
 
@@ -3167,13 +3269,25 @@ go_emf_selectobject (GOEmfState *state)
 		d_(("\tNull brush\n"));
 		break;
 	case GO_EMF_WHITE_PEN:
+		state->curDC->style->line.dash_type = GO_LINE_SOLID;
+		state->curDC->style->line.color = GO_COLOR_WHITE;
+		state->curDC->style->line.width = 0.;
+		state->curDC->style->line.auto_dash = FALSE;
+		state->curDC->style->line.auto_color = FALSE;
 		d_(("\tWhite pen\n"));
 		break;
 	case GO_EMF_BLACK_PEN:
-		d_(("\tWhite pen\n"));
+		state->curDC->style->line.dash_type = GO_LINE_SOLID;
+		state->curDC->style->line.color = GO_COLOR_BLACK;
+		state->curDC->style->line.width = 0.;
+		state->curDC->style->line.auto_dash = FALSE;
+		state->curDC->style->line.auto_color = FALSE;
+		d_(("\tBlack pen\n"));
 		break;
 	case GO_EMF_NULL_PEN:
-		d_(("\tWhite pen\n"));
+		state->curDC->style->line.dash_type = GO_LINE_NONE;
+		state->curDC->style->line.auto_dash = FALSE;
+		d_(("\tNull pen\n"));
 		break;
 	case GO_EMF_OEM_FIXED_FONT:
 		d_(("\tEOM fixed font\n"));
@@ -3376,8 +3490,10 @@ go_emf_rectangle (GOEmfState *state)
 	w = rect.right;
 	h = rect.bottom;
 	go_emf_convert_coords (state, &w, &h);
-	goc_item_new (state->curDC->group, GOC_TYPE_RECTANGLE,
-		      "x", x, "y", y, "width", w - x, "height", h - y, NULL);
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_RECTANGLE,
+	                                      "x", x, "y", y, "width", w - x,
+	                                      "height", h - y, NULL),
+	                        &state->curDC->m);
 	return TRUE;
 }
 
@@ -3692,8 +3808,10 @@ go_emf_stretchdibits (GOEmfState *state)
 	gint32 src_x, src_y, src_cx, src_cy;
 	guint32 usage_src, op;
 	guint32 header_pos, header_size, buffer_pos, buffer_size;
+	unsigned offset;
 	GODibHeader header;
 	GdkPixbuf *pixbuf;
+	unsigned i;
 
 	d_(("stretchdibits\n"));
 	go_wmf_read_rectl (&rect, state->data);
@@ -3716,10 +3834,29 @@ go_emf_stretchdibits (GOEmfState *state)
 	d_ (("\tsource format: %s, operation: %s\n", go_emf_dib_colors[usage_src], go_emf_ternary_raster_operation[op >> 16]));
 	d_ (("\tsource: x=%d y=%d cx=%d cy=%d\n",src_x, src_y, src_cx, src_cy));
 	d_ (("\tdestination: x=%d y=%d cx=%d cy=%d\n",dst_x, dst_y, dst_cx, dst_cy));
+	/* try building an in memory BMP file from the data */
 	go_dib_read_header (&header, state->data + header_pos);
 	if (header.type == 0xff)
 		return FALSE;
+	/* load the colors if needed */
+	if (header.color_used != 0) {
+		/* check that the header has the right size */
+		if (header_size - header.size != 4 * header.color_used) {
+			g_warning ("Invalid color table");
+			return FALSE;
+		}
+		offset = header_pos + header.size;
+		header.colors = g_new (GOColor, 256);
+		for (i = 0; i < header.color_used; i++) {
+			header.colors[i] = GO_COLOR_FROM_RGB (state->data[offset + 2],
+			                                      state->data[offset + 1],
+			                                      state->data[offset]);
+			offset += 4;
+		}
+	} else
+		header.colors = NULL;
 	pixbuf = go_dib_create_pixbuf_from_data (&header, state->data + buffer_pos);
+	g_free (header.colors);
 	if (src_x != 0 || src_y != 0 || src_cx != dst_cx || src_cy != dst_cy) {
 		/* FIXME: take src coordinates into account */
 	}
@@ -3784,7 +3921,45 @@ go_emf_exttextoutw (GOEmfState *state)
 static gboolean
 go_emf_polybezier16 (GOEmfState *state)
 {
+	unsigned count, n, offset;
+	double x0, y0, x1, y1, x2, y2;
+	GOPath *path;
+#ifdef DEBUG_EMF_SUPPORT
+	GOWmfRectL rect;
+#endif
 	d_(("polybezier16\n"));
+#ifdef DEBUG_EMF_SUPPORT
+	go_wmf_read_rectl (&rect, state->data);
+#endif
+	d_(("\tbounds: left: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left,rect.right, rect.top, rect.bottom));
+	count = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\tfound %u points\n", count));
+	if (count % 3 != 1)
+		return FALSE;
+	path = go_path_new ();
+	count /= 3;
+	go_wmf_read_points (state->data + 20, &x0, &y0);
+	go_emf_convert_coords (state, &x0, &y0);
+	d_(("\tmove to x0=%g y0=%g\n", x0, y0));
+	go_path_move_to (path, x0, y0);
+	for (n = 0, offset = 24; n < count; n++, offset += 12) {
+		go_wmf_read_points (state->data + offset, &x0, &y0);
+		go_emf_convert_coords (state, &x0, &y0);
+		go_wmf_read_points (state->data + offset + 4, &x1, &y1);
+		go_emf_convert_coords (state, &x1, &y1);
+		go_wmf_read_points (state->data + offset + 8, &x2, &y2);
+		go_emf_convert_coords (state, &x2, &y2);
+		go_path_curve_to (path, x0, y0, x1, y1, x2, y2);
+		d_(("\tcurve to x0=%g y0=%g x1=%g y1=%g x2=%g y2=%g\n", x0, y0, x1, y1, x2, y2));
+	}
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_PATH,
+	                                      "path", path,
+	                                      "style", state->curDC->style,
+	                                      "closed", FALSE,
+	                                      NULL),
+	                        &state->curDC->m);
+	go_path_free (path);
 	return TRUE;
 }
 
@@ -3813,10 +3988,11 @@ go_emf_polygon16 (GOEmfState *state)
 		points->points[n].y = y;
 		d_(("\tpoint #%u at x=%g y=%g\n", n, x, y));
 	}
-	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
-	              "points", points,
-	              "style", state->curDC->style,
-	              NULL);
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
+	                                      "points", points,
+	                                      "style", state->curDC->style,
+	                                      NULL),
+	                        &state->curDC->m);
 	return TRUE;
 }
 
@@ -4093,7 +4269,7 @@ typedef gboolean (*GOEmfHandler) (GOEmfState* state);
 static  GOEmfHandler go_emf_handlers[] = {
 	NULL,
 	go_emf_header,			/* 0x0001 ok */
-	go_emf_polybezier,		/* 0x0002 todo */
+	go_emf_polybezier,		/* 0x0002 untested */
 	go_emf_polygon,			/* 0x0003 ok */
 	go_emf_polyline,		/* 0x0004 ok */
 	go_emf_polybezierto,		/* 0x0005 ok */
@@ -4176,8 +4352,8 @@ static  GOEmfHandler go_emf_handlers[] = {
 	go_emf_extcreatefontindirectw,	/* 0x0052 partial */
 	go_emf_exttextouta,		/* 0x0053 todo */
 	go_emf_exttextoutw,		/* 0x0054 todo */
-	go_emf_polybezier16,		/* 0x0055 todo */
-	go_emf_polygon16,		/* 0x0056 untested */
+	go_emf_polybezier16,		/* 0x0055 ok */
+	go_emf_polygon16,		/* 0x0056 ok */
 	go_emf_polyline16,		/* 0x0057 untested */
 	go_emf_polybezierto16,		/* 0x0058 untested */
 	go_emf_polylineto16,		/* 0x0059 untested */
@@ -4336,6 +4512,7 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 		state.dw = state.dh = state.ww = state.wh = 1.;
 		state.mfobjs = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		                                     NULL, g_free);
+		cairo_matrix_init_identity (&state.curDC->m);
 		offset = 4;
 		while ((offset += 4) < fsize && rid != 0xe) { /* EOF */
 			data = gsf_input_read (input, 4, NULL);

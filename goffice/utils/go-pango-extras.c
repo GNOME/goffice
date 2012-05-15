@@ -749,9 +749,9 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 	int spans = 0;
 
 	switch (a->klass->type) {
-	case PANGO_ATTR_FONT_DESC : 
+	case PANGO_ATTR_FONT_DESC :
 		{
-			char *str = pango_font_description_to_string 
+			char *str = pango_font_description_to_string
 				(((PangoAttrFontDesc *)a)->desc);
 			spans += 1;
 			g_string_append_printf (gstr, "<span font_desc=\"%s\">", str);
@@ -760,18 +760,18 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		break;
 	case PANGO_ATTR_FAMILY :
 		spans += 1;
-		g_string_append_printf (gstr, "<span font_family=\"%s\">", 
+		g_string_append_printf (gstr, "<span font_family=\"%s\">",
 					((PangoAttrString *)a)->value);
 		break;
 	case PANGO_ATTR_ABSOLUTE_SIZE :
 	case PANGO_ATTR_SIZE :
 		spans += 1;
-		g_string_append_printf (gstr, "<span font_size=\"%i\">", 
+		g_string_append_printf (gstr, "<span font_size=\"%i\">",
 					((PangoAttrSize *)a)->size);
 		break;
 	case PANGO_ATTR_RISE:
 		spans += 1;
-		g_string_append_printf (gstr, "<span rise=\"%i\">", 
+		g_string_append_printf (gstr, "<span rise=\"%i\">",
 					((PangoAttrInt *)a)->value);
 		break;
 	case PANGO_ATTR_STYLE :
@@ -787,11 +787,11 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		default:
 			g_string_append (gstr, "<span font_style=\"normal\">");
 			break;
-		}		
+		}
 		break;
 	case PANGO_ATTR_WEIGHT :
 		spans += 1;
-		g_string_append_printf (gstr, "<span font_weight=\"%i\">", 
+		g_string_append_printf (gstr, "<span font_weight=\"%i\">",
 					((PangoAttrInt *)a)->value);
 	break;
 	case PANGO_ATTR_STRIKETHROUGH :
@@ -820,11 +820,11 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		default:
 			g_string_append (gstr, "<span underline=\"none\">");
 			break;
-		}		
+		}
 		break;
 	case PANGO_ATTR_LANGUAGE :
 		spans += 1;
-		g_string_append_printf (gstr, "<span lang=\"%s\">", 
+		g_string_append_printf (gstr, "<span lang=\"%s\">",
 					pango_language_to_string (((PangoAttrLanguage *)a)->value));
 		break;
 	case PANGO_ATTR_VARIANT :
@@ -836,7 +836,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		break;
 	case PANGO_ATTR_LETTER_SPACING :
 		spans += 1;
-		g_string_append_printf (gstr, "<span letter_spacing=\"%i\">", 
+		g_string_append_printf (gstr, "<span letter_spacing=\"%i\">",
 					((PangoAttrInt *)a)->value);
 		break;
 	case PANGO_ATTR_FALLBACK :
@@ -877,7 +877,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		default:
 			g_string_append (gstr, "<span font_stretch=\"normal\">");
 			break;
-		}		
+		}
 		break;
 	case PANGO_ATTR_GRAVITY :
 		spans += 1;
@@ -898,7 +898,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		default:
 			g_string_append (gstr, "<span gravity=\"auto\">");
 			break;
-		}		
+		}
 		break;
 	case PANGO_ATTR_GRAVITY_HINT :
 		spans += 1;
@@ -913,9 +913,9 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		default:
 			g_string_append (gstr, "<span gravity_hint=\"natural\">");
 			break;
-		}		
+		}
 		break;
-		
+
 	case PANGO_ATTR_FOREGROUND :
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;

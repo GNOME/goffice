@@ -286,6 +286,7 @@ static void
 goc_item_init (GocItem *item)
 {
 	item->visible = TRUE;
+	cairo_matrix_init_identity (&item->transform);
 }
 
 GSF_CLASS_FULL (GocItem, goc_item, NULL, NULL,
@@ -771,4 +772,35 @@ cairo_operator_t
 goc_item_get_operator  (GocItem *item)
 {
 	return item->op;
+}
+
+#define matrix_epsilon 1e-12
+void
+goc_item_set_transform (GocItem *item, cairo_matrix_t *m)
+{
+	item->transformed = fabs (m->xx - 1.) > matrix_epsilon
+						|| fabs (m->xy) > matrix_epsilon
+						|| fabs (m->xy) > matrix_epsilon
+						|| fabs (m->yx) > matrix_epsilon
+						|| fabs (m->yy - 1.) > matrix_epsilon
+						|| fabs (m->x0) > matrix_epsilon
+						|| fabs (m->x0) > matrix_epsilon;
+	if (item->transformed)
+		item->transform = *m;
+	else
+		cairo_matrix_init_identity (&item->transform);
+}
+
+void
+_goc_item_transform (GocItem const *item, cairo_t *cr)
+{
+	cairo_matrix_t m = item->transform, buf,
+		sc = {item->canvas->pixels_per_unit, 0., 0., item->canvas->pixels_per_unit, 0., 0.};
+	while ((item = GOC_ITEM (item->parent)))
+		if (item->transformed) {
+			cairo_matrix_multiply (&buf, &m, &item->transform);
+			m = buf;
+		}
+	cairo_matrix_multiply (&buf, &m, &sc);
+	cairo_set_matrix (cr, &buf);
 }

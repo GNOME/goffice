@@ -1,3 +1,20 @@
+2012-05-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-group.c: moved transfrom to GocItem.
+	* goffice/canvas/goc-group.h: ditto.
+	* goffice/canvas/goc-item.c (goc_item_init),
+	(goc_item_get_operator), (goc_item_set_transform),
+	(_goc_item_transform): ditto.
+	* goffice/canvas/goc-item.h: ditto.
+	* goffice/canvas/goc-text.c (go_anchor_type_get_type): typo,
+	(goc_text_draw): fix text position when clipped. [#676067]
+	* goffice/utils/go-emf.c (go_dib_read_header),
+	(go_dib_create_pixbuf_from_data), (go_wmf_mr_arc), (go_emf_header),
+	(go_emf_polybezier), (go_emf_setworldtransform),
+	(go_emf_modifyworldtransform), (go_emf_selectobject),
+	(go_emf_rectangle), (go_emf_stretchdibits), (go_emf_polybezier16),
+	(go_emf_polygon16), (go_emf_parse): more work.
+
 2012-05-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* utils/go-pango-extras.c (go_pango_attrs_to_markup): new
