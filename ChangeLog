@@ -1,3 +1,11 @@
+2012-05-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-pango-extras.c
+	(go_load_pango_attributes_into_buffer_filter): remove underline
+	(go_load_pango_attributes_into_buffer_named_filter): add underline
+	(go_create_std_tags_for_buffer): create underline tags
+	(go_load_pango_attributes_into_buffer): handle underline tags as named tags
+
 2012-05-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-group.c: moved transfrom to GocItem.

@@ -272,7 +272,6 @@ go_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
 					  G_GNUC_UNUSED gpointer data)
 {
 	return ((PANGO_ATTR_FOREGROUND == attribute->klass->type) ||
-		(PANGO_ATTR_UNDERLINE == attribute->klass->type) ||
 		(PANGO_ATTR_RISE == attribute->klass->type));
 }
 
@@ -282,6 +281,7 @@ go_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute,
 {
 	return ((PANGO_ATTR_STYLE == attribute->klass->type) ||
 		(PANGO_ATTR_WEIGHT == attribute->klass->type) ||
+		(PANGO_ATTR_UNDERLINE == attribute->klass->type) ||
 		(PANGO_ATTR_STRIKETHROUGH == attribute->klass->type));
 }
 
@@ -318,6 +318,16 @@ go_create_std_tags_for_buffer (GtkTextBuffer *buffer)
 				    "weight-set", TRUE, NULL);
 	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_ULTRAHEAVY", "weight", 1000,
 				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_UNDERLINE_NONE", "underline", PANGO_UNDERLINE_NONE,
+				    "underline-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_UNDERLINE_SINGLE", "underline", PANGO_UNDERLINE_SINGLE,
+				    "underline-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_UNDERLINE_DOUBLE", "underline", PANGO_UNDERLINE_DOUBLE,
+				    "underline-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_UNDERLINE_LOW", "underline", PANGO_UNDERLINE_LOW,
+				    "underline-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_UNDERLINE_ERROR", "underline", PANGO_UNDERLINE_ERROR,
+				    "underline-set", TRUE, NULL);
 }
 
 static gint
@@ -388,6 +398,24 @@ go_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buf
 							 name);
 						gtk_text_buffer_apply_tag (buffer, tag,
 									   &start_iter, &end_iter);
+						break;
+					case PANGO_ATTR_UNDERLINE:
+						val = ((PangoAttrInt *)attribute)->value;
+						if (val == PANGO_UNDERLINE_NONE)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_UNDERLINE_NONE",
+											   &start_iter, &end_iter);
+						else if (val == PANGO_UNDERLINE_SINGLE)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_UNDERLINE_SINGLE",
+											   &start_iter, &end_iter);
+						else if (val == PANGO_UNDERLINE_DOUBLE)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_UNDERLINE_DOUBLE",
+											   &start_iter, &end_iter);
+						else if (val == PANGO_UNDERLINE_LOW)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_UNDERLINE_LOW",
+											   &start_iter, &end_iter);
+						else if (val == PANGO_UNDERLINE_ERROR)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_UNDERLINE_ERROR",
+											   &start_iter, &end_iter);
 						break;
 					case PANGO_ATTR_WEIGHT:
 						val = ((PangoAttrInt *)attribute)->value;
@@ -464,13 +492,6 @@ go_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buf
 							      "foreground-set", TRUE,
 							      NULL);
 						g_free (string);
-						break;
-					case PANGO_ATTR_UNDERLINE:
-						g_object_set (G_OBJECT (tag),
-							      "underline",
-							      ((PangoAttrInt *)attribute)->value,
-							      "underline-set", TRUE,
-							      NULL);
 						break;
 					case PANGO_ATTR_RISE:
 						g_object_set (G_OBJECT (tag),
