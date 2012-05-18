@@ -297,14 +297,16 @@ goc_canvas_init (GocCanvas *canvas)
 #ifdef GOFFICE_WITH_GTK
 	gtk_widget_add_events (w,
 	                       GDK_POINTER_MOTION_MASK |
-			   GDK_BUTTON_MOTION_MASK |
-			   GDK_BUTTON_PRESS_MASK |
-			   GDK_2BUTTON_PRESS |
-			   GDK_BUTTON_RELEASE_MASK |
-			   GDK_KEY_PRESS_MASK |
-			   GDK_KEY_RELEASE_MASK |
-			   GDK_ENTER_NOTIFY_MASK
-			   );
+	                       GDK_BUTTON_MOTION_MASK |
+	                       GDK_BUTTON_PRESS_MASK |
+	                       GDK_2BUTTON_PRESS |
+	                       GDK_BUTTON_RELEASE_MASK |
+	                       GDK_KEY_PRESS_MASK |
+	                       GDK_KEY_RELEASE_MASK |
+	                       GDK_ENTER_NOTIFY_MASK |
+	                       GDK_SCROLL_MASK |
+	                       GDK_SMOOTH_SCROLL_MASK
+	                       );
 	g_signal_connect (G_OBJECT (w), "button-press-event", G_CALLBACK (button_press_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "button-release-event", G_CALLBACK (button_release_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "motion-notify-event", G_CALLBACK (motion_cb), NULL);

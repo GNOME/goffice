@@ -1,3 +1,7 @@
+2012-05-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_init): enable scroll events.
+
 2012-05-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-pango-extras.c
