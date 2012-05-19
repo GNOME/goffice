@@ -136,8 +136,8 @@ BUILT_GIRSOURCES = \
 
 GOffice-@GOFFICE_API_VER@.gir: list_of_sources
 GOffice-@GOFFICE_API_VER@.gir: libgoffice-@GOFFICE_API_VER@.la
-GOffice-@GOFFICE_API_VER@.gir: $(G_IR_SCANNER)
-	$(AM_V_GEN) $(G_IR_SCANNER) -v --namespace GOffice \
+GOffice-@GOFFICE_API_VER@.gir: $(INTROSPECTION_SCANNER)
+	$(AM_V_GEN) $(INTROSPECTION_SCANNER) -v --namespace GOffice \
 	    --nsversion="@GOFFICE_API_VER@" \
 	    --add-include-path=$(srcdir) --add-include-path=. \
 	    --include=GObject-2.0 \
@@ -158,19 +158,19 @@ GOffice-@GOFFICE_API_VER@.gir: $(G_IR_SCANNER)
 	    --output $@ \
 	    --pkg libgsf-1 \
 	    -I$(top_srcdir) \
-	    `cat $(srcdir)/list_of_sources`
+	    `perl -pe "s{^}{$(srcdir)/}" $(builddir)/list_of_sources`
 
 if HAVE_INTROSPECTION
 
-girdir = $(datadir)/gir-1.0
+girdir = $(GIRDIR)
 gir_DATA = $(BUILT_GIRSOURCES)
 
-typelibsdir = $(libdir)/girepository-1.0
+typelibsdir = $(TYPELIBDIR)
 typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
 
 CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 
-%.typelib: %.gir $(G_IR_COMPILER)
-	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(G_IR_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)
+%.typelib: %.gir $(INTROSPECTION_COMPILER)
+	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(INTROSPECTION_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)
 
 endif # HAVE_INTROSPECTION

@@ -1,3 +1,9 @@
+2012-05-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: enhance Introspection build support.
+	* configure.in: ditto.
+	* goffice/Makefile.am: ditto.
+
 2012-05-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c (goc_canvas_init): enable scroll events.

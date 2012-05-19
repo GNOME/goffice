@@ -39,6 +39,7 @@ AC_SUBST([VERSION_IFACE], [version_iface])
 dnl Almost like epoch.major but development versions look forward to the next
 dnl stable release.
 AC_SUBST([GOFFICE_API_VER], [0.10])
+AC_SUBST([GOFFICE_API_VER_], [0_10])
 
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(goffice/goffice-config.h)
@@ -651,21 +652,33 @@ AC_SUBST(EXTRA_INCLUDES)
 AC_SUBST(EXTRA_DEPS)
 
 # GObject Introspection
-have_introspection=false
-PKG_CHECK_MODULES(INTROSPECTION, gobject-introspection-1.0 >= 1.31.10, have_introspection=true, have_introspection=false)
-AM_CONDITIONAL(HAVE_INTROSPECTION, $have_introspection)
 
-G_IR_SCANNER=
-G_IR_COMPILER=
-G_IR_GENERATE=
-if $have_introspection; then
-   G_IR_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
-   G_IR_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
-   G_IR_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
-fi
-AC_SUBST(G_IR_SCANNER)
-AC_SUBST(G_IR_COMPILER)
-AC_SUBST(G_IR_GENERATE)
+GOBJECT_INTROSPECTION_CHECK(1.0)
+dnl we need to change the install directories for distcheck
+AC_ARG_WITH([gir-dir],
+	AS_HELP_STRING(
+		[--with-gir-dir],
+		[
+		 path to gir repository
+		 (automatically detected via pkg-config)
+		]
+	),
+	[GIRDIR=$withval],
+	[GIRDIR=$INTROSPECTION_GIRDIR]
+)
+AC_SUBST(GIRDIR)
+AC_ARG_WITH([typelib-dir],
+	AS_HELP_STRING(
+		[--with-typelib-dir],
+		[
+		 path to typelibs repository
+		 (automatically detected via pkg-config)
+		]
+	),
+	[TYPELIBDIR=$withval],
+	[TYPELIBDIR=$INTROSPECTION_TYPELIBDIR]
+)
+AC_SUBST(TYPELIBDIR)
 
 dnl ******************
 dnl * Config defaults

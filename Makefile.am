@@ -13,7 +13,10 @@ EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
-DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc \
+	--enable-introspection=auto \
+	--with-gir-dir=\$${datadir}/gir-1.0 \
+	--with-typelib-dir=\$${libdir}/girepository-1.0
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgoffice-@GOFFICE_API_VER@.pc
