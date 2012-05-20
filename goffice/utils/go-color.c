@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gog-color.c :
  *
@@ -91,5 +92,25 @@ go_color_to_gdk_rgba (GOColor color, GdkRGBA *res)
 	res->alpha  = GO_COLOR_DOUBLE_A (color);
 
 	return res;
+}
+
+GOColor
+go_color_from_gdk_rgba (GdkRGBA *rgbacolor, GOColor *res)
+{
+	GOColor color;
+	gint r, g, b, a;
+
+	g_return_val_if_fail (rgbacolor != NULL, 0);
+
+	r = CLAMP (rgbacolor->red * 256, 0, 255);
+	g = CLAMP (rgbacolor->green * 256, 0, 255);
+	b = CLAMP (rgbacolor->blue * 256, 0, 255);
+	a = CLAMP (rgbacolor->alpha * 256, 0, 255);
+
+	color = GO_COLOR_FROM_RGBA (r,g,b,a);
+
+	if (res)
+		*res = color;
+	return color;
 }
 #endif /* GOFFICE_WITH_GTK */

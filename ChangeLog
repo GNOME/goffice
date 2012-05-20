@@ -1,3 +1,8 @@
+2012-05-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-color.h (go_color_from_gdk_rgba): new
+	* goffice/utils/go-color.c (go_color_from_gdk_rgba): new
+
 2012-05-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: enhance Introspection build support.

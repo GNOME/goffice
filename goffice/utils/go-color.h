@@ -40,7 +40,7 @@ typedef struct {
   cpp-perils...
 */
 
-#define GO_COLOR_FROM_GDK_RGBA(c)	GO_COLOR_FROM_RGBA((int)((c).red * 255.), (int)((c).green * 255.), (int)((c).blue * 255.), (int)((c).alpha * 255.))
+#define GO_COLOR_FROM_GDK_RGBA(c)	go_color_from_gdk_rgba (&(c), NULL)
 
 #define GO_COLOR_FROM_RGB(r,g,b)	((((guint)(r&0xff))<<24)|(((guint)(g&0xff))<<16)|((guint)(b&0xff)<<8)|0xff)
 #define GO_COLOR_FROM_RGBA(r,g,b,a)	((((guint)(r&0xff))<<24)|(((guint)(g&0xff))<<16)|((guint)(b&0xff)<<8)|(guint)(a&0xff))
@@ -84,7 +84,8 @@ gboolean  go_color_from_str (char const *str, GOColor *res);
 gchar    *go_color_as_str   (GOColor color);
 PangoAttribute *go_color_to_pango (GOColor color, gboolean is_fore);
 #ifdef GOFFICE_WITH_GTK
-GdkRGBA *go_color_to_gdk_rgba   (GOColor color, GdkRGBA *res);
+GdkRGBA *go_color_to_gdk_rgba  (GOColor color, GdkRGBA *res);
+GOColor go_color_from_gdk_rgba (GdkRGBA *rgbacolor, GOColor *res);
 #endif
 
 G_END_DECLS
