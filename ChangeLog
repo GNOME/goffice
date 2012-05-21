@@ -1,3 +1,7 @@
+2012-05-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: copied code from introspection.m4
+
 2012-05-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-color.h (go_color_from_gdk_rgba): new
