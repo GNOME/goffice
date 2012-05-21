@@ -95,7 +95,7 @@ go_color_to_gdk_rgba (GOColor color, GdkRGBA *res)
 }
 
 GOColor
-go_color_from_gdk_rgba (GdkRGBA *rgbacolor, GOColor *res)
+go_color_from_gdk_rgba (GdkRGBA const *rgbacolor, GOColor *res)
 {
 	GOColor color;
 	gint r, g, b, a;

@@ -85,7 +85,7 @@ gchar    *go_color_as_str   (GOColor color);
 PangoAttribute *go_color_to_pango (GOColor color, gboolean is_fore);
 #ifdef GOFFICE_WITH_GTK
 GdkRGBA *go_color_to_gdk_rgba  (GOColor color, GdkRGBA *res);
-GOColor go_color_from_gdk_rgba (GdkRGBA *rgbacolor, GOColor *res);
+GOColor go_color_from_gdk_rgba (GdkRGBA const *rgbacolor, GOColor *res);
 #endif
 
 G_END_DECLS
