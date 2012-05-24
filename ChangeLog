@@ -1,3 +1,19 @@
+2012-05-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-reg-curve.c (gog_reg_curve_populate_editor): fix
+	criticals, with gtk+ < 3.2, [#676641]
+	(gog_reg_curve_view_render): fix limits with a discrete X-axis.
+	* plugins/reg_linear/gog-lin-reg.c
+	(gog_lin_reg_curve_build_values), fix x automatic values,
+	(gog_lin_reg_curve_populate_editor): fix
+	criticals, with gtk+ < 3.2. [#676641]
+	* plugins/reg_linear/gog-log-reg.c
+	(gog_log_reg_curve_build_values): fix x automatic values.
+	* plugins/reg_linear/gog-polynom-reg.c
+	(gog_polynom_reg_curve_build_values), fix x automatic values,
+	(gog_polynom_reg_curve_populate_editor): fix
+	criticals, with gtk+ < 3.2. [#676641]
+
 2012-05-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: copied code from introspection.m4

@@ -163,6 +163,9 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), db);
 	g_signal_connect (G_OBJECT (w), "changed",
 		G_CALLBACK (limits_changed_cb), cl);
+#if !GTK_CHECK_VERSION(3,2,0)
+	g_object_set_data (G_OBJECT (grid), "last-label", gtk_builder_get_object (gui, "last-lbl"));
+#endif
 	if ((GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor != NULL)
 		(GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor (GOG_REG_CURVE (gobj), grid);
 
@@ -403,7 +406,7 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GOPath *path;
 	GSList *ptr;
 	double *x, *y;
-	double delta_x;
+	double min, max, delta_x;
 	int i;
 
 	chart_map = gog_chart_map_new (chart, &view->residual,
@@ -424,6 +427,8 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	y = g_new (double, rc->ninterp + 1);
 	switch (rc->drawing_bounds) {
 	case GOG_REG_CURVE_DRAWING_BOUNDS_NONE:
+		min = gog_axis_map_from_view (x_map, view->residual.x);
+		max = gog_axis_map_from_view (x_map, view->residual.x + view->residual.w);
 		delta_x = view->residual.w / rc->ninterp;
 		for (i = 0; i <= rc->ninterp; i++) {
 			x[i] = gog_axis_map_from_view (x_map, i * delta_x + view->residual.x);
@@ -431,7 +436,6 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		break;
 	case GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE: {
-		double min, max;
 		if (rc->bounds[2].data) {
 			min = go_data_get_scalar_value (rc->bounds[2].data);
 			if (min == go_nan || !go_finite (min))
@@ -446,16 +450,10 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		} else
 			max = gog_axis_map_from_view (x_map, view->residual.x + view->residual.w);
-
-		delta_x = (max - min) / rc->ninterp;
-		for (i = 0; i <= rc->ninterp; i++) {
-			x[i] = min + i * delta_x;
-			y[i] = gog_reg_curve_get_value_at (rc, x[i]);
-		}
 		break;
 	}
 	case GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE: {
-		double min, max, val;
+		double val;
 		GOData *data = NULL;
 		GogSeries *series = GOG_SERIES (gog_object_get_parent (GOG_OBJECT (rc)));
 		GogSeriesDesc *desc = &GOG_PLOT_GET_CLASS (series->plot)->desc.series;
@@ -469,8 +467,8 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (data)
 			go_data_get_bounds (data, &min, &max);
 		else {
-			min = 0.;
-			max = series->num_elements - 1;
+			min = 1.;
+			max = series->num_elements;
 		}
 		if (rc->bounds[0].data) {
 			val = go_data_get_scalar_value (rc->bounds[0].data);
@@ -494,16 +492,15 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 				max += val;
 
 		}
-
-		delta_x = (max - min) / rc->ninterp;
-		for (i = 0; i <= rc->ninterp; i++) {
-			x[i] = min + i * delta_x;
-			y[i] = gog_reg_curve_get_value_at (rc, x[i]);
-		}
 		break;
 	}
 	}
 
+	delta_x = (max - min) / rc->ninterp;
+	for (i = 0; i <= rc->ninterp; i++) {
+		x[i] = min + i * delta_x;
+		y[i] = gog_reg_curve_get_value_at (rc, x[i]);
+	}
 	path = gog_chart_map_make_path (chart_map, x, y, rc->ninterp + 1, GO_LINE_INTERPOLATION_CUBIC_SPLINE, FALSE, NULL);
 	style = GOG_STYLED_OBJECT (rc)->style;
 	gog_renderer_push_style (view->renderer, style);

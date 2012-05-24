@@ -52,7 +52,7 @@ gog_polynom_reg_curve_build_values (GogLinRegCurve *rc, double const *x_vals,
 	g_free (rc->y_vals);
 	rc->y_vals = g_new (double, n);
 	for (i = 0, used = 0; i < n; i++) {
-		x = (x_vals)? x_vals[i]: i;
+		x = (x_vals)? x_vals[i]: i + 1;
 		y = y_vals[i];
 		if (!go_finite (x) || !go_finite (y)) {
 			if (rc->base.skip_invalid)
@@ -201,7 +201,11 @@ gog_polynom_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 	gtk_misc_set_alignment (GTK_MISC (l), 0., 0.5);
 	gtk_label_set_justify (GTK_LABEL (l), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (l);
+#if GTK_CHECK_VERSION(3,2,0)
 	gtk_grid_attach_next_to (table, l, NULL, GTK_POS_BOTTOM, 1, 1);
+#else
+	gtk_grid_attach_next_to (table, l, GTK_WIDGET (g_object_get_data (table, "last-label")), GTK_POS_BOTTOM, 1, 1);
+#endif
 	w = gtk_spin_button_new_with_range (2, 10, 1);
 	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (w), 0);
 	gtk_widget_show (w);

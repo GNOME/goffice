@@ -41,7 +41,7 @@ gog_log_reg_curve_build_values (GogLinRegCurve *rc, double const *x_vals, double
 	g_free (rc->y_vals);
 	rc->y_vals = g_new (double, n);
 	for (i = 0, used = 0; i < n; i++) {
-		x = (x_vals)? x_vals[i]: i;
+		x = (x_vals)? x_vals[i]: i + 1;
 		y = y_vals[i];
 		if (x <= 0. || !go_finite (x) || !go_finite (y)) {
 			if (rc->base.skip_invalid)
