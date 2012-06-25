@@ -1,4 +1,9 @@
-2012-25-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2012-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_populate_editor):
+	There are two more rows that are being used for some drawing limits
+
+2012-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_populate_editor):
 	place the new items at the bottom
@@ -6,7 +11,7 @@
 	(gog_polynom_reg_curve_populate_editor): assume we are at the bottom,
 	so no row insertion is required.
 
-2012-25-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2012-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_populate_editor):
 	fix item placement for pre-gtk-3.4.0

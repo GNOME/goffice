@@ -167,7 +167,7 @@ gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 		if (sibling)
 			gtk_grid_attach_next_to (table, w, sibling, GTK_POS_BOTTOM, 1, 3);
 		else
-			gtk_grid_attach (table, w, 0, 6, 3, 1); 
+			gtk_grid_attach (table, w, 0, 8, 3, 1); 
 		g_object_set_data (G_OBJECT (table), "last-label", w);
 	}
 #endif
