@@ -4,6 +4,8 @@ Andreas:
 	* Add go_pango_attrs_to_markup, partial inverse to pango_parse_markup.
 	* Handle underline tags as named tags in textbuffer.
 	* Add go_color_from_gdk_rgba
+	* Fix item placement in linear & polynomial regression trend line
+	dialog. [#678793]
 
 Jean:
 	* Fixed logfit equation typo. [#675560]

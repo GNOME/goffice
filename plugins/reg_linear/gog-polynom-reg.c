@@ -1,3 +1,5 @@
+/* vm: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * gog-polynom-reg.c :
  *
@@ -201,10 +203,12 @@ gog_polynom_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 	gtk_misc_set_alignment (GTK_MISC (l), 0., 0.5);
 	gtk_label_set_justify (GTK_LABEL (l), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (l);
-#if GTK_CHECK_VERSION(3,2,0)
+#if GTK_CHECK_VERSION(3,4,0)
 	gtk_grid_attach_next_to (table, l, NULL, GTK_POS_BOTTOM, 1, 1);
 #else
+	gtk_grid_insert_next_to (table, GTK_WIDGET (g_object_get_data (table, "last-label")), GTK_POS_BOTTOM);
 	gtk_grid_attach_next_to (table, l, GTK_WIDGET (g_object_get_data (table, "last-label")), GTK_POS_BOTTOM, 1, 1);
+	g_object_set_data (G_OBJECT (table), "last-label", l);
 #endif
 	w = gtk_spin_button_new_with_range (2, 10, 1);
 	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (w), 0);
