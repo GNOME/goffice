@@ -24,6 +24,7 @@
   </object>
   <object class="GtkGrid" id="go-style-prefs">
     <property name="visible">True</property>
+    <property name="border_width">12</property>
     <property name="can_focus">False</property>
     <property name="halign">start</property>
     <property name="row_spacing">6</property>

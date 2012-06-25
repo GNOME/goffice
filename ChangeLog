@@ -1,5 +1,9 @@
 2012-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-style-prefs.ui (go-style-prefs): add border_width
+
+2012-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/graph/gog-reg-curve.c (gog_reg_curve_populate_editor): fix
 	gtk version check
 	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_populate_editor):
