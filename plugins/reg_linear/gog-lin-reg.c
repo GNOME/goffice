@@ -161,15 +161,8 @@ gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 #if GTK_CHECK_VERSION(3,4,0)
 	gtk_grid_attach_next_to (table, w, NULL, GTK_POS_BOTTOM, 1, 3);
 #else
-	{
-		GtkWidget *sibling = GTK_WIDGET (g_object_get_data (table, "last-label"));
-
-		if (sibling)
-			gtk_grid_attach_next_to (table, w, sibling, GTK_POS_BOTTOM, 1, 3);
-		else
-			gtk_grid_attach (table, w, 0, 8, 3, 1); 
-		g_object_set_data (G_OBJECT (table), "last-label", w);
-	}
+	gtk_grid_attach_next_to (table, w, GTK_WIDGET (g_object_get_data (table, "last-label")), GTK_POS_BOTTOM, 1, 3);
+	g_object_set_data (G_OBJECT (table), "last-label", w);
 #endif
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), lin->affine);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (affine_toggled_cb), lin);

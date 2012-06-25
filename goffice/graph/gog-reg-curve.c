@@ -163,7 +163,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), db);
 	g_signal_connect (G_OBJECT (w), "changed",
 		G_CALLBACK (limits_changed_cb), cl);
-#if !GTK_CHECK_VERSION(3,2,0)
+#if !GTK_CHECK_VERSION(3,4,0)
 	g_object_set_data (G_OBJECT (grid), "last-label", gtk_builder_get_object (gui, "last-lbl"));
 #endif
 	if ((GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor != NULL)
