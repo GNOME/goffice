@@ -206,7 +206,6 @@ gog_polynom_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 #if GTK_CHECK_VERSION(3,4,0)
 	gtk_grid_attach_next_to (table, l, NULL, GTK_POS_BOTTOM, 1, 1);
 #else
-	gtk_grid_insert_next_to (table, GTK_WIDGET (g_object_get_data (table, "last-label")), GTK_POS_BOTTOM);
 	gtk_grid_attach_next_to (table, l, GTK_WIDGET (g_object_get_data (table, "last-label")), GTK_POS_BOTTOM, 1, 1);
 	g_object_set_data (G_OBJECT (table), "last-label", l);
 #endif

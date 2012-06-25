@@ -1,6 +1,14 @@
 2012-25-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_populate_editor):
+	place the new items at the bottom
+	* plugins/reg_linear/gog-polynom-reg.c
+	(gog_polynom_reg_curve_populate_editor): assume we are at the bottom,
+	so no row insertion is required.
+
+2012-25-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_populate_editor):
 	fix item placement for pre-gtk-3.4.0
 	* plugins/reg_linear/gog-polynom-reg.c
 	(gog_polynom_reg_curve_populate_editor): ditto
