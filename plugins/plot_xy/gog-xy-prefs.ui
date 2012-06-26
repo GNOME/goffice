@@ -4,6 +4,7 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkTable" id="gog-xy-prefs">
     <property name="visible">True</property>
+    <property name="border_width">12</property>
     <property name="column_spacing">12</property>
     <property name="row_spacing">6</property>
     <child>

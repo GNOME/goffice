@@ -1,3 +1,7 @@
+2012-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugins/plot_xy/gog-xy-prefs.ui (gog-xy-prefs): add border_width
+
 2012-06-25  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
