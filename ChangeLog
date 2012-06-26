@@ -1,3 +1,11 @@
+2012-06-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/graph/gog-reg-curve.c (limits_changed_cb): keep the
+	min/max entries visible
+	(gog_reg_curve_populate_editor): ditto
+	* goffice/graph/gog-reg-curve-prefs.ui align High/low limits with
+	high/low bounds
+
 2012-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugins/plot_xy/gog-xy-prefs.ui (gog-xy-prefs): add border_width

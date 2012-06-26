@@ -65,28 +65,32 @@ limits_changed_cb (GtkComboBox* btn, struct reg_curve_closure *cl)
 	GogRegCurveDrawingBounds db = gtk_combo_box_get_active (btn);
 	switch (db) {
 	case GOG_REG_CURVE_DRAWING_BOUNDS_NONE:
-		gtk_widget_hide (cl->al1);
-		gtk_widget_hide (cl->al2);
-		gtk_widget_hide (cl->rl1);
-		gtk_widget_hide (cl->rl2);
-		gtk_widget_hide (cl->fe1);
-		gtk_widget_hide (cl->fe2);
+		gtk_widget_set_sensitive (cl->al1, FALSE);
+		gtk_widget_set_sensitive (cl->al2, FALSE);
+		gtk_widget_set_sensitive (cl->rl1, FALSE);
+		gtk_widget_set_sensitive (cl->rl2, FALSE);
+		gtk_widget_set_sensitive (cl->fe1, FALSE);
+		gtk_widget_set_sensitive (cl->fe2, FALSE);
 		break;
 	case GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE:
+		gtk_widget_set_sensitive (cl->al1, TRUE);
+		gtk_widget_set_sensitive (cl->al2, TRUE);
 		gtk_widget_show (cl->al1);
 		gtk_widget_show (cl->al2);
 		gtk_widget_hide (cl->rl1);
 		gtk_widget_hide (cl->rl2);
-		gtk_widget_show (cl->fe1);
-		gtk_widget_show (cl->fe2);
+		gtk_widget_set_sensitive (cl->fe1, TRUE);
+		gtk_widget_set_sensitive (cl->fe2, TRUE);
 		break;
 	case GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE:
+		gtk_widget_set_sensitive (cl->rl1, TRUE);
+		gtk_widget_set_sensitive (cl->rl2, TRUE);
 		gtk_widget_hide (cl->al1);
 		gtk_widget_hide (cl->al2);
 		gtk_widget_show (cl->rl1);
 		gtk_widget_show (cl->rl2);
-		gtk_widget_show (cl->fe1);
-		gtk_widget_show (cl->fe2);
+		gtk_widget_set_sensitive (cl->fe1, TRUE);
+		gtk_widget_set_sensitive (cl->fe2, TRUE);
 		break;
 	}
 	GOG_REG_CURVE (cl->rc)->drawing_bounds = db;
@@ -139,24 +143,25 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	cl->al2 = go_gtk_builder_get_widget (gui, "high-lbl");
 	cl->rl1 = go_gtk_builder_get_widget (gui, "first-lbl");
 	cl->rl2 = go_gtk_builder_get_widget (gui, "last-lbl");
+
+	gtk_widget_set_sensitive (cl->fe1, db != GOG_REG_CURVE_DRAWING_BOUNDS_NONE);
+	gtk_widget_set_sensitive (cl->fe2, db != GOG_REG_CURVE_DRAWING_BOUNDS_NONE);
+	gtk_widget_show (cl->fe1);
+	gtk_widget_show (cl->fe2);
 	switch (db) {
 	case GOG_REG_CURVE_DRAWING_BOUNDS_NONE:
-		gtk_widget_hide (cl->al1);
-		gtk_widget_hide (cl->al2);
+	        gtk_widget_set_sensitive (cl->al1, FALSE);
+		gtk_widget_set_sensitive (cl->al2, FALSE);
 		gtk_widget_hide (cl->rl1);
 		gtk_widget_hide (cl->rl2);
 		break;
 	case GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE:
 		gtk_widget_hide (cl->rl1);
 		gtk_widget_hide (cl->rl2);
-		gtk_widget_show (cl->fe1);
-		gtk_widget_show (cl->fe2);
 		break;
 	case GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE:
 		gtk_widget_hide (cl->al1);
 		gtk_widget_hide (cl->al2);
-		gtk_widget_show (cl->fe1);
-		gtk_widget_show (cl->fe2);
 		break;
 	}
 	w = go_gtk_builder_get_widget (gui, "draw-limits-box");

@@ -2,6 +2,7 @@ goffice 0.9.5:
 
 Andreas:
 	* Fix spacing in chart properties dialog.
+	* Fix style inconsistency in regression trend line dialog. [#678810]
 
 --------------------------------------------------------------------------
 goffice 0.9.4:
