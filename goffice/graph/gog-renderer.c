@@ -978,7 +978,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 }
 
 /**
- * gog_renderer_get_text_OBR:
+ * gog_renderer_get_gostring_OBR:
  * @rend: #GogRenderer
  * @gostring: the string to draw
  * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
@@ -1014,8 +1014,10 @@ gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str,
 	if (max_width > 0)
 		pango_layout_set_width (layout, max_width * PANGO_SCALE / rend->scale);
 	attr = go_string_get_markup (str);
-	if (attr)
+	if (attr) {
 		pango_layout_set_attributes (layout, attr);
+		go_pango_translate_layout (layout);
+	}
 	pango_cairo_context_set_resolution (context, 72.0);
 	pango_layout_set_font_description (layout, style->font.font->desc);
 	pango_layout_get_extents (layout, NULL, &logical);

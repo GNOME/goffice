@@ -1,3 +1,10 @@
+2012-07-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-label.c (gog_text_view_size_request),
+	(gog_text_view_render): fix use of rich text from GOData.
+	* goffice/graph/gog-renderer.c (gog_renderer_get_gostring_OBR): fix rich
+	text size evaluation. [#679459]
+
 2012-06-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/graph/gog-reg-curve.c (limits_changed_cb): keep the

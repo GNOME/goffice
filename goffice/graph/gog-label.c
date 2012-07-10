@@ -642,7 +642,7 @@ gog_text_view_size_request (GogView *v,
 {
 	GogText *text = GOG_TEXT (v->model);
 	char *str = gog_text_get_str (text);
-	PangoAttrList *pl = text->allow_markup? NULL: gog_text_get_markup (text);
+	PangoAttrList *pl = gog_text_get_markup (text);
 	GOGeometryAABR aabr;
 	double w = text->allow_wrap? available->w: -1.;
 
@@ -684,7 +684,7 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (text);
 	GOStyle *style = text->base.base.style;
 	char *str = gog_text_get_str (text);
-	PangoAttrList *pl = text->allow_markup? NULL: gog_text_get_markup (text);
+	PangoAttrList *pl = gog_text_get_markup (text);
 	double w = text->allow_wrap? view->allocation.w: -1.;
 
 	gog_renderer_push_style (view->renderer, style);

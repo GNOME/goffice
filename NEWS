@@ -4,6 +4,9 @@ Andreas:
 	* Fix spacing in chart properties dialog.
 	* Fix style inconsistency in regression trend line dialog. [#678810]
 
+Jean:
+	* Fix rich text size evaluation. [#679459]
+
 --------------------------------------------------------------------------
 goffice 0.9.4:
 
