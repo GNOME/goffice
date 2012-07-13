@@ -55,7 +55,6 @@ libgoffice_graph_la_HEADERS = \
 	gog-3d-box.h			\
 	gog-axis.h			\
 	gog-axis-line.h			\
-	gog-axis-line-impl.h		\
 	gog-legend.h			\
 	gog-label.h			\
 	gog-grid.h			\
@@ -74,6 +73,9 @@ libgoffice_graph_la_HEADERS = \
 	gog-series-lines.h		\
 	gog-data-set.h			\
 	gog-renderer.h
+
+noinst_HEADERS = \
+	gog-axis-line-impl.h
 
 if WITH_GTK
   libgoffice_graph_la_SOURCES += gog-guru.c			\

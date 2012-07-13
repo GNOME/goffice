@@ -79,6 +79,8 @@ struct _GogObject {
 	unsigned being_updated : 1;
 	unsigned explicitly_typed_role : 1; /* did we create it automaticly */
 	unsigned invisible : 1;
+
+	void		*_priv; /* for future use */
 };
 
 typedef struct {
@@ -100,6 +102,9 @@ typedef struct {
 					 GogDataAllocator *dalloc,
 					 GOCmdContext *cc);
 	void	     (*document_changed)(GogObject *obj, GODoc *doc);
+	GogManualSizeMode (*get_manual_size_mode) (GogObject *obj);
+	void	     (*reserved1)		(GogObject *view);
+	void	     (*reserved2)		(GogObject *view);
 
 	/* signals */
 	void (*changed)		(GogObject *obj, gboolean size);
@@ -110,7 +115,8 @@ typedef struct {
 	void (*child_name_changed) (GogObject const *obj, GogObject const *child);
 	void (*children_reordered) (GogObject *obj);
 	void (*update_editor)	   (GogObject *obj);
-	GogManualSizeMode (*get_manual_size_mode) (GogObject *obj);
+	void (*extra_signal1)	   (GogObject *view);
+	void (*extra_signal2)	   (GogObject *view);
 } GogObjectClass;
 
 #define GOG_TYPE_OBJECT		(gog_object_get_type ())

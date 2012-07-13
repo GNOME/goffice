@@ -544,8 +544,8 @@ gog_graph_num_rows (GogGraph const *graph)
 }
 
 /**
- * gog_graph_du :
- * @grap : #GogGraph
+ * gog_graph_dup:
+ * @graph: #GogGraph
  *
  * Returns: (transfer full) a deep copy of @graph.
  **/

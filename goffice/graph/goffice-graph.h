@@ -245,7 +245,6 @@ G_END_DECLS
 
 #include <goffice/graph/gog-3d-box.h>
 #include <goffice/graph/gog-axis-line.h>
-#include <goffice/graph/gog-axis-line-impl.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-chart-impl.h>

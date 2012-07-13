@@ -73,6 +73,7 @@ struct _GogView {
 	unsigned being_updated : 1;
 
 	GSList	*toolkit; 	/* List of GogTool */
+	void		*_priv; /* for future use */
 };
 
 typedef struct {
@@ -93,6 +94,8 @@ typedef struct {
 	void	 (*build_toolkit)		(GogView *view);
 	char    *(*get_tip_at_point)		(GogView *view, double x, double y);
 	void	 (*natural_size)    		(GogView *view, GogViewRequisition *req);
+	void	 (*reserved1)		(GogView *view);
+	void	 (*reserved2)		(GogView *view);
 } GogViewClass;
 
 #define GOG_TYPE_VIEW		(gog_view_get_type ())

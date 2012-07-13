@@ -1,3 +1,13 @@
+2012-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/Makefile.am: don't install gog-axis-line-impl.h.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-axis-line.c: ditto.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-graph.c: fixed documentation typo.
+	* goffice/graph/gog-object.h: add fields for future use.
+	* goffice/graph/gog-view.h: ditto.
+
 2012-07-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-label.c (gog_text_view_size_request),
