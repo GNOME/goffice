@@ -42,6 +42,10 @@ typedef enum {
 	GOG_AXIS_AUTO
 } GogAxisPosition;
 
+GogAxisPosition 	gog_axis_base_get_position 	   (GogAxisBase *axis_base);
+void		    	gog_axis_base_set_position 	   (GogAxisBase *axis_base, GogAxisPosition position);
+GogAxisPosition 	gog_axis_base_get_clamped_position (GogAxisBase *axis_base);
+
 typedef enum {
 	GOG_AXIS_TICK_NONE,
 	GOG_AXIS_TICK_MAJOR,

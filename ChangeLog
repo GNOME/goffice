@@ -1,3 +1,9 @@
+2012-07-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line-impl.h: move prototypes to gog-axis-line.h.
+	[#679967]
+	* goffice/graph/gog-axis-line.h: ditto.
+
 2012-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/Makefile.am: don't install gog-axis-line-impl.h.

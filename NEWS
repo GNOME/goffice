@@ -6,6 +6,7 @@ Andreas:
 
 Jean:
 	* Fix rich text size evaluation. [#679459]
+	* Moved prototypes from gog-axis-line-impl.h to gog-axis-line.h. [#679967]
 
 --------------------------------------------------------------------------
 goffice 0.9.4:
