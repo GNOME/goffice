@@ -1,3 +1,7 @@
+2012-07-15  Morten Welinder <terra@gnome.org>
+
+	* Release 0.9.5
+
 2012-07-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line-impl.h: move prototypes to gog-axis-line.h.
