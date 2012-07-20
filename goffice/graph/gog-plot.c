@@ -448,7 +448,7 @@ gog_plot_new_by_type (GogPlotType const *type)
  * gog_plot_new_series:
  * @plot: #GogPlot
  *
- * Returns: a new GogSeries of a type consistent with @plot.
+ * Returns: (transfer none): a new GogSeries of a type consistent with @plot.
  **/
 GogSeries *
 gog_plot_new_series (GogPlot *plot)
@@ -460,6 +460,13 @@ gog_plot_new_series (GogPlot *plot)
 	res = gog_object_add_by_name (GOG_OBJECT (plot), "Series", NULL);
 	return res ? GOG_SERIES (res) : NULL;
 }
+
+/**
+ * gog_plot_description: (skip)
+ * @plot: #GogPlot
+ *
+ * Returns: (transfer none): the #GogPlotDesc for @plot.
+ **/
 GogPlotDesc const *
 gog_plot_description (GogPlot const *plot)
 {
@@ -570,6 +577,15 @@ gog_plot_enum_in_reverse (GogPlot const *plot)
 	return klass != NULL && klass->enum_in_reverse && (klass->enum_in_reverse) (plot);
 }
 
+/**
+ * gog_plot_foreach_elem:
+ * @plot: #GogPlot
+ * @only_visible: whether to restrict to visible elements.
+ * @handler: (scope call): #GogEnumFunc
+ * @data: user data for @func
+ * 
+ * Executes @funcfor each plot element. Used to build a legend.
+ **/
 void
 gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 		       GogEnumFunc func, gpointer data)
@@ -670,7 +686,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
  * gog_plot_get_series:
  * @plot: #GogPlot
  *
- * Returns: (transfer none): A list of the series in @plot.  Do not modify or free the list.
+ * Returns: (transfer none) (element-type GogSeries) : A list of the series in @plot.  Do not modify or free the list.
  **/
 GSList const *
 gog_plot_get_series (GogPlot const *plot)
@@ -693,7 +709,7 @@ gog_plot_get_series (GogPlot const *plot)
  *
  * Caller is responsible for unrefing ::fmt.
  *
- * Returns: The data providing the bound (does not add a ref)
+ * Returns: (transfer none): The data providing the bound (does not add a ref)
  **/
 GOData *
 gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
@@ -862,6 +878,13 @@ gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type)
 	return axis != NULL ? gog_object_get_id (GOG_OBJECT (axis)) : 0;
 }
 
+/**
+ * gog_plot_get_axis:
+ * @plot: #GogPlot
+ * type: #GogAxisType
+ * 
+ * Returns: (transfer none): the axis if any.
+ */
 GogAxis	*
 gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
 {

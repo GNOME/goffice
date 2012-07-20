@@ -451,6 +451,14 @@ goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double 
 	}
 }
 
+/**
+ * goc_group_set_clip_path: (skip)
+ * group: #GocGroup
+ * clip_path: #GOPath
+ * clip_rule: #cairo_fill_rule_t
+ * 
+ * Clips the drawing inside @path.
+ */
 void
 goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t clip_rule)
 {

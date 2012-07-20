@@ -31,7 +31,7 @@ typedef struct  {
 	int legend_pos;
 	GogObject *point;
 } GogSeriesLabelElt;
-
+GType gog_series_label_elt_get_type (void);
 
 struct _GogDataLabel {
 	GogOutlinedObject base;

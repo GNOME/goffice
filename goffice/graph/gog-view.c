@@ -25,6 +25,28 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+static GogViewAllocation *
+gog_view_allocation_copy (GogViewAllocation *alloc)
+{
+	GogViewAllocation *res = g_new (GogViewAllocation, 1);
+	memcpy (res, alloc, sizeof (GogViewAllocation));
+	return res;
+}
+
+GType
+gog_view_allocation_get_type (void)
+{
+    static GType type = 0;
+
+    if (type == 0)
+	type = g_boxed_type_register_static
+	    ("GogViewAllocation",
+	     (GBoxedCopyFunc) gog_view_allocation_copy,
+	     (GBoxedFreeFunc) g_free);
+
+    return type;
+}
+
 /*****************************************************************************/
 
 #ifdef GOFFICE_WITH_GTK

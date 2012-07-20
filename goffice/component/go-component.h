@@ -53,6 +53,7 @@ struct _GOComponent {
 	void *snapshot_data;
 	size_t snapshot_length;
 	GtkWindow *editor;
+	GOCmdContext *cc;
 	gpointer priv;
 };
 
@@ -107,8 +108,9 @@ GtkWindow* go_component_edit (GOComponent *component);
 void go_component_stop_editing (GOComponent *component);
 void go_component_emit_changed (GOComponent *component);
 
-void go_component_set_command_context (GOCmdContext *cc);
-GOCmdContext *go_component_get_command_context (void);
+void go_component_set_command_context (GOComponent *component, GOCmdContext *cc);
+GOCmdContext *go_component_get_command_context (GOComponent *component);
+void go_component_set_default_command_context (GOCmdContext *cc);
 void go_component_render (GOComponent *component, cairo_t *cr, double width, double height);
 void go_component_get_size (GOComponent *component, double *width, double *height);
 void go_component_set_font (GOComponent *component, PangoFontDescription *desc);

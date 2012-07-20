@@ -685,6 +685,11 @@ create_plot_families (void)
 			 NULL, (GDestroyNotify) gog_plot_family_free);
 }
 
+/**
+ * gog_plot_families: (skip)
+ * 
+ * Returns: (transfer none) the registered plot families.
+ */
 GHashTable const *
 gog_plot_families (void)
 {
@@ -693,6 +698,12 @@ gog_plot_families (void)
 	return plot_families;
 }
 
+/**
+ * gog_plot_family_by_name: (skip)
+ * @name: family name
+ * 
+ * Returns: the plot family if it exists.
+ */
 GogPlotFamily *
 gog_plot_family_by_name (char const *name)
 {
@@ -701,6 +712,15 @@ gog_plot_family_by_name (char const *name)
 	return g_hash_table_lookup (plot_families, name);
 }
 
+/**
+ * gog_plot_family_register: (skip)
+ * @name: family name
+ * @sample_image_file: the sample image file name.
+ * @priority:
+ * @axis_set: the used axis set.
+ * 
+ * Returns: the new #GogPlotFamily.
+ */
 GogPlotFamily *
 gog_plot_family_register (char const *name, char const *sample_image_file,
 			  int priority, GogAxisSet axis_set)
@@ -732,6 +752,18 @@ gog_plot_family_unregister (GogPlotFamily *family)
 	g_hash_table_remove (plot_families, family->name);
 }
 
+/**
+ * gog_plot_type_register: (skip)
+ * @family: #GogPlotFamily
+ * @col: the column where the sample should appear.
+ * @row: the row where the sample should appear.
+ * @name: the plot type name.
+ * @sample_image_file: the sample image file name.
+ * @description: the plot type description.
+ * @engine: the plot engine name.
+ * 
+ * Returns: the new #GogPlotType.
+ */
 GogPlotType *
 gog_plot_type_register (GogPlotFamily *family, int col, int row,
 		       char const *name, char const *sample_image_file,

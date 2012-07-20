@@ -1545,3 +1545,39 @@ GogSeriesLabelElt const *gog_series_labels_vector_get_element (GogSeriesLabels c
 	}
 	return NULL;
 }
+
+/************************************************************
+ * The following functions are just there for introspection *
+ ************************************************************/
+
+static GogSeriesLabelElt *
+gog_series_label_elt_copy (GogSeriesLabelElt *elt)
+{
+	GogSeriesLabelElt *res = g_new (GogSeriesLabelElt, 1);
+	res->str = go_string_ref (elt->str);
+	res->legend_pos = elt->legend_pos;
+	res->point = (GogObject *) g_object_ref (elt->point);
+	return res;
+}
+
+static void
+gog_series_label_elt_free (GogSeriesLabelElt *elt)
+{
+	go_string_unref (elt->str);
+	g_object_unref (elt->point);
+	g_free (elt);
+}
+
+GType
+gog_series_label_elt_get_type (void)
+{
+    static GType type = 0;
+
+    if (type == 0)
+		type = g_boxed_type_register_static
+			("GogSeriesLabelElt",
+			 (GBoxedCopyFunc) gog_series_label_elt_copy,
+			 (GBoxedFreeFunc) gog_series_label_elt_free);
+
+    return type;
+}

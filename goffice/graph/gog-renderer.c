@@ -980,7 +980,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 /**
  * gog_renderer_get_gostring_OBR:
  * @rend: #GogRenderer
- * @gostring: the string to draw
+ * @str: the string to draw
  * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
  **/
 void

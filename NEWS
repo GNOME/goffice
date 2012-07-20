@@ -113,7 +113,7 @@ Jean:
 	* Fix widgets position inside an RTL canvas.
 	* Fix minor ticks number. [#657670]
 	* Displays correct coordinates when moving the mouse on a zoomed
-	chart. [#657696]
+	chart. [#657694]
 	* Don't crash when pseudo3d axis has too large manual ticks
 	spacing. [#657695]
 	* Use data format for discrete axis. [#641901]

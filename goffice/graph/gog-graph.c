@@ -1048,7 +1048,9 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 			break;
 		case GDK_MOTION_NOTIFY:
 			if (event->motion.is_hint) {
-				gdk_window_get_pointer (window, &x_int, &y_int, NULL);
+				gdk_window_get_device_position (window,
+				                                ((GdkEventMotion *) event)->device,
+				                                &x_int, &y_int, NULL);
 				x = x_int - x_offset;
 				y = y_int - y_offset;
 			}

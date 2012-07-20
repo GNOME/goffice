@@ -166,6 +166,10 @@ go_component_finalize (GObject *obj)
 		component->destroy_notify (component->destroy_data);
 		component->destroy_notify = NULL;
 	}
+	if (component->cc) {
+		g_object_unref (component->cc);
+		component->cc = NULL;
+	}
 
 	(*component_parent_klass->finalize) (obj);
 }
@@ -366,6 +370,11 @@ go_component_set_data (GOComponent *component, char const *data, int length)
 
 	g_return_if_fail (GO_IS_COMPONENT (component));
 
+	if (component->destroy_notify) {
+		component->destroy_notify (component->destroy_data);
+		component->destroy_notify = NULL;
+		component->destroy_data = NULL;
+	}
 	component->data = data;
 	component->length = length;
 
@@ -507,24 +516,40 @@ go_component_emit_changed (GOComponent *component)
 static GOCmdContext *goc_cc = NULL;
 
 void
-go_component_set_command_context (GOCmdContext *cc)
+go_component_set_command_context (GOComponent *component, GOCmdContext *cc)
 {
+	if (cc == component->cc)
+		return;
+	if (component->cc)
+		g_object_unref (component->cc);
+	component->cc = cc;
+	if (component->cc)
+		g_object_ref (component->cc);
+}
+
+/**
+ * go_component_get_command_context:
+ * @component: #GogComponent
+ *
+ * Returns: (transfer none): the command context used by the component or the
+ * default command context if the argument is NULL.
+ */
+GOCmdContext *
+go_component_get_command_context (GOComponent *component)
+{
+	return (component && component->cc)? component->cc: goc_cc;
+}
+
+void
+go_component_set_default_command_context (GOCmdContext *cc)
+{
+	if (cc == goc_cc)
+		return;
 	if (goc_cc)
 		g_object_unref (goc_cc);
 	goc_cc = cc;
 	if (goc_cc)
 		g_object_ref (goc_cc);
-}
-
-/**
- * go_component_get_command_context:
- *
- * Returns: (transfer none): the command context used for components.
- */
-GOCmdContext *
-go_component_get_command_context (void)
-{
-	return goc_cc;
 }
 
 void
@@ -868,6 +893,7 @@ go_component_duplicate (GOComponent const *component)
 	guint i, nbprops;
 	GType    prop_type;
 	GParamSpec **specs;
+	void *new_data;
 
 	g_return_val_if_fail (GO_IS_COMPONENT (component), NULL);
 
@@ -888,7 +914,11 @@ go_component_duplicate (GOComponent const *component)
 		}
 	/* and now the data */
 	go_component_get_data ((GOComponent *) component, (gpointer) &buf, &length, &clearfunc, &user_data);
-	go_component_set_data (res, buf, length);
+	new_data = g_malloc (length);
+	memcpy (new_data, buf, length);
+	go_component_set_data (res, new_data, length);
+	res->destroy_notify = g_free;
+	res->destroy_data = new_data;
 	if (clearfunc)
 		clearfunc ((user_data)? user_data: buf);
 	return res;

@@ -1,3 +1,13 @@
+2012-07-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component.c (go_component_finalize),
+	(go_component_set_data), (go_component_set_command_context),
+	(go_component_get_command_context),
+	(go_component_set_default_command_context),
+	(go_component_duplicate): fix some issues related to #680190.
+	* goffice/component/go-component.h: ditto.
+	* all others: fix introspection warnings.
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

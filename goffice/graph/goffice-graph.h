@@ -82,6 +82,7 @@ typedef struct _GogViewAllocation {
 	double w, h;
 	double x, y;
 } GogViewAllocation;
+GType gog_view_allocation_get_type (void);
 
 typedef struct {
 	double wr, hb;
