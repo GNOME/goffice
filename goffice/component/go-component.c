@@ -498,6 +498,7 @@ void go_component_stop_editing (GOComponent *component)
 	g_return_if_fail (GO_IS_COMPONENT (component));
 	if (component->editor)
 		gtk_widget_destroy (GTK_WIDGET (component->editor));
+	component->editor = NULL;
 }
 
 void

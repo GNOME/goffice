@@ -1,3 +1,8 @@
+2012-07-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component.c (go_component_stop_editing): do not
+	unref twice the same object. Related to #680190.
+
 2012-07-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component.c (go_component_finalize),
