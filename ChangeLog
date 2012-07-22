@@ -1,3 +1,8 @@
+2012-07-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: make introspection stuff build when no libgoffice
+	is installed.
+
 2012-07-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component.c (go_component_stop_editing): do not

@@ -156,8 +156,8 @@ GOffice-@GOFFICE_API_VER@.gir: $(INTROSPECTION_SCANNER)
 	    --libtool="$(LIBTOOL)" \
 	    --nsversion="@GOFFICE_API_VER@" \
 	    --output $@ \
-	    --pkg libgoffice-@GOFFICE_API_VER@ \
 	    -I$(top_srcdir) \
+		$(GOFFICE_CFLAGS) \
 	    `perl -pe "s{^}{$(srcdir)/}" $(builddir)/list_of_sources`
 
 if HAVE_INTROSPECTION
