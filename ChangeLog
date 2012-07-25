@@ -1,3 +1,13 @@
+2012-07-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-quad.c (go_quad_add): Complain if not properly
+	initialized.
+	(go_quad_start): Keep track of initialization depth.
+
+	* goffice/math/go-regression.c (go_matrix_invert): Ensure go_quad
+	has been properly initialized.  Don't re-use partial results after
+	they have been rounded to "double".
+
 2012-07-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/Makefile.am: make introspection stuff build when no libgoffice

@@ -145,6 +145,19 @@ general_linear_regressionl (long double *const *const xss, int xdim,
 	}							\
   } while (0)
 
+#define PRINT_QMATRIX(var,dim1,dim2)				\
+  do {								\
+	int _i, _j, _d1, _d2;					\
+	_d1 = (dim1);						\
+	_d2 = (dim2);						\
+	for (_j = 0; _j < _d2; _j++) {				\
+	  for (_i = 0; _i < _d1; _i++) {			\
+		  g_printerr (" %12.8" FORMAT_g, SUFFIX(go_quad_value) (&(var)[_i][_j])); \
+	  }							\
+	  g_printerr ("\n");					\
+	}							\
+  } while (0)
+
 #endif
 
 /*
@@ -585,6 +598,7 @@ SUFFIX(go_matrix_invert) (MATRIX A, int n)
 	QMATRIX R;
 	GORegressionResult err;
 	gboolean has_result;
+	void *state = SUFFIX(go_quad_start) ();
 
 	ALLOC_MATRIX2 (Q, n, n, QUAD);
 	ALLOC_MATRIX2 (R, n, n, QUAD);
@@ -594,24 +608,28 @@ SUFFIX(go_matrix_invert) (MATRIX A, int n)
 
 	if (has_result) {
 		int i, j, k;
+		QUAD *x = g_new (QUAD, n);
+
 		for (k = 0; k < n; k++) {
 			/* Solve R x = Q^T e_k */
 			for (i = n - 1; i >= 0; i--) {
 				QUAD d = Q[i][k];
 				for (j = i + 1; j < n; j++) {
 					QUAD p;
-					SUFFIX(go_quad_init) (&p, A[k][j]);
-					SUFFIX(go_quad_mul) (&p, &R[j][i], &p);
+					SUFFIX(go_quad_mul) (&p, &R[j][i], &x[j]);
 					SUFFIX(go_quad_sub) (&d, &d, &p);
 				}
-				SUFFIX(go_quad_div) (&d, &d, &R[i][i]);
-				A[k][i] = SUFFIX(go_quad_value) (&d);
+				SUFFIX(go_quad_div) (&x[i], &d, &R[i][i]);
+				A[k][i] = SUFFIX(go_quad_value) (&x[i]);
 			}
 		}
+		g_free (x);
 	}
 
 	FREE_MATRIX (Q, n, n);
 	FREE_MATRIX (R, n, n);
+
+	SUFFIX(go_quad_end) (state);
 
 	return has_result;
 }

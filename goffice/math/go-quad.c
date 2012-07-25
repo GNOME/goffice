@@ -98,12 +98,17 @@ SUFFIX(go_quad_functional) (void)
 #endif
 }
 
+static guint SUFFIX(go_quad_depth) = 0;
+
 static DOUBLE SUFFIX(CST);
 
 void *
 SUFFIX(go_quad_start) (void)
 {
 	void *res = NULL;
+
+	if (SUFFIX(go_quad_depth)++ > 0)
+		return NULL;
 
 	if (!SUFFIX(go_quad_functional) ())
 		g_warning ("quad precision math may not be completely accurate.");
@@ -133,6 +138,7 @@ SUFFIX(go_quad_start) (void)
 void
 SUFFIX(go_quad_end) (void *state)
 {
+	SUFFIX(go_quad_depth)--;
 	if (!state)
 		return;
 
@@ -167,6 +173,8 @@ SUFFIX(go_quad_add) (QUAD *res, const QUAD *a, const QUAD *b)
 		: b->h - r + a->h + a->l + b->l;
 	res->h = r + s;
 	res->l = r - res->h + s;
+
+	g_return_if_fail (SUFFIX(go_quad_depth) > 0);
 }
 
 void
