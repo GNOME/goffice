@@ -60,8 +60,11 @@ gog_contour_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 	double *data, minimum, maximum, slope, offset = 0.;
 	unsigned max;
 
-	if (!gog_axis_get_bounds (axis, &minimum, &maximum))
+	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
+		series->num_elements = 2;
+		*cardinality_changed = TRUE;
 		return NULL;
+	}
 	data = g_new (double, n);
 	nticks = gog_axis_get_ticks (axis, &zticks);
 	map = gog_axis_map_new (axis, 0, 1);
@@ -143,6 +146,10 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	double minimum, maximum, epsilon;
 	char const *separator = go_locale_get_decimal ()->str;
 
+	/* First get the series name and style */
+	func (0, go_styled_object_get_style (plot->series->data),
+	      gog_object_get_name (plot->series->data), NULL, data);
+
 	gog_axis_get_bounds (axis, &minimum, &maximum);
 
 	nticks = gog_axis_get_ticks (axis, &zticks);
@@ -190,7 +197,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 			gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, style->interesting_fields);
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[i - j]);
-			(func) (i, style, label, NULL, data);
+			(func) (i + 1, style, label, NULL, data);
 			g_free (label);
 		}
 	} else {
@@ -198,7 +205,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 			style->fill.pattern.back = color[0];
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[0]);
-			(func) (0, style, label, NULL, data);
+			(func) (1, style, label, NULL, data);
 			g_free (label);
 			i = 1;
 			j++;
@@ -208,7 +215,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 			style->fill.pattern.back = color[i];
 			label = g_strdup_printf ("[%g%s %g%c", limits[i], separator,
 						limits[i + 1], (i == j - 1)? ']':'[');
-			(func) (i, style, label, NULL, data);
+			(func) (i + 1, style, label, NULL, data);
 			g_free (label);
 		}
 	}

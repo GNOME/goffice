@@ -1,5 +1,10 @@
 goffice 0.9.6:
 
+Jean:
+	* Use NAN instead of 0 for XYZ plots when data are missing. [#680486]
+	* Add series name to legend for contour plots. [#680508]
+	* Fix contour plot cardinality when axis bounds can't be retrieved. [680512]
+
 Morten:
 	* Minute accuracy improvement to matrix inversion.
 

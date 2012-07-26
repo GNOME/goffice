@@ -152,6 +152,7 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 	for (k = 0; k < n; ++k)
 		if (grid[k] != 0)
 			data[k] /= grid[k];
+		else data[k] = go_nan;
 
 	if (GOG_IS_CONTOUR_PLOT (plot)) {
 		GogAxisMap *map;
@@ -162,6 +163,8 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 		unsigned max;
 
 		if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
+			series->num_elements = 2; /* series name and one slice */
+			*cardinality_changed = TRUE;
 			g_free (grid);
 			g_free (data);
 			return NULL;

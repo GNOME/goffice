@@ -583,7 +583,7 @@ gog_plot_enum_in_reverse (GogPlot const *plot)
  * @only_visible: whether to restrict to visible elements.
  * @handler: (scope call): #GogEnumFunc
  * @data: user data for @func
- * 
+ *
  * Executes @funcfor each plot element. Used to build a legend.
  **/
 void
@@ -882,7 +882,7 @@ gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type)
  * gog_plot_get_axis:
  * @plot: #GogPlot
  * type: #GogAxisType
- * 
+ *
  * Returns: (transfer none): the axis if any.
  */
 GogAxis	*

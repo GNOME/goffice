@@ -1,3 +1,12 @@
+2012-07-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem): add series name to the elements. [#680508]
+	* plugins/plot_surface/gog-xyz-surface.c
+	(gog_xyz_surface_plot_build_matrix): use go_nan instead of 0 when data are
+	missing and fix cardinality when pseudo-3d axis bounds can't be retrieved.
+	[#680486][#680512]
+
 2012-07-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-quad.c (go_quad_add): Complain if not properly

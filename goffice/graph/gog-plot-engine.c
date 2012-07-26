@@ -687,7 +687,7 @@ create_plot_families (void)
 
 /**
  * gog_plot_families: (skip)
- * 
+ *
  * Returns: (transfer none) the registered plot families.
  */
 GHashTable const *
@@ -701,7 +701,7 @@ gog_plot_families (void)
 /**
  * gog_plot_family_by_name: (skip)
  * @name: family name
- * 
+ *
  * Returns: the plot family if it exists.
  */
 GogPlotFamily *
@@ -718,7 +718,7 @@ gog_plot_family_by_name (char const *name)
  * @sample_image_file: the sample image file name.
  * @priority:
  * @axis_set: the used axis set.
- * 
+ *
  * Returns: the new #GogPlotFamily.
  */
 GogPlotFamily *
@@ -761,7 +761,7 @@ gog_plot_family_unregister (GogPlotFamily *family)
  * @sample_image_file: the sample image file name.
  * @description: the plot type description.
  * @engine: the plot engine name.
- * 
+ *
  * Returns: the new #GogPlotType.
  */
 GogPlotType *

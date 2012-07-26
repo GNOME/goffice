@@ -765,7 +765,7 @@ goc_item_get_window (GocItem *item)
  * goc_item_set_operator: (skip)
  * @item: #GocItem
  * op: #cairo_operator_t
- * 
+ *
  * Set the operator used when drawing the item.
  */
 void
@@ -778,7 +778,7 @@ goc_item_set_operator  (GocItem *item, cairo_operator_t op)
 /**
  * goc_item_get_operator: (skip)
  * @item: #GocItem
- * 
+ *
  * Returns: the operator used when drawing the item.
  */
 cairo_operator_t
@@ -792,7 +792,7 @@ goc_item_get_operator  (GocItem *item)
  * goc_item_set_transform: (skip)
  * @item: #GocItem
  * m: #cairo_matrix_t
- * 
+ *
  * Set the matrix used to transform the item.
  */
 void
