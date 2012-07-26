@@ -1715,9 +1715,9 @@ gog_axis_map_get_baseline (GogAxisMap *map)
  * @start: location to store start for this axis
  * @stop: location to store stop for this axis
  *
- * Gets start and stop for the given axis map in data coordinates. If
- * axis is not inverted, start = minimum and stop = maximum.  If axis is invalid,
- * it'll return arbitrary bounds.
+ * Gets start and stop for the whole chart relative to the given axis map
+ * in data coordinates. If axis is not inverted, start = minimum and
+ * stop = maximum.  If axis is invalid, it'll return arbitrary bounds.
  *
  * Any of @start and @stop may be NULL.
  **/
@@ -1753,13 +1753,42 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 }
 
 /**
+ * gog_axis_map_get_real_extents:
+ * @map: a #GogAxisMap
+ * @start: location to store start for this axis
+ * @stop: location to store stop for this axis
+ *
+ * Gets start and stop for the given axis map in data coordinates. If
+ * axis is not inverted, start = minimum and stop = maximum.  If axis is invalid,
+ * it'll return arbitrary bounds.
+ *
+ * Any of @start and @stop may be NULL.
+ **/
+
+void
+gog_axis_map_get_real_extents (GogAxisMap *map, double *start, double *stop)
+{
+	double x0, x1;
+	g_return_if_fail (map != NULL);
+
+	if (gog_axis_is_inverted (map->axis))
+		map->desc->map_bounds (map, &x1, &x0);
+	else
+		map->desc->map_bounds (map, &x0, &x1);
+	if (start)
+		*start = x0;
+	if (stop)
+		*stop = x1;
+}
+
+/**
  * gog_axis_map_get_bounds:
  * @map: a #GogAxisMap
  * @minimum: location to store minimum for this axis
  * @maximum: location to store maximum for this axis
  *
- * Gets bounds for the given axis map in data coordinates. If axis is invalid,
- * it'll return arbitrary bounds.
+ * Gets bounds for the whole chart relative to the given axis map in data
+ * coordinates. If axis is invalid, it'll return arbitrary bounds.
  *
  * Any of @minimum and @maximum may be NULL.
  **/
@@ -1788,6 +1817,34 @@ gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 			x1 = gog_axis_map_from_view (map, t + buf);
 		}
 	}
+	if (minimum)
+		*minimum = (map->axis->inverted)? x1: x0;
+	if (maximum)
+		*maximum = (map->axis->inverted)? x0: x1;
+}
+
+/**
+ * gog_axis_map_get_real_bounds:
+ * @map: a #GogAxisMap
+ * @minimum: location to store minimum for this axis
+ * @maximum: location to store maximum for this axis
+ *
+ * Gets bounds for the given axis map in data coordinates. If axis is invalid,
+ * it'll return arbitrary bounds.
+ *
+ * Any of @minimum and @maximum may be NULL.
+ **/
+
+void
+gog_axis_map_get_real_bounds (GogAxisMap *map, double *minimum, double *maximum)
+{
+	double x0, x1;
+	g_return_if_fail (map != NULL);
+
+	if (gog_axis_is_inverted (map->axis))
+		map->desc->map_bounds (map, &x1, &x0);
+	else
+		map->desc->map_bounds (map, &x0, &x1);
 	if (minimum)
 		*minimum = (map->axis->inverted)? x1: x0;
 	if (maximum)

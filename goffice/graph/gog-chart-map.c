@@ -593,6 +593,34 @@ xy_make_close_path (GogChartMap *map, double const *x, double const *y,
 			break;
 		case GOG_SERIES_FILL_TYPE_SELF:
 			break;
+		case GOG_SERIES_FILL_TYPE_X_AXIS_MIN:
+			close_path = go_path_new ();
+			gog_axis_map_get_real_bounds (x_map, &position, NULL);
+			position = gog_axis_map_to_view (x_map, position);
+			go_path_move_to (close_path, gog_axis_map_to_view (y_map, y_start), position);
+			go_path_line_to (close_path, gog_axis_map_to_view (y_map, y_end), position);
+			break;
+		case GOG_SERIES_FILL_TYPE_X_AXIS_MAX:
+			close_path = go_path_new ();
+			gog_axis_map_get_real_bounds (x_map, NULL, &position);
+			position = gog_axis_map_to_view (x_map, position);
+			go_path_move_to (close_path, gog_axis_map_to_view (y_map, y_start), position);
+			go_path_line_to (close_path, gog_axis_map_to_view (y_map, y_end), position);
+			break;
+		case GOG_SERIES_FILL_TYPE_Y_AXIS_MIN:
+			close_path = go_path_new ();
+			gog_axis_map_get_real_bounds (y_map, &position, NULL);
+			position = gog_axis_map_to_view (y_map, position);
+			go_path_move_to (close_path, gog_axis_map_to_view (x_map, x_start), position);
+			go_path_line_to (close_path, gog_axis_map_to_view (x_map, x_end), position);
+			break;
+		case GOG_SERIES_FILL_TYPE_Y_AXIS_MAX:
+			close_path = go_path_new ();
+			gog_axis_map_get_real_bounds (y_map, NULL, &position);
+			position = gog_axis_map_to_view (y_map, position);
+			go_path_move_to (close_path, gog_axis_map_to_view (x_map, x_start), position);
+			go_path_line_to (close_path, gog_axis_map_to_view (x_map, x_end), position);
+			break;
 		default:
 			break;
 	}

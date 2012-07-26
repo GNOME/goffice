@@ -51,6 +51,10 @@ static struct {
 	{GOG_SERIES_FILL_TYPE_EDGE,	"edge",		N_("Edge")},
 	{GOG_SERIES_FILL_TYPE_SELF,	"self",		N_("Self")},
 	{GOG_SERIES_FILL_TYPE_NEXT,	"next",		N_("Next series")},
+	{GOG_SERIES_FILL_TYPE_X_AXIS_MIN,	"x-axis-min",	N_("X axis minimum")},
+	{GOG_SERIES_FILL_TYPE_X_AXIS_MAX,	"x-axis-max",	N_("X axis maximum")},
+	{GOG_SERIES_FILL_TYPE_Y_AXIS_MIN,	"y-axis-min",	N_("Y axis minimum")},
+	{GOG_SERIES_FILL_TYPE_Y_AXIS_MAX,	"y-axis-max",	N_("Y axis maximum")},
 	{GOG_SERIES_FILL_TYPE_INVALID,	"invalid",	""}
 };
 

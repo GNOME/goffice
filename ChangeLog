@@ -1,5 +1,19 @@
 2012-07-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-axis.c (gog_axis_map_get_real_extents),
+	(gog_axis_map_get_real_bounds): new functions taking the axis span into
+	account.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-chart-map.c (xy_make_close_path): take new fill type
+	into account.
+	* goffice/graph/gog-plot.c (gog_plot_populate_editor): allow axis choice for
+	pseudo-3d plots. [see #680636]
+	* goffice/graph/gog-series.c: allow filling to axis limits. [#680513]
+	* goffice/graph/gog-series.h: ditto.
+	* plugins/plot_xy/gog-xy.c (gog_xy_series_class_init): ditto.
+
+2012-07-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/gog-contour.c
 	(gog_contour_plot_foreach_elem): add series name to the elements. [#680508]
 	* plugins/plot_surface/gog-xyz-surface.c
