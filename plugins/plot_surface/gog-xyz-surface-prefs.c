@@ -77,12 +77,19 @@ cb_rows_toggled (GtkToggleButton *btn, XYZSurfPrefsState *state)
 	}
 }
 
+static void
+cb_missing_as_changed (GtkComboBoxText *box, XYZSurfPrefsState *state)
+{
+	g_object_set (state->plot, "missing-as", gtk_combo_box_text_get_active_text (box));
+		
+}
+
 GtkWidget *
 gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdContext *cc)
 {
 	GogDataset *set = GOG_DATASET (plot);
 	XYZSurfPrefsState *state;
-	GtkWidget  *w, *box;
+	GtkWidget  *w, *grid;
 	GtkBuilder *gui =
 		go_gtk_builder_new ("res:go:plot_surface/gog-xyz-surface-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
@@ -100,10 +107,11 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 		G_CALLBACK (cb_columns_changed), plot);
 	state->x_label = go_gtk_builder_get_widget (gui, "cols-nb-lbl");
 
-	box = go_gtk_builder_get_widget (gui, "cols-box");
+	grid = go_gtk_builder_get_widget (gui, "gog-xyz-surface-prefs");
 	state->x_entry = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_VECTOR));
 	gtk_widget_show_all (state->x_entry);
-	gtk_box_pack_start (GTK_BOX (box), state->x_entry, TRUE, TRUE, 0);
+	gtk_widget_set_margin_left (state->x_entry, 12);
+	gtk_grid_attach (GTK_GRID (grid), state->x_entry, 0, 2, 3, 1);
 	w = go_gtk_builder_get_widget (gui, "preset-cols-btn");
 	if (!state->plot->auto_x) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
@@ -121,10 +129,10 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 		G_CALLBACK (cb_rows_changed), plot);
 	state->y_label = go_gtk_builder_get_widget (gui, "rows-nb-lbl");
 
-	box = go_gtk_builder_get_widget (gui, "rows-box");
 	state->y_entry = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_VECTOR));
 	gtk_widget_show_all (state->y_entry);
-	gtk_box_pack_start (GTK_BOX (box), state->y_entry, TRUE, TRUE, 0);
+	gtk_widget_set_margin_left (state->y_entry, 12);
+	gtk_grid_attach (GTK_GRID (grid), state->y_entry, 0, 5, 3, 1);
 	w = go_gtk_builder_get_widget (gui, "preset-rows-btn");
 	if (!state->plot->auto_y) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
@@ -135,7 +143,14 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 	w = go_gtk_builder_get_widget (gui, "calc-rows-btn");
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_rows_toggled), state);
 
-	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_xyz_surface_prefs")));
+	w = go_gtk_builder_get_widget (gui, "missing-as-btn");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w),
+	                          GOG_IS_CONTOUR_PLOT (plot)?
+	                              GOG_XYZ_CONTOUR_PLOT (plot)->missing_as:
+		                          GOG_XYZ_SURFACE_PLOT (plot)->missing_as);
+	g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_missing_as_changed), state);
+
+	w = GTK_WIDGET (g_object_ref (grid));
 	g_object_set_data_full (G_OBJECT (w), "state", state, g_free);
 	g_object_unref (gui);
 

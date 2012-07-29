@@ -37,8 +37,9 @@
 
 enum {
 	XYZ_SURFACE_MISSING_AS_NAN,
-	XYZ_SURFACE_MISSING_AS_ZERO
+	XYZ_SURFACE_MISSING_AS_ZERO,
 	/* we might add interpolation methods there */
+	XYZ_SURFACE_MISSING_MAX
 };
 
 static struct {unsigned n; char const *name;} missing_as_strings[] =
@@ -46,6 +47,27 @@ static struct {unsigned n; char const *name;} missing_as_strings[] =
 	{XYZ_SURFACE_MISSING_AS_NAN, "invalid"},
 	{XYZ_SURFACE_MISSING_AS_ZERO, "0"}
 };
+
+static char const *
+missing_as_string (unsigned n)
+{
+	unsigned i;
+	for (i = 0 ; i < G_N_ELEMENTS (missing_as_strings); i++)
+		if (missing_as_strings[i].n == n)
+			return missing_as_strings[i].name;
+	return "invalid";	/* default property value */
+}
+
+static unsigned
+missing_as_value (char const *name)
+{
+	unsigned i;
+	for (i = 0 ; i < G_N_ELEMENTS (missing_as_strings); i++)
+		if (!strcmp (missing_as_strings[i].name, name))
+			return missing_as_strings[i].n;
+	return 0;	/* default property value */
+}
+
 /*****************************************************************************/
 
 enum {
@@ -53,7 +75,8 @@ enum {
 	XYZ_SURFACE_PROP_ROWS,
 	XYZ_SURFACE_PROP_COLUMNS,
 	XYZ_SURFACE_PROP_AUTO_ROWS,
-	XYZ_SURFACE_PROP_AUTO_COLUMNS
+	XYZ_SURFACE_PROP_AUTO_COLUMNS,
+	XYZ_SURFACE_PROP_MISSING_AS
 };
 
 static GogObjectClass *plot_xyz_contour_parent_klass;
@@ -179,7 +202,10 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 	for (k = 0; k < n; ++k)
 		if (grid[k] != 0)
 			data[k] /= grid[k];
-		else data[k] = go_nan;
+		else if (GOG_IS_CONTOUR_PLOT (plot)?
+		         	GOG_XYZ_CONTOUR_PLOT (plot)->missing_as == XYZ_SURFACE_MISSING_AS_NAN:
+			        GOG_XYZ_SURFACE_PLOT (plot)->missing_as == XYZ_SURFACE_MISSING_AS_NAN)
+			data[k] = go_nan;
 
 	if (GOG_IS_CONTOUR_PLOT (plot)) {
 		GogAxisMap *map;
@@ -409,6 +435,13 @@ gog_xyz_surface_plot_set_property (GObject *obj, guint param_id,
 			plot->x_vals = NULL;
 		}
 		break;
+	case XYZ_SURFACE_PROP_MISSING_AS:
+		if (GOG_IS_CONTOUR_PLOT (plot))
+			GOG_XYZ_CONTOUR_PLOT (plot)->missing_as = missing_as_value (g_value_get_string (value));
+		else
+			GOG_XYZ_SURFACE_PLOT (plot)->missing_as = missing_as_value (g_value_get_string (value));
+			gog_object_request_update (GOG_OBJECT (plot));
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -434,6 +467,11 @@ gog_xyz_surface_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case XYZ_SURFACE_PROP_AUTO_COLUMNS :
 		g_value_set_boolean (value, plot->auto_x);
+		break;
+	case XYZ_SURFACE_PROP_MISSING_AS :
+		g_value_set_string (value, missing_as_string (GOG_IS_CONTOUR_PLOT (plot)?
+		                                              GOG_XYZ_CONTOUR_PLOT (plot)->missing_as:
+			                                          GOG_XYZ_SURFACE_PLOT (plot)->missing_as));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -482,6 +520,12 @@ common_init_class (GogXYZPlotClass *klass)
 			_("Auto Columns"),
 			_("Whether the columns limts should be evaluated"),
 			TRUE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, XYZ_SURFACE_PROP_MISSING_AS,
+		g_param_spec_string ("missing-as",
+			_("Missing as"),
+			_("How to deal with missing data"),
+			"invalid",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->update	= gog_xyz_surface_plot_update;

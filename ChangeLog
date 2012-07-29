@@ -1,5 +1,17 @@
 2012-07-29  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_surface/gog-xyz-surface-prefs.c
+	(cb_missing_as_changed), (gog_xyz_surface_plot_pref): add an option for
+	missing data.
+	* plugins/plot_surface/gog-xyz-surface-prefs.ui: ditto.
+	* plugins/plot_surface/gog-xyz-surface.c (missing_as_string),
+	(missing_as_value), (gog_xyz_surface_plot_build_matrix),
+	(gog_xyz_surface_plot_set_property),
+	(gog_xyz_surface_plot_get_property), (common_init_class): ditto.
+	* plugins/plot_surface/gog-xyz-surface.h: ditto.
+
+2012-07-29  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-plot.c (gog_plot_set_property),
 	(gog_plot_get_property), (gog_plot_class_init): save axis Id for all axes,
 	not only X and Y. [#680739]
