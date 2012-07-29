@@ -6,6 +6,7 @@ Jean:
 	* Fix contour plot cardinality when axis bounds can't be retrieved. [680512]
 	* Allow axis choice for pseudo-3d plots. [see #680636]
 	* Allow filling to axis limits. [#680513]
+	* Save axis Id for all axes, not only X and Y. [#680739]
 
 Morten:
 	* Minute accuracy improvement to matrix inversion.

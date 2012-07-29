@@ -1,3 +1,11 @@
+2012-07-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-plot.c (gog_plot_set_property),
+	(gog_plot_get_property), (gog_plot_class_init): save axis Id for all axes,
+	not only X and Y. [#680739]
+	* plugins/plot_surface/gog-xyz-surface.c
+	(gog_xyz_surface_plot_build_matrix): avoid leaks and invalid properties.
+
 2012-07-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (gog_axis_map_get_real_extents),

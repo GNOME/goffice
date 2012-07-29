@@ -81,27 +81,41 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 	if (GOG_IS_CONTOUR_PLOT (plot)) {
 		GogXYZContourPlot *xyz = GOG_XYZ_CONTOUR_PLOT (plot);
 		if (xyz->grid[0].data) {
+			if (xyz->base.x_vals)
+				g_object_unref (xyz->base.x_vals);
 			xyz->base.x_vals = g_object_ref (xyz->grid[0].data);
 			xyz->base.columns = go_data_get_vector_size (plot->x_vals);
 		}
 		if (xyz->grid[1].data) {
+			if (xyz->base.y_vals)
+				g_object_unref (xyz->base.y_vals);
 			xyz->base.y_vals = g_object_ref (xyz->grid[1].data);
 			xyz->base.rows = go_data_get_vector_size (plot->y_vals);
 		}
 	} else {
 		GogXYZSurfacePlot *xyz = GOG_XYZ_SURFACE_PLOT (plot);
 		if (xyz->grid[0].data) {
+			if (xyz->base.x_vals)
+				g_object_unref (xyz->base.x_vals);
 			xyz->base.x_vals = g_object_ref (xyz->grid[0].data);
 			xyz->base.columns = go_data_get_vector_size (plot->x_vals);
 		}
 		if (xyz->grid[1].data) {
+			if (xyz->base.y_vals)
+				g_object_unref (xyz->base.y_vals);
 			xyz->base.y_vals = g_object_ref (xyz->grid[1].data);
 			xyz->base.rows = go_data_get_vector_size (plot->y_vals);
 		}
 	}
 	n = plot->rows * plot->columns;
-	if (n == 0)
+	if (plot->rows < 2 || plot->columns < 2) {
+		/* we store the default value to avoid warnings about invalid values */
+		if (plot->rows < 2)
+			plot->rows = 10;
+		if (plot->columns < 2)
+			plot->columns = 10;
 		return NULL;
+	}
 	x_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_x_vals ((GogXYZPlot *) plot)), plot->columns);
 	for (i = 0; i < plot->columns - 1; i++)
 		x_limits[i] = (x_limits[i] + x_limits[i+1]) / 2.;

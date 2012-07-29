@@ -65,6 +65,12 @@ enum {
 	PLOT_PROP_VARY_STYLE_BY_ELEMENT,
 	PLOT_PROP_AXIS_X,
 	PLOT_PROP_AXIS_Y,
+	PLOT_PROP_AXIS_Z,
+	PLOT_PROP_AXIS_CIRCULAR,
+	PLOT_PROP_AXIS_RADIAL,
+	PLOT_PROP_AXIS_PSEUDO_3D,
+	PLOT_PROP_AXIS_COLOR,
+	PLOT_PROP_AXIS_BUBBLE,
 	PLOT_PROP_GROUP,
 	PLOT_PROP_DEFAULT_INTERPOLATION,
 	PLOT_PROP_GURU_HINTS
@@ -277,6 +283,24 @@ gog_plot_set_property (GObject *obj, guint param_id,
 	case PLOT_PROP_AXIS_Y:
 		gog_plot_set_axis_by_id (plot, GOG_AXIS_Y, g_value_get_uint (value));
 		break;
+	case PLOT_PROP_AXIS_Z:
+		gog_plot_set_axis_by_id (plot, GOG_AXIS_Z, g_value_get_uint (value));
+		break;
+	case PLOT_PROP_AXIS_CIRCULAR:
+		gog_plot_set_axis_by_id (plot, GOG_AXIS_CIRCULAR, g_value_get_uint (value));
+		break;
+	case PLOT_PROP_AXIS_RADIAL:
+		gog_plot_set_axis_by_id (plot, GOG_AXIS_RADIAL, g_value_get_uint (value));
+		break;
+	case PLOT_PROP_AXIS_PSEUDO_3D:
+		gog_plot_set_axis_by_id (plot, GOG_AXIS_PSEUDO_3D, g_value_get_uint (value));
+		break;
+	case PLOT_PROP_AXIS_COLOR:
+		gog_plot_set_axis_by_id (plot, GOG_AXIS_COLOR, g_value_get_uint (value));
+		break;
+	case PLOT_PROP_AXIS_BUBBLE:
+		gog_plot_set_axis_by_id (plot, GOG_AXIS_BUBBLE, g_value_get_uint (value));
+		break;
 	case PLOT_PROP_GROUP: {
 		char const *group = g_value_get_string (value);
 		g_free (plot->plot_group);
@@ -312,6 +336,24 @@ gog_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_AXIS_Y:
 		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_Y));
+		break;
+	case PLOT_PROP_AXIS_Z:
+		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_Z));
+		break;
+	case PLOT_PROP_AXIS_CIRCULAR:
+		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_CIRCULAR));
+		break;
+	case PLOT_PROP_AXIS_RADIAL:
+		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_RADIAL));
+		break;
+	case PLOT_PROP_AXIS_PSEUDO_3D:
+		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_PSEUDO_3D));
+		break;
+	case PLOT_PROP_AXIS_COLOR:
+		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_COLOR));
+		break;
+	case PLOT_PROP_AXIS_BUBBLE:
+		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_BUBBLE));
 		break;
 	case PLOT_PROP_GROUP:
 		g_value_set_string (value, plot->plot_group);
@@ -382,6 +424,42 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 		g_param_spec_uint ("y-axis",
 			_("Y axis"),
 			_("Reference to Y axis"),
+			0, G_MAXINT, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_Z,
+		g_param_spec_uint ("z-axis",
+			_("Z axis"),
+			_("Reference to Z axis"),
+			0, G_MAXINT, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_CIRCULAR,
+		g_param_spec_uint ("circ-axis",
+			_("Circular axis"),
+			_("Reference to circular axis"),
+			0, G_MAXINT, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_RADIAL,
+		g_param_spec_uint ("radial-axis",
+			_("Radial axis"),
+			_("Reference to radial axis"),
+			0, G_MAXINT, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_PSEUDO_3D,
+		g_param_spec_uint ("pseudo-3d-axis",
+			_("Pseudo-3d axis"),
+			_("Reference to pseudo-3d axis"),
+			0, G_MAXINT, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_COLOR,
+		g_param_spec_uint ("color-axis",
+			_("Color axis"),
+			_("Reference to color axis"),
+			0, G_MAXINT, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_BUBBLE,
+		g_param_spec_uint ("bubble-axis",
+			_("Bubble axis"),
+			_("Reference to buccle axis"),
 			0, G_MAXINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GROUP,
