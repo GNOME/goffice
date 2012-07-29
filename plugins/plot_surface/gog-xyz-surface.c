@@ -36,6 +36,19 @@
 /*****************************************************************************/
 
 enum {
+	XYZ_SURFACE_MISSING_AS_NAN,
+	XYZ_SURFACE_MISSING_AS_ZERO
+	/* we might add interpolation methods there */
+};
+
+static struct {unsigned n; char const *name;} missing_as_strings[] =
+{
+	{XYZ_SURFACE_MISSING_AS_NAN, "invalid"},
+	{XYZ_SURFACE_MISSING_AS_ZERO, "0"}
+};
+/*****************************************************************************/
+
+enum {
 	XYZ_SURFACE_PROP_0,
 	XYZ_SURFACE_PROP_ROWS,
 	XYZ_SURFACE_PROP_COLUMNS,
@@ -111,9 +124,9 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 	if (plot->rows < 2 || plot->columns < 2) {
 		/* we store the default value to avoid warnings about invalid values */
 		if (plot->rows < 2)
-			plot->rows = 10;
+			((GogXYZPlot *) plot)->rows = 10;
 		if (plot->columns < 2)
-			plot->columns = 10;
+			((GogXYZPlot *) plot)->columns = 10;
 		return NULL;
 	}
 	x_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_x_vals ((GogXYZPlot *) plot)), plot->columns);
