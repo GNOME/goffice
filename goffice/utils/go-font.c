@@ -33,6 +33,20 @@ static GOFont const	*font_default;
 #define ref_debug(x)	do { } while (0)
 #endif
 
+GType
+go_font_get_type (void)
+{
+	static GType type = 0;
+
+	if (type == 0)
+		type = g_boxed_type_register_static
+			("GOFont",
+			 (GBoxedCopyFunc) go_font_ref,
+			 (GBoxedFreeFunc) go_font_unref);
+
+    return type;
+}
+
 static void
 go_font_free (GOFont *font)
 {

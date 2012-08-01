@@ -41,7 +41,10 @@ double gog_outlined_object_get_pad  (GogOutlinedObject const *goo);
 
 /****************************************************************************/
 
-typedef GogView		GogOutlinedView;
+typedef struct {
+	GogView base;
+} GogOutlinedView;
+
 typedef struct {
 	GogViewClass	base;
 	gboolean	call_parent_render;

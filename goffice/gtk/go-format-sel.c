@@ -1836,6 +1836,12 @@ go_format_sel_set_dateconv (GOFormatSel *gfs,
 	draw_format_preview (gfs, TRUE);
 }
 
+/**
+ * go_format_sel_get_fmt:
+ * @gfs: #GOFormatSel
+ * 
+ * Returns: (transfer none): the #GOFormat.
+ **/
 GOFormat const *
 go_format_sel_get_fmt (GOFormatSel *gfs)
 {
@@ -1843,6 +1849,12 @@ go_format_sel_get_fmt (GOFormatSel *gfs)
 	return gfs->format.spec;
 }
 
+/**
+ * go_format_sel_get_dateconv:
+ * @gfs: #GOFormatSel
+ * 
+ * Returns: (transfer none): the #GODateConventions.
+ **/
 GODateConventions const *
 go_format_sel_get_dateconv (GOFormatSel *gfs)
 {

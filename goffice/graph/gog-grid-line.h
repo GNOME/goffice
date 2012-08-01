@@ -34,8 +34,6 @@ GType gog_grid_line_get_type (void);
 
 gboolean gog_grid_line_is_minor (GogGridLine *ggl);
 
-typedef GogView GogGridLineView;
-
 void gog_grid_line_view_render_stripes (GogView *view);
 void gog_grid_line_view_render_lines (GogView *view);
 

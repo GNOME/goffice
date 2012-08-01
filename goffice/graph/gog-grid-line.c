@@ -27,6 +27,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
+typedef GogView GogGridLineView;
+
 struct _GogGridLine {
 	GogStyledObject	base;
 

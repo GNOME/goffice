@@ -369,7 +369,8 @@ go_doc_update_meta_data (GODoc *doc)
 	g_signal_emit (G_OBJECT (doc), signals [METADATA_UPDATE], 0);
 }
 
-/** go_doc_get_image:
+/**
+ * go_doc_get_image:
  * @doc: a #GODoc
  * @id: the image name
  *
@@ -384,7 +385,8 @@ go_doc_get_image (GODoc *doc, char const *id)
 		NULL;
 }
 
-/** go_doc_add_image:
+/**
+ * go_doc_add_image:
  * @doc: a #GODoc
  * @id: the image name or NULL
  * @image: a #GOImage
@@ -567,7 +569,8 @@ go_doc_end_read	(GODoc *doc)
 	doc->imagebuf = NULL;
 }
 
-/** go_doc_image_fetch:
+/**
+ * go_doc_image_fetch:
  * @doc: a #GODoc
  * @id: the name for the new image.
  *

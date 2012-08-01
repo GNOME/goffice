@@ -420,7 +420,7 @@ goc_group_adjust_coords (GocGroup const *group, double *x, double *y)
 }
 
 /**
- * goc_group_cairo_transform:
+ * goc_group_cairo_transform: (skip)
  * @group: #GocGroup
  * @cr: #cairo_t
  * @x: horizontal coordinate
@@ -453,9 +453,9 @@ goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double 
 
 /**
  * goc_group_set_clip_path: (skip)
- * group: #GocGroup
- * clip_path: #GOPath
- * clip_rule: #cairo_fill_rule_t
+ * @group: #GocGroup
+ * @clip_path: #GOPath
+ * @clip_rule: #cairo_fill_rule_t
  *
  * Clips the drawing inside @path.
  */

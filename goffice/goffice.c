@@ -55,7 +55,7 @@ static char const *libgoffice_extern_plugin_dir = GOFFICE_EXTERNPLUGINDIR;
 
 /**
  * SECTION: goffice
- * @Title: GOffice
+ * @Title: Gettings Started with GOffice
  *
  * GOffice is a #GObject based C library. It provides easy API access to
  * creating and manipulating graphs and canvases. See #GogGraph and #GocCanvas.
@@ -78,18 +78,24 @@ static char const *libgoffice_extern_plugin_dir = GOFFICE_EXTERNPLUGINDIR;
  * </informalexample>
  * GOffice provides a pkg-config metadata file named
  * "libgoffice-$major.$minor.pc", where $major and $minor denote which version
- * GOffice is. So to link against GOffice 0.8 series, use:
+ * GOffice is. So to link against GOffice 0.10 series, use:
  * <informalexample>
  * <programlisting>
- * pkg-config --libs libgoffice-0.8
+ * pkg-config --libs libgoffice-0.10
  * </programlisting>
  * </informalexample>
  *
  * API and ABI compatability is maintained per minor release series, e.g:
  * all 0.8.x releases are ABI/API compatible with previous 0.8.x releases.
  *
- * As of September 2010, there are no bindings for other languages
- * than C available.
+ * Bindings for other languages than C and C++ are available through GObject
+ * Introspection. To start using GOffice from Python:
+ * <informalexample>
+ * <programlisting>
+ * from gi.repository import GOffice
+ * GOffice.init()
+ * </programlisting>
+ * </informalexample>
  */
 
 gchar const *

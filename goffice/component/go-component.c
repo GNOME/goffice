@@ -65,8 +65,6 @@ go_snapshot_type_from_string (char const *name)
  * @set_data: sets the data embedded in the component.
  * @set_default_size: sets the default size for the component.
  * @set_size: sets the requested size.
- * @set_window: sets the window if the component uses a #GdkWindow. The new
- * window is stored in the @window field of #GOComponent.
  * @render: displays the contents.
  * @changed: callback called when the component contents changed.
  *

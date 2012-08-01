@@ -55,6 +55,7 @@ struct _GOFont {
 	GOColor color;
 };
 
+GType         go_font_get_type (void);
 GOFont const *go_font_new_by_desc  (PangoFontDescription *desc);
 GOFont const *go_font_new_by_name  (char const *str);
 GOFont const *go_font_new_by_index (unsigned i);

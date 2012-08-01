@@ -44,7 +44,7 @@ struct _GOComponent {
 	char *mime_type;
 	double width, ascent, descent, height;
 	double default_width, default_ascent, default_descent;
-	gboolean needs_window, resizable, editable;
+	gboolean resizable, editable;
 	char const *data;
 	GDestroyNotify destroy_notify;
 	gpointer destroy_data;

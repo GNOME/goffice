@@ -46,6 +46,7 @@ gboolean   go_combo_pixmaps_select_id    (GOComboPixmaps *combo, int id);
 int        go_combo_pixmaps_get_selected (GOComboPixmaps const *combo, int *index);
 GtkWidget *go_combo_pixmaps_get_preview	 (GOComboPixmaps const *combo);
 
+GType      go_menu_pixmaps_get_type	 (void);
 GOMenuPixmaps *go_menu_pixmaps_new	 (int ncols);
 void       go_menu_pixmaps_add_element   (GOMenuPixmaps *menu,
 					  GdkPixbuf *pixbuf, int id);

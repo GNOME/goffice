@@ -1,5 +1,9 @@
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* all: fixed some introspection and doc warnings.
+
+2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: requires gtk-doc >= 1.12.
 	* docs/reference/goffice-docs.sgml: replaced by xml.
 	* docs/reference/goffice-docs.xml: replaces sgml.

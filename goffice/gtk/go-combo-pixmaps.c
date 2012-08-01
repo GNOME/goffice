@@ -285,6 +285,12 @@ go_combo_pixmaps_get_selected (GOComboPixmaps const *combo, int *index)
 	return el->id;
 }
 
+/**
+ * go_combo_pixmaps_get_preview:
+ * @combo: #GOComboPixmaps
+ * 
+ * Returns: (transfer none): the preview button.
+ **/
 GtkWidget *
 go_combo_pixmaps_get_preview (GOComboPixmaps const *combo)
 {
@@ -317,7 +323,7 @@ go_menu_pixmaps_class_init (GObjectClass *gobject_class)
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
 
-static GSF_CLASS (GOMenuPixmaps, go_menu_pixmaps,
+GSF_CLASS (GOMenuPixmaps, go_menu_pixmaps,
 		  go_menu_pixmaps_class_init, NULL,
 		  GTK_TYPE_MENU)
 
