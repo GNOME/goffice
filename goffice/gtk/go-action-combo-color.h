@@ -41,7 +41,7 @@ GOActionComboColor *
 void 	go_action_combo_color_set_group (GOActionComboColor *a, gpointer group_key);
 GOColor go_action_combo_color_get_color (GOActionComboColor *a, gboolean *is_default);
 void    go_action_combo_color_set_color (GOActionComboColor *a, GOColor color);
-
+void    go_action_combo_color_set_allow_alpha (GOActionComboColor *a, gboolean allow_alpha);
 G_END_DECLS
 
 #endif  /* _GO_ACTION_COMBO_COLOR_H_ */

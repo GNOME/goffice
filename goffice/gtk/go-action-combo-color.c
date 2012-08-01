@@ -82,6 +82,7 @@ struct _GOActionComboColor {
 	GOColorGroup 	*color_group;
 	char		*default_val_label;
 	GOColor		 default_val, current_color;
+	gboolean	 allow_alpha;
 };
 typedef struct {
 	GtkActionClass base;
@@ -163,6 +164,7 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 	if (icon) g_object_unref (icon);
 
 	go_combo_color_set_instant_apply (GO_COMBO_COLOR (tool->combo), TRUE);
+	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (tool->combo), caction->allow_alpha);
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	title = get_title (a);
 	go_combo_box_set_title (GO_COMBO_BOX (tool->combo), title);
@@ -289,3 +291,15 @@ go_action_combo_color_set_color (GOActionComboColor *a, GOColor color)
 		if (GO_IS_TOOL_COMBO_COLOR (ptr->data))
 			go_combo_color_set_color (GO_TOOL_COMBO_COLOR (ptr->data)->combo, color);
 }
+
+void
+go_action_combo_color_set_allow_alpha (GOActionComboColor *a, gboolean allow_alpha)
+{
+	GSList *ptr = gtk_action_get_proxies (GTK_ACTION (a));
+
+	a->allow_alpha = allow_alpha;
+	for ( ; ptr != NULL ; ptr = ptr->next)
+		if (GO_IS_TOOL_COMBO_COLOR (ptr->data))
+			go_combo_color_set_allow_alpha (GO_TOOL_COMBO_COLOR (ptr->data)->combo, allow_alpha);
+}
+
