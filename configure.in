@@ -759,7 +759,7 @@ AC_DEFINE(GO_VERSION_MINOR, goffice_version_minor,
 AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
 	[Extra, possibly empty tag for this release])
 
-GTK_DOC_CHECK([1.11])
+GTK_DOC_CHECK([1.12])
 if test "x$with_gtk" = "xno" -a "x$enable_gtk_doc" = "xyes"; then
 	AC_ERROR([Building documentation is not allowed for a without Gtk+ build])
 fi

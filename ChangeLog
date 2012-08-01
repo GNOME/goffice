@@ -1,5 +1,12 @@
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: requires gtk-doc >= 1.12.
+	* docs/reference/goffice-docs.sgml: replaced by xml.
+	* docs/reference/goffice-docs.xml: replaces sgml.
+	* docs/reference/Makefile.am: ditto.
+
+2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/gtk/go-action-combo-color.c
 	(go_action_combo_color_create_tool_item),
 	(go_action_combo_color_set_allow_alpha): add alpha support.

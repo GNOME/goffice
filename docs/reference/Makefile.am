@@ -2,7 +2,7 @@
 
 DOC_MODULE=goffice-@GOFFICE_API_VER@
 
-DOC_MAIN_SGML_FILE=goffice-docs.sgml
+DOC_MAIN_SGML_FILE=goffice-docs.xml
 
 DOC_SOURCE_DIR=../../goffice
 
@@ -10,7 +10,7 @@ SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="g_type_init ()"
 
 SCAN_OPTIONS=--rebuild-types
 
-MKDB_OPTIONS=--sgml-mode --output-format=xml
+MKDB_OPTIONS=--xml-mode --output-format=xml
 
 MKTMPL_OPTIONS=
 
