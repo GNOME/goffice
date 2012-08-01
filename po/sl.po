@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-26 16:49+0000\n"
-"PO-Revision-Date: 2012-07-29 13:07+0100\n"
+"POT-Creation-Date: 2012-08-01 06:53+0000\n"
+"PO-Revision-Date: 2012-08-01 10:13+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -2107,100 +2107,148 @@ msgstr "Programnik regresijske krivulje"
 msgid "Regression Curve Type"
 msgstr "Vrsta regresijske krivulje"
 
-#: ../goffice/graph/gog-plot.c:176
+#: ../goffice/graph/gog-plot.c:182
 msgid "X axis:"
 msgstr "Os X:"
 
-#: ../goffice/graph/gog-plot.c:177
+#: ../goffice/graph/gog-plot.c:183
 msgid "Y axis:"
 msgstr "Os Y:"
 
-#: ../goffice/graph/gog-plot.c:178
+#: ../goffice/graph/gog-plot.c:184
 msgid "Z axis:"
 msgstr "Os Z:"
 
-#: ../goffice/graph/gog-plot.c:179
+#: ../goffice/graph/gog-plot.c:185
 msgid "Circular axis:"
 msgstr "Krožna os:"
 
-#: ../goffice/graph/gog-plot.c:180
+#: ../goffice/graph/gog-plot.c:186
 msgid "Radial axis:"
 msgstr "Radialna os:"
 
-#: ../goffice/graph/gog-plot.c:181
+#: ../goffice/graph/gog-plot.c:187
 msgid "Pseudo 3D axis:"
 msgstr "Navidezna 3D os:"
 
-#: ../goffice/graph/gog-plot.c:182
+#: ../goffice/graph/gog-plot.c:188
 msgid "Color axis:"
 msgstr "Barvna os:"
 
-#: ../goffice/graph/gog-plot.c:183
+#: ../goffice/graph/gog-plot.c:189
 msgid "Bubble axis:"
 msgstr "Mehurčna os:"
 
-#: ../goffice/graph/gog-plot.c:248
+#: ../goffice/graph/gog-plot.c:254
 msgid "Axes"
 msgstr "Osi"
 
-#: ../goffice/graph/gog-plot.c:350
+#: ../goffice/graph/gog-plot.c:392
 msgid "Series"
 msgstr "Nizi"
 
-#: ../goffice/graph/gog-plot.c:371
+#: ../goffice/graph/gog-plot.c:413
 msgid "Vary style by element"
 msgstr "Spremeni slog po predmetih"
 
-#: ../goffice/graph/gog-plot.c:372
+#: ../goffice/graph/gog-plot.c:414
 msgid "Use a different style for each segments"
 msgstr "Uporabi različni slog za vsak razdelek"
 
-#: ../goffice/graph/gog-plot.c:377
+#: ../goffice/graph/gog-plot.c:419
 msgid "X axis"
 msgstr "Os X"
 
-#: ../goffice/graph/gog-plot.c:378
+#: ../goffice/graph/gog-plot.c:420
 msgid "Reference to X axis"
 msgstr "Sklic osi x"
 
-#: ../goffice/graph/gog-plot.c:383
+#: ../goffice/graph/gog-plot.c:425
 msgid "Y axis"
 msgstr "Os Y"
 
-#: ../goffice/graph/gog-plot.c:384
+#: ../goffice/graph/gog-plot.c:426
 msgid "Reference to Y axis"
 msgstr "Sklic osi y"
 
-#: ../goffice/graph/gog-plot.c:389
+#: ../goffice/graph/gog-plot.c:431
+msgid "Z axis"
+msgstr "Os Z"
+
+#: ../goffice/graph/gog-plot.c:432
+msgid "Reference to Z axis"
+msgstr "Sklic osi Z"
+
+#: ../goffice/graph/gog-plot.c:437
+msgid "Circular axis"
+msgstr "Krožna os"
+
+#: ../goffice/graph/gog-plot.c:438
+msgid "Reference to circular axis"
+msgstr "Sklic krožne osi"
+
+#: ../goffice/graph/gog-plot.c:443
+msgid "Radial axis"
+msgstr "Radialna os"
+
+#: ../goffice/graph/gog-plot.c:444
+msgid "Reference to radial axis"
+msgstr "Sklic radialne osi"
+
+#: ../goffice/graph/gog-plot.c:449
+msgid "Pseudo-3d axis"
+msgstr "Navidezna 3D os"
+
+#: ../goffice/graph/gog-plot.c:450
+msgid "Reference to pseudo-3d axis"
+msgstr "Sklic navidezne 3D osi"
+
+#: ../goffice/graph/gog-plot.c:455
+msgid "Color axis"
+msgstr "Barvna os"
+
+#: ../goffice/graph/gog-plot.c:456
+msgid "Reference to color axis"
+msgstr "Sklic barvne osi"
+
+#: ../goffice/graph/gog-plot.c:461
+msgid "Bubble axis"
+msgstr "Mehurčna os"
+
+#: ../goffice/graph/gog-plot.c:462
+msgid "Reference to buccle axis"
+msgstr "Sklic mehurčne osi"
+
+#: ../goffice/graph/gog-plot.c:467
 msgid "Plot group"
 msgstr "Skupina diagramov"
 
-#: ../goffice/graph/gog-plot.c:390
+#: ../goffice/graph/gog-plot.c:468
 msgid "Name of plot group if any"
 msgstr "Ime skupine diagramov za izris, če je navedeno"
 
 # To je neke vrste "učiteljski namig".
-#: ../goffice/graph/gog-plot.c:395
+#: ../goffice/graph/gog-plot.c:473
 msgid "Guru hints"
 msgstr "Gurujev namig"
 
-#: ../goffice/graph/gog-plot.c:396
+#: ../goffice/graph/gog-plot.c:474
 msgid "Semicolon separated list of hints for automatic addition of objects in guru dialog"
 msgstr "S podpičjem ločen seznam Gurujevih namigov za samodejno dodajanje predmetov v pogovornem oknu."
 
-#: ../goffice/graph/gog-plot.c:402
+#: ../goffice/graph/gog-plot.c:480
 msgid "Default interpolation"
 msgstr "Privzeta interpolacija"
 
-#: ../goffice/graph/gog-plot.c:403
+#: ../goffice/graph/gog-plot.c:481
 msgid "Default type of series line interpolation"
 msgstr "Privzeta vrsta interpolacije črt niza"
 
-#: ../goffice/graph/gog-plot.c:1051
+#: ../goffice/graph/gog-plot.c:1129
 msgid "Move plot area"
 msgstr "Premakni površino diagrama"
 
-#: ../goffice/graph/gog-plot.c:1103
+#: ../goffice/graph/gog-plot.c:1181
 msgid "Resize plot area"
 msgstr "Spremeni velikost površine diagrama"
 
@@ -2578,7 +2626,7 @@ msgstr "Guppi"
 #: ../plugins/plot_radar/gog-radar.c:408
 #: ../plugins/plot_radar/gog-radar.c:595
 #: ../plugins/plot_surface/gog-xyz.c:101
-#: ../plugins/plot_surface/gog-xyz-surface.c:262
+#: ../plugins/plot_surface/gog-xyz-surface.c:315
 #: ../plugins/plot_xy/gog-xy.c:371
 #: ../plugins/plot_xy/gog-xy.c:483
 #: ../plugins/plot_xy/gog-xy.c:754
@@ -6793,7 +6841,7 @@ msgstr "Skrij podatke izven mej barve osi"
 
 #: ../plugins/plot_radar/gog-radar.c:734
 #: ../plugins/plot_surface/gog-xyz.c:400
-#: ../plugins/plot_surface/gog-xyz-surface.c:472
+#: ../plugins/plot_surface/gog-xyz-surface.c:543
 #: ../plugins/plot_surface/xl-surface.c:304
 #: ../plugins/plot_surface/xl-surface.c:397
 #: ../plugins/plot_xy/gog-xy.c:852
@@ -6910,7 +6958,7 @@ msgid "Transpose the plot"
 msgstr "Transponiran izris grafa ali diagrama"
 
 #: ../plugins/plot_surface/gog-xyz.c:396
-#: ../plugins/plot_surface/gog-xyz-surface.c:468
+#: ../plugins/plot_surface/gog-xyz-surface.c:539
 #: ../plugins/plot_surface/xl-surface.c:302
 #: ../plugins/plot_surface/xl-surface.c:395
 #: ../plugins/plot_xy/gog-xy.c:425
@@ -6920,7 +6968,7 @@ msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:398
-#: ../plugins/plot_surface/gog-xyz-surface.c:470
+#: ../plugins/plot_surface/gog-xyz-surface.c:541
 #: ../plugins/plot_xy/gog-xy.c:427
 #: ../plugins/plot_xy/gog-xy.c:597
 #: ../plugins/plot_xy/gog-xy.c:850
@@ -6933,71 +6981,87 @@ msgstr "Transponiranje"
 
 #. xgettext : the base for how to name surface plot objects
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:239
+#: ../plugins/plot_surface/gog-xyz-surface.c:292
 msgid "PlotXYZContour"
 msgstr "Diagram - obrisni"
 
 #. xgettext : the base for how to name surface plot objects
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:247
+#: ../plugins/plot_surface/gog-xyz-surface.c:300
 msgid "PlotXYZSurface"
 msgstr "Diagram - ploščinski"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:437
+#: ../plugins/plot_surface/gog-xyz-surface.c:502
 msgid "Rows"
 msgstr "Vrstice"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:438
+#: ../plugins/plot_surface/gog-xyz-surface.c:503
 msgid "Number of rows"
 msgstr "Število vrstic"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:443
+#: ../plugins/plot_surface/gog-xyz-surface.c:508
 msgid "Auto Rows"
 msgstr "Samodejne vrstice"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:444
+#: ../plugins/plot_surface/gog-xyz-surface.c:509
 msgid "Whether the rows limts should be evaluated"
 msgstr "Ali naj bodo določene omejitve širine vrstic"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:449
+#: ../plugins/plot_surface/gog-xyz-surface.c:514
 msgid "Columns"
 msgstr "Stolpci"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:450
+#: ../plugins/plot_surface/gog-xyz-surface.c:515
 msgid "Number of columns"
 msgstr "Število stolpcev"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:455
+#: ../plugins/plot_surface/gog-xyz-surface.c:520
 msgid "Auto Columns"
 msgstr "Samodejni stolpci"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:456
+#: ../plugins/plot_surface/gog-xyz-surface.c:521
 msgid "Whether the columns limts should be evaluated"
 msgstr "Ali naj bodo določene omejitve višine stolpcev"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
-msgid "<b>_Rows:</b>"
-msgstr "<b>_Vrstice:</b>"
+#: ../plugins/plot_surface/gog-xyz-surface.c:526
+msgid "Missing as"
+msgstr "Manjkajoče vrednosti"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:2
+#: ../plugins/plot_surface/gog-xyz-surface.c:527
+msgid "How to deal with missing data"
+msgstr "Kako naj bodo obravnavani manjkajoči podatki"
+
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
 msgid "<b>_Columns:</b>"
 msgstr "<b>_Stolpci:</b>"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:3
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:2
 msgid "Calculated"
 msgstr "Izračunano"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:4
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:3
 msgid "Preset:"
 msgstr "Predhodno nastavljeno:"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:5
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:4
 msgid "Count:"
 msgstr "Števec:"
 
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:5
+msgid "<b>_Rows:</b>"
+msgstr "<b>_Vrstice:</b>"
+
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:6
-msgid "\n"
-msgstr "\n"
+msgid "<b>Missing values as:</b>"
+msgstr "<b>Manjkajoče vrednosti:</b>"
+
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:7
+msgid "Invalid"
+msgstr "Neveljavno"
+
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:8
+msgid "0"
+msgstr "0"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:1
 msgid "Contour"
@@ -7626,6 +7690,9 @@ msgstr "Vrste glajenih krivulj"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Glajena krivulja premikajočega povprečja"
+
+#~ msgid "\n"
+#~ msgstr "\n"
 
 #~ msgid "The cropped area at the image top"
 #~ msgstr "Obrezan zgornji del slike"
