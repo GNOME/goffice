@@ -65,7 +65,7 @@ gog_probability_plot_populate_editor (GogObject *item,
 			      GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
-	GtkWidget *w, *box = gtk_vbox_new (FALSE, 0);
+	GtkWidget *w, *box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 12);
 	w = gtk_check_button_new_with_label (_("Use data as Y-values"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_PROBABILITY_PLOT (item)->data_as_yvals);

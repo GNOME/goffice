@@ -6,6 +6,7 @@ noinst_HEADERS = \
 libgoffice_app_la_SOURCES = \
 	go-doc.c 			\
 	go-doc-control.c 		\
+	go-view.c			\
 	\
 	go-plugin.c 			\
 	go-plugin-loader.c 		\
@@ -26,6 +27,7 @@ libgoffice_app_la_api_headers = 	\
 	go-doc-impl.h 			\
 	go-doc-control.h 		\
 	go-doc-control-impl.h 		\
+	go-view.h			\
 	go-plugin.h 			\
 	go-plugin-loader.h 		\
 	go-plugin-loader-module.h 	\

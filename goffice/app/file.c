@@ -88,18 +88,15 @@ go_file_opener_probe_real (GOFileOpener const *fo, GsfInput *input,
 
 static void
 go_file_opener_open_real (GOFileOpener const *fo, gchar const *opt_enc,
-			  GOIOContext *io_context,
-			  gpointer FIXME_workbook_view,
-			  GsfInput *input)
+                          GOIOContext *io_context, GoView *view,
+                          GsfInput *input)
 {
 	if (fo->open_func != NULL) {
 		if (fo->encoding_dependent)
 			((GOFileOpenerOpenFuncWithEnc)fo->open_func)
-				(fo, opt_enc, io_context,
-				 FIXME_workbook_view, input);
+				(fo, opt_enc, io_context, view, input);
 		else
-			fo->open_func (fo, io_context,
-				       FIXME_workbook_view, input);
+			fo->open_func (fo, io_context, view, input);
 	} else
 		go_io_error_unknown (io_context);
 }
@@ -293,7 +290,7 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel 
  * @fo: GOFileOpener object
  * @opt_enc: Optional encoding
  * @io_context: Context for i/o operation
- * @FIXME_workbook_view: Workbook View
+ * @view: #GoView
  * @input: Gsf input stream
  *
  * Reads content of @file_name file into workbook @wbv is attached to.
@@ -305,13 +302,12 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel 
 void
 go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
 		     GOIOContext *io_context,
-		     gpointer FIXME_workbook_view, GsfInput *input)
+		      GoView *view, GsfInput *input)
 {
 	g_return_if_fail (GO_IS_FILE_OPENER (fo));
 	g_return_if_fail (GSF_IS_INPUT (input));
 
-	GO_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context,
-					  FIXME_workbook_view, input);
+	GO_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context, view, input);
 }
 
 /*
@@ -447,14 +443,14 @@ go_file_saver_get_property (GObject *object, guint property_id,
 
 static void
 go_file_saver_save_real (GOFileSaver const *fs, GOIOContext *io_context,
-			 gconstpointer FIXME_workbook_view, GsfOutput *output)
+			 GoView const *view, GsfOutput *output)
 {
 	if (fs->save_func == NULL) {
 		go_io_error_unknown (io_context);
 		return;
 	}
 
-	fs->save_func (fs, io_context, FIXME_workbook_view, output);
+	fs->save_func (fs, io_context, view, output);
 }
 
 static void
@@ -666,7 +662,7 @@ go_file_saver_set_export_options (GOFileSaver *fs,
  * go_file_saver_save:
  * @fs: GOFileSaver object
  * @io_context: Context for i/o operation
- * @FIXME_workbook_view: Workbook View
+ * @view: #GoView
  * @output: Output stream
  *
  * Saves @wbv and the workbook it is attached to into @output stream.
@@ -677,8 +673,7 @@ go_file_saver_set_export_options (GOFileSaver *fs,
  */
 void
 go_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
-		    gconstpointer FIXME_workbook_view,
-		    GsfOutput *output)
+		    GoView *view, GsfOutput *output)
 {
 	g_return_if_fail (GO_IS_FILE_SAVER (fs));
 	g_return_if_fail (GSF_IS_OUTPUT (output));
@@ -716,8 +711,7 @@ go_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
 		g_free (file_name);
 	}
 
-	GO_FILE_SAVER_METHOD (fs, save) (fs, io_context,
-					 FIXME_workbook_view, output);
+	GO_FILE_SAVER_METHOD (fs, save) (fs, io_context, view, output);
 }
 
 /**

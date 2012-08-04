@@ -442,7 +442,7 @@ go_selector_activate (GOSelector *selector)
  * A convenience function to access user_data of selector palette.
  * (See @go_palette_get_user_data).
  *
- * Returns: a pointer to palette user_data.
+ * Returns: (transfer none): a pointer to palette user_data.
  **/
 gpointer
 go_selector_get_user_data (GOSelector *selector)
@@ -520,9 +520,9 @@ go_selector_drag_data_get (GtkWidget        *button,
  * @selector: a #GOSelector
  * @dnd_target: drag and drop target type
  * @dnd_length: length of data transfered on drop
- * @data_get: a user provided data_get method
- * @data_received: a user provided data_received method
- * @fill_icon: a user function for dnd icon creation
+ * @data_get: (scope notified): a user provided data_get method
+ * @data_received: (scope notified): a user provided data_received method
+ * @fill_icon: (scope notified): a user function for dnd icon creation
  *
  * Setups drag and drop for @selector.
  **/

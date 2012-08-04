@@ -86,6 +86,12 @@ go_calendar_button_new (void)
 	return g_object_new (GO_TYPE_CALENDAR_BUTTON, NULL);
 }
 
+/**
+ * go_calendar_button_get_calendar:
+ * @calb: #GOCalendarButton
+ * 
+ * Returns: (transfer none): the embedded calendar.
+ **/
 GtkCalendar *
 go_calendar_button_get_calendar (GOCalendarButton *calb)
 {

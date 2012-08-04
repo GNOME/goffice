@@ -30,6 +30,7 @@ typedef struct _GOApp		GOApp;
 typedef struct _GODoc		GODoc;
 typedef struct _GODocControl	GODocControl;
 typedef struct _GOCmdContext	GOCmdContext;
+typedef struct _GoView		GoView;
 
 typedef struct _GOPlugin	GOPlugin;
 typedef struct _GOPluginService	GOPluginService;
@@ -76,6 +77,7 @@ G_END_DECLS
 #include <goffice/app/go-plugin-loader-module.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-service-impl.h>
+#include <goffice/app/go-view.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/io-context-priv.h>
 

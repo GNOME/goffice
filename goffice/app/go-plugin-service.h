@@ -47,7 +47,7 @@ typedef struct {
 	         GsfInput *input, GOFileProbeLevel pl);
 	void     (*plugin_func_file_open) (
 	         GOFileOpener const *fo, GOPluginService *service,
-	         GOIOContext *io_context, gpointer fixme_workbook_view,
+	         GOIOContext *io_context, GoView *view,
 		 GsfInput *input, char const *enc);
 } GOPluginServiceFileOpenerCallbacks;
 
@@ -61,7 +61,7 @@ typedef struct _GOPluginServiceFileSaver GOPluginServiceFileSaver;
 typedef struct {
 	void  (*plugin_func_file_save) (
 	      GOFileSaver const *fs, GOPluginService *service,
-	      GOIOContext *io_context, gconstpointer fixme_workbook_view,
+	      GOIOContext *io_context, GoView const *view,
 	      GsfOutput *output);
 } GOPluginServiceFileSaverCallbacks;
 

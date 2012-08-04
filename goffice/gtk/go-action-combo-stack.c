@@ -441,10 +441,10 @@ go_action_combo_stack_truncate (GOActionComboStack *act, unsigned n)
 }
 
 /**
- * go_action_combo_stack_selection :
- * @a : #GOActionComboStack
+ * go_action_combo_stack_selection:
+ * @a: #GOActionComboStack
  *
- * Returns: the key of the item last selected in one of the proxies.
+ * Returns: (transfer full): the key of the item last selected in one of the proxies.
  * 	Yes this interface is terrible, but we can't return the key in the
  * 	activate signal.
  *

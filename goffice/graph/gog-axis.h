@@ -60,7 +60,7 @@ double	      gog_axis_map_get_baseline	  (GogAxisMap *map);
 void 	      gog_axis_map_get_extents 	  (GogAxisMap *map, double *start, double *stop);
 void 	      gog_axis_map_get_real_extents (GogAxisMap *map, double *start, double *stop);
 void	      gog_axis_map_get_bounds 	  (GogAxisMap *map, double *minimum, double *maximum);
-void 	      gog_axis_map_get_real_bounds (GogAxisMap *map, double *start, double *stop);
+void 	      gog_axis_map_get_real_bounds (GogAxisMap *map, double *minimum, double *maximum);
 void 	      gog_axis_map_free		  (GogAxisMap *map);
 gboolean      gog_axis_map_is_valid 	  (GogAxisMap *map);
 gboolean      gog_axis_map_is_inverted 	  (GogAxisMap *map);

@@ -80,7 +80,9 @@ cb_rows_toggled (GtkToggleButton *btn, XYZSurfPrefsState *state)
 static void
 cb_missing_as_changed (GtkComboBoxText *box, XYZSurfPrefsState *state)
 {
-	g_object_set (state->plot, "missing-as", gtk_combo_box_text_get_active_text (box));
+	g_object_set (state->plot,
+	              "missing-as", gtk_combo_box_text_get_active_text (box),
+	              NULL);
 		
 }
 

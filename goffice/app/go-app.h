@@ -1,5 +1,5 @@
 /*
- * go-app.h :  A GOffice appument
+ * go-app.h :  A GOffice application
  *
  * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
  *

@@ -626,7 +626,7 @@ go_plugin_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
 static void
 go_plugin_file_opener_open (GOFileOpener const *fo, gchar const *enc,
 			     GOIOContext *io_context,
-			     gpointer FIXME_FIXME_workbook_view,
+			     GoView *view,
 			     GsfInput *input)
 
 {
@@ -645,7 +645,7 @@ go_plugin_file_opener_open (GOFileOpener const *fo, gchar const *enc,
 	}
 
 	g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
-	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, FIXME_FIXME_workbook_view, input, enc);
+	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, view, input, enc);
 }
 
 static void
@@ -888,7 +888,7 @@ go_plugin_file_saver_init (GOPluginFileSaver *fs)
 
 static void
 go_plugin_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
-			    gconstpointer FIXME_FIXME_workbook_view,
+			    GoView const *view,
 			    GsfOutput *output)
 {
 	GOPluginFileSaver *pfs = GO_PLUGIN_FILE_SAVER (fs);
@@ -908,7 +908,7 @@ go_plugin_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
 	}
 
 	g_return_if_fail (service_file_saver->cbs.plugin_func_file_save != NULL);
-	service_file_saver->cbs.plugin_func_file_save (fs, pfs->service, io_context, FIXME_FIXME_workbook_view, output);
+	service_file_saver->cbs.plugin_func_file_save (fs, pfs->service, io_context, view, output);
 }
 
 static void

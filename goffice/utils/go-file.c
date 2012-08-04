@@ -909,7 +909,7 @@ go_file_get_date_changed (char const *uri)
 
 /**
  * go_url_encode:
- * @uri_fragment: The uri part to be encoded
+ * @uri: The uri part to be encoded
  * @type: 0: mailto, 1: file or http
  *
  * url-encode a string according to RFC 2368.

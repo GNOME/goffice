@@ -25,7 +25,7 @@ struct _GOFileOpenerClass {
 	void      (*open)  (GOFileOpener const *fo,
 			    gchar const *opt_enc,
 	                    GOIOContext *io_context,
-	                    gpointer  fixme_fixme_workbook_view,
+	                    GoView *view,
 	                    GsfInput *input);
 };
 
@@ -65,7 +65,7 @@ struct _GOFileSaverClass {
 	/* private */
 	void (*save) (GOFileSaver const *fs,
 	              GOIOContext *io_context,
-	              gconstpointer wbv,
+	              GoView const *view,
 	              GsfOutput *output);
 
 	gboolean (*set_export_options) (GOFileSaver *fs,

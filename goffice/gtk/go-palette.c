@@ -282,9 +282,9 @@ cb_custom_activate (GtkWidget *item, GOPalette *palette)
  * @n_swatches: number of palette items
  * @swatch_width: swatch width as multiple of swatch height
  * @n_columns: number of columns for displaying palette items
- * @swatch_render: a user function used for swatch rendering
+ * @swatch_render: (scope notified): a user function used for swatch rendering
  * @data: user data for use by swatch render function
- * @destroy: a function to destroy user data on widget finalization
+ * @destroy: (scope async): a function to destroy user data on widget finalization
  *
  * Returns: a new #GOPalette object.
  **/
@@ -373,7 +373,7 @@ go_palette_show_custom (GOPalette *palette,
  * go_palette_get_user_data:
  * @palette: a #GOPalette
  *
- * Returns: a pointer to user data given to go_palette_new function.
+ * Returns: (transfer none): a pointer to user data given to go_palette_new function.
  **/
 gpointer
 go_palette_get_user_data (GOPalette *palette)
@@ -388,7 +388,7 @@ go_palette_get_user_data (GOPalette *palette)
  * @palette: a #GOPalette
  * @index: default index
  *
- * Returns: a new #GtkDrawingArea which will be rendered like a @palette
+ * Returns: (transfer full): a new #GtkDrawingArea which will be rendered like a @palette
  * swatch. @index can be changed later by changing swatch "index" data.
  **/
 GtkWidget *

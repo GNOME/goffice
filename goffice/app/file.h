@@ -53,12 +53,12 @@ typedef gboolean (*GOFileOpenerProbeFunc) (GOFileOpener const *fo,
 					    GOFileProbeLevel pl);
 typedef void     (*GOFileOpenerOpenFunc) (GOFileOpener const *fo,
 					  GOIOContext *io_context,
-					  gpointer FIXME_FIXME_workbook_view,
+					  GoView *view,
 					  GsfInput *input);
 typedef void     (*GOFileOpenerOpenFuncWithEnc) (GOFileOpener const *fo,
 						 gchar const *enc,
 						 GOIOContext *io_context,
-						 gpointer FIXME_workbook_view,
+						 GoView *view,
 						 GsfInput *input);
 
 GType go_file_opener_get_type (void);
@@ -82,7 +82,7 @@ gboolean     go_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
 				    GOFileProbeLevel pl);
 void         go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
 				  GOIOContext *io_context,
-				  gpointer FIXME_workbook_view,
+				  GoView *view,
 				  GsfInput *input);
 
 char const *go_file_opener_get_id		  (GOFileOpener const *fo);
@@ -105,7 +105,7 @@ typedef struct _GOFileSaverClass GOFileSaverClass;
 
 typedef void (*GOFileSaverSaveFunc) (GOFileSaver const *fs,
 				     GOIOContext *io_context,
-				     gconstpointer FIXME_FIXME_workbook_view,
+				     GoView const *view,
 				     GsfOutput *output);
 
 GType go_file_saver_get_type (void);
@@ -126,7 +126,7 @@ gboolean     go_file_saver_set_export_options (GOFileSaver *fs,
 					       GError **err);
 
 void         go_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
-				 gconstpointer FIXME_workbook_view,
+				 GoView *view,
 				 GsfOutput *output);
 void         go_file_saver_set_overwrite_files	(GOFileSaver *fs,
 						 gboolean overwrite);

@@ -240,7 +240,7 @@ typedef struct {
 	gboolean (*module_func_file_probe) (GOFileOpener const *fo, GsfInput *input,
 					    GOFileProbeLevel pl);
 	void (*module_func_file_open) (GOFileOpener const *fo, GOIOContext *io_context,
-				       gpointer FIXME_FIXME_workbook_view,
+				       GoView *view,
 				       GsfInput *input);
 } ServiceLoaderDataFileOpener;
 
@@ -260,7 +260,7 @@ go_plugin_loader_module_func_file_probe (GOFileOpener const *fo, GOPluginService
 static void
 go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService *service,
 					 GOIOContext *io_context,
-					 gpointer   FIXME_FIXME_workbook_view,
+					 GoView *view,
 					GsfInput  *input,
 					char const *enc)
 {
@@ -273,14 +273,14 @@ go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService 
 	if (fo->encoding_dependent) {
 		void (*module_func_file_open) (GOFileOpener const *fo, char const *enc,
 					       GOIOContext *io_context,
-					       gpointer FIXME_FIXME_workbook_view,
+					       GoView *view,
 					       GsfInput *input);
 		module_func_file_open = (gpointer)(loader_data->module_func_file_open);
 		module_func_file_open (fo, enc, io_context,
-				       FIXME_FIXME_workbook_view, input);
+				       view, input);
 	} else
 		loader_data->module_func_file_open (fo, io_context,
-						    FIXME_FIXME_workbook_view, input);
+						    view, input);
 }
 
 static char *
@@ -347,14 +347,14 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 
 typedef struct {
 	void (*module_func_file_save) (GOFileSaver const *fs, GOIOContext *io_context,
-				       gconstpointer FIXME_FIXME_workbook_view,
+				       GoView const *view,
 				       GsfOutput *output);
 } ServiceLoaderDataFileSaver;
 
 static void
 go_plugin_loader_module_func_file_save (GOFileSaver const *fs, GOPluginService *service,
 					 GOIOContext *io_context,
-					 gconstpointer FIXME_FIXME_workbook_view,
+					 GoView const *view,
 					 GsfOutput *output)
 {
 	ServiceLoaderDataFileSaver *loader_data;
@@ -364,7 +364,7 @@ go_plugin_loader_module_func_file_save (GOFileSaver const *fs, GOPluginService *
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	loader_data->module_func_file_save (fs, io_context,
-		FIXME_FIXME_workbook_view, output);
+		view, output);
 }
 
 static void

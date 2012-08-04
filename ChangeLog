@@ -1,3 +1,19 @@
+2012-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/Makefile.am: new GoView class for use in file openers and
+	savers.
+	* goffice/app/file-priv.h: ditto.
+	* goffice/app/file.c: ditto.
+	* goffice/app/file.h: ditto.
+	* goffice/app/go-app.h: ditto.
+	* goffice/app/go-plugin-loader-module.c: ditto.
+	* goffice/app/go-plugin-service.c: ditto.
+	* goffice/app/go-plugin-service.h: ditto.
+	* goffice/app/go-view.c: ditto.
+	* goffice/app/go-view.h: ditto.
+	* goffice/app/goffice-app.h: ditto.
+	* all others: introspection warnings.
+
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* all: fixed some introspection and doc warnings.

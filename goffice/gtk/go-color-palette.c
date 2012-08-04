@@ -674,7 +674,7 @@ cb_menu_custom_activate (GtkWidget *button, GOMenuColor *menu)
  * @custom_dialog_title: optional string
  * @current_color: #GOColor
  *
- * Returns:  a submenu with a palette of colours.  Caller is responsible for
+ * Returns: (transfer full): a submenu with a palette of colours.  Caller is responsible for
  * 	creating an item to point to the submenu.
  **/
 GtkWidget *

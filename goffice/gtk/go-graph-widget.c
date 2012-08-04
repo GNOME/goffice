@@ -156,10 +156,11 @@ go_graph_widget_button_press_event (GtkWidget *widget,
 	if (event->type == GDK_BUTTON_PRESS) {
 		gw->button_pressed = TRUE;
 
-		gdk_window_get_pointer (gtk_widget_get_window (widget),
-					&gw->button_press_x,
-					&gw->button_press_y,
-					NULL);
+		gdk_window_get_device_position (gtk_widget_get_window (widget),
+		                                event->device,
+		                                &gw->button_press_x,
+		                                &gw->button_press_y,
+		                                NULL);
 	}
 
 	if (GTK_WIDGET_CLASS (graph_parent_klass)->button_press_event != NULL) {
@@ -198,8 +199,8 @@ go_graph_widget_motion_notify_event (GtkWidget *widget,
 		GtkAdjustment *hadjustment, *vadjustment;
 		hadjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (gw));
 		vadjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (gw));
-		gdk_window_get_pointer (gtk_widget_get_window (widget),
-					&x, &y, NULL);
+		gdk_window_get_device_position (gtk_widget_get_window (widget),
+		                                 event->device, &x, &y, NULL);
 
 		if (hadjustment != NULL) {
 			newval = gtk_adjustment_get_value (hadjustment) - (x - gw->button_press_x);

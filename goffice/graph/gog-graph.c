@@ -547,7 +547,7 @@ gog_graph_num_rows (GogGraph const *graph)
  * gog_graph_dup:
  * @graph: #GogGraph
  *
- * Returns: (transfer full) a deep copy of @graph.
+ * Returns: (transfer full): a deep copy of @graph.
  **/
 GogGraph *
 gog_graph_dup (GogGraph const *graph)
@@ -557,6 +557,12 @@ gog_graph_dup (GogGraph const *graph)
 	return GOG_GRAPH (res);
 }
 
+/**
+ * gog_graph_get_theme:
+ * @graph: #GogGraph
+ *
+ * Returns: (transfer none): the #GogTheme used by @graph.
+ **/
 GogTheme *
 gog_graph_get_theme (GogGraph const *graph)
 {
@@ -602,7 +608,7 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
  * gog_graph_get_data:
  * @graph: #GogGraph
  *
- * Returns: a list of the GOData objects that are data to the graph.
+ * Returns: (element-type GOData*) (transfer none): a list of the GOData objects that are data to the graph.
  * The caller should _not_ modify or free the list.
  **/
 GSList *
@@ -617,7 +623,7 @@ gog_graph_get_data (GogGraph const *graph)
  * @graph: #GogGraph
  * @dat: #GOData
  *
- * Returns: @dat or something equivalent to it that already exists in the graph.
+ * Returns: (transfer full): @dat or something equivalent to it that already exists in the graph.
  * 	Otherwise use @dat.  Adds a gobject ref to the target and increments a
  *	 count of the number of refs made from this #GogGraph.
  **/
@@ -1081,7 +1087,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
  * gog_graph_view_get_selection:
  * @gview: #GogGraphView
  *
- * Returns: current selected view.
+ * Returns: (transfer none): current selected view.
  **/
 GogView *
 gog_graph_view_get_selection (GogGraphView *gview)
@@ -1129,7 +1135,8 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
  *
  * Builds a list of supported formats for image export.
  *
- * returns: a #GSList of #GOImageFormat.
+ * returns: (element-type GOImageFormat) (transfer container): a #GSList
+ * of #GOImageFormat.
  **/
 
 GSList *
