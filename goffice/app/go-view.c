@@ -25,6 +25,6 @@
 
 typedef GObjectClass GoViewClass;
 
-GSF_CLASS (GoView, go_view,
+GSF_CLASS_ABSTRACT (GoView, go_view,
 	   NULL, NULL,
 	   G_TYPE_OBJECT)

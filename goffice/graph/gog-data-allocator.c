@@ -65,7 +65,7 @@ gog_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
  * @dim_i:
  * @data_type:
  *
- * returns: a #GtkWidget.
+ * returns: (transfer full): a #GtkWidget.
  **/
 
 GogDataEditor *

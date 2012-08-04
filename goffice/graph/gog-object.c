@@ -27,6 +27,29 @@
 #include <string.h>
 #include <stdlib.h>
 
+static GogObjectRole*
+gog_object_role_ref (GogObjectRole* role)
+{
+	return role;
+}
+
+static void
+gog_object_role_unref (G_GNUC_UNUSED GogObjectRole *role)
+{
+}
+
+GType
+gog_object_role_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GogObjectRole",
+			 (GBoxedCopyFunc) gog_object_role_ref,
+			 (GBoxedFreeFunc) gog_object_role_unref);
+	return t;
+}
+
 /**
  * SECTION: gog-object
  * @short_description: The base class for graph objects.
@@ -936,11 +959,11 @@ dataset_dup (GogDataset const *src, GogDataset *dst)
  * gog_object_dup:
  * @src: #GogObject
  * @new_parent: #GogObject the parent tree for the object (can be NULL)
- * @datadup: a function to duplicate the data (a default one is used if NULL)
+ * @datadup: (scope call): a function to duplicate the data (a default one is used if NULL)
  *
  * Create a deep copy of @obj using @new_parent as its parent.
  *
- * Returns: FIXME
+ * Returns: (transfer full): the duplicated object
  **/
 GogObject *
 gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator datadup)
@@ -996,7 +1019,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
  * gog_object_get_parent:
  * @obj: a #GogObject
  *
- * Returns: @obj's parent, potentially %NULL if it has not been added to a
+ * Returns: (transfer none): @obj's parent, potentially %NULL if it has not been added to a
  * 	heirarchy yet.  does not change ref-count in any way.
  **/
 GogObject *
@@ -1007,11 +1030,11 @@ gog_object_get_parent (GogObject const *obj)
 }
 
 /**
- * gog_object_get_parent_typed :
+ * gog_object_get_parent_typed:
  * @obj: a #GogObject
  * @t: a #GType
  *
- * Returns: @obj's parent of type @type, potentially %NULL if it has not been
+ * Returns: (transfer none): @obj's parent of type @type, potentially %NULL if it has not been
  * added to a hierarchy yet or none of the parents are of type @type.
  **/
 GogObject *
@@ -1029,7 +1052,7 @@ gog_object_get_parent_typed (GogObject const *obj, GType t)
  * gog_object_get_graph:
  * @obj: const * #GogObject
  *
- * Returns: the parent graph.
+ * Returns: (transfer none): the parent graph.
  **/
 GogGraph *
 gog_object_get_graph (GogObject const *obj)
@@ -1042,6 +1065,12 @@ gog_object_get_graph (GogObject const *obj)
 	return NULL;
 }
 
+/**
+ * gog_object_get_theme:
+ * @obj: const * #GogObject
+ *
+ * Returns: (transfer none): the parent graph theme.
+ **/
 GogTheme *
 gog_object_get_theme (GogObject const *obj)
 {
@@ -1100,8 +1129,8 @@ gog_object_set_name (GogObject *obj, char *name, GError **err)
  * @obj: a #GogObject
  * @filter: an optional #GogObjectRole to use as a filter
  *
- * Returns: A list of @obj's Children.  Caller must free the list, but not the
- * 		children.
+ * Returns: (element-type GogObject*) (transfer container): list of @obj's
+ * Children.  Caller must free the list, but not the children.
  **/
 GSList *
 gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
@@ -1126,7 +1155,7 @@ gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
  *
  * A convenience routine to find a unique child with @role.
  *
- * Returns: %NULL and spews an error if there is more than one.
+ * Returns: (transfer none): %NULL and spews an error if there is more than one.
  **/
 GogObject *
 gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
@@ -1148,7 +1177,7 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
  *
  * A convenience routine to find a unique child with role == @name
  *
- * Returns: %NULL and spews an error if there is more than one.
+ * Returns: (transfer none): %NULL and spews an error if there is more than one.
  **/
 GogObject *
 gog_object_get_child_by_name (GogObject const *obj, char const *name)
@@ -1229,8 +1258,8 @@ gog_role_cmp_full (GogObjectRole const *a, GogObjectRole const *b)
  * gog_object_possible_additions:
  * @parent: a #GogObject
  *
- * Returns: a list of GogObjectRoles that could be added.
- * 	The resulting list needs to be freed
+ * Returns: (element-type GogObjectRole*) (transfer container): a list
+ * of GogObjectRoles that could be added. The resulting list needs to be freed
  **/
 GSList *
 gog_object_possible_additions (GogObject const *parent)
@@ -1306,7 +1335,7 @@ gog_object_can_reorder (GogObject const *obj, gboolean *inc_ok, gboolean *dec_ok
  * @inc:
  * @goto_max:
  *
- * Returns: the object just before @obj in the new ordering.
+ * Returns: (transfer none): the object just before @obj in the new ordering.
  **/
 GogObject *
 gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
@@ -1367,7 +1396,7 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
  * Builds an object property editor, by calling GogObject::populate_editor
  * virtual functions.
  *
- * Returns: a #GtkNotebook widget
+ * Returns: (transfer full): a #GtkNotebook widget
  **/
 gpointer
 gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
@@ -1405,7 +1434,7 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
  *
  * Creates a new #GogView associated to @obj, and sets its parent to @parent.
  *
- * return value: a new #GogView
+ * Returns: (transfer full): a new #GogView
  **/
 GogView *
 gog_object_new_view (GogObject const *obj, GogView *parent)
@@ -1598,7 +1627,7 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
  * @child: #GogObject
  *
  * Absorb a ref to @child if it is non-NULL.
- * Returns: @child or a newly created object with @role.  Callers do _not_ own
+ * Returns: (transfer none): @child or a newly created object with @role.  Callers do _not_ own
  * 	the reference.
  **/
 GogObject *
@@ -1650,7 +1679,7 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
  * @role:
  * @child: optionally null #GogObject
  *
- * Returns: a newly created child of @parent in @role.  If @child is provided,
+ * Returns: (transfer none):  a newly created child of @parent in @role.  If @child is provided,
  * it is assumed to be an unaffiliated object that will be assigned in @role.
  * On failure return NULL.
  **/

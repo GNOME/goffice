@@ -50,6 +50,7 @@ typedef struct {
 
 typedef struct _GogAxisMap GogAxisMap;
 
+GType		  gog_axis_map_get_type (void);
 GogAxisMap*   gog_axis_map_new	 	  (GogAxis *axis, double offset, double length);
 double	      gog_axis_map 		  (GogAxisMap *map, double value);
 double	      gog_axis_map_to_view	  (GogAxisMap *map, double value);

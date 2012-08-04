@@ -28,6 +28,7 @@ struct _GogChartMap {
 	gpointer	 	 data;
 	GogAxisMap		*axis_map[3];
 	gboolean		 is_valid;
+	unsigned		ref_count;
 
 	void 	 (*map_2D_to_view) 	(GogChartMap *map, double x, double y, double *u, double *v);
 	void 	 (*map_view_to_2D) 	(GogChartMap *map, double x, double y, double *u, double *v);
@@ -835,7 +836,7 @@ polar_make_close_path (GogChartMap *map, double const *x, double const *y,
  *
  * Convenience function for retrieving data related to polar plot layout.
  *
- * returns: a #GogChartMapPolarData struct.
+ * returns: (transfer none): a #GogChartMapPolarData struct.
  **/
 
 GogChartMapPolarData *
@@ -856,7 +857,7 @@ gog_chart_map_get_polar_parms (GogChartMap *map)
  * Creates a new #GogChartMap, used for conversion from data space
  * to canvas space.
  *
- * returns: a new #GogChartMap object.
+ * returns: (transfer full): a new #GogChartMap object.
  **/
 
 GogChartMap *
@@ -880,6 +881,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 	map->data = NULL;
 	map->is_valid = FALSE;
 	map->axis_map[0] = map->axis_map[1] = map->axis_map[2] = NULL;
+	map->ref_count = 1;
 
 	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 		case GOG_AXIS_SET_X:
@@ -1034,7 +1036,7 @@ gog_chart_map_view_to_2D (GogChartMap *map, double x, double y, double *u, doubl
  *
  * Valid values are in range [0..2].
  *
- * returns: a #GogAxisMap.
+ * returns: (transfer none): a #GogAxisMap.
  **/
 
 GogAxisMap *
@@ -1080,6 +1082,8 @@ gog_chart_map_free (GogChartMap *map)
 
 	g_return_if_fail (map != NULL);
 
+	if (map->ref_count-- > 1)
+		return;
 	for (i = 0; i < 3; i++)
 		if (map->axis_map[i] != NULL)
 			gog_axis_map_free (map->axis_map[i]);
@@ -1087,6 +1091,25 @@ gog_chart_map_free (GogChartMap *map)
 	g_free (map->data);
 	g_object_unref (map->chart);
 	g_free (map);
+}
+
+static GogChartMap *
+gog_chart_map_ref (GogChartMap *map)
+{
+	map->ref_count++;
+	return map;
+}
+
+GType
+gog_chart_map_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GogChartMap",
+			 (GBoxedCopyFunc) gog_chart_map_ref,
+			 (GBoxedFreeFunc) gog_chart_map_free);
+	return t;
 }
 
 /**

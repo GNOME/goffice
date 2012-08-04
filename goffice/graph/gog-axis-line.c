@@ -271,6 +271,12 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 	return crossed_type;
 }
 
+/**
+ * gog_axis_base_get_crossed_axis:
+ * @axis_base: #GogAxisBase
+ *
+ * Returns: (transfer none): returns the crossing axis in a 2D chart if set.
+ **/
 GogAxis *
 gog_axis_base_get_crossed_axis (GogAxisBase *axis_base)
 {

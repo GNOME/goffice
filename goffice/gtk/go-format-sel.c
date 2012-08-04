@@ -1839,7 +1839,7 @@ go_format_sel_set_dateconv (GOFormatSel *gfs,
 /**
  * go_format_sel_get_fmt:
  * @gfs: #GOFormatSel
- * 
+ *
  * Returns: (transfer none): the #GOFormat.
  **/
 GOFormat const *
@@ -1852,7 +1852,7 @@ go_format_sel_get_fmt (GOFormatSel *gfs)
 /**
  * go_format_sel_get_dateconv:
  * @gfs: #GOFormatSel
- * 
+ *
  * Returns: (transfer none): the #GODateConventions.
  **/
 GODateConventions const *

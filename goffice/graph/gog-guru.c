@@ -1280,7 +1280,7 @@ graph_guru_init (GraphGuruState *s)
  * up the relationship between goffice and gnumeric to decide which parts of
  * the help live where.
  *
- * Returns: #GtkWidget associated with the gurus help button.
+ * Returns: (transfer none): #GtkWidget associated with the gurus help button.
  **/
 GtkWidget *
 gog_guru_get_help_button (GtkWidget *guru)
@@ -1300,7 +1300,7 @@ gog_guru_get_help_button (GtkWidget *guru)
  * 	: drop the @toplevel window argument and have the callers handle
  * 	  widget_show and set_transient
  *
- * Returns: the dialog, and shows new graph guru.
+ * Returns: (transfer full): the dialog, and shows new graph guru.
  **/
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,

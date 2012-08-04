@@ -1109,6 +1109,14 @@ gog_series_get_valid_element_index (GogSeries const *series, int old_index, int 
 	return old_index;
 }
 
+/**
+ * gog_series_get_element:
+ * series: #GogSeries
+ * index: the element index
+ *
+ * Returns: (transfer none): the #GogSeriesElement corresponding to @index if
+ * any
+ **/
 GogSeriesElement *
 gog_series_get_element (GogSeries const *series, int index)
 {

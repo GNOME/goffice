@@ -89,7 +89,7 @@ go_calendar_button_new (void)
 /**
  * go_calendar_button_get_calendar:
  * @calb: #GOCalendarButton
- * 
+ *
  * Returns: (transfer none): the embedded calendar.
  **/
 GtkCalendar *

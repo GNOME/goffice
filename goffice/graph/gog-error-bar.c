@@ -204,6 +204,16 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 	gog_object_request_update (GOG_OBJECT (editor->series));
 }
 
+/**
+ * gog_error_bar_prefs:
+ * @series: #GogSeries
+ * @property: the name of the @series property correspondig to the #GogErrorBar.
+ * @direction: #GogErrorBarDirection
+ * @dalloc: #GogDataAllocator
+ * @cc: #GOCmdContext
+ *
+ * Returns: (transfer full): the error bar properties #GtkWidget
+ **/
 gpointer
 gog_error_bar_prefs (GogSeries *series,
 		     char const *property,
@@ -562,6 +572,12 @@ gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 	}
 }
 
+/**
+ * gog_error_bar_dup:
+ * @bar: #GogErrorBar
+ *
+ * Returns: (transfer full): the duplicated error bar.
+ **/
 GogErrorBar  *
 gog_error_bar_dup		(GogErrorBar const *bar)
 {

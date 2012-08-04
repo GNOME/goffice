@@ -59,6 +59,7 @@ struct _GogObjectRole {
 		gpointer	p;
 	} user;
 };
+GType gog_object_role_get_type (void);
 
 struct _GogObject {
 	GObject		 base;

@@ -154,6 +154,14 @@ gog_axis_get_date_conv (GogAxis const *axis)
 	return axis->date_conv;
 }
 
+/**
+ * gog_axis_get_effective_format:
+ * @axis: #GogAxis
+ *
+ * Returns: (transfer none): the #GOFormat used for the axis labels. Differs
+ * from gog_axis_get_format in that it never returns a general format
+ * (see #go_format_is_general).
+ **/
 GOFormat *
 gog_axis_get_effective_format (GogAxis const *axis)
 {
@@ -217,6 +225,7 @@ struct _GogAxisMap {
 	GogAxisMapDesc	const *desc;
 	gpointer	 data;
 	gboolean	 is_valid;	/* Default to FALSE if desc::init == NULL */
+	unsigned     ref_count;
 };
 
 struct _GogAxisMapDesc {
@@ -1574,7 +1583,7 @@ gog_axis_map_is_valid (GogAxisMap *map)
  * gog_axis_map_to_view in order to translates data coordinates
  * into canvas space.
  *
- * Returns: a newly allocated #GogAxisMap.
+ * Returns: (transfer full): a newly allocated #GogAxisMap.
  **/
 GogAxisMap *
 gog_axis_map_new (GogAxis *axis, double offset, double length)
@@ -1590,6 +1599,7 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
 	map->axis = axis;
 	map->data = NULL;
 	map->is_valid = FALSE;
+	map->ref_count = 1;
 
 	if (axis->type != GOG_AXIS_CIRCULAR) {
 		offset += axis->span_start * length;
@@ -1891,12 +1901,33 @@ gog_axis_map_free (GogAxisMap *map)
 {
 	g_return_if_fail (map != NULL);
 
+	if (map->ref_count-- > 1)
+		return;
 	if (map->desc->destroy != NULL)
 		map->desc->destroy (map);
 
 	g_object_unref (map->axis);
 	g_free (map->data);
 	g_free (map);
+}
+
+static GogAxisMap *
+gog_axis_map_ref (GogAxisMap *map)
+{
+	map->ref_count++;
+	return map;
+}
+
+GType
+gog_axis_map_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GogAxisMap",
+			 (GBoxedCopyFunc) gog_axis_map_ref,
+			 (GBoxedFreeFunc) gog_axis_map_free);
+	return t;
 }
 
 static void
@@ -2094,7 +2125,8 @@ gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
  * gog_axis_get_format:
  * @axis: #GogAxis
  *
- * Returns: the format assigned to @axis but does not add a reference.
+ * Returns: (transfer none): the format assigned to @axis but does not add
+ * a reference.
  **/
 GOFormat *
 gog_axis_get_format (GogAxis const *axis)
@@ -3068,7 +3100,7 @@ gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
  * @axis: a #GogAxis
  * @plot_that_labeled_axis: a #GogPlot
  *
- * return value: the possibly NULL #GOData used as a label for this axis
+ * Returns: (transfer none): the possibly NULL #GOData used as a label for this axis
  * along with the plot that it was associated with
  **/
 GOData *
@@ -3148,6 +3180,13 @@ gog_axis_clear_contributors (GogAxis *axis)
 	g_slist_free (list);
 }
 
+/**
+ * gog_axis_contributors:
+ * @axis: #GogAxis
+ *
+ * Returns: (element-type GogObject*) (transfer none): the list of the axis
+ * contributors
+ **/
 GSList const *
 gog_axis_contributors (GogAxis *axis)
 {
@@ -3169,11 +3208,12 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 	gog_object_request_update (GOG_OBJECT (axis));
 }
 
-/* gog_axis_get_grid_line:
+/**
+ * gog_axis_get_grid_line:
  * @axis: #GogAxis
  * @major: whether to retrieve major or minor grid line.
  *
- * Returns: a pointer to GridLine object associated to given axis, NULL
+ * Returns: (transfer none): a pointer to GridLine object associated to given axis, NULL
  * if it doesn't exists.
  **/
 GogGridLine *

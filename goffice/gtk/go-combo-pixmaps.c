@@ -288,7 +288,7 @@ go_combo_pixmaps_get_selected (GOComboPixmaps const *combo, int *index)
 /**
  * go_combo_pixmaps_get_preview:
  * @combo: #GOComboPixmaps
- * 
+ *
  * Returns: (transfer none): the preview button.
  **/
 GtkWidget *

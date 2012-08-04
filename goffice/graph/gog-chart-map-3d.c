@@ -29,6 +29,7 @@ struct _GogChartMap3D {
 	GogAxisMap		*axis_map[3];
 	gboolean		 is_valid;
 	GOMatrix3x3		 mat;
+	unsigned ref_count;
 
 	void 	 (*map_3D_to_view) 	(GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w);
 };
@@ -63,18 +64,17 @@ xyz_map_3D_to_view (GogChartMap3D *map, double x, double y, double z, double *u,
 }
 
 /**
- * gog_chart_3d_map_new:
+ * gog_chart_map_3d_new:
  * @chart: a #GogChart with 3D support
  * @area: area allocated to chart
  * @axis0: 1st dimension axis
  * @axis1: 2nd dimension axis
  * @axis2: 3rd dimension axis
- * @fill_area: does chart fill allocated area
  *
  * Creates a new #GogChartMap3D, used for conversion from data space
  * to canvas space.
  *
- * returns: a new #GogChartMap3D object.
+ * returns: (transfer full): a new #GogChartMap3D object.
  **/
 
 GogChartMap3D*
@@ -94,6 +94,7 @@ gog_chart_map_3d_new (GogChart *chart, GogViewAllocation const *area,
 	map->area = *area;
 	map->data = NULL;
 	map->is_valid = FALSE;
+	map->ref_count = 1;
 	box = GOG_3D_BOX (gog_object_get_child_by_name (GOG_OBJECT (chart), "3D-Box"));
 
 	axis_set = gog_chart_get_axis_set (chart);
@@ -149,9 +150,8 @@ gog_chart_map_3d_to_view (GogChartMap3D *map, double x, double y, double z, doub
  *
  * Valid values are in range [0..2].
  *
- * returns: a #GogAxisMap.
+ * returns: (transfer none): a #GogAxisMap.
  **/
-
 GogAxisMap *
 gog_chart_map_3d_get_axis_map (GogChartMap3D *map, unsigned int i)
 {
@@ -192,6 +192,8 @@ gog_chart_map_3d_free (GogChartMap3D *map)
 
 	g_return_if_fail (map != NULL);
 
+	if (map->ref_count-- > 1)
+		return;
 	for (i = 0; i < 3; i++)
 		if (map->axis_map[i] != NULL)
 			gog_axis_map_free (map->axis_map[i]);
@@ -199,4 +201,23 @@ gog_chart_map_3d_free (GogChartMap3D *map)
 	g_free (map->data);
 	g_object_unref (map->chart);
 	g_free (map);
+}
+
+static GogChartMap3D *
+gog_chart_map_3d_ref (GogChartMap3D *map)
+{
+	map->ref_count++;
+	return map;
+}
+
+GType
+gog_chart_map_3d_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GogChartMap3D",
+			 (GBoxedCopyFunc) gog_chart_map_3d_ref,
+			 (GBoxedFreeFunc) gog_chart_map_3d_free);
+	return t;
 }

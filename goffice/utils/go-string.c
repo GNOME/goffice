@@ -25,6 +25,12 @@
 #include <gsf/gsf-utils.h>
 #include <string.h>
 
+/**
+ * GOString:
+ * @str: the embeded UTF-8 string
+ *
+ * GOString is a structure containing a string.
+ **/
 typedef struct {
 	GOString	base;
 	guint32		hash;
@@ -583,6 +589,13 @@ _go_string_dump (void)
 	g_slist_free (strs);
 }
 
+/**
+ * go_string_foreach_base:
+ * @callback: (scope call): callback
+ * @data: user data
+ *
+ * Iterates through the strings data base and apply @callback to each.
+ **/
 void
 go_string_foreach_base (GHFunc callback, gpointer data)
 {
@@ -646,7 +659,11 @@ go_string_get_markup (GOString const *gstr)
 }
 
 /**
- * go_string_get_phonetic
+ * go_string_get_phonetic: (skip)
+ * @gstr: #GOString.
+ *
+ * Warning: Not implemented, always returns NULL.
+ * Returns: (transfer none): the phonetic data.
  **/
 GOStringPhonetic *
 go_string_get_phonetic (GOString const *gstr)

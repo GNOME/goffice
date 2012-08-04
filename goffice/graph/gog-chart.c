@@ -887,6 +887,15 @@ gog_chart_request_cardinality_update (GogChart *chart)
 	}
 }
 
+/**
+ * gog_chart_foreach_elem:
+ * @chart: #GogChart
+ * @only_visible: whether to only apply to visible children
+ * @handler: (scope call): callback
+ * @data: user data
+ *
+ * Applies @handler to children
+ **/
 void
 gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
 			GogEnumFunc handler, gpointer data)
@@ -900,6 +909,14 @@ gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
 		gog_plot_foreach_elem (ptr->data, only_visible, handler, data);
 }
 
+
+/**
+ * gog_chart_get_plots:
+ * @chart: #GogChart
+ *
+ * Returns: (element-type GogPlot*) (transfer none): the list of the plots
+ * in @chart.
+ **/
 GSList *
 gog_chart_get_plots (GogChart const *chart)
 {
@@ -997,7 +1014,8 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
  * @chart: #GogChart
  * @target: #GogAxisType
  *
- * Returns: a list which the caller must free of all axis of type @target
+ * Returns: (element-type GogAxis*) (transfer container): a list which the
+ * caller must free of all axis of type @target
  * associated with @chart.
  **/
 GSList *
@@ -1030,7 +1048,7 @@ gog_chart_get_axes (GogChart const *chart, GogAxisType target)
  * gog_chart_get_grid:
  * @chart: #GogChart
  *
- * Returns: the grid associated with @chart if one exists
+ * Returns: (transfer none): the grid associated with @chart if one exists
  * otherwise NULL.
  **/
 GogGrid  *

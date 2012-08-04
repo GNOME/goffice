@@ -34,7 +34,8 @@ typedef struct {
 
 typedef struct _GogChartMap GogChartMap;
 
-GogChartMap 	*gog_chart_map_new 		(GogChart *chart, GogViewAllocation const *area,
+GType		 gog_chart_map_get_type (void);
+GogChartMap *gog_chart_map_new 		(GogChart *chart, GogViewAllocation const *area,
 						 GogAxis *axis0, GogAxis *axis1, GogAxis *axis2,
 						 gboolean fill_area);
 void 		 gog_chart_map_2D_to_view	(GogChartMap *map, double x, double y, double *u, double *v);

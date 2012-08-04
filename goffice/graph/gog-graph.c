@@ -1135,7 +1135,7 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
  *
  * Builds a list of supported formats for image export.
  *
- * returns: (element-type GOImageFormat) (transfer container): a #GSList
+ * returns: (element-type GOImageFormat*) (transfer container): a #GSList
  * of #GOImageFormat.
  **/
 
