@@ -21,14 +21,16 @@ msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-09 12:19+0000\n"
-"PO-Revision-Date: 2012-04-09 13:54+0200\n"
+"POT-Creation-Date: 2012-07-29 15:10+0000\n"
+"PO-Revision-Date: 2012-08-07 20:49+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
 #: ../goffice/app/file.c:473
 msgid "ID"
@@ -317,8 +319,8 @@ msgstr ""
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
-"El archivo contiene información del complemento con un identificador "
-"no válido (%s). Se esperaba %s."
+"El archivo contiene información del complemento con un identificador no "
+"válido (%s). Se esperaba %s."
 
 #: ../goffice/app/go-plugin.c:364
 msgid "Couldn't read plugin info from file."
@@ -351,7 +353,8 @@ msgstr "No se puede leer el archivo de información del complemento («%s»)."
 #: ../goffice/app/go-plugin.c:775
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "El archivo «%s» no es un archivo válido de información de complementos."
+msgstr ""
+"El archivo «%s» no es un archivo válido de información de complementos."
 
 #: ../goffice/app/go-plugin.c:858
 #, c-format
@@ -373,8 +376,8 @@ msgstr "Nombre desconocido del complemento."
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
-"No se encuentra definido un cargador para el complemento con identificador=«%"
-"s»."
+"No se encuentra definido un cargador para el complemento con "
+"identificador=«%s»."
 
 #: ../goffice/app/go-plugin.c:884
 msgid "Plugin has no id."
@@ -546,7 +549,7 @@ msgid "The rotation around center position"
 msgstr "La rotación alrededor de la posición del centro"
 
 #: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:2740 ../goffice/graph/gog-grid.c:116
+#: ../goffice/graph/gog-axis.c:2798 ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Tipo"
@@ -618,7 +621,7 @@ msgstr "La posición superior del objeto"
 #: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:281
 #: ../goffice/canvas/goc-pixbuf.c:241 ../goffice/canvas/goc-rectangle.c:330
 #: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:408
-#: ../goffice/utils/go-image.c:435
+#: ../goffice/utils/go-image.c:441
 msgid "Height"
 msgstr "Altura"
 
@@ -627,7 +630,7 @@ msgstr "Altura"
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
 #: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
 #: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-graph.c:402
-#: ../goffice/utils/go-image.c:431 ../plugins/plot_xy/gog-xy-dropbar.c:312
+#: ../goffice/utils/go-image.c:437 ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "Anchura"
 
@@ -773,7 +776,7 @@ msgstr "Lienzo"
 msgid "The canvas object on which the item resides"
 msgstr "El objeto del lienzo en el que reside el elemento"
 
-#: ../goffice/canvas/goc-item.c:266 ../goffice/graph/gog-view.c:579
+#: ../goffice/canvas/goc-item.c:266 ../goffice/graph/gog-view.c:601
 msgid "Parent"
 msgstr "Padre"
 
@@ -1091,103 +1094,103 @@ msgstr "Ángulo phi de Euler"
 msgid "Field of view"
 msgstr "Campo de visión"
 
-#: ../goffice/graph/gog-axis-line.c:618
+#: ../goffice/graph/gog-axis-line.c:619
 msgid "Layout"
 msgstr "Disposición"
 
-#: ../goffice/graph/gog-axis-line.c:647
+#: ../goffice/graph/gog-axis-line.c:648
 msgid "Axis position"
 msgstr "Posición de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:648 ../goffice/graph/gog-axis-line.c:654
+#: ../goffice/graph/gog-axis-line.c:649 ../goffice/graph/gog-axis-line.c:655
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Indica dónde posicionar un eje: bajo, alto o cruzado"
 
-#: ../goffice/graph/gog-axis-line.c:653
+#: ../goffice/graph/gog-axis-line.c:654
 msgid "Axis position (as a string)"
 msgstr "Posición de los ejes (como una cadena)"
 
-#: ../goffice/graph/gog-axis-line.c:659
+#: ../goffice/graph/gog-axis-line.c:660
 msgid "Major labels"
 msgstr "Etiquetas mayores"
 
-#: ../goffice/graph/gog-axis-line.c:660
+#: ../goffice/graph/gog-axis-line.c:661
 msgid "Show labels for major ticks"
 msgstr "Mostrar las etiquetas para los tics mayores"
 
-#: ../goffice/graph/gog-axis-line.c:665
+#: ../goffice/graph/gog-axis-line.c:666
 msgid "Inside major ticks"
 msgstr "Tics mayores dentro"
 
-#: ../goffice/graph/gog-axis-line.c:666
+#: ../goffice/graph/gog-axis-line.c:667
 msgid "Major tick marks inside the chart area"
 msgstr "Las marcas de los tics mayores dentro del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:671
+#: ../goffice/graph/gog-axis-line.c:672
 msgid "Outside major ticks"
 msgstr "Tics mayores fuera"
 
-#: ../goffice/graph/gog-axis-line.c:672
+#: ../goffice/graph/gog-axis-line.c:673
 msgid "Major tick marks outside the chart area"
 msgstr "Las marcas de los tics mayores fuera del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:677
+#: ../goffice/graph/gog-axis-line.c:678
 msgid "Major tick size"
 msgstr "Tamaño de los tics mayores"
 
-#: ../goffice/graph/gog-axis-line.c:678
+#: ../goffice/graph/gog-axis-line.c:679
 msgid "Size of the major tick marks, in points"
 msgstr "Tamaño de las marcas de los tics mayores, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:684
+#: ../goffice/graph/gog-axis-line.c:685
 msgid "Inside minor ticks"
 msgstr "Tics menores dentro"
 
-#: ../goffice/graph/gog-axis-line.c:685
+#: ../goffice/graph/gog-axis-line.c:686
 msgid "Minor tick marks inside the chart area"
 msgstr "Las marcas de los tics menores dentro del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:690
+#: ../goffice/graph/gog-axis-line.c:691
 msgid "Outside minor ticks"
 msgstr "Tics menores fuera"
 
-#: ../goffice/graph/gog-axis-line.c:691
+#: ../goffice/graph/gog-axis-line.c:692
 msgid "Minor tick marks outside the axis"
 msgstr "Las marcas de los tics menores fuera del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:696
+#: ../goffice/graph/gog-axis-line.c:697
 msgid "Minor tick size"
 msgstr "Tamaño de los tics menores"
 
-#: ../goffice/graph/gog-axis-line.c:697
+#: ../goffice/graph/gog-axis-line.c:698
 msgid "Size of the minor tick marks, in points"
 msgstr "Tamaño de las marcas de los tics menores, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:703
+#: ../goffice/graph/gog-axis-line.c:704
 msgid "Cross axis id"
 msgstr "Cruzar el id de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:704
+#: ../goffice/graph/gog-axis-line.c:705
 msgid "Which axis to cross"
 msgstr "Qué ejes cruzar"
 
-#: ../goffice/graph/gog-axis-line.c:710
+#: ../goffice/graph/gog-axis-line.c:711
 msgid "Axis padding"
 msgstr "Separación de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:711
+#: ../goffice/graph/gog-axis-line.c:712
 msgid "Distance from axis line to plot area, in points"
 msgstr "Distancia desde la línea del eje al área de dibujo, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:803
+#: ../goffice/graph/gog-axis-line.c:804
 msgid "Select axis"
 msgstr "Seleccione el eje"
 
-#: ../goffice/graph/gog-axis-line.c:909
+#: ../goffice/graph/gog-axis-line.c:910
 msgid "Set start bound"
 msgstr "Establecer vinculación inicial"
 
-#: ../goffice/graph/gog-axis-line.c:920
+#: ../goffice/graph/gog-axis-line.c:921
 msgid "Set stop bound"
 msgstr "Establecer vinculación final"
 
@@ -1302,142 +1305,142 @@ msgstr "grados"
 msgid "<b>Mapping</b>"
 msgstr "<b>Mapeo</b>"
 
-#: ../goffice/graph/gog-axis.c:56
+#: ../goffice/graph/gog-axis.c:57
 msgid "Degrees"
 msgstr "Grados"
 
-#: ../goffice/graph/gog-axis.c:57
+#: ../goffice/graph/gog-axis.c:58
 msgid "Radians"
 msgstr "Radianes"
 
-#: ../goffice/graph/gog-axis.c:58
+#: ../goffice/graph/gog-axis.c:59
 msgid "Grads"
 msgstr "Gradientes"
 
-#: ../goffice/graph/gog-axis.c:1451
+#: ../goffice/graph/gog-axis.c:1452
 msgid "Discrete"
 msgstr "Discreto"
 
-#: ../goffice/graph/gog-axis.c:1451
+#: ../goffice/graph/gog-axis.c:1452
 msgid "Discrete mapping"
 msgstr "Mapeo discreto"
 
-#: ../goffice/graph/gog-axis.c:1463 ../goffice/utils/go-line.c:119
+#: ../goffice/graph/gog-axis.c:1464 ../goffice/utils/go-line.c:119
 #: ../goffice/utils/go-line.c:332 ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Linear"
 msgstr "Lineal"
 
-#: ../goffice/graph/gog-axis.c:1463
+#: ../goffice/graph/gog-axis.c:1464
 msgid "Linear mapping"
 msgstr "Mapeado lineal"
 
-#: ../goffice/graph/gog-axis.c:1475
+#: ../goffice/graph/gog-axis.c:1476
 msgid "Log"
 msgstr "Log"
 
-#: ../goffice/graph/gog-axis.c:1475
+#: ../goffice/graph/gog-axis.c:1476
 msgid "Logarithm mapping"
 msgstr "Mapeo logarítmico"
 
-#: ../goffice/graph/gog-axis.c:2577 ../goffice/graph/gog-axis.c:2587
+#: ../goffice/graph/gog-axis.c:2635 ../goffice/graph/gog-axis.c:2645
 msgid "M_inimum"
 msgstr "Mí_nimo"
 
-#: ../goffice/graph/gog-axis.c:2578 ../goffice/graph/gog-axis.c:2588
+#: ../goffice/graph/gog-axis.c:2636 ../goffice/graph/gog-axis.c:2646
 msgid "M_aximum"
 msgstr "Má_ximo"
 
-#: ../goffice/graph/gog-axis.c:2579
+#: ../goffice/graph/gog-axis.c:2637
 msgid "Categories between _ticks"
 msgstr "Categorías entre _tics"
 
-#: ../goffice/graph/gog-axis.c:2580
+#: ../goffice/graph/gog-axis.c:2638
 msgid "Categories between _labels"
 msgstr "Categorías entre _etiquetas"
 
-#: ../goffice/graph/gog-axis.c:2589
+#: ../goffice/graph/gog-axis.c:2647
 msgid "Ma_jor ticks"
 msgstr "Tics ma_yores"
 
-#: ../goffice/graph/gog-axis.c:2590
+#: ../goffice/graph/gog-axis.c:2648
 msgid "Mi_nor ticks"
 msgstr "Tics me_nores"
 
-#: ../goffice/graph/gog-axis.c:2646 ../goffice/math/go-distribution.c:162
+#: ../goffice/graph/gog-axis.c:2704 ../goffice/math/go-distribution.c:162
 #: ../goffice/math/go-distribution.c:163
 msgid "Scale"
 msgstr "Escala"
 
-#: ../goffice/graph/gog-axis.c:2666 ../plugins/plot_pie/gog-pie.c:325
+#: ../goffice/graph/gog-axis.c:2724 ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Expandir"
 
-#: ../goffice/graph/gog-axis.c:2684 ../goffice/graph/gog-series-labels.c:869
+#: ../goffice/graph/gog-axis.c:2742 ../goffice/graph/gog-series-labels.c:869
 #: ../goffice/graph/gog-series-labels.c:1393
 msgid "Format"
 msgstr "Formato"
 
-#: ../goffice/graph/gog-axis.c:2716
+#: ../goffice/graph/gog-axis.c:2774
 msgid "MajorGrid"
 msgstr "RejillaMayor"
 
-#: ../goffice/graph/gog-axis.c:2719
+#: ../goffice/graph/gog-axis.c:2777
 msgid "MinorGrid"
 msgstr "RejillaMenor"
 
-#: ../goffice/graph/gog-axis.c:2722
+#: ../goffice/graph/gog-axis.c:2780
 msgid "AxisLine"
 msgstr "LíneaDelEje"
 
-#: ../goffice/graph/gog-axis.c:2725
+#: ../goffice/graph/gog-axis.c:2783
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../goffice/graph/gog-axis.c:2741
+#: ../goffice/graph/gog-axis.c:2799
 msgid "Numerical type of this axis"
 msgstr "Tipo numérico de este eje"
 
-#: ../goffice/graph/gog-axis.c:2745
+#: ../goffice/graph/gog-axis.c:2803
 msgid "Invert axis"
 msgstr "Invertir eje"
 
-#: ../goffice/graph/gog-axis.c:2746
+#: ../goffice/graph/gog-axis.c:2804
 msgid "Scale from high to low rather than low to high"
 msgstr "Escalar de grande a pequeño en lugar de de pequeño a grande"
 
-#: ../goffice/graph/gog-axis.c:2750
+#: ../goffice/graph/gog-axis.c:2808
 msgid "MapName"
 msgstr "NombreDelMapa"
 
-#: ../goffice/graph/gog-axis.c:2751
+#: ../goffice/graph/gog-axis.c:2809
 msgid "The name of the map for scaling"
 msgstr "El nombre del mapa que escalar"
 
-#: ../goffice/graph/gog-axis.c:2756
+#: ../goffice/graph/gog-axis.c:2814
 msgid "Assigned XL format"
 msgstr "Formato XL asignado"
 
-#: ../goffice/graph/gog-axis.c:2757
+#: ../goffice/graph/gog-axis.c:2815
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "El formato asignado por el usuario que usar para las etiquetas no discretas "
 "de los ejes (formato XL)"
 
-#: ../goffice/graph/gog-axis.c:2762 ../goffice/graph/gog-axis.c:2763
+#: ../goffice/graph/gog-axis.c:2820 ../goffice/graph/gog-axis.c:2821
 msgid "Rotation of circular axis"
 msgstr "Rotación del eje circular"
 
-#: ../goffice/graph/gog-axis.c:2770 ../goffice/graph/gog-axis.c:2771
+#: ../goffice/graph/gog-axis.c:2828 ../goffice/graph/gog-axis.c:2829
 msgid "Polar axis set unit"
 msgstr "Unidad del eje polar"
 
-#: ../goffice/graph/gog-axis.c:2776
+#: ../goffice/graph/gog-axis.c:2834
 msgid "Axis start position"
 msgstr "Posición de inicio de los ejes"
 
-#: ../goffice/graph/gog-axis.c:2777
+#: ../goffice/graph/gog-axis.c:2835
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
@@ -1446,11 +1449,11 @@ msgstr ""
 "expresado como porcentaje de la posición disponible. Lo predeterminado es "
 "0.0."
 
-#: ../goffice/graph/gog-axis.c:2782
+#: ../goffice/graph/gog-axis.c:2840
 msgid "Axis end position"
 msgstr "Posición final de los ejes"
 
-#: ../goffice/graph/gog-axis.c:2783
+#: ../goffice/graph/gog-axis.c:2841
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
@@ -1523,7 +1526,7 @@ msgstr "Título"
 msgid "Legend"
 msgstr "Leyenda"
 
-#: ../goffice/graph/gog-chart.c:645 ../goffice/graph/gog-reg-curve.c:258
+#: ../goffice/graph/gog-chart.c:645 ../goffice/graph/gog-reg-curve.c:266
 msgid "Equation"
 msgstr "Ecuación"
 
@@ -1744,7 +1747,7 @@ msgstr "<b>Muestra</b>"
 msgid "<b>_Subtype</b>"
 msgstr "<b>_Subtipo</b>"
 
-#: ../goffice/graph/gog-guru.c:1012 ../goffice/graph/gog-series.c:511
+#: ../goffice/graph/gog-guru.c:1012 ../goffice/graph/gog-series.c:515
 msgid "Name"
 msgstr "Nombre"
 
@@ -1829,7 +1832,7 @@ msgstr ""
 "en http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 
 #: ../goffice/graph/gog-label.c:307 ../goffice/graph/gog-label.c:544
-#: ../goffice/graph/gog-reg-curve.c:115
+#: ../goffice/graph/gog-reg-curve.c:119
 #: ../goffice/graph/gog-series-labels.c:566
 #: ../goffice/graph/gog-smoothed-curve.c:52
 #: ../goffice/graph/gog-trend-line.c:92
@@ -2081,87 +2084,147 @@ msgstr "Tipo de dibujado"
 msgid "Regression Curve Engine"
 msgstr "Motor de curvas de regresión "
 
-#: ../goffice/graph/gog-plot-engine.c:576
+#: ../goffice/graph/gog-plot-engine.c:577
 msgid "Regression Curve Type"
 msgstr "Tipo de curvas de regresión"
 
-#: ../goffice/graph/gog-plot.c:176
+#: ../goffice/graph/gog-plot.c:182
 msgid "X axis:"
 msgstr "Eje X:"
 
-#: ../goffice/graph/gog-plot.c:177
+#: ../goffice/graph/gog-plot.c:183
 msgid "Y axis:"
 msgstr "Eje Y:"
 
-#: ../goffice/graph/gog-plot.c:178
+#: ../goffice/graph/gog-plot.c:184
 msgid "Z axis:"
 msgstr "Eje Z:"
 
-#: ../goffice/graph/gog-plot.c:179
+#: ../goffice/graph/gog-plot.c:185
 msgid "Circular axis:"
 msgstr "Eje circular:"
 
-#: ../goffice/graph/gog-plot.c:180
+#: ../goffice/graph/gog-plot.c:186
 msgid "Radial axis:"
 msgstr "Eje radial:"
 
-#: ../goffice/graph/gog-plot.c:181
+#: ../goffice/graph/gog-plot.c:187
 msgid "Pseudo 3D axis:"
 msgstr "Eje pseudo 3D:"
 
-#: ../goffice/graph/gog-plot.c:182
+#: ../goffice/graph/gog-plot.c:188
 msgid "Color axis:"
 msgstr "Color de los ejes:"
 
-#: ../goffice/graph/gog-plot.c:183
+#: ../goffice/graph/gog-plot.c:189
 msgid "Bubble axis:"
 msgstr "Eje de burbuja:"
 
-#: ../goffice/graph/gog-plot.c:248
+#: ../goffice/graph/gog-plot.c:254
 msgid "Axes"
 msgstr "Ejes"
 
-#: ../goffice/graph/gog-plot.c:350
+#: ../goffice/graph/gog-plot.c:392
 msgid "Series"
 msgstr "Series"
 
-#: ../goffice/graph/gog-plot.c:371
+#: ../goffice/graph/gog-plot.c:413
 msgid "Vary style by element"
 msgstr "Variar el estilo por elemento"
 
-#: ../goffice/graph/gog-plot.c:372
+#: ../goffice/graph/gog-plot.c:414
 msgid "Use a different style for each segments"
 msgstr "Usar un estilo diferente para cada segmento"
 
-#: ../goffice/graph/gog-plot.c:377
+#: ../goffice/graph/gog-plot.c:419
 msgid "X axis"
 msgstr "Eje X"
 
-#: ../goffice/graph/gog-plot.c:378
+#: ../goffice/graph/gog-plot.c:420
 msgid "Reference to X axis"
 msgstr "Referencia al eje X"
 
-#: ../goffice/graph/gog-plot.c:383
+#: ../goffice/graph/gog-plot.c:425
 msgid "Y axis"
 msgstr "Eje Y"
 
-#: ../goffice/graph/gog-plot.c:384
+#: ../goffice/graph/gog-plot.c:426
 msgid "Reference to Y axis"
 msgstr "Referencia al eje Y"
 
-#: ../goffice/graph/gog-plot.c:389
+#: ../goffice/graph/gog-plot.c:431
+#| msgid "Z axis:"
+msgid "Z axis"
+msgstr "Eje Z"
+
+#: ../goffice/graph/gog-plot.c:432
+#| msgid "Reference to X axis"
+msgid "Reference to Z axis"
+msgstr "Referencia al eje Z"
+
+#: ../goffice/graph/gog-plot.c:437
+#| msgid "Circular axis:"
+msgid "Circular axis"
+msgstr "Eje circular"
+
+#: ../goffice/graph/gog-plot.c:438
+#| msgid "Reference to X axis"
+msgid "Reference to circular axis"
+msgstr "Referencia al eje circular"
+
+#: ../goffice/graph/gog-plot.c:443
+#| msgid "Radial axis:"
+msgid "Radial axis"
+msgstr "Eje radial"
+
+#: ../goffice/graph/gog-plot.c:444
+#| msgid "Reference to X axis"
+msgid "Reference to radial axis"
+msgstr "Referencia al eje radial"
+
+#: ../goffice/graph/gog-plot.c:449
+#| msgid "Pseudo 3D axis:"
+msgid "Pseudo-3d axis"
+msgstr "Eje pseudo 3D"
+
+#: ../goffice/graph/gog-plot.c:450
+#| msgid "Reference to X axis"
+msgid "Reference to pseudo-3d axis"
+msgstr "Referencia al eje pseudo 3D"
+
+#: ../goffice/graph/gog-plot.c:455
+#| msgid "Color axis:"
+msgid "Color axis"
+msgstr "Color de los ejes"
+
+#: ../goffice/graph/gog-plot.c:456
+#| msgid "Reference to X axis"
+msgid "Reference to color axis"
+msgstr "Referencia al color de los ejes"
+
+#: ../goffice/graph/gog-plot.c:461
+#| msgid "Bubble axis:"
+msgid "Bubble axis"
+msgstr "Eje de burbuja"
+
+#: ../goffice/graph/gog-plot.c:462
+#| msgid "Reference to X axis"
+msgid "Reference to buccle axis"
+msgstr "Referencia al eje de burbuja"
+
+#: ../goffice/graph/gog-plot.c:467
 msgid "Plot group"
 msgstr "Grupo de dibujado"
 
-#: ../goffice/graph/gog-plot.c:390
+#: ../goffice/graph/gog-plot.c:468
 msgid "Name of plot group if any"
 msgstr "Nombre del grupo de dibujado si lo hay"
 
-#: ../goffice/graph/gog-plot.c:395
+#: ../goffice/graph/gog-plot.c:473
 msgid "Guru hints"
 msgstr "Consejos de gurú"
 
-#: ../goffice/graph/gog-plot.c:396
+#: ../goffice/graph/gog-plot.c:474
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
@@ -2169,19 +2232,19 @@ msgstr ""
 "Lista de los consejos de gurú separados por punto y coma para la adición "
 "automática de objetos en el diálogo de gurú"
 
-#: ../goffice/graph/gog-plot.c:402
+#: ../goffice/graph/gog-plot.c:480
 msgid "Default interpolation"
 msgstr "Interpolación predeterminada"
 
-#: ../goffice/graph/gog-plot.c:403
+#: ../goffice/graph/gog-plot.c:481
 msgid "Default type of series line interpolation"
 msgstr "Tipo predeterminado de series de líneas de interpolación"
 
-#: ../goffice/graph/gog-plot.c:1028
+#: ../goffice/graph/gog-plot.c:1129
 msgid "Move plot area"
 msgstr "Mover área de dibujado"
 
-#: ../goffice/graph/gog-plot.c:1080
+#: ../goffice/graph/gog-plot.c:1181
 msgid "Resize plot area"
 msgstr "Redimensionar área de dibujado"
 
@@ -2198,7 +2261,7 @@ msgid "High bound:"
 msgstr "Vínculo superior:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
-#: ../goffice/graph/gog-reg-curve.c:287
+#: ../goffice/graph/gog-reg-curve.c:295
 msgid "Skip invalid data"
 msgstr "Saltar datos no válidos"
 
@@ -2251,19 +2314,19 @@ msgstr "Período inferior:"
 msgid "High span:"
 msgstr "Período superior:"
 
-#: ../goffice/graph/gog-reg-curve.c:251
+#: ../goffice/graph/gog-reg-curve.c:259
 msgid "Regression Curve"
 msgstr "Curva de regresión"
 
-#: ../goffice/graph/gog-reg-curve.c:286
+#: ../goffice/graph/gog-reg-curve.c:294
 msgid "Skip invalid"
 msgstr "Saltar no válidos"
 
-#: ../goffice/graph/gog-reg-curve.c:292
+#: ../goffice/graph/gog-reg-curve.c:300
 msgid "Drawing bounds"
 msgstr "Límites del dibujo:"
 
-#: ../goffice/graph/gog-reg-curve.c:293
+#: ../goffice/graph/gog-reg-curve.c:301
 msgid ""
 "How the regression line should be limited, acceptable values are \"none\", "
 "\"absolute\", and \"relative\"."
@@ -2279,19 +2342,19 @@ msgstr "Visualizar _ecuación"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Visualizar el coeficiente de _regresión R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1836 ../goffice/graph/gog-view.c:585
+#: ../goffice/graph/gog-renderer.c:1838 ../goffice/graph/gog-view.c:607
 msgid "Model"
 msgstr "Modelo"
 
-#: ../goffice/graph/gog-renderer.c:1837
+#: ../goffice/graph/gog-renderer.c:1839
 msgid "The GogGraph this renderer displays"
 msgstr "la GogGraph que este renderizador muestra"
 
-#: ../goffice/graph/gog-renderer.c:1842
+#: ../goffice/graph/gog-renderer.c:1844
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1843
+#: ../goffice/graph/gog-renderer.c:1845
 msgid "the GogView this renderer is displaying"
 msgstr "la GogView que está mostrando este renderizador"
 
@@ -2319,83 +2382,103 @@ msgstr "Self"
 msgid "Next series"
 msgstr "Siguientes series"
 
-#: ../goffice/graph/gog-series.c:158 ../goffice/graph/gog-series-labels.c:373
+#: ../goffice/graph/gog-series.c:54
+#| msgid "X axis"
+msgid "X axis minimum"
+msgstr "Eje X mínimo"
+
+#: ../goffice/graph/gog-series.c:55
+#| msgid "X axis"
+msgid "X axis maximum"
+msgstr "Eje X máximo"
+
+#: ../goffice/graph/gog-series.c:56
+#| msgid "Y axis"
+msgid "Y axis minimum"
+msgstr "Eje Y mínimo"
+
+#: ../goffice/graph/gog-series.c:57
+#| msgid "Y axis"
+msgid "Y axis maximum"
+msgstr "Eje Y máximo"
+
+#: ../goffice/graph/gog-series.c:162 ../goffice/graph/gog-series-labels.c:373
 msgid "Index:"
 msgstr "Índice:"
 
-#: ../goffice/graph/gog-series.c:177 ../plugins/plot_pie/gog-pie.c:91
+#: ../goffice/graph/gog-series.c:181 ../plugins/plot_pie/gog-pie.c:91
 msgid "Settings"
 msgstr "Configuración"
 
-#: ../goffice/graph/gog-series.c:218 ../goffice/graph/gog-series-labels.c:875
+#: ../goffice/graph/gog-series.c:222 ../goffice/graph/gog-series-labels.c:875
 msgid "Index"
 msgstr "Índice"
 
-#: ../goffice/graph/gog-series.c:219 ../goffice/graph/gog-series-labels.c:876
+#: ../goffice/graph/gog-series.c:223 ../goffice/graph/gog-series-labels.c:876
 msgid "Index of the corresponding data element"
 msgstr "Índice del elemento de datos correspondiente"
 
-#: ../goffice/graph/gog-series.c:542 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:546 ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
 msgstr "_Visualizar leyenda"
 
-#: ../goffice/graph/gog-series.c:552
+#: ../goffice/graph/gog-series.c:556
 msgid "Data"
 msgstr "Datos"
 
-#: ../goffice/graph/gog-series.c:594
+#: ../goffice/graph/gog-series.c:598
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr "Derivada en el primer punto del splin cúbico sujeto."
 
-#: ../goffice/graph/gog-series.c:599
+#: ../goffice/graph/gog-series.c:603
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr "Derivada en el último punto del splin cúbico sujeto."
 
-#: ../goffice/graph/gog-series.c:672 ../goffice/graph/gog-series-labels.c:1358
+#: ../goffice/graph/gog-series.c:676 ../goffice/graph/gog-series-labels.c:1358
 msgid "Point"
 msgstr "Punto"
 
-#: ../goffice/graph/gog-series.c:678
+#: ../goffice/graph/gog-series.c:682
 msgid "Regression curve"
 msgstr "Curva de regresión"
 
-#: ../goffice/graph/gog-series.c:686
+#: ../goffice/graph/gog-series.c:690
 msgid "Trend line"
 msgstr "Línea de tendencia"
 
-#: ../goffice/graph/gog-series.c:694
+#: ../goffice/graph/gog-series.c:698
 msgid "Data labels"
 msgstr "Etiquetas de datos"
 
-#: ../goffice/graph/gog-series.c:729 ../goffice/graph/gog-trend-line.c:153
+#: ../goffice/graph/gog-series.c:733 ../goffice/graph/gog-trend-line.c:153
 msgid "Has-legend"
 msgstr "Tiene leyenda"
 
-#: ../goffice/graph/gog-series.c:730
+#: ../goffice/graph/gog-series.c:734
 msgid "Should the series show up in legends"
 msgstr "Si las series deberían mostrarse en leyendas"
 
-#: ../goffice/graph/gog-series.c:735
+#: ../goffice/graph/gog-series.c:739
 msgid "Interpolation"
 msgstr "Interpolación"
 
-#: ../goffice/graph/gog-series.c:736
+#: ../goffice/graph/gog-series.c:740
 msgid "Type of line interpolation"
 msgstr "Tipo de línea de interpolación"
 
-#: ../goffice/graph/gog-series.c:741
+#: ../goffice/graph/gog-series.c:745
 msgid "Interpolation skip invalid"
 msgstr "El salto de interpolación no es válido"
 
-#: ../goffice/graph/gog-series.c:742
+#: ../goffice/graph/gog-series.c:746
 msgid "Should the series interpolation ignore the invalid data"
 msgstr "Si las series de interpolación deberían ignorar los datos no válidos"
 
-#: ../goffice/graph/gog-series.c:747
+#: ../goffice/graph/gog-series.c:751
 msgid "Fill type"
 msgstr "Tipo de rellenado"
 
-#: ../goffice/graph/gog-series.c:748
+#: ../goffice/graph/gog-series.c:752
 msgid "How to fill the area"
 msgstr "Cómo rellenar el área"
 
@@ -2544,7 +2627,7 @@ msgstr "Guppi"
 #: ../plugins/plot_pie/gog-pie.c:275 ../plugins/plot_pie/gog-pie.c:438
 #: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:595
 #: ../plugins/plot_surface/gog-xyz.c:101
-#: ../plugins/plot_surface/gog-xyz-surface.c:259
+#: ../plugins/plot_surface/gog-xyz-surface.c:315
 #: ../plugins/plot_xy/gog-xy.c:371 ../plugins/plot_xy/gog-xy.c:483
 #: ../plugins/plot_xy/gog-xy.c:754 ../plugins/plot_xy/gog-xy-dropbar.c:154
 #: ../plugins/smoothing/gog-moving-avg.c:112
@@ -2560,23 +2643,23 @@ msgstr "Línea de tendencia"
 msgid "Should the trend line show up in legends"
 msgstr "Indica si la línea de tendencia se debe mostrar en las leyendas"
 
-#: ../goffice/graph/gog-view.c:56
+#: ../goffice/graph/gog-view.c:78
 msgid "Select object"
 msgstr "Seleccionar objeto"
 
-#: ../goffice/graph/gog-view.c:127
+#: ../goffice/graph/gog-view.c:149
 msgid "Move"
 msgstr "Mover"
 
-#: ../goffice/graph/gog-view.c:174
+#: ../goffice/graph/gog-view.c:196
 msgid "Resize object"
 msgstr "Redimensionar objeto"
 
-#: ../goffice/graph/gog-view.c:580
+#: ../goffice/graph/gog-view.c:602
 msgid "the GogView parent"
 msgstr "el padre GogView"
 
-#: ../goffice/graph/gog-view.c:586
+#: ../goffice/graph/gog-view.c:608
 msgid "The GogObject this view displays"
 msgstr "El GogObject que muestra esta vista"
 
@@ -5035,17 +5118,17 @@ msgstr "Zambia, kwacha zambiano"
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, dólar de Zimbabwe"
 
-#: ../goffice/utils/go-emf.c:202
+#: ../goffice/utils/go-emf.c:222
 #, c-format
 msgid "Could not load the image data\n"
 msgstr "No se pudieron cargar los datos de la imagen\n"
 
-#: ../goffice/utils/go-emf.c:242
+#: ../goffice/utils/go-emf.c:259
 #, c-format
 msgid "Could not input the image data\n"
 msgstr "No se pudieron introducir los datos de la imagen\n"
 
-#: ../goffice/utils/go-emf.c:4316 ../goffice/utils/go-emf.c:4322
+#: ../goffice/utils/go-emf.c:4542 ../goffice/utils/go-emf.c:4548
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Datos de la imagen no válidos\n"
@@ -5191,11 +5274,11 @@ msgstr "WMF (meta archivo de windows)"
 msgid "EPS (encapsulated postscript)"
 msgstr "EPS (postscript encapsulado)"
 
-#: ../goffice/utils/go-image.c:432
+#: ../goffice/utils/go-image.c:438
 msgid "Image width in pixels"
 msgstr "Anchura de la imagen en píxeles"
 
-#: ../goffice/utils/go-image.c:436
+#: ../goffice/utils/go-image.c:442
 msgid "Image height in pixels"
 msgstr "Altura de la imagen en píxeles"
 
@@ -5760,8 +5843,8 @@ msgstr "Líneas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
 #: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2184
-#: ../plugins/plot_xy/gog-xy.c:2190
+#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2188
+#: ../plugins/plot_xy/gog-xy.c:2194
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -6745,7 +6828,7 @@ msgid "Hide data outside of the color axis bounds"
 msgstr "Ocultar datos fuera de los límites de los ejes de color"
 
 #: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:400
-#: ../plugins/plot_surface/gog-xyz-surface.c:469
+#: ../plugins/plot_surface/gog-xyz-surface.c:543
 #: ../plugins/plot_surface/xl-surface.c:304
 #: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:852
 msgid "Z"
@@ -6840,7 +6923,7 @@ msgstr "Tipos de gráficas de radar preestablecidas"
 
 #. xgettext : the base for how to name contour plot objects
 #.
-#: ../plugins/plot_surface/gog-contour.c:128
+#: ../plugins/plot_surface/gog-contour.c:131
 msgid "PlotContour"
 msgstr "Contorno"
 
@@ -6859,7 +6942,7 @@ msgid "Transpose the plot"
 msgstr "Transponer el gráfico"
 
 #: ../plugins/plot_surface/gog-xyz.c:396
-#: ../plugins/plot_surface/gog-xyz-surface.c:465
+#: ../plugins/plot_surface/gog-xyz-surface.c:539
 #: ../plugins/plot_surface/xl-surface.c:302
 #: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:425
 #: ../plugins/plot_xy/gog-xy.c:595 ../plugins/plot_xy/gog-xy.c:848
@@ -6867,7 +6950,7 @@ msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:398
-#: ../plugins/plot_surface/gog-xyz-surface.c:467
+#: ../plugins/plot_surface/gog-xyz-surface.c:541
 #: ../plugins/plot_xy/gog-xy.c:427 ../plugins/plot_xy/gog-xy.c:597
 #: ../plugins/plot_xy/gog-xy.c:850
 msgid "Y"
@@ -6879,71 +6962,90 @@ msgstr "Transponer"
 
 #. xgettext : the base for how to name surface plot objects
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:236
+#: ../plugins/plot_surface/gog-xyz-surface.c:292
 msgid "PlotXYZContour"
 msgstr "DibujarContornoXYZ"
 
 #. xgettext : the base for how to name surface plot objects
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:244
+#: ../plugins/plot_surface/gog-xyz-surface.c:300
 msgid "PlotXYZSurface"
 msgstr "DibujarSuperficieXYZ"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:434
+#: ../plugins/plot_surface/gog-xyz-surface.c:502
 msgid "Rows"
 msgstr "Filas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:435
+#: ../plugins/plot_surface/gog-xyz-surface.c:503
 msgid "Number of rows"
 msgstr "Número de filas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:440
+#: ../plugins/plot_surface/gog-xyz-surface.c:508
 msgid "Auto Rows"
 msgstr "Filas automáticas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:441
+#: ../plugins/plot_surface/gog-xyz-surface.c:509
 msgid "Whether the rows limts should be evaluated"
 msgstr "Indica si se deberían evaluar los límites de las filas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:446
+#: ../plugins/plot_surface/gog-xyz-surface.c:514
 msgid "Columns"
 msgstr "Columnas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:447
+#: ../plugins/plot_surface/gog-xyz-surface.c:515
 msgid "Number of columns"
 msgstr "Número de columnas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:452
+#: ../plugins/plot_surface/gog-xyz-surface.c:520
 msgid "Auto Columns"
 msgstr "Columnas automáticas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:453
+#: ../plugins/plot_surface/gog-xyz-surface.c:521
 msgid "Whether the columns limts should be evaluated"
 msgstr "Indica si se deberían evaluar los límites de las columnas"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
-msgid "<b>_Rows:</b>"
-msgstr "<b>_Filas:</b>"
+#: ../plugins/plot_surface/gog-xyz-surface.c:526
+msgid "Missing as"
+msgstr "Faltante"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:2
+#: ../plugins/plot_surface/gog-xyz-surface.c:527
+msgid "How to deal with missing data"
+msgstr "Cómo tratar los datos faltantes"
+
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
 msgid "<b>_Columns:</b>"
 msgstr "<b>_Columnas:</b>"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:3
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:2
 msgid "Calculated"
 msgstr "Calculado"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:4
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:3
 msgid "Preset:"
 msgstr "Predefinido:"
 
-#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:5
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:4
 msgid "Count:"
 msgstr "Cuenta:"
 
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:5
+msgid "<b>_Rows:</b>"
+msgstr "<b>_Filas:</b>"
+
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:6
-msgid "\n"
-msgstr "\n"
+#| msgid "<b>Values</b>"
+msgid "<b>Missing values as:</b>"
+msgstr "<b>Valores faltantes como:</b>"
+
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:7
+#| msgid "Invalid as zero"
+msgid "Invalid"
+msgstr "No válido"
+
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:8
+#| msgid "x0"
+msgid "0"
+msgstr "0"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:1
 msgid "Contour"
@@ -7124,11 +7226,11 @@ msgstr "Burbuja"
 msgid "XYColor"
 msgstr "Color XY"
 
-#: ../plugins/plot_xy/gog-xy.c:2116 ../plugins/plot_xy/gog-xy.c:2183
+#: ../plugins/plot_xy/gog-xy.c:2116 ../plugins/plot_xy/gog-xy.c:2187
 msgid "X error bars"
 msgstr "Barras de error de X"
 
-#: ../plugins/plot_xy/gog-xy.c:2119 ../plugins/plot_xy/gog-xy.c:2189
+#: ../plugins/plot_xy/gog-xy.c:2119 ../plugins/plot_xy/gog-xy.c:2193
 msgid "Y error bars"
 msgstr "Barras de error de Y"
 
@@ -7140,20 +7242,20 @@ msgstr "Líneas deslizantes horizontales"
 msgid "Vertical drop lines"
 msgstr "Líneas deslizantes verticales"
 
-#: ../plugins/plot_xy/gog-xy.c:2195
+#: ../plugins/plot_xy/gog-xy.c:2199
 msgid "Invalid as zero"
 msgstr "No válido como cero"
 
-#: ../plugins/plot_xy/gog-xy.c:2196
+#: ../plugins/plot_xy/gog-xy.c:2200
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
 
-#: ../plugins/plot_xy/gog-xy.c:2201
+#: ../plugins/plot_xy/gog-xy.c:2205
 msgid "Clamp at start"
 msgstr "Fijar al comienzo"
 
-#: ../plugins/plot_xy/gog-xy.c:2202
+#: ../plugins/plot_xy/gog-xy.c:2206
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7161,11 +7263,11 @@ msgstr ""
 "Pendiente al inicio de la curva interpolada al usar interpolación de splin "
 "sujeto"
 
-#: ../plugins/plot_xy/gog-xy.c:2207
+#: ../plugins/plot_xy/gog-xy.c:2211
 msgid "Clamp at end"
 msgstr "Fijar al final"
 
-#: ../plugins/plot_xy/gog-xy.c:2208
+#: ../plugins/plot_xy/gog-xy.c:2212
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7338,31 +7440,31 @@ msgstr "Motor de dibujado de barras deslizantes dispersas"
 msgid "Exponential regression"
 msgstr "Regresión exponencial"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:156
-#: ../plugins/reg_linear/gog-lin-reg.c:262
+#: ../plugins/reg_linear/gog-lin-reg.c:158
+#: ../plugins/reg_linear/gog-lin-reg.c:269
 msgid "Affine"
 msgstr "Afín"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:157
+#: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
 msgstr "Desmarcar para forzar la interceptación en cero"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
-#: ../plugins/reg_linear/gog-lin-reg.c:171
+#: ../plugins/reg_linear/gog-lin-reg.c:178
 msgid "Linear regression"
 msgstr "Regresión lineal"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:263
+#: ../plugins/reg_linear/gog-lin-reg.c:270
 msgid "If true, a non-zero constant is allowed"
 msgstr "Si es «true» se permite una constante distinta de cero"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:268
+#: ../plugins/reg_linear/gog-lin-reg.c:275
 msgid "Dims"
 msgstr "Dims"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:269
+#: ../plugins/reg_linear/gog-lin-reg.c:276
 msgid "Number of x-vectors"
 msgstr "Número de vectores-x"
 
@@ -7373,14 +7475,14 @@ msgstr "Número de vectores-x"
 msgid "Logarithmic regression"
 msgstr "Regresión logarítmica"
 
-#: ../plugins/reg_linear/gog-polynom-reg.c:200
+#: ../plugins/reg_linear/gog-polynom-reg.c:202
 msgid "Order:"
 msgstr "Orden:"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Polynomial regression2
-#: ../plugins/reg_linear/gog-polynom-reg.c:220
+#: ../plugins/reg_linear/gog-polynom-reg.c:227
 msgid "Polynomial regression"
 msgstr "Regresión polinómica"
 
@@ -7584,6 +7686,9 @@ msgstr "Tipos de curvas suavizadas"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Moviendo la media de la curva suavizada"
+
+#~ msgid "\n"
+#~ msgstr "\n"
 
 #~ msgid "The cropped area at the image top"
 #~ msgstr "El área recortada en la parte superior de la imagen"
