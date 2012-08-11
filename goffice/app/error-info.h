@@ -11,6 +11,7 @@ typedef enum {
 	GO_ERROR
 } GOSeverity;
 
+GType      go_error_info_get_type (void);
 GOErrorInfo *go_error_info_new_str			(char const *msg);
 GOErrorInfo *go_error_info_new_printf		(char const *msg_format, ...) G_GNUC_PRINTF (1, 2);
 GOErrorInfo *go_error_info_new_vprintf		(GOSeverity severity,

@@ -10,6 +10,7 @@ typedef struct _GOConfNode GOConfNode;
 void _go_conf_init (void);
 void _go_conf_shutdown (void);
 
+GType    go_conf_node_get_type (void);
 GOConfNode * go_conf_get_node       (GOConfNode *parent, gchar const *key);
 void	 go_conf_free_node	    (GOConfNode *node);
 

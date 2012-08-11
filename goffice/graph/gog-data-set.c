@@ -42,10 +42,10 @@ gog_dataset_get_type (void)
 }
 
 /**
- * gog_dataset_dims :
- * @set : #GogDataset
- * @first : inclusive
- * @last : _inclusive_
+ * gog_dataset_dims:
+ * @set: #GogDataset
+ * @first: inclusive
+ * @last: _inclusive_
  *
  * FIXME ?? Fix what ??
  * Stores the first and last valid indicises to get/set dim
@@ -62,11 +62,11 @@ gog_dataset_dims (GogDataset const *set, int *first, int *last)
 }
 
 /**
- * gog_dataset_get_dim :
- * @set : #GogDataset
- * @dim_i :
+ * gog_dataset_get_dim:
+ * @set: #GogDataset
+ * @dim_i:
  *
- * Returns: the GOData associated with dimension @dim_i.  Does NOT add a
+ * Returns: (transfer none): the GOData associated with dimension @dim_i.  Does NOT add a
  * 	reference.  or %NULL on failure.
  **/
 GOData *
@@ -79,10 +79,10 @@ gog_dataset_get_dim (GogDataset const *set, int dim_i)
 }
 
 /**
- * gog_dataset_set_dim :
+ * gog_dataset_set_dim:
  * @set: #GogDataset
  * @dim_i:  < 0 gets the name
- * @val: #GOData
+ * @val: (transfer full): #GOData
  * @err: #GError
  *
  * Absorbs a ref to @val if it is non NULL
@@ -124,6 +124,13 @@ done :
 		g_object_unref (val);
 }
 
+/**
+ * gog_dataset_get_elem: (skip)
+ * @set: #GogDataset
+ * @dim_i:
+ *
+ * Returns: the GODataset associated with dimension @dim_i.
+ **/
 GogDatasetElement *
 gog_dataset_get_elem (GogDataset const *set, int dim_i)
 {
@@ -143,11 +150,11 @@ cb_dataset_dim_changed (GOData *data, GogDatasetElement *elem)
 }
 
 /**
- * gog_dataset_set_dim_internal :
- * @set : #GogDataset
- * @dim_i : the index
- * @val : #GOData
- * @graph : #GogGraph
+ * gog_dataset_set_dim_internal:
+ * @set: #GogDataset
+ * @dim_i: the index
+ * @val: #GOData
+ * @graph: #GogGraph
  *
  * an internal routine to handle signal setup and teardown
  **/

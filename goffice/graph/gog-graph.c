@@ -222,7 +222,7 @@ gog_graph_populate_editor (GogObject *gobj,
 	GSList *theme_names;
 	static guint graph_pref_page = 0;
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-graph-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-graph-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -608,7 +608,7 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
  * gog_graph_get_data:
  * @graph: #GogGraph
  *
- * Returns: (element-type GOData*) (transfer none): a list of the GOData objects that are data to the graph.
+ * Returns: (element-type GOData) (transfer none): a list of the GOData objects that are data to the graph.
  * The caller should _not_ modify or free the list.
  **/
 GSList *
@@ -1135,7 +1135,7 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
  *
  * Builds a list of supported formats for image export.
  *
- * returns: (element-type GOImageFormat*) (transfer container): a #GSList
+ * returns: (element-type GOImageFormat) (transfer container): a #GSList
  * of #GOImageFormat.
  **/
 

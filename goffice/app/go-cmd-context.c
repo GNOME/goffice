@@ -50,6 +50,13 @@ go_cmd_context_error_info (GOCmdContext *context, GOErrorInfo *stack)
 	GCC_CLASS (context)->error.error_info (context, stack);
 }
 
+/**
+ * go_cmd_context_error_info_list:
+ * @cc: #GOCmdContext
+ * @stack: (element-type GOErrorInfo): a list of errors
+ *
+ * Sends a list of errors to the command context.
+ **/
 void
 go_cmd_context_error_info_list (GOCmdContext *cc, GSList *stack)
 {

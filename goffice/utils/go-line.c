@@ -59,6 +59,26 @@
  * @GO_LINE_INTERPOLATION_MAX: First invalid value.
  **/
 
+static GOLineDashSequence *
+go_line_dash_sequence_ref (GOLineDashSequence * sequence)
+{
+	sequence->ref_count++;
+	return sequence;
+}
+
+GType
+go_line_dash_sequence_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOLineDashSequence",
+			 (GBoxedCopyFunc)go_line_dash_sequence_ref,
+			 (GBoxedFreeFunc)go_line_dash_sequence_free);
+	}
+	return t;
+}
+
 typedef struct {
 	int 		 n_dash;
 	double		 length;
@@ -254,6 +274,7 @@ go_line_dash_get_sequence (GOLineDashType type, double scale)
 		sequence->dash = g_new (double, sequence->n_dash);
 		for (i = 0; i < sequence->n_dash; i++)
 			sequence->dash[i] = scale * dash_desc->dash[i];
+		sequence->ref_count = 1;
 	}
 
 	return sequence;
@@ -268,8 +289,9 @@ go_line_dash_get_sequence (GOLineDashType type, double scale)
 void
 go_line_dash_sequence_free (GOLineDashSequence *sequence)
 {
-	if (sequence != NULL)
-		g_free (sequence->dash);
+	if (sequence == NULL || sequence->ref_count-- > 1)
+		return;
+	g_free (sequence->dash);
 	g_free (sequence);
 }
 

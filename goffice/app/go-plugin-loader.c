@@ -35,6 +35,13 @@ go_plugin_loader_is_base_loaded (GOPluginLoader *loader)
 {
 	return g_object_get_data (G_OBJECT (loader), "is-base-loaded") != NULL;
 }
+
+/**
+ * go_plugin_loader_get_plugin:
+ * @l: #GOPluginLoader
+ *
+ * Returns: (transfer full): the plugin
+ **/
 GOPlugin *
 go_plugin_loader_get_plugin (GOPluginLoader *l)
 {

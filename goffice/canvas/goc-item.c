@@ -35,7 +35,7 @@
 **/
 
 /**
- * GocItem:
+ * _GocItem:
  * @base: the parent object.
  * @canvas: the canvas in which the item is displayed.
  * @parent: the parent item.
@@ -47,6 +47,10 @@
  * @y0: the lowest vertical bound of the item.
  * @x1: the highest horizontal bound of the item.
  * @y1: the highest vertical bound of the item.
+ * @op: the #cairo_operator_t to use when drawing the item.
+ * @transform: the #cairo_matrix_t to apply to the item.
+ * @transformed: whether @transform is not unity.
+ * @priv: private data.
  *
  * <para>
  * #GocItem contains the following fields:

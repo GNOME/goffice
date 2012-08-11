@@ -16,7 +16,7 @@
  */
 
 #include <goffice-config.h>
-#include <go-fft.h>
+#include <goffice/math/go-fft.h>
 
 #ifndef DOUBLE
 

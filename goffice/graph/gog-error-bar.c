@@ -252,7 +252,7 @@ gog_error_bar_prefs (GogSeries *series,
 	}
 	set = GOG_DATASET (series);
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-error-bar-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-error-bar-prefs.ui", GETTEXT_PACKAGE, cc);
 
 	/* Style properties */
 
@@ -273,7 +273,7 @@ gog_error_bar_prefs (GogSeries *series,
 	style_table = GTK_TABLE (gtk_builder_get_object (gui, "style_table"));
 
 	/* Color */
-	w = go_color_selector_new (editor->color, GO_COLOR_BLACK, "error-bar");
+	w = go_selector_new_color (editor->color, GO_COLOR_BLACK, "error-bar");
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (gtk_builder_get_object (gui, "color_label")), w);
 	g_signal_connect (G_OBJECT (w),
@@ -295,7 +295,7 @@ gog_error_bar_prefs (GogSeries *series,
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 1, NULL);
 
 	for (i = 0; i < G_N_ELEMENTS (display_combo_desc); i++) {
-		pixbuf = go_gdk_pixbuf_new_from_file (direction == GOG_ERROR_BAR_DIRECTION_HORIZONTAL ?
+		pixbuf = go_gdk_pixbuf_load_from_file (direction == GOG_ERROR_BAR_DIRECTION_HORIZONTAL ?
 						  display_combo_desc[i].h_pixbuf :
 						  display_combo_desc[i].v_pixbuf);
 		gtk_list_store_append (list, &iter);

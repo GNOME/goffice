@@ -37,7 +37,7 @@ GtkWidget *
 gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc)
 {
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_pie/gog-pie-series.ui",
+		go_gtk_builder_load ("res:go:plot_pie/gog-pie-series.ui",
 				    GETTEXT_PACKAGE, cc);
 	GtkWidget  *w;
         if (gui == NULL)
@@ -150,7 +150,7 @@ GtkWidget *
 gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 {
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_pie/gog-pie-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_pie/gog-pie-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 	GtkWidget  *w;
 	PiePrefState *state;
@@ -191,7 +191,7 @@ GtkWidget *
 gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 {
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_pie/gog-ring-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_pie/gog-ring-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 	GtkWidget  *w;
 	PiePrefState *state;

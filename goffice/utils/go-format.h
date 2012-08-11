@@ -75,6 +75,8 @@ typedef struct {
 	gboolean has_space;
 } GOFormatCurrency;
 
+GType go_format_currency_get_type (void);
+
 typedef struct {
 	GOFormatFamily family;
 	GOFormatMagic magic;
@@ -115,8 +117,10 @@ typedef struct {
 	int denominator;
 
 	int expansion[30];
+	unsigned ref_count;
 } GOFormatDetails;
 
+GType go_format_details_get_type (void);
 /*************************************************************************/
 
 /* We need these in the format selector */
@@ -152,6 +156,7 @@ void go_render_generall (PangoLayout *layout, GString *str,
 
 /*************************************************************************/
 
+GType     go_format_get_type (void);
 GOFormat *go_format_new_from_XL		(char const *str);
 GOFormat *go_format_new_markup		(PangoAttrList *markup, gboolean add_ref);
 

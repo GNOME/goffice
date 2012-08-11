@@ -261,7 +261,7 @@ go_color_selector_drag_fill_icon (GOSelector *selector, GdkPixbuf *pixbuf)
 }
 
 /**
- * go_color_selector_new:
+ * go_selector_new_color:
  * @initial_color: initially selected color
  * @default_color: automatic color
  * @color_group: a #GOColorGroup name
@@ -270,10 +270,11 @@ go_color_selector_drag_fill_icon (GOSelector *selector, GdkPixbuf *pixbuf)
  * Palette will contain an automatic button, which can be used to
  * select @default_color. This widget supports color drag and drop.
  *
- * Returns: a #GtkWidget.
+ * Since: 0.9.6
+ * Returns: (transfer full): a #GtkWidget.
  **/
 GtkWidget *
-go_color_selector_new (GOColor initial_color,
+go_selector_new_color (GOColor initial_color,
 		       GOColor default_color,
 		       char const *group)
 {
@@ -312,6 +313,27 @@ go_color_selector_new (GOColor initial_color,
 			       go_color_selector_drag_fill_icon);
 
 	return selector;
+}
+
+/**
+ * go_color_selector_new:
+ * @initial_color: initially selected color
+ * @default_color: automatic color
+ * @color_group: a #GOColorGroup name
+ *
+ * Creates a new color selector, with @initial_color selected.
+ * Palette will contain an automatic button, which can be used to
+ * select @default_color. This widget supports color drag and drop.
+ *
+ * Deprecated: 0.9.6 use go_selector_new_color()
+ * Returns: (transfer full): a #GtkWidget.
+ **/
+GtkWidget *
+go_color_selector_new (GOColor initial_color,
+		       GOColor default_color,
+		       char const *group)
+{
+	return go_selector_new_color (initial_color, default_color, group);
 }
 
 /**

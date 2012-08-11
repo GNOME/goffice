@@ -217,6 +217,13 @@ go_marker_assign (GOMarker *dst, GOMarker const *src)
 
 }
 
+/**
+ * go_marker_dup:
+ * @src: the #GOMarker to duplicate
+ *
+ * Duplicates @src.
+ * Returns: (transfer full): the duplicated marker.
+ **/
 GOMarker *
 go_marker_dup (GOMarker const *src)
 {

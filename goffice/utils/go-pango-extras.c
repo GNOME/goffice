@@ -523,8 +523,8 @@ static gboolean
 filter_func (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
 {
 	PangoAttrType type = attribute->klass->type;
-	return (type == go_pango_attr_superscript_get_type () ||
-		type == go_pango_attr_subscript_get_type ());
+	return (type == go_pango_attr_superscript_get_attr_type () ||
+		type == go_pango_attr_subscript_get_attr_type ());
 }
 
 static void
@@ -568,7 +568,7 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 	for (l = the_attrs; l != NULL; l = l->next) {
 		PangoAttribute *attribute = l->data;
 		PangoAttrType type = attribute->klass->type;
-		if (type == go_pango_attr_superscript_get_type ()) {
+		if (type == go_pango_attr_superscript_get_attr_type ()) {
 			GOPangoAttrSuperscript *attr = (GOPangoAttrSuperscript *)attribute;
 			if (attr->val) {
 				scale *= GO_SUPERSCRIPT_SCALE;
@@ -658,7 +658,7 @@ go_pango_translate_layout (PangoLayout *layout)
 }
 
 PangoAttrType
-go_pango_attr_subscript_get_type (void)
+go_pango_attr_subscript_get_attr_type (void)
 {
 	static PangoAttrType go_pango_attr_subscript_type = PANGO_ATTR_INVALID;
 
@@ -670,7 +670,13 @@ go_pango_attr_subscript_get_type (void)
 }
 
 PangoAttrType
-go_pango_attr_superscript_get_type (void)
+go_pango_attr_subscript_get_type (void)
+{
+	return go_pango_attr_subscript_get_attr_type ();
+}
+
+PangoAttrType
+go_pango_attr_superscript_get_attr_type (void)
 {
 	static PangoAttrType go_pango_attr_superscript_type = PANGO_ATTR_INVALID;
 
@@ -681,6 +687,11 @@ go_pango_attr_superscript_get_type (void)
 	return go_pango_attr_superscript_type;
 }
 
+PangoAttrType
+go_pango_attr_superscript_get_type (void)
+{
+	return go_pango_attr_superscript_get_attr_type ();
+}
 
 static PangoAttribute *
 go_pango_attr_subscript_copy (PangoAttribute const *attr)
@@ -720,6 +731,12 @@ go_pango_attr_subscript_compare (PangoAttribute const *attr1,
 	return (at1->val == at2->val);
 }
 
+/**
+ * go_pango_attr_subscript_new: (skip)
+ * @val: %TRUE if the characters must be lowered.
+ *
+ * Returns: (transfer full): a subscript attribute.
+ **/
 PangoAttribute *
 go_pango_attr_subscript_new (gboolean val)
 {
@@ -733,7 +750,7 @@ go_pango_attr_subscript_new (gboolean val)
 	};
 
 	if (!klass.type)
-		klass.type = go_pango_attr_subscript_get_type ();
+		klass.type = go_pango_attr_subscript_get_attr_type ();
 
 	result = g_new (GOPangoAttrSubscript, 1);
 	result->attr.klass = &klass;
@@ -742,6 +759,12 @@ go_pango_attr_subscript_new (gboolean val)
 	return (PangoAttribute *) result;
 }
 
+/**
+ * go_pango_attr_superscript_new: (skip)
+ * @val: %TRUE if the characters must be raised.
+ *
+ * Returns: (transfer full): a superscript attribute.
+ **/
 PangoAttribute *
 go_pango_attr_superscript_new (gboolean val)
 {
@@ -755,7 +778,7 @@ go_pango_attr_superscript_new (gboolean val)
 	};
 
 	if (!klass.type)
-		klass.type = go_pango_attr_superscript_get_type ();
+		klass.type = go_pango_attr_superscript_get_attr_type ();
 
 	result = g_new (GOPangoAttrSuperscript, 1);
 	result->attr.klass = &klass;

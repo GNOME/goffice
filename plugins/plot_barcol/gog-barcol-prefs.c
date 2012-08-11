@@ -49,7 +49,7 @@ gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc)
 {
 	GtkWidget  *w;
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_barcol/gog-barcol-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_barcol/gog-barcol-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
         if (gui == NULL)
                 return NULL;

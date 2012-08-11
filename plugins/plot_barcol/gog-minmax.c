@@ -178,7 +178,7 @@ gog_minmax_plot_populate_editor (GogObject *item,
 {
 	GogMinMaxPlot *minmax = GOG_MINMAX_PLOT (item);
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_barcol/gog-minmax-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_barcol/gog-minmax-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 	GtkWidget  *w;
 

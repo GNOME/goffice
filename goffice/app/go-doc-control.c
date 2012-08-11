@@ -35,6 +35,13 @@ go_doc_control_init (GODocControl *obj)
 {
 }
 
+/**
+ * go_doc_control_get_doc:
+ * @dc: #GODocControl
+ *
+ * Returns: (transfer none): the #GODoc associated to @dc
+ *
+ **/
 GODoc *
 go_doc_control_get_doc (GODocControl *dc)
 {

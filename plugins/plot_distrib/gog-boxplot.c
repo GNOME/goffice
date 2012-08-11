@@ -112,7 +112,7 @@ gog_box_plot_pref (GogObject *obj,
 {
 	GogBoxPlot *boxplot = GOG_BOX_PLOT (obj);
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_distrib/gog-boxplot-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_distrib/gog-boxplot-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 	GtkWidget *w;
 

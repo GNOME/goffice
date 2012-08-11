@@ -6,6 +6,7 @@
 #ifdef GOFFICE_WITH_GTK
 #include <gtk/gtk.h>
 #endif
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
@@ -38,8 +39,14 @@ PangoAttrList *go_pango_translate_attributes (PangoAttrList *attrs);
 void go_pango_translate_layout (PangoLayout *layout);
 PangoAttribute *go_pango_attr_subscript_new (gboolean val);
 PangoAttribute *go_pango_attr_superscript_new (gboolean val);
+PangoAttrType go_pango_attr_subscript_get_attr_type (void);
+PangoAttrType go_pango_attr_superscript_get_attr_type (void);
+#ifndef GOFFICE_DISABLE_DEPRECATED
+GOFFICE_DEPRECATED_FOR(go_pango_attr_subscript_get_attr_type)
 PangoAttrType go_pango_attr_subscript_get_type (void);
+GOFFICE_DEPRECATED_FOR(go_pango_attr_superscript_get_attr_type)
 PangoAttrType go_pango_attr_superscript_get_type (void);
+#endif
 
 char *go_pango_attrs_to_markup (PangoAttrList *attrs, char const *text);
 

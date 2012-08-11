@@ -130,7 +130,7 @@ gog_xy_dropbar_populate_editor (GogObject *obj,
 #ifdef GOFFICE_WITH_GTK
 	GogXYDropBarPlot *dropbar = GOG_XY_DROPBAR_PLOT (obj);
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_xy/gog-xy-dropbar-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_xy/gog-xy-dropbar-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 
 	if (gui != NULL) {

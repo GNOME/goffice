@@ -272,6 +272,12 @@ _goc_plugin_services_shutdown (void)
 		g_hash_table_destroy (suffixes);
 }
 
+/**
+ * go_components_get_mime_types:
+ *
+ * Returns: (element-type char) (transfer none): the list of mime types
+ * supported by at least one registered component.
+ **/
 GSList *
 go_components_get_mime_types (void)
 {

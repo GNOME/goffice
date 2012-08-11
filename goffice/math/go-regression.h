@@ -2,6 +2,7 @@
 #define GO_UTILS_REGRESSION_H
 
 #include <glib.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -33,8 +34,11 @@ typedef struct {
 	double ybar;
 	double *xbar;
 	double var; 		/* The variance of the entire regression: sum(errors^2)/(n-xdim) */
+	unsigned ref_count;
 } go_regression_stat_t;
+#define GORegressionStat go_regression_stat_t
 
+GType            go_regression_stat_get_type      (void);
 go_regression_stat_t 	*go_regression_stat_new 	(void);
 void 			 go_regression_stat_destroy 	(go_regression_stat_t *stat_);
 
@@ -124,8 +128,11 @@ typedef struct {
 	long double *xbar;
 	long double var; /* The variance of the entire regression:
 			sum(errors^2)/(n-xdim) */
+	unsigned ref_count;
 } go_regression_stat_tl;
+#define GORegressionStatl go_regression_stat_tl
 
+GType            go_regression_statl_get_type      (void);
 go_regression_stat_tl *go_regression_stat_newl	(void);
 void 		    go_regression_stat_destroyl	(go_regression_stat_tl *stat_);
 

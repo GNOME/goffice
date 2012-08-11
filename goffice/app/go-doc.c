@@ -215,9 +215,9 @@ go_doc_get_uri (GODoc const *doc)
 }
 
 /**
- * go_doc_set_dirty :
- * @doc : #GODoc
- * @is_dirty : bool
+ * go_doc_set_dirty:
+ * @doc: #GODoc
+ * @is_dirty :bool
  *
  * Changes the dirty state of @doc to @is_dirty and clears the pristine state
  * no matter what.
@@ -241,8 +241,8 @@ go_doc_set_dirty (GODoc *doc, gboolean is_dirty)
 }
 
 /**
- * go_doc_is_dirty :
- * @doc : #GODoc
+ * go_doc_is_dirty:
+ * @doc: #GODoc
  *
  * Returns: TRUE if @doc has been modified.
  **/
@@ -255,9 +255,9 @@ go_doc_is_dirty (GODoc const *doc)
 }
 
 /**
- * go_doc_set_dirty_time :
- * @doc : #GODoc
- * @t : a timestamp from g_get_real_time
+ * go_doc_set_dirty_time:
+ * @doc: #GODoc
+ * @t: a timestamp from g_get_real_time
  *
  * Changes the dirty time, i.e., the time the document was first marked
  * dirty.
@@ -275,8 +275,8 @@ go_doc_set_dirty_time (GODoc *doc, gint64 t)
 }
 
 /**
- * go_doc_get_dirty_time :
- * @doc : #GODoc
+ * go_doc_get_dirty_time:
+ * @doc: #GODoc
  *
  * Returns: the time (as in g_get_real_time()) the document was first marked
  * dirty.
@@ -326,6 +326,12 @@ go_doc_is_pristine (GODoc const *doc)
 	return doc->pristine;
 }
 
+/**
+ * go_doc_get_meta_data:
+ * @doc: #GODoc
+ *
+ * Returns: (transfer none): @doc's metadata
+ **/
 GsfDocMetaData *
 go_doc_get_meta_data (GODoc const *doc)
 {
@@ -334,9 +340,9 @@ go_doc_get_meta_data (GODoc const *doc)
 }
 
 /**
- * go_doc_set_meta_data :
- * @doc : #GODoc
- * @data : #GsfDocMetaData
+ * go_doc_set_meta_data:
+ * @doc: #GODoc
+ * @data: #GsfDocMetaData
  *
  * Adds a ref to @data.
  **/
@@ -352,8 +358,8 @@ go_doc_set_meta_data (GODoc *doc, GsfDocMetaData *data)
 }
 
 /**
- * go_doc_update_meta_data :
- * @doc : #GODoc
+ * go_doc_update_meta_data:
+ * @doc: #GODoc
  *
  * Signal that @doc's metadata should be updated
  * 	- statistics (sheet count, word count)
@@ -393,7 +399,7 @@ go_doc_get_image (GODoc *doc, char const *id)
  *
  * Adds @image to the document if no such image already exists. The name of
  * the returned image might be different from @id, even if given.
- * Returns: either @image, in which case the document adds a reference on it, or
+ * Returns: (transfer none): either @image, in which case the document adds a reference on it, or
  * an identical image for which the owner does not own a reference.
  **/
 GOImage *
@@ -433,6 +439,12 @@ go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
 	return image;
 }
 
+/**
+ * go_doc_get_images:
+ * @doc: #GODoc
+ *
+ * Returns: (transfer none): the images registered inside the document
+ **/
 GHashTable *
 go_doc_get_images (GODoc *doc) {
 	g_return_val_if_fail (doc, NULL);
@@ -579,7 +591,7 @@ go_doc_end_read	(GODoc *doc)
  * #GOImage.
  * This function must be called after a call to go_doc_init_read(), otherwise
  * it will emit a critical and return NULL.
- * Returns: the found or created #GOImage.
+ * Returns: (transfer none): the found or created #GOImage.
  **/
 GOImage *
 go_doc_image_fetch (GODoc *doc, char const *id, GType type)

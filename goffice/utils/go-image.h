@@ -48,6 +48,7 @@ typedef struct {
 	gboolean alpha_support;
 } GOImageFormatInfo;
 
+GType      go_image_format_info_get_type (void);
 char 	  *go_mime_to_image_format      (char const *mime_type);
 char 	  *go_image_format_to_mime      (char const *format);
 

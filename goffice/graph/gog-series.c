@@ -562,7 +562,7 @@ gog_series_populate_editor (GogObject *gobj,
 		GtkBuilder *gui;
 		GtkWidget *widget;
 
-		gui = go_gtk_builder_new_internal ("res:go:graph/gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
+		gui = go_gtk_builder_load_internal ("res:go:graph/gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
 			int i;
 			GogAxisSet set = gog_plot_axis_set_pref (gog_series_get_plot (series));
@@ -617,7 +617,7 @@ gog_series_populate_editor (GogObject *gobj,
 		GtkBuilder *gui;
 		GtkWidget *widget;
 
-		gui = go_gtk_builder_new_internal ("res:go:graph/gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
+		gui = go_gtk_builder_load_internal ("res:go:graph/gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
 			widget = go_gtk_builder_get_widget (gui, "fill_type_combo");
 				gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (widget));
@@ -885,7 +885,7 @@ GSF_CLASS_FULL (GogSeries, gog_series,
  * gog_series_get_plot:
  * @series: #GogSeries
  *
- * Returns: the possibly NULL plot that contains this series.
+ * Returns: (transfer none): the possibly NULL plot that contains this series.
  **/
 GogPlot *
 gog_series_get_plot (GogSeries const *series)
@@ -988,7 +988,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
  * Gets the _source_ of the name associated with the series.
  * NOTE : this is _NOT_ the actual name.
  *
- * return value: a #GODataScalar, without added reference.
+ * return value: (transfer none): a #GODataScalar, without added reference.
  **/
 GOData *
 gog_series_get_name (GogSeries const *series)
@@ -1067,6 +1067,14 @@ gog_series_num_elements (GogSeries const *series)
 	return series->num_elements;
 }
 
+/**
+ * gog_series_get_overrides:
+ * @series: #GogSeries
+ *
+ * Overrides are data owning their own style, overriding the series style.
+ * Returns: (element-type GogSeriesElement) (transfer none): the series
+ * overrides.
+ **/
 GList const *
 gog_series_get_overrides (GogSeries const *series)
 {
@@ -1111,8 +1119,8 @@ gog_series_get_valid_element_index (GogSeries const *series, int old_index, int 
 
 /**
  * gog_series_get_element:
- * series: #GogSeries
- * index: the element index
+ * @series: #GogSeries
+ * @index: the element index
  *
  * Returns: (transfer none): the #GogSeriesElement corresponding to @index if
  * any
@@ -1277,6 +1285,14 @@ gog_series_get_fill_type_from_combo (GogSeries const *series, GtkComboBox *combo
 }
 #endif
 
+/**
+ * gog_series_get_interpolation_params:
+ * @series: #GogSeries
+ *
+ * Only constrained cubic spline interpolation use parameters (for the
+ * slopes at each end).
+ * Returns: (transfer none): the interpolation parameters.
+ **/
 GogDataset *
 gog_series_get_interpolation_params (GogSeries const *series)
 {

@@ -113,7 +113,7 @@ create_go_combo_color (StylePrefState *state,
 {
 	GtkWidget *w;
 
-	w = go_color_selector_new (initial_color, automatic_color, group);
+	w = go_selector_new_color (initial_color, automatic_color, group);
 	gtk_widget_set_halign (w, GTK_ALIGN_START);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (gtk_builder_get_object (gui, label_name)), w);
@@ -209,7 +209,7 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	}
 
 	/* DashType */
-	w = go_line_dash_selector_new (style->line.dash_type,
+	w = go_selector_new_line_dash (style->line.dash_type,
 				       default_style->line.dash_type);
 	gtk_widget_set_halign (w, GTK_ALIGN_START);
 	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 2, 1);
@@ -284,7 +284,7 @@ line_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	go_editor_register_widget (editor, grid);
 
 	/* DashType */
-	w = go_line_dash_selector_new (style->line.dash_type,
+	w = go_selector_new_line_dash (style->line.dash_type,
 				       default_style->line.dash_type);
 	gtk_widget_set_halign (w, GTK_ALIGN_START);
 	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 2, 1);
@@ -405,7 +405,7 @@ fill_gradient_init (StylePrefState *state)
 	GtkWidget *label;
 
 	state->fill.gradient.selector = selector =
-		go_gradient_selector_new (style->fill.gradient.dir,
+		go_selector_new_gradient (style->fill.gradient.dir,
 					  style->fill.gradient.dir);
 	go_gradient_selector_set_colors (GO_SELECTOR (selector),
 					 style->fill.pattern.back,
@@ -744,7 +744,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	if (!enable)
 		return;
 
-	gui = go_gtk_builder_new_internal ("res:go:utils/go-style-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:utils/go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -858,7 +858,7 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 
 	g_return_if_fail (style->font.font != NULL);
 
-	gui = go_gtk_builder_new_internal ("res:go:utils/go-style-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:utils/go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -1034,7 +1034,7 @@ go_style_populate_editor (GOStyle *style,
 		state->doc = NULL;
 
 	if ((enable & (GO_STYLE_OUTLINE | GO_STYLE_LINE | GO_STYLE_FILL)) != 0) {
-		gui = go_gtk_builder_new_internal ("res:go:utils/go-style-prefs.ui", GETTEXT_PACKAGE, cc);
+		gui = go_gtk_builder_load_internal ("res:go:utils/go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui == NULL) {
 			g_free (state);
 			return;
@@ -1064,6 +1064,16 @@ go_style_populate_editor (GOStyle *style,
 	}
 }
 
+/**
+ * go_style_get_editor:
+ * @style: #GOStyle
+ * @default_style: the style used as default
+ * @cc: #GOCmdContext
+ * @object_with_style: the object owning the style
+ *
+ * Builds the widget used to edit the style.
+ * Returns: (transfer full): the style editor
+ **/
 gpointer
 go_style_get_editor (GOStyle *style,
 		     GOStyle *default_style,
@@ -1097,7 +1107,7 @@ go_style_new (void)
  *
  * Duplicates @style.
  *
- * return value: a new #GOStyle
+ * Returns: (transfer full): a new #GOStyle
  **/
 GOStyle *
 go_style_dup (GOStyle const *src)
@@ -1793,7 +1803,7 @@ go_style_set_marker (GOStyle *style, GOMarker *marker)
  *
  * Accessor for @style::marker, without referencing it.
  *
- * return value: the style #GOMarker.
+ * Returns: (transfer none): the style #GOMarker.
  **/
 GOMarker const *
 go_style_get_marker (GOStyle *style)

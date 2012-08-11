@@ -36,7 +36,7 @@
 
 
 /**
- * go_xml_parse_file :
+ * go_xml_parse_file: (skip)
  * @filename: the locale path to a file to parse.
  *
  * Like xmlParseFile, but faster.  Does not accept compressed files.
@@ -45,7 +45,7 @@
  * Note: this reads the entire file into memory and should therefore
  * not be used for user-supplied files.
  *
- * Returns: A libxml2 xmlDocPtr or %NULL.
+ * Returns: (transfer full): A libxml2 xmlDocPtr or %NULL.
  **/
 xmlDocPtr
 go_xml_parse_file (char const *filename)
@@ -62,8 +62,14 @@ go_xml_parse_file (char const *filename)
 	return result;
 }
 
-/* Get an xmlChar * value for a node carried as an attibute
+/**
+ * go_xml_node_get_cstr: (skip)
+ * @node: #xmlNodePtr
+ * @name: attribute name
+ * Get an xmlChar * value for a node carried as an attibute
  * result must be xmlFree
+ *
+ * Returns: (transfer full): the attribute value
  */
 xmlChar *
 go_xml_node_get_cstr (xmlNodePtr node, char const *name)
@@ -241,6 +247,13 @@ go_xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
 
 /*************************************************************************/
 
+/**
+ * go_xml_get_child_by_name: (skip)
+ * @tree: #xmlNode
+ * @name: child name
+ *
+ * Returns: (transfer none): the child with @name as name if any.
+ **/
 xmlNode *
 go_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
 {
@@ -257,6 +270,14 @@ go_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
 	return NULL;
 }
 
+/**
+ * go_xml_get_child_by_name_no_lang: (skip)
+ * @tree: #xmlNode
+ * @name: child name
+ *
+ * Returns: (transfer none): the child with @name as name and withou "xml:lang"
+ * attribute if any.
+ **/
 xmlNode *
 go_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
 {
@@ -281,7 +302,14 @@ go_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
 	return NULL;
 }
 
-
+/**
+ * go_xml_get_child_by_name_by_lang: (skip)
+ * @tree: #xmlNode
+ * @name: child name
+ *
+ * Returns: (transfer none): the child with @name as name and with "xml:lang"
+ * attribute corresponding to the preferred language.
+ **/
 xmlNode *
 go_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
 {

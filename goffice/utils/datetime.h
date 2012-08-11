@@ -11,6 +11,8 @@ struct _GODateConventions {
 				 * Rather than the Win32 style 1900 */
 };
 
+GType go_date_conventions_get_type (void);
+
 /*
  * Naming conventions:
  *

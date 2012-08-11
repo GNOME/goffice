@@ -206,6 +206,26 @@ static GogTool gog_tool_resize_object = {
 
 /*****************************************************************************/
 
+static GogToolAction *
+gog_tool_action_ref (GogToolAction *action)
+{
+	action->ref_count++;
+	return action;
+}
+
+GType
+gog_tool_action_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GogToolAction",
+			 (GBoxedCopyFunc)gog_tool_action_ref,
+			 (GBoxedFreeFunc)gog_tool_action_free);
+	}
+	return t;
+}
+
 GogToolAction *
 gog_tool_action_new (GogView *view, GogTool *tool, double x, double y)
 {
@@ -222,6 +242,7 @@ gog_tool_action_new (GogView *view, GogTool *tool, double x, double y)
 	action->data = NULL;
 	action->start_x = x;
 	action->start_y = y;
+	action->ref_count = 1;
 
 	if (tool->init != NULL)
 		(tool->init) (action);
@@ -251,6 +272,9 @@ void
 gog_tool_action_free (GogToolAction *action)
 {
 	g_return_if_fail (action != NULL);
+
+	if (action->ref_count-- > 1)
+		return;
 
 	if (action->tool->destroy != NULL)
 		(action->tool->destroy) (action);
@@ -626,6 +650,12 @@ GSF_CLASS_ABSTRACT (GogView, gog_view,
 		    gog_view_class_init, gog_view_init,
 		    G_TYPE_OBJECT)
 
+/**
+ * gog_view_get_model:
+ * @view: #GogView
+ *
+ * Returns: (transfer none): the #GogObject owning the view.
+ **/
 GogObject *
 gog_view_get_model (GogView const *view)
 {
@@ -866,7 +896,7 @@ gog_view_size_child_request (GogView *view,
  *
  * Find the GogView contained in @container that corresponds to @model.
  *
- * Returns: NULL on error or if @target_model has no view.
+ * Returns: (transfer none): NULL on error or if @target_model has no view.
  **/
 GogView *
 gog_view_find_child_view  (GogView const *container, GogObject const *target_model)
@@ -931,7 +961,7 @@ gog_view_render_toolkit (GogView *view)
  * gog_view_get_toolkit:
  * @view: #GogView
  *
- * Returns: toolkit associated with given view.
+ * Returns: (element-type GogTool) (transfer none): toolkit associated with given view.
  **/
 GSList const *
 gog_view_get_toolkit (GogView *view)
@@ -954,7 +984,7 @@ gog_view_get_toolkit (GogView *view)
  * @y: in coords
  * @gobj: pointed object or NULL
  *
- * Returns: tool under cursor for a given view, or %NULL
+ * Returns: (transfer none): tool under cursor for a given view, or %NULL
  **/
 GogTool *
 gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
@@ -990,7 +1020,7 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
  * is stored in @obj. This object may or may not be @view->model of pointed view.
  * This function also stores tool under cursor, for the pointed view.
  *
- * return value: the #GogView at x,y position
+ * Returns: (transfer none): the #GogView at x,y position
  **/
 GogView *
 gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, GogTool **tool)

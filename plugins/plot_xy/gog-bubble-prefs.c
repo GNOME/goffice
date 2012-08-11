@@ -68,7 +68,7 @@ gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 {
 	GtkWidget  *w;
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_xy/gog-bubble-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_xy/gog-bubble-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 
         if (gui == NULL)

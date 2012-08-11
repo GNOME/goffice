@@ -56,7 +56,7 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 	GogExpSmooth *es = GOG_EXP_SMOOTH (obj);
 	GogDataset *set = GOG_DATASET (obj);
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:smoothing/gog-exp-smooth.ui",
+		go_gtk_builder_load ("res:go:smoothing/gog-exp-smooth.ui",
 				    GETTEXT_PACKAGE, cc);
 	GtkWidget *label, *box, *w = go_gtk_builder_get_widget (gui, "steps");
 	GtkTable *table;

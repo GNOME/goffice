@@ -78,6 +78,7 @@ GSList	  *go_file_split_urls	(char const *data);
 gchar     *go_file_get_owner_name (char const *uri);
 gchar     *go_file_get_group_name (char const *uri);
 
+GType go_file_permissions_get_type (void);
 GOFilePermissions *go_get_file_permissions (char const *uri);
 void go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions);
 

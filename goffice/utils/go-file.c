@@ -540,7 +540,7 @@ open_plain_file (char const *path, GError **err)
  * @err: #GError
  *
  * Try all available methods to open a file or return an error
- * Returns: non-%NULL on success
+ * Returns: (transfer full): non-%NULL on success
  **/
 GsfInput *
 go_file_open (char const *uri, GError **err)
@@ -578,6 +578,15 @@ go_file_open (char const *uri, GError **err)
 	return gsf_input_gio_new_for_uri (uri, err);
 }
 
+/**
+ * go_file_create:
+ * @uri: target uri
+ * @err: #GError
+ *
+ * Creates a file or return an error. If the file already exists, it is
+ * replaced.
+ * Returns: (transfer full): non-%NULL on success
+ **/
 GsfOutput *
 go_file_create (char const *uri, GError **err)
 {
@@ -610,6 +619,13 @@ go_file_create (char const *uri, GError **err)
 /* ------------------------------------------------------------------------- */
 /* Adapted from gtkfilechooserdefault.c.  Unfortunately it is static there.  */
 
+/**
+ * go_file_split_urls:
+ * @data: a string filled with a list of URIs separated by new lines.
+ *
+ * Splits the chain into a list of URIs. Lines starting with '#' are ignored.
+ * Returns: (element-type char) (transfer full): the URIs list.
+ **/
 GSList *
 go_file_split_urls (char const *data)
 {
@@ -707,6 +723,27 @@ go_file_get_group_name (char const *uri)
 	(void) go_guess_encoding (name, strlen (name),
 				  NULL, &nameutf8, NULL);
 	return (nameutf8 ? g_string_free (nameutf8, FALSE) : NULL);
+}
+
+static GOFilePermissions *
+go_file_permissions_copy (GOFilePermissions *file_permissions)
+{
+	GOFilePermissions *res = g_new (GOFilePermissions, 1);
+	memcpy (res, file_permissions, sizeof(GOFilePermissions));
+	return res;
+}
+
+GType
+go_file_permissions_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOFilePermissions",
+			 (GBoxedCopyFunc)go_file_permissions_copy,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
 }
 
 GOFilePermissions *
@@ -1106,6 +1143,14 @@ go_mime_type_get_description (gchar const *mime_type)
 static gchar **saved_args;
 #endif
 
+/**
+ * go_shell_argv_to_glib_encoding:
+ * @argc: arguments number
+ * @argv: command line arguments
+ *
+ * Transform arguments to UTF-8 when needed.
+ * Returns: (transfer none): the arguments in UTF-8 locale.
+ **/
 gchar const **
 go_shell_argv_to_glib_encoding (gint argc, gchar const **argv)
 {

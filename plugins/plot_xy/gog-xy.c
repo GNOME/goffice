@@ -357,7 +357,7 @@ gog_xy_plot_populate_editor (GogObject *obj,
 {
 #ifdef GOFFICE_WITH_GTK
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_xy/gog-xy-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_xy/gog-xy-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 
 	if (gui != NULL) {
@@ -740,7 +740,7 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 {
 #ifdef GOFFICE_WITH_GTK
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_xy/gog-xy-color-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_xy/gog-xy-color-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 
 	if (gui != NULL) {
@@ -2092,7 +2092,7 @@ gog_xy_series_populate_editor (GogObject *obj,
 	GogXYSeries *series;
 	GtkWidget *w;
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_xy/gog-xy-series-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_xy/gog-xy-series-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);

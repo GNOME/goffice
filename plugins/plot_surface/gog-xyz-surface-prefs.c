@@ -93,7 +93,7 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 	XYZSurfPrefsState *state;
 	GtkWidget  *w, *grid;
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_surface/gog-xyz-surface-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_surface/gog-xyz-surface-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 
         if (gui == NULL)

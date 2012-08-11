@@ -22,13 +22,13 @@
 /*****************************************************************************/
 
 #include <goffice/goffice-config.h>
-#include <go-editor.h>
+#include <goffice/utils/go-editor.h>
 #include <string.h>
 
 /**
  * go_editor_new:
  *
- * Returns: a new GOEditor object, which is used to store a collection of
+ * Returns: (transfer full): a new GOEditor object, which is used to store a collection of
  * 	property edition widgets (pages). The returned object must be freed
  * 	using @go_editor_free.
  **/
@@ -40,6 +40,7 @@ go_editor_new (void)
 	editor->store_page = NULL;
 	editor->pages = NULL;
 	g_datalist_init (&editor->registered_widgets);
+	editor->ref_count = 1;
 
 	return editor;
 }
@@ -62,11 +63,32 @@ page_free (GOEditorPage *page)
 void
 go_editor_free (GOEditor *editor)
 {
+	if (editor == NULL || editor->ref_count-- >1)
+		return;
 	g_slist_foreach (editor->pages, (GFunc) page_free, NULL);
 	g_slist_free (editor->pages);
 	g_datalist_clear (&editor->registered_widgets);
 
 	g_free (editor);
+}
+
+static GOEditor *
+go_editor_ref (GOEditor *editor)
+{
+	editor->ref_count++;
+	return editor;
+}
+
+GType
+go_editor_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GOEditor",
+			 (GBoxedCopyFunc)go_editor_ref,
+			 (GBoxedFreeFunc)go_editor_free);
+	return t;
 }
 
 /**
@@ -133,7 +155,7 @@ go_editor_register_widget (GOEditor *editor, GtkWidget *widget)
  * @editor: a #GOEditor
  * @name: the name of the registered widget
  *
- * Returns: a widget previously registered using @go_editor_register_widget.
+ * Returns: (transfer none): a widget previously registered using @go_editor_register_widget.
  **/
 GtkWidget *
 go_editor_get_registered_widget (GOEditor *editor, char const *name)
@@ -154,7 +176,7 @@ cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkWidget *p,
  * go_editor_get_notebook:
  * @editor: a #GOEditor
  *
- * Returns: a GtkNotebook from the widget collection stored in @editor.
+ * Returns: (transfer full): a GtkNotebook from the widget collection stored in @editor.
  **/
 GtkWidget *
 go_editor_get_notebook (GOEditor *editor)
@@ -194,6 +216,13 @@ go_editor_get_notebook (GOEditor *editor)
 	return notebook;
 }
 
+/**
+ * go_editor_get_page:
+ * @editor: #GOEditor
+ * @name: page name
+ *
+ * Returns: (transfer none): the page with @name as name if any
+ **/
 GtkWidget *
 go_editor_get_page (GOEditor *editor, char const *name)
 {

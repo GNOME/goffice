@@ -83,7 +83,7 @@ gog_equation_populate_editor (GogObject *obj,
 	GtkTextBuffer *buffer;
 	static guint equation_pref_page = 0;
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-equation-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-equation-prefs.ui", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
 
 	widget = go_gtk_builder_get_widget (gui, "equation_text");

@@ -21,6 +21,7 @@
 #include "go-font.h"
 #include "go-glib-extras.h"
 #include <pango/pango-layout.h>
+#include <string.h>
 
 static GHashTable	*font_hash;
 static GPtrArray	*font_array;
@@ -176,10 +177,13 @@ go_font_cache_unregister (GClosure *watcher)
 	font_watchers = g_slist_remove (font_watchers, watcher);
 }
 
-/*
- * Returns a sorted list of strings of font family names.  The list and
- * the names must be freed.
- */
+/**
+ * go_fonts_list_families:
+ * @context: #PangoContext
+ *
+ * Returns: (element-type char) (transfer full):  a sorted list of strings of
+ * font family names.  The list and the names must be freed.
+ **/
 GSList *
 go_fonts_list_families (PangoContext *context)
 {
@@ -199,6 +203,12 @@ go_fonts_list_families (PangoContext *context)
 	return res;
 }
 
+/**
+ * go_fonts_list_sizes:
+ *
+ * Returns: (element-type void) (transfer container):  a sorted list of font
+ * sizes in Pango units.  The list must be freed.
+ **/
 GSList *
 go_fonts_list_sizes (void)
 {
@@ -310,6 +320,27 @@ void
 go_font_metrics_free (GOFontMetrics *metrics)
 {
 	g_free (metrics);
+}
+
+static GOFontMetrics *
+go_font_metrics_copy (GOFontMetrics *file_permissions)
+{
+	GOFontMetrics *res = g_new (GOFontMetrics, 1);
+	memcpy (res, file_permissions, sizeof(GOFontMetrics));
+	return res;
+}
+
+GType
+go_font_metrics_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOFontMetrics",
+			 (GBoxedCopyFunc)go_font_metrics_copy,
+			 (GBoxedFreeFunc)go_font_metrics_free);
+	}
+	return t;
 }
 
 static GOFontMetrics go_font_metrics_unit_var;

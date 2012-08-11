@@ -1,3 +1,18 @@
+2012-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: changed the build system.
+	* goffice/app/Makefile.am: removed.
+	* goffice/canvas/Makefile.am: removed.
+	* goffice/component/Makefile.am: removed.
+	* goffice/data/Makefile.am: removed.
+	* goffice/graph/Makefile.am: removed.
+	* goffice/gtk/Makefile.am: removed.
+	* goffice/math/Makefile.am: removed.
+	* goffice/utils/Makefile.am: removed.
+	* goffice/utils/go-gdk-pixbuf.c: new file.
+	* goffice/utils/go-gdk-pixbuf.h: ditto.
+	* all others: fix introspection and gtk-doc warnings.
+
 2012-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/Makefile.am: new GoView class for use in file openers and

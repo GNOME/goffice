@@ -70,7 +70,7 @@ go_undo_undo (GOUndo *u)
  * of the result to the caller.  Either argument may be NULL in which case the
  * other is returned.
  *
- * Returns: the combination of two undo operations.
+ * Returns: (transfer full): the combination of two undo operations.
  **/
 GOUndo *
 go_undo_combine (GOUndo *a, GOUndo *b)
@@ -217,14 +217,14 @@ GSF_CLASS (GOUndoBinary, go_undo_binary,
  * go_undo_binary_new:
  * @a: first argument for undo operation
  * @b: second argument for undo operation
- * @undo: function to call with arguments @a and @b for undo.
- * @fa: optional function to free @a.
- * @fb: optional function to free @b.
+ * @undo: (scope async): function to call with arguments @a and @b for undo.
+ * @fa: (scope async): optional function to free @a.
+ * @fb: (scope async): optional function to free @b.
  *
  * This function creates a new undo object for undo operations of two
  * arguments.  (In addition, an undo-time argument is added for context.)
  *
- * Returns: a new undo object.
+ * Returns: (transfer full): a new undo object.
  **/
 GOUndo *
 go_undo_binary_new (gpointer a, gpointer b, GOUndoBinaryFunc undo,
@@ -280,13 +280,13 @@ GSF_CLASS (GOUndoUnary, go_undo_unary,
 /**
  * go_undo_unary_new:
  * @a: argument for undo operation
- * @undo: function to call with argument @a for undo.
- * @fa: optional function to free @a.
+ * @undo: (scope async): function to call with argument @a for undo.
+ * @fa: (scope async): optional function to free @a.
  *
  * This function creates a new undo object for undo operations of one
  * argument.  (In addition, an undo-time argument is added for context.)
  *
- * Returns: a new undo object.
+ * Returns: (transfer full): a new undo object.
  **/
 GOUndo *
 go_undo_unary_new (gpointer a, GOUndoUnaryFunc undo, GFreeFunc fa)

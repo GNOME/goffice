@@ -1,5 +1,7 @@
 /*
- * go-pixbuf.h - Misc GdkPixbuf utilities
+ * go-pixbuf.h
+ *
+ * Copyright (C) 2011-2012 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -24,13 +26,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
-
-GdkPixbuf 	*go_gdk_pixbuf_intelligent_scale (GdkPixbuf *buf,
-						  guint width, guint height);
-GdkPixbuf 	*go_gdk_pixbuf_new_from_file	(char const *filename);
-GdkPixbuf 	*go_gdk_pixbuf_get_from_cache 	(char const *filename);
-GdkPixbuf	*go_gdk_pixbuf_tile		(GdkPixbuf const *src,
-						 guint w, guint h);
 
 #define GO_TYPE_PIXBUF	(go_pixbuf_get_type ())
 #define GO_PIXBUF(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_PIXBUF, GOPixbuf))

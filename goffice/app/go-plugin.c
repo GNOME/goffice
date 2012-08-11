@@ -446,7 +446,8 @@ static GSF_CLASS (GOPluginTypeModule, go_plugin_type_module,
  * go_plugin_get_type_module:
  * @plugin: #GOPlugin
  *
- * Returns: the GTypeModule associated with the plugin creating it if necessary.
+ * Returns: (transfer none): the GTypeModule associated with the plugin
+ * creating it if necessary.
  **/
 GTypeModule *
 go_plugin_get_type_module (GOPlugin *plugin)
@@ -547,8 +548,8 @@ go_plugin_is_loaded (GOPlugin *plugin)
 /* - */
 
 /**
- * plugins_register_loader:
- * @loader_id: Loader's id
+ * go_plugins_register_loader:
+ * @id_str: Loader's id
  * @service: Plugin service of type "plugin_loader"
  *
  * Registers new type of plugin loader identified by @loader_id (identifier
@@ -568,8 +569,8 @@ go_plugins_register_loader (gchar const *loader_id, GOPluginService *service)
 }
 
 /**
- * plugins_unregister_loader:
- * @loader_id: Loader's id
+ * go_plugins_unregister_loader:
+ * @id_str: Loader's id
  *
  * Unregisters a type of plugin loader identified by @loader_id. After
  * callingthis function Gnumeric will be unable to load plugins supported
@@ -1265,7 +1266,8 @@ go_plugin_use_unref (GOPlugin *plugin)
  * go_plugin_get_dependencies_ids:
  * @plugin: #GOPlugin
  *
- * Returns: the list of identifiers of plugins that @plugin depends on.
+ * Returns: (element-type char) (transfer full): the list of identifiers of
+ * plugins that @plugin depends on.
  * 	All these plugins will be automatically activated before activating the
  * 	@plugin itself.  The caller must free the returned list together with
  * 	the strings it points to (use g_slist_free_full (list, g_free) to do
@@ -1287,7 +1289,8 @@ go_plugin_get_dependencies_ids (GOPlugin *plugin)
  * go_plugin_get_services:
  * @plugin: #GOPlugin
  *
- * Returns: A list of services.  The list must not be freed or changed.
+ * Returns: (element-type GOPluginService) (transfer none):A list of services.
+ * The list must not be freed or changed.
  **/
 GSList *
 go_plugin_get_services (GOPlugin *plugin)
@@ -1301,7 +1304,7 @@ go_plugin_get_services (GOPlugin *plugin)
  * go_plugin_get_loader:
  * @plugin: #GOPlugin
  *
- * Returns: The loader.
+ * Returns: (transfer none): The loader.
  **/
 GOPluginLoader *
 go_plugin_get_loader (GOPlugin *plugin)
@@ -1455,8 +1458,8 @@ go_plugin_list_read_for_all_dirs (GOErrorInfo **ret_error)
 }
 
 /**
- * plugin_db_activate_plugin_list:
- * @plugins: The list of plugins
+ * go_plugin_db_activate_plugin_list:
+ * @plugins: (element-type GOPlugin): The list of plugins
  * @ret_error: Pointer used to report errors
  *
  * Activates all plugins in the list. If some of the plugins cannot be
@@ -1490,8 +1493,8 @@ go_plugin_db_activate_plugin_list (GSList *plugins, GOErrorInfo **ret_error)
 }
 
 /**
- * plugin_db_deactivate_plugin_list:
- * @plugins: The list of plugins
+ * go_plugin_db_deactivate_plugin_list:
+ * @plugins: (element-type GOPlugin): The list of plugins
  * @ret_error: Pointer used to report errors
  *
  * Deactivates all plugins in the list. If some of the plugins cannot be
@@ -1525,10 +1528,11 @@ go_plugin_db_deactivate_plugin_list (GSList *plugins, GOErrorInfo **ret_error)
 }
 
 /**
- * plugins_get_available_plugins:
+ * go_plugins_get_available_plugins:
  *
- * Returns: the list of available plugins. The returned value must not be freed
- * 	and stays valid until calling plugins_rescan or plugins_shutdown.
+ * Returns: (element-type GOPlugin) (transfer container): the list of available
+ * plugins. The returned value must not be freed and stays valid until calling
+ * plugins_rescan or plugins_shutdown.
  **/
 GSList *
 go_plugins_get_available_plugins (void)
@@ -1537,10 +1541,10 @@ go_plugins_get_available_plugins (void)
 }
 
 /**
- * plugins_get_active_plugins:
+ * go_plugins_get_active_plugins:
  *
- * Returns: the list of active plugins.  The caller needs to free the list, but
- * 	not the content.
+ * Returns: (element-type char) (transfer container): the list of active
+ * plugins names. The caller needs to free the list, but not the content.
  **/
 GSList *
 go_plugins_get_active_plugins (void)
@@ -1557,10 +1561,10 @@ go_plugins_get_active_plugins (void)
 }
 
 /**
- * plugins_get_plugin_by_id:
+ * go_plugins_get_plugin_by_id:
  * @plugin_id: String containing plugin ID
  *
- * Returns: GOPlugin object for plugin with ID equal to @plugin_id or NULL
+ * Returns: (transfer none): GOPlugin object for plugin with ID equal to @plugin_id or NULL
  * 	if there's no plugin available with given id.  Function returns
  * 	"borrowed" reference, use g_object_ref if you want to be sure that
  * 	plugin won't disappear.
@@ -1574,7 +1578,7 @@ go_plugins_get_plugin_by_id (gchar const *plugin_id)
 }
 
 /**
- * plugin_db_mark_plugin_for_deactivation:
+ * go_plugin_db_mark_plugin_for_deactivation:
  * @plugin: #GOPlugin
  * @mark:
  */
@@ -1596,7 +1600,7 @@ go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark)
 }
 
 /**
- * plugin_db_is_plugin_marked_for_deactivation:
+ * go_plugin_db_is_plugin_marked_for_deactivation:
  * @plugin: #GOPlugin
  */
 gboolean
@@ -1615,9 +1619,10 @@ ghf_set_state_old_unused (gpointer key, gpointer value, gpointer unused)
 }
 
 /**
- * plugins_rescan:
+ * go_plugins_rescan:
  * @ret_error: Pointer used to report errors
- * @ret_new_plugins: Optional pointer to return list of new plugins
+ * @ret_new_plugins: (element-type GOPlugin): Optional pointer to return list
+ * of new plugins
  *
  *
  */
@@ -1749,9 +1754,9 @@ go_plugins_set_dirs (GSList *plugin_dirs)
 /**
  * go_plugins_init:
  * @context: #GOCmdContext used to report errors
- * @known_states: A list of known states (defined how ?)
- * @active_plugins: A list of active plugins
- * @plugin_dirs:a list of directories to search for plugins
+ * @known_states: (element-type char): A list of known states (defined how ?)
+ * @active_plugins: (element-type char): A list of active plugins
+ * @plugin_dirs: (element-type char): a list of directories to search for plugins
  * @activate_new_plugins: activate plugins we have no seen before.
  * @default_loader_type: importer to use by default.
  *
@@ -1856,11 +1861,14 @@ ghf_collect_used_plugin_state_strings (gpointer key, gpointer value, gpointer us
 }
 
 /**
- * plugins_shutdown:
+ * go_plugins_shutdown:
  *
  * Shuts down the plugin subsystem. Call this function only once before
  * exiting the application. Some plugins may be left active or in broken
  * state, so calling plugins_init again will NOT work properly.
+ *
+ * Returns: (element-type char) (transfer full): the list of plugins still in
+ * use.
  */
 GSList *
 go_plugins_shutdown (void)

@@ -39,7 +39,7 @@ gog_xyz_plot_pref (GogXYZPlot *plot, GOCmdContext *cc)
 {
 	GtkWidget  *w;
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_surface/gog-xyz-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_surface/gog-xyz-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
         if (gui == NULL)
                 return NULL;

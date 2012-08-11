@@ -63,6 +63,13 @@ go_color_as_str (GOColor color)
 	return g_strdup_printf ("%X:%X:%X:%X", r, g, b, a);
 }
 
+/**
+ * go_color_to_pango: (skip)
+ * @color: #GOColor
+ * @is_fore: whether to create a foreground or background color attribute.
+ *
+ * Returns: (transfer full): the newly created #PangoAttribute.
+ **/
 PangoAttribute *
 go_color_to_pango (GOColor color, gboolean is_fore)
 {

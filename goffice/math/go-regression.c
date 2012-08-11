@@ -79,6 +79,37 @@ general_linear_regressionl (long double *const *const xss, int xdim,
 
 #endif
 
+/* Boxed types code */
+
+static SUFFIX(go_regression_stat_t) *
+SUFFIX(go_regression_stat_ref) (SUFFIX(go_regression_stat_t)* state)
+{
+	state->ref_count++;
+	return state;
+}
+
+GType
+#ifdef DEFINE_COMMON
+go_regression_stat_get_type (void)
+#else
+go_regression_statl_get_type (void)
+#endif
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static (
+#ifdef DEFINE_COMMON
+		     "go_regression_stat_t",
+#else
+		     "go_regression_stat_tl",
+#endif
+			 (GBoxedCopyFunc)SUFFIX(go_regression_stat_ref),
+			 (GBoxedFreeFunc)SUFFIX(go_regression_stat_destroy));
+	}
+	return t;
+}
+
 /* ------------------------------------------------------------------------- */
 
 #ifdef DEFINE_COMMON
@@ -1476,6 +1507,7 @@ SUFFIX(go_regression_stat_new) (void)
 	stat_->se = NULL;
 	stat_->t = NULL;
 	stat_->xbar = NULL;
+	stat_->ref_count = 1;
 
 	return stat_;
 }
@@ -1485,7 +1517,7 @@ SUFFIX(go_regression_stat_new) (void)
 void
 SUFFIX(go_regression_stat_destroy) (SUFFIX(go_regression_stat_t) *stat_)
 {
-	if (stat_) {
+	if (stat_ && stat_->ref_count-- > 1) {
 		g_free(stat_->se);
 		g_free(stat_->t);
 		g_free(stat_->xbar);
@@ -1763,31 +1795,50 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
 	return result;
 }
 
-
-/*
+/**
+ * go_non_linear_regression:
+ * @f: (scope call): the model function
+ * @xvals: independent values.
+ * @par: model parameters.
+ * @yvals: dependent values.
+ * @sigmas: stahdard deviations for the dependent values.
+ * @x_dim: Number of data points.
+ * @p_dim: Number of parameters.
+ * @chi: Chi Squared of the final result.  This value is not very
+ * meaningful without the sigmas.
+ * @errors: MUST ALREADY BE ALLOCATED.  These are the approximated standard
+ * deviation for each parameter.
+ *
  * SYNOPSIS:
  *   result = non_linear_regression (f, xvals, par, yvals, sigmas,
  *                                   x_dim, p_dim, &chi, errors)
- *
- * Returns the results of the non-linear regression from the given initial
+ * Non linear regression.
+ * Returns: the results of the non-linear regression from the given initial
  * values.
- * The resulting parameters are placed back into 'par'.
+ * The resulting parameters are placed back into @par.
+ **/
+/**
+ * go_non_linear_regressionl:
+ * @f: (scope call): the model function
+ * @xvals: independent values.
+ * @par: model parameters.
+ * @yvals: dependent values.
+ * @sigmas: stahdard deviations for the dependent values.
+ * @x_dim: Number of data points.
+ * @p_dim: Number of parameters.
+ * @chi: Chi Squared of the final result.  This value is not very
+ * meaningful without the sigmas.
+ * @errors: MUST ALREADY BE ALLOCATED.  These are the approximated standard
+ * deviation for each parameter.
  *
- * PARAMETERS:
- *
- * sigmas  -> Measurement errors in the dataset (along the y-axis).
- *            NULL means "no errors available", so they are all set to 1.
- *
- * x_dim   -> Number of data points.
- *
- * p_dim   -> Number of parameters.
- *
- * errors  -> MUST ALREADY BE ALLOCATED.  These are the approximated standard
- *            deviation for each parameter.
- *
- * chi     -> Chi Squared of the final result.  This value is not very
- *            meaningful without the sigmas.
- */
+ * SYNOPSIS:
+ *   result = non_linear_regression (f, xvals, par, yvals, sigmas,
+ *                                   x_dim, p_dim, &chi, errors)
+ * Non linear regression.
+ * Returns: the results of the non-linear regression from the given initial
+ * values.
+ * The resulting parameters are placed back into @par.
+ **/
 GORegressionResult
 SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 				  MATRIX xvals, /* The entire data set. */

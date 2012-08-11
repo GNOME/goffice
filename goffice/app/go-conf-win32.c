@@ -25,6 +25,7 @@
 struct _GOConfNode {
 	HKEY hKey;
 	gchar *path;
+	unsigned ref_count;
 };
 
 void
@@ -276,6 +277,7 @@ go_conf_get_node (GOConfNode *parent, const gchar *key)
 		node = g_new (GOConfNode, 1);
 		node->hKey = hKey;
 		node->path = win32_key;
+		node->ref_count = 1;
 	} else {
 		g_free (win32_key);
 	}
@@ -286,7 +288,7 @@ go_conf_get_node (GOConfNode *parent, const gchar *key)
 void
 go_conf_free_node (GOConfNode *node)
 {
-	if (node) {
+	if (node && node->ref_count-- > 1) {
 		RegCloseKey (node->hKey);
 		g_free (node->path);
 		g_free (node);

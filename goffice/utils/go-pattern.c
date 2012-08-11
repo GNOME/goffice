@@ -138,7 +138,7 @@ go_pattern_get_pattern (GOPattern const *pat)
 }
 
 /**
- * go_pattern_get_svg_path:
+ * go_pattern_get_svg_path: (skip)
  * @pattern: a #GOPattern
  * @width:  pattern width
  * @height:  pattern height

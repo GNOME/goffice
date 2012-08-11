@@ -226,6 +226,12 @@ typedef struct {
 	gpointer user_unserialize;
 } GogXMLReadState;
 
+/**
+ * gog_xml_read_state_get_obj:
+ * @xin: #GsfXMLIn
+ *
+ * Returns: (transfer none): the laset rerad #GogObject
+ **/
 GogObject *
 gog_xml_read_state_get_obj (GsfXMLIn *xin)
 {
@@ -493,6 +499,17 @@ static GsfXMLInNode const gog_dtd[] = {
   GSF_XML_IN_NODE_END
 };
 static GsfXMLInDoc *gog_sax_doc = NULL;
+
+/**
+ * gog_object_sax_push_parser:
+ * @xin: #GsfXMLIn
+ * @attrs: XML attributes
+ * @handler: (scope call): callback
+ * @user_unserialize: user data for #GOData reading
+ * @user_data: user data for @handler
+ *
+ * Unserializes a #GogObject using @handler when done.
+ **/
 void
 gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 			    GogObjectSaxHandler	handler,

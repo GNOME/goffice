@@ -644,12 +644,10 @@ static gboolean
 cb_tearable_button_release (GtkWidget *w, GdkEventButton *event,
 			    GOComboBox *combo)
 {
-	GtkTearoffMenuItem *tearable;
 
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_TEAROFF_MENU_ITEM (w), FALSE);
 
-	tearable = GTK_TEAROFF_MENU_ITEM (w);
 	/* FIXME: should we notify the parent menu? */
 
 	if (!combo->priv->torn_off) {

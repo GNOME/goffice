@@ -30,6 +30,7 @@ struct _GOErrorInfo {
 	gchar *msg;
 	GOSeverity severity;
 	GSList *details;          /* list of GOErrorInfo */
+	unsigned ref_count;
 };
 
 GOErrorInfo *
@@ -39,6 +40,7 @@ go_error_info_new_str (char const *msg)
 	error->msg = g_strdup (msg);
 	error->severity = GO_ERROR;
 	error->details  = NULL;
+	error->ref_count = 1;
 	return error;
 }
 
@@ -55,6 +57,7 @@ go_error_info_new_vprintf (GOSeverity severity, char const *msg_format,
 	error->msg = g_strdup_vprintf (msg_format, args);
 	error->severity = severity;
 	error->details = NULL;
+	error->ref_count = 1;
 	return error;
 }
 
@@ -72,6 +75,15 @@ go_error_info_new_printf (char const *msg_format, ...)
 	return error;
 }
 
+/**
+ * go_error_info_new_str_with_details:
+ * @msg: error message
+ * @details: #GOErrorInfo to add
+ *
+ * Creates a new #GOErrorInfo from @message and an existing #GOErrorInfo
+ * instance to add to the message.
+ * Returns: (transfer full): the newly created #GOErrorInfo
+ **/
 GOErrorInfo *
 go_error_info_new_str_with_details (char const *msg, GOErrorInfo *details)
 {
@@ -80,6 +92,15 @@ go_error_info_new_str_with_details (char const *msg, GOErrorInfo *details)
 	return error;
 }
 
+/**
+ * go_error_info_new_str_with_details_list:
+ * @msg: error message
+ * @details: (element-type GOErrorInfo): a list of #GOErrorInfo to add
+ *
+ * Creates a new #GOErrorInfo from @message and a list of existing #GOErrorInfo
+ * instances to add to the message.
+ * Returns: (transfer full): the newly created #GOErrorInfo
+ **/
 GOErrorInfo *
 go_error_info_new_str_with_details_list (char const *msg, GSList *details)
 {
@@ -88,6 +109,14 @@ go_error_info_new_str_with_details_list (char const *msg, GSList *details)
 	return error;
 }
 
+/**
+ * go_error_info_new_from_error_list:
+ * @errors: (element-type GOErrorInfo): a list of #GOErrorInfo to add
+ *
+ * Creates a new #GOErrorInfo from a list of existing #GOErrorInfo
+ * instances to add to the message.
+ * Returns: (transfer full): the newly created #GOErrorInfo
+ **/
 GOErrorInfo *
 go_error_info_new_from_error_list (GSList *errors)
 {
@@ -115,6 +144,13 @@ go_error_info_new_from_errno (void)
 	return go_error_info_new_str (g_strerror (errno));
 }
 
+/**
+ * go_error_info_add_details:
+ * @error: #GOErrorInfo
+ * @details:  #GOErrorInfo to add
+ *
+ * Adds an existing #GOErrorInfo instance to @error.
+ **/
 void
 go_error_info_add_details (GOErrorInfo *error, GOErrorInfo *details)
 {
@@ -129,6 +165,13 @@ go_error_info_add_details (GOErrorInfo *error, GOErrorInfo *details)
 		error->details = g_slist_append (error->details, details);
 }
 
+/**
+ * go_error_info_add_details_list:
+ * @error: #GOErrorInfo
+ * @details: (element-type GOErrorInfo): a list of #GOErrorInfo to add
+ *
+ * Adds a list of existing #GOErrorInfo instances to @error.
+ **/
 void
 go_error_info_add_details_list (GOErrorInfo *error, GSList *details)
 {
@@ -156,7 +199,7 @@ go_error_info_free (GOErrorInfo *error)
 {
 	GSList *l;
 
-	if (error == NULL)
+	if (error == NULL || error->ref_count-- > 1)
 		return;
 
 	g_free (error->msg);
@@ -202,6 +245,13 @@ go_error_info_peek_message (GOErrorInfo *error)
 	return error->msg;
 }
 
+/**
+ * go_error_info_peek_details:
+ * @error: error message
+ *
+ * Returns: (element-type GOErrorInfo) (transfer full): the newly details
+ * in @error
+ **/
 GSList *
 go_error_info_peek_details (GOErrorInfo *error)
 {
@@ -216,4 +266,24 @@ go_error_info_peek_severity (GOErrorInfo *error)
 	g_return_val_if_fail (error != NULL, GO_ERROR);
 
 	return error->severity;
+}
+
+static GOErrorInfo *
+go_error_info_ref (GOErrorInfo *error)
+{
+	error->ref_count++;
+	return error;
+}
+
+GType
+go_error_info_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOErrorInfo",
+			 (GBoxedCopyFunc)go_error_info_ref,
+			 (GBoxedFreeFunc)go_error_info_free);
+	}
+	return t;
 }

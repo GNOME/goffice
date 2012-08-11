@@ -1211,6 +1211,12 @@ go_plugin_service_get_description (GOPluginService *service)
 	return service->saved_description;
 }
 
+/**
+ * go_plugin_service_get_plugin:
+ * @service: #GOPluginService
+ *
+ * Returns: (transfer none): the plugin offering @service
+ **/
 GOPlugin *
 go_plugin_service_get_plugin (GOPluginService *service)
 {
@@ -1219,6 +1225,12 @@ go_plugin_service_get_plugin (GOPluginService *service)
 	return service->plugin;
 }
 
+/**
+ * go_plugin_service_get_cbs:
+ * @service: #GOPluginService
+ *
+ * Returns: (transfer none): the callbacks for the service
+ **/
 gpointer
 go_plugin_service_get_cbs (GOPluginService *service)
 {
@@ -1316,7 +1328,7 @@ go_plugin_services_shutdown (void)
 /**
  * go_plugin_service_define:
  * @type_str:  char const *
- * @ctor: #GOPluginServiceCreate
+ * @ctor: (scope async): #GOPluginServiceCreate
  *
  * Allow the definition of new service types
  **/

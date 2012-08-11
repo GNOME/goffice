@@ -34,6 +34,27 @@
 #define HALF_SEC (0.5 / SECS_PER_DAY)
 
 /* ------------------------------------------------------------------------- */
+static GODateConventions *
+go_date_conventions_copy (GODateConventions const *dc)
+{
+	GODateConventions *res = g_new (GODateConventions, 1);
+	memcpy (res, dc, sizeof(GODateConventions));
+	return res;
+}
+
+GType
+go_date_conventions_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GODateConventions",
+			 (GBoxedCopyFunc)go_date_conventions_copy,
+			 (GBoxedFreeFunc)g_free);
+	return t;
+}
+
+/* ------------------------------------------------------------------------- */
 
 /* One less that the Julian day number of 19000101.  */
 static int date_origin_1900 = 0;

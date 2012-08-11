@@ -483,6 +483,19 @@ go_path_rectangle (GOPath *path,
 	go_path_close (path);
 }
 
+/**
+ * go_path_interpret:
+ * @path: #GOPath
+ * @direction: #GOPathDirection
+ * @move_to: (scope call): the callback for move to.
+ * @line_to: (scope call): the callback for drawing a line.
+ * @curve_to: (scope call): the callback for drawing a bezier cubic spline.
+ * @close_path: (scope call): the callback for closing the path.
+ * @closure: data to pass as first argument to the callbacks.
+ *
+ * This function can be used to draw a path or for other purposes.
+ * To draw using cairo, the closure argument should be a valid #cairo_t.
+ **/
 void
 go_path_interpret (GOPath const		*path,
 		   GOPathDirection 	 direction,
@@ -590,13 +603,14 @@ go_path_cairo_curve_to (cairo_t *cr, GOPathPoint const *point0,
 	cairo_curve_to (cr, point0->x, point0->y, point1->x, point1->y, point2->x, point2->y);
 }
 
-/** go_path_to_cairo:
+/**
+ * go_path_to_cairo:
  * @path: #GOPath
  * @direction: #GOPathDirection
  * @cr: #cairo_t
  *
  * Renders the path to the cairo context using its current settings.
- */
+ **/
 
 void
 go_path_to_cairo (GOPath const *path, GOPathDirection direction, cairo_t *cr)
@@ -633,11 +647,12 @@ go_path_append_close (GOPath *path)
 	go_path_close (path);
 }
 
-/** go_path_copy:
+/**
+ * go_path_copy:
  * @path: #GOPath
  *
  * Returns: a new #GOPath identical to @path.
- */
+ **/
 
 GOPath *go_path_copy (GOPath const *path)
 {

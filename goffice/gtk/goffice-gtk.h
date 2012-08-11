@@ -55,10 +55,18 @@ G_BEGIN_DECLS
 
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
+GtkBuilder *go_gtk_builder_load_internal (char const *uifile,
+					 char const *domain, GOCmdContext *gcc);
+GtkBuilder *go_gtk_builder_load (char const *uifile,
+				char const *domain, GOCmdContext *gcc);
+#ifndef GOFFICE_DISABLE_DEPRECATED
+GOFFICE_DEPRECATED_FOR(go_gtk_builder_load_internal)
 GtkBuilder *go_gtk_builder_new_internal (char const *uifile,
 					 char const *domain, GOCmdContext *gcc);
+GOFFICE_DEPRECATED_FOR(go_gtk_builder_load)
 GtkBuilder *go_gtk_builder_new (char const *uifile,
 				char const *domain, GOCmdContext *gcc);
+#endif
 gulong	   go_gtk_builder_signal_connect (GtkBuilder *gui,
 					  gchar const *instance_name,
 					  gchar const *detailed_signal,
@@ -95,8 +103,13 @@ void       go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
 gboolean   go_gtk_query_yes_no		(GtkWindow *toplevel, gboolean default_answer,
 					 const gchar *format, ...) G_GNUC_PRINTF (3, 4);
 
+GtkWidget *go_gtk_button_build_with_stock (char const *text,
+					 char const *stock_id);
+#ifndef GOFFICE_DISABLE_DEPRECATED
+GOFFICE_DEPRECATED_FOR(go_gtk_button_build_with_stock)
 GtkWidget *go_gtk_button_new_with_stock (char const *text,
 					 char const *stock_id);
+#endif
 void	   go_gtk_widget_disable_focus	(GtkWidget *w);
 void       go_gtk_window_set_transient  (GtkWindow *toplevel, GtkWindow *window);
 void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,

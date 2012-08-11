@@ -50,17 +50,18 @@
 
 
 /**
- * go_gtk_button_new_with_stock:
+ * go_gtk_button_build_with_stock:
  * @text: button label
  * @stock_id: id for stock icon
  *
  * FROM : gedit
  * Creates a new GtkButton with custom label and stock image.
  *
- * Returns: newly created button
+ * Since: 0.9.9
+ * Returns: (transfer full): newly created button
  **/
 GtkWidget*
-go_gtk_button_new_with_stock (char const *text, char const* stock_id)
+go_gtk_button_build_with_stock (char const *text, char const* stock_id)
 {
 	GtkStockItem item;
 	GtkWidget *button = gtk_button_new_with_mnemonic (text);
@@ -68,6 +69,23 @@ go_gtk_button_new_with_stock (char const *text, char const* stock_id)
 		gtk_button_set_image (GTK_BUTTON (button),
 			gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON));
 	return button;
+}
+
+/**
+ * go_gtk_button_new_with_stock:
+ * @text: button label
+ * @stock_id: id for stock icon
+ *
+ * FROM : gedit
+ * Creates a new GtkButton with custom label and stock image.
+ *
+ * Deprecated: 09.6., use go_gtk_button_build_with_stock().
+ * Returns: (transfer full): newly created button
+ **/
+GtkWidget*
+go_gtk_button_new_with_stock (char const *text, char const* stock_id)
+{
+	return go_gtk_button_build_with_stock (text, stock_id);
 }
 
 /**
@@ -80,7 +98,7 @@ go_gtk_button_new_with_stock (char const *text, char const* stock_id)
  * FROM : gedit
  * Creates and adds a button with stock image to the action area of an existing dialog.
  *
- * Returns: newly created button
+ * Returns: (transfer none): newly created button
  **/
 GtkWidget*
 go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock_id,
@@ -92,7 +110,7 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
 	g_return_val_if_fail (text != NULL, NULL);
 	g_return_val_if_fail (stock_id != NULL, NULL);
 
-	button = go_gtk_button_new_with_stock (text, stock_id);
+	button = go_gtk_button_build_with_stock (text, stock_id);
 	g_return_val_if_fail (button != NULL, NULL);
 
 	gtk_widget_set_can_default (button, TRUE);
@@ -137,14 +155,15 @@ apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
 
 
 /**
- * go_gtk_builder_new:
+ * go_gtk_builder_load:
  * @uifile: the name of the file load
  * @domain: the translation domain
  * @gcc: #GOCmdContext
  *
  * Simple utility to open ui files
  *
- * Returns: a new #GtkBuilder or NULL
+ * Since 0.9.6
+ * Returns: (transfer full): a new #GtkBuilder or NULL
  *
  * @uifile should be one of these:
  *
@@ -155,7 +174,7 @@ apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
  * Data may be compressed, regardless of source.
 **/
 GtkBuilder *
-go_gtk_builder_new (char const *uifile,
+go_gtk_builder_load (char const *uifile,
 		    char const *domain, GOCmdContext *gcc)
 {
 	GtkBuilder *gui;
@@ -219,25 +238,97 @@ go_gtk_builder_new (char const *uifile,
 	return gui;
 }
 
-/*
+
+/**
+ * go_gtk_builder_new:
+ * @uifile: the name of the file load
+ * @domain: the translation domain
+ * @gcc: #GOCmdContext
+ *
+ * Simple utility to open ui files
+ *
+ * Deprecated: 0.9.6, use go_gtk_builder_load().
+ * Returns: (transfer full): a new #GtkBuilder or NULL
+ *
+ * @uifile should be one of these:
+ *
+ * res:NAME  -- data from resource manager
+ * data:DATA -- data right here
+ * filename  -- data from local file
+ *
+ * Data may be compressed, regardless of source.
+**/
+GtkBuilder *
+go_gtk_builder_new (char const *uifile,
+		    char const *domain, GOCmdContext *gcc)
+{
+	return go_gtk_builder_load (uifile, domain, gcc);
+}
+
+/**
+ * go_gtk_builder_load_internal:
+ * @uifile: the name of the file load
+ * @domain: the translation domain
+ * @gcc: #GOCmdContext
+ *
+ * Simple utility to open ui files
+ *
+ * Since: 0.9.6
+ * Returns: (transfer full): a new #GtkBuilder or NULL
+ *
  * Variant of go_gtk_builder_new that searchs goffice directories
  * for files.
- */
+ * @uifile should be one of these:
+ *
+ * res:NAME  -- data from resource manager
+ * data:DATA -- data right here
+ * filename  -- data from local file
+ *
+ * Data may be compressed, regardless of source.
+**/
 GtkBuilder *
-go_gtk_builder_new_internal (char const *uifile,
+go_gtk_builder_load_internal (char const *uifile,
 			     char const *domain, GOCmdContext *gcc)
 {
 	char *f;
 	GtkBuilder *res;
 
 	if (g_path_is_absolute (uifile) || strncmp (uifile, "res:", 4) == 0)
-		return go_gtk_builder_new (uifile, domain, gcc);
+		return go_gtk_builder_load (uifile, domain, gcc);
 
 	f = g_build_filename (go_sys_data_dir (), "ui", uifile, NULL);
-	res = go_gtk_builder_new (f, domain, gcc);
+	res = go_gtk_builder_load (f, domain, gcc);
 	g_free (f);
 
 	return res;
+}
+
+/**
+ * go_gtk_builder_new_internal:
+ * @uifile: the name of the file load
+ * @domain: the translation domain
+ * @gcc: #GOCmdContext
+ *
+ * Simple utility to open ui files
+ *
+ * Deprecated: 0.9.6, use go_gtk_builder_load_internal().
+ * Returns: (transfer full): a new #GtkBuilder or NULL
+ *
+ * Variant of go_gtk_builder_new that searchs goffice directories
+ * for files.
+ * @uifile should be one of these:
+ *
+ * res:NAME  -- data from resource manager
+ * data:DATA -- data right here
+ * filename  -- data from local file
+ *
+ * Data may be compressed, regardless of source.
+**/
+GtkBuilder *
+go_gtk_builder_new_internal (char const *uifile,
+			     char const *domain, GOCmdContext *gcc)
+{
+	return go_gtk_builder_load_internal (uifile, domain, gcc);
 }
 
 
@@ -246,7 +337,7 @@ go_gtk_builder_new_internal (char const *uifile,
  * @gui: #GtkBuilder
  * @instance_name: widget name
  * @detailed_signal: signal name
- * @c_handler: #GCallback
+ * @c_handler: (scope async): #GCallback
  * @data: arbitrary
  *
  * Convenience wrapper around g_signal_connect for GtkBuilder.
@@ -268,11 +359,11 @@ go_gtk_builder_signal_connect	(GtkBuilder	*gui,
 }
 
 /**
- * go_xml_builder_signal_connect_swapped:
+ * go_gtk_builder_signal_connect_swapped:
  * @gui: #GtkBuilder
  * @instance_name: widget name
  * @detailed_signal: signal name
- * @c_handler: #GCallback
+ * @c_handler: (scope async): #GCallback
  * @data: arbitary
  *
  * Convenience wrapper around g_signal_connect_swapped for GtkBuilder.
@@ -301,7 +392,7 @@ go_gtk_builder_signal_connect_swapped (GtkBuilder	*gui,
  * Simple wrapper to #gtk_builder_get_object which returns the object
  * as a GtkWidget.
  *
- * Returns: a new #GtkWidget or NULL
+ * Returns: (transfer none): a new #GtkWidget or NULL
  **/
 GtkWidget *
 go_gtk_builder_get_widget (GtkBuilder *gui, char const *widget_name)
@@ -317,7 +408,7 @@ go_gtk_builder_get_widget (GtkBuilder *gui, char const *widget_name)
  * searches the #GtkComboBox in @gui and ensures it has a model and a
  * renderer appropriate for using with #gtk_combo_box_append_text and friends.
  *
- * Returns: the #GtkComboBox or NULL
+ * Returns: (transfer none): the #GtkComboBox or NULL
  **/
 GtkComboBox *
 go_gtk_builder_combo_box_init_text (GtkBuilder *gui, char const *widget_name)
@@ -672,22 +763,22 @@ update_preview_cb (GtkFileChooser *chooser)
 		gtk_widget_hide (image);
 		gtk_widget_hide (label);
 	} else {
-		GdkPixbuf *buf;
+		GOImage *buf;
 		gboolean dummy;
 
-		buf = gdk_pixbuf_new_from_file (filename, NULL);
+		buf = go_image_new_from_file (filename, NULL);
 		if (buf) {
 			dummy = FALSE;
 		} else {
 			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (chooser));
-			buf = gtk_icon_theme_load_icon
-				(gtk_icon_theme_get_for_screen (screen),
-				 "unknown_image", 100, 100, NULL);
+			buf = go_pixbuf_new_from_pixbuf (gtk_icon_theme_load_icon
+						(gtk_icon_theme_get_for_screen (screen),
+						 "unknown_image", 100, 100, NULL));
 			dummy = buf != NULL;
 		}
 
 		if (buf) {
-			GdkPixbuf *pixbuf = go_gdk_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
+			GdkPixbuf *pixbuf = go_image_get_scaled_pixbuf (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
 			gtk_image_set_from_pixbuf (GTK_IMAGE (image), pixbuf);
 			g_object_unref (pixbuf);
 			gtk_widget_show (image);
@@ -695,8 +786,8 @@ update_preview_cb (GtkFileChooser *chooser)
 			if (dummy)
 				gtk_label_set_text (GTK_LABEL (label), "");
 			else {
-				int w = gdk_pixbuf_get_width (buf);
-				int h = gdk_pixbuf_get_height (buf);
+				int w = go_image_get_width (buf);
+				int h = go_image_get_height (buf);
 				char *size = g_strdup_printf (_("%d x %d"), w, h);
 				gtk_label_set_text (GTK_LABEL (label), size);
 				g_free (size);
@@ -830,7 +921,7 @@ cb_format_combo_changed (GtkComboBox *combo, GtkWidget *expander)
 /**
  * go_gui_get_image_save_info:
  * @toplevel: a #GtkWindow
- * @supported_formats: a #GSList of supported file formats
+ * @supported_formats: (element-type void): a #GSList of supported file formats
  * @ret_format: default file format
  * @resolution: export resolution
  *
@@ -870,7 +961,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 
-	gui = go_gtk_builder_new_internal ("res:go:gtk/go-image-save-dialog-extra.ui",
+	gui = go_gtk_builder_load_internal ("res:go:gtk/go-image-save-dialog-extra.ui",
 					   GETTEXT_PACKAGE, NULL);
 	if (gui != NULL) {
 		GtkWidget *widget;

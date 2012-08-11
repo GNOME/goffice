@@ -84,8 +84,18 @@ go_gradient_swatch_render_func (cairo_t *cr,
 	cairo_pattern_destroy (cr_pattern);
 }
 
+/**
+ * go_selector_new_gradient:
+ * @initial_direction: initially selected direction
+ * @default_direction: automatic gradient direction
+ *
+ * Creates a new gradient selector.
+ *
+ * Since: 0.9.6
+ * Returns: (transfer full): a new #GtkWidget.
+ **/
 GtkWidget *
-go_gradient_selector_new (GOGradientDirection initial_direction,
+go_selector_new_gradient (GOGradientDirection initial_direction,
 			  GOGradientDirection default_direction)
 {
 	GtkWidget *palette;
@@ -106,6 +116,23 @@ go_gradient_selector_new (GOGradientDirection initial_direction,
 	go_selector_set_active (GO_SELECTOR (selector),
 				CLAMP (initial_direction, 0, GO_GRADIENT_MAX - 1));
 	return selector;
+}
+
+/**
+ * go_gradient_selector_new:
+ * @initial_direction: initially selected direction
+ * @default_direction: automatic gradient direction
+ *
+ * Creates a new gradient selector.
+ *
+ * Deprecated: 0.9.6, use go_selector_new_gradient().
+ * Returns: (transfer full): a new #GtkWidget.
+ **/
+GtkWidget *
+go_gradient_selector_new (GOGradientDirection initial_direction,
+			  GOGradientDirection default_direction)
+{
+	return go_selector_new_gradient (initial_direction, default_direction);
 }
 
 void

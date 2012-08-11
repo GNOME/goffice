@@ -495,7 +495,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		return;
 	}
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL) {
 		(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 		return;

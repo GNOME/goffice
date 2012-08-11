@@ -26,8 +26,13 @@
 
 G_BEGIN_DECLS
 
+GtkWidget	*go_selector_new_gradient		(GOGradientDirection initial_direction,
+							 GOGradientDirection default_direction);
+#ifndef GOFFICE_DISABLE_DEPRECATED
+GOFFICE_DEPRECATED_FOR(go_selector_new_gradient)
 GtkWidget	*go_gradient_selector_new		(GOGradientDirection initial_direction,
 							 GOGradientDirection default_direction);
+#endif
 void 		 go_gradient_selector_set_colors  	(GOSelector *selector,
 							 GOColor start,
 							 GOColor stop);

@@ -22,6 +22,8 @@
 #ifndef GO_CSPLINE_H
 #define GO_CSPLINE_H
 
+#include <glib-object.h>
+
 G_BEGIN_DECLS
 
 typedef struct _GOCSpline GOCSpline;
@@ -29,6 +31,7 @@ struct _GOCSpline {
 	double const *x, *y;
 	double *a, *b, *c;
 	int n;
+	unsigned ref_count;
 };
 
 typedef enum {
@@ -39,6 +42,7 @@ typedef enum {
 	GO_CSPLINE_MAX
 } GOCSplineType;
 
+GType go_cspline_get_type (void);
 GOCSpline *go_cspline_init (double const *x, double const *y, int n,
 				   unsigned limits, double c0, double cn);
 void go_cspline_destroy (GOCSpline *sp);
@@ -54,8 +58,10 @@ struct _GOCSplinel {
 	long double const *x, *y;
 	long double *a, *b, *c;
 	int n;
+	unsigned ref_count;
 };
 
+GType go_csplinel_get_type (void);
 GOCSplinel *go_cspline_initl (long double const *x, long double const *y, int n,
 				     unsigned limits, long double a0, long double a1);
 void go_cspline_destroyl (GOCSplinel *sp);

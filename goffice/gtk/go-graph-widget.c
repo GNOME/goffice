@@ -29,7 +29,7 @@
 static void go_graph_widget_request_update (GOGraphWidget *w);
 
 /**
- * SECTION: go_graph_widget
+ * SECTION: go-graph-widget
  * @short_description: Widget showing a #GogGraph.
  *
  * Utility widget for showing a #GogGraph.

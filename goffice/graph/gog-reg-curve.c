@@ -110,7 +110,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	struct reg_curve_closure *cl;
 	GogRegCurveDrawingBounds db = GOG_REG_CURVE (gobj)->drawing_bounds;
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-reg-curve-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-reg-curve-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

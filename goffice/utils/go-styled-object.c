@@ -121,7 +121,7 @@ go_styled_object_set_style (GOStyledObject *gso, GOStyle *style)
  *
  * Simply an accessor function that returns @gso->style, without referencing it.
  *
- * return value: the styled object's #GOStyle
+ * Returns: (transfer none): the styled object's #GOStyle
  **/
 GOStyle*
 go_styled_object_get_style (GOStyledObject *gso)
@@ -139,7 +139,7 @@ go_styled_object_get_style (GOStyledObject *gso)
  * This function returns a new style that is initialized with the auto values for @gso.
  * Caller is responsible for the result.
  *
- * return value: a new #GOStyle
+ * Returns: (transfer full): a new #GOStyle
  **/
 GOStyle*
 go_styled_object_get_auto_style (GOStyledObject *gso)
@@ -189,7 +189,7 @@ go_styled_object_apply_theme (GOStyledObject *gso, GOStyle *style)
  *
  * A #GODoc is necessary to store images. If no GODoc is associated with the
  * object, image filling will not be supported.
- * return value: the #GODoc associated with the object if any.
+ * Returns: (transfer none): he #GODoc associated with the object if any.
  **/
 
 GODoc*

@@ -590,6 +590,13 @@ static long double beyond_precisionl;
 /* WARNING : Global */
 static GHashTable *style_format_hash = NULL;
 
+/**
+ * go_format_foreach:
+ * @func: (scope call): function to execute for each known format
+ * @user_data: user data for @func
+ *
+ * Executes @func for each registered #GOFormat
+ **/
 void
 go_format_foreach (GHFunc func, gpointer user_data)
 {
@@ -4563,11 +4570,11 @@ go_format_measure_strlen (const GString *str,
 	}								\
 	} while (0)
 
-/*
- * go_format_general:
+/**
+ * go_render_general:
  * @layout: Optional PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
- * @measure: Function to measure width of string/layout.
+ * @measure: (scope call): Function to measure width of string/layout.
  * @metrics: Font metrics corresponding to @mesaure.
  * @val: floating-point value.  Must be finite.
  * @col_width: intended max width of layout in pango units.  -1 means
@@ -4577,7 +4584,22 @@ go_format_measure_strlen (const GString *str,
  * Render a floating-point value into @layout in such a way that the
  * layouting width does not needlessly exceed @col_width.  Optionally
  * use unicode minus instead of hyphen.
- */
+ **/
+/**
+ * go_render_generall:
+ * @layout: Optional PangoLayout, probably preseeded with font attribute.
+ * @str: a GString to store (not append!) the resulting string in.
+ * @measure: (scope call): Function to measure width of string/layout.
+ * @metrics: Font metrics corresponding to @mesaure.
+ * @val: floating-point value.  Must be finite.
+ * @col_width: intended max width of layout in pango units.  -1 means
+ *             no restriction.
+ * @unicode_minus: Use unicode minuses, not hyphens.
+ *
+ * Render a floating-point value into @layout in such a way that the
+ * layouting width does not needlessly exceed @col_width.  Optionally
+ * use unicode minus instead of hyphen.
+ **/
 void
 SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			   GOFormatMeasure measure,
@@ -4785,6 +4807,48 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
 #define FREE_NEW_STR do { if (new_str) (void)g_string_free (new_str, TRUE); } while (0)
 
+/**
+ * go_format_value_gstring:
+ * @layout: Optional PangoLayout, probably preseeded with font attribute.
+ * @str: a GString to store (not append!) the resulting string in.
+ * @measure: (scope call): Function to measure width of string/layout.
+ * @metrics: Font metrics corresponding to @mesaure.
+ * @fmt: #GOFormat
+ * @val: floating-point value.  Must be finite.
+ * @type: a format character
+ * @sval: a string to append to @str after @val
+ * @go_color: a color to rende
+ * @col_width: intended max width of layout in pango units.  -1 means
+ *             no restriction.
+ * @date_conv: #GODateConv
+ * @unicode_minus: Use unicode minuses, not hyphens.
+ *
+ * Render a floating-point value into @layout in such a way that the
+ * layouting width does not needlessly exceed @col_width.  Optionally
+ * use unicode minus instead of hyphen.
+ * Returns: a #GOFormatNumberError
+ **/
+/**
+ * go_format_value_gstringl:
+ * @layout: Optional PangoLayout, probably preseeded with font attribute.
+ * @str: a GString to store (not append!) the resulting string in.
+ * @measure: (scope call): Function to measure width of string/layout.
+ * @metrics: Font metrics corresponding to @mesaure.
+ * @fmt: #GOFormat
+ * @val: floating-point value.  Must be finite.
+ * @type: a format character
+ * @sval: a string to append to @str after @val
+ * @go_color: a color to rende
+ * @col_width: intended max width of layout in pango units.  -1 means
+ *             no restriction.
+ * @date_conv: #GODateConv
+ * @unicode_minus: Use unicode minuses, not hyphens.
+ *
+ * Render a floating-point value into @layout in such a way that the
+ * layouting width does not needlessly exceed @col_width.  Optionally
+ * use unicode minus instead of hyphen.
+ * Returns: a #GOFormatNumberError
+ **/
 GOFormatNumberError
 SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 				 const GOFormatMeasure measure,
@@ -5617,12 +5681,12 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 			((c->blue & 0xff00) >> 8));
 		break;
 	default:
-		if (a->klass->type == go_pango_attr_subscript_get_type ()) {
+		if (a->klass->type == go_pango_attr_subscript_get_attr_type ()) {
 			g_string_append_printf (accum, "[subscript=%d",
 						((GOPangoAttrSubscript *)a)->val ?
 						1:0);
 			break;
-		} else if (a->klass->type == go_pango_attr_superscript_get_type ()) {
+		} else if (a->klass->type == go_pango_attr_superscript_get_attr_type ()) {
 			g_string_append_printf (accum, "[superscript=%d",
 						((GOPangoAttrSuperscript *)a)->val ?
 						1:0);
@@ -5933,6 +5997,20 @@ go_format_unref (GOFormat const *gf_)
 
 	g_free (gf->format);
 	g_free (gf);
+}
+#endif
+
+#ifdef DEFINE_COMMON
+GType
+go_format_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GOFormat",
+			 (GBoxedCopyFunc)go_format_ref,
+			 (GBoxedFreeFunc)go_format_unref);
+	return t;
 }
 #endif
 
@@ -6770,11 +6848,32 @@ go_format_generate_str (GString *dst, GOFormatDetails const *details)
 #endif
 
 #ifdef DEFINE_COMMON
+static GOFormatDetails *
+go_format_details_ref (GOFormatDetails * details)
+{
+	details->ref_count++;
+	return details;
+}
+
+GType
+go_format_details_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOFormatDetails",
+			 (GBoxedCopyFunc)go_format_details_ref,
+			 (GBoxedFreeFunc)go_format_details_free);
+	}
+	return t;
+}
+
 GOFormatDetails *
 go_format_details_new (GOFormatFamily family)
 {
 	GOFormatDetails *res = g_new (GOFormatDetails, 1);
 	go_format_details_init (res, family);
+	res->ref_count = 1;
 	return res;
 }
 #endif
@@ -6794,6 +6893,8 @@ go_format_details_finalize (GOFormatDetails *details)
 void
 go_format_details_free (GOFormatDetails *details)
 {
+	if (!details || details->ref_count-- > 1)
+		return;
 	go_format_details_finalize (details);
 	g_free (details);
 }
@@ -7069,6 +7170,33 @@ go_format_get_details (GOFormat const *fmt,
 
 
 #ifdef DEFINE_COMMON
+
+/* making GOFormatCurrency a boxed type for introspection. ref and unref don't
+ * do anything because we always return a staic object */
+static GOFormatCurrency *
+go_format_currency_ref (GOFormatCurrency * currency)
+{
+	return currency;
+}
+
+static void
+go_format_currency_unref (GOFormatCurrency * currency)
+{
+}
+
+GType
+go_format_currency_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOFormatCurrency",
+			 (GBoxedCopyFunc)go_format_currency_ref,
+			 (GBoxedFreeFunc)go_format_currency_unref);
+	}
+	return t;
+}
+
 GOFormatCurrency const *
 go_format_locale_currency (void)
 {

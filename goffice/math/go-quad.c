@@ -102,6 +102,18 @@ static guint SUFFIX(go_quad_depth) = 0;
 
 static DOUBLE SUFFIX(CST);
 
+/**
+ * go_quad_start: (skip)
+ *
+ * Initializes #GOQuad arythmetics. Any use of #GOQuad must occur between calls
+ * to go_quad_start() and go_quad_end().
+ **/
+/**
+ * go_quad_startl: (skip)
+ *
+ * Initializes #GOQuadl arythmetics. Any use of #GOQuadl must occur between calls
+ * to go_quad_startl() and go_quad_endl().
+ **/
 void *
 SUFFIX(go_quad_start) (void)
 {
@@ -135,6 +147,12 @@ SUFFIX(go_quad_start) (void)
 	return res;
 }
 
+/**
+ * go_quad_end: (skip)
+ **/
+/**
+ * go_quad_endl: (skip)
+ **/
 void
 SUFFIX(go_quad_end) (void *state)
 {
@@ -151,6 +169,12 @@ SUFFIX(go_quad_end) (void *state)
 	g_free (state);
 }
 
+/**
+ * go_quad_init: (skip)
+ **/
+/**
+ * go_quad_initl: (skip)
+ **/
 void
 SUFFIX(go_quad_init) (QUAD *res, DOUBLE h)
 {
@@ -158,12 +182,24 @@ SUFFIX(go_quad_init) (QUAD *res, DOUBLE h)
 	res->l = 0;
 }
 
+/**
+ * go_quad_value: (skip)
+ **/
+/**
+ * go_quad_valuel: (skip)
+ **/
 DOUBLE
 SUFFIX(go_quad_value) (const QUAD *a)
 {
 	return a->h + a->l;
 }
 
+/**
+ * go_quad_add: (skip)
+ **/
+/**
+ * go_quad_addl: (skip)
+ **/
 void
 SUFFIX(go_quad_add) (QUAD *res, const QUAD *a, const QUAD *b)
 {
@@ -177,6 +213,12 @@ SUFFIX(go_quad_add) (QUAD *res, const QUAD *a, const QUAD *b)
 	g_return_if_fail (SUFFIX(go_quad_depth) > 0);
 }
 
+/**
+ * go_quad_sub: (skip)
+ **/
+/**
+ * go_quad_subl: (skip)
+ **/
 void
 SUFFIX(go_quad_sub) (QUAD *res, const QUAD *a, const QUAD *b)
 {
@@ -188,6 +230,12 @@ SUFFIX(go_quad_sub) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->l = r - res->h + s;
 }
 
+/**
+ * go_quad_mul12: (skip)
+ **/
+/**
+ * go_quad_mul12l: (skip)
+ **/
 void
 SUFFIX(go_quad_mul12) (QUAD *res, DOUBLE x, DOUBLE y)
 {
@@ -205,6 +253,12 @@ SUFFIX(go_quad_mul12) (QUAD *res, DOUBLE x, DOUBLE y)
 	res->l = p - res->h + q + tx * ty;
 }
 
+/**
+ * go_quad_mul: (skip)
+ **/
+/**
+ * go_quad_mull: (skip)
+ **/
 void
 SUFFIX(go_quad_mul) (QUAD *res, const QUAD *a, const QUAD *b)
 {
@@ -215,6 +269,12 @@ SUFFIX(go_quad_mul) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->l = c.h - res->h + c.l;
 }
 
+/**
+ * go_quad_div: (skip)
+ **/
+/**
+ * go_quad_divl: (skip)
+ **/
 void
 SUFFIX(go_quad_div) (QUAD *res, const QUAD *a, const QUAD *b)
 {
@@ -226,6 +286,12 @@ SUFFIX(go_quad_div) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->l = c.h - res->h + c.l;
 }
 
+/**
+ * go_quad_sqrt: (skip)
+ **/
+/**
+ * go_quad_sqrtl: (skip)
+ **/
 void
 SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 {
@@ -240,6 +306,12 @@ SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 		res->h = res->l = 0;
 }
 
+/**
+ * go_quad_dot_product: (skip)
+ **/
+/**
+ * go_quad_dot_productl: (skip)
+ **/
 void
 SUFFIX(go_quad_dot_product) (QUAD *res, const QUAD *a, const QUAD *b, int n)
 {

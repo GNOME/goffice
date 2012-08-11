@@ -106,6 +106,8 @@ gboolean go_data_vector_vary_uniformly (GODataVector *vec);
 GType go_data_matrix_get_type (void);
 
 GODataMatrixSize	 go_data_matrix_get_size    (GODataMatrix *mat);
+int 	 go_data_matrix_get_rows   (GODataMatrix *mat);
+int 	 go_data_matrix_get_columns (GODataMatrix *mat);
 double	*go_data_matrix_get_values (GODataMatrix *mat);
 double	 go_data_matrix_get_value  (GODataMatrix *mat, unsigned i, unsigned j);
 char	*go_data_matrix_get_str    (GODataMatrix *mat, unsigned i, unsigned j);

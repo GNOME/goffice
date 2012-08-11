@@ -84,6 +84,7 @@ char const *go_guess_encoding		(char const *raw, gsize len,
 char const *go_get_real_name		(void);
 void	    go_destroy_password	(char *passwd);
 
+GType        go_mem_chunk_get_type  (void);
 GOMemChunk  *go_mem_chunk_new		(char const *name, gsize user_atom_size, gsize chunk_size);
 void	     go_mem_chunk_destroy	(GOMemChunk *chunk, gboolean expect_leaks);
 gpointer     go_mem_chunk_alloc		(GOMemChunk *chunk);

@@ -1164,7 +1164,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GtkBuilder *gui;
 	GOStyle *style;
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-guru-type-selector.ui", GETTEXT_PACKAGE, s->cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-guru-type-selector.ui", GETTEXT_PACKAGE, s->cc);
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1257,7 +1257,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
-	s->gui = go_gtk_builder_new_internal ("res:go:graph/gog-guru.ui", GETTEXT_PACKAGE, s->cc);
+	s->gui = go_gtk_builder_load_internal ("res:go:graph/gog-guru.ui", GETTEXT_PACKAGE, s->cc);
         if (s->gui == NULL)
                 return TRUE;
 

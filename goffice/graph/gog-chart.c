@@ -319,7 +319,7 @@ gog_chart_populate_editor (GogObject *gobj,
 
 	g_return_if_fail (chart != NULL);
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-plot-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-plot-prefs.ui", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
 
 	(GOG_OBJECT_CLASS(chart_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
@@ -914,7 +914,7 @@ gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
  * gog_chart_get_plots:
  * @chart: #GogChart
  *
- * Returns: (element-type GogPlot*) (transfer none): the list of the plots
+ * Returns: (element-type GogPlot) (transfer none): the list of the plots
  * in @chart.
  **/
 GSList *
@@ -1014,7 +1014,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
  * @chart: #GogChart
  * @target: #GogAxisType
  *
- * Returns: (element-type GogAxis*) (transfer container): a list which the
+ * Returns: (element-type GogAxis) (transfer container): a list which the
  * caller must free of all axis of type @target
  * associated with @chart.
  **/

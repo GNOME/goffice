@@ -28,6 +28,7 @@
 struct _GOConfNode {
 	gchar *path;
 	GKeyFile *key_file;
+	unsigned ref_count;
 };
 
 static GHashTable *key_files = NULL;
@@ -118,6 +119,7 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 
 	node = g_new (GOConfNode, 1);
 	node->path = go_conf_get_real_key (parent, key);
+	node->ref_count = 1;
 	if (parent)
 		node->key_file = parent->key_file;
 	else {
@@ -142,7 +144,7 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 void
 go_conf_free_node (GOConfNode *node)
 {
-	if (node != NULL) {
+	if (node != NULL && node->ref_count-- > 1) {
 		g_free (node->path);
 		g_free (node);
 	}

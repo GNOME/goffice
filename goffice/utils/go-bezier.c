@@ -74,7 +74,7 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 	sp->x = g_new (double, i);
 	sp->y = g_new (double, i);
 	sp->n = n;
-	sp->closed = closed;
+	sp->closed = closed;sp->ref_count = 1;
 
 	/* Initialize vectors for intermediate data */
 	a = g_new (double, n);
@@ -306,9 +306,32 @@ void
 go_bezier_spline_destroy (GOBezierSpline *sp)
 {
 	g_return_if_fail (sp);
+	if (sp->ref_count-- > 1)
+		return;
 	g_free (sp->x);
 	g_free (sp->y);
 	g_free (sp);
+}
+
+static GOBezierSpline *
+go_bezier_spline_ref (GOBezierSpline *sp)
+{
+	g_return_val_if_fail (sp, NULL);
+	sp->ref_count++;
+	return sp;
+}
+
+GType
+go_bezier_spline_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOBezierSpline",
+			 (GBoxedCopyFunc)go_bezier_spline_ref,
+			 (GBoxedFreeFunc)go_bezier_spline_destroy);
+	}
+	return t;
 }
 
 /**

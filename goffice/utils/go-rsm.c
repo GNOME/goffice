@@ -74,6 +74,13 @@ go_rsm_unregister_file (const char *id)
   g_hash_table_remove (rsm, id);
 }
 
+/**
+ * go_rsm_lookup:
+ * @id: resource name
+ * @len: where to store the resource size in bytes
+ *
+ * Returns: (transfer full): the resource or %NULL if not found
+ **/
 gconstpointer
 go_rsm_lookup (const char *id, size_t *len)
 {

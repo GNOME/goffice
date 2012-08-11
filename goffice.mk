@@ -9,23 +9,3 @@ GOFFICE_PLUGIN_FLAGS = $(GOFFICE_PLUGIN_LDFLAGS)
 goffice_include_dir = $(includedir)/libgoffice-@GOFFICE_API_VER@/goffice
 
 include $(top_srcdir)/goffice-win32.mk
-
-all-local: list_of_sources
-
-list_of_sources: Makefile
-	rm -f $@.tmp
-	touch $@.tmp
-	for i in $(SOURCES) $(HEADERS); do \
-		echo $$i | grep '\.[ch]$$' >> $@.tmp; \
-	done
-	test -z "${SUBDIRS}" || for s in ${SUBDIRS}; do \
-		if test -e $$s/list_of_sources ; then \
-			perl -pe "s{^}{$$s/}" $$s/list_of_sources >> $@.tmp; \
-		fi; \
-	done
-	mv $@.tmp $@
-
-distclean-local: distclean-local-list_of_sources
-.PHONY: distclean-local-list_of_sources
-distclean-local-list_of_sources:
-	rm -f list_of_sources

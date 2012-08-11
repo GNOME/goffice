@@ -30,7 +30,9 @@ typedef struct {
 	double		 offset;
 	unsigned int	 n_dash;
 	double		*dash;
+	unsigned ref_count;
 } GOLineDashSequence;
+GType go_line_dash_sequence_get_type (void);
 
 GOLineDashType		 go_line_dash_from_str		(char const *name);
 char const 		*go_line_dash_as_str		(GOLineDashType type);

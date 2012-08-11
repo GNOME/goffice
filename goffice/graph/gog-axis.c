@@ -2652,7 +2652,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	GogDataset *set = GOG_DATASET (gobj);
 	GtkBuilder *gui;
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -3184,7 +3184,7 @@ gog_axis_clear_contributors (GogAxis *axis)
  * gog_axis_contributors:
  * @axis: #GogAxis
  *
- * Returns: (element-type GogObject*) (transfer none): the list of the axis
+ * Returns: (element-type GogObject) (transfer none): the list of the axis
  * contributors
  **/
 GSList const *

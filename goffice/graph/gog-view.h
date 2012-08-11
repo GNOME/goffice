@@ -48,9 +48,11 @@ struct _GogToolAction {
 	GogView 	*view;
 	GogTool 	*tool;
 	gpointer	 data;
+	unsigned ref_count;
 };
 
-GogToolAction 	*gog_tool_action_new 		(GogView *view, GogTool *tool, double x, double y);
+GType        gog_tool_action_get_type   (void);
+GogToolAction 	*gog_tool_action_new 	(GogView *view, GogTool *tool, double x, double y);
 void 		 gog_tool_action_move 		(GogToolAction *action, double x, double y);
 void 		 gog_tool_action_double_click 	(GogToolAction *action);
 void 		 gog_tool_action_free 		(GogToolAction *action);
@@ -68,9 +70,9 @@ struct _GogView {
 
 	GogViewAllocation  allocation;	/* in renderer units */
 	GogViewAllocation  residual;	/* left over after compass children are placed */
-	unsigned allocation_valid : 1;  /* adjust our layout when child changes size */
-	unsigned child_allocations_valid : 1;  /* some children need to adjust their layout */
-	unsigned being_updated : 1;
+	unsigned allocation_valid: 1;  /* adjust our layout when child changes size */
+	unsigned child_allocations_valid: 1;  /* some children need to adjust their layout */
+	unsigned being_updated: 1;
 
 	GSList	*toolkit; 	/* List of GogTool */
 	void		*_priv; /* for future use */
@@ -79,7 +81,7 @@ struct _GogView {
 typedef struct {
 	GObjectClass	base;
 
-	unsigned clip : 1; 	/* Automaticaly clip to object bounding box */
+	unsigned clip; 	/* Automaticaly clip to object bounding box */
 
 	/* Virtuals */
 	void	 (*state_init)    (GogView *);

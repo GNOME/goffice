@@ -768,14 +768,6 @@ AC_CONFIG_FILES([
 Makefile
 libgoffice.pc
 goffice/Makefile
-goffice/app/Makefile
-goffice/utils/Makefile
-goffice/data/Makefile
-goffice/gtk/Makefile
-goffice/graph/Makefile
-goffice/math/Makefile
-goffice/canvas/Makefile
-goffice/component/Makefile
 plugins/Makefile
 plugins/plot_barcol/Makefile
 plugins/plot_pie/Makefile

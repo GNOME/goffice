@@ -137,6 +137,31 @@ static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
 	 (char *) "eps",  FALSE, TRUE, TRUE},
 };
 
+/* Making GOFormatInfo as a boxed type, as they are static, ref and unref don't
+ * need to do anything */
+static GOImageFormatInfo *
+go_image_format_info_ref (GOImageFormatInfo *info)
+{
+	return info;
+}
+
+static void
+go_image_format_info_unref (GOImageFormatInfo const *info)
+{
+}
+
+GType
+go_image_format_info_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GOImageFormatInfo",
+			 (GBoxedCopyFunc)go_image_format_info_ref,
+			 (GBoxedFreeFunc)go_image_format_info_unref);
+	return t;
+}
+
 static void
 go_image_build_pixbuf_format_infos (void)
 {
@@ -195,7 +220,7 @@ go_image_build_pixbuf_format_infos (void)
  *
  * Retrieves information associated to @format.
  *
- * returns: a #GOImageFormatInfo struct.
+ * Returns: a #GOImageFormatInfo struct.
  **/
 
 GOImageFormatInfo const *
@@ -248,7 +273,8 @@ go_image_get_format_from_name (char const *name)
 /**
  * go_image_get_formats_with_pixbuf_saver:
  *
- * returns: a list of #GOImageFormat that can be created from a pixbuf.
+ * Returns: (element-type GOImageFormat) (transfer container): a list of #GOImageFormat that can be created
+ * from a pixbuf.
  **/
 
 GSList *
@@ -460,6 +486,15 @@ go_image_draw (GOImage *image, cairo_t *cr)
 
 #define GO_THUMBNAIL_SIZE 64
 
+/**
+ * go_image_get_thumbnail:
+ * @image: #GOImage
+ *
+ * Generates a thumbnail for @image if not already done and returns it, adding
+ a reference. The pixbuf is scaled so that its width and height are not larger
+ * than 64 pixels, and preserving the aspect ratio.
+ * Returns: (transfer full): the thumbnail for @image
+ **/
 GdkPixbuf const *
 go_image_get_thumbnail (GOImage *image)
 {
@@ -469,6 +504,14 @@ go_image_get_thumbnail (GOImage *image)
 	return image->thumbnail;
 }
 
+/**
+ * go_image_get_pixbuf:
+ * @image: #GOImage
+ *
+ * Builds a pixbuf from the image if not already done and returns it, adding
+ * a reference.
+ * Returns: (transfer full): the pixbuf for @image
+ **/
 GdkPixbuf *
 go_image_get_pixbuf (GOImage *image)
 {
@@ -477,6 +520,17 @@ go_image_get_pixbuf (GOImage *image)
 	return g_object_ref (image->pixbuf);
 }
 
+/**
+ * go_image_get_scaled_pixbuf:
+ * @image: #GOImage
+ * @width: the new pixbuf width
+ * @height: the new pixbuf height
+ *
+ * Builds a scaled pixbuf from the image and returns it. The caller needs to
+ * unref it. The pixbuf is scaled so that its width and height are not larger
+ * than, respectively, @width and @height, and preserving the aspect ratio.
+ * Returns: (transfer full): the scaled pixbuf for @image
+ **/
 GdkPixbuf *
 go_image_get_scaled_pixbuf (GOImage *image, int width, int height)
 {

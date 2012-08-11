@@ -22,6 +22,7 @@ struct _GOConfNode {
 	gchar *id;
 	gchar *key;
 	GSettings *settings;
+	unsigned ref_count;
 };
 
 static GHashTable *installed_schemas, *closures;
@@ -78,6 +79,7 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 
 	formatted = go_conf_format_id (key);
 	node = g_new0 (GOConfNode, 1);
+	node->ref_count = 1;
 	if (parent) {
 		if (key && !parent->key) {
 			node->path = g_strconcat (parent->path, "/", key, NULL);
@@ -115,7 +117,7 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 void
 go_conf_free_node (GOConfNode *node)
 {
-	if (node) {
+	if (node && node->ref_count-- > 1) {
 		if (node->settings)
 			g_object_unref (node->settings);
 		g_free (node->path);

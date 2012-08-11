@@ -65,7 +65,7 @@ go_pattern_palette_render_func (cairo_t *cr,
  *
  * Creates a new pattern selector.
  *
- * Returns: a new #GtkWidget.
+ * Returns: (transfer full): a new #GtkWidget.
  **/
 GtkWidget *
 go_pattern_selector_new (GOPatternType initial_type,

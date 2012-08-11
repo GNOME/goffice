@@ -1,23 +1,455 @@
-SUBDIRS = utils data app graph math canvas
+-include $(INTROSPECTION_MAKEFILE)
+INTROSPECTION_GIRS =
+INTROSPECTION_SCANNER_ARGS = \
+	-v --warn-all --accept-unprefixed -DGOFFICE_DISABLE_DEPRECATED \
+	--namespace GOffice --nsversion="@GOFFICE_API_VER@" \
+	--identifier-prefix="GO"  --identifier-prefix="Go" \
+	--symbol-prefix="go" --symbol-prefix="libgoffice"
+
+INTROSPECTION_COMPILER_ARGS = \
+	--includedir=$(srcdir) \
+    --includedir=.
+
+#####################################
+#app directory files
+
+noinst_HEADERS = \
+	app/file-priv.h
+
+app_SOURCES = \
+	app/go-doc.c 			\
+	app/go-doc-control.c 		\
+	app/go-view.c			\
+	\
+	app/go-plugin.c 			\
+	app/go-plugin-loader.c 		\
+	app/go-plugin-loader-module.c 	\
+	app/go-plugin-service.c 		\
+	\
+	app/file.c				\
+	app/error-info.c			\
+	app/io-context.c			\
+	app/go-cmd-context.c		\
+	app/go-conf.c
+
+appdir = $(goffice_include_dir)/app
+app_api_headers = 	\
+	app/goffice-app.h			\
+	\
+	app/go-doc.h 			\
+	app/go-doc-impl.h 			\
+	app/go-doc-control.h 		\
+	app/go-doc-control-impl.h 		\
+	app/go-view.h			\
+	app/go-plugin.h 			\
+	app/go-plugin-loader.h 		\
+	app/go-plugin-loader-module.h 	\
+	app/go-plugin-service.h 		\
+	app/go-plugin-service-impl.h	\
+	app/file.h				\
+	app/error-info.h			\
+	app/io-context.h			\
+	app/io-context-priv.h		\
+	app/go-cmd-context.h		\
+	app/go-cmd-context-impl.h	\
+	app/go-conf.h
+
+app_HEADERS = 	\
+	$(app_api_headers) \
+	app/module-plugin-defs.h
+
+# This list should be empty when we reach a stable phase.
+app_UNUSED = \
+	app/go-app.h \
+	app/go-error-stack.h \
+	app/go-object.c \
+	app/go-object.h \
+	app/go-service.c \
+	app/go-service.h \
+	app/go-service-impl.h
+
+EXTRA_DIST = $(app_UNUSED)		\
+	app/go-conf-keyfile.c		\
+	app/go-conf-gsettings.c		\
+	app/go-conf-win32.c
+
+#####################################
+# canvas directory files
+
+canvas_SOURCES =	\
+	canvas/goc-arc.c		\
+	canvas/goc-canvas.c		\
+	canvas/goc-circle.c		\
+	canvas/goc-ellipse.c		\
+	canvas/goc-graph.c		\
+	canvas/goc-group.c		\
+	canvas/goc-item.c		\
+	canvas/goc-image.c		\
+	canvas/goc-line.c		\
+	canvas/goc-path.c		\
+	canvas/goc-pixbuf.c		\
+	canvas/goc-polyline.c		\
+	canvas/goc-polygon.c		\
+	canvas/goc-rectangle.c		\
+	canvas/goc-styled-item.c	\
+	canvas/goc-text.c		\
+	canvas/goc-utils.c
+
+canvas_gtk_SOURCES= \
+	canvas/goc-component.c	\
+	canvas/goc-widget.c
+
+canvasdir = $(goffice_include_dir)/canvas
+canvas_HEADERS =	\
+	canvas/goc-arc.h		\
+	canvas/goc-canvas.h		\
+	canvas/goc-circle.h		\
+	canvas/goc-component.h		\
+	canvas/goc-ellipse.h		\
+	canvas/goc-graph.h		\
+	canvas/goc-group.h		\
+	canvas/goc-item.h		\
+	canvas/goc-image.h		\
+	canvas/goc-line.h		\
+	canvas/goc-path.h		\
+	canvas/goc-pixbuf.h		\
+	canvas/goc-polyline.h		\
+	canvas/goc-polygon.h		\
+	canvas/goc-rectangle.h		\
+	canvas/goc-structs.h		\
+	canvas/goc-styled-item.h	\
+	canvas/goc-text.h		\
+	canvas/goc-utils.h		\
+	canvas/goc-widget.h		\
+	canvas/goffice-canvas.h
+
+#####################################
+# component directory files
+
+component_SOURCES =	\
+	component/go-component.c 		\
+	component/go-component-factory.c	\
+	component/go-component-mime-dialog.c
+
+componentdir = $(goffice_include_dir)/component
+component_HEADERS = 	\
+	component/goffice-component.h		\
+	component/go-component.h			\
+	component/go-component-factory.h	\
+	component/go-component-mime-dialog.h
+
+#####################################
+# data directory files
+
+data_SOURCES =	\
+	data/go-data.c 		\
+	data/go-data-simple.c
+
+go_datadir = $(goffice_include_dir)/data
+go_data_HEADERS = 	\
+	data/goffice-data.h		\
+	data/go-data.h 		\
+	data/go-data-impl.h 		\
+	data/go-data-simple.h 
+
+#####################################
+# graph directory files
+
+graph_SOURCES = \
+	graph/gog-object.c			\
+	graph/gog-object-xml.c		\
+	graph/gog-styled-object.c		\
+	graph/gog-outlined-object.c		\
+	graph/gog-view.c			\
+	\
+	graph/gog-graph.c			\
+	graph/gog-chart.c			\
+	\
+	graph/gog-chart-map.c			\
+	graph/gog-chart-map-3d.c			\
+	graph/gog-3d-box.c			\
+	\
+	graph/gog-axis.c			\
+	graph/gog-axis-line.c			\
+	graph/gog-legend.c			\
+	graph/gog-label.c			\
+	graph/gog-grid.c			\
+	graph/gog-grid-line.c			\
+	\
+	graph/gog-theme.c			\
+	\
+	graph/gog-plot.c			\
+	graph/gog-plot-engine.c		\
+	graph/gog-series.c			\
+	graph/gog-error-bar.c			\
+	graph/gog-trend-line.c		\
+	graph/gog-reg-curve.c			\
+	graph/gog-smoothed-curve.c	\
+	graph/gog-series-labels.c		\
+	graph/gog-series-lines.c		\
+	graph/gog-data-set.c			\
+	\
+	graph/gog-renderer.c
+
+graph_gtk_SOURCES =	\
+	graph/gog-guru.c	\
+	graph/gog-data-allocator.c	\
+	graph/gog-child-button.c
+
+graph_lasem_SOURCES = \
+	graph/gog-equation.c
+
+graphdir = $(goffice_include_dir)/graph
+graph_HEADERS = \
+	graph/goffice-graph.h			\
+	graph/gog-object.h			\
+	graph/gog-object-xml.h		\
+	graph/gog-styled-object.h		\
+	graph/gog-outlined-object.h		\
+	graph/gog-view.h			\
+	graph/gog-graph.h			\
+	graph/gog-graph-impl.h		\
+	graph/gog-chart.h			\
+	graph/gog-chart-impl.h		\
+	graph/gog-chart-map.h			\
+	graph/gog-chart-map-3d.h			\
+	graph/gog-3d-box.h			\
+	graph/gog-axis.h			\
+	graph/gog-axis-line.h			\
+	graph/gog-legend.h			\
+	graph/gog-label.h			\
+	graph/gog-grid.h			\
+	graph/gog-grid-line.h			\
+	graph/gog-theme.h			\
+	graph/gog-plot.h			\
+	graph/gog-plot-impl.h			\
+	graph/gog-plot-engine.h		\
+	graph/gog-series.h			\
+	graph/gog-series-impl.h		\
+	graph/gog-error-bar.h			\
+	graph/gog-trend-line.h		\
+	graph/gog-reg-curve.h			\
+	graph/gog-smoothed-curve.h	\
+	graph/gog-series-labels.h		\
+	graph/gog-series-lines.h		\
+	graph/gog-data-set.h			\
+	graph/gog-renderer.h
+
+graph_gtkdir = $(goffice_include_dir)/graph
+graph_gtk_HEADERS = \
+	graph/gog-guru.h			\
+	graph/gog-data-allocator.h	\
+	graph/gog-child-button.h
+
+graph_lasemdir = $(goffice_include_dir)/graph
+graph_lasem_HEADERS = \
+	graph/gog-equation.h
+
+noinst_HEADERS += \
+	graph/gog-axis-line-impl.h
+
+#####################################
+# gtk directory files
+
+gtk_SOURCES =		\
+	gtk/goffice-gtk.c			\
+	\
+	gtk/go-font-sel.c			\
+	gtk/go-format-sel.c			\
+	gtk/go-rotation-sel.c	 	\
+	gtk/go-charmap-sel.c		\
+	gtk/go-locale-sel.c			\
+	gtk/go-3d-rotation-sel.c		\
+	\
+	gtk/go-optionmenu.c			\
+	gtk/go-combo-box.c			\
+	gtk/go-color-group.c		\
+	gtk/go-color-palette.c		\
+	gtk/go-combo-color.c		\
+	gtk/go-combo-pixmaps.c		\
+	\
+	gtk/go-action-combo-color.c 	\
+	gtk/go-action-combo-pixmaps.c 	\
+	gtk/go-action-combo-stack.c 	\
+	gtk/go-action-combo-text.c	\
+	\
+	gtk/go-calendar-button.c		\
+	gtk/go-palette.c			\
+	gtk/go-selector.c			\
+	gtk/go-color-selector.c		\
+	gtk/go-gradient-selector.c		\
+	gtk/go-line-selector.c		\
+	gtk/go-marker-selector.c		\
+	gtk/go-pattern-selector.c		\
+	\
+	gtk/go-graph-widget.c	\
+	gtk/go-image-sel.c
+
+gtkdir = $(goffice_include_dir)/gtk
+gtk_HEADERS = 		\
+	gtk/goffice-gtk.h			\
+	\
+	gtk/go-font-sel.h			\
+	gtk/go-format-sel.h			\
+	gtk/go-rotation-sel.h	 	\
+	gtk/go-charmap-sel.h		\
+	gtk/go-locale-sel.h			\
+	gtk/go-3d-rotation-sel.h		\
+	\
+	gtk/go-optionmenu.h			\
+	gtk/go-combo-box.h			\
+	gtk/go-color-group.h		\
+	gtk/go-color-palette.h		\
+	gtk/go-combo-color.h		\
+	gtk/go-combo-pixmaps.h		\
+	\
+	gtk/go-action-combo-color.h 	\
+	gtk/go-action-combo-pixmaps.h 	\
+	gtk/go-action-combo-stack.h 	\
+	gtk/go-action-combo-text.h		\
+	\
+	gtk/go-calendar-button.h		\
+	gtk/go-palette.h			\
+	gtk/go-selector.h			\
+	gtk/go-color-selector.h		\
+	gtk/go-gradient-selector.h		\
+	gtk/go-line-selector.h		\
+	gtk/go-marker-selector.h		\
+	gtk/go-pattern-selector.h		\
+	\
+	gtk/go-graph-widget.h	\
+	gtk/go-image-sel.h
+
+#####################################
+# maths directory files
+
+math_SOURCES =	\
+	math/go-accumulator.c	\
+	math/go-math.c		\
+	math/go-rangefunc.c		\
+	math/go-regression.c		\
+	math/go-cspline.c		\
+	math/go-complex.c		\
+	math/go-fft.c		\
+	math/go-matrix3x3.c		\
+	math/go-quad.c		\
+	math/go-R.c			\
+	math/go-distribution.c
+
+mathdir = $(goffice_include_dir)/math
+math_HEADERS = 	\
+	math/goffice-math.h		\
+	math/go-accumulator.h	\
+	math/go-math.h		\
+	math/go-rangefunc.h		\
+	math/go-regression.h		\
+	math/go-cspline.h		\
+	math/go-complex.h		\
+	math/go-fft.h		\
+	math/go-matrix3x3.h		\
+	math/go-quad.h		\
+	math/go-R.h			\
+	math/go-distribution.h
+
+#####################################
+# utils directory files
+utils_SOURCES =	\
+	utils/go-marshalers.list	\
+	\
+	utils/go-color.c		\
+	utils/go-file.c		\
+	utils/go-font.c		\
+	\
+	utils/go-cairo.c		\
+	utils/go-gradient.c		\
+	utils/go-image.c		\
+	utils/go-pixbuf.c		\
+	utils/go-svg.c		\
+	utils/go-emf.c		\
+	utils/go-spectre.c		\
+	utils/go-line.c		\
+	utils/go-locale.c		\
+	utils/go-marker.c		\
+	utils/go-path.c		\
+	utils/go-pattern.c		\
+	utils/go-geometry.c		\
+	utils/go-rsm.c		\
+	utils/go-string.c		\
+	utils/go-undo.c		\
+	utils/datetime.c		\
+	utils/formats.c		\
+	utils/go-format.c		\
+	utils/regutf8.c 		\
+	\
+	utils/go-glib-extras.c	\
+	utils/go-libxml-extras.c	\
+	utils/go-pango-extras.c	\
+	utils/go-gdk-pixbuf.c		\
+	utils/go-persist.c		\
+	utils/go-bezier.c		\
+	utils/go-editor.c		\
+	utils/go-style.c		\
+	utils/go-styled-object.c
+
+utilsdir = $(goffice_include_dir)/utils
+utils_HEADERS = 	\
+	utils/goffice-utils.h		\
+	utils/go-cairo.h		\
+	utils/go-color.h		\
+	utils/go-file.h		\
+	utils/go-font.h		\
+	utils/go-gradient.h		\
+	utils/go-image.h		\
+	utils/go-pixbuf.h		\
+	utils/go-svg.h		\
+	utils/go-emf.h		\
+	utils/go-spectre.h		\
+	utils/go-line.h		\
+	utils/go-locale.h		\
+	utils/go-marker.h		\
+	utils/go-path.h		\
+	utils/go-pattern.h		\
+	utils/go-units.h		\
+	utils/go-geometry.h		\
+	utils/go-string.h		\
+	utils/go-undo.h		\
+	utils/datetime.h		\
+	utils/go-format.h		\
+	utils/regutf8.h 		\
+	utils/go-glib-extras.h	\
+	utils/go-libxml-extras.h	\
+	utils/go-pango-extras.h	\
+	utils/go-gdk-pixbuf.h		\
+	utils/go-persist.h		\
+	utils/go-bezier.h		\
+	utils/go-editor.h		\
+	utils/go-rsm.h		\
+	utils/go-style.h		\
+	utils/go-styled-object.h
+
+# A hint is needed to build the header first:
+BUILT_SOURCES = utils/go-marshalers.h
+
+# Another hint, see bugs #172211 and #172212:
+non-intermediate: utils/go-marshalers.c
+
+GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=go_
+
+.list.h:
+	if ! [ -x utils ]; then mkdir utils; fi && \
+	$(GENMARSHAL_COMMAND) --header $< >$@
+
+.list.c:
+	(echo '/* This file has been automatically generated.  Do not edit. */' && \
+	echo '#include <goffice/goffice-config.h>' && \
+	echo '#include "$*.h"' && \
+	$(GENMARSHAL_COMMAND) --body $< ) >$@
 
 lib_LTLIBRARIES = libgoffice-@GOFFICE_API_VER@.la
 
 libgoffice_@GOFFICE_API_VER@_la_LIBADD = 			\
-	utils/libgoffice-utils.la		\
-	app/libgoffice-app.la			\
-	data/libgoffice-data.la			\
-	graph/libgoffice-graph.la		\
-	math/libgoffice-math.la		\
 	$(GOFFICE_LIBS)	\
 	$(GTK_MAC_LIBS)
-
-if WITH_GTK
-SUBDIRS += gtk component
-libgoffice_@GOFFICE_API_VER@_la_LIBADD += 			\
-	gtk/libgoffice-gtk.la			\
-	component/libgoffice-component.la	\
-	canvas/libgoffice-canvas.la
-endif
 
 libgoffice_@GOFFICE_API_VER@_la_LDFLAGS = -version-info $(VERSION_INFO)
 if WITH_WIN32
@@ -25,12 +457,41 @@ libgoffice_@GOFFICE_API_VER@_la_DEPENDENCIES = goffice.def
 libgoffice_@GOFFICE_API_VER@_la_LDFLAGS += -no-undefined -export-symbols goffice.def
 endif
 
-BUILT_SOURCES =	goffice-paths.h embedded-stuff.c
-CLEANFILES = $(BUILT_SOURCES)
+BUILT_SOURCES +=	goffice-paths.h embedded-stuff.c
+CLEANFILES = $(BUILT_SOURCES)		\
+	utils/go-marshalers.c
 
 libgoffice_@GOFFICE_API_VER@_la_SOURCES = 	\
 	goffice.c		\
-	goffice-priv.h
+	goffice-priv.h \
+	$(app_SOURCES) \
+	$(canvas_SOURCES) \
+	$(data_SOURCES) \
+	$(graph_SOURCES) \
+	$(math_SOURCES) \
+	$(utils_SOURCES)
+
+if WITH_GTK
+libgoffice_@GOFFICE_API_VER@_la_SOURCES += 	\
+	$(canvas_gtk_SOURCES) \
+	$(component_SOURCES) \
+	$(graph_gtk_SOURCES) \
+	$(gtk_SOURCES)
+else
+EXTRA_DIST += \
+	$(canvas_gtk_SOURCES) \
+	$(component_SOURCES) \
+	$(graph_gtk_SOURCES) \
+	$(gtk_SOURCES)
+endif
+
+if GOFFICE_WITH_LASEM
+libgoffice_@GOFFICE_API_VER@_la_SOURCES += 	\
+	$(graph_lasem_SOURCES)
+else
+EXTRA_DIST += \
+	$(graph_lasem_SOURCES)
+endif
 
 libgoffice_@GOFFICE_API_VER@_ladir = $(goffice_include_dir)
 libgoffice_@GOFFICE_API_VER@_la_HEADERS = 	\
@@ -120,6 +581,8 @@ embedded_stuff_raw = \
 
 embedded_stuff = $(embedded_stuff_compress) $(embedded_stuff_raw)
 
+EXTRA_DIST += $(embedded_stuff)
+
 embedded-stuff.c: $(top_srcdir)/tools/embedder $(embedded_stuff)
 	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
 		--id-prefix=go: \
@@ -131,46 +594,51 @@ embedded-stuff.c: $(top_srcdir)/tools/embedder $(embedded_stuff)
 		>$(abs_builddir)/$@
 
 
-BUILT_GIRSOURCES = \
-	GOffice-@GOFFICE_API_VER@.gir
-
-GOffice-@GOFFICE_API_VER@.gir: list_of_sources
-GOffice-@GOFFICE_API_VER@.gir: libgoffice-@GOFFICE_API_VER@.la
-GOffice-@GOFFICE_API_VER@.gir: $(INTROSPECTION_SCANNER)
-	$(AM_V_GEN) $(INTROSPECTION_SCANNER) -v --namespace GOffice \
-	    --nsversion="@GOFFICE_API_VER@" \
-	    --add-include-path=$(srcdir) --add-include-path=. \
-	    --include=GObject-2.0 \
-	    --include=Gio-2.0 \
-	    --include=libxml2-2.0 \
-	    --include=cairo-1.0 \
-	    --include=Pango-1.0 \
-	    --include=Gtk-3.0 \
-	    --include=Gsf-1 \
-	    --identifier-prefix="GO" \
-	    --identifier-prefix="Go" \
-	    --symbol-prefix="go" \
-	    --symbol-prefix="libgoffice" \
-	    --accept-unprefixed \
-	    --library=libgoffice-@GOFFICE_API_VER@.la \
-	    --libtool="$(LIBTOOL)" \
-	    --nsversion="@GOFFICE_API_VER@" \
-	    --output $@ \
-	    -I$(top_srcdir) \
-		$(GOFFICE_CFLAGS) \
-	    `perl -pe "s{^}{$(srcdir)/}" $(builddir)/list_of_sources`
-
 if HAVE_INTROSPECTION
 
+INTROSPECTION_GIRS += GOffice-@GOFFICE_API_VER@.gir
+
+GOffice-@GOFFICE_API_VER@.gir: \
+	$(INTROSPECTION_SCANNER) \
+	libgoffice-@GOFFICE_API_VER@.la
+GOffice_@GOFFICE_API_VER_@_gir_INCLUDES = \
+	GObject-2.0 \
+	Gio-2.0 \
+	libxml2-2.0 \
+	cairo-1.0 \
+	Pango-1.0 \
+	Gtk-3.0 \
+	Gsf-1
+GOffice_@GOFFICE_API_VER_@_gir_CFLAGS = $(AM_CPPFLAGS)
+GOffice_@GOFFICE_API_VER_@_gir_LIBS = libgoffice-@GOFFICE_API_VER@.la
+GOffice_@GOFFICE_API_VER_@_gir_FILES = \
+	$(libgoffice_@GOFFICE_API_VER@_la_SOURCES) \
+	$(app_HEADERS) \
+	$(canvas_HEADERS) \
+	$(go_data_HEADERS) \
+	$(graph_HEADERS) \
+	$(math_HEADERS) \
+	$(utils_HEADERS)
+	
+if WITH_GTK
+GOffice_@GOFFICE_API_VER_@_gir_FILES += \
+	$(canvas_gtk_HEADERS) \
+	$(component_HEADERS) \
+	$(graph_gtk_HEADERS) \
+	$(gtk_HEADERS)
+endif
+	
+if GOFFICE_WITH_LASEM
+GOffice_@GOFFICE_API_VER_@_gir_FILES += \
+	$(graph_lasem_HEADERS)
+endif
+
 girdir = $(GIRDIR)
-gir_DATA = $(BUILT_GIRSOURCES)
+gir_DATA = $(INTROSPECTION_GIRS)
 
 typelibsdir = $(TYPELIBDIR)
-typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
+typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
 CLEANFILES += $(gir_DATA) $(typelibs_DATA)
-
-%.typelib: %.gir $(INTROSPECTION_COMPILER)
-	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(INTROSPECTION_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)
 
 endif # HAVE_INTROSPECTION

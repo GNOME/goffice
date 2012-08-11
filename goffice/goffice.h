@@ -49,6 +49,12 @@
 #include <gtk/gtk.h>
 #endif
 
+#if GLIB_CHECK_VERSION(2,32,0)
+#define GOFFICE_DEPRECATED_FOR(f) G_DEPRECATED_FOR(f)
+#else
+#define GOFFICE_DEPRECATED_FOR(f)
+#endif
+
 #include <goffice/app/goffice-app.h>
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/data/goffice-data.h>

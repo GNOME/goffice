@@ -8,7 +8,7 @@ DOC_SOURCE_DIR=../../goffice
 
 SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="g_type_init ()"
 
-SCAN_OPTIONS=--rebuild-types
+SCAN_OPTIONS= --deprecated-guards="GOFFICE_DISABLE_DEPRECATED" --rebuild-types
 
 MKDB_OPTIONS=--xml-mode --output-format=xml
 

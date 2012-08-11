@@ -1,7 +1,5 @@
 /*
- * go-color-selector.h - A color selector
- *
- * Copyright (c) 2006 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
+ * go-gdk-pixbuf.h - Misc GdkPixbuf utilities
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,26 +17,27 @@
  * USA.
  */
 
-#ifndef GO_COLOR_SELECTOR_H
-#define GO_COLOR_SELECTOR_H
+#ifndef GO_GDK_PIXBUF_H
+#define GO_GDK_PIXBUF_H
 
 #include <goffice/goffice.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
 
-GtkWidget *go_selector_new_color	(GOColor initial_color,
-					 GOColor default_color,
-					 char const *color_group);
+GdkPixbuf 	*go_gdk_pixbuf_load_from_file	(char const *filename);
+GdkPixbuf 	*go_gdk_pixbuf_get_from_cache 	(char const *filename);
 #ifndef GOFFICE_DISABLE_DEPRECATED
-GOFFICE_DEPRECATED_FOR(go_selector_new_color)
-GtkWidget *go_color_selector_new	(GOColor initial_color,
-					 GOColor default_color,
-					 char const *color_group);
+GOFFICE_DEPRECATED_FOR(go_image_get_scaled_pixbuf)
+GdkPixbuf 	*go_gdk_pixbuf_intelligent_scale (GdkPixbuf *buf,
+						  guint width, guint height);
+GOFFICE_DEPRECATED_FOR(go_gdk_pixbuf_load_from_file)
+GdkPixbuf 	*go_gdk_pixbuf_new_from_file	(char const *filename);
+GOFFICE_DEPRECATED_FOR(go_image_get_pixbuf)
+GdkPixbuf	*go_gdk_pixbuf_tile		(GdkPixbuf const *src,
+						 guint w, guint h);
 #endif
-GOColor    go_color_selector_get_color 	(GOSelector *selector, gboolean *is_auto);
-gboolean   go_color_selector_set_color  (GOSelector *selector, GOColor color);
-void       go_color_selector_set_allow_alpha   (GOSelector *selector, gboolean allow_alpha);
 
 G_END_DECLS
 
-#endif /* GO_COLOR_SELECTOR_H */
+#endif

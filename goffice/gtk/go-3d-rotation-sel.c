@@ -328,7 +328,7 @@ g3d_init (GO3DRotationSel *g3d)
 {
 	GtkWidget *w;
 
-	g3d->gui = go_gtk_builder_new_internal ("res:go:gtk/go-3d-rotation-sel.ui",
+	g3d->gui = go_gtk_builder_load_internal ("res:go:gtk/go-3d-rotation-sel.ui",
 		GETTEXT_PACKAGE, NULL);
 	if (g3d->gui == NULL)
 		return;

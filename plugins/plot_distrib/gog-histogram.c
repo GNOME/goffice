@@ -311,7 +311,7 @@ gog_histogram_plot_populate_editor (GogObject *item,
 	GtkWidget  *w;
 	GogHistogramPlot *hist = GOG_HISTOGRAM_PLOT (item);
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_distrib/gog-histogram-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_distrib/gog-histogram-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
         if (gui != NULL) {
 		w = go_gtk_builder_get_widget (gui, "vertical");
@@ -429,7 +429,7 @@ gog_double_histogram_plot_populate_editor (GogObject	*gobj,
 	GtkWidget *w;
 	GogDataset *set = GOG_DATASET (gobj);
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_distrib/gog-double-histogram-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_distrib/gog-double-histogram-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 	if (gui != NULL) {
 		table = GTK_TABLE (gtk_builder_get_object (gui, "double-histogram-prefs"));

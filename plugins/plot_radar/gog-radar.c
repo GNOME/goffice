@@ -394,7 +394,7 @@ gog_polar_area_populate_editor (GogObject *obj,
 #ifdef GOFFICE_WITH_GTK
 	GogObjectClass *gog_class = (GogObjectClass *) g_type_class_peek_parent (G_OBJECT_GET_CLASS (obj));
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_radar/gog-polar-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_radar/gog-polar-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 
 	if (gui != NULL) {
@@ -582,7 +582,7 @@ gog_color_polar_plot_populate_editor (GogObject *obj,
 {
 #ifdef GOFFICE_WITH_GTK
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_radar/gog-color-polar-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_radar/gog-color-polar-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 	if (gui != NULL) {
 		GtkWidget *w = go_gtk_builder_get_widget (gui, "hide-outliers");

@@ -50,13 +50,13 @@ cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)
 }
 
 /**
- * go_hash_keys :
- * @hash : #GHashTable
+ * go_hash_keys:
+ * @hash: #GHashTable
  *
  * Collects an unordered list of the keys in @hash.
  *
- * Returns: a list which the caller needs to free.
- * 	The content has not additional references added
+ * Returns: (element-type void) (transfer container): a list which the
+ * caller needs to free. The content has not additional references added
  **/
 GSList *
 go_hash_keys (GHashTable *hash)
@@ -88,11 +88,11 @@ go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 /**
  * go_slist_create:
  * @item1: optionally %NULL
- * @Varargs: %NULL terminated list of additional items
+ * @...: %NULL terminated list of additional items
  *
  * Creates a GList from NULL-terminated list of arguments.
  * As the arguments are just copied to the list, the caller owns them.
- * Returns: (transfer container): created list.
+ * Returns: (element-type void) (transfer container): created list.
  **/
 GSList *
 go_slist_create (gpointer item1, ...)
@@ -112,11 +112,11 @@ go_slist_create (gpointer item1, ...)
 
 /**
  * go_slist_map:
- * @list: list of some items
- * @map_func: mapping function
+ * @list: (element-type void): list of some items
+ * @map_func: (scope call): mapping function
  *
  * The ownership of the list elements depends on map_func.
- * Returns: (transfer container): the mapped list
+ * Returns: (element-type void) (transfer container): the mapped list
  **/
 GSList *
 go_slist_map (GSList const *list, GOMapFunc map_func)
@@ -130,6 +130,17 @@ go_slist_map (GSList const *list, GOMapFunc map_func)
 	return g_slist_reverse (list_copy);
 }
 
+/**
+ * go_list_index_custom:
+ * @list: (element-type void): #GList
+ * @data: element for which the index is searched for
+ * @cmp_func: (scope call): #GCompareFunc
+ *
+ * Searched for @data in @list and return the corresponding index or -1 if not
+ * found.
+ *
+ * Returns: the data index in the list.
+ **/
 gint
 go_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
 {
@@ -152,8 +163,9 @@ go_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
  *
  * Splits up string into tokens at delim and returns a string list.
  *
- * Returns: string list which you should free after use using function
- * e_free_string_list().
+ * Returns: (element-type char) (transfer full): string list which you should
+ * free after use using function g_slist_free_full(), using g_free as second
+ * argument.
  **/
 GSList *
 go_strsplit_to_slist (gchar const *string, gchar delimiter)
@@ -431,6 +443,7 @@ struct _GOMemChunk {
 #ifdef DEBUG_CHUNK_ALLOCATOR
 	int blockid;
 #endif
+	unsigned ref_count;
 };
 
 
@@ -478,6 +491,7 @@ go_mem_chunk_new (char const *name, size_t user_atom_size, size_t chunk_size)
 #ifdef DEBUG_CHUNK_ALLOCATOR
 	res->blockid = 0;
 #endif
+	res->ref_count = 1;
 
 	return res;
 }
@@ -489,6 +503,8 @@ go_mem_chunk_destroy (GOMemChunk *chunk, gboolean expect_leaks)
 
 	g_return_if_fail (chunk != NULL);
 
+	if (chunk->ref_count-- > 1)
+		return;
 #ifdef DEBUG_CHUNK_ALLOCATOR
 	g_print ("Destroying %s.\n", chunk->name);
 #endif
@@ -522,6 +538,32 @@ go_mem_chunk_destroy (GOMemChunk *chunk, gboolean expect_leaks)
 	g_free (chunk);
 }
 
+static GOMemChunk *
+go_mem_chunk_ref (GOMemChunk *chunk)
+{
+	chunk->ref_count++;
+	return chunk;
+}
+
+GType
+go_mem_chunk_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOMemChunk",
+			 (GBoxedCopyFunc)go_mem_chunk_ref,
+			 (GBoxedFreeFunc)go_mem_chunk_destroy);
+	}
+	return t;
+}
+
+/**
+ * go_mem_chunk_alloc:
+ * @chunk: #GOMemChunk
+ *
+ * Returns: (transfer none): an unused memory block
+ **/
 gpointer
 go_mem_chunk_alloc (GOMemChunk *chunk)
 {
@@ -576,6 +618,12 @@ go_mem_chunk_alloc (GOMemChunk *chunk)
 	return res + chunk->alignment;
 }
 
+/**
+ * go_mem_chunk_alloc0:
+ * @chunk: #GOMemChunk
+ *
+ * Returns: (transfer none): an unused memory block filled with 0
+ **/
 gpointer
 go_mem_chunk_alloc0 (GOMemChunk *chunk)
 {
@@ -626,7 +674,12 @@ go_mem_chunk_free (GOMemChunk *chunk, gpointer mem)
 	}
 }
 
-/*
+/**
+ * go_mem_chunk_foreach_leak:
+ * @chunk: #GOMemChunk
+ * @cb: (scope call): callback
+ * @user: user data for @cb
+ *
  * Loop over all non-freed memory in the chunk.  It's safe to allocate or free
  * from the chunk in the callback.
  */
@@ -905,8 +958,13 @@ go_object_set_property (GObject *obj, const char *property_name,
 
 
 
-/*
+/**
+ * go_object_properties_collect:
+ * @obj: #GObject
+ *
  * Collect all rw properties and their values.
+ * Returns: (element-type void) (transfer container): the list of collected
+ * properties as #GParamSpec and values as #GValue.
  */
 GSList *
 go_object_properties_collect (GObject *obj)
@@ -933,6 +991,17 @@ go_object_properties_collect (GObject *obj)
 	return res;
 }
 
+/**
+ * go_object_properties_apply:
+ * @obj: #GObject
+ * @props: (element-type void): the list of properties and their values to
+ * apply
+ * @changed_only: whether to restrict calls to g_object_set_property() to
+ * properties with changed values.
+ *
+ * Sets a list of properties for @obj. The list needs to be a list of
+ * alternating #GParamSpec and #GValue.
+ **/
 void
 go_object_properties_apply (GObject *obj, GSList *props, gboolean changed_only)
 {
@@ -963,6 +1032,14 @@ go_object_properties_apply (GObject *obj, GSList *props, gboolean changed_only)
 	}
 }
 
+/**
+ * go_object_properties_free:
+ * @props: (element-type void): the list of properties and their values to
+ * unset
+ *
+ * Unsezts the values in the list which needs to be a list of alternating
+ * #GParamSpec and #GValue.
+ **/
 void
 go_object_properties_free (GSList *props)
 {
@@ -982,7 +1059,7 @@ go_object_properties_free (GSList *props)
  * go_parse_key_value:
  * @options: Options string.
  * @err: Reference to store GError if parsing fails.
- * @handler: Handler to call for each key-value pair.
+ * @handler: (scope call): Handler to call for each key-value pair.
  * @user: user pointer.
  */
 gboolean

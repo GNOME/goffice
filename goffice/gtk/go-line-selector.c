@@ -68,16 +68,17 @@ go_line_dash_palette_get_tooltip_func (int index, void *data)
 }
 
 /**
- * go_line_dash_selector_new:
+ * go_selector_new_line_dash:
  * @initial_type: line type initially selected
  * @default_type: automatic line type
  *
  * Creates a new line type selector.
  *
- * Returns: a new #GtkWidget.
+ * Since: 0.9.6
+ * Returns: (transfer full): a new #GtkWidget.
  **/
 GtkWidget *
-go_line_dash_selector_new (GOLineDashType initial_type,
+go_selector_new_line_dash (GOLineDashType initial_type,
 			   GOLineDashType default_type)
 {
 	GtkWidget *palette;
@@ -94,4 +95,21 @@ go_line_dash_selector_new (GOLineDashType initial_type,
 	go_selector_set_active (GO_SELECTOR (selector),
 				CLAMP (initial_type, 0, GO_LINE_MAX - 1));
 	return selector;
+}
+
+/**
+ * go_line_dash_selector_new:
+ * @initial_type: line type initially selected
+ * @default_type: automatic line type
+ *
+ * Creates a new line type selector.
+ *
+ * Deprecated: 0.9.6, use go_selector_new_line_dash().
+ * Returns: (transfer full): a new #GtkWidget.
+ **/
+GtkWidget *
+go_line_dash_selector_new (GOLineDashType initial_type,
+			   GOLineDashType default_type)
+{
+	return go_selector_new_line_dash (initial_type, default_type);
 }

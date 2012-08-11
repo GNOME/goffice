@@ -120,6 +120,7 @@
 			<xi:include href="xml/go-pattern.xml"/>
 			<xi:include href="xml/go-style.xml"/>
 			<xi:include href="xml/go-styled-object.xml"/>
+			<xi:include href="xml/goffice-utils.xml"/>
 		</chapter>
 		<chapter>
 			<title>Rendering utilities</title>
@@ -147,6 +148,8 @@
 			<xi:include href="xml/go-rangefunc.xml"/>
 			<xi:include href="xml/go-regression.xml"/>
 			<xi:include href="xml/go-units.xml"/>
+			<xi:include href="xml/go-quad.xml"/>
+			<xi:include href="xml/go-accumulator.xml"/>
 		</chapter>
 		<chapter>
 			<title>File utilities</title>
@@ -161,6 +164,7 @@
 			<xi:include href="xml/go-cmd-context.xml"/>
 			<xi:include href="xml/go-doc-control.xml"/>
 			<xi:include href="xml/go-doc.xml"/>
+			<xi:include href="xml/go-error-info.xml"/>
 			<xi:include href="xml/io-context.xml"/>
 			<xi:include href="xml/go-plugin.xml"/>
 			<xi:include href="xml/go-plugin-loader.xml"/>
@@ -183,7 +187,6 @@
 			<xi:include href="xml/go-persist.xml"/>
 			<xi:include href="xml/go-undo.xml"/>
 			<xi:include href="xml/go-string.xml"/>
-			<xi:include href="xml/goffice-utils.xml"/>
 		</chapter>
 	</part>
 	<index id="gsf-index">
@@ -202,7 +205,6 @@
 	<xi:include href="xml/go-dock-item-grip.xml"/>
 </chapter>
 <xi:include href="xml/goffice-priv.xml"/>
-<xi:include href="xml/error-info.xml"/>
 <xi:include href="xml/file-priv.xml"/>
 <xi:include href="xml/file.xml"/>
 <xi:include href="xml/go-error-stack.xml"/>
@@ -220,7 +222,6 @@
 <xi:include href="xml/datetime.xml"/>
 <xi:include href="xml/format-impl.xml"/>
 <xi:include href="xml/go-file.xml"/>
-<xi:include href="xml/goffice-utils.xml"/>
 <xi:include href="xml/go-marshalers.xml"/>
 <xi:include href="xml/win32-stub.xml"/>
 -->

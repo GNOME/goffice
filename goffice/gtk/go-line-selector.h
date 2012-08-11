@@ -26,8 +26,13 @@
 
 G_BEGIN_DECLS
 
+GtkWidget	*go_selector_new_line_dash	(GOLineDashType initial_type,
+						 GOLineDashType default_type);
+#ifndef GOFFICE_DISABLE_DEPRECATED
+GOFFICE_DEPRECATED_FOR(go_selector_new_line_dash)
 GtkWidget	*go_line_dash_selector_new	(GOLineDashType initial_type,
 						 GOLineDashType default_type);
+#endif
 
 G_END_DECLS
 

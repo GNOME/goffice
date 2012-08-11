@@ -97,7 +97,7 @@ gog_moving_avg_populate_editor (GogObject *obj,
 {
 	GogMovingAvg *ma = GOG_MOVING_AVG (obj);
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:smoothing/gog-moving-avg.ui",
+		go_gtk_builder_load ("res:go:smoothing/gog-moving-avg.ui",
 				    GETTEXT_PACKAGE, cc);
 	GtkWidget *w = go_gtk_builder_get_widget (gui, "span");
 	gtk_widget_set_tooltip_text (w, _("Number of values from which to calculate an average"));

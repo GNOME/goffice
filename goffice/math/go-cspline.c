@@ -41,6 +41,7 @@
 #endif
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
+#define LONG_DOUBLE
 #endif
 
 #endif
@@ -89,6 +90,7 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	sp->a = g_new0 (DOUBLE, nm1);
 	sp->b = g_new (DOUBLE, nm1);
 	sp->c = g_new (DOUBLE, nm1);
+	sp->ref_count = 1;
 	d1 =  g_new0 (DOUBLE, n);
 	d2 = g_new0 (DOUBLE, n);
 	d3 = g_new0 (DOUBLE, n);
@@ -201,10 +203,42 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 void SUFFIX(go_cspline_destroy) (SUFFIX(GOCSpline) *sp)
 {
 	g_return_if_fail (sp);
+	if (sp->ref_count-- > 1)
+		return;
 	g_free (sp->a);
 	g_free (sp->b);
 	g_free (sp->c);
 	g_free (sp);
+}
+
+static GOCSpline *
+SUFFIX(go_cspline_ref) (GOCSpline *sp)
+{
+	g_return_val_if_fail (sp, NULL);
+	sp->ref_count++;
+	return sp;
+}
+
+GType
+#ifdef LONG_DOUBLE
+go_cspline_get_type (void)
+#else
+go_csplinel_get_type (void)
+#endif
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static (
+#ifdef LONG_DOUBLE
+		     "GOCSpline",
+#else
+		     "GOCSplinel",
+#endif
+			 (GBoxedCopyFunc)SUFFIX(go_cspline_ref),
+			 (GBoxedFreeFunc)SUFFIX(go_cspline_destroy));
+	}
+	return t;
 }
 
 /**

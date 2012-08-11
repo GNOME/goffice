@@ -811,6 +811,11 @@ create_trend_line_types (void)
 			 NULL, (GDestroyNotify) gog_trend_line_type_free);
 }
 
+/**
+ * gog_trend_line_types:
+ *
+ * Returns: (transfer none): the registered trend line types.
+ **/
 GHashTable const *
 gog_trend_line_types (void)
 {

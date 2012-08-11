@@ -67,6 +67,7 @@ gboolean      go_font_eq	   (GOFont const *a, GOFont const *b);
 GSList       *go_fonts_list_families (PangoContext *context);
 GSList       *go_fonts_list_sizes    (void);
 
+GType         go_font_metrics_get_type (void);
 GOFontMetrics *go_font_metrics_new (PangoContext *context, GOFont const *font);
 GO_VAR_DECL const GOFontMetrics *go_font_metrics_unit;
 void go_font_metrics_free (GOFontMetrics *metrics);

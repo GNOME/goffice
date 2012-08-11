@@ -26,7 +26,6 @@
 
 #include <goffice-config.h>
 #include <goffice/goffice.h>
-#include <go-conf.h>
 
 #define NO_DEBUG_GCONF
 #ifndef NO_DEBUG_GCONF
@@ -51,6 +50,47 @@ go_conf_closure_free (GOConfClosure *cls)
 	g_free (cls);
 }
 
+/**
+ * go_conf_get_node:
+ * @parent: parent node or %NULL
+ * @key: configuration key
+ *
+ * Returns: (transfer full): the #GOConfNode associated with @key
+ **/
+/**
+ * go_conf_set_str_list:
+ * @node: #GOConfNode
+ * @key: configuration key
+ * @list: (element-type char): the list of strings to set.
+ *
+ * Sets @list as the value for @key.
+ **/
+/**
+ * go_conf_get_str_list:
+ * @node: #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: (element-type char) (transfer full): a list of strings asociated
+ * with @key.
+ **/
+/**
+ * go_conf_load_str_list:
+ * @node: #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: (element-type char) (transfer full): a list of strings asociated
+ * with @key.
+ **/
+/**
+ * go_conf_add_monitor:
+ * @node: #GOConfNode
+ * @key: configuration key
+ * @monitor: (scope async): #GOMonitorFunc
+ * @data: user data
+ *
+ * @monitor will be called whenever the value associated with @key changes.
+ **/
+
 #if defined GOFFICE_WITH_WINREG
 #include "go-conf-win32.c"
 #elif defined GOFFICE_WITH_GSETTINGS
@@ -58,6 +98,26 @@ go_conf_closure_free (GOConfClosure *cls)
 #else
 #include "go-conf-keyfile.c"
 #endif
+
+static GOConfNode *
+go_conf_node_ref (GOConfNode *node)
+{
+	node->ref_count++;
+	return node;
+}
+
+GType
+go_conf_node_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOConfNode",
+			 (GBoxedCopyFunc)go_conf_node_ref,
+			 (GBoxedFreeFunc)go_conf_free_node);
+	}
+	return t;
+}
 
 gchar *
 go_conf_get_enum_as_str (GOConfNode *node, gchar const *key)

@@ -528,7 +528,7 @@ go_component_set_command_context (GOComponent *component, GOCmdContext *cc)
 
 /**
  * go_component_get_command_context:
- * @component: #GogComponent
+ * @component: #GOComponent
  *
  * Returns: (transfer none): the command context used by the component or the
  * default command context if the argument is NULL.

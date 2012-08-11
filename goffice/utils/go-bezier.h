@@ -30,8 +30,10 @@ typedef struct {
 	double *x, *y;
 	int n;
 	gboolean closed;
+	unsigned ref_count;
 } GOBezierSpline;
 
+GType go_bezier_spline_get_type (void);
 GOBezierSpline *go_bezier_spline_init (double const *x, double const *y, int n,
 				   gboolean closed);
 void go_bezier_spline_destroy (GOBezierSpline *sp);

@@ -95,10 +95,10 @@ GSF_CLASS_ABSTRACT (GOData, go_data,
 		    G_TYPE_OBJECT)
 
 /**
- * go_data_dup :
- * @src : #GOData
+ * go_data_dup:
+ * @src: #GOData
  *
- * Returns: A deep copy of @src.
+ * Returns: (transfer full): A deep copy of @src.
  **/
 GOData *
 go_data_dup (GOData const *src)
@@ -928,6 +928,12 @@ GSF_CLASS_ABSTRACT (GODataMatrix, go_data_matrix,
 		    go_data_matrix_class_init, NULL,
 		    GO_TYPE_DATA)
 
+/**
+ * go_data_matrix_get_size: (skip)
+ * @mat: #GODataMatrix
+ *
+ * Returns: the matrix size
+ **/
 GODataMatrixSize
 go_data_matrix_get_size (GODataMatrix *mat)
 {
@@ -945,6 +951,42 @@ go_data_matrix_get_size (GODataMatrix *mat)
 	}
 
 	return mat->size;
+}
+
+int
+go_data_matrix_get_rows (GODataMatrix *mat)
+{
+	if (!mat)
+		return 0;
+	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
+		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+
+		g_return_val_if_fail (klass != NULL, 0);
+
+		(*klass->load_size) (mat);
+
+		g_return_val_if_fail (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED, 0);
+	}
+
+	return mat->size.rows;
+}
+
+int
+go_data_matrix_get_columns (GODataMatrix *mat)
+{
+	if (!mat)
+		return 0;
+	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
+		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+
+		g_return_val_if_fail (klass != NULL, 0);
+
+		(*klass->load_size) (mat);
+
+		g_return_val_if_fail (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED, 0);
+	}
+
+	return mat->size.columns;
 }
 
 double *

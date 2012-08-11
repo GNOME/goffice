@@ -477,7 +477,7 @@ gog_object_populate_editor (GogObject *gobj,
 	if (!(allowable_positions & (GOG_POSITION_MANUAL | GOG_POSITION_COMPASS)))
 		return;
 
-	gui = go_gtk_builder_new_internal ("res:go:graph/gog-object-prefs.ui", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-object-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -1129,7 +1129,7 @@ gog_object_set_name (GogObject *obj, char *name, GError **err)
  * @obj: a #GogObject
  * @filter: an optional #GogObjectRole to use as a filter
  *
- * Returns: (element-type GogObject*) (transfer container): list of @obj's
+ * Returns: (element-type GogObject) (transfer container): list of @obj's
  * Children.  Caller must free the list, but not the children.
  **/
 GSList *
@@ -1170,7 +1170,6 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
 }
 
 /**
- *
  * gog_object_get_child_by_name:
  * @obj: a #GogObject
  * @name: a #char to use as a role name filter
@@ -1258,7 +1257,7 @@ gog_role_cmp_full (GogObjectRole const *a, GogObjectRole const *b)
  * gog_object_possible_additions:
  * @parent: a #GogObject
  *
- * Returns: (element-type GogObjectRole*) (transfer container): a list
+ * Returns: (element-type GogObjectRole) (transfer container): a list
  * of GogObjectRoles that could be added. The resulting list needs to be freed
  **/
 GSList *

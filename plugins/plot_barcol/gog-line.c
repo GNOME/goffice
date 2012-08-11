@@ -409,7 +409,7 @@ gog_area_plot_populate_editor (GogObject *obj,
 {
 #ifdef GOFFICE_WITH_GTK
 	GtkBuilder *gui =
-		go_gtk_builder_new ("res:go:plot_barcol/gog-area-prefs.ui",
+		go_gtk_builder_load ("res:go:plot_barcol/gog-area-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 	if (gui != NULL) {
 		GtkWidget *w = go_gtk_builder_get_widget (gui, "before-grid");

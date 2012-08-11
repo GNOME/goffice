@@ -26,7 +26,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct _GOApp		GOApp;
 typedef struct _GODoc		GODoc;
 typedef struct _GODocControl	GODocControl;
 typedef struct _GOCmdContext	GOCmdContext;
