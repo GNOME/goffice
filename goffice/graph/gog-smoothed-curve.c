@@ -29,6 +29,13 @@ static GType gog_smoothed_curve_view_get_type (void);
 
 static GObjectClass *smoothed_curve_parent_klass;
 
+/**
+ * GogSmoothedCurveClass:
+ * @base: base class.
+ * @max_dim: number of #GOData parameters.
+ *
+ * Base class for smoothed curves.
+ **/
 #ifdef GOFFICE_WITH_GTK
 static void
 gog_smoothed_curve_populate_editor (GogObject	*gobj,

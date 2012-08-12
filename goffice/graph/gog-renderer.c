@@ -840,6 +840,7 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
  * @str: the #GOString to draw
  * @pos: #GogViewAllocation
  * @anchor: #GOAnchorType how to draw relative to @pos
+ * @justification: #GtkJustification for multiline string.
  * @width: if positive, the maximum width to get a multiline string if needed.
  *
  * Have @rend draw @layout in the at @pos.{x,y} anchored by the @anchor corner.
@@ -944,8 +945,10 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
  * @rend: #GogRenderer
  * @text: the string to draw
  * @pos: #GogViewAllocation
- * @anchor: #GtkAnchorType how to draw relative to @pos
+ * @anchor: #GOAnchorType how to draw relative to @pos
  * @use_markup: wether to use pango markup
+ * @justification: #GtkJustification for multiline text.
+ * @width: if positive, the maximum width to get a multiline text if needed.
  *
  * Have @rend draw @text in the at @pos.{x,y} anchored by the @anchor corner.
  * If @pos.w or @pos.h are >= 0 then clip the results to less than that size.

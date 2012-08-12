@@ -31,6 +31,18 @@
 
 #include <string.h>
 
+/**
+ * _GODoc:
+ * @base: parent object.
+ * @uri: URI.
+ * @meta_data: metadata.
+ * @modified: whether the document has been modified.
+ * @first_modification_time: date of the firs modification.
+ * @pristine: whether the document is unchanged since it was created.
+ * @images: images used inside the document.
+ * @imagebuf: used when loading/saving images.
+**/
+
 enum {
 	PROP_0,
 	PROP_URI,

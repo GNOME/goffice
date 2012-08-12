@@ -27,6 +27,13 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * GOActionComboPixmapsElement:
+ * @untranslated_tooltip: the element tooltip.
+ * @stock_id: icon identifier.
+ * @id: pixmap identifier.
+ **/
+
 typedef struct {
 	GtkToolItem	 base;
 	GOComboPixmaps	*combo;	/* container has a ref, not us */

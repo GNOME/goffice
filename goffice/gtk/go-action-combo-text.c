@@ -26,6 +26,13 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * GOActionComboTextSearchDir:
+ * @GO_ACTION_COMBO_SEARCH_FROM_TOP: search from the top of the list.
+ * @GO_ACTION_COMBO_SEARCH_CURRENT: search from the current selection.
+ * @GO_ACTION_COMBO_SEARCH_NEXT: search from the next element after current.
+ **/
+
 /*****************************************************************************/
 
 struct _GOActionComboText {

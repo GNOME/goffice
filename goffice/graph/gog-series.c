@@ -28,6 +28,53 @@
 #include <string.h>
 
 /**
+ * GogSeriesFillType:
+ * @GOG_SERIES_FILL_TYPE_Y_ORIGIN: from origin ox the X-axis.
+ * @GOG_SERIES_FILL_TYPE_X_ORIGIN: from the origin of the Y-axis
+ * @GOG_SERIES_FILL_TYPE_BOTTOM: from the chart bottom.
+ * @GOG_SERIES_FILL_TYPE_LEFT: from the chart left side.
+ * @GOG_SERIES_FILL_TYPE_TOP: from the chart top.
+ * @GOG_SERIES_FILL_TYPE_RIGHT:, from the chart right side.
+ * @GOG_SERIES_FILL_TYPE_ORIGIN: from the origin (for radar and polar plots).
+ * @GOG_SERIES_FILL_TYPE_CENTER: from the center (for radar and polar plots).
+ * @GOG_SERIES_FILL_TYPE_EDGE: from the edge (for radar and polar plots).
+ * @GOG_SERIES_FILL_TYPE_SELF: close the series curve and fills it.
+ * @GOG_SERIES_FILL_TYPE_NEXT: from next series.
+ * @GOG_SERIES_FILL_TYPE_X_AXIS_MIN: from X-axis minimum.
+ * @GOG_SERIES_FILL_TYPE_X_AXIS_MAX: from X-axis maximum.
+ * @GOG_SERIES_FILL_TYPE_Y_AXIS_MIN: from Y-axis minimum.
+ * @GOG_SERIES_FILL_TYPE_Y_AXIS_MAX: from Y-axis maximum.
+ * @GOG_SERIES_FILL_TYPE_INVALID: invalid, should not happen.
+ **/
+
+/**
+ * GogSeriesClass:
+ * @has_interpolation: supports interpolation.
+ * @has_fill_type: %TRUE if filling is supported.
+ * @valid_fill_type_list: list of supported #GogSeriesFillType values.
+ * @series_element_type: #GType for the series element if supported.
+ * @dim_changed: called when data changed for the series.
+ * @get_xy_data: get X and Y data.
+ * @get_interpolation_params: get interpolation parameters if any, only applies
+ * to constrained cubic spline interpolation.
+ **/
+
+/**
+ * GogSeriesElementClass:
+ * @gse_populate_editor: populates editor.
+ **/
+
+/**
+ * GogSeriesPriority:
+ * @GOG_SERIES_REQUIRED: it must be there.
+ * @GOG_SERIES_SUGGESTED: allocator will fill it in, but use need not.
+ * @GOG_SERIES_OPTIONAL: optional data.
+ * @GOG_SERIES_ERRORS: optional data for error bars.
+ *
+ * Applies to data declarations in #GogSeriesDimDesc.
+ **/
+
+/**
  * SECTION: gog-series
  * @short_description: A single data series.
  *

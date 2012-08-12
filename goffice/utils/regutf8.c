@@ -28,6 +28,16 @@
 #include <string.h>
 
 /* ------------------------------------------------------------------------- */
+/**
+ * GORegexp:
+ * @re_nsub: number of capturing subpatterns.
+ **/
+
+/**
+ * GORegmatch:
+ * @rm_so: start offset.
+ * @rm_eo: end offset.
+ **/
 
 void
 go_regfree (GORegexp *gor)
@@ -727,6 +737,16 @@ go_search_replace_get_property (GObject     *object,
 }
 
 /* ------------------------------------------------------------------------- */
+/**
+ * GOSearchReplace:
+ * @search_text: string to replace.
+ * @replace_text: string to use as replacement/
+ * @comp_search: #GORegexp
+ * @is_regexp: search text is a regular expression.
+ * @ignore_case: consider "a" and "A" the same.
+ * @preserve_case: like Emacs' case-replace.
+ * @match_words: like grep -w.
+ **/
 
 static void
 go_search_replace_set_search_text (GOSearchReplace *sr, const char *text)

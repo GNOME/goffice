@@ -27,7 +27,8 @@
 G_BEGIN_DECLS
 
 typedef guint32					GOColor;
-typedef struct _GOEditor                GOEditor;
+typedef struct _GOBezierSpline  GOBezierSpline;
+typedef struct _GOEditor        GOEditor;
 typedef struct _GOFont			GOFont;
 typedef struct _GOFontMetrics	GOFontMetrics;
 typedef struct _GOPattern		GOPattern;
@@ -39,8 +40,8 @@ typedef struct _GOPixbuf		GOPixbuf;
 typedef struct _GOSvg			GOSvg;
 typedef struct _GOEmf			GOEmf;
 typedef struct _GOSpectre		GOSpectre;
-typedef struct _GOPath GOPath;
-typedef struct _GOString GOString;
+typedef struct _GOPath          GOPath;
+typedef struct _GOString        GOString;
 typedef struct _GOStyle			GOStyle;
 typedef struct _GOStyledObject	GOStyledObject;
 
@@ -101,6 +102,31 @@ typedef enum
   GO_ANCHOR_W		= GO_ANCHOR_WEST,
   GO_ANCHOR_E		= GO_ANCHOR_EAST
 } GOAnchorType;
+
+typedef enum {
+	GOD_ANCHOR_DIR_UNKNOWN    = 0xFF,
+	GOD_ANCHOR_DIR_UP_LEFT    = 0x00,
+	GOD_ANCHOR_DIR_UP_RIGHT   = 0x01,
+	GOD_ANCHOR_DIR_DOWN_LEFT  = 0x10,
+	GOD_ANCHOR_DIR_DOWN_RIGHT = 0x11,
+
+	GOD_ANCHOR_DIR_NONE_MASK  = 0x00,
+	GOD_ANCHOR_DIR_H_MASK	  = 0x01,
+	GOD_ANCHOR_DIR_RIGHT	  = 0x01,
+	GOD_ANCHOR_DIR_V_MASK	  = 0x10,
+	GOD_ANCHOR_DIR_DOWN	  = 0x10
+} GODrawingAnchorDir;
+
+typedef struct _GODrawingAnchor {
+	int			pos_pts [4];	/* position in points */
+	GODrawingAnchorDir	direction;
+} GODrawingAnchor;
+
+typedef enum {
+	GO_FONT_SCRIPT_SUB	= -1,
+	GO_FONT_SCRIPT_STANDARD =  0,
+	GO_FONT_SCRIPT_SUPER	=  1
+} GOFontScript;
 
 G_END_DECLS
 

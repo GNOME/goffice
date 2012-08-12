@@ -25,6 +25,22 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * GogRegCurveDrawingBounds:
+ * @GOG_REG_CURVE_DRAWING_BOUNDS_NONE: no limits.
+ * @GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE: absolute limits.
+ * @GOG_REG_CURVE_DRAWING_BOUNDS_RELATIVE: limits relative to the data range.
+ **/
+
+/**
+ * GogRegCurveClass:
+ * @get_value_at: returns the calculated value.
+ * @get_equation: gets the regresion equation as a string.
+ * @populate_editor: populates the editor.
+ * @reserved1: reserved for future use.
+ * @reserved2: reserved for future use.
+ **/
+
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_REG_CURVE, GogRegCurveClass))
 
 static GObjectClass *reg_curve_parent_klass;

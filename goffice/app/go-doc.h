@@ -48,21 +48,6 @@ GsfDocMetaData	*go_doc_get_meta_data	 (GODoc const *doc);
 void		 go_doc_set_meta_data	 (GODoc *doc, GsfDocMetaData *data);
 void		 go_doc_update_meta_data (GODoc *doc);
 
-#if 0
-GODoc   *go_doc_new_from_input  (GsfInput *input,
-				 GODocImporter const *fmt,
-				 XXXGOIOContext *context,
-				 gchar const *encoding);
-GODoc   *go_doc_new_from_uri	(char const *uri,
-				 GnmFileOpener const *fmt,
-				 XXXGOIOContext *context,
-				 gchar const *encoding);
-gboolean go_doc_save		(GODoc *doc, XXXGOIOContext *context);
-gboolean go_doc_save_as		(GODoc *doc, GODocExporter *fmt, char const *uri,
-				 XXXGOIOContext *cc);
-gboolean go_doc_sendto		(GODoc *doc, XXXGOIOContext *cc);
-#endif
-
 /* put into GODoc (as properties) */
 
 /* Images related functions */

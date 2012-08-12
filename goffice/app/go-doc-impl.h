@@ -34,6 +34,8 @@ struct _GODoc {
 	gint64           first_modification_time;
 	gboolean	 pristine;
 	GHashTable	*images;
+
+	/* private */
 	GHashTable	*imagebuf; /* used when loading/saving images */
 };
 

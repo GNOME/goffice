@@ -24,6 +24,14 @@
 #include <goffice/math/go-math.h>
 
 /**
+ * GOBezierSpline:
+ * @x: control points abscissa.
+ * @y: control points ordinates.
+ * @n: spline segments number.
+ * @closed: whether the curve is closed.
+ **/
+
+/**
  * go_bezier_spline_init:
  * @x: the x values
  * @y: the y values

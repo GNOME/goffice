@@ -26,6 +26,20 @@
 #include <string.h>
 
 /**
+ * _GOEditor:
+ * @store_page: pointer to a place for storing last edited page.
+ * @pages: list of #GOEditorPage.
+ * @registered_widgets: registered wigets.
+ * @ref_count: reference counter.
+ **/
+
+/**
+ * GOEditorPage:
+ * @label: label for notebook page.
+ * @widget: notebook page.
+ **/
+
+/**
  * go_editor_new:
  *
  * Returns: (transfer full): a new GOEditor object, which is used to store a collection of

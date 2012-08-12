@@ -25,6 +25,20 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * GogViewClass:
+ * @state_init: state intialization.
+ * @padding_request: padding request.
+ * @size_request: size request.
+ * @size_allocate: size allocate.
+ * @render: render to cairo.
+ * @build_toolkit: builds the associated toolkit.
+ * @get_tip_at_point: gets tip at pointer position.
+ * @natural_size: gets natural size.
+ * @reserved1: reserved for future use.
+ * @reserved2: reserved for future use.
+ **/
+
 static GogViewAllocation *
 gog_view_allocation_copy (GogViewAllocation *alloc)
 {
@@ -48,6 +62,18 @@ gog_view_allocation_get_type (void)
 }
 
 /*****************************************************************************/
+
+/**
+ * GogTool:
+ * @name: tool name.
+ * @cursor_type: pointer cursor type for the tool.
+ * @point: points an object.
+ * @render: displays the tool.
+ * @init: initalizes an action.
+ * @move: callback for pointer move.
+ * @double_click: callback on double click.
+ * @destroy: destroys the action.
+ **/
 
 #ifdef GOFFICE_WITH_GTK
 static gboolean
@@ -205,6 +231,15 @@ static GogTool gog_tool_resize_object = {
 #endif
 
 /*****************************************************************************/
+
+/**
+ * GogToolAction:
+ * @start_x: initial pointer horizontal position.
+ * @start_y: initial pointer vertical position.
+ * @view: #GogView
+ * @tool: #GogTool
+ * @data: user data.
+ **/
 
 static GogToolAction *
 gog_tool_action_ref (GogToolAction *action)

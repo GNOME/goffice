@@ -26,6 +26,12 @@
 #include <stdio.h>
 #include <errno.h>
 
+/**
+ * GOSeverity:
+ * @GO_WARNING: warning.
+ * @GO_ERROR: error.
+**/
+
 struct _GOErrorInfo {
 	gchar *msg;
 	GOSeverity severity;

@@ -63,8 +63,8 @@ go_undo_undo (GOUndo *u)
 
 /**
  * go_undo_combine:
- * @a: optional first undo operation
- * @b: optional last undo operation
+ * @a: (transfer full): optional first undo operation
+ * @b: (transfer full): optional last undo operation
  *
  * This function takes ownership of the argument references and gives ownership
  * of the result to the caller.  Either argument may be NULL in which case the

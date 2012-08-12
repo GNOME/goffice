@@ -58,6 +58,17 @@
 #include <unistd.h>
 #endif
 
+/**
+ * GOPluginModuleDepend:
+ * @key: object being versioned.
+ * @version: version id (strict equality is required).
+ **/
+/**
+ * GOPluginModuleHeader:
+ * @magic_number: magic GOffice plugins number.
+ * @num_depends: number of #GOPluginModuleDepend fields.
+ **/
+
 #define PLUGIN_INFO_FILE_NAME          "plugin.xml"
 #define PLUGIN_ID_VALID_CHARS          "_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 

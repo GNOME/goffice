@@ -48,6 +48,7 @@ struct _GogToolAction {
 	GogView 	*view;
 	GogTool 	*tool;
 	gpointer	 data;
+	/* private */
 	unsigned ref_count;
 };
 

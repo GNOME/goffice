@@ -4820,7 +4820,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
  * @go_color: a color to rende
  * @col_width: intended max width of layout in pango units.  -1 means
  *             no restriction.
- * @date_conv: #GODateConv
+ * @date_conv: #GODateConventions
  * @unicode_minus: Use unicode minuses, not hyphens.
  *
  * Render a floating-point value into @layout in such a way that the
@@ -4841,7 +4841,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
  * @go_color: a color to rende
  * @col_width: intended max width of layout in pango units.  -1 means
  *             no restriction.
- * @date_conv: #GODateConv
+ * @date_conv: #GODateConventions
  * @unicode_minus: Use unicode minuses, not hyphens.
  *
  * Render a floating-point value into @layout in such a way that the

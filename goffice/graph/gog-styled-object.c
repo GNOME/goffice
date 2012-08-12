@@ -49,6 +49,11 @@ GSF_CLASS (GogStyle, gog_style,
 	   NULL, NULL,
 	   GO_TYPE_STYLE);
 
+/**
+ * GogStyledObjectClass:
+ * @init_style: intiializes the style.
+ **/
+
 static void gog_styled_object_style_changed (GOStyledObject *obj);
 
 static gulong gog_styled_object_signals [LAST_SIGNAL] = { 0, };

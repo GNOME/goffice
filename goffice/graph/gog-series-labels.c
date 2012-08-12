@@ -28,6 +28,27 @@
 static GObjectClass *data_label_parent_klass;
 static GObjectClass *series_labels_parent_klass;
 
+/**
+ * GogSeriesLabelElt:
+ * @str: the string to display.
+ * @legend_pos: the label position.
+ * @point: #GogObject
+} 
+**/
+
+/**
+ * GogSeriesLabelsPos:
+ * @GOG_SERIES_LABELS_DEFAULT_POS: default position.
+ * @GOG_SERIES_LABELS_CENTERED: centered.
+ * @GOG_SERIES_LABELS_TOP: at top.
+ * @GOG_SERIES_LABELS_BOTTOM: at bottom.
+ * @GOG_SERIES_LABELS_LEFT: at left.
+ * @GOG_SERIES_LABELS_RIGHT: at right.
+ * @GOG_SERIES_LABELS_OUTSIDE: outside the element.
+ * @GOG_SERIES_LABELS_INSIDE: inside the element.
+ * @GOG_SERIES_LABELS_NEAR_ORIGIN: near origin.
+ **/
+
 struct {
 	char const *label;
 	GogSeriesLabelsPos pos;
