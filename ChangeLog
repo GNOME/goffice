@@ -1,3 +1,11 @@
+2012-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-plot-impl.h: removed unused field in GogPlotDesc.
+	* goffice/graph/gog-plot.c (gog_plot_class_init): 3d -> 3D. [#681777]
+	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_class_init): ditto.
+	* plugins/plot_pie/gog-pie.c (gog_pie_plot_class_init): ditto.
+	* plugins/plot_xy/gog-xy.c (gog_bubble_plot_class_init): ditto.
+
 2012-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/Makefile.am: changed the build system.

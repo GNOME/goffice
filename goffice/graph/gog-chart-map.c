@@ -22,6 +22,16 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 
+/**
+ * GogChartMapPolarData:
+ * @cx: center horizontal position.
+ * @cy: center vertical position.
+ * @rx: available horizontal space from the center.
+ * @ry: available vertical space from the center.
+ * @th0: start angle.
+ * @th1: end angle.
+ **/
+
 struct _GogChartMap {
 	GogChart 		*chart;
 	GogViewAllocation	 area;

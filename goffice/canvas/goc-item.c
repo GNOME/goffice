@@ -113,6 +113,7 @@ enum {
  * @notify_scrolled: callback for a notify scrolled event. This is useful to
  * reposition children of the GtkLayout parent of the canvas to their new
  * position.
+ * @get_window: returns the#GdkWindow for the item if any.
  *
  * The base class for all canvas items.
  **/
@@ -768,7 +769,7 @@ goc_item_get_window (GocItem *item)
 /**
  * goc_item_set_operator: (skip)
  * @item: #GocItem
- * op: #cairo_operator_t
+ * @op: #cairo_operator_t
  *
  * Set the operator used when drawing the item.
  */
@@ -795,7 +796,7 @@ goc_item_get_operator  (GocItem *item)
 /**
  * goc_item_set_transform: (skip)
  * @item: #GocItem
- * m: #cairo_matrix_t
+ * @m: #cairo_matrix_t
  *
  * Set the matrix used to transform the item.
  */

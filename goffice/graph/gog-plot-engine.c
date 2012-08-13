@@ -34,6 +34,29 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
+/**
+ * GogPlotFamily:
+ * @name: family name.
+ * @sample_image_file: sample image for the graph editor.
+ * @priority: priority.
+ * @axis_set: #GogAxisSet used.
+ * @types: known types in the family.
+ *
+ * Plot types family.
+ **/
+
+/**
+ * GogPlotType:
+ * @family: plot family.
+ * @engine: plot engine.
+ * @name: plot type name.
+ * @sample_image_file: sample image for the graph editor.
+ * @description: untranslated description.
+ * @col: column where the plot type appears in the table inside the graph editor.
+ * @row: row.
+ * @properties: plot type properties.
+ **/
+
 static gboolean debug;
 
 static GSList *refd_plugins;
@@ -365,6 +388,14 @@ GSF_CLASS (GogPlotTypeService, gog_plot_type_service,
 
 /***************************************************************************/
 /* Support regression curves engines in plugins */
+
+/**
+ * GogTrendLineType:
+ * @engine: trend line engine.
+ * @name: trend line type name.
+ * @description: untranslated description.
+ * @properties: trend line type properties.
+ **/
 
 #define GOG_TYPE_TREND_LINE_ENGINE_SERVICE  (gog_trend_line_engine_service_get_type ())
 #define GOG_TREND_LINE_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_TREND_LINE_ENGINE_SERVICE, GogTrendLineEngineService))

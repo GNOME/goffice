@@ -37,8 +37,6 @@
  * @get_value_at: returns the calculated value.
  * @get_equation: gets the regresion equation as a string.
  * @populate_editor: populates the editor.
- * @reserved1: reserved for future use.
- * @reserved2: reserved for future use.
  **/
 
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_REG_CURVE, GogRegCurveClass))

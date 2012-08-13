@@ -22,6 +22,21 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 
+/**
+ * GogDatasetElement:
+ * @data: the #GOData
+ * @set: the owner data set.
+ * @dim_i: the dimension iside the dataset.
+ **/
+
+/**
+ * GogDatasetClass:
+ * @get_elem: gets i-th element.
+ * @set_dim: sets the data for i-th element.
+ * @dims: gest first and last valid elements indices.
+ * @dim_changed: called when an element has changed.
+ **/
+
 GType
 gog_dataset_get_type (void)
 {

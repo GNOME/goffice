@@ -36,6 +36,22 @@
  * @GOG_ERROR_BAR_TYPE_PERCENT: Relative errors as percent.
  **/
 
+/**
+ * GogErrorBarDirection:
+ * @GOG_ERROR_BAR_DIRECTION_HORIZONTAL: horizontal (xy plots).
+ * @GOG_ERROR_BAR_DIRECTION_VERTICAL: vertical (xy plots).
+ * @GOG_ERROR_BAR_DIRECTION_ANGULAR: angular (polar plots).
+ * @GOG_ERROR_BAR_DIRECTION_RADIAL: radial (polar plots).
+ **/
+
+/**
+ * GogErrorBarDisplay:
+ * @GOG_ERROR_BAR_DISPLAY_NONE: no display.
+ * @GOG_ERROR_BAR_DISPLAY_POSITIVE: display positive deviations.
+ * @GOG_ERROR_BAR_DISPLAY_NEGATIVE: display negative deviations.
+ * @GOG_ERROR_BAR_DISPLAY_BOTH: display both positive and negative deviations.
+ **/
+
 typedef GObjectClass GogErrorBarClass;
 static GObjectClass *error_bar_parent_klass;
 

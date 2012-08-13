@@ -28,6 +28,13 @@
 #include <string.h>
 
 /**
+ * SECTION: gog-series
+ * @short_description: A single data series.
+ *
+ * A #GogSeries represents a data series that can be added to a #GogPlot.
+ */
+
+/**
  * GogSeriesFillType:
  * @GOG_SERIES_FILL_TYPE_Y_ORIGIN: from origin ox the X-axis.
  * @GOG_SERIES_FILL_TYPE_X_ORIGIN: from the origin of the Y-axis
@@ -75,11 +82,18 @@
  **/
 
 /**
- * SECTION: gog-series
- * @short_description: A single data series.
- *
- * A #GogSeries represents a data series that can be added to a #GogPlot.
- */
+ * GogSeriesDesc:
+ * @dim: dimensions descriptions.
+ **/
+
+/**
+ * GogSeriesDimDesc:
+ * @name: name.
+ * @priority: priority.
+ * @is_shared: whether the dimension is shared among the series.
+ * @val_type: data type.
+ * @ms_type: data type for foreign formats.
+ **/
 
 /* Keep in sync with GogSeriesFillType enum */
 static struct {

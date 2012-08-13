@@ -27,6 +27,7 @@
 
 /**
  * GogViewClass:
+ * @base: base class.
  * @state_init: state intialization.
  * @padding_request: padding request.
  * @size_request: size request.
@@ -35,8 +36,31 @@
  * @build_toolkit: builds the associated toolkit.
  * @get_tip_at_point: gets tip at pointer position.
  * @natural_size: gets natural size.
- * @reserved1: reserved for future use.
- * @reserved2: reserved for future use.
+ * 
+ * the GogViewClass::clip firled should be set to %TRUE to clip drawings to
+ * the vew allocation.
+ **/
+
+/**
+ * GogViewAllocation:
+ * @w: width.
+ * @h: height.
+ * @x: horizontal position.
+ * @y: vertical position.
+ **/
+
+/**
+ * GogViewPadding:
+ * @wr: right padding.
+ * @hb: bottom padding.
+ * @wl: left pdding.
+ * @ht: top padding.
+ **/
+
+/**
+ * GogViewRequisition:
+ * @w: width.
+ * @h: height.
  **/
 
 static GogViewAllocation *

@@ -58,6 +58,84 @@
  * A #GogGraph can have 1 or more children in the roles "Chart" and "Title".
  */
 
+/**
+ * GogGraphClass:
+ * @base: base class.
+ **/
+
+/**
+ * GogAxisSet:
+ * @GOG_AXIS_SET_UNKNOWN: unkown, should not occur.
+ * @GOG_AXIS_SET_NONE: no axis.
+ * @GOG_AXIS_SET_X: only an X axis.
+ * @GOG_AXIS_SET_XY: both X and Y axes.
+ * @GOG_AXIS_SET_XY_pseudo_3d: X, Y, and pseudo-3D axes.
+ * @GOG_AXIS_SET_XY_COLOR: X, Y, and color axes.
+ * @GOG_AXIS_SET_XY_BUBBLE: X, Y, and bubble axes.
+ * @GOG_AXIS_SET_XYZ: X, Y, and Z axes.
+ * @GOG_AXIS_SET_RADAR: circular and radial axes.
+ * @GOG_AXIS_SET_FUNDAMENTAL: mask for all fundamental axes.
+ * @GOG_AXIS_SET_ALL: mask for all known axis types.
+ *
+ * Gives the needed axes for a plot.
+ **/
+
+/**
+ * GogAxisType:
+ * @GOG_AXIS_UNKNOWN: invalid, should not occur.
+ * @GOG_AXIS_X: X axis.
+ * @GOG_AXIS_Y: Y axis.
+ * @GOG_AXIS_Z: Z axis.
+ * @GOG_AXIS_CIRCULAR: circular axis/
+ * @GOG_AXIS_RADIAL: radial axis.
+ * @GOG_AXIS_VIRTUAL: start of virtual axes.
+ * @GOG_AXIS_PSEUDO_3D: pseudo-3d axis.
+ * @GOG_AXIS_COLOR: color axis.
+ * @GOG_AXIS_BUBBLE: bubble axis.
+ * @GOG_AXIS_TYPES: maximum value, should not occur.
+ **/
+
+/**
+ * GogDataType:
+ * @GOG_DATA_SCALAR: scalar value. 
+ * @GOG_DATA_VECTOR: vector data.
+ * @GOG_DATA_MATRIX: matrix data.
+ **/
+
+/**
+ * GogDimType:
+ * @GOG_DIM_INVALID: invalid should not occur.
+ * @GOG_DIM_LABEL: labels.
+ * @GOG_DIM_INDEX: indices.
+ * @GOG_DIM_VALUE: vector of values.
+ * @GOG_DIM_MATRIX: matrix of values.
+ * @GOG_DIM_TYPES: should not occur.
+ *
+ * Data types for plots.
+ **/
+
+/**
+ * GogMSDimType:
+ * @GOG_MS_DIM_LABELS: labels.
+ * @GOG_MS_DIM_VALUES: values.
+ * @GOG_MS_DIM_CATEGORIES: categories.
+ * @GOG_MS_DIM_BUBBLES: bubble values.
+ * @GOG_MS_DIM_TYPES: maximum value known by MS, should not occur.
+ * @GOG_MS_DIM_ERR_plus1: positive erros on first dimension, we made it up.
+ * @GOG_MS_DIM_ERR_minus1: negative erros on first dimension, we made it up.
+ * @GOG_MS_DIM_ERR_plus2: positive erros on second dimension, we made it up.
+ * @GOG_MS_DIM_ERR_minus2: negative erros on second dimension, we made it up
+ * @GOG_MS_DIM_START: start value, we made it up for dropbars.
+ * @GOG_MS_DIM_END: end value, we made it up for dropbars.
+ * @GOG_MS_DIM_LOW: low value, we made it up for hi-lo.
+ * @GOG_MS_DIM_HIGH: high value, we made it up for hi-lo.
+ * @GOG_MS_DIM_EXTRA1: we made it up for other uses.
+ * @GOG_MS_DIM_EXTRA2: we made it up for other uses.
+ *
+ * Data types classed according to what they become when exported to foreign
+ * formats.
+ **/
+
 enum {
 	GRAPH_PROP_0,
 	GRAPH_PROP_THEME,

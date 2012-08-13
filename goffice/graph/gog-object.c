@@ -27,6 +27,92 @@
 #include <string.h>
 #include <stdlib.h>
 
+/**
+ * GogObjectNamingConv:
+ * @GOG_OBJECT_NAME_BY_ROLE: named built from role.
+ * @GOG_OBJECT_NAME_BY_TYPE: named built from type.
+ * @GOG_OBJECT_NAME_MANUALLY: custom name.
+ **/
+
+/**
+ * GogManualSizeMode:
+ * @GOG_MANUAL_SIZE_AUTO: auto size, can't be changed.
+ * @GOG_MANUAL_SIZE_WIDTH: the width can be changed.
+ * @GOG_MANUAL_SIZE_HEIGHT: the height can be changed.
+ * @GOG_MANUAL_SIZE_FULL: both height and width can be changed.
+ **/
+
+/**
+ * GogObjectRole:
+ **/
+
+/**
+ * GogObjectClass:
+ * @roles: roles for the class.
+ * @view_type: view type.
+ * @update: updates the object.
+ * @parent_changed: called when parent changed.
+ * @type_name: gets the type public name.
+ * @populate_editor: populates the editor.
+ * @document_changed: the document changed.
+ * @get_manual_size_mode: resize mode.
+ **/
+
+/**
+ * GogObjectPosition:
+ * @GOG_POSITION_AUTO: automatic.
+ * @GOG_POSITION_N: north, might be combined with east or west.
+ * @GOG_POSITION_S: south, might be combined with east or west.
+ * @GOG_POSITION_E: east.
+ * @GOG_POSITION_W: west.
+ * @GOG_POSITION_COMPASS: mask of the four previous positions.
+ * @GOG_POSITION_ALIGN_FILL: fills.
+ * @GOG_POSITION_ALIGN_START: start.
+ * @GOG_POSITION_ALIGN_END: end.
+ * @GOG_POSITION_ALIGN_CENTER: centered.
+ * @GOG_POSITION_ALIGNMENT: mask for start or end.
+ * @GOG_POSITION_SPECIAL: special.
+ * @GOG_POSITION_MANUAL: manual.
+ * @GOG_POSITION_MANUAL_X_ABS: whether the x position is absolute or relative.
+ * @GOG_POSITION_MANUAL_Y_ABS: whether the y position is absolute or relative.
+ * @GOG_POSITION_MANUAL_X_END: x position relative to start or end.
+ * @GOG_POSITION_MANUAL_Y_END: y position relative to start or end.
+ * @GOG_POSITION_ANCHOR_NW: anchored north-west.
+ * @GOG_POSITION_ANCHOR_N: anchored north.
+ * @GOG_POSITION_ANCHOR_NE: anchored north-east.
+ * @GOG_POSITION_ANCHOR_E: anchored east.
+ * @GOG_POSITION_ANCHOR_SE: anchored south-east.
+ * @GOG_POSITION_ANCHOR_S: anchored south.
+ * @GOG_POSITION_ANCHOR_SW: anchored south-west.
+ * @GOG_POSITION_ANCHOR_W: anchored west.
+ * @GOG_POSITION_ANCHOR_CENTER: anchored at center.
+ * @GOG_POSITION_ANCHOR: mask for anchors.
+ * @GOG_POSITION_ANY_MANUAL: mask for all manual positions
+ * @GOG_POSITION_PADDING: padding.
+ * @GOG_POSITION_MANUAL_W: relative width.
+ * @GOG_POSITION_MANUAL_W_ABS: absolute width.
+ * @GOG_POSITION_MANUAL_H: relative height.
+ * @GOG_POSITION_MANUAL_H_ABS: absolute height.
+ * @GOG_POSITION_ANY_MANUAL_SIZE: mask for manual sizes.
+ **/
+
+/**
+ * GogObjectRole:
+ * @id: id for persistence.
+ * @is_a_typename: type name.
+ * @allowable_positions: allowed positions inside parent.
+ * @default_position: default position.
+ * @naming_conv: naming convention.
+ * @can_add: return %TRUE if a new child can be added.
+ * @can_remove: return %TRUE if the child can be removed.
+ * @allocate: optional allocator, g_object_new() is used if %NULL.
+ * @post_add: called after adding the child.
+ * @pre_remove: called before removing the child.
+ * @post_remove: called after removing the child.
+ *
+ * Describes allowable children for a #GogObject.
+ **/
+
 static GogObjectRole*
 gog_object_role_ref (GogObjectRole* role)
 {

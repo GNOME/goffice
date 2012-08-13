@@ -30,6 +30,7 @@ typedef struct {
 	GOData	   *data;
 	GogDataset *set;
 	int	    dim_i;
+	/*<private>*/
 	gulong	    handler;
 } GogDatasetElement;
 

@@ -44,6 +44,34 @@
  * #GogLabel objects in the role "Label".
  */
 
+/**
+ * GogAxisPolarUnit:
+ * @GOG_AXIS_POLAR_UNIT_DEGREES: units as degrees.
+ * @GOG_AXIS_POLAR_UNIT_RADIANS: units as radians.
+ * @GOG_AXIS_POLAR_UNIT_GRADS: units as grads.
+ * @GOG_AXIS_POLAR_UNIT_MAX: maximum values, should not occur.
+ **/
+
+/**
+ * GogAxisTick:
+ * @position: position on the axis.
+ * @type: #GogAxisTickTypes
+ * @str: label, might be rich text.
+ **/
+
+/**
+ * GogAxisElemType:
+ * @GOG_AXIS_ELEM_MIN: minimum value.
+ * @GOG_AXIS_ELEM_MAX: maximum value.
+ * @GOG_AXIS_ELEM_MAJOR_TICK: distance between two major ticks.
+ * @GOG_AXIS_ELEM_MINOR_TICK: distance between two minor ticks.
+ * @GOG_AXIS_ELEM_CROSS_POINT: position of the other axis crossing.
+ * @GOG_AXIS_ELEM_MAX_ENTRY: maximum value, should not occur.
+ *
+ * The indices of the #GOData associated to the axis.
+ **/
+
+
 static struct {
 	GogAxisPolarUnit unit;
 	const char 	*name;

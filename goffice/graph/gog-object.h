@@ -92,7 +92,9 @@ typedef struct {
 
 	/* using some Private/Public statements to make gtk-doc happy since it does not like the ":1"*/
 	unsigned use_parent_as_proxy /*< private >*/:1/*< public >*/; /* when we change, pretend it was our parent */
-	unsigned roles_allocated /*< private >*/:1/*< public >*/;
+	 /*< private >*/
+	unsigned roles_allocated:1;
+	/*< public >*/
 
 	/* Virtuals */
 	void	     (*update)		(GogObject *obj);
@@ -104,8 +106,10 @@ typedef struct {
 					 GOCmdContext *cc);
 	void	     (*document_changed)(GogObject *obj, GODoc *doc);
 	GogManualSizeMode (*get_manual_size_mode) (GogObject *obj);
+	 /*< private >*/
 	void	     (*reserved1)		(GogObject *view);
 	void	     (*reserved2)		(GogObject *view);
+	/*< public >*/
 
 	/* signals */
 	void (*changed)		(GogObject *obj, gboolean size);

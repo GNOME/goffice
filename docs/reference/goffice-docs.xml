@@ -32,7 +32,6 @@
 			<xi:include href="xml/gog-object.xml"/>
 			<xi:include href="xml/gog-styled-object.xml"/>
 			<xi:include href="xml/gog-outlined-object.xml"/>
-			<xi:include href="xml/gog-plot-impl.xml"/>
 			<xi:include href="xml/gog-plot.xml"/>
 			<xi:include href="xml/gog-series.xml"/>
 			<xi:include href="xml/gog-trend-line.xml"/>

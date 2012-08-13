@@ -52,6 +52,7 @@ typedef struct {
 	double 		(*get_value_at) (GogRegCurve *reg_curve, double x);
 	char const * 	(*get_equation) (GogRegCurve *reg_curve);
 	void 		(*populate_editor) (GogRegCurve *reg_curve, gpointer table);
+	/*<private>*/
 	void	        (*reserved1) (void);
 	void	        (*reserved2) (void);
 } GogRegCurveClass;

@@ -70,7 +70,7 @@ struct _GOComponentClass {
 	void (*render) (GOComponent *component, cairo_t *cr,
 			    double width, double height);
 	void (*set_font) (GOComponent *component, PangoFontDescription *desc);
-	/* private */
+	/*<private>*/
 	void (*reserved1) (void);
 	void (*reserved2) (void);
 	void (*reserved3) (void);
@@ -78,6 +78,7 @@ struct _GOComponentClass {
 
 	/* signals */
 	void (*changed) (GOComponent* component);
+	/*<private>*/
 	void (*reserved_signal1) (void);
 	void (*reserved_signal2) (void);
 	void (*reserved_signal3) (void);

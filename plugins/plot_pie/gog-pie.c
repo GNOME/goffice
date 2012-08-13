@@ -316,8 +316,8 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_IN_3D,
 		g_param_spec_boolean ("in-3d",
-			_("In 3d"),
-			_("Draw 3d wedges"),
+			_("In 3D"),
+			_("Draw 3DS wedges"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_SPAN,

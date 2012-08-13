@@ -25,6 +25,22 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/data/go-data.h>
 
+/**
+ * GogDataEditorClass:
+ * @base: base interface.
+ * @set_format: sets the #GOFormat
+ * @set_value_double: sets a value as a double.
+ *
+ * Interface to edit #GOData.
+ **/
+
+/**
+ * GogDataAllocatorClass:
+ * @base: base interface.
+ * @allocate: provides data to a #GogPlot.
+ * @editor: returns the #GogDataEditor.
+ **/
+
 GType
 gog_data_allocator_get_type (void)
 {

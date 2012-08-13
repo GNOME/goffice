@@ -28,6 +28,28 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+/**
+ * GogAxisTickProperties:
+ * @tick_in: whether to have tick inside the plot area.
+ * @tick_out: whether to have tick outside the plot area.
+ * @size_pts: tick size.
+ **/
+
+/**
+ * GogAxisPosition:
+ * @GOG_AXIS_AT_LOW: crosses the other axis at low values.
+ * @GOG_AXIS_CROSS: crosses the other axis at a given value.
+ * @GOG_AXIS_AT_HIGH: crosses the other axis at high values.
+ * @GOG_AXIS_AUTO: crosses at an automatically determined position.
+ **/
+
+/**
+ * GogAxisTickTypes:
+ * @GOG_AXIS_TICK_NONE: no tick, should not occur.
+ * @GOG_AXIS_TICK_MAJOR: major tick.
+ * @GOG_AXIS_TICK_MINOR: minor tick.
+ **/
+
 static GogViewClass *gab_view_parent_klass;
 static GObjectClass *gab_parent_klass;
 

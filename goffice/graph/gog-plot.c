@@ -60,6 +60,51 @@
  * GOffice ships a number of common plot implementations by default.
  */
 
+/**
+ * GogPlotClass:
+ * @desc: #GogPlotDesc
+ * @series_type: series type.
+ * @axis_set: set of use axes.
+ * @axis_get_bounds: requests the axis bounds
+ * @supports_vary_style_by_element: %TRUE if each element has its own style.
+ * @enum_in_reverse: %TRUE if the plot prefers to display series in reverse
+ * order for legends (e.g. stacked plots want top element to be the
+ * last series.
+ * @foreach_elem: enumerates the elements visible in the legend.
+ * @update_3d: updates 3D (and contour) plots.
+ * @guru_helper: customizes a new plot in the graph editor dialog.
+ * @get_percent: get the value as a percentage.
+ **/
+
+/**
+ * GogPlotViewClass:
+ * @get_data_at_point: returns the data index at the given position, -1 if none.
+ **/
+
+/**
+ * GogPlotBoundInfo:
+ * @is_discrete: whether the data are discrete.
+ * @center_on_ticks: whether to center data on ticks.
+ * @fmt: #GOFormat to use.
+ * @date_conv: the used #GODateConventions.
+ *
+ * Used by plots to give formating informations to each axis.
+ * GogPlotBoundInfo::val are the values limits, GogPlotBoundInfo::logical are
+ * the actual needed display limits.
+ **/
+
+/**
+ * GogPlotDesc:
+ * @series: series description.
+ **/
+
+/**
+ * GogPlotRenderingOrder:
+ * @GOG_PLOT_RENDERING_LAST: render after axis and grid lines.
+ * @GOG_PLOT_RENDERING_BEFORE_AXIS: render before axis but after grid lines.
+ * @GOG_PLOT_RENDERING_BEFORE_GRID: render before grid lines.
+ **/
+
 enum {
 	PLOT_PROP_0,
 	PLOT_PROP_VARY_STYLE_BY_ELEMENT,
@@ -446,8 +491,8 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_PSEUDO_3D,
 		g_param_spec_uint ("pseudo-3d-axis",
-			_("Pseudo-3d axis"),
-			_("Reference to pseudo-3d axis"),
+			_("Pseudo-3D axis"),
+			_("Reference to pseudo-3D axis"),
 			0, G_MAXINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_COLOR,

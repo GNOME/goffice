@@ -68,14 +68,6 @@ go_snapshot_type_from_string (char const *name)
  * @render: displays the contents.
  * @changed: callback called when the component contents changed.
  * @set_font: sets the default font for the component.
- * @reserved1: reserved for future use.
- * @reserved2: reserved for future use.
- * @reserved3: reserved for future use.
- * @reserved4: reserved for future use.
- * @reserved_signal1: reserved for future use.
- * @reserved_signal2: reserved for future use.
- * @reserved_signal3: reserved for future use.
- * @reserved_signal4: reserved for future use.
  *
  * The component base object class.
  **/

@@ -41,6 +41,17 @@
 #include <gtk/gtk.h>
 #endif
 
+/**
+ * GogGridType:
+ * @GOG_GRID_UNKNOWN: unkown, should not occur.
+ * @GOG_GRID_XY: XY plane.
+ * @GOG_GRID_YZ: YZ plane.
+ * @GOG_GRID_ZX: ZY plane.
+ * @GOG_GRID_TYPES: last defined, should not occur.
+ *
+ * Used for base planes in 3d plots.
+ **/
+
 struct _GogGrid {
 	GogStyledObject	base;
 	GogGridType type;

@@ -34,6 +34,12 @@
  * Can for instance be used as a title of a #GogChart or #GogGraph.
  */
 
+/**
+ * GogTextClass:
+ * @get_str: returns the text associated with the object.
+ * @get_markup: returns the pango attributes.
+ **/
+
 static GType gog_text_view_get_type (void);
 
 enum {

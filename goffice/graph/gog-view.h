@@ -97,6 +97,7 @@ typedef struct {
 	void	 (*build_toolkit)		(GogView *view);
 	char    *(*get_tip_at_point)		(GogView *view, double x, double y);
 	void	 (*natural_size)    		(GogView *view, GogViewRequisition *req);
+	/*<private>*/
 	void	 (*reserved1)		(GogView *view);
 	void	 (*reserved2)		(GogView *view);
 } GogViewClass;
