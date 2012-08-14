@@ -751,7 +751,7 @@ go_get_file_permissions (char const *uri)
 {
 	GOFilePermissions * file_permissions = NULL;
 
-	/* Try setting unix mode */
+	/* Try getting unix mode */
 	GFile *file = g_file_new_for_uri (uri);
 	GError *error = NULL;
 	GFileInfo *info = g_file_query_info (file,
@@ -761,8 +761,10 @@ go_get_file_permissions (char const *uri)
 		g_error_free (error);
 		error = NULL;
 	   	info = g_file_query_info (file,
-					    	     G_FILE_ATTRIBUTE_ACCESS_CAN_READ","G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE","G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE,
-						     G_FILE_QUERY_INFO_NONE, NULL, &error);
+					  G_FILE_ATTRIBUTE_ACCESS_CAN_READ","
+					  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE","
+					  G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE,
+					  G_FILE_QUERY_INFO_NONE, NULL, &error);
 		if (error)
 			g_error_free (error);
 		else {
