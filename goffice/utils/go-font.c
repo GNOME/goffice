@@ -23,6 +23,13 @@
 #include <pango/pango-layout.h>
 #include <string.h>
 
+/**
+ * GOFontScript:
+ * @GO_FONT_SCRIPT_SUB: subscript.
+ * @GO_FONT_SCRIPT_STANDARD: normal.
+ * @GO_FONT_SCRIPT_SUPER: superscript.
+ **/
+
 static GHashTable	*font_hash;
 static GPtrArray	*font_array;
 static GSList		*font_watchers;

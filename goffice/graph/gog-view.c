@@ -36,7 +36,7 @@
  * @build_toolkit: builds the associated toolkit.
  * @get_tip_at_point: gets tip at pointer position.
  * @natural_size: gets natural size.
- * 
+ *
  * the GogViewClass::clip firled should be set to %TRUE to clip drawings to
  * the vew allocation.
  **/

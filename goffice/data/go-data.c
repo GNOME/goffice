@@ -33,6 +33,12 @@
 #define GO_IS_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_DATA))
 #define GO_DATA_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA, GODataClass))
 
+/**
+ * GODataMatrixSize:
+ * @rows: rows number, negative if dirty, includes missing values.
+ * @columns: columns number, negative if dirty, includes missing values.
+ **/
+
 enum {
 	CHANGED,
 	LAST_SIGNAL

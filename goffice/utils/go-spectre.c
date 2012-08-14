@@ -65,6 +65,7 @@ static void
 go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 {
 #ifdef GOFFICE_WITH_EPS
+	GOSpectre *spectre = GO_SPECTRE (image);
 	int width, height;
 	char *tmpname;
 	int f;
@@ -81,7 +82,7 @@ go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 	 see https://bugs.freedesktop.org/show_bug.cgi?id=42424 */
 	tmpname = g_strdup ("/tmp/epsXXXXXX.eps");
 	f = g_mkstemp (tmpname);
-	write (f, image->data, spectre->data_length);
+	write (f, image->data, image->data_length);
 	close (f);
 	spectre_document_load (spectre->doc, tmpname);
 	if (spectre_document_status (spectre->doc) != SPECTRE_STATUS_SUCCESS)

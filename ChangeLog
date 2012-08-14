@@ -1,3 +1,11 @@
+2012-08-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-bubble-prefs.ui: one more 3d->3D.
+
+2012-08-14  Quentin Glidic <sardemff7+gnome@sardemff7.net>
+	* goffice/utils/go-spectre.c (go_spectre_load_data): fix build with
+	libspectre. [#681846]
+
 2012-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot-impl.h: removed unused field in GogPlotDesc.

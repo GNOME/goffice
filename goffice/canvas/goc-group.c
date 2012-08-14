@@ -25,6 +25,11 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * GocGroupClass:
+ * @base: base class.
+ **/
+
 static GocItemClass *parent_klass;
 
 enum {

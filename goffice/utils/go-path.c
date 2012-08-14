@@ -33,6 +33,65 @@
 #include <goffice/utils/go-cairo.h>
 #include <string.h>
 
+/* the five following does not belong there, but they don't in any other .c file */
+
+/**
+ * GOPoint:
+ * @x: horizontal position.
+ * @y: vertical position.
+ **/
+
+/**
+ * GORect:
+ * @top: top.
+ * @left: left.
+ * @bottom: bottom.
+ * @right: right.
+ **/
+
+/**
+ * GOAnchorType:
+ * @GO_ANCHOR_CENTER: anchor center.
+ * @GO_ANCHOR_NORTH: anchor top.
+ * @GO_ANCHOR_NORTH_WEST: anchor top left.
+ * @GO_ANCHOR_NORTH_EAST: anchor top left.
+ * @GO_ANCHOR_SOUTH: anchor bottom.
+ * @GO_ANCHOR_SOUTH_WEST: anchor bottom left.
+ * @GO_ANCHOR_SOUTH_EAST: anchor bottom left.
+ * @GO_ANCHOR_WEST: anchor left.
+ * @GO_ANCHOR_EAST: anchor right.
+ * @GO_ANCHOR_N: anchor top.
+ * @GO_ANCHOR_NW: anchor top left.
+ * @GO_ANCHOR_NE: anchor top left.
+ * @GO_ANCHOR_S: anchor bottom.
+ * @GO_ANCHOR_SW: anchor bottom left.
+ * @GO_ANCHOR_SE: anchor bottom left.
+ * @GO_ANCHOR_W: anchor left.
+ * @GO_ANCHOR_E: anchor right.
+ **/
+
+/**
+ * GODrawingAnchor:
+ * @pos_pts: position in points.
+ * @direction: #GODrawingAnchorDir
+ **/
+
+/**
+ * GODrawingAnchorDir:
+ * @GOD_ANCHOR_DIR_UNKNOWN: unknown.
+ * @GOD_ANCHOR_DIR_UP_LEFT: up left.
+ * @GOD_ANCHOR_DIR_UP_RIGHT: up right.
+ * @GOD_ANCHOR_DIR_DOWN_LEFT: down left.
+ * @GOD_ANCHOR_DIR_DOWN_RIGHT: down right.
+ * @GOD_ANCHOR_DIR_NONE_MASK: mask for none.
+ * @GOD_ANCHOR_DIR_H_MASK: horizontal mask.
+ * @GOD_ANCHOR_DIR_RIGHT: right
+ * @GOD_ANCHOR_DIR_V_MASK: vertical mask.
+ * @GOD_ANCHOR_DIR_DOWN: down
+ **/
+
+/************************************/
+
 /**
  * GOPathOptions
  * @GO_PATH_OPTIONS_SNAP_COORDINATES: round coordinates to avoid aliasing in pixbufs.

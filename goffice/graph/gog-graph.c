@@ -97,7 +97,7 @@
 
 /**
  * GogDataType:
- * @GOG_DATA_SCALAR: scalar value. 
+ * @GOG_DATA_SCALAR: scalar value.
  * @GOG_DATA_VECTOR: vector data.
  * @GOG_DATA_MATRIX: matrix data.
  **/

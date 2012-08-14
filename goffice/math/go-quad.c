@@ -107,12 +107,14 @@ static DOUBLE SUFFIX(CST);
  *
  * Initializes #GOQuad arythmetics. Any use of #GOQuad must occur between calls
  * to go_quad_start() and go_quad_end().
+ * Returns: (transfer full): a pointer to pass to go_quad_end() when done.
  **/
 /**
  * go_quad_startl: (skip)
  *
  * Initializes #GOQuadl arythmetics. Any use of #GOQuadl must occur between calls
  * to go_quad_startl() and go_quad_endl().
+ * Returns: (transfer full): a pointer to pass to go_quad_endl() when done.
  **/
 void *
 SUFFIX(go_quad_start) (void)

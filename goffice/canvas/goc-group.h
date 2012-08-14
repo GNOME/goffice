@@ -40,6 +40,8 @@ typedef struct _GocGroupClass GocGroupClass;
 struct _GocGroupClass
 {
 	GocItemClass base;
+
+	/* <private> */
 	void (*reserved1) (void);
 	void (*reserved2) (void);
 	void (*reserved3) (void);

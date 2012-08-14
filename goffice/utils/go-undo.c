@@ -24,6 +24,28 @@
 #include <goffice/utils/go-undo.h>
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * GOUndoClass:
+ * @base: base class.
+ * @undo: undo.
+};
+ **/
+
+/**
+ * GOUndoBinaryClass:
+ * @base: base class.
+ **/
+
+/**
+ * GOUndoGroupClass:
+ * @base: base class.
+ **/
+
+/**
+ * GOUndoUnaryClass:
+ * @base: base class.
+ **/
+
 /* ------------------------------------------------------------------------- */
 
 GSF_CLASS (GOUndo, go_undo, NULL, NULL, G_TYPE_OBJECT)

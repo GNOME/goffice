@@ -32,6 +32,65 @@
 #include <string.h>
 #include <math.h>
 
+/**
+ * GOImageType:
+ * @GO_IMAGE_STRETCHED: stretch the image so that it fills the whole area.
+ * @GO_IMAGE_WALLPAPER: repeat the image starting from top left.
+ * @GO_IMAGE_CENTERED: use only one image at its natural size, centered in the area.
+ * @GO_IMAGE_CENTERED_WALLPAPER:  repeat the image starting from one at center.
+ **/
+
+/**
+ * GOStyleFill:
+ * @GO_STYLE_FILL_NONE: no filling.
+ * @GO_STYLE_FILL_PATTERN: fill with pattern.
+ * @GO_STYLE_FILL_GRADIENT: fill with a gradient.
+ * @GO_STYLE_FILL_IMAGE: fill with an image.
+ **/
+
+/**
+ * GOStyleFlag:
+ * @GO_STYLE_OUTLINE: outline.
+ * @GO_STYLE_FILL: fill.
+ * @GO_STYLE_LINE: line.
+ * @GO_STYLE_MARKER: marker.
+ * @GO_STYLE_FONT: font.
+ * @GO_STYLE_TEXT_LAYOUT: text orientaiton.
+ * @GO_STYLE_INTERPOLATION: curve interpolation.
+ * @GO_STYLE_MARKER_NO_COLOR: marker with no color.
+ * @GO_STYLE_ALL: all elements
+ *
+ * Gives the meaningful fields in @GOStyle. Anyw combination can be used, except
+ * that @GO_STYLE_OUTLINE and @GO_STYLE_OUTLINE should never coexist.
+ **/
+
+/**
+ * GOStyleLine:
+ * @width: line width:
+ * <0 == no line,
+ * =0 == hairline : unscaled, minimum useful (can be bigger than visible) size.
+ * >0 in pts.
+ * @dash_type: #GOLineDashType.
+ * @auto_dash: automatic dash type.
+ * @color: color is used as background for compatibility
+ * (pattern == 0 means filled with background color).
+ * @fore: second color used for patterned lines.
+ * @auto_color: color is automatic.
+ * @auto_fore: fore is automatic.
+ * @pattern: pattern.
+ * @cap: cap style.
+ * @join: join style.
+ * @miter_limit: mitter limit.
+ **/
+
+/**
+ * GOStyleMark:
+ * @mark: the used #GOMarker.
+ * @auto_shape: automatic @marc.
+ * @auto_outline_color: automatic outline color.
+ * @auto_fill_color: automatic fill color.
+ **/
+
 #define HSCALE 100
 #define VSCALE 120
 

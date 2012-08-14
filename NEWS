@@ -12,6 +12,9 @@ Jean:
 Morten:
 	* Minute accuracy improvement to matrix inversion.
 
+Quentin Glidic:
+	* Fix build with libspectre. [#681846]
+
 --------------------------------------------------------------------------
 goffice 0.9.5:
 

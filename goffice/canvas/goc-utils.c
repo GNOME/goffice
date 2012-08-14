@@ -110,9 +110,9 @@ goc_points_get_type (void)
 
 /**
  * GocIntArray:
- * @n: the size of the array.
  * @vals: The embedded values.
  *
+ * FocIntArray::n is the size of the array.
  * A boxed type used to hold an array of integers.
  * Since: 0.8.2
  **/

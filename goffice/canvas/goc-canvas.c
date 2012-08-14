@@ -596,7 +596,7 @@ goc_canvas_get_cur_event (GocCanvas *canvas)
 /**
  * goc_canvas_set_direction:
  * @canvas: #GocCanvas
- * direction: #GocDirection
+ * @direction: #GocDirection
  *
  * Sets the direction used by the canvas.
  **/

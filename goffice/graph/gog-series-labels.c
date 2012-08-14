@@ -33,7 +33,7 @@ static GObjectClass *series_labels_parent_klass;
  * @str: the string to display.
  * @legend_pos: the label position.
  * @point: #GogObject
-} 
+}
 **/
 
 /**
