@@ -1,5 +1,8 @@
 goffice 0.9.6:
 
+Chris Leonard:
+	* Add comments for translators to SI units names. [#681813]
+
 Jean:
 	* Use NAN instead of 0 for XYZ plots when data are missing. [#680486]
 	* Add series name to legend for contour plots. [#680508]
@@ -8,6 +11,7 @@ Jean:
 	* Allow filling to axis limits. [#680513]
 	* Save axis Id for all axes, not only X and Y. [#680739]
 	* Fix strings inconsistencies (3d vs. 3D). [#681777]
+	* Fix a crash for infinite values in XYZ contour plots. [#841840]
 
 Morten:
 	* Minute accuracy improvement to matrix inversion.

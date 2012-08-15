@@ -303,34 +303,63 @@ static struct {
 	char const *unit;
 	int scale;
 } si_units[] = {
+/* See http://en.wikipedia.org/wiki/Ampere */
 	{N_("A (ampere)"), "A", 0},
+/* See http://en.wikipedia.org/wiki/Becquerel */
 	{N_("Bq (becquerel)"), "Bq", 0},
+/* See http://en.wikipedia.org/wiki/Candela */
 	{N_("cd (candela)"), "cd", 0},
+/* See http://en.wikipedia.org/wiki/Coulomb */
 	{N_("C (coulomb)"), "C", 0},
+/* See http://en.wikipedia.org/wiki/Degree_Celsius */
 	{N_("\302\260C (degree Celsius)"), "\302\260C", 0},
+/* See http://en.wikipedia.org/wiki/Farad */
 	{N_("F (farad)"), "F", 0},
+/* See http://en.wikipedia.org/wiki/Gray_%28unit%29 */
 	{N_("Gy (gray)"), "Gy", 0},
+/* See http://en.wikipedia.org/wiki/Henry_%28unit%29 */
 	{N_("H (henry)"), "H", 0},
+/* See http://en.wikipedia.org/wiki/Hertz */
 	{N_("Hz (hertz)"), "Hz", 0},
+/* See http://en.wikipedia.org/wiki/Joule */
 	{N_("J (joule)"), "J", 0},
+/* See http://en.wikipedia.org/wiki/Kelvin */
 	{N_("K (kelvin)"), "K", 0},
+/* See http://en.wikipedia.org/wiki/Kilogram */
 	{N_("kg (kilogram)"), "kg", 3},
+/* See http://en.wikipedia.org/wiki/Lumen_%28unit%29 */
 	{N_("lm (lumen)"), "lm", 0},
+/* See http://en.wikipedia.org/wiki/Lux */
 	{N_("lx (lux)"), "lx", 0},
+/* See http://en.wikipedia.org/wiki/Metre */
 	{N_("m (meter)"), "m", 0},
+/* See http://en.wikipedia.org/wiki/Mole_%28unit%29 */
 	{N_("mol (mole)"), "mol", 0},
+/* See http://en.wikipedia.org/wiki/Newton_%28unit%29 */
 	{N_("N (newton)"), "N", 0},
+/* See http://en.wikipedia.org/wiki/Ohm_%28unit%29 */
 	{N_("\316\251 (ohm)"), "\316\251", 0},
+/* See http://en.wikipedia.org/wiki/Pascal_%28unit%29 */
 	{N_("Pa (pascal)"), "Pa", 0},
+/* See http://en.wikipedia.org/wiki/Radian */
 	{N_("rad (radian)"), "rad", 0},
+/* See http://en.wikipedia.org/wiki/Second */
 	{N_("s (second)"), "s", 0},
+/* See http://en.wikipedia.org/wiki/Siemens_%28unit%29 */
 	{N_("S (siemens)"), "S", 0},
+/* See http://en.wikipedia.org/wiki/Steradian */
 	{N_("sr (steradian)"), "sr", 0},
+/* See http://en.wikipedia.org/wiki/Sievert */
 	{N_("Sv (sievert)"), "Sv", 0},
+/* See http://en.wikipedia.org/wiki/Tesla_%28unit%29 */
 	{N_("T (tesla)"), "T", 0},
+/* See http://en.wikipedia.org/wiki/Katal */
 	{N_("kat (katal)"), "kat", 0},
+/* See http://en.wikipedia.org/wiki/Volt */
 	{N_("V (volt)"), "V", 0},
+/* See http://en.wikipedia.org/wiki/Watt */
 	{N_("W (watt)"), "W", 0},
+/* See http://en.wikipedia.org/wiki/Weber_%28Wb%29 */
 	{N_("Wb (weber)"), "Wb", 0}
 };
 

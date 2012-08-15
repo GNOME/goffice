@@ -389,7 +389,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 			zmin = max;
 			zmax = 0;
 			zval0 = data[(i - 1) * jmax + j - 1];
-			if (!isnan (zval0)) {
+			if (go_finite (zval0)) {
 				z0 = floor (zval0);
 				if (z0 > zmax)
 					zmax = z0;
@@ -402,7 +402,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				nan = 0;
 			}
 			zval1 = data[(i - 1) * jmax + j];
-			if (!isnan (zval1)) {
+			if (go_finite (zval1)) {
 				z1 = floor (zval1);
 				if (z1 > zmax)
 					zmax = z1;
@@ -415,7 +415,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				nan = 1;
 			}
 			zval2 = data[i * jmax + j];
-			if (!isnan (zval2)) {
+			if (go_finite (zval2)) {
 				z2 = floor (zval2);
 				if (z2 > zmax)
 					zmax = z2;
@@ -428,7 +428,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				nan = 2;
 			}
 			zval3 = data[i * jmax + j - 1];
-			if (!isnan (zval3)) {
+			if (go_finite (zval3)) {
 				z3 = floor (zval3);
 				if (z3 > zmax)
 					zmax = z3;

@@ -1,3 +1,13 @@
+2012-08-15  Chris Leonard  <cjlhomeaddress@gmail.com>
+
+	* goffice/gtk/go-format-sel.c: add comments for translators to SI units
+	names. [#681813]
+
+2012-08-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-contour.c (gog_contour_view_render): fix a crash
+	for infinite values. [#841840]
+
 2012-08-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-bubble-prefs.ui: one more 3d->3D.
