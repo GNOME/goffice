@@ -506,7 +506,7 @@ common_init_class (GogXYZPlotClass *klass)
 	g_object_class_install_property (gobject_klass, XYZ_SURFACE_PROP_AUTO_ROWS,
 		g_param_spec_boolean ("auto-rows",
 			_("Auto Rows"),
-			_("Whether the rows limts should be evaluated"),
+			_("Whether the rows limits should be evaluated"),
 			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, XYZ_SURFACE_PROP_COLUMNS,
@@ -518,7 +518,7 @@ common_init_class (GogXYZPlotClass *klass)
 	g_object_class_install_property (gobject_klass, XYZ_SURFACE_PROP_AUTO_COLUMNS,
 		g_param_spec_boolean ("auto-columns",
 			_("Auto Columns"),
-			_("Whether the columns limts should be evaluated"),
+			_("Whether the columns limits should be evaluated"),
 			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, XYZ_SURFACE_PROP_MISSING_AS,

@@ -41,6 +41,43 @@
 
 #include <string.h>
 
+/**
+ * GOPluginServiceFileOpenerCallbacks:
+ * @plugin_func_file_probe: probes the file, may be %NULL.
+ * @plugin_func_file_open: opens and reads the file.
+ **/
+
+/**
+ * GOPluginServiceFileSaverCallbacks:
+ * @plugin_func_file_save: saves the file.
+ **/
+
+/**
+ * GOPluginServiceGeneralCallbacks:
+ * @plugin_func_init: initializes the service.
+ * @plugin_func_cleanup: service cleanup.
+ **/
+
+/**
+ * GOPluginServicePluginLoaderCallbacks:
+ * @plugin_func_get_loader_type: returns a #GType for a function loader.
+ * Used by gnumeric in the Python and Perl plugins.
+ **/
+
+/**
+ * GOPluginServiceClass:
+ * @read_xml: read XML node containing the service description.
+ * @activate: actviates the service.
+ * @deactivate: deactivates the service.
+ * @get_description: gets the service description.
+ **/
+
+/**
+ * GOPluginServiceGObjectLoaderClass:
+ * @plugin_service_class: parent class.
+ * @pending: has service instances by type names.
+ **/
+
 #define CXML2C(s) ((char const *)(s))
 #define CC2XML(s) ((xmlChar const *)(s))
 

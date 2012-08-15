@@ -310,7 +310,7 @@ gog_xy_dropbar_plot_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, XY_DROPBAR_PROP_WIDTH,
 		g_param_spec_double ("width",
 			_("Width"),
-			_("Bars width as a percetage of the plot width"),
+			_("Bars width as a percentage of the plot width"),
 			0., 20., 5.,   /* using arbitrarily 20%. as maximum value */
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 

@@ -61,7 +61,7 @@
 /**
  * GOPluginModuleDepend:
  * @key: object being versioned.
- * @version: version id (strict equality is required).
+ * @version: version ID (strict equality is required).
  **/
 /**
  * GOPluginModuleHeader:
@@ -358,7 +358,7 @@ go_plugin_read_full_info_if_needed_go_error_info_ (GOPlugin *plugin, GOErrorInfo
 	old_dir_name = plugin->dir_name;
 	go_plugin_read (plugin, old_dir_name, &read_error);
 	if (read_error == NULL && strcmp (plugin->id, old_id) == 0) {
-		/* id and dir_name pointers are guaranteed to be valid during plugin's lifetime */
+		/* ID and dir_name pointers are guaranteed to be valid during plugin's lifetime */
 		g_free (plugin->id);
 		g_free (plugin->dir_name);
 		plugin->id = old_id;
@@ -368,7 +368,7 @@ go_plugin_read_full_info_if_needed_go_error_info_ (GOPlugin *plugin, GOErrorInfo
 		go_plugin_message (1, "Can't read plugin.xml file for %s.\n", old_id);
 		if (read_error == NULL) {
 			read_error = go_error_info_new_printf (
-			             _("File contains plugin info with invalid id (%s), expected %s."),
+			             _("File contains plugin info with invalid ID (%s), expected %s."),
 			             plugin->id, old_id);
 		}
 		*ret_error = go_error_info_new_str_with_details (
@@ -564,7 +564,7 @@ go_plugin_is_loaded (GOPlugin *plugin)
  * @service: Plugin service of type "plugin_loader"
  *
  * Registers new type of plugin loader identified by @loader_id (identifier
- * consists of loader's plugin id and service id concatenated using colon).
+ * consists of loader's plugin ID and service ID concatenated using colon).
  * All requests to create new loader object of this type will be passed to
  * @service.
  *
@@ -867,7 +867,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 
 		if (services_error != NULL) {
 			*ret_error = go_error_info_new_printf (
-				_("Errors while reading services for plugin with id=\"%s\"."),
+				_("Errors while reading services for plugin with ID=\"%s\"."),
 				id);
 			go_error_info_add_details (*ret_error, services_error);
 		} else
@@ -879,7 +879,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 
 			if (id[strspn (id, PLUGIN_ID_VALID_CHARS)] != '\0') {
 				GO_SLIST_PREPEND (error_list, go_error_info_new_printf (
-					_("Plugin id contains invalid characters (%s)."), id));
+					_("Plugin ID contains invalid characters (%s)."), id));
 			}
 			if (name == NULL) {
 				GO_SLIST_PREPEND (error_list, go_error_info_new_str (
@@ -887,7 +887,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 			}
 			if (loader_id == NULL) {
 				GO_SLIST_PREPEND (error_list, go_error_info_new_printf (
-					_("No loader defined or loader id invalid for plugin with id=\"%s\"."), id));
+					_("No loader defined or loader ID invalid for plugin with ID=\"%s\"."), id));
 			}
 			g_assert (error_list != NULL);
 			GO_SLIST_REVERSE (error_list);
@@ -989,13 +989,13 @@ go_plugin_activate (GOPlugin *plugin, GOErrorInfo **ret_error)
 				GOErrorInfo *new_error;
 
 				new_error = go_error_info_new_printf (
-					_("Couldn't activate plugin with id=\"%s\"."), dep->plugin_id);
+					_("Couldn't activate plugin with ID=\"%s\"."), dep->plugin_id);
 				go_error_info_add_details (new_error, dep_error);
 				GO_SLIST_PREPEND (error_list, new_error);
 			}
 		} else {
 			GO_SLIST_PREPEND (error_list, go_error_info_new_printf (
-				_("Couldn't find plugin with id=\"%s\"."), dep->plugin_id));
+				_("Couldn't find plugin with ID=\"%s\"."), dep->plugin_id));
 		}
 	);
 	g_assert (activate_stack != NULL && activate_stack->data == plugin);
@@ -1167,13 +1167,13 @@ go_plugin_load_base (GOPlugin *plugin, GOErrorInfo **ret_error)
 				GOErrorInfo *new_error;
 
 				new_error = go_error_info_new_printf (
-					_("Couldn't load plugin with id=\"%s\"."), dep->plugin_id);
+					_("Couldn't load plugin with ID=\"%s\"."), dep->plugin_id);
 				go_error_info_add_details (new_error, dep_error);
 				GO_SLIST_PREPEND (error_list, new_error);
 			}
 		} else {
 			GO_SLIST_PREPEND (error_list, go_error_info_new_printf (
-				_("Couldn't find plugin with id=\"%s\"."), dep->plugin_id));
+				_("Couldn't find plugin with ID=\"%s\"."), dep->plugin_id));
 		}
 	);
 	g_assert (load_stack != NULL && load_stack->data == plugin);

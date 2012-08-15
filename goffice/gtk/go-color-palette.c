@@ -472,7 +472,7 @@ custom_colors :
 			&color_name, col, row + 1);
 	}
 
-	w = go_gtk_button_build_with_stock (_("Custom Color..."),
+	w = go_gtk_button_build_with_stock (_("Custom color..."),
 		GTK_STOCK_SELECT_COLOR);
 	gtk_button_set_alignment (GTK_BUTTON (w), 0., .5);
 	gtk_table_attach (GTK_TABLE (table), w, 0, cols,
@@ -726,7 +726,7 @@ custom_colors :
 			"activate",
 			G_CALLBACK (cb_menu_color_activate), submenu);
 	}
-	w = gtk_image_menu_item_new_with_label (_("Custom Color..."));
+	w = gtk_image_menu_item_new_with_label (_("Custom color..."));
 	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
 	/* We can't have an image in one of the gtk_menu_item, it would lead to an
 	   ugly item spacing. */

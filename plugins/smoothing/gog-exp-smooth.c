@@ -70,7 +70,7 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 	box = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (box), w);
 	gtk_widget_set_tooltip_text (box, _("Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
-					"If no value or a negative (or nul) value is provided, the "
+					"If no value or a negative (or null) value is provided, the "
 					"default will be used"));
 	gtk_widget_show_all (box);
 	gtk_table_attach (table, box, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);

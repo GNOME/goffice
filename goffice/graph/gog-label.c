@@ -147,7 +147,7 @@ gog_text_class_init (GogTextClass *klass)
 	g_object_class_install_property (gobject_klass, TEXT_PROP_ALLOW_MARKUP,
 		g_param_spec_boolean ("allow-markup",
 			_("Allow markup"),
-			_("Support basic html-ish markup"),
+			_("Support basic HTML-ish markup"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
@@ -304,7 +304,7 @@ gog_label_populate_editor (GogObject *gobj,
 	g_signal_connect (w, "toggled", G_CALLBACK (rotate_bg_cb), gobj);
 	gtk_grid_attach (GTK_GRID (grid), w, 0, 3, 2, 1);
 	w = gtk_check_button_new_with_label (_("Interpret text as markup"));
-	gtk_widget_set_tooltip_text (w, _("Interpret the text as an html like markup as described at http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"));
+	gtk_widget_set_tooltip_text (w, _("Interpret the text as an HTML like markup as described at http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->allow_markup);
 	g_signal_connect (w, "toggled", G_CALLBACK (allow_markup_cb), gobj);
 	gtk_grid_attach (GTK_GRID (grid), w, 0, 4, 2, 1);

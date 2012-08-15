@@ -456,7 +456,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
 		g_param_spec_boolean ("vary-style-by-element",
 			_("Vary style by element"),
-			_("Use a different style for each segments"),
+			_("Use a different style for each segment"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_X,
@@ -504,7 +504,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_BUBBLE,
 		g_param_spec_uint ("bubble-axis",
 			_("Bubble axis"),
-			_("Reference to buccle axis"),
+			_("Reference to bubble axis"),
 			0, G_MAXINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GROUP,

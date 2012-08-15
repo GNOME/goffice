@@ -99,6 +99,18 @@
  * @GO_PATH_OPTIONS_SHARP: use raw coordinates.
  **/
 
+/**
+ * GOPathPoint:
+ * @x: horizontal position.
+ * @y: vertical dimension.
+ **/
+
+/**
+ * GOPathDirection:
+ * @GO_PATH_DIRECTION_FORWARD: go through the pass from start to end.
+ * @GO_PATH_DIRECTION_BACKWARD:  go through the pass from end to start.
+ **/
+
 #define GO_PATH_DEFAULT_BUFFER_SIZE 64
 
 typedef struct _GOPathData	 GOPathData;
@@ -277,6 +289,7 @@ go_path_free (GOPath *path)
  * @path: a #GOPath
  *
  * Increments references count to @path.
+ * Returns: the path with an incremented references count.
  **/
 
 GOPath *

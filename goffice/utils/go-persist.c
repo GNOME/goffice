@@ -22,6 +22,14 @@
 #include <goffice/goffice-config.h>
 #include <goffice/utils/go-persist.h>
 
+
+/**
+ * GOPersistClass:
+ * @base: base interface.
+ * @prep_sax: loads the persistent object from a #GsfXMLIn.
+ * @sax_save: saves the persistent object to a #GsfXMLOut.
+ **/
+
 GType
 go_persist_get_type (void)
 {

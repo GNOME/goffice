@@ -30,6 +30,22 @@
 
 #define PL_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_TYPE_PLUGIN_LOADER, GOPluginLoaderClass))
 
+/**
+ * GOPluginLoaderClass:
+ * @base: base interface.
+ * @load_base: loads the plugin without activating any service.
+ * @unload_base: unloads the plugin if possible.
+ * @set_attributes: sets attiributes for the module.
+ * @service_load: loads a service.
+ * @service_unload: unloads a service if possible.
+ * @load_service_file_opener: loads a file opener service.
+ * @unload_service_file_opener: unloads a file opener service.
+ * @load_service_file_saver: loads a file saver service.
+ * @unload_service_file_saver: unloads a file saver service.
+ * @load_service_plugin_loader: loads a plugin loader service.
+ * @unload_service_plugin_loader: unloads a plugin loader service.
+ **/
+
 gboolean
 go_plugin_loader_is_base_loaded (GOPluginLoader *loader)
 {

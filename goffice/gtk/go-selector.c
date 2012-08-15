@@ -28,6 +28,11 @@
 
 #include <gdk/gdkkeysyms.h>
 
+/**
+ * GOSelectorClass:
+ * @parent_class: parent class.
+ **/
+
 enum {
 	GO_SELECTOR_ACTIVATE,
 	GO_SELECTOR_LAST_SIGNAL

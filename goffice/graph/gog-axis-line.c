@@ -729,7 +729,7 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_CROSS_AXIS_ID,
 		g_param_spec_uint ("cross-axis-id",
-			_("Cross axis id"),
+			_("Cross axis ID"),
 			_("Which axis to cross"),
 			0, G_MAXUINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));

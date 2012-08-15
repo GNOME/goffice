@@ -32,6 +32,43 @@
 #define CC2XML(s) ((const xmlChar *)(s))
 #define CXML2C(s) ((const char *)(s))
 
+/**
+ * GOPatternType:
+ * @GO_PATTERN_SOLID: solid using background color.
+ * @GO_PATTERN_GREY75: 75% background color.
+ * @GO_PATTERN_GREY50: 50% background color.
+ * @GO_PATTERN_GREY25: 25% background color.
+ * @GO_PATTERN_GREY125: 12.5% background color.
+ * @GO_PATTERN_GREY625: 6.25% background color.
+ * @GO_PATTERN_HORIZ: horizontal stripe.
+ * @GO_PATTERN_VERT: vertical stripe.
+ * @GO_PATTERN_REV_DIAG: reverse diagonal stripe.
+ * @GO_PATTERN_DIAG: diagonal stripe.
+ * @GO_PATTERN_DIAG_CROSS: diagonal crosshatch.
+ * @GO_PATTERN_THICK_DIAG_CROSS: thick diagonal crosshatch.
+ * @GO_PATTERN_THIN_HORIZ: thin horizontal stripe.
+ * @GO_PATTERN_THIN_VERT: thin vertical stripe.
+ * @GO_PATTERN_THIN_REV_DIAG: thin reverse diagonal stripe.
+ * @GO_PATTERN_THIN_DIAG: thin diagonal stripe.
+ * @GO_PATTERN_THIN_HORIZ_CROSS: thin horizontal crosshatch.
+ * @GO_PATTERN_THIN_DIAG_CROSS: thin diagonal crosshatch.
+ * @GO_PATTERN_FOREGROUND_SOLID: solid using foreground color.
+ * @GO_PATTERN_SMALL_CIRCLES: small circles.
+ * @GO_PATTERN_SEMI_CIRCLES: semi circles.
+ * @GO_PATTERN_THATCH: thatch.
+ * @GO_PATTERN_LARGE_CIRCLES: large circles.
+ * @GO_PATTERN_BRICKS: bricks.
+ * @GO_PATTERN_MAX: maximum value, should not occur.
+ **/
+
+/**
+ * GOPattern:
+ * @fore: foreground color.
+ * @back: background color.
+ *
+ * GOPattern::pattern is the used #GOPatternType.
+ **/
+
 typedef struct {
 	char const *name;
 	char const *str;

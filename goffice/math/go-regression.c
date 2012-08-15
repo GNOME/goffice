@@ -32,6 +32,59 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/**
+ * GORegressionResult:
+ * @GO_REG_ok: success.
+ * @GO_REG_invalid_dimensions: invalid dimensions.
+ * @GO_REG_invalid_data: invalid data:
+ * @GO_REG_not_enough_data: not enough data.
+ * @GO_REG_near_singular_good: probably good result.
+ * @GO_REG_near_singular_bad: probably bad result.
+ * @GO_REG_singular: singularity found.
+ **/
+
+/**
+ * go_regression_stat_t:
+ * @se: SE for each parameter estimator.
+ * @t: t values for each parameter estimator.
+ * @sqr_r: squared R.
+ * @adj_sqr_r:
+ * @se_y: the Standard Error of Y.
+ * @F:
+ * @df_reg:
+ * @df_resid:
+ * @df_total:
+ * @ss_reg:
+ * @ss_resid:
+ * @ss_total:
+ * @ms_reg:
+ * @ms_resid:
+ * @ybar:
+ * @xbar:
+ * @var: the variance of the entire regression: sum(errors^2)/(n-xdim).
+ **/
+
+/**
+ * go_regression_stat_tl:
+ * @se: SE for each parameter estimator.
+ * @t: t values for each parameter estimator.
+ * @sqr_r: squared R.
+ * @adj_sqr_r:
+ * @se_y: the Standard Error of Y.
+ * @F:
+ * @df_reg:
+ * @df_resid:
+ * @df_total:
+ * @ss_reg:
+ * @ss_resid:
+ * @ss_total:
+ * @ms_reg:
+ * @ms_resid:
+ * @ybar:
+ * @xbar:
+ * @var: the variance of the entire regression: sum(errors^2)/(n-xdim).
+ **/
+
 /* ------------------------------------------------------------------------- */
 /* Self-inclusion magic.  */
 

@@ -12,6 +12,7 @@ Jean:
 	* Save axis Id for all axes, not only X and Y. [#680739]
 	* Fix strings inconsistencies (3d vs. 3D). [#681777]
 	* Fix a crash for infinite values in XYZ contour plots. [#841840]
+	* Fixed typos in translated string. [#681779][681811][681812]
 
 Morten:
 	* Minute accuracy improvement to matrix inversion.
