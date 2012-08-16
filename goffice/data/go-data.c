@@ -29,6 +29,61 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+/**
+ * GODataFlags:
+ * @GO_DATA_CACHE_IS_VALID: data in cache are valid.
+ * @GO_DATA_IS_EDITABLE: data can be edited.
+ * @GO_DATA_SIZE_CACHED: cached sise is valid.
+ **/
+
+/**
+ * GODataClass:
+ * @base: base class.
+ * @dup: duplicates the #GOData.
+ * @eq: tests if the data are equal.
+ * @preferred_fmt: gets the preferred format.
+ * @date_conv: gets the #GODateConventions.
+ * @serialize: serializes.
+ * @unserialize: unserializes.
+ * @emit_changed: signals the data have changed.
+ * @get_n_dimensions: gets the dimensions number.
+ * @get_sizes: gets the sizes.
+ * @get_values: gets the values.
+ * @get_bounds: gets the bounds.
+ * @get_value: gets a value.
+ * @get_string: gets a string.
+ * @get_markup: gets the #PangoAttrList* for the string.
+ * @is_valid: checks if the data are valid.
+ **/
+
+/**
+ * GODataScalarClass:
+ * @base:  base class.
+ * @get_value: gets the value.
+ * @get_str: gets the string.
+ * @get_markup: gets the #PangoAttrList* for the string.
+ **/
+
+/**
+ * GODataVectorClass:
+ * @base: base class.
+ * @load_len: loads the vector length.
+ * @load_values: loads the values in the cache.
+ * @get_value: gets a value.
+ * @get_str: gets a string.
+ * @get_markup: gets the #PangoAttrList* for the string.
+ **/
+
+/**
+ * GODataMatrixClass:
+ * @base: base class.
+ * @load_size: loads the matrix length.
+ * @load_values: loads the values in the cache.
+ * @get_value: gets a value.
+ * @get_str: gets a string.
+ * @get_markup: gets the #PangoAttrList* for the string.
+ **/
+
 #define GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_DATA, GODataClass))
 #define GO_IS_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_DATA))
 #define GO_DATA_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA, GODataClass))

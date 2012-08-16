@@ -25,6 +25,27 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * GOMarkerShape:
+ * @GO_MARKER_NONE: no mark.
+ * @GO_MARKER_SQUARE: square.
+ * @GO_MARKER_DIAMOND: diamond.
+ * @GO_MARKER_TRIANGLE_DOWN: triangle down.
+ * @GO_MARKER_TRIANGLE_UP: triangle up.
+ * @GO_MARKER_TRIANGLE_RIGHT: triangle right.
+ * @GO_MARKER_TRIANGLE_LEFT: triangle left.
+ * @GO_MARKER_CIRCLE: circle.
+ * @GO_MARKER_X: X.
+ * @GO_MARKER_CROSS: cross.
+ * @GO_MARKER_ASTERISK: asterisk.
+ * @GO_MARKER_BAR: horizontal bar.
+ * @GO_MARKER_HALF_BAR: right half bar.
+ * @GO_MARKER_BUTTERFLY: butterfly.
+ * @GO_MARKER_HOURGLASS: hourglass.
+ * @GO_MARKER_LEFT_HALF_BAR: left half bar.
+ * @GO_MARKER_MAX: maximum value, should not occur.
+ **/
+
 #define MARKER_DEFAULT_SIZE 5
 #define MARKER_OUTLINE_WIDTH 0.1
 

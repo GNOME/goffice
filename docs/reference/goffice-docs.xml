@@ -6,7 +6,7 @@
 ]>
 <book lang="en" id="goffice" xmlns:xi="http://www.w3.org/2003/XInclude">
 	<bookinfo>
-		<title>Goffice Reference Manual</title>
+		<title>GOffice Reference Manual</title>
 		<releaseinfo>For goffice &version;</releaseinfo>
 	</bookinfo>
 	<xi:include href="xml/goffice.xml"/>

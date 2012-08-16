@@ -27,6 +27,15 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * GOCmdContextClass:
+ * @base: base interface.
+ * @get_password: retrieves a password.
+ * @set_sensitive: sets sensitivity.
+ * @progress_set: sets the progress value.
+ * @progress_message_set: sets the ptogress message.
+ **/
+
 #define GCC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_TYPE_CMD_CONTEXT, GOCmdContextClass))
 
 static GError *

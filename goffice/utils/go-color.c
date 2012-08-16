@@ -26,6 +26,12 @@
 #include <stdio.h>
 
 /**
+ * GONamedColor:
+ * @color: the color.
+ * @name: english name - eg. "white".
+ **/
+
+/**
  * go_color_from_str :
  * @str :
  * @res :

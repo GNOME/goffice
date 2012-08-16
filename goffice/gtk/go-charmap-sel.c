@@ -31,6 +31,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+/**
+ * GOCharmapSelTestDirection:
+ * @GO_CHARMAP_SEL_TO_UTF8: to UTF-8.
+ * @GO_CHARMAP_SEL_FROM_UTF8: from UTF-8.
+ **/
+
 #define CS(x) GO_CHARMAP_SEL (x)
 
 #define CHARMAP_NAME_KEY "Name of Character Encoding"

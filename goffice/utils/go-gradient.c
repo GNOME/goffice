@@ -31,6 +31,27 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+/**
+ * GOGradientDirection:
+ * @GO_GRADIENT_N_TO_S: top to bottom.
+ * @GO_GRADIENT_S_TO_N: bottom to top.
+ * @GO_GRADIENT_N_TO_S_MIRRORED: top to bottom, mirrored.
+ * @GO_GRADIENT_S_TO_N_MIRRORED: bottom to top, mirrored.
+ * @GO_GRADIENT_W_TO_E: left to right.
+ * @GO_GRADIENT_E_TO_W: right to left.
+ * @GO_GRADIENT_W_TO_E_MIRRORED: left to right, mirrored.
+ * @GO_GRADIENT_E_TO_W_MIRRORED: right to left, mirrored.
+ * @GO_GRADIENT_NW_TO_SE: top left to bottom right.
+ * @GO_GRADIENT_SE_TO_NW: bottom right to top left.
+ * @GO_GRADIENT_NW_TO_SE_MIRRORED: top left to bottom right, mirrored.
+ * @GO_GRADIENT_SE_TO_NW_MIRRORED: bottom right to top left, mirrored.
+ * @GO_GRADIENT_NE_TO_SW: top right to bottom left.
+ * @GO_GRADIENT_SW_TO_NE: bottom left to top right.
+ * @GO_GRADIENT_SW_TO_NE_MIRRORED: top right to bottom left, mirrored.
+ * @GO_GRADIENT_NE_TO_SW_MIRRORED: bottom left to top right, mirrored.
+ * @GO_GRADIENT_MAX: maximum value, should not occur.
+} ;
+ **/
 
 static char const *grad_dir_names[] = {
 	"n-s",

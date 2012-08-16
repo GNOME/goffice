@@ -81,7 +81,6 @@ typedef struct {
 
 	GdkPixbuf *(*get_pixbuf) (GOImage *image);
 	GdkPixbuf *(*get_scaled_pixbuf) (GOImage *image, int width, int height);
-	gboolean (*same_content) (GOImage *img1, GOImage *img2);
 	void (*save) (GOImage *image, GsfXMLOut *output);
 	void (*load_attr) (GOImage *image, xmlChar const *attr_name, xmlChar const *attr_value);
 	void (*load_data) (GOImage *image, GsfXMLIn *xin);

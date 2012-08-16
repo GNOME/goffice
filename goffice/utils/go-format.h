@@ -48,6 +48,7 @@ typedef enum {
 	GO_FORMAT_TEXT		= 9,
 	GO_FORMAT_SPECIAL	= 10,
 
+	/* <private> */
 	GO_FORMAT_MARKUP	= 11	/* Internal use only */
 } GOFormatFamily;
 
@@ -116,7 +117,8 @@ typedef struct {
 	int denominator_max_digits;
 	int denominator;
 
-	int expansion[30];
+	/* <private> */
+	int expansion[30]; /* what is this for? */
 	unsigned ref_count;
 } GOFormatDetails;
 

@@ -26,11 +26,10 @@
 #include <string.h>
 
 /**
- * _GOEditor:
+ * GOEditor:
  * @store_page: pointer to a place for storing last edited page.
  * @pages: list of #GOEditorPage.
  * @registered_widgets: registered wigets.
- * @ref_count: reference counter.
  **/
 
 /**

@@ -26,7 +26,7 @@
 #include <glib/gi18n-lib.h>
 
 /**
- * GOLineDashType
+ * GOLineDashType:
  * @GO_LINE_NONE: No line displayed.
  * @GO_LINE_SOLID: Solid line.
  * @GO_LINE_S_DOT:
@@ -43,7 +43,7 @@
  **/
 
 /**
- * GOLineInterpolation
+ * GOLineInterpolation:
  * @GO_LINE_INTERPOLATION_LINEAR: Linear interpolation.
  * @GO_LINE_INTERPOLATION_SPLINE: Bezier cubic spline interpolation.
  * @GO_LINE_INTERPOLATION_CLOSED_SPLINE: Closed Bezier cubic spline interpolation.
@@ -57,6 +57,28 @@
  * @GO_LINE_INTERPOLATION_STEP_CENTER_X: Steps centered around each point.
  * @GO_LINE_INTERPOLATION_STEP_CENTER_Y: Steps using mean y value.
  * @GO_LINE_INTERPOLATION_MAX: First invalid value.
+ **/
+
+/**
+ * GOLineDashSequence:
+ * @offset: offset from start.
+ * @n_dash: number of values in dash fields
+ * @dash: lengths of the dashes segments. See cairo_set_dash() for details.
+ **/
+
+/**
+ * GOArrowType:
+ * @GO_ARROW_NONE: no arrow head.
+ * @GO_ARROW_KITE: kite head.
+ * @GO_ARROW_OVAL: oval head.
+ **/
+
+/**
+ * GOArrow:
+ * @typ: #GOArrowType.
+ * @a: first arrow head size parameter.
+ * @b: second arrow head size parameter.
+ * @c: third arrow head size parameter.
  **/
 
 static GOLineDashSequence *

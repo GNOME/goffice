@@ -89,6 +89,7 @@ go_conf_closure_free (GOConfClosure *cls)
  * @data: user data
  *
  * @monitor will be called whenever the value associated with @key changes.
+ * Returns: the signal ID.
  **/
 
 #if defined GOFFICE_WITH_WINREG

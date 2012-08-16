@@ -49,6 +49,26 @@
 #endif
 #include <time.h>
 
+/**
+ * GOFilePermissions:
+ * @owner_read: owner can read.
+ * @owner_write: owner can write.
+ * @owner_execute: owner can execute.
+ * @group_read: group can read.
+ * @group_write: group can write.
+ * @group_execute: group can execute.
+ * @others_read: everybody can read.
+ * @others_write: everybody can write.
+ * @others_execute: everybody can execute.
+ **/
+
+/**
+ * GODotDot:
+ * @GO_DOTDOT_SYNTACTIC: assume no symlinks.
+ * @GO_DOTDOT_TEST: check.
+ * @GO_DOTDOT_LEAVE: leave alone.
+ **/
+
 #ifdef G_OS_WIN32
 typedef HRESULT (WINAPI *FindMimeFromData_t) (LPBC pBC,
 					      LPCWSTR pwzUrl,

@@ -42,13 +42,13 @@
 /**
  * GoCouponConvention:
  * @freq: frequency.
- * @basis: #go_basis_t
+ * @basis: #GOBasisType
  * @eom: end of month.
  * @date_conv: #GODateConventions
  **/
 
 /**
- * go_basis_t:
+ * GOBasisType:
  * @GO_BASIS_MSRB_30_360: US 30/360 (days in a month/days in a year)
  * @GO_BASIS_ACT_ACT: actual days/actual days
  * @GO_BASIS_ACT_360: actual days/360
@@ -409,7 +409,7 @@ days_between_GO_BASIS_30Ep_360 (GDate const *from, GDate const *to)
  *
  * @from      : GDate *
  * @to        : GDate *
- * @basis     : go_basis_t
+ * @basis     : GOBasisType
  * see datetime.h and doc/fn-financial-basis.txt for details
  *
  * @in_order  : dates are considered in order
@@ -419,7 +419,7 @@ days_between_GO_BASIS_30Ep_360 (GDate const *from, GDate const *to)
  */
 
 gint32
-go_date_days_between_basis (GDate const *from, GDate const *to, go_basis_t basis)
+go_date_days_between_basis (GDate const *from, GDate const *to, GOBasisType basis)
 {
 	int sign = 1;
 

@@ -43,8 +43,10 @@ struct _GOComboBox {
 };
 
 struct _GOComboBoxClass {
+	/* <private> */
 	GtkBoxClass	base;
 
+	/* <public> */
 	/* virtual */
 	void  (*set_title) (GOComboBox *combo, char const *title);
 

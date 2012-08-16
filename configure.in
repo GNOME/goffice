@@ -668,12 +668,13 @@ AS_CASE([$enable_introspection],
 [yes],[
     PKG_CHECK_EXISTS([gobject-introspection-1.0],,
                      AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
-    PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $GIR_REQ],
+    PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $GIR_REQ libgsf-1 >= 1.14.23],
                      found_introspection=yes,
-                     AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
+                     AC_MSG_ERROR([You need to have gobject-introspection >= $GIR_REQ and libgsf >= 1.14.23 installed to build AC_PACKAGE_NAME]))
 ],
 [auto],[
-    PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $GIR_REQ], found_introspection=yes, found_introspection=no)
+    PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $GIR_REQ libgsf-1 >= 1.14.23],
+                     found_introspection=yes, found_introspection=no)
 dnl Canonicalize enable_introspection
 enable_introspection=$found_introspection
 ],

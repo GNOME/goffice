@@ -34,6 +34,13 @@
 
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * GOComboBoxClass:
+ * @set_title: sets the title.
+ * @pop_down_done: invoked when the popup has been hidden, if the signal
+ * returns %TRUE, it means it should be killed
+ **/
+
 enum {
 	POP_DOWN_DONE,
 	LAST_SIGNAL

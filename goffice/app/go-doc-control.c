@@ -25,6 +25,19 @@
 
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * _GODocControl:
+ * @base: base object.
+ * @doc: #GODoc.
+ **/
+
+/**
+ * GODocControlState:
+ * @GO_DOC_CONTROL_STATE_NORMAL: normal.
+ * @GO_DOC_CONTROL_STATE_FULLSCREEN: full screen.
+ * @GO_DOC_CONTROL_STATE_MAX: maximum value, shoulkd not happen.
+ **/
+
 static void
 go_doc_control_class_init (GObjectClass *klass)
 {

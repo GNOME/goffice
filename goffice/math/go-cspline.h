@@ -39,6 +39,7 @@ typedef enum {
 	GO_CSPLINE_PARABOLIC,
 	GO_CSPLINE_CUBIC,
 	GO_CSPLINE_CLAMPED,
+	/* <private> */
 	GO_CSPLINE_MAX
 } GOCSplineType;
 

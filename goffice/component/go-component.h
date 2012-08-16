@@ -34,6 +34,7 @@ typedef enum {
 	GO_SNAPSHOT_NONE,
 	GO_SNAPSHOT_SVG,
 	GO_SNAPSHOT_PNG,
+	/* <private> */
 	GO_SNAPSHOT_MAX
 } GOSnapshotType;
 

@@ -597,6 +597,7 @@ go_doc_end_read	(GODoc *doc)
  * go_doc_image_fetch:
  * @doc: a #GODoc
  * @id: the name for the new image.
+ * @type: the type of the #GOImage to create if needed.
  *
  * Searches for a #GOImage with name @id in the document image buffer and
  * creates one if needed. The caller does not own a reference on the returned

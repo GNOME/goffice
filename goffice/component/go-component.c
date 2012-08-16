@@ -32,6 +32,13 @@
 #include <librsvg/rsvg-cairo.h>
 #include <string.h>
 
+/**
+ * GOSnapshotType:
+ * @GO_SNAPSHOT_NONE: no snapshot.
+ * @GO_SNAPSHOT_SVG: svg snapshot.
+ * @GO_SNAPSHOT_PNG: png snapshot.
+ **/
+
 static struct {
 	GOSnapshotType type;
 	char const *name;
@@ -66,7 +73,6 @@ go_snapshot_type_from_string (char const *name)
  * @set_default_size: sets the default size for the component.
  * @set_size: sets the requested size.
  * @render: displays the contents.
- * @changed: callback called when the component contents changed.
  * @set_font: sets the default font for the component.
  *
  * The component base object class.

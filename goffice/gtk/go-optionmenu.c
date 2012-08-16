@@ -295,6 +295,7 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 
 /**
  * go_option_menu_set_history:
+ * @option_menu: #GOOptionMenu
  * @selection: (element-type GtkMenuItem): a list of indices giving the menu to select.
  *
  * Selects an item. The last number in the list is the rank of the item to select

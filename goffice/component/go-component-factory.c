@@ -32,6 +32,16 @@
 
 #include <string.h>
 
+/**
+ * GOMimePriority:
+ * @GO_MIME_PRIORITY_INVALID: no support.
+ * @GO_MIME_PRIORITY_DISPLAY: can display the component.
+ * @GO_MIME_PRIORITY_PRINT: can print the component.
+ * @GO_MIME_PRIORITY_PARTIAL: partial support, including edition.
+ * @GO_MIME_PRIORITY_FULL: full support.
+ * @GO_MIME_PRIORITY_NATIVE: use the native code.
+ **/
+
 static GSList *refd_plugins = NULL;
 
 #define CXML2C(s) ((char const *)(s))

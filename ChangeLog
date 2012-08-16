@@ -1,3 +1,9 @@
+2012-08-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: requires libgsf-1 >= 1.14.23 for introspection.
+	* docs/reference/goffice-docs.xml: fixed documentation warnings.
+	* all others: ditto.
+
 2012-08-15  Chris Leonard  <cjlhomeaddress@gmail.com>
 
 	* goffice/gtk/go-format-sel.c: add comments for translators to SI units

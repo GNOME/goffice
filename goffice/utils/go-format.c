@@ -51,6 +51,76 @@
 #include <errno.h>
 #include <stdlib.h>
 
+/**
+ * GOFormatFamily:
+ * @GO_FORMAT_UNKNOWN: unknown ,should not occur.
+ * @GO_FORMAT_GENERAL: general.
+ * @GO_FORMAT_NUMBER: number.
+ * @GO_FORMAT_CURRENCY: currency.
+ * @GO_FORMAT_ACCOUNTING: accounting.
+ * @GO_FORMAT_DATE: date.
+ * @GO_FORMAT_TIME: tipe.
+ * @GO_FORMAT_PERCENTAGE: percentage.
+ * @GO_FORMAT_FRACTION: fraction.
+ * @GO_FORMAT_SCIENTIFIC: scientific.
+ * @GO_FORMAT_TEXT: text.
+ * @GO_FORMAT_SPECIAL: custom.
+ **/
+
+/**
+ * GOFormatMagic:
+ * @GO_FORMAT_MAGIC_NONE: none.
+ * @GO_FORMAT_MAGIC_LONG_DATE: long date (Official).
+ * @GO_FORMAT_MAGIC_MEDIUM_DATE: medium date.
+ * @GO_FORMAT_MAGIC_SHORT_DATE: short date.
+ * @GO_FORMAT_MAGIC_SHORT_DATETIME: short date with time.
+ * @GO_FORMAT_MAGIC_LONG_TIME: long time (Official).
+ * @GO_FORMAT_MAGIC_MEDIUM_TIME: medium time.
+ * @GO_FORMAT_MAGIC_SHORT_TIME : short time.
+ **/
+
+/**
+ * GOFormatNumberError:
+ * @GO_FORMAT_NUMBER_OK: no error.
+ * @GO_FORMAT_NUMBER_INVALID_FORMAT: invalid format.
+ * @GO_FORMAT_NUMBER_DATE_ERROR: date error.
+ **/
+
+/**
+ * GOFormatCurrency:
+ * @symbol: currency symbol.
+ * @description: description.
+ * @precedes: whether the symbol precedes the amount.
+ * @has_space: whether to add a space between amount and symbol.
+ **/
+
+/**
+ * GOFormatDetails:
+ * @family: #GOFormatFamily.
+ * @magic: #GOFormatMagic.
+ * @min_digits: minimum digits number.
+ * @num_decimals: decimals number.
+ * @thousands_sep: thousands separator.
+ * @negative_red: display negative number using red ink.
+ * @negative_paren: uses parenthersis around negative numbers.
+ * @currency: #GOFormatCurrency.
+ * @force_quoted: force quotes use.
+ * @exponent_step: steps between allowed exponents in scientific notation.
+ * @exponent_digits: digits number in exponent.
+ * @use_markup: whether to use a markup.
+ * @simplify_mantissa: simplify the mantissa.
+ * @append_SI: append an SI unit.
+ * @appended_SI_unit: the SI unit to append.
+ * @scale: scale.
+ * @automatic_denominator: use an automatic denominator for fractions.
+ * @split_fraction: split the fraction.
+ * @pi_scale: use multiples of pi for fractions, e.g. 1/2*pi.
+ * @numerator_min_digits: minimum digits number for the numerator.
+ * @denominator_min_digits: minimum digits number for the denominator.
+ * @denominator_max_digits: minimum digits number for the denominator.
+ * @denominator: fixed denominator.
+ **/
+
 #define OBSERVE_XL_CONDITION_LIMITS
 #define OBSERVE_XL_EXPONENT_1
 #define ALLOW_NEGATIVE_TIMES
@@ -4580,6 +4650,8 @@ go_format_measure_strlen (const GString *str,
  * @col_width: intended max width of layout in pango units.  -1 means
  *             no restriction.
  * @unicode_minus: Use unicode minuses, not hyphens.
+ * @numeral_shape: numeral shape identifier.
+ * @custom_shape_flags: flags for using @numeral_shape.
  *
  * Render a floating-point value into @layout in such a way that the
  * layouting width does not needlessly exceed @col_width.  Optionally
@@ -4595,6 +4667,8 @@ go_format_measure_strlen (const GString *str,
  * @col_width: intended max width of layout in pango units.  -1 means
  *             no restriction.
  * @unicode_minus: Use unicode minuses, not hyphens.
+ * @numeral_shape: numeral shape identifier.
+ * @custom_shape_flags: flags for using @numeral_shape.
  *
  * Render a floating-point value into @layout in such a way that the
  * layouting width does not needlessly exceed @col_width.  Optionally

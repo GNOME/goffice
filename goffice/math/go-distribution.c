@@ -58,6 +58,15 @@ enum {
 	DIST_PROP_SCALE
 };
 
+/**
+ * GODistributionType:
+ * @GO_DISTRIBUTION_NORMAL: Normal.
+ * @GO_DISTRIBUTION_UNIFORM: Uniform.
+ * @GO_DISTRIBUTION_CAUCHY: Cauchy.,
+ * @GO_DISTRIBUTION_WEIBULL: Weibull.
+ * @GO_DISTRIBUTION_LOGNORMAL: Lognormal.
+ **/
+
 static struct
 {
 	GODistributionType type;

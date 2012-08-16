@@ -26,6 +26,14 @@
 #include "go-rangefunc.h"
 #include "go-cspline.h"
 
+/**
+ * GOCSplineType:
+ * @GO_CSPLINE_NATURAL: natural.
+ * @GO_CSPLINE_PARABOLIC: parabolic.
+ * @GO_CSPLINE_CUBIC: cubic.
+ * @GO_CSPLINE_CLAMPED: clamped.
+ **/
+
 #ifndef DOUBLE
 
 #define DOUBLE double

@@ -69,13 +69,14 @@ typedef enum { /* see doc/fn-financial-basis.txt for details */
 	GO_BASIS_30E_360         = 4,
 	GO_BASIS_30Ep_360        = 5,
 	GO_BASIS_MSRB_30_360_SYM = 6         /* Gnumeric extension.  */
-} go_basis_t;
+} GOBasisType;
+#define go_basis_t GOBasisType /* for compatibility */
 
-gint32  go_date_days_between_basis (GDate const *from, GDate const *to, go_basis_t basis);
+gint32  go_date_days_between_basis (GDate const *from, GDate const *to, GOBasisType basis);
 
 typedef struct {
 	int	 freq;
-	go_basis_t  basis;
+	GOBasisType  basis;
 	gboolean eom;
 	GODateConventions const *date_conv;
 } GoCouponConvention;

@@ -26,6 +26,17 @@
 
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * GOGraphWidgetSizeMode:
+ * @GO_GRAPH_WIDGET_SIZE_MODE_FIT: fits the allocated size, conserving the aspect
+ * ratio.
+ * @GO_GRAPH_WIDGET_SIZE_MODE_FIT_WIDTH: fits the width, conserving the aspect
+ * ratio.
+ * @GO_GRAPH_WIDGET_SIZE_MODE_FIT_HEIGHT: fits the width, conserving the aspect
+ * ratio.
+ * @GO_GRAPH_WIDGET_SIZE_MODE_FIXED_SIZE: use original size.
+ **/
+
 static void go_graph_widget_request_update (GOGraphWidget *w);
 
 /**

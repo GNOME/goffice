@@ -27,6 +27,42 @@
 #include <glib/gi18n-lib.h>
 #include <librsvg/rsvg.h>
 
+/**
+ * GOImageFormat:
+ * @GO_IMAGE_FORMAT_SVG: SVG.
+ * @GO_IMAGE_FORMAT_PNG: PNG.
+ * @GO_IMAGE_FORMAT_JPG: JPEG.
+ * @GO_IMAGE_FORMAT_PDF: PDF.
+ * @GO_IMAGE_FORMAT_PS: PostScript.
+ * @GO_IMAGE_FORMAT_EMF: Enhanced Metafile.
+ * @GO_IMAGE_FORMAT_WMF: Windows Metafile.
+ * @GO_IMAGE_FORMAT_EPS: Encapsulated Postscript.
+ * @GO_IMAGE_FORMAT_UNKNOWN: unknown.
+ **/
+
+/**
+ * GOImageFormatInfo:
+ * @format: #GOImageFormat.
+ * @name: image type name.
+ * @desc: image type description.
+ * @ext: file extension.
+ * @has_pixbuf_saver: can be saved as pixbuf.
+ * @is_dpi_useful: depends upon device resolution.
+ * @alpha_support: supports transparency.
+ **/
+
+/**
+ * GOImageClass
+ * @parent_klass: parent class.
+ * @get_pixbuf: gets a pixbuf with the same size as the image.
+ * @get_scaled_pixbuf: gets a scaled pixbuf respecting the original aspect ratio.
+ * @save: saves the image.
+ * @load_attr: loads the images properties.
+ * @load_data: loads the image data.
+ * @draw: draws the image.
+ * @differ: returns %TRUE if the two images are different.
+ **/
+
 static GOImageFormatInfo *pixbuf_image_format_infos = NULL;
 static GHashTable *pixbuf_mimes = NULL;
 static unsigned pixbuf_format_nbr = 0;
