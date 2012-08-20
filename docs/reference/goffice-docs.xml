@@ -161,6 +161,7 @@
 		<chapter>
 			<title>File utilities</title>
 			<xi:include href="xml/go-file.xml"/>
+			<xi:include href="xml/file.xml"/>
 			<xi:include href="xml/go-file-opener.xml"/>
 			<xi:include href="xml/go-file-saver.xml"/>
 			<xi:include href="xml/go-url.xml"/>

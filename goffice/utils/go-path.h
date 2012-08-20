@@ -37,7 +37,11 @@ G_BEGIN_DECLS
 
 typedef enum {
 	GO_PATH_DIRECTION_FORWARD,
-	GO_PATH_DIRECTION_BACKWARD
+	GO_PATH_DIRECTION_BACKWARD,
+	GO_PATH_DIRECTION_FORWARD_SKIP_NO_FILL,
+	GO_PATH_DIRECTION_BACKWARD_SKIP_NO_FILL,
+	GO_PATH_DIRECTION_FORWARD_SKIP_NO_STROKE,
+	GO_PATH_DIRECTION_BACKWARD_SKIP_NO_STROKE
 } GOPathDirection;
 
 typedef enum {
@@ -64,6 +68,8 @@ GType   go_path_get_type (void);
 #define GO_IS_PATH(x) ((x) != NULL)
 
 GOPath *go_path_new 	      	(void);
+GOPath *go_path_new_from_svg    (char const *src);
+GOPath *go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables);
 void 	go_path_clear	      	(GOPath *path);
 GOPath *go_path_ref          	(GOPath *path);
 void    go_path_free          	(GOPath *path);
@@ -110,6 +116,8 @@ void    go_path_to_cairo	(GOPath const *path,
 
 GOPath *go_path_copy		(GOPath const *path);
 GOPath *go_path_append		(GOPath *path1, GOPath const *path2);
+GOPath *go_path_scale       (GOPath *path, double scale_x, double scale_y);
+char   *go_path_to_svg      (GOPath *path);
 
 G_END_DECLS
 

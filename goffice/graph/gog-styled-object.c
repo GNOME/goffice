@@ -188,6 +188,14 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
 
+	/**
+	 * GogStyledObject::style-changed:
+	 * @object: the object on which the signal is emitted
+	 * @style: The new #GOStyle
+	 *
+	 * The ::style-changed signal is emitted after the style has been changed
+	 * by a call to go_styled_object_set_style().
+	 **/
 	gog_styled_object_signals [STYLE_CHANGED] = g_signal_new ("style-changed",
 		G_TYPE_FROM_CLASS (gog_klass),
 		G_SIGNAL_RUN_LAST,

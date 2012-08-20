@@ -1,3 +1,13 @@
+2012-08-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-docs.xml: fixed a few more doc issues.
+	* goffice/graph/gog-styled-object.c (gog_styled_object_class_init): ditto.
+	* goffice/utils/go-cairo.c (go_cairo_emit_svg_path): use
+	go_path_new_from_svg().
+	* goffice/utils/go-path.c (go_path_scale),
+	(go_path_new_from_svg), (go_path_new_from_odf_enhanced_path): new functions.
+	* goffice/utils/go-path.h: ditto.
+
 2012-08-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: requires libgsf-1 >= 1.14.23 for introspection.

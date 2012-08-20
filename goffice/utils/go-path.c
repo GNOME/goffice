@@ -109,6 +109,14 @@
  * GOPathDirection:
  * @GO_PATH_DIRECTION_FORWARD: go through the pass from start to end.
  * @GO_PATH_DIRECTION_BACKWARD:  go through the pass from end to start.
+ * @GO_PATH_DIRECTION_FORWARD_SKIP_NO_FILL: go through the pass from start to end,
+ * skipping segments markes as no-fill.
+ * @GO_PATH_DIRECTION_BACKWARD_SKIP_NO_FILL:  go through the pass from end to start,
+ * skipping segments markes as no-fill.
+ * @GO_PATH_DIRECTION_FORWARD_SKIP_NO_STROKE: go through the pass from start to end,
+ * skipping segments markes as no-stroke.
+ * @GO_PATH_DIRECTION_BACKWARD_SKIP_NO_STROKE:  go through the pass from end to start,
+ * skipping segments markes as no-stroke.
  **/
 
 #define GO_PATH_DEFAULT_BUFFER_SIZE 64
@@ -120,7 +128,8 @@ typedef enum _GOPathAction {
 	GO_PATH_ACTION_MOVE_TO 		= 0,
 	GO_PATH_ACTION_LINE_TO 		= 1,
 	GO_PATH_ACTION_CURVE_TO 	= 2,
-	GO_PATH_ACTION_CLOSE_PATH 	= 3
+	GO_PATH_ACTION_CLOSE_PATH 	= 3,
+	GO_PATH_ACTION_CHANGE_STATE
 } GOPathAction;
 
 static int action_n_args[4] = { 1, 1, 3, 0};
@@ -754,4 +763,499 @@ GOPath *go_path_append (GOPath *path1, GOPath const *path2)
 			   (GOPathCurveToFunc) go_path_append_curve_to,
 			   (GOPathClosePathFunc) go_path_append_close, path1);
 	return path1;
+}
+
+/******************************************************************************/
+struct PathScaleClosure {
+	GOPath *path;
+	double scale_x, scale_y;
+};
+
+static void
+go_path_scale_move_to (struct PathScaleClosure *closure,
+                        GOPathPoint const *point)
+{
+	go_path_move_to (closure->path,
+	                 point->x * closure->scale_x,
+	                 point->y * closure->scale_y);
+}
+
+static void
+go_path_scale_line_to (struct PathScaleClosure *closure,
+                        GOPathPoint const *point)
+{
+	go_path_line_to (closure->path,
+	                 point->x * closure->scale_x,
+	                 point->y * closure->scale_y);
+}
+
+static void
+go_path_scale_curve_to (struct PathScaleClosure *closure,
+                         GOPathPoint const *point0,
+                         GOPathPoint const *point1,
+                         GOPathPoint const *point2)
+{
+	go_path_curve_to (closure->path,
+	                  point0->x * closure->scale_x,
+	                  point0->y * closure->scale_y,
+	                  point1->x * closure->scale_x,
+	                  point1->y * closure->scale_y,
+	                  point2->x * closure->scale_x,
+	                  point2->y * closure->scale_y);
+}
+
+static void
+go_path_scale_close (struct PathScaleClosure *closure)
+{
+	go_path_close (closure->path);
+}
+
+/**
+ * go_path_scale:
+ * @path: #GOPath
+ * @scale_x: horizontal scale.
+ * @scale_y: vertical scale.
+ *
+ * Builds a scaled.
+ * Returns: (transfer full): the scaled path.
+ **/
+GOPath *
+go_path_scale (GOPath *path, double scale_x, double scale_y)
+{
+	struct PathScaleClosure closure;
+	closure.path = go_path_new ();
+	closure.scale_x = scale_x;
+	closure.scale_y = scale_y;
+	go_path_interpret (path, GO_PATH_DIRECTION_FORWARD,
+	                   (GOPathMoveToFunc) go_path_scale_move_to,
+	                   (GOPathLineToFunc) go_path_scale_line_to,
+	                   (GOPathCurveToFunc) go_path_scale_curve_to,
+	                   (GOPathClosePathFunc) go_path_scale_close, &closure);
+	return closure.path;
+}
+
+/******************************************************************************/
+
+char *
+go_path_to_svg (GOPath *path)
+{
+	return NULL; /* FIXME */
+}
+
+/*******************************************************************************
+  * Paths from string
+ ******************************************************************************/
+
+static void
+skip_spaces (char **src)
+{
+	while (**src == ' ')
+		(*src)++;
+}
+
+static void
+skip_comma_and_spaces (char **src)
+{
+	while (**src == ' ' || **src == ',')
+		(*src)++;
+}
+
+static gboolean
+parse_value (char **src, double *x)
+{
+	char *end, *c;
+	gboolean integer_part = FALSE;
+	gboolean fractional_part = FALSE;
+	gboolean exponent_part = FALSE;
+	double mantissa = 0.0;
+	double exponent =0.0;
+	double divisor;
+	gboolean mantissa_sign = 1.0;
+	gboolean exponent_sign = 1.0;
+
+	c = *src;
+
+	if (*c == '-') {
+		mantissa_sign = -1.0;
+		c++;
+	} else if (*c == '+')
+		c++;
+
+	if (*c >= '0' && *c <= '9') {
+		integer_part = TRUE;
+		mantissa = *c - '0';
+		c++;
+
+		while (*c >= '0' && *c <= '9') {
+			mantissa = mantissa * 10.0 + *c - '0';
+			c++;
+		}
+	}
+
+
+	if (*c == '.')
+		c++;
+	else if (!integer_part)
+		return FALSE;
+
+	if (*c >= '0' && *c <= '9') {
+		fractional_part = TRUE;
+		mantissa += (*c - '0') * 0.1;
+		divisor = 0.01;
+		c++;
+
+		while (*c >= '0' && *c <= '9') {
+			mantissa += (*c - '0') * divisor;
+			divisor *= 0.1;
+			c++;
+		}
+	}
+
+	if (!fractional_part && !integer_part)
+		return FALSE;
+
+	end = c;
+
+	if (*c == 'E' || *c == 'e') {
+		c++;
+
+		if (*c == '-') {
+			exponent_sign = -1.0;
+			c++;
+		} else if (*c == '+')
+			c++;
+
+		if (*c >= '0' && *c <= '9') {
+			exponent_part = TRUE;
+			exponent = *c - '0';
+			c++;
+
+			while (*c >= '0' && *c <= '9') {
+				exponent = exponent * 10.0 + *c - '0';
+				c++;
+			}
+		}
+
+	}
+
+	if (exponent_part) {
+		end = c;
+		*x = mantissa_sign * mantissa * pow (10.0, exponent_sign * exponent);
+	} else
+		*x = mantissa_sign * mantissa;
+
+	*src = end;
+
+	return TRUE;
+}
+
+static gboolean
+parse_values (char **src, unsigned int n_values, double *values)
+{
+	char *ptr = *src;
+	unsigned int i;
+
+	skip_comma_and_spaces (src);
+
+	for (i = 0; i < n_values; i++) {
+		if (!parse_value (src, &values[i])) {
+			*src = ptr;
+			return FALSE;
+		}
+		skip_comma_and_spaces (src);
+	}
+
+	return TRUE;
+}
+
+static void
+emit_function_2 (char **src, GOPath *path,
+                 void (*path_func) (GOPath *, double, double),
+                 gboolean relative, double *lastx, double *lasty)
+{
+	double values[2];
+
+	skip_spaces (src);
+
+	while (parse_values (src, 2, values)) {
+		if (relative) {
+			*lastx += values[0];
+			*lasty += values[1];
+		} else {
+			*lastx = values[0];
+			*lasty = values[1];
+		}
+		path_func (path, *lastx, *lasty);
+	}
+}
+
+static void
+emit_function_6 (char **src, GOPath *path,
+                 void (*path_func) (GOPath *, double, double, double ,double, double, double),
+                 gboolean relative, double *lastx, double *lasty)
+{
+	double values[6];
+
+	skip_spaces (src);
+
+	while (parse_values (src, 6, values)) {
+		if (relative) {
+			values[0] += *lastx;
+			values[1] += *lasty;
+			values[2] += *lastx;
+			values[3] += *lasty;
+			*lastx += values[4];
+			*lasty += values[5];
+		} else {
+			*lastx = values[4];
+			*lasty = values[5];
+		}
+		path_func (path, values[0], values[1], values[2], values[3], *lastx, *lasty);
+	}
+}
+
+static void
+emit_function_8 (char **src, GOPath *path,
+                 void (*path_func) (GOPath *, double, double, double ,double, double, double, double ,double),
+                 gboolean relative, double *lastx, double *lasty)
+{
+	double values[8];
+
+	skip_spaces (src);
+
+	while (parse_values (src, 8, values)) {
+		if (relative) {
+			values[0] += *lastx;
+			values[1] += *lasty;
+			values[2] += *lastx;
+			values[3] += *lasty;
+			values[4] += *lastx;
+			values[5] += *lasty;
+			*lastx += values[6];
+			*lasty += values[7];
+		} else {
+			*lastx = values[6];
+			*lasty = values[7];
+		}
+		path_func (path, values[0], values[1], values[2], values[3], values[4], values[5], *lastx, *lasty);
+	}
+}
+
+static void
+emit_quadratic (char **src, GOPath *path,
+                 gboolean relative, double *lastx, double *lasty)
+{
+	double values[4];
+
+	skip_spaces (src);
+
+	while (parse_values (src, 4, values)) {
+		if (relative) {
+			values[0] += *lastx;
+			values[1] += *lasty;
+			values[2] += *lastx;
+			values[3] += *lasty;
+		}
+		go_path_curve_to (path,
+		                  (*lastx + 2 * values[0]) / 3.,
+		                  (*lasty + 2 * values[1]) / 3.,
+		                  (2 * values[0] + values[2]) / 3.,
+		                  (2 * values[1] + values[3]) / 3.,
+		                  values[2], values[3]);
+		*lastx += values[2];
+		*lasty += values[3];
+	}
+}
+
+/**
+ * go_path_new_from_svg:
+ * @src: an SVG path.
+ *
+ * Returns: (transfer full): the newly allocated #GOPath.
+ **/
+GOPath *
+go_path_new_from_svg (char const *src)
+{
+	GOPath *path;
+	char *ptr;
+	double lastx = 0., lasty = 0.;
+
+	if (src == NULL)
+		return NULL;
+
+	path = go_path_new ();
+	ptr = (char *) src;
+
+	skip_spaces (&ptr);
+
+	while (*ptr != '\0') {
+		switch (*ptr) {
+		case 'A':
+			ptr++;
+			break;
+		case 'a':
+			ptr++;
+			break;
+		case 'M':
+			ptr++;
+			emit_function_2 (&ptr, path, go_path_move_to, FALSE, &lastx, &lasty);
+			break;
+		case 'm':
+			ptr++;
+			emit_function_2 (&ptr, path, go_path_move_to, TRUE, &lastx, &lasty);
+			break;
+		case 'H':
+			ptr++;
+			break;
+		case 'h':
+			ptr++;
+			break;
+		case 'L':
+			ptr++;
+			emit_function_2 (&ptr, path, go_path_line_to, FALSE, &lastx, &lasty);
+			break;
+		case 'l':
+			ptr++;
+			emit_function_2 (&ptr, path, go_path_line_to, TRUE, &lastx, &lasty);
+			break;
+		case 'C':
+			ptr++;
+			emit_function_6 (&ptr, path, go_path_curve_to, FALSE, &lastx, &lasty);
+			break;
+		case 'c':
+			ptr++;
+			emit_function_6 (&ptr, path, go_path_curve_to, TRUE, &lastx, &lasty);
+			break;
+		case 'Q':
+			ptr++;
+			emit_quadratic (&ptr, path, FALSE, &lastx, &lasty);
+			break;
+		case 'q':
+			ptr++;
+			emit_quadratic (&ptr, path, TRUE, &lastx, &lasty);
+			break;
+		case 'S':
+			ptr++;
+			break;
+		case 's':
+			ptr++;
+			break;
+		case 'T':
+			ptr++;
+			break;
+		case 't':
+			ptr++;
+			break;
+		case 'V':
+			ptr++;
+			break;
+		case 'v':
+			ptr++;
+			break;
+		case 'Z':
+		case 'z':
+			ptr++;
+			go_path_close (path);
+			break;
+		default:
+			ptr++;
+			break;
+		}
+	}
+	return path;
+}
+
+static void
+go_path_line_arc_to (GOPath *path, double x0, double x1, double x2, double x3,
+                     double x4, double x5, double x6, double x7)
+{
+}
+
+static void
+go_path_move_arc_to (GOPath *path, double x0, double x1, double x2, double x3,
+                     double x4, double x5, double x6, double x7)
+{
+}
+
+/**
+ * go_path_new_from_odf_enhanced_path:
+ * @src: an ODF enhanced path.
+ *
+ * Returns: (transfer full): the newly alocated #GOPath.
+ **/
+GOPath *
+go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables)
+{
+	GOPath *path;
+	char *ptr;
+	double lastx = 0., lasty = 0.;
+
+	if (src == NULL)
+		return NULL;
+
+	path = go_path_new ();
+	ptr = (char *) src;
+
+	skip_spaces (&ptr);
+
+	while (*ptr != '\0') {
+		switch (*ptr) {
+		case 'A':
+			ptr++;
+			emit_function_8 (&ptr, path, go_path_line_arc_to, FALSE, &lastx, &lasty);
+			break;
+		case 'B':
+			ptr++;
+			emit_function_8 (&ptr, path, go_path_move_arc_to, FALSE, &lastx, &lasty);
+			break;
+		case 'C':
+			ptr++;
+			emit_function_6 (&ptr, path, go_path_curve_to, FALSE, &lastx, &lasty);
+			break;
+		case 'F':
+			ptr++;
+			break;
+		case 'L':
+			ptr++;
+			emit_function_2 (&ptr, path, go_path_line_to, FALSE, &lastx, &lasty);
+			break;
+		case 'M':
+			ptr++;
+			emit_function_2 (&ptr, path, go_path_move_to, FALSE, &lastx, &lasty);
+			break;
+		case 'Q':
+			ptr++;
+			emit_quadratic (&ptr, path, FALSE, &lastx, &lasty);
+			break;
+		case 'S':
+			ptr++;
+			break;
+		case 'T':
+			ptr++;
+			break;
+		case 'U':
+			ptr++;
+			break;
+		case 'V':
+			ptr++;
+			break;
+		case 'W':
+			ptr++;
+			break;
+		case 'X':
+			ptr++;
+			break;
+		case 'Y':
+			ptr++;
+			break;
+		case 'Z':
+			ptr++;
+			go_path_close (path);
+			break;
+		default:
+			ptr++;
+			break;
+		}
+}
+	return path;
 }
