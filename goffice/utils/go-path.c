@@ -543,6 +543,15 @@ go_path_arc (GOPath *path,
 	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1, FALSE);
 }
 
+static void
+go_path_arc_degrees (GOPath *path,
+	     double cx, double cy,
+	     double rx, double ry,
+	     double th0, double th1)
+{
+	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0 * M_PI / 180., th1 * M_PI / 180., FALSE);
+}
+
 void
 go_path_arc_to (GOPath *path,
 		double cx, double cy,
@@ -550,6 +559,15 @@ go_path_arc_to (GOPath *path,
 		double th0, double th1)
 {
 	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1, TRUE);
+}
+
+static void
+go_path_arc_to_degrees (GOPath *path,
+		double cx, double cy,
+		double rx, double ry,
+		double th0, double th1)
+{
+	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0 * M_PI / 180., th1 * M_PI / 180., TRUE);
 }
 
 void
@@ -836,10 +854,76 @@ go_path_scale (GOPath *path, double scale_x, double scale_y)
 
 /******************************************************************************/
 
+struct PathSvgClosure {
+	GString *str;
+	char last_op;
+};
+
+static void
+go_path_svg_move_to (struct PathSvgClosure *closure,
+                        GOPathPoint const *point)
+{
+	if (closure->last_op != 'M') {
+		g_string_append (closure->str, " M");
+		closure->last_op = 'M';
+	}
+	g_string_append_printf (closure->str, " %g %g", point->x, point->y);
+}
+
+static void
+go_path_svg_line_to (struct PathSvgClosure *closure,
+                        GOPathPoint const *point)
+{
+	if (closure->last_op != 'L') {
+		g_string_append (closure->str, " L");
+		closure->last_op = 'L';
+	}
+	g_string_append_printf (closure->str, " %g %g", point->x, point->y);
+}
+
+static void
+go_path_svg_curve_to (struct PathSvgClosure *closure,
+                         GOPathPoint const *point0,
+                         GOPathPoint const *point1,
+                         GOPathPoint const *point2)
+{
+	if (closure->last_op != 'C') {
+		g_string_append (closure->str, " C");
+		closure->last_op = 'C';
+	}
+	g_string_append_printf (closure->str, " %g %g %g %g %g %g",
+	                        point0->x, point0->y,
+	                        point1->x, point1->y,
+	                        point2->x, point2->y);
+}
+
+static void
+go_path_svg_close (struct PathSvgClosure *closure)
+{
+	g_string_append (closure->str, " Z");
+	closure->last_op = 'Z';
+}
+
+/**
+ * go_path_to_svg:
+ * @path: a #GOPath
+ *
+ * Builds an svg path from @path.
+ * Returns: (transfer full): the svg:d string.
+ **/
 char *
 go_path_to_svg (GOPath *path)
 {
-	return NULL; /* FIXME */
+	struct PathSvgClosure closure;
+	closure.str = g_string_new ("");
+	closure.last_op = 0;
+	go_path_interpret (path, GO_PATH_DIRECTION_FORWARD,
+	                   (GOPathMoveToFunc) go_path_svg_move_to,
+	                   (GOPathLineToFunc) go_path_svg_line_to,
+	                   (GOPathCurveToFunc) go_path_svg_curve_to,
+	                   (GOPathClosePathFunc) go_path_svg_close, &closure);
+	
+	return g_string_free (closure.str, FALSE);
 }
 
 /*******************************************************************************
@@ -1158,9 +1242,10 @@ go_path_new_from_svg (char const *src)
 			go_path_close (path);
 			break;
 		default:
-			ptr++;
-			break;
+			go_path_free (path);
+			return NULL;
 		}
+		skip_spaces (&ptr);
 	}
 	return path;
 }
@@ -1181,7 +1266,7 @@ go_path_move_arc_to (GOPath *path, double x0, double x1, double x2, double x3,
  * go_path_new_from_odf_enhanced_path:
  * @src: an ODF enhanced path.
  *
- * Returns: (transfer full): the newly alocated #GOPath.
+ * Returns: (transfer full): the newly allocated #GOPath or %NULL on error.
  **/
 GOPath *
 go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables)
@@ -1223,6 +1308,9 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 			ptr++;
 			emit_function_2 (&ptr, path, go_path_move_to, FALSE, &lastx, &lasty);
 			break;
+		case 'N': /* new sub path */
+			ptr++;
+			break;
 		case 'Q':
 			ptr++;
 			emit_quadratic (&ptr, path, FALSE, &lastx, &lasty);
@@ -1232,9 +1320,11 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 			break;
 		case 'T':
 			ptr++;
+			emit_function_6 (&ptr, path, go_path_arc_to_degrees, FALSE, &lastx, &lasty);
 			break;
 		case 'U':
 			ptr++;
+			emit_function_6 (&ptr, path, go_path_arc_degrees, FALSE, &lastx, &lasty);
 			break;
 		case 'V':
 			ptr++;
@@ -1253,9 +1343,10 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 			go_path_close (path);
 			break;
 		default:
-			ptr++;
-			break;
+			go_path_free (path);
+			return NULL;
 		}
-}
+		skip_spaces (&ptr);
+	}
 	return path;
 }

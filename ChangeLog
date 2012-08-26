@@ -1,3 +1,11 @@
+2012-08-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-path.c (go_path_arc_degrees),
+	(go_path_arc_to_degrees), (go_path_svg_move_to),
+	(go_path_svg_line_to), (go_path_svg_curve_to), (go_path_svg_close),
+	(go_path_to_svg), (go_path_new_from_svg),
+	(go_path_new_from_odf_enhanced_path): enhanced odf paths support.
+
 2012-08-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-docs.xml: fixed a few more doc issues.
