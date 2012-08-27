@@ -1,3 +1,11 @@
+2012-08-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-path.c (skip_spaces), (skip_comma_and_spaces),
+	(parse_value), (parse_values), (emit_function_2),
+	(emit_function_6), (emit_function_8), (emit_quadratic),
+	(go_path_new_from_svg), (go_path_new_from_odf_enhanced_path): accept
+	variables in ODF enhanced paths.
+
 2012-08-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-path.c (go_path_arc_degrees),

@@ -930,24 +930,32 @@ go_path_to_svg (GOPath *path)
   * Paths from string
  ******************************************************************************/
 
+typedef struct {
+	char const *src;
+	GOPath *path;
+	GHashTable const *variables;
+	double lastx, lasty;
+	gboolean relative;
+} PathParseState;
+
 static void
-skip_spaces (char **src)
+skip_spaces (PathParseState *state)
 {
-	while (**src == ' ')
-		(*src)++;
+	while (*state->src == ' ')
+		(state->src)++;
 }
 
 static void
-skip_comma_and_spaces (char **src)
+skip_comma_and_spaces (PathParseState *state)
 {
-	while (**src == ' ' || **src == ',')
-		(*src)++;
+	while (*state->src == ' ' || *state->src == ',')
+		(state->src)++;
 }
 
 static gboolean
-parse_value (char **src, double *x)
+parse_value (PathParseState *state, double *x)
 {
-	char *end, *c;
+	char const *end, *c;
 	gboolean integer_part = FALSE;
 	gboolean fractional_part = FALSE;
 	gboolean exponent_part = FALSE;
@@ -957,7 +965,26 @@ parse_value (char **src, double *x)
 	gboolean mantissa_sign = 1.0;
 	gboolean exponent_sign = 1.0;
 
-	c = *src;
+	c = state->src;
+
+	if (*c == '?' || *c == '$') {
+		char *var;
+		double *val;
+		/* allowed codes are [?,$][a..z]?[0..9]* */
+		state->src++;
+		if (*state->src >= 'a' && *state->src <= 'z')
+			state->src++;
+		while (*state->src >= '0' && *state->src <= '9')
+			state->src++;
+		var = g_strndup (c, state->src - c);
+		if (state->variables == NULL || ((val = g_hash_table_lookup ((GHashTable *) state->variables, var)) == NULL)) {
+			g_free (var);
+			return FALSE;
+		}
+		*x = *val;
+		g_free (var);
+		return TRUE;
+	}
 
 	if (*c == '-') {
 		mantissa_sign = -1.0;
@@ -1028,126 +1055,122 @@ parse_value (char **src, double *x)
 	} else
 		*x = mantissa_sign * mantissa;
 
-	*src = end;
+	state->src = end;
 
 	return TRUE;
 }
 
 static gboolean
-parse_values (char **src, unsigned int n_values, double *values)
+parse_values (PathParseState *state, unsigned int n_values, double *values)
 {
-	char *ptr = *src;
+	char const *ptr = state->src;
 	unsigned int i;
 
-	skip_comma_and_spaces (src);
+	skip_comma_and_spaces (state);
 
 	for (i = 0; i < n_values; i++) {
-		if (!parse_value (src, &values[i])) {
-			*src = ptr;
+		if (!parse_value (state, &values[i])) {
+			state->src = ptr;
 			return FALSE;
 		}
-		skip_comma_and_spaces (src);
+		skip_comma_and_spaces (state);
 	}
 
 	return TRUE;
 }
 
 static void
-emit_function_2 (char **src, GOPath *path,
-                 void (*path_func) (GOPath *, double, double),
-                 gboolean relative, double *lastx, double *lasty)
+emit_function_2 (PathParseState *state,
+                 void (*path_func) (GOPath *, double, double))
 {
 	double values[2];
 
-	skip_spaces (src);
+	skip_spaces (state);
 
-	while (parse_values (src, 2, values)) {
-		if (relative) {
-			*lastx += values[0];
-			*lasty += values[1];
+	while (parse_values (state, 2, values)) {
+		if (state->relative) {
+			state->lastx += values[0];
+			state->lasty += values[1];
 		} else {
-			*lastx = values[0];
-			*lasty = values[1];
+			state->lastx = values[0];
+			state->lasty = values[1];
 		}
-		path_func (path, *lastx, *lasty);
+		path_func (state->path, state->lastx, state->lasty);
 	}
 }
 
 static void
-emit_function_6 (char **src, GOPath *path,
-                 void (*path_func) (GOPath *, double, double, double ,double, double, double),
-                 gboolean relative, double *lastx, double *lasty)
+emit_function_6 (PathParseState *state,
+                 void (*path_func) (GOPath *, double, double, double ,double, double, double))
 {
 	double values[6];
 
-	skip_spaces (src);
+	skip_spaces (state);
 
-	while (parse_values (src, 6, values)) {
-		if (relative) {
-			values[0] += *lastx;
-			values[1] += *lasty;
-			values[2] += *lastx;
-			values[3] += *lasty;
-			*lastx += values[4];
-			*lasty += values[5];
+	while (parse_values (state, 6, values)) {
+		if (state->relative) {
+			values[0] += state->lastx;
+			values[1] += state->lasty;
+			values[2] += state->lastx;
+			values[3] += state->lasty;
+			state->lastx += values[4];
+			state->lasty += values[5];
 		} else {
-			*lastx = values[4];
-			*lasty = values[5];
+			state->lastx = values[4];
+			state->lasty = values[5];
 		}
-		path_func (path, values[0], values[1], values[2], values[3], *lastx, *lasty);
+		path_func (state->path, values[0], values[1], values[2], values[3], state->lastx, state->lasty);
 	}
 }
 
 static void
-emit_function_8 (char **src, GOPath *path,
-                 void (*path_func) (GOPath *, double, double, double ,double, double, double, double ,double),
-                 gboolean relative, double *lastx, double *lasty)
+emit_function_8 (PathParseState *state,
+                 void (*path_func) (GOPath *, double, double, double ,double, double, double, double ,double))
 {
 	double values[8];
 
-	skip_spaces (src);
+	skip_spaces (state);
 
-	while (parse_values (src, 8, values)) {
-		if (relative) {
-			values[0] += *lastx;
-			values[1] += *lasty;
-			values[2] += *lastx;
-			values[3] += *lasty;
-			values[4] += *lastx;
-			values[5] += *lasty;
-			*lastx += values[6];
-			*lasty += values[7];
+	while (parse_values (state, 8, values)) {
+		if (state->relative) {
+			values[0] += state->lastx;
+			values[1] += state->lasty;
+			values[2] += state->lastx;
+			values[3] += state->lasty;
+			values[4] += state->lastx;
+			values[5] += state->lasty;
+			state->lastx += values[6];
+			state->lasty += values[7];
 		} else {
-			*lastx = values[6];
-			*lasty = values[7];
+			state->lastx = values[6];
+			state->lasty = values[7];
 		}
-		path_func (path, values[0], values[1], values[2], values[3], values[4], values[5], *lastx, *lasty);
+		path_func (state->path, values[0], values[1], values[2], values[3], values[4], values[5], state->lastx, state->lasty);
 	}
 }
 
 static void
-emit_quadratic (char **src, GOPath *path,
-                 gboolean relative, double *lastx, double *lasty)
+emit_quadratic (PathParseState *state)
 {
 	double values[4];
 
-	skip_spaces (src);
+	skip_spaces (state);
 
-	while (parse_values (src, 4, values)) {
-		if (relative) {
-			values[0] += *lastx;
-			values[1] += *lasty;
-			values[2] += *lastx;
-			values[3] += *lasty;
+	while (parse_values (state, 4, values)) {
+		if (state->relative) {
+			values[0] += state->lastx;
+			values[1] += state->lasty;
+			values[2] += state->lastx;
+			values[3] += state->lasty;
 		}
-		go_path_curve_to (path,
-		                  (*lastx + 2 * values[0]) / 3.,
-		                  (*lasty + 2 * values[1]) / 3.,
+		go_path_curve_to (state->path,
+		                  (state->lastx + 2 * values[0]) / 3.,
+		                  (state->lasty + 2 * values[1]) / 3.,
 		                  (2 * values[0] + values[2]) / 3.,
 		                  (2 * values[1] + values[3]) / 3.,
 		                  values[2], values[3]);
-		*lastx += values[2];
-		*lasty += values[3];
+		state->lastx += values[2];
+		state->lasty += values[3];
 	}
 }
 
@@ -1160,94 +1183,112 @@ emit_quadratic (char **src, GOPath *path,
 GOPath *
 go_path_new_from_svg (char const *src)
 {
-	GOPath *path;
-	char *ptr;
-	double lastx = 0., lasty = 0.;
+	PathParseState state;
 
 	if (src == NULL)
 		return NULL;
 
-	path = go_path_new ();
-	ptr = (char *) src;
+	state.path = go_path_new ();
+	state.src = (char *) src;
+	state.lastx = state.lasty = 0.;
+	state.variables = NULL;
 
-	skip_spaces (&ptr);
+	skip_spaces (&state);
 
-	while (*ptr != '\0') {
-		switch (*ptr) {
+	while (*state.src != '\0') {
+		switch (*state.src) {
 		case 'A':
-			ptr++;
+			state.src++;
+			state.relative = FALSE;
 			break;
 		case 'a':
-			ptr++;
+			state.src++;
+			state.relative = TRUE;
 			break;
 		case 'M':
-			ptr++;
-			emit_function_2 (&ptr, path, go_path_move_to, FALSE, &lastx, &lasty);
+			state.src++;
+			state.relative = FALSE;
+			emit_function_2 (&state, go_path_move_to);
 			break;
 		case 'm':
-			ptr++;
-			emit_function_2 (&ptr, path, go_path_move_to, TRUE, &lastx, &lasty);
+			state.src++;
+			state.relative = TRUE;
+			emit_function_2 (&state, go_path_move_to);
 			break;
 		case 'H':
-			ptr++;
+			state.src++;
+			state.relative = FALSE;
 			break;
 		case 'h':
-			ptr++;
+			state.src++;
+			state.relative = TRUE;
 			break;
 		case 'L':
-			ptr++;
-			emit_function_2 (&ptr, path, go_path_line_to, FALSE, &lastx, &lasty);
+			state.src++;
+			state.relative = FALSE;
+			emit_function_2 (&state, go_path_line_to);
 			break;
 		case 'l':
-			ptr++;
-			emit_function_2 (&ptr, path, go_path_line_to, TRUE, &lastx, &lasty);
+			state.src++;
+			state.relative = TRUE;
+			emit_function_2 (&state, go_path_line_to);
 			break;
 		case 'C':
-			ptr++;
-			emit_function_6 (&ptr, path, go_path_curve_to, FALSE, &lastx, &lasty);
+			state.src++;
+			state.relative = FALSE;
+			emit_function_6 (&state, go_path_curve_to);
 			break;
 		case 'c':
-			ptr++;
-			emit_function_6 (&ptr, path, go_path_curve_to, TRUE, &lastx, &lasty);
+			state.src++;
+			state.relative = TRUE;
+			emit_function_6 (&state, go_path_curve_to);
 			break;
 		case 'Q':
-			ptr++;
-			emit_quadratic (&ptr, path, FALSE, &lastx, &lasty);
+			state.src++;
+			state.relative = FALSE;
+			emit_quadratic (&state);
 			break;
 		case 'q':
-			ptr++;
-			emit_quadratic (&ptr, path, TRUE, &lastx, &lasty);
+			state.src++;
+			state.relative = TRUE;
+			emit_quadratic (&state);
 			break;
 		case 'S':
-			ptr++;
+			state.src++;
+			state.relative = FALSE;
 			break;
 		case 's':
-			ptr++;
+			state.src++;
+			state.relative = TRUE;
 			break;
 		case 'T':
-			ptr++;
+			state.src++;
+			state.relative = FALSE;
 			break;
 		case 't':
-			ptr++;
+			state.src++;
+			state.relative = TRUE;
 			break;
 		case 'V':
-			ptr++;
+			state.src++;
+			state.relative = FALSE;
 			break;
 		case 'v':
-			ptr++;
+			state.src++;
+			state.relative = TRUE;
 			break;
 		case 'Z':
 		case 'z':
-			ptr++;
-			go_path_close (path);
+			state.src++;
+			go_path_close (state.path);
 			break;
 		default:
-			go_path_free (path);
+			go_path_free (state.path);
 			return NULL;
 		}
-		skip_spaces (&ptr);
+		skip_spaces (&state);
 	}
-	return path;
+	return state.path;
 }
 
 static void
@@ -1271,82 +1312,83 @@ go_path_move_arc_to (GOPath *path, double x0, double x1, double x2, double x3,
 GOPath *
 go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables)
 {
-	GOPath *path;
-	char *ptr;
-	double lastx = 0., lasty = 0.;
+	PathParseState state;
 
 	if (src == NULL)
 		return NULL;
 
-	path = go_path_new ();
-	ptr = (char *) src;
+	state.path = go_path_new ();
+	state.src = (char *) src;
+	state.lastx = state.lasty = 0.;
+	state.variables = variables;
+	state.relative = FALSE;
 
-	skip_spaces (&ptr);
+	skip_spaces (&state);
 
-	while (*ptr != '\0') {
-		switch (*ptr) {
+	while (*state.src != '\0') {
+		switch (*state.src) {
 		case 'A':
-			ptr++;
-			emit_function_8 (&ptr, path, go_path_line_arc_to, FALSE, &lastx, &lasty);
+			state.src++;
+			emit_function_8 (&state, go_path_line_arc_to);
 			break;
 		case 'B':
-			ptr++;
-			emit_function_8 (&ptr, path, go_path_move_arc_to, FALSE, &lastx, &lasty);
+			state.src++;
+			emit_function_8 (&state, go_path_move_arc_to);
 			break;
 		case 'C':
-			ptr++;
-			emit_function_6 (&ptr, path, go_path_curve_to, FALSE, &lastx, &lasty);
+			state.src++;
+			emit_function_6 (&state, go_path_curve_to);
 			break;
 		case 'F':
-			ptr++;
+			state.src++;
 			break;
 		case 'L':
-			ptr++;
-			emit_function_2 (&ptr, path, go_path_line_to, FALSE, &lastx, &lasty);
+			state.src++;
+			emit_function_2 (&state, go_path_line_to);
 			break;
 		case 'M':
-			ptr++;
-			emit_function_2 (&ptr, path, go_path_move_to, FALSE, &lastx, &lasty);
+			state.src++;
+			emit_function_2 (&state, go_path_move_to);
 			break;
 		case 'N': /* new sub path */
-			ptr++;
+			state.src++;
 			break;
 		case 'Q':
-			ptr++;
-			emit_quadratic (&ptr, path, FALSE, &lastx, &lasty);
+			state.src++;
+			emit_quadratic (&state);
 			break;
 		case 'S':
-			ptr++;
+			state.src++;
 			break;
 		case 'T':
-			ptr++;
-			emit_function_6 (&ptr, path, go_path_arc_to_degrees, FALSE, &lastx, &lasty);
+			state.src++;
+			emit_function_6 (&state, go_path_arc_to_degrees);
 			break;
 		case 'U':
-			ptr++;
-			emit_function_6 (&ptr, path, go_path_arc_degrees, FALSE, &lastx, &lasty);
+			state.src++;
+			emit_function_6 (&state, go_path_arc_degrees);
 			break;
 		case 'V':
-			ptr++;
+			state.src++;
 			break;
 		case 'W':
-			ptr++;
+			state.src++;
 			break;
 		case 'X':
-			ptr++;
+			state.src++;
 			break;
 		case 'Y':
-			ptr++;
+			state.src++;
 			break;
 		case 'Z':
-			ptr++;
-			go_path_close (path);
+			state.src++;
+			go_path_close (state.path);
 			break;
 		default:
-			go_path_free (path);
+			go_path_free (state.path);
 			return NULL;
 		}
-		skip_spaces (&ptr);
+		skip_spaces (&state);
 	}
-	return path;
+	return state.path;
 }
