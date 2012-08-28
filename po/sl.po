@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-08-28 11:49+0000\n"
-"PO-Revision-Date: 2012-08-28 22:36+0100\n"
+"PO-Revision-Date: 2012-08-28 23:02+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -2153,7 +2153,6 @@ msgid "Vary style by element"
 msgstr "Spremeni slog po predmetih"
 
 #: ../goffice/graph/gog-plot.c:459
-#, fuzzy
 msgid "Use a different style for each segment"
 msgstr "Uporabi različni slog za vsak razdelek"
 
@@ -2218,7 +2217,6 @@ msgid "Bubble axis"
 msgstr "Mehurčna os"
 
 #: ../goffice/graph/gog-plot.c:507
-#, fuzzy
 msgid "Reference to bubble axis"
 msgstr "Sklic krožne osi"
 
@@ -3608,7 +3606,6 @@ msgid "Show _separate integer part"
 msgstr "Pokaži celoštevilski del _ločeno"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
-#, fuzzy
 msgid "Split fractions with absolute value larger than 1 into an integer part and a fractional part (e.g. 4 5/6)"
 msgstr "Razdeli ulomke z absolutno vrednostjo več kot 1 v celoštevilski del in ulomkovni del (npr. 4 5/6)"
 
@@ -5875,9 +5872,8 @@ msgid "In 3D"
 msgstr "V 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:354
-#, fuzzy
 msgid "Placeholder to allow us to round trip pseudo 3D state"
-msgstr "Držalo, ki omogoča postavitev navideznega 3-razsežnega stanja"
+msgstr "Držalo, ki omogoča postavitev navideznega 3D stanja"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:362
 #: ../plugins/plot_barcol/gog-dropbar.c:141
@@ -6690,7 +6686,6 @@ msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr "Privzeta velikost rezine je razširjena kot odstotek radija."
 
 #: ../plugins/plot_pie/gog-pie.c:320
-#, fuzzy
 msgid "Draw 3DS wedges"
 msgstr "Izriši 3D klinaste deleže"
 
@@ -7332,7 +7327,6 @@ msgid "Whether to use horizontal bars"
 msgstr "Ali naj bo uporabljen palični diagram"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:313
-#| msgid "Bars width as a percetage of the plot width"
 msgid "Bars width as a percentage of the plot width"
 msgstr "Širina palic, kot odstotek celotnega diagrama"
 
@@ -7723,3 +7717,4 @@ msgstr "Vrste glajenih krivulj"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Glajena krivulja premikajočega povprečja"
+
