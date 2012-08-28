@@ -4,16 +4,17 @@
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009.
 # Martin Srebotnjak <miles@filmsi.net>, 2011.
 # Matej Urbančič <mateju@svn.gnome.org>, 2010 - 2012.
+# Chris Leonard <cjl@laptop.org>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-01 06:53+0000\n"
-"PO-Revision-Date: 2012-08-01 10:13+0100\n"
+"POT-Creation-Date: 2012-08-28 11:49+0000\n"
+"PO-Revision-Date: 2012-08-28 22:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: \n"
+"Language: Slovenian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,104 +23,104 @@ msgstr ""
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../goffice/app/file.c:473
+#: ../goffice/app/file.c:527
 msgid "ID"
 msgstr "ID"
 
-#: ../goffice/app/file.c:474
+#: ../goffice/app/file.c:528
 msgid "The identifier of the saver."
-msgstr "Določilnik shranjevalnika"
+msgstr "Določilnik shranjevalnika."
 
-#: ../goffice/app/file.c:484
+#: ../goffice/app/file.c:538
 msgid "MIME type"
 msgstr "Vrsta MIME"
 
-#: ../goffice/app/file.c:485
+#: ../goffice/app/file.c:539
 msgid "The MIME type of the saver."
 msgstr "Vrsta MIME shranjevalnika."
 
-#: ../goffice/app/file.c:494
+#: ../goffice/app/file.c:548
 msgid "Extension"
 msgstr "Pripona"
 
-#: ../goffice/app/file.c:495
+#: ../goffice/app/file.c:549
 msgid "The standard file name extension of the saver."
 msgstr "Standardna pripona imena datoteke na strežniku."
 
-#: ../goffice/app/file.c:504
+#: ../goffice/app/file.c:558
 msgid "Description"
 msgstr "Opis"
 
-#: ../goffice/app/file.c:505
+#: ../goffice/app/file.c:559
 msgid "The description of the saver."
 msgstr "Opis shranjevalnika."
 
-#: ../goffice/app/file.c:514
+#: ../goffice/app/file.c:568
 msgid "Overwrite"
 msgstr "Prepiši"
 
-#: ../goffice/app/file.c:515
+#: ../goffice/app/file.c:569
 msgid "Whether the saver will overwrite files."
 msgstr "Ali naj shranjevalnik prepiše datoteke."
 
-#: ../goffice/app/file.c:525
+#: ../goffice/app/file.c:579
 msgid "Format Level"
 msgstr "Raven zapisa"
 
-#: ../goffice/app/file.c:536
+#: ../goffice/app/file.c:590
 msgid "Scope"
 msgstr "Obseg"
 
-#: ../goffice/app/file.c:537
+#: ../goffice/app/file.c:591
 msgid "How much of a document is saved"
 msgstr "Kolikšen delež dokumenta je shranjen"
 
-#: ../goffice/app/file.c:701
+#: ../goffice/app/file.c:754
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Shranjevanje preko stare datoteke te vrste je onemogočeno zaradi varnosti."
 
-#: ../goffice/app/file.c:711
+#: ../goffice/app/file.c:764
 msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr "To varnostno zmožnost lahko onemogočite z urejanjem ustrezne datoteke plugin.xml."
 
-#: ../goffice/app/go-cmd-context.c:87
+#: ../goffice/app/go-cmd-context.c:103
 #, c-format
 msgid "Invalid %s: '%s'"
 msgstr "Neveljavno %s: '%s'"
 
-#: ../goffice/app/go-doc.c:145
+#: ../goffice/app/go-doc.c:157
 msgid "URI"
 msgstr "Naslov URI"
 
-#: ../goffice/app/go-doc.c:146
+#: ../goffice/app/go-doc.c:158
 msgid "The URI associated with this document."
 msgstr "Naslov URI povezan s tem dokumentom."
 
-#: ../goffice/app/go-doc.c:150
+#: ../goffice/app/go-doc.c:162
 msgid "Dirty"
 msgstr "Spremenjeno"
 
-#: ../goffice/app/go-doc.c:151
+#: ../goffice/app/go-doc.c:163
 msgid "Whether the document has been changed."
 msgstr "Ali je dokument spremenjen."
 
-#: ../goffice/app/go-doc.c:155
+#: ../goffice/app/go-doc.c:167
 msgid "Dirty Time"
 msgstr "Čas prve spremembe"
 
-#: ../goffice/app/go-doc.c:156
+#: ../goffice/app/go-doc.c:168
 msgid "When the document was first changed."
 msgstr "Datum prve spremembe dokumenta."
 
-#: ../goffice/app/go-doc.c:161
+#: ../goffice/app/go-doc.c:173
 msgid "Pristine"
 msgstr "Pristno"
 
-#: ../goffice/app/go-doc.c:162
+#: ../goffice/app/go-doc.c:174
 msgid "Whether the document is unchanged since it was created."
 msgstr "Ali je dokument od ustvarjanja dalje ostal nespremenjen."
 
-#: ../goffice/app/go-doc.c:417
+#: ../goffice/app/go-doc.c:437
 #: ../goffice/canvas/goc-image.c:292
 #: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "Image"
@@ -132,7 +133,7 @@ msgstr "Predmeti"
 #: ../goffice/app/go-object.c:109
 #, c-format
 msgid "Loading plugin '%s' that contains the object '%s'"
-msgstr "Nalaganje vstavka '%s', ki vsebuje predmet '%s'."
+msgstr "Nalaganje vstavka '%s', ki vsebuje predmet '%s'"
 
 #: ../goffice/app/go-plugin-loader-module.c:71
 msgid "Module file name not given."
@@ -180,7 +181,7 @@ msgstr "Modul \"%s\" ima neveljavno magično število."
 #: ../goffice/app/go-plugin-loader-module.c:185
 #, c-format
 msgid "Unable to close module file \"%s\"."
-msgstr "Datoteke modula \"%s\" ni mogoče zapreti"
+msgstr "Datoteke modula \"%s\" ni mogoče zapreti."
 
 #: ../goffice/app/go-plugin-loader-module.c:335
 #: ../goffice/app/go-plugin-loader-module.c:397
@@ -197,240 +198,240 @@ msgstr "Datoteka ne vsebuje funkcije \"%s\"."
 #: ../goffice/app/go-plugin-loader-module.c:464
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
-msgstr "Modul ne vsebuje funkcije \"%s\". "
+msgstr "Modul ne vsebuje funkcije \"%s\"."
 
-#: ../goffice/app/go-plugin-loader.c:60
+#: ../goffice/app/go-plugin-loader.c:83
 msgid "Loader has no set_attributes method.\n"
 msgstr "Nalagalnik nima nastavljene metode set_attributes.\n"
 
-#: ../goffice/app/go-plugin-loader.c:75
+#: ../goffice/app/go-plugin-loader.c:98
 msgid "Loader has no load_base method.\n"
 msgstr "Nalagalnik nima metode load_base.\n"
 
-#: ../goffice/app/go-plugin-loader.c:120
-#: ../goffice/app/go-plugin-loader.c:158
+#: ../goffice/app/go-plugin-loader.c:143
+#: ../goffice/app/go-plugin-loader.c:181
 #, c-format
 msgid "Service '%s' not supported by loader."
 msgstr "Storitev '%s' ni podprta z nalagalnikom."
 
-#: ../goffice/app/go-plugin-service.c:155
-#: ../goffice/app/go-plugin-service.c:994
+#: ../goffice/app/go-plugin-service.c:192
+#: ../goffice/app/go-plugin-service.c:1031
 msgid "Error while loading plugin service."
 msgstr "Napaka med nalaganjem storitve vstavkov."
 
-#: ../goffice/app/go-plugin-service.c:163
+#: ../goffice/app/go-plugin-service.c:200
 msgid "Initializing function inside plugin returned error."
 msgstr "Začenjanje funkcije znotraj vstavka je vrnilo napako."
 
-#: ../goffice/app/go-plugin-service.c:181
+#: ../goffice/app/go-plugin-service.c:218
 msgid "Cleanup function inside plugin returned error."
 msgstr "Funkcija čiščenja znotraj vstavka je vrnila napako."
 
-#: ../goffice/app/go-plugin-service.c:191
+#: ../goffice/app/go-plugin-service.c:228
 #: ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:799
-#: ../goffice/utils/go-format.c:5069
+#: ../goffice/utils/go-format.c:876
+#: ../goffice/utils/go-format.c:5207
 msgid "General"
 msgstr "Splošno"
 
-#: ../goffice/app/go-plugin-service.c:271
+#: ../goffice/app/go-plugin-service.c:308
 msgid "Resource"
 msgstr "Vir"
 
-#: ../goffice/app/go-plugin-service.c:319
+#: ../goffice/app/go-plugin-service.c:356
 msgid "Invalid resource service"
-msgstr "Neveljavna storitev vira."
+msgstr "Neveljavna storitev vira"
 
-#: ../goffice/app/go-plugin-service.c:488
+#: ../goffice/app/go-plugin-service.c:525
 msgid "File opener has no description"
 msgstr "Odpiralnik datoteke je brez opisa"
 
-#: ../goffice/app/go-plugin-service.c:522
+#: ../goffice/app/go-plugin-service.c:559
 #, c-format
 msgid "File opener - %s"
 msgstr "Odpiralnik datotek - %s"
 
-#: ../goffice/app/go-plugin-service.c:643
+#: ../goffice/app/go-plugin-service.c:680
 msgid "Error while reading file."
 msgstr "Napaka med branjem datoteke."
 
-#: ../goffice/app/go-plugin-service.c:801
+#: ../goffice/app/go-plugin-service.c:838
 msgid "File saver has no description"
 msgstr "Shranjevalnik datoteke je brez opisa"
 
-#: ../goffice/app/go-plugin-service.c:844
+#: ../goffice/app/go-plugin-service.c:881
 #, c-format
 msgid "File saver - %s"
 msgstr "Shranjevalnik datotek - %s"
 
-#: ../goffice/app/go-plugin-service.c:904
+#: ../goffice/app/go-plugin-service.c:941
 msgid "Error while loading plugin for saving."
 msgstr "Napaka med nalaganjem vstavka za shranjevanje."
 
-#: ../goffice/app/go-plugin-service.c:906
+#: ../goffice/app/go-plugin-service.c:943
 msgid "Failed to load plugin for saving"
 msgstr "Nalaganje vstavka za shranjevanje je spodletelo"
 
-#: ../goffice/app/go-plugin-service.c:1031
+#: ../goffice/app/go-plugin-service.c:1068
 msgid "Plugin loader"
 msgstr "Nalagalnik vstavkov"
 
-#: ../goffice/app/go-plugin-service.c:1056
+#: ../goffice/app/go-plugin-service.c:1093
 msgid "GObject loader"
 msgstr "Nalagalnik GObject"
 
-#: ../goffice/app/go-plugin-service.c:1163
+#: ../goffice/app/go-plugin-service.c:1200
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Za element \"storitve\" ni določila \"vrste\"."
 
-#: ../goffice/app/go-plugin-service.c:1169
+#: ../goffice/app/go-plugin-service.c:1206
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Neznana vrsta storitve: %s."
 
-#: ../goffice/app/go-plugin-service.c:1185
+#: ../goffice/app/go-plugin-service.c:1222
 msgid "Error reading service information."
 msgstr "Napaka med branjem podrobnosti storitve."
 
-#: ../goffice/app/go-plugin-service.c:1247
+#: ../goffice/app/go-plugin-service.c:1296
 msgid "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but loading failed."
 msgstr "Storitev je treba pred zagonom naložiti (PLUGIN_ALWAYS_LOAD je nastavljen), vendar je nalaganje spodletelo."
 
-#: ../goffice/app/go-plugin.c:360
+#: ../goffice/app/go-plugin.c:371
 #, c-format
-msgid "File contains plugin info with invalid id (%s), expected %s."
-msgstr "Datoteka vsebuje podrobnosti vstavka z neveljavnim id (%s), pričakovan je %s."
+msgid "File contains plugin info with invalid ID (%s), expected %s."
+msgstr "Datoteka vsebuje podrobnosti vstavka z neveljavnim ID (%s), pričakovan je %s."
 
-#: ../goffice/app/go-plugin.c:364
+#: ../goffice/app/go-plugin.c:375
 msgid "Couldn't read plugin info from file."
 msgstr "Podrobnosti vstavka iz datoteke ni mogoče brati."
 
-#: ../goffice/app/go-plugin.c:509
+#: ../goffice/app/go-plugin.c:521
 msgid "Unknown name"
 msgstr "Neznano ime"
 
-#: ../goffice/app/go-plugin.c:604
+#: ../goffice/app/go-plugin.c:616
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "Nepodprta vrsta nalagalnika \"%s\"."
 
-#: ../goffice/app/go-plugin.c:612
+#: ../goffice/app/go-plugin.c:624
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr "Napaka med pripravljanjem nalagalnika \"%s\"."
 
-#: ../goffice/app/go-plugin.c:690
+#: ../goffice/app/go-plugin.c:702
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Napaka med branjem podrobnosti storitve #%d."
 
-#: ../goffice/app/go-plugin.c:771
+#: ../goffice/app/go-plugin.c:783
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "Ni mogoče prebrati datoteke vstavka (\"%s\")."
 
-#: ../goffice/app/go-plugin.c:775
+#: ../goffice/app/go-plugin.c:787
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "Datoteka \"%s\" ni veljavna datoteka podrobnosti vstavka."
 
-#: ../goffice/app/go-plugin.c:858
-#, c-format
-msgid "Errors while reading services for plugin with id=\"%s\"."
-msgstr "Napaka med branjem storitve vstavka z id=\"%s\"."
-
 #: ../goffice/app/go-plugin.c:870
 #, c-format
-msgid "Plugin id contains invalid characters (%s)."
+msgid "Errors while reading services for plugin with ID=\"%s\"."
+msgstr "Napaka med branjem storitve vstavka z ID=\"%s\"."
+
+#: ../goffice/app/go-plugin.c:882
+#, c-format
+msgid "Plugin ID contains invalid characters (%s)."
 msgstr "ID vstavka vsebuje neveljavne znake (%s)."
 
-#: ../goffice/app/go-plugin.c:874
+#: ../goffice/app/go-plugin.c:886
 msgid "Unknown plugin name."
 msgstr "Neznano ime vstavka."
 
-#: ../goffice/app/go-plugin.c:878
+#: ../goffice/app/go-plugin.c:890
 #, c-format
-msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
-msgstr "Nalagalnik ni določen ali pa je id nalagalnika neveljaven za vstavek z id=\"%s\"."
+msgid "No loader defined or loader ID invalid for plugin with ID=\"%s\"."
+msgstr "Nalagalnik ni določen ali pa je ID nalagalnika neveljaven za vstavek z id=\"%s\"."
 
-#: ../goffice/app/go-plugin.c:884
+#: ../goffice/app/go-plugin.c:896
 msgid "Plugin has no id."
 msgstr "Vstavek nima vrednosti id."
 
-#: ../goffice/app/go-plugin.c:925
+#: ../goffice/app/go-plugin.c:937
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Napaka med začenjanjem nalagalnika vstavkov (\"%s\")."
 
-#: ../goffice/app/go-plugin.c:956
-#: ../goffice/app/go-plugin.c:1118
+#: ../goffice/app/go-plugin.c:968
+#: ../goffice/app/go-plugin.c:1130
 msgid "Detected cyclic plugin dependencies."
-msgstr "Zaznane krožne odvisnosti vstavka"
+msgstr "Zaznane so krožne odvisnosti vstavka"
 
-#: ../goffice/app/go-plugin.c:980
+#: ../goffice/app/go-plugin.c:992
 #, c-format
-msgid "Couldn't activate plugin with id=\"%s\"."
-msgstr "Vstavka z id=\"%s\" ni mogoče zagnati."
+msgid "Couldn't activate plugin with ID=\"%s\"."
+msgstr "Vstavka z ID=\"%s\" ni mogoče zagnati."
 
-#: ../goffice/app/go-plugin.c:986
-#: ../goffice/app/go-plugin.c:1164
+#: ../goffice/app/go-plugin.c:998
+#: ../goffice/app/go-plugin.c:1176
 #, c-format
-msgid "Couldn't find plugin with id=\"%s\"."
-msgstr "Vstavka z id=\"%s\" ni mogoče najti."
+msgid "Couldn't find plugin with ID=\"%s\"."
+msgstr "Vstavka z ID=\"%s\" ni mogoče najti."
 
-#: ../goffice/app/go-plugin.c:993
+#: ../goffice/app/go-plugin.c:1005
 msgid "Error while activating plugin dependencies."
 msgstr "Napaka med zaganjanjem odvisnosti vstavkov."
 
-#: ../goffice/app/go-plugin.c:1007
+#: ../goffice/app/go-plugin.c:1019
 #, c-format
 msgid "Error while activating plugin service #%d."
-msgstr "Napaka med zaganjanjem storitve vstavkov #%d"
+msgstr "Napaka med zaganjanjem storitve vstavkov #%d."
 
-#: ../goffice/app/go-plugin.c:1063
+#: ../goffice/app/go-plugin.c:1075
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Napaka med onemogočanjem storitve vstavka #%d."
 
-#: ../goffice/app/go-plugin.c:1130
-#: ../goffice/app/go-plugin.c:1151
+#: ../goffice/app/go-plugin.c:1142
+#: ../goffice/app/go-plugin.c:1163
 msgid "Cannot load plugin loader."
 msgstr "Nalagalnika vstavkov ni mogoče naložiti."
 
-#: ../goffice/app/go-plugin.c:1158
+#: ../goffice/app/go-plugin.c:1170
 #, c-format
-msgid "Couldn't load plugin with id=\"%s\"."
-msgstr "Vstavka z id=\"%s\" ni mogoče naložiti."
+msgid "Couldn't load plugin with ID=\"%s\"."
+msgstr "Vstavka z ID=\"%s\" ni mogoče naložiti."
 
-#: ../goffice/app/go-plugin.c:1171
+#: ../goffice/app/go-plugin.c:1183
 msgid "Error while loading plugin dependencies."
 msgstr "Napaka med nalaganjem odvisnosti vstavka."
 
-#: ../goffice/app/go-plugin.c:1361
+#: ../goffice/app/go-plugin.c:1375
 #, c-format
 msgid "Errors occurred while reading plugin information from file \"%s\"."
 msgstr "Med branjem podrobnosti o vstavkih iz datoteke \"%s\" je prišlo do napak."
 
-#: ../goffice/app/go-plugin.c:1480
+#: ../goffice/app/go-plugin.c:1494
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr "Vstavka \"%s\" ni mogoče zagnati (ID: %s)"
+msgstr "Vstavka \"%s\" ni mogoče zagnati (ID: %s)."
 
-#: ../goffice/app/go-plugin.c:1515
+#: ../goffice/app/go-plugin.c:1529
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr "Vstavka \"%s\" ni mogoče zaustaviti (ID: %s)"
+msgstr "Vstavka \"%s\" ni mogoče zaustaviti (ID: %s)."
 
-#: ../goffice/app/go-plugin.c:1640
-#: ../goffice/app/go-plugin.c:1808
+#: ../goffice/app/go-plugin.c:1656
+#: ../goffice/app/go-plugin.c:1824
 msgid "Errors while reading info about available plugins."
 msgstr "Napake med branjem podrobnosti o dostopnih vstavkih."
 
-#: ../goffice/app/go-plugin.c:1664
+#: ../goffice/app/go-plugin.c:1680
 msgid "Errors while deactivating plugins that are no longer on disk."
 msgstr "Prišlo je do napake med izklapljanjem vstavkov, ki jih ni več na disku."
 
-#: ../goffice/app/go-plugin.c:1685
+#: ../goffice/app/go-plugin.c:1701
 #, c-format
 msgid ""
 "The following plugins are no longer on disk but are still active:\n"
@@ -441,15 +442,15 @@ msgstr ""
 "%s.\n"
 "Program je treba ponovno zagnati."
 
-#: ../goffice/app/go-plugin.c:1784
+#: ../goffice/app/go-plugin.c:1800
 msgid "Errors while reading info about new plugins."
 msgstr "Napake med branjem podrobnosti novih vstavkov."
 
-#: ../goffice/app/go-plugin.c:1832
+#: ../goffice/app/go-plugin.c:1848
 msgid "Errors while activating plugins."
 msgstr "Napake med zaganjanjem vstavkov."
 
-#: ../goffice/app/go-plugin.c:1839
+#: ../goffice/app/go-plugin.c:1855
 msgid "Errors while initializing plugin system."
 msgstr "Napake med zaganjanjem sistema vstavkov."
 
@@ -525,15 +526,15 @@ msgstr "Vrtenje okoli središča"
 
 #: ../goffice/canvas/goc-arc.c:478
 #: ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:2798
-#: ../goffice/graph/gog-grid.c:116
+#: ../goffice/graph/gog-axis.c:2858
+#: ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Vrsta"
 
 #: ../goffice/canvas/goc-arc.c:479
 msgid "The type of arc: arc, chord or pie"
-msgstr "Vrsta loka: lok, tetiva ali izsek."
+msgstr "Vrsta loka: lok, tetiva ali izsek"
 
 #: ../goffice/canvas/goc-arc.c:485
 #: ../goffice/canvas/goc-line.c:346
@@ -559,14 +560,14 @@ msgstr "Puščica za konec črte"
 #: ../goffice/canvas/goc-component.c:271
 #: ../goffice/canvas/goc-ellipse.c:237
 #: ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:249
+#: ../goffice/canvas/goc-group.c:254
 #: ../goffice/canvas/goc-image.c:263
 #: ../goffice/canvas/goc-path.c:263
 #: ../goffice/canvas/goc-pixbuf.c:223
 #: ../goffice/canvas/goc-rectangle.c:312
 #: ../goffice/canvas/goc-text.c:463
 #: ../goffice/canvas/goc-widget.c:773
-#: ../goffice/utils/go-marker.c:83
+#: ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -578,7 +579,7 @@ msgstr "Vodoravni položaj središča kroga"
 #: ../goffice/canvas/goc-component.c:277
 #: ../goffice/canvas/goc-ellipse.c:243
 #: ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:255
+#: ../goffice/canvas/goc-group.c:260
 #: ../goffice/canvas/goc-image.c:269
 #: ../goffice/canvas/goc-path.c:269
 #: ../goffice/canvas/goc-pixbuf.c:229
@@ -617,8 +618,8 @@ msgstr "Zgornji položaj predmeta"
 #: ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:330
 #: ../goffice/canvas/goc-widget.c:792
-#: ../goffice/graph/gog-graph.c:408
-#: ../goffice/utils/go-image.c:441
+#: ../goffice/graph/gog-graph.c:486
+#: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "Višina"
 
@@ -631,8 +632,8 @@ msgstr "Višina"
 #: ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:324
 #: ../goffice/canvas/goc-widget.c:786
-#: ../goffice/graph/gog-graph.c:402
-#: ../goffice/utils/go-image.c:437
+#: ../goffice/graph/gog-graph.c:480
+#: ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "Širina"
@@ -688,8 +689,8 @@ msgstr "Zgornja lega diagrama"
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: ../goffice/canvas/goc-graph.c:465
-#: ../goffice/graph/gog-graph.c:175
-#: ../goffice/graph/gog-graph.c:434
+#: ../goffice/graph/gog-graph.c:253
+#: ../goffice/graph/gog-graph.c:512
 msgid "Graph"
 msgstr "Diagram"
 
@@ -698,7 +699,7 @@ msgid "The GogGraph this object displays"
 msgstr "Predmet GogGraph, ki ga ta predmet izrisuje"
 
 #: ../goffice/canvas/goc-graph.c:471
-#: ../goffice/graph/gog-graph.c:942
+#: ../goffice/graph/gog-graph.c:1026
 msgid "Renderer"
 msgstr "Izrisovalnik"
 
@@ -706,11 +707,11 @@ msgstr "Izrisovalnik"
 msgid "The GogRenderer being displayed"
 msgstr "Prikazan predmet GogRenderer"
 
-#: ../goffice/canvas/goc-group.c:250
+#: ../goffice/canvas/goc-group.c:255
 msgid "The group horizontal offset"
 msgstr "Vodoravni odmik skupine predmetov"
 
-#: ../goffice/canvas/goc-group.c:256
+#: ../goffice/canvas/goc-group.c:261
 msgid "The group vertical offset"
 msgstr "Navpični odmik skupine predmetov"
 
@@ -744,7 +745,7 @@ msgstr "Obrezan spodnji del"
 
 #: ../goffice/canvas/goc-image.c:298
 msgid "The cropped area at the image bottom as a fraction of the image height"
-msgstr "Obrezan spodnji del slike kot delež višine slike."
+msgstr "Obrezan spodnji del slike kot delež višine slike"
 
 #: ../goffice/canvas/goc-image.c:302
 msgid "Cropped left"
@@ -752,7 +753,7 @@ msgstr "Obrezan levi del"
 
 #: ../goffice/canvas/goc-image.c:303
 msgid "The cropped area at the image left of the image width"
-msgstr "Obrezan levi del slike kot del širine slike."
+msgstr "Obrezan levi del slike kot del širine slike"
 
 #: ../goffice/canvas/goc-image.c:307
 msgid "Cropped right"
@@ -760,7 +761,7 @@ msgstr "Obrezan desni del"
 
 #: ../goffice/canvas/goc-image.c:308
 msgid "The cropped area at the image right of the image width"
-msgstr "Obrezan desni del slike kot del širine slike."
+msgstr "Obrezan desni del slike kot del širine slike"
 
 #: ../goffice/canvas/goc-image.c:312
 msgid "Cropped top"
@@ -768,22 +769,22 @@ msgstr "Obrezan zgornji del"
 
 #: ../goffice/canvas/goc-image.c:313
 msgid "The cropped area at the image top as a fraction of the image height"
-msgstr "Obrezan zgornji del slike kot delež višine slike."
+msgstr "Obrezan zgornji del slike kot delež višine slike"
 
-#: ../goffice/canvas/goc-item.c:260
+#: ../goffice/canvas/goc-item.c:265
 msgid "Canvas"
 msgstr "Platno"
 
-#: ../goffice/canvas/goc-item.c:261
+#: ../goffice/canvas/goc-item.c:266
 msgid "The canvas object on which the item resides"
 msgstr "Platno kateremu predmet pripada"
 
-#: ../goffice/canvas/goc-item.c:266
-#: ../goffice/graph/gog-view.c:601
+#: ../goffice/canvas/goc-item.c:271
+#: ../goffice/graph/gog-view.c:684
 msgid "Parent"
 msgstr "Nadrejeni"
 
-#: ../goffice/canvas/goc-item.c:267
+#: ../goffice/canvas/goc-item.c:272
 msgid "The group in which the item resides"
 msgstr "Skupina kateri pripada predmet"
 
@@ -858,7 +859,7 @@ msgid "The path points"
 msgstr "Točke poti"
 
 #: ../goffice/canvas/goc-pixbuf.c:252
-#: ../goffice/utils/go-pixbuf.c:485
+#: ../goffice/utils/go-pixbuf.c:276
 msgid "Pixbuf"
 msgstr "Sličica"
 
@@ -937,13 +938,13 @@ msgid "The round rectangle ry"
 msgstr "Vrednost točke ry za zaobljeni pravokotnik"
 
 #: ../goffice/canvas/goc-styled-item.c:160
-#: ../goffice/graph/gog-styled-object.c:209
-#: ../goffice/utils/go-style.c:1046
+#: ../goffice/graph/gog-styled-object.c:222
+#: ../goffice/utils/go-style.c:1105
 msgid "Style"
 msgstr "Slog"
 
 #: ../goffice/canvas/goc-styled-item.c:161
-#: ../goffice/graph/gog-styled-object.c:210
+#: ../goffice/graph/gog-styled-object.c:223
 msgid "A pointer to the GOStyle object"
 msgstr "Kazalnik za predmet GOStyle"
 
@@ -968,7 +969,7 @@ msgid "The rotation around the anchor"
 msgstr "Vrtenje okoli točke sidrišča"
 
 #: ../goffice/canvas/goc-text.c:481
-#: ../goffice/graph/gog-object.c:709
+#: ../goffice/graph/gog-object.c:818
 msgid "Anchor"
 msgstr "Sidro"
 
@@ -979,7 +980,7 @@ msgstr "Sidrna točka za besedilo"
 #: ../goffice/canvas/goc-text.c:487
 #: ../goffice/gtk/go-format-sel.c:68
 #: ../goffice/gtk/go-rotation-sel.c:142
-#: ../goffice/utils/go-style.c:912
+#: ../goffice/utils/go-style.c:971
 msgid "Text"
 msgstr "Besedilo"
 
@@ -989,7 +990,7 @@ msgstr "Besedilo za prikaz"
 
 #: ../goffice/canvas/goc-text.c:491
 msgid "Attributes"
-msgstr "_Določila"
+msgstr "Določila"
 
 #: ../goffice/canvas/goc-text.c:491
 msgid "The attributes list as a PangoAttrList"
@@ -1051,11 +1052,11 @@ msgstr "Širina gradnika"
 msgid "The widget height"
 msgstr "Višina gradnika"
 
-#: ../goffice/component/go-component-factory.c:69
+#: ../goffice/component/go-component-factory.c:79
 msgid "Component Engine"
 msgstr "Programnik enote"
 
-#: ../goffice/component/go-component-factory.c:208
+#: ../goffice/component/go-component-factory.c:218
 msgid "Component Type"
 msgstr "Vrsta enote"
 
@@ -1095,104 +1096,104 @@ msgstr "Eulerjev kot fi"
 msgid "Field of view"
 msgstr "Polje pogleda"
 
-#: ../goffice/graph/gog-axis-line.c:619
+#: ../goffice/graph/gog-axis-line.c:647
 msgid "Layout"
 msgstr "Postavitev"
 
-#: ../goffice/graph/gog-axis-line.c:648
+#: ../goffice/graph/gog-axis-line.c:676
 msgid "Axis position"
 msgstr "Lega osi"
 
-#: ../goffice/graph/gog-axis-line.c:649
-#: ../goffice/graph/gog-axis-line.c:655
+#: ../goffice/graph/gog-axis-line.c:677
+#: ../goffice/graph/gog-axis-line.c:683
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Kje postaviti najnižjo in najvišjo točko osi oziroma kje se križa"
 
-#: ../goffice/graph/gog-axis-line.c:654
+#: ../goffice/graph/gog-axis-line.c:682
 msgid "Axis position (as a string)"
 msgstr "Lega osi (kot niz)"
 
-#: ../goffice/graph/gog-axis-line.c:660
+#: ../goffice/graph/gog-axis-line.c:688
 msgid "Major labels"
 msgstr "Glavne oznake"
 
-#: ../goffice/graph/gog-axis-line.c:661
+#: ../goffice/graph/gog-axis-line.c:689
 msgid "Show labels for major ticks"
-msgstr "Pokaži označbe večjih oznak."
+msgstr "Pokaži označbe večjih oznak"
 
-#: ../goffice/graph/gog-axis-line.c:666
+#: ../goffice/graph/gog-axis-line.c:694
 msgid "Inside major ticks"
 msgstr "Znotraj glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:667
+#: ../goffice/graph/gog-axis-line.c:695
 msgid "Major tick marks inside the chart area"
 msgstr "Večje označbe znotraj območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:672
+#: ../goffice/graph/gog-axis-line.c:700
 msgid "Outside major ticks"
 msgstr "Izven glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:673
+#: ../goffice/graph/gog-axis-line.c:701
 msgid "Major tick marks outside the chart area"
 msgstr "Večje oznake izven območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:678
+#: ../goffice/graph/gog-axis-line.c:706
 msgid "Major tick size"
 msgstr "Velikost glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:679
+#: ../goffice/graph/gog-axis-line.c:707
 msgid "Size of the major tick marks, in points"
 msgstr "Velikost oznak glavnih točk osi (v točkah)"
 
-#: ../goffice/graph/gog-axis-line.c:685
+#: ../goffice/graph/gog-axis-line.c:713
 msgid "Inside minor ticks"
 msgstr "Znotraj podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:686
+#: ../goffice/graph/gog-axis-line.c:714
 msgid "Minor tick marks inside the chart area"
 msgstr "Podrobne oznake znotraj območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:691
+#: ../goffice/graph/gog-axis-line.c:719
 msgid "Outside minor ticks"
 msgstr "Izven podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:692
+#: ../goffice/graph/gog-axis-line.c:720
 msgid "Minor tick marks outside the axis"
 msgstr "Podrobne oznake izven območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:697
+#: ../goffice/graph/gog-axis-line.c:725
 msgid "Minor tick size"
 msgstr "Velikost podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:698
+#: ../goffice/graph/gog-axis-line.c:726
 msgid "Size of the minor tick marks, in points"
 msgstr "Velikost oznak podrobnih točk osi (v točkah)"
 
-#: ../goffice/graph/gog-axis-line.c:704
-msgid "Cross axis id"
+#: ../goffice/graph/gog-axis-line.c:732
+msgid "Cross axis ID"
 msgstr "ID izhodišča osi"
 
-#: ../goffice/graph/gog-axis-line.c:705
+#: ../goffice/graph/gog-axis-line.c:733
 msgid "Which axis to cross"
 msgstr "Katero os naj se seka"
 
-#: ../goffice/graph/gog-axis-line.c:711
+#: ../goffice/graph/gog-axis-line.c:739
 msgid "Axis padding"
 msgstr "Blazinjenje osi"
 
-#: ../goffice/graph/gog-axis-line.c:712
+#: ../goffice/graph/gog-axis-line.c:740
 msgid "Distance from axis line to plot area, in points"
 msgstr "Razdalja med osno črto in diagramom površine v točkah"
 
-#: ../goffice/graph/gog-axis-line.c:804
+#: ../goffice/graph/gog-axis-line.c:832
 msgid "Select axis"
 msgstr "Izbor osi"
 
-#: ../goffice/graph/gog-axis-line.c:910
+#: ../goffice/graph/gog-axis-line.c:938
 msgid "Set start bound"
 msgstr "Določi začetno mejo"
 
-#: ../goffice/graph/gog-axis-line.c:921
+#: ../goffice/graph/gog-axis-line.c:949
 msgid "Set stop bound"
 msgstr "Določi končno mejo"
 
@@ -1202,12 +1203,12 @@ msgid "<b>Effective area</b> (as % of available room)"
 msgstr "<b>Uporabna površina</b> (kot % prostora na voljo)"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:3
-#: ../goffice/utils/go-style.c:586
+#: ../goffice/utils/go-style.c:645
 msgid "Start:"
 msgstr "Začetek:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:4
-#: ../goffice/utils/go-style.c:587
+#: ../goffice/utils/go-style.c:646
 msgid "End:"
 msgstr "Konec:"
 
@@ -1309,158 +1310,158 @@ msgstr "stopinj"
 msgid "<b>Mapping</b>"
 msgstr "<b>Preslikava</b>"
 
-#: ../goffice/graph/gog-axis.c:57
+#: ../goffice/graph/gog-axis.c:85
 msgid "Degrees"
 msgstr "Stopinje"
 
-#: ../goffice/graph/gog-axis.c:58
+#: ../goffice/graph/gog-axis.c:86
 msgid "Radians"
 msgstr "Radiani"
 
-#: ../goffice/graph/gog-axis.c:59
+#: ../goffice/graph/gog-axis.c:87
 msgid "Grads"
 msgstr "Gradiani"
 
-#: ../goffice/graph/gog-axis.c:1452
+#: ../goffice/graph/gog-axis.c:1489
 msgid "Discrete"
 msgstr "Diskretne strukture"
 
-#: ../goffice/graph/gog-axis.c:1452
+#: ../goffice/graph/gog-axis.c:1489
 msgid "Discrete mapping"
 msgstr "Diskretne preslikave"
 
-#: ../goffice/graph/gog-axis.c:1464
-#: ../goffice/utils/go-line.c:119
-#: ../goffice/utils/go-line.c:332
+#: ../goffice/graph/gog-axis.c:1501
+#: ../goffice/utils/go-line.c:161
+#: ../goffice/utils/go-line.c:376
 #: ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Linear"
 msgstr "Linearno"
 
-#: ../goffice/graph/gog-axis.c:1464
+#: ../goffice/graph/gog-axis.c:1501
 msgid "Linear mapping"
 msgstr "Črtna preslikava"
 
-#: ../goffice/graph/gog-axis.c:1476
+#: ../goffice/graph/gog-axis.c:1513
 msgid "Log"
 msgstr "Logaritemsko"
 
-#: ../goffice/graph/gog-axis.c:1476
+#: ../goffice/graph/gog-axis.c:1513
 msgid "Logarithm mapping"
 msgstr "Logaritemska preslikava"
 
-#: ../goffice/graph/gog-axis.c:2635
-#: ../goffice/graph/gog-axis.c:2645
+#: ../goffice/graph/gog-axis.c:2695
+#: ../goffice/graph/gog-axis.c:2705
 msgid "M_inimum"
 msgstr "Naj_manj"
 
-#: ../goffice/graph/gog-axis.c:2636
-#: ../goffice/graph/gog-axis.c:2646
+#: ../goffice/graph/gog-axis.c:2696
+#: ../goffice/graph/gog-axis.c:2706
 msgid "M_aximum"
 msgstr "Naj_več"
 
-#: ../goffice/graph/gog-axis.c:2637
+#: ../goffice/graph/gog-axis.c:2697
 msgid "Categories between _ticks"
-msgstr "Kategorije med _ točkami osi"
+msgstr "Kategorije med _točkami osi"
 
-#: ../goffice/graph/gog-axis.c:2638
+#: ../goffice/graph/gog-axis.c:2698
 msgid "Categories between _labels"
-msgstr "Kategorije med _ oznakami osi"
+msgstr "Kategorije med _oznakami osi"
 
-#: ../goffice/graph/gog-axis.c:2647
+#: ../goffice/graph/gog-axis.c:2707
 msgid "Ma_jor ticks"
 msgstr "_Glavne točke osi"
 
-#: ../goffice/graph/gog-axis.c:2648
+#: ../goffice/graph/gog-axis.c:2708
 msgid "Mi_nor ticks"
 msgstr "_Podrobne točke osi"
 
-#: ../goffice/graph/gog-axis.c:2704
-#: ../goffice/math/go-distribution.c:162
-#: ../goffice/math/go-distribution.c:163
+#: ../goffice/graph/gog-axis.c:2764
+#: ../goffice/math/go-distribution.c:171
+#: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "Merilo"
 
-#: ../goffice/graph/gog-axis.c:2724
+#: ../goffice/graph/gog-axis.c:2784
 #: ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Razmik"
 
-#: ../goffice/graph/gog-axis.c:2742
-#: ../goffice/graph/gog-series-labels.c:869
-#: ../goffice/graph/gog-series-labels.c:1393
+#: ../goffice/graph/gog-axis.c:2802
+#: ../goffice/graph/gog-series-labels.c:890
+#: ../goffice/graph/gog-series-labels.c:1414
 msgid "Format"
 msgstr "Oblika"
 
-#: ../goffice/graph/gog-axis.c:2774
+#: ../goffice/graph/gog-axis.c:2834
 msgid "MajorGrid"
 msgstr "Velika mreža"
 
-#: ../goffice/graph/gog-axis.c:2777
+#: ../goffice/graph/gog-axis.c:2837
 msgid "MinorGrid"
 msgstr "Podrobna mreža"
 
-#: ../goffice/graph/gog-axis.c:2780
+#: ../goffice/graph/gog-axis.c:2840
 msgid "AxisLine"
 msgstr "Črta osi"
 
-#: ../goffice/graph/gog-axis.c:2783
+#: ../goffice/graph/gog-axis.c:2843
 msgid "Label"
 msgstr "Oznaka"
 
-#: ../goffice/graph/gog-axis.c:2799
+#: ../goffice/graph/gog-axis.c:2859
 msgid "Numerical type of this axis"
 msgstr "Številčna vrsta te osi"
 
-#: ../goffice/graph/gog-axis.c:2803
+#: ../goffice/graph/gog-axis.c:2863
 msgid "Invert axis"
 msgstr "Obrni osi"
 
-#: ../goffice/graph/gog-axis.c:2804
+#: ../goffice/graph/gog-axis.c:2864
 msgid "Scale from high to low rather than low to high"
 msgstr "Razvrsti od večjega proti manjšemu namesto manjšega proti večjemu"
 
-#: ../goffice/graph/gog-axis.c:2808
+#: ../goffice/graph/gog-axis.c:2868
 msgid "MapName"
 msgstr "Ime preslikave"
 
-#: ../goffice/graph/gog-axis.c:2809
+#: ../goffice/graph/gog-axis.c:2869
 msgid "The name of the map for scaling"
 msgstr "Ime zemljevida za določanje reda velikosti"
 
-#: ../goffice/graph/gog-axis.c:2814
+#: ../goffice/graph/gog-axis.c:2874
 msgid "Assigned XL format"
 msgstr "Določena XL oblika"
 
-#: ../goffice/graph/gog-axis.c:2815
+#: ../goffice/graph/gog-axis.c:2875
 msgid "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr "Uporabniško določeni zapis za ne-diskretne oznake osi (zapis XL)"
 
-#: ../goffice/graph/gog-axis.c:2820
-#: ../goffice/graph/gog-axis.c:2821
+#: ../goffice/graph/gog-axis.c:2880
+#: ../goffice/graph/gog-axis.c:2881
 msgid "Rotation of circular axis"
 msgstr "Vrtenje krožne osi"
 
-#: ../goffice/graph/gog-axis.c:2828
-#: ../goffice/graph/gog-axis.c:2829
+#: ../goffice/graph/gog-axis.c:2888
+#: ../goffice/graph/gog-axis.c:2889
 msgid "Polar axis set unit"
 msgstr "Enota spiralne osi"
 
-#: ../goffice/graph/gog-axis.c:2834
+#: ../goffice/graph/gog-axis.c:2894
 msgid "Axis start position"
 msgstr "Začetek osi"
 
-#: ../goffice/graph/gog-axis.c:2835
+#: ../goffice/graph/gog-axis.c:2895
 msgid "Position of the plot area at which the axis effective area starts, expressed as a percentage of the available position. Defaults to 0.0"
-msgstr "Položaj območja risanja grafa, na katerem se uporabno območje osi začne, izraženo kot odstotek položajev na voljo. Privzeta vrednost je 0,0."
+msgstr "Položaj območja risanja grafa, na katerem se uporabno območje osi začne, izraženo kot odstotek položajev na voljo. Privzeta vrednost je 0,0"
 
-#: ../goffice/graph/gog-axis.c:2840
+#: ../goffice/graph/gog-axis.c:2900
 msgid "Axis end position"
 msgstr "Konec osi"
 
-#: ../goffice/graph/gog-axis.c:2841
+#: ../goffice/graph/gog-axis.c:2901
 msgid "Position of the plot area at which the axis effective area ends, expressed as a percentage of the available position. Defaults to 1.0"
-msgstr "Položaj območja risanja grafa, na katerem se uporabno območje osi konča, izraženo kot odstotek položajev na voljo. Privzeta vrednost je 1,0."
+msgstr "Položaj območja risanja grafa, na katerem se uporabno območje osi konča, izraženo kot odstotek položajev na voljo. Privzeta vrednost je 1,0"
 
 #: ../goffice/graph/gog-chart.c:374
 #: ../goffice/graph/gog-chart.c:688
@@ -1481,7 +1482,7 @@ msgstr "Ozadje ravnine YZ"
 
 #: ../goffice/graph/gog-chart.c:595
 msgid "ZX-Backplane"
-msgstr "Ozadje ravnine ZX "
+msgstr "Ozadje ravnine ZX"
 
 #: ../goffice/graph/gog-chart.c:599
 msgid "X-Axis"
@@ -1520,7 +1521,7 @@ msgid "Plot"
 msgstr "Diagram"
 
 #: ../goffice/graph/gog-chart.c:634
-#: ../goffice/graph/gog-graph.c:335
+#: ../goffice/graph/gog-graph.c:413
 #: ../goffice/graph/gog-legend.c:195
 msgid "Title"
 msgstr "Naslov"
@@ -1531,7 +1532,7 @@ msgid "Legend"
 msgstr "Legenda"
 
 #: ../goffice/graph/gog-chart.c:645
-#: ../goffice/graph/gog-reg-curve.c:266
+#: ../goffice/graph/gog-reg-curve.c:280
 msgid "Equation"
 msgstr "Izraz"
 
@@ -1553,7 +1554,7 @@ msgstr "Položaj in velikost območja za izris v odstotkih velikosti diagrama"
 
 #: ../goffice/graph/gog-chart.c:694
 msgid "Manual plot area"
-msgstr "Ročni diagram površine."
+msgstr "Ročni diagram površine"
 
 #: ../goffice/graph/gog-chart.c:695
 msgid "Is plot area manual"
@@ -1602,12 +1603,12 @@ msgid "_Compact mode"
 msgstr "_Strnjen način"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:1
-#: ../goffice/graph/gog-error-bar.c:63
+#: ../goffice/graph/gog-error-bar.c:79
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
-#: ../goffice/gtk/go-format-sel.c:1642
-#: ../goffice/gtk/go-format-sel.c:1817
+#: ../goffice/gtk/go-format-sel.c:1671
+#: ../goffice/gtk/go-format-sel.c:1846
 #: ../goffice/utils/formats.c:366
-#: ../goffice/utils/go-line.c:85
+#: ../goffice/utils/go-line.c:127
 #: ../goffice/utils/go-style-prefs.ui.h:6
 msgid "None"
 msgstr "Brez"
@@ -1664,20 +1665,20 @@ msgstr "(+)"
 msgid "(-)"
 msgstr "(-)"
 
-#: ../goffice/graph/gog-error-bar.c:68
+#: ../goffice/graph/gog-error-bar.c:84
 msgid "Positive"
 msgstr "Pozitivno"
 
-#: ../goffice/graph/gog-error-bar.c:73
+#: ../goffice/graph/gog-error-bar.c:89
 msgid "Negative"
 msgstr "Negativno"
 
-#: ../goffice/graph/gog-error-bar.c:78
+#: ../goffice/graph/gog-error-bar.c:94
 msgid "Both"
 msgstr "Oboje"
 
 #. Note for translator: the angle unit
-#: ../goffice/graph/gog-error-bar.c:309
+#: ../goffice/graph/gog-error-bar.c:335
 msgid "°"
 msgstr "°"
 
@@ -1689,56 +1690,56 @@ msgstr "Tema:"
 msgid "Forget user styles"
 msgstr "Pozabi uporabniške sloge"
 
-#: ../goffice/graph/gog-graph.c:269
-#: ../goffice/graph/gog-graph.c:390
+#: ../goffice/graph/gog-graph.c:347
+#: ../goffice/graph/gog-graph.c:468
 msgid "Theme"
 msgstr "Tema"
 
-#: ../goffice/graph/gog-graph.c:330
+#: ../goffice/graph/gog-graph.c:408
 msgid "Chart"
 msgstr "Diagram"
 
-#: ../goffice/graph/gog-graph.c:391
+#: ../goffice/graph/gog-graph.c:469
 msgid "The theme for elements of the graph"
 msgstr "Tema za predmete diagrama"
 
-#: ../goffice/graph/gog-graph.c:396
+#: ../goffice/graph/gog-graph.c:474
 msgid "Theme name"
 msgstr "Ime teme"
 
-#: ../goffice/graph/gog-graph.c:397
+#: ../goffice/graph/gog-graph.c:475
 msgid "The name of the theme for elements of the graph"
 msgstr "Ime teme za predmete diagrama"
 
-#: ../goffice/graph/gog-graph.c:403
+#: ../goffice/graph/gog-graph.c:481
 msgid "Logical graph width, in points"
 msgstr "Logična širina diagramov v točkah"
 
-#: ../goffice/graph/gog-graph.c:409
+#: ../goffice/graph/gog-graph.c:487
 msgid "Logical graph height, in points"
 msgstr "Logična višina diagrama v točkah"
 
-#: ../goffice/graph/gog-graph.c:414
+#: ../goffice/graph/gog-graph.c:492
 msgid "Document"
 msgstr "Dokument"
 
-#: ../goffice/graph/gog-graph.c:415
+#: ../goffice/graph/gog-graph.c:493
 msgid "the document for this graph"
 msgstr "dokument za ta diagram"
 
-#: ../goffice/graph/gog-graph.c:943
+#: ../goffice/graph/gog-graph.c:1027
 msgid "the renderer for this view"
 msgstr "izrisovalnik pogleda"
 
-#: ../goffice/graph/gog-grid-line.c:111
+#: ../goffice/graph/gog-grid-line.c:113
 msgid "Is-minor"
 msgstr "manjše mrežne črte"
 
-#: ../goffice/graph/gog-grid-line.c:112
+#: ../goffice/graph/gog-grid-line.c:114
 msgid "Are these minor grid lines"
 msgstr "Ali so to podrobne mrežne črte"
 
-#: ../goffice/graph/gog-grid.c:117
+#: ../goffice/graph/gog-grid.c:128
 msgid "Numerical type of this backplane"
 msgstr "Številčna vrsta ozadja ravnine"
 
@@ -1755,7 +1756,7 @@ msgid "<b>_Subtype</b>"
 msgstr "<b>_Podvrsta</b>"
 
 #: ../goffice/graph/gog-guru.c:1012
-#: ../goffice/graph/gog-series.c:515
+#: ../goffice/graph/gog-series.c:576
 msgid "Name"
 msgstr "Ime"
 
@@ -1769,7 +1770,7 @@ msgstr "Korak 2 od 2: prilagoditev diagrama"
 
 #: ../goffice/graph/gog-guru.c:1052
 msgid "Customize Chart"
-msgstr "_Prilagodi diagram"
+msgstr "Prilagodi diagram"
 
 #: ../goffice/graph/gog-guru.c:1127
 msgid "_Insert"
@@ -1779,98 +1780,98 @@ msgstr "_Vstavi"
 msgid "_Plot Type"
 msgstr "Vrsta _diagrama"
 
-#: ../goffice/graph/gog-label.c:143
+#: ../goffice/graph/gog-label.c:149
 msgid "Allow markup"
 msgstr "Dovoli oblikovanje"
 
-#: ../goffice/graph/gog-label.c:144
-msgid "Support basic html-ish markup"
-msgstr "Podpora osnovnih HTML oznak"
-
 #: ../goffice/graph/gog-label.c:150
+msgid "Support basic HTML-ish markup"
+msgstr "Podpora osnovnim oznakam HTML"
+
+#: ../goffice/graph/gog-label.c:156
 msgid "Rotate the frame with the text"
 msgstr "Zavrti okvir z besedilom"
 
-#: ../goffice/graph/gog-label.c:151
+#: ../goffice/graph/gog-label.c:157
 msgid "Whether the frame should be rotated with the text"
-msgstr "Ali naj bo okvir zavrten z besedilom."
+msgstr "Ali naj bo okvir zavrten z besedilom"
 
-#: ../goffice/graph/gog-label.c:156
+#: ../goffice/graph/gog-label.c:162
 msgid "Rotate the background with the text"
 msgstr "Zavrti ozadje z besedilom"
 
-#: ../goffice/graph/gog-label.c:157
+#: ../goffice/graph/gog-label.c:163
 msgid "Whether the background should be rotated with the text"
-msgstr "Ali naj bo ozadje zavrteno z besedilom."
+msgstr "Ali naj bo ozadje zavrteno z besedilom"
 
-#: ../goffice/graph/gog-label.c:162
+#: ../goffice/graph/gog-label.c:168
 msgid "Wrap the text"
 msgstr "Prelomi besedilo"
 
-#: ../goffice/graph/gog-label.c:163
+#: ../goffice/graph/gog-label.c:169
 msgid "Whether the text might be displayed using several lines"
 msgstr "Ali je besedilo mogoče izpisati v več vrsticah"
 
-#: ../goffice/graph/gog-label.c:286
+#: ../goffice/graph/gog-label.c:292
 msgid "_Text:"
 msgstr "_Besedilo:"
 
-#: ../goffice/graph/gog-label.c:288
+#: ../goffice/graph/gog-label.c:294
 msgid "Rotate frame with text"
 msgstr "Zavrti okvir z besedilom"
 
-#: ../goffice/graph/gog-label.c:292
+#: ../goffice/graph/gog-label.c:298
 msgid "Display the text on several lines if needed"
 msgstr "Po potrebi prikaži besedilo v več vrsticah"
 
-#: ../goffice/graph/gog-label.c:296
+#: ../goffice/graph/gog-label.c:302
 msgid "Rotate background with text"
 msgstr "Zavrti ozadje z besedilom"
 
-#: ../goffice/graph/gog-label.c:300
+#: ../goffice/graph/gog-label.c:306
 msgid "Interpret text as markup"
 msgstr "Tolmači besedilo kot označeno"
 
-#: ../goffice/graph/gog-label.c:301
-msgid "Interpret the text as an html like markup as described at http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"
+#: ../goffice/graph/gog-label.c:307
+msgid "Interpret the text as an HTML like markup as described at http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr "Tolmači besedilo kot označeno besedilo HTML, kot je opisano na naslovu http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 
-#: ../goffice/graph/gog-label.c:307
-#: ../goffice/graph/gog-label.c:544
-#: ../goffice/graph/gog-reg-curve.c:119
-#: ../goffice/graph/gog-series-labels.c:566
-#: ../goffice/graph/gog-smoothed-curve.c:52
+#: ../goffice/graph/gog-label.c:313
+#: ../goffice/graph/gog-label.c:550
+#: ../goffice/graph/gog-reg-curve.c:133
+#: ../goffice/graph/gog-series-labels.c:587
+#: ../goffice/graph/gog-smoothed-curve.c:59
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
 #: ../plugins/plot_xy/gog-xy.c:2111
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: ../goffice/graph/gog-label.c:417
+#: ../goffice/graph/gog-label.c:423
 msgid "Text justification"
 msgstr "Poravnava besedila"
 
-#: ../goffice/graph/gog-label.c:418
+#: ../goffice/graph/gog-label.c:424
 msgid "Text justification as a string. Possible values are \"center\" (default value), \"left\", \"right\", or \"fill\"."
 msgstr "Poravnava besedila zapisana kot niz. Dovoljene vrednosti so \"sredinsko\" (privzeta vrednosti), \"levo\", \"desno\", or \"obojestransko\"."
 
-#: ../goffice/graph/gog-label.c:565
+#: ../goffice/graph/gog-label.c:571
 msgid "Regression Equation"
 msgstr "Enačba regresije"
 
-#: ../goffice/graph/gog-label.c:604
+#: ../goffice/graph/gog-label.c:610
 msgid "Show equation"
 msgstr "Prikaži enačbo"
 
-#: ../goffice/graph/gog-label.c:605
+#: ../goffice/graph/gog-label.c:611
 msgid "Show the equation on the graph"
 msgstr "Pokaži izraz na diagramu"
 
-#: ../goffice/graph/gog-label.c:610
+#: ../goffice/graph/gog-label.c:616
 msgid "Show coefficient"
 msgstr "Pokaži koeficient"
 
-#: ../goffice/graph/gog-label.c:611
+#: ../goffice/graph/gog-label.c:617
 msgid "Show the correlation coefficient on the graph"
 msgstr "Na diagramu prikaži primerjalni koeficient"
 
@@ -1880,11 +1881,11 @@ msgstr "Velikost izvlečka"
 
 #: ../goffice/graph/gog-legend.c:219
 msgid "size of the swatches in pts."
-msgstr "Velikost izvlečkov (v točkah)."
+msgstr "velikost izvlečkov (v točkah)."
 
 #: ../goffice/graph/gog-legend.c:224
 msgid "Swatch Padding pts"
-msgstr "Blazinjenje izvlečka (v točkah)."
+msgstr "Blazinjenje izvlečka (v točkah)"
 
 #: ../goffice/graph/gog-legend.c:225
 msgid "padding between the swatches in pts."
@@ -1964,122 +1965,122 @@ msgstr "Ročno"
 msgid "_Height:"
 msgstr "_Višina:"
 
-#: ../goffice/graph/gog-object.c:55
-#: ../goffice/graph/gog-object.c:74
-#: ../goffice/graph/gog-series.c:47
-#: ../goffice/graph/gog-series-labels.c:37
+#: ../goffice/graph/gog-object.c:164
+#: ../goffice/graph/gog-object.c:183
+#: ../goffice/graph/gog-series.c:108
+#: ../goffice/graph/gog-series-labels.c:58
 msgid "Top"
 msgstr "Zgoraj"
 
-#: ../goffice/graph/gog-object.c:56
-#: ../goffice/graph/gog-object.c:75
+#: ../goffice/graph/gog-object.c:165
+#: ../goffice/graph/gog-object.c:184
 msgid "Top right"
 msgstr "Zgoraj desno"
 
-#: ../goffice/graph/gog-object.c:57
-#: ../goffice/graph/gog-object.c:78
-#: ../goffice/graph/gog-series.c:48
-#: ../goffice/graph/gog-series-labels.c:40
+#: ../goffice/graph/gog-object.c:166
+#: ../goffice/graph/gog-object.c:187
+#: ../goffice/graph/gog-series.c:109
+#: ../goffice/graph/gog-series-labels.c:61
 msgid "Right"
 msgstr "Desno"
 
-#: ../goffice/graph/gog-object.c:58
-#: ../goffice/graph/gog-object.c:81
+#: ../goffice/graph/gog-object.c:167
+#: ../goffice/graph/gog-object.c:190
 msgid "Bottom right"
 msgstr "Spodaj desno"
 
-#: ../goffice/graph/gog-object.c:59
-#: ../goffice/graph/gog-object.c:80
-#: ../goffice/graph/gog-series.c:45
-#: ../goffice/graph/gog-series-labels.c:38
+#: ../goffice/graph/gog-object.c:168
+#: ../goffice/graph/gog-object.c:189
+#: ../goffice/graph/gog-series.c:106
+#: ../goffice/graph/gog-series-labels.c:59
 msgid "Bottom"
 msgstr "Spodaj"
 
-#: ../goffice/graph/gog-object.c:60
-#: ../goffice/graph/gog-object.c:79
+#: ../goffice/graph/gog-object.c:169
+#: ../goffice/graph/gog-object.c:188
 msgid "Bottom left"
 msgstr "Spodaj levo"
 
-#: ../goffice/graph/gog-object.c:61
-#: ../goffice/graph/gog-object.c:76
-#: ../goffice/graph/gog-series.c:46
-#: ../goffice/graph/gog-series-labels.c:39
+#: ../goffice/graph/gog-object.c:170
+#: ../goffice/graph/gog-object.c:185
+#: ../goffice/graph/gog-series.c:107
+#: ../goffice/graph/gog-series-labels.c:60
 msgid "Left"
 msgstr "Levo"
 
-#: ../goffice/graph/gog-object.c:62
-#: ../goffice/graph/gog-object.c:73
+#: ../goffice/graph/gog-object.c:171
+#: ../goffice/graph/gog-object.c:182
 msgid "Top left"
 msgstr "Zgoraj levo"
 
-#: ../goffice/graph/gog-object.c:66
+#: ../goffice/graph/gog-object.c:175
 msgid "Fill"
 msgstr "Zapolni"
 
-#: ../goffice/graph/gog-object.c:67
+#: ../goffice/graph/gog-object.c:176
 #: ../plugins/plot_barcol/gog-dropbar.c:143
 #: ../plugins/plot_xy/gog-xy-dropbar.c:326
 msgid "Start"
 msgstr "Začetek"
 
-#: ../goffice/graph/gog-object.c:68
+#: ../goffice/graph/gog-object.c:177
 #: ../plugins/plot_barcol/gog-dropbar.c:145
 #: ../plugins/plot_xy/gog-xy-dropbar.c:328
 msgid "End"
 msgstr "Konec"
 
-#: ../goffice/graph/gog-object.c:69
-#: ../goffice/graph/gog-object.c:77
-#: ../goffice/graph/gog-series.c:50
+#: ../goffice/graph/gog-object.c:178
+#: ../goffice/graph/gog-object.c:186
+#: ../goffice/graph/gog-series.c:111
 msgid "Center"
 msgstr "Sredinsko"
 
-#: ../goffice/graph/gog-object.c:641
-#: ../goffice/graph/gog-object.c:685
-#: ../goffice/graph/gog-series-labels.c:857
-#: ../goffice/graph/gog-series-labels.c:1381
+#: ../goffice/graph/gog-object.c:750
+#: ../goffice/graph/gog-object.c:794
+#: ../goffice/graph/gog-series-labels.c:878
+#: ../goffice/graph/gog-series-labels.c:1402
 msgid "Position"
 msgstr "Lega"
 
-#: ../goffice/graph/gog-object.c:679
+#: ../goffice/graph/gog-object.c:788
 msgid "Object ID"
 msgstr "ID predmeta"
 
-#: ../goffice/graph/gog-object.c:680
+#: ../goffice/graph/gog-object.c:789
 msgid "Object numerical ID"
 msgstr "Številčna ID predmeta"
 
-#: ../goffice/graph/gog-object.c:686
+#: ../goffice/graph/gog-object.c:795
 msgid "Position and size of object, in percentage of parent size"
 msgstr "Položaj in velikost predmeta kot odstotek celotne velikosti"
 
-#: ../goffice/graph/gog-object.c:691
+#: ../goffice/graph/gog-object.c:800
 msgid "Compass"
 msgstr "Kompas"
 
-#: ../goffice/graph/gog-object.c:692
+#: ../goffice/graph/gog-object.c:801
 msgid "Compass auto position flags"
 msgstr "Smerne zastavice samodejnega določanja položaja"
 
-#: ../goffice/graph/gog-object.c:697
+#: ../goffice/graph/gog-object.c:806
 msgid "Alignment"
 msgstr "Poravnava"
 
-#: ../goffice/graph/gog-object.c:698
+#: ../goffice/graph/gog-object.c:807
 msgid "Alignment flag"
 msgstr "Zastava poravnave"
 
-#: ../goffice/graph/gog-object.c:703
-#: ../goffice/graph/gog-object.c:704
+#: ../goffice/graph/gog-object.c:812
+#: ../goffice/graph/gog-object.c:813
 msgid "Is position manual"
 msgstr "Je položaj nastavljen ročno"
 
-#: ../goffice/graph/gog-object.c:710
+#: ../goffice/graph/gog-object.c:819
 msgid "Anchor for manual position"
 msgstr "Sidro za ročno lego"
 
-#: ../goffice/graph/gog-object.c:715
-#: ../goffice/graph/gog-object.c:716
+#: ../goffice/graph/gog-object.c:824
+#: ../goffice/graph/gog-object.c:825
 msgid "Should the object be hidden"
 msgstr "Naj bo predmet skrit"
 
@@ -2091,164 +2092,166 @@ msgstr "Točke blazinjenja"
 msgid "Number of pts separating charts in the grid"
 msgstr "Število točk, ki ločujejo diagrame na mreži"
 
-#: ../goffice/graph/gog-plot-engine.c:58
+#: ../goffice/graph/gog-plot-engine.c:81
 msgid "Plot Engine"
-msgstr "Programnik izrisa diagrama "
+msgstr "Programnik izrisa diagrama"
 
-#: ../goffice/graph/gog-plot-engine.c:307
+#: ../goffice/graph/gog-plot-engine.c:330
 msgid "Plot Type"
 msgstr "Vrsta diagrama"
 
-#: ../goffice/graph/gog-plot-engine.c:383
+#: ../goffice/graph/gog-plot-engine.c:414
 msgid "Regression Curve Engine"
 msgstr "Programnik regresijske krivulje"
 
-#: ../goffice/graph/gog-plot-engine.c:577
+#: ../goffice/graph/gog-plot-engine.c:608
 msgid "Regression Curve Type"
 msgstr "Vrsta regresijske krivulje"
 
-#: ../goffice/graph/gog-plot.c:182
+#: ../goffice/graph/gog-plot.c:227
 msgid "X axis:"
 msgstr "Os X:"
 
-#: ../goffice/graph/gog-plot.c:183
+#: ../goffice/graph/gog-plot.c:228
 msgid "Y axis:"
 msgstr "Os Y:"
 
-#: ../goffice/graph/gog-plot.c:184
+#: ../goffice/graph/gog-plot.c:229
 msgid "Z axis:"
 msgstr "Os Z:"
 
-#: ../goffice/graph/gog-plot.c:185
+#: ../goffice/graph/gog-plot.c:230
 msgid "Circular axis:"
 msgstr "Krožna os:"
 
-#: ../goffice/graph/gog-plot.c:186
+#: ../goffice/graph/gog-plot.c:231
 msgid "Radial axis:"
 msgstr "Radialna os:"
 
-#: ../goffice/graph/gog-plot.c:187
+#: ../goffice/graph/gog-plot.c:232
 msgid "Pseudo 3D axis:"
 msgstr "Navidezna 3D os:"
 
-#: ../goffice/graph/gog-plot.c:188
+#: ../goffice/graph/gog-plot.c:233
 msgid "Color axis:"
 msgstr "Barvna os:"
 
-#: ../goffice/graph/gog-plot.c:189
+#: ../goffice/graph/gog-plot.c:234
 msgid "Bubble axis:"
 msgstr "Mehurčna os:"
 
-#: ../goffice/graph/gog-plot.c:254
+#: ../goffice/graph/gog-plot.c:299
 msgid "Axes"
 msgstr "Osi"
 
-#: ../goffice/graph/gog-plot.c:392
+#: ../goffice/graph/gog-plot.c:437
 msgid "Series"
 msgstr "Nizi"
 
-#: ../goffice/graph/gog-plot.c:413
+#: ../goffice/graph/gog-plot.c:458
 msgid "Vary style by element"
 msgstr "Spremeni slog po predmetih"
 
-#: ../goffice/graph/gog-plot.c:414
-msgid "Use a different style for each segments"
+#: ../goffice/graph/gog-plot.c:459
+#, fuzzy
+msgid "Use a different style for each segment"
 msgstr "Uporabi različni slog za vsak razdelek"
 
-#: ../goffice/graph/gog-plot.c:419
+#: ../goffice/graph/gog-plot.c:464
 msgid "X axis"
 msgstr "Os X"
 
-#: ../goffice/graph/gog-plot.c:420
+#: ../goffice/graph/gog-plot.c:465
 msgid "Reference to X axis"
 msgstr "Sklic osi x"
 
-#: ../goffice/graph/gog-plot.c:425
+#: ../goffice/graph/gog-plot.c:470
 msgid "Y axis"
 msgstr "Os Y"
 
-#: ../goffice/graph/gog-plot.c:426
+#: ../goffice/graph/gog-plot.c:471
 msgid "Reference to Y axis"
 msgstr "Sklic osi y"
 
-#: ../goffice/graph/gog-plot.c:431
+#: ../goffice/graph/gog-plot.c:476
 msgid "Z axis"
 msgstr "Os Z"
 
-#: ../goffice/graph/gog-plot.c:432
+#: ../goffice/graph/gog-plot.c:477
 msgid "Reference to Z axis"
 msgstr "Sklic osi Z"
 
-#: ../goffice/graph/gog-plot.c:437
+#: ../goffice/graph/gog-plot.c:482
 msgid "Circular axis"
 msgstr "Krožna os"
 
-#: ../goffice/graph/gog-plot.c:438
+#: ../goffice/graph/gog-plot.c:483
 msgid "Reference to circular axis"
 msgstr "Sklic krožne osi"
 
-#: ../goffice/graph/gog-plot.c:443
+#: ../goffice/graph/gog-plot.c:488
 msgid "Radial axis"
 msgstr "Radialna os"
 
-#: ../goffice/graph/gog-plot.c:444
+#: ../goffice/graph/gog-plot.c:489
 msgid "Reference to radial axis"
 msgstr "Sklic radialne osi"
 
-#: ../goffice/graph/gog-plot.c:449
-msgid "Pseudo-3d axis"
-msgstr "Navidezna 3D os"
+#: ../goffice/graph/gog-plot.c:494
+msgid "Pseudo-3D axis"
+msgstr "Navidezna os 3D"
 
-#: ../goffice/graph/gog-plot.c:450
-msgid "Reference to pseudo-3d axis"
-msgstr "Sklic navidezne 3D osi"
+#: ../goffice/graph/gog-plot.c:495
+msgid "Reference to pseudo-3D axis"
+msgstr "Sklic do navidezne osi 3D"
 
-#: ../goffice/graph/gog-plot.c:455
+#: ../goffice/graph/gog-plot.c:500
 msgid "Color axis"
 msgstr "Barvna os"
 
-#: ../goffice/graph/gog-plot.c:456
+#: ../goffice/graph/gog-plot.c:501
 msgid "Reference to color axis"
 msgstr "Sklic barvne osi"
 
-#: ../goffice/graph/gog-plot.c:461
+#: ../goffice/graph/gog-plot.c:506
 msgid "Bubble axis"
 msgstr "Mehurčna os"
 
-#: ../goffice/graph/gog-plot.c:462
-msgid "Reference to buccle axis"
-msgstr "Sklic mehurčne osi"
+#: ../goffice/graph/gog-plot.c:507
+#, fuzzy
+msgid "Reference to bubble axis"
+msgstr "Sklic krožne osi"
 
-#: ../goffice/graph/gog-plot.c:467
+#: ../goffice/graph/gog-plot.c:512
 msgid "Plot group"
 msgstr "Skupina diagramov"
 
-#: ../goffice/graph/gog-plot.c:468
+#: ../goffice/graph/gog-plot.c:513
 msgid "Name of plot group if any"
 msgstr "Ime skupine diagramov za izris, če je navedeno"
 
 # To je neke vrste "učiteljski namig".
-#: ../goffice/graph/gog-plot.c:473
+#: ../goffice/graph/gog-plot.c:518
 msgid "Guru hints"
 msgstr "Gurujev namig"
 
-#: ../goffice/graph/gog-plot.c:474
+#: ../goffice/graph/gog-plot.c:519
 msgid "Semicolon separated list of hints for automatic addition of objects in guru dialog"
-msgstr "S podpičjem ločen seznam Gurujevih namigov za samodejno dodajanje predmetov v pogovornem oknu."
+msgstr "S podpičjem ločen seznam Gurujevih namigov za samodejno dodajanje predmetov v pogovornem oknu"
 
-#: ../goffice/graph/gog-plot.c:480
+#: ../goffice/graph/gog-plot.c:525
 msgid "Default interpolation"
 msgstr "Privzeta interpolacija"
 
-#: ../goffice/graph/gog-plot.c:481
+#: ../goffice/graph/gog-plot.c:526
 msgid "Default type of series line interpolation"
 msgstr "Privzeta vrsta interpolacije črt niza"
 
-#: ../goffice/graph/gog-plot.c:1129
+#: ../goffice/graph/gog-plot.c:1174
 msgid "Move plot area"
 msgstr "Premakni površino diagrama"
 
-#: ../goffice/graph/gog-plot.c:1181
+#: ../goffice/graph/gog-plot.c:1226
 msgid "Resize plot area"
 msgstr "Spremeni velikost površine diagrama"
 
@@ -2265,7 +2268,7 @@ msgid "High bound:"
 msgstr "Zgornja meja:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
-#: ../goffice/graph/gog-reg-curve.c:295
+#: ../goffice/graph/gog-reg-curve.c:309
 msgid "Skip invalid data"
 msgstr "Preskoči neveljavne podatke"
 
@@ -2307,25 +2310,25 @@ msgstr "Zgornja meja:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:18
 msgid "Low span:"
-msgstr "Manjši razpon vrednosti"
+msgstr "Manjši razpon vrednosti:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:19
 msgid "High span:"
-msgstr "Večji razpon vrednosti"
+msgstr "Večji razpon vrednosti:"
 
-#: ../goffice/graph/gog-reg-curve.c:259
+#: ../goffice/graph/gog-reg-curve.c:273
 msgid "Regression Curve"
 msgstr "Regresijska krivulja"
 
-#: ../goffice/graph/gog-reg-curve.c:294
+#: ../goffice/graph/gog-reg-curve.c:308
 msgid "Skip invalid"
 msgstr "Preskoči neveljavne"
 
-#: ../goffice/graph/gog-reg-curve.c:300
+#: ../goffice/graph/gog-reg-curve.c:314
 msgid "Drawing bounds"
 msgstr "Meje izrisa"
 
-#: ../goffice/graph/gog-reg-curve.c:301
+#: ../goffice/graph/gog-reg-curve.c:315
 msgid "How the regression line should be limited, acceptable values are \"none\", \"absolute\", and \"relative\"."
 msgstr "Kako naj bo omejena črta regresije. Dovoljene vrednosti so \"brez\", \"absolutno\" in \"relativno\"."
 
@@ -2337,194 +2340,194 @@ msgstr "Prikaži _enačbo"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Prikaži koeficient _regresije R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1838
-#: ../goffice/graph/gog-view.c:607
+#: ../goffice/graph/gog-renderer.c:1841
+#: ../goffice/graph/gog-view.c:690
 msgid "Model"
 msgstr "Model"
 
-#: ../goffice/graph/gog-renderer.c:1839
+#: ../goffice/graph/gog-renderer.c:1842
 msgid "The GogGraph this renderer displays"
 msgstr "Predmet GogGraph prikazan v izrisovalniku"
 
-#: ../goffice/graph/gog-renderer.c:1844
+#: ../goffice/graph/gog-renderer.c:1847
 msgid "View"
 msgstr "Pogled"
 
-#: ../goffice/graph/gog-renderer.c:1845
+#: ../goffice/graph/gog-renderer.c:1848
 msgid "the GogView this renderer is displaying"
 msgstr "Predmet GogView, ki ga prikazuje izrisovalnik"
 
-#: ../goffice/graph/gog-series.c:43
+#: ../goffice/graph/gog-series.c:104
 msgid "Y origin"
 msgstr "Izvor Y"
 
-#: ../goffice/graph/gog-series.c:44
+#: ../goffice/graph/gog-series.c:105
 msgid "X origin"
 msgstr "Izvor X"
 
-#: ../goffice/graph/gog-series.c:49
+#: ../goffice/graph/gog-series.c:110
 msgid "Origin"
 msgstr "Izvor"
 
-#: ../goffice/graph/gog-series.c:51
+#: ../goffice/graph/gog-series.c:112
 msgid "Edge"
 msgstr "Rob"
 
-#: ../goffice/graph/gog-series.c:52
+#: ../goffice/graph/gog-series.c:113
 msgid "Self"
 msgstr "Samo sebe"
 
-#: ../goffice/graph/gog-series.c:53
+#: ../goffice/graph/gog-series.c:114
 msgid "Next series"
 msgstr "Naslednji niz"
 
-#: ../goffice/graph/gog-series.c:54
+#: ../goffice/graph/gog-series.c:115
 msgid "X axis minimum"
 msgstr "Najmanjša vrednost na osi X"
 
-#: ../goffice/graph/gog-series.c:55
+#: ../goffice/graph/gog-series.c:116
 msgid "X axis maximum"
 msgstr "Največja vrednost na osi X"
 
-#: ../goffice/graph/gog-series.c:56
+#: ../goffice/graph/gog-series.c:117
 msgid "Y axis minimum"
 msgstr "Najmanjša vrednost na osi Y"
 
-#: ../goffice/graph/gog-series.c:57
+#: ../goffice/graph/gog-series.c:118
 msgid "Y axis maximum"
 msgstr "Največja vrednost na osi Y"
 
-#: ../goffice/graph/gog-series.c:162
-#: ../goffice/graph/gog-series-labels.c:373
+#: ../goffice/graph/gog-series.c:223
+#: ../goffice/graph/gog-series-labels.c:394
 msgid "Index:"
 msgstr "Kazalo:"
 
-#: ../goffice/graph/gog-series.c:181
+#: ../goffice/graph/gog-series.c:242
 #: ../plugins/plot_pie/gog-pie.c:91
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: ../goffice/graph/gog-series.c:222
-#: ../goffice/graph/gog-series-labels.c:875
+#: ../goffice/graph/gog-series.c:283
+#: ../goffice/graph/gog-series-labels.c:896
 msgid "Index"
 msgstr "Kazalo"
 
-#: ../goffice/graph/gog-series.c:223
-#: ../goffice/graph/gog-series-labels.c:876
+#: ../goffice/graph/gog-series.c:284
+#: ../goffice/graph/gog-series-labels.c:897
 msgid "Index of the corresponding data element"
 msgstr "Vpisna številka ustreznega predmeta podatkov"
 
-#: ../goffice/graph/gog-series.c:546
+#: ../goffice/graph/gog-series.c:607
 #: ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
 msgstr "_Pokaži v legendi"
 
-#: ../goffice/graph/gog-series.c:556
+#: ../goffice/graph/gog-series.c:617
 msgid "Data"
 msgstr "Podatki"
 
-#: ../goffice/graph/gog-series.c:598
+#: ../goffice/graph/gog-series.c:659
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr "Odvod prve točke rezanega kubičnega zlepka."
 
-#: ../goffice/graph/gog-series.c:603
+#: ../goffice/graph/gog-series.c:664
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr "Odvod zadnje točke rezanega kubičnega zlepka."
 
-#: ../goffice/graph/gog-series.c:676
-#: ../goffice/graph/gog-series-labels.c:1358
+#: ../goffice/graph/gog-series.c:737
+#: ../goffice/graph/gog-series-labels.c:1379
 msgid "Point"
 msgstr "Točka"
 
-#: ../goffice/graph/gog-series.c:682
+#: ../goffice/graph/gog-series.c:743
 msgid "Regression curve"
 msgstr "Regresijska krivulja"
 
-#: ../goffice/graph/gog-series.c:690
+#: ../goffice/graph/gog-series.c:751
 msgid "Trend line"
 msgstr "Trendna črta"
 
-#: ../goffice/graph/gog-series.c:698
+#: ../goffice/graph/gog-series.c:759
 msgid "Data labels"
 msgstr "Podatkovne oznake"
 
-#: ../goffice/graph/gog-series.c:733
+#: ../goffice/graph/gog-series.c:794
 #: ../goffice/graph/gog-trend-line.c:153
 msgid "Has-legend"
 msgstr "Ima legendo"
 
-#: ../goffice/graph/gog-series.c:734
+#: ../goffice/graph/gog-series.c:795
 msgid "Should the series show up in legends"
 msgstr "Ali naj se vrednosti nizov podatkov izrišejo v legendi"
 
-#: ../goffice/graph/gog-series.c:739
+#: ../goffice/graph/gog-series.c:800
 msgid "Interpolation"
 msgstr "Interpolacija"
 
-#: ../goffice/graph/gog-series.c:740
+#: ../goffice/graph/gog-series.c:801
 msgid "Type of line interpolation"
 msgstr "Vrsta interpolacije črte"
 
-#: ../goffice/graph/gog-series.c:745
+#: ../goffice/graph/gog-series.c:806
 msgid "Interpolation skip invalid"
 msgstr "Interpoliraj brez neveljavnih podatkov"
 
-#: ../goffice/graph/gog-series.c:746
+#: ../goffice/graph/gog-series.c:807
 msgid "Should the series interpolation ignore the invalid data"
-msgstr "Ali naj se pri interpolaciji nizov prezrejo neveljavni podatki."
+msgstr "Ali naj se pri interpolaciji nizov prezrejo neveljavni podatki"
 
-#: ../goffice/graph/gog-series.c:751
+#: ../goffice/graph/gog-series.c:812
 msgid "Fill type"
 msgstr "Vrsta polnila"
 
-#: ../goffice/graph/gog-series.c:752
+#: ../goffice/graph/gog-series.c:813
 msgid "How to fill the area"
 msgstr "Kako napolniti območje"
 
-#: ../goffice/graph/gog-series-labels.c:36
+#: ../goffice/graph/gog-series-labels.c:57
 msgid "Centered"
 msgstr "Sredinjeno"
 
-#: ../goffice/graph/gog-series-labels.c:41
+#: ../goffice/graph/gog-series-labels.c:62
 msgid "Outside"
 msgstr "Zunaj"
 
-#: ../goffice/graph/gog-series-labels.c:42
+#: ../goffice/graph/gog-series-labels.c:63
 msgid "Inside"
 msgstr "Znotraj"
 
-#: ../goffice/graph/gog-series-labels.c:43
+#: ../goffice/graph/gog-series-labels.c:64
 msgid "Near origin"
 msgstr "Blizu izvora"
 
-#: ../goffice/graph/gog-series-labels.c:381
+#: ../goffice/graph/gog-series-labels.c:402
 msgid "Custom label"
 msgstr "Oznaka po meri"
 
-#: ../goffice/graph/gog-series-labels.c:391
+#: ../goffice/graph/gog-series-labels.c:412
 msgid "Custom labels"
 msgstr "Oznake po meri"
 
-#: ../goffice/graph/gog-series-labels.c:422
+#: ../goffice/graph/gog-series-labels.c:443
 msgid "Available data"
 msgstr "Podatki na voljo"
 
-#: ../goffice/graph/gog-series-labels.c:430
+#: ../goffice/graph/gog-series-labels.c:451
 msgid "Used data"
 msgstr "Uporabljeni podatki"
 
-#: ../goffice/graph/gog-series-labels.c:475
-#: ../goffice/graph/gog-series-labels.c:543
+#: ../goffice/graph/gog-series-labels.c:496
+#: ../goffice/graph/gog-series-labels.c:564
 msgid "Legend entry"
 msgstr "Vnos legende"
 
-#: ../goffice/graph/gog-series-labels.c:480
-#: ../goffice/graph/gog-series-labels.c:547
+#: ../goffice/graph/gog-series-labels.c:501
+#: ../goffice/graph/gog-series-labels.c:568
 msgid "Series name"
 msgstr "Ime niza"
 
-#: ../goffice/graph/gog-series-labels.c:486
-#: ../goffice/graph/gog-series-labels.c:551
+#: ../goffice/graph/gog-series-labels.c:507
+#: ../goffice/graph/gog-series-labels.c:572
 msgid "Values as percent"
 msgstr "Vrednosti kot odstotki"
 
@@ -2532,29 +2535,29 @@ msgstr "Vrednosti kot odstotki"
 #. FIXME: should the number of digits be customizable?
 #. Note to translators: a space might be needed before '%%' in someo_is_finie languages
 #. FIXME: should the number of digits be customizable?
-#: ../goffice/graph/gog-series-labels.c:800
-#: ../goffice/graph/gog-series-labels.c:1238
+#: ../goffice/graph/gog-series-labels.c:821
+#: ../goffice/graph/gog-series-labels.c:1259
 #, c-format
 msgid "%.1f%%"
 msgstr "%.1f%%"
 
-#: ../goffice/graph/gog-series-labels.c:858
-#: ../goffice/graph/gog-series-labels.c:1382
+#: ../goffice/graph/gog-series-labels.c:879
+#: ../goffice/graph/gog-series-labels.c:1403
 msgid "Position of the label relative to the data graphic element"
 msgstr "Umesti oznako relativno glede na grafični predmet podatkov"
 
-#: ../goffice/graph/gog-series-labels.c:863
-#: ../goffice/graph/gog-series-labels.c:1387
+#: ../goffice/graph/gog-series-labels.c:884
+#: ../goffice/graph/gog-series-labels.c:1408
 msgid "Offset"
 msgstr "Odmik"
 
-#: ../goffice/graph/gog-series-labels.c:864
-#: ../goffice/graph/gog-series-labels.c:1388
+#: ../goffice/graph/gog-series-labels.c:885
+#: ../goffice/graph/gog-series-labels.c:1409
 msgid "Offset to add to the label position"
 msgstr "Odmik, dodan položaju oznake"
 
-#: ../goffice/graph/gog-series-labels.c:870
-#: ../goffice/graph/gog-series-labels.c:1394
+#: ../goffice/graph/gog-series-labels.c:891
+#: ../goffice/graph/gog-series-labels.c:1415
 msgid "Label format"
 msgstr "Oblika oznake"
 
@@ -2596,11 +2599,11 @@ msgstr "<i>y'</i>(<i>x</i><sub>zadnji</sub>):"
 msgid "content"
 msgstr "vsebina"
 
-#: ../goffice/graph/gog-smoothed-curve.c:46
+#: ../goffice/graph/gog-smoothed-curve.c:53
 msgid "(Name):"
 msgstr "(Ime):"
 
-#: ../goffice/graph/gog-smoothed-curve.c:83
+#: ../goffice/graph/gog-smoothed-curve.c:90
 msgid "Smoothed Curve"
 msgstr "Glajena krivulja"
 
@@ -2644,23 +2647,23 @@ msgstr "Trendna črta"
 msgid "Should the trend line show up in legends"
 msgstr "Ali naj se trendna črta izriše v legedni"
 
-#: ../goffice/graph/gog-view.c:78
+#: ../goffice/graph/gog-view.c:128
 msgid "Select object"
 msgstr "Izbor predmeta"
 
-#: ../goffice/graph/gog-view.c:149
+#: ../goffice/graph/gog-view.c:199
 msgid "Move"
 msgstr "Premakni"
 
-#: ../goffice/graph/gog-view.c:196
+#: ../goffice/graph/gog-view.c:246
 msgid "Resize object"
 msgstr "Spremeni velikost predmeta"
 
-#: ../goffice/graph/gog-view.c:602
+#: ../goffice/graph/gog-view.c:685
 msgid "the GogView parent"
 msgstr "Nadrejeni predmet GogView"
 
-#: ../goffice/graph/gog-view.c:608
+#: ../goffice/graph/gog-view.c:691
 msgid "The GogObject this view displays"
 msgstr "Predmet GogObject uporabljen v prikazu"
 
@@ -2668,414 +2671,414 @@ msgstr "Predmet GogObject uporabljen v prikazu"
 msgid "<b>Rotation</b>"
 msgstr "<b>Vrtenje</b>"
 
-#: ../goffice/gtk/go-action-combo-text.c:217
+#: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
 msgstr "Razlikovanje malih/velikih črk"
 
-#: ../goffice/gtk/go-action-combo-text.c:218
+#: ../goffice/gtk/go-action-combo-text.c:225
 msgid "Should the text comparison be case sensitive"
 msgstr "Ali naj bo primerjava besedila občutljiva na velikost črk"
 
-#: ../goffice/gtk/go-charmap-sel.c:67
+#: ../goffice/gtk/go-charmap-sel.c:73
 msgid "Arabic"
 msgstr "Arabsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:68
+#: ../goffice/gtk/go-charmap-sel.c:74
 msgid "Baltic"
 msgstr "Baltsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:69
+#: ../goffice/gtk/go-charmap-sel.c:75
 msgid "Central European"
 msgstr "Srednjeevropsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:70
+#: ../goffice/gtk/go-charmap-sel.c:76
 msgid "Chinese"
 msgstr "Kitajsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:71
+#: ../goffice/gtk/go-charmap-sel.c:77
 msgid "Cyrillic"
 msgstr "Cirilica"
 
-#: ../goffice/gtk/go-charmap-sel.c:72
+#: ../goffice/gtk/go-charmap-sel.c:78
 msgid "Greek"
 msgstr "Grško"
 
-#: ../goffice/gtk/go-charmap-sel.c:73
+#: ../goffice/gtk/go-charmap-sel.c:79
 msgid "Hebrew"
 msgstr "Hebrejsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:74
+#: ../goffice/gtk/go-charmap-sel.c:80
 msgid "Indian"
 msgstr "Indijsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:75
+#: ../goffice/gtk/go-charmap-sel.c:81
 msgid "Japanese"
 msgstr "Japonsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:76
+#: ../goffice/gtk/go-charmap-sel.c:82
 msgid "Korean"
 msgstr "Korejsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:77
+#: ../goffice/gtk/go-charmap-sel.c:83
 msgid "Turkish"
 msgstr "Turško"
 
-#: ../goffice/gtk/go-charmap-sel.c:78
+#: ../goffice/gtk/go-charmap-sel.c:84
 msgid "Unicode"
 msgstr "Unicode"
 
-#: ../goffice/gtk/go-charmap-sel.c:79
+#: ../goffice/gtk/go-charmap-sel.c:85
 msgid "Vietnamese"
 msgstr "Vietnamsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:80
+#: ../goffice/gtk/go-charmap-sel.c:86
 msgid "Western"
 msgstr "Zahodno"
 
-#: ../goffice/gtk/go-charmap-sel.c:81
+#: ../goffice/gtk/go-charmap-sel.c:87
 #: ../goffice/gtk/go-locale-sel.c:69
 msgid "Other"
 msgstr "Ostalo"
 
-#: ../goffice/gtk/go-charmap-sel.c:112
+#: ../goffice/gtk/go-charmap-sel.c:118
 msgid "Arabic (IBM-864)"
 msgstr "Arabsko (IBM-864)"
 
-#: ../goffice/gtk/go-charmap-sel.c:113
+#: ../goffice/gtk/go-charmap-sel.c:119
 msgid "Arabic (IBM-864-I)"
 msgstr "Arabsko (IBM-864-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:114
+#: ../goffice/gtk/go-charmap-sel.c:120
 msgid "Arabic (ISO-8859-6)"
 msgstr "Arabsko (ISO-8859-6)"
 
-#: ../goffice/gtk/go-charmap-sel.c:115
+#: ../goffice/gtk/go-charmap-sel.c:121
 msgid "Arabic (ISO-8859-6-E)"
 msgstr "Arabsko (ISO-8859-6-E)"
 
-#: ../goffice/gtk/go-charmap-sel.c:117
+#: ../goffice/gtk/go-charmap-sel.c:123
 msgid "Arabic (ISO-8859-6-I)"
 msgstr "Arabsko (ISO-8859-6-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:118
+#: ../goffice/gtk/go-charmap-sel.c:124
 msgid "Arabic (MacArabic)"
 msgstr "Arabsko (MacArabic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:119
+#: ../goffice/gtk/go-charmap-sel.c:125
 msgid "Arabic (Windows-1256)"
 msgstr "Arabsko (windows-1256)"
 
-#: ../goffice/gtk/go-charmap-sel.c:120
+#: ../goffice/gtk/go-charmap-sel.c:126
 msgid "Armenian (ARMSCII-8)"
 msgstr "Armensko (ARMSCII-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:121
+#: ../goffice/gtk/go-charmap-sel.c:127
 msgid "Baltic (ISO-8859-13)"
 msgstr "Baltsko (ISO-8859-13)"
 
-#: ../goffice/gtk/go-charmap-sel.c:122
+#: ../goffice/gtk/go-charmap-sel.c:128
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltsko (ISO-8859-4)"
 
-#: ../goffice/gtk/go-charmap-sel.c:123
+#: ../goffice/gtk/go-charmap-sel.c:129
 msgid "Baltic (Windows-1257)"
 msgstr "Baltsko (windows-1257)"
 
-#: ../goffice/gtk/go-charmap-sel.c:124
+#: ../goffice/gtk/go-charmap-sel.c:130
 msgid "Celtic (ISO-8859-14)"
 msgstr "Keltsko (ISO-8859-14)"
 
-#: ../goffice/gtk/go-charmap-sel.c:125
+#: ../goffice/gtk/go-charmap-sel.c:131
 msgid "Central European (IBM-852)"
 msgstr "Srednjeevropsko (IBM-852)"
 
-#: ../goffice/gtk/go-charmap-sel.c:126
+#: ../goffice/gtk/go-charmap-sel.c:132
 msgid "Central European (ISO-8859-2)"
 msgstr "Srednjeevropsko (ISO-8859-2)"
 
-#: ../goffice/gtk/go-charmap-sel.c:127
+#: ../goffice/gtk/go-charmap-sel.c:133
 msgid "Central European (MacCE)"
 msgstr "Srednjeevropsko (MacCE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:128
+#: ../goffice/gtk/go-charmap-sel.c:134
 msgid "Central European (Windows-1250)"
 msgstr "Srednjeevropsko (Windows-1250)"
 
-#: ../goffice/gtk/go-charmap-sel.c:129
+#: ../goffice/gtk/go-charmap-sel.c:135
 msgid "Chinese Simplified (GB18030)"
 msgstr "Poenostavljeno kitajsko (GB18030)"
 
-#: ../goffice/gtk/go-charmap-sel.c:130
+#: ../goffice/gtk/go-charmap-sel.c:136
 msgid "Chinese Simplified (GB2312)"
 msgstr "Poenostavljeno kitajsko (GB2312)"
 
-#: ../goffice/gtk/go-charmap-sel.c:131
+#: ../goffice/gtk/go-charmap-sel.c:137
 msgid "Chinese Simplified (GBK)"
 msgstr "Poenostavljeno kitajsko (GBK)"
 
-#: ../goffice/gtk/go-charmap-sel.c:132
+#: ../goffice/gtk/go-charmap-sel.c:138
 msgid "Chinese Simplified (HZ)"
 msgstr "Poenostavljeno kitajsko (HZ)"
 
-#: ../goffice/gtk/go-charmap-sel.c:133
+#: ../goffice/gtk/go-charmap-sel.c:139
 msgid "Chinese Simplified (Windows-936)"
 msgstr "Poenostavljeno kitajsko (Windows-936)"
 
-#: ../goffice/gtk/go-charmap-sel.c:134
+#: ../goffice/gtk/go-charmap-sel.c:140
 msgid "Chinese Traditional (Big5)"
 msgstr "Tradicionalno kitajsko (Big5)"
 
-#: ../goffice/gtk/go-charmap-sel.c:135
+#: ../goffice/gtk/go-charmap-sel.c:141
 msgid "Chinese Traditional (Big5-HKSCS)"
 msgstr "Tradicionalno kitajsko (Big5-HKSCS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:136
+#: ../goffice/gtk/go-charmap-sel.c:142
 msgid "Chinese Traditional (EUC-TW)"
 msgstr "Tradicionalno kitajsko (EUC-TW)"
 
-#: ../goffice/gtk/go-charmap-sel.c:137
+#: ../goffice/gtk/go-charmap-sel.c:143
 msgid "Croatian (MacCroatian)"
 msgstr "Hrvaško (MacCroatian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:138
+#: ../goffice/gtk/go-charmap-sel.c:144
 msgid "Cyrillic (IBM-855)"
 msgstr "Cirilica (IBM-855)"
 
-#: ../goffice/gtk/go-charmap-sel.c:139
+#: ../goffice/gtk/go-charmap-sel.c:145
 msgid "Cyrillic (ISO-8859-5)"
 msgstr "Cirilica (ISO-8859-5)"
 
-#: ../goffice/gtk/go-charmap-sel.c:140
+#: ../goffice/gtk/go-charmap-sel.c:146
 msgid "Cyrillic (ISO-IR-111)"
 msgstr "Cirilica (ISO-IR-111)"
 
-#: ../goffice/gtk/go-charmap-sel.c:141
+#: ../goffice/gtk/go-charmap-sel.c:147
 msgid "Cyrillic (KOI8-R)"
 msgstr "Cirilica (KOI8-R)"
 
-#: ../goffice/gtk/go-charmap-sel.c:142
+#: ../goffice/gtk/go-charmap-sel.c:148
 msgid "Cyrillic (MacCyrillic)"
 msgstr "Cirilica (MacCyrillic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:143
+#: ../goffice/gtk/go-charmap-sel.c:149
 msgid "Cyrillic (Windows-1251)"
 msgstr "Cirilica (Windows-1251)"
 
-#: ../goffice/gtk/go-charmap-sel.c:144
+#: ../goffice/gtk/go-charmap-sel.c:150
 msgid "Russian (CP-866)"
 msgstr "Rusko (CP-866)"
 
-#: ../goffice/gtk/go-charmap-sel.c:145
+#: ../goffice/gtk/go-charmap-sel.c:151
 msgid "Ukrainian (KOI8-U)"
 msgstr "Ukrajinsko (KOI8-U)"
 
-#: ../goffice/gtk/go-charmap-sel.c:146
+#: ../goffice/gtk/go-charmap-sel.c:152
 msgid "Ukrainian (MacUkrainian)"
 msgstr "Ukrajinsko (MacUkrainian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:147
+#: ../goffice/gtk/go-charmap-sel.c:153
 msgid "English (ASCII)"
 msgstr "Angleško (ASCII)"
 
-#: ../goffice/gtk/go-charmap-sel.c:148
+#: ../goffice/gtk/go-charmap-sel.c:154
 msgid "Farsi (MacFarsi)"
 msgstr "Farški (MacFarsi)"
 
-#: ../goffice/gtk/go-charmap-sel.c:149
+#: ../goffice/gtk/go-charmap-sel.c:155
 msgid "Georgian (GEOSTD8)"
 msgstr "Gruzijsko (GEOSTD8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:150
+#: ../goffice/gtk/go-charmap-sel.c:156
 msgid "Greek (ISO-8859-7)"
 msgstr "Grško (ISO-8859-7)"
 
-#: ../goffice/gtk/go-charmap-sel.c:151
+#: ../goffice/gtk/go-charmap-sel.c:157
 msgid "Greek (MacGreek)"
 msgstr "Grško (MacGreek)"
 
-#: ../goffice/gtk/go-charmap-sel.c:152
+#: ../goffice/gtk/go-charmap-sel.c:158
 msgid "Greek (Windows-1253)"
 msgstr "Grško (Windows-1253)"
 
-#: ../goffice/gtk/go-charmap-sel.c:153
+#: ../goffice/gtk/go-charmap-sel.c:159
 msgid "Gujarati (MacGujarati)"
 msgstr "Gujaratsko (MacGujarati)"
 
-#: ../goffice/gtk/go-charmap-sel.c:154
+#: ../goffice/gtk/go-charmap-sel.c:160
 msgid "Gurmukhi (MacGurmukhi)"
-msgstr "Gurmukhijsko (Mac_Gurmukhi)"
+msgstr "Gurmukhijsko (MacGurmukhi)"
 
-#: ../goffice/gtk/go-charmap-sel.c:155
+#: ../goffice/gtk/go-charmap-sel.c:161
 msgid "Hebrew (IBM-862)"
 msgstr "Hebrejsko (IBM-862)"
 
-#: ../goffice/gtk/go-charmap-sel.c:156
+#: ../goffice/gtk/go-charmap-sel.c:162
 msgid "Hebrew (ISO-8859-8-E)"
 msgstr "Hebrejsko (ISO-8859-8-E)"
 
-#: ../goffice/gtk/go-charmap-sel.c:157
+#: ../goffice/gtk/go-charmap-sel.c:163
 msgid "Hebrew (ISO-8859-8-I)"
 msgstr "Hebrejsko (ISO-8859-8-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:158
+#: ../goffice/gtk/go-charmap-sel.c:164
 msgid "Hebrew (MacHebrew)"
 msgstr "Hebrejsko (MacHebrew)"
 
-#: ../goffice/gtk/go-charmap-sel.c:159
+#: ../goffice/gtk/go-charmap-sel.c:165
 msgid "Hebrew (Windows-1255)"
 msgstr "Hebrejsko (Windows-1255)"
 
-#: ../goffice/gtk/go-charmap-sel.c:160
+#: ../goffice/gtk/go-charmap-sel.c:166
 msgid "Hindi (MacDevanagari)"
 msgstr "Hindujsko (MacDevanagari)"
 
-#: ../goffice/gtk/go-charmap-sel.c:161
+#: ../goffice/gtk/go-charmap-sel.c:167
 msgid "Icelandic (MacIcelandic)"
 msgstr "Islandsko (MacIcelandic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:162
+#: ../goffice/gtk/go-charmap-sel.c:168
 msgid "Japanese (EUC-JP)"
 msgstr "Japonsko (EUC-JP)"
 
-#: ../goffice/gtk/go-charmap-sel.c:163
+#: ../goffice/gtk/go-charmap-sel.c:169
 msgid "Japanese (ISO-2022-JP)"
 msgstr "Japonsko (ISO-2022-JP)"
 
-#: ../goffice/gtk/go-charmap-sel.c:164
+#: ../goffice/gtk/go-charmap-sel.c:170
 msgid "Japanese (Shift_JIS)"
-msgstr "Japonsko (Shift-JIS)"
+msgstr "Japonsko (Shift_JIS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:165
+#: ../goffice/gtk/go-charmap-sel.c:171
 msgid "Korean (EUC-KR)"
 msgstr "Korejsko (EUC-KR)"
 
-#: ../goffice/gtk/go-charmap-sel.c:166
+#: ../goffice/gtk/go-charmap-sel.c:172
 msgid "Korean (ISO-2022-KR)"
 msgstr "Korejsko (ISO-2022-KR)"
 
-#: ../goffice/gtk/go-charmap-sel.c:167
+#: ../goffice/gtk/go-charmap-sel.c:173
 msgid "Korean (JOHAB)"
 msgstr "Korejsko (JOHAB)"
 
-#: ../goffice/gtk/go-charmap-sel.c:168
+#: ../goffice/gtk/go-charmap-sel.c:174
 msgid "Korean (UHC)"
 msgstr "Korejsko (UHC)"
 
-#: ../goffice/gtk/go-charmap-sel.c:169
+#: ../goffice/gtk/go-charmap-sel.c:175
 msgid "Nordic (ISO-8859-10)"
 msgstr "Nordijsko (ISO-8859-10)"
 
-#: ../goffice/gtk/go-charmap-sel.c:170
+#: ../goffice/gtk/go-charmap-sel.c:176
 msgid "Romanian (MacRomanian)"
 msgstr "Romunsko (MacRomanian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:171
+#: ../goffice/gtk/go-charmap-sel.c:177
 msgid "Romanian (ISO-8859-16)"
 msgstr "Romunsko (ISO-8859-16)"
 
-#: ../goffice/gtk/go-charmap-sel.c:172
+#: ../goffice/gtk/go-charmap-sel.c:178
 msgid "South European (ISO-8859-3)"
 msgstr "Južno evropsko (ISO-8859-3)"
 
-#: ../goffice/gtk/go-charmap-sel.c:173
+#: ../goffice/gtk/go-charmap-sel.c:179
 msgid "Thai (TIS-620)"
 msgstr "Tajsko (TIS-620)"
 
-#: ../goffice/gtk/go-charmap-sel.c:174
+#: ../goffice/gtk/go-charmap-sel.c:180
 msgid "Turkish (IBM-857)"
 msgstr "Turško (IBM-857)"
 
-#: ../goffice/gtk/go-charmap-sel.c:175
+#: ../goffice/gtk/go-charmap-sel.c:181
 msgid "Turkish (ISO-8859-9)"
 msgstr "Turško (ISO-8859-9)"
 
-#: ../goffice/gtk/go-charmap-sel.c:176
+#: ../goffice/gtk/go-charmap-sel.c:182
 msgid "Turkish (MacTurkish)"
 msgstr "Turško (MacTurkish)"
 
-#: ../goffice/gtk/go-charmap-sel.c:177
+#: ../goffice/gtk/go-charmap-sel.c:183
 msgid "Turkish (Windows-1254)"
 msgstr "Turško (Windows-1254)"
 
-#: ../goffice/gtk/go-charmap-sel.c:178
+#: ../goffice/gtk/go-charmap-sel.c:184
 msgid "Unicode (UTF-7)"
 msgstr "Unicode (UTF-7)"
 
-#: ../goffice/gtk/go-charmap-sel.c:179
+#: ../goffice/gtk/go-charmap-sel.c:185
 msgid "Unicode (UTF-8)"
 msgstr "Unicode (UTF-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:180
+#: ../goffice/gtk/go-charmap-sel.c:186
 msgid "Unicode (UTF-16BE)"
 msgstr "Unicode (UTF-16BE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:181
+#: ../goffice/gtk/go-charmap-sel.c:187
 msgid "Unicode (UTF-16LE)"
 msgstr "Unicode (UTF-16LE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:182
+#: ../goffice/gtk/go-charmap-sel.c:188
 msgid "Unicode (UTF-32BE)"
 msgstr "Unicode (UTF-32BE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:183
+#: ../goffice/gtk/go-charmap-sel.c:189
 msgid "Unicode (UTF-32LE)"
 msgstr "Unicode (UTF-32LE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:184
+#: ../goffice/gtk/go-charmap-sel.c:190
 msgid "User Defined"
 msgstr "Uporabniško določeno"
 
-#: ../goffice/gtk/go-charmap-sel.c:185
+#: ../goffice/gtk/go-charmap-sel.c:191
 msgid "Vietnamese (TCVN)"
 msgstr "Vietnamsko (TCVN)"
 
-#: ../goffice/gtk/go-charmap-sel.c:186
+#: ../goffice/gtk/go-charmap-sel.c:192
 msgid "Vietnamese (VISCII)"
 msgstr "Vietnamsko (VISCII)"
 
-#: ../goffice/gtk/go-charmap-sel.c:187
+#: ../goffice/gtk/go-charmap-sel.c:193
 msgid "Vietnamese (VPS)"
 msgstr "Vietnamsko (VPS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:188
+#: ../goffice/gtk/go-charmap-sel.c:194
 msgid "Vietnamese (Windows-1258)"
 msgstr "Vietnamsko (Windows-1258)"
 
-#: ../goffice/gtk/go-charmap-sel.c:189
+#: ../goffice/gtk/go-charmap-sel.c:195
 msgid "Visual Hebrew (ISO-8859-8)"
 msgstr "Hebrejsko predočeno (ISO-8859-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:190
+#: ../goffice/gtk/go-charmap-sel.c:196
 msgid "Western (IBM-850)"
 msgstr "Zahodno (IBM-850)"
 
-#: ../goffice/gtk/go-charmap-sel.c:191
+#: ../goffice/gtk/go-charmap-sel.c:197
 msgid "Western (ISO-8859-1)"
 msgstr "Zahodno (ISO-8859-1)"
 
-#: ../goffice/gtk/go-charmap-sel.c:192
+#: ../goffice/gtk/go-charmap-sel.c:198
 msgid "Western (ISO-8859-15)"
 msgstr "Zahodno (ISO-8859-15)"
 
-#: ../goffice/gtk/go-charmap-sel.c:193
+#: ../goffice/gtk/go-charmap-sel.c:199
 msgid "Western (MacRoman)"
 msgstr "Zahodno (MacRoman)"
 
-#: ../goffice/gtk/go-charmap-sel.c:194
+#: ../goffice/gtk/go-charmap-sel.c:200
 msgid "Western (Windows-1252)"
 msgstr "Zahodno (Windows-1252)"
 
-#: ../goffice/gtk/go-charmap-sel.c:410
+#: ../goffice/gtk/go-charmap-sel.c:416
 msgid "Locale: "
-msgstr "Krajevno določilo"
+msgstr "Krajevno določilo: "
 
-#: ../goffice/gtk/go-charmap-sel.c:451
+#: ../goffice/gtk/go-charmap-sel.c:457
 msgid "Conversion Direction"
 msgstr "Smer pretvorbe"
 
-#: ../goffice/gtk/go-charmap-sel.c:452
+#: ../goffice/gtk/go-charmap-sel.c:458
 msgid "This value determines which iconv test to perform."
-msgstr "Vrednost določa izvajanje posameznega preizkusa iconv"
+msgstr "Vrednost določa izvajanje posameznega preizkusa iconv."
 
 #: ../goffice/gtk/go-color-palette.c:76
 msgid "black"
@@ -3269,23 +3272,20 @@ msgstr "po meri"
 
 #: ../goffice/gtk/go-color-palette.c:475
 #: ../goffice/gtk/go-color-palette.c:729
-msgid "Custom Color..."
-msgstr "Barva po meri ..."
-
 #: ../goffice/gtk/go-color-selector.c:198
 msgid "Custom color..."
 msgstr "Barva po meri ..."
 
-#: ../goffice/gtk/go-combo-box.c:253
+#: ../goffice/gtk/go-combo-box.c:260
 msgid "Add tearoffs to menus"
 msgstr "Dodaj menijem odpenjalnike"
 
-#: ../goffice/gtk/go-combo-box.c:254
+#: ../goffice/gtk/go-combo-box.c:261
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Ali naj imajo spustni meniji odpenjalnike"
 
 #: ../goffice/gtk/go-font-sel.c:188
-#: ../goffice/math/go-distribution.c:66
+#: ../goffice/math/go-distribution.c:75
 msgid "Normal"
 msgstr "Običajna"
 
@@ -3364,137 +3364,166 @@ msgstr "Posebno"
 msgid "Custom"
 msgstr "Po meri"
 
-#: ../goffice/gtk/go-format-sel.c:306
+#. See http://en.wikipedia.org/wiki/Ampere
+#: ../goffice/gtk/go-format-sel.c:307
 msgid "A (ampere)"
 msgstr "A (amper)"
 
-#: ../goffice/gtk/go-format-sel.c:307
+#. See http://en.wikipedia.org/wiki/Becquerel
+#: ../goffice/gtk/go-format-sel.c:309
 msgid "Bq (becquerel)"
-msgstr "Bq (becquerel)"
+msgstr "Bq (bekerel)"
 
-#: ../goffice/gtk/go-format-sel.c:308
+#. See http://en.wikipedia.org/wiki/Candela
+#: ../goffice/gtk/go-format-sel.c:311
 msgid "cd (candela)"
 msgstr "cd (kandela)"
 
-#: ../goffice/gtk/go-format-sel.c:309
+#. See http://en.wikipedia.org/wiki/Coulomb
+#: ../goffice/gtk/go-format-sel.c:313
 msgid "C (coulomb)"
 msgstr "C (coulomb)"
 
-#: ../goffice/gtk/go-format-sel.c:310
+#. See http://en.wikipedia.org/wiki/Degree_Celsius
+#: ../goffice/gtk/go-format-sel.c:315
 msgid "°C (degree Celsius)"
 msgstr "°C (stopinja Celzija)"
 
-#: ../goffice/gtk/go-format-sel.c:311
+#. See http://en.wikipedia.org/wiki/Farad
+#: ../goffice/gtk/go-format-sel.c:317
 msgid "F (farad)"
 msgstr "F (farad)"
 
-#: ../goffice/gtk/go-format-sel.c:312
+#. See http://en.wikipedia.org/wiki/Gray_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:319
 msgid "Gy (gray)"
 msgstr "Gy (gray)"
 
-#: ../goffice/gtk/go-format-sel.c:313
+#. See http://en.wikipedia.org/wiki/Henry_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:321
 msgid "H (henry)"
 msgstr "H (henry)"
 
-#: ../goffice/gtk/go-format-sel.c:314
+#. See http://en.wikipedia.org/wiki/Hertz
+#: ../goffice/gtk/go-format-sel.c:323
 msgid "Hz (hertz)"
 msgstr "Hz (hertz)"
 
-#: ../goffice/gtk/go-format-sel.c:315
+#. See http://en.wikipedia.org/wiki/Joule
+#: ../goffice/gtk/go-format-sel.c:325
 msgid "J (joule)"
 msgstr "J (joule)"
 
-#: ../goffice/gtk/go-format-sel.c:316
+#. See http://en.wikipedia.org/wiki/Kelvin
+#: ../goffice/gtk/go-format-sel.c:327
 msgid "K (kelvin)"
 msgstr "K (kelvin)"
 
-#: ../goffice/gtk/go-format-sel.c:317
+#. See http://en.wikipedia.org/wiki/Kilogram
+#: ../goffice/gtk/go-format-sel.c:329
 msgid "kg (kilogram)"
 msgstr "kg (kilogram)"
 
-#: ../goffice/gtk/go-format-sel.c:318
+#. See http://en.wikipedia.org/wiki/Lumen_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:331
 msgid "lm (lumen)"
 msgstr "lm (lumen)"
 
-#: ../goffice/gtk/go-format-sel.c:319
+#. See http://en.wikipedia.org/wiki/Lux
+#: ../goffice/gtk/go-format-sel.c:333
 msgid "lx (lux)"
 msgstr "lx (luks)"
 
-#: ../goffice/gtk/go-format-sel.c:320
+#. See http://en.wikipedia.org/wiki/Metre
+#: ../goffice/gtk/go-format-sel.c:335
 msgid "m (meter)"
 msgstr "m (meter)"
 
-#: ../goffice/gtk/go-format-sel.c:321
+#. See http://en.wikipedia.org/wiki/Mole_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:337
 msgid "mol (mole)"
 msgstr "mol (mol)"
 
-#: ../goffice/gtk/go-format-sel.c:322
+#. See http://en.wikipedia.org/wiki/Newton_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:339
 msgid "N (newton)"
 msgstr "N (newton)"
 
-#: ../goffice/gtk/go-format-sel.c:323
+#. See http://en.wikipedia.org/wiki/Ohm_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:341
 msgid "Ω (ohm)"
-msgstr "Ω (ohm)"
+msgstr "Ω (om)"
 
-#: ../goffice/gtk/go-format-sel.c:324
+#. See http://en.wikipedia.org/wiki/Pascal_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:343
 msgid "Pa (pascal)"
 msgstr "Pa (paskal)"
 
-#: ../goffice/gtk/go-format-sel.c:325
+#. See http://en.wikipedia.org/wiki/Radian
+#: ../goffice/gtk/go-format-sel.c:345
 msgid "rad (radian)"
 msgstr "rad (radian)"
 
-#: ../goffice/gtk/go-format-sel.c:326
+#. See http://en.wikipedia.org/wiki/Second
+#: ../goffice/gtk/go-format-sel.c:347
 msgid "s (second)"
 msgstr "s (sekunda)"
 
-#: ../goffice/gtk/go-format-sel.c:327
+#. See http://en.wikipedia.org/wiki/Siemens_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:349
 msgid "S (siemens)"
 msgstr "S (siemens)"
 
-#: ../goffice/gtk/go-format-sel.c:328
+#. See http://en.wikipedia.org/wiki/Steradian
+#: ../goffice/gtk/go-format-sel.c:351
 msgid "sr (steradian)"
 msgstr "sr (steradian)"
 
-#: ../goffice/gtk/go-format-sel.c:329
+#. See http://en.wikipedia.org/wiki/Sievert
+#: ../goffice/gtk/go-format-sel.c:353
 msgid "Sv (sievert)"
 msgstr "Sv (sievert)"
 
-#: ../goffice/gtk/go-format-sel.c:330
+#. See http://en.wikipedia.org/wiki/Tesla_%28unit%29
+#: ../goffice/gtk/go-format-sel.c:355
 msgid "T (tesla)"
 msgstr "T (tesla)"
 
-#: ../goffice/gtk/go-format-sel.c:331
+#. See http://en.wikipedia.org/wiki/Katal
+#: ../goffice/gtk/go-format-sel.c:357
 msgid "kat (katal)"
 msgstr "kat (katal)"
 
-#: ../goffice/gtk/go-format-sel.c:332
+#. See http://en.wikipedia.org/wiki/Volt
+#: ../goffice/gtk/go-format-sel.c:359
 msgid "V (volt)"
 msgstr "V (volt)"
 
-#: ../goffice/gtk/go-format-sel.c:333
+#. See http://en.wikipedia.org/wiki/Watt
+#: ../goffice/gtk/go-format-sel.c:361
 msgid "W (watt)"
-msgstr "W (watt)"
+msgstr "W (vat)"
 
-#: ../goffice/gtk/go-format-sel.c:334
+#. See http://en.wikipedia.org/wiki/Weber_%28Wb%29
+#: ../goffice/gtk/go-format-sel.c:363
 msgid "Wb (weber)"
 msgstr "Wb (weber)"
 
-#: ../goffice/gtk/go-format-sel.c:1004
+#: ../goffice/gtk/go-format-sel.c:1033
 #: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append no further unit."
 msgstr "Ne dodaj enote."
 
-#: ../goffice/gtk/go-format-sel.c:1011
+#: ../goffice/gtk/go-format-sel.c:1040
 #, c-format
 msgid "Append '%s'."
 msgstr "Dodaj '%s'."
 
-#: ../goffice/gtk/go-format-sel.c:1552
+#: ../goffice/gtk/go-format-sel.c:1581
 msgid "Negative Number Format"
 msgstr "Oblike negativnih števil"
 
-#: ../goffice/gtk/go-format-sel.c:1610
+#: ../goffice/gtk/go-format-sel.c:1639
 msgid "Number Formats"
 msgstr "Oblike števil"
 
@@ -3536,7 +3565,7 @@ msgstr "Izpiši vrednosti kot najbližje približke ulomka."
 
 #: ../goffice/gtk/go-format-sel.ui.h:10
 msgid "Display values with power-of-ten scaling."
-msgstr "Izpiši vrednosti v desetiškem potenčnem redu velikosti"
+msgstr "Izpiši vrednosti v desetiškem potenčnem redu velikosti."
 
 #: ../goffice/gtk/go-format-sel.ui.h:11
 msgid "Display and input values as strings with no interpretation."
@@ -3544,7 +3573,7 @@ msgstr "Prikaži in vnesi vrednost kot nize brez razlage."
 
 #: ../goffice/gtk/go-format-sel.ui.h:12
 msgid "Specify an XL-style format directly"
-msgstr "Neposredno določi vrsto sloga XL."
+msgstr "Neposredno določi vrsto sloga XL"
 
 #: ../goffice/gtk/go-format-sel.ui.h:13
 msgid "Display values as percentages."
@@ -3560,7 +3589,7 @@ msgstr "_Uporabi ločilnik za tisočice"
 
 #: ../goffice/gtk/go-format-sel.ui.h:16
 msgid "Negative number _format:"
-msgstr "_Oblika negativnih števil: "
+msgstr "_Oblika negativnih števil:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:17
 msgid "_Format:"
@@ -3579,7 +3608,8 @@ msgid "Show _separate integer part"
 msgstr "Pokaži celoštevilski del _ločeno"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
-msgid "Split fractions with absolute value larger than 1  into an integer part and a fractional part (e.g. 4 5/6)"
+#, fuzzy
+msgid "Split fractions with absolute value larger than 1 into an integer part and a fractional part (e.g. 4 5/6)"
 msgstr "Razdeli ulomke z absolutno vrednostjo več kot 1 v celoštevilski del in ulomkovni del (npr. 4 5/6)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
@@ -4309,13 +4339,13 @@ msgstr "Tajvan (zh_TW)"
 
 #: ../goffice/gtk/go-locale-sel.c:464
 msgid "Current Locale: "
-msgstr "Trenutno jezikovno določilo:"
+msgstr "Trenutno jezikovno določilo: "
 
-#: ../goffice/gtk/go-optionmenu.c:426
+#: ../goffice/gtk/go-optionmenu.c:427
 msgid "Menu"
 msgstr "Meni"
 
-#: ../goffice/gtk/go-optionmenu.c:427
+#: ../goffice/gtk/go-optionmenu.c:428
 msgid "The menu of options"
 msgstr "Meni možnosti"
 
@@ -4331,38 +4361,38 @@ msgstr "<b>Usmerjenost</b>"
 msgid "A_ngle:"
 msgstr "Ko_t:"
 
-#: ../goffice/gtk/goffice-gtk.c:200
+#: ../goffice/gtk/goffice-gtk.c:219
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Ni mogoče odpreti datoteke '%s'"
 
-#: ../goffice/gtk/goffice-gtk.c:700
-#: ../goffice/utils/go-style.c:156
+#: ../goffice/gtk/goffice-gtk.c:791
+#: ../goffice/utils/go-style.c:215
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:735
+#: ../goffice/gtk/goffice-gtk.c:826
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: ../goffice/gtk/goffice-gtk.c:740
+#: ../goffice/gtk/goffice-gtk.c:831
 msgid "Images"
 msgstr "Slike"
 
-#: ../goffice/gtk/goffice-gtk.c:792
+#: ../goffice/gtk/goffice-gtk.c:883
 msgid "Select an Image"
 msgstr "Izbor slike"
 
-#: ../goffice/gtk/goffice-gtk.c:871
+#: ../goffice/gtk/goffice-gtk.c:962
 msgid "Save as"
 msgstr "Shrani kot"
 
-#: ../goffice/gtk/goffice-gtk.c:944
+#: ../goffice/gtk/goffice-gtk.c:1035
 msgid "The given file extension does not match the chosen file type. Do you want to use this name anyway?"
 msgstr "Podana pripona datoteke se ne ujema z izbrano vrsto datoteke. Ali želite vseeno uporabiti to ime?"
 
-#: ../goffice/gtk/goffice-gtk.c:1163
+#: ../goffice/gtk/goffice-gtk.c:1254
 #, c-format
 msgid ""
 "%s\n"
@@ -4371,7 +4401,7 @@ msgstr ""
 "%s\n"
 "je ime mape"
 
-#: ../goffice/gtk/goffice-gtk.c:1167
+#: ../goffice/gtk/goffice-gtk.c:1258
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -4380,7 +4410,7 @@ msgstr ""
 "Ni ustreznih dolvoljenj za shranjevanje v\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1177
+#: ../goffice/gtk/goffice-gtk.c:1268
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -4391,34 +4421,34 @@ msgstr ""
 "\n"
 "Ali jo želite prepisati?"
 
-#: ../goffice/math/go-distribution.c:67
+#: ../goffice/math/go-distribution.c:76
 msgid "Uniform"
 msgstr "Enotna porazdelitev"
 
-#: ../goffice/math/go-distribution.c:68
+#: ../goffice/math/go-distribution.c:77
 msgid "Cauchy"
 msgstr "Cauchyjeva porazdelitev"
 
-#: ../goffice/math/go-distribution.c:69
+#: ../goffice/math/go-distribution.c:78
 msgid "Weibull"
 msgstr "Weibullova porazdelitev"
 
-#: ../goffice/math/go-distribution.c:70
+#: ../goffice/math/go-distribution.c:79
 msgid "Lognormal"
 msgstr "Logaritemska porazdelitev"
 
-#: ../goffice/math/go-distribution.c:154
-#: ../goffice/math/go-distribution.c:155
+#: ../goffice/math/go-distribution.c:163
+#: ../goffice/math/go-distribution.c:164
 msgid "Location"
 msgstr "Mesto"
 
-#: ../goffice/math/go-distribution.c:692
-#: ../goffice/math/go-distribution.c:804
+#: ../goffice/math/go-distribution.c:701
+#: ../goffice/math/go-distribution.c:813
 msgid "Shape"
 msgstr "Oblika"
 
-#: ../goffice/math/go-distribution.c:693
-#: ../goffice/math/go-distribution.c:805
+#: ../goffice/math/go-distribution.c:702
+#: ../goffice/math/go-distribution.c:814
 msgid "Shape factor"
 msgstr "Dejavnik oblike"
 
@@ -4917,7 +4947,7 @@ msgstr "Ruanda, ruandski franki"
 
 #: ../goffice/utils/formats.c:504
 msgid "Saudi arabia, Riyals"
-msgstr "Saudska Arabija, riali "
+msgstr "Saudska Arabija, riali"
 
 #: ../goffice/utils/formats.c:505
 msgid "Solomon Islands, Dollars"
@@ -5131,258 +5161,258 @@ msgstr "Zambija, kvača"
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabve, zimbabski dolar"
 
-#: ../goffice/utils/go-emf.c:222
+#: ../goffice/utils/go-emf.c:229
 #, c-format
 msgid "Could not load the image data\n"
 msgstr "Ni mogoče naložiti podatkov slike\n"
 
-#: ../goffice/utils/go-emf.c:259
+#: ../goffice/utils/go-emf.c:266
 #, c-format
 msgid "Could not input the image data\n"
 msgstr "Ni mogoče vnesti podatkov slike\n"
 
-#: ../goffice/utils/go-emf.c:4542
-#: ../goffice/utils/go-emf.c:4548
+#: ../goffice/utils/go-emf.c:4549
+#: ../goffice/utils/go-emf.c:4555
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Neveljavni podatki slike\n"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:496
+#: ../goffice/utils/go-format.c:566
 msgid "*Long Date Format"
 msgstr "*Dolg zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:504
+#: ../goffice/utils/go-format.c:574
 msgid "*Medium Date Format"
 msgstr "*Srednji zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:512
+#: ../goffice/utils/go-format.c:582
 msgid "*Short Date Format"
 msgstr "*Kratek zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:525
+#: ../goffice/utils/go-format.c:595
 msgid "*Short Date/Time Format"
 msgstr "*Kratek zapis datuma/časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:540
+#: ../goffice/utils/go-format.c:610
 msgid "*Long Time Format"
 msgstr "*Dolg zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:552
+#: ../goffice/utils/go-format.c:622
 msgid "*Medium Time Format"
 msgstr "*Srednji zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:564
+#: ../goffice/utils/go-format.c:634
 msgid "*Short Time Format"
 msgstr "*Kratek zapis časa"
 
-#: ../goffice/utils/go-format.c:606
+#: ../goffice/utils/go-format.c:683
 msgid "Black"
 msgstr "Črna"
 
-#: ../goffice/utils/go-format.c:607
+#: ../goffice/utils/go-format.c:684
 msgid "Blue"
 msgstr "Modra"
 
-#: ../goffice/utils/go-format.c:608
+#: ../goffice/utils/go-format.c:685
 msgid "Cyan"
 msgstr "Sinja"
 
-#: ../goffice/utils/go-format.c:609
+#: ../goffice/utils/go-format.c:686
 msgid "Green"
 msgstr "Zelena"
 
-#: ../goffice/utils/go-format.c:610
+#: ../goffice/utils/go-format.c:687
 msgid "Magenta"
 msgstr "Škrlatna"
 
-#: ../goffice/utils/go-format.c:611
+#: ../goffice/utils/go-format.c:688
 msgid "Red"
 msgstr "Rdeča"
 
-#: ../goffice/utils/go-format.c:612
+#: ../goffice/utils/go-format.c:689
 msgid "White"
 msgstr "Bela"
 
-#: ../goffice/utils/go-format.c:613
+#: ../goffice/utils/go-format.c:690
 msgid "Yellow"
 msgstr "Rumena"
 
-#: ../goffice/utils/go-format.c:633
+#: ../goffice/utils/go-format.c:710
 msgid "color"
 msgstr "barva"
 
-#: ../goffice/utils/go-geometry.c:296
-#: ../goffice/utils/go-marker.c:75
+#: ../goffice/utils/go-geometry.c:334
+#: ../goffice/utils/go-marker.c:96
 msgid "none"
 msgstr "brez"
 
-#: ../goffice/utils/go-geometry.c:297
+#: ../goffice/utils/go-geometry.c:335
 msgid "down"
 msgstr "dol"
 
-#: ../goffice/utils/go-geometry.c:298
+#: ../goffice/utils/go-geometry.c:336
 msgid "up"
 msgstr "gor"
 
-#: ../goffice/utils/go-geometry.c:299
+#: ../goffice/utils/go-geometry.c:337
 msgid "right"
 msgstr "desno"
 
-#: ../goffice/utils/go-geometry.c:300
+#: ../goffice/utils/go-geometry.c:338
 msgid "left"
 msgstr "levo"
 
-#: ../goffice/utils/go-glib-extras.c:864
+#: ../goffice/utils/go-glib-extras.c:917
 msgid "yes"
 msgstr "da"
 
-#: ../goffice/utils/go-glib-extras.c:870
+#: ../goffice/utils/go-glib-extras.c:923
 msgid "no"
 msgstr "ne"
 
-#: ../goffice/utils/go-glib-extras.c:1064
+#: ../goffice/utils/go-glib-extras.c:1141
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Navedena nit ni končana"
 
-#: ../goffice/utils/go-glib-extras.c:1071
+#: ../goffice/utils/go-glib-extras.c:1148
 #, c-format
 msgid "Syntax error"
 msgstr "Napaka skladnje"
 
-#: ../goffice/utils/go-image.c:122
+#: ../goffice/utils/go-image.c:158
 msgid "SVG (vector graphics)"
 msgstr "SVG (vektorska grafika)"
 
-#: ../goffice/utils/go-image.c:124
+#: ../goffice/utils/go-image.c:160
 msgid "PNG (raster graphics)"
 msgstr "PNG (rastrska grafika)"
 
-#: ../goffice/utils/go-image.c:126
+#: ../goffice/utils/go-image.c:162
 msgid "JPEG (photograph)"
 msgstr "JPEG (fotografija)"
 
-#: ../goffice/utils/go-image.c:128
+#: ../goffice/utils/go-image.c:164
 msgid "PDF (portable document format)"
 msgstr "PDF (prenosljiv zapis dokumentov)"
 
-#: ../goffice/utils/go-image.c:130
+#: ../goffice/utils/go-image.c:166
 msgid "PS (postscript)"
 msgstr "PS (postskript)"
 
-#: ../goffice/utils/go-image.c:132
+#: ../goffice/utils/go-image.c:168
 msgid "EMF (extended metafile)"
 msgstr "EMF (razširjena metadatoteka)"
 
-#: ../goffice/utils/go-image.c:134
+#: ../goffice/utils/go-image.c:170
 msgid "WMF (windows metafile)"
 msgstr "WMF (windows metadatoteka)"
 
-#: ../goffice/utils/go-image.c:136
+#: ../goffice/utils/go-image.c:172
 msgid "EPS (encapsulated postscript)"
 msgstr "EPS (vložen postscript)"
 
-#: ../goffice/utils/go-image.c:438
+#: ../goffice/utils/go-image.c:500
 msgid "Image width in pixels"
 msgstr "Širina slike v točkah"
 
-#: ../goffice/utils/go-image.c:442
+#: ../goffice/utils/go-image.c:504
 msgid "Image height in pixels"
 msgstr "Višina slike v točkah"
 
-#: ../goffice/utils/go-line.c:87
-#: ../goffice/utils/go-pattern.c:42
+#: ../goffice/utils/go-line.c:129
+#: ../goffice/utils/go-pattern.c:79
 msgid "Solid"
 msgstr "Polno"
 
-#: ../goffice/utils/go-line.c:89
+#: ../goffice/utils/go-line.c:131
 msgid "Dot"
 msgstr "Pika"
 
-#: ../goffice/utils/go-line.c:91
+#: ../goffice/utils/go-line.c:133
 msgid "Dash dot"
 msgstr "Črta pika"
 
-#: ../goffice/utils/go-line.c:93
+#: ../goffice/utils/go-line.c:135
 msgid "Dash dot dot"
 msgstr "črta pika pika"
 
-#: ../goffice/utils/go-line.c:95
+#: ../goffice/utils/go-line.c:137
 msgid "Dash dot dot dot"
 msgstr "črta pika pika pika"
 
-#: ../goffice/utils/go-line.c:97
+#: ../goffice/utils/go-line.c:139
 msgid "Short dash"
-msgstr "kratka črta"
+msgstr "Kratka črta"
 
-#: ../goffice/utils/go-line.c:99
+#: ../goffice/utils/go-line.c:141
 msgid "Dash"
 msgstr "Črta"
 
-#: ../goffice/utils/go-line.c:101
+#: ../goffice/utils/go-line.c:143
 msgid "Long dash"
-msgstr "dolga črta"
+msgstr "Dolga črta"
 
-#: ../goffice/utils/go-line.c:103
+#: ../goffice/utils/go-line.c:145
 msgid "Very long dash"
-msgstr "zelo dolga črta"
+msgstr "Zelo dolga črta"
 
-#: ../goffice/utils/go-line.c:105
+#: ../goffice/utils/go-line.c:147
 msgid "Long dash dash"
-msgstr "dolga črta črta"
+msgstr "Dolga črta črta"
 
-#: ../goffice/utils/go-line.c:107
+#: ../goffice/utils/go-line.c:149
 msgid "Long dash dash dash"
-msgstr "dolga črta črta črta"
+msgstr "Dolga črta črta črta"
 
-#: ../goffice/utils/go-line.c:121
+#: ../goffice/utils/go-line.c:163
 msgid "Bezier cubic spline"
 msgstr "Bezierjev kubični zlepek"
 
-#: ../goffice/utils/go-line.c:123
+#: ../goffice/utils/go-line.c:165
 msgid "Closed Bezier cubic spline"
 msgstr "Zaprti Bezierjev kubični zlepek"
 
-#: ../goffice/utils/go-line.c:125
+#: ../goffice/utils/go-line.c:167
 msgid "ODF compatible Bezier cubic spline"
 msgstr "Bezierjev kubični zlepek, ki je skladen z zapisom ODF"
 
-#: ../goffice/utils/go-line.c:127
+#: ../goffice/utils/go-line.c:169
 msgid "Natural cubic spline"
 msgstr "Naravni kubični zlepek"
 
-#: ../goffice/utils/go-line.c:129
+#: ../goffice/utils/go-line.c:171
 msgid "Cubic spline with parabolic extrapolation"
 msgstr "Kubični zlepek s parabolično ekstrapolacijo"
 
-#: ../goffice/utils/go-line.c:131
+#: ../goffice/utils/go-line.c:173
 msgid "Cubic spline with cubic extrapolation"
 msgstr "Kubični zlepek s kubično ekstrapolacijo"
 
-#: ../goffice/utils/go-line.c:133
+#: ../goffice/utils/go-line.c:175
 msgid "Clamped cubic spline"
 msgstr "Rezan kubični zlepek"
 
-#: ../goffice/utils/go-line.c:135
+#: ../goffice/utils/go-line.c:177
 msgid "Step at start"
 msgstr "Korak na začetku"
 
-#: ../goffice/utils/go-line.c:137
+#: ../goffice/utils/go-line.c:179
 msgid "Step at end"
 msgstr "Korak na koncu"
 
-#: ../goffice/utils/go-line.c:139
+#: ../goffice/utils/go-line.c:181
 msgid "Step at center"
 msgstr "Korak na sredini"
 
-#: ../goffice/utils/go-line.c:141
+#: ../goffice/utils/go-line.c:183
 msgid "Step to mean"
 msgstr "Korak do srednje vrednosti"
 
@@ -5394,206 +5424,206 @@ msgstr "PRAV"
 msgid "FALSE"
 msgstr "NAPAK"
 
-#: ../goffice/utils/go-marker.c:76
+#: ../goffice/utils/go-marker.c:97
 msgid "square"
 msgstr "kvadrat"
 
-#: ../goffice/utils/go-marker.c:77
+#: ../goffice/utils/go-marker.c:98
 msgid "diamond"
 msgstr "karo"
 
-#: ../goffice/utils/go-marker.c:78
+#: ../goffice/utils/go-marker.c:99
 msgid "triangle down"
 msgstr "trikotnik navzdol"
 
-#: ../goffice/utils/go-marker.c:79
+#: ../goffice/utils/go-marker.c:100
 msgid "triangle up"
 msgstr "trikotnik navzgor"
 
-#: ../goffice/utils/go-marker.c:80
+#: ../goffice/utils/go-marker.c:101
 msgid "triangle right"
 msgstr "trikotnik desno"
 
-#: ../goffice/utils/go-marker.c:81
+#: ../goffice/utils/go-marker.c:102
 msgid "triangle left"
 msgstr "trikotnik levo"
 
-#: ../goffice/utils/go-marker.c:82
+#: ../goffice/utils/go-marker.c:103
 msgid "circle"
 msgstr "krog"
 
-#: ../goffice/utils/go-marker.c:84
+#: ../goffice/utils/go-marker.c:105
 msgid "cross"
 msgstr "križ"
 
-#: ../goffice/utils/go-marker.c:85
+#: ../goffice/utils/go-marker.c:106
 msgid "asterisk"
 msgstr "zvezdica"
 
-#: ../goffice/utils/go-marker.c:86
+#: ../goffice/utils/go-marker.c:107
 msgid "bar"
 msgstr "črta"
 
-#: ../goffice/utils/go-marker.c:87
+#: ../goffice/utils/go-marker.c:108
 msgid "half bar"
 msgstr "polčrta"
 
-#: ../goffice/utils/go-marker.c:88
+#: ../goffice/utils/go-marker.c:109
 msgid "butterfly"
 msgstr "metulj"
 
-#: ../goffice/utils/go-marker.c:89
+#: ../goffice/utils/go-marker.c:110
 msgid "hourglass"
 msgstr "peščena ura"
 
-#: ../goffice/utils/go-marker.c:90
+#: ../goffice/utils/go-marker.c:111
 msgid "left half bar"
 msgstr "levi polovični palični"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:44
+#: ../goffice/utils/go-pattern.c:81
 #, no-c-format
 msgid "75% Grey"
 msgstr "75 % sivo"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:46
+#: ../goffice/utils/go-pattern.c:83
 #, no-c-format
 msgid "50% Grey"
 msgstr "50 % sivo"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:48
+#: ../goffice/utils/go-pattern.c:85
 #, no-c-format
 msgid "25% Grey"
 msgstr "25 % sivo"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:50
+#: ../goffice/utils/go-pattern.c:87
 #, no-c-format
 msgid "12.5% Grey"
 msgstr "12.5 % sivo"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:52
+#: ../goffice/utils/go-pattern.c:89
 #, no-c-format
 msgid "6.25% Grey"
 msgstr "6.25 % sivo"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:53
+#: ../goffice/utils/go-pattern.c:90
 msgid "Horizontal Stripe"
 msgstr "vodoravno progasto"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:54
+#: ../goffice/utils/go-pattern.c:91
 msgid "Vertical Stripe"
 msgstr "navpično progasto"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:55
+#: ../goffice/utils/go-pattern.c:92
 msgid "Reverse Diagonal Stripe"
 msgstr "progasto diagonalno zgoraj v levo"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:56
+#: ../goffice/utils/go-pattern.c:93
 msgid "Diagonal Stripe"
 msgstr "progasto diagonalno zgoraj v desno"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:57
+#: ../goffice/utils/go-pattern.c:94
 msgid "Diagonal Crosshatch"
 msgstr "diagonalno križno"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:58
+#: ../goffice/utils/go-pattern.c:95
 msgid "Thick Diagonal Crosshatch"
 msgstr "debelo diagonalno križno"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:59
+#: ../goffice/utils/go-pattern.c:96
 msgid "Thin Horizontal Stripe"
 msgstr "tanko vodoravno progasto"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:60
+#: ../goffice/utils/go-pattern.c:97
 msgid "Thin Vertical Stripe"
 msgstr "tanko navpično progasto"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:61
+#: ../goffice/utils/go-pattern.c:98
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "tanko progasto diagonalno zgoraj v levo"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:62
+#: ../goffice/utils/go-pattern.c:99
 msgid "Thin Diagonal Stripe"
 msgstr "tanko progasto diagonalno zgoraj v desno"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:63
+#: ../goffice/utils/go-pattern.c:100
 msgid "Thin Horizontal Crosshatch"
 msgstr "tanko vodoravno križno"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:64
+#: ../goffice/utils/go-pattern.c:101
 msgid "Thin Diagonal Crosshatch"
 msgstr "tanko diagonalno križno "
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:65
+#: ../goffice/utils/go-pattern.c:102
 msgid "Foreground Solid"
 msgstr "polna barva"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:66
+#: ../goffice/utils/go-pattern.c:103
 msgid "Small Circles"
 msgstr "majhni krožci"
 
 # vzorci diagramov in grafov
 #. Applix
-#: ../goffice/utils/go-pattern.c:67
+#: ../goffice/utils/go-pattern.c:104
 msgid "Semi Circles"
 msgstr "polkrožci"
 
 # vzorci diagramov in grafov
 #. Applix
-#: ../goffice/utils/go-pattern.c:68
+#: ../goffice/utils/go-pattern.c:105
 msgid "Thatch"
 msgstr "slamnato"
 
 # vzorci diagramov in grafov
 #. Applix small thatch
-#: ../goffice/utils/go-pattern.c:69
+#: ../goffice/utils/go-pattern.c:106
 msgid "Large Circles"
 msgstr "veliki krožci"
 
 # vzorci diagramov in grafov
-#: ../goffice/utils/go-pattern.c:71
+#: ../goffice/utils/go-pattern.c:108
 msgid "Bricks"
 msgstr "opečno"
 
-#: ../goffice/utils/go-pixbuf.c:486
+#: ../goffice/utils/go-pixbuf.c:277
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr "Predmet GdkPixbuf iz katerega je izgrajen GOPixbuf"
 
-#: ../goffice/utils/go-style.c:142
+#: ../goffice/utils/go-style.c:201
 msgid "No image!"
 msgstr "Ni slike!"
 
-#: ../goffice/utils/go-style.c:589
+#: ../goffice/utils/go-style.c:648
 msgid "Foreground:"
 msgstr "Ospredje:"
 
-#: ../goffice/utils/go-style.c:590
+#: ../goffice/utils/go-style.c:649
 msgid "Background:"
 msgstr "Ozadje:"
 
-#: ../goffice/utils/go-style.c:811
+#: ../goffice/utils/go-style.c:870
 msgid "Markers"
 msgstr "Oznake"
 
-#: ../goffice/utils/go-style.c:883
+#: ../goffice/utils/go-style.c:942
 msgid "Font"
 msgstr "Pisava"
 
@@ -5697,140 +5727,140 @@ msgstr "_Velikost:"
 msgid "Sha_pe:"
 msgstr "_Oblika:"
 
-#: ../goffice/utils/regutf8.c:49
+#: ../goffice/utils/regutf8.c:59
 msgid "Pattern not found."
 msgstr "Vzorca ni mogoče najti."
 
-#: ../goffice/utils/regutf8.c:51
+#: ../goffice/utils/regutf8.c:61
 msgid "Invalid pattern."
-msgstr "Neveljaven vzorec"
+msgstr "Neveljaven vzorec."
 
-#: ../goffice/utils/regutf8.c:52
+#: ../goffice/utils/regutf8.c:62
 msgid "Invalid collating element."
 msgstr "Neveljaven predmet zbiranja."
 
-#: ../goffice/utils/regutf8.c:53
+#: ../goffice/utils/regutf8.c:63
 msgid "Invalid character class name."
 msgstr "Neveljavno ime razreda znaka."
 
-#: ../goffice/utils/regutf8.c:54
+#: ../goffice/utils/regutf8.c:64
 msgid "Trailing backslash."
 msgstr "Sledeče si povratne poševnice."
 
-#: ../goffice/utils/regutf8.c:55
+#: ../goffice/utils/regutf8.c:65
 msgid "Invalid back reference."
-msgstr "Neveljaven povratni sklic"
+msgstr "Neveljaven povratni sklic."
 
-#: ../goffice/utils/regutf8.c:56
+#: ../goffice/utils/regutf8.c:66
 msgid "Unmatched left bracket."
 msgstr "Levi uklepaj nima para."
 
-#: ../goffice/utils/regutf8.c:57
+#: ../goffice/utils/regutf8.c:67
 msgid "Parenthesis imbalance."
-msgstr "Neskladnost oklepajev"
+msgstr "Neskladnost oklepajev."
 
-#: ../goffice/utils/regutf8.c:58
+#: ../goffice/utils/regutf8.c:68
 msgid "Unmatched \\{."
 msgstr "Ni skladnje \\{."
 
-#: ../goffice/utils/regutf8.c:59
+#: ../goffice/utils/regutf8.c:69
 msgid "Invalid contents of \\{\\}."
 msgstr "Neveljavna vsebina \\{\\}."
 
-#: ../goffice/utils/regutf8.c:60
+#: ../goffice/utils/regutf8.c:70
 msgid "Invalid range end."
 msgstr "Neveljaven konec vrste."
 
-#: ../goffice/utils/regutf8.c:61
+#: ../goffice/utils/regutf8.c:71
 msgid "Out of memory."
 msgstr "Zmanjkalo je pomnilnika."
 
-#: ../goffice/utils/regutf8.c:62
+#: ../goffice/utils/regutf8.c:72
 msgid "Invalid repetition operator."
-msgstr "Neveljaven operator ponavljanja"
+msgstr "Neveljaven operator ponavljanja."
 
-#: ../goffice/utils/regutf8.c:63
+#: ../goffice/utils/regutf8.c:73
 msgid "Premature end of pattern."
 msgstr "Prezgodnji konec vzorca."
 
-#: ../goffice/utils/regutf8.c:64
+#: ../goffice/utils/regutf8.c:74
 msgid "Pattern is too big."
 msgstr "Vzorec je prevelik."
 
-#: ../goffice/utils/regutf8.c:65
+#: ../goffice/utils/regutf8.c:75
 msgid "Unmatched ) or \\)"
 msgstr "Ni para ) ali \\)"
 
-#: ../goffice/utils/regutf8.c:268
+#: ../goffice/utils/regutf8.c:278
 #, c-format
 msgid "Search string must not be empty."
 msgstr "Iskalni niz ne sme biti prazen."
 
-#: ../goffice/utils/regutf8.c:278
+#: ../goffice/utils/regutf8.c:288
 #, c-format
 msgid "Replacement string must be set."
 msgstr "Niz za zamenjavo mora biti določen."
 
-#: ../goffice/utils/regutf8.c:290
+#: ../goffice/utils/regutf8.c:300
 #, c-format
 msgid "Invalid search pattern (%s)"
 msgstr "Neveljaven iskalni vzorec (%s)"
 
-#: ../goffice/utils/regutf8.c:314
+#: ../goffice/utils/regutf8.c:324
 #, c-format
 msgid "Invalid $-specification in replacement."
-msgstr "Neveljavno določilo $ v nizu zamenjave"
+msgstr "Neveljavno določilo $ v nizu zamenjave."
 
-#: ../goffice/utils/regutf8.c:324
+#: ../goffice/utils/regutf8.c:334
 #, c-format
 msgid "Invalid trailing backslash in replacement."
 msgstr "Neveljavne sledeče si povratne poševnice pri zamenjavi."
 
-#: ../goffice/utils/regutf8.c:801
+#: ../goffice/utils/regutf8.c:821
 msgid "Search Text"
 msgstr "Išči besedilo"
 
-#: ../goffice/utils/regutf8.c:802
+#: ../goffice/utils/regutf8.c:822
 msgid "The text to search for"
 msgstr "Besedilo za iskanje"
 
-#: ../goffice/utils/regutf8.c:811
+#: ../goffice/utils/regutf8.c:831
 msgid "Replacement Text"
 msgstr "Besedilo za zamenjavo"
 
-#: ../goffice/utils/regutf8.c:812
+#: ../goffice/utils/regutf8.c:832
 msgid "The text to replace with"
 msgstr "Besedilo za zamenjavo"
 
-#: ../goffice/utils/regutf8.c:820
+#: ../goffice/utils/regutf8.c:840
 msgid "Is Regular Expression"
 msgstr "Je logični izraz"
 
-#: ../goffice/utils/regutf8.c:821
+#: ../goffice/utils/regutf8.c:841
 msgid "Is the search text a regular expression."
 msgstr "Ali je iskalni niz zapisan kot logični izraz."
 
-#: ../goffice/utils/regutf8.c:829
+#: ../goffice/utils/regutf8.c:849
 msgid "Ignore Case"
 msgstr "Prezri male/velike črke"
 
-#: ../goffice/utils/regutf8.c:830
+#: ../goffice/utils/regutf8.c:850
 msgid "Ignore the case of letters."
 msgstr "Velikost črk bo prezrta."
 
-#: ../goffice/utils/regutf8.c:838
+#: ../goffice/utils/regutf8.c:858
 msgid "Preserve Case"
 msgstr "Ohrani male/velike črke"
 
-#: ../goffice/utils/regutf8.c:839
+#: ../goffice/utils/regutf8.c:859
 msgid "Preserve the case of letters."
 msgstr "Ohranitev velikosti črk."
 
-#: ../goffice/utils/regutf8.c:847
+#: ../goffice/utils/regutf8.c:867
 msgid "Match Words"
 msgstr "Skladnje besed"
 
-#: ../goffice/utils/regutf8.c:848
+#: ../goffice/utils/regutf8.c:868
 msgid "Match whole words only."
 msgstr "Skladnja le celih besed."
 
@@ -5841,11 +5871,12 @@ msgstr "Kako naj se v diagramu združujejo različni nizi; običajno, naloženo 
 #: ../plugins/plot_barcol/gog-1.5d.c:353
 #: ../plugins/plot_pie/gog-pie.c:319
 #: ../plugins/plot_xy/gog-xy.c:583
-msgid "In 3d"
-msgstr "V 3d"
+msgid "In 3D"
+msgstr "V 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:354
-msgid "Placeholder to allow us to round trip pseudo 3d state"
+#, fuzzy
+msgid "Placeholder to allow us to round trip pseudo 3D state"
 msgstr "Držalo, ki omogoča postavitev navideznega 3-razsežnega stanja"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:362
@@ -6348,11 +6379,11 @@ msgstr "_Premer/širina:"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
 msgid "First Y category label:"
-msgstr "Oznaka prve Y kategorije"
+msgstr "Oznaka prve Y kategorije:"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
 msgid "Second Y category label:"
-msgstr "Oznaka druge Y kategorije"
+msgstr "Oznaka druge Y kategorije:"
 
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
 msgid "_Vertical"
@@ -6387,7 +6418,7 @@ msgstr "Razmerje radija"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:408
 msgid "The ratio between the radius of the circles representing outliers and the rectangle width"
-msgstr "Razmerje med radijem kroga, ki predstavlja izstopajoče vrednosti in širine pravokotnika."
+msgstr "Razmerje med radijem kroga, ki predstavlja izstopajoče vrednosti in širine pravokotnika"
 
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
@@ -6416,11 +6447,11 @@ msgstr "Omejitve"
 
 #: ../plugins/plot_distrib/gog-histogram.c:437
 msgid "Label for the first Y category. If not set or empty, \"First values\" will be used."
-msgstr "Naziv prve kategorije Y; prazno polje vsili niz \"Prve vrednosti\""
+msgstr "Naziv prve kategorije Y; prazno polje vsili niz \"Prve vrednosti\"."
 
 #: ../plugins/plot_distrib/gog-histogram.c:441
 msgid "Label for the second Y category. If not set or empty, \"Second values\" will be used."
-msgstr "Naziv druge kategorije Y; prazno polje vsili niz \"Druge vrednosti\""
+msgstr "Naziv druge kategorije Y; prazno polje vsili niz \"Druge vrednosti\"."
 
 #: ../plugins/plot_distrib/gog-histogram.c:446
 msgid "Categories labels"
@@ -6542,7 +6573,7 @@ msgstr "Histogram"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:12
 msgid "CumulativeHistogram"
-msgstr "Združevalni strnjen stolpični diagram."
+msgstr "Združevalni strnjen stolpični diagram"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:13
 msgid "Cumulative histogram."
@@ -6602,7 +6633,7 @@ msgstr "Raz_vrsti barve po rezinah"
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
 msgid "_Slice Separation:"
-msgstr "Ločevanje _rezin_"
+msgstr "Ločevanje _rezin:"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
@@ -6659,7 +6690,8 @@ msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr "Privzeta velikost rezine je razširjena kot odstotek radija."
 
 #: ../plugins/plot_pie/gog-pie.c:320
-msgid "Draw 3d wedges"
+#, fuzzy
+msgid "Draw 3DS wedges"
 msgstr "Izriši 3D klinaste deleže"
 
 #: ../plugins/plot_pie/gog-pie.c:326
@@ -6905,7 +6937,7 @@ msgstr "Obarvani spiralni"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:10
 msgid "Polar plot with colored marks."
-msgstr "Spiralni diagram z barvnimi označbami "
+msgstr "Spiralni diagram z barvnimi označbami"
 
 # Polar -> spiralni
 # Radar -> mrežni
@@ -7004,8 +7036,8 @@ msgid "Auto Rows"
 msgstr "Samodejne vrstice"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:509
-msgid "Whether the rows limts should be evaluated"
-msgstr "Ali naj bodo določene omejitve širine vrstic"
+msgid "Whether the rows limits should be evaluated"
+msgstr "Ali naj bodo ocenjene omejitve širine vrstic"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:514
 msgid "Columns"
@@ -7020,8 +7052,8 @@ msgid "Auto Columns"
 msgstr "Samodejni stolpci"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:521
-msgid "Whether the columns limts should be evaluated"
-msgstr "Ali naj bodo določene omejitve višine stolpcev"
+msgid "Whether the columns limits should be evaluated"
+msgstr "Ali naj bodo ocenjene omejitve višine stolpcev"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:526
 msgid "Missing as"
@@ -7124,8 +7156,8 @@ msgid "Default surface plot types"
 msgstr "Privzete vrste površinskih diagramov"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:1
-msgid "3_d"
-msgstr "3_d"
+msgid "3_D"
+msgstr "3_D"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
 msgid "Sur_face"
@@ -7157,7 +7189,7 @@ msgid "% of default size"
 msgstr "% privzete velikosti"
 
 #: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
-msgid "_Use nul value instead of invalid"
+msgid "_Use null value instead of invalid"
 msgstr "_Uporabi nično vrednost namesto napačne"
 
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
@@ -7223,7 +7255,7 @@ msgid "Draw bubbles for negative values"
 msgstr "Izriši mehurčni diagram za negativne vrednosti"
 
 #: ../plugins/plot_xy/gog-xy.c:584
-msgid "Draw 3d bubbles"
+msgid "Draw 3D bubbles"
 msgstr "Nariši 3D mehurčke"
 
 #: ../plugins/plot_xy/gog-xy.c:589
@@ -7300,7 +7332,8 @@ msgid "Whether to use horizontal bars"
 msgstr "Ali naj bo uporabljen palični diagram"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:313
-msgid "Bars width as a percetage of the plot width"
+#| msgid "Bars width as a percetage of the plot width"
+msgid "Bars width as a percentage of the plot width"
 msgstr "Širina palic, kot odstotek celotnega diagrama"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:324
@@ -7327,7 +7360,7 @@ msgstr "Oznake na vsaki točki."
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:9
 msgid "Linearly interpolate between multi-dimensional points,with markers at each point."
-msgstr "Linearno interpoliraj med več-razsežnimi točkami z oznakami na vsaki tički."
+msgstr "Linearno interpoliraj med več-razsežnimi točkami z oznakami na vsaki točki."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:10
 msgid "XY Lines"
@@ -7394,7 +7427,7 @@ msgstr "Večrazsežnostne točke s podatkovno odvisnimi barvnimi oznakami pri vs
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:28
 msgid "Scattered Vertical Drop Bars"
-msgstr "Raztreseni navpični vretenast diagram "
+msgstr "Raztreseni navpični vretenast diagram"
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
@@ -7405,7 +7438,7 @@ msgstr "Navpični vretenast diagram z neskončno osjo X."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:33
 msgid "Scattered Horizontal Drop Bars"
-msgstr "Raztreseni vodoravni vretenast diagram "
+msgstr "Raztreseni vodoravni vretenast diagram"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:34
 msgid "Horizontal drop bars with continuous Y-axis."
@@ -7453,7 +7486,7 @@ msgstr "Naklon"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
-msgstr "Izbrana možnost omogoča vsiljenje koordinatnega izhodišča osi pri vrednosti 0."
+msgstr "Izbrana možnost omogoča vsiljenje koordinatnega izhodišča osi pri vrednosti 0"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -7604,7 +7637,7 @@ msgstr "Število vrednosti iz katerih naj bo izračunano povprečje"
 
 #: ../plugins/smoothing/gog-moving-avg.c:108
 msgid "Whether to average x values as well or use the last one"
-msgstr "Ali naj de izračuna povprečje vrednosti x ali naj se uporabi zadnja vrednost"
+msgstr "Ali naj je izračuna povprečje vrednosti x ali naj se uporabi zadnja vrednost"
 
 #. xgettext : the base for how to name moving averge smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -7642,10 +7675,10 @@ msgstr "Število korakov interpolacije"
 #: ../plugins/smoothing/gog-exp-smooth.c:72
 msgid ""
 "Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
-"If no value or a negative (or nul) value is provided, the default will be used"
+"If no value or a negative (or null) value is provided, the default will be used"
 msgstr ""
 "Privzeto obdobje je določeno kot 10 * (xmax - xmin)/(nvalues - 1)\n"
-"V kolikor ni določene nobene vrednosti (prazna vrednost) ali pa je ta negativna, je uporabljena privzeta vrednost."
+"V kolikor vrednost ni določena (prazna vrednost) ali pa je ta negativna, je uporabljena privzeta vrednost."
 
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -7690,45 +7723,3 @@ msgstr "Vrste glajenih krivulj"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Glajena krivulja premikajočega povprečja"
-
-#~ msgid "\n"
-#~ msgstr "\n"
-
-#~ msgid "The cropped area at the image top"
-#~ msgstr "Obrezan zgornji del slike"
-
-#~ msgid "The rotation around center, only available for windowless components"
-#~ msgstr "Vrtenje okoli središča, na voljo le za komponente brez okna"
-
-#~ msgid "Flags"
-#~ msgstr "Zastavice"
-
-#~ msgid "Indent"
-#~ msgstr "Zamik"
-
-#~ msgid "Space Before"
-#~ msgstr "Presledek prej"
-
-#~ msgid "Space After"
-#~ msgstr "Presledek za"
-
-#~ msgid "Bullet Character"
-#~ msgstr "Znak vrstične oznake"
-
-#~ msgid "Bullet Indent"
-#~ msgstr "Zamik vrstične oznake"
-
-#~ msgid "Bullet Size"
-#~ msgstr "Velikost vrstične oznake"
-
-#~ msgid "Bullet Family"
-#~ msgstr "Družina vrstične oznake"
-
-#~ msgid "Bullet On"
-#~ msgstr "Omogočene vrstične oznake"
-
-#~ msgid "<b>Add an image</b>"
-#~ msgstr "<b>Dodaj sliko</b>"
-
-#~ msgid "Name:"
-#~ msgstr "Ime:"
