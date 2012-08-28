@@ -543,15 +543,6 @@ go_path_arc (GOPath *path,
 	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1, FALSE);
 }
 
-static void
-go_path_arc_degrees (GOPath *path,
-	     double cx, double cy,
-	     double rx, double ry,
-	     double th0, double th1)
-{
-	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0 * M_PI / 180., th1 * M_PI / 180., FALSE);
-}
-
 void
 go_path_arc_to (GOPath *path,
 		double cx, double cy,
@@ -559,15 +550,6 @@ go_path_arc_to (GOPath *path,
 		double th0, double th1)
 {
 	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1, TRUE);
-}
-
-static void
-go_path_arc_to_degrees (GOPath *path,
-		double cx, double cy,
-		double rx, double ry,
-		double th0, double th1)
-{
-	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0 * M_PI / 180., th1 * M_PI / 180., TRUE);
 }
 
 void
@@ -935,7 +917,7 @@ typedef struct {
 	GOPath *path;
 	GHashTable const *variables;
 	double lastx, lasty;
-	gboolean relative;
+	gboolean relative, clockwise, line_to, horiz;
 } PathParseState;
 
 static void
@@ -970,11 +952,8 @@ parse_value (PathParseState *state, double *x)
 	if (*c == '?' || *c == '$') {
 		char *var;
 		double *val;
-		/* allowed codes are [?,$][a..z]?[0..9]* */
 		state->src++;
-		if (*state->src >= 'a' && *state->src <= 'z')
-			state->src++;
-		while (*state->src >= '0' && *state->src <= '9')
+		while (*state->src != 0 && *state->src != ' ' && *state->src != ',')
 			state->src++;
 		var = g_strndup (c, state->src - c);
 		if (state->variables == NULL || ((val = g_hash_table_lookup ((GHashTable *) state->variables, var)) == NULL)) {
@@ -1125,7 +1104,7 @@ emit_function_6 (PathParseState *state,
 
 static void
 emit_function_8 (PathParseState *state,
-                 void (*path_func) (GOPath *, double, double, double ,double, double, double, double ,double))
+                 void (*path_func) (PathParseState *, double, double, double ,double, double, double, double ,double))
 {
 	double values[8];
 
@@ -1145,7 +1124,7 @@ emit_function_8 (PathParseState *state,
 			state->lastx = values[6];
 			state->lasty = values[7];
 		}
-		path_func (state->path, values[0], values[1], values[2], values[3], values[4], values[5], state->lastx, state->lasty);
+		path_func (state, values[0], values[1], values[2], values[3], values[4], values[5], state->lastx, state->lasty);
 	}
 }
 
@@ -1171,6 +1150,124 @@ emit_quadratic (PathParseState *state)
 		                  values[2], values[3]);
 		state->lastx += values[2];
 		state->lasty += values[3];
+	}
+}
+
+static void
+_path_arc (PathParseState *state,
+	     double cx, double cy,
+	     double rx, double ry,
+	     double th0, double th1)
+{
+	double th_arc, th, th_delta, t;
+	double x, y;
+	int i, n_segs;
+
+	if (state->line_to)
+		go_path_line_to (state->path, cx + rx * cos (th0), cy + ry * sin (th0));
+	else
+		go_path_move_to (state->path, cx + rx * cos (th0), cy + ry * sin (th0));
+	if (state->clockwise) {
+		while (th1 < th0)
+			th1 += 2 * M_PI;
+	} else {
+		while (th1 > th0)
+			th0 += 2 * M_PI;
+	}
+	th_arc = th1 - th0;
+	n_segs = ceil (fabs (th_arc / (M_PI * 0.5 + 0.001)));
+	th_delta = th_arc / n_segs;
+	t = (8.0 / 3.0) * sin (th_delta * 0.25) * sin (th_delta * 0.25) / sin (th_delta * 0.5);
+	th = th0;
+	for (i = 0; i < n_segs; i++) {
+		x = cx + rx * cos (th + th_delta);
+		y = cy + ry * sin (th + th_delta);
+		go_path_curve_to (state->path,
+				  cx + rx * (cos (th) - t * sin (th)),
+				  cy + ry * (sin (th) + t * cos (th)),
+				  x + rx * t * sin (th + th_delta),
+				  y - ry * t * cos (th + th_delta),
+				  x, y);
+		th += th_delta;
+	}
+	state->lastx = cx + rx * sin (th1);
+	state->lasty = cy + ry * sin (th1);
+}
+
+static void
+go_path_arc_degrees (PathParseState *state)
+{
+	double values[6];
+
+	skip_spaces (state);
+
+	while (parse_values (state, 6, values)) {
+		if (state->relative) {
+			values[0] += state->lastx;
+			values[1] += state->lasty;
+		}
+		_path_arc (state, values[0], values[1], values[2], values[3],
+		           values[4] * M_PI / 180., values[5] * M_PI / 180.);
+	}
+}
+
+static void
+go_path_arc_full (PathParseState *state, double x1, double y1, double x2, double y2,
+                     double x3, double y3, double x4, double y4)
+{
+	double cx, cy, rx, ry, th0, th1;
+	cx = (x1 + x2) / 2.;
+	cy = (y1 + y2) / 2;
+	rx = MAX (x1, x2) - cx;
+	ry = MAX (y1, y2) - cy;
+	th0 = atan2 ((y3 - cy) / ry, (x3 - cx) / rx);
+	th1 = atan2 ((y4 - cy) / ry, (x4 - cx) / rx);
+	if (state->clockwise) {
+		/* we need th1 > th0 */
+		while (th1 < th0)
+			th1 += 2 * M_PI;
+	} else {
+		/* we need th1 > th0 */
+		while (th1 > th0)
+			th0 += 2 * M_PI;
+	}
+	_path_arc (state, cx, cy, rx, ry, th0, th1);
+}
+
+static void
+go_path_quadrant (PathParseState *state)
+{
+	double values[2], cx, cy, rx, ry, th0, th1;
+
+	skip_spaces (state);
+
+	while (parse_values (state, 2, values)) {
+		if (state->relative) {
+			values[0] += state->lastx;
+			values[1] += state->lasty;
+		}
+		/* evaluating center and radius */
+		if (state->horiz) {
+			cx = state->lastx;
+			cy = values[1];
+			rx = fabs (values[0] - cx);
+			ry = fabs (state->lasty - cy);
+		} else {
+			cx = values[0];
+			cy = state->lasty;
+			rx = fabs (state->lastx - cx);
+			ry = fabs (values[1] - cy);
+		}
+		/* now the angles */
+		th0 = atan2 (state->lasty - cy, state->lastx - cx);
+		th1 = atan2 (values[1] - cy, values[0] - cx);
+		/* and finally the direction */
+		state->clockwise = (values[1] - cy) * (state->lastx - cx) - (state->lasty - cy) * (values[0] - cx) > 0.;
+		_path_arc (state, cx, cy, rx, ry, th0, th1);
+
+		state->lastx = values[0];
+		state->lasty = values[1];
+		state->horiz = !state->horiz;
 	}
 }
 
@@ -1291,18 +1388,6 @@ go_path_new_from_svg (char const *src)
 	return state.path;
 }
 
-static void
-go_path_line_arc_to (GOPath *path, double x0, double x1, double x2, double x3,
-                     double x4, double x5, double x6, double x7)
-{
-}
-
-static void
-go_path_move_arc_to (GOPath *path, double x0, double x1, double x2, double x3,
-                     double x4, double x5, double x6, double x7)
-{
-}
-
 /**
  * go_path_new_from_odf_enhanced_path:
  * @src: an ODF enhanced path.
@@ -1329,11 +1414,15 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 		switch (*state.src) {
 		case 'A':
 			state.src++;
-			emit_function_8 (&state, go_path_line_arc_to);
+			state.clockwise = FALSE;
+			state.line_to = TRUE;
+			emit_function_8 (&state, go_path_arc_full);
 			break;
 		case 'B':
 			state.src++;
-			emit_function_8 (&state, go_path_move_arc_to);
+			state.clockwise = FALSE;
+			state.line_to = FALSE;
+			emit_function_8 (&state, go_path_arc_full);
 			break;
 		case 'C':
 			state.src++;
@@ -1362,23 +1451,39 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 			break;
 		case 'T':
 			state.src++;
-			emit_function_6 (&state, go_path_arc_to_degrees);
+			state.clockwise = TRUE;
+			state.line_to = TRUE;
+			go_path_arc_degrees (&state);
 			break;
 		case 'U':
 			state.src++;
-			emit_function_6 (&state, go_path_arc_degrees);
+			state.clockwise = TRUE;
+			state.line_to = FALSE;
+			go_path_arc_degrees (&state);
 			break;
 		case 'V':
 			state.src++;
+			state.clockwise = TRUE;
+			state.line_to = FALSE;
+			emit_function_8 (&state, go_path_arc_full);
 			break;
 		case 'W':
 			state.src++;
+			state.clockwise = TRUE;
+			state.line_to = TRUE;
+			emit_function_8 (&state, go_path_arc_full);
 			break;
 		case 'X':
+			/* assuming that the horizontal/vertical alternance only applies
+			 * when the additional letters are omitted */
 			state.src++;
+			state.horiz = TRUE;
+			go_path_quadrant (&state);
 			break;
 		case 'Y':
 			state.src++;
+			state.horiz = FALSE;
+			go_path_quadrant (&state);
 			break;
 		case 'Z':
 			state.src++;

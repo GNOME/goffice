@@ -127,7 +127,6 @@ goc_path_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	double rsign = sign;
 
 	cairo_save (cr);
-	cairo_set_fill_rule (cr, path->fill_rule);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, path->x , path->y);
 		sign = 1;
@@ -203,6 +202,7 @@ goc_path_draw (GocItem const *item, cairo_t *cr)
 	GocPath *path = GOC_PATH (item);
 
 	cairo_save(cr);
+	cairo_set_fill_rule (cr, path->fill_rule? CAIRO_FILL_RULE_EVEN_ODD: CAIRO_FILL_RULE_WINDING);
 	if (goc_path_prepare_draw (item, cr, 1)) {
 		if (path->closed)
 			go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);

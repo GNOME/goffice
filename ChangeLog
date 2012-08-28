@@ -1,3 +1,12 @@
+2012-08-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-path.c (goc_path_prepare_draw),
+	(goc_path_draw): fixed fill rule usage.
+	* goffice/utils/go-path.c (parse_value), (emit_function_8),
+	(_path_arc), (go_path_arc_degrees), (go_path_arc_full),
+	(go_path_quadrant), (go_path_new_from_odf_enhanced_path): import arcs
+	and friends from ODF enhanced paths.
+
 2012-08-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-path.c (skip_spaces), (skip_comma_and_spaces),
