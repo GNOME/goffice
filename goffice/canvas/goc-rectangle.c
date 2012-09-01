@@ -340,7 +340,7 @@ goc_rectangle_class_init (GocItemClass *item_klass)
 	g_object_class_install_property (obj_klass, RECT_PROP_TYPE,
 		g_param_spec_int ("type",
 			_("Type"),
-			_("The rectangle type"),
+			_("The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for top right, 4 for bottom right, 8 for bottom left, or any combination of these."),
 			0, 15, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, RECT_PROP_RX,
