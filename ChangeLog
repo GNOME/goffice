@@ -1,3 +1,10 @@
+2012-09-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_padding_request): accept an
+	axis which parent is not a chart.
+	* goffice/utils/go-path.c (go_path_new_from_odf_enhanced_path): commented.
+	* goffice/utils/go-path.h: removed unused diirections.
+
 2012-08-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-path.c (goc_path_prepare_draw),

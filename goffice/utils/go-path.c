@@ -109,14 +109,6 @@
  * GOPathDirection:
  * @GO_PATH_DIRECTION_FORWARD: go through the pass from start to end.
  * @GO_PATH_DIRECTION_BACKWARD:  go through the pass from end to start.
- * @GO_PATH_DIRECTION_FORWARD_SKIP_NO_FILL: go through the pass from start to end,
- * skipping segments markes as no-fill.
- * @GO_PATH_DIRECTION_BACKWARD_SKIP_NO_FILL:  go through the pass from end to start,
- * skipping segments markes as no-fill.
- * @GO_PATH_DIRECTION_FORWARD_SKIP_NO_STROKE: go through the pass from start to end,
- * skipping segments markes as no-stroke.
- * @GO_PATH_DIRECTION_BACKWARD_SKIP_NO_STROKE:  go through the pass from end to start,
- * skipping segments markes as no-stroke.
  **/
 
 #define GO_PATH_DEFAULT_BUFFER_SIZE 64
@@ -1429,7 +1421,7 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 			emit_function_6 (&state, go_path_curve_to);
 			break;
 		case 'F':
-			state.src++;
+			state.src++; /* ignore */
 			break;
 		case 'L':
 			state.src++;
@@ -1439,7 +1431,7 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 			state.src++;
 			emit_function_2 (&state, go_path_move_to);
 			break;
-		case 'N': /* new sub path */
+		case 'N': /* new sub path, just ignore */
 			state.src++;
 			break;
 		case 'Q':
@@ -1447,7 +1439,7 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 			emit_quadratic (&state);
 			break;
 		case 'S':
-			state.src++;
+			state.src++; /* ignore */
 			break;
 		case 'T':
 			state.src++;

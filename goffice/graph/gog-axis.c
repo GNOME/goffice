@@ -3400,7 +3400,8 @@ gog_axis_view_padding_request (GogView *view,
 	GogViewAllocation tmp = *bbox;
 	GogViewRequisition req, available;
 	GogViewPadding label_padding, child_padding;
-	GogChart *chart = GOG_CHART (gog_object_get_parent (view->model));
+	GogObject *parent = gog_object_get_parent (view->model);
+	gboolean is_3d = GOG_IS_CHART (parent) && gog_chart_is_3d (GOG_CHART (parent));
 	GSList *ptr;
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
@@ -3413,7 +3414,7 @@ gog_axis_view_padding_request (GogView *view,
 		child = ptr->data;
 		pos = child->model->position;
 		if (GOG_IS_LABEL (child->model) && !(pos & GOG_POSITION_MANUAL)) {
-			if (gog_chart_is_3d (chart)) {
+			if (is_3d) {
 				gog_axis_view_padding_request_3d (view, child,
 					bbox, &label_padding);
 			} else {
@@ -3444,7 +3445,7 @@ gog_axis_view_padding_request (GogView *view,
 		}
 	}
 
-	if (gog_chart_is_3d (chart)) {
+	if (is_3d) {
 		/* For 3d chart we have to calculate how much more padding
 		 * is needed for the axis itself */
 		tmp.x -= label_padding.wl;
