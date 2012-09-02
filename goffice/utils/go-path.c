@@ -1487,5 +1487,9 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 		}
 		skip_spaces (&state);
 	}
+	if (state.path->data_buffer_head->n_actions == 0) {
+		go_path_free (state.path);
+		return NULL;
+	}
 	return state.path;
 }
