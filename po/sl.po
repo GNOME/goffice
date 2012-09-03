@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-28 11:49+0000\n"
-"PO-Revision-Date: 2012-08-28 23:02+0100\n"
+"POT-Creation-Date: 2012-09-01 08:25+0000\n"
+"PO-Revision-Date: 2012-09-03 01:52+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -918,8 +918,8 @@ msgid "The rectangle height"
 msgstr "Višina pravokotnika"
 
 #: ../goffice/canvas/goc-rectangle.c:343
-msgid "The rectangle type"
-msgstr "Vrsta pravokotnika"
+msgid "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for top right, 4 for bottom right, 8 for bottom left, or any combination of these."
+msgstr "Vrsta pravokotnika: 0 za nezaobljene robove, 1 za zaobljen levi gornji rob, 2 za desni zgodnji rob, 4 za desni spodnji, 8 za levi spodnji ali njihovo poljubno kombinacijo."
 
 #: ../goffice/canvas/goc-rectangle.c:348
 msgid "rx"
@@ -7717,4 +7717,3 @@ msgstr "Vrste glajenih krivulj"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Glajena krivulja premikajočega povprečja"
-
