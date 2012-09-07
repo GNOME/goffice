@@ -35,7 +35,6 @@
 void
 go_cairo_emit_svg_path (cairo_t *cr, char const *path)
 {
-	char *ptr;
 	GOPath *go_path;
 
 	if (path == NULL)
