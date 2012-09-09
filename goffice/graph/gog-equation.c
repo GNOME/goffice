@@ -159,7 +159,6 @@ gog_equation_update (GogObject *obj)
 	unsigned int i;
 	int n_unclosed_braces = 0;
 	int j;
-	gboolean is_blank = TRUE;
 	gboolean add_dash = FALSE;
 
 	if (equation->itex != NULL && !g_utf8_validate (equation->itex, -1, NULL)) {
@@ -175,8 +174,6 @@ gog_equation_update (GogObject *obj)
 			     i < size_utf8;
 			     i++, itex_iter = g_utf8_next_char (itex_iter)) {
 				if (*itex_iter != ' ') {
-					is_blank = FALSE;
-
 					if (*itex_iter == '{' && (prev_char == NULL || *prev_char != '\\'))
 						n_unclosed_braces++;
 					else if (*itex_iter == '}' && (prev_char != NULL || *prev_char != '\\'))
@@ -332,6 +329,7 @@ gog_equation_init (GogEquation *equation)
 	lsm_dom_node_append_child (equation->math_element, equation->style_element);
 	lsm_dom_node_append_child (equation->style_element, equation->itex_element);
 	lsm_dom_node_append_child (equation->itex_element, equation->itex_string);
+	_update_equation_style (equation, go_styled_object_get_style (GO_STYLED_OBJECT (equation)));
 }
 
 GSF_CLASS (GogEquation, gog_equation,

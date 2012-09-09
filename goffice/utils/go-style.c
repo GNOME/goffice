@@ -1697,7 +1697,7 @@ go_style_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static GsfXMLInNode const dtd[] = {
 		GSF_XML_IN_NODE 	(STYLE, STYLE,
-					 -1, "GogObject",
+					 -1, "Style",
 					 FALSE, NULL, NULL),
 		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_LINE,
 					 -1, "line",
