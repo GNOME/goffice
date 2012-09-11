@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-format.c :
  *
@@ -8622,7 +8623,8 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	default: {
 		/* We need to output something and we don't need any details for this */
 		int date = 0, digit = 0;
-		char const *str = go_format_as_XL (fmt);
+		char const *fstr, *str = go_format_as_XL (fmt);
+		fstr = str;
 		while (*str != '\0') {
 			switch (*str) {
 			case 'd': case 'm': case 'y': case 'h': case 's':
@@ -8639,8 +8641,16 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		if (digit < date)
 			go_format_output_date_to_odf (xout, act_fmt, name,
 						      GO_FORMAT_DATE, with_extension);
-		else
-			go_format_output_general_to_odf (xout, name, cond_part);
+		else {
+			/* We have a format that we can't identify */
+			/* The following is really only appropriate for "" or so */
+			gsf_xml_out_start_element (xout, NUMBER "number-style");
+			gsf_xml_out_add_cstr (xout, STYLE "name", name);
+			gsf_xml_out_start_element (xout, NUMBER "text");
+			gsf_xml_out_add_cstr (xout, NULL, fstr);
+			gsf_xml_out_end_element (xout); /* </number:text> */
+			gsf_xml_out_end_element (xout); /* </number:number-style> */
+		}
 		result = FALSE;
 		break;
 	}

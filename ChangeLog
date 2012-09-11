@@ -1,3 +1,8 @@
+2012-09-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_to_odf): try to improve
+	ODF export of unidentified formats.
+
 2012-09-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-equation.c (gog_equation_update): fix warning,
