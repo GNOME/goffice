@@ -22,24 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "gog-xy.h"
 #include "gog-xy-dropbar.h"
-#include <goffice/graph/gog-view.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-error-bar.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-chart-map.h>
-#include <goffice/graph/gog-series-lines.h>
-#include <goffice/data/go-data.h>
-#include <goffice/data/go-data-simple.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-line.h>
-#include <goffice/utils/go-persist.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
+#include "gog-xy-minmax.h"
 #include <goffice/app/module-plugin-defs.h>
 
 #ifdef GOFFICE_WITH_GTK
@@ -2235,6 +2218,9 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_xy_dropbar_plot_register_type (module);
 	gog_xy_dropbar_view_register_type (module);
 	gog_xy_dropbar_series_register_type (module);
+	gog_xy_minmax_plot_register_type (module);
+	gog_xy_minmax_view_register_type (module);
+	gog_xy_minmax_series_register_type (module);
 
 	register_embedded_stuff ();
 }

@@ -46,5 +46,10 @@
 				<_description>Scattered dropbar plotting engine</_description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogXYMinMaxPlot">
+			<information>
+				<_description>Scattered Min Max plotting engine</_description>
+			</information>
+		</service>
 	</services>
 </plugin>

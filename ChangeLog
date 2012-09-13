@@ -1,3 +1,17 @@
+2012-09-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/Makefile.am: add XYMinMax plot. [#683493]
+	* plugins/plot_xy/chart_minmax_1_3.svg: new icon.
+	* plugins/plot_xy/chart_minmax_1_4.svg:
+	* plugins/plot_xy/chart_minmax_2_3.svg:
+	* plugins/plot_xy/chart_minmax_2_4.svg:
+	* plugins/plot_xy/gog-xy.c (go_plugin_init): register xy-minmax types.
+	* plugins/plot_xy/gog-xy-minmax.c: Scattered MinMax plot implementation.
+	(gog_xy_minmax_view_render), (gog_xy_minmax_view_class_init):
+	* plugins/plot_xy/gog-xy-minmax.h:
+	* plugins/plot_xy/plot-types.xml.in: register new plot type.
+	* plugins/plot_xy/plugin.xml.in: ditto.
+
 2012-09-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_to_odf): try to improve

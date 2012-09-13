@@ -9,7 +9,9 @@ xy_la_SOURCES = \
 	gog-xy.c	\
 	gog-xy.h \
 	gog-xy-dropbar.c	\
-	gog-xy-dropbar.h
+	gog-xy-dropbar.h \
+	gog-xy-minmax.c	\
+	gog-xy-minmax.h
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
@@ -40,6 +42,10 @@ embedded_stuff_raw = \
 	chart_colored_1_1.png	\
 	chart_dropbar_1_3.png	\
 	chart_dropbar_1_4.png	\
+	chart_minmax_1_3.png	\
+	chart_minmax_1_4.png	\
+	chart_minmax_2_3.png	\
+	chart_minmax_2_4.png	\
 	chart_scatter_1_1.png	\
 	chart_scatter_2_1.png	\
 	chart_scatter_2_2.png	\

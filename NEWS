@@ -3,6 +3,9 @@ goffice 0.9.7:
 Andreas:
 	* Handle some more unusual formats in ODF export. [#683801]
 
+Jean:
+	* New scattered min-max plot type. [#683493]
+
 --------------------------------------------------------------------------
 goffice 0.9.6:
 
