@@ -987,6 +987,7 @@ gog_histogram_plot_series_update (GogObject *obj)
 			}
 			if (width > 0. && (y || y_)) {
 				double m, M;
+				/* ignore nans */
 				if (y) {
 					m = (y_)? (MIN (y[0], y_[0])): y[0];
 					M = (y_)? (MAX (y[y_len-1], y_[y__len-1])): y[y_len-1];
@@ -994,6 +995,8 @@ gog_histogram_plot_series_update (GogObject *obj)
 					m = y_[0];
 					M = y_[y__len-1];
 				}
+				if (!go_finite (m) || !go_finite (M))
+					return;
 				/* round m */
 				m = floor ((m - origin)/ width) * width + origin;
 				x_len = ceil ((M - m) / width) + 1;

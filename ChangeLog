@@ -1,3 +1,9 @@
+2012-09-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_series_update): don't crash when no valid data is
+	available. [#684047]
+
 2012-09-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/Makefile.am: add XYMinMax plot. [#683493]
