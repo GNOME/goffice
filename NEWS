@@ -5,6 +5,7 @@ Andreas:
 
 Jean:
 	* New scattered min-max plot type. [#683493]
+	* Don't crash when no valid data is available for histograms. [#684047]
 
 --------------------------------------------------------------------------
 goffice 0.9.6:
