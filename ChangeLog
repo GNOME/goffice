@@ -1,3 +1,8 @@
+2012-09-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_view_render): clip drawing to the plot area. [#684195]
+
 2012-09-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-histogram.c

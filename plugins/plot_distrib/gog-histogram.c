@@ -563,6 +563,9 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
+	/* clip the plot to it's allocated rectangle, see #684195 */
+	gog_renderer_push_clip_rectangle (view->renderer, area->x, area->y, area->w, area->h);
+
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
@@ -796,6 +799,8 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		gog_renderer_pop_style (view->renderer);
 	}
+	gog_renderer_pop_clip (view->renderer);
+
 	/* Now render children */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
