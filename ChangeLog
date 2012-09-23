@@ -1,3 +1,8 @@
+2012-09-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (map_linear_auto_bound): fix scale when data
+	differ are nearly identical. [#684599]
+
 2012-09-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-histogram.c

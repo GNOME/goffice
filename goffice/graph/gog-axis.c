@@ -722,6 +722,8 @@ map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bo
 	range = fabs (maximum - minimum);
 
 	/* handle singletons */
+	if (range > 0. && range / (fabs (minimum) + fabs (maximum)) <= DBL_EPSILON)
+		range = 0.;
 	if (go_sub_epsilon (range) <= 0.) {
 		if (maximum > 0)
 			minimum = 0.;
