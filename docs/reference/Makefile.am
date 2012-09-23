@@ -28,23 +28,7 @@ IGNORE_HFILES=	\
 		go-app.h       				\
 		go-object.h       			\
 		go-service.h       			\
-		go-service-impl.h      			\
-		god-anchor.h				\
-		god-default-attributes.h		\
-		god-drawing-group.h			\
-		god-drawing-renderer-gdk.h		\
-		god-drawing-renderer-cairo.h		\
-		god-drawing-view.h			\
-		god-drawing.h				\
-		god-image-store.h			\
-		god-image.h				\
-		god-paragraph-attributes.h		\
-		god-property-table.h			\
-		god-shape.h				\
-		god-text-model.h			\
-		god-image-ms.h				\
-		god-drawing-ms.h			\
-		god-drawing-ms-client-handler.h
+		go-service-impl.h
 
 if GOFFICE_WITH_LASEM
 else
