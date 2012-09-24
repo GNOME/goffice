@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-07 12:07+0000\n"
-"PO-Revision-Date: 2012-09-08 00:35-0400\n"
-"Last-Translator: Chris Leonard <cjl@laptop.org>\n"
+"POT-Creation-Date: 2012-09-23 14:24+0000\n"
+"PO-Revision-Date: 2012-09-24 00:53-0400\n"
+"Last-Translator: Chris Leonard <cjlhomeaddress@gmail.com>\n"
 "Language-Team: Sugar Labs\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
 #: ../goffice/app/file.c:527
@@ -230,7 +230,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Cleanup function inside plugin returned error."
 
 #: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:876 ../goffice/utils/go-format.c:5207
+#: ../goffice/utils/go-format.c:877 ../goffice/utils/go-format.c:5208
 msgid "General"
 msgstr "General"
 
@@ -522,7 +522,7 @@ msgid "The rotation around center position"
 msgstr "The rotation around centre position"
 
 #: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:2858 ../goffice/graph/gog-grid.c:127
+#: ../goffice/graph/gog-axis.c:2860 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Type"
@@ -1282,129 +1282,129 @@ msgstr "Radians"
 msgid "Grads"
 msgstr "Grads"
 
-#: ../goffice/graph/gog-axis.c:1489
+#: ../goffice/graph/gog-axis.c:1491
 msgid "Discrete"
 msgstr "Discrete"
 
-#: ../goffice/graph/gog-axis.c:1489
+#: ../goffice/graph/gog-axis.c:1491
 msgid "Discrete mapping"
 msgstr "Discrete mapping"
 
-#: ../goffice/graph/gog-axis.c:1501 ../goffice/utils/go-line.c:161
+#: ../goffice/graph/gog-axis.c:1503 ../goffice/utils/go-line.c:161
 #: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Linear"
 msgstr "Linear"
 
-#: ../goffice/graph/gog-axis.c:1501
+#: ../goffice/graph/gog-axis.c:1503
 msgid "Linear mapping"
 msgstr "Linear mapping"
 
-#: ../goffice/graph/gog-axis.c:1513
+#: ../goffice/graph/gog-axis.c:1515
 msgid "Log"
 msgstr "Log"
 
-#: ../goffice/graph/gog-axis.c:1513
+#: ../goffice/graph/gog-axis.c:1515
 msgid "Logarithm mapping"
 msgstr "Logarithm mapping"
 
-#: ../goffice/graph/gog-axis.c:2695 ../goffice/graph/gog-axis.c:2705
+#: ../goffice/graph/gog-axis.c:2697 ../goffice/graph/gog-axis.c:2707
 msgid "M_inimum"
 msgstr "M_inimum"
 
-#: ../goffice/graph/gog-axis.c:2696 ../goffice/graph/gog-axis.c:2706
+#: ../goffice/graph/gog-axis.c:2698 ../goffice/graph/gog-axis.c:2708
 msgid "M_aximum"
 msgstr "M_aximum"
 
-#: ../goffice/graph/gog-axis.c:2697
+#: ../goffice/graph/gog-axis.c:2699
 msgid "Categories between _ticks"
 msgstr "Categories between _ticks"
 
-#: ../goffice/graph/gog-axis.c:2698
+#: ../goffice/graph/gog-axis.c:2700
 msgid "Categories between _labels"
 msgstr "Categories between _labels"
 
-#: ../goffice/graph/gog-axis.c:2707
+#: ../goffice/graph/gog-axis.c:2709
 msgid "Ma_jor ticks"
 msgstr "Ma_jor ticks"
 
-#: ../goffice/graph/gog-axis.c:2708
+#: ../goffice/graph/gog-axis.c:2710
 msgid "Mi_nor ticks"
 msgstr "Mi_nor ticks"
 
-#: ../goffice/graph/gog-axis.c:2764 ../goffice/math/go-distribution.c:171
+#: ../goffice/graph/gog-axis.c:2766 ../goffice/math/go-distribution.c:171
 #: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "Scale"
 
-#: ../goffice/graph/gog-axis.c:2784 ../plugins/plot_pie/gog-pie.c:325
+#: ../goffice/graph/gog-axis.c:2786 ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Span"
 
-#: ../goffice/graph/gog-axis.c:2802 ../goffice/graph/gog-series-labels.c:890
+#: ../goffice/graph/gog-axis.c:2804 ../goffice/graph/gog-series-labels.c:890
 #: ../goffice/graph/gog-series-labels.c:1414
 msgid "Format"
 msgstr "Format"
 
-#: ../goffice/graph/gog-axis.c:2834
+#: ../goffice/graph/gog-axis.c:2836
 msgid "MajorGrid"
 msgstr "MajorGrid"
 
-#: ../goffice/graph/gog-axis.c:2837
+#: ../goffice/graph/gog-axis.c:2839
 msgid "MinorGrid"
 msgstr "MinorGrid"
 
-#: ../goffice/graph/gog-axis.c:2840
+#: ../goffice/graph/gog-axis.c:2842
 msgid "AxisLine"
 msgstr "AxisLine"
 
-#: ../goffice/graph/gog-axis.c:2843
+#: ../goffice/graph/gog-axis.c:2845
 msgid "Label"
 msgstr "Label"
 
-#: ../goffice/graph/gog-axis.c:2859
+#: ../goffice/graph/gog-axis.c:2861
 msgid "Numerical type of this axis"
 msgstr "Numerical type of this axis"
 
-#: ../goffice/graph/gog-axis.c:2863
+#: ../goffice/graph/gog-axis.c:2865
 msgid "Invert axis"
 msgstr "Invert axis"
 
-#: ../goffice/graph/gog-axis.c:2864
+#: ../goffice/graph/gog-axis.c:2866
 msgid "Scale from high to low rather than low to high"
 msgstr "Scale from high to low rather than low to high"
 
-#: ../goffice/graph/gog-axis.c:2868
+#: ../goffice/graph/gog-axis.c:2870
 msgid "MapName"
 msgstr "MapName"
 
-#: ../goffice/graph/gog-axis.c:2869
+#: ../goffice/graph/gog-axis.c:2871
 msgid "The name of the map for scaling"
 msgstr "The name of the map for scaling"
 
-#: ../goffice/graph/gog-axis.c:2874
+#: ../goffice/graph/gog-axis.c:2876
 msgid "Assigned XL format"
 msgstr "Assigned XL format"
 
-#: ../goffice/graph/gog-axis.c:2875
+#: ../goffice/graph/gog-axis.c:2877
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 
-#: ../goffice/graph/gog-axis.c:2880 ../goffice/graph/gog-axis.c:2881
+#: ../goffice/graph/gog-axis.c:2882 ../goffice/graph/gog-axis.c:2883
 msgid "Rotation of circular axis"
 msgstr "Rotation of circular axis"
 
-#: ../goffice/graph/gog-axis.c:2888 ../goffice/graph/gog-axis.c:2889
+#: ../goffice/graph/gog-axis.c:2890 ../goffice/graph/gog-axis.c:2891
 msgid "Polar axis set unit"
 msgstr "Polar axis set unit"
 
-#: ../goffice/graph/gog-axis.c:2894
+#: ../goffice/graph/gog-axis.c:2896
 msgid "Axis start position"
 msgstr "Axis start position"
 
-#: ../goffice/graph/gog-axis.c:2895
+#: ../goffice/graph/gog-axis.c:2897
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
@@ -1412,11 +1412,11 @@ msgstr ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
 
-#: ../goffice/graph/gog-axis.c:2900
+#: ../goffice/graph/gog-axis.c:2902
 msgid "Axis end position"
 msgstr "Axis end position"
 
-#: ../goffice/graph/gog-axis.c:2901
+#: ../goffice/graph/gog-axis.c:2903
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
@@ -1799,7 +1799,7 @@ msgstr ""
 #: ../goffice/graph/gog-smoothed-curve.c:59
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2111
+#: ../plugins/plot_xy/gog-xy.c:2094
 msgid "Details"
 msgstr "Details"
 
@@ -2573,8 +2573,8 @@ msgstr "Guppi"
 #: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:595
 #: ../plugins/plot_surface/gog-xyz.c:101
 #: ../plugins/plot_surface/gog-xyz-surface.c:315
-#: ../plugins/plot_xy/gog-xy.c:371 ../plugins/plot_xy/gog-xy.c:483
-#: ../plugins/plot_xy/gog-xy.c:754 ../plugins/plot_xy/gog-xy-dropbar.c:154
+#: ../plugins/plot_xy/gog-xy.c:354 ../plugins/plot_xy/gog-xy.c:466
+#: ../plugins/plot_xy/gog-xy.c:737 ../plugins/plot_xy/gog-xy-dropbar.c:154
 #: ../plugins/smoothing/gog-moving-avg.c:112
 #: ../plugins/smoothing/gog-exp-smooth.c:79
 msgid "Properties"
@@ -5104,73 +5104,73 @@ msgid "Invalid image data\n"
 msgstr "Invalid image data\n"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:566
+#: ../goffice/utils/go-format.c:567
 msgid "*Long Date Format"
 msgstr "*Long Date Format"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:574
+#: ../goffice/utils/go-format.c:575
 msgid "*Medium Date Format"
 msgstr "*Medium Date Format"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:582
+#: ../goffice/utils/go-format.c:583
 msgid "*Short Date Format"
 msgstr "*Short Date Format"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:595
+#: ../goffice/utils/go-format.c:596
 msgid "*Short Date/Time Format"
 msgstr "*Short Date/Time Format"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:610
+#: ../goffice/utils/go-format.c:611
 msgid "*Long Time Format"
 msgstr "*Long Time Format"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:622
+#: ../goffice/utils/go-format.c:623
 msgid "*Medium Time Format"
 msgstr "*Medium Time Format"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:634
+#: ../goffice/utils/go-format.c:635
 msgid "*Short Time Format"
 msgstr "*Short Time Format"
 
-#: ../goffice/utils/go-format.c:683
+#: ../goffice/utils/go-format.c:684
 msgid "Black"
 msgstr "Black"
 
-#: ../goffice/utils/go-format.c:684
+#: ../goffice/utils/go-format.c:685
 msgid "Blue"
 msgstr "Blue"
 
-#: ../goffice/utils/go-format.c:685
+#: ../goffice/utils/go-format.c:686
 msgid "Cyan"
 msgstr "Cyan"
 
-#: ../goffice/utils/go-format.c:686
+#: ../goffice/utils/go-format.c:687
 msgid "Green"
 msgstr "Green"
 
-#: ../goffice/utils/go-format.c:687
+#: ../goffice/utils/go-format.c:688
 msgid "Magenta"
 msgstr "Magenta"
 
-#: ../goffice/utils/go-format.c:688
+#: ../goffice/utils/go-format.c:689
 msgid "Red"
 msgstr "Red"
 
-#: ../goffice/utils/go-format.c:689
+#: ../goffice/utils/go-format.c:690
 msgid "White"
 msgstr "White"
 
-#: ../goffice/utils/go-format.c:690
+#: ../goffice/utils/go-format.c:691
 msgid "Yellow"
 msgstr "Yellow"
 
-#: ../goffice/utils/go-format.c:710
+#: ../goffice/utils/go-format.c:711
 msgid "color"
 msgstr "colour"
 
@@ -5770,7 +5770,7 @@ msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr "How to group multiple series, normal, stacked, as_percentage"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:353 ../plugins/plot_pie/gog-pie.c:319
-#: ../plugins/plot_xy/gog-xy.c:583
+#: ../plugins/plot_xy/gog-xy.c:566
 msgid "In 3D"
 msgstr "In 3D"
 
@@ -5802,7 +5802,7 @@ msgid "Series lines"
 msgstr "Series lines"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:650
-#: ../plugins/plot_distrib/gog-histogram.c:1087
+#: ../plugins/plot_distrib/gog-histogram.c:1095
 msgid "Drop lines"
 msgstr "Drop lines"
 
@@ -5813,8 +5813,8 @@ msgstr "Lines"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
 #: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2188
-#: ../plugins/plot_xy/gog-xy.c:2194
+#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2171
+#: ../plugins/plot_xy/gog-xy.c:2177
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -5879,7 +5879,7 @@ msgstr "horizontal bars or vertical columns"
 #: ../plugins/plot_distrib/gog-boxplot.c:413
 #: ../plugins/plot_distrib/gog-histogram.c:374
 #: ../plugins/plot_radar/gog-radar.c:446 ../plugins/plot_radar/gog-radar.c:517
-#: ../plugins/plot_xy/gog-xy.c:416 ../plugins/plot_xy/gog-xy-dropbar.c:300
+#: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:300
 msgid "Displayed under the grids"
 msgstr "Displayed under the grids"
 
@@ -5889,7 +5889,7 @@ msgstr "Displayed under the grids"
 #: ../plugins/plot_distrib/gog-boxplot.c:414
 #: ../plugins/plot_distrib/gog-histogram.c:375
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:518
-#: ../plugins/plot_xy/gog-xy.c:417 ../plugins/plot_xy/gog-xy-dropbar.c:301
+#: ../plugins/plot_xy/gog-xy.c:400 ../plugins/plot_xy/gog-xy-dropbar.c:301
 msgid "Should the plot be displayed before the grids"
 msgstr "Should the plot be displayed before the grids"
 
@@ -5911,12 +5911,14 @@ msgstr "PlotLine"
 #: ../plugins/plot_barcol/gog-line.c:327
 #: ../plugins/plot_barcol/gog-minmax.c:233
 #: ../plugins/plot_radar/gog-radar.c:231
+#: ../plugins/plot_xy/gog-xy-minmax.c:297
 msgid "Default markers"
 msgstr "Default markers"
 
 #: ../plugins/plot_barcol/gog-line.c:328
 #: ../plugins/plot_barcol/gog-minmax.c:234
-#: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:393
+#: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:376
+#: ../plugins/plot_xy/gog-xy-minmax.c:298
 msgid "Should the default style of a series include markers"
 msgstr "Should the default style of a series include markers"
 
@@ -5938,18 +5940,22 @@ msgstr "PlotMinMax"
 #: ../plugins/plot_barcol/gog-minmax.c:227
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-dropbar.c:306
+#: ../plugins/plot_xy/gog-xy-minmax.c:291
 msgid "Horizontal"
 msgstr "Horizontal"
 
 #: ../plugins/plot_barcol/gog-minmax.c:228
+#: ../plugins/plot_xy/gog-xy-minmax.c:292
 msgid "Horizontal or vertical lines"
 msgstr "Horizontal or vertical lines"
 
 #: ../plugins/plot_barcol/gog-minmax.c:248
+#: ../plugins/plot_xy/gog-xy-minmax.c:310
 msgid "Min"
 msgstr "Min"
 
 #: ../plugins/plot_barcol/gog-minmax.c:250
+#: ../plugins/plot_xy/gog-xy-minmax.c:312
 msgid "Max"
 msgstr "Max"
 
@@ -6369,14 +6375,14 @@ msgid "Categories labels"
 msgstr "Categories labels"
 
 #: ../plugins/plot_distrib/gog-histogram.c:478
-#: ../plugins/plot_distrib/gog-histogram.c:750
+#: ../plugins/plot_distrib/gog-histogram.c:753
 msgid "First values"
 msgstr "First values"
 
 #: ../plugins/plot_distrib/gog-histogram.c:480
-#: ../plugins/plot_distrib/gog-histogram.c:758
-#: ../plugins/plot_distrib/gog-histogram.c:769
-#: ../plugins/plot_distrib/gog-histogram.c:781
+#: ../plugins/plot_distrib/gog-histogram.c:761
+#: ../plugins/plot_distrib/gog-histogram.c:772
+#: ../plugins/plot_distrib/gog-histogram.c:784
 msgid "Second values"
 msgstr "Second values"
 
@@ -6736,8 +6742,8 @@ msgstr "Default pie types"
 msgid "Default fill"
 msgstr "Default fill"
 
-#: ../plugins/plot_radar/gog-radar.c:239 ../plugins/plot_xy/gog-xy.c:405
-#: ../plugins/plot_xy/gog-xy.c:834
+#: ../plugins/plot_radar/gog-radar.c:239 ../plugins/plot_xy/gog-xy.c:388
+#: ../plugins/plot_xy/gog-xy.c:817
 msgid "Should the default style of a series include fill"
 msgstr "Should the default style of a series include fill"
 
@@ -6778,18 +6784,18 @@ msgstr "Magnitude"
 msgid "PlotColorPolar"
 msgstr "PlotColourPolar"
 
-#: ../plugins/plot_radar/gog-radar.c:721 ../plugins/plot_xy/gog-xy.c:839
+#: ../plugins/plot_radar/gog-radar.c:721 ../plugins/plot_xy/gog-xy.c:822
 msgid "hide-outliers"
 msgstr "hide-outliers"
 
-#: ../plugins/plot_radar/gog-radar.c:722 ../plugins/plot_xy/gog-xy.c:840
+#: ../plugins/plot_radar/gog-radar.c:722 ../plugins/plot_xy/gog-xy.c:823
 msgid "Hide data outside of the color axis bounds"
 msgstr "Hide data outside of the colour axis bounds"
 
 #: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:400
 #: ../plugins/plot_surface/gog-xyz-surface.c:543
 #: ../plugins/plot_surface/xl-surface.c:304
-#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:852
+#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:835
 msgid "Z"
 msgstr "Z"
 
@@ -6903,15 +6909,15 @@ msgstr "Transpose the plot"
 #: ../plugins/plot_surface/gog-xyz.c:396
 #: ../plugins/plot_surface/gog-xyz-surface.c:539
 #: ../plugins/plot_surface/xl-surface.c:302
-#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:425
-#: ../plugins/plot_xy/gog-xy.c:595 ../plugins/plot_xy/gog-xy.c:848
+#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:408
+#: ../plugins/plot_xy/gog-xy.c:578 ../plugins/plot_xy/gog-xy.c:831
 msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:398
 #: ../plugins/plot_surface/gog-xyz-surface.c:541
-#: ../plugins/plot_xy/gog-xy.c:427 ../plugins/plot_xy/gog-xy.c:597
-#: ../plugins/plot_xy/gog-xy.c:850
+#: ../plugins/plot_xy/gog-xy.c:410 ../plugins/plot_xy/gog-xy.c:580
+#: ../plugins/plot_xy/gog-xy.c:833
 msgid "Y"
 msgstr "Y"
 
@@ -7111,106 +7117,106 @@ msgstr "Bar _width:"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: ../plugins/plot_xy/gog-xy.c:276
+#: ../plugins/plot_xy/gog-xy.c:259
 msgid "PlotXY"
 msgstr "PlotXY"
 
-#: ../plugins/plot_xy/gog-xy.c:392
+#: ../plugins/plot_xy/gog-xy.c:375
 msgid "Has markers by default"
 msgstr "Has markers by default"
 
-#: ../plugins/plot_xy/gog-xy.c:398 ../plugins/plot_xy/gog-xy.c:827
+#: ../plugins/plot_xy/gog-xy.c:381 ../plugins/plot_xy/gog-xy.c:810
 msgid "Has lines by default"
 msgstr "Has lines by default"
 
-#: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy.c:828
+#: ../plugins/plot_xy/gog-xy.c:382 ../plugins/plot_xy/gog-xy.c:811
 msgid "Should the default style of a series include lines"
 msgstr "Should the default style of a series include lines"
 
-#: ../plugins/plot_xy/gog-xy.c:404 ../plugins/plot_xy/gog-xy.c:833
+#: ../plugins/plot_xy/gog-xy.c:387 ../plugins/plot_xy/gog-xy.c:816
 msgid "Has fill by default"
 msgstr "Has fill by default"
 
-#: ../plugins/plot_xy/gog-xy.c:410
+#: ../plugins/plot_xy/gog-xy.c:393
 msgid "Use splines"
 msgstr "Use splines"
 
-#: ../plugins/plot_xy/gog-xy.c:411
+#: ../plugins/plot_xy/gog-xy.c:394
 msgid "Should the plot use splines instead of linear interpolation"
 msgstr "Should the plot use splines instead of linear interpolation"
 
-#: ../plugins/plot_xy/gog-xy.c:471
+#: ../plugins/plot_xy/gog-xy.c:454
 msgid "PlotBubble"
 msgstr "PlotBubble"
 
-#: ../plugins/plot_xy/gog-xy.c:571
+#: ../plugins/plot_xy/gog-xy.c:554
 msgid "Size as area"
 msgstr "Size as area"
 
-#: ../plugins/plot_xy/gog-xy.c:572
+#: ../plugins/plot_xy/gog-xy.c:555
 msgid "Display size as area instead of diameter"
 msgstr "Display size as area instead of diameter"
 
-#: ../plugins/plot_xy/gog-xy.c:577
+#: ../plugins/plot_xy/gog-xy.c:560
 msgid "Show negatives"
 msgstr "Show negatives"
 
-#: ../plugins/plot_xy/gog-xy.c:578
+#: ../plugins/plot_xy/gog-xy.c:561
 msgid "Draw bubbles for negative values"
 msgstr "Draw bubbles for negative values"
 
-#: ../plugins/plot_xy/gog-xy.c:584
+#: ../plugins/plot_xy/gog-xy.c:567
 msgid "Draw 3D bubbles"
 msgstr "Draw 3D bubbles"
 
-#: ../plugins/plot_xy/gog-xy.c:589
+#: ../plugins/plot_xy/gog-xy.c:572
 msgid "Bubble scale"
 msgstr "Bubble scale"
 
-#: ../plugins/plot_xy/gog-xy.c:590
+#: ../plugins/plot_xy/gog-xy.c:573
 msgid "Fraction of default radius used for display"
 msgstr "Fraction of default radius used for display"
 
-#: ../plugins/plot_xy/gog-xy.c:599 ../plugins/plot_xy/plot-types.xml.in.h:3
+#: ../plugins/plot_xy/gog-xy.c:582 ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Bubble"
 msgstr "Bubble"
 
 #. xgettext : the base for how to name map like plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
-#: ../plugins/plot_xy/gog-xy.c:724
+#: ../plugins/plot_xy/gog-xy.c:707
 msgid "XYColor"
 msgstr "XYColour"
 
-#: ../plugins/plot_xy/gog-xy.c:2116 ../plugins/plot_xy/gog-xy.c:2187
+#: ../plugins/plot_xy/gog-xy.c:2099 ../plugins/plot_xy/gog-xy.c:2170
 msgid "X error bars"
 msgstr "X error bars"
 
-#: ../plugins/plot_xy/gog-xy.c:2119 ../plugins/plot_xy/gog-xy.c:2193
+#: ../plugins/plot_xy/gog-xy.c:2102 ../plugins/plot_xy/gog-xy.c:2176
 msgid "Y error bars"
 msgstr "Y error bars"
 
-#: ../plugins/plot_xy/gog-xy.c:2128
+#: ../plugins/plot_xy/gog-xy.c:2111
 msgid "Horizontal drop lines"
 msgstr "Horizontal drop lines"
 
-#: ../plugins/plot_xy/gog-xy.c:2136
+#: ../plugins/plot_xy/gog-xy.c:2119
 msgid "Vertical drop lines"
 msgstr "Vertical drop lines"
 
-#: ../plugins/plot_xy/gog-xy.c:2199
+#: ../plugins/plot_xy/gog-xy.c:2182
 msgid "Invalid as zero"
 msgstr "Invalid as zero"
 
-#: ../plugins/plot_xy/gog-xy.c:2200
+#: ../plugins/plot_xy/gog-xy.c:2183
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr "Replace invalid values by 0 when drawing markers or bubbles"
 
-#: ../plugins/plot_xy/gog-xy.c:2205
+#: ../plugins/plot_xy/gog-xy.c:2188
 msgid "Clamp at start"
 msgstr "Clamp at start"
 
-#: ../plugins/plot_xy/gog-xy.c:2206
+#: ../plugins/plot_xy/gog-xy.c:2189
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7218,11 +7224,11 @@ msgstr ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 
-#: ../plugins/plot_xy/gog-xy.c:2211
+#: ../plugins/plot_xy/gog-xy.c:2194
 msgid "Clamp at end"
 msgstr "Clamp at end"
 
-#: ../plugins/plot_xy/gog-xy.c:2212
+#: ../plugins/plot_xy/gog-xy.c:2195
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7246,8 +7252,16 @@ msgid "Bars width as a percentage of the plot width"
 msgstr "Bars width as a percentage of the plot width"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:324
+#: ../plugins/plot_xy/gog-xy-minmax.c:308
 msgid "Positions"
 msgstr "Positions"
+
+#. xgettext : the base for how to name min/max line plot objects
+#. * eg The 2nd min/max line plot in a chart will be called
+#. * 	PlotMinMax2
+#: ../plugins/plot_xy/gog-xy-minmax.c:166
+msgid "PlotXYMinMax"
+msgstr "PlotXYMinMax"
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
@@ -7337,14 +7351,14 @@ msgid ""
 msgstr ""
 "Multi-dimensional points with data dependent colour marker at each point."
 
-#. Drop bars are bars goint from an initial position
+#. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:28
 msgid "Scattered Vertical Drop Bars"
 msgstr "Scattered Vertical Drop Bars"
 
-#. Drop bars are bars goint from an initial position
+#. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:32
@@ -7358,6 +7372,38 @@ msgstr "Scattered Horizontal Drop Bars"
 #: ../plugins/plot_xy/plot-types.xml.in.h:34
 msgid "Horizontal drop bars with continuous Y-axis."
 msgstr "Horizontal drop bars with continuous Y-axis."
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:35
+msgid "Scattered Vertical Min Max Lines"
+msgstr "Scattered Vertical Min Max Lines"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:36
+msgid "Vertical Min Max lines with continuous X-axis."
+msgstr "Vertical Min Max lines with continuous X-axis."
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:37
+msgid "Scattered Marked Vertical Min Max Lines"
+msgstr "Scattered Marked Vertical Min Max Lines"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:38
+msgid "Vertical Min Max lines with markers and a continuous X-axis."
+msgstr "Vertical Min Max lines with markers and a continuous X-axis."
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:39
+msgid "Scattered Horizontal Min Max Lines"
+msgstr "Scattered Horizontal Min Max Lines"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:40
+msgid "Horizontal Min Max lines with continuous Y-axis."
+msgstr "Horizontal Min Max lines with continuous Y-axis."
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:41
+msgid "Scattered Marked Horizontal Min Max Lines"
+msgstr "Scattered Marked Horizontal Min Max Lines"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:42
+msgid "Horizontal Min Max lines with markers and a continuous Y-axis."
+msgstr "Horizontal Min Max lines with markers and a continuous Y-axis."
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
 msgid "Charting : XY/Scatter/Bubble"
@@ -7386,6 +7432,10 @@ msgstr "Stock Scatter plot types"
 #: ../plugins/plot_xy/plugin.xml.in.h:7
 msgid "Scattered dropbar plotting engine"
 msgstr "Scattered dropbar plotting engine"
+
+#: ../plugins/plot_xy/plugin.xml.in.h:8
+msgid "Scattered Min Max plotting engine"
+msgstr "Scattered Min Max plotting engine"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
