@@ -125,11 +125,24 @@ dnl Should we use lasem ?
 dnl ***********************
 
 goffice_with_lasem=false
-AC_ARG_WITH(lasem, [  --with-lasem          Build with lasem use])
-if test "x$with_lasem" = xyes; then
-	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.3.1)
+AC_ARG_WITH(lasem,
+	AS_HELP_STRING([--with-lasem[=@<:@no/auto/yes@:>@]],
+                         [Build with lasem use (default=auto)]),
+	,[with_lasem=auto])
+echo -n "\nlasem test result is: "
+echo "$with_lasem"
+echo ""
+
+AS_CASE([$with_lasem],
+	[no],[found_lasem="disabled by request"],
+	[auto], [
+	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.3.3,
+	[found_lasem="yes";goffice_with_lasem=true], [found_lasem="no, missing or too old lasem library"])
+	],
+	[yes],[found_lasem="yes";
+	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.3.3);
 	goffice_with_lasem=true
-fi
+	],[AC_MSG_ERROR([invalid argument passed to --with-lasem, should be one of @<:@no/auto/yes@:>@])])
 if test "x$goffice_with_lasem" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_LASEM, 1, [Define if Lasem is used])
 	goffice_reqs="$goffice_reqs lasem-0.4 >= 0.3.1 "
@@ -796,6 +809,7 @@ Configuration:
 	Compiler:		${CC}
 	Compiler flags:		${CFLAGS}
 	Long double support:	${float_msg}
+	Equation support in graphs: ${found_lasem}
 
 	UI:			${ui_msg}
 	Configuration backend:	${conf_msg}

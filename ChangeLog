@@ -1,3 +1,7 @@
+2012-09-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: automatically use lasem when present.
+
 2012-09-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (map_linear_auto_bound): fix scale when data
