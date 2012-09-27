@@ -11,6 +11,7 @@ Jean:
 	* Don't crash when no valid data is available for histograms. [#684047]
 	* Clip histograms to the plot area. [#684195]
 	* Fix backplane position when data are nearly all the same. [#684599]
+	* Fixed crash when using data labels after gtk+ behavior change. [#684889]
 
 --------------------------------------------------------------------------
 goffice 0.9.6:

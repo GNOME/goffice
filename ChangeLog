@@ -1,3 +1,10 @@
+2012-09-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series-labels-prefs.ui: allow multiple selection.
+	* goffice/graph/gog-series-labels.c (used_selection_changed_cb),
+	(add_cb), (remove_cb), (gog_series_labels_update): fixed crash after gtk+
+	behavior change. [#684889]
+
 2012-09-27   Chris Leonard  <cjlhomeaddress@gmail.com>
 
 	* goffice/gtk/go-locale-sel.c: updated locales. [#682749]

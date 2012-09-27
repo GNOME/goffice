@@ -141,9 +141,8 @@ used_selection_changed_cb (struct SeriesLabelsState *state)
 			&GOG_DATA_LABEL (state->labels)->format:
 			&GOG_SERIES_LABELS (state->labels)->format;
 	g_free (*format);
-	*format = NULL;
+	*format = strdup ("");;
 	if (gtk_tree_model_get_iter_first (model, &iter)) {
-		GtkTreeModel *model = GTK_TREE_MODEL (state->used_list);
 		/* if the first row is not selected and a second row exists, set the up button sensitive */
 		first = last = iter;
 		gtk_widget_set_sensitive (state->raise,
@@ -160,29 +159,19 @@ used_selection_changed_cb (struct SeriesLabelsState *state)
 			gtk_tree_model_get (model, &iter, 1, &dim, -1);
 			switch (dim) {
 			case -1:
-				new_format = (*format)?
-						g_strconcat (*format, "%s%c", NULL):
-						g_strdup ("%c");
+				new_format = g_strconcat (*format, "%s%c", NULL);
 				break;
 			case -2:
-				new_format = (*format)?
-						g_strconcat (*format, "%s%l", NULL):
-						g_strdup ("%l");
+				new_format = g_strconcat (*format, "%s%l", NULL);
 				break;
 			case -3:
-				new_format = (*format)?
-						g_strconcat (*format, "%s%n", NULL):
-						g_strdup ("%n");
+				new_format = g_strconcat (*format, "%s%n", NULL);
 				break;
 			case -4:
-				new_format = (*format)?
-						g_strconcat (*format, "%s%p", NULL):
-						g_strdup ("%p");
+				new_format = g_strconcat (*format, "%s%p", NULL);
 				break;
 			default:
-				new_format = (*format)?
-						g_strdup_printf ("%s%%s%%%d", *format, dim):
-						g_strdup_printf ("%%%d", dim);
+				new_format = g_strdup_printf ("%s%%s%%%d", *format, dim);
 			}
 			g_free (*format);
 			*format = new_format;
@@ -208,9 +197,10 @@ used_selection_changed_cb (struct SeriesLabelsState *state)
 static void
 add_cb (G_GNUC_UNUSED GtkButton *btn, struct SeriesLabelsState *state)
 {
-	GtkTreeIter iter, add_iter;
+	GtkTreeIter iter, add_iter, next;
 	char *name;
 	int id;
+	gboolean next_selected;
 	gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->avail_list), &iter);
 	/* we don't need to check if the iter is valid since otherwise,
 	 the button would be unsensitive */
@@ -222,8 +212,13 @@ add_cb (G_GNUC_UNUSED GtkButton *btn, struct SeriesLabelsState *state)
 			gtk_list_store_set (state->used_list, &add_iter,
 			                    0, name, 1, id, -1);
 			g_free (name);
+			next = iter;
+			next_selected = (gtk_tree_model_iter_next (GTK_TREE_MODEL (state->avail_list), &next)
+			                 && gtk_tree_selection_iter_is_selected (state->avail_sel, &next));
 			if (!gtk_list_store_remove (state->avail_list, &iter))
 				break;
+			if (!next_selected)
+				gtk_tree_selection_unselect_iter (state->avail_sel, &iter);
 		} else if (!gtk_tree_model_iter_next (GTK_TREE_MODEL (state->avail_list), &iter))
 			break;
 	}
@@ -234,9 +229,10 @@ add_cb (G_GNUC_UNUSED GtkButton *btn, struct SeriesLabelsState *state)
 static void
 remove_cb (G_GNUC_UNUSED GtkButton *btn, struct SeriesLabelsState *state)
 {
-	GtkTreeIter iter, add_iter;
+	GtkTreeIter iter, add_iter, next;
 	char *name;
 	int id;
+	gboolean next_selected;
 	gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->used_list), &iter);
 	/* we don't need to check if the iter is valid since otherwise,
 	 the button would be unsensitive */
@@ -248,8 +244,13 @@ remove_cb (G_GNUC_UNUSED GtkButton *btn, struct SeriesLabelsState *state)
 			gtk_list_store_set (state->avail_list, &add_iter,
 			                    0, name, 1, id, -1);
 			g_free (name);
+			next = iter;
+			next_selected = (gtk_tree_model_iter_next (GTK_TREE_MODEL (state->used_list), &next)
+			                 && gtk_tree_selection_iter_is_selected (state->used_sel, &next));
 			if (!gtk_list_store_remove (state->used_list, &iter))
 				break;
+			if (!next_selected)
+				gtk_tree_selection_unselect_iter (state->used_sel, &iter);
 		} else if (!gtk_tree_model_iter_next (GTK_TREE_MODEL (state->used_list), &iter))
 			break;
 	}
@@ -1221,7 +1222,9 @@ gog_series_labels_update (GogObject *obj)
 						case 0: /* protect from an unexpected string end */
 							break;
 						case 'c':
-							next = go_data_get_vector_string (labels->custom_labels[0].data, i);
+							next = GO_IS_DATA (labels->custom_labels[0].data)?
+									go_data_get_vector_string (labels->custom_labels[0].data, i):
+									NULL;
 							if (next) {
 								index = str->len;
 								g_string_append (str, next);

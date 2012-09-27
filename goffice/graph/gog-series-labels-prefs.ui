@@ -9,6 +9,11 @@
       <column type="guint"/>
     </columns>
   </object>
+  <object class="GtkAdjustment" id="offset-adj">
+    <property name="upper">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkListStore" id="used-list">
     <columns>
       <!-- column-name text -->
@@ -16,11 +21,6 @@
       <!-- column-name dim -->
       <column type="guint"/>
     </columns>
-  </object>
-  <object class="GtkAdjustment" id="offset-adj">
-    <property name="upper">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
   <object class="GtkGrid" id="series-labels-prefs">
     <property name="visible">True</property>
@@ -104,6 +104,7 @@
     </child>
     <child>
       <object class="GtkButton" id="raise">
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -126,6 +127,7 @@
     </child>
     <child>
       <object class="GtkButton" id="add">
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -148,6 +150,7 @@
     </child>
     <child>
       <object class="GtkButton" id="remove">
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -170,6 +173,7 @@
     </child>
     <child>
       <object class="GtkButton" id="lower">
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -195,9 +199,11 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="model">available-list</property>
-        <property name="search_column">0</property>
+        <property name="search_column">5</property>
         <child internal-child="selection">
-          <object class="GtkTreeSelection" id="treeview-selection"/>
+          <object class="GtkTreeSelection" id="treeview-selection">
+            <property name="mode">multiple</property>
+          </object>
         </child>
       </object>
       <packing>
@@ -214,7 +220,9 @@
         <property name="model">used-list</property>
         <property name="search_column">0</property>
         <child internal-child="selection">
-          <object class="GtkTreeSelection" id="treeview-selection1"/>
+          <object class="GtkTreeSelection" id="treeview-selection1">
+            <property name="mode">multiple</property>
+          </object>
         </child>
       </object>
       <packing>
@@ -236,6 +244,24 @@
         <property name="width">3</property>
         <property name="height">1</property>
       </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
 </interface>
