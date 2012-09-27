@@ -1,3 +1,7 @@
+2012-09-27   Chris Leonard  <cjlhomeaddress@gmail.com>
+
+	* goffice/gtk/go-locale-sel.c: updated locales. [#682749]
+
 2012-09-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: automatically use lasem when present.
