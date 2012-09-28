@@ -199,8 +199,6 @@ gog_equation_update (GogObject *obj)
 	lsm_dom_node_set_node_value (equation->itex_string, itex->str);
 
 	g_string_free (itex, TRUE);
-
-	lsm_dom_document_save_to_path (equation->mathml, "goffice.mml", NULL);
 }
 
 static void
