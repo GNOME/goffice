@@ -884,7 +884,7 @@ gog_data_label_class_init (GObjectClass *obj_klass)
 		 g_param_spec_uint ("offset",
 			_("Offset"),
 			_("Offset to add to the label position"),
-			0, 10, 0,
+			0, 20, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
         g_object_class_install_property (obj_klass, DATA_LABEL_PROP_FORMAT,
 		 g_param_spec_string ("format",

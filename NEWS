@@ -12,6 +12,7 @@ Jean:
 	* Clip histograms to the plot area. [#684195]
 	* Fix backplane position when data are nearly all the same. [#684599]
 	* Fixed crash when using data labels after gtk+ behavior change. [#684889]
+	* Accept an offset up to 20 for graph data labels. [#684892]
 
 --------------------------------------------------------------------------
 goffice 0.9.6:

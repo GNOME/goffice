@@ -1,3 +1,10 @@
+2012-10-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/graph/gog-series-labels-prefs.ui:
+	* goffice/graph/gog-series-labels.c (gog_data_label_class_init):
+
 2012-09-28  Emmanuel Pacaud <emmanuel@gnome.org>
 
 	* goffice/graph/gog-equation.c: remove creation of goffice.mml.
