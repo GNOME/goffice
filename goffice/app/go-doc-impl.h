@@ -35,8 +35,8 @@ struct _GODoc {
 	gboolean	 pristine;
 	GHashTable	*images;
 
-	/* private */
-	GHashTable	*imagebuf; /* used when loading/saving images */
+	/* <private> */
+	struct _GODocPrivate *priv;
 };
 
 typedef struct {

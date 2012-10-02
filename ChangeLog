@@ -1,3 +1,11 @@
+2012-10-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-doc-impl.h: make image buffer really private.
+	* goffice/app/go-doc.c (go_doc_finalize), (go_doc_init),
+	(go_doc_init_write), (go_doc_init_read), (go_doc_write),
+	(go_doc_save_image), (load_image), (load_image_data),
+	(go_doc_end_read), (go_doc_image_fetch): ditto.
+
 2012-10-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	reviewed by: <delete if not using a buddy>

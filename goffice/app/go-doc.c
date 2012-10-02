@@ -31,6 +31,10 @@
 
 #include <string.h>
 
+struct _GODocPrivate {
+	GHashTable	*imagebuf; /* used when loading/saving images */
+};
+
 /**
  * _GODoc:
  * @base: parent object.
@@ -40,7 +44,6 @@
  * @first_modification_time: date of the firs modification.
  * @pristine: whether the document is unchanged since it was created.
  * @images: images used inside the document.
- * @imagebuf: used when loading/saving images.
 **/
 
 enum {
@@ -129,6 +132,8 @@ go_doc_finalize (GObject *obj)
 	if (doc->images)
 		g_hash_table_destroy (doc->images);
 	doc->images = NULL;
+	g_free (doc->priv);
+	doc->priv = NULL;
 
 	go_doc_parent_class->finalize (obj);
 }
@@ -142,6 +147,7 @@ go_doc_init (GODoc *obj)
 	doc->uri	 = NULL;
 	doc->modified	 = FALSE;
 	doc->pristine	 = TRUE;
+	doc->priv = g_new0 (struct _GODocPrivate, 1);
 }
 
 static void
@@ -467,9 +473,9 @@ void
 go_doc_init_write (GODoc *doc, GsfXMLOut *output)
 {
 	g_return_if_fail (GO_IS_DOC (doc));
-	g_return_if_fail (doc->imagebuf == NULL);
+	g_return_if_fail (doc->priv->imagebuf == NULL);
 
-	doc->imagebuf = g_hash_table_new_full (g_str_hash, g_str_equal,
+	doc->priv->imagebuf = g_hash_table_new_full (g_str_hash, g_str_equal,
 					       g_free, NULL);
 	g_object_set_data (G_OBJECT (gsf_xml_out_get_output (output)),
 			   "document", doc);
@@ -479,9 +485,9 @@ void
 go_doc_init_read (GODoc *doc, GsfInput *input)
 {
 	g_return_if_fail (GO_IS_DOC (doc));
-	g_return_if_fail (doc->imagebuf == NULL);
+	g_return_if_fail (doc->priv->imagebuf == NULL);
 
-	doc->imagebuf = g_hash_table_new_full (g_str_hash, g_str_equal,
+	doc->priv->imagebuf = g_hash_table_new_full (g_str_hash, g_str_equal,
 					       g_free, g_object_unref);
 	g_object_set_data (G_OBJECT (input), "document", doc);
 }
@@ -495,13 +501,13 @@ save_image_cb (gpointer key, gpointer img_, gpointer user)
 void
 go_doc_write (GODoc *doc, GsfXMLOut *output)
 {
-	if (g_hash_table_size (doc->imagebuf) > 0) {
+	if (g_hash_table_size (doc->priv->imagebuf) > 0) {
 		gsf_xml_out_start_element (output, "GODoc");
-		g_hash_table_foreach (doc->imagebuf, save_image_cb, output);
+		g_hash_table_foreach (doc->priv->imagebuf, save_image_cb, output);
 		gsf_xml_out_end_element (output);
 	}
-	g_hash_table_destroy (doc->imagebuf);
-	doc->imagebuf = NULL;
+	g_hash_table_destroy (doc->priv->imagebuf);
+	doc->priv->imagebuf = NULL;
 }
 
 void
@@ -509,10 +515,10 @@ go_doc_save_image (GODoc *doc, char const *id)
 {
 	if (!doc)
 		return;
-	if (!g_hash_table_lookup (doc->imagebuf, id)) {
+	if (!g_hash_table_lookup (doc->priv->imagebuf, id)) {
 		GOImage *image = g_hash_table_lookup (doc->images, id);
 		if (image)
-			g_hash_table_replace (doc->imagebuf,
+			g_hash_table_replace (doc->priv->imagebuf,
 					      g_strdup (id),
 					      image);
 	}
@@ -529,7 +535,7 @@ load_image (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 	for (attr = attrs; *attr; attr += 2)
 		if (!strcmp (*attr, "name"))
-			image = (GOImage *) g_hash_table_lookup (doc->imagebuf, attr[1]);
+			image = (GOImage *) g_hash_table_lookup (doc->priv->imagebuf, attr[1]);
 		else if (!strcmp (*attr, "type"))
 			type = g_type_from_name (attr[1]);
 	if (!image) /* this should not occur, but if it does, we might want to load the image? */
@@ -547,7 +553,7 @@ load_image_data (GsfXMLIn *xin, GsfXMLBlob *unknown)
 	g_return_if_fail (image != NULL);
 	go_image_load_data (image, xin);
 	real = go_doc_add_image (doc, go_image_get_name (image), image);
-	g_hash_table_remove (doc->imagebuf, (gpointer) go_image_get_name (image));
+	g_hash_table_remove (doc->priv->imagebuf, (gpointer) go_image_get_name (image));
 	/*
 	 * We have an issue if the image already existed and this can
 	 * happen on pasting or if one day, we implement merging two
@@ -589,8 +595,8 @@ go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 void
 go_doc_end_read	(GODoc *doc)
 {
-	g_hash_table_destroy (doc->imagebuf);
-	doc->imagebuf = NULL;
+	g_hash_table_destroy (doc->priv->imagebuf);
+	doc->priv->imagebuf = NULL;
 }
 
 /**
@@ -610,12 +616,12 @@ GOImage *
 go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 {
 	GOImage *image;
-	g_return_val_if_fail (doc && doc->imagebuf, NULL);
-	image = g_hash_table_lookup (doc->imagebuf, id);
+	g_return_val_if_fail (doc && doc->priv->imagebuf, NULL);
+	image = g_hash_table_lookup (doc->priv->imagebuf, id);
 	if (!image) {
 		image = g_object_new (type, NULL);
 		go_image_set_name (image, id);
-		g_hash_table_replace (doc->imagebuf,
+		g_hash_table_replace (doc->priv->imagebuf,
 				      g_strdup (go_image_get_name (image)),
 				      image);
 	}
