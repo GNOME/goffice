@@ -1122,6 +1122,7 @@ axis_line_render (GogAxisBase *axis_base,
 	double pos, pos_x, pos_y;
 	double padding = gog_axis_base_get_padding (axis_base);
 	double label_size_max = 0;
+	double s, e;
 	unsigned i, tick_nbr, nobr = 0, *indexmap = NULL;
 	gboolean draw_major, draw_minor;
 	gboolean is_line_visible;
@@ -1133,22 +1134,21 @@ axis_line_render (GogAxisBase *axis_base,
 	x -= gog_renderer_pt2r_x (renderer, padding * cos_alpha);
 	y -= gog_renderer_pt2r_y (renderer, padding * sin_alpha);
 
-	axis_base_view->x_start = x;
-	axis_base_view->y_start = y;
-	axis_base_view->x_stop = x + w;
-	axis_base_view->y_stop = y + h;
+	gog_axis_get_effective_span (axis_base->axis, &s, &e);
+	axis_base_view->x_start = x + w * s;
+	axis_base_view->y_start = y + h * s;
+	axis_base_view->x_stop = x + w * e;
+	axis_base_view->y_stop = y + h * e;
 
 	is_line_visible = go_style_is_line_visible (style);
 	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
 
 	if (is_line_visible) {
 		/* draw the line only in the effective range */
-		double s, e;
-		gog_axis_get_effective_span (axis_base->axis, &s, &e);
 		path = go_path_new ();
 		go_path_set_options (path, sharp ? GO_PATH_OPTIONS_SHARP : 0);
-		go_path_move_to (path, x + w * s , y + h * s);
-		go_path_line_to (path, x + w * e, y + h * e);
+		go_path_move_to (path, axis_base_view->x_start , axis_base_view->y_start);
+		go_path_line_to (path, axis_base_view->x_stop, axis_base_view->y_stop);
 	}
 
 	map = gog_axis_map_new (axis_base->axis, 0., axis_length);

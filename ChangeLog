@@ -1,3 +1,8 @@
+2012-10-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (axis_line_render): fixed axis handles
+	positions. [#684886]
+
 2012-10-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-doc-impl.h: make image buffer really private.
