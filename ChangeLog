@@ -1,5 +1,10 @@
 2012-10-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-axis.c (gog_axis_populate_editor): don't show the
+	span tab for axes which don't support it. [#685405]
+
+2012-10-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-axis-line.c (axis_line_render): fixed axis handles
 	positions. [#684886]
 

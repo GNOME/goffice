@@ -2766,7 +2766,9 @@ gog_axis_populate_editor (GogObject *gobj,
 			     _("Scale"));
 
 	/* effective area */
-	if (axis->type != GOG_AXIS_CIRCULAR) {
+	/* we actually only support with some axes (X, Y, and radial) in 2D charts */
+	if ((axis->type == GOG_AXIS_X || axis->type == GOG_AXIS_Y || axis->type == GOG_AXIS_RADIAL) &&
+	    (GOG_IS_CHART (gog_object_get_parent (gobj))? !gog_chart_is_3d (GOG_CHART (gog_object_get_parent (gobj))): TRUE)) {
 		GtkAdjustment *adj;
 		double start = axis->span_start * 100., end = axis->span_end * 100.;
 		w = go_gtk_builder_get_widget (gui, "start-btn");
