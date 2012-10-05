@@ -1,3 +1,8 @@
+2012-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-legend.c (cb_render_elements): don't draw a marker
+	when not needed. [#685484]
+
 2012-10-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (gog_axis_populate_editor): don't show the

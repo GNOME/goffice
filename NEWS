@@ -13,6 +13,8 @@ Jean:
 	* Fix backplane position when data are nearly all the same. [#684599]
 	* Fixed crash when using data labels after gtk+ behavior change. [#684889]
 	* Accept an offset up to 20 for graph data labels. [#684892]
+	* Removed span tab 3D axes that don't support it. [#685405]
+	* Don't draw a marker in the legend when not needed. [#685484]
 
 --------------------------------------------------------------------------
 goffice 0.9.6:

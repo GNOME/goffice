@@ -464,9 +464,6 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 	if (base_style->interesting_fields & GO_STYLE_LINE) { /* line and marker */
 		style = go_style_dup (base_style);
 		g_return_if_fail (style != NULL);
-		go_marker_set_size (style->marker.mark,
-				    go_marker_get_size (style->marker.mark) *
-				    data->swatch_scale_a + data->swatch_scale_b);
 		if (style->line.width > data->hairline_width)
 			style->line.width = style->line.width * data->line_scale_a + data->line_scale_b;
 
@@ -485,7 +482,12 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 		}
 		gog_renderer_stroke_serie (renderer, line_path);
 		go_path_free (line_path);
-		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5, y);
+		if (base_style->interesting_fields & GO_STYLE_MARKER) {
+			go_marker_set_size (style->marker.mark,
+						go_marker_get_size (style->marker.mark) *
+						data->swatch_scale_a + data->swatch_scale_b);
+			gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5, y);
+		}
 	} else if (base_style->interesting_fields & GO_STYLE_FILL) {					/* area swatch */
 		style = go_style_dup (base_style);
 		if (style->line.width > data->hairline_width)
