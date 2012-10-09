@@ -41,7 +41,7 @@ struct _GODocPrivate {
  * @uri: URI.
  * @meta_data: metadata.
  * @modified: whether the document has been modified.
- * @first_modification_time: date of the firs modification.
+ * @first_modification_time: date of the first modification.
  * @pristine: whether the document is unchanged since it was created.
  * @images: images used inside the document.
 **/
