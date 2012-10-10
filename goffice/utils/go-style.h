@@ -70,6 +70,7 @@ typedef struct {
 	GOColor	 	 fore;
 	gboolean 	 auto_color;
 	gboolean 	 auto_fore;
+	gboolean 	 auto_width;
 	GOPatternType	 pattern;
 	cairo_line_cap_t cap;
 	cairo_line_join_t join;
@@ -94,6 +95,7 @@ struct _GOStyle {
 		GOStyleFill	type;
 		gboolean	auto_type;
 		gboolean	auto_fore, auto_back;	/* share between pattern and gradient */
+		gboolean		auto_pattern;
 		gboolean	invert_if_negative;	/* placeholder for XL */
 
 		/* This could all be a union but why bother ? */
@@ -101,6 +103,8 @@ struct _GOStyle {
 		struct _GOStyleGradient {
 			GOGradientDirection dir;
 			double brightness; /* < 0 => 2 color */
+			gboolean auto_dir;
+			gboolean auto_brightness;
 		} gradient;
 		struct _GOStyleImage {
 			GOImageType	 type;
@@ -112,6 +116,8 @@ struct _GOStyle {
 		GOColor		 color;
 		GOFont const 	*font;
 		gboolean 	 auto_scale;
+		gboolean	 auto_color;
+		gboolean	 auto_font;
 	} font;
 	struct {
 		double		 angle;

@@ -129,9 +129,6 @@ AC_ARG_WITH(lasem,
 	AS_HELP_STRING([--with-lasem[=@<:@no/auto/yes@:>@]],
                          [Build with lasem use (default=auto)]),
 	,[with_lasem=auto])
-echo -n "\nlasem test result is: "
-echo "$with_lasem"
-echo ""
 
 AS_CASE([$with_lasem],
 	[no],[found_lasem="disabled by request"],

@@ -1,3 +1,7 @@
+2012-10-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-style.h: add some more auto fields.
+
 2012-10-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-legend.c (cb_render_elements): don't draw a marker
