@@ -16,6 +16,7 @@ Jean:
 	* Removed span tab 3D axes that don't support it. [#685405]
 	* Don't draw a marker in the legend when not needed. [#685484]
 	* Restore pixel aligned lines. [#686476]
+	* Fixed position of rotated label frame. [#686478]
 
 --------------------------------------------------------------------------
 goffice 0.9.6:

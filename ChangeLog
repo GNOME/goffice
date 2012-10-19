@@ -1,5 +1,9 @@
 2012-10-19  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-label.c (gog_text_view_render):
+
+2012-10-19  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-legend.c (cb_render_elements): restore pixel aligned
 	lines. [#686476]
 

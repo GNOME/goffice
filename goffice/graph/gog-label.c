@@ -718,22 +718,19 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr, w);
 			else
 				gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr, w);
+			rect = view->allocation;
+			rect.w = aabr.w + 2. * outline + pad_x;
+			rect.h = aabr.h + 2. * outline + pad_y;
 			if (text->rotate_frame) {
-				rect = view->allocation;
-				rect.w = aabr.w + 2. * outline + pad_x;
-				rect.h = aabr.h + 2. * outline + pad_y;
 				if (rot > 0.)
 					rect.y += rect.w * sin (rot);
 				else
 					rect.x -= rect.h * sin (rot);
 				gog_renderer_pop_style (view->renderer);
 				g_object_unref (rect_style);
-			} else {
-				rect = view->allocation;
-				rect.w = aabr.w + 2. * outline + pad_x;
-				rect.h = aabr.h + 2. * outline + pad_y;
-			}
-			gog_renderer_draw_rotated_rectangle (view->renderer, &rect, text->rotate_bg);
+				gog_renderer_draw_rotated_rectangle (view->renderer, &rect, text->rotate_bg);
+			} else
+				gog_renderer_draw_rectangle (view->renderer, &rect);
 		}
 		if (gostr) {
 			gog_renderer_draw_gostring (view->renderer, gostr,
