@@ -1,3 +1,8 @@
+2012-10-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-legend.c (cb_render_elements): restore pixel aligned
+	lines. [#686476]
+
 2012-10-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-style.h: add some more auto fields.

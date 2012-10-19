@@ -470,6 +470,7 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 		gog_renderer_push_style (renderer, style);
 		half_width = 0.5 * gog_renderer_line_size (renderer, style->line.width);
 		line_path = go_path_new ();
+		go_path_set_options (line_path, GO_PATH_OPTIONS_SHARP);
 		y = data->y + glv->element_height / 2.;
 		go_path_move_to (line_path, data->x + half_width, y);
 		go_path_line_to (line_path, data->x + data->swatch.w * GLV_LINE_LENGTH_EM - half_width, y);

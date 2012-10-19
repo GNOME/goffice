@@ -15,6 +15,7 @@ Jean:
 	* Accept an offset up to 20 for graph data labels. [#684892]
 	* Removed span tab 3D axes that don't support it. [#685405]
 	* Don't draw a marker in the legend when not needed. [#685484]
+	* Restore pixel aligned lines. [#686476]
 
 --------------------------------------------------------------------------
 goffice 0.9.6:
