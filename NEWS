@@ -17,6 +17,7 @@ Jean:
 	* Don't draw a marker in the legend when not needed. [#685484]
 	* Restore pixel aligned lines. [#686476]
 	* Fixed position of rotated label frame. [#686478]
+	* Fixed image clipping. [#686490]
 
 --------------------------------------------------------------------------
 goffice 0.9.6:

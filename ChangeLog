@@ -1,5 +1,9 @@
 2012-10-20  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-image.c (goc_image_draw): fix image clipping. [#686490]
+
+2012-10-20  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-label.c (gog_text_view_size_request),
 	(gog_text_view_render): fix rotated frames position.
 	* goffice/gtk/go-rotation-sel.c (cb_rotate_changed),

@@ -238,10 +238,10 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 		image->x + image->width: image->x;
 	goc_group_cairo_transform (item->parent, cr, x, (int) image->y);
 	cairo_rotate (cr, image->rotation);
-	if (scalex != 1. || scaley != 1.)
-		cairo_scale (cr, scalex, scaley);
 	cairo_rectangle (cr, 0, 0, image->width, image->height);
 	cairo_clip (cr);
+	if (scalex != 1. || scaley != 1.)
+		cairo_scale (cr, scalex, scaley);
 	cairo_translate (cr, -go_image_get_width (image->image) * image->crop_left,
 	                 -go_image_get_height (image->image) * image->crop_top);
 	cairo_move_to (cr, 0, 0);
