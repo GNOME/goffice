@@ -1,3 +1,16 @@
+2012-10-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-label.c (gog_text_view_size_request),
+	(gog_text_view_render): fix rotated frames position.
+	* goffice/gtk/go-rotation-sel.c (cb_rotate_changed),
+	(cb_rotate_canvas_realize), (set_rot_from_point),
+	(go_rotation_sel_new), (go_rotation_sel_new_full): optionally support
+	-180° to 180° as allowed by GOStyle.
+	* goffice/gtk/go-rotation-sel.h: ditto.
+	* goffice/gtk/go-rotation-sel.ui: minor layout fix.
+	* goffice/utils/go-style.c (text_layout_init): use a full circle rotation
+	selector.
+
 2012-10-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-label.c (gog_text_view_render):

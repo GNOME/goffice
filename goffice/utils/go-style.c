@@ -960,7 +960,7 @@ text_layout_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmd
 	if (!enable)
 		return;
 
-	w = go_rotation_sel_new ();
+	w = go_rotation_sel_new_full ();
 	go_rotation_sel_set_rotation (GO_ROTATION_SEL (w),
 		style->text_layout.angle);
 	g_signal_connect (G_OBJECT (w), "rotation-changed",

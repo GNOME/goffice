@@ -30,12 +30,13 @@ struct _GORotationSel {
 
 	GtkSpinButton	*rotate_spinner;
 	GocCanvas       *rotate_canvas;
-	GocItem		*rotate_marks[13];
+	GocItem		*rotate_marks[25];
 	GocItem		*line;
 	GtkWidget       *text_widget;
 	GocItem		*text;
 	int		 rot_width, rot_height;
 	gulong		 motion_handle;
+	gboolean full;
 };
 
 typedef struct {
@@ -55,15 +56,18 @@ static void
 cb_rotate_changed (GORotationSel *grs)
 {
 	GOColor colour;
-	int i;
+	int i, maxi = grs->full? 23: 12;
+	double x0 = grs->full? 100.: 15.;
+	int angle;
 
 	go_rotation_sel_set_rotation (grs,
 		gtk_spin_button_get_value_as_int (grs->rotate_spinner) % 360);
+	angle = (grs->angle < -90)? grs->angle + 360: grs->angle;
 
-	for (i = 0 ; i <= 12 ; i++)
+	for (i = 0 ; i <= maxi ; i++)
 		if (grs->rotate_marks[i] != NULL) {
 			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->rotate_marks[i]));
-			colour = (grs->angle == (i-6)*15) ? GO_COLOR_GREEN : GO_COLOR_BLACK;
+			colour = (angle == (i-6)*15) ? GO_COLOR_GREEN : GO_COLOR_BLACK;
 			if (style->fill.pattern.back != colour){
 				style->fill.pattern.back = colour;
 				goc_item_invalidate (grs->rotate_marks[i]);
@@ -73,20 +77,18 @@ cb_rotate_changed (GORotationSel *grs)
 	if (grs->line != NULL) {
 		double rad = grs->angle * M_PI / 180.;
 		goc_item_set (grs->line,
-		              "x0", 15 + cos (rad) * grs->rot_width,
+		              "x0", x0 + cos (rad) * grs->rot_width,
 		              "y0", 100 - sin (rad) * grs->rot_width,
-		              "x1", 15 + cos (rad) * 72.,
+		              "x1", x0 + cos (rad) * 72.,
 		              "y1", 100 - sin (rad) * 72.,
 		              NULL);
 	}
 
 	if (grs->text) {
-		double x = 15.0;
-		double y = 100.0;
 		double rad = -grs->angle * M_PI / 180.;
 		if (rad < 0)
 			rad += 2 * M_PI;
-		goc_item_set (grs->text, "x", x, "y", y,
+		goc_item_set (grs->text, "x", x0, "y", 100.,
 		              "rotation", rad, NULL);
 	}
 }
@@ -95,16 +97,17 @@ static void
 cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 {
 	GocGroup  *group = goc_canvas_get_root (canvas);
-	int i;
+	int i, maxint = grs->full? 23: 12;
 	GOStyle *go_style;
 	GdkRGBA color = {1., 1., 1., 1.};
+	double x0 = grs->full? 100.: 15.;
 
 	gtk_widget_override_background_color (GTK_WIDGET (canvas),
 	                                      GTK_STATE_NORMAL, &color);
 
-	for (i = 0 ; i <= 12 ; i++) {
+	for (i = 0 ; i <= maxint ; i++) {
 		double rad = (i-6) * M_PI / 12.;
-		double x = 15 + cos (rad) * 80.;
+		double x = x0 + cos (rad) * 80.;
 		double y = 100 - sin (rad) * 80.;
 		double size = (i % 3) ? 3.0 : 4.0;
 		GocItem *item = goc_item_new (group,
@@ -140,7 +143,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 #endif
 		grs->text = goc_item_new (group, GOC_TYPE_TEXT,
 			"text", _("Text"), "attributes", attrs,
-		         "anchor", GO_ANCHOR_W, "x", 15., "y", 100., NULL);
+		         "anchor", GO_ANCHOR_W, "x", x0, "y", 100., NULL);
 		goc_item_get_bounds (grs->text, &x, &y, &w, &h);
 		pango_attr_list_unref (attrs);
 
@@ -155,7 +158,7 @@ static void
 set_rot_from_point (GORotationSel *grs, double x, double y)
 {
 	double degrees;
-	x -= 15.;	if (x < 0.) x = 0.;
+	x -= grs->full? 100.: 15.;	if (!grs->full && x < 0.) x = 0.;
 	y -= 100.;
 
 	degrees = atan2 (-y, x) * 180 / M_PI;
@@ -272,6 +275,18 @@ GtkWidget *
 go_rotation_sel_new (void)
 {
 	return g_object_new (GO_TYPE_ROTATION_SEL, NULL);
+}
+
+GtkWidget *
+go_rotation_sel_new_full (void)
+{
+	GORotationSel *grs = g_object_new (GO_TYPE_ROTATION_SEL, NULL);
+	GtkAdjustment *adj = gtk_spin_button_get_adjustment (grs->rotate_spinner);
+	gtk_adjustment_set_lower (adj, -180.);
+	gtk_adjustment_set_upper (adj, 180.);
+	grs->full = TRUE;
+	g_object_set (gtk_builder_get_object (grs->gui, "rotate_canvas_container"), "width-request", 200, NULL);
+	return (GtkWidget *) grs;
 }
 
 int

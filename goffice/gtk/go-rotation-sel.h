@@ -31,6 +31,7 @@ typedef struct _GORotationSel GORotationSel;
 
 GType      go_rotation_sel_get_type (void);
 GtkWidget *go_rotation_sel_new      (void);
+GtkWidget *go_rotation_sel_new_full (void);
 void	   go_rotation_sel_set_rotation (GORotationSel *rs, int degrees);
 int	   go_rotation_sel_get_rotation (GORotationSel const *rs);
 

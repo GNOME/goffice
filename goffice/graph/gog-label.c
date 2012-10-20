@@ -661,7 +661,9 @@ gog_text_view_size_request (GogView *v,
 			: NULL;
 		GOStyle *style = go_style_dup (text->base.base.style);
 		double rot = fabs (style->text_layout.angle / 180 * M_PI);
-		if (text->rotate_frame)
+		if (rot > M_PI / 2.)
+			rot = M_PI - rot;
+	    if (text->rotate_frame)
 			style->text_layout.angle = 0.;
 		gog_renderer_push_style (v->renderer, style);
 		if (gostr) {
@@ -722,10 +724,19 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 			rect.w = aabr.w + 2. * outline + pad_x;
 			rect.h = aabr.h + 2. * outline + pad_y;
 			if (text->rotate_frame) {
-				if (rot > 0.)
-					rect.y += rect.w * sin (rot);
-				else
-					rect.x -= rect.h * sin (rot);
+				if (rot > 0.) {
+					if (rot > M_PI / 2.) {
+						rect.y += rect.w * sin (rot) - rect.h * cos (rot);
+						rect.x -= rect.w * cos (rot);
+					} else
+						rect.y += rect.w * sin (rot);
+				} else {
+					if (rot < -M_PI / 2.) {
+						rect.y -= rect.h * cos (rot);
+						rect.x -= rect.w * cos (rot) + rect.h * sin (rot);
+					} else
+						rect.x -= rect.h * sin (rot);
+				}
 				gog_renderer_pop_style (view->renderer);
 				g_object_unref (rect_style);
 				gog_renderer_draw_rotated_rectangle (view->renderer, &rect, text->rotate_bg);
