@@ -125,10 +125,9 @@ typedef struct {
 GType go_format_details_get_type (void);
 /*************************************************************************/
 
-/* We need these in the format selector */
-#define ALLOW_EE_MARKUP
-#define ALLOW_SI_APPEND
-#define ALLOW_PI_SLASH
+gboolean go_format_allow_ee_markup (void);
+gboolean go_format_allow_si (void);
+gboolean go_format_allow_pi_slash (void);
 
 /*************************************************************************/
 

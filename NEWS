@@ -19,6 +19,9 @@ Jean:
 	* Fixed position of rotated label frame. [#686478]
 	* Fixed image clipping. [#686490]
 
+Morten:
+	* Namespace cleanup.  [#686501]
+
 --------------------------------------------------------------------------
 goffice 0.9.6:
 

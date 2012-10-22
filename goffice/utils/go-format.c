@@ -133,7 +133,9 @@
 /* Define ALLOW_NO_SIGN_AFTER_E to permit formats such as '00E00' and '00E +00' */
 #undef ALLOW_NO_SIGN_AFTER_E
 
-/* Note that the header file contains ALLOW_EE_MARKUP ALLOW_SI_APPEND ALLOW_PI_SLASH */
+#define ALLOW_EE_MARKUP
+#define ALLOW_SI_APPEND
+#define ALLOW_PI_SLASH
 
 /* ------------------------------------------------------------------------- */
 
@@ -487,6 +489,37 @@ typedef struct {
 #define UTF8_MINUS "\xe2\x88\x92"
 #define UTF8_FULLWIDTH_MINUS "\357\274\215"
 #define UTF8_FULLWIDTH_PLUS  "\357\274\213"
+
+gboolean
+go_format_allow_ee_markup (void)
+{
+#ifdef ALLOW_EE_MARKUP
+	return TRUE;
+#else
+	return FALSE;
+#endif
+}
+
+gboolean
+go_format_allow_si (void)
+{
+#ifdef ALLOW_SI_APPEND
+	return TRUE;
+#else
+	return FALSE;
+#endif
+}
+
+gboolean
+go_format_allow_pi_slash (void)
+{
+#ifdef ALLOW_PI_SLASH
+	return TRUE;
+#else
+	return FALSE;
+#endif
+}
+
 
 GOFormatFamily
 go_format_get_family (GOFormat const *fmt)
@@ -2188,6 +2221,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 			return NULL;
 		scale += pstate->scale;
 
+#ifdef ALLOW_PI_SLASH
 		if (pi_scale) {
 			/* ADD_OPuc (OP_CHAR, UNICODE_THINSPACE); */
 			ADD_OPuc (OP_CHAR, UNICODE_PI); /* "pi" */
@@ -2196,6 +2230,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 			ADD_OP (OP_NUM_FRACTION_SIGN);
 			ADD_OPuc (OP_CHAR, UNICODE_THINSPACE);
 		}
+#endif
 	}
 
 
@@ -4438,6 +4473,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			break;
 
+#ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_PI_SUM_START:
 			fraction.pi_sum_start = dst->len;
 			break;
@@ -4452,6 +4488,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				}
 			}
 			break;
+#endif
 
 		case OP_NUM_FRACTION_BLANK_WHOLE:
 			if (!fraction.blanked && fraction.w == 0) {

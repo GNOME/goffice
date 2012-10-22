@@ -780,10 +780,8 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_FRACTION_MIN_DENOM_DIGITS_LABEL,
 			F_FRACTION_MAX_DENOM_DIGITS,
 			F_FRACTION_MIN_DENOM_DIGITS,
-#ifdef ALLOW_PI_SLASH
 			F_FRACTION_PI_SCALE,
 			F_BASE_SEPARATOR,
-#endif
 			F_MAX_WIDGET
 		},
 		/* Scientific */
@@ -797,12 +795,10 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_SUPERSCRIPT_HIDE_1_BUTTON,
 			F_EXP_DIGITS,
 			F_EXP_DIGITS_LABEL,
-#ifdef ALLOW_SI_APPEND
 			F_SI_BUTTON,
 			F_SI_CUSTOM_UNIT_BUTTON,
 			F_SI_SI_UNIT_BUTTON,
 			F_SI_UNIT_COMBO,
-#endif
 			F_MAX_WIDGET
 		},
 		/* Text */
@@ -944,24 +940,19 @@ stays:
 			break;
 
 		case F_SUPERSCRIPT_BUTTON:
-#ifdef ALLOW_EE_MARKUP
 			if (gfs->show_format_with_markup) {
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 							      gfs->format.details.use_markup);
 			} else
-#endif
 				show_widget = FALSE;
 			break;
 
 		case F_SUPERSCRIPT_HIDE_1_BUTTON:
-#ifdef ALLOW_EE_MARKUP
 			if (gfs->show_format_with_markup) {
-
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 							      gfs->format.details.simplify_mantissa);
 				gtk_widget_set_sensitive (w, gfs->format.details.use_markup);
 			} else
-#endif
 				show_widget = FALSE;
 			break;
 
@@ -980,88 +971,77 @@ stays:
 			break;
 
 		case F_SI_BUTTON:
-#ifdef ALLOW_SI_APPEND
+			show_widget = go_format_allow_si ();
 			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (w),
-				 gfs->format.details.append_SI);
-#else
-			gtk_toggle_button_set_active
-				(GTK_TOGGLE_BUTTON (w), FALSE);
-			show_widget = FALSE;
-#endif
+				 show_widget && gfs->format.details.append_SI);
 			break;
 
 		case F_SI_CUSTOM_UNIT_BUTTON:
-#ifdef ALLOW_SI_APPEND
-			gtk_widget_set_sensitive (w, gfs->format.details.append_SI);
+			show_widget = go_format_allow_si ();
+			gtk_widget_set_sensitive
+				(w,
+				 show_widget && gfs->format.details.append_SI);
 			/* This is set through F_SI_UNIT_COMBO */
-#else
-			show_widget = FALSE;
-#endif
 			break;
 
 		case F_SI_SI_UNIT_BUTTON:
-#ifdef ALLOW_SI_APPEND
-			gtk_widget_set_sensitive (w, gfs->format.details.append_SI);
+			show_widget = go_format_allow_si ();
+			gtk_widget_set_sensitive
+				(w,
+				 show_widget && gfs->format.details.append_SI);
 			/* This is set through F_SI_UNIT_COMBO */
-#else
-			show_widget = FALSE;
-#endif
 			break;
 
-		case F_SI_UNIT_COMBO: {
-#ifdef ALLOW_SI_APPEND
-			gint row = -1;
-			guint ii;
+		case F_SI_UNIT_COMBO:
+			show_widget = go_format_allow_si ();
+			if (show_widget) {
+				gint row = -1;
+				guint ii;
 
-			gtk_widget_set_sensitive (w, gfs->format.details.append_SI);
-			if (gfs->format.details.appended_SI_unit != NULL) {
-				char const *unit = gfs->format.details.appended_SI_unit;
-				if (unit[0] == 'g' && unit[1] == 0)
-					unit = "kg";
-				for (ii = 0; ii < G_N_ELEMENTS (si_units); ii++)
-					if (0 == strcmp (si_units[ii].unit, unit)) {
-						row = (gint)ii;
-						break;
-					}
-			}
-
-			if (row == -1) {
-				if (gfs->format.details.appended_SI_unit == NULL) {
-					gtk_button_set_label
-						(GTK_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
-						 _("Append no further unit."));
-					g_free (gfs->format.default_si_unit);
-					gfs->format.default_si_unit = NULL;
-				} else {
-					gchar *label;
-					gfs->format.default_si_unit
-						= g_strdup (gfs->format.details.appended_SI_unit);
-					label = g_strdup_printf (_("Append \'%s\'."),
-								 gfs->format.default_si_unit);
-					gtk_button_set_label
-						(GTK_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
-						 label);
-					g_free (label);
+				gtk_widget_set_sensitive (w, gfs->format.details.append_SI);
+				if (gfs->format.details.appended_SI_unit != NULL) {
+					char const *unit = gfs->format.details.appended_SI_unit;
+					if (unit[0] == 'g' && unit[1] == 0)
+						unit = "kg";
+					for (ii = 0; ii < G_N_ELEMENTS (si_units); ii++)
+						if (0 == strcmp (si_units[ii].unit, unit)) {
+							row = (gint)ii;
+							break;
+						}
 				}
-			} else
-				gtk_combo_box_set_active_id (GTK_COMBO_BOX (w), si_units[row].unit);
 
-			if (row >= 0)
-				gtk_toggle_button_set_active
-					(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_SI_UNIT_BUTTON]),
-					 TRUE);
-			else
-				gtk_toggle_button_set_active
-					(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
-					 TRUE);
+				if (row == -1) {
+					if (gfs->format.details.appended_SI_unit == NULL) {
+						gtk_button_set_label
+							(GTK_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
+							 _("Append no further unit."));
+						g_free (gfs->format.default_si_unit);
+						gfs->format.default_si_unit = NULL;
+					} else {
+						gchar *label;
+						gfs->format.default_si_unit
+							= g_strdup (gfs->format.details.appended_SI_unit);
+						label = g_strdup_printf (_("Append \'%s\'."),
+									 gfs->format.default_si_unit);
+						gtk_button_set_label
+							(GTK_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
+							 label);
+						g_free (label);
+					}
+				} else
+					gtk_combo_box_set_active_id (GTK_COMBO_BOX (w), si_units[row].unit);
 
-
-#else
-				show_widget = FALSE;
-#endif
+				if (row >= 0)
+					gtk_toggle_button_set_active
+						(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_SI_UNIT_BUTTON]),
+						 TRUE);
+				else
+					gtk_toggle_button_set_active
+						(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
+						 TRUE);
+			}
 			break;
-		}
 
 		case F_ENGINEERING_BUTTON:
 			gtk_toggle_button_set_active
@@ -1132,13 +1112,10 @@ stays:
 			break;
 
 		case F_FRACTION_PI_SCALE:
+			show_widget = go_format_allow_pi_slash ();
 			gtk_toggle_button_set_active
-#ifdef ALLOW_PI_SLASH
 				(GTK_TOGGLE_BUTTON (w),
-				 gfs->format.details.pi_scale);
-#else
-				(GTK_TOGGLE_BUTTON (w), FALSE);
-#endif
+				 show_widget && gfs->format.details.pi_scale);
 			break;
 
 		default:
@@ -1790,7 +1767,8 @@ go_format_sel_new_full (gboolean use_markup)
 	gfs = g_object_new (GO_TYPE_FORMAT_SEL, NULL);
 
 	if (gfs != NULL)
-		gfs->show_format_with_markup = use_markup;
+		gfs->show_format_with_markup =
+			go_format_allow_ee_markup () && use_markup;
 
 	return (GtkWidget *) gfs;
 }
