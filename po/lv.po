@@ -7,7 +7,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-09-27 09:28+0000\n"
-"PO-Revision-Date: 2012-10-19 01:00+0300\n"
+"PO-Revision-Date: 2012-10-24 15:05+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -615,7 +615,7 @@ msgstr "Objekts"
 
 #: ../goffice/canvas/goc-component.c:302
 msgid "The embedded GOComponent object"
-msgstr ""
+msgstr "Iegults GOComponent objekts"
 
 #: ../goffice/canvas/goc-ellipse.c:238
 msgid "The ellipse left position (or right position in RTL mode)"
@@ -885,24 +885,25 @@ msgid ""
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
 msgstr ""
+"Taisnstūra veids: 0 nozīmē kantaini stūri, 1 nozīmē apaļots augšējais "
+"kreisais; 2 — augšējais labais; 4 — apakšējais labais; 8 — apakšējais "
+"kreisais. Vai arī kombinācija  no tiem (summa)."
 
 #: ../goffice/canvas/goc-rectangle.c:348
 msgid "rx"
 msgstr "rx"
 
 #: ../goffice/canvas/goc-rectangle.c:349
-#, fuzzy
 msgid "The round rectangle rx"
-msgstr "Iekšēja KĻŪDA"
+msgstr "Apaļots taisnstūris rx"
 
 #: ../goffice/canvas/goc-rectangle.c:354
 msgid "ry"
 msgstr "ry"
 
 #: ../goffice/canvas/goc-rectangle.c:355
-#, fuzzy
 msgid "The round rectangle ry"
-msgstr "Iekšēja KĻŪDA"
+msgstr "Apaļots taisnstūris ry"
 
 #: ../goffice/canvas/goc-styled-item.c:160
 #: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1105
@@ -915,9 +916,8 @@ msgid "A pointer to the GOStyle object"
 msgstr "Norāde uz GOStyle objektu"
 
 #: ../goffice/canvas/goc-styled-item.c:166
-#, fuzzy
 msgid "Scale line width"
-msgstr "Iekšēja KĻŪDA"
+msgstr "Mērogot līnijas platumu"
 
 #: ../goffice/canvas/goc-styled-item.c:167
 msgid "Whether to scale the line width when zooming"
@@ -2378,11 +2378,11 @@ msgstr "Dati"
 
 #: ../goffice/graph/gog-series.c:659
 msgid "Derivative at first point of the clamped cubic spline."
-msgstr ""
+msgstr "Piestiprināta kubiskā splaina pirmā punkta atvasinājums."
 
 #: ../goffice/graph/gog-series.c:664
 msgid "Derivative at last point of the clamped cubic spline."
-msgstr ""
+msgstr "Piestiprināta kubiskā splaina pēdējā punkta atvasinājums."
 
 #: ../goffice/graph/gog-series.c:737 ../goffice/graph/gog-series-labels.c:1379
 msgid "Point"
@@ -2492,7 +2492,7 @@ msgstr "%.1f%%"
 #: ../goffice/graph/gog-series-labels.c:879
 #: ../goffice/graph/gog-series-labels.c:1403
 msgid "Position of the label relative to the data graphic element"
-msgstr ""
+msgstr "Etiķetes novietojums attiecībā pret datu grafisko elementu"
 
 #: ../goffice/graph/gog-series-labels.c:884
 #: ../goffice/graph/gog-series-labels.c:1408
@@ -2502,7 +2502,7 @@ msgstr "Nobīde"
 #: ../goffice/graph/gog-series-labels.c:885
 #: ../goffice/graph/gog-series-labels.c:1409
 msgid "Offset to add to the label position"
-msgstr ""
+msgstr "Nobīde, ko pievienot etiķetes novietojumam"
 
 #: ../goffice/graph/gog-series-labels.c:891
 #: ../goffice/graph/gog-series-labels.c:1415
@@ -2522,9 +2522,8 @@ msgid "Separator:"
 msgstr "Atdalītājs:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
-#, fuzzy
 msgid "Fill _to:"
-msgstr "Izlikt"
+msgstr "Aizpildī_t līdz:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "<b>Interpolation</b>"
@@ -2610,7 +2609,7 @@ msgstr "GogView vecāks"
 
 #: ../goffice/graph/gog-view.c:691
 msgid "The GogObject this view displays"
-msgstr ""
+msgstr "GogObject, ko šis skats attēlo"
 
 #: ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "<b>Rotation</b>"
@@ -2622,7 +2621,7 @@ msgstr "Reģistrjutīgs"
 
 #: ../goffice/gtk/go-action-combo-text.c:225
 msgid "Should the text comparison be case sensitive"
-msgstr ""
+msgstr "Vai teksta salīdzināšanai jābūt reģistrjutīgai"
 
 #: ../goffice/gtk/go-charmap-sel.c:73
 msgid "Arabic"
@@ -3022,7 +3021,7 @@ msgstr "Konversijas virziens"
 
 #: ../goffice/gtk/go-charmap-sel.c:458
 msgid "This value determines which iconv test to perform."
-msgstr ""
+msgstr "Šī vērtība nosaka, kuru iconv testu veikt."
 
 #: ../goffice/gtk/go-color-palette.c:76
 msgid "black"
@@ -3263,7 +3262,7 @@ msgstr "Valūta"
 
 #: ../goffice/gtk/go-format-sel.c:62
 msgid "Accounting"
-msgstr ""
+msgstr "Grāmatvedība"
 
 #: ../goffice/gtk/go-format-sel.c:63
 msgid "Date"
@@ -3465,47 +3464,47 @@ msgstr "Ka_tegorijas:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:3
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Izvēlēties atbilstošu formātu automātiski."
 
 #: ../goffice/gtk/go-format-sel.ui.h:4
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Attēlot skaitliskās vērtības ar fiksētu ciparu skaitu aiz komata."
 
 #: ../goffice/gtk/go-format-sel.ui.h:5
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Attēlot valūtas apjomu."
 
 #: ../goffice/gtk/go-format-sel.ui.h:6
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Attēlot apjomu ar ierastajiem grāmatvedības stiliem."
 
 #: ../goffice/gtk/go-format-sel.ui.h:7
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Attēlot datumus un, pēc izvēles, dienas laikus."
 
 #: ../goffice/gtk/go-format-sel.ui.h:8
 msgid "Display times of day."
-msgstr ""
+msgstr "Attēlot dienas laikus."
 
 #: ../goffice/gtk/go-format-sel.ui.h:9
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Attēlot vērtības kā tuvākos daļveida tuvinājumus."
 
 #: ../goffice/gtk/go-format-sel.ui.h:10
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Attēlot vērtības ar desmitu pakāpju mērogu."
 
 #: ../goffice/gtk/go-format-sel.ui.h:11
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Attēlot un ievadīt vērtības kā virknes no interpretācijas."
 
 #: ../goffice/gtk/go-format-sel.ui.h:12
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "Norādīt XL stila formātu tieši"
 
 #: ../goffice/gtk/go-format-sel.ui.h:13
 msgid "Display values as percentages."
-msgstr ""
+msgstr "Attēlot vērtības kā procentus."
 
 #: ../goffice/gtk/go-format-sel.ui.h:14
 msgid "Deci_mal places:"
@@ -3533,46 +3532,47 @@ msgstr "Koda f_ormāts:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:20
 msgid "Show _separate integer part"
-msgstr ""
+msgstr "Rādīt at_sevišķas veselu skaitļu daļas"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
 msgid ""
 "Split fractions with absolute value larger than 1 into an integer part and a "
 "fractional part (e.g. 4 5/6)"
 msgstr ""
+"Sadalīt daļas ar absolūto vērtību lielāku kā 1 veselā skaitļa daļā un "
+"daļskaitļa daļā (piemēram, 4 5/6)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
 msgid "Minimum number of integer digits:"
-msgstr ""
+msgstr "Minimālais veselu skaitļu ciparu skaits:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:23
 msgid "Minimum number of _numerator digits:"
-msgstr ""
+msgstr "Mi_nimālais skaitītāju ciparu skaits:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:24
 msgid "Minimum number of e_xponent digits:"
-msgstr ""
+msgstr "Minimālais pa_kāpes ciparu skaits:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:25
 msgid "As multiple of 𝜋"
-msgstr ""
+msgstr "Kā 𝜋 reizinājumu"
 
 #: ../goffice/gtk/go-format-sel.ui.h:26
 msgid "Write the fractions as multiples of 𝜋 (e.g. 9 𝜋/4 or 2 𝜋 + 𝜋/4)"
-msgstr ""
+msgstr "Daļas rakstīt kā 𝜋 reizinājumus (piemēram, 9 𝜋/4 vai 2 𝜋 + 𝜋/4)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:27
 msgid "Minimum number of denominator digits:"
-msgstr ""
+msgstr "Minimālais saucēju ciparu skaits:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:28
 msgid "Maximum number of denominator digits:"
-msgstr ""
+msgstr "Maksimālais saucēju ciparu skaits:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:29
-#, fuzzy
 msgid "Automatic denominator"
-msgstr "Loģiskās Funkcijas"
+msgstr "Automātisks saucējs"
 
 #: ../goffice/gtk/go-format-sel.ui.h:30
 msgid "Denominator:"
@@ -3701,995 +3701,995 @@ msgstr "Amerikas Savienotās Valstis/Angļu (C)"
 
 #: ../goffice/gtk/go-locale-sel.c:105
 msgid "Djibouti/Afar (aa_DJ)"
-msgstr ""
+msgstr "Džibutija/Afāru (aa_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:106
 msgid "Eritrea/Afar (aa_ER)"
-msgstr ""
+msgstr "Eritreja/Afāru (aa_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:107
 msgid "Ethiopia/Afar (aa_ET)"
-msgstr ""
+msgstr "Etiopija/Afāru (aa_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:108
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Afrikandu (af_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:109
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "Etiopija/Amharu (am_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:110
 msgid "Spain/Aragonese (an_ES)"
-msgstr ""
+msgstr "Spānija/Aragoniešu (an_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:111
 msgid "United Arab Emirates (ar_AE)"
-msgstr ""
+msgstr "Apvienotie Arābu Emirāti (ar_AE)"
 
 #: ../goffice/gtk/go-locale-sel.c:112
 msgid "Bahrain (ar_BH)"
-msgstr ""
+msgstr "Bahreina (ar_BH)"
 
 #: ../goffice/gtk/go-locale-sel.c:113
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "Alžīrija (ar_DZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:114
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "Ēģipte (ar_EG)"
 
 #: ../goffice/gtk/go-locale-sel.c:115
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "Indija/Arābu (ar_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:116
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "Irāka (ar_IQ)"
 
 #: ../goffice/gtk/go-locale-sel.c:117
 msgid "Jordan (ar_JO)"
-msgstr ""
+msgstr "Jordānija (ar_JO)"
 
 #: ../goffice/gtk/go-locale-sel.c:118
 msgid "Kuwait (ar_KW)"
-msgstr ""
+msgstr "Kuveita (ar_KW)"
 
 #: ../goffice/gtk/go-locale-sel.c:119
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "Libāna (ar_LB)"
 
 #: ../goffice/gtk/go-locale-sel.c:120
 msgid "Libya (ar_LY)"
-msgstr ""
+msgstr "Lībija (ar_LY)"
 
 #: ../goffice/gtk/go-locale-sel.c:121
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "Maroka (ar_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:122
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "Omāna (ar_OM)"
 
 #: ../goffice/gtk/go-locale-sel.c:123
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "Katara (ar_QA)"
 
 #: ../goffice/gtk/go-locale-sel.c:124
 msgid "Saudi Arabia (ar_SA)"
-msgstr ""
+msgstr "Saūda Arābija (ar_SA)"
 
 #: ../goffice/gtk/go-locale-sel.c:125
 msgid "Sudan (ar_SD)"
-msgstr ""
+msgstr "Sudāna (ar_SD)"
 
 #: ../goffice/gtk/go-locale-sel.c:126
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "Sīrija (ar_SY)"
 
 #: ../goffice/gtk/go-locale-sel.c:127
 msgid "Tunisia (ar_TN)"
-msgstr ""
+msgstr "Tunisija (ar_TN)"
 
 #: ../goffice/gtk/go-locale-sel.c:128
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "Jemena (ar_YE)"
 
 #: ../goffice/gtk/go-locale-sel.c:129
 msgid "India/Assamese (as_IN)"
-msgstr ""
+msgstr "Indija/Asamiešu (as_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:130
 msgid "Spain/Asturian (ast_ES)"
-msgstr ""
+msgstr "Spānija/Astūriešu (ast_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:131
 msgid "Azerbaijan (az_AZ)"
-msgstr ""
+msgstr "Azerbaidžāna (az_AZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:132
 msgid "Belarus (be_BY)"
-msgstr ""
+msgstr "Baltkrievija (be_BY)"
 
 #: ../goffice/gtk/go-locale-sel.c:133
 msgid "Zambia/Bemba (bem_ZM)"
-msgstr ""
+msgstr "Zambija/Bembu (bem_ZM)"
 
 #: ../goffice/gtk/go-locale-sel.c:134
 msgid "Algeria/Amazigh (ber_DZ)"
-msgstr ""
+msgstr "Alžīrija/Berberu  (ber_DZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:135
 msgid "Morocco/Amazigh (ber_MA)"
-msgstr ""
+msgstr "Maroka/Berberu (ber_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:136
 msgid "Bulgaria (bg_BG)"
-msgstr ""
+msgstr "Bulgārija (bg_BG)"
 
 #: ../goffice/gtk/go-locale-sel.c:137
 msgid "Bangladesh (bn_BD)"
-msgstr ""
+msgstr "Bangladeša (bn_BD)"
 
 #: ../goffice/gtk/go-locale-sel.c:138
 msgid "India/Bengali (bn_IN)"
-msgstr ""
+msgstr "India/Bengāļu (bn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:139
 msgid "China/Tibetan (bo_CN)"
-msgstr ""
+msgstr "Ķīna/Tibetiešu (bo_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:140
 msgid "India/Tibetan (bo_IN)"
-msgstr ""
+msgstr "Indija/Tibetiešu (bo_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:141
 msgid "France/Breton (br_FR)"
-msgstr ""
+msgstr "Francija/Bretoņu (br_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:142
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr ""
+msgstr "Bosnija un Hercegovina (bs_BA)"
 
 #: ../goffice/gtk/go-locale-sel.c:143
 msgid "Eritrea/Blin (byn_ER)"
-msgstr ""
+msgstr "Eritreja/Bilinu (byn_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:144
 msgid "Andorra/Catalan (ca_AD)"
-msgstr ""
+msgstr "Andora/Katalāņu (ca_AD)"
 
 #: ../goffice/gtk/go-locale-sel.c:145
 msgid "Spain/Catalan (ca_ES)"
-msgstr ""
+msgstr "Spānija/Katalāņu (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:146
 msgid "France/Catalan (ca_FR)"
-msgstr ""
+msgstr "Francija/Katalāņu (ca_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:147
 msgid "Italy/Catalan (ca_IT)"
-msgstr ""
+msgstr "Itālija/Katalāņu (ca_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:148
 msgid "Ukraine/Crimean Tatar (crh_UA)"
-msgstr ""
+msgstr "Ukraina/Krimas tatāru (crh_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:149
 msgid "Czech Republic (cs_CZ)"
-msgstr ""
+msgstr "Čehijas Republika (cs_CZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:150
 msgid "Poland/Kashubian (csb_PL)"
-msgstr ""
+msgstr "Polija/Kašubu (csb_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:151
 msgid "Russia/Chuvash (cv_RU)"
-msgstr ""
+msgstr "Krievija/Čuvašu (cv_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:152
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr ""
+msgstr "Lielbritānija/Velsiešu (cy_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:153
 msgid "Denmark (da_DK)"
-msgstr ""
+msgstr "Dānija (da_DK)"
 
 #: ../goffice/gtk/go-locale-sel.c:154
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "Austrija (de_AT)"
 
 #: ../goffice/gtk/go-locale-sel.c:155
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "Beļģija/Vācu (de_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:156
 msgid "Switzerland/German (de_CH)"
-msgstr ""
+msgstr "Šveice/Vācu (de_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:157
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "Vācija (de_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:158
 msgid "Luxembourg/German (de_LU)"
-msgstr ""
+msgstr "Luksemburga/Vācu (de_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:159
 msgid "Maldives (dv_MV)"
-msgstr ""
+msgstr "Maldīvija (dv_MV)"
 
 #: ../goffice/gtk/go-locale-sel.c:160
 msgid "Bhutan (dz_BT)"
-msgstr ""
+msgstr "Butāna (dz_BT)"
 
 #: ../goffice/gtk/go-locale-sel.c:161
 msgid "Cyprus/Greek (el_CY)"
-msgstr ""
+msgstr "Kipra/Grieķu (el_CY)"
 
 #: ../goffice/gtk/go-locale-sel.c:162
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "Grieķija (el_GR)"
 
 #: ../goffice/gtk/go-locale-sel.c:163
 msgid "Antigua and Barbuda/English (en_AG)"
-msgstr ""
+msgstr "Antigva un Barbuda/Angļu (en_AG)"
 
 #: ../goffice/gtk/go-locale-sel.c:164
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "Austrālija (en_AU)"
 
 #: ../goffice/gtk/go-locale-sel.c:165
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "Botsvana (en_BW)"
 
 #: ../goffice/gtk/go-locale-sel.c:166
 msgid "Canada/English (en_CA)"
-msgstr ""
+msgstr "Kanāda/Angļu (en_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:167
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "Lielbritānija (en_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:168
 msgid "Hong Kong/English (en_HK)"
-msgstr ""
+msgstr "Honkonga/Angļu (en_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:169
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "Īrija (en_IE)"
 
 #: ../goffice/gtk/go-locale-sel.c:170
 msgid "India/English (en_IN)"
-msgstr ""
+msgstr "Indija/Angļu (en_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:171
 msgid "New Zealand (en_NZ)"
-msgstr ""
+msgstr "Jaunzēlande (en_NZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:172
 msgid "Philippines (en_PH)"
-msgstr ""
+msgstr "Filipīnas (en_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:173
 msgid "Singapore/English (en_SG)"
-msgstr ""
+msgstr "Singapūra/Angļu (en_SG)"
 
 #: ../goffice/gtk/go-locale-sel.c:174
 msgid "United States/English (en_US)"
-msgstr ""
+msgstr "Amerikas Savienotās Valstis/Angļu (en_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:175
 msgid "South Africa/English (en_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Angļu (en_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:176
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "Zimbabve (en_ZW)"
 
 #: ../goffice/gtk/go-locale-sel.c:177
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "Esperanto (eo_EO)"
 
 #: ../goffice/gtk/go-locale-sel.c:178
 msgid "Argentina (es_AR)"
-msgstr ""
+msgstr "Argentīna (es_AR)"
 
 #: ../goffice/gtk/go-locale-sel.c:179
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "Bolīvija (es_BO)"
 
 #: ../goffice/gtk/go-locale-sel.c:180
 msgid "Chile (es_CL)"
-msgstr ""
+msgstr "Čīle (es_CL)"
 
 #: ../goffice/gtk/go-locale-sel.c:181
 msgid "Colombia (es_CO)"
-msgstr ""
+msgstr "Kolumbija (es_CO)"
 
 #: ../goffice/gtk/go-locale-sel.c:182
 msgid "Costa Rica (es_CR)"
-msgstr ""
+msgstr "Kostarika (es_CR)"
 
 #: ../goffice/gtk/go-locale-sel.c:183
 msgid "Dominican Republic (es_DO)"
-msgstr ""
+msgstr "Dominikānas Republika (es_DO)"
 
 #: ../goffice/gtk/go-locale-sel.c:184
 msgid "Ecuador (es_EC)"
-msgstr ""
+msgstr "Ekvadora (es_EC)"
 
 #: ../goffice/gtk/go-locale-sel.c:185
 msgid "Spain (es_ES)"
-msgstr ""
+msgstr "Spānija (es_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:186
 msgid "Guatemala (es_GT)"
-msgstr ""
+msgstr "Gvatemala (es_GT)"
 
 #: ../goffice/gtk/go-locale-sel.c:187
 msgid "Honduras (es_HN)"
-msgstr ""
+msgstr "Hondurasa (es_HN)"
 
 #: ../goffice/gtk/go-locale-sel.c:188
 msgid "Mexico (es_MX)"
-msgstr ""
+msgstr "Meksika (es_MX)"
 
 #: ../goffice/gtk/go-locale-sel.c:189
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "Nikaragva (es_NI)"
 
 #: ../goffice/gtk/go-locale-sel.c:190
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "Panama (es_PA)"
 
 #: ../goffice/gtk/go-locale-sel.c:191
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "Peru (es_PE)"
 
 #: ../goffice/gtk/go-locale-sel.c:192
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "Puertoriko (es_PR)"
 
 #: ../goffice/gtk/go-locale-sel.c:193
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "Paragvaja (es_PY)"
 
 #: ../goffice/gtk/go-locale-sel.c:194
 msgid "El Salvador (es_SV)"
-msgstr ""
+msgstr "Salvadora (es_SV)"
 
 #: ../goffice/gtk/go-locale-sel.c:195
 msgid "United States/Spanish (es_US)"
-msgstr ""
+msgstr "Amerikas Savienotās Valstis/Spāņu (es_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:196
 msgid "Uruguay (es_UY)"
-msgstr ""
+msgstr "Urugvaja (es_UY)"
 
 #: ../goffice/gtk/go-locale-sel.c:197
 msgid "Venezuela (es_VE)"
-msgstr ""
+msgstr "Venecuēla (es_VE)"
 
 #: ../goffice/gtk/go-locale-sel.c:198
 msgid "Estonia (et_EE)"
-msgstr ""
+msgstr "Igaunija (et_EE)"
 
 #: ../goffice/gtk/go-locale-sel.c:199
 msgid "Spain/Basque (eu_ES)"
-msgstr ""
+msgstr "Spānija/Basku (eu_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:200
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "Irāna (fa_IR)"
 
 #: ../goffice/gtk/go-locale-sel.c:201
 msgid "Senegal/Fulah (ff_SN)"
-msgstr ""
+msgstr "Senegāla/Fulu (ff_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:202
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "Somija/Somu (fi_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
 msgid "Phillipines/Filipino (fil_PH)"
-msgstr ""
+msgstr "Filipīnas/Filipīniešu (fil_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:204
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
+msgstr "Fēru salas (fo_FO)"
 
 #: ../goffice/gtk/go-locale-sel.c:205
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "Beļģija/Franču (fr_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:206
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "Kanāda/Franču (fr_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:207
 msgid "Switzerland/French (fr_CH)"
-msgstr ""
+msgstr "Šveice/Franču (fr_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:208
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "Francija (fr_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:209
 msgid "Luxembourg/French (fr_LU)"
-msgstr ""
+msgstr "Luksemburga/Franču (fr_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:210
 msgid "Italy/Furlan (fur_IT)"
-msgstr ""
+msgstr "Itālija/Friulu (fur_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:211
 msgid "Germany/Frisian (fy_DE)"
-msgstr ""
+msgstr "Vācija/Frīzu (fy_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:212
 msgid "Netherlands/Frisian (fy_NL)"
-msgstr ""
+msgstr "Nīderlande/Frisian (fy_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:213
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "Īrija/Gēlu (ga_IE)"
 
 #: ../goffice/gtk/go-locale-sel.c:214
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr ""
+msgstr "Lielbritānija/Skotu gēlu (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
 msgid "Eritrea/Ge'ez “gez_ER)"
-msgstr ""
+msgstr "Eritreja/Gēzu (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
 msgid "Ethiopia/Ge'ez “gez_ET)"
-msgstr ""
+msgstr "Etiopija/Gēzu (gez_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:217
 msgid "Spain/Galician (gl_ES)"
-msgstr ""
+msgstr "Spānija/Galisiešu (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
 msgid "India/Gurajati “gu_IN)"
-msgstr ""
+msgstr "Indija/Gudžaratu (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr ""
+msgstr "Lielbritānija/Meniešu gēlu (gv_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:220
 msgid "Nigeria/Hausa (ha_NG)"
-msgstr ""
+msgstr "Nigērija/Hausu (ha_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:221
 msgid "Israel/Hebrew (he_IL)"
-msgstr ""
+msgstr "Izraēla/Ivrits (he_IL)"
 
 #: ../goffice/gtk/go-locale-sel.c:222
 msgid "India/Hindu (hi_IN)"
-msgstr ""
+msgstr "Indija/Hindi (hi_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:223
 msgid "India/Chhattisgarhi (hne_IN)"
-msgstr ""
+msgstr "Indija/Chhattisgarhi (hne_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:224
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "Horvātija (hr_HR)"
 
 #: ../goffice/gtk/go-locale-sel.c:225
 msgid "Germany/Upper Sorbian (hsb_DE)"
-msgstr ""
+msgstr "Vācija/Augšsorbu (hsb_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:226
 msgid "Haiti/Kreyol (ht_HT)"
-msgstr ""
+msgstr "Haiti/Krejols (ht_HT)"
 
 #: ../goffice/gtk/go-locale-sel.c:227
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "Ungārija (hu_HU)"
 
 #: ../goffice/gtk/go-locale-sel.c:228
 msgid "Armenia (hy_AM)"
-msgstr ""
+msgstr "Armēnija (hy_AM)"
 
 #: ../goffice/gtk/go-locale-sel.c:229
 msgid "(i18n)"
-msgstr ""
+msgstr "(i18n)"
 
 #: ../goffice/gtk/go-locale-sel.c:230
 msgid "Indonesia (id_ID)"
-msgstr ""
+msgstr "Indonēzija (id_ID)"
 
 #: ../goffice/gtk/go-locale-sel.c:231
 msgid "Nigeria/Igbo (ig_NG)"
-msgstr ""
+msgstr "Nigērija/Igbo (ig_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:232
 msgid "Canada/Inupiaq (ik_CA)"
-msgstr ""
+msgstr "Kanāda/Inupiaku (ik_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:233
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "Islande (is_IS)"
 
 #: ../goffice/gtk/go-locale-sel.c:234
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: ../goffice/gtk/go-locale-sel.c:235
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "Šveice/Itāļu (it_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:236
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "Itālija (it_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:237
 msgid "Canada/Inuktitut (iu_CA)"
-msgstr ""
+msgstr "Kanāda/Inuītu (iu_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:238
 msgid "Japan (ja_JP)"
-msgstr ""
+msgstr "Japāna (ja_JP)"
 
 #: ../goffice/gtk/go-locale-sel.c:239
 msgid "Georgia (ka_GE)"
-msgstr ""
+msgstr "Gruzija (ka_GE)"
 
 #: ../goffice/gtk/go-locale-sel.c:240
 msgid "Kazakhstan/Kazakh (kk_KZ)"
-msgstr ""
+msgstr "Kazahstāna/Kazahu (kk_KZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:241
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "Grenlande (kl_GL)"
 
 #: ../goffice/gtk/go-locale-sel.c:242
 msgid "Cambodia/Khmer (km_KH)"
-msgstr ""
+msgstr "Kambodža/Khmeru (km_KH)"
 
 #: ../goffice/gtk/go-locale-sel.c:243
 msgid "India/Kannada (kn_IN)"
-msgstr ""
+msgstr "Indija/Kannadu (kn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:244
 msgid "Korea (ko_KR)"
-msgstr ""
+msgstr "Koreja (ko_KR)"
 
 #: ../goffice/gtk/go-locale-sel.c:245
 msgid "India/Konkani (kok_IN)"
-msgstr ""
+msgstr "Indija/Konkanu (kok_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:246
 msgid "India/Kashmiri (ks_IN)"
-msgstr ""
+msgstr "Indija/Kašmiriešu (ks_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:247
 msgid "Turkey/Kurdish (ku_TR)"
-msgstr ""
+msgstr "Turcija/Kurdu (ku_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:248
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr ""
+msgstr "Lielbritānija/Korniešu (kw_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:249
 msgid "Kyrgyzstan/Kyrgyz (ky_KG)"
-msgstr ""
+msgstr "Kirgizstāna/Kirgīzu (ky_KG)"
 
 #: ../goffice/gtk/go-locale-sel.c:250
 msgid "Luxembourg/Luxembourgish (lb_LU)"
-msgstr ""
+msgstr "Luksemburga/Luksemburgiešu (lb_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:251
 msgid "Uganda/Luganda (lg_UG)"
-msgstr ""
+msgstr "Uganda/Gandu (lg_UG)"
 
 #: ../goffice/gtk/go-locale-sel.c:252
 msgid "Belgium/Limburgish (li_BE)"
-msgstr ""
+msgstr "Beļģija/Limburgiešu (li_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:253
 msgid "Netherlands/Limburgish (li_NL)"
-msgstr ""
+msgstr "Nīderlande/Limburgiešu (li_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:254
 msgid "Italy/Ligurian (lij_IT)"
-msgstr ""
+msgstr "Itālija/Ligūrijas (lij_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:255
 msgid "Laos (lo_LA)"
-msgstr ""
+msgstr "Laosa (lo_LA)"
 
 #: ../goffice/gtk/go-locale-sel.c:256
 msgid "Lithuania (lt_LT)"
-msgstr ""
+msgstr "Lietuva (lt_LT)"
 
 #: ../goffice/gtk/go-locale-sel.c:257
 msgid "Latvia (lv_LV)"
-msgstr ""
+msgstr "Latvija (lv_LV)"
 
 #: ../goffice/gtk/go-locale-sel.c:258
 msgid "India/Maithili (mai_IN)"
-msgstr ""
+msgstr "Indija/Maithili (mai_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:259
 msgid "Madagascar/Malagasy (mg_MG)"
-msgstr ""
+msgstr "Madagaskara/Malagasu (mg_MG)"
 
 #: ../goffice/gtk/go-locale-sel.c:260
 msgid "Russia/Mari (mhr_RU)"
-msgstr ""
+msgstr "Krievija/Mariešu (mhr_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:261
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
+msgstr "Jaunzēlande/Maoru (mi_NZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:262
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "Maķedonija (mk_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:263
 msgid "India/Malayalam (ml_IN)"
-msgstr ""
+msgstr "Indija/Malajalu (ml_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:264
 msgid "Mongolia (mn_MN)"
-msgstr ""
+msgstr "Mongolija (mn_MN)"
 
 #: ../goffice/gtk/go-locale-sel.c:265
 msgid "India/Marathi (mr_IN)"
-msgstr ""
+msgstr "Indija/Marathu (mr_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:266
 msgid "Malaysia (ms_MY)"
-msgstr ""
+msgstr "Malaizija (ms_MY)"
 
 #: ../goffice/gtk/go-locale-sel.c:267
 msgid "Malta (mt_MT)"
-msgstr ""
+msgstr "Malta (mt_MT)"
 
 #: ../goffice/gtk/go-locale-sel.c:268
 msgid "Myanmar/Burmese (my_MM)"
-msgstr ""
+msgstr "Mjanma/Birmiešu (my_MM)"
 
 #: ../goffice/gtk/go-locale-sel.c:269
 msgid "Taiwan/Minnan (nan_TW@latin)"
-msgstr ""
+msgstr "Taivāna/Min nan (nan_TW@latin)"
 
 #: ../goffice/gtk/go-locale-sel.c:270
 msgid "Norway/Bokmal (nb_NO)"
-msgstr ""
+msgstr "Norvēģija/Bukmols (nb_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:271
 msgid "Germany/Low Saxon (nds_DE)"
-msgstr ""
+msgstr "Vācija/Lejasvācu (nds_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:272
 msgid "Netherlands/Low Saxon (nds_NL)"
-msgstr ""
+msgstr "Nīderlande/Lejasvācu (nds_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:273
 msgid "Nepal/Nepali (ne_NP)"
-msgstr ""
+msgstr "Nepāla/Nepāliešu (ne_NP)"
 
 #: ../goffice/gtk/go-locale-sel.c:274
 msgid "Aruba/Dutch (nl_AW)"
-msgstr ""
+msgstr "Aruba/Holandiešu (nl_AW)"
 
 #: ../goffice/gtk/go-locale-sel.c:275
 msgid "Belgium/Flemish (nl_BE)"
-msgstr ""
+msgstr "Beļģija/Holandiešu (nl_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:276
 msgid "The Netherlands (nl_NL)"
-msgstr ""
+msgstr "Nīderlandes (nl_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:277
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr ""
+msgstr "Norvēģija/Jaunnorvēģu (nn_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:278
 msgid "South Africa/Southern Ndebele (nr_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Dienvidndebelu (nr_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:279
 msgid "South Africa/Northern Sotho (nso_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Ziemeļsotu (nso_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:280
 msgid "France/Occitan (oc_FR)"
-msgstr ""
+msgstr "Francija/Oksitāņu (oc_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:281
 msgid "Ethiopia/Oromo (om_ET)"
-msgstr ""
+msgstr "Etiopija/Oromu (om_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:282
 msgid "Kenya/Oromo (om_KE)"
-msgstr ""
+msgstr "Kenija/Oromu (om_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:283
 msgid "India/Oriya (or_IN)"
-msgstr ""
+msgstr "Indija/Oriju (or_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:284
 msgid "Russia/Ossetian (os_RU)"
-msgstr ""
+msgstr "Krievija/Osetīnu (os_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:285
 msgid "India/Punjabi (Gurmukhi) (pa_IN)"
-msgstr ""
+msgstr "Indija/Pandžabu (Gurmuku) (pa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:286
 msgid "Pakistan/Punjabi (Shamukhi) (pa_PK)"
-msgstr ""
+msgstr "Pakistāna/Pandžabu (Šahmukhī) (pa_PK)"
 
 #: ../goffice/gtk/go-locale-sel.c:287
 msgid "Netherland Antilles/Papiamento (pap_AN)"
-msgstr ""
+msgstr "Nīderlandes Antiļas/Papjamento (pap_AN)"
 
 #: ../goffice/gtk/go-locale-sel.c:288
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "Polija (pl_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:289
 msgid "Afghanistan/Pashto (ps_AF)"
-msgstr ""
+msgstr "Afganistāna/Puštu (ps_AF)"
 
 #: ../goffice/gtk/go-locale-sel.c:290
 msgid "Brazil (pt_BR)"
-msgstr ""
+msgstr "Brazīlija (pt_BR)"
 
 #: ../goffice/gtk/go-locale-sel.c:291
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "Portugāle (pt_PT)"
 
 #: ../goffice/gtk/go-locale-sel.c:292
 msgid "Romania (ro_RO)"
-msgstr ""
+msgstr "Rumānija (ro_RO)"
 
 #: ../goffice/gtk/go-locale-sel.c:293
 msgid "Russia (ru_RU)"
-msgstr ""
+msgstr "Krievija (ru_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:294
 msgid "Ukraine/Russian (ru_UA)"
-msgstr ""
+msgstr "Ukraina/Krievu (ru_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:295
 msgid "Rwanda/Kinyarwanda (rw_RW)"
-msgstr ""
+msgstr "Ruanda/Kiņaruanda (rw_RW)"
 
 #: ../goffice/gtk/go-locale-sel.c:296
 msgid "India/Sanskrit (sa_IN)"
-msgstr ""
+msgstr "Indija/Sanskrits (sa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:297
 msgid "Italy/Sardinian (sc_IT)"
-msgstr ""
+msgstr "Itālija/Sardīniešu (sc_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:298
 msgid "India/Sindhi (sd_IN)"
-msgstr ""
+msgstr "Indija/Sindhu (sd_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:299
 msgid "Norway/Saami (se_NO)"
-msgstr ""
+msgstr "Norvēģija/Sāmu (se_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:300
 msgid "Canada/Secwepemctsin (Shuswap) (shs_CA)"
-msgstr ""
+msgstr "Kanāda/Šusvapu (shs_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:301
 msgid "Sri Lanka/Sinhala (si_LK)"
-msgstr ""
+msgstr "Šrilanka/Singāļu (si_LK)"
 
 #: ../goffice/gtk/go-locale-sel.c:302
 msgid "Ethiopia/Sidama (sid_ET)"
-msgstr ""
+msgstr "Etiopija/Sidama (sid_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:303
 msgid "Slovakia (sk_SK)"
-msgstr ""
+msgstr "Slovākija (sk_SK)"
 
 #: ../goffice/gtk/go-locale-sel.c:304
 msgid "Slovenia (sl_SI)"
-msgstr ""
+msgstr "Slovēnija (sl_SI)"
 
 #: ../goffice/gtk/go-locale-sel.c:305
 msgid "Djibouti/Somali (so_DJ)"
-msgstr ""
+msgstr "Džibutija/Somāļu (so_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:306
 msgid "Ethiopia/Somali (so_ET)"
-msgstr ""
+msgstr "Etiopija/Somāļu (so_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:307
 msgid "Kenya/Somali (so_KE)"
-msgstr ""
+msgstr "Kenija/Somāļu (so_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:308
 msgid "Somalia/Somali (so_SO)"
-msgstr ""
+msgstr "Somālija/Somāļu (so_SO)"
 
 #: ../goffice/gtk/go-locale-sel.c:309
 msgid "Albania (sq_AL)"
-msgstr ""
+msgstr "Albānija (sq_AL)"
 
 #: ../goffice/gtk/go-locale-sel.c:310
 msgid "Macedonia/Albanian (sq_MK)"
-msgstr ""
+msgstr "Maķedonija/Albāņu (sq_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:311
 msgid "Montenegro/Serbian (sr_ME)"
-msgstr ""
+msgstr "Melnkalne/Serbija (sr_ME)"
 
 #: ../goffice/gtk/go-locale-sel.c:312
 msgid "Yugoslavia (sr_RS)"
-msgstr ""
+msgstr "Dienvidslāvija (sr_RS)"
 
 #: ../goffice/gtk/go-locale-sel.c:313
 msgid "South Africa/Swati (ss_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Svatu (ss_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:314
 msgid "South Africa/Sotho (st_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Sesoto (st_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:315
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "Somija/Zviedru (sv_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:316
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "Zviedrija (sv_SE)"
 
 #: ../goffice/gtk/go-locale-sel.c:317
 msgid "Kenya/Swahili (sw_KE)"
-msgstr ""
+msgstr "Kenija/Svahili (sw_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:318
 msgid "Tanzania/Swahili (sw_TZ)"
-msgstr ""
+msgstr "Tanzānija/Svahili (sw_TZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:319
 msgid "India/Tamil (ta_IN)"
-msgstr ""
+msgstr "Indija/Tamilu (ta_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:320
 msgid "India/Telugu (te_IN)"
-msgstr ""
+msgstr "Indija/Telugu (te_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:321
 msgid "Tajikistan (tg_TJ)"
-msgstr ""
+msgstr "Tadžikistāna (tg_TJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:322
 msgid "Thailand (th_TH)"
-msgstr ""
+msgstr "Taizeme (th_TH)"
 
 #: ../goffice/gtk/go-locale-sel.c:323
 msgid "Eritrea/Tigrinya (ti_ER)"
-msgstr ""
+msgstr "Eritreja/Tigrinja (ti_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:324
 msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr ""
+msgstr "Etiopija/Tigrinja (ti_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:325
 msgid "Eritrea/Tigre (tig_ER)"
-msgstr ""
+msgstr "Eritreja/Tigru (tig_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:326
 msgid "Turkmenistan /Turkmen (tk_TM)"
-msgstr ""
+msgstr "Turkmenistāna/Turkmēņu (tk_TM)"
 
 #: ../goffice/gtk/go-locale-sel.c:327
 msgid "Philippines/Tagalog (tl_PH)"
-msgstr ""
+msgstr "Filipīnas/Tagalu (tl_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:328
 msgid "South Africa/Tswana (tn_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Cvanu (tn_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:329
 msgid "Cyprus/Turkish (tr_CY)"
-msgstr ""
+msgstr "Kipra/Turku (tr_CY)"
 
 #: ../goffice/gtk/go-locale-sel.c:330
 msgid "Turkey (tr_TR)"
-msgstr ""
+msgstr "Turcija (tr_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:331
 msgid "South Africa/Tsonga (ts_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Congu (ts_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:332
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "Krievija/Tatāru (tt_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:333
 msgid "China/Uyghur (ug_CN)"
-msgstr ""
+msgstr "Ķīna/Uiguru (ug_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:334
 msgid "Ukraine (uk_UA)"
-msgstr ""
+msgstr "Ukraina (uk_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:335
 msgid "India/Urdu (ur_IN)"
-msgstr ""
+msgstr "Indija/Urdu (ur_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:336
 msgid "Pakistan (ur_PK)"
-msgstr ""
+msgstr "Pakistāna (ur_PK)"
 
 #: ../goffice/gtk/go-locale-sel.c:337
 msgid "Uzbekistan (uz_UZ)"
-msgstr ""
+msgstr "Uzbekistāna (uz_UZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:338
 msgid "South Africa/Venda (ve_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Vendu (ve_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:339
 msgid "Vietnam (vi_VN)"
-msgstr ""
+msgstr "Vjetnama (vi_VN)"
 
 #: ../goffice/gtk/go-locale-sel.c:340
 msgid "Belgium/Walloon (wa_BE)"
-msgstr ""
+msgstr "Beļģija/Valoņu (wa_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:341
 msgid "Switzerland/Walser (wae_CH)"
-msgstr ""
+msgstr "Šveice/Valē (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
 msgid "Ethiopia/Walaita (wal_ET)"
-msgstr ""
+msgstr "Etiopija/Valaita (wal_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:343
 msgid "Senegal/Wolof (wo_SN)"
-msgstr ""
+msgstr "Senegāla/Volofu (wo_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:344
 msgid "South Africa/Xhosa (xh_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Khosu (xh_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:345
 msgid "United States/Yiddish (yi_US)"
-msgstr ""
+msgstr "Amerikas Savienotās Valstis/Jidišs (yi_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:346
 msgid "Nigeria/Yoruba (yo_NG)"
-msgstr ""
+msgstr "Nigērija/Jorubu (yo_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:347
 msgid "Hong Kong/Cantonese (Yue) (yue_HK)"
-msgstr ""
+msgstr "Honkonga/Kantonas (yue_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:348
 msgid "China (zh_CN)"
-msgstr ""
+msgstr "Ķīna (zh_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:349
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr ""
+msgstr "Honkonga/Ķīniešu (zh_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:350
 msgid "Singapore/Chinese (zh_SG)"
-msgstr ""
+msgstr "Singapūra/Ķīniešu (zh_SG)"
 
 #: ../goffice/gtk/go-locale-sel.c:351
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "Taivāna (zh_TW)"
 
 #: ../goffice/gtk/go-locale-sel.c:352
 msgid "South Africa/Zulu (zu_ZA)"
-msgstr ""
+msgstr "Dienvidāfrika/Zulu (zu_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:571
 msgid "Current Locale: "
@@ -4784,15 +4784,15 @@ msgstr "Vienmērīgs"
 
 #: ../goffice/math/go-distribution.c:77
 msgid "Cauchy"
-msgstr ""
+msgstr "Košī"
 
 #: ../goffice/math/go-distribution.c:78
 msgid "Weibull"
-msgstr ""
+msgstr "Veibuls"
 
 #: ../goffice/math/go-distribution.c:79
 msgid "Lognormal"
-msgstr ""
+msgstr "Logaritmiski normālais"
 
 #: ../goffice/math/go-distribution.c:163 ../goffice/math/go-distribution.c:164
 msgid "Location"
@@ -4804,7 +4804,7 @@ msgstr "Forma"
 
 #: ../goffice/math/go-distribution.c:702 ../goffice/math/go-distribution.c:814
 msgid "Shape factor"
-msgstr ""
+msgstr "Formas koeficients"
 
 #. The first column has three letter acronyms
 #. * for each currency.  They MUST start with '[$'
@@ -4813,707 +4813,707 @@ msgstr ""
 #. 2010/08/12 Updated to match iso 4217
 #: ../goffice/utils/formats.c:382
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
+msgstr "Apvienotie Arābu Emirāti, dirhēms"
 
 #: ../goffice/utils/formats.c:383
 msgid "Afghanistan, Afghanis"
-msgstr ""
+msgstr "Afganistāna, Afgāns"
 
 #: ../goffice/utils/formats.c:384
 msgid "Albania, Leke"
-msgstr ""
+msgstr "Albānija, Leks"
 
 #: ../goffice/utils/formats.c:385
 msgid "Armenia, Drams"
-msgstr ""
+msgstr "Armēnija, drams"
 
 #: ../goffice/utils/formats.c:386
 msgid "Netherlands antilles, Guilders"
-msgstr ""
+msgstr "Nīderlandes Antiļas, guldenis"
 
 #: ../goffice/utils/formats.c:387
 msgid "Angola, Kwanza"
-msgstr ""
+msgstr "Angola, kvanza"
 
 #: ../goffice/utils/formats.c:388
 msgid "Argentina, Pesos"
-msgstr ""
+msgstr "Argentīna, peso"
 
 #: ../goffice/utils/formats.c:389
 msgid "Australia, Dollars"
-msgstr ""
+msgstr "Austrālija, dolārs"
 
 #: ../goffice/utils/formats.c:390
 msgid "Aruba, Guilders"
-msgstr ""
+msgstr "Aruba, guldenis"
 
 #: ../goffice/utils/formats.c:391
 msgid "Azerbaijan, Manats"
-msgstr ""
+msgstr "Azerbaidžāna, manats"
 
 #: ../goffice/utils/formats.c:392
 msgid "Bosnia and herzegovina, Convertible Marka"
-msgstr ""
+msgstr "Bosnija un Hercegovina, konvertējamā marka"
 
 #: ../goffice/utils/formats.c:393
 msgid "Barbados, Dollars"
-msgstr ""
+msgstr "Barbadosa, dolārs"
 
 #: ../goffice/utils/formats.c:394
 msgid "Bangladesh, Taka"
-msgstr ""
+msgstr "Bangladeša, taka"
 
 #: ../goffice/utils/formats.c:395
 msgid "Bulgaria, Leva"
-msgstr ""
+msgstr "Bulgārija, leva"
 
 #: ../goffice/utils/formats.c:396
 msgid "Bahrain, Dinars"
-msgstr ""
+msgstr "Bahreina, dinārs"
 
 #: ../goffice/utils/formats.c:397
 msgid "Burundi, Francs"
-msgstr ""
+msgstr "Burundi, franks"
 
 #: ../goffice/utils/formats.c:398
 msgid "Bermuda, Dollars"
-msgstr ""
+msgstr "Bermuda, dolārs"
 
 #: ../goffice/utils/formats.c:399
 msgid "Brunei Darussalam, Dollars"
-msgstr ""
+msgstr "Brunejas Darusalamas, dolārs"
 
 #: ../goffice/utils/formats.c:400
 msgid "Bolivia, Bolivianos"
-msgstr ""
+msgstr "Bolīvija, boliviano"
 
 #: ../goffice/utils/formats.c:401
 msgid "Bolivia, Mvdol"
-msgstr ""
+msgstr "Bolīvija, mvdol"
 
 #: ../goffice/utils/formats.c:402
 msgid "Brazil, Brazilian Real"
-msgstr ""
+msgstr "Brazīlija, Brazīlijas reāls"
 
 #: ../goffice/utils/formats.c:403
 msgid "Bahamas, Dollars"
-msgstr ""
+msgstr "Bahamas, dolārs"
 
 #: ../goffice/utils/formats.c:404
 msgid "Bhutan, Ngultrum"
-msgstr ""
+msgstr "Butāna, ngultrums"
 
 #: ../goffice/utils/formats.c:405
 msgid "Botswana, Pulas"
-msgstr ""
+msgstr "Botsvana, pula"
 
 #: ../goffice/utils/formats.c:406
 msgid "Belarus, Rubles"
-msgstr ""
+msgstr "Baltkrievija, rublis"
 
 #: ../goffice/utils/formats.c:407
 msgid "Belize, Dollars"
-msgstr ""
+msgstr "Beliza, dolārs"
 
 #: ../goffice/utils/formats.c:408
 msgid "Canada, Dollars"
-msgstr ""
+msgstr "Kanāda, dolārs"
 
 #: ../goffice/utils/formats.c:409
 msgid "Congo, the democratic republic of, Congolese Francs"
-msgstr ""
+msgstr "Kongo Demokrātiskā Republika, KDR franks"
 
 #: ../goffice/utils/formats.c:410
 msgid "Switzerland, WIR Euros"
-msgstr ""
+msgstr "Šveice, WIR Eiro"
 
 #: ../goffice/utils/formats.c:411
 msgid "Switzerland, Francs"
-msgstr ""
+msgstr "Šveice, franks"
 
 #: ../goffice/utils/formats.c:412
 msgid "Switzerland, WIR Francs"
-msgstr ""
+msgstr "Šveice, franks"
 
 #: ../goffice/utils/formats.c:413
 msgid "Chile, Unidades de fomento"
-msgstr ""
+msgstr "Čīle, Unidades de fomento"
 
 #: ../goffice/utils/formats.c:414
 msgid "Chile, Pesos"
-msgstr ""
+msgstr "Čīle, peso"
 
 #: ../goffice/utils/formats.c:415
 msgid "China, Yuan Renminbi"
-msgstr ""
+msgstr "Ķīna, juana"
 
 #: ../goffice/utils/formats.c:416
 msgid "Colombia, Pesos"
-msgstr ""
+msgstr "Kolumbija, peso"
 
 #: ../goffice/utils/formats.c:417
 msgid "Colombia, Unidades de Valor Real"
-msgstr ""
+msgstr "Kolumbija, Kolumbijas reāls"
 
 #: ../goffice/utils/formats.c:418
 msgid "Costa rica, Colones"
-msgstr ""
+msgstr "Kostarika, kolons"
 
 #: ../goffice/utils/formats.c:419
 msgid "Cuba, Pesos Convertibles"
-msgstr ""
+msgstr "Kuba, konvertējamais peso"
 
 #: ../goffice/utils/formats.c:420
 msgid "Cuba, Pesos"
-msgstr ""
+msgstr "Kuba, peso"
 
 #: ../goffice/utils/formats.c:421
 msgid "Cape verde, Escudos"
-msgstr ""
+msgstr "Kaboverde, eskudo"
 
 #: ../goffice/utils/formats.c:422
 msgid "Czech republic, Koruny"
-msgstr ""
+msgstr "Čehijas Republika, krona"
 
 #: ../goffice/utils/formats.c:423
 msgid "Djibouti, Francs"
-msgstr ""
+msgstr "Džibutija, franks"
 
 #: ../goffice/utils/formats.c:424
 msgid "Denmark, Kroner"
-msgstr ""
+msgstr "Dānija, krona"
 
 #: ../goffice/utils/formats.c:425
 msgid "Dominican republic, Pesos"
-msgstr ""
+msgstr "Dominikānas Republika, peso"
 
 #: ../goffice/utils/formats.c:426
 msgid "Algeria, Algerian Dinars"
-msgstr ""
+msgstr "Alžīrija, Alžīrijas dinārs"
 
 #: ../goffice/utils/formats.c:427
 msgid "Egypt, Pounds"
-msgstr ""
+msgstr "Ēģipte, mārciņa"
 
 #: ../goffice/utils/formats.c:428
 msgid "Eritrea, Nakfa"
-msgstr ""
+msgstr "Eritreja, nakfa"
 
 #: ../goffice/utils/formats.c:429
 msgid "Ethiopia, Birr"
-msgstr ""
+msgstr "Etiopija, birs"
 
 #: ../goffice/utils/formats.c:430
 msgid "Euro Members Countries, Euros"
-msgstr ""
+msgstr "Eiro dalībvalstis, eiro"
 
 #: ../goffice/utils/formats.c:431
 msgid "Fiji, Dollars"
-msgstr ""
+msgstr "Fidži, dolārs"
 
 #: ../goffice/utils/formats.c:432
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr ""
+msgstr "Folklenda (Malvinu) salas, mārciņa"
 
 #: ../goffice/utils/formats.c:433
 msgid "United kingdom, Pounds"
-msgstr ""
+msgstr "Lielbritānija, mārciņa"
 
 #: ../goffice/utils/formats.c:434
 msgid "Georgia, Lari"
-msgstr ""
+msgstr "Gruzija, lari"
 
 #: ../goffice/utils/formats.c:435
 msgid "Ghana, Cedis"
-msgstr ""
+msgstr "Gana, sedi"
 
 #: ../goffice/utils/formats.c:436
 msgid "Gibraltar, Pounds"
-msgstr ""
+msgstr "Gibraltārs, mārciņa"
 
 #: ../goffice/utils/formats.c:437
 msgid "Gambia, Dalasi"
-msgstr ""
+msgstr "Gambija, dalasi"
 
 #: ../goffice/utils/formats.c:438
 msgid "Guinea, Francs"
-msgstr ""
+msgstr "Gvineja, franks"
 
 #: ../goffice/utils/formats.c:439
 msgid "Guatemala, Quetzales"
-msgstr ""
+msgstr "Gvatemala, ketsals"
 
 #: ../goffice/utils/formats.c:440
 msgid "Guyana, Dollars"
-msgstr ""
+msgstr "Gajāna, dolārs"
 
 #: ../goffice/utils/formats.c:441
 msgid "Hong Kong, Dollars"
-msgstr ""
+msgstr "Honkonga, dolārs"
 
 #: ../goffice/utils/formats.c:442
 msgid "Honduras, Lempiras"
-msgstr ""
+msgstr "Hondurasa, lempīra"
 
 #: ../goffice/utils/formats.c:443
 msgid "Croatia, Kuna"
-msgstr ""
+msgstr "Horvātija, kuna"
 
 #: ../goffice/utils/formats.c:444
 msgid "Haiti, Gourdes"
-msgstr ""
+msgstr "Haiti, gurds"
 
 #: ../goffice/utils/formats.c:445
 msgid "Hungary, Forint"
-msgstr ""
+msgstr "Ungārija, forints"
 
 #: ../goffice/utils/formats.c:446
 msgid "Indonesia, Rupiahs"
-msgstr ""
+msgstr "Indonēzija, rūpija"
 
 #: ../goffice/utils/formats.c:447
 msgid "Israel, New Sheqels"
-msgstr ""
+msgstr "Izraēla, jaunais šekels"
 
 #: ../goffice/utils/formats.c:448
 msgid "India, Rupees"
-msgstr ""
+msgstr "Indija, rūpija"
 
 #: ../goffice/utils/formats.c:449
 msgid "Iraq, Dinars"
-msgstr ""
+msgstr "Irāka, dinārs"
 
 #: ../goffice/utils/formats.c:450
 msgid "Iran, Rials"
-msgstr ""
+msgstr "Irāna, reāls"
 
 #: ../goffice/utils/formats.c:451
 msgid "Iceland, Krohur"
-msgstr ""
+msgstr "Islande, krona"
 
 #: ../goffice/utils/formats.c:452
 msgid "Jamaica, Dollars"
-msgstr ""
+msgstr "Jamaika, dolārs"
 
 #: ../goffice/utils/formats.c:453
 msgid "Jordan, Dinars"
-msgstr ""
+msgstr "Jordānija, dinārs"
 
 #: ../goffice/utils/formats.c:454
 msgid "Japan, Yen"
-msgstr ""
+msgstr "Japāna, jena"
 
 #: ../goffice/utils/formats.c:455
 msgid "Kenya, Shillings"
-msgstr ""
+msgstr "Kenija, šiliņš"
 
 #: ../goffice/utils/formats.c:456
 msgid "Kyrgyzstan, Soms"
-msgstr ""
+msgstr "Kirgizstāna, soms"
 
 #: ../goffice/utils/formats.c:457
 msgid "Cambodia, Riels"
-msgstr ""
+msgstr "Kambodža, riels"
 
 #: ../goffice/utils/formats.c:458
 msgid "Comoros, Francs"
-msgstr ""
+msgstr "Komoras, franks"
 
 #: ../goffice/utils/formats.c:459
 msgid "Korea (North), Won"
-msgstr ""
+msgstr "Ziemeļkoreja, vona"
 
 #: ../goffice/utils/formats.c:460
 msgid "Korea (South) Wons"
-msgstr ""
+msgstr "Dienvidkoreja, vona"
 
 #: ../goffice/utils/formats.c:461
 msgid "Kuwait, Dinars"
-msgstr ""
+msgstr "Kuveita, dinārs"
 
 #: ../goffice/utils/formats.c:462
 msgid "Cayman islands, Dollars"
-msgstr ""
+msgstr "Kaimanu salas, dolārs"
 
 #: ../goffice/utils/formats.c:463
 msgid "Kazakhstan, Tenge"
-msgstr ""
+msgstr "Kazahstāna, tenge"
 
 #: ../goffice/utils/formats.c:464
 msgid "Laos, Kips"
-msgstr ""
+msgstr "Laosa, kips"
 
 #: ../goffice/utils/formats.c:465
 msgid "Lebanon, Pounds"
-msgstr ""
+msgstr "Libāna, mārciņa"
 
 #: ../goffice/utils/formats.c:466
 msgid "Sri Lanka, Rupees"
-msgstr ""
+msgstr "Šrilanka, rūpija"
 
 #: ../goffice/utils/formats.c:467
 msgid "Liberia, Dollars"
-msgstr ""
+msgstr "Libērija, dolārs"
 
 #: ../goffice/utils/formats.c:468
 msgid "Lithuania, Litai"
-msgstr ""
+msgstr "Lietuva, lits"
 
 #: ../goffice/utils/formats.c:469
 msgid "Latvia, Lati"
-msgstr ""
+msgstr "Latvija, lats"
 
 #: ../goffice/utils/formats.c:470
 msgid "Libya, Dinars"
-msgstr ""
+msgstr "Lībija, dinārs"
 
 #: ../goffice/utils/formats.c:471
 msgid "Morocco, Dirhams"
-msgstr ""
+msgstr "Maroka, dirhēms"
 
 #: ../goffice/utils/formats.c:472
 msgid "Moldova, Lei"
-msgstr ""
+msgstr "Moldova, leja"
 
 #: ../goffice/utils/formats.c:473
 msgid "Madagascar, Malagasy Ariary"
-msgstr ""
+msgstr "Madagaskara, Malgašu ariari"
 
 #: ../goffice/utils/formats.c:474
 msgid "Macedonia, Denars"
-msgstr ""
+msgstr "Maķedonija, denārs"
 
 #: ../goffice/utils/formats.c:475
 msgid "Myanmar (Burma), Kyats"
-msgstr ""
+msgstr "Mjanma, kjats"
 
 #: ../goffice/utils/formats.c:476
 msgid "Mongolia, Tugriks"
-msgstr ""
+msgstr "Mongolija, tugriks"
 
 #: ../goffice/utils/formats.c:477
 msgid "Macao, Patacas"
-msgstr ""
+msgstr "Makao, pataka"
 
 #: ../goffice/utils/formats.c:478
 msgid "Mauritania, Ouguiyas"
-msgstr ""
+msgstr "Mauritānija, ugija"
 
 #: ../goffice/utils/formats.c:479
 msgid "Mauritius, Rupees"
-msgstr ""
+msgstr "Maurīcija, rūpija"
 
 #: ../goffice/utils/formats.c:480
 msgid "Maldives (Maldive Islands), Rufiyaas"
-msgstr ""
+msgstr "Maldīvija, rūfija"
 
 #: ../goffice/utils/formats.c:481
 msgid "Malawi, Kwachas"
-msgstr ""
+msgstr "Malāvija, kvača"
 
 #: ../goffice/utils/formats.c:482
 msgid "Mexico, Pesos"
-msgstr ""
+msgstr "Meksika, peso"
 
 #: ../goffice/utils/formats.c:483
 msgid "Mexico, Unidades de Inversion"
-msgstr ""
+msgstr "Meksika, Unidad de Inversion"
 
 #: ../goffice/utils/formats.c:484
 msgid "Malaysia, Ringgits"
-msgstr ""
+msgstr "Malaizija, ringits"
 
 #: ../goffice/utils/formats.c:485
 msgid "Mozambique, Meticais"
-msgstr ""
+msgstr "Mozambika, metikals"
 
 #: ../goffice/utils/formats.c:486
 msgid "Nigeria, Nairas"
-msgstr ""
+msgstr "Nigērija, naira"
 
 #: ../goffice/utils/formats.c:487
 msgid "Nicaragua, Gold Cordobas"
-msgstr ""
+msgstr "Nikaragva, zelta kordoba"
 
 #: ../goffice/utils/formats.c:488
 msgid "Norway, Norwegian Krone"
-msgstr ""
+msgstr "Norvēģija, Norvēģijas krona"
 
 #: ../goffice/utils/formats.c:489
 msgid "Nepal, Nepalese Rupees"
-msgstr ""
+msgstr "Nepāla, Nepālas rūpija"
 
 #: ../goffice/utils/formats.c:490
 msgid "New zealand, Dollars"
-msgstr ""
+msgstr "Jaunzēlande, dolārs"
 
 #: ../goffice/utils/formats.c:491
 msgid "Oman, Rials"
-msgstr ""
+msgstr "Omāna, reāls"
 
 #: ../goffice/utils/formats.c:492
 msgid "Panama, Balboa"
-msgstr ""
+msgstr "Panama, balboa"
 
 #: ../goffice/utils/formats.c:493
 msgid "Peru, Nuevo Soles"
-msgstr ""
+msgstr "Peru, jaunais sols"
 
 #: ../goffice/utils/formats.c:494
 msgid "Papua New Guinea, Kina"
-msgstr ""
+msgstr "Papua-Jaungvineja, kina"
 
 #: ../goffice/utils/formats.c:495
 msgid "Philippines, Pesos"
-msgstr ""
+msgstr "Filipīnas, peso"
 
 #: ../goffice/utils/formats.c:496
 msgid "Pakistan, Rupees"
-msgstr ""
+msgstr "Pakistāna, rūpijas"
 
 #: ../goffice/utils/formats.c:497
 msgid "Poland, Zlotys"
-msgstr ""
+msgstr "Polija, zlots"
 
 #: ../goffice/utils/formats.c:498
 msgid "Paraguay, Guarani"
-msgstr ""
+msgstr "Paragvaja, gvarani"
 
 #: ../goffice/utils/formats.c:499
 msgid "Qatar, Rials"
-msgstr ""
+msgstr "Katara, riāls"
 
 #: ../goffice/utils/formats.c:500
 msgid "Romania, New Lei"
-msgstr ""
+msgstr "Rumānija, jaunā leja"
 
 #: ../goffice/utils/formats.c:501
 msgid "Serbia, Dinars"
-msgstr ""
+msgstr "Serbija, dinārs"
 
 #: ../goffice/utils/formats.c:502
 msgid "Russia, Rubles"
-msgstr ""
+msgstr "Krievija, rublis"
 
 #: ../goffice/utils/formats.c:503
 msgid "Rwanda, Rwanda Francs"
-msgstr ""
+msgstr "Ruanda, Ruandas franks"
 
 #: ../goffice/utils/formats.c:504
 msgid "Saudi arabia, Riyals"
-msgstr ""
+msgstr "Saūda Arābija, riāls"
 
 #: ../goffice/utils/formats.c:505
 msgid "Solomon Islands, Dollars"
-msgstr ""
+msgstr "Zālamana salas, dolārs"
 
 #: ../goffice/utils/formats.c:506
 msgid "Seychelles, Rupees"
-msgstr ""
+msgstr "Seišelas, rūpija"
 
 #: ../goffice/utils/formats.c:507
 msgid "Sudan, Pounds"
-msgstr ""
+msgstr "Sudāna, mārciņa"
 
 #: ../goffice/utils/formats.c:508
 msgid "International Monetary Fund (I.M.F), SDR"
-msgstr ""
+msgstr "Starptautiskais Valūtas fonds (S.V.F), SDR"
 
 #: ../goffice/utils/formats.c:509
 msgid "Sweden, Kronor"
-msgstr ""
+msgstr "Zviedrija, krona"
 
 #: ../goffice/utils/formats.c:510
 msgid "Singapore, Dollars"
-msgstr ""
+msgstr "Singapūra, dolārs"
 
 #: ../goffice/utils/formats.c:511
 msgid "Saint Helena, Ascension and Tristan da Cunha, Pounds"
-msgstr ""
+msgstr "Svētās Helēnas Sala un Piederīgās Teritorijas, mārciņa"
 
 #: ../goffice/utils/formats.c:512
 msgid "Sierra leone, Leones"
-msgstr ""
+msgstr "Sjerraleone, leone"
 
 #: ../goffice/utils/formats.c:513
 msgid "Somalia, Shillings"
-msgstr ""
+msgstr "Somālija, šiliņš"
 
 #: ../goffice/utils/formats.c:514
 msgid "Suriname, Dollars"
-msgstr ""
+msgstr "Surinama, dolārs"
 
 #: ../goffice/utils/formats.c:515
 msgid "São Tome and Principe, Dobras"
-msgstr ""
+msgstr "Santome un Prinsipi, dobra"
 
 #: ../goffice/utils/formats.c:516
 msgid "El Salvador, Colones"
-msgstr ""
+msgstr "Salvadora, kolons"
 
 #: ../goffice/utils/formats.c:517
 msgid "Syria, Pounds"
-msgstr ""
+msgstr "Sīrija, mārciņa"
 
 #: ../goffice/utils/formats.c:518
 msgid "Swaziland, Emalangeni"
-msgstr ""
+msgstr "Svazilenda, emalangens"
 
 #: ../goffice/utils/formats.c:519
 msgid "Thailand, Baht"
-msgstr ""
+msgstr "Taizeme, bāts"
 
 #: ../goffice/utils/formats.c:520
 msgid "Tajikistan, Somoni"
-msgstr ""
+msgstr "Tadžikistāna, somons"
 
 #: ../goffice/utils/formats.c:521
 msgid "Turkmenistan, Manats"
-msgstr ""
+msgstr "Turkmenistāna, manats"
 
 #: ../goffice/utils/formats.c:522
 msgid "Tunisia, Dinars"
-msgstr ""
+msgstr "Tunisija, dinārs"
 
 #: ../goffice/utils/formats.c:523
 msgid "Tonga, Pa'angas"
-msgstr ""
+msgstr "Tonga, panga"
 
 #: ../goffice/utils/formats.c:524
 msgid "Turkey, Liras"
-msgstr ""
+msgstr "Turcija, lira"
 
 #: ../goffice/utils/formats.c:525
 msgid "Trinidad and Tobago, Dollars"
-msgstr ""
+msgstr "Trinidāda un Tobāgo, dolārs"
 
 #: ../goffice/utils/formats.c:526
 msgid "Taiwan, New Dollars"
-msgstr ""
+msgstr "Taivāna, jaunais dolārs"
 
 #: ../goffice/utils/formats.c:527
 msgid "Tanzania, Shillings"
-msgstr ""
+msgstr "Tanzānija, šiliņš"
 
 #: ../goffice/utils/formats.c:528
 msgid "Ukraine, Hryvnia"
-msgstr ""
+msgstr "Ukraina, grivna"
 
 #: ../goffice/utils/formats.c:529
 msgid "Uganda, Shillings"
-msgstr ""
+msgstr "Uganda, šiliņš"
 
 #: ../goffice/utils/formats.c:530
 msgid "United States of America, Dollars"
-msgstr ""
+msgstr "Amerikas Savienotās Valstis, dolārs"
 
 #: ../goffice/utils/formats.c:531
 msgid "United States of America, Dollars (Next day)"
-msgstr ""
+msgstr "Amerikas Savienotās Valstis, dolārs (nākamā diena)"
 
 #: ../goffice/utils/formats.c:532
 msgid "United States of America, Dollars (Same day)"
-msgstr ""
+msgstr "Amerikas Savienotās Valstis, dolārs (tā pati diena)"
 
 #: ../goffice/utils/formats.c:533
 msgid "Uruguay, Pesos en Unidades Indexadas"
-msgstr ""
+msgstr "Urugvaja, Peso en Unidades Indexadas"
 
 #: ../goffice/utils/formats.c:534
 msgid "Uruguay, Pesos"
-msgstr ""
+msgstr "Urugvaja, peso"
 
 #: ../goffice/utils/formats.c:535
 msgid "Uzbekistan, Sums"
-msgstr ""
+msgstr "Uzbekistāna, sums"
 
 #: ../goffice/utils/formats.c:536
 msgid "Venezuela, Bolivares Fuertes"
-msgstr ""
+msgstr "Venecuēla, stiprais bolivārs"
 
 #: ../goffice/utils/formats.c:537
 msgid "Viet Nam, Dong"
-msgstr ""
+msgstr "Vjetnama, donga"
 
 #: ../goffice/utils/formats.c:538
 msgid "Vanuatu, Vatu"
-msgstr ""
+msgstr "Vanuatu, vatu"
 
 #: ../goffice/utils/formats.c:539
 msgid "Samoa, Tala"
-msgstr ""
+msgstr "Samoa, tala"
 
 #: ../goffice/utils/formats.c:540
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BEAC, franks"
 
 #: ../goffice/utils/formats.c:541
 msgid "Silver, Ounces"
-msgstr ""
+msgstr "Sudrabs, unces"
 
 #: ../goffice/utils/formats.c:542
 msgid "Gold, Ounces"
-msgstr ""
+msgstr "Zelts, unces"
 
 #: ../goffice/utils/formats.c:543
 msgid "Bond Markets Units, European Coposite Units (EURCO)"
-msgstr ""
+msgstr "Vērtspapīru tirgus vienības, Eiropas saliktā vienība (EURCO)"
 
 #: ../goffice/utils/formats.c:544
 msgid "European Monetary Units (E.M.U.-6)"
-msgstr ""
+msgstr "Eiropas naudas vienība (E.M.U.-6)"
 
 #: ../goffice/utils/formats.c:545
 msgid "European Units of Account 9 (E.U.A.-9)"
-msgstr ""
+msgstr "Eiropas konta vienība 9 (E.U.A.-9)"
 
 #: ../goffice/utils/formats.c:546
 msgid "European Units of Account 17 (E.U.A.-17)"
-msgstr ""
+msgstr "Eiropas konta vienība 17 (E.U.A.-17)"
 
 #: ../goffice/utils/formats.c:547
 msgid "East Caribbean Dollars"
-msgstr ""
+msgstr "Austrumkarību dolārs"
 
 #: ../goffice/utils/formats.c:548
 msgid "UIC-Francs"
-msgstr ""
+msgstr "UIC franks"
 
 #: ../goffice/utils/formats.c:549
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BCEAO, franks"
 
 #: ../goffice/utils/formats.c:550
 msgid "Comptoirs Francais du Pacifique, Francs"
-msgstr ""
+msgstr "Comptoirs Francais du Pacifique, franks"
 
 #: ../goffice/utils/formats.c:551
 msgid "Palladium, Ounces"
-msgstr ""
+msgstr "Pallādijs, unces"
 
 #: ../goffice/utils/formats.c:552
 msgid "Yemen, Rials"
-msgstr ""
+msgstr "Jemena, riāls"
 
 #: ../goffice/utils/formats.c:553
 msgid "South Africa, Rands"
-msgstr ""
+msgstr "Dienvidāfrika, rands"
 
 #: ../goffice/utils/formats.c:554
 msgid "Lesotho, Maloti"
-msgstr ""
+msgstr "Lesoto, maloti"
 
 #: ../goffice/utils/formats.c:555
 msgid "Namibia, Dollars"
-msgstr ""
+msgstr "Namībija, dolārs"
 
 #: ../goffice/utils/formats.c:556
 msgid "Zambia, Zambian Kwacha"
-msgstr ""
+msgstr "Zambija, Zambijas kvača"
 
 #: ../goffice/utils/formats.c:557
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr ""
+msgstr "Zimbabve, Zimbabves dolārs"
 
 #: ../goffice/utils/go-emf.c:229
 #, c-format
@@ -5741,31 +5741,31 @@ msgstr "Naturāls kubisks splains"
 
 #: ../goffice/utils/go-line.c:171
 msgid "Cubic spline with parabolic extrapolation"
-msgstr ""
+msgstr "Kubiskais splains ar parabolisku ekstrapolāciju"
 
 #: ../goffice/utils/go-line.c:173
 msgid "Cubic spline with cubic extrapolation"
-msgstr ""
+msgstr "Kubiskais splains ar kubisku ekstrapolāciju"
 
 #: ../goffice/utils/go-line.c:175
 msgid "Clamped cubic spline"
-msgstr ""
+msgstr "Piestiprināts kubiskais splains"
 
 #: ../goffice/utils/go-line.c:177
 msgid "Step at start"
-msgstr ""
+msgstr "Solis sākumā"
 
 #: ../goffice/utils/go-line.c:179
 msgid "Step at end"
-msgstr ""
+msgstr "Solis beigās"
 
 #: ../goffice/utils/go-line.c:181
 msgid "Step at center"
-msgstr ""
+msgstr "Solis vidū"
 
 #: ../goffice/utils/go-line.c:183
 msgid "Step to mean"
-msgstr ""
+msgstr "Solis uz vidējo"
 
 #: ../goffice/utils/go-locale.c:517
 msgid "TRUE"
@@ -5874,11 +5874,11 @@ msgstr "Diagonāla strīpa"
 
 #: ../goffice/utils/go-pattern.c:94
 msgid "Diagonal Crosshatch"
-msgstr ""
+msgstr "Diagonāls šķērssvītrojums"
 
 #: ../goffice/utils/go-pattern.c:95
 msgid "Thick Diagonal Crosshatch"
-msgstr ""
+msgstr "Biezs diagonāls šķērssvītrojums"
 
 #: ../goffice/utils/go-pattern.c:96
 msgid "Thin Horizontal Stripe"
@@ -5898,11 +5898,11 @@ msgstr "Plāna diagonāla strīpa"
 
 #: ../goffice/utils/go-pattern.c:100
 msgid "Thin Horizontal Crosshatch"
-msgstr ""
+msgstr "Plāns horizontāls šķērssvītrojums"
 
 #: ../goffice/utils/go-pattern.c:101
 msgid "Thin Diagonal Crosshatch"
-msgstr ""
+msgstr "Plāns diagonāls šķērssvītrojums"
 
 #: ../goffice/utils/go-pattern.c:102
 msgid "Foreground Solid"
@@ -5920,7 +5920,7 @@ msgstr "Pusriņķi"
 #. Applix
 #: ../goffice/utils/go-pattern.c:105
 msgid "Thatch"
-msgstr ""
+msgstr "Jumis"
 
 #. Applix small thatch
 #: ../goffice/utils/go-pattern.c:106
@@ -5933,7 +5933,7 @@ msgstr "Ķieģeļi"
 
 #: ../goffice/utils/go-pixbuf.c:277
 msgid "GdkPixbuf object from which the GOPixbuf is built"
-msgstr ""
+msgstr "GdkPixbuf objekts, no kā ir veidots GOPixbuf"
 
 #: ../goffice/utils/go-style.c:201
 msgid "No image!"
@@ -6065,31 +6065,31 @@ msgstr "Nederīgs raksts."
 
 #: ../goffice/utils/regutf8.c:62
 msgid "Invalid collating element."
-msgstr ""
+msgstr "Nederīgs sakopošanas elements."
 
 #: ../goffice/utils/regutf8.c:63
 msgid "Invalid character class name."
-msgstr ""
+msgstr "Nederīgs rakstzīmju klases nosaukums."
 
 #: ../goffice/utils/regutf8.c:64
 msgid "Trailing backslash."
-msgstr ""
+msgstr "Sekojošās otrādās slīpsvītras."
 
 #: ../goffice/utils/regutf8.c:65
 msgid "Invalid back reference."
-msgstr ""
+msgstr "Nederīga atpakaļ norāde."
 
 #: ../goffice/utils/regutf8.c:66
 msgid "Unmatched left bracket."
-msgstr ""
+msgstr "Kreisajai iekavai nav atbilstošas labās."
 
 #: ../goffice/utils/regutf8.c:67
 msgid "Parenthesis imbalance."
-msgstr ""
+msgstr "Iekavu neatbilstība."
 
 #: ../goffice/utils/regutf8.c:68
 msgid "Unmatched \\{."
-msgstr ""
+msgstr "Nav atbilstoša \\{."
 
 #: ../goffice/utils/regutf8.c:69
 msgid "Invalid contents of \\{\\}."
@@ -6105,7 +6105,7 @@ msgstr "Nepietiek atmiņas."
 
 #: ../goffice/utils/regutf8.c:72
 msgid "Invalid repetition operator."
-msgstr ""
+msgstr "Nederīgs atkārtošanas operators."
 
 #: ../goffice/utils/regutf8.c:73
 msgid "Premature end of pattern."
@@ -6117,12 +6117,12 @@ msgstr "Raksts ir pārāk liels."
 
 #: ../goffice/utils/regutf8.c:75
 msgid "Unmatched ) or \\)"
-msgstr ""
+msgstr "Nav atbilstoša ) vai \\)"
 
 #: ../goffice/utils/regutf8.c:278
 #, c-format
 msgid "Search string must not be empty."
-msgstr ""
+msgstr "Meklēšanas virknei ir jābūt netukšai."
 
 #: ../goffice/utils/regutf8.c:288
 #, c-format
@@ -6137,12 +6137,12 @@ msgstr "Nederīgs meklēšanas raksts (%s)"
 #: ../goffice/utils/regutf8.c:324
 #, c-format
 msgid "Invalid $-specification in replacement."
-msgstr ""
+msgstr "Nederīga $-specifikācija aizstājējā."
 
 #: ../goffice/utils/regutf8.c:334
 #, c-format
 msgid "Invalid trailing backslash in replacement."
-msgstr ""
+msgstr "Nederīga sekojošā otrādā slīpsvītra aizstājējā."
 
 #: ../goffice/utils/regutf8.c:821
 msgid "Search Text"
@@ -6166,7 +6166,7 @@ msgstr "Ir regulārā izteiksme"
 
 #: ../goffice/utils/regutf8.c:841
 msgid "Is the search text a regular expression."
-msgstr ""
+msgstr "Meklēšanas tekstā regulārā izteiksme."
 
 #: ../goffice/utils/regutf8.c:849
 msgid "Ignore Case"
@@ -6194,16 +6194,16 @@ msgstr "Atbilst tikai visi vārdi."
 
 #: ../plugins/plot_barcol/gog-1.5d.c:348
 msgid "How to group multiple series, normal, stacked, as_percentage"
-msgstr ""
+msgstr "Kā grupēt vairākas sērijas, parastas, grēdotas, kā_procenti"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:353 ../plugins/plot_pie/gog-pie.c:319
 #: ../plugins/plot_xy/gog-xy.c:566
 msgid "In 3D"
-msgstr ""
+msgstr "3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:354
 msgid "Placeholder to allow us to round trip pseudo 3D state"
-msgstr ""
+msgstr "Vietturis ļauj apiet pseido 3D stāvokli"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:362
 #: ../plugins/plot_barcol/gog-dropbar.c:141
@@ -6231,7 +6231,7 @@ msgstr "Sēriju līnijas"
 #: ../plugins/plot_barcol/gog-1.5d.c:650
 #: ../plugins/plot_distrib/gog-histogram.c:1095
 msgid "Drop lines"
-msgstr ""
+msgstr "Krituma līnijas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:658
 #: ../plugins/plot_barcol/plot-types.xml.in.h:13
@@ -6282,7 +6282,7 @@ msgstr "Atstarpes procenti"
 #: ../plugins/plot_barcol/gog-minmax.c:222
 #: ../plugins/plot_distrib/gog-boxplot.c:390
 msgid "The padding around each group as a percentage of their width"
-msgstr ""
+msgstr "Iekšmale ap katru grupu kā procenti no to platuma"
 
 #: ../plugins/plot_barcol/gog-barcol.c:266
 msgid "Overlap percentage"
@@ -6290,7 +6290,7 @@ msgstr "Pārklājuma procenti"
 
 #: ../plugins/plot_barcol/gog-barcol.c:267
 msgid "The distance between series as a percentage of their width"
-msgstr ""
+msgstr "Attālums star sērijām kā procenti no to platuma"
 
 #: ../plugins/plot_barcol/gog-barcol.c:272
 msgid "horizontal"
@@ -6298,7 +6298,7 @@ msgstr "horizontāls"
 
 #: ../plugins/plot_barcol/gog-barcol.c:273
 msgid "horizontal bars or vertical columns"
-msgstr ""
+msgstr "Horizontālas joslas vai vertikālas kolonnas"
 
 #: ../plugins/plot_barcol/gog-barcol.c:278
 #: ../plugins/plot_barcol/gog-dropbar.c:130
@@ -6308,7 +6308,7 @@ msgstr ""
 #: ../plugins/plot_radar/gog-radar.c:446 ../plugins/plot_radar/gog-radar.c:517
 #: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:300
 msgid "Displayed under the grids"
-msgstr ""
+msgstr "Attēlots zem režģiem"
 
 #: ../plugins/plot_barcol/gog-barcol.c:279
 #: ../plugins/plot_barcol/gog-dropbar.c:131
@@ -6347,7 +6347,7 @@ msgstr "Noklusējuma marķieri"
 #: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:376
 #: ../plugins/plot_xy/gog-xy-minmax.c:298
 msgid "Should the default style of a series include markers"
-msgstr ""
+msgstr "Vai noklusējuma sēriju stilam vajadzētu iekļaut marķierus"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -6374,7 +6374,7 @@ msgstr "Horizontāli"
 #: ../plugins/plot_barcol/gog-minmax.c:228
 #: ../plugins/plot_xy/gog-xy-minmax.c:292
 msgid "Horizontal or vertical lines"
-msgstr ""
+msgstr "Horizontālas vai vertikālas līnijas"
 
 #: ../plugins/plot_barcol/gog-minmax.c:248
 #: ../plugins/plot_xy/gog-xy-minmax.c:310
@@ -6421,11 +6421,11 @@ msgstr "Nemarķētu līniju skice."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Unmarked Stacked Lines"
-msgstr "Nemarķētas saliktas līnijas"
+msgstr "Nemarķētas grēdotas līnijas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:10
 msgid "Unmarked stacked line plot."
-msgstr "Nemarķētu saliktu līniju skice."
+msgstr "Nemarķētu grēdotu līniju skice."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Unmarked Percentage Lines"
@@ -6441,11 +6441,11 @@ msgstr "Līniju skice ar marķieriem."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:15
 msgid "Stacked Lines"
-msgstr "Saliktas līnijas"
+msgstr "Grēdotas līnijas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Stacked line plot with markers."
-msgstr "Saliktu līniju skice ar marķieriem."
+msgstr "Grēdotu līniju skice ar marķieriem."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:17
 msgid "Percentage Lines"
@@ -6465,11 +6465,11 @@ msgstr "Laukuma skice."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:21
 msgid "Stacked Areas"
-msgstr "Salikti laukumi"
+msgstr "Grēdoti laukumi"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:22
 msgid "Stacked area plot."
-msgstr "Saliktu laukumu skice."
+msgstr "Grēdotu laukumu skice."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:23
 msgid "Percentage Areas"
@@ -6480,32 +6480,35 @@ msgid "Percentage area plot."
 msgstr "Procentu laukumu skice."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:25
-#, fuzzy
 msgid "Adjacent Bars"
-msgstr "_Ievietot Kolonnu(as)"
+msgstr "Līdzteku joslas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Adjacent horizontal bars grouped by major and minor categories."
 msgstr ""
+"Līdzteku horizontālas joslas, kas grupētas pēc ielās un mazās kategorijas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:27
 msgid "Stacked Bars"
-msgstr ""
+msgstr "Grēdotas joslas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
+"Mazās kategorijas grēdotas horizontālās joslās, sagrupētas pēc lielās "
+"kategorijas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:29
-#, fuzzy
 msgid "Percentage Bars"
-msgstr "Procenti"
+msgstr "Procentu joslas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:30
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Mazās kategorijas grēdotas kā mazā kopīgā procenti horizontālās joslās, "
+"sagrupētas pēc lielās kategorijas."
 
 #. No 3d yet
 #. <Type _name="3D Adjacent Bars" row="2" col="1"
@@ -6538,9 +6541,8 @@ msgstr ""
 #. </Type>
 #.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:61
-#, fuzzy
 msgid "Adjacent Columns"
-msgstr "_Ievietot Kolonnu(as)"
+msgstr "Līdzteku kolonnas"
 
 #. No 3d yet
 #. <Type _name="3D Adjacent Bars" row="2" col="1"
@@ -6575,6 +6577,7 @@ msgstr "_Ievietot Kolonnu(as)"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:92
 msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
+"Līdzteku vertikālas kolonnas, kas grupētas pēc ielās un mazās kategorijas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:93
 msgid "Stacked Columns"
@@ -6583,6 +6586,8 @@ msgstr "Grēdotas kolonnas"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:94
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
+"Mazās kategorijas grēdotas vertikālās kolonnās, sagrupētas pēc lielās "
+"kategorijas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:95
 msgid "Percentage Columns"
@@ -6593,65 +6598,66 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
+"Mazās kategorijas grēdotas kā mazā kopīgā procenti vertikālās kolonnās, "
+"sagrupētas pēc lielās kategorijas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:97
 msgid "Vertical Drop Bars"
-msgstr ""
+msgstr "Vertikālās krituma joslas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:98
 msgid "Vertical drop bars."
-msgstr ""
+msgstr "Vertikālās krituma joslas."
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:102
 msgid "Horizontal Drop Bars"
-msgstr ""
+msgstr "Horizontālās krituma joslas"
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:106
 msgid "Horizontal drop bars."
-msgstr ""
+msgstr "Horizontālās krituma joslas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical Min Max Lines"
-msgstr ""
+msgstr "Vertikālas min. maks. līnijas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:108
 msgid "Vertical min max lines."
-msgstr ""
+msgstr "Vertikālas min. maks. līnijas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:109
-#, fuzzy
 msgid "Marked Vertical Min Max Lines"
-msgstr "Izveidot līniju"
+msgstr "Marķētas vertikālas min. maks. līnijas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:110
 msgid "Vertical min max lines with markers."
-msgstr ""
+msgstr "Vertikālas min. maks. līnijas ar marķieriem."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:111
 msgid "Horizontal Min Max Lines"
-msgstr ""
+msgstr "Horizontālas min. maks. līnijas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:112
 msgid "Horizontal min max lines."
-msgstr ""
+msgstr "Horizontālas min. maks. līnijas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:113
 msgid "Marked Horizontal Min Max Lines"
-msgstr ""
+msgstr "Marķētas horizontālas min. maks. līnijas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:114
 msgid "Horizontal min max lines with markers."
-msgstr ""
+msgstr "Horizontālas min. maks. līnijas ar marķieriem."
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Charting : Bar/Col/Line/Area"
-msgstr ""
+msgstr "Diagrammu veidošana — joslas/kolonnas/līnijas/laukumi"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Line, Area, Bar and Column plots"
@@ -6670,9 +6676,8 @@ msgid "Bar/Col plotting engine"
 msgstr "Joslu/kolonnu skicēšanas dzinis"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
-#, fuzzy
 msgid "Drop Bar/Col plotting engine"
-msgstr "Kļūda parsējot līniju"
+msgstr "Krituma joslu/kolonnu skicēšanas dzinis"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:7
 msgid "Min Max plotting engine"
@@ -6711,11 +6716,11 @@ msgstr "_Diametrs/platums:"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
 msgid "First Y category label:"
-msgstr ""
+msgstr "Pirmā Y kategorijas etiķete:"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
 msgid "Second Y category label:"
-msgstr ""
+msgstr "Otrā Y kategorijas etiķete:"
 
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
 msgid "_Vertical"
@@ -6729,18 +6734,16 @@ msgstr "_Kumulatīvs"
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: ../plugins/plot_distrib/gog-boxplot.c:208
-#, fuzzy
 msgid "Box-Plot"
-msgstr "Tips"
+msgstr "Kastes skice"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
 msgstr "Vai kastēm jābūt drīzāk vertikālām, nevis horizontālām"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:401
-#, fuzzy
 msgid "Outliers"
-msgstr "Kombo"
+msgstr "Nepiederošie"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:402
 msgid "Whether outliers should be taken into account and displayed"
@@ -6767,7 +6770,7 @@ msgstr "Histogramma"
 
 #: ../plugins/plot_distrib/gog-histogram.c:363
 msgid "Draw the histogram vertically or horizontally"
-msgstr ""
+msgstr "Histogrammu zīmēt horizontāli vai vertikāli"
 
 #: ../plugins/plot_distrib/gog-histogram.c:368
 msgid "Cumulative"
@@ -6775,7 +6778,7 @@ msgstr "Kumulatīvs"
 
 #: ../plugins/plot_distrib/gog-histogram.c:369
 msgid "Use cumulated data"
-msgstr ""
+msgstr "Lietot kumulatīvus datus"
 
 #: ../plugins/plot_distrib/gog-histogram.c:388
 #: ../plugins/plot_distrib/gog-histogram.c:476
@@ -6787,12 +6790,16 @@ msgid ""
 "Label for the first Y category. If not set or empty, \"First values\" will "
 "be used."
 msgstr ""
+"Etiķete pirmajai Y kategorijai. Ja nav iestatīta vai ir tukša, tiks "
+"izmantotas “pirmās vērtības”"
 
 #: ../plugins/plot_distrib/gog-histogram.c:441
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
 msgstr ""
+"Etiķete otrajai Y kategorijai. Ja nav iestatīta vai ir tukša, tiks izmantotas "
+"“otrās vērtības”"
 
 #: ../plugins/plot_distrib/gog-histogram.c:446
 msgid "Categories labels"
@@ -6812,7 +6819,7 @@ msgstr "Otrās vērtības"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:70
 msgid "Use data as Y-values"
-msgstr ""
+msgstr "Lietot datus kā Y vērtības"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:77
 #: ../plugins/plot_distrib/gog-probability-plot.c:288
@@ -6850,28 +6857,27 @@ msgstr "Formas parametrs"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:295
 msgid "Name of the first shape parameter if any"
-msgstr ""
+msgstr "Pirmā formas parametra nosaukums, ja ir"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:300
 msgid "Second shape parameter"
-msgstr ""
+msgstr "Otrais formas parametrs"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:301
 msgid "Name of the second shape parameter if any"
-msgstr ""
+msgstr "Otrā formas parametra nosaukums, ja ir"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:306
 msgid "Data as Y values"
-msgstr ""
+msgstr "Dati kā Y vērtības"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:307
 msgid "whether the data should be mapped to the Y axis."
-msgstr ""
+msgstr "vai datiem jābūt attēlotiem uz Y ass."
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:642
-#, fuzzy
 msgid "Regression line"
-msgstr "Apvienot..."
+msgstr "Regresijas līnija"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:1
 msgid "Statistics"
@@ -6882,18 +6888,16 @@ msgid "HBoxPlots"
 msgstr "HBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:3
-#, fuzzy
 msgid "Horizontal Box-Plot."
-msgstr "Tips"
+msgstr "Horizontāla kastes skice."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:4
 msgid "VBoxPlots"
 msgstr "VBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Vertical Box-Plot."
-msgstr "Tips"
+msgstr "Vertikāla kastes skice."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
 msgid "HBoxPlotOutliers"
@@ -6968,23 +6972,22 @@ msgstr "Statistikas skiču dzinis"
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
 msgid "Slices start _at:"
-msgstr ""
+msgstr "D_aļas sākas no:"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
 msgid "_Vary colors by slice"
-msgstr ""
+msgstr "_Variēt krāsas katrai daļai"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
 msgid "_Slice Separation:"
-msgstr ""
+msgstr "_Daļu atdalīšana:"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
-#, fuzzy
 msgid "Negative data:"
-msgstr "Skaitļu Teorija"
+msgstr "Negatīvie dati:"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
@@ -7012,6 +7015,7 @@ msgstr "Atdalīšana"
 #: ../plugins/plot_pie/gog-pie.c:113
 msgid "Amount a slice is extended as a percentage of the radius"
 msgstr ""
+"Apjoms, par kādu daļas tiek paplašinātas, izteiktas kā procenti no rādiusa"
 
 #: ../plugins/plot_pie/gog-pie.c:261
 msgid "PlotPie"
@@ -7023,24 +7027,25 @@ msgstr "Sākotnējais leņķis"
 
 #: ../plugins/plot_pie/gog-pie.c:308
 msgid "Degrees clockwise from 12 O'Clock."
-msgstr ""
+msgstr "Grādi pulksteņrādītāja virzienā, sākot no 12-tiem."
 
 #: ../plugins/plot_pie/gog-pie.c:313
-#, fuzzy
 msgid "Default separation"
-msgstr "Meklē kādu tekstu"
+msgstr "Noklusējuma atdalīšana"
 
 #: ../plugins/plot_pie/gog-pie.c:314 ../plugins/plot_pie/gog-pie.c:1303
 msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr ""
+"Noklusējuma apjoms, par kādu daļas tiek paplašinātas, izteiktas kā procenti "
+"no rādiusa"
 
 #: ../plugins/plot_pie/gog-pie.c:320
 msgid "Draw 3DS wedges"
-msgstr ""
+msgstr "Zīmēt 3DS ķīli"
 
 #: ../plugins/plot_pie/gog-pie.c:326
 msgid "Total angle used as a percentage of the full circle"
-msgstr ""
+msgstr "Kopējais leņķis, lietots kā procenti no pilna apļa"
 
 #: ../plugins/plot_pie/gog-pie.c:331
 msgid "Show negative values"
@@ -7060,11 +7065,11 @@ msgstr "Vidus izmērs"
 
 #: ../plugins/plot_pie/gog-pie.c:462
 msgid "Size of the center hole as a percentage of the radius"
-msgstr ""
+msgstr "Vidējā cauruma izmērs, izteikts kā procenti no rādiusa"
 
 #: ../plugins/plot_pie/gog-pie.c:622
 msgid "Move pie"
-msgstr ""
+msgstr "Pārvietot pīrāgu"
 
 #: ../plugins/plot_pie/gog-pie.c:1175
 #, c-format
@@ -7082,7 +7087,7 @@ msgstr "Sākotnējais leņķis"
 
 #: ../plugins/plot_pie/gog-pie.c:1297
 msgid "Degrees clockwise from 12 O'Clock"
-msgstr ""
+msgstr "Grādi pulksteņrādītāja virzienā, sākot no 12-tiem"
 
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
 msgid "Cen_ter size:"
@@ -7098,7 +7103,7 @@ msgstr "Gredzens"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
 msgid "Percentage of each contributor."
-msgstr ""
+msgstr "Katra ieguldītāja procenti."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
 msgid "Split Pie"
@@ -7106,7 +7111,7 @@ msgstr "Sadalīt pīrāgu"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:5
 msgid "Percentage of each contributor with wedges split apart."
-msgstr ""
+msgstr "Katra ieguldītāja procenti, ar atdalītiem ķīļiem."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:6
 msgid "Half Pie"
@@ -7114,7 +7119,7 @@ msgstr "Puse pīrāga"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:7
 msgid "Percentage of each contributor in a half circle."
-msgstr ""
+msgstr "Katra ieguldītāja procenti pusaplī."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:8
 msgid "Split Half Pie"
@@ -7123,13 +7128,15 @@ msgstr "Sadalīt pusi pīrāga"
 #: ../plugins/plot_pie/plot-types.xml.in.h:9
 msgid ""
 "Percentage of each contributor in a half circle with wedges split apart."
-msgstr ""
+msgstr "Katra ieguldītāja procenti pusaplī, ar atdalītiem ķīļiem."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:10
 msgid ""
 "Percentage of each contributor displayed as a segment of a ring with one "
 "ring for each series."
 msgstr ""
+"Katra ieguldītāja procenti attēloti kā apļa segments ar vienu apli katrai "
+"sērijai."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:11
 msgid "Split Ring"
@@ -7141,14 +7148,16 @@ msgid ""
 "ring for each series; the wedges of the outside ring (corresponding to the "
 "last series) are split apart."
 msgstr ""
+"Katra ieguldītāja procenti attēloti kā apļa segments ar vienu apli katrai "
+"sērijai; ķīļi ārpus apļa (atbilst pēdējai sērijai) tiek atdalīti."
 
 #: ../plugins/plot_pie/plugin.xml.in.h:1
 msgid "Charting : Pie/Ring"
-msgstr ""
+msgstr "Diagrammu veidošana — pīrāgs/aplis"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:2
 msgid "Pie and Ring plots"
-msgstr ""
+msgstr "Pīrāgu un apļu skices"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:3
 msgid "Ring plotting engine"
@@ -7169,7 +7178,7 @@ msgstr "Noklusējuma aizpildījums"
 #: ../plugins/plot_radar/gog-radar.c:239 ../plugins/plot_xy/gog-xy.c:388
 #: ../plugins/plot_xy/gog-xy.c:817
 msgid "Should the default style of a series include fill"
-msgstr ""
+msgstr "Vai noklusējuma sēriju stilam vajadzētu iekļaut aizpildījumu"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
@@ -7214,7 +7223,7 @@ msgstr "slēpt-nepiederošos"
 
 #: ../plugins/plot_radar/gog-radar.c:722 ../plugins/plot_xy/gog-xy.c:823
 msgid "Hide data outside of the color axis bounds"
-msgstr ""
+msgstr "Slēpt datus ārpus krāsu ass robežām"
 
 #: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:400
 #: ../plugins/plot_surface/gog-xyz-surface.c:543
@@ -7230,7 +7239,7 @@ msgstr "Radiālo kļūdu joslas"
 
 #: ../plugins/plot_radar/gog-radar.c:1317
 msgid "Radial drop lines"
-msgstr ""
+msgstr "Radiālās krituma līnijas"
 
 #: ../plugins/plot_radar/gog-radar.c:1425
 #: ../plugins/plot_radar/gog-radar.c:1468
@@ -7240,7 +7249,7 @@ msgstr "Leņķisko kļūdu joslas"
 #: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
 msgid "Hide data outside of color axis bounds"
-msgstr ""
+msgstr "Slēpt datus ārpus krāsu ass robežām"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Radar"
@@ -7280,16 +7289,15 @@ msgstr "Krāsains polārs"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:10
 msgid "Polar plot with colored marks."
-msgstr ""
+msgstr "Polārā skice ar krāsainu marķējumu."
 
 #: ../plugins/plot_radar/plugin.xml.in.h:1
 msgid "Charting : Polar/Radar"
-msgstr ""
+msgstr "Diagrammu veidošana — polārs/radara"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:2
-#, fuzzy
 msgid "Polar and Radar plots"
-msgstr "Procenti"
+msgstr "Polārās un radara skices"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:3
 msgid "Radar plotting engine"
@@ -7325,11 +7333,11 @@ msgstr "PlotSurface"
 
 #: ../plugins/plot_surface/gog-xyz.c:383
 msgid "Transposed"
-msgstr ""
+msgstr "Transponēts"
 
 #: ../plugins/plot_surface/gog-xyz.c:384
 msgid "Transpose the plot"
-msgstr ""
+msgstr "Transponēt skici"
 
 #: ../plugins/plot_surface/gog-xyz.c:396
 #: ../plugins/plot_surface/gog-xyz-surface.c:539
@@ -7337,18 +7345,18 @@ msgstr ""
 #: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:408
 #: ../plugins/plot_xy/gog-xy.c:578 ../plugins/plot_xy/gog-xy.c:831
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:398
 #: ../plugins/plot_surface/gog-xyz-surface.c:541
 #: ../plugins/plot_xy/gog-xy.c:410 ../plugins/plot_xy/gog-xy.c:580
 #: ../plugins/plot_xy/gog-xy.c:833
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: ../plugins/plot_surface/gog-xyz-prefs.ui.h:1
 msgid "Transpose"
-msgstr ""
+msgstr "Transponēt"
 
 #. xgettext : the base for how to name surface plot objects
 #.
@@ -7376,7 +7384,7 @@ msgstr "Automātiskās rindas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:509
 msgid "Whether the rows limits should be evaluated"
-msgstr ""
+msgstr "Vai jānovērtē rindu robežas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:514
 msgid "Columns"
@@ -7392,7 +7400,7 @@ msgstr "Automātiskās kolonnas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:521
 msgid "Whether the columns limits should be evaluated"
-msgstr ""
+msgstr "Vai jānovērtē kolonnu robežas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:526
 msgid "Missing as"
@@ -7452,7 +7460,7 @@ msgstr "XYZContour"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:5
 msgid "Builds a contour from a set of points with three coordinates"
-msgstr ""
+msgstr "Būvē kontūru no punktu kopas ar trīs koordinātām"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:6
 msgid "Surface plot."
@@ -7464,11 +7472,11 @@ msgstr "XYZSurface"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:8
 msgid "Builds a surface from a set of points with three coordinates"
-msgstr ""
+msgstr "Būvē virsmu no punktu kopas ar trīs koordinātām"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
 msgid "Charting : Surfaces"
-msgstr ""
+msgstr "Diagrammu veidošana — virsmas"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:2
 msgid "Surface charts"
@@ -7512,7 +7520,7 @@ msgstr "_Izmēru attēlo ar:"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:5
 msgid "_Vary colors by bubble"
-msgstr ""
+msgstr "_Variēt krāsas katram burbulim"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:6
 msgid "Show _negative values"
@@ -7520,16 +7528,16 @@ msgstr "Rādīt _negatīvās vērtības"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:7
 msgid "_Bubbles scaled to"
-msgstr ""
+msgstr "_Burbuļi mērogoti uz"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:9
 #, no-c-format
 msgid "% of default size"
-msgstr ""
+msgstr "% no noklusējuma izmēra"
 
 #: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
 msgid "_Use null value instead of invalid"
-msgstr ""
+msgstr "Lietot n_ulles vērtību, nevis rādīt kā nederīgu"
 
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
 msgid "_Horizontal"
@@ -7556,7 +7564,7 @@ msgstr "Pēc noklusējuma ir līnijas"
 
 #: ../plugins/plot_xy/gog-xy.c:382 ../plugins/plot_xy/gog-xy.c:811
 msgid "Should the default style of a series include lines"
-msgstr ""
+msgstr "Vai noklusējuma sēriju stilam vajadzētu iekļaut līnijas"
 
 #: ../plugins/plot_xy/gog-xy.c:387 ../plugins/plot_xy/gog-xy.c:816
 msgid "Has fill by default"
@@ -7568,7 +7576,7 @@ msgstr "Lieto splainus"
 
 #: ../plugins/plot_xy/gog-xy.c:394
 msgid "Should the plot use splines instead of linear interpolation"
-msgstr ""
+msgstr "Vai skicei jāizmanto splaini, nevis lineāra interpolācija"
 
 #: ../plugins/plot_xy/gog-xy.c:454
 msgid "PlotBubble"
@@ -7588,20 +7596,19 @@ msgstr "Rādīt negatīvos"
 
 #: ../plugins/plot_xy/gog-xy.c:561
 msgid "Draw bubbles for negative values"
-msgstr ""
+msgstr "Zīmēt burbuļus negatīvām vērtībām"
 
 #: ../plugins/plot_xy/gog-xy.c:567
 msgid "Draw 3D bubbles"
-msgstr ""
+msgstr "Zīmēt 3D burbuļus"
 
 #: ../plugins/plot_xy/gog-xy.c:572
-#, fuzzy
 msgid "Bubble scale"
-msgstr "Vērtība"
+msgstr "Burbuļa mērogs"
 
 #: ../plugins/plot_xy/gog-xy.c:573
 msgid "Fraction of default radius used for display"
-msgstr ""
+msgstr "Daļa no noklusējuma rādiusa, ko izmantot attēlošanai"
 
 #: ../plugins/plot_xy/gog-xy.c:582 ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Bubble"
@@ -7624,40 +7631,41 @@ msgstr "Y kļūdu joslas"
 
 #: ../plugins/plot_xy/gog-xy.c:2111
 msgid "Horizontal drop lines"
-msgstr ""
+msgstr "Horizontālās krituma līnijas"
 
 #: ../plugins/plot_xy/gog-xy.c:2119
 msgid "Vertical drop lines"
-msgstr ""
+msgstr "Vertikālās krituma līnijas"
 
 #: ../plugins/plot_xy/gog-xy.c:2182
-#, fuzzy
 msgid "Invalid as zero"
-msgstr "Nepareiza parole"
+msgstr "Nederīgās kā nulles"
 
 #: ../plugins/plot_xy/gog-xy.c:2183
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
-msgstr ""
+msgstr "Aizvietot nederīgās vērtības ar 0, kad zīmē marķierus vai burbuļus"
 
 #: ../plugins/plot_xy/gog-xy.c:2188
 msgid "Clamp at start"
-msgstr ""
+msgstr "Piestiprināt sākumā"
 
 #: ../plugins/plot_xy/gog-xy.c:2189
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Interpolētās līknes slīpums sākumā, izmantojot piestiprināto kubisko splainu"
 
 #: ../plugins/plot_xy/gog-xy.c:2194
 msgid "Clamp at end"
-msgstr ""
+msgstr "Piestiprināt beigās"
 
 #: ../plugins/plot_xy/gog-xy.c:2195
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Interpolētās līknes slīpums beigās, izmantojot piestiprināto kubisko splainu"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
@@ -7672,7 +7680,7 @@ msgstr "Vai izmantot horizontālās joslas"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:313
 msgid "Bars width as a percentage of the plot width"
-msgstr ""
+msgstr "Joslu platumi kā procenti no skices platuma"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:324
 #: ../plugins/plot_xy/gog-xy-minmax.c:308
@@ -7709,6 +7717,8 @@ msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
+"Lineāri interpolēt starp vairāku dimensiju punktiem ar marķieriem katrā "
+"punktā."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:10
 msgid "XY Lines"
@@ -7716,7 +7726,7 @@ msgstr "XY līnijas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:11
 msgid "Linearly interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Lineāri interpolēt starp vairāku dimensiju punktiem."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:12
 msgid "XY Splines"
@@ -7724,43 +7734,43 @@ msgstr "XY splaini"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:13
 msgid "Interpolate between multi-dimensional points with Bezier splines."
-msgstr ""
+msgstr "Interpolēt starp vairāku dimensiju punktiem ar Bezjē splainiem."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:14
 msgid "XY Steps Start"
-msgstr ""
+msgstr "XY soļu sākums"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:15
 msgid "Stepped curve using the first y value."
-msgstr ""
+msgstr "Pakāpeniska līkne, izmantojot pirmo y vērtību."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:16
 msgid "XY Steps End"
-msgstr ""
+msgstr "XY soļu beigas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:17
 msgid "Stepped curve using the last y value."
-msgstr ""
+msgstr "Pakāpeniska līkne, izmantojot pēdējo y vērtību."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "XY Steps Center"
-msgstr ""
+msgstr "XY soļu centrs"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "Stepped curve using the nearest y value."
-msgstr ""
+msgstr "Pakāpeniska līkne, izmantojot tuvāko y vērtību."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "XY Steps Mean"
-msgstr ""
+msgstr "XY soļu vidējais"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "Stepped curve using the mean y value."
-msgstr ""
+msgstr "Pakāpeniska līkne, izmantojot vidējo y vērtību."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:22
 msgid "Multi-dimensional points with circle at each point."
-msgstr ""
+msgstr "Vairāku dimensiju punkti ar apļiem pie katra punkta."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:23
 msgid "Map"
@@ -7770,68 +7780,66 @@ msgstr "Karte"
 msgid ""
 "Multi-dimensional points with data dependent color marker at each point."
 msgstr ""
+"Vairāku dimensiju punkti ar no datiem atkarīgiem krāsu marķieriem pie katra "
+"punkta."
 
 #. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:28
 msgid "Scattered Vertical Drop Bars"
-msgstr ""
+msgstr "Izkaisītas vertikālās krituma joslas"
 
 #. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:32
 msgid "Vertical drop bars with continuous X-axis."
-msgstr ""
+msgstr "Vertikālas krituma joslas ar nepārtrauktu x asi."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:33
 msgid "Scattered Horizontal Drop Bars"
-msgstr ""
+msgstr "Izkaisītas horizontālās krituma joslas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:34
 msgid "Horizontal drop bars with continuous Y-axis."
-msgstr ""
+msgstr "Horizontālas krituma joslas ar nepārtrauktu y asi."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:35
-#, fuzzy
 msgid "Scattered Vertical Min Max Lines"
-msgstr "Izveidot līniju"
+msgstr "Izkaisītas vertikālas min. maks. līnijas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:36
 msgid "Vertical Min Max lines with continuous X-axis."
-msgstr ""
+msgstr "Vertikālas min. maks. līnijas ar nepārtrauktu x asi."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:37
-#, fuzzy
 msgid "Scattered Marked Vertical Min Max Lines"
-msgstr "Izveidot līniju"
+msgstr "Izkaisītas marķētas vertikālas min. maks. līnijas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:38
 msgid "Vertical Min Max lines with markers and a continuous X-axis."
-msgstr ""
+msgstr "Vertikālas min. maks. līnijas ar marķieriem un nepārtrauktu x asi."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:39
-#, fuzzy
 msgid "Scattered Horizontal Min Max Lines"
-msgstr "Izveidot līniju"
+msgstr "Izkaisītas horizontālas min. maks. līnijas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:40
 msgid "Horizontal Min Max lines with continuous Y-axis."
-msgstr ""
+msgstr "Horizontālas min. maks. līnijas ar nepārtrauktu y asi."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:41
-#, fuzzy
 msgid "Scattered Marked Horizontal Min Max Lines"
-msgstr "Izveidot līniju"
+msgstr "Izkaisītas marķētas horizontālas min. maks. līnijas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:42
 msgid "Horizontal Min Max lines with markers and a continuous Y-axis."
-msgstr ""
+msgstr "Horizontālas min. maks. līnijas ar marķieriem un nepārtrauktu y asi."
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
 msgid "Charting : XY/Scatter/Bubble"
-msgstr ""
+msgstr "Diagrammu veidošana — XY/izkaisīts/burbuļa"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
@@ -7839,25 +7847,23 @@ msgstr "2D skices"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:3
 msgid "2D scatter plotting engine"
-msgstr ""
+msgstr "Izkasītu 2D diagrammu skicēšanas dzinis"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:4
 msgid "Bubble plotting engine"
 msgstr "Burbuļu skicēšanas dzinis"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:5
-#, fuzzy
 msgid "2D colored scatter plotting engine"
-msgstr "Kļūda parsējot līniju"
+msgstr "Izkasītu, krāsainu 2D diagrammu skicēšanas dzinis"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
 msgid "Stock Scatter plot types"
-msgstr ""
+msgstr "Biržas izkaisītās skices tipi"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:7
-#, fuzzy
 msgid "Scattered dropbar plotting engine"
-msgstr "Kļūda parsējot līniju"
+msgstr "Izkaisīts krituma joslu skicēšanas dzinis"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:8
 msgid "Scattered Min Max plotting engine"
@@ -7868,16 +7874,16 @@ msgstr "Izkaisīts min maks skicēšanas dzinis"
 #. * 	Exponential regression2
 #: ../plugins/reg_linear/gog-exp-reg.c:63
 msgid "Exponential regression"
-msgstr ""
+msgstr "Eksponenciāla regresija"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:158
 #: ../plugins/reg_linear/gog-lin-reg.c:269
 msgid "Affine"
-msgstr ""
+msgstr "Affine"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
-msgstr ""
+msgstr "Noņemt ķeksi, lai piespiestu nulle pārtvērumu"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -7888,16 +7894,15 @@ msgstr "Lineārā regresija"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:270
 msgid "If true, a non-zero constant is allowed"
-msgstr ""
+msgstr "Ja patiess, ir atļautas ne-nulles konstantes"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:275
 msgid "Dims"
-msgstr ""
+msgstr "Blāvs"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:276
-#, fuzzy
 msgid "Number of x-vectors"
-msgstr "Skaitļu Teorija"
+msgstr "X vektoru skaits"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -7907,9 +7912,8 @@ msgid "Logarithmic regression"
 msgstr "Logaritmiskā regresija"
 
 #: ../plugins/reg_linear/gog-polynom-reg.c:202
-#, fuzzy
 msgid "Order:"
-msgstr "Robežas"
+msgstr "Secība:"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -7998,39 +8002,39 @@ msgstr "Logaritmiskā regresijas līkne"
 #. * 	Log fit2
 #: ../plugins/reg_logfit/gog-logfit.c:140
 msgid "Log fit"
-msgstr ""
+msgstr "Log fit"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:1
 msgid "Regression curve : logfit"
-msgstr ""
+msgstr "Regresijas līkne — logfit"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:2
 msgid "Logarithmic fitting curves"
-msgstr ""
+msgstr "Logaritmiski pieguļošas līknes"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:3
 msgid "Logarithmic fitting curve engine"
-msgstr ""
+msgstr "Logaritmiski pieguļošo līkņu dzinis"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:4
 msgid "Logarithmic fitting curves types"
-msgstr ""
+msgstr "Logaritmiski pieguļošu līkņu tipi"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:1
 msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
-msgstr ""
+msgstr "Log Fit (y=a+b*ln(sign*(x-c)))"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:2
 msgid "Logarithmic fitting curve"
-msgstr ""
+msgstr "Logaritmiski pieguļoša līkne"
 
 #: ../plugins/smoothing/gog-moving-avg.c:103
 msgid "Number of values from which to calculate an average"
-msgstr ""
+msgstr "Vērtību skaits, no kurām rēķina vidējo"
 
 #: ../plugins/smoothing/gog-moving-avg.c:108
 msgid "Whether to average x values as well or use the last one"
-msgstr ""
+msgstr "Vai rēķināt arī vidējās x vērtības, vai lietot pēdējo"
 
 #. xgettext : the base for how to name moving averge smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -8038,19 +8042,19 @@ msgstr ""
 #: ../plugins/smoothing/gog-moving-avg.c:175
 #: ../plugins/smoothing/types.xml.in.h:1
 msgid "Moving average"
-msgstr ""
+msgstr "Mainīgais vidējais:"
 
 #: ../plugins/smoothing/gog-moving-avg.c:196
 msgid "Number of averaged values"
-msgstr ""
+msgstr "Vidējo vērtību skaits"
 
 #: ../plugins/smoothing/gog-moving-avg.c:201
 msgid "Average X"
-msgstr ""
+msgstr "Vidējais X"
 
 #: ../plugins/smoothing/gog-moving-avg.c:202
 msgid "Use averaged x values"
-msgstr ""
+msgstr "Lietot vidējās x vērtības"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:1
 msgid "_Span:"
@@ -8058,12 +8062,12 @@ msgstr "Intervāl_s:"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:2
 msgid "_Use averaged abscissa"
-msgstr ""
+msgstr "Lietot vidējo abscis_u"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:64
 #: ../plugins/smoothing/gog-exp-smooth.c:220
 msgid "Number of interpolation steps"
-msgstr ""
+msgstr "Interpolācijas soļu skaits"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:72
 msgid ""
@@ -8071,6 +8075,8 @@ msgid ""
 "If no value or a negative (or null) value is provided, the default will be "
 "used"
 msgstr ""
+"Noklusējuma periods ir 10 * (xmax - xmin)/(nvalues - 1)\n"
+"Ja nav vērtības vai tā ir negatīva (vai nulle), tiks izmantota noklusējuma"
 
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -8078,7 +8084,7 @@ msgstr ""
 #: ../plugins/smoothing/gog-exp-smooth.c:165
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Exponentially smoothed curve"
-msgstr ""
+msgstr "Eksponenciāli guldināta līkne"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:219
 msgid "Steps"
@@ -8094,21 +8100,19 @@ msgstr "_Soļi:"
 
 #: ../plugins/smoothing/plugin.xml.in.h:1
 msgid "Charting : Trends and Curves"
-msgstr ""
+msgstr "Diagrammu veidošana — tendences un līknes"
 
 #: ../plugins/smoothing/plugin.xml.in.h:2
 msgid "Smoothed curves"
 msgstr "Guldinātas līknes"
 
 #: ../plugins/smoothing/plugin.xml.in.h:3
-#, fuzzy
 msgid "Moving average smoothing engine"
-msgstr "Kļūda parsējot līniju"
+msgstr "Mainīgā vidējā gludināšanas dzinis"
 
 #: ../plugins/smoothing/plugin.xml.in.h:4
-#, fuzzy
 msgid "exponential smoothing engine"
-msgstr "Kļūda parsējot līniju"
+msgstr "eksponenciālā gludināšanas dzinis"
 
 #: ../plugins/smoothing/plugin.xml.in.h:5
 msgid "Smoothed curves types"
@@ -8116,7 +8120,7 @@ msgstr "Guldinātu līkņu tipi"
 
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
-msgstr ""
+msgstr "Mainīgā vidējā gludinātā līkne"
 
 #, fuzzy
 #~ msgid "The rectangle type"
