@@ -1958,7 +1958,7 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 	gboolean append_SI = FALSE;
 	gboolean simplify_mantissa = TRUE;
 	int tno_end = pstate->tokens->len;
-	int tno_exp_start = pstate->tno_E + 2;
+	int tno_exp_start = pstate->tno_E + 1;
 
 	if (tno_exp_start >= tno_end)
 		return NULL;
@@ -1987,11 +1987,6 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 
 	if (use_markup) {
 		int i;
-		pstate->forced_exponent_sign =
-			(GET_TOKEN (tno_exp_start).token == '+');
-		if (pstate->forced_exponent_sign)
-			tno_exp_start++;
-
 		simplify_mantissa = TRUE;
 		for (i = 0; i < pstate->tno_E; i++) {
 			if (GET_TOKEN(i).token == TOK_DECIMAL)
@@ -2004,12 +1999,14 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 	} else
 		simplify_mantissa = FALSE;
 
-	switch (GET_TOKEN (pstate->tno_E + 1).token) {
+	switch (GET_TOKEN (tno_exp_start).token) {
 	case '-':
 		pstate->forced_exponent_sign = FALSE;
+		tno_exp_start++;
 		break;
 	case '+':
 		pstate->forced_exponent_sign = TRUE;
+		tno_exp_start++;
 		break;
 	default:
 #ifndef ALLOW_NO_SIGN_AFTER_E
