@@ -1,3 +1,8 @@
+2012-10-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis-line.c (axis_line_get_bbox): Improve
+	padding.  Fixes #686473.  Patch by Jean.
+
 2012-10-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-image.c (goc_image_draw): fix image clipping. [#686490]

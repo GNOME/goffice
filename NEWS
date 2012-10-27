@@ -18,6 +18,7 @@ Jean:
 	* Restore pixel aligned lines. [#686476]
 	* Fixed position of rotated label frame. [#686478]
 	* Fixed image clipping. [#686490]
+	* Improve padding between axis ticks and labels.  [#686473]
 
 Morten:
 	* Namespace cleanup.  [#686501]

@@ -1021,7 +1021,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr, -1.);
-	label_padding = txt_obr.w;
+	label_padding = txt_obr.h * .15;
 
 	total_bbox.x = x; total_bbox.y = y;
 	total_bbox.w = w; total_bbox.h = h;
@@ -1079,8 +1079,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		if (ticks[i].str != NULL) {
 			GOGeometryOBR *obr = obrs + i;
 			pos = gog_axis_map_to_view (map, ticks[i].position);
-			obr->w += label_padding;
-			go_geometry_calc_label_position (obr, axis_angle, tick_len,
+			go_geometry_calc_label_position (obr, axis_angle, tick_len + label_padding,
 							 side, label_anchor);
 			obr->x += x + pos * cos (axis_angle);
 			obr->y += y + pos * sin (axis_angle);
@@ -1171,7 +1170,7 @@ axis_line_render (GogAxisBase *axis_base,
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &zero_obr, -1.);
-	label_padding = zero_obr.w;
+	label_padding = zero_obr.h * .15;
 
 	tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
 	if (draw_labels) {
@@ -1230,8 +1229,7 @@ axis_line_render (GogAxisBase *axis_base,
 
 		if (ticks[i].str != NULL && draw_labels) {
 			GOGeometryOBR *obr = obrs + i;
-			obr->w += label_padding;
-			go_geometry_calc_label_position (obr, axis_angle, tick_len,
+			go_geometry_calc_label_position (obr, axis_angle, tick_len + label_padding,
 							 side, label_anchor);
 			if (ticks_pos) {
 				obr->x += ticks_pos[2 * i];
@@ -1337,7 +1335,7 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr, -1.);
-	label_padding = txt_obr.w;
+	label_padding = txt_obr.h * .15;
 
 	draw_ticks = go_style_is_line_visible (axis_base->base.style) &&
 		(axis_base->major.tick_out || axis_base->minor.tick_out);
@@ -1352,8 +1350,7 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 
 		if (ticks[i].str != NULL && draw_labels) {
 			gog_renderer_get_gostring_OBR (renderer, ticks[i].str, &txt_obr, -1.);
-			txt_obr.w += label_padding;
-			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len,
+			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len + label_padding,
 							 GO_SIDE_LEFT, GO_SIDE_AUTO);
 			txt_obr.x += x;
 			txt_obr.y += y;
@@ -1420,7 +1417,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr, -1.);
-	label_padding = txt_obr.w;
+	label_padding = txt_obr.h * .15;
 
 	tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
 	for (i = 0; i < tick_nbr; i++) {
@@ -1476,8 +1473,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 			gog_chart_map_2D_to_view (c_map, ticks[i].position, position,
 						  &label_pos.x, &label_pos.y);
 			gog_renderer_get_gostring_OBR (renderer, ticks[i].str, &txt_obr, -1.);
-			txt_obr.w += label_padding;
-			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len,
+			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len + label_padding,
 							 GO_SIDE_LEFT, GO_SIDE_AUTO);
 			label_pos.x += txt_obr.x;
 			label_pos.y += txt_obr.y;
