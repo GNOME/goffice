@@ -1570,12 +1570,19 @@ SUFFIX(go_regression_stat_new) (void)
 void
 SUFFIX(go_regression_stat_destroy) (SUFFIX(go_regression_stat_t) *stat_)
 {
-	if (stat_ && stat_->ref_count-- > 1) {
-		g_free(stat_->se);
-		g_free(stat_->t);
-		g_free(stat_->xbar);
-		g_free (stat_);
-	}
+	if (!stat_)
+		return;
+
+	g_return_if_fail (stat_->ref_count > 0);
+
+	stat_->ref_count--;
+	if (stat_->ref_count > 0)
+		return;
+
+	g_free (stat_->se);
+	g_free (stat_->t);
+	g_free (stat_->xbar);
+	g_free (stat_);
 }
 
 /* ------------------------------------------------------------------------- */
