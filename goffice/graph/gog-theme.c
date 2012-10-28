@@ -226,9 +226,9 @@ gog_theme_finalize (GObject *obj)
 
 	themes = g_slist_remove (themes, theme);
 
-	g_free (theme->name); theme->name = NULL;
-	g_free (theme->local_name); theme->local_name = NULL;
-	g_free (theme->description); theme->description = NULL;
+	g_free (theme->name);
+	g_free (theme->local_name);
+	g_free (theme->description);
 	if (theme->elem_hash_by_role)
 		g_hash_table_destroy (theme->elem_hash_by_role);
 	if (theme->elem_hash_by_class)
@@ -241,6 +241,8 @@ gog_theme_finalize (GObject *obj)
 			g_object_unref (g_ptr_array_index (theme->palette, i));
 		g_ptr_array_free (theme->palette, TRUE);
 	}
+	if (theme->dcm)
+		g_object_unref (theme->dcm);
 
 	(parent_klass->finalize) (obj);
 }
@@ -678,7 +680,8 @@ gog_theme_registry_get_theme_names (void)
 
 /**************************************************************************/
 
-static void build_predefined_themes (void)
+static void
+build_predefined_themes (void)
 {
 	GogTheme *theme;
 	GOStyle *style;

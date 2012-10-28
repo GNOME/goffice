@@ -23,6 +23,7 @@ Jean:
 Morten:
 	* Namespace cleanup.  [#686501]
 	* Fix EE-format compilation.  [#686480]
+	* Plug leak.
 
 --------------------------------------------------------------------------
 goffice 0.9.6:
