@@ -1,5 +1,8 @@
 2012-10-28  Morten Welinder  <terra@gnome.org>
 
+	* goffice/app/go-conf-gsettings.c (go_conf_free_node): plug leak.
+	(go_conf_get_node): Plug leak.
+
 	* goffice/graph/gog-theme.c (gog_theme_finalize): Get rid of ->dcm
 	too.
 

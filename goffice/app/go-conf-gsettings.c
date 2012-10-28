@@ -104,9 +104,10 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 		char *last_dot = strrchr (node->id, '.');
 		*last_dot = 0;
 		node->settings = g_hash_table_lookup (installed_schemas, node->id)? g_settings_new (node->id): NULL;
-		if (node->settings)
+		if (node->settings) {
+			g_free (node->key);
 			node->key = g_strdup (last_dot + 1);
-		else {
+		} else {
 			go_conf_free_node (node);
 			node = NULL;
 		}
@@ -117,14 +118,21 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 void
 go_conf_free_node (GOConfNode *node)
 {
-	if (node && node->ref_count-- > 1) {
-		if (node->settings)
-			g_object_unref (node->settings);
-		g_free (node->path);
-		g_free (node->id);
-		g_free (node->key);
-		g_free (node);
-	}
+	if (!node)
+		return;
+
+	g_return_if_fail (node->ref_count > 0);
+
+	node->ref_count--;
+	if (node->ref_count > 0)
+		return;
+
+	if (node->settings)
+		g_object_unref (node->settings);
+	g_free (node->path);
+	g_free (node->id);
+	g_free (node->key);
+	g_free (node);
 }
 
 void
