@@ -1,3 +1,27 @@
+2012-10-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: new objects.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-axis.c (gog_axis_init_style), (gog_axis_init),
+	(gog_axis_get_color_map): add a color map to GogAxis.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-axis-color-map.c: new objects.
+	* goffice/graph/gog-axis-color-map.h: ditto.
+	* goffice/graph/gog-color-scale.c: ditto.
+	* goffice/graph/gog-color-scale.h: ditto.
+	* goffice/graph/gog-theme.c (map_area_series_solid_default),
+	(map_area_series_solid_guppi), (build_predefined_themes),
+	(theme_load_from_uri), (_gog_themes_init), (_gog_themes_shutdown),
+	(gog_theme_get_color_map): add two color maps to themes.
+	* goffice/graph/gog-theme.h: ditto.
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem), (gog_contour_view_render): use
+	GogAxisColorMap API for color plots.
+	* plugins/plot_xy/gog-xy.c (gog_2d_plot_update): fixed warning,
+	(gog_xy_view_render), (gog_xy_series_populate_editor): ditto for contour
+	plots.
+
+
 2012-10-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis-line.c (axis_line_get_bbox): Improve

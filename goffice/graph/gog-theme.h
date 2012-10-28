@@ -37,6 +37,7 @@ char const *gog_theme_get_description	(GogTheme const *theme);
 void 	    gog_theme_fillin_style    	(GogTheme const *theme, GOStyle *style,
 				         GogObject const *obj, int ind,
 				         GOStyleFlag relevant_fields);
+GogAxisColorMap const *gog_theme_get_color_map (GogTheme const *theme, gboolean discrete);
 
 GogTheme   *gog_theme_registry_lookup 		(char const *name);
 GSList	   *gog_theme_registry_get_theme_names	(void);

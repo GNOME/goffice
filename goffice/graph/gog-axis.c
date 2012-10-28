@@ -122,6 +122,8 @@ struct _GogAxis {
 	GogAxisTick	*ticks;
 	unsigned	 tick_nbr;
 	double span_start, span_end;    /* percent of used area */
+	GogAxisColorMap const *color_map;		/* color map for color and pseudo-3d axis */
+	gboolean auto_color_map;
 };
 
 /*****************************************************************************/
@@ -2821,13 +2823,18 @@ gog_axis_populate_editor (GogObject *gobj,
 static void
 gog_axis_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	if (gog_axis_get_atype (GOG_AXIS (gso)) != GOG_AXIS_PSEUDO_3D)
+	GogAxis *axis = GOG_AXIS (gso);
+	GogAxisType type = gog_axis_get_atype (axis);
+	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (gso));
+	if (type != GOG_AXIS_PSEUDO_3D && type != GOG_AXIS_COLOR)
 		style->interesting_fields = GO_STYLE_LINE | GO_STYLE_FONT |
 			GO_STYLE_TEXT_LAYOUT;
-	else
+	else {
 		style->interesting_fields = 0;
-	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-				style, GOG_OBJECT (gso), 0, GO_STYLE_LINE |
+		if (axis->auto_color_map)
+			axis->color_map = gog_theme_get_color_map (theme, type == GOG_AXIS_PSEUDO_3D);
+	}
+	gog_theme_fillin_style (theme, style, GOG_OBJECT (gso), 0, GO_STYLE_LINE |
 	                        GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT);
 }
 
@@ -2942,6 +2949,7 @@ gog_axis_init (GogAxis *axis)
 	axis->tick_nbr = 0;
 	axis->span_start = 0.;
 	axis->span_end = 1.;
+	axis->auto_color_map = TRUE;
 }
 
 static void
@@ -3327,6 +3335,21 @@ gog_axis_get_circular_rotation (GogAxis *axis)
 	g_return_val_if_fail (GOG_IS_AXIS (axis), 0.0);
 
 	return axis->circular_rotation;
+}
+
+/**
+ * gog_axis_get_color_map:
+ * @axis: a #GogAxis
+ *
+ * Returns: (transfer none): the color map used by the axis if any.
+ **/
+GogAxisColorMap const *
+gog_axis_get_color_map (GogAxis *axis)
+{
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
+
+	return axis->color_map;
+	
 }
 
 /****************************************************************************/

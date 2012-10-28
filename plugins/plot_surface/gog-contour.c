@@ -137,18 +137,19 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 {
 	unsigned i, j, nticks;
 	char *label;
-	GOStyle *style = go_style_new ();
-	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
+	GOStyle *style;
 	GogAxis *axis = plot->axis[GOG_AXIS_PSEUDO_3D];
-	GOColor *color;
+	GogAxisColorMap const *map = gog_axis_get_color_map (axis);
 	GogAxisTick *zticks;
 	double *limits;
 	double minimum, maximum, epsilon;
 	char const *separator = go_locale_get_decimal ()->str;
 
 	/* First get the series name and style */
-	func (0, go_styled_object_get_style (plot->series->data),
-	      gog_object_get_name (plot->series->data), NULL, data);
+	style = go_style_dup (go_styled_object_get_style (plot->series->data));
+	if (gog_series_has_legend (GOG_SERIES (plot->series->data)))
+		func (0, style,
+			  gog_object_get_name (plot->series->data), NULL, data);
 
 	gog_axis_get_bounds (axis, &minimum, &maximum);
 
@@ -169,32 +170,21 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 		limits[j] = maximum;
 	else
 		j--;
-	/* build the colors table */
-	color = g_new0 (GOColor, (j > 0)? j: 1);
-	if (j < 2)
-		color[0] = GO_COLOR_WHITE;
-	else for (i = 0; i < j; i++) {
-		gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, style->interesting_fields);
-		color[i] = style->fill.pattern.back;
-	}
-	g_object_unref (style);
 
-	style = go_style_new ();
-	style->interesting_fields = GO_STYLE_FILL;
-	style->disable_theming = GO_STYLE_ALL;
+	style->interesting_fields = GO_STYLE_FILL | GO_STYLE_OUTLINE;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	style->fill.pattern.pattern = GO_PATTERN_SOLID;
 
 	if (gog_axis_is_inverted (axis)) {
 		for (i = 0; i < j; i++) {
-			style->fill.pattern.back = color[i];
+			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i);
 			label = g_strdup_printf ("[%g%s %g%c", limits[j - i - 1], separator,
 						limits[j - i], (limits[i - j] - minimum > epsilon)? '[':']');
 			(func) (i, style, label, NULL, data);
 			g_free (label);
 		}
 		if (limits[i - j] - minimum > epsilon) {
-			gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, style->interesting_fields);
+			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i);
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[i - j]);
 			(func) (i + 1, style, label, NULL, data);
@@ -202,7 +192,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 		}
 	} else {
 		if (epsilon < limits[0] - minimum) {
-			style->fill.pattern.back = color[0];
+			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, 0);
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[0]);
 			(func) (1, style, label, NULL, data);
@@ -212,7 +202,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 		} else
 			i = 0;
 		for (; i < j; i++) {
-			style->fill.pattern.back = color[i];
+			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i);
 			label = g_strdup_printf ("[%g%s %g%c", limits[i], separator,
 						limits[i + 1], (i == j - 1)? ']':'[');
 			(func) (i + 1, style, label, NULL, data);
@@ -221,7 +211,6 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	}
 	g_free (limits);
 	g_object_unref (style);
-	g_free (color);
 }
 
 static void
@@ -268,6 +257,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogSeries const *series;
 	GOData *x_vec = NULL, *y_vec = NULL;
 	GogAxisMap *x_map, *y_map;
+	GogAxisColorMap const *color_map = gog_axis_get_color_map (gog_plot_get_axis (GOG_PLOT (view->model), GOG_AXIS_PSEUDO_3D));
 	double zval0, zval1, zval2 = 0., zval3, t;
 	double x[4], y[4], zval[4];
 	int z[4];
@@ -276,7 +266,6 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned i, imax, j, jmax;
 	GogRenderer *rend = view->renderer;
 	GOStyle *style;
-	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	double x0, x1, y0, y1;
 	GOPath *path, *lines;
 	GOColor *color;
@@ -342,18 +331,14 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 	cw = (x1 > x0) == (y1 > y0);
 
-	style = go_style_new ();
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 	/* build the colors table */
 	color = g_new0 (GOColor, max);
 	if (max < 2)
 		color[0] = GO_COLOR_WHITE;
-	else for (i = 0; i < (unsigned) max; i++) {
-		gog_theme_fillin_style (theme, style, GOG_OBJECT (series), i, style->interesting_fields);
-		color[i] = style->fill.pattern.back;
-	}
-	g_object_unref (style);
+	else for (i = 0; i < (unsigned) max; i++)
+		color[i] = gog_axis_color_map_get_color (color_map, i);
 
 	/* clip to avoid problems with logarithmic axes */
 	gog_renderer_push_clip_rectangle (rend, view->residual.x, view->residual.y,

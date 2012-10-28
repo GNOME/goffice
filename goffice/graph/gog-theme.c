@@ -23,11 +23,6 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice-priv.h>
 #include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-gradient.h>
-#include <goffice/utils/go-units.h>
-#include <goffice/utils/go-marker.h>
 #include <gsf/gsf-input-gio.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -185,6 +180,10 @@ struct _GogTheme {
 	GHashTable	*class_aliases;
 	GOStyle	*default_style;
 	GPtrArray	*palette;
+	GogAxisColorMap *cm, *dcm; /* cm: color map for color axis, dcm stands for discrete color map */
+	gboolean built_color_map; /* TRUE if color map is built from the palette */
+	gboolean writeable; /* TRUE if theme can be edited */
+	char		*path; /* file path if any */
 };
 
 typedef GObjectClass GogThemeClass;
@@ -522,28 +521,28 @@ map_marker (GOStyleMark *mark, unsigned shape, unsigned palette_index,
 			? palette [palette_index] : 0);
 }
 
+static GOColor const default_palette [] = {
+	0x9c9cffff, 0x9c3163ff, 0xffffceff, 0xceffffff, 0x630063ff,
+	0xff8080ff, 0x0063ceff, 0xceceffff, 0x000080ff, 0xff00ffff,
+	0xffff00ff, 0x00ffffff, 0x800080ff, 0x800000ff, 0x008080ff,
+	0x0000ffff, 0x00ceffff, 0xceffffff, 0xceffceff, 0xffff9cff,
+	0x9cceffff, 0xff9cceff, 0xce9cffff, 0xffce9cff, 0x3163ffff,
+	0x31ceceff, 0x9cce00ff, 0xffce00ff, 0xff9c00ff, 0xff6300ff,
+	0x63639cff, 0x949494ff, 0x003163ff, 0x319c63ff, 0x003100ff,
+	0x313100ff, 0x9c3100ff, 0x9c3163ff, 0x31319cff, 0x313131ff,
+	0xffffffff, 0xff0000ff, 0x00ff00ff, 0x0000ffff, 0xffff00ff,
+	0xff00ffff, 0x00ffffff, 0x800000ff, 0x008000ff, 0x000080ff,
+	0x808000ff, 0x800080ff, 0x008080ff, 0xc6c6c6ff, 0x808080ff
+};
+
 static void
 map_area_series_solid_default (GOStyle *style, unsigned ind, G_GNUC_UNUSED GogTheme const *theme)
 {
-	static GOColor const palette [] = {
-		0x9c9cffff, 0x9c3163ff, 0xffffceff, 0xceffffff, 0x630063ff,
-		0xff8080ff, 0x0063ceff, 0xceceffff, 0x000080ff, 0xff00ffff,
-		0xffff00ff, 0x00ffffff, 0x800080ff, 0x800000ff, 0x008080ff,
-		0x0000ffff, 0x00ceffff, 0xceffffff, 0xceffceff, 0xffff9cff,
-		0x9cceffff, 0xff9cceff, 0xce9cffff, 0xffce9cff, 0x3163ffff,
-		0x31ceceff, 0x9cce00ff, 0xffce00ff, 0xff9c00ff, 0xff6300ff,
-		0x63639cff, 0x949494ff, 0x003163ff, 0x319c63ff, 0x003100ff,
-		0x313100ff, 0x9c3100ff, 0x9c3163ff, 0x31319cff, 0x313131ff,
-		0xffffffff, 0xff0000ff, 0x00ff00ff, 0x0000ffff, 0xffff00ff,
-		0xff00ffff, 0x00ffffff, 0x800000ff, 0x008000ff, 0x000080ff,
-		0x808000ff, 0x800080ff, 0x008080ff, 0xc6c6c6ff, 0x808080ff
-	};
-
 	unsigned palette_index = ind;
-	if (palette_index >= G_N_ELEMENTS (palette))
-		palette_index %= G_N_ELEMENTS (palette);
+	if (palette_index >= G_N_ELEMENTS (default_palette))
+		palette_index %= G_N_ELEMENTS (default_palette);
 	if (style->fill.auto_back) {
-		style->fill.pattern.back = palette [palette_index];
+		style->fill.pattern.back = default_palette [palette_index];
 
 		/* force the brightness to reinterpolate */
 		if (style->fill.type == GO_STYLE_FILL_GRADIENT &&
@@ -553,33 +552,33 @@ map_area_series_solid_default (GOStyle *style, unsigned ind, G_GNUC_UNUSED GogTh
 	}
 
 	palette_index += 8;
-	if (palette_index >= G_N_ELEMENTS (palette))
-		palette_index -= G_N_ELEMENTS (palette);
+	if (palette_index >= G_N_ELEMENTS (default_palette))
+		palette_index -= G_N_ELEMENTS (default_palette);
 	if (style->line.auto_color && !(style->disable_theming & GO_STYLE_LINE))
-		style->line.color = palette [palette_index];
+		style->line.color = default_palette [palette_index];
 	if (!(style->disable_theming & GO_STYLE_MARKER))
-		map_marker (&style->marker, ind, palette_index, palette);
+		map_marker (&style->marker, ind, palette_index, default_palette);
 }
+
+static GOColor const guppi_palette[] = {
+	0xff3000ff, 0x80ff00ff, 0x00ffcfff, 0x2000ffff,
+	0xff008fff, 0xffbf00ff, 0x00ff10ff, 0x009fffff,
+	0xaf00ffff, 0xff0000ff, 0xafff00ff, 0x00ff9fff,
+	0x0010ffff, 0xff00bfff, 0xff8f00ff, 0x20ff00ff,
+	0x00cfffff, 0x8000ffff, 0xff0030ff, 0xdfff00ff,
+	0x00ff70ff, 0x0040ffff, 0xff00efff, 0xff6000ff,
+	0x50ff00ff, 0x00ffffff, 0x5000ffff, 0xff0060ff,
+	0xffef00ff, 0x00ff40ff, 0x0070ffff, 0xdf00ffff
+};
 
 static void
 map_area_series_solid_guppi (GOStyle *style, unsigned ind, G_GNUC_UNUSED GogTheme const *theme)
 {
-	static GOColor const palette[] = {
-		0xff3000ff, 0x80ff00ff, 0x00ffcfff, 0x2000ffff,
-		0xff008fff, 0xffbf00ff, 0x00ff10ff, 0x009fffff,
-		0xaf00ffff, 0xff0000ff, 0xafff00ff, 0x00ff9fff,
-		0x0010ffff, 0xff00bfff, 0xff8f00ff, 0x20ff00ff,
-		0x00cfffff, 0x8000ffff, 0xff0030ff, 0xdfff00ff,
-		0x00ff70ff, 0x0040ffff, 0xff00efff, 0xff6000ff,
-		0x50ff00ff, 0x00ffffff, 0x5000ffff, 0xff0060ff,
-		0xffef00ff, 0x00ff40ff, 0x0070ffff, 0xdf00ffff
-	};
-
 	unsigned palette_index = ind;
-	if (palette_index >= G_N_ELEMENTS (palette))
-		palette_index %= G_N_ELEMENTS (palette);
+	if (palette_index >= G_N_ELEMENTS (guppi_palette))
+		palette_index %= G_N_ELEMENTS (guppi_palette);
 	if (style->fill.auto_back) {
-		style->fill.pattern.back = palette [palette_index];
+		style->fill.pattern.back = guppi_palette [palette_index];
 		if (style->fill.type == GO_STYLE_FILL_GRADIENT &&
 		    style->fill.gradient.brightness >= 0)
 			/* force the brightness to reinterpolate */
@@ -587,9 +586,9 @@ map_area_series_solid_guppi (GOStyle *style, unsigned ind, G_GNUC_UNUSED GogThem
 				style->fill.gradient.brightness);
 	}
 	if (style->line.auto_color && !(style->disable_theming & GO_STYLE_LINE))
-		style->line.color = palette [palette_index];
+		style->line.color = guppi_palette [palette_index];
 	if (!(style->disable_theming & GO_STYLE_MARKER))
-		map_marker (&style->marker, ind, palette_index, palette);
+		map_marker (&style->marker, ind, palette_index, guppi_palette);
 }
 
 static void
@@ -843,6 +842,10 @@ static void build_predefined_themes (void)
 	gog_theme_add_element (theme, style,
 		NULL, "GogEquation", NULL);
 #endif
+	/* builds the default discrete color map */
+	theme->dcm = gog_axis_color_map_from_colors ("Default discrete",
+	                                             G_N_ELEMENTS (default_palette),
+	                                             default_palette);
 
 /* Guppi */
 	theme = gog_theme_new (N_("Guppi"));
@@ -988,6 +991,10 @@ static void build_predefined_themes (void)
 	gog_theme_add_element (theme, style,
 		NULL, "GogEquation", NULL);
 #endif
+
+	theme->dcm = gog_axis_color_map_from_colors ("Default discrete",
+	                                             G_N_ELEMENTS (guppi_palette),
+	                                             guppi_palette);
 }
 
 struct theme_load_state {
@@ -1113,6 +1120,14 @@ theme_load_from_uri (char const *uri)
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogTheme]: Could not parse %s", uri);
 	if (state.theme != NULL) {
+		if (state.theme->dcm == NULL) {
+			GOColor *colors = g_new (GOColor, state.theme->palette->len);
+			unsigned i;
+			for (i = 0; i < state.theme->palette->len; i++)
+				colors[i] = GO_STYLE (g_ptr_array_index (state.theme->palette, i))->fill.pattern.back;
+			state.theme->dcm = gog_axis_color_map_from_colors ("Default discrete", state.theme->palette->len, colors);
+			g_free (colors);
+		}
 		state.theme->local_name = state.local_name;
 		state.theme->description = state.desc;
 		gog_theme_registry_add (state.theme, FALSE);
@@ -1151,6 +1166,7 @@ _gog_themes_init (void)
 {
 	char *path;
 
+	_gog_axis_color_maps_init ();
 	build_predefined_themes ();
 
 	/* Load themes from file */
@@ -1173,5 +1189,23 @@ _gog_themes_shutdown (void)
 
 	g_slist_free_full (g_slist_copy (themes), g_object_unref);
 	g_slist_free (themes);
+	_gog_axis_color_maps_shutdown ();
 	themes = NULL;
+}
+
+/**
+ * gog_theme_get_color_map:
+ * @theme: #GogTheme
+ * @discrete:
+ *
+ * Returns: (transfer none): the requested color map.
+ **/
+GogAxisColorMap const *
+gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
+{
+	if (discrete)
+		return theme->dcm;
+	else
+		return (theme->cm)? theme->cm: _gog_axis_color_map_get_default ();
+	return NULL;
 }

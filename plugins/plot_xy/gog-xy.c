@@ -73,7 +73,6 @@ gog_2d_plot_update (GogObject *obj)
 	GogXYSeries const *series = NULL;
 	double x_min, x_max, y_min, y_max, tmp_min, tmp_max;
 	GSList *ptr;
-	gboolean is_discrete = FALSE;
 
 	x_min = y_min =  DBL_MAX;
 	x_max = y_max = -DBL_MAX;
@@ -98,7 +97,6 @@ gog_2d_plot_update (GogObject *obj)
 				tmp_min = 0;
 				tmp_max = go_data_get_vector_size (series->base.values[1].data);
 
-				is_discrete = TRUE;
 			} else if (model->x.fmt == NULL)
 				model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
 
@@ -106,7 +104,6 @@ gog_2d_plot_update (GogObject *obj)
 		} else {
 			tmp_min = 0;
 			tmp_max = go_data_get_vector_size (series->base.values[1].data);
-			is_discrete = TRUE;
 		}
 
 		if (x_min > tmp_min) x_min = tmp_min;
@@ -870,6 +867,7 @@ GSF_DYNAMIC_CLASS (GogXYColorPlot, gog_xy_color_plot,
 typedef GogPlotView		GogXYView;
 typedef GogPlotViewClass	GogXYViewClass;
 
+/*
 static GOColor
 get_map_color (double z, gboolean hide_outliers)
 {
@@ -887,6 +885,7 @@ get_map_color (double z, gboolean hide_outliers)
 		return GO_COLOR_RED + ((int) ((3. - z / 2.) * 255) << 16);
 	return GO_COLOR_RED;
 }
+*/
 
 typedef struct {
 	double x, y;
@@ -1056,6 +1055,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	gboolean show_marks, show_lines, show_fill, show_negatives, in_3d, size_as_area = TRUE;
 	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model), hide_outliers = TRUE;
 	GogObjectRole const *lbl_role = NULL;
+	GogAxisColorMap const *color_map = NULL;
+	double max = 0.;
 
 	MarkerData **markers;
 	unsigned *num_markers;
@@ -1081,8 +1082,10 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
 	if (is_map) {
-		z_map = gog_axis_map_new (model->base.axis[GOG_AXIS_COLOR], 0, 6);
 		hide_outliers = GOG_XY_COLOR_PLOT (model)->hide_outliers;
+		color_map = gog_axis_get_color_map (model->base.axis[GOG_AXIS_COLOR]);
+		max = gog_axis_color_map_get_max (color_map);
+		z_map = gog_axis_map_new (model->base.axis[GOG_AXIS_COLOR], 0, max);
 	}
 
 	/* What we really want is to draw drop lines from point to
@@ -1157,15 +1160,12 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 					next_series = ptr->next->data;
 					if (gog_series_is_valid (GOG_SERIES (next_series))) {
-						GOStyle *next_style;
 						const double *next_x_vals, *next_y_vals;
 						unsigned int next_n_points;
 
 						next_n_points = gog_series_get_xy_data
 							(GOG_SERIES (next_series),
 							 &next_x_vals, &next_y_vals);
-						next_style = go_styled_object_get_style
-							(GO_STYLED_OBJECT (next_series));
 
 						next_path = gog_chart_map_make_path
 							(chart_map, next_x_vals, next_y_vals,
@@ -1389,10 +1389,16 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				markers[j][k].x = x_canvas;
 				markers[j][k].y = y_canvas;
 				markers[j][k].index = i - 1;
-				if (is_map)
-					markers[j][k].color = (gog_axis_map_finite (z_map, z))?
-							get_map_color (gog_axis_map_to_view (z_map, z), hide_outliers):
-							0;
+				if (is_map) {
+					if (gog_axis_map_finite (z_map, z)) {
+						double zc = gog_axis_map_to_view (z_map, z);
+						if (hide_outliers && (zc < 0 || zc > max))
+							markers[j][k].color = 0;
+						else
+							markers[j][k].color = gog_axis_color_map_get_color (color_map, CLAMP (zc, 0, max));
+					} else
+						markers[j][k].color = 0;
+				}
 				k++;
 			}
 		}
@@ -2072,7 +2078,6 @@ gog_xy_series_populate_editor (GogObject *obj,
 			       GogDataAllocator *dalloc,
 			       GOCmdContext *cc)
 {
-	GogXYSeries *series;
 	GtkWidget *w;
 	GtkBuilder *gui =
 		go_gtk_builder_load ("res:go:plot_xy/gog-xy-series-prefs.ui",
@@ -2087,7 +2092,6 @@ gog_xy_series_populate_editor (GogObject *obj,
 		g_signal_connect (G_OBJECT (w),
 			"toggled",
 			G_CALLBACK (invalid_toggled_cb), obj);
-		series = GOG_XY_SERIES (obj);
 
 		w = go_gtk_builder_get_widget (gui, "gog_xy_series_prefs");
 

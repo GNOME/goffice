@@ -109,6 +109,7 @@ void	      		gog_axis_set_polar_unit		(GogAxis *axis, GogAxisPolarUnit unit);
 GogAxisPolarUnit	gog_axis_get_polar_unit		(GogAxis *axis);
 double 			gog_axis_get_polar_perimeter 	(GogAxis *axis);
 double 			gog_axis_get_circular_rotation 	(GogAxis *axis);
+GogAxisColorMap const *gog_axis_get_color_map	(GogAxis *axis);
 
 G_END_DECLS
 

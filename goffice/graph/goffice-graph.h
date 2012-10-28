@@ -49,6 +49,8 @@ typedef struct _GogStyledObject	GogStyledObject;
 typedef struct _GogAxisBase GogAxisBase;
 typedef struct _GogAxis		GogAxis;
 typedef struct _GogAxisLine	GogAxisLine;
+typedef struct _GogAxisColorMap GogAxisColorMap;
+typedef struct _GogColorScale GogColorScale;
 typedef struct _GogGrid		GogGrid;
 typedef struct _GogGridLine	GogGridLine;
 typedef struct _GogErrorBar	GogErrorBar;
@@ -251,8 +253,11 @@ G_END_DECLS
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-chart-map-3d.h>
+#include <goffice/graph/gog-axis-color-map.h>
+#include <goffice/graph/gog-color-scale.h>
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/graph/gog-child-button.h>
+#include <goffice/graph/gog-color-scale.h>
 #include <goffice/graph/gog-data-allocator.h>
 #endif
 #ifdef GOFFICE_WITH_LASEM

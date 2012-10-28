@@ -171,7 +171,9 @@ graph_SOURCES = \
 	\
 	graph/gog-axis.c			\
 	graph/gog-axis-line.c			\
+	graph/gog-axis-color-map.c	\
 	graph/gog-legend.c			\
+	graph/gog-color-scale.c		\
 	graph/gog-label.c			\
 	graph/gog-grid.c			\
 	graph/gog-grid-line.c			\
@@ -215,8 +217,10 @@ graph_HEADERS = \
 	graph/gog-chart-map-3d.h			\
 	graph/gog-3d-box.h			\
 	graph/gog-axis.h			\
-	graph/gog-axis-line.h			\
+	graph/gog-axis-line.h		\
+	graph/gog-axis-color-map.h	\
 	graph/gog-legend.h			\
+	graph/gog-color-scale.h		\
 	graph/gog-label.h			\
 	graph/gog-grid.h			\
 	graph/gog-grid-line.h			\
