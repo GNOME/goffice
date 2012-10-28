@@ -288,11 +288,18 @@ go_conf_get_node (GOConfNode *parent, const gchar *key)
 void
 go_conf_free_node (GOConfNode *node)
 {
-	if (node && node->ref_count-- > 1) {
-		RegCloseKey (node->hKey);
-		g_free (node->path);
-		g_free (node);
-	}
+	if (!node)
+		return;
+
+	g_return_if_fail (node->ref_count > 0);
+
+	node->ref_count--;
+	if (node->ref_count > 0)
+		return;
+
+	RegCloseKey (node->hKey);
+	g_free (node->path);
+	g_free (node);
 }
 
 void
