@@ -74,6 +74,7 @@ goffice/graph/gog-axis.h
 goffice/graph/gog-chart-impl.h
 goffice/graph/gog-chart.c
 goffice/graph/gog-chart.h
+goffice/graph/gog-color-scale.c
 goffice/graph/gog-child-button.c
 goffice/graph/gog-data-allocator.c
 goffice/graph/gog-data-allocator.h
