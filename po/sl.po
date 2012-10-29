@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-27 17:11+0000\n"
-"PO-Revision-Date: 2012-09-28 09:17+0100\n"
+"POT-Creation-Date: 2012-10-29 16:54+0000\n"
+"PO-Revision-Date: 2012-10-29 22:14+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -89,39 +89,39 @@ msgstr "To varnostno zmožnost lahko onemogočite z urejanjem ustrezne datoteke 
 msgid "Invalid %s: '%s'"
 msgstr "Neveljavno %s: '%s'"
 
-#: ../goffice/app/go-doc.c:157
+#: ../goffice/app/go-doc.c:163
 msgid "URI"
 msgstr "Naslov URI"
 
-#: ../goffice/app/go-doc.c:158
+#: ../goffice/app/go-doc.c:164
 msgid "The URI associated with this document."
 msgstr "Naslov URI povezan s tem dokumentom."
 
-#: ../goffice/app/go-doc.c:162
+#: ../goffice/app/go-doc.c:168
 msgid "Dirty"
 msgstr "Spremenjeno"
 
-#: ../goffice/app/go-doc.c:163
+#: ../goffice/app/go-doc.c:169
 msgid "Whether the document has been changed."
 msgstr "Ali je dokument spremenjen."
 
-#: ../goffice/app/go-doc.c:167
+#: ../goffice/app/go-doc.c:173
 msgid "Dirty Time"
 msgstr "Čas prve spremembe"
 
-#: ../goffice/app/go-doc.c:168
+#: ../goffice/app/go-doc.c:174
 msgid "When the document was first changed."
 msgstr "Datum prve spremembe dokumenta."
 
-#: ../goffice/app/go-doc.c:173
+#: ../goffice/app/go-doc.c:179
 msgid "Pristine"
 msgstr "Pristno"
 
-#: ../goffice/app/go-doc.c:174
+#: ../goffice/app/go-doc.c:180
 msgid "Whether the document is unchanged since it was created."
 msgstr "Ali je dokument od ustvarjanja dalje ostal nespremenjen."
 
-#: ../goffice/app/go-doc.c:437
+#: ../goffice/app/go-doc.c:443
 #: ../goffice/canvas/goc-image.c:292
 #: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "Image"
@@ -230,8 +230,8 @@ msgstr "Funkcija čiščenja znotraj vstavka je vrnila napako."
 
 #: ../goffice/app/go-plugin-service.c:228
 #: ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:877
-#: ../goffice/utils/go-format.c:5208
+#: ../goffice/utils/go-format.c:910
+#: ../goffice/utils/go-format.c:5242
 msgid "General"
 msgstr "Splošno"
 
@@ -527,7 +527,7 @@ msgstr "Vrtenje okoli središča"
 
 #: ../goffice/canvas/goc-arc.c:478
 #: ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:2860
+#: ../goffice/graph/gog-axis.c:2869
 #: ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
@@ -633,6 +633,7 @@ msgstr "Višina"
 #: ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:324
 #: ../goffice/canvas/goc-widget.c:786
+#: ../goffice/graph/gog-color-scale.c:127
 #: ../goffice/graph/gog-graph.c:480
 #: ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
@@ -980,7 +981,7 @@ msgstr "Sidrna točka za besedilo"
 
 #: ../goffice/canvas/goc-text.c:487
 #: ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/gtk/go-rotation-sel.c:142
+#: ../goffice/gtk/go-rotation-sel.c:145
 #: ../goffice/utils/go-style.c:971
 msgid "Text"
 msgstr "Besedilo"
@@ -1323,144 +1324,144 @@ msgstr "Radiani"
 msgid "Grads"
 msgstr "Gradiani"
 
-#: ../goffice/graph/gog-axis.c:1491
+#: ../goffice/graph/gog-axis.c:1493
 msgid "Discrete"
 msgstr "Diskretne strukture"
 
-#: ../goffice/graph/gog-axis.c:1491
+#: ../goffice/graph/gog-axis.c:1493
 msgid "Discrete mapping"
 msgstr "Diskretne preslikave"
 
-#: ../goffice/graph/gog-axis.c:1503
+#: ../goffice/graph/gog-axis.c:1505
 #: ../goffice/utils/go-line.c:161
 #: ../goffice/utils/go-line.c:376
 #: ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Linear"
 msgstr "Linearno"
 
-#: ../goffice/graph/gog-axis.c:1503
+#: ../goffice/graph/gog-axis.c:1505
 msgid "Linear mapping"
 msgstr "Črtna preslikava"
 
-#: ../goffice/graph/gog-axis.c:1515
+#: ../goffice/graph/gog-axis.c:1517
 msgid "Log"
 msgstr "Logaritemsko"
 
-#: ../goffice/graph/gog-axis.c:1515
+#: ../goffice/graph/gog-axis.c:1517
 msgid "Logarithm mapping"
 msgstr "Logaritemska preslikava"
 
-#: ../goffice/graph/gog-axis.c:2697
-#: ../goffice/graph/gog-axis.c:2707
+#: ../goffice/graph/gog-axis.c:2699
+#: ../goffice/graph/gog-axis.c:2709
 msgid "M_inimum"
 msgstr "Naj_manj"
 
-#: ../goffice/graph/gog-axis.c:2698
-#: ../goffice/graph/gog-axis.c:2708
+#: ../goffice/graph/gog-axis.c:2700
+#: ../goffice/graph/gog-axis.c:2710
 msgid "M_aximum"
 msgstr "Naj_več"
 
-#: ../goffice/graph/gog-axis.c:2699
+#: ../goffice/graph/gog-axis.c:2701
 msgid "Categories between _ticks"
 msgstr "Kategorije med _točkami osi"
 
-#: ../goffice/graph/gog-axis.c:2700
+#: ../goffice/graph/gog-axis.c:2702
 msgid "Categories between _labels"
 msgstr "Kategorije med _oznakami osi"
 
-#: ../goffice/graph/gog-axis.c:2709
+#: ../goffice/graph/gog-axis.c:2711
 msgid "Ma_jor ticks"
 msgstr "_Glavne točke osi"
 
-#: ../goffice/graph/gog-axis.c:2710
+#: ../goffice/graph/gog-axis.c:2712
 msgid "Mi_nor ticks"
 msgstr "_Podrobne točke osi"
 
-#: ../goffice/graph/gog-axis.c:2766
+#: ../goffice/graph/gog-axis.c:2768
 #: ../goffice/math/go-distribution.c:171
 #: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "Merilo"
 
-#: ../goffice/graph/gog-axis.c:2786
+#: ../goffice/graph/gog-axis.c:2790
 #: ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Razmik"
 
-#: ../goffice/graph/gog-axis.c:2804
+#: ../goffice/graph/gog-axis.c:2808
 #: ../goffice/graph/gog-series-labels.c:891
 #: ../goffice/graph/gog-series-labels.c:1417
 msgid "Format"
 msgstr "Oblika"
 
-#: ../goffice/graph/gog-axis.c:2836
+#: ../goffice/graph/gog-axis.c:2845
 msgid "MajorGrid"
 msgstr "Velika mreža"
 
-#: ../goffice/graph/gog-axis.c:2839
+#: ../goffice/graph/gog-axis.c:2848
 msgid "MinorGrid"
 msgstr "Podrobna mreža"
 
-#: ../goffice/graph/gog-axis.c:2842
+#: ../goffice/graph/gog-axis.c:2851
 msgid "AxisLine"
 msgstr "Črta osi"
 
-#: ../goffice/graph/gog-axis.c:2845
+#: ../goffice/graph/gog-axis.c:2854
 msgid "Label"
 msgstr "Oznaka"
 
-#: ../goffice/graph/gog-axis.c:2861
+#: ../goffice/graph/gog-axis.c:2870
 msgid "Numerical type of this axis"
 msgstr "Številčna vrsta te osi"
 
-#: ../goffice/graph/gog-axis.c:2865
+#: ../goffice/graph/gog-axis.c:2874
 msgid "Invert axis"
 msgstr "Obrni osi"
 
-#: ../goffice/graph/gog-axis.c:2866
+#: ../goffice/graph/gog-axis.c:2875
 msgid "Scale from high to low rather than low to high"
 msgstr "Razvrsti od večjega proti manjšemu namesto manjšega proti večjemu"
 
-#: ../goffice/graph/gog-axis.c:2870
+#: ../goffice/graph/gog-axis.c:2879
 msgid "MapName"
 msgstr "Ime preslikave"
 
-#: ../goffice/graph/gog-axis.c:2871
+#: ../goffice/graph/gog-axis.c:2880
 msgid "The name of the map for scaling"
 msgstr "Ime zemljevida za določanje reda velikosti"
 
-#: ../goffice/graph/gog-axis.c:2876
+#: ../goffice/graph/gog-axis.c:2885
 msgid "Assigned XL format"
 msgstr "Določena XL oblika"
 
-#: ../goffice/graph/gog-axis.c:2877
+#: ../goffice/graph/gog-axis.c:2886
 msgid "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr "Uporabniško določeni zapis za ne-diskretne oznake osi (zapis XL)"
 
-#: ../goffice/graph/gog-axis.c:2882
-#: ../goffice/graph/gog-axis.c:2883
+#: ../goffice/graph/gog-axis.c:2891
+#: ../goffice/graph/gog-axis.c:2892
 msgid "Rotation of circular axis"
 msgstr "Vrtenje krožne osi"
 
-#: ../goffice/graph/gog-axis.c:2890
-#: ../goffice/graph/gog-axis.c:2891
+#: ../goffice/graph/gog-axis.c:2899
+#: ../goffice/graph/gog-axis.c:2900
 msgid "Polar axis set unit"
 msgstr "Enota spiralne osi"
 
-#: ../goffice/graph/gog-axis.c:2896
+#: ../goffice/graph/gog-axis.c:2905
 msgid "Axis start position"
 msgstr "Začetek osi"
 
-#: ../goffice/graph/gog-axis.c:2897
+#: ../goffice/graph/gog-axis.c:2906
 msgid "Position of the plot area at which the axis effective area starts, expressed as a percentage of the available position. Defaults to 0.0"
 msgstr "Položaj območja risanja grafa, na katerem se uporabno območje osi začne, izraženo kot odstotek položajev na voljo. Privzeta vrednost je 0,0"
 
-#: ../goffice/graph/gog-axis.c:2902
+#: ../goffice/graph/gog-axis.c:2911
 msgid "Axis end position"
 msgstr "Konec osi"
 
-#: ../goffice/graph/gog-axis.c:2903
+#: ../goffice/graph/gog-axis.c:2912
 msgid "Position of the plot area at which the axis effective area ends, expressed as a percentage of the available position. Defaults to 1.0"
 msgstr "Položaj območja risanja grafa, na katerem se uporabno območje osi konča, izraženo kot odstotek položajev na voljo. Privzeta vrednost je 1,0"
 
@@ -1593,6 +1594,22 @@ msgstr "vrstice"
 msgid "Number of rows in graph grid"
 msgstr "Število vrstic na mreži diagrama"
 
+#: ../goffice/graph/gog-color-scale.c:122
+#: ../plugins/plot_barcol/gog-minmax.c:227
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
+#: ../plugins/plot_xy/gog-xy-dropbar.c:306
+#: ../plugins/plot_xy/gog-xy-minmax.c:291
+msgid "Horizontal"
+msgstr "Vodoravni"
+
+#: ../goffice/graph/gog-color-scale.c:123
+msgid "Whether to display the scale horizontally"
+msgstr "Ali naj bo prikazano vodoravno merilo"
+
+#: ../goffice/graph/gog-color-scale.c:128
+msgid "Color scale thickness."
+msgstr "Barva debeline merila."
+
 #. Note for translators: first string represent the new child object and second string is the parent object
 #: ../goffice/graph/gog-child-button.c:499
 #, c-format
@@ -1606,8 +1623,8 @@ msgstr "_Strnjen način"
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 #: ../goffice/graph/gog-error-bar.c:79
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
-#: ../goffice/gtk/go-format-sel.c:1671
-#: ../goffice/gtk/go-format-sel.c:1846
+#: ../goffice/gtk/go-format-sel.c:1648
+#: ../goffice/gtk/go-format-sel.c:1824
 #: ../goffice/utils/formats.c:366
 #: ../goffice/utils/go-line.c:127
 #: ../goffice/utils/go-style-prefs.ui.h:6
@@ -1844,7 +1861,7 @@ msgstr "Tolmači besedilo kot označeno besedilo HTML, kot je opisano na naslovu
 #: ../goffice/graph/gog-smoothed-curve.c:59
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2094
+#: ../plugins/plot_xy/gog-xy.c:2098
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -2607,12 +2624,12 @@ msgid "Smoothed Curve"
 msgstr "Glajena krivulja"
 
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-theme.c:697
+#: ../goffice/graph/gog-theme.c:699
 msgid "Default"
 msgstr "Privzeto"
 
 #. Guppi
-#: ../goffice/graph/gog-theme.c:848
+#: ../goffice/graph/gog-theme.c:854
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -2629,9 +2646,9 @@ msgstr "Guppi"
 #: ../plugins/plot_radar/gog-radar.c:595
 #: ../plugins/plot_surface/gog-xyz.c:101
 #: ../plugins/plot_surface/gog-xyz-surface.c:315
-#: ../plugins/plot_xy/gog-xy.c:354
-#: ../plugins/plot_xy/gog-xy.c:466
-#: ../plugins/plot_xy/gog-xy.c:737
+#: ../plugins/plot_xy/gog-xy.c:351
+#: ../plugins/plot_xy/gog-xy.c:463
+#: ../plugins/plot_xy/gog-xy.c:734
 #: ../plugins/plot_xy/gog-xy-dropbar.c:154
 #: ../plugins/smoothing/gog-moving-avg.c:112
 #: ../plugins/smoothing/gog-exp-smooth.c:79
@@ -3508,21 +3525,21 @@ msgstr "W (vat)"
 msgid "Wb (weber)"
 msgstr "Wb (weber)"
 
-#: ../goffice/gtk/go-format-sel.c:1033
+#: ../goffice/gtk/go-format-sel.c:1018
 #: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append no further unit."
 msgstr "Ne dodaj enote."
 
-#: ../goffice/gtk/go-format-sel.c:1040
+#: ../goffice/gtk/go-format-sel.c:1025
 #, c-format
 msgid "Append '%s'."
 msgstr "Dodaj '%s'."
 
-#: ../goffice/gtk/go-format-sel.c:1581
+#: ../goffice/gtk/go-format-sel.c:1558
 msgid "Negative Number Format"
 msgstr "Oblike negativnih števil"
 
-#: ../goffice/gtk/go-format-sel.c:1639
+#: ../goffice/gtk/go-format-sel.c:1616
 msgid "Number Formats"
 msgstr "Oblike števil"
 
@@ -5600,73 +5617,73 @@ msgid "Invalid image data\n"
 msgstr "Neveljavni podatki slike\n"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:567
+#: ../goffice/utils/go-format.c:600
 msgid "*Long Date Format"
 msgstr "*Dolg zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:575
+#: ../goffice/utils/go-format.c:608
 msgid "*Medium Date Format"
 msgstr "*Srednji zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:583
+#: ../goffice/utils/go-format.c:616
 msgid "*Short Date Format"
 msgstr "*Kratek zapis datuma"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:596
+#: ../goffice/utils/go-format.c:629
 msgid "*Short Date/Time Format"
 msgstr "*Kratek zapis datuma/časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:611
+#: ../goffice/utils/go-format.c:644
 msgid "*Long Time Format"
 msgstr "*Dolg zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:623
+#: ../goffice/utils/go-format.c:656
 msgid "*Medium Time Format"
 msgstr "*Srednji zapis časa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:635
+#: ../goffice/utils/go-format.c:668
 msgid "*Short Time Format"
 msgstr "*Kratek zapis časa"
 
-#: ../goffice/utils/go-format.c:684
+#: ../goffice/utils/go-format.c:717
 msgid "Black"
 msgstr "Črna"
 
-#: ../goffice/utils/go-format.c:685
+#: ../goffice/utils/go-format.c:718
 msgid "Blue"
 msgstr "Modra"
 
-#: ../goffice/utils/go-format.c:686
+#: ../goffice/utils/go-format.c:719
 msgid "Cyan"
 msgstr "Sinja"
 
-#: ../goffice/utils/go-format.c:687
+#: ../goffice/utils/go-format.c:720
 msgid "Green"
 msgstr "Zelena"
 
-#: ../goffice/utils/go-format.c:688
+#: ../goffice/utils/go-format.c:721
 msgid "Magenta"
 msgstr "Škrlatna"
 
-#: ../goffice/utils/go-format.c:689
+#: ../goffice/utils/go-format.c:722
 msgid "Red"
 msgstr "Rdeča"
 
-#: ../goffice/utils/go-format.c:690
+#: ../goffice/utils/go-format.c:723
 msgid "White"
 msgstr "Bela"
 
-#: ../goffice/utils/go-format.c:691
+#: ../goffice/utils/go-format.c:724
 msgid "Yellow"
 msgstr "Rumena"
 
-#: ../goffice/utils/go-format.c:711
+#: ../goffice/utils/go-format.c:744
 msgid "color"
 msgstr "barva"
 
@@ -6292,7 +6309,7 @@ msgstr "Kako naj se v diagramu združujejo različni nizi; običajno, naloženo 
 
 #: ../plugins/plot_barcol/gog-1.5d.c:353
 #: ../plugins/plot_pie/gog-pie.c:319
-#: ../plugins/plot_xy/gog-xy.c:566
+#: ../plugins/plot_xy/gog-xy.c:563
 msgid "In 3D"
 msgstr "V 3D"
 
@@ -6339,8 +6356,8 @@ msgstr "Črtni"
 #: ../plugins/plot_barcol/gog-1.5d.c:687
 #: ../plugins/plot_radar/gog-radar.c:1343
 #: ../plugins/plot_radar/gog-radar.c:1469
-#: ../plugins/plot_xy/gog-xy.c:2171
-#: ../plugins/plot_xy/gog-xy.c:2177
+#: ../plugins/plot_xy/gog-xy.c:2175
+#: ../plugins/plot_xy/gog-xy.c:2181
 msgid "GogErrorBar *"
 msgstr "Diagram"
 
@@ -6406,7 +6423,7 @@ msgstr "navpični palični ali vodoravni stolpični"
 #: ../plugins/plot_distrib/gog-histogram.c:374
 #: ../plugins/plot_radar/gog-radar.c:446
 #: ../plugins/plot_radar/gog-radar.c:517
-#: ../plugins/plot_xy/gog-xy.c:399
+#: ../plugins/plot_xy/gog-xy.c:396
 #: ../plugins/plot_xy/gog-xy-dropbar.c:300
 msgid "Displayed under the grids"
 msgstr "Izrisano pod mrežami"
@@ -6418,7 +6435,7 @@ msgstr "Izrisano pod mrežami"
 #: ../plugins/plot_distrib/gog-histogram.c:375
 #: ../plugins/plot_radar/gog-radar.c:447
 #: ../plugins/plot_radar/gog-radar.c:518
-#: ../plugins/plot_xy/gog-xy.c:400
+#: ../plugins/plot_xy/gog-xy.c:397
 #: ../plugins/plot_xy/gog-xy-dropbar.c:301
 msgid "Should the plot be displayed before the grids"
 msgstr "Ali naj bo diagram prikazan pred mrežo"
@@ -6448,7 +6465,7 @@ msgstr "Privzete oznake"
 #: ../plugins/plot_barcol/gog-line.c:328
 #: ../plugins/plot_barcol/gog-minmax.c:234
 #: ../plugins/plot_radar/gog-radar.c:232
-#: ../plugins/plot_xy/gog-xy.c:376
+#: ../plugins/plot_xy/gog-xy.c:373
 #: ../plugins/plot_xy/gog-xy-minmax.c:298
 msgid "Should the default style of a series include markers"
 msgstr "Ali naj bodo v privzetem slogu prikaza nizov, izrisane tudi oznake vrednosti"
@@ -6467,13 +6484,6 @@ msgstr "Diagram - ploščinski"
 #: ../plugins/plot_barcol/gog-minmax.c:143
 msgid "PlotMinMax"
 msgstr "Diagram - vretenasti razponski"
-
-#: ../plugins/plot_barcol/gog-minmax.c:227
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-dropbar.c:306
-#: ../plugins/plot_xy/gog-xy-minmax.c:291
-msgid "Horizontal"
-msgstr "Vodoravni"
 
 #: ../plugins/plot_barcol/gog-minmax.c:228
 #: ../plugins/plot_xy/gog-xy-minmax.c:292
@@ -7243,8 +7253,8 @@ msgid "Default fill"
 msgstr "Privzeto polnilo"
 
 #: ../plugins/plot_radar/gog-radar.c:239
-#: ../plugins/plot_xy/gog-xy.c:388
-#: ../plugins/plot_xy/gog-xy.c:817
+#: ../plugins/plot_xy/gog-xy.c:385
+#: ../plugins/plot_xy/gog-xy.c:814
 msgid "Should the default style of a series include fill"
 msgstr "Ali naj privzeti slog nizov podatkov vključuje tudi barvno polnilo"
 
@@ -7288,12 +7298,12 @@ msgid "PlotColorPolar"
 msgstr "Diagram - barvni spiralni"
 
 #: ../plugins/plot_radar/gog-radar.c:721
-#: ../plugins/plot_xy/gog-xy.c:822
+#: ../plugins/plot_xy/gog-xy.c:819
 msgid "hide-outliers"
 msgstr "skrij izstopajoče vrednosti"
 
 #: ../plugins/plot_radar/gog-radar.c:722
-#: ../plugins/plot_xy/gog-xy.c:823
+#: ../plugins/plot_xy/gog-xy.c:820
 msgid "Hide data outside of the color axis bounds"
 msgstr "Skrij podatke izven mej barve osi"
 
@@ -7302,7 +7312,7 @@ msgstr "Skrij podatke izven mej barve osi"
 #: ../plugins/plot_surface/gog-xyz-surface.c:543
 #: ../plugins/plot_surface/xl-surface.c:304
 #: ../plugins/plot_surface/xl-surface.c:397
-#: ../plugins/plot_xy/gog-xy.c:835
+#: ../plugins/plot_xy/gog-xy.c:832
 msgid "Z"
 msgstr "Z"
 
@@ -7419,17 +7429,17 @@ msgstr "Transponiran izris grafa ali diagrama"
 #: ../plugins/plot_surface/gog-xyz-surface.c:539
 #: ../plugins/plot_surface/xl-surface.c:302
 #: ../plugins/plot_surface/xl-surface.c:395
-#: ../plugins/plot_xy/gog-xy.c:408
-#: ../plugins/plot_xy/gog-xy.c:578
-#: ../plugins/plot_xy/gog-xy.c:831
+#: ../plugins/plot_xy/gog-xy.c:405
+#: ../plugins/plot_xy/gog-xy.c:575
+#: ../plugins/plot_xy/gog-xy.c:828
 msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:398
 #: ../plugins/plot_surface/gog-xyz-surface.c:541
-#: ../plugins/plot_xy/gog-xy.c:410
-#: ../plugins/plot_xy/gog-xy.c:580
-#: ../plugins/plot_xy/gog-xy.c:833
+#: ../plugins/plot_xy/gog-xy.c:407
+#: ../plugins/plot_xy/gog-xy.c:577
+#: ../plugins/plot_xy/gog-xy.c:830
 msgid "Y"
 msgstr "Y"
 
@@ -7629,70 +7639,70 @@ msgstr "_Širina vrstice:"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: ../plugins/plot_xy/gog-xy.c:259
+#: ../plugins/plot_xy/gog-xy.c:256
 msgid "PlotXY"
 msgstr "Diagram - XY"
 
-#: ../plugins/plot_xy/gog-xy.c:375
+#: ../plugins/plot_xy/gog-xy.c:372
 msgid "Has markers by default"
 msgstr "Ima privzeto oznake"
 
-#: ../plugins/plot_xy/gog-xy.c:381
-#: ../plugins/plot_xy/gog-xy.c:810
+#: ../plugins/plot_xy/gog-xy.c:378
+#: ../plugins/plot_xy/gog-xy.c:807
 msgid "Has lines by default"
 msgstr "Ima privzeto vrstice"
 
-#: ../plugins/plot_xy/gog-xy.c:382
-#: ../plugins/plot_xy/gog-xy.c:811
+#: ../plugins/plot_xy/gog-xy.c:379
+#: ../plugins/plot_xy/gog-xy.c:808
 msgid "Should the default style of a series include lines"
 msgstr "Ali naj bodo v privzetem slogu prikaza nizov, izrisane črte nizov"
 
-#: ../plugins/plot_xy/gog-xy.c:387
-#: ../plugins/plot_xy/gog-xy.c:816
+#: ../plugins/plot_xy/gog-xy.c:384
+#: ../plugins/plot_xy/gog-xy.c:813
 msgid "Has fill by default"
 msgstr "Je privzeto zapolnjen"
 
-#: ../plugins/plot_xy/gog-xy.c:393
+#: ../plugins/plot_xy/gog-xy.c:390
 msgid "Use splines"
 msgstr "Uporabi zlepke"
 
-#: ../plugins/plot_xy/gog-xy.c:394
+#: ../plugins/plot_xy/gog-xy.c:391
 msgid "Should the plot use splines instead of linear interpolation"
 msgstr "Ali naj graf uporabi zlepke namesto linearne interpolacije vrednosti"
 
-#: ../plugins/plot_xy/gog-xy.c:454
+#: ../plugins/plot_xy/gog-xy.c:451
 msgid "PlotBubble"
 msgstr "Mehurčni diagram"
 
-#: ../plugins/plot_xy/gog-xy.c:554
+#: ../plugins/plot_xy/gog-xy.c:551
 msgid "Size as area"
 msgstr "Velikost kot površina"
 
-#: ../plugins/plot_xy/gog-xy.c:555
+#: ../plugins/plot_xy/gog-xy.c:552
 msgid "Display size as area instead of diameter"
 msgstr "Prikazuj velikost kot površino raje kot premer"
 
-#: ../plugins/plot_xy/gog-xy.c:560
+#: ../plugins/plot_xy/gog-xy.c:557
 msgid "Show negatives"
 msgstr "Prikaži negativne vrednosti"
 
-#: ../plugins/plot_xy/gog-xy.c:561
+#: ../plugins/plot_xy/gog-xy.c:558
 msgid "Draw bubbles for negative values"
 msgstr "Izriši mehurčni diagram za negativne vrednosti"
 
-#: ../plugins/plot_xy/gog-xy.c:567
+#: ../plugins/plot_xy/gog-xy.c:564
 msgid "Draw 3D bubbles"
 msgstr "Nariši 3D mehurčke"
 
-#: ../plugins/plot_xy/gog-xy.c:572
+#: ../plugins/plot_xy/gog-xy.c:569
 msgid "Bubble scale"
 msgstr "Merilo mehurčka"
 
-#: ../plugins/plot_xy/gog-xy.c:573
+#: ../plugins/plot_xy/gog-xy.c:570
 msgid "Fraction of default radius used for display"
 msgstr "Delež privzetega radija uporabljenega za prikaz"
 
-#: ../plugins/plot_xy/gog-xy.c:582
+#: ../plugins/plot_xy/gog-xy.c:579
 #: ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Bubble"
 msgstr "Mehurček"
@@ -7700,49 +7710,49 @@ msgstr "Mehurček"
 #. xgettext : the base for how to name map like plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
-#: ../plugins/plot_xy/gog-xy.c:707
+#: ../plugins/plot_xy/gog-xy.c:704
 msgid "XYColor"
 msgstr "Diagram - barvni XY"
 
-#: ../plugins/plot_xy/gog-xy.c:2099
-#: ../plugins/plot_xy/gog-xy.c:2170
+#: ../plugins/plot_xy/gog-xy.c:2103
+#: ../plugins/plot_xy/gog-xy.c:2174
 msgid "X error bars"
 msgstr "Stolpci intervala napake X"
 
-#: ../plugins/plot_xy/gog-xy.c:2102
-#: ../plugins/plot_xy/gog-xy.c:2176
+#: ../plugins/plot_xy/gog-xy.c:2106
+#: ../plugins/plot_xy/gog-xy.c:2180
 msgid "Y error bars"
 msgstr "Stolpci intervala napake Y"
 
-#: ../plugins/plot_xy/gog-xy.c:2111
+#: ../plugins/plot_xy/gog-xy.c:2115
 msgid "Horizontal drop lines"
 msgstr "Vodoravne spustne vrstice"
 
-#: ../plugins/plot_xy/gog-xy.c:2119
+#: ../plugins/plot_xy/gog-xy.c:2123
 msgid "Vertical drop lines"
 msgstr "Navpične spustne vrstice"
 
-#: ../plugins/plot_xy/gog-xy.c:2182
+#: ../plugins/plot_xy/gog-xy.c:2186
 msgid "Invalid as zero"
 msgstr "Neveljavno kot nič"
 
-#: ../plugins/plot_xy/gog-xy.c:2183
+#: ../plugins/plot_xy/gog-xy.c:2187
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr "Zamenjaj neveljavne vrednosti z 0 med izrisovanjem oznak ali mehurčkov"
 
-#: ../plugins/plot_xy/gog-xy.c:2188
+#: ../plugins/plot_xy/gog-xy.c:2192
 msgid "Clamp at start"
 msgstr "Reži na začetku"
 
-#: ../plugins/plot_xy/gog-xy.c:2189
+#: ../plugins/plot_xy/gog-xy.c:2193
 msgid "Slope at start of the interpolated curve when using clamped spline interpolation"
 msgstr "Naklon začetka interpolirane krivulje pri interpolaciji rezanih zlepkov"
 
-#: ../plugins/plot_xy/gog-xy.c:2194
+#: ../plugins/plot_xy/gog-xy.c:2198
 msgid "Clamp at end"
 msgstr "Reži na koncu"
 
-#: ../plugins/plot_xy/gog-xy.c:2195
+#: ../plugins/plot_xy/gog-xy.c:2199
 msgid "Slope at end of the interpolated curve when using clamped spline interpolation"
 msgstr "Naklon konca interpolirane krivulje pri interpolaciji rezanih zlepkov"
 
