@@ -896,7 +896,7 @@ go_path_to_svg (GOPath *path)
 	                   (GOPathLineToFunc) go_path_svg_line_to,
 	                   (GOPathCurveToFunc) go_path_svg_curve_to,
 	                   (GOPathClosePathFunc) go_path_svg_close, &closure);
-	
+
 	return g_string_free (closure.str, FALSE);
 }
 

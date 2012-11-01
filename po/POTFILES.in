@@ -71,6 +71,8 @@ goffice/graph/gog-axis-line.c
 [type: gettext/glade]goffice/graph/gog-axis-prefs.ui
 goffice/graph/gog-axis.c
 goffice/graph/gog-axis.h
+goffice/graph/gog-axis-color-map.c
+[type: gettext/glade]goffice/graph/gog-axis-color-map-prefs.ui
 goffice/graph/gog-chart-impl.h
 goffice/graph/gog-chart.c
 goffice/graph/gog-chart.h

@@ -2054,7 +2054,8 @@ enum {
 	AXIS_PROP_CIRCULAR_ROTATION,
 	AXIS_PROP_POLAR_UNIT,
 	AXIS_PROP_SPAN_START,
-	AXIS_PROP_SPAN_END
+	AXIS_PROP_SPAN_END,
+	AXIS_PROP_COLOR_MAP
 };
 
 /*****************************************************************************/
@@ -2262,6 +2263,24 @@ gog_axis_set_property (GObject *obj, guint param_id,
 			axis->span_end = new_value;
 		}
 		break;
+	case AXIS_PROP_COLOR_MAP: {
+		char const *str = g_value_get_string (value);
+		GogAxisColorMap const *map = NULL;
+		if (strcmp (str, "default")) {
+				map = go_doc_get_color_map (gog_graph_get_document (gog_object_get_graph (GOG_OBJECT (axis))), str);
+			if (!map) {
+				/* might be the continuous theme color map */
+				map = gog_theme_get_color_map (gog_graph_get_theme (gog_object_get_graph (GOG_OBJECT (axis))), FALSE);
+				if (strcmp (gog_axis_color_map_get_name (map), str))
+					map = NULL;
+			}
+		}
+		if (map) {
+			axis->color_map = map;
+			axis->auto_color_map = FALSE;
+		}
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -2310,6 +2329,9 @@ gog_axis_get_property (GObject *obj, guint param_id,
 		break;
 	case AXIS_PROP_SPAN_END:
 		g_value_set_double (value, axis->span_end);
+		break;
+	case AXIS_PROP_COLOR_MAP:
+		g_value_set_string (value, (axis->auto_color_map)? "default": gog_axis_color_map_get_name (axis->color_map));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -2470,6 +2492,8 @@ gog_axis_update (GogObject *obj)
 typedef struct {
 	GogAxis		*axis;
 	GtkWidget 	*format_selector;
+	GtkComboBox *color_map_combo;
+	GOCmdContext *cc;
 } GogAxisPrefState;
 
 static void
@@ -2667,6 +2691,48 @@ cb_end_changed (GtkSpinButton *spin, GogAxis *axis)
 }
 
 static void
+color_map_new_cb (GogAxisPrefState *state)
+{
+	GogAxisColorMap *map = gog_axis_color_map_edit (NULL, state->cc);
+	if (map) {
+	}
+}
+
+static void
+color_map_changed_cb (GtkComboBox *combo, GogAxis *axis)
+{
+	GtkTreeModel *model = gtk_combo_box_get_model (combo);
+	GtkTreeIter iter;
+	GogAxisColorMap *map;
+	GogTheme *theme = gog_graph_get_theme (gog_object_get_graph (GOG_OBJECT (axis)));
+	gtk_combo_box_get_active_iter (combo, &iter);
+	gtk_tree_model_get (model, &iter, 2, &map, -1);
+	axis->color_map = map;
+	axis->auto_color_map = map == gog_theme_get_color_map (theme, axis->type == GOG_AXIS_PSEUDO_3D);
+	gog_object_emit_changed (GOG_OBJECT (axis), FALSE);
+}
+
+struct ColorMapState {
+	GtkComboBox *combo;
+	GtkListStore *model;
+	GogAxisColorMap const *target;
+	gboolean discrete;
+};
+
+static void
+add_color_map_cb (GogAxisColorMap const *map, struct ColorMapState *state)
+{
+	GtkTreeIter iter;
+	GdkPixbuf *pixbuf = gog_axis_color_map_get_snapshot (map, state->discrete,
+		                                          TRUE, 200, 16);
+	gtk_list_store_append (state->model, &iter);
+	gtk_list_store_set (state->model, &iter, 0, gog_axis_color_map_get_name (map),
+	                    1, pixbuf, 2, map, -1);
+	if (map == state->target)
+		gtk_combo_box_set_active_iter (state->combo, &iter);
+}
+
+static void
 gog_axis_populate_editor (GogObject *gobj,
 			  GOEditor *editor,
 			  GogDataAllocator *dalloc,
@@ -2683,13 +2749,13 @@ gog_axis_populate_editor (GogObject *gobj,
 	GogAxisPrefState *state;
 	GogDataset *set = GOG_DATASET (gobj);
 	GtkBuilder *gui;
-
 	gui = go_gtk_builder_load_internal ("res:go:graph/gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
 	state = g_new0 (GogAxisPrefState, 1);
 	state->axis = axis;
+	state->cc = cc;
 	g_object_ref (G_OBJECT (axis));
 
 	/* Bounds Page */
@@ -2790,6 +2856,65 @@ gog_axis_populate_editor (GogObject *gobj,
 		                    _("Span"));
 	}
 
+	/* color map */
+	if (axis->type == GOG_AXIS_COLOR || axis->type == GOG_AXIS_PSEUDO_3D) {
+		GtkListStore *model = GTK_LIST_STORE (gtk_builder_get_object (gui, "color-map-list"));
+		GtkTreeIter iter;
+		GdkPixbuf *pixbuf;
+		GogAxisColorMap const *map;
+		GogTheme *theme = gog_graph_get_theme (gog_object_get_graph (GOG_OBJECT (axis)));
+		GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
+		GtkWidget *combo = go_gtk_builder_get_widget (gui, "color-map-combo");
+		struct ColorMapState color_state;
+		state->color_map_combo = GTK_COMBO_BOX (combo);
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, FALSE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer,
+				                        "text", 0, NULL);
+		renderer = gtk_cell_renderer_pixbuf_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, FALSE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer,
+				                        "pixbuf", 1, NULL);
+
+		if (axis->type == GOG_AXIS_PSEUDO_3D) {
+			gtk_list_store_append (model, &iter);
+			map = gog_theme_get_color_map (theme, TRUE);
+			pixbuf = gog_axis_color_map_get_snapshot (map, TRUE,
+				                                      TRUE, 200, 16);
+			gtk_list_store_set (model, &iter, 0, gog_axis_color_map_get_name (map),
+				                1, pixbuf, 2, map, -1);
+			g_object_unref (pixbuf);
+			if (map == axis->color_map)
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
+		}
+		gtk_list_store_append (model, &iter);
+		map = gog_theme_get_color_map (theme, FALSE);
+		pixbuf = gog_axis_color_map_get_snapshot (map, FALSE,
+		                                          TRUE, 200, 16);
+		gtk_list_store_set (model, &iter, 0, gog_axis_color_map_get_name (map),
+		                    1, pixbuf, 2, map, -1);
+		g_object_unref (pixbuf);
+		if (map == axis->color_map)
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
+		/* add all locally defined maps */
+		color_state.combo = GTK_COMBO_BOX (combo);
+		color_state.model = model;
+		color_state.target = axis->color_map;
+		color_state.discrete = axis->type == GOG_AXIS_PSEUDO_3D;
+		gog_axis_color_map_foreach ((GogAxisColorMapHandler) add_color_map_cb, &color_state);
+		/* add document maps if any */
+		/* TODO */
+		g_signal_connect (combo, "changed", G_CALLBACK (color_map_changed_cb), axis);
+		w = go_gtk_builder_get_widget (gui, "new-btn");
+		g_signal_connect_swapped (w, "clicked", G_CALLBACK (color_map_new_cb), combo);
+		gtk_widget_hide (w);
+		w = go_gtk_builder_get_widget (gui, "duplicate-btn");
+		gtk_widget_hide (w);
+		w = go_gtk_builder_get_widget (gui, "edit-btn");
+		gtk_widget_hide (w);
+		go_editor_add_page (editor,
+		                    go_gtk_builder_get_widget (gui, "color-map-grid"),
+		                    _("Colors"));
+	}
 
 	if (gog_object_is_visible (axis) && gog_axis_get_atype (axis) < GOG_AXIS_VIRTUAL) {
 	    /* Style page */
@@ -2911,6 +3036,11 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			_("Axis end position"),
 			_("Position of the plot area at which the axis effective area ends, expressed as a percentage of the available position. Defaults to 1.0"),
 			0., 1., 1.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_COLOR_MAP,
+		g_param_spec_string ("color-map-name", _("ColorMapName"),
+			_("The name of the color map"),
+			"default",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
@@ -3349,7 +3479,6 @@ gog_axis_get_color_map (GogAxis *axis)
 	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
 
 	return axis->color_map;
-	
 }
 
 /****************************************************************************/

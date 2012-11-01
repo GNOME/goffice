@@ -51,6 +51,7 @@
 			<xi:include href="xml/gog-theme.xml"/>
 			<xi:include href="xml/gog-chart-map.xml"/>
 			<xi:include href="xml/gog-axis-map.xml"/>
+			<xi:include href="xml/gog-axis-color-map.xml"/>
 			<xi:include href="xml/gog-3d-box.xml"/>
 		</chapter>
 	</part>

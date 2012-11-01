@@ -142,7 +142,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	GogAxisColorMap const *map = gog_axis_get_color_map (axis);
 	GogAxisTick *zticks;
 	double *limits;
-	double minimum, maximum, epsilon;
+	double minimum, maximum, epsilon, scale;
 	char const *separator = go_locale_get_decimal ()->str;
 
 	/* First get the series name and style */
@@ -170,6 +170,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 		limits[j] = maximum;
 	else
 		j--;
+	scale = (j > gog_axis_color_map_get_max (map) && j > 1)? (double) gog_axis_color_map_get_max (map) / (j - 1): 1.;
 
 	style->interesting_fields = GO_STYLE_FILL | GO_STYLE_OUTLINE;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
@@ -177,14 +178,14 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 
 	if (gog_axis_is_inverted (axis)) {
 		for (i = 0; i < j; i++) {
-			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i);
+			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i * scale);
 			label = g_strdup_printf ("[%g%s %g%c", limits[j - i - 1], separator,
 						limits[j - i], (limits[i - j] - minimum > epsilon)? '[':']');
 			(func) (i, style, label, NULL, data);
 			g_free (label);
 		}
 		if (limits[i - j] - minimum > epsilon) {
-			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i);
+			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i * scale);
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[i - j]);
 			(func) (i + 1, style, label, NULL, data);
@@ -202,7 +203,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 		} else
 			i = 0;
 		for (; i < j; i++) {
-			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i);
+			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i * scale);
 			label = g_strdup_printf ("[%g%s %g%c", limits[i], separator,
 						limits[i + 1], (i == j - 1)? ']':'[');
 			(func) (i + 1, style, label, NULL, data);
@@ -337,8 +338,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	color = g_new0 (GOColor, max);
 	if (max < 2)
 		color[0] = GO_COLOR_WHITE;
-	else for (i = 0; i < (unsigned) max; i++)
-		color[i] = gog_axis_color_map_get_color (color_map, i);
+	else {
+		double scale = ((unsigned) max > gog_axis_color_map_get_max (color_map))? (double) gog_axis_color_map_get_max (color_map) / (max - 1): 1.;
+		for (i = 0; i < (unsigned) max; i++)
+			color[i] = gog_axis_color_map_get_color (color_map, i * scale);
+	}
 
 	/* clip to avoid problems with logarithmic axes */
 	gog_renderer_push_clip_rectangle (rend, view->residual.x, view->residual.y,

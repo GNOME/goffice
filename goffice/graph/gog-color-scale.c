@@ -29,12 +29,22 @@
 #include <gtk/gtk.h>
 #endif
 
+/**
+ * SECTION: gog-color-scale
+ * @short_description: Displays the color scale used by an axis.
+ *
+ * A color scale has two parts: an axis, and a rectangle filled by the colors
+ * corresponding to the axis scale. It can be displayed horizontally or
+ * vertically.
+ **/
 struct _GogColorScale {
 	GogStyledObject base;
 	GogAxis *color_axis; /* the color or pseudo-3d axis */
 	GogAxis *axis; /* the axis used to display the scale */
 	gboolean horizontal;
-	double width; /* will actually be height if horizontal */
+	gboolean axis_at_low;	/* axis position on low coordinates side */
+	double width; /* will actually be height of the colored rectangle if
+	 			   * horizontal */
 };
 typedef GogStyledObjectClass GogColorScaleClass;
 

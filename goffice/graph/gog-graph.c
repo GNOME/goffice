@@ -630,9 +630,7 @@ gog_graph_num_rows (GogGraph const *graph)
 GogGraph *
 gog_graph_dup (GogGraph const *graph)
 {
-	GogObject *res = gog_object_dup (GOG_OBJECT (graph), NULL, NULL);
-	GOG_GRAPH (res)->doc = graph->doc;
-	return GOG_GRAPH (res);
+	return GOG_GRAPH (gog_object_dup (GOG_OBJECT (graph), NULL, NULL));
 }
 
 /**
@@ -1288,4 +1286,18 @@ void gog_graph_render_to_cairo (GogGraph *graph, cairo_t *cairo, double w, doubl
 	renderer = gog_renderer_new (graph);
 	gog_renderer_render_to_cairo (renderer, cairo, w, h);
 	g_object_unref (renderer);
+}
+
+/**
+ * gog_graph_get_document:
+ * @graph: a #GogGraph
+ *
+ * Retrieves the #GODoc for @graph.
+ * Returns: (transfer none): the document.
+ **/
+GODoc *
+gog_graph_get_document (GogGraph *graph)
+{
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), NULL);
+	return graph->doc;
 }

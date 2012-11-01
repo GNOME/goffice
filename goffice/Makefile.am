@@ -554,6 +554,7 @@ endif
 embedded_stuff_compress = \
 	graph/gog-3d-box-prefs.ui		\
 	graph/gog-axis-prefs.ui			\
+	graph/gog-axis-color-map-prefs.ui	\
 	graph/gog-equation-prefs.ui		\
 	graph/gog-error-bar-prefs.ui		\
 	graph/gog-graph-prefs.ui		\

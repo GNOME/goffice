@@ -62,6 +62,11 @@ void		 go_doc_read		(GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs);
 void		 go_doc_end_read	(GODoc *doc);
 GOImage		*go_doc_image_fetch 	(GODoc *doc, char const *id, GType type);
 
+GogAxisColorMap	const *go_doc_get_color_map	(GODoc *doc, char const *name);
+void		 go_doc_foreach_color_map	(GODoc *doc,
+			                             GogAxisColorMapHandler handler,
+			                             gpointer user_data);
+
 G_END_DECLS
 
 #endif /* GO_DOC_H */

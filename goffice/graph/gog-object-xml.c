@@ -20,14 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-object-xml.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-trend-line.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/data/go-data.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-persist.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -449,6 +442,8 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (res == NULL) {
 			g_warning ("unknown type '%s'", type);
 		}
+		if (GOG_IS_GRAPH (res))
+			((GogGraph *) res)->doc = (GODoc *) g_object_get_data (G_OBJECT (gsf_xml_in_get_input (xin)), "document");
 	} else
 		res = NULL;
 

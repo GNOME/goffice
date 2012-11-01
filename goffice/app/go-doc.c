@@ -33,6 +33,10 @@
 
 struct _GODocPrivate {
 	GHashTable	*imagebuf; /* used when loading/saving images */
+
+	/* color maps */
+	GSList	*colormaps; /* document graph axis color maps */
+	GSList	*colormapsbuf; /* used when loading/saving color maps */
 };
 
 /**
@@ -132,6 +136,7 @@ go_doc_finalize (GObject *obj)
 	if (doc->images)
 		g_hash_table_destroy (doc->images);
 	doc->images = NULL;
+	g_slist_free_full (doc->priv->colormaps, g_object_unref);
 	g_free (doc->priv);
 	doc->priv = NULL;
 
@@ -626,4 +631,42 @@ go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 				      image);
 	}
 	return image;
+}
+
+/**
+ * go_doc_get_color_map:
+ * @doc: a #GODoc
+ * @name: the color map name to search for
+ *
+ * Retrieves the color map whose name is @name. The difference with
+ * gog_axis_color_map_get_from_name() is that color maps specific to the
+ * document are searched first if any.
+ * Returns: (transfer none): the found color map or %NULL.
+ **/
+GogAxisColorMap	const *
+go_doc_get_color_map (GODoc *doc, char const *name)
+{
+	g_return_val_if_fail (GO_IS_DOC (doc) && name && *name, NULL);
+#if 0
+	if (doc->priv->colormaps == NULL)
+		return NULL;
+	return g_hash_table_lookup (doc->priv->colormaps, name);
+#endif
+	return gog_axis_color_map_get_from_name (name);
+}
+
+/**
+ * go_doc_foreach_color_map:
+ * @doc: a #GODoc
+ * @handler: (scope call): a #GogAxisColorMapHandler
+ * @user_data: data to pass to @handler
+ *
+ * Executes @handler to each color map installed on the system or specific to
+ * @doc. This function calls gog_axis_color_map_foreach() but don't execute the
+ * handler if a color map with the same name exists in the document.
+ **/
+void
+go_doc_foreach_color_map (GODoc *doc, GogAxisColorMapHandler handler, gpointer user_data)
+{
+	gog_axis_color_map_foreach (handler, user_data);
 }

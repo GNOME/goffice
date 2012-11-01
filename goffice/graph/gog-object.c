@@ -1090,7 +1090,9 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 		else
 			dataset_dup (GOG_DATASET (src), GOG_DATASET (dst));
 	}
-	if (GOG_IS_CHART (src))
+	if (GOG_IS_GRAPH (src))
+		GOG_GRAPH (dst)->doc = GOG_GRAPH (src)->doc;
+	else if (GOG_IS_CHART (src))
 		GOG_CHART (dst)->axis_set = GOG_CHART (src)->axis_set;
 
 	for (ptr = src->children; ptr != NULL ; ptr = ptr->next)

@@ -1,3 +1,25 @@
+2012-11-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am:  add new ui file.
+	* file goffice/app/go-doc.c: add support for color maps.
+	* file goffice/app/go-doc.h: ditto.
+	* file goffice/app/goffice-app.h: ditto.
+	* file goffice/goffice.h: ditto.
+	* file goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-axis-color-map-prefs.ui: new ui file.
+	* goffice/graph/gog-axis-color-map.c: new functions.
+	* goffice/graph/gog-axis-color-map.h: ditto.
+	* goffice/graph/gog-axis-prefs.ui: allow for color map changes.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-color-scale.c: minor update.
+	* goffice/graph/gog-graph.c: make sure we can access the GODoc when loading.
+	* goffice/graph/gog-graph.h: ditto.
+	* goffice/graph/gog-object-xml.c: ditto.
+	* goffice/graph/gog-object.c: ditto.
+	* goffice/graph/gog-theme.c: minor update.
+	* plugins/plot_surface/gog-contour.c: interpolate colors when using a color
+	map with less colors than there are levels.
+
 2012-10-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (go_regression_stat_destroy): Plug

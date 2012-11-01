@@ -241,6 +241,8 @@ gog_theme_finalize (GObject *obj)
 			g_object_unref (g_ptr_array_index (theme->palette, i));
 		g_ptr_array_free (theme->palette, TRUE);
 	}
+	if (theme->cm)
+		g_object_unref (theme->cm);
 	if (theme->dcm)
 		g_object_unref (theme->dcm);
 
@@ -846,7 +848,7 @@ build_predefined_themes (void)
 		NULL, "GogEquation", NULL);
 #endif
 	/* builds the default discrete color map */
-	theme->dcm = gog_axis_color_map_from_colors ("Default discrete",
+	theme->dcm = gog_axis_color_map_from_colors (N_("Theme"),
 	                                             G_N_ELEMENTS (default_palette),
 	                                             default_palette);
 
@@ -995,7 +997,7 @@ build_predefined_themes (void)
 		NULL, "GogEquation", NULL);
 #endif
 
-	theme->dcm = gog_axis_color_map_from_colors ("Default discrete",
+	theme->dcm = gog_axis_color_map_from_colors (N_("Theme"),
 	                                             G_N_ELEMENTS (guppi_palette),
 	                                             guppi_palette);
 }
@@ -1029,6 +1031,7 @@ name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->lang == NULL) {
 		GOStyle *style;
 		state->theme = gog_theme_new (name);
+		name = NULL;
 		state->theme->palette = g_ptr_array_new ();
 		/* initialize a dummy GogSeries style */
 		style = go_style_new ();
@@ -1043,11 +1046,13 @@ name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		for (i = 0; i < state->name_lang_score && state->langs[i] != NULL; i++) {
 			if (strcmp (state->langs[i], state->lang) == 0) {
 				g_free (state->local_name);
-				state->local_name = g_strdup (name);
+				state->local_name = name;
+				name = NULL;
 				state->name_lang_score = i;
 			}
 		}
 	}
+	g_free (name);
 	g_free (state->lang);
 	state->lang = NULL;
 }
@@ -1069,8 +1074,8 @@ desc_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			}
 		}
 	}
-	g_free (state->lang);
-	state->lang = NULL;
+	g_free (state->desc);
+	state->desc = NULL;
 }
 
 static void
@@ -1113,8 +1118,10 @@ theme_load_from_uri (char const *uri)
 	GsfXMLInDoc *xml;
 	GsfInput *input = go_file_open (uri, NULL);
 
-	if (input == NULL)
+	if (input == NULL) {
 		g_warning ("[GogTheme]: Could not open %s", uri);
+		return;
+	}
 	state.theme = NULL;
 	state.desc = state.lang = state.local_name = NULL;
 	state.langs = g_get_language_names ();
@@ -1128,7 +1135,7 @@ theme_load_from_uri (char const *uri)
 			unsigned i;
 			for (i = 0; i < state.theme->palette->len; i++)
 				colors[i] = GO_STYLE (g_ptr_array_index (state.theme->palette, i))->fill.pattern.back;
-			state.theme->dcm = gog_axis_color_map_from_colors ("Default discrete", state.theme->palette->len, colors);
+			state.theme->dcm = gog_axis_color_map_from_colors ("Default", state.theme->palette->len, colors);
 			g_free (colors);
 		}
 		state.theme->local_name = state.local_name;
@@ -1199,8 +1206,10 @@ _gog_themes_shutdown (void)
 /**
  * gog_theme_get_color_map:
  * @theme: #GogTheme
- * @discrete:
+ * @discrete: whether the map is for a discrete axis.
  *
+ * Retrieves the themed color map. Each theme has a discrete color map and a
+ * continuous one.
  * Returns: (transfer none): the requested color map.
  **/
 GogAxisColorMap const *

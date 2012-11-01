@@ -61,6 +61,11 @@ G_END_DECLS
 
 #include <goffice/goffice.h>
 #include <goffice/utils/goffice-utils.h>
+#include <goffice/graph/goffice-graph.h>
+#include <goffice/canvas/goffice-canvas.h>
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#endif
 
 #include <goffice/app/error-info.h>
 #include <goffice/app/file.h>

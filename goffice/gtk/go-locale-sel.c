@@ -158,7 +158,7 @@ static LocaleInfo locale_trans_array[] = {
 	{N_("Luxembourg/German (de_LU)"),                "de_LU", LG_WESTERN_EUROPE },
 	{N_("Maldives (dv_MV)"),                         "dv_MV", LG_ASIA },
 	{N_("Bhutan (dz_BT)"),                           "dz_BT", LG_ASIA },
-	{N_("Cyprus/Greek (el_CY)"),                     "el_CY", LG_WESTERN_EUROPE },  
+	{N_("Cyprus/Greek (el_CY)"),                     "el_CY", LG_WESTERN_EUROPE },
 	{N_("Greece (el_GR)"),                           "el_GR", LG_WESTERN_EUROPE },
 	{N_("Antigua and Barbuda/English (en_AG)"),      "en_AG", LG_CARIBBEAN },
 	{N_("Australia (en_AU)"),                        "en_AU", LG_AUSTRALIA },

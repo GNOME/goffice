@@ -35,6 +35,18 @@ GType gog_axis_color_map_get_type (void);
 GOColor gog_axis_color_map_get_color (GogAxisColorMap const *map, double x);
 unsigned gog_axis_color_map_get_max (GogAxisColorMap const *map);
 GogAxisColorMap *gog_axis_color_map_from_colors (char const *name, unsigned nb, GOColor const *colors);
+GdkPixbuf *gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
+                                            gboolean discrete,
+                                            gboolean horizontal,
+                                            unsigned width,
+                                            unsigned height);
+char const *gog_axis_color_map_get_name (GogAxisColorMap const *map);
+#ifdef GOFFICE_WITH_GTK
+GogAxisColorMap *gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc);
+#endif
+typedef void (*GogAxisColorMapHandler) (GogAxisColorMap const *map, gpointer user_data);
+void gog_axis_color_map_foreach (GogAxisColorMapHandler handler, gpointer user_data);
+GogAxisColorMap const *gog_axis_color_map_get_from_name (char const *name);
 
 
 /* private */

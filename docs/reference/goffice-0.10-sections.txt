@@ -843,6 +843,8 @@ go_distribution_get_type
 GODoc
 go_doc_add_image
 go_doc_end_read
+go_doc_foreach_color_map
+go_doc_get_color_map
 go_doc_get_dirty_time
 go_doc_get_image
 go_doc_get_images
@@ -2741,9 +2743,15 @@ gog_axis_base_view_get_type
 <FILE>gog-axis-color-map</FILE>
 <TITLE>GogAxisColorMap</TITLE>
 GogAxisColorMap
+gog_axis_color_map_edit
+GogAxisColorMapHandler
+gog_axis_color_map_foreach
 gog_axis_color_map_from_colors
 gog_axis_color_map_get_color
+gog_axis_color_map_get_from_name
 gog_axis_color_map_get_max
+gog_axis_color_map_get_name
+gog_axis_color_map_get_snapshot
 <SUBSECTION Standard>
 GOG_AXIS_COLOR_MAP
 GOG_IS_AXIS_COLOR_MAP
@@ -2939,6 +2947,7 @@ gog_graph_dup
 gog_graph_export_image
 gog_graph_force_update
 gog_graph_get_data
+gog_graph_get_document
 gog_graph_get_size
 gog_graph_get_supported_image_formats
 gog_graph_get_theme

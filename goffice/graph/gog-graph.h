@@ -73,6 +73,7 @@ void  	 gog_graph_view_handle_event 	(GogGraphView *gview, GdkEvent *event, doub
 #endif
 
 void 	 gog_graph_render_to_cairo 	(GogGraph *graph, cairo_t *cairo, double w, double h);
+GODoc	*gog_graph_get_document		(GogGraph *graph);
 
 G_END_DECLS
 

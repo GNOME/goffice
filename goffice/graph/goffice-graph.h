@@ -236,6 +236,8 @@ extern int goffice_graph_debug_level;
 G_END_DECLS
 
 #include <goffice/goffice.h>
+#include <goffice/data/goffice-data.h>
+#include <goffice/math/goffice-math.h>
 
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-styled-object.h>
