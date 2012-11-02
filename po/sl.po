@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-29 16:54+0000\n"
-"PO-Revision-Date: 2012-10-29 22:14+0100\n"
+"POT-Creation-Date: 2012-11-01 14:04+0000\n"
+"PO-Revision-Date: 2012-11-02 21:47+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -89,39 +89,39 @@ msgstr "To varnostno zmožnost lahko onemogočite z urejanjem ustrezne datoteke 
 msgid "Invalid %s: '%s'"
 msgstr "Neveljavno %s: '%s'"
 
-#: ../goffice/app/go-doc.c:163
+#: ../goffice/app/go-doc.c:168
 msgid "URI"
 msgstr "Naslov URI"
 
-#: ../goffice/app/go-doc.c:164
+#: ../goffice/app/go-doc.c:169
 msgid "The URI associated with this document."
 msgstr "Naslov URI povezan s tem dokumentom."
 
-#: ../goffice/app/go-doc.c:168
+#: ../goffice/app/go-doc.c:173
 msgid "Dirty"
 msgstr "Spremenjeno"
 
-#: ../goffice/app/go-doc.c:169
+#: ../goffice/app/go-doc.c:174
 msgid "Whether the document has been changed."
 msgstr "Ali je dokument spremenjen."
 
-#: ../goffice/app/go-doc.c:173
+#: ../goffice/app/go-doc.c:178
 msgid "Dirty Time"
 msgstr "Čas prve spremembe"
 
-#: ../goffice/app/go-doc.c:174
+#: ../goffice/app/go-doc.c:179
 msgid "When the document was first changed."
 msgstr "Datum prve spremembe dokumenta."
 
-#: ../goffice/app/go-doc.c:179
+#: ../goffice/app/go-doc.c:184
 msgid "Pristine"
 msgstr "Pristno"
 
-#: ../goffice/app/go-doc.c:180
+#: ../goffice/app/go-doc.c:185
 msgid "Whether the document is unchanged since it was created."
 msgstr "Ali je dokument od ustvarjanja dalje ostal nespremenjen."
 
-#: ../goffice/app/go-doc.c:443
+#: ../goffice/app/go-doc.c:448
 #: ../goffice/canvas/goc-image.c:292
 #: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "Image"
@@ -527,7 +527,7 @@ msgstr "Vrtenje okoli središča"
 
 #: ../goffice/canvas/goc-arc.c:478
 #: ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:2869
+#: ../goffice/graph/gog-axis.c:2994
 #: ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
@@ -633,7 +633,7 @@ msgstr "Višina"
 #: ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:324
 #: ../goffice/canvas/goc-widget.c:786
-#: ../goffice/graph/gog-color-scale.c:127
+#: ../goffice/graph/gog-color-scale.c:137
 #: ../goffice/graph/gog-graph.c:480
 #: ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
@@ -701,7 +701,7 @@ msgid "The GogGraph this object displays"
 msgstr "Predmet GogGraph, ki ga ta predmet izrisuje"
 
 #: ../goffice/canvas/goc-graph.c:471
-#: ../goffice/graph/gog-graph.c:1026
+#: ../goffice/graph/gog-graph.c:1024
 msgid "Renderer"
 msgstr "Izrisovalnik"
 
@@ -1312,6 +1312,30 @@ msgstr "stopinj"
 msgid "<b>Mapping</b>"
 msgstr "<b>Preslikava</b>"
 
+#: ../goffice/graph/gog-axis-prefs.ui.h:27
+msgid "New"
+msgstr "Novo"
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:28
+msgid "Creates a new color map from scratch"
+msgstr "Ustvari novo barvno preslikavo"
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:29
+msgid "Duplicate"
+msgstr "Podvoji"
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:30
+msgid "Creates a new color map based on the currently selected one."
+msgstr "Ustvari novo barvno preslikavo na osnovi trenutno izbrane."
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:31
+msgid "Edit"
+msgstr "Uredi"
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:32
+msgid "Edits the color map."
+msgstr "Uredi barvne preslikave."
+
 #: ../goffice/graph/gog-axis.c:85
 msgid "Degrees"
 msgstr "Stopinje"
@@ -1325,6 +1349,7 @@ msgid "Grads"
 msgstr "Gradiani"
 
 #: ../goffice/graph/gog-axis.c:1493
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
 msgid "Discrete"
 msgstr "Diskretne strukture"
 
@@ -1351,119 +1376,163 @@ msgstr "Logaritemsko"
 msgid "Logarithm mapping"
 msgstr "Logaritemska preslikava"
 
-#: ../goffice/graph/gog-axis.c:2699
-#: ../goffice/graph/gog-axis.c:2709
+#: ../goffice/graph/gog-axis.c:2765
+#: ../goffice/graph/gog-axis.c:2775
 msgid "M_inimum"
 msgstr "Naj_manj"
 
-#: ../goffice/graph/gog-axis.c:2700
-#: ../goffice/graph/gog-axis.c:2710
+#: ../goffice/graph/gog-axis.c:2766
+#: ../goffice/graph/gog-axis.c:2776
 msgid "M_aximum"
 msgstr "Naj_več"
 
-#: ../goffice/graph/gog-axis.c:2701
+#: ../goffice/graph/gog-axis.c:2767
 msgid "Categories between _ticks"
 msgstr "Kategorije med _točkami osi"
 
-#: ../goffice/graph/gog-axis.c:2702
+#: ../goffice/graph/gog-axis.c:2768
 msgid "Categories between _labels"
 msgstr "Kategorije med _oznakami osi"
 
-#: ../goffice/graph/gog-axis.c:2711
+#: ../goffice/graph/gog-axis.c:2777
 msgid "Ma_jor ticks"
 msgstr "_Glavne točke osi"
 
-#: ../goffice/graph/gog-axis.c:2712
+#: ../goffice/graph/gog-axis.c:2778
 msgid "Mi_nor ticks"
 msgstr "_Podrobne točke osi"
 
-#: ../goffice/graph/gog-axis.c:2768
+#: ../goffice/graph/gog-axis.c:2834
 #: ../goffice/math/go-distribution.c:171
 #: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "Merilo"
 
-#: ../goffice/graph/gog-axis.c:2790
+#: ../goffice/graph/gog-axis.c:2856
 #: ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Razmik"
 
-#: ../goffice/graph/gog-axis.c:2808
+#: ../goffice/graph/gog-axis.c:2916
+msgid "Colors"
+msgstr "Barve"
+
+#: ../goffice/graph/gog-axis.c:2933
 #: ../goffice/graph/gog-series-labels.c:891
 #: ../goffice/graph/gog-series-labels.c:1417
 msgid "Format"
 msgstr "Oblika"
 
-#: ../goffice/graph/gog-axis.c:2845
+#: ../goffice/graph/gog-axis.c:2970
 msgid "MajorGrid"
 msgstr "Velika mreža"
 
-#: ../goffice/graph/gog-axis.c:2848
+#: ../goffice/graph/gog-axis.c:2973
 msgid "MinorGrid"
 msgstr "Podrobna mreža"
 
-#: ../goffice/graph/gog-axis.c:2851
+#: ../goffice/graph/gog-axis.c:2976
 msgid "AxisLine"
 msgstr "Črta osi"
 
-#: ../goffice/graph/gog-axis.c:2854
+#: ../goffice/graph/gog-axis.c:2979
 msgid "Label"
 msgstr "Oznaka"
 
-#: ../goffice/graph/gog-axis.c:2870
+#: ../goffice/graph/gog-axis.c:2995
 msgid "Numerical type of this axis"
 msgstr "Številčna vrsta te osi"
 
-#: ../goffice/graph/gog-axis.c:2874
+#: ../goffice/graph/gog-axis.c:2999
 msgid "Invert axis"
 msgstr "Obrni osi"
 
-#: ../goffice/graph/gog-axis.c:2875
+#: ../goffice/graph/gog-axis.c:3000
 msgid "Scale from high to low rather than low to high"
 msgstr "Razvrsti od večjega proti manjšemu namesto manjšega proti večjemu"
 
-#: ../goffice/graph/gog-axis.c:2879
+#: ../goffice/graph/gog-axis.c:3004
 msgid "MapName"
 msgstr "Ime preslikave"
 
-#: ../goffice/graph/gog-axis.c:2880
+#: ../goffice/graph/gog-axis.c:3005
 msgid "The name of the map for scaling"
 msgstr "Ime zemljevida za določanje reda velikosti"
 
-#: ../goffice/graph/gog-axis.c:2885
+#: ../goffice/graph/gog-axis.c:3010
 msgid "Assigned XL format"
 msgstr "Določena XL oblika"
 
-#: ../goffice/graph/gog-axis.c:2886
+#: ../goffice/graph/gog-axis.c:3011
 msgid "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr "Uporabniško določeni zapis za ne-diskretne oznake osi (zapis XL)"
 
-#: ../goffice/graph/gog-axis.c:2891
-#: ../goffice/graph/gog-axis.c:2892
+#: ../goffice/graph/gog-axis.c:3016
+#: ../goffice/graph/gog-axis.c:3017
 msgid "Rotation of circular axis"
 msgstr "Vrtenje krožne osi"
 
-#: ../goffice/graph/gog-axis.c:2899
-#: ../goffice/graph/gog-axis.c:2900
+#: ../goffice/graph/gog-axis.c:3024
+#: ../goffice/graph/gog-axis.c:3025
 msgid "Polar axis set unit"
 msgstr "Enota spiralne osi"
 
-#: ../goffice/graph/gog-axis.c:2905
+#: ../goffice/graph/gog-axis.c:3030
 msgid "Axis start position"
 msgstr "Začetek osi"
 
-#: ../goffice/graph/gog-axis.c:2906
+#: ../goffice/graph/gog-axis.c:3031
 msgid "Position of the plot area at which the axis effective area starts, expressed as a percentage of the available position. Defaults to 0.0"
 msgstr "Položaj območja risanja grafa, na katerem se uporabno območje osi začne, izraženo kot odstotek položajev na voljo. Privzeta vrednost je 0,0"
 
-#: ../goffice/graph/gog-axis.c:2911
+#: ../goffice/graph/gog-axis.c:3036
 msgid "Axis end position"
 msgstr "Konec osi"
 
-#: ../goffice/graph/gog-axis.c:2912
+#: ../goffice/graph/gog-axis.c:3037
 msgid "Position of the plot area at which the axis effective area ends, expressed as a percentage of the available position. Defaults to 1.0"
 msgstr "Položaj območja risanja grafa, na katerem se uporabno območje osi konča, izraženo kot odstotek položajev na voljo. Privzeta vrednost je 1,0"
+
+#: ../goffice/graph/gog-axis.c:3041
+msgid "ColorMapName"
+msgstr "Ime barvne preslikave"
+
+#: ../goffice/graph/gog-axis.c:3042
+msgid "The name of the color map"
+msgstr "Ime barvne preslikave"
+
+#. An MS Excel-ish theme
+#: ../goffice/graph/gog-axis-color-map.c:520
+#: ../goffice/graph/gog-theme.c:701
+msgid "Default"
+msgstr "Privzeto"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
+msgid "<b>Current color stop</b>"
+msgstr "<b>Trenutna končna barva</b>"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
+msgid "Value"
+msgstr "Vrednost"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
+msgid "Color"
+msgstr "Barva"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+msgid "<b>Snapshots</b>"
+msgstr "<b>Zajem zaslonske slike</b>"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
+msgid "Gradient"
+msgstr "Preliv"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
+#: ../goffice/graph/gog-guru.c:1012
+#: ../goffice/graph/gog-series.c:576
+msgid "Name"
+msgstr "Ime"
 
 #: ../goffice/graph/gog-chart.c:374
 #: ../goffice/graph/gog-chart.c:688
@@ -1594,7 +1663,7 @@ msgstr "vrstice"
 msgid "Number of rows in graph grid"
 msgstr "Število vrstic na mreži diagrama"
 
-#: ../goffice/graph/gog-color-scale.c:122
+#: ../goffice/graph/gog-color-scale.c:132
 #: ../plugins/plot_barcol/gog-minmax.c:227
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-dropbar.c:306
@@ -1602,11 +1671,11 @@ msgstr "Število vrstic na mreži diagrama"
 msgid "Horizontal"
 msgstr "Vodoravni"
 
-#: ../goffice/graph/gog-color-scale.c:123
+#: ../goffice/graph/gog-color-scale.c:133
 msgid "Whether to display the scale horizontally"
 msgstr "Ali naj bo prikazano vodoravno merilo"
 
-#: ../goffice/graph/gog-color-scale.c:128
+#: ../goffice/graph/gog-color-scale.c:138
 msgid "Color scale thickness."
 msgstr "Barva debeline merila."
 
@@ -1708,8 +1777,11 @@ msgstr "Tema:"
 msgid "Forget user styles"
 msgstr "Pozabi uporabniške sloge"
 
+#. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:347
 #: ../goffice/graph/gog-graph.c:468
+#: ../goffice/graph/gog-theme.c:851
+#: ../goffice/graph/gog-theme.c:1000
 msgid "Theme"
 msgstr "Tema"
 
@@ -1745,7 +1817,7 @@ msgstr "Dokument"
 msgid "the document for this graph"
 msgstr "dokument za ta diagram"
 
-#: ../goffice/graph/gog-graph.c:1027
+#: ../goffice/graph/gog-graph.c:1025
 msgid "the renderer for this view"
 msgstr "izrisovalnik pogleda"
 
@@ -1772,11 +1844,6 @@ msgstr "<b>Vzorec</b>"
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
 msgid "<b>_Subtype</b>"
 msgstr "<b>_Podvrsta</b>"
-
-#: ../goffice/graph/gog-guru.c:1012
-#: ../goffice/graph/gog-series.c:576
-msgid "Name"
-msgstr "Ime"
 
 #: ../goffice/graph/gog-guru.c:1039
 msgid "Step 1 of 2: Select Chart Type"
@@ -2623,13 +2690,8 @@ msgstr "(Ime):"
 msgid "Smoothed Curve"
 msgstr "Glajena krivulja"
 
-#. An MS Excel-ish theme
-#: ../goffice/graph/gog-theme.c:699
-msgid "Default"
-msgstr "Privzeto"
-
 #. Guppi
-#: ../goffice/graph/gog-theme.c:854
+#: ../goffice/graph/gog-theme.c:856
 msgid "Guppi"
 msgstr "Guppi"
 
