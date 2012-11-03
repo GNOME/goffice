@@ -14,17 +14,17 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011., 2011.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
 # Chris Leonard <cjl@laptop.org>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2012.
 # Miguel Rodríguez Núñez <bokerones.fritos@gmail.com>, 2012.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-29 15:44+0000\n"
-"PO-Revision-Date: 2012-10-28 18:36+0100\n"
-"Last-Translator: Miguel Rodríguez Núñez <bokerones.fritos@gmail.com>\n"
+"POT-Creation-Date: 2012-11-01 14:04+0000\n"
+"PO-Revision-Date: 2012-11-03 10:49+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -104,39 +104,39 @@ msgstr ""
 msgid "Invalid %s: '%s'"
 msgstr "%s no válido: «%s»"
 
-#: ../goffice/app/go-doc.c:163
+#: ../goffice/app/go-doc.c:168
 msgid "URI"
 msgstr "URI"
 
-#: ../goffice/app/go-doc.c:164
+#: ../goffice/app/go-doc.c:169
 msgid "The URI associated with this document."
 msgstr "El URI asociado con este documento."
 
-#: ../goffice/app/go-doc.c:168
+#: ../goffice/app/go-doc.c:173
 msgid "Dirty"
 msgstr "Sucio"
 
-#: ../goffice/app/go-doc.c:169
+#: ../goffice/app/go-doc.c:174
 msgid "Whether the document has been changed."
 msgstr "Indica si el documento ha cambiado."
 
-#: ../goffice/app/go-doc.c:173
+#: ../goffice/app/go-doc.c:178
 msgid "Dirty Time"
 msgstr "Fecha sucia"
 
-#: ../goffice/app/go-doc.c:174
+#: ../goffice/app/go-doc.c:179
 msgid "When the document was first changed."
 msgstr "Indica cuando cambió el documento por primera vez."
 
-#: ../goffice/app/go-doc.c:179
+#: ../goffice/app/go-doc.c:184
 msgid "Pristine"
 msgstr "Inmaculado"
 
-#: ../goffice/app/go-doc.c:180
+#: ../goffice/app/go-doc.c:185
 msgid "Whether the document is unchanged since it was created."
 msgstr "Indica si el documento no ha cambiado desde que se creó."
 
-#: ../goffice/app/go-doc.c:443 ../goffice/canvas/goc-image.c:292
+#: ../goffice/app/go-doc.c:448 ../goffice/canvas/goc-image.c:292
 #: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "Image"
 msgstr "Imagen"
@@ -547,7 +547,7 @@ msgid "The rotation around center position"
 msgstr "La rotación alrededor de la posición del centro"
 
 #: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:2869 ../goffice/graph/gog-grid.c:127
+#: ../goffice/graph/gog-axis.c:2994 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Tipo"
@@ -627,7 +627,7 @@ msgstr "Altura"
 #: ../goffice/canvas/goc-ellipse.c:249 ../goffice/canvas/goc-graph.c:459
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
 #: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
-#: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:127
+#: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
 #: ../goffice/graph/gog-graph.c:480 ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
@@ -691,7 +691,7 @@ msgstr "Gráfico"
 msgid "The GogGraph this object displays"
 msgstr "El GogGraph que muestra este objeto"
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1026
+#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1024
 msgid "Renderer"
 msgstr "Renderizador"
 
@@ -1310,6 +1310,30 @@ msgstr "grados"
 msgid "<b>Mapping</b>"
 msgstr "<b>Mapeo</b>"
 
+#: ../goffice/graph/gog-axis-prefs.ui.h:27
+msgid "New"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:28
+msgid "Creates a new color map from scratch"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:29
+msgid "Duplicate"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:30
+msgid "Creates a new color map based on the currently selected one."
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:31
+msgid "Edit"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:32
+msgid "Edits the color map."
+msgstr ""
+
 #: ../goffice/graph/gog-axis.c:85
 msgid "Degrees"
 msgstr "Grados"
@@ -1323,6 +1347,7 @@ msgid "Grads"
 msgstr "Gradientes"
 
 #: ../goffice/graph/gog-axis.c:1493
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
 msgid "Discrete"
 msgstr "Discreto"
 
@@ -1347,105 +1372,111 @@ msgstr "Log"
 msgid "Logarithm mapping"
 msgstr "Mapeo logarítmico"
 
-#: ../goffice/graph/gog-axis.c:2699 ../goffice/graph/gog-axis.c:2709
+#: ../goffice/graph/gog-axis.c:2765 ../goffice/graph/gog-axis.c:2775
 msgid "M_inimum"
 msgstr "Mí_nimo"
 
-#: ../goffice/graph/gog-axis.c:2700 ../goffice/graph/gog-axis.c:2710
+#: ../goffice/graph/gog-axis.c:2766 ../goffice/graph/gog-axis.c:2776
 msgid "M_aximum"
 msgstr "Má_ximo"
 
-#: ../goffice/graph/gog-axis.c:2701
+#: ../goffice/graph/gog-axis.c:2767
 msgid "Categories between _ticks"
 msgstr "Categorías entre _tics"
 
-#: ../goffice/graph/gog-axis.c:2702
+#: ../goffice/graph/gog-axis.c:2768
 msgid "Categories between _labels"
 msgstr "Categorías entre _etiquetas"
 
-#: ../goffice/graph/gog-axis.c:2711
+#: ../goffice/graph/gog-axis.c:2777
 msgid "Ma_jor ticks"
 msgstr "Tics ma_yores"
 
-#: ../goffice/graph/gog-axis.c:2712
+#: ../goffice/graph/gog-axis.c:2778
 msgid "Mi_nor ticks"
 msgstr "Tics me_nores"
 
-#: ../goffice/graph/gog-axis.c:2768 ../goffice/math/go-distribution.c:171
+#: ../goffice/graph/gog-axis.c:2834 ../goffice/math/go-distribution.c:171
 #: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "Escala"
 
-#: ../goffice/graph/gog-axis.c:2790 ../plugins/plot_pie/gog-pie.c:325
+#: ../goffice/graph/gog-axis.c:2856 ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Expandir"
 
-#: ../goffice/graph/gog-axis.c:2808 ../goffice/graph/gog-series-labels.c:891
+#: ../goffice/graph/gog-axis.c:2916
+#, fuzzy
+#| msgid "XYColor"
+msgid "Colors"
+msgstr "Color XY"
+
+#: ../goffice/graph/gog-axis.c:2933 ../goffice/graph/gog-series-labels.c:891
 #: ../goffice/graph/gog-series-labels.c:1417
 msgid "Format"
 msgstr "Formato"
 
-#: ../goffice/graph/gog-axis.c:2845
+#: ../goffice/graph/gog-axis.c:2970
 msgid "MajorGrid"
 msgstr "RejillaMayor"
 
-#: ../goffice/graph/gog-axis.c:2848
+#: ../goffice/graph/gog-axis.c:2973
 msgid "MinorGrid"
 msgstr "RejillaMenor"
 
-#: ../goffice/graph/gog-axis.c:2851
+#: ../goffice/graph/gog-axis.c:2976
 msgid "AxisLine"
 msgstr "LíneaDelEje"
 
-#: ../goffice/graph/gog-axis.c:2854
+#: ../goffice/graph/gog-axis.c:2979
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../goffice/graph/gog-axis.c:2870
+#: ../goffice/graph/gog-axis.c:2995
 msgid "Numerical type of this axis"
 msgstr "Tipo numérico de este eje"
 
-#: ../goffice/graph/gog-axis.c:2874
+#: ../goffice/graph/gog-axis.c:2999
 msgid "Invert axis"
 msgstr "Invertir eje"
 
-#: ../goffice/graph/gog-axis.c:2875
+#: ../goffice/graph/gog-axis.c:3000
 msgid "Scale from high to low rather than low to high"
 msgstr "Escalar de grande a pequeño en lugar de de pequeño a grande"
 
-#: ../goffice/graph/gog-axis.c:2879
+#: ../goffice/graph/gog-axis.c:3004
 msgid "MapName"
 msgstr "NombreDelMapa"
 
-#: ../goffice/graph/gog-axis.c:2880
+#: ../goffice/graph/gog-axis.c:3005
 msgid "The name of the map for scaling"
 msgstr "El nombre del mapa que escalar"
 
-#: ../goffice/graph/gog-axis.c:2885
+#: ../goffice/graph/gog-axis.c:3010
 msgid "Assigned XL format"
 msgstr "Formato XL asignado"
 
-#: ../goffice/graph/gog-axis.c:2886
+#: ../goffice/graph/gog-axis.c:3011
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "El formato asignado por el usuario que usar para las etiquetas no discretas "
 "de los ejes (formato XL)"
 
-#: ../goffice/graph/gog-axis.c:2891 ../goffice/graph/gog-axis.c:2892
+#: ../goffice/graph/gog-axis.c:3016 ../goffice/graph/gog-axis.c:3017
 msgid "Rotation of circular axis"
 msgstr "Rotación del eje circular"
 
-#: ../goffice/graph/gog-axis.c:2899 ../goffice/graph/gog-axis.c:2900
+#: ../goffice/graph/gog-axis.c:3024 ../goffice/graph/gog-axis.c:3025
 msgid "Polar axis set unit"
 msgstr "Unidad del eje polar"
 
-#: ../goffice/graph/gog-axis.c:2905
+#: ../goffice/graph/gog-axis.c:3030
 msgid "Axis start position"
 msgstr "Posición de inicio de los ejes"
 
-#: ../goffice/graph/gog-axis.c:2906
+#: ../goffice/graph/gog-axis.c:3031
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
@@ -1453,17 +1484,69 @@ msgstr ""
 "Posición del área de dibujado en la que se inicia el área efectivo del eje, "
 "expresada como porcentaje de la posición disponible. Lo predeterminado es 0.0"
 
-#: ../goffice/graph/gog-axis.c:2911
+#: ../goffice/graph/gog-axis.c:3036
 msgid "Axis end position"
 msgstr "Posición final de los ejes"
 
-#: ../goffice/graph/gog-axis.c:2912
+#: ../goffice/graph/gog-axis.c:3037
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
 msgstr ""
 "Posición del área de dibujado en el que finaliza el área efectivo del eje, "
 "expresado como porcentaje de la posición disponible. Lo predeterminado es 1.0"
+
+#: ../goffice/graph/gog-axis.c:3041
+#, fuzzy
+#| msgid "MapName"
+msgid "ColorMapName"
+msgstr "NombreDelMapa"
+
+#: ../goffice/graph/gog-axis.c:3042
+#, fuzzy
+#| msgid "The name of the map for scaling"
+msgid "The name of the color map"
+msgstr "El nombre del mapa que escalar"
+
+#. An MS Excel-ish theme
+#: ../goffice/graph/gog-axis-color-map.c:520 ../goffice/graph/gog-theme.c:701
+msgid "Default"
+msgstr "Predeterminado"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
+#, fuzzy
+#| msgid "<b>Error category</b>"
+msgid "<b>Current color stop</b>"
+msgstr "<b>Categoría del error</b>"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
+#, fuzzy
+#| msgid "Values"
+msgid "Value"
+msgstr "Valores"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
+#, fuzzy
+#| msgid "XYColor"
+msgid "Color"
+msgstr "Color XY"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+#, fuzzy
+#| msgid "<b>Sample</b>"
+msgid "<b>Snapshots</b>"
+msgstr "<b>Muestra</b>"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
+#, fuzzy
+#| msgid "Grads"
+msgid "Gradient"
+msgstr "Gradientes"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
+#: ../goffice/graph/gog-guru.c:1012 ../goffice/graph/gog-series.c:576
+msgid "Name"
+msgstr "Nombre"
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:688
 msgid "Plot area"
@@ -1591,7 +1674,7 @@ msgstr "filas"
 msgid "Number of rows in graph grid"
 msgstr "Número de filas en la rejilla de gráfico"
 
-#: ../goffice/graph/gog-color-scale.c:122
+#: ../goffice/graph/gog-color-scale.c:132
 #: ../plugins/plot_barcol/gog-minmax.c:227
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-dropbar.c:306
@@ -1599,15 +1682,13 @@ msgstr "Número de filas en la rejilla de gráfico"
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: ../goffice/graph/gog-color-scale.c:123
-#, fuzzy
-#| msgid "Whether to use horizontal bars"
+#: ../goffice/graph/gog-color-scale.c:133
 msgid "Whether to display the scale horizontally"
-msgstr "Indica si usar barras horizontales"
+msgstr "Indica si se debe mostrar la escala horizontal"
 
-#: ../goffice/graph/gog-color-scale.c:128
+#: ../goffice/graph/gog-color-scale.c:138
 msgid "Color scale thickness."
-msgstr ""
+msgstr "Grosor de la escala de color."
 
 #. Note for translators: first string represent the new child object and second string is the parent object
 #: ../goffice/graph/gog-child-button.c:499
@@ -1705,7 +1786,9 @@ msgstr "Tema:"
 msgid "Forget user styles"
 msgstr "Olvidar los estilos del usuario"
 
+#. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:347 ../goffice/graph/gog-graph.c:468
+#: ../goffice/graph/gog-theme.c:851 ../goffice/graph/gog-theme.c:1000
 msgid "Theme"
 msgstr "Tema"
 
@@ -1741,7 +1824,7 @@ msgstr "Documento"
 msgid "the document for this graph"
 msgstr "el documento para esta gráfica"
 
-#: ../goffice/graph/gog-graph.c:1027
+#: ../goffice/graph/gog-graph.c:1025
 msgid "the renderer for this view"
 msgstr "el renderizador para esta vista"
 
@@ -1768,10 +1851,6 @@ msgstr "<b>Muestra</b>"
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
 msgid "<b>_Subtype</b>"
 msgstr "<b>_Subtipo</b>"
-
-#: ../goffice/graph/gog-guru.c:1012 ../goffice/graph/gog-series.c:576
-msgid "Name"
-msgstr "Nombre"
 
 #: ../goffice/graph/gog-guru.c:1039
 msgid "Step 1 of 2: Select Chart Type"
@@ -2613,13 +2692,8 @@ msgstr "(Nombre):"
 msgid "Smoothed Curve"
 msgstr "Curva suavizada"
 
-#. An MS Excel-ish theme
-#: ../goffice/graph/gog-theme.c:699
-msgid "Default"
-msgstr "Predeterminado"
-
 #. Guppi
-#: ../goffice/graph/gog-theme.c:854
+#: ../goffice/graph/gog-theme.c:856
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -3943,10 +4017,8 @@ msgid "Poland/Kashubian (csb_PL)"
 msgstr "Polonia/Kasubio (csb_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:151
-#, fuzzy
-#| msgid "Russia/Tatar (tt_RU)"
 msgid "Russia/Chuvash (cv_RU)"
-msgstr "Rusia/Tatar (tt_RU)"
+msgstr "Rusia/Chuvasio (cv_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:152
 msgid "Great Britain/Welsh (cy_GB)"
@@ -3993,10 +4065,8 @@ msgid "Greece (el_GR)"
 msgstr "Grecia/Griego (el_GR)"
 
 #: ../goffice/gtk/go-locale-sel.c:163
-#, fuzzy
-#| msgid "Canada/English (en_CA)"
 msgid "Antigua and Barbuda/English (en_AG)"
-msgstr "Canadá/Inglés (en_CA)"
+msgstr "Antigua y Barbuda/Inglés (en_AG)"
 
 #: ../goffice/gtk/go-locale-sel.c:164
 msgid "Australia (en_AU)"
@@ -4155,10 +4225,8 @@ msgid "Finland/Finnish (fi_FI)"
 msgstr "Finlandia/Finlandés (fi_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
-#, fuzzy
-#| msgid "Philippines/Tagalog (tl_PH)"
 msgid "Phillipines/Filipino (fil_PH)"
-msgstr "Filipinas/Tagalo (tl_PH)"
+msgstr "Filipinas/Filipino (fil_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:204
 msgid "Faroe Islands (fo_FO)"
@@ -4181,28 +4249,20 @@ msgid "France (fr_FR)"
 msgstr "Francia/Francés (fr_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:209
-#, fuzzy
-#| msgid "Luxembourg/German (de_LU)"
 msgid "Luxembourg/French (fr_LU)"
-msgstr "Luxemburgo/Alemán (de_LU)"
+msgstr "Luxemburgo/Francés (fr_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:210
-#, fuzzy
-#| msgid "Italy (it_IT)"
 msgid "Italy/Furlan (fur_IT)"
-msgstr "Italia/Italiano (it_IT)"
+msgstr "Italia/Friulano (fur_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:211
-#, fuzzy
-#| msgid "Germany (de_DE)"
 msgid "Germany/Frisian (fy_DE)"
-msgstr "Alemania/Alemán (de_DE)"
+msgstr "Alemania/Frisio (fy_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:212
-#, fuzzy
-#| msgid "The Netherlands (nl_NL)"
 msgid "Netherlands/Frisian (fy_NL)"
-msgstr "Holanda/Holandés (nl_NL)"
+msgstr "Holanda/Frisio (fy_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:213
 msgid "Ireland/Gaelic (ga_IE)"
@@ -4213,10 +4273,8 @@ msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Gran Bretaña/Escocés gaélico (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
-#, fuzzy
-#| msgid "Eritrea (ti_ER)"
 msgid "Eritrea/Ge'ez “gez_ER)"
-msgstr "Eritrea (ti_ER)"
+msgstr "Eritrea/Ge'ez (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
 msgid "Ethiopia/Ge'ez “gez_ET)"
@@ -4227,10 +4285,8 @@ msgid "Spain/Galician (gl_ES)"
 msgstr "España/Gallego (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
-#, fuzzy
-#| msgid "India/Marathi (mr_IN)"
 msgid "India/Gurajati “gu_IN)"
-msgstr "India/Marathi (mr_IN)"
+msgstr "India/Gurajati (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
 msgid "Great Britain/Manx Gaelic (gv_GB)"
@@ -4241,20 +4297,16 @@ msgid "Nigeria/Hausa (ha_NG)"
 msgstr "Nigeria/Hausa (ha_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:221
-#, fuzzy
-#| msgid "Israel/Hebrew (iw_IL)"
 msgid "Israel/Hebrew (he_IL)"
-msgstr "Israel/Hebreo (iw_IL)"
+msgstr "Israel/Hebreo (he_IL)"
 
 #: ../goffice/gtk/go-locale-sel.c:222
 msgid "India/Hindu (hi_IN)"
 msgstr "India/Hindú (hi_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:223
-#, fuzzy
-#| msgid "India/Marathi (mr_IN)"
 msgid "India/Chhattisgarhi (hne_IN)"
-msgstr "India/Marathi (mr_IN)"
+msgstr "India/Chhattisgarhi (hne_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:224
 msgid "Croatia (hr_HR)"
@@ -4289,10 +4341,8 @@ msgid "Nigeria/Igbo (ig_NG)"
 msgstr "Nigeria/Igbo (ig_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:232
-#, fuzzy
-#| msgid "Canada/English (en_CA)"
 msgid "Canada/Inupiaq (ik_CA)"
-msgstr "Canadá/Inglés (en_CA)"
+msgstr "Canadá/Inupiaq (ik_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:233
 msgid "Iceland (is_IS)"
@@ -4311,10 +4361,8 @@ msgid "Italy (it_IT)"
 msgstr "Italia/Italiano (it_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:237
-#, fuzzy
-#| msgid "Canada/English (en_CA)"
 msgid "Canada/Inuktitut (iu_CA)"
-msgstr "Canadá/Inglés (en_CA)"
+msgstr "Canadá/Inuktitut (iu_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:238
 msgid "Japan (ja_JP)"
@@ -4337,32 +4385,24 @@ msgid "Cambodia/Khmer (km_KH)"
 msgstr "Camboya/Khmer (km_KH)"
 
 #: ../goffice/gtk/go-locale-sel.c:243
-#, fuzzy
-#| msgid "India/Bengali (bn_IN)"
 msgid "India/Kannada (kn_IN)"
-msgstr "India/Bengalí (bn_IN)"
+msgstr "India/Kannada (kn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:244
 msgid "Korea (ko_KR)"
 msgstr "Corea/Coreano (ko_KR)"
 
 #: ../goffice/gtk/go-locale-sel.c:245
-#, fuzzy
-#| msgid "India/Bengali (bn_IN)"
 msgid "India/Konkani (kok_IN)"
-msgstr "India/Bengalí (bn_IN)"
+msgstr "India/Konkani (kok_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:246
-#, fuzzy
-#| msgid "India/Tamil (ta_IN)"
 msgid "India/Kashmiri (ks_IN)"
-msgstr "India/Tamil (ta_IN)"
+msgstr "India/Kashmiri (ks_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:247
-#, fuzzy
-#| msgid "Turkey (tr_TR)"
 msgid "Turkey/Kurdish (ku_TR)"
-msgstr "Turquía (tr_TR)"
+msgstr "Turquía/Kurdo (ku_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:248
 msgid "Great Britain/Cornish (kw_GB)"
@@ -4373,26 +4413,20 @@ msgid "Kyrgyzstan/Kyrgyz (ky_KG)"
 msgstr "Kirguistán/Kyrguís (ky_KG)"
 
 #: ../goffice/gtk/go-locale-sel.c:250
-#, fuzzy
-#| msgid "Luxembourg/German (de_LU)"
 msgid "Luxembourg/Luxembourgish (lb_LU)"
-msgstr "Luxemburgo/Alemán (de_LU)"
+msgstr "Luxemburgo/Luxemburgués (lb_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:251
 msgid "Uganda/Luganda (lg_UG)"
 msgstr "Uganda/Luganda (lg_UG)"
 
 #: ../goffice/gtk/go-locale-sel.c:252
-#, fuzzy
-#| msgid "Belgium/Flemish (nl_BE)"
 msgid "Belgium/Limburgish (li_BE)"
-msgstr "Bélgica/Flamenco (nl_BE)"
+msgstr "Bélgica/Limburgués (li_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:253
-#, fuzzy
-#| msgid "The Netherlands (nl_NL)"
 msgid "Netherlands/Limburgish (li_NL)"
-msgstr "Holanda/Holandés (nl_NL)"
+msgstr "Holanda/Limburgués (li_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:254
 #, fuzzy
@@ -4419,10 +4453,8 @@ msgid "India/Maithili (mai_IN)"
 msgstr "India/Marathi (mr_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:259
-#, fuzzy
-#| msgid "Madagascar, Malagasy Ariary"
 msgid "Madagascar/Malagasy (mg_MG)"
-msgstr "Madagascar, Ariary malgache"
+msgstr "Madagascar/Malagasy (mg_MG)"
 
 #: ../goffice/gtk/go-locale-sel.c:260
 #, fuzzy
@@ -4439,16 +4471,12 @@ msgid "Macedonia (mk_MK)"
 msgstr "Macedonia (mk_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:263
-#, fuzzy
-#| msgid "India/Marathi (mr_IN)"
 msgid "India/Malayalam (ml_IN)"
-msgstr "India/Marathi (mr_IN)"
+msgstr "India/Malayalam (ml_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:264
-#, fuzzy
-#| msgid "Macedonia (mk_MK)"
 msgid "Mongolia (mn_MN)"
-msgstr "Macedonia (mk_MK)"
+msgstr "Mongolia (mn_MN)"
 
 #: ../goffice/gtk/go-locale-sel.c:265
 msgid "India/Marathi (mr_IN)"
@@ -4535,10 +4563,8 @@ msgid "Kenya/Oromo (om_KE)"
 msgstr "Kenia/Oromo (om_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:283
-#, fuzzy
-#| msgid "India/Arabic (ar_IN)"
 msgid "India/Oriya (or_IN)"
-msgstr "India/Árabe (ar_IN)"
+msgstr "India/Oriya (or_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:284
 #, fuzzy
@@ -4547,10 +4573,8 @@ msgid "Russia/Ossetian (os_RU)"
 msgstr "Rusia/Tatar (tt_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:285
-#, fuzzy
-#| msgid "India/Tamil (ta_IN)"
 msgid "India/Punjabi (Gurmukhi) (pa_IN)"
-msgstr "India/Tamil (ta_IN)"
+msgstr "India/Punjabi (Gurmukhi) (pa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:286
 msgid "Pakistan/Punjabi (Shamukhi) (pa_PK)"
@@ -4593,10 +4617,8 @@ msgid "Rwanda/Kinyarwanda (rw_RW)"
 msgstr "Ruanda/Kinyarwanda (rw_RW)"
 
 #: ../goffice/gtk/go-locale-sel.c:296
-#, fuzzy
-#| msgid "India/Tamil (ta_IN)"
 msgid "India/Sanskrit (sa_IN)"
-msgstr "India/Tamil (ta_IN)"
+msgstr "India/Sanskrit (sa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:297
 #, fuzzy
@@ -4605,10 +4627,8 @@ msgid "Italy/Sardinian (sc_IT)"
 msgstr "Italia/Italiano (it_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:298
-#, fuzzy
-#| msgid "India/Hindu (hi_IN)"
 msgid "India/Sindhi (sd_IN)"
-msgstr "India/Hindú (hi_IN)"
+msgstr "India/Sindhi (sd_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:299
 msgid "Norway/Saami (se_NO)"
@@ -4669,10 +4689,8 @@ msgid "Montenegro/Serbian (sr_ME)"
 msgstr "Montenegro/Serbio (sr_ME)"
 
 #: ../goffice/gtk/go-locale-sel.c:312
-#, fuzzy
-#| msgid "Yugoslavia (sr_YU)"
 msgid "Yugoslavia (sr_RS)"
-msgstr "Yugoslavia (sr_YU)"
+msgstr "Yugoslavia (sr_RS)"
 
 #: ../goffice/gtk/go-locale-sel.c:313
 #, fuzzy
@@ -4699,10 +4717,8 @@ msgid "Kenya/Swahili (sw_KE)"
 msgstr "Kenia/Swahili (sw_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:318
-#, fuzzy
-#| msgid "Tanzania, Shillings"
 msgid "Tanzania/Swahili (sw_TZ)"
-msgstr "Tanzania, chelines"
+msgstr "Tanzania/Swahili (sw_TZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:319
 msgid "India/Tamil (ta_IN)"
@@ -4721,20 +4737,16 @@ msgid "Thailand (th_TH)"
 msgstr "Tailandia (th_TH)"
 
 #: ../goffice/gtk/go-locale-sel.c:323
-#, fuzzy
-#| msgid "Ethiopia/Tigrinya (ti_ET)"
 msgid "Eritrea/Tigrinya (ti_ER)"
-msgstr "Etiopía/Tigrinya (ti_ET)"
+msgstr "Eritrea/Tigrinya (ti_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:324
 msgid "Ethiopia/Tigrinya (ti_ET)"
 msgstr "Etiopía/Tigrinya (ti_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:325
-#, fuzzy
-#| msgid "Eritrea (ti_ER)"
 msgid "Eritrea/Tigre (tig_ER)"
-msgstr "Eritrea (ti_ER)"
+msgstr "Eritrea/Tigre (tig_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:326
 #, fuzzy
