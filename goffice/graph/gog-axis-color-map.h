@@ -23,6 +23,7 @@
 #define GOG_AXIS_COLOR_MAP_H
 
 #include <goffice/goffice.h>
+#include <gsf/gsf-libxml.h>
 
 G_BEGIN_DECLS
 
@@ -40,14 +41,16 @@ GdkPixbuf *gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
                                             gboolean horizontal,
                                             unsigned width,
                                             unsigned height);
+char const *gog_axis_color_map_get_id (GogAxisColorMap const *map);
 char const *gog_axis_color_map_get_name (GogAxisColorMap const *map);
 #ifdef GOFFICE_WITH_GTK
 GogAxisColorMap *gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc);
 #endif
 typedef void (*GogAxisColorMapHandler) (GogAxisColorMap const *map, gpointer user_data);
 void gog_axis_color_map_foreach (GogAxisColorMapHandler handler, gpointer user_data);
-GogAxisColorMap const *gog_axis_color_map_get_from_name (char const *name);
-
+GogAxisColorMap const *gog_axis_color_map_get_from_id (char const *id);
+void gog_axis_color_map_write (GogAxisColorMap const *map, GsfXMLOut *output);
+void gog_axis_color_map_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs);
 
 /* private */
 GogAxisColorMap const *_gog_axis_color_map_get_default (void);

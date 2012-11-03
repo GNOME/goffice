@@ -35,7 +35,6 @@ struct _GODocPrivate {
 	GHashTable	*imagebuf; /* used when loading/saving images */
 
 	/* color maps */
-	GSList	*colormaps; /* document graph axis color maps */
 	GSList	*colormapsbuf; /* used when loading/saving color maps */
 };
 
@@ -136,7 +135,6 @@ go_doc_finalize (GObject *obj)
 	if (doc->images)
 		g_hash_table_destroy (doc->images);
 	doc->images = NULL;
-	g_slist_free_full (doc->priv->colormaps, g_object_unref);
 	g_free (doc->priv);
 	doc->priv = NULL;
 
@@ -506,15 +504,29 @@ save_image_cb (gpointer key, gpointer img_, gpointer user)
 void
 go_doc_write (GODoc *doc, GsfXMLOut *output)
 {
-	if (g_hash_table_size (doc->priv->imagebuf) > 0) {
+	GSList *ptr;
+	if (g_hash_table_size (doc->priv->imagebuf) > 0 ||
+	    doc->priv->colormapsbuf != NULL) {
 		gsf_xml_out_start_element (output, "GODoc");
 		g_hash_table_foreach (doc->priv->imagebuf, save_image_cb, output);
+		for (ptr = doc->priv->colormapsbuf; ptr; ptr = ptr->next)
+			gog_axis_color_map_write (GOG_AXIS_COLOR_MAP (ptr->data), output);
+		g_slist_free (doc->priv->colormapsbuf);
+		doc->priv->colormapsbuf = NULL;
 		gsf_xml_out_end_element (output);
 	}
 	g_hash_table_destroy (doc->priv->imagebuf);
 	doc->priv->imagebuf = NULL;
 }
 
+/**
+ * go_doc_save_image:
+ * @doc: a #GODoc
+ * @id: the Id of the #GOImage to save
+ *
+ * Saves the image with the document. Each image will be saved only
+ * once.
+ **/
 void
 go_doc_save_image (GODoc *doc, char const *id)
 {
@@ -578,6 +590,12 @@ load_image_data (GsfXMLIn *xin, GsfXMLBlob *unknown)
 	g_object_set_data (G_OBJECT (doc), "new image", NULL);
 }
 
+static void
+load_color_map (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	gog_axis_color_map_sax_push_parser (xin, attrs);
+}
+
 void
 go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -589,6 +607,10 @@ go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 					 -1, "GOImage",
 					 GSF_XML_CONTENT,
 					 &load_image, &load_image_data),
+		GSF_XML_IN_NODE 	(DOC, COLOR_MAP,
+					 -1, "GogAxisColorMap",
+					 GSF_XML_NO_CONTENT,
+					 &load_color_map, NULL),
 		GSF_XML_IN_NODE_END
 	};
 	static GsfXMLInDoc *xmldoc = NULL;
@@ -634,39 +656,19 @@ go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 }
 
 /**
- * go_doc_get_color_map:
+ * go_doc_save_color_map:
  * @doc: a #GODoc
- * @name: the color map name to search for
+ * @map: the #GogAxisColorMap to save
  *
- * Retrieves the color map whose name is @name. The difference with
- * gog_axis_color_map_get_from_name() is that color maps specific to the
- * document are searched first if any.
- * Returns: (transfer none): the found color map or %NULL.
- **/
-GogAxisColorMap	const *
-go_doc_get_color_map (GODoc *doc, char const *name)
-{
-	g_return_val_if_fail (GO_IS_DOC (doc) && name && *name, NULL);
-#if 0
-	if (doc->priv->colormaps == NULL)
-		return NULL;
-	return g_hash_table_lookup (doc->priv->colormaps, name);
-#endif
-	return gog_axis_color_map_get_from_name (name);
-}
-
-/**
- * go_doc_foreach_color_map:
- * @doc: a #GODoc
- * @handler: (scope call): a #GogAxisColorMapHandler
- * @user_data: data to pass to @handler
- *
- * Executes @handler to each color map installed on the system or specific to
- * @doc. This function calls gog_axis_color_map_foreach() but don't execute the
- * handler if a color map with the same name exists in the document.
+ * Saves the color map with the document. Each color map will be saved only
+ * once.
  **/
 void
-go_doc_foreach_color_map (GODoc *doc, GogAxisColorMapHandler handler, gpointer user_data)
+go_doc_save_color_map (GODoc *doc, GogAxisColorMap	const *map)
 {
-	gog_axis_color_map_foreach (handler, user_data);
+	GSList *ptr;
+	for (ptr = doc->priv->colormapsbuf; ptr; ptr = ptr->next)
+		if (ptr->data == map) /* already marked for saving */
+			return;
+	doc->priv->colormapsbuf = g_slist_prepend (doc->priv->colormapsbuf, (void *) map);
 }

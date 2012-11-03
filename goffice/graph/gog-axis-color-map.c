@@ -23,6 +23,7 @@
 #include <goffice/goffice.h>
 #include <goffice/goffice-priv.h>
 
+#include <gsf/gsf-input.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -45,7 +46,7 @@
  **/
 struct _GogAxisColorMap {
 	GObject base;
-	char *name, *local_name;
+	char *id, *name;
 	GHashTable *names;
 	unsigned size; /* colors number */
 	unsigned *limits;
@@ -59,10 +60,10 @@ static void
 gog_axis_color_map_finalize (GObject *obj)
 {
 	GogAxisColorMap *map = GOG_AXIS_COLOR_MAP (obj);
+	g_free (map->id);
+	map->id = NULL;
 	g_free (map->name);
 	map->name = NULL;
-	g_free (map->local_name);
-	map->local_name = NULL;
 	g_free (map->limits);
 	map->limits = NULL;
 	g_free (map->colors);
@@ -84,6 +85,7 @@ gog_axis_color_map_class_init (GObjectClass *gobject_klass)
 static void
 gog_axis_color_map_init (GogAxisColorMap *map)
 {
+	map->names = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 }
 
 GSF_CLASS (GogAxisColorMap, gog_axis_color_map,
@@ -132,10 +134,24 @@ gog_axis_color_map_get_max (GogAxisColorMap const *map)
 }
 
 /**
- * gog_axis_color_map_get_snapshot:
+ * gog_axis_color_map_get_id:
  * @map: a #GogAxisMap
  *
  * Retrieves the color map name.
+ * Returns: (transfer none): the map name.
+ **/
+char const *
+gog_axis_color_map_get_id (GogAxisColorMap const *map)
+{
+	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
+	return map->id;
+}
+
+/**
+ * gog_axis_color_map_get_name:
+ * @map: a #GogAxisMap
+ *
+ * Retrieves the color map localized name.
  * Returns: (transfer none): the map name.
  **/
 char const *
@@ -264,6 +280,7 @@ gog_axis_color_map_from_colors (char const *name, unsigned nb, GOColor const *co
 {
 	unsigned i;
 	GogAxisColorMap *color_map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
+	color_map->id = g_strdup (name);
 	color_map->name = g_strdup (name);
 	color_map->size = nb;
 	color_map->limits = g_new (unsigned, nb);
@@ -303,6 +320,44 @@ gog_axis_color_map_registry_add (GogAxisColorMap *map)
 	color_maps = g_slist_append (color_maps, map);
 }
 
+static void
+save_name_cb (char const *lang, char const *name, GsfXMLOut *output)
+{
+	gsf_xml_out_start_element (output, "name");
+	if (strcmp (lang, "C"))
+		gsf_xml_out_add_cstr_unchecked (output, "xml:lang", lang);
+	gsf_xml_out_add_cstr_unchecked (output, NULL, name);
+	gsf_xml_out_end_element (output);
+}
+
+/**
+ * gog_axis_color_map_write:
+ * @map: a #GogAxisColorMap
+ * @output: a #GsfXMLOut
+ *
+ * Writes the color map as an XML node to @output.
+ **/
+void
+gog_axis_color_map_write (GogAxisColorMap const *map, GsfXMLOut *output)
+{
+	unsigned i;
+	char *buf;
+	g_return_if_fail (GOG_IS_AXIS_COLOR_MAP (map));
+
+	gsf_xml_out_start_element (output, "GogAxisColorMap");
+	gsf_xml_out_add_cstr_unchecked (output, "id", map->id);
+	g_hash_table_foreach (map->names, (GHFunc) save_name_cb, output);
+	for (i = 0; i < map->size; i++) {
+		gsf_xml_out_start_element (output, "color-stop");
+		gsf_xml_out_add_uint (output, "bin", map->limits[i]);
+		buf = go_color_as_str (map->colors[i]);
+		gsf_xml_out_add_cstr_unchecked (output, "color", buf);
+		g_free (buf);
+		gsf_xml_out_end_element (output);
+	}
+	gsf_xml_out_end_element (output);
+}
+
 struct _color_stop {
 	unsigned bin;
 	GOColor color;
@@ -310,7 +365,7 @@ struct _color_stop {
 
 struct color_map_load_state {
 	GogAxisColorMap *map;
-	char *lang, *local_name;
+	char *lang, *name;
 	unsigned name_lang_score;
 	char const * const *langs;
 	GSList *color_stops;
@@ -326,6 +381,8 @@ color_stop_start (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean color_found = FALSE;
 	gboolean bin_found = FALSE;
 
+	if (state->map->name)
+		return;
 	for (; attrs != NULL && *attrs ; attrs += 2)
 		if (0 == strcmp (*attrs, "bin")) {
 			bin = strtoul (attrs[1], &end, 10);
@@ -340,7 +397,20 @@ color_stop_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->color_stops = g_slist_append (state->color_stops, stop);
 	} else
 		g_warning ("[GogAxisColorMap]: Invalid color stop");
-	
+}
+
+static void
+map_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	struct color_map_load_state	*state = (struct color_map_load_state *) xin->user_state;
+	if (state->map ==  NULL) {
+		state->map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
+		for (; attrs && *attrs; attrs +=2)
+			if (!strcmp ((char const *) *attrs, "id")) {
+				state->map->id = g_strdup ((char const *) attrs[1]);
+				break;
+			}
+	}
 }
 
 static void
@@ -348,6 +418,8 @@ name_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	struct color_map_load_state	*state = (struct color_map_load_state *) xin->user_state;
 	unsigned i;
+	if (state->map->name)
+		return;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
 		if (0 == strcmp (attrs[i], "xml:lang"))
 			state->lang = g_strdup (attrs[i+1]);
@@ -358,30 +430,25 @@ name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	struct color_map_load_state	*state = (struct color_map_load_state *) xin->user_state;
 	char *name = NULL;
+	if (state->map->name)
+		return;
 	if (xin->content->str == NULL)
 		return;
 	name = g_strdup (xin->content->str);
-	if (state->map == NULL) {
-		state->map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
-		state->map->names = g_hash_table_new_full (g_str_hash, g_str_equal,
-		                                           g_free, g_free);
-	}
-	if (state->lang == NULL) {
-		state->map->name = name;
-	} else {
-		if (state->name_lang_score > 0 && state->langs[0] != NULL) {
-			unsigned i;
-			for (i = 0; i < state->name_lang_score && state->langs[i] != NULL; i++) {
-				if (strcmp (state->langs[i], state->lang) == 0) {
-					g_free (state->local_name);
-					state->local_name = g_strdup (name);
-					state->name_lang_score = i;
-				}
+	if (state->lang == NULL)
+	state->lang = g_strdup ("C");
+	if (state->name_lang_score > 0 && state->langs[0] != NULL) {
+		unsigned i;
+		for (i = 0; i < state->name_lang_score && state->langs[i] != NULL; i++) {
+			if (strcmp (state->langs[i], state->lang) == 0) {
+				g_free (state->name);
+				state->name = g_strdup (name);
+				state->name_lang_score = i;
 			}
 		}
-		g_hash_table_replace (state->map->names, state->lang, name); 
-		state->lang = NULL;
 	}
+	g_hash_table_replace (state->map->names, state->lang, name);
+	state->lang = NULL;
 }
 
 static int
@@ -390,18 +457,52 @@ color_stops_cmp (struct _color_stop *first, struct _color_stop *second)
 	return (first->bin < second->bin)? -1: (int) (first->bin - second->bin);
 }
 
+static GsfXMLInNode const color_map_dtd[] = {
+	GSF_XML_IN_NODE (THEME, THEME, -1, "GogAxisColorMap", GSF_XML_NO_CONTENT, map_start, NULL),
+		GSF_XML_IN_NODE (THEME, NAME, -1, "name", GSF_XML_CONTENT, name_start, name_end),
+		GSF_XML_IN_NODE (THEME, UNAME, -1, "_name", GSF_XML_CONTENT, name_start, name_end),
+		GSF_XML_IN_NODE (THEME, STOP, -1, "color-stop", GSF_XML_CONTENT, color_stop_start, NULL),
+	GSF_XML_IN_NODE_END
+};
+static GsfXMLInDoc *xml = NULL;
+
+static void
+color_map_loaded (struct color_map_load_state *state, char const *uri, gboolean delete_invalid)
+{
+	GSList *ptr;
+	if (state->map && state->map->name)
+		return;
+	state->map->name = state->name;
+	/* populates the colors */
+	/* first sort the color list according to bins */
+	ptr = state->color_stops = g_slist_sort (state->color_stops, (GCompareFunc) color_stops_cmp);
+	if (state->map->id == NULL || ((struct _color_stop *) ptr->data)->bin != 0) {
+		g_warning ("[GogAxisColorMap]: Invalid color map in %s", uri);
+		if (delete_invalid) {
+			g_object_unref (state->map);
+			state->map = NULL;
+		}
+	} else {
+		unsigned cur_bin, n = 0;
+		state->map->size = g_slist_length (state->color_stops);
+		state->map->limits = g_new (unsigned, state->map->size);
+		state->map->colors = g_new (GOColor, state->map->size);
+		while (ptr) {
+			cur_bin = state->map->limits[n] = ((struct _color_stop *) ptr->data)->bin;
+			state->map->colors[n++] = ((struct _color_stop *) ptr->data)->color;
+			do (ptr = ptr->next);
+			while (ptr && ((struct _color_stop *) ptr->data)->bin == cur_bin);
+		}
+		state->map->size = n; /* we drop duplicate bins */
+	}
+	g_slist_free_full (state->color_stops, g_free);
+	g_free (state->lang);
+}
+
 static void
 color_map_load_from_uri (char const *uri)
 {
-	static GsfXMLInNode const color_map_dtd[] = {
-		GSF_XML_IN_NODE (THEME, THEME, -1, "GogAxisColorMap", GSF_XML_NO_CONTENT, NULL, NULL),
-			GSF_XML_IN_NODE (THEME, NAME, -1, "name", GSF_XML_CONTENT, name_start, name_end),
-			GSF_XML_IN_NODE (THEME, UNAME, -1, "_name", GSF_XML_CONTENT, name_start, name_end),
-			GSF_XML_IN_NODE (THEME, STOP, -1, "color-stop", GSF_XML_CONTENT, color_stop_start, NULL),
-		GSF_XML_IN_NODE_END
-	};
-	struct color_map_load_state	state;
-	GsfXMLInDoc *xml;
+	struct color_map_load_state state;
 	GsfInput *input = go_file_open (uri, NULL);
 
 	if (input == NULL) {
@@ -409,42 +510,56 @@ color_map_load_from_uri (char const *uri)
 		return;
 	}
 	state.map = NULL;
-	state.lang = state.local_name = NULL;
+	state.name = NULL;
+	state.lang = NULL;
 	state.langs = g_get_language_names ();
 	state.name_lang_score = G_MAXINT;
 	state.color_stops = NULL;
-	xml = gsf_xml_in_doc_new (color_map_dtd, NULL);
+	if (!xml)
+		xml = gsf_xml_in_doc_new (color_map_dtd, NULL);
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogAxisColorMap]: Could not parse %s", uri);
 	if (state.map != NULL) {
-		GSList *ptr;
-		state.map->local_name = state.local_name;
-		/* populates the colors */
-		/* first sort the color list according to bins */
-		ptr = state.color_stops = g_slist_sort (state.color_stops, (GCompareFunc) color_stops_cmp);
-		if (((struct _color_stop *) ptr->data)->bin != 0) {
-			g_warning ("[GogAxisColorMap]: Invalid color map in %s", uri);
-			g_object_unref (state.map);
-		} else {
-			unsigned cur_bin, n = 0;
-			state.map->size = g_slist_length (state.color_stops);
-			state.map->limits = g_new (unsigned, state.map->size);
-			state.map->colors = g_new (GOColor, state.map->size);
-			while (ptr) {
-				cur_bin = state.map->limits[n] = ((struct _color_stop *) ptr->data)->bin;
-				state.map->colors[n++] = ((struct _color_stop *) ptr->data)->color;
-				do (ptr = ptr->next);
-				while (ptr && ((struct _color_stop *) ptr->data)->bin == cur_bin);
-			}
-			state.map->size = n; /* we drop duplicate bins */
+		color_map_loaded (&state, uri, TRUE);
+		if (state.map)
 			gog_axis_color_map_registry_add (state.map);
-		}
 	} else
-		g_free (state.local_name);
-	g_slist_free_full (state.color_stops, g_free);
-	g_free (state.lang);
-	gsf_xml_in_doc_free (xml);
+		g_free (state.name);
 	g_object_unref (input);
+}
+
+static void
+parse_done_cb (GsfXMLIn *xin, struct color_map_load_state *state)
+{
+	color_map_loaded (state, gsf_input_name (gsf_xml_in_get_input (xin)), FALSE);
+	g_free (state);
+}
+
+/**
+ * gog_axis_color_map_sax_push_parser:
+ * @xin: a #GsfXMLIn
+ * @attrs: the node attributes.
+ *
+ * Reads a colormap from the XML stream.
+ **/
+void
+gog_axis_color_map_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	struct color_map_load_state *state = g_new (struct color_map_load_state, 1);
+	state->map = NULL;
+	state->name = NULL;
+	state->lang = NULL;
+	state->langs = g_get_language_names ();
+	state->name_lang_score = G_MAXINT;
+	state->color_stops = NULL;
+	if (!xml)
+		xml = gsf_xml_in_doc_new (color_map_dtd, NULL);
+	for (; attrs && *attrs; attrs +=2)
+		if (!strcmp ((char const *) *attrs, "id")) {
+			state->map = GOG_AXIS_COLOR_MAP (gog_axis_color_map_get_from_id ((char const *) attrs[1]));
+			break;
+		}
+	gsf_xml_in_push_state (xin, xml, state, (GsfXMLInExtDtor) parse_done_cb, attrs);
 }
 
 static void
@@ -473,8 +588,8 @@ color_maps_load_from_dir (char const *path)
  * @map: a #GogAxisColorMap
  * @user_data: user data
  *
- * Type of the callback to pass to gog_axis_color_map_foreach() and
- * go_doc_foreach_color_map() to iterate through color maps.
+ * Type of the callback to pass to gog_axis_color_map_foreach()
+ * to iterate through color maps.
  **/
 
 /**
@@ -482,8 +597,8 @@ color_maps_load_from_dir (char const *path)
  * @handler: (scope call): a #GogAxisColorMapHandler
  * @user_data: data to pass to @handler
  *
- * Executes @handler to each color map installed on the system. This function
- * should not be called directly, call go_doc_foreach_color_map() instead.
+ * Executes @handler to each color map installed on the system or loaded from
+ * a document.
  **/
 void
 gog_axis_color_map_foreach (GogAxisColorMapHandler handler, gpointer user_data)
@@ -494,20 +609,25 @@ gog_axis_color_map_foreach (GogAxisColorMapHandler handler, gpointer user_data)
 }
 
 /**
- * gog_axis_color_map_get_from_name:
- * @name: the color map name to search for
+ * gog_axis_color_map_get_from_id:
+ * @id: the color map identifier to search for
  *
- * Retrieves the color map whose name is @name.
- * Returns: (transfer none): the found color map or %NULL.
+ * Retrieves the color map whose identifier is @id.
+ * Returns: (transfer none): the found color map.
  **/
 GogAxisColorMap const *
-gog_axis_color_map_get_from_name (char const *name)
+gog_axis_color_map_get_from_id (char const *id)
 {
 	GSList *ptr;
+	GogAxisColorMap *map;
 	for (ptr = color_maps; ptr; ptr = ptr->next)
-		if (!strcmp (((GogAxisColorMap *) (ptr->data))->name, name))
+		if (!strcmp (((GogAxisColorMap *) (ptr->data))->id, id))
 		    return (GogAxisColorMap *) ptr->data;
-	return NULL;
+	/* create an empty new one */
+	map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
+	map->id = g_strdup (id);
+	gog_axis_color_map_registry_add (map);
+	return map;
 }
 
 void
@@ -517,6 +637,7 @@ _gog_axis_color_maps_init (void)
 
 	/* Default color map */
 	color_map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
+	color_map->id = g_strdup ("Default");
 	color_map->name = g_strdup (N_("Default"));
 	color_map->size = 5;
 	color_map->limits = g_new (unsigned, 5);

@@ -165,4 +165,6 @@ G_END_DECLS
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/regutf8.h>
 
+char *go_uuid (void);
+
 #endif /* GOFFICE_UTILS_H */

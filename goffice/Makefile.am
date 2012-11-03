@@ -360,6 +360,7 @@ math_HEADERS = 	\
 utils_SOURCES =	\
 	utils/go-marshalers.list	\
 	\
+	utils/goffice-utils.c	\
 	utils/go-color.c		\
 	utils/go-file.c		\
 	utils/go-font.c		\
@@ -397,7 +398,7 @@ utils_SOURCES =	\
 
 utilsdir = $(goffice_include_dir)/utils
 utils_HEADERS = 	\
-	utils/goffice-utils.h		\
+	utils/goffice-utils.h	\
 	utils/go-cairo.h		\
 	utils/go-color.h		\
 	utils/go-file.h		\
@@ -423,7 +424,7 @@ utils_HEADERS = 	\
 	utils/go-glib-extras.h	\
 	utils/go-libxml-extras.h	\
 	utils/go-pango-extras.h	\
-	utils/go-gdk-pixbuf.h		\
+	utils/go-gdk-pixbuf.h	\
 	utils/go-persist.h		\
 	utils/go-bezier.h		\
 	utils/go-editor.h		\

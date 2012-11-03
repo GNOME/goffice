@@ -1,3 +1,26 @@
+2012-11-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: add goffice-utils.c.
+	* goffice/app/go-doc.c (go_doc_finalize), (go_doc_write),
+	(load_color_map), (go_doc_read), (go_doc_save_color_map): save and load
+	used color maps.
+	* goffice/app/go-doc.h: ditto.
+	* goffice/graph/gog-axis-color-map.c (gog_axis_color_map_finalize),
+	(gog_axis_color_map_init), (gog_axis_color_map_get_id),
+	(gog_axis_color_map_from_colors), (save_name_cb),
+	(gog_axis_color_map_write), (color_stop_start), (map_start),
+	(name_start), (name_end), (color_map_loaded),
+	(color_map_load_from_uri), (parse_done_cb),
+	(gog_axis_color_map_sax_push_parser),
+	(gog_axis_color_map_get_from_id), (_gog_axis_color_maps_init): ditto.
+	* goffice/graph/gog-axis-color-map.h: ditto.
+	* goffice/graph/gog-axis.c (gog_axis_prep_sax),
+	(gog_axis_sax_save), (gog_axis_set_property),
+	(gog_axis_get_property), (gog_axis_persist_init): ditto.
+	* goffice/utils/goffice-utils.h: new uuid generator copied from
+	telepathy-gabble.
+	* goffice/utils/goffice-utils.c: new file.
+
 2012-11-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/Makefile.am:  add new ui file.

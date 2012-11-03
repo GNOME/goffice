@@ -2194,7 +2194,27 @@ gog_axis_get_atype (GogAxis const *axis)
 	return axis->type;
 }
 
+static void
+gog_axis_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	/* Nothing to do */
+}
 
+static void
+gog_axis_sax_save (GOPersist const *gp, GsfXMLOut *output)
+{
+	GogAxis const *axis;
+	GogGraph *graph;
+
+	g_return_if_fail (GOG_IS_AXIS (gp));
+	axis = (GogAxis const*) gp;
+	if (axis->auto_color_map)
+		return;
+	graph = gog_object_get_graph (GOG_OBJECT (gp));
+	if (gog_theme_get_color_map (gog_graph_get_theme (graph), FALSE) == axis->color_map)
+		return;
+	go_doc_save_color_map (gog_graph_get_document (graph), axis->color_map);
+}
 
 static void
 gog_axis_set_property (GObject *obj, guint param_id,
@@ -2266,15 +2286,8 @@ gog_axis_set_property (GObject *obj, guint param_id,
 	case AXIS_PROP_COLOR_MAP: {
 		char const *str = g_value_get_string (value);
 		GogAxisColorMap const *map = NULL;
-		if (strcmp (str, "default")) {
-				map = go_doc_get_color_map (gog_graph_get_document (gog_object_get_graph (GOG_OBJECT (axis))), str);
-			if (!map) {
-				/* might be the continuous theme color map */
-				map = gog_theme_get_color_map (gog_graph_get_theme (gog_object_get_graph (GOG_OBJECT (axis))), FALSE);
-				if (strcmp (gog_axis_color_map_get_name (map), str))
-					map = NULL;
-			}
-		}
+		if (strcmp (str, "default"))
+			map = gog_axis_color_map_get_from_id (str);
 		if (map) {
 			axis->color_map = map;
 			axis->auto_color_map = FALSE;
@@ -2331,7 +2344,7 @@ gog_axis_get_property (GObject *obj, guint param_id,
 		g_value_set_double (value, axis->span_end);
 		break;
 	case AXIS_PROP_COLOR_MAP:
-		g_value_set_string (value, (axis->auto_color_map)? "default": gog_axis_color_map_get_name (axis->color_map));
+		g_value_set_string (value, (axis->auto_color_map)? "default": gog_axis_color_map_get_id (axis->color_map));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -3045,7 +3058,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
-	gog_klass->update	= gog_axis_update;
+	gog_klass->update		= gog_axis_update;
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_axis_populate_editor;
 #endif
@@ -3116,10 +3129,18 @@ gog_axis_dataset_init (GogDatasetClass *iface)
 	iface->dim_changed = gog_axis_dim_changed;
 }
 
+static void
+gog_axis_persist_init (GOPersistClass *iface)
+{
+	iface->sax_save = gog_axis_sax_save;
+	iface->prep_sax = gog_axis_prep_sax;
+}
+
 GSF_CLASS_FULL (GogAxis, gog_axis,
 		NULL, NULL, gog_axis_class_init, NULL,
 		gog_axis_init, GOG_TYPE_AXIS_BASE, 0,
-		GSF_INTERFACE (gog_axis_dataset_init, GOG_TYPE_DATASET))
+		GSF_INTERFACE (gog_axis_dataset_init, GOG_TYPE_DATASET) \
+		GSF_INTERFACE (gog_axis_persist_init, GO_TYPE_PERSIST))
 
 
 /**
@@ -3471,6 +3492,7 @@ gog_axis_get_circular_rotation (GogAxis *axis)
  * gog_axis_get_color_map:
  * @axis: a #GogAxis
  *
+ * Retrieves the #GogAxisColorMap associated to the axis or %NULL.
  * Returns: (transfer none): the color map used by the axis if any.
  **/
 GogAxisColorMap const *

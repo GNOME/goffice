@@ -843,8 +843,6 @@ go_distribution_get_type
 GODoc
 go_doc_add_image
 go_doc_end_read
-go_doc_foreach_color_map
-go_doc_get_color_map
 go_doc_get_dirty_time
 go_doc_get_image
 go_doc_get_images
@@ -856,6 +854,7 @@ go_doc_init_write
 go_doc_is_dirty
 go_doc_is_pristine
 go_doc_read
+go_doc_save_color_map
 go_doc_save_image
 go_doc_set_dirty
 go_doc_set_dirty_time
@@ -2748,10 +2747,13 @@ GogAxisColorMapHandler
 gog_axis_color_map_foreach
 gog_axis_color_map_from_colors
 gog_axis_color_map_get_color
-gog_axis_color_map_get_from_name
+gog_axis_color_map_get_from_id
 gog_axis_color_map_get_max
+gog_axis_color_map_get_id
 gog_axis_color_map_get_name
 gog_axis_color_map_get_snapshot
+gog_axis_color_map_sax_push_parser
+gog_axis_color_map_write
 <SUBSECTION Standard>
 GOG_AXIS_COLOR_MAP
 GOG_IS_AXIS_COLOR_MAP
@@ -3554,3 +3556,8 @@ GO_TYPE_SEARCH_REPLACE
 go_search_replace_get_type
 </SECTION>
 
+<SECTION>
+<FILE>go-utils</FILE>
+<TITLE>Miscellaneous</TITLE>
+go_uuid
+</SECTION>
