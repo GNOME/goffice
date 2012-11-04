@@ -1,3 +1,8 @@
+2012-11-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c (cb_graph_guru_delete_item): select another
+	child with the same type when one exists instead of the parent. [#687102]
+
 2012-11-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/Makefile.am: add goffice-utils.c.

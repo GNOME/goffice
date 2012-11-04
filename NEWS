@@ -19,6 +19,7 @@ Jean:
 	* Fixed position of rotated label frame. [#686478]
 	* Fixed image clipping. [#686490]
 	* Improve padding between axis ticks and labels.  [#686473]
+	* Enhance graph guru behavior when an object is deleted. [#687102]
 
 Morten:
 	* Namespace cleanup.  [#686501]

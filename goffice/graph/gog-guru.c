@@ -523,11 +523,30 @@ cb_graph_guru_delete_item (GraphGuruState *s)
 {
 	if (s->prop_object != NULL) {
 		GtkTreeIter iter;
-		GogObject *obj = s->prop_object;
+		GogObject *obj = NULL;
+		GtkTreeModel *model = GTK_TREE_MODEL (s->prop_model);
 
-		/* store parent iter */
-		gtk_tree_model_iter_parent (GTK_TREE_MODEL (s->prop_model),
-			&iter, &s->prop_iter);
+		/* we select the next or the previous object if they are of the same
+		 * type than the deleted object, otherwise, we select the parent */
+		/* search for next object */
+		iter = s->prop_iter;
+		if (gtk_tree_model_iter_next (model, &iter))
+			gtk_tree_model_get (model, &iter, PLOT_ATTR_OBJECT, &obj, -1);
+		if (obj == NULL || G_OBJECT_TYPE (obj) != G_OBJECT_TYPE (s->prop_object)) {
+			/* search for previous object */
+			obj = NULL;
+			iter = s->prop_iter;
+			if (gtk_tree_model_iter_previous (model, &iter))
+				gtk_tree_model_get (model, &iter, PLOT_ATTR_OBJECT, &obj, -1);
+			else
+				obj = NULL;
+			if (obj == NULL || G_OBJECT_TYPE (obj) != G_OBJECT_TYPE (s->prop_object)) {
+				/* store parent iter */
+				gtk_tree_model_iter_parent (model ,
+					&iter, &s->prop_iter);
+			}
+		}
+		obj = s->prop_object;
 		gog_object_clear_parent (obj);
 		g_object_unref (obj);
 		/* then select the parent after we delete */
