@@ -2286,8 +2286,12 @@ gog_axis_set_property (GObject *obj, guint param_id,
 	case AXIS_PROP_COLOR_MAP: {
 		char const *str = g_value_get_string (value);
 		GogAxisColorMap const *map = NULL;
-		if (strcmp (str, "default"))
-			map = gog_axis_color_map_get_from_id (str);
+		if (strcmp (str, "default")) {
+			GogGraph *graph = gog_object_get_graph (GOG_OBJECT (axis));
+			map = gog_theme_get_color_map (gog_graph_get_theme (graph), FALSE);
+			if (strcmp (gog_axis_color_map_get_id (map), str))
+				map = gog_axis_color_map_get_from_id (str);
+		}
 		if (map) {
 			axis->color_map = map;
 			axis->auto_color_map = FALSE;
@@ -2708,6 +2712,17 @@ color_map_new_cb (GogAxisPrefState *state)
 {
 	GogAxisColorMap *map = gog_axis_color_map_edit (NULL, state->cc);
 	if (map) {
+		GtkListStore *model = GTK_LIST_STORE (gtk_combo_box_get_model (state->color_map_combo));
+		GtkTreeIter iter;
+		gtk_list_store_append (model, &iter);
+		gtk_list_store_set (model, &iter,
+		                    0, gog_axis_color_map_get_name (map),
+		                    1, gog_axis_color_map_get_snapshot (map, state->axis->type == GOG_AXIS_PSEUDO_3D,
+		                                                        TRUE, 200, 16),
+		                    2, map,
+		                    -1);
+		gtk_combo_box_set_active_iter (state->color_map_combo, &iter);
+		gog_object_emit_changed (GOG_OBJECT (state->axis), FALSE);
 	}
 }
 
@@ -2914,12 +2929,9 @@ gog_axis_populate_editor (GogObject *gobj,
 		color_state.target = axis->color_map;
 		color_state.discrete = axis->type == GOG_AXIS_PSEUDO_3D;
 		gog_axis_color_map_foreach ((GogAxisColorMapHandler) add_color_map_cb, &color_state);
-		/* add document maps if any */
-		/* TODO */
 		g_signal_connect (combo, "changed", G_CALLBACK (color_map_changed_cb), axis);
 		w = go_gtk_builder_get_widget (gui, "new-btn");
-		g_signal_connect_swapped (w, "clicked", G_CALLBACK (color_map_new_cb), combo);
-		gtk_widget_hide (w);
+		g_signal_connect_swapped (w, "clicked", G_CALLBACK (color_map_new_cb), state);
 		w = go_gtk_builder_get_widget (gui, "duplicate-btn");
 		gtk_widget_hide (w);
 		w = go_gtk_builder_get_widget (gui, "edit-btn");

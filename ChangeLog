@@ -1,5 +1,18 @@
 2012-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-axis-color-map-prefs.ui: make it functional.
+	* goffice/graph/gog-axis-color-map.c (gog_axis_color_map_finalize),
+	(gog_axis_color_map_get_snapshot), (gog_axis_color_map_save),
+	(gog_axis_color_map_compare), (update_snapshots), (erase_cb),
+	(define_cb), (bin_changed_cb), (gog_axis_color_map_edit),
+	(gog_axis_color_map_from_colors), (color_map_loaded),
+	(color_map_load_from_uri), (_gog_axis_color_maps_init): implement the
+	creation of a new color map.
+	* goffice/graph/gog-axis.c (gog_axis_set_property),
+	(color_map_new_cb), (gog_axis_populate_editor): ditto.
+
+2012-11-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-guru.c (cb_graph_guru_delete_item): select another
 	child with the same type when one exists instead of the parent. [#687102]
 
