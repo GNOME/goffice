@@ -102,3 +102,31 @@ go_uuid (void)
 
 	return str;
 }
+
+/**
+ * GoResourceType:
+ * @GO_RESOURCE_NATIVE: in goffice code resource.
+ * @GO_RESOURCE_RW: on disk resource which can be overwritten.
+ * @GO_RESOURCE_RO: read only on disk resource.
+ * @GO_RESOURCE_CHILD: child of another resource.
+ * @GO_RESOURCE_EXTERNAL: resource from a data file.
+ * @GO_RESOURCE_INVALID: invalid resource.
+ **/
+GType
+go_resource_type_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GO_RESOURCE_NATIVE,	"GO_RESOURCE_NATIVE",	"native" },
+			{ GO_RESOURCE_RW,		"GO_RESOURCE_RW",		"rw" },
+			{ GO_RESOURCE_RO,		"GO_RESOURCE_RO",		"ro" },
+			{ GO_RESOURCE_CHILD,	"GO_RESOURCE_CHILD",	"child" },
+			{ GO_RESOURCE_EXTERNAL,	"GO_RESOURCE_EXTERNAL",	"external" },
+			{ GO_RESOURCE_INVALID,	"GO_RESOURCE_INVALID",	"invalid" },
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static (g_intern_static_string ("GoResourceType"), values);
+	}
+	return etype;
+}

@@ -36,7 +36,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button1">
+              <object class="GtkButton" id="save">
                 <property name="label">gtk-save</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
@@ -288,7 +288,7 @@
     </child>
     <action-widgets>
       <action-widget response="0">button2</action-widget>
-      <action-widget response="1">button1</action-widget>
+      <action-widget response="1">save</action-widget>
     </action-widgets>
   </object>
 </interface>

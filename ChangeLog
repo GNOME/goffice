@@ -1,3 +1,34 @@
+2012-11-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-doc.c (go_doc_write), (load_color_map),
+	(go_doc_save_resource): simplify.
+	* goffice/app/go-doc.h: ditto.
+	* goffice/graph/gog-axis-color-map-prefs.ui: only save a modified map.
+	* goffice/graph/gog-axis-color-map.c
+	(gog_axis_color_map_set_property),
+	(gog_axis_color_map_get_property), (gog_axis_color_map_class_init),
+	(save_name_cb), (build_uri), (gog_axis_color_map_write),
+	(color_stop_start), (map_start), (name_start), (name_end),
+	(color_stops_cmp), (gog_axis_color_map_save), (color_map_loaded),
+	(parse_done_cb), (gog_axis_color_map_prep_sax),
+	(gog_axis_map_persist_init),
+	(gog_axis_color_map_get_resource_type),
+	(gog_axis_color_map_set_name), (gog_axis_color_map_dup),
+	(update_snapshots), (gog_axis_color_map_edit),
+	(gog_axis_color_map_from_colors), (gog_axis_color_map_get_from_id),
+	(_gog_axis_color_maps_init), (_gog_axis_color_maps_shutdown): implement
+	color map duplication.
+	* goffice/graph/gog-axis-color-map.h: ditto.
+	* goffice/graph/gog-axis-prefs.ui: ditto.
+	* goffice/graph/gog-axis.c (gog_axis_sax_save): save a color map loaded
+	from a document, (color_map_dup_cb), (color_map_save_cb),
+	(color_map_changed_cb), (gog_axis_populate_editor): color map duplication.
+	* goffice/graph/gog-theme.c (build_predefined_themes),
+	(theme_load_from_uri): ditto.
+	* goffice/utils/go-persist.c: fix includes.
+	* goffice/utils/goffice-utils.c (go_resource_type_get_type): add new enum.
+	* goffice/utils/goffice-utils.h: ditto.
+
 2012-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-color-map-prefs.ui: make it functional.

@@ -850,7 +850,7 @@ build_predefined_themes (void)
 	/* builds the default discrete color map */
 	theme->dcm = gog_axis_color_map_from_colors (N_("Theme"),
 	                                             G_N_ELEMENTS (default_palette),
-	                                             default_palette);
+	                                             default_palette, GO_RESOURCE_CHILD);
 
 /* Guppi */
 	theme = gog_theme_new (N_("Guppi"));
@@ -999,7 +999,7 @@ build_predefined_themes (void)
 
 	theme->dcm = gog_axis_color_map_from_colors (N_("Theme"),
 	                                             G_N_ELEMENTS (guppi_palette),
-	                                             guppi_palette);
+	                                             guppi_palette, GO_RESOURCE_CHILD);
 }
 
 struct theme_load_state {
@@ -1135,7 +1135,10 @@ theme_load_from_uri (char const *uri)
 			unsigned i;
 			for (i = 0; i < state.theme->palette->len; i++)
 				colors[i] = GO_STYLE (g_ptr_array_index (state.theme->palette, i))->fill.pattern.back;
-			state.theme->dcm = gog_axis_color_map_from_colors ("Default", state.theme->palette->len, colors);
+			state.theme->dcm = gog_axis_color_map_from_colors ("Default",
+			                                                   state.theme->palette->len,
+			                                                   colors,
+			                                                   GO_RESOURCE_CHILD);
 			g_free (colors);
 		}
 		state.theme->local_name = state.local_name;

@@ -128,6 +128,15 @@ typedef enum {
 	GO_FONT_SCRIPT_SUPER	=  1
 } GOFontScript;
 
+typedef enum {
+	GO_RESOURCE_NATIVE,
+	GO_RESOURCE_RO,
+	GO_RESOURCE_RW,
+	GO_RESOURCE_CHILD,
+	GO_RESOURCE_EXTERNAL,
+	GO_RESOURCE_INVALID
+} GoResourceType;
+
 G_END_DECLS
 
 #include <goffice/goffice.h>
@@ -165,6 +174,7 @@ G_END_DECLS
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/regutf8.h>
 
+GType go_resource_type_get_type (void);
 char *go_uuid (void);
 
 #endif /* GOFFICE_UTILS_H */

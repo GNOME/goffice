@@ -750,15 +750,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="edit-btn">
-            <property name="label" translatable="yes">Edit</property>
+          <object class="GtkButton" id="save-btn">
+            <property name="label" translatable="yes">Save</property>
             <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="has_tooltip">True</property>
-            <property name="tooltip_markup" translatable="yes">Edits the color map.</property>
-            <property name="tooltip_text" translatable="yes">Edits the color map.</property>
+            <property name="tooltip_text" translatable="yes">Saves the color map to the local disk.</property>
             <property name="use_action_appearance">False</property>
             <property name="image_position">right</property>
           </object>

@@ -20,7 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/utils/go-persist.h>
+#include <goffice/goffice.h>
 
 
 /**

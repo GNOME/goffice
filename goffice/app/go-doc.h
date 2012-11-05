@@ -61,7 +61,7 @@ void		 go_doc_init_read	(GODoc *doc, GsfInput *input);
 void		 go_doc_read		(GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs);
 void		 go_doc_end_read	(GODoc *doc);
 GOImage		*go_doc_image_fetch 	(GODoc *doc, char const *id, GType type);
-void		 go_doc_save_color_map (GODoc *doc, GogAxisColorMap	const *map);
+void		 go_doc_save_resource (GODoc *doc, GOPersist const *gp);
 
 G_END_DECLS
 

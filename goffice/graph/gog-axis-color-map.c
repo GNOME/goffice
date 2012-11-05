@@ -50,6 +50,7 @@ struct _GogAxisColorMap {
 	char *id, *name;
 	char *uri;
 	GHashTable *names;
+	GoResourceType type;
 	unsigned size; /* colors number */
 	unsigned allocated; /* only useful when editing */
 	unsigned *limits;
@@ -59,6 +60,44 @@ typedef GObjectClass GogAxisColorMapClass;
 
 static GObjectClass *parent_klass;
 
+enum {
+	GOG_AXIS_COLOR_MAP_PROP_0,
+	GOG_AXIS_COLOR_MAP_PROP_TYPE
+};
+
+static void
+gog_axis_color_map_set_property (GObject *gobject, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GogAxisColorMap *map = GOG_AXIS_COLOR_MAP (gobject);
+
+	switch (param_id) {
+	case GOG_AXIS_COLOR_MAP_PROP_TYPE:
+		map->type = g_value_get_enum (value);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+}
+
+static void
+gog_axis_color_map_get_property (GObject *gobject, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GogAxisColorMap *map = GOG_AXIS_COLOR_MAP (gobject);
+
+	switch (param_id) {
+	case GOG_AXIS_COLOR_MAP_PROP_TYPE:
+		g_value_set_enum (value, map->type);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+}
 static void
 gog_axis_color_map_finalize (GObject *obj)
 {
@@ -84,426 +123,20 @@ gog_axis_color_map_class_init (GObjectClass *gobject_klass)
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 	/* GObjectClass */
 	gobject_klass->finalize = gog_axis_color_map_finalize;
+	gobject_klass->set_property = gog_axis_color_map_set_property;
+	gobject_klass->get_property = gog_axis_color_map_get_property;
+	g_object_class_install_property (gobject_klass, GOG_AXIS_COLOR_MAP_PROP_TYPE,
+		g_param_spec_enum ("resource-type",
+			_("Resource type"),
+			_("The resource type for the color map"),
+			go_resource_type_get_type (), GO_RESOURCE_INVALID,
+		        GSF_PARAM_STATIC | G_PARAM_READWRITE |G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
 gog_axis_color_map_init (GogAxisColorMap *map)
 {
 	map->names = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-}
-
-GSF_CLASS (GogAxisColorMap, gog_axis_color_map,
-	   gog_axis_color_map_class_init, gog_axis_color_map_init,
-	   G_TYPE_OBJECT)
-
-/**
- * gog_axis_color_map_get_color:
- * @map: a #GogAxisMap
-	 * @x: the value to map
- *
- * Maps @x to a color.
- * Returns: the found color.
- **/
-GOColor
-gog_axis_color_map_get_color (GogAxisColorMap const *map, double x)
-{
-	unsigned n = 1;
-	double t;
-	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), (GOColor) 0x00000000);
-	if (x < 0. || map->size == 0)
-		return (GOColor) 0x00000000;
-	if (map->size == 1)
-		return map->colors[0];
-	if (x > map->limits[map->size-1])
-		x -= floor (x / (map->limits[map->size-1] + 1)) * (map->limits[map->size-1] + 1);
-	while (n < map->size && x > map->limits[n] + 1e-10)
-		n++;
-	t = (x - map->limits[n-1]) / (map->limits[n] - map->limits[n-1]);
-	return GO_COLOR_INTERPOLATE (map->colors[n-1], map->colors[n], t);
-}
-
-/**
- * gog_axis_color_map_get_max:
- * @map: a #GogAxisMap
- *
- * Retrieves the value corresponding to the last color in the map. The first
- * always corresponds to 0.
- * Returns: the maximum value.
- **/
-unsigned
-gog_axis_color_map_get_max (GogAxisColorMap const *map)
-{
-	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), 0);
-	return (map->size > 0)? map->limits[map->size-1]: 0;
-}
-
-/**
- * gog_axis_color_map_get_id:
- * @map: a #GogAxisMap
- *
- * Retrieves the color map name.
- * Returns: (transfer none): the map name.
- **/
-char const *
-gog_axis_color_map_get_id (GogAxisColorMap const *map)
-{
-	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
-	return map->id;
-}
-
-/**
- * gog_axis_color_map_get_name:
- * @map: a #GogAxisMap
- *
- * Retrieves the color map localized name.
- * Returns: (transfer none): the map name.
- **/
-char const *
-gog_axis_color_map_get_name (GogAxisColorMap const *map)
-{
-	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
-	return map->name;
-}
-
-/**
- * gog_axis_color_map_get_snapshot:
- * @map: a #GogAxisMap
- * @discrete: whether to use constant colors between each stop or a gradient.
- * @horizontal: whether to get an horizontal or a vertical snapshot.
- * @width: the pixbuf width.
- * @height: the pixbuf height.
- *
- * Builds a snapshot of the color map.
- * Returns: (transfer full): the new #GdkPixbuf.
- **/
-GdkPixbuf *
-gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
-                                 gboolean discrete, gboolean horizontal,
-                                 unsigned width, unsigned height)
-{
-	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 16, 16);
-	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
-	cairo_t *cr = cairo_create (surface);
-	unsigned i, max = gog_axis_color_map_get_max (map);
-	cairo_pattern_t *pattern;
-
-	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
-	/* first fill with a "transparent" background */
-	cairo_rectangle (cr, 0., 0., 16., 16.);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GO_COLOR_GREY(0x33)));
-	cairo_fill (cr);
-	cairo_rectangle (cr, 0., 8., 8., 8.);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GO_COLOR_GREY(0x66)));
-	cairo_fill (cr);
-	cairo_rectangle (cr, 8., 0., 8., 8.);
-	cairo_fill (cr);
-	cairo_destroy (cr);
-	pattern = cairo_pattern_create_for_surface (surface);
-	cairo_surface_destroy (surface);
-	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
-	cr = cairo_create (surface);
-	cairo_rectangle (cr, 0., 0., width, height);
-	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
-	cairo_set_source (cr, pattern);
-	cairo_fill (cr);
-	cairo_pattern_destroy (pattern);
-	if (discrete) {
-		GOColor color;
-		unsigned t0 = 0, t1, maxt = horizontal? width: height;
-		max++;
-		for (i = 0; i < max; i++) {
-			t1 = (i + 1) * maxt / max;
-			color = gog_axis_color_map_get_color (map, i);
-			if (horizontal)
-				cairo_rectangle (cr, t0, 0., t1, height);
-			else
-				cairo_rectangle (cr, 0., t0, width, t1);
-			cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
-			cairo_fill (cr);
-			t0 = t1;
-		}
-	} else {
-		double x1, y1;
-		if (horizontal) {
-			x1 = width;
-			y1 = 0.;
-		} else {
-			x1 = 0.;
-			y1 = height;
-		}
-		pattern = cairo_pattern_create_linear (0., 0., x1, y1);
-		for (i = 0; i < map->size; i++) {
-			cairo_pattern_add_color_stop_rgba (pattern,
-			                                   (double) map->limits[i] / (double) max,
-			                                   GO_COLOR_TO_CAIRO (map->colors[i]));
-		}
-		cairo_rectangle (cr, 0., 0., width, height);
-		cairo_set_source (cr, pattern);
-		cairo_fill (cr);
-		cairo_pattern_destroy (pattern);
-	}
-
-	go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (pixbuf),
-	                                 cairo_image_surface_get_data (surface),
-	                                 width, height, width * 4);
-	cairo_destroy (cr);
-	cairo_surface_destroy (surface);
-	return pixbuf;
-}
-
-static void
-gog_axis_color_map_save (GogAxisColorMap const *map)
-{
-	GsfOutput *output = gsf_output_gio_new_for_uri (map->uri, NULL);
-	GsfXMLOut *xml = gsf_xml_out_new (output);
-	gog_axis_color_map_write (map, xml);
-	g_object_unref (xml);
-	g_object_unref (output);
-}
-
-static GSList *color_maps;
-
-/**
- * gog_axis_color_map_registry_add:
- * @map: a #GogAxisColorMap
- *
- * Keep a pointer to @map in graph color maps registry.
- * This function does not add a reference to @map.
- **/
-static void
-gog_axis_color_map_registry_add (GogAxisColorMap *map)
-{
-	g_return_if_fail (GOG_IS_AXIS_COLOR_MAP (map));
-
-	/* TODO: Check for duplicated names and for already
-	 * registered map */
-
-	color_maps = g_slist_append (color_maps, map);
-}
-
-#ifdef GOFFICE_WITH_GTK
-
-/**
- * gog_axis_color_map_compare:
- *
- * Returns: TRUE if the maps are different.
- **/
-static gboolean
-gog_axis_color_map_compare (GogAxisColorMap const *map1, GogAxisColorMap const *map2)
-{
-	unsigned i;
-	if (strcmp (map1->name, map2->name))
-		return TRUE;
-	if (map1->size != map2->size)
-		return TRUE;
-	for (i = 0; i < map1->size; i++)
-		if (map1->limits[i] != map2->limits[i] || map1->colors[i] != map2->colors[i])
-		return TRUE;
-	return FALSE;
-}
-
-struct color_map_edit_state {
-	GtkWidget *color_selector, *discrete, *continuous;
-	GtkBuilder *gui;
-	GogAxisColorMap *map;
-	unsigned bin;
-};
-
-static void
-update_snapshots (struct color_map_edit_state *state)
-{
-	GdkPixbuf *pixbuf;
-	pixbuf = gog_axis_color_map_get_snapshot (state->map, TRUE, TRUE, 200, 24);
-	gtk_image_set_from_pixbuf (GTK_IMAGE (state->discrete), pixbuf);
-	gtk_widget_show (state->discrete);
-	g_object_unref (pixbuf);
-	pixbuf = gog_axis_color_map_get_snapshot (state->map, FALSE, TRUE, 200, 24);
-	gtk_image_set_from_pixbuf (GTK_IMAGE (state->continuous), pixbuf);
-	g_object_unref (pixbuf);
-}
-
-static void
-erase_cb (struct color_map_edit_state *state)
-{
-	unsigned i;
-	for (i = 0; i < state->map->size && state->bin > state->map->limits[i]; i++);
-	state->map->size--;
-	memmove (state->map->limits + i, state->map->limits + i + 1,
-	         sizeof (unsigned) * (state->map->size - i));
-	memmove (state->map->colors + i, state->map->colors + i + 1,
-	         sizeof (GOColor) * (state->map->size - i));
-	gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
-	                          FALSE);
-	go_color_selector_set_color (GO_SELECTOR (state->color_selector),
-	                             state->map->colors[state->map->size - 1]);
-	/* update the snapshots */
-	update_snapshots (state);
-}
-
-static void
-define_cb (struct color_map_edit_state *state)
-{
-	unsigned i;
-	for (i = 0; i < state->map->size && state->bin > state->map->limits[i]; i++);
-	if (i < state->map->size && state->bin == state->map->limits[i]) {
-		state->map->colors[i] = go_color_selector_get_color (GO_SELECTOR (state->color_selector), NULL);
-	} else {
-		/* we need to insert the new color stop */
-		state->map->size++;
-		if (state->map->allocated < state->map->size) {
-			state->map->limits = g_renew (unsigned, state->map->limits,
-			                              state->map->size);
-			state->map->colors = g_renew (GOColor, state->map->colors,
-				                          state->map->size);
-			state->map->allocated = state->map->size;
-		}
-		if (i < state->map->size - 1) {
-			memmove (state->map->limits + i + 1, state->map->limits + i,
-			         sizeof (unsigned) * (state->map->size - i - 1));
-			memmove (state->map->colors + i + 1, state->map->colors + i,
-			         sizeof (GOColor) * (state->map->size - i - 1));
-		}	
-		state->map->limits[i] = state->bin;
-		state->map->colors[i] = go_color_selector_get_color (GO_SELECTOR (state->color_selector), NULL);
-		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
-		                          TRUE);
-	}
-	/* update the snapshots */
-	update_snapshots (state);
-}
-
-static void
-bin_changed_cb (GtkSpinButton *btn, struct color_map_edit_state *state)
-{
-	unsigned i;
-	state->bin = gtk_spin_button_get_value (btn);
-	for (i = 0; i < state->map->size && state->bin > state->map->limits[i]; i++);
-	if (i < state->map->size) {
-		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
-		                           i > 0 && state->bin == state->map->limits[i]);
-		go_color_selector_set_color (GO_SELECTOR (state->color_selector),
-		                             gog_axis_color_map_get_color (state->map, i));
-	} else {
-		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
-		                          FALSE);
-		go_color_selector_set_color (GO_SELECTOR (state->color_selector),
-		                             state->map->colors[state->map->size - 1]);
-	}
-}
-
-/**
- * gog_axis_color_map_edit:
- * @map: a #GogAxisColorMap or %NULL
- * @cc: a #GOCmdContext
- *
- * Opens a dialog to edit the color map. If @map is %NULL, creates a new one
- * unless the user cancels the edition.
- * Returns: (transfer none): the edited color map.
- **/
-GogAxisColorMap *
-gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc)
-{
-	GtkBuilder *gui = go_gtk_builder_load_internal ("res:go:graph/gog-axis-color-map-prefs.ui", GETTEXT_PACKAGE, cc);
-	GtkWidget *top_level = go_gtk_builder_get_widget (gui, "gog-axis-color-map-prefs"), *w;
-	unsigned response;
-	gboolean created = FALSE;
-	GdkPixbuf *pixbuf;
-	GtkGrid *grid = GTK_GRID (gtk_builder_get_object (gui, "grid"));
-	struct color_map_edit_state state;
-
-	if (map == NULL) {
-		GOColor color = 0; /* full transparent */
-		char *filename, *full_name;
-		state.map = gog_axis_color_map_from_colors ("New map", 1, &color);
-		state.map->id = go_uuid ();
-		filename = g_strconcat (state.map->id, ".map", NULL);
-		full_name = g_build_filename (g_get_home_dir (), ".goffice", "colormaps", filename, NULL);
-		state.map->uri = go_filename_to_uri (full_name);
-		g_free (filename);
-		g_free (full_name);
-		created = TRUE;
-	} else
-		state.map = gog_axis_color_map_from_colors (map->name, map->size, map->colors);
-
-	state.gui = gui;
-	state.bin = 0;
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (gtk_builder_get_object (gui, "stop-adj")), UINT_MAX);
-	pixbuf = gog_axis_color_map_get_snapshot (state.map, TRUE, TRUE, 200, 24);
-	state.discrete = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref (pixbuf);
-	gtk_grid_attach (grid, state.discrete, 1, 5, 3, 1);
-	pixbuf = gog_axis_color_map_get_snapshot (state.map, FALSE, TRUE, 200, 24);
-	state.continuous = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref (pixbuf);
-	gtk_grid_attach (grid, state.continuous, 1, 6, 3, 1);
-	w = go_gtk_builder_get_widget (gui, "erase");
-	gtk_widget_set_sensitive (w, FALSE);
-	state.color_selector = go_selector_new_color (state.map->colors[0], state.map->colors[0], "fill-color");
-	gtk_grid_attach (grid, state.color_selector, 3, 2, 1, 1);
-	gtk_entry_set_text (GTK_ENTRY (gtk_builder_get_object (gui, "name")), state.map->name);
-	gtk_widget_show_all (GTK_WIDGET (grid));
-
-	/* set some signals */
-	g_signal_connect_swapped (w, "clicked", G_CALLBACK (erase_cb), &state);
-	g_signal_connect_swapped (gtk_builder_get_object (gui, "define"), "clicked",
-	                  G_CALLBACK (define_cb), &state);
-	g_signal_connect (gtk_builder_get_object (gui, "stop-btn"), "value-changed",
-	                  G_CALLBACK (bin_changed_cb), &state);
-	response = gtk_dialog_run (GTK_DIALOG (top_level));
-	if (response == 1) {
-		g_free (state.map->name);
-		state.map->name = g_strdup (gtk_entry_get_text (GTK_ENTRY (gtk_builder_get_object (gui, "name"))));
-		if (!map) {
-			map = state.map;
-			gog_axis_color_map_save (map);
-			gog_axis_color_map_registry_add (map);
-		} else if (gog_axis_color_map_compare (map, state.map)) {
-			g_free (map->id);
-			map->id = go_uuid ();
-		}
-	} else {
-		if (created)
-			g_object_unref (state.map);
-		map = NULL;
-	}
-	gtk_widget_destroy (top_level);
-	g_object_unref (gui);
-	return map;
-}
-#endif
-
-/**
- * gog_axis_color_map_from_colors:
- * @name: color map name
- * @nb: colors number
- * @colors: the colors.
- *
- * Creates a color map using @colors.
- * Returns: (transfer full): the newly created color map.
- **/
-GogAxisColorMap *
-gog_axis_color_map_from_colors (char const *name, unsigned nb, GOColor const *colors)
-{
-	unsigned i;
-	GogAxisColorMap *color_map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
-	color_map->id = g_strdup (name);
-	color_map->name = g_strdup (name);
-	color_map->size = color_map->allocated = nb;
-	color_map->limits = g_new (unsigned, nb);
-	color_map->colors = g_new (GOColor, nb);
-	for (i = 0; i < nb; i++) {
-		color_map->limits[i] = i;
-		color_map->colors[i] = colors[i];
-	}
-	return color_map;
-}
-
-static GogAxisColorMap *color_map = NULL;
-
-GogAxisColorMap const *
-_gog_axis_color_map_get_default ()
-{
-	return color_map;
 }
 
 static void
@@ -516,20 +149,35 @@ save_name_cb (char const *lang, char const *name, GsfXMLOut *output)
 	gsf_xml_out_end_element (output);
 }
 
-/**
- * gog_axis_color_map_write:
- * @map: a #GogAxisColorMap
- * @output: a #GsfXMLOut
- *
- * Writes the color map as an XML node to @output.
- **/
-void
-gog_axis_color_map_write (GogAxisColorMap const *map, GsfXMLOut *output)
+static void gog_axis_color_map_save (GogAxisColorMap const *map);
+
+static void
+build_uri (GogAxisColorMap *map)
+{
+	char *filename, *full_name;
+	filename = g_strconcat (map->id, ".map", NULL);
+	full_name = g_build_filename (g_get_home_dir (), ".goffice", "colormaps", filename, NULL);
+	map->uri = go_filename_to_uri (full_name);
+	g_free (filename);
+	g_free (full_name);
+}
+
+static void
+gog_axis_color_map_write (GOPersist const *gp, GsfXMLOut *output)
 {
 	unsigned i;
 	char *buf;
-	g_return_if_fail (GOG_IS_AXIS_COLOR_MAP (map));
+	GogAxisColorMap *map;
+	g_return_if_fail (GOG_IS_AXIS_COLOR_MAP (gp));
 
+	map = GOG_AXIS_COLOR_MAP (gp);
+	if (output == NULL) {
+		g_return_if_fail (map->uri == NULL);
+		build_uri (map);
+		map->type = GO_RESOURCE_RW;
+		gog_axis_color_map_save (map);
+		return;
+	}
 	gsf_xml_out_start_element (output, "GogAxisColorMap");
 	gsf_xml_out_add_cstr_unchecked (output, "id", map->id);
 	g_hash_table_foreach (map->names, (GHFunc) save_name_cb, output);
@@ -653,6 +301,16 @@ static GsfXMLInNode const color_map_dtd[] = {
 static GsfXMLInDoc *xml = NULL;
 
 static void
+gog_axis_color_map_save (GogAxisColorMap const *map)
+{
+	GsfOutput *output = gsf_output_gio_new_for_uri (map->uri, NULL);
+	GsfXMLOut *xml = gsf_xml_out_new (output);
+	gog_axis_color_map_write (GO_PERSIST (map), xml);
+	g_object_unref (xml);
+	g_object_unref (output);
+}
+
+static void
 color_map_loaded (struct color_map_load_state *state, char const *uri, gboolean delete_invalid)
 {
 	GSList *ptr;
@@ -698,6 +356,509 @@ color_map_loaded (struct color_map_load_state *state, char const *uri, gboolean 
 }
 
 static void
+parse_done_cb (GsfXMLIn *xin, struct color_map_load_state *state)
+{
+	color_map_loaded (state, gsf_input_name (gsf_xml_in_get_input (xin)), FALSE);
+	g_free (state);
+}
+
+static void
+gog_axis_color_map_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	struct color_map_load_state *state;
+
+	g_return_if_fail (GOG_IS_AXIS_COLOR_MAP (gp));
+
+	state = g_new (struct color_map_load_state, 1);
+	state->map = GOG_AXIS_COLOR_MAP (gp);
+	state->name = NULL;
+	state->lang = NULL;
+	state->langs = g_get_language_names ();
+	state->name_lang_score = G_MAXINT;
+	state->color_stops = NULL;
+	if (!xml)
+		xml = gsf_xml_in_doc_new (color_map_dtd, NULL);
+	gsf_xml_in_push_state (xin, xml, state, (GsfXMLInExtDtor) parse_done_cb, attrs);
+}
+
+static void
+gog_axis_map_persist_init (GOPersistClass *iface)
+{
+	iface->prep_sax = gog_axis_color_map_prep_sax;
+	iface->sax_save = gog_axis_color_map_write;
+}
+
+GSF_CLASS_FULL (GogAxisColorMap, gog_axis_color_map,
+                NULL, NULL, gog_axis_color_map_class_init, NULL,
+                gog_axis_color_map_init, G_TYPE_OBJECT, 0,
+                GSF_INTERFACE (gog_axis_map_persist_init, GO_TYPE_PERSIST))
+
+/**
+ * gog_axis_color_map_get_color:
+ * @map: a #GogAxisMap
+	 * @x: the value to map
+ *
+ * Maps @x to a color.
+ * Returns: the found color.
+ **/
+GOColor
+gog_axis_color_map_get_color (GogAxisColorMap const *map, double x)
+{
+	unsigned n = 1;
+	double t;
+	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), (GOColor) 0x00000000);
+	if (x < 0. || map->size == 0)
+		return (GOColor) 0x00000000;
+	if (map->size == 1)
+		return map->colors[0];
+	if (x > map->limits[map->size-1])
+		x -= floor (x / (map->limits[map->size-1] + 1)) * (map->limits[map->size-1] + 1);
+	while (n < map->size && x > map->limits[n] + 1e-10)
+		n++;
+	t = (x - map->limits[n-1]) / (map->limits[n] - map->limits[n-1]);
+	return GO_COLOR_INTERPOLATE (map->colors[n-1], map->colors[n], t);
+}
+
+/**
+ * gog_axis_color_map_get_max:
+ * @map: a #GogAxisMap
+ *
+ * Retrieves the value corresponding to the last color in the map. The first
+ * always corresponds to 0.
+ * Returns: the maximum value.
+ **/
+unsigned
+gog_axis_color_map_get_max (GogAxisColorMap const *map)
+{
+	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), 0);
+	return (map->size > 0)? map->limits[map->size-1]: 0;
+}
+
+/**
+ * gog_axis_color_map_get_id:
+ * @map: a #GogAxisMap
+ *
+ * Retrieves the color map name.
+ * Returns: (transfer none): the map name.
+ **/
+char const *
+gog_axis_color_map_get_id (GogAxisColorMap const *map)
+{
+	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
+	return map->id;
+}
+
+/**
+ * gog_axis_color_map_get_name:
+ * @map: a #GogAxisMap
+ *
+ * Retrieves the color map localized name.
+ * Returns: (transfer none): the map name.
+ **/
+char const *
+gog_axis_color_map_get_name (GogAxisColorMap const *map)
+{
+	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
+	return map->name;
+}
+
+/**
+ * gog_axis_color_map_get_resource_type:
+ * @map: a #GogAxisMap
+ *
+ * Retrieves the resource type for @map.
+ * Returns: the resource type.
+ **/
+GoResourceType
+gog_axis_color_map_get_resource_type (GogAxisColorMap const *map)
+{
+	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), GO_RESOURCE_INVALID);
+	return map->type;
+}
+
+/**
+ * gog_axis_color_map_get_snapshot:
+ * @map: a #GogAxisMap
+ * @discrete: whether to use constant colors between each stop or a gradient.
+ * @horizontal: whether to get an horizontal or a vertical snapshot.
+ * @width: the pixbuf width.
+ * @height: the pixbuf height.
+ *
+ * Builds a snapshot of the color map.
+ * Returns: (transfer full): the new #GdkPixbuf.
+ **/
+GdkPixbuf *
+gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
+                                 gboolean discrete, gboolean horizontal,
+                                 unsigned width, unsigned height)
+{
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 16, 16);
+	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
+	cairo_t *cr = cairo_create (surface);
+	unsigned i, max = gog_axis_color_map_get_max (map);
+	cairo_pattern_t *pattern;
+
+	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
+	/* first fill with a "transparent" background */
+	cairo_rectangle (cr, 0., 0., 16., 16.);
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GO_COLOR_GREY(0x33)));
+	cairo_fill (cr);
+	cairo_rectangle (cr, 0., 8., 8., 8.);
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GO_COLOR_GREY(0x66)));
+	cairo_fill (cr);
+	cairo_rectangle (cr, 8., 0., 8., 8.);
+	cairo_fill (cr);
+	cairo_destroy (cr);
+	pattern = cairo_pattern_create_for_surface (surface);
+	cairo_surface_destroy (surface);
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+	cr = cairo_create (surface);
+	cairo_rectangle (cr, 0., 0., width, height);
+	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
+	cairo_set_source (cr, pattern);
+	cairo_fill (cr);
+	cairo_pattern_destroy (pattern);
+	if (discrete) {
+		GOColor color;
+		unsigned t0 = 0, t1, maxt = horizontal? width: height;
+		max++;
+		for (i = 0; i < max; i++) {
+			t1 = (i + 1) * maxt / max;
+			color = gog_axis_color_map_get_color (map, i);
+			if (horizontal)
+				cairo_rectangle (cr, t0, 0., t1, height);
+			else
+				cairo_rectangle (cr, 0., t0, width, t1);
+			cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+			cairo_fill (cr);
+			t0 = t1;
+		}
+	} else {
+		double x1, y1;
+		if (horizontal) {
+			x1 = width;
+			y1 = 0.;
+		} else {
+			x1 = 0.;
+			y1 = height;
+		}
+		pattern = cairo_pattern_create_linear (0., 0., x1, y1);
+		for (i = 0; i < map->size; i++) {
+			cairo_pattern_add_color_stop_rgba (pattern,
+			                                   (double) map->limits[i] / (double) max,
+			                                   GO_COLOR_TO_CAIRO (map->colors[i]));
+		}
+		cairo_rectangle (cr, 0., 0., width, height);
+		cairo_set_source (cr, pattern);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pattern);
+	}
+
+	go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (pixbuf),
+	                                 cairo_image_surface_get_data (surface),
+	                                 width, height, width * 4);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	return pixbuf;
+}
+
+static void
+gog_axis_color_map_set_name (GogAxisColorMap *map, char const *name)
+{
+	g_free (map->name);
+	g_hash_table_remove_all (map->names);
+	map->name = g_strdup (name);
+	g_hash_table_insert (map->names, g_strdup ("C"), g_strdup (name));
+}
+
+/**
+ * gog_axis_color_map_dup:
+ * @map: a #GogAxisColorMap
+ *
+ * Duplicates the color map.
+ * Returns: (transfer none): the new color map/
+ **/
+GogAxisColorMap *
+gog_axis_color_map_dup (GogAxisColorMap const *map)
+{
+	unsigned i;
+	GogAxisColorMap *new_map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP,
+	                                         "resource-type", GO_RESOURCE_RW,
+	                                         NULL);
+	gog_axis_color_map_set_name (new_map, _("New map"));
+	new_map->id = go_uuid ();
+	build_uri (new_map);
+	new_map->size = new_map->allocated = map->size;
+	new_map->limits = g_new (unsigned, map->size);
+	new_map->colors = g_new (GOColor, map->size);
+	for (i = 0; i < map->size; i++) {
+		new_map->limits[i] = map->limits[i];
+		new_map->colors[i] = map->colors[i];
+	}
+	return new_map;
+}
+
+static GSList *color_maps;
+
+/**
+ * gog_axis_color_map_registry_add:
+ * @map: a #GogAxisColorMap
+ *
+ * Keep a pointer to @map in graph color maps registry.
+ * This function does not add a reference to @map.
+ **/
+static void
+gog_axis_color_map_registry_add (GogAxisColorMap *map)
+{
+	g_return_if_fail (GOG_IS_AXIS_COLOR_MAP (map));
+
+	/* TODO: Check for duplicated names and for already
+	 * registered map */
+
+	color_maps = g_slist_append (color_maps, map);
+}
+
+#ifdef GOFFICE_WITH_GTK
+
+/**
+ * gog_axis_color_map_compare:
+ *
+ * Returns: TRUE if the maps are different.
+ **/
+static gboolean
+gog_axis_color_map_compare (GogAxisColorMap const *map1, GogAxisColorMap const *map2)
+{
+	unsigned i;
+	if (strcmp (map1->name, map2->name))
+		return TRUE;
+	if (map1->size != map2->size)
+		return TRUE;
+	for (i = 0; i < map1->size; i++)
+		if (map1->limits[i] != map2->limits[i] || map1->colors[i] != map2->colors[i])
+		return TRUE;
+	return FALSE;
+}
+
+struct color_map_edit_state {
+	GtkWidget *color_selector, *discrete, *continuous;
+	GtkBuilder *gui;
+	GogAxisColorMap *map, *orig;
+	unsigned bin;
+};
+
+static void
+update_snapshots (struct color_map_edit_state *state)
+{
+	GdkPixbuf *pixbuf;
+	pixbuf = gog_axis_color_map_get_snapshot (state->map, TRUE, TRUE, 200, 24);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (state->discrete), pixbuf);
+	gtk_widget_show (state->discrete);
+	g_object_unref (pixbuf);
+	pixbuf = gog_axis_color_map_get_snapshot (state->map, FALSE, TRUE, 200, 24);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (state->continuous), pixbuf);
+	g_object_unref (pixbuf);
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "save"),
+	                          gog_axis_color_map_compare (state->map, state->orig));
+}
+
+static void
+erase_cb (struct color_map_edit_state *state)
+{
+	unsigned i;
+	for (i = 0; i < state->map->size && state->bin > state->map->limits[i]; i++);
+	state->map->size--;
+	memmove (state->map->limits + i, state->map->limits + i + 1,
+	         sizeof (unsigned) * (state->map->size - i));
+	memmove (state->map->colors + i, state->map->colors + i + 1,
+	         sizeof (GOColor) * (state->map->size - i));
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
+	                          FALSE);
+	go_color_selector_set_color (GO_SELECTOR (state->color_selector),
+	                             state->map->colors[state->map->size - 1]);
+	/* update the snapshots */
+	update_snapshots (state);
+}
+
+static void
+define_cb (struct color_map_edit_state *state)
+{
+	unsigned i;
+	for (i = 0; i < state->map->size && state->bin > state->map->limits[i]; i++);
+	if (i < state->map->size && state->bin == state->map->limits[i]) {
+		state->map->colors[i] = go_color_selector_get_color (GO_SELECTOR (state->color_selector), NULL);
+	} else {
+		/* we need to insert the new color stop */
+		state->map->size++;
+		if (state->map->allocated < state->map->size) {
+			state->map->limits = g_renew (unsigned, state->map->limits,
+			                              state->map->size);
+			state->map->colors = g_renew (GOColor, state->map->colors,
+				                          state->map->size);
+			state->map->allocated = state->map->size;
+		}
+		if (i < state->map->size - 1) {
+			memmove (state->map->limits + i + 1, state->map->limits + i,
+			         sizeof (unsigned) * (state->map->size - i - 1));
+			memmove (state->map->colors + i + 1, state->map->colors + i,
+			         sizeof (GOColor) * (state->map->size - i - 1));
+		}
+		state->map->limits[i] = state->bin;
+		state->map->colors[i] = go_color_selector_get_color (GO_SELECTOR (state->color_selector), NULL);
+		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
+		                          TRUE);
+	}
+	/* update the snapshots */
+	update_snapshots (state);
+}
+
+static void
+bin_changed_cb (GtkSpinButton *btn, struct color_map_edit_state *state)
+{
+	unsigned i;
+	state->bin = gtk_spin_button_get_value (btn);
+	for (i = 0; i < state->map->size && state->bin > state->map->limits[i]; i++);
+	if (i < state->map->size) {
+		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
+		                           i > 0 && state->bin == state->map->limits[i]);
+		go_color_selector_set_color (GO_SELECTOR (state->color_selector),
+		                             gog_axis_color_map_get_color (state->map, i));
+	} else {
+		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
+		                          FALSE);
+		go_color_selector_set_color (GO_SELECTOR (state->color_selector),
+		                             state->map->colors[state->map->size - 1]);
+	}
+}
+
+/**
+ * gog_axis_color_map_edit:
+ * @map: a #GogAxisColorMap or %NULL
+ * @cc: a #GOCmdContext
+ *
+ * Opens a dialog to edit the color map. If @map is %NULL, creates a new one
+ * unless the user cancels the edition.
+ * Returns: (transfer none): the edited color map.
+ **/
+GogAxisColorMap *
+gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc)
+{
+	GtkBuilder *gui = go_gtk_builder_load_internal ("res:go:graph/gog-axis-color-map-prefs.ui", GETTEXT_PACKAGE, cc);
+	GtkWidget *top_level = go_gtk_builder_get_widget (gui, "gog-axis-color-map-prefs"), *w;
+	unsigned response;
+	GdkPixbuf *pixbuf;
+	GtkGrid *grid = GTK_GRID (gtk_builder_get_object (gui, "grid"));
+	struct color_map_edit_state state;
+
+	if (map == NULL) {
+		GOColor color = 0; /* full transparent */
+		state.map = gog_axis_color_map_from_colors ("New map", 1, &color, GO_RESOURCE_RW);
+		state.map->id = go_uuid ();
+		build_uri (state.map);
+		state.orig = gog_axis_color_map_dup (state.map);
+	} else {
+		state.orig = map;
+		state.map = gog_axis_color_map_from_colors (map->name, map->size,
+		                                            map->colors, map->type);
+	}
+
+	state.gui = gui;
+	state.bin = 0;
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (gtk_builder_get_object (gui, "stop-adj")), UINT_MAX);
+	pixbuf = gog_axis_color_map_get_snapshot (state.map, TRUE, TRUE, 200, 24);
+	state.discrete = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (pixbuf);
+	gtk_grid_attach (grid, state.discrete, 1, 5, 3, 1);
+	pixbuf = gog_axis_color_map_get_snapshot (state.map, FALSE, TRUE, 200, 24);
+	state.continuous = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (pixbuf);
+	gtk_grid_attach (grid, state.continuous, 1, 6, 3, 1);
+	w = go_gtk_builder_get_widget (gui, "erase");
+	gtk_widget_set_sensitive (w, FALSE);
+	state.color_selector = go_selector_new_color (state.map->colors[0], state.map->colors[0], "fill-color");
+	gtk_grid_attach (grid, state.color_selector, 3, 2, 1, 1);
+	gtk_entry_set_text (GTK_ENTRY (gtk_builder_get_object (gui, "name")), state.map->name);
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (gui, "save"), FALSE);
+	gtk_widget_show_all (GTK_WIDGET (grid));
+
+	/* set some signals */
+	g_signal_connect_swapped (w, "clicked", G_CALLBACK (erase_cb), &state);
+	g_signal_connect_swapped (gtk_builder_get_object (gui, "define"), "clicked",
+	                  G_CALLBACK (define_cb), &state);
+	g_signal_connect (gtk_builder_get_object (gui, "stop-btn"), "value-changed",
+	                  G_CALLBACK (bin_changed_cb), &state);
+	response = gtk_dialog_run (GTK_DIALOG (top_level));
+	if (map == NULL)
+		g_object_unref (state.orig);
+	if (response == 1) {
+		if (!map)
+			map = state.map;
+		else {
+			/* copy the colors to map */
+			unsigned i;
+			map->size = state.map->size;
+			if (map->size > map->allocated) {
+				map->limits = g_new (unsigned, map->size);
+				map->colors = g_new (GOColor, map->size);
+				map->allocated = map->size;
+			}
+			for (i = 0; i < map->size; i++) {
+				map->limits[i] = state.map->limits[i];
+				map->colors[i] = state.map->colors[i];
+			}
+			g_object_unref (state.map);
+		}
+		gog_axis_color_map_set_name (map, gtk_entry_get_text (GTK_ENTRY (gtk_builder_get_object (gui, "name"))));
+		gog_axis_color_map_save (map);
+		gog_axis_color_map_registry_add (map);
+	} else {
+		if (map == NULL)
+			g_object_unref (state.map);
+		map = NULL;
+	}
+	gtk_widget_destroy (top_level);
+	g_object_unref (gui);
+	return map;
+}
+#endif
+
+/**
+ * gog_axis_color_map_from_colors:
+ * @name: color map name
+ * @nb: colors number
+ * @colors: the colors
+ * @type: the resource type
+ *
+ * Creates a color map using @colors.
+ * Returns: (transfer full): the newly created color map.
+ **/
+GogAxisColorMap *
+gog_axis_color_map_from_colors (char const *name, unsigned nb,
+                                GOColor const *colors, GoResourceType type)
+{
+	unsigned i;
+	GogAxisColorMap *color_map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
+	color_map->id = g_strdup (name);
+	gog_axis_color_map_set_name (color_map, name);
+	color_map->type = type;
+	color_map->size = color_map->allocated = nb;
+	color_map->limits = g_new (unsigned, nb);
+	color_map->colors = g_new (GOColor, nb);
+	for (i = 0; i < nb; i++) {
+		color_map->limits[i] = i;
+		color_map->colors[i] = colors[i];
+	}
+	return color_map;
+}
+
+static GogAxisColorMap *color_map = NULL;
+
+GogAxisColorMap const *
+_gog_axis_color_map_get_default ()
+{
+	return color_map;
+}
+
+static void
 color_map_load_from_uri (char const *uri)
 {
 	struct color_map_load_state state;
@@ -726,40 +887,6 @@ color_map_load_from_uri (char const *uri)
 	} else
 		g_free (state.name);
 	g_object_unref (input);
-}
-
-static void
-parse_done_cb (GsfXMLIn *xin, struct color_map_load_state *state)
-{
-	color_map_loaded (state, gsf_input_name (gsf_xml_in_get_input (xin)), FALSE);
-	g_free (state);
-}
-
-/**
- * gog_axis_color_map_sax_push_parser:
- * @xin: a #GsfXMLIn
- * @attrs: the node attributes.
- *
- * Reads a colormap from the XML stream.
- **/
-void
-gog_axis_color_map_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	struct color_map_load_state *state = g_new (struct color_map_load_state, 1);
-	state->map = NULL;
-	state->name = NULL;
-	state->lang = NULL;
-	state->langs = g_get_language_names ();
-	state->name_lang_score = G_MAXINT;
-	state->color_stops = NULL;
-	if (!xml)
-		xml = gsf_xml_in_doc_new (color_map_dtd, NULL);
-	for (; attrs && *attrs; attrs +=2)
-		if (!strcmp ((char const *) *attrs, "id")) {
-			state->map = GOG_AXIS_COLOR_MAP (gog_axis_color_map_get_from_id ((char const *) attrs[1]));
-			break;
-		}
-	gsf_xml_in_push_state (xin, xml, state, (GsfXMLInExtDtor) parse_done_cb, attrs);
 }
 
 static void
@@ -824,7 +951,7 @@ gog_axis_color_map_get_from_id (char const *id)
 		if (!strcmp (((GogAxisColorMap *) (ptr->data))->id, id))
 		    return (GogAxisColorMap *) ptr->data;
 	/* create an empty new one */
-	map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
+	map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, "resource-type", GO_RESOURCE_EXTERNAL, NULL);
 	map->id = g_strdup (id);
 	gog_axis_color_map_registry_add (map);
 	return map;
@@ -836,7 +963,7 @@ _gog_axis_color_maps_init (void)
 	char *path;
 
 	/* Default color map */
-	color_map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
+	color_map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, "resource-type", GO_RESOURCE_NATIVE, NULL);
 	color_map->id = g_strdup ("Default");
 	color_map->name = g_strdup (N_("Default"));
 	color_map->size = color_map->allocated = 5;
@@ -868,4 +995,5 @@ _gog_axis_color_maps_shutdown (void)
 {
 	g_object_unref (color_map);
 	g_slist_free_full (color_maps, g_object_unref);
+	g_free (xml);
 }

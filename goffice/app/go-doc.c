@@ -35,7 +35,7 @@ struct _GODocPrivate {
 	GHashTable	*imagebuf; /* used when loading/saving images */
 
 	/* color maps */
-	GSList	*colormapsbuf; /* used when loading/saving color maps */
+	GSList	*resourcesbuf; /* used when loading/saving color maps and themes */
 };
 
 /**
@@ -506,13 +506,13 @@ go_doc_write (GODoc *doc, GsfXMLOut *output)
 {
 	GSList *ptr;
 	if (g_hash_table_size (doc->priv->imagebuf) > 0 ||
-	    doc->priv->colormapsbuf != NULL) {
+	    doc->priv->resourcesbuf != NULL) {
 		gsf_xml_out_start_element (output, "GODoc");
 		g_hash_table_foreach (doc->priv->imagebuf, save_image_cb, output);
-		for (ptr = doc->priv->colormapsbuf; ptr; ptr = ptr->next)
-			gog_axis_color_map_write (GOG_AXIS_COLOR_MAP (ptr->data), output);
-		g_slist_free (doc->priv->colormapsbuf);
-		doc->priv->colormapsbuf = NULL;
+		for (ptr = doc->priv->resourcesbuf; ptr; ptr = ptr->next)
+			go_persist_sax_save (GO_PERSIST (ptr->data), output);
+		g_slist_free (doc->priv->resourcesbuf);
+		doc->priv->resourcesbuf = NULL;
 		gsf_xml_out_end_element (output);
 	}
 	g_hash_table_destroy (doc->priv->imagebuf);
@@ -593,7 +593,13 @@ load_image_data (GsfXMLIn *xin, GsfXMLBlob *unknown)
 static void
 load_color_map (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	gog_axis_color_map_sax_push_parser (xin, attrs);
+	GogAxisColorMap *map = NULL;
+	for (; attrs && *attrs; attrs +=2)
+		if (!strcmp ((char const *) *attrs, "id")) {
+			map = GOG_AXIS_COLOR_MAP (gog_axis_color_map_get_from_id ((char const *) attrs[1]));
+			break;
+		}
+	go_persist_prep_sax (GO_PERSIST (map), xin, attrs);
 }
 
 void
@@ -656,19 +662,19 @@ go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 }
 
 /**
- * go_doc_save_color_map:
+ * go_doc_save_resource:
  * @doc: a #GODoc
- * @map: the #GogAxisColorMap to save
+ * @gp: the #GOPersist to save
  *
- * Saves the color map with the document. Each color map will be saved only
+ * Saves the resource with the document. Each resource will be saved only
  * once.
  **/
 void
-go_doc_save_color_map (GODoc *doc, GogAxisColorMap	const *map)
+go_doc_save_resource (GODoc *doc, GOPersist const *gp)
 {
 	GSList *ptr;
-	for (ptr = doc->priv->colormapsbuf; ptr; ptr = ptr->next)
-		if (ptr->data == map) /* already marked for saving */
+	for (ptr = doc->priv->resourcesbuf; ptr; ptr = ptr->next)
+		if (ptr->data == gp) /* already marked for saving */
 			return;
-	doc->priv->colormapsbuf = g_slist_prepend (doc->priv->colormapsbuf, (void *) map);
+	doc->priv->resourcesbuf = g_slist_prepend (doc->priv->resourcesbuf, (void *) gp);
 }
