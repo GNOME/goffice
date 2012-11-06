@@ -1806,6 +1806,12 @@ go_style_is_fill_visible (const GOStyle *style)
 	return (style->fill.type != GO_STYLE_FILL_NONE);
 }
 
+/**
+ * go_style_force_auto:
+ * @style: a #GOStyle
+ *
+ * Sets all auto fields in @style to %TRUE.
+ **/
 void
 go_style_force_auto (GOStyle *style)
 {
@@ -1819,11 +1825,51 @@ go_style_force_auto (GOStyle *style)
 	style->marker.auto_fill_color =
 	style->line.auto_dash =
 	style->line.auto_color =
+	style->line.auto_fore =
+	style->line.auto_width =
 	style->fill.auto_type =
 	style->fill.auto_fore =
 	style->fill.auto_back =
+	style->fill.auto_pattern =
+	style->fill.gradient.auto_dir =
+	style->fill.gradient.auto_brightness =
 	style->font.auto_scale =
+	style->font.auto_font =
+	style->font.auto_color =
 	style->text_layout.auto_angle = TRUE;
+}
+
+/**
+ * go_style_clear_auto:
+ * @style: a #GOStyle
+ *
+ * Sets all auto fields in @style to %FALSE.
+ **/
+void
+go_style_clear_auto	(GOStyle *style)
+{
+	g_return_if_fail (GO_IS_STYLE (style));
+
+	if (style->marker.mark != NULL)
+		g_object_unref (G_OBJECT (style->marker.mark));
+	style->marker.mark = go_marker_new ();
+	style->marker.auto_shape =
+	style->marker.auto_outline_color =
+	style->marker.auto_fill_color =
+	style->line.auto_dash =
+	style->line.auto_color =
+	style->line.auto_fore =
+	style->line.auto_width =
+	style->fill.auto_type =
+	style->fill.auto_fore =
+	style->fill.auto_back =
+	style->fill.auto_pattern =
+	style->fill.gradient.auto_dir =
+	style->fill.gradient.auto_brightness =
+	style->font.auto_scale =
+	style->font.auto_font =
+	style->font.auto_color =
+	style->text_layout.auto_angle = FALSE;
 }
 
 gboolean

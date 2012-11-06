@@ -1,3 +1,34 @@
+2012-11-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-doc.c (go_doc_write), (load_color_map),
+	(load_theme), (go_doc_read): serialize custom themes.
+	* goffice/graph/gog-axis-color-map.c (gog_axis_color_map_write),
+	(gog_axis_color_map_save), (gog_axis_color_map_persist_init),
+	(_gog_axis_color_maps_shutdown): cosmetic changes.
+	* goffice/graph/gog-graph.c (gog_graph_get_property),
+	(gog_graph_populate_editor), (gog_graph_sax_save),
+	(gog_graph_prep_sax), (gog_graph_persist_init), (theme_loaded_cb),
+	(gog_graph_set_theme): serialize custom themes.
+	* goffice/graph/gog-theme.c (gog_theme_set_property),
+	(gog_theme_get_property), (gog_theme_element_free),
+	(gog_theme_finalize), (gog_theme_class_init), (gog_theme_init),
+	(save_name_cb), (save_desc_cb), (save_elem_cb),
+	(save_series_style_cb), (gog_theme_build_uri),
+	(gog_theme_sax_save), (gog_theme_save), (theme_start),
+	(name_start), (name_end), (desc_end), (gog_theme_add_element),
+	(elem_start), (color_map_start), (theme_loaded), (parse_done_cb),
+	(gog_theme_prep_sax), (gog_theme_persist_init),
+	(gog_theme_find_element), (gog_theme_new), (gog_theme_get_id),
+	(gog_theme_get_description), (gog_theme_get_resource_type),
+	(gog_theme_registry_lookup), (build_predefined_themes),
+	(theme_load_from_uri), (_gog_themes_shutdown):
+	* goffice/graph/gog-theme.h: ditto.
+	* goffice/utils/go-style.c (go_style_force_auto),
+	(go_style_clear_auto): ditto.
+	* goffice/utils/go-style.h: ditto.
+	* goffice/utils/goffice-utils.c: ditto.
+	* goffice/utils/goffice-utils.h: ditto.
+
 2012-11-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-doc.c (go_doc_write), (load_color_map),

@@ -67,7 +67,7 @@ enum {
 
 static void
 gog_axis_color_map_set_property (GObject *gobject, guint param_id,
-		       GValue const *value, GParamSpec *pspec)
+                                 GValue const *value, GParamSpec *pspec)
 {
 	GogAxisColorMap *map = GOG_AXIS_COLOR_MAP (gobject);
 
@@ -84,7 +84,7 @@ gog_axis_color_map_set_property (GObject *gobject, guint param_id,
 
 static void
 gog_axis_color_map_get_property (GObject *gobject, guint param_id,
-		       GValue *value, GParamSpec *pspec)
+                                 GValue *value, GParamSpec *pspec)
 {
 	GogAxisColorMap *map = GOG_AXIS_COLOR_MAP (gobject);
 
@@ -98,6 +98,7 @@ gog_axis_color_map_get_property (GObject *gobject, guint param_id,
 		return; /* NOTE : RETURN */
 	}
 }
+
 static void
 gog_axis_color_map_finalize (GObject *obj)
 {
@@ -178,7 +179,6 @@ gog_axis_color_map_write (GOPersist const *gp, GsfXMLOut *output)
 		gog_axis_color_map_save (map);
 		return;
 	}
-	gsf_xml_out_start_element (output, "GogAxisColorMap");
 	gsf_xml_out_add_cstr_unchecked (output, "id", map->id);
 	g_hash_table_foreach (map->names, (GHFunc) save_name_cb, output);
 	for (i = 0; i < map->size; i++) {
@@ -189,7 +189,6 @@ gog_axis_color_map_write (GOPersist const *gp, GsfXMLOut *output)
 		g_free (buf);
 		gsf_xml_out_end_element (output);
 	}
-	gsf_xml_out_end_element (output);
 }
 
 struct _color_stop {
@@ -305,7 +304,9 @@ gog_axis_color_map_save (GogAxisColorMap const *map)
 {
 	GsfOutput *output = gsf_output_gio_new_for_uri (map->uri, NULL);
 	GsfXMLOut *xml = gsf_xml_out_new (output);
+	gsf_xml_out_start_element (xml, "GogAxisColorMap");
 	gog_axis_color_map_write (GO_PERSIST (map), xml);
+	gsf_xml_out_end_element (xml);
 	g_object_unref (xml);
 	g_object_unref (output);
 }
@@ -382,7 +383,7 @@ gog_axis_color_map_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 }
 
 static void
-gog_axis_map_persist_init (GOPersistClass *iface)
+gog_axis_color_map_persist_init (GOPersistClass *iface)
 {
 	iface->prep_sax = gog_axis_color_map_prep_sax;
 	iface->sax_save = gog_axis_color_map_write;
@@ -391,7 +392,7 @@ gog_axis_map_persist_init (GOPersistClass *iface)
 GSF_CLASS_FULL (GogAxisColorMap, gog_axis_color_map,
                 NULL, NULL, gog_axis_color_map_class_init, NULL,
                 gog_axis_color_map_init, G_TYPE_OBJECT, 0,
-                GSF_INTERFACE (gog_axis_map_persist_init, GO_TYPE_PERSIST))
+                GSF_INTERFACE (gog_axis_color_map_persist_init, GO_TYPE_PERSIST))
 
 /**
  * gog_axis_color_map_get_color:
@@ -995,5 +996,6 @@ _gog_axis_color_maps_shutdown (void)
 {
 	g_object_unref (color_map);
 	g_slist_free_full (color_maps, g_object_unref);
-	g_free (xml);
+	if (xml)
+		gsf_xml_in_doc_free (xml);
 }

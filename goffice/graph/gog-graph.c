@@ -206,7 +206,7 @@ gog_graph_get_property (GObject *obj, guint param_id,
 		g_value_set_object (value, graph->theme);
 		break;
 	case GRAPH_PROP_THEME_NAME :
-		g_value_set_string (value, gog_theme_get_name (graph->theme));
+		g_value_set_string (value, gog_theme_get_id (graph->theme));
 		break;
 	case GRAPH_PROP_WIDTH:
 		g_value_set_double (value, graph->width);
@@ -330,7 +330,7 @@ gog_graph_populate_editor (GogObject *gobj,
 			theme = gog_theme_registry_lookup (ptr->data);
 			gtk_list_store_append (model, &iter);
 			gtk_list_store_set (model, &iter,
-			                    0, gog_theme_get_local_name (theme),
+			                    0, gog_theme_get_name (theme),
 			                    1, theme,
 			                    -1);
 			if (strcmp (ptr->data, graph_theme_name) == 0)
@@ -517,9 +517,31 @@ gog_graph_init (GogGraph *graph)
 	graph->data_refs = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
-GSF_CLASS (GogGraph, gog_graph,
-	   gog_graph_class_init, gog_graph_init,
-	   GOG_TYPE_OUTLINED_OBJECT)
+static void
+gog_graph_sax_save (GOPersist const *gp, GsfXMLOut *output)
+{
+	GogGraph *graph = GOG_GRAPH (gp);
+	if (gog_theme_get_resource_type (graph->theme) != GO_RESOURCE_NATIVE)
+		go_doc_save_resource (graph->doc, GO_PERSIST (graph->theme));
+}
+
+static void
+gog_graph_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	/* nothing to do */
+}
+
+static void
+gog_graph_persist_init (GOPersistClass *iface)
+{
+	iface->prep_sax = gog_graph_prep_sax;
+	iface->sax_save = gog_graph_sax_save;
+}
+
+GSF_CLASS_FULL (GogGraph, gog_graph,
+                NULL, NULL, gog_graph_class_init, NULL,
+                gog_graph_init, GOG_TYPE_OUTLINED_OBJECT, 0,
+                GSF_INTERFACE (gog_graph_persist_init, GO_TYPE_PERSIST))
 
 /**
  * gog_graph_validate_chart_layout:
@@ -669,6 +691,15 @@ apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto)
 	}
 }
 
+static gboolean
+theme_loaded_cb (GogGraph *graph)
+{
+	if (gog_theme_get_name (graph->theme) == NULL)
+		return TRUE;
+	apply_theme (GOG_OBJECT (graph), graph->theme, FALSE);
+	return FALSE;
+}
+
 void
 gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 {
@@ -677,7 +708,10 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 
 	graph->theme = theme;
 
-	apply_theme (GOG_OBJECT (graph), graph->theme, FALSE);
+	if (gog_theme_get_name (theme) == NULL) /* the theme is not loaded yet */
+		g_timeout_add (10, (GSourceFunc) theme_loaded_cb, graph);
+	else
+		apply_theme (GOG_OBJECT (graph), graph->theme, FALSE);
 }
 
 /**

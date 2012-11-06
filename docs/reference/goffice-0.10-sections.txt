@@ -2073,6 +2073,7 @@ go_style_assign
 go_style_dup
 go_style_fill
 go_style_force_auto
+go_style_clear_auto
 go_style_get_editor
 go_style_get_marker
 go_style_is_auto
@@ -3407,8 +3408,9 @@ GogTheme
 gog_theme_fillin_style
 gog_theme_get_color_map
 gog_theme_get_description
-gog_theme_get_local_name
+gog_theme_get_id
 gog_theme_get_name
+gog_theme_get_resource_type
 gog_theme_registry_get_theme_names
 gog_theme_registry_lookup
 <SUBSECTION Standard>

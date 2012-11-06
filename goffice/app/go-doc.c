@@ -509,8 +509,11 @@ go_doc_write (GODoc *doc, GsfXMLOut *output)
 	    doc->priv->resourcesbuf != NULL) {
 		gsf_xml_out_start_element (output, "GODoc");
 		g_hash_table_foreach (doc->priv->imagebuf, save_image_cb, output);
-		for (ptr = doc->priv->resourcesbuf; ptr; ptr = ptr->next)
+		for (ptr = doc->priv->resourcesbuf; ptr; ptr = ptr->next) {
+			gsf_xml_out_start_element (output, G_OBJECT_TYPE_NAME (ptr->data));
 			go_persist_sax_save (GO_PERSIST (ptr->data), output);
+			gsf_xml_out_end_element (output);
+		}
 		g_slist_free (doc->priv->resourcesbuf);
 		doc->priv->resourcesbuf = NULL;
 		gsf_xml_out_end_element (output);
@@ -599,7 +602,21 @@ load_color_map (GsfXMLIn *xin, xmlChar const **attrs)
 			map = GOG_AXIS_COLOR_MAP (gog_axis_color_map_get_from_id ((char const *) attrs[1]));
 			break;
 		}
-	go_persist_prep_sax (GO_PERSIST (map), xin, attrs);
+	if (map)
+		go_persist_prep_sax (GO_PERSIST (map), xin, attrs);
+}
+
+static void
+load_theme (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GogTheme *theme = NULL;
+	for (; attrs && *attrs; attrs +=2)
+		if (!strcmp ((char const *) *attrs, "id")) {
+			theme = GOG_THEME (gog_theme_registry_lookup ((char const *) attrs[1]));
+			break;
+		}
+	if (theme)
+		go_persist_prep_sax (GO_PERSIST (theme), xin, attrs);
 }
 
 void
@@ -617,6 +634,10 @@ go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 					 -1, "GogAxisColorMap",
 					 GSF_XML_NO_CONTENT,
 					 &load_color_map, NULL),
+		GSF_XML_IN_NODE 	(DOC, THEME,
+					 -1, "GogTheme",
+					 GSF_XML_NO_CONTENT,
+					 &load_theme, NULL),
 		GSF_XML_IN_NODE_END
 	};
 	static GsfXMLInDoc *xmldoc = NULL;
