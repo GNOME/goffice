@@ -450,6 +450,22 @@ gog_theme_save (GogTheme const *theme)
 	g_object_unref (output);
 }
 
+/**
+ * gog_theme_save_to_home_dir:
+ * @theme: the #GogTheme to save
+ *
+ * Writes the theme to the user directory so that it becomes permanently
+ * available.
+ **/
+void
+gog_theme_save_to_home_dir (GogTheme *theme)
+{
+	g_return_if_fail (GOG_IS_THEME (theme) && theme->type == GO_RESOURCE_EXTERNAL && theme->uri == NULL);
+	gog_theme_build_uri (theme);
+	gog_theme_save (theme);
+	theme->type = GO_RESOURCE_RW;
+}
+
 /**************
  * Input code *
  **************/
@@ -1159,7 +1175,7 @@ gog_theme_registry_get_theme_names (void)
 
 	for (ptr = themes; ptr != NULL; ptr = ptr->next) {
 		theme = ptr->data;
-		names = g_slist_append (names, theme->name);
+		names = g_slist_append (names, theme->id);
 	}
 
 	return names;
@@ -1543,7 +1559,6 @@ theme_load_from_uri (char const *uri)
 		}
 		theme_loaded (&state);
 		gog_theme_registry_add (state.theme, FALSE);
-printf("theme is %p with id %s\n",state.theme,state.theme->id);
 	} else {
 		g_free (state.name);
 		g_free (state.desc);

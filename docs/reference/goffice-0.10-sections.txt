@@ -3413,6 +3413,7 @@ gog_theme_get_name
 gog_theme_get_resource_type
 gog_theme_registry_get_theme_names
 gog_theme_registry_lookup
+gog_theme_save_to_home_dir
 <SUBSECTION Standard>
 GOG_IS_THEME
 GOG_THEME

@@ -259,6 +259,7 @@ static void
 cb_theme_changed (GtkComboBox *combo, GogGraph *graph)
 {
 	GtkTreeIter iter;
+	GtkWidget *w = g_object_get_data (G_OBJECT (combo), "save-button");
 
 	if (gtk_combo_box_get_active_iter (combo, &iter)) {
 		GtkTreeModel *model = GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (combo)));
@@ -269,6 +270,7 @@ cb_theme_changed (GtkComboBox *combo, GogGraph *graph)
 			g_object_unref (theme);
 		}
 	}
+	gtk_widget_set_visible (w, graph->theme && gog_theme_get_resource_type (graph->theme) == GO_RESOURCE_EXTERNAL);
 }
 
 static void
@@ -287,6 +289,13 @@ unset_model (GtkComboBox *cb)
 	 * somehow leaks the GtkComboBox.
 	 */
 	gtk_combo_box_set_model (cb, NULL);
+}
+
+static void
+save_theme_cb (GtkWidget *w, GogGraph *graph)
+{
+	gog_theme_save_to_home_dir (graph->theme);
+	gtk_widget_hide (w);
 }
 
 static void
@@ -326,6 +335,9 @@ gog_graph_populate_editor (GogObject *gobj,
 				  G_CALLBACK (unset_model), NULL);
 
 		count = 0;
+		box = go_gtk_builder_get_widget (gui, "save-theme");
+		g_signal_connect (G_OBJECT (box), "clicked", G_CALLBACK (save_theme_cb), graph);
+		g_object_set_data (G_OBJECT (combo), "save-button", box);
 		for (ptr = theme_names; ptr != NULL; ptr = ptr->next) {
 			theme = gog_theme_registry_lookup (ptr->data);
 			gtk_list_store_append (model, &iter);
@@ -338,12 +350,13 @@ gog_graph_populate_editor (GogObject *gobj,
 			count++;
 		}
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), index);
+		gtk_widget_set_visible (box, graph->theme && gog_theme_get_resource_type (graph->theme) == GO_RESOURCE_EXTERNAL);
 
 		g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (cb_theme_changed), graph);
-		g_signal_connect (gtk_builder_get_object (gui, "force_theme_button"), "clicked",
+		g_signal_connect (gtk_builder_get_object (gui, "force-theme-button"), "clicked",
 				  G_CALLBACK (cb_force_theme), graph);
 
-		box = go_gtk_builder_get_widget (gui, "gog_graph_prefs");
+		box = go_gtk_builder_get_widget (gui, "gog-graph-prefs");
 		go_editor_add_page (editor, box, _("Theme"));
 
 		g_slist_free (theme_names);

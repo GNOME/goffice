@@ -1,3 +1,14 @@
+2012-11-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-graph-prefs.ui: add a button to save an embedded
+	theme.
+	* goffice/graph/gog-graph.c (cb_theme_changed), (save_theme_cb),
+	(gog_graph_populate_editor): ditto.
+	* goffice/graph/gog-theme.c (gog_theme_save_to_home_dir): new function,
+	(gog_theme_registry_get_theme_names), (theme_load_from_uri): fix a
+	locale related issue.
+	* goffice/graph/gog-theme.h: ditto.
+
 2012-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-doc.c (go_doc_write), (load_color_map),
