@@ -327,7 +327,7 @@ gog_graph_populate_editor (GogObject *gobj,
 		char const *graph_theme_name;
 		int count, index = 0;
 
-		graph_theme_name = gog_theme_get_name (graph->theme);
+		graph_theme_name = gog_theme_get_id (graph->theme);
 		combo = go_gtk_builder_get_widget (gui, "theme_combo");
 		model = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo)));
 

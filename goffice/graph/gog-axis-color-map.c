@@ -880,8 +880,11 @@ color_map_load_from_uri (char const *uri)
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogAxisColorMap]: Could not parse %s", uri);
 	if (state.map != NULL) {
-		if (state.map && !go_file_access (uri, W_OK))
+		if (!go_file_access (uri, W_OK)) {
 			state.map->uri = g_strdup (uri);
+			state.map->type = GO_RESOURCE_RW;
+		} else
+			state.map->type = GO_RESOURCE_RO;
 		color_map_loaded (&state, uri, TRUE);
 		if (state.map)
 			gog_axis_color_map_registry_add (state.map);

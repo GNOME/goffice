@@ -1,3 +1,13 @@
+2012-11-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-color-map.c (color_map_load_from_uri): cosmetic
+	changes.
+	* goffice/graph/gog-graph.c (gog_graph_populate_editor): use Id instead
+	of name to list themes.
+	* goffice/graph/gog-theme.c (gog_theme_sax_save),
+	(gog_theme_registry_lookup), (theme_load_from_uri): make embedded theme
+	saving really work.
+
 2012-11-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-graph-prefs.ui: add a button to save an embedded

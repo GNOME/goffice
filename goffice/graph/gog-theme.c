@@ -423,7 +423,8 @@ gog_theme_sax_save (GOPersist const *gp, GsfXMLOut *output)
 	g_hash_table_foreach (theme->descs, (GHFunc) save_desc_cb, output);
 	g_hash_table_foreach (theme->elem_hash_by_class, (GHFunc) save_elem_cb, output);
 	g_hash_table_foreach (theme->elem_hash_by_role, (GHFunc) save_elem_cb, output);
-	g_ptr_array_foreach (theme->palette, (GFunc) save_series_style_cb, output);
+	if (theme->palette)
+		g_ptr_array_foreach (theme->palette, (GFunc) save_series_style_cb, output);
 	if (theme->cm && gog_axis_color_map_get_resource_type (theme->cm) == GO_RESOURCE_CHILD) {
 		gsf_xml_out_start_element (output, "GogAxisColorMap");
 		gsf_xml_out_add_cstr_unchecked (output, "type", (theme->cm == theme->dcm)? "both": "gradient");
@@ -1154,7 +1155,7 @@ gog_theme_registry_lookup (char const *name)
 			}
 		}
 		/* create an empty theme */
-		theme = g_object_new (GOG_TYPE_THEME, "resource-type", GO_RESOURCE_RW, NULL);
+		theme = g_object_new (GOG_TYPE_THEME, "resource-type", GO_RESOURCE_EXTERNAL, NULL);
 		theme->id = g_strdup (name);
 		gog_theme_registry_add (theme, FALSE);
 	}
@@ -1552,10 +1553,23 @@ theme_load_from_uri (char const *uri)
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogTheme]: Could not parse %s", uri);
 	if (state.theme != NULL) {
-		state.theme->uri = g_strdup (uri);
-		if (state.theme->id == NULL) {
-			state.theme->id = go_uuid ();
-			gog_theme_save (state.theme);
+		if (!go_file_access (uri, W_OK)) {
+			state.theme->uri = g_strdup (uri);
+			if (state.theme->id == NULL) {
+				state.theme->id = go_uuid ();
+				gog_theme_save (state.theme);
+			}
+			state.theme->type = GO_RESOURCE_RW;
+		} else {
+			if (state.theme->id == NULL) {
+				/* just duplicate the name, anyway, this should never occur */
+				char *name = g_hash_table_lookup (state.theme->names, "C");
+				if (name)
+					state.theme->id = g_strdup (name);
+				else
+					g_warning ("[GogTheme]: Theme with no Id in %s", uri);
+			}
+			state.theme->type = GO_RESOURCE_RO;
 		}
 		theme_loaded (&state);
 		gog_theme_registry_add (state.theme, FALSE);
