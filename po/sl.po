@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-05 16:40+0000\n"
-"PO-Revision-Date: 2012-11-05 21:53+0100\n"
+"POT-Creation-Date: 2012-11-08 14:38+0000\n"
+"PO-Revision-Date: 2012-11-08 21:31+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -619,7 +619,7 @@ msgstr "Zgornji položaj predmeta"
 #: ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:330
 #: ../goffice/canvas/goc-widget.c:792
-#: ../goffice/graph/gog-graph.c:486
+#: ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "Višina"
@@ -634,7 +634,7 @@ msgstr "Višina"
 #: ../goffice/canvas/goc-rectangle.c:324
 #: ../goffice/canvas/goc-widget.c:786
 #: ../goffice/graph/gog-color-scale.c:137
-#: ../goffice/graph/gog-graph.c:480
+#: ../goffice/graph/gog-graph.c:493
 #: ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
@@ -692,7 +692,7 @@ msgstr "Zgornja lega diagrama"
 #. * support graphs in graphs
 #: ../goffice/canvas/goc-graph.c:465
 #: ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:512
+#: ../goffice/graph/gog-graph.c:525
 msgid "Graph"
 msgstr "Diagram"
 
@@ -701,7 +701,7 @@ msgid "The GogGraph this object displays"
 msgstr "Predmet GogGraph, ki ga ta predmet izrisuje"
 
 #: ../goffice/canvas/goc-graph.c:471
-#: ../goffice/graph/gog-graph.c:1024
+#: ../goffice/graph/gog-graph.c:1071
 msgid "Renderer"
 msgstr "Izrisovalnik"
 
@@ -1329,6 +1329,7 @@ msgid "Creates a new color map based on the currently selected one."
 msgstr "Ustvari novo barvno preslikavo na osnovi trenutno izbrane."
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:31
+#: ../goffice/graph/gog-graph-prefs.ui.h:3
 msgid "Save"
 msgstr "Shrani"
 
@@ -1502,21 +1503,22 @@ msgstr "Ime barvne preslikave"
 msgid "The name of the color map"
 msgstr "Ime barvne preslikave"
 
-#: ../goffice/graph/gog-axis-color-map.c:130
+#: ../goffice/graph/gog-axis-color-map.c:131
+#: ../goffice/graph/gog-theme.c:322
 msgid "Resource type"
 msgstr "Vrsta vira"
 
-#: ../goffice/graph/gog-axis-color-map.c:131
+#: ../goffice/graph/gog-axis-color-map.c:132
 msgid "The resource type for the color map"
 msgstr "Vrsta vira barvne preslikave"
 
-#: ../goffice/graph/gog-axis-color-map.c:588
+#: ../goffice/graph/gog-axis-color-map.c:589
 msgid "New map"
 msgstr "Nov zemljevid"
 
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-axis-color-map.c:968
-#: ../goffice/graph/gog-theme.c:701
+#: ../goffice/graph/gog-axis-color-map.c:972
+#: ../goffice/graph/gog-theme.c:1203
 msgid "Default"
 msgstr "Privzeto"
 
@@ -1612,7 +1614,7 @@ msgid "Plot"
 msgstr "Diagram"
 
 #: ../goffice/graph/gog-chart.c:634
-#: ../goffice/graph/gog-graph.c:413
+#: ../goffice/graph/gog-graph.c:426
 #: ../goffice/graph/gog-legend.c:195
 msgid "Title"
 msgstr "Naslov"
@@ -1797,47 +1799,51 @@ msgstr "Tema:"
 msgid "Forget user styles"
 msgstr "Pozabi uporabniške sloge"
 
+#: ../goffice/graph/gog-graph-prefs.ui.h:4
+msgid "Save the theme as a standalone file in the user home directory."
+msgstr "Shrani temo kot samostojno datoteko v uporabnikovi osebni mapi."
+
 #. builds the default discrete color map
-#: ../goffice/graph/gog-graph.c:347
-#: ../goffice/graph/gog-graph.c:468
-#: ../goffice/graph/gog-theme.c:851
-#: ../goffice/graph/gog-theme.c:1000
+#: ../goffice/graph/gog-graph.c:360
+#: ../goffice/graph/gog-graph.c:481
+#: ../goffice/graph/gog-theme.c:1368
+#: ../goffice/graph/gog-theme.c:1532
 msgid "Theme"
 msgstr "Tema"
 
-#: ../goffice/graph/gog-graph.c:408
+#: ../goffice/graph/gog-graph.c:421
 msgid "Chart"
 msgstr "Diagram"
 
-#: ../goffice/graph/gog-graph.c:469
+#: ../goffice/graph/gog-graph.c:482
 msgid "The theme for elements of the graph"
 msgstr "Tema za predmete diagrama"
 
-#: ../goffice/graph/gog-graph.c:474
+#: ../goffice/graph/gog-graph.c:487
 msgid "Theme name"
 msgstr "Ime teme"
 
-#: ../goffice/graph/gog-graph.c:475
+#: ../goffice/graph/gog-graph.c:488
 msgid "The name of the theme for elements of the graph"
 msgstr "Ime teme za predmete diagrama"
 
-#: ../goffice/graph/gog-graph.c:481
+#: ../goffice/graph/gog-graph.c:494
 msgid "Logical graph width, in points"
 msgstr "Logična širina diagramov v točkah"
 
-#: ../goffice/graph/gog-graph.c:487
+#: ../goffice/graph/gog-graph.c:500
 msgid "Logical graph height, in points"
 msgstr "Logična višina diagrama v točkah"
 
-#: ../goffice/graph/gog-graph.c:492
+#: ../goffice/graph/gog-graph.c:505
 msgid "Document"
 msgstr "Dokument"
 
-#: ../goffice/graph/gog-graph.c:493
+#: ../goffice/graph/gog-graph.c:506
 msgid "the document for this graph"
 msgstr "dokument za ta diagram"
 
-#: ../goffice/graph/gog-graph.c:1025
+#: ../goffice/graph/gog-graph.c:1072
 msgid "the renderer for this view"
 msgstr "izrisovalnik pogleda"
 
@@ -2710,8 +2716,12 @@ msgstr "(Ime):"
 msgid "Smoothed Curve"
 msgstr "Glajena krivulja"
 
+#: ../goffice/graph/gog-theme.c:323
+msgid "The resource type for the theme"
+msgstr "Vrsta vira teme"
+
 #. Guppi
-#: ../goffice/graph/gog-theme.c:856
+#: ../goffice/graph/gog-theme.c:1373
 msgid "Guppi"
 msgstr "Guppi"
 
