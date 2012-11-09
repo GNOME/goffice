@@ -2333,7 +2333,7 @@ go_format_parse (const char *str)
 		if (!state.have_cond)
 			condition->implicit = TRUE;
 
-		magic_fmt_str = go_format_magic_fmt_str (state.locale.locale & 0xffff);
+		magic_fmt_str = go_format_magic_fmt_str (state.locale.locale  & 0xffffffff);
 		if (magic_fmt_str) {
 			is_magic = TRUE;
 			/* Make the upcoming switch do nothing.  */
@@ -7281,7 +7281,7 @@ go_format_get_details (GOFormat const *fmt,
 #ifdef DEFINE_COMMON
 
 /* making GOFormatCurrency a boxed type for introspection. ref and unref don't
- * do anything because we always return a staic object */
+ * do anything because we always return a static object */
 static GOFormatCurrency *
 go_format_currency_ref (GOFormatCurrency * currency)
 {
@@ -7289,7 +7289,7 @@ go_format_currency_ref (GOFormatCurrency * currency)
 }
 
 static void
-go_format_currency_unref (GOFormatCurrency * currency)
+go_format_currency_unref (G_GNUC_UNUSED GOFormatCurrency * currency)
 {
 }
 

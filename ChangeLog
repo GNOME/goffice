@@ -1,3 +1,7 @@
+2012-11-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_parse): use 32 bits for the locale
+
 2012-11-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-color-map.c (color_map_load_from_uri): cosmetic
