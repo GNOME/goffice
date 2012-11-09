@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-05 13:59+0000\n"
-"PO-Revision-Date: 2012-11-05 17:35+0100\n"
+"POT-Creation-Date: 2012-11-08 14:38+0000\n"
+"PO-Revision-Date: 2012-11-09 13:15+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -618,7 +618,7 @@ msgstr "La posición superior del objeto"
 #: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-graph.c:453
 #: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:281
 #: ../goffice/canvas/goc-pixbuf.c:241 ../goffice/canvas/goc-rectangle.c:330
-#: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:486
+#: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "Altura"
@@ -628,7 +628,7 @@ msgstr "Altura"
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
 #: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
 #: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
-#: ../goffice/graph/gog-graph.c:480 ../goffice/utils/go-image.c:499
+#: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "Anchura"
@@ -683,7 +683,7 @@ msgstr "La posición superior del gráfico"
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:512
+#: ../goffice/graph/gog-graph.c:525
 msgid "Graph"
 msgstr "Gráfico"
 
@@ -691,7 +691,7 @@ msgstr "Gráfico"
 msgid "The GogGraph this object displays"
 msgstr "El GogGraph que muestra este objeto"
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1024
+#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1071
 msgid "Renderer"
 msgstr "Renderizador"
 
@@ -1327,14 +1327,13 @@ msgid "Creates a new color map based on the currently selected one."
 msgstr "Crear un nuevo mapa de color basado en el color actual seleccionado."
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:31
-#, fuzzy
-#| msgid "Save as"
+#: ../goffice/graph/gog-graph-prefs.ui.h:3
 msgid "Save"
-msgstr "Guardar como"
+msgstr "Guardar"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:32
 msgid "Saves the color map to the local disk."
-msgstr ""
+msgstr "Guardar el mapa de colores al disco local."
 
 #: ../goffice/graph/gog-axis.c:85
 msgid "Degrees"
@@ -1504,24 +1503,20 @@ msgstr "NombreDelMapaDeColor"
 msgid "The name of the color map"
 msgstr "El nombre del mapa de color"
 
-#: ../goffice/graph/gog-axis-color-map.c:130
-#, fuzzy
-#| msgid "Resource"
+#: ../goffice/graph/gog-axis-color-map.c:131 ../goffice/graph/gog-theme.c:322
 msgid "Resource type"
-msgstr "Recurso"
+msgstr "Tipo de recurso"
 
-#: ../goffice/graph/gog-axis-color-map.c:131
-#, fuzzy
-#| msgid "The name of the color map"
+#: ../goffice/graph/gog-axis-color-map.c:132
 msgid "The resource type for the color map"
-msgstr "El nombre del mapa de color"
+msgstr "El tipo de recurso para el mapa de color"
 
-#: ../goffice/graph/gog-axis-color-map.c:588
+#: ../goffice/graph/gog-axis-color-map.c:589
 msgid "New map"
-msgstr ""
+msgstr "Mapa nuevo"
 
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-axis-color-map.c:968 ../goffice/graph/gog-theme.c:701
+#: ../goffice/graph/gog-axis-color-map.c:972 ../goffice/graph/gog-theme.c:1203
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -1551,14 +1546,12 @@ msgid "<b>Snapshots</b>"
 msgstr "<b>Instantáneas</b>"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
-#, fuzzy
-#| msgid "User Defined"
 msgid "Define"
-msgstr "Definido por el usuario"
+msgstr "Defininir"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
 msgid "Erase"
-msgstr ""
+msgstr "Borrar"
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:688
 msgid "Plot area"
@@ -1616,7 +1609,7 @@ msgstr "Eje-color"
 msgid "Plot"
 msgstr "Dibujo"
 
-#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:413
+#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:426
 #: ../goffice/graph/gog-legend.c:195
 msgid "Title"
 msgstr "Título"
@@ -1798,45 +1791,51 @@ msgstr "Tema:"
 msgid "Forget user styles"
 msgstr "Olvidar los estilos del usuario"
 
+#: ../goffice/graph/gog-graph-prefs.ui.h:4
+msgid "Save the theme as a standalone file in the user home directory."
+msgstr ""
+"Guardar el tema como un archivo individual en la carpeta personal del "
+"usuario."
+
 #. builds the default discrete color map
-#: ../goffice/graph/gog-graph.c:347 ../goffice/graph/gog-graph.c:468
-#: ../goffice/graph/gog-theme.c:851 ../goffice/graph/gog-theme.c:1000
+#: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
+#: ../goffice/graph/gog-theme.c:1368 ../goffice/graph/gog-theme.c:1532
 msgid "Theme"
 msgstr "Tema"
 
-#: ../goffice/graph/gog-graph.c:408
+#: ../goffice/graph/gog-graph.c:421
 msgid "Chart"
 msgstr "Diagrama"
 
-#: ../goffice/graph/gog-graph.c:469
+#: ../goffice/graph/gog-graph.c:482
 msgid "The theme for elements of the graph"
 msgstr "El tema para los elementos del gráfico"
 
-#: ../goffice/graph/gog-graph.c:474
+#: ../goffice/graph/gog-graph.c:487
 msgid "Theme name"
 msgstr "Nombre del tema"
 
-#: ../goffice/graph/gog-graph.c:475
+#: ../goffice/graph/gog-graph.c:488
 msgid "The name of the theme for elements of the graph"
 msgstr "El nombre del tema para los elementos del gráfico"
 
-#: ../goffice/graph/gog-graph.c:481
+#: ../goffice/graph/gog-graph.c:494
 msgid "Logical graph width, in points"
 msgstr "Anchura del gráfico lógico, en puntos"
 
-#: ../goffice/graph/gog-graph.c:487
+#: ../goffice/graph/gog-graph.c:500
 msgid "Logical graph height, in points"
 msgstr "Altura del gráfico lógico, en puntos"
 
-#: ../goffice/graph/gog-graph.c:492
+#: ../goffice/graph/gog-graph.c:505
 msgid "Document"
 msgstr "Documento"
 
-#: ../goffice/graph/gog-graph.c:493
+#: ../goffice/graph/gog-graph.c:506
 msgid "the document for this graph"
 msgstr "el documento para esta gráfica"
 
-#: ../goffice/graph/gog-graph.c:1025
+#: ../goffice/graph/gog-graph.c:1072
 msgid "the renderer for this view"
 msgstr "el renderizador para esta vista"
 
@@ -2704,8 +2703,13 @@ msgstr "(Nombre):"
 msgid "Smoothed Curve"
 msgstr "Curva suavizada"
 
+#: ../goffice/graph/gog-theme.c:323
+#| msgid "The resource type for the color map"
+msgid "The resource type for the theme"
+msgstr "El tipo de recurso para el tema"
+
 #. Guppi
-#: ../goffice/graph/gog-theme.c:856
+#: ../goffice/graph/gog-theme.c:1373
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -4613,10 +4617,8 @@ msgid "India/Sanskrit (sa_IN)"
 msgstr "India/Sanskrit (sa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:297
-#, fuzzy
-#| msgid "Italy (it_IT)"
 msgid "Italy/Sardinian (sc_IT)"
-msgstr "Italia/Italiano (it_IT)"
+msgstr "Italia/Sardo (sc_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:298
 msgid "India/Sindhi (sd_IN)"
@@ -4667,10 +4669,8 @@ msgid "Albania (sq_AL)"
 msgstr "Albania (sq_AL)"
 
 #: ../goffice/gtk/go-locale-sel.c:310
-#, fuzzy
-#| msgid "Macedonia (mk_MK)"
 msgid "Macedonia/Albanian (sq_MK)"
-msgstr "Macedonia (mk_MK)"
+msgstr "Macedonia/Albanés (sq_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:311
 msgid "Montenegro/Serbian (sr_ME)"
@@ -4685,10 +4685,8 @@ msgid "South Africa/Swati (ss_ZA)"
 msgstr "Sudáfrica/Swati (ss_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:314
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Sotho (st_ZA)"
-msgstr "Sudáfrica/Inglés (en_ZA)"
+msgstr "Sudáfrica/Sotho (st_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:315
 msgid "Finland/Swedish (sv_FI)"
@@ -4735,20 +4733,16 @@ msgid "Eritrea/Tigre (tig_ER)"
 msgstr "Eritrea/Tigre (tig_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:326
-#, fuzzy
-#| msgid "Turkmenistan, Manats"
 msgid "Turkmenistan /Turkmen (tk_TM)"
-msgstr "Turkmenistán, manats"
+msgstr "Turkmenistán /Turcomano (tk_TM)"
 
 #: ../goffice/gtk/go-locale-sel.c:327
 msgid "Philippines/Tagalog (tl_PH)"
 msgstr "Filipinas/Tagalo (tl_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:328
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Tswana (tn_ZA)"
-msgstr "Sudáfrica/Inglés (en_ZA)"
+msgstr "Sudáfrica/Setsuana (tn_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:329
 msgid "Cyprus/Turkish (tr_CY)"
@@ -4759,10 +4753,8 @@ msgid "Turkey (tr_TR)"
 msgstr "Turquía (tr_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:331
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Tsonga (ts_ZA)"
-msgstr "Sudáfrica/Inglés (en_ZA)"
+msgstr "South Africa/Tsonga (ts_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:332
 msgid "Russia/Tatar (tt_RU)"
@@ -4789,10 +4781,8 @@ msgid "Uzbekistan (uz_UZ)"
 msgstr "Uzbekistán (uz_UZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:338
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Venda (ve_ZA)"
-msgstr "Sudáfrica/Inglés (en_ZA)"
+msgstr "Sudáfrica/Luvenda (ve_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:339
 msgid "Vietnam (vi_VN)"
@@ -4803,26 +4793,20 @@ msgid "Belgium/Walloon (wa_BE)"
 msgstr "Bélgica/Balón (wa_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:341
-#, fuzzy
-#| msgid "Switzerland/German (de_CH)"
 msgid "Switzerland/Walser (wae_CH)"
-msgstr "Suiza/Alemán (de_CH)"
+msgstr "Suiza/Walser (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
-#, fuzzy
-#| msgid "Ethiopia/Amharic (am_ET)"
 msgid "Ethiopia/Walaita (wal_ET)"
-msgstr "Etiopía/Amharico (am_ET)"
+msgstr "Etiopía/Walaita (wal_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:343
 msgid "Senegal/Wolof (wo_SN)"
 msgstr "Senegal/Wolof (wo_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:344
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Xhosa (xh_ZA)"
-msgstr "Sudáfrica/Inglés (en_ZA)"
+msgstr "Sudáfrica/Xhosa (xh_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:345
 msgid "United States/Yiddish (yi_US)"
@@ -4853,10 +4837,8 @@ msgid "Taiwan (zh_TW)"
 msgstr "Taiwán (zh_TW)"
 
 #: ../goffice/gtk/go-locale-sel.c:352
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Zulu (zu_ZA)"
-msgstr "Sudáfrica/Inglés (en_ZA)"
+msgstr "Sudáfrica/Zulú (zu_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:571
 msgid "Current Locale: "
@@ -6787,15 +6769,15 @@ msgstr "Barras deslizantes horizontales."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical Min Max Lines"
-msgstr "Líneas mín máx verticales"
+msgstr "Líneas mín. máx. verticales"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:108
 msgid "Vertical min max lines."
-msgstr "Líneas mín máx verticales."
+msgstr "Líneas mín. máx. verticales."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:109
 msgid "Marked Vertical Min Max Lines"
-msgstr "Líneas mín. máx verticales marcadas"
+msgstr "Líneas mín. máx. verticales marcadas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:110
 msgid "Vertical min max lines with markers."
@@ -7974,52 +7956,36 @@ msgid "Horizontal drop bars with continuous Y-axis."
 msgstr "Barras deslizantes horizontales con eje continuo en Y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:35
-#, fuzzy
-#| msgid "Marked Vertical Min Max Lines"
 msgid "Scattered Vertical Min Max Lines"
-msgstr "Líneas mín. máx verticales marcadas"
+msgstr "Líneas mín. máx. verticales aisladas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:36
-#, fuzzy
-#| msgid "Vertical drop bars with continuous X-axis."
 msgid "Vertical Min Max lines with continuous X-axis."
-msgstr "Barras deslizantes verticales con eje X continuo."
+msgstr "Líneas mín. máx. verticales con eje X continuo."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:37
-#, fuzzy
-#| msgid "Marked Vertical Min Max Lines"
 msgid "Scattered Marked Vertical Min Max Lines"
-msgstr "Líneas mín. máx verticales marcadas"
+msgstr "Líneas mín. máx. verticales marcadas aisladas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:38
-#, fuzzy
-#| msgid "Vertical min max lines with markers."
 msgid "Vertical Min Max lines with markers and a continuous X-axis."
-msgstr "Líneas mín máx verticales con marcadores."
+msgstr "Líneas mín máx verticales con marcadores y eje x continuo."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:39
-#, fuzzy
-#| msgid "Marked Horizontal Min Max Lines"
 msgid "Scattered Horizontal Min Max Lines"
-msgstr "Líneas mín. máx. horizontales marcadas"
+msgstr "Líneas mín. máx. horizontales marcadas aisladas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:40
-#, fuzzy
-#| msgid "Horizontal drop bars with continuous Y-axis."
 msgid "Horizontal Min Max lines with continuous Y-axis."
-msgstr "Barras deslizantes horizontales con eje continuo en Y."
+msgstr "Líneas min máx horizontales con eje continuo en Y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:41
-#, fuzzy
-#| msgid "Marked Horizontal Min Max Lines"
 msgid "Scattered Marked Horizontal Min Max Lines"
-msgstr "Líneas mín. máx. horizontales marcadas"
+msgstr "Líneas mín. máx. horizontales marcadas aisladas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:42
-#, fuzzy
-#| msgid "Horizontal min max lines with markers."
 msgid "Horizontal Min Max lines with markers and a continuous Y-axis."
-msgstr "Líneas mín. máx. horizontales con marcadores."
+msgstr "Líneas mín. máx. horizontales con marcadores y eje continuo en y."
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
 msgid "Charting : XY/Scatter/Bubble"
@@ -8050,10 +8016,8 @@ msgid "Scattered dropbar plotting engine"
 msgstr "Motor de dibujado de barras deslizantes dispersas"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:8
-#, fuzzy
-#| msgid "Min Max plotting engine"
 msgid "Scattered Min Max plotting engine"
-msgstr "Motor de dibujado mín. máx."
+msgstr "Motor de dibujado mín. máx aislado."
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
