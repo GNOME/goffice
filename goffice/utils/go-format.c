@@ -132,7 +132,7 @@
 #undef ALLOW_DENOM_REMOVAL
 
 /* Define ALLOW_NO_SIGN_AFTER_E to permit formats such as '00E00' and '00E +00' */
-#undef ALLOW_NO_SIGN_AFTER_E
+#define ALLOW_NO_SIGN_AFTER_E
 
 #define ALLOW_EE_MARKUP
 #define ALLOW_SI_APPEND
@@ -8367,6 +8367,7 @@ go_format_output_scientific_number_element_to_odf (GsfXMLOut *xout,
 						   int min_decimal_digits,
 						   int min_exponent_digits,
 						   gboolean comma_seen,
+						   gboolean forced_exponent_sign,
 						   gboolean engineering,
 						   gboolean use_literal_E,
 						   gboolean with_extension)
@@ -8377,6 +8378,7 @@ go_format_output_scientific_number_element_to_odf (GsfXMLOut *xout,
 	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", min_integer_digits);
 	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", min_exponent_digits);
 	if (with_extension) {
+		odf_add_bool (xout, GNMSTYLE "forced-exponent-sign", forced_exponent_sign);
 		odf_add_bool (xout, GNMSTYLE "engineering", engineering);
 		odf_add_bool (xout, GNMSTYLE "literal-E", use_literal_E);
 	}
@@ -8398,6 +8400,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean comma_seen = FALSE;
 	gboolean dot_seen = FALSE;
 
+	gboolean forced_exponent_sign = FALSE;
 	gboolean number_completed = FALSE;
 	gboolean color_completed = FALSE;
 	gboolean string_is_open = FALSE;
@@ -8465,23 +8468,34 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 #endif
 #endif
 		case TOK_EXP: {
-			gboolean use_literal_E;
+			gboolean use_literal_E = TRUE;
 
 			if (number_completed)
 				break;
 
-			if (*xl == 'e' || *xl == 'E') {
-				xl++;
+#ifdef ALLOW_EE_MARKUP
+			if (t == TOK_EXP_MU)
 				use_literal_E = FALSE;
-			} else
-				use_literal_E = TRUE;
-
-			while (*xl == '0' || *xl == '+' || *xl == '-')
-				if (*xl++ == '0')
-					min_exponent_digits++;
+#ifdef ALLOW_SI_APPEND
+			else if (t == TOK_EXP_MU_SI)
+				use_literal_E = FALSE;
+#endif
+#endif
+			
+			if (*xl == '+') {
+				forced_exponent_sign = TRUE;
+				xl++;
+			}
+			if (*xl++ == '-')
+				xl++;
+			while (*xl == '0') {
+				xl++;
+				min_exponent_digits++;
+			}
 			go_format_output_scientific_number_element_to_odf
 				(xout, min_integer_digits, min_decimal_digits,
 				 min_exponent_digits, comma_seen,
+				 forced_exponent_sign,
 				 hashes > 0 && (hashes + min_integer_digits == 3),
 				 use_literal_E, with_extension);
 			number_completed = TRUE;

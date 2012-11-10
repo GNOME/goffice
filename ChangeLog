@@ -1,3 +1,9 @@
+2012-11-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_scientific_number_element_to_odf):
+	add argument
+	(go_format_output_scientific_number_to_odf): fix checking for literal E
+
 2012-11-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* office/gtk/go-format-sel.c (cb_force_exponent_sign_toggle): new

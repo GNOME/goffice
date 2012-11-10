@@ -5,6 +5,7 @@ Andreas:
 	* Fix some magic date handling. [#686575]
 	* Fix placement of minus sign. [#686575]
 	* Add 'force exponent sign' checkbox to format selector. [#686481]
+	* Fix export of scientific number format to ODF. 
 
 Chris Leonard:
 	* Updated locales. [#682749]
