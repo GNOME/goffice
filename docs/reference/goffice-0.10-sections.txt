@@ -3405,6 +3405,8 @@ gog_styled_object_get_type
 <FILE>gog-theme</FILE>
 <TITLE>Theming</TITLE>
 GogTheme
+gog_theme_dup
+gog_theme_edit
 gog_theme_fillin_style
 gog_theme_get_color_map
 gog_theme_get_description

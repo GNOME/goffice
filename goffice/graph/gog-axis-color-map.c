@@ -577,7 +577,7 @@ gog_axis_color_map_set_name (GogAxisColorMap *map, char const *name)
  * @map: a #GogAxisColorMap
  *
  * Duplicates the color map.
- * Returns: (transfer none): the new color map/
+ * Returns: (transfer full): the new color map.
  **/
 GogAxisColorMap *
 gog_axis_color_map_dup (GogAxisColorMap const *map)

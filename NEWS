@@ -25,6 +25,7 @@ Jean:
 	* Improve padding between axis ticks and labels.  [#686473]
 	* Enhance graph guru behavior when an object is deleted. [#687102]
 	* Allow colors selection for contour and map plots. [#657908]
+	* Don't crash when loading an xls file with an EMF picture. [#688047]
 
 Morten:
 	* Namespace cleanup.  [#686501]

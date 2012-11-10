@@ -1655,3 +1655,79 @@ gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
 		return (theme->cm)? theme->cm: _gog_axis_color_map_get_default ();
 	return NULL;
 }
+
+/*****************
+ * Theme edition *
+ *****************/
+
+static void
+gog_theme_set_name (GogTheme *theme, char const *name)
+{
+	g_free (theme->name);
+	g_hash_table_remove_all (theme->names);
+	theme->name = g_strdup (name);
+	g_hash_table_insert (theme->names, g_strdup ("C"), g_strdup (name));
+}
+static void
+gog_theme_set_description (GogTheme *theme, char const *desc)
+{
+	g_free (theme->description);
+	g_hash_table_remove_all (theme->descs);
+	theme->description = g_strdup (desc);
+	g_hash_table_insert (theme->descs, g_strdup ("C"), g_strdup (desc));
+}
+
+/**
+ * gog_theme_dup:
+ * @theme: a #GogTheme
+ *
+ * Duplicates @theme with a new Id.
+ * Returns: (transfer full): the new theme.
+ **/
+GogTheme*
+gog_theme_dup (GogTheme *theme)
+{
+	GogTheme *new_theme = g_object_new (GOG_TYPE_THEME,
+	                                    "resource-type", GO_RESOURCE_RW,
+	                                    NULL);
+	char *desc, *name;
+
+	new_theme->id = go_uuid ();
+	gog_theme_build_uri (new_theme);
+	gog_theme_set_name (new_theme, "New theme");
+	name = g_hash_table_lookup (theme->names, "C");
+	desc = g_strdup_printf ("New theme base on %s", name);
+	gog_theme_set_description (new_theme, desc);
+	g_free (desc);
+	/* duplicate the styles */
+	/* duplicate the color maps */
+	if (theme->cm) {
+		new_theme->cm = gog_axis_color_map_dup (theme->cm);
+		g_object_set (G_OBJECT (new_theme->cm),
+			          "resource-type", GO_RESOURCE_CHILD,
+			          NULL);
+	}
+	if (theme->dcm &&
+	    gog_axis_color_map_get_resource_type (theme->dcm) == GO_RESOURCE_CHILD) {
+			new_theme->dcm = gog_axis_color_map_dup (theme->dcm);
+			g_object_set (G_OBJECT (new_theme->dcm),
+					      "resource-type", GO_RESOURCE_CHILD,
+					      NULL);
+		}
+	return new_theme;
+}
+
+/**
+ * gog_theme_edit:
+ * @theme: the #GogTheme to edit or %NULL to create a new one.
+ *
+ * Displays a dialog box to edit the theme. This can be done only for
+ * locally installed themes that are writeable.
+ * Returns: (transfer none): The edited theme or %NULL if the edition has
+ * been cancelled.
+ **/
+GogTheme *
+gog_theme_edit (GogTheme *theme)
+{
+	return NULL;
+}

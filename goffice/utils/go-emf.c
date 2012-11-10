@@ -4439,6 +4439,7 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 				break;
 			state.length = rsize;
 			state.data = gsf_input_read (input, rsize, NULL);
+			state.canvas = emf->canvas;
 			go_emf_header (&state);
 			image->width = (state.mmbounds.right - state.mmbounds.left) / 2540. * 72.;
 			image->height = (state.mmbounds.bottom - state.mmbounds.top) / 2540. * 72.;

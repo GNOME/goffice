@@ -1,3 +1,13 @@
+2012-11-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-color-map.c:
+	* goffice/graph/gog-theme.c (gog_theme_set_name),
+	(gog_theme_set_description), (gog_theme_dup), (gog_theme_edit): prepare for
+	theme edition.
+	* goffice/graph/gog-theme.h: ditto.
+	* goffice/utils/go-emf.c (go_emf_parse): do not crash when loading an .xls
+	file with an embedded EMF. [#688047]
+
 2012-11-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_scientific_number_element_to_odf):

@@ -43,6 +43,8 @@ GogAxisColorMap const *gog_theme_get_color_map (GogTheme const *theme, gboolean 
 GogTheme   *gog_theme_registry_lookup 		(char const *name);
 GSList	   *gog_theme_registry_get_theme_names	(void);
 void		gog_theme_save_to_home_dir (GogTheme *theme);
+GogTheme   *gog_theme_edit			(GogTheme *theme);
+GogTheme   *gog_theme_dup			(GogTheme *theme);
 
 /* private */
 void _gog_themes_init	 (void);
