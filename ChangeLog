@@ -1,5 +1,9 @@
 2012-11-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_execute): fix placement of minus sign
+
+2012-11-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_parse): use 32 bits for the locale
 
 2012-11-08  Jean Brefort  <jean.brefort@normalesup.org>

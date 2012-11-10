@@ -4127,7 +4127,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			if (numtxt->str[0] == '-') {
 				g_string_erase (numtxt, 0, 1);
 				dotpos--;
-				INSERT_MINUS(numpos);
+				INSERT_MINUS(0);
 			}
 			break;
 

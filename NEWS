@@ -3,6 +3,7 @@ goffice 0.9.7:
 Andreas:
 	* Handle some more unusual formats in ODF export. [#683801]
 	* Fix some magic date handling. [#686575]
+	* Fix placement of minus sign. [#686575]
 
 Chris Leonard:
 	* Updated locales. [#682749]
