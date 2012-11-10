@@ -1,5 +1,10 @@
 2012-11-10  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-emf.c (go_dib_create_pixbuf_from_data): read 24 bits
+	images.
+
+2012-11-10  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-axis-color-map.c:
 	* goffice/graph/gog-theme.c (gog_theme_set_name),
 	(gog_theme_set_description), (gog_theme_dup), (gog_theme_edit): prepare for

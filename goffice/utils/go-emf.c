@@ -400,6 +400,32 @@ go_dib_create_pixbuf_from_data (GODibHeader const *header, guint8 const *data)
 	case 16:
 		break;
 	case 24:
+		src_rowstride = (header->width * 3 + 3) / 4 * 4;
+		switch (header->compression) {
+		case 0:
+			if (header->type == 1 && src_rowstride * header->height != header->image_size)
+				g_warning ("Invalid bitmap");
+			src_row = data;
+			row = gdk_pixbuf_get_pixels (pixbuf) + header->height * dst_rowstride;
+			for (i = 0; i < header->height; i++) {
+				row -= dst_rowstride;
+				data = src_row;
+				cur = row;
+				for (j = 0; j < header->width; j++) {
+					cur[0] = data[2];
+					cur[1] = data[1];
+					cur[2] = data[0];
+					cur[3] = 0xff;
+					data += 3;
+					cur += 4;
+				}
+				src_row += src_rowstride;
+			}
+			break;
+		default:
+			g_warning ("Invalid compression for a DIB file");
+			break;
+		}
 		break;
 	case 32:
 		switch (header->compression) {
