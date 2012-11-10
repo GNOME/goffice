@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-format-sel.c: A widget to select a format
  *
@@ -90,7 +91,9 @@ typedef enum {
 	F_SYMBOL_LABEL,		F_SYMBOL,
 	F_ENTRY,
 	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
-	F_DECIMAL_SPIN,		F_ENGINEERING_BUTTON,
+	F_DECIMAL_SPIN,		
+	F_FORCE_EXPONENT_SIGN_BUTTON,
+	F_ENGINEERING_BUTTON,
 	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
 	F_SI_BUTTON,            F_SI_CUSTOM_UNIT_BUTTON,
 	F_SI_SI_UNIT_BUTTON,	F_SI_UNIT_COMBO,
@@ -467,6 +470,15 @@ cb_separator_toggle (GtkWidget *w, GOFormatSel *gfs)
 }
 
 static void
+cb_force_exponent_sign_toggle (GtkWidget *w, GOFormatSel *gfs)
+{
+	gfs->format.details.exponent_sign_forced = 
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
 cb_engineering_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
@@ -790,6 +802,7 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_DECIMAL_GRID,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
+			F_FORCE_EXPONENT_SIGN_BUTTON,
 			F_ENGINEERING_BUTTON,
 			F_SUPERSCRIPT_BUTTON,
 			F_SUPERSCRIPT_HIDE_1_BUTTON,
@@ -1041,6 +1054,12 @@ stays:
 						(GTK_TOGGLE_BUTTON (gfs->format.widget[F_SI_CUSTOM_UNIT_BUTTON]),
 						 TRUE);
 			}
+			break;
+
+		case F_FORCE_EXPONENT_SIGN_BUTTON:
+			gtk_toggle_button_set_active
+				(GTK_TOGGLE_BUTTON (w),
+				 gfs->format.details.exponent_sign_forced);
 			break;
 
 		case F_ENGINEERING_BUTTON:
@@ -1419,6 +1438,7 @@ nfs_init (GOFormatSel *gfs)
 		"format_list_scroll",
 		"format_list",
 		"format_number_decimals",
+		"format_force_exponent_sign_button",
 		"format_engineering_button",
 		"format_superscript_button",
 		"format_superscript_hide_1_button",
@@ -1573,6 +1593,8 @@ nfs_init (GOFormatSel *gfs)
 		G_CALLBACK (cb_exp_digits_changed), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SEPARATOR]), "toggled",
 		G_CALLBACK (cb_separator_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_FORCE_EXPONENT_SIGN_BUTTON]), "toggled",
+		G_CALLBACK (cb_force_exponent_sign_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_ENGINEERING_BUTTON]), "toggled",
 		G_CALLBACK (cb_engineering_toggle), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_BUTTON]), "toggled",

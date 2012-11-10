@@ -975,6 +975,27 @@
             <property name="row_spacing">6</property>
             <property name="column_spacing">12</property>
             <child>
+              <object class="GtkCheckButton" id="format_force_exponent_sign_button">
+                <property name="label" translatable="yes">Always show exponent si_gn</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="has_tooltip">FALSE</property>
+                <property name="margin_top">6</property>
+                <property name="use_underline">True</property>
+                <property name="valign">start</property>
+                <property name="xalign">0</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkCheckButton" id="format_engineering_button">
                 <property name="label" translatable="yes">_Engineering notation</property>
                 <property name="use_action_appearance">False</property>
@@ -984,8 +1005,6 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_markup" translatable="yes">Restrict exponent to multiples of 3</property>
                 <property name="tooltip_text" translatable="yes">Restrict exponent to multiples of 3</property>
-                <property name="margin_top">6</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="valign">start</property>
                 <property name="xalign">0</property>
@@ -993,7 +1012,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
+                <property name="top_attach">1</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
@@ -1008,14 +1027,13 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_markup" translatable="yes">Use superscript for exponent (e.g. 4×10²)</property>
                 <property name="tooltip_text" translatable="yes">Use superscript for exponent (e.g. 4×10²)</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
+                <property name="top_attach">2</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
@@ -1031,29 +1049,6 @@
                 <property name="tooltip_markup" translatable="yes">When mantissa is equal to 1, only show exponent part (e.g. 10²)</property>
                 <property name="tooltip_text" translatable="yes">When mantissa is equal to 1, only show exponent part (e.g. 10²)</property>
                 <property name="margin_left">18</property>
-                <property name="use_action_appearance">False</property>
-                <property name="use_underline">True</property>
-                <property name="xalign">0</property>
-                <property name="draw_indicator">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="format_SI_button">
-                <property name="label" translatable="yes">Append SI prefix</property>
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="has_tooltip">True</property>
-                <property name="tooltip_markup" translatable="yes">Append an SI prefix (e.g. instead of 4×10⁶ show 4M)</property>
-                <property name="tooltip_text" translatable="yes">Append an SI prefix (e.g. instead of 4×10⁶ show 4M)</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
@@ -1066,6 +1061,27 @@
               </packing>
             </child>
             <child>
+              <object class="GtkCheckButton" id="format_SI_button">
+                <property name="label" translatable="yes">Append SI _prefix</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Append an SI prefix (e.g. instead of 4×10⁶ show 4M)</property>
+                <property name="tooltip_text" translatable="yes">Append an SI prefix (e.g. instead of 4×10⁶ show 4M)</property>
+                <property name="use_underline">True</property>
+                <property name="xalign">0</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkRadioButton" id="format_SI_custom_unit_button">
                 <property name="label" translatable="yes">Append no further unit.</property>
                 <property name="use_action_appearance">False</property>
@@ -1073,7 +1089,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="margin_left">18</property>
-                <property name="use_action_appearance">False</property>
                 <property name="xalign">0</property>
                 <property name="image_position">top</property>
                 <property name="draw_indicator">True</property>
@@ -1081,7 +1096,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
+                <property name="top_attach">5</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
@@ -1094,7 +1109,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="margin_left">18</property>
-                <property name="use_action_appearance">False</property>
                 <property name="xalign">0</property>
                 <property name="yalign">0.52999997138977051</property>
                 <property name="active">True</property>
@@ -1102,7 +1116,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">5</property>
+                <property name="top_attach">6</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
@@ -1117,7 +1131,7 @@
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">5</property>
+                <property name="top_attach">6</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>

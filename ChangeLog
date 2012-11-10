@@ -1,5 +1,17 @@
 2012-11-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* office/gtk/go-format-sel.c (cb_force_exponent_sign_toggle): new
+	(fmt_dialog_enable_widgets): add widget and handle F_FORCE_EXPONENT_SIGN_BUTTON
+	(nfs_init): add widget and connect cb_force_exponent_sign_toggle
+	* goffice/gtk/go-format-sel.ui: add checkbox
+	* goffice/utils/go-format.c (go_format_generate_scientific_str): use
+	exponent_sign_forced
+	(go_format_details_init): initialize exponent_sign_forced
+	(go_format_get_details): determine exponent_sign_forced
+	* goffice/utils/go-format.h: add exponent_sign_forced field to details
+
+2012-11-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_execute): fix placement of minus sign
 
 2012-11-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>

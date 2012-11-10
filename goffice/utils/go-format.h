@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-format.h :
  *
@@ -102,6 +103,7 @@ typedef struct {
 	/* SCIENTIFIC: */
 	int exponent_step;
 	int exponent_digits;
+	gboolean exponent_sign_forced;
 	gboolean use_markup;
 	gboolean simplify_mantissa;
 	gboolean append_SI;

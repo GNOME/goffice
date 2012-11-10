@@ -108,6 +108,7 @@
  * @force_quoted: force quotes use.
  * @exponent_step: steps between allowed exponents in scientific notation.
  * @exponent_digits: digits number in exponent.
+ * @exponent_sign_forced: whether the sign in the exponent is always shown.
  * @use_markup: whether to use a markup.
  * @simplify_mantissa: simplify the mantissa.
  * @append_SI: append an SI unit.
@@ -6685,9 +6686,9 @@ go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 	if (details->append_SI)
 		g_string_append_len (dst, "SI", 2);
 
+	g_string_append_c (dst, details->exponent_sign_forced ? '+' : '-');
 	/* Maximum not terribly important. */
 	digits = CLAMP (details->exponent_digits, 1, 10);
-	g_string_append_c (dst, '+');
 	go_string_append_c_n (dst, '0', digits);
 
 	if (details->append_SI && details->appended_SI_unit != NULL) {
@@ -7022,6 +7023,7 @@ go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
 	details->thousands_sep = (family == GO_FORMAT_ACCOUNTING ||
 				  family == GO_FORMAT_CURRENCY);
 	details->magic = GO_FORMAT_MAGIC_NONE;
+	details->exponent_sign_forced = FALSE;
 	details->exponent_step = 1;
 	details->exponent_digits = 2;
 	details->min_digits = (family == GO_FORMAT_FRACTION) ? 0 : 1;
@@ -7163,7 +7165,10 @@ go_format_get_details (GOFormat const *fmt,
 				epos++;
 			if (dst->append_SI)
 				epos += 2;
-			if (epos[0] == '+' || epos[0] == '-')
+			if (epos[0] == '+') {
+				epos++;
+				dst->exponent_sign_forced = TRUE;
+			} else if (epos[0] == '-')
 				epos++;
 			while (epos[0] == '0' || epos[0] == '#' || epos[0] == '?') {
 				epos++;
