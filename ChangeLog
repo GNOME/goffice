@@ -1,3 +1,9 @@
+2012-11-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-theme.c (elem_start), (parse_done_cb),
+	(gog_theme_prep_sax): avoid warnings when loading a known theme,
+	(gog_theme_fillin_style): fix auto fields.
+
 2012-11-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-emf.c (go_dib_create_pixbuf_from_data): read 24 bits

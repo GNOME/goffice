@@ -477,6 +477,7 @@ struct theme_load_state {
 	unsigned name_lang_score;
 	unsigned desc_lang_score;
 	char const * const *langs;
+	GSList *garbage;
 };
 
 static void
@@ -644,8 +645,12 @@ elem_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 
 	if (state->theme == NULL)
 		return;
-	if (state->theme->name) /* the theme has already been loaded from elsewhere */
+	if (state->theme->name) { /* the theme has already been loaded from elsewhere */
+		style = go_style_new (); /* still load the style to avoid warnings */
+		go_persist_prep_sax (GO_PERSIST (style), xin, attrs);
+		state->garbage = g_slist_prepend (state->garbage, style);
 		return;
+	}
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
 		if (0 == strcmp (attrs[i], "class"))
 			class_name = g_strdup (attrs[i+1]);
@@ -756,6 +761,7 @@ parse_done_cb (GsfXMLIn *xin, struct theme_load_state *state)
 		g_free (state->desc);
 	}
 	g_free (state->lang);
+	g_slist_free_full (state->garbage, g_object_unref);
 	g_free (state);
 }
 
@@ -774,6 +780,7 @@ gog_theme_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 	state->langs = g_get_language_names ();
 	state->name_lang_score = G_MAXINT;
 	state->desc_lang_score = G_MAXINT;
+	state->garbage = NULL;
 	if (!xml)
 		xml = gsf_xml_in_doc_new (theme_dtd, NULL);
 	gsf_xml_in_push_state (xin, xml, state, (GsfXMLInExtDtor) parse_done_cb, attrs);
@@ -881,9 +888,10 @@ gog_theme_fillin_style (GogTheme const *theme,
 
 	g_return_if_fail (elem != NULL);
 
-	if (relevant_fields == GO_STYLE_ALL)
+	if (relevant_fields == GO_STYLE_ALL) {
 		go_style_assign (style, elem->style);
-	else
+		go_style_force_auto (style);
+	} else
 		go_style_apply_theme (style, elem->style, relevant_fields);
 
 /* FIXME FIXME FIXME we should handle the applicability here not in the map */
