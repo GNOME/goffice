@@ -1138,7 +1138,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		gog_renderer_pop_style (view->renderer);
-		if (model->base.vary_style_by_element)
+		if (model->base.vary_style_by_element || mode == GOG_SHOW_NEGS_WHITE)
 			g_object_unref (style);
 		if (white_style)
 			g_object_unref (white_style);

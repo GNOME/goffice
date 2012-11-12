@@ -724,7 +724,7 @@ theme_loaded (struct theme_load_state *state)
 	style->line.dash_type = GO_LINE_SOLID;
 	style->line.width = 0; /* hairline */
 	style->line.color = GO_COLOR_BLACK;
-	style->fill.type = GO_STYLE_FILL_NONE;
+	style->fill.type = GO_STYLE_FILL_PATTERN;
 	if (state->theme->palette && state->theme->palette->len > 0)
 		gog_theme_add_element (state->theme, style,
 			   map_area_series_solid_palette, g_strdup ("GogSeries"), NULL);
