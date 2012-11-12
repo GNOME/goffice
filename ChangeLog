@@ -1,3 +1,7 @@
+2012-11-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-style.c (go_style_init): adjust bevel limit.
+
 2012-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-theme.c (elem_start), (parse_done_cb),

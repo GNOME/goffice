@@ -1315,7 +1315,7 @@ go_style_init (GOStyle *style)
 	style->line.width = 0;
 	style->line.cap = CAIRO_LINE_CAP_BUTT;
 	style->line.join = CAIRO_LINE_JOIN_MITER;
-	style->line.miter_limit = 10.;
+	style->line.miter_limit = 2.;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	style->fill.gradient.brightness = -1.;
 	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_BLACK);
