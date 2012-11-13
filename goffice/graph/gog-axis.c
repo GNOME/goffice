@@ -2787,6 +2787,7 @@ add_color_map_cb (GogAxisColorMap const *map, struct ColorMapState *state)
 	gtk_list_store_append (state->model, &iter);
 	gtk_list_store_set (state->model, &iter, 0, gog_axis_color_map_get_name (map),
 	                    1, pixbuf, 2, map, -1);
+	g_object_unref (pixbuf);
 	if (map == state->target)
 		gtk_combo_box_set_active_iter (state->combo, &iter);
 }
