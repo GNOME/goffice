@@ -1422,7 +1422,6 @@ gog_renderer_get_pixbuf (GogRenderer *rend)
 	if (rend->cairo_surface == NULL)
 		return NULL;
 
-#ifdef GOFFICE_WITH_GTK
 	if (rend->pixbuf == NULL) {
 		int width = cairo_image_surface_get_width (rend->cairo_surface);
 		int height = cairo_image_surface_get_height (rend->cairo_surface);
@@ -1432,8 +1431,7 @@ gog_renderer_get_pixbuf (GogRenderer *rend)
 		rend->pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, TRUE, 8,
 							 width, height, rowstride, NULL, NULL);
 		go_cairo_convert_data_to_pixbuf (data, NULL, width, height, rowstride);
-	}
-#endif
+	}#endif
 
 	return rend->pixbuf;
 }
@@ -1446,7 +1444,6 @@ gog_renderer_get_cairo_surface (GogRenderer *rend)
 	return rend->cairo_surface;
 }
 
-#ifdef GOFFICE_WITH_GTK
 static gboolean
 _gsf_gdk_pixbuf_save (const gchar *buf,
 		      gsize count,
@@ -1461,7 +1458,6 @@ _gsf_gdk_pixbuf_save (const gchar *buf,
 
 	return ok;
 }
-#endif
 
 static cairo_status_t
 _cairo_write_func (void *closure,
@@ -1539,10 +1535,8 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 	cairo_surface_t *surface = NULL;
 	gboolean status;
 	GdkPixbuf *pixbuf;
-#ifdef GOFFICE_WITH_GTK
 	GdkPixbuf *output_pixbuf;
 	gboolean result;
-#endif
 	double width_in_pts, height_in_pts;
 
 	g_return_val_if_fail (GOG_IS_RENDERER (rend), FALSE);
@@ -1609,7 +1603,6 @@ do_export_vectorial:
 			if (pixbuf == NULL)
 				return FALSE;
 			format_info = go_image_get_format_info (format);
-#ifdef GOFFICE_WITH_GTK
 			if (!format_info->alpha_support)
 				output_pixbuf = gdk_pixbuf_composite_color_simple
 					(pixbuf,
@@ -1627,7 +1620,6 @@ do_export_vectorial:
 			if (!format_info->alpha_support)
 				g_object_unref (output_pixbuf);
 			return result;
-#endif
 	}
 
 	return FALSE;

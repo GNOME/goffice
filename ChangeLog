@@ -1,3 +1,9 @@
+2012-11-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-renderer.c (gog_renderer_get_pixbuf),
+	(_gsf_gdk_pixbuf_save), (gog_renderer_export_image): removed ifdef
+	GOFFICE_WITH_GTK around gdk_pixbuf calls.
+
 2012-11-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-theme.c (theme_loaded): fixed series style.
