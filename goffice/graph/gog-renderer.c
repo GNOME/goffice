@@ -1431,7 +1431,7 @@ gog_renderer_get_pixbuf (GogRenderer *rend)
 		rend->pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, TRUE, 8,
 							 width, height, rowstride, NULL, NULL);
 		go_cairo_convert_data_to_pixbuf (data, NULL, width, height, rowstride);
-	}#endif
+	}
 
 	return rend->pixbuf;
 }
