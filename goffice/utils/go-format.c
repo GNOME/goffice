@@ -5408,6 +5408,12 @@ go_format_str_delocalize (char const *str)
 				g_string_append_c (res, ',');
 				break;
 
+			case TOK_ESCAPED_CHAR:
+				if (ti->tstr[1] == ' ') {
+					g_string_append_c (res, ' ');
+					break;
+				}
+				/* no break */
 			default:
 				if (*tstr == '.' &&
 				    (state.is_number || (state.is_date && *str == '0')))
