@@ -22,15 +22,15 @@ msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-08 14:38+0000\n"
-"PO-Revision-Date: 2012-11-09 13:15+0100\n"
+"POT-Creation-Date: 2012-11-15 22:14+0000\n"
+"PO-Revision-Date: 2012-11-16 09:55+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 "X-Project-Style: gnome\n"
 
@@ -245,8 +245,8 @@ msgstr "La función de inicialización del complemento ha devuelto un error."
 msgid "Cleanup function inside plugin returned error."
 msgstr "La función de limpieza interna del complemento ha devuelto un error."
 
-#: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:910 ../goffice/utils/go-format.c:5242
+#: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:60
+#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5243
 msgid "General"
 msgstr "General"
 
@@ -355,8 +355,7 @@ msgstr "No se puede leer el archivo de información del complemento («%s»)."
 #: ../goffice/app/go-plugin.c:787
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr ""
-"El archivo «%s» no es un archivo válido de información de complementos."
+msgstr "El archivo «%s» no es un archivo válido de información de complementos."
 
 #: ../goffice/app/go-plugin.c:870
 #, c-format
@@ -547,7 +546,7 @@ msgid "The rotation around center position"
 msgstr "La rotación alrededor de la posición del centro"
 
 #: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:3052 ../goffice/graph/gog-grid.c:127
+#: ../goffice/graph/gog-axis.c:3053 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Tipo"
@@ -979,7 +978,7 @@ msgstr "Anclaje"
 msgid "The anchor point for the text"
 msgstr "El punto de anclaje para el texto"
 
-#: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:68
+#: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:69
 #: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:971
 msgid "Text"
 msgstr "Texto"
@@ -1373,109 +1372,109 @@ msgstr "Log"
 msgid "Logarithm mapping"
 msgstr "Mapeo logarítmico"
 
-#: ../goffice/graph/gog-axis.c:2825 ../goffice/graph/gog-axis.c:2835
+#: ../goffice/graph/gog-axis.c:2826 ../goffice/graph/gog-axis.c:2836
 msgid "M_inimum"
 msgstr "Mí_nimo"
 
-#: ../goffice/graph/gog-axis.c:2826 ../goffice/graph/gog-axis.c:2836
+#: ../goffice/graph/gog-axis.c:2827 ../goffice/graph/gog-axis.c:2837
 msgid "M_aximum"
 msgstr "Má_ximo"
 
-#: ../goffice/graph/gog-axis.c:2827
+#: ../goffice/graph/gog-axis.c:2828
 msgid "Categories between _ticks"
 msgstr "Categorías entre _tics"
 
-#: ../goffice/graph/gog-axis.c:2828
+#: ../goffice/graph/gog-axis.c:2829
 msgid "Categories between _labels"
 msgstr "Categorías entre _etiquetas"
 
-#: ../goffice/graph/gog-axis.c:2837
+#: ../goffice/graph/gog-axis.c:2838
 msgid "Ma_jor ticks"
 msgstr "Tics ma_yores"
 
-#: ../goffice/graph/gog-axis.c:2838
+#: ../goffice/graph/gog-axis.c:2839
 msgid "Mi_nor ticks"
 msgstr "Tics me_nores"
 
-#: ../goffice/graph/gog-axis.c:2894 ../goffice/math/go-distribution.c:171
+#: ../goffice/graph/gog-axis.c:2895 ../goffice/math/go-distribution.c:171
 #: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "Escala"
 
-#: ../goffice/graph/gog-axis.c:2916 ../plugins/plot_pie/gog-pie.c:325
+#: ../goffice/graph/gog-axis.c:2917 ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Expandir"
 
-#: ../goffice/graph/gog-axis.c:2973
+#: ../goffice/graph/gog-axis.c:2974
 msgid "Colors"
 msgstr "Colores"
 
-#: ../goffice/graph/gog-axis.c:2990 ../goffice/graph/gog-series-labels.c:891
+#: ../goffice/graph/gog-axis.c:2991 ../goffice/graph/gog-series-labels.c:891
 #: ../goffice/graph/gog-series-labels.c:1417
 msgid "Format"
 msgstr "Formato"
 
-#: ../goffice/graph/gog-axis.c:3028
+#: ../goffice/graph/gog-axis.c:3029
 msgid "MajorGrid"
 msgstr "RejillaMayor"
 
-#: ../goffice/graph/gog-axis.c:3031
+#: ../goffice/graph/gog-axis.c:3032
 msgid "MinorGrid"
 msgstr "RejillaMenor"
 
-#: ../goffice/graph/gog-axis.c:3034
+#: ../goffice/graph/gog-axis.c:3035
 msgid "AxisLine"
 msgstr "LíneaDelEje"
 
-#: ../goffice/graph/gog-axis.c:3037
+#: ../goffice/graph/gog-axis.c:3038
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../goffice/graph/gog-axis.c:3053
+#: ../goffice/graph/gog-axis.c:3054
 msgid "Numerical type of this axis"
 msgstr "Tipo numérico de este eje"
 
-#: ../goffice/graph/gog-axis.c:3057
+#: ../goffice/graph/gog-axis.c:3058
 msgid "Invert axis"
 msgstr "Invertir eje"
 
-#: ../goffice/graph/gog-axis.c:3058
+#: ../goffice/graph/gog-axis.c:3059
 msgid "Scale from high to low rather than low to high"
 msgstr "Escalar de grande a pequeño en lugar de de pequeño a grande"
 
-#: ../goffice/graph/gog-axis.c:3062
+#: ../goffice/graph/gog-axis.c:3063
 msgid "MapName"
 msgstr "NombreDelMapa"
 
-#: ../goffice/graph/gog-axis.c:3063
+#: ../goffice/graph/gog-axis.c:3064
 msgid "The name of the map for scaling"
 msgstr "El nombre del mapa que escalar"
 
-#: ../goffice/graph/gog-axis.c:3068
+#: ../goffice/graph/gog-axis.c:3069
 msgid "Assigned XL format"
 msgstr "Formato XL asignado"
 
-#: ../goffice/graph/gog-axis.c:3069
+#: ../goffice/graph/gog-axis.c:3070
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "El formato asignado por el usuario que usar para las etiquetas no discretas "
 "de los ejes (formato XL)"
 
-#: ../goffice/graph/gog-axis.c:3074 ../goffice/graph/gog-axis.c:3075
+#: ../goffice/graph/gog-axis.c:3075 ../goffice/graph/gog-axis.c:3076
 msgid "Rotation of circular axis"
 msgstr "Rotación del eje circular"
 
-#: ../goffice/graph/gog-axis.c:3082 ../goffice/graph/gog-axis.c:3083
+#: ../goffice/graph/gog-axis.c:3083 ../goffice/graph/gog-axis.c:3084
 msgid "Polar axis set unit"
 msgstr "Unidad del eje polar"
 
-#: ../goffice/graph/gog-axis.c:3088
+#: ../goffice/graph/gog-axis.c:3089
 msgid "Axis start position"
 msgstr "Posición de inicio de los ejes"
 
-#: ../goffice/graph/gog-axis.c:3089
+#: ../goffice/graph/gog-axis.c:3090
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
@@ -1483,11 +1482,11 @@ msgstr ""
 "Posición del área de dibujado en la que se inicia el área efectivo del eje, "
 "expresada como porcentaje de la posición disponible. Lo predeterminado es 0.0"
 
-#: ../goffice/graph/gog-axis.c:3094
+#: ../goffice/graph/gog-axis.c:3095
 msgid "Axis end position"
 msgstr "Posición final de los ejes"
 
-#: ../goffice/graph/gog-axis.c:3095
+#: ../goffice/graph/gog-axis.c:3096
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
@@ -1495,11 +1494,11 @@ msgstr ""
 "Posición del área de dibujado en el que finaliza el área efectivo del eje, "
 "expresado como porcentaje de la posición disponible. Lo predeterminado es 1.0"
 
-#: ../goffice/graph/gog-axis.c:3099
+#: ../goffice/graph/gog-axis.c:3100
 msgid "ColorMapName"
 msgstr "NombreDelMapaDeColor"
 
-#: ../goffice/graph/gog-axis.c:3100
+#: ../goffice/graph/gog-axis.c:3101
 msgid "The name of the color map"
 msgstr "El nombre del mapa de color"
 
@@ -1513,10 +1512,10 @@ msgstr "El tipo de recurso para el mapa de color"
 
 #: ../goffice/graph/gog-axis-color-map.c:589
 msgid "New map"
-msgstr "Mapa nuevo"
+msgstr "Nuevo mapa"
 
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-axis-color-map.c:972 ../goffice/graph/gog-theme.c:1203
+#: ../goffice/graph/gog-axis-color-map.c:972 ../goffice/graph/gog-theme.c:1211
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -1708,7 +1707,7 @@ msgstr "Modo _compacto"
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 #: ../goffice/graph/gog-error-bar.c:79
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
-#: ../goffice/gtk/go-format-sel.c:1648 ../goffice/gtk/go-format-sel.c:1824
+#: ../goffice/gtk/go-format-sel.c:1670 ../goffice/gtk/go-format-sel.c:1846
 #: ../goffice/utils/formats.c:366 ../goffice/utils/go-line.c:127
 #: ../goffice/utils/go-style-prefs.ui.h:6
 msgid "None"
@@ -1794,12 +1793,12 @@ msgstr "Olvidar los estilos del usuario"
 #: ../goffice/graph/gog-graph-prefs.ui.h:4
 msgid "Save the theme as a standalone file in the user home directory."
 msgstr ""
-"Guardar el tema como un archivo individual en la carpeta personal del "
+"Guardar el tema como un archivo independiente en la carpeta personal del "
 "usuario."
 
 #. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
-#: ../goffice/graph/gog-theme.c:1368 ../goffice/graph/gog-theme.c:1532
+#: ../goffice/graph/gog-theme.c:1376 ../goffice/graph/gog-theme.c:1540
 msgid "Theme"
 msgstr "Tema"
 
@@ -2442,19 +2441,19 @@ msgstr "Visualizar _ecuación"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Visualizar el coeficiente de _regresión R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1841 ../goffice/graph/gog-view.c:690
+#: ../goffice/graph/gog-renderer.c:1833 ../goffice/graph/gog-view.c:690
 msgid "Model"
 msgstr "Modelo"
 
-#: ../goffice/graph/gog-renderer.c:1842
+#: ../goffice/graph/gog-renderer.c:1834
 msgid "The GogGraph this renderer displays"
 msgstr "El GogGraph que este renderizador muestra"
 
-#: ../goffice/graph/gog-renderer.c:1847
+#: ../goffice/graph/gog-renderer.c:1839
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1848
+#: ../goffice/graph/gog-renderer.c:1840
 msgid "the GogView this renderer is displaying"
 msgstr "la GogView que está mostrando este renderizador"
 
@@ -2709,7 +2708,7 @@ msgid "The resource type for the theme"
 msgstr "El tipo de recurso para el tema"
 
 #. Guppi
-#: ../goffice/graph/gog-theme.c:1373
+#: ../goffice/graph/gog-theme.c:1381
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -3400,205 +3399,205 @@ msgstr "Tamaño:"
 msgid "Preview"
 msgstr "Vista previa"
 
-#: ../goffice/gtk/go-format-sel.c:60
+#: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
 msgstr "Número"
 
-#: ../goffice/gtk/go-format-sel.c:61
+#: ../goffice/gtk/go-format-sel.c:62
 msgid "Currency"
 msgstr "Divisa"
 
-#: ../goffice/gtk/go-format-sel.c:62
+#: ../goffice/gtk/go-format-sel.c:63
 msgid "Accounting"
 msgstr "Financiero"
 
-#: ../goffice/gtk/go-format-sel.c:63
+#: ../goffice/gtk/go-format-sel.c:64
 msgid "Date"
 msgstr "Fecha"
 
-#: ../goffice/gtk/go-format-sel.c:64
+#: ../goffice/gtk/go-format-sel.c:65
 msgid "Time"
 msgstr "Hora"
 
-#: ../goffice/gtk/go-format-sel.c:65
+#: ../goffice/gtk/go-format-sel.c:66
 msgid "Percentage"
 msgstr "Porcentaje"
 
-#: ../goffice/gtk/go-format-sel.c:66
+#: ../goffice/gtk/go-format-sel.c:67
 msgid "Fraction"
 msgstr "Fracción"
 
-#: ../goffice/gtk/go-format-sel.c:67
+#: ../goffice/gtk/go-format-sel.c:68
 msgid "Scientific"
 msgstr "Científico"
 
-#: ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-format-sel.c:70
 msgid "Special"
 msgstr "Especial"
 
-#: ../goffice/gtk/go-format-sel.c:70
+#: ../goffice/gtk/go-format-sel.c:71
 msgid "Custom"
 msgstr "Personalizado"
 
 #. See http://en.wikipedia.org/wiki/Ampere
-#: ../goffice/gtk/go-format-sel.c:307
+#: ../goffice/gtk/go-format-sel.c:310
 msgid "A (ampere)"
 msgstr "A (amperio)"
 
 #. See http://en.wikipedia.org/wiki/Becquerel
-#: ../goffice/gtk/go-format-sel.c:309
+#: ../goffice/gtk/go-format-sel.c:312
 msgid "Bq (becquerel)"
 msgstr "Bq (becquerel)"
 
 #. See http://en.wikipedia.org/wiki/Candela
-#: ../goffice/gtk/go-format-sel.c:311
+#: ../goffice/gtk/go-format-sel.c:314
 msgid "cd (candela)"
 msgstr "cd (candela)"
 
 #. See http://en.wikipedia.org/wiki/Coulomb
-#: ../goffice/gtk/go-format-sel.c:313
+#: ../goffice/gtk/go-format-sel.c:316
 msgid "C (coulomb)"
 msgstr "C (culombio)"
 
 #. See http://en.wikipedia.org/wiki/Degree_Celsius
-#: ../goffice/gtk/go-format-sel.c:315
+#: ../goffice/gtk/go-format-sel.c:318
 msgid "°C (degree Celsius)"
 msgstr "°C (grado Celsius)"
 
 #. See http://en.wikipedia.org/wiki/Farad
-#: ../goffice/gtk/go-format-sel.c:317
+#: ../goffice/gtk/go-format-sel.c:320
 msgid "F (farad)"
 msgstr "F (faradio)"
 
 #. See http://en.wikipedia.org/wiki/Gray_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:319
+#: ../goffice/gtk/go-format-sel.c:322
 msgid "Gy (gray)"
 msgstr "Gy (gray)"
 
 #. See http://en.wikipedia.org/wiki/Henry_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:321
+#: ../goffice/gtk/go-format-sel.c:324
 msgid "H (henry)"
 msgstr "H (henrio)"
 
 #. See http://en.wikipedia.org/wiki/Hertz
-#: ../goffice/gtk/go-format-sel.c:323
+#: ../goffice/gtk/go-format-sel.c:326
 msgid "Hz (hertz)"
 msgstr "Hz (hertzio)"
 
 #. See http://en.wikipedia.org/wiki/Joule
-#: ../goffice/gtk/go-format-sel.c:325
+#: ../goffice/gtk/go-format-sel.c:328
 msgid "J (joule)"
 msgstr "J (julio)"
 
 #. See http://en.wikipedia.org/wiki/Kelvin
-#: ../goffice/gtk/go-format-sel.c:327
+#: ../goffice/gtk/go-format-sel.c:330
 msgid "K (kelvin)"
 msgstr "K (kelvin)"
 
 #. See http://en.wikipedia.org/wiki/Kilogram
-#: ../goffice/gtk/go-format-sel.c:329
+#: ../goffice/gtk/go-format-sel.c:332
 msgid "kg (kilogram)"
 msgstr "kg (kilogramo)"
 
 #. See http://en.wikipedia.org/wiki/Lumen_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:331
+#: ../goffice/gtk/go-format-sel.c:334
 msgid "lm (lumen)"
 msgstr "lm (lumen)"
 
 #. See http://en.wikipedia.org/wiki/Lux
-#: ../goffice/gtk/go-format-sel.c:333
+#: ../goffice/gtk/go-format-sel.c:336
 msgid "lx (lux)"
 msgstr "lx (lux)"
 
 #. See http://en.wikipedia.org/wiki/Metre
-#: ../goffice/gtk/go-format-sel.c:335
+#: ../goffice/gtk/go-format-sel.c:338
 msgid "m (meter)"
 msgstr "m (metro)"
 
 #. See http://en.wikipedia.org/wiki/Mole_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:337
+#: ../goffice/gtk/go-format-sel.c:340
 msgid "mol (mole)"
 msgstr "mol (mol)"
 
 #. See http://en.wikipedia.org/wiki/Newton_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:339
+#: ../goffice/gtk/go-format-sel.c:342
 msgid "N (newton)"
 msgstr "N (newton)"
 
 #. See http://en.wikipedia.org/wiki/Ohm_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:341
+#: ../goffice/gtk/go-format-sel.c:344
 msgid "Ω (ohm)"
 msgstr "Ω (ohmio)"
 
 #. See http://en.wikipedia.org/wiki/Pascal_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:343
+#: ../goffice/gtk/go-format-sel.c:346
 msgid "Pa (pascal)"
 msgstr "Pa (pascal)"
 
 #. See http://en.wikipedia.org/wiki/Radian
-#: ../goffice/gtk/go-format-sel.c:345
+#: ../goffice/gtk/go-format-sel.c:348
 msgid "rad (radian)"
 msgstr "rad (radián)"
 
 #. See http://en.wikipedia.org/wiki/Second
-#: ../goffice/gtk/go-format-sel.c:347
+#: ../goffice/gtk/go-format-sel.c:350
 msgid "s (second)"
 msgstr "s (segundo)"
 
 #. See http://en.wikipedia.org/wiki/Siemens_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:349
+#: ../goffice/gtk/go-format-sel.c:352
 msgid "S (siemens)"
 msgstr "S (siemens)"
 
 #. See http://en.wikipedia.org/wiki/Steradian
-#: ../goffice/gtk/go-format-sel.c:351
+#: ../goffice/gtk/go-format-sel.c:354
 msgid "sr (steradian)"
 msgstr "sr (estereorradián)"
 
 #. See http://en.wikipedia.org/wiki/Sievert
-#: ../goffice/gtk/go-format-sel.c:353
+#: ../goffice/gtk/go-format-sel.c:356
 msgid "Sv (sievert)"
 msgstr "Sv (sievert)"
 
 #. See http://en.wikipedia.org/wiki/Tesla_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:355
+#: ../goffice/gtk/go-format-sel.c:358
 msgid "T (tesla)"
 msgstr "T (tesla)"
 
 #. See http://en.wikipedia.org/wiki/Katal
-#: ../goffice/gtk/go-format-sel.c:357
+#: ../goffice/gtk/go-format-sel.c:360
 msgid "kat (katal)"
 msgstr "kat (katal)"
 
 #. See http://en.wikipedia.org/wiki/Volt
-#: ../goffice/gtk/go-format-sel.c:359
+#: ../goffice/gtk/go-format-sel.c:362
 msgid "V (volt)"
 msgstr "V (voltio)"
 
 #. See http://en.wikipedia.org/wiki/Watt
-#: ../goffice/gtk/go-format-sel.c:361
+#: ../goffice/gtk/go-format-sel.c:364
 msgid "W (watt)"
 msgstr "W (watio)"
 
 #. See http://en.wikipedia.org/wiki/Weber_%28Wb%29
-#: ../goffice/gtk/go-format-sel.c:363
+#: ../goffice/gtk/go-format-sel.c:366
 msgid "Wb (weber)"
 msgstr "Wb (weber)"
 
-#: ../goffice/gtk/go-format-sel.c:1018 ../goffice/gtk/go-format-sel.ui.h:40
+#: ../goffice/gtk/go-format-sel.c:1031 ../goffice/gtk/go-format-sel.ui.h:41
 msgid "Append no further unit."
 msgstr "No añadir ninguna unidad."
 
-#: ../goffice/gtk/go-format-sel.c:1025
+#: ../goffice/gtk/go-format-sel.c:1038
 #, c-format
 msgid "Append '%s'."
 msgstr "Añadir «%s»."
 
-#: ../goffice/gtk/go-format-sel.c:1558
+#: ../goffice/gtk/go-format-sel.c:1578
 msgid "Negative Number Format"
 msgstr "Formato del número negativo"
 
-#: ../goffice/gtk/go-format-sel.c:1616
+#: ../goffice/gtk/go-format-sel.c:1638
 msgid "Number Formats"
 msgstr "Formatos numéricos"
 
@@ -3731,39 +3730,44 @@ msgid "Specified denominator:"
 msgstr "Denominador especificado:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
+msgid "Always show exponent si_gn"
+msgstr "Mostrar siempre el _signo del exponente"
+
+#: ../goffice/gtk/go-format-sel.ui.h:33
 msgid "_Engineering notation"
 msgstr "Notación de _ingeniería"
 
-#: ../goffice/gtk/go-format-sel.ui.h:33
+#: ../goffice/gtk/go-format-sel.ui.h:34
 msgid "Restrict exponent to multiples of 3"
 msgstr "Restringir los exponentes a múltiplos de 3"
 
-#: ../goffice/gtk/go-format-sel.ui.h:34
+#: ../goffice/gtk/go-format-sel.ui.h:35
 msgid "Use _superscript"
 msgstr "Usar _superíndice"
 
-#: ../goffice/gtk/go-format-sel.ui.h:35
+#: ../goffice/gtk/go-format-sel.ui.h:36
 msgid "Use superscript for exponent (e.g. 4×10²)"
 msgstr "Usar el superíndice para el exponente (ej. 4×10²)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:36
+#: ../goffice/gtk/go-format-sel.ui.h:37
 msgid "_Don't show 1×s"
 msgstr "_No mostrar los 1×s"
 
-#: ../goffice/gtk/go-format-sel.ui.h:37
+#: ../goffice/gtk/go-format-sel.ui.h:38
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
 msgstr ""
 "Cuando la mantisa es igual a 1, mostrar sólo la parte del exponente (ej, 10²)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:38
-msgid "Append SI prefix"
-msgstr "Añadir el prefijo SI"
-
 #: ../goffice/gtk/go-format-sel.ui.h:39
+#| msgid "Append SI prefix"
+msgid "Append SI _prefix"
+msgstr "Añadir el pre_fijo del SI"
+
+#: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append an SI prefix (e.g. instead of 4×10⁶ show 4M)"
 msgstr "Añadir un prefijo SI (ej. mostrar 4M en lugar de 4×10⁶)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:41
+#: ../goffice/gtk/go-format-sel.ui.h:42
 msgid "Append the SI unit:"
 msgstr "Añadir la unidad del SI:"
 
@@ -5674,79 +5678,79 @@ msgstr "No se pudieron cargar los datos de la imagen\n"
 msgid "Could not input the image data\n"
 msgstr "No se pudieron introducir los datos de la imagen\n"
 
-#: ../goffice/utils/go-emf.c:4549 ../goffice/utils/go-emf.c:4555
+#: ../goffice/utils/go-emf.c:4576 ../goffice/utils/go-emf.c:4582
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Datos de la imagen no válidos\n"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:600
+#: ../goffice/utils/go-format.c:601
 msgid "*Long Date Format"
 msgstr "*Formato de fecha largo"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:608
+#: ../goffice/utils/go-format.c:609
 msgid "*Medium Date Format"
 msgstr "*Formato de fecha medio"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:616
+#: ../goffice/utils/go-format.c:617
 msgid "*Short Date Format"
 msgstr "*Formato de fecha corto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:629
+#: ../goffice/utils/go-format.c:630
 msgid "*Short Date/Time Format"
 msgstr "*Formato de fecha/hora corto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:644
+#: ../goffice/utils/go-format.c:645
 msgid "*Long Time Format"
 msgstr "*Formato de hora largo"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:656
+#: ../goffice/utils/go-format.c:657
 msgid "*Medium Time Format"
 msgstr "*Formato de hora medio"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:668
+#: ../goffice/utils/go-format.c:669
 msgid "*Short Time Format"
 msgstr "*Formato de hora corto"
 
-#: ../goffice/utils/go-format.c:717
+#: ../goffice/utils/go-format.c:718
 msgid "Black"
 msgstr "Negro"
 
-#: ../goffice/utils/go-format.c:718
+#: ../goffice/utils/go-format.c:719
 msgid "Blue"
 msgstr "Azul"
 
-#: ../goffice/utils/go-format.c:719
+#: ../goffice/utils/go-format.c:720
 msgid "Cyan"
 msgstr "Océano"
 
-#: ../goffice/utils/go-format.c:720
+#: ../goffice/utils/go-format.c:721
 msgid "Green"
 msgstr "Verde"
 
-#: ../goffice/utils/go-format.c:721
+#: ../goffice/utils/go-format.c:722
 msgid "Magenta"
 msgstr "Rosa"
 
-#: ../goffice/utils/go-format.c:722
+#: ../goffice/utils/go-format.c:723
 msgid "Red"
 msgstr "Rojo"
 
-#: ../goffice/utils/go-format.c:723
+#: ../goffice/utils/go-format.c:724
 msgid "White"
 msgstr "Blanco"
 
-#: ../goffice/utils/go-format.c:724
+#: ../goffice/utils/go-format.c:725
 msgid "Yellow"
 msgstr "Amarillo"
 
-#: ../goffice/utils/go-format.c:744
+#: ../goffice/utils/go-format.c:745
 msgid "color"
 msgstr "color"
 
@@ -6769,15 +6773,15 @@ msgstr "Barras deslizantes horizontales."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical Min Max Lines"
-msgstr "Líneas mín. máx. verticales"
+msgstr "Líneas mín máx verticales"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:108
 msgid "Vertical min max lines."
-msgstr "Líneas mín. máx. verticales."
+msgstr "Líneas mín máx verticales."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:109
 msgid "Marked Vertical Min Max Lines"
-msgstr "Líneas mín. máx. verticales marcadas"
+msgstr "Líneas mín. máx verticales marcadas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:110
 msgid "Vertical min max lines with markers."
@@ -7957,15 +7961,15 @@ msgstr "Barras deslizantes horizontales con eje continuo en Y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:35
 msgid "Scattered Vertical Min Max Lines"
-msgstr "Líneas mín. máx. verticales aisladas"
+msgstr "Líneas mín. máx verticales aisladas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:36
 msgid "Vertical Min Max lines with continuous X-axis."
-msgstr "Líneas mín. máx. verticales con eje X continuo."
+msgstr "Líneas Min Max verticales con eje X continuo."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:37
 msgid "Scattered Marked Vertical Min Max Lines"
-msgstr "Líneas mín. máx. verticales marcadas aisladas"
+msgstr "Líneas mín. máx verticales marcadas aisladas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:38
 msgid "Vertical Min Max lines with markers and a continuous X-axis."
