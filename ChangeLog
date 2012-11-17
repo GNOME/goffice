@@ -1,3 +1,7 @@
+2012-11-16  Morten Welinder <terra@gnome.org>
+
+	* Release 0.9.90
+
 2012-11-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_str_delocalize): delocalize
