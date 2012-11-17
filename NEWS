@@ -1,7 +1,7 @@
-goffice 0.9.8:
+goffice 0.9.91:
 
 --------------------------------------------------------------------------
-goffice 0.9.7:
+goffice 0.9.90:
 
 Andreas:
 	* Handle some more unusual formats in ODF export. [#683801]
