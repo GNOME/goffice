@@ -2,6 +2,7 @@
 # Copyright (c) 1999, 2000, 2001, 2002, 2008 the author(s) of goffice.
 # Copyright (C) 2003, 2004, 2005 Miloslav Trmac <mitr@volny.cz>.
 # This file is distributed under the same license as the goffice package.
+#
 # Petr Vyhnalek <petr.vyhnalek@email.cz>, 1999.
 # David Sauer <davids@penguin.cz>, 1999.
 # Partially based on Slovak translation by Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002.
@@ -12,15 +13,16 @@
 # Petr Kovar <pknbe@volny.cz>, 2008, 2010.
 # Marek Černocký <marek@manet.cz>, 2010, 2011, 2012.
 # Chris Leonard <cjl@laptop.org>, 2012.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-14 12:09+0000\n"
-"PO-Revision-Date: 2012-08-24 04:23-0400\n"
-"Last-Translator: Chris Leonard <cjl@laptop.org>\n"
-"Language-Team: Sugar Labs\n"
+"POT-Creation-Date: 2012-11-20 19:18+0000\n"
+"PO-Revision-Date: 2012-11-23 17:02-0200\n"
+"Last-Translator: Marek Černocký <marek@manet.cz>\n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -900,6 +902,9 @@ msgid ""
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
 msgstr ""
+"Typ obdélníku: 0 pro žádný zaoblený roh, 1 pro zaoblený levý horní, 2 pro "
+"zaoblený pravý horní, 4 pro zaoblený pravý dolní, 8 pro zaoblený levý dolní, "
+"nebo nějaká kombinace těchto hodnot."
 
 #: ../goffice/canvas/goc-rectangle.c:348
 msgid "rx"
@@ -1284,30 +1289,28 @@ msgstr "<b>Mapování</b>"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:27
 msgid "New"
-msgstr ""
+msgstr "Nová"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:28
 msgid "Creates a new color map from scratch"
-msgstr ""
+msgstr "Vytvořit od základu novou mapu barev"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:29
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplikovat"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:30
 msgid "Creates a new color map based on the currently selected one."
-msgstr ""
+msgstr "Vytvořit novou mapu barev podle aktuálně vybrané."
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:31
 #: ../goffice/graph/gog-graph-prefs.ui.h:3
-#, fuzzy
-#| msgid "Save as"
 msgid "Save"
-msgstr "Uložit jako"
+msgstr "Uložit"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:32
 msgid "Saves the color map to the local disk."
-msgstr ""
+msgstr "Uložit mapu barev na místní disk"
 
 #: ../goffice/graph/gog-axis.c:85
 msgid "Degrees"
@@ -1382,10 +1385,8 @@ msgid "Span"
 msgstr "Rozsah"
 
 #: ../goffice/graph/gog-axis.c:2974
-#, fuzzy
-#| msgid "XYColor"
 msgid "Colors"
-msgstr "BarevnýXY"
+msgstr "Barvy"
 
 #: ../goffice/graph/gog-axis.c:2991 ../goffice/graph/gog-series-labels.c:891
 #: ../goffice/graph/gog-series-labels.c:1417
@@ -1472,30 +1473,24 @@ msgstr ""
 "procentech z dostupné polohy. Výchozí je 0.0"
 
 #: ../goffice/graph/gog-axis.c:3100
-#, fuzzy
-#| msgid "MapName"
 msgid "ColorMapName"
-msgstr "NázevMapy"
+msgstr "NázevMapyBarev"
 
 #: ../goffice/graph/gog-axis.c:3101
-#, fuzzy
-#| msgid "The name of the map for scaling"
 msgid "The name of the color map"
-msgstr "Název mapy pro měřítko"
+msgstr "Název mapy barev"
 
 #: ../goffice/graph/gog-axis-color-map.c:131 ../goffice/graph/gog-theme.c:322
-#, fuzzy
-#| msgid "Resource"
 msgid "Resource type"
-msgstr "Prostředek"
+msgstr "Typ prostředku"
 
 #: ../goffice/graph/gog-axis-color-map.c:132
 msgid "The resource type for the color map"
-msgstr ""
+msgstr "Typ prostředku pro mapu barev"
 
 #: ../goffice/graph/gog-axis-color-map.c:589
 msgid "New map"
-msgstr ""
+msgstr "Nová mapa"
 
 #. An MS Excel-ish theme
 #: ../goffice/graph/gog-axis-color-map.c:972 ../goffice/graph/gog-theme.c:1211
@@ -1503,22 +1498,16 @@ msgid "Default"
 msgstr "Výchozí"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
-#, fuzzy
-#| msgid "<b>Error category</b>"
 msgid "<b>Current color stop</b>"
-msgstr "<b>Kategorie chyby</b>"
+msgstr "<b>Aktuální barevná zarážka</b>"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
-#, fuzzy
-#| msgid "Values"
 msgid "Value"
-msgstr "Hodnoty"
+msgstr "Hodnota"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
-#, fuzzy
-#| msgid "XYColor"
 msgid "Color"
-msgstr "BarevnýXY"
+msgstr "Barva"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
 #: ../goffice/graph/gog-guru.c:1031 ../goffice/graph/gog-series.c:576
@@ -1526,26 +1515,20 @@ msgid "Name"
 msgstr "Název"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#, fuzzy
-#| msgid "Grads"
 msgid "Gradient"
-msgstr "Grady"
+msgstr "Plynulý"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
-#, fuzzy
-#| msgid "<b>Sample</b>"
 msgid "<b>Snapshots</b>"
-msgstr "<b>Ukázka</b>"
+msgstr "<b>Náhledy</b>"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
-#, fuzzy
-#| msgid "User Defined"
 msgid "Define"
-msgstr "Uživatelem definované"
+msgstr "Definovat"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
 msgid "Erase"
-msgstr ""
+msgstr "Smazat"
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:688
 msgid "Plot area"
@@ -1585,7 +1568,7 @@ msgstr "KruhováOsa"
 
 #: ../goffice/graph/gog-chart.c:615
 msgid "Radial-Axis"
-msgstr "RadiálníOsa"
+msgstr "PaprskováOsa"
 
 #: ../goffice/graph/gog-chart.c:619
 msgid "Pseudo-3D-Axis"
@@ -1683,14 +1666,12 @@ msgid "Horizontal"
 msgstr "Vodorovně"
 
 #: ../goffice/graph/gog-color-scale.c:133
-#, fuzzy
-#| msgid "Whether to use horizontal bars"
 msgid "Whether to display the scale horizontally"
-msgstr "Zda použít vodorovné pruhy"
+msgstr "Zda zobrazovat stupnici vodorovně"
 
 #: ../goffice/graph/gog-color-scale.c:138
 msgid "Color scale thickness."
-msgstr ""
+msgstr "Tloušťka barevné stupnice."
 
 #. Note for translators: first string represent the new child object and second string is the parent object
 #: ../goffice/graph/gog-child-button.c:499
@@ -1790,7 +1771,7 @@ msgstr "Zapomenout uživatelské styly"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:4
 msgid "Save the theme as a standalone file in the user home directory."
-msgstr ""
+msgstr "Uložit motiv jako samostatný soubor v domovské složce uživatele."
 
 #. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
@@ -2213,7 +2194,7 @@ msgstr "Kruhová osa:"
 
 #: ../goffice/graph/gog-plot.c:231
 msgid "Radial axis:"
-msgstr "Radiální osa:"
+msgstr "Paprsková osa:"
 
 #: ../goffice/graph/gog-plot.c:232
 msgid "Pseudo 3D axis:"
@@ -2240,8 +2221,6 @@ msgid "Vary style by element"
 msgstr "Měnit styl podle prvku"
 
 #: ../goffice/graph/gog-plot.c:459
-#, fuzzy
-#| msgid "Use a different style for each segments"
 msgid "Use a different style for each segment"
 msgstr "Použít rozdílné styly pro každý ze segmentů"
 
@@ -2262,76 +2241,52 @@ msgid "Reference to Y axis"
 msgstr "Odkaz na osu Y"
 
 #: ../goffice/graph/gog-plot.c:476
-#, fuzzy
-#| msgid "Z axis:"
 msgid "Z axis"
 msgstr "Osa Z"
 
 #: ../goffice/graph/gog-plot.c:477
-#, fuzzy
-#| msgid "Reference to X axis"
 msgid "Reference to Z axis"
-msgstr "Odkaz na osu X"
+msgstr "Odkaz na osu Z"
 
 #: ../goffice/graph/gog-plot.c:482
-#, fuzzy
-#| msgid "Circular axis:"
 msgid "Circular axis"
 msgstr "Kruhová osa"
 
 #: ../goffice/graph/gog-plot.c:483
-#, fuzzy
-#| msgid "Reference to X axis"
 msgid "Reference to circular axis"
-msgstr "Odkaz na osu X"
+msgstr "Odkaz na kruhovou osu"
 
 #: ../goffice/graph/gog-plot.c:488
-#, fuzzy
-#| msgid "Radial axis:"
 msgid "Radial axis"
-msgstr "Radiální osa"
+msgstr "Paprsková osa"
 
 #: ../goffice/graph/gog-plot.c:489
-#, fuzzy
-#| msgid "Reference to X axis"
 msgid "Reference to radial axis"
-msgstr "Odkaz na osu X"
+msgstr "Odkaz na paprskovou osu"
 
 #: ../goffice/graph/gog-plot.c:494
-#, fuzzy
-#| msgid "Pseudo 3D axis:"
 msgid "Pseudo-3D axis"
 msgstr "Osa pseudo 3D"
 
 #: ../goffice/graph/gog-plot.c:495
-#, fuzzy
-#| msgid "Reference to X axis"
 msgid "Reference to pseudo-3D axis"
-msgstr "Odkaz na osu X"
+msgstr "Odkaz na pseudo 3D osu"
 
 #: ../goffice/graph/gog-plot.c:500
-#, fuzzy
-#| msgid "Color axis:"
 msgid "Color axis"
 msgstr "Barevná osa"
 
 #: ../goffice/graph/gog-plot.c:501
-#, fuzzy
-#| msgid "Reference to X axis"
 msgid "Reference to color axis"
-msgstr "Odkaz na osu X"
+msgstr "Odkaz na barevnou osu"
 
 #: ../goffice/graph/gog-plot.c:506
-#, fuzzy
-#| msgid "Bubble axis:"
 msgid "Bubble axis"
 msgstr "Bublinová osa"
 
 #: ../goffice/graph/gog-plot.c:507
-#, fuzzy
-#| msgid "Reference to X axis"
 msgid "Reference to bubble axis"
-msgstr "Odkaz na osu X"
+msgstr "Odkaz na bublinovou osu"
 
 #: ../goffice/graph/gog-plot.c:512
 msgid "Plot group"
@@ -2504,28 +2459,20 @@ msgid "Next series"
 msgstr "Další řady"
 
 #: ../goffice/graph/gog-series.c:115
-#, fuzzy
-#| msgid "X axis"
 msgid "X axis minimum"
-msgstr "Osa X"
+msgstr "Minimum osy X"
 
 #: ../goffice/graph/gog-series.c:116
-#, fuzzy
-#| msgid "X axis"
 msgid "X axis maximum"
-msgstr "Osa X"
+msgstr "Maximum osy X"
 
 #: ../goffice/graph/gog-series.c:117
-#, fuzzy
-#| msgid "Y axis"
 msgid "Y axis minimum"
-msgstr "Osa Y"
+msgstr "Minimum osy Y"
 
 #: ../goffice/graph/gog-series.c:118
-#, fuzzy
-#| msgid "Y axis"
 msgid "Y axis maximum"
-msgstr "Osa Y"
+msgstr "Maximum osy Y"
 
 #: ../goffice/graph/gog-series.c:223 ../goffice/graph/gog-series-labels.c:395
 msgid "Index:"
@@ -2731,10 +2678,8 @@ msgid "Smoothed Curve"
 msgstr "Vyhlazená křivka"
 
 #: ../goffice/graph/gog-theme.c:323
-#, fuzzy
-#| msgid "The anchor point for the text"
 msgid "The resource type for the theme"
-msgstr "Kotevní bod textu"
+msgstr "Typ prostředku pro motiv"
 
 #. Guppi
 #: ../goffice/graph/gog-theme.c:1381
@@ -3711,16 +3656,12 @@ msgid "Show _separate integer part"
 msgstr "Zobrazovat zvlášť celočí_selnou část"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
-#, fuzzy
-#| msgid ""
-#| "Split fractions with absolute value larger than 1  into an integer part "
-#| "and a fractional part (e.g. 4 5/6)"
 msgid ""
 "Split fractions with absolute value larger than 1 into an integer part and a "
 "fractional part (e.g. 4 5/6)"
 msgstr ""
 "Rozdělit zlomky s absolutní hodnotou větší než 1 na celou část a zlomkovou "
-"část (např. 4 5/7)"
+"část (např. 4 5/6)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
 msgid "Minimum number of integer digits:"
@@ -3764,7 +3705,7 @@ msgstr "Určený jmenovatel:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
 msgid "Always show exponent si_gn"
-msgstr ""
+msgstr "Vždy zobrazovat znamén_ko exponentu"
 
 #: ../goffice/gtk/go-format-sel.ui.h:33
 msgid "_Engineering notation"
@@ -3791,10 +3732,8 @@ msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
 msgstr "Pokud je mantisa rovna 1, zobrazit pouze část s exponentem (např. 10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:39
-#, fuzzy
-#| msgid "Append SI prefix"
 msgid "Append SI _prefix"
-msgstr "Připojovat předponu SI"
+msgstr "Připojovat _předponu SI"
 
 #: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append an SI prefix (e.g. instead of 4×10⁶ show 4M)"
@@ -3859,7 +3798,7 @@ msgstr "Asie"
 
 #: ../goffice/gtk/go-locale-sel.c:68
 msgid "Middle East"
-msgstr ""
+msgstr "Blízký východ"
 
 #: ../goffice/gtk/go-locale-sel.c:69
 msgid "Africa"
@@ -3871,7 +3810,7 @@ msgstr "Austrálie"
 
 #: ../goffice/gtk/go-locale-sel.c:71
 msgid "Caribbean"
-msgstr ""
+msgstr "Karibik"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -3887,19 +3826,15 @@ msgstr "Spojené státy americké/angličtina (C)"
 
 #: ../goffice/gtk/go-locale-sel.c:105
 msgid "Djibouti/Afar (aa_DJ)"
-msgstr ""
+msgstr "Džibutsko/afarština (aa_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:106
-#, fuzzy
-#| msgid "Eritrea (ti_ER)"
 msgid "Eritrea/Afar (aa_ER)"
-msgstr "Eritrea (ti_ER)"
+msgstr "Eritrea/afarština (aa_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:107
-#, fuzzy
-#| msgid "Ethiopia/Amharic (am_ET)"
 msgid "Ethiopia/Afar (aa_ET)"
-msgstr "Etiopie/amharština (am_ET)"
+msgstr "Etiopie/afarština (aa_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:108
 msgid "South Africa Afrikaans (af_ZA)"
@@ -3910,10 +3845,8 @@ msgid "Ethiopia/Amharic (am_ET)"
 msgstr "Etiopie/amharština (am_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:110
-#, fuzzy
-#| msgid "Spain/Basque (eu_ES)"
 msgid "Spain/Aragonese (an_ES)"
-msgstr "Španělsko/baskičtina (eu_ES)"
+msgstr "Španělsko/aragonština (an_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:111
 msgid "United Arab Emirates (ar_AE)"
@@ -3988,16 +3921,12 @@ msgid "Yemen (ar_YE)"
 msgstr "Jemen (ar_YE)"
 
 #: ../goffice/gtk/go-locale-sel.c:129
-#, fuzzy
-#| msgid "India/Tamil (ta_IN)"
 msgid "India/Assamese (as_IN)"
-msgstr "Indie/tamilština (ta_IN)"
+msgstr "Indie/asámština (as_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:130
-#, fuzzy
-#| msgid "Spain/Catalan (ca_ES)"
 msgid "Spain/Asturian (ast_ES)"
-msgstr "Španělsko/katalánština (ca_ES)"
+msgstr "Španělsko/asturština (ast_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:131
 msgid "Azerbaijan (az_AZ)"
@@ -4009,19 +3938,15 @@ msgstr "Bělorusko (be_BY)"
 
 #: ../goffice/gtk/go-locale-sel.c:133
 msgid "Zambia/Bemba (bem_ZM)"
-msgstr ""
+msgstr "Zambie/bembština (bem_ZM)"
 
 #: ../goffice/gtk/go-locale-sel.c:134
-#, fuzzy
-#| msgid "Algeria (ar_DZ)"
 msgid "Algeria/Amazigh (ber_DZ)"
-msgstr "Alžírsko (ar_DZ)"
+msgstr "Alžírsko/berberština (ber_DZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:135
-#, fuzzy
-#| msgid "Morocco (ar_MA)"
 msgid "Morocco/Amazigh (ber_MA)"
-msgstr "Maroko (ar_MA)"
+msgstr "Maroko/berberština (ber_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:136
 msgid "Bulgaria (bg_BG)"
@@ -4036,16 +3961,12 @@ msgid "India/Bengali (bn_IN)"
 msgstr "Indie/bengálština (bn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:139
-#, fuzzy
-#| msgid "China (zh_CN)"
 msgid "China/Tibetan (bo_CN)"
-msgstr "Čína (zh_CN)"
+msgstr "Čína/tibetština (bo_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:140
-#, fuzzy
-#| msgid "India/Bengali (bn_IN)"
 msgid "India/Tibetan (bo_IN)"
-msgstr "Indie/bengálština (bn_IN)"
+msgstr "Indie/tibetština (bo_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:141
 msgid "France/Breton (br_FR)"
@@ -4056,54 +3977,40 @@ msgid "Bosnia and Herzegowina (bs_BA)"
 msgstr "Bosna a Hercegovina (bs_BA)"
 
 #: ../goffice/gtk/go-locale-sel.c:143
-#, fuzzy
-#| msgid "Eritrea (ti_ER)"
 msgid "Eritrea/Blin (byn_ER)"
-msgstr "Eritrea (ti_ER)"
+msgstr "Eritrea/blin (byn_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:144
-#, fuzzy
-#| msgid "Spain/Catalan (ca_ES)"
 msgid "Andorra/Catalan (ca_AD)"
-msgstr "Španělsko/katalánština (ca_ES)"
+msgstr "Andorra/katalánština (ca_AD)"
 
 #: ../goffice/gtk/go-locale-sel.c:145
 msgid "Spain/Catalan (ca_ES)"
 msgstr "Španělsko/katalánština (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:146
-#, fuzzy
-#| msgid "France/Occitan (oc_FR)"
 msgid "France/Catalan (ca_FR)"
-msgstr "Francie/okcitánština (oc_FR)"
+msgstr "Francie/katalánština (ca_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:147
-#, fuzzy
-#| msgid "Spain/Catalan (ca_ES)"
 msgid "Italy/Catalan (ca_IT)"
-msgstr "Španělsko/katalánština (ca_ES)"
+msgstr "Itálie/katalánština (ca_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:148
-#, fuzzy
-#| msgid "Ukraine/Russian (ru_UA)"
 msgid "Ukraine/Crimean Tatar (crh_UA)"
-msgstr "Ukrajina/ruština (ru_UA)"
+msgstr "Ukrajina/krymská tatarština (crh_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:149
 msgid "Czech Republic (cs_CZ)"
 msgstr "Česká republika (cs_CZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:150
-#, fuzzy
-#| msgid "Poland (pl_PL)"
 msgid "Poland/Kashubian (csb_PL)"
-msgstr "Polsko (pl_PL)"
+msgstr "Polsko/kašubština (csb_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:151
-#, fuzzy
-#| msgid "Russia/Tatar (tt_RU)"
 msgid "Russia/Chuvash (cv_RU)"
-msgstr "Rusko/tatarština (tt_RU)"
+msgstr "Rusko/čuvaština (cv_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:152
 msgid "Great Britain/Welsh (cy_GB)"
@@ -4135,25 +4042,23 @@ msgstr "Lucembursko/němčina (de_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:159
 msgid "Maldives (dv_MV)"
-msgstr ""
+msgstr "Maledivy (dv_MV)"
 
 #: ../goffice/gtk/go-locale-sel.c:160
 msgid "Bhutan (dz_BT)"
-msgstr ""
+msgstr "Bhútán (dz_BT)"
 
 #: ../goffice/gtk/go-locale-sel.c:161
 msgid "Cyprus/Greek (el_CY)"
-msgstr ""
+msgstr "Kypr/řečtina (el_CY)"
 
 #: ../goffice/gtk/go-locale-sel.c:162
 msgid "Greece (el_GR)"
 msgstr "Řecko (el_GR)"
 
 #: ../goffice/gtk/go-locale-sel.c:163
-#, fuzzy
-#| msgid "Canada/English (en_CA)"
 msgid "Antigua and Barbuda/English (en_AG)"
-msgstr "Kanada/angličtina (en_CA)"
+msgstr "Antigua a Barbuda/angličtina (en_AG)"
 
 #: ../goffice/gtk/go-locale-sel.c:164
 msgid "Australia (en_AU)"
@@ -4305,17 +4210,15 @@ msgstr "Írán (fa_IR)"
 
 #: ../goffice/gtk/go-locale-sel.c:201
 msgid "Senegal/Fulah (ff_SN)"
-msgstr ""
+msgstr "Senegal/fulahština (ff_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:202
 msgid "Finland/Finnish (fi_FI)"
 msgstr "Finsko/finština (fi_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
-#, fuzzy
-#| msgid "Philippines/Tagalog (tl_PH)"
 msgid "Phillipines/Filipino (fil_PH)"
-msgstr "Filipíny/tagalog (tl_PH)"
+msgstr "Filipíny/filipínština (fil_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:204
 msgid "Faroe Islands (fo_FO)"
@@ -4338,28 +4241,20 @@ msgid "France (fr_FR)"
 msgstr "Francie (fr_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:209
-#, fuzzy
-#| msgid "Luxembourg/German (de_LU)"
 msgid "Luxembourg/French (fr_LU)"
-msgstr "Lucembursko/němčina (de_LU)"
+msgstr "Lucembursko/francouzština (fr_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:210
-#, fuzzy
-#| msgid "Italy (it_IT)"
 msgid "Italy/Furlan (fur_IT)"
-msgstr "Itálie (it_IT)"
+msgstr "Itálie/furlanština (fur_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:211
-#, fuzzy
-#| msgid "Germany (de_DE)"
 msgid "Germany/Frisian (fy_DE)"
-msgstr "Německo (de_DE)"
+msgstr "Německo/fríština (fy_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:212
-#, fuzzy
-#| msgid "The Netherlands (nl_NL)"
 msgid "Netherlands/Frisian (fy_NL)"
-msgstr "Nizozemsko (nl_NL)"
+msgstr "Nizozemsko/fríština (fy_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:213
 msgid "Ireland/Gaelic (ga_IE)"
@@ -4370,24 +4265,20 @@ msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Velká Británie/skotská galština (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
-#, fuzzy
-#| msgid "Eritrea (ti_ER)"
 msgid "Eritrea/Ge'ez “gez_ER)"
-msgstr "Eritrea (ti_ER)"
+msgstr "Eritrea/ge'ez (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
 msgid "Ethiopia/Ge'ez “gez_ET)"
-msgstr ""
+msgstr "Etiopie/ge'ez (gez_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:217
 msgid "Spain/Galician (gl_ES)"
 msgstr "Španělsko/galicijština (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
-#, fuzzy
-#| msgid "India/Marathi (mr_IN)"
 msgid "India/Gurajati “gu_IN)"
-msgstr "Indie/maráthština (mr_IN)"
+msgstr "Indie/gudžarátština (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
 msgid "Great Britain/Manx Gaelic (gv_GB)"
@@ -4395,23 +4286,19 @@ msgstr "Velká Británie/manština (gv_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:220
 msgid "Nigeria/Hausa (ha_NG)"
-msgstr ""
+msgstr "Nigérie/hauština (ha_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:221
-#, fuzzy
-#| msgid "Israel/Hebrew (iw_IL)"
 msgid "Israel/Hebrew (he_IL)"
-msgstr "Izrael/hebrejština (iw_IL)"
+msgstr "Izrael/hebrejština (he_IL)"
 
 #: ../goffice/gtk/go-locale-sel.c:222
 msgid "India/Hindu (hi_IN)"
 msgstr "Indie/hindština (hi_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:223
-#, fuzzy
-#| msgid "India/Marathi (mr_IN)"
 msgid "India/Chhattisgarhi (hne_IN)"
-msgstr "Indie/maráthština (mr_IN)"
+msgstr "Indie/čhattísgarhština (hne_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:224
 msgid "Croatia (hr_HR)"
@@ -4419,11 +4306,11 @@ msgstr "Chorvatsko (hr_HR)"
 
 #: ../goffice/gtk/go-locale-sel.c:225
 msgid "Germany/Upper Sorbian (hsb_DE)"
-msgstr ""
+msgstr "Německo/hornolužická srbština (hsb_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:226
 msgid "Haiti/Kreyol (ht_HT)"
-msgstr ""
+msgstr "Haiti/kreolština (ht_HT)"
 
 #: ../goffice/gtk/go-locale-sel.c:227
 msgid "Hungary (hu_HU)"
@@ -4443,13 +4330,11 @@ msgstr "Indonésie (id_ID)"
 
 #: ../goffice/gtk/go-locale-sel.c:231
 msgid "Nigeria/Igbo (ig_NG)"
-msgstr ""
+msgstr "Nigérie/igboština (ig_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:232
-#, fuzzy
-#| msgid "Canada/English (en_CA)"
 msgid "Canada/Inupiaq (ik_CA)"
-msgstr "Kanada/angličtina (en_CA)"
+msgstr "Kanada/inupiaq (ik_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:233
 msgid "Iceland (is_IS)"
@@ -4468,10 +4353,8 @@ msgid "Italy (it_IT)"
 msgstr "Itálie (it_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:237
-#, fuzzy
-#| msgid "Canada/English (en_CA)"
 msgid "Canada/Inuktitut (iu_CA)"
-msgstr "Kanada/angličtina (en_CA)"
+msgstr "Kanada/inuktitut (iu_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:238
 msgid "Japan (ja_JP)"
@@ -4483,7 +4366,7 @@ msgstr "Gruzie (ka_GE)"
 
 #: ../goffice/gtk/go-locale-sel.c:240
 msgid "Kazakhstan/Kazakh (kk_KZ)"
-msgstr ""
+msgstr "Kazachstán/kazaština (kk_KZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:241
 msgid "Greenland (kl_GL)"
@@ -4491,35 +4374,27 @@ msgstr "Grónsko (kl_GL)"
 
 #: ../goffice/gtk/go-locale-sel.c:242
 msgid "Cambodia/Khmer (km_KH)"
-msgstr ""
+msgstr "Kambodža/khmerština (km_KH)"
 
 #: ../goffice/gtk/go-locale-sel.c:243
-#, fuzzy
-#| msgid "India/Bengali (bn_IN)"
 msgid "India/Kannada (kn_IN)"
-msgstr "Indie/bengálština (bn_IN)"
+msgstr "Indie/kannadština (kn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:244
 msgid "Korea (ko_KR)"
 msgstr "Korea (ko_KR)"
 
 #: ../goffice/gtk/go-locale-sel.c:245
-#, fuzzy
-#| msgid "India/Bengali (bn_IN)"
 msgid "India/Konkani (kok_IN)"
-msgstr "Indie/bengálština (bn_IN)"
+msgstr "Indie/konkánština (kok_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:246
-#, fuzzy
-#| msgid "India/Tamil (ta_IN)"
 msgid "India/Kashmiri (ks_IN)"
-msgstr "Indie/tamilština (ta_IN)"
+msgstr "Indie/kašmírština (ks_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:247
-#, fuzzy
-#| msgid "Turkey (tr_TR)"
 msgid "Turkey/Kurdish (ku_TR)"
-msgstr "Turecko (tr_TR)"
+msgstr "Turecko/kurdština (ku_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:248
 msgid "Great Britain/Cornish (kw_GB)"
@@ -4527,39 +4402,31 @@ msgstr "Velká Británie/kornština (kw_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:249
 msgid "Kyrgyzstan/Kyrgyz (ky_KG)"
-msgstr ""
+msgstr "Kyrgyzstán/kyrgyzština (ky_KG)"
 
 #: ../goffice/gtk/go-locale-sel.c:250
-#, fuzzy
-#| msgid "Luxembourg/German (de_LU)"
 msgid "Luxembourg/Luxembourgish (lb_LU)"
-msgstr "Lucembursko/němčina (de_LU)"
+msgstr "Lucembursko/lucemburština (lb_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:251
 msgid "Uganda/Luganda (lg_UG)"
-msgstr ""
+msgstr "Uganda/gandština (lg_UG)"
 
 #: ../goffice/gtk/go-locale-sel.c:252
-#, fuzzy
-#| msgid "Belgium/Flemish (nl_BE)"
 msgid "Belgium/Limburgish (li_BE)"
-msgstr "Belgie/vlámština (nl_BE)"
+msgstr "Belgie/limburština (li_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:253
-#, fuzzy
-#| msgid "The Netherlands (nl_NL)"
 msgid "Netherlands/Limburgish (li_NL)"
-msgstr "Nizozemsko (nl_NL)"
+msgstr "Nizozemsko/limburština (li_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:254
-#, fuzzy
-#| msgid "Italy (it_IT)"
 msgid "Italy/Ligurian (lij_IT)"
-msgstr "Itálie (it_IT)"
+msgstr "Itálie/ligurština (lij_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:255
 msgid "Laos (lo_LA)"
-msgstr ""
+msgstr "Laos (lo_LA)"
 
 #: ../goffice/gtk/go-locale-sel.c:256
 msgid "Lithuania (lt_LT)"
@@ -4570,22 +4437,16 @@ msgid "Latvia (lv_LV)"
 msgstr "Lotyšsko (lv_LV)"
 
 #: ../goffice/gtk/go-locale-sel.c:258
-#, fuzzy
-#| msgid "India/Marathi (mr_IN)"
 msgid "India/Maithili (mai_IN)"
-msgstr "Indie/maráthština (mr_IN)"
+msgstr "Indie/maithilština (mai_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:259
-#, fuzzy
-#| msgid "Madagascar, Malagasy Ariary"
 msgid "Madagascar/Malagasy (mg_MG)"
-msgstr "Madagaskar, malgašský ariary"
+msgstr "Madagaskar/malgaština (mg_MG)"
 
 #: ../goffice/gtk/go-locale-sel.c:260
-#, fuzzy
-#| msgid "Russia (ru_RU)"
 msgid "Russia/Mari (mhr_RU)"
-msgstr "Rusko (ru_RU)"
+msgstr "Rusko/marijština (mhr_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:261
 msgid "New Zealand/Maori (mi_NZ)"
@@ -4596,16 +4457,12 @@ msgid "Macedonia (mk_MK)"
 msgstr "Makedonie (mk_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:263
-#, fuzzy
-#| msgid "India/Marathi (mr_IN)"
 msgid "India/Malayalam (ml_IN)"
-msgstr "Indie/maráthština (mr_IN)"
+msgstr "Indie/malajálamština (ml_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:264
-#, fuzzy
-#| msgid "Macedonia (mk_MK)"
 msgid "Mongolia (mn_MN)"
-msgstr "Makedonie (mk_MK)"
+msgstr "Mongolsko (mn_MN)"
 
 #: ../goffice/gtk/go-locale-sel.c:265
 msgid "India/Marathi (mr_IN)"
@@ -4621,37 +4478,31 @@ msgstr "Malta (mt_MT)"
 
 #: ../goffice/gtk/go-locale-sel.c:268
 msgid "Myanmar/Burmese (my_MM)"
-msgstr ""
+msgstr "Myanmar/barmština (my_MM)"
 
 #: ../goffice/gtk/go-locale-sel.c:269
 msgid "Taiwan/Minnan (nan_TW@latin)"
-msgstr ""
+msgstr "Tchaj-wan/min-nan (nan_TW@latin)"
 
 #: ../goffice/gtk/go-locale-sel.c:270
-#, fuzzy
-#| msgid "Norway/Bokmal (no_NO)"
 msgid "Norway/Bokmal (nb_NO)"
-msgstr "Norsko/norština bokmal (no_NO)"
+msgstr "Norsko/bokmal (nb_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:271
-#, fuzzy
-#| msgid "Germany (de_DE)"
 msgid "Germany/Low Saxon (nds_DE)"
-msgstr "Německo (de_DE)"
+msgstr "Německo/dolnosaština (nds_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:272
-#, fuzzy
-#| msgid "The Netherlands (nl_NL)"
 msgid "Netherlands/Low Saxon (nds_NL)"
-msgstr "Nizozemsko (nl_NL)"
+msgstr "Nizozemsko/dolnosaština (nds_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:273
 msgid "Nepal/Nepali (ne_NP)"
-msgstr ""
+msgstr "Nepál/nepálština (ne_NP)"
 
 #: ../goffice/gtk/go-locale-sel.c:274
 msgid "Aruba/Dutch (nl_AW)"
-msgstr ""
+msgstr "Aruba/nizozemština (nl_AW)"
 
 #: ../goffice/gtk/go-locale-sel.c:275
 msgid "Belgium/Flemish (nl_BE)"
@@ -4666,56 +4517,44 @@ msgid "Norway/Nynorsk (nn_NO)"
 msgstr "Norsko/norština nynorsk (nn_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:278
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Southern Ndebele (nr_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/jižní ndebelština (nr_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:279
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Northern Sotho (nso_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/severní sothoština (nso_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:280
 msgid "France/Occitan (oc_FR)"
 msgstr "Francie/okcitánština (oc_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:281
-#, fuzzy
-#| msgid "Ethiopia/Amharic (am_ET)"
 msgid "Ethiopia/Oromo (om_ET)"
-msgstr "Etiopie/amharština (am_ET)"
+msgstr "Etiopie/oromština (om_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:282
 msgid "Kenya/Oromo (om_KE)"
-msgstr ""
+msgstr "Keňa/oromština (om_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:283
-#, fuzzy
-#| msgid "India/Arabic (ar_IN)"
 msgid "India/Oriya (or_IN)"
-msgstr "Indie/arabština (ar_IN)"
+msgstr "Indie/urijština (or_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:284
-#, fuzzy
-#| msgid "Russia/Tatar (tt_RU)"
 msgid "Russia/Ossetian (os_RU)"
-msgstr "Rusko/tatarština (tt_RU)"
+msgstr "Rusko/osetština (os_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:285
-#, fuzzy
-#| msgid "India/Tamil (ta_IN)"
 msgid "India/Punjabi (Gurmukhi) (pa_IN)"
-msgstr "Indie/tamilština (ta_IN)"
+msgstr "Indie/paňdžábština (gurmukhí) (pa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:286
 msgid "Pakistan/Punjabi (Shamukhi) (pa_PK)"
-msgstr ""
+msgstr "Pákistán/paňdžábština (šáhmukhí) (pa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:287
 msgid "Netherland Antilles/Papiamento (pap_AN)"
-msgstr ""
+msgstr "Nizozemské Antily/papiamento (pap_AN)"
 
 #: ../goffice/gtk/go-locale-sel.c:288
 msgid "Poland (pl_PL)"
@@ -4723,7 +4562,7 @@ msgstr "Polsko (pl_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:289
 msgid "Afghanistan/Pashto (ps_AF)"
-msgstr ""
+msgstr "Afghánistán/paštština (ps_AF)"
 
 #: ../goffice/gtk/go-locale-sel.c:290
 msgid "Brazil (pt_BR)"
@@ -4747,25 +4586,19 @@ msgstr "Ukrajina/ruština (ru_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:295
 msgid "Rwanda/Kinyarwanda (rw_RW)"
-msgstr ""
+msgstr "Rwanda/rwandština (rw_RW)"
 
 #: ../goffice/gtk/go-locale-sel.c:296
-#, fuzzy
-#| msgid "India/Tamil (ta_IN)"
 msgid "India/Sanskrit (sa_IN)"
-msgstr "Indie/tamilština (ta_IN)"
+msgstr "Indie/sanskrt (sa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:297
-#, fuzzy
-#| msgid "Italy (it_IT)"
 msgid "Italy/Sardinian (sc_IT)"
-msgstr "Itálie (it_IT)"
+msgstr "Itálie/sardinština (sc_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:298
-#, fuzzy
-#| msgid "India/Hindu (hi_IN)"
 msgid "India/Sindhi (sd_IN)"
-msgstr "Indie/hindština (hi_IN)"
+msgstr "Indie/sindhština (sd_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:299
 msgid "Norway/Saami (se_NO)"
@@ -4773,17 +4606,15 @@ msgstr "Norsko/sámština (se_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:300
 msgid "Canada/Secwepemctsin (Shuswap) (shs_CA)"
-msgstr ""
+msgstr "Kanada/shuswap (shs_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:301
 msgid "Sri Lanka/Sinhala (si_LK)"
-msgstr ""
+msgstr "Srí Lanka/sinhálština (si_LK)"
 
 #: ../goffice/gtk/go-locale-sel.c:302
-#, fuzzy
-#| msgid "Ethiopia/Tigrinya (ti_ET)"
 msgid "Ethiopia/Sidama (sid_ET)"
-msgstr "Etiopie/tigrinya (ti_ET)"
+msgstr "Etiopie/sidamo (sid_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:303
 msgid "Slovakia (sk_SK)"
@@ -4795,53 +4626,43 @@ msgstr "Slovinsko (sl_SI)"
 
 #: ../goffice/gtk/go-locale-sel.c:305
 msgid "Djibouti/Somali (so_DJ)"
-msgstr ""
+msgstr "Džibutsko/somálština (so_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:306
-#, fuzzy
-#| msgid "Ethiopia/Amharic (am_ET)"
 msgid "Ethiopia/Somali (so_ET)"
-msgstr "Etiopie/amharština (am_ET)"
+msgstr "Etiopie/somálština (so_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:307
 msgid "Kenya/Somali (so_KE)"
-msgstr ""
+msgstr "Keňa/somálština (so_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:308
 msgid "Somalia/Somali (so_SO)"
-msgstr ""
+msgstr "Somálsko/somálština (so_SO)"
 
 #: ../goffice/gtk/go-locale-sel.c:309
 msgid "Albania (sq_AL)"
 msgstr "Albánie (sq_AL)"
 
 #: ../goffice/gtk/go-locale-sel.c:310
-#, fuzzy
-#| msgid "Macedonia (mk_MK)"
 msgid "Macedonia/Albanian (sq_MK)"
-msgstr "Makedonie (mk_MK)"
+msgstr "Makedonie/albánština (sq_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:311
 msgid "Montenegro/Serbian (sr_ME)"
-msgstr ""
+msgstr "Černá Hora/srbština (sr_ME)"
 
 #: ../goffice/gtk/go-locale-sel.c:312
-#, fuzzy
-#| msgid "Yugoslavia (sr_YU)"
 msgid "Yugoslavia (sr_RS)"
-msgstr "Jugoslávie (sr_YU)"
+msgstr "Jugoslávie (sr_RS)"
 
 #: ../goffice/gtk/go-locale-sel.c:313
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Swati (ss_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/svatština (ss_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:314
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Sotho (st_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/sotho (st_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:315
 msgid "Finland/Swedish (sv_FI)"
@@ -4853,13 +4674,11 @@ msgstr "Švédsko (sv_SE)"
 
 #: ../goffice/gtk/go-locale-sel.c:317
 msgid "Kenya/Swahili (sw_KE)"
-msgstr ""
+msgstr "Keňa/svahilština (sw_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:318
-#, fuzzy
-#| msgid "Tanzania, Shillings"
 msgid "Tanzania/Swahili (sw_TZ)"
-msgstr "Tanzanie, šilink"
+msgstr "Tanzanie/svahilština (sw_TZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:319
 msgid "India/Tamil (ta_IN)"
@@ -4878,70 +4697,56 @@ msgid "Thailand (th_TH)"
 msgstr "Thajsko (th_TH)"
 
 #: ../goffice/gtk/go-locale-sel.c:323
-#, fuzzy
-#| msgid "Ethiopia/Tigrinya (ti_ET)"
 msgid "Eritrea/Tigrinya (ti_ER)"
-msgstr "Etiopie/tigrinya (ti_ET)"
+msgstr "Etiopie/tigriňština (ti_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:324
 msgid "Ethiopia/Tigrinya (ti_ET)"
 msgstr "Etiopie/tigrinya (ti_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:325
-#, fuzzy
-#| msgid "Eritrea (ti_ER)"
 msgid "Eritrea/Tigre (tig_ER)"
-msgstr "Eritrea (ti_ER)"
+msgstr "Eritrea/tigrejština (tig_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:326
-#, fuzzy
-#| msgid "Turkmenistan, Manats"
 msgid "Turkmenistan /Turkmen (tk_TM)"
-msgstr "Turkmenistán, manat"
+msgstr "Turkmenistán/turkmenština (tk_TM)"
 
 #: ../goffice/gtk/go-locale-sel.c:327
 msgid "Philippines/Tagalog (tl_PH)"
 msgstr "Filipíny/tagalog (tl_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:328
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Tswana (tn_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/tswana (tn_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:329
 msgid "Cyprus/Turkish (tr_CY)"
-msgstr ""
+msgstr "Kypr/turečtina (tr_CY)"
 
 #: ../goffice/gtk/go-locale-sel.c:330
 msgid "Turkey (tr_TR)"
 msgstr "Turecko (tr_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:331
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Tsonga (ts_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/tsongština (ts_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:332
 msgid "Russia/Tatar (tt_RU)"
 msgstr "Rusko/tatarština (tt_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:333
-#, fuzzy
-#| msgid "China (zh_CN)"
 msgid "China/Uyghur (ug_CN)"
-msgstr "Čína (zh_CN)"
+msgstr "Čína/ujgurština (ug_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:334
 msgid "Ukraine (uk_UA)"
 msgstr "Ukrajina (uk_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:335
-#, fuzzy
-#| msgid "India/Hindu (hi_IN)"
 msgid "India/Urdu (ur_IN)"
-msgstr "Indie/hindština (hi_IN)"
+msgstr "Indie/urdština (ur_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:336
 msgid "Pakistan (ur_PK)"
@@ -4952,10 +4757,8 @@ msgid "Uzbekistan (uz_UZ)"
 msgstr "Uzbekistán (uz_UZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:338
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Venda (ve_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/vendština (ve_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:339
 msgid "Vietnam (vi_VN)"
@@ -4966,26 +4769,20 @@ msgid "Belgium/Walloon (wa_BE)"
 msgstr "Belgie/valonština (wa_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:341
-#, fuzzy
-#| msgid "Switzerland/German (de_CH)"
 msgid "Switzerland/Walser (wae_CH)"
-msgstr "Švýcarsko/němčina (de_CH)"
+msgstr "Švýcarsko/walserština (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
-#, fuzzy
-#| msgid "Ethiopia/Amharic (am_ET)"
 msgid "Ethiopia/Walaita (wal_ET)"
-msgstr "Etiopie/amharština (am_ET)"
+msgstr "Etiopie/walamština (wal_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:343
 msgid "Senegal/Wolof (wo_SN)"
-msgstr ""
+msgstr "Senegal/wolofština (wo_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:344
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Xhosa (xh_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/xhosa (xh_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:345
 msgid "United States/Yiddish (yi_US)"
@@ -4993,13 +4790,11 @@ msgstr "Spojené státy americké/jidiš (yi_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:346
 msgid "Nigeria/Yoruba (yo_NG)"
-msgstr ""
+msgstr "Nigérie/jorubština (yo_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:347
-#, fuzzy
-#| msgid "Hong Kong/Chinese (zh_HK)"
 msgid "Hong Kong/Cantonese (Yue) (yue_HK)"
-msgstr "Hongkong/čínština (zh_HK)"
+msgstr "Hongkong/kantonština (yue_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:348
 msgid "China (zh_CN)"
@@ -5018,10 +4813,8 @@ msgid "Taiwan (zh_TW)"
 msgstr "Taiwan (zh_TW)"
 
 #: ../goffice/gtk/go-locale-sel.c:352
-#, fuzzy
-#| msgid "South Africa/English (en_ZA)"
 msgid "South Africa/Zulu (zu_ZA)"
-msgstr "Jihoafrická republika/angličtina (en_ZA)"
+msgstr "Jihoafrická republika/zulu (zu_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:571
 msgid "Current Locale: "
@@ -7730,11 +7523,11 @@ msgstr "Zda by se mělo vyhodnocovat omezení sloupců"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:526
 msgid "Missing as"
-msgstr ""
+msgstr "Chybějící jako"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:527
 msgid "How to deal with missing data"
-msgstr ""
+msgstr "Jak zacházet s chybějícími daty"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
 msgid "<b>_Columns:</b>"
@@ -7757,22 +7550,16 @@ msgid "<b>_Rows:</b>"
 msgstr "<b>Řád_ky:</b>"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:6
-#, fuzzy
-#| msgid "<b>Values</b>"
 msgid "<b>Missing values as:</b>"
-msgstr "<b>Hodnoty</b>"
+msgstr "<b>Chybějící hodnoty jako:</b>"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:7
-#, fuzzy
-#| msgid "Invalid as zero"
 msgid "Invalid"
-msgstr "Neplatné jako nula"
+msgstr "Neplatné"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:8
-#, fuzzy
-#| msgid "x0"
 msgid "0"
-msgstr "x0"
+msgstr "0"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:1
 msgid "Contour"
@@ -8025,10 +7812,8 @@ msgstr "Polohy"
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
 #: ../plugins/plot_xy/gog-xy-minmax.c:166
-#, fuzzy
-#| msgid "PlotMinMax"
 msgid "PlotXYMinMax"
-msgstr "DiagramMinMax"
+msgstr "DiagramXYMinMax"
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
@@ -8139,52 +7924,36 @@ msgid "Horizontal drop bars with continuous Y-axis."
 msgstr "Vodorovný objemový s průběžnou osou Y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:35
-#, fuzzy
-#| msgid "Marked Vertical Min Max Lines"
 msgid "Scattered Vertical Min Max Lines"
-msgstr "Svislý čárový min max se značkami"
+msgstr "Svislý rozptylový čarový min max"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:36
-#, fuzzy
-#| msgid "Vertical drop bars with continuous X-axis."
 msgid "Vertical Min Max lines with continuous X-axis."
-msgstr "Svislý objemový s průběžnou osou X."
+msgstr "Svislý čarový min max s průběžnou osou X."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:37
-#, fuzzy
-#| msgid "Marked Vertical Min Max Lines"
 msgid "Scattered Marked Vertical Min Max Lines"
-msgstr "Svislý čárový min max se značkami"
+msgstr "Svislý rozptylový čárový min max se značkami"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:38
-#, fuzzy
-#| msgid "Vertical min max lines with markers."
 msgid "Vertical Min Max lines with markers and a continuous X-axis."
-msgstr "Svislý čárový min max se značkami."
+msgstr "Svislý čárový min max se značkami a s průběžnou osou X."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:39
-#, fuzzy
-#| msgid "Marked Horizontal Min Max Lines"
 msgid "Scattered Horizontal Min Max Lines"
-msgstr "Vodorovný čárový min max se značkami"
+msgstr "Vodorovný rozptylový čárový min max"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:40
-#, fuzzy
-#| msgid "Horizontal drop bars with continuous Y-axis."
 msgid "Horizontal Min Max lines with continuous Y-axis."
-msgstr "Vodorovný objemový s průběžnou osou Y."
+msgstr "Vodorovný čarový min max s průběžnou osou Y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:41
-#, fuzzy
-#| msgid "Marked Horizontal Min Max Lines"
 msgid "Scattered Marked Horizontal Min Max Lines"
-msgstr "Vodorovný čárový min max se značkami"
+msgstr "Vodorovný rozptylový čárový min max se značkami"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:42
-#, fuzzy
-#| msgid "Horizontal min max lines with markers."
 msgid "Horizontal Min Max lines with markers and a continuous Y-axis."
-msgstr "Vodorovný čárový min max se značkami."
+msgstr "Vodorovný čárový min max se značkami a průběžnou osou Y."
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
 msgid "Charting : XY/Scatter/Bubble"
@@ -8215,10 +7984,8 @@ msgid "Scattered dropbar plotting engine"
 msgstr "Generování rozptylových objemových diagramů"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:8
-#, fuzzy
-#| msgid "Min Max plotting engine"
 msgid "Scattered Min Max plotting engine"
-msgstr "Generování diagramů Min Max"
+msgstr "Generování rozptylových diagramů min max"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
