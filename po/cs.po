@@ -11,24 +11,24 @@
 # Jakub Friedl <jfriedl@suse.cz>, 2007.
 # Lucas Lommer <llommer@svn.gnome.org>, 2008.
 # Petr Kovar <pknbe@volny.cz>, 2008, 2010.
-# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012.
 # Chris Leonard <cjl@laptop.org>, 2012.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-20 19:18+0000\n"
-"PO-Revision-Date: 2012-11-23 17:02-0200\n"
+"POT-Creation-Date: 2012-11-25 08:09+0000\n"
+"PO-Revision-Date: 2012-11-25 15:22+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Gtranslator 2.91.5\n"
 "X-Project-Style: gnome\n"
 
 #: ../goffice/app/file.c:527
@@ -4265,11 +4265,13 @@ msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Velká Británie/skotská galština (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
-msgid "Eritrea/Ge'ez “gez_ER)"
+#| msgid "Eritrea/Ge'ez “gez_ER)"
+msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr "Eritrea/ge'ez (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
-msgid "Ethiopia/Ge'ez “gez_ET)"
+#| msgid "Ethiopia/Ge'ez “gez_ET)"
+msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr "Etiopie/ge'ez (gez_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:217
@@ -4277,7 +4279,8 @@ msgid "Spain/Galician (gl_ES)"
 msgstr "Španělsko/galicijština (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
-msgid "India/Gurajati “gu_IN)"
+#| msgid "India/Gurajati “gu_IN)"
+msgid "India/Gujarati (gu_IN)"
 msgstr "Indie/gudžarátština (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
@@ -4773,7 +4776,8 @@ msgid "Switzerland/Walser (wae_CH)"
 msgstr "Švýcarsko/walserština (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
-msgid "Ethiopia/Walaita (wal_ET)"
+#| msgid "Ethiopia/Walaita (wal_ET)"
+msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr "Etiopie/walamština (wal_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:343
