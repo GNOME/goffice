@@ -1,3 +1,7 @@
+2012-11-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-locale-sel.c: fixed typos in locales list. [#688977]
+
 2012-11-16  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
