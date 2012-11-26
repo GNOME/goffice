@@ -1253,7 +1253,7 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
 				      _("%s\nis a directory name"), uri);
 		result = FALSE;
-	} else if (go_file_access (uri, W_OK) != 0 && errno != ENOENT) {
+	} else if (go_file_access (uri, GO_W_OK) != 0 && errno != ENOENT) {
 		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
 				      _("You do not have permission to save to\n%s"),
 				      uri);

@@ -53,6 +53,7 @@ GogAxisColorMap *gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc
 typedef void (*GogAxisColorMapHandler) (GogAxisColorMap const *map, gpointer user_data);
 void gog_axis_color_map_foreach (GogAxisColorMapHandler handler, gpointer user_data);
 GogAxisColorMap const *gog_axis_color_map_get_from_id (char const *id);
+gboolean gog_axis_color_map_delete (GogAxisColorMap *map);
 
 /* private */
 GogAxisColorMap const *_gog_axis_color_map_get_default (void);

@@ -1,3 +1,19 @@
+2012-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: add two new .ui files.
+	* goffice/app/go-plugin.c: use GO_R_OK.
+	* goffice/component/go-component.c: constify an argument.
+	* goffice/component/go-component.h: ditto.
+	* goffice/graph/gog-axis-color-map-prefs.ui: add a title.
+	* goffice/graph/gog-axis-color-map.c: add gog_color_map_delete().
+	* goffice/graph/gog-axis-color-map.h: ditto.
+	* goffice/graph/gog-theme-editor.ui: theme editor user interface.
+	* goffice/graph/gog-theme.c: new code to edit themes.
+	* goffice/graph/gog-theme.h: ditto.
+	* goffice/graph/new-theme-prefs.ui: ditto.
+	* goffice/gtk/goffice-gtk.c: use GO_W_OK.
+	* goffice/utils/go-file.h: define GO_X_OK and friends.
+
 2012-11-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-locale-sel.c: fixed typos in locales list. [#688977]

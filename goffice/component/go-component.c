@@ -851,7 +851,7 @@ go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t 
 	return component->snapshot_data;
 }
 
-void go_component_set_font (GOComponent *component, PangoFontDescription *desc)
+void go_component_set_font (GOComponent *component, PangoFontDescription const *desc)
 {
 	GOComponentClass *klass = GO_COMPONENT_GET_CLASS (component);
 	if (klass->set_font)

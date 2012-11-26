@@ -933,12 +933,12 @@ go_fourier_fftl
 <SECTION>
 <FILE>go-file</FILE>
 <TITLE>File utilities</TITLE>
-F_OK
+GO_F_OK
 GODotDot
 GOFilePermissions
-R_OK
-W_OK
-X_OK
+GO_R_OK
+GO_W_OK
+GO_X_OK
 go_basename_from_uri
 go_dirname_from_uri
 go_file_access
@@ -2748,6 +2748,7 @@ gog_axis_base_view_get_type
 GogAxisColorMap
 gog_axis_color_map_edit
 GogAxisColorMapHandler
+gog_axis_color_map_delete
 gog_axis_color_map_dup
 gog_axis_color_map_foreach
 gog_axis_color_map_from_colors
@@ -3405,8 +3406,10 @@ gog_styled_object_get_type
 <FILE>gog-theme</FILE>
 <TITLE>Theming</TITLE>
 GogTheme
+gog_theme_delete
 gog_theme_dup
 gog_theme_edit
+gog_theme_foreach
 gog_theme_fillin_style
 gog_theme_get_color_map
 gog_theme_get_description

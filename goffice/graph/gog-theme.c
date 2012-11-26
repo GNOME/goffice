@@ -558,32 +558,54 @@ desc_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->lang = NULL;
 }
 
+enum { /* used in theme editor to display the right snapshot */
+	SNAPSHOT_GRAPH,
+	SNAPSHOT_TRENDLINE,
+	SNAPSHOT_SERIES,
+	SNAPSHOT_SERIESLABELS,
+	SNAPSHOT_SERIESLINES,
+#ifdef GOFFICE_WITH_LASEM
+	SNAPSHOT_EQUATION,
+#endif
+};
+
+typedef struct {
+	char const *klass_name;
+	char const *role_id;
+	char const *label;
+	GOStyleFlag flags;
+	unsigned snapshot;
+} GogThemeRoles;
+
+static GogThemeRoles roles[] = {
+	{"GogGraph", NULL, N_("Graph"), GO_STYLE_FILL | GO_STYLE_OUTLINE, SNAPSHOT_GRAPH},
+	{"GogGraph", "Title", N_("Graph title"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_GRAPH},
+	{"GogChart", NULL, N_("Chart"), GO_STYLE_FILL | GO_STYLE_OUTLINE, SNAPSHOT_GRAPH},
+	{"GogChart", "Title", N_("Chart title"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_GRAPH},
+	{"GogLegend", NULL, N_("Legend"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT, SNAPSHOT_GRAPH},
+	{"GogAxis", NULL, N_("Axis"), GO_STYLE_LINE | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_GRAPH},
+	{"GogAxisLine", NULL, N_("Axis line"), GO_STYLE_LINE | GO_STYLE_FONT, SNAPSHOT_GRAPH},
+	{"GogGrid", NULL, N_("Backplane"), GO_STYLE_FILL | GO_STYLE_OUTLINE, SNAPSHOT_GRAPH},
+	{"GogGrid", "MajorGrid", N_("Major grid"), GO_STYLE_LINE | GO_STYLE_FILL, SNAPSHOT_GRAPH},
+	{"GogGrid", "MinorGrid", N_("Minor grid"), GO_STYLE_LINE | GO_STYLE_FILL, SNAPSHOT_GRAPH},
+	{"GogLabel", NULL, N_("Label"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_GRAPH},
+	{"GogTrendLine", NULL, N_("Trend line"), GO_STYLE_LINE, SNAPSHOT_TRENDLINE},
+	{"GogRegEqn", NULL, N_("Regression equation"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_TRENDLINE},
+#ifdef GOFFICE_WITH_LASEM
+	{"GogEquation", NULL, N_("Equation"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_EQUATION},
+#endif
+	{"GogSeriesLine", NULL, N_("Series lines"), GO_STYLE_LINE, SNAPSHOT_SERIESLINES},
+	{"GogSeries", NULL, N_("Series"), GO_STYLE_LINE | GO_STYLE_FILL | GO_STYLE_MARKER, SNAPSHOT_SERIES},
+	{"GogSeriesLabels", NULL, N_("Series labels"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_SERIESLABELS},
+	{"GogDataLabel", NULL, N_("Data label"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_SERIESLABELS}
+};
+
 static void
 gog_theme_add_element (GogTheme *theme, GOStyle *style,
 		       GogThemeStyleMap	map,
 		       char *klass_name, char *role_id)
 {
 	GogThemeElement *elem;
-	static struct {char const *klass_name; char const *role_id; unsigned fields;}
-	ifields[] = {
-		{"GogGraph", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL},
-		{"GogGraph", "Title", GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT},
-		{"GogChart", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL},
-		{"GogChart", "Title", GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT},
-		{"GogLegend", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT},
-		{"GogAxis", NULL, GO_STYLE_LINE | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT},
-		{"GogAxisLine", NULL, GO_STYLE_LINE | GO_STYLE_FONT},
-		{"GogGrid", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL},
-		{NULL, "MajorGrid", GO_STYLE_LINE | GO_STYLE_FILL},
-		{NULL, "MinorGrid", GO_STYLE_LINE | GO_STYLE_FILL},
-		{"GogLabel", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT},
-		{"GogSeries", NULL, GO_STYLE_LINE | GO_STYLE_FILL | GO_STYLE_MARKER},
-		{"GogTrendLine", NULL, GO_STYLE_LINE},
-		{"GogRegEqn", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT},
-		{"GogSeriesLabels", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT},
-		{"GogDataLabel", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT},
-		{"GogEquation", NULL, GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT}
-	};
 	unsigned i;
 
 	g_return_if_fail (theme != NULL);
@@ -595,19 +617,18 @@ gog_theme_add_element (GogTheme *theme, GOStyle *style,
 	elem->map   = map;
 
 	/* sets the needed insteresting_fields in style */
-	for (i = 0; i < G_N_ELEMENTS (ifields); i++) {
-		if ((klass_name && ifields[i].klass_name && strcmp (klass_name, ifields[i].klass_name))
-		    || (klass_name == NULL && ifields[i].klass_name != NULL) ||
-		    (klass_name != NULL && ifields[i].klass_name == NULL))
+	for (i = 0; i < G_N_ELEMENTS (roles); i++) {
+		if ((klass_name && roles[i].klass_name && strcmp (klass_name, roles[i].klass_name))
+		    || (klass_name != NULL && roles[i].klass_name == NULL))
 			continue;
-		if ((role_id && ifields[i].role_id && strcmp (role_id, ifields[i].role_id))
-		    || (role_id == NULL && ifields[i].role_id != NULL) ||
-		    (role_id != NULL && ifields[i].role_id == NULL))
+		if ((role_id && roles[i].role_id && strcmp (role_id, roles[i].role_id))
+		    || (role_id == NULL && roles[i].role_id != NULL) ||
+		    (role_id != NULL && roles[i].role_id == NULL))
 			continue;
-		style->interesting_fields = ifields[i].fields;
+		style->interesting_fields = roles[i].flags;
 		break;
 	}
-	if (i == G_N_ELEMENTS (ifields))
+	if (i == G_N_ELEMENTS (roles))
 		g_warning ("[GogTheme]: unregistered style class=%s role=%s\n",klass_name, role_id);
 	/* Never put an element into both by_role_id & by_class_name */
 	if (role_id != NULL) {
@@ -1205,10 +1226,19 @@ build_predefined_themes (void)
 			(gpointer)"GogSeriesElement", (gpointer)"GogSeries");
 		g_hash_table_insert (global_class_aliases,
 			(gpointer)"GogSeriesLines", (gpointer)"GogSeries");
+		g_hash_table_insert (global_class_aliases,
+			(gpointer)"GogSeriesLabels", (gpointer)"GogLabel");
+		g_hash_table_insert (global_class_aliases,
+			(gpointer)"GogDataLabel", (gpointer)"GogLabel");
+#ifdef GOFFICE_WITH_LASEM
+		g_hash_table_insert (global_class_aliases,
+			(gpointer)"GogEquation", (gpointer)"GogLabel");
+#endif
 	}
 
 	/* An MS Excel-ish theme */
 	theme = gog_theme_new (N_("Default"), GO_RESOURCE_NATIVE);
+	theme->description = g_strdup (_("An MS Excel like theme"));
 	gog_theme_registry_add (theme, TRUE);
 
 	/* graph */
@@ -1379,6 +1409,7 @@ build_predefined_themes (void)
 
 /* Guppi */
 	theme = gog_theme_new (N_("Guppi"), GO_RESOURCE_NATIVE);
+	theme->description = g_strdup (_("Guppi theme"));
 	gog_theme_registry_add (theme, FALSE);
 
 	/* graph */
@@ -1561,7 +1592,7 @@ theme_load_from_uri (char const *uri)
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogTheme]: Could not parse %s", uri);
 	if (state.theme != NULL) {
-		if (!go_file_access (uri, W_OK)) {
+		if (!go_file_access (uri, GO_W_OK)) {
 			state.theme->uri = g_strdup (uri);
 			if (state.theme->id == NULL) {
 				state.theme->id = go_uuid ();
@@ -1664,9 +1695,44 @@ gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
 	return NULL;
 }
 
+/**
+ * gog_theme_delete:
+ * @theme: a #GogTheme
+ *
+ * Destroys the theme and remove it from the user directory and from the
+ * database.
+ * Returns: %TRUE on success.
+ **/
+gboolean
+gog_theme_delete (GogTheme *theme)
+{
+	GFile *file = g_file_new_for_uri (theme->uri);
+	gboolean res;
+	if ((res = g_file_delete (file, NULL, NULL))) {
+		themes = g_slist_remove (themes, theme);
+		g_object_unref (theme);
+	}
+	g_object_unref (file);
+	return res;
+}
+
 /*****************
  * Theme edition *
  *****************/
+
+/**
+ * gog_theme_foreach:
+ * @handler: (scope call): a #GFunc using a theme as first argument
+ * @user_data: data to pass to @handler
+ *
+ * Executes @handler to each theme installed on the system, including built-in
+ * themes.
+ **/
+void
+gog_theme_foreach (GFunc handler, gpointer user_data)
+{
+	g_slist_foreach (themes, handler, user_data);
+}
 
 static void
 gog_theme_set_name (GogTheme *theme, char const *name)
@@ -1725,9 +1791,27 @@ gog_theme_dup (GogTheme *theme)
 	return new_theme;
 }
 
+#ifdef GOFFICE_WITH_GTK
+
+struct theme_edit_state {
+	GtkBuilder *gui;
+	GogTheme *theme;
+};
+
+static void
+create_toggled_cb (GtkListStore *list, char const *path) 
+{
+	GtkTreeIter iter;
+	gboolean set;
+	gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (list), &iter, path);
+	gtk_tree_model_get (GTK_TREE_MODEL (list), &iter, 1, &set, -1);
+	gtk_list_store_set (list, &iter, 1, !set, -1);
+}
+
 /**
  * gog_theme_edit:
  * @theme: the #GogTheme to edit or %NULL to create a new one.
+ * @cc: a #GOCmdContext or %NULL.
  *
  * Displays a dialog box to edit the theme. This can be done only for
  * locally installed themes that are writeable.
@@ -1735,7 +1819,59 @@ gog_theme_dup (GogTheme *theme)
  * been cancelled.
  **/
 GogTheme *
-gog_theme_edit (GogTheme *theme)
+gog_theme_edit (GogTheme *theme, GOCmdContext *cc)
 {
+	struct theme_edit_state state;
+	GtkWidget *w;
+
+	if (theme == NULL) {
+		/* display a dialog box to select used roles and series number */
+		GtkBuilder *gui = go_gtk_builder_load_internal ("res:go:graph/new-theme-prefs.ui", GETTEXT_PACKAGE, cc);
+		int response;
+		GtkWidget *w;
+		GtkListStore *l = GTK_LIST_STORE (gtk_builder_get_object (gui, "classes-list"));
+		GtkTreeView *tv = GTK_TREE_VIEW (gtk_builder_get_object (gui, "classes-tree"));
+		GtkCellRenderer *renderer;
+		GtkTreeViewColumn *column;
+		GtkTreeIter iter;
+		unsigned i;
+
+		renderer = gtk_cell_renderer_text_new ();
+		column = gtk_tree_view_column_new_with_attributes (_("Class"), renderer, "text", 0, NULL);
+		gtk_tree_view_append_column (tv, column);
+		renderer = gtk_cell_renderer_toggle_new ();
+		column = gtk_tree_view_column_new_with_attributes (_("Create"), renderer, "active", 1, NULL);
+		gtk_tree_view_append_column (tv, column);
+		for (i = 0; i < G_N_ELEMENTS (roles); i++) {
+			if (!strcmp (roles[i].klass_name, "Series"))
+				continue;
+			gtk_list_store_append (l, &iter);
+			gtk_list_store_set (l, &iter, 0, _(roles[i].label), 1, FALSE, 2, i, -1);
+		}
+		g_signal_connect_swapped (renderer, "toggled", G_CALLBACK (create_toggled_cb), l);
+
+		w = go_gtk_builder_get_widget (gui, "new-theme-prefs");
+		response = gtk_dialog_run (GTK_DIALOG (w));
+		gtk_widget_destroy (w);
+		g_object_unref (gui);
+		if (response == 1) {
+			theme = gog_theme_new (_("New theme"), FALSE);
+			theme->id = go_uuid ();
+			theme->type = GO_RESOURCE_RW;
+		} else
+			return NULL;
+	}
+
+	state.theme = theme;
+	state.gui = go_gtk_builder_load_internal ("res:go:graph/gog-theme-editor.ui", GETTEXT_PACKAGE, cc);
+
+	w = go_gtk_builder_get_widget (state.gui, "gog-theme-editor");
+	if (gtk_dialog_run (GTK_DIALOG (w))) {
+	}
+	gtk_widget_destroy (w);
+	g_object_unref (G_OBJECT (state.gui));
 	return NULL;
 }
+
+#endif
+

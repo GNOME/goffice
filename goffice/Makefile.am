@@ -567,6 +567,8 @@ embedded_stuff_compress = \
 	graph/gog-reg-eqn-prefs.ui		\
 	graph/gog-series-labels-prefs.ui	\
 	graph/gog-series-prefs.ui		\
+	graph/gog-theme-editor.ui		\
+	graph/new-theme-prefs.ui		\
 	gtk/go-3d-rotation-sel.ui		\
 	gtk/go-font-sel.ui			\
 	gtk/go-format-sel.ui			\

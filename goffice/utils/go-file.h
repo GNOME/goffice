@@ -49,11 +49,16 @@ typedef enum {
 	GO_DOTDOT_LEAVE         /* Leave alone.  */
 } GODotDot;
 
-#ifndef R_OK
-#  define F_OK 0
-#  define X_OK 1
-#  define W_OK 2
-#  define R_OK 4
+#ifdef R_OK
+#  define GO_F_OK F_OK
+#  define GO_X_OK X_OK
+#  define GO_W_OK W_OK
+#  define GO_R_OK R_OK
+#else
+#  define GO_F_OK 0
+#  define GO_X_OK 1
+#  define GO_W_OK 2
+#  define GO_R_OK 4
 #endif
 
 char *go_filename_simplify (const char *filename, GODotDot dotdot, gboolean make_absolute);

@@ -734,7 +734,7 @@ bin_changed_cb (GtkSpinButton *btn, struct color_map_edit_state *state)
 /**
  * gog_axis_color_map_edit:
  * @map: a #GogAxisColorMap or %NULL
- * @cc: a #GOCmdContext
+ * @cc: a #GOCmdContext or %NULL
  *
  * Opens a dialog to edit the color map. If @map is %NULL, creates a new one
  * unless the user cancels the edition.
@@ -880,7 +880,7 @@ color_map_load_from_uri (char const *uri)
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogAxisColorMap]: Could not parse %s", uri);
 	if (state.map != NULL) {
-		if (!go_file_access (uri, W_OK)) {
+		if (!go_file_access (uri, GO_W_OK)) {
 			state.map->uri = g_strdup (uri);
 			state.map->type = GO_RESOURCE_RW;
 		} else
@@ -959,6 +959,27 @@ gog_axis_color_map_get_from_id (char const *id)
 	map->id = g_strdup (id);
 	gog_axis_color_map_registry_add (map);
 	return map;
+}
+
+/**
+ * gog_axis_color_map_delete:
+ * @map: a #GogAxisColorMap
+ *
+ * Destroys the color map and remove it from the user directory and from the
+ * database.
+ * Returns: %TRUE on success.
+ **/
+gboolean
+gog_axis_color_map_delete (GogAxisColorMap *map)
+{
+	GFile *file = g_file_new_for_uri (map->uri);
+	gboolean res;
+	if ((res = g_file_delete (file, NULL, NULL))) {
+		color_maps = g_slist_remove (color_maps, map);
+		g_object_unref (map);
+	}
+	g_object_unref (file);
+	return res;
 }
 
 void

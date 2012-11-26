@@ -778,7 +778,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 	doc = go_xml_parse_file (file_name);
 	if (doc == NULL || doc->xmlRootNode == NULL || strcmp (doc->xmlRootNode->name, "plugin") != 0) {
 		char *uri = go_filename_to_uri (file_name);
-		if (go_file_access (uri, R_OK) != 0) {
+		if (go_file_access (uri, GO_R_OK) != 0) {
 			*ret_error = go_error_info_new_printf (
 			             _("Can't read plugin info file (\"%s\")."),
 			             file_name);
