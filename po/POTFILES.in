@@ -4,38 +4,38 @@
 [encoding: UTF-8]
 goffice/app/error-info.c
 goffice/app/error-info.h
-goffice/app/file-priv.h
 goffice/app/file.c
 goffice/app/file.h
+goffice/app/file-priv.h
 goffice/app/go-app.h
-goffice/app/go-cmd-context-impl.h
 goffice/app/go-cmd-context.c
 goffice/app/go-cmd-context.h
-goffice/app/go-doc-control-impl.h
+goffice/app/go-cmd-context-impl.h
+goffice/app/go-doc.c
 goffice/app/go-doc-control.c
 goffice/app/go-doc-control.h
-goffice/app/go-doc-impl.h
-goffice/app/go-doc.c
+goffice/app/go-doc-control-impl.h
 goffice/app/go-doc.h
+goffice/app/go-doc-impl.h
 goffice/app/go-error-stack.h
+goffice/app/goffice-app.h
 goffice/app/go-object.c
 goffice/app/go-object.h
-goffice/app/go-plugin-loader-module.c
-goffice/app/go-plugin-loader-module.h
-goffice/app/go-plugin-loader.c
-goffice/app/go-plugin-loader.h
-goffice/app/go-plugin-service-impl.h
-goffice/app/go-plugin-service.c
-goffice/app/go-plugin-service.h
 goffice/app/go-plugin.c
 goffice/app/go-plugin.h
-goffice/app/go-service-impl.h
+goffice/app/go-plugin-loader.c
+goffice/app/go-plugin-loader.h
+goffice/app/go-plugin-loader-module.c
+goffice/app/go-plugin-loader-module.h
+goffice/app/go-plugin-service.c
+goffice/app/go-plugin-service.h
+goffice/app/go-plugin-service-impl.h
 goffice/app/go-service.c
 goffice/app/go-service.h
-goffice/app/goffice-app.h
-goffice/app/io-context-priv.h
+goffice/app/go-service-impl.h
 goffice/app/io-context.c
 goffice/app/io-context.h
+goffice/app/io-context-priv.h
 goffice/app/module-plugin-defs.h
 goffice/canvas/goc-arc.c
 goffice/canvas/goc-circle.c
@@ -55,68 +55,68 @@ goffice/canvas/goc-styled-item.c
 goffice/canvas/goc-text.c
 goffice/canvas/goc-widget.c
 goffice/component/go-component-factory.c
+goffice/data/go-data.c
+goffice/data/go-data.h
 goffice/data/go-data-impl.h
 goffice/data/go-data-simple.c
 goffice/data/go-data-simple.h
-goffice/data/go-data.c
-goffice/data/go-data.h
 goffice/data/goffice-data.h
-goffice/goffice-priv.h
 goffice/goffice.c
 goffice/goffice.h
+goffice/goffice-priv.h
 goffice/graph/goffice-graph.h
-[type: gettext/glade]goffice/graph/gog-3d-box-prefs.ui
 goffice/graph/gog-3d-box.c
-goffice/graph/gog-axis-line.c
-[type: gettext/glade]goffice/graph/gog-axis-prefs.ui
+[type: gettext/glade]goffice/graph/gog-3d-box-prefs.ui
 goffice/graph/gog-axis.c
-goffice/graph/gog-axis.h
 goffice/graph/gog-axis-color-map.c
 [type: gettext/glade]goffice/graph/gog-axis-color-map-prefs.ui
-goffice/graph/gog-chart-impl.h
+goffice/graph/gog-axis.h
+goffice/graph/gog-axis-line.c
+[type: gettext/glade]goffice/graph/gog-axis-prefs.ui
 goffice/graph/gog-chart.c
 goffice/graph/gog-chart.h
-goffice/graph/gog-color-scale.c
+goffice/graph/gog-chart-impl.h
 goffice/graph/gog-child-button.c
+goffice/graph/gog-color-scale.c
 goffice/graph/gog-data-allocator.c
 goffice/graph/gog-data-allocator.h
 goffice/graph/gog-data-set.c
 goffice/graph/gog-data-set.h
 [type: gettext/glade]goffice/graph/gog-equation-prefs.ui
-[type: gettext/glade]goffice/graph/gog-error-bar-prefs.ui
 goffice/graph/gog-error-bar.c
 goffice/graph/gog-error-bar.h
-goffice/graph/gog-graph-impl.h
-[type: gettext/glade]goffice/graph/gog-graph-prefs.ui
+[type: gettext/glade]goffice/graph/gog-error-bar-prefs.ui
 goffice/graph/gog-graph.c
 goffice/graph/gog-graph.h
-goffice/graph/gog-grid-line.c
-goffice/graph/gog-grid-line.h
+goffice/graph/gog-graph-impl.h
+[type: gettext/glade]goffice/graph/gog-graph-prefs.ui
 goffice/graph/gog-grid.c
 goffice/graph/gog-grid.h
-[type: gettext/glade]goffice/graph/gog-guru-type-selector.ui
+goffice/graph/gog-grid-line.c
+goffice/graph/gog-grid-line.h
 goffice/graph/gog-guru.c
-[type: gettext/glade]goffice/graph/gog-guru.ui
 goffice/graph/gog-guru.h
+[type: gettext/glade]goffice/graph/gog-guru-type-selector.ui
+[type: gettext/glade]goffice/graph/gog-guru.ui
 goffice/graph/gog-label.c
 goffice/graph/gog-label.h
 goffice/graph/gog-legend.c
 goffice/graph/gog-legend.h
+goffice/graph/gog-object.c
+goffice/graph/gog-object.h
 [type: gettext/glade]goffice/graph/gog-object-prefs.ui
 goffice/graph/gog-object-xml.c
 goffice/graph/gog-object-xml.h
-goffice/graph/gog-object.c
-goffice/graph/gog-object.h
 goffice/graph/gog-outlined-object.c
 goffice/graph/gog-outlined-object.h
+goffice/graph/gog-plot.c
 goffice/graph/gog-plot-engine.c
 goffice/graph/gog-plot-engine.h
+goffice/graph/gog-plot.h
 goffice/graph/gog-plot-impl.h
 [type: gettext/glade]goffice/graph/gog-plot-prefs.ui
-goffice/graph/gog-plot.c
-goffice/graph/gog-plot.h
-[type: gettext/glade]goffice/graph/gog-reg-curve-prefs.ui
 goffice/graph/gog-reg-curve.c
+[type: gettext/glade]goffice/graph/gog-reg-curve-prefs.ui
 [type: gettext/glade]goffice/graph/gog-reg-eqn-prefs.ui
 goffice/graph/gog-renderer.c
 goffice/graph/gog-renderer.h
@@ -130,10 +130,12 @@ goffice/graph/gog-smoothed-curve.c
 goffice/graph/gog-styled-object.c
 goffice/graph/gog-styled-object.h
 goffice/graph/gog-theme.c
+[type: gettext/glade]goffice/graph/gog-theme-editor.ui
 goffice/graph/gog-theme.h
 goffice/graph/gog-trend-line.c
 goffice/graph/gog-view.c
 goffice/graph/gog-view.h
+[type: gettext/glade]goffice/graph/new-theme-prefs.ui
 [type: gettext/glade]goffice/gtk/go-3d-rotation-sel.ui
 goffice/gtk/go-action-combo-color.c
 goffice/gtk/go-action-combo-color.h
@@ -156,36 +158,36 @@ goffice/gtk/go-combo-color.c
 goffice/gtk/go-combo-color.h
 goffice/gtk/go-combo-pixmaps.c
 goffice/gtk/go-combo-pixmaps.h
+goffice/gtk/goffice-gtk.c
+goffice/gtk/goffice-gtk.h
 goffice/gtk/go-font-sel.c
-[type: gettext/glade]goffice/gtk/go-font-sel.ui
 goffice/gtk/go-font-sel.h
+[type: gettext/glade]goffice/gtk/go-font-sel.ui
 goffice/gtk/go-format-sel.c
-[type: gettext/glade]goffice/gtk/go-format-sel.ui
 goffice/gtk/go-format-sel.h
+[type: gettext/glade]goffice/gtk/go-format-sel.ui
 [type: gettext/glade]goffice/gtk/go-image-save-dialog-extra.ui
-[type: gettext/glade]goffice/gtk/go-image-sel.ui
 goffice/gtk/go-image-sel.c
+[type: gettext/glade]goffice/gtk/go-image-sel.ui
 goffice/gtk/go-locale-sel.c
 goffice/gtk/go-locale-sel.h
 goffice/gtk/go-optionmenu.c
 goffice/gtk/go-optionmenu.h
 goffice/gtk/go-palette.c
 goffice/gtk/go-rotation-sel.c
-[type: gettext/glade]goffice/gtk/go-rotation-sel.ui
 goffice/gtk/go-rotation-sel.h
-goffice/gtk/goffice-gtk.c
-goffice/gtk/goffice-gtk.h
+[type: gettext/glade]goffice/gtk/go-rotation-sel.ui
 goffice/math/go-complex.c
 goffice/math/go-complex.h
+goffice/math/go-cspline.c
+goffice/math/go-cspline.h
 goffice/math/go-distribution.c
 goffice/math/go-fft.c
 goffice/math/go-fft.h
-goffice/math/go-rangefunc.c
-goffice/math/go-rangefunc.h
-goffice/math/go-cspline.c
-goffice/math/go-cspline.h
 goffice/math/go-math.c
 goffice/math/go-math.h
+goffice/math/go-rangefunc.c
+goffice/math/go-rangefunc.h
 goffice/math/go-regression.c
 goffice/math/go-regression.h
 goffice/utils/datetime.c
@@ -194,6 +196,7 @@ goffice/utils/formats.c
 goffice/utils/go-color.c
 goffice/utils/go-color.h
 goffice/utils/go-emf.c
+goffice/utils/goffice-utils.h
 goffice/utils/go-file.c
 goffice/utils/go-file.h
 goffice/utils/go-font.c
@@ -223,45 +226,44 @@ goffice/utils/go-style.c
 goffice/utils/go-style.h
 [type: gettext/glade]goffice/utils/go-style-prefs.ui
 goffice/utils/go-units.h
-goffice/utils/goffice-utils.h
 goffice/utils/regutf8.c
 goffice/utils/regutf8.h
 plugins/plot_barcol/gog-1.5d.c
 plugins/plot_barcol/gog-1.5d.h
 [type: gettext/glade]plugins/plot_barcol/gog-area-prefs.ui
-plugins/plot_barcol/gog-barcol-prefs.c
-[type: gettext/glade]plugins/plot_barcol/gog-barcol-prefs.ui
 plugins/plot_barcol/gog-barcol.c
 plugins/plot_barcol/gog-barcol.h
+plugins/plot_barcol/gog-barcol-prefs.c
+[type: gettext/glade]plugins/plot_barcol/gog-barcol-prefs.ui
 plugins/plot_barcol/gog-dropbar.c
 plugins/plot_barcol/gog-line.c
 plugins/plot_barcol/gog-line.h
-[type: gettext/glade]plugins/plot_barcol/gog-minmax-prefs.ui
 plugins/plot_barcol/gog-minmax.c
+[type: gettext/glade]plugins/plot_barcol/gog-minmax-prefs.ui
 plugins/plot_barcol/plot-types.xml.in
 plugins/plot_barcol/plugin.xml.in
 plugins/plot_distrib/go-distribution-prefs.c
-[type: gettext/glade]plugins/plot_distrib/gog-boxplot-prefs.ui
-[type: gettext/glade]plugins/plot_distrib/gog-double-histogram-prefs.ui
-[type: gettext/glade]plugins/plot_distrib/gog-histogram-prefs.ui
 plugins/plot_distrib/gog-boxplot.c
 plugins/plot_distrib/gog-boxplot.h
+[type: gettext/glade]plugins/plot_distrib/gog-boxplot-prefs.ui
+[type: gettext/glade]plugins/plot_distrib/gog-double-histogram-prefs.ui
 plugins/plot_distrib/gog-histogram.c
+[type: gettext/glade]plugins/plot_distrib/gog-histogram-prefs.ui
 plugins/plot_distrib/gog-probability-plot.c
 plugins/plot_distrib/plot-types.xml.in
 plugins/plot_distrib/plugin.xml.in
+plugins/plot_pie/gog-pie.c
+plugins/plot_pie/gog-pie.h
 plugins/plot_pie/gog-pie-prefs.c
 [type: gettext/glade]plugins/plot_pie/gog-pie-prefs.ui
 [type: gettext/glade]plugins/plot_pie/gog-pie-series.ui
-plugins/plot_pie/gog-pie.c
-plugins/plot_pie/gog-pie.h
 [type: gettext/glade]plugins/plot_pie/gog-ring-prefs.ui
 plugins/plot_pie/plot-types.xml.in
 plugins/plot_pie/plugin.xml.in
-plugins/plot_radar/gog-radar.c
-plugins/plot_radar/gog-radar.h
 [type: gettext/glade]plugins/plot_radar/gog-color-polar-prefs.ui
 [type: gettext/glade]plugins/plot_radar/gog-polar-prefs.ui
+plugins/plot_radar/gog-radar.c
+plugins/plot_radar/gog-radar.h
 plugins/plot_radar/plot-types.xml.in
 plugins/plot_radar/plugin.xml.in
 plugins/plot_surface/gog-contour.c
@@ -282,14 +284,14 @@ plugins/plot_surface/xl-surface.c
 plugins/plot_surface/xl-surface.h
 plugins/plot_xy/gog-bubble-prefs.c
 [type: gettext/glade]plugins/plot_xy/gog-bubble-prefs.ui
-[type: gettext/glade]plugins/plot_xy/gog-xy-series-prefs.ui
+plugins/plot_xy/gog-xy.c
 [type: gettext/glade]plugins/plot_xy/gog-xy-color-prefs.ui
-[type: gettext/glade]plugins/plot_xy/gog-xy-prefs.ui
+plugins/plot_xy/gog-xy-dropbar.c
 [type: gettext/glade]plugins/plot_xy/gog-xy-dropbar-prefs.ui
 plugins/plot_xy/gog-xy.h
-plugins/plot_xy/gog-xy.c
-plugins/plot_xy/gog-xy-dropbar.c
 plugins/plot_xy/gog-xy-minmax.c
+[type: gettext/glade]plugins/plot_xy/gog-xy-prefs.ui
+[type: gettext/glade]plugins/plot_xy/gog-xy-series-prefs.ui
 plugins/plot_xy/plot-types.xml.in
 plugins/plot_xy/plugin.xml.in
 plugins/reg_linear/gog-exp-reg.c
@@ -303,9 +305,9 @@ plugins/reg_linear/reg-types.xml.in
 plugins/reg_logfit/gog-logfit.c
 plugins/reg_logfit/plugin.xml.in
 plugins/reg_logfit/reg-types.xml.in
-plugins/smoothing/gog-moving-avg.c
-[type: gettext/glade]plugins/smoothing/gog-moving-avg.ui
 plugins/smoothing/gog-exp-smooth.c
 [type: gettext/glade]plugins/smoothing/gog-exp-smooth.ui
+plugins/smoothing/gog-moving-avg.c
+[type: gettext/glade]plugins/smoothing/gog-moving-avg.ui
 plugins/smoothing/plugin.xml.in
 plugins/smoothing/types.xml.in
