@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-25 08:09+0000\n"
-"PO-Revision-Date: 2012-11-25 15:22+0100\n"
+"POT-Creation-Date: 2012-11-26 14:14+0000\n"
+"PO-Revision-Date: 2012-11-26 18:36+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -673,7 +673,7 @@ msgstr "Poloha horní strany grafu"
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:525
+#: ../goffice/graph/gog-graph.c:525 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Graf"
 
@@ -1325,7 +1325,7 @@ msgid "Grads"
 msgstr "Grady"
 
 #: ../goffice/graph/gog-axis.c:1493
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
 msgid "Discrete"
 msgstr "Diskrétní"
 
@@ -1405,7 +1405,7 @@ msgstr "VedlejšíMřížka"
 msgid "AxisLine"
 msgstr "ČáraOsy"
 
-#: ../goffice/graph/gog-axis.c:3038
+#: ../goffice/graph/gog-axis.c:3038 ../goffice/graph/gog-theme.c:591
 msgid "Label"
 msgstr "Popisek"
 
@@ -1493,40 +1493,45 @@ msgid "New map"
 msgstr "Nová mapa"
 
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-axis-color-map.c:972 ../goffice/graph/gog-theme.c:1211
+#: ../goffice/graph/gog-axis-color-map.c:993 ../goffice/graph/gog-theme.c:1240
 msgid "Default"
 msgstr "Výchozí"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
+#| msgid "Colored Polar"
+msgid "Color map editor"
+msgstr "Editor mapy barev"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
 msgid "<b>Current color stop</b>"
 msgstr "<b>Aktuální barevná zarážka</b>"
 
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
 msgid "Value"
 msgstr "Hodnota"
 
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
 msgid "Color"
 msgstr "Barva"
 
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
 #: ../goffice/graph/gog-guru.c:1031 ../goffice/graph/gog-series.c:576
 msgid "Name"
 msgstr "Název"
 
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
 msgid "Gradient"
 msgstr "Plynulý"
 
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
 msgid "<b>Snapshots</b>"
 msgstr "<b>Náhledy</b>"
 
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
 msgid "Define"
 msgstr "Definovat"
 
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:10
 msgid "Erase"
 msgstr "Smazat"
 
@@ -1534,7 +1539,7 @@ msgstr "Smazat"
 msgid "Plot area"
 msgstr "Oblast diagramu"
 
-#: ../goffice/graph/gog-chart.c:584
+#: ../goffice/graph/gog-chart.c:584 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
 msgstr "Podklad"
 
@@ -1591,11 +1596,13 @@ msgstr "Diagram"
 msgid "Title"
 msgstr "Název"
 
-#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-trend-line.c:97
+#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-theme.c:585
+#: ../goffice/graph/gog-trend-line.c:97
 msgid "Legend"
 msgstr "Legenda"
 
 #: ../goffice/graph/gog-chart.c:645 ../goffice/graph/gog-reg-curve.c:280
+#: ../goffice/graph/gog-theme.c:595
 msgid "Equation"
 msgstr "Rovnice"
 
@@ -1775,11 +1782,11 @@ msgstr "Uložit motiv jako samostatný soubor v domovské složce uživatele."
 
 #. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
-#: ../goffice/graph/gog-theme.c:1376 ../goffice/graph/gog-theme.c:1540
+#: ../goffice/graph/gog-theme.c:1406 ../goffice/graph/gog-theme.c:1571
 msgid "Theme"
 msgstr "Motiv"
 
-#: ../goffice/graph/gog-graph.c:421
+#: ../goffice/graph/gog-graph.c:421 ../goffice/graph/gog-theme.c:583
 msgid "Chart"
 msgstr "Graf"
 
@@ -2212,7 +2219,7 @@ msgstr "Bublinová osa:"
 msgid "Axes"
 msgstr "Osa"
 
-#: ../goffice/graph/gog-plot.c:437
+#: ../goffice/graph/gog-plot.c:437 ../goffice/graph/gog-theme.c:598
 msgid "Series"
 msgstr "Řady"
 
@@ -2514,7 +2521,7 @@ msgstr "Bod"
 msgid "Regression curve"
 msgstr "Regresní křivka"
 
-#: ../goffice/graph/gog-series.c:751
+#: ../goffice/graph/gog-series.c:751 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
 msgstr "Čára trendu"
 
@@ -2681,10 +2688,75 @@ msgstr "Vyhlazená křivka"
 msgid "The resource type for the theme"
 msgstr "Typ prostředku pro motiv"
 
+#: ../goffice/graph/gog-theme.c:582
+#| msgid "Graph"
+msgid "Graph title"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:584
+msgid "Chart title"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:586
+#| msgid "X-Axis"
+msgid "Axis"
+msgstr "Osa"
+
+#: ../goffice/graph/gog-theme.c:587
+#| msgid "AxisLine"
+msgid "Axis line"
+msgstr "Čára osy"
+
+#: ../goffice/graph/gog-theme.c:589
+#| msgid "MajorGrid"
+msgid "Major grid"
+msgstr "Hlavní mřížka"
+
+#: ../goffice/graph/gog-theme.c:590
+#| msgid "MinorGrid"
+msgid "Minor grid"
+msgstr "Vedlejší mřížka"
+
+#: ../goffice/graph/gog-theme.c:593
+msgid "Regression equation"
+msgstr "Regresní rovnice"
+
+#: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:643
+msgid "Series lines"
+msgstr "Čáry řad"
+
+#: ../goffice/graph/gog-theme.c:599
+msgid "Series labels"
+msgstr "Popisky řad"
+
+#: ../goffice/graph/gog-theme.c:600
+msgid "Data label"
+msgstr "Popisek dat"
+
+#: ../goffice/graph/gog-theme.c:1241
+msgid "An MS Excel like theme"
+msgstr "Motiv ve stylu MS Excel"
+
 #. Guppi
-#: ../goffice/graph/gog-theme.c:1381
+#: ../goffice/graph/gog-theme.c:1411
 msgid "Guppi"
 msgstr "Guppi"
+
+#: ../goffice/graph/gog-theme.c:1412
+msgid "Guppi theme"
+msgstr "Motiv Guppi"
+
+#: ../goffice/graph/gog-theme.c:1840
+msgid "Class"
+msgstr "Třída"
+
+#: ../goffice/graph/gog-theme.c:1843
+msgid "Create"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:1858
+msgid "New theme"
+msgstr "Nový motiv"
 
 #: ../goffice/graph/gog-trend-line.c:90
 #: ../plugins/plot_barcol/gog-barcol.c:166
@@ -4265,12 +4337,10 @@ msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Velká Británie/skotská galština (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
-#| msgid "Eritrea/Ge'ez “gez_ER)"
 msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr "Eritrea/ge'ez (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
-#| msgid "Ethiopia/Ge'ez “gez_ET)"
 msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr "Etiopie/ge'ez (gez_ET)"
 
@@ -4279,7 +4349,6 @@ msgid "Spain/Galician (gl_ES)"
 msgstr "Španělsko/galicijština (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
-#| msgid "India/Gurajati “gu_IN)"
 msgid "India/Gujarati (gu_IN)"
 msgstr "Indie/gudžarátština (gu_IN)"
 
@@ -4776,7 +4845,6 @@ msgid "Switzerland/Walser (wae_CH)"
 msgstr "Švýcarsko/walserština (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
-#| msgid "Ethiopia/Walaita (wal_ET)"
 msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr "Etiopie/walamština (wal_ET)"
 
@@ -6354,10 +6422,6 @@ msgstr "Hodnoty"
 #: ../plugins/plot_barcol/gog-1.5d.c:623 ../plugins/plot_barcol/gog-1.5d.c:686
 msgid "Error bars"
 msgstr "Sloupce chyby"
-
-#: ../plugins/plot_barcol/gog-1.5d.c:643
-msgid "Series lines"
-msgstr "Čáry řad"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:650
 #: ../plugins/plot_distrib/gog-histogram.c:1095
