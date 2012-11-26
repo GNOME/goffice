@@ -8487,7 +8487,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				use_literal_E = FALSE;
 #endif
 #endif
-			
+
 			if (*xl == '+') {
 				forced_exponent_sign = TRUE;
 				xl++;

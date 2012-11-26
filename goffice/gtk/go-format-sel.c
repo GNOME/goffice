@@ -91,7 +91,7 @@ typedef enum {
 	F_SYMBOL_LABEL,		F_SYMBOL,
 	F_ENTRY,
 	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
-	F_DECIMAL_SPIN,		
+	F_DECIMAL_SPIN,
 	F_FORCE_EXPONENT_SIGN_BUTTON,
 	F_ENGINEERING_BUTTON,
 	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
@@ -472,7 +472,7 @@ cb_separator_toggle (GtkWidget *w, GOFormatSel *gfs)
 static void
 cb_force_exponent_sign_toggle (GtkWidget *w, GOFormatSel *gfs)
 {
-	gfs->format.details.exponent_sign_forced = 
+	gfs->format.details.exponent_sign_forced =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	draw_format_preview (gfs, TRUE);

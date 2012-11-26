@@ -1799,7 +1799,7 @@ struct theme_edit_state {
 };
 
 static void
-create_toggled_cb (GtkListStore *list, char const *path) 
+create_toggled_cb (GtkListStore *list, char const *path)
 {
 	GtkTreeIter iter;
 	gboolean set;
