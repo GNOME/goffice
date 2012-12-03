@@ -14,7 +14,8 @@ INTROSPECTION_COMPILER_ARGS = \
 #app directory files
 
 noinst_HEADERS = \
-	app/file-priv.h
+	app/file-priv.h \
+	goffice-debug.h
 
 app_SOURCES = \
 	app/go-doc.c 			\

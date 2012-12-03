@@ -19,6 +19,7 @@
  * USA
  */
 #include <goffice/goffice-config.h>
+#include <goffice/goffice-debug.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-view.h>

@@ -1,3 +1,16 @@
+2012-12-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: rquire lasem >= 0.4.1.
+	* goffice/Makefile.am: add goffice-debug.h.
+	* goffice/goffice-debug.h: new private header.
+	* goffice/app/go-plugin.c: moved debug declarations to goffice-debug.h.
+	* goffice/app/go-plugin.h: ditto.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-object.c: ditto.
+	* goffice/graph/gog-renderer.c: ditto.
+	* goffice/graph/gog-view.c: ditto.
+
 2012-11-29  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

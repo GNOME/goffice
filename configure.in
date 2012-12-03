@@ -133,16 +133,16 @@ AC_ARG_WITH(lasem,
 AS_CASE([$with_lasem],
 	[no],[found_lasem="disabled by request"],
 	[auto], [
-	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.3.4,
+	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.4.1,
 	[found_lasem="yes";goffice_with_lasem=true], [found_lasem="no, missing or too old lasem library"])
 	],
 	[yes],[found_lasem="yes";
-	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.3.4);
+	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.4.1);
 	goffice_with_lasem=true
 	],[AC_MSG_ERROR([invalid argument passed to --with-lasem, should be one of @<:@no/auto/yes@:>@])])
 if test "x$goffice_with_lasem" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_LASEM, 1, [Define if Lasem is used])
-	goffice_reqs="$goffice_reqs lasem-0.4 >= 0.3.4 "
+	goffice_reqs="$goffice_reqs lasem-0.4 >= 0.4.1 "
 	EXTRA_DEPS="$EXTRA_DEPS lasem-0.4"
 fi
 

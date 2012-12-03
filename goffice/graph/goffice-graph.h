@@ -225,14 +225,6 @@ typedef enum {
 #define GOG_POSITION_IS_SPECIAL(pos) (((pos) & GOG_POSITION_SPECIAL)&&(!((pos) & GOG_POSITION_MANUAL)))
 #define GOG_POSITION_IS_PADDING(pos) (((pos) & GOG_POSITION_PADDING)&&(!((pos) & GOG_POSITION_MANUAL)))
 
-/* #define NO_DEBUG_CHARTS */
-#ifndef NO_DEBUG_CHARTS
-#define gog_debug(level, code)	do { if (goffice_graph_debug_level > level) { code } } while (0)
-#else
-#define gog_debug(level, code)
-#endif
-extern int goffice_graph_debug_level;
-
 G_END_DECLS
 
 #include <goffice/goffice.h>

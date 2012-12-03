@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <goffice/goffice-debug.h>
 #include "gog-axis-line-impl.h"
 
 #include <gsf/gsf-impl-utils.h>

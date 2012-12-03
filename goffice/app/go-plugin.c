@@ -27,6 +27,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice-priv.h>
 #include <goffice/goffice-paths.h>
+#include <goffice/goffice-debug.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-loader.h>

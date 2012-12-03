@@ -6,13 +6,6 @@
 
 G_BEGIN_DECLS
 
-/*
- * Use "#define PLUGIN_DEBUG x" to enable some plugin related debugging
- * messages.
-#undef PLUGIN_DEBUG
- * Define PLUGIN_ALWAYS_LOAD to disable loading on demand feature
- */
-
 #define GO_TYPE_PLUGIN	(go_plugin_get_type ())
 #define GO_PLUGIN(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_PLUGIN, GOPlugin))
 #define GO_IS_PLUGIN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_PLUGIN))
