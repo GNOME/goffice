@@ -24,6 +24,7 @@ IGNORE_HFILES=	\
 		goffice-config.h        		\
 		goffice-features.h      		\
 		goffice-paths.h				\
+		goffice-debug.h				\
 		io-context-priv.h       		\
 		go-app.h       				\
 		go-object.h       			\
