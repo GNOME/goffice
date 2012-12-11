@@ -2579,8 +2579,6 @@ GogRegEqn
 GogRenderer
 GogSeriesElementStyleList
 GogSeriesLines
-goffice_graph_debug_level
-gog_debug
 <SUBSECTION Standard>
 GOG_POSITION_IS_PADDING
 GOG_POSITION_IS_SPECIAL
