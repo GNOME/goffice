@@ -851,11 +851,22 @@ go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t 
 	return component->snapshot_data;
 }
 
-void go_component_set_font (GOComponent *component, PangoFontDescription const *desc)
+/**
+ * go_component_set_font:
+ * @component: #GOComponent
+ * @desc: #PangoFontDescription
+ *
+ * Sets the font the component should use. Not all components will actually
+ * changed the font they use.
+ * Returns: %TRUE if size changed.
+ */
+
+gboolean go_component_set_font (GOComponent *component, PangoFontDescription const *desc)
 {
 	GOComponentClass *klass = GO_COMPONENT_GET_CLASS (component);
 	if (klass->set_font)
-		klass->set_font (component, desc);
+		return klass->set_font (component, desc);
+	return FALSE;
 }
 
 /**
