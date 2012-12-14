@@ -92,7 +92,7 @@ Jean:
 	* Fixed logfit equation typo. [#675560]
 	* Fix text item position when clipped. [#676067]
 	* Fix criticals when adding a trend line. [#676641]
-	* Fix trend lines limits for impled X values.
+	* Fix trend lines limits for implied X values.
 
 --------------------------------------------------------------------------
 goffice 0.9.3:
