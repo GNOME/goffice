@@ -72,8 +72,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Current color stop&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Current color stop</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -192,8 +194,10 @@
                 <property name="margin_top">6</property>
                 <property name="xalign">0</property>
                 <property name="ypad">5</property>
-                <property name="label" translatable="yes">&lt;b&gt;Snapshots&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Snapshots</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="left_attach">0</property>

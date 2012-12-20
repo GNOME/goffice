@@ -112,8 +112,10 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="xalign">0</property>
-        <property name="label" translatable="yes">&lt;b&gt;Major ticks&lt;/b&gt;</property>
-        <property name="use_markup">True</property>
+        <property name="label" translatable="yes">Major ticks</property>
+        <attributes>
+         <attribute name="weight" value="bold"/>
+        </attributes>
       </object>
       <packing>
         <property name="left_attach">0</property>
@@ -194,8 +196,10 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;b&gt;Position&lt;/b&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Position</property>
+            <attributes>
+             <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -386,8 +390,10 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;b&gt;Minor ticks&lt;/b&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Minor ticks</property>
+            <attributes>
+             <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -459,8 +465,10 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="xalign">0</property>
-        <property name="label" translatable="yes">&lt;b&gt;Bounds&lt;/b&gt;</property>
-        <property name="use_markup">True</property>
+        <property name="label" translatable="yes">Bounds</property>
+        <attributes>
+         <attribute name="weight" value="bold"/>
+        </attributes>
       </object>
       <packing>
         <property name="left_attach">0</property>
@@ -653,8 +661,10 @@
         <property name="can_focus">False</property>
         <property name="margin_top">6</property>
         <property name="xalign">0</property>
-        <property name="label" translatable="yes">&lt;b&gt;Mapping&lt;/b&gt;</property>
-        <property name="use_markup">True</property>
+        <property name="label" translatable="yes">Mapping</property>
+        <attributes>
+         <attribute name="weight" value="bold"/>
+        </attributes>
       </object>
       <packing>
         <property name="left_attach">0</property>
