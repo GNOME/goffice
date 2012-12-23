@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-23 17:34-0500\n"
-"PO-Revision-Date: 2012-12-23 18:01-0500\n"
+"POT-Creation-Date: 2012-12-23 18:03-0500\n"
+"PO-Revision-Date: 2012-12-23 18:05-0500\n"
 "Last-Translator: Konstantin Tokarev <annulen@yandex.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "Language: \n"
@@ -187,7 +187,9 @@ msgstr "Неизвестное название дополнения."
 #: ../goffice/app/go-plugin.c:891
 #, c-format
 msgid "No loader defined or loader ID invalid for plugin with ID=\"%s\"."
-msgstr "Не определен загрузчик или его идентификатор недопустим для дополнения с идентификатором \"%s\"."
+msgstr ""
+"Не определен загрузчик или его идентификатор недопустим для дополнения с "
+"идентификатором \"%s\"."
 
 #: ../goffice/app/go-plugin.c:897
 msgid "Plugin has no id."
@@ -512,7 +514,7 @@ msgstr "Конечный угол дуги"
 #: ../goffice/canvas/goc-arc.c:472 ../goffice/canvas/goc-component.c:295
 #: ../goffice/canvas/goc-ellipse.c:261 ../goffice/canvas/goc-path.c:275
 #: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:475
-#: ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Вращение"
 
@@ -902,6 +904,7 @@ msgid "The round rectangle ry"
 msgstr "Вертикальный радиус закругления для скруглённого прямоугольника"
 
 #: ../goffice/canvas/goc-styled-item.c:160
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:6
 #: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1105
 msgid "Style"
 msgstr "Стиль"
@@ -1041,8 +1044,8 @@ msgid "Field of view"
 msgstr ""
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:1
-msgid "<b>Euler angles</b>"
-msgstr "<b>Эйлеровы углы</b>"
+msgid "Euler angles"
+msgstr "Эйлеровские углы"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:2
 msgid "Psi:"
@@ -1240,7 +1243,7 @@ msgid "Color map editor"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
-msgid "<b>Current color stop</b>"
+msgid "Current color stop"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
@@ -1253,6 +1256,7 @@ msgstr "Цвет"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
 #: ../goffice/graph/gog-guru.c:1031 ../goffice/graph/gog-series.c:576
+#: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "Название"
 
@@ -1261,7 +1265,7 @@ msgid "Gradient"
 msgstr "Градиент"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
-msgid "<b>Snapshots</b>"
+msgid "Snapshots"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
@@ -1386,8 +1390,8 @@ msgid "End:"
 msgstr "Конец:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:5
-msgid "<b>Major ticks</b>"
-msgstr "<b>Основные деления</b>"
+msgid "Major ticks"
+msgstr "Основные деления"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:6
 msgid "_Outside"
@@ -1401,9 +1405,11 @@ msgstr "Внутри"
 msgid "_Show Labels"
 msgstr "Показать метки"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:9
-msgid "<b>Position</b>"
-msgstr "<b>Расположение</b>"
+#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:751
+#: ../goffice/graph/gog-object.c:795 ../goffice/graph/gog-series-labels.c:879
+#: ../goffice/graph/gog-series-labels.c:1405
+msgid "Position"
+msgstr "Позиция"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:10
 msgid "_Low"
@@ -1432,8 +1438,8 @@ msgid "pts"
 msgstr "тчк"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:16
-msgid "<b>Minor ticks</b>"
-msgstr "<b>Вспомогательные деления</b>"
+msgid "Minor ticks"
+msgstr "Вспомогательные деления"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:17
 msgid "O_utside"
@@ -1444,8 +1450,8 @@ msgid "I_nside"
 msgstr "Внутри"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:19
-msgid "<b>Bounds</b>"
-msgstr "<b>Пределы</b>"
+msgid "Bounds"
+msgstr "Границы"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
 #: ../goffice/graph/gog-object-prefs.ui.h:15
@@ -1479,8 +1485,8 @@ msgid "degrees"
 msgstr "градусов"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:26
-msgid "<b>Mapping</b>"
-msgstr "<b>Отображение</b>"
+msgid "Mapping"
+msgstr "Отображение"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:27
 msgid "New"
@@ -1701,12 +1707,8 @@ msgid "Percent"
 msgstr "В процентах"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:5
-msgid "<b>Error category</b>"
-msgstr "<b>Категория ошибки</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-msgid "<b>Style</b>"
-msgstr "<b>Стиль</b>"
+msgid "Error category"
+msgstr "Категория ошибки"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:7
 msgid "Dis_play:"
@@ -1727,8 +1729,13 @@ msgid "Colo_r:"
 msgstr "Цвет:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:12
-msgid "<b>Values</b>"
-msgstr "<b>Значения</b>"
+#: ../plugins/plot_barcol/gog-1.5d.c:364
+#: ../plugins/plot_distrib/gog-boxplot.c:428
+#: ../plugins/plot_distrib/gog-histogram.c:390
+#: ../plugins/plot_distrib/gog-probability-plot.c:317
+#: ../plugins/plot_pie/gog-pie.c:340 ../plugins/plot_radar/gog-radar.c:323
+msgid "Values"
+msgstr "Значения"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:13
 msgid "(+)"
@@ -1821,20 +1828,17 @@ msgid "_Insert"
 msgstr "Вст_авка"
 
 #: ../goffice/graph/gog-guru.c:1216
+#: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "Тип графика"
 
-#: ../goffice/graph/gog-guru-type-selector.ui.h:1
-msgid "<b>_Plot Type</b>"
-msgstr "<b>Тип графика</b>"
-
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
-msgid "<b>Sample</b>"
-msgstr "<b>Пример</b>"
+msgid "Sample"
+msgstr "Пример"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
-msgid "<b>_Subtype</b>"
-msgstr "<b>Подтип</b>"
+msgid "_Subtype"
+msgstr "Подтип"
 
 #: ../goffice/graph/gog-label.c:149
 msgid "Allow markup"
@@ -1986,7 +1990,7 @@ msgstr "Слева"
 msgid "Top left"
 msgstr "Сверху слева"
 
-#: ../goffice/graph/gog-object.c:176
+#: ../goffice/graph/gog-object.c:176 ../goffice/utils/go-style-prefs.ui.h:24
 msgid "Fill"
 msgstr "Заполнить"
 
@@ -2004,12 +2008,6 @@ msgstr "Конец"
 #: ../goffice/graph/gog-series.c:111
 msgid "Center"
 msgstr "По центру"
-
-#: ../goffice/graph/gog-object.c:751 ../goffice/graph/gog-object.c:795
-#: ../goffice/graph/gog-series-labels.c:879
-#: ../goffice/graph/gog-series-labels.c:1405
-msgid "Position"
-msgstr "Позиция"
 
 #: ../goffice/graph/gog-object.c:789
 msgid "Object ID"
@@ -2332,11 +2330,12 @@ msgid "High bound:"
 msgstr "Верхняя граница:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
-msgid "<b>Used data</b>"
-msgstr ""
+#: ../goffice/graph/gog-series-labels.c:452
+msgid "Used data"
+msgstr "Использованные данные"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
-msgid "<b>Drawing Limits:</b>"
+msgid "Drawing Limits:"
 msgstr ""
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:7
@@ -2492,7 +2491,7 @@ msgstr "Показывать в легенде"
 msgid "Should the series show up in legends"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:800
+#: ../goffice/graph/gog-series.c:800 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr "Интерполяция"
 
@@ -2543,10 +2542,6 @@ msgstr "Другие метки"
 #: ../goffice/graph/gog-series-labels.c:444
 msgid "Available data"
 msgstr "Доступные данные"
-
-#: ../goffice/graph/gog-series-labels.c:452
-msgid "Used data"
-msgstr "Использованные данные"
 
 #: ../goffice/graph/gog-series-labels.c:497
 #: ../goffice/graph/gog-series-labels.c:565
@@ -2608,10 +2603,6 @@ msgstr "Разделитель:"
 #: ../goffice/graph/gog-series-prefs.ui.h:1
 msgid "Fill _to:"
 msgstr ""
-
-#: ../goffice/graph/gog-series-prefs.ui.h:2
-msgid "<b>Interpolation</b>"
-msgstr "<b>Интерполяция</b>"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:3
 msgid "S_kip invalid data"
@@ -2712,16 +2703,12 @@ msgstr "Новая тема"
 msgid "Theme editor"
 msgstr "Редактор тем"
 
-#: ../goffice/graph/gog-theme-editor.ui.h:2
-msgid "<b>Name</b>"
-msgstr "<b>Название</b>"
-
 #: ../goffice/graph/gog-theme-editor.ui.h:3
 msgid "Classes"
 msgstr ""
 
 #: ../goffice/graph/gog-theme-editor.ui.h:5
-msgid "<b>Snapshot</b>"
+msgid "Snapshot"
 msgstr ""
 
 #: ../goffice/graph/gog-trend-line.c:90
@@ -2773,10 +2760,6 @@ msgstr ""
 #: ../goffice/graph/new-theme-prefs.ui.h:2
 msgid "Series number"
 msgstr ""
-
-#: ../goffice/gtk/go-3d-rotation-sel.ui.h:1
-msgid "<b>Rotation</b>"
-msgstr "<b>Вращение</b>"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -4936,8 +4919,8 @@ msgid "Custom..."
 msgstr "Другой..."
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
-msgid "<b>Orientation</b>"
-msgstr "<b>Ориентация</b>"
+msgid "Orientation"
+msgstr "Ориентация"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:2
 msgid "A_ngle:"
@@ -6189,20 +6172,17 @@ msgid "centered wallpaper"
 msgstr ""
 
 #: ../goffice/utils/go-style-prefs.ui.h:22
-msgid "<b>Outline</b>"
-msgstr "<b>Контур</b>"
+msgid "Outline"
+msgstr "Контур"
 
 #: ../goffice/utils/go-style-prefs.ui.h:23
-msgid "<b>Line</b>"
-msgstr "<b>Линия</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:24
-msgid "<b>Fill</b>"
-msgstr "<b>Заливка</b>"
+#: ../plugins/plot_barcol/plot-types.xml.in.h:1
+msgid "Line"
+msgstr "Линия"
 
 #: ../goffice/utils/go-style-prefs.ui.h:25
-msgid "<b>Marker</b>"
-msgstr "<b>Отметка</b>"
+msgid "Marker"
+msgstr "Метка"
 
 #: ../goffice/utils/go-style-prefs.ui.h:26
 msgid "_Fill:"
@@ -6377,14 +6357,6 @@ msgstr ""
 msgid "Labels"
 msgstr "Метки"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:364
-#: ../plugins/plot_distrib/gog-boxplot.c:428
-#: ../plugins/plot_distrib/gog-histogram.c:390
-#: ../plugins/plot_distrib/gog-probability-plot.c:317
-#: ../plugins/plot_pie/gog-pie.c:340 ../plugins/plot_radar/gog-radar.c:323
-msgid "Values"
-msgstr "Значения"
-
 #: ../plugins/plot_barcol/gog-1.5d.c:623 ../plugins/plot_barcol/gog-1.5d.c:686
 msgid "Error bars"
 msgstr "Строки ошибок"
@@ -6539,10 +6511,6 @@ msgstr "Мин"
 #: ../plugins/plot_xy/gog-xy-minmax.c:312
 msgid "Max"
 msgstr "Макс"
-
-#: ../plugins/plot_barcol/plot-types.xml.in.h:1
-msgid "Line"
-msgstr "Линия"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:2
 msgid "Area"
@@ -8244,3 +8212,45 @@ msgstr "Типы сглаженных кривых"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr ""
+
+#~ msgid "<b>Euler angles</b>"
+#~ msgstr "<b>Эйлеровы углы</b>"
+
+#~ msgid "<b>Major ticks</b>"
+#~ msgstr "<b>Основные деления</b>"
+
+#~ msgid "<b>Position</b>"
+#~ msgstr "<b>Расположение</b>"
+
+#~ msgid "<b>Minor ticks</b>"
+#~ msgstr "<b>Вспомогательные деления</b>"
+
+#~ msgid "<b>Style</b>"
+#~ msgstr "<b>Стиль</b>"
+
+#~ msgid "<b>Values</b>"
+#~ msgstr "<b>Значения</b>"
+
+#~ msgid "<b>_Plot Type</b>"
+#~ msgstr "<b>Тип графика</b>"
+
+#~ msgid "<b>Interpolation</b>"
+#~ msgstr "<b>Интерполяция</b>"
+
+#~ msgid "<b>Name</b>"
+#~ msgstr "<b>Название</b>"
+
+#~ msgid "<b>Rotation</b>"
+#~ msgstr "<b>Вращение</b>"
+
+#~ msgid "<b>Outline</b>"
+#~ msgstr "<b>Контур</b>"
+
+#~ msgid "<b>Line</b>"
+#~ msgstr "<b>Линия</b>"
+
+#~ msgid "<b>Fill</b>"
+#~ msgstr "<b>Заливка</b>"
+
+#~ msgid "<b>Marker</b>"
+#~ msgstr "<b>Отметка</b>"
