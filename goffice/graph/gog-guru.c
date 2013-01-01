@@ -270,7 +270,6 @@ cb_key_press_event (G_GNUC_UNUSED GtkWidget *wrapper,
 		    GdkEventKey *event,
 		    GraphGuruTypeSelector *typesel)
 {
-	GtkCornerType corner;
 	int col, row;
 	double x, y;
 	GogPlotType const *type = g_object_get_data (
@@ -281,24 +280,24 @@ cb_key_press_event (G_GNUC_UNUSED GtkWidget *wrapper,
 	col = type->col;
 	row = type->row;
 
-	switch (event->keyval){
-	case GDK_KEY_KP_Left:	case GDK_KEY_Left:
-		corner = GTK_CORNER_BOTTOM_RIGHT;
+	switch (event->keyval) {
+	case GDK_KEY_KP_Left:
+	case GDK_KEY_Left:
 		--col;
 		break;
 
-	case GDK_KEY_KP_Up:	case GDK_KEY_Up:
-		corner = GTK_CORNER_BOTTOM_RIGHT;
+	case GDK_KEY_KP_Up:
+	case GDK_KEY_Up:
 		--row;
 		break;
 
-	case GDK_KEY_KP_Right:	case GDK_KEY_Right:
-		corner = GTK_CORNER_TOP_LEFT;
+	case GDK_KEY_KP_Right:
+	case GDK_KEY_Right:
 		++col;
 		break;
 
-	case GDK_KEY_KP_Down:	case GDK_KEY_Down:
-		corner = GTK_CORNER_TOP_LEFT;
+	case GDK_KEY_KP_Down:
+	case GDK_KEY_Down:
 		++row;
 		break;
 

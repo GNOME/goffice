@@ -682,7 +682,7 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 	GogChartMapPolarData *polar_parms;
 	GOPath *path;
 	int i, n_valid_points = 0;
-	double xx, yy, last_xx = 0.0, last_yy = 0.0;
+	double xx, yy;
 	double cx, cy, rx, ry;
 	double rho, rho_min, rho_max, theta, last_rho = 0.0, last_theta = 0.0;
 	gboolean is_inverted;
@@ -750,8 +750,6 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 						g_assert_not_reached ();
 						break;
 				}
-			last_xx = xx;
-			last_yy = yy;
 			last_theta = theta;
 			last_rho = rho;
 		} else if (!skip_invalid)

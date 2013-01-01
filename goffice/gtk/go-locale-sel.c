@@ -780,8 +780,9 @@ ls_set_property (GObject      *object,
 		 const GValue *value,
 		 GParamSpec   *pspec)
 {
-	GOLocaleSel *ls;
-	ls = GO_LOCALE_SEL (object);
+#if 0
+	GOLocaleSel *ls = GO_LOCALE_SEL (object);
+#endif
 
 	switch (prop_id)
 	{
@@ -798,9 +799,9 @@ ls_get_property (GObject     *object,
 		 GValue      *value,
 		 GParamSpec  *pspec)
 {
-	GOLocaleSel *ls;
-
-	ls = GO_LOCALE_SEL (object);
+#if 0
+	GOLocaleSel *ls = GO_LOCALE_SEL (object);
+#endif
 
 	switch (prop_id)
 	{

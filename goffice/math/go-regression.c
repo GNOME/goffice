@@ -850,7 +850,6 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 	}
 
 	if (has_result) {
-		GORegressionResult err2;
 		QUAD *inv = g_new (QUAD, xdim);
 		int err;
 		int k;
@@ -900,7 +899,6 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 		}
 		stat_->var = SUFFIX(go_quad_value) (&N2);
 
-		err2 = GO_REG_ok;
 		stat_->se = g_new (DOUBLE, xdim);
 		for (k = 0; k < xdim; k++) {
 			/* Solve R^T z = e_k */
