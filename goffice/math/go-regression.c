@@ -315,15 +315,24 @@ SUFFIX(QR) (CONSTMATRIX A, QMATRIX Q, QMATRIX R, int m, int n)
 		for (j = 0; j < n; j++)
 			SUFFIX(go_quad_init) (&Q[i][j], A[i][j]);
 
+#ifdef DEBUG_QR
+	for (i = 0; i < m; i++)
+		for (j = 0; j < m; j++)
+			SUFFIX(go_quad_init) (&R[i][j], -42);
+#endif
+
 	for (k = 0; k < m; k++) {
 		QUAD L;
 		int i;
 
 		SUFFIX(go_quad_dot_product) (&L, Q[k], Q[k], n);
 		SUFFIX(go_quad_sqrt) (&L, &L);
-#if 0
-		PRINT_MATRIX (Q, m, n);
-		g_printerr ("L[%d] = %20.15" FORMAT_g "\n", k, L);
+#ifdef DEBUG_QR
+		g_printerr ("Q:\n");
+		PRINT_QMATRIX (Q, m, n);
+		g_printerr ("\nR:\n");
+		PRINT_QMATRIX (R, m, m);
+		g_printerr ("L[%d] = %20.15" FORMAT_g "\n", k, SUFFIX(go_quad_value) (&L));
 #endif
 		if (SUFFIX(go_quad_value)(&L) == 0)
 			return GO_REG_singular;
