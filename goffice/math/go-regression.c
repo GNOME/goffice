@@ -104,8 +104,8 @@
    terms of their "long double" counterparts.  */
 #define BOUNCE
 static GORegressionResult
-general_linear_regressionl (long double *const *const xss, int xdim,
-			    const long double *ys, int n,
+general_linear_regressionl (long double *const *const xssT, int n,
+			    const long double *ys, int m,
 			    long double *result,
 			    go_regression_stat_tl *stat_,
 			    gboolean affine);
@@ -171,8 +171,8 @@ go_regression_statl_get_type (void)
 #define CONSTMATRIX DOUBLE *const *const
 #define QUAD SUFFIX(GOQuad)
 #define QMATRIX QUAD **
+#define CONSTQMATRIX QUAD *const *const
 
-#undef DEBUG_NEAR_SINGULAR
 #undef DEBUG_REFINEMENT
 
 #define ALLOC_MATRIX2(var,dim1,dim2,TYPE)		\
@@ -216,43 +216,31 @@ go_regression_statl_get_type (void)
 	       (dst)[_i] = (src)[_i];		\
   } while (0)
 
-#define PRINT_MATRIX(var,dim1,dim2)				\
-  do {								\
-	int _i, _j, _d1, _d2;					\
-	_d1 = (dim1);						\
-	_d2 = (dim2);						\
-	for (_j = 0; _j < _d2; _j++) {				\
-	  for (_i = 0; _i < _d1; _i++) {			\
-	    g_printerr (" %12.8" FORMAT_g, (var)[_i][_j]);	\
-	  }							\
-	  g_printerr ("\n");					\
-	}							\
-  } while (0)
-
 #define PRINT_QMATRIX(var,dim1,dim2)				\
   do {								\
 	int _i, _j, _d1, _d2;					\
 	_d1 = (dim1);						\
 	_d2 = (dim2);						\
-	for (_j = 0; _j < _d2; _j++) {				\
-	  for (_i = 0; _i < _d1; _i++) {			\
+	for (_i = 0; _i < _d1; _i++) {				\
+	  for (_j = 0; _j < _d2; _j++) {			\
 		  g_printerr (" %12.8" FORMAT_g, SUFFIX(go_quad_value) (&(var)[_i][_j])); \
 	  }							\
 	  g_printerr ("\n");					\
 	}							\
   } while (0)
 
+
 #endif
 
 /*
- *       ---> i
+ *       ---> j
  *
  *  |    ********
  *  |    ********
  *  |    ********        A[i][j]
  *  v    ********
  *       ********
- *  j    ********
+ *  i    ********
  *       ********
  *       ********
  *
@@ -275,7 +263,7 @@ shrink_vector (const long double *V, int d)
 
 static void
 copy_stats (go_regression_stat_t *s1,
-	    const go_regression_stat_tl *s2, int xdim)
+	    const go_regression_stat_tl *s2, int n)
 {
 	if (!s2)
 		return;
@@ -284,8 +272,8 @@ copy_stats (go_regression_stat_t *s1,
 	g_free (s1->t);
 	g_free (s1->xbar);
 
-	s1->se = shrink_vector (s2->se, xdim);
-	s1->t = shrink_vector (s2->t, xdim);
+	s1->se = shrink_vector (s2->se, n);
+	s1->t = shrink_vector (s2->t, n);
 	s1->sqr_r = s2->sqr_r;
 	s1->adj_sqr_r = s2->adj_sqr_r;
 	s1->se_y = s2->se_y;
@@ -299,64 +287,189 @@ copy_stats (go_regression_stat_t *s1,
 	s1->ms_reg = s2->ms_reg;
 	s1->ms_resid = s2->ms_resid;
 	s1->ybar = s2->ybar;
-	s1->xbar = shrink_vector (s2->xbar, xdim);
+	s1->xbar = shrink_vector (s2->xbar, n);
 	s1->var = s2->var;
 }
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-static GORegressionResult
-SUFFIX(QR) (CONSTMATRIX A, QMATRIX Q, QMATRIX R, int m, int n)
+/*
+ * QR decomposition of a matrix using Householder matrices.
+ *
+ * A (input) is an m-times-n matrix.  A[0...m-1][0..n-1]
+ * If qAT is TRUE, this parameter is transposed.
+ *
+ * V is a pre-allocated output m-times-n matrix.  V will contrain
+ * n vectors of different lengths: n, n-1, ..., 1.  These are the
+ * Householder vectors (or null for the degenerate case).
+ *
+ * Rfinal is a pre-allocated output matrix of size n-times-n.
+ *
+ * qdet is an output location for det(Q).
+ *
+ * Note: the output is V and R, not Q and R.
+ */
+static gboolean
+SUFFIX(QRH) (CONSTMATRIX A, gboolean qAT,
+	     QMATRIX V, QMATRIX Rfinal, int m, int n,
+	     int *qdet)
 {
+	QMATRIX R = NULL;
 	int i, j, k;
+	QUAD *tmp = g_new (QUAD, n);
+	gboolean ok = TRUE;
 
-	for (i = 0; i < m; i++)
-		for (j = 0; j < n; j++)
-			SUFFIX(go_quad_init) (&Q[i][j], A[i][j]);
+	if (m < n || n < 1) {
+		ok = FALSE;
+		goto out;
+	}
 
-#ifdef DEBUG_QR
-	for (i = 0; i < m; i++)
-		for (j = 0; j < m; j++)
-			SUFFIX(go_quad_init) (&R[i][j], -42);
-#endif
-
-	for (k = 0; k < m; k++) {
-		QUAD L;
-		int i;
-
-		SUFFIX(go_quad_dot_product) (&L, Q[k], Q[k], n);
-		SUFFIX(go_quad_sqrt) (&L, &L);
-#ifdef DEBUG_QR
-		g_printerr ("Q:\n");
-		PRINT_QMATRIX (Q, m, n);
-		g_printerr ("\nR:\n");
-		PRINT_QMATRIX (R, m, m);
-		g_printerr ("L[%d] = %20.15" FORMAT_g "\n", k, SUFFIX(go_quad_value) (&L));
-#endif
-		if (SUFFIX(go_quad_value)(&L) == 0)
-			return GO_REG_singular;
-
-		for (i = 0; i < n; i++)
-			SUFFIX(go_quad_div) (&Q[k][i], &Q[k][i], &L);
-
-		R[k][k] = L;
-		for (i = k + 1; i < m; i++) {
-			QUAD ip;
-			int j;
-
-			SUFFIX(go_quad_init) (&R[k][i], 0);
-
-			SUFFIX(go_quad_dot_product) (&ip, Q[k], Q[i], n);
-			R[i][k] = ip;
-
-			for (j = 0; j < n; j++) {
-				QUAD p;
-				SUFFIX(go_quad_mul) (&p, &ip, &Q[k][j]);
-				SUFFIX(go_quad_sub) (&Q[i][j], &Q[i][j], &p);
+	ALLOC_MATRIX2 (R, m, n, QUAD);
+	for (i = 0; i < m; i++) {
+		for (j = 0; j < n; j++) {
+			DOUBLE Aij = qAT ? A[j][i] : A[i][j];
+			if (!SUFFIX(go_finite)(Aij)) {
+				ok = FALSE;
+				goto out;
 			}
+			SUFFIX(go_quad_init) (&R[i][j], Aij);
+			SUFFIX(go_quad_init) (&V[i][j], -42);
 		}
 	}
+
+	*qdet = 1;
+	for (k = 0; k < n; k++) {
+		QUAD L, L2, L2p, s;
+
+		SUFFIX(go_quad_init) (&L2, 0);
+		L2p = L2;
+		for (i = m - 1; i >= k; i--) {
+			V[i][k] = R[i][k];
+			SUFFIX(go_quad_mul)(&s, &V[i][k], &V[i][k]);
+			L2p = L2;
+			SUFFIX(go_quad_add)(&L2, &L2, &s);
+		}
+		SUFFIX(go_quad_sqrt)(&L, &L2);
+
+		(SUFFIX(go_quad_value)(&V[k][k]) < 0
+		 ? SUFFIX(go_quad_sub)
+		 : SUFFIX(go_quad_add)) (&V[k][k], &V[k][k], &L);
+
+		/* Normalize v[k] to length 1.  */
+		SUFFIX(go_quad_mul)(&s, &V[k][k], &V[k][k]);
+		SUFFIX(go_quad_add)(&L2p, &L2p, &s);
+		SUFFIX(go_quad_sqrt)(&L, &L2p);
+		if (SUFFIX(go_quad_value)(&L) == 0) {
+			/* This will be an identity so no determinant sign */
+			continue;
+		}
+		for (i = k; i < m; i++)
+			SUFFIX(go_quad_div)(&V[i][k], &V[i][k], &L);
+
+		/* Householder matrices have determinant -1.  */
+		*qdet = -*qdet;
+
+		/* Calculate tmp = v[k]^t * R[k:m,k:n] */
+		for (j = k; j < n; j++) {
+			SUFFIX(go_quad_init) (&tmp[j], 0);
+			for (i = k ; i < m; i++) {
+				QUAD p;
+				SUFFIX(go_quad_mul) (&p, &V[i][k], &R[i][j]);
+				SUFFIX(go_quad_add) (&tmp[j], &tmp[j], &p);
+			}
+		}
+
+		/* R[k:m,k:n] -= v[k] * tmp */
+		for (j = k; j < n; j++) {
+			for (i = k; i < m; i++) {
+				QUAD p;
+				SUFFIX(go_quad_mul) (&p, &V[i][k], &tmp[j]);
+				SUFFIX(go_quad_add) (&p, &p, &p);
+				SUFFIX(go_quad_sub) (&R[i][j], &R[i][j], &p);
+			}
+		}
+
+		/* Explicitly zero what should become zero.  */
+		for (i = k + 1; i < m; i++)
+			SUFFIX(go_quad_init) (&R[i][k], 0);
+
+#if 1
+		g_printerr ("After round %d:\n", k);
+		g_printerr ("R:\n");
+		PRINT_QMATRIX(R, m ,n );
+		g_printerr ("\n");
+		g_printerr ("V:\n");
+		PRINT_QMATRIX(V, m ,n );
+		g_printerr ("\n\n");
+#endif
+	}
+
+	for (i = 0; i < n /* Only n */; i++)
+		for (j = 0; j < n; j++)
+			Rfinal[i][j] = R[i][j];
+
+out:
+	FREE_MATRIX (R, m, n);
+	g_free (tmp);
+
+	return ok;
+}
+
+static void
+SUFFIX(multiply_Qt) (QUAD *x, CONSTQMATRIX V, int m, int n)
+{
+	int i, k;
+
+	for (k = 0; k < n; k++) {
+		QUAD s;
+		SUFFIX(go_quad_init)(&s, 0);
+		for (i = k; i < m; i++) {
+			QUAD p;
+			SUFFIX(go_quad_mul) (&p, &x[i], &V[i][k]);
+			SUFFIX(go_quad_add) (&s, &s, &p);
+		}
+		SUFFIX(go_quad_add) (&s, &s, &s);
+		for (i = k; i < m; i++) {
+			QUAD p;
+			SUFFIX(go_quad_mul) (&p, &s, &V[i][k]);
+			SUFFIX(go_quad_sub) (&x[i], &x[i], &p);
+		}
+	}
+}
+
+static GORegressionResult
+SUFFIX(regres_from_condition) (CONSTQMATRIX R, int n)
+{
+	DOUBLE emin = go_pinf;
+	DOUBLE emax = go_ninf;
+	DOUBLE c, lc;
+	int i;
+
+	/*
+	 * R is triangular, so all the eigenvalues are in the diagonal.
+	 * We need the absolute largest and smallest.
+	 */
+	for (i = 0; i < n; i++) {
+		DOUBLE e = SUFFIX(fabs)(SUFFIX(go_quad_value)(&R[i][i]));;
+		if (e < emin) emin = e;
+		if (e > emax) emax = e;
+	}
+
+	if (emin == 0)
+		return GO_REG_singular;
+
+	/* Condition number */
+	c = emax / emin;
+
+	/* Number of bits destroyed by matrix.  Since the calculations are
+	   done with QUADs, we can afford to lose a lot.  */
+	lc = SUFFIX(log)(c) / SUFFIX(log)(FLT_RADIX);
+
+	if (lc > 0.95* DOUBLE_MANT_DIG)
+		return GO_REG_near_singular_bad;
+	if (lc > 0.75 * DOUBLE_MANT_DIG)
+		return GO_REG_near_singular_good;
 
 	return GO_REG_ok;
 }
@@ -364,22 +477,22 @@ SUFFIX(QR) (CONSTMATRIX A, QMATRIX Q, QMATRIX R, int m, int n)
 #ifndef BOUNCE
 
 static void
-SUFFIX(calc_residual) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
+SUFFIX(calc_residual) (CONSTMATRIX AT, const DOUBLE *b, int m, int n,
 		       const QUAD *y, QUAD *residual, QUAD *N2)
 {
 	int i, j;
 
 	SUFFIX(go_quad_init) (N2, 0);
 
-	for (i = 0; i < n; i++) {
+	for (i = 0; i < m; i++) {
 		QUAD d;
 
 		SUFFIX(go_quad_init) (&d, b[i]);
 
-		for (j = 0; j < dim; j++) {
-			QUAD Aji, e;
-			SUFFIX(go_quad_init) (&Aji, A[j][i]);
-			SUFFIX(go_quad_mul) (&e, &Aji, &y[j]);
+		for (j = 0; j < n; j++) {
+			QUAD Aij, e;
+			SUFFIX(go_quad_init) (&Aij, AT[j][i]);
+			SUFFIX(go_quad_mul) (&e, &Aij, &y[j]);
 			SUFFIX(go_quad_sub) (&d, &d, &e);
 		}
 
@@ -392,17 +505,18 @@ SUFFIX(calc_residual) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
 }
 
 static void
-SUFFIX(refine) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
-		QMATRIX Q, QMATRIX R, QUAD *result)
+SUFFIX(refine) (CONSTMATRIX AT, const DOUBLE *b, int m, int n,
+		QMATRIX V, QMATRIX R, QUAD *result)
 {
-	QUAD *residual = g_new (QUAD, n);
-	QUAD *newresidual = g_new (QUAD, n);
-	QUAD *delta = g_new (QUAD, dim);
-	QUAD *newresult = g_new (QUAD, dim);
+	QUAD *residual = g_new (QUAD, m);
+	QUAD *newresidual = g_new (QUAD, m);
+	QUAD *QTres = g_new (QUAD, m);
+	QUAD *delta = g_new (QUAD, n);
+	QUAD *newresult = g_new (QUAD, n);
 	int pass;
 	QUAD best_N2;
 
-	SUFFIX(calc_residual) (A, b, dim, n, result, residual, &best_N2);
+	SUFFIX(calc_residual) (AT, b, m, n, result, residual, &best_N2);
 #ifdef DEBUG_REFINEMENT
 	g_printerr ("-: Residual norm = %20.15" FORMAT_g "\n",
 		    SUFFIX(go_quad_value) (&best_N2));
@@ -412,15 +526,18 @@ SUFFIX(refine) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
 		int i, j;
 		QUAD dres, N2;
 
-		/* newresult = R^-1 Q^T residual */
-		for (i = dim - 1; i >= 0; i--) {
-			QUAD acc;
+		/* Compute Q^T residual.  */
+		for (i = 0; i < m; i++)
+			QTres[i] = residual[i];
+		SUFFIX(multiply_Qt)(QTres, V, m, n);
 
-			SUFFIX(go_quad_dot_product) (&acc, Q[i], residual, n);
+		/* Solve R newresult = Q^T residual */
+		for (i = n - 1; i >= 0; i--) {
+			QUAD acc = QTres[i];
 
-			for (j = i + 1; j < dim; j++) {
+			for (j = i + 1; j < n; j++) {
 				QUAD Rd;
-				SUFFIX(go_quad_mul) (&Rd, &R[j][i], &delta[j]);
+				SUFFIX(go_quad_mul) (&Rd, &R[i][j], &delta[j]);
 				SUFFIX(go_quad_sub) (&acc, &acc, &Rd);
 			}
 
@@ -440,7 +557,7 @@ SUFFIX(refine) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
 #endif
 		}
 
-		SUFFIX(calc_residual) (A, b, dim, n, newresult, newresidual, &N2);
+		SUFFIX(calc_residual) (AT, b, m, n, newresult, newresidual, &N2);
 		SUFFIX (go_quad_sub) (&dres, &N2, &best_N2);
 
 #ifdef DEBUG_REFINEMENT
@@ -454,12 +571,13 @@ SUFFIX(refine) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
 			break;
 
 		best_N2 = N2;
-		COPY_VECTOR (result, newresult, dim);
-		COPY_VECTOR (residual, newresidual, n);
+		COPY_VECTOR (result, newresult, n);
+		COPY_VECTOR (residual, newresidual, m);
 	}
 
 	g_free (residual);
 	g_free (newresidual);
+	g_free (QTres);
 	g_free (newresult);
 	g_free (delta);
 }
@@ -468,175 +586,15 @@ SUFFIX(refine) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
 
 /* ------------------------------------------------------------------------- */
 
-/* Returns in res the solution to the equation L * U * res = P * b.
-
-   This function is adapted from pseudocode in
-	Introduction to Algorithms_. Cormen, Leiserson, and Rivest.
-	p. 753. MIT Press, 1990.
-*/
-static void
-SUFFIX(backsolve) (MATRIX LU, int *P, DOUBLE *b, int n, DOUBLE *res)
-{
-	int i, j;
-
-#if 0
-	PRINT_MATRIX(LU,n,n);
-#endif
-
-	for (i = 0; i < n; i++) {
-		res[i] = b[P[i]];
-		for (j = 0; j < i; j++)
-			res[i] -= LU[i][j] * res[j];
-	}
-
-	for (i = n - 1; i >= 0; i--) {
-		for (j = i + 1; j < n; j++)
-			res[i] -= LU[i][j] * res[j];
-		res[i] /= LU[i][i];
-	}
-}
-
-static void
-SUFFIX(rescale) (MATRIX A, DOUBLE *b, int n, DOUBLE *pdet)
-{
-	int i;
-
-	*pdet = 1;
-	for (i = 0; i < n; i++) {
-		int j, expn;
-		DOUBLE scale, max;
-
-		(void)SUFFIX(go_range_maxabs) (A[i], n, &max);
-
-		if (max == 0) {
-			*pdet = 0;
-			continue;
-		}
-
-		/* Use a power of 2 near sqrt (max) as scale.  */
-		(void)SUFFIX(frexp) (SUFFIX(sqrt) (max), &expn);
-		scale = SUFFIX(ldexp) (1, expn);
-#ifdef DEBUG_NEAR_SINGULAR
-		g_printerr ("scale[%d]=%" FORMAT_g "\n", i, scale);
-#endif
-
-		*pdet *= scale;
-		b[i] /= scale;
-		for (j = 0; j < n; j++)
-			A[i][j] /= scale;
-	}
-}
-
-
-/*
- * Performs an LUP Decomposition; LU and P must already be allocated.
- * A is not destroyed.
- *
- * This function is adapted from pseudocode in
- *   _Introduction to Algorithms_. Cormen, Leiserson, and Rivest.
- *   p 759. MIT Press, 1990.
- *
- * A rescaling of rows is done and the b_scaled vector is scaled
- * accordingly.
- */
-static GORegressionResult
-SUFFIX(LUPDecomp) (CONSTMATRIX A, MATRIX LU, int *P, int n, DOUBLE *b_scaled,
-		   DOUBLE *pdet)
-{
-	int i, j, k, tempint;
-	DOUBLE highest = 0;
-	DOUBLE lowest = SUFFIX(go_pinf);
-	DOUBLE cond;
-	DOUBLE det = 1;
-
-	COPY_MATRIX (LU, A, n, n);
-	for (j = 0; j < n; j++)
-		P[j] = j;
-
-	*pdet = 0;
-
-#ifdef DEBUG_NEAR_SINGULAR
-	PRINT_MATRIX (LU, n, n);
-#endif
-
-	SUFFIX(rescale) (LU, b_scaled, n, &det);
-
-	for (i = 0; i < n; i++) {
-		DOUBLE max = -42;
-		int mov = -1;
-
-		for (j = i; j < n; j++)
-			if (SUFFIX(fabs) (LU[j][i]) > max) {
-				max = SUFFIX(fabs) (LU[j][i]);
-				mov = j;
-			}
-#ifdef DEBUG_NEAR_SINGULAR
-		PRINT_MATRIX (LU, n, n);
-		g_printerr ("max[%d]=%" FORMAT_g " at %d\n", i, max, mov);
-#endif
-		if (max > highest)
-			highest = max;
-		if (max < lowest)
-			lowest = max;
-
-		if (mov == -1)
-			return GO_REG_invalid_data;
-
-		if (i != mov) {
-			/*swap the two rows */
-
-			det = 0 - det;
-			tempint = P[i];
-			P[i] = P[mov];
-			P[mov] = tempint;
-			for (j = 0; j < n; j++) {
-				DOUBLE temp = LU[i][j];
-				LU[i][j] = LU[mov][j];
-				LU[mov][j] = temp;
-			}
-		}
-
-		for (j = i + 1; j < n; j++) {
-			LU[j][i] /= LU[i][i];
-			for (k = i + 1; k < n; k++)
-				LU[j][k] -= LU[j][i] * LU[i][k];
-		}
-	}
-
-	/* Calculate the determinant.  */
-	for (i = 0; i < n; i++)
-		det *= LU[i][i];
-	*pdet = det;
-
-	if (det == 0)
-		return GO_REG_singular;
-
-	cond = lowest > 0
-		? SUFFIX(log) (highest / lowest) / SUFFIX(log) (2)
-		: SUFFIX(go_pinf);
-
-#ifdef DEBUG_NEAR_SINGULAR
-	g_printerr ("cond=%.20" FORMAT_g "\n", cond);
-#endif
-
-	/* FIXME: make some science out of this.  */
-	if (cond > DOUBLE_MANT_DIG * 0.75)
-		return GO_REG_near_singular_bad;
-	else if (cond > DOUBLE_MANT_DIG * 0.50)
-		return GO_REG_near_singular_good;
-	else
-		return GO_REG_ok;
-}
-
-
 GORegressionResult
 SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 {
-	GORegressionResult err;
-	MATRIX LU;
-	DOUBLE *b_scaled;
-	int *P;
-	DOUBLE det;
+	QMATRIX V;
+	QMATRIX R;
+	void *state;
+	GORegressionResult regres;
+	gboolean ok;
+	int qdet;
 
 	if (n < 1)
 		return GO_REG_not_enough_data;
@@ -651,75 +609,98 @@ SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 		return GO_REG_ok;
 	}
 
-	/* Special case.  */
-	if (n == 2) {
-		DOUBLE d = SUFFIX(go_matrix_determinant) (A, n);
-		if (d == 0)
-			return GO_REG_singular;
+	state = SUFFIX(go_quad_start) ();
 
-		res[0] = (A[1][1] * b[0] - A[1][0] * b[1]) / d;
-		res[1] = (A[0][0] * b[1] - A[0][1] * b[0]) / d;
-		return GO_REG_ok;
-	}
+	ALLOC_MATRIX2 (V, n, n, QUAD);
+	ALLOC_MATRIX2 (R, n, n, QUAD);
+	ok = SUFFIX(QRH)(A, FALSE, V, R, n, n, &qdet);
+	if (ok) {
+		QUAD *QTb = g_new (QUAD, n);
+		QUAD *x = g_new (QUAD, n);
+		int i, j;
 
-	/*
-	 * Otherwise, use LUP-decomposition to find res such that
-	 * A res = b
-	 */
-	ALLOC_MATRIX (LU, n, n);
-	P = g_new (int, n);
+		regres = SUFFIX(regres_from_condition)(R, n);
 
-	b_scaled = g_new (DOUBLE, n);
-	COPY_VECTOR (b_scaled, b, n);
+		/* Compute Q^T b.  */
+		for (i = 0; i < n; i++)
+			SUFFIX(go_quad_init)(&QTb[i], b[i]);
+		SUFFIX(multiply_Qt)(QTb, V, n, n);
 
-	err = SUFFIX(LUPDecomp) (A, LU, P, n, b_scaled, &det);
+		/* Solve R res = Q^T b */
+		for (i = n - 1; i >= 0; i--) {
+			QUAD d = QTb[i];
+			for (j = i + 1; j < n; j++) {
+				QUAD p;
+				SUFFIX(go_quad_mul) (&p, &R[i][j], &x[j]);
+				SUFFIX(go_quad_sub) (&d, &d, &p);
+			}
+			if (SUFFIX(go_quad_value)(&R[i][i]) == 0) {
+				regres = GO_REG_singular;
+				break;
+			}
+			SUFFIX(go_quad_div) (&x[i], &d, &R[i][i]);
+			res[i] = SUFFIX(go_quad_value) (&x[i]);
+		}
 
-	if (err == GO_REG_ok || err == GO_REG_near_singular_good)
-		SUFFIX(backsolve) (LU, P, b_scaled, n, res);
+		g_free (x);
+		g_free (QTb);
+	} else
+		regres = GO_REG_invalid_data;
 
-	FREE_MATRIX (LU, n, n);
-	g_free (P);
-	g_free (b_scaled);
-	return err;
+	SUFFIX(go_quad_end) (state);
+
+	return regres;
 }
 
 
 gboolean
 SUFFIX(go_matrix_invert) (MATRIX A, int n)
 {
-	QMATRIX Q;
+	QMATRIX V;
 	QMATRIX R;
-	GORegressionResult err;
 	gboolean has_result;
 	void *state = SUFFIX(go_quad_start) ();
+	int qdet;
 
-	ALLOC_MATRIX2 (Q, n, n, QUAD);
+	ALLOC_MATRIX2 (V, n, n, QUAD);
 	ALLOC_MATRIX2 (R, n, n, QUAD);
 
-	err = SUFFIX(QR) (A, Q, R, n, n);
-	has_result = (err == GO_REG_ok || err == GO_REG_near_singular_good);
+	has_result = SUFFIX(QRH)(A, FALSE, V, R, n, n, &qdet);
 
 	if (has_result) {
 		int i, j, k;
 		QUAD *x = g_new (QUAD, n);
+		QUAD *QTk = g_new (QUAD, n);
+		GORegressionResult regres =
+			SUFFIX(regres_from_condition) (R, n);
 
-		for (k = 0; k < n; k++) {
+		if (regres != GO_REG_ok && regres != GO_REG_near_singular_good)
+			has_result = FALSE;
+
+		for (k = 0; has_result && k < n; k++) {
+			/* Compute Q^T's k-th column.  */
+			for (i = 0; i < n; i++)
+				SUFFIX(go_quad_init)(&QTk[i], i == k);
+			SUFFIX(multiply_Qt)(QTk, V, n, n);
+
 			/* Solve R x = Q^T e_k */
 			for (i = n - 1; i >= 0; i--) {
-				QUAD d = Q[i][k];
+				QUAD d = QTk[i];
 				for (j = i + 1; j < n; j++) {
 					QUAD p;
-					SUFFIX(go_quad_mul) (&p, &R[j][i], &x[j]);
+					SUFFIX(go_quad_mul) (&p, &R[i][j], &x[j]);
 					SUFFIX(go_quad_sub) (&d, &d, &p);
 				}
 				SUFFIX(go_quad_div) (&x[i], &d, &R[i][i]);
-				A[k][i] = SUFFIX(go_quad_value) (&x[i]);
+				A[i][k] = SUFFIX(go_quad_value) (&x[i]);
 			}
 		}
+
+		g_free (QTk);
 		g_free (x);
 	}
 
-	FREE_MATRIX (Q, n, n);
+	FREE_MATRIX (V, n, n);
 	FREE_MATRIX (R, n, n);
 
 	SUFFIX(go_quad_end) (state);
@@ -730,10 +711,12 @@ SUFFIX(go_matrix_invert) (MATRIX A, int n)
 DOUBLE
 SUFFIX(go_matrix_determinant) (CONSTMATRIX A, int n)
 {
-	GORegressionResult err;
-	MATRIX LU;
-	DOUBLE *b_scaled, det;
-	int *P;
+	gboolean ok;
+	QMATRIX R;
+	QMATRIX V;
+	int qdet;
+	DOUBLE res;
+	void *state;
 
 	if (n < 1)
 		return 0;
@@ -742,69 +725,88 @@ SUFFIX(go_matrix_determinant) (CONSTMATRIX A, int n)
 	if (n == 1)
 		return A[0][0];
 
+	state = SUFFIX(go_quad_start) ();
+
 	/* Special case.  */
-	if (n == 2)
-		return A[0][0] * A[1][1] - A[1][0] * A[0][1];
+	if (n == 2) {
+		QUAD a, b, det;
+		SUFFIX(go_quad_mul12)(&a, A[0][0], A[1][1]);
+		SUFFIX(go_quad_mul12)(&b, A[1][0], A[0][1]);
+		SUFFIX(go_quad_sub)(&det, &a, &b);
+		res = SUFFIX(go_quad_value)(&det);
+		goto done;
+	}
 
-	/*
-	 * Otherwise, use LUP-decomposition to find res such that
-	 * A res = b
-	 */
-	ALLOC_MATRIX (LU, n, n);
-	P = g_new (int, n);
-	b_scaled = g_new0 (DOUBLE, n);
+	ALLOC_MATRIX2 (V, n, n, QUAD);
+	ALLOC_MATRIX2 (R, n, n, QUAD);
+	ok = SUFFIX(QRH)(A, FALSE, V, R, n, n, &qdet);
+	if (ok) {
+		int i;
+		QUAD det;
+		SUFFIX(go_quad_init)(&det, qdet);
+		for (i = 0; i < n; i++)
+			SUFFIX(go_quad_mul)(&det, &det, &R[i][i]);
+		res = SUFFIX(go_quad_value)(&det);
+	} else
+		res = go_nan;
 
-	err = SUFFIX(LUPDecomp) (A, LU, P, n, b_scaled, &det);
+	FREE_MATRIX (V, n, n);
+	FREE_MATRIX (R, n, n);
 
-	FREE_MATRIX (LU, n, n);
-	g_free (P);
-	g_free (b_scaled);
+done:
+	SUFFIX(go_quad_end) (state);
 
-	return det;
+	return res;
 }
 
 /* ------------------------------------------------------------------------- */
+/* Note, that this function takes a transposed matrix xssT.  */
 
 static GORegressionResult
-SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
-				   const DOUBLE *ys, int n,
+SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
+				   const DOUBLE *ys, int m,
 				   DOUBLE *result,
 				   SUFFIX(go_regression_stat_t) *stat_,
 				   gboolean affine)
 {
 	GORegressionResult regerr;
 #ifdef BOUNCE
-	long double **xss2, *ys2, *result2;
+	long double **xssT2, *ys2, *result2;
 	go_regression_stat_tl *stat2;
 
-	ALLOC_MATRIX2 (xss2, xdim, n, long double);
-	COPY_MATRIX (xss2, xss, xdim, n);
+	ALLOC_MATRIX2 (xssT2, n, m, long double);
+	COPY_MATRIX (xssT2, xssT, n, m);
 
-	ys2 = g_new (long double, n);
-	COPY_VECTOR (ys2, ys, n);
+	ys2 = g_new (long double, m);
+	COPY_VECTOR (ys2, ys, m);
 
-	result2 = g_new (long double, xdim);
+	result2 = g_new (long double, n);
 	stat2 = stat_ ? go_regression_stat_newl () : NULL;
 
-	regerr = general_linear_regressionl (xss2, xdim, ys2, n,
+	regerr = general_linear_regressionl (xssT2, n, ys2, m,
 					     result2, stat2, affine);
-	COPY_VECTOR (result, result2, xdim);
-	copy_stats (stat_, stat2, xdim);
+	COPY_VECTOR (result, result2, n);
+	copy_stats (stat_, stat2, n);
 
 	go_regression_stat_destroyl (stat2);
 	g_free (result2);
 	g_free (ys2);
-	FREE_MATRIX (xss2, xdim, n);
+	FREE_MATRIX (xssT2, n, m);
 #else
-	QMATRIX Q;
+	QMATRIX V;
 	QMATRIX R;
 	QUAD *qresult;
-	int i,j;
+	QUAD *QTy;
+	QUAD *inv;
+	int i, j, k;
 	gboolean has_result;
 	void *state;
 	gboolean has_stat;
+	int qdet;
+	int err;
+	QUAD N2;
 
-	ZERO_VECTOR (result, xdim);
+	ZERO_VECTOR (result, n);
 
 	has_stat = (stat_ != NULL);
 	if (!has_stat)
@@ -812,77 +814,70 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 
 	memset (stat_, 0, sizeof (stat_));
 
-	if (xdim > n) {
+	if (n > m) {
 		regerr = GO_REG_not_enough_data;
 		goto out;
 	}
 
 	state = SUFFIX(go_quad_start) ();
 
-	ALLOC_MATRIX2 (Q, xdim, n, QUAD);
-	ALLOC_MATRIX2 (R, xdim, xdim, QUAD);
-	qresult = g_new0 (QUAD, xdim);
+	ALLOC_MATRIX2 (V, m, n, QUAD);
+	ALLOC_MATRIX2 (R, n, n, QUAD);
+	qresult = g_new0 (QUAD, n);
+	QTy = g_new (QUAD, m);
+	inv = g_new (QUAD, n);
 
-	regerr = SUFFIX(QR) (xss, Q, R, xdim, n);
-	has_result = regerr == GO_REG_ok || regerr == GO_REG_near_singular_good;
+	has_result = SUFFIX(QRH) (xssT, TRUE, V, R, m, n, &qdet);
 
 	if (has_result) {
+		regerr = GO_REG_ok;
+
+		/* Compute Q^T ys.  */
+		for (i = 0; i < m; i++)
+			SUFFIX(go_quad_init)(&QTy[i], ys[i]);
+		SUFFIX(multiply_Qt)(QTy, V, m, n);
+
 		/* Solve R res = Q^T ys */
-		for (i = xdim - 1; i >= 0; i--) {
-			QUAD acc;
+		for (i = n - 1; i >= 0; i--) {
+			QUAD acc = QTy[i];
 
-			SUFFIX(go_quad_init) (&acc, 0);
-			for (j = 0; j < n; j++) {
-				QUAD p;
-				SUFFIX(go_quad_init) (&p, ys[j]);
-				SUFFIX(go_quad_mul) (&p, &p, &Q[i][j]);
-				SUFFIX(go_quad_add) (&acc, &acc, &p);
-			}
-
-			for (j = i + 1; j < xdim; j++) {
+			for (j = i + 1; j < n; j++) {
 				QUAD d;
-				SUFFIX (go_quad_mul) (&d, &R[j][i], &qresult[j]);
+				SUFFIX (go_quad_mul) (&d, &R[i][j], &qresult[j]);
 				SUFFIX (go_quad_sub) (&acc, &acc, &d);
 			}
 
 			SUFFIX(go_quad_div) (&qresult[i], &acc, &R[i][i]);
 		}
 
-		if (xdim > 2)
-			SUFFIX(refine) (xss, ys, xdim, n, Q, R, qresult);
+		if (n > 2)
+			SUFFIX(refine) (xssT, ys, m, n, V, R, qresult);
 
 		/* Round to plain precision.  */
-		for (i = 0; i < xdim; i++) {
+		for (i = 0; i < n; i++) {
 			result[i] = SUFFIX(go_quad_value) (&qresult[i]);
 			SUFFIX(go_quad_init) (&qresult[i], result[i]);
 		}
-	}
-
-	if (has_result) {
-		QUAD *inv = g_new (QUAD, xdim);
-		int err;
-		int k;
-		QUAD N2;
 
 		/* This should not fail since n >= 1.  */
-		err = SUFFIX(go_range_average) (ys, n, &stat_->ybar);
+		err = SUFFIX(go_range_average) (ys, m, &stat_->ybar);
 		g_assert (err == 0);
 
 		/* FIXME: we ought to have a devsq variant that does not
 		   recompute the mean.  */
 		if (affine)
-			err = SUFFIX(go_range_devsq) (ys, n, &stat_->ss_total);
+			err = SUFFIX(go_range_devsq) (ys, m, &stat_->ss_total);
 		else
-			err = SUFFIX(go_range_sumsq) (ys, n, &stat_->ss_total);
+			err = SUFFIX(go_range_sumsq) (ys, m, &stat_->ss_total);
 		g_assert (err == 0);
 
-		stat_->xbar = g_new (DOUBLE, xdim);
-		for (i = 0; i < xdim; i++) {
-			int err = SUFFIX(go_range_average) (xss[i], n, &stat_->xbar[i]);
+		stat_->xbar = g_new (DOUBLE, n);
+		for (i = 0; i < n; i++) {
+			int err = SUFFIX(go_range_average) (xssT[i], m, &stat_->xbar[i]);
 			g_assert (err == 0);
 		}
 
-		SUFFIX(calc_residual) (xss, ys, xdim, n, qresult, NULL, &N2);
+		SUFFIX(calc_residual) (xssT, ys, m, n, qresult, NULL, &N2);
 		stat_->ss_resid = SUFFIX(go_quad_value) (&N2);
 
 		stat_->sqr_r = (stat_->ss_total == 0)
@@ -897,37 +892,37 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 		}
 
 		/* FIXME: we want to guard against division by zero.  */
-		stat_->adj_sqr_r = 1 - stat_->ss_resid * (n - 1) /
-			((n - xdim) * stat_->ss_total);
-		if (n == xdim)
+		stat_->adj_sqr_r = 1 - stat_->ss_resid * (m - 1) /
+			((m - n) * stat_->ss_total);
+		if (m == n)
 			SUFFIX(go_quad_init) (&N2, 0);
 		else {
 			QUAD d;
-			SUFFIX(go_quad_init) (&d, n - xdim);
+			SUFFIX(go_quad_init) (&d, m - n);
 			SUFFIX(go_quad_div) (&N2, &N2, &d);
 		}
 		stat_->var = SUFFIX(go_quad_value) (&N2);
 
-		stat_->se = g_new (DOUBLE, xdim);
-		for (k = 0; k < xdim; k++) {
+		stat_->se = g_new (DOUBLE, n);
+		for (k = 0; k < n; k++) {
 			/* Solve R^T z = e_k */
-			for (i = 0; i < xdim; i++) {
+			for (i = 0; i < n; i++) {
 				QUAD d;
 				SUFFIX(go_quad_init) (&d, i == k ? 1 : 0);
 				for (j = 0; j < i; j++) {
 					QUAD p;
-					SUFFIX(go_quad_mul) (&p, &R[i][j], &inv[j]);
+					SUFFIX(go_quad_mul) (&p, &R[j][i], &inv[j]);
 					SUFFIX(go_quad_sub) (&d, &d, &p);
 				}
 				SUFFIX(go_quad_div) (&inv[i], &d, &R[i][i]);
 			}
 
 			/* Solve R inv = z */
-			for (i = xdim - 1; i >= 0; i--) {
+			for (i = n - 1; i >= 0; i--) {
 				QUAD d = inv[i];
-				for (j = i + 1; j < xdim; j++) {
+				for (j = i + 1; j < n; j++) {
 					QUAD p;
-					SUFFIX(go_quad_mul) (&p, &R[j][i], &inv[j]);
+					SUFFIX(go_quad_mul) (&p, &R[i][j], &inv[j]);
 					SUFFIX(go_quad_sub) (&d, &d, &p);
 				}
 				SUFFIX(go_quad_div) (&inv[i], &d, &R[i][i]);
@@ -950,17 +945,16 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 				stat_->se[k] = SUFFIX(go_quad_value) (&p);
 			}
 		}
-		g_free (inv);
 
-		stat_->t = g_new (DOUBLE, xdim);
+		stat_->t = g_new (DOUBLE, n);
 
-		for (i = 0; i < xdim; i++)
+		for (i = 0; i < n; i++)
 			stat_->t[i] = (stat_->se[i] == 0)
 				? SUFFIX(go_pinf)
 				: result[i] / stat_->se[i];
 
-		stat_->df_resid = n - xdim;
-		stat_->df_reg = xdim - (affine ? 1 : 0);
+		stat_->df_resid = m - n;
+		stat_->df_reg = n - (affine ? 1 : 0);
 		stat_->df_total = stat_->df_resid + stat_->df_reg;
 
 		stat_->F = (stat_->sqr_r == 1)
@@ -969,20 +963,23 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 			   (1 - stat_->sqr_r) * stat_->df_resid);
 
 		stat_->ss_reg =  stat_->ss_total - stat_->ss_resid;
-		stat_->se_y = SUFFIX(sqrt) (stat_->ss_total / n);
+		stat_->se_y = SUFFIX(sqrt) (stat_->ss_total / m);
 		stat_->ms_reg = (stat_->df_reg == 0)
 			? 0
 			: stat_->ss_reg / stat_->df_reg;
 		stat_->ms_resid = (stat_->df_resid == 0)
 			? 0
 			: stat_->ss_resid / stat_->df_resid;
-	}
+	} else
+		regerr = GO_REG_invalid_data;
 
 	SUFFIX(go_quad_end) (state);
 
+	g_free (QTy);
 	g_free (qresult);
-	FREE_MATRIX (Q, xdim, n);
-	FREE_MATRIX (R, xdim, xdim);
+	g_free (inv);
+	FREE_MATRIX (V, m, n);
+	FREE_MATRIX (R, n, n);
 out:
 	if (!has_stat)
 		SUFFIX(go_regression_stat_destroy) (stat_);
@@ -994,11 +991,11 @@ out:
 /* ------------------------------------------------------------------------- */
 
 typedef struct {
-  DOUBLE min_x;
-  DOUBLE max_x;
-  DOUBLE min_y;
-  DOUBLE max_y;
-  DOUBLE mean_y;
+	DOUBLE min_x;
+	DOUBLE max_x;
+	DOUBLE min_y;
+	DOUBLE max_y;
+	DOUBLE mean_y;
 } SUFFIX(point_cloud_measure_type);
 
 /* Takes the current 'sign' (res[0]) and 'c' (res[3]) from the calling
@@ -1992,7 +1989,7 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 	}
 
 	result = SUFFIX(parameter_errors) (f, xvals, par, yvals, sigmas,
-				   x_dim, p_dim, errors);
+					   x_dim, p_dim, errors);
 	if (result != GO_REG_ok)
 		goto out;
 

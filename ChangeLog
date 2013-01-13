@@ -1,3 +1,11 @@
+2013-01-13  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (QRH): New QR decomposition code
+	based on Householder matrices.
+	(QR, LUPDecomp, rescale, backsolve): Remove.
+	(go_linear_solve, go_matrix_determinant): Base on QR
+	decomposition.
+
 2013-01-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (QR): Fix debug code.
