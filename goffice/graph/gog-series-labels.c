@@ -141,7 +141,7 @@ used_selection_changed_cb (struct SeriesLabelsState *state)
 			&GOG_DATA_LABEL (state->labels)->format:
 			&GOG_SERIES_LABELS (state->labels)->format;
 	g_free (*format);
-	*format = strdup ("");;
+	*format = NULL;
 	if (gtk_tree_model_get_iter_first (model, &iter)) {
 		/* if the first row is not selected and a second row exists, set the up button sensitive */
 		first = last = iter;
@@ -157,24 +157,43 @@ used_selection_changed_cb (struct SeriesLabelsState *state)
 			if (!gtk_tree_selection_iter_is_selected (state->used_sel, &last))
 				count++;
 			gtk_tree_model_get (model, &iter, 1, &dim, -1);
-			switch (dim) {
-			case -1:
-				new_format = g_strconcat (*format, "%s%c", NULL);
-				break;
-			case -2:
-				new_format = g_strconcat (*format, "%s%l", NULL);
-				break;
-			case -3:
-				new_format = g_strconcat (*format, "%s%n", NULL);
-				break;
-			case -4:
-				new_format = g_strconcat (*format, "%s%p", NULL);
-				break;
-			default:
-				new_format = g_strdup_printf ("%s%%s%%%d", *format, dim);
+			if (*format) /* we need to add a separator */ {
+				switch (dim) {
+				case -1:
+					new_format = g_strconcat (*format, "%s%c", NULL);
+					break;
+				case -2:
+					new_format = g_strconcat (*format, "%s%l", NULL);
+					break;
+				case -3:
+					new_format = g_strconcat (*format, "%s%n", NULL);
+					break;
+				case -4:
+					new_format = g_strconcat (*format, "%s%p", NULL);
+					break;
+				default:
+					new_format = g_strdup_printf ("%s%%s%%%d", *format, dim);
+				}
+				g_free (*format);
+				*format = new_format;
+			} else {
+				switch (dim) {
+				case -1:
+					*format = g_strdup ("%c");
+					break;
+				case -2:
+					*format = g_strdup ("%l");
+					break;
+				case -3:
+					*format = g_strdup ("%n");
+					break;
+				case -4:
+					*format = g_strdup ("%p");
+					break;
+				default:
+					*format = g_strdup_printf ("%%%d", dim);
+				}
 			}
-			g_free (*format);
-			*format = new_format;
 		} while (gtk_tree_model_iter_next (model, &iter));
 		f = gtk_tree_model_get_path (model, &first);
 		l = gtk_tree_model_get_path (model, &last);
