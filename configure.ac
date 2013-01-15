@@ -56,9 +56,6 @@ AM_MAINTAINER_MODE([enable])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-# Make --disable-static the default
-AC_DISABLE_STATIC
-
 dnl We need intltool >= 0.35.0 to use the LINGUAS file in the po dir 
 IT_PROG_INTLTOOL([0.35.0])
 
@@ -70,9 +67,12 @@ AC_PROG_CC
 AC_PROG_YACC
 AM_PROG_LEX
 AC_PROG_LN_S
-AM_PROG_LIBTOOL
-AC_STDC_HEADERS
+AC_HEADER_STDC
 AC_SYS_LARGEFILE
+
+LT_PREREQ([2.2.6])
+# Make --disable-static the default
+LT_INIT([disable-static])
 
 dnl Propagate Gnome-specific variable ACLOCAL_FLAGS to Makefile.
 AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
@@ -427,9 +427,10 @@ if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
-		AC_TRY_COMPILE([], [],
-			has_option=yes,
-			has_option=no,)
+		AC_COMPILE_IFELSE(
+			[AC_LANG_PROGRAM([], [])],
+			[has_option=yes],
+			[has_option=no])
 		if test $has_option = no; then
 		  CFLAGS="$SAVE_CFLAGS"
 		fi
@@ -454,13 +455,18 @@ fi
 
 # Unfortunately, -D_POSIX_SOURCE turns off struct timeval on Solaris
 AC_MSG_CHECKING([whether struct timeval is available])
-AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM([#include <sys/time.h>], [struct timeval tv;])],
+	[struct_timeval_works=yes],
+	[struct_timeval_works=no])
 AC_MSG_RESULT($struct_timeval_works)
 
 if test $struct_timeval_works = no ; then
 	CFLAGS="$CFLAGS -D__EXTENSIONS__"
 	AC_MSG_CHECKING([whether struct timeval is available with -D__EXTENSIONS__])
-	AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM([#include <sys/time.h>], [struct timeval tv;])],
+		[struct_timeval_works=yes], [struct_timeval_works=no])
 	AC_MSG_RESULT($struct_timeval_works)
 	if test $struct_timeval_works = no ; then
 		AC_MSG_ERROR([struct timeval is not available])
@@ -474,13 +480,19 @@ AC_CHECK_FUNC(gettimeofday,
 
 dnl M_PI
 AC_MSG_CHECKING([whether M_PI is available])
-AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], works_without_bsd_source=yes, works_without_bsd_source=no)
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM([#include <math.h>], [double f = M_PI])],
+	[works_without_bsd_source=yes],
+	[works_without_bsd_source=no])
 AC_MSG_RESULT($works_without_bsd_source)
 
 if test $works_without_bsd_source = no ; then
 	CFLAGS="$CFLAGS -D_BSD_SOURCE"
 	AC_MSG_CHECKING([whether M_PI is available with -D_BSD_SOURCE])
-	AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], m_pi_works=yes, m_pi_works=no)
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM([#include <math.h>], [double f = M_PI])],
+		[m_pi_works=yes],
+		[m_pi_works=no])
 	AC_MSG_RESULT($m_pi_works)
 	if test $m_pi_works = no ; then
 		AC_MSG_ERROR([M_PI is not available])
@@ -511,7 +523,8 @@ dnl FIXME: Does this really belong here?
 AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codeset)])
 
 dnl isfinite is a macro on HPUX
-AC_TRY_COMPILE([#include <math.h>], [int a = isfinite(0.0)],
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM([#include <math.h>], [int a = isfinite(0.0)])],
 	[AC_DEFINE(HAVE_ISFINITE, 1,
 		[Define if the isfinite() macro is available]
 	 )
@@ -573,8 +586,8 @@ AC_ARG_WITH(long-double,
         , [ with_long_double=yes])
 
 if test "x$with_long_double" = "xyes"; then
-  AC_C_LONG_DOUBLE
-  if test $ac_cv_c_long_double = yes; then
+  AC_TYPE_LONG_DOUBLE
+  if test $ac_cv_type_long_double = yes; then
     have_mandatory_funcs=yes
     need_sunmath=0
     ss_cc=`which $CC`
@@ -623,14 +636,14 @@ if test "x$with_long_double" = "xyes"; then
     AC_CHECK_FUNCS(strtold)
     if test "$ac_cv_func_strtold" = yes; then
 	AC_MSG_CHECKING([if we must prototype strtold ourselves])
-	AC_TRY_RUN([#include <stdlib.h>
-		int main ()
-		{
-			const char *s = "+3.1415e+0";
-			char *theend;
-			long double res = strtold (s, &theend);
-			return !(*theend == 0 && res >= 3.14 && res <= 3.15);
-		}],
+	AC_RUN_IFELSE(
+		[AC_LANG_PROGRAM([[#include <stdlib.h>]],
+			[[
+				const char *s = "+3.1415e+0";
+				char *theend;
+				long double res = strtold (s, &theend);
+				return !(*theend == 0 && res >= 3.14 && res <= 3.15);
+			]])],
 		[AC_MSG_RESULT(no)],
 		[AC_MSG_RESULT(yes)
 		 AC_DEFINE([GOFFICE_SUPPLIED_STRTOLD], 1,
@@ -772,7 +785,7 @@ AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
 
 GTK_DOC_CHECK([1.12])
 if test "x$with_gtk" = "xno" -a "x$enable_gtk_doc" = "xyes"; then
-	AC_ERROR([Building documentation is not allowed for a without Gtk+ build])
+	AC_MSG_ERROR([Building documentation is not allowed for a without Gtk+ build])
 fi
 
 AC_CONFIG_FILES([
