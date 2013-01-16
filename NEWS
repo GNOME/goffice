@@ -2,6 +2,7 @@ goffice 0.10.1:
 
 Jean:
 	* Don't add an extra separator at start of data labels. [#691704]
+	* Don't crash after deleting a named smoothed curve. [#691796]
 
 Morten:
 	* Cleanup linear algebra.  [#691630]

@@ -1,3 +1,9 @@
+2013-01-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-smoothed-curve.c
+	(gog_smoothed_curve_parent_changed): call parent class implementation. Fix
+	crash after deleting a named smoothed curve. [#691796]
+
 2013-01-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-spectre.c (create_file): Helper to make sure
