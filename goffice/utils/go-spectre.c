@@ -61,6 +61,39 @@ go_spectre_load_attr (G_GNUC_UNUSED GOImage *image, G_GNUC_UNUSED xmlChar const 
 	/* nothing to do */
 }
 
+static char *
+create_file (const void *data, size_t length)
+{
+	int f = -1;
+	FILE *F = NULL;
+	char *tmpname;
+
+	tmpname = g_strdup ("/tmp/epsXXXXXX.eps");
+	if (!tmpname) goto error;
+
+	f = g_mkstemp (tmpname);
+	if (f == -1) goto error;
+
+	F = fdopen (f, "w");
+	if (F == NULL) goto error;
+
+	if (fwrite (data, length, 1, F) != 1)
+		goto error;
+	if (fclose (F) != 0)
+		goto error;
+
+	return tmpname;
+
+error:
+	g_free (tmpname);
+	if (F)
+		fclose (F);
+	else if (f != -1)
+		close (f);
+
+	return NULL;
+}
+
 static void
 go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 {
@@ -68,7 +101,6 @@ go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 	GOSpectre *spectre = GO_SPECTRE (image);
 	int width, height;
 	char *tmpname;
-	int f;
 #endif
 
 	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
@@ -80,10 +112,9 @@ go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 		return;
 	/* libspectre can only load files,
 	 see https://bugs.freedesktop.org/show_bug.cgi?id=42424 */
-	tmpname = g_strdup ("/tmp/epsXXXXXX.eps");
-	f = g_mkstemp (tmpname);
-	write (f, image->data, image->data_length);
-	close (f);
+	tmpname = create_file (image->data, image->data_length);
+	if (!tmpname)
+		return;
 	spectre_document_load (spectre->doc, tmpname);
 	if (spectre_document_status (spectre->doc) != SPECTRE_STATUS_SUCCESS)
 		return;
@@ -291,17 +322,14 @@ go_spectre_new_from_data (char const *data, size_t length, GError **error)
 {
 	GOImage *image;
 	char *tmpname;
-	int f;
 
 	g_return_val_if_fail (data != NULL && length != 0, NULL);
 
 	/* libspectre can only load files,
 	 see https://bugs.freedesktop.org/show_bug.cgi?id=42424 */
-	tmpname = g_strdup ("/tmp/epsXXXXXX.eps");
-	f = g_mkstemp (tmpname);
-	write (f, data, length);
-	close (f);
+	tmpname = create_file (data, length);
 	image = go_spectre_new_from_file (tmpname, error);
+	unlink (tmpname);
 	g_free (tmpname);
 	return image;
 }

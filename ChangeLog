@@ -1,3 +1,10 @@
+2013-01-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-spectre.c (create_file): Helper to make sure
+	entire contents gets written to temporary file.
+	(go_spectre_load_data): Use create_file.
+	(go_spectre_new_from_data): Use create_file.
+
 2013-01-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.ac: renamed configure.in and update obsolete macros.

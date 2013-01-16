@@ -5,6 +5,7 @@ Jean:
 
 Morten:
 	* Cleanup linear algebra.  [#691630]
+	* Work on new compiler warnings.
 
 --------------------------------------------------------------------------
 goffice 0.10.0:
