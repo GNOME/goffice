@@ -394,7 +394,7 @@ SUFFIX(QRH) (CONSTMATRIX A, gboolean qAT,
 		for (i = k + 1; i < m; i++)
 			SUFFIX(go_quad_init) (&R[i][k], 0);
 
-#if 1
+#if 0
 		g_printerr ("After round %d:\n", k);
 		g_printerr ("R:\n");
 		PRINT_QMATRIX(R, m ,n );
