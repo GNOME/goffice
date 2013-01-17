@@ -306,7 +306,7 @@ copy_stats (go_regression_stat_t *s1,
  *
  * Rfinal is a pre-allocated output matrix of size n-times-n.
  *
- * qdet is an output location for det(Q).
+ * qdet is an optional output location for det(Q).
  *
  * Note: the output is V and R, not Q and R.
  */
@@ -338,7 +338,9 @@ SUFFIX(QRH) (CONSTMATRIX A, gboolean qAT,
 		}
 	}
 
-	*qdet = 1;
+	if (qdet)
+		*qdet = 1;
+
 	for (k = 0; k < n; k++) {
 		QUAD L, L2, L2p, s;
 
@@ -368,7 +370,8 @@ SUFFIX(QRH) (CONSTMATRIX A, gboolean qAT,
 			SUFFIX(go_quad_div)(&V[i][k], &V[i][k], &L);
 
 		/* Householder matrices have determinant -1.  */
-		*qdet = -*qdet;
+		if (qdet)
+			*qdet = -*qdet;
 
 		/* Calculate tmp = v[k]^t * R[k:m,k:n] */
 		for (j = k; j < n; j++) {
@@ -466,10 +469,12 @@ SUFFIX(regres_from_condition) (CONSTQMATRIX R, int n)
 	   done with QUADs, we can afford to lose a lot.  */
 	lc = SUFFIX(log)(c) / SUFFIX(log)(FLT_RADIX);
 
+#if 0
 	if (lc > 0.95* DOUBLE_MANT_DIG)
 		return GO_REG_near_singular_bad;
 	if (lc > 0.75 * DOUBLE_MANT_DIG)
 		return GO_REG_near_singular_good;
+#endif
 
 	return GO_REG_ok;
 }
@@ -594,7 +599,6 @@ SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 	void *state;
 	GORegressionResult regres;
 	gboolean ok;
-	int qdet;
 
 	if (n < 1)
 		return GO_REG_not_enough_data;
@@ -613,7 +617,7 @@ SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 
 	ALLOC_MATRIX2 (V, n, n, QUAD);
 	ALLOC_MATRIX2 (R, n, n, QUAD);
-	ok = SUFFIX(QRH)(A, FALSE, V, R, n, n, &qdet);
+	ok = SUFFIX(QRH)(A, FALSE, V, R, n, n, NULL);
 	if (ok) {
 		QUAD *QTb = g_new (QUAD, n);
 		QUAD *x = g_new (QUAD, n);
@@ -660,12 +664,11 @@ SUFFIX(go_matrix_invert) (MATRIX A, int n)
 	QMATRIX R;
 	gboolean has_result;
 	void *state = SUFFIX(go_quad_start) ();
-	int qdet;
 
 	ALLOC_MATRIX2 (V, n, n, QUAD);
 	ALLOC_MATRIX2 (R, n, n, QUAD);
 
-	has_result = SUFFIX(QRH)(A, FALSE, V, R, n, n, &qdet);
+	has_result = SUFFIX(QRH)(A, FALSE, V, R, n, n, NULL);
 
 	if (has_result) {
 		int i, j, k;
@@ -802,7 +805,6 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 	gboolean has_result;
 	void *state;
 	gboolean has_stat;
-	int qdet;
 	int err;
 	QUAD N2;
 
@@ -827,7 +829,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 	QTy = g_new (QUAD, m);
 	inv = g_new (QUAD, n);
 
-	has_result = SUFFIX(QRH) (xssT, TRUE, V, R, m, n, &qdet);
+	has_result = SUFFIX(QRH) (xssT, TRUE, V, R, m, n, NULL);
 
 	if (has_result) {
 		regerr = GO_REG_ok;
