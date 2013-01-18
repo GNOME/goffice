@@ -3,12 +3,14 @@
 	* goffice/math/go-regression.c (QRH): Make qdet argument optional.
 	(back_solve, fwd_solve): New functions extracted from and used
 	throughout.
+	(go_linear_regression_leverage): New function.
 
 2013-01-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-smoothed-curve.c
-	(gog_smoothed_curve_parent_changed): call parent class implementation. Fix
-	crash after deleting a named smoothed curve. [#691796]
+	(gog_smoothed_curve_parent_changed): call parent class
+	implementation.  Fix crash after deleting a named smoothed
+	curve. [#691796]
 
 2013-01-15  Morten Welinder  <terra@gnome.org>
 
@@ -24,8 +26,9 @@
 
 2013-01-14  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/graph/gog-series-labels.c (used_selection_changed_cb): don't add
-	an extra separator at start of the format string. [#691704]
+	* goffice/graph/gog-series-labels.c (used_selection_changed_cb):
+	don't add an extra separator at start of the format string.
+	[#691704]
 
 2013-01-13  Morten Welinder  <terra@gnome.org>
 

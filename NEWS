@@ -7,6 +7,7 @@ Jean:
 Morten:
 	* Cleanup linear algebra.  [#691630]
 	* Work on new compiler warnings.
+	* Add efficient code for computing leverages.  [#691913]
 
 --------------------------------------------------------------------------
 goffice 0.10.0:

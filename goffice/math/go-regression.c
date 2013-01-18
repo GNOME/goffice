@@ -523,7 +523,7 @@ SUFFIX(regres_from_condition) (CONSTQMATRIX R, int n)
 	   done with QUADs, we can afford to lose a lot.  */
 	lc = SUFFIX(log)(c) / SUFFIX(log)(FLT_RADIX);
 
-#if 0
+#if 1
 	if (lc > 0.95* DOUBLE_MANT_DIG)
 		return GO_REG_near_singular_bad;
 	if (lc > 0.75 * DOUBLE_MANT_DIG)
@@ -2025,4 +2025,75 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 	g_free (b);
 
 	return result;
+}
+
+/*
+ * Compute the diagonal of A (AT A)^-1 AT
+ *
+ * A is full-rank m-times-n.
+ * d is output for m-element diagonal.
+ */
+
+GORegressionResult
+SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
+{
+	QMATRIX V;
+	QMATRIX R;
+	gboolean has_result;
+	void *state = SUFFIX(go_quad_start) ();
+	GORegressionResult regres;
+
+	ALLOC_MATRIX2 (V, m, n, QUAD);
+	ALLOC_MATRIX2 (R, n, n, QUAD);
+
+	has_result = SUFFIX(QRH)(A, FALSE, V, R, m, n, NULL);
+
+	if (has_result) {
+		int k;
+		QUAD *b = g_new (QUAD, n);
+
+		regres = SUFFIX(regres_from_condition) (R, n);
+
+		for (k = 0; k < m; k++) {
+			int i;
+			QUAD acc;
+
+			/* b = AT e_k  */
+			for (i = 0; i < n; i++)
+				SUFFIX(go_quad_init) (&b[i], A[k][i]);
+
+			/* Solve R^T newb = b */
+			if (SUFFIX(fwd_solve) (R, b, b, n)) {
+				regres = GO_REG_singular;
+				break;
+			}
+
+			/* Solve R newb = b */
+			if (SUFFIX(back_solve) (R, b, b, n)) {
+				regres = GO_REG_singular;
+				break;
+			}
+
+			/* acc = (Ab)_k */
+			SUFFIX(go_quad_init) (&acc, 0);
+			for (i = 0; i < n; i++) {
+				QUAD p;
+				SUFFIX(go_quad_init) (&p, A[k][i]);
+				SUFFIX(go_quad_mul) (&p, &p, &b[i]);
+				SUFFIX(go_quad_add) (&acc, &acc, &p);
+			}
+
+			d[k] = SUFFIX(go_quad_value) (&acc);
+		}
+
+		g_free (b);
+	} else
+		regres = GO_REG_invalid_data;
+
+	FREE_MATRIX (V, n, n);
+	FREE_MATRIX (R, n, n);
+
+	SUFFIX(go_quad_end) (state);
+
+	return regres;
 }

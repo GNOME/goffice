@@ -48,6 +48,8 @@ GORegressionResult 	 go_linear_regression 		(double **xss, int dim,
 							 gboolean affine,
 							 double *res,
 							 go_regression_stat_t *stat_);
+GORegressionResult       go_linear_regression_leverage  (double **A, double *d,
+							 int m, int n);
 GORegressionResult 	 go_exponential_regression 	(double **xss, int dim,
 							 const double *ys, int n,
 							 gboolean affine,
@@ -143,6 +145,9 @@ GORegressionResult    go_linear_regressionl   	(long double **xss, int dim,
 						 gboolean affine,
 						 long double *res,
 						 go_regression_stat_tl *stat_);
+GORegressionResult    go_linear_regression_leveragel (long double **A,
+						      long double *d,
+						      int m, int n);
 GORegressionResult    go_exponential_regressionl	(long double **xss, int dim,
 						 const long double *ys, int n,
 						 gboolean affine,
