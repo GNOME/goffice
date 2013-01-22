@@ -639,8 +639,13 @@ SUFFIX(refine) (CONSTMATRIX AT, const DOUBLE *b, int m, int n,
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * Solve AX=B where A is n-times-n and B and X are both n-times-bn.
+ * X is stored back into B.
+ */
+
 GORegressionResult
-SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
+SUFFIX(go_linear_solve_multiple) (CONSTMATRIX A, MATRIX B, int n, int bn)
 {
 	QMATRIX V;
 	QMATRIX R;
@@ -648,16 +653,18 @@ SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 	GORegressionResult regres;
 	gboolean ok;
 
-	if (n < 1)
+	if (n < 1 || bn < 1)
 		return GO_REG_not_enough_data;
 
 	/* Special case.  */
 	if (n == 1) {
+		int i;
 		DOUBLE d = A[0][0];
 		if (d == 0)
 			return GO_REG_singular;
 
-		res[0] = b[0] / d;
+		for (i = 0; i < bn; i++)
+			B[0][i] /= d;
 		return GO_REG_ok;
 	}
 
@@ -669,22 +676,24 @@ SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 	if (ok) {
 		QUAD *QTb = g_new (QUAD, n);
 		QUAD *x = g_new (QUAD, n);
-		int i;
+		int i, j;
 
 		regres = SUFFIX(regres_from_condition)(R, n);
 
-		/* Compute Q^T b.  */
-		for (i = 0; i < n; i++)
-			SUFFIX(go_quad_init)(&QTb[i], b[i]);
-		SUFFIX(multiply_Qt)(QTb, V, n, n);
+		for (j = 0; j < bn; j++) {
+			/* Compute Q^T b.  */
+			for (i = 0; i < n; i++)
+				SUFFIX(go_quad_init)(&QTb[i], B[i][j]);
+			SUFFIX(multiply_Qt)(QTb, V, n, n);
 
-		/* Solve R x = Q^T b  */
-		if (SUFFIX(back_solve) (R, x, QTb, n))
-			regres = GO_REG_singular;
+			/* Solve R x = Q^T b  */
+			if (SUFFIX(back_solve) (R, x, QTb, n))
+				regres = GO_REG_singular;
 
-		/* Round for output.  */
-		for (i = 0; i < n; i++)
-			res[i] = SUFFIX(go_quad_value) (&x[i]);
+			/* Round for output.  */
+			for (i = 0; i < n; i++)
+				B[i][j] = SUFFIX(go_quad_value) (&x[i]);
+		}
 
 		g_free (x);
 		g_free (QTb);
@@ -692,6 +701,30 @@ SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 		regres = GO_REG_invalid_data;
 
 	SUFFIX(go_quad_end) (state);
+
+	return regres;
+}
+
+GORegressionResult
+SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
+{
+	MATRIX B;
+	int i;
+	GORegressionResult regres;
+
+	if (n < 1)
+		return GO_REG_not_enough_data;
+
+	ALLOC_MATRIX (B, n, 1);
+	for (i = 0; i < n; i++)
+		B[i][0] = b[i];
+
+	regres = SUFFIX(go_linear_solve_multiple) (A, B, n, 1);
+
+	for (i = 0; i < n; i++)
+		res[i] = B[i][0];
+
+	FREE_MATRIX (B, n, 1);
 
 	return regres;
 }

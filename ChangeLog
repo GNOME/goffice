@@ -1,3 +1,8 @@
+2013-01-22  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (go_linear_solve_multiple): New
+	function extracted from go_linear_solve.
+
 2013-01-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (QRH): Make qdet argument optional.

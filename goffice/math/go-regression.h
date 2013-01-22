@@ -110,6 +110,9 @@ GORegressionResult go_linear_solve (double *const *const A,
 				    const double *b,
 				    int n,
 				    double *res);
+GORegressionResult go_linear_solve_multiple (double *const *const A,
+					     double **B,
+					     int n, int bn);
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 typedef struct {
@@ -191,6 +194,9 @@ GORegressionResult go_linear_solvel (long double *const *const A,
 				     const long double *b,
 				     int n,
 				     long double *res);
+GORegressionResult go_linear_solve_multiplel (long double *const *const A,
+					      long double **B,
+					      int n, int bn);
 
 #endif
 
