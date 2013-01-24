@@ -413,7 +413,8 @@ SUFFIX(QRH) (CONSTMATRIX A, gboolean qAT,
 			Rfinal[i][j] = R[i][j];
 
 out:
-	FREE_MATRIX (R, m, n);
+	if (R)
+		FREE_MATRIX (R, m, n);
 	g_free (tmp);
 
 	return ok;
@@ -2123,7 +2124,7 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
 	} else
 		regres = GO_REG_invalid_data;
 
-	FREE_MATRIX (V, n, n);
+	FREE_MATRIX (V, m, n);
 	FREE_MATRIX (R, n, n);
 
 	SUFFIX(go_quad_end) (state);
