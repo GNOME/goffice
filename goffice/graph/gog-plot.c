@@ -243,10 +243,12 @@ gog_plot_populate_editor (GogObject *obj,
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkCellRenderer *cell;
+	unsigned axis_set;
 
 	g_return_if_fail (chart != NULL);
 
-	if ((gog_chart_get_axis_set (chart) & GOG_AXIS_SET_FUNDAMENTAL) == GOG_AXIS_SET_XY) {
+	axis_set = gog_chart_get_axis_set (chart) & GOG_AXIS_SET_FUNDAMENTAL;
+	if (axis_set == GOG_AXIS_SET_XY || axis_set == GOG_AXIS_SET_RADAR) {
 		GtkWidget *combo;
 		GtkWidget *table = gtk_table_new (0, 1, FALSE);
 

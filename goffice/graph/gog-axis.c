@@ -2861,23 +2861,25 @@ gog_axis_populate_editor (GogObject *gobj,
 		gtk_widget_hide (w);
 	}
 
-	if (!axis->is_discrete && gog_axis_get_atype (axis) == GOG_AXIS_CIRCULAR) {
+	if (gog_axis_get_atype (axis) == GOG_AXIS_CIRCULAR) {
 		GtkWidget *w;
 		GtkComboBoxText *box = GTK_COMBO_BOX_TEXT (gtk_builder_get_object (gui, "polar-unit-combo"));
-		gog_axis_populate_polar_unit_combo (axis, box);
-		g_signal_connect (G_OBJECT (box),
-				  "changed",
-				  G_CALLBACK (cb_polar_unit_changed),
-				  state);
+		if (!axis->is_discrete) {
+			gog_axis_populate_polar_unit_combo (axis, box);
+			g_signal_connect (G_OBJECT (box),
+					  "changed",
+					  G_CALLBACK (cb_polar_unit_changed),
+					  state);
+		} else {
+			gtk_widget_hide (GTK_WIDGET (box));
+			gtk_widget_hide (go_gtk_builder_get_widget (gui, "unit-lbl"));
+		}
 
 		w = go_gtk_builder_get_widget (gui, "circular-rotation-spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis->circular_rotation);
 		g_signal_connect_object (G_OBJECT (w), "value-changed",
 					 G_CALLBACK (cb_rotation_changed),
 					 axis, 0);
-	} else {
-		GtkWidget *w = go_gtk_builder_get_widget (gui, "circular-grid");
-		gtk_widget_hide (w);
 	}
 
 	for (i = 0; i < G_N_ELEMENTS (toggle_props) ; i++) {

@@ -1,3 +1,11 @@
+2013-01-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-prefs.ui: add a user interface for discrete
+	circular axis rotation.
+	* goffice/graph/gog-axis.c (gog_axis_populate_editor): ditto.
+	* goffice/graph/gog-plot.c (gog_plot_populate_editor): add a user interface
+	for radar and polar plots axis selection. [#692803]
+
 2013-01-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (go_linear_regression_leverage):
