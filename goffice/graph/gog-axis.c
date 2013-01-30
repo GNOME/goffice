@@ -2880,7 +2880,8 @@ gog_axis_populate_editor (GogObject *gobj,
 		g_signal_connect_object (G_OBJECT (w), "value-changed",
 					 G_CALLBACK (cb_rotation_changed),
 					 axis, 0);
-	}
+	} else
+		gtk_widget_hide (go_gtk_builder_get_widget (gui, "circular-grid"));
 
 	for (i = 0; i < G_N_ELEMENTS (toggle_props) ; i++) {
 		gboolean cur_val;

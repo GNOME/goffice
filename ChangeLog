@@ -1,3 +1,8 @@
+2013-01-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_populate_editor): do not show the
+	rotation button for axes other than circular.
+
 2013-01-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-prefs.ui: add a user interface for discrete
