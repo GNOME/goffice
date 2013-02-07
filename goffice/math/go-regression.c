@@ -460,7 +460,7 @@ SUFFIX(back_solve) (CONSTQMATRIX R, QUAD *x, const QUAD *b, int n)
 			SUFFIX(go_quad_sub) (&d, &d, &p);
 		}
 		if (SUFFIX(go_quad_value)(&R[i][i]) == 0) {
-			while (i >= 0) SUFFIX(go_quad_init) (&x[i], 0);
+			while (i >= 0) SUFFIX(go_quad_init) (&x[i--], 0);
 			return TRUE;
 		}
 		SUFFIX(go_quad_div) (&x[i], &d, &R[i][i]);
