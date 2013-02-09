@@ -1,3 +1,8 @@
+2013-02-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): force tooltip update.
+	[#693430]
+
 2013-02-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (back_solve): Fix infinite loop.

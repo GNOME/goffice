@@ -376,6 +376,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 	}
 	gog_chart_map_free (map);
 tooltip:
+	gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), NULL);
 	gtk_widget_set_tooltip_markup (GTK_WIDGET (item->canvas), buf);
 	g_free (buf);
 }
