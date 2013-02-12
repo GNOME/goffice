@@ -5,7 +5,6 @@ Jean:
 	* Don't crash after deleting a named smoothed curve. [#691796]
 	* Fix data label offset serialization. [#692305]
 	* Add a user interface for radar and polar plots axis selection. [#692803]
-	* Fix tooltip update for charts. [#693430]
 
 Morten:
 	* Cleanup linear algebra.  [#691630]
