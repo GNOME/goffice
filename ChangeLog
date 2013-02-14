@@ -5,6 +5,13 @@
 
 2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-object-xml.c (gog_object_write_property_sax): back to
+	GogStyle to preserve compatibility.
+	* goffice/graph/gog-styled-object.c (gog_styled_object_class_init): ditto.
+	* goffice/graph/gog-styled-object.h: don't deprecate gog_style_new().
+
+2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.ac: bump Gtk+ requirement to 3.2.0.
 
 2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>

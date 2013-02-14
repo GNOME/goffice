@@ -123,8 +123,7 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 		if (val_obj != NULL) {
 			if (GO_IS_PERSIST (val_obj)) {
 				gsf_xml_out_start_element (output, "property");
-				gsf_xml_out_add_cstr_unchecked (output, "name",
-				                                GO_IS_STYLE (val_obj)? "GogStyle": pspec->name);
+				gsf_xml_out_add_cstr_unchecked (output, "name", pspec->name);
 				go_persist_sax_save (GO_PERSIST (val_obj), output);
 				gsf_xml_out_end_element (output); /* </property> */
 			} else

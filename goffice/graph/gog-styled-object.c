@@ -221,7 +221,7 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 		g_param_spec_object ("style",
 			_("Style"),
 			_("A pointer to the GOStyle object"),
-			GO_TYPE_STYLE,
+			gog_object_get_type (),
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
