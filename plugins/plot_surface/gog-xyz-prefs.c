@@ -50,7 +50,7 @@ gog_xyz_plot_pref (GogXYZPlot *plot, GOCmdContext *cc)
 		"toggled",
 		G_CALLBACK (cb_transpose), plot);
 
-	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_xyz_prefs")));
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog-xyz-prefs")));
 	g_object_unref (gui);
 
 	return w;
