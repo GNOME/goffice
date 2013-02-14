@@ -1,8 +1,6 @@
 2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* configure.ac:
+	* configure.ac: bump Gtk+ requirement to 3.2.0.
 
 2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
 
