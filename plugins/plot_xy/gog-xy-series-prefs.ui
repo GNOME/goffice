@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkBox" id="gog_xy_series_prefs">
+  <object class="GtkGrid" id="gog-xy-series-prefs">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">6</property>
+    <property name="row_spacing">6</property>
+    <property name="column_spacing">12</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkCheckButton" id="invalid_as_zero">
         <property name="label" translatable="yes">_Use null value instead of invalid</property>
@@ -16,13 +40,14 @@
         <property name="receives_default">False</property>
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
-        <property name="xalign">0.5</property>
+        <property name="xalign">0</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">0</property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
   </object>

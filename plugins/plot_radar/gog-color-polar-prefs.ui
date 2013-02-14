@@ -1,22 +1,50 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkTable" id="gog-color-polar-prefs">
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkGrid" id="gog-color-polar-prefs">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">12</property>
-    <property name="column_spacing">12</property>
-    <property name="row_spacing">6</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkCheckButton" id="hide-outliers">
         <property name="label" translatable="yes">Hide data outside of color axis bounds</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="xalign">0</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
-        <property name="x_options"></property>
-        <property name="y_options"></property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
   </object>

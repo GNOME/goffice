@@ -104,12 +104,10 @@ gog_trend_line_populate_editor (GogObject *gobj,
 		G_CALLBACK (cb_show_in_legend), gobj);
 	if (GTK_IS_BOX (box))
 		gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
-	else if (GTK_IS_TABLE (box)) {
-		GtkTable *table = GTK_TABLE (box);
-		int nrows, ncols;
-		g_object_get (G_OBJECT (box), "n-rows", &nrows, "n-columns", &ncols, NULL);
-		gtk_table_resize (table, nrows + 1, ncols);
-		gtk_table_attach (table, w, 0, ncols, nrows, nrows + 1, GTK_FILL, 0, 0, 0);
+	else if (GTK_IS_GRID (box)) {
+		GtkGrid *grid = GTK_GRID (box);
+		gtk_grid_insert_row (grid, 1);
+		gtk_grid_attach (grid, w, 0, 1, 2, 1);
 	} else if (GTK_IS_CONTAINER (box))
 		gtk_container_add (GTK_CONTAINER (box), w);
 	else

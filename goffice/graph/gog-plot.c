@@ -250,14 +250,12 @@ gog_plot_populate_editor (GogObject *obj,
 	axis_set = gog_chart_get_axis_set (chart) & GOG_AXIS_SET_FUNDAMENTAL;
 	if (axis_set == GOG_AXIS_SET_XY || axis_set == GOG_AXIS_SET_RADAR) {
 		GtkWidget *combo;
-		GtkWidget *table = gtk_table_new (0, 1, FALSE);
+		GtkWidget *grid = gtk_grid_new ();
 
 		for (type = 0 ; type < GOG_AXIS_TYPES ; type++) {
 			if (plot->axis[type] != NULL) {
-				count++;
-				gtk_table_resize (GTK_TABLE (table), count, 1);
-				gtk_table_attach (GTK_TABLE (table), gtk_label_new (_(axis_labels[type])),
-						  0, 1, count - 1, count, 0, 0, 0, 0);
+				gtk_grid_attach (GTK_GRID (grid), gtk_label_new (_(axis_labels[type])),
+						  0, count, 1, 1);
 
 				store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
 				combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
@@ -285,23 +283,24 @@ gog_plot_populate_editor (GogObject *obj,
 				if (axis_count < 2)
 					gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 				g_slist_free (axes);
-				gtk_table_attach (GTK_TABLE (table), combo,
-						  1, 2, count - 1, count, 0, 0, 0, 0);
+				gtk_grid_attach (GTK_GRID (grid), combo,
+						  1, count,1 ,1);
 				g_object_set_data (G_OBJECT (combo), "axis-type", GUINT_TO_POINTER (type));
 				g_signal_connect (G_OBJECT (combo), "changed",
 						  G_CALLBACK (cb_axis_changed), plot);
+				count++;
 			}
 		}
 
 		if (count > 0) {
-			gtk_table_set_col_spacings (GTK_TABLE (table), 12);
-			gtk_table_set_row_spacings (GTK_TABLE (table), 6);
-			gtk_container_set_border_width (GTK_CONTAINER (table), 12);
-			gtk_widget_show_all (table);
-			go_editor_add_page (editor, table, _("Axes"));
+			gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+			gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
+			gtk_container_set_border_width (GTK_CONTAINER (grid), 12);
+			gtk_widget_show_all (grid);
+			go_editor_add_page (editor, grid, _("Axes"));
 		}
 		else
-			g_object_unref (G_OBJECT (table));
+			g_object_unref (G_OBJECT (grid));
 	}
 
 	(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);

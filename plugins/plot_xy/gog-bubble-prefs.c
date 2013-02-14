@@ -113,7 +113,7 @@ gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 		"toggled",
 		G_CALLBACK (cb_negatives_changed), bubble);
 
-	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_bubble_prefs")));
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog-bubble-prefs")));
 	g_object_unref (gui);
 
 	return w;

@@ -42,7 +42,7 @@ struct _GOComboPixmaps {
 	int cols;
 	GArray *elements;
 
-	GtkWidget    *table, *preview_button;
+	GtkWidget    *grid, *preview_button;
 	GtkWidget    *preview_image;
 };
 
@@ -86,7 +86,7 @@ cb_screen_changed (GOComboPixmaps *combo, GdkScreen *previous_screen)
 		: NULL;
 
 	if (screen) {
-		GtkWidget *toplevel = gtk_widget_get_toplevel (combo->table);
+		GtkWidget *toplevel = gtk_widget_get_toplevel (combo->grid);
 		gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
 	}
 }
@@ -105,7 +105,7 @@ static void
 go_combo_pixmaps_init (GOComboPixmaps *combo)
 {
 	combo->elements = g_array_new (FALSE, FALSE, sizeof (Element));
-	combo->table = gtk_table_new (1, 1, 0);
+	combo->grid = gtk_grid_new ();
 
 	combo->preview_button = gtk_toggle_button_new ();
 	combo->preview_image = gtk_image_new ();
@@ -120,9 +120,9 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 		G_CALLBACK (emit_change), combo);
 
 	gtk_widget_show_all (combo->preview_button);
-	gtk_widget_show_all (combo->table);
+	gtk_widget_show_all (combo->grid);
 	go_combo_box_construct (GO_COMBO_BOX (combo),
-		combo->preview_button, combo->table, combo->table);
+		combo->preview_button, combo->grid, combo->grid);
 }
 
 static void
@@ -227,9 +227,8 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 	g_array_append_val (combo->elements, tmp);
 	g_object_set_data (G_OBJECT (button), "ItemIndex",
 		GINT_TO_POINTER (combo->elements->len-1));
-	gtk_table_attach (GTK_TABLE (combo->table), button,
-		col, col + 1, row + 1, row + 2,
-		GTK_FILL, GTK_FILL, 1, 1);
+	gtk_grid_attach (GTK_GRID (combo->grid), button,
+		col, row + 1, 1, 1);
 	gtk_widget_show_all (button);
 
 	g_object_connect (button,

@@ -796,7 +796,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 {
 	GOStyle *style = state->style;
 	GOStyle *default_style = state->default_style;
-	GtkWidget *table, *w;
+	GtkWidget *grid, *w;
 	GtkWidget *selector;
 	GtkBuilder *gui;
 
@@ -807,7 +807,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	if (gui == NULL)
 		return;
 
-	table = go_gtk_builder_get_widget (gui, "marker_table");
+	grid = go_gtk_builder_get_widget (gui, "go-style-marker-prefs");
 
 	state->marker.selector = selector =
 		go_marker_selector_new (go_marker_get_shape (style->marker.mark),
@@ -821,7 +821,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 					       GO_COLOR_BLUE, GO_COLOR_BLUE);
 	w = go_gtk_builder_get_widget (gui, "marker_shape_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), selector);
-	gtk_table_attach (GTK_TABLE (table), selector, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), selector, 1, 1, 1, 1);
 	g_signal_connect (G_OBJECT (selector), "activate",
 			  G_CALLBACK (cb_marker_shape_changed), state);
 	gtk_widget_show (selector);
@@ -839,7 +839,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 			G_CALLBACK (cb_marker_fill_color_changed));
 		gtk_widget_set_sensitive (w, FALSE);
 	}
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 2, 1, 1);
 
 	if ((style->interesting_fields & GO_STYLE_MARKER_NO_COLOR ) == 0)
 		state->marker.outline = w = create_go_combo_color (state,
@@ -854,7 +854,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 			G_CALLBACK (cb_marker_outline_color_changed));
 		gtk_widget_set_sensitive (w, FALSE);
 	}
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 3, 1, 1);
 
 	w = go_gtk_builder_get_widget (gui, "marker_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
@@ -863,11 +863,9 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 		"value_changed",
 		G_CALLBACK (cb_marker_size_changed), state);
 
-	gtk_widget_show_all (table);
+	gtk_widget_show_all (grid);
 
-	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "go_style_marker_prefs")));
-
-	go_editor_add_page (editor, w, _("Markers"));
+	go_editor_add_page (editor, g_object_ref (grid), _("Markers"));
 	g_object_unref (gui);
 	if (state->gui == NULL) {
 		g_object_set_data (G_OBJECT (w), "state", state);
@@ -909,7 +907,7 @@ static void
 font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext *cc)
 {
 	GOStyle *style = state->style;
-	GtkWidget *w, *box;
+	GtkWidget *w, *grid;
 	GtkBuilder *gui;
 
 	if (!enable)
@@ -926,20 +924,20 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 	w = create_go_combo_color (state, style->font.color, style->font.color,
 				   gui, "pattern_foreground", "font_color_label",
 				   G_CALLBACK (cb_font_color_changed));
-	box = go_gtk_builder_get_widget (gui, "color_box");
-	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
+	grid = go_gtk_builder_get_widget (gui, "go-style-font-prefs");
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 1, 1);
 	gtk_widget_show (w);
 
 	w = go_font_sel_new ();
 	go_font_sel_set_font (GO_FONT_SEL (w), style->font.font);
 	g_signal_connect (G_OBJECT (w), "font_changed",
 			  G_CALLBACK (cb_font_changed), state);
+	gtk_widget_set_vexpand (w, TRUE);
 	gtk_widget_show (w);
 
- 	box = go_gtk_builder_get_widget (gui, "go_style_font_prefs");
-	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
+ 	gtk_grid_attach (GTK_GRID (grid), w, 0, 1, 3, 1);
 
-	go_editor_add_page (editor, box, _("Font"));
+	go_editor_add_page (editor, grid, _("Font"));
 }
 
 /************************************************************************/

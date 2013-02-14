@@ -26,17 +26,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct {
-	char const	*label;		/* label for notebook page */
-	gpointer 	 widget;	/* GtkWidget* */
-} GOEditorPage;
-
-struct _GOEditor {
-	unsigned	*store_page;		/* pointer to a place for storing last edited page */
-	GSList		*pages;			/* GOEditorPage */
-	GData		*registered_widgets;
-	unsigned     ref_count;
-};
 GType go_editor_get_type (void);
 
 GOEditor	*go_editor_new 		  (void);

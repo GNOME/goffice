@@ -425,22 +425,24 @@ gog_double_histogram_plot_populate_editor (GogObject	*gobj,
 			       GogDataAllocator	*dalloc,
 			       GOCmdContext	*cc)
 {
-	GtkTable *table;
+	GtkGrid *grid;
 	GtkWidget *w;
 	GogDataset *set = GOG_DATASET (gobj);
 	GtkBuilder *gui =
 		go_gtk_builder_load ("res:go:plot_distrib/gog-double-histogram-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
 	if (gui != NULL) {
-		table = GTK_TABLE (gtk_builder_get_object (gui, "double-histogram-prefs"));
+		grid = GTK_GRID (gtk_builder_get_object (gui, "double-histogram-prefs"));
 		w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));
 		gtk_widget_set_tooltip_text (w, _("Label for the first Y category. If not set or empty, \"First values\" will be used."));
 		gtk_widget_show (w);
-		gtk_table_attach (table, w, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_widget_set_hexpand (w, TRUE);
+		gtk_grid_attach (grid, w, 1, 0, 1, 1);
 		w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_SCALAR));
 		gtk_widget_set_tooltip_text (w, _("Label for the second Y category. If not set or empty, \"Second values\" will be used."));
 		gtk_widget_show (w);
-		gtk_table_attach (table, w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_widget_set_hexpand (w, TRUE);
+		gtk_grid_attach (grid, w, 1, 1, 1, 1);
 		go_editor_add_page (editor,
 				     go_gtk_builder_get_widget (gui, "double-histogram-prefs"),
 				     _("Categories labels"));

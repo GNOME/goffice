@@ -237,7 +237,7 @@ typedef struct {
 	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
 	gulong		 w_spin_signal, h_spin_signal;
 	GtkWidget	*position_select_combo;
-	GtkWidget	*manual_setting_table;
+	GtkWidget	*manual_setting_grid;
 	GogChart	*chart;
 } PlotAreaPrefState;
 
@@ -284,7 +284,7 @@ cb_plot_area_changed (GtkWidget *spin, PlotAreaPrefState *state)
 	}
 	gog_chart_set_plot_area (state->chart, &pos);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), 1);
-	gtk_widget_show (state->manual_setting_table);
+	gtk_widget_show (state->manual_setting_grid);
 }
 
 static void
@@ -295,10 +295,10 @@ cb_manual_position_changed (GtkComboBox *combo, PlotAreaPrefState *state)
 
 		gog_chart_get_plot_area (state->chart, &plot_area);
 		gog_chart_set_plot_area (state->chart, &plot_area);
-		gtk_widget_show (state->manual_setting_table);
+		gtk_widget_show (state->manual_setting_grid);
 	} else {
 		gog_chart_set_plot_area (state->chart, NULL);
-		gtk_widget_hide (state->manual_setting_table);
+		gtk_widget_hide (state->manual_setting_grid);
 	}
 }
 
@@ -362,14 +362,14 @@ gog_chart_populate_editor (GogObject *gobj,
 	state->position_select_combo = go_gtk_builder_get_widget (gui, "position_select_combo");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo),
 				  is_plot_area_manual ? 1 : 0);
-	state->manual_setting_table = go_gtk_builder_get_widget (gui, "manual_setting_table");
+	state->manual_setting_grid = go_gtk_builder_get_widget (gui, "manual-setting-grid");
 	if (!is_plot_area_manual)
-		gtk_widget_hide (state->manual_setting_table);
+		gtk_widget_hide (state->manual_setting_grid);
 
 	g_signal_connect (G_OBJECT (state->position_select_combo),
 			  "changed", G_CALLBACK (cb_manual_position_changed), state);
 
-	w = go_gtk_builder_get_widget (gui, "gog_plot_prefs");
+	w = go_gtk_builder_get_widget (gui, "gog-plot-prefs");
 	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (plot_area_pref_state_free), state);
 	go_editor_add_page (editor, w, _("Plot area"));
 

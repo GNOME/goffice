@@ -211,35 +211,37 @@ gog_series_element_populate_editor (GogObject *gobj,
 			   GOCmdContext *cc)
 {
 	static guint series_element_pref_page = 1;
-	GtkWidget *w, *gse_vbox = NULL, *spin_button = NULL, *vbox;
+	GtkWidget *w, *gse_grid = NULL, *grid;
 	GogSeriesElementClass *klass = GOG_SERIES_ELEMENT_GET_CLASS (gobj);
 
 	if (klass->gse_populate_editor)
-		gse_vbox = (*klass->gse_populate_editor) (gobj, editor, cc);
+		gse_grid = (*klass->gse_populate_editor) (gobj, editor, cc);
 
 	(GOG_OBJECT_CLASS(gse_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	w = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-	gtk_box_pack_start (GTK_BOX (w), gtk_label_new (_("Index:")),
-			    FALSE, FALSE, 0);
-	spin_button = gtk_spin_button_new_with_range (0, G_MAXINT, 1);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button),
+	if (gse_grid == NULL) {
+		grid = gtk_grid_new ();
+		gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
+		gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+		gtk_container_set_border_width (GTK_CONTAINER (grid), 12);
+	} else {
+		grid = gse_grid;
+		gtk_grid_insert_row (GTK_GRID (grid), 0);
+	}
+	w = gtk_label_new (_("Index:"));
+	g_object_set (G_OBJECT (w), "xalign", 0., NULL);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, 0, 1, 1);
+	w = gtk_spin_button_new_with_range (0, G_MAXINT, 1);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
 				   GOG_SERIES_ELEMENT(gobj)->index);
-	g_signal_connect (G_OBJECT (spin_button),
+	g_signal_connect (G_OBJECT (w),
 			  "value_changed",
 			  G_CALLBACK (cb_index_changed), gobj);
-	gtk_box_pack_start(GTK_BOX (w), spin_button, FALSE, FALSE, 0);
-	if (gse_vbox == NULL) {
-		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-	} else
-		vbox = gse_vbox;
-	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (vbox), w, 0);
-	gtk_widget_show_all (vbox);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 1, 1);
+	gtk_widget_show_all (grid);
 
-	if (gse_vbox == NULL)
-		go_editor_add_page (editor, vbox, _("Settings"));
+	if (gse_grid == NULL)
+		go_editor_add_page (editor, grid, _("Settings"));
 
 	go_editor_set_store_page (editor, &series_element_pref_page);
 }
@@ -476,7 +478,7 @@ gog_series_get_property (GObject *obj, guint param_id,
 
 #ifdef GOFFICE_WITH_GTK
 static unsigned
-make_dim_editor (GtkTable *table, unsigned row, GogDataEditor *deditor,
+make_dim_editor (GtkGrid *grid, unsigned row, GogDataEditor *deditor,
 		 char const *name, GogSeriesPriority priority, gboolean is_shared)
 {
 	GtkWidget *editor = GTK_WIDGET (deditor);
@@ -485,10 +487,11 @@ make_dim_editor (GtkTable *table, unsigned row, GogDataEditor *deditor,
 	GtkWidget *label = gtk_label_new_with_mnemonic (txt);
 	g_free (txt);
 
-	gtk_table_attach (table, label,
-		0, 1, row, row+1, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (table, editor,
-		1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach (grid, label,
+		0, row, 1, 1);
+	gtk_widget_set_hexpand (editor, TRUE);
+	gtk_grid_attach (grid, editor,
+		1, row, 1, 1);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), editor);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 
@@ -544,8 +547,8 @@ gog_series_populate_editor (GogObject *gobj,
 		   GOCmdContext *cc)
 {
 	static guint series_pref_page = 1;
-	GtkWidget *w, *grid;
-	GtkTable  *table;
+	GtkWidget *w;
+	GtkGrid  *grid;
 	unsigned i, row = 0;
 	gboolean has_shared = FALSE;
 	GogSeries *series = GOG_SERIES (gobj);
@@ -565,13 +568,13 @@ gog_series_populate_editor (GogObject *gobj,
 			break;
 		}
 
-	w = gtk_table_new (desc->num_dim + (has_shared ? 2 : 1), 2, FALSE);
-	table = GTK_TABLE (w);
-	gtk_table_set_row_spacings (table, 6);
-	gtk_table_set_col_spacings (table, 12);
-	gtk_container_set_border_width (GTK_CONTAINER (table), 12);
+	w = gtk_grid_new ();
+	grid = GTK_GRID (w);
+	gtk_grid_set_row_spacing (grid, 6);
+	gtk_grid_set_column_spacing (grid, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (grid), 12);
 
-	row = make_dim_editor (table, row,
+	row = make_dim_editor (grid, row,
 		gog_data_allocator_editor (dalloc, set, -1, GOG_DATA_SCALAR),
 		N_("Name"), TRUE, FALSE);
 
@@ -580,14 +583,14 @@ gog_series_populate_editor (GogObject *gobj,
 		data_type = (desc->dim[i].val_type == GOG_DIM_MATRIX)?
 				GOG_DATA_MATRIX: GOG_DATA_VECTOR;
 		if (!desc->dim[i].is_shared && (desc->dim[i].priority != GOG_SERIES_ERRORS))
-			row = make_dim_editor (table, row,
+			row = make_dim_editor (grid, row,
 				gog_data_allocator_editor (dalloc, set, i, data_type),
 				desc->dim[i].name, desc->dim[i].priority, FALSE);
 	}
 
 	if (has_shared) {
-		gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL),
-			0, 2, row, row+1, GTK_FILL, 0, 0, 0);
+		gtk_grid_attach (grid, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL),
+			0, row, 2, 1);
 		row++;
 	}
 
@@ -596,13 +599,13 @@ gog_series_populate_editor (GogObject *gobj,
 		data_type = (desc->dim[i].val_type == GOG_DIM_MATRIX)?
 				GOG_DATA_MATRIX: GOG_DATA_VECTOR;
 		if (desc->dim[i].is_shared)
-			row = make_dim_editor (table, row,
+			row = make_dim_editor (grid, row,
 				gog_data_allocator_editor (dalloc, set, i, data_type),
 				desc->dim[i].name, desc->dim[i].priority, TRUE);
 	}
 
-	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL),
-		0, 2, row, row+1, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (grid, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL),
+		0, row, 2, 1);
 	row++;
 	w = gtk_check_button_new_with_mnemonic (_("_Show in Legend"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
@@ -610,15 +613,15 @@ gog_series_populate_editor (GogObject *gobj,
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_show_in_legend), series);
-	gtk_table_attach (table, w,
-		0, 2, row, row+1, GTK_FILL, 0, 0, 0);
-	gtk_widget_show_all (GTK_WIDGET (table));
+	gtk_grid_attach (grid, w,
+		0, row, 2, 1);
+	gtk_widget_show_all (GTK_WIDGET (grid));
 
-	go_editor_add_page (editor, GTK_WIDGET (table), _("Data"));
+	go_editor_add_page (editor, GTK_WIDGET (grid), _("Data"));
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	grid = go_editor_get_registered_widget (editor, "line-grid");
+	grid = GTK_GRID (go_editor_get_registered_widget (editor, "line-grid"));
 	if (series_class->has_interpolation && grid != NULL) {
 		GtkBuilder *gui;
 		GtkWidget *widget;
@@ -629,7 +632,7 @@ gog_series_populate_editor (GogObject *gobj,
 			GogAxisSet set = gog_plot_axis_set_pref (gog_series_get_plot (series));
 			GogDataset *clamp_set = gog_series_get_interpolation_params (series);
 			widget = go_gtk_builder_get_widget (gui, "interpolation-prefs");
-			gtk_grid_attach (GTK_GRID (grid), widget, 0, 3, 4, 1);
+			gtk_grid_attach (grid, widget, 0, 3, 4, 1);
 			/* create an interpolation type combo and populate it */
 			combo = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
 			if (set & 1 << GOG_AXIS_RADIAL)
@@ -673,7 +676,7 @@ gog_series_populate_editor (GogObject *gobj,
 		}
 	}
 
-	grid = go_editor_get_registered_widget (editor, "fill-grid");
+	grid = GTK_GRID (go_editor_get_registered_widget (editor, "fill-grid"));
 	if (series_class->has_fill_type && grid != NULL) {
 		GtkBuilder *gui;
 		GtkWidget *widget;
@@ -689,7 +692,7 @@ gog_series_populate_editor (GogObject *gobj,
 			if (series->interpolation == GO_LINE_INTERPOLATION_CLOSED_SPLINE)
 				gtk_widget_set_sensitive (widget, FALSE);
 			widget = go_gtk_builder_get_widget (gui, "fill_type_prefs");
-			gtk_grid_attach (GTK_GRID (grid), widget, 0, 1, 3, 1);
+			gtk_grid_attach (grid, widget, 0, 1, 3, 1);
 			g_object_set_data (G_OBJECT (widget), "gui", gui);
 
 			g_signal_connect_swapped (G_OBJECT (widget), "destroy",

@@ -49,7 +49,8 @@ gog_smoothed_curve_populate_editor (GogObject	*gobj,
 
 	w = gtk_grid_new ();
 	grid = GTK_GRID (w);
-	g_object_set (G_OBJECT (grid), "margin", 12, "row-spacing", 12, NULL);
+	g_object_set (G_OBJECT (grid), "margin", 12, "column-spacing", 12,
+	              "orientation", GTK_ORIENTATION_VERTICAL, NULL);
 	child = gtk_label_new (_("(Name):"));
 	gtk_grid_attach (grid, child, 0, 0, 1, 1);
 	child = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, -1, GOG_DATA_SCALAR));

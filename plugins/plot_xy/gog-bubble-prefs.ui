@@ -7,43 +7,26 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkTable" id="gog_bubble_prefs">
+  <object class="GtkGrid" id="gog-bubble-prefs">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">12</property>
-    <property name="n_rows">5</property>
-    <property name="n_columns">3</property>
-    <property name="column_spacing">12</property>
     <property name="row_spacing">6</property>
+    <property name="column_spacing">12</property>
     <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkCheckButton" id="3d">
-        <property name="label" translatable="yes">3_D</property>
-        <property name="use_action_appearance">False</property>
+      <object class="GtkLabel" id="size_display">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="use_action_appearance">False</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">_Size represented by:</property>
         <property name="use_underline">True</property>
-        <property name="xalign">0.5</property>
-        <property name="draw_indicator">True</property>
+        <property name="mnemonic_widget">area</property>
       </object>
       <packing>
-        <property name="top_attach">3</property>
-        <property name="bottom_attach">4</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"/>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
@@ -55,15 +38,15 @@
         <property name="receives_default">False</property>
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
-        <property name="xalign">0.5</property>
+        <property name="xalign">0</property>
         <property name="active">True</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="right_attach">2</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"/>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
@@ -75,49 +58,15 @@
         <property name="receives_default">False</property>
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
-        <property name="xalign">0.5</property>
+        <property name="xalign">0</property>
+        <property name="active">True</property>
         <property name="draw_indicator">True</property>
-        <property name="group">area</property>
       </object>
       <packing>
         <property name="left_attach">2</property>
-        <property name="right_attach">3</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"/>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="size_display">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="xalign">0</property>
-        <property name="label" translatable="yes">_Size represented by:</property>
-        <property name="use_underline">True</property>
-        <property name="mnemonic_widget">area</property>
-      </object>
-      <packing>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"/>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkCheckButton" id="vary_style_by_element">
-        <property name="label" translatable="yes">_Vary colors by bubble</property>
-        <property name="use_action_appearance">False</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="use_underline">True</property>
-        <property name="xalign">0.5</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="right_attach">2</property>
-        <property name="top_attach">2</property>
-        <property name="bottom_attach">3</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"/>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
@@ -129,70 +78,109 @@
         <property name="receives_default">False</property>
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
-        <property name="xalign">0.5</property>
+        <property name="xalign">0</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
-        <property name="right_attach">2</property>
+        <property name="left_attach">0</property>
         <property name="top_attach">1</property>
-        <property name="bottom_attach">2</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"/>
+        <property name="width">2</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
-      <object class="GtkBox" id="scale_box">
+      <object class="GtkCheckButton" id="vary_style_by_element">
+        <property name="label" translatable="yes">_Vary colors by bubble</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">12</property>
-        <child>
-          <object class="GtkLabel" id="scale_label">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">_Bubbles scaled to</property>
-            <property name="use_underline">True</property>
-            <property name="mnemonic_widget">scale</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkSpinButton" id="scale">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="invisible_char">•</property>
-            <property name="adjustment">adjustment1</property>
-            <property name="climb_rate">1</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="percent">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">% of default size</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
+        <property name="xalign">0</property>
+        <property name="draw_indicator">True</property>
       </object>
       <packing>
-        <property name="right_attach">3</property>
-        <property name="top_attach">4</property>
-        <property name="bottom_attach">5</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"/>
+        <property name="left_attach">0</property>
+        <property name="top_attach">2</property>
+        <property name="width">2</property>
+        <property name="height">1</property>
       </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="3d">
+        <property name="label" translatable="yes">3_D</property>
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
+        <property name="xalign">0</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">3</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="scale_label">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">_Bubbles scaled to</property>
+        <property name="use_underline">True</property>
+        <property name="mnemonic_widget">scale</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">4</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="percent">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">% of default size</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">4</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="scale">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="invisible_char_set">True</property>
+        <property name="adjustment">adjustment1</property>
+        <property name="climb_rate">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">4</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
 </interface>

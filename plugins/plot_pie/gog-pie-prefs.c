@@ -49,7 +49,7 @@ gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc)
 		"value_changed",
 		G_CALLBACK (cb_element_separation_changed), element);
 
-	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_pie_series_element_prefs")));
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog-pie-series-element-prefs")));
 	g_object_unref (gui);
 
 	return w;
@@ -169,7 +169,7 @@ gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 							 "update-editor",
 							 G_CALLBACK (cb_update_editor), state);
 
-	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_pie_prefs")));
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog-pie-prefs")));
 	g_object_set_data_full (G_OBJECT (w), "state", state, (GDestroyNotify) pie_pref_state_free);
 	g_object_unref (gui);
 
@@ -216,7 +216,7 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 							 "update-editor",
 							 G_CALLBACK (cb_update_editor), state);
 
-	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_ring_prefs")));
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog-ring-prefs")));
 	g_object_set_data_full (G_OBJECT (w), "state", state, (GDestroyNotify) pie_pref_state_free);
 	g_object_unref (gui);
 

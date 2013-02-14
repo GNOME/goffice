@@ -902,7 +902,6 @@ GO_IS_DOC_CLASS
 <FILE>go-editor</FILE>
 <TITLE>GOEditor</TITLE>
 GOEditor
-GOEditorPage
 go_editor_add_page
 go_editor_free
 go_editor_get_notebook

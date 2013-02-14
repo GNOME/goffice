@@ -25,17 +25,24 @@
 #include <goffice/utils/go-editor.h>
 #include <string.h>
 
-/**
- * GOEditor:
- * @store_page: pointer to a place for storing last edited page.
- * @pages: list of #GOEditorPage.
- * @registered_widgets: registered wigets.
- **/
+
+typedef struct {
+	char const	*label;		/* label for notebook page */
+	gpointer 	 widget;	/* GtkWidget* */
+	gpointer scrolled;		/* GtkScrolledWindow embedding the widget.*/
+} GOEditorPage;
+
+struct _GOEditor {
+	unsigned	*store_page;		/* pointer to a place for storing last edited page */
+	GSList		*pages;			/* GOEditorPage */
+	GData		*registered_widgets;
+	unsigned     ref_count;
+};
 
 /**
- * GOEditorPage:
- * @label: label for notebook page.
- * @widget: notebook page.
+ * GOEditor:
+ *
+ * Embeds a notebook containing all the pages added to the editor.
  **/
 
 /**
@@ -61,8 +68,8 @@ go_editor_new (void)
 static void
 page_free (GOEditorPage *page)
 {
-	if (page->widget)
-		g_object_unref (page->widget);
+	if (page->scrolled)
+		g_object_unref (page->scrolled);
 	g_free (page);
 }
 
@@ -121,7 +128,10 @@ go_editor_add_page (GOEditor *editor, gpointer widget, char const *label)
 	g_return_if_fail (editor != NULL);
 	page = g_new (GOEditorPage, 1);
 
-	page->widget = g_object_ref (widget);
+	page->widget = widget;
+	page->scrolled = g_object_ref (gtk_scrolled_window_new (NULL, NULL));
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (page->scrolled),
+	                                       widget);
 	page->label = label;
 
 	editor->pages = g_slist_prepend (editor->pages, page);
@@ -204,9 +214,9 @@ go_editor_get_notebook (GOEditor *editor)
 		for (ptr = editor->pages; ptr != NULL; ptr = ptr->next) {
 			page = (GOEditorPage *) ptr->data;
 			gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
-						   GTK_WIDGET (page->widget),
+						   GTK_WIDGET (page->scrolled),
 						   gtk_label_new (page->label));
-			gtk_widget_show (page->widget);
+			gtk_widget_show (page->scrolled);
 			page_count ++;
 		}
 	} else {

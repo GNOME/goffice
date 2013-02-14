@@ -73,7 +73,7 @@ gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc)
 		"toggled",
 		G_CALLBACK (display_before_grid_cb), barcol);
 
-	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_barcol_prefs")));
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog-barcol-prefs")));
 	g_object_unref (gui);
 
 	return w;

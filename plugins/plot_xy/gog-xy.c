@@ -2093,7 +2093,7 @@ gog_xy_series_populate_editor (GogObject *obj,
 			"toggled",
 			G_CALLBACK (invalid_toggled_cb), obj);
 
-		w = go_gtk_builder_get_widget (gui, "gog_xy_series_prefs");
+		w = go_gtk_builder_get_widget (gui, "gog-xy-series-prefs");
 
 		go_editor_add_page (editor, w, _("Details"));
 		g_object_unref (gui);

@@ -941,7 +941,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	GtkFileChooser *fsel = gui_image_chooser_new (TRUE);
 	GtkWidget *expander = NULL;
 	GtkWidget *resolution_spin = NULL;
-	GtkWidget *resolution_table;
+	GtkWidget *resolution_grid;
 	GtkBuilder *gui;
 	SaveInfoState *state;
 	char const *key = "go_gui_get_image_save_info";
@@ -1002,11 +1002,11 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			gtk_widget_hide (expander);
 
 		if (resolution != NULL && supported_formats != NULL && ret_format != NULL) {
-			resolution_table = go_gtk_builder_get_widget (gui, "resolution_table");
+			resolution_grid = go_gtk_builder_get_widget (gui, "resolution-grid");
 
-			cb_format_combo_changed (format_combo, resolution_table);
+			cb_format_combo_changed (format_combo, resolution_grid);
 			g_signal_connect (GTK_WIDGET (format_combo), "changed",
-					  G_CALLBACK (cb_format_combo_changed), resolution_table);
+					  G_CALLBACK (cb_format_combo_changed), resolution_grid);
 		}
 
 		g_object_unref (G_OBJECT (gui));

@@ -1,3 +1,11 @@
+2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-object-xml.c (gog_object_write_property_sax): always
+	save a GogStyle for compatibility.
+	* goffice/graph/gog-styled-object.c (gog_styled_object_class_init): use
+	GOStyle for style property.
+	* others: replaced all GtkTable uses.
+
 2013-02-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (back_solve): Fix infinite loop.

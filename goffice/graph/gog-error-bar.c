@@ -181,10 +181,10 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 			gtk_widget_destroy (GTK_WIDGET(data));
 		g_object_set_data (G_OBJECT (w), "plus", NULL);
 		g_object_set_data (G_OBJECT (w), "minus", NULL);
-		gtk_widget_hide (go_gtk_builder_get_widget (gui, "values_box"));
-		gtk_widget_hide (go_gtk_builder_get_widget (gui, "style_box"));
+		gtk_widget_hide (go_gtk_builder_get_widget (gui, "values-grid"));
+		gtk_widget_hide (go_gtk_builder_get_widget (gui, "style-grid"));
 	} else {
-		GtkWidget *table = go_gtk_builder_get_widget (gui, "values_table");
+		GtkWidget *grid = go_gtk_builder_get_widget (gui, "values-grid");
 		if (!editor->bar) {
 			editor->bar = g_object_new (GOG_TYPE_ERROR_BAR, NULL);
 			editor->bar->style->line.color = editor->color;
@@ -203,7 +203,8 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set,
 									       editor->bar->error_i,
 									       GOG_DATA_VECTOR));
-			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+			gtk_widget_set_hexpand (al, TRUE);
+			gtk_grid_attach (GTK_GRID (grid), al, 1, 1, 1, 1);
 			g_object_set_data (G_OBJECT (w), "plus", al);
 		}
 		data = g_object_get_data (G_OBJECT (w), "minus");
@@ -211,11 +212,12 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set,
 									       editor->bar->error_i + 1,
 									       GOG_DATA_VECTOR));
-			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+			gtk_widget_set_hexpand (al, TRUE);
+			gtk_grid_attach (GTK_GRID (grid), al, 1, 2, 1, 1);
 			g_object_set_data (G_OBJECT (w), "minus", al);
 		}
-		gtk_widget_show_all (go_gtk_builder_get_widget (gui, "values_box"));
-		gtk_widget_show (go_gtk_builder_get_widget (gui, "style_box"));
+		gtk_widget_show_all (grid);
+		gtk_widget_show_all (go_gtk_builder_get_widget (gui, "style-grid"));
 	}
 	gog_object_request_update (GOG_OBJECT (editor->series));
 }
@@ -238,8 +240,7 @@ gog_error_bar_prefs (GogSeries *series,
 		     GOCmdContext *cc)
 {
 	GtkBuilder *gui;
-	GtkWidget *w, *bar_prefs;
-	GtkTable *style_table, *values_table;
+	GtkWidget *w, *bar_prefs, *grid;
 	GtkWidget *combo;
 	GtkListStore *list;
 	GtkTreeIter iter;
@@ -271,6 +272,7 @@ gog_error_bar_prefs (GogSeries *series,
 	gui = go_gtk_builder_load_internal ("res:go:graph/gog-error-bar-prefs.ui", GETTEXT_PACKAGE, cc);
 
 	/* Style properties */
+	grid = go_gtk_builder_get_widget (gui, "style-grid");
 
 	/* Width */
 	w = go_gtk_builder_get_widget (gui, "width");
@@ -286,8 +288,6 @@ gog_error_bar_prefs (GogSeries *series,
 		"value_changed",
 		G_CALLBACK (cb_line_width_changed), editor);
 
-	style_table = GTK_TABLE (gtk_builder_get_object (gui, "style_table"));
-
 	/* Color */
 	w = go_selector_new_color (editor->color, GO_COLOR_BLACK, "error-bar");
 	gtk_label_set_mnemonic_widget (
@@ -295,7 +295,8 @@ gog_error_bar_prefs (GogSeries *series,
 	g_signal_connect (G_OBJECT (w),
 		"activate",
 		G_CALLBACK (cb_color_changed), editor);
-	gtk_table_attach (GTK_TABLE (style_table), w, 1, 2, 3, 4, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_widget_set_halign (w, GTK_ALIGN_START);
+	gtk_grid_attach (GTK_GRID (grid), w, 1, 4, 1, 1);
 
 	/* Display style */
 	list = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_UINT);
@@ -325,7 +326,7 @@ gog_error_bar_prefs (GogSeries *series,
 			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
 	}
 
-	gtk_table_attach (GTK_TABLE (style_table), GTK_WIDGET(combo), 1, 4, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), GTK_WIDGET(combo), 1, 1, 1, 1);
 	g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (cb_display_changed), editor);
 
 	/* if radial, change the width unit */
@@ -336,31 +337,33 @@ gog_error_bar_prefs (GogSeries *series,
 	}
 
 	/* Category property*/
-	w = go_gtk_builder_get_widget (gui, "category_combo");
+	w = go_gtk_builder_get_widget (gui, "category-combo");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), (editor->bar)? (int) editor->bar->type: 0);
 	g_object_set_data (G_OBJECT (w), "gui", gui);
 	g_object_set_data (G_OBJECT (w), "allocator", dalloc);
 	g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_type_changed), editor);
 
 	/* Value properties */
-	bar_prefs = go_gtk_builder_get_widget (gui, "gog_error_bar_prefs");
+	bar_prefs = go_gtk_builder_get_widget (gui, "gog-error-bar-prefs");
 	g_object_ref (bar_prefs);
 	g_signal_connect (bar_prefs, "destroy", G_CALLBACK (cb_destroy), editor);
 	gtk_widget_show_all (bar_prefs);
 
-	values_table = GTK_TABLE (gtk_builder_get_object (gui, "values_table"));
 	if (editor->bar) {
 		GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i, GOG_DATA_VECTOR));
+		grid = go_gtk_builder_get_widget (gui, "values-grid");
 		gtk_widget_show (al);
-		gtk_table_attach (values_table, al, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_widget_set_hexpand (al, TRUE);
+		gtk_grid_attach (GTK_GRID (bar_prefs), al, 1, 1, 1, 1);
 		g_object_set_data (G_OBJECT (w), "plus", al);
 		al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, GOG_DATA_VECTOR));
 		gtk_widget_show (al);
-		gtk_table_attach (values_table, al, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_widget_set_hexpand (al, TRUE);
+		gtk_grid_attach (GTK_GRID (bar_prefs), al, 1, 2, 1, 1);
 		g_object_set_data (G_OBJECT (w), "minus", al);
 	} else {
-		gtk_widget_hide (go_gtk_builder_get_widget (gui, "values_box"));
-		gtk_widget_hide (go_gtk_builder_get_widget (gui, "style_box"));
+		gtk_widget_hide (go_gtk_builder_get_widget (gui, "values-grid"));
+		gtk_widget_hide (go_gtk_builder_get_widget (gui, "style-grid"));
 	}
 	g_signal_connect_swapped (G_OBJECT (bar_prefs), "destroy", G_CALLBACK (g_object_unref), gui);
 

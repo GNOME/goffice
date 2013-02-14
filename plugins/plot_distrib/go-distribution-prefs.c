@@ -32,7 +32,7 @@ typedef struct
 	GParamSpec *props[2];
 	GtkWidget *labels[2];
 	GtkWidget *data[2];
-	GtkTable *table;
+	GtkGrid *grid;
 	GogDataAllocator *dalloc;
 } DistPrefs;
 
@@ -63,13 +63,13 @@ distribution_changed_cb (GtkComboBox *box, DistPrefs *prefs)
 				GtkWidget *w = gtk_label_new (lbl);
 				g_free (lbl);
 				g_object_set (w, "xalign", 0., NULL);
-				gtk_table_attach (prefs->table, w, 0, 1, i+ 1, i + 2, GTK_FILL, GTK_FILL, 0, 0);
+				gtk_grid_attach (prefs->grid, w, 0, i + 1, 1, 1);
 				prefs->labels[i] = w;
 			} else
 				gtk_label_set_text (GTK_LABEL (prefs->labels[i]), lbl);
 			if (!prefs->data[i]) {
 				GtkWidget *w = GTK_WIDGET (gog_data_allocator_editor (prefs->dalloc, GOG_DATASET (prefs->client), i, GOG_DATA_SCALAR));
-				gtk_table_attach (prefs->table, w, 1, 2, i+ 1, i + 2, GTK_FILL, GTK_FILL, 0, 0);
+				gtk_grid_attach (prefs->grid, w, 1, i + 1, 1, 1);
 				prefs->data[i] = w;
 			}
 			gtk_widget_show (prefs->labels[i]);
@@ -96,20 +96,20 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 	GParamSpec **props;
 	int n, i, j;
 	DistPrefs *prefs = g_new0 (DistPrefs, 1);
-	GtkWidget *res = gtk_table_new (3, 2, FALSE);
+	GtkWidget *res = gtk_grid_new ();
 	GtkWidget *w = gtk_label_new (_("Distribution:"));
 	GODistribution *dist = NULL;
 	GODistributionType dist_type;
 
 	prefs->dalloc = dalloc;
-	prefs->table = GTK_TABLE (res);
+	prefs->grid = GTK_GRID (res);
 	g_object_get (obj, "distribution", &dist, NULL);
 	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), NULL);
 
 	dist_type = go_distribution_get_distribution_type (dist);
 	g_object_set (res, "border-width", 12, "row-spacing", 12, "column-spacing", 24, NULL);
 	g_object_set (w, "xalign", 0., NULL);
-	gtk_table_attach (prefs->table, w, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (prefs->grid, w, 0, 0, 1, 1);
 	g_signal_connect_swapped (res, "destroy", G_CALLBACK (destroy_cb), prefs);
 	prefs->client = obj;
 
@@ -129,7 +129,7 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (w), &iter);
 	}
 	g_signal_connect (w, "changed", G_CALLBACK (distribution_changed_cb), prefs);
-	gtk_table_attach (prefs->table, w, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (prefs->grid, w, 1, 0, 1, 1);
 
 	/* other persistent properties */
 	i = 1;
@@ -140,11 +140,11 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 			w = gtk_label_new (lbl);
 			g_free (lbl);
 			g_object_set (w, "xalign", 0., NULL);
-			gtk_table_attach (prefs->table, w, 0, 1, i, i + 1, GTK_FILL, GTK_FILL, 0, 0);
+			gtk_grid_attach (prefs->grid, w, 0, i, 1, 1);
 			prefs->labels[i-1] = w;
 			prefs->props[i-1] = props[n];
 			w = GTK_WIDGET (gog_data_allocator_editor (dalloc, GOG_DATASET (obj), i - 1, GOG_DATA_SCALAR));
-			gtk_table_attach (prefs->table, w, 1, 2, i, i + 1, GTK_FILL, GTK_FILL, 0, 0);
+			gtk_grid_attach (prefs->grid, w, 1, i, 1, 1);
 			prefs->data[i] = w;
 			i++;
 		}

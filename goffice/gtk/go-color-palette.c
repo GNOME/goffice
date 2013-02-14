@@ -343,11 +343,11 @@ draw_color_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
  * Utility function
  */
 static GtkWidget *
-go_color_palette_button_new (GOColorPalette *pal, GtkTable* table,
+go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 			     GONamedColor const *color_name,
 			     gint col, gint row)
 {
-        GtkWidget *button, *swatch, *box;
+	GtkWidget *button, *swatch, *box;
 	GdkRGBA   gdk;
 
 	swatch = gtk_drawing_area_new ();
@@ -367,8 +367,7 @@ go_color_palette_button_new (GOColorPalette *pal, GtkTable* table,
 	gtk_container_add (GTK_CONTAINER (button), box);
 	gtk_widget_set_tooltip_text (button, _(color_name->name));
 
-	gtk_table_attach (table, button, col, col+1, row, row+1,
-		GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (grid, button, col, row, 1, 1);
 
 	g_object_connect (button,
 		"signal::button_release_event", G_CALLBACK (cb_swatch_release_event), pal,
@@ -437,15 +436,15 @@ go_color_palette_setup (GOColorPalette *pal,
 		     int cols, int rows,
 		     GONamedColor const *color_names)
 {
-	GtkWidget	*w, *table;
+	GtkWidget	*w, *grid;
 	int pos, row, col = 0;
 
-	table = gtk_table_new (cols, rows, FALSE);
+	grid = gtk_grid_new ();
 
 	if (no_color_label != NULL) {
 		w = gtk_button_new_with_label (no_color_label);
-		gtk_table_attach (GTK_TABLE (table), w,
-				  0, cols, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_widget_set_hexpand (w, TRUE);
+		gtk_grid_attach (GTK_GRID (grid), w, 0, 0, cols, 1);
 		g_signal_connect (w,
 			"button_release_event",
 			G_CALLBACK (cb_default_release_event), pal);
@@ -457,7 +456,7 @@ go_color_palette_setup (GOColorPalette *pal,
 			if (color_names [pos].name == NULL)
 				goto custom_colors;
 			go_color_palette_button_new ( pal,
-				GTK_TABLE (table),
+				GTK_GRID (grid),
 				&(color_names [pos]), col, row + 1);
 		}
 
@@ -468,20 +467,20 @@ custom_colors :
 		GONamedColor color_name = { 0, N_("custom") };
 		color_name.color = pal->group->history [col];
 		pal->swatches [col] = go_color_palette_button_new (pal,
-			GTK_TABLE (table),
+			GTK_GRID (grid),
 			&color_name, col, row + 1);
 	}
 
 	w = go_gtk_button_build_with_stock (_("Custom color..."),
 		GTK_STOCK_SELECT_COLOR);
 	gtk_button_set_alignment (GTK_BUTTON (w), 0., .5);
-	gtk_table_attach (GTK_TABLE (table), w, 0, cols,
-		row + 2, row + 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_widget_set_hexpand (w, TRUE);
+	gtk_grid_attach (GTK_GRID (grid), w, 0, row + 2, cols, 1);
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_combo_custom_clicked), pal);
 
-	return table;
+	return grid;
 }
 
 void

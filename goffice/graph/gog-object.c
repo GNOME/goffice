@@ -658,7 +658,7 @@ gog_object_populate_editor (GogObject *gobj,
 	}
 
 	if (size_mode == GOG_MANUAL_SIZE_AUTO)  {
-		w = go_gtk_builder_get_widget (gui, "manual_sizes");
+		w = go_gtk_builder_get_widget (gui, "manual-sizes");
 		gtk_widget_destroy (w);
 		w = go_gtk_builder_get_widget (gui, "size-select-box");
 		gtk_widget_destroy (w);

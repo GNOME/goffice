@@ -33,7 +33,7 @@
 #include <string.h>
 
 struct _GOFontSel {
-	GtkBox		box;
+	GtkGrid		grid;
 	GtkBuilder	*gui;
 
 	GtkWidget	*font_name_entry;
@@ -54,7 +54,7 @@ struct _GOFontSel {
 };
 
 typedef struct {
-	GtkBoxClass parent_class;
+	GtkGridClass parent_class;
 
 	void (* font_changed) (GOFontSel *gfs, PangoAttrList *modfications);
 } GOFontSelClass;
@@ -351,7 +351,7 @@ canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 static void
 gfs_init (GOFontSel *gfs)
 {
-	GtkWidget *w;
+	GtkWidget *w, *grid;
 
 	gfs->gui = go_gtk_builder_load_internal ("res:go:gtk/go-font-sel.ui", GETTEXT_PACKAGE, NULL);
 	if (gfs->gui == NULL)
@@ -359,9 +359,8 @@ gfs_init (GOFontSel *gfs)
 
 	gfs->modifications = pango_attr_list_new ();
 
-	gtk_box_pack_start (GTK_BOX (gfs),
-		go_gtk_builder_get_widget (gfs->gui, "toplevel-table"),
-  		TRUE, TRUE, 0);
+	grid = go_gtk_builder_get_widget (gfs->gui, "toplevel-grid");
+	gtk_container_add (GTK_CONTAINER (gfs), grid);
 	gfs->font_name_entry  = go_gtk_builder_get_widget (gfs->gui, "font-name-entry");
 	gfs->font_style_entry = go_gtk_builder_get_widget (gfs->gui, "font-style-entry");
 	gfs->font_size_entry  = go_gtk_builder_get_widget (gfs->gui, "font-size-entry");
@@ -371,9 +370,11 @@ gfs_init (GOFontSel *gfs)
 
 	w = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	gfs->font_preview_canvas = GOC_CANVAS (w);
-	gtk_widget_show_all (w);
-	w = go_gtk_builder_get_widget (gfs->gui, "font-preview-frame");
-	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (gfs->font_preview_canvas));
+	gtk_widget_set_hexpand (w, TRUE);
+	gtk_widget_set_size_request (w, -1, 96);
+	gtk_grid_attach (GTK_GRID (grid), GTK_WIDGET (gfs->font_preview_canvas),
+	                 0, 4, 3, 1);
+	gtk_widget_show_all (grid);
 
 	gfs->font_preview_text = goc_item_new (
 		goc_canvas_get_root (gfs->font_preview_canvas),
@@ -444,7 +445,7 @@ gfs_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (GOFontSel, go_font_sel,
-	   gfs_class_init, gfs_init, GTK_TYPE_BOX)
+	   gfs_class_init, gfs_init, GTK_TYPE_GRID)
 
 GtkWidget *
 go_font_sel_new (void)

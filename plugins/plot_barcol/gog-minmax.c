@@ -191,7 +191,7 @@ gog_minmax_plot_populate_editor (GogObject *item,
 		"value_changed",
 		G_CALLBACK (cb_gap_changed), minmax);
 
-	w = go_gtk_builder_get_widget (gui, "gog_minmax_prefs");
+	w = go_gtk_builder_get_widget (gui, "gog-minmax-prefs");
 	go_editor_add_page (editor, w, _("Properties"));
 	g_object_unref (gui);
 
