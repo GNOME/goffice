@@ -159,13 +159,11 @@ cb_color_dialog_response (GtkColorSelectionDialog *color_dialog,
 	color_selection = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (color_dialog));
 
 	if (response == GTK_RESPONSE_OK) {
-		GOColorSelectorState *state;
 		GdkRGBA gdk_color;
 		GOColor color;
 
 		gtk_color_selection_get_current_rgba (GTK_COLOR_SELECTION (color_selection),
 						       &gdk_color);
-		state = go_selector_get_user_data (selector);
 
 		color = GO_COLOR_FROM_GDK_RGBA (gdk_color);
 		if (!go_color_selector_set_color (selector, color))
