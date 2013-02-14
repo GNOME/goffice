@@ -1,5 +1,11 @@
 2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
 
+	reviewed by: <delete if not using a buddy>
+
+	* configure.ac:
+
+2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-object-xml.c (gog_object_write_property_sax): always
 	save a GogStyle for compatibility.
 	* goffice/graph/gog-styled-object.c (gog_styled_object_class_init): use
