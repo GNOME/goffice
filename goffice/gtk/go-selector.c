@@ -207,12 +207,7 @@ go_selector_new (GOPalette *palette)
 
 	priv = GO_SELECTOR (selector)->priv;
 
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (palette);
-#else
-	g_object_ref (palette);
-	gtk_object_sink (GTK_OBJECT (palette));
-#endif
 
 	priv->palette = palette;
 	priv->swatch = go_palette_swatch_new (GO_PALETTE (palette), 0);

@@ -273,18 +273,11 @@ gog_label_populate_editor (GogObject *gobj,
 					    0, GOG_DATA_SCALAR));
 	GtkWidget *w;
 
-	if (gtk_check_version (3, 2, 0)) /* Remove when we request 3.2.0 */
-		g_object_set (G_OBJECT (grid),
-			      "margin", 12,
-			      "row-spacing", 6,
-			      "column-spacing", 12,
-			      NULL);
-	else
-		g_object_set (G_OBJECT (grid),
-			      "margin", 12,
-			      "row-spacing", 12,
-			      "column-spacing", 6,
-			      NULL);
+	g_object_set (G_OBJECT (grid),
+		      "margin", 12,
+		      "row-spacing", 12,
+		      "column-spacing", 6,
+		      NULL);
 
 	g_object_set (G_OBJECT (editor_widget), "hexpand", TRUE, NULL);
 

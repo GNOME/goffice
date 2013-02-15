@@ -180,7 +180,6 @@ go_gtk_builder_load (char const *uifile,
 	GtkBuilder *gui;
 	GError *error = NULL;
 	gboolean ok = FALSE;
-	gboolean need_grid_update = (gtk_check_version (3, 2, 0) != NULL); /* remove when we require 3.2.0 or later */
 
 	g_return_val_if_fail (uifile != NULL, NULL);
 
@@ -222,19 +221,6 @@ go_gtk_builder_load (char const *uifile,
 	} else if (error)
 		g_error_free (error);
 
-	if (need_grid_update && gui) { /* remove when we require gtk+-3.2.0 or later */
-		GSList *l = gtk_builder_get_objects (gui), *ptr;
-		int rsep, csep;
-		ptr = l;
-		while (ptr) {
-			if (GTK_IS_GRID (ptr->data)) {
-				g_object_get (ptr->data, "row-spacing", &csep, "column-spacing", &rsep, NULL);
-				g_object_set (ptr->data, "row-spacing", rsep, "column-spacing", csep, NULL);
-			}
-			ptr = ptr->next;
-		}
-		g_slist_free (l);
-	}
 	return gui;
 }
 

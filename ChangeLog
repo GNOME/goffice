@@ -1,3 +1,12 @@
+2013-02-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-selector.c (go_selector_new): Remove check for
+	gtk 2.8.x or later.
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_builder_load): We no longer
+	need the dead kitten for GtkGrid.
+	* goffice/graph/gog-label.c (gog_label_populate_editor): Ditto.
+
 2013-02-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-color-selector.c (cb_color_dialog_response): Kill
