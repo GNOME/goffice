@@ -195,7 +195,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 	GdkRGBA color = {1., 1., 1., 1.};
 
 	gtk_widget_override_background_color (GTK_WIDGET (canvas),
-	                                      GTK_STATE_NORMAL, &color);
+	                                      GTK_STATE_FLAG_NORMAL, &color);
 
 	for (i = 0; i < 6; ++i) {
 		g3d->cube_polygons[i] = goc_item_new (group,

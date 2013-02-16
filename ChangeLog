@@ -1,3 +1,8 @@
+2013-02-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (general_linear_regression): memset
+	the right size.
+
 2013-02-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-selector.c (go_selector_new): Remove check for

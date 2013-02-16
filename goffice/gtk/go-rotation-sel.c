@@ -103,7 +103,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 	double x0 = grs->full? 100.: 15.;
 
 	gtk_widget_override_background_color (GTK_WIDGET (canvas),
-	                                      GTK_STATE_NORMAL, &color);
+	                                      GTK_STATE_FLAG_NORMAL, &color);
 
 	for (i = 0 ; i <= maxint ; i++) {
 		double rad = (i-6) * M_PI / 12.;

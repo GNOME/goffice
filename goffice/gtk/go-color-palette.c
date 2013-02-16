@@ -269,7 +269,7 @@ cb_history_changed (GOColorPalette *pal)
 	GOColorGroup *group = pal->group;
 
 	for (i = 0 ; i < GO_COLOR_GROUP_HISTORY_SIZE ; i++)
-		gtk_widget_override_background_color (pal->swatches [i], GTK_STATE_NORMAL,
+		gtk_widget_override_background_color (pal->swatches [i], GTK_STATE_FLAG_NORMAL,
 			go_color_to_gdk_rgba (group->history[i], &gdk));
 #if 0
 	if (next_swatch != NULL) {
@@ -300,7 +300,7 @@ swatch_activated (GOColorPalette *pal, GtkBin *button)
 	g_return_if_fail (swatch != NULL);
 
 	style_ctx = gtk_widget_get_style_context (swatch);
-	gtk_style_context_get_background_color (style_ctx, GTK_STATE_NORMAL, &rgba);
+	gtk_style_context_get_background_color (style_ctx, GTK_STATE_FLAG_NORMAL, &rgba);
 	set_color (pal, GO_COLOR_FROM_GDK_RGBA (rgba),
 		   FALSE, TRUE, FALSE);
 }
@@ -353,7 +353,7 @@ go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 	swatch = gtk_drawing_area_new ();
 	g_signal_connect (G_OBJECT (swatch), "draw", G_CALLBACK (draw_color_cb),
 	                  GUINT_TO_POINTER (color_name->color));
-	gtk_widget_override_background_color (swatch, GTK_STATE_NORMAL,
+	gtk_widget_override_background_color (swatch, GTK_STATE_FLAG_NORMAL,
 	        go_color_to_gdk_rgba (color_name->color, &gdk));
 	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 
