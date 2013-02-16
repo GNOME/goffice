@@ -414,12 +414,13 @@ if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
 			 -Wchar-subscripts -Wwrite-strings \
 			 -Wdeclaration-after-statement -Wnested-externs \
 			 -Wmissing-noreturn -Wmissing-prototypes \
+			 -Werror=missing-prototypes -Werror=nested-externs \
+			 -Werror=implicit-function-declaration \
 			 -Wmissing-declarations -Wno-pointer-sign \
-			 -Wbitwise -Wcast-to-as \
+			 -Werror=format-security -Wbitwise -Wcast-to-as \
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
-			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
-			 -Werror=format-security"
-	if test goffice_devel = yes; then
+			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign"
+	if test $goffice_devel = yes; then
 		dnl Avoid triggering a warning in gtk+ headers for stable.
 		warning_options="$warning_options -Wstrict-prototypes"
 	fi
