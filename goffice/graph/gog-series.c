@@ -1328,7 +1328,7 @@ gog_series_populate_fill_type_combo (GogSeries const *series, GtkComboBox *combo
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo)));
 	for (i = 0; series_klass->valid_fill_type_list[i] != GOG_SERIES_FILL_TYPE_INVALID; i++) {
 		fill_type = series_klass->valid_fill_type_list[i];
-		if (fill_type >= 0 && fill_type < GOG_SERIES_FILL_TYPE_INVALID) {
+		if (fill_type < GOG_SERIES_FILL_TYPE_INVALID) {
 			go_gtk_combo_box_append_text (combo, _(_fill_type_infos[fill_type].label));
 			if (fill_type == series->fill_type)
 				gtk_combo_box_set_active (combo, i);

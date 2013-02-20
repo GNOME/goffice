@@ -8,7 +8,6 @@ Jean:
 	* Fix go_component_build_snapshot() returned value. [#694231]
 	* Do not use invalid values in line plots. [#694232]
 
-
 Morten:
 	* Cleanup linear algebra.  [#691630]
 	* Work on new compiler warnings.

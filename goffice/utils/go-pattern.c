@@ -123,7 +123,8 @@ go_pattern_from_str (char const *str)
 char const *
 go_pattern_as_str (GOPatternType pattern)
 {
-	return (pattern < 0 || pattern >= GO_PATTERN_MAX) ?  "none"
+	return (unsigned)pattern >= GO_PATTERN_MAX
+		? "none"
 		: go_patterns[pattern].str;
 }
 
