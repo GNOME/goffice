@@ -262,7 +262,7 @@ go_line_dash_get_length (GOLineDashType type)
 {
 	GOLineDashDesc const *dash_desc;
 
-	if ((unsigned)type >= G_N_ELEMENTS (line_dashes))
+	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
 		return 1.0;
 
 	dash_desc = line_dashes[type].dash_desc;
@@ -285,7 +285,7 @@ go_line_dash_get_sequence (GOLineDashType type, double scale)
 	GOLineDashSequence *sequence = NULL;
 	GOLineDashDesc const *dash_desc;
 
-	if ((unsigned)type >= G_N_ELEMENTS (line_dashes))
+	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
 		return NULL;
 
 	dash_desc = line_dashes[type].dash_desc;
@@ -430,7 +430,7 @@ static struct {
 	GOArrowType typ;
 	char const *name;
 } arrow_types[] = {
-	{ GO_ARROW_NONE, "none" },
+	{ GO_LINE_NONE, "none" },
 	{ GO_ARROW_KITE, "kite" },
 	{ GO_ARROW_OVAL, "oval" }
 };

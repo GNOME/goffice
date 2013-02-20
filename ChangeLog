@@ -1,11 +1,9 @@
-2013-02-17  Morten Welinder  <terra@gnome.org>
+2013-02-20  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* configure.ac (set_more_warnings): Improve support for clang.
-
-2013-02-16  Morten Welinder  <terra@gnome.org>
-
-	* goffice/math/go-regression.c (general_linear_regression): memset
-	the right size.
+	* goffice/component/go-component.c (go_component_build_snapshot): always
+	return an initialized value. [#694231]
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): do not use invalid
+	values. [#694232]
 
 2013-02-15  Morten Welinder  <terra@gnome.org>
 

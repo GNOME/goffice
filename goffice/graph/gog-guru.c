@@ -1161,9 +1161,8 @@ typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 
 	gtk_style_context_get_background_color (style_context,
 	                                        gtk_widget_has_focus (typesel->canvas)
-						? GTK_STATE_FLAG_SELECTED
-						: GTK_STATE_FLAG_ACTIVE,
-						&rgba);
+											? GTK_STATE_SELECTED : GTK_STATE_ACTIVE,
+                                            &rgba);
 	if (rgba.alpha > 0.40)
 				rgba.alpha = 0.40;
 	select_color = GO_COLOR_FROM_GDK_RGBA (rgba);

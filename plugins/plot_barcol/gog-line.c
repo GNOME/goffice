@@ -604,7 +604,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		sum = abs_sum = 0.0;
 		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			for (i = 0; i < num_series; i++)
-				if (vals[i] && gog_axis_map_finite (y_map, vals[i][j]))
+				if (vals[i]  && j < lengths[i] && gog_axis_map_finite (y_map, vals[i][j]))
 					abs_sum += fabs (vals[i][j]);
 			is_null = (go_sub_epsilon (abs_sum) <= 0.);
 		} else

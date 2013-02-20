@@ -785,7 +785,9 @@ go_component_build_snapshot (GOComponent *component)
 	default:
 		return GO_SNAPSHOT_NONE;
 	}
-	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
+	if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS)
+		res = component->snapshot_type;
+	else
 		res = GO_SNAPSHOT_NONE;
 
 	cairo_surface_destroy (surface);

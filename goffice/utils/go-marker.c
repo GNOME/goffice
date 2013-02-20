@@ -141,8 +141,7 @@ go_marker_shape_from_str (char const *str)
 char const *
 go_marker_shape_as_str (GOMarkerShape shape)
 {
-	return (unsigned)shape >= GO_MARKER_MAX
-		? "pattern"
+	return (shape < 0 || shape >= GO_MARKER_MAX) ? "pattern"
 		: marker_shapes[shape].str;
 }
 

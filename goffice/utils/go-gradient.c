@@ -85,7 +85,6 @@ go_gradient_dir_from_str (char const *name)
 char const *
 go_gradient_dir_as_str (GOGradientDirection dir)
 {
-	return (unsigned)dir >= GO_GRADIENT_MAX
-		? "gradient"
+	return (dir < 0 || dir >= GO_GRADIENT_MAX) ? "gradient"
 		: grad_dir_names[dir];
 }

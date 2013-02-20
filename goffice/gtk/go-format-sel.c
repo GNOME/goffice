@@ -1517,7 +1517,7 @@ nfs_init (GOFormatSel *gfs)
 		/* request width in number of chars */
 		context = gtk_widget_get_pango_context (w);
 		metrics = pango_context_get_metrics (context,
-						     gtk_style_context_get_font (gtk_widget_get_style_context (w), GTK_STATE_FLAG_NORMAL),
+						     gtk_style_context_get_font (gtk_widget_get_style_context (w), GTK_STATE_NORMAL),
 						     pango_context_get_language (context));
 		char_width = pango_font_metrics_get_approximate_char_width (metrics);
 		gtk_widget_set_size_request (w, PANGO_PIXELS (char_width) * FORMAT_PREVIEW_MAX, -1);
