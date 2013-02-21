@@ -884,8 +884,6 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 	if (!has_stat)
 		stat_ = SUFFIX(go_regression_stat_new)();
 
-	memset (stat_, 0, sizeof (*stat_));
-
 	if (n > m) {
 		regerr = GO_REG_not_enough_data;
 		goto out;
