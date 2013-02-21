@@ -1,5 +1,11 @@
 2013-02-21  Morten Welinder  <terra@gnome.org>
 
+	* goffice/app/go-plugin-service.c
+	(go_plugin_service_resource_read_xml): Fix potential free of
+	random memory.
+
+2013-02-21  Morten Welinder  <terra@gnome.org>
+
 	* goffice/math/go-regression.c (general_linear_regression): Drop
 	the memset.  The constructor does it and with ref-counting it
 	doesn't work.

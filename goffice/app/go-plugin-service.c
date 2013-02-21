@@ -312,7 +312,7 @@ static void
 go_plugin_service_resource_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	GOPluginServiceResource *sr = GO_PLUGIN_SERVICE_RESOURCE (service);
-	char *data;
+	char *data = NULL;
 	gsize length;
 	xmlChar *file;
 
