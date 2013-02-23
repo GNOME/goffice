@@ -2818,7 +2818,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	state->axis = axis;
 	state->cc = cc;
 	state->gui = gui;
-	g_object_ref (G_OBJECT (axis));
+	g_object_ref (axis);
 
 	/* Bounds Page */
 	grid = GTK_GRID (gtk_builder_get_object (gui, "bound-grid"));

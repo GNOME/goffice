@@ -328,7 +328,7 @@ gog_chart_populate_editor (GogObject *gobj,
 	state->chart = chart;
 	state->gui = gui;
 
-	g_object_ref (G_OBJECT (chart));
+	g_object_ref (chart);
 	is_plot_area_manual = gog_chart_get_plot_area (chart, &plot_area);
 
 	state->x_spin = go_gtk_builder_get_widget (gui, "x_spin");

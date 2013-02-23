@@ -1012,7 +1012,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 	g_object_get (G_OBJECT (rend), "view", &(s->graph_view), NULL);
 	s->selection_changed_handler = g_signal_connect (G_OBJECT (s->graph_view), "selection-changed",
 							 G_CALLBACK (cb_graph_selection_changed), s);
-	g_object_unref (G_OBJECT (rend));
+	g_object_unref (rend);
 
 	w = go_gtk_builder_get_widget (s->gui, "prop_alignment");
 	s->prop_container = GTK_CONTAINER (w);
@@ -1268,7 +1268,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	g_object_set_data_full (G_OBJECT (selector),
 		"state", typesel, (GDestroyNotify) g_free);
 
-	g_object_unref (G_OBJECT (gui));
+	g_object_unref (gui);
 
 	return selector;
 }

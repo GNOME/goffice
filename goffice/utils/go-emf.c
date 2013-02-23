@@ -67,8 +67,8 @@ static void load_wmf_as_pixbuf (GOImage *image, guint8 const *data, size_t lengt
 		if (ret)
 			image->pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 		if (image->pixbuf)
-			g_object_ref (G_OBJECT (image->pixbuf));
-		g_object_unref (G_OBJECT (loader));
+			g_object_ref (image->pixbuf);
+		g_object_unref (loader);
 		image->width = gdk_pixbuf_get_width (image->pixbuf);
 		image->height = gdk_pixbuf_get_height (image->pixbuf);
 	}

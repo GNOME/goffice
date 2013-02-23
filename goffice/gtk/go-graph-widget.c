@@ -463,7 +463,7 @@ go_graph_widget_new (GogGraph *graph)
 	go_graph_widget_set_size_mode (GO_GRAPH_WIDGET (ret), GO_GRAPH_WIDGET_SIZE_MODE_FIT, -1, -1);
 
 	if (self_owned)
-		g_object_unref (G_OBJECT (graph));
+		g_object_unref (graph);
 
 	return ret;
 }

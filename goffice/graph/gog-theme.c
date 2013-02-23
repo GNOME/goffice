@@ -1869,7 +1869,7 @@ gog_theme_edit (GogTheme *theme, GOCmdContext *cc)
 	if (gtk_dialog_run (GTK_DIALOG (w))) {
 	}
 	gtk_widget_destroy (w);
-	g_object_unref (G_OBJECT (state.gui));
+	g_object_unref (state.gui);
 	return NULL;
 }
 

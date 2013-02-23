@@ -1719,7 +1719,7 @@ go_format_sel_finalize (GObject *obj)
 	}
 
 	if (gfs->gui) {
-		g_object_unref (G_OBJECT (gfs->gui));
+		g_object_unref (gfs->gui);
 		gfs->gui = NULL;
 	}
 

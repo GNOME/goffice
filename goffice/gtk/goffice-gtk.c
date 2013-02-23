@@ -995,7 +995,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 					  G_CALLBACK (cb_format_combo_changed), resolution_grid);
 		}
 
-		g_object_unref (G_OBJECT (gui));
+		g_object_unref (gui);
 	}
 
 	if (state->uri != NULL) {
@@ -1151,10 +1151,10 @@ go_help_display (CBHelpPaths const *paths, GdkScreen *screen)
 				g_hash_table_insert (context_help_map, g_strdup (topic),
 					(gpointer)id);
 			}
-			g_object_unref (G_OBJECT (textline));
+			g_object_unref (textline);
 		}
 		if (input)
-			g_object_unref (G_OBJECT (input));
+			g_object_unref (input);
 		g_free (path);
 	}
 

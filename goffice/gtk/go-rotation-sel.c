@@ -246,7 +246,7 @@ grs_finalize (GObject *obj)
 	GORotationSel *grs = GO_ROTATION_SEL (obj);
 
 	if (grs->gui) {
-		g_object_unref (G_OBJECT (grs->gui));
+		g_object_unref (grs->gui);
 		grs->gui = NULL;
 	}
 

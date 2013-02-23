@@ -326,7 +326,7 @@ go_component_shapshot_finalize (GObject *obj)
 	GOComponentSnapshot *snapshot = (GOComponentSnapshot *) obj;
 
 	if (G_IS_OBJECT (snapshot->image))
-		g_object_unref (G_OBJECT (snapshot->image));
+		g_object_unref (snapshot->image);
 
 	(*snapshot_parent_klass->finalize) (obj);
 }

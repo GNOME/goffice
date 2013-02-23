@@ -375,7 +375,7 @@ g3d_finalize (GObject *obj)
 	GO3DRotationSel *g3d = GO_3D_ROTATION_SEL (obj);
 
 	if (g3d->gui) {
-		g_object_unref (G_OBJECT (g3d->gui));
+		g_object_unref (g3d->gui);
 		g3d->gui = NULL;
 	}
 

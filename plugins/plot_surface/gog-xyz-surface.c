@@ -313,7 +313,7 @@ gog_xyz_surface_plot_populate_editor (GogObject *item,
 				plot_xyz_surface_parent_klass;
 	GtkWidget *w = gog_xyz_surface_plot_pref (GOG_XYZ_PLOT (item), dalloc, cc);
 	go_editor_add_page (editor, w, _("Properties"));
-	g_object_unref (G_OBJECT (w));
+	g_object_unref (w);
 
 	(GOG_OBJECT_CLASS (klass)->populate_editor) (item, editor, dalloc, cc);
 }

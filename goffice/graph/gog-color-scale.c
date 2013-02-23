@@ -112,7 +112,7 @@ gog_color_scale_finalize (GObject *obj)
 {
 	GogColorScale *scale = GOG_COLOR_SCALE (obj);
 
-	g_object_unref (G_OBJECT (scale->axis));
+	g_object_unref (scale->axis);
 
 	parent_klass->finalize (obj);
 }

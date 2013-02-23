@@ -880,7 +880,7 @@ go_file_opener_register (GOFileOpener *fo, gint priority)
 		file_opener_priority_list,
 		GINT_TO_POINTER (priority), pos);
 	file_opener_list = g_list_insert (file_opener_list, fo, pos);
-	g_object_ref (G_OBJECT (fo));
+	g_object_ref (fo);
 
 	id = go_file_opener_get_id (fo);
 	if (id != NULL) {
@@ -925,7 +925,7 @@ go_file_opener_unregister (GOFileOpener *fo)
 		}
 	}
 
-	g_object_unref (G_OBJECT (fo));
+	g_object_unref (fo);
 }
 
 static gint
@@ -951,7 +951,7 @@ go_file_saver_register (GOFileSaver *fs)
 	g_return_if_fail (GO_IS_FILE_SAVER (fs));
 
 	file_saver_list = g_list_prepend (file_saver_list, fs);
-	g_object_ref (G_OBJECT (fs));
+	g_object_ref (fs);
 
 	id = go_file_saver_get_id (fs);
 	if (id != NULL) {
@@ -1030,7 +1030,7 @@ go_file_saver_unregister (GOFileSaver *fs)
 		}
 	}
 
-	g_object_unref (G_OBJECT (fs));
+	g_object_unref (fs);
 }
 
 /**

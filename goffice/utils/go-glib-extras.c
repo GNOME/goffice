@@ -40,8 +40,6 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include <fcntl.h>
-#include <errno.h>
 
 static void
 cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)

@@ -89,7 +89,7 @@ gog_pie_series_element_populate_editor (GogObject *gobj,
 {
 	GtkWidget *widget = gog_pie_series_element_pref (GOG_PIE_SERIES_ELEMENT (gobj), cc);
 	go_editor_add_page (editor, widget, _("Settings"));
-	g_object_unref (G_OBJECT (widget));
+	g_object_unref (widget);
 	return widget;
 }
 #endif
@@ -273,7 +273,7 @@ gog_pie_plot_populate_editor (GogObject *item,
 	go_editor_add_page (editor,
 			     widget,
 			     _("Properties"));
-	g_object_unref (G_OBJECT (widget));
+	g_object_unref (widget);
 
 	(GOG_OBJECT_CLASS(pie_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
@@ -436,7 +436,7 @@ gog_ring_plot_populate_editor (GogObject *item,
 	go_editor_add_page (editor,
 			     widget,
 			     _("Properties"));
-	g_object_unref (G_OBJECT (widget));
+	g_object_unref (widget);
 }
 #endif
 

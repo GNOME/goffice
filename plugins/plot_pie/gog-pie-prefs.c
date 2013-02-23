@@ -161,7 +161,7 @@ gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 	state = g_new0 (PiePrefState, 1);
 	state->gobj = GOG_OBJECT (pie);
 	state->separation_spinner = go_gtk_builder_get_widget (gui, "separation_spinner");
-	g_object_ref (G_OBJECT (pie));
+	g_object_ref (pie);
 
 	gog_pie_plot_pref_signal_connect (pie, gui);
 
@@ -202,7 +202,7 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 	state = g_new0 (PiePrefState, 1);
 	state->gobj = GOG_OBJECT (ring);
 	state->separation_spinner = go_gtk_builder_get_widget (gui, "separation_spinner");
-	g_object_ref (G_OBJECT (ring));
+	g_object_ref (ring);
 
 	gog_pie_plot_pref_signal_connect (GOG_PIE_PLOT (ring), gui);
 

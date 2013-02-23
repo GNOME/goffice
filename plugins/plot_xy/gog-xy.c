@@ -461,7 +461,7 @@ gog_bubble_plot_populate_editor (GogObject *obj,
 {
 	GtkWidget *w = gog_bubble_plot_pref (GOG_BUBBLE_PLOT (obj), cc);
 	go_editor_add_page (editor, w, _("Properties"));
-	g_object_unref (G_OBJECT (w));
+	g_object_unref (w);
 
 	(GOG_OBJECT_CLASS(bubble_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }

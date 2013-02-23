@@ -74,7 +74,7 @@ ioc_finalize (GObject *obj)
 	if (ioc->impl) {
 		go_cmd_context_progress_set (ioc->impl, 0.0);
 		go_cmd_context_progress_message_set (ioc->impl, NULL);
-		g_object_unref (G_OBJECT (ioc->impl));
+		g_object_unref (ioc->impl);
 	}
 
 	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
@@ -185,7 +185,7 @@ go_io_context_new (GOCmdContext *cc)
 	ioc = g_object_new (GO_TYPE_IO_CONTEXT, NULL);
 	/* The cc is optional for subclasses, but mandatory in this class. */
 	ioc->impl = cc;
-	g_object_ref (G_OBJECT (ioc->impl));
+	g_object_ref (ioc->impl);
 
 	return ioc;
 }

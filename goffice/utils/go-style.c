@@ -1816,7 +1816,7 @@ go_style_force_auto (GOStyle *style)
 	g_return_if_fail (GO_IS_STYLE (style));
 
 	if (style->marker.mark != NULL)
-		g_object_unref (G_OBJECT (style->marker.mark));
+		g_object_unref (style->marker.mark);
 	style->marker.mark = go_marker_new ();
 	style->marker.auto_shape =
 	style->marker.auto_outline_color =
@@ -1849,7 +1849,7 @@ go_style_clear_auto	(GOStyle *style)
 	g_return_if_fail (GO_IS_STYLE (style));
 
 	if (style->marker.mark != NULL)
-		g_object_unref (G_OBJECT (style->marker.mark));
+		g_object_unref (style->marker.mark);
 	style->marker.mark = go_marker_new ();
 	style->marker.auto_shape =
 	style->marker.auto_outline_color =

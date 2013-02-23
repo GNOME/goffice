@@ -174,7 +174,7 @@ go_color_group_fetch (char const *name, gpointer context)
 		cg = go_color_group_find (new_name, context);
 	if (cg != NULL) {
 		g_free (new_name);
-		g_object_ref (G_OBJECT (cg));
+		g_object_ref (cg);
 		return cg;
 	}
 	}

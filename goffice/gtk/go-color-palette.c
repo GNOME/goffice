@@ -418,7 +418,7 @@ go_color_palette_set_group (GOColorPalette *p, GOColorGroup *cg)
 		g_signal_handlers_disconnect_by_func (
 			G_OBJECT (p->group),
 			G_CALLBACK (cb_history_changed), p);
-		g_object_unref (G_OBJECT (p->group));
+		g_object_unref (p->group);
 		p->group = NULL;
 	}
 	if (cg != NULL) {

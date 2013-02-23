@@ -578,7 +578,7 @@ gog_object_populate_editor (GogObject *gobj,
 	state->h_spin = NULL;
 	state->position_notebook = go_gtk_builder_get_widget (gui, "position_notebook");
 
-	g_object_ref (G_OBJECT (gobj));
+	g_object_ref (gobj);
 
 	widget_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 	label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -620,8 +620,8 @@ gog_object_populate_editor (GogObject *gobj,
 	if (!(allowable_positions & GOG_POSITION_COMPASS))
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), 1);
 
-	g_object_unref (G_OBJECT (widget_size_group));
-	g_object_unref (G_OBJECT (label_size_group));
+	g_object_unref (widget_size_group);
+	g_object_unref (label_size_group);
 
 	widget_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 	label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -725,8 +725,8 @@ gog_object_populate_editor (GogObject *gobj,
 				  G_CALLBACK (cb_chart_position_changed), state);
 	}
 
-	g_object_unref (G_OBJECT (widget_size_group));
-	g_object_unref (G_OBJECT (label_size_group));
+	g_object_unref (widget_size_group);
+	g_object_unref (label_size_group);
 
 	if ((allowable_positions & GOG_POSITION_MANUAL) &&
 	    ((allowable_positions & (GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT)) ||

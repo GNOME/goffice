@@ -256,7 +256,7 @@ static void
 goc_canvas_finalize (GObject *obj)
 {
 	GocCanvas *canvas = GOC_CANVAS (obj);
-	g_object_unref (G_OBJECT (canvas->root));
+	g_object_unref (canvas->root);
 	parent_klass->finalize (obj);
 }
 

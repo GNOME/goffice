@@ -300,7 +300,7 @@ gog_plot_populate_editor (GogObject *obj,
 			go_editor_add_page (editor, grid, _("Axes"));
 		}
 		else
-			g_object_unref (G_OBJECT (grid));
+			g_object_unref (grid);
 	}
 
 	(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
