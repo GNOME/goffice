@@ -22,14 +22,15 @@
 #define GOFFICE_H
 
 #include <glib.h>
+#include <glib-object.h>
+#include <gsf/gsf.h>
 #include <goffice/goffice-features.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <gtk/gtk.h>
-#else
+#endif
 #include <cairo/cairo.h>
 #include <pango/pango.h>
-#endif
 
 #ifndef GO_VAR_DECL
 #  ifdef WIN32
@@ -42,12 +43,6 @@
 #    define GO_VAR_DECL extern
 #  endif
 #endif /* GO_VAR_DECL */
-
-
-#include <glib-object.h>
-#ifdef GOFFICE_WITH_GTK
-#include <gtk/gtk.h>
-#endif
 
 #if GLIB_CHECK_VERSION(2,32,0)
 #define GOFFICE_DEPRECATED_FOR(f) G_DEPRECATED_FOR(f)

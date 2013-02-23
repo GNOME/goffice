@@ -22,8 +22,6 @@
 #define GOG_RENDERER_H
 
 #include <goffice/goffice.h>
-
-#include <gsf/gsf.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef GOFFICE_WITH_LASEM

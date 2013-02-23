@@ -20,18 +20,8 @@
  */
 #include <goffice/goffice-config.h>
 #include <goffice/goffice-debug.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-graph-impl.h>
-#include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-units.h>
-#include <goffice/utils/go-cairo.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-marker.h>
 
-#include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 

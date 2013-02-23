@@ -6,7 +6,6 @@
 #include <glib.h>
 #include <gmodule.h>
 #include <libxml/tree.h>
-#include <gsf/gsf.h>
 
 G_BEGIN_DECLS
 

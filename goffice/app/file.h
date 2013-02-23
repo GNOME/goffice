@@ -2,7 +2,6 @@
 #define _GOFFICE_FILE_H_
 
 #include <glib-object.h>
-#include <gsf/gsf.h>
 #include <goffice/app/goffice-app.h>
 
 G_BEGIN_DECLS

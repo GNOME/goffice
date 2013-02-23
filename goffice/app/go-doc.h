@@ -22,7 +22,6 @@
 #define GO_DOC_H
 
 #include <goffice/goffice.h>
-#include <gsf/gsf.h>
 
 G_BEGIN_DECLS
 

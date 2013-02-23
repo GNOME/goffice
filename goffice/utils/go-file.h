@@ -22,7 +22,6 @@
 #define GO_FILE_H
 
 #include <goffice/goffice.h>
-#include <gsf/gsf.h>
 #include <time.h>
 
 G_BEGIN_DECLS

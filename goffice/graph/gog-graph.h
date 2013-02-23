@@ -23,9 +23,6 @@
 
 #include <goffice/goffice.h>
 
-#include <gsf/gsf.h>
-#include <cairo.h>
-
 G_BEGIN_DECLS
 
 #define GOG_TYPE_GRAPH	(gog_graph_get_type ())
