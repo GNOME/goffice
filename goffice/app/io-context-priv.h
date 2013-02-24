@@ -62,7 +62,7 @@ struct _GOIOContext {
 struct _GOIOContextClass {
 	GObjectClass base;
 	void  (*set_num_files)   (GOIOContext *ioc, guint count);
-	void  (*processing_file) (GOIOContext *ioc, char const *name);
+	void  (*processing_file) (GOIOContext *ioc, char const *uri);
 };
 
 G_END_DECLS
