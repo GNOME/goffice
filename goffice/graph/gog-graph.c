@@ -1221,7 +1221,7 @@ gog_graph_view_get_selection (GogGraphView *gview)
 }
 
 /**
- * gog_graph_view_set_selection
+ * gog_graph_view_set_selection:
  * @gview: #GogGraphView
  * @gobj: new selected object
  *

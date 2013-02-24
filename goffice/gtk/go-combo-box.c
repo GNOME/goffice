@@ -71,7 +71,7 @@ static guint go_combo_box_signals [LAST_SIGNAL] = { 0, };
 static void go_combo_set_tearoff_state (GOComboBox *combo, gboolean torn_off);
 
 /**
- * go_combo_popup_reparent
+ * go_combo_popup_reparent:
  * @popup:       Popup
  * @new_parent:  New parent
  * @unrealize:   Unrealize popup if TRUE.
@@ -292,7 +292,7 @@ cb_combo_keypress (GtkWidget *widget, GdkEventKey *event,
 }
 
 /**
- * go_combo_popup_tear_off
+ * go_combo_popup_tear_off:
  * @combo:         Combo box
  * @set_position:  Set to position of popup shell if true
  *
@@ -403,7 +403,7 @@ go_combo_box_get_pos (GOComboBox *combo_box, int *x, int *y)
 }
 
 /**
- * go_combo_tearoff_bg_copy
+ * go_combo_tearoff_bg_copy:
  * @combo_box:  Combo box
  *
  * Copy popup window image to the tearoff window.
@@ -610,7 +610,7 @@ cb_tearable_enter_leave (GtkWidget *w, GdkEventCrossing *event, gpointer data)
 }
 
 /**
- * go_combo_set_tearoff_state
+ * go_combo_set_tearoff_state:
  * @combo_box:  Combo box
  * @torn_off:   TRUE: Tear off. FALSE: Pop down and reattach
  *
@@ -741,7 +741,7 @@ go_combo_box_construct (GOComboBox *combo,
 }
 
 /**
- * go_combo_box_set_title
+ * go_combo_box_set_title:
  * @combo: Combo box
  * @title: Title
  *

@@ -997,7 +997,7 @@ go_url_encode (gchar const *uri_fragment, int type)
 }
 
 /**
- * go_url_check_extension
+ * go_url_check_extension:
  * @uri: Uri
  * @std_ext: Standard extension for the content type
  * @new_uri: New uri
@@ -1039,7 +1039,7 @@ go_url_check_extension (gchar const *uri,
 }
 
 /**
- * go_get_mime_type_for_data:
+ * go_get_mime_type:
  * @uri: the uri.
  *
  * returns: the mime type for the file as a newly allocated string. Needs to

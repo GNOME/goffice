@@ -144,7 +144,7 @@ go_string_new_len (char const *str, guint32 len)
 }
 
 /**
- * go_string_new_nocopy :
+ * go_string_new_nocopy_len:
  * @str : string (optionally %NULL)
  * @len : guint32
  *
@@ -194,7 +194,7 @@ go_string_new (char const *str)
 }
 
 /**
- * go_string_new_nocopy :
+ * go_string_new_nocopy:
  * @str : string
  *
  * GOString takes ownership of @str
@@ -634,7 +634,8 @@ go_string_get_type (void)
 }
 
 /**
- * go_string_get_len
+ * go_string_get_len:
+ * @gstr : string.
  **/
 guint32
 go_string_get_len (GOString const *gstr)
@@ -644,7 +645,8 @@ go_string_get_len (GOString const *gstr)
 
 
 /**
- * go_string_get_markup
+ * go_string_get_markup:
+ * @gstr : string.
  **/
 PangoAttrList *
 go_string_get_markup (GOString const *gstr)
@@ -679,7 +681,11 @@ go_string_get_phonetic (GOString const *gstr)
 
 
 /**
- * go_string_equal_ignorecase
+ * go_string_equal_ignorecase:
+ * @gstr_a : string.
+ * @gstr_b : string.
+ *
+ * Returns: TRUE if the two strings are equal when ignoring letter case.
  **/
 gboolean
 go_string_equal_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
@@ -689,7 +695,9 @@ go_string_equal_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 
 
 /**
- * go_string_equal_ignorecase
+ * go_string_equal_rich:
+ * @gstr_a : string.
+ * @gstr_b : string.
  **/
 gboolean
 go_string_equal_rich (gconstpointer gstr_a, gconstpointer gstr_b)
@@ -706,7 +714,11 @@ find_shape_attr (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
 }
 
 /**
- * go_string_trim
+ * go_string_trim:
+ * @gstr : string.
+ * @internal : Trim multiple consequtive internal spaces.
+ *
+ * Returns: @gstr
  **/
 GOString *
 go_string_trim (GOString *gstr, gboolean internal)

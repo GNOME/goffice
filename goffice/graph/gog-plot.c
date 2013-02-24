@@ -1005,7 +1005,7 @@ gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type)
 /**
  * gog_plot_get_axis:
  * @plot: #GogPlot
- * type: #GogAxisType
+ * @type: #GogAxisType
  *
  * Returns: (transfer none): the axis if any.
  */

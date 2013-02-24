@@ -385,7 +385,7 @@ go_line_interpolation_as_label (GOLineInterpolation type)
 }
 
 /**
- * go_line_interpolation_as_str:
+ * go_line_interpolation_supports_radial:
  * @type: an interpolation type
  *
  * Returns: TRUE if the line interpolation type can be used with radial
@@ -405,7 +405,7 @@ go_line_interpolation_supports_radial (GOLineInterpolation type)
 }
 
 /**
- * go_line_interpolation_as_str:
+ * go_line_interpolation_auto_skip:
  * @type: an interpolation type
  *
  * Returns: TRUE if the line interpolation type forces skipping invalid

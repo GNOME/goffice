@@ -52,7 +52,7 @@
  **/
 
 /**
- * GOImageClass
+ * GOImageClass:
  * @parent_klass: parent class.
  * @get_pixbuf: gets a pixbuf with the same size as the image.
  * @get_scaled_pixbuf: gets a scaled pixbuf respecting the original aspect ratio.

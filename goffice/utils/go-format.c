@@ -6133,7 +6133,7 @@ go_format_get_type (void)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_is_invalid
+ * go_format_is_invalid:
  * @fmt: Format to query
  *
  * Returns: TRUE if, and if only, the format is invalid
@@ -6148,7 +6148,7 @@ go_format_is_invalid (GOFormat const *fmt)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_is_general
+ * go_format_is_general:
  * @fmt: Format to query
  *
  * Returns: TRUE if the format is "General", possibly with condition,
@@ -6166,7 +6166,7 @@ go_format_is_general (GOFormat const *fmt)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_is_markup
+ * go_format_is_markup:
  * @fmt: Format to query
  *
  * Returns: TRUE if the format is a markup format
@@ -6182,7 +6182,7 @@ go_format_is_markup (GOFormat const *fmt)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_is_text
+ * go_format_is_text:
  * @fmt: Format to query
  *
  * Returns: TRUE if the format is a text format
@@ -6198,7 +6198,7 @@ go_format_is_text (GOFormat const *fmt)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_is_var_width
+ * go_format_is_var_width:
  * @fmt: Format to query
  *
  * Returns: TRUE if the format is variable width, i.e., can stretch.

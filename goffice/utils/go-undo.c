@@ -51,7 +51,7 @@
 GSF_CLASS (GOUndo, go_undo, NULL, NULL, G_TYPE_OBJECT)
 
 /**
- * go_undo_undo_with_data
+ * go_undo_undo_with_data:
  * @u: undo object
  * @data: user data
  *
@@ -72,7 +72,7 @@ go_undo_undo_with_data (GOUndo *u, gpointer data)
 }
 
 /**
- * go_undo_undo
+ * go_undo_undo:
  * @u: undo object
  *
  * Execute the stored undo operation.

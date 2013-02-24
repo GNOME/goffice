@@ -44,10 +44,6 @@
  **/
 
 /**
- * GogObjectRole:
- **/
-
-/**
  * GogObjectClass:
  * @roles: roles for the class.
  * @view_type: view type.
