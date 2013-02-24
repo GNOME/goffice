@@ -313,15 +313,13 @@ GSF_CLASS_FULL (GogStyledObject, gog_styled_object, NULL, NULL,
 	   GOG_TYPE_OBJECT, G_TYPE_FLAG_ABSTRACT,
 	   GSF_INTERFACE (gog_styled_object_so_init, GO_TYPE_STYLED_OBJECT))
 
-#ifndef GOFFICE_DISABLE_DEPRECTATED
 /**
  * gog_style_new: (skip)
  *
  * Returns: (transfer full): the new #GogStyle
  **/
-GOStyle *
+GogStyle *
 gog_style_new (void)
 {
 	return g_object_new (gog_style_get_type (), NULL);
 }
-#endif

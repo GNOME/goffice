@@ -1,3 +1,9 @@
+2013-02-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-styled-object.c (gog_style_new): returns GogStyle* to
+	avoid confuse introspection.
+	* goffice/graph/gog-styled-object.h: ditto.
+
 2013-02-23  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Avoid G_OBJECT casts for g_object_ref and g_object_unref.
