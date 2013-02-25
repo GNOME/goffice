@@ -719,7 +719,7 @@ create_plot_families (void)
 /**
  * gog_plot_families: (skip)
  *
- * Returns: (transfer none) the registered plot families.
+ * Returns: (transfer none): the registered plot families.
  */
 GHashTable const *
 gog_plot_families (void)
