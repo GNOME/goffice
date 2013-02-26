@@ -760,6 +760,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 					g_object_get (labels[j], "offset", &offset, NULL);
 					position = gog_series_labels_get_position (labels[j]);
 				}
+				offset *= gog_renderer_get_scale (view->renderer);
 				switch (position) {
 				default:
 				case GOG_SERIES_LABELS_CENTERED:

@@ -1584,19 +1584,19 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					anchor = GO_ANCHOR_CENTER;
 					break;
 				case GOG_SERIES_LABELS_TOP:
-					alloc.y -= cur_offset;
+					alloc.y -= cur_offset * gog_renderer_get_scale (view->renderer);;
 					anchor = GO_ANCHOR_SOUTH;
 					break;
 				case GOG_SERIES_LABELS_BOTTOM:
-					alloc.y += cur_offset;
+					alloc.y += cur_offset * gog_renderer_get_scale (view->renderer);
 					anchor = GO_ANCHOR_NORTH;
 					break;
 				case GOG_SERIES_LABELS_LEFT:
-					alloc.x -= cur_offset;
+					alloc.x -= cur_offset * gog_renderer_get_scale (view->renderer);;
 					anchor = GO_ANCHOR_EAST;
 					break;
 				case GOG_SERIES_LABELS_RIGHT:
-					alloc.x += cur_offset;
+					alloc.x += cur_offset * gog_renderer_get_scale (view->renderer);;
 					anchor = GO_ANCHOR_WEST;
 					break;
 				}

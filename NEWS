@@ -7,6 +7,7 @@ Jean:
 	* Add a user interface for radar and polar plots axis selection. [#692803]
 	* Fix go_component_build_snapshot() returned value. [#694231]
 	* Do not use invalid values in line plots. [#694232]
+	* Make data labels position independant on scale. [#694731]
 
 Morten:
 	* Cleanup linear algebra.  [#691630]
