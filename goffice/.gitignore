@@ -15,3 +15,5 @@ stamp-h*
 *.la
 *~
 embedded-stuff.c
+GOffice-0.10.gir
+GOffice-0.10.typelib
