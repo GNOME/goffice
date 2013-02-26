@@ -1,6 +1,7 @@
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS = \
+	--add-include-path="${INTROSPECTION_GIRDIR}" \
 	-v --warn-all --accept-unprefixed -DGOFFICE_DISABLE_DEPRECATED \
 	--namespace GOffice --nsversion="@GOFFICE_API_VER@" \
 	--identifier-prefix="GO"  --identifier-prefix="Go" \
@@ -8,7 +9,8 @@ INTROSPECTION_SCANNER_ARGS = \
 
 INTROSPECTION_COMPILER_ARGS = \
 	--includedir=$(srcdir) \
-    --includedir=.
+	--includedir=. \
+	--includedir="${INTROSPECTION_GIRDIR}"
 
 #####################################
 #app directory files
@@ -628,7 +630,7 @@ GOffice_@GOFFICE_API_VER_@_gir_FILES = \
 	$(graph_HEADERS) \
 	$(math_HEADERS) \
 	$(utils_HEADERS)
-	
+
 if WITH_GTK
 GOffice_@GOFFICE_API_VER_@_gir_FILES += \
 	$(canvas_gtk_HEADERS) \
@@ -636,7 +638,7 @@ GOffice_@GOFFICE_API_VER_@_gir_FILES += \
 	$(graph_gtk_HEADERS) \
 	$(gtk_HEADERS)
 endif
-	
+
 if GOFFICE_WITH_LASEM
 GOffice_@GOFFICE_API_VER_@_gir_FILES += \
 	$(graph_lasem_HEADERS)
