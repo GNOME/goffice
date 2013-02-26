@@ -145,8 +145,8 @@ go_string_new_len (char const *str, guint32 len)
 
 /**
  * go_string_new_nocopy_len:
- * @str : string (optionally %NULL)
- * @len : guint32
+ * @str: string (optionally %NULL)
+ * @len: guint32
  *
  * GOString takes ownership of @str
  *
@@ -195,7 +195,7 @@ go_string_new (char const *str)
 
 /**
  * go_string_new_nocopy:
- * @str : string
+ * @str: string
  *
  * GOString takes ownership of @str
  *
@@ -261,11 +261,11 @@ go_string_new_rich_impl (char *str,
 }
 
 /**
- * go_string_new_rich :
- * @str : string.
- * @byte_len : < 0 will call strlen.
- * @markup : optionally %NULL list, GOString steals the ref.
- * @phonetic : optionally %NULL list of phonetic extensions, GOString steals the ref.
+ * go_string_new_rich:
+ * @str: string.
+ * @byte_len: < 0 will call strlen.
+ * @markup: optionally %NULL list, GOString steals the ref.
+ * @phonetic: optionally %NULL list of phonetic extensions, GOString steals the ref.
  *
  * Returns: a string.
  **/
@@ -280,11 +280,11 @@ go_string_new_rich (char const *str,
 }
 
 /**
- * go_string_new_rich_nocopy :
- * @str : string; GOString takes ownership
- * @byte_len : < 0 will call strlen.
- * @markup : optionally %NULL list, GOString steals the ref.
- * @phonetic : optionally %NULL list of phonetic extensions, GOString steals the ref.
+ * go_string_new_rich_nocopy:
+ * @str: string; GOString takes ownership
+ * @byte_len: < 0 will call strlen.
+ * @markup: optionally %NULL list, GOString steals the ref.
+ * @phonetic: optionally %NULL list of phonetic extensions, GOString steals the ref.
  *
  * Returns: a string.
  **/
@@ -474,7 +474,7 @@ go_string_get_casefolded_collate (GOString const *gstr)
 static GOString *go_string_ERROR_val = NULL;
 
 /**
- * go_string_ERROR :
+ * go_string_ERROR:
  *
  * A convenience for g_return_val to share one error string without adding a
  * reference to functions that do not add references to the result
@@ -558,7 +558,7 @@ cb_by_refcount_str (gconstpointer a_, gconstpointer b_)
 }
 
 /**
- * _go_string_dump :
+ * _go_string_dump:
  *
  * Internal debugging utility to
  **/
@@ -613,7 +613,7 @@ value_transform_gostring_string (GValue const *src_val,
 }
 
 /**
- * go_string_get_type :
+ * go_string_get_type:
  *
  * Register #GOString as a type for #GValue
  *
@@ -635,7 +635,7 @@ go_string_get_type (void)
 
 /**
  * go_string_get_len:
- * @gstr : string.
+ * @gstr: string.
  **/
 guint32
 go_string_get_len (GOString const *gstr)
@@ -646,7 +646,7 @@ go_string_get_len (GOString const *gstr)
 
 /**
  * go_string_get_markup:
- * @gstr : string.
+ * @gstr: string.
  **/
 PangoAttrList *
 go_string_get_markup (GOString const *gstr)
@@ -682,8 +682,8 @@ go_string_get_phonetic (GOString const *gstr)
 
 /**
  * go_string_equal_ignorecase:
- * @gstr_a : string.
- * @gstr_b : string.
+ * @gstr_a: string.
+ * @gstr_b: string.
  *
  * Returns: TRUE if the two strings are equal when ignoring letter case.
  **/
@@ -696,8 +696,8 @@ go_string_equal_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 
 /**
  * go_string_equal_rich:
- * @gstr_a : string.
- * @gstr_b : string.
+ * @gstr_a: string.
+ * @gstr_b: string.
  **/
 gboolean
 go_string_equal_rich (gconstpointer gstr_a, gconstpointer gstr_b)
@@ -715,8 +715,8 @@ find_shape_attr (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
 
 /**
  * go_string_trim:
- * @gstr : string.
- * @internal : Trim multiple consequtive internal spaces.
+ * @gstr: string.
+ * @internal: Trim multiple consequtive internal spaces.
  *
  * Returns: @gstr
  **/
