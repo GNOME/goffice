@@ -19,42 +19,42 @@ noinst_HEADERS = \
 	app/file-priv.h \
 	goffice-debug.h
 
-app_SOURCES = \
-	app/go-doc.c 			\
-	app/go-doc-control.c 		\
-	app/go-view.c			\
-	\
-	app/go-plugin.c 			\
-	app/go-plugin-loader.c 		\
-	app/go-plugin-loader-module.c 	\
-	app/go-plugin-service.c 		\
-	\
+app_SOURCES =					\
+	app/go-doc.c				\
+	app/go-doc-control.c			\
+	app/go-view.c				\
+						\
+	app/go-plugin.c				\
+	app/go-plugin-loader.c			\
+	app/go-plugin-loader-module.c		\
+	app/go-plugin-service.c			\
+						\
 	app/file.c				\
 	app/error-info.c			\
 	app/io-context.c			\
-	app/go-cmd-context.c		\
+	app/go-cmd-context.c			\
 	app/go-conf.c
 
 appdir = $(goffice_include_dir)/app
-app_api_headers = 	\
+app_api_headers =				\
 	app/goffice-app.h			\
-	\
-	app/go-doc.h 			\
-	app/go-doc-impl.h 			\
-	app/go-doc-control.h 		\
-	app/go-doc-control-impl.h 		\
-	app/go-view.h			\
-	app/go-plugin.h 			\
-	app/go-plugin-loader.h 		\
-	app/go-plugin-loader-module.h 	\
-	app/go-plugin-service.h 		\
-	app/go-plugin-service-impl.h	\
+						\
+	app/go-doc.h				\
+	app/go-doc-impl.h			\
+	app/go-doc-control.h			\
+	app/go-doc-control-impl.h		\
+	app/go-view.h				\
+	app/go-plugin.h				\
+	app/go-plugin-loader.h			\
+	app/go-plugin-loader-module.h		\
+	app/go-plugin-service.h			\
+	app/go-plugin-service-impl.h		\
 	app/file.h				\
 	app/error-info.h			\
 	app/io-context.h			\
-	app/io-context-priv.h		\
-	app/go-cmd-context.h		\
-	app/go-cmd-context-impl.h	\
+	app/io-context-priv.h			\
+	app/go-cmd-context.h			\
+	app/go-cmd-context-impl.h		\
 	app/go-conf.h
 
 app_HEADERS = 	\
@@ -129,15 +129,15 @@ canvas_HEADERS =	\
 #####################################
 # component directory files
 
-component_SOURCES =	\
-	component/go-component.c 		\
+component_SOURCES =				\
+	component/go-component.c		\
 	component/go-component-factory.c	\
 	component/go-component-mime-dialog.c
 
 componentdir = $(goffice_include_dir)/component
-component_HEADERS = 	\
+component_HEADERS =				\
 	component/goffice-component.h		\
-	component/go-component.h			\
+	component/go-component.h		\
 	component/go-component-factory.h	\
 	component/go-component-mime-dialog.h
 
@@ -149,103 +149,103 @@ data_SOURCES =	\
 	data/go-data-simple.c
 
 go_datadir = $(goffice_include_dir)/data
-go_data_HEADERS = 	\
-	data/goffice-data.h		\
-	data/go-data.h 		\
-	data/go-data-impl.h 		\
+go_data_HEADERS =				\
+	data/goffice-data.h			\
+	data/go-data.h				\
+	data/go-data-impl.h			\
 	data/go-data-simple.h 
 
 #####################################
 # graph directory files
 
-graph_SOURCES = \
+graph_SOURCES =					\
 	graph/gog-object.c			\
-	graph/gog-object-xml.c		\
+	graph/gog-object-xml.c			\
 	graph/gog-styled-object.c		\
 	graph/gog-outlined-object.c		\
 	graph/gog-view.c			\
-	\
+						\
 	graph/gog-graph.c			\
 	graph/gog-chart.c			\
-	\
+						\
 	graph/gog-chart-map.c			\
-	graph/gog-chart-map-3d.c			\
+	graph/gog-chart-map-3d.c		\
 	graph/gog-3d-box.c			\
-	\
+						\
 	graph/gog-axis.c			\
 	graph/gog-axis-line.c			\
-	graph/gog-axis-color-map.c	\
+	graph/gog-axis-color-map.c		\
 	graph/gog-legend.c			\
-	graph/gog-color-scale.c		\
+	graph/gog-color-scale.c			\
 	graph/gog-label.c			\
 	graph/gog-grid.c			\
 	graph/gog-grid-line.c			\
-	\
+						\
 	graph/gog-theme.c			\
-	\
+						\
 	graph/gog-plot.c			\
-	graph/gog-plot-engine.c		\
+	graph/gog-plot-engine.c			\
 	graph/gog-series.c			\
 	graph/gog-error-bar.c			\
-	graph/gog-trend-line.c		\
+	graph/gog-trend-line.c			\
 	graph/gog-reg-curve.c			\
-	graph/gog-smoothed-curve.c	\
+	graph/gog-smoothed-curve.c		\
 	graph/gog-series-labels.c		\
 	graph/gog-series-lines.c		\
 	graph/gog-data-set.c			\
-	\
+						\
 	graph/gog-renderer.c
 
-graph_gtk_SOURCES =	\
-	graph/gog-guru.c	\
-	graph/gog-data-allocator.c	\
+graph_gtk_SOURCES =				\
+	graph/gog-guru.c			\
+	graph/gog-data-allocator.c		\
 	graph/gog-child-button.c
 
 graph_lasem_SOURCES = \
 	graph/gog-equation.c
 
 graphdir = $(goffice_include_dir)/graph
-graph_HEADERS = \
+graph_HEADERS =					\
 	graph/goffice-graph.h			\
 	graph/gog-object.h			\
-	graph/gog-object-xml.h		\
+	graph/gog-object-xml.h			\
 	graph/gog-styled-object.h		\
 	graph/gog-outlined-object.h		\
 	graph/gog-view.h			\
 	graph/gog-graph.h			\
-	graph/gog-graph-impl.h		\
+	graph/gog-graph-impl.h			\
 	graph/gog-chart.h			\
-	graph/gog-chart-impl.h		\
+	graph/gog-chart-impl.h			\
 	graph/gog-chart-map.h			\
-	graph/gog-chart-map-3d.h			\
+	graph/gog-chart-map-3d.h		\
 	graph/gog-3d-box.h			\
 	graph/gog-axis.h			\
-	graph/gog-axis-line.h		\
-	graph/gog-axis-color-map.h	\
+	graph/gog-axis-line.h			\
+	graph/gog-axis-color-map.h		\
 	graph/gog-legend.h			\
-	graph/gog-color-scale.h		\
+	graph/gog-color-scale.h			\
 	graph/gog-label.h			\
 	graph/gog-grid.h			\
 	graph/gog-grid-line.h			\
 	graph/gog-theme.h			\
 	graph/gog-plot.h			\
 	graph/gog-plot-impl.h			\
-	graph/gog-plot-engine.h		\
+	graph/gog-plot-engine.h			\
 	graph/gog-series.h			\
-	graph/gog-series-impl.h		\
+	graph/gog-series-impl.h			\
 	graph/gog-error-bar.h			\
-	graph/gog-trend-line.h		\
+	graph/gog-trend-line.h			\
 	graph/gog-reg-curve.h			\
-	graph/gog-smoothed-curve.h	\
+	graph/gog-smoothed-curve.h		\
 	graph/gog-series-labels.h		\
 	graph/gog-series-lines.h		\
 	graph/gog-data-set.h			\
 	graph/gog-renderer.h
 
 graph_gtkdir = $(goffice_include_dir)/graph
-graph_gtk_HEADERS = \
+graph_gtk_HEADERS =				\
 	graph/gog-guru.h			\
-	graph/gog-data-allocator.h	\
+	graph/gog-data-allocator.h		\
 	graph/gog-child-button.h
 
 graph_lasemdir = $(goffice_include_dir)/graph
@@ -258,181 +258,181 @@ noinst_HEADERS += \
 #####################################
 # gtk directory files
 
-gtk_SOURCES =		\
+gtk_SOURCES =					\
 	gtk/goffice-gtk.c			\
-	\
+						\
 	gtk/go-font-sel.c			\
 	gtk/go-format-sel.c			\
-	gtk/go-rotation-sel.c	 	\
-	gtk/go-charmap-sel.c		\
+	gtk/go-rotation-sel.c			\
+	gtk/go-charmap-sel.c			\
 	gtk/go-locale-sel.c			\
 	gtk/go-3d-rotation-sel.c		\
-	\
+						\
 	gtk/go-optionmenu.c			\
 	gtk/go-combo-box.c			\
-	gtk/go-color-group.c		\
-	gtk/go-color-palette.c		\
-	gtk/go-combo-color.c		\
-	gtk/go-combo-pixmaps.c		\
-	\
-	gtk/go-action-combo-color.c 	\
-	gtk/go-action-combo-pixmaps.c 	\
-	gtk/go-action-combo-stack.c 	\
-	gtk/go-action-combo-text.c	\
-	\
+	gtk/go-color-group.c			\
+	gtk/go-color-palette.c			\
+	gtk/go-combo-color.c			\
+	gtk/go-combo-pixmaps.c			\
+						\
+	gtk/go-action-combo-color.c		\
+	gtk/go-action-combo-pixmaps.c		\
+	gtk/go-action-combo-stack.c		\
+	gtk/go-action-combo-text.c		\
+						\
 	gtk/go-calendar-button.c		\
 	gtk/go-palette.c			\
 	gtk/go-selector.c			\
-	gtk/go-color-selector.c		\
+	gtk/go-color-selector.c			\
 	gtk/go-gradient-selector.c		\
-	gtk/go-line-selector.c		\
+	gtk/go-line-selector.c			\
 	gtk/go-marker-selector.c		\
 	gtk/go-pattern-selector.c		\
-	\
-	gtk/go-graph-widget.c	\
+						\
+	gtk/go-graph-widget.c			\
 	gtk/go-image-sel.c
 
 gtkdir = $(goffice_include_dir)/gtk
-gtk_HEADERS = 		\
+gtk_HEADERS =					\
 	gtk/goffice-gtk.h			\
-	\
+						\
 	gtk/go-font-sel.h			\
 	gtk/go-format-sel.h			\
-	gtk/go-rotation-sel.h	 	\
-	gtk/go-charmap-sel.h		\
+	gtk/go-rotation-sel.h			\
+	gtk/go-charmap-sel.h			\
 	gtk/go-locale-sel.h			\
 	gtk/go-3d-rotation-sel.h		\
-	\
+						\
 	gtk/go-optionmenu.h			\
 	gtk/go-combo-box.h			\
-	gtk/go-color-group.h		\
-	gtk/go-color-palette.h		\
-	gtk/go-combo-color.h		\
-	gtk/go-combo-pixmaps.h		\
-	\
-	gtk/go-action-combo-color.h 	\
-	gtk/go-action-combo-pixmaps.h 	\
-	gtk/go-action-combo-stack.h 	\
+	gtk/go-color-group.h			\
+	gtk/go-color-palette.h			\
+	gtk/go-combo-color.h			\
+	gtk/go-combo-pixmaps.h			\
+						\
+	gtk/go-action-combo-color.h		\
+	gtk/go-action-combo-pixmaps.h		\
+	gtk/go-action-combo-stack.h		\
 	gtk/go-action-combo-text.h		\
-	\
+						\
 	gtk/go-calendar-button.h		\
 	gtk/go-palette.h			\
 	gtk/go-selector.h			\
-	gtk/go-color-selector.h		\
+	gtk/go-color-selector.h			\
 	gtk/go-gradient-selector.h		\
-	gtk/go-line-selector.h		\
+	gtk/go-line-selector.h			\
 	gtk/go-marker-selector.h		\
 	gtk/go-pattern-selector.h		\
-	\
-	gtk/go-graph-widget.h	\
+						\
+	gtk/go-graph-widget.h			\
 	gtk/go-image-sel.h
 
 #####################################
 # maths directory files
 
-math_SOURCES =	\
-	math/go-accumulator.c	\
-	math/go-math.c		\
-	math/go-rangefunc.c		\
-	math/go-regression.c		\
-	math/go-cspline.c		\
-	math/go-complex.c		\
-	math/go-fft.c		\
-	math/go-matrix3x3.c		\
-	math/go-quad.c		\
-	math/go-R.c			\
+math_SOURCES =					\
+	math/go-accumulator.c			\
+	math/go-math.c				\
+	math/go-rangefunc.c			\
+	math/go-regression.c			\
+	math/go-cspline.c			\
+	math/go-complex.c			\
+	math/go-fft.c				\
+	math/go-matrix3x3.c			\
+	math/go-quad.c				\
+	math/go-R.c				\
 	math/go-distribution.c
 
 mathdir = $(goffice_include_dir)/math
-math_HEADERS = 	\
-	math/goffice-math.h		\
-	math/go-accumulator.h	\
-	math/go-math.h		\
-	math/go-rangefunc.h		\
-	math/go-regression.h		\
-	math/go-cspline.h		\
-	math/go-complex.h		\
-	math/go-fft.h		\
-	math/go-matrix3x3.h		\
-	math/go-quad.h		\
-	math/go-R.h			\
+math_HEADERS =					\
+	math/goffice-math.h			\
+	math/go-accumulator.h			\
+	math/go-math.h				\
+	math/go-rangefunc.h			\
+	math/go-regression.h			\
+	math/go-cspline.h			\
+	math/go-complex.h			\
+	math/go-fft.h				\
+	math/go-matrix3x3.h			\
+	math/go-quad.h				\
+	math/go-R.h				\
 	math/go-distribution.h
 
 #####################################
 # utils directory files
-utils_SOURCES =	\
-	utils/go-marshalers.list	\
-	\
-	utils/goffice-utils.c	\
-	utils/go-color.c		\
-	utils/go-file.c		\
-	utils/go-font.c		\
-	\
-	utils/go-cairo.c		\
-	utils/go-gradient.c		\
-	utils/go-image.c		\
-	utils/go-pixbuf.c		\
-	utils/go-svg.c		\
-	utils/go-emf.c		\
-	utils/go-spectre.c		\
-	utils/go-line.c		\
-	utils/go-locale.c		\
-	utils/go-marker.c		\
-	utils/go-path.c		\
-	utils/go-pattern.c		\
-	utils/go-geometry.c		\
-	utils/go-rsm.c		\
-	utils/go-string.c		\
-	utils/go-undo.c		\
-	utils/datetime.c		\
-	utils/formats.c		\
-	utils/go-format.c		\
-	utils/regutf8.c 		\
-	\
-	utils/go-glib-extras.c	\
-	utils/go-libxml-extras.c	\
-	utils/go-pango-extras.c	\
-	utils/go-gdk-pixbuf.c		\
-	utils/go-persist.c		\
-	utils/go-bezier.c		\
-	utils/go-editor.c		\
-	utils/go-style.c		\
+utils_SOURCES =					\
+	utils/go-marshalers.list		\
+						\
+	utils/goffice-utils.c			\
+	utils/go-color.c			\
+	utils/go-file.c				\
+	utils/go-font.c				\
+						\
+	utils/go-cairo.c			\
+	utils/go-gradient.c			\
+	utils/go-image.c			\
+	utils/go-pixbuf.c			\
+	utils/go-svg.c				\
+	utils/go-emf.c				\
+	utils/go-spectre.c			\
+	utils/go-line.c				\
+	utils/go-locale.c			\
+	utils/go-marker.c			\
+	utils/go-path.c				\
+	utils/go-pattern.c			\
+	utils/go-geometry.c			\
+	utils/go-rsm.c				\
+	utils/go-string.c			\
+	utils/go-undo.c				\
+	utils/datetime.c			\
+	utils/formats.c				\
+	utils/go-format.c			\
+	utils/regutf8.c				\
+						\
+	utils/go-glib-extras.c			\
+	utils/go-libxml-extras.c		\
+	utils/go-pango-extras.c			\
+	utils/go-gdk-pixbuf.c			\
+	utils/go-persist.c			\
+	utils/go-bezier.c			\
+	utils/go-editor.c			\
+	utils/go-style.c			\
 	utils/go-styled-object.c
 
 utilsdir = $(goffice_include_dir)/utils
-utils_HEADERS = 	\
-	utils/goffice-utils.h	\
-	utils/go-cairo.h		\
-	utils/go-color.h		\
-	utils/go-file.h		\
-	utils/go-font.h		\
-	utils/go-gradient.h		\
-	utils/go-image.h		\
-	utils/go-pixbuf.h		\
-	utils/go-svg.h		\
-	utils/go-emf.h		\
-	utils/go-spectre.h		\
-	utils/go-line.h		\
-	utils/go-locale.h		\
-	utils/go-marker.h		\
-	utils/go-path.h		\
-	utils/go-pattern.h		\
-	utils/go-units.h		\
-	utils/go-geometry.h		\
-	utils/go-string.h		\
-	utils/go-undo.h		\
-	utils/datetime.h		\
-	utils/go-format.h		\
-	utils/regutf8.h 		\
-	utils/go-glib-extras.h	\
-	utils/go-libxml-extras.h	\
-	utils/go-pango-extras.h	\
-	utils/go-gdk-pixbuf.h	\
-	utils/go-persist.h		\
-	utils/go-bezier.h		\
-	utils/go-editor.h		\
-	utils/go-rsm.h		\
-	utils/go-style.h		\
+utils_HEADERS =					\
+	utils/goffice-utils.h			\
+	utils/go-cairo.h			\
+	utils/go-color.h			\
+	utils/go-file.h				\
+	utils/go-font.h				\
+	utils/go-gradient.h			\
+	utils/go-image.h			\
+	utils/go-pixbuf.h			\
+	utils/go-svg.h				\
+	utils/go-emf.h				\
+	utils/go-spectre.h			\
+	utils/go-line.h				\
+	utils/go-locale.h			\
+	utils/go-marker.h			\
+	utils/go-path.h				\
+	utils/go-pattern.h			\
+	utils/go-units.h			\
+	utils/go-geometry.h			\
+	utils/go-string.h			\
+	utils/go-undo.h				\
+	utils/datetime.h			\
+	utils/go-format.h			\
+	utils/regutf8.h				\
+	utils/go-glib-extras.h			\
+	utils/go-libxml-extras.h		\
+	utils/go-pango-extras.h			\
+	utils/go-gdk-pixbuf.h			\
+	utils/go-persist.h			\
+	utils/go-bezier.h			\
+	utils/go-editor.h			\
+	utils/go-rsm.h				\
+	utils/go-style.h			\
 	utils/go-styled-object.h
 
 # A hint is needed to build the header first:
