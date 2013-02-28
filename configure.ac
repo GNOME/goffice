@@ -376,20 +376,6 @@ else
     goffice_devel=no
 fi
 
-dnl disable for in stable release, re-enable for development series
-gtk_disable_deprecated=no
-if test $goffice_devel = yes; then
-	CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
-	if test "x$goffice_with_gtk" = "xtrue"; then
-		CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
-		CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
-		CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
-	# gtk+ handled later
-		gtk_disable_deprecated=maybe
-	fi
-fi
-
 dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
