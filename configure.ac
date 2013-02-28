@@ -36,10 +36,30 @@ m4_define([version_iface],
 AC_SUBST([VERSION_INFO], [version_iface:goffice_version_minor:0])
 AC_SUBST([VERSION_IFACE], [version_iface])
 
+if test `expr goffice_version_major % 2` -eq 1; then
+    AC_MSG_NOTICE([NOTE: This is a development release])
+    goffice_devel=yes
+else
+    goffice_devel=no
+fi
+
+if test `expr goffice_version_major % 2` -eq 1; then
+    AC_MSG_NOTICE([NOTE: This is a development release])
+    goffice_devel=yes
+    goffice_api_ver=goffice_version_epoch.`expr goffice_version_major + 1`
+    dnl An explicit version number should be used in place of the above
+    dnl if the epoch is to change.
+    dnl goffice_api_ver=1.0
+else
+    goffice_devel=no
+    goffice_api_ver=goffice_version_epoch.goffice_version_major
+fi
+goffice_api_ver_=`echo $goffice_api_ver | sed -e 's/\./_/g'`
+
 dnl Almost like epoch.major but development versions look forward to the next
 dnl stable release.
-AC_SUBST([GOFFICE_API_VER], [0.10])
-AC_SUBST([GOFFICE_API_VER_], [0_10])
+AC_SUBST([GOFFICE_API_VER], [$goffice_api_ver])
+AC_SUBST([GOFFICE_API_VER_], [$goffice_api_ver_])
 
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(goffice/goffice-config.h)
@@ -369,13 +389,6 @@ GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-\$(GOFFICE_API_VER).l
 AC_SUBST(GOFFICE_PLUGIN_LDFLAGS)
 AC_SUBST(GOFFICE_PLUGIN_LIBADD)
 
-if test `expr goffice_version_major % 2` -eq 1; then
-    AC_MSG_NOTICE([NOTE: This is a development release])
-    goffice_devel=yes
-else
-    goffice_devel=no
-fi
-
 dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
@@ -396,8 +409,8 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
-	dnl Clang needs to option, or else it will appear to support any
-	dnl warning option
+	dnl Clang needs this option, or else it will appear to support any
+	dnl warning option, only to spew warnings about them later.
 	uwoption="-Werror=unknown-warning-option"
 	SAVE_CFLAGS="$CFLAGS"
 	CFLAGS="$CFLAGS $uwoption"
@@ -451,31 +464,6 @@ if test $fdopen_works = no ; then
 	fi
 fi
 
-# Unfortunately, -D_POSIX_SOURCE turns off struct timeval on Solaris
-AC_MSG_CHECKING([whether struct timeval is available])
-AC_COMPILE_IFELSE(
-	[AC_LANG_PROGRAM([#include <sys/time.h>], [struct timeval tv;])],
-	[struct_timeval_works=yes],
-	[struct_timeval_works=no])
-AC_MSG_RESULT($struct_timeval_works)
-
-if test $struct_timeval_works = no ; then
-	CFLAGS="$CFLAGS -D__EXTENSIONS__"
-	AC_MSG_CHECKING([whether struct timeval is available with -D__EXTENSIONS__])
-	AC_COMPILE_IFELSE(
-		[AC_LANG_PROGRAM([#include <sys/time.h>], [struct timeval tv;])],
-		[struct_timeval_works=yes], [struct_timeval_works=no])
-	AC_MSG_RESULT($struct_timeval_works)
-	if test $struct_timeval_works = no ; then
-		AC_MSG_ERROR([struct timeval is not available])
-	fi
-fi
-
-AC_CHECK_FUNC(gettimeofday,
-	[AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
-		[Define if the gettimeofday function is available]
-	)])
-
 dnl M_PI
 AC_MSG_CHECKING([whether M_PI is available])
 AC_COMPILE_IFELSE(
@@ -505,7 +493,7 @@ AM_GLIB_GNU_GETTEXT
 
 dnl
 dnl On Solaris finite() needs ieeefp.h
-dnl Either of these seem to signal IEEE754 math, see mathfunc.c
+dnl Either of these seem to signal IEEE754 math, see goffice/math/go-math.c
 dnl
 AC_CHECK_HEADERS(ieeefp.h ieee754.h)
 
@@ -570,7 +558,7 @@ AC_DEFUN([GOFFICE_CHECK_FUNC],
 	[],
 	[AC_DEFINE([GOFFICE_SUPPLIED_]AS_TR_CPP([$1]),
 		1,
-		[Define if G Office supplies $1.])])dnl
+		[Define if GOffice supplies $1.])])dnl
 ])
 GOFFICE_CHECK_FUNC(log1p)
 GOFFICE_CHECK_FUNC(expm1)
@@ -645,12 +633,12 @@ if test "x$with_long_double" = "xyes"; then
 		[AC_MSG_RESULT(no)],
 		[AC_MSG_RESULT(yes)
 		 AC_DEFINE([GOFFICE_SUPPLIED_STRTOLD], 1,
-			   [Define if G Office supplies strtold.])
+			   [Define if GOffice supplies strtold.])
 		],
 		[AC_MSG_RESULT(assuming not)])
     else 
 	AC_DEFINE([GOFFICE_SUPPLIED_STRTOLD], 1,
-		  [Define if G Office supplies strtold.])
+		  [Define if GOffice supplies strtold.])
 	AC_CHECK_FUNCS(string_to_decimal decimal_to_quadruple)
 	if test "x$ac_cv_func_string_to_decimal" != "xyes" || \
 	   test "x$ac_cv_func_decimal_to_quadruple" != "xyes" || \
@@ -661,7 +649,7 @@ if test "x$with_long_double" = "xyes"; then
     if test "$have_mandatory_funcs" = yes; then
 	float_msg=yes
 	AC_DEFINE([GOFFICE_WITH_LONG_DOUBLE], 1,
-		  [Define if G Office supports long double.])
+		  [Define if GOffice supports long double.])
     else
 	AC_MSG_WARN([Long double support disabled because of library problems])
     fi
