@@ -15,8 +15,8 @@
 2013-02-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): make data
-	labels position independant on scale. [#
-	* plugins/plot_xy/gog-xy.c (gog_xy_view_render):
+	labels position independant on scale. [#694731]
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): ditto.
 
 2013-02-24  Jean Brefort  <jean.brefort@normalesup.org>
 
