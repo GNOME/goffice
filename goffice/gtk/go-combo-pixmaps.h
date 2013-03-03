@@ -49,7 +49,8 @@ GtkWidget *go_combo_pixmaps_get_preview	 (GOComboPixmaps const *combo);
 GType      go_menu_pixmaps_get_type	 (void);
 GOMenuPixmaps *go_menu_pixmaps_new	 (int ncols);
 void       go_menu_pixmaps_add_element   (GOMenuPixmaps *menu,
-					  GdkPixbuf *pixbuf, int id);
+					  GdkPixbuf *pixbuf, int id,
+					  const char *tooltip);
 
 G_END_DECLS
 

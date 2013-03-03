@@ -351,7 +351,8 @@ cb_menu_item_toggle_size_request (GtkWidget *item, gint *requitision)
 
 void
 go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
-			     GdkPixbuf *pixbuf, int id)
+			     GdkPixbuf *pixbuf, int id,
+			     const char *tooltip)
 {
         GtkWidget *button;
 	int col, row;
@@ -372,6 +373,9 @@ go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
 	g_signal_connect (G_OBJECT (button),
 		"activate",
 		G_CALLBACK (cb_menu_item_activate), menu);
+
+	if (tooltip != NULL)
+		gtk_widget_set_tooltip_text (button, tooltip);
 
 	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
 	g_signal_connect (button, "toggle-size-request", G_CALLBACK (cb_menu_item_toggle_size_request), NULL);

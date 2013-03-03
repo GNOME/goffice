@@ -174,11 +174,13 @@ go_action_combo_pixmaps_create_menu_item (GtkAction *a)
 	GtkWidget *item = gtk_image_menu_item_new ();
 
 	for ( ; el->stock_id != NULL ; el++)
-		go_menu_pixmaps_add_element (submenu,
-			gtk_widget_render_icon_pixbuf (GTK_WIDGET (item),
-				el->stock_id,
-				GTK_ICON_SIZE_MENU),
-			el->id);
+		go_menu_pixmaps_add_element
+			(submenu,
+			 gtk_widget_render_icon_pixbuf (GTK_WIDGET (item),
+							el->stock_id,
+							GTK_ICON_SIZE_MENU),
+			 el->id,
+			 gettext (el->untranslated_tooltip));
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
 	gtk_widget_show (GTK_WIDGET (submenu));

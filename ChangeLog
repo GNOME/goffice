@@ -1,5 +1,8 @@
 2013-03-03  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-combo-pixmaps.c (go_menu_pixmaps_add_element):
+	Add extra tooltip argument.
+
 	* goffice/gtk/go-color-palette.c (go_color_palette_make_menu): Add
 	tooltip for menu mode too.  Fixes #695032.
 

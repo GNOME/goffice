@@ -15,6 +15,7 @@ Morten:
 	* Add efficient code for computing leverages.  [#691913]
 	* Introspection fixes.
 	* Fix missing tooltip in color palette.  [#695032]
+	* Fix missing tooltip in pixmap selector.
 
 --------------------------------------------------------------------------
 goffice 0.10.0:
