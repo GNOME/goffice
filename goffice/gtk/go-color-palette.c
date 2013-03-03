@@ -706,6 +706,7 @@ go_color_palette_make_menu (char const *no_color_label,
 				goto custom_colors;
 			w = make_colored_menu_item (" ",
 				color_names [pos].color);
+			gtk_widget_set_tooltip_text (w, _(color_names[pos].name));
 			gtk_menu_attach (GTK_MENU (submenu), w,
 				col, col+1, table_row, table_row+1);
 			g_signal_connect (G_OBJECT (w),

@@ -1,3 +1,8 @@
+2013-03-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-color-palette.c (go_color_palette_make_menu): Add
+	tooltip for menu mode too.  Fixes #695032.
+
 2013-02-28  Morten Welinder  <terra@gnome.org>
 
 	* configure.ac: remove the DISABLE_DEPRECATED defines even from
