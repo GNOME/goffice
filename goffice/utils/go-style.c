@@ -966,6 +966,7 @@ text_layout_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmd
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 12);
+	gtk_widget_show_all (box);
 	go_editor_add_page (editor, box, _("Text"));
 }
 
