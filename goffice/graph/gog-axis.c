@@ -2991,6 +2991,7 @@ gog_axis_populate_editor (GogObject *gobj,
 		    if (fmt)
 			    go_format_sel_set_style_format (GO_FORMAT_SEL (w),
 							    fmt);
+			gtk_widget_show (w);
 
 		    go_editor_add_page (editor, w, _("Format"));
 

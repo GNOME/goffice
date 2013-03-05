@@ -1,3 +1,7 @@
+2013-03-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_populate_editor): show the format page.
+
 2013-03-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-style.c (text_layout_init): show the widget.
