@@ -1,5 +1,11 @@
 2013-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-emf.c (go_emf_ellipse), (go_emf_rectangle),
+	(go_emf_roundrect), (_go_emf_arc), (go_emf_arc), (go_emf_chord),
+	(go_emf_pie): implement more primitives.
+
+2013-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* tests/pie-demo.c (main): fix deprecation issues.
 
 2013-03-05  Jean Brefort  <jean.brefort@normalesup.org>

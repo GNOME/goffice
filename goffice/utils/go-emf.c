@@ -3503,8 +3503,11 @@ go_emf_ellipse (GOEmfState *state)
 	w = rect.right;
 	h = rect.bottom;
 	go_emf_convert_coords (state, &w, &h);
-	goc_item_new (state->curDC->group, GOC_TYPE_ELLIPSE,
-		      "x", x, "y", y, "width", w - x, "height", h - y, NULL);
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_ELLIPSE,
+	                                      "x", x, "y", y, "width", w - x,
+	                                      "height", h - y,
+	                                      "style", state->curDC->style, NULL),
+	                        &state->curDC->m);
 	return TRUE;
 }
 
@@ -3525,7 +3528,8 @@ go_emf_rectangle (GOEmfState *state)
 	go_emf_convert_coords (state, &w, &h);
 	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_RECTANGLE,
 	                                      "x", x, "y", y, "width", w - x,
-	                                      "height", h - y, NULL),
+	                                      "height", h - y,
+	                                      "style", state->curDC->style, NULL),
 	                        &state->curDC->m);
 	return TRUE;
 }
@@ -3533,14 +3537,63 @@ go_emf_rectangle (GOEmfState *state)
 static gboolean
 go_emf_roundrect (GOEmfState *state)
 {
+	GOWmfRectL rect;
+	double x, y, h, w, rx, ry;
 	d_(("roundrect\n"));
+	go_wmf_read_rectl (&rect, state->data);
+	d_(("\tleft: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left, rect.right, rect.top, rect.bottom));
+	x = rect.left;
+	y = rect.top;
+	go_emf_convert_coords (state, &x, &y);
+	w = rect.right;
+	h = rect.bottom;
+	go_emf_convert_coords (state, &w, &h);
+	go_wmf_read_pointl (state->data + 16, &rx, &ry);
+	go_emf_convert_coords (state, &rx, &ry);
+	d_(("\trx: %g; ry: %g\n", rx, ry));
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_RECTANGLE,
+	                                      "x", x, "y", y, "width", w - x,
+	                                      "height", h - y, "rx", rx, "ry", ry,
+	                                      "style", state->curDC->style,
+	                                      "type", 15, NULL),
+	                        &state->curDC->m);
 	return TRUE;
+}
+
+static void
+_go_emf_arc (GOEmfState *state, unsigned type)
+{
+	GOWmfRectL rect;
+	double x0, y0, x1, y1, xc, yc;
+	go_wmf_read_rectl (&rect, state->data);
+	d_(("\tleft: %u; right: %u; top:%u bottom:%u\n",
+	    rect.left, rect.right, rect.top, rect.bottom));
+	go_wmf_read_pointl (state->data + 16, &x0, &y0);
+	go_emf_convert_coords (state, &x0, &y0);
+	d_(("\tstart at x=%g y=%g\n", x0, y0));
+	go_wmf_read_pointl (state->data + 24, &x1, &y1);
+	go_emf_convert_coords (state, &x1, &y1);
+	d_(("\tend at x=%g y=%g\n", x1, y1));
+	xc = (rect.left + rect.right) / 2.;
+	yc = (rect.top + rect.bottom) / 2.;
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_ARC,
+	                                      "xc", xc, "yc", yc,
+	                                      "xr", rect.right - xc,
+	                                      "yr", rect.bottom - yc,
+	                                      "ang1", -atan2 (y0 - yc, x0 - xc),
+	                                      "ang2", -atan2 (y1 - yc, x1 - xc),
+	                                      "type", type,
+	                                      "style", state->curDC->style,
+	                                      NULL),
+	                        &state->curDC->m);
 }
 
 static gboolean
 go_emf_arc (GOEmfState *state)
 {
 	d_(("arc\n"));
+	_go_emf_arc (state, 0);
 	return TRUE;
 }
 
@@ -3548,6 +3601,7 @@ static gboolean
 go_emf_chord (GOEmfState *state)
 {
 	d_(("chord\n"));
+	_go_emf_arc (state, 1);
 	return TRUE;
 }
 
@@ -3555,6 +3609,7 @@ static gboolean
 go_emf_pie (GOEmfState *state)
 {
 	d_(("pie\n"));
+	_go_emf_arc (state, 2);
 	return TRUE;
 }
 
@@ -3896,7 +3951,7 @@ go_emf_stretchdibits (GOEmfState *state)
 	goc_item_new (goc_canvas_get_root (state->canvas),
 	              GOC_TYPE_PIXBUF, "pixbuf", pixbuf,
 	              "x", (double) dst_x, "y", (double) dst_y,
-		      "width", (double) dst_cx, "height", (double) dst_cy,
+	              "width", (double) dst_cx, "height", (double) dst_cy,
 	              NULL);
 	return TRUE;
 }
@@ -4342,12 +4397,12 @@ static  GOEmfHandler go_emf_handlers[] = {
 	go_emf_createbrushindirect,	/* 0x0027 ok */
 	go_emf_deleteobject,		/* 0x0028 todo (if needed?) */
 	go_emf_anglearc,		/* 0x0029 todo */
-	go_emf_ellipse,			/* 0x002A untested */
-	go_emf_rectangle,		/* 0x002B untested */
-	go_emf_roundrect,		/* 0x002C todo */
-	go_emf_arc,			/* 0x002D todo */
-	go_emf_chord,			/* 0x002E todo */
-	go_emf_pie,			/* 0x002F todo */
+	go_emf_ellipse,			/* 0x002A ok */
+	go_emf_rectangle,		/* 0x002B ok */
+	go_emf_roundrect,		/* 0x002C ok */
+	go_emf_arc,			/* 0x002D ok */
+	go_emf_chord,			/* 0x002E ok */
+	go_emf_pie,			/* 0x002F ok */
 	go_emf_selectpalette,		/* 0x0030 todo */
 	go_emf_createpalette,		/* 0x0031 todo */
 	go_emf_setpaletteentries,	/* 0x0032 todo */
