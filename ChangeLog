@@ -1,3 +1,7 @@
+2013-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* tests/pie-demo.c (main): fix deprecation issues.
+
 2013-03-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (gog_axis_populate_editor): show the format page.

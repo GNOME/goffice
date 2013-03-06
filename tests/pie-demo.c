@@ -71,7 +71,7 @@ main (int argc, char *argv[])
 	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_quit), window);
 	gtk_box_pack_end (GTK_BOX (box), w, FALSE, FALSE, 0);
 
-	w = gtk_hseparator_new ();
+	w = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_end (GTK_BOX (box), w, FALSE, FALSE, 2);
 
 	/* Create a graph widget and add it to the GtkVBox */
@@ -105,7 +105,7 @@ main (int argc, char *argv[])
 	gtk_container_add (GTK_CONTAINER (window), box);
 	gtk_widget_show_all (GTK_WIDGET (window));
 
-	w = gtk_hseparator_new ();
+	w = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	gtk_main ();
