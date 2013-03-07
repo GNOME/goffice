@@ -2824,7 +2824,7 @@ go_emf_polypolygon (GOEmfState *state)
 	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
 	              "points", points,
 	              "sizes", sizes,
-	              "fill-rule", !state->curDC->PolygonFillMode,
+	              "fill-rule", state->curDC->PolygonFillMode,
 	              "style", state->curDC->style,
 	              NULL);
 	goc_int_array_unref (sizes);
@@ -2930,7 +2930,7 @@ static gboolean
 go_emf_setpolyfillmode (GOEmfState *state)
 {
 	d_(("setpolyfillmode\n"));
-	state->curDC->PolygonFillMode = GSF_LE_GET_GUINT32 (state->data) != 0;
+	state->curDC->PolygonFillMode = GSF_LE_GET_GUINT32 (state->data) == 1;
 	d_(("\tpolygon fill mode is %s\n", state->curDC->PolygonFillMode? "alternate": "winding"));
 	return TRUE;
 }
@@ -3284,21 +3284,57 @@ go_emf_selectobject (GOEmfState *state)
 		}
 	} else switch (index) {
 	case GO_EMF_WHITE_BRUSH:
+		state->curDC->style->interesting_fields |= GO_STYLE_FILL;
+		state->curDC->style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
+		state->curDC->style->fill.pattern.back = 0;
+		state->curDC->style->fill.pattern.fore = GO_COLOR_WHITE;
+		state->curDC->style->fill.auto_back = FALSE;
+		state->curDC->style->fill.auto_fore = FALSE;
 		d_(("\tWhite brush\n"));
 		break;
 	case GO_EMF_LTGRAY_BRUSH:
+		state->curDC->style->interesting_fields |= GO_STYLE_FILL;
+		state->curDC->style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
+		state->curDC->style->fill.pattern.back = 0;
+		state->curDC->style->fill.pattern.fore = GO_COLOR_GREY (0xc0);
+		state->curDC->style->fill.auto_back = FALSE;
+		state->curDC->style->fill.auto_fore = FALSE;
 		d_(("\tLight gray brush\n"));
 		break;
 	case GO_EMF_GRAY_BRUSH:
+		state->curDC->style->interesting_fields |= GO_STYLE_FILL;
+		state->curDC->style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
+		state->curDC->style->fill.pattern.back = 0;
+		state->curDC->style->fill.pattern.fore = GO_COLOR_GREY (0x80);
+		state->curDC->style->fill.auto_back = FALSE;
+		state->curDC->style->fill.auto_fore = FALSE;
 		d_(("\tGray brush\n"));
 		break;
 	case GO_EMF_DKGRAY_BRUSH:
+		state->curDC->style->interesting_fields |= GO_STYLE_FILL;
+		state->curDC->style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
+		state->curDC->style->fill.pattern.back = 0;
+		state->curDC->style->fill.pattern.fore = GO_COLOR_GREY (0x40);
+		state->curDC->style->fill.auto_back = FALSE;
+		state->curDC->style->fill.auto_fore = FALSE;
 		d_(("\tDark gray brush\n"));
 		break;
 	case GO_EMF_BLACK_BRUSH:
+		state->curDC->style->interesting_fields |= GO_STYLE_FILL;
+		state->curDC->style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
+		state->curDC->style->fill.pattern.back = 0;
+		state->curDC->style->fill.pattern.fore = GO_COLOR_BLACK;
+		state->curDC->style->fill.auto_back = FALSE;
+		state->curDC->style->fill.auto_fore = FALSE;
 		d_(("\tBlack brush\n"));
 		break;
 	case GO_EMF_NULL_BRUSH:
+		state->curDC->style->interesting_fields |= GO_STYLE_FILL;
+		state->curDC->style->fill.pattern.pattern = GO_PATTERN_FOREGROUND_SOLID;
+		state->curDC->style->fill.pattern.back = 0;
+		state->curDC->style->fill.pattern.fore = 0;
+		state->curDC->style->fill.auto_back = FALSE;
+		state->curDC->style->fill.auto_fore = FALSE;
 		d_(("\tNull brush\n"));
 		break;
 	case GO_EMF_WHITE_PEN:
@@ -3503,6 +3539,16 @@ go_emf_ellipse (GOEmfState *state)
 	w = rect.right;
 	h = rect.bottom;
 	go_emf_convert_coords (state, &w, &h);
+	if (x > w) {
+		double t = x;
+		x = w;
+		w = t;
+	}
+	if (y > h) {
+		double t = y;
+		y = h;
+		h = t;
+	}
 	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_ELLIPSE,
 	                                      "x", x, "y", y, "width", w - x,
 	                                      "height", h - y,
@@ -3526,6 +3572,16 @@ go_emf_rectangle (GOEmfState *state)
 	w = rect.right;
 	h = rect.bottom;
 	go_emf_convert_coords (state, &w, &h);
+	if (x > w) {
+		double t = x;
+		x = w;
+		w = t;
+	}
+	if (y > h) {
+		double t = y;
+		y = h;
+		h = t;
+	}
 	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_RECTANGLE,
 	                                      "x", x, "y", y, "width", w - x,
 	                                      "height", h - y,
@@ -4300,9 +4356,9 @@ go_emf_extcreatepen (GOEmfState *state)
 		FIXME: load DIB data if any
 	}*/
 	pen->style = GSF_LE_GET_GUINT32 (state->data + 20);
-	pen->width = GSF_LE_GET_GUINT32 (state->data + 24);
+	pen->width = (pen->style)? GSF_LE_GET_GUINT32 (state->data + 24): 0;
 	pen->clr = go_wmf_read_gocolor (state->data + 32);
-	d_(("\tpen index=%u style=%s width=%g color=%08x join=%s cap=%s%s\n",index,
+	d_(("\tpen index=%u style=%s width=%g color=%08x join=%s cap=%s %s\n",index,
 	    dashes[pen->style&0xf], pen->width, pen->clr,
 	    join[(pen->style&0xf000)>>24], cap[(pen->style&0xf00)>>16],
 	    pen->style&0x00010000? "Geometric": ""));
@@ -4442,7 +4498,7 @@ static  GOEmfHandler go_emf_handlers[] = {
 	go_emf_exttextoutw,		/* 0x0054 todo */
 	go_emf_polybezier16,		/* 0x0055 ok */
 	go_emf_polygon16,		/* 0x0056 ok */
-	go_emf_polyline16,		/* 0x0057 untested */
+	go_emf_polyline16,		/* 0x0057 ok */
 	go_emf_polybezierto16,		/* 0x0058 untested */
 	go_emf_polylineto16,		/* 0x0059 untested */
 	go_emf_polypolyline16,		/* 0x005A untested */
@@ -4450,7 +4506,7 @@ static  GOEmfHandler go_emf_handlers[] = {
 	go_emf_polydraw16,		/* 0x005C todo */
 	go_emf_createmonobrush,		/* 0x005D todo */
 	go_emf_createdibpatternbrushpt,	/* 0x005E todo */
-	go_emf_extcreatepen,		/* 0x005F todo */
+	go_emf_extcreatepen,		/* 0x005F partial */
 	go_emf_polytextouta,		/* 0x0060 todo */
 	go_emf_polytextoutw,		/* 0x0051 todo */
 	go_emf_seticmmode,		/* 0x0062 todo */

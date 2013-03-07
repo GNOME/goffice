@@ -1,3 +1,9 @@
+2013-03-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-emf.c (go_emf_polypolygon),
+	(go_emf_setpolyfillmode), (go_emf_selectobject), (go_emf_ellipse),
+	(go_emf_rectangle), (go_emf_extcreatepen): more fixes.
+
 2013-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-emf.c (go_emf_ellipse), (go_emf_rectangle),
