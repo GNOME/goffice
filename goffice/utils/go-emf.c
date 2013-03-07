@@ -91,7 +91,7 @@ go_emf_load_data (GOImage *image, GsfXMLIn *xin)
 	go_emf_parse (emf, input, &error);
 	g_object_unref (input);
 	if (error) {
-		// FIXME: emit at least a warning
+		/* FIXME: emit at least a warning */
 		g_error_free (error);
 	}
 #else

@@ -286,10 +286,15 @@ goc_arc_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	ecc = arc->xr / arc->yr;
 	cairo_scale (cr, arc->xr * sign, arc->yr);
 	cairo_arc_negative (cr, 0., 0., 1., -atan2 (ecc * sin (arc->ang1), cos (arc->ang1)), -atan2 (ecc * sin (arc->ang2), cos (arc->ang2)));
-	if (ARC_TYPE_PIE == arc->type)
-		cairo_line_to (cr, 0., 0.); // together with next one gives Pie
-	if (arc->type > 0)
-		cairo_close_path (cr); 		// gives "Chord"
+	switch (arc->type) {
+	case ARC_TYPE_PIE:
+		cairo_line_to (cr, 0., 0.);
+		/* Fall through */
+	case ARC_TYPE_CHORD:
+		cairo_close_path (cr);
+	default:
+		break;
+	}
 	cairo_restore (cr);
 
 	return TRUE;
@@ -353,7 +358,7 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 	}
 
 	if (goc_arc_prepare_draw (item, cr, 0)) {
-		// Filled OR both fill and stroke are none
+		/* Filled OR both fill and stroke are none */
 		if ((arc->type > 0 && style->fill.type != GO_STYLE_FILL_NONE) ||
 			(style->fill.type == GO_STYLE_FILL_NONE && !goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))) {
 			if (cairo_in_fill (cr, x, y))

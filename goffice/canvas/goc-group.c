@@ -184,7 +184,7 @@ goc_group_distance (GocItem *item, double x, double y, GocItem **near_item)
 		if (result == 0.)
 			break;
 	}
-	// check if the click is not outside the clipping region
+	/* check if the click is not outside the clipping region */
 	if (group->clip_path) {
 	}
 	return result;

@@ -1,3 +1,15 @@
+2013-03-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-ellipse.c (goc_ellipse_distance): Avoid C++
+	comment.
+	* goffice/canvas/goc-group.c (goc_group_distance): Ditto.
+	* goffice/canvas/goc-path.c (goc_path_distance): Ditto.
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_distance): Ditto.
+	* goffice/utils/go-emf.c (go_emf_load_data): Ditto.
+
+	* goffice/canvas/goc-arc.c (goc_arc_prepare_draw): Avoid C++
+	comment and rewrite arc type handling.
+
 2013-03-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-emf.c (go_emf_polypolygon),

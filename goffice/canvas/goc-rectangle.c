@@ -251,7 +251,7 @@ goc_rectangle_distance (GocItem *item, double x, double y, GocItem **near_item)
 	cr = cairo_create (surface);
 
 	if (goc_rectangle_prepare_draw (item, cr, 0)) {
-		// Filled OR both fill and stroke are none
+		/* Filled OR both fill and stroke are none */
 		if (style->fill.type != GO_STYLE_FILL_NONE ||
 			(style->fill.type == GO_STYLE_FILL_NONE && !goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))) {
 			if (cairo_in_fill (cr, x, y))
