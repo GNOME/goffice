@@ -391,7 +391,6 @@ goc_arc_draw (GocItem const *item, cairo_t *cr)
 		cairo_stroke (cr);
 	}
 
-	cairo_save(cr);
 	if (goc_arc_prepare_draw (item, cr, 1)) {
 		if (arc->type > 0)
 			go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);

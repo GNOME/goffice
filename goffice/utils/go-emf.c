@@ -3795,7 +3795,7 @@ go_emf_fillpath (GOEmfState *state)
 	              "path", state->curDC->path,
 	              "style", style,
 	              "closed", state->curDC->closed_path,
-	              "fill-rule", !state->curDC->PolygonFillMode,
+	              "fill-rule", state->curDC->PolygonFillMode,
 	              NULL);
 	g_object_unref (style);
 	go_path_free (state->curDC->path);
@@ -3813,7 +3813,7 @@ go_emf_strokeandfillpath (GOEmfState *state)
 	              "path", state->curDC->path,
 	              "style", state->curDC->style,
 	              "closed", state->curDC->closed_path,
-	              "fill-rule", !state->curDC->PolygonFillMode,
+	              "fill-rule", state->curDC->PolygonFillMode,
 	              NULL);
 	go_path_free (state->curDC->path);
 	state->curDC->path = NULL;
@@ -4311,7 +4311,7 @@ go_emf_polypolygon16 (GOEmfState *state)
 	goc_item_new (state->curDC->group, GOC_TYPE_POLYGON,
 	              "points", points,
 	              "sizes", sizes,
-	              "fill-rule", !state->curDC->PolygonFillMode,
+	              "fill-rule", state->curDC->PolygonFillMode,
 	              "style", state->curDC->style,
 	              NULL);
 	goc_int_array_unref (sizes);

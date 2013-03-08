@@ -1,3 +1,9 @@
+2013-03-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-arc.c (goc_arc_draw): removed an extra cairo_save().
+	* goffice/utils/go-emf.c (go_emf_fillpath),
+	(go_emf_strokeandfillpath), (go_emf_polypolygon16): Fixed fill rule.
+
 2013-03-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-ellipse.c (goc_ellipse_distance): Avoid C++
