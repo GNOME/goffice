@@ -1,0 +1,24 @@
+diff -ruN goffice-0.10.1.old/configure.ac goffice-0.10.1/configure.ac
+--- goffice-0.10.1.old/configure.ac	2013-03-02 00:00:13.000000000 +0100
++++ goffice-0.10.1/configure.ac	2013-03-09 20:54:40.000000000 +0100
+@@ -426,7 +426,7 @@
+ 			 -Wchar-subscripts -Wwrite-strings \
+ 			 -Wdeclaration-after-statement -Wnested-externs \
+ 			 -Wmissing-noreturn \
+-			 -Werror=missing-prototypes -Werror=nested-externs \
++			 -Werror=missing-prototypes \
+ 			 -Werror=implicit-function-declaration \
+ 			 -Wmissing-declarations -Wno-pointer-sign \
+ 			 -Werror=format-security -Wbitwise -Wcast-to-as \
+diff -ruN goffice-0.10.1.old/configure goffice-0.10.1/configure
+--- goffice-0.10.1.old/configure	2013-03-03 18:57:47.000000000 +0100
++++ goffice-0.10.1/configure	2013-03-09 20:55:55.000000000 +0100
+@@ -14998,7 +14991,7 @@
+ 			 -Wchar-subscripts -Wwrite-strings \
+ 			 -Wdeclaration-after-statement -Wnested-externs \
+ 			 -Wmissing-noreturn \
+-			 -Werror=missing-prototypes -Werror=nested-externs \
++			 -Werror=missing-prototypes \
+ 			 -Werror=implicit-function-declaration \
+ 			 -Wmissing-declarations -Wno-pointer-sign \
+ 			 -Werror=format-security -Wbitwise -Wcast-to-as \

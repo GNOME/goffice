@@ -14,8 +14,8 @@ versionh=$(shell echo $(upstreamversion) | sed -e 's/\.[^.]*$$//')
 versiont=$(shell echo $(upstreamversion) | sed -e 's/^.*\.//')
 nextupstreamversion=$(shell echo $(versionh).$$(expr $(versiont) + 1))
 
-# API version
-apiver=$(shell grep -i '^GOFFICE_API_VER=[0-9]' configure | sed -e 's/^.*=//')
+# API version - must match what's present/generated in configure
+apiver=0.10
 # ABI major version
 somajor=$(shell grep -i '^VERSION_INFO=[0-9]' configure | sed -e 's/^.*=//' -e 's/:.*//')
 # The base library name
@@ -24,13 +24,18 @@ pruntime=$(baselibname)
 pcommon=$(baselibname)-common
 pdevel=libgoffice-$(apiver)-dev
 pdbg=libgoffice-dbg
+pgir=gir1.2-goffice-0.10
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
-CFLAGS = -Wall -g
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
+CFLAGS += -Wall -g
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
@@ -75,7 +80,7 @@ confflags +=    --disable-iso-c \
                 --enable-compile-warnings=maximum
 
 # Features
-confflags +=    --enable-static --enable-gtk-doc
+confflags +=    --enable-static --enable-gtk-doc --enable-introspection=yes
 
 DPKG_GENSYMBOLS_CHECK_LEVEL ?= 4
 export DPKG_GENSYMBOLS_CHECK_LEVEL
@@ -100,10 +105,6 @@ configure: config-stamp
 config-stamp:
 	dh_testdir
 	dh_prep
-	if ! test -r debian/$(pruntime).install ; then \
-		echo "Packaging files are not set up for base library name $(pruntime). Aborting." ; \
-		exit 1 ; \
-	fi
 
 	# Generate a .pot file
 	cd po && intltool-update -p
@@ -112,6 +113,7 @@ config-stamp:
 
 	rm -rf build && mkdir build
 	rm -f goffice/goffice-paths.h
+	dh_autotools-dev_updateconfig
 	cd build && env "CC=$(CC) $(LDFLAGS)" ../configure $(confflags)
 
 	touch config-stamp
@@ -143,18 +145,6 @@ clean:
 	fi
 	rm -rf build
 	-find -type f -name 'Makefile.am' | sed -e 's/\.am$$//' | xargs rm -f
-
-	# Update config.{sub,guess} from autotools-dev, if possible.
-	-for f in config.sub config.guess ; do \
-		if test -r /usr/share/misc/$$f ; then \
-			OLDDATE=`./$$f -t | tr -d -` ; \
-			NEWDATE=`/usr/share/misc/$$f -t | tr -d -` ; \
-			if [ $$OLDDATE -lt $$NEWDATE ] ; then \
-				echo "GNU config automated update of $$f (replacing $$OLDDATE with $$NEWDATE)" 1>&2 ; \
-				cp -f /usr/share/misc/$$f $$f ; \
-			fi; \
-		fi; \
-	done
 
 	dh_clean 
 
@@ -248,6 +238,7 @@ ifeq ($(DH_OPTIONS),-s)
 
 	dh_shlibdeps -s -l debian/$(pruntime)/usr/lib/ -L $(pruntime)
 endif
+	dh_girepository -p$(pgir)
 	dh_fixperms
 	dh_installdeb
 	dh_gencontrol -v -- -VUpstream-Version=$(upstreamversion)
@@ -265,6 +256,7 @@ binary-arch: build install
 	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
 
 ## Any other binary targets build just one binary package at a time.
+#.PHONY: binary-%
 #binary-%: build install
 #	make -f debian/rules binary-common DH_OPTIONS=-p$*
 #
