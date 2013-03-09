@@ -1,3 +1,8 @@
+2013-03-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-emf.c (go_emf_new_from_file),
+	(go_emf_new_from_data), (go_emf_parse): Load imege size fro the data.
+
 2013-03-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-arc.c (goc_arc_draw): removed an extra cairo_save().

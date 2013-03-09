@@ -242,7 +242,7 @@ go_emf_new_from_file (char const *filename, GError **error)
 			/* try to get a pixbuf */
 			load_wmf_as_pixbuf (image, data, size);
 		}
-	} else {
+	} else if (image->width == 0 || image->height == 0) {
 		double x0, y0, x1, y1;
 		goc_canvas_get_bounds (emf->canvas, &x0, &y0, &x1, &y1);
 		image->width = x1;
@@ -277,7 +277,7 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
 			/* try to get a pixbuf */
 			load_wmf_as_pixbuf (image, data, length);
 		}
-	} else {
+	} else if (image->width == 0 || image->height == 0) {
 		double x0, y0, x1, y1;
 		goc_canvas_get_bounds (emf->canvas, &x0, &y0, &x1, &y1);
 		image->width = x1;
@@ -4695,6 +4695,8 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 			return FALSE;
 		} else {
 			go_emf_handlers[rid] (&state); /* just for debugging */
+			emf->parent.width = (state.mmbounds.right - state.mmbounds.left) / 2540. * 72.;
+			emf->parent.height = (state.mmbounds.bottom - state.mmbounds.top) / 2540. * 72.;
 			return TRUE;
 		}
 	}
