@@ -50,6 +50,12 @@
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
 #define LONG_DOUBLE
+
+#else
+/* It appears that gtk-doc is too dumb to handle this file.  Provide
+   a dummy type getter to make things work.  */
+GType go_csplinel_get_type (void);
+GType go_csplinel_get_type (void) { return G_TYPE_NONE; }
 #endif
 
 #endif

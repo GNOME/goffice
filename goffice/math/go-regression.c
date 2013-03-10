@@ -128,6 +128,11 @@ general_linear_regressionl (long double *const *const xssT, int n,
 #define SUFFIX(_n) _n ## l
 #define FORMAT_f "Lf"
 #define FORMAT_g "Lg"
+#else
+/* It appears that gtk-doc is too dumb to handle this file.  Provide
+   a dummy type getter to make things work.  */
+GType go_regression_statl_get_type (void);
+GType go_regression_statl_get_type (void) { return G_TYPE_NONE; }
 #endif
 
 #endif

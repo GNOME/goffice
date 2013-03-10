@@ -2,6 +2,7 @@ goffice 0.10.2:
 
 Morten:
 	* Fix problems with cspline boxed type. [#695550]
+	* Fix gtk-doc problems --without-long-double.  [#695550]
 
 --------------------------------------------------------------------------
 goffice 0.10.1:

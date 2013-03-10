@@ -1,5 +1,9 @@
 2013-03-10  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-regression.c: Bring a blunt clue bat to the
+	attention of gtk-doc.
+	* goffice/math/go-cspline.c: ditto.
+
 	* goffice/math/go-cspline.c (go_csplinel_get_type): Fix reversed
 	conditionals.
 
