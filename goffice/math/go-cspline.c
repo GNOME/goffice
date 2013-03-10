@@ -229,9 +229,9 @@ SUFFIX(go_cspline_ref) (GOCSpline *sp)
 
 GType
 #ifdef LONG_DOUBLE
-go_cspline_get_type (void)
-#else
 go_csplinel_get_type (void)
+#else
+go_cspline_get_type (void)
 #endif
 {
 	static GType t = 0;
@@ -239,9 +239,9 @@ go_csplinel_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static (
 #ifdef LONG_DOUBLE
-		     "GOCSpline",
-#else
 		     "GOCSplinel",
+#else
+		     "GOCSpline",
 #endif
 			 (GBoxedCopyFunc)SUFFIX(go_cspline_ref),
 			 (GBoxedFreeFunc)SUFFIX(go_cspline_destroy));

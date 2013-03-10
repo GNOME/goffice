@@ -1,5 +1,8 @@
 2013-03-10  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-cspline.c (go_csplinel_get_type): Fix reversed
+	conditionals.
+
 	* goffice/app/file.c (GOFileOpener): Add property getters and
 	setters.  Add interactive property.
 	* goffice/app/file.c (GOFileSaver): Add interactive property.
