@@ -549,10 +549,6 @@ AC_CHECK_FUNCS(gdk_event_get_scroll_deltas)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 
-if test $gtk_disable_deprecated = yes; then
-  CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
-fi
-
 AC_DEFUN([GOFFICE_CHECK_FUNC],
 [AC_CHECK_FUNC([$1],
 	[],
