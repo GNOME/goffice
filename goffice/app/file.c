@@ -80,7 +80,7 @@ enum {
 	FO_PROP_0,
 	FO_PROP_ID,
 	FO_PROP_DESCRIPTION,
-	FO_PROP_INTERACTIVE
+	FO_PROP_INTERACTIVE_ONLY
 };
 
 static void
@@ -90,7 +90,7 @@ go_file_opener_init (GOFileOpener *fo)
 	fo->description = NULL;
 	fo->probe_func = NULL;
 	fo->open_func = NULL;
-	fo->interactive = FALSE;
+	fo->interactive_only = FALSE;
 }
 
 static void
@@ -130,8 +130,8 @@ go_file_opener_set_property (GObject *object, guint property_id,
 		fo->description = s;
 		break;
 	}
-	case FO_PROP_INTERACTIVE:
-		fo->interactive = g_value_get_boolean (value);
+	case FO_PROP_INTERACTIVE_ONLY:
+		fo->interactive_only = g_value_get_boolean (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -154,8 +154,8 @@ go_file_opener_get_property (GObject     *object,
 	case FO_PROP_DESCRIPTION:
 		g_value_set_string (value, fo->description);
 		break;
-	case FO_PROP_INTERACTIVE:
-		g_value_set_boolean (value, fo->interactive);
+	case FO_PROP_INTERACTIVE_ONLY:
+		g_value_set_boolean (value, fo->interactive_only);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -228,9 +228,9 @@ go_file_opener_class_init (GOFileOpenerClass *klass)
 
         g_object_class_install_property
 		(goc,
-		 FO_PROP_INTERACTIVE,
-		 g_param_spec_boolean ("interactive",
-				      _("Interactive"),
+		 FO_PROP_INTERACTIVE_ONLY,
+		 g_param_spec_boolean ("interactive-only",
+				      _("Interactive only"),
 				      _("TRUE if this opener requires interaction"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
@@ -474,7 +474,7 @@ go_file_saver_init (GOFileSaver *fs)
 	fs->mime_type = NULL;
 	fs->description = NULL;
 	fs->overwrite_files = TRUE;
-	fs->interactive = FALSE;
+	fs->interactive_only = FALSE;
 	fs->format_level = GO_FILE_FL_NEW;
 	fs->save_scope = GO_FILE_SAVE_WORKBOOK;
 	fs->save_func = NULL;
@@ -503,7 +503,7 @@ enum {
 	FS_PROP_EXTENSION,
 	FS_PROP_DESCRIPTION,
 	FS_PROP_OVERWRITE,
-	FS_PROP_INTERACTIVE,
+	FS_PROP_INTERACTIVE_ONLY,
 	FS_PROP_FORMAT_LEVEL,
 	FS_PROP_SCOPE
 };
@@ -549,8 +549,8 @@ go_file_saver_set_property (GObject *object, guint property_id,
 	case FS_PROP_OVERWRITE:
 		fs->overwrite_files = g_value_get_boolean (value);
 		break;
-	case FS_PROP_INTERACTIVE:
-		fs->interactive = g_value_get_boolean (value);
+	case FS_PROP_INTERACTIVE_ONLY:
+		fs->interactive_only = g_value_get_boolean (value);
 		break;
 	case FS_PROP_FORMAT_LEVEL:
 		fs->format_level = g_value_get_enum (value);
@@ -586,8 +586,8 @@ go_file_saver_get_property (GObject *object, guint property_id,
 	case FS_PROP_OVERWRITE:
 		g_value_set_boolean (value, fs->overwrite_files);
 		break;
-	case FS_PROP_INTERACTIVE:
-		g_value_set_boolean (value, fs->interactive);
+	case FS_PROP_INTERACTIVE_ONLY:
+		g_value_set_boolean (value, fs->interactive_only);
 		break;
 	case FS_PROP_FORMAT_LEVEL:
 		g_value_set_enum (value, fs->format_level);
@@ -675,9 +675,9 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 
         g_object_class_install_property
 		(goc,
-		 FS_PROP_INTERACTIVE,
-		 g_param_spec_boolean ("interactive",
-				      _("Interactive"),
+		 FS_PROP_INTERACTIVE_ONLY,
+		 g_param_spec_boolean ("interactive-only",
+				      _("Interactive only"),
 				      _("TRUE if this saver requires interaction"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
