@@ -38,6 +38,7 @@ struct _GOFileOpener {
 	GSList	*suffixes;
 	GSList	*mimes;
 	gboolean encoding_dependent;
+	gboolean interactive;
 
 	GOFileOpenerProbeFunc probe_func;
 	GOFileOpenerOpenFunc  open_func;
@@ -83,6 +84,7 @@ struct _GOFileSaver {
 	gchar                *extension;
 	gchar                *description;
 	gboolean              overwrite_files;
+	gboolean              interactive;
 	GOFileFormatLevel       format_level;
 	GOFileSaveScope         save_scope;
 	GOFileSaverSaveFunc   save_func;
