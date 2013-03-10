@@ -474,7 +474,7 @@ go_file_saver_init (GOFileSaver *fs)
 	fs->mime_type = NULL;
 	fs->description = NULL;
 	fs->overwrite_files = TRUE;
-	fs->interactive = TRUE;
+	fs->interactive = FALSE;
 	fs->format_level = GO_FILE_FL_NEW;
 	fs->save_scope = GO_FILE_SAVE_WORKBOOK;
 	fs->save_func = NULL;
