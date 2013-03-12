@@ -14,7 +14,7 @@ void	 go_ptr_array_insert	(GPtrArray *array, gpointer value, int index);
 GSList	*go_hash_keys		(GHashTable *hash);
 
 GSList	*go_slist_map		(GSList const *list, GOMapFunc map_func);
-GSList	*go_slist_create	(gpointer item1, ...);
+GSList	*go_slist_create	(gconstpointer item1, ...);
 #define	 go_string_slist_copy(list) go_slist_map (list, (GOMapFunc) g_strdup)
 GSList	*go_strsplit_to_slist	(char const *str, gchar delimiter);
 #define GO_SLIST_FOREACH(list,valtype,val,stmnt) \

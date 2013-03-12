@@ -85,22 +85,22 @@ go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 
 /**
  * go_slist_create:
- * @item1: optionally %NULL
- * @...: %NULL terminated list of additional items
+ * @item1: (allow-none) (transfer none): first item
+ * @...: (transfer none): %NULL terminated list of additional items
  *
  * Creates a GList from NULL-terminated list of arguments.
  * As the arguments are just copied to the list, the caller owns them.
  * Returns: (element-type void) (transfer container): created list.
  **/
 GSList *
-go_slist_create (gpointer item1, ...)
+go_slist_create (gconstpointer item1, ...)
 {
 	va_list args;
 	GSList *list = NULL;
 	gpointer item;
 
 	va_start (args, item1);
-	for (item = item1; item != NULL; item = va_arg (args, gpointer)) {
+	for (item = (gpointer)item1; item; item = va_arg (args, gpointer)) {
 		list = g_slist_prepend (list, item);
 	}
 	va_end (args);

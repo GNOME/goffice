@@ -1,3 +1,7 @@
+2013-03-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_slist_create): Constify.
+
 2013-03-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c: Bring a blunt clue bat to the
