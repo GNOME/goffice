@@ -15,14 +15,14 @@
 # Nikos Charonitakis <charosn@her.forthnet.gr>, 2003
 # Kostas Papadimas <pkst@gmx.net>, 2003
 # Petros Velonis <velonis@freemail.gr>, 2004
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgof"
 "fice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-12 16:35+0000\n"
-"PO-Revision-Date: 2012-11-13 14:44+0300\n"
+"POT-Creation-Date: 2013-03-10 19:56+0000\n"
+"PO-Revision-Date: 2013-03-12 22:59+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -33,67 +33,90 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
-#: ../goffice/app/file.c:527
+#: ../goffice/app/file.c:213 ../goffice/app/file.c:629
 msgid "ID"
 msgstr "Ταυτότητα"
 
-#: ../goffice/app/file.c:528
-msgid "The identifier of the saver."
-msgstr "Ο ταυτοποιητής του αποθηκευτή."
+#: ../goffice/app/file.c:214
+#| msgid "The identifier of the saver."
+msgid "The identifier of the opener"
+msgstr "Το αναγνωριστικό του ανοίγματος"
 
-#: ../goffice/app/file.c:538
-msgid "MIME type"
-msgstr "Τύπος MIME"
-
-#: ../goffice/app/file.c:539
-msgid "The MIME type of the saver."
-msgstr "Ο τύπος MIME του αποθηκευτή."
-
-#: ../goffice/app/file.c:548
-msgid "Extension"
-msgstr "Επέκταση"
-
-#: ../goffice/app/file.c:549
-msgid "The standard file name extension of the saver."
-msgstr "Η τυπική επέκταση ονόματος αρχείου του αποθηκευτή."
-
-#: ../goffice/app/file.c:558
+#: ../goffice/app/file.c:223 ../goffice/app/file.c:660
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: ../goffice/app/file.c:559
+#: ../goffice/app/file.c:224
+#| msgid "The description of the saver."
+msgid "The description of the opener"
+msgstr "Η περιγραφή του ανοίγματος"
+
+#: ../goffice/app/file.c:233 ../goffice/app/file.c:680
+#| msgid "Interpolation"
+msgid "Interactive only"
+msgstr "Μόνο διαδραστικά"
+
+#: ../goffice/app/file.c:234
+msgid "TRUE if this opener requires interaction"
+msgstr "ΑΛΗΘΕΣ αν αυτό το άνοιγμα απαιτεί αλληλεπίδραση"
+
+#: ../goffice/app/file.c:630
+msgid "The identifier of the saver."
+msgstr "Το αναγνωριστικό της αποθήκευσης."
+
+#: ../goffice/app/file.c:640
+msgid "MIME type"
+msgstr "Τύπος MIME"
+
+#: ../goffice/app/file.c:641
+msgid "The MIME type of the saver."
+msgstr "Ο τύπος MIME του αποθηκευτή."
+
+#: ../goffice/app/file.c:650
+msgid "Extension"
+msgstr "Επέκταση"
+
+#: ../goffice/app/file.c:651
+msgid "The standard file name extension of the saver."
+msgstr "Η τυπική επέκταση ονόματος αρχείου του αποθηκευτή."
+
+#: ../goffice/app/file.c:661
 msgid "The description of the saver."
 msgstr "Η περιγραφή του αποθηκευτή."
 
-#: ../goffice/app/file.c:568
+#: ../goffice/app/file.c:670
 msgid "Overwrite"
 msgstr "Αντικατάσταση"
 
-#: ../goffice/app/file.c:569
+#: ../goffice/app/file.c:671
 msgid "Whether the saver will overwrite files."
 msgstr "Εάν ο αποθηκευτής θα αντικαταστήσει αρχεία. "
 
-#: ../goffice/app/file.c:579
+#: ../goffice/app/file.c:681
+msgid "TRUE if this saver requires interaction"
+msgstr "ΑΛΗΘΕΣ αν αυτή η αποθήκευση απαιτεί αλληλεπίδραση"
+
+#: ../goffice/app/file.c:691
 msgid "Format Level"
 msgstr "Επίπεδο μορφοποίησης"
 
-#: ../goffice/app/file.c:590
+#: ../goffice/app/file.c:702
 msgid "Scope"
 msgstr "Εμβέλεια"
 
-#: ../goffice/app/file.c:591
+#: ../goffice/app/file.c:703
 msgid "How much of a document is saved"
 msgstr "Πόσο έγγραφο αποθηκεύεται"
 
 # # NOTE: Help text for financial and statistical functions
 # #   is untranslated (I am not familiar with all the terminology,
 # #   nor do I know of anyone who is).  - Spiros
-#: ../goffice/app/file.c:754
+#: ../goffice/app/file.c:866
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Αποθήκευση σε παλιά αρχεία αυτού του τύπου είναι ανενεργή για ασφάλεια."
 
-#: ../goffice/app/file.c:764
+#: ../goffice/app/file.c:876
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -138,7 +161,7 @@ msgid "Whether the document is unchanged since it was created."
 msgstr "Εάν το έγγραφο είναι αμετάβλητο από τη δημιουργία του."
 
 #: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:292
-#: ../goffice/utils/go-style-prefs.ui.h:10
+#: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Εικόνα"
 
@@ -150,6 +173,177 @@ msgstr "Αντικείμενα"
 #, c-format
 msgid "Loading plugin '%s' that contains the object '%s'"
 msgstr "Φόρτωση προσθέτου '%s' που περιέχει το αντικείμενο '%s'"
+
+#: ../goffice/app/go-plugin.c:372
+#, c-format
+msgid "File contains plugin info with invalid ID (%s), expected %s."
+msgstr ""
+"Το αρχείο περιέχει πληροφορίες προσθέτου με άκυρη ταυτότητα (%s), αναμενόταν "
+"%s."
+
+#: ../goffice/app/go-plugin.c:376
+msgid "Couldn't read plugin info from file."
+msgstr "Αδυναμία ανάγνωσης πληροφοριών προσθέτου από αρχείο."
+
+#: ../goffice/app/go-plugin.c:522
+msgid "Unknown name"
+msgstr "Άγνωστο όνομα"
+
+#: ../goffice/app/go-plugin.c:617
+#, c-format
+msgid "Unsupported loader type \"%s\"."
+msgstr "Ανυποστήρικτος φορτωτής τύπου \"%s\"."
+
+#: ../goffice/app/go-plugin.c:625
+#, c-format
+msgid "Error while preparing loader \"%s\"."
+msgstr "Σφάλμα προετοιμασίας φορτωτή \"%s\"."
+
+#: ../goffice/app/go-plugin.c:703
+#, c-format
+msgid "Error while reading service #%d info."
+msgstr "Σφάλμα ανάγνωσης υπηρεσίας πληροφοριών #%d."
+
+#: ../goffice/app/go-plugin.c:784
+#, c-format
+msgid "Can't read plugin info file (\"%s\")."
+msgstr "Αδυναμία ανάγνωσης αρχείου πληροφοριών προσθέτου (\"%s\")."
+
+#: ../goffice/app/go-plugin.c:788
+#, c-format
+msgid "File \"%s\" is not valid plugin info file."
+msgstr "Το αρχείο \"%s\" δεν είναι έγκυρο πρόσθετο αρχείου πληροφοριών."
+
+#: ../goffice/app/go-plugin.c:871
+#, c-format
+msgid "Errors while reading services for plugin with ID=\"%s\"."
+msgstr "Σφάλματα ανάγνωσης υπηρεσιών για πρόσθετο με ταυτότητα=\"%s\"."
+
+#: ../goffice/app/go-plugin.c:883
+#, c-format
+msgid "Plugin ID contains invalid characters (%s)."
+msgstr "Η ταυτότητα προσθέτου περιέχει άκυρους χαρακτήρες (%s)."
+
+#: ../goffice/app/go-plugin.c:887
+msgid "Unknown plugin name."
+msgstr "Άγνωστο όνομα προσθέτου."
+
+#: ../goffice/app/go-plugin.c:891
+#, c-format
+msgid "No loader defined or loader ID invalid for plugin with ID=\"%s\"."
+msgstr ""
+"Χωρίς ορισμένο φορτωτή ή η ταυτότητα φορτωτή είναι άκυρη για πρόσθετο με "
+"ταυτότητα=\"%s\"."
+
+#: ../goffice/app/go-plugin.c:897
+msgid "Plugin has no id."
+msgstr "Το άρθρωμα δεν έχει ταυτότητα."
+
+#: ../goffice/app/go-plugin.c:938
+#, c-format
+msgid "Error initializing plugin loader (\"%s\")."
+msgstr "Σφάλμα αρχικοποίησης φορτωτή προσθέτου (\"%s\")."
+
+#: ../goffice/app/go-plugin.c:969 ../goffice/app/go-plugin.c:1131
+msgid "Detected cyclic plugin dependencies."
+msgstr "Ανιχνεύτηκαν κυκλικές εξαρτήσεις προσθέτου."
+
+#: ../goffice/app/go-plugin.c:993
+#, c-format
+msgid "Couldn't activate plugin with ID=\"%s\"."
+msgstr "Αδυναμία ενεργοποίησης προσθέτου με ταυτότητα=\"%s\"."
+
+#: ../goffice/app/go-plugin.c:999 ../goffice/app/go-plugin.c:1177
+#, c-format
+msgid "Couldn't find plugin with ID=\"%s\"."
+msgstr "Αδυναμία εύρεσης προσθέτου με ταυτότητα=\"%s\"."
+
+#: ../goffice/app/go-plugin.c:1006
+msgid "Error while activating plugin dependencies."
+msgstr "Σφάλμα ενεργοποίησης εξαρτήσεων προσθέτου."
+
+#: ../goffice/app/go-plugin.c:1020
+#, c-format
+msgid "Error while activating plugin service #%d."
+msgstr "Σφάλμα ενεργοποίησης υπηρεσίας προσθέτου #%d."
+
+#: ../goffice/app/go-plugin.c:1076
+#, c-format
+msgid "Error while deactivating plugin service #%d."
+msgstr "Σφάλμα απενεργοποίησης υπηρεσίας προσθέτου #%d."
+
+#: ../goffice/app/go-plugin.c:1143 ../goffice/app/go-plugin.c:1164
+msgid "Cannot load plugin loader."
+msgstr "Αδυναμία φόρτωσης φορτωτή προσθέτου."
+
+#: ../goffice/app/go-plugin.c:1171
+#, c-format
+msgid "Couldn't load plugin with ID=\"%s\"."
+msgstr "Αδυναμία φόρτωσης προσθέτου με ταυτότητα=\"%s\"."
+
+#: ../goffice/app/go-plugin.c:1184
+msgid "Error while loading plugin dependencies."
+msgstr "Σφάλμα φόρτωσης εξαρτήσεων προσθέτου."
+
+#: ../goffice/app/go-plugin.c:1376
+#, c-format
+msgid "Errors occurred while reading plugin information from file \"%s\"."
+msgstr ""
+"Συνέβησαν σφάλματα ανάγνωσης πληροφοριών προσθέτου από το αρχείο \"%s\"."
+
+#: ../goffice/app/go-plugin.c:1495
+#, c-format
+msgid "Couldn't activate plugin \"%s\" (ID: %s)."
+msgstr "Αδυναμία ενεργοποίησης προσθέτου \"%s\" (ID: %s)."
+
+#: ../goffice/app/go-plugin.c:1530
+#, c-format
+msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
+msgstr "Αδυναμία απενεργοποίησης προσθέτου \"%s\" (ID: %s)."
+
+#: ../goffice/app/go-plugin.c:1657 ../goffice/app/go-plugin.c:1825
+msgid "Errors while reading info about available plugins."
+msgstr "Σφάλματα πληροφοριών ανάγνωσης σχετικές με διαθέσιμα πρόσθετα."
+
+#: ../goffice/app/go-plugin.c:1681
+msgid "Errors while deactivating plugins that are no longer on disk."
+msgstr "Σφάλματα απενεργοποίησης προσθέτων που δεν είναι πια στον δίσκο."
+
+#: ../goffice/app/go-plugin.c:1702
+#, c-format
+msgid ""
+"The following plugins are no longer on disk but are still active:\n"
+"%s.\n"
+"You should restart this program now."
+msgstr ""
+"Τα παρακάτω πρόσθετα δεν είναι πια στον δίσκο, αλλά είναι ακόμα ενεργά:\n"
+"%s.\n"
+"Πρέπει να επανεκκινήσετε αυτό το πρόγραμμα τώρα."
+
+#: ../goffice/app/go-plugin.c:1801
+msgid "Errors while reading info about new plugins."
+msgstr "Σφάλματα πληροφοριών ανάγνωσης για τα νέα πρόσθετα."
+
+#: ../goffice/app/go-plugin.c:1849
+msgid "Errors while activating plugins."
+msgstr "Σφάλματα ενεργοποίησης προσθέτων."
+
+#: ../goffice/app/go-plugin.c:1856
+msgid "Errors while initializing plugin system."
+msgstr "Σφάλματα αρχικοποίησης συστήματος προσθέτου."
+
+#: ../goffice/app/go-plugin-loader.c:83
+msgid "Loader has no set_attributes method.\n"
+msgstr "Ο φορτωτής δεν έχει καμιά μέθοδο set_attributes.\n"
+
+#: ../goffice/app/go-plugin-loader.c:98
+msgid "Loader has no load_base method.\n"
+msgstr "Ο φορτωτής δεν έχει καμιά μέθοδο load_base.\n"
+
+#: ../goffice/app/go-plugin-loader.c:143 ../goffice/app/go-plugin-loader.c:181
+#, c-format
+msgid "Service '%s' not supported by loader."
+msgstr "Η υπηρεσία '%s' δεν υποστηρίζεται από τον φορτωτή."
 
 #: ../goffice/app/go-plugin-loader-module.c:71
 msgid "Module file name not given."
@@ -219,19 +413,6 @@ msgstr "Το αρχείο δεν περιέχει τη συνάρτηση \"%s\"
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Το άρθρωμα δεν περιέχει τη συνάρτηση \"%s\"."
-
-#: ../goffice/app/go-plugin-loader.c:83
-msgid "Loader has no set_attributes method.\n"
-msgstr "Ο φορτωτής δεν έχει καμιά μέθοδο set_attributes.\n"
-
-#: ../goffice/app/go-plugin-loader.c:98
-msgid "Loader has no load_base method.\n"
-msgstr "Ο φορτωτής δεν έχει καμιά μέθοδο load_base.\n"
-
-#: ../goffice/app/go-plugin-loader.c:143 ../goffice/app/go-plugin-loader.c:181
-#, c-format
-msgid "Service '%s' not supported by loader."
-msgstr "Η υπηρεσία '%s' δεν υποστηρίζεται από τον φορτωτή."
 
 #: ../goffice/app/go-plugin-service.c:192
 #: ../goffice/app/go-plugin-service.c:1031
@@ -318,164 +499,6 @@ msgstr ""
 "Πρέπει να φορτωθεί υπηρεσία πριν την ενεργοποίησή της (PLUGIN_ALWAYS_LOAD "
 "ορίστηκε) αλλά η φόρτωση απέτυχε."
 
-#: ../goffice/app/go-plugin.c:371
-#, c-format
-msgid "File contains plugin info with invalid ID (%s), expected %s."
-msgstr ""
-"Το αρχείο περιέχει πληροφορίες προσθέτου με άκυρη ταυτότητα (%s), αναμενόταν "
-"%s."
-
-#: ../goffice/app/go-plugin.c:375
-msgid "Couldn't read plugin info from file."
-msgstr "Αδυναμία ανάγνωσης πληροφοριών προσθέτου από αρχείο."
-
-#: ../goffice/app/go-plugin.c:521
-msgid "Unknown name"
-msgstr "Άγνωστο όνομα"
-
-#: ../goffice/app/go-plugin.c:616
-#, c-format
-msgid "Unsupported loader type \"%s\"."
-msgstr "Ανυποστήρικτος φορτωτής τύπου \"%s\"."
-
-#: ../goffice/app/go-plugin.c:624
-#, c-format
-msgid "Error while preparing loader \"%s\"."
-msgstr "Σφάλμα προετοιμασίας φορτωτή \"%s\"."
-
-#: ../goffice/app/go-plugin.c:702
-#, c-format
-msgid "Error while reading service #%d info."
-msgstr "Σφάλμα ανάγνωσης υπηρεσίας πληροφοριών #%d."
-
-#: ../goffice/app/go-plugin.c:783
-#, c-format
-msgid "Can't read plugin info file (\"%s\")."
-msgstr "Αδυναμία ανάγνωσης αρχείου πληροφοριών προσθέτου (\"%s\")."
-
-#: ../goffice/app/go-plugin.c:787
-#, c-format
-msgid "File \"%s\" is not valid plugin info file."
-msgstr "Το αρχείο \"%s\" δεν είναι έγκυρο πρόσθετο αρχείου πληροφοριών."
-
-#: ../goffice/app/go-plugin.c:870
-#, c-format
-msgid "Errors while reading services for plugin with ID=\"%s\"."
-msgstr "Σφάλματα ανάγνωσης υπηρεσιών για πρόσθετο με ταυτότητα=\"%s\"."
-
-#: ../goffice/app/go-plugin.c:882
-#, c-format
-msgid "Plugin ID contains invalid characters (%s)."
-msgstr "Η ταυτότητα προσθέτου περιέχει άκυρους χαρακτήρες (%s)."
-
-#: ../goffice/app/go-plugin.c:886
-msgid "Unknown plugin name."
-msgstr "Άγνωστο όνομα προσθέτου."
-
-#: ../goffice/app/go-plugin.c:890
-#, c-format
-msgid "No loader defined or loader ID invalid for plugin with ID=\"%s\"."
-msgstr ""
-"Χωρίς ορισμένο φορτωτή ή η ταυτότητα φορτωτή είναι άκυρη για πρόσθετο με "
-"ταυτότητα=\"%s\"."
-
-#: ../goffice/app/go-plugin.c:896
-msgid "Plugin has no id."
-msgstr "Το άρθρωμα δεν έχει ταυτότητα."
-
-#: ../goffice/app/go-plugin.c:937
-#, c-format
-msgid "Error initializing plugin loader (\"%s\")."
-msgstr "Σφάλμα αρχικοποίησης φορτωτή προσθέτου (\"%s\")."
-
-#: ../goffice/app/go-plugin.c:968 ../goffice/app/go-plugin.c:1130
-msgid "Detected cyclic plugin dependencies."
-msgstr "Ανιχνεύτηκαν κυκλικές εξαρτήσεις προσθέτου."
-
-#: ../goffice/app/go-plugin.c:992
-#, c-format
-msgid "Couldn't activate plugin with ID=\"%s\"."
-msgstr "Αδυναμία ενεργοποίησης προσθέτου με ταυτότητα=\"%s\"."
-
-#: ../goffice/app/go-plugin.c:998 ../goffice/app/go-plugin.c:1176
-#, c-format
-msgid "Couldn't find plugin with ID=\"%s\"."
-msgstr "Αδυναμία εύρεσης προσθέτου με ταυτότητα=\"%s\"."
-
-#: ../goffice/app/go-plugin.c:1005
-msgid "Error while activating plugin dependencies."
-msgstr "Σφάλμα ενεργοποίησης εξαρτήσεων προσθέτου."
-
-#: ../goffice/app/go-plugin.c:1019
-#, c-format
-msgid "Error while activating plugin service #%d."
-msgstr "Σφάλμα ενεργοποίησης υπηρεσίας προσθέτου #%d."
-
-#: ../goffice/app/go-plugin.c:1075
-#, c-format
-msgid "Error while deactivating plugin service #%d."
-msgstr "Σφάλμα απενεργοποίησης υπηρεσίας προσθέτου #%d."
-
-#: ../goffice/app/go-plugin.c:1142 ../goffice/app/go-plugin.c:1163
-msgid "Cannot load plugin loader."
-msgstr "Αδυναμία φόρτωσης φορτωτή προσθέτου."
-
-#: ../goffice/app/go-plugin.c:1170
-#, c-format
-msgid "Couldn't load plugin with ID=\"%s\"."
-msgstr "Αδυναμία φόρτωσης προσθέτου με ταυτότητα=\"%s\"."
-
-#: ../goffice/app/go-plugin.c:1183
-msgid "Error while loading plugin dependencies."
-msgstr "Σφάλμα φόρτωσης εξαρτήσεων προσθέτου."
-
-#: ../goffice/app/go-plugin.c:1375
-#, c-format
-msgid "Errors occurred while reading plugin information from file \"%s\"."
-msgstr ""
-"Συνέβησαν σφάλματα ανάγνωσης πληροφοριών προσθέτου από το αρχείο \"%s\"."
-
-#: ../goffice/app/go-plugin.c:1494
-#, c-format
-msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr "Αδυναμία ενεργοποίησης προσθέτου \"%s\" (ID: %s)."
-
-#: ../goffice/app/go-plugin.c:1529
-#, c-format
-msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr "Αδυναμία απενεργοποίησης προσθέτου \"%s\" (ID: %s)."
-
-#: ../goffice/app/go-plugin.c:1656 ../goffice/app/go-plugin.c:1824
-msgid "Errors while reading info about available plugins."
-msgstr "Σφάλματα πληροφοριών ανάγνωσης σχετικές με διαθέσιμα πρόσθετα."
-
-#: ../goffice/app/go-plugin.c:1680
-msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr "Σφάλματα απενεργοποίησης προσθέτων που δεν είναι πια στον δίσκο."
-
-#: ../goffice/app/go-plugin.c:1701
-#, c-format
-msgid ""
-"The following plugins are no longer on disk but are still active:\n"
-"%s.\n"
-"You should restart this program now."
-msgstr ""
-"Τα παρακάτω πρόσθετα δεν είναι πια στον δίσκο, αλλά είναι ακόμα ενεργά:\n"
-"%s.\n"
-"Πρέπει να επανεκκινήσετε αυτό το πρόγραμμα τώρα."
-
-#: ../goffice/app/go-plugin.c:1800
-msgid "Errors while reading info about new plugins."
-msgstr "Σφάλματα πληροφοριών ανάγνωσης για τα νέα πρόσθετα."
-
-#: ../goffice/app/go-plugin.c:1848
-msgid "Errors while activating plugins."
-msgstr "Σφάλματα ενεργοποίησης προσθέτων."
-
-#: ../goffice/app/go-plugin.c:1855
-msgid "Errors while initializing plugin system."
-msgstr "Σφάλματα αρχικοποίησης συστήματος προσθέτου."
-
 #: ../goffice/app/io-context.c:168
 msgid "exec-main-loop"
 msgstr "exec-main-loop"
@@ -484,88 +507,88 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Εκτέλεση επανάληψης κύριου βρόχου"
 
-#: ../goffice/canvas/goc-arc.c:436
+#: ../goffice/canvas/goc-arc.c:440
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:437
+#: ../goffice/canvas/goc-arc.c:441
 msgid "The arc center x coordinate"
 msgstr "Το κέντρο τόξου συντεταγμένης x"
 
-#: ../goffice/canvas/goc-arc.c:442
+#: ../goffice/canvas/goc-arc.c:446
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:443
+#: ../goffice/canvas/goc-arc.c:447
 msgid "The arc center y coordinate"
 msgstr "Το κέντρο τόξου συντεταγμένης y"
 
-#: ../goffice/canvas/goc-arc.c:448
+#: ../goffice/canvas/goc-arc.c:452
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:449
+#: ../goffice/canvas/goc-arc.c:453
 msgid "The arc x radius"
 msgstr "Η ακτίνα x τόξου"
 
-#: ../goffice/canvas/goc-arc.c:454
+#: ../goffice/canvas/goc-arc.c:458
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:455
+#: ../goffice/canvas/goc-arc.c:459
 msgid "The arc y radius"
 msgstr "Η ακτίνα y τόξου"
 
-#: ../goffice/canvas/goc-arc.c:460
+#: ../goffice/canvas/goc-arc.c:464
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:461
+#: ../goffice/canvas/goc-arc.c:465
 msgid "The arc start angle"
 msgstr "Η γωνία έναρξης τόξου"
 
-#: ../goffice/canvas/goc-arc.c:466
+#: ../goffice/canvas/goc-arc.c:470
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:467
+#: ../goffice/canvas/goc-arc.c:471
 msgid "The arc end angle"
 msgstr "Η γωνία τέλους τόξου"
 
-#: ../goffice/canvas/goc-arc.c:472 ../goffice/canvas/goc-component.c:295
+#: ../goffice/canvas/goc-arc.c:476 ../goffice/canvas/goc-component.c:295
 #: ../goffice/canvas/goc-ellipse.c:261 ../goffice/canvas/goc-path.c:275
 #: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:475
-#: ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Περιστροφή"
 
-#: ../goffice/canvas/goc-arc.c:473
+#: ../goffice/canvas/goc-arc.c:477
 msgid "The rotation around center position"
 msgstr "Η περιστροφή γύρω από το κεντρικό σημείο"
 
-#: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:3052 ../goffice/graph/gog-grid.c:127
+#: ../goffice/canvas/goc-arc.c:482 ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/graph/gog-axis.c:3058 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Τύπος"
 
-#: ../goffice/canvas/goc-arc.c:479
+#: ../goffice/canvas/goc-arc.c:483
 msgid "The type of arc: arc, chord or pie"
 msgstr "Ο τύπος του τόξου: τόξο, χορδή ή πίτα"
 
-#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:489 ../goffice/canvas/goc-line.c:346
 msgid "Start Arrow"
 msgstr "Βέλος έναρξης"
 
-#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:347
 msgid "Arrow for line's start"
 msgstr "Βέλος για την αρχή της γραμμής"
 
-#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:352
+#: ../goffice/canvas/goc-arc.c:495 ../goffice/canvas/goc-line.c:352
 msgid "End Arrow"
 msgstr "Βέλος λήξης"
 
-#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:353
 msgid "Arrow for line's end"
 msgstr "Βέλος για το τέλος της γραμμής"
 
@@ -680,7 +703,7 @@ msgstr "Η άνω θέση γραφήματος"
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:525
+#: ../goffice/graph/gog-graph.c:525 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Γράφημα"
 
@@ -766,7 +789,7 @@ msgstr "Καμβάς"
 msgid "The canvas object on which the item resides"
 msgstr "Το αντικείμενο καμβά στο οποίο βρίσκεται το στοιχείο"
 
-#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:684
+#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:685
 msgid "Parent"
 msgstr "Γονικό"
 
@@ -933,7 +956,8 @@ msgid "The round rectangle ry"
 msgstr "Η ry του στρογγυλεμένου ορθογωνίου"
 
 #: ../goffice/canvas/goc-styled-item.c:160
-#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1105
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:6
+#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1104
 msgid "Style"
 msgstr "Τεχνοτροπία"
 
@@ -962,7 +986,7 @@ msgstr "Η θέση κειμένου"
 msgid "The rotation around the anchor"
 msgstr "Η περιστροφή γύρω από την άγκυρα"
 
-#: ../goffice/canvas/goc-text.c:481 ../goffice/graph/gog-object.c:818
+#: ../goffice/canvas/goc-text.c:481 ../goffice/graph/gog-object.c:815
 msgid "Anchor"
 msgstr "Άγκυρα"
 
@@ -971,7 +995,7 @@ msgid "The anchor point for the text"
 msgstr "Το σημείο άγκυρας για το κείμενο"
 
 #: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:69
-#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:971
+#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:970
 msgid "Text"
 msgstr "Κείμενο"
 
@@ -1051,22 +1075,6 @@ msgstr "Μηχανή συστατικού"
 msgid "Component Type"
 msgstr "Τύπος συστατικού"
 
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:1
-msgid "<b>Euler angles</b>"
-msgstr "<b>γωνίες Όιλερ</b>"
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:2
-msgid "Psi:"
-msgstr "Psi:"
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:3
-msgid "Theta:"
-msgstr "Θήτα:"
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:4
-msgid "Phi:"
-msgstr "Φι:"
-
 #: ../goffice/graph/gog-3d-box.c:215
 msgid "Advanced"
 msgstr "Προχωρημένο"
@@ -1086,6 +1094,249 @@ msgstr "Φι γωνία Όιλερ"
 #: ../goffice/graph/gog-3d-box.c:307
 msgid "Field of view"
 msgstr "Πεδίο προβολής"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:1
+#| msgid "Euler angle psi"
+msgid "Euler angles"
+msgstr "Γωνίες Όιλερ"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:2
+msgid "Psi:"
+msgstr "Psi:"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:3
+msgid "Theta:"
+msgstr "Θήτα:"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:4
+msgid "Phi:"
+msgstr "Φι:"
+
+#: ../goffice/graph/gog-axis.c:86
+msgid "Degrees"
+msgstr "Μοίρες"
+
+#: ../goffice/graph/gog-axis.c:87
+msgid "Radians"
+msgstr "Ακτίνια"
+
+#: ../goffice/graph/gog-axis.c:88
+msgid "Grads"
+msgstr "Βαθμοί"
+
+#: ../goffice/graph/gog-axis.c:1494
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
+msgid "Discrete"
+msgstr "Ασυνεχής"
+
+#: ../goffice/graph/gog-axis.c:1494
+msgid "Discrete mapping"
+msgstr "Ασυνεχής απεικόνιση"
+
+#: ../goffice/graph/gog-axis.c:1506 ../goffice/utils/go-line.c:161
+#: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
+msgid "Linear"
+msgstr "Γραμμική"
+
+#: ../goffice/graph/gog-axis.c:1506
+msgid "Linear mapping"
+msgstr "Γραμμική απεικόνιση"
+
+#: ../goffice/graph/gog-axis.c:1518
+msgid "Log"
+msgstr "Λογαριθμική"
+
+#: ../goffice/graph/gog-axis.c:1518
+msgid "Logarithm mapping"
+msgstr "Λογαριθμική απεικόνιση"
+
+#: ../goffice/graph/gog-axis.c:2827 ../goffice/graph/gog-axis.c:2837
+msgid "M_inimum"
+msgstr "Ελά_χιστο"
+
+#: ../goffice/graph/gog-axis.c:2828 ../goffice/graph/gog-axis.c:2838
+msgid "M_aximum"
+msgstr "Μέ_γιστο"
+
+#: ../goffice/graph/gog-axis.c:2829
+msgid "Categories between _ticks"
+msgstr "Κατηγορίες μεταξύ _υποδιαιρέσεων"
+
+#: ../goffice/graph/gog-axis.c:2830
+msgid "Categories between _labels"
+msgstr "Κατηγορίες μεταξύ _ετικετών"
+
+#: ../goffice/graph/gog-axis.c:2839
+msgid "Ma_jor ticks"
+msgstr "Κύ_ριες υποδιαιρέσεις"
+
+#: ../goffice/graph/gog-axis.c:2840
+msgid "Mi_nor ticks"
+msgstr "Δευ_τερεύουσες υποδιαιρέσεις"
+
+#: ../goffice/graph/gog-axis.c:2899 ../goffice/math/go-distribution.c:171
+#: ../goffice/math/go-distribution.c:172
+msgid "Scale"
+msgstr "Κλίμακα"
+
+#: ../goffice/graph/gog-axis.c:2921 ../plugins/plot_pie/gog-pie.c:325
+#: ../plugins/smoothing/gog-moving-avg.c:195
+msgid "Span"
+msgstr "Κάλυψη"
+
+#: ../goffice/graph/gog-axis.c:2978
+msgid "Colors"
+msgstr "Χρώματα"
+
+#: ../goffice/graph/gog-axis.c:2996 ../goffice/graph/gog-series-labels.c:910
+#: ../goffice/graph/gog-series-labels.c:1436
+msgid "Format"
+msgstr "Μορφοποίηση"
+
+#: ../goffice/graph/gog-axis.c:3034
+msgid "MajorGrid"
+msgstr "MajorGrid"
+
+#: ../goffice/graph/gog-axis.c:3037
+msgid "MinorGrid"
+msgstr "Πλέγμα"
+
+#: ../goffice/graph/gog-axis.c:3040
+msgid "AxisLine"
+msgstr "AxisLine"
+
+#: ../goffice/graph/gog-axis.c:3043 ../goffice/graph/gog-theme.c:591
+msgid "Label"
+msgstr "Ετικέτα"
+
+#: ../goffice/graph/gog-axis.c:3059
+msgid "Numerical type of this axis"
+msgstr "Αριθμητικός τύπος αυτού του άξονα"
+
+#: ../goffice/graph/gog-axis.c:3063
+msgid "Invert axis"
+msgstr "Αντιστροφή άξονα"
+
+#: ../goffice/graph/gog-axis.c:3064
+msgid "Scale from high to low rather than low to high"
+msgstr "Κλίμακα από υψηλά σε χαμηλά αντί για από χαμηλά σε υψηλά"
+
+#: ../goffice/graph/gog-axis.c:3068
+msgid "MapName"
+msgstr "MapName"
+
+#: ../goffice/graph/gog-axis.c:3069
+msgid "The name of the map for scaling"
+msgstr "Το όνομα της απεικόνισης για κλιμάκωση"
+
+#: ../goffice/graph/gog-axis.c:3074
+msgid "Assigned XL format"
+msgstr "Εκχωρημένη μορφή XL"
+
+#: ../goffice/graph/gog-axis.c:3075
+msgid ""
+"The user assigned format to use for non-discrete axis labels (XL format)"
+msgstr ""
+"Η δοσμένη μορφή από τον χρήστη για χρήση σε μη ασυνεχείς ετικέτες άξονα "
+"(μορφή XL)"
+
+#: ../goffice/graph/gog-axis.c:3080 ../goffice/graph/gog-axis.c:3081
+msgid "Rotation of circular axis"
+msgstr "Περιστροφή του κυκλικού άξονα"
+
+#: ../goffice/graph/gog-axis.c:3088 ../goffice/graph/gog-axis.c:3089
+msgid "Polar axis set unit"
+msgstr "Ορισμός μονάδας πολικού άξονα"
+
+#: ../goffice/graph/gog-axis.c:3094
+msgid "Axis start position"
+msgstr "Θέση αρχής άξονα"
+
+#: ../goffice/graph/gog-axis.c:3095
+msgid ""
+"Position of the plot area at which the axis effective area starts, expressed "
+"as a percentage of the available position. Defaults to 0.0"
+msgstr ""
+"Θέση της περιοχής σχεδίασης στην οποία ξεκινά η ενεργή περιοχή του άξονα , "
+"εκφραζόμενη ως ποσοστό της διαθέσιμης θέσης. Προεπιλογή το 0,0"
+
+#: ../goffice/graph/gog-axis.c:3100
+msgid "Axis end position"
+msgstr "Θέση τέλους του άξονα"
+
+#: ../goffice/graph/gog-axis.c:3101
+msgid ""
+"Position of the plot area at which the axis effective area ends, expressed "
+"as a percentage of the available position. Defaults to 1.0"
+msgstr ""
+"Θέση της περιοχής σχεδίασης στην οποία καταλήγει η ενεργή περιοχή του άξονα, "
+"εκφραζόμενη ως ποσοστό της διαθέσιμης θέσης. Προεπιλογή το 1,0"
+
+#: ../goffice/graph/gog-axis.c:3105
+msgid "ColorMapName"
+msgstr "ColorMapName"
+
+#: ../goffice/graph/gog-axis.c:3106
+msgid "The name of the color map"
+msgstr "Το όνομα της χρωματικής απεικόνισης"
+
+#: ../goffice/graph/gog-axis-color-map.c:131 ../goffice/graph/gog-theme.c:322
+msgid "Resource type"
+msgstr "Τύπος πόρου"
+
+#: ../goffice/graph/gog-axis-color-map.c:132
+msgid "The resource type for the color map"
+msgstr "Ο τύπος πόρου για την χρωματική απεικόνιση"
+
+#: ../goffice/graph/gog-axis-color-map.c:589
+msgid "New map"
+msgstr "Νέα απεικόνιση"
+
+#. An MS Excel-ish theme
+#: ../goffice/graph/gog-axis-color-map.c:993 ../goffice/graph/gog-theme.c:1240
+msgid "Default"
+msgstr "Προεπιλογή"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
+#| msgid "Colored Polar"
+msgid "Color map editor"
+msgstr "Χρωματιστός επεξεργαστής απεικόνισης"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
+#| msgid "<b>Current color stop</b>"
+msgid "Current color stop"
+msgstr "Τρέχουσα στάση χρώματος"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
+msgid "Value"
+msgstr "Τιμή"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+msgid "Color"
+msgstr "Χρώμα"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
+#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:579
+#: ../goffice/graph/gog-theme-editor.ui.h:2
+msgid "Name"
+msgstr "Όνομα"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
+msgid "Gradient"
+msgstr "Διαβάθμιση"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
+#| msgid "<b>Snapshots</b>"
+msgid "Snapshots"
+msgstr "Στιγμιότυπα"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
+msgid "Define"
+msgstr "Ορισμός"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:10
+msgid "Erase"
+msgstr "Διαγραφή"
 
 #: ../goffice/graph/gog-axis-line.c:647
 msgid "Layout"
@@ -1201,8 +1452,9 @@ msgid "End:"
 msgstr "Τέλος:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:5
-msgid "<b>Major ticks</b>"
-msgstr "<b>Κύριες υποδιαιρέσεις</b>"
+#| msgid "Ma_jor ticks"
+msgid "Major ticks"
+msgstr "Κύριες υποδιαιρέσεις"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:6
 msgid "_Outside"
@@ -1216,9 +1468,11 @@ msgstr "Έ_σωτερικά"
 msgid "_Show Labels"
 msgstr "Εμφάνιση Ε_τικετών"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:9
-msgid "<b>Position</b>"
-msgstr "<b>Θέση</b>"
+#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:747
+#: ../goffice/graph/gog-object.c:791 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series-labels.c:1424
+msgid "Position"
+msgstr "Θέση"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:10
 msgid "_Low"
@@ -1241,14 +1495,15 @@ msgid "Padding:"
 msgstr "Συμπλήρωση:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:15
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
-#: ../goffice/utils/go-style-prefs.ui.h:4
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:7
 msgid "pts"
 msgstr "σημεία"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:16
-msgid "<b>Minor ticks</b>"
-msgstr "<b>Δευτερεύουσες υποδιαιρέσεις</b>"
+#| msgid "Mi_nor ticks"
+msgid "Minor ticks"
+msgstr "Δευτερεύουσες υποδιαιρέσεις"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:17
 msgid "O_utside"
@@ -1259,18 +1514,18 @@ msgid "I_nside"
 msgstr "Έ_σωτερικά"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:19
-msgid "<b>Bounds</b>"
-msgstr "<b>Όρια</b>"
+msgid "Bounds"
+msgstr "Όρια"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
 #: ../goffice/graph/gog-object-prefs.ui.h:15
-#: ../goffice/graph/gog-plot-prefs.ui.h:1 ../goffice/gtk/go-palette.c:344
+#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:344
 msgid "Automatic"
 msgstr "Αυτόματο"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:21
 #: ../goffice/graph/gog-series-prefs.ui.h:4
-#: ../goffice/utils/go-style-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:26
 msgid "_Type:"
 msgstr "_Τύπος:"
 
@@ -1288,14 +1543,15 @@ msgstr "Περιστ_ροφή:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:25
 #: ../goffice/gtk/go-rotation-sel.ui.h:3
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
 msgid "degrees"
 msgstr "βαθμοί"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:26
-msgid "<b>Mapping</b>"
-msgstr "<b>απεικόνιση</b>"
+#| msgid "<b>Mapping</b>"
+msgid "Mapping"
+msgstr "Απεικόνιση"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:27
 msgid "New"
@@ -1316,7 +1572,6 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:31
 #: ../goffice/graph/gog-graph-prefs.ui.h:3
-#| msgid "Save as"
 msgid "Save"
 msgstr "Αποθήκευση"
 
@@ -1324,237 +1579,11 @@ msgstr "Αποθήκευση"
 msgid "Saves the color map to the local disk."
 msgstr "Αποθηκεύει την χρωματική απεικόνιση στον τοπικό δίσκο."
 
-#: ../goffice/graph/gog-axis.c:85
-msgid "Degrees"
-msgstr "Μοίρες"
-
-#: ../goffice/graph/gog-axis.c:86
-msgid "Radians"
-msgstr "Ακτίνια"
-
-#: ../goffice/graph/gog-axis.c:87
-msgid "Grads"
-msgstr "Βαθμοί"
-
-#: ../goffice/graph/gog-axis.c:1493
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
-msgid "Discrete"
-msgstr "Ασυνεχής"
-
-#: ../goffice/graph/gog-axis.c:1493
-msgid "Discrete mapping"
-msgstr "Ασυνεχής απεικόνιση"
-
-#: ../goffice/graph/gog-axis.c:1505 ../goffice/utils/go-line.c:161
-#: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
-msgid "Linear"
-msgstr "Γραμμική"
-
-#: ../goffice/graph/gog-axis.c:1505
-msgid "Linear mapping"
-msgstr "Γραμμική απεικόνιση"
-
-#: ../goffice/graph/gog-axis.c:1517
-msgid "Log"
-msgstr "Λογαριθμική"
-
-#: ../goffice/graph/gog-axis.c:1517
-msgid "Logarithm mapping"
-msgstr "Λογαριθμική απεικόνιση"
-
-#: ../goffice/graph/gog-axis.c:2825 ../goffice/graph/gog-axis.c:2835
-msgid "M_inimum"
-msgstr "Ελά_χιστο"
-
-#: ../goffice/graph/gog-axis.c:2826 ../goffice/graph/gog-axis.c:2836
-msgid "M_aximum"
-msgstr "Μέ_γιστο"
-
-#: ../goffice/graph/gog-axis.c:2827
-msgid "Categories between _ticks"
-msgstr "Κατηγορίες μεταξύ _υποδιαιρέσεων"
-
-#: ../goffice/graph/gog-axis.c:2828
-msgid "Categories between _labels"
-msgstr "Κατηγορίες μεταξύ _ετικετών"
-
-#: ../goffice/graph/gog-axis.c:2837
-msgid "Ma_jor ticks"
-msgstr "Κύ_ριες υποδιαιρέσεις"
-
-#: ../goffice/graph/gog-axis.c:2838
-msgid "Mi_nor ticks"
-msgstr "Δευ_τερεύουσες υποδιαιρέσεις"
-
-#: ../goffice/graph/gog-axis.c:2894 ../goffice/math/go-distribution.c:171
-#: ../goffice/math/go-distribution.c:172
-msgid "Scale"
-msgstr "Κλίμακα"
-
-#: ../goffice/graph/gog-axis.c:2916 ../plugins/plot_pie/gog-pie.c:325
-#: ../plugins/smoothing/gog-moving-avg.c:195
-msgid "Span"
-msgstr "Κάλυψη"
-
-#: ../goffice/graph/gog-axis.c:2973
-msgid "Colors"
-msgstr "Χρώματα"
-
-#: ../goffice/graph/gog-axis.c:2990 ../goffice/graph/gog-series-labels.c:891
-#: ../goffice/graph/gog-series-labels.c:1417
-msgid "Format"
-msgstr "Μορφοποίηση"
-
-#: ../goffice/graph/gog-axis.c:3028
-msgid "MajorGrid"
-msgstr "MajorGrid"
-
-#: ../goffice/graph/gog-axis.c:3031
-msgid "MinorGrid"
-msgstr "Πλέγμα"
-
-#: ../goffice/graph/gog-axis.c:3034
-msgid "AxisLine"
-msgstr "AxisLine"
-
-#: ../goffice/graph/gog-axis.c:3037
-msgid "Label"
-msgstr "Ετικέτα"
-
-#: ../goffice/graph/gog-axis.c:3053
-msgid "Numerical type of this axis"
-msgstr "Αριθμητικός τύπος αυτού του άξονα"
-
-#: ../goffice/graph/gog-axis.c:3057
-msgid "Invert axis"
-msgstr "Αντιστροφή άξονα"
-
-#: ../goffice/graph/gog-axis.c:3058
-msgid "Scale from high to low rather than low to high"
-msgstr "Κλίμακα από υψηλά σε χαμηλά αντί για από χαμηλά σε υψηλά"
-
-#: ../goffice/graph/gog-axis.c:3062
-msgid "MapName"
-msgstr "MapName"
-
-#: ../goffice/graph/gog-axis.c:3063
-msgid "The name of the map for scaling"
-msgstr "Το όνομα της απεικόνισης για κλιμάκωση"
-
-#: ../goffice/graph/gog-axis.c:3068
-msgid "Assigned XL format"
-msgstr "Εκχωρημένη μορφή XL"
-
-#: ../goffice/graph/gog-axis.c:3069
-msgid ""
-"The user assigned format to use for non-discrete axis labels (XL format)"
-msgstr ""
-"Η δοσμένη μορφή από τον χρήστη για χρήση σε μη ασυνεχείς ετικέτες άξονα "
-"(μορφή XL)"
-
-#: ../goffice/graph/gog-axis.c:3074 ../goffice/graph/gog-axis.c:3075
-msgid "Rotation of circular axis"
-msgstr "Περιστροφή του κυκλικού άξονα"
-
-#: ../goffice/graph/gog-axis.c:3082 ../goffice/graph/gog-axis.c:3083
-msgid "Polar axis set unit"
-msgstr "Ορισμός μονάδας πολικού άξονα"
-
-#: ../goffice/graph/gog-axis.c:3088
-msgid "Axis start position"
-msgstr "Θέση αρχής άξονα"
-
-#: ../goffice/graph/gog-axis.c:3089
-msgid ""
-"Position of the plot area at which the axis effective area starts, expressed "
-"as a percentage of the available position. Defaults to 0.0"
-msgstr ""
-"Θέση της περιοχής σχεδίασης στην οποία ξεκινά η ενεργή περιοχή του άξονα , "
-"εκφραζόμενη ως ποσοστό της διαθέσιμης θέσης. Προεπιλογή το 0,0"
-
-#: ../goffice/graph/gog-axis.c:3094
-msgid "Axis end position"
-msgstr "Θέση τέλους του άξονα"
-
-#: ../goffice/graph/gog-axis.c:3095
-msgid ""
-"Position of the plot area at which the axis effective area ends, expressed "
-"as a percentage of the available position. Defaults to 1.0"
-msgstr ""
-"Θέση της περιοχής σχεδίασης στην οποία καταλήγει η ενεργή περιοχή του άξονα, "
-"εκφραζόμενη ως ποσοστό της διαθέσιμης θέσης. Προεπιλογή το 1,0"
-
-#: ../goffice/graph/gog-axis.c:3099
-#| msgid "MapName"
-msgid "ColorMapName"
-msgstr "ColorMapName"
-
-#: ../goffice/graph/gog-axis.c:3100
-#| msgid "The name of the map for scaling"
-msgid "The name of the color map"
-msgstr "Το όνομα της χρωματικής απεικόνισης"
-
-#: ../goffice/graph/gog-axis-color-map.c:131 ../goffice/graph/gog-theme.c:322
-#| msgid "Resource"
-msgid "Resource type"
-msgstr "Τύπος πόρου"
-
-#: ../goffice/graph/gog-axis-color-map.c:132
-msgid "The resource type for the color map"
-msgstr "Ο τύπος πόρου για την χρωματική απεικόνιση"
-
-#: ../goffice/graph/gog-axis-color-map.c:589
-msgid "New map"
-msgstr "Νέα απεικόνιση"
-
-#. An MS Excel-ish theme
-#: ../goffice/graph/gog-axis-color-map.c:972 ../goffice/graph/gog-theme.c:1211
-msgid "Default"
-msgstr "Προεπιλογή"
-
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
-#| msgid "<b>Error category</b>"
-msgid "<b>Current color stop</b>"
-msgstr "<b>Τρέχον χρώμα διακοπής</b>"
-
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
-#| msgid "Values"
-msgid "Value"
-msgstr "Τιμή"
-
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
-msgid "Color"
-msgstr "Χρώμα"
-
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
-#: ../goffice/graph/gog-guru.c:1031 ../goffice/graph/gog-series.c:576
-msgid "Name"
-msgstr "Όνομα"
-
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#| msgid "Grads"
-msgid "Gradient"
-msgstr "Διαβάθμιση"
-
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
-#| msgid "<b>Sample</b>"
-msgid "<b>Snapshots</b>"
-msgstr "<b>Στιγμιότυπα</b>"
-
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
-#| msgid "User Defined"
-msgid "Define"
-msgstr "Ορισμός"
-
-#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
-msgid "Erase"
-msgstr "Διαγραφή"
-
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:688
 msgid "Plot area"
 msgstr "Περιοχή σχεδίασης"
 
-#: ../goffice/graph/gog-chart.c:584
+#: ../goffice/graph/gog-chart.c:584 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
 msgstr "Πίσω επίπεδο"
 
@@ -1611,11 +1640,13 @@ msgstr "Σχεδίαση"
 msgid "Title"
 msgstr "Τίτλος"
 
-#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-trend-line.c:97
+#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-theme.c:585
+#: ../goffice/graph/gog-trend-line.c:97
 msgid "Legend"
 msgstr "Υπόμνημα"
 
 #: ../goffice/graph/gog-chart.c:645 ../goffice/graph/gog-reg-curve.c:280
+#: ../goffice/graph/gog-theme.c:595
 msgid "Equation"
 msgstr "Εξίσωση"
 
@@ -1676,16 +1707,21 @@ msgstr "γραμμές"
 msgid "Number of rows in graph grid"
 msgstr "Αριθμός γραμμών σε πλέγμα γραφήματος"
 
+#. Note for translators: first string represent the new child object and second string is the parent object
+#: ../goffice/graph/gog-child-button.c:499
+#, c-format
+msgid "%s to %s"
+msgstr "%s σε %s"
+
 #: ../goffice/graph/gog-color-scale.c:132
 #: ../plugins/plot_barcol/gog-minmax.c:227
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
 #: ../plugins/plot_xy/gog-xy-dropbar.c:306
 #: ../plugins/plot_xy/gog-xy-minmax.c:291
 msgid "Horizontal"
 msgstr "Οριζόντιο"
 
 #: ../goffice/graph/gog-color-scale.c:133
-#| msgid "Whether to use horizontal bars"
 msgid "Whether to display the scale horizontally"
 msgstr "Εάν θα εμφανιστεί η κλίμακα οριζόντια"
 
@@ -1693,76 +1729,18 @@ msgstr "Εάν θα εμφανιστεί η κλίμακα οριζόντια"
 msgid "Color scale thickness."
 msgstr "Πάχος κλίμακας χρώματος."
 
-#. Note for translators: first string represent the new child object and second string is the parent object
-#: ../goffice/graph/gog-child-button.c:499
-#, c-format
-msgid "%s to %s"
-msgstr "%s σε %s"
-
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
 msgid "_Compact mode"
 msgstr "_Συμπαγής κατάσταση"
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 #: ../goffice/graph/gog-error-bar.c:79
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
 #: ../goffice/gtk/go-format-sel.c:1670 ../goffice/gtk/go-format-sel.c:1846
 #: ../goffice/utils/formats.c:366 ../goffice/utils/go-line.c:127
-#: ../goffice/utils/go-style-prefs.ui.h:6
+#: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "Καμία"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
-msgid "Absolute"
-msgstr "Απόλυτο"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
-msgid "Relative"
-msgstr "Σχετικό"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
-msgid "Percent"
-msgstr "Ποσοστό"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
-msgid "<b>Error category</b>"
-msgstr "<b>Κατηγορία σφάλματος</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-msgid "<b>Style</b>"
-msgstr "<b>Τεχνοτροπία</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
-msgid "Dis_play:"
-msgstr "Εμ_φάνιση:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
-#: ../goffice/graph/gog-object-prefs.ui.h:18
-#: ../goffice/graph/gog-plot-prefs.ui.h:5
-msgid "_Width:"
-msgstr "_Πλάτος:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
-msgid "_Line width:"
-msgstr "Πλάτος _γραμμής:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
-msgid "Colo_r:"
-msgstr "Χ_ρώμα:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
-msgid "<b>Values</b>"
-msgstr "<b>Τιμές</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:13
-msgid "(+)"
-msgstr "(+)"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:14
-msgid "(-)"
-msgstr "(-)"
 
 #: ../goffice/graph/gog-error-bar.c:84
 msgid "Positive"
@@ -1777,30 +1755,71 @@ msgid "Both"
 msgstr "Και τα δύο"
 
 #. Note for translator: the angle unit
-#: ../goffice/graph/gog-error-bar.c:335
+#: ../goffice/graph/gog-error-bar.c:336
 msgid "°"
 msgstr "°"
 
-#: ../goffice/graph/gog-graph-prefs.ui.h:1
-msgid "Theme:"
-msgstr "Θέμα:"
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
+msgid "Dis_play:"
+msgstr "Εμ_φάνιση:"
 
-#: ../goffice/graph/gog-graph-prefs.ui.h:2
-msgid "Forget user styles"
-msgstr "Παράλειψη τεχνοτροπιών χρήστη"
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
+#: ../goffice/graph/gog-object-prefs.ui.h:17
+#: ../goffice/graph/gog-plot-prefs.ui.h:3
+msgid "_Width:"
+msgstr "_Πλάτος:"
 
-#: ../goffice/graph/gog-graph-prefs.ui.h:4
-msgid "Save the theme as a standalone file in the user home directory."
-msgstr ""
-"Αποθήκευση του θέματος ως αυτόνομο αρχείο στον προσωπικό κατάλογο χρήστη."
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
+msgid "_Line width:"
+msgstr "Πλάτος _γραμμής:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
+msgid "Colo_r:"
+msgstr "Χ_ρώμα:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
+msgid "(+)"
+msgstr "(+)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
+msgid "(-)"
+msgstr "(-)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
+#: ../plugins/plot_barcol/gog-1.5d.c:364
+#: ../plugins/plot_distrib/gog-boxplot.c:428
+#: ../plugins/plot_distrib/gog-histogram.c:390
+#: ../plugins/plot_distrib/gog-probability-plot.c:317
+#: ../plugins/plot_pie/gog-pie.c:340 ../plugins/plot_radar/gog-radar.c:323
+msgid "Values"
+msgstr "Τιμές"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
+#| msgid "<b>Error category</b>"
+msgid "Error category"
+msgstr "Κατηγορία σφάλματος"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
+msgid "Absolute"
+msgstr "Απόλυτο"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:13
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
+msgid "Relative"
+msgstr "Σχετικό"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:14
+msgid "Percent"
+msgstr "Ποσοστό"
 
 #. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
-#: ../goffice/graph/gog-theme.c:1376 ../goffice/graph/gog-theme.c:1540
+#: ../goffice/graph/gog-theme.c:1406 ../goffice/graph/gog-theme.c:1571
 msgid "Theme"
 msgstr "Θέμα"
 
-#: ../goffice/graph/gog-graph.c:421
+#: ../goffice/graph/gog-graph.c:421 ../goffice/graph/gog-theme.c:583
 msgid "Chart"
 msgstr "Διάγραμμα"
 
@@ -1836,6 +1855,23 @@ msgstr "το έγγραφο για αυτό το γράφημα"
 msgid "the renderer for this view"
 msgstr "η απόδοση για αυτήν την προβολή"
 
+#: ../goffice/graph/gog-graph-prefs.ui.h:1
+msgid "Theme:"
+msgstr "Θέμα:"
+
+#: ../goffice/graph/gog-graph-prefs.ui.h:2
+msgid "Forget user styles"
+msgstr "Παράλειψη τεχνοτροπιών χρήστη"
+
+#: ../goffice/graph/gog-graph-prefs.ui.h:4
+msgid "Save the theme as a standalone file in the user home directory."
+msgstr ""
+"Αποθήκευση του θέματος ως αυτόνομο αρχείο στον προσωπικό κατάλογο χρήστη."
+
+#: ../goffice/graph/gog-grid.c:128
+msgid "Numerical type of this backplane"
+msgstr "Αριθμητικός τύπος αυτού του πίσω επιπέδου"
+
 #: ../goffice/graph/gog-grid-line.c:113
 msgid "Is-minor"
 msgstr "Εάν είναι δευτερεύουσες"
@@ -1844,41 +1880,35 @@ msgstr "Εάν είναι δευτερεύουσες"
 msgid "Are these minor grid lines"
 msgstr "Εάν είναι αυτές δευτερεύουσες γραμμές πλέγματος"
 
-#: ../goffice/graph/gog-grid.c:128
-msgid "Numerical type of this backplane"
-msgstr "Αριθμητικός τύπος αυτού του πίσω επιπέδου"
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:1
-msgid "<b>_Plot Type</b>"
-msgstr "<b>Τύπος _σχεδίασης</b>"
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:2
-msgid "<b>Sample</b>"
-msgstr "<b>Δείγμα</b>"
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:3
-msgid "<b>_Subtype</b>"
-msgstr "<b>_Υποτύπος</b>"
-
-#: ../goffice/graph/gog-guru.c:1058
+#: ../goffice/graph/gog-guru.c:1057
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Βήμα 1 από 2: επιλογή τύπου διαγράμματος"
 
-#: ../goffice/graph/gog-guru.c:1066
+#: ../goffice/graph/gog-guru.c:1065
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Βήμα 2 από 2: προσαρμογή διαγράμματος"
 
-#: ../goffice/graph/gog-guru.c:1071
+#: ../goffice/graph/gog-guru.c:1070
 msgid "Customize Chart"
 msgstr "Προσαρμογή διαγράμματος"
 
-#: ../goffice/graph/gog-guru.c:1146
+#: ../goffice/graph/gog-guru.c:1145
 msgid "_Insert"
 msgstr "Ει_σαγωγή"
 
 #: ../goffice/graph/gog-guru.c:1216
+#: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "Τύπος _σχεδίασης"
+
+#: ../goffice/graph/gog-guru-type-selector.ui.h:2
+msgid "Sample"
+msgstr "Δείγμα"
+
+#: ../goffice/graph/gog-guru-type-selector.ui.h:3
+#| msgid "<b>_Subtype</b>"
+msgid "_Subtype"
+msgstr "_Υποτύπος"
 
 #: ../goffice/graph/gog-label.c:149
 msgid "Allow markup"
@@ -1912,27 +1942,27 @@ msgstr "Αναδίπλωση κειμένου"
 msgid "Whether the text might be displayed using several lines"
 msgstr "Εάν το κείμενο μπορεί να εμφανιστεί χρησιμοποιώντας πολλές γραμμές"
 
-#: ../goffice/graph/gog-label.c:292
+#: ../goffice/graph/gog-label.c:285
 msgid "_Text:"
 msgstr "_Κείμενο:"
 
-#: ../goffice/graph/gog-label.c:294
+#: ../goffice/graph/gog-label.c:287
 msgid "Rotate frame with text"
 msgstr "Περιστροφή πλαισίου με κείμενο"
 
-#: ../goffice/graph/gog-label.c:298
+#: ../goffice/graph/gog-label.c:291
 msgid "Display the text on several lines if needed"
 msgstr "Εμφάνιση του κειμένου σε πολλές γραμμές εάν χρειάζεται"
 
-#: ../goffice/graph/gog-label.c:302
+#: ../goffice/graph/gog-label.c:295
 msgid "Rotate background with text"
 msgstr "Περιστροφή παρασκηνίου με κείμενο"
 
-#: ../goffice/graph/gog-label.c:306
+#: ../goffice/graph/gog-label.c:299
 msgid "Interpret text as markup"
 msgstr "Ερμηνεία κειμένου ως επισήμανσης"
 
-#: ../goffice/graph/gog-label.c:307
+#: ../goffice/graph/gog-label.c:300
 msgid ""
 "Interpret the text as an HTML like markup as described at http://developer."
 "gnome.org/pango/stable/PangoMarkupFormat.html"
@@ -1940,21 +1970,21 @@ msgstr ""
 "Ερμηνεία του κειμένου ως μια επισήμανση παρόμοια με HTML όπως περιγράφεται "
 "στο http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 
-#: ../goffice/graph/gog-label.c:313 ../goffice/graph/gog-label.c:550
+#: ../goffice/graph/gog-label.c:306 ../goffice/graph/gog-label.c:543
 #: ../goffice/graph/gog-reg-curve.c:133
-#: ../goffice/graph/gog-series-labels.c:588
-#: ../goffice/graph/gog-smoothed-curve.c:59
+#: ../goffice/graph/gog-series-labels.c:607
+#: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
 #: ../plugins/plot_xy/gog-xy.c:2098
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
-#: ../goffice/graph/gog-label.c:423
+#: ../goffice/graph/gog-label.c:416
 msgid "Text justification"
 msgstr "Στοίχιση κειμένου"
 
-#: ../goffice/graph/gog-label.c:424
+#: ../goffice/graph/gog-label.c:417
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
@@ -1962,23 +1992,23 @@ msgstr ""
 "Στοίχιση κειμένου ως συμβολοσειράς. Δυνατές τιμές είναι \"κέντρο"
 "\" (προεπιλεγμένη τιμή), \"αριστερά\", \"δεξιά\" ή \"γέμισμα\"."
 
-#: ../goffice/graph/gog-label.c:571
+#: ../goffice/graph/gog-label.c:564
 msgid "Regression Equation"
 msgstr "Εξίσωση παλινδρόμησης"
 
-#: ../goffice/graph/gog-label.c:610
+#: ../goffice/graph/gog-label.c:603
 msgid "Show equation"
 msgstr "Εμφάνιση εξίσωσης"
 
-#: ../goffice/graph/gog-label.c:611
+#: ../goffice/graph/gog-label.c:604
 msgid "Show the equation on the graph"
 msgstr "Εμφάνιση της εξίσωσης στο γράφημα"
 
-#: ../goffice/graph/gog-label.c:616
+#: ../goffice/graph/gog-label.c:609
 msgid "Show coefficient"
 msgstr "Εμφάνιση συντελεστή"
 
-#: ../goffice/graph/gog-label.c:617
+#: ../goffice/graph/gog-label.c:610
 msgid "Show the correlation coefficient on the graph"
 msgstr "Εμφάνιση συντελεστή συσχέτισης στο γράφημα"
 
@@ -1998,8 +2028,103 @@ msgstr "Συμπλήρωση δείγματος σε σημεία"
 msgid "padding between the swatches in pts."
 msgstr "συμπλήρωση μεταξύ των δειγμάτων σε σημεία."
 
+#: ../goffice/graph/gog-object.c:161 ../goffice/graph/gog-object.c:180
+#: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
+msgid "Top"
+msgstr "Πάνω"
+
+#: ../goffice/graph/gog-object.c:162 ../goffice/graph/gog-object.c:181
+msgid "Top right"
+msgstr "Πάνω δεξιά"
+
+#: ../goffice/graph/gog-object.c:163 ../goffice/graph/gog-object.c:184
+#: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
+msgid "Right"
+msgstr "Δεξιά"
+
+#: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:187
+msgid "Bottom right"
+msgstr "Κάτω δεξιά"
+
+#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:186
+#: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
+msgid "Bottom"
+msgstr "Κάτω"
+
+#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
+msgid "Bottom left"
+msgstr "Κάτω αριστερά"
+
+#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:182
+#: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
+msgid "Left"
+msgstr "Αριστερά"
+
+#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:179
+msgid "Top left"
+msgstr "Πάνω αριστερά"
+
+#: ../goffice/graph/gog-object.c:172 ../goffice/utils/go-style-prefs.ui.h:29
+msgid "Fill"
+msgstr "Γέμισμα"
+
+#: ../goffice/graph/gog-object.c:173 ../plugins/plot_barcol/gog-dropbar.c:143
+#: ../plugins/plot_xy/gog-xy-dropbar.c:326
+msgid "Start"
+msgstr "Έναρξη"
+
+#: ../goffice/graph/gog-object.c:174 ../plugins/plot_barcol/gog-dropbar.c:145
+#: ../plugins/plot_xy/gog-xy-dropbar.c:328
+msgid "End"
+msgstr "Τέλος"
+
+#: ../goffice/graph/gog-object.c:175 ../goffice/graph/gog-object.c:183
+#: ../goffice/graph/gog-series.c:111
+msgid "Center"
+msgstr "Κέντρο"
+
+#: ../goffice/graph/gog-object.c:785
+msgid "Object ID"
+msgstr "Ταυτότητα αντικειμένου"
+
+#: ../goffice/graph/gog-object.c:786
+msgid "Object numerical ID"
+msgstr "Ταυτότητα αριθμητικού αντικειμένου"
+
+#: ../goffice/graph/gog-object.c:792
+msgid "Position and size of object, in percentage of parent size"
+msgstr "Θέση και μέγεθος του αντικειμένου, σε ποσοστό του γονικού μεγέθους"
+
+#: ../goffice/graph/gog-object.c:797
+msgid "Compass"
+msgstr "Πυξίδα"
+
+#: ../goffice/graph/gog-object.c:798
+msgid "Compass auto position flags"
+msgstr "Σημαίες αυτόματης θέσης πυξίδας"
+
+#: ../goffice/graph/gog-object.c:803
+msgid "Alignment"
+msgstr "Ευθυγράμμιση"
+
+#: ../goffice/graph/gog-object.c:804
+msgid "Alignment flag"
+msgstr "Σημαία στοίχισης"
+
+#: ../goffice/graph/gog-object.c:809 ../goffice/graph/gog-object.c:810
+msgid "Is position manual"
+msgstr "Εάν είναι χειροκίνητη θέση"
+
+#: ../goffice/graph/gog-object.c:816
+msgid "Anchor for manual position"
+msgstr "Άγκυρα για χειροκίνητη θέση"
+
+#: ../goffice/graph/gog-object.c:821 ../goffice/graph/gog-object.c:822
+msgid "Should the object be hidden"
+msgstr "Εάν αποκρυβεί το αντικείμενο"
+
 #: ../goffice/graph/gog-object-prefs.ui.h:1
-#: ../goffice/graph/gog-plot-prefs.ui.h:3
+#: ../goffice/graph/gog-plot-prefs.ui.h:7
 msgid "_Object position:"
 msgstr "Θέση _αντικειμένου:"
 
@@ -2012,31 +2137,31 @@ msgstr "_Θέση:"
 msgid "_Alignment:"
 msgstr "Στοί_χιση:"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:5
-#: ../goffice/graph/gog-plot-prefs.ui.h:8
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
-#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:6
-#: ../plugins/plot_pie/gog-pie-series.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:6
-#: ../goffice/graph/gog-plot-prefs.ui.h:4
-msgid "_Y:"
-msgstr "_Y:"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:7
-#: ../goffice/graph/gog-plot-prefs.ui.h:9
+#: ../goffice/graph/gog-object-prefs.ui.h:4
+#: ../goffice/graph/gog-plot-prefs.ui.h:1
 msgid "_X:"
 msgstr "_X:"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-object-prefs.ui.h:5
+#: ../goffice/graph/gog-plot-prefs.ui.h:2
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../goffice/graph/gog-object-prefs.ui.h:6
 msgid "Anchor:"
 msgstr "Άγκυρα:"
+
+#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
+#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-series.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
+#, no-c-format
+msgid "%"
+msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:9
 msgid "Column:"
@@ -2063,115 +2188,14 @@ msgid "Object size:"
 msgstr "Μέγεθος αντικειμένου:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:16
-#: ../goffice/graph/gog-plot-prefs.ui.h:2
+#: ../goffice/graph/gog-plot-prefs.ui.h:9
 msgid "Manual"
 msgstr "Χειροκίνητα"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:17
-#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../goffice/graph/gog-object-prefs.ui.h:18
+#: ../goffice/graph/gog-plot-prefs.ui.h:4
 msgid "_Height:"
 msgstr "Ύ_ψος:"
-
-#: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:183
-#: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
-msgid "Top"
-msgstr "Πάνω"
-
-#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:184
-msgid "Top right"
-msgstr "Πάνω δεξιά"
-
-#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:187
-#: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
-msgid "Right"
-msgstr "Δεξιά"
-
-#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:190
-msgid "Bottom right"
-msgstr "Κάτω δεξιά"
-
-#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:189
-#: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
-msgid "Bottom"
-msgstr "Κάτω"
-
-#: ../goffice/graph/gog-object.c:169 ../goffice/graph/gog-object.c:188
-msgid "Bottom left"
-msgstr "Κάτω αριστερά"
-
-#: ../goffice/graph/gog-object.c:170 ../goffice/graph/gog-object.c:185
-#: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
-msgid "Left"
-msgstr "Αριστερά"
-
-#: ../goffice/graph/gog-object.c:171 ../goffice/graph/gog-object.c:182
-msgid "Top left"
-msgstr "Πάνω αριστερά"
-
-#: ../goffice/graph/gog-object.c:175
-msgid "Fill"
-msgstr "Γέμισμα"
-
-#: ../goffice/graph/gog-object.c:176 ../plugins/plot_barcol/gog-dropbar.c:143
-#: ../plugins/plot_xy/gog-xy-dropbar.c:326
-msgid "Start"
-msgstr "Έναρξη"
-
-#: ../goffice/graph/gog-object.c:177 ../plugins/plot_barcol/gog-dropbar.c:145
-#: ../plugins/plot_xy/gog-xy-dropbar.c:328
-msgid "End"
-msgstr "Τέλος"
-
-#: ../goffice/graph/gog-object.c:178 ../goffice/graph/gog-object.c:186
-#: ../goffice/graph/gog-series.c:111
-msgid "Center"
-msgstr "Κέντρο"
-
-#: ../goffice/graph/gog-object.c:750 ../goffice/graph/gog-object.c:794
-#: ../goffice/graph/gog-series-labels.c:879
-#: ../goffice/graph/gog-series-labels.c:1405
-msgid "Position"
-msgstr "Θέση"
-
-#: ../goffice/graph/gog-object.c:788
-msgid "Object ID"
-msgstr "Ταυτότητα αντικειμένου"
-
-#: ../goffice/graph/gog-object.c:789
-msgid "Object numerical ID"
-msgstr "Ταυτότητα αριθμητικού αντικειμένου"
-
-#: ../goffice/graph/gog-object.c:795
-msgid "Position and size of object, in percentage of parent size"
-msgstr "Θέση και μέγεθος του αντικειμένου, σε ποσοστό του γονικού μεγέθους"
-
-#: ../goffice/graph/gog-object.c:800
-msgid "Compass"
-msgstr "Πυξίδα"
-
-#: ../goffice/graph/gog-object.c:801
-msgid "Compass auto position flags"
-msgstr "Σημαίες αυτόματης θέσης πυξίδας"
-
-#: ../goffice/graph/gog-object.c:806
-msgid "Alignment"
-msgstr "Ευθυγράμμιση"
-
-#: ../goffice/graph/gog-object.c:807
-msgid "Alignment flag"
-msgstr "Σημαία στοίχισης"
-
-#: ../goffice/graph/gog-object.c:812 ../goffice/graph/gog-object.c:813
-msgid "Is position manual"
-msgstr "Εάν είναι χειροκίνητη θέση"
-
-#: ../goffice/graph/gog-object.c:819
-msgid "Anchor for manual position"
-msgstr "Άγκυρα για χειροκίνητη θέση"
-
-#: ../goffice/graph/gog-object.c:824 ../goffice/graph/gog-object.c:825
-msgid "Should the object be hidden"
-msgstr "Εάν αποκρυβεί το αντικείμενο"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
@@ -2180,22 +2204,6 @@ msgstr "Σημεία συμπλήρωσης"
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
 msgstr "Αριθμός σημείων που ξεχωρίζει διαγράμματα στο πλέγμα"
-
-#: ../goffice/graph/gog-plot-engine.c:81
-msgid "Plot Engine"
-msgstr "Μηχανή σχεδίασης"
-
-#: ../goffice/graph/gog-plot-engine.c:330
-msgid "Plot Type"
-msgstr "Τύπος σχεδίασης"
-
-#: ../goffice/graph/gog-plot-engine.c:414
-msgid "Regression Curve Engine"
-msgstr "Μηχανή καμπύλης παλινδρόμησης"
-
-#: ../goffice/graph/gog-plot-engine.c:608
-msgid "Regression Curve Type"
-msgstr "Τύπος καμπύλης παλινδρόμησης"
 
 #: ../goffice/graph/gog-plot.c:227
 msgid "X axis:"
@@ -2229,99 +2237,100 @@ msgstr "Χρωματιστός άξονας:"
 msgid "Bubble axis:"
 msgstr "Άξονας φυσαλίδων:"
 
-#: ../goffice/graph/gog-plot.c:299
+#: ../goffice/graph/gog-plot.c:300
 msgid "Axes"
 msgstr "Άξονες"
 
-#: ../goffice/graph/gog-plot.c:437
+#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "Σειρές"
 
-#: ../goffice/graph/gog-plot.c:458
+#: ../goffice/graph/gog-plot.c:459
 msgid "Vary style by element"
 msgstr "Ποικιλία τεχνοτροπίας κατά στοιχείο"
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:460
 msgid "Use a different style for each segment"
 msgstr "Χρήση διαφορετικής τεχνοτροπίας για κάθε τμήμα"
 
-#: ../goffice/graph/gog-plot.c:464
+#: ../goffice/graph/gog-plot.c:465
 msgid "X axis"
 msgstr "Άξονας Χ"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:466
 msgid "Reference to X axis"
 msgstr "Αναφορά στον άξονα Χ"
 
-#: ../goffice/graph/gog-plot.c:470
+#: ../goffice/graph/gog-plot.c:471
 msgid "Y axis"
 msgstr "Άξονας Υ"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:472
 msgid "Reference to Y axis"
 msgstr "Αναφορά στον άξονα Υ"
 
-#: ../goffice/graph/gog-plot.c:476
+#: ../goffice/graph/gog-plot.c:477
 msgid "Z axis"
 msgstr "Άξονας Ζ"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:478
 msgid "Reference to Z axis"
 msgstr "Αναφορά στον άξονα Ζ"
 
-#: ../goffice/graph/gog-plot.c:482
+#: ../goffice/graph/gog-plot.c:483
 msgid "Circular axis"
 msgstr "Κυκλικός άξονας"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
 msgstr "Αναφορά στον κυκλικό άξονα"
 
-#: ../goffice/graph/gog-plot.c:488
+#: ../goffice/graph/gog-plot.c:489
 msgid "Radial axis"
 msgstr "Ακτινικός άξονας"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
 msgstr "Αναφορά στον ακτινικό άξονα"
 
-#: ../goffice/graph/gog-plot.c:494
+#: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
 msgstr "Ψεύδο-3Δ άξονας"
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
 msgstr "Αναφορά στον ψεύδο-3Δ άξονα"
 
-#: ../goffice/graph/gog-plot.c:500
+#: ../goffice/graph/gog-plot.c:501
 msgid "Color axis"
 msgstr "Χρωματικός άξονας"
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
 msgstr "Αναφορά στον χρωματικό άξονα"
 
-#: ../goffice/graph/gog-plot.c:506
+#: ../goffice/graph/gog-plot.c:507
 msgid "Bubble axis"
 msgstr "Άξονας φυσαλίδων"
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
 msgstr "Αναφορά στον άξονα φυσαλίδων"
 
-#: ../goffice/graph/gog-plot.c:512
+#: ../goffice/graph/gog-plot.c:513
 msgid "Plot group"
 msgstr "Ομάδα σχεδίασης"
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:514
 msgid "Name of plot group if any"
 msgstr "Όνομα της ομάδας σχεδίασης εάν υπάρχει"
 
-#: ../goffice/graph/gog-plot.c:518
+#: ../goffice/graph/gog-plot.c:519
 msgid "Guru hints"
 msgstr "Συμβουλές ειδικού"
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:520
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
@@ -2329,21 +2338,62 @@ msgstr ""
 "Λίστα που ξεχωρίζεται με άνω τελεία των συμβουλών για αυτόματη προσθήκη "
 "αντικειμένων στον διάλογο ειδικού"
 
-#: ../goffice/graph/gog-plot.c:525
+#: ../goffice/graph/gog-plot.c:526
 msgid "Default interpolation"
 msgstr "Προεπιλεγμένη παρεμβολή"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:527
 msgid "Default type of series line interpolation"
 msgstr "Προεπιλεγμένος τύπος παρεμβολής γραμμής σειρών"
 
-#: ../goffice/graph/gog-plot.c:1174
+#: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
 msgstr "Μετακίνηση περιοχής σχεδίασης"
 
-#: ../goffice/graph/gog-plot.c:1226
+#: ../goffice/graph/gog-plot.c:1227
 msgid "Resize plot area"
 msgstr "Αυξομείωση περιοχής σχεδίασης"
+
+#: ../goffice/graph/gog-plot-engine.c:81
+msgid "Plot Engine"
+msgstr "Μηχανή σχεδίασης"
+
+#: ../goffice/graph/gog-plot-engine.c:330
+msgid "Plot Type"
+msgstr "Τύπος σχεδίασης"
+
+#: ../goffice/graph/gog-plot-engine.c:414
+msgid "Regression Curve Engine"
+msgstr "Μηχανή καμπύλης παλινδρόμησης"
+
+#: ../goffice/graph/gog-plot-engine.c:608
+msgid "Regression Curve Type"
+msgstr "Τύπος καμπύλης παλινδρόμησης"
+
+#: ../goffice/graph/gog-reg-curve.c:273
+msgid "Regression Curve"
+msgstr "Καμπύλη παλινδρόμησης"
+
+#: ../goffice/graph/gog-reg-curve.c:308
+msgid "Skip invalid"
+msgstr "Παράλειψη άκυρου"
+
+#: ../goffice/graph/gog-reg-curve.c:309
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
+msgid "Skip invalid data"
+msgstr "Παράλειψη άκυρων δεδομένων"
+
+#: ../goffice/graph/gog-reg-curve.c:314
+msgid "Drawing bounds"
+msgstr "Όρια σχεδίασης"
+
+#: ../goffice/graph/gog-reg-curve.c:315
+msgid ""
+"How the regression line should be limited, acceptable values are \"none\", "
+"\"absolute\", and \"relative\"."
+msgstr ""
+"Πώς θα περιορίζεται η γραμμή παλινδρόμησης, αποδεκτές τιμές είναι \"καμία\", "
+"\"απόλυτη\" και \"σχετική\"."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2357,18 +2407,15 @@ msgstr "Χαμηλό όριο:"
 msgid "High bound:"
 msgstr "Υψηλό όριο:"
 
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
-#: ../goffice/graph/gog-reg-curve.c:309
-msgid "Skip invalid data"
-msgstr "Παράλειψη άκυρων δεδομένων"
-
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
-msgid "<b>Used data</b>"
-msgstr "<b>Χρησιμοποιούμενα δεδομένα </b>"
+#: ../goffice/graph/gog-series-labels.c:471
+msgid "Used data"
+msgstr "Χρησιμοποιούμενα δεδομένα"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
-msgid "<b>Drawing Limits:</b>"
-msgstr "<b>Όρια σχεδίασης:</b>"
+#| msgid "<b>Drawing Limits:</b>"
+msgid "Drawing Limits:"
+msgstr "Όρια σχεδίασης:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:7
 msgid ""
@@ -2412,26 +2459,6 @@ msgstr "Χαμηλή κάλυψη:"
 msgid "High span:"
 msgstr "Υψηλή κάλυψη:"
 
-#: ../goffice/graph/gog-reg-curve.c:273
-msgid "Regression Curve"
-msgstr "Καμπύλη παλινδρόμησης"
-
-#: ../goffice/graph/gog-reg-curve.c:308
-msgid "Skip invalid"
-msgstr "Παράλειψη άκυρου"
-
-#: ../goffice/graph/gog-reg-curve.c:314
-msgid "Drawing bounds"
-msgstr "Όρια σχεδίασης"
-
-#: ../goffice/graph/gog-reg-curve.c:315
-msgid ""
-"How the regression line should be limited, acceptable values are \"none\", "
-"\"absolute\", and \"relative\"."
-msgstr ""
-"Πώς θα περιορίζεται η γραμμή παλινδρόμησης, αποδεκτές τιμές είναι \"καμία\", "
-"\"απόλυτη\" και \"σχετική\"."
-
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
 msgstr "Εμφάνιση ε_ξίσωσης"
@@ -2440,19 +2467,19 @@ msgstr "Εμφάνιση ε_ξίσωσης"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Εμφάνιση συντελεστή _παλινδρόμησης R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1841 ../goffice/graph/gog-view.c:690
+#: ../goffice/graph/gog-renderer.c:1824 ../goffice/graph/gog-view.c:691
 msgid "Model"
 msgstr "Πρότυπο"
 
-#: ../goffice/graph/gog-renderer.c:1842
+#: ../goffice/graph/gog-renderer.c:1825
 msgid "The GogGraph this renderer displays"
 msgstr "Το GogGraph που αυτή η απόδοση εμφανίζει"
 
-#: ../goffice/graph/gog-renderer.c:1847
+#: ../goffice/graph/gog-renderer.c:1830
 msgid "View"
 msgstr "Προβολή"
 
-#: ../goffice/graph/gog-renderer.c:1848
+#: ../goffice/graph/gog-renderer.c:1831
 msgid "the GogView this renderer is displaying"
 msgstr "το GogView που αυτή η απόδοση εμφανίζει"
 
@@ -2496,85 +2523,85 @@ msgstr "Ελάχιστος άξονας Υ"
 msgid "Y axis maximum"
 msgstr "Μέγιστος άξονας Υ"
 
-#: ../goffice/graph/gog-series.c:223 ../goffice/graph/gog-series-labels.c:395
+#: ../goffice/graph/gog-series.c:231 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
 msgstr "Δείκτης:"
 
-#: ../goffice/graph/gog-series.c:242 ../plugins/plot_pie/gog-pie.c:91
+#: ../goffice/graph/gog-series.c:244 ../plugins/plot_pie/gog-pie.c:91
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: ../goffice/graph/gog-series.c:283 ../goffice/graph/gog-series-labels.c:897
+#: ../goffice/graph/gog-series.c:285 ../goffice/graph/gog-series-labels.c:916
 msgid "Index"
 msgstr "Δείκτης"
 
-#: ../goffice/graph/gog-series.c:284 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series.c:286 ../goffice/graph/gog-series-labels.c:917
 msgid "Index of the corresponding data element"
 msgstr "Δείκτης του αντίστοιχου στοιχείου δεδομένων"
 
-#: ../goffice/graph/gog-series.c:607 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:610 ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
 msgstr "Εμ_φάνιση σε υπόμνημα"
 
-#: ../goffice/graph/gog-series.c:617
+#: ../goffice/graph/gog-series.c:620
 msgid "Data"
 msgstr "Δεδομένα"
 
-#: ../goffice/graph/gog-series.c:659
+#: ../goffice/graph/gog-series.c:662
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr ""
 "Παράγωγος στο πρώτο σημείο της δεσμευμένης κυβικής ευλύγιστης καμπύλης."
 
-#: ../goffice/graph/gog-series.c:664
+#: ../goffice/graph/gog-series.c:667
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr ""
 "Παράγωγος στο τελευταίο σημείο της δεσμευμένης κυβικής ευλύγιστης καμπύλης."
 
-#: ../goffice/graph/gog-series.c:737 ../goffice/graph/gog-series-labels.c:1382
+#: ../goffice/graph/gog-series.c:740 ../goffice/graph/gog-series-labels.c:1401
 msgid "Point"
 msgstr "Σημείο"
 
-#: ../goffice/graph/gog-series.c:743
+#: ../goffice/graph/gog-series.c:746
 msgid "Regression curve"
 msgstr "Καμπύλη παλινδρόμησης"
 
-#: ../goffice/graph/gog-series.c:751
+#: ../goffice/graph/gog-series.c:754 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
 msgstr "Γραμμή τάσης"
 
-#: ../goffice/graph/gog-series.c:759
+#: ../goffice/graph/gog-series.c:762
 msgid "Data labels"
 msgstr "Ετικέτες δεδομένων"
 
-#: ../goffice/graph/gog-series.c:794 ../goffice/graph/gog-trend-line.c:153
+#: ../goffice/graph/gog-series.c:797 ../goffice/graph/gog-trend-line.c:151
 msgid "Has-legend"
 msgstr "Έχει υπόμνημα"
 
-#: ../goffice/graph/gog-series.c:795
+#: ../goffice/graph/gog-series.c:798
 msgid "Should the series show up in legends"
 msgstr "Εάν θα πρέπει οι σειρές να εμφανίζονται σε υπομνήματα"
 
-#: ../goffice/graph/gog-series.c:800
+#: ../goffice/graph/gog-series.c:803 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr "Παρεμβολή"
 
-#: ../goffice/graph/gog-series.c:801
+#: ../goffice/graph/gog-series.c:804
 msgid "Type of line interpolation"
 msgstr "Τύπος παρεμβολής γραμμής"
 
-#: ../goffice/graph/gog-series.c:806
+#: ../goffice/graph/gog-series.c:809
 msgid "Interpolation skip invalid"
 msgstr "Η παρεμβολή παραλείπει τα άκυρα"
 
-#: ../goffice/graph/gog-series.c:807
+#: ../goffice/graph/gog-series.c:810
 msgid "Should the series interpolation ignore the invalid data"
 msgstr "Εάν θα πρέπει οι παρεμβολή σειρών να αγνοεί τα άκυρα δεδομένα"
 
-#: ../goffice/graph/gog-series.c:812
+#: ../goffice/graph/gog-series.c:815
 msgid "Fill type"
 msgstr "Τύπος γεμίσματος"
 
-#: ../goffice/graph/gog-series.c:813
+#: ../goffice/graph/gog-series.c:816
 msgid "How to fill the area"
 msgstr "Πώς να γεμίσει η περιοχή"
 
@@ -2594,34 +2621,30 @@ msgstr "Εσωτερικά"
 msgid "Near origin"
 msgstr "Κοντά στο αρχικό"
 
-#: ../goffice/graph/gog-series-labels.c:403
+#: ../goffice/graph/gog-series-labels.c:422
 msgid "Custom label"
 msgstr "Προσαρμοσμένη ετικέτα"
 
-#: ../goffice/graph/gog-series-labels.c:413
+#: ../goffice/graph/gog-series-labels.c:432
 msgid "Custom labels"
 msgstr "Προσαρμοσμένες ετικέτες"
 
-#: ../goffice/graph/gog-series-labels.c:444
+#: ../goffice/graph/gog-series-labels.c:463
 msgid "Available data"
 msgstr "Διαθέσιμα δεδομένα"
 
-#: ../goffice/graph/gog-series-labels.c:452
-msgid "Used data"
-msgstr "Χρησιμοποιούμενα δεδομένα"
-
-#: ../goffice/graph/gog-series-labels.c:497
-#: ../goffice/graph/gog-series-labels.c:565
+#: ../goffice/graph/gog-series-labels.c:516
+#: ../goffice/graph/gog-series-labels.c:584
 msgid "Legend entry"
 msgstr "Καταχώριση υπομνήματος"
 
-#: ../goffice/graph/gog-series-labels.c:502
-#: ../goffice/graph/gog-series-labels.c:569
+#: ../goffice/graph/gog-series-labels.c:521
+#: ../goffice/graph/gog-series-labels.c:588
 msgid "Series name"
 msgstr "Όνομα σειρά"
 
-#: ../goffice/graph/gog-series-labels.c:508
-#: ../goffice/graph/gog-series-labels.c:573
+#: ../goffice/graph/gog-series-labels.c:527
+#: ../goffice/graph/gog-series-labels.c:592
 msgid "Values as percent"
 msgstr "Τιμές ως ποσοστό"
 
@@ -2629,29 +2652,29 @@ msgstr "Τιμές ως ποσοστό"
 #. FIXME: should the number of digits be customizable?
 #. Note to translators: a space might be needed before '%%' in someo_is_finie languages
 #. FIXME: should the number of digits be customizable?
-#: ../goffice/graph/gog-series-labels.c:822
-#: ../goffice/graph/gog-series-labels.c:1262
+#: ../goffice/graph/gog-series-labels.c:841
+#: ../goffice/graph/gog-series-labels.c:1281
 #, c-format
 msgid "%.1f%%"
 msgstr "%.1f%%"
 
-#: ../goffice/graph/gog-series-labels.c:880
-#: ../goffice/graph/gog-series-labels.c:1406
+#: ../goffice/graph/gog-series-labels.c:899
+#: ../goffice/graph/gog-series-labels.c:1425
 msgid "Position of the label relative to the data graphic element"
 msgstr "Θέση της ετικέτας σχετικά με το γραφικό στοιχείο δεδομένων"
 
-#: ../goffice/graph/gog-series-labels.c:885
-#: ../goffice/graph/gog-series-labels.c:1411
+#: ../goffice/graph/gog-series-labels.c:904
+#: ../goffice/graph/gog-series-labels.c:1430
 msgid "Offset"
 msgstr "Αντιστάθμιση"
 
-#: ../goffice/graph/gog-series-labels.c:886
-#: ../goffice/graph/gog-series-labels.c:1412
+#: ../goffice/graph/gog-series-labels.c:905
+#: ../goffice/graph/gog-series-labels.c:1431
 msgid "Offset to add to the label position"
 msgstr "Αντιστάθμιση στην προσθήκη στη θέση ετικέτας"
 
-#: ../goffice/graph/gog-series-labels.c:892
-#: ../goffice/graph/gog-series-labels.c:1418
+#: ../goffice/graph/gog-series-labels.c:911
+#: ../goffice/graph/gog-series-labels.c:1437
 msgid "Label format"
 msgstr "Μορφοποίηση ετικέτας"
 
@@ -2671,10 +2694,6 @@ msgstr "Διαχωριστής:"
 msgid "Fill _to:"
 msgstr "Γέμισμα _σε:"
 
-#: ../goffice/graph/gog-series-prefs.ui.h:2
-msgid "<b>Interpolation</b>"
-msgstr "<b>Παρεμβολή</b>"
-
 #: ../goffice/graph/gog-series-prefs.ui.h:3
 msgid "S_kip invalid data"
 msgstr "Παράλει_ψη άκυρων δεδομένων"
@@ -2693,23 +2712,107 @@ msgstr "<i>y'</i>(<i>x</i><sub>τελευταία</sub>):"
 msgid "content"
 msgstr "περιεχόμενο"
 
-#: ../goffice/graph/gog-smoothed-curve.c:53
+#: ../goffice/graph/gog-smoothed-curve.c:54
 msgid "(Name):"
 msgstr "(Όνομα):"
 
-#: ../goffice/graph/gog-smoothed-curve.c:90
+#: ../goffice/graph/gog-smoothed-curve.c:91
 msgid "Smoothed Curve"
 msgstr "Ομαλοποιημένη καμπύλη"
 
 #: ../goffice/graph/gog-theme.c:323
-#| msgid "The anchor point for the text"
 msgid "The resource type for the theme"
 msgstr "Ο τύπος πόρου για το θέμα"
 
+#: ../goffice/graph/gog-theme.c:582
+#| msgid "Graph"
+msgid "Graph title"
+msgstr "Τίτλος γραφήματος"
+
+#: ../goffice/graph/gog-theme.c:584
+#| msgid "Chart"
+msgid "Chart title"
+msgstr "Τίτλος διαγράμματος"
+
+#: ../goffice/graph/gog-theme.c:586
+#| msgid "X-Axis"
+msgid "Axis"
+msgstr "Άξονας"
+
+#: ../goffice/graph/gog-theme.c:587
+#| msgid "AxisLine"
+msgid "Axis line"
+msgstr "Γραμμή άξονα"
+
+#: ../goffice/graph/gog-theme.c:589
+#| msgid "MajorGrid"
+msgid "Major grid"
+msgstr "Κύριο πλέγμα"
+
+#: ../goffice/graph/gog-theme.c:590
+#| msgid "MinorGrid"
+msgid "Minor grid"
+msgstr "Δευτερεύον πλέγμα"
+
+#: ../goffice/graph/gog-theme.c:593
+#| msgid "Regression Equation"
+msgid "Regression equation"
+msgstr "Εξίσωση παλινδρόμησης"
+
+#: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:643
+msgid "Series lines"
+msgstr "Γραμμές σειράς"
+
+#: ../goffice/graph/gog-theme.c:599
+#| msgid "Categories labels"
+msgid "Series labels"
+msgstr "Ετικέτες σειράς"
+
+#: ../goffice/graph/gog-theme.c:600
+#| msgid "Data labels"
+msgid "Data label"
+msgstr "Ετικέτες δεδομένων"
+
+#: ../goffice/graph/gog-theme.c:1241
+msgid "An MS Excel like theme"
+msgstr "Ένα MS Excel ως θέμα"
+
 #. Guppi
-#: ../goffice/graph/gog-theme.c:1381
+#: ../goffice/graph/gog-theme.c:1411
 msgid "Guppi"
 msgstr "Guppi"
+
+#: ../goffice/graph/gog-theme.c:1412
+#| msgid "Guppi"
+msgid "Guppi theme"
+msgstr "Θέμα Guppi"
+
+#: ../goffice/graph/gog-theme.c:1840
+msgid "Class"
+msgstr "Κλάση"
+
+#: ../goffice/graph/gog-theme.c:1843
+msgid "Create"
+msgstr "Δημιουργία"
+
+#: ../goffice/graph/gog-theme.c:1858 ../goffice/graph/new-theme-prefs.ui.h:1
+#| msgid "New map"
+msgid "New theme"
+msgstr "Νέο θέμα"
+
+#: ../goffice/graph/gog-theme-editor.ui.h:1
+#| msgid "Theme name"
+msgid "Theme editor"
+msgstr "Επεξεργαστής θέματος"
+
+#: ../goffice/graph/gog-theme-editor.ui.h:3
+msgid "Classes"
+msgstr "Κλάσεις"
+
+#: ../goffice/graph/gog-theme-editor.ui.h:5
+#| msgid "<b>Snapshots</b>"
+msgid "Snapshot"
+msgstr "Στιγμιότυπο"
 
 #: ../goffice/graph/gog-trend-line.c:90
 #: ../plugins/plot_barcol/gog-barcol.c:166
@@ -2724,42 +2827,43 @@ msgstr "Guppi"
 #: ../plugins/plot_surface/gog-xyz-surface.c:315
 #: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:463
 #: ../plugins/plot_xy/gog-xy.c:734 ../plugins/plot_xy/gog-xy-dropbar.c:154
+#: ../plugins/smoothing/gog-exp-smooth.c:80
 #: ../plugins/smoothing/gog-moving-avg.c:112
-#: ../plugins/smoothing/gog-exp-smooth.c:79
 msgid "Properties"
 msgstr "Ιδιότητες"
 
-#: ../goffice/graph/gog-trend-line.c:134
+#: ../goffice/graph/gog-trend-line.c:132
 msgid "Trend Line"
 msgstr "Γραμμή τάσης"
 
-#: ../goffice/graph/gog-trend-line.c:154
+#: ../goffice/graph/gog-trend-line.c:152
 msgid "Should the trend line show up in legends"
 msgstr "Εάν θα πρέπει η γραμμή τάσης να εμφανίζεται σε υπομνήματα"
 
-#: ../goffice/graph/gog-view.c:128
+#: ../goffice/graph/gog-view.c:129
 msgid "Select object"
 msgstr "Επιλογή αντικειμένου"
 
-#: ../goffice/graph/gog-view.c:199
+#: ../goffice/graph/gog-view.c:200
 msgid "Move"
 msgstr "Μετακίνηση"
 
-#: ../goffice/graph/gog-view.c:246
+#: ../goffice/graph/gog-view.c:247
 msgid "Resize object"
 msgstr "Αυξομείωση αντικειμένου"
 
-#: ../goffice/graph/gog-view.c:685
+#: ../goffice/graph/gog-view.c:686
 msgid "the GogView parent"
 msgstr "το γονικό GogView"
 
-#: ../goffice/graph/gog-view.c:691
+#: ../goffice/graph/gog-view.c:692
 msgid "The GogObject this view displays"
 msgstr "Αυτή η προβολή εμφανίζει το GogObject"
 
-#: ../goffice/gtk/go-3d-rotation-sel.ui.h:1
-msgid "<b>Rotation</b>"
-msgstr "<b>Περιστροφή</b>"
+#: ../goffice/graph/new-theme-prefs.ui.h:2
+#| msgid "Series name"
+msgid "Series number"
+msgstr "Αριθμός σειράς"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -3342,12 +3446,12 @@ msgstr "σκούρο πορφυρό"
 msgid "sky blue"
 msgstr "γαλάζιο ουρανού"
 
-#: ../goffice/gtk/go-color-palette.c:468
+#: ../goffice/gtk/go-color-palette.c:467
 msgid "custom"
 msgstr "προσαρμοσμένο"
 
-#: ../goffice/gtk/go-color-palette.c:475 ../goffice/gtk/go-color-palette.c:729
-#: ../goffice/gtk/go-color-selector.c:198
+#: ../goffice/gtk/go-color-palette.c:474 ../goffice/gtk/go-color-palette.c:729
+#: ../goffice/gtk/go-color-selector.c:196
 msgid "Custom color..."
 msgstr "Προσαρμοσμένο χρώμα..."
 
@@ -3358,6 +3462,69 @@ msgstr "Προσθήκη αποσπώμενων στα μενού"
 #: ../goffice/gtk/go-combo-box.c:261
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Αν τα πτυσσόμενα θα πρέπει να έχουν στοιχείο αποσπώμενου μενού"
+
+#: ../goffice/gtk/goffice-gtk.c:218
+#, c-format
+msgid "Unable to open file '%s'"
+msgstr "Αδυναμία ανοίγματος αρχείου '%s'"
+
+#: ../goffice/gtk/goffice-gtk.c:777 ../goffice/utils/go-style.c:215
+#, c-format
+msgid "%d x %d"
+msgstr "%d x %d"
+
+#: ../goffice/gtk/goffice-gtk.c:812
+msgid "All Files"
+msgstr "Όλα τα αρχεία"
+
+#: ../goffice/gtk/goffice-gtk.c:817
+msgid "Images"
+msgstr "Εικόνες"
+
+#: ../goffice/gtk/goffice-gtk.c:869
+msgid "Select an Image"
+msgstr "Επιλογή εικόνας"
+
+#: ../goffice/gtk/goffice-gtk.c:948
+msgid "Save as"
+msgstr "Αποθήκευση ως"
+
+#: ../goffice/gtk/goffice-gtk.c:1021
+msgid ""
+"The given file extension does not match the chosen file type. Do you want to "
+"use this name anyway?"
+msgstr ""
+"Η δοσμένη επέκταση αρχείου δεν ταιριάζει με τον τύπο του επιλεγμένου "
+"αρχείου. Θέλετε να χρησιμοποιήσετε αυτό το όνομα οπωσδήποτε;"
+
+#: ../goffice/gtk/goffice-gtk.c:1240
+#, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr ""
+"%s\n"
+"είναι όνομα καταλόγου"
+
+#: ../goffice/gtk/goffice-gtk.c:1244
+#, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr ""
+"Δεν έχετε άδεια αποθήκευσης σε\n"
+"%s"
+
+#: ../goffice/gtk/goffice-gtk.c:1254
+#, c-format
+msgid ""
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to save over it?"
+msgstr ""
+"Ένα αρχείο που λέγεται <i>%s</i> υπάρχει ήδη στο %s.\n"
+"\n"
+"Θέλετε να το αντικαταστήσετε;"
 
 #: ../goffice/gtk/go-font-sel.c:188 ../goffice/math/go-distribution.c:75
 msgid "Normal"
@@ -3378,7 +3545,7 @@ msgstr "Πλάγιο"
 #. xgettext: This text is used as a sample when selecting a font
 #. * please choose a translation that would produce common
 #. * characters specific to the target alphabet.
-#: ../goffice/gtk/go-font-sel.c:474
+#: ../goffice/gtk/go-font-sel.c:475
 msgid "AaBbCcDdEe12345"
 msgstr "AaBbCcDdEe12345"
 
@@ -3758,7 +3925,6 @@ msgstr ""
 "Όταν το δεκαδικό μέρος είναι 1, εμφάνιση μόνο του εκθετικού μέρους (π.χ. 10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:39
-#| msgid "Append SI prefix"
 msgid "Append SI _prefix"
 msgstr "Προσάρτηση _προθέματος SI"
 
@@ -3786,14 +3952,6 @@ msgstr "εικονοστοιχεία/ίντσα"
 msgid "Export settings"
 msgstr "Εξαγωγή ρυθμίσεων"
 
-#: ../goffice/gtk/go-image-sel.ui.h:1
-msgid "Select an image"
-msgstr "Επιλογή εικόνας"
-
-#: ../goffice/gtk/go-image-sel.ui.h:2
-msgid "_Select a new image"
-msgstr "_Επιλογή νέας εικόνας"
-
 #: ../goffice/gtk/go-image-sel.c:68
 msgid "New image name"
 msgstr "Νέο όνομα εικόνας"
@@ -3802,6 +3960,14 @@ msgstr "Νέο όνομα εικόνας"
 #, c-format
 msgid "image%u"
 msgstr "εικόνα%u"
+
+#: ../goffice/gtk/go-image-sel.ui.h:1
+msgid "Select an image"
+msgstr "Επιλογή εικόνας"
+
+#: ../goffice/gtk/go-image-sel.ui.h:2
+msgid "_Select a new image"
+msgstr "_Επιλογή νέας εικόνας"
 
 #: ../goffice/gtk/go-locale-sel.c:63
 msgid "Western Europe"
@@ -4292,11 +4458,13 @@ msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Μεγάλη Βρετανία/σκωτσέζικα γαελικά (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
-msgid "Eritrea/Ge'ez “gez_ER)"
+#| msgid "Eritrea/Ge'ez “gez_ER)"
+msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr "Ερυθραία/γκεέζ (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
-msgid "Ethiopia/Ge'ez “gez_ET)"
+#| msgid "Ethiopia/Ge'ez “gez_ET)"
+msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr "Αιθιοπία/γκεέζ (gez_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:217
@@ -4304,7 +4472,8 @@ msgid "Spain/Galician (gl_ES)"
 msgstr "Ισπανία/γαλικιανικά (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
-msgid "India/Gurajati “gu_IN)"
+#| msgid "India/Gurajati “gu_IN)"
+msgid "India/Gujarati (gu_IN)"
 msgstr "Ινδία/Γκουραζάτι (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
@@ -4800,7 +4969,8 @@ msgid "Switzerland/Walser (wae_CH)"
 msgstr "Ελβετία/βάλσερ (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
-msgid "Ethiopia/Walaita (wal_ET)"
+#| msgid "Ethiopia/Walaita (wal_ET)"
+msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr "Αιθιοπία/ουαλάιτα (wal_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:343
@@ -4860,75 +5030,12 @@ msgid "Custom..."
 msgstr "Προσαρμογή..."
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
-msgid "<b>Orientation</b>"
-msgstr "<b>Προσανατολισμός</b>"
+msgid "Orientation"
+msgstr "Προσανατολισμός"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:2
 msgid "A_ngle:"
 msgstr "Γω_νία:"
-
-#: ../goffice/gtk/goffice-gtk.c:219
-#, c-format
-msgid "Unable to open file '%s'"
-msgstr "Αδυναμία ανοίγματος αρχείου '%s'"
-
-#: ../goffice/gtk/goffice-gtk.c:791 ../goffice/utils/go-style.c:215
-#, c-format
-msgid "%d x %d"
-msgstr "%d x %d"
-
-#: ../goffice/gtk/goffice-gtk.c:826
-msgid "All Files"
-msgstr "Όλα τα αρχεία"
-
-#: ../goffice/gtk/goffice-gtk.c:831
-msgid "Images"
-msgstr "Εικόνες"
-
-#: ../goffice/gtk/goffice-gtk.c:883
-msgid "Select an Image"
-msgstr "Επιλογή εικόνας"
-
-#: ../goffice/gtk/goffice-gtk.c:962
-msgid "Save as"
-msgstr "Αποθήκευση ως"
-
-#: ../goffice/gtk/goffice-gtk.c:1035
-msgid ""
-"The given file extension does not match the chosen file type. Do you want to "
-"use this name anyway?"
-msgstr ""
-"Η δοσμένη επέκταση αρχείου δεν ταιριάζει με τον τύπο του επιλεγμένου "
-"αρχείου. Θέλετε να χρησιμοποιήσετε αυτό το όνομα οπωσδήποτε;"
-
-#: ../goffice/gtk/goffice-gtk.c:1254
-#, c-format
-msgid ""
-"%s\n"
-"is a directory name"
-msgstr ""
-"%s\n"
-"είναι όνομα καταλόγου"
-
-#: ../goffice/gtk/goffice-gtk.c:1258
-#, c-format
-msgid ""
-"You do not have permission to save to\n"
-"%s"
-msgstr ""
-"Δεν έχετε άδεια αποθήκευσης σε\n"
-"%s"
-
-#: ../goffice/gtk/goffice-gtk.c:1268
-#, c-format
-msgid ""
-"A file called <i>%s</i> already exists in %s.\n"
-"\n"
-"Do you want to save over it?"
-msgstr ""
-"Ένα αρχείο που λέγεται <i>%s</i> υπάρχει ήδη στο %s.\n"
-"\n"
-"Θέλετε να το αντικαταστήσετε;"
 
 #: ../goffice/math/go-distribution.c:76
 msgid "Uniform"
@@ -5677,7 +5784,7 @@ msgstr "Αδυναμία φόρτωσης δεδομένων εικόνας\n"
 msgid "Could not input the image data\n"
 msgstr "Αδυναμία εισαγωγής δεδομένων εικόνας\n"
 
-#: ../goffice/utils/go-emf.c:4576 ../goffice/utils/go-emf.c:4582
+#: ../goffice/utils/go-emf.c:4687 ../goffice/utils/go-emf.c:4693
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Άκυρα δεδομένα εικόνας\n"
@@ -5773,20 +5880,20 @@ msgstr "δεξιά"
 msgid "left"
 msgstr "αριστερά"
 
-#: ../goffice/utils/go-glib-extras.c:917
+#: ../goffice/utils/go-glib-extras.c:915
 msgid "yes"
 msgstr "ναι"
 
-#: ../goffice/utils/go-glib-extras.c:923
+#: ../goffice/utils/go-glib-extras.c:921
 msgid "no"
 msgstr "όχι"
 
-#: ../goffice/utils/go-glib-extras.c:1141
+#: ../goffice/utils/go-glib-extras.c:1139
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Ανολοκλήρωτη συμβολοσειρά με εισαγωγικά"
 
-#: ../goffice/utils/go-glib-extras.c:1148
+#: ../goffice/utils/go-glib-extras.c:1146
 #, c-format
 msgid "Syntax error"
 msgstr "Σφάλμα σύνταξης"
@@ -6099,113 +6206,112 @@ msgstr "Προσκήνιο:"
 msgid "Background:"
 msgstr "Παρασκήνιο:"
 
-#: ../goffice/utils/go-style.c:870
+#: ../goffice/utils/go-style.c:868
 msgid "Markers"
 msgstr "Σημειωτές"
 
-#: ../goffice/utils/go-style.c:942
+#: ../goffice/utils/go-style.c:940
 msgid "Font"
 msgstr "Γραμματοσειρά"
 
 #: ../goffice/utils/go-style-prefs.ui.h:1
-msgid "St_yle:"
-msgstr "Τε_χνοτροπία:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:2
 msgid "Co_lor:"
 msgstr "Χρώ_μα:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:3
-msgid "_Size:"
-msgstr "_Μέγεθος:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:7
-msgid "Pattern"
-msgstr "Μοτίβο"
-
-#: ../goffice/utils/go-style-prefs.ui.h:8
-msgid "Bicolor gradient"
-msgstr "Δίχρωμη διαβάθμιση"
-
-#: ../goffice/utils/go-style-prefs.ui.h:9
-msgid "Unicolor gradient"
-msgstr "Μονοχρωματική διαβάθμιση"
-
-#: ../goffice/utils/go-style-prefs.ui.h:11
-msgid "_Direction:"
-msgstr "_Κατεύθυνση:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:12
-msgid "_Pattern:"
-msgstr "_Μοτίβο:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:13
-msgid "_Foreground:"
-msgstr "_Προσκήνιο:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:14
-msgid "_Background:"
-msgstr "_Παρασκήνιο:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:15
-msgid "B_rightness:"
-msgstr "_Φωτεινότητα:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:16
-msgid "_Select..."
-msgstr "_Επιλογή..."
-
-#: ../goffice/utils/go-style-prefs.ui.h:17
-msgid "_Fit:"
-msgstr "Π_ροσαρμογή:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:18
-msgid "stretched"
-msgstr "τεντωμένο"
-
-#: ../goffice/utils/go-style-prefs.ui.h:19
-msgid "wallpaper"
-msgstr "ταπετσαρία"
-
-#: ../goffice/utils/go-style-prefs.ui.h:20
-msgid "centered"
-msgstr "κεντραρισμένο"
-
-#: ../goffice/utils/go-style-prefs.ui.h:21
-msgid "centered wallpaper"
-msgstr "κεντραρισμένη ταπετσαρία"
-
-#: ../goffice/utils/go-style-prefs.ui.h:22
-msgid "<b>Outline</b>"
-msgstr "<b>Περίγραμμα</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:23
-msgid "<b>Line</b>"
-msgstr "<b>Γραμμή</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:24
-msgid "<b>Fill</b>"
-msgstr "<b>Γέμισμα</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:25
-msgid "<b>Marker</b>"
-msgstr "<b>Σημειωτής</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:26
-msgid "_Fill:"
-msgstr "_Γέμισμα:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:27
-msgid "O_utline:"
-msgstr "Πε_ρίγραμμα"
-
-#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../goffice/utils/go-style-prefs.ui.h:2
 msgid "Si_ze:"
 msgstr "Μέγε_θος:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:29
+#: ../goffice/utils/go-style-prefs.ui.h:3
+msgid "O_utline:"
+msgstr "Πε_ρίγραμμα"
+
+#: ../goffice/utils/go-style-prefs.ui.h:4
+msgid "_Fill:"
+msgstr "_Γέμισμα:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:5
 msgid "Sha_pe:"
 msgstr "Σ_χήμα:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:6
+#| msgid "Markers"
+msgid "Marker"
+msgstr "Σημειωτής"
+
+#: ../goffice/utils/go-style-prefs.ui.h:8
+msgid "St_yle:"
+msgstr "Τε_χνοτροπία:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:9
+msgid "_Size:"
+msgstr "_Μέγεθος:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:11
+msgid "Pattern"
+msgstr "Μοτίβο"
+
+#: ../goffice/utils/go-style-prefs.ui.h:12
+msgid "Bicolor gradient"
+msgstr "Δίχρωμη διαβάθμιση"
+
+#: ../goffice/utils/go-style-prefs.ui.h:13
+msgid "Unicolor gradient"
+msgstr "Μονοχρωματική διαβάθμιση"
+
+#: ../goffice/utils/go-style-prefs.ui.h:15
+msgid "_Direction:"
+msgstr "_Κατεύθυνση:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:16
+msgid "_Pattern:"
+msgstr "_Μοτίβο:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:17
+msgid "_Foreground:"
+msgstr "_Προσκήνιο:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:18
+msgid "_Background:"
+msgstr "_Παρασκήνιο:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:19
+msgid "B_rightness:"
+msgstr "_Φωτεινότητα:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:20
+msgid "_Fit:"
+msgstr "Π_ροσαρμογή:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:21
+msgid "stretched"
+msgstr "τεντωμένο"
+
+#: ../goffice/utils/go-style-prefs.ui.h:22
+msgid "wallpaper"
+msgstr "ταπετσαρία"
+
+#: ../goffice/utils/go-style-prefs.ui.h:23
+msgid "centered"
+msgstr "κεντραρισμένο"
+
+#: ../goffice/utils/go-style-prefs.ui.h:24
+msgid "centered wallpaper"
+msgstr "κεντραρισμένη ταπετσαρία"
+
+#: ../goffice/utils/go-style-prefs.ui.h:25
+msgid "_Select..."
+msgstr "_Επιλογή..."
+
+#: ../goffice/utils/go-style-prefs.ui.h:27
+#| msgid "O_utline:"
+msgid "Outline"
+msgstr "Περίγραμμα"
+
+#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../plugins/plot_barcol/plot-types.xml.in.h:1
+msgid "Line"
+msgstr "Γραμμή"
 
 #: ../goffice/utils/regutf8.c:59
 msgid "Pattern not found."
@@ -6365,24 +6471,12 @@ msgstr "Το δεσμευτικό θέσης που επιτρέπει την κ
 msgid "Labels"
 msgstr "Ετικέτες"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:364
-#: ../plugins/plot_distrib/gog-boxplot.c:428
-#: ../plugins/plot_distrib/gog-histogram.c:390
-#: ../plugins/plot_distrib/gog-probability-plot.c:317
-#: ../plugins/plot_pie/gog-pie.c:340 ../plugins/plot_radar/gog-radar.c:323
-msgid "Values"
-msgstr "Τιμές"
-
 #: ../plugins/plot_barcol/gog-1.5d.c:623 ../plugins/plot_barcol/gog-1.5d.c:686
 msgid "Error bars"
 msgstr "Γραμμές σφάλματος"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:643
-msgid "Series lines"
-msgstr "Γραμμές σειράς"
-
 #: ../plugins/plot_barcol/gog-1.5d.c:650
-#: ../plugins/plot_distrib/gog-histogram.c:1095
+#: ../plugins/plot_distrib/gog-histogram.c:1097
 msgid "Drop lines"
 msgstr "Απόθεση γραμμών"
 
@@ -6399,24 +6493,14 @@ msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
 #: ../plugins/plot_barcol/gog-area-prefs.ui.h:1
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:3
 #: ../plugins/plot_radar/gog-polar-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
+#: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
 msgid "_Display the grids above the plot"
 msgstr "_Εμφάνιση των πλεγμάτων πάνω από τη σχεδίαση"
-
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
-#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
-msgid "_Gap:"
-msgstr "_Κενό:"
-
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:4
-msgid "O_verlap:"
-msgstr "Επι_κάλυψη:"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
@@ -6472,6 +6556,16 @@ msgstr "Εμφανιζόμενο κάτω από τα πλέγματα"
 #: ../plugins/plot_xy/gog-xy.c:397 ../plugins/plot_xy/gog-xy-dropbar.c:301
 msgid "Should the plot be displayed before the grids"
 msgstr "Εάν θα πρέπει να εμφανίζεται το σχέδιο πριν τα πλέγματα"
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
+#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
+msgid "_Gap:"
+msgstr "_Κενό:"
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:2
+msgid "O_verlap:"
+msgstr "Επι_κάλυψη:"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
@@ -6531,10 +6625,6 @@ msgstr "Ελάχιστο"
 #: ../plugins/plot_xy/gog-xy-minmax.c:312
 msgid "Max"
 msgstr "Μέγιστο"
-
-#: ../plugins/plot_barcol/plot-types.xml.in.h:1
-msgid "Line"
-msgstr "Γραμμή"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:2
 msgid "Area"
@@ -6844,46 +6934,18 @@ msgstr ":"
 msgid "Distribution:"
 msgstr "Κατανομή:"
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:2
-#: ../plugins/plot_distrib/gog-boxplot.c:395
-#: ../plugins/plot_distrib/gog-histogram.c:362
-msgid "Vertical"
-msgstr "Κάθετη"
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
-msgid "_Layout"
-msgstr "_Διάταξη"
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
-msgid "_Exclude and show outliers"
-msgstr "_Αποκλεισμός και εμφάνιση απομονωμένων"
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
-msgid "_Diameter/width:"
-msgstr "_Διάμετρος/πλάτος:"
-
-#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
-msgid "First Y category label:"
-msgstr "Πρώτη ετικέτα κατηγορίας Υ:"
-
-#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
-msgid "Second Y category label:"
-msgstr "Δεύτερη ετικέτα κατηγορίας Υ:"
-
-#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
-msgid "_Vertical"
-msgstr "_Κάθετα"
-
-#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
-msgid "_Cumulative"
-msgstr "_Αθροιστικό"
-
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: ../plugins/plot_distrib/gog-boxplot.c:208
 msgid "Box-Plot"
 msgstr "Σχέδιο πλαισίου"
+
+#: ../plugins/plot_distrib/gog-boxplot.c:395
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_distrib/gog-histogram.c:362
+msgid "Vertical"
+msgstr "Κάθετη"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
@@ -6909,6 +6971,26 @@ msgstr ""
 "Ο λόγος μεταξύ της ακτίνας των κύκλων που αντιπροσωπεύουν απομονωμένα και "
 "του πλάτους του ορθογωνίου"
 
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
+msgid "_Layout"
+msgstr "_Διάταξη"
+
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
+msgid "_Exclude and show outliers"
+msgstr "_Αποκλεισμός και εμφάνιση απομονωμένων"
+
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
+msgid "_Diameter/width:"
+msgstr "_Διάμετρος/πλάτος:"
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
+msgid "First Y category label:"
+msgstr "Πρώτη ετικέτα κατηγορίας Υ:"
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
+msgid "Second Y category label:"
+msgstr "Δεύτερη ετικέτα κατηγορίας Υ:"
+
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
 #. * 	Histogram2
@@ -6930,7 +7012,7 @@ msgid "Use cumulated data"
 msgstr "Χρήση αθροιστικών δεδομένων"
 
 #: ../plugins/plot_distrib/gog-histogram.c:388
-#: ../plugins/plot_distrib/gog-histogram.c:476
+#: ../plugins/plot_distrib/gog-histogram.c:478
 msgid "Limits"
 msgstr "Όρια"
 
@@ -6942,7 +7024,7 @@ msgstr ""
 "Ετικέτα για την πρώτη κατηγορία Υ. Εάν δεν οριστεί ή κενή, θα "
 "χρησιμοποιηθούν οι \"πρώτες τιμές\"."
 
-#: ../plugins/plot_distrib/gog-histogram.c:441
+#: ../plugins/plot_distrib/gog-histogram.c:442
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
@@ -6950,21 +7032,29 @@ msgstr ""
 "Ετικέτα για την δεύτερη κατηγορία Υ. Εάν δεν οριστεί ή κενή, θα "
 "χρησιμοποιηθούν οι \"δεύτερες τιμές\"."
 
-#: ../plugins/plot_distrib/gog-histogram.c:446
+#: ../plugins/plot_distrib/gog-histogram.c:448
 msgid "Categories labels"
 msgstr "Ετικέτες κατηγοριών"
 
-#: ../plugins/plot_distrib/gog-histogram.c:478
-#: ../plugins/plot_distrib/gog-histogram.c:753
+#: ../plugins/plot_distrib/gog-histogram.c:480
+#: ../plugins/plot_distrib/gog-histogram.c:755
 msgid "First values"
 msgstr "Πρώτες τιμές"
 
-#: ../plugins/plot_distrib/gog-histogram.c:480
-#: ../plugins/plot_distrib/gog-histogram.c:761
-#: ../plugins/plot_distrib/gog-histogram.c:772
-#: ../plugins/plot_distrib/gog-histogram.c:784
+#: ../plugins/plot_distrib/gog-histogram.c:482
+#: ../plugins/plot_distrib/gog-histogram.c:763
+#: ../plugins/plot_distrib/gog-histogram.c:774
+#: ../plugins/plot_distrib/gog-histogram.c:786
 msgid "Second values"
 msgstr "Δεύτερες τιμές"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
+msgid "_Vertical"
+msgstr "_Κάθετα"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
+msgid "_Cumulative"
+msgstr "_Αθροιστικό"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:70
 msgid "Use data as Y-values"
@@ -7117,45 +7207,6 @@ msgstr "Μηχανή σχεδίασης πιθανότητας"
 msgid "Statistics plot types"
 msgstr "Τύποι σχεδίου στατιστικής"
 
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
-msgid "Slices start _at:"
-msgstr "Αρχές φετών _στο:"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
-msgid "_Vary colors by slice"
-msgstr "_Ποικιλία χρωμάτων κατά φέτα"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
-msgid "_Slice Separation:"
-msgstr "Διαχωρισμός _φέτας:"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
-msgid "Negative data:"
-msgstr "Αρνητικά δεδομένα:"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
-msgid "Skip"
-msgstr "Παράλειψη"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
-msgid "Absolute value"
-msgstr "Απόλυτη τιμή"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:10
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:11
-msgid "Absolute value with white background"
-msgstr "Απόλυτη τιμή με λευκό παρασκήνιο"
-
-#: ../plugins/plot_pie/gog-pie-series.ui.h:1
-msgid "_Separation:"
-msgstr "_Διαχωρισμός:"
-
 #: ../plugins/plot_pie/gog-pie.c:112 ../plugins/plot_pie/gog-pie.c:1302
 msgid "Separation"
 msgstr "Διαχωρισμός"
@@ -7234,7 +7285,46 @@ msgstr "Αρχική γωνία"
 msgid "Degrees clockwise from 12 O'Clock"
 msgstr "Μοίρες δεξιόστροφα από τις 12 η ώρα"
 
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
+msgid "Slices start _at:"
+msgstr "Αρχές φετών _στο:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
+msgid "_Slice Separation:"
+msgstr "Διαχωρισμός _φέτας:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
+msgid "Negative data:"
+msgstr "Αρνητικά δεδομένα:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
+msgid "_Vary colors by slice"
+msgstr "_Ποικιλία χρωμάτων κατά φέτα"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
+msgid "Skip"
+msgstr "Παράλειψη"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
+msgid "Absolute value"
+msgstr "Απόλυτη τιμή"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:10
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:11
+msgid "Absolute value with white background"
+msgstr "Απόλυτη τιμή με λευκό παρασκήνιο"
+
+#: ../plugins/plot_pie/gog-pie-series.ui.h:1
+msgid "_Separation:"
+msgstr "_Διαχωρισμός:"
+
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
 msgid "Cen_ter size:"
 msgstr "Μέγεθος κέ_ντρου:"
 
@@ -7317,6 +7407,11 @@ msgstr "Μηχανή σχεδίου πίτας"
 msgid "Default pie types"
 msgstr "Προεπιλεγμένοι τύποι πίτας"
 
+#: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
+#: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
+msgid "Hide data outside of color axis bounds"
+msgstr "Απόκρυψη δεδομένων έξω από τα όρια άξονα χρώματος"
+
 #: ../plugins/plot_radar/gog-radar.c:238
 msgid "Default fill"
 msgstr "Προεπιλεγμένο γέμισμα"
@@ -7391,11 +7486,6 @@ msgstr "Ακτινικές γραμμές απόθεσης"
 #: ../plugins/plot_radar/gog-radar.c:1468
 msgid "Angular error bars"
 msgstr "Γωνιακές γραμμές σφάλματος"
-
-#: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
-msgid "Hide data outside of color axis bounds"
-msgstr "Απόκρυψη δεδομένων έξω από τα όρια άξονα χρώματος"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Radar"
@@ -7649,8 +7739,8 @@ msgid "Default surface plot types"
 msgstr "Προεπιλεγμένοι τύποι σχεδίου επιφάνειας"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:1
-msgid "3_D"
-msgstr "3_Δ"
+msgid "_Size represented by:"
+msgstr "Το μέγε_θος αναπαριστάνεται από:"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
 msgid "Sur_face"
@@ -7661,16 +7751,16 @@ msgid "Dia_meter"
 msgstr "Διά_μετρος"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:4
-msgid "_Size represented by:"
-msgstr "Το μέγε_θος αναπαριστάνεται από:"
+msgid "Show _negative values"
+msgstr "Εμφάνιση _αρνητικών τιμών"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:5
 msgid "_Vary colors by bubble"
 msgstr "_Ποικιλία χρωμάτων κατά φυσαλίδα"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:6
-msgid "Show _negative values"
-msgstr "Εμφάνιση _αρνητικών τιμών"
+msgid "3_D"
+msgstr "3_Δ"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:7
 msgid "_Bubbles scaled to"
@@ -7680,18 +7770,6 @@ msgstr "Κλιμάκωση _φυσαλίδων σε"
 #, no-c-format
 msgid "% of default size"
 msgstr "% του προεπιλεγμένου μεγέθους"
-
-#: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
-msgid "_Use null value instead of invalid"
-msgstr "_Χρήση κενής τιμής αντί για άκυρης"
-
-#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
-msgid "_Horizontal"
-msgstr "_Οριζόντια"
-
-#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
-msgid "Bar _width:"
-msgstr "_Πλάτος γραμμής:"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -7837,12 +7915,24 @@ msgstr "Πλάτος γραμμών ως ποσοστό του πλάτους σ
 msgid "Positions"
 msgstr "Θέσεις"
 
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
+msgid "_Horizontal"
+msgstr "_Οριζόντια"
+
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
+msgid "Bar _width:"
+msgstr "_Πλάτος γραμμής:"
+
 #. xgettext : the base for how to name min/max line plot objects
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
 #: ../plugins/plot_xy/gog-xy-minmax.c:166
 msgid "PlotXYMinMax"
 msgstr "PlotXYMinMax"
+
+#: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
+msgid "_Use null value instead of invalid"
+msgstr "_Χρήση κενής τιμής αντί για άκυρης"
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
@@ -8178,6 +8268,41 @@ msgstr "Λογαριθμική προσαρμογή (y=a+b*ln(sign*(x-c)))"
 msgid "Logarithmic fitting curve"
 msgstr "Καμπύλη λογαριθμικής προσαρμογής"
 
+#: ../plugins/smoothing/gog-exp-smooth.c:64
+#: ../plugins/smoothing/gog-exp-smooth.c:221
+msgid "Number of interpolation steps"
+msgstr "Αριθμός βημάτων παρεμβολής"
+
+#: ../plugins/smoothing/gog-exp-smooth.c:72
+msgid ""
+"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
+"If no value or a negative (or null) value is provided, the default will be "
+"used"
+msgstr ""
+"Η προεπιλεγμένη περίοδος είναι 10 * (xmax - xmin)/(nvalues - 1)\n"
+"Εάν δεν δοθεί καμία τιμή ή εάν δοθεί αρνητική (ή μηδέν), θα χρησιμοποιηθεί η "
+"προεπιλογή"
+
+#. xgettext : the base for how to name exponentially smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Exponentially smoothed curve2
+#: ../plugins/smoothing/gog-exp-smooth.c:166
+#: ../plugins/smoothing/types.xml.in.h:3
+msgid "Exponentially smoothed curve"
+msgstr "Εκθετικά εξομαλυμένη καμπύλη"
+
+#: ../plugins/smoothing/gog-exp-smooth.c:220
+msgid "Steps"
+msgstr "Βήματα"
+
+#: ../plugins/smoothing/gog-exp-smooth.ui.h:1
+msgid "_Period:"
+msgstr "_Περίοδος:"
+
+#: ../plugins/smoothing/gog-exp-smooth.ui.h:2
+msgid "_Steps:"
+msgstr "_Βήματα:"
+
 #: ../plugins/smoothing/gog-moving-avg.c:103
 msgid "Number of values from which to calculate an average"
 msgstr "Αριθμός τιμών από τις οποίες υπολογίζεται ένας μέσος όρος"
@@ -8215,41 +8340,6 @@ msgstr "Κάλυ_ψη:"
 msgid "_Use averaged abscissa"
 msgstr "_Χρήση μέσου όρου τετμημένης"
 
-#: ../plugins/smoothing/gog-exp-smooth.c:64
-#: ../plugins/smoothing/gog-exp-smooth.c:220
-msgid "Number of interpolation steps"
-msgstr "Αριθμός βημάτων παρεμβολής"
-
-#: ../plugins/smoothing/gog-exp-smooth.c:72
-msgid ""
-"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
-"If no value or a negative (or null) value is provided, the default will be "
-"used"
-msgstr ""
-"Η προεπιλεγμένη περίοδος είναι 10 * (xmax - xmin)/(nvalues - 1)\n"
-"Εάν δεν δοθεί καμία τιμή ή εάν δοθεί αρνητική (ή μηδέν), θα χρησιμοποιηθεί η "
-"προεπιλογή"
-
-#. xgettext : the base for how to name exponentially smoothed curves objects
-#. * eg The 2nd one for a series will be called
-#. * 	Exponentially smoothed curve2
-#: ../plugins/smoothing/gog-exp-smooth.c:165
-#: ../plugins/smoothing/types.xml.in.h:3
-msgid "Exponentially smoothed curve"
-msgstr "Εκθετικά εξομαλυμένη καμπύλη"
-
-#: ../plugins/smoothing/gog-exp-smooth.c:219
-msgid "Steps"
-msgstr "Βήματα"
-
-#: ../plugins/smoothing/gog-exp-smooth.ui.h:1
-msgid "_Period:"
-msgstr "_Περίοδος:"
-
-#: ../plugins/smoothing/gog-exp-smooth.ui.h:2
-msgid "_Steps:"
-msgstr "_Βήματα:"
-
 #: ../plugins/smoothing/plugin.xml.in.h:1
 msgid "Charting : Trends and Curves"
 msgstr "Σχεδίαση: τάσεις και καμπύλες"
@@ -8273,6 +8363,57 @@ msgstr "Τύποι εξομαλυμένων καμπυλών"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Καμπύλη εξομαλυμένου κινητού μέσου όρου"
+
+#~ msgid "<b>Euler angles</b>"
+#~ msgstr "<b>γωνίες Όιλερ</b>"
+
+#~ msgid "<b>Major ticks</b>"
+#~ msgstr "<b>Κύριες υποδιαιρέσεις</b>"
+
+#~ msgid "<b>Position</b>"
+#~ msgstr "<b>Θέση</b>"
+
+#~ msgid "<b>Minor ticks</b>"
+#~ msgstr "<b>Δευτερεύουσες υποδιαιρέσεις</b>"
+
+#~ msgid "<b>Bounds</b>"
+#~ msgstr "<b>Όρια</b>"
+
+#~ msgid "<b>Style</b>"
+#~ msgstr "<b>Τεχνοτροπία</b>"
+
+#~ msgid "<b>Values</b>"
+#~ msgstr "<b>Τιμές</b>"
+
+#~ msgid "<b>_Plot Type</b>"
+#~ msgstr "<b>Τύπος _σχεδίασης</b>"
+
+#~ msgid "<b>Sample</b>"
+#~ msgstr "<b>Δείγμα</b>"
+
+#~ msgid "<b>Used data</b>"
+#~ msgstr "<b>Χρησιμοποιούμενα δεδομένα </b>"
+
+#~ msgid "<b>Interpolation</b>"
+#~ msgstr "<b>Παρεμβολή</b>"
+
+#~ msgid "<b>Rotation</b>"
+#~ msgstr "<b>Περιστροφή</b>"
+
+#~ msgid "<b>Orientation</b>"
+#~ msgstr "<b>Προσανατολισμός</b>"
+
+#~ msgid "<b>Outline</b>"
+#~ msgstr "<b>Περίγραμμα</b>"
+
+#~ msgid "<b>Line</b>"
+#~ msgstr "<b>Γραμμή</b>"
+
+#~ msgid "<b>Fill</b>"
+#~ msgstr "<b>Γέμισμα</b>"
+
+#~ msgid "<b>Marker</b>"
+#~ msgstr "<b>Σημειωτής</b>"
 
 #~ msgid "The rectangle type"
 #~ msgstr "Ο τύπος του ορθογωνίου"
@@ -8368,10 +8509,6 @@ msgstr "Καμπύλη εξομαλυμένου κινητού μέσου όρο
 #~ msgstr "<b>Προσανατολισμός</b>"
 
 #, fuzzy
-#~ msgid "Show sample"
-#~ msgstr "Δείγμα"
-
-#, fuzzy
 #~ msgid ""
 #~ "Automatic\n"
 #~ "Manual"
@@ -8445,10 +8582,6 @@ msgstr "Καμπύλη εξομαλυμένου κινητού μέσου όρο
 #, fuzzy
 #~ msgid "Shadow type"
 #~ msgstr "Σκιά"
-
-#, fuzzy
-#~ msgid "Orientation"
-#~ msgstr "<b>Προσανατολισμός</b>"
 
 #, fuzzy
 #~ msgid "[Color"
@@ -8636,10 +8769,6 @@ msgstr "Καμπύλη εξομαλυμένου κινητού μέσου όρο
 #, fuzzy
 #~ msgid "Error while saving file."
 #~ msgstr "Σφάλμα: ανύπαρκτο φύλλο"
-
-#, fuzzy
-#~ msgid "Bounds"
-#~ msgstr "Φόντο"
 
 #~ msgid "T_ype:"
 #~ msgstr "Τ_ύπος:"
