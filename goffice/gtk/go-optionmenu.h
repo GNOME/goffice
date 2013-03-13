@@ -81,6 +81,10 @@ void       go_option_menu_set_history (GOOptionMenu *option_menu,
 				       GSList *selection);
 GtkWidget *go_option_menu_get_history (GOOptionMenu *option_menu);
 
+void       go_option_menu_select_item (GOOptionMenu *option_menu,
+				       GtkMenuItem *item);
+
+
 G_END_DECLS
 
 #endif /* _GO_OPTIONMENU_H_ */

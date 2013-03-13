@@ -90,7 +90,7 @@ go_option_menu_update_contents (GOOptionMenu *option_menu)
 	gtk_label_set_text (option_menu->button_label, text);
 }
 
-static void
+void
 go_option_menu_select_item (GOOptionMenu *option_menu, GtkMenuItem *item)
 {
 	if (item == option_menu->selected)
@@ -144,8 +144,7 @@ go_option_menu_position (GtkMenu  *menu,
 	while (children) {
 		GtkWidget *child = children->data;
 
-		if (GTK_IS_CHECK_MENU_ITEM (child) &&
-		    gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (child))) {
+		if (child == (GtkWidget*)option_menu->selected) {
 			gtk_widget_get_preferred_size (child, &requisition, NULL);
 			menu_ypos -= requisition.height / 2;
 			break;

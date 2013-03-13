@@ -1,5 +1,9 @@
 2013-03-12  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-optionmenu.c (go_option_menu_position): Simplify
+	and make it work for menu items that aren't check items.
+	(go_option_menu_select_item): Make public.
+
 	* goffice/utils/go-glib-extras.c (go_slist_create): Constify.
 
 2013-03-10  Morten Welinder  <terra@gnome.org>
