@@ -39,6 +39,7 @@
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/go-combo-pixmaps.h>
 #include <goffice/gtk/go-font-sel.h>
+#include <goffice/gtk/go-font-sel-dialog.h>
 #include <goffice/gtk/go-format-sel.h>
 #include <goffice/gtk/go-gradient-selector.h>
 #include <goffice/gtk/go-graph-widget.h>

@@ -262,6 +262,7 @@ gtk_SOURCES =					\
 	gtk/goffice-gtk.c			\
 						\
 	gtk/go-font-sel.c			\
+	gtk/go-font-sel-dialog.c		\
 	gtk/go-format-sel.c			\
 	gtk/go-rotation-sel.c			\
 	gtk/go-charmap-sel.c			\
@@ -297,6 +298,7 @@ gtk_HEADERS =					\
 	gtk/goffice-gtk.h			\
 						\
 	gtk/go-font-sel.h			\
+	gtk/go-font-sel-dialog.h		\
 	gtk/go-format-sel.h			\
 	gtk/go-rotation-sel.h			\
 	gtk/go-charmap-sel.h			\

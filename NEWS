@@ -4,6 +4,7 @@ Morten:
 	* Fix problems with cspline boxed type. [#695550]
 	* Fix gtk-doc problems --without-long-double.  [#695550]
 	* Widget cleanups.
+	* Add dialog version of the font selector.
 
 --------------------------------------------------------------------------
 goffice 0.10.1:
