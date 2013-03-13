@@ -46,10 +46,10 @@ struct _GOFontSel {
 	GocCanvas	*font_preview_canvas;
 	GocItem		*font_preview_text;
 
-	GOFont		*base, *current;
+	GOFont		*base;
 	PangoAttrList	*modifications;
 
-	GSList          *family_names;
+	GPtrArray       *families;
 	GSList          *font_sizes;
 };
 
@@ -65,21 +65,16 @@ enum {
 };
 
 static guint gfs_signals[LAST_SIGNAL] = { 0 };
-static GtkWidgetClass *gfs_parent_class;
+static GObjectClass *gfs_parent_class;
 
 static void
-go_font_sel_add_attr (GOFontSel *gfs, PangoAttribute *attr0, PangoAttribute *attr1)
+go_font_sel_add_attr (GOFontSel *gfs, PangoAttribute *attr)
 {
-	attr0->start_index = 0;
-	attr0->end_index = -1;
-	pango_attr_list_change (gfs->modifications, attr0);
-	if (attr1 != NULL) {
-		attr1->start_index = 0;
-		attr1->end_index = -1;
-		pango_attr_list_change (gfs->modifications, attr1);
-	}
-
+	attr->start_index = 0;
+	attr->end_index = -1;
+	pango_attr_list_change (gfs->modifications, attr);
 }
+
 static void
 go_font_sel_emit_changed (GOFontSel *gfs)
 {
@@ -154,29 +149,51 @@ font_selected (GtkTreeSelection *selection, GOFontSel *gfs)
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, 0, &text, -1);
 		gtk_entry_set_text (GTK_ENTRY (gfs->font_name_entry), text);
-		go_font_sel_add_attr (gfs, pango_attr_family_new (text), NULL);
+		go_font_sel_add_attr (gfs, pango_attr_family_new (text));
 		go_font_sel_emit_changed (gfs);
 		g_free (text);
 	}
 }
 
+static int
+by_family_name (gconstpointer a_, gconstpointer b_)
+{
+	PangoFontFamily *a = *(PangoFontFamily **)a_;
+	PangoFontFamily *b = *(PangoFontFamily **)b_;
+	return g_utf8_collate (pango_font_family_get_name (a),
+			       pango_font_family_get_name (b));
+}
+
 static void
 gfs_fill_font_name_list (GOFontSel *gfs)
 {
-	GSList *ptr;
 	GtkListStore *store;
 	GtkTreeIter iter;
 	PangoContext *context;
+	PangoFontFamily **pango_families;
+	int n_families;
+	size_t ui;
 
 /* FIXME FIXME FIXME We need to do this when we realize the widget as we don't have a screen until then. */
 	context = gtk_widget_get_pango_context (GTK_WIDGET (gfs));
-	gfs->family_names = go_fonts_list_families (context);
+	pango_context_list_families (context, &pango_families, &n_families);
+	qsort (pango_families, n_families,
+	       sizeof (pango_families[0]), by_family_name);
+	gfs->families = g_ptr_array_new ();
+	g_ptr_array_set_size (gfs->families, n_families);
+	for (ui = 0; ui < gfs->families->len; ui++)
+		g_ptr_array_index (gfs->families, ui) =
+			g_object_ref (pango_families[ui]);
+	g_free (pango_families);
 
 	list_init (gfs->font_name_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_name_list));
-	for (ptr = gfs->family_names; ptr != NULL; ptr = ptr->next) {
+	for (ui = 0; ui < gfs->families->len; ui++) {
+		PangoFontFamily *family = g_ptr_array_index (gfs->families, ui);
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, ptr->data, -1);
+		gtk_list_store_set (store, &iter,
+				    0, pango_font_family_get_name (family),
+				    -1);
 	}
 
 	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (gfs->font_name_list)),
@@ -208,7 +225,8 @@ style_selected (GtkTreeSelection *selection,
 		gtk_entry_set_text (GTK_ENTRY (gfs->font_style_entry), _(styles[row]));
 		go_font_sel_add_attr (gfs,
 			pango_attr_weight_new ((row == 1 || row == 2)
-				?  PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL),
+					       ?  PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL));
+		go_font_sel_add_attr (gfs,
 			pango_attr_style_new ((row == 2 || row == 3)
 				? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
 		go_font_sel_emit_changed (gfs);
@@ -262,7 +280,7 @@ size_set_text (GOFontSel *gfs, char const *size_text)
 	if (size_text != end && errno != ERANGE && 1. <= size && size <= 400.) {
 		gtk_entry_set_text (GTK_ENTRY (gfs->font_size_entry), size_text);
 		go_font_sel_add_attr (gfs,
-			pango_attr_size_new (size * PANGO_SCALE), NULL);
+				      pango_attr_size_new (size * PANGO_SCALE));
 		go_font_sel_emit_changed (gfs);
 		return size;
 	}
@@ -392,9 +410,9 @@ gfs_init (GOFontSel *gfs)
 }
 
 static void
-gfs_destroy (GtkWidget *widget)
+gfs_dispose (GObject *obj)
 {
-	GOFontSel *gfs = GO_FONT_SEL (widget);
+	GOFontSel *gfs = GO_FONT_SEL (obj);
 
 	if (gfs->gui) {
 		g_object_unref (gfs->gui);
@@ -404,34 +422,29 @@ gfs_destroy (GtkWidget *widget)
 		go_font_unref (gfs->base);
 		gfs->base = NULL;
 	}
-	if (gfs->current != NULL) {
-		go_font_unref (gfs->current);
-		gfs->current = NULL;
-	}
 	if (gfs->modifications != NULL) {
 		pango_attr_list_unref (gfs->modifications);
 		gfs->modifications = NULL;
 	}
-	if (gfs->family_names) {
-		g_slist_foreach (gfs->family_names, (GFunc)g_free, NULL);
-		g_slist_free (gfs->family_names);
-		gfs->family_names = NULL;
+	if (gfs->families) {
+		g_ptr_array_foreach (gfs->families,
+				     (GFunc)g_object_unref, NULL);
+		g_ptr_array_free (gfs->families, TRUE);
+		gfs->families = NULL;
 	}
 
 	g_slist_free (gfs->font_sizes);
 	gfs->font_sizes = NULL;
 
-	gfs_parent_class->destroy (widget);
+	gfs_parent_class->dispose (obj);
 }
 
 static void
 gfs_class_init (GObjectClass *klass)
 {
-	GtkWidgetClass *gto_class = (GtkWidgetClass *) klass;
+	klass->dispose = gfs_dispose;
 
-	gto_class->destroy = gfs_destroy;
-
-	gfs_parent_class = g_type_class_peek (gtk_box_get_type ());
+	gfs_parent_class = g_type_class_peek_parent (klass);
 
 	gfs_signals [FONT_CHANGED] =
 		g_signal_new (
@@ -446,6 +459,10 @@ gfs_class_init (GObjectClass *klass)
 
 GSF_CLASS (GOFontSel, go_font_sel,
 	   gfs_class_init, gfs_init, GTK_TYPE_GRID)
+#if 0
+;
+#endif
+
 
 GtkWidget *
 go_font_sel_new (void)
@@ -480,19 +497,29 @@ GOFont const *
 go_font_sel_get_font (GOFontSel const *gfs)
 {
 	g_return_val_if_fail (GO_IS_FONT_SEL (gfs), NULL);
-	return gfs->current;
+
+	/* This hasn't worked in a while! */
+
+	return NULL;
 }
 
 static void
 go_font_sel_set_name (GOFontSel *gfs, char const *font_name)
 {
-	GSList *ptr;
-	int row;
+	unsigned ui;
+	int row = -1;
 
-	for (row = 0, ptr = gfs->family_names; ptr != NULL; ptr = ptr->next, row++)
-		if (g_ascii_strcasecmp (font_name, ptr->data) == 0)
+	for (ui = 0; ui < gfs->families->len; ui++) {
+		PangoFontFamily *family =
+			g_ptr_array_index (gfs->families, ui);
+		const char *this_name = pango_font_family_get_name (family);
+		if (g_ascii_strcasecmp (font_name, this_name) == 0) {
+			row = ui;
 			break;
-	select_row (gfs->font_name_list, (ptr != NULL) ? row : -1);
+		}
+	}
+
+	select_row (gfs->font_name_list, row);
 }
 
 static void
@@ -514,8 +541,9 @@ go_font_sel_set_style (GOFontSel *gfs, gboolean is_bold, gboolean is_italic)
 	select_row (gfs->font_style_list, n);
 
 	go_font_sel_add_attr (gfs,
-		pango_attr_weight_new (is_bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL),
-		pango_attr_style_new (is_italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
+			      pango_attr_weight_new (is_bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL));
+	go_font_sel_add_attr (gfs,
+			      pango_attr_style_new (is_italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
 /* FIXME FIXME FIXME Do we really need the following line? */
 	go_font_sel_emit_changed (gfs);
 }

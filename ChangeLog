@@ -1,5 +1,9 @@
 2013-03-13  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-font-sel.c (go_font_sel_get_font): Make it clear
+	that this doesn't work and hasn't done so for a while.
+	(gfs_class_init): Use proper widget hierarchy.
+
 	* goffice/gtk/go-optionmenu.c (go_option_menu_init): Be nice and
 	mark composite child.
 
