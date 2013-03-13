@@ -1,3 +1,8 @@
+2013-03-13  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-optionmenu.c (go_option_menu_init): Be nice and
+	mark composite child.
+
 2013-03-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-optionmenu.c (go_option_menu_position): Simplify

@@ -36,6 +36,7 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
+#include <gsf/gsf-impl-utils.h>
 
 
 enum {
@@ -435,6 +436,8 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	GtkBox *box;
 	GtkWidget *arrow, *sep;
 
+	gtk_widget_push_composite_child ();
+
 	gtk_widget_set_can_focus (GTK_WIDGET (option_menu), TRUE);
 	gtk_widget_set_can_default (GTK_WIDGET (option_menu), FALSE);
 	gtk_widget_set_receives_default (GTK_WIDGET (option_menu), FALSE);
@@ -456,31 +459,13 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	gtk_box_pack_end (box, sep, FALSE, FALSE, 0);
 
 	gtk_container_add (GTK_CONTAINER (option_menu), GTK_WIDGET (box));
+
+	gtk_widget_pop_composite_child ();
 }
 
-GType
-go_option_menu_get_type (void)
-{
-	static GType option_menu_type = 0;
-
-	if (!option_menu_type) {
-		static const GTypeInfo option_menu_info =
-			{
-				sizeof (GOOptionMenuClass),
-				NULL,		/* base_init */
-				NULL,		/* base_finalize */
-				(GClassInitFunc) go_option_menu_class_init,
-				NULL,		/* class_finalize */
-				NULL,		/* class_data */
-				sizeof (GOOptionMenu),
-				0,		/* n_preallocs */
-				(GInstanceInitFunc) go_option_menu_init,
-			};
-
-		option_menu_type =
-			g_type_register_static (GTK_TYPE_BUTTON, "GOOptionMenu",
-						&option_menu_info, 0);
-	}
-
-	return option_menu_type;
-}
+GSF_CLASS (GOOptionMenu, go_option_menu,
+	   go_option_menu_class_init, go_option_menu_init,
+	   GTK_TYPE_BUTTON)
+#if 0
+;
+#endif
