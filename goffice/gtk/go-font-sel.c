@@ -51,6 +51,8 @@ struct _GOFontSel {
 
 	GPtrArray       *families;
 	GSList          *font_sizes;
+
+	gboolean        show_style;
 };
 
 typedef struct {
@@ -58,6 +60,11 @@ typedef struct {
 
 	void (* font_changed) (GOFontSel *gfs, PangoAttrList *modfications);
 } GOFontSelClass;
+
+enum {
+	PROP_0,
+	PROP_SHOW_STYLE
+};
 
 enum {
 	FONT_CHANGED,
@@ -79,7 +86,7 @@ static void
 go_font_sel_emit_changed (GOFontSel *gfs)
 {
 	g_signal_emit (G_OBJECT (gfs),
-		gfs_signals [FONT_CHANGED], 0, gfs->modifications);
+		       gfs_signals[FONT_CHANGED], 0, gfs->modifications);
 	goc_item_set (gfs->font_preview_text,
 		"attributes",  gfs->modifications,
 		NULL);
@@ -386,6 +393,14 @@ gfs_init (GOFontSel *gfs)
 	gfs->font_style_list = GTK_TREE_VIEW (gtk_builder_get_object (gfs->gui, "font-style-list"));
 	gfs->font_size_list  = GTK_TREE_VIEW (gtk_builder_get_object (gfs->gui, "font-size-list"));
 
+	if (!gfs->show_style) {
+		gtk_widget_destroy (gfs->font_style_entry);
+		gfs->font_style_entry = NULL;
+		gtk_widget_destroy (go_gtk_builder_get_widget (gfs->gui, "font-style-window"));
+		gfs->font_style_list = NULL;
+		gtk_widget_destroy (go_gtk_builder_get_widget (gfs->gui, "font-style-label"));
+	}
+
 	w = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	gfs->font_preview_canvas = GOC_CANVAS (w);
 	gtk_widget_set_hexpand (w, TRUE);
@@ -405,7 +420,8 @@ gfs_init (GOFontSel *gfs)
 		G_CALLBACK (canvas_size_changed), gfs);
 
 	gfs_fill_font_name_list (gfs);
-	gfs_fill_font_style_list (gfs);
+	if (gfs->show_style)
+		gfs_fill_font_style_list (gfs);
 	gfs_fill_font_size_list (gfs);
 }
 
@@ -440,11 +456,39 @@ gfs_dispose (GObject *obj)
 }
 
 static void
+gfs_set_property (GObject         *object,
+		  guint            prop_id,
+		  const GValue    *value,
+		  GParamSpec      *pspec)
+{
+	GOFontSel *gfs = GO_FONT_SEL (object);
+
+	switch (prop_id) {
+	case PROP_SHOW_STYLE:
+		gfs->show_style = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+static void
 gfs_class_init (GObjectClass *klass)
 {
 	klass->dispose = gfs_dispose;
+	klass->set_property = gfs_set_property;
 
 	gfs_parent_class = g_type_class_peek_parent (klass);
+
+	g_object_class_install_property
+		(klass, PROP_SHOW_STYLE,
+		 g_param_spec_boolean ("show-style",
+				       _("Show Style"),
+				       _("Whether style is part of the font being selected"),
+				       TRUE,
+				       G_PARAM_WRITABLE |
+				       G_PARAM_CONSTRUCT_ONLY));
 
 	gfs_signals [FONT_CHANGED] =
 		g_signal_new (
@@ -474,11 +518,12 @@ void
 go_font_sel_editable_enters (GOFontSel *gfs, GtkWindow *dialog)
 {
 	go_gtk_editable_enters (dialog,
-		GTK_WIDGET (gfs->font_name_entry));
+				GTK_WIDGET (gfs->font_name_entry));
+	if (gfs->font_style_entry)
+		go_gtk_editable_enters (dialog,
+					GTK_WIDGET (gfs->font_style_entry));
 	go_gtk_editable_enters (dialog,
-		GTK_WIDGET (gfs->font_style_entry));
-	go_gtk_editable_enters (dialog,
-		GTK_WIDGET (gfs->font_size_entry));
+				GTK_WIDGET (gfs->font_size_entry));
 }
 
 void
@@ -493,6 +538,28 @@ go_font_sel_set_sample_text (GOFontSel *gfs, char const *text)
 		NULL);
 }
 
+PangoAttrList *
+go_font_sel_get_sample_attributes (GOFontSel *fs)
+{
+	return fs->modifications;
+}
+
+void
+go_font_sel_set_sample_attributes (GOFontSel *fs, PangoAttrList *attrs)
+{
+	PangoAttrList *acopy = pango_attr_list_copy (attrs);
+	pango_attr_list_unref (fs->modifications);
+	fs->modifications = acopy;
+
+	/* FIMXE: use go_pango_translate_attributes */
+
+	goc_item_set (fs->font_preview_text,
+		      "attributes", fs->modifications,
+		      NULL);
+}
+
+
+
 GOFont const *
 go_font_sel_get_font (GOFontSel const *gfs)
 {
@@ -503,15 +570,15 @@ go_font_sel_get_font (GOFontSel const *gfs)
 	return NULL;
 }
 
-static void
-go_font_sel_set_name (GOFontSel *gfs, char const *font_name)
+void
+go_font_sel_set_family (GOFontSel *fs, char const *font_name)
 {
 	unsigned ui;
 	int row = -1;
 
-	for (ui = 0; ui < gfs->families->len; ui++) {
+	for (ui = 0; ui < fs->families->len; ui++) {
 		PangoFontFamily *family =
-			g_ptr_array_index (gfs->families, ui);
+			g_ptr_array_index (fs->families, ui);
 		const char *this_name = pango_font_family_get_name (family);
 		if (g_ascii_strcasecmp (font_name, this_name) == 0) {
 			row = ui;
@@ -519,7 +586,7 @@ go_font_sel_set_name (GOFontSel *gfs, char const *font_name)
 		}
 	}
 
-	select_row (gfs->font_name_list, row);
+	select_row (fs->font_name_list, row);
 }
 
 static void
@@ -559,6 +626,13 @@ go_font_sel_set_points (GOFontSel *gfs,
 	g_free (buffer);
 }
 
+void
+go_font_sel_set_size (GOFontSel *fs, int size)
+{
+	go_font_sel_set_points (fs, size / (double)PANGO_SCALE);
+}
+
+
 static void
 go_font_sel_set_strike (GOFontSel *gfs, gboolean strike)
 {
@@ -579,12 +653,11 @@ go_font_sel_set_font (GOFontSel *gfs, GOFont const *font)
 {
 	g_return_if_fail (GO_IS_FONT_SEL (gfs));
 
-	go_font_sel_set_name (gfs, pango_font_description_get_family (font->desc));
+	go_font_sel_set_family (gfs, pango_font_description_get_family (font->desc));
 	go_font_sel_set_style (gfs,
 		pango_font_description_get_weight (font->desc) >= PANGO_WEIGHT_BOLD,
 		pango_font_description_get_style (font->desc) != PANGO_STYLE_NORMAL);
-	go_font_sel_set_points (gfs,
-		((double) pango_font_description_get_size (font->desc)) / PANGO_SCALE);
+	go_font_sel_set_size (gfs, pango_font_description_get_size (font->desc));
 	go_font_sel_set_strike (gfs, font->strikethrough);
 	go_font_sel_set_uline (gfs, font->underline);
 	go_font_sel_set_color (gfs, font->color);

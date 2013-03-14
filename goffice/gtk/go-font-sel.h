@@ -36,6 +36,14 @@ GOFont const *go_font_sel_get_font (GOFontSel const *fs);
 void go_font_sel_editable_enters   (GOFontSel *fs, GtkWindow *dialog);
 void go_font_sel_set_sample_text   (GOFontSel *fs, char const *text);
 
+PangoAttrList *go_font_sel_get_sample_attributes (GOFontSel *fs);
+void go_font_sel_set_sample_attributes (GOFontSel *fs,
+					PangoAttrList *attrs);
+
+void go_font_sel_set_family        (GOFontSel *fs, char const *family);
+void go_font_sel_set_size          (GOFontSel *fs, int size);
+
+
 G_END_DECLS
 
 #endif /* _GO_FONT_SEL_H_ */

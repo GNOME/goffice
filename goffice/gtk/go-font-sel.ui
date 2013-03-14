@@ -23,7 +23,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="label2">
+      <object class="GtkLabel" id="font-style-label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="xalign">0</property>
@@ -55,10 +55,8 @@
     <child>
       <object class="GtkEntry" id="font-name-entry">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
+        <property name="can_focus">False</property>
         <property name="editable">False</property>
-        <property name="invisible_char">•</property>
-        <property name="invisible_char_set">True</property>
       </object>
       <packing>
         <property name="left_attach">0</property>
@@ -70,10 +68,8 @@
     <child>
       <object class="GtkEntry" id="font-style-entry">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
+        <property name="can_focus">False</property>
         <property name="editable">False</property>
-        <property name="invisible_char">•</property>
-        <property name="invisible_char_set">True</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -120,7 +116,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkScrolledWindow" id="scrolledwindow2">
+      <object class="GtkScrolledWindow" id="font-style-window">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="shadow_type">in</property>
