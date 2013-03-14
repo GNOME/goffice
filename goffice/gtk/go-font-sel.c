@@ -631,7 +631,8 @@ go_font_sel_set_style (GOFontSel *fs, PangoWeight weight, PangoStyle style)
 			n = 0;
 	}
 
-	select_row (fs->font_style_list, n);
+	if (fs->font_style_list)
+		select_row (fs->font_style_list, n);
 
 	go_font_sel_add_attr (fs, pango_attr_weight_new (weight));
 	go_font_sel_add_attr (fs, pango_attr_style_new (style));
@@ -673,18 +674,36 @@ go_font_sel_set_color (GOFontSel *gfs, GOColor c)
 }
 
 void
-go_font_sel_set_font (GOFontSel *gfs, GOFont const *font)
+go_font_sel_set_font_desc (GOFontSel *fs, PangoFontDescription *desc)
 {
-	g_return_if_fail (GO_IS_FONT_SEL (gfs));
+	PangoFontMask fields;
+	g_return_if_fail (GO_IS_FONT_SEL (fs));
 
-	go_font_sel_set_family (gfs, pango_font_description_get_family (font->desc));
-	go_font_sel_set_style (gfs,
-			       pango_font_description_get_weight (font->desc),
-			       pango_font_description_get_style (font->desc));
-	go_font_sel_set_size (gfs, pango_font_description_get_size (font->desc));
-	go_font_sel_set_strike (gfs, font->strikethrough);
-	go_font_sel_set_uline (gfs, font->underline);
-	go_font_sel_set_color (gfs, font->color);
+	fields = pango_font_description_get_set_fields (desc);
+
+	if (fields & PANGO_FONT_MASK_FAMILY)
+		go_font_sel_set_family (fs,
+					pango_font_description_get_family (desc));
+	if (fields & (PANGO_FONT_MASK_WEIGHT | PANGO_FONT_MASK_STYLE))
+		go_font_sel_set_style (fs,
+				       pango_font_description_get_weight (desc),
+				       pango_font_description_get_style (desc));
+
+	if (fields & PANGO_FONT_MASK_SIZE)
+		go_font_sel_set_size (fs,
+				      pango_font_description_get_size (desc));
+}
+
+
+void
+go_font_sel_set_font (GOFontSel *fs, GOFont const *font)
+{
+	g_return_if_fail (GO_IS_FONT_SEL (fs));
+
+	go_font_sel_set_font_desc (fs, font->desc);
+	go_font_sel_set_strike (fs, font->strikethrough);
+	go_font_sel_set_uline (fs, font->underline);
+	go_font_sel_set_color (fs, font->color);
 }
 
 

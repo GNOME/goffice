@@ -56,16 +56,26 @@ gfsd_set_property (GObject         *object,
 	GOFontSelDialog *gfsd = GO_FONT_SEL_DIALOG (object);
 
 	switch (prop_id) {
-	case GFSD_GTK_FONT_CHOOSER_PROP_FONT:
+	case GFSD_GTK_FONT_CHOOSER_PROP_FONT: {
+		PangoFontDescription *desc = pango_font_description_from_string
+			(g_value_get_string (value));
+		go_font_sel_set_font_desc (gfsd->gfs, desc);
+		pango_font_description_free (desc);
 		break;
+	}
+
 	case GFSD_GTK_FONT_CHOOSER_PROP_FONT_DESC:
+		go_font_sel_set_font_desc (gfsd->gfs,
+					   g_value_get_boxed (value));
 		break;
 
 	case GFSD_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
 		go_font_sel_set_sample_text (gfsd->gfs,
 					     g_value_get_string (value));
 		break;
+
 	case GFSD_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
+		/* Not implemented */
 		break;
 
 	default:
@@ -83,17 +93,26 @@ gfsd_get_property (GObject         *object,
 	GOFontSelDialog *gfsd = GO_FONT_SEL_DIALOG (object);
 
 	switch (prop_id) {
-	case GFSD_GTK_FONT_CHOOSER_PROP_FONT:
+	case GFSD_GTK_FONT_CHOOSER_PROP_FONT: {
+		PangoFontDescription *desc =
+			go_font_sel_get_font_desc (gfsd->gfs);
+		g_value_take_string (value, pango_font_description_to_string (desc));
+		pango_font_description_free (desc);
 		break;
+	}
 
 	case GFSD_GTK_FONT_CHOOSER_PROP_FONT_DESC:
+		g_value_take_boxed (value, go_font_sel_get_font_desc (gfsd->gfs));
 		break;
 
 	case GFSD_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
-
+		/* Not implemented */
+		g_value_set_string (value, "");
 		break;
 
 	case GFSD_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
+		/* Not implemented */
+		g_value_set_boolean (value, TRUE);
 		break;
 
 	default:

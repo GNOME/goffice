@@ -1,5 +1,8 @@
 2013-03-14  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-font-sel-dialog.c (gfsd_get_property)
+	(gfsd_set_property): Partially implement.
+
 	* goffice/gtk/go-font-sel.c (gfs_class_init): Default show-style
 	to FALSE.
 	(go_font_sel_set_style): Make this public and use pango type args.
