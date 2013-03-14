@@ -42,6 +42,8 @@ void go_font_sel_set_sample_attributes (GOFontSel *fs,
 
 void go_font_sel_set_family        (GOFontSel *fs, char const *family);
 void go_font_sel_set_size          (GOFontSel *fs, int size);
+void go_font_sel_set_style         (GOFontSel *fs,
+				    PangoWeight weight, PangoStyle style);
 
 
 G_END_DECLS

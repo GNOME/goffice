@@ -88,8 +88,8 @@ go_font_sel_emit_changed (GOFontSel *gfs)
 	g_signal_emit (G_OBJECT (gfs),
 		       gfs_signals[FONT_CHANGED], 0, gfs->modifications);
 	goc_item_set (gfs->font_preview_text,
-		"attributes",  gfs->modifications,
-		NULL);
+		      "attributes",  gfs->modifications,
+		      NULL);
 }
 
 static void
@@ -510,7 +510,7 @@ gfs_class_init (GObjectClass *klass)
 				       G_PARAM_WRITABLE |
 				       G_PARAM_CONSTRUCT_ONLY));
 
-	gfs_signals [FONT_CHANGED] =
+	gfs_signals[FONT_CHANGED] =
 		g_signal_new (
 			"font_changed",
 			G_OBJECT_CLASS_TYPE (klass),
@@ -571,11 +571,14 @@ go_font_sel_set_sample_attributes (GOFontSel *fs, PangoAttrList *attrs)
 	pango_attr_list_unref (fs->modifications);
 	fs->modifications = acopy;
 
-	/* FIMXE: use go_pango_translate_attributes */
+	acopy = go_pango_translate_attributes (acopy);
 
 	goc_item_set (fs->font_preview_text,
-		      "attributes", fs->modifications,
+		      "attributes", acopy,
 		      NULL);
+
+	if (acopy != fs->modifications)
+		pango_attr_list_unref (acopy);
 }
 
 
@@ -609,9 +612,11 @@ go_font_sel_set_family (GOFontSel *fs, char const *font_name)
 	select_row (fs->font_name_list, row);
 }
 
-static void
-go_font_sel_set_style (GOFontSel *gfs, gboolean is_bold, gboolean is_italic)
+void
+go_font_sel_set_style (GOFontSel *fs, PangoWeight weight, PangoStyle style)
 {
+	gboolean is_bold = (weight >= PANGO_WEIGHT_BOLD);
+	gboolean is_italic = (style != PANGO_STYLE_NORMAL);
 	int n;
 
 	if (is_bold) {
@@ -626,14 +631,12 @@ go_font_sel_set_style (GOFontSel *gfs, gboolean is_bold, gboolean is_italic)
 			n = 0;
 	}
 
-	select_row (gfs->font_style_list, n);
+	select_row (fs->font_style_list, n);
 
-	go_font_sel_add_attr (gfs,
-			      pango_attr_weight_new (is_bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL));
-	go_font_sel_add_attr (gfs,
-			      pango_attr_style_new (is_italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
-/* FIXME FIXME FIXME Do we really need the following line? */
-	go_font_sel_emit_changed (gfs);
+	go_font_sel_add_attr (fs, pango_attr_weight_new (weight));
+	go_font_sel_add_attr (fs, pango_attr_style_new (style));
+
+	go_font_sel_emit_changed (fs);
 }
 
 static void
@@ -676,8 +679,8 @@ go_font_sel_set_font (GOFontSel *gfs, GOFont const *font)
 
 	go_font_sel_set_family (gfs, pango_font_description_get_family (font->desc));
 	go_font_sel_set_style (gfs,
-		pango_font_description_get_weight (font->desc) >= PANGO_WEIGHT_BOLD,
-		pango_font_description_get_style (font->desc) != PANGO_STYLE_NORMAL);
+			       pango_font_description_get_weight (font->desc),
+			       pango_font_description_get_style (font->desc));
 	go_font_sel_set_size (gfs, pango_font_description_get_size (font->desc));
 	go_font_sel_set_strike (gfs, font->strikethrough);
 	go_font_sel_set_uline (gfs, font->underline);

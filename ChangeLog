@@ -2,6 +2,8 @@
 
 	* goffice/gtk/go-font-sel.c (gfs_class_init): Default show-style
 	to FALSE.
+	(go_font_sel_set_style): Make this public and use pango type args.
+	(go_font_sel_set_sample_attributes): Handle super and subscript.
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_widget_replace): New function.
 
