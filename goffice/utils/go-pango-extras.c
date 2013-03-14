@@ -1046,3 +1046,29 @@ go_pango_attrs_to_markup (PangoAttrList *attrs, char const *text)
 }
 
 
+/**
+ * go_pango_measure_string:
+ * @context: #PangoContext
+ * @font_desc: #PangoFontDescription
+ * @str: The text to measure.
+ *
+ * A utility function to measure text.
+ *
+ * Returns: the pixel length of @str according to @context.
+ **/
+int
+go_pango_measure_string (PangoContext *context,
+			 PangoFontDescription const *font_desc,
+			 char const *str)
+{
+	PangoLayout *layout = pango_layout_new (context);
+	int width;
+
+	pango_layout_set_text (layout, str, -1);
+	pango_layout_set_font_description (layout, font_desc);
+	pango_layout_get_pixel_size (layout, &width, NULL);
+
+	g_object_unref (layout);
+
+	return width;
+}

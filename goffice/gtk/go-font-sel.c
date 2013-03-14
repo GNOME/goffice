@@ -376,7 +376,6 @@ canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 static void
 gfs_init (GOFontSel *gfs)
 {
-	gfs->show_style = TRUE;
 }
 
 static GObject*
@@ -507,7 +506,7 @@ gfs_class_init (GObjectClass *klass)
 		 g_param_spec_boolean ("show-style",
 				       _("Show Style"),
 				       _("Whether style is part of the font being selected"),
-				       TRUE,
+				       FALSE,
 				       G_PARAM_WRITABLE |
 				       G_PARAM_CONSTRUCT_ONLY));
 

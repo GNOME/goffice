@@ -88,10 +88,6 @@ void	   go_gtk_combo_box_remove_text (GtkComboBox *combo, int position);
 int	   go_gtk_builder_group_value (GtkBuilder *gui,
 				       char const * const group[]);
 
-int	   go_pango_measure_string	(PangoContext *context,
-					 PangoFontDescription const *font_desc,
-					 char const *str);
-
 gint       go_gtk_dialog_run		(GtkDialog *dialog, GtkWindow *parent);
 GtkWidget *go_gtk_dialog_add_button	(GtkDialog *dialog, char const *text,
 					 char const *stock_id,
@@ -111,6 +107,8 @@ GOFFICE_DEPRECATED_FOR(go_gtk_button_build_with_stock)
 GtkWidget *go_gtk_button_new_with_stock (char const *text,
 					 char const *stock_id);
 #endif
+void	   go_gtk_widget_replace	(GtkWidget *victim,
+					 GtkWidget *replacement);
 void	   go_gtk_widget_disable_focus	(GtkWidget *w);
 void       go_gtk_window_set_transient  (GtkWindow *toplevel, GtkWindow *window);
 void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,

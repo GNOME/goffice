@@ -50,6 +50,9 @@ PangoAttrType go_pango_attr_superscript_get_type (void);
 
 char *go_pango_attrs_to_markup (PangoAttrList *attrs, char const *text);
 
+int go_pango_measure_string (PangoContext *context,
+			     PangoFontDescription const *font_desc,
+			     char const *str);
 
 
 G_END_DECLS

@@ -498,6 +498,27 @@ go_gtk_editable_enters (GtkWindow *window, GtkWidget *w)
 		G_CALLBACK (cb_activate_default), window);
 }
 
+void
+go_gtk_widget_replace (GtkWidget *victim, GtkWidget *replacement)
+{
+	GtkWidget *parent = gtk_widget_get_parent (victim);
+
+	if (GTK_IS_GRID (parent)) {
+		int col, row, width, height;
+		gtk_container_child_get (GTK_CONTAINER (parent),
+					 victim,
+					 "left-attach", &col,
+					 "top-attach", &row,
+					 "width", &width,
+					 "height", &height,
+					 NULL);
+		gtk_grid_attach (GTK_GRID (parent), replacement,
+				 col, row, width, height);
+	} else {
+		g_error ("Unsupported container");
+	}
+}
+
 /**
  * go_gtk_widget_disable_focus:
  * @w: #GtkWidget
@@ -511,31 +532,6 @@ go_gtk_widget_disable_focus (GtkWidget *w)
 		gtk_container_foreach (GTK_CONTAINER (w),
 			(GtkCallback) go_gtk_widget_disable_focus, NULL);
 	gtk_widget_set_can_focus (w, FALSE);
-}
-
-/**
- * go_pango_measure_string:
- * @context: #PangoContext
- * @font_desc: #PangoFontDescription
- * @str: The text to measure.
- *
- * A utility function to measure text.
- *
- * Returns: the pixel length of @str according to @context.
- **/
-int
-go_pango_measure_string (PangoContext *context, PangoFontDescription const *font_desc, char const *str)
-{
-	PangoLayout *layout = pango_layout_new (context);
-	int width;
-
-	pango_layout_set_text (layout, str, -1);
-	pango_layout_set_font_description (layout, font_desc);
-	pango_layout_get_pixel_size (layout, &width, NULL);
-
-	g_object_unref (layout);
-
-	return width;
 }
 
 static void

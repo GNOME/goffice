@@ -1,5 +1,13 @@
 2013-03-14  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-font-sel.c (gfs_class_init): Default show-style
+	to FALSE.
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_widget_replace): New function.
+
+	* goffice/utils/go-pango-extras.c (go_pango_measure_string): Move
+	from goffice/gtk/goffice-gtk.c
+
 	* goffice/gtk/go-font-sel.c (gfs_class_init): Add constructor
 	since we depend on construction parameters.
 

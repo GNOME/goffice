@@ -106,7 +106,7 @@ static void
 gfsd_init (GOFontSelDialog *gfsd)
 {
 	GtkDialog *dialog = GTK_DIALOG (gfsd);
-	GtkWidget *gfs = go_font_sel_new ();
+	GtkWidget *gfs = g_object_new (GO_TYPE_FONT_SEL, NULL);
 	gfsd->gfs = GO_FONT_SEL (gfs);
 	gtk_widget_show (gfs);
 	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dialog)),
