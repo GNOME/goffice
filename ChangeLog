@@ -1,5 +1,10 @@
 2013-03-14  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-font-sel-dialog.c: Just delegate to GOFontSel.
+
+	* goffice/gtk/go-font-sel.c: Implement the GtkFontChooser
+	interface.
+
 	* goffice/gtk/go-font-sel-dialog.c (gfsd_get_property)
 	(gfsd_set_property): Partially implement.
 

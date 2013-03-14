@@ -54,34 +54,8 @@ gfsd_set_property (GObject         *object,
 		   GParamSpec      *pspec)
 {
 	GOFontSelDialog *gfsd = GO_FONT_SEL_DIALOG (object);
-
-	switch (prop_id) {
-	case GFSD_GTK_FONT_CHOOSER_PROP_FONT: {
-		PangoFontDescription *desc = pango_font_description_from_string
-			(g_value_get_string (value));
-		go_font_sel_set_font_desc (gfsd->gfs, desc);
-		pango_font_description_free (desc);
-		break;
-	}
-
-	case GFSD_GTK_FONT_CHOOSER_PROP_FONT_DESC:
-		go_font_sel_set_font_desc (gfsd->gfs,
-					   g_value_get_boxed (value));
-		break;
-
-	case GFSD_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
-		go_font_sel_set_sample_text (gfsd->gfs,
-					     g_value_get_string (value));
-		break;
-
-	case GFSD_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
-		/* Not implemented */
-		break;
-
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-		break;
-	}
+	(void)prop_id;
+	g_object_set_property (G_OBJECT (gfsd->gfs), pspec->name, value);
 }
 
 static void
@@ -91,34 +65,26 @@ gfsd_get_property (GObject         *object,
 		   GParamSpec      *pspec)
 {
 	GOFontSelDialog *gfsd = GO_FONT_SEL_DIALOG (object);
+	(void)prop_id;
+	g_object_get_property (G_OBJECT (gfsd->gfs), pspec->name, value);
+}
 
-	switch (prop_id) {
-	case GFSD_GTK_FONT_CHOOSER_PROP_FONT: {
-		PangoFontDescription *desc =
-			go_font_sel_get_font_desc (gfsd->gfs);
-		g_value_take_string (value, pango_font_description_to_string (desc));
-		pango_font_description_free (desc);
-		break;
-	}
+static void
+delegate_notify (GObject *gfs, GParamSpec *pspec, gpointer gfsd)
+{
+	gpointer iface =
+		g_type_interface_peek (g_type_class_peek (G_OBJECT_TYPE (gfs)),
+				       GTK_TYPE_FONT_CHOOSER);
+	if (g_object_interface_find_property (iface, pspec->name))
+		g_object_notify_by_pspec (gfsd, pspec);
+}
 
-	case GFSD_GTK_FONT_CHOOSER_PROP_FONT_DESC:
-		g_value_take_boxed (value, go_font_sel_get_font_desc (gfsd->gfs));
-		break;
-
-	case GFSD_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
-		/* Not implemented */
-		g_value_set_string (value, "");
-		break;
-
-	case GFSD_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
-		/* Not implemented */
-		g_value_set_boolean (value, TRUE);
-		break;
-
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-		break;
-	}
+static void
+delegate_font_activated (GtkFontChooser *gfs,
+                         const gchar    *fontname,
+                         GtkFontChooser *gfsd)
+{
+	g_signal_emit_by_name (gfsd, "font-activated", 0, fontname);
 }
 
 static void
@@ -132,12 +98,16 @@ gfsd_init (GOFontSelDialog *gfsd)
 			   gfs);
 	gtk_dialog_add_button (dialog, GTK_STOCK_OK, GTK_RESPONSE_OK);
 	gtk_dialog_add_button (dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+
+	g_signal_connect (gfs, "notify",
+			  G_CALLBACK (delegate_notify), gfsd);
+	g_signal_connect (gfs, "font-activated",
+			  G_CALLBACK (delegate_font_activated), gfsd);
 }
 
 static void
 gfsd_class_init (GObjectClass *klass)
 {
-	// klass->dispose = gfsd_dispose;
 	klass->set_property = gfsd_set_property;
 	klass->get_property = gfsd_get_property;
 
@@ -159,30 +129,37 @@ gfsd_class_init (GObjectClass *klass)
 
 static void
 gfsd_font_chooser_set_filter_func (GtkFontChooser    *chooser,
-				  GtkFontFilterFunc  filter_func,
-				  gpointer           filter_data,
-				  GDestroyNotify     data_destroy)
+				   GtkFontFilterFunc  filter_func,
+				   gpointer           filter_data,
+				   GDestroyNotify     data_destroy)
 {
+	GOFontSelDialog *gfsd = GO_FONT_SEL_DIALOG (chooser);
+	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (gfsd->gfs),
+					  filter_func,
+					  filter_data,
+					  data_destroy);
 }
 
 static PangoFontFamily *
 gfsd_font_chooser_get_font_family (GtkFontChooser *chooser)
 {
-	return NULL;
+	GOFontSelDialog *gfsd = GO_FONT_SEL_DIALOG (chooser);
+	return gtk_font_chooser_get_font_family (GTK_FONT_CHOOSER (gfsd->gfs));
 }
 
 static int
 gfsd_font_chooser_get_font_size (GtkFontChooser *chooser)
 {
-	return 0;
+	GOFontSelDialog *gfsd = GO_FONT_SEL_DIALOG (chooser);
+	return gtk_font_chooser_get_font_size (GTK_FONT_CHOOSER (gfsd->gfs));
 }
 
 static PangoFontFace *
 gfsd_font_chooser_get_font_face (GtkFontChooser *chooser)
 {
-	return NULL;
+	GOFontSelDialog *gfsd = GO_FONT_SEL_DIALOG (chooser);
+	return gtk_font_chooser_get_font_face (GTK_FONT_CHOOSER (gfsd->gfs));
 }
-
 
 static void
 gfsd_font_chooser_iface_init (GtkFontChooserIface *iface)
@@ -192,9 +169,6 @@ gfsd_font_chooser_iface_init (GtkFontChooserIface *iface)
 	iface->get_font_size = gfsd_font_chooser_get_font_size;
 	iface->set_filter_func = gfsd_font_chooser_set_filter_func;
 }
-
-
-
 
 GSF_CLASS_FULL (GOFontSelDialog, go_font_sel_dialog,
 		NULL, NULL, gfsd_class_init, NULL,

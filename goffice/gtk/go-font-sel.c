@@ -63,7 +63,14 @@ typedef struct {
 
 enum {
 	PROP_0,
-	PROP_SHOW_STYLE
+	PROP_SHOW_STYLE,
+
+	GFS_GTK_FONT_CHOOSER_PROP_FIRST           = 0x4000,
+	GFS_GTK_FONT_CHOOSER_PROP_FONT,
+	GFS_GTK_FONT_CHOOSER_PROP_FONT_DESC,
+	GFS_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT,
+	GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY,
+	GFS_GTK_FONT_CHOOSER_PROP_LAST
 };
 
 enum {
@@ -85,10 +92,17 @@ go_font_sel_add_attr (GOFontSel *gfs, PangoAttribute *attr)
 static void
 go_font_sel_emit_changed (GOFontSel *gfs)
 {
+	char *fontname = NULL;
+
 	g_signal_emit (G_OBJECT (gfs),
 		       gfs_signals[FONT_CHANGED], 0, gfs->modifications);
+
+	g_object_get (gfs, "font", &fontname, NULL);
+	g_signal_emit_by_name (gfs, "font-activated", 0, fontname);
+	g_free (fontname);
+
 	goc_item_set (gfs->font_preview_text,
-		      "attributes",  gfs->modifications,
+		      "attributes", gfs->modifications,
 		      NULL);
 }
 
@@ -280,9 +294,9 @@ size_set_text (GOFontSel *gfs, char const *size_text)
 {
 	char *end;
 	double size;
-	errno = 0; /* strtol sets errno, but does not clear it.  */
-	size = strtod (size_text, &end);
-	size = ((int)floor ((size * 20.) + .5)) / 20.;	/* round .05 */
+	size = go_strtod (size_text, &end);
+	size = CLAMP (size, 0.0, 1000.0);
+	size = floor ((size * 20.) + .5) / 20.;	/* round .05 */
 
 	if (size_text != end && errno != ERANGE && 1. <= size && size <= 400.) {
 		gtk_entry_set_text (GTK_ENTRY (gfs->font_size_entry), size_text);
@@ -475,6 +489,46 @@ gfs_dispose (GObject *obj)
 }
 
 static void
+gfs_get_property (GObject         *object,
+		  guint            prop_id,
+		  GValue          *value,
+		  GParamSpec      *pspec)
+{
+	GOFontSel *gfs = GO_FONT_SEL (object);
+
+	switch (prop_id) {
+	case PROP_SHOW_STYLE:
+		g_value_set_boolean (value, gfs->show_style);
+		break;
+
+	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
+		PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
+		g_value_take_string (value, pango_font_description_to_string (desc));
+		pango_font_description_free (desc);
+		break;
+	}
+
+	case GFS_GTK_FONT_CHOOSER_PROP_FONT_DESC:
+		g_value_take_boxed (value, go_font_sel_get_font_desc (gfs));
+		break;
+
+	case GFS_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
+		/* Not implemented */
+		g_value_set_string (value, "");
+		break;
+
+	case GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
+		/* Not implemented */
+		g_value_set_boolean (value, TRUE);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+static void
 gfs_set_property (GObject         *object,
 		  guint            prop_id,
 		  const GValue    *value,
@@ -485,6 +539,26 @@ gfs_set_property (GObject         *object,
 	switch (prop_id) {
 	case PROP_SHOW_STYLE:
 		gfs->show_style = g_value_get_boolean (value);
+		break;
+
+	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
+		PangoFontDescription *desc = pango_font_description_from_string
+			(g_value_get_string (value));
+		go_font_sel_set_font_desc (gfs, desc);
+		pango_font_description_free (desc);
+		break;
+	}
+
+	case GFS_GTK_FONT_CHOOSER_PROP_FONT_DESC:
+		go_font_sel_set_font_desc (gfs, g_value_get_boxed (value));
+		break;
+
+	case GFS_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
+		go_font_sel_set_sample_text (gfs, g_value_get_string (value));
+		break;
+
+	case GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
+		/* Not implemented */
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -497,6 +571,7 @@ gfs_class_init (GObjectClass *klass)
 {
 	klass->constructor = gfs_constructor;
 	klass->dispose = gfs_dispose;
+	klass->get_property = gfs_get_property;
 	klass->set_property = gfs_set_property;
 
 	gfs_parent_class = g_type_class_peek_parent (klass);
@@ -507,8 +582,21 @@ gfs_class_init (GObjectClass *klass)
 				       _("Show Style"),
 				       _("Whether style is part of the font being selected"),
 				       FALSE,
-				       G_PARAM_WRITABLE |
+				       G_PARAM_READWRITE |
 				       G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_override_property (klass,
+					  GFS_GTK_FONT_CHOOSER_PROP_FONT,
+					  "font");
+	g_object_class_override_property (klass,
+					  GFS_GTK_FONT_CHOOSER_PROP_FONT_DESC,
+					  "font-desc");
+	g_object_class_override_property (klass,
+					  GFS_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT,
+					  "preview-text");
+	g_object_class_override_property (klass,
+					  GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY,
+					  "show-preview-entry");
 
 	gfs_signals[FONT_CHANGED] =
 		g_signal_new (
@@ -521,8 +609,54 @@ gfs_class_init (GObjectClass *klass)
 			G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
 
-GSF_CLASS (GOFontSel, go_font_sel,
-	   gfs_class_init, gfs_init, GTK_TYPE_GRID)
+static void
+gfs_font_chooser_set_filter_func (GtkFontChooser    *chooser,
+				   GtkFontFilterFunc  filter_func,
+				   gpointer           filter_data,
+				   GDestroyNotify     data_destroy)
+{
+	GOFontSel *gfs = GO_FONT_SEL (chooser);
+	(void)gfs;
+}
+
+static PangoFontFamily *
+gfs_font_chooser_get_font_family (GtkFontChooser *chooser)
+{
+	GOFontSel *gfs = GO_FONT_SEL (chooser);
+	(void)gfs;
+	return NULL;
+}
+
+static int
+gfs_font_chooser_get_font_size (GtkFontChooser *chooser)
+{
+	GOFontSel *gfs = GO_FONT_SEL (chooser);
+	(void)gfs;
+	return 0;
+}
+
+static PangoFontFace *
+gfs_font_chooser_get_font_face (GtkFontChooser *chooser)
+{
+	GOFontSel *gfs = GO_FONT_SEL (chooser);
+	(void)gfs;
+	return NULL;
+}
+
+static void
+gfs_font_chooser_iface_init (GtkFontChooserIface *iface)
+{
+	iface->get_font_family = gfs_font_chooser_get_font_family;
+	iface->get_font_face = gfs_font_chooser_get_font_face;
+	iface->get_font_size = gfs_font_chooser_get_font_size;
+	iface->set_filter_func = gfs_font_chooser_set_filter_func;
+}
+
+GSF_CLASS_FULL (GOFontSel, go_font_sel,
+		NULL, NULL, gfs_class_init, NULL,
+		gfs_init, GTK_TYPE_GRID, 0,
+		GSF_INTERFACE (gfs_font_chooser_iface_init, GTK_TYPE_FONT_CHOOSER);
+	)
 #if 0
 ;
 #endif
