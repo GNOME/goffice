@@ -45,6 +45,7 @@ void go_font_sel_set_size          (GOFontSel *fs, int size);
 void go_font_sel_set_style         (GOFontSel *fs,
 				    PangoWeight weight, PangoStyle style);
 
+PangoFontDescription *go_font_sel_get_font_desc (GOFontSel *fs);
 
 G_END_DECLS
 

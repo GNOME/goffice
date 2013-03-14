@@ -4,6 +4,7 @@
 	to FALSE.
 	(go_font_sel_set_style): Make this public and use pango type args.
 	(go_font_sel_set_sample_attributes): Handle super and subscript.
+	(go_font_sel_get_font_desc): New function.
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_widget_replace): New function.
 

@@ -686,3 +686,26 @@ go_font_sel_set_font (GOFontSel *gfs, GOFont const *font)
 	go_font_sel_set_uline (gfs, font->underline);
 	go_font_sel_set_color (gfs, font->color);
 }
+
+
+/**
+ * go_font_sel_get_font_desc:
+ * @fs: the font selector
+ *
+ * Returns: (transfer full): a description of the font set.
+ */
+PangoFontDescription *
+go_font_sel_get_font_desc (GOFontSel *fs)
+{
+	PangoAttrIterator *aiter;
+	PangoFontDescription *desc;
+
+	g_return_val_if_fail (GO_IS_FONT_SEL (fs), NULL);
+
+	aiter = pango_attr_list_get_iterator (fs->modifications);
+	desc = pango_font_description_new ();
+	pango_attr_iterator_get_font (aiter, desc, NULL, NULL);
+	pango_attr_iterator_destroy (aiter);
+
+	return desc;
+}
