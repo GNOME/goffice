@@ -1,3 +1,8 @@
+2013-03-14  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-font-sel.c (gfs_class_init): Add constructor
+	since we depend on construction parameters.
+
 2013-03-13  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-font-sel.c (go_font_sel_get_font): Make it clear

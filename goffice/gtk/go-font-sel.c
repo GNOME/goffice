@@ -376,11 +376,28 @@ canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 static void
 gfs_init (GOFontSel *gfs)
 {
+	gfs->show_style = TRUE;
+}
+
+static GObject*
+gfs_constructor (GType type,
+		 guint n_construct_properties,
+		 GObjectConstructParam *construct_params)
+{
 	GtkWidget *w, *grid;
+	GOFontSel *gfs = (GOFontSel *)
+		(gfs_parent_class->constructor (type,
+						n_construct_properties,
+						construct_params));
+
+	if (!gfs)
+		return NULL;
 
 	gfs->gui = go_gtk_builder_load_internal ("res:go:gtk/go-font-sel.ui", GETTEXT_PACKAGE, NULL);
-	if (gfs->gui == NULL)
-                return;
+	if (gfs->gui == NULL) {
+		g_object_unref (gfs);
+                return NULL;
+	}
 
 	gfs->modifications = pango_attr_list_new ();
 
@@ -423,7 +440,10 @@ gfs_init (GOFontSel *gfs)
 	if (gfs->show_style)
 		gfs_fill_font_style_list (gfs);
 	gfs_fill_font_size_list (gfs);
+
+	return (GObject *)gfs;
 }
+
 
 static void
 gfs_dispose (GObject *obj)
@@ -476,6 +496,7 @@ gfs_set_property (GObject         *object,
 static void
 gfs_class_init (GObjectClass *klass)
 {
+	klass->constructor = gfs_constructor;
 	klass->dispose = gfs_dispose;
 	klass->set_property = gfs_set_property;
 
@@ -605,6 +626,7 @@ go_font_sel_set_style (GOFontSel *gfs, gboolean is_bold, gboolean is_italic)
 		else
 			n = 0;
 	}
+
 	select_row (gfs->font_style_list, n);
 
 	go_font_sel_add_attr (gfs,
