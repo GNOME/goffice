@@ -443,7 +443,7 @@ gfs_constructor (GType type,
 		 guint n_construct_properties,
 		 GObjectConstructParam *construct_params)
 {
-	GtkWidget *w, *grid;
+	GtkWidget *w, *fontsel;
 	GOFontSel *gfs = (GOFontSel *)
 		(gfs_parent_class->constructor (type,
 						n_construct_properties,
@@ -460,8 +460,8 @@ gfs_constructor (GType type,
 
 	gfs->modifications = pango_attr_list_new ();
 
-	grid = go_gtk_builder_get_widget (gfs->gui, "toplevel-grid");
-	gtk_container_add (GTK_CONTAINER (gfs), grid);
+	fontsel = go_gtk_builder_get_widget (gfs->gui, "font-selector");
+	gtk_container_add (GTK_CONTAINER (gfs), fontsel);
 	gfs->font_name_entry  = go_gtk_builder_get_widget (gfs->gui, "font-name-entry");
 	gfs->font_style_entry = go_gtk_builder_get_widget (gfs->gui, "font-style-entry");
 	gfs->font_size_entry  = go_gtk_builder_get_widget (gfs->gui, "font-size-entry");
@@ -481,10 +481,11 @@ gfs_constructor (GType type,
 	gfs->font_preview_canvas = GOC_CANVAS (w);
 	gtk_widget_set_hexpand (w, TRUE);
 	gtk_widget_set_size_request (w, -1, 96);
-	gtk_grid_attach (GTK_GRID (grid), GTK_WIDGET (gfs->font_preview_canvas),
-	                 0, 4, 3, 1);
-	gtk_widget_show_all (grid);
-
+	go_gtk_widget_replace
+		(go_gtk_builder_get_widget (gfs->gui, "preview-placeholder"),
+		 w);
+	gtk_widget_show_all (fontsel);
+	
 	gfs->font_preview_text = goc_item_new (
 		goc_canvas_get_root (gfs->font_preview_canvas),
 		GOC_TYPE_TEXT,
