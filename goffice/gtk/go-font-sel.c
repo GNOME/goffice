@@ -50,9 +50,16 @@ struct _GOFontSel {
 	PangoAttrList	*modifications;
 
 	GPtrArray       *families;
+	GHashTable      *family_by_name;
+
 	GSList          *font_sizes;
 
 	gboolean        show_style;
+	char            *preview_text;
+
+	GtkFontFilterFunc filter_func;
+	gpointer          filter_data;
+	GDestroyNotify    filter_data_destroy;
 };
 
 typedef struct {
@@ -112,31 +119,10 @@ cb_list_adjust (GtkTreeView* view)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GtkTreePath *path;
-	GtkScrolledWindow* scroll;
-	GdkRectangle rect;
-	GtkAdjustment *adj;
-	int pos, height, child_height;
 
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view), &model, &iter)) {
-		GtkAllocation allocation;
-		GtkRequisition requisition;
-		gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
-		gtk_widget_get_preferred_size (GTK_WIDGET (view), &requisition, NULL);
 		path = gtk_tree_model_get_path (model, &iter);
-		scroll = GTK_SCROLLED_WINDOW (gtk_widget_get_parent (GTK_WIDGET (view)));
-		height = allocation.height;
-		child_height = requisition.height;
-		if (height < child_height) {
-			gtk_tree_view_get_cell_area (view, path, NULL, &rect);
-			adj = gtk_scrolled_window_get_vadjustment (scroll);
-			pos = gtk_adjustment_get_value (adj);
-			if (rect.y < 0)
-				pos += rect.y;
-			else if (rect.y + rect.height > height)
-				pos += rect.y + rect.height - height;
-			gtk_adjustment_set_value (adj, pos);
-			gtk_scrolled_window_set_vadjustment (scroll, adj);
-		}
+		gtk_tree_view_set_cursor (view, path, NULL, FALSE);
 		gtk_tree_path_free (path);
 	}
 }
@@ -186,6 +172,22 @@ by_family_name (gconstpointer a_, gconstpointer b_)
 }
 
 static void
+dispose_families (GOFontSel *gfs)
+{
+	if (gfs->family_by_name) {
+		g_hash_table_destroy (gfs->family_by_name);
+		gfs->family_by_name = NULL;
+	}
+
+	if (gfs->families) {
+		g_ptr_array_foreach (gfs->families,
+				     (GFunc)g_object_unref, NULL);
+		g_ptr_array_free (gfs->families, TRUE);
+		gfs->families = NULL;
+	}
+}
+
+static void
 gfs_fill_font_name_list (GOFontSel *gfs)
 {
 	GtkListStore *store;
@@ -195,20 +197,31 @@ gfs_fill_font_name_list (GOFontSel *gfs)
 	int n_families;
 	size_t ui;
 
-/* FIXME FIXME FIXME We need to do this when we realize the widget as we don't have a screen until then. */
+	dispose_families (gfs);
+
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_name_list));
+	gtk_list_store_clear (store);
+	if (!gtk_widget_get_screen (GTK_WIDGET (gfs)))
+		return;
+
 	context = gtk_widget_get_pango_context (GTK_WIDGET (gfs));
 	pango_context_list_families (context, &pango_families, &n_families);
 	qsort (pango_families, n_families,
 	       sizeof (pango_families[0]), by_family_name);
 	gfs->families = g_ptr_array_new ();
-	g_ptr_array_set_size (gfs->families, n_families);
-	for (ui = 0; ui < gfs->families->len; ui++)
-		g_ptr_array_index (gfs->families, ui) =
-			g_object_ref (pango_families[ui]);
+	gfs->family_by_name = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify)g_free, NULL);
+	for (ui = 0; ui < (size_t)n_families; ui++) {
+		PangoFontFamily *family = pango_families[ui];
+		const char *name = pango_font_family_get_name (family);
+		g_ptr_array_add (gfs->families, g_object_ref (family));
+		g_hash_table_insert (gfs->family_by_name,
+				     g_strdup (name),
+				     family);
+	}
 	g_free (pango_families);
 
-	list_init (gfs->font_name_list);
-	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_name_list));
 	for (ui = 0; ui < gfs->families->len; ui++) {
 		PangoFontFamily *family = g_ptr_array_index (gfs->families, ui);
 		gtk_list_store_append (store, &iter);
@@ -216,10 +229,6 @@ gfs_fill_font_name_list (GOFontSel *gfs)
 				    0, pango_font_family_get_name (family),
 				    -1);
 	}
-
-	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (gfs->font_name_list)),
-			  "changed",
-			  G_CALLBACK (font_selected), gfs);
 }
 
 static char const *styles[] = {
@@ -257,11 +266,10 @@ style_selected (GtkTreeSelection *selection,
 static void
 gfs_fill_font_style_list (GOFontSel *gfs)
 {
-	 int i;
+	int i;
 	GtkListStore *store;
 	GtkTreeIter iter;
 
-	list_init (gfs->font_style_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_style_list));
 	for (i = 0; styles[i] != NULL; i++) {
 		gtk_list_store_append (store, &iter);
@@ -275,17 +283,16 @@ gfs_fill_font_style_list (GOFontSel *gfs)
 static void
 select_row (GtkTreeView *list, int row)
 {
-	GtkTreePath *path;
-
 	if (row < 0)
 		gtk_tree_selection_unselect_all (gtk_tree_view_get_selection (list));
 	else {
-		path = gtk_tree_path_new_from_indices (row, -1);
+		GtkTreePath *path = gtk_tree_path_new_from_indices (row, -1);
 
 		gtk_tree_selection_select_path (gtk_tree_view_get_selection (list), path);
+		gtk_tree_path_free (path);
+
 		if (gtk_widget_get_realized (GTK_WIDGET (list)))
 			cb_list_adjust (list);
-		gtk_tree_path_free (path);
 	}
 }
 
@@ -357,7 +364,6 @@ gfs_fill_font_size_list (GOFontSel *gfs)
 
 	gfs->font_sizes = go_fonts_list_sizes ();
 
-	list_init (gfs->font_size_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_size_list));
 	for (ptr = gfs->font_sizes; ptr != NULL ; ptr = ptr->next) {
 		int psize = GPOINTER_TO_INT (ptr->data);
@@ -390,6 +396,12 @@ canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 static void
 gfs_init (GOFontSel *gfs)
 {
+}
+
+static void
+gfs_screen_changed (GOFontSel *gfs)
+{
+	gfs_fill_font_name_list (gfs);
 }
 
 static GObject*
@@ -449,9 +461,22 @@ gfs_constructor (GType type,
 		"size-allocate",
 		G_CALLBACK (canvas_size_changed), gfs);
 
-	gfs_fill_font_name_list (gfs);
-	if (gfs->show_style)
+	list_init (gfs->font_name_list);
+	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (gfs->font_name_list)),
+			  "changed",
+			  G_CALLBACK (font_selected), gfs);
+
+	g_signal_connect (gfs,
+			  "screen-changed",
+			  G_CALLBACK (gfs_screen_changed),
+			  NULL);
+
+	if (gfs->show_style) {
+		list_init (gfs->font_style_list);
 		gfs_fill_font_style_list (gfs);
+	}
+
+	list_init (gfs->font_size_list);
 	gfs_fill_font_size_list (gfs);
 
 	return (GObject *)gfs;
@@ -466,6 +491,9 @@ gfs_dispose (GObject *obj)
 	if (gfs->gui) {
 		g_object_unref (gfs->gui);
 		gfs->gui = NULL;
+		gfs->font_name_list = NULL;
+		gfs->font_style_list = NULL;
+		gfs->font_size_list = NULL;
 	}
 	if (gfs->base != NULL) {
 		go_font_unref (gfs->base);
@@ -475,15 +503,16 @@ gfs_dispose (GObject *obj)
 		pango_attr_list_unref (gfs->modifications);
 		gfs->modifications = NULL;
 	}
-	if (gfs->families) {
-		g_ptr_array_foreach (gfs->families,
-				     (GFunc)g_object_unref, NULL);
-		g_ptr_array_free (gfs->families, TRUE);
-		gfs->families = NULL;
-	}
+	dispose_families (gfs);
 
 	g_slist_free (gfs->font_sizes);
 	gfs->font_sizes = NULL;
+
+	g_free (gfs->preview_text);
+	gfs->preview_text = NULL;
+
+	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (obj),
+					  NULL, NULL, NULL);
 
 	gfs_parent_class->dispose (obj);
 }
@@ -513,8 +542,7 @@ gfs_get_property (GObject         *object,
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
-		/* Not implemented */
-		g_value_set_string (value, "");
+		g_value_set_string (value, gfs->preview_text);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
@@ -554,7 +582,9 @@ gfs_set_property (GObject         *object,
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
-		go_font_sel_set_sample_text (gfs, g_value_get_string (value));
+		g_free (gfs->preview_text);
+		gfs->preview_text = g_value_dup_string (value);
+		go_font_sel_set_sample_text (gfs, gfs->preview_text);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
@@ -611,28 +641,43 @@ gfs_class_init (GObjectClass *klass)
 
 static void
 gfs_font_chooser_set_filter_func (GtkFontChooser    *chooser,
-				   GtkFontFilterFunc  filter_func,
-				   gpointer           filter_data,
-				   GDestroyNotify     data_destroy)
+				  GtkFontFilterFunc  filter_func,
+				  gpointer           filter_data,
+				  GDestroyNotify     data_destroy)
 {
 	GOFontSel *gfs = GO_FONT_SEL (chooser);
-	(void)gfs;
+
+	if (gfs->filter_data_destroy)
+		gfs->filter_data_destroy (gfs->filter_data);
+
+	gfs->filter_func = filter_func;
+	gfs->filter_data = filter_data;
+	gfs->filter_data_destroy = data_destroy;
+
+	if (gfs->font_name_list)
+		gfs_fill_font_name_list (gfs);
 }
 
 static PangoFontFamily *
 gfs_font_chooser_get_font_family (GtkFontChooser *chooser)
 {
 	GOFontSel *gfs = GO_FONT_SEL (chooser);
-	(void)gfs;
-	return NULL;
+	PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
+	const char *name = pango_font_description_get_family (desc);
+	PangoFontFamily *family = g_hash_table_lookup (gfs->family_by_name,
+						       name);
+	pango_font_description_free (desc);
+	return family;
 }
 
 static int
 gfs_font_chooser_get_font_size (GtkFontChooser *chooser)
 {
 	GOFontSel *gfs = GO_FONT_SEL (chooser);
-	(void)gfs;
-	return 0;
+	PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
+	int size = pango_font_description_get_size (desc);
+	pango_font_description_free (desc);
+	return size;
 }
 
 static PangoFontFace *
