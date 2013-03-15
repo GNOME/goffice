@@ -238,7 +238,10 @@ gfs_fill_font_name_list (GOFontSel *gfs)
 			    !gfs->filter_func (family, face, gfs->filter_data))
 				continue;
 
-			if (!any_face) {
+			if (any_face) {
+				if (!gfs->show_style)
+					break;
+			} else {
 				any_face = TRUE;
 
 				g_hash_table_insert (gfs->family_by_name,
@@ -689,8 +692,12 @@ gfs_font_chooser_set_filter_func (GtkFontChooser    *chooser,
 	gfs->filter_data = filter_data;
 	gfs->filter_data_destroy = data_destroy;
 
-	if (gfs->font_name_list)
+	if (gfs->font_name_list) {
+		PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
 		gfs_fill_font_name_list (gfs);
+		go_font_sel_set_font_desc (gfs, desc);
+		pango_font_description_free (desc);
+	}
 }
 
 static PangoFontFamily *
