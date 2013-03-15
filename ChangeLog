@@ -1,6 +1,10 @@
 2013-03-14  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-font-sel.c (gfs_fill_font_name_list): Implement
+	font filtering.
+
 	* goffice/gtk/go-font-sel-dialog.c: Just delegate to GOFontSel.
+	(gfsd_init): Set a title.
 
 	* goffice/gtk/go-font-sel.c: Implement the GtkFontChooser
 	interface.

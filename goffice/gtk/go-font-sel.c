@@ -49,8 +49,9 @@ struct _GOFontSel {
 	GOFont		*base;
 	PangoAttrList	*modifications;
 
-	GPtrArray       *families;
+	GPtrArray       *family_faces;
 	GHashTable      *family_by_name;
+	GHashTable      *family_first_row;
 
 	GSList          *font_sizes;
 
@@ -84,6 +85,8 @@ enum {
 	FONT_CHANGED,
 	LAST_SIGNAL
 };
+
+enum { COL_TEXT, COL_OBJ };
 
 static guint gfs_signals[LAST_SIGNAL] = { 0 };
 static GObjectClass *gfs_parent_class;
@@ -135,12 +138,12 @@ list_init (GtkTreeView* view)
 	GtkTreeViewColumn *column;
 
 	gtk_tree_view_set_headers_visible (view, FALSE);
-	store = gtk_list_store_new (1, G_TYPE_STRING);
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_OBJECT);
 	gtk_tree_view_set_model (view, GTK_TREE_MODEL (store));
 	g_object_unref (store);
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (
-			NULL, renderer, "text", 0, NULL);
+			NULL, renderer, "text", COL_TEXT, NULL);
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (view, column);
 	g_signal_connect (view, "realize", G_CALLBACK (cb_list_adjust), NULL);
@@ -154,7 +157,7 @@ font_selected (GtkTreeSelection *selection, GOFontSel *gfs)
 	GtkTreeIter   iter;
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, 0, &text, -1);
+		gtk_tree_model_get (model, &iter, COL_TEXT, &text, -1);
 		gtk_entry_set_text (GTK_ENTRY (gfs->font_name_entry), text);
 		go_font_sel_add_attr (gfs, pango_attr_family_new (text));
 		go_font_sel_emit_changed (gfs);
@@ -179,11 +182,16 @@ dispose_families (GOFontSel *gfs)
 		gfs->family_by_name = NULL;
 	}
 
-	if (gfs->families) {
-		g_ptr_array_foreach (gfs->families,
+	if (gfs->family_first_row) {
+		g_hash_table_destroy (gfs->family_first_row);
+		gfs->family_first_row = NULL;
+	}
+
+	if (gfs->family_faces) {
+		g_ptr_array_foreach (gfs->family_faces,
 				     (GFunc)g_object_unref, NULL);
-		g_ptr_array_free (gfs->families, TRUE);
-		gfs->families = NULL;
+		g_ptr_array_free (gfs->family_faces, TRUE);
+		gfs->family_faces = NULL;
 	}
 }
 
@@ -196,6 +204,7 @@ gfs_fill_font_name_list (GOFontSel *gfs)
 	PangoFontFamily **pango_families;
 	int n_families;
 	size_t ui;
+	int row = 0;
 
 	dispose_families (gfs);
 
@@ -208,27 +217,52 @@ gfs_fill_font_name_list (GOFontSel *gfs)
 	pango_context_list_families (context, &pango_families, &n_families);
 	qsort (pango_families, n_families,
 	       sizeof (pango_families[0]), by_family_name);
-	gfs->families = g_ptr_array_new ();
+	gfs->family_faces = g_ptr_array_new ();
 	gfs->family_by_name = g_hash_table_new_full
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify)g_free, NULL);
+	gfs->family_first_row =
+		g_hash_table_new (g_direct_hash, g_direct_equal);
 	for (ui = 0; ui < (size_t)n_families; ui++) {
 		PangoFontFamily *family = pango_families[ui];
 		const char *name = pango_font_family_get_name (family);
-		g_ptr_array_add (gfs->families, g_object_ref (family));
-		g_hash_table_insert (gfs->family_by_name,
-				     g_strdup (name),
-				     family);
+		PangoFontFace **faces;
+		int j, n_faces;
+		gboolean any_face = FALSE;
+
+		pango_font_family_list_faces (family, &faces, &n_faces);
+		for (j = 0; j < n_faces; j++) {
+			PangoFontFace *face = faces[j];
+
+			if (gfs->filter_func &&
+			    !gfs->filter_func (family, face, gfs->filter_data))
+				continue;
+
+			if (!any_face) {
+				any_face = TRUE;
+
+				g_hash_table_insert (gfs->family_by_name,
+						     g_strdup (name),
+						     family);
+				g_hash_table_insert (gfs->family_first_row,
+						     family,
+						     GUINT_TO_POINTER (row));
+				row++;
+
+				gtk_list_store_append (store, &iter);
+				gtk_list_store_set (store, &iter,
+						    COL_TEXT, name,
+						    COL_OBJ, family,
+						    -1);
+			}
+
+			g_ptr_array_add (gfs->family_faces,
+					 g_object_ref (family));
+			g_ptr_array_add (gfs->family_faces,
+					 g_object_ref (face));
+		}
 	}
 	g_free (pango_families);
-
-	for (ui = 0; ui < gfs->families->len; ui++) {
-		PangoFontFamily *family = g_ptr_array_index (gfs->families, ui);
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-				    0, pango_font_family_get_name (family),
-				    -1);
-	}
 }
 
 static char const *styles[] = {
@@ -273,7 +307,7 @@ gfs_fill_font_style_list (GOFontSel *gfs)
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_style_list));
 	for (i = 0; styles[i] != NULL; i++) {
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, _(styles[i]), -1);
+		gtk_list_store_set (store, &iter, COL_TEXT, _(styles[i]), -1);
 	}
 	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (gfs->font_style_list)),
 		"changed",
@@ -324,7 +358,7 @@ size_selected (GtkTreeSelection *selection,
 	char *size_text;
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, 0, &size_text, -1);
+		gtk_tree_model_get (model, &iter, COL_TEXT, &size_text, -1);
 		size_set_text (gfs, size_text);
 		g_free (size_text);
 	}
@@ -369,7 +403,7 @@ gfs_fill_font_size_list (GOFontSel *gfs)
 		int psize = GPOINTER_TO_INT (ptr->data);
 		char *size_text = g_strdup_printf ("%g", psize / (double)PANGO_SCALE);
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, size_text, -1);
+		gtk_list_store_set (store, &iter, COL_TEXT, size_text, -1);
 		g_free (size_text);
 	}
 	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (gfs->font_size_list)),
@@ -775,19 +809,11 @@ go_font_sel_get_font (GOFontSel const *gfs)
 void
 go_font_sel_set_family (GOFontSel *fs, char const *font_name)
 {
-	unsigned ui;
-	int row = -1;
-
-	for (ui = 0; ui < fs->families->len; ui++) {
-		PangoFontFamily *family =
-			g_ptr_array_index (fs->families, ui);
-		const char *this_name = pango_font_family_get_name (family);
-		if (g_ascii_strcasecmp (font_name, this_name) == 0) {
-			row = ui;
-			break;
-		}
-	}
-
+	PangoFontFamily *family =
+		g_hash_table_lookup (fs->family_by_name, font_name);
+	int row = family
+		? GPOINTER_TO_INT (g_hash_table_lookup (fs->family_first_row, family))
+		: -1;
 	select_row (fs->font_name_list, row);
 }
 

@@ -103,6 +103,8 @@ gfsd_init (GOFontSelDialog *gfsd)
 			  G_CALLBACK (delegate_notify), gfsd);
 	g_signal_connect (gfs, "font-activated",
 			  G_CALLBACK (delegate_font_activated), gfsd);
+
+	g_object_set (gfsd, "title", _("Pick a Font"), NULL);
 }
 
 static void
