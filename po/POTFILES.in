@@ -95,6 +95,7 @@ goffice/gtk/go-combo-color.c
 goffice/gtk/go-combo-pixmaps.c
 goffice/gtk/goffice-gtk.c
 goffice/gtk/go-font-sel.c
+goffice/gtk/go-font-sel-dialog.c
 [type: gettext/glade]goffice/gtk/go-font-sel.ui
 goffice/gtk/go-format-sel.c
 [type: gettext/glade]goffice/gtk/go-format-sel.ui
