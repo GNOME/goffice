@@ -73,20 +73,14 @@ go_option_menu_update_contents (GOOptionMenu *option_menu)
 {
 	const char *text;
 	GtkWidget *w;
+
 	g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
 	w = gtk_bin_get_child (GTK_BIN (option_menu->selected));
-	text = g_object_get_data (G_OBJECT (w), "option-menu-text");
-
-	if (!text && GTK_IS_LABEL (w))
+	if (GTK_IS_LABEL (w))
 		text = gtk_label_get_text (GTK_LABEL (w));
-
-	if (!text)
+	else
 		text = "";
-
-#if 0
-	g_print ("text = \"%s\"\n", text);
-#endif
 
 	gtk_label_set_text (option_menu->button_label, text);
 }

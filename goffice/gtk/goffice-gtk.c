@@ -501,11 +501,11 @@ go_gtk_editable_enters (GtkWindow *window, GtkWidget *w)
 void
 go_gtk_widget_replace (GtkWidget *victim, GtkWidget *replacement)
 {
-	GtkWidget *parent = gtk_widget_get_parent (victim);
+	GtkContainer *parent = GTK_CONTAINER (gtk_widget_get_parent (victim));
 
 	if (GTK_IS_GRID (parent)) {
 		int col, row, width, height;
-		gtk_container_child_get (GTK_CONTAINER (parent),
+		gtk_container_child_get (parent,
 					 victim,
 					 "left-attach", &col,
 					 "top-attach", &row,
@@ -514,6 +514,25 @@ go_gtk_widget_replace (GtkWidget *victim, GtkWidget *replacement)
 					 NULL);
 		gtk_grid_attach (GTK_GRID (parent), replacement,
 				 col, row, width, height);
+	} else if (GTK_IS_BOX (parent)) {
+		GtkBox *box = GTK_BOX (parent);
+		gboolean expand, fill;
+		guint padding;
+		GtkPackType pack_type;
+		int pos;
+
+		gtk_box_query_child_packing (box, victim,
+					     &expand, &fill,
+					     &padding, &pack_type);
+		gtk_container_child_get (parent, victim,
+					 "position", &pos,
+					 NULL);
+		gtk_container_remove (parent, victim);
+		gtk_container_add (parent, replacement);
+		gtk_box_set_child_packing (box, replacement,
+					   expand, fill,
+					   padding, pack_type);
+		gtk_box_reorder_child (box, replacement, pos);
 	} else {
 		g_error ("Unsupported container");
 	}
