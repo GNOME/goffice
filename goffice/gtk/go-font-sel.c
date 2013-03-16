@@ -55,6 +55,7 @@ struct _GOFontSel {
 
 	gboolean        show_style;
 	char            *preview_text;
+	gboolean	show_preview_entry;
 
 	GtkFontFilterFunc filter_func;
 	gpointer          filter_data;
@@ -104,6 +105,8 @@ update_preview (GOFontSel *gfs)
 
 	if (!gfs->preview_label)
 		return;
+
+	gtk_widget_set_visible (gfs->preview_label, gfs->show_preview_entry);
 
 	gtk_label_set_text (GTK_LABEL (gfs->preview_label), gfs->preview_text);
 
@@ -463,7 +466,8 @@ cb_size_picker_changed (GtkButton *button, GOFontSel *gfs)
 static void
 gfs_init (GOFontSel *gfs)
 {
-	go_font_sel_set_sample_text (gfs, _("AaBbCcDdEe12345"));
+	gfs->show_preview_entry = TRUE;
+	gfs->preview_text = g_strdup (pango_language_get_sample_string (NULL));
 	gfs->font_sizes = go_fonts_list_sizes ();
 }
 
@@ -605,8 +609,7 @@ gfs_get_property (GObject         *object,
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
-		/* Not implemented */
-		g_value_set_boolean (value, TRUE);
+		g_value_set_boolean (value, gfs->show_preview_entry);
 		break;
 
 	default:
@@ -647,8 +650,10 @@ gfs_set_property (GObject         *object,
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
-		/* Not implemented */
+		gfs->show_preview_entry = g_value_get_boolean (value);
+		update_preview (gfs);
 		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
