@@ -109,6 +109,7 @@ GtkWidget *go_gtk_button_new_with_stock (char const *text,
 #endif
 void	   go_gtk_widget_replace	(GtkWidget *victim,
 					 GtkWidget *replacement);
+void       go_gtk_grid_remove_row       (GtkGrid *grid, int row);
 void	   go_gtk_widget_disable_focus	(GtkWidget *w);
 void       go_gtk_window_set_transient  (GtkWindow *toplevel, GtkWindow *window);
 void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,

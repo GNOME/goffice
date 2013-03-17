@@ -1,11 +1,7 @@
 /*
- * A font selector widget.  This is a simplified version of the
- * GnomePrint font selector widget.
+ * A font selector widget.
  *
- * Authors:
- *   Jody Goldberg (jody@gnome.org)
- *   Miguel de Icaza (miguel@gnu.org)
- *   Almer S. Tigelaar (almer@gnome.org)
+ * Copyright 2013 by Morten Welinder (terra@gnome.org)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -38,24 +34,25 @@ struct _GOFontSel {
 	GtkBuilder	*gui;
 
 	GtkWidget       *family_picker;
-	GtkWidget	*font_style_entry;
-	GtkWidget	*font_size_entry;
-	GtkWidget       *size_picker;
-	GtkTreeView	*font_style_list;
-
-	GtkWidget       *preview_label;
-
-	PangoAttrList	*modifications;
-
-	GPtrArray       *family_faces;
+	PangoFontFamily *current_family;
 	GHashTable      *family_by_name;
 	GHashTable      *item_by_family;
-
-	GSList          *font_sizes;
+	GHashTable      *faces_by_family;
 
 	gboolean        show_style;
-	char            *preview_text;
+	GtkWidget       *face_picker;
+	PangoFontFace   *current_face;
+	GHashTable      *item_by_face;
+
+	GtkWidget	*font_size_entry;
+	GtkWidget       *size_picker;
+	GSList          *font_sizes;
+
 	gboolean	show_preview_entry;
+	GtkWidget       *preview_label;
+	char            *preview_text;
+
+	PangoAttrList	*modifications;
 
 	GtkFontFilterFunc filter_func;
 	gpointer          filter_data;
@@ -132,39 +129,6 @@ go_font_sel_emit_changed (GOFontSel *gfs)
 	update_preview (gfs);
 }
 
-static void
-cb_list_adjust (GtkTreeView* view)
-{
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GtkTreePath *path;
-
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view), &model, &iter)) {
-		path = gtk_tree_model_get_path (model, &iter);
-		gtk_tree_view_set_cursor (view, path, NULL, FALSE);
-		gtk_tree_path_free (path);
-	}
-}
-
-static void
-list_init (GtkTreeView* view)
-{
-	GtkCellRenderer *renderer;
-	GtkListStore *store;
-	GtkTreeViewColumn *column;
-
-	gtk_tree_view_set_headers_visible (view, FALSE);
-	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_OBJECT);
-	gtk_tree_view_set_model (view, GTK_TREE_MODEL (store));
-	g_object_unref (store);
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (
-			NULL, renderer, "text", COL_TEXT, NULL);
-	gtk_tree_view_column_set_expand (column, TRUE);
-	gtk_tree_view_append_column (view, column);
-	g_signal_connect (view, "realize", G_CALLBACK (cb_list_adjust), NULL);
-}
-
 static int
 by_family_name (gconstpointer a_, gconstpointer b_)
 {
@@ -177,33 +141,65 @@ by_family_name (gconstpointer a_, gconstpointer b_)
 static void
 dispose_families (GOFontSel *gfs)
 {
-	if (gfs->family_by_name) {
-		g_hash_table_destroy (gfs->family_by_name);
-		gfs->family_by_name = NULL;
-	}
-
-	if (gfs->item_by_family) {
-		g_hash_table_destroy (gfs->item_by_family);
-		gfs->item_by_family = NULL;
-	}
-
-	if (gfs->family_faces) {
-		g_ptr_array_foreach (gfs->family_faces,
-				     (GFunc)g_object_unref, NULL);
-		g_ptr_array_free (gfs->family_faces, TRUE);
-		gfs->family_faces = NULL;
-	}
+	g_hash_table_remove_all (gfs->family_by_name);
+	g_hash_table_remove_all (gfs->item_by_family);
+	g_hash_table_remove_all (gfs->faces_by_family);
+	g_hash_table_remove_all (gfs->item_by_face);
 }
 
 static void
-add_font_to_menu (GtkWidget *m, const char *name, PangoFontFamily *family,
-		  GHashTable *ibf)
+update_preview_after_face_change (GOFontSel *gfs, gboolean signal_change)
+{
+	PangoFontDescription *desc =
+		pango_font_face_describe (gfs->current_face);
+	/*
+	 * This isn't 100% right: we are ignoring other attributes.
+	 * We could fix that but unsetting extra atttributes might
+	 * not be so easy.
+	 */
+	PangoWeight weight = pango_font_description_get_weight (desc);
+	PangoWeight style = pango_font_description_get_style (desc);
+	go_font_sel_add_attr (gfs, pango_attr_weight_new (weight));
+	go_font_sel_add_attr (gfs, pango_attr_style_new (style));
+	pango_font_description_free (desc);
+	// reload_size (gfs);
+	if (signal_change)
+		go_font_sel_emit_changed (gfs);
+}
+
+/*
+ * In the real world we observe fonts with typos in face names...
+ */
+static const char *
+my_get_face_name (PangoFontFace *face)
+{
+	const char *name = face ? pango_font_face_get_face_name (face) : NULL;
+
+	if (!name)
+		return NULL;
+	if (strcmp (name, "BoldItalic") == 0)
+		return "Bold Italic";
+	if (strcmp (name, "BoldOblique") == 0)
+		return "Bold Oblique";
+	if (strcmp (name, "LightOblique") == 0)
+		return "Light Oblique";
+	if (strcmp (name, "ExtraLight") == 0)
+		return "Extra Light";
+
+	return name;
+}
+
+static GtkMenuItem *
+add_font_to_menu (GtkWidget *m, const char *name,
+		  const char *what, gpointer obj,
+		  GHashTable *itemhash)
 {
 	GtkWidget *w = gtk_menu_item_new_with_label (name);
 	gtk_menu_shell_append (GTK_MENU_SHELL (m), w);
-	g_object_set_data (G_OBJECT (w), "family", family);
-	if (!g_hash_table_lookup (ibf, family))
-		g_hash_table_insert (ibf, family, w);
+	g_object_set_data (G_OBJECT (w), what, obj);
+	if (!g_hash_table_lookup (itemhash, obj))
+		g_hash_table_insert (itemhash, obj, w);
+	return GTK_MENU_ITEM (w);
 }
 
 static void
@@ -215,6 +211,61 @@ add_submenu_to_menu (GtkWidget *m, const char *name, GtkWidget *m2)
 }
 
 static void
+reload_faces (GOFontSel *gfs)
+{
+	GtkWidget *m;
+	GSList *faces;
+	char *current_face_name;
+	GtkMenuItem *selected_item = NULL, *first_item = NULL;
+
+	current_face_name = g_strdup (my_get_face_name (gfs->current_face));
+	gfs->current_face = NULL;
+
+	g_hash_table_remove_all (gfs->item_by_face);
+
+	m = gtk_menu_new ();
+	gtk_menu_set_title (GTK_MENU (m), _("Faces"));
+	for (faces = g_hash_table_lookup (gfs->faces_by_family, gfs->current_family);
+	     faces;
+	     faces = faces->next) {
+		PangoFontFace *face = faces->data;
+		const char *name = my_get_face_name (face);
+		GtkMenuItem *w = add_font_to_menu
+			(m, g_dpgettext2 (NULL, "FontFace", name),
+			 "face", face, gfs->item_by_face);
+
+		if (!first_item)
+			first_item = w;
+
+		if (g_strcmp0 (current_face_name, name) == 0)
+			selected_item = w;
+	}
+	if (!selected_item)
+		selected_item = first_item;
+
+	gtk_widget_show_all (m);
+	go_option_menu_set_menu (GO_OPTION_MENU (gfs->face_picker), m);
+	if (selected_item)
+		go_option_menu_select_item (GO_OPTION_MENU (gfs->face_picker),
+					    selected_item);
+
+	if (selected_item) {
+		const char *new_face_name;
+		gboolean changed;
+
+		gfs->current_face =
+			g_object_get_data (G_OBJECT (selected_item), "face");
+
+		new_face_name = my_get_face_name (gfs->current_face);
+		changed = g_strcmp0 (current_face_name, new_face_name) != 0;
+		update_preview_after_face_change (gfs, changed);
+	}
+	g_free (current_face_name);
+}
+
+#define ADD_OBSERVED(it) g_hash_table_insert (observed_faces, (gpointer)(it), (gpointer)(it))
+
+static void
 reload_families (GOFontSel *gfs)
 {
 	PangoContext *context;
@@ -224,9 +275,58 @@ reload_families (GOFontSel *gfs)
 	gunichar uc = 0;
 	static const char *priority[] = { "Sans", "Serif", "Monospace" };
 	gboolean has_priority;
+	char *current_family_name;
+	GHashTable *observed_faces = NULL;
+	gboolean debug_font = go_debug_flag ("font");
 
-	if (!gtk_widget_get_screen (GTK_WIDGET (gfs)))
-		return;
+	if (debug_font) {
+		observed_faces = g_hash_table_new (g_str_hash, g_str_equal);
+
+		/*
+		 * List of observed face names.  Translators: these represent
+		 * attributes of a font face, i.e., how bold the letters are
+		 * and whether it is an italic or regular face.
+		 */
+		ADD_OBSERVED (NC_("FontFace", "Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Condensed"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Condensed Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Book"));
+		ADD_OBSERVED (NC_("FontFace", "Book Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Condensed"));
+		ADD_OBSERVED (NC_("FontFace", "Condensed Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Condensed Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Condensed Bold Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Condensed Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Condensed Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Demi"));
+		ADD_OBSERVED (NC_("FontFace", "Demi Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Demi Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Demi Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Extra Light"));
+		ADD_OBSERVED (NC_("FontFace", "Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Light"));
+		ADD_OBSERVED (NC_("FontFace", "Light Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Light Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Medium"));
+		ADD_OBSERVED (NC_("FontFace", "Medium Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Normal"));
+		ADD_OBSERVED (NC_("FontFace", "Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Regular"));
+		ADD_OBSERVED (NC_("FontFace", "Regular Condensed"));
+		ADD_OBSERVED (NC_("FontFace", "Regular Condensed Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Regular Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Regular Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Roman"));
+	}
+
+	if (debug_font)
+		g_printerr ("Reloading fonts\n");
+
+	current_family_name = gfs->current_family
+		? g_strdup (pango_font_family_get_name (gfs->current_family))
+		: NULL;
 
 	dispose_families (gfs);
 
@@ -235,10 +335,6 @@ reload_families (GOFontSel *gfs)
 	qsort (pango_families, n_families,
 	       sizeof (pango_families[0]), by_family_name);
 
-	gfs->family_by_name = g_hash_table_new_full
-		(g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
-	gfs->item_by_family =
-		g_hash_table_new (g_direct_hash, g_direct_equal);
 	for (i = 0; i < n_families; i++) {
 		PangoFontFamily *family = pango_families[i];
 		const char *name = pango_font_family_get_name (family);
@@ -257,7 +353,9 @@ reload_families (GOFontSel *gfs)
 			g_hash_table_lookup (gfs->family_by_name, name);
 		if (family) {
 			has_priority = TRUE;
-			add_font_to_menu (m, name, family, gfs->item_by_family);
+			add_font_to_menu (m, name,
+					  "family", family,
+					  gfs->item_by_family);
 		}
 	}
 	if (has_priority)
@@ -268,14 +366,42 @@ reload_families (GOFontSel *gfs)
 	for (i = 0; i < n_families; i++) {
 		PangoFontFamily *family = pango_families[i];
 		const char *name = pango_font_family_get_name (family);
-		gunichar fc;
+		gunichar fc = g_unichar_toupper (g_utf8_get_char (name));
+		GSList *ok_faces = NULL;
+		PangoFontFace **faces;
+		int j, n_faces;
 
-		fc = g_unichar_toupper (g_utf8_get_char (name));
+		pango_font_family_list_faces (family, &faces, &n_faces);
+		for (j = 0; j < n_faces; j++) {
+			PangoFontFace *face = faces[j];
+			const char *name;
+
+			if (debug_font &&
+			    (name = my_get_face_name (face)) &&
+			    !g_hash_table_lookup (observed_faces, name)) {
+				g_printerr ("New observed face: %s\n",
+					    name);
+				ADD_OBSERVED (name);
+			}
+
+			if (gfs->filter_func &&
+			    !gfs->filter_func (family, face, gfs->filter_data))
+				continue;
+
+			ok_faces = g_slist_append (ok_faces, face);
+		}
+		g_free (faces);
+		if (!ok_faces)
+			continue;
+
+		g_hash_table_insert (gfs->faces_by_family, family, ok_faces);
 
 		if (!g_unichar_isalpha (fc)) {
 			if (!mother)
 				mother = gtk_menu_new ();
-			add_font_to_menu (mother, name, family, gfs->item_by_family);
+			add_font_to_menu (mother, name,
+					  "family", family,
+					  gfs->item_by_family);
 			continue;
 		}
 
@@ -288,7 +414,9 @@ reload_families (GOFontSel *gfs)
 			add_submenu_to_menu (mall, txt, msingle);
 		}
 
-		add_font_to_menu (msingle, name, family, gfs->item_by_family);
+		add_font_to_menu (msingle, name,
+				  "family", family,
+				  gfs->item_by_family);
 	}
 	if (mother)
 		add_submenu_to_menu (mall, _("Other"), mother);
@@ -298,81 +426,46 @@ reload_families (GOFontSel *gfs)
 	g_free (pango_families);
 
 	go_option_menu_set_menu (GO_OPTION_MENU (gfs->family_picker), m);
+
+	if (current_family_name) {
+		gfs->current_family = NULL;
+		go_font_sel_set_family (gfs, current_family_name);
+		g_free (current_family_name);
+	}
+
+	if (observed_faces)
+		g_hash_table_destroy (observed_faces);
+
+	reload_faces (gfs);
 }
+#undef ADD_OBSERVED
 
 static void
-gfs_screen_changed (GOFontSel *gfs)
+gfs_screen_changed (GtkWidget *w, GdkScreen *previous_screen)
 {
 	int width;
 	PangoFontDescription *desc;
+	GdkScreen *screen;
+	GOFontSel *gfs = GO_FONT_SEL (w);
 
-	if (!gtk_widget_get_screen (GTK_WIDGET (gfs)))
+	screen = gtk_widget_get_screen (w);
+	if (!previous_screen)
+		previous_screen = gdk_screen_get_default ();
+	if (screen == previous_screen &&
+	    g_hash_table_size (gfs->family_by_name) > 0)
 		return;
 
 	reload_families (gfs);
 
 	desc = pango_font_description_from_string ("Sans 72");
 	width = go_pango_measure_string
-		(gtk_widget_get_pango_context (GTK_WIDGET (gfs)),
+		(gtk_widget_get_pango_context (w),
 		 desc,
 		 "M");
 	pango_font_description_free (desc);
 	/* Let's hope pixels are roughly square.  */
 	gtk_widget_set_size_request (GTK_WIDGET (gfs->preview_label),
 				     5 * width, width * 11 / 10);
-}
-
-static char const *styles[] = {
-	 N_("Normal"),
-	 N_("Bold"),
-	 N_("Bold italic"),
-	 N_("Italic"),
-	 NULL
-};
-
-static void
-style_selected (GtkTreeSelection *selection,
-		GOFontSel *gfs)
-{
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GtkTreePath *path;
-	int row;
-
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		path = gtk_tree_model_get_path (model, &iter);
-		row = *gtk_tree_path_get_indices (path);
-		gtk_tree_path_free (path);
-		gtk_entry_set_text (GTK_ENTRY (gfs->font_style_entry), _(styles[row]));
-		go_font_sel_add_attr (gfs,
-			pango_attr_weight_new ((row == 1 || row == 2)
-					       ?  PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL));
-		go_font_sel_add_attr (gfs,
-			pango_attr_style_new ((row == 2 || row == 3)
-				? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
-		go_font_sel_emit_changed (gfs);
-	}
-}
-
-static void
-gfs_fill_font_style_list (GOFontSel *gfs)
-{
-	int i;
-	GtkListStore *store;
-	GtkTreeIter iter;
-
-	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_style_list));
-	for (i = 0; styles[i] != NULL; i++) {
-		PangoFontFace *face = NULL;
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-				    COL_TEXT, _(styles[i]),
-				    COL_OBJ, face,
-				    -1);
-	}
-	g_signal_connect (gtk_tree_view_get_selection (gfs->font_style_list),
-			  "changed",
-			  G_CALLBACK (style_selected), gfs);
 }
 
 static void
@@ -392,18 +485,15 @@ update_sizes (GOFontSel *gfs)
 
 
 static void
-select_row (GtkTreeView *list, int row)
+cb_face_changed (GOOptionMenu *om, GOFontSel *gfs)
 {
-	if (row < 0)
-		gtk_tree_selection_unselect_all (gtk_tree_view_get_selection (list));
-	else {
-		GtkTreePath *path = gtk_tree_path_new_from_indices (row, -1);
-
-		gtk_tree_selection_select_path (gtk_tree_view_get_selection (list), path);
-		gtk_tree_path_free (path);
-
-		if (gtk_widget_get_realized (GTK_WIDGET (list)))
-			cb_list_adjust (list);
+	GtkWidget *selected = go_option_menu_get_history (om);
+	PangoFontFace *face = selected
+		? g_object_get_data (G_OBJECT (selected), "face")
+		: NULL;
+	if (face && face != gfs->current_face) {
+		gfs->current_face = face;
+		update_preview_after_face_change (gfs, TRUE);
 	}
 }
 
@@ -414,9 +504,11 @@ cb_font_changed (GOOptionMenu *om, GOFontSel *gfs)
 	PangoFontFamily *family = selected
 		? g_object_get_data (G_OBJECT (selected), "family")
 		: NULL;
-	if (family) {
+	if (family && family != gfs->current_family) {
 		const char *name = pango_font_family_get_name (family);
 		go_font_sel_add_attr (gfs, pango_attr_family_new (name));
+		gfs->current_family = family;
+		reload_faces (gfs);
 		go_font_sel_emit_changed (gfs);
 	}
 }
@@ -466,6 +558,16 @@ cb_size_picker_changed (GtkButton *button, GOFontSel *gfs)
 static void
 gfs_init (GOFontSel *gfs)
 {
+	gfs->family_by_name = g_hash_table_new_full
+		(g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
+	gfs->item_by_family =
+		g_hash_table_new (g_direct_hash, g_direct_equal);
+	gfs->item_by_face =
+		g_hash_table_new (g_direct_hash, g_direct_equal);
+	gfs->faces_by_family = g_hash_table_new_full
+		(g_direct_hash, g_direct_equal,
+		 NULL, (GDestroyNotify)g_slist_free);
+
 	gfs->show_preview_entry = TRUE;
 	gfs->preview_text = g_strdup (pango_language_get_sample_string (NULL));
 	gfs->font_sizes = go_fonts_list_sizes ();
@@ -476,7 +578,7 @@ gfs_constructor (GType type,
 		 guint n_construct_properties,
 		 GObjectConstructParam *construct_params)
 {
-	GtkWidget *fontsel;
+	GtkWidget *fontsel, *placeholder;
 	GOFontSel *gfs = (GOFontSel *)
 		(gfs_parent_class->constructor (type,
 						n_construct_properties,
@@ -495,24 +597,15 @@ gfs_constructor (GType type,
 
 	fontsel = go_gtk_builder_get_widget (gfs->gui, "font-selector");
 	gtk_container_add (GTK_CONTAINER (gfs), fontsel);
-	gfs->font_style_entry = go_gtk_builder_get_widget (gfs->gui, "font-style-entry");
-	gfs->font_style_list = GTK_TREE_VIEW (gtk_builder_get_object (gfs->gui, "font-style-list"));
-
-	if (!gfs->show_style) {
-		gtk_widget_destroy (gfs->font_style_entry);
-		gfs->font_style_entry = NULL;
-		gtk_widget_destroy (go_gtk_builder_get_widget (gfs->gui, "font-style-window"));
-		gfs->font_style_list = NULL;
-		gtk_widget_destroy (go_gtk_builder_get_widget (gfs->gui, "font-style-label"));
-	}
 
 	gfs->preview_label = go_gtk_builder_get_widget (gfs->gui, "preview-label");
 	/* ---------------------------------------- */
 
+	placeholder = go_gtk_builder_get_widget
+		(gfs->gui, "family-picker-placeholder");
 	gfs->family_picker = go_option_menu_new ();
 	gtk_widget_show_all (gfs->family_picker);
-	go_gtk_widget_replace (go_gtk_builder_get_widget (gfs->gui, "family-picker-placeholder"),
-			       gfs->family_picker);
+	go_gtk_widget_replace (placeholder, gfs->family_picker);
 	g_signal_connect (gfs->family_picker,
 			  "changed",
 			  G_CALLBACK (cb_font_changed),
@@ -520,9 +613,24 @@ gfs_constructor (GType type,
 
 	/* ---------------------------------------- */
 
+	placeholder = go_gtk_builder_get_widget
+		(gfs->gui, "face-picker-placeholder");
+	gfs->face_picker = go_option_menu_new ();
+	g_object_ref_sink (gfs->face_picker);
+	gtk_widget_show_all (gfs->face_picker);
+	go_gtk_widget_replace (placeholder, gfs->face_picker);
 	if (gfs->show_style) {
-		list_init (gfs->font_style_list);
-		gfs_fill_font_style_list (gfs);
+		g_signal_connect (gfs->face_picker,
+				  "changed",
+				  G_CALLBACK (cb_face_changed),
+				  gfs);
+	} else {
+		int row;
+		GtkGrid *grid = GTK_GRID (gtk_widget_get_parent (gfs->face_picker));
+		gtk_container_child_get (GTK_CONTAINER (grid), gfs->face_picker,
+					 "top-attach", &row,
+					 NULL);
+		go_gtk_grid_remove_row (grid, row);
 	}
 
 	/* ---------------------------------------- */
@@ -539,27 +647,39 @@ gfs_constructor (GType type,
 	
 	/* ---------------------------------------- */
 
-	g_signal_connect (gfs,
-			  "screen-changed",
-			  G_CALLBACK (gfs_screen_changed),
-			  NULL);
-
 	gtk_widget_show_all (fontsel);
+
+	gfs_screen_changed (GTK_WIDGET (gfs), NULL);
 
 	return (GObject *)gfs;
 }
 
+static void
+gfs_finalize (GObject *obj)
+{
+	GOFontSel *gfs = GO_FONT_SEL (obj);
+	g_hash_table_destroy (gfs->family_by_name);
+	g_hash_table_destroy (gfs->item_by_family);
+	g_hash_table_destroy (gfs->item_by_face);
+	g_hash_table_destroy (gfs->faces_by_family);
+	gfs_parent_class->finalize (obj);
+}
 
 static void
 gfs_dispose (GObject *obj)
 {
 	GOFontSel *gfs = GO_FONT_SEL (obj);
 
+	if (gfs->face_picker) {
+		/* We actually own a ref.  */
+		g_object_unref (gfs->face_picker);
+		gfs->face_picker = NULL;
+	}
+
 	if (gfs->gui) {
 		g_object_unref (gfs->gui);
 		gfs->gui = NULL;
 		gfs->family_picker = NULL;
-		gfs->font_style_list = NULL;
 		gfs->size_picker = NULL;
 	}
 	if (gfs->modifications != NULL) {
@@ -644,9 +764,7 @@ gfs_set_property (GObject         *object,
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT:
-		g_free (gfs->preview_text);
-		gfs->preview_text = g_value_dup_string (value);
-		update_preview (gfs);
+		go_font_sel_set_sample_text (gfs, g_value_get_string (value));
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY:
@@ -663,10 +781,15 @@ gfs_set_property (GObject         *object,
 static void
 gfs_class_init (GObjectClass *klass)
 {
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
 	klass->constructor = gfs_constructor;
+	klass->finalize = gfs_finalize;
 	klass->dispose = gfs_dispose;
 	klass->get_property = gfs_get_property;
 	klass->set_property = gfs_set_property;
+
+	widget_class->screen_changed = gfs_screen_changed;
 
 	gfs_parent_class = g_type_class_peek_parent (klass);
 
@@ -718,24 +841,15 @@ gfs_font_chooser_set_filter_func (GtkFontChooser    *chooser,
 	gfs->filter_data = filter_data;
 	gfs->filter_data_destroy = data_destroy;
 
-	if (gfs->family_picker) {
-		PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
+	if (gfs->family_picker)
 		reload_families (gfs);
-		go_font_sel_set_font_desc (gfs, desc);
-		pango_font_description_free (desc);
-	}
 }
 
 static PangoFontFamily *
 gfs_font_chooser_get_font_family (GtkFontChooser *chooser)
 {
 	GOFontSel *gfs = GO_FONT_SEL (chooser);
-	PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
-	const char *name = pango_font_description_get_family (desc);
-	PangoFontFamily *family = g_hash_table_lookup (gfs->family_by_name,
-						       name);
-	pango_font_description_free (desc);
-	return family;
+	return gfs->current_family;
 }
 
 static int
@@ -752,8 +866,7 @@ static PangoFontFace *
 gfs_font_chooser_get_font_face (GtkFontChooser *chooser)
 {
 	GOFontSel *gfs = GO_FONT_SEL (chooser);
-	(void)gfs;
-	return NULL;
+	return gfs->current_face;
 }
 
 static void
@@ -784,9 +897,6 @@ go_font_sel_new (void)
 void
 go_font_sel_editable_enters (GOFontSel *gfs, GtkWindow *dialog)
 {
-	if (gfs->font_style_entry)
-		go_gtk_editable_enters (dialog,
-					GTK_WIDGET (gfs->font_style_entry));
 	go_gtk_editable_enters (dialog,
 				GTK_WIDGET (gfs->font_size_entry));
 }
@@ -796,7 +906,13 @@ go_font_sel_set_sample_text (GOFontSel *gfs, char const *text)
 {
 	g_return_if_fail (GO_IS_FONT_SEL (gfs));
 
-	g_object_set (gfs, "preview-text", text, NULL);
+	if (!text) text = "";
+	if (g_strcmp0 (text, gfs->preview_text)) {
+		g_free (gfs->preview_text);
+		gfs->preview_text = g_strdup (text);
+		g_object_notify (G_OBJECT (gfs), "preview-text");
+		update_preview (gfs);
+	}
 }
 
 PangoAttrList *
@@ -833,40 +949,53 @@ go_font_sel_set_family (GOFontSel *fs, char const *font_name)
 	PangoFontFamily *family =
 		g_hash_table_lookup (fs->family_by_name, font_name);
 	GtkMenuItem *item = g_hash_table_lookup (fs->item_by_family, family);
-	if (item) {
+	if (item && family != fs->current_family) {
 		go_option_menu_select_item (GO_OPTION_MENU (fs->family_picker),
 					    item);
 		go_font_sel_add_attr (fs, pango_attr_family_new (font_name));
+		fs->current_family = family;
 		update_preview (fs);
+		reload_faces (fs);
 	}
 }
 
 void
 go_font_sel_set_style (GOFontSel *fs, PangoWeight weight, PangoStyle style)
-{
-	gboolean is_bold = (weight >= PANGO_WEIGHT_BOLD);
-	gboolean is_italic = (style != PANGO_STYLE_NORMAL);
-	int n;
+{	
+	PangoFontFamily *family;
+	int best_badness = G_MAXINT;
+	PangoFontFace *best = NULL;
+	GSList *faces;
 
-	if (is_bold) {
-		if (is_italic)
-			n = 2;
-		else
-			n = 1;
-	} else {
-		if (is_italic)
-			n = 3;
-		else
-			n = 0;
+	g_return_if_fail (GO_IS_FONT_SEL (fs));
+
+	family = fs->current_family;
+	faces = g_hash_table_lookup (fs->faces_by_family, family);
+
+	for (; faces; faces = faces->next) {
+		PangoFontFace *face = faces->data;
+		PangoFontDescription *desc = pango_font_face_describe (face);
+		PangoWeight fweight = pango_font_description_get_weight (desc);
+		PangoWeight fstyle = pango_font_description_get_style (desc);
+		int badness =
+			(500 * ABS ((int)style - (int)fstyle) +
+			 ABS ((int)weight - (int)fweight));
+		pango_font_description_free (desc);
+
+		if (badness < best_badness) {
+			best_badness = badness;
+			best = face;
+		}
 	}
 
-	if (fs->font_style_list)
-		select_row (fs->font_style_list, n);
-
-	go_font_sel_add_attr (fs, pango_attr_weight_new (weight));
-	go_font_sel_add_attr (fs, pango_attr_style_new (style));
-
-	update_preview (fs);
+	if (best && best != fs->current_face) {
+		GtkMenuItem *item;
+		fs->current_face = best;
+		item = g_hash_table_lookup (fs->item_by_face, best);
+		go_option_menu_select_item (GO_OPTION_MENU (fs->face_picker),
+					    item);
+		update_preview_after_face_change (fs, FALSE);
+	}
 }
 
 static void

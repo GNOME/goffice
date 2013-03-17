@@ -512,6 +512,7 @@ go_gtk_widget_replace (GtkWidget *victim, GtkWidget *replacement)
 					 "width", &width,
 					 "height", &height,
 					 NULL);
+		gtk_container_remove (parent, victim);
 		gtk_grid_attach (GTK_GRID (parent), replacement,
 				 col, row, width, height);
 	} else if (GTK_IS_BOX (parent)) {
@@ -537,6 +538,71 @@ go_gtk_widget_replace (GtkWidget *victim, GtkWidget *replacement)
 		g_error ("Unsupported container");
 	}
 }
+
+struct go_gtk_grid_data {
+	GtkWidget *child;
+	int top_attach, left_attach, height, width;
+};
+
+static GList *
+get_grid_data (GtkGrid *grid)
+{
+	GtkContainer *cont = GTK_CONTAINER (grid);
+	GList *children = gtk_container_get_children (cont);
+	GList *p;
+
+	for (p = children; p; p = p->next) {
+		GtkWidget *child = p->data;
+		struct go_gtk_grid_data *data = g_new (struct go_gtk_grid_data, 1);
+		data->child = child;
+		gtk_container_child_get (cont, child,
+					 "top-attach", &data->top_attach,
+					 "height", &data->height,
+					 "left-attach", &data->left_attach,
+					 "width", &data->width,
+					 NULL);
+		p->data = data;
+	}
+
+	return children;
+}
+
+static int
+by_row (struct go_gtk_grid_data *a, struct go_gtk_grid_data *b)
+{
+	return a->top_attach - b->top_attach;
+}
+
+
+void
+go_gtk_grid_remove_row (GtkGrid *grid, int row)
+{
+	GtkContainer *cont = GTK_CONTAINER (grid);
+	GList *children =
+		g_list_sort (get_grid_data (grid), (GCompareFunc)by_row);
+	GList *p;
+
+	for (p = children; p; p = p->next) {
+		struct go_gtk_grid_data *data = p->data;
+
+		if (data->top_attach <= row &&
+		    data->top_attach + data->height > row)
+			data->height--;
+
+		if (data->top_attach > row)
+			data->top_attach--;
+
+		if (data->height <= 0)
+			gtk_container_remove (cont, data->child);
+		else
+			gtk_container_child_set (cont, data->child,
+						 "height", data->height,
+						 "top-attach", data->top_attach,
+						 NULL);
+	}
+	g_list_free_full (children, (GDestroyNotify)g_free);
+}
+
 
 /**
  * go_gtk_widget_disable_focus:

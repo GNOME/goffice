@@ -1,3 +1,8 @@
+2013-03-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_grid_remove_row): New
+	function.
+
 2013-03-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-font-sel.c (gfs_fill_font_name_list): Implement

@@ -5,6 +5,7 @@ Morten:
 	* Fix gtk-doc problems --without-long-double.  [#695550]
 	* Widget cleanups.
 	* Add dialog version of the font selector.
+	* Rewrite font selector.  [#695031]
 
 --------------------------------------------------------------------------
 goffice 0.10.1:
