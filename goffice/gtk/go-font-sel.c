@@ -48,6 +48,15 @@ struct _GOFontSel {
 	GtkWidget       *size_picker;
 	GSList          *font_sizes;
 
+	gboolean        show_color;
+	GtkWidget       *color_picker;
+
+	gboolean        show_strikethrough;
+	GtkWidget       *strikethrough_button;
+
+	gboolean        show_script;
+	GtkWidget       *script_picker;
+
 	gboolean	show_preview_entry;
 	GtkWidget       *preview_label;
 	char            *preview_text;
@@ -68,6 +77,9 @@ typedef struct {
 enum {
 	PROP_0,
 	PROP_SHOW_STYLE,
+	PROP_SHOW_COLOR,
+	PROP_SHOW_SCRIPT,
+	PROP_SHOW_STRIKETHROUGH,
 
 	GFS_GTK_FONT_CHOOSER_PROP_FIRST           = 0x4000,
 	GFS_GTK_FONT_CHOOSER_PROP_FONT,
@@ -573,6 +585,18 @@ gfs_init (GOFontSel *gfs)
 	gfs->font_sizes = go_fonts_list_sizes ();
 }
 
+static void
+remove_row_containing (GtkWidget *w)
+{
+	int row;
+	GtkGrid *grid = GTK_GRID (gtk_widget_get_parent (w));
+	gtk_container_child_get (GTK_CONTAINER (grid), w,
+				 "top-attach", &row,
+				 NULL);
+	go_gtk_grid_remove_row (grid, row);
+}
+
+
 static GObject*
 gfs_constructor (GType type,
 		 guint n_construct_properties,
@@ -624,14 +648,8 @@ gfs_constructor (GType type,
 				  "changed",
 				  G_CALLBACK (cb_face_changed),
 				  gfs);
-	} else {
-		int row;
-		GtkGrid *grid = GTK_GRID (gtk_widget_get_parent (gfs->face_picker));
-		gtk_container_child_get (GTK_CONTAINER (grid), gfs->face_picker,
-					 "top-attach", &row,
-					 NULL);
-		go_gtk_grid_remove_row (grid, row);
-	}
+	} else
+		remove_row_containing (gfs->face_picker);
 
 	/* ---------------------------------------- */
 
@@ -645,6 +663,40 @@ gfs_constructor (GType type,
 			  "activate",
 			  G_CALLBACK (cb_size_picker_acticated), gfs);
 	
+	/* ---------------------------------------- */
+
+	placeholder = go_gtk_builder_get_widget
+		(gfs->gui, "color-picker-placeholder");
+	gfs->color_picker = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	g_object_ref_sink (gfs->color_picker);
+	gtk_widget_show_all (gfs->color_picker);
+	go_gtk_widget_replace (placeholder, gfs->color_picker);
+	if (gfs->show_color) {
+	} else
+		remove_row_containing (gfs->color_picker);
+
+	/* ---------------------------------------- */
+
+	placeholder = go_gtk_builder_get_widget
+		(gfs->gui, "script-picker-placeholder");
+	gfs->script_picker = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	g_object_ref_sink (gfs->script_picker);
+	gtk_widget_show_all (gfs->script_picker);
+	go_gtk_widget_replace (placeholder, gfs->script_picker);
+	if (gfs->show_script) {
+	} else
+		remove_row_containing (gfs->script_picker);
+
+	/* ---------------------------------------- */
+
+	gfs->strikethrough_button = go_gtk_builder_get_widget
+		(gfs->gui, "strikethrough-button");
+	g_object_ref_sink (gfs->strikethrough_button);
+	gtk_widget_show_all (gfs->strikethrough_button);
+	if (gfs->show_strikethrough) {
+	} else
+		remove_row_containing (gfs->strikethrough_button);
+
 	/* ---------------------------------------- */
 
 	gtk_widget_show_all (fontsel);
@@ -670,11 +722,11 @@ gfs_dispose (GObject *obj)
 {
 	GOFontSel *gfs = GO_FONT_SEL (obj);
 
-	if (gfs->face_picker) {
-		/* We actually own a ref.  */
-		g_object_unref (gfs->face_picker);
-		gfs->face_picker = NULL;
-	}
+	/* We actually own a ref to these.  */
+	g_clear_object (&gfs->face_picker);
+	g_clear_object (&gfs->color_picker);
+	g_clear_object (&gfs->script_picker);
+	g_clear_object (&gfs->strikethrough_button);
 
 	if (gfs->gui) {
 		g_object_unref (gfs->gui);
@@ -713,6 +765,18 @@ gfs_get_property (GObject         *object,
 		g_value_set_boolean (value, gfs->show_style);
 		break;
 
+	case PROP_SHOW_COLOR:
+		g_value_set_boolean (value, gfs->show_color);
+		break;
+
+	case PROP_SHOW_SCRIPT:
+		g_value_set_boolean (value, gfs->show_script);
+		break;
+
+	case PROP_SHOW_STRIKETHROUGH:
+		g_value_set_boolean (value, gfs->show_strikethrough);
+		break;
+
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
 		PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
 		g_value_take_string (value, pango_font_description_to_string (desc));
@@ -749,6 +813,18 @@ gfs_set_property (GObject         *object,
 	switch (prop_id) {
 	case PROP_SHOW_STYLE:
 		gfs->show_style = g_value_get_boolean (value);
+		break;
+
+	case PROP_SHOW_COLOR:
+		gfs->show_color = g_value_get_boolean (value);
+		break;
+
+	case PROP_SHOW_SCRIPT:
+		gfs->show_script = g_value_get_boolean (value);
+		break;
+
+	case PROP_SHOW_STRIKETHROUGH:
+		gfs->show_strikethrough = g_value_get_boolean (value);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
@@ -798,6 +874,33 @@ gfs_class_init (GObjectClass *klass)
 		 g_param_spec_boolean ("show-style",
 				       _("Show Style"),
 				       _("Whether style is part of the font being selected"),
+				       FALSE,
+				       G_PARAM_READWRITE |
+				       G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(klass, PROP_SHOW_COLOR,
+		 g_param_spec_boolean ("show-color",
+				       _("Show Color"),
+				       _("Whether color is part of the font being selected"),
+				       FALSE,
+				       G_PARAM_READWRITE |
+				       G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(klass, PROP_SHOW_SCRIPT,
+		 g_param_spec_boolean ("show-script",
+				       _("Show Script"),
+				       _("Whether subscript/superscript is part of the font being selected"),
+				       FALSE,
+				       G_PARAM_READWRITE |
+				       G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(klass, PROP_SHOW_STRIKETHROUGH,
+		 g_param_spec_boolean ("show-strikethrough",
+				       _("Show Strikethrough"),
+				       _("Whether strikethrough is part of the font being selected"),
 				       FALSE,
 				       G_PARAM_READWRITE |
 				       G_PARAM_CONSTRUCT_ONLY));
