@@ -178,6 +178,9 @@ go_option_menu_button_press (GtkWidget      *widget,
 	option_menu = GO_OPTION_MENU (widget);
 
 	if (event->type == GDK_BUTTON_PRESS && event->button == 1) {
+		if (!gtk_widget_has_focus (widget) &&
+		    gtk_button_get_focus_on_click (GTK_BUTTON (widget)))
+			gtk_widget_grab_focus (widget);
 		gtk_menu_popup (GTK_MENU (option_menu->menu), NULL, NULL,
 				go_option_menu_position, option_menu,
 				event->button, event->time);
@@ -433,6 +436,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	gtk_widget_push_composite_child ();
 
 	gtk_widget_set_can_focus (GTK_WIDGET (option_menu), TRUE);
+	gtk_button_set_focus_on_click (GTK_BUTTON (option_menu), TRUE);
 	gtk_widget_set_can_default (GTK_WIDGET (option_menu), FALSE);
 	gtk_widget_set_receives_default (GTK_WIDGET (option_menu), FALSE);
 

@@ -1,3 +1,8 @@
+2013-03-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-optionmenu.c (go_option_menu_button_press): Focus
+	on click if button is set to do that.
+
 2013-03-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_grid_remove_row): New

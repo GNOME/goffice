@@ -44,6 +44,7 @@ void go_font_sel_set_family        (GOFontSel *fs, char const *family);
 void go_font_sel_set_size          (GOFontSel *fs, int size);
 void go_font_sel_set_style         (GOFontSel *fs,
 				    PangoWeight weight, PangoStyle style);
+void go_font_sel_set_strikethrough (GOFontSel *fs, gboolean strikethrough);
 
 void go_font_sel_set_font_desc     (GOFontSel *fs, PangoFontDescription *desc);
 PangoFontDescription *go_font_sel_get_font_desc (GOFontSel *fs);

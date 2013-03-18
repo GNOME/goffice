@@ -50,6 +50,7 @@ struct _GOFontSel {
 
 	gboolean        show_color;
 	GtkWidget       *color_picker;
+	GOColorGroup    *color_group;
 
 	gboolean        show_strikethrough;
 	GtkWidget       *strikethrough_button;
@@ -219,15 +220,15 @@ my_get_face_name (PangoFontFace *face)
 }
 
 static GtkMenuItem *
-add_font_to_menu (GtkWidget *m, const char *name,
-		  const char *what, gpointer obj,
+add_item_to_menu (GtkWidget *m, const char *name,
+		  const char *what, gpointer data,
 		  GHashTable *itemhash)
 {
 	GtkWidget *w = gtk_menu_item_new_with_label (name);
 	gtk_menu_shell_append (GTK_MENU_SHELL (m), w);
-	g_object_set_data (G_OBJECT (w), what, obj);
-	if (!g_hash_table_lookup (itemhash, obj))
-		g_hash_table_insert (itemhash, obj, w);
+	g_object_set_data (G_OBJECT (w), what, data);
+	if (itemhash && !g_hash_table_lookup (itemhash, data))
+		g_hash_table_insert (itemhash, data, w);
 	return GTK_MENU_ITEM (w);
 }
 
@@ -259,7 +260,7 @@ reload_faces (GOFontSel *gfs)
 	     faces = faces->next) {
 		PangoFontFace *face = faces->data;
 		const char *name = my_get_face_name (face);
-		GtkMenuItem *w = add_font_to_menu
+		GtkMenuItem *w = add_item_to_menu
 			(m, g_dpgettext2 (NULL, "FontFace", name),
 			 "face", face, gfs->item_by_face);
 
@@ -405,7 +406,7 @@ reload_families (GOFontSel *gfs)
 			g_hash_table_lookup (gfs->family_by_name, name);
 		if (family) {
 			has_priority = TRUE;
-			add_font_to_menu (m, name,
+			add_item_to_menu (m, name,
 					  "family", family,
 					  gfs->item_by_family);
 		}
@@ -451,7 +452,7 @@ reload_families (GOFontSel *gfs)
 		if (!g_unichar_isalpha (fc)) {
 			if (!mother)
 				mother = gtk_menu_new ();
-			add_font_to_menu (mother, name,
+			add_item_to_menu (mother, name,
 					  "family", family,
 					  gfs->item_by_family);
 			continue;
@@ -466,7 +467,7 @@ reload_families (GOFontSel *gfs)
 			add_submenu_to_menu (mall, txt, msingle);
 		}
 
-		add_font_to_menu (msingle, name,
+		add_item_to_menu (msingle, name,
 				  "family", family,
 				  gfs->item_by_family);
 	}
@@ -537,19 +538,6 @@ update_sizes (GOFontSel *gfs)
 
 
 static void
-cb_face_changed (GOOptionMenu *om, GOFontSel *gfs)
-{
-	GtkWidget *selected = go_option_menu_get_history (om);
-	PangoFontFace *face = selected
-		? g_object_get_data (G_OBJECT (selected), "face")
-		: NULL;
-	if (face && face != gfs->current_face) {
-		gfs->current_face = face;
-		update_preview_after_face_change (gfs, TRUE);
-	}
-}
-
-static void
 cb_font_changed (GOOptionMenu *om, GOFontSel *gfs)
 {
 	GtkWidget *selected = go_option_menu_get_history (om);
@@ -562,6 +550,19 @@ cb_font_changed (GOOptionMenu *om, GOFontSel *gfs)
 		gfs->current_family = family;
 		reload_faces (gfs);
 		go_font_sel_emit_changed (gfs);
+	}
+}
+
+static void
+cb_face_changed (GOOptionMenu *om, GOFontSel *gfs)
+{
+	GtkWidget *selected = go_option_menu_get_history (om);
+	PangoFontFace *face = selected
+		? g_object_get_data (G_OBJECT (selected), "face")
+		: NULL;
+	if (face && face != gfs->current_face) {
+		gfs->current_face = face;
+		update_preview_after_face_change (gfs, TRUE);
 	}
 }
 
@@ -605,6 +606,34 @@ cb_size_picker_changed (GtkButton *button, GOFontSel *gfs)
 	if (!gtk_widget_has_focus (gfs->font_size_entry))
 		cb_size_picker_acticated (GTK_ENTRY (gfs->font_size_entry),
 					  gfs);
+}
+
+static void
+cb_strikethrough_changed (GtkToggleButton *but, GOFontSel *gfs)
+{
+	gboolean b = gtk_toggle_button_get_active (but);
+	go_font_sel_add_attr (gfs, pango_attr_strikethrough_new (b));
+	go_font_sel_emit_changed (gfs);
+}
+
+static void
+cb_script_changed (GOOptionMenu *om, GOFontSel *gfs)
+{
+	GtkWidget *selected = go_option_menu_get_history (om);
+	GOFontScript script;
+	gboolean is_sub, is_super;
+
+	if (!selected)
+		return;
+
+	script = GPOINTER_TO_INT
+		(g_object_get_data (G_OBJECT (selected), "script"));
+	is_super = (script == GO_FONT_SCRIPT_SUPER);
+	is_sub = (script == GO_FONT_SCRIPT_SUB);
+
+	go_font_sel_add_attr (gfs, go_pango_attr_subscript_new (is_sub));
+	go_font_sel_add_attr (gfs, go_pango_attr_superscript_new (is_super));
+	go_font_sel_emit_changed (gfs);
 }
 
 static void
@@ -707,7 +736,11 @@ gfs_constructor (GType type,
 
 	placeholder = go_gtk_builder_get_widget
 		(gfs->gui, "color-picker-placeholder");
-	gfs->color_picker = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	if (!gfs->color_group)
+		gfs->color_group = go_color_group_fetch (NULL, gfs);
+	gfs->color_picker =
+		go_combo_color_new (NULL, "?", GO_COLOR_BLACK, 
+				    gfs->color_group);
 	g_object_ref_sink (gfs->color_picker);
 	gtk_widget_show_all (gfs->color_picker);
 	go_gtk_widget_replace (placeholder, gfs->color_picker);
@@ -719,11 +752,28 @@ gfs_constructor (GType type,
 
 	placeholder = go_gtk_builder_get_widget
 		(gfs->gui, "script-picker-placeholder");
-	gfs->script_picker = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gfs->script_picker = go_option_menu_new ();
 	g_object_ref_sink (gfs->script_picker);
 	gtk_widget_show_all (gfs->script_picker);
 	go_gtk_widget_replace (placeholder, gfs->script_picker);
 	if (gfs->show_script) {
+		GtkWidget *m = gtk_menu_new ();
+		add_item_to_menu (m, _("Normal"),
+				  "script", GINT_TO_POINTER (GO_FONT_SCRIPT_STANDARD),
+				  NULL);
+		add_item_to_menu (m, _("Subscript"),
+				  "script", GINT_TO_POINTER (GO_FONT_SCRIPT_SUB),
+				  NULL);
+		add_item_to_menu (m, _("Superscript"),
+				  "script", GINT_TO_POINTER (GO_FONT_SCRIPT_SUPER),
+				  NULL);
+		gtk_widget_show_all (m);
+		go_option_menu_set_menu (GO_OPTION_MENU (gfs->script_picker),
+					 m);
+		g_signal_connect (gfs->script_picker,
+				  "changed",
+				  G_CALLBACK (cb_script_changed),
+				  gfs);
 	} else
 		remove_row_containing (gfs->script_picker);
 
@@ -734,6 +784,9 @@ gfs_constructor (GType type,
 	g_object_ref_sink (gfs->strikethrough_button);
 	gtk_widget_show_all (gfs->strikethrough_button);
 	if (gfs->show_strikethrough) {
+		g_signal_connect (gfs->strikethrough_button,
+				  "toggled",
+				  G_CALLBACK (cb_strikethrough_changed), gfs);
 	} else
 		remove_row_containing (gfs->strikethrough_button);
 
@@ -750,10 +803,19 @@ static void
 gfs_finalize (GObject *obj)
 {
 	GOFontSel *gfs = GO_FONT_SEL (obj);
+
+	/* We actually own a ref to these.  */
+	g_clear_object (&gfs->face_picker);
+	g_clear_object (&gfs->color_picker);
+	g_clear_object (&gfs->color_group);
+	g_clear_object (&gfs->script_picker);
+	g_clear_object (&gfs->strikethrough_button);
+
 	g_hash_table_destroy (gfs->family_by_name);
 	g_hash_table_destroy (gfs->item_by_family);
 	g_hash_table_destroy (gfs->item_by_face);
 	g_hash_table_destroy (gfs->faces_by_family);
+
 	gfs_parent_class->finalize (obj);
 }
 
@@ -761,12 +823,6 @@ static void
 gfs_dispose (GObject *obj)
 {
 	GOFontSel *gfs = GO_FONT_SEL (obj);
-
-	/* We actually own a ref to these.  */
-	g_clear_object (&gfs->face_picker);
-	g_clear_object (&gfs->color_picker);
-	g_clear_object (&gfs->script_picker);
-	g_clear_object (&gfs->strikethrough_button);
 
 	if (gfs->gui) {
 		g_object_unref (gfs->gui);
@@ -1159,9 +1215,13 @@ go_font_sel_set_size (GOFontSel *fs, int size)
 }
 
 
-static void
-go_font_sel_set_strike (GOFontSel *gfs, gboolean strike)
+void
+go_font_sel_set_strikethrough (GOFontSel *fs, gboolean strikethrough)
 {
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (fs->strikethrough_button), strikethrough);
+	go_font_sel_add_attr (fs, pango_attr_strikethrough_new (strikethrough));
+	update_preview (fs);
 }
 
 static void
@@ -1202,7 +1262,7 @@ go_font_sel_set_font (GOFontSel *fs, GOFont const *font)
 	g_return_if_fail (GO_IS_FONT_SEL (fs));
 
 	go_font_sel_set_font_desc (fs, font->desc);
-	go_font_sel_set_strike (fs, font->strikethrough);
+	go_font_sel_set_strikethrough (fs, font->strikethrough);
 	go_font_sel_set_uline (fs, font->underline);
 	go_font_sel_set_color (fs, font->color);
 }
