@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the goffice package.
 #
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009.
-# Martin Srebotnjak <miles@filmsi.net>, 2011.
-# Matej Urbančič <mateju@svn.gnome.org>, 2010 - 2012.
 # Chris Leonard <cjl@laptop.org>, 2012.
+# Martin Srebotnjak <miles@filmsi.net>, 2011 - 2013.
+# Matej Urbančič <mateju@svn.gnome.org>, 2010 - 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-16 02:42+0000\n"
-"PO-Revision-Date: 2013-03-16 20:07+0100\n"
+"POT-Creation-Date: 2013-03-17 01:50+0000\n"
+"PO-Revision-Date: 2013-03-18 10:22+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -2882,7 +2882,7 @@ msgstr "Vietnamsko"
 msgid "Western"
 msgstr "Zahodno"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:294
+#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:422
 #: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "Ostalo"
@@ -3422,28 +3422,28 @@ msgstr "Ali naj imajo spustni meniji odpenjalnike"
 msgid "Unable to open file '%s'"
 msgstr "Ni mogoče odpreti datoteke '%s'"
 
-#: ../goffice/gtk/goffice-gtk.c:792 ../goffice/utils/go-style.c:215
+#: ../goffice/gtk/goffice-gtk.c:858 ../goffice/utils/go-style.c:215
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:827
+#: ../goffice/gtk/goffice-gtk.c:893
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: ../goffice/gtk/goffice-gtk.c:832
+#: ../goffice/gtk/goffice-gtk.c:898
 msgid "Images"
 msgstr "Slike"
 
-#: ../goffice/gtk/goffice-gtk.c:884
+#: ../goffice/gtk/goffice-gtk.c:950
 msgid "Select an Image"
 msgstr "Izbor slike"
 
-#: ../goffice/gtk/goffice-gtk.c:963
+#: ../goffice/gtk/goffice-gtk.c:1029
 msgid "Save as"
 msgstr "Shrani kot"
 
-#: ../goffice/gtk/goffice-gtk.c:1036
+#: ../goffice/gtk/goffice-gtk.c:1102
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3451,7 +3451,7 @@ msgstr ""
 "Podana pripona datoteke se ne ujema z izbrano vrsto datoteke. Ali želite "
 "vseeno uporabiti to ime?"
 
-#: ../goffice/gtk/goffice-gtk.c:1255
+#: ../goffice/gtk/goffice-gtk.c:1321
 #, c-format
 msgid ""
 "%s\n"
@@ -3460,7 +3460,7 @@ msgstr ""
 "%s\n"
 "je ime mape"
 
-#: ../goffice/gtk/goffice-gtk.c:1259
+#: ../goffice/gtk/goffice-gtk.c:1325
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3469,7 +3469,7 @@ msgstr ""
 "Ni ustreznih dolvoljenj za shranjevanje v\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1269
+#: ../goffice/gtk/goffice-gtk.c:1335
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3480,35 +3480,203 @@ msgstr ""
 "\n"
 "Ali jo želite prepisati?"
 
-#: ../goffice/gtk/go-font-sel.c:251 ../goffice/utils/go-style.c:940
-msgid "Font"
-msgstr "Pisava"
+#: ../goffice/gtk/go-font-sel.c:227
+msgid "Faces"
+msgstr "Oblike pisav"
 
-#: ../goffice/gtk/go-font-sel.c:295
-msgid "All fonts..."
-msgstr "Vse pisave ..."
-
-#: ../goffice/gtk/go-font-sel.c:326 ../goffice/math/go-distribution.c:75
-msgid "Normal"
-msgstr "Običajna"
-
-#: ../goffice/gtk/go-font-sel.c:327
+#.
+#. * List of observed face names.  Translators: these represent
+#. * attributes of a font face, i.e., how bold the letters are
+#. * and whether it is an italic or regular face.
+#.
+#: ../goffice/gtk/go-font-sel.c:290
+#| msgid "Bold"
+msgctxt "FontFace"
 msgid "Bold"
 msgstr "Krepko"
 
-#: ../goffice/gtk/go-font-sel.c:328
-msgid "Bold italic"
-msgstr "Krepko poševno"
+#: ../goffice/gtk/go-font-sel.c:291
+msgctxt "FontFace"
+msgid "Bold Condensed"
+msgstr "Krepko strnjeno"
 
-#: ../goffice/gtk/go-font-sel.c:329
+#: ../goffice/gtk/go-font-sel.c:292
+#| msgid "Bold italic"
+msgctxt "FontFace"
+msgid "Bold Condensed Italic"
+msgstr "Krepko strnjeno ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:293
+#| msgid "Bold italic"
+msgctxt "FontFace"
+msgid "Bold Italic"
+msgstr "Krepko ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:294
+#| msgid "Bold italic"
+msgctxt "FontFace"
+msgid "Bold Oblique"
+msgstr "Krepko zaobljeno"
+
+#: ../goffice/gtk/go-font-sel.c:295
+msgctxt "FontFace"
+msgid "Book"
+msgstr "Knjižno"
+
+#: ../goffice/gtk/go-font-sel.c:296
+msgctxt "FontFace"
+msgid "Book Oblique"
+msgstr "Knjižno zaobljeno"
+
+#: ../goffice/gtk/go-font-sel.c:297
+msgctxt "FontFace"
+msgid "Condensed"
+msgstr "Strnjeno"
+
+#: ../goffice/gtk/go-font-sel.c:298
+msgctxt "FontFace"
+msgid "Condensed Bold"
+msgstr "Strnjeno krepko"
+
+#: ../goffice/gtk/go-font-sel.c:299
+#| msgid "Bold italic"
+msgctxt "FontFace"
+msgid "Condensed Bold Italic"
+msgstr "Strnjeno krepko ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:300
+msgctxt "FontFace"
+msgid "Condensed Bold Oblique"
+msgstr "Strnjeno krepko zaobljeno"
+
+#: ../goffice/gtk/go-font-sel.c:301
+msgctxt "FontFace"
+msgid "Condensed Italic"
+msgstr "Strnjeno ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:302
+msgctxt "FontFace"
+msgid "Condensed Oblique"
+msgstr "Strnjeno zaobljeno"
+
+#: ../goffice/gtk/go-font-sel.c:303
+msgctxt "FontFace"
+msgid "Demi"
+msgstr "Napol"
+
+#: ../goffice/gtk/go-font-sel.c:304
+#| msgid "Bold"
+msgctxt "FontFace"
+msgid "Demi Bold"
+msgstr "Napol krepko"
+
+#: ../goffice/gtk/go-font-sel.c:305
+#| msgid "Bold italic"
+msgctxt "FontFace"
+msgid "Demi Bold Italic"
+msgstr "Napol krepko ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:306
+msgctxt "FontFace"
+msgid "Demi Oblique"
+msgstr "Napol zaobljeno"
+
+#: ../goffice/gtk/go-font-sel.c:307
+#| msgid "triangle right"
+msgctxt "FontFace"
+msgid "Extra Light"
+msgstr "Zelo ozko"
+
+#: ../goffice/gtk/go-font-sel.c:308
+#| msgid "Italic"
+msgctxt "FontFace"
 msgid "Italic"
 msgstr "Ležeče"
 
-#: ../goffice/gtk/go-font-sel.c:676
+#: ../goffice/gtk/go-font-sel.c:309
+#| msgid "Right"
+msgctxt "FontFace"
+msgid "Light"
+msgstr "Ozko"
+
+#: ../goffice/gtk/go-font-sel.c:310
+#| msgid "Italic"
+msgctxt "FontFace"
+msgid "Light Italic"
+msgstr "Ozko ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:311
+#| msgid "light blue"
+msgctxt "FontFace"
+msgid "Light Oblique"
+msgstr "Ozko zaobljeno"
+
+#: ../goffice/gtk/go-font-sel.c:312
+msgctxt "FontFace"
+msgid "Medium"
+msgstr "Srednje"
+
+#: ../goffice/gtk/go-font-sel.c:313
+#| msgid "Italic"
+msgctxt "FontFace"
+msgid "Medium Italic"
+msgstr "Srednje ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:314
+#| msgid "Normal"
+msgctxt "FontFace"
+msgid "Normal"
+msgstr "Običajno"
+
+#: ../goffice/gtk/go-font-sel.c:315
+msgctxt "FontFace"
+msgid "Oblique"
+msgstr "Zaobljeno"
+
+#: ../goffice/gtk/go-font-sel.c:316
+msgctxt "FontFace"
+msgid "Regular"
+msgstr "Navadno"
+
+#: ../goffice/gtk/go-font-sel.c:317
+msgctxt "FontFace"
+msgid "Regular Condensed"
+msgstr "Navadno strnjeno"
+
+#: ../goffice/gtk/go-font-sel.c:318
+msgctxt "FontFace"
+msgid "Regular Condensed Italic"
+msgstr "Navadno strnjeno ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:319
+#| msgid "Italic"
+msgctxt "FontFace"
+msgid "Regular Italic"
+msgstr "Navadno ležeče"
+
+#: ../goffice/gtk/go-font-sel.c:320
+msgctxt "FontFace"
+msgid "Regular Oblique"
+msgstr "Navadno zaobljeno"
+
+#: ../goffice/gtk/go-font-sel.c:321
+msgctxt "FontFace"
+msgid "Roman"
+msgstr "S serifi"
+
+#: ../goffice/gtk/go-font-sel.c:347 ../goffice/utils/go-style.c:940
+msgid "Font"
+msgstr "Pisava"
+
+#: ../goffice/gtk/go-font-sel.c:423
+msgid "All fonts..."
+msgstr "Vse pisave ..."
+
+#: ../goffice/gtk/go-font-sel.c:799
 msgid "Show Style"
 msgstr "Pokaži slog"
 
-#: ../goffice/gtk/go-font-sel.c:677
+#: ../goffice/gtk/go-font-sel.c:800
 msgid "Whether style is part of the font being selected"
 msgstr "Ali je slog del izbrane pisave"
 
@@ -4995,6 +5163,10 @@ msgstr "Usmerjenost"
 #: ../goffice/gtk/go-rotation-sel.ui.h:2
 msgid "A_ngle:"
 msgstr "Ko_t:"
+
+#: ../goffice/math/go-distribution.c:75
+msgid "Normal"
+msgstr "Običajna"
 
 #: ../goffice/math/go-distribution.c:76
 msgid "Uniform"
