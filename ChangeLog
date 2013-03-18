@@ -1,3 +1,9 @@
+2013-03-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-font-sel.c (reload_families): Add more observed.
+	(my_get_face_name): Go a little crazy with resolving aliases and
+	typos.
+
 2013-03-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-optionmenu.c (go_option_menu_button_press): Focus

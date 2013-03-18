@@ -43,6 +43,7 @@ struct _GOFontSel {
 	GtkWidget       *face_picker;
 	PangoFontFace   *current_face;
 	GHashTable      *item_by_face;
+	GHashTable      *face_renames;
 
 	GtkWidget	*font_size_entry;
 	GtkWidget       *size_picker;
@@ -180,44 +181,99 @@ update_preview_after_face_change (GOFontSel *gfs, gboolean signal_change)
 		go_font_sel_emit_changed (gfs);
 }
 
+#define SUBST(src_,dst_) do {						\
+	const char *where = strstr (name, (src_));			\
+	if (where) {							\
+		size_t prelen = where - name;				\
+		size_t srclen = strlen ((src_));			\
+		size_t dstlen = strlen ((dst_));			\
+		char *newname = g_malloc (strlen (name) + dstlen - srclen + 1);	\
+		memcpy (newname, name, prelen);				\
+		memcpy (newname + prelen, (dst_), dstlen);		\
+		strcpy (newname + prelen + dstlen, where + srclen);	\
+		g_free (name);						\
+		name = newname;						\
+	}								\
+} while (0)
+
+#define ALIAS(src_,dst_) do {			\
+	if (strcmp (name, (src_)) == 0) {	\
+		g_free (name);			\
+		name = g_strdup ((dst_));	\
+	}					\
+} while (0)
+
+
 /*
  * In the real world we observe fonts with typos in face names...
  */
 static const char *
-my_get_face_name (PangoFontFace *face)
+my_get_face_name (GOFontSel *gfs, PangoFontFace *face)
 {
-	const char *name = face ? pango_font_face_get_face_name (face) : NULL;
+	const char *orig_name = face ?
+		pango_font_face_get_face_name (face)
+		: NULL;
+	char *name;
+	const char *res;
 
-	if (!name)
+	if (!orig_name)
 		return NULL;
 
-	while (*name == ' ')
-		name++;
+	/* Get rid of leading space.  */
+	while (*orig_name == ' ')
+		orig_name++;
 
-	if (strcmp (name, "Bold Italic Samll Caps") == 0) return "Bold Italic Small Caps";
-	if (strcmp (name, "BoldItalic") == 0) return "Bold Italic";
-	if (strcmp (name, "BoldNonextended") == 0) return "Bold Nonextended";
-	if (strcmp (name, "BoldOblique") == 0) return "Bold Oblique";
-	if (strcmp (name, "BoldSlanted") == 0) return "Bold Slanted";
-	if (strcmp (name, "Cond Bold Italic") == 0) return "Condensed Bold Italic";
-	if (strcmp (name, "Cond Bold") == 0) return "Condensed Bold";
-	if (strcmp (name, "Cond Italic") == 0) return "Condensed Italic";
-	if (strcmp (name, "Cond Regular") == 0) return "Condensed";
-	if (strcmp (name, "ExtraLight") == 0) return "Extra Light";
-	if (strcmp (name, "Italic Samll Caps") == 0) return "Italic Small Caps";
-	if (strcmp (name, "LightOblique") == 0) return "Light Oblique";
-	if (strcmp (name, "Reguler") == 0) return "Regular";
-	if (strcmp (name, "SemiBoldOblique") == 0) return "SemiBold Oblique";
-	if (strcmp (name, "Semibold Italic Samll Caps") == 0) return "Semibold Italic Small Caps";
-	if (strcmp (name, "bold") == 0) return "Bold";
-	if (strcmp (name, "heavy") == 0) return "Heavy";
-	if (strcmp (name, "light") == 0) return "Light";
-	if (strcmp (name, "medium") == 0) return "medium";
-	if (strcmp (name, "regular") == 0) return "Regular";
-	if (strcmp (name, "thin") == 0) return "Thin";
+	res = g_hash_table_lookup (gfs->face_renames, orig_name);
+	if (res)
+		return res;
+
+	name = g_strdup (orig_name);
+
+	/* Typos.  */
+	SUBST(" Samll ", " Small ");
+	SUBST("Reguler", "Regular");
+
+	/* Normalize */
+	SUBST("BoldItalic", "Bold Italic");
+	SUBST("BoldOblique", "Bold Oblique");
+	SUBST("BoldNonextended", "Bold Nonextended");
+	SUBST("BoldSlanted", "Bold Slanted");
+	SUBST("Cond ", "Condensed ");
+	SUBST("ExtraLight", "Extra Light");
+	SUBST("LightOblique", "Light Oblique");
+	SUBST("SemiBold", "Semi-Bold");
+	SUBST("Semibold", "Semi-Bold");
+	SUBST("SemiCondensed", "Semi-Condensed");
+	SUBST("DemiCondensed", "Demi-Condensed");
+	SUBST("Expd ", "Expanded ");
+	SUBST("SemiExpanded", "Semi-Expanded");
+	SUBST("UprightItalic", "Upright Italic");
+	SUBST("RomanSlanted", "Roman Slanted");
+
+	ALIAS ("bold", "Bold");
+	ALIAS ("heavy", "Heavy");
+	ALIAS ("light", "Light");
+	ALIAS ("medium", "Medium");
+	ALIAS ("regular", "Regular");
+	ALIAS ("thin", "Thin");
+	ALIAS ("black", "Black");
+	ALIAS ("Oblique Semi-Condensed", "Semi-Condensed Oblique");
+	ALIAS ("Bold Semi-Condensed", "Semi-Condensed Bold");
+	ALIAS ("Gothic-Regular", "Gothic");
+	ALIAS ("Mincho-Regular", "Mincho");
+	ALIAS ("SuperBold", "Super-Bold");
+	ALIAS ("Condensed Regular", "Condensed");
+	ALIAS ("Expanded Regular", "Expanded");
+	ALIAS ("Semi-Condensed Regular", "Semi-Condensed");
+	ALIAS ("Semi-Expanded Regular", "Semi-Expanded");
+
+	g_hash_table_insert (gfs->face_renames, g_strdup (orig_name), name);
 
 	return name;
 }
+
+#undef ALIAS
+#undef SUBST
 
 static GtkMenuItem *
 add_item_to_menu (GtkWidget *m, const char *name,
@@ -248,7 +304,7 @@ reload_faces (GOFontSel *gfs)
 	char *current_face_name;
 	GtkMenuItem *selected_item = NULL, *first_item = NULL;
 
-	current_face_name = g_strdup (my_get_face_name (gfs->current_face));
+	current_face_name = g_strdup (my_get_face_name (gfs, gfs->current_face));
 	gfs->current_face = NULL;
 
 	g_hash_table_remove_all (gfs->item_by_face);
@@ -259,7 +315,7 @@ reload_faces (GOFontSel *gfs)
 	     faces;
 	     faces = faces->next) {
 		PangoFontFace *face = faces->data;
-		const char *name = my_get_face_name (face);
+		const char *name = my_get_face_name (gfs, face);
 		GtkMenuItem *w = add_item_to_menu
 			(m, g_dpgettext2 (NULL, "FontFace", name),
 			 "face", face, gfs->item_by_face);
@@ -286,7 +342,7 @@ reload_faces (GOFontSel *gfs)
 		gfs->current_face =
 			g_object_get_data (G_OBJECT (selected_item), "face");
 
-		new_face_name = my_get_face_name (gfs->current_face);
+		new_face_name = my_get_face_name (gfs, gfs->current_face);
 		changed = g_strcmp0 (current_face_name, new_face_name) != 0;
 		update_preview_after_face_change (gfs, changed);
 	}
@@ -324,47 +380,73 @@ reload_families (GOFontSel *gfs)
 		ADD_OBSERVED (NC_("FontFace", "Bold Italic"));
 
 		/* These are fairly rare.  */
-		ADD_OBSERVED (NC_("FontFace", "Bold Condensed"));
+		ADD_OBSERVED (NC_("FontFace", "Black"));
 		ADD_OBSERVED (NC_("FontFace", "Bold Condensed Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Condensed"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Italic Small Caps"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Nonextended"));
 		ADD_OBSERVED (NC_("FontFace", "Bold Oblique"));
-		ADD_OBSERVED (NC_("FontFace", "Book"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Slanted"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Small Caps"));
 		ADD_OBSERVED (NC_("FontFace", "Book Oblique"));
-		ADD_OBSERVED (NC_("FontFace", "Condensed"));
-		ADD_OBSERVED (NC_("FontFace", "Condensed Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Book"));
 		ADD_OBSERVED (NC_("FontFace", "Condensed Bold Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Condensed Bold Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Condensed Bold"));
 		ADD_OBSERVED (NC_("FontFace", "Condensed Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Condensed Oblique"));
-		ADD_OBSERVED (NC_("FontFace", "Demi"));
-		ADD_OBSERVED (NC_("FontFace", "Demi Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Condensed"));
 		ADD_OBSERVED (NC_("FontFace", "Demi Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Demi Bold"));
 		ADD_OBSERVED (NC_("FontFace", "Demi Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Demi"));
+		ADD_OBSERVED (NC_("FontFace", "Demi-Condensed"));
+		ADD_OBSERVED (NC_("FontFace", "Embossed"));
+		ADD_OBSERVED (NC_("FontFace", "Expanded Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Expanded Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Expanded Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Expanded"));
 		ADD_OBSERVED (NC_("FontFace", "Extra Light"));
 		ADD_OBSERVED (NC_("FontFace", "Heavy"));
+		ADD_OBSERVED (NC_("FontFace", "Italic Small Caps"));
 		ADD_OBSERVED (NC_("FontFace", "Italic"));
-		ADD_OBSERVED (NC_("FontFace", "Light"));
 		ADD_OBSERVED (NC_("FontFace", "Light Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Light Oblique"));
-		ADD_OBSERVED (NC_("FontFace", "Medium"));
+		ADD_OBSERVED (NC_("FontFace", "Light"));
 		ADD_OBSERVED (NC_("FontFace", "Medium Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Medium"));
 		ADD_OBSERVED (NC_("FontFace", "Normal"));
 		ADD_OBSERVED (NC_("FontFace", "Oblique"));
-		ADD_OBSERVED (NC_("FontFace", "Regular Condensed"));
 		ADD_OBSERVED (NC_("FontFace", "Regular Condensed Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Regular Condensed"));
 		ADD_OBSERVED (NC_("FontFace", "Regular Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Regular Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Roman Slanted"));
 		ADD_OBSERVED (NC_("FontFace", "Roman"));
-		ADD_OBSERVED (NC_("FontFace", "Small Caps"));
-		ADD_OBSERVED (NC_("FontFace", "Bold Slanted"));
-		ADD_OBSERVED (NC_("FontFace", "Slanted"));
-		ADD_OBSERVED (NC_("FontFace", "Sans"));
-		ADD_OBSERVED (NC_("FontFace", "Sans Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Rounded"));
 		ADD_OBSERVED (NC_("FontFace", "Sans Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Sans Bold"));
 		ADD_OBSERVED (NC_("FontFace", "Sans Italic"));
-		ADD_OBSERVED (NC_("FontFace", "Embossed"));
-		ADD_OBSERVED (NC_("FontFace", "Bold Small Caps"));
-		ADD_OBSERVED (NC_("FontFace", "Italic Small Caps"));
-		ADD_OBSERVED (NC_("FontFace", "Bold Small Caps"));
+		ADD_OBSERVED (NC_("FontFace", "Sans"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Bold Italic Small Caps"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Bold Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Bold Slanted"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Bold Small Caps"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Condensed Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Condensed Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Condensed Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Condensed Oblique"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Condensed"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Expanded Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Expanded Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Expanded Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Semi-Expanded"));
+		ADD_OBSERVED (NC_("FontFace", "Slanted"));
+		ADD_OBSERVED (NC_("FontFace", "Small Caps"));
+		ADD_OBSERVED (NC_("FontFace", "Thin"));
+		ADD_OBSERVED (NC_("FontFace", "Upright Italic"));
 
 		/* Observed, but no point in asking to translate. */
 		ADD_OBSERVED ("Initials");
@@ -372,6 +454,41 @@ reload_families (GOFontSel *gfs)
 		ADD_OBSERVED ("ja");
 		ADD_OBSERVED ("ko");
 		ADD_OBSERVED ("LR");
+		ADD_OBSERVED ("Gothic"); /* Sazanami */
+		ADD_OBSERVED ("Mincho"); /* Sazanami */
+		ADD_OBSERVED ("Atom Light"); /* Univox */
+		ADD_OBSERVED ("Super-Bold"); /* Xolto */
+		ADD_OBSERVED ("ReguObli"); /* Nimbus Mono L */
+
+		/* A boat-load of crap from "Latin Modern" fonts. */
+		ADD_OBSERVED ("10 Italic");
+		ADD_OBSERVED ("10 Regular");
+		ADD_OBSERVED ("12 Regular");
+		ADD_OBSERVED ("9 Regular");
+		ADD_OBSERVED ("8 Regular");
+		ADD_OBSERVED ("10 Oblique");
+		ADD_OBSERVED ("10 Bold");
+		ADD_OBSERVED ("10 Bold Oblique");
+		ADD_OBSERVED ("6 Regular");
+		ADD_OBSERVED ("5 Regular");
+		ADD_OBSERVED ("17 Regular");
+		ADD_OBSERVED ("8 Italic");
+		ADD_OBSERVED ("10 Bold Italic");
+		ADD_OBSERVED ("12 Bold");
+		ADD_OBSERVED ("12 Italic");
+		ADD_OBSERVED ("7 Italic");
+		ADD_OBSERVED ("9 Bold");
+		ADD_OBSERVED ("8 Bold");
+		ADD_OBSERVED ("7 Bold");
+		ADD_OBSERVED ("5 Bold");
+		ADD_OBSERVED ("6 Bold");
+		ADD_OBSERVED ("9 Italic");
+		ADD_OBSERVED ("7 Regular");
+		ADD_OBSERVED ("9 Oblique");
+		ADD_OBSERVED ("8 Oblique");
+		ADD_OBSERVED ("12 Oblique");
+		ADD_OBSERVED ("17 Oblique");
+		ADD_OBSERVED ("8 Bold Oblique");
 	}
 
 	if (debug_font)
@@ -427,14 +544,14 @@ reload_families (GOFontSel *gfs)
 		pango_font_family_list_faces (family, &faces, &n_faces);
 		for (j = 0; j < n_faces; j++) {
 			PangoFontFace *face = faces[j];
-			const char *name;
+			const char *face_name;
 
 			if (debug_font &&
-			    (name = my_get_face_name (face)) &&
-			    !g_hash_table_lookup (observed_faces, name)) {
-				g_printerr ("New observed face: %s\n",
-					    name);
-				ADD_OBSERVED (name);
+			    (face_name = my_get_face_name (gfs, face)) &&
+			    !g_hash_table_lookup (observed_faces, face_name)) {
+				g_printerr ("New observed face: [%s] for [%s]\n",
+					    face_name, name);
+				ADD_OBSERVED (face_name);
 			}
 
 			if (gfs->filter_func &&
@@ -648,6 +765,9 @@ gfs_init (GOFontSel *gfs)
 	gfs->faces_by_family = g_hash_table_new_full
 		(g_direct_hash, g_direct_equal,
 		 NULL, (GDestroyNotify)g_slist_free);
+	gfs->face_renames = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify)g_free, (GDestroyNotify)free);
 
 	gfs->show_preview_entry = TRUE;
 	gfs->preview_text = g_strdup (pango_language_get_sample_string (NULL));
@@ -815,6 +935,7 @@ gfs_finalize (GObject *obj)
 	g_hash_table_destroy (gfs->item_by_family);
 	g_hash_table_destroy (gfs->item_by_face);
 	g_hash_table_destroy (gfs->faces_by_family);
+	g_hash_table_destroy (gfs->face_renames);
 
 	gfs_parent_class->finalize (obj);
 }
