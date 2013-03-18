@@ -694,7 +694,7 @@ cb_size_picker_acticated (GtkEntry *entry, GOFontSel *gfs)
 	if (text != end && errno != ERANGE) {
 		int psize;
 
-		size = CLAMP (size, 0.0, 1000.0);
+		size = CLAMP (size, 2.0, 1000.0);
 		size = floor ((size * 10.) + .5) / 10.;	/* round .1 */
 		psize = pango_units_from_double (size);
 
