@@ -189,14 +189,31 @@ my_get_face_name (PangoFontFace *face)
 
 	if (!name)
 		return NULL;
-	if (strcmp (name, "BoldItalic") == 0)
-		return "Bold Italic";
-	if (strcmp (name, "BoldOblique") == 0)
-		return "Bold Oblique";
-	if (strcmp (name, "LightOblique") == 0)
-		return "Light Oblique";
-	if (strcmp (name, "ExtraLight") == 0)
-		return "Extra Light";
+
+	while (*name == ' ')
+		name++;
+
+	if (strcmp (name, "Bold Italic Samll Caps") == 0) return "Bold Italic Small Caps";
+	if (strcmp (name, "BoldItalic") == 0) return "Bold Italic";
+	if (strcmp (name, "BoldNonextended") == 0) return "Bold Nonextended";
+	if (strcmp (name, "BoldOblique") == 0) return "Bold Oblique";
+	if (strcmp (name, "BoldSlanted") == 0) return "Bold Slanted";
+	if (strcmp (name, "Cond Bold Italic") == 0) return "Condensed Bold Italic";
+	if (strcmp (name, "Cond Bold") == 0) return "Condensed Bold";
+	if (strcmp (name, "Cond Italic") == 0) return "Condensed Italic";
+	if (strcmp (name, "Cond Regular") == 0) return "Condensed";
+	if (strcmp (name, "ExtraLight") == 0) return "Extra Light";
+	if (strcmp (name, "Italic Samll Caps") == 0) return "Italic Small Caps";
+	if (strcmp (name, "LightOblique") == 0) return "Light Oblique";
+	if (strcmp (name, "Reguler") == 0) return "Regular";
+	if (strcmp (name, "SemiBoldOblique") == 0) return "SemiBold Oblique";
+	if (strcmp (name, "Semibold Italic Samll Caps") == 0) return "Semibold Italic Small Caps";
+	if (strcmp (name, "bold") == 0) return "Bold";
+	if (strcmp (name, "heavy") == 0) return "Heavy";
+	if (strcmp (name, "light") == 0) return "Light";
+	if (strcmp (name, "medium") == 0) return "medium";
+	if (strcmp (name, "regular") == 0) return "Regular";
+	if (strcmp (name, "thin") == 0) return "Thin";
 
 	return name;
 }
@@ -317,6 +334,7 @@ reload_families (GOFontSel *gfs)
 		ADD_OBSERVED (NC_("FontFace", "Demi Bold Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Demi Oblique"));
 		ADD_OBSERVED (NC_("FontFace", "Extra Light"));
+		ADD_OBSERVED (NC_("FontFace", "Heavy"));
 		ADD_OBSERVED (NC_("FontFace", "Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Light"));
 		ADD_OBSERVED (NC_("FontFace", "Light Italic"));
@@ -331,6 +349,24 @@ reload_families (GOFontSel *gfs)
 		ADD_OBSERVED (NC_("FontFace", "Regular Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Regular Oblique"));
 		ADD_OBSERVED (NC_("FontFace", "Roman"));
+		ADD_OBSERVED (NC_("FontFace", "Small Caps"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Slanted"));
+		ADD_OBSERVED (NC_("FontFace", "Slanted"));
+		ADD_OBSERVED (NC_("FontFace", "Sans"));
+		ADD_OBSERVED (NC_("FontFace", "Sans Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Sans Bold Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Sans Italic"));
+		ADD_OBSERVED (NC_("FontFace", "Embossed"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Small Caps"));
+		ADD_OBSERVED (NC_("FontFace", "Italic Small Caps"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Small Caps"));
+
+		/* Observed, but no point in asked to translate. */
+		ADD_OBSERVED ("Initials");
+		ADD_OBSERVED ("Inline");
+		ADD_OBSERVED ("ja");
+		ADD_OBSERVED ("ko");
+		ADD_OBSERVED ("LR");
 	}
 
 	if (debug_font)
