@@ -314,12 +314,17 @@ reload_families (GOFontSel *gfs)
 		/*
 		 * List of observed face names.  Translators: these represent
 		 * attributes of a font face, i.e., how bold the letters are
-		 * and whether it is an italic or regular face.
+		 * and whether it is an italic or regular face.  The four
+		 * first here are the important ones.
 		 */
+		ADD_OBSERVED (NC_("FontFace", "Regular"));
+		ADD_OBSERVED (NC_("FontFace", "Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Bold"));
+		ADD_OBSERVED (NC_("FontFace", "Bold Italic"));
+
+		/* These are fairly rare.  */
 		ADD_OBSERVED (NC_("FontFace", "Bold Condensed"));
 		ADD_OBSERVED (NC_("FontFace", "Bold Condensed Italic"));
-		ADD_OBSERVED (NC_("FontFace", "Bold Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Bold Oblique"));
 		ADD_OBSERVED (NC_("FontFace", "Book"));
 		ADD_OBSERVED (NC_("FontFace", "Book Oblique"));
@@ -343,7 +348,6 @@ reload_families (GOFontSel *gfs)
 		ADD_OBSERVED (NC_("FontFace", "Medium Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Normal"));
 		ADD_OBSERVED (NC_("FontFace", "Oblique"));
-		ADD_OBSERVED (NC_("FontFace", "Regular"));
 		ADD_OBSERVED (NC_("FontFace", "Regular Condensed"));
 		ADD_OBSERVED (NC_("FontFace", "Regular Condensed Italic"));
 		ADD_OBSERVED (NC_("FontFace", "Regular Italic"));
@@ -361,7 +365,7 @@ reload_families (GOFontSel *gfs)
 		ADD_OBSERVED (NC_("FontFace", "Italic Small Caps"));
 		ADD_OBSERVED (NC_("FontFace", "Bold Small Caps"));
 
-		/* Observed, but no point in asked to translate. */
+		/* Observed, but no point in asking to translate. */
 		ADD_OBSERVED ("Initials");
 		ADD_OBSERVED ("Inline");
 		ADD_OBSERVED ("ja");
