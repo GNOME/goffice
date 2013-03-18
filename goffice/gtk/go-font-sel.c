@@ -45,7 +45,7 @@ struct _GOFontSel {
 	GHashTable      *item_by_face;
 	GHashTable      *face_renames;
 
-	GtkWidget	*font_size_entry;
+	GtkWidget	*size_entry;
 	GtkWidget       *size_picker;
 	GSList          *font_sizes;
 
@@ -683,46 +683,25 @@ cb_face_changed (GOOptionMenu *om, GOFontSel *gfs)
 	}
 }
 
-static gboolean
-cb_size_picker_acticated (GtkEntry *entry, GOFontSel *gfs)
-{
-	const char *text = gtk_entry_get_text (entry);
-	double size;
-	char *end;
-
-	size = go_strtod (text, &end);
-	if (text != end && errno != ERANGE) {
-		int psize;
-
-		size = CLAMP (size, 2.0, 1000.0);
-		size = floor ((size * 10.) + .5) / 10.;	/* round .1 */
-		psize = pango_units_from_double (size);
-
-		g_signal_handlers_block_by_func
-			(entry, cb_size_picker_acticated, gfs);
-		go_font_sel_set_size (gfs, psize);
-		g_signal_handlers_unblock_by_func
-			(entry, cb_size_picker_acticated, gfs);
-
-		go_font_sel_add_attr (gfs, pango_attr_size_new (psize));
-		go_font_sel_emit_changed (gfs);
-	}
-
-	return TRUE;
-}
-
 static void
 cb_size_picker_changed (GtkButton *button, GOFontSel *gfs)
 {
-	/*
-	 * We get the changed signal also when someone is typing in the
-	 * entry.  We don't want that, so if the entry has focus, ignore
-	 * the signal.  The entry will send the activate signal itself
-	 * when Enter is pressed.
-	 */
-	if (!gtk_widget_has_focus (gfs->font_size_entry))
-		cb_size_picker_acticated (GTK_ENTRY (gfs->font_size_entry),
-					  gfs);
+	GtkEntry *entry = GTK_ENTRY (gfs->size_entry);
+	const char *text = gtk_entry_get_text (entry);
+	double size;
+	char *end;
+	int psize;
+
+	size = go_strtod (text, &end);
+	if (*text == 0 || end != text + strlen (text) || errno == ERANGE)
+		return;
+
+	size = CLAMP (size, 1.0, 1000.0);
+	size = floor ((size * 10.) + .5) / 10.;	/* round .1 */
+	psize = pango_units_from_double (size);
+
+	go_font_sel_add_attr (gfs, pango_attr_size_new (psize));
+	go_font_sel_emit_changed (gfs);
 }
 
 static void
@@ -844,13 +823,10 @@ gfs_constructor (GType type,
 
 	gfs->size_picker = go_gtk_builder_get_widget (gfs->gui, "size-picker");
 	update_sizes (gfs);
-	gfs->font_size_entry = gtk_bin_get_child (GTK_BIN (gfs->size_picker));
+	gfs->size_entry = gtk_bin_get_child (GTK_BIN (gfs->size_picker));
 	g_signal_connect (gfs->size_picker,
 			  "changed",
 			  G_CALLBACK (cb_size_picker_changed), gfs);
-	g_signal_connect (gfs->font_size_entry,
-			  "activate",
-			  G_CALLBACK (cb_size_picker_acticated), gfs);
 	
 	/* ---------------------------------------- */
 
@@ -1218,7 +1194,7 @@ void
 go_font_sel_editable_enters (GOFontSel *gfs, GtkWindow *dialog)
 {
 	go_gtk_editable_enters (dialog,
-				GTK_WIDGET (gfs->font_size_entry));
+				GTK_WIDGET (gfs->size_entry));
 }
 
 void
@@ -1322,10 +1298,10 @@ static void
 go_font_sel_set_points (GOFontSel *gfs,
 			double point_size)
 {
-	const char *old_text = gtk_entry_get_text (GTK_ENTRY (gfs->font_size_entry));
+	const char *old_text = gtk_entry_get_text (GTK_ENTRY (gfs->size_entry));
 	char *buffer = g_strdup_printf ("%g", point_size);
 	if (strcmp (old_text, buffer) != 0)
-		gtk_entry_set_text (GTK_ENTRY (gfs->font_size_entry), buffer);
+		gtk_entry_set_text (GTK_ENTRY (gfs->size_entry), buffer);
 	g_free (buffer);
 }
 
