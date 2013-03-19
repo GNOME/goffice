@@ -111,6 +111,7 @@ goc_circle_draw (GocItem const *item, cairo_t *cr)
 	double scale = (circle->radius > 0.)? circle->radius: 1.e-10;
 
 	cairo_save (cr);
+	_goc_item_transform (item, cr, TRUE);
 	goc_group_cairo_transform (item->parent, cr, circle->x, circle->y);
 	cairo_scale (cr, scale, scale);
 	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
@@ -130,6 +131,7 @@ goc_circle_update_bounds (GocItem *item)
 	GocCircle *circle = GOC_CIRCLE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double r = circle->radius;
+	/* FIXME take transform into account */
 	if (style->line.dash_type != GO_LINE_NONE)
 		r += (style->line.width)? style->line.width / 2.: .5;
 	item->x0 = circle->x - r;

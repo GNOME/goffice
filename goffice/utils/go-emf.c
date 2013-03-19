@@ -951,6 +951,7 @@ typedef struct {
 	unsigned text_align;
 	GOColor text_color;
 	cairo_matrix_t m;
+	double xpos, ypos; /* current position used to emit text */
 } GOEmfDC;
 
 typedef struct {
@@ -3016,11 +3017,14 @@ go_emf_movetoex (GOEmfState *state)
 {
 	double x, y;
 	d_(("movetoex\n"));
-	if (state->curDC->path == NULL)
-		return FALSE;
 	go_wmf_read_pointl (state->data, &x, &y);
 	go_emf_convert_coords (state, &x, &y);
-	go_path_move_to (state->curDC->path, x, y);
+	if (state->curDC->path != NULL)
+		go_path_move_to (state->curDC->path, x, y);
+	else {
+		state->curDC->xpos = x;
+		state->curDC->ypos = y;
+	}
 	d_(("\tMove to x=%g y=%g\n", x, y));
 	return TRUE;
 }
@@ -4056,9 +4060,15 @@ static gboolean
 go_emf_exttextoutw (GOEmfState *state)
 {
 	unsigned mode;
+	float xscale = 1., yscale = 1.;
 	d_(("exttextoutw\n"));
 	mode = GSF_LE_GET_GUINT32 (state->data + 16);
 	d_(("\t graphic mode is %s\n", mode == 1? "compatible": "advanced"));
+	if (mode == 1) {
+		xscale = GSF_LE_GET_FLOAT (state->data + 20);
+		yscale = GSF_LE_GET_FLOAT (state->data + 24);
+		d_(("\t exScale = %g \t eyScale = %g\n", xscale, yscale));
+	}
 	return TRUE;
 }
 

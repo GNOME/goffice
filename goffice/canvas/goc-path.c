@@ -127,6 +127,7 @@ goc_path_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	double rsign = sign;
 
 	cairo_save (cr);
+	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, path->x , path->y);
 		sign = 1;

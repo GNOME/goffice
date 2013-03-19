@@ -111,6 +111,7 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	GocPolyline *polyline = GOC_POLYLINE (item);
 	unsigned i;
 
+	_goc_item_transform (item, cr, flag);
 	if (polyline->nb_points == 0)
 		return FALSE;
 

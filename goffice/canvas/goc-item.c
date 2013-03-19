@@ -414,7 +414,11 @@ goc_item_draw (GocItem const *item, cairo_t *cr)
 	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 	g_return_if_fail (klass != NULL);
 
-	if (klass->draw)
+	if (klass->draw == NULL)
+		return;
+	if (GOC_IS_GROUP (item))
+		klass->draw (item, cr);
+	else
 		klass->draw (item, cr);
 }
 
@@ -441,8 +445,12 @@ goc_item_draw_region (GocItem const *item, cairo_t *cr,
 	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 	g_return_val_if_fail (klass != NULL, FALSE);
 
-	return (klass->draw_region)?
-		klass->draw_region (item, cr, x0, y0, x1, y1): FALSE;
+	if (klass->draw_region == NULL)
+		return FALSE;
+	if (GOC_IS_GROUP (item))
+		return klass->draw_region (item, cr, x0, y0, x1, y1);
+	else
+		return klass->draw_region (item, cr, x0, y0, x1, y1);
 }
 
 static void
@@ -817,7 +825,7 @@ goc_item_set_transform (GocItem *item, cairo_matrix_t *m)
 }
 
 void
-_goc_item_transform (GocItem const *item, cairo_t *cr)
+_goc_item_transform (GocItem const *item, cairo_t *cr, gboolean scaled)
 {
 	cairo_matrix_t m = item->transform, buf,
 		sc = {item->canvas->pixels_per_unit, 0., 0., item->canvas->pixels_per_unit, 0., 0.};
@@ -826,6 +834,9 @@ _goc_item_transform (GocItem const *item, cairo_t *cr)
 			cairo_matrix_multiply (&buf, &m, &item->transform);
 			m = buf;
 		}
-	cairo_matrix_multiply (&buf, &m, &sc);
-	cairo_set_matrix (cr, &buf);
+	if (scaled) {
+		cairo_matrix_multiply (&buf, &m, &sc);
+		m = buf;
+	}
+	cairo_transform (cr, &m);
 }

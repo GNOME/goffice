@@ -115,7 +115,8 @@ goc_ellipse_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	if (0 == ellipse->width && 0 == ellipse->height)
 		return FALSE;
 
-	cairo_save(cr);
+	cairo_save (cr);
+	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, ellipse->x + ellipse->width/2., ellipse->y + ellipse->height/2.);
 	} else {

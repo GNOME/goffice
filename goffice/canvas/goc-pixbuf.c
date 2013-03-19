@@ -134,13 +134,24 @@ static void
 goc_pixbuf_update_bounds (GocItem *item)
 {
 	GocPixbuf *pixbuf = GOC_PIXBUF (item);
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
 	if (!pixbuf->pixbuf)
 		return;
-	/* FIXME: take rotation into account */
-	item->x0 = floor (pixbuf->x);
-	item->y0 = floor (pixbuf->y);
-	item->x1 = ceil (pixbuf->x + ((pixbuf->width > 0.)? pixbuf->width: gdk_pixbuf_get_width (pixbuf->pixbuf)));
-	item->y1 = ceil (pixbuf->y + ((pixbuf->height > 0.)? pixbuf->height: gdk_pixbuf_get_height (pixbuf->pixbuf)));
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+
+	cairo_save (cr);
+	_goc_item_transform (item, cr, FALSE);
+	cairo_rectangle (cr, pixbuf->x, pixbuf->y,
+	                 ((pixbuf->width > 0.)? pixbuf->width: gdk_pixbuf_get_width (pixbuf->pixbuf)),
+	                 ((pixbuf->height > 0.)? pixbuf->height: gdk_pixbuf_get_height (pixbuf->pixbuf)));
+	cairo_restore (cr);
+	cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 }
 
 static double
@@ -197,6 +208,7 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 		scaley = height / gdk_pixbuf_get_height (pixbuf->pixbuf);
 	}
 	cairo_save (cr);
+	_goc_item_transform (item, cr, TRUE);
 	x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
 		pixbuf->x + pixbuf->width: pixbuf->x;
 	goc_group_cairo_transform (item->parent, cr, x, (int) pixbuf->y);

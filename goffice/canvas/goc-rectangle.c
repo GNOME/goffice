@@ -143,7 +143,8 @@ goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	if (0 == rect->width && 0 == rect->height)
 		return FALSE;
 
-	cairo_save(cr);
+	cairo_save (cr);
+	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, rect->x, rect->y);
 	} else {

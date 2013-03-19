@@ -253,7 +253,7 @@ goc_text_finalize (GObject *gobject)
 }
 
 static void
-goc_text_prepare_draw (GocItem *item, cairo_t *cr)
+goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 {
 	GocText *text = GOC_TEXT (item);
 	PangoRectangle rect;
@@ -304,6 +304,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 		break;
 	}
 	cairo_save (cr);
+	_goc_item_transform (item, cr, flag);
 	cairo_translate (cr, item->x0, item->y0);
 	cairo_rotate (cr, text->rotation * sign);
 	if (text->clip_height > 0. && text->clip_width > 0.) {
@@ -326,7 +327,7 @@ goc_text_update_bounds (GocItem *item)
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
-	goc_text_prepare_draw (item, cr);
+	goc_text_prepare_draw (item, cr, FALSE);
 	cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
@@ -347,7 +348,7 @@ goc_text_distance (GocItem *item, double x, double y, GocItem **near_item)
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
-	goc_text_prepare_draw (item, cr);
+	goc_text_prepare_draw (item, cr, FALSE);
 	if (cairo_in_fill (cr, x, y) || cairo_in_stroke (cr, x, y))
 		res = 0;
 	cairo_destroy (cr);
@@ -416,6 +417,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 		break;
 	}
 	cairo_save (cr);
+	_goc_item_transform (item, cr, TRUE);
 	cairo_set_source_rgb (cr, 0., 0., 0.);
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_rotate (cr, text->rotation * sign);

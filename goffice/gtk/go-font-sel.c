@@ -827,7 +827,7 @@ gfs_constructor (GType type,
 	g_signal_connect (gfs->size_picker,
 			  "changed",
 			  G_CALLBACK (cb_size_picker_changed), gfs);
-	
+
 	/* ---------------------------------------- */
 
 	placeholder = go_gtk_builder_get_widget
@@ -835,7 +835,7 @@ gfs_constructor (GType type,
 	if (!gfs->color_group)
 		gfs->color_group = go_color_group_fetch (NULL, gfs);
 	gfs->color_picker =
-		go_combo_color_new (NULL, "?", GO_COLOR_BLACK, 
+		go_combo_color_new (NULL, "?", GO_COLOR_BLACK,
 				    gfs->color_group);
 	g_object_ref_sink (gfs->color_picker);
 	gtk_widget_show_all (gfs->color_picker);
@@ -1257,7 +1257,7 @@ go_font_sel_set_family (GOFontSel *fs, char const *font_name)
 
 void
 go_font_sel_set_style (GOFontSel *fs, PangoWeight weight, PangoStyle style)
-{	
+{
 	PangoFontFamily *family;
 	int best_badness = G_MAXINT;
 	PangoFontFace *best = NULL;

@@ -210,49 +210,69 @@ goc_component_draw (GocItem const *item, cairo_t *cr)
 	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		x0 = component->x + component->w;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
-		x0 = canvas->width - (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
+		x0 = canvas->width - (int) (x0 - canvas->scroll_x1);
 	} else {
 		x0 = component->x;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
-		x0 = (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
+		x0 = (int) (x0 - canvas->scroll_x1);
 	}
 	cairo_save (cr);
+	_goc_item_transform (item, cr, TRUE);
 	if (component->rotation == 0.)
 		cairo_translate (cr, x0,
-			         (int) (y0 - canvas->scroll_y1) * canvas->pixels_per_unit);
+			         (int) (y0 - canvas->scroll_y1));
 	else {
-		cairo_translate (cr, x0 + component->w / 2 * canvas->pixels_per_unit,
-			         (int) (y0 - canvas->scroll_y1 + component->h / 2) * canvas->pixels_per_unit);
+		cairo_translate (cr, x0 + component->w / 2,
+			         (int) (y0 - canvas->scroll_y1 + component->h / 2));
 		cairo_rotate (cr, -component->rotation);
-		cairo_translate (cr, -component->w / 2 * canvas->pixels_per_unit,
-			         -component->h / 2 * canvas->pixels_per_unit);
+		cairo_translate (cr, -component->w / 2, -component->h / 2);
 	}
-	cairo_rectangle (cr, 0., 0., component->w * canvas->pixels_per_unit,
-	                     component->h * canvas->pixels_per_unit);
+	cairo_rectangle (cr, 0., 0., component->w,
+	                     component->h);
 	cairo_clip (cr);
 	go_component_render (component->component, cr,
-	                     component->w * canvas->pixels_per_unit,
-	                     component->h * canvas->pixels_per_unit);
+	                     component->w,
+	                     component->h);
 	cairo_restore (cr);
 }
 
 static void
 goc_component_update_bounds (GocItem *item)
 {
+	cairo_surface_t *surface;
+	cairo_t *cr;
 	GocComponent *component = GOC_COMPONENT (item);
-	if (component->rotation == 0.) {
-		item->x0 = component->x;
-		item->y0 = component->y;
-		item->x1 = component->x + component->w;
-		item->y1 = component->y + component->h;
+	double x0, y0 = component->y;
+	GocCanvas *canvas = item->canvas;
+
+	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
+		x0 = component->x + component->w;
+		goc_group_adjust_coords (item->parent, &x0, &y0);
+		x0 = canvas->width - (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
 	} else {
-		double cosr = cos (component->rotation), sinr = sin (component->rotation);
-		double w = fabs (component->w * cosr) + fabs (component->h * sinr), h = fabs (component->h * cosr) + fabs (component->w * sinr);
-		item->x0 = component->x + (component->w - w) / 2.;
-		item->x1 = item->x0 + w;
-		item->y0 = component->y + (component->h - h) / 2.;
-		item->y1 = item->y0 + h;
+		x0 = component->x;
+		goc_group_adjust_coords (item->parent, &x0, &y0);
+		x0 = (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
 	}
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	_goc_item_transform (item, cr, FALSE);
+	if (component->rotation == 0.)
+		cairo_translate (cr, x0,
+			         (int) (y0 - canvas->scroll_y1));
+	else {
+		cairo_translate (cr, x0 + component->w / 2,
+			         (int) (y0 - canvas->scroll_y1 + component->h / 2));
+		cairo_rotate (cr, -component->rotation);
+		cairo_translate (cr, -component->w / 2,
+			         -component->h / 2);
+	}
+	cairo_rectangle (cr, 0., 0., component->w,
+	                     component->h);
+	cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 }
 
 static void

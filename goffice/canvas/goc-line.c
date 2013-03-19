@@ -153,6 +153,7 @@ goc_line_update_bounds (GocItem *item)
 	GocLine *line = GOC_LINE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double extra_width = style->line.width /2.;
+	/* FIXME: take transform into account */
 	if (extra_width <= 0.)
 		extra_width = .5;
 	if (style->line.cap == CAIRO_LINE_CAP_SQUARE)
@@ -273,6 +274,7 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 	                hoffs = 0.;
 
 	cairo_save (cr);
+	_goc_item_transform (item, cr, TRUE);
 	goc_group_cairo_transform (item->parent, cr,
 				   hoffs + (int) line->startx,
 				   voffs + (int) line->starty);

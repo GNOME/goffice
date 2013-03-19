@@ -97,7 +97,7 @@ button_press_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointe
 		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
 		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
-	item = goc_canvas_get_item_at (canvas, x, y);;
+	item = goc_canvas_get_item_at (canvas, x, y);
 	if (item) {
 		gboolean result;
 		canvas->cur_event = (GdkEvent *) event;

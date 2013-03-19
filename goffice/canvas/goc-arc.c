@@ -275,6 +275,7 @@ goc_arc_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 		return FALSE;
 
 	cairo_save (cr);
+	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, arc->xc, arc->yc);
 		sign = 1;

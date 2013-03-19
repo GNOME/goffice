@@ -1,3 +1,31 @@
+2013-03-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-arc.c (goc_arc_prepare_draw): make item transform work.
+	* goffice/canvas/goc-canvas.c (button_press_cb): typo.
+	* goffice/canvas/goc-circle.c (goc_circle_draw),
+	(goc_circle_update_bounds): make item transform work.
+	* goffice/canvas/goc-component.c (goc_component_draw),
+	(goc_component_update_bounds): ditto.
+	* goffice/canvas/goc-ellipse.c (goc_ellipse_prepare_draw): ditto.
+	* goffice/canvas/goc-group.c (goc_group_cairo_transform): ditto.
+	* goffice/canvas/goc-image.c (goc_image_draw): ditto.
+	* goffice/canvas/goc-item.c (goc_item_draw),
+	(goc_item_draw_region), (_goc_item_transform): ditto.
+	* goffice/canvas/goc-item.h: ditto.
+	* goffice/canvas/goc-line.c (goc_line_update_bounds),
+	(goc_line_draw): ditto.
+	* goffice/canvas/goc-path.c (goc_path_prepare_draw):
+	* goffice/canvas/goc-pixbuf.c (goc_pixbuf_update_bounds),
+	(goc_pixbuf_draw): ditto.
+	* goffice/canvas/goc-polygon.c (goc_polygon_update_bounds),
+	(goc_polygon_draw): ditto.
+	* goffice/canvas/goc-polyline.c (goc_polyline_prepare_draw): ditto.
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_prepare_draw): ditto.
+	* goffice/canvas/goc-text.c (goc_text_prepare_draw),
+	(goc_text_update_bounds), (goc_text_distance), (goc_text_draw): ditto.
+	* goffice/utils/go-emf.c (go_emf_movetoex), (go_emf_exttextoutw): start work
+	on text support.
+
 2013-03-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-font-sel.c (reload_families): Add more observed.

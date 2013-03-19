@@ -448,7 +448,6 @@ goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double 
 		goc_group_cairo_transform (parent, cr, x + group->x, y + group->y);
 	else {
 		GocCanvas *canvas = GOC_ITEM (group)->canvas;
-		cairo_scale (cr, canvas->pixels_per_unit, canvas->pixels_per_unit);
 		if (canvas->direction == GOC_DIRECTION_RTL)
 			cairo_translate (cr, canvas->width / canvas->pixels_per_unit - (x - canvas->scroll_x1), y - canvas->scroll_y1);
 		else

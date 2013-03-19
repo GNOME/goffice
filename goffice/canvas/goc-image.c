@@ -234,6 +234,7 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 		scaley = height / go_image_get_height (image->image) / (1 - image->crop_top -image->crop_bottom);
 	}
 	cairo_save (cr);
+	_goc_item_transform (item, cr, TRUE);
 	x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
 		image->x + image->width: image->x;
 	goc_group_cairo_transform (item->parent, cr, x, (int) image->y);
