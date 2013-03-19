@@ -92,7 +92,7 @@ go_matrix3x3_to_euler (GOMatrix3x3 const *mat,
 		*Theta = acos(mat->a33);
 		st = sin(*Theta);
 		si = mat->a13 / st;
-		co = - mat->a23 / st;;
+		co = - mat->a23 / st;
 		if (fabs(co) > MATRIX_THRESHOLD)
 			*Psi = (co > 0.) ? 0. : 2 * M_PI;
 		else

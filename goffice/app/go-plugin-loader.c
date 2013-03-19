@@ -149,7 +149,7 @@ go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, GOErrorInf
 	if (*err == NULL) {
 		gpointer num_services = g_object_get_data (G_OBJECT (l), "num-services");
 		g_object_set_data (G_OBJECT (l), "num-services",
-		    GINT_TO_POINTER (GPOINTER_TO_INT (num_services) + 1));;
+		    GINT_TO_POINTER (GPOINTER_TO_INT (num_services) + 1));
 	}
 }
 
@@ -187,7 +187,7 @@ go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, GOErrorI
 		gpointer num_services = g_object_get_data (G_OBJECT (l), "num-services");
 		g_return_if_fail (num_services != NULL);
 		g_object_set_data (G_OBJECT (l), "num-services",
-		    GINT_TO_POINTER (GPOINTER_TO_INT (num_services) - 1));;
+		    GINT_TO_POINTER (GPOINTER_TO_INT (num_services) - 1));
 		if (GPOINTER_TO_INT (num_services) == 1) {
 			go_plugin_loader_unload_base (l, &error);
 			go_error_info_free (error);

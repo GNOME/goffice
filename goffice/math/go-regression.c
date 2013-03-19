@@ -514,7 +514,7 @@ SUFFIX(regres_from_condition) (CONSTQMATRIX R, int n)
 	 * We need the absolute largest and smallest.
 	 */
 	for (i = 0; i < n; i++) {
-		DOUBLE e = SUFFIX(fabs)(SUFFIX(go_quad_value)(&R[i][i]));;
+		DOUBLE e = SUFFIX(fabs)(SUFFIX(go_quad_value)(&R[i][i]));
 		if (e < emin) emin = e;
 		if (e > emax) emax = e;
 	}
