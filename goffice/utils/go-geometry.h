@@ -28,6 +28,16 @@ G_BEGIN_DECLS
 
 #define GO_GEOMETRY_ANGLE_TOLERANCE 1E-3
 
+/**
+ * GOGeometrySide:
+ * @GO_SIDE_LEFT: left.
+ * @GO_SIDE_RIGHT: right.
+ * @GO_SIDE_LEFT_RIGHT: left or right.
+ * @GO_SIDE_TOP: top.
+ * @GO_SIDE_BOTTOM: bottom.
+ * @GO_SIDE_TOP_BOTTOM: top or bottom.
+ * @GO_SIDE_AUTO: auto.
+ **/
 typedef enum {
 	GO_SIDE_LEFT		= 1 << 0,
 	GO_SIDE_RIGHT		= 1 << 1,
@@ -38,6 +48,14 @@ typedef enum {
 	GO_SIDE_AUTO		= 15
 } GOGeometrySide;
 
+/**
+ * GODirection:
+ * @GO_DIRECTION_UP: up.
+ * @GO_DIRECTION_DOWN: down.
+ * @GO_DIRECTION_LEFT: left.
+ * @GO_DIRECTION_RIGHT: right.
+ * @GO_DIRECTION_NONE: no direction.
+ **/
 typedef enum {
 	GO_DIRECTION_UP    = 0,
 	GO_DIRECTION_DOWN  = 1,
@@ -46,6 +64,14 @@ typedef enum {
 	GO_DIRECTION_NONE  = 4
 } GODirection;
 
+/**
+ * GOGeometryRotationType:
+ * @GO_ROTATE_NONE: no rotation.
+ * @GO_ROTATE_COUNTERCLOCKWISE: counter clockwise.
+ * @GO_ROTATE_UPSIDEDOWN: upside down.
+ * @GO_ROTATE_CLOCKWISE: clockwise.
+ * @GO_ROTATE_FREE: free rotation.
+ **/
 typedef enum {
 	GO_ROTATE_NONE = 0,
 	GO_ROTATE_COUNTERCLOCKWISE = 1,
@@ -54,10 +80,18 @@ typedef enum {
 	GO_ROTATE_FREE = 4
 } GOGeometryRotationType;
 
+/**
+ * GOGeometryOBR:
+ * @x: horizontal position of the center.
+ * @y: vertical position of the center.
+ * @w: width of edge.
+ * @h: height of edge.
+ * @alpha: Aangle from x axis to w edge, in radians.
+ **/
 typedef struct {
-        double x,y;     /* Center */
-        double w,h;     /* Edges */
-        double alpha;   /* Angle from x axis to w edge, in radians */
+        double x, y;
+        double w, h;
+        double alpha;
 } GOGeometryOBR;
 
 typedef struct _GogViewAllocation GOGeometryAABR;

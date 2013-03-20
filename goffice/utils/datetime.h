@@ -6,6 +6,10 @@
 
 G_BEGIN_DECLS
 
+/**
+ * GODateConventions:
+ * @use_1904: Base on 1904 as opposed to 1900.
+ */
 struct _GODateConventions {
 	gboolean use_1904;	/* Use MacOffice 1904 based date convention,
 				 * Rather than the Win32 style 1900 */

@@ -1014,6 +1014,26 @@ go_font_sel_get_type
 </SECTION>
 
 <SECTION>
+<FILE>go-font-sel-dialog</FILE>
+<TITLE>GOFontSelDialog</TITLE>
+GOFontSelDialog
+go_font_sel_dialog_new
+go_font_sel_get_font_desc
+go_font_sel_get_sample_attributes
+go_font_sel_set_family
+go_font_sel_set_font_desc
+go_font_sel_set_sample_attributes
+go_font_sel_set_size
+go_font_sel_set_strikethrough
+go_font_sel_set_style
+<SUBSECTION Standard>
+GO_FONT_SEL_DIALOG
+GO_IS_FONT_SEL_DIALOG
+GO_TYPE_FONT_SEL_DIALOG
+go_font_sel_dialog_get_type
+</SECTION>
+
+<SECTION>
 <FILE>go-format</FILE>
 <TITLE>GOFormat</TITLE>
 GO_SUBSCRIPT_RISE
@@ -1118,12 +1138,13 @@ go_format_sel_get_type
 <SECTION>
 <FILE>go-geometry</FILE>
 <TITLE>Geometry helpers</TITLE>
-GODirection
 GOGeometryAABR
 GOGeometryOBR
 GOGeometryRotationType
 GOGeometrySide
 GO_GEOMETRY_ANGLE_TOLERANCE
+GODirection
+GO_TYPE_DIRECTION
 go_direction_get_name
 go_direction_is_forward
 go_direction_is_horizontal
@@ -1515,6 +1536,7 @@ GOMatrix3x3
 GOOptionMenu
 go_option_menu_get_history
 go_option_menu_new
+go_option_menu_select_item
 go_option_menu_set_history
 go_option_menu_set_menu
 <SUBSECTION Standard>
@@ -1937,6 +1959,10 @@ go_exponential_regression_as_logl
 go_exponential_regressionl
 go_linear_regression
 go_linear_regressionl
+go_linear_regression_leverage
+go_linear_regression_leveragel
+go_linear_solve_multiple
+go_linear_solve_multiplel
 go_linear_solve
 go_linear_solvel
 go_logarithmic_fit
@@ -2606,6 +2632,7 @@ go_gtk_dialog_add_button
 go_gtk_dialog_run
 go_gtk_editable_enters
 go_gtk_file_sel_dialog
+go_gtk_grid_remove_row
 go_gtk_help_button_init
 go_gtk_nonmodal_dialog
 go_gtk_notice_dialog
@@ -2616,6 +2643,7 @@ go_gtk_select_image_with_extra_widget
 go_gtk_url_is_writeable
 go_gtk_url_show
 go_gtk_widget_disable_focus
+go_gtk_widget_replace
 go_gtk_window_set_transient
 go_gui_get_image_save_info
 go_menu_position_below

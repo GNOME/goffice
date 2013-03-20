@@ -40,42 +40,6 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-/**
- * GOFileFormatLevel:
- * @GO_FILE_FL_NONE: no name assigned, won't happen.
- * @GO_FILE_FL_WRITE_ONLY: PostScript etc, won't be remembered.
- * @GO_FILE_FL_NEW: Wb just created.
- * @GO_FILE_FL_MANUAL: Save gets punted to save as.
- * @GO_FILE_FL_MANUAL_REMEMBER: Ditto, but remember in history.
- * @GO_FILE_FL_AUTO: Save will save to this filename.
- * @GO_FILE_FL_LAST: last value, won't happen.
- **/
-
-/**
- * GOFileSaveScope:
- * @GO_FILE_SAVE_WORKBOOK: save the whole file.
- * @GO_FILE_SAVE_SHEET: save only current page.
- * @GO_FILE_SAVE_RANGE: save only a selected range.
- * @GO_FILE_SAVE_LAST: last value, won't happen.
- **/
-
-/**
- * GOFileProbeLevel:
- * @GO_FILE_PROBE_FILE_NAME: test only file name, don't read file contents.
- * @GO_FILE_PROBE_CONTENT: read the whole file if it's necessary.
- * @GO_FILE_PROBE_LAST: last value, won't happen.
- **/
-
-/**
- * GOFileOpenerClass:
- * @parent_class: parent class.
- * @can_probe: returns %TRUE if the files can be probed.
- * @probe: probes the file.
- * @open: opens and reads the file.
- *
- * File opener base class.
- **/
-
 enum {
 	FO_PROP_0,
 	FO_PROP_ID,

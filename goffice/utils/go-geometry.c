@@ -26,45 +26,7 @@
 
 #include <glib/gi18n-lib.h>
 
-/**
- * GOGeometrySide:
- * @GO_SIDE_LEFT: left.
- * @GO_SIDE_RIGHT: right.
- * @GO_SIDE_LEFT_RIGHT: left or right.
- * @GO_SIDE_TOP: top.
- * @GO_SIDE_BOTTOM: bottom.
- * @GO_SIDE_TOP_BOTTOM: top or bottom.
- * @GO_SIDE_AUTO: auto.
- **/
-
-/**
- * GODirection:
- * @GO_DIRECTION_UP: up.
- * @GO_DIRECTION_DOWN: down.
- * @GO_DIRECTION_LEFT: left.
- * @GO_DIRECTION_RIGHT: right.
- * @GO_DIRECTION_NONE: no direction.
- **/
-
-/**
- * GOGeometryRotationType:
- * @GO_ROTATE_NONE: no rotation.
- * @GO_ROTATE_COUNTERCLOCKWISE: counter clockwise.
- * @GO_ROTATE_UPSIDEDOWN: upside down.
- * @GO_ROTATE_CLOCKWISE: clockwise.
- * @GO_ROTATE_FREE: free rotation.
- **/
-
-/**
- * GOGeometryOBR:
- * @x: vertical position of the center.
- * @y: vertical position of the center.
- * @w: width.
- * @h: height.
- * @alpha: Aangle from x axis to w edge, in radians.
- **/
-
-#define dist(x0, y0, x1, y1) hypot((x0) - (x1),(y0) - (y1))
+#define dist(x0,y0,x1,y1) hypot((x0) - (x1),(y0) - (y1))
 
 /**
  * go_geometry_cartesian_to_polar:

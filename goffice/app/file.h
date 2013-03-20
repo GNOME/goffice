@@ -6,7 +6,16 @@
 
 G_BEGIN_DECLS
 
-/*
+/**
+ * GOFileFormatLevel:
+ * @GO_FILE_FL_NONE: no name assigned, won't happen.
+ * @GO_FILE_FL_WRITE_ONLY: PostScript etc, won't be remembered.
+ * @GO_FILE_FL_NEW: Wb just created.
+ * @GO_FILE_FL_MANUAL: Save gets punted to save as.
+ * @GO_FILE_FL_MANUAL_REMEMBER: Ditto, but remember in history.
+ * @GO_FILE_FL_AUTO: Save will save to this filename.
+ * @GO_FILE_FL_LAST: last value, won't happen.
+ *
  * File format levels. They are ordered. When we save a file, we
  * remember the name, but not if we already have a name at a higher level.
  * When created, workbooks are assigned a name at level GO_FILE_FL_NEW.
@@ -23,7 +32,13 @@ typedef enum {
 GType go_file_format_level_get_type (void);
 #define GO_TYPE_FILE_FORMAT_LEVEL (go_file_format_level_get_type ())
 
-/*
+/**
+ * GOFileSaveScope:
+ * @GO_FILE_SAVE_WORKBOOK: save the whole file.
+ * @GO_FILE_SAVE_SHEET: save only current page.
+ * @GO_FILE_SAVE_RANGE: save only a selected range.
+ * @GO_FILE_SAVE_LAST: last value, won't happen.
+ *
  * GOFileSaveScope specifies what information file saver can save in a file.
  * Many savers can save the whole workbook (with all sheets), but others
  * save only current sheet, usually because of file format limitations.

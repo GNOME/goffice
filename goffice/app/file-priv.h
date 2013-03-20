@@ -13,6 +13,15 @@ G_BEGIN_DECLS
 #define GO_FILE_OPENER_METHOD(obj,name) \
         ((GO_FILE_OPENER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
 
+/**
+ * GOFileOpenerClass:
+ * @parent_class: parent class.
+ * @can_probe: returns %TRUE if the files can be probed.
+ * @probe: probes the file.
+ * @open: opens and reads the file.
+ *
+ * File opener base class.
+ **/
 struct _GOFileOpenerClass {
 	GObjectClass parent_class;
 
