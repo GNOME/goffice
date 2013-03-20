@@ -287,7 +287,6 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 	style->line.width = tmp_width;
 	style->line.auto_dash = tmp_auto_dash;
 	style->line.dash_type = tmp_dash_type;
-printf("x=%g x0=%g x1=%g\n",x,item->x0,item->x1);
 	return res;
 }
 
