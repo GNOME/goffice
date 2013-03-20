@@ -257,7 +257,7 @@ GSF_CLASS_FULL (GocStyledItem, goc_styled_item, NULL, NULL,
 	   GSF_INTERFACE (goc_styled_item_so_init, GO_TYPE_STYLED_OBJECT))
 
 /**
- * goc_styled_item_set_cairo_line :
+ * goc_styled_item_set_cairo_line:
  * @gsi: #GocStyledItem
  * @cr: #cairo_t
  *
@@ -288,4 +288,33 @@ goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
 	if (gsi->scale_line_width)
 		gsi->style->line.width = width;
 	return result;
+}
+
+/**
+ * goc_styled_item_set_scale_line_width:
+ * @gsi: #GocStyledItem
+ *
+ * This function returns %TRUE if the line width needs to be scaled. It will
+ * always return %FALSE if the line width is 0.
+ * Returns: whether the line width needs to be scaled.
+ **/
+gboolean  goc_styled_item_get_scale_line_width  (GocStyledItem const *gsi)
+{
+	g_return_val_if_fail (GOC_IS_STYLED_ITEM (gsi), FALSE);
+	return gsi->scale_line_width && gsi->style->line.width > 0.;
+}
+
+/**
+ * goc_styled_item_set_scale_line_width:
+ * @gsi: #GocStyledItem
+ * @scale_line_width: boolean
+ *
+ * Sets whether the line width needs to be scaled according to the current
+ * canvas resolution and the item transformation. It will be ignored if the
+ * line width is 0. Default value is %TRUE.
+ **/
+void  goc_styled_item_set_scale_line_width  (GocStyledItem *gsi, gboolean scale_line_width)
+{
+	g_return_if_fail (GOC_IS_STYLED_ITEM (gsi));
+	gsi->scale_line_width = scale_line_width;
 }

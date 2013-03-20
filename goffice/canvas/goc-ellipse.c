@@ -115,13 +115,13 @@ goc_ellipse_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	if (0 == ellipse->width && 0 == ellipse->height)
 		return FALSE;
 
-	cairo_save (cr);
 	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, ellipse->x + ellipse->width/2., ellipse->y + ellipse->height/2.);
 	} else {
 		cairo_translate (cr, ellipse->x + ellipse->width/2., ellipse->y + ellipse->height/2.);
 	}
+	cairo_save (cr);
 	cairo_rotate (cr, ellipse->rotation * sign);
 	cairo_scale (cr, ellipse->width/2. * sign, ellipse->height/2.);
 	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
@@ -134,12 +134,20 @@ goc_ellipse_update_bounds (GocItem *item)
 {
 	cairo_surface_t *surface;
 	cairo_t *cr;
+	gboolean set_line,
+		scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1 , 1);
 	cr = cairo_create (surface);
 
+	cairo_save (cr);
 	if (goc_ellipse_prepare_draw (item, cr, 0)) {
-		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
+		if (!scale_line_width)
+			cairo_restore (cr);
+		set_line = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
+		if (scale_line_width)
+			cairo_restore (cr);
+		if (set_line)
 			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 		else if (go_style_is_fill_visible (go_styled_object_get_style (GO_STYLED_OBJECT (item))))
 			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
@@ -163,6 +171,8 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
 	cairo_surface_t *surface;
 	cairo_t *cr;
+	gboolean set_line,
+		scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
 
 	if (0 == ellipse->width && 0 == ellipse->height)
 		return res;
@@ -176,14 +186,21 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
+	cairo_save (cr);
 	if (goc_ellipse_prepare_draw (item, cr, 0)) {
 		/* Filled OR both fill and stroke are none */
+		if (!scale_line_width)
+			cairo_restore (cr);
+		set_line = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
+		if (scale_line_width)
+			cairo_restore (cr);
+		if (set_line)
 		if (style->fill.type != GO_STYLE_FILL_NONE ||
-			(style->fill.type == GO_STYLE_FILL_NONE && !goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))) {
+			(style->fill.type == GO_STYLE_FILL_NONE && !set_line)) {
 			if (cairo_in_fill (cr, x, y))
 				res = 0;
 		}
-		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr) && cairo_in_stroke (cr, x, y)) {
+		if (set_line && cairo_in_stroke (cr, x, y)) {
 			res = 0;
 		}
 	}
@@ -197,16 +214,20 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 static void
 goc_ellipse_draw (GocItem const *item, cairo_t *cr)
 {
+	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
 	cairo_save(cr);
 	if (goc_ellipse_prepare_draw (item, cr, 1)) {
 		go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);
-		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
+		if (!scale_line_width)
+			cairo_restore (cr);
+		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
 			cairo_stroke (cr);
 		} else {
 			cairo_new_path (cr);
 		}
 	}
-	cairo_restore(cr);
+	if (scale_line_width)
+		cairo_restore(cr);
 }
 
 static void

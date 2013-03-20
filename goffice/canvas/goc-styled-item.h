@@ -60,6 +60,8 @@ struct _GocStyledItemClass {
 GType     goc_styled_item_get_type (void);
 
 gboolean  goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr);
+gboolean  goc_styled_item_get_scale_line_width  (GocStyledItem const *gsi);
+void  goc_styled_item_set_scale_line_width  (GocStyledItem *gsi, gboolean scale_line_width);
 
 G_END_DECLS
 

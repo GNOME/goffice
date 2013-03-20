@@ -110,7 +110,9 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocPolyline *polyline = GOC_POLYLINE (item);
 	unsigned i;
+	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
 
+	cairo_save (cr);
 	_goc_item_transform (item, cr, flag);
 	if (polyline->nb_points == 0)
 		return FALSE;
@@ -121,35 +123,41 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	} else {
 		cairo_move_to (cr, polyline->points[0].x, polyline->points[0].y);
 	}
-	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
-		if (polyline->use_spline) {
-			GOBezierSpline *spline = (GOBezierSpline *) g_object_get_data (G_OBJECT (polyline), "spline");
-			cairo_save (cr);
-			if (flag == 0)
-				cairo_translate (cr, polyline->points[0].x, polyline->points[0].y);
-			go_bezier_spline_to_cairo (spline, cr, goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL);
-			cairo_restore (cr);
-		} else {
-			double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-			gboolean prev_valid = TRUE;
-			for (i = 1; i < polyline->nb_points; i++) {
-				if (go_finite (polyline->points[i].x)) {
-					if (prev_valid)
-						cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
-							polyline->points[i].y - polyline->points[0].y * flag);
-					else {
-						cairo_move_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
-							polyline->points[i].y - polyline->points[0].y * flag);
-						prev_valid = TRUE;
-					}
-				} else
-				    prev_valid = FALSE;
-			}
+	if (polyline->use_spline) {
+		GOBezierSpline *spline = (GOBezierSpline *) g_object_get_data (G_OBJECT (polyline), "spline");
+		cairo_save (cr);
+		if (flag == 0)
+			cairo_translate (cr, polyline->points[0].x, polyline->points[0].y);
+		go_bezier_spline_to_cairo (spline, cr, goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL);
+		cairo_restore (cr);
+	} else {
+		double sign = (flag && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+		gboolean prev_valid = TRUE;
+		for (i = 1; i < polyline->nb_points; i++) {
+			if (go_finite (polyline->points[i].x)) {
+				if (prev_valid)
+					cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
+						polyline->points[i].y - polyline->points[0].y * flag);
+				else {
+					cairo_move_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
+						polyline->points[i].y - polyline->points[0].y * flag);
+					prev_valid = TRUE;
+				}
+			} else
+			    prev_valid = FALSE;
 		}
+	}
 
+	if (!scale_line_width)
+		cairo_restore (cr);
+	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
+		if (!scale_line_width)
+			cairo_restore (cr);
 		return TRUE;
 	}
 
+	if (!scale_line_width)
+		cairo_restore (cr);
 	return FALSE;
 }
 
@@ -211,7 +219,6 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 static void
 goc_polyline_draw (GocItem const *item, cairo_t *cr)
 {
-	cairo_save (cr);
 	if (goc_polyline_prepare_draw (item, cr, 1)) {
 		cairo_stroke (cr);
 	}

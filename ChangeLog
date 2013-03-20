@@ -1,3 +1,24 @@
+2013-03-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-ellipse.c (goc_ellipse_prepare_draw),
+	(goc_ellipse_update_bounds), (goc_ellipse_distance),
+	(goc_ellipse_draw): fixed line width.
+	* goffice/canvas/goc-path.c (goc_path_prepare_draw),
+	(goc_path_update_bounds), (goc_path_draw): fixed line width and position
+	in RTL canvas.
+	* goffice/canvas/goc-polygon.c (goc_polygon_prepare_path),
+	(goc_polygon_update_bounds), (goc_polygon_distance),
+	(goc_polygon_draw): ditto.
+	* goffice/canvas/goc-polyline.c (goc_polyline_prepare_draw),
+	(goc_polyline_draw): ditto.
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_prepare_draw),
+	(goc_rectangle_update_bounds), (goc_rectangle_draw): fixed line width.
+	* goffice/canvas/goc-styled-item.c
+	(goc_styled_item_set_cairo_line),
+	(goc_styled_item_get_scale_line_width),
+	(goc_styled_item_set_scale_line_width): new helper functions.
+	* goffice/canvas/goc-styled-item.h: ditto.
+
 2013-03-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-font-sel.c (reload_faces): Use

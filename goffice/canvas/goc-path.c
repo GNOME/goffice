@@ -126,18 +126,16 @@ goc_path_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 	double rsign = sign;
 
-	cairo_save (cr);
 	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, path->x , path->y);
-		sign = 1;
 	} else {
 		cairo_translate (cr, path->x , path->y);
 		rsign = 1;
 	}
+	cairo_scale (cr, sign, 1.);
 	cairo_rotate (cr, path->rotation * rsign);
 	go_path_to_cairo (path->path, GO_PATH_DIRECTION_FORWARD, cr);
-	cairo_restore (cr);
 
 	return TRUE;
 }
@@ -151,8 +149,10 @@ goc_path_update_bounds (GocItem *item)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
+	cairo_save (cr);
 	if (goc_path_prepare_draw (item, cr, 0)) {
 		goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
+		cairo_restore (cr);
 		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 	}
 
@@ -201,19 +201,23 @@ static void
 goc_path_draw (GocItem const *item, cairo_t *cr)
 {
 	GocPath *path = GOC_PATH (item);
+	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
 
 	cairo_save(cr);
 	cairo_set_fill_rule (cr, path->fill_rule? CAIRO_FILL_RULE_EVEN_ODD: CAIRO_FILL_RULE_WINDING);
 	if (goc_path_prepare_draw (item, cr, 1)) {
 		if (path->closed)
 			go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);
-		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
+		if (!scale_line_width)
+			cairo_restore (cr);
+		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
 			cairo_stroke (cr);
 		} else {
 			cairo_new_path (cr);
 		}
 	}
-	cairo_restore(cr);
+	if (scale_line_width)
+		cairo_restore(cr);
 }
 
 static void

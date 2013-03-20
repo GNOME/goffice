@@ -2444,6 +2444,8 @@ GocRect
 GocStyledItem
 GocStyledItemClass
 goc_styled_item_set_cairo_line
+goc_styled_item_get_scale_line_width
+goc_styled_item_set_scale_line_width
 <SUBSECTION Standard>
 GOC_IS_STYLED_ITEM
 GOC_STYLED_ITEM
