@@ -45,6 +45,7 @@ typedef struct _GOIOContext		GOIOContext;
  * GOFileProbeLevel:
  * @GO_FILE_PROBE_FILE_NAME: Test only file name, don't read file contents
  * @GO_FILE_PROBE_CONTENT: Read the whole file if it's necessary
+ * @GO_FILE_PROBE_LAST: Invalid
  *
  * File probe level tells file opener (its probe method to be exact), how
  * hard it should try to recognize the type of the file. File openers may
@@ -57,7 +58,8 @@ typedef struct _GOIOContext		GOIOContext;
  */
 typedef enum {
 	GO_FILE_PROBE_FILE_NAME,
-	GO_FILE_PROBE_CONTENT
+	GO_FILE_PROBE_CONTENT,
+	GO_FILE_PROBE_LAST
 } GOFileProbeLevel;
 
 G_END_DECLS
