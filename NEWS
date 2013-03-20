@@ -6,6 +6,7 @@ Morten:
 	* Widget cleanups.
 	* Add dialog version of the font selector.
 	* Rewrite font selector.  [#695031]
+	* Fix GOComboColor signal problem.  [#696022]
 
 --------------------------------------------------------------------------
 goffice 0.10.1:

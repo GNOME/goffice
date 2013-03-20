@@ -1,3 +1,8 @@
+2013-03-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-combo-color.c (go_combo_color_class_init): Fix
+	type of first argument of color_changed signal.  Fixes #696022.
+
 2013-03-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-ellipse.c (goc_ellipse_prepare_draw),

@@ -183,7 +183,7 @@ go_combo_color_class_init (GObjectClass *gobject_class)
 			      G_STRUCT_OFFSET (GOComboColorClass, color_changed),
 			      NULL, NULL,
 			      go__VOID__INT_BOOLEAN_BOOLEAN_BOOLEAN,
-			      G_TYPE_NONE, 4, G_TYPE_POINTER,
+			      G_TYPE_NONE, 4, G_TYPE_INT,
 			      G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
 	go_combo_color_signals [DISPLAY_CUSTOM_DIALOG] =
 		g_signal_new ("display-custom-dialog",
