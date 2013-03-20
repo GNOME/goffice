@@ -42,8 +42,8 @@ typedef struct {
 
 #define GO_COLOR_FROM_GDK_RGBA(c)	go_color_from_gdk_rgba (&(c), NULL)
 
-#define GO_COLOR_FROM_RGB(r,g,b)	((((guint)(r&0xff))<<24)|(((guint)(g&0xff))<<16)|((guint)(b&0xff)<<8)|0xff)
-#define GO_COLOR_FROM_RGBA(r,g,b,a)	((((guint)(r&0xff))<<24)|(((guint)(g&0xff))<<16)|((guint)(b&0xff)<<8)|(guint)(a&0xff))
+#define GO_COLOR_FROM_RGB(r,g,b)	GO_COLOR_FROM_RGBA((r),(g),(b),0xff)
+#define GO_COLOR_FROM_RGBA(r,g,b,a)	((((guint)((r)&0xff))<<24)|(((guint)((g)&0xff))<<16)|((guint)((b)&0xff)<<8)|(guint)((a)&0xff))
 #define GO_COLOR_WHITE  GO_COLOR_FROM_RGB(0xff, 0xff, 0xff)
 #define GO_COLOR_BLACK   GO_COLOR_FROM_RGB(0x00, 0x00, 0x00)
 #define GO_COLOR_RED     GO_COLOR_FROM_RGB(0xff, 0x00, 0x00)
