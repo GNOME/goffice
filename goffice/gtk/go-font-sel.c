@@ -52,6 +52,7 @@ struct _GOFontSel {
 	gboolean        show_color;
 	GtkWidget       *color_picker;
 	GOColorGroup    *color_group;
+	char            *color_unset_text;
 
 	gboolean        show_strikethrough;
 	GtkWidget       *strikethrough_button;
@@ -82,6 +83,7 @@ enum {
 	PROP_SHOW_COLOR,
 	PROP_SHOW_SCRIPT,
 	PROP_SHOW_STRIKETHROUGH,
+	PROP_COLOR_UNSET_TEXT,
 
 	GFS_GTK_FONT_CHOOSER_PROP_FIRST           = 0x4000,
 	GFS_GTK_FONT_CHOOSER_PROP_FONT,
@@ -107,6 +109,24 @@ go_font_sel_add_attr (GOFontSel *gfs, PangoAttribute *attr)
 	attr->start_index = 0;
 	attr->end_index = -1;
 	pango_attr_list_change (gfs->modifications, attr);
+}
+
+static gboolean
+cb_remove_type (PangoAttribute *attr, gpointer user_data)
+{
+	PangoAttrType atype = GPOINTER_TO_UINT (user_data);
+	return (attr->klass->type == atype);
+}
+
+static void
+go_font_sel_remove_attr (GOFontSel *gfs, PangoAttrType atype)
+{
+	PangoAttrList *removed =
+		pango_attr_list_filter (gfs->modifications,
+					cb_remove_type,
+					GUINT_TO_POINTER (atype));
+	if (removed)
+		pango_attr_list_unref (removed);
 }
 
 static void
@@ -696,6 +716,19 @@ cb_strikethrough_changed (GtkToggleButton *but, GOFontSel *gfs)
 }
 
 static void
+cb_color_changed (GOComboColor *color_picker, GOColor color,
+		  gboolean is_custom, gboolean by_user, gboolean is_default,
+		  GOFontSel *gfs)
+{
+	if (is_default)
+		go_font_sel_remove_attr (gfs, PANGO_ATTR_FOREGROUND);
+	else
+		go_font_sel_add_attr (gfs, go_color_to_pango (color, TRUE));
+	go_font_sel_emit_changed (gfs);
+}
+
+
+static void
 cb_script_changed (GOOptionMenu *om, GOFontSel *gfs)
 {
 	GtkWidget *selected = go_option_menu_get_history (om);
@@ -710,8 +743,14 @@ cb_script_changed (GOOptionMenu *om, GOFontSel *gfs)
 	is_super = (script == GO_FONT_SCRIPT_SUPER);
 	is_sub = (script == GO_FONT_SCRIPT_SUB);
 
-	go_font_sel_add_attr (gfs, go_pango_attr_subscript_new (is_sub));
-	go_font_sel_add_attr (gfs, go_pango_attr_superscript_new (is_super));
+	if (is_sub)
+		go_font_sel_add_attr (gfs, go_pango_attr_subscript_new (TRUE));
+	else
+		go_font_sel_remove_attr (gfs, go_pango_attr_subscript_get_attr_type ());
+	if (is_super)
+		go_font_sel_add_attr (gfs, go_pango_attr_superscript_new (TRUE));
+	else
+		go_font_sel_remove_attr (gfs, go_pango_attr_superscript_get_attr_type ());
 	go_font_sel_emit_changed (gfs);
 }
 
@@ -818,12 +857,16 @@ gfs_constructor (GType type,
 	if (!gfs->color_group)
 		gfs->color_group = go_color_group_fetch (NULL, gfs);
 	gfs->color_picker =
-		go_combo_color_new (NULL, "?", GO_COLOR_BLACK,
+		go_combo_color_new (NULL, gfs->color_unset_text,
+				    GO_COLOR_BLACK,
 				    gfs->color_group);
 	g_object_ref_sink (gfs->color_picker);
 	gtk_widget_show_all (gfs->color_picker);
 	go_gtk_widget_replace (placeholder, gfs->color_picker);
 	if (gfs->show_color) {
+		g_signal_connect (gfs->color_picker,
+				  "color-changed",
+				  G_CALLBACK (cb_color_changed), gfs);
 	} else
 		remove_row_containing (gfs->color_picker);
 
@@ -922,6 +965,9 @@ gfs_dispose (GObject *obj)
 	g_free (gfs->preview_text);
 	gfs->preview_text = NULL;
 
+	g_free (gfs->color_unset_text);
+	gfs->color_unset_text = NULL;
+
 	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER (obj),
 					  NULL, NULL, NULL);
 
@@ -951,6 +997,10 @@ gfs_get_property (GObject         *object,
 
 	case PROP_SHOW_STRIKETHROUGH:
 		g_value_set_boolean (value, gfs->show_strikethrough);
+		break;
+
+	case PROP_COLOR_UNSET_TEXT:
+		g_value_set_string (value, gfs->color_unset_text);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
@@ -1001,6 +1051,11 @@ gfs_set_property (GObject         *object,
 
 	case PROP_SHOW_STRIKETHROUGH:
 		gfs->show_strikethrough = g_value_get_boolean (value);
+		break;
+
+	case PROP_COLOR_UNSET_TEXT:
+		g_free (gfs->color_unset_text);
+		gfs->color_unset_text = g_value_dup_string (value);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
@@ -1080,6 +1135,15 @@ gfs_class_init (GObjectClass *klass)
 				       FALSE,
 				       G_PARAM_READWRITE |
 				       G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(klass, PROP_COLOR_UNSET_TEXT,
+		 g_param_spec_string ("color-unset-text",
+				      _("Color unset text"),
+				      _("The text to show for selecing no color"),
+				      NULL,
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_override_property (klass,
 					  GFS_GTK_FONT_CHOOSER_PROP_FONT,
