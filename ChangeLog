@@ -1,6 +1,13 @@
+2013-03-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-font-sel.c (reload_faces): Use
+	go_font_sel_set_style to restore user's choice, not string
+	matching on face name.  Fixes #696168.
+
 2013-03-19  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/canvas/goc-arc.c (goc_arc_prepare_draw): make item transform work.
+	* goffice/canvas/goc-arc.c (goc_arc_prepare_draw): make item
+	transform work.
 	* goffice/canvas/goc-canvas.c (button_press_cb): typo.
 	* goffice/canvas/goc-circle.c (goc_circle_draw),
 	(goc_circle_update_bounds): make item transform work.
@@ -23,8 +30,8 @@
 	* goffice/canvas/goc-rectangle.c (goc_rectangle_prepare_draw): ditto.
 	* goffice/canvas/goc-text.c (goc_text_prepare_draw),
 	(goc_text_update_bounds), (goc_text_distance), (goc_text_draw): ditto.
-	* goffice/utils/go-emf.c (go_emf_movetoex), (go_emf_exttextoutw): start work
-	on text support.
+	* goffice/utils/go-emf.c (go_emf_movetoex), (go_emf_exttextoutw):
+	start work on text support.
 
 2013-03-18  Morten Welinder  <terra@gnome.org>
 

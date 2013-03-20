@@ -275,7 +275,7 @@ my_get_face_name (GOFontSel *gfs, PangoFontFace *face)
 #undef ALIAS
 #undef SUBST
 
-static GtkMenuItem *
+static void
 add_item_to_menu (GtkWidget *m, const char *name,
 		  const char *what, gpointer data,
 		  GHashTable *itemhash)
@@ -285,7 +285,6 @@ add_item_to_menu (GtkWidget *m, const char *name,
 	g_object_set_data (G_OBJECT (w), what, data);
 	if (itemhash && !g_hash_table_lookup (itemhash, data))
 		g_hash_table_insert (itemhash, data, w);
-	return GTK_MENU_ITEM (w);
 }
 
 static void
@@ -301,10 +300,17 @@ reload_faces (GOFontSel *gfs)
 {
 	GtkWidget *m;
 	GSList *faces;
-	char *current_face_name;
-	GtkMenuItem *selected_item = NULL, *first_item = NULL;
+	PangoWeight current_weight = PANGO_WEIGHT_NORMAL;
+	PangoStyle current_style = PANGO_STYLE_NORMAL;
 
-	current_face_name = g_strdup (my_get_face_name (gfs, gfs->current_face));
+	if (gfs->current_face) {
+		PangoFontDescription *desc =
+			pango_font_face_describe (gfs->current_face);
+		current_weight = pango_font_description_get_weight (desc);
+		current_style = pango_font_description_get_style (desc);
+		/* This isn't 100% right: we may lose other attributes.  */
+	}
+
 	gfs->current_face = NULL;
 
 	g_hash_table_remove_all (gfs->item_by_face);
@@ -316,37 +322,14 @@ reload_faces (GOFontSel *gfs)
 	     faces = faces->next) {
 		PangoFontFace *face = faces->data;
 		const char *name = my_get_face_name (gfs, face);
-		GtkMenuItem *w = add_item_to_menu
-			(m, g_dpgettext2 (NULL, "FontFace", name),
-			 "face", face, gfs->item_by_face);
-
-		if (!first_item)
-			first_item = w;
-
-		if (g_strcmp0 (current_face_name, name) == 0)
-			selected_item = w;
+		const char *lname = g_dpgettext2 (NULL, "FontFace", name);
+		add_item_to_menu (m, lname, "face", face, gfs->item_by_face);
 	}
-	if (!selected_item)
-		selected_item = first_item;
 
 	gtk_widget_show_all (m);
 	go_option_menu_set_menu (GO_OPTION_MENU (gfs->face_picker), m);
-	if (selected_item)
-		go_option_menu_select_item (GO_OPTION_MENU (gfs->face_picker),
-					    selected_item);
 
-	if (selected_item) {
-		const char *new_face_name;
-		gboolean changed;
-
-		gfs->current_face =
-			g_object_get_data (G_OBJECT (selected_item), "face");
-
-		new_face_name = my_get_face_name (gfs, gfs->current_face);
-		changed = g_strcmp0 (current_face_name, new_face_name) != 0;
-		update_preview_after_face_change (gfs, changed);
-	}
-	g_free (current_face_name);
+	go_font_sel_set_style (gfs, current_weight, current_style);
 }
 
 #define ADD_OBSERVED(it) g_hash_table_insert (observed_faces, (gpointer)(it), (gpointer)(it))
