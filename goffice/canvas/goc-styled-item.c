@@ -291,7 +291,7 @@ goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
 }
 
 /**
- * goc_styled_item_set_scale_line_width:
+ * goc_styled_item_get_scale_line_width:
  * @gsi: #GocStyledItem
  *
  * This function returns %TRUE if the line width needs to be scaled. It will

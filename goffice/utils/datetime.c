@@ -33,31 +33,6 @@
 #define SECS_PER_DAY (24 * 60 * 60)
 #define HALF_SEC (0.5 / SECS_PER_DAY)
 
-/**
- * GODateConventions:
- * @use_1904: use MacOffice 1904 based date convention,
- * rather than the Win32 style 1900.
- **/
-
-/**
- * GoCouponConvention:
- * @freq: frequency.
- * @basis: #GOBasisType
- * @eom: end of month.
- * @date_conv: #GODateConventions
- **/
-
-/**
- * GOBasisType:
- * @GO_BASIS_MSRB_30_360: US 30/360 (days in a month/days in a year)
- * @GO_BASIS_ACT_ACT: actual days/actual days
- * @GO_BASIS_ACT_360: actual days/360
- * @GO_BASIS_ACT_365: actual days/365
- * @GO_BASIS_30E_360: European 30/360
- * @GO_BASIS_30Ep_360: ?
- * @GO_BASIS_MSRB_30_360_SYM: ?
- **/
-
 /* ------------------------------------------------------------------------- */
 static GODateConventions *
 go_date_conventions_copy (GODateConventions const *dc)

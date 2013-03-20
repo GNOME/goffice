@@ -1144,7 +1144,6 @@ GOGeometryRotationType
 GOGeometrySide
 GO_GEOMETRY_ANGLE_TOLERANCE
 GODirection
-GO_TYPE_DIRECTION
 go_direction_get_name
 go_direction_is_forward
 go_direction_is_horizontal

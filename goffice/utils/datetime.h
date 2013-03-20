@@ -65,6 +65,16 @@ int go_date_g_years_between (GDate const *date1, GDate const *date2);
 /* week number according to the given method. */
 int go_date_weeknum (GDate const *date, int method);
 
+/**
+ * GOBasisType:
+ * @GO_BASIS_MSRB_30_360: US 30/360 (days in a month/days in a year)
+ * @GO_BASIS_ACT_ACT: actual days/actual days
+ * @GO_BASIS_ACT_360: actual days/360
+ * @GO_BASIS_ACT_365: actual days/365
+ * @GO_BASIS_30E_360: European 30/360
+ * @GO_BASIS_30Ep_360: ?
+ * @GO_BASIS_MSRB_30_360_SYM: ?
+ **/
 typedef enum { /* see doc/fn-financial-basis.txt for details */
 	GO_BASIS_MSRB_30_360     = 0,
 	GO_BASIS_ACT_ACT         = 1,
@@ -78,6 +88,13 @@ typedef enum { /* see doc/fn-financial-basis.txt for details */
 
 gint32  go_date_days_between_basis (GDate const *from, GDate const *to, GOBasisType basis);
 
+/**
+ * GoCouponConvention:
+ * @freq: frequency.
+ * @basis: #GOBasisType
+ * @eom: end of month.
+ * @date_conv: #GODateConventions
+ **/
 typedef struct {
 	int	 freq;
 	GOBasisType  basis;
