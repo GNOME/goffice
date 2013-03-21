@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 struct _GOFontSel {
 	GtkBox		base;
 
@@ -84,6 +85,7 @@ enum {
 	PROP_SHOW_SCRIPT,
 	PROP_SHOW_STRIKETHROUGH,
 	PROP_COLOR_UNSET_TEXT,
+	PROP_COLOR_GROUP,
 
 	GFS_GTK_FONT_CHOOSER_PROP_FIRST           = 0x4000,
 	GFS_GTK_FONT_CHOOSER_PROP_FONT,
@@ -686,6 +688,14 @@ cb_face_changed (GOOptionMenu *om, GOFontSel *gfs)
 	}
 }
 
+static double
+clamp_and_round_size (double size)
+{
+	size = CLAMP (size, 1.0, 1000.0);
+	size = floor ((size * 10) + .5) / 10;
+	return size;
+}
+
 static void
 cb_size_picker_changed (GtkButton *button, GOFontSel *gfs)
 {
@@ -699,8 +709,7 @@ cb_size_picker_changed (GtkButton *button, GOFontSel *gfs)
 	if (*text == 0 || end != text + strlen (text) || errno == ERANGE)
 		return;
 
-	size = CLAMP (size, 1.0, 1000.0);
-	size = floor ((size * 10.) + .5) / 10.;	/* round .1 */
+	size = clamp_and_round_size (size);
 	psize = pango_units_from_double (size);
 
 	go_font_sel_add_attr (gfs, pango_attr_size_new (psize));
@@ -743,14 +752,8 @@ cb_script_changed (GOOptionMenu *om, GOFontSel *gfs)
 	is_super = (script == GO_FONT_SCRIPT_SUPER);
 	is_sub = (script == GO_FONT_SCRIPT_SUB);
 
-	if (is_sub)
-		go_font_sel_add_attr (gfs, go_pango_attr_subscript_new (TRUE));
-	else
-		go_font_sel_remove_attr (gfs, go_pango_attr_subscript_get_attr_type ());
-	if (is_super)
-		go_font_sel_add_attr (gfs, go_pango_attr_superscript_new (TRUE));
-	else
-		go_font_sel_remove_attr (gfs, go_pango_attr_superscript_get_attr_type ());
+	go_font_sel_add_attr (gfs, go_pango_attr_subscript_new (is_sub));
+	go_font_sel_add_attr (gfs, go_pango_attr_superscript_new (is_super));
 	go_font_sel_emit_changed (gfs);
 }
 
@@ -1003,6 +1006,10 @@ gfs_get_property (GObject         *object,
 		g_value_set_string (value, gfs->color_unset_text);
 		break;
 
+	case PROP_COLOR_GROUP:
+		g_value_set_object (value, gfs->color_group);
+		break;
+
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
 		PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
 		g_value_take_string (value, pango_font_description_to_string (desc));
@@ -1056,6 +1063,11 @@ gfs_set_property (GObject         *object,
 	case PROP_COLOR_UNSET_TEXT:
 		g_free (gfs->color_unset_text);
 		gfs->color_unset_text = g_value_dup_string (value);
+		break;
+
+	case PROP_COLOR_GROUP:
+		g_clear_object (&gfs->color_group);
+		gfs->color_group = g_value_dup_object (value);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
@@ -1142,6 +1154,15 @@ gfs_class_init (GObjectClass *klass)
 				      _("Color unset text"),
 				      _("The text to show for selecing no color"),
 				      NULL,
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(klass, PROP_COLOR_GROUP,
+		 g_param_spec_object ("color-group",
+				      _("Color Group"),
+				      _("The color group to use for the color picker"),
+				      GO_TYPE_COLOR_GROUP,
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 
@@ -1267,9 +1288,30 @@ go_font_sel_get_sample_attributes (GOFontSel *fs)
 void
 go_font_sel_set_sample_attributes (GOFontSel *fs, PangoAttrList *attrs)
 {
-	PangoAttrList *acopy = pango_attr_list_copy (attrs);
+	PangoAttrList *acopy;
+#if 0
+	PangoAttrIterator *aiter = pango_attr_list_get_iterator (attrs);
+	const PangoAttribute *attr;
+	PangoWeight weight;
+	PangoStyle style;
+#endif
+
+	acopy = pango_attr_list_copy (attrs);
 	pango_attr_list_unref (fs->modifications);
 	fs->modifications = acopy;
+
+#if 0
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_WEIGHT);
+	weight = attr ? ((PangoAttrInt*)attr)->value : PANGO_WEIGHT_NORMAL;
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_STYLE);
+	style = attr ? ((PangoAttrInt*)attr)->value : PANGO_STYLE_NORMAL;
+	go_font_sel_set_style (fs, weight, style);
+
+	attr = pango_attr_iterator_get (aiter, PANGO_ATTR_STRIKETHROUGH);
+	go_font_sel_set_strikethrough (fs, attr && ((PangoAttrInt*)attr)->value);
+
+	pango_attr_iterator_destroy (aiter);
+#endif
 
 	update_preview (fs);
 }
@@ -1342,14 +1384,15 @@ go_font_sel_set_style (GOFontSel *fs, PangoWeight weight, PangoStyle style)
 }
 
 static void
-go_font_sel_set_points (GOFontSel *gfs,
-			double point_size)
+go_font_sel_set_points (GOFontSel *gfs,	double size)
 {
-	const char *old_text = gtk_entry_get_text (GTK_ENTRY (gfs->size_entry));
-	char *buffer = g_strdup_printf ("%g", point_size);
-	if (strcmp (old_text, buffer) != 0)
-		gtk_entry_set_text (GTK_ENTRY (gfs->size_entry), buffer);
-	g_free (buffer);
+	char *new_text;
+
+	size = clamp_and_round_size (size);
+	new_text = g_strdup_printf ("%g", size);
+	/* This is a null op if the text does not change.  */
+	gtk_entry_set_text (GTK_ENTRY (gfs->size_entry), new_text);
+	g_free (new_text);
 }
 
 void
@@ -1362,8 +1405,14 @@ go_font_sel_set_size (GOFontSel *fs, int size)
 void
 go_font_sel_set_strikethrough (GOFontSel *fs, gboolean strikethrough)
 {
-	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (fs->strikethrough_button), strikethrough);
+	GtkToggleButton *but = GTK_TOGGLE_BUTTON (fs->strikethrough_button);
+	gboolean b = gtk_toggle_button_get_active (but);
+
+	strikethrough = !!strikethrough;
+	if (b == strikethrough)
+		return;
+
+	gtk_toggle_button_set_active (but, strikethrough);
 	go_font_sel_add_attr (fs, pango_attr_strikethrough_new (strikethrough));
 	update_preview (fs);
 }
@@ -1373,9 +1422,20 @@ go_font_sel_set_uline (GOFontSel *gfs, int uline)
 {
 }
 
-static void
-go_font_sel_set_color (GOFontSel *gfs, GOColor c)
+void
+go_font_sel_set_color (GOFontSel *gfs, GOColor c, gboolean is_default)
 {
+	GOComboColor *cc = GO_COMBO_COLOR (gfs->color_picker);
+	gboolean old_is_default;
+	GOColor old_color = go_combo_color_get_color (cc, &old_is_default);
+
+	if (old_is_default == is_default && (is_default || old_color == c))
+		return;
+
+	if (is_default)
+		go_combo_color_set_color_to_default (cc);
+	else
+		go_combo_color_set_color (cc, c);
 }
 
 void
@@ -1408,7 +1468,7 @@ go_font_sel_set_font (GOFontSel *fs, GOFont const *font)
 	go_font_sel_set_font_desc (fs, font->desc);
 	go_font_sel_set_strikethrough (fs, font->strikethrough);
 	go_font_sel_set_uline (fs, font->underline);
-	go_font_sel_set_color (fs, font->color);
+	go_font_sel_set_color (fs, font->color, FALSE);
 }
 
 
