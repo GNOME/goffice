@@ -72,7 +72,8 @@ enum {
 	LAST_SIGNAL
 };
 
-GONamedColor const default_color_set [] = {
+static GONamedColor const default_color_set [] = {
+	/* xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905 */
 	{ GO_COLOR_FROM_RGBA (0x00, 0x00, 0x00, 0xff), N_("black")},
 	{ GO_COLOR_FROM_RGBA (0x99, 0x33, 0x00, 0xff), N_("light brown")},
 	{ GO_COLOR_FROM_RGBA (0x33, 0x33, 0x00, 0xff), N_("brown gold")},
@@ -141,6 +142,11 @@ GONamedColor const default_color_set [] = {
 
 	{ 0, NULL},
 };
+const GONamedColor *
+_go_color_palette_default_color_set (void)
+{
+	return default_color_set;
+}
 
 static guint go_color_palette_signals [LAST_SIGNAL] = { 0, };
 

@@ -20,8 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-gradient.h"
-#include "go-color.h"
+#include <goffice/goffice.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/go-combo-pixmaps.h>

@@ -29,9 +29,14 @@
 
 G_BEGIN_DECLS
 
+/**
+ * GONamedColor:
+ * @color: the color.
+ * @name: untranslated name - eg. "white".
+ **/
 typedef struct {
-	GOColor		 color;
-	char const 	*name;	/* english name - eg. "white" */
+	GOColor color;
+	char const *name;
 } GONamedColor;
 
 /*

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-color.c :
+ * go-color.c :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -21,15 +21,9 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-color.h"
+#include <goffice/goffice.h>
 
 #include <stdio.h>
-
-/**
- * GONamedColor:
- * @color: the color.
- * @name: english name - eg. "white".
- **/
 
 /**
  * go_color_from_str :

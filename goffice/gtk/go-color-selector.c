@@ -29,8 +29,6 @@
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 
-extern GONamedColor default_color_set [];
-
 typedef struct {
 	int n_swatches;
 	GOColorGroup *color_group;
@@ -52,6 +50,8 @@ get_index (int n_swatches, GOColorGroup *color_group, GOColor color)
 {
 	int i = 0;
 	int index = -1;
+	const GONamedColor *default_color_set =
+		_go_color_palette_default_color_set ();
 
 	while (default_color_set[i].name != NULL) {
 		if (default_color_set[i].color == color && index < 0) {
@@ -76,6 +76,9 @@ get_index (int n_swatches, GOColorGroup *color_group, GOColor color)
 static GOColor
 get_color (int n_swatches, GOColorGroup *color_group, int index)
 {
+	const GONamedColor *default_color_set =
+		_go_color_palette_default_color_set ();
+
 	if (index < 0 || index >= (n_swatches))
 		index = 0;
 
@@ -287,7 +290,8 @@ go_selector_new_color (GOColor initial_color,
 	state->default_color = default_color;
 	state->allow_alpha = TRUE;
 
-	while (default_color_set[count].name != NULL) count ++;
+	while (_go_color_palette_default_color_set ()[count].name)
+		count++;
 	state->n_swatches = count + GO_COLOR_GROUP_HISTORY_SIZE;
 	state->color_group = go_color_group_fetch (group, NULL);
 
