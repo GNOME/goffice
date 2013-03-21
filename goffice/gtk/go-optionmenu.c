@@ -61,10 +61,22 @@ go_option_menu_new (void)
 }
 
 
+/**
+ * go_option_menu_build:
+ * @first_entry: text for first entry
+ * @...: further values and text
+ *
+ * Returns: (transfer none): a new #GOOptionMenu with a filled-in menu.
+ *
+ * This function takes a %NULL-terminated list of string-integer pairs
+ * and fills in a menu with the given texts.  Each menu entry will
+ * have a data property "value" sets to the given value.  The menu is
+ * then placed inside a new #GOOptionMenu which is then returned.
+ */ 
 GtkWidget *
 go_option_menu_build (const char *first_entry, ...)
 {
-	GtkMenu *m = gtk_menu_new ();
+	GtkWidget *m = gtk_menu_new ();
 	GtkWidget *om;
 	va_list var_args;
 
@@ -77,7 +89,7 @@ go_option_menu_build (const char *first_entry, ...)
 		first_entry = va_arg (var_args, char *);
 	}		
 	va_end (var_args);
-	gtk_widget_show_all (GTK_WIDGET (m));
+	gtk_widget_show_all (m);
 
 	om = go_option_menu_new ();
 	go_option_menu_set_menu (GO_OPTION_MENU (om), m);
