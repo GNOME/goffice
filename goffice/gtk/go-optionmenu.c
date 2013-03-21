@@ -66,7 +66,7 @@ go_option_menu_new (void)
  * @first_entry: text for first entry
  * @...: further values and text
  *
- * Returns: (transfer none): a new #GOOptionMenu with a filled-in menu.
+ * Returns: (transfer full): a new #GOOptionMenu with a filled-in menu.
  *
  * This function takes a %NULL-terminated list of string-integer pairs
  * and fills in a menu with the given texts.  Each menu entry will
