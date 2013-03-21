@@ -37,6 +37,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
+#include <stdarg.h>
 
 
 enum {
@@ -57,6 +58,30 @@ GtkWidget*
 go_option_menu_new (void)
 {
 	return g_object_new (GO_TYPE_OPTION_MENU, NULL);
+}
+
+
+GtkWidget *
+go_option_menu_build (const char *first_entry, ...)
+{
+	GtkMenu *m = gtk_menu_new ();
+	GtkWidget *om;
+	va_list var_args;
+
+	va_start (var_args, first_entry);
+	while (first_entry) {
+		int v = va_arg (var_args, int);
+		GtkWidget *w = gtk_menu_item_new_with_label (first_entry);
+		gtk_menu_shell_append (GTK_MENU_SHELL (m), w);
+		g_object_set_data (G_OBJECT (w), "value", GINT_TO_POINTER (v));
+		first_entry = va_arg (var_args, char *);
+	}		
+	va_end (var_args);
+	gtk_widget_show_all (GTK_WIDGET (m));
+
+	om = go_option_menu_new ();
+	go_option_menu_set_menu (GO_OPTION_MENU (om), m);
+	return om;
 }
 
 static void

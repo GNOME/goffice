@@ -56,6 +56,9 @@ struct _GOFontSel {
 	char            *color_unset_text;
 	GOColor          color_default;
 
+	gboolean        show_underline;
+	GtkWidget       *underline_picker;
+
 	gboolean        show_strikethrough;
 	GtkWidget       *strikethrough_button;
 
@@ -83,11 +86,13 @@ enum {
 	PROP_0,
 	PROP_SHOW_STYLE,
 	PROP_SHOW_COLOR,
+	PROP_SHOW_UNDERLINE,
 	PROP_SHOW_SCRIPT,
 	PROP_SHOW_STRIKETHROUGH,
 	PROP_COLOR_UNSET_TEXT,
 	PROP_COLOR_GROUP,
 	PROP_COLOR_DEFAULT,
+	PROP_UNDERLINE_PICKER,
 
 	GFS_GTK_FONT_CHOOSER_PROP_FIRST           = 0x4000,
 	GFS_GTK_FONT_CHOOSER_PROP_FONT,
@@ -740,6 +745,20 @@ cb_color_changed (GOComboColor *color_picker, GOColor color,
 
 
 static void
+cb_underline_changed (GOOptionMenu *om, GOFontSel *gfs)
+{
+	GtkWidget *selected = go_option_menu_get_history (om);
+	PangoUnderline u;
+
+	if (!selected)
+		return;
+
+	u = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (selected), "value"));
+	go_font_sel_add_attr (gfs, pango_attr_underline_new (u));
+	go_font_sel_emit_changed (gfs);
+}
+
+static void
 cb_script_changed (GOOptionMenu *om, GOFontSel *gfs)
 {
 	GtkWidget *selected = go_option_menu_get_history (om);
@@ -750,7 +769,7 @@ cb_script_changed (GOOptionMenu *om, GOFontSel *gfs)
 		return;
 
 	script = GPOINTER_TO_INT
-		(g_object_get_data (G_OBJECT (selected), "script"));
+		(g_object_get_data (G_OBJECT (selected), "value"));
 	is_super = (script == GO_FONT_SCRIPT_SUPER);
 	is_sub = (script == GO_FONT_SCRIPT_SUB);
 
@@ -866,6 +885,7 @@ gfs_constructor (GType type,
 		go_combo_color_new (NULL, gfs->color_unset_text,
 				    gfs->color_default,
 				    gfs->color_group);
+	gtk_widget_set_halign (gfs->color_picker, GTK_ALIGN_START);
 	g_object_ref_sink (gfs->color_picker);
 	gtk_widget_show_all (gfs->color_picker);
 	go_gtk_widget_replace (placeholder, gfs->color_picker);
@@ -879,25 +899,43 @@ gfs_constructor (GType type,
 	/* ---------------------------------------- */
 
 	placeholder = go_gtk_builder_get_widget
+		(gfs->gui, "underline-picker-placeholder");
+	if (!gfs->underline_picker) {
+		gfs->underline_picker = go_option_menu_build
+			(C_("underline", "None"), PANGO_UNDERLINE_NONE,
+			 C_("underline", "Single"), PANGO_UNDERLINE_SINGLE,
+			 C_("underline", "Double"), PANGO_UNDERLINE_DOUBLE,
+			 C_("underline", "Low"), PANGO_UNDERLINE_LOW,
+			 C_("underline", "Error"), PANGO_UNDERLINE_ERROR,
+			 NULL);
+		if (gfs->show_underline)
+			g_signal_connect (gfs->underline_picker,
+					  "changed",
+					  G_CALLBACK (cb_underline_changed),
+					  gfs);
+	}
+	g_object_ref_sink (gfs->underline_picker);
+	gtk_widget_show_all (gfs->underline_picker);
+	go_gtk_widget_replace (placeholder, gfs->underline_picker);
+	if (gfs->show_underline) {
+		/* Nothing here */
+	} else
+		remove_row_containing (gfs->underline_picker);
+
+	/* ---------------------------------------- */
+
+	placeholder = go_gtk_builder_get_widget
 		(gfs->gui, "script-picker-placeholder");
-	gfs->script_picker = go_option_menu_new ();
+	gfs->script_picker =
+		go_option_menu_build (_("Normal"), GO_FONT_SCRIPT_STANDARD,
+				      _("Subscript"), GO_FONT_SCRIPT_SUB,
+				      _("Superscript"), GO_FONT_SCRIPT_SUPER,
+				      NULL);
+
 	g_object_ref_sink (gfs->script_picker);
 	gtk_widget_show_all (gfs->script_picker);
 	go_gtk_widget_replace (placeholder, gfs->script_picker);
 	if (gfs->show_script) {
-		GtkWidget *m = gtk_menu_new ();
-		add_item_to_menu (m, _("Normal"),
-				  "script", GINT_TO_POINTER (GO_FONT_SCRIPT_STANDARD),
-				  NULL);
-		add_item_to_menu (m, _("Subscript"),
-				  "script", GINT_TO_POINTER (GO_FONT_SCRIPT_SUB),
-				  NULL);
-		add_item_to_menu (m, _("Superscript"),
-				  "script", GINT_TO_POINTER (GO_FONT_SCRIPT_SUPER),
-				  NULL);
-		gtk_widget_show_all (m);
-		go_option_menu_set_menu (GO_OPTION_MENU (gfs->script_picker),
-					 m);
 		g_signal_connect (gfs->script_picker,
 				  "changed",
 				  G_CALLBACK (cb_script_changed),
@@ -936,6 +974,7 @@ gfs_finalize (GObject *obj)
 	g_clear_object (&gfs->face_picker);
 	g_clear_object (&gfs->color_picker);
 	g_clear_object (&gfs->color_group);
+	g_clear_object (&gfs->underline_picker);
 	g_clear_object (&gfs->script_picker);
 	g_clear_object (&gfs->strikethrough_button);
 
@@ -997,6 +1036,10 @@ gfs_get_property (GObject         *object,
 		g_value_set_boolean (value, gfs->show_color);
 		break;
 
+	case PROP_SHOW_UNDERLINE:
+		g_value_set_boolean (value, gfs->show_underline);
+		break;
+
 	case PROP_SHOW_SCRIPT:
 		g_value_set_boolean (value, gfs->show_script);
 		break;
@@ -1015,6 +1058,10 @@ gfs_get_property (GObject         *object,
 
 	case PROP_COLOR_DEFAULT:
 		g_value_set_uint (value, gfs->color_default);
+		break;
+
+	case PROP_UNDERLINE_PICKER:
+		g_value_set_object (value, gfs->underline_picker);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
@@ -1059,6 +1106,10 @@ gfs_set_property (GObject         *object,
 		gfs->show_color = g_value_get_boolean (value);
 		break;
 
+	case PROP_SHOW_UNDERLINE:
+		gfs->show_underline = g_value_get_boolean (value);
+		break;
+
 	case PROP_SHOW_SCRIPT:
 		gfs->show_script = g_value_get_boolean (value);
 		break;
@@ -1079,6 +1130,11 @@ gfs_set_property (GObject         *object,
 
 	case PROP_COLOR_DEFAULT:
 		gfs->color_default = g_value_get_uint (value);
+		break;
+
+	case PROP_UNDERLINE_PICKER:
+		g_clear_object (&gfs->underline_picker);
+		gfs->underline_picker = g_value_dup_object (value);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
@@ -1142,6 +1198,15 @@ gfs_class_init (GObjectClass *klass)
 				       G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property
+		(klass, PROP_SHOW_UNDERLINE,
+		 g_param_spec_boolean ("show-underline",
+				       _("Show Underline"),
+				       _("Whether underlining is part of the font being selected"),
+				       FALSE,
+				       G_PARAM_READWRITE |
+				       G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
 		(klass, PROP_SHOW_SCRIPT,
 		 g_param_spec_boolean ("show-script",
 				       _("Show Script"),
@@ -1187,6 +1252,15 @@ gfs_class_init (GObjectClass *klass)
 				    GO_COLOR_BLACK,
 				    G_PARAM_READWRITE |
 				    G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(klass, PROP_UNDERLINE_PICKER,
+		 g_param_spec_object ("underline-picker",
+				      _("Underline Picker"),
+				      _("The widget to use for picking underline type"),
+				      GTK_TYPE_WIDGET,
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_override_property (klass,
 					  GFS_GTK_FONT_CHOOSER_PROP_FONT,
@@ -1450,7 +1524,7 @@ go_font_sel_set_script (GOFontSel *fs, GOFontScript script)
 	for (l = children; l; l = l->next) {
 		GtkMenuItem *item = GTK_MENU_ITEM (l->data);
 		GOFontScript s = GPOINTER_TO_INT
-			(g_object_get_data (G_OBJECT (item), "script"));
+			(g_object_get_data (G_OBJECT (item), "value"));
 		if (s == script)
 			go_option_menu_select_item (om, item);
 	}

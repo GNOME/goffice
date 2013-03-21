@@ -535,7 +535,8 @@ go_gtk_widget_replace (GtkWidget *victim, GtkWidget *replacement)
 					   padding, pack_type);
 		gtk_box_reorder_child (box, replacement, pos);
 	} else {
-		g_error ("Unsupported container");
+		g_error ("Unsupported container: %s",
+			 g_type_name_from_instance ((gpointer)parent));
 	}
 }
 

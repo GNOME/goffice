@@ -1,3 +1,10 @@
+2013-03-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-optionmenu.c (go_option_menu_build): New
+	function.
+
+	* goffice/gtk/go-font-sel.c: Add underline support.
+
 2013-03-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-optionmenu.c (go_option_menu_set_history): Plug
