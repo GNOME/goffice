@@ -6,9 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-28 11:50+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-21 18:55-0400\n"
 "PO-Revision-Date: 2012-10-28 21:24+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
@@ -18,72 +17,94 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../goffice/app/file.c:527
+#: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
 msgstr "ID"
 
-#: ../goffice/app/file.c:528
+#: ../goffice/app/file.c:178
 #, fuzzy
-msgid "The identifier of the saver."
+msgid "The identifier of the opener"
 msgstr "Pengaman Layar"
 
-#: ../goffice/app/file.c:538
-#, fuzzy
-msgid "MIME type"
-msgstr "Jenis MIME"
-
-#: ../goffice/app/file.c:539
-#, fuzzy
-msgid "The MIME type of the saver."
-msgstr "Jenis MIME Tidak Dikenal"
-
-#: ../goffice/app/file.c:548
-#, fuzzy
-msgid "Extension"
-msgstr "Ekstensi"
-
-#: ../goffice/app/file.c:549
-msgid "The standard file name extension of the saver."
-msgstr ""
-
-#: ../goffice/app/file.c:558
+#: ../goffice/app/file.c:187 ../goffice/app/file.c:624
 #, fuzzy
 msgid "Description"
 msgstr "Deskripsi"
 
-#: ../goffice/app/file.c:559
+#: ../goffice/app/file.c:188
+#, fuzzy
+msgid "The description of the opener"
+msgstr "Pengaman Layar"
+
+#: ../goffice/app/file.c:197 ../goffice/app/file.c:644
+msgid "Interactive only"
+msgstr ""
+
+#: ../goffice/app/file.c:198
+msgid "TRUE if this opener requires interaction"
+msgstr ""
+
+#: ../goffice/app/file.c:594
+#, fuzzy
+msgid "The identifier of the saver."
+msgstr "Pengaman Layar"
+
+#: ../goffice/app/file.c:604
+#, fuzzy
+msgid "MIME type"
+msgstr "Jenis MIME"
+
+#: ../goffice/app/file.c:605
+#, fuzzy
+msgid "The MIME type of the saver."
+msgstr "Jenis MIME Tidak Dikenal"
+
+#: ../goffice/app/file.c:614
+#, fuzzy
+msgid "Extension"
+msgstr "Ekstensi"
+
+#: ../goffice/app/file.c:615
+msgid "The standard file name extension of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:625
 #, fuzzy
 msgid "The description of the saver."
 msgstr "Pengaman Layar"
 
-#: ../goffice/app/file.c:568
+#: ../goffice/app/file.c:634
 #, fuzzy
 msgid "Overwrite"
 msgstr "Tulis ulang"
 
-#: ../goffice/app/file.c:569
+#: ../goffice/app/file.c:635
 msgid "Whether the saver will overwrite files."
 msgstr ""
 
-#: ../goffice/app/file.c:579
+#: ../goffice/app/file.c:645
+msgid "TRUE if this saver requires interaction"
+msgstr ""
+
+#: ../goffice/app/file.c:655
 #, fuzzy
 msgid "Format Level"
 msgstr "Tingkat pelacakan:"
 
-#: ../goffice/app/file.c:590
+#: ../goffice/app/file.c:666
 #, fuzzy
 msgid "Scope"
 msgstr "Scope"
 
-#: ../goffice/app/file.c:591
+#: ../goffice/app/file.c:667
 msgid "How much of a document is saved"
 msgstr ""
 
-#: ../goffice/app/file.c:754
+#: ../goffice/app/file.c:830
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 
-#: ../goffice/app/file.c:764
+#: ../goffice/app/file.c:840
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -93,43 +114,43 @@ msgstr ""
 msgid "Invalid %s: '%s'"
 msgstr "<tak valid>"
 
-#: ../goffice/app/go-doc.c:163
+#: ../goffice/app/go-doc.c:166
 msgid "URI"
 msgstr "URI"
 
-#: ../goffice/app/go-doc.c:164
+#: ../goffice/app/go-doc.c:167
 msgid "The URI associated with this document."
 msgstr ""
 
-#: ../goffice/app/go-doc.c:168
+#: ../goffice/app/go-doc.c:171
 #, fuzzy
 msgid "Dirty"
 msgstr "Kotor"
 
-#: ../goffice/app/go-doc.c:169
+#: ../goffice/app/go-doc.c:172
 #, fuzzy
 msgid "Whether the document has been changed."
 msgstr "Menentukan isi dokumen telah diindeks atau belum"
 
-#: ../goffice/app/go-doc.c:173
+#: ../goffice/app/go-doc.c:176
 #, fuzzy
 msgid "Dirty Time"
 msgstr "Sisipkan Wak_tu"
 
-#: ../goffice/app/go-doc.c:174
+#: ../goffice/app/go-doc.c:177
 msgid "When the document was first changed."
 msgstr ""
 
-#: ../goffice/app/go-doc.c:179
+#: ../goffice/app/go-doc.c:182
 msgid "Pristine"
 msgstr ""
 
-#: ../goffice/app/go-doc.c:180
+#: ../goffice/app/go-doc.c:183
 msgid "Whether the document is unchanged since it was created."
 msgstr ""
 
-#: ../goffice/app/go-doc.c:443 ../goffice/canvas/goc-image.c:292
-#: ../goffice/utils/go-style-prefs.ui.h:10
+#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:293
+#: ../goffice/utils/go-style-prefs.ui.h:14
 #, fuzzy
 msgid "Image"
 msgstr "Citra"
@@ -142,6 +163,172 @@ msgstr "Objek"
 #: ../goffice/app/go-object.c:109
 #, c-format
 msgid "Loading plugin '%s' that contains the object '%s'"
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:372
+#, c-format
+msgid "File contains plugin info with invalid ID (%s), expected %s."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:376
+msgid "Couldn't read plugin info from file."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:522
+#, fuzzy
+msgid "Unknown name"
+msgstr "Nama berkas tak dikenal"
+
+#: ../goffice/app/go-plugin.c:617
+#, fuzzy, c-format
+msgid "Unsupported loader type \"%s\"."
+msgstr "Tipe komponen tak didukung"
+
+#: ../goffice/app/go-plugin.c:625
+#, c-format
+msgid "Error while preparing loader \"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:703
+#, c-format
+msgid "Error while reading service #%d info."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:784
+#, c-format
+msgid "Can't read plugin info file (\"%s\")."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:788
+#, c-format
+msgid "File \"%s\" is not valid plugin info file."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:871
+#, c-format
+msgid "Errors while reading services for plugin with ID=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:883
+#, c-format
+msgid "Plugin ID contains invalid characters (%s)."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:887
+#, fuzzy
+msgid "Unknown plugin name."
+msgstr "Nama profil plugin"
+
+#: ../goffice/app/go-plugin.c:891
+#, c-format
+msgid "No loader defined or loader ID invalid for plugin with ID=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:897
+msgid "Plugin has no id."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:938
+#, c-format
+msgid "Error initializing plugin loader (\"%s\")."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:969 ../goffice/app/go-plugin.c:1131
+msgid "Detected cyclic plugin dependencies."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:993
+#, c-format
+msgid "Couldn't activate plugin with ID=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:999 ../goffice/app/go-plugin.c:1177
+#, c-format
+msgid "Couldn't find plugin with ID=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1006
+msgid "Error while activating plugin dependencies."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1020
+#, c-format
+msgid "Error while activating plugin service #%d."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1076
+#, c-format
+msgid "Error while deactivating plugin service #%d."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1143 ../goffice/app/go-plugin.c:1164
+msgid "Cannot load plugin loader."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1171
+#, c-format
+msgid "Couldn't load plugin with ID=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1184
+msgid "Error while loading plugin dependencies."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1376
+#, c-format
+msgid "Errors occurred while reading plugin information from file \"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1495
+#, c-format
+msgid "Couldn't activate plugin \"%s\" (ID: %s)."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1530
+#, c-format
+msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1657 ../goffice/app/go-plugin.c:1825
+msgid "Errors while reading info about available plugins."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1681
+msgid "Errors while deactivating plugins that are no longer on disk."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1702
+#, c-format
+msgid ""
+"The following plugins are no longer on disk but are still active:\n"
+"%s.\n"
+"You should restart this program now."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1801
+msgid "Errors while reading info about new plugins."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1849
+#, fuzzy
+msgid "Errors while activating plugins."
+msgstr "Kesalahan saat mengaktifkan plugin"
+
+#: ../goffice/app/go-plugin.c:1856
+msgid "Errors while initializing plugin system."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader.c:83
+msgid "Loader has no set_attributes method.\n"
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader.c:98
+msgid "Loader has no load_base method.\n"
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader.c:143 ../goffice/app/go-plugin-loader.c:181
+#, c-format
+msgid "Service '%s' not supported by loader."
 msgstr ""
 
 #: ../goffice/app/go-plugin-loader-module.c:71
@@ -215,19 +402,6 @@ msgstr "Berkas tidak berisi fungsi \"%s\"."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Berkas tidak berisi fungsi \"%s\"."
 
-#: ../goffice/app/go-plugin-loader.c:83
-msgid "Loader has no set_attributes method.\n"
-msgstr ""
-
-#: ../goffice/app/go-plugin-loader.c:98
-msgid "Loader has no load_base method.\n"
-msgstr ""
-
-#: ../goffice/app/go-plugin-loader.c:143 ../goffice/app/go-plugin-loader.c:181
-#, c-format
-msgid "Service '%s' not supported by loader."
-msgstr ""
-
 #: ../goffice/app/go-plugin-service.c:192
 #: ../goffice/app/go-plugin-service.c:1031
 msgid "Error while loading plugin service."
@@ -241,8 +415,8 @@ msgstr ""
 msgid "Cleanup function inside plugin returned error."
 msgstr ""
 
-#: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:910 ../goffice/utils/go-format.c:5242
+#: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:60
+#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5243
 #, fuzzy
 msgid "General"
 msgstr "Umum"
@@ -316,159 +490,6 @@ msgid ""
 "loading failed."
 msgstr ""
 
-#: ../goffice/app/go-plugin.c:371
-#, c-format
-msgid "File contains plugin info with invalid ID (%s), expected %s."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:375
-msgid "Couldn't read plugin info from file."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:521
-#, fuzzy
-msgid "Unknown name"
-msgstr "Nama berkas tak dikenal"
-
-#: ../goffice/app/go-plugin.c:616
-#, fuzzy, c-format
-msgid "Unsupported loader type \"%s\"."
-msgstr "Tipe komponen tak didukung"
-
-#: ../goffice/app/go-plugin.c:624
-#, c-format
-msgid "Error while preparing loader \"%s\"."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:702
-#, c-format
-msgid "Error while reading service #%d info."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:783
-#, c-format
-msgid "Can't read plugin info file (\"%s\")."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:787
-#, c-format
-msgid "File \"%s\" is not valid plugin info file."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:870
-#, c-format
-msgid "Errors while reading services for plugin with ID=\"%s\"."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:882
-#, c-format
-msgid "Plugin ID contains invalid characters (%s)."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:886
-#, fuzzy
-msgid "Unknown plugin name."
-msgstr "Nama profil plugin"
-
-#: ../goffice/app/go-plugin.c:890
-#, c-format
-msgid "No loader defined or loader ID invalid for plugin with ID=\"%s\"."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:896
-msgid "Plugin has no id."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:937
-#, c-format
-msgid "Error initializing plugin loader (\"%s\")."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:968 ../goffice/app/go-plugin.c:1130
-msgid "Detected cyclic plugin dependencies."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:992
-#, c-format
-msgid "Couldn't activate plugin with ID=\"%s\"."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:998 ../goffice/app/go-plugin.c:1176
-#, c-format
-msgid "Couldn't find plugin with ID=\"%s\"."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1005
-msgid "Error while activating plugin dependencies."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1019
-#, c-format
-msgid "Error while activating plugin service #%d."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1075
-#, c-format
-msgid "Error while deactivating plugin service #%d."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1142 ../goffice/app/go-plugin.c:1163
-msgid "Cannot load plugin loader."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1170
-#, c-format
-msgid "Couldn't load plugin with ID=\"%s\"."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1183
-msgid "Error while loading plugin dependencies."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1375
-#, c-format
-msgid "Errors occurred while reading plugin information from file \"%s\"."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1494
-#, c-format
-msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1529
-#, c-format
-msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1656 ../goffice/app/go-plugin.c:1824
-msgid "Errors while reading info about available plugins."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1680
-msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1701
-#, c-format
-msgid ""
-"The following plugins are no longer on disk but are still active:\n"
-"%s.\n"
-"You should restart this program now."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1800
-msgid "Errors while reading info about new plugins."
-msgstr ""
-
-#: ../goffice/app/go-plugin.c:1848
-#, fuzzy
-msgid "Errors while activating plugins."
-msgstr "Kesalahan saat mengaktifkan plugin"
-
-#: ../goffice/app/go-plugin.c:1855
-msgid "Errors while initializing plugin system."
-msgstr ""
-
 #: ../goffice/app/io-context.c:168
 msgid "exec-main-loop"
 msgstr ""
@@ -477,200 +498,201 @@ msgstr ""
 msgid "Execute main loop iteration"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:436
+#: ../goffice/canvas/goc-arc.c:441
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:437
+#: ../goffice/canvas/goc-arc.c:442
 #, fuzzy
 msgid "The arc center x coordinate"
 msgstr "Koordinat X dari pusat rotasi"
 
-#: ../goffice/canvas/goc-arc.c:442
+#: ../goffice/canvas/goc-arc.c:447
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:443
+#: ../goffice/canvas/goc-arc.c:448
 #, fuzzy
 msgid "The arc center y coordinate"
 msgstr "Koordinat X dari pusat rotasi"
 
-#: ../goffice/canvas/goc-arc.c:448
+#: ../goffice/canvas/goc-arc.c:453
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:449
+#: ../goffice/canvas/goc-arc.c:454
 #, fuzzy
 msgid "The arc x radius"
 msgstr "Radius sudut"
 
-#: ../goffice/canvas/goc-arc.c:454
+#: ../goffice/canvas/goc-arc.c:459
 #, fuzzy
 msgid "yr"
 msgstr "th"
 
-#: ../goffice/canvas/goc-arc.c:455
+#: ../goffice/canvas/goc-arc.c:460
 #, fuzzy
 msgid "The arc y radius"
 msgstr "Radius sudut"
 
-#: ../goffice/canvas/goc-arc.c:460
+#: ../goffice/canvas/goc-arc.c:465
 msgid "ang1"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:461
+#: ../goffice/canvas/goc-arc.c:466
 msgid "The arc start angle"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:466
+#: ../goffice/canvas/goc-arc.c:471
 msgid "ang2"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:467
+#: ../goffice/canvas/goc-arc.c:472
 msgid "The arc end angle"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:472 ../goffice/canvas/goc-component.c:295
-#: ../goffice/canvas/goc-ellipse.c:261 ../goffice/canvas/goc-path.c:275
-#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:475
-#: ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
+#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
+#: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 #, fuzzy
 msgid "Rotation"
 msgstr "Rotasi"
 
-#: ../goffice/canvas/goc-arc.c:473
+#: ../goffice/canvas/goc-arc.c:478
 msgid "The rotation around center position"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:2862 ../goffice/graph/gog-grid.c:127
+#: ../goffice/canvas/goc-arc.c:483 ../goffice/canvas/goc-rectangle.c:347
+#: ../goffice/graph/gog-axis.c:3058 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 #, fuzzy
 msgid "Type"
 msgstr "Tipe"
 
-#: ../goffice/canvas/goc-arc.c:479
+#: ../goffice/canvas/goc-arc.c:484
 msgid "The type of arc: arc, chord or pie"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:348
 #, fuzzy
 msgid "Start Arrow"
 msgstr "Pangkal panah"
 
-#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:349
 msgid "Arrow for line's start"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:352
+#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:354
 #, fuzzy
 msgid "End Arrow"
 msgstr "Ujung panah"
 
-#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:497 ../goffice/canvas/goc-line.c:355
 msgid "Arrow for line's end"
 msgstr ""
 
-#: ../goffice/canvas/goc-circle.c:167 ../goffice/canvas/goc-component.c:271
-#: ../goffice/canvas/goc-ellipse.c:237 ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:263
-#: ../goffice/canvas/goc-path.c:263 ../goffice/canvas/goc-pixbuf.c:223
-#: ../goffice/canvas/goc-rectangle.c:312 ../goffice/canvas/goc-text.c:463
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
+#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
+#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
 #: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
-#: ../goffice/canvas/goc-circle.c:168
+#: ../goffice/canvas/goc-circle.c:170
 msgid "The circle center horizontal position"
 msgstr ""
 
-#: ../goffice/canvas/goc-circle.c:173 ../goffice/canvas/goc-component.c:277
-#: ../goffice/canvas/goc-ellipse.c:243 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:269
-#: ../goffice/canvas/goc-path.c:269 ../goffice/canvas/goc-pixbuf.c:229
-#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-text.c:469
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
+#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
+#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
 #: ../goffice/canvas/goc-widget.c:779
 msgid "y"
 msgstr "y"
 
-#: ../goffice/canvas/goc-circle.c:174
+#: ../goffice/canvas/goc-circle.c:176
 msgid "The circle center vertical position"
 msgstr ""
 
-#: ../goffice/canvas/goc-circle.c:179
+#: ../goffice/canvas/goc-circle.c:181
 #, fuzzy
 msgid "Radius"
 msgstr "Radius"
 
-#: ../goffice/canvas/goc-circle.c:180
+#: ../goffice/canvas/goc-circle.c:182
 #, fuzzy
 msgid "The circle radius"
 msgstr "Radius sudut"
 
-#: ../goffice/canvas/goc-component.c:272
+#: ../goffice/canvas/goc-component.c:292
 #, fuzzy
 msgid "The object left position"
 msgstr "Posisi bilah alat objek"
 
-#: ../goffice/canvas/goc-component.c:278
+#: ../goffice/canvas/goc-component.c:298
 #, fuzzy
 msgid "The object top position"
 msgstr "Posisi bilah alat objek"
 
-#: ../goffice/canvas/goc-component.c:283 ../goffice/canvas/goc-component.c:284
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:281
-#: ../goffice/canvas/goc-pixbuf.c:241 ../goffice/canvas/goc-rectangle.c:330
-#: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:486
+#: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
+#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
+#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
+#: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 #, fuzzy
 msgid "Height"
 msgstr "Tinggi"
 
-#: ../goffice/canvas/goc-component.c:289 ../goffice/canvas/goc-component.c:290
-#: ../goffice/canvas/goc-ellipse.c:249 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
-#: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
-#: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-graph.c:480
-#: ../goffice/utils/go-image.c:499 ../plugins/plot_xy/gog-xy-dropbar.c:312
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
+#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
+#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
+#: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
+#: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
+#: ../plugins/plot_xy/gog-xy-dropbar.c:312
 #, fuzzy
 msgid "Width"
 msgstr "Lebar"
 
-#: ../goffice/canvas/goc-component.c:296
+#: ../goffice/canvas/goc-component.c:316
 #, fuzzy
 msgid "The rotation around center"
 msgstr "Gravitasi Z Pusat Rotasi"
 
-#: ../goffice/canvas/goc-component.c:301
+#: ../goffice/canvas/goc-component.c:321
 #, fuzzy
 msgid "Object"
 msgstr "Objek"
 
-#: ../goffice/canvas/goc-component.c:302
+#: ../goffice/canvas/goc-component.c:322
 #, fuzzy
 msgid "The embedded GOComponent object"
 msgstr "Objek tempelan yang generic"
 
-#: ../goffice/canvas/goc-ellipse.c:238
+#: ../goffice/canvas/goc-ellipse.c:260
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr ""
 
-#: ../goffice/canvas/goc-ellipse.c:244
+#: ../goffice/canvas/goc-ellipse.c:266
 msgid "The ellipse top position"
 msgstr ""
 
-#: ../goffice/canvas/goc-ellipse.c:250
+#: ../goffice/canvas/goc-ellipse.c:272
 #, fuzzy
 msgid "The ellipse width"
 msgstr "Lebar elips"
 
-#: ../goffice/canvas/goc-ellipse.c:256
+#: ../goffice/canvas/goc-ellipse.c:278
 #, fuzzy
 msgid "The ellipse height"
 msgstr "Tinggi elips"
 
-#: ../goffice/canvas/goc-ellipse.c:262 ../goffice/canvas/goc-rectangle.c:337
+#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr ""
 
@@ -692,7 +714,7 @@ msgstr ""
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:512
+#: ../goffice/graph/gog-graph.c:525 ../goffice/graph/gog-theme.c:581
 #, fuzzy
 msgid "Graph"
 msgstr "Grafik"
@@ -701,7 +723,7 @@ msgstr "Grafik"
 msgid "The GogGraph this object displays"
 msgstr ""
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1026
+#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1071
 #, fuzzy
 msgid "Renderer"
 msgstr "Perender Sel"
@@ -720,61 +742,61 @@ msgstr ""
 msgid "The group vertical offset"
 msgstr "Ofset bayangan vertikal"
 
-#: ../goffice/canvas/goc-image.c:264 ../goffice/canvas/goc-pixbuf.c:224
+#: ../goffice/canvas/goc-image.c:265 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:270 ../goffice/canvas/goc-pixbuf.c:230
+#: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:242
 #, fuzzy
 msgid "The image top position"
 msgstr "Gambar tanda air untuk bagian atas"
 
-#: ../goffice/canvas/goc-image.c:276 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:282 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:293
+#: ../goffice/canvas/goc-image.c:294
 #, fuzzy
 msgid "The GOImage to display"
 msgstr "Tampilan X yang akan dipakai"
 
-#: ../goffice/canvas/goc-image.c:297
+#: ../goffice/canvas/goc-image.c:298
 #, fuzzy
 msgid "Cropped bottom"
 msgstr "Panel bawah"
 
-#: ../goffice/canvas/goc-image.c:298
+#: ../goffice/canvas/goc-image.c:299
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:302
+#: ../goffice/canvas/goc-image.c:303
 #, fuzzy
 msgid "Cropped left"
 msgstr "Rata kiri"
 
-#: ../goffice/canvas/goc-image.c:303
+#: ../goffice/canvas/goc-image.c:304
 msgid "The cropped area at the image left of the image width"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:307
+#: ../goffice/canvas/goc-image.c:308
 #, fuzzy
 msgid "Cropped right"
 msgstr "Rata kanan"
 
-#: ../goffice/canvas/goc-image.c:308
+#: ../goffice/canvas/goc-image.c:309
 msgid "The cropped area at the image right of the image width"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:312
+#: ../goffice/canvas/goc-image.c:313
 #, fuzzy
 msgid "Cropped top"
 msgstr "Panel atas"
 
-#: ../goffice/canvas/goc-image.c:313
+#: ../goffice/canvas/goc-image.c:314
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr ""
 
@@ -786,7 +808,7 @@ msgstr "Kanvas"
 msgid "The canvas object on which the item resides"
 msgstr ""
 
-#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:684
+#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:685
 #, fuzzy
 msgid "Parent"
 msgstr "Induk"
@@ -795,173 +817,174 @@ msgstr "Induk"
 msgid "The group in which the item resides"
 msgstr ""
 
-#: ../goffice/canvas/goc-line.c:322
+#: ../goffice/canvas/goc-line.c:324
 msgid "x0"
 msgstr "x0"
 
-#: ../goffice/canvas/goc-line.c:323
+#: ../goffice/canvas/goc-line.c:325
 msgid "The line start x coordinate"
 msgstr ""
 
-#: ../goffice/canvas/goc-line.c:328
+#: ../goffice/canvas/goc-line.c:330
 msgid "y0"
 msgstr "y0"
 
-#: ../goffice/canvas/goc-line.c:329
+#: ../goffice/canvas/goc-line.c:331
 msgid "The line start y coordinate"
 msgstr ""
 
-#: ../goffice/canvas/goc-line.c:334
+#: ../goffice/canvas/goc-line.c:336
 msgid "x1"
 msgstr "x1"
 
-#: ../goffice/canvas/goc-line.c:335
+#: ../goffice/canvas/goc-line.c:337
 #, fuzzy
 msgid "The line end x coordinate"
 msgstr "Karakter Akhir _Baris"
 
-#: ../goffice/canvas/goc-line.c:340
+#: ../goffice/canvas/goc-line.c:342
 msgid "y1"
 msgstr "y1"
 
-#: ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-line.c:343
 #, fuzzy
 msgid "The line end y coordinate"
 msgstr "Karakter Akhir _Baris"
 
-#: ../goffice/canvas/goc-path.c:264
+#: ../goffice/canvas/goc-path.c:269
 msgid "The path first point x coordinate"
 msgstr ""
 
-#: ../goffice/canvas/goc-path.c:270
+#: ../goffice/canvas/goc-path.c:275
 msgid "The path first point y coordinate"
 msgstr ""
 
-#: ../goffice/canvas/goc-path.c:276
+#: ../goffice/canvas/goc-path.c:281
 msgid "The rotation around first point position"
 msgstr ""
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:286
 #, fuzzy
 msgid "Closed"
 msgstr "Ditutup"
 
-#: ../goffice/canvas/goc-path.c:282
+#: ../goffice/canvas/goc-path.c:287
 msgid "The flag for closed path"
 msgstr ""
 
-#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-polygon.c:339
+#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
 #, fuzzy
 msgid "Fill rule"
 msgstr "Nama aturan:"
 
-#: ../goffice/canvas/goc-path.c:288 ../goffice/canvas/goc-polygon.c:340
+#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
 msgid "Set fill rule to winding or even/odd"
 msgstr ""
 
-#: ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-path.c:298
 #, fuzzy
 msgid "Path"
 msgstr "Path"
 
-#: ../goffice/canvas/goc-path.c:294
+#: ../goffice/canvas/goc-path.c:299
 #, fuzzy
 msgid "The path points"
 msgstr "Poin fonta"
 
-#: ../goffice/canvas/goc-pixbuf.c:252 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
 #, fuzzy
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
-#: ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-pixbuf.c:265
 #, fuzzy
 msgid "The GdkPixbuf to display"
 msgstr "GdkPixbuf yang hendak ditampilkan"
 
-#: ../goffice/canvas/goc-polygon.c:328 ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
 #, fuzzy
 msgid "points"
 msgstr "point"
 
-#: ../goffice/canvas/goc-polygon.c:328
+#: ../goffice/canvas/goc-polygon.c:344
 #, fuzzy
 msgid "The polygon vertices"
 msgstr "Properti Poligon"
 
-#: ../goffice/canvas/goc-polygon.c:333 ../goffice/canvas/goc-polyline.c:256
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
 #, fuzzy
 msgid "Use spline"
 msgstr "Gunakan penyandian:"
 
-#: ../goffice/canvas/goc-polygon.c:334
+#: ../goffice/canvas/goc-polygon.c:350
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr ""
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:360
 #, fuzzy
 msgid "sizes"
 msgstr "ukuran berganda"
 
-#: ../goffice/canvas/goc-polygon.c:345
+#: ../goffice/canvas/goc-polygon.c:361
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
 "be discarded. Setting the \"point\" property will reset the sizes."
 msgstr ""
 
-#: ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polyline.c:259
 #, fuzzy
 msgid "The polyline vertices"
 msgstr "Aliran poliline ortogonal"
 
-#: ../goffice/canvas/goc-polyline.c:257
+#: ../goffice/canvas/goc-polyline.c:265
 msgid "Use a Bezier cubic spline as line"
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-rectangle.c:318
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-rectangle.c:324
 msgid "The rectangle top position"
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:325
+#: ../goffice/canvas/goc-rectangle.c:330
 #, fuzzy
 msgid "The rectangle width"
 msgstr "Lebar persegi panjang."
 
-#: ../goffice/canvas/goc-rectangle.c:331
+#: ../goffice/canvas/goc-rectangle.c:336
 #, fuzzy
 msgid "The rectangle height"
 msgstr "Tinggi persegi panjang."
 
-#: ../goffice/canvas/goc-rectangle.c:343
+#: ../goffice/canvas/goc-rectangle.c:348
 msgid ""
 "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for "
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:348
+#: ../goffice/canvas/goc-rectangle.c:353
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:349
+#: ../goffice/canvas/goc-rectangle.c:354
 msgid "The round rectangle rx"
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-rectangle.c:359
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:355
+#: ../goffice/canvas/goc-rectangle.c:360
 msgid "The round rectangle ry"
 msgstr ""
 
 #: ../goffice/canvas/goc-styled-item.c:160
-#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1105
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:6
+#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1104
 #, fuzzy
 msgid "Style"
 msgstr "Gaya"
@@ -980,85 +1003,85 @@ msgstr "Lebar Garis Baris:"
 msgid "Whether to scale the line width when zooming"
 msgstr ""
 
-#: ../goffice/canvas/goc-text.c:464
+#: ../goffice/canvas/goc-text.c:466
 #, fuzzy
 msgid "The text horizontal position"
 msgstr "Posisi mendatar"
 
-#: ../goffice/canvas/goc-text.c:470
+#: ../goffice/canvas/goc-text.c:472
 #, fuzzy
 msgid "The text position"
 msgstr "Posisi relatif"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:478
 msgid "The rotation around the anchor"
 msgstr ""
 
-#: ../goffice/canvas/goc-text.c:481 ../goffice/graph/gog-object.c:818
+#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:815
 msgid "Anchor"
 msgstr "Jangkar"
 
-#: ../goffice/canvas/goc-text.c:482
+#: ../goffice/canvas/goc-text.c:484
 #, fuzzy
 msgid "The anchor point for the text"
 msgstr "Titik anchor pada teks"
 
-#: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:971
+#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:970
 #, fuzzy
 msgid "Text"
 msgstr "Teks"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:490
 #, fuzzy
 msgid "The text to display"
 msgstr "Teks yang hendak ditampilkan"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 #, fuzzy
 msgid "Attributes"
 msgstr "Atribut"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "The attributes list as a PangoAttrList"
 msgstr ""
 
-#: ../goffice/canvas/goc-text.c:496
+#: ../goffice/canvas/goc-text.c:498
 #, fuzzy
 msgid "Clip"
 msgstr "Klip"
 
-#: ../goffice/canvas/goc-text.c:497
+#: ../goffice/canvas/goc-text.c:499
 #, fuzzy
 msgid "Whether to clip or not"
 msgstr "Apakah akan menampilkan panel alat"
 
-#: ../goffice/canvas/goc-text.c:502
+#: ../goffice/canvas/goc-text.c:504
 #, fuzzy
 msgid "Clip width"
 msgstr "Lebar potongan"
 
-#: ../goffice/canvas/goc-text.c:503
+#: ../goffice/canvas/goc-text.c:505
 #, fuzzy
 msgid "Clip width for the text"
 msgstr "Lebar kotak teks"
 
-#: ../goffice/canvas/goc-text.c:508
+#: ../goffice/canvas/goc-text.c:510
 #, fuzzy
 msgid "Clip height"
 msgstr "Tinggi potongan"
 
-#: ../goffice/canvas/goc-text.c:509
+#: ../goffice/canvas/goc-text.c:511
 #, fuzzy
 msgid "Clip height for the text"
 msgstr "Tinggi kotak teks"
 
-#: ../goffice/canvas/goc-text.c:514
+#: ../goffice/canvas/goc-text.c:516
 #, fuzzy
 msgid "Wrap width"
 msgstr "Potong lebar"
 
-#: ../goffice/canvas/goc-text.c:515
+#: ../goffice/canvas/goc-text.c:517
 #, fuzzy
 msgid "Wrap width for the text"
 msgstr "Lebar kotak teks"
@@ -1102,23 +1125,6 @@ msgstr "Mesin Api"
 msgid "Component Type"
 msgstr "Tipe komponen tak didukung"
 
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:1
-#, fuzzy
-msgid "<b>Euler angles</b>"
-msgstr "Pindah sudut kamera"
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:2
-msgid "Psi:"
-msgstr ""
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:3
-msgid "Theta:"
-msgstr ""
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:4
-msgid "Phi:"
-msgstr ""
-
 #: ../goffice/graph/gog-3d-box.c:215
 msgid "Advanced"
 msgstr "Tingkat lanjut"
@@ -1139,6 +1145,264 @@ msgstr ""
 #, fuzzy
 msgid "Field of view"
 msgstr "Tampilkan kolom pada T_ilikan"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:1
+#, fuzzy
+msgid "Euler angles"
+msgstr "Pindah sudut kamera"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:2
+msgid "Psi:"
+msgstr ""
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:3
+msgid "Theta:"
+msgstr ""
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:4
+msgid "Phi:"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:86
+#, fuzzy
+msgid "Degrees"
+msgstr "Derajat"
+
+#: ../goffice/graph/gog-axis.c:87
+#, fuzzy
+msgid "Radians"
+msgstr "Radian"
+
+#: ../goffice/graph/gog-axis.c:88
+msgid "Grads"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1494
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
+#, fuzzy
+msgid "Discrete"
+msgstr "Diskret"
+
+#: ../goffice/graph/gog-axis.c:1494
+#, fuzzy
+msgid "Discrete mapping"
+msgstr "DB Pemetaan"
+
+#: ../goffice/graph/gog-axis.c:1506 ../goffice/utils/go-line.c:161
+#: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
+#, fuzzy
+msgid "Linear"
+msgstr "Linier"
+
+#: ../goffice/graph/gog-axis.c:1506
+#, fuzzy
+msgid "Linear mapping"
+msgstr "DB Pemetaan"
+
+#: ../goffice/graph/gog-axis.c:1518
+#, fuzzy
+msgid "Log"
+msgstr "Log"
+
+#: ../goffice/graph/gog-axis.c:1518
+#, fuzzy
+msgid "Logarithm mapping"
+msgstr "DB Pemetaan"
+
+#: ../goffice/graph/gog-axis.c:2827 ../goffice/graph/gog-axis.c:2837
+msgid "M_inimum"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:2828 ../goffice/graph/gog-axis.c:2838
+msgid "M_aximum"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:2829
+msgid "Categories between _ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:2830
+msgid "Categories between _labels"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:2839
+msgid "Ma_jor ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:2840
+msgid "Mi_nor ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:2899 ../goffice/math/go-distribution.c:171
+#: ../goffice/math/go-distribution.c:172
+#, fuzzy
+msgid "Scale"
+msgstr "Skala"
+
+#: ../goffice/graph/gog-axis.c:2921 ../plugins/plot_pie/gog-pie.c:325
+#: ../plugins/smoothing/gog-moving-avg.c:195
+#, fuzzy
+msgid "Span"
+msgstr "Jarak"
+
+#: ../goffice/graph/gog-axis.c:2978
+#, fuzzy
+msgid "Colors"
+msgstr "Wa_rna:"
+
+#: ../goffice/graph/gog-axis.c:2996 ../goffice/graph/gog-series-labels.c:910
+#: ../goffice/graph/gog-series-labels.c:1436
+#, fuzzy
+msgid "Format"
+msgstr "Format"
+
+#: ../goffice/graph/gog-axis.c:3034
+msgid "MajorGrid"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3037
+msgid "MinorGrid"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3040
+msgid "AxisLine"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3043 ../goffice/graph/gog-theme.c:591
+#, fuzzy
+msgid "Label"
+msgstr "Label"
+
+#: ../goffice/graph/gog-axis.c:3059
+msgid "Numerical type of this axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3063
+#, fuzzy
+msgid "Invert axis"
+msgstr "Sumbu Perataan"
+
+#: ../goffice/graph/gog-axis.c:3064
+msgid "Scale from high to low rather than low to high"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3068
+msgid "MapName"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3069
+msgid "The name of the map for scaling"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3074
+msgid "Assigned XL format"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3075
+msgid ""
+"The user assigned format to use for non-discrete axis labels (XL format)"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3080 ../goffice/graph/gog-axis.c:3081
+#, fuzzy
+msgid "Rotation of circular axis"
+msgstr "Sudut rotasi dari sumbu X"
+
+#: ../goffice/graph/gog-axis.c:3088 ../goffice/graph/gog-axis.c:3089
+msgid "Polar axis set unit"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3094
+#, fuzzy
+msgid "Axis start position"
+msgstr "Posisi pada sumbu Z"
+
+#: ../goffice/graph/gog-axis.c:3095
+msgid ""
+"Position of the plot area at which the axis effective area starts, expressed "
+"as a percentage of the available position. Defaults to 0.0"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3100
+#, fuzzy
+msgid "Axis end position"
+msgstr "Posisi pada sumbu Z"
+
+#: ../goffice/graph/gog-axis.c:3101
+msgid ""
+"Position of the plot area at which the axis effective area ends, expressed "
+"as a percentage of the available position. Defaults to 1.0"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3105
+msgid "ColorMapName"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:3106
+msgid "The name of the color map"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-color-map.c:131 ../goffice/graph/gog-theme.c:322
+#, fuzzy
+msgid "Resource type"
+msgstr "Sumber daya"
+
+#: ../goffice/graph/gog-axis-color-map.c:132
+msgid "The resource type for the color map"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-color-map.c:589
+msgid "New map"
+msgstr ""
+
+#. An MS Excel-ish theme
+#: ../goffice/graph/gog-axis-color-map.c:993 ../goffice/graph/gog-theme.c:1240
+#, fuzzy
+msgid "Default"
+msgstr "Baku"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
+#, fuzzy
+msgid "Color map editor"
+msgstr "XHTML Berwarna"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
+#, fuzzy
+msgid "Current color stop"
+msgstr "Lokal Saat Ini"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
+#, fuzzy
+msgid "Value"
+msgstr "Nilai"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+#, fuzzy
+msgid "Color"
+msgstr "Wa_rna:"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
+#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:579
+#: ../goffice/graph/gog-theme-editor.ui.h:2
+msgid "Name"
+msgstr "Nama"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
+msgid "Gradient"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
+msgid "Snapshots"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
+#, fuzzy
+msgid "Define"
+msgstr "Bebas"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:10
+msgid "Erase"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:647
 #, fuzzy
@@ -1262,7 +1526,7 @@ msgstr "Akhir: 0"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:5
 #, fuzzy
-msgid "<b>Major ticks</b>"
+msgid "Major ticks"
 msgstr "_Kolom utama"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:6
@@ -1280,9 +1544,12 @@ msgstr "Di dalam"
 msgid "_Show Labels"
 msgstr "Tampilkan label"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:9
-msgid "<b>Position</b>"
-msgstr "<b>Posisi</b>"
+#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:747
+#: ../goffice/graph/gog-object.c:791 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series-labels.c:1424
+#, fuzzy
+msgid "Position"
+msgstr "Posisi"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:10
 #, fuzzy
@@ -1310,15 +1577,15 @@ msgid "Padding:"
 msgstr "Isian"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:15
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
-#: ../goffice/utils/go-style-prefs.ui.h:4
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:7
 #, fuzzy
 msgid "pts"
 msgstr "Pts"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:16
 #, fuzzy
-msgid "<b>Minor ticks</b>"
+msgid "Minor ticks"
 msgstr "Jepret pada Tick"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:17
@@ -1330,18 +1597,18 @@ msgid "I_nside"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:19
-msgid "<b>Bounds</b>"
+msgid "Bounds"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
 #: ../goffice/graph/gog-object-prefs.ui.h:15
-#: ../goffice/graph/gog-plot-prefs.ui.h:1 ../goffice/gtk/go-palette.c:344
+#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:344
 msgid "Automatic"
 msgstr "Otomatis"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:21
 #: ../goffice/graph/gog-series-prefs.ui.h:4
-#: ../goffice/utils/go-style-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:26
 #, fuzzy
 msgid "_Type:"
 msgstr "_Tipe:"
@@ -1363,180 +1630,41 @@ msgstr "Rotasi"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:25
 #: ../goffice/gtk/go-rotation-sel.ui.h:3
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
 #, fuzzy
 msgid "degrees"
 msgstr "derajat"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:26
 #, fuzzy
-msgid "<b>Mapping</b>"
+msgid "Mapping"
 msgstr "DB Pemetaan"
 
-#: ../goffice/graph/gog-axis.c:85
+#: ../goffice/graph/gog-axis-prefs.ui.h:27
+msgid "New"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:28
+msgid "Creates a new color map from scratch"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:29
+msgid "Duplicate"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:30
+msgid "Creates a new color map based on the currently selected one."
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:31
+#: ../goffice/graph/gog-graph-prefs.ui.h:3
 #, fuzzy
-msgid "Degrees"
-msgstr "Derajat"
+msgid "Save"
+msgstr "Simpan sebagai"
 
-#: ../goffice/graph/gog-axis.c:86
-#, fuzzy
-msgid "Radians"
-msgstr "Radian"
-
-#: ../goffice/graph/gog-axis.c:87
-msgid "Grads"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:1491
-#, fuzzy
-msgid "Discrete"
-msgstr "Diskret"
-
-#: ../goffice/graph/gog-axis.c:1491
-#, fuzzy
-msgid "Discrete mapping"
-msgstr "DB Pemetaan"
-
-#: ../goffice/graph/gog-axis.c:1503 ../goffice/utils/go-line.c:161
-#: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
-#, fuzzy
-msgid "Linear"
-msgstr "Linier"
-
-#: ../goffice/graph/gog-axis.c:1503
-#, fuzzy
-msgid "Linear mapping"
-msgstr "DB Pemetaan"
-
-#: ../goffice/graph/gog-axis.c:1515
-#, fuzzy
-msgid "Log"
-msgstr "Log"
-
-#: ../goffice/graph/gog-axis.c:1515
-#, fuzzy
-msgid "Logarithm mapping"
-msgstr "DB Pemetaan"
-
-#: ../goffice/graph/gog-axis.c:2697 ../goffice/graph/gog-axis.c:2707
-msgid "M_inimum"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2698 ../goffice/graph/gog-axis.c:2708
-msgid "M_aximum"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2699
-msgid "Categories between _ticks"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2700
-msgid "Categories between _labels"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2709
-msgid "Ma_jor ticks"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2710
-msgid "Mi_nor ticks"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2766 ../goffice/math/go-distribution.c:171
-#: ../goffice/math/go-distribution.c:172
-#, fuzzy
-msgid "Scale"
-msgstr "Skala"
-
-#: ../goffice/graph/gog-axis.c:2788 ../plugins/plot_pie/gog-pie.c:325
-#: ../plugins/smoothing/gog-moving-avg.c:195
-#, fuzzy
-msgid "Span"
-msgstr "Jarak"
-
-#: ../goffice/graph/gog-axis.c:2806 ../goffice/graph/gog-series-labels.c:891
-#: ../goffice/graph/gog-series-labels.c:1417
-#, fuzzy
-msgid "Format"
-msgstr "Format"
-
-#: ../goffice/graph/gog-axis.c:2838
-msgid "MajorGrid"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2841
-msgid "MinorGrid"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2844
-msgid "AxisLine"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2847
-#, fuzzy
-msgid "Label"
-msgstr "Label"
-
-#: ../goffice/graph/gog-axis.c:2863
-msgid "Numerical type of this axis"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2867
-#, fuzzy
-msgid "Invert axis"
-msgstr "Sumbu Perataan"
-
-#: ../goffice/graph/gog-axis.c:2868
-msgid "Scale from high to low rather than low to high"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2872
-msgid "MapName"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2873
-msgid "The name of the map for scaling"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2878
-msgid "Assigned XL format"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2879
-msgid ""
-"The user assigned format to use for non-discrete axis labels (XL format)"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2884 ../goffice/graph/gog-axis.c:2885
-#, fuzzy
-msgid "Rotation of circular axis"
-msgstr "Sudut rotasi dari sumbu X"
-
-#: ../goffice/graph/gog-axis.c:2892 ../goffice/graph/gog-axis.c:2893
-msgid "Polar axis set unit"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2898
-#, fuzzy
-msgid "Axis start position"
-msgstr "Posisi pada sumbu Z"
-
-#: ../goffice/graph/gog-axis.c:2899
-msgid ""
-"Position of the plot area at which the axis effective area starts, expressed "
-"as a percentage of the available position. Defaults to 0.0"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:2904
-#, fuzzy
-msgid "Axis end position"
-msgstr "Posisi pada sumbu Z"
-
-#: ../goffice/graph/gog-axis.c:2905
-msgid ""
-"Position of the plot area at which the axis effective area ends, expressed "
-"as a percentage of the available position. Defaults to 1.0"
+#: ../goffice/graph/gog-axis-prefs.ui.h:32
+msgid "Saves the color map to the local disk."
 msgstr ""
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:688
@@ -1544,7 +1672,7 @@ msgstr ""
 msgid "Plot area"
 msgstr "area gambar"
 
-#: ../goffice/graph/gog-chart.c:584
+#: ../goffice/graph/gog-chart.c:584 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
 msgstr ""
 
@@ -1603,18 +1731,20 @@ msgstr "Sumbu Perataan"
 msgid "Plot"
 msgstr "Buat Plot"
 
-#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:413
+#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:426
 #: ../goffice/graph/gog-legend.c:195
 #, fuzzy
 msgid "Title"
 msgstr "Judul"
 
-#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-trend-line.c:97
+#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-theme.c:585
+#: ../goffice/graph/gog-trend-line.c:97
 #, fuzzy
 msgid "Legend"
 msgstr "Legenda"
 
 #: ../goffice/graph/gog-chart.c:645 ../goffice/graph/gog-reg-curve.c:280
+#: ../goffice/graph/gog-theme.c:595
 #, fuzzy
 msgid "Equation"
 msgstr "Persamaan"
@@ -1685,79 +1815,36 @@ msgstr ""
 msgid "%s to %s"
 msgstr "%s ke %s"
 
+#: ../goffice/graph/gog-color-scale.c:132
+#: ../plugins/plot_barcol/gog-minmax.c:227
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
+#: ../plugins/plot_xy/gog-xy-dropbar.c:306
+#: ../plugins/plot_xy/gog-xy-minmax.c:291
+msgid "Horizontal"
+msgstr "Horisontal"
+
+#: ../goffice/graph/gog-color-scale.c:133
+msgid "Whether to display the scale horizontally"
+msgstr ""
+
+#: ../goffice/graph/gog-color-scale.c:138
+msgid "Color scale thickness."
+msgstr ""
+
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
 #, fuzzy
 msgid "_Compact mode"
 msgstr "_Moda impor:"
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 #: ../goffice/graph/gog-error-bar.c:79
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
-#: ../goffice/gtk/go-format-sel.c:1648 ../goffice/gtk/go-format-sel.c:1824
+#: ../goffice/gtk/go-format-sel.c:1670 ../goffice/gtk/go-format-sel.c:1846
 #: ../goffice/utils/formats.c:366 ../goffice/utils/go-line.c:127
-#: ../goffice/utils/go-style-prefs.ui.h:6
+#: ../goffice/utils/go-style-prefs.ui.h:10
 #, fuzzy
 msgid "None"
 msgstr "Tak Ada"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
-msgid "Absolute"
-msgstr "Absolut"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
-#, fuzzy
-msgid "Relative"
-msgstr "Relatif"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
-#, fuzzy
-msgid "Percent"
-msgstr "Persen"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
-#, fuzzy
-msgid "<b>Error category</b>"
-msgstr "Kategori Baru"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-msgid "<b>Style</b>"
-msgstr "<b>Gaya</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
-#, fuzzy
-msgid "Dis_play:"
-msgstr "Mainkan \"%s\""
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
-#: ../goffice/graph/gog-object-prefs.ui.h:18
-#: ../goffice/graph/gog-plot-prefs.ui.h:5
-#, fuzzy
-msgid "_Width:"
-msgstr "_Lebar:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
-#, fuzzy
-msgid "_Line width:"
-msgstr "Lebar Garis:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
-#, fuzzy
-msgid "Colo_r:"
-msgstr "Wa_rna:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
-msgid "<b>Values</b>"
-msgstr "<b>Nilai</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:13
-msgid "(+)"
-msgstr "(+)"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:14
-msgid "(-)"
-msgstr "(-)"
 
 #: ../goffice/graph/gog-error-bar.c:84
 #, fuzzy
@@ -1775,9 +1862,117 @@ msgid "Both"
 msgstr "Keduanya"
 
 #. Note for translator: the angle unit
-#: ../goffice/graph/gog-error-bar.c:335
+#: ../goffice/graph/gog-error-bar.c:336
 msgid "°"
 msgstr "°"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
+#, fuzzy
+msgid "Dis_play:"
+msgstr "Mainkan \"%s\""
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
+#: ../goffice/graph/gog-object-prefs.ui.h:17
+#: ../goffice/graph/gog-plot-prefs.ui.h:3
+#, fuzzy
+msgid "_Width:"
+msgstr "_Lebar:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
+#, fuzzy
+msgid "_Line width:"
+msgstr "Lebar Garis:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
+#, fuzzy
+msgid "Colo_r:"
+msgstr "Wa_rna:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
+msgid "(+)"
+msgstr "(+)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
+msgid "(-)"
+msgstr "(-)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
+#: ../plugins/plot_barcol/gog-1.5d.c:364
+#: ../plugins/plot_distrib/gog-boxplot.c:428
+#: ../plugins/plot_distrib/gog-histogram.c:390
+#: ../plugins/plot_distrib/gog-probability-plot.c:317
+#: ../plugins/plot_pie/gog-pie.c:340 ../plugins/plot_radar/gog-radar.c:323
+#, fuzzy
+msgid "Values"
+msgstr "Nilai"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
+#, fuzzy
+msgid "Error category"
+msgstr "Kategori Baru"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
+msgid "Absolute"
+msgstr "Absolut"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:13
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
+#, fuzzy
+msgid "Relative"
+msgstr "Relatif"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:14
+#, fuzzy
+msgid "Percent"
+msgstr "Persen"
+
+#. builds the default discrete color map
+#: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
+#: ../goffice/graph/gog-theme.c:1406 ../goffice/graph/gog-theme.c:1571
+#, fuzzy
+msgid "Theme"
+msgstr "Tema"
+
+#: ../goffice/graph/gog-graph.c:421 ../goffice/graph/gog-theme.c:583
+#, fuzzy
+msgid "Chart"
+msgstr "Bagan"
+
+#: ../goffice/graph/gog-graph.c:482
+msgid "The theme for elements of the graph"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:487
+#, fuzzy
+msgid "Theme name"
+msgstr "Nama tema"
+
+#: ../goffice/graph/gog-graph.c:488
+msgid "The name of the theme for elements of the graph"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:494
+msgid "Logical graph width, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:500
+msgid "Logical graph height, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:505
+#, fuzzy
+msgid "Document"
+msgstr "Dokumen"
+
+#: ../goffice/graph/gog-graph.c:506
+msgid "the document for this graph"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:1072
+#, fuzzy
+msgid "the renderer for this view"
+msgstr "Tampilkan bantuan untuk permainan ini"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:1
 #, fuzzy
@@ -1788,50 +1983,13 @@ msgstr "Tema:"
 msgid "Forget user styles"
 msgstr ""
 
-#: ../goffice/graph/gog-graph.c:347 ../goffice/graph/gog-graph.c:468
-#, fuzzy
-msgid "Theme"
-msgstr "Tema"
-
-#: ../goffice/graph/gog-graph.c:408
-#, fuzzy
-msgid "Chart"
-msgstr "Bagan"
-
-#: ../goffice/graph/gog-graph.c:469
-msgid "The theme for elements of the graph"
+#: ../goffice/graph/gog-graph-prefs.ui.h:4
+msgid "Save the theme as a standalone file in the user home directory."
 msgstr ""
 
-#: ../goffice/graph/gog-graph.c:474
-#, fuzzy
-msgid "Theme name"
-msgstr "Nama tema"
-
-#: ../goffice/graph/gog-graph.c:475
-msgid "The name of the theme for elements of the graph"
+#: ../goffice/graph/gog-grid.c:128
+msgid "Numerical type of this backplane"
 msgstr ""
-
-#: ../goffice/graph/gog-graph.c:481
-msgid "Logical graph width, in points"
-msgstr ""
-
-#: ../goffice/graph/gog-graph.c:487
-msgid "Logical graph height, in points"
-msgstr ""
-
-#: ../goffice/graph/gog-graph.c:492
-#, fuzzy
-msgid "Document"
-msgstr "Dokumen"
-
-#: ../goffice/graph/gog-graph.c:493
-msgid "the document for this graph"
-msgstr ""
-
-#: ../goffice/graph/gog-graph.c:1027
-#, fuzzy
-msgid "the renderer for this view"
-msgstr "Tampilkan bantuan untuk permainan ini"
 
 #: ../goffice/graph/gog-grid-line.c:113
 #, fuzzy
@@ -1842,49 +2000,38 @@ msgstr "Kosong"
 msgid "Are these minor grid lines"
 msgstr ""
 
-#: ../goffice/graph/gog-grid.c:128
-msgid "Numerical type of this backplane"
-msgstr ""
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:1
-#, fuzzy
-msgid "<b>_Plot Type</b>"
-msgstr "Jenis server:"
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:2
-msgid "<b>Sample</b>"
-msgstr "<b>Contoh</b>"
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:3
-msgid "<b>_Subtype</b>"
-msgstr ""
-
-#: ../goffice/graph/gog-guru.c:1012 ../goffice/graph/gog-series.c:576
-msgid "Name"
-msgstr "Nama"
-
-#: ../goffice/graph/gog-guru.c:1039
+#: ../goffice/graph/gog-guru.c:1057
 msgid "Step 1 of 2: Select Chart Type"
 msgstr ""
 
-#: ../goffice/graph/gog-guru.c:1047
+#: ../goffice/graph/gog-guru.c:1065
 msgid "Step 2 of 2: Customize Chart"
 msgstr ""
 
-#: ../goffice/graph/gog-guru.c:1052
+#: ../goffice/graph/gog-guru.c:1070
 #, fuzzy
 msgid "Customize Chart"
 msgstr "Bagan Aktif"
 
-#: ../goffice/graph/gog-guru.c:1127
+#: ../goffice/graph/gog-guru.c:1145
 #, fuzzy
 msgid "_Insert"
 msgstr "_Masukkan"
 
-#: ../goffice/graph/gog-guru.c:1197
+#: ../goffice/graph/gog-guru.c:1216
+#: ../goffice/graph/gog-guru-type-selector.ui.h:1
 #, fuzzy
 msgid "_Plot Type"
 msgstr "Jenis server:"
+
+#: ../goffice/graph/gog-guru-type-selector.ui.h:2
+#, fuzzy
+msgid "Sample"
+msgstr "<b>Contoh</b>"
+
+#: ../goffice/graph/gog-guru-type-selector.ui.h:3
+msgid "_Subtype"
+msgstr ""
 
 #: ../goffice/graph/gog-label.c:149
 #, fuzzy
@@ -1920,75 +2067,75 @@ msgstr "_Lipat teks"
 msgid "Whether the text might be displayed using several lines"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:292
+#: ../goffice/graph/gog-label.c:285
 #, fuzzy
 msgid "_Text:"
 msgstr "_Teks:"
 
-#: ../goffice/graph/gog-label.c:294
+#: ../goffice/graph/gog-label.c:287
 msgid "Rotate frame with text"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:298
+#: ../goffice/graph/gog-label.c:291
 msgid "Display the text on several lines if needed"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:302
+#: ../goffice/graph/gog-label.c:295
 msgid "Rotate background with text"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:306
+#: ../goffice/graph/gog-label.c:299
 msgid "Interpret text as markup"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:307
+#: ../goffice/graph/gog-label.c:300
 msgid ""
 "Interpret the text as an HTML like markup as described at http://developer."
 "gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:313 ../goffice/graph/gog-label.c:550
+#: ../goffice/graph/gog-label.c:306 ../goffice/graph/gog-label.c:543
 #: ../goffice/graph/gog-reg-curve.c:133
-#: ../goffice/graph/gog-series-labels.c:588
-#: ../goffice/graph/gog-smoothed-curve.c:59
+#: ../goffice/graph/gog-series-labels.c:607
+#: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2094
+#: ../plugins/plot_xy/gog-xy.c:2098
 #, fuzzy
 msgid "Details"
 msgstr "Rincian"
 
-#: ../goffice/graph/gog-label.c:423
+#: ../goffice/graph/gog-label.c:416
 #, fuzzy
 msgid "Text justification"
 msgstr "Set rataan"
 
-#: ../goffice/graph/gog-label.c:424
+#: ../goffice/graph/gog-label.c:417
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:571
+#: ../goffice/graph/gog-label.c:564
 #, fuzzy
 msgid "Regression Equation"
 msgstr "Persamaan Bernomor"
 
-#: ../goffice/graph/gog-label.c:610
+#: ../goffice/graph/gog-label.c:603
 #, fuzzy
 msgid "Show equation"
 msgstr "Persamaan Bernomor"
 
-#: ../goffice/graph/gog-label.c:611
+#: ../goffice/graph/gog-label.c:604
 msgid "Show the equation on the graph"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:616
+#: ../goffice/graph/gog-label.c:609
 #, fuzzy
 msgid "Show coefficient"
 msgstr "<u>tampilkan rincian</u>"
 
-#: ../goffice/graph/gog-label.c:617
+#: ../goffice/graph/gog-label.c:610
 msgid "Show the correlation coefficient on the graph"
 msgstr ""
 
@@ -2008,8 +2155,120 @@ msgstr ""
 msgid "padding between the swatches in pts."
 msgstr ""
 
+#: ../goffice/graph/gog-object.c:161 ../goffice/graph/gog-object.c:180
+#: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
+#, fuzzy
+msgid "Top"
+msgstr "Puncak"
+
+#: ../goffice/graph/gog-object.c:162 ../goffice/graph/gog-object.c:181
+#, fuzzy
+msgid "Top right"
+msgstr "Kanan Atas"
+
+#: ../goffice/graph/gog-object.c:163 ../goffice/graph/gog-object.c:184
+#: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
+#, fuzzy
+msgid "Right"
+msgstr "Kanan"
+
+#: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:187
+#, fuzzy
+msgid "Bottom right"
+msgstr "Kanan Bawah"
+
+#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:186
+#: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
+#, fuzzy
+msgid "Bottom"
+msgstr "Dasar"
+
+#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
+#, fuzzy
+msgid "Bottom left"
+msgstr "Kiri Bawah"
+
+#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:182
+#: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
+#, fuzzy
+msgid "Left"
+msgstr "Kiri"
+
+#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:179
+#, fuzzy
+msgid "Top left"
+msgstr "Kiri Atas"
+
+#: ../goffice/graph/gog-object.c:172 ../goffice/utils/go-style-prefs.ui.h:29
+#, fuzzy
+msgid "Fill"
+msgstr "Isi"
+
+#: ../goffice/graph/gog-object.c:173 ../plugins/plot_barcol/gog-dropbar.c:143
+#: ../plugins/plot_xy/gog-xy-dropbar.c:326
+#, fuzzy
+msgid "Start"
+msgstr "Awal"
+
+#: ../goffice/graph/gog-object.c:174 ../plugins/plot_barcol/gog-dropbar.c:145
+#: ../plugins/plot_xy/gog-xy-dropbar.c:328
+#, fuzzy
+msgid "End"
+msgstr "Akhir"
+
+#: ../goffice/graph/gog-object.c:175 ../goffice/graph/gog-object.c:183
+#: ../goffice/graph/gog-series.c:111
+#, fuzzy
+msgid "Center"
+msgstr "Pusat"
+
+#: ../goffice/graph/gog-object.c:785
+#, fuzzy
+msgid "Object ID"
+msgstr "Tanpa-Id"
+
+#: ../goffice/graph/gog-object.c:786
+#, fuzzy
+msgid "Object numerical ID"
+msgstr "ID objek sudah ada"
+
+#: ../goffice/graph/gog-object.c:792
+msgid "Position and size of object, in percentage of parent size"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:797
+#, fuzzy
+msgid "Compass"
+msgstr "Moda Kompas"
+
+#: ../goffice/graph/gog-object.c:798
+msgid "Compass auto position flags"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:803
+#, fuzzy
+msgid "Alignment"
+msgstr "Perataan"
+
+#: ../goffice/graph/gog-object.c:804
+#, fuzzy
+msgid "Alignment flag"
+msgstr "Kondisi flag"
+
+#: ../goffice/graph/gog-object.c:809 ../goffice/graph/gog-object.c:810
+msgid "Is position manual"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:816
+msgid "Anchor for manual position"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:821 ../goffice/graph/gog-object.c:822
+msgid "Should the object be hidden"
+msgstr ""
+
 #: ../goffice/graph/gog-object-prefs.ui.h:1
-#: ../goffice/graph/gog-plot-prefs.ui.h:3
+#: ../goffice/graph/gog-plot-prefs.ui.h:7
 #, fuzzy
 msgid "_Object position:"
 msgstr "Posisi"
@@ -2025,31 +2284,31 @@ msgstr "_Posisi:"
 msgid "_Alignment:"
 msgstr "Per_ataan:"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:5
-#: ../goffice/graph/gog-plot-prefs.ui.h:8
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
-#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:6
-#: ../plugins/plot_pie/gog-pie-series.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:6
-#: ../goffice/graph/gog-plot-prefs.ui.h:4
-msgid "_Y:"
-msgstr "_Y:"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:7
-#: ../goffice/graph/gog-plot-prefs.ui.h:9
+#: ../goffice/graph/gog-object-prefs.ui.h:4
+#: ../goffice/graph/gog-plot-prefs.ui.h:1
 msgid "_X:"
 msgstr "_X:"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-object-prefs.ui.h:5
+#: ../goffice/graph/gog-plot-prefs.ui.h:2
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../goffice/graph/gog-object-prefs.ui.h:6
 msgid "Anchor:"
 msgstr "Jangkar:"
+
+#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
+#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-series.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
+#, no-c-format
+msgid "%"
+msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:9
 #, fuzzy
@@ -2082,135 +2341,16 @@ msgid "Object size:"
 msgstr "Ukuran Berkas"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:16
-#: ../goffice/graph/gog-plot-prefs.ui.h:2
+#: ../goffice/graph/gog-plot-prefs.ui.h:9
 #, fuzzy
 msgid "Manual"
 msgstr "Petunjuk penggunaan"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:17
-#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../goffice/graph/gog-object-prefs.ui.h:18
+#: ../goffice/graph/gog-plot-prefs.ui.h:4
 #, fuzzy
 msgid "_Height:"
 msgstr "_Tinggi:"
-
-#: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:183
-#: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
-#, fuzzy
-msgid "Top"
-msgstr "Puncak"
-
-#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:184
-#, fuzzy
-msgid "Top right"
-msgstr "Kanan Atas"
-
-#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:187
-#: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
-#, fuzzy
-msgid "Right"
-msgstr "Kanan"
-
-#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:190
-#, fuzzy
-msgid "Bottom right"
-msgstr "Kanan Bawah"
-
-#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:189
-#: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
-#, fuzzy
-msgid "Bottom"
-msgstr "Dasar"
-
-#: ../goffice/graph/gog-object.c:169 ../goffice/graph/gog-object.c:188
-#, fuzzy
-msgid "Bottom left"
-msgstr "Kiri Bawah"
-
-#: ../goffice/graph/gog-object.c:170 ../goffice/graph/gog-object.c:185
-#: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
-#, fuzzy
-msgid "Left"
-msgstr "Kiri"
-
-#: ../goffice/graph/gog-object.c:171 ../goffice/graph/gog-object.c:182
-#, fuzzy
-msgid "Top left"
-msgstr "Kiri Atas"
-
-#: ../goffice/graph/gog-object.c:175
-#, fuzzy
-msgid "Fill"
-msgstr "Isi"
-
-#: ../goffice/graph/gog-object.c:176 ../plugins/plot_barcol/gog-dropbar.c:143
-#: ../plugins/plot_xy/gog-xy-dropbar.c:326
-#, fuzzy
-msgid "Start"
-msgstr "Awal"
-
-#: ../goffice/graph/gog-object.c:177 ../plugins/plot_barcol/gog-dropbar.c:145
-#: ../plugins/plot_xy/gog-xy-dropbar.c:328
-#, fuzzy
-msgid "End"
-msgstr "Akhir"
-
-#: ../goffice/graph/gog-object.c:178 ../goffice/graph/gog-object.c:186
-#: ../goffice/graph/gog-series.c:111
-#, fuzzy
-msgid "Center"
-msgstr "Pusat"
-
-#: ../goffice/graph/gog-object.c:750 ../goffice/graph/gog-object.c:794
-#: ../goffice/graph/gog-series-labels.c:879
-#: ../goffice/graph/gog-series-labels.c:1405
-#, fuzzy
-msgid "Position"
-msgstr "Posisi"
-
-#: ../goffice/graph/gog-object.c:788
-#, fuzzy
-msgid "Object ID"
-msgstr "Tanpa-Id"
-
-#: ../goffice/graph/gog-object.c:789
-#, fuzzy
-msgid "Object numerical ID"
-msgstr "ID objek sudah ada"
-
-#: ../goffice/graph/gog-object.c:795
-msgid "Position and size of object, in percentage of parent size"
-msgstr ""
-
-#: ../goffice/graph/gog-object.c:800
-#, fuzzy
-msgid "Compass"
-msgstr "Moda Kompas"
-
-#: ../goffice/graph/gog-object.c:801
-msgid "Compass auto position flags"
-msgstr ""
-
-#: ../goffice/graph/gog-object.c:806
-#, fuzzy
-msgid "Alignment"
-msgstr "Perataan"
-
-#: ../goffice/graph/gog-object.c:807
-#, fuzzy
-msgid "Alignment flag"
-msgstr "Kondisi flag"
-
-#: ../goffice/graph/gog-object.c:812 ../goffice/graph/gog-object.c:813
-msgid "Is position manual"
-msgstr ""
-
-#: ../goffice/graph/gog-object.c:819
-msgid "Anchor for manual position"
-msgstr ""
-
-#: ../goffice/graph/gog-object.c:824 ../goffice/graph/gog-object.c:825
-msgid "Should the object be hidden"
-msgstr ""
 
 #: ../goffice/graph/gog-outlined-object.c:74
 #, fuzzy
@@ -2219,24 +2359,6 @@ msgstr "%d.00 pt"
 
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
-msgstr ""
-
-#: ../goffice/graph/gog-plot-engine.c:81
-#, fuzzy
-msgid "Plot Engine"
-msgstr "Mesin Api"
-
-#: ../goffice/graph/gog-plot-engine.c:330
-#, fuzzy
-msgid "Plot Type"
-msgstr "Jenis server:"
-
-#: ../goffice/graph/gog-plot-engine.c:414
-msgid "Regression Curve Engine"
-msgstr ""
-
-#: ../goffice/graph/gog-plot-engine.c:608
-msgid "Regression Curve Type"
 msgstr ""
 
 #: ../goffice/graph/gog-plot.c:227
@@ -2277,130 +2399,176 @@ msgstr "Sumbu Perataan"
 msgid "Bubble axis:"
 msgstr "Sumbu Perataan"
 
-#: ../goffice/graph/gog-plot.c:299
+#: ../goffice/graph/gog-plot.c:300
 msgid "Axes"
 msgstr "Sumbu"
 
-#: ../goffice/graph/gog-plot.c:437
+#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-theme-editor.ui.h:4
 #, fuzzy
 msgid "Series"
 msgstr "Seri"
 
-#: ../goffice/graph/gog-plot.c:458
+#: ../goffice/graph/gog-plot.c:459
 msgid "Vary style by element"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:460
 msgid "Use a different style for each segment"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:464
+#: ../goffice/graph/gog-plot.c:465
 msgid "X axis"
 msgstr "Sumbu X"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:466
 #, fuzzy
 msgid "Reference to X axis"
 msgstr "Rujukan ke label"
 
-#: ../goffice/graph/gog-plot.c:470
+#: ../goffice/graph/gog-plot.c:471
 #, fuzzy
 msgid "Y axis"
 msgstr "Sumbu"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:472
 #, fuzzy
 msgid "Reference to Y axis"
 msgstr "Rujukan ke label"
 
-#: ../goffice/graph/gog-plot.c:476
+#: ../goffice/graph/gog-plot.c:477
 msgid "Z axis"
 msgstr "Sumbu Z"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:478
 #, fuzzy
 msgid "Reference to Z axis"
 msgstr "Rujukan ke label"
 
-#: ../goffice/graph/gog-plot.c:482
+#: ../goffice/graph/gog-plot.c:483
 #, fuzzy
 msgid "Circular axis"
 msgstr "Sumbu Perataan"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:488
+#: ../goffice/graph/gog-plot.c:489
 #, fuzzy
 msgid "Radial axis"
 msgstr "Sumbu Perataan"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:494
+#: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:500
+#: ../goffice/graph/gog-plot.c:501
 #, fuzzy
 msgid "Color axis"
 msgstr "Sumbu Perataan"
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:506
+#: ../goffice/graph/gog-plot.c:507
 #, fuzzy
 msgid "Bubble axis"
 msgstr "Sumbu Perataan"
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:512
+#: ../goffice/graph/gog-plot.c:513
 #, fuzzy
 msgid "Plot group"
 msgstr "Grup Snippet:"
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:514
 msgid "Name of plot group if any"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:518
+#: ../goffice/graph/gog-plot.c:519
 #, fuzzy
 msgid "Guru hints"
 msgstr "Tampilkan Petunjuk"
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:520
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:525
+#: ../goffice/graph/gog-plot.c:526
 #, fuzzy
 msgid "Default interpolation"
 msgstr "Pakai baku"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:527
 msgid "Default type of series line interpolation"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:1174
+#: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:1226
+#: ../goffice/graph/gog-plot.c:1227
 msgid "Resize plot area"
+msgstr ""
+
+#: ../goffice/graph/gog-plot-engine.c:81
+#, fuzzy
+msgid "Plot Engine"
+msgstr "Mesin Api"
+
+#: ../goffice/graph/gog-plot-engine.c:330
+#, fuzzy
+msgid "Plot Type"
+msgstr "Jenis server:"
+
+#: ../goffice/graph/gog-plot-engine.c:414
+msgid "Regression Curve Engine"
+msgstr ""
+
+#: ../goffice/graph/gog-plot-engine.c:608
+msgid "Regression Curve Type"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-curve.c:273
+#, fuzzy
+msgid "Regression Curve"
+msgstr "Kurva Gamma"
+
+#: ../goffice/graph/gog-reg-curve.c:308
+#, fuzzy
+msgid "Skip invalid"
+msgstr "Tanda tangan tak sah"
+
+#: ../goffice/graph/gog-reg-curve.c:309
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
+#, fuzzy
+msgid "Skip invalid data"
+msgstr "Data terkompresi tak valid"
+
+#: ../goffice/graph/gog-reg-curve.c:314
+#, fuzzy
+msgid "Drawing bounds"
+msgstr "area gambar"
+
+#: ../goffice/graph/gog-reg-curve.c:315
+msgid ""
+"How the regression line should be limited, acceptable values are \"none\", "
+"\"absolute\", and \"relative\"."
 msgstr ""
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
@@ -2417,20 +2585,15 @@ msgstr "Batas-pemilihan"
 msgid "High bound:"
 msgstr "Batas-pemilihan"
 
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
-#: ../goffice/graph/gog-reg-curve.c:309
-#, fuzzy
-msgid "Skip invalid data"
-msgstr "Data terkompresi tak valid"
-
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
+#: ../goffice/graph/gog-series-labels.c:471
 #, fuzzy
-msgid "<b>Used data</b>"
+msgid "Used data"
 msgstr "Data Rupa-rupa"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
 #, fuzzy
-msgid "<b>Drawing Limits:</b>"
+msgid "Drawing Limits:"
 msgstr "Membatasi Laporan"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:7
@@ -2470,27 +2633,6 @@ msgstr "<span foreground=\"%s\" >%s%s</span>"
 msgid "High span:"
 msgstr "<span foreground=\"%s\" >%s%s</span>"
 
-#: ../goffice/graph/gog-reg-curve.c:273
-#, fuzzy
-msgid "Regression Curve"
-msgstr "Kurva Gamma"
-
-#: ../goffice/graph/gog-reg-curve.c:308
-#, fuzzy
-msgid "Skip invalid"
-msgstr "Tanda tangan tak sah"
-
-#: ../goffice/graph/gog-reg-curve.c:314
-#, fuzzy
-msgid "Drawing bounds"
-msgstr "area gambar"
-
-#: ../goffice/graph/gog-reg-curve.c:315
-msgid ""
-"How the regression line should be limited, acceptable values are \"none\", "
-"\"absolute\", and \"relative\"."
-msgstr ""
-
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 #, fuzzy
 msgid "Display _equation"
@@ -2500,21 +2642,21 @@ msgstr "Persamaan Bernomor"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1841 ../goffice/graph/gog-view.c:690
+#: ../goffice/graph/gog-renderer.c:1824 ../goffice/graph/gog-view.c:691
 #, fuzzy
 msgid "Model"
 msgstr "Model"
 
-#: ../goffice/graph/gog-renderer.c:1842
+#: ../goffice/graph/gog-renderer.c:1825
 msgid "The GogGraph this renderer displays"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1847
+#: ../goffice/graph/gog-renderer.c:1830
 #, fuzzy
 msgid "View"
 msgstr "Tampilan"
 
-#: ../goffice/graph/gog-renderer.c:1848
+#: ../goffice/graph/gog-renderer.c:1831
 msgid "the GogView this renderer is displaying"
 msgstr ""
 
@@ -2568,95 +2710,95 @@ msgstr "Pertambahan minimal"
 msgid "Y axis maximum"
 msgstr "Nilai maksimal"
 
-#: ../goffice/graph/gog-series.c:223 ../goffice/graph/gog-series-labels.c:395
+#: ../goffice/graph/gog-series.c:231 ../goffice/graph/gog-series-labels.c:414
 #, fuzzy
 msgid "Index:"
 msgstr "Indeks:"
 
-#: ../goffice/graph/gog-series.c:242 ../plugins/plot_pie/gog-pie.c:91
+#: ../goffice/graph/gog-series.c:244 ../plugins/plot_pie/gog-pie.c:91
 #, fuzzy
 msgid "Settings"
 msgstr "Pengaturan"
 
-#: ../goffice/graph/gog-series.c:283 ../goffice/graph/gog-series-labels.c:897
+#: ../goffice/graph/gog-series.c:285 ../goffice/graph/gog-series-labels.c:916
 #, fuzzy
 msgid "Index"
 msgstr "Indeks"
 
-#: ../goffice/graph/gog-series.c:284 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series.c:286 ../goffice/graph/gog-series-labels.c:917
 msgid "Index of the corresponding data element"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:607 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:610 ../goffice/graph/gog-trend-line.c:99
 #, fuzzy
 msgid "_Show in Legend"
 msgstr "Tampilkan dalam daftar"
 
-#: ../goffice/graph/gog-series.c:617
+#: ../goffice/graph/gog-series.c:620
 #, fuzzy
 msgid "Data"
 msgstr "Data"
 
-#: ../goffice/graph/gog-series.c:659
+#: ../goffice/graph/gog-series.c:662
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:664
+#: ../goffice/graph/gog-series.c:667
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:737 ../goffice/graph/gog-series-labels.c:1382
+#: ../goffice/graph/gog-series.c:740 ../goffice/graph/gog-series-labels.c:1401
 #, fuzzy
 msgid "Point"
 msgstr "Poin"
 
-#: ../goffice/graph/gog-series.c:743
+#: ../goffice/graph/gog-series.c:746
 #, fuzzy
 msgid "Regression curve"
 msgstr "Kurva Gamma"
 
-#: ../goffice/graph/gog-series.c:751
+#: ../goffice/graph/gog-series.c:754 ../goffice/graph/gog-theme.c:592
 #, fuzzy
 msgid "Trend line"
 msgstr "Jarak baris:"
 
-#: ../goffice/graph/gog-series.c:759
+#: ../goffice/graph/gog-series.c:762
 #, fuzzy
 msgid "Data labels"
 msgstr "Label CD"
 
-#: ../goffice/graph/gog-series.c:794 ../goffice/graph/gog-trend-line.c:153
+#: ../goffice/graph/gog-series.c:797 ../goffice/graph/gog-trend-line.c:151
 #, fuzzy
 msgid "Has-legend"
 msgstr "Punya Klip"
 
-#: ../goffice/graph/gog-series.c:795
+#: ../goffice/graph/gog-series.c:798
 msgid "Should the series show up in legends"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:800
+#: ../goffice/graph/gog-series.c:803 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:801
+#: ../goffice/graph/gog-series.c:804
 #, fuzzy
 msgid "Type of line interpolation"
 msgstr "Ditemui tipe interpolasi yang tak dikenal: %s"
 
-#: ../goffice/graph/gog-series.c:806
+#: ../goffice/graph/gog-series.c:809
 msgid "Interpolation skip invalid"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:807
+#: ../goffice/graph/gog-series.c:810
 msgid "Should the series interpolation ignore the invalid data"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:812
+#: ../goffice/graph/gog-series.c:815
 #, fuzzy
 msgid "Fill type"
 msgstr "Jenis server:"
 
-#: ../goffice/graph/gog-series.c:813
+#: ../goffice/graph/gog-series.c:816
 msgid "How to fill the area"
 msgstr ""
 
@@ -2680,40 +2822,35 @@ msgstr "Di dalam"
 msgid "Near origin"
 msgstr "Punya Titik Asal"
 
-#: ../goffice/graph/gog-series-labels.c:403
+#: ../goffice/graph/gog-series-labels.c:422
 #, fuzzy
 msgid "Custom label"
 msgstr "Label tab gubahan"
 
-#: ../goffice/graph/gog-series-labels.c:413
+#: ../goffice/graph/gog-series-labels.c:432
 #, fuzzy
 msgid "Custom labels"
 msgstr "Label Ubahan"
 
-#: ../goffice/graph/gog-series-labels.c:444
+#: ../goffice/graph/gog-series-labels.c:463
 #, fuzzy
 msgid "Available data"
 msgstr "Data Rupa-rupa"
 
-#: ../goffice/graph/gog-series-labels.c:452
-#, fuzzy
-msgid "Used data"
-msgstr "Data Rupa-rupa"
-
-#: ../goffice/graph/gog-series-labels.c:497
-#: ../goffice/graph/gog-series-labels.c:565
+#: ../goffice/graph/gog-series-labels.c:516
+#: ../goffice/graph/gog-series-labels.c:584
 #, fuzzy
 msgid "Legend entry"
 msgstr "Cari entri"
 
-#: ../goffice/graph/gog-series-labels.c:502
-#: ../goffice/graph/gog-series-labels.c:569
+#: ../goffice/graph/gog-series-labels.c:521
+#: ../goffice/graph/gog-series-labels.c:588
 #, fuzzy
 msgid "Series name"
 msgstr "Nama aturan:"
 
-#: ../goffice/graph/gog-series-labels.c:508
-#: ../goffice/graph/gog-series-labels.c:573
+#: ../goffice/graph/gog-series-labels.c:527
+#: ../goffice/graph/gog-series-labels.c:592
 msgid "Values as percent"
 msgstr ""
 
@@ -2721,30 +2858,30 @@ msgstr ""
 #. FIXME: should the number of digits be customizable?
 #. Note to translators: a space might be needed before '%%' in someo_is_finie languages
 #. FIXME: should the number of digits be customizable?
-#: ../goffice/graph/gog-series-labels.c:822
-#: ../goffice/graph/gog-series-labels.c:1262
+#: ../goffice/graph/gog-series-labels.c:841
+#: ../goffice/graph/gog-series-labels.c:1281
 #, c-format
 msgid "%.1f%%"
 msgstr "%.1f%%"
 
-#: ../goffice/graph/gog-series-labels.c:880
-#: ../goffice/graph/gog-series-labels.c:1406
+#: ../goffice/graph/gog-series-labels.c:899
+#: ../goffice/graph/gog-series-labels.c:1425
 msgid "Position of the label relative to the data graphic element"
 msgstr ""
 
-#: ../goffice/graph/gog-series-labels.c:885
-#: ../goffice/graph/gog-series-labels.c:1411
+#: ../goffice/graph/gog-series-labels.c:904
+#: ../goffice/graph/gog-series-labels.c:1430
 #, fuzzy
 msgid "Offset"
 msgstr "Ofset"
 
-#: ../goffice/graph/gog-series-labels.c:886
-#: ../goffice/graph/gog-series-labels.c:1412
+#: ../goffice/graph/gog-series-labels.c:905
+#: ../goffice/graph/gog-series-labels.c:1431
 msgid "Offset to add to the label position"
 msgstr ""
 
-#: ../goffice/graph/gog-series-labels.c:892
-#: ../goffice/graph/gog-series-labels.c:1418
+#: ../goffice/graph/gog-series-labels.c:911
+#: ../goffice/graph/gog-series-labels.c:1437
 #, fuzzy
 msgid "Label format"
 msgstr "Format label"
@@ -2769,10 +2906,6 @@ msgstr "Pemisah:"
 msgid "Fill _to:"
 msgstr "Balas ke %s"
 
-#: ../goffice/graph/gog-series-prefs.ui.h:2
-msgid "<b>Interpolation</b>"
-msgstr "<b>Interpolasi</b>"
-
 #: ../goffice/graph/gog-series-prefs.ui.h:3
 #, fuzzy
 msgid "S_kip invalid data"
@@ -2795,25 +2928,107 @@ msgstr "Nama _Belakang:"
 msgid "content"
 msgstr "isi"
 
-#: ../goffice/graph/gog-smoothed-curve.c:53
+#: ../goffice/graph/gog-smoothed-curve.c:54
 msgid "(Name):"
 msgstr "(Nama):"
 
-#: ../goffice/graph/gog-smoothed-curve.c:90
+#: ../goffice/graph/gog-smoothed-curve.c:91
 #, fuzzy
 msgid "Smoothed Curve"
 msgstr "Kurva Gamma"
 
-#. An MS Excel-ish theme
-#: ../goffice/graph/gog-theme.c:697
+#: ../goffice/graph/gog-theme.c:323
 #, fuzzy
-msgid "Default"
-msgstr "Baku"
+msgid "The resource type for the theme"
+msgstr "Titik anchor pada teks"
+
+#: ../goffice/graph/gog-theme.c:582
+#, fuzzy
+msgid "Graph title"
+msgstr "Grafik"
+
+#: ../goffice/graph/gog-theme.c:584
+#, fuzzy
+msgid "Chart title"
+msgstr "Bagan"
+
+#: ../goffice/graph/gog-theme.c:586
+#, fuzzy
+msgid "Axis"
+msgstr "Sumbu"
+
+#: ../goffice/graph/gog-theme.c:587
+#, fuzzy
+msgid "Axis line"
+msgstr "Lipat baris"
+
+#: ../goffice/graph/gog-theme.c:589
+msgid "Major grid"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:590
+msgid "Minor grid"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:593
+#, fuzzy
+msgid "Regression equation"
+msgstr "Persamaan Bernomor"
+
+#: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:643
+#, fuzzy
+msgid "Series lines"
+msgstr "Lipat baris"
+
+#: ../goffice/graph/gog-theme.c:599
+#, fuzzy
+msgid "Series labels"
+msgstr "Label CD"
+
+#: ../goffice/graph/gog-theme.c:600
+#, fuzzy
+msgid "Data label"
+msgstr "Label CD"
+
+#: ../goffice/graph/gog-theme.c:1241
+msgid "An MS Excel like theme"
+msgstr ""
 
 #. Guppi
-#: ../goffice/graph/gog-theme.c:848
+#: ../goffice/graph/gog-theme.c:1411
 msgid "Guppi"
 msgstr "Guppi"
+
+#: ../goffice/graph/gog-theme.c:1412
+#, fuzzy
+msgid "Guppi theme"
+msgstr "Guppi"
+
+#: ../goffice/graph/gog-theme.c:1840
+msgid "Class"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:1843
+msgid "Create"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:1858 ../goffice/graph/new-theme-prefs.ui.h:1
+#, fuzzy
+msgid "New theme"
+msgstr "Nama peta gambar"
+
+#: ../goffice/graph/gog-theme-editor.ui.h:1
+#, fuzzy
+msgid "Theme editor"
+msgstr "Nama tema"
+
+#: ../goffice/graph/gog-theme-editor.ui.h:3
+msgid "Classes"
+msgstr ""
+
+#: ../goffice/graph/gog-theme-editor.ui.h:5
+msgid "Snapshot"
+msgstr ""
 
 #: ../goffice/graph/gog-trend-line.c:90
 #: ../plugins/plot_barcol/gog-barcol.c:166
@@ -2826,50 +3041,51 @@ msgstr "Guppi"
 #: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:595
 #: ../plugins/plot_surface/gog-xyz.c:101
 #: ../plugins/plot_surface/gog-xyz-surface.c:315
-#: ../plugins/plot_xy/gog-xy.c:354 ../plugins/plot_xy/gog-xy.c:466
-#: ../plugins/plot_xy/gog-xy.c:737 ../plugins/plot_xy/gog-xy-dropbar.c:154
+#: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:463
+#: ../plugins/plot_xy/gog-xy.c:734 ../plugins/plot_xy/gog-xy-dropbar.c:154
+#: ../plugins/smoothing/gog-exp-smooth.c:80
 #: ../plugins/smoothing/gog-moving-avg.c:112
-#: ../plugins/smoothing/gog-exp-smooth.c:79
 #, fuzzy
 msgid "Properties"
 msgstr "Properti"
 
-#: ../goffice/graph/gog-trend-line.c:134
+#: ../goffice/graph/gog-trend-line.c:132
 #, fuzzy
 msgid "Trend Line"
 msgstr "Jarak baris:"
 
-#: ../goffice/graph/gog-trend-line.c:154
+#: ../goffice/graph/gog-trend-line.c:152
 msgid "Should the trend line show up in legends"
 msgstr ""
 
-#: ../goffice/graph/gog-view.c:128
+#: ../goffice/graph/gog-view.c:129
 #, fuzzy
 msgid "Select object"
 msgstr "Objek berisi"
 
-#: ../goffice/graph/gog-view.c:199
+#: ../goffice/graph/gog-view.c:200
 #, fuzzy
 msgid "Move"
 msgstr "Pindah"
 
-#: ../goffice/graph/gog-view.c:246
+#: ../goffice/graph/gog-view.c:247
 #, fuzzy
 msgid "Resize object"
 msgstr "Ubah ukuran Obyek"
 
-#: ../goffice/graph/gog-view.c:685
+#: ../goffice/graph/gog-view.c:686
 #, fuzzy
 msgid "the GogView parent"
 msgstr "Induk Akses"
 
-#: ../goffice/graph/gog-view.c:691
+#: ../goffice/graph/gog-view.c:692
 msgid "The GogObject this view displays"
 msgstr ""
 
-#: ../goffice/gtk/go-3d-rotation-sel.ui.h:1
-msgid "<b>Rotation</b>"
-msgstr "<b>Rotasi</b>"
+#: ../goffice/graph/new-theme-prefs.ui.h:2
+#, fuzzy
+msgid "Series number"
+msgstr "Nama aturan:"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 #, fuzzy
@@ -2942,7 +3158,8 @@ msgstr "Vietnam"
 msgid "Western"
 msgstr "Barat"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-locale-sel.c:72
+#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:604
+#: ../goffice/gtk/go-locale-sel.c:72
 #, fuzzy
 msgid "Other"
 msgstr "Lainnya"
@@ -3337,224 +3554,225 @@ msgstr "Arah Teks"
 msgid "This value determines which iconv test to perform."
 msgstr ""
 
-#: ../goffice/gtk/go-color-palette.c:76
+#. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
+#: ../goffice/gtk/go-color-palette.c:77
 msgid "black"
 msgstr "hitam"
 
-#: ../goffice/gtk/go-color-palette.c:77
+#: ../goffice/gtk/go-color-palette.c:78
 #, fuzzy
 msgid "light brown"
 msgstr "coklat muda"
 
-#: ../goffice/gtk/go-color-palette.c:78
+#: ../goffice/gtk/go-color-palette.c:79
 #, fuzzy
 msgid "brown gold"
 msgstr "coklat emas"
 
-#: ../goffice/gtk/go-color-palette.c:79
+#: ../goffice/gtk/go-color-palette.c:80
 #, fuzzy
 msgid "dark green #2"
 msgstr "hijau tua #2"
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:81
 #, fuzzy
 msgid "navy"
 msgstr "navy [nevi]"
 
-#: ../goffice/gtk/go-color-palette.c:81 ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:82 ../goffice/gtk/go-color-palette.c:134
 #, fuzzy
 msgid "dark blue"
 msgstr "biru tua"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:83
 #, fuzzy
 msgid "purple #2"
 msgstr "ungu #2"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:84
 #, fuzzy
 msgid "very dark gray"
 msgstr "abu-abu sangat tua"
 
-#: ../goffice/gtk/go-color-palette.c:85 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:139
 #, fuzzy
 msgid "dark red"
 msgstr "merah tua"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:87
 #, fuzzy
 msgid "red-orange"
 msgstr "oranye merah"
 
-#: ../goffice/gtk/go-color-palette.c:87
+#: ../goffice/gtk/go-color-palette.c:88
 msgid "gold"
 msgstr "emas"
 
-#: ../goffice/gtk/go-color-palette.c:88
+#: ../goffice/gtk/go-color-palette.c:89
 #, fuzzy
 msgid "dark green"
 msgstr "hijau tua"
 
-#: ../goffice/gtk/go-color-palette.c:89 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
 #, fuzzy
 msgid "dull blue"
 msgstr "biru dull"
 
-#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:91 ../goffice/gtk/go-color-palette.c:141
 msgid "blue"
 msgstr "biru"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:92
 #, fuzzy
 msgid "dull purple"
 msgstr "ungu dull"
 
-#: ../goffice/gtk/go-color-palette.c:92
+#: ../goffice/gtk/go-color-palette.c:93
 #, fuzzy
 msgid "dark gray"
 msgstr "Kelabu Gelap"
 
-#: ../goffice/gtk/go-color-palette.c:94
+#: ../goffice/gtk/go-color-palette.c:95
 msgid "red"
 msgstr "merah"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:96
 #, fuzzy
 msgid "orange"
 msgstr "oranye"
 
-#: ../goffice/gtk/go-color-palette.c:96
+#: ../goffice/gtk/go-color-palette.c:97
 #, fuzzy
 msgid "lime"
 msgstr "lime [laim]"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:98
 #, fuzzy
 msgid "dull green"
 msgstr "hijau dull"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:99
 #, fuzzy
 msgid "dull blue #2"
 msgstr "biru dull #2"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:100
 #, fuzzy
 msgid "sky blue #2"
 msgstr "biru langit #2"
 
-#: ../goffice/gtk/go-color-palette.c:100 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:101 ../goffice/gtk/go-color-palette.c:138
 #, fuzzy
 msgid "purple"
 msgstr "ungu"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:102
 #, fuzzy
 msgid "gray"
 msgstr "abu-abu"
 
-#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:135
 #, fuzzy
 msgid "magenta"
 msgstr "magenta [mejente]"
 
-#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:105
 #, fuzzy
 msgid "bright orange"
 msgstr "oranye terang"
 
-#: ../goffice/gtk/go-color-palette.c:105 ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:136
 msgid "yellow"
 msgstr "kuning"
 
-#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:107
 #, fuzzy
 msgid "green"
 msgstr "hijau"
 
-#: ../goffice/gtk/go-color-palette.c:107 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:137
 #, fuzzy
 msgid "cyan"
 msgstr "cyan [sian]"
 
-#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:109
 #, fuzzy
 msgid "bright blue"
 msgstr "biru terang"
 
-#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:125
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:126
 #, fuzzy
 msgid "red purple"
 msgstr "ungu merah"
 
-#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:111
 #, fuzzy
 msgid "light gray"
 msgstr "Kelabu Terang"
 
-#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:130
 #, fuzzy
 msgid "pink"
 msgstr "merah muda"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:114
 #, fuzzy
 msgid "light orange"
 msgstr "oranye muda"
 
-#: ../goffice/gtk/go-color-palette.c:114 ../goffice/gtk/go-color-palette.c:126
+#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:127
 #, fuzzy
 msgid "light yellow"
 msgstr "kuning muda"
 
-#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:116
 #, fuzzy
 msgid "light green"
 msgstr "hijau muda"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:117
 #, fuzzy
 msgid "light cyan"
 msgstr "cyan muda"
 
-#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:128
 #, fuzzy
 msgid "light blue"
 msgstr "biru muda"
 
-#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:132
 #, fuzzy
 msgid "light purple"
 msgstr "ungu muda"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:120
 #, fuzzy
 msgid "white"
 msgstr "putih"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:124
+#: ../goffice/gtk/go-color-palette.c:125
 #, fuzzy
 msgid "purplish blue"
 msgstr "biru keabuan"
 
-#: ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:129
 #, fuzzy
 msgid "dark purple"
 msgstr "ungu gelap"
 
-#: ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:131
 #, fuzzy
 msgid "sky blue"
 msgstr "Biru Langit"
 
-#: ../goffice/gtk/go-color-palette.c:468
+#: ../goffice/gtk/go-color-palette.c:473
 #, fuzzy
 msgid "custom"
 msgstr "bebas"
 
-#: ../goffice/gtk/go-color-palette.c:475 ../goffice/gtk/go-color-palette.c:729
-#: ../goffice/gtk/go-color-selector.c:198
+#: ../goffice/gtk/go-color-palette.c:480 ../goffice/gtk/go-color-palette.c:735
+#: ../goffice/gtk/go-color-selector.c:199
 #, fuzzy
 msgid "Custom color..."
 msgstr "Warna gubahan %d: %s"
@@ -3569,264 +3787,865 @@ msgstr "Tambahkan penyobek pada menu"
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Apakah dropdown harus memiliki sebuah objek menu tearoff"
 
-#: ../goffice/gtk/go-font-sel.c:188 ../goffice/math/go-distribution.c:75
+#: ../goffice/gtk/goffice-gtk.c:218
+#, fuzzy, c-format
+msgid "Unable to open file '%s'"
+msgstr "Tidak bisa membuka berkas '%s'"
+
+#: ../goffice/gtk/goffice-gtk.c:859 ../goffice/utils/go-style.c:215
+#, c-format
+msgid "%d x %d"
+msgstr "%d x %d"
+
+#: ../goffice/gtk/goffice-gtk.c:894
+msgid "All Files"
+msgstr "Semua Berkas"
+
+#: ../goffice/gtk/goffice-gtk.c:899
+#, fuzzy
+msgid "Images"
+msgstr "Gambar"
+
+#: ../goffice/gtk/goffice-gtk.c:951
+#, fuzzy
+msgid "Select an Image"
+msgstr "Pilih Gambar"
+
+#: ../goffice/gtk/goffice-gtk.c:1030
+#, fuzzy
+msgid "Save as"
+msgstr "Simpan sebagai"
+
+#: ../goffice/gtk/goffice-gtk.c:1103
+#, fuzzy
+msgid ""
+"The given file extension does not match the chosen file type. Do you want to "
+"use this name anyway?"
+msgstr ""
+"Ekstensi berkas yang diberikan tidak cocok dengan tipe berkas yang dipilih. "
+"Anda tetap ingin memakai nama ini?"
+
+#: ../goffice/gtk/goffice-gtk.c:1322
+#, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr ""
+"%s\n"
+"adalah suatu nama direktori"
+
+#: ../goffice/gtk/goffice-gtk.c:1326
+#, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr ""
+
+#: ../goffice/gtk/goffice-gtk.c:1336
+#, c-format
+msgid ""
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to save over it?"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:348
+msgid "Faces"
+msgstr ""
+
+#.
+#. * List of observed face names.  Translators: these represent
+#. * attributes of a font face, i.e., how bold the letters are
+#. * and whether it is an italic or regular face.  The four
+#. * first here are the important ones.
+#.
+#: ../goffice/gtk/go-font-sel.c:389
+msgctxt "FontFace"
+msgid "Regular"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
+#, fuzzy
+msgctxt "FontFace"
+msgid "Italic"
+msgstr "Miring"
+
+#: ../goffice/gtk/go-font-sel.c:391
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold"
+msgstr "Tebal"
+
+#: ../goffice/gtk/go-font-sel.c:392
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic"
+msgstr "Cetak tebal miring"
+
+#. These are fairly rare.
+#: ../goffice/gtk/go-font-sel.c:395
+#, fuzzy
+msgctxt "FontFace"
+msgid "Black"
+msgstr "Hitam"
+
+#: ../goffice/gtk/go-font-sel.c:396
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Condensed Italic"
+msgstr "Cetak tebal miring"
+
+#: ../goffice/gtk/go-font-sel.c:397
+msgctxt "FontFace"
+msgid "Bold Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:398
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic Small Caps"
+msgstr "Cetak tebal miring"
+
+#: ../goffice/gtk/go-font-sel.c:399
+msgctxt "FontFace"
+msgid "Bold Nonextended"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:400
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Oblique"
+msgstr "Cetak tebal miring"
+
+#: ../goffice/gtk/go-font-sel.c:401
+msgctxt "FontFace"
+msgid "Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:402
+msgctxt "FontFace"
+msgid "Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:403
+msgctxt "FontFace"
+msgid "Book Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:404
+msgctxt "FontFace"
+msgid "Book"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:405
+#, fuzzy
+msgctxt "FontFace"
+msgid "Condensed Bold Italic"
+msgstr "Cetak tebal miring"
+
+#: ../goffice/gtk/go-font-sel.c:406
+msgctxt "FontFace"
+msgid "Condensed Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:407
+msgctxt "FontFace"
+msgid "Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:408
+msgctxt "FontFace"
+msgid "Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:409
+msgctxt "FontFace"
+msgid "Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:410
+msgctxt "FontFace"
+msgid "Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:411
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold Italic"
+msgstr "Cetak tebal miring"
+
+#: ../goffice/gtk/go-font-sel.c:412
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold"
+msgstr "Tebal"
+
+#: ../goffice/gtk/go-font-sel.c:413
+msgctxt "FontFace"
+msgid "Demi Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:414
+msgctxt "FontFace"
+msgid "Demi"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:415
+msgctxt "FontFace"
+msgid "Demi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:416
+msgctxt "FontFace"
+msgid "Embossed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:417
+#, fuzzy
+msgctxt "FontFace"
+msgid "Expanded Bold Italic"
+msgstr "Cetak tebal miring"
+
+#: ../goffice/gtk/go-font-sel.c:418
+msgctxt "FontFace"
+msgid "Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:419
+msgctxt "FontFace"
+msgid "Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:420
+msgctxt "FontFace"
+msgid "Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:421
+#, fuzzy
+msgctxt "FontFace"
+msgid "Extra Light"
+msgstr "Segitiga sudut kanan"
+
+#: ../goffice/gtk/go-font-sel.c:422
+msgctxt "FontFace"
+msgid "Heavy"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:423
+msgctxt "FontFace"
+msgid "Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:425
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Italic"
+msgstr "Miring"
+
+#: ../goffice/gtk/go-font-sel.c:426
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Oblique"
+msgstr "biru muda"
+
+#: ../goffice/gtk/go-font-sel.c:427
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light"
+msgstr "Kanan"
+
+#: ../goffice/gtk/go-font-sel.c:428
+#, fuzzy
+msgctxt "FontFace"
+msgid "Medium Italic"
+msgstr "Miring"
+
+#: ../goffice/gtk/go-font-sel.c:429
+msgctxt "FontFace"
+msgid "Medium"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:430
+#, fuzzy
+msgctxt "FontFace"
+msgid "Normal"
+msgstr "Normal"
+
+#: ../goffice/gtk/go-font-sel.c:431
+msgctxt "FontFace"
+msgid "Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:432
+msgctxt "FontFace"
+msgid "Regular Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:433
+msgctxt "FontFace"
+msgid "Regular Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:434
+#, fuzzy
+msgctxt "FontFace"
+msgid "Regular Italic"
+msgstr "Miring"
+
+#: ../goffice/gtk/go-font-sel.c:435
+msgctxt "FontFace"
+msgid "Regular Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:436
+msgctxt "FontFace"
+msgid "Roman Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:437
+msgctxt "FontFace"
+msgid "Roman"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:438
+msgctxt "FontFace"
+msgid "Rounded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:439
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold Italic"
+msgstr "Cetak tebal miring"
+
+#: ../goffice/gtk/go-font-sel.c:440
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold"
+msgstr "Tebal"
+
+#: ../goffice/gtk/go-font-sel.c:441
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Italic"
+msgstr "Miring"
+
+#: ../goffice/gtk/go-font-sel.c:442
+msgctxt "FontFace"
+msgid "Sans"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:443
+msgctxt "FontFace"
+msgid "Semi-Bold Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:444
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold Italic"
+msgstr "Cetak tebal miring"
+
+#: ../goffice/gtk/go-font-sel.c:445
+msgctxt "FontFace"
+msgid "Semi-Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:446
+msgctxt "FontFace"
+msgid "Semi-Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:447
+msgctxt "FontFace"
+msgid "Semi-Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:448
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold"
+msgstr "Tebal"
+
+#: ../goffice/gtk/go-font-sel.c:449
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:450
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:451
+msgctxt "FontFace"
+msgid "Semi-Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:452
+msgctxt "FontFace"
+msgid "Semi-Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:453
+msgctxt "FontFace"
+msgid "Semi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:454
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:455
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:456
+msgctxt "FontFace"
+msgid "Semi-Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:457
+msgctxt "FontFace"
+msgid "Semi-Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:458
+msgctxt "FontFace"
+msgid "Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:459
+#, fuzzy
+msgctxt "FontFace"
+msgid "Small Caps"
+msgstr "Lingkaran Kecil"
+
+#: ../goffice/gtk/go-font-sel.c:460
+msgctxt "FontFace"
+msgid "Thin"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:461
+#, fuzzy
+msgctxt "FontFace"
+msgid "Upright Italic"
+msgstr "Miring"
+
+#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
+#, fuzzy
+msgid "Font"
+msgstr "Fonta"
+
+#: ../goffice/gtk/go-font-sel.c:605
+msgid "All fonts..."
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:905
+#, fuzzy
+msgctxt "underline"
+msgid "None"
+msgstr "Tak Ada"
+
+#: ../goffice/gtk/go-font-sel.c:906
+#, fuzzy
+msgctxt "underline"
+msgid "Single"
+msgstr "Sudut"
+
+#: ../goffice/gtk/go-font-sel.c:907
+msgctxt "underline"
+msgid "Double"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:908
+#, fuzzy
+msgctxt "underline"
+msgid "Low"
+msgstr "Rendah"
+
+#: ../goffice/gtk/go-font-sel.c:909
+#, fuzzy
+msgctxt "underline"
+msgid "Error"
+msgstr "Galat berisi"
+
+#: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
 #, fuzzy
 msgid "Normal"
 msgstr "Normal"
 
-#: ../goffice/gtk/go-font-sel.c:189
-msgid "Bold"
-msgstr "Tebal"
-
-#: ../goffice/gtk/go-font-sel.c:190
+#: ../goffice/gtk/go-font-sel.c:931
 #, fuzzy
-msgid "Bold italic"
-msgstr "Cetak tebal miring"
+msgid "Subscript"
+msgstr "Deskripsi"
 
-#: ../goffice/gtk/go-font-sel.c:191
+#: ../goffice/gtk/go-font-sel.c:932
 #, fuzzy
-msgid "Italic"
-msgstr "Miring"
+msgid "Superscript"
+msgstr "plus superskrip"
 
-#. xgettext: This text is used as a sample when selecting a font
-#. * please choose a translation that would produce common
-#. * characters specific to the target alphabet.
-#: ../goffice/gtk/go-font-sel.c:474
-msgid "AaBbCcDdEe12345"
-msgstr "AaBbCcDdEe12345"
+#: ../goffice/gtk/go-font-sel.c:1185
+#, fuzzy
+msgid "Show Style"
+msgstr "Gaya"
+
+#: ../goffice/gtk/go-font-sel.c:1186
+msgid "Whether style is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1194
+msgid "Show Color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1195
+msgid "Whether color is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1203
+#, fuzzy
+msgid "Show Underline"
+msgstr "<u>tampilkan rincian</u>"
+
+#: ../goffice/gtk/go-font-sel.c:1204
+msgid "Whether underlining is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1212
+msgid "Show Script"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1213
+msgid "Whether subscript/superscript is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1221
+msgid "Show Strikethrough"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1222
+msgid "Whether strikethrough is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1230
+msgid "Color unset text"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1231
+#, fuzzy
+msgid "The text to show for selecing no color"
+msgstr "Cari <b>%(name)s</b> untuk <i>%(text)s</i>"
+
+#: ../goffice/gtk/go-font-sel.c:1239
+#, fuzzy
+msgid "Color Group"
+msgstr "Grup Snippet:"
+
+#: ../goffice/gtk/go-font-sel.c:1240
+msgid "The color group to use for the color picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1248
+#, fuzzy
+msgid "Color Default"
+msgstr "Baku"
+
+#: ../goffice/gtk/go-font-sel.c:1249
+msgid "The color to show for an unset color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1259
+msgid "Underline Picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1260
+msgid "The widget to use for picking underline type"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel-dialog.c:107
+msgid "Pick a Font"
+msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
+msgid "Select the font family"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:2
 #, fuzzy
 msgid "Font:"
 msgstr "Fonta:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:2
-#, fuzzy
-msgid "Font style:"
-msgstr "Gaya font:"
-
 #: ../goffice/gtk/go-font-sel.ui.h:3
+#, fuzzy
+msgid "Select the size"
+msgstr "Pilih Gambar"
+
+#: ../goffice/gtk/go-font-sel.ui.h:4
 #, fuzzy
 msgid "Size:"
 msgstr "Ukuran:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:4
+#: ../goffice/gtk/go-font-sel.ui.h:5
 #, fuzzy
-msgid "Preview"
-msgstr "Pratayang"
+msgid "Select the font face"
+msgstr "Pilih Gambar"
 
-#: ../goffice/gtk/go-format-sel.c:60
+#: ../goffice/gtk/go-font-sel.ui.h:6
+#, fuzzy
+msgid "Style:"
+msgstr "Ga_ya"
+
+#: ../goffice/gtk/go-font-sel.ui.h:7
+msgid "Select whether a line should be drawn through the text"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:8
+msgid "Strikethrough:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:9
+msgid "Select the font color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:10
+#, fuzzy
+msgid "Color:"
+msgstr "Wa_rna:"
+
+#: ../goffice/gtk/go-font-sel.ui.h:11
+msgid ""
+"Select whether the font should be modified for use as subscript or "
+"superscript"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:12
+msgid "Script:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:13
+msgid "Select the type of underlining"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:14
+#, fuzzy
+msgid "Underline:"
+msgstr "Gunakan penyandian:"
+
+#: ../goffice/gtk/go-format-sel.c:61
 #, fuzzy
 msgid "Number"
 msgstr "Nomor"
 
-#: ../goffice/gtk/go-format-sel.c:61
+#: ../goffice/gtk/go-format-sel.c:62
 #, fuzzy
 msgid "Currency"
 msgstr "Mata Uang"
 
-#: ../goffice/gtk/go-format-sel.c:62
+#: ../goffice/gtk/go-format-sel.c:63
 msgid "Accounting"
 msgstr "Akunting"
 
-#: ../goffice/gtk/go-format-sel.c:63
+#: ../goffice/gtk/go-format-sel.c:64
 #, fuzzy
 msgid "Date"
 msgstr "Tanggal"
 
-#: ../goffice/gtk/go-format-sel.c:64
+#: ../goffice/gtk/go-format-sel.c:65
 #, fuzzy
 msgid "Time"
 msgstr "Waktu"
 
-#: ../goffice/gtk/go-format-sel.c:65
+#: ../goffice/gtk/go-format-sel.c:66
 #, fuzzy
 msgid "Percentage"
 msgstr "Persentase"
 
-#: ../goffice/gtk/go-format-sel.c:66
+#: ../goffice/gtk/go-format-sel.c:67
 #, fuzzy
 msgid "Fraction"
 msgstr "Pecahan"
 
-#: ../goffice/gtk/go-format-sel.c:67
+#: ../goffice/gtk/go-format-sel.c:68
 #, fuzzy
 msgid "Scientific"
 msgstr "Ilmiah"
 
-#: ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-format-sel.c:70
 #, fuzzy
 msgid "Special"
 msgstr "khusus"
 
-#: ../goffice/gtk/go-format-sel.c:70
+#: ../goffice/gtk/go-format-sel.c:71
 #, fuzzy
 msgid "Custom"
 msgstr "Gubahan"
 
 #. See http://en.wikipedia.org/wiki/Ampere
-#: ../goffice/gtk/go-format-sel.c:307
+#: ../goffice/gtk/go-format-sel.c:310
 msgid "A (ampere)"
 msgstr "A (amper)"
 
 #. See http://en.wikipedia.org/wiki/Becquerel
-#: ../goffice/gtk/go-format-sel.c:309
+#: ../goffice/gtk/go-format-sel.c:312
 msgid "Bq (becquerel)"
 msgstr "Bq (becquerel)"
 
 #. See http://en.wikipedia.org/wiki/Candela
-#: ../goffice/gtk/go-format-sel.c:311
+#: ../goffice/gtk/go-format-sel.c:314
 msgid "cd (candela)"
 msgstr "cd (kandela)"
 
 #. See http://en.wikipedia.org/wiki/Coulomb
-#: ../goffice/gtk/go-format-sel.c:313
+#: ../goffice/gtk/go-format-sel.c:316
 msgid "C (coulomb)"
 msgstr "C (coulomb)"
 
 #. See http://en.wikipedia.org/wiki/Degree_Celsius
-#: ../goffice/gtk/go-format-sel.c:315
+#: ../goffice/gtk/go-format-sel.c:318
 msgid "°C (degree Celsius)"
 msgstr "°C (derajat Celsius)"
 
 #. See http://en.wikipedia.org/wiki/Farad
-#: ../goffice/gtk/go-format-sel.c:317
+#: ../goffice/gtk/go-format-sel.c:320
 msgid "F (farad)"
 msgstr ""
 
 #. See http://en.wikipedia.org/wiki/Gray_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:319
+#: ../goffice/gtk/go-format-sel.c:322
 #, fuzzy
 msgid "Gy (gray)"
 msgstr "Mode Kelabu"
 
 #. See http://en.wikipedia.org/wiki/Henry_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:321
+#: ../goffice/gtk/go-format-sel.c:324
 msgid "H (henry)"
 msgstr "H (henry)"
 
 #. See http://en.wikipedia.org/wiki/Hertz
-#: ../goffice/gtk/go-format-sel.c:323
+#: ../goffice/gtk/go-format-sel.c:326
 msgid "Hz (hertz)"
 msgstr "Hz (hertz)"
 
 #. See http://en.wikipedia.org/wiki/Joule
-#: ../goffice/gtk/go-format-sel.c:325
+#: ../goffice/gtk/go-format-sel.c:328
 msgid "J (joule)"
 msgstr ""
 
 #. See http://en.wikipedia.org/wiki/Kelvin
-#: ../goffice/gtk/go-format-sel.c:327
+#: ../goffice/gtk/go-format-sel.c:330
 msgid "K (kelvin)"
 msgstr "K (kelvin)"
 
 #. See http://en.wikipedia.org/wiki/Kilogram
-#: ../goffice/gtk/go-format-sel.c:329
+#: ../goffice/gtk/go-format-sel.c:332
 msgid "kg (kilogram)"
 msgstr "kg (kilogram)"
 
 #. See http://en.wikipedia.org/wiki/Lumen_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:331
+#: ../goffice/gtk/go-format-sel.c:334
 msgid "lm (lumen)"
 msgstr "lm (lumen)"
 
 #. See http://en.wikipedia.org/wiki/Lux
-#: ../goffice/gtk/go-format-sel.c:333
+#: ../goffice/gtk/go-format-sel.c:336
 msgid "lx (lux)"
 msgstr "lx (lux)"
 
 #. See http://en.wikipedia.org/wiki/Metre
-#: ../goffice/gtk/go-format-sel.c:335
+#: ../goffice/gtk/go-format-sel.c:338
 msgid "m (meter)"
 msgstr "m (meter)"
 
 #. See http://en.wikipedia.org/wiki/Mole_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:337
+#: ../goffice/gtk/go-format-sel.c:340
 msgid "mol (mole)"
 msgstr "mol (mole)"
 
 #. See http://en.wikipedia.org/wiki/Newton_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:339
+#: ../goffice/gtk/go-format-sel.c:342
 msgid "N (newton)"
 msgstr "N (newton)"
 
 #. See http://en.wikipedia.org/wiki/Ohm_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:341
+#: ../goffice/gtk/go-format-sel.c:344
 msgid "Ω (ohm)"
 msgstr "Ω (ohm)"
 
 #. See http://en.wikipedia.org/wiki/Pascal_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:343
+#: ../goffice/gtk/go-format-sel.c:346
 msgid "Pa (pascal)"
 msgstr "Pa (pascal)"
 
 #. See http://en.wikipedia.org/wiki/Radian
-#: ../goffice/gtk/go-format-sel.c:345
+#: ../goffice/gtk/go-format-sel.c:348
 #, fuzzy
 msgid "rad (radian)"
 msgstr "radian,radians,rad"
 
 #. See http://en.wikipedia.org/wiki/Second
-#: ../goffice/gtk/go-format-sel.c:347
+#: ../goffice/gtk/go-format-sel.c:350
 #, fuzzy
 msgid "s (second)"
 msgstr "detik."
 
 #. See http://en.wikipedia.org/wiki/Siemens_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:349
+#: ../goffice/gtk/go-format-sel.c:352
 msgid "S (siemens)"
 msgstr "S (siemens)"
 
 #. See http://en.wikipedia.org/wiki/Steradian
-#: ../goffice/gtk/go-format-sel.c:351
+#: ../goffice/gtk/go-format-sel.c:354
 msgid "sr (steradian)"
 msgstr "sr (steradian)"
 
 #. See http://en.wikipedia.org/wiki/Sievert
-#: ../goffice/gtk/go-format-sel.c:353
+#: ../goffice/gtk/go-format-sel.c:356
 msgid "Sv (sievert)"
 msgstr ""
 
 #. See http://en.wikipedia.org/wiki/Tesla_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:355
+#: ../goffice/gtk/go-format-sel.c:358
 msgid "T (tesla)"
 msgstr ""
 
 #. See http://en.wikipedia.org/wiki/Katal
-#: ../goffice/gtk/go-format-sel.c:357
+#: ../goffice/gtk/go-format-sel.c:360
 msgid "kat (katal)"
 msgstr "kat (katal)"
 
 #. See http://en.wikipedia.org/wiki/Volt
-#: ../goffice/gtk/go-format-sel.c:359
+#: ../goffice/gtk/go-format-sel.c:362
 msgid "V (volt)"
 msgstr "V (volt)"
 
 #. See http://en.wikipedia.org/wiki/Watt
-#: ../goffice/gtk/go-format-sel.c:361
+#: ../goffice/gtk/go-format-sel.c:364
 msgid "W (watt)"
 msgstr "W (watt)"
 
 #. See http://en.wikipedia.org/wiki/Weber_%28Wb%29
-#: ../goffice/gtk/go-format-sel.c:363
+#: ../goffice/gtk/go-format-sel.c:366
 msgid "Wb (weber)"
 msgstr "Wb (weber)"
 
-#: ../goffice/gtk/go-format-sel.c:1018 ../goffice/gtk/go-format-sel.ui.h:40
+#: ../goffice/gtk/go-format-sel.c:1031 ../goffice/gtk/go-format-sel.ui.h:41
 msgid "Append no further unit."
 msgstr ""
 
-#: ../goffice/gtk/go-format-sel.c:1025
+#: ../goffice/gtk/go-format-sel.c:1038
 #, fuzzy, c-format
 msgid "Append '%s'."
 msgstr "T_ambahkan"
 
-#: ../goffice/gtk/go-format-sel.c:1558
+#: ../goffice/gtk/go-format-sel.c:1578
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "Format sebagai Angka"
 
-#: ../goffice/gtk/go-format-sel.c:1616
+#: ../goffice/gtk/go-format-sel.c:1638
 #, fuzzy
 msgid "Number Formats"
 msgstr "Terapkan Format A_ngka"
@@ -3966,41 +4785,45 @@ msgid "Specified denominator:"
 msgstr "Tak dinyatakan apapun"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
+msgid "Always show exponent si_gn"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.ui.h:33
 #, fuzzy
 msgid "_Engineering notation"
 msgstr "Notasi eksponensial"
 
-#: ../goffice/gtk/go-format-sel.ui.h:33
+#: ../goffice/gtk/go-format-sel.ui.h:34
 msgid "Restrict exponent to multiples of 3"
 msgstr ""
 
-#: ../goffice/gtk/go-format-sel.ui.h:34
+#: ../goffice/gtk/go-format-sel.ui.h:35
 #, fuzzy
 msgid "Use _superscript"
 msgstr "plus superskrip"
 
-#: ../goffice/gtk/go-format-sel.ui.h:35
+#: ../goffice/gtk/go-format-sel.ui.h:36
 msgid "Use superscript for exponent (e.g. 4×10²)"
 msgstr ""
 
-#: ../goffice/gtk/go-format-sel.ui.h:36
+#: ../goffice/gtk/go-format-sel.ui.h:37
 #, fuzzy
 msgid "_Don't show 1×s"
 msgstr "Jangan tampilkan lagi"
 
-#: ../goffice/gtk/go-format-sel.ui.h:37
+#: ../goffice/gtk/go-format-sel.ui.h:38
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
 msgstr ""
 
-#: ../goffice/gtk/go-format-sel.ui.h:38
-msgid "Append SI prefix"
+#: ../goffice/gtk/go-format-sel.ui.h:39
+msgid "Append SI _prefix"
 msgstr ""
 
-#: ../goffice/gtk/go-format-sel.ui.h:39
+#: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append an SI prefix (e.g. instead of 4×10⁶ show 4M)"
 msgstr ""
 
-#: ../goffice/gtk/go-format-sel.ui.h:41
+#: ../goffice/gtk/go-format-sel.ui.h:42
 msgid "Append the SI unit:"
 msgstr ""
 
@@ -4023,16 +4846,6 @@ msgstr "Tinggi dalam piksel."
 msgid "Export settings"
 msgstr "Pengaturan Surel"
 
-#: ../goffice/gtk/go-image-sel.ui.h:1
-#, fuzzy
-msgid "Select an image"
-msgstr "Pilih Gambar"
-
-#: ../goffice/gtk/go-image-sel.ui.h:2
-#, fuzzy
-msgid "_Select a new image"
-msgstr "Buat suatu gambar baru"
-
 #: ../goffice/gtk/go-image-sel.c:68
 #, fuzzy
 msgid "New image name"
@@ -4042,6 +4855,16 @@ msgstr "Nama peta gambar"
 #, fuzzy, c-format
 msgid "image%u"
 msgstr "_Gambar"
+
+#: ../goffice/gtk/go-image-sel.ui.h:1
+#, fuzzy
+msgid "Select an image"
+msgstr "Pilih Gambar"
+
+#: ../goffice/gtk/go-image-sel.ui.h:2
+#, fuzzy
+msgid "_Select a new image"
+msgstr "Buat suatu gambar baru"
 
 #: ../goffice/gtk/go-locale-sel.c:63
 #, fuzzy
@@ -4540,11 +5363,11 @@ msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:215
-msgid "Eritrea/Ge'ez “gez_ER)"
+msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:216
-msgid "Ethiopia/Ge'ez “gez_ET)"
+msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:217
@@ -4553,7 +5376,8 @@ msgstr ""
 
 # typo: " -> (
 #: ../goffice/gtk/go-locale-sel.c:218
-msgid "India/Gurajati “gu_IN)"
+#, fuzzy
+msgid "India/Gujarati (gu_IN)"
 msgstr "India/Gurajat (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
@@ -5055,7 +5879,7 @@ msgid "Switzerland/Walser (wae_CH)"
 msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:342
-msgid "Ethiopia/Walaita (wal_ET)"
+msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:343
@@ -5103,12 +5927,12 @@ msgstr ""
 msgid "Current Locale: "
 msgstr "Lokal Saat Ini"
 
-#: ../goffice/gtk/go-optionmenu.c:427
+#: ../goffice/gtk/go-optionmenu.c:476
 #, fuzzy
 msgid "Menu"
 msgstr "Menu"
 
-#: ../goffice/gtk/go-optionmenu.c:428
+#: ../goffice/gtk/go-optionmenu.c:477
 #, fuzzy
 msgid "The menu of options"
 msgstr "Pilihan menu"
@@ -5119,73 +5943,12 @@ msgid "Custom..."
 msgstr "Gubahan..."
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
-msgid "<b>Orientation</b>"
+#, fuzzy
+msgid "Orientation"
 msgstr "<b>Orientasi</b>"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:2
 msgid "A_ngle:"
-msgstr ""
-
-#: ../goffice/gtk/goffice-gtk.c:219
-#, fuzzy, c-format
-msgid "Unable to open file '%s'"
-msgstr "Tidak bisa membuka berkas '%s'"
-
-#: ../goffice/gtk/goffice-gtk.c:791 ../goffice/utils/go-style.c:215
-#, c-format
-msgid "%d x %d"
-msgstr "%d x %d"
-
-#: ../goffice/gtk/goffice-gtk.c:826
-msgid "All Files"
-msgstr "Semua Berkas"
-
-#: ../goffice/gtk/goffice-gtk.c:831
-#, fuzzy
-msgid "Images"
-msgstr "Gambar"
-
-#: ../goffice/gtk/goffice-gtk.c:883
-#, fuzzy
-msgid "Select an Image"
-msgstr "Pilih Gambar"
-
-#: ../goffice/gtk/goffice-gtk.c:962
-#, fuzzy
-msgid "Save as"
-msgstr "Simpan sebagai"
-
-#: ../goffice/gtk/goffice-gtk.c:1035
-#, fuzzy
-msgid ""
-"The given file extension does not match the chosen file type. Do you want to "
-"use this name anyway?"
-msgstr ""
-"Ekstensi berkas yang diberikan tidak cocok dengan tipe berkas yang dipilih. "
-"Anda tetap ingin memakai nama ini?"
-
-#: ../goffice/gtk/goffice-gtk.c:1254
-#, c-format
-msgid ""
-"%s\n"
-"is a directory name"
-msgstr ""
-"%s\n"
-"adalah suatu nama direktori"
-
-#: ../goffice/gtk/goffice-gtk.c:1258
-#, c-format
-msgid ""
-"You do not have permission to save to\n"
-"%s"
-msgstr ""
-
-#: ../goffice/gtk/goffice-gtk.c:1268
-#, c-format
-msgid ""
-"A file called <i>%s</i> already exists in %s.\n"
-"\n"
-"Do you want to save over it?"
 msgstr ""
 
 #: ../goffice/math/go-distribution.c:76
@@ -5966,132 +6729,132 @@ msgstr ""
 msgid "Could not input the image data\n"
 msgstr ""
 
-#: ../goffice/utils/go-emf.c:4549 ../goffice/utils/go-emf.c:4555
+#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
 #, fuzzy, c-format
 msgid "Invalid image data\n"
 msgstr "Tak ada data gambar"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:600
+#: ../goffice/utils/go-format.c:601
 #, fuzzy
 msgid "*Long Date Format"
 msgstr "Format Tanggal/Waktu"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:608
+#: ../goffice/utils/go-format.c:609
 #, fuzzy
 msgid "*Medium Date Format"
 msgstr "Format Tanggal/Waktu"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:616
+#: ../goffice/utils/go-format.c:617
 #, fuzzy
 msgid "*Short Date Format"
 msgstr "Format Tanggal/Waktu"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:629
+#: ../goffice/utils/go-format.c:630
 msgid "*Short Date/Time Format"
 msgstr ""
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:644
+#: ../goffice/utils/go-format.c:645
 #, fuzzy
 msgid "*Long Time Format"
 msgstr "Format Tanggal/Waktu"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:656
+#: ../goffice/utils/go-format.c:657
 #, fuzzy
 msgid "*Medium Time Format"
 msgstr "Format Tanggal/Waktu"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:668
+#: ../goffice/utils/go-format.c:669
 #, fuzzy
 msgid "*Short Time Format"
 msgstr "Format Tanggal/Waktu"
 
-#: ../goffice/utils/go-format.c:717
+#: ../goffice/utils/go-format.c:718
 msgid "Black"
 msgstr "Hitam"
 
-#: ../goffice/utils/go-format.c:718
+#: ../goffice/utils/go-format.c:719
 msgid "Blue"
 msgstr "Biru"
 
-#: ../goffice/utils/go-format.c:719
+#: ../goffice/utils/go-format.c:720
 #, fuzzy
 msgid "Cyan"
 msgstr "Cyan"
 
-#: ../goffice/utils/go-format.c:720
+#: ../goffice/utils/go-format.c:721
 #, fuzzy
 msgid "Green"
 msgstr "Hijau"
 
-#: ../goffice/utils/go-format.c:721
+#: ../goffice/utils/go-format.c:722
 #, fuzzy
 msgid "Magenta"
 msgstr "Magenta"
 
-#: ../goffice/utils/go-format.c:722
+#: ../goffice/utils/go-format.c:723
 msgid "Red"
 msgstr "Merah"
 
-#: ../goffice/utils/go-format.c:723
+#: ../goffice/utils/go-format.c:724
 #, fuzzy
 msgid "White"
 msgstr "Putih"
 
-#: ../goffice/utils/go-format.c:724
+#: ../goffice/utils/go-format.c:725
 msgid "Yellow"
 msgstr "Kuning"
 
-#: ../goffice/utils/go-format.c:744
+#: ../goffice/utils/go-format.c:745
 #, fuzzy
 msgid "color"
 msgstr "warna"
 
-#: ../goffice/utils/go-geometry.c:334 ../goffice/utils/go-marker.c:96
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:96
 #, fuzzy
 msgid "none"
 msgstr "tak ada"
 
-#: ../goffice/utils/go-geometry.c:335
+#: ../goffice/utils/go-geometry.c:297
 #, fuzzy
 msgid "down"
 msgstr "turun"
 
-#: ../goffice/utils/go-geometry.c:336
+#: ../goffice/utils/go-geometry.c:298
 #, fuzzy
 msgid "up"
 msgstr "naik"
 
-#: ../goffice/utils/go-geometry.c:337
+#: ../goffice/utils/go-geometry.c:299
 #, fuzzy
 msgid "right"
 msgstr "kanan"
 
-#: ../goffice/utils/go-geometry.c:338
+#: ../goffice/utils/go-geometry.c:300
 #, fuzzy
 msgid "left"
 msgstr "kiri"
 
-#: ../goffice/utils/go-glib-extras.c:917
+#: ../goffice/utils/go-glib-extras.c:915
 msgid "yes"
 msgstr "ya"
 
-#: ../goffice/utils/go-glib-extras.c:923
+#: ../goffice/utils/go-glib-extras.c:921
 msgid "no"
 msgstr "tidak"
 
-#: ../goffice/utils/go-glib-extras.c:1141
+#: ../goffice/utils/go-glib-extras.c:1139
 #, c-format
 msgid "Quoted string not terminated"
 msgstr ""
 
-#: ../goffice/utils/go-glib-extras.c:1148
+#: ../goffice/utils/go-glib-extras.c:1146
 #, fuzzy, c-format
 msgid "Syntax error"
 msgstr "Kesalahan sintaks"
@@ -6457,135 +7220,128 @@ msgstr "Latar depan:"
 msgid "Background:"
 msgstr "Latar:"
 
-#: ../goffice/utils/go-style.c:870
+#: ../goffice/utils/go-style.c:868
 #, fuzzy
 msgid "Markers"
 msgstr "Penanda Sel"
 
-#: ../goffice/utils/go-style.c:942
-#, fuzzy
-msgid "Font"
-msgstr "Fonta"
-
 #: ../goffice/utils/go-style-prefs.ui.h:1
-#, fuzzy
-msgid "St_yle:"
-msgstr "Ga_ya"
-
-#: ../goffice/utils/go-style-prefs.ui.h:2
 #, fuzzy
 msgid "Co_lor:"
 msgstr "_Warna:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:3
-#, fuzzy
-msgid "_Size:"
-msgstr "_Ukuran:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:7
-#, fuzzy
-msgid "Pattern"
-msgstr "Pola"
-
-#: ../goffice/utils/go-style-prefs.ui.h:8
-#, fuzzy
-msgid "Bicolor gradient"
-msgstr "Horisontal gradien"
-
-#: ../goffice/utils/go-style-prefs.ui.h:9
-#, fuzzy
-msgid "Unicolor gradient"
-msgstr "Horisontal gradien"
-
-#: ../goffice/utils/go-style-prefs.ui.h:11
-#, fuzzy
-msgid "_Direction:"
-msgstr "Arah"
-
-#: ../goffice/utils/go-style-prefs.ui.h:12
-#, fuzzy
-msgid "_Pattern:"
-msgstr "_Pola:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:13
-#, fuzzy
-msgid "_Foreground:"
-msgstr "Latar depan"
-
-#: ../goffice/utils/go-style-prefs.ui.h:14
-#, fuzzy
-msgid "_Background:"
-msgstr "Latar _Belakang:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:15
-msgid "B_rightness:"
-msgstr "Kece_rahan:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:16
-#, fuzzy
-msgid "_Select..."
-msgstr "_Pilih...\" "
-
-#: ../goffice/utils/go-style-prefs.ui.h:17
-#, fuzzy
-msgid "_Fit:"
-msgstr "Pas"
-
-#: ../goffice/utils/go-style-prefs.ui.h:18
-msgid "stretched"
-msgstr ""
-
-#: ../goffice/utils/go-style-prefs.ui.h:19
-#, fuzzy
-msgid "wallpaper"
-msgstr "Gambar latar"
-
-#: ../goffice/utils/go-style-prefs.ui.h:20
-#, fuzzy
-msgid "centered"
-msgstr "Tengah"
-
-#: ../goffice/utils/go-style-prefs.ui.h:21
-#, fuzzy
-msgid "centered wallpaper"
-msgstr "Tambahkan Gambar Dinding"
-
-#: ../goffice/utils/go-style-prefs.ui.h:22
-#, fuzzy
-msgid "<b>Outline</b>"
-msgstr "Garis Besar"
-
-#: ../goffice/utils/go-style-prefs.ui.h:23
-msgid "<b>Line</b>"
-msgstr "<b>Garis</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:24
-#, fuzzy
-msgid "<b>Fill</b>"
-msgstr "_Isi"
-
-#: ../goffice/utils/go-style-prefs.ui.h:25
-msgid "<b>Marker</b>"
-msgstr "<b>Penanda</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:26
-#, fuzzy
-msgid "_Fill:"
-msgstr "_Isi"
-
-#: ../goffice/utils/go-style-prefs.ui.h:27
-msgid "O_utline:"
-msgstr ""
-
-#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../goffice/utils/go-style-prefs.ui.h:2
 #, fuzzy
 msgid "Si_ze:"
 msgstr "_Ukuran:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:29
+#: ../goffice/utils/go-style-prefs.ui.h:3
+msgid "O_utline:"
+msgstr ""
+
+#: ../goffice/utils/go-style-prefs.ui.h:4
+#, fuzzy
+msgid "_Fill:"
+msgstr "_Isi"
+
+#: ../goffice/utils/go-style-prefs.ui.h:5
 #, fuzzy
 msgid "Sha_pe:"
 msgstr "_Jenis:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:6
+#, fuzzy
+msgid "Marker"
+msgstr "Penanda Sel"
+
+#: ../goffice/utils/go-style-prefs.ui.h:8
+#, fuzzy
+msgid "St_yle:"
+msgstr "Ga_ya"
+
+#: ../goffice/utils/go-style-prefs.ui.h:9
+#, fuzzy
+msgid "_Size:"
+msgstr "_Ukuran:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:11
+#, fuzzy
+msgid "Pattern"
+msgstr "Pola"
+
+#: ../goffice/utils/go-style-prefs.ui.h:12
+#, fuzzy
+msgid "Bicolor gradient"
+msgstr "Horisontal gradien"
+
+#: ../goffice/utils/go-style-prefs.ui.h:13
+#, fuzzy
+msgid "Unicolor gradient"
+msgstr "Horisontal gradien"
+
+#: ../goffice/utils/go-style-prefs.ui.h:15
+#, fuzzy
+msgid "_Direction:"
+msgstr "Arah"
+
+#: ../goffice/utils/go-style-prefs.ui.h:16
+#, fuzzy
+msgid "_Pattern:"
+msgstr "_Pola:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:17
+#, fuzzy
+msgid "_Foreground:"
+msgstr "Latar depan"
+
+#: ../goffice/utils/go-style-prefs.ui.h:18
+#, fuzzy
+msgid "_Background:"
+msgstr "Latar _Belakang:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:19
+msgid "B_rightness:"
+msgstr "Kece_rahan:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:20
+#, fuzzy
+msgid "_Fit:"
+msgstr "Pas"
+
+#: ../goffice/utils/go-style-prefs.ui.h:21
+msgid "stretched"
+msgstr ""
+
+#: ../goffice/utils/go-style-prefs.ui.h:22
+#, fuzzy
+msgid "wallpaper"
+msgstr "Gambar latar"
+
+#: ../goffice/utils/go-style-prefs.ui.h:23
+#, fuzzy
+msgid "centered"
+msgstr "Tengah"
+
+#: ../goffice/utils/go-style-prefs.ui.h:24
+#, fuzzy
+msgid "centered wallpaper"
+msgstr "Tambahkan Gambar Dinding"
+
+#: ../goffice/utils/go-style-prefs.ui.h:25
+#, fuzzy
+msgid "_Select..."
+msgstr "_Pilih...\" "
+
+#: ../goffice/utils/go-style-prefs.ui.h:27
+#, fuzzy
+msgid "Outline"
+msgstr "Garis Besar"
+
+#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../plugins/plot_barcol/plot-types.xml.in.h:1
+#, fuzzy
+msgid "Line"
+msgstr "Baris"
 
 #: ../goffice/utils/regutf8.c:59
 #, fuzzy
@@ -6753,7 +7509,7 @@ msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr ""
 
 #: ../plugins/plot_barcol/gog-1.5d.c:353 ../plugins/plot_pie/gog-pie.c:319
-#: ../plugins/plot_xy/gog-xy.c:566
+#: ../plugins/plot_xy/gog-xy.c:563
 #, fuzzy
 msgid "In 3D"
 msgstr "Lorong 3 dimensi"
@@ -6770,27 +7526,13 @@ msgstr ""
 msgid "Labels"
 msgstr "Label"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:364
-#: ../plugins/plot_distrib/gog-boxplot.c:428
-#: ../plugins/plot_distrib/gog-histogram.c:390
-#: ../plugins/plot_distrib/gog-probability-plot.c:317
-#: ../plugins/plot_pie/gog-pie.c:340 ../plugins/plot_radar/gog-radar.c:323
-#, fuzzy
-msgid "Values"
-msgstr "Nilai"
-
 #: ../plugins/plot_barcol/gog-1.5d.c:623 ../plugins/plot_barcol/gog-1.5d.c:686
 #, fuzzy
 msgid "Error bars"
 msgstr "Galat berisi"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:643
-#, fuzzy
-msgid "Series lines"
-msgstr "Lipat baris"
-
 #: ../plugins/plot_barcol/gog-1.5d.c:650
-#: ../plugins/plot_distrib/gog-histogram.c:1095
+#: ../plugins/plot_distrib/gog-histogram.c:1097
 #, fuzzy
 msgid "Drop lines"
 msgstr "Lipat baris"
@@ -6803,30 +7545,19 @@ msgstr "Baris"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
 #: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2171
-#: ../plugins/plot_xy/gog-xy.c:2177
+#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2175
+#: ../plugins/plot_xy/gog-xy.c:2181
 msgid "GogErrorBar *"
 msgstr ""
 
 #: ../plugins/plot_barcol/gog-area-prefs.ui.h:1
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:3
 #: ../plugins/plot_radar/gog-polar-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
+#: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
 msgid "_Display the grids above the plot"
-msgstr ""
-
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
-#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
-#, fuzzy
-msgid "_Gap:"
-msgstr "GAP"
-
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:4
-msgid "O_verlap:"
 msgstr ""
 
 #. xgettext : the base for how to name bar/col plot objects
@@ -6872,7 +7603,7 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-boxplot.c:413
 #: ../plugins/plot_distrib/gog-histogram.c:374
 #: ../plugins/plot_radar/gog-radar.c:446 ../plugins/plot_radar/gog-radar.c:517
-#: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:300
+#: ../plugins/plot_xy/gog-xy.c:396 ../plugins/plot_xy/gog-xy-dropbar.c:300
 msgid "Displayed under the grids"
 msgstr ""
 
@@ -6882,8 +7613,19 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-boxplot.c:414
 #: ../plugins/plot_distrib/gog-histogram.c:375
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:518
-#: ../plugins/plot_xy/gog-xy.c:400 ../plugins/plot_xy/gog-xy-dropbar.c:301
+#: ../plugins/plot_xy/gog-xy.c:397 ../plugins/plot_xy/gog-xy-dropbar.c:301
 msgid "Should the plot be displayed before the grids"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
+#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
+#, fuzzy
+msgid "_Gap:"
+msgstr "GAP"
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:2
+msgid "O_verlap:"
 msgstr ""
 
 #. xgettext : the base for how to name drop bar/col plot objects
@@ -6911,7 +7653,7 @@ msgstr "Penanda Sel"
 
 #: ../plugins/plot_barcol/gog-line.c:328
 #: ../plugins/plot_barcol/gog-minmax.c:234
-#: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:376
+#: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:373
 #: ../plugins/plot_xy/gog-xy-minmax.c:298
 msgid "Should the default style of a series include markers"
 msgstr ""
@@ -6931,13 +7673,6 @@ msgstr ""
 msgid "PlotMinMax"
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-minmax.c:227
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-dropbar.c:306
-#: ../plugins/plot_xy/gog-xy-minmax.c:291
-msgid "Horizontal"
-msgstr "Horisontal"
-
 #: ../plugins/plot_barcol/gog-minmax.c:228
 #: ../plugins/plot_xy/gog-xy-minmax.c:292
 msgid "Horizontal or vertical lines"
@@ -6954,11 +7689,6 @@ msgstr "Min"
 #, fuzzy
 msgid "Max"
 msgstr "Maks"
-
-#: ../plugins/plot_barcol/plot-types.xml.in.h:1
-#, fuzzy
-msgid "Line"
-msgstr "Baris"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:2
 #, fuzzy
@@ -7273,45 +8003,6 @@ msgstr ":"
 msgid "Distribution:"
 msgstr "_Distribusi:"
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:2
-#: ../plugins/plot_distrib/gog-boxplot.c:395
-#: ../plugins/plot_distrib/gog-histogram.c:362
-#, fuzzy
-msgid "Vertical"
-msgstr "Vertikal"
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
-#, fuzzy
-msgid "_Layout"
-msgstr "Tata _Letak"
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
-msgid "_Exclude and show outliers"
-msgstr ""
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
-#, fuzzy
-msgid "_Diameter/width:"
-msgstr "Lebar jendela"
-
-#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
-msgid "First Y category label:"
-msgstr ""
-
-#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
-msgid "Second Y category label:"
-msgstr ""
-
-#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
-#, fuzzy
-msgid "_Vertical"
-msgstr "_Vertikal"
-
-#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
-#, fuzzy
-msgid "_Cumulative"
-msgstr "Kumulatif"
-
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
@@ -7319,6 +8010,13 @@ msgstr "Kumulatif"
 #, fuzzy
 msgid "Box-Plot"
 msgstr "Buat Plot"
+
+#: ../plugins/plot_distrib/gog-boxplot.c:395
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_distrib/gog-histogram.c:362
+#, fuzzy
+msgid "Vertical"
+msgstr "Vertikal"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
@@ -7341,6 +8039,28 @@ msgstr "Aspek rasio:"
 msgid ""
 "The ratio between the radius of the circles representing outliers and the "
 "rectangle width"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
+#, fuzzy
+msgid "_Layout"
+msgstr "Tata _Letak"
+
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
+msgid "_Exclude and show outliers"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
+#, fuzzy
+msgid "_Diameter/width:"
+msgstr "Lebar jendela"
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
+msgid "First Y category label:"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
+msgid "Second Y category label:"
 msgstr ""
 
 #. xgettext : the base for how to name histogram-plot objects
@@ -7366,7 +8086,7 @@ msgid "Use cumulated data"
 msgstr "Pakai sumber data:"
 
 #: ../plugins/plot_distrib/gog-histogram.c:388
-#: ../plugins/plot_distrib/gog-histogram.c:476
+#: ../plugins/plot_distrib/gog-histogram.c:478
 #, fuzzy
 msgid "Limits"
 msgstr "Batas"
@@ -7377,30 +8097,40 @@ msgid ""
 "be used."
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-histogram.c:441
+#: ../plugins/plot_distrib/gog-histogram.c:442
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-histogram.c:446
+#: ../plugins/plot_distrib/gog-histogram.c:448
 #, fuzzy
 msgid "Categories labels"
 msgstr "Label CD"
 
-#: ../plugins/plot_distrib/gog-histogram.c:478
-#: ../plugins/plot_distrib/gog-histogram.c:753
+#: ../plugins/plot_distrib/gog-histogram.c:480
+#: ../plugins/plot_distrib/gog-histogram.c:755
 #, fuzzy
 msgid "First values"
 msgstr "Nilai CIE"
 
-#: ../plugins/plot_distrib/gog-histogram.c:480
-#: ../plugins/plot_distrib/gog-histogram.c:761
-#: ../plugins/plot_distrib/gog-histogram.c:772
-#: ../plugins/plot_distrib/gog-histogram.c:784
+#: ../plugins/plot_distrib/gog-histogram.c:482
+#: ../plugins/plot_distrib/gog-histogram.c:763
+#: ../plugins/plot_distrib/gog-histogram.c:774
+#: ../plugins/plot_distrib/gog-histogram.c:786
 #, fuzzy
 msgid "Second values"
 msgstr "Nilai CIE"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
+#, fuzzy
+msgid "_Vertical"
+msgstr "_Vertikal"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
+#, fuzzy
+msgid "_Cumulative"
+msgstr "Kumulatif"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:70
 msgid "Use data as Y-values"
@@ -7562,50 +8292,6 @@ msgstr ""
 msgid "Statistics plot types"
 msgstr ""
 
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
-#, fuzzy
-msgid "Slices start _at:"
-msgstr "Mulai penghitung dari:"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
-msgid "_Vary colors by slice"
-msgstr ""
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
-#, fuzzy
-msgid "_Slice Separation:"
-msgstr "Pemisah vertikal"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
-#, fuzzy
-msgid "Negative data:"
-msgstr "Data Rupa-rupa"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
-#, fuzzy
-msgid "Skip"
-msgstr "Lewati"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
-msgid "Absolute value"
-msgstr "Nilai absolut"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:10
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:11
-msgid "Absolute value with white background"
-msgstr ""
-
-#: ../plugins/plot_pie/gog-pie-series.ui.h:1
-#, fuzzy
-msgid "_Separation:"
-msgstr "Pemisah vertikal"
-
 #: ../plugins/plot_pie/gog-pie.c:112 ../plugins/plot_pie/gog-pie.c:1302
 #, fuzzy
 msgid "Separation"
@@ -7691,7 +8377,51 @@ msgstr "Sudut awal"
 msgid "Degrees clockwise from 12 O'Clock"
 msgstr ""
 
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
+#, fuzzy
+msgid "Slices start _at:"
+msgstr "Mulai penghitung dari:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
+#, fuzzy
+msgid "_Slice Separation:"
+msgstr "Pemisah vertikal"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
+#, fuzzy
+msgid "Negative data:"
+msgstr "Data Rupa-rupa"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
+msgid "_Vary colors by slice"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
+#, fuzzy
+msgid "Skip"
+msgstr "Lewati"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
+msgid "Absolute value"
+msgstr "Nilai absolut"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:10
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:11
+msgid "Absolute value with white background"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-series.ui.h:1
+#, fuzzy
+msgid "_Separation:"
+msgstr "Pemisah vertikal"
+
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
 msgid "Cen_ter size:"
 msgstr ""
 
@@ -7774,13 +8504,18 @@ msgstr ""
 msgid "Default pie types"
 msgstr ""
 
+#: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
+#: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
+msgid "Hide data outside of color axis bounds"
+msgstr ""
+
 #: ../plugins/plot_radar/gog-radar.c:238
 #, fuzzy
 msgid "Default fill"
 msgstr "Warna isi:"
 
-#: ../plugins/plot_radar/gog-radar.c:239 ../plugins/plot_xy/gog-xy.c:388
-#: ../plugins/plot_xy/gog-xy.c:817
+#: ../plugins/plot_radar/gog-radar.c:239 ../plugins/plot_xy/gog-xy.c:385
+#: ../plugins/plot_xy/gog-xy.c:814
 msgid "Should the default style of a series include fill"
 msgstr ""
 
@@ -7822,19 +8557,19 @@ msgstr "Kontrol Magnitudo"
 msgid "PlotColorPolar"
 msgstr ""
 
-#: ../plugins/plot_radar/gog-radar.c:721 ../plugins/plot_xy/gog-xy.c:822
+#: ../plugins/plot_radar/gog-radar.c:721 ../plugins/plot_xy/gog-xy.c:819
 #, fuzzy
 msgid "hide-outliers"
 msgstr "<u>sembunyikan rincian</u>"
 
-#: ../plugins/plot_radar/gog-radar.c:722 ../plugins/plot_xy/gog-xy.c:823
+#: ../plugins/plot_radar/gog-radar.c:722 ../plugins/plot_xy/gog-xy.c:820
 msgid "Hide data outside of the color axis bounds"
 msgstr ""
 
 #: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:400
 #: ../plugins/plot_surface/gog-xyz-surface.c:543
 #: ../plugins/plot_surface/xl-surface.c:304
-#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:835
+#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:832
 msgid "Z"
 msgstr "Z"
 
@@ -7850,11 +8585,6 @@ msgstr ""
 #: ../plugins/plot_radar/gog-radar.c:1425
 #: ../plugins/plot_radar/gog-radar.c:1468
 msgid "Angular error bars"
-msgstr ""
-
-#: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
-msgid "Hide data outside of color axis bounds"
 msgstr ""
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
@@ -7955,15 +8685,15 @@ msgstr "Buat Plot"
 #: ../plugins/plot_surface/gog-xyz.c:396
 #: ../plugins/plot_surface/gog-xyz-surface.c:539
 #: ../plugins/plot_surface/xl-surface.c:302
-#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:408
-#: ../plugins/plot_xy/gog-xy.c:578 ../plugins/plot_xy/gog-xy.c:831
+#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:405
+#: ../plugins/plot_xy/gog-xy.c:575 ../plugins/plot_xy/gog-xy.c:828
 msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:398
 #: ../plugins/plot_surface/gog-xyz-surface.c:541
-#: ../plugins/plot_xy/gog-xy.c:410 ../plugins/plot_xy/gog-xy.c:580
-#: ../plugins/plot_xy/gog-xy.c:833
+#: ../plugins/plot_xy/gog-xy.c:407 ../plugins/plot_xy/gog-xy.c:577
+#: ../plugins/plot_xy/gog-xy.c:830
 msgid "Y"
 msgstr "Y"
 
@@ -8136,8 +8866,9 @@ msgid "Default surface plot types"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:1
-msgid "3_D"
-msgstr "3_D"
+#, fuzzy
+msgid "_Size represented by:"
+msgstr "Menurut ukuran pesan"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
 #, fuzzy
@@ -8151,17 +8882,16 @@ msgstr "meter,m"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:4
 #, fuzzy
-msgid "_Size represented by:"
-msgstr "Menurut ukuran pesan"
+msgid "Show _negative values"
+msgstr "Tampilkan saham dari nilai indeks"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:5
 msgid "_Vary colors by bubble"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:6
-#, fuzzy
-msgid "Show _negative values"
-msgstr "Tampilkan saham dari nilai indeks"
+msgid "3_D"
+msgstr "3_D"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:7
 msgid "_Bubbles scaled to"
@@ -8172,87 +8902,74 @@ msgstr ""
 msgid "% of default size"
 msgstr "% dari ukuran baku"
 
-#: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
-msgid "_Use null value instead of invalid"
-msgstr ""
-
-#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
-msgid "_Horizontal"
-msgstr "_Horisontal"
-
-#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
-#, fuzzy
-msgid "Bar _width:"
-msgstr "Lebar jendela"
-
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: ../plugins/plot_xy/gog-xy.c:259
+#: ../plugins/plot_xy/gog-xy.c:256
 msgid "PlotXY"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:375
+#: ../plugins/plot_xy/gog-xy.c:372
 msgid "Has markers by default"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:381 ../plugins/plot_xy/gog-xy.c:810
+#: ../plugins/plot_xy/gog-xy.c:378 ../plugins/plot_xy/gog-xy.c:807
 msgid "Has lines by default"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:382 ../plugins/plot_xy/gog-xy.c:811
+#: ../plugins/plot_xy/gog-xy.c:379 ../plugins/plot_xy/gog-xy.c:808
 msgid "Should the default style of a series include lines"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:387 ../plugins/plot_xy/gog-xy.c:816
+#: ../plugins/plot_xy/gog-xy.c:384 ../plugins/plot_xy/gog-xy.c:813
 msgid "Has fill by default"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:393
+#: ../plugins/plot_xy/gog-xy.c:390
 #, fuzzy
 msgid "Use splines"
 msgstr "Gunakan penyandian:"
 
-#: ../plugins/plot_xy/gog-xy.c:394
+#: ../plugins/plot_xy/gog-xy.c:391
 msgid "Should the plot use splines instead of linear interpolation"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:454
+#: ../plugins/plot_xy/gog-xy.c:451
 msgid "PlotBubble"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:554
+#: ../plugins/plot_xy/gog-xy.c:551
 #, fuzzy
 msgid "Size as area"
 msgstr "Ukuran Area yang Ditangkap"
 
-#: ../plugins/plot_xy/gog-xy.c:555
+#: ../plugins/plot_xy/gog-xy.c:552
 msgid "Display size as area instead of diameter"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:560
+#: ../plugins/plot_xy/gog-xy.c:557
 #, fuzzy
 msgid "Show negatives"
 msgstr "<u>tampilkan rincian</u>"
 
-#: ../plugins/plot_xy/gog-xy.c:561
+#: ../plugins/plot_xy/gog-xy.c:558
 msgid "Draw bubbles for negative values"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:567
+#: ../plugins/plot_xy/gog-xy.c:564
 msgid "Draw 3D bubbles"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:572
+#: ../plugins/plot_xy/gog-xy.c:569
 #, fuzzy
 msgid "Bubble scale"
 msgstr "Skala penuh"
 
-#: ../plugins/plot_xy/gog-xy.c:573
+#: ../plugins/plot_xy/gog-xy.c:570
 msgid "Fraction of default radius used for display"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:582 ../plugins/plot_xy/plot-types.xml.in.h:3
+#: ../plugins/plot_xy/gog-xy.c:579 ../plugins/plot_xy/plot-types.xml.in.h:3
 #, fuzzy
 msgid "Bubble"
 msgstr "_Balon Pemberitahuan"
@@ -8260,54 +8977,54 @@ msgstr "_Balon Pemberitahuan"
 #. xgettext : the base for how to name map like plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
-#: ../plugins/plot_xy/gog-xy.c:707
+#: ../plugins/plot_xy/gog-xy.c:704
 msgid "XYColor"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2099 ../plugins/plot_xy/gog-xy.c:2170
+#: ../plugins/plot_xy/gog-xy.c:2103 ../plugins/plot_xy/gog-xy.c:2174
 #, fuzzy
 msgid "X error bars"
 msgstr "Galat berisi"
 
-#: ../plugins/plot_xy/gog-xy.c:2102 ../plugins/plot_xy/gog-xy.c:2176
+#: ../plugins/plot_xy/gog-xy.c:2106 ../plugins/plot_xy/gog-xy.c:2180
 #, fuzzy
 msgid "Y error bars"
 msgstr "Galat berisi"
 
-#: ../plugins/plot_xy/gog-xy.c:2111
+#: ../plugins/plot_xy/gog-xy.c:2115
 msgid "Horizontal drop lines"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2119
+#: ../plugins/plot_xy/gog-xy.c:2123
 msgid "Vertical drop lines"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2182
+#: ../plugins/plot_xy/gog-xy.c:2186
 #, fuzzy
 msgid "Invalid as zero"
 msgstr "Data tak valid sebagai NULL?"
 
-#: ../plugins/plot_xy/gog-xy.c:2183
+#: ../plugins/plot_xy/gog-xy.c:2187
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2188
+#: ../plugins/plot_xy/gog-xy.c:2192
 #, fuzzy
 msgid "Clamp at start"
 msgstr "Mulai penghitung dari:"
 
-#: ../plugins/plot_xy/gog-xy.c:2189
+#: ../plugins/plot_xy/gog-xy.c:2193
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2194
+#: ../plugins/plot_xy/gog-xy.c:2198
 #, fuzzy
 msgid "Clamp at end"
 msgstr "%s saat pertemuan berakhir"
 
-#: ../plugins/plot_xy/gog-xy.c:2195
+#: ../plugins/plot_xy/gog-xy.c:2199
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -8334,11 +9051,24 @@ msgstr ""
 msgid "Positions"
 msgstr "Posisi keseimbangan: %s %s (%s)"
 
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
+msgid "_Horizontal"
+msgstr "_Horisontal"
+
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
+#, fuzzy
+msgid "Bar _width:"
+msgstr "Lebar jendela"
+
 #. xgettext : the base for how to name min/max line plot objects
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
 #: ../plugins/plot_xy/gog-xy-minmax.c:166
 msgid "PlotXYMinMax"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
+msgid "_Use null value instead of invalid"
 msgstr ""
 
 #. really 3_1
@@ -8687,6 +9417,41 @@ msgstr ""
 msgid "Logarithmic fitting curve"
 msgstr ""
 
+#: ../plugins/smoothing/gog-exp-smooth.c:64
+#: ../plugins/smoothing/gog-exp-smooth.c:221
+msgid "Number of interpolation steps"
+msgstr ""
+
+#: ../plugins/smoothing/gog-exp-smooth.c:72
+msgid ""
+"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
+"If no value or a negative (or null) value is provided, the default will be "
+"used"
+msgstr ""
+
+#. xgettext : the base for how to name exponentially smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Exponentially smoothed curve2
+#: ../plugins/smoothing/gog-exp-smooth.c:166
+#: ../plugins/smoothing/types.xml.in.h:3
+msgid "Exponentially smoothed curve"
+msgstr ""
+
+#: ../plugins/smoothing/gog-exp-smooth.c:220
+#, fuzzy
+msgid "Steps"
+msgstr "Tahapan zoom"
+
+#: ../plugins/smoothing/gog-exp-smooth.ui.h:1
+#, fuzzy
+msgid "_Period:"
+msgstr "_Periode:"
+
+#: ../plugins/smoothing/gog-exp-smooth.ui.h:2
+#, fuzzy
+msgid "_Steps:"
+msgstr "Tahapan zoom"
+
 #: ../plugins/smoothing/gog-moving-avg.c:103
 msgid "Number of values from which to calculate an average"
 msgstr ""
@@ -8725,41 +9490,6 @@ msgstr "Jarak"
 msgid "_Use averaged abscissa"
 msgstr ""
 
-#: ../plugins/smoothing/gog-exp-smooth.c:64
-#: ../plugins/smoothing/gog-exp-smooth.c:220
-msgid "Number of interpolation steps"
-msgstr ""
-
-#: ../plugins/smoothing/gog-exp-smooth.c:72
-msgid ""
-"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
-"If no value or a negative (or null) value is provided, the default will be "
-"used"
-msgstr ""
-
-#. xgettext : the base for how to name exponentially smoothed curves objects
-#. * eg The 2nd one for a series will be called
-#. * 	Exponentially smoothed curve2
-#: ../plugins/smoothing/gog-exp-smooth.c:165
-#: ../plugins/smoothing/types.xml.in.h:3
-msgid "Exponentially smoothed curve"
-msgstr ""
-
-#: ../plugins/smoothing/gog-exp-smooth.c:219
-#, fuzzy
-msgid "Steps"
-msgstr "Tahapan zoom"
-
-#: ../plugins/smoothing/gog-exp-smooth.ui.h:1
-#, fuzzy
-msgid "_Period:"
-msgstr "_Periode:"
-
-#: ../plugins/smoothing/gog-exp-smooth.ui.h:2
-#, fuzzy
-msgid "_Steps:"
-msgstr "Tahapan zoom"
-
 #: ../plugins/smoothing/plugin.xml.in.h:1
 msgid "Charting : Trends and Curves"
 msgstr ""
@@ -8784,3 +9514,47 @@ msgstr ""
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr ""
+
+#~ msgid "<b>Position</b>"
+#~ msgstr "<b>Posisi</b>"
+
+#~ msgid "<b>Style</b>"
+#~ msgstr "<b>Gaya</b>"
+
+#~ msgid "<b>Values</b>"
+#~ msgstr "<b>Nilai</b>"
+
+#, fuzzy
+#~ msgid "<b>_Plot Type</b>"
+#~ msgstr "Jenis server:"
+
+#, fuzzy
+#~ msgid "<b>Used data</b>"
+#~ msgstr "Data Rupa-rupa"
+
+#~ msgid "<b>Interpolation</b>"
+#~ msgstr "<b>Interpolasi</b>"
+
+#~ msgid "<b>Rotation</b>"
+#~ msgstr "<b>Rotasi</b>"
+
+#~ msgid "AaBbCcDdEe12345"
+#~ msgstr "AaBbCcDdEe12345"
+
+#, fuzzy
+#~ msgid "Font style:"
+#~ msgstr "Gaya font:"
+
+#, fuzzy
+#~ msgid "Preview"
+#~ msgstr "Pratayang"
+
+#~ msgid "<b>Line</b>"
+#~ msgstr "<b>Garis</b>"
+
+#, fuzzy
+#~ msgid "<b>Fill</b>"
+#~ msgstr "_Isi"
+
+#~ msgid "<b>Marker</b>"
+#~ msgstr "<b>Penanda</b>"

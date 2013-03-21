@@ -7,9 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice HEAD\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-16 02:42+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-21 18:55-0400\n"
 "PO-Revision-Date: 2013-03-16 21:42+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
@@ -21,86 +20,83 @@ msgstr ""
 "%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../goffice/app/file.c:213 ../goffice/app/file.c:629
+#: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
 msgstr "ID"
 
-#: ../goffice/app/file.c:214
-#| msgid "The identifier of the saver."
+#: ../goffice/app/file.c:178
 msgid "The identifier of the opener"
 msgstr "Atveriančiojo identifikatorius"
 
-#: ../goffice/app/file.c:223 ../goffice/app/file.c:660
+#: ../goffice/app/file.c:187 ../goffice/app/file.c:624
 msgid "Description"
 msgstr "Aprašymas"
 
-#: ../goffice/app/file.c:224
-#| msgid "The description of the saver."
+#: ../goffice/app/file.c:188
 msgid "The description of the opener"
 msgstr "Atveriančiojo aprašymas"
 
-#: ../goffice/app/file.c:233 ../goffice/app/file.c:680
-#| msgid "Interpolation"
+#: ../goffice/app/file.c:197 ../goffice/app/file.c:644
 msgid "Interactive only"
 msgstr "Tik interaktyviai"
 
-#: ../goffice/app/file.c:234
+#: ../goffice/app/file.c:198
 msgid "TRUE if this opener requires interaction"
 msgstr "TEIGIAMA, jei šiam atveriančiajam reikia naudotojo įsikišimo"
 
-#: ../goffice/app/file.c:630
+#: ../goffice/app/file.c:594
 msgid "The identifier of the saver."
 msgstr "Įrašančiojo identifikatorius."
 
-#: ../goffice/app/file.c:640
+#: ../goffice/app/file.c:604
 msgid "MIME type"
 msgstr "MIME tipas"
 
-#: ../goffice/app/file.c:641
+#: ../goffice/app/file.c:605
 msgid "The MIME type of the saver."
 msgstr "Įrašančiojo MIME tipas."
 
-#: ../goffice/app/file.c:650
+#: ../goffice/app/file.c:614
 msgid "Extension"
 msgstr "Išplėtimas"
 
-#: ../goffice/app/file.c:651
+#: ../goffice/app/file.c:615
 msgid "The standard file name extension of the saver."
 msgstr "Įprastinis įrašančiojo failo pavadinimo plėtinys."
 
-#: ../goffice/app/file.c:661
+#: ../goffice/app/file.c:625
 msgid "The description of the saver."
 msgstr "Įrašančiojo aprašymas."
 
-#: ../goffice/app/file.c:670
+#: ../goffice/app/file.c:634
 msgid "Overwrite"
 msgstr "Perrašyti"
 
-#: ../goffice/app/file.c:671
+#: ../goffice/app/file.c:635
 msgid "Whether the saver will overwrite files."
 msgstr "Ar įrašytojas perrašys failus."
 
-#: ../goffice/app/file.c:681
+#: ../goffice/app/file.c:645
 msgid "TRUE if this saver requires interaction"
 msgstr "TEIGIAMA, jei šiam įrašančiajam reikia naudotojo įsikišimo"
 
-#: ../goffice/app/file.c:691
+#: ../goffice/app/file.c:655
 msgid "Format Level"
 msgstr "Formato lygis"
 
-#: ../goffice/app/file.c:702
+#: ../goffice/app/file.c:666
 msgid "Scope"
 msgstr "Sritis"
 
-#: ../goffice/app/file.c:703
+#: ../goffice/app/file.c:667
 msgid "How much of a document is saved"
 msgstr "Kiek dokumento yra įrašyta"
 
-#: ../goffice/app/file.c:866
+#: ../goffice/app/file.c:830
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Saugumo sumetimais įrašymas ant senų šio tipo failų yra išjungtas."
 
-#: ../goffice/app/file.c:876
+#: ../goffice/app/file.c:840
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -143,7 +139,7 @@ msgstr "Nesugadintas"
 msgid "Whether the document is unchanged since it was created."
 msgstr "Ar dokumentas nepakeistas nuo jo sukūrimo."
 
-#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:292
+#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:293
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Paveikslėlis"
@@ -485,181 +481,181 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Vykdyti pagrindinio ciklo iteraciją"
 
-#: ../goffice/canvas/goc-arc.c:440
+#: ../goffice/canvas/goc-arc.c:441
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:441
+#: ../goffice/canvas/goc-arc.c:442
 msgid "The arc center x coordinate"
 msgstr "Arkos centro x koordinatė"
 
-#: ../goffice/canvas/goc-arc.c:446
+#: ../goffice/canvas/goc-arc.c:447
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:447
+#: ../goffice/canvas/goc-arc.c:448
 msgid "The arc center y coordinate"
 msgstr "Arkos centro y koordinatė"
 
-#: ../goffice/canvas/goc-arc.c:452
+#: ../goffice/canvas/goc-arc.c:453
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:453
+#: ../goffice/canvas/goc-arc.c:454
 msgid "The arc x radius"
 msgstr "Arkos spindulys"
 
-#: ../goffice/canvas/goc-arc.c:458
+#: ../goffice/canvas/goc-arc.c:459
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:459
+#: ../goffice/canvas/goc-arc.c:460
 msgid "The arc y radius"
 msgstr "Arkos y spindulys"
 
-#: ../goffice/canvas/goc-arc.c:464
+#: ../goffice/canvas/goc-arc.c:465
 msgid "ang1"
 msgstr "kam1"
 
-#: ../goffice/canvas/goc-arc.c:465
+#: ../goffice/canvas/goc-arc.c:466
 msgid "The arc start angle"
 msgstr "Arkos pradžios kampas"
 
-#: ../goffice/canvas/goc-arc.c:470
+#: ../goffice/canvas/goc-arc.c:471
 msgid "ang2"
 msgstr "kam2"
 
-#: ../goffice/canvas/goc-arc.c:471
+#: ../goffice/canvas/goc-arc.c:472
 msgid "The arc end angle"
 msgstr "Arkos pabaigos kampas"
 
-#: ../goffice/canvas/goc-arc.c:476 ../goffice/canvas/goc-component.c:295
-#: ../goffice/canvas/goc-ellipse.c:261 ../goffice/canvas/goc-path.c:275
-#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:475
+#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
+#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Posūkis"
 
-#: ../goffice/canvas/goc-arc.c:477
+#: ../goffice/canvas/goc-arc.c:478
 msgid "The rotation around center position"
 msgstr "Posūkis aplink vidurio padėtį"
 
-#: ../goffice/canvas/goc-arc.c:482 ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-arc.c:483 ../goffice/canvas/goc-rectangle.c:347
 #: ../goffice/graph/gog-axis.c:3058 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Tipas"
 
-#: ../goffice/canvas/goc-arc.c:483
+#: ../goffice/canvas/goc-arc.c:484
 msgid "The type of arc: arc, chord or pie"
 msgstr "Arkos tipas: arka, styga ar skritulys"
 
-#: ../goffice/canvas/goc-arc.c:489 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:348
 msgid "Start Arrow"
 msgstr "Pradžios rodyklė"
 
-#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:349
 msgid "Arrow for line's start"
 msgstr "Rodyklė linijos pradžiai"
 
-#: ../goffice/canvas/goc-arc.c:495 ../goffice/canvas/goc-line.c:352
+#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:354
 msgid "End Arrow"
 msgstr "Užbaigti rodyklę"
 
-#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:497 ../goffice/canvas/goc-line.c:355
 msgid "Arrow for line's end"
 msgstr "Rodyklė linijos pabaigai"
 
-#: ../goffice/canvas/goc-circle.c:167 ../goffice/canvas/goc-component.c:271
-#: ../goffice/canvas/goc-ellipse.c:237 ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:263
-#: ../goffice/canvas/goc-path.c:263 ../goffice/canvas/goc-pixbuf.c:223
-#: ../goffice/canvas/goc-rectangle.c:312 ../goffice/canvas/goc-text.c:463
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
+#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
+#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
 #: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
-#: ../goffice/canvas/goc-circle.c:168
+#: ../goffice/canvas/goc-circle.c:170
 msgid "The circle center horizontal position"
 msgstr "Apskritimo centro horizontali padėtis"
 
-#: ../goffice/canvas/goc-circle.c:173 ../goffice/canvas/goc-component.c:277
-#: ../goffice/canvas/goc-ellipse.c:243 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:269
-#: ../goffice/canvas/goc-path.c:269 ../goffice/canvas/goc-pixbuf.c:229
-#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-text.c:469
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
+#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
+#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
 #: ../goffice/canvas/goc-widget.c:779
 msgid "y"
 msgstr "y"
 
-#: ../goffice/canvas/goc-circle.c:174
+#: ../goffice/canvas/goc-circle.c:176
 msgid "The circle center vertical position"
 msgstr "Apskritimo centro vertikali padėtis"
 
-#: ../goffice/canvas/goc-circle.c:179
+#: ../goffice/canvas/goc-circle.c:181
 msgid "Radius"
 msgstr "Spindulys"
 
-#: ../goffice/canvas/goc-circle.c:180
+#: ../goffice/canvas/goc-circle.c:182
 msgid "The circle radius"
 msgstr "Apskritimo spindulys"
 
-#: ../goffice/canvas/goc-component.c:272
+#: ../goffice/canvas/goc-component.c:292
 msgid "The object left position"
 msgstr "Objekto kairė padėtis"
 
-#: ../goffice/canvas/goc-component.c:278
+#: ../goffice/canvas/goc-component.c:298
 msgid "The object top position"
 msgstr "Objekto viršutinė padėtis"
 
-#: ../goffice/canvas/goc-component.c:283 ../goffice/canvas/goc-component.c:284
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:281
-#: ../goffice/canvas/goc-pixbuf.c:241 ../goffice/canvas/goc-rectangle.c:330
+#: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
+#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
+#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
 #: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "Aukštis"
 
-#: ../goffice/canvas/goc-component.c:289 ../goffice/canvas/goc-component.c:290
-#: ../goffice/canvas/goc-ellipse.c:249 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
-#: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
+#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
+#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
 #: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
 #: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "Plotis"
 
-#: ../goffice/canvas/goc-component.c:296
+#: ../goffice/canvas/goc-component.c:316
 msgid "The rotation around center"
 msgstr "Posūkis aplink centrą"
 
-#: ../goffice/canvas/goc-component.c:301
+#: ../goffice/canvas/goc-component.c:321
 msgid "Object"
 msgstr "Objektas"
 
-#: ../goffice/canvas/goc-component.c:302
+#: ../goffice/canvas/goc-component.c:322
 msgid "The embedded GOComponent object"
 msgstr "Įtaisytas GO komponento objektas"
 
-#: ../goffice/canvas/goc-ellipse.c:238
+#: ../goffice/canvas/goc-ellipse.c:260
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Elipsės kairė padėtis (arba dešinė padėtis IKĮD veisenoje)"
 
-#: ../goffice/canvas/goc-ellipse.c:244
+#: ../goffice/canvas/goc-ellipse.c:266
 msgid "The ellipse top position"
 msgstr "Elipsės viršutinė padėtis"
 
-#: ../goffice/canvas/goc-ellipse.c:250
+#: ../goffice/canvas/goc-ellipse.c:272
 msgid "The ellipse width"
 msgstr "Elipsės plotis"
 
-#: ../goffice/canvas/goc-ellipse.c:256
+#: ../goffice/canvas/goc-ellipse.c:278
 msgid "The ellipse height"
 msgstr "Elipsės aukštis"
 
-#: ../goffice/canvas/goc-ellipse.c:262 ../goffice/canvas/goc-rectangle.c:337
+#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "Posūkis aplink kairę padėtį"
 
@@ -705,55 +701,55 @@ msgstr "Grupės horizontalus poslinkis"
 msgid "The group vertical offset"
 msgstr "Grupės vertikalus poslinkis"
 
-#: ../goffice/canvas/goc-image.c:264 ../goffice/canvas/goc-pixbuf.c:224
+#: ../goffice/canvas/goc-image.c:265 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "Paveikslėlio kairė padėtis"
 
-#: ../goffice/canvas/goc-image.c:270 ../goffice/canvas/goc-pixbuf.c:230
+#: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "Paveikslėlio viršutinė padėtis"
 
-#: ../goffice/canvas/goc-image.c:276 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr "Paveikslėlio plotis arba -1 paveikslėlio pločiui naudoti"
 
-#: ../goffice/canvas/goc-image.c:282 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr "Paveikslėlio aukštis arba -1 paveikslėlio aukščiui naudoti"
 
-#: ../goffice/canvas/goc-image.c:293
+#: ../goffice/canvas/goc-image.c:294
 msgid "The GOImage to display"
 msgstr "Rodomas GOImage"
 
-#: ../goffice/canvas/goc-image.c:297
+#: ../goffice/canvas/goc-image.c:298
 msgid "Cropped bottom"
 msgstr "Nukirpta apačia"
 
-#: ../goffice/canvas/goc-image.c:298
+#: ../goffice/canvas/goc-image.c:299
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr "Paveikslėlio nukirpta apačios sritis kaip paveikslėlio aukščio dalis"
 
-#: ../goffice/canvas/goc-image.c:302
+#: ../goffice/canvas/goc-image.c:303
 msgid "Cropped left"
 msgstr "Nukirpta kairė"
 
-#: ../goffice/canvas/goc-image.c:303
+#: ../goffice/canvas/goc-image.c:304
 msgid "The cropped area at the image left of the image width"
 msgstr "Paveikslėlio kairėje nukirpta paveikslėlio pločio dalis"
 
-#: ../goffice/canvas/goc-image.c:307
+#: ../goffice/canvas/goc-image.c:308
 msgid "Cropped right"
 msgstr "Nukirpta dešinė"
 
-#: ../goffice/canvas/goc-image.c:308
+#: ../goffice/canvas/goc-image.c:309
 msgid "The cropped area at the image right of the image width"
 msgstr "Paveikslėlio dešinėje nukirpta paveikslėlio pločio dalis"
 
-#: ../goffice/canvas/goc-image.c:312
+#: ../goffice/canvas/goc-image.c:313
 msgid "Cropped top"
 msgstr "Nukirpta viršus"
 
-#: ../goffice/canvas/goc-image.c:313
+#: ../goffice/canvas/goc-image.c:314
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr "Paveikslėlio viršuje nukirpta dalis kaip paveikslėlio aukščio dalis"
 
@@ -773,103 +769,103 @@ msgstr "Tėvas"
 msgid "The group in which the item resides"
 msgstr "Grupė, kurioje yra elementas"
 
-#: ../goffice/canvas/goc-line.c:322
+#: ../goffice/canvas/goc-line.c:324
 msgid "x0"
 msgstr "x0"
 
-#: ../goffice/canvas/goc-line.c:323
+#: ../goffice/canvas/goc-line.c:325
 msgid "The line start x coordinate"
 msgstr "Linijos pradžios x koordinatė"
 
-#: ../goffice/canvas/goc-line.c:328
+#: ../goffice/canvas/goc-line.c:330
 msgid "y0"
 msgstr "y0"
 
-#: ../goffice/canvas/goc-line.c:329
+#: ../goffice/canvas/goc-line.c:331
 msgid "The line start y coordinate"
 msgstr "Linijos pradžios y koordinatė"
 
-#: ../goffice/canvas/goc-line.c:334
+#: ../goffice/canvas/goc-line.c:336
 msgid "x1"
 msgstr "x1"
 
-#: ../goffice/canvas/goc-line.c:335
+#: ../goffice/canvas/goc-line.c:337
 msgid "The line end x coordinate"
 msgstr "Linijos pabaigos x koordinatė"
 
-#: ../goffice/canvas/goc-line.c:340
+#: ../goffice/canvas/goc-line.c:342
 msgid "y1"
 msgstr "y1"
 
-#: ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-line.c:343
 msgid "The line end y coordinate"
 msgstr "Linijos pabaigos y koordinatė"
 
-#: ../goffice/canvas/goc-path.c:264
+#: ../goffice/canvas/goc-path.c:269
 msgid "The path first point x coordinate"
 msgstr "Kelio pirmo taško x koordinatė"
 
-#: ../goffice/canvas/goc-path.c:270
+#: ../goffice/canvas/goc-path.c:275
 msgid "The path first point y coordinate"
 msgstr "Kelio pirmo taško y koordinatė"
 
-#: ../goffice/canvas/goc-path.c:276
+#: ../goffice/canvas/goc-path.c:281
 msgid "The rotation around first point position"
 msgstr "Posūkis aplink pirmo taško padėtį"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:286
 msgid "Closed"
 msgstr "Užvertas"
 
-#: ../goffice/canvas/goc-path.c:282
+#: ../goffice/canvas/goc-path.c:287
 msgid "The flag for closed path"
 msgstr "Užverto kelio požymis"
 
-#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-polygon.c:339
+#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
 msgid "Fill rule"
 msgstr "Užpildo taisyklė"
 
-#: ../goffice/canvas/goc-path.c:288 ../goffice/canvas/goc-polygon.c:340
+#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
 msgid "Set fill rule to winding or even/odd"
 msgstr "Nustatyti užpildo taisyklę į winding arba even/odd"
 
-#: ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-path.c:298
 msgid "Path"
 msgstr "Kelias"
 
-#: ../goffice/canvas/goc-path.c:294
+#: ../goffice/canvas/goc-path.c:299
 msgid "The path points"
 msgstr "Kelio taškai"
 
-#: ../goffice/canvas/goc-pixbuf.c:252 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
-#: ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-pixbuf.c:265
 msgid "The GdkPixbuf to display"
 msgstr "Rodomas GdkPixbuf"
 
-#: ../goffice/canvas/goc-polygon.c:328 ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
 msgid "points"
 msgstr "taškai"
 
-#: ../goffice/canvas/goc-polygon.c:328
+#: ../goffice/canvas/goc-polygon.c:344
 msgid "The polygon vertices"
 msgstr "Daugiakampio viršūnės"
 
-#: ../goffice/canvas/goc-polygon.c:333 ../goffice/canvas/goc-polyline.c:256
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
 msgid "Use spline"
 msgstr "Naudoti kreivę"
 
-#: ../goffice/canvas/goc-polygon.c:334
+#: ../goffice/canvas/goc-polygon.c:350
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Naudoti Bezier užvertą kubinę funkciją kaip kontūrą"
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:360
 msgid "sizes"
 msgstr "dydžiai"
 
-#: ../goffice/canvas/goc-polygon.c:345
+#: ../goffice/canvas/goc-polygon.c:361
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
@@ -879,31 +875,31 @@ msgstr ""
 "daugiakampiai. Kiekvieno dydis turi būti bent 3. Verčių po netinkamos vertės "
 "bus nepaisoma. Nustačius „point“ savybę bus atstatyti dydžiai."
 
-#: ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polyline.c:259
 msgid "The polyline vertices"
 msgstr "Polilinijos viršūnės"
 
-#: ../goffice/canvas/goc-polyline.c:257
+#: ../goffice/canvas/goc-polyline.c:265
 msgid "Use a Bezier cubic spline as line"
 msgstr "Naudoti Bezier kubinę funkciją kaip liniją"
 
-#: ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-rectangle.c:318
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr "Stačiakampio kairė padėtis (arba dešinė IDĮK veisenoje)"
 
-#: ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-rectangle.c:324
 msgid "The rectangle top position"
 msgstr "Stačiakampio viršutinė padėtis"
 
-#: ../goffice/canvas/goc-rectangle.c:325
+#: ../goffice/canvas/goc-rectangle.c:330
 msgid "The rectangle width"
 msgstr "Stačiakampio plotis"
 
-#: ../goffice/canvas/goc-rectangle.c:331
+#: ../goffice/canvas/goc-rectangle.c:336
 msgid "The rectangle height"
 msgstr "Stačiakampio aukštis"
 
-#: ../goffice/canvas/goc-rectangle.c:343
+#: ../goffice/canvas/goc-rectangle.c:348
 msgid ""
 "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for "
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
@@ -913,19 +909,19 @@ msgstr ""
 "kairiajam, 2 viršutiniam dešiniajam, 4 apatiniam dešiniajam, 8 apatiniam "
 "kairiajam arba bet kokia šių kombinacija."
 
-#: ../goffice/canvas/goc-rectangle.c:348
+#: ../goffice/canvas/goc-rectangle.c:353
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:349
+#: ../goffice/canvas/goc-rectangle.c:354
 msgid "The round rectangle rx"
 msgstr "Aplink stačiakampį rx"
 
-#: ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-rectangle.c:359
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:355
+#: ../goffice/canvas/goc-rectangle.c:360
 msgid "The round rectangle ry"
 msgstr "Aplink stačiakampį ry"
 
@@ -948,72 +944,72 @@ msgstr "Didinti linijos plotį"
 msgid "Whether to scale the line width when zooming"
 msgstr "Ar ištempti linijos plotį pritraukiant"
 
-#: ../goffice/canvas/goc-text.c:464
+#: ../goffice/canvas/goc-text.c:466
 msgid "The text horizontal position"
 msgstr "Teksto horizontali padėtis"
 
-#: ../goffice/canvas/goc-text.c:470
+#: ../goffice/canvas/goc-text.c:472
 msgid "The text position"
 msgstr "Teksto padėtis"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:478
 msgid "The rotation around the anchor"
 msgstr "Posūkis apie inkarą"
 
-#: ../goffice/canvas/goc-text.c:481 ../goffice/graph/gog-object.c:815
+#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:815
 msgid "Anchor"
 msgstr "Inkaras"
 
-#: ../goffice/canvas/goc-text.c:482
+#: ../goffice/canvas/goc-text.c:484
 msgid "The anchor point for the text"
 msgstr "Inkaro taškas tekstui"
 
-#: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
 #: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:970
 msgid "Text"
 msgstr "Tekstas"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:490
 msgid "The text to display"
 msgstr "Rodomas tekstas"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "Attributes"
 msgstr "Atributai"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "The attributes list as a PangoAttrList"
 msgstr "Atributų sąrašas kaip PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:496
+#: ../goffice/canvas/goc-text.c:498
 msgid "Clip"
 msgstr "Kirpti"
 
-#: ../goffice/canvas/goc-text.c:497
+#: ../goffice/canvas/goc-text.c:499
 msgid "Whether to clip or not"
 msgstr "Ar kirpti"
 
-#: ../goffice/canvas/goc-text.c:502
+#: ../goffice/canvas/goc-text.c:504
 msgid "Clip width"
 msgstr "Apkirpti plotį"
 
-#: ../goffice/canvas/goc-text.c:503
+#: ../goffice/canvas/goc-text.c:505
 msgid "Clip width for the text"
 msgstr "Kirpti teksto plotį"
 
-#: ../goffice/canvas/goc-text.c:508
+#: ../goffice/canvas/goc-text.c:510
 msgid "Clip height"
 msgstr "Apkirpti aukštį"
 
-#: ../goffice/canvas/goc-text.c:509
+#: ../goffice/canvas/goc-text.c:511
 msgid "Clip height for the text"
 msgstr "Kirpti teksto aukštį"
 
-#: ../goffice/canvas/goc-text.c:514
+#: ../goffice/canvas/goc-text.c:516
 msgid "Wrap width"
 msgstr "Sukeiti plotį"
 
-#: ../goffice/canvas/goc-text.c:515
+#: ../goffice/canvas/goc-text.c:517
 msgid "Wrap width for the text"
 msgstr "Laužyti teksto eilutes"
 
@@ -2872,7 +2868,7 @@ msgstr "Vietnamiečių"
 msgid "Western"
 msgstr "Vakarietiškas"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:294
+#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:604
 #: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "Kita"
@@ -3217,185 +3213,186 @@ msgstr "Konversijos kryptis"
 msgid "This value determines which iconv test to perform."
 msgstr "Ši vertė nusako, kurį iconv testą vykdyti."
 
-#: ../goffice/gtk/go-color-palette.c:76
+#. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
+#: ../goffice/gtk/go-color-palette.c:77
 msgid "black"
 msgstr "juoda"
 
-#: ../goffice/gtk/go-color-palette.c:77
+#: ../goffice/gtk/go-color-palette.c:78
 msgid "light brown"
 msgstr "šviesiai ruda"
 
-#: ../goffice/gtk/go-color-palette.c:78
+#: ../goffice/gtk/go-color-palette.c:79
 msgid "brown gold"
 msgstr "rusvai auksinė"
 
-#: ../goffice/gtk/go-color-palette.c:79
+#: ../goffice/gtk/go-color-palette.c:80
 msgid "dark green #2"
 msgstr "tamsiai žalia #2"
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "navy"
 msgstr "tamsiai mėlyna"
 
-#: ../goffice/gtk/go-color-palette.c:81 ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:82 ../goffice/gtk/go-color-palette.c:134
 msgid "dark blue"
 msgstr "tamsiai mėlyna"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "purple #2"
 msgstr "violetinė #2"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:84
 msgid "very dark gray"
 msgstr "labai tamsi pilka"
 
-#: ../goffice/gtk/go-color-palette.c:85 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:139
 msgid "dark red"
 msgstr "tamsiai raudona"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:87
 msgid "red-orange"
 msgstr "raudonai oranžinė"
 
-#: ../goffice/gtk/go-color-palette.c:87
+#: ../goffice/gtk/go-color-palette.c:88
 msgid "gold"
 msgstr "auksinė"
 
-#: ../goffice/gtk/go-color-palette.c:88
+#: ../goffice/gtk/go-color-palette.c:89
 msgid "dark green"
 msgstr "tamsiai žalia"
 
-#: ../goffice/gtk/go-color-palette.c:89 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
 msgid "dull blue"
 msgstr "šviesiai mėlyna"
 
-#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:91 ../goffice/gtk/go-color-palette.c:141
 msgid "blue"
 msgstr "mėlyna"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:92
 msgid "dull purple"
 msgstr "šviesiai violetinė"
 
-#: ../goffice/gtk/go-color-palette.c:92
+#: ../goffice/gtk/go-color-palette.c:93
 msgid "dark gray"
 msgstr "tamsiai pilka"
 
-#: ../goffice/gtk/go-color-palette.c:94
+#: ../goffice/gtk/go-color-palette.c:95
 msgid "red"
 msgstr "raudona"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:96
 msgid "orange"
 msgstr "oranžinis"
 
-#: ../goffice/gtk/go-color-palette.c:96
+#: ../goffice/gtk/go-color-palette.c:97
 msgid "lime"
 msgstr "žalsva"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:98
 msgid "dull green"
 msgstr "šviesiai žalia"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "dull blue #2"
 msgstr "šviesiai mėdyna #2"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "sky blue #2"
 msgstr "žydra #2"
 
-#: ../goffice/gtk/go-color-palette.c:100 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:101 ../goffice/gtk/go-color-palette.c:138
 msgid "purple"
 msgstr "violetinė"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "gray"
 msgstr "pilka"
 
-#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:135
 msgid "magenta"
 msgstr "ryški violetinė"
 
-#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:105
 msgid "bright orange"
 msgstr "ryškiai oranžinė"
 
-#: ../goffice/gtk/go-color-palette.c:105 ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:136
 msgid "yellow"
 msgstr "geltona"
 
-#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:107
 msgid "green"
 msgstr "žalia"
 
-#: ../goffice/gtk/go-color-palette.c:107 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:137
 msgid "cyan"
 msgstr "žydra"
 
-#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:109
 msgid "bright blue"
 msgstr "šviesiai mėlyna"
 
-#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:125
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:126
 msgid "red purple"
 msgstr "rausvai violetinė"
 
-#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:111
 msgid "light gray"
 msgstr "šviesiai pilka"
 
-#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:130
 msgid "pink"
 msgstr "rožinė"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:114
 msgid "light orange"
 msgstr "šviesi oranžinė"
 
-#: ../goffice/gtk/go-color-palette.c:114 ../goffice/gtk/go-color-palette.c:126
+#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:127
 msgid "light yellow"
 msgstr "šviesiai geltona"
 
-#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:116
 msgid "light green"
 msgstr "šviesiai žalia"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:117
 msgid "light cyan"
 msgstr "šviesiai žydra"
 
-#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:128
 msgid "light blue"
 msgstr "šviesiai mėlyna"
 
-#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:132
 msgid "light purple"
 msgstr "šviesiai violetinė"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:120
 msgid "white"
 msgstr "balta"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:124
+#: ../goffice/gtk/go-color-palette.c:125
 msgid "purplish blue"
 msgstr "violetiškai mėlyna"
 
-#: ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:129
 msgid "dark purple"
 msgstr "tamsiai violetinė"
 
-#: ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:131
 msgid "sky blue"
 msgstr "žydra"
 
-#: ../goffice/gtk/go-color-palette.c:467
+#: ../goffice/gtk/go-color-palette.c:473
 msgid "custom"
 msgstr "pasirinktinė"
 
-#: ../goffice/gtk/go-color-palette.c:474 ../goffice/gtk/go-color-palette.c:729
-#: ../goffice/gtk/go-color-selector.c:196
+#: ../goffice/gtk/go-color-palette.c:480 ../goffice/gtk/go-color-palette.c:735
+#: ../goffice/gtk/go-color-selector.c:199
 msgid "Custom color..."
 msgstr "Pasirinktinė spalva..."
 
@@ -3412,28 +3409,28 @@ msgstr "Ar iššokantys meniu turi turėti nukabinimo meniu elementą"
 msgid "Unable to open file '%s'"
 msgstr "Nepavyko atidaryti bylos „%s“"
 
-#: ../goffice/gtk/goffice-gtk.c:792 ../goffice/utils/go-style.c:215
+#: ../goffice/gtk/goffice-gtk.c:859 ../goffice/utils/go-style.c:215
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:827
+#: ../goffice/gtk/goffice-gtk.c:894
 msgid "All Files"
 msgstr "Visos bylos"
 
-#: ../goffice/gtk/goffice-gtk.c:832
+#: ../goffice/gtk/goffice-gtk.c:899
 msgid "Images"
 msgstr "Paveikslai"
 
-#: ../goffice/gtk/goffice-gtk.c:884
+#: ../goffice/gtk/goffice-gtk.c:951
 msgid "Select an Image"
 msgstr "Pasirinkite paveikslą"
 
-#: ../goffice/gtk/goffice-gtk.c:963
+#: ../goffice/gtk/goffice-gtk.c:1030
 msgid "Save as"
 msgstr "Išsaugoti kaip"
 
-#: ../goffice/gtk/goffice-gtk.c:1036
+#: ../goffice/gtk/goffice-gtk.c:1103
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3441,7 +3438,7 @@ msgstr ""
 "Nurodytas bylos išplėtimas neatitinka pasirinkto bylos tipo. Ar tikrai "
 "norite naudoti tokį bylos vardą?"
 
-#: ../goffice/gtk/goffice-gtk.c:1255
+#: ../goffice/gtk/goffice-gtk.c:1322
 #, c-format
 msgid ""
 "%s\n"
@@ -3450,7 +3447,7 @@ msgstr ""
 "%s\n"
 "yra katalogo pavadinimas"
 
-#: ../goffice/gtk/goffice-gtk.c:1259
+#: ../goffice/gtk/goffice-gtk.c:1326
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3459,7 +3456,7 @@ msgstr ""
 "Neturite teisių įrašyti į\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1269
+#: ../goffice/gtk/goffice-gtk.c:1336
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3470,55 +3467,593 @@ msgstr ""
 "\n"
 "Ar norite jį perrašyti?"
 
-#: ../goffice/gtk/go-font-sel.c:251 ../goffice/utils/go-style.c:940
-msgid "Font"
-msgstr "Šriftas"
+#: ../goffice/gtk/go-font-sel.c:348
+msgid "Faces"
+msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:295
-msgid "All fonts..."
-msgstr "Visi šriftai..."
+#.
+#. * List of observed face names.  Translators: these represent
+#. * attributes of a font face, i.e., how bold the letters are
+#. * and whether it is an italic or regular face.  The four
+#. * first here are the important ones.
+#.
+#: ../goffice/gtk/go-font-sel.c:389
+msgctxt "FontFace"
+msgid "Regular"
+msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:326 ../goffice/math/go-distribution.c:75
-msgid "Normal"
-msgstr "Normalus"
-
-#: ../goffice/gtk/go-font-sel.c:327
-msgid "Bold"
-msgstr "Pastorintas"
-
-#: ../goffice/gtk/go-font-sel.c:328
-msgid "Bold italic"
-msgstr "Pastorintas kursyvas"
-
-#: ../goffice/gtk/go-font-sel.c:329
+#: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
+#, fuzzy
+msgctxt "FontFace"
 msgid "Italic"
 msgstr "Kursyvas"
 
-#: ../goffice/gtk/go-font-sel.c:676
-#| msgid "Style"
+#: ../goffice/gtk/go-font-sel.c:391
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold"
+msgstr "Pastorintas"
+
+#: ../goffice/gtk/go-font-sel.c:392
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic"
+msgstr "Pastorintas kursyvas"
+
+#. These are fairly rare.
+#: ../goffice/gtk/go-font-sel.c:395
+#, fuzzy
+msgctxt "FontFace"
+msgid "Black"
+msgstr "Juoda"
+
+#: ../goffice/gtk/go-font-sel.c:396
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Condensed Italic"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:397
+msgctxt "FontFace"
+msgid "Bold Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:398
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic Small Caps"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:399
+msgctxt "FontFace"
+msgid "Bold Nonextended"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:400
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Oblique"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:401
+msgctxt "FontFace"
+msgid "Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:402
+msgctxt "FontFace"
+msgid "Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:403
+msgctxt "FontFace"
+msgid "Book Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:404
+msgctxt "FontFace"
+msgid "Book"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:405
+#, fuzzy
+msgctxt "FontFace"
+msgid "Condensed Bold Italic"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:406
+msgctxt "FontFace"
+msgid "Condensed Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:407
+msgctxt "FontFace"
+msgid "Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:408
+msgctxt "FontFace"
+msgid "Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:409
+msgctxt "FontFace"
+msgid "Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:410
+msgctxt "FontFace"
+msgid "Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:411
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold Italic"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:412
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold"
+msgstr "Pastorintas"
+
+#: ../goffice/gtk/go-font-sel.c:413
+msgctxt "FontFace"
+msgid "Demi Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:414
+msgctxt "FontFace"
+msgid "Demi"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:415
+msgctxt "FontFace"
+msgid "Demi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:416
+msgctxt "FontFace"
+msgid "Embossed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:417
+#, fuzzy
+msgctxt "FontFace"
+msgid "Expanded Bold Italic"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:418
+msgctxt "FontFace"
+msgid "Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:419
+msgctxt "FontFace"
+msgid "Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:420
+msgctxt "FontFace"
+msgid "Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:421
+#, fuzzy
+msgctxt "FontFace"
+msgid "Extra Light"
+msgstr "trikampis dešinėn"
+
+#: ../goffice/gtk/go-font-sel.c:422
+msgctxt "FontFace"
+msgid "Heavy"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:423
+msgctxt "FontFace"
+msgid "Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:425
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Italic"
+msgstr "Kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:426
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Oblique"
+msgstr "šviesiai mėlyna"
+
+#: ../goffice/gtk/go-font-sel.c:427
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light"
+msgstr "Dešinėje"
+
+#: ../goffice/gtk/go-font-sel.c:428
+#, fuzzy
+msgctxt "FontFace"
+msgid "Medium Italic"
+msgstr "Kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:429
+msgctxt "FontFace"
+msgid "Medium"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:430
+#, fuzzy
+msgctxt "FontFace"
+msgid "Normal"
+msgstr "Normalus"
+
+#: ../goffice/gtk/go-font-sel.c:431
+msgctxt "FontFace"
+msgid "Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:432
+msgctxt "FontFace"
+msgid "Regular Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:433
+msgctxt "FontFace"
+msgid "Regular Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:434
+#, fuzzy
+msgctxt "FontFace"
+msgid "Regular Italic"
+msgstr "Kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:435
+msgctxt "FontFace"
+msgid "Regular Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:436
+msgctxt "FontFace"
+msgid "Roman Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:437
+msgctxt "FontFace"
+msgid "Roman"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:438
+#, fuzzy
+msgctxt "FontFace"
+msgid "Rounded"
+msgstr "Ribos"
+
+#: ../goffice/gtk/go-font-sel.c:439
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold Italic"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:440
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold"
+msgstr "Pastorintas"
+
+#: ../goffice/gtk/go-font-sel.c:441
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Italic"
+msgstr "Kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:442
+msgctxt "FontFace"
+msgid "Sans"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:443
+msgctxt "FontFace"
+msgid "Semi-Bold Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:444
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold Italic"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:445
+msgctxt "FontFace"
+msgid "Semi-Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:446
+msgctxt "FontFace"
+msgid "Semi-Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:447
+msgctxt "FontFace"
+msgid "Semi-Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:448
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold"
+msgstr "Pastorintas"
+
+#: ../goffice/gtk/go-font-sel.c:449
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:450
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:451
+msgctxt "FontFace"
+msgid "Semi-Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:452
+msgctxt "FontFace"
+msgid "Semi-Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:453
+msgctxt "FontFace"
+msgid "Semi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:454
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:455
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:456
+msgctxt "FontFace"
+msgid "Semi-Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:457
+msgctxt "FontFace"
+msgid "Semi-Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:458
+msgctxt "FontFace"
+msgid "Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:459
+#, fuzzy
+msgctxt "FontFace"
+msgid "Small Caps"
+msgstr "Maži apskritimai"
+
+#: ../goffice/gtk/go-font-sel.c:460
+msgctxt "FontFace"
+msgid "Thin"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:461
+#, fuzzy
+msgctxt "FontFace"
+msgid "Upright Italic"
+msgstr "Kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
+msgid "Font"
+msgstr "Šriftas"
+
+#: ../goffice/gtk/go-font-sel.c:605
+msgid "All fonts..."
+msgstr "Visi šriftai..."
+
+#: ../goffice/gtk/go-font-sel.c:905
+#, fuzzy
+msgctxt "underline"
+msgid "None"
+msgstr "Joks"
+
+#: ../goffice/gtk/go-font-sel.c:906
+#, fuzzy
+msgctxt "underline"
+msgid "Single"
+msgstr "Kampas"
+
+#: ../goffice/gtk/go-font-sel.c:907
+msgctxt "underline"
+msgid "Double"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:908
+#, fuzzy
+msgctxt "underline"
+msgid "Low"
+msgstr "_Apačioje"
+
+#: ../goffice/gtk/go-font-sel.c:909
+#, fuzzy
+msgctxt "underline"
+msgid "Error"
+msgstr "Klaidų juostos"
+
+#: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
+msgid "Normal"
+msgstr "Normalus"
+
+#: ../goffice/gtk/go-font-sel.c:931
+#, fuzzy
+msgid "Subscript"
+msgstr "Aprašymas"
+
+#: ../goffice/gtk/go-font-sel.c:932
+#, fuzzy
+msgid "Superscript"
+msgstr "Naudoti _viršutinį indeksą"
+
+#: ../goffice/gtk/go-font-sel.c:1185
 msgid "Show Style"
 msgstr "Rodyti stilių"
 
-#: ../goffice/gtk/go-font-sel.c:677
+#: ../goffice/gtk/go-font-sel.c:1186
 msgid "Whether style is part of the font being selected"
 msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+
+#: ../goffice/gtk/go-font-sel.c:1194
+#, fuzzy
+msgid "Show Color"
+msgstr "Spalva"
+
+#: ../goffice/gtk/go-font-sel.c:1195
+#, fuzzy
+msgid "Whether color is part of the font being selected"
+msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+
+#: ../goffice/gtk/go-font-sel.c:1203
+#, fuzzy
+msgid "Show Underline"
+msgstr "Rodyti neigiamus"
+
+#: ../goffice/gtk/go-font-sel.c:1204
+#, fuzzy
+msgid "Whether underlining is part of the font being selected"
+msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+
+#: ../goffice/gtk/go-font-sel.c:1212
+#, fuzzy
+msgid "Show Script"
+msgstr "Rodyti stilių"
+
+#: ../goffice/gtk/go-font-sel.c:1213
+#, fuzzy
+msgid "Whether subscript/superscript is part of the font being selected"
+msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+
+#: ../goffice/gtk/go-font-sel.c:1221
+msgid "Show Strikethrough"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1222
+#, fuzzy
+msgid "Whether strikethrough is part of the font being selected"
+msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+
+#: ../goffice/gtk/go-font-sel.c:1230
+msgid "Color unset text"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1231
+#, fuzzy
+msgid "The text to show for selecing no color"
+msgstr "Ieškomas tekstas"
+
+#: ../goffice/gtk/go-font-sel.c:1239
+#, fuzzy
+msgid "Color Group"
+msgstr "Piešimo grupė"
+
+#: ../goffice/gtk/go-font-sel.c:1240
+#, fuzzy
+msgid "The color group to use for the color picker"
+msgstr "Resurso tipas spalvų žemėlapiui"
+
+#: ../goffice/gtk/go-font-sel.c:1248
+#, fuzzy
+msgid "Color Default"
+msgstr "Įprasta"
+
+#: ../goffice/gtk/go-font-sel.c:1249
+msgid "The color to show for an unset color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1259
+msgid "Underline Picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1260
+msgid "The widget to use for picking underline type"
+msgstr ""
 
 #: ../goffice/gtk/go-font-sel-dialog.c:107
 msgid "Pick a Font"
 msgstr "Pasirinkite šriftą"
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
+msgid "Select the font family"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
 msgstr "Šriftas:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:2
+#: ../goffice/gtk/go-font-sel.ui.h:3
+#, fuzzy
+msgid "Select the size"
+msgstr "Pasirinkite paveikslėlį"
+
+#: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
 msgstr "Dydis:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:3
-#| msgid "St_yle:"
+#: ../goffice/gtk/go-font-sel.ui.h:5
+#, fuzzy
+msgid "Select the font face"
+msgstr "Pasirinkite paveikslą"
+
+#: ../goffice/gtk/go-font-sel.ui.h:6
 msgid "Style:"
 msgstr "Stilius:"
+
+#: ../goffice/gtk/go-font-sel.ui.h:7
+#, fuzzy
+msgid "Select whether a line should be drawn through the text"
+msgstr "Ar rėmelis turi būti sukamas su tekstu"
+
+#: ../goffice/gtk/go-font-sel.ui.h:8
+msgid "Strikethrough:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:9
+msgid "Select the font color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:10
+#, fuzzy
+msgid "Color:"
+msgstr "Sp_alva:"
+
+#: ../goffice/gtk/go-font-sel.ui.h:11
+msgid ""
+"Select whether the font should be modified for use as subscript or "
+"superscript"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:12
+msgid "Script:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:13
+msgid "Select the type of underlining"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:14
+#, fuzzy
+msgid "Underline:"
+msgstr "Naudoti kreivę"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
@@ -4967,11 +5502,11 @@ msgstr "Pietų Afrikos/Zulu (zu_ZA)"
 msgid "Current Locale: "
 msgstr "Esama lokalė: "
 
-#: ../goffice/gtk/go-optionmenu.c:421
+#: ../goffice/gtk/go-optionmenu.c:476
 msgid "Menu"
 msgstr "Meniu"
 
-#: ../goffice/gtk/go-optionmenu.c:422
+#: ../goffice/gtk/go-optionmenu.c:477
 msgid "The menu of options"
 msgstr "Parinkčių meniu"
 
@@ -5734,7 +6269,7 @@ msgstr "Nepavyko įkelti paveikslėlio duomenų\n"
 msgid "Could not input the image data\n"
 msgstr "Nepavyko įvesti paveikslėlio duomenų\n"
 
-#: ../goffice/utils/go-emf.c:4687 ../goffice/utils/go-emf.c:4693
+#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Netinkami paveikslėlio duomenys\n"
@@ -5810,23 +6345,23 @@ msgstr "Geltona"
 msgid "color"
 msgstr "spalva"
 
-#: ../goffice/utils/go-geometry.c:334 ../goffice/utils/go-marker.c:96
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:96
 msgid "none"
 msgstr "joks"
 
-#: ../goffice/utils/go-geometry.c:335
+#: ../goffice/utils/go-geometry.c:297
 msgid "down"
 msgstr "žemyn"
 
-#: ../goffice/utils/go-geometry.c:336
+#: ../goffice/utils/go-geometry.c:298
 msgid "up"
 msgstr "aukštyn"
 
-#: ../goffice/utils/go-geometry.c:337
+#: ../goffice/utils/go-geometry.c:299
 msgid "right"
 msgstr "dešinė"
 
-#: ../goffice/utils/go-geometry.c:338
+#: ../goffice/utils/go-geometry.c:300
 msgid "left"
 msgstr "kairėn"
 
@@ -8300,4 +8835,3 @@ msgstr "Nuglotnintų kreivių tipai"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Slenkančio vidurkio nuglotninta kreivė"
-

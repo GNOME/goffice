@@ -19,9 +19,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric 1.2\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgof"
-"fice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-18 12:53+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-21 18:55-0400\n"
 "PO-Revision-Date: 2013-03-19 11:46+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
@@ -33,87 +32,87 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
-#: ../goffice/app/file.c:213 ../goffice/app/file.c:629
+#: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
 msgstr "Ταυτότητα"
 
-#: ../goffice/app/file.c:214
+#: ../goffice/app/file.c:178
 msgid "The identifier of the opener"
 msgstr "Το αναγνωριστικό του ανοίγματος"
 
-#: ../goffice/app/file.c:223 ../goffice/app/file.c:660
+#: ../goffice/app/file.c:187 ../goffice/app/file.c:624
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: ../goffice/app/file.c:224
+#: ../goffice/app/file.c:188
 msgid "The description of the opener"
 msgstr "Η περιγραφή του ανοίγματος"
 
-#: ../goffice/app/file.c:233 ../goffice/app/file.c:680
+#: ../goffice/app/file.c:197 ../goffice/app/file.c:644
 msgid "Interactive only"
 msgstr "Μόνο διαδραστικά"
 
-#: ../goffice/app/file.c:234
+#: ../goffice/app/file.c:198
 msgid "TRUE if this opener requires interaction"
 msgstr "ΑΛΗΘΕΣ αν αυτό το άνοιγμα απαιτεί αλληλεπίδραση"
 
-#: ../goffice/app/file.c:630
+#: ../goffice/app/file.c:594
 msgid "The identifier of the saver."
 msgstr "Το αναγνωριστικό της αποθήκευσης."
 
-#: ../goffice/app/file.c:640
+#: ../goffice/app/file.c:604
 msgid "MIME type"
 msgstr "Τύπος MIME"
 
-#: ../goffice/app/file.c:641
+#: ../goffice/app/file.c:605
 msgid "The MIME type of the saver."
 msgstr "Ο τύπος MIME του αποθηκευτή."
 
-#: ../goffice/app/file.c:650
+#: ../goffice/app/file.c:614
 msgid "Extension"
 msgstr "Επέκταση"
 
-#: ../goffice/app/file.c:651
+#: ../goffice/app/file.c:615
 msgid "The standard file name extension of the saver."
 msgstr "Η τυπική επέκταση ονόματος αρχείου του αποθηκευτή."
 
-#: ../goffice/app/file.c:661
+#: ../goffice/app/file.c:625
 msgid "The description of the saver."
 msgstr "Η περιγραφή του αποθηκευτή."
 
-#: ../goffice/app/file.c:670
+#: ../goffice/app/file.c:634
 msgid "Overwrite"
 msgstr "Αντικατάσταση"
 
-#: ../goffice/app/file.c:671
+#: ../goffice/app/file.c:635
 msgid "Whether the saver will overwrite files."
 msgstr "Εάν ο αποθηκευτής θα αντικαταστήσει αρχεία. "
 
-#: ../goffice/app/file.c:681
+#: ../goffice/app/file.c:645
 msgid "TRUE if this saver requires interaction"
 msgstr "ΑΛΗΘΕΣ αν αυτή η αποθήκευση απαιτεί αλληλεπίδραση"
 
-#: ../goffice/app/file.c:691
+#: ../goffice/app/file.c:655
 msgid "Format Level"
 msgstr "Επίπεδο μορφοποίησης"
 
-#: ../goffice/app/file.c:702
+#: ../goffice/app/file.c:666
 msgid "Scope"
 msgstr "Εμβέλεια"
 
-#: ../goffice/app/file.c:703
+#: ../goffice/app/file.c:667
 msgid "How much of a document is saved"
 msgstr "Πόσο έγγραφο αποθηκεύεται"
 
 # # NOTE: Help text for financial and statistical functions
 # #   is untranslated (I am not familiar with all the terminology,
 # #   nor do I know of anyone who is).  - Spiros
-#: ../goffice/app/file.c:866
+#: ../goffice/app/file.c:830
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Αποθήκευση σε παλιά αρχεία αυτού του τύπου είναι ανενεργή για ασφάλεια."
 
-#: ../goffice/app/file.c:876
+#: ../goffice/app/file.c:840
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -157,7 +156,7 @@ msgstr "Αρχικό"
 msgid "Whether the document is unchanged since it was created."
 msgstr "Εάν το έγγραφο είναι αμετάβλητο από τη δημιουργία του."
 
-#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:292
+#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:293
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Εικόνα"
@@ -504,181 +503,181 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Εκτέλεση επανάληψης κύριου βρόχου"
 
-#: ../goffice/canvas/goc-arc.c:440
+#: ../goffice/canvas/goc-arc.c:441
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:441
+#: ../goffice/canvas/goc-arc.c:442
 msgid "The arc center x coordinate"
 msgstr "Το κέντρο τόξου συντεταγμένης x"
 
-#: ../goffice/canvas/goc-arc.c:446
+#: ../goffice/canvas/goc-arc.c:447
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:447
+#: ../goffice/canvas/goc-arc.c:448
 msgid "The arc center y coordinate"
 msgstr "Το κέντρο τόξου συντεταγμένης y"
 
-#: ../goffice/canvas/goc-arc.c:452
+#: ../goffice/canvas/goc-arc.c:453
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:453
+#: ../goffice/canvas/goc-arc.c:454
 msgid "The arc x radius"
 msgstr "Η ακτίνα x τόξου"
 
-#: ../goffice/canvas/goc-arc.c:458
+#: ../goffice/canvas/goc-arc.c:459
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:459
+#: ../goffice/canvas/goc-arc.c:460
 msgid "The arc y radius"
 msgstr "Η ακτίνα y τόξου"
 
-#: ../goffice/canvas/goc-arc.c:464
+#: ../goffice/canvas/goc-arc.c:465
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:465
+#: ../goffice/canvas/goc-arc.c:466
 msgid "The arc start angle"
 msgstr "Η γωνία έναρξης τόξου"
 
-#: ../goffice/canvas/goc-arc.c:470
+#: ../goffice/canvas/goc-arc.c:471
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:471
+#: ../goffice/canvas/goc-arc.c:472
 msgid "The arc end angle"
 msgstr "Η γωνία τέλους τόξου"
 
-#: ../goffice/canvas/goc-arc.c:476 ../goffice/canvas/goc-component.c:295
-#: ../goffice/canvas/goc-ellipse.c:261 ../goffice/canvas/goc-path.c:275
-#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:475
+#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
+#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Περιστροφή"
 
-#: ../goffice/canvas/goc-arc.c:477
+#: ../goffice/canvas/goc-arc.c:478
 msgid "The rotation around center position"
 msgstr "Η περιστροφή γύρω από το κεντρικό σημείο"
 
-#: ../goffice/canvas/goc-arc.c:482 ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-arc.c:483 ../goffice/canvas/goc-rectangle.c:347
 #: ../goffice/graph/gog-axis.c:3058 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Τύπος"
 
-#: ../goffice/canvas/goc-arc.c:483
+#: ../goffice/canvas/goc-arc.c:484
 msgid "The type of arc: arc, chord or pie"
 msgstr "Ο τύπος του τόξου: τόξο, χορδή ή πίτα"
 
-#: ../goffice/canvas/goc-arc.c:489 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:348
 msgid "Start Arrow"
 msgstr "Βέλος έναρξης"
 
-#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:349
 msgid "Arrow for line's start"
 msgstr "Βέλος για την αρχή της γραμμής"
 
-#: ../goffice/canvas/goc-arc.c:495 ../goffice/canvas/goc-line.c:352
+#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:354
 msgid "End Arrow"
 msgstr "Βέλος λήξης"
 
-#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:497 ../goffice/canvas/goc-line.c:355
 msgid "Arrow for line's end"
 msgstr "Βέλος για το τέλος της γραμμής"
 
-#: ../goffice/canvas/goc-circle.c:167 ../goffice/canvas/goc-component.c:271
-#: ../goffice/canvas/goc-ellipse.c:237 ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:263
-#: ../goffice/canvas/goc-path.c:263 ../goffice/canvas/goc-pixbuf.c:223
-#: ../goffice/canvas/goc-rectangle.c:312 ../goffice/canvas/goc-text.c:463
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
+#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
+#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
 #: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
-#: ../goffice/canvas/goc-circle.c:168
+#: ../goffice/canvas/goc-circle.c:170
 msgid "The circle center horizontal position"
 msgstr "Η θέση οριζόντιου κέντρου κύκλου"
 
-#: ../goffice/canvas/goc-circle.c:173 ../goffice/canvas/goc-component.c:277
-#: ../goffice/canvas/goc-ellipse.c:243 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:269
-#: ../goffice/canvas/goc-path.c:269 ../goffice/canvas/goc-pixbuf.c:229
-#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-text.c:469
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
+#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
+#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
 #: ../goffice/canvas/goc-widget.c:779
 msgid "y"
 msgstr "y"
 
-#: ../goffice/canvas/goc-circle.c:174
+#: ../goffice/canvas/goc-circle.c:176
 msgid "The circle center vertical position"
 msgstr "Η θέση κάθετου κέντρου κύκλου"
 
-#: ../goffice/canvas/goc-circle.c:179
+#: ../goffice/canvas/goc-circle.c:181
 msgid "Radius"
 msgstr "Ακτίνα"
 
-#: ../goffice/canvas/goc-circle.c:180
+#: ../goffice/canvas/goc-circle.c:182
 msgid "The circle radius"
 msgstr "Η ακτίνα κύκλου"
 
-#: ../goffice/canvas/goc-component.c:272
+#: ../goffice/canvas/goc-component.c:292
 msgid "The object left position"
 msgstr "Η θέση αριστερού αντικειμένου"
 
-#: ../goffice/canvas/goc-component.c:278
+#: ../goffice/canvas/goc-component.c:298
 msgid "The object top position"
 msgstr "Η θέση κορυφής αντικειμένου"
 
-#: ../goffice/canvas/goc-component.c:283 ../goffice/canvas/goc-component.c:284
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:281
-#: ../goffice/canvas/goc-pixbuf.c:241 ../goffice/canvas/goc-rectangle.c:330
+#: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
+#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
+#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
 #: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "Ύψος"
 
-#: ../goffice/canvas/goc-component.c:289 ../goffice/canvas/goc-component.c:290
-#: ../goffice/canvas/goc-ellipse.c:249 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
-#: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
+#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
+#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
 #: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
 #: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "Πλάτος"
 
-#: ../goffice/canvas/goc-component.c:296
+#: ../goffice/canvas/goc-component.c:316
 msgid "The rotation around center"
 msgstr "Το κέντρο γύρω από την περιστροφή"
 
-#: ../goffice/canvas/goc-component.c:301
+#: ../goffice/canvas/goc-component.c:321
 msgid "Object"
 msgstr "Αντικείμενο"
 
-#: ../goffice/canvas/goc-component.c:302
+#: ../goffice/canvas/goc-component.c:322
 msgid "The embedded GOComponent object"
 msgstr "Το ενσωματωμένο αντικείμενο GOComponent"
 
-#: ../goffice/canvas/goc-ellipse.c:238
+#: ../goffice/canvas/goc-ellipse.c:260
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Η αριστερή θέση της έλλειψης (ή δεξιά θέση για κατάσταση RTL)"
 
-#: ../goffice/canvas/goc-ellipse.c:244
+#: ../goffice/canvas/goc-ellipse.c:266
 msgid "The ellipse top position"
 msgstr "Η επάνω θέση της έλλειψης"
 
-#: ../goffice/canvas/goc-ellipse.c:250
+#: ../goffice/canvas/goc-ellipse.c:272
 msgid "The ellipse width"
 msgstr "Το πλάτος έλλειψης"
 
-#: ../goffice/canvas/goc-ellipse.c:256
+#: ../goffice/canvas/goc-ellipse.c:278
 msgid "The ellipse height"
 msgstr "Το ύψος έλλειψης"
 
-#: ../goffice/canvas/goc-ellipse.c:262 ../goffice/canvas/goc-rectangle.c:337
+#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "Η περιστροφή γύρω από την επάνω αριστερή θέση"
 
@@ -724,56 +723,56 @@ msgstr "Η οριζόντια αντιστάθμιση της ομάδας"
 msgid "The group vertical offset"
 msgstr "Η κάθετη αντιστάθμιση της ομάδας"
 
-#: ../goffice/canvas/goc-image.c:264 ../goffice/canvas/goc-pixbuf.c:224
+#: ../goffice/canvas/goc-image.c:265 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "Η αριστερή θέση της εικόνας"
 
-#: ../goffice/canvas/goc-image.c:270 ../goffice/canvas/goc-pixbuf.c:230
+#: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "Η άνω θέση της εικόνας"
 
-#: ../goffice/canvas/goc-image.c:276 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr "Το πλάτος εικόνας ή -1 για χρήση του πλάτους εικόνας"
 
-#: ../goffice/canvas/goc-image.c:282 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr "Το ύψος εικόνας ή -1 για χρήση του ύψους εικόνας"
 
-#: ../goffice/canvas/goc-image.c:293
+#: ../goffice/canvas/goc-image.c:294
 msgid "The GOImage to display"
 msgstr "Το GOImage για εμφάνιση"
 
-#: ../goffice/canvas/goc-image.c:297
+#: ../goffice/canvas/goc-image.c:298
 msgid "Cropped bottom"
 msgstr "Περικομμένος πάτος"
 
-#: ../goffice/canvas/goc-image.c:298
+#: ../goffice/canvas/goc-image.c:299
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr ""
 "Η περικομμένη περιοχή στον πάτο της εικόνας ως κλάσμα του ύψους εικόνας"
 
-#: ../goffice/canvas/goc-image.c:302
+#: ../goffice/canvas/goc-image.c:303
 msgid "Cropped left"
 msgstr "Περικομμένη αριστερά"
 
-#: ../goffice/canvas/goc-image.c:303
+#: ../goffice/canvas/goc-image.c:304
 msgid "The cropped area at the image left of the image width"
 msgstr "Η περικομμένη περιοχή στην εικόνα αριστερά του πλάτους της εικόνας"
 
-#: ../goffice/canvas/goc-image.c:307
+#: ../goffice/canvas/goc-image.c:308
 msgid "Cropped right"
 msgstr "Περικομμένη δεξιά"
 
-#: ../goffice/canvas/goc-image.c:308
+#: ../goffice/canvas/goc-image.c:309
 msgid "The cropped area at the image right of the image width"
 msgstr "Η περικομμένη περιοχή στην εικόνα δεξιά του πλάτους της εικόνας"
 
-#: ../goffice/canvas/goc-image.c:312
+#: ../goffice/canvas/goc-image.c:313
 msgid "Cropped top"
 msgstr "Περικομμένη άνω"
 
-#: ../goffice/canvas/goc-image.c:313
+#: ../goffice/canvas/goc-image.c:314
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr ""
 "Η περικομμένη περιοχή στην κορυφή της εικόνας ως κλάσμα του ύψους της εικόνας"
@@ -794,104 +793,104 @@ msgstr "Γονικό"
 msgid "The group in which the item resides"
 msgstr "Η ομάδα στην οποία ανήκει το στοιχείο"
 
-#: ../goffice/canvas/goc-line.c:322
+#: ../goffice/canvas/goc-line.c:324
 msgid "x0"
 msgstr "x0"
 
-#: ../goffice/canvas/goc-line.c:323
+#: ../goffice/canvas/goc-line.c:325
 msgid "The line start x coordinate"
 msgstr "Η συντεταγμένη x της αρχής της γραμμής"
 
-#: ../goffice/canvas/goc-line.c:328
+#: ../goffice/canvas/goc-line.c:330
 msgid "y0"
 msgstr "y0"
 
-#: ../goffice/canvas/goc-line.c:329
+#: ../goffice/canvas/goc-line.c:331
 msgid "The line start y coordinate"
 msgstr "Η συντεταγμένη y της αρχής της γραμμής"
 
-#: ../goffice/canvas/goc-line.c:334
+#: ../goffice/canvas/goc-line.c:336
 msgid "x1"
 msgstr "x1"
 
-#: ../goffice/canvas/goc-line.c:335
+#: ../goffice/canvas/goc-line.c:337
 msgid "The line end x coordinate"
 msgstr "Η συντεταγμένη x του τέλους της γραμμής"
 
-#: ../goffice/canvas/goc-line.c:340
+#: ../goffice/canvas/goc-line.c:342
 msgid "y1"
 msgstr "y1"
 
-#: ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-line.c:343
 msgid "The line end y coordinate"
 msgstr "Η συντεταγμένη y του τέλους της γραμμής"
 
-#: ../goffice/canvas/goc-path.c:264
+#: ../goffice/canvas/goc-path.c:269
 msgid "The path first point x coordinate"
 msgstr "Η συντεταγμένη x του πρώτου σημείου της διαδρομής"
 
-#: ../goffice/canvas/goc-path.c:270
+#: ../goffice/canvas/goc-path.c:275
 msgid "The path first point y coordinate"
 msgstr "Η συντεταγμένη y του πρώτου σημείου της διαδρομής"
 
-#: ../goffice/canvas/goc-path.c:276
+#: ../goffice/canvas/goc-path.c:281
 msgid "The rotation around first point position"
 msgstr "Η περιστροφή γύρω από την θέση του πρώτου σημείου"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:286
 msgid "Closed"
 msgstr "Κλειστό"
 
-#: ../goffice/canvas/goc-path.c:282
+#: ../goffice/canvas/goc-path.c:287
 msgid "The flag for closed path"
 msgstr "Η σημαία για κλειστή διαδρομή"
 
-#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-polygon.c:339
+#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
 msgid "Fill rule"
 msgstr "Κανόνας γεμίσματος"
 
-#: ../goffice/canvas/goc-path.c:288 ../goffice/canvas/goc-polygon.c:340
+#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
 msgid "Set fill rule to winding or even/odd"
 msgstr "Ορισμός κανόνα γεμίσματος σε στριφτό ή ζυγό/μονό"
 
-#: ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-path.c:298
 msgid "Path"
 msgstr "Διαδρομή"
 
-#: ../goffice/canvas/goc-path.c:294
+#: ../goffice/canvas/goc-path.c:299
 msgid "The path points"
 msgstr "Τα σημεία της διαδρομής"
 
-#: ../goffice/canvas/goc-pixbuf.c:252 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
-#: ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-pixbuf.c:265
 msgid "The GdkPixbuf to display"
 msgstr "Το GdkPixbuf για εμφάνιση"
 
-#: ../goffice/canvas/goc-polygon.c:328 ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
 msgid "points"
 msgstr "σημεία"
 
-#: ../goffice/canvas/goc-polygon.c:328
+#: ../goffice/canvas/goc-polygon.c:344
 msgid "The polygon vertices"
 msgstr "Οι κορυφές του πολυγώνου"
 
-#: ../goffice/canvas/goc-polygon.c:333 ../goffice/canvas/goc-polyline.c:256
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
 msgid "Use spline"
 msgstr "Χρήση ευλύγιστης καμπύλης"
 
-#: ../goffice/canvas/goc-polygon.c:334
+#: ../goffice/canvas/goc-polygon.c:350
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr ""
 "Χρήση μιας κλειστής κυβικής ευλίγιστης καμπύλης Bezier ως περιγράμματος"
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:360
 msgid "sizes"
 msgstr "μεγέθη"
 
-#: ../goffice/canvas/goc-polygon.c:345
+#: ../goffice/canvas/goc-polygon.c:361
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
@@ -902,31 +901,31 @@ msgstr ""
 "ακολουθούν μια άκυρη τιμή θα απορριφθούν. Ορίζοντας την ιδιότητα \"point\" "
 "θα επαναφέρει τα μεγέθη."
 
-#: ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polyline.c:259
 msgid "The polyline vertices"
 msgstr "Οι κορυφές της πολυγραμμής"
 
-#: ../goffice/canvas/goc-polyline.c:257
+#: ../goffice/canvas/goc-polyline.c:265
 msgid "Use a Bezier cubic spline as line"
 msgstr "Χρήση μιας κυβικής ευλύγιστης καμπύλης Μπεζιέ ως γραμμής"
 
-#: ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-rectangle.c:318
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr "Η αριστερή θέση του ορθογωνίου (ή η δεξιά θέση σε κατάσταση RTL)"
 
-#: ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-rectangle.c:324
 msgid "The rectangle top position"
 msgstr "Η άνω θέση του ορθογωνίου"
 
-#: ../goffice/canvas/goc-rectangle.c:325
+#: ../goffice/canvas/goc-rectangle.c:330
 msgid "The rectangle width"
 msgstr "Το πλάτος του ορθογωνίου"
 
-#: ../goffice/canvas/goc-rectangle.c:331
+#: ../goffice/canvas/goc-rectangle.c:336
 msgid "The rectangle height"
 msgstr "Το ύψος ορθογωνίου"
 
-#: ../goffice/canvas/goc-rectangle.c:343
+#: ../goffice/canvas/goc-rectangle.c:348
 msgid ""
 "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for "
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
@@ -936,19 +935,19 @@ msgstr ""
 "αριστερά, 2 για πάνω δεξιά, 4 για κάτω δεξιά, 8 για κάτω αριστερά, ή κάθε "
 "συνδυασμός τους."
 
-#: ../goffice/canvas/goc-rectangle.c:348
+#: ../goffice/canvas/goc-rectangle.c:353
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:349
+#: ../goffice/canvas/goc-rectangle.c:354
 msgid "The round rectangle rx"
 msgstr "Η rx του στρογγυλεμένου ορθογωνίου"
 
-#: ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-rectangle.c:359
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:355
+#: ../goffice/canvas/goc-rectangle.c:360
 msgid "The round rectangle ry"
 msgstr "Η ry του στρογγυλεμένου ορθογωνίου"
 
@@ -971,72 +970,72 @@ msgstr "Πλάτος γραμμής κλίμακας"
 msgid "Whether to scale the line width when zooming"
 msgstr "Εάν θα κλιμακωθεί το πλάτος της γραμμής στην εστίαση"
 
-#: ../goffice/canvas/goc-text.c:464
+#: ../goffice/canvas/goc-text.c:466
 msgid "The text horizontal position"
 msgstr "Η οριζόντια θέση κειμένου"
 
-#: ../goffice/canvas/goc-text.c:470
+#: ../goffice/canvas/goc-text.c:472
 msgid "The text position"
 msgstr "Η θέση κειμένου"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:478
 msgid "The rotation around the anchor"
 msgstr "Η περιστροφή γύρω από την άγκυρα"
 
-#: ../goffice/canvas/goc-text.c:481 ../goffice/graph/gog-object.c:815
+#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:815
 msgid "Anchor"
 msgstr "Άγκυρα"
 
-#: ../goffice/canvas/goc-text.c:482
+#: ../goffice/canvas/goc-text.c:484
 msgid "The anchor point for the text"
 msgstr "Το σημείο άγκυρας για το κείμενο"
 
-#: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
 #: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:970
 msgid "Text"
 msgstr "Κείμενο"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:490
 msgid "The text to display"
 msgstr "Το κείμενο που θα εμφανίζεται"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "Attributes"
 msgstr "Γνωρίσματα"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "The attributes list as a PangoAttrList"
 msgstr "Η λίστα γνωρισμάτων ως μια PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:496
+#: ../goffice/canvas/goc-text.c:498
 msgid "Clip"
 msgstr "Περικοπή"
 
-#: ../goffice/canvas/goc-text.c:497
+#: ../goffice/canvas/goc-text.c:499
 msgid "Whether to clip or not"
 msgstr "Εάν θα περικοπεί ή όχι"
 
-#: ../goffice/canvas/goc-text.c:502
+#: ../goffice/canvas/goc-text.c:504
 msgid "Clip width"
 msgstr "Πλάτος περικοπής"
 
-#: ../goffice/canvas/goc-text.c:503
+#: ../goffice/canvas/goc-text.c:505
 msgid "Clip width for the text"
 msgstr "Πλάτος περικοπής για το κείμενο"
 
-#: ../goffice/canvas/goc-text.c:508
+#: ../goffice/canvas/goc-text.c:510
 msgid "Clip height"
 msgstr "Ύψος περικοπής"
 
-#: ../goffice/canvas/goc-text.c:509
+#: ../goffice/canvas/goc-text.c:511
 msgid "Clip height for the text"
 msgstr "Ύψος περικοπής για το κείμενο"
 
-#: ../goffice/canvas/goc-text.c:514
+#: ../goffice/canvas/goc-text.c:516
 msgid "Wrap width"
 msgstr "Πλάτος αναδίπλωσης"
 
-#: ../goffice/canvas/goc-text.c:515
+#: ../goffice/canvas/goc-text.c:517
 msgid "Wrap width for the text"
 msgstr "Πλάτος αναδίπλωσης για το κείμενο"
 
@@ -2902,7 +2901,7 @@ msgstr "Βιετναμέζικα"
 msgid "Western"
 msgstr "Δυτική"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:592
+#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:604
 #: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "Άλλη"
@@ -3247,185 +3246,186 @@ msgstr "Κατεύθυνση μετατροπής"
 msgid "This value determines which iconv test to perform."
 msgstr "Αυτή η τιμή καθορίζει ποια δοκιμή iconv θα εκτελεστεί."
 
-#: ../goffice/gtk/go-color-palette.c:76
+#. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
+#: ../goffice/gtk/go-color-palette.c:77
 msgid "black"
 msgstr "μαύρο"
 
-#: ../goffice/gtk/go-color-palette.c:77
+#: ../goffice/gtk/go-color-palette.c:78
 msgid "light brown"
 msgstr "ανοιχτό καφέ"
 
-#: ../goffice/gtk/go-color-palette.c:78
+#: ../goffice/gtk/go-color-palette.c:79
 msgid "brown gold"
 msgstr "χρυσαφί καφέ"
 
-#: ../goffice/gtk/go-color-palette.c:79
+#: ../goffice/gtk/go-color-palette.c:80
 msgid "dark green #2"
 msgstr "σκούρο πράσινο #2"
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "navy"
 msgstr "ναυτικό μπλε"
 
-#: ../goffice/gtk/go-color-palette.c:81 ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:82 ../goffice/gtk/go-color-palette.c:134
 msgid "dark blue"
 msgstr "σκούρο μπλέ"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "purple #2"
 msgstr "πορφυρό #2"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:84
 msgid "very dark gray"
 msgstr "πολύ σκούρο γκρι"
 
-#: ../goffice/gtk/go-color-palette.c:85 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:139
 msgid "dark red"
 msgstr "σκούρο κόκκινο"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:87
 msgid "red-orange"
 msgstr "κόκκινο-πορτοκαλί"
 
-#: ../goffice/gtk/go-color-palette.c:87
+#: ../goffice/gtk/go-color-palette.c:88
 msgid "gold"
 msgstr "χρυσαφί"
 
-#: ../goffice/gtk/go-color-palette.c:88
+#: ../goffice/gtk/go-color-palette.c:89
 msgid "dark green"
 msgstr "σκούρο πράσινο"
 
-#: ../goffice/gtk/go-color-palette.c:89 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
 msgid "dull blue"
 msgstr "ξεθωριασμένο μπλε"
 
-#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:91 ../goffice/gtk/go-color-palette.c:141
 msgid "blue"
 msgstr "μπλε"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:92
 msgid "dull purple"
 msgstr "ξεθωριασμένο μωβ"
 
-#: ../goffice/gtk/go-color-palette.c:92
+#: ../goffice/gtk/go-color-palette.c:93
 msgid "dark gray"
 msgstr "σκούρο γκρι"
 
-#: ../goffice/gtk/go-color-palette.c:94
+#: ../goffice/gtk/go-color-palette.c:95
 msgid "red"
 msgstr "κόκκινο"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:96
 msgid "orange"
 msgstr "πορτοκαλί"
 
-#: ../goffice/gtk/go-color-palette.c:96
+#: ../goffice/gtk/go-color-palette.c:97
 msgid "lime"
 msgstr "λεμονί"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:98
 msgid "dull green"
 msgstr "ξεθωριασμένο πράσινο"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "dull blue #2"
 msgstr "θαμπό γαλάζιο #2"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "sky blue #2"
 msgstr "γαλάζιο ουρανού #2"
 
-#: ../goffice/gtk/go-color-palette.c:100 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:101 ../goffice/gtk/go-color-palette.c:138
 msgid "purple"
 msgstr "πορφυρό"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "gray"
 msgstr "γκρι"
 
-#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:135
 msgid "magenta"
 msgstr "ματζέντα"
 
-#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:105
 msgid "bright orange"
 msgstr "φωτεινό πορτοκαλί"
 
-#: ../goffice/gtk/go-color-palette.c:105 ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:136
 msgid "yellow"
 msgstr "κίτρινο"
 
-#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:107
 msgid "green"
 msgstr "πράσινο"
 
-#: ../goffice/gtk/go-color-palette.c:107 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:137
 msgid "cyan"
 msgstr "κυανό"
 
-#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:109
 msgid "bright blue"
 msgstr "φωτεινό μπλέ"
 
-#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:125
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:126
 msgid "red purple"
 msgstr "κόκκινο πορφυρό"
 
-#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:111
 msgid "light gray"
 msgstr "ανοιχτό Γκρι"
 
-#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:130
 msgid "pink"
 msgstr "ροζ"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:114
 msgid "light orange"
 msgstr "ανοιχτό πορτοκαλί"
 
-#: ../goffice/gtk/go-color-palette.c:114 ../goffice/gtk/go-color-palette.c:126
+#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:127
 msgid "light yellow"
 msgstr "ανοιχτό κίτρινο"
 
-#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:116
 msgid "light green"
 msgstr "ανοιχτό πράσινο"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:117
 msgid "light cyan"
 msgstr "ανοιχτό κυανό"
 
-#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:128
 msgid "light blue"
 msgstr "ανοιχτό γαλάζιο"
 
-#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:132
 msgid "light purple"
 msgstr "ανοιχτό μωβ"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:120
 msgid "white"
 msgstr "λευκό"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:124
+#: ../goffice/gtk/go-color-palette.c:125
 msgid "purplish blue"
 msgstr "πορφυρό γαλάζιο"
 
-#: ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:129
 msgid "dark purple"
 msgstr "σκούρο πορφυρό"
 
-#: ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:131
 msgid "sky blue"
 msgstr "γαλάζιο ουρανού"
 
-#: ../goffice/gtk/go-color-palette.c:467
+#: ../goffice/gtk/go-color-palette.c:473
 msgid "custom"
 msgstr "προσαρμοσμένο"
 
-#: ../goffice/gtk/go-color-palette.c:474 ../goffice/gtk/go-color-palette.c:729
-#: ../goffice/gtk/go-color-selector.c:196
+#: ../goffice/gtk/go-color-palette.c:480 ../goffice/gtk/go-color-palette.c:735
+#: ../goffice/gtk/go-color-selector.c:199
 msgid "Custom color..."
 msgstr "Προσαρμοσμένο χρώμα..."
 
@@ -3442,28 +3442,28 @@ msgstr "Αν τα πτυσσόμενα θα πρέπει να έχουν στο�
 msgid "Unable to open file '%s'"
 msgstr "Αδυναμία ανοίγματος αρχείου '%s'"
 
-#: ../goffice/gtk/goffice-gtk.c:858 ../goffice/utils/go-style.c:215
+#: ../goffice/gtk/goffice-gtk.c:859 ../goffice/utils/go-style.c:215
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:893
+#: ../goffice/gtk/goffice-gtk.c:894
 msgid "All Files"
 msgstr "Όλα τα αρχεία"
 
-#: ../goffice/gtk/goffice-gtk.c:898
+#: ../goffice/gtk/goffice-gtk.c:899
 msgid "Images"
 msgstr "Εικόνες"
 
-#: ../goffice/gtk/goffice-gtk.c:950
+#: ../goffice/gtk/goffice-gtk.c:951
 msgid "Select an Image"
 msgstr "Επιλογή εικόνας"
 
-#: ../goffice/gtk/goffice-gtk.c:1029
+#: ../goffice/gtk/goffice-gtk.c:1030
 msgid "Save as"
 msgstr "Αποθήκευση ως"
 
-#: ../goffice/gtk/goffice-gtk.c:1102
+#: ../goffice/gtk/goffice-gtk.c:1103
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3471,7 +3471,7 @@ msgstr ""
 "Η δοσμένη επέκταση αρχείου δεν ταιριάζει με τον τύπο του επιλεγμένου "
 "αρχείου. Θέλετε να χρησιμοποιήσετε αυτό το όνομα οπωσδήποτε;"
 
-#: ../goffice/gtk/goffice-gtk.c:1321
+#: ../goffice/gtk/goffice-gtk.c:1322
 #, c-format
 msgid ""
 "%s\n"
@@ -3480,7 +3480,7 @@ msgstr ""
 "%s\n"
 "είναι όνομα καταλόγου"
 
-#: ../goffice/gtk/goffice-gtk.c:1325
+#: ../goffice/gtk/goffice-gtk.c:1326
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3489,7 +3489,7 @@ msgstr ""
 "Δεν έχετε άδεια αποθήκευσης σε\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1335
+#: ../goffice/gtk/goffice-gtk.c:1336
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3500,7 +3500,7 @@ msgstr ""
 "\n"
 "Θέλετε να το αντικαταστήσετε;"
 
-#: ../goffice/gtk/go-font-sel.c:313
+#: ../goffice/gtk/go-font-sel.c:348
 msgid "Faces"
 msgstr "Γραμματοσειρές"
 
@@ -3510,441 +3510,483 @@ msgstr "Γραμματοσειρές"
 #. * and whether it is an italic or regular face.  The four
 #. * first here are the important ones.
 #.
-#: ../goffice/gtk/go-font-sel.c:377
+#: ../goffice/gtk/go-font-sel.c:389
 msgctxt "FontFace"
 msgid "Regular"
 msgstr "Κανονική"
 
-#: ../goffice/gtk/go-font-sel.c:378 ../goffice/gtk/go-font-sel.c:412
-#| msgid "Italic"
+#: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
 msgctxt "FontFace"
 msgid "Italic"
 msgstr "Πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:379
-#| msgid "Bold"
+#: ../goffice/gtk/go-font-sel.c:391
 msgctxt "FontFace"
 msgid "Bold"
 msgstr "Έντονη"
 
-#: ../goffice/gtk/go-font-sel.c:380
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:392
 msgctxt "FontFace"
 msgid "Bold Italic"
 msgstr "Έντονη πλάγια"
 
 #. These are fairly rare.
-#: ../goffice/gtk/go-font-sel.c:383
-#| msgid "Black"
+#: ../goffice/gtk/go-font-sel.c:395
 msgctxt "FontFace"
 msgid "Black"
 msgstr "Μαύρη"
 
-#: ../goffice/gtk/go-font-sel.c:384
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:396
 msgctxt "FontFace"
 msgid "Bold Condensed Italic"
 msgstr "Έντονη συμπυκνωμένη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:385
+#: ../goffice/gtk/go-font-sel.c:397
 msgctxt "FontFace"
 msgid "Bold Condensed"
 msgstr "Έντονη συμπυκνωμένη"
 
-#: ../goffice/gtk/go-font-sel.c:386
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:398
 msgctxt "FontFace"
 msgid "Bold Italic Small Caps"
 msgstr "Έντονα πλάγια μικρά κεφαλαία"
 
-#: ../goffice/gtk/go-font-sel.c:387
+#: ../goffice/gtk/go-font-sel.c:399
 msgctxt "FontFace"
 msgid "Bold Nonextended"
 msgstr "Έντονη μη εκτεταμένη"
 
-#: ../goffice/gtk/go-font-sel.c:388
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:400
 msgctxt "FontFace"
 msgid "Bold Oblique"
 msgstr "Έντονη λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:389
+#: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
 msgid "Bold Slanted"
 msgstr "Έντονη λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:390
+#: ../goffice/gtk/go-font-sel.c:402
 msgctxt "FontFace"
 msgid "Bold Small Caps"
 msgstr "Έντονα μικρά κεφαλαία"
 
-#: ../goffice/gtk/go-font-sel.c:391
+#: ../goffice/gtk/go-font-sel.c:403
 msgctxt "FontFace"
 msgid "Book Oblique"
 msgstr "Πλάγια βιβλίου"
 
-#: ../goffice/gtk/go-font-sel.c:392
+#: ../goffice/gtk/go-font-sel.c:404
 msgctxt "FontFace"
 msgid "Book"
 msgstr "Βιβλίο"
 
-#: ../goffice/gtk/go-font-sel.c:393
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:405
 msgctxt "FontFace"
 msgid "Condensed Bold Italic"
 msgstr "Συμπυκνωμένη έντονη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:394
+#: ../goffice/gtk/go-font-sel.c:406
 msgctxt "FontFace"
 msgid "Condensed Bold Oblique"
 msgstr "Συμπυκνωμένη έντονη λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:395
+#: ../goffice/gtk/go-font-sel.c:407
 msgctxt "FontFace"
 msgid "Condensed Bold"
 msgstr "Συμπυκνωμένη έντονη"
 
-#: ../goffice/gtk/go-font-sel.c:396
+#: ../goffice/gtk/go-font-sel.c:408
 msgctxt "FontFace"
 msgid "Condensed Italic"
 msgstr "Συμπυκνωμένη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:397
+#: ../goffice/gtk/go-font-sel.c:409
 msgctxt "FontFace"
 msgid "Condensed Oblique"
 msgstr "Συμπυκνωμένη λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:398
+#: ../goffice/gtk/go-font-sel.c:410
 msgctxt "FontFace"
 msgid "Condensed"
 msgstr "Συμπυκνωμένη"
 
-#: ../goffice/gtk/go-font-sel.c:399
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:411
 msgctxt "FontFace"
 msgid "Demi Bold Italic"
 msgstr "Ημιέντονη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:400
-#| msgid "Bold"
+#: ../goffice/gtk/go-font-sel.c:412
 msgctxt "FontFace"
 msgid "Demi Bold"
 msgstr "Ημιέντονη"
 
-#: ../goffice/gtk/go-font-sel.c:401
+#: ../goffice/gtk/go-font-sel.c:413
 msgctxt "FontFace"
 msgid "Demi Oblique"
 msgstr "Ημιλοξή"
 
-#: ../goffice/gtk/go-font-sel.c:402
+#: ../goffice/gtk/go-font-sel.c:414
 msgctxt "FontFace"
 msgid "Demi"
 msgstr "Μεσαία"
 
-#: ../goffice/gtk/go-font-sel.c:403
+#: ../goffice/gtk/go-font-sel.c:415
 msgctxt "FontFace"
 msgid "Demi-Condensed"
 msgstr "Ημισυμπυκνωμένη"
 
-#: ../goffice/gtk/go-font-sel.c:404
+#: ../goffice/gtk/go-font-sel.c:416
 msgctxt "FontFace"
 msgid "Embossed"
 msgstr "Ανάγλυφη"
 
-#: ../goffice/gtk/go-font-sel.c:405
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:417
 msgctxt "FontFace"
 msgid "Expanded Bold Italic"
 msgstr "Εκτεταμένη έντονη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:406
+#: ../goffice/gtk/go-font-sel.c:418
 msgctxt "FontFace"
 msgid "Expanded Bold"
 msgstr "Εκτεταμένη έντονη"
 
-#: ../goffice/gtk/go-font-sel.c:407
+#: ../goffice/gtk/go-font-sel.c:419
 msgctxt "FontFace"
 msgid "Expanded Italic"
 msgstr "Εκτεταμένη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:408
+#: ../goffice/gtk/go-font-sel.c:420
 msgctxt "FontFace"
 msgid "Expanded"
 msgstr "Εκτεταμένη"
 
-#: ../goffice/gtk/go-font-sel.c:409
-#| msgid "triangle right"
+#: ../goffice/gtk/go-font-sel.c:421
 msgctxt "FontFace"
 msgid "Extra Light"
 msgstr "Πολύ αχνή"
 
-#: ../goffice/gtk/go-font-sel.c:410
+#: ../goffice/gtk/go-font-sel.c:422
 msgctxt "FontFace"
 msgid "Heavy"
 msgstr "Παχιά"
 
-#: ../goffice/gtk/go-font-sel.c:411
+#: ../goffice/gtk/go-font-sel.c:423
 msgctxt "FontFace"
 msgid "Italic Small Caps"
 msgstr "Πλάγια μικρά κεφαλαία"
 
-#: ../goffice/gtk/go-font-sel.c:413
-#| msgid "Italic"
+#: ../goffice/gtk/go-font-sel.c:425
 msgctxt "FontFace"
 msgid "Light Italic"
 msgstr "Αχνή πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:414
-#| msgid "light blue"
+#: ../goffice/gtk/go-font-sel.c:426
 msgctxt "FontFace"
 msgid "Light Oblique"
 msgstr "Αχνή λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:415
-#| msgid "Right"
+#: ../goffice/gtk/go-font-sel.c:427
 msgctxt "FontFace"
 msgid "Light"
 msgstr "Αχνή"
 
-#: ../goffice/gtk/go-font-sel.c:416
-#| msgid "Italic"
+#: ../goffice/gtk/go-font-sel.c:428
 msgctxt "FontFace"
 msgid "Medium Italic"
 msgstr "Μεσαία πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:417
+#: ../goffice/gtk/go-font-sel.c:429
 msgctxt "FontFace"
 msgid "Medium"
 msgstr "Μεσαία"
 
-#: ../goffice/gtk/go-font-sel.c:418
-#| msgid "Normal"
+#: ../goffice/gtk/go-font-sel.c:430
 msgctxt "FontFace"
 msgid "Normal"
 msgstr "Κανονική"
 
-#: ../goffice/gtk/go-font-sel.c:419
+#: ../goffice/gtk/go-font-sel.c:431
 msgctxt "FontFace"
 msgid "Oblique"
 msgstr "Λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:420
+#: ../goffice/gtk/go-font-sel.c:432
 msgctxt "FontFace"
 msgid "Regular Condensed Italic"
 msgstr "Κανονική συμπυκνωμένη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:421
+#: ../goffice/gtk/go-font-sel.c:433
 msgctxt "FontFace"
 msgid "Regular Condensed"
 msgstr "Κανονική συμπυκνωμένη"
 
-#: ../goffice/gtk/go-font-sel.c:422
-#| msgid "Italic"
+#: ../goffice/gtk/go-font-sel.c:434
 msgctxt "FontFace"
 msgid "Regular Italic"
 msgstr "Κανονική πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:423
+#: ../goffice/gtk/go-font-sel.c:435
 msgctxt "FontFace"
 msgid "Regular Oblique"
 msgstr "Κανονική λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:424
+#: ../goffice/gtk/go-font-sel.c:436
 msgctxt "FontFace"
 msgid "Roman Slanted"
 msgstr "Ρωμαϊκά πλαγιαστά"
 
-#: ../goffice/gtk/go-font-sel.c:425
+#: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Roman"
 msgstr "Ρωμαϊκά"
 
-#: ../goffice/gtk/go-font-sel.c:426
-#| msgid "Bounds"
+#: ../goffice/gtk/go-font-sel.c:438
 msgctxt "FontFace"
 msgid "Rounded"
 msgstr "Στρογγυλεμένη"
 
-#: ../goffice/gtk/go-font-sel.c:427
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:439
 msgctxt "FontFace"
 msgid "Sans Bold Italic"
 msgstr "Έντονη πλάγια χωρίς πατούρα"
 
-#: ../goffice/gtk/go-font-sel.c:428
-#| msgid "Bold"
+#: ../goffice/gtk/go-font-sel.c:440
 msgctxt "FontFace"
 msgid "Sans Bold"
 msgstr "Έντονη χωρίς πατούρα"
 
-#: ../goffice/gtk/go-font-sel.c:429
-#| msgid "Italic"
+#: ../goffice/gtk/go-font-sel.c:441
 msgctxt "FontFace"
 msgid "Sans Italic"
 msgstr "Πλάγια χωρίς πατούρα"
 
-#: ../goffice/gtk/go-font-sel.c:430
+#: ../goffice/gtk/go-font-sel.c:442
 msgctxt "FontFace"
 msgid "Sans"
 msgstr "Χωρίς πατούρα"
 
-#: ../goffice/gtk/go-font-sel.c:431
+#: ../goffice/gtk/go-font-sel.c:443
 msgctxt "FontFace"
 msgid "Semi-Bold Italic Small Caps"
 msgstr "Ημιέντονα πλάγια μικρά κεφαλαία"
 
-#: ../goffice/gtk/go-font-sel.c:432
-#| msgid "Bold italic"
+#: ../goffice/gtk/go-font-sel.c:444
 msgctxt "FontFace"
 msgid "Semi-Bold Italic"
 msgstr "Ημιέντονη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:433
+#: ../goffice/gtk/go-font-sel.c:445
 msgctxt "FontFace"
 msgid "Semi-Bold Oblique"
 msgstr "Ημιέντονη λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:434
+#: ../goffice/gtk/go-font-sel.c:446
 msgctxt "FontFace"
 msgid "Semi-Bold Slanted"
 msgstr "Ημιέντονη πλαγιαστή"
 
-#: ../goffice/gtk/go-font-sel.c:435
+#: ../goffice/gtk/go-font-sel.c:447
 msgctxt "FontFace"
 msgid "Semi-Bold Small Caps"
 msgstr "Ημιέντονα μικρά κεφαλαία"
 
-#: ../goffice/gtk/go-font-sel.c:436
-#| msgid "Bold"
+#: ../goffice/gtk/go-font-sel.c:448
 msgctxt "FontFace"
 msgid "Semi-Bold"
 msgstr "Ημιέντονη"
 
-#: ../goffice/gtk/go-font-sel.c:437
+#: ../goffice/gtk/go-font-sel.c:449
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold Italic"
 msgstr "Ημισυμπυκνωμένη έντονη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:438
+#: ../goffice/gtk/go-font-sel.c:450
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold"
 msgstr "Ημισυμπυκνωμένη έντονη"
 
-#: ../goffice/gtk/go-font-sel.c:439
+#: ../goffice/gtk/go-font-sel.c:451
 msgctxt "FontFace"
 msgid "Semi-Condensed Italic"
 msgstr "Ημισυμπυκνωμένη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:440
+#: ../goffice/gtk/go-font-sel.c:452
 msgctxt "FontFace"
 msgid "Semi-Condensed Oblique"
 msgstr "Ημισυμπυκνωμένη λοξή"
 
-#: ../goffice/gtk/go-font-sel.c:441
+#: ../goffice/gtk/go-font-sel.c:453
 msgctxt "FontFace"
 msgid "Semi-Condensed"
 msgstr "Ημισυμπυκνωμένη"
 
-#: ../goffice/gtk/go-font-sel.c:442
+#: ../goffice/gtk/go-font-sel.c:454
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold Italic"
 msgstr "Ημιεκτεταμένη έντονη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:443
+#: ../goffice/gtk/go-font-sel.c:455
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold"
 msgstr "Ημιεκτεταμένη έντονη"
 
-#: ../goffice/gtk/go-font-sel.c:444
+#: ../goffice/gtk/go-font-sel.c:456
 msgctxt "FontFace"
 msgid "Semi-Expanded Italic"
 msgstr "Ημιεκτεταμένη πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:445
+#: ../goffice/gtk/go-font-sel.c:457
 msgctxt "FontFace"
 msgid "Semi-Expanded"
 msgstr "Ημιεκτεταμένη"
 
-#: ../goffice/gtk/go-font-sel.c:446
+#: ../goffice/gtk/go-font-sel.c:458
 msgctxt "FontFace"
 msgid "Slanted"
 msgstr "Πλαγιαστή"
 
-#: ../goffice/gtk/go-font-sel.c:447
-#| msgid "Small Circles"
+#: ../goffice/gtk/go-font-sel.c:459
 msgctxt "FontFace"
 msgid "Small Caps"
 msgstr "Μικρά κεφαλαία"
 
-#: ../goffice/gtk/go-font-sel.c:448
+#: ../goffice/gtk/go-font-sel.c:460
 msgctxt "FontFace"
 msgid "Thin"
 msgstr "Λεπτή"
 
-#: ../goffice/gtk/go-font-sel.c:449
-#| msgid "Italic"
+#: ../goffice/gtk/go-font-sel.c:461
 msgctxt "FontFace"
 msgid "Upright Italic"
 msgstr "Όρθια πλάγια"
 
-#: ../goffice/gtk/go-font-sel.c:517 ../goffice/utils/go-style.c:940
+#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
 msgid "Font"
 msgstr "Γραμματοσειρά"
 
-#: ../goffice/gtk/go-font-sel.c:593
+#: ../goffice/gtk/go-font-sel.c:605
 msgid "All fonts..."
 msgstr "Όλες οι γραμματοσειρές..."
 
-#: ../goffice/gtk/go-font-sel.c:881 ../goffice/math/go-distribution.c:75
+#: ../goffice/gtk/go-font-sel.c:905
+#, fuzzy
+msgctxt "underline"
+msgid "None"
+msgstr "Καμία"
+
+#: ../goffice/gtk/go-font-sel.c:906
+#, fuzzy
+msgctxt "underline"
+msgid "Single"
+msgstr "Γωνία"
+
+#: ../goffice/gtk/go-font-sel.c:907
+msgctxt "underline"
+msgid "Double"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:908
+#, fuzzy
+msgctxt "underline"
+msgid "Low"
+msgstr "_Χαμηλά"
+
+#: ../goffice/gtk/go-font-sel.c:909
+#, fuzzy
+msgctxt "underline"
+msgid "Error"
+msgstr "Γραμμές σφάλματος"
+
+#: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
 msgid "Normal"
 msgstr "Κανονική"
 
-#: ../goffice/gtk/go-font-sel.c:884
-#| msgid "Description"
+#: ../goffice/gtk/go-font-sel.c:931
 msgid "Subscript"
 msgstr "Δείκτης"
 
-#: ../goffice/gtk/go-font-sel.c:887
-#| msgid "Use _superscript"
+#: ../goffice/gtk/go-font-sel.c:932
 msgid "Superscript"
 msgstr "Εκθέτης"
 
-#: ../goffice/gtk/go-font-sel.c:1092
+#: ../goffice/gtk/go-font-sel.c:1185
 msgid "Show Style"
 msgstr "Εμφάνιση τεχνοτροπίας"
 
-#: ../goffice/gtk/go-font-sel.c:1093
+#: ../goffice/gtk/go-font-sel.c:1186
 msgid "Whether style is part of the font being selected"
 msgstr "Εάν η τεχνοτροπία είναι μέρος της επιλεγμένης γραμματοσειράς"
 
-#: ../goffice/gtk/go-font-sel.c:1101
-#| msgid "Color"
+#: ../goffice/gtk/go-font-sel.c:1194
 msgid "Show Color"
 msgstr "Εμφάνιση χρωμάτων"
 
-#: ../goffice/gtk/go-font-sel.c:1102
-#| msgid "Whether style is part of the font being selected"
+#: ../goffice/gtk/go-font-sel.c:1195
 msgid "Whether color is part of the font being selected"
 msgstr "Εάν το χρώμα είναι μέρος της επιλεγμένης γραμματοσειράς"
 
-#: ../goffice/gtk/go-font-sel.c:1110
-#| msgid "Show Style"
+#: ../goffice/gtk/go-font-sel.c:1203
+#, fuzzy
+msgid "Show Underline"
+msgstr "Εμφάνιση αρνητικών"
+
+#: ../goffice/gtk/go-font-sel.c:1204
+#, fuzzy
+msgid "Whether underlining is part of the font being selected"
+msgstr "Εάν η τεχνοτροπία είναι μέρος της επιλεγμένης γραμματοσειράς"
+
+#: ../goffice/gtk/go-font-sel.c:1212
 msgid "Show Script"
 msgstr "Εμφάνιση γραφής"
 
-#: ../goffice/gtk/go-font-sel.c:1111
-#| msgid "Whether style is part of the font being selected"
+#: ../goffice/gtk/go-font-sel.c:1213
 msgid "Whether subscript/superscript is part of the font being selected"
 msgstr "Εάν οι δείκτες/εκθέτες είναι μέρος της επιλεγμένης γραμματοσειράς"
 
-#: ../goffice/gtk/go-font-sel.c:1119
+#: ../goffice/gtk/go-font-sel.c:1221
 msgid "Show Strikethrough"
 msgstr "Εμφάνιση διαγράμμισης"
 
-#: ../goffice/gtk/go-font-sel.c:1120
-#| msgid "Whether style is part of the font being selected"
+#: ../goffice/gtk/go-font-sel.c:1222
 msgid "Whether strikethrough is part of the font being selected"
 msgstr "Εάν η διαγράμμιση είναι μέρος της επιλεγμένης γραμματοσειράς"
+
+#: ../goffice/gtk/go-font-sel.c:1230
+msgid "Color unset text"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1231
+#, fuzzy
+msgid "The text to show for selecing no color"
+msgstr "Το κείμενο αναζήτησης για"
+
+#: ../goffice/gtk/go-font-sel.c:1239
+#, fuzzy
+msgid "Color Group"
+msgstr "Ομάδα σχεδίασης"
+
+#: ../goffice/gtk/go-font-sel.c:1240
+#, fuzzy
+msgid "The color group to use for the color picker"
+msgstr "Ο τύπος πόρου για την χρωματική απεικόνιση"
+
+#: ../goffice/gtk/go-font-sel.c:1248
+#, fuzzy
+msgid "Color Default"
+msgstr "Προεπιλογή"
+
+#: ../goffice/gtk/go-font-sel.c:1249
+msgid "The color to show for an unset color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1259
+msgid "Underline Picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1260
+msgid "The widget to use for picking underline type"
+msgstr ""
 
 #: ../goffice/gtk/go-font-sel-dialog.c:107
 msgid "Pick a Font"
@@ -3959,7 +4001,6 @@ msgid "Font:"
 msgstr "Γραμματοσειρά:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:3
-#| msgid "Select an image"
 msgid "Select the size"
 msgstr "Επιλογή μεγέθους"
 
@@ -3968,29 +4009,31 @@ msgid "Size:"
 msgstr "Μέγεθος:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:5
-#| msgid "Select an Image"
 msgid "Select the font face"
 msgstr "Επιλογή στοιχείου γραμματοσειράς"
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
-#| msgid "St_yle:"
 msgid "Style:"
 msgstr "Τεχνοτροπία:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
+#, fuzzy
+msgid "Select whether a line should be drawn through the text"
+msgstr "Εάν το πλαίσιο πρέπει να περιστραφεί με το κείμενο"
+
+#: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
 msgstr "Διαγράμμιση:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:8
+#: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
 msgstr "Επιλογή χρώματος γραμματοσειράς"
 
-#: ../goffice/gtk/go-font-sel.ui.h:9
-#| msgid "Colo_r:"
+#: ../goffice/gtk/go-font-sel.ui.h:10
 msgid "Color:"
 msgstr "Χρώμα:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:10
+#: ../goffice/gtk/go-font-sel.ui.h:11
 msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
@@ -3998,9 +4041,19 @@ msgstr ""
 "Επιλέξτε αν η γραμματοσειρά πρέπει να τροποποιηθεί για χρήση ως δείκτης ή "
 "εκθέτης"
 
-#: ../goffice/gtk/go-font-sel.ui.h:11
+#: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
 msgstr "Γραφή:"
+
+#: ../goffice/gtk/go-font-sel.ui.h:13
+#, fuzzy
+msgid "Select the type of underlining"
+msgstr "Επιλογή στοιχείου γραμματοσειράς"
+
+#: ../goffice/gtk/go-font-sel.ui.h:14
+#, fuzzy
+msgid "Underline:"
+msgstr "Χρήση ευλύγιστης καμπύλης"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
@@ -5450,11 +5503,11 @@ msgstr "Νότιος Αφρική/ζουλού (zu_ZA)"
 msgid "Current Locale: "
 msgstr "Τρέχον τοπικό: "
 
-#: ../goffice/gtk/go-optionmenu.c:424
+#: ../goffice/gtk/go-optionmenu.c:476
 msgid "Menu"
 msgstr "Μενού"
 
-#: ../goffice/gtk/go-optionmenu.c:425
+#: ../goffice/gtk/go-optionmenu.c:477
 msgid "The menu of options"
 msgstr "Το μενού των επιλογών"
 
@@ -6217,7 +6270,7 @@ msgstr "Αδυναμία φόρτωσης δεδομένων εικόνας\n"
 msgid "Could not input the image data\n"
 msgstr "Αδυναμία εισαγωγής δεδομένων εικόνας\n"
 
-#: ../goffice/utils/go-emf.c:4687 ../goffice/utils/go-emf.c:4693
+#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Άκυρα δεδομένα εικόνας\n"
@@ -6293,23 +6346,23 @@ msgstr "Κίτρινο"
 msgid "color"
 msgstr "χρώμα"
 
-#: ../goffice/utils/go-geometry.c:334 ../goffice/utils/go-marker.c:96
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:96
 msgid "none"
 msgstr "κανένα"
 
-#: ../goffice/utils/go-geometry.c:335
+#: ../goffice/utils/go-geometry.c:297
 msgid "down"
 msgstr "κάτω"
 
-#: ../goffice/utils/go-geometry.c:336
+#: ../goffice/utils/go-geometry.c:298
 msgid "up"
 msgstr "επάνω"
 
-#: ../goffice/utils/go-geometry.c:337
+#: ../goffice/utils/go-geometry.c:299
 msgid "right"
 msgstr "δεξιά"
 
-#: ../goffice/utils/go-geometry.c:338
+#: ../goffice/utils/go-geometry.c:300
 msgid "left"
 msgstr "αριστερά"
 

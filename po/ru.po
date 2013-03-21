@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-23 18:03-0500\n"
+"POT-Creation-Date: 2013-03-21 18:55-0400\n"
 "PO-Revision-Date: 2012-12-23 18:05-0500\n"
 "Last-Translator: Konstantin Tokarev <annulen@yandex.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
@@ -15,65 +15,87 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../goffice/app/file.c:527
+#: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
 msgstr "ID"
 
-#: ../goffice/app/file.c:528
-msgid "The identifier of the saver."
+#: ../goffice/app/file.c:178
+msgid "The identifier of the opener"
 msgstr ""
 
-#: ../goffice/app/file.c:538
-msgid "MIME type"
-msgstr "Тип MIME"
-
-#: ../goffice/app/file.c:539
-msgid "The MIME type of the saver."
-msgstr ""
-
-#: ../goffice/app/file.c:548
-msgid "Extension"
-msgstr "Расширение"
-
-#: ../goffice/app/file.c:549
-msgid "The standard file name extension of the saver."
-msgstr ""
-
-#: ../goffice/app/file.c:558
+#: ../goffice/app/file.c:187 ../goffice/app/file.c:624
 msgid "Description"
 msgstr "Описание"
 
-#: ../goffice/app/file.c:559
+#: ../goffice/app/file.c:188
+#, fuzzy
+msgid "The description of the opener"
+msgstr "Вращение вокруг якорной точки"
+
+#: ../goffice/app/file.c:197 ../goffice/app/file.c:644
+#, fuzzy
+msgid "Interactive only"
+msgstr "Интерполяция"
+
+#: ../goffice/app/file.c:198
+msgid "TRUE if this opener requires interaction"
+msgstr ""
+
+#: ../goffice/app/file.c:594
+msgid "The identifier of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:604
+msgid "MIME type"
+msgstr "Тип MIME"
+
+#: ../goffice/app/file.c:605
+msgid "The MIME type of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:614
+msgid "Extension"
+msgstr "Расширение"
+
+#: ../goffice/app/file.c:615
+msgid "The standard file name extension of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:625
 msgid "The description of the saver."
 msgstr ""
 
-#: ../goffice/app/file.c:568
+#: ../goffice/app/file.c:634
 msgid "Overwrite"
 msgstr "Переписать"
 
-#: ../goffice/app/file.c:569
+#: ../goffice/app/file.c:635
 msgid "Whether the saver will overwrite files."
 msgstr "Переписывать ли файлы при сохранении."
 
-#: ../goffice/app/file.c:579
+#: ../goffice/app/file.c:645
+msgid "TRUE if this saver requires interaction"
+msgstr ""
+
+#: ../goffice/app/file.c:655
 msgid "Format Level"
 msgstr ""
 
-#: ../goffice/app/file.c:590
+#: ../goffice/app/file.c:666
 msgid "Scope"
 msgstr ""
 
-#: ../goffice/app/file.c:591
+#: ../goffice/app/file.c:667
 msgid "How much of a document is saved"
 msgstr ""
 
-#: ../goffice/app/file.c:754
+#: ../goffice/app/file.c:830
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Сохранение поверх старых файлов этого типа отключено из соображений "
 "безопасности."
 
-#: ../goffice/app/file.c:764
+#: ../goffice/app/file.c:840
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -116,8 +138,8 @@ msgstr ""
 msgid "Whether the document is unchanged since it was created."
 msgstr ""
 
-#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:292
-#: ../goffice/utils/go-style-prefs.ui.h:10
+#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:293
+#: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Изображение"
 
@@ -463,181 +485,181 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Выполнить итерацию основного цикла"
 
-#: ../goffice/canvas/goc-arc.c:436
+#: ../goffice/canvas/goc-arc.c:441
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:437
+#: ../goffice/canvas/goc-arc.c:442
 msgid "The arc center x coordinate"
 msgstr "Координата X центра дуги"
 
-#: ../goffice/canvas/goc-arc.c:442
+#: ../goffice/canvas/goc-arc.c:447
 msgid "yc"
 msgstr "yс"
 
-#: ../goffice/canvas/goc-arc.c:443
+#: ../goffice/canvas/goc-arc.c:448
 msgid "The arc center y coordinate"
 msgstr "Координата Y центра дуги"
 
-#: ../goffice/canvas/goc-arc.c:448
+#: ../goffice/canvas/goc-arc.c:453
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:449
+#: ../goffice/canvas/goc-arc.c:454
 msgid "The arc x radius"
 msgstr "Горизонтальный радиус дуги"
 
-#: ../goffice/canvas/goc-arc.c:454
+#: ../goffice/canvas/goc-arc.c:459
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:455
+#: ../goffice/canvas/goc-arc.c:460
 msgid "The arc y radius"
 msgstr "Вертикальный радиус дуги"
 
-#: ../goffice/canvas/goc-arc.c:460
+#: ../goffice/canvas/goc-arc.c:465
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:461
+#: ../goffice/canvas/goc-arc.c:466
 msgid "The arc start angle"
 msgstr "Начальный угол дуги"
 
-#: ../goffice/canvas/goc-arc.c:466
+#: ../goffice/canvas/goc-arc.c:471
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:467
+#: ../goffice/canvas/goc-arc.c:472
 msgid "The arc end angle"
 msgstr "Конечный угол дуги"
 
-#: ../goffice/canvas/goc-arc.c:472 ../goffice/canvas/goc-component.c:295
-#: ../goffice/canvas/goc-ellipse.c:261 ../goffice/canvas/goc-path.c:275
-#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:475
+#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
+#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Вращение"
 
-#: ../goffice/canvas/goc-arc.c:473
+#: ../goffice/canvas/goc-arc.c:478
 msgid "The rotation around center position"
 msgstr "Вращение вокруг центральной точки"
 
-#: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:3054 ../goffice/graph/gog-grid.c:127
+#: ../goffice/canvas/goc-arc.c:483 ../goffice/canvas/goc-rectangle.c:347
+#: ../goffice/graph/gog-axis.c:3058 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Тип"
 
-#: ../goffice/canvas/goc-arc.c:479
+#: ../goffice/canvas/goc-arc.c:484
 msgid "The type of arc: arc, chord or pie"
 msgstr "Тип дуги: дуга, хорда или сектор"
 
-#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:348
 msgid "Start Arrow"
 msgstr "Начальная стрелка"
 
-#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:349
 msgid "Arrow for line's start"
 msgstr "Стрелка для начала линии"
 
-#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:352
+#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:354
 msgid "End Arrow"
 msgstr "Конечная стрелка"
 
-#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:497 ../goffice/canvas/goc-line.c:355
 msgid "Arrow for line's end"
 msgstr "Стрелка для конца линии"
 
-#: ../goffice/canvas/goc-circle.c:167 ../goffice/canvas/goc-component.c:271
-#: ../goffice/canvas/goc-ellipse.c:237 ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:263
-#: ../goffice/canvas/goc-path.c:263 ../goffice/canvas/goc-pixbuf.c:223
-#: ../goffice/canvas/goc-rectangle.c:312 ../goffice/canvas/goc-text.c:463
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
+#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
+#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
 #: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
-#: ../goffice/canvas/goc-circle.c:168
+#: ../goffice/canvas/goc-circle.c:170
 msgid "The circle center horizontal position"
 msgstr "Горизонтальная позиция центра окружности"
 
-#: ../goffice/canvas/goc-circle.c:173 ../goffice/canvas/goc-component.c:277
-#: ../goffice/canvas/goc-ellipse.c:243 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:269
-#: ../goffice/canvas/goc-path.c:269 ../goffice/canvas/goc-pixbuf.c:229
-#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-text.c:469
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
+#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
+#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
 #: ../goffice/canvas/goc-widget.c:779
 msgid "y"
 msgstr "y"
 
-#: ../goffice/canvas/goc-circle.c:174
+#: ../goffice/canvas/goc-circle.c:176
 msgid "The circle center vertical position"
 msgstr "Вертикальная позиция центра окружности"
 
-#: ../goffice/canvas/goc-circle.c:179
+#: ../goffice/canvas/goc-circle.c:181
 msgid "Radius"
 msgstr "Радиус"
 
-#: ../goffice/canvas/goc-circle.c:180
+#: ../goffice/canvas/goc-circle.c:182
 msgid "The circle radius"
 msgstr "Радиус окружности"
 
-#: ../goffice/canvas/goc-component.c:272
+#: ../goffice/canvas/goc-component.c:292
 msgid "The object left position"
 msgstr "Левая граница объекта"
 
-#: ../goffice/canvas/goc-component.c:278
+#: ../goffice/canvas/goc-component.c:298
 msgid "The object top position"
 msgstr "Верхняя граница объекта"
 
-#: ../goffice/canvas/goc-component.c:283 ../goffice/canvas/goc-component.c:284
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:281
-#: ../goffice/canvas/goc-pixbuf.c:241 ../goffice/canvas/goc-rectangle.c:330
+#: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
+#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
+#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
 #: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "Высота"
 
-#: ../goffice/canvas/goc-component.c:289 ../goffice/canvas/goc-component.c:290
-#: ../goffice/canvas/goc-ellipse.c:249 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
-#: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
+#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
+#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
 #: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
 #: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "Ширина"
 
-#: ../goffice/canvas/goc-component.c:296
+#: ../goffice/canvas/goc-component.c:316
 msgid "The rotation around center"
 msgstr "Вращение вокруг центра"
 
-#: ../goffice/canvas/goc-component.c:301
+#: ../goffice/canvas/goc-component.c:321
 msgid "Object"
 msgstr "Объект"
 
-#: ../goffice/canvas/goc-component.c:302
+#: ../goffice/canvas/goc-component.c:322
 msgid "The embedded GOComponent object"
 msgstr "Встроенный объект GOComponent"
 
-#: ../goffice/canvas/goc-ellipse.c:238
+#: ../goffice/canvas/goc-ellipse.c:260
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Левая граница эллипса (или правая позиция в режиме ПНЛ)"
 
-#: ../goffice/canvas/goc-ellipse.c:244
+#: ../goffice/canvas/goc-ellipse.c:266
 msgid "The ellipse top position"
 msgstr "Верхняя граница эллипса"
 
-#: ../goffice/canvas/goc-ellipse.c:250
+#: ../goffice/canvas/goc-ellipse.c:272
 msgid "The ellipse width"
 msgstr "Ширина эллипса"
 
-#: ../goffice/canvas/goc-ellipse.c:256
+#: ../goffice/canvas/goc-ellipse.c:278
 msgid "The ellipse height"
 msgstr "Высота эллипса"
 
-#: ../goffice/canvas/goc-ellipse.c:262 ../goffice/canvas/goc-rectangle.c:337
+#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "Вращение вокруг верхней левой точки"
 
@@ -683,57 +705,57 @@ msgstr "Горизонтальное смещение группы"
 msgid "The group vertical offset"
 msgstr "Вертикальное смещение группы"
 
-#: ../goffice/canvas/goc-image.c:264 ../goffice/canvas/goc-pixbuf.c:224
+#: ../goffice/canvas/goc-image.c:265 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "Левая граница изображения"
 
-#: ../goffice/canvas/goc-image.c:270 ../goffice/canvas/goc-pixbuf.c:230
+#: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "Верхняя граница изображения"
 
-#: ../goffice/canvas/goc-image.c:276 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr ""
 "Ширина изображения или -1 чтобы использовать собственную ширину изображения"
 
-#: ../goffice/canvas/goc-image.c:282 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr ""
 "Высота изображения или -1 чтобы использовать собственную высоту изображения"
 
-#: ../goffice/canvas/goc-image.c:293
+#: ../goffice/canvas/goc-image.c:294
 msgid "The GOImage to display"
 msgstr "GOImage для отображения"
 
-#: ../goffice/canvas/goc-image.c:297
+#: ../goffice/canvas/goc-image.c:298
 msgid "Cropped bottom"
 msgstr "Кадрирование снизу"
 
-#: ../goffice/canvas/goc-image.c:298
+#: ../goffice/canvas/goc-image.c:299
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr "Отрезаемая снизу доля от высоты изображения"
 
-#: ../goffice/canvas/goc-image.c:302
+#: ../goffice/canvas/goc-image.c:303
 msgid "Cropped left"
 msgstr "Кадрирование слева"
 
-#: ../goffice/canvas/goc-image.c:303
+#: ../goffice/canvas/goc-image.c:304
 msgid "The cropped area at the image left of the image width"
 msgstr "Отрезаемая слева доля от ширины изображения"
 
-#: ../goffice/canvas/goc-image.c:307
+#: ../goffice/canvas/goc-image.c:308
 msgid "Cropped right"
 msgstr "Кадрирование справа"
 
-#: ../goffice/canvas/goc-image.c:308
+#: ../goffice/canvas/goc-image.c:309
 msgid "The cropped area at the image right of the image width"
 msgstr "Отрезаемая справа доля от ширины изображения"
 
-#: ../goffice/canvas/goc-image.c:312
+#: ../goffice/canvas/goc-image.c:313
 msgid "Cropped top"
 msgstr "Кадрирование сверху"
 
-#: ../goffice/canvas/goc-image.c:313
+#: ../goffice/canvas/goc-image.c:314
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr "Отрезаемая сверху доля высоты изображения"
 
@@ -753,159 +775,159 @@ msgstr "Родитель"
 msgid "The group in which the item resides"
 msgstr "Группа, в которой находится элемент"
 
-#: ../goffice/canvas/goc-line.c:322
+#: ../goffice/canvas/goc-line.c:324
 msgid "x0"
 msgstr "x0"
 
-#: ../goffice/canvas/goc-line.c:323
+#: ../goffice/canvas/goc-line.c:325
 msgid "The line start x coordinate"
 msgstr "Координата X для начала линии"
 
-#: ../goffice/canvas/goc-line.c:328
+#: ../goffice/canvas/goc-line.c:330
 msgid "y0"
 msgstr "y0"
 
-#: ../goffice/canvas/goc-line.c:329
+#: ../goffice/canvas/goc-line.c:331
 msgid "The line start y coordinate"
 msgstr "Координата Y для начала линии"
 
-#: ../goffice/canvas/goc-line.c:334
+#: ../goffice/canvas/goc-line.c:336
 msgid "x1"
 msgstr "x1"
 
-#: ../goffice/canvas/goc-line.c:335
+#: ../goffice/canvas/goc-line.c:337
 msgid "The line end x coordinate"
 msgstr "Координата X конца линии"
 
-#: ../goffice/canvas/goc-line.c:340
+#: ../goffice/canvas/goc-line.c:342
 msgid "y1"
 msgstr "y1"
 
-#: ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-line.c:343
 msgid "The line end y coordinate"
 msgstr "Координата Y конца линии"
 
-#: ../goffice/canvas/goc-path.c:264
+#: ../goffice/canvas/goc-path.c:269
 msgid "The path first point x coordinate"
 msgstr "Координата X первой точки контура"
 
-#: ../goffice/canvas/goc-path.c:270
+#: ../goffice/canvas/goc-path.c:275
 msgid "The path first point y coordinate"
 msgstr "Координата Y первой точки контура"
 
-#: ../goffice/canvas/goc-path.c:276
+#: ../goffice/canvas/goc-path.c:281
 msgid "The rotation around first point position"
 msgstr "Вращение вокруг позиции первой точки"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:286
 msgid "Closed"
 msgstr "Замкнутый"
 
-#: ../goffice/canvas/goc-path.c:282
+#: ../goffice/canvas/goc-path.c:287
 msgid "The flag for closed path"
 msgstr "Индикатор замкнутого контура"
 
-#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-polygon.c:339
+#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
 msgid "Fill rule"
 msgstr "Правило заполнения"
 
-#: ../goffice/canvas/goc-path.c:288 ../goffice/canvas/goc-polygon.c:340
+#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
 msgid "Set fill rule to winding or even/odd"
 msgstr "Выбор правила заливки: сквозная или чередующаяся"
 
-#: ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-path.c:298
 msgid "Path"
 msgstr "Контур"
 
-#: ../goffice/canvas/goc-path.c:294
+#: ../goffice/canvas/goc-path.c:299
 msgid "The path points"
 msgstr "Точки контура"
 
-#: ../goffice/canvas/goc-pixbuf.c:252 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
-#: ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-pixbuf.c:265
 msgid "The GdkPixbuf to display"
 msgstr ""
 
-#: ../goffice/canvas/goc-polygon.c:328 ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
 msgid "points"
 msgstr "пункты"
 
-#: ../goffice/canvas/goc-polygon.c:328
+#: ../goffice/canvas/goc-polygon.c:344
 msgid "The polygon vertices"
 msgstr ""
 
-#: ../goffice/canvas/goc-polygon.c:333 ../goffice/canvas/goc-polyline.c:256
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
 msgid "Use spline"
 msgstr "Использовать сплайны"
 
-#: ../goffice/canvas/goc-polygon.c:334
+#: ../goffice/canvas/goc-polygon.c:350
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Использовать замкнутый кубический сплайн Безье для контура"
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:360
 msgid "sizes"
 msgstr "размеры"
 
-#: ../goffice/canvas/goc-polygon.c:345
+#: ../goffice/canvas/goc-polygon.c:361
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
 "be discarded. Setting the \"point\" property will reset the sizes."
 msgstr ""
 
-#: ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polyline.c:259
 msgid "The polyline vertices"
 msgstr ""
 
-#: ../goffice/canvas/goc-polyline.c:257
+#: ../goffice/canvas/goc-polyline.c:265
 msgid "Use a Bezier cubic spline as line"
 msgstr "Использовать кубический сплайн Безье для линии"
 
-#: ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-rectangle.c:318
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr "Левая граница прямоугольника (или правая граница в режиме ПНЛ)"
 
-#: ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-rectangle.c:324
 msgid "The rectangle top position"
 msgstr "Верхняя граница прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:325
+#: ../goffice/canvas/goc-rectangle.c:330
 msgid "The rectangle width"
 msgstr "Ширина прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:331
+#: ../goffice/canvas/goc-rectangle.c:336
 msgid "The rectangle height"
 msgstr "Высота прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:343
+#: ../goffice/canvas/goc-rectangle.c:348
 msgid ""
 "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for "
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:348
+#: ../goffice/canvas/goc-rectangle.c:353
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:349
+#: ../goffice/canvas/goc-rectangle.c:354
 msgid "The round rectangle rx"
 msgstr "Горизонтальный радиус закругления для скруглённого прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-rectangle.c:359
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:355
+#: ../goffice/canvas/goc-rectangle.c:360
 msgid "The round rectangle ry"
 msgstr "Вертикальный радиус закругления для скруглённого прямоугольника"
 
 #: ../goffice/canvas/goc-styled-item.c:160
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1105
+#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1104
 msgid "Style"
 msgstr "Стиль"
 
@@ -922,72 +944,72 @@ msgstr "Масштабировать ширину линии"
 msgid "Whether to scale the line width when zooming"
 msgstr "Масштабировать ли ширину линии при изменении масштаба"
 
-#: ../goffice/canvas/goc-text.c:464
+#: ../goffice/canvas/goc-text.c:466
 msgid "The text horizontal position"
 msgstr "Горизонтальное расположение текста"
 
-#: ../goffice/canvas/goc-text.c:470
+#: ../goffice/canvas/goc-text.c:472
 msgid "The text position"
 msgstr "Расположение текста"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:478
 msgid "The rotation around the anchor"
 msgstr "Вращение вокруг якорной точки"
 
-#: ../goffice/canvas/goc-text.c:481 ../goffice/graph/gog-object.c:819
+#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:815
 msgid "Anchor"
 msgstr "Якорь"
 
-#: ../goffice/canvas/goc-text.c:482
+#: ../goffice/canvas/goc-text.c:484
 msgid "The anchor point for the text"
 msgstr "Якорная точка для текста"
 
-#: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:69
-#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:971
+#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:970
 msgid "Text"
 msgstr "Текст"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:490
 msgid "The text to display"
 msgstr "Текст для отображения"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "Attributes"
 msgstr "Аттрибуты"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "The attributes list as a PangoAttrList"
 msgstr "Список аттрибутов PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:496
+#: ../goffice/canvas/goc-text.c:498
 msgid "Clip"
 msgstr "Кадрирование"
 
-#: ../goffice/canvas/goc-text.c:497
+#: ../goffice/canvas/goc-text.c:499
 msgid "Whether to clip or not"
 msgstr "Кадрировать или нет"
 
-#: ../goffice/canvas/goc-text.c:502
+#: ../goffice/canvas/goc-text.c:504
 msgid "Clip width"
 msgstr "Ширина кадрирования"
 
-#: ../goffice/canvas/goc-text.c:503
+#: ../goffice/canvas/goc-text.c:505
 msgid "Clip width for the text"
 msgstr "Ширина кадрирования для текста"
 
-#: ../goffice/canvas/goc-text.c:508
+#: ../goffice/canvas/goc-text.c:510
 msgid "Clip height"
 msgstr "Высота кадрирования"
 
-#: ../goffice/canvas/goc-text.c:509
+#: ../goffice/canvas/goc-text.c:511
 msgid "Clip height for the text"
 msgstr "Высотка кадрирования для текста"
 
-#: ../goffice/canvas/goc-text.c:514
+#: ../goffice/canvas/goc-text.c:516
 msgid "Wrap width"
 msgstr "Ширина переноса"
 
-#: ../goffice/canvas/goc-text.c:515
+#: ../goffice/canvas/goc-text.c:517
 msgid "Wrap width for the text"
 msgstr "Ширина переноса для текста"
 
@@ -1121,103 +1143,103 @@ msgstr "Основные деления"
 msgid "Mi_nor ticks"
 msgstr "Вспомогательные деления"
 
-#: ../goffice/graph/gog-axis.c:2896 ../goffice/math/go-distribution.c:171
+#: ../goffice/graph/gog-axis.c:2899 ../goffice/math/go-distribution.c:171
 #: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "Масштаб"
 
-#: ../goffice/graph/gog-axis.c:2918 ../plugins/plot_pie/gog-pie.c:325
+#: ../goffice/graph/gog-axis.c:2921 ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:2975
+#: ../goffice/graph/gog-axis.c:2978
 msgid "Colors"
 msgstr "Цвета"
 
-#: ../goffice/graph/gog-axis.c:2992 ../goffice/graph/gog-series-labels.c:891
-#: ../goffice/graph/gog-series-labels.c:1417
+#: ../goffice/graph/gog-axis.c:2996 ../goffice/graph/gog-series-labels.c:910
+#: ../goffice/graph/gog-series-labels.c:1436
 msgid "Format"
 msgstr "Формат"
 
-#: ../goffice/graph/gog-axis.c:3030
+#: ../goffice/graph/gog-axis.c:3034
 msgid "MajorGrid"
 msgstr "Основная сетка"
 
-#: ../goffice/graph/gog-axis.c:3033
+#: ../goffice/graph/gog-axis.c:3037
 msgid "MinorGrid"
 msgstr "Вспомогательная сетка"
 
-#: ../goffice/graph/gog-axis.c:3036
+#: ../goffice/graph/gog-axis.c:3040
 msgid "AxisLine"
 msgstr "Осевая линия"
 
-#: ../goffice/graph/gog-axis.c:3039 ../goffice/graph/gog-theme.c:591
+#: ../goffice/graph/gog-axis.c:3043 ../goffice/graph/gog-theme.c:591
 msgid "Label"
 msgstr "Метка"
 
-#: ../goffice/graph/gog-axis.c:3055
+#: ../goffice/graph/gog-axis.c:3059
 msgid "Numerical type of this axis"
 msgstr "Числовой тип для этой оси"
 
-#: ../goffice/graph/gog-axis.c:3059
+#: ../goffice/graph/gog-axis.c:3063
 msgid "Invert axis"
 msgstr "Инвертировать оси"
 
-#: ../goffice/graph/gog-axis.c:3060
+#: ../goffice/graph/gog-axis.c:3064
 msgid "Scale from high to low rather than low to high"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3064
+#: ../goffice/graph/gog-axis.c:3068
 msgid "MapName"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3065
+#: ../goffice/graph/gog-axis.c:3069
 msgid "The name of the map for scaling"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3070
+#: ../goffice/graph/gog-axis.c:3074
 msgid "Assigned XL format"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3071
+#: ../goffice/graph/gog-axis.c:3075
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3076 ../goffice/graph/gog-axis.c:3077
+#: ../goffice/graph/gog-axis.c:3080 ../goffice/graph/gog-axis.c:3081
 msgid "Rotation of circular axis"
 msgstr "Вращение круговых осей"
 
-#: ../goffice/graph/gog-axis.c:3084 ../goffice/graph/gog-axis.c:3085
+#: ../goffice/graph/gog-axis.c:3088 ../goffice/graph/gog-axis.c:3089
 msgid "Polar axis set unit"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3090
+#: ../goffice/graph/gog-axis.c:3094
 msgid "Axis start position"
 msgstr "Начало координат для осей"
 
-#: ../goffice/graph/gog-axis.c:3091
+#: ../goffice/graph/gog-axis.c:3095
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3096
+#: ../goffice/graph/gog-axis.c:3100
 msgid "Axis end position"
 msgstr "Расположение концов осей"
 
-#: ../goffice/graph/gog-axis.c:3097
+#: ../goffice/graph/gog-axis.c:3101
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3101
+#: ../goffice/graph/gog-axis.c:3105
 msgid "ColorMapName"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3102
+#: ../goffice/graph/gog-axis.c:3106
 msgid "The name of the color map"
 msgstr ""
 
@@ -1255,7 +1277,7 @@ msgid "Color"
 msgstr "Цвет"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#: ../goffice/graph/gog-guru.c:1031 ../goffice/graph/gog-series.c:576
+#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:579
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "Название"
@@ -1405,9 +1427,9 @@ msgstr "Внутри"
 msgid "_Show Labels"
 msgstr "Показать метки"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:751
-#: ../goffice/graph/gog-object.c:795 ../goffice/graph/gog-series-labels.c:879
-#: ../goffice/graph/gog-series-labels.c:1405
+#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:747
+#: ../goffice/graph/gog-object.c:791 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series-labels.c:1424
 msgid "Position"
 msgstr "Позиция"
 
@@ -1432,8 +1454,8 @@ msgid "Padding:"
 msgstr "Отступ:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:15
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
-#: ../goffice/utils/go-style-prefs.ui.h:4
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:7
 msgid "pts"
 msgstr "тчк"
 
@@ -1455,13 +1477,13 @@ msgstr "Границы"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
 #: ../goffice/graph/gog-object-prefs.ui.h:15
-#: ../goffice/graph/gog-plot-prefs.ui.h:1 ../goffice/gtk/go-palette.c:344
+#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:344
 msgid "Automatic"
 msgstr "Автоматически"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:21
 #: ../goffice/graph/gog-series-prefs.ui.h:4
-#: ../goffice/utils/go-style-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:26
 msgid "_Type:"
 msgstr "Тип:"
 
@@ -1479,8 +1501,8 @@ msgstr "Вращение:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:25
 #: ../goffice/gtk/go-rotation-sel.ui.h:3
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
 msgid "degrees"
 msgstr "градусов"
 
@@ -1648,7 +1670,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-color-scale.c:132
 #: ../plugins/plot_barcol/gog-minmax.c:227
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
 #: ../plugins/plot_xy/gog-xy-dropbar.c:306
 #: ../plugins/plot_xy/gog-xy-minmax.c:291
 msgid "Horizontal"
@@ -1667,11 +1689,11 @@ msgid "_Compact mode"
 msgstr "Компактный режим"
 
 #: ../goffice/graph/gog-error-bar.c:79
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
 #: ../goffice/gtk/go-format-sel.c:1670 ../goffice/gtk/go-format-sel.c:1846
 #: ../goffice/utils/formats.c:366 ../goffice/utils/go-line.c:127
-#: ../goffice/utils/go-style-prefs.ui.h:6
+#: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "Нет"
 
@@ -1688,47 +1710,37 @@ msgid "Both"
 msgstr "Оба"
 
 #. Note for translator: the angle unit
-#: ../goffice/graph/gog-error-bar.c:335
+#: ../goffice/graph/gog-error-bar.c:336
 msgid "°"
 msgstr "°"
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
-msgid "Absolute"
-msgstr "Абсолютное"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
-msgid "Relative"
-msgstr "Относительное"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
-msgid "Percent"
-msgstr "В процентах"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
-msgid "Error category"
-msgstr "Категория ошибки"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 msgid "Dis_play:"
 msgstr ""
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
-#: ../goffice/graph/gog-object-prefs.ui.h:18
-#: ../goffice/graph/gog-plot-prefs.ui.h:5
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
+#: ../goffice/graph/gog-object-prefs.ui.h:17
+#: ../goffice/graph/gog-plot-prefs.ui.h:3
 msgid "_Width:"
 msgstr "Ширина:"
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
 msgid "_Line width:"
 msgstr "Ширина линии:"
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
 msgid "Colo_r:"
 msgstr "Цвет:"
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
+msgid "(+)"
+msgstr "(+)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
+msgid "(-)"
+msgstr "(-)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
 #: ../plugins/plot_barcol/gog-1.5d.c:364
 #: ../plugins/plot_distrib/gog-boxplot.c:428
 #: ../plugins/plot_distrib/gog-histogram.c:390
@@ -1737,13 +1749,23 @@ msgstr "Цвет:"
 msgid "Values"
 msgstr "Значения"
 
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
+msgid "Error category"
+msgstr "Категория ошибки"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
+msgid "Absolute"
+msgstr "Абсолютное"
+
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:13
-msgid "(+)"
-msgstr "(+)"
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
+msgid "Relative"
+msgstr "Относительное"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:14
-msgid "(-)"
-msgstr "(-)"
+msgid "Percent"
+msgstr "В процентах"
 
 #. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
@@ -1811,19 +1833,19 @@ msgstr ""
 msgid "Are these minor grid lines"
 msgstr ""
 
-#: ../goffice/graph/gog-guru.c:1058
+#: ../goffice/graph/gog-guru.c:1057
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Шаг 1 из 2: Выбор типа диаграммы"
 
-#: ../goffice/graph/gog-guru.c:1066
+#: ../goffice/graph/gog-guru.c:1065
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Шаг 2 из 2: Настройка диаграммы"
 
-#: ../goffice/graph/gog-guru.c:1071
+#: ../goffice/graph/gog-guru.c:1070
 msgid "Customize Chart"
 msgstr "Настройка диаграмы"
 
-#: ../goffice/graph/gog-guru.c:1146
+#: ../goffice/graph/gog-guru.c:1145
 msgid "_Insert"
 msgstr "Вст_авка"
 
@@ -1872,69 +1894,69 @@ msgstr "Переносить текст"
 msgid "Whether the text might be displayed using several lines"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:292
+#: ../goffice/graph/gog-label.c:285
 msgid "_Text:"
 msgstr "Текст:"
 
-#: ../goffice/graph/gog-label.c:294
+#: ../goffice/graph/gog-label.c:287
 msgid "Rotate frame with text"
 msgstr "Вращать рамку с текстом"
 
-#: ../goffice/graph/gog-label.c:298
+#: ../goffice/graph/gog-label.c:291
 msgid "Display the text on several lines if needed"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:302
+#: ../goffice/graph/gog-label.c:295
 msgid "Rotate background with text"
 msgstr "Вращать фон с текстом"
 
-#: ../goffice/graph/gog-label.c:306
+#: ../goffice/graph/gog-label.c:299
 msgid "Interpret text as markup"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:307
+#: ../goffice/graph/gog-label.c:300
 msgid ""
 "Interpret the text as an HTML like markup as described at http://developer."
 "gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:313 ../goffice/graph/gog-label.c:550
+#: ../goffice/graph/gog-label.c:306 ../goffice/graph/gog-label.c:543
 #: ../goffice/graph/gog-reg-curve.c:133
-#: ../goffice/graph/gog-series-labels.c:588
-#: ../goffice/graph/gog-smoothed-curve.c:59
+#: ../goffice/graph/gog-series-labels.c:607
+#: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
 #: ../plugins/plot_xy/gog-xy.c:2098
 msgid "Details"
 msgstr "Подробности"
 
-#: ../goffice/graph/gog-label.c:423
+#: ../goffice/graph/gog-label.c:416
 msgid "Text justification"
 msgstr "Выравнивание текста"
 
-#: ../goffice/graph/gog-label.c:424
+#: ../goffice/graph/gog-label.c:417
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:571
+#: ../goffice/graph/gog-label.c:564
 msgid "Regression Equation"
 msgstr "Уравнение регрессии"
 
-#: ../goffice/graph/gog-label.c:610
+#: ../goffice/graph/gog-label.c:603
 msgid "Show equation"
 msgstr "Показать уравнение"
 
-#: ../goffice/graph/gog-label.c:611
+#: ../goffice/graph/gog-label.c:604
 msgid "Show the equation on the graph"
 msgstr "Показать уравнение на графике"
 
-#: ../goffice/graph/gog-label.c:616
+#: ../goffice/graph/gog-label.c:609
 msgid "Show coefficient"
 msgstr "Показать коэффициент"
 
-#: ../goffice/graph/gog-label.c:617
+#: ../goffice/graph/gog-label.c:610
 msgid "Show the correlation coefficient on the graph"
 msgstr "Показать коэффициент корреляции на графике"
 
@@ -1954,103 +1976,103 @@ msgstr ""
 msgid "padding between the swatches in pts."
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:184
+#: ../goffice/graph/gog-object.c:161 ../goffice/graph/gog-object.c:180
 #: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
 msgid "Top"
 msgstr "Сверху"
 
-#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
+#: ../goffice/graph/gog-object.c:162 ../goffice/graph/gog-object.c:181
 msgid "Top right"
 msgstr "Сверху справа"
 
-#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:188
+#: ../goffice/graph/gog-object.c:163 ../goffice/graph/gog-object.c:184
 #: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
 msgid "Right"
 msgstr "Справа"
 
-#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:191
+#: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:187
 msgid "Bottom right"
 msgstr "Снизу справа"
 
-#: ../goffice/graph/gog-object.c:169 ../goffice/graph/gog-object.c:190
+#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:186
 #: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
 msgid "Bottom"
 msgstr "Снизу"
 
-#: ../goffice/graph/gog-object.c:170 ../goffice/graph/gog-object.c:189
+#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
 msgid "Bottom left"
 msgstr "Снизу слева"
 
-#: ../goffice/graph/gog-object.c:171 ../goffice/graph/gog-object.c:186
+#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:182
 #: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
 msgid "Left"
 msgstr "Слева"
 
-#: ../goffice/graph/gog-object.c:172 ../goffice/graph/gog-object.c:183
+#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:179
 msgid "Top left"
 msgstr "Сверху слева"
 
-#: ../goffice/graph/gog-object.c:176 ../goffice/utils/go-style-prefs.ui.h:24
+#: ../goffice/graph/gog-object.c:172 ../goffice/utils/go-style-prefs.ui.h:29
 msgid "Fill"
 msgstr "Заполнить"
 
-#: ../goffice/graph/gog-object.c:177 ../plugins/plot_barcol/gog-dropbar.c:143
+#: ../goffice/graph/gog-object.c:173 ../plugins/plot_barcol/gog-dropbar.c:143
 #: ../plugins/plot_xy/gog-xy-dropbar.c:326
 msgid "Start"
 msgstr "Начало"
 
-#: ../goffice/graph/gog-object.c:178 ../plugins/plot_barcol/gog-dropbar.c:145
+#: ../goffice/graph/gog-object.c:174 ../plugins/plot_barcol/gog-dropbar.c:145
 #: ../plugins/plot_xy/gog-xy-dropbar.c:328
 msgid "End"
 msgstr "Конец"
 
-#: ../goffice/graph/gog-object.c:179 ../goffice/graph/gog-object.c:187
+#: ../goffice/graph/gog-object.c:175 ../goffice/graph/gog-object.c:183
 #: ../goffice/graph/gog-series.c:111
 msgid "Center"
 msgstr "По центру"
 
-#: ../goffice/graph/gog-object.c:789
+#: ../goffice/graph/gog-object.c:785
 msgid "Object ID"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:790
+#: ../goffice/graph/gog-object.c:786
 msgid "Object numerical ID"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:796
+#: ../goffice/graph/gog-object.c:792
 msgid "Position and size of object, in percentage of parent size"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:801
+#: ../goffice/graph/gog-object.c:797
 msgid "Compass"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:802
+#: ../goffice/graph/gog-object.c:798
 msgid "Compass auto position flags"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:807
+#: ../goffice/graph/gog-object.c:803
 msgid "Alignment"
 msgstr "Выравнивание"
 
-#: ../goffice/graph/gog-object.c:808
+#: ../goffice/graph/gog-object.c:804
 msgid "Alignment flag"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:813 ../goffice/graph/gog-object.c:814
+#: ../goffice/graph/gog-object.c:809 ../goffice/graph/gog-object.c:810
 msgid "Is position manual"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:820
+#: ../goffice/graph/gog-object.c:816
 msgid "Anchor for manual position"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:825 ../goffice/graph/gog-object.c:826
+#: ../goffice/graph/gog-object.c:821 ../goffice/graph/gog-object.c:822
 msgid "Should the object be hidden"
 msgstr "Скрыть объект?"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:1
-#: ../goffice/graph/gog-plot-prefs.ui.h:3
+#: ../goffice/graph/gog-plot-prefs.ui.h:7
 msgid "_Object position:"
 msgstr "Расположение объекта:"
 
@@ -2063,31 +2085,31 @@ msgstr "Расположение:"
 msgid "_Alignment:"
 msgstr "Выравнивание:"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:5
-#: ../goffice/graph/gog-plot-prefs.ui.h:8
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
-#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:6
-#: ../plugins/plot_pie/gog-pie-series.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:6
-#: ../goffice/graph/gog-plot-prefs.ui.h:4
-msgid "_Y:"
-msgstr "_Y:"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:7
-#: ../goffice/graph/gog-plot-prefs.ui.h:9
+#: ../goffice/graph/gog-object-prefs.ui.h:4
+#: ../goffice/graph/gog-plot-prefs.ui.h:1
 msgid "_X:"
 msgstr "_X:"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-object-prefs.ui.h:5
+#: ../goffice/graph/gog-plot-prefs.ui.h:2
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../goffice/graph/gog-object-prefs.ui.h:6
 msgid "Anchor:"
 msgstr "Якорь:"
+
+#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
+#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-series.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
+#, no-c-format
+msgid "%"
+msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:9
 msgid "Column:"
@@ -2114,12 +2136,12 @@ msgid "Object size:"
 msgstr "Размер объекта:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:16
-#: ../goffice/graph/gog-plot-prefs.ui.h:2
+#: ../goffice/graph/gog-plot-prefs.ui.h:9
 msgid "Manual"
 msgstr ""
 
-#: ../goffice/graph/gog-object-prefs.ui.h:17
-#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../goffice/graph/gog-object-prefs.ui.h:18
+#: ../goffice/graph/gog-plot-prefs.ui.h:4
 msgid "_Height:"
 msgstr "Высота:"
 
@@ -2163,118 +2185,118 @@ msgstr ""
 msgid "Bubble axis:"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:299
+#: ../goffice/graph/gog-plot.c:300
 msgid "Axes"
 msgstr "Оси"
 
-#: ../goffice/graph/gog-plot.c:437 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "Серии"
 
-#: ../goffice/graph/gog-plot.c:458
+#: ../goffice/graph/gog-plot.c:459
 msgid "Vary style by element"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:460
 msgid "Use a different style for each segment"
 msgstr "Использовать другой стиль для каждого сегмента"
 
-#: ../goffice/graph/gog-plot.c:464
+#: ../goffice/graph/gog-plot.c:465
 msgid "X axis"
 msgstr "Оси X"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:466
 msgid "Reference to X axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:470
+#: ../goffice/graph/gog-plot.c:471
 msgid "Y axis"
 msgstr "Оси Y"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:472
 msgid "Reference to Y axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:476
+#: ../goffice/graph/gog-plot.c:477
 msgid "Z axis"
 msgstr "Оси Z"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:478
 msgid "Reference to Z axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:482
+#: ../goffice/graph/gog-plot.c:483
 msgid "Circular axis"
 msgstr "Круговые оси"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:488
+#: ../goffice/graph/gog-plot.c:489
 msgid "Radial axis"
 msgstr "Радиальные оси"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:494
+#: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
 msgstr "Псевдо-3D оси"
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:500
+#: ../goffice/graph/gog-plot.c:501
 msgid "Color axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:506
+#: ../goffice/graph/gog-plot.c:507
 msgid "Bubble axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:512
+#: ../goffice/graph/gog-plot.c:513
 msgid "Plot group"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:514
 msgid "Name of plot group if any"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:518
+#: ../goffice/graph/gog-plot.c:519
 msgid "Guru hints"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:520
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:525
+#: ../goffice/graph/gog-plot.c:526
 msgid "Default interpolation"
 msgstr "Интерполяция по умолчанию"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:527
 msgid "Default type of series line interpolation"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:1174
+#: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
 msgstr "Сдвинуть область графика"
 
-#: ../goffice/graph/gog-plot.c:1226
+#: ../goffice/graph/gog-plot.c:1227
 msgid "Resize plot area"
 msgstr "Изменить размер области графика"
 
@@ -2330,7 +2352,7 @@ msgid "High bound:"
 msgstr "Верхняя граница:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
-#: ../goffice/graph/gog-series-labels.c:452
+#: ../goffice/graph/gog-series-labels.c:471
 msgid "Used data"
 msgstr "Использованные данные"
 
@@ -2379,19 +2401,19 @@ msgstr "Показать уравнение"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1834 ../goffice/graph/gog-view.c:691
+#: ../goffice/graph/gog-renderer.c:1824 ../goffice/graph/gog-view.c:691
 msgid "Model"
 msgstr "Модель"
 
-#: ../goffice/graph/gog-renderer.c:1835
+#: ../goffice/graph/gog-renderer.c:1825
 msgid "The GogGraph this renderer displays"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1840
+#: ../goffice/graph/gog-renderer.c:1830
 msgid "View"
 msgstr "Вид"
 
-#: ../goffice/graph/gog-renderer.c:1841
+#: ../goffice/graph/gog-renderer.c:1831
 msgid "the GogView this renderer is displaying"
 msgstr ""
 
@@ -2435,83 +2457,83 @@ msgstr "Минимум оси Y"
 msgid "Y axis maximum"
 msgstr "Максимум оси Y"
 
-#: ../goffice/graph/gog-series.c:223 ../goffice/graph/gog-series-labels.c:395
+#: ../goffice/graph/gog-series.c:231 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
 msgstr "Индекс:"
 
-#: ../goffice/graph/gog-series.c:242 ../plugins/plot_pie/gog-pie.c:91
+#: ../goffice/graph/gog-series.c:244 ../plugins/plot_pie/gog-pie.c:91
 msgid "Settings"
 msgstr "Настройки"
 
-#: ../goffice/graph/gog-series.c:283 ../goffice/graph/gog-series-labels.c:897
+#: ../goffice/graph/gog-series.c:285 ../goffice/graph/gog-series-labels.c:916
 msgid "Index"
 msgstr "Индекс"
 
-#: ../goffice/graph/gog-series.c:284 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series.c:286 ../goffice/graph/gog-series-labels.c:917
 msgid "Index of the corresponding data element"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:607 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:610 ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
 msgstr "Показывать в подписи"
 
-#: ../goffice/graph/gog-series.c:617
+#: ../goffice/graph/gog-series.c:620
 msgid "Data"
 msgstr "Данные"
 
-#: ../goffice/graph/gog-series.c:659
+#: ../goffice/graph/gog-series.c:662
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:664
+#: ../goffice/graph/gog-series.c:667
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:737 ../goffice/graph/gog-series-labels.c:1382
+#: ../goffice/graph/gog-series.c:740 ../goffice/graph/gog-series-labels.c:1401
 msgid "Point"
 msgstr "Точки"
 
-#: ../goffice/graph/gog-series.c:743
+#: ../goffice/graph/gog-series.c:746
 msgid "Regression curve"
 msgstr "Кривая регрессии"
 
-#: ../goffice/graph/gog-series.c:751 ../goffice/graph/gog-theme.c:592
+#: ../goffice/graph/gog-series.c:754 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
 msgstr "Линия тренда"
 
-#: ../goffice/graph/gog-series.c:759
+#: ../goffice/graph/gog-series.c:762
 msgid "Data labels"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:794 ../goffice/graph/gog-trend-line.c:153
+#: ../goffice/graph/gog-series.c:797 ../goffice/graph/gog-trend-line.c:151
 msgid "Has-legend"
 msgstr "Показывать в легенде"
 
-#: ../goffice/graph/gog-series.c:795
+#: ../goffice/graph/gog-series.c:798
 msgid "Should the series show up in legends"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:800 ../goffice/graph/gog-series-prefs.ui.h:2
+#: ../goffice/graph/gog-series.c:803 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr "Интерполяция"
 
-#: ../goffice/graph/gog-series.c:801
+#: ../goffice/graph/gog-series.c:804
 msgid "Type of line interpolation"
 msgstr "Тип линейной интерполяции"
 
-#: ../goffice/graph/gog-series.c:806
+#: ../goffice/graph/gog-series.c:809
 msgid "Interpolation skip invalid"
 msgstr "Пропускать некорректные данные"
 
-#: ../goffice/graph/gog-series.c:807
+#: ../goffice/graph/gog-series.c:810
 msgid "Should the series interpolation ignore the invalid data"
 msgstr "Должна ли интерполяция серии игнорировать некорректные данные"
 
-#: ../goffice/graph/gog-series.c:812
+#: ../goffice/graph/gog-series.c:815
 msgid "Fill type"
 msgstr "Тип заполнения"
 
-#: ../goffice/graph/gog-series.c:813
+#: ../goffice/graph/gog-series.c:816
 msgid "How to fill the area"
 msgstr "Как заполнять область"
 
@@ -2531,30 +2553,30 @@ msgstr "Внутри"
 msgid "Near origin"
 msgstr "Возле начала координат"
 
-#: ../goffice/graph/gog-series-labels.c:403
+#: ../goffice/graph/gog-series-labels.c:422
 msgid "Custom label"
 msgstr "Другая метка"
 
-#: ../goffice/graph/gog-series-labels.c:413
+#: ../goffice/graph/gog-series-labels.c:432
 msgid "Custom labels"
 msgstr "Другие метки"
 
-#: ../goffice/graph/gog-series-labels.c:444
+#: ../goffice/graph/gog-series-labels.c:463
 msgid "Available data"
 msgstr "Доступные данные"
 
-#: ../goffice/graph/gog-series-labels.c:497
-#: ../goffice/graph/gog-series-labels.c:565
+#: ../goffice/graph/gog-series-labels.c:516
+#: ../goffice/graph/gog-series-labels.c:584
 msgid "Legend entry"
 msgstr ""
 
-#: ../goffice/graph/gog-series-labels.c:502
-#: ../goffice/graph/gog-series-labels.c:569
+#: ../goffice/graph/gog-series-labels.c:521
+#: ../goffice/graph/gog-series-labels.c:588
 msgid "Series name"
 msgstr "Названия серий"
 
-#: ../goffice/graph/gog-series-labels.c:508
-#: ../goffice/graph/gog-series-labels.c:573
+#: ../goffice/graph/gog-series-labels.c:527
+#: ../goffice/graph/gog-series-labels.c:592
 msgid "Values as percent"
 msgstr "Значения в процентах"
 
@@ -2562,29 +2584,29 @@ msgstr "Значения в процентах"
 #. FIXME: should the number of digits be customizable?
 #. Note to translators: a space might be needed before '%%' in someo_is_finie languages
 #. FIXME: should the number of digits be customizable?
-#: ../goffice/graph/gog-series-labels.c:822
-#: ../goffice/graph/gog-series-labels.c:1262
+#: ../goffice/graph/gog-series-labels.c:841
+#: ../goffice/graph/gog-series-labels.c:1281
 #, c-format
 msgid "%.1f%%"
 msgstr ""
 
-#: ../goffice/graph/gog-series-labels.c:880
-#: ../goffice/graph/gog-series-labels.c:1406
+#: ../goffice/graph/gog-series-labels.c:899
+#: ../goffice/graph/gog-series-labels.c:1425
 msgid "Position of the label relative to the data graphic element"
 msgstr ""
 
-#: ../goffice/graph/gog-series-labels.c:885
-#: ../goffice/graph/gog-series-labels.c:1411
+#: ../goffice/graph/gog-series-labels.c:904
+#: ../goffice/graph/gog-series-labels.c:1430
 msgid "Offset"
 msgstr "Отступ"
 
-#: ../goffice/graph/gog-series-labels.c:886
-#: ../goffice/graph/gog-series-labels.c:1412
+#: ../goffice/graph/gog-series-labels.c:905
+#: ../goffice/graph/gog-series-labels.c:1431
 msgid "Offset to add to the label position"
 msgstr "Отступ до метки"
 
-#: ../goffice/graph/gog-series-labels.c:892
-#: ../goffice/graph/gog-series-labels.c:1418
+#: ../goffice/graph/gog-series-labels.c:911
+#: ../goffice/graph/gog-series-labels.c:1437
 msgid "Label format"
 msgstr "Формат метки"
 
@@ -2622,11 +2644,11 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: ../goffice/graph/gog-smoothed-curve.c:53
+#: ../goffice/graph/gog-smoothed-curve.c:54
 msgid "(Name):"
 msgstr "(Название):"
 
-#: ../goffice/graph/gog-smoothed-curve.c:90
+#: ../goffice/graph/gog-smoothed-curve.c:91
 msgid "Smoothed Curve"
 msgstr "Сглаженная кривая"
 
@@ -2724,16 +2746,16 @@ msgstr ""
 #: ../plugins/plot_surface/gog-xyz-surface.c:315
 #: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:463
 #: ../plugins/plot_xy/gog-xy.c:734 ../plugins/plot_xy/gog-xy-dropbar.c:154
-#: ../plugins/smoothing/gog-exp-smooth.c:79
+#: ../plugins/smoothing/gog-exp-smooth.c:80
 #: ../plugins/smoothing/gog-moving-avg.c:112
 msgid "Properties"
 msgstr "Свойства"
 
-#: ../goffice/graph/gog-trend-line.c:134
+#: ../goffice/graph/gog-trend-line.c:132
 msgid "Trend Line"
 msgstr "Линия тренда"
 
-#: ../goffice/graph/gog-trend-line.c:154
+#: ../goffice/graph/gog-trend-line.c:152
 msgid "Should the trend line show up in legends"
 msgstr ""
 
@@ -2825,7 +2847,8 @@ msgstr "Вьетнамская"
 msgid "Western"
 msgstr "Западная"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-locale-sel.c:72
+#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:604
+#: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "Другая"
 
@@ -3169,185 +3192,186 @@ msgstr "Направление преобразования"
 msgid "This value determines which iconv test to perform."
 msgstr "Это значение определяет какой тест iconv выполнить."
 
-#: ../goffice/gtk/go-color-palette.c:76
+#. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
+#: ../goffice/gtk/go-color-palette.c:77
 msgid "black"
 msgstr "черный"
 
-#: ../goffice/gtk/go-color-palette.c:77
+#: ../goffice/gtk/go-color-palette.c:78
 msgid "light brown"
 msgstr "светло-коричневый"
 
-#: ../goffice/gtk/go-color-palette.c:78
+#: ../goffice/gtk/go-color-palette.c:79
 msgid "brown gold"
 msgstr "золотисто коричневый"
 
-#: ../goffice/gtk/go-color-palette.c:79
+#: ../goffice/gtk/go-color-palette.c:80
 msgid "dark green #2"
 msgstr "тёмно-зелёный #2"
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "navy"
 msgstr ""
 
-#: ../goffice/gtk/go-color-palette.c:81 ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:82 ../goffice/gtk/go-color-palette.c:134
 msgid "dark blue"
 msgstr "тёмно-синий"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "purple #2"
 msgstr "пурпурный #2"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:84
 msgid "very dark gray"
 msgstr "очень темный серый"
 
-#: ../goffice/gtk/go-color-palette.c:85 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:139
 msgid "dark red"
 msgstr "тёмно-красный"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:87
 msgid "red-orange"
 msgstr "красно-оранжевый"
 
-#: ../goffice/gtk/go-color-palette.c:87
+#: ../goffice/gtk/go-color-palette.c:88
 msgid "gold"
 msgstr "золотистый"
 
-#: ../goffice/gtk/go-color-palette.c:88
+#: ../goffice/gtk/go-color-palette.c:89
 msgid "dark green"
 msgstr "тёмно-зелёный"
 
-#: ../goffice/gtk/go-color-palette.c:89 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
 msgid "dull blue"
 msgstr "тускло-синий"
 
-#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:91 ../goffice/gtk/go-color-palette.c:141
 msgid "blue"
 msgstr "синий"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:92
 msgid "dull purple"
 msgstr "тускло-пурпурный"
 
-#: ../goffice/gtk/go-color-palette.c:92
+#: ../goffice/gtk/go-color-palette.c:93
 msgid "dark gray"
 msgstr "тёмно-серый"
 
-#: ../goffice/gtk/go-color-palette.c:94
+#: ../goffice/gtk/go-color-palette.c:95
 msgid "red"
 msgstr "красный"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:96
 msgid "orange"
 msgstr "оранжевый"
 
-#: ../goffice/gtk/go-color-palette.c:96
+#: ../goffice/gtk/go-color-palette.c:97
 msgid "lime"
 msgstr "лимонный"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:98
 msgid "dull green"
 msgstr "тускло-зелёный"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "dull blue #2"
 msgstr "тускло-зелёный #2"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "sky blue #2"
 msgstr "небесно-синий #2"
 
-#: ../goffice/gtk/go-color-palette.c:100 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:101 ../goffice/gtk/go-color-palette.c:138
 msgid "purple"
 msgstr "пурпурный"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "gray"
 msgstr "серый"
 
-#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:135
 msgid "magenta"
 msgstr "сиреневый"
 
-#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:105
 msgid "bright orange"
 msgstr "ярко-оранжевый"
 
-#: ../goffice/gtk/go-color-palette.c:105 ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:136
 msgid "yellow"
 msgstr "желтый"
 
-#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:107
 msgid "green"
 msgstr "зеленый"
 
-#: ../goffice/gtk/go-color-palette.c:107 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:137
 msgid "cyan"
 msgstr "голубой"
 
-#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:109
 msgid "bright blue"
 msgstr "ярко-синий"
 
-#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:125
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:126
 msgid "red purple"
 msgstr "красно-пурпурный"
 
-#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:111
 msgid "light gray"
 msgstr "светло-зелёный"
 
-#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:130
 msgid "pink"
 msgstr "розовый"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:114
 msgid "light orange"
 msgstr "светло-оранжевый"
 
-#: ../goffice/gtk/go-color-palette.c:114 ../goffice/gtk/go-color-palette.c:126
+#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:127
 msgid "light yellow"
 msgstr "светло-жёлтый"
 
-#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:116
 msgid "light green"
 msgstr "светло-зелёный"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:117
 msgid "light cyan"
 msgstr "светло-голубой"
 
-#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:128
 msgid "light blue"
 msgstr "светло-синий"
 
-#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:132
 msgid "light purple"
 msgstr "светло-пурпурный"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:120
 msgid "white"
 msgstr "белый"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:124
+#: ../goffice/gtk/go-color-palette.c:125
 msgid "purplish blue"
 msgstr ""
 
-#: ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:129
 msgid "dark purple"
 msgstr "тёмно-пурпурный"
 
-#: ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:131
 msgid "sky blue"
 msgstr "небесно-голубой"
 
-#: ../goffice/gtk/go-color-palette.c:468
+#: ../goffice/gtk/go-color-palette.c:473
 msgid "custom"
 msgstr "другой"
 
-#: ../goffice/gtk/go-color-palette.c:475 ../goffice/gtk/go-color-palette.c:729
-#: ../goffice/gtk/go-color-selector.c:198
+#: ../goffice/gtk/go-color-palette.c:480 ../goffice/gtk/go-color-palette.c:735
+#: ../goffice/gtk/go-color-selector.c:199
 msgid "Custom color..."
 msgstr "Другой цвет..."
 
@@ -3359,33 +3383,33 @@ msgstr ""
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr ""
 
-#: ../goffice/gtk/goffice-gtk.c:219
+#: ../goffice/gtk/goffice-gtk.c:218
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Не удалось открыть файл '%s'"
 
-#: ../goffice/gtk/goffice-gtk.c:791 ../goffice/utils/go-style.c:215
+#: ../goffice/gtk/goffice-gtk.c:859 ../goffice/utils/go-style.c:215
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:826
+#: ../goffice/gtk/goffice-gtk.c:894
 msgid "All Files"
 msgstr "Все файлы"
 
-#: ../goffice/gtk/goffice-gtk.c:831
+#: ../goffice/gtk/goffice-gtk.c:899
 msgid "Images"
 msgstr "Изображения"
 
-#: ../goffice/gtk/goffice-gtk.c:883
+#: ../goffice/gtk/goffice-gtk.c:951
 msgid "Select an Image"
 msgstr "Выбрать изображение"
 
-#: ../goffice/gtk/goffice-gtk.c:962
+#: ../goffice/gtk/goffice-gtk.c:1030
 msgid "Save as"
 msgstr "Сохранить как"
 
-#: ../goffice/gtk/goffice-gtk.c:1035
+#: ../goffice/gtk/goffice-gtk.c:1103
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3393,7 +3417,7 @@ msgstr ""
 "Заданное расширение файла не соответствует выбраному типу. Хотите "
 "использовать его?"
 
-#: ../goffice/gtk/goffice-gtk.c:1254
+#: ../goffice/gtk/goffice-gtk.c:1322
 #, c-format
 msgid ""
 "%s\n"
@@ -3402,7 +3426,7 @@ msgstr ""
 "%s\n"
 "это название каталога"
 
-#: ../goffice/gtk/goffice-gtk.c:1258
+#: ../goffice/gtk/goffice-gtk.c:1326
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3411,7 +3435,7 @@ msgstr ""
 "У вас нет прав для сохранения в\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1268
+#: ../goffice/gtk/goffice-gtk.c:1336
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3422,44 +3446,588 @@ msgstr ""
 "\n"
 "Хотите сохранить в него?"
 
-#: ../goffice/gtk/go-font-sel.c:188 ../goffice/math/go-distribution.c:75
-msgid "Normal"
-msgstr "Нормальное"
+#: ../goffice/gtk/go-font-sel.c:348
+msgid "Faces"
+msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:189
-msgid "Bold"
-msgstr "Полужирный"
+#.
+#. * List of observed face names.  Translators: these represent
+#. * attributes of a font face, i.e., how bold the letters are
+#. * and whether it is an italic or regular face.  The four
+#. * first here are the important ones.
+#.
+#: ../goffice/gtk/go-font-sel.c:389
+msgctxt "FontFace"
+msgid "Regular"
+msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:190
-msgid "Bold italic"
-msgstr "Полужирный наклонный"
-
-#: ../goffice/gtk/go-font-sel.c:191
+#: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
+#, fuzzy
+msgctxt "FontFace"
 msgid "Italic"
 msgstr "Наклонный"
 
-#. xgettext: This text is used as a sample when selecting a font
-#. * please choose a translation that would produce common
-#. * characters specific to the target alphabet.
-#: ../goffice/gtk/go-font-sel.c:474
-msgid "AaBbCcDdEe12345"
-msgstr "АаБбВвГгДд12345"
+#: ../goffice/gtk/go-font-sel.c:391
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold"
+msgstr "Полужирный"
+
+#: ../goffice/gtk/go-font-sel.c:392
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic"
+msgstr "Полужирный наклонный"
+
+#. These are fairly rare.
+#: ../goffice/gtk/go-font-sel.c:395
+#, fuzzy
+msgctxt "FontFace"
+msgid "Black"
+msgstr "Чёрный"
+
+#: ../goffice/gtk/go-font-sel.c:396
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Condensed Italic"
+msgstr "Полужирный наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:397
+msgctxt "FontFace"
+msgid "Bold Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:398
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic Small Caps"
+msgstr "Полужирный наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:399
+msgctxt "FontFace"
+msgid "Bold Nonextended"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:400
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Oblique"
+msgstr "Полужирный наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:401
+msgctxt "FontFace"
+msgid "Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:402
+msgctxt "FontFace"
+msgid "Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:403
+msgctxt "FontFace"
+msgid "Book Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:404
+msgctxt "FontFace"
+msgid "Book"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:405
+#, fuzzy
+msgctxt "FontFace"
+msgid "Condensed Bold Italic"
+msgstr "Полужирный наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:406
+msgctxt "FontFace"
+msgid "Condensed Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:407
+msgctxt "FontFace"
+msgid "Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:408
+msgctxt "FontFace"
+msgid "Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:409
+msgctxt "FontFace"
+msgid "Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:410
+msgctxt "FontFace"
+msgid "Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:411
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold Italic"
+msgstr "Полужирный наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:412
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold"
+msgstr "Полужирный"
+
+#: ../goffice/gtk/go-font-sel.c:413
+msgctxt "FontFace"
+msgid "Demi Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:414
+msgctxt "FontFace"
+msgid "Demi"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:415
+msgctxt "FontFace"
+msgid "Demi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:416
+msgctxt "FontFace"
+msgid "Embossed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:417
+#, fuzzy
+msgctxt "FontFace"
+msgid "Expanded Bold Italic"
+msgstr "Полужирный наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:418
+msgctxt "FontFace"
+msgid "Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:419
+msgctxt "FontFace"
+msgid "Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:420
+msgctxt "FontFace"
+msgid "Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:421
+#, fuzzy
+msgctxt "FontFace"
+msgid "Extra Light"
+msgstr "треугольник направо"
+
+#: ../goffice/gtk/go-font-sel.c:422
+msgctxt "FontFace"
+msgid "Heavy"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:423
+msgctxt "FontFace"
+msgid "Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:425
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Italic"
+msgstr "Наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:426
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Oblique"
+msgstr "светло-синий"
+
+#: ../goffice/gtk/go-font-sel.c:427
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light"
+msgstr "Справа"
+
+#: ../goffice/gtk/go-font-sel.c:428
+#, fuzzy
+msgctxt "FontFace"
+msgid "Medium Italic"
+msgstr "Наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:429
+msgctxt "FontFace"
+msgid "Medium"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:430
+#, fuzzy
+msgctxt "FontFace"
+msgid "Normal"
+msgstr "Нормальное"
+
+#: ../goffice/gtk/go-font-sel.c:431
+msgctxt "FontFace"
+msgid "Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:432
+msgctxt "FontFace"
+msgid "Regular Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:433
+msgctxt "FontFace"
+msgid "Regular Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:434
+#, fuzzy
+msgctxt "FontFace"
+msgid "Regular Italic"
+msgstr "Наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:435
+msgctxt "FontFace"
+msgid "Regular Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:436
+msgctxt "FontFace"
+msgid "Roman Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:437
+msgctxt "FontFace"
+msgid "Roman"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:438
+#, fuzzy
+msgctxt "FontFace"
+msgid "Rounded"
+msgstr "Границы"
+
+#: ../goffice/gtk/go-font-sel.c:439
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold Italic"
+msgstr "Полужирный наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:440
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold"
+msgstr "Полужирный"
+
+#: ../goffice/gtk/go-font-sel.c:441
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Italic"
+msgstr "Наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:442
+msgctxt "FontFace"
+msgid "Sans"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:443
+msgctxt "FontFace"
+msgid "Semi-Bold Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:444
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold Italic"
+msgstr "Полужирный наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:445
+msgctxt "FontFace"
+msgid "Semi-Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:446
+msgctxt "FontFace"
+msgid "Semi-Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:447
+msgctxt "FontFace"
+msgid "Semi-Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:448
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold"
+msgstr "Полужирный"
+
+#: ../goffice/gtk/go-font-sel.c:449
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:450
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:451
+msgctxt "FontFace"
+msgid "Semi-Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:452
+msgctxt "FontFace"
+msgid "Semi-Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:453
+msgctxt "FontFace"
+msgid "Semi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:454
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:455
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:456
+msgctxt "FontFace"
+msgid "Semi-Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:457
+msgctxt "FontFace"
+msgid "Semi-Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:458
+msgctxt "FontFace"
+msgid "Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:459
+#, fuzzy
+msgctxt "FontFace"
+msgid "Small Caps"
+msgstr "Маленькие круги"
+
+#: ../goffice/gtk/go-font-sel.c:460
+msgctxt "FontFace"
+msgid "Thin"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:461
+#, fuzzy
+msgctxt "FontFace"
+msgid "Upright Italic"
+msgstr "Наклонный"
+
+#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
+msgid "Font"
+msgstr "Шрифт"
+
+#: ../goffice/gtk/go-font-sel.c:605
+msgid "All fonts..."
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:905
+#, fuzzy
+msgctxt "underline"
+msgid "None"
+msgstr "Нет"
+
+#: ../goffice/gtk/go-font-sel.c:906
+#, fuzzy
+msgctxt "underline"
+msgid "Single"
+msgstr "Угол"
+
+#: ../goffice/gtk/go-font-sel.c:907
+msgctxt "underline"
+msgid "Double"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:908
+#, fuzzy
+msgctxt "underline"
+msgid "Low"
+msgstr "Низкий"
+
+#: ../goffice/gtk/go-font-sel.c:909
+#, fuzzy
+msgctxt "underline"
+msgid "Error"
+msgstr "Строки ошибок"
+
+#: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
+msgid "Normal"
+msgstr "Нормальное"
+
+#: ../goffice/gtk/go-font-sel.c:931
+#, fuzzy
+msgid "Subscript"
+msgstr "Описание"
+
+#: ../goffice/gtk/go-font-sel.c:932
+#, fuzzy
+msgid "Superscript"
+msgstr "Использовать верхний индекс"
+
+#: ../goffice/gtk/go-font-sel.c:1185
+#, fuzzy
+msgid "Show Style"
+msgstr "Стиль"
+
+#: ../goffice/gtk/go-font-sel.c:1186
+msgid "Whether style is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1194
+#, fuzzy
+msgid "Show Color"
+msgstr "Цвет"
+
+#: ../goffice/gtk/go-font-sel.c:1195
+msgid "Whether color is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1203
+#, fuzzy
+msgid "Show Underline"
+msgstr "Показывать отрицательные"
+
+#: ../goffice/gtk/go-font-sel.c:1204
+msgid "Whether underlining is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1212
+msgid "Show Script"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1213
+msgid "Whether subscript/superscript is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1221
+msgid "Show Strikethrough"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1222
+msgid "Whether strikethrough is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1230
+msgid "Color unset text"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1231
+#, fuzzy
+msgid "The text to show for selecing no color"
+msgstr "Текст для поиска"
+
+#: ../goffice/gtk/go-font-sel.c:1239
+#, fuzzy
+msgid "Color Group"
+msgstr "Цвет"
+
+#: ../goffice/gtk/go-font-sel.c:1240
+msgid "The color group to use for the color picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1248
+#, fuzzy
+msgid "Color Default"
+msgstr "По умолчанию"
+
+#: ../goffice/gtk/go-font-sel.c:1249
+msgid "The color to show for an unset color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1259
+msgid "Underline Picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1260
+msgid "The widget to use for picking underline type"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel-dialog.c:107
+msgid "Pick a Font"
+msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
+msgid "Select the font family"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
 msgstr "Шрифт:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:2
-msgid "Font style:"
-msgstr "Стиль шрифта:"
-
 #: ../goffice/gtk/go-font-sel.ui.h:3
+#, fuzzy
+msgid "Select the size"
+msgstr "Выбрать изображение"
+
+#: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
 msgstr "Размер:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:4
-msgid "Preview"
-msgstr "Просмотр"
+#: ../goffice/gtk/go-font-sel.ui.h:5
+#, fuzzy
+msgid "Select the font face"
+msgstr "Выбрать изображение"
+
+#: ../goffice/gtk/go-font-sel.ui.h:6
+#, fuzzy
+msgid "Style:"
+msgstr "Стиль:"
+
+#: ../goffice/gtk/go-font-sel.ui.h:7
+msgid "Select whether a line should be drawn through the text"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:8
+msgid "Strikethrough:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:9
+msgid "Select the font color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:10
+#, fuzzy
+msgid "Color:"
+msgstr "Цвет:"
+
+#: ../goffice/gtk/go-font-sel.ui.h:11
+msgid ""
+"Select whether the font should be modified for use as subscript or "
+"superscript"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:12
+msgid "Script:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:13
+msgid "Select the type of underlining"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:14
+#, fuzzy
+msgid "Underline:"
+msgstr "Использовать сплайны"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
@@ -4906,11 +5474,11 @@ msgstr ""
 msgid "Current Locale: "
 msgstr "Текущая локаль: "
 
-#: ../goffice/gtk/go-optionmenu.c:427
+#: ../goffice/gtk/go-optionmenu.c:476
 msgid "Menu"
 msgstr "Меню"
 
-#: ../goffice/gtk/go-optionmenu.c:428
+#: ../goffice/gtk/go-optionmenu.c:477
 msgid "The menu of options"
 msgstr "Параметры меню"
 
@@ -5673,7 +6241,7 @@ msgstr ""
 msgid "Could not input the image data\n"
 msgstr ""
 
-#: ../goffice/utils/go-emf.c:4576 ../goffice/utils/go-emf.c:4582
+#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
 #, c-format
 msgid "Invalid image data\n"
 msgstr ""
@@ -5749,40 +6317,40 @@ msgstr "Жёлтый"
 msgid "color"
 msgstr "цвет"
 
-#: ../goffice/utils/go-geometry.c:334 ../goffice/utils/go-marker.c:96
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:96
 msgid "none"
 msgstr "нет"
 
-#: ../goffice/utils/go-geometry.c:335
+#: ../goffice/utils/go-geometry.c:297
 msgid "down"
 msgstr "снизу"
 
-#: ../goffice/utils/go-geometry.c:336
+#: ../goffice/utils/go-geometry.c:298
 msgid "up"
 msgstr "сверху"
 
-#: ../goffice/utils/go-geometry.c:337
+#: ../goffice/utils/go-geometry.c:299
 msgid "right"
 msgstr "Справа"
 
-#: ../goffice/utils/go-geometry.c:338
+#: ../goffice/utils/go-geometry.c:300
 msgid "left"
 msgstr "слева"
 
-#: ../goffice/utils/go-glib-extras.c:917
+#: ../goffice/utils/go-glib-extras.c:915
 msgid "yes"
 msgstr "да"
 
-#: ../goffice/utils/go-glib-extras.c:923
+#: ../goffice/utils/go-glib-extras.c:921
 msgid "no"
 msgstr "нет"
 
-#: ../goffice/utils/go-glib-extras.c:1141
+#: ../goffice/utils/go-glib-extras.c:1139
 #, c-format
 msgid "Quoted string not terminated"
 msgstr ""
 
-#: ../goffice/utils/go-glib-extras.c:1148
+#: ../goffice/utils/go-glib-extras.c:1146
 #, c-format
 msgid "Syntax error"
 msgstr "Синтаксическая ошибка"
@@ -6095,110 +6663,106 @@ msgstr "Передний план:"
 msgid "Background:"
 msgstr "Фон:"
 
-#: ../goffice/utils/go-style.c:870
+#: ../goffice/utils/go-style.c:868
 msgid "Markers"
 msgstr "Маркеры"
 
-#: ../goffice/utils/go-style.c:942
-msgid "Font"
-msgstr "Шрифт"
-
 #: ../goffice/utils/go-style-prefs.ui.h:1
-msgid "St_yle:"
-msgstr "Стиль:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:2
 msgid "Co_lor:"
 msgstr "Цвет:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:3
-msgid "_Size:"
-msgstr "Размер:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:7
-msgid "Pattern"
-msgstr "Шаблон"
-
-#: ../goffice/utils/go-style-prefs.ui.h:8
-msgid "Bicolor gradient"
-msgstr "Двухцветный градиент"
-
-#: ../goffice/utils/go-style-prefs.ui.h:9
-msgid "Unicolor gradient"
-msgstr "Одноцветный градиент"
-
-#: ../goffice/utils/go-style-prefs.ui.h:11
-msgid "_Direction:"
-msgstr "Направление:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:12
-msgid "_Pattern:"
-msgstr "Шаблон:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:13
-msgid "_Foreground:"
-msgstr "Передний план:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:14
-msgid "_Background:"
-msgstr "Фон"
-
-#: ../goffice/utils/go-style-prefs.ui.h:15
-msgid "B_rightness:"
-msgstr "Яркость:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:16
-msgid "_Select..."
-msgstr "Выделение..."
-
-#: ../goffice/utils/go-style-prefs.ui.h:17
-msgid "_Fit:"
-msgstr "Заполнение:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:18
-msgid "stretched"
-msgstr "растянутый"
-
-#: ../goffice/utils/go-style-prefs.ui.h:19
-msgid "wallpaper"
-msgstr "обои"
-
-#: ../goffice/utils/go-style-prefs.ui.h:20
-msgid "centered"
-msgstr "по центру"
-
-#: ../goffice/utils/go-style-prefs.ui.h:21
-msgid "centered wallpaper"
-msgstr ""
-
-#: ../goffice/utils/go-style-prefs.ui.h:22
-msgid "Outline"
-msgstr "Контур"
-
-#: ../goffice/utils/go-style-prefs.ui.h:23
-#: ../plugins/plot_barcol/plot-types.xml.in.h:1
-msgid "Line"
-msgstr "Линия"
-
-#: ../goffice/utils/go-style-prefs.ui.h:25
-msgid "Marker"
-msgstr "Метка"
-
-#: ../goffice/utils/go-style-prefs.ui.h:26
-msgid "_Fill:"
-msgstr "Заливка:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:27
-msgid "O_utline:"
-msgstr "Контур:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../goffice/utils/go-style-prefs.ui.h:2
 msgid "Si_ze:"
 msgstr "Размер:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:29
+#: ../goffice/utils/go-style-prefs.ui.h:3
+msgid "O_utline:"
+msgstr "Контур:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:4
+msgid "_Fill:"
+msgstr "Заливка:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:5
 msgid "Sha_pe:"
 msgstr "Форма:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:6
+msgid "Marker"
+msgstr "Метка"
+
+#: ../goffice/utils/go-style-prefs.ui.h:8
+msgid "St_yle:"
+msgstr "Стиль:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:9
+msgid "_Size:"
+msgstr "Размер:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:11
+msgid "Pattern"
+msgstr "Шаблон"
+
+#: ../goffice/utils/go-style-prefs.ui.h:12
+msgid "Bicolor gradient"
+msgstr "Двухцветный градиент"
+
+#: ../goffice/utils/go-style-prefs.ui.h:13
+msgid "Unicolor gradient"
+msgstr "Одноцветный градиент"
+
+#: ../goffice/utils/go-style-prefs.ui.h:15
+msgid "_Direction:"
+msgstr "Направление:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:16
+msgid "_Pattern:"
+msgstr "Шаблон:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:17
+msgid "_Foreground:"
+msgstr "Передний план:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:18
+msgid "_Background:"
+msgstr "Фон"
+
+#: ../goffice/utils/go-style-prefs.ui.h:19
+msgid "B_rightness:"
+msgstr "Яркость:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:20
+msgid "_Fit:"
+msgstr "Заполнение:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:21
+msgid "stretched"
+msgstr "растянутый"
+
+#: ../goffice/utils/go-style-prefs.ui.h:22
+msgid "wallpaper"
+msgstr "обои"
+
+#: ../goffice/utils/go-style-prefs.ui.h:23
+msgid "centered"
+msgstr "по центру"
+
+#: ../goffice/utils/go-style-prefs.ui.h:24
+msgid "centered wallpaper"
+msgstr ""
+
+#: ../goffice/utils/go-style-prefs.ui.h:25
+msgid "_Select..."
+msgstr "Выделение..."
+
+#: ../goffice/utils/go-style-prefs.ui.h:27
+msgid "Outline"
+msgstr "Контур"
+
+#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../plugins/plot_barcol/plot-types.xml.in.h:1
+msgid "Line"
+msgstr "Линия"
 
 #: ../goffice/utils/regutf8.c:59
 msgid "Pattern not found."
@@ -6362,7 +6926,7 @@ msgid "Error bars"
 msgstr "Строки ошибок"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:650
-#: ../plugins/plot_distrib/gog-histogram.c:1095
+#: ../plugins/plot_distrib/gog-histogram.c:1097
 msgid "Drop lines"
 msgstr ""
 
@@ -6379,8 +6943,8 @@ msgid "GogErrorBar *"
 msgstr ""
 
 #: ../plugins/plot_barcol/gog-area-prefs.ui.h:1
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:3
 #: ../plugins/plot_radar/gog-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
@@ -6445,11 +7009,11 @@ msgstr ""
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
 #: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
 msgid "_Gap:"
 msgstr "Зазор:"
 
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:4
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:2
 msgid "O_verlap:"
 msgstr "Перекрывание:"
 
@@ -6816,7 +7380,7 @@ msgid "Box-Plot"
 msgstr ""
 
 #: ../plugins/plot_distrib/gog-boxplot.c:395
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:2
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
 #: ../plugins/plot_distrib/gog-histogram.c:362
 msgid "Vertical"
 msgstr "Вертикальные"
@@ -6843,15 +7407,15 @@ msgid ""
 "rectangle width"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
 msgid "_Layout"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
 msgid "_Exclude and show outliers"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
 msgid "_Diameter/width:"
 msgstr "Диаметр/Ширина:"
 
@@ -6884,7 +7448,7 @@ msgid "Use cumulated data"
 msgstr ""
 
 #: ../plugins/plot_distrib/gog-histogram.c:388
-#: ../plugins/plot_distrib/gog-histogram.c:476
+#: ../plugins/plot_distrib/gog-histogram.c:478
 msgid "Limits"
 msgstr "Пределы"
 
@@ -6894,25 +7458,25 @@ msgid ""
 "be used."
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-histogram.c:441
+#: ../plugins/plot_distrib/gog-histogram.c:442
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-histogram.c:446
+#: ../plugins/plot_distrib/gog-histogram.c:448
 msgid "Categories labels"
 msgstr "Метки категорий"
 
-#: ../plugins/plot_distrib/gog-histogram.c:478
-#: ../plugins/plot_distrib/gog-histogram.c:753
+#: ../plugins/plot_distrib/gog-histogram.c:480
+#: ../plugins/plot_distrib/gog-histogram.c:755
 msgid "First values"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-histogram.c:480
-#: ../plugins/plot_distrib/gog-histogram.c:761
-#: ../plugins/plot_distrib/gog-histogram.c:772
-#: ../plugins/plot_distrib/gog-histogram.c:784
+#: ../plugins/plot_distrib/gog-histogram.c:482
+#: ../plugins/plot_distrib/gog-histogram.c:763
+#: ../plugins/plot_distrib/gog-histogram.c:774
+#: ../plugins/plot_distrib/gog-histogram.c:786
 msgid "Second values"
 msgstr ""
 
@@ -7154,24 +7718,24 @@ msgid "Degrees clockwise from 12 O'Clock"
 msgstr "Градусы по часовой от 12 часов"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
 msgid "Slices start _at:"
 msgstr ""
 
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
-msgid "_Vary colors by slice"
-msgstr "Изменять цвета по долям"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
 msgid "_Slice Separation:"
 msgstr "Разделение долей:"
 
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
 msgid "Negative data:"
 msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
+msgid "_Vary colors by slice"
+msgstr "Изменять цвета по долям"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
@@ -7192,7 +7756,7 @@ msgstr ""
 msgid "_Separation:"
 msgstr "Разделитель:"
 
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
 msgid "Cen_ter size:"
 msgstr "Размер центра:"
 
@@ -7602,7 +8166,7 @@ msgid "Default surface plot types"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:1
-msgid "3_D"
+msgid "_Size represented by:"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
@@ -7614,16 +8178,16 @@ msgid "Dia_meter"
 msgstr "Диаметр"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:4
-msgid "_Size represented by:"
-msgstr ""
+msgid "Show _negative values"
+msgstr "Показывать отрицательные значения"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:5
 msgid "_Vary colors by bubble"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:6
-msgid "Show _negative values"
-msgstr "Показывать отрицательные значения"
+msgid "3_D"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:7
 msgid "_Bubbles scaled to"
@@ -8122,7 +8686,7 @@ msgid "Logarithmic fitting curve"
 msgstr ""
 
 #: ../plugins/smoothing/gog-exp-smooth.c:64
-#: ../plugins/smoothing/gog-exp-smooth.c:220
+#: ../plugins/smoothing/gog-exp-smooth.c:221
 msgid "Number of interpolation steps"
 msgstr ""
 
@@ -8136,12 +8700,12 @@ msgstr ""
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
 #. * 	Exponentially smoothed curve2
-#: ../plugins/smoothing/gog-exp-smooth.c:165
+#: ../plugins/smoothing/gog-exp-smooth.c:166
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Exponentially smoothed curve"
 msgstr "Экспоненциально сглаженная кривая"
 
-#: ../plugins/smoothing/gog-exp-smooth.c:219
+#: ../plugins/smoothing/gog-exp-smooth.c:220
 msgid "Steps"
 msgstr ""
 
@@ -8212,6 +8776,15 @@ msgstr "Типы сглаженных кривых"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr ""
+
+#~ msgid "AaBbCcDdEe12345"
+#~ msgstr "АаБбВвГгДд12345"
+
+#~ msgid "Font style:"
+#~ msgstr "Стиль шрифта:"
+
+#~ msgid "Preview"
+#~ msgstr "Просмотр"
 
 #~ msgid "<b>Euler angles</b>"
 #~ msgstr "<b>Эйлеровы углы</b>"

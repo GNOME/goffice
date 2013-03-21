@@ -4,9 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-27 09:28+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-21 18:55-0400\n"
 "PO-Revision-Date: 2012-10-24 15:05+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
@@ -18,63 +17,86 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
-#: ../goffice/app/file.c:527
+#: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
 msgstr "ID"
 
-#: ../goffice/app/file.c:528
-msgid "The identifier of the saver."
+#: ../goffice/app/file.c:178
+#, fuzzy
+msgid "The identifier of the opener"
 msgstr "Saglabātāja identifikators."
 
-#: ../goffice/app/file.c:538
-msgid "MIME type"
-msgstr "MIME tips"
-
-#: ../goffice/app/file.c:539
-msgid "The MIME type of the saver."
-msgstr "Saglabātāja MIME tips."
-
-#: ../goffice/app/file.c:548
-msgid "Extension"
-msgstr "Paplašinājums"
-
-#: ../goffice/app/file.c:549
-msgid "The standard file name extension of the saver."
-msgstr "Standarta datnes nosaukums saglabātāja paplašinājumam."
-
-#: ../goffice/app/file.c:558
+#: ../goffice/app/file.c:187 ../goffice/app/file.c:624
 msgid "Description"
 msgstr "Apraksts"
 
-#: ../goffice/app/file.c:559
+#: ../goffice/app/file.c:188
+#, fuzzy
+msgid "The description of the opener"
+msgstr "Saglabātāja apraksts."
+
+#: ../goffice/app/file.c:197 ../goffice/app/file.c:644
+#, fuzzy
+msgid "Interactive only"
+msgstr "Interpolācija"
+
+#: ../goffice/app/file.c:198
+msgid "TRUE if this opener requires interaction"
+msgstr ""
+
+#: ../goffice/app/file.c:594
+msgid "The identifier of the saver."
+msgstr "Saglabātāja identifikators."
+
+#: ../goffice/app/file.c:604
+msgid "MIME type"
+msgstr "MIME tips"
+
+#: ../goffice/app/file.c:605
+msgid "The MIME type of the saver."
+msgstr "Saglabātāja MIME tips."
+
+#: ../goffice/app/file.c:614
+msgid "Extension"
+msgstr "Paplašinājums"
+
+#: ../goffice/app/file.c:615
+msgid "The standard file name extension of the saver."
+msgstr "Standarta datnes nosaukums saglabātāja paplašinājumam."
+
+#: ../goffice/app/file.c:625
 msgid "The description of the saver."
 msgstr "Saglabātāja apraksts."
 
-#: ../goffice/app/file.c:568
+#: ../goffice/app/file.c:634
 msgid "Overwrite"
 msgstr "Pārrakstīt"
 
-#: ../goffice/app/file.c:569
+#: ../goffice/app/file.c:635
 msgid "Whether the saver will overwrite files."
 msgstr "Vai saglabātājs pārrakstīs datnes."
 
-#: ../goffice/app/file.c:579
+#: ../goffice/app/file.c:645
+msgid "TRUE if this saver requires interaction"
+msgstr ""
+
+#: ../goffice/app/file.c:655
 msgid "Format Level"
 msgstr "Formāta līmenis"
 
-#: ../goffice/app/file.c:590
+#: ../goffice/app/file.c:666
 msgid "Scope"
 msgstr "Tvērums"
 
-#: ../goffice/app/file.c:591
+#: ../goffice/app/file.c:667
 msgid "How much of a document is saved"
 msgstr "Cik daudz no dokumenta tiek saglabāts"
 
-#: ../goffice/app/file.c:754
+#: ../goffice/app/file.c:830
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Drošības dēļ ir deaktivēta iespēja pārrakstīt pāri vecām datnēm."
 
-#: ../goffice/app/file.c:764
+#: ../goffice/app/file.c:840
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -85,40 +107,40 @@ msgstr ""
 msgid "Invalid %s: '%s'"
 msgstr "Nederīgs %s — “%s”"
 
-#: ../goffice/app/go-doc.c:157
+#: ../goffice/app/go-doc.c:166
 msgid "URI"
 msgstr "URI"
 
-#: ../goffice/app/go-doc.c:158
+#: ../goffice/app/go-doc.c:167
 msgid "The URI associated with this document."
 msgstr "Ar šo dokumentu saistītais URI."
 
-#: ../goffice/app/go-doc.c:162
+#: ../goffice/app/go-doc.c:171
 msgid "Dirty"
 msgstr "Aptraipīts"
 
-#: ../goffice/app/go-doc.c:163
+#: ../goffice/app/go-doc.c:172
 msgid "Whether the document has been changed."
 msgstr "Vai dokumenta saturs tika mainīts."
 
-#: ../goffice/app/go-doc.c:167
+#: ../goffice/app/go-doc.c:176
 msgid "Dirty Time"
 msgstr "Aptraipīšanas laiks"
 
-#: ../goffice/app/go-doc.c:168
+#: ../goffice/app/go-doc.c:177
 msgid "When the document was first changed."
 msgstr "Kad dokuments pirmo reizi tika mainīts."
 
-#: ../goffice/app/go-doc.c:173
+#: ../goffice/app/go-doc.c:182
 msgid "Pristine"
 msgstr "Pirmatnējs"
 
-#: ../goffice/app/go-doc.c:174
+#: ../goffice/app/go-doc.c:183
 msgid "Whether the document is unchanged since it was created."
 msgstr "Vai dokuments ir saglabājies tāds pats kopš veidošanas brīža."
 
-#: ../goffice/app/go-doc.c:437 ../goffice/canvas/goc-image.c:292
-#: ../goffice/utils/go-style-prefs.ui.h:10
+#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:293
+#: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Attēls"
 
@@ -130,6 +152,173 @@ msgstr "Objekti"
 #, c-format
 msgid "Loading plugin '%s' that contains the object '%s'"
 msgstr "Ielādē spraudni “%s”, kas satur objektu “%s”"
+
+#: ../goffice/app/go-plugin.c:372
+#, c-format
+msgid "File contains plugin info with invalid ID (%s), expected %s."
+msgstr "Datne satur spraudņa informāciju ar nederīgu ID (%s), bija gaidīts %s."
+
+#: ../goffice/app/go-plugin.c:376
+msgid "Couldn't read plugin info from file."
+msgstr "Nevarēja ielādēt spraudni no datnes."
+
+#: ../goffice/app/go-plugin.c:522
+msgid "Unknown name"
+msgstr "Nezināms nosaukums"
+
+#: ../goffice/app/go-plugin.c:617
+#, c-format
+msgid "Unsupported loader type \"%s\"."
+msgstr "Neatbalstīts ielādētāja tips “%s”."
+
+#: ../goffice/app/go-plugin.c:625
+#, c-format
+msgid "Error while preparing loader \"%s\"."
+msgstr "Kļūda, gatavojot ielādētāju “%s”."
+
+#: ../goffice/app/go-plugin.c:703
+#, c-format
+msgid "Error while reading service #%d info."
+msgstr "Kļūda, lasot pakalpojuma #%d informāciju."
+
+#: ../goffice/app/go-plugin.c:784
+#, c-format
+msgid "Can't read plugin info file (\"%s\")."
+msgstr "Nevar nolasīt spraudņa informācijas datni (“%s”)."
+
+#: ../goffice/app/go-plugin.c:788
+#, c-format
+msgid "File \"%s\" is not valid plugin info file."
+msgstr "Datne “%s” nav derīga spraudņa informācijas datne."
+
+#: ../goffice/app/go-plugin.c:871
+#, c-format
+msgid "Errors while reading services for plugin with ID=\"%s\"."
+msgstr "Kļūdas, lasot pakalpojumus spraudnim ar ID=“%s”."
+
+#: ../goffice/app/go-plugin.c:883
+#, c-format
+msgid "Plugin ID contains invalid characters (%s)."
+msgstr "Spraudņa ID satur nederīgas rakstzīmes (%s)."
+
+#: ../goffice/app/go-plugin.c:887
+msgid "Unknown plugin name."
+msgstr "Nezināms spraudņa nosaukums."
+
+#: ../goffice/app/go-plugin.c:891
+#, c-format
+msgid "No loader defined or loader ID invalid for plugin with ID=\"%s\"."
+msgstr ""
+"Nav definēts ielādētājs vai ielādētāja ID nav derīgs spraudnim ar ID=“%s”."
+
+#: ../goffice/app/go-plugin.c:897
+msgid "Plugin has no id."
+msgstr "Spraudnim nav id."
+
+#: ../goffice/app/go-plugin.c:938
+#, c-format
+msgid "Error initializing plugin loader (\"%s\")."
+msgstr "Kļūda, inicializējot spraudņa ielādētāju (“%s”)."
+
+#: ../goffice/app/go-plugin.c:969 ../goffice/app/go-plugin.c:1131
+msgid "Detected cyclic plugin dependencies."
+msgstr "Atrastas cikliskas spraudņa atkarības."
+
+#: ../goffice/app/go-plugin.c:993
+#, c-format
+msgid "Couldn't activate plugin with ID=\"%s\"."
+msgstr "Nevarēja aktivizēt spraudni ar ID=“%s”."
+
+#: ../goffice/app/go-plugin.c:999 ../goffice/app/go-plugin.c:1177
+#, c-format
+msgid "Couldn't find plugin with ID=\"%s\"."
+msgstr "Nevarēja atrast spraudni ar ID=“%s”."
+
+#: ../goffice/app/go-plugin.c:1006
+msgid "Error while activating plugin dependencies."
+msgstr "Kļūda, aktivizējot spraudņa atkarības."
+
+#: ../goffice/app/go-plugin.c:1020
+#, c-format
+msgid "Error while activating plugin service #%d."
+msgstr "Kļūda, aktivizējot spraudņa pakalpojuma #%d."
+
+#: ../goffice/app/go-plugin.c:1076
+#, c-format
+msgid "Error while deactivating plugin service #%d."
+msgstr "Kļūda, deaktivizējot spraudņa pakalpojuma #%d."
+
+#: ../goffice/app/go-plugin.c:1143 ../goffice/app/go-plugin.c:1164
+msgid "Cannot load plugin loader."
+msgstr "Nevar ielādēt spraudņa ielādētāju."
+
+#: ../goffice/app/go-plugin.c:1171
+#, c-format
+msgid "Couldn't load plugin with ID=\"%s\"."
+msgstr "Nevarēja ielādēt spraudni ar ID=“%s”."
+
+#: ../goffice/app/go-plugin.c:1184
+msgid "Error while loading plugin dependencies."
+msgstr "Kļūda, ielādējot spraudņa atkarības."
+
+#: ../goffice/app/go-plugin.c:1376
+#, c-format
+msgid "Errors occurred while reading plugin information from file \"%s\"."
+msgstr "Gadījās kļūdas, nolasot spraudņa informāciju no datnes “%s”."
+
+#: ../goffice/app/go-plugin.c:1495
+#, c-format
+msgid "Couldn't activate plugin \"%s\" (ID: %s)."
+msgstr "Nevarēja aktivizēt spraudni “%s” (ID: %s)."
+
+#: ../goffice/app/go-plugin.c:1530
+#, c-format
+msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
+msgstr "Nevarēja deaktivizēt spraudni “%s” (ID: %s)."
+
+#: ../goffice/app/go-plugin.c:1657 ../goffice/app/go-plugin.c:1825
+msgid "Errors while reading info about available plugins."
+msgstr "Gadījās kļūdas, lasot informāciju par pieejamajiem spraudņiem."
+
+#: ../goffice/app/go-plugin.c:1681
+msgid "Errors while deactivating plugins that are no longer on disk."
+msgstr "Gadījās kļūdas, deaktivizējot spraudņus, kas vairs neatrodas uz diska."
+
+#: ../goffice/app/go-plugin.c:1702
+#, c-format
+msgid ""
+"The following plugins are no longer on disk but are still active:\n"
+"%s.\n"
+"You should restart this program now."
+msgstr ""
+"Sekojošie spraudņi vairs neatrodas uz diska, bet vēl aizvien ir aktīvi:\n"
+"%s.\n"
+"Programmu vajadzētu tagad pārstartēt."
+
+#: ../goffice/app/go-plugin.c:1801
+msgid "Errors while reading info about new plugins."
+msgstr "Gadījās kļūdas, lasot informāciju par jaunajiem spraudņiem."
+
+#: ../goffice/app/go-plugin.c:1849
+msgid "Errors while activating plugins."
+msgstr "Gadījās kļūdas, aktivizējot spraudņus."
+
+#: ../goffice/app/go-plugin.c:1856
+msgid "Errors while initializing plugin system."
+msgstr "Gadījās kļūdas, inicializējot spraudņu sistēmu."
+
+#: ../goffice/app/go-plugin-loader.c:83
+msgid "Loader has no set_attributes method.\n"
+msgstr "Ielādētājam nav metodes set_attributes.\n"
+
+#: ../goffice/app/go-plugin-loader.c:98
+msgid "Loader has no load_base method.\n"
+msgstr "Ielādētājam nav metodes load_base.\n"
+
+#: ../goffice/app/go-plugin-loader.c:143 ../goffice/app/go-plugin-loader.c:181
+#, c-format
+msgid "Service '%s' not supported by loader."
+msgstr "Ielādētājs neatbalsta pakalpojumu “%s”."
 
 #: ../goffice/app/go-plugin-loader-module.c:71
 msgid "Module file name not given."
@@ -156,8 +345,8 @@ msgid ""
 "Module \"%s\" was built with version %s of %s, but this executable supplied "
 "version %s."
 msgstr ""
-"Modulis “%1$s” tika būvēts ar %3$s versiju %2$s, bet izpildāmais deva versiju "
-"%4$s."
+"Modulis “%1$s” tika būvēts ar %3$s versiju %2$s, bet izpildāmais deva "
+"versiju %4$s."
 
 #: ../goffice/app/go-plugin-loader-module.c:118
 msgid "Dynamic module loading is not supported in this system."
@@ -200,19 +389,6 @@ msgstr "Datne nesatur “%s” funkciju."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Modulis nesatur “%s” funkciju."
 
-#: ../goffice/app/go-plugin-loader.c:83
-msgid "Loader has no set_attributes method.\n"
-msgstr "Ielādētājam nav metodes set_attributes.\n"
-
-#: ../goffice/app/go-plugin-loader.c:98
-msgid "Loader has no load_base method.\n"
-msgstr "Ielādētājam nav metodes load_base.\n"
-
-#: ../goffice/app/go-plugin-loader.c:143 ../goffice/app/go-plugin-loader.c:181
-#, c-format
-msgid "Service '%s' not supported by loader."
-msgstr "Ielādētājs neatbalsta pakalpojumu “%s”."
-
 #: ../goffice/app/go-plugin-service.c:192
 #: ../goffice/app/go-plugin-service.c:1031
 msgid "Error while loading plugin service."
@@ -226,8 +402,8 @@ msgstr "Funkcija inicializācija spraudnī atgrieza kļūdu."
 msgid "Cleanup function inside plugin returned error."
 msgstr "Funkcija uzkopšana spraudnī atgrieza kļūdu."
 
-#: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:877 ../goffice/utils/go-format.c:5208
+#: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:60
+#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5243
 msgid "General"
 msgstr "Vispārīgi"
 
@@ -298,160 +474,6 @@ msgstr ""
 "Pirms aktivēšanas ir jāielādē serviss (PLUGIN_ALWAYS_LOAD ir iestatīts), bet "
 "ielādēšana neizdevās."
 
-#: ../goffice/app/go-plugin.c:371
-#, c-format
-msgid "File contains plugin info with invalid ID (%s), expected %s."
-msgstr "Datne satur spraudņa informāciju ar nederīgu ID (%s), bija gaidīts %s."
-
-#: ../goffice/app/go-plugin.c:375
-msgid "Couldn't read plugin info from file."
-msgstr "Nevarēja ielādēt spraudni no datnes."
-
-#: ../goffice/app/go-plugin.c:521
-msgid "Unknown name"
-msgstr "Nezināms nosaukums"
-
-#: ../goffice/app/go-plugin.c:616
-#, c-format
-msgid "Unsupported loader type \"%s\"."
-msgstr "Neatbalstīts ielādētāja tips “%s”."
-
-#: ../goffice/app/go-plugin.c:624
-#, c-format
-msgid "Error while preparing loader \"%s\"."
-msgstr "Kļūda, gatavojot ielādētāju “%s”."
-
-#: ../goffice/app/go-plugin.c:702
-#, c-format
-msgid "Error while reading service #%d info."
-msgstr "Kļūda, lasot pakalpojuma #%d informāciju."
-
-#: ../goffice/app/go-plugin.c:783
-#, c-format
-msgid "Can't read plugin info file (\"%s\")."
-msgstr "Nevar nolasīt spraudņa informācijas datni (“%s”)."
-
-#: ../goffice/app/go-plugin.c:787
-#, c-format
-msgid "File \"%s\" is not valid plugin info file."
-msgstr "Datne “%s” nav derīga spraudņa informācijas datne."
-
-#: ../goffice/app/go-plugin.c:870
-#, c-format
-msgid "Errors while reading services for plugin with ID=\"%s\"."
-msgstr "Kļūdas, lasot pakalpojumus spraudnim ar ID=“%s”."
-
-#: ../goffice/app/go-plugin.c:882
-#, c-format
-msgid "Plugin ID contains invalid characters (%s)."
-msgstr "Spraudņa ID satur nederīgas rakstzīmes (%s)."
-
-#: ../goffice/app/go-plugin.c:886
-msgid "Unknown plugin name."
-msgstr "Nezināms spraudņa nosaukums."
-
-#: ../goffice/app/go-plugin.c:890
-#, c-format
-msgid "No loader defined or loader ID invalid for plugin with ID=\"%s\"."
-msgstr ""
-"Nav definēts ielādētājs vai ielādētāja ID nav derīgs spraudnim ar ID=“%s”."
-
-#: ../goffice/app/go-plugin.c:896
-msgid "Plugin has no id."
-msgstr "Spraudnim nav id."
-
-#: ../goffice/app/go-plugin.c:937
-#, c-format
-msgid "Error initializing plugin loader (\"%s\")."
-msgstr "Kļūda, inicializējot spraudņa ielādētāju (“%s”)."
-
-#: ../goffice/app/go-plugin.c:968 ../goffice/app/go-plugin.c:1130
-msgid "Detected cyclic plugin dependencies."
-msgstr "Atrastas cikliskas spraudņa atkarības."
-
-#: ../goffice/app/go-plugin.c:992
-#, c-format
-msgid "Couldn't activate plugin with ID=\"%s\"."
-msgstr "Nevarēja aktivizēt spraudni ar ID=“%s”."
-
-#: ../goffice/app/go-plugin.c:998 ../goffice/app/go-plugin.c:1176
-#, c-format
-msgid "Couldn't find plugin with ID=\"%s\"."
-msgstr "Nevarēja atrast spraudni ar ID=“%s”."
-
-#: ../goffice/app/go-plugin.c:1005
-msgid "Error while activating plugin dependencies."
-msgstr "Kļūda, aktivizējot spraudņa atkarības."
-
-#: ../goffice/app/go-plugin.c:1019
-#, c-format
-msgid "Error while activating plugin service #%d."
-msgstr "Kļūda, aktivizējot spraudņa pakalpojuma #%d."
-
-#: ../goffice/app/go-plugin.c:1075
-#, c-format
-msgid "Error while deactivating plugin service #%d."
-msgstr "Kļūda, deaktivizējot spraudņa pakalpojuma #%d."
-
-#: ../goffice/app/go-plugin.c:1142 ../goffice/app/go-plugin.c:1163
-msgid "Cannot load plugin loader."
-msgstr "Nevar ielādēt spraudņa ielādētāju."
-
-#: ../goffice/app/go-plugin.c:1170
-#, c-format
-msgid "Couldn't load plugin with ID=\"%s\"."
-msgstr "Nevarēja ielādēt spraudni ar ID=“%s”."
-
-#: ../goffice/app/go-plugin.c:1183
-msgid "Error while loading plugin dependencies."
-msgstr "Kļūda, ielādējot spraudņa atkarības."
-
-#: ../goffice/app/go-plugin.c:1375
-#, c-format
-msgid "Errors occurred while reading plugin information from file \"%s\"."
-msgstr "Gadījās kļūdas, nolasot spraudņa informāciju no datnes “%s”."
-
-#: ../goffice/app/go-plugin.c:1494
-#, c-format
-msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr "Nevarēja aktivizēt spraudni “%s” (ID: %s)."
-
-#: ../goffice/app/go-plugin.c:1529
-#, c-format
-msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr "Nevarēja deaktivizēt spraudni “%s” (ID: %s)."
-
-#: ../goffice/app/go-plugin.c:1656 ../goffice/app/go-plugin.c:1824
-msgid "Errors while reading info about available plugins."
-msgstr "Gadījās kļūdas, lasot informāciju par pieejamajiem spraudņiem."
-
-#: ../goffice/app/go-plugin.c:1680
-msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr "Gadījās kļūdas, deaktivizējot spraudņus, kas vairs neatrodas uz diska."
-
-#: ../goffice/app/go-plugin.c:1701
-#, c-format
-msgid ""
-"The following plugins are no longer on disk but are still active:\n"
-"%s.\n"
-"You should restart this program now."
-msgstr ""
-"Sekojošie spraudņi vairs neatrodas uz diska, bet vēl aizvien ir aktīvi:\n"
-"%s.\n"
-"Programmu vajadzētu tagad pārstartēt."
-
-#: ../goffice/app/go-plugin.c:1800
-msgid "Errors while reading info about new plugins."
-msgstr "Gadījās kļūdas, lasot informāciju par jaunajiem spraudņiem."
-
-#: ../goffice/app/go-plugin.c:1848
-msgid "Errors while activating plugins."
-msgstr "Gadījās kļūdas, aktivizējot spraudņus."
-
-#: ../goffice/app/go-plugin.c:1855
-msgid "Errors while initializing plugin system."
-msgstr "Gadījās kļūdas, inicializējot spraudņu sistēmu."
-
 #: ../goffice/app/io-context.c:168
 msgid "exec-main-loop"
 msgstr "exec-main-loop"
@@ -460,180 +482,181 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Izpildīt galvenā cikla iterāciju"
 
-#: ../goffice/canvas/goc-arc.c:436
+#: ../goffice/canvas/goc-arc.c:441
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:437
+#: ../goffice/canvas/goc-arc.c:442
 msgid "The arc center x coordinate"
 msgstr "Loka centra x koordināta"
 
-#: ../goffice/canvas/goc-arc.c:442
+#: ../goffice/canvas/goc-arc.c:447
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:443
+#: ../goffice/canvas/goc-arc.c:448
 msgid "The arc center y coordinate"
 msgstr "Loka centra y koordināta"
 
-#: ../goffice/canvas/goc-arc.c:448
+#: ../goffice/canvas/goc-arc.c:453
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:449
+#: ../goffice/canvas/goc-arc.c:454
 msgid "The arc x radius"
 msgstr "Loka x rādiuss"
 
-#: ../goffice/canvas/goc-arc.c:454
+#: ../goffice/canvas/goc-arc.c:459
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:455
+#: ../goffice/canvas/goc-arc.c:460
 msgid "The arc y radius"
 msgstr "Loka y rādiuss"
 
-#: ../goffice/canvas/goc-arc.c:460
+#: ../goffice/canvas/goc-arc.c:465
 msgid "ang1"
 msgstr "len1"
 
-#: ../goffice/canvas/goc-arc.c:461
+#: ../goffice/canvas/goc-arc.c:466
 msgid "The arc start angle"
 msgstr "Loka sākuma leņķis"
 
-#: ../goffice/canvas/goc-arc.c:466
+#: ../goffice/canvas/goc-arc.c:471
 msgid "ang2"
 msgstr "len2"
 
-#: ../goffice/canvas/goc-arc.c:467
+#: ../goffice/canvas/goc-arc.c:472
 msgid "The arc end angle"
 msgstr "Loka beigu leņķis"
 
-#: ../goffice/canvas/goc-arc.c:472 ../goffice/canvas/goc-component.c:295
-#: ../goffice/canvas/goc-ellipse.c:261 ../goffice/canvas/goc-path.c:275
-#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:475
-#: ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
+#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
+#: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Rotācija"
 
-#: ../goffice/canvas/goc-arc.c:473
+#: ../goffice/canvas/goc-arc.c:478
 msgid "The rotation around center position"
 msgstr "Rotācija ap centra pozīciju"
 
-#: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:2860 ../goffice/graph/gog-grid.c:127
+#: ../goffice/canvas/goc-arc.c:483 ../goffice/canvas/goc-rectangle.c:347
+#: ../goffice/graph/gog-axis.c:3058 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Tips"
 
-#: ../goffice/canvas/goc-arc.c:479
+#: ../goffice/canvas/goc-arc.c:484
 msgid "The type of arc: arc, chord or pie"
 msgstr "Loka tips — loks, horda vai sektors"
 
-#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:348
 msgid "Start Arrow"
 msgstr "Sākuma bulta"
 
-#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:349
 msgid "Arrow for line's start"
 msgstr "Bulta līnijas sākumam"
 
-#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:352
+#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:354
 msgid "End Arrow"
 msgstr "Beigu bulta"
 
-#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:497 ../goffice/canvas/goc-line.c:355
 msgid "Arrow for line's end"
 msgstr "Bulta līnijas beigām"
 
-#: ../goffice/canvas/goc-circle.c:167 ../goffice/canvas/goc-component.c:271
-#: ../goffice/canvas/goc-ellipse.c:237 ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:263
-#: ../goffice/canvas/goc-path.c:263 ../goffice/canvas/goc-pixbuf.c:223
-#: ../goffice/canvas/goc-rectangle.c:312 ../goffice/canvas/goc-text.c:463
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
+#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
+#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
 #: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
-#: ../goffice/canvas/goc-circle.c:168
+#: ../goffice/canvas/goc-circle.c:170
 msgid "The circle center horizontal position"
 msgstr "Riņķa centra horizontālais novietojums"
 
-#: ../goffice/canvas/goc-circle.c:173 ../goffice/canvas/goc-component.c:277
-#: ../goffice/canvas/goc-ellipse.c:243 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:269
-#: ../goffice/canvas/goc-path.c:269 ../goffice/canvas/goc-pixbuf.c:229
-#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-text.c:469
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
+#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
+#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
 #: ../goffice/canvas/goc-widget.c:779
 msgid "y"
 msgstr "y"
 
-#: ../goffice/canvas/goc-circle.c:174
+#: ../goffice/canvas/goc-circle.c:176
 msgid "The circle center vertical position"
 msgstr "Riņķa centra vertikālais novietojums"
 
-#: ../goffice/canvas/goc-circle.c:179
+#: ../goffice/canvas/goc-circle.c:181
 msgid "Radius"
 msgstr "Rādiuss"
 
-#: ../goffice/canvas/goc-circle.c:180
+#: ../goffice/canvas/goc-circle.c:182
 msgid "The circle radius"
 msgstr "Riņķa rādiuss"
 
-#: ../goffice/canvas/goc-component.c:272
+#: ../goffice/canvas/goc-component.c:292
 msgid "The object left position"
 msgstr "Objekta kreisā pozīcija"
 
-#: ../goffice/canvas/goc-component.c:278
+#: ../goffice/canvas/goc-component.c:298
 msgid "The object top position"
 msgstr "Objekta augšējā pozīcija"
 
-#: ../goffice/canvas/goc-component.c:283 ../goffice/canvas/goc-component.c:284
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:281
-#: ../goffice/canvas/goc-pixbuf.c:241 ../goffice/canvas/goc-rectangle.c:330
-#: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:486
+#: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
+#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
+#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
+#: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "Augstums"
 
-#: ../goffice/canvas/goc-component.c:289 ../goffice/canvas/goc-component.c:290
-#: ../goffice/canvas/goc-ellipse.c:249 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
-#: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
-#: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-graph.c:480
-#: ../goffice/utils/go-image.c:499 ../plugins/plot_xy/gog-xy-dropbar.c:312
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
+#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
+#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
+#: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
+#: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
+#: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "Platums"
 
-#: ../goffice/canvas/goc-component.c:296
+#: ../goffice/canvas/goc-component.c:316
 msgid "The rotation around center"
 msgstr "Rotācija ap centru"
 
-#: ../goffice/canvas/goc-component.c:301
+#: ../goffice/canvas/goc-component.c:321
 msgid "Object"
 msgstr "Objekts"
 
-#: ../goffice/canvas/goc-component.c:302
+#: ../goffice/canvas/goc-component.c:322
 msgid "The embedded GOComponent object"
 msgstr "Iegults GOComponent objekts"
 
-#: ../goffice/canvas/goc-ellipse.c:238
+#: ../goffice/canvas/goc-ellipse.c:260
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Elipses kreisā pozīcija (vai labā pozīcija RTL režīmā)"
 
-#: ../goffice/canvas/goc-ellipse.c:244
+#: ../goffice/canvas/goc-ellipse.c:266
 msgid "The ellipse top position"
 msgstr "Elipses augšējā pozīcija"
 
-#: ../goffice/canvas/goc-ellipse.c:250
+#: ../goffice/canvas/goc-ellipse.c:272
 msgid "The ellipse width"
 msgstr "Elipses platums"
 
-#: ../goffice/canvas/goc-ellipse.c:256
+#: ../goffice/canvas/goc-ellipse.c:278
 msgid "The ellipse height"
 msgstr "Elipses augstums"
 
-#: ../goffice/canvas/goc-ellipse.c:262 ../goffice/canvas/goc-rectangle.c:337
+#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "Rotācija ap augšējo kreiso pozīciju"
 
@@ -655,7 +678,7 @@ msgstr "Grafika augšējā pozīcija"
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:512
+#: ../goffice/graph/gog-graph.c:525 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Grafs"
 
@@ -663,7 +686,7 @@ msgstr "Grafs"
 msgid "The GogGraph this object displays"
 msgstr "GogGraph, ko šis objekts attēlo"
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1026
+#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1071
 msgid "Renderer"
 msgstr "Attēlotājs"
 
@@ -679,56 +702,56 @@ msgstr "Grupas horizontālā nobīde"
 msgid "The group vertical offset"
 msgstr "Grupas vertikālā nobīde"
 
-#: ../goffice/canvas/goc-image.c:264 ../goffice/canvas/goc-pixbuf.c:224
+#: ../goffice/canvas/goc-image.c:265 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "Attēla kreisā pozīcija"
 
-#: ../goffice/canvas/goc-image.c:270 ../goffice/canvas/goc-pixbuf.c:230
+#: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "Attēla augšējā pozīcija"
 
-#: ../goffice/canvas/goc-image.c:276 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr "Attēla platums, vai -1, lai izmantotu attēla platumu"
 
-#: ../goffice/canvas/goc-image.c:282 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr "Attēla augstums, vai -1, lai izmantotu attēla augstumu"
 
-#: ../goffice/canvas/goc-image.c:293
+#: ../goffice/canvas/goc-image.c:294
 msgid "The GOImage to display"
 msgstr "GOImage, ko attēlot"
 
-#: ../goffice/canvas/goc-image.c:297
+#: ../goffice/canvas/goc-image.c:298
 msgid "Cropped bottom"
 msgstr "Apcirsts apakšā"
 
-#: ../goffice/canvas/goc-image.c:298
+#: ../goffice/canvas/goc-image.c:299
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr ""
 "Apcirstais laukums attēla apakšā, kas izteikts kā daļa no attēla augstuma"
 
-#: ../goffice/canvas/goc-image.c:302
+#: ../goffice/canvas/goc-image.c:303
 msgid "Cropped left"
 msgstr "Apcirsts pa kreisi"
 
-#: ../goffice/canvas/goc-image.c:303
+#: ../goffice/canvas/goc-image.c:304
 msgid "The cropped area at the image left of the image width"
 msgstr "Apcirstais laukums attēla kreisajā pusē no attēla platuma"
 
-#: ../goffice/canvas/goc-image.c:307
+#: ../goffice/canvas/goc-image.c:308
 msgid "Cropped right"
 msgstr "Apcirsts pa labi"
 
-#: ../goffice/canvas/goc-image.c:308
+#: ../goffice/canvas/goc-image.c:309
 msgid "The cropped area at the image right of the image width"
 msgstr "Apcirstais laukums attēla labajā pusē no attēla platuma"
 
-#: ../goffice/canvas/goc-image.c:312
+#: ../goffice/canvas/goc-image.c:313
 msgid "Cropped top"
 msgstr "Apcirsts augšā"
 
-#: ../goffice/canvas/goc-image.c:313
+#: ../goffice/canvas/goc-image.c:314
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr ""
 "Apcirstais laukums attēla augšā, kas izteikts kā daļa no attēla augstuma"
@@ -741,7 +764,7 @@ msgstr "Audekls"
 msgid "The canvas object on which the item resides"
 msgstr "Audekla objekts, uz kā atrodas vienums"
 
-#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:684
+#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:685
 msgid "Parent"
 msgstr "Vecāks"
 
@@ -749,137 +772,138 @@ msgstr "Vecāks"
 msgid "The group in which the item resides"
 msgstr "Grupa, uz kā atrodas vienums"
 
-#: ../goffice/canvas/goc-line.c:322
+#: ../goffice/canvas/goc-line.c:324
 msgid "x0"
 msgstr "x0"
 
-#: ../goffice/canvas/goc-line.c:323
+#: ../goffice/canvas/goc-line.c:325
 msgid "The line start x coordinate"
 msgstr "Līnijas sākuma x koordināta"
 
-#: ../goffice/canvas/goc-line.c:328
+#: ../goffice/canvas/goc-line.c:330
 msgid "y0"
 msgstr "y0"
 
-#: ../goffice/canvas/goc-line.c:329
+#: ../goffice/canvas/goc-line.c:331
 msgid "The line start y coordinate"
 msgstr "Līnijas sākuma y koordināta"
 
-#: ../goffice/canvas/goc-line.c:334
+#: ../goffice/canvas/goc-line.c:336
 msgid "x1"
 msgstr "x1"
 
-#: ../goffice/canvas/goc-line.c:335
+#: ../goffice/canvas/goc-line.c:337
 msgid "The line end x coordinate"
 msgstr "Līnijas beigu x koordināta"
 
-#: ../goffice/canvas/goc-line.c:340
+#: ../goffice/canvas/goc-line.c:342
 msgid "y1"
 msgstr "y1"
 
-#: ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-line.c:343
 msgid "The line end y coordinate"
 msgstr "Līnijas beigu Y koordināta"
 
-#: ../goffice/canvas/goc-path.c:264
+#: ../goffice/canvas/goc-path.c:269
 msgid "The path first point x coordinate"
 msgstr "Ceļa pirmā punkta x koordināta"
 
-#: ../goffice/canvas/goc-path.c:270
+#: ../goffice/canvas/goc-path.c:275
 msgid "The path first point y coordinate"
 msgstr "Ceļa pirmā punkta y koordināta"
 
-#: ../goffice/canvas/goc-path.c:276
+#: ../goffice/canvas/goc-path.c:281
 msgid "The rotation around first point position"
 msgstr "Rotācija ap pirmā punkta pozīciju"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:286
 msgid "Closed"
 msgstr "Aizvērts"
 
-#: ../goffice/canvas/goc-path.c:282
+#: ../goffice/canvas/goc-path.c:287
 msgid "The flag for closed path"
 msgstr "Atzīme slēgtam ceļam"
 
-#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-polygon.c:339
+#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
 msgid "Fill rule"
 msgstr "Aizpildīšanas kārtula"
 
-#: ../goffice/canvas/goc-path.c:288 ../goffice/canvas/goc-polygon.c:340
+#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
 msgid "Set fill rule to winding or even/odd"
 msgstr "Iestatiet aizpildīšanas kārtulu uz tinumu vai pāra/nepāra"
 
-#: ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-path.c:298
 msgid "Path"
 msgstr "Ceļš"
 
-#: ../goffice/canvas/goc-path.c:294
+#: ../goffice/canvas/goc-path.c:299
 msgid "The path points"
 msgstr "Ceļa punkti"
 
-#: ../goffice/canvas/goc-pixbuf.c:252 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
 msgid "Pixbuf"
 msgstr "Pikseļu buferis"
 
-#: ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-pixbuf.c:265
 msgid "The GdkPixbuf to display"
 msgstr "GdkPixbuf, ko attēlot"
 
-#: ../goffice/canvas/goc-polygon.c:328 ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
 msgid "points"
 msgstr "punkti"
 
-#: ../goffice/canvas/goc-polygon.c:328
+#: ../goffice/canvas/goc-polygon.c:344
 msgid "The polygon vertices"
 msgstr "Daudzstūra virsotnes"
 
-#: ../goffice/canvas/goc-polygon.c:333 ../goffice/canvas/goc-polyline.c:256
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
 msgid "Use spline"
 msgstr "Lietot splainus"
 
-#: ../goffice/canvas/goc-polygon.c:334
+#: ../goffice/canvas/goc-polygon.c:350
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Lietot Bezjē slēgtus kubiskus splainus kā kontūru"
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:360
 msgid "sizes"
 msgstr "izmēri"
 
-#: ../goffice/canvas/goc-polygon.c:345
+#: ../goffice/canvas/goc-polygon.c:361
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
 "be discarded. Setting the \"point\" property will reset the sizes."
 msgstr ""
 "Ja iestatīts, daudzstūris tiks sadalīts vairākos daudzstūros pēc dotajiem "
-"izmēriem. Katram izmēram ir jābūt vismaz 3. Vērtības, kas sekos pēc nederīgas "
-"vērtības, tiks atmestas. Īpašības “point” iestatīšana atstatīs izmērus."
+"izmēriem. Katram izmēram ir jābūt vismaz 3. Vērtības, kas sekos pēc "
+"nederīgas vērtības, tiks atmestas. Īpašības “point” iestatīšana atstatīs "
+"izmērus."
 
-#: ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polyline.c:259
 msgid "The polyline vertices"
 msgstr "Daudzstūra virsotnes"
 
-#: ../goffice/canvas/goc-polyline.c:257
+#: ../goffice/canvas/goc-polyline.c:265
 msgid "Use a Bezier cubic spline as line"
 msgstr "Lietot Bezjē kubiskus splainus kā līniju"
 
-#: ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-rectangle.c:318
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr "Taisnstūra kreisā pozīcija (vai labā pozīcija RTL režīmā)"
 
-#: ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-rectangle.c:324
 msgid "The rectangle top position"
 msgstr "Taisnstūra augšējā pozīcija"
 
-#: ../goffice/canvas/goc-rectangle.c:325
+#: ../goffice/canvas/goc-rectangle.c:330
 msgid "The rectangle width"
 msgstr "Taisnstūra platums"
 
-#: ../goffice/canvas/goc-rectangle.c:331
+#: ../goffice/canvas/goc-rectangle.c:336
 msgid "The rectangle height"
 msgstr "Taisnstūra augstums"
 
-#: ../goffice/canvas/goc-rectangle.c:343
+#: ../goffice/canvas/goc-rectangle.c:348
 msgid ""
 "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for "
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
@@ -889,24 +913,25 @@ msgstr ""
 "kreisais; 2 — augšējais labais; 4 — apakšējais labais; 8 — apakšējais "
 "kreisais. Vai arī kombinācija  no tiem (summa)."
 
-#: ../goffice/canvas/goc-rectangle.c:348
+#: ../goffice/canvas/goc-rectangle.c:353
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:349
+#: ../goffice/canvas/goc-rectangle.c:354
 msgid "The round rectangle rx"
 msgstr "Apaļots taisnstūris rx"
 
-#: ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-rectangle.c:359
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:355
+#: ../goffice/canvas/goc-rectangle.c:360
 msgid "The round rectangle ry"
 msgstr "Apaļots taisnstūris ry"
 
 #: ../goffice/canvas/goc-styled-item.c:160
-#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1105
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:6
+#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1104
 msgid "Style"
 msgstr "Stils"
 
@@ -923,72 +948,72 @@ msgstr "Mērogot līnijas platumu"
 msgid "Whether to scale the line width when zooming"
 msgstr "Vai mainīt līnijas platumu, kad tuvina"
 
-#: ../goffice/canvas/goc-text.c:464
+#: ../goffice/canvas/goc-text.c:466
 msgid "The text horizontal position"
 msgstr "Teksta horizontālais novietojums"
 
-#: ../goffice/canvas/goc-text.c:470
+#: ../goffice/canvas/goc-text.c:472
 msgid "The text position"
 msgstr "Teksta vertikālais novietojums"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:478
 msgid "The rotation around the anchor"
 msgstr "Rotācija ap enkuru"
 
-#: ../goffice/canvas/goc-text.c:481 ../goffice/graph/gog-object.c:818
+#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:815
 msgid "Anchor"
 msgstr "Enkurs"
 
-#: ../goffice/canvas/goc-text.c:482
+#: ../goffice/canvas/goc-text.c:484
 msgid "The anchor point for the text"
 msgstr "Teksta enkura punkts"
 
-#: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/gtk/go-rotation-sel.c:142 ../goffice/utils/go-style.c:971
+#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:970
 msgid "Text"
 msgstr "Teksts"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:490
 msgid "The text to display"
 msgstr "Teksts, ko attēlot"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "Attributes"
 msgstr "Atribūti"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "The attributes list as a PangoAttrList"
 msgstr "Atribūtu saraksts kā PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:496
+#: ../goffice/canvas/goc-text.c:498
 msgid "Clip"
 msgstr "Apcirst"
 
-#: ../goffice/canvas/goc-text.c:497
+#: ../goffice/canvas/goc-text.c:499
 msgid "Whether to clip or not"
 msgstr "Vai apcirst"
 
-#: ../goffice/canvas/goc-text.c:502
+#: ../goffice/canvas/goc-text.c:504
 msgid "Clip width"
 msgstr "Cirtuma platums"
 
-#: ../goffice/canvas/goc-text.c:503
+#: ../goffice/canvas/goc-text.c:505
 msgid "Clip width for the text"
 msgstr "Teksta cirtuma platums"
 
-#: ../goffice/canvas/goc-text.c:508
+#: ../goffice/canvas/goc-text.c:510
 msgid "Clip height"
 msgstr "Cirtuma augstums"
 
-#: ../goffice/canvas/goc-text.c:509
+#: ../goffice/canvas/goc-text.c:511
 msgid "Clip height for the text"
 msgstr "Teksta cirtuma augstums"
 
-#: ../goffice/canvas/goc-text.c:514
+#: ../goffice/canvas/goc-text.c:516
 msgid "Wrap width"
 msgstr "Aplaušanas platums"
 
-#: ../goffice/canvas/goc-text.c:515
+#: ../goffice/canvas/goc-text.c:517
 msgid "Wrap width for the text"
 msgstr "Teksta aplaušanas platums"
 
@@ -1024,22 +1049,6 @@ msgstr "Komponentes dzinis"
 msgid "Component Type"
 msgstr "Komponentes tips"
 
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:1
-msgid "<b>Euler angles</b>"
-msgstr "<b>Eilera leņķi</b>"
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:2
-msgid "Psi:"
-msgstr "Psī:"
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:3
-msgid "Theta:"
-msgstr "Teta:"
-
-#: ../goffice/graph/gog-3d-box-prefs.ui.h:4
-msgid "Phi:"
-msgstr "Fī:"
-
 #: ../goffice/graph/gog-3d-box.c:215
 msgid "Advanced"
 msgstr "Paplašināti"
@@ -1059,6 +1068,256 @@ msgstr "Eilera leņķa fī"
 #: ../goffice/graph/gog-3d-box.c:307
 msgid "Field of view"
 msgstr "Redzeslauks"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:1
+#, fuzzy
+msgid "Euler angles"
+msgstr "Eilera leņķa psī"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:2
+msgid "Psi:"
+msgstr "Psī:"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:3
+msgid "Theta:"
+msgstr "Teta:"
+
+#: ../goffice/graph/gog-3d-box-prefs.ui.h:4
+msgid "Phi:"
+msgstr "Fī:"
+
+#: ../goffice/graph/gog-axis.c:86
+msgid "Degrees"
+msgstr "Grādi"
+
+#: ../goffice/graph/gog-axis.c:87
+msgid "Radians"
+msgstr "Radiāni"
+
+#: ../goffice/graph/gog-axis.c:88
+msgid "Grads"
+msgstr "Gradiāns"
+
+#: ../goffice/graph/gog-axis.c:1494
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
+msgid "Discrete"
+msgstr "Diskrēts"
+
+#: ../goffice/graph/gog-axis.c:1494
+msgid "Discrete mapping"
+msgstr "Diskrēta kartēšana"
+
+#: ../goffice/graph/gog-axis.c:1506 ../goffice/utils/go-line.c:161
+#: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
+msgid "Linear"
+msgstr "Lineārs"
+
+#: ../goffice/graph/gog-axis.c:1506
+msgid "Linear mapping"
+msgstr "Lineāra kartēšana"
+
+#: ../goffice/graph/gog-axis.c:1518
+msgid "Log"
+msgstr "Log"
+
+#: ../goffice/graph/gog-axis.c:1518
+msgid "Logarithm mapping"
+msgstr "Logaritmiska kartēšana"
+
+#: ../goffice/graph/gog-axis.c:2827 ../goffice/graph/gog-axis.c:2837
+msgid "M_inimum"
+msgstr "M_inimums"
+
+#: ../goffice/graph/gog-axis.c:2828 ../goffice/graph/gog-axis.c:2838
+msgid "M_aximum"
+msgstr "M_aksimums"
+
+#: ../goffice/graph/gog-axis.c:2829
+msgid "Categories between _ticks"
+msgstr "Kategorijas starp a_tzīmēm"
+
+#: ../goffice/graph/gog-axis.c:2830
+msgid "Categories between _labels"
+msgstr "Kategorijas starp _etiķetēm"
+
+#: ../goffice/graph/gog-axis.c:2839
+msgid "Ma_jor ticks"
+msgstr "_Lielās atzīmes"
+
+#: ../goffice/graph/gog-axis.c:2840
+msgid "Mi_nor ticks"
+msgstr "Ma_zās atzīmes"
+
+#: ../goffice/graph/gog-axis.c:2899 ../goffice/math/go-distribution.c:171
+#: ../goffice/math/go-distribution.c:172
+msgid "Scale"
+msgstr "Mērogs"
+
+#: ../goffice/graph/gog-axis.c:2921 ../plugins/plot_pie/gog-pie.c:325
+#: ../plugins/smoothing/gog-moving-avg.c:195
+msgid "Span"
+msgstr "Intervāls"
+
+#: ../goffice/graph/gog-axis.c:2978
+#, fuzzy
+msgid "Colors"
+msgstr "Kombo"
+
+#: ../goffice/graph/gog-axis.c:2996 ../goffice/graph/gog-series-labels.c:910
+#: ../goffice/graph/gog-series-labels.c:1436
+msgid "Format"
+msgstr "Formāts"
+
+#: ../goffice/graph/gog-axis.c:3034
+msgid "MajorGrid"
+msgstr "Lielais režģis"
+
+#: ../goffice/graph/gog-axis.c:3037
+msgid "MinorGrid"
+msgstr "Mazais režģis"
+
+#: ../goffice/graph/gog-axis.c:3040
+msgid "AxisLine"
+msgstr "Ass līnija"
+
+#: ../goffice/graph/gog-axis.c:3043 ../goffice/graph/gog-theme.c:591
+msgid "Label"
+msgstr "Etiķete"
+
+#: ../goffice/graph/gog-axis.c:3059
+msgid "Numerical type of this axis"
+msgstr "Šīs ass skaitļa tips"
+
+#: ../goffice/graph/gog-axis.c:3063
+msgid "Invert axis"
+msgstr "_Invertēt asi"
+
+#: ../goffice/graph/gog-axis.c:3064
+msgid "Scale from high to low rather than low to high"
+msgstr "Mērogs no lielā uz mazo, nevis no mazā uz lielo"
+
+#: ../goffice/graph/gog-axis.c:3068
+msgid "MapName"
+msgstr "Kartes nosaukums"
+
+#: ../goffice/graph/gog-axis.c:3069
+msgid "The name of the map for scaling"
+msgstr "Mērogošanas kartes nosaukums"
+
+#: ../goffice/graph/gog-axis.c:3074
+msgid "Assigned XL format"
+msgstr "Piešķirtais XL formāts"
+
+#: ../goffice/graph/gog-axis.c:3075
+msgid ""
+"The user assigned format to use for non-discrete axis labels (XL format)"
+msgstr ""
+"Lietotāja piešķirts formāts, ko izmantot ne-diskrētām asu etiķetēm (XL "
+"formātā)"
+
+#: ../goffice/graph/gog-axis.c:3080 ../goffice/graph/gog-axis.c:3081
+msgid "Rotation of circular axis"
+msgstr "Cirkulārās ass pagrieziens"
+
+#: ../goffice/graph/gog-axis.c:3088 ../goffice/graph/gog-axis.c:3089
+msgid "Polar axis set unit"
+msgstr "Polārās ass iestatīta vienība"
+
+#: ../goffice/graph/gog-axis.c:3094
+msgid "Axis start position"
+msgstr "Ass sākuma novietojums"
+
+#: ../goffice/graph/gog-axis.c:3095
+msgid ""
+"Position of the plot area at which the axis effective area starts, expressed "
+"as a percentage of the available position. Defaults to 0.0"
+msgstr ""
+"Skices laukuma novietojums, pie kura sākas ass efektīvais laukums, izteikts "
+"kā procenti no pieejamās pozīcijas. Noklusējuma vērtība ir 0.0"
+
+#: ../goffice/graph/gog-axis.c:3100
+msgid "Axis end position"
+msgstr "Ass beigu novietojums"
+
+#: ../goffice/graph/gog-axis.c:3101
+msgid ""
+"Position of the plot area at which the axis effective area ends, expressed "
+"as a percentage of the available position. Defaults to 1.0"
+msgstr ""
+"Skices laukuma novietojums, pie kura beidzas ass efektīvais laukums, "
+"izteikts kā procenti no pieejamās pozīcijas. Noklusējuma vērtība ir 1.0"
+
+#: ../goffice/graph/gog-axis.c:3105
+#, fuzzy
+msgid "ColorMapName"
+msgstr "Kartes nosaukums"
+
+#: ../goffice/graph/gog-axis.c:3106
+#, fuzzy
+msgid "The name of the color map"
+msgstr "Mērogošanas kartes nosaukums"
+
+#: ../goffice/graph/gog-axis-color-map.c:131 ../goffice/graph/gog-theme.c:322
+#, fuzzy
+msgid "Resource type"
+msgstr "Resurss"
+
+#: ../goffice/graph/gog-axis-color-map.c:132
+msgid "The resource type for the color map"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-color-map.c:589
+msgid "New map"
+msgstr ""
+
+#. An MS Excel-ish theme
+#: ../goffice/graph/gog-axis-color-map.c:993 ../goffice/graph/gog-theme.c:1240
+msgid "Default"
+msgstr "Noklusējuma"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
+#, fuzzy
+msgid "Color map editor"
+msgstr "Krāsains polārs"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
+#, fuzzy
+msgid "Current color stop"
+msgstr "Pašreizējā lokāle: "
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
+#, fuzzy
+msgid "Value"
+msgstr "Vērtības"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+#, fuzzy
+msgid "Color"
+msgstr "Kombo"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
+#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:579
+#: ../goffice/graph/gog-theme-editor.ui.h:2
+msgid "Name"
+msgstr "Nosaukums"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
+#, fuzzy
+msgid "Gradient"
+msgstr "Gradiāns"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
+msgid "Snapshots"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
+#, fuzzy
+msgid "Define"
+msgstr "Lietotāja noteikts"
+
+#: ../goffice/graph/gog-axis-color-map-prefs.ui.h:10
+msgid "Erase"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:647
 msgid "Layout"
@@ -1174,8 +1433,9 @@ msgid "End:"
 msgstr "Beigas:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:5
-msgid "<b>Major ticks</b>"
-msgstr "<b>Lielās atzīmes</b>"
+#, fuzzy
+msgid "Major ticks"
+msgstr "_Lielās atzīmes"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:6
 msgid "_Outside"
@@ -1189,9 +1449,11 @@ msgstr "_Iekšpusē"
 msgid "_Show Labels"
 msgstr "Rādīt etiķete_s"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:9
-msgid "<b>Position</b>"
-msgstr "<p>Novietojums</p>"
+#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:747
+#: ../goffice/graph/gog-object.c:791 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series-labels.c:1424
+msgid "Position"
+msgstr "Novietojums"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:10
 msgid "_Low"
@@ -1214,14 +1476,15 @@ msgid "Padding:"
 msgstr "Iekšmale:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:15
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
-#: ../goffice/utils/go-style-prefs.ui.h:4
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:7
 msgid "pts"
 msgstr "pts"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:16
-msgid "<b>Minor ticks</b>"
-msgstr "<b>Mazās atzīmes</b>"
+#, fuzzy
+msgid "Minor ticks"
+msgstr "Ma_zās atzīmes"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:17
 msgid "O_utside"
@@ -1232,18 +1495,19 @@ msgid "I_nside"
 msgstr "I_ekšpuse"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:19
-msgid "<b>Bounds</b>"
-msgstr "<b>Robežas</b>"
+#, fuzzy
+msgid "Bounds"
+msgstr "Fons"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
 #: ../goffice/graph/gog-object-prefs.ui.h:15
-#: ../goffice/graph/gog-plot-prefs.ui.h:1 ../goffice/gtk/go-palette.c:344
+#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:344
 msgid "Automatic"
 msgstr "Automātisks"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:21
 #: ../goffice/graph/gog-series-prefs.ui.h:4
-#: ../goffice/utils/go-style-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:26
 msgid "_Type:"
 msgstr "_Tips:"
 
@@ -1261,175 +1525,47 @@ msgstr "_Rotācija:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:25
 #: ../goffice/gtk/go-rotation-sel.ui.h:3
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
 msgid "degrees"
 msgstr "grādi"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:26
-msgid "<b>Mapping</b>"
+#, fuzzy
+msgid "Mapping"
 msgstr "<b>Kartēšana</b>"
 
-#: ../goffice/graph/gog-axis.c:85
-msgid "Degrees"
-msgstr "Grādi"
-
-#: ../goffice/graph/gog-axis.c:86
-msgid "Radians"
-msgstr "Radiāni"
-
-#: ../goffice/graph/gog-axis.c:87
-msgid "Grads"
-msgstr "Gradiāns"
-
-#: ../goffice/graph/gog-axis.c:1491
-msgid "Discrete"
-msgstr "Diskrēts"
-
-#: ../goffice/graph/gog-axis.c:1491
-msgid "Discrete mapping"
-msgstr "Diskrēta kartēšana"
-
-#: ../goffice/graph/gog-axis.c:1503 ../goffice/utils/go-line.c:161
-#: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
-msgid "Linear"
-msgstr "Lineārs"
-
-#: ../goffice/graph/gog-axis.c:1503
-msgid "Linear mapping"
-msgstr "Lineāra kartēšana"
-
-#: ../goffice/graph/gog-axis.c:1515
-msgid "Log"
-msgstr "Log"
-
-#: ../goffice/graph/gog-axis.c:1515
-msgid "Logarithm mapping"
-msgstr "Logaritmiska kartēšana"
-
-#: ../goffice/graph/gog-axis.c:2697 ../goffice/graph/gog-axis.c:2707
-msgid "M_inimum"
-msgstr "M_inimums"
-
-#: ../goffice/graph/gog-axis.c:2698 ../goffice/graph/gog-axis.c:2708
-msgid "M_aximum"
-msgstr "M_aksimums"
-
-#: ../goffice/graph/gog-axis.c:2699
-msgid "Categories between _ticks"
-msgstr "Kategorijas starp a_tzīmēm"
-
-#: ../goffice/graph/gog-axis.c:2700
-msgid "Categories between _labels"
-msgstr "Kategorijas starp _etiķetēm"
-
-#: ../goffice/graph/gog-axis.c:2709
-msgid "Ma_jor ticks"
-msgstr "_Lielās atzīmes"
-
-#: ../goffice/graph/gog-axis.c:2710
-msgid "Mi_nor ticks"
-msgstr "Ma_zās atzīmes"
-
-#: ../goffice/graph/gog-axis.c:2766 ../goffice/math/go-distribution.c:171
-#: ../goffice/math/go-distribution.c:172
-msgid "Scale"
-msgstr "Mērogs"
-
-#: ../goffice/graph/gog-axis.c:2786 ../plugins/plot_pie/gog-pie.c:325
-#: ../plugins/smoothing/gog-moving-avg.c:195
-msgid "Span"
-msgstr "Intervāls"
-
-#: ../goffice/graph/gog-axis.c:2804 ../goffice/graph/gog-series-labels.c:890
-#: ../goffice/graph/gog-series-labels.c:1414
-msgid "Format"
-msgstr "Formāts"
-
-#: ../goffice/graph/gog-axis.c:2836
-msgid "MajorGrid"
-msgstr "Lielais režģis"
-
-#: ../goffice/graph/gog-axis.c:2839
-msgid "MinorGrid"
-msgstr "Mazais režģis"
-
-#: ../goffice/graph/gog-axis.c:2842
-msgid "AxisLine"
-msgstr "Ass līnija"
-
-#: ../goffice/graph/gog-axis.c:2845
-msgid "Label"
-msgstr "Etiķete"
-
-#: ../goffice/graph/gog-axis.c:2861
-msgid "Numerical type of this axis"
-msgstr "Šīs ass skaitļa tips"
-
-#: ../goffice/graph/gog-axis.c:2865
-msgid "Invert axis"
-msgstr "_Invertēt asi"
-
-#: ../goffice/graph/gog-axis.c:2866
-msgid "Scale from high to low rather than low to high"
-msgstr "Mērogs no lielā uz mazo, nevis no mazā uz lielo"
-
-#: ../goffice/graph/gog-axis.c:2870
-msgid "MapName"
-msgstr "Kartes nosaukums"
-
-#: ../goffice/graph/gog-axis.c:2871
-msgid "The name of the map for scaling"
-msgstr "Mērogošanas kartes nosaukums"
-
-#: ../goffice/graph/gog-axis.c:2876
-msgid "Assigned XL format"
-msgstr "Piešķirtais XL formāts"
-
-#: ../goffice/graph/gog-axis.c:2877
-msgid ""
-"The user assigned format to use for non-discrete axis labels (XL format)"
+#: ../goffice/graph/gog-axis-prefs.ui.h:27
+msgid "New"
 msgstr ""
-"Lietotāja piešķirts formāts, ko izmantot ne-diskrētām asu etiķetēm (XL "
-"formātā)"
 
-#: ../goffice/graph/gog-axis.c:2882 ../goffice/graph/gog-axis.c:2883
-msgid "Rotation of circular axis"
-msgstr "Cirkulārās ass pagrieziens"
-
-#: ../goffice/graph/gog-axis.c:2890 ../goffice/graph/gog-axis.c:2891
-msgid "Polar axis set unit"
-msgstr "Polārās ass iestatīta vienība"
-
-#: ../goffice/graph/gog-axis.c:2896
-msgid "Axis start position"
-msgstr "Ass sākuma novietojums"
-
-#: ../goffice/graph/gog-axis.c:2897
-msgid ""
-"Position of the plot area at which the axis effective area starts, expressed "
-"as a percentage of the available position. Defaults to 0.0"
+#: ../goffice/graph/gog-axis-prefs.ui.h:28
+msgid "Creates a new color map from scratch"
 msgstr ""
-"Skices laukuma novietojums, pie kura sākas ass efektīvais laukums, izteikts "
-"kā procenti no pieejamās pozīcijas. Noklusējuma vērtība ir 0.0"
 
-#: ../goffice/graph/gog-axis.c:2902
-msgid "Axis end position"
-msgstr "Ass beigu novietojums"
-
-#: ../goffice/graph/gog-axis.c:2903
-msgid ""
-"Position of the plot area at which the axis effective area ends, expressed "
-"as a percentage of the available position. Defaults to 1.0"
+#: ../goffice/graph/gog-axis-prefs.ui.h:29
+msgid "Duplicate"
 msgstr ""
-"Skices laukuma novietojums, pie kura beidzas ass efektīvais laukums, izteikts "
-"kā procenti no pieejamās pozīcijas. Noklusējuma vērtība ir 1.0"
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:30
+msgid "Creates a new color map based on the currently selected one."
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:31
+#: ../goffice/graph/gog-graph-prefs.ui.h:3
+#, fuzzy
+msgid "Save"
+msgstr "Saglabāt kā"
+
+#: ../goffice/graph/gog-axis-prefs.ui.h:32
+msgid "Saves the color map to the local disk."
+msgstr ""
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:688
 msgid "Plot area"
 msgstr "Skices laukums"
 
-#: ../goffice/graph/gog-chart.c:584
+#: ../goffice/graph/gog-chart.c:584 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
 msgstr "Aizmugures plate"
 
@@ -1481,16 +1617,18 @@ msgstr "Krāsu ass"
 msgid "Plot"
 msgstr "Skices laukums"
 
-#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:413
+#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:426
 #: ../goffice/graph/gog-legend.c:195
 msgid "Title"
 msgstr "Virsraksts"
 
-#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-trend-line.c:97
+#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-theme.c:585
+#: ../goffice/graph/gog-trend-line.c:97
 msgid "Legend"
 msgstr "Leģenda"
 
 #: ../goffice/graph/gog-chart.c:645 ../goffice/graph/gog-reg-curve.c:280
+#: ../goffice/graph/gog-theme.c:595
 msgid "Equation"
 msgstr "Vienādojums"
 
@@ -1558,70 +1696,35 @@ msgstr "Rindu skaits grafika režģī"
 msgid "%s to %s"
 msgstr "%s līdz %s"
 
+#: ../goffice/graph/gog-color-scale.c:132
+#: ../plugins/plot_barcol/gog-minmax.c:227
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
+#: ../plugins/plot_xy/gog-xy-dropbar.c:306
+#: ../plugins/plot_xy/gog-xy-minmax.c:291
+msgid "Horizontal"
+msgstr "Horizontāli"
+
+#: ../goffice/graph/gog-color-scale.c:133
+#, fuzzy
+msgid "Whether to display the scale horizontally"
+msgstr "Vai izmantot horizontālās joslas"
+
+#: ../goffice/graph/gog-color-scale.c:138
+msgid "Color scale thickness."
+msgstr ""
+
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
 msgid "_Compact mode"
 msgstr "_Kompaktais režīms"
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 #: ../goffice/graph/gog-error-bar.c:79
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
-#: ../goffice/gtk/go-format-sel.c:1671 ../goffice/gtk/go-format-sel.c:1846
+#: ../goffice/gtk/go-format-sel.c:1670 ../goffice/gtk/go-format-sel.c:1846
 #: ../goffice/utils/formats.c:366 ../goffice/utils/go-line.c:127
-#: ../goffice/utils/go-style-prefs.ui.h:6
+#: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "Nekas"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
-msgid "Absolute"
-msgstr "Absolūts"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
-msgid "Relative"
-msgstr "Relatīvs"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
-msgid "Percent"
-msgstr "Procenti"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
-msgid "<b>Error category</b>"
-msgstr "<b>Kļūdas kategorija</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-msgid "<b>Style</b>"
-msgstr "<b>Stils</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
-msgid "Dis_play:"
-msgstr "A_ttēlot:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
-#: ../goffice/graph/gog-object-prefs.ui.h:18
-#: ../goffice/graph/gog-plot-prefs.ui.h:5
-msgid "_Width:"
-msgstr "_Platums:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
-msgid "_Line width:"
-msgstr "_Līnijas platums:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
-msgid "Colo_r:"
-msgstr "K_rāsa:"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
-msgid "<b>Values</b>"
-msgstr "<b>Vērtības</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:13
-msgid "(+)"
-msgstr "(+)"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:14
-msgid "(-)"
-msgstr "(-)"
 
 #: ../goffice/graph/gog-error-bar.c:84
 msgid "Positive"
@@ -1636,9 +1739,105 @@ msgid "Both"
 msgstr "Abi"
 
 #. Note for translator: the angle unit
-#: ../goffice/graph/gog-error-bar.c:335
+#: ../goffice/graph/gog-error-bar.c:336
 msgid "°"
 msgstr "°"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
+msgid "Dis_play:"
+msgstr "A_ttēlot:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
+#: ../goffice/graph/gog-object-prefs.ui.h:17
+#: ../goffice/graph/gog-plot-prefs.ui.h:3
+msgid "_Width:"
+msgstr "_Platums:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
+msgid "_Line width:"
+msgstr "_Līnijas platums:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
+msgid "Colo_r:"
+msgstr "K_rāsa:"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
+msgid "(+)"
+msgstr "(+)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
+msgid "(-)"
+msgstr "(-)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
+#: ../plugins/plot_barcol/gog-1.5d.c:364
+#: ../plugins/plot_distrib/gog-boxplot.c:428
+#: ../plugins/plot_distrib/gog-histogram.c:390
+#: ../plugins/plot_distrib/gog-probability-plot.c:317
+#: ../plugins/plot_pie/gog-pie.c:340 ../plugins/plot_radar/gog-radar.c:323
+msgid "Values"
+msgstr "Vērtības"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
+#, fuzzy
+msgid "Error category"
+msgstr "<b>Kļūdas kategorija</b>"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
+msgid "Absolute"
+msgstr "Absolūts"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:13
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
+msgid "Relative"
+msgstr "Relatīvs"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:14
+msgid "Percent"
+msgstr "Procenti"
+
+#. builds the default discrete color map
+#: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
+#: ../goffice/graph/gog-theme.c:1406 ../goffice/graph/gog-theme.c:1571
+msgid "Theme"
+msgstr "Motīvs"
+
+#: ../goffice/graph/gog-graph.c:421 ../goffice/graph/gog-theme.c:583
+msgid "Chart"
+msgstr "Diagramma"
+
+#: ../goffice/graph/gog-graph.c:482
+msgid "The theme for elements of the graph"
+msgstr "Grafika elementu motīvs"
+
+#: ../goffice/graph/gog-graph.c:487
+msgid "Theme name"
+msgstr "Motīva nosaukums"
+
+#: ../goffice/graph/gog-graph.c:488
+msgid "The name of the theme for elements of the graph"
+msgstr "Grafika elementu motīva nosaukums"
+
+#: ../goffice/graph/gog-graph.c:494
+msgid "Logical graph width, in points"
+msgstr "Loģiskais grafika platums punktos"
+
+#: ../goffice/graph/gog-graph.c:500
+msgid "Logical graph height, in points"
+msgstr "Loģiskais grafika augstums punktos"
+
+#: ../goffice/graph/gog-graph.c:505
+msgid "Document"
+msgstr "Dokuments"
+
+#: ../goffice/graph/gog-graph.c:506
+msgid "the document for this graph"
+msgstr "dokuments šim grafikam"
+
+#: ../goffice/graph/gog-graph.c:1072
+msgid "the renderer for this view"
+msgstr "attēlotājs šim skatam"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:1
 msgid "Theme:"
@@ -1648,45 +1847,13 @@ msgstr "Motīvs:"
 msgid "Forget user styles"
 msgstr "Aizmirst lietotāja stilus"
 
-#: ../goffice/graph/gog-graph.c:347 ../goffice/graph/gog-graph.c:468
-msgid "Theme"
-msgstr "Motīvs"
+#: ../goffice/graph/gog-graph-prefs.ui.h:4
+msgid "Save the theme as a standalone file in the user home directory."
+msgstr ""
 
-#: ../goffice/graph/gog-graph.c:408
-msgid "Chart"
-msgstr "Diagramma"
-
-#: ../goffice/graph/gog-graph.c:469
-msgid "The theme for elements of the graph"
-msgstr "Grafika elementu motīvs"
-
-#: ../goffice/graph/gog-graph.c:474
-msgid "Theme name"
-msgstr "Motīva nosaukums"
-
-#: ../goffice/graph/gog-graph.c:475
-msgid "The name of the theme for elements of the graph"
-msgstr "Grafika elementu motīva nosaukums"
-
-#: ../goffice/graph/gog-graph.c:481
-msgid "Logical graph width, in points"
-msgstr "Loģiskais grafika platums punktos"
-
-#: ../goffice/graph/gog-graph.c:487
-msgid "Logical graph height, in points"
-msgstr "Loģiskais grafika augstums punktos"
-
-#: ../goffice/graph/gog-graph.c:492
-msgid "Document"
-msgstr "Dokuments"
-
-#: ../goffice/graph/gog-graph.c:493
-msgid "the document for this graph"
-msgstr "dokuments šim grafikam"
-
-#: ../goffice/graph/gog-graph.c:1027
-msgid "the renderer for this view"
-msgstr "attēlotājs šim skatam"
+#: ../goffice/graph/gog-grid.c:128
+msgid "Numerical type of this backplane"
+msgstr "Šīs aizmugures plates skaitļa tips"
 
 #: ../goffice/graph/gog-grid-line.c:113
 msgid "Is-minor"
@@ -1696,45 +1863,36 @@ msgstr "Ir-mazais"
 msgid "Are these minor grid lines"
 msgstr "Vai tās ir mazās režģa līnijas"
 
-#: ../goffice/graph/gog-grid.c:128
-msgid "Numerical type of this backplane"
-msgstr "Šīs aizmugures plates skaitļa tips"
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:1
-msgid "<b>_Plot Type</b>"
-msgstr "<b>Skices ti_ps</b>"
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:2
-msgid "<b>Sample</b>"
-msgstr "<b>Paraugs</b>"
-
-#: ../goffice/graph/gog-guru-type-selector.ui.h:3
-msgid "<b>_Subtype</b>"
-msgstr "<b>Apakštip_s</b>"
-
-#: ../goffice/graph/gog-guru.c:1012 ../goffice/graph/gog-series.c:576
-msgid "Name"
-msgstr "Nosaukums"
-
-#: ../goffice/graph/gog-guru.c:1039
+#: ../goffice/graph/gog-guru.c:1057
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Solis 1 no 2 — izvēlēties diagrammas tipu"
 
-#: ../goffice/graph/gog-guru.c:1047
+#: ../goffice/graph/gog-guru.c:1065
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Solis 2 no 2 — pielāgot diagrammu"
 
-#: ../goffice/graph/gog-guru.c:1052
+#: ../goffice/graph/gog-guru.c:1070
 msgid "Customize Chart"
 msgstr "Pielāgot diagrammu"
 
-#: ../goffice/graph/gog-guru.c:1127
+#: ../goffice/graph/gog-guru.c:1145
 msgid "_Insert"
 msgstr "_Ievietot"
 
-#: ../goffice/graph/gog-guru.c:1197
+#: ../goffice/graph/gog-guru.c:1216
+#: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "Skices ti_ps"
+
+#: ../goffice/graph/gog-guru-type-selector.ui.h:2
+#, fuzzy
+msgid "Sample"
+msgstr "Skaitļu Teorija"
+
+#: ../goffice/graph/gog-guru-type-selector.ui.h:3
+#, fuzzy
+msgid "_Subtype"
+msgstr "<b>Apakštip_s</b>"
 
 #: ../goffice/graph/gog-label.c:149
 msgid "Allow markup"
@@ -1768,49 +1926,49 @@ msgstr "Aplauzt tekstu"
 msgid "Whether the text might be displayed using several lines"
 msgstr "Vai tekstu drīkst attēlot vairākās rindās"
 
-#: ../goffice/graph/gog-label.c:292
+#: ../goffice/graph/gog-label.c:285
 msgid "_Text:"
 msgstr "_Teksts:"
 
-#: ../goffice/graph/gog-label.c:294
+#: ../goffice/graph/gog-label.c:287
 msgid "Rotate frame with text"
 msgstr "Pagriezt ietvaru ar tekstu"
 
-#: ../goffice/graph/gog-label.c:298
+#: ../goffice/graph/gog-label.c:291
 msgid "Display the text on several lines if needed"
 msgstr "Rādīt tekstu vairākās rindās, ja nepieciešams"
 
-#: ../goffice/graph/gog-label.c:302
+#: ../goffice/graph/gog-label.c:295
 msgid "Rotate background with text"
 msgstr "Pagriezt fonu ar tekstu"
 
-#: ../goffice/graph/gog-label.c:306
+#: ../goffice/graph/gog-label.c:299
 msgid "Interpret text as markup"
 msgstr "Interpretēt tekstu kā marķējumu"
 
-#: ../goffice/graph/gog-label.c:307
+#: ../goffice/graph/gog-label.c:300
 msgid ""
 "Interpret the text as an HTML like markup as described at http://developer."
 "gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr ""
-"Interpretēt tekstu ka HTML marķējumu, kā aprakstīts "
-"http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"
+"Interpretēt tekstu ka HTML marķējumu, kā aprakstīts http://developer.gnome."
+"org/pango/stable/PangoMarkupFormat.html"
 
-#: ../goffice/graph/gog-label.c:313 ../goffice/graph/gog-label.c:550
+#: ../goffice/graph/gog-label.c:306 ../goffice/graph/gog-label.c:543
 #: ../goffice/graph/gog-reg-curve.c:133
-#: ../goffice/graph/gog-series-labels.c:587
-#: ../goffice/graph/gog-smoothed-curve.c:59
+#: ../goffice/graph/gog-series-labels.c:607
+#: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2094
+#: ../plugins/plot_xy/gog-xy.c:2098
 msgid "Details"
 msgstr "Sīkāka informācija"
 
-#: ../goffice/graph/gog-label.c:423
+#: ../goffice/graph/gog-label.c:416
 msgid "Text justification"
 msgstr "Teksta līdzināšana"
 
-#: ../goffice/graph/gog-label.c:424
+#: ../goffice/graph/gog-label.c:417
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
@@ -1818,23 +1976,23 @@ msgstr ""
 "Teksta līdzināšana kā virkne. Iespējamās vērtības ir “center” (noklusējuma "
 "vērtība), “left”, “right” vai “fill”."
 
-#: ../goffice/graph/gog-label.c:571
+#: ../goffice/graph/gog-label.c:564
 msgid "Regression Equation"
 msgstr "Regresijas vienādojums"
 
-#: ../goffice/graph/gog-label.c:610
+#: ../goffice/graph/gog-label.c:603
 msgid "Show equation"
 msgstr "Rādīt vienādojumu"
 
-#: ../goffice/graph/gog-label.c:611
+#: ../goffice/graph/gog-label.c:604
 msgid "Show the equation on the graph"
 msgstr "Rādīt vienādojumu grafikā"
 
-#: ../goffice/graph/gog-label.c:616
+#: ../goffice/graph/gog-label.c:609
 msgid "Show coefficient"
 msgstr "Rādīt koeficientu"
 
-#: ../goffice/graph/gog-label.c:617
+#: ../goffice/graph/gog-label.c:610
 msgid "Show the correlation coefficient on the graph"
 msgstr "Rādīt korelācijas koeficientu grafikā"
 
@@ -1854,8 +2012,103 @@ msgstr "Paletes iekšmale pts"
 msgid "padding between the swatches in pts."
 msgstr "iekšmale starp paletēm, izteikts pts."
 
+#: ../goffice/graph/gog-object.c:161 ../goffice/graph/gog-object.c:180
+#: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
+msgid "Top"
+msgstr "Augšā"
+
+#: ../goffice/graph/gog-object.c:162 ../goffice/graph/gog-object.c:181
+msgid "Top right"
+msgstr "Augšā pa labi"
+
+#: ../goffice/graph/gog-object.c:163 ../goffice/graph/gog-object.c:184
+#: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
+msgid "Right"
+msgstr "Pa labi"
+
+#: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:187
+msgid "Bottom right"
+msgstr "Apakšā pa labi"
+
+#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:186
+#: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
+msgid "Bottom"
+msgstr "Apakšā"
+
+#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
+msgid "Bottom left"
+msgstr "Apakšā pa kreisi"
+
+#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:182
+#: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
+msgid "Left"
+msgstr "Pa kreisi"
+
+#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:179
+msgid "Top left"
+msgstr "Augšā pa kreisi"
+
+#: ../goffice/graph/gog-object.c:172 ../goffice/utils/go-style-prefs.ui.h:29
+msgid "Fill"
+msgstr "Aizpildījums"
+
+#: ../goffice/graph/gog-object.c:173 ../plugins/plot_barcol/gog-dropbar.c:143
+#: ../plugins/plot_xy/gog-xy-dropbar.c:326
+msgid "Start"
+msgstr "Sākums"
+
+#: ../goffice/graph/gog-object.c:174 ../plugins/plot_barcol/gog-dropbar.c:145
+#: ../plugins/plot_xy/gog-xy-dropbar.c:328
+msgid "End"
+msgstr "Beigas"
+
+#: ../goffice/graph/gog-object.c:175 ../goffice/graph/gog-object.c:183
+#: ../goffice/graph/gog-series.c:111
+msgid "Center"
+msgstr "Vidus"
+
+#: ../goffice/graph/gog-object.c:785
+msgid "Object ID"
+msgstr "Objekta ID"
+
+#: ../goffice/graph/gog-object.c:786
+msgid "Object numerical ID"
+msgstr "Objekta ciparu ID"
+
+#: ../goffice/graph/gog-object.c:792
+msgid "Position and size of object, in percentage of parent size"
+msgstr "Objekta pozīcija un izmērs, izteikts procentos no vecāka izmēra"
+
+#: ../goffice/graph/gog-object.c:797
+msgid "Compass"
+msgstr "Kompass"
+
+#: ../goffice/graph/gog-object.c:798
+msgid "Compass auto position flags"
+msgstr "Kompasa automātiskās pozīcijas atzīmes"
+
+#: ../goffice/graph/gog-object.c:803
+msgid "Alignment"
+msgstr "Līdzinājums"
+
+#: ../goffice/graph/gog-object.c:804
+msgid "Alignment flag"
+msgstr "Līdzinājuma karogs"
+
+#: ../goffice/graph/gog-object.c:809 ../goffice/graph/gog-object.c:810
+msgid "Is position manual"
+msgstr "Novietojums ir pašrocīgs"
+
+#: ../goffice/graph/gog-object.c:816
+msgid "Anchor for manual position"
+msgstr "Enkurs pašrocīgai novietošanai"
+
+#: ../goffice/graph/gog-object.c:821 ../goffice/graph/gog-object.c:822
+msgid "Should the object be hidden"
+msgstr "Vai objektam ir jābūt slēptam"
+
 #: ../goffice/graph/gog-object-prefs.ui.h:1
-#: ../goffice/graph/gog-plot-prefs.ui.h:3
+#: ../goffice/graph/gog-plot-prefs.ui.h:7
 msgid "_Object position:"
 msgstr "_Objekta novietojums:"
 
@@ -1868,31 +2121,31 @@ msgstr "No_vietojums:"
 msgid "_Alignment:"
 msgstr "Līdzināš_ana:"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:5
-#: ../goffice/graph/gog-plot-prefs.ui.h:8
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
-#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:6
-#: ../plugins/plot_pie/gog-pie-series.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:6
-#: ../goffice/graph/gog-plot-prefs.ui.h:4
-msgid "_Y:"
-msgstr "_Y:"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:7
-#: ../goffice/graph/gog-plot-prefs.ui.h:9
+#: ../goffice/graph/gog-object-prefs.ui.h:4
+#: ../goffice/graph/gog-plot-prefs.ui.h:1
 msgid "_X:"
 msgstr "_X:"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-object-prefs.ui.h:5
+#: ../goffice/graph/gog-plot-prefs.ui.h:2
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../goffice/graph/gog-object-prefs.ui.h:6
 msgid "Anchor:"
 msgstr "Enkurs:"
+
+#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
+#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-series.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
+#, no-c-format
+msgid "%"
+msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:9
 msgid "Column:"
@@ -1919,115 +2172,14 @@ msgid "Object size:"
 msgstr "Objekta izmērs:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:16
-#: ../goffice/graph/gog-plot-prefs.ui.h:2
+#: ../goffice/graph/gog-plot-prefs.ui.h:9
 msgid "Manual"
 msgstr "Pašrocīgi"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:17
-#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../goffice/graph/gog-object-prefs.ui.h:18
+#: ../goffice/graph/gog-plot-prefs.ui.h:4
 msgid "_Height:"
 msgstr "_Augstums:"
-
-#: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:183
-#: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
-msgid "Top"
-msgstr "Augšā"
-
-#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:184
-msgid "Top right"
-msgstr "Augšā pa labi"
-
-#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:187
-#: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
-msgid "Right"
-msgstr "Pa labi"
-
-#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:190
-msgid "Bottom right"
-msgstr "Apakšā pa labi"
-
-#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:189
-#: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
-msgid "Bottom"
-msgstr "Apakšā"
-
-#: ../goffice/graph/gog-object.c:169 ../goffice/graph/gog-object.c:188
-msgid "Bottom left"
-msgstr "Apakšā pa kreisi"
-
-#: ../goffice/graph/gog-object.c:170 ../goffice/graph/gog-object.c:185
-#: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
-msgid "Left"
-msgstr "Pa kreisi"
-
-#: ../goffice/graph/gog-object.c:171 ../goffice/graph/gog-object.c:182
-msgid "Top left"
-msgstr "Augšā pa kreisi"
-
-#: ../goffice/graph/gog-object.c:175
-msgid "Fill"
-msgstr "Aizpildījums"
-
-#: ../goffice/graph/gog-object.c:176 ../plugins/plot_barcol/gog-dropbar.c:143
-#: ../plugins/plot_xy/gog-xy-dropbar.c:326
-msgid "Start"
-msgstr "Sākums"
-
-#: ../goffice/graph/gog-object.c:177 ../plugins/plot_barcol/gog-dropbar.c:145
-#: ../plugins/plot_xy/gog-xy-dropbar.c:328
-msgid "End"
-msgstr "Beigas"
-
-#: ../goffice/graph/gog-object.c:178 ../goffice/graph/gog-object.c:186
-#: ../goffice/graph/gog-series.c:111
-msgid "Center"
-msgstr "Vidus"
-
-#: ../goffice/graph/gog-object.c:750 ../goffice/graph/gog-object.c:794
-#: ../goffice/graph/gog-series-labels.c:878
-#: ../goffice/graph/gog-series-labels.c:1402
-msgid "Position"
-msgstr "Novietojums"
-
-#: ../goffice/graph/gog-object.c:788
-msgid "Object ID"
-msgstr "Objekta ID"
-
-#: ../goffice/graph/gog-object.c:789
-msgid "Object numerical ID"
-msgstr "Objekta ciparu ID"
-
-#: ../goffice/graph/gog-object.c:795
-msgid "Position and size of object, in percentage of parent size"
-msgstr "Objekta pozīcija un izmērs, izteikts procentos no vecāka izmēra"
-
-#: ../goffice/graph/gog-object.c:800
-msgid "Compass"
-msgstr "Kompass"
-
-#: ../goffice/graph/gog-object.c:801
-msgid "Compass auto position flags"
-msgstr "Kompasa automātiskās pozīcijas atzīmes"
-
-#: ../goffice/graph/gog-object.c:806
-msgid "Alignment"
-msgstr "Līdzinājums"
-
-#: ../goffice/graph/gog-object.c:807
-msgid "Alignment flag"
-msgstr "Līdzinājuma karogs"
-
-#: ../goffice/graph/gog-object.c:812 ../goffice/graph/gog-object.c:813
-msgid "Is position manual"
-msgstr "Novietojums ir pašrocīgs"
-
-#: ../goffice/graph/gog-object.c:819
-msgid "Anchor for manual position"
-msgstr "Enkurs pašrocīgai novietošanai"
-
-#: ../goffice/graph/gog-object.c:824 ../goffice/graph/gog-object.c:825
-msgid "Should the object be hidden"
-msgstr "Vai objektam ir jābūt slēptam"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
@@ -2036,22 +2188,6 @@ msgstr "Iekšmale pts"
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
 msgstr "Punktu skaits, kas režģī atdala diagrammas"
-
-#: ../goffice/graph/gog-plot-engine.c:81
-msgid "Plot Engine"
-msgstr "Skices dzinis"
-
-#: ../goffice/graph/gog-plot-engine.c:330
-msgid "Plot Type"
-msgstr "Skices tips"
-
-#: ../goffice/graph/gog-plot-engine.c:414
-msgid "Regression Curve Engine"
-msgstr "Regresijas līkņu dzinis"
-
-#: ../goffice/graph/gog-plot-engine.c:608
-msgid "Regression Curve Type"
-msgstr "Regresijas līkņu tips"
 
 #: ../goffice/graph/gog-plot.c:227
 msgid "X axis:"
@@ -2085,99 +2221,100 @@ msgstr "Krāsu ass:"
 msgid "Bubble axis:"
 msgstr "Burbuļa ass:"
 
-#: ../goffice/graph/gog-plot.c:299
+#: ../goffice/graph/gog-plot.c:300
 msgid "Axes"
 msgstr "Asis"
 
-#: ../goffice/graph/gog-plot.c:437
+#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "Sērija"
 
-#: ../goffice/graph/gog-plot.c:458
+#: ../goffice/graph/gog-plot.c:459
 msgid "Vary style by element"
 msgstr "Variēt stilu pēc elementa"
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:460
 msgid "Use a different style for each segment"
 msgstr "Katram segmentam lietot citu stilu"
 
-#: ../goffice/graph/gog-plot.c:464
+#: ../goffice/graph/gog-plot.c:465
 msgid "X axis"
 msgstr "X ass"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:466
 msgid "Reference to X axis"
 msgstr "Atsauce uz X asi"
 
-#: ../goffice/graph/gog-plot.c:470
+#: ../goffice/graph/gog-plot.c:471
 msgid "Y axis"
 msgstr "Y ass"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:472
 msgid "Reference to Y axis"
 msgstr "Atsauce uz Y asi"
 
-#: ../goffice/graph/gog-plot.c:476
+#: ../goffice/graph/gog-plot.c:477
 msgid "Z axis"
 msgstr "Z ass"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:478
 msgid "Reference to Z axis"
 msgstr "Atsauce uz Z asi"
 
-#: ../goffice/graph/gog-plot.c:482
+#: ../goffice/graph/gog-plot.c:483
 msgid "Circular axis"
 msgstr "Cirkulāra ass"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
 msgstr "Atsauce uz cirkulāru asi"
 
-#: ../goffice/graph/gog-plot.c:488
+#: ../goffice/graph/gog-plot.c:489
 msgid "Radial axis"
 msgstr "Radiāla ass"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
 msgstr "Atsauce uz radiālu asi"
 
-#: ../goffice/graph/gog-plot.c:494
+#: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
 msgstr "Pseido-3D ass"
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
 msgstr "Atsauce uz pseido-3D asi"
 
-#: ../goffice/graph/gog-plot.c:500
+#: ../goffice/graph/gog-plot.c:501
 msgid "Color axis"
 msgstr "Krāsu ass"
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
 msgstr "Atsauce uz krāsu asi"
 
-#: ../goffice/graph/gog-plot.c:506
+#: ../goffice/graph/gog-plot.c:507
 msgid "Bubble axis"
 msgstr "Burbuļa ass"
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
 msgstr "Atsauce uz burbuļa asi"
 
-#: ../goffice/graph/gog-plot.c:512
+#: ../goffice/graph/gog-plot.c:513
 msgid "Plot group"
 msgstr "Skices grupa"
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:514
 msgid "Name of plot group if any"
 msgstr "Nosaukums skices grupai, ja tāds ir"
 
-#: ../goffice/graph/gog-plot.c:518
+#: ../goffice/graph/gog-plot.c:519
 msgid "Guru hints"
 msgstr "Guru padomi"
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:520
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
@@ -2185,21 +2322,62 @@ msgstr ""
 "Ar semikoliem atdalīts padomu saraksts automātiskai objektu pievienošanai "
 "guru dialoglodziņā"
 
-#: ../goffice/graph/gog-plot.c:525
+#: ../goffice/graph/gog-plot.c:526
 msgid "Default interpolation"
 msgstr "Noklusējuma interpolācija"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:527
 msgid "Default type of series line interpolation"
 msgstr "Noklusējuma sēriju rindas tipa interpolācija"
 
-#: ../goffice/graph/gog-plot.c:1174
+#: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
 msgstr "Pārvietot skices laukumu"
 
-#: ../goffice/graph/gog-plot.c:1226
+#: ../goffice/graph/gog-plot.c:1227
 msgid "Resize plot area"
 msgstr "Mainīt skices laukumu"
+
+#: ../goffice/graph/gog-plot-engine.c:81
+msgid "Plot Engine"
+msgstr "Skices dzinis"
+
+#: ../goffice/graph/gog-plot-engine.c:330
+msgid "Plot Type"
+msgstr "Skices tips"
+
+#: ../goffice/graph/gog-plot-engine.c:414
+msgid "Regression Curve Engine"
+msgstr "Regresijas līkņu dzinis"
+
+#: ../goffice/graph/gog-plot-engine.c:608
+msgid "Regression Curve Type"
+msgstr "Regresijas līkņu tips"
+
+#: ../goffice/graph/gog-reg-curve.c:273
+msgid "Regression Curve"
+msgstr "Regresijas līkne"
+
+#: ../goffice/graph/gog-reg-curve.c:308
+msgid "Skip invalid"
+msgstr "Izlaist nederīgos"
+
+#: ../goffice/graph/gog-reg-curve.c:309
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
+msgid "Skip invalid data"
+msgstr "Izlaist nederīgus datus"
+
+#: ../goffice/graph/gog-reg-curve.c:314
+msgid "Drawing bounds"
+msgstr "Zīmēšanas ierobežojumi"
+
+#: ../goffice/graph/gog-reg-curve.c:315
+msgid ""
+"How the regression line should be limited, acceptable values are \"none\", "
+"\"absolute\", and \"relative\"."
+msgstr ""
+"Kā būtu jāierobežo regresijas līnijas. Pieņemamās vērtības ir “nav”, "
+"“absolūts” un “relatīvs”"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2213,17 +2391,14 @@ msgstr "Apakšējā robeža:"
 msgid "High bound:"
 msgstr "Augšējā robeža:"
 
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
-#: ../goffice/graph/gog-reg-curve.c:309
-msgid "Skip invalid data"
-msgstr "Izlaist nederīgus datus"
-
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
-msgid "<b>Used data</b>"
-msgstr "<b>Izmantotie dati</b>"
+#: ../goffice/graph/gog-series-labels.c:471
+msgid "Used data"
+msgstr "Izmantotie dati"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
-msgid "<b>Drawing Limits:</b>"
+#, fuzzy
+msgid "Drawing Limits:"
 msgstr "<b>Zīmēšanas limiti:</b>"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:7
@@ -2268,26 +2443,6 @@ msgstr "Apakšējais intervāls:"
 msgid "High span:"
 msgstr "Augšējais intervāls:"
 
-#: ../goffice/graph/gog-reg-curve.c:273
-msgid "Regression Curve"
-msgstr "Regresijas līkne"
-
-#: ../goffice/graph/gog-reg-curve.c:308
-msgid "Skip invalid"
-msgstr "Izlaist nederīgos"
-
-#: ../goffice/graph/gog-reg-curve.c:314
-msgid "Drawing bounds"
-msgstr "Zīmēšanas ierobežojumi"
-
-#: ../goffice/graph/gog-reg-curve.c:315
-msgid ""
-"How the regression line should be limited, acceptable values are \"none\", "
-"\"absolute\", and \"relative\"."
-msgstr ""
-"Kā būtu jāierobežo regresijas līnijas. Pieņemamās vērtības ir “nav”, "
-"“absolūts” un “relatīvs”"
-
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
 msgstr "Rādīt vi_enādojumu"
@@ -2296,19 +2451,19 @@ msgstr "Rādīt vi_enādojumu"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Rādīt _regresijas koeficientu R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1841 ../goffice/graph/gog-view.c:690
+#: ../goffice/graph/gog-renderer.c:1824 ../goffice/graph/gog-view.c:691
 msgid "Model"
 msgstr "Modelis"
 
-#: ../goffice/graph/gog-renderer.c:1842
+#: ../goffice/graph/gog-renderer.c:1825
 msgid "The GogGraph this renderer displays"
 msgstr "GogGraph, ko šis attēlotājs attēlo"
 
-#: ../goffice/graph/gog-renderer.c:1847
+#: ../goffice/graph/gog-renderer.c:1830
 msgid "View"
 msgstr "Skats"
 
-#: ../goffice/graph/gog-renderer.c:1848
+#: ../goffice/graph/gog-renderer.c:1831
 msgid "the GogView this renderer is displaying"
 msgstr "GogView, ko šis attēlotājs attēlo"
 
@@ -2352,83 +2507,83 @@ msgstr "Y ass minimums"
 msgid "Y axis maximum"
 msgstr "Y ass maksimums"
 
-#: ../goffice/graph/gog-series.c:223 ../goffice/graph/gog-series-labels.c:394
+#: ../goffice/graph/gog-series.c:231 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
 msgstr "Indekss:"
 
-#: ../goffice/graph/gog-series.c:242 ../plugins/plot_pie/gog-pie.c:91
+#: ../goffice/graph/gog-series.c:244 ../plugins/plot_pie/gog-pie.c:91
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: ../goffice/graph/gog-series.c:283 ../goffice/graph/gog-series-labels.c:896
+#: ../goffice/graph/gog-series.c:285 ../goffice/graph/gog-series-labels.c:916
 msgid "Index"
 msgstr "Indekss"
 
-#: ../goffice/graph/gog-series.c:284 ../goffice/graph/gog-series-labels.c:897
+#: ../goffice/graph/gog-series.c:286 ../goffice/graph/gog-series-labels.c:917
 msgid "Index of the corresponding data element"
 msgstr "Indekss ar atbilstošajiem datu elementiem"
 
-#: ../goffice/graph/gog-series.c:607 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:610 ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
 msgstr "_Rādīt leģendā"
 
-#: ../goffice/graph/gog-series.c:617
+#: ../goffice/graph/gog-series.c:620
 msgid "Data"
 msgstr "Dati"
 
-#: ../goffice/graph/gog-series.c:659
+#: ../goffice/graph/gog-series.c:662
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr "Piestiprināta kubiskā splaina pirmā punkta atvasinājums."
 
-#: ../goffice/graph/gog-series.c:664
+#: ../goffice/graph/gog-series.c:667
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr "Piestiprināta kubiskā splaina pēdējā punkta atvasinājums."
 
-#: ../goffice/graph/gog-series.c:737 ../goffice/graph/gog-series-labels.c:1379
+#: ../goffice/graph/gog-series.c:740 ../goffice/graph/gog-series-labels.c:1401
 msgid "Point"
 msgstr "Punkts"
 
-#: ../goffice/graph/gog-series.c:743
+#: ../goffice/graph/gog-series.c:746
 msgid "Regression curve"
 msgstr "Regresijas līkne"
 
-#: ../goffice/graph/gog-series.c:751
+#: ../goffice/graph/gog-series.c:754 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
 msgstr "Tendences līkne"
 
-#: ../goffice/graph/gog-series.c:759
+#: ../goffice/graph/gog-series.c:762
 msgid "Data labels"
 msgstr "Datu etiķetes"
 
-#: ../goffice/graph/gog-series.c:794 ../goffice/graph/gog-trend-line.c:153
+#: ../goffice/graph/gog-series.c:797 ../goffice/graph/gog-trend-line.c:151
 msgid "Has-legend"
 msgstr "Ir leģenda"
 
-#: ../goffice/graph/gog-series.c:795
+#: ../goffice/graph/gog-series.c:798
 msgid "Should the series show up in legends"
 msgstr "Vai sērijām vajadzētu parādīties leģendās"
 
-#: ../goffice/graph/gog-series.c:800
+#: ../goffice/graph/gog-series.c:803 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr "Interpolācija"
 
-#: ../goffice/graph/gog-series.c:801
+#: ../goffice/graph/gog-series.c:804
 msgid "Type of line interpolation"
 msgstr "Rindu interpolācijas tips"
 
-#: ../goffice/graph/gog-series.c:806
+#: ../goffice/graph/gog-series.c:809
 msgid "Interpolation skip invalid"
 msgstr "Interpolācija izlaiž nederīgos"
 
-#: ../goffice/graph/gog-series.c:807
+#: ../goffice/graph/gog-series.c:810
 msgid "Should the series interpolation ignore the invalid data"
 msgstr "Vai sēriju interpolācijai vajadzētu ignorēt nederīgos datus"
 
-#: ../goffice/graph/gog-series.c:812
+#: ../goffice/graph/gog-series.c:815
 msgid "Fill type"
 msgstr "Aizpildīšanas tips"
 
-#: ../goffice/graph/gog-series.c:813
+#: ../goffice/graph/gog-series.c:816
 msgid "How to fill the area"
 msgstr "Kā aizpildīt laukumu"
 
@@ -2448,34 +2603,30 @@ msgstr "Iekšpusē"
 msgid "Near origin"
 msgstr "Tuvu sākumam"
 
-#: ../goffice/graph/gog-series-labels.c:402
+#: ../goffice/graph/gog-series-labels.c:422
 msgid "Custom label"
 msgstr "Pielāgota etiķete"
 
-#: ../goffice/graph/gog-series-labels.c:412
+#: ../goffice/graph/gog-series-labels.c:432
 msgid "Custom labels"
 msgstr "Pielāgotas etiķetes"
 
-#: ../goffice/graph/gog-series-labels.c:443
+#: ../goffice/graph/gog-series-labels.c:463
 msgid "Available data"
 msgstr "Pieejamie datni"
 
-#: ../goffice/graph/gog-series-labels.c:451
-msgid "Used data"
-msgstr "Izmantotie dati"
-
-#: ../goffice/graph/gog-series-labels.c:496
-#: ../goffice/graph/gog-series-labels.c:564
+#: ../goffice/graph/gog-series-labels.c:516
+#: ../goffice/graph/gog-series-labels.c:584
 msgid "Legend entry"
 msgstr "Leģendas ieraksts"
 
-#: ../goffice/graph/gog-series-labels.c:501
-#: ../goffice/graph/gog-series-labels.c:568
+#: ../goffice/graph/gog-series-labels.c:521
+#: ../goffice/graph/gog-series-labels.c:588
 msgid "Series name"
 msgstr "Sērijas nosaukums"
 
-#: ../goffice/graph/gog-series-labels.c:507
-#: ../goffice/graph/gog-series-labels.c:572
+#: ../goffice/graph/gog-series-labels.c:527
+#: ../goffice/graph/gog-series-labels.c:592
 msgid "Values as percent"
 msgstr "Vērtības kā procenti"
 
@@ -2483,29 +2634,29 @@ msgstr "Vērtības kā procenti"
 #. FIXME: should the number of digits be customizable?
 #. Note to translators: a space might be needed before '%%' in someo_is_finie languages
 #. FIXME: should the number of digits be customizable?
-#: ../goffice/graph/gog-series-labels.c:821
-#: ../goffice/graph/gog-series-labels.c:1259
+#: ../goffice/graph/gog-series-labels.c:841
+#: ../goffice/graph/gog-series-labels.c:1281
 #, c-format
 msgid "%.1f%%"
 msgstr "%.1f%%"
 
-#: ../goffice/graph/gog-series-labels.c:879
-#: ../goffice/graph/gog-series-labels.c:1403
+#: ../goffice/graph/gog-series-labels.c:899
+#: ../goffice/graph/gog-series-labels.c:1425
 msgid "Position of the label relative to the data graphic element"
 msgstr "Etiķetes novietojums attiecībā pret datu grafisko elementu"
 
-#: ../goffice/graph/gog-series-labels.c:884
-#: ../goffice/graph/gog-series-labels.c:1408
+#: ../goffice/graph/gog-series-labels.c:904
+#: ../goffice/graph/gog-series-labels.c:1430
 msgid "Offset"
 msgstr "Nobīde"
 
-#: ../goffice/graph/gog-series-labels.c:885
-#: ../goffice/graph/gog-series-labels.c:1409
+#: ../goffice/graph/gog-series-labels.c:905
+#: ../goffice/graph/gog-series-labels.c:1431
 msgid "Offset to add to the label position"
 msgstr "Nobīde, ko pievienot etiķetes novietojumam"
 
-#: ../goffice/graph/gog-series-labels.c:891
-#: ../goffice/graph/gog-series-labels.c:1415
+#: ../goffice/graph/gog-series-labels.c:911
+#: ../goffice/graph/gog-series-labels.c:1437
 msgid "Label format"
 msgstr "Etiķetes formāts"
 
@@ -2525,10 +2676,6 @@ msgstr "Atdalītājs:"
 msgid "Fill _to:"
 msgstr "Aizpildī_t līdz:"
 
-#: ../goffice/graph/gog-series-prefs.ui.h:2
-msgid "<b>Interpolation</b>"
-msgstr "<b>Interpolācija</b>"
-
 #: ../goffice/graph/gog-series-prefs.ui.h:3
 msgid "S_kip invalid data"
 msgstr "Izlai_st nederīgus datus"
@@ -2547,23 +2694,107 @@ msgstr "<i>y'</i>(<i>x</i><sub>pēdējais</sub>):"
 msgid "content"
 msgstr "saturs"
 
-#: ../goffice/graph/gog-smoothed-curve.c:53
+#: ../goffice/graph/gog-smoothed-curve.c:54
 msgid "(Name):"
 msgstr "(Nosaukums):"
 
-#: ../goffice/graph/gog-smoothed-curve.c:90
+#: ../goffice/graph/gog-smoothed-curve.c:91
 msgid "Smoothed Curve"
 msgstr "Guldināta līkne"
 
-#. An MS Excel-ish theme
-#: ../goffice/graph/gog-theme.c:697
-msgid "Default"
-msgstr "Noklusējuma"
+#: ../goffice/graph/gog-theme.c:323
+#, fuzzy
+msgid "The resource type for the theme"
+msgstr "Teksta enkura punkts"
+
+#: ../goffice/graph/gog-theme.c:582
+#, fuzzy
+msgid "Graph title"
+msgstr "Grafs"
+
+#: ../goffice/graph/gog-theme.c:584
+#, fuzzy
+msgid "Chart title"
+msgstr "Diagramma"
+
+#: ../goffice/graph/gog-theme.c:586
+#, fuzzy
+msgid "Axis"
+msgstr "X ass"
+
+#: ../goffice/graph/gog-theme.c:587
+#, fuzzy
+msgid "Axis line"
+msgstr "Ass līnija"
+
+#: ../goffice/graph/gog-theme.c:589
+#, fuzzy
+msgid "Major grid"
+msgstr "Lielais režģis"
+
+#: ../goffice/graph/gog-theme.c:590
+#, fuzzy
+msgid "Minor grid"
+msgstr "Mazais režģis"
+
+#: ../goffice/graph/gog-theme.c:593
+#, fuzzy
+msgid "Regression equation"
+msgstr "Regresijas vienādojums"
+
+#: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:643
+msgid "Series lines"
+msgstr "Sēriju līnijas"
+
+#: ../goffice/graph/gog-theme.c:599
+#, fuzzy
+msgid "Series labels"
+msgstr "Kategoriju etiķetes"
+
+#: ../goffice/graph/gog-theme.c:600
+#, fuzzy
+msgid "Data label"
+msgstr "Datu etiķetes"
+
+#: ../goffice/graph/gog-theme.c:1241
+msgid "An MS Excel like theme"
+msgstr ""
 
 #. Guppi
-#: ../goffice/graph/gog-theme.c:848
+#: ../goffice/graph/gog-theme.c:1411
 msgid "Guppi"
 msgstr "Guppi"
+
+#: ../goffice/graph/gog-theme.c:1412
+#, fuzzy
+msgid "Guppi theme"
+msgstr "Guppi"
+
+#: ../goffice/graph/gog-theme.c:1840
+msgid "Class"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:1843
+msgid "Create"
+msgstr ""
+
+#: ../goffice/graph/gog-theme.c:1858 ../goffice/graph/new-theme-prefs.ui.h:1
+#, fuzzy
+msgid "New theme"
+msgstr "Jaunā attēla nosaukums"
+
+#: ../goffice/graph/gog-theme-editor.ui.h:1
+#, fuzzy
+msgid "Theme editor"
+msgstr "Motīva nosaukums"
+
+#: ../goffice/graph/gog-theme-editor.ui.h:3
+msgid "Classes"
+msgstr ""
+
+#: ../goffice/graph/gog-theme-editor.ui.h:5
+msgid "Snapshot"
+msgstr ""
 
 #: ../goffice/graph/gog-trend-line.c:90
 #: ../plugins/plot_barcol/gog-barcol.c:166
@@ -2576,44 +2807,45 @@ msgstr "Guppi"
 #: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:595
 #: ../plugins/plot_surface/gog-xyz.c:101
 #: ../plugins/plot_surface/gog-xyz-surface.c:315
-#: ../plugins/plot_xy/gog-xy.c:354 ../plugins/plot_xy/gog-xy.c:466
-#: ../plugins/plot_xy/gog-xy.c:737 ../plugins/plot_xy/gog-xy-dropbar.c:154
+#: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:463
+#: ../plugins/plot_xy/gog-xy.c:734 ../plugins/plot_xy/gog-xy-dropbar.c:154
+#: ../plugins/smoothing/gog-exp-smooth.c:80
 #: ../plugins/smoothing/gog-moving-avg.c:112
-#: ../plugins/smoothing/gog-exp-smooth.c:79
 msgid "Properties"
 msgstr "Īpašības"
 
-#: ../goffice/graph/gog-trend-line.c:134
+#: ../goffice/graph/gog-trend-line.c:132
 msgid "Trend Line"
 msgstr "Tendences līkne"
 
-#: ../goffice/graph/gog-trend-line.c:154
+#: ../goffice/graph/gog-trend-line.c:152
 msgid "Should the trend line show up in legends"
 msgstr "Vai tendences līknei vajadzētu parādīties leģendās"
 
-#: ../goffice/graph/gog-view.c:128
+#: ../goffice/graph/gog-view.c:129
 msgid "Select object"
 msgstr "Izvēlieties objektu"
 
-#: ../goffice/graph/gog-view.c:199
+#: ../goffice/graph/gog-view.c:200
 msgid "Move"
 msgstr "Pārvietot"
 
-#: ../goffice/graph/gog-view.c:246
+#: ../goffice/graph/gog-view.c:247
 msgid "Resize object"
 msgstr "Mainīt objekta izmēru"
 
-#: ../goffice/graph/gog-view.c:685
+#: ../goffice/graph/gog-view.c:686
 msgid "the GogView parent"
 msgstr "GogView vecāks"
 
-#: ../goffice/graph/gog-view.c:691
+#: ../goffice/graph/gog-view.c:692
 msgid "The GogObject this view displays"
 msgstr "GogObject, ko šis skats attēlo"
 
-#: ../goffice/gtk/go-3d-rotation-sel.ui.h:1
-msgid "<b>Rotation</b>"
-msgstr "<b>Rotācija</b>"
+#: ../goffice/graph/new-theme-prefs.ui.h:2
+#, fuzzy
+msgid "Series number"
+msgstr "Sērijas nosaukums"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -2679,7 +2911,8 @@ msgstr "Vjetnamiešu"
 msgid "Western"
 msgstr "Rietumu"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-locale-sel.c:72
+#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:604
+#: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "Citas"
 
@@ -3023,185 +3256,186 @@ msgstr "Konversijas virziens"
 msgid "This value determines which iconv test to perform."
 msgstr "Šī vērtība nosaka, kuru iconv testu veikt."
 
-#: ../goffice/gtk/go-color-palette.c:76
+#. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
+#: ../goffice/gtk/go-color-palette.c:77
 msgid "black"
 msgstr "melns"
 
-#: ../goffice/gtk/go-color-palette.c:77
+#: ../goffice/gtk/go-color-palette.c:78
 msgid "light brown"
 msgstr "gaiši brūns"
 
-#: ../goffice/gtk/go-color-palette.c:78
+#: ../goffice/gtk/go-color-palette.c:79
 msgid "brown gold"
 msgstr "brūni zeltains"
 
-#: ../goffice/gtk/go-color-palette.c:79
+#: ../goffice/gtk/go-color-palette.c:80
 msgid "dark green #2"
 msgstr "tumši zaļš #2"
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "navy"
 msgstr "tumšzils"
 
-#: ../goffice/gtk/go-color-palette.c:81 ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:82 ../goffice/gtk/go-color-palette.c:134
 msgid "dark blue"
 msgstr "tumši zils"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "purple #2"
 msgstr "purpura #2"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:84
 msgid "very dark gray"
 msgstr "ļoti tumši pelēks"
 
-#: ../goffice/gtk/go-color-palette.c:85 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:139
 msgid "dark red"
 msgstr "tumši sarkans"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:87
 msgid "red-orange"
 msgstr "sarkan oranžs"
 
-#: ../goffice/gtk/go-color-palette.c:87
+#: ../goffice/gtk/go-color-palette.c:88
 msgid "gold"
 msgstr "zelta"
 
-#: ../goffice/gtk/go-color-palette.c:88
+#: ../goffice/gtk/go-color-palette.c:89
 msgid "dark green"
 msgstr "tumši zaļš"
 
-#: ../goffice/gtk/go-color-palette.c:89 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
 msgid "dull blue"
 msgstr "pelēki zils"
 
-#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:91 ../goffice/gtk/go-color-palette.c:141
 msgid "blue"
 msgstr "zils"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:92
 msgid "dull purple"
 msgstr "pelēki purpura"
 
-#: ../goffice/gtk/go-color-palette.c:92
+#: ../goffice/gtk/go-color-palette.c:93
 msgid "dark gray"
 msgstr "tumši pelēks"
 
-#: ../goffice/gtk/go-color-palette.c:94
+#: ../goffice/gtk/go-color-palette.c:95
 msgid "red"
 msgstr "sarkans"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:96
 msgid "orange"
 msgstr "oranžs"
 
-#: ../goffice/gtk/go-color-palette.c:96
+#: ../goffice/gtk/go-color-palette.c:97
 msgid "lime"
 msgstr "laima"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:98
 msgid "dull green"
 msgstr "pelēki zaļš"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "dull blue #2"
 msgstr "pelēki zils #2"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "sky blue #2"
 msgstr "debeszils #2"
 
-#: ../goffice/gtk/go-color-palette.c:100 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:101 ../goffice/gtk/go-color-palette.c:138
 msgid "purple"
 msgstr "purpura"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "gray"
 msgstr "pelēks"
 
-#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:135
 msgid "magenta"
 msgstr "fuksīns"
 
-#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:105
 msgid "bright orange"
 msgstr "gaiši oranžs"
 
-#: ../goffice/gtk/go-color-palette.c:105 ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:136
 msgid "yellow"
 msgstr "dzeltens"
 
-#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:107
 msgid "green"
 msgstr "zaļš"
 
-#: ../goffice/gtk/go-color-palette.c:107 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:137
 msgid "cyan"
 msgstr "ciāna"
 
-#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:109
 msgid "bright blue"
 msgstr "gaiši zils"
 
-#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:125
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:126
 msgid "red purple"
 msgstr "sarkans purpura"
 
-#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:111
 msgid "light gray"
 msgstr "gaiši pelēks"
 
-#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:130
 msgid "pink"
 msgstr "rozā"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:114
 msgid "light orange"
 msgstr "gaiši oranžs"
 
-#: ../goffice/gtk/go-color-palette.c:114 ../goffice/gtk/go-color-palette.c:126
+#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:127
 msgid "light yellow"
 msgstr "gaiši dzeltens"
 
-#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:116
 msgid "light green"
 msgstr "gaiši zaļš"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:117
 msgid "light cyan"
 msgstr "gaiši ciāns"
 
-#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:128
 msgid "light blue"
 msgstr "gaiši zils"
 
-#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:132
 msgid "light purple"
 msgstr "gaiši purpura"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:120
 msgid "white"
 msgstr "balts"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:124
+#: ../goffice/gtk/go-color-palette.c:125
 msgid "purplish blue"
 msgstr "purpura zils"
 
-#: ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:129
 msgid "dark purple"
 msgstr "tumši purpura"
 
-#: ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:131
 msgid "sky blue"
 msgstr "debeszils"
 
-#: ../goffice/gtk/go-color-palette.c:468
+#: ../goffice/gtk/go-color-palette.c:473
 msgid "custom"
 msgstr "pielāgota"
 
-#: ../goffice/gtk/go-color-palette.c:475 ../goffice/gtk/go-color-palette.c:729
-#: ../goffice/gtk/go-color-selector.c:198
+#: ../goffice/gtk/go-color-palette.c:480 ../goffice/gtk/go-color-palette.c:735
+#: ../goffice/gtk/go-color-selector.c:199
 msgid "Custom color..."
 msgstr "Izvēlētā krāsa..."
 
@@ -3213,244 +3447,852 @@ msgstr "Pievienot pārcēlienus izvēlnēm"
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Vai izkrītošajām izvēlnēm vajadzētu pārceļamās izvēlnes vienumu"
 
-#: ../goffice/gtk/go-font-sel.c:188 ../goffice/math/go-distribution.c:75
-msgid "Normal"
-msgstr "Parasts"
+#: ../goffice/gtk/goffice-gtk.c:218
+#, c-format
+msgid "Unable to open file '%s'"
+msgstr "Neizdevās atvērt datni “%s”"
 
-#: ../goffice/gtk/go-font-sel.c:189
-msgid "Bold"
-msgstr "Treknraksts"
+#: ../goffice/gtk/goffice-gtk.c:859 ../goffice/utils/go-style.c:215
+#, c-format
+msgid "%d x %d"
+msgstr "%d x %d"
 
-#: ../goffice/gtk/go-font-sel.c:190
-msgid "Bold italic"
-msgstr "Trekns kursīvs"
+#: ../goffice/gtk/goffice-gtk.c:894
+msgid "All Files"
+msgstr "Visas datnes"
 
-#: ../goffice/gtk/go-font-sel.c:191
+#: ../goffice/gtk/goffice-gtk.c:899
+msgid "Images"
+msgstr "Attēli"
+
+#: ../goffice/gtk/goffice-gtk.c:951
+msgid "Select an Image"
+msgstr "Izvēlieties attēlu"
+
+#: ../goffice/gtk/goffice-gtk.c:1030
+msgid "Save as"
+msgstr "Saglabāt kā"
+
+#: ../goffice/gtk/goffice-gtk.c:1103
+msgid ""
+"The given file extension does not match the chosen file type. Do you want to "
+"use this name anyway?"
+msgstr ""
+"Norādītais datnes paplašinājums neatbilst datnes tipam. Vai tomēr vēlaties "
+"lietot šo nosaukumu?"
+
+#: ../goffice/gtk/goffice-gtk.c:1322
+#, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr ""
+"%s\n"
+"ir direktorijas nosaukums"
+
+#: ../goffice/gtk/goffice-gtk.c:1326
+#, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr ""
+"Jums nav tiesību saglabāt uz\n"
+"%s"
+
+#: ../goffice/gtk/goffice-gtk.c:1336
+#, c-format
+msgid ""
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to save over it?"
+msgstr ""
+"Datne <i>%s</i> jau eksistē mapē %s.\n"
+"\n"
+"Vai vēlaties to pārrakstīt?"
+
+#: ../goffice/gtk/go-font-sel.c:348
+msgid "Faces"
+msgstr ""
+
+#.
+#. * List of observed face names.  Translators: these represent
+#. * attributes of a font face, i.e., how bold the letters are
+#. * and whether it is an italic or regular face.  The four
+#. * first here are the important ones.
+#.
+#: ../goffice/gtk/go-font-sel.c:389
+msgctxt "FontFace"
+msgid "Regular"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
+#, fuzzy
+msgctxt "FontFace"
 msgid "Italic"
 msgstr "Kursīvs"
 
-#. xgettext: This text is used as a sample when selecting a font
-#. * please choose a translation that would produce common
-#. * characters specific to the target alphabet.
-#: ../goffice/gtk/go-font-sel.c:474
-msgid "AaBbCcDdEe12345"
-msgstr "AaBbCcDdEe12345"
+#: ../goffice/gtk/go-font-sel.c:391
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold"
+msgstr "Treknraksts"
+
+#: ../goffice/gtk/go-font-sel.c:392
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic"
+msgstr "Trekns kursīvs"
+
+#. These are fairly rare.
+#: ../goffice/gtk/go-font-sel.c:395
+#, fuzzy
+msgctxt "FontFace"
+msgid "Black"
+msgstr "Melns"
+
+#: ../goffice/gtk/go-font-sel.c:396
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Condensed Italic"
+msgstr "Trekns kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:397
+msgctxt "FontFace"
+msgid "Bold Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:398
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic Small Caps"
+msgstr "Trekns kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:399
+msgctxt "FontFace"
+msgid "Bold Nonextended"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:400
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Oblique"
+msgstr "Trekns kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:401
+msgctxt "FontFace"
+msgid "Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:402
+msgctxt "FontFace"
+msgid "Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:403
+msgctxt "FontFace"
+msgid "Book Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:404
+msgctxt "FontFace"
+msgid "Book"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:405
+#, fuzzy
+msgctxt "FontFace"
+msgid "Condensed Bold Italic"
+msgstr "Trekns kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:406
+msgctxt "FontFace"
+msgid "Condensed Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:407
+msgctxt "FontFace"
+msgid "Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:408
+msgctxt "FontFace"
+msgid "Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:409
+msgctxt "FontFace"
+msgid "Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:410
+msgctxt "FontFace"
+msgid "Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:411
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold Italic"
+msgstr "Trekns kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:412
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold"
+msgstr "Treknraksts"
+
+#: ../goffice/gtk/go-font-sel.c:413
+msgctxt "FontFace"
+msgid "Demi Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:414
+msgctxt "FontFace"
+msgid "Demi"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:415
+msgctxt "FontFace"
+msgid "Demi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:416
+msgctxt "FontFace"
+msgid "Embossed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:417
+#, fuzzy
+msgctxt "FontFace"
+msgid "Expanded Bold Italic"
+msgstr "Trekns kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:418
+msgctxt "FontFace"
+msgid "Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:419
+msgctxt "FontFace"
+msgid "Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:420
+msgctxt "FontFace"
+msgid "Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:421
+#, fuzzy
+msgctxt "FontFace"
+msgid "Extra Light"
+msgstr "trīsstūris pa labi"
+
+#: ../goffice/gtk/go-font-sel.c:422
+msgctxt "FontFace"
+msgid "Heavy"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:423
+msgctxt "FontFace"
+msgid "Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:425
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Italic"
+msgstr "Kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:426
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Oblique"
+msgstr "gaiši zils"
+
+#: ../goffice/gtk/go-font-sel.c:427
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light"
+msgstr "Pa labi"
+
+#: ../goffice/gtk/go-font-sel.c:428
+#, fuzzy
+msgctxt "FontFace"
+msgid "Medium Italic"
+msgstr "Kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:429
+msgctxt "FontFace"
+msgid "Medium"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:430
+#, fuzzy
+msgctxt "FontFace"
+msgid "Normal"
+msgstr "Parasts"
+
+#: ../goffice/gtk/go-font-sel.c:431
+msgctxt "FontFace"
+msgid "Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:432
+msgctxt "FontFace"
+msgid "Regular Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:433
+msgctxt "FontFace"
+msgid "Regular Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:434
+#, fuzzy
+msgctxt "FontFace"
+msgid "Regular Italic"
+msgstr "Kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:435
+msgctxt "FontFace"
+msgid "Regular Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:436
+msgctxt "FontFace"
+msgid "Roman Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:437
+msgctxt "FontFace"
+msgid "Roman"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:438
+#, fuzzy
+msgctxt "FontFace"
+msgid "Rounded"
+msgstr "Fons"
+
+#: ../goffice/gtk/go-font-sel.c:439
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold Italic"
+msgstr "Trekns kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:440
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold"
+msgstr "Treknraksts"
+
+#: ../goffice/gtk/go-font-sel.c:441
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Italic"
+msgstr "Kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:442
+msgctxt "FontFace"
+msgid "Sans"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:443
+msgctxt "FontFace"
+msgid "Semi-Bold Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:444
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold Italic"
+msgstr "Trekns kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:445
+msgctxt "FontFace"
+msgid "Semi-Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:446
+msgctxt "FontFace"
+msgid "Semi-Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:447
+msgctxt "FontFace"
+msgid "Semi-Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:448
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold"
+msgstr "Treknraksts"
+
+#: ../goffice/gtk/go-font-sel.c:449
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:450
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:451
+msgctxt "FontFace"
+msgid "Semi-Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:452
+msgctxt "FontFace"
+msgid "Semi-Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:453
+msgctxt "FontFace"
+msgid "Semi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:454
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:455
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:456
+msgctxt "FontFace"
+msgid "Semi-Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:457
+msgctxt "FontFace"
+msgid "Semi-Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:458
+msgctxt "FontFace"
+msgid "Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:459
+#, fuzzy
+msgctxt "FontFace"
+msgid "Small Caps"
+msgstr "Mazi riņķi"
+
+#: ../goffice/gtk/go-font-sel.c:460
+msgctxt "FontFace"
+msgid "Thin"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:461
+#, fuzzy
+msgctxt "FontFace"
+msgid "Upright Italic"
+msgstr "Kursīvs"
+
+#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
+msgid "Font"
+msgstr "Fonts"
+
+#: ../goffice/gtk/go-font-sel.c:605
+msgid "All fonts..."
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:905
+#, fuzzy
+msgctxt "underline"
+msgid "None"
+msgstr "Nekas"
+
+#: ../goffice/gtk/go-font-sel.c:906
+#, fuzzy
+msgctxt "underline"
+msgid "Single"
+msgstr "Leņķis"
+
+#: ../goffice/gtk/go-font-sel.c:907
+msgctxt "underline"
+msgid "Double"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:908
+#, fuzzy
+msgctxt "underline"
+msgid "Low"
+msgstr "_Zema"
+
+#: ../goffice/gtk/go-font-sel.c:909
+#, fuzzy
+msgctxt "underline"
+msgid "Error"
+msgstr "Kļūdu joslas"
+
+#: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
+msgid "Normal"
+msgstr "Parasts"
+
+#: ../goffice/gtk/go-font-sel.c:931
+#, fuzzy
+msgid "Subscript"
+msgstr "Apraksts"
+
+#: ../goffice/gtk/go-font-sel.c:932
+#, fuzzy
+msgid "Superscript"
+msgstr "Lietot augšrak_stu"
+
+#: ../goffice/gtk/go-font-sel.c:1185
+#, fuzzy
+msgid "Show Style"
+msgstr "Stils"
+
+#: ../goffice/gtk/go-font-sel.c:1186
+msgid "Whether style is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1194
+#, fuzzy
+msgid "Show Color"
+msgstr "Kombo"
+
+#: ../goffice/gtk/go-font-sel.c:1195
+msgid "Whether color is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1203
+#, fuzzy
+msgid "Show Underline"
+msgstr "Rādīt negatīvos"
+
+#: ../goffice/gtk/go-font-sel.c:1204
+msgid "Whether underlining is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1212
+msgid "Show Script"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1213
+msgid "Whether subscript/superscript is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1221
+msgid "Show Strikethrough"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1222
+msgid "Whether strikethrough is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1230
+msgid "Color unset text"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1231
+#, fuzzy
+msgid "The text to show for selecing no color"
+msgstr "Teksts, ko meklēt"
+
+#: ../goffice/gtk/go-font-sel.c:1239
+#, fuzzy
+msgid "Color Group"
+msgstr "Skices grupa"
+
+#: ../goffice/gtk/go-font-sel.c:1240
+msgid "The color group to use for the color picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1248
+#, fuzzy
+msgid "Color Default"
+msgstr "Noklusējuma"
+
+#: ../goffice/gtk/go-font-sel.c:1249
+msgid "The color to show for an unset color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1259
+msgid "Underline Picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1260
+msgid "The widget to use for picking underline type"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel-dialog.c:107
+msgid "Pick a Font"
+msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
+msgid "Select the font family"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
 msgstr "Fonts:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:2
-msgid "Font style:"
-msgstr "Fonta stils:"
-
 #: ../goffice/gtk/go-font-sel.ui.h:3
+#, fuzzy
+msgid "Select the size"
+msgstr "Izvēlieties attēlu"
+
+#: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
 msgstr "Izmērs:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:4
-msgid "Preview"
-msgstr "Priekšskatījums"
+#: ../goffice/gtk/go-font-sel.ui.h:5
+#, fuzzy
+msgid "Select the font face"
+msgstr "Izvēlieties attēlu"
 
-#: ../goffice/gtk/go-format-sel.c:60
+#: ../goffice/gtk/go-font-sel.ui.h:6
+#, fuzzy
+msgid "Style:"
+msgstr "St_ils:"
+
+#: ../goffice/gtk/go-font-sel.ui.h:7
+#, fuzzy
+msgid "Select whether a line should be drawn through the text"
+msgstr "Vai ietvars ir jāpagriež ar tekstu"
+
+#: ../goffice/gtk/go-font-sel.ui.h:8
+msgid "Strikethrough:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:9
+msgid "Select the font color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:10
+#, fuzzy
+msgid "Color:"
+msgstr "K_rāsa:"
+
+#: ../goffice/gtk/go-font-sel.ui.h:11
+msgid ""
+"Select whether the font should be modified for use as subscript or "
+"superscript"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:12
+msgid "Script:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:13
+msgid "Select the type of underlining"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:14
+#, fuzzy
+msgid "Underline:"
+msgstr "Lietot splainus"
+
+#: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
 msgstr "Skaitlis"
 
-#: ../goffice/gtk/go-format-sel.c:61
+#: ../goffice/gtk/go-format-sel.c:62
 msgid "Currency"
 msgstr "Valūta"
 
-#: ../goffice/gtk/go-format-sel.c:62
+#: ../goffice/gtk/go-format-sel.c:63
 msgid "Accounting"
 msgstr "Grāmatvedība"
 
-#: ../goffice/gtk/go-format-sel.c:63
+#: ../goffice/gtk/go-format-sel.c:64
 msgid "Date"
 msgstr "Datums"
 
-#: ../goffice/gtk/go-format-sel.c:64
+#: ../goffice/gtk/go-format-sel.c:65
 msgid "Time"
 msgstr "Laiks"
 
-#: ../goffice/gtk/go-format-sel.c:65
+#: ../goffice/gtk/go-format-sel.c:66
 msgid "Percentage"
 msgstr "Procenti"
 
-#: ../goffice/gtk/go-format-sel.c:66
+#: ../goffice/gtk/go-format-sel.c:67
 msgid "Fraction"
 msgstr "Daļskaitlis"
 
-#: ../goffice/gtk/go-format-sel.c:67
+#: ../goffice/gtk/go-format-sel.c:68
 msgid "Scientific"
 msgstr "Zinātnisks"
 
-#: ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-format-sel.c:70
 msgid "Special"
 msgstr "Īpašs"
 
-#: ../goffice/gtk/go-format-sel.c:70
+#: ../goffice/gtk/go-format-sel.c:71
 msgid "Custom"
 msgstr "Pielāgots"
 
 #. See http://en.wikipedia.org/wiki/Ampere
-#: ../goffice/gtk/go-format-sel.c:307
+#: ../goffice/gtk/go-format-sel.c:310
 msgid "A (ampere)"
 msgstr "A (ampērs)"
 
 #. See http://en.wikipedia.org/wiki/Becquerel
-#: ../goffice/gtk/go-format-sel.c:309
+#: ../goffice/gtk/go-format-sel.c:312
 msgid "Bq (becquerel)"
 msgstr "Bq (bekerels)"
 
 #. See http://en.wikipedia.org/wiki/Candela
-#: ../goffice/gtk/go-format-sel.c:311
+#: ../goffice/gtk/go-format-sel.c:314
 msgid "cd (candela)"
 msgstr "cd (kandela)"
 
 #. See http://en.wikipedia.org/wiki/Coulomb
-#: ../goffice/gtk/go-format-sel.c:313
+#: ../goffice/gtk/go-format-sel.c:316
 msgid "C (coulomb)"
 msgstr "C (kulons)"
 
 #. See http://en.wikipedia.org/wiki/Degree_Celsius
-#: ../goffice/gtk/go-format-sel.c:315
+#: ../goffice/gtk/go-format-sel.c:318
 msgid "°C (degree Celsius)"
 msgstr "°C (celsija grāds)"
 
 #. See http://en.wikipedia.org/wiki/Farad
-#: ../goffice/gtk/go-format-sel.c:317
+#: ../goffice/gtk/go-format-sel.c:320
 msgid "F (farad)"
 msgstr "F (farads)"
 
 #. See http://en.wikipedia.org/wiki/Gray_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:319
+#: ../goffice/gtk/go-format-sel.c:322
 msgid "Gy (gray)"
 msgstr "Gy (grejs)"
 
 #. See http://en.wikipedia.org/wiki/Henry_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:321
+#: ../goffice/gtk/go-format-sel.c:324
 msgid "H (henry)"
 msgstr "H (henrijs)"
 
 #. See http://en.wikipedia.org/wiki/Hertz
-#: ../goffice/gtk/go-format-sel.c:323
+#: ../goffice/gtk/go-format-sel.c:326
 msgid "Hz (hertz)"
 msgstr "Hz (hercs)"
 
 #. See http://en.wikipedia.org/wiki/Joule
-#: ../goffice/gtk/go-format-sel.c:325
+#: ../goffice/gtk/go-format-sel.c:328
 msgid "J (joule)"
 msgstr "J (džouls)"
 
 #. See http://en.wikipedia.org/wiki/Kelvin
-#: ../goffice/gtk/go-format-sel.c:327
+#: ../goffice/gtk/go-format-sel.c:330
 msgid "K (kelvin)"
 msgstr "K (kelvins)"
 
 #. See http://en.wikipedia.org/wiki/Kilogram
-#: ../goffice/gtk/go-format-sel.c:329
+#: ../goffice/gtk/go-format-sel.c:332
 msgid "kg (kilogram)"
 msgstr "kg (kilograms)"
 
 #. See http://en.wikipedia.org/wiki/Lumen_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:331
+#: ../goffice/gtk/go-format-sel.c:334
 msgid "lm (lumen)"
 msgstr "lm (lūmens)"
 
 #. See http://en.wikipedia.org/wiki/Lux
-#: ../goffice/gtk/go-format-sel.c:333
+#: ../goffice/gtk/go-format-sel.c:336
 msgid "lx (lux)"
 msgstr "lx (lukss)"
 
 #. See http://en.wikipedia.org/wiki/Metre
-#: ../goffice/gtk/go-format-sel.c:335
+#: ../goffice/gtk/go-format-sel.c:338
 msgid "m (meter)"
 msgstr "m (metrs)"
 
 #. See http://en.wikipedia.org/wiki/Mole_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:337
+#: ../goffice/gtk/go-format-sel.c:340
 msgid "mol (mole)"
 msgstr "mol (mols)"
 
 #. See http://en.wikipedia.org/wiki/Newton_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:339
+#: ../goffice/gtk/go-format-sel.c:342
 msgid "N (newton)"
 msgstr "N (ņūtons)"
 
 #. See http://en.wikipedia.org/wiki/Ohm_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:341
+#: ../goffice/gtk/go-format-sel.c:344
 msgid "Ω (ohm)"
 msgstr "Ω (oms)"
 
 #. See http://en.wikipedia.org/wiki/Pascal_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:343
+#: ../goffice/gtk/go-format-sel.c:346
 msgid "Pa (pascal)"
 msgstr "Pa (paskāls)"
 
 #. See http://en.wikipedia.org/wiki/Radian
-#: ../goffice/gtk/go-format-sel.c:345
+#: ../goffice/gtk/go-format-sel.c:348
 msgid "rad (radian)"
 msgstr "rad (radiāns)"
 
 #. See http://en.wikipedia.org/wiki/Second
-#: ../goffice/gtk/go-format-sel.c:347
+#: ../goffice/gtk/go-format-sel.c:350
 msgid "s (second)"
 msgstr "s (sekunde)"
 
 #. See http://en.wikipedia.org/wiki/Siemens_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:349
+#: ../goffice/gtk/go-format-sel.c:352
 msgid "S (siemens)"
 msgstr "S (sīmenss)"
 
 #. See http://en.wikipedia.org/wiki/Steradian
-#: ../goffice/gtk/go-format-sel.c:351
+#: ../goffice/gtk/go-format-sel.c:354
 msgid "sr (steradian)"
 msgstr "sr (steradiāns)"
 
 #. See http://en.wikipedia.org/wiki/Sievert
-#: ../goffice/gtk/go-format-sel.c:353
+#: ../goffice/gtk/go-format-sel.c:356
 msgid "Sv (sievert)"
 msgstr "Sv (zīverts)"
 
 #. See http://en.wikipedia.org/wiki/Tesla_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:355
+#: ../goffice/gtk/go-format-sel.c:358
 msgid "T (tesla)"
 msgstr "T (tesla)"
 
 #. See http://en.wikipedia.org/wiki/Katal
-#: ../goffice/gtk/go-format-sel.c:357
+#: ../goffice/gtk/go-format-sel.c:360
 msgid "kat (katal)"
 msgstr "kat (katals)"
 
 #. See http://en.wikipedia.org/wiki/Volt
-#: ../goffice/gtk/go-format-sel.c:359
+#: ../goffice/gtk/go-format-sel.c:362
 msgid "V (volt)"
 msgstr "V (volts)"
 
 #. See http://en.wikipedia.org/wiki/Watt
-#: ../goffice/gtk/go-format-sel.c:361
+#: ../goffice/gtk/go-format-sel.c:364
 msgid "W (watt)"
 msgstr "W (vats)"
 
 #. See http://en.wikipedia.org/wiki/Weber_%28Wb%29
-#: ../goffice/gtk/go-format-sel.c:363
+#: ../goffice/gtk/go-format-sel.c:366
 msgid "Wb (weber)"
 msgstr "Wb (vēbers)"
 
-#: ../goffice/gtk/go-format-sel.c:1033 ../goffice/gtk/go-format-sel.ui.h:40
+#: ../goffice/gtk/go-format-sel.c:1031 ../goffice/gtk/go-format-sel.ui.h:41
 msgid "Append no further unit."
 msgstr "Vairs nepievienot vienības."
 
-#: ../goffice/gtk/go-format-sel.c:1040
+#: ../goffice/gtk/go-format-sel.c:1038
 #, c-format
 msgid "Append '%s'."
 msgstr "Pievienot “%s”."
 
-#: ../goffice/gtk/go-format-sel.c:1581
+#: ../goffice/gtk/go-format-sel.c:1578
 msgid "Negative Number Format"
 msgstr "Negatīvu skaitļu formāts"
 
-#: ../goffice/gtk/go-format-sel.c:1639
+#: ../goffice/gtk/go-format-sel.c:1638
 msgid "Number Formats"
 msgstr "Skaitļu formāti"
 
@@ -3583,38 +4425,43 @@ msgid "Specified denominator:"
 msgstr "Norādītais saucējs:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
+msgid "Always show exponent si_gn"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.ui.h:33
 msgid "_Engineering notation"
 msgstr "Inž_enierijas notācija"
 
-#: ../goffice/gtk/go-format-sel.ui.h:33
+#: ../goffice/gtk/go-format-sel.ui.h:34
 msgid "Restrict exponent to multiples of 3"
 msgstr "Ierobežot pakāpju daudzkārtņus līdz 3"
 
-#: ../goffice/gtk/go-format-sel.ui.h:34
+#: ../goffice/gtk/go-format-sel.ui.h:35
 msgid "Use _superscript"
 msgstr "Lietot augšrak_stu"
 
-#: ../goffice/gtk/go-format-sel.ui.h:35
+#: ../goffice/gtk/go-format-sel.ui.h:36
 msgid "Use superscript for exponent (e.g. 4×10²)"
 msgstr "Pakāpēm lietot augšrakstu (piemēram, 4×10²)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:36
+#: ../goffice/gtk/go-format-sel.ui.h:37
 msgid "_Don't show 1×s"
 msgstr "Nerā_dīt 1×s"
 
-#: ../goffice/gtk/go-format-sel.ui.h:37
+#: ../goffice/gtk/go-format-sel.ui.h:38
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
 msgstr "Kad mantisa ir vienāda ar 1, rādīt tikai pakāpes daļu (piemēram, 10²)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:38
-msgid "Append SI prefix"
+#: ../goffice/gtk/go-format-sel.ui.h:39
+#, fuzzy
+msgid "Append SI _prefix"
 msgstr "Pievienot SI prefiksu"
 
-#: ../goffice/gtk/go-format-sel.ui.h:39
+#: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append an SI prefix (e.g. instead of 4×10⁶ show 4M)"
 msgstr "Pievienot SI prefiksu (piemēram, 4×10⁶ vietā rādīt 4M)"
 
-#: ../goffice/gtk/go-format-sel.ui.h:41
+#: ../goffice/gtk/go-format-sel.ui.h:42
 msgid "Append the SI unit:"
 msgstr "Pievienot SI vienību:"
 
@@ -3634,14 +4481,6 @@ msgstr "pikseļi/colla"
 msgid "Export settings"
 msgstr "Eksportēt iestatījumus"
 
-#: ../goffice/gtk/go-image-sel.ui.h:1
-msgid "Select an image"
-msgstr "Izvēlieties attēlu"
-
-#: ../goffice/gtk/go-image-sel.ui.h:2
-msgid "_Select a new image"
-msgstr "Izvēlietie_s jaunu attēlu"
-
 #: ../goffice/gtk/go-image-sel.c:68
 msgid "New image name"
 msgstr "Jaunā attēla nosaukums"
@@ -3650,6 +4489,14 @@ msgstr "Jaunā attēla nosaukums"
 #, c-format
 msgid "image%u"
 msgstr "attēls%u"
+
+#: ../goffice/gtk/go-image-sel.ui.h:1
+msgid "Select an image"
+msgstr "Izvēlieties attēlu"
+
+#: ../goffice/gtk/go-image-sel.ui.h:2
+msgid "_Select a new image"
+msgstr "Izvēlietie_s jaunu attēlu"
 
 #: ../goffice/gtk/go-locale-sel.c:63
 msgid "Western Europe"
@@ -4140,11 +4987,13 @@ msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Lielbritānija/Skotu gēlu (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
-msgid "Eritrea/Ge'ez “gez_ER)"
+#, fuzzy
+msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr "Eritreja/Gēzu (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
-msgid "Ethiopia/Ge'ez “gez_ET)"
+#, fuzzy
+msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr "Etiopija/Gēzu (gez_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:217
@@ -4152,7 +5001,8 @@ msgid "Spain/Galician (gl_ES)"
 msgstr "Spānija/Galisiešu (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
-msgid "India/Gurajati “gu_IN)"
+#, fuzzy
+msgid "India/Gujarati (gu_IN)"
 msgstr "Indija/Gudžaratu (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
@@ -4648,7 +5498,8 @@ msgid "Switzerland/Walser (wae_CH)"
 msgstr "Šveice/Valē (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
-msgid "Ethiopia/Walaita (wal_ET)"
+#, fuzzy
+msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr "Etiopija/Valaita (wal_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:343
@@ -4695,11 +5546,11 @@ msgstr "Dienvidāfrika/Zulu (zu_ZA)"
 msgid "Current Locale: "
 msgstr "Pašreizējā lokāle: "
 
-#: ../goffice/gtk/go-optionmenu.c:427
+#: ../goffice/gtk/go-optionmenu.c:476
 msgid "Menu"
 msgstr "Izvēlne"
 
-#: ../goffice/gtk/go-optionmenu.c:428
+#: ../goffice/gtk/go-optionmenu.c:477
 msgid "The menu of options"
 msgstr "Opciju izvēlne"
 
@@ -4708,75 +5559,13 @@ msgid "Custom..."
 msgstr "Pielāgots..."
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
-msgid "<b>Orientation</b>"
-msgstr "<b>Novietojums</b>"
+#, fuzzy
+msgid "Orientation"
+msgstr "Funkcija"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:2
 msgid "A_ngle:"
 msgstr "L_eņķis:"
-
-#: ../goffice/gtk/goffice-gtk.c:219
-#, c-format
-msgid "Unable to open file '%s'"
-msgstr "Neizdevās atvērt datni “%s”"
-
-#: ../goffice/gtk/goffice-gtk.c:791 ../goffice/utils/go-style.c:215
-#, c-format
-msgid "%d x %d"
-msgstr "%d x %d"
-
-#: ../goffice/gtk/goffice-gtk.c:826
-msgid "All Files"
-msgstr "Visas datnes"
-
-#: ../goffice/gtk/goffice-gtk.c:831
-msgid "Images"
-msgstr "Attēli"
-
-#: ../goffice/gtk/goffice-gtk.c:883
-msgid "Select an Image"
-msgstr "Izvēlieties attēlu"
-
-#: ../goffice/gtk/goffice-gtk.c:962
-msgid "Save as"
-msgstr "Saglabāt kā"
-
-#: ../goffice/gtk/goffice-gtk.c:1035
-msgid ""
-"The given file extension does not match the chosen file type. Do you want to "
-"use this name anyway?"
-msgstr ""
-"Norādītais datnes paplašinājums neatbilst datnes tipam. Vai tomēr vēlaties "
-"lietot šo nosaukumu?"
-
-#: ../goffice/gtk/goffice-gtk.c:1254
-#, c-format
-msgid ""
-"%s\n"
-"is a directory name"
-msgstr ""
-"%s\n"
-"ir direktorijas nosaukums"
-
-#: ../goffice/gtk/goffice-gtk.c:1258
-#, c-format
-msgid ""
-"You do not have permission to save to\n"
-"%s"
-msgstr ""
-"Jums nav tiesību saglabāt uz\n"
-"%s"
-
-#: ../goffice/gtk/goffice-gtk.c:1268
-#, c-format
-msgid ""
-"A file called <i>%s</i> already exists in %s.\n"
-"\n"
-"Do you want to save over it?"
-msgstr ""
-"Datne <i>%s</i> jau eksistē mapē %s.\n"
-"\n"
-"Vai vēlaties to pārrakstīt?"
 
 #: ../goffice/math/go-distribution.c:76
 msgid "Uniform"
@@ -5525,116 +6314,116 @@ msgstr "Nevarēja ielādēt attēla datus\n"
 msgid "Could not input the image data\n"
 msgstr "Nevarēja ievadīt attēla datus\n"
 
-#: ../goffice/utils/go-emf.c:4549 ../goffice/utils/go-emf.c:4555
+#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Nederīgi attēla dati\n"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:567
+#: ../goffice/utils/go-format.c:601
 msgid "*Long Date Format"
 msgstr "* Garais datuma formāts"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:575
+#: ../goffice/utils/go-format.c:609
 msgid "*Medium Date Format"
 msgstr "*Vidējais datuma formāts"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:583
+#: ../goffice/utils/go-format.c:617
 msgid "*Short Date Format"
 msgstr "*Īsais datuma formāts"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:596
+#: ../goffice/utils/go-format.c:630
 msgid "*Short Date/Time Format"
 msgstr "*Īsais datuma/laika formāts"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:611
+#: ../goffice/utils/go-format.c:645
 msgid "*Long Time Format"
 msgstr "*Garais laika formāts"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:623
+#: ../goffice/utils/go-format.c:657
 msgid "*Medium Time Format"
 msgstr "*Vidējais laika formāts"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:635
+#: ../goffice/utils/go-format.c:669
 msgid "*Short Time Format"
 msgstr "*Īsais laika formāts"
 
-#: ../goffice/utils/go-format.c:684
+#: ../goffice/utils/go-format.c:718
 msgid "Black"
 msgstr "Melns"
 
-#: ../goffice/utils/go-format.c:685
+#: ../goffice/utils/go-format.c:719
 msgid "Blue"
 msgstr "Zils"
 
-#: ../goffice/utils/go-format.c:686
+#: ../goffice/utils/go-format.c:720
 msgid "Cyan"
 msgstr "Ciāna"
 
-#: ../goffice/utils/go-format.c:687
+#: ../goffice/utils/go-format.c:721
 msgid "Green"
 msgstr "Zaļš"
 
-#: ../goffice/utils/go-format.c:688
+#: ../goffice/utils/go-format.c:722
 msgid "Magenta"
 msgstr "Fuksīns"
 
-#: ../goffice/utils/go-format.c:689
+#: ../goffice/utils/go-format.c:723
 msgid "Red"
 msgstr "Sarkans"
 
-#: ../goffice/utils/go-format.c:690
+#: ../goffice/utils/go-format.c:724
 msgid "White"
 msgstr "Balts"
 
-#: ../goffice/utils/go-format.c:691
+#: ../goffice/utils/go-format.c:725
 msgid "Yellow"
 msgstr "Dzeltens"
 
-#: ../goffice/utils/go-format.c:711
+#: ../goffice/utils/go-format.c:745
 msgid "color"
 msgstr "krāsa"
 
-#: ../goffice/utils/go-geometry.c:334 ../goffice/utils/go-marker.c:96
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:96
 msgid "none"
 msgstr "nav"
 
-#: ../goffice/utils/go-geometry.c:335
+#: ../goffice/utils/go-geometry.c:297
 msgid "down"
 msgstr "lejup"
 
-#: ../goffice/utils/go-geometry.c:336
+#: ../goffice/utils/go-geometry.c:298
 msgid "up"
 msgstr "augšup"
 
-#: ../goffice/utils/go-geometry.c:337
+#: ../goffice/utils/go-geometry.c:299
 msgid "right"
 msgstr "pa labi"
 
-#: ../goffice/utils/go-geometry.c:338
+#: ../goffice/utils/go-geometry.c:300
 msgid "left"
 msgstr "pa kreisi"
 
-#: ../goffice/utils/go-glib-extras.c:917
+#: ../goffice/utils/go-glib-extras.c:915
 msgid "yes"
 msgstr "jā"
 
-#: ../goffice/utils/go-glib-extras.c:923
+#: ../goffice/utils/go-glib-extras.c:921
 msgid "no"
 msgstr "nē"
 
-#: ../goffice/utils/go-glib-extras.c:1141
+#: ../goffice/utils/go-glib-extras.c:1139
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Citētā virkne nav apturēta"
 
-#: ../goffice/utils/go-glib-extras.c:1148
+#: ../goffice/utils/go-glib-extras.c:1146
 #, c-format
 msgid "Syntax error"
 msgstr "Sintakses kļūda"
@@ -5947,113 +6736,108 @@ msgstr "Priekšplāns:"
 msgid "Background:"
 msgstr "Fons:"
 
-#: ../goffice/utils/go-style.c:870
+#: ../goffice/utils/go-style.c:868
 msgid "Markers"
 msgstr "Marķieri"
 
-#: ../goffice/utils/go-style.c:942
-msgid "Font"
-msgstr "Fonts"
-
 #: ../goffice/utils/go-style-prefs.ui.h:1
-msgid "St_yle:"
-msgstr "St_ils:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:2
 msgid "Co_lor:"
 msgstr "_Krāsa:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:3
-msgid "_Size:"
-msgstr "Izmēr_s:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:7
-msgid "Pattern"
-msgstr "Raksts"
-
-#: ../goffice/utils/go-style-prefs.ui.h:8
-msgid "Bicolor gradient"
-msgstr "Divu krāsu pāreja"
-
-#: ../goffice/utils/go-style-prefs.ui.h:9
-msgid "Unicolor gradient"
-msgstr "Vienas krāsas pāreja"
-
-#: ../goffice/utils/go-style-prefs.ui.h:11
-msgid "_Direction:"
-msgstr "_Virziens:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:12
-msgid "_Pattern:"
-msgstr "_Raksts:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:13
-msgid "_Foreground:"
-msgstr "_Priekšplāns:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:14
-msgid "_Background:"
-msgstr "_Fons:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:15
-msgid "B_rightness:"
-msgstr "_Spilgtums:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:16
-msgid "_Select..."
-msgstr "Izvēlētie_s..."
-
-#: ../goffice/utils/go-style-prefs.ui.h:17
-msgid "_Fit:"
-msgstr "_Iederas:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:18
-msgid "stretched"
-msgstr "izstiepts"
-
-#: ../goffice/utils/go-style-prefs.ui.h:19
-msgid "wallpaper"
-msgstr "tapete"
-
-#: ../goffice/utils/go-style-prefs.ui.h:20
-msgid "centered"
-msgstr "vidū"
-
-#: ../goffice/utils/go-style-prefs.ui.h:21
-msgid "centered wallpaper"
-msgstr "centrēta tapete"
-
-#: ../goffice/utils/go-style-prefs.ui.h:22
-msgid "<b>Outline</b>"
-msgstr "<b>Struktūra</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:23
-msgid "<b>Line</b>"
-msgstr "<b>Līnija</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:24
-msgid "<b>Fill</b>"
-msgstr "<b>Aizpildījums</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:25
-msgid "<b>Marker</b>"
-msgstr "<b>Marķieris</b>"
-
-#: ../goffice/utils/go-style-prefs.ui.h:26
-msgid "_Fill:"
-msgstr "_Aizpildījums:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:27
-msgid "O_utline:"
-msgstr "Str_uktūra:"
-
-#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../goffice/utils/go-style-prefs.ui.h:2
 msgid "Si_ze:"
 msgstr "I_zmērs:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:29
+#: ../goffice/utils/go-style-prefs.ui.h:3
+msgid "O_utline:"
+msgstr "Str_uktūra:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:4
+msgid "_Fill:"
+msgstr "_Aizpildījums:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:5
 msgid "Sha_pe:"
 msgstr "_Forma:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:6
+#, fuzzy
+msgid "Marker"
+msgstr "Marķieri"
+
+#: ../goffice/utils/go-style-prefs.ui.h:8
+msgid "St_yle:"
+msgstr "St_ils:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:9
+msgid "_Size:"
+msgstr "Izmēr_s:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:11
+msgid "Pattern"
+msgstr "Raksts"
+
+#: ../goffice/utils/go-style-prefs.ui.h:12
+msgid "Bicolor gradient"
+msgstr "Divu krāsu pāreja"
+
+#: ../goffice/utils/go-style-prefs.ui.h:13
+msgid "Unicolor gradient"
+msgstr "Vienas krāsas pāreja"
+
+#: ../goffice/utils/go-style-prefs.ui.h:15
+msgid "_Direction:"
+msgstr "_Virziens:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:16
+msgid "_Pattern:"
+msgstr "_Raksts:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:17
+msgid "_Foreground:"
+msgstr "_Priekšplāns:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:18
+msgid "_Background:"
+msgstr "_Fons:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:19
+msgid "B_rightness:"
+msgstr "_Spilgtums:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:20
+msgid "_Fit:"
+msgstr "_Iederas:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:21
+msgid "stretched"
+msgstr "izstiepts"
+
+#: ../goffice/utils/go-style-prefs.ui.h:22
+msgid "wallpaper"
+msgstr "tapete"
+
+#: ../goffice/utils/go-style-prefs.ui.h:23
+msgid "centered"
+msgstr "vidū"
+
+#: ../goffice/utils/go-style-prefs.ui.h:24
+msgid "centered wallpaper"
+msgstr "centrēta tapete"
+
+#: ../goffice/utils/go-style-prefs.ui.h:25
+msgid "_Select..."
+msgstr "Izvēlētie_s..."
+
+#: ../goffice/utils/go-style-prefs.ui.h:27
+#, fuzzy
+msgid "Outline"
+msgstr "Str_uktūra:"
+
+#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../plugins/plot_barcol/plot-types.xml.in.h:1
+msgid "Line"
+msgstr "Līnija"
 
 #: ../goffice/utils/regutf8.c:59
 msgid "Pattern not found."
@@ -6197,7 +6981,7 @@ msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr "Kā grupēt vairākas sērijas, parastas, grēdotas, kā_procenti"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:353 ../plugins/plot_pie/gog-pie.c:319
-#: ../plugins/plot_xy/gog-xy.c:566
+#: ../plugins/plot_xy/gog-xy.c:563
 msgid "In 3D"
 msgstr "3D"
 
@@ -6212,24 +6996,12 @@ msgstr "Vietturis ļauj apiet pseido 3D stāvokli"
 msgid "Labels"
 msgstr "Etiķetes"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:364
-#: ../plugins/plot_distrib/gog-boxplot.c:428
-#: ../plugins/plot_distrib/gog-histogram.c:390
-#: ../plugins/plot_distrib/gog-probability-plot.c:317
-#: ../plugins/plot_pie/gog-pie.c:340 ../plugins/plot_radar/gog-radar.c:323
-msgid "Values"
-msgstr "Vērtības"
-
 #: ../plugins/plot_barcol/gog-1.5d.c:623 ../plugins/plot_barcol/gog-1.5d.c:686
 msgid "Error bars"
 msgstr "Kļūdu joslas"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:643
-msgid "Series lines"
-msgstr "Sēriju līnijas"
-
 #: ../plugins/plot_barcol/gog-1.5d.c:650
-#: ../plugins/plot_distrib/gog-histogram.c:1095
+#: ../plugins/plot_distrib/gog-histogram.c:1097
 msgid "Drop lines"
 msgstr "Krituma līnijas"
 
@@ -6240,30 +7012,20 @@ msgstr "Līnijas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
 #: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2171
-#: ../plugins/plot_xy/gog-xy.c:2177
+#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2175
+#: ../plugins/plot_xy/gog-xy.c:2181
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
 #: ../plugins/plot_barcol/gog-area-prefs.ui.h:1
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:3
 #: ../plugins/plot_radar/gog-polar-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
+#: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
 msgid "_Display the grids above the plot"
 msgstr "Rā_dīt režģus virs skices"
-
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
-#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
-msgid "_Gap:"
-msgstr "_Starpa:"
-
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:4
-msgid "O_verlap:"
-msgstr "_Pārklāt:"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
@@ -6306,7 +7068,7 @@ msgstr "Horizontālas joslas vai vertikālas kolonnas"
 #: ../plugins/plot_distrib/gog-boxplot.c:413
 #: ../plugins/plot_distrib/gog-histogram.c:374
 #: ../plugins/plot_radar/gog-radar.c:446 ../plugins/plot_radar/gog-radar.c:517
-#: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:300
+#: ../plugins/plot_xy/gog-xy.c:396 ../plugins/plot_xy/gog-xy-dropbar.c:300
 msgid "Displayed under the grids"
 msgstr "Attēlots zem režģiem"
 
@@ -6316,9 +7078,19 @@ msgstr "Attēlots zem režģiem"
 #: ../plugins/plot_distrib/gog-boxplot.c:414
 #: ../plugins/plot_distrib/gog-histogram.c:375
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:518
-#: ../plugins/plot_xy/gog-xy.c:400 ../plugins/plot_xy/gog-xy-dropbar.c:301
+#: ../plugins/plot_xy/gog-xy.c:397 ../plugins/plot_xy/gog-xy-dropbar.c:301
 msgid "Should the plot be displayed before the grids"
 msgstr "Vai skicei būtu jābūt redzamai virs režģa"
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
+#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
+msgid "_Gap:"
+msgstr "_Starpa:"
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:2
+msgid "O_verlap:"
+msgstr "_Pārklāt:"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
@@ -6344,7 +7116,7 @@ msgstr "Noklusējuma marķieri"
 
 #: ../plugins/plot_barcol/gog-line.c:328
 #: ../plugins/plot_barcol/gog-minmax.c:234
-#: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:376
+#: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:373
 #: ../plugins/plot_xy/gog-xy-minmax.c:298
 msgid "Should the default style of a series include markers"
 msgstr "Vai noklusējuma sēriju stilam vajadzētu iekļaut marķierus"
@@ -6364,13 +7136,6 @@ msgstr "PlotArea"
 msgid "PlotMinMax"
 msgstr "PlotMinMax"
 
-#: ../plugins/plot_barcol/gog-minmax.c:227
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-dropbar.c:306
-#: ../plugins/plot_xy/gog-xy-minmax.c:291
-msgid "Horizontal"
-msgstr "Horizontāli"
-
 #: ../plugins/plot_barcol/gog-minmax.c:228
 #: ../plugins/plot_xy/gog-xy-minmax.c:292
 msgid "Horizontal or vertical lines"
@@ -6385,10 +7150,6 @@ msgstr "Min"
 #: ../plugins/plot_xy/gog-xy-minmax.c:312
 msgid "Max"
 msgstr "Maks"
-
-#: ../plugins/plot_barcol/plot-types.xml.in.h:1
-msgid "Line"
-msgstr "Līnija"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:2
 msgid "Area"
@@ -6696,46 +7457,18 @@ msgstr ":"
 msgid "Distribution:"
 msgstr "Sadalījums:"
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:2
-#: ../plugins/plot_distrib/gog-boxplot.c:395
-#: ../plugins/plot_distrib/gog-histogram.c:362
-msgid "Vertical"
-msgstr "Vertikāli"
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
-msgid "_Layout"
-msgstr "_Izkārtojums"
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
-msgid "_Exclude and show outliers"
-msgstr "Izslēgt un rādīt n_epiederošos."
-
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
-msgid "_Diameter/width:"
-msgstr "_Diametrs/platums:"
-
-#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
-msgid "First Y category label:"
-msgstr "Pirmā Y kategorijas etiķete:"
-
-#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
-msgid "Second Y category label:"
-msgstr "Otrā Y kategorijas etiķete:"
-
-#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
-msgid "_Vertical"
-msgstr "_Vertikāls"
-
-#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
-msgid "_Cumulative"
-msgstr "_Kumulatīvs"
-
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: ../plugins/plot_distrib/gog-boxplot.c:208
 msgid "Box-Plot"
 msgstr "Kastes skice"
+
+#: ../plugins/plot_distrib/gog-boxplot.c:395
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_distrib/gog-histogram.c:362
+msgid "Vertical"
+msgstr "Vertikāli"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
@@ -6760,6 +7493,26 @@ msgid ""
 msgstr ""
 "Samērs starp rādiusiem apļiem, kas rāda nepiederošos, un taisnstūra platumu"
 
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
+msgid "_Layout"
+msgstr "_Izkārtojums"
+
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
+msgid "_Exclude and show outliers"
+msgstr "Izslēgt un rādīt n_epiederošos."
+
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
+msgid "_Diameter/width:"
+msgstr "_Diametrs/platums:"
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
+msgid "First Y category label:"
+msgstr "Pirmā Y kategorijas etiķete:"
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
+msgid "Second Y category label:"
+msgstr "Otrā Y kategorijas etiķete:"
+
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
 #. * 	Histogram2
@@ -6781,7 +7534,7 @@ msgid "Use cumulated data"
 msgstr "Lietot kumulatīvus datus"
 
 #: ../plugins/plot_distrib/gog-histogram.c:388
-#: ../plugins/plot_distrib/gog-histogram.c:476
+#: ../plugins/plot_distrib/gog-histogram.c:478
 msgid "Limits"
 msgstr "Robežas"
 
@@ -6793,29 +7546,37 @@ msgstr ""
 "Etiķete pirmajai Y kategorijai. Ja nav iestatīta vai ir tukša, tiks "
 "izmantotas “pirmās vērtības”"
 
-#: ../plugins/plot_distrib/gog-histogram.c:441
+#: ../plugins/plot_distrib/gog-histogram.c:442
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
 msgstr ""
-"Etiķete otrajai Y kategorijai. Ja nav iestatīta vai ir tukša, tiks izmantotas "
-"“otrās vērtības”"
+"Etiķete otrajai Y kategorijai. Ja nav iestatīta vai ir tukša, tiks "
+"izmantotas “otrās vērtības”"
 
-#: ../plugins/plot_distrib/gog-histogram.c:446
+#: ../plugins/plot_distrib/gog-histogram.c:448
 msgid "Categories labels"
 msgstr "Kategoriju etiķetes"
 
-#: ../plugins/plot_distrib/gog-histogram.c:478
-#: ../plugins/plot_distrib/gog-histogram.c:753
+#: ../plugins/plot_distrib/gog-histogram.c:480
+#: ../plugins/plot_distrib/gog-histogram.c:755
 msgid "First values"
 msgstr "Pirmās vērtības"
 
-#: ../plugins/plot_distrib/gog-histogram.c:480
-#: ../plugins/plot_distrib/gog-histogram.c:761
-#: ../plugins/plot_distrib/gog-histogram.c:772
-#: ../plugins/plot_distrib/gog-histogram.c:784
+#: ../plugins/plot_distrib/gog-histogram.c:482
+#: ../plugins/plot_distrib/gog-histogram.c:763
+#: ../plugins/plot_distrib/gog-histogram.c:774
+#: ../plugins/plot_distrib/gog-histogram.c:786
 msgid "Second values"
 msgstr "Otrās vērtības"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
+msgid "_Vertical"
+msgstr "_Vertikāls"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
+msgid "_Cumulative"
+msgstr "_Kumulatīvs"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:70
 msgid "Use data as Y-values"
@@ -6969,45 +7730,6 @@ msgstr "Varbūtību skiču dzinis"
 msgid "Statistics plot types"
 msgstr "Statistikas skiču dzinis"
 
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
-msgid "Slices start _at:"
-msgstr "D_aļas sākas no:"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
-msgid "_Vary colors by slice"
-msgstr "_Variēt krāsas katrai daļai"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
-msgid "_Slice Separation:"
-msgstr "_Daļu atdalīšana:"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
-msgid "Negative data:"
-msgstr "Negatīvie dati:"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
-msgid "Skip"
-msgstr "Izlaist"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
-msgid "Absolute value"
-msgstr "Absolūtā vērtība"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:10
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:11
-msgid "Absolute value with white background"
-msgstr "Absolūtā vērtība ar baltu fonu"
-
-#: ../plugins/plot_pie/gog-pie-series.ui.h:1
-msgid "_Separation:"
-msgstr "_Atdalīšana:"
-
 #: ../plugins/plot_pie/gog-pie.c:112 ../plugins/plot_pie/gog-pie.c:1302
 msgid "Separation"
 msgstr "Atdalīšana"
@@ -7089,7 +7811,46 @@ msgstr "Sākotnējais leņķis"
 msgid "Degrees clockwise from 12 O'Clock"
 msgstr "Grādi pulksteņrādītāja virzienā, sākot no 12-tiem"
 
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
+msgid "Slices start _at:"
+msgstr "D_aļas sākas no:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
+msgid "_Slice Separation:"
+msgstr "_Daļu atdalīšana:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
+msgid "Negative data:"
+msgstr "Negatīvie dati:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
+msgid "_Vary colors by slice"
+msgstr "_Variēt krāsas katrai daļai"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
+msgid "Skip"
+msgstr "Izlaist"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
+msgid "Absolute value"
+msgstr "Absolūtā vērtība"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:10
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:11
+msgid "Absolute value with white background"
+msgstr "Absolūtā vērtība ar baltu fonu"
+
+#: ../plugins/plot_pie/gog-pie-series.ui.h:1
+msgid "_Separation:"
+msgstr "_Atdalīšana:"
+
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
 msgid "Cen_ter size:"
 msgstr "Vi_dus izmērs:"
 
@@ -7171,12 +7932,17 @@ msgstr "Pīrāgu skicēšanas dzinis"
 msgid "Default pie types"
 msgstr "Noklusējuma pīrāgu tipi"
 
+#: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
+#: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
+msgid "Hide data outside of color axis bounds"
+msgstr "Slēpt datus ārpus krāsu ass robežām"
+
 #: ../plugins/plot_radar/gog-radar.c:238
 msgid "Default fill"
 msgstr "Noklusējuma aizpildījums"
 
-#: ../plugins/plot_radar/gog-radar.c:239 ../plugins/plot_xy/gog-xy.c:388
-#: ../plugins/plot_xy/gog-xy.c:817
+#: ../plugins/plot_radar/gog-radar.c:239 ../plugins/plot_xy/gog-xy.c:385
+#: ../plugins/plot_xy/gog-xy.c:814
 msgid "Should the default style of a series include fill"
 msgstr "Vai noklusējuma sēriju stilam vajadzētu iekļaut aizpildījumu"
 
@@ -7217,18 +7983,18 @@ msgstr "Apjoms"
 msgid "PlotColorPolar"
 msgstr "PlotColorPolar"
 
-#: ../plugins/plot_radar/gog-radar.c:721 ../plugins/plot_xy/gog-xy.c:822
+#: ../plugins/plot_radar/gog-radar.c:721 ../plugins/plot_xy/gog-xy.c:819
 msgid "hide-outliers"
 msgstr "slēpt-nepiederošos"
 
-#: ../plugins/plot_radar/gog-radar.c:722 ../plugins/plot_xy/gog-xy.c:823
+#: ../plugins/plot_radar/gog-radar.c:722 ../plugins/plot_xy/gog-xy.c:820
 msgid "Hide data outside of the color axis bounds"
 msgstr "Slēpt datus ārpus krāsu ass robežām"
 
 #: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:400
 #: ../plugins/plot_surface/gog-xyz-surface.c:543
 #: ../plugins/plot_surface/xl-surface.c:304
-#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:835
+#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:832
 msgid "Z"
 msgstr "Z"
 
@@ -7245,11 +8011,6 @@ msgstr "Radiālās krituma līnijas"
 #: ../plugins/plot_radar/gog-radar.c:1468
 msgid "Angular error bars"
 msgstr "Leņķisko kļūdu joslas"
-
-#: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
-#: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
-msgid "Hide data outside of color axis bounds"
-msgstr "Slēpt datus ārpus krāsu ass robežām"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Radar"
@@ -7342,15 +8103,15 @@ msgstr "Transponēt skici"
 #: ../plugins/plot_surface/gog-xyz.c:396
 #: ../plugins/plot_surface/gog-xyz-surface.c:539
 #: ../plugins/plot_surface/xl-surface.c:302
-#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:408
-#: ../plugins/plot_xy/gog-xy.c:578 ../plugins/plot_xy/gog-xy.c:831
+#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:405
+#: ../plugins/plot_xy/gog-xy.c:575 ../plugins/plot_xy/gog-xy.c:828
 msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:398
 #: ../plugins/plot_surface/gog-xyz-surface.c:541
-#: ../plugins/plot_xy/gog-xy.c:410 ../plugins/plot_xy/gog-xy.c:580
-#: ../plugins/plot_xy/gog-xy.c:833
+#: ../plugins/plot_xy/gog-xy.c:407 ../plugins/plot_xy/gog-xy.c:577
+#: ../plugins/plot_xy/gog-xy.c:830
 msgid "Y"
 msgstr "Y"
 
@@ -7503,8 +8264,8 @@ msgid "Default surface plot types"
 msgstr "Noklusējuma virsmas skices tipi"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:1
-msgid "3_D"
-msgstr "3_D"
+msgid "_Size represented by:"
+msgstr "_Izmēru attēlo ar:"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
 msgid "Sur_face"
@@ -7515,16 +8276,16 @@ msgid "Dia_meter"
 msgstr "Dia_metrs"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:4
-msgid "_Size represented by:"
-msgstr "_Izmēru attēlo ar:"
+msgid "Show _negative values"
+msgstr "Rādīt _negatīvās vērtības"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:5
 msgid "_Vary colors by bubble"
 msgstr "_Variēt krāsas katram burbulim"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:6
-msgid "Show _negative values"
-msgstr "Rādīt _negatīvās vērtības"
+msgid "3_D"
+msgstr "3_D"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:7
 msgid "_Bubbles scaled to"
@@ -7535,132 +8296,120 @@ msgstr "_Burbuļi mērogoti uz"
 msgid "% of default size"
 msgstr "% no noklusējuma izmēra"
 
-#: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
-msgid "_Use null value instead of invalid"
-msgstr "Lietot n_ulles vērtību, nevis rādīt kā nederīgu"
-
-#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
-msgid "_Horizontal"
-msgstr "_Horizontāla"
-
-#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
-msgid "Bar _width:"
-msgstr "Joslas _platums:"
-
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: ../plugins/plot_xy/gog-xy.c:259
+#: ../plugins/plot_xy/gog-xy.c:256
 msgid "PlotXY"
 msgstr "PlotXY"
 
-#: ../plugins/plot_xy/gog-xy.c:375
+#: ../plugins/plot_xy/gog-xy.c:372
 msgid "Has markers by default"
 msgstr "Pēc noklusējuma ir marķieri"
 
-#: ../plugins/plot_xy/gog-xy.c:381 ../plugins/plot_xy/gog-xy.c:810
+#: ../plugins/plot_xy/gog-xy.c:378 ../plugins/plot_xy/gog-xy.c:807
 msgid "Has lines by default"
 msgstr "Pēc noklusējuma ir līnijas"
 
-#: ../plugins/plot_xy/gog-xy.c:382 ../plugins/plot_xy/gog-xy.c:811
+#: ../plugins/plot_xy/gog-xy.c:379 ../plugins/plot_xy/gog-xy.c:808
 msgid "Should the default style of a series include lines"
 msgstr "Vai noklusējuma sēriju stilam vajadzētu iekļaut līnijas"
 
-#: ../plugins/plot_xy/gog-xy.c:387 ../plugins/plot_xy/gog-xy.c:816
+#: ../plugins/plot_xy/gog-xy.c:384 ../plugins/plot_xy/gog-xy.c:813
 msgid "Has fill by default"
 msgstr "Pēc noklusējuma ir aizpildījums"
 
-#: ../plugins/plot_xy/gog-xy.c:393
+#: ../plugins/plot_xy/gog-xy.c:390
 msgid "Use splines"
 msgstr "Lieto splainus"
 
-#: ../plugins/plot_xy/gog-xy.c:394
+#: ../plugins/plot_xy/gog-xy.c:391
 msgid "Should the plot use splines instead of linear interpolation"
 msgstr "Vai skicei jāizmanto splaini, nevis lineāra interpolācija"
 
-#: ../plugins/plot_xy/gog-xy.c:454
+#: ../plugins/plot_xy/gog-xy.c:451
 msgid "PlotBubble"
 msgstr "PlotBubble"
 
-#: ../plugins/plot_xy/gog-xy.c:554
+#: ../plugins/plot_xy/gog-xy.c:551
 msgid "Size as area"
 msgstr "Izmērs ka laukums"
 
-#: ../plugins/plot_xy/gog-xy.c:555
+#: ../plugins/plot_xy/gog-xy.c:552
 msgid "Display size as area instead of diameter"
 msgstr "Rādīt izmēru kā laukumu, nevis diametru"
 
-#: ../plugins/plot_xy/gog-xy.c:560
+#: ../plugins/plot_xy/gog-xy.c:557
 msgid "Show negatives"
 msgstr "Rādīt negatīvos"
 
-#: ../plugins/plot_xy/gog-xy.c:561
+#: ../plugins/plot_xy/gog-xy.c:558
 msgid "Draw bubbles for negative values"
 msgstr "Zīmēt burbuļus negatīvām vērtībām"
 
-#: ../plugins/plot_xy/gog-xy.c:567
+#: ../plugins/plot_xy/gog-xy.c:564
 msgid "Draw 3D bubbles"
 msgstr "Zīmēt 3D burbuļus"
 
-#: ../plugins/plot_xy/gog-xy.c:572
+#: ../plugins/plot_xy/gog-xy.c:569
 msgid "Bubble scale"
 msgstr "Burbuļa mērogs"
 
-#: ../plugins/plot_xy/gog-xy.c:573
+#: ../plugins/plot_xy/gog-xy.c:570
 msgid "Fraction of default radius used for display"
 msgstr "Daļa no noklusējuma rādiusa, ko izmantot attēlošanai"
 
-#: ../plugins/plot_xy/gog-xy.c:582 ../plugins/plot_xy/plot-types.xml.in.h:3
+#: ../plugins/plot_xy/gog-xy.c:579 ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Bubble"
 msgstr "Burbulis"
 
 #. xgettext : the base for how to name map like plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
-#: ../plugins/plot_xy/gog-xy.c:707
+#: ../plugins/plot_xy/gog-xy.c:704
 msgid "XYColor"
 msgstr "XYColor"
 
-#: ../plugins/plot_xy/gog-xy.c:2099 ../plugins/plot_xy/gog-xy.c:2170
+#: ../plugins/plot_xy/gog-xy.c:2103 ../plugins/plot_xy/gog-xy.c:2174
 msgid "X error bars"
 msgstr "X kļūdu joslas"
 
-#: ../plugins/plot_xy/gog-xy.c:2102 ../plugins/plot_xy/gog-xy.c:2176
+#: ../plugins/plot_xy/gog-xy.c:2106 ../plugins/plot_xy/gog-xy.c:2180
 msgid "Y error bars"
 msgstr "Y kļūdu joslas"
 
-#: ../plugins/plot_xy/gog-xy.c:2111
+#: ../plugins/plot_xy/gog-xy.c:2115
 msgid "Horizontal drop lines"
 msgstr "Horizontālās krituma līnijas"
 
-#: ../plugins/plot_xy/gog-xy.c:2119
+#: ../plugins/plot_xy/gog-xy.c:2123
 msgid "Vertical drop lines"
 msgstr "Vertikālās krituma līnijas"
 
-#: ../plugins/plot_xy/gog-xy.c:2182
+#: ../plugins/plot_xy/gog-xy.c:2186
 msgid "Invalid as zero"
 msgstr "Nederīgās kā nulles"
 
-#: ../plugins/plot_xy/gog-xy.c:2183
+#: ../plugins/plot_xy/gog-xy.c:2187
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr "Aizvietot nederīgās vērtības ar 0, kad zīmē marķierus vai burbuļus"
 
-#: ../plugins/plot_xy/gog-xy.c:2188
+#: ../plugins/plot_xy/gog-xy.c:2192
 msgid "Clamp at start"
 msgstr "Piestiprināt sākumā"
 
-#: ../plugins/plot_xy/gog-xy.c:2189
+#: ../plugins/plot_xy/gog-xy.c:2193
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
 "Interpolētās līknes slīpums sākumā, izmantojot piestiprināto kubisko splainu"
 
-#: ../plugins/plot_xy/gog-xy.c:2194
+#: ../plugins/plot_xy/gog-xy.c:2198
 msgid "Clamp at end"
 msgstr "Piestiprināt beigās"
 
-#: ../plugins/plot_xy/gog-xy.c:2195
+#: ../plugins/plot_xy/gog-xy.c:2199
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7687,12 +8436,24 @@ msgstr "Joslu platumi kā procenti no skices platuma"
 msgid "Positions"
 msgstr "Novietojums"
 
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:1
+msgid "_Horizontal"
+msgstr "_Horizontāla"
+
+#: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:2
+msgid "Bar _width:"
+msgstr "Joslas _platums:"
+
 #. xgettext : the base for how to name min/max line plot objects
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
 #: ../plugins/plot_xy/gog-xy-minmax.c:166
 msgid "PlotXYMinMax"
 msgstr "PlotXYMinMax"
+
+#: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
+msgid "_Use null value instead of invalid"
+msgstr "Lietot n_ulles vērtību, nevis rādīt kā nederīgu"
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
@@ -8028,6 +8789,40 @@ msgstr "Log Fit (y=a+b*ln(sign*(x-c)))"
 msgid "Logarithmic fitting curve"
 msgstr "Logaritmiski pieguļoša līkne"
 
+#: ../plugins/smoothing/gog-exp-smooth.c:64
+#: ../plugins/smoothing/gog-exp-smooth.c:221
+msgid "Number of interpolation steps"
+msgstr "Interpolācijas soļu skaits"
+
+#: ../plugins/smoothing/gog-exp-smooth.c:72
+msgid ""
+"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
+"If no value or a negative (or null) value is provided, the default will be "
+"used"
+msgstr ""
+"Noklusējuma periods ir 10 * (xmax - xmin)/(nvalues - 1)\n"
+"Ja nav vērtības vai tā ir negatīva (vai nulle), tiks izmantota noklusējuma"
+
+#. xgettext : the base for how to name exponentially smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Exponentially smoothed curve2
+#: ../plugins/smoothing/gog-exp-smooth.c:166
+#: ../plugins/smoothing/types.xml.in.h:3
+msgid "Exponentially smoothed curve"
+msgstr "Eksponenciāli guldināta līkne"
+
+#: ../plugins/smoothing/gog-exp-smooth.c:220
+msgid "Steps"
+msgstr "Soļi"
+
+#: ../plugins/smoothing/gog-exp-smooth.ui.h:1
+msgid "_Period:"
+msgstr "_Periods:"
+
+#: ../plugins/smoothing/gog-exp-smooth.ui.h:2
+msgid "_Steps:"
+msgstr "_Soļi:"
+
 #: ../plugins/smoothing/gog-moving-avg.c:103
 msgid "Number of values from which to calculate an average"
 msgstr "Vērtību skaits, no kurām rēķina vidējo"
@@ -8064,40 +8859,6 @@ msgstr "Intervāl_s:"
 msgid "_Use averaged abscissa"
 msgstr "Lietot vidējo abscis_u"
 
-#: ../plugins/smoothing/gog-exp-smooth.c:64
-#: ../plugins/smoothing/gog-exp-smooth.c:220
-msgid "Number of interpolation steps"
-msgstr "Interpolācijas soļu skaits"
-
-#: ../plugins/smoothing/gog-exp-smooth.c:72
-msgid ""
-"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
-"If no value or a negative (or null) value is provided, the default will be "
-"used"
-msgstr ""
-"Noklusējuma periods ir 10 * (xmax - xmin)/(nvalues - 1)\n"
-"Ja nav vērtības vai tā ir negatīva (vai nulle), tiks izmantota noklusējuma"
-
-#. xgettext : the base for how to name exponentially smoothed curves objects
-#. * eg The 2nd one for a series will be called
-#. * 	Exponentially smoothed curve2
-#: ../plugins/smoothing/gog-exp-smooth.c:165
-#: ../plugins/smoothing/types.xml.in.h:3
-msgid "Exponentially smoothed curve"
-msgstr "Eksponenciāli guldināta līkne"
-
-#: ../plugins/smoothing/gog-exp-smooth.c:219
-msgid "Steps"
-msgstr "Soļi"
-
-#: ../plugins/smoothing/gog-exp-smooth.ui.h:1
-msgid "_Period:"
-msgstr "_Periods:"
-
-#: ../plugins/smoothing/gog-exp-smooth.ui.h:2
-msgid "_Steps:"
-msgstr "_Soļi:"
-
 #: ../plugins/smoothing/plugin.xml.in.h:1
 msgid "Charting : Trends and Curves"
 msgstr "Diagrammu veidošana — tendences un līknes"
@@ -8121,6 +8882,66 @@ msgstr "Guldinātu līkņu tipi"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Mainīgā vidējā gludinātā līkne"
+
+#~ msgid "<b>Euler angles</b>"
+#~ msgstr "<b>Eilera leņķi</b>"
+
+#~ msgid "<b>Major ticks</b>"
+#~ msgstr "<b>Lielās atzīmes</b>"
+
+#~ msgid "<b>Position</b>"
+#~ msgstr "<p>Novietojums</p>"
+
+#~ msgid "<b>Minor ticks</b>"
+#~ msgstr "<b>Mazās atzīmes</b>"
+
+#~ msgid "<b>Bounds</b>"
+#~ msgstr "<b>Robežas</b>"
+
+#~ msgid "<b>Style</b>"
+#~ msgstr "<b>Stils</b>"
+
+#~ msgid "<b>Values</b>"
+#~ msgstr "<b>Vērtības</b>"
+
+#~ msgid "<b>_Plot Type</b>"
+#~ msgstr "<b>Skices ti_ps</b>"
+
+#~ msgid "<b>Sample</b>"
+#~ msgstr "<b>Paraugs</b>"
+
+#~ msgid "<b>Used data</b>"
+#~ msgstr "<b>Izmantotie dati</b>"
+
+#~ msgid "<b>Interpolation</b>"
+#~ msgstr "<b>Interpolācija</b>"
+
+#~ msgid "<b>Rotation</b>"
+#~ msgstr "<b>Rotācija</b>"
+
+#~ msgid "AaBbCcDdEe12345"
+#~ msgstr "AaBbCcDdEe12345"
+
+#~ msgid "Font style:"
+#~ msgstr "Fonta stils:"
+
+#~ msgid "Preview"
+#~ msgstr "Priekšskatījums"
+
+#~ msgid "<b>Orientation</b>"
+#~ msgstr "<b>Novietojums</b>"
+
+#~ msgid "<b>Outline</b>"
+#~ msgstr "<b>Struktūra</b>"
+
+#~ msgid "<b>Line</b>"
+#~ msgstr "<b>Līnija</b>"
+
+#~ msgid "<b>Fill</b>"
+#~ msgstr "<b>Aizpildījums</b>"
+
+#~ msgid "<b>Marker</b>"
+#~ msgstr "<b>Marķieris</b>"
 
 #, fuzzy
 #~ msgid "The rectangle type"
@@ -8147,20 +8968,12 @@ msgstr "Mainīgā vidējā gludinātā līkne"
 #~ msgstr "Fonta Izmērs"
 
 #, fuzzy
-#~ msgid "Color"
-#~ msgstr "Kombo"
-
-#, fuzzy
 #~ msgid "Scale set"
 #~ msgstr "Saglabāt Visu"
 
 #, fuzzy
 #~ msgid "<b>Description</b>"
 #~ msgstr "Fons"
-
-#, fuzzy
-#~ msgid "Show sample"
-#~ msgstr "Skaitļu Teorija"
 
 #, fuzzy
 #~ msgid ""
@@ -8205,10 +9018,6 @@ msgstr "Mainīgā vidējā gludinātā līkne"
 #~ msgstr "Ēna"
 
 #, fuzzy
-#~ msgid "Orientation"
-#~ msgstr "Funkcija"
-
-#, fuzzy
 #~ msgid "[Color"
 #~ msgstr "Kombo"
 
@@ -8251,10 +9060,6 @@ msgstr "Mainīgā vidējā gludinātā līkne"
 #, fuzzy
 #~ msgid "Excel compatibility contour plotting engine"
 #~ msgstr "Kļūda parsējot līniju"
-
-#, fuzzy
-#~ msgid "Bounds"
-#~ msgstr "Fons"
 
 #, fuzzy
 #~ msgid "3D Adjacent Bars"

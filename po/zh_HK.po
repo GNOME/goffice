@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-06 12:29+0800\n"
+"POT-Creation-Date: 2013-03-21 18:55-0400\n"
 "PO-Revision-Date: 2012-10-22 09:47+0800\n"
 "Last-Translator: Walter Cheuk <wwycheuk@gmai.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -17,63 +17,86 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../goffice/app/file.c:527
+#: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
 msgstr "ID"
 
-#: ../goffice/app/file.c:528
-msgid "The identifier of the saver."
+#: ../goffice/app/file.c:178
+#, fuzzy
+msgid "The identifier of the opener"
 msgstr "儲存者ID。"
 
-#: ../goffice/app/file.c:538
-msgid "MIME type"
-msgstr "MIME 類型"
-
-#: ../goffice/app/file.c:539
-msgid "The MIME type of the saver."
-msgstr "儲存者的 MIME 類型。"
-
-#: ../goffice/app/file.c:548
-msgid "Extension"
-msgstr "延伸檔名"
-
-#: ../goffice/app/file.c:549
-msgid "The standard file name extension of the saver."
-msgstr "儲存者的標準檔案名稱延伸檔名。"
-
-#: ../goffice/app/file.c:558
+#: ../goffice/app/file.c:187 ../goffice/app/file.c:624
 msgid "Description"
 msgstr "描述"
 
-#: ../goffice/app/file.c:559
+#: ../goffice/app/file.c:188
+#, fuzzy
+msgid "The description of the opener"
+msgstr "儲存者的描述。"
+
+#: ../goffice/app/file.c:197 ../goffice/app/file.c:644
+#, fuzzy
+msgid "Interactive only"
+msgstr "插值"
+
+#: ../goffice/app/file.c:198
+msgid "TRUE if this opener requires interaction"
+msgstr ""
+
+#: ../goffice/app/file.c:594
+msgid "The identifier of the saver."
+msgstr "儲存者ID。"
+
+#: ../goffice/app/file.c:604
+msgid "MIME type"
+msgstr "MIME 類型"
+
+#: ../goffice/app/file.c:605
+msgid "The MIME type of the saver."
+msgstr "儲存者的 MIME 類型。"
+
+#: ../goffice/app/file.c:614
+msgid "Extension"
+msgstr "延伸檔名"
+
+#: ../goffice/app/file.c:615
+msgid "The standard file name extension of the saver."
+msgstr "儲存者的標準檔案名稱延伸檔名。"
+
+#: ../goffice/app/file.c:625
 msgid "The description of the saver."
 msgstr "儲存者的描述。"
 
-#: ../goffice/app/file.c:568
+#: ../goffice/app/file.c:634
 msgid "Overwrite"
 msgstr "覆寫"
 
-#: ../goffice/app/file.c:569
+#: ../goffice/app/file.c:635
 msgid "Whether the saver will overwrite files."
 msgstr "儲存者會否覆寫檔案。"
 
-#: ../goffice/app/file.c:579
+#: ../goffice/app/file.c:645
+msgid "TRUE if this saver requires interaction"
+msgstr ""
+
+#: ../goffice/app/file.c:655
 msgid "Format Level"
 msgstr "格式等級"
 
-#: ../goffice/app/file.c:590
+#: ../goffice/app/file.c:666
 msgid "Scope"
 msgstr "範疇"
 
-#: ../goffice/app/file.c:591
+#: ../goffice/app/file.c:667
 msgid "How much of a document is saved"
 msgstr "文件的多少部分會儲存"
 
-#: ../goffice/app/file.c:754
+#: ../goffice/app/file.c:830
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "為了安全的緣故，預設不可以儲存此舊類型檔案。"
 
-#: ../goffice/app/file.c:764
+#: ../goffice/app/file.c:840
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr "您可編輯合適的 plugin.xml 檔案關閉此保安功能。"
@@ -115,8 +138,8 @@ msgstr "精粹"
 msgid "Whether the document is unchanged since it was created."
 msgstr "該文件建立後是否曾經變動過。"
 
-#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:292
-#: ../goffice/utils/go-style-prefs.ui.h:10
+#: ../goffice/app/go-doc.c:446 ../goffice/canvas/goc-image.c:293
+#: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "圖片"
 
@@ -453,181 +476,181 @@ msgstr ""
 msgid "Execute main loop iteration"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:436
+#: ../goffice/canvas/goc-arc.c:441
 msgid "xc"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:437
+#: ../goffice/canvas/goc-arc.c:442
 msgid "The arc center x coordinate"
 msgstr "弧線中心 x 座標"
 
-#: ../goffice/canvas/goc-arc.c:442
+#: ../goffice/canvas/goc-arc.c:447
 msgid "yc"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:443
+#: ../goffice/canvas/goc-arc.c:448
 msgid "The arc center y coordinate"
 msgstr "弧線中心 y 座標"
 
-#: ../goffice/canvas/goc-arc.c:448
+#: ../goffice/canvas/goc-arc.c:453
 msgid "xr"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:449
+#: ../goffice/canvas/goc-arc.c:454
 msgid "The arc x radius"
 msgstr "弧線 x 半徑"
 
-#: ../goffice/canvas/goc-arc.c:454
+#: ../goffice/canvas/goc-arc.c:459
 msgid "yr"
 msgstr ""
 
-#: ../goffice/canvas/goc-arc.c:455
+#: ../goffice/canvas/goc-arc.c:460
 msgid "The arc y radius"
 msgstr "弧線 y 半徑"
 
-#: ../goffice/canvas/goc-arc.c:460
+#: ../goffice/canvas/goc-arc.c:465
 msgid "ang1"
 msgstr "角度1"
 
-#: ../goffice/canvas/goc-arc.c:461
+#: ../goffice/canvas/goc-arc.c:466
 msgid "The arc start angle"
 msgstr "弧線開始角度"
 
-#: ../goffice/canvas/goc-arc.c:466
+#: ../goffice/canvas/goc-arc.c:471
 msgid "ang2"
 msgstr "角度2"
 
-#: ../goffice/canvas/goc-arc.c:467
+#: ../goffice/canvas/goc-arc.c:472
 msgid "The arc end angle"
 msgstr "弧線結束角度"
 
-#: ../goffice/canvas/goc-arc.c:472 ../goffice/canvas/goc-component.c:295
-#: ../goffice/canvas/goc-ellipse.c:261 ../goffice/canvas/goc-path.c:275
-#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:475
+#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
+#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "旋轉"
 
-#: ../goffice/canvas/goc-arc.c:473
+#: ../goffice/canvas/goc-arc.c:478
 msgid "The rotation around center position"
 msgstr "環繞中心位置的旋轉"
 
-#: ../goffice/canvas/goc-arc.c:478 ../goffice/canvas/goc-rectangle.c:342
-#: ../goffice/graph/gog-axis.c:3054 ../goffice/graph/gog-grid.c:127
+#: ../goffice/canvas/goc-arc.c:483 ../goffice/canvas/goc-rectangle.c:347
+#: ../goffice/graph/gog-axis.c:3058 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "類型"
 
-#: ../goffice/canvas/goc-arc.c:479
+#: ../goffice/canvas/goc-arc.c:484
 msgid "The type of arc: arc, chord or pie"
 msgstr "弧的類型：弧線、弦線或餅形"
 
-#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:348
 msgid "Start Arrow"
 msgstr "開始箭頭"
 
-#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:349
 msgid "Arrow for line's start"
 msgstr "線段開始的箭頭"
 
-#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:352
+#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:354
 msgid "End Arrow"
 msgstr "結束箭頭"
 
-#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:497 ../goffice/canvas/goc-line.c:355
 msgid "Arrow for line's end"
 msgstr "線段結束的箭頭"
 
-#: ../goffice/canvas/goc-circle.c:167 ../goffice/canvas/goc-component.c:271
-#: ../goffice/canvas/goc-ellipse.c:237 ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:263
-#: ../goffice/canvas/goc-path.c:263 ../goffice/canvas/goc-pixbuf.c:223
-#: ../goffice/canvas/goc-rectangle.c:312 ../goffice/canvas/goc-text.c:463
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
+#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
+#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
 #: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr ""
 
-#: ../goffice/canvas/goc-circle.c:168
+#: ../goffice/canvas/goc-circle.c:170
 msgid "The circle center horizontal position"
 msgstr "圓形中心水平位置"
 
-#: ../goffice/canvas/goc-circle.c:173 ../goffice/canvas/goc-component.c:277
-#: ../goffice/canvas/goc-ellipse.c:243 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:269
-#: ../goffice/canvas/goc-path.c:269 ../goffice/canvas/goc-pixbuf.c:229
-#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-text.c:469
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
+#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
+#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
 #: ../goffice/canvas/goc-widget.c:779
 msgid "y"
 msgstr ""
 
-#: ../goffice/canvas/goc-circle.c:174
+#: ../goffice/canvas/goc-circle.c:176
 msgid "The circle center vertical position"
 msgstr "圓形中心垂直位置"
 
-#: ../goffice/canvas/goc-circle.c:179
+#: ../goffice/canvas/goc-circle.c:181
 msgid "Radius"
 msgstr "半徑"
 
-#: ../goffice/canvas/goc-circle.c:180
+#: ../goffice/canvas/goc-circle.c:182
 msgid "The circle radius"
 msgstr "圓形的半徑"
 
-#: ../goffice/canvas/goc-component.c:272
+#: ../goffice/canvas/goc-component.c:292
 msgid "The object left position"
 msgstr "物件的左邊位置"
 
-#: ../goffice/canvas/goc-component.c:278
+#: ../goffice/canvas/goc-component.c:298
 msgid "The object top position"
 msgstr "物件的頂點位置"
 
-#: ../goffice/canvas/goc-component.c:283 ../goffice/canvas/goc-component.c:284
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:281
-#: ../goffice/canvas/goc-pixbuf.c:241 ../goffice/canvas/goc-rectangle.c:330
+#: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
+#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
+#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
 #: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "高度"
 
-#: ../goffice/canvas/goc-component.c:289 ../goffice/canvas/goc-component.c:290
-#: ../goffice/canvas/goc-ellipse.c:249 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:275
-#: ../goffice/canvas/goc-pixbuf.c:235 ../goffice/canvas/goc-rectangle.c:324
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
+#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
+#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
 #: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
 #: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "寬度"
 
-#: ../goffice/canvas/goc-component.c:296
+#: ../goffice/canvas/goc-component.c:316
 msgid "The rotation around center"
 msgstr "環繞中心旋轉"
 
-#: ../goffice/canvas/goc-component.c:301
+#: ../goffice/canvas/goc-component.c:321
 msgid "Object"
 msgstr "物件"
 
-#: ../goffice/canvas/goc-component.c:302
+#: ../goffice/canvas/goc-component.c:322
 msgid "The embedded GOComponent object"
 msgstr "內嵌的 GOComponent 物件"
 
-#: ../goffice/canvas/goc-ellipse.c:238
+#: ../goffice/canvas/goc-ellipse.c:260
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "橢圓的左邊位置 (或在 RTL 模式的右邊位置)"
 
-#: ../goffice/canvas/goc-ellipse.c:244
+#: ../goffice/canvas/goc-ellipse.c:266
 msgid "The ellipse top position"
 msgstr "橢圓的頂點邊位"
 
-#: ../goffice/canvas/goc-ellipse.c:250
+#: ../goffice/canvas/goc-ellipse.c:272
 msgid "The ellipse width"
 msgstr "橢圓寬度"
 
-#: ../goffice/canvas/goc-ellipse.c:256
+#: ../goffice/canvas/goc-ellipse.c:278
 msgid "The ellipse height"
 msgstr "橢圓高度"
 
-#: ../goffice/canvas/goc-ellipse.c:262 ../goffice/canvas/goc-rectangle.c:337
+#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "環繞左上位置旋轉"
 
@@ -673,55 +696,55 @@ msgstr "群組水平偏移"
 msgid "The group vertical offset"
 msgstr "群組垂直偏移"
 
-#: ../goffice/canvas/goc-image.c:264 ../goffice/canvas/goc-pixbuf.c:224
+#: ../goffice/canvas/goc-image.c:265 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "圖片左邊位置"
 
-#: ../goffice/canvas/goc-image.c:270 ../goffice/canvas/goc-pixbuf.c:230
+#: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "圖片頂點位置"
 
-#: ../goffice/canvas/goc-image.c:276 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr "圖片寬度，或以 -1 使用圖片本身的寬度"
 
-#: ../goffice/canvas/goc-image.c:282 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr "圖片高度，或以 -1 使用圖片本身的高度"
 
-#: ../goffice/canvas/goc-image.c:293
+#: ../goffice/canvas/goc-image.c:294
 msgid "The GOImage to display"
 msgstr "要顯示的的 GOImage"
 
-#: ../goffice/canvas/goc-image.c:297
+#: ../goffice/canvas/goc-image.c:298
 msgid "Cropped bottom"
 msgstr "在下邊剪裁"
 
-#: ../goffice/canvas/goc-image.c:298
+#: ../goffice/canvas/goc-image.c:299
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:302
+#: ../goffice/canvas/goc-image.c:303
 msgid "Cropped left"
 msgstr "在左邊剪裁"
 
-#: ../goffice/canvas/goc-image.c:303
+#: ../goffice/canvas/goc-image.c:304
 msgid "The cropped area at the image left of the image width"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:307
+#: ../goffice/canvas/goc-image.c:308
 msgid "Cropped right"
 msgstr "在右邊剪裁"
 
-#: ../goffice/canvas/goc-image.c:308
+#: ../goffice/canvas/goc-image.c:309
 msgid "The cropped area at the image right of the image width"
 msgstr ""
 
-#: ../goffice/canvas/goc-image.c:312
+#: ../goffice/canvas/goc-image.c:313
 msgid "Cropped top"
 msgstr "在上邊剪裁"
 
-#: ../goffice/canvas/goc-image.c:313
+#: ../goffice/canvas/goc-image.c:314
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr ""
 
@@ -741,159 +764,159 @@ msgstr "父物件"
 msgid "The group in which the item resides"
 msgstr ""
 
-#: ../goffice/canvas/goc-line.c:322
+#: ../goffice/canvas/goc-line.c:324
 msgid "x0"
 msgstr ""
 
-#: ../goffice/canvas/goc-line.c:323
+#: ../goffice/canvas/goc-line.c:325
 msgid "The line start x coordinate"
 msgstr "線段開始的 x 座標"
 
-#: ../goffice/canvas/goc-line.c:328
+#: ../goffice/canvas/goc-line.c:330
 msgid "y0"
 msgstr ""
 
-#: ../goffice/canvas/goc-line.c:329
+#: ../goffice/canvas/goc-line.c:331
 msgid "The line start y coordinate"
 msgstr "線段開始的 y 座標"
 
-#: ../goffice/canvas/goc-line.c:334
+#: ../goffice/canvas/goc-line.c:336
 msgid "x1"
 msgstr ""
 
-#: ../goffice/canvas/goc-line.c:335
+#: ../goffice/canvas/goc-line.c:337
 msgid "The line end x coordinate"
 msgstr "線段結束的 x 座標"
 
-#: ../goffice/canvas/goc-line.c:340
+#: ../goffice/canvas/goc-line.c:342
 msgid "y1"
 msgstr ""
 
-#: ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-line.c:343
 msgid "The line end y coordinate"
 msgstr "線段結束的 y 座標"
 
-#: ../goffice/canvas/goc-path.c:264
+#: ../goffice/canvas/goc-path.c:269
 msgid "The path first point x coordinate"
 msgstr "路徑第一點的 x 座標"
 
-#: ../goffice/canvas/goc-path.c:270
+#: ../goffice/canvas/goc-path.c:275
 msgid "The path first point y coordinate"
 msgstr "路徑第一點的 y 座標"
 
-#: ../goffice/canvas/goc-path.c:276
+#: ../goffice/canvas/goc-path.c:281
 msgid "The rotation around first point position"
 msgstr "環繞第一點位置旋轉"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:286
 msgid "Closed"
 msgstr "封閉"
 
-#: ../goffice/canvas/goc-path.c:282
+#: ../goffice/canvas/goc-path.c:287
 msgid "The flag for closed path"
 msgstr "封閉路徑的旗標"
 
-#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-polygon.c:339
+#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
 msgid "Fill rule"
 msgstr "填充規則"
 
-#: ../goffice/canvas/goc-path.c:288 ../goffice/canvas/goc-polygon.c:340
+#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
 msgid "Set fill rule to winding or even/odd"
 msgstr ""
 
-#: ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-path.c:298
 msgid "Path"
 msgstr "路徑"
 
-#: ../goffice/canvas/goc-path.c:294
+#: ../goffice/canvas/goc-path.c:299
 msgid "The path points"
 msgstr "路徑點"
 
-#: ../goffice/canvas/goc-pixbuf.c:252 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
 msgid "Pixbuf"
 msgstr ""
 
-#: ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-pixbuf.c:265
 msgid "The GdkPixbuf to display"
 msgstr "要顯示的 GdkPixbuf"
 
-#: ../goffice/canvas/goc-polygon.c:328 ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
 msgid "points"
 msgstr "點"
 
-#: ../goffice/canvas/goc-polygon.c:328
+#: ../goffice/canvas/goc-polygon.c:344
 msgid "The polygon vertices"
 msgstr "多邊形的頂點"
 
-#: ../goffice/canvas/goc-polygon.c:333 ../goffice/canvas/goc-polyline.c:256
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
 msgid "Use spline"
 msgstr "使用樣條"
 
-#: ../goffice/canvas/goc-polygon.c:334
+#: ../goffice/canvas/goc-polygon.c:350
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "以 Bezier 封閉立方樣條作為輪廓"
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:360
 msgid "sizes"
 msgstr "大小"
 
-#: ../goffice/canvas/goc-polygon.c:345
+#: ../goffice/canvas/goc-polygon.c:361
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
 "be discarded. Setting the \"point\" property will reset the sizes."
 msgstr ""
 
-#: ../goffice/canvas/goc-polyline.c:251
+#: ../goffice/canvas/goc-polyline.c:259
 msgid "The polyline vertices"
 msgstr ""
 
-#: ../goffice/canvas/goc-polyline.c:257
+#: ../goffice/canvas/goc-polyline.c:265
 msgid "Use a Bezier cubic spline as line"
 msgstr "以 Bezier 立方樣條作為線段"
 
-#: ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-rectangle.c:318
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr "矩形左邊位置 (或在 RTL 模式的右邊位置)"
 
-#: ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-rectangle.c:324
 msgid "The rectangle top position"
 msgstr "矩形頂點位置"
 
-#: ../goffice/canvas/goc-rectangle.c:325
+#: ../goffice/canvas/goc-rectangle.c:330
 msgid "The rectangle width"
 msgstr "矩形寬度"
 
-#: ../goffice/canvas/goc-rectangle.c:331
+#: ../goffice/canvas/goc-rectangle.c:336
 msgid "The rectangle height"
 msgstr "矩形高度"
 
-#: ../goffice/canvas/goc-rectangle.c:343
+#: ../goffice/canvas/goc-rectangle.c:348
 msgid ""
 "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for "
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:348
+#: ../goffice/canvas/goc-rectangle.c:353
 msgid "rx"
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:349
+#: ../goffice/canvas/goc-rectangle.c:354
 msgid "The round rectangle rx"
 msgstr "圓角矩形 rx"
 
-#: ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-rectangle.c:359
 msgid "ry"
 msgstr ""
 
-#: ../goffice/canvas/goc-rectangle.c:355
+#: ../goffice/canvas/goc-rectangle.c:360
 msgid "The round rectangle ry"
 msgstr "圓角矩形 ry"
 
 #: ../goffice/canvas/goc-styled-item.c:160
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1105
+#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1104
 msgid "Style"
 msgstr "樣式"
 
@@ -910,72 +933,72 @@ msgstr "縮放線段寬度"
 msgid "Whether to scale the line width when zooming"
 msgstr "當縮放畫面時是否同時縮放線段寬度"
 
-#: ../goffice/canvas/goc-text.c:464
+#: ../goffice/canvas/goc-text.c:466
 msgid "The text horizontal position"
 msgstr "文字水平位置"
 
-#: ../goffice/canvas/goc-text.c:470
+#: ../goffice/canvas/goc-text.c:472
 msgid "The text position"
 msgstr "文字位置"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:478
 msgid "The rotation around the anchor"
 msgstr "環繞錨點旋轉"
 
-#: ../goffice/canvas/goc-text.c:481 ../goffice/graph/gog-object.c:819
+#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:815
 msgid "Anchor"
 msgstr "錨點"
 
-#: ../goffice/canvas/goc-text.c:482
+#: ../goffice/canvas/goc-text.c:484
 msgid "The anchor point for the text"
 msgstr "文字的錨點"
 
-#: ../goffice/canvas/goc-text.c:487 ../goffice/gtk/go-format-sel.c:69
-#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:971
+#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:970
 msgid "Text"
 msgstr "文字"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:490
 msgid "The text to display"
 msgstr "要顯示的文字"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "Attributes"
 msgstr "屬性"
 
-#: ../goffice/canvas/goc-text.c:491
+#: ../goffice/canvas/goc-text.c:493
 msgid "The attributes list as a PangoAttrList"
 msgstr ""
 
-#: ../goffice/canvas/goc-text.c:496
+#: ../goffice/canvas/goc-text.c:498
 msgid "Clip"
 msgstr ""
 
-#: ../goffice/canvas/goc-text.c:497
+#: ../goffice/canvas/goc-text.c:499
 msgid "Whether to clip or not"
 msgstr ""
 
-#: ../goffice/canvas/goc-text.c:502
+#: ../goffice/canvas/goc-text.c:504
 msgid "Clip width"
 msgstr "Clip 寬度"
 
-#: ../goffice/canvas/goc-text.c:503
+#: ../goffice/canvas/goc-text.c:505
 msgid "Clip width for the text"
 msgstr "文字的 Clip 寬度"
 
-#: ../goffice/canvas/goc-text.c:508
+#: ../goffice/canvas/goc-text.c:510
 msgid "Clip height"
 msgstr "Clip 高度"
 
-#: ../goffice/canvas/goc-text.c:509
+#: ../goffice/canvas/goc-text.c:511
 msgid "Clip height for the text"
 msgstr "文字的 Clip 高度"
 
-#: ../goffice/canvas/goc-text.c:514
+#: ../goffice/canvas/goc-text.c:516
 msgid "Wrap width"
 msgstr "換行寬度"
 
-#: ../goffice/canvas/goc-text.c:515
+#: ../goffice/canvas/goc-text.c:517
 msgid "Wrap width for the text"
 msgstr "文字的換行寬度"
 
@@ -1033,7 +1056,6 @@ msgstr "檢視欄位"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:1
 #, fuzzy
-#| msgid "Euler angle psi"
 msgid "Euler angles"
 msgstr "歐拉 ψ 角"
 
@@ -1111,113 +1133,110 @@ msgstr "主格線(_J)"
 msgid "Mi_nor ticks"
 msgstr "次格線(_N)"
 
-#: ../goffice/graph/gog-axis.c:2896 ../goffice/math/go-distribution.c:171
+#: ../goffice/graph/gog-axis.c:2899 ../goffice/math/go-distribution.c:171
 #: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "縮放"
 
-#: ../goffice/graph/gog-axis.c:2918 ../plugins/plot_pie/gog-pie.c:325
+#: ../goffice/graph/gog-axis.c:2921 ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:2975
+#: ../goffice/graph/gog-axis.c:2978
 #, fuzzy
-#| msgid "Color"
 msgid "Colors"
 msgstr "顏色"
 
-#: ../goffice/graph/gog-axis.c:2992 ../goffice/graph/gog-series-labels.c:891
-#: ../goffice/graph/gog-series-labels.c:1417
+#: ../goffice/graph/gog-axis.c:2996 ../goffice/graph/gog-series-labels.c:910
+#: ../goffice/graph/gog-series-labels.c:1436
 msgid "Format"
 msgstr "格式"
 
-#: ../goffice/graph/gog-axis.c:3030
+#: ../goffice/graph/gog-axis.c:3034
 msgid "MajorGrid"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3033
+#: ../goffice/graph/gog-axis.c:3037
 msgid "MinorGrid"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3036
+#: ../goffice/graph/gog-axis.c:3040
 msgid "AxisLine"
 msgstr "軸線"
 
-#: ../goffice/graph/gog-axis.c:3039 ../goffice/graph/gog-theme.c:591
+#: ../goffice/graph/gog-axis.c:3043 ../goffice/graph/gog-theme.c:591
 msgid "Label"
 msgstr "標籤"
 
-#: ../goffice/graph/gog-axis.c:3055
+#: ../goffice/graph/gog-axis.c:3059
 msgid "Numerical type of this axis"
 msgstr "此軸線的數值類型"
 
-#: ../goffice/graph/gog-axis.c:3059
+#: ../goffice/graph/gog-axis.c:3063
 msgid "Invert axis"
 msgstr "翻轉軸線"
 
-#: ../goffice/graph/gog-axis.c:3060
+#: ../goffice/graph/gog-axis.c:3064
 msgid "Scale from high to low rather than low to high"
 msgstr "從高至低縮放，而非低至高"
 
-#: ../goffice/graph/gog-axis.c:3064
+#: ../goffice/graph/gog-axis.c:3068
 msgid "MapName"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3065
+#: ../goffice/graph/gog-axis.c:3069
 msgid "The name of the map for scaling"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3070
+#: ../goffice/graph/gog-axis.c:3074
 msgid "Assigned XL format"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3071
+#: ../goffice/graph/gog-axis.c:3075
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3076 ../goffice/graph/gog-axis.c:3077
+#: ../goffice/graph/gog-axis.c:3080 ../goffice/graph/gog-axis.c:3081
 msgid "Rotation of circular axis"
 msgstr "環軸的旋轉"
 
-#: ../goffice/graph/gog-axis.c:3084 ../goffice/graph/gog-axis.c:3085
+#: ../goffice/graph/gog-axis.c:3088 ../goffice/graph/gog-axis.c:3089
 msgid "Polar axis set unit"
 msgstr "極軸設定單位"
 
-#: ../goffice/graph/gog-axis.c:3090
+#: ../goffice/graph/gog-axis.c:3094
 msgid "Axis start position"
 msgstr "軸線開始位置"
 
-#: ../goffice/graph/gog-axis.c:3091
+#: ../goffice/graph/gog-axis.c:3095
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3096
+#: ../goffice/graph/gog-axis.c:3100
 msgid "Axis end position"
 msgstr "軸線結束位置"
 
-#: ../goffice/graph/gog-axis.c:3097
+#: ../goffice/graph/gog-axis.c:3101
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3101
+#: ../goffice/graph/gog-axis.c:3105
 msgid "ColorMapName"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3102
+#: ../goffice/graph/gog-axis.c:3106
 #, fuzzy
-#| msgid "The name of the theme for elements of the graph"
 msgid "The name of the color map"
 msgstr "用於圖表元件的主題的名稱"
 
 #: ../goffice/graph/gog-axis-color-map.c:131 ../goffice/graph/gog-theme.c:322
 #, fuzzy
-#| msgid "Resource"
 msgid "Resource type"
 msgstr "資源"
 
@@ -1236,19 +1255,16 @@ msgstr "預設"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
 #, fuzzy
-#| msgid "Colored Polar"
 msgid "Color map editor"
 msgstr "彩色極座標"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
 #, fuzzy
-#| msgid "Current Locale: "
 msgid "Current color stop"
 msgstr "目前地域："
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
 #, fuzzy
-#| msgid "Values"
 msgid "Value"
 msgstr "變數值"
 
@@ -1257,7 +1273,7 @@ msgid "Color"
 msgstr "顏色"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:576
+#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:579
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "名稱"
@@ -1272,7 +1288,6 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
 #, fuzzy
-#| msgid "User Defined"
 msgid "Define"
 msgstr "自選"
 
@@ -1395,7 +1410,6 @@ msgstr "結束："
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:5
 #, fuzzy
-#| msgid "Ma_jor ticks"
 msgid "Major ticks"
 msgstr "主格線(_J)"
 
@@ -1411,9 +1425,9 @@ msgstr "內部(_I)"
 msgid "_Show Labels"
 msgstr "顯示標籤(_S)"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:751
-#: ../goffice/graph/gog-object.c:795 ../goffice/graph/gog-series-labels.c:879
-#: ../goffice/graph/gog-series-labels.c:1405
+#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:747
+#: ../goffice/graph/gog-object.c:791 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series-labels.c:1424
 msgid "Position"
 msgstr "位置"
 
@@ -1438,14 +1452,13 @@ msgid "Padding:"
 msgstr "填充空間："
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:15
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
-#: ../goffice/utils/go-style-prefs.ui.h:4
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:7
 msgid "pts"
 msgstr "點"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:16
 #, fuzzy
-#| msgid "Mi_nor ticks"
 msgid "Minor ticks"
 msgstr "次格線(_N)"
 
@@ -1463,13 +1476,13 @@ msgstr "界限"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
 #: ../goffice/graph/gog-object-prefs.ui.h:15
-#: ../goffice/graph/gog-plot-prefs.ui.h:1 ../goffice/gtk/go-palette.c:344
+#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:344
 msgid "Automatic"
 msgstr "自動"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:21
 #: ../goffice/graph/gog-series-prefs.ui.h:4
-#: ../goffice/utils/go-style-prefs.ui.h:5
+#: ../goffice/utils/go-style-prefs.ui.h:26
 msgid "_Type:"
 msgstr "類型(_T)："
 
@@ -1487,14 +1500,13 @@ msgstr "旋轉(_R)："
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:25
 #: ../goffice/gtk/go-rotation-sel.ui.h:3
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
 msgid "degrees"
 msgstr "度"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:26
 #, fuzzy
-#| msgid "<b>Mapping</b>"
 msgid "Mapping"
 msgstr "<b>對映</b>"
 
@@ -1517,7 +1529,6 @@ msgstr ""
 #: ../goffice/graph/gog-axis-prefs.ui.h:31
 #: ../goffice/graph/gog-graph-prefs.ui.h:3
 #, fuzzy
-#| msgid "Save as"
 msgid "Save"
 msgstr "另存為"
 
@@ -1660,7 +1671,7 @@ msgstr "%s 至 %s"
 
 #: ../goffice/graph/gog-color-scale.c:132
 #: ../plugins/plot_barcol/gog-minmax.c:227
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
 #: ../plugins/plot_xy/gog-xy-dropbar.c:306
 #: ../plugins/plot_xy/gog-xy-minmax.c:291
 msgid "Horizontal"
@@ -1668,7 +1679,6 @@ msgstr "水平"
 
 #: ../goffice/graph/gog-color-scale.c:133
 #, fuzzy
-#| msgid "Whether to use horizontal bars"
 msgid "Whether to display the scale horizontally"
 msgstr "是否使用水平線"
 
@@ -1681,11 +1691,11 @@ msgid "_Compact mode"
 msgstr "緊緻模式(_C)"
 
 #: ../goffice/graph/gog-error-bar.c:79
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
 #: ../goffice/gtk/go-format-sel.c:1670 ../goffice/gtk/go-format-sel.c:1846
 #: ../goffice/utils/formats.c:366 ../goffice/utils/go-line.c:127
-#: ../goffice/utils/go-style-prefs.ui.h:6
+#: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "無"
 
@@ -1702,49 +1712,37 @@ msgid "Both"
 msgstr "兩者"
 
 #. Note for translator: the angle unit
-#: ../goffice/graph/gog-error-bar.c:335
+#: ../goffice/graph/gog-error-bar.c:336
 msgid "°"
 msgstr "°"
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
-msgid "Absolute"
-msgstr "絕對"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
-msgid "Relative"
-msgstr "相對"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
-msgid "Percent"
-msgstr "百分比"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:5
-#, fuzzy
-#| msgid "<b>Error category</b>"
-msgid "Error category"
-msgstr "<b>誤差分類</b>"
-
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 msgid "Dis_play:"
 msgstr "顯示(_P)："
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
-#: ../goffice/graph/gog-object-prefs.ui.h:18
-#: ../goffice/graph/gog-plot-prefs.ui.h:5
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:2
+#: ../goffice/graph/gog-object-prefs.ui.h:17
+#: ../goffice/graph/gog-plot-prefs.ui.h:3
 msgid "_Width:"
 msgstr "寬度(_W)："
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:3
 msgid "_Line width:"
 msgstr "線段寬度(_L)："
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:4
 msgid "Colo_r:"
 msgstr "顏色(_R)："
 
-#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:7
+msgid "(+)"
+msgstr "(+)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:8
+msgid "(-)"
+msgstr "(-)"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:9
 #: ../plugins/plot_barcol/gog-1.5d.c:364
 #: ../plugins/plot_distrib/gog-boxplot.c:428
 #: ../plugins/plot_distrib/gog-histogram.c:390
@@ -1753,13 +1751,24 @@ msgstr "顏色(_R)："
 msgid "Values"
 msgstr "變數值"
 
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:10
+#, fuzzy
+msgid "Error category"
+msgstr "<b>誤差分類</b>"
+
+#: ../goffice/graph/gog-error-bar-prefs.ui.h:12
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
+msgid "Absolute"
+msgstr "絕對"
+
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:13
-msgid "(+)"
-msgstr "(+)"
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
+msgid "Relative"
+msgstr "相對"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:14
-msgid "(-)"
-msgstr "(-)"
+msgid "Percent"
+msgstr "百分比"
 
 #. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
@@ -1843,20 +1852,18 @@ msgstr "圖表自訂化"
 msgid "_Insert"
 msgstr "插入(_I)"
 
-#: ../goffice/graph/gog-guru.c:1215
+#: ../goffice/graph/gog-guru.c:1216
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "繪製類型(_P)"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
 #, fuzzy
-#| msgid "Show sample"
 msgid "Sample"
 msgstr "顯示樣本"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
 #, fuzzy
-#| msgid "<b>_Subtype</b>"
 msgid "_Subtype"
 msgstr "<b>子類(_S)</b>"
 
@@ -1892,69 +1899,69 @@ msgstr "文字換行"
 msgid "Whether the text might be displayed using several lines"
 msgstr "文字是否以多於一行顯示"
 
-#: ../goffice/graph/gog-label.c:292
+#: ../goffice/graph/gog-label.c:285
 msgid "_Text:"
 msgstr "文字(_T)："
 
-#: ../goffice/graph/gog-label.c:294
+#: ../goffice/graph/gog-label.c:287
 msgid "Rotate frame with text"
 msgstr "框線連同文字一起旋轉"
 
-#: ../goffice/graph/gog-label.c:298
+#: ../goffice/graph/gog-label.c:291
 msgid "Display the text on several lines if needed"
 msgstr "如有需要，將文字以多於一行顯示"
 
-#: ../goffice/graph/gog-label.c:302
+#: ../goffice/graph/gog-label.c:295
 msgid "Rotate background with text"
 msgstr "背景連同文字一起旋轉"
 
-#: ../goffice/graph/gog-label.c:306
+#: ../goffice/graph/gog-label.c:299
 msgid "Interpret text as markup"
 msgstr "將文字解讀為標記"
 
-#: ../goffice/graph/gog-label.c:307
+#: ../goffice/graph/gog-label.c:300
 msgid ""
 "Interpret the text as an HTML like markup as described at http://developer."
 "gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:313 ../goffice/graph/gog-label.c:550
+#: ../goffice/graph/gog-label.c:306 ../goffice/graph/gog-label.c:543
 #: ../goffice/graph/gog-reg-curve.c:133
-#: ../goffice/graph/gog-series-labels.c:588
-#: ../goffice/graph/gog-smoothed-curve.c:59
+#: ../goffice/graph/gog-series-labels.c:607
+#: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
 #: ../plugins/plot_xy/gog-xy.c:2098
 msgid "Details"
 msgstr "詳細資料"
 
-#: ../goffice/graph/gog-label.c:423
+#: ../goffice/graph/gog-label.c:416
 msgid "Text justification"
 msgstr "文字對齊"
 
-#: ../goffice/graph/gog-label.c:424
+#: ../goffice/graph/gog-label.c:417
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:571
+#: ../goffice/graph/gog-label.c:564
 msgid "Regression Equation"
 msgstr "迴歸等式"
 
-#: ../goffice/graph/gog-label.c:610
+#: ../goffice/graph/gog-label.c:603
 msgid "Show equation"
 msgstr "顯示等式"
 
-#: ../goffice/graph/gog-label.c:611
+#: ../goffice/graph/gog-label.c:604
 msgid "Show the equation on the graph"
 msgstr "在圖表顯示等式"
 
-#: ../goffice/graph/gog-label.c:616
+#: ../goffice/graph/gog-label.c:609
 msgid "Show coefficient"
 msgstr "顯示系數"
 
-#: ../goffice/graph/gog-label.c:617
+#: ../goffice/graph/gog-label.c:610
 msgid "Show the correlation coefficient on the graph"
 msgstr ""
 
@@ -1974,103 +1981,103 @@ msgstr ""
 msgid "padding between the swatches in pts."
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:184
+#: ../goffice/graph/gog-object.c:161 ../goffice/graph/gog-object.c:180
 #: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
 msgid "Top"
 msgstr "上"
 
-#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
+#: ../goffice/graph/gog-object.c:162 ../goffice/graph/gog-object.c:181
 msgid "Top right"
 msgstr "右上"
 
-#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:188
+#: ../goffice/graph/gog-object.c:163 ../goffice/graph/gog-object.c:184
 #: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
 msgid "Right"
 msgstr "右"
 
-#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:191
+#: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:187
 msgid "Bottom right"
 msgstr "右下"
 
-#: ../goffice/graph/gog-object.c:169 ../goffice/graph/gog-object.c:190
+#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:186
 #: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
 msgid "Bottom"
 msgstr "下"
 
-#: ../goffice/graph/gog-object.c:170 ../goffice/graph/gog-object.c:189
+#: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
 msgid "Bottom left"
 msgstr "左下"
 
-#: ../goffice/graph/gog-object.c:171 ../goffice/graph/gog-object.c:186
+#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:182
 #: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
 msgid "Left"
 msgstr "左"
 
-#: ../goffice/graph/gog-object.c:172 ../goffice/graph/gog-object.c:183
+#: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:179
 msgid "Top left"
 msgstr "左上"
 
-#: ../goffice/graph/gog-object.c:176 ../goffice/utils/go-style-prefs.ui.h:24
+#: ../goffice/graph/gog-object.c:172 ../goffice/utils/go-style-prefs.ui.h:29
 msgid "Fill"
 msgstr "填滿"
 
-#: ../goffice/graph/gog-object.c:177 ../plugins/plot_barcol/gog-dropbar.c:143
+#: ../goffice/graph/gog-object.c:173 ../plugins/plot_barcol/gog-dropbar.c:143
 #: ../plugins/plot_xy/gog-xy-dropbar.c:326
 msgid "Start"
 msgstr "開始"
 
-#: ../goffice/graph/gog-object.c:178 ../plugins/plot_barcol/gog-dropbar.c:145
+#: ../goffice/graph/gog-object.c:174 ../plugins/plot_barcol/gog-dropbar.c:145
 #: ../plugins/plot_xy/gog-xy-dropbar.c:328
 msgid "End"
 msgstr "結束"
 
-#: ../goffice/graph/gog-object.c:179 ../goffice/graph/gog-object.c:187
+#: ../goffice/graph/gog-object.c:175 ../goffice/graph/gog-object.c:183
 #: ../goffice/graph/gog-series.c:111
 msgid "Center"
 msgstr "中間"
 
-#: ../goffice/graph/gog-object.c:789
+#: ../goffice/graph/gog-object.c:785
 msgid "Object ID"
 msgstr "物件 ID"
 
-#: ../goffice/graph/gog-object.c:790
+#: ../goffice/graph/gog-object.c:786
 msgid "Object numerical ID"
 msgstr "物件數字 ID"
 
-#: ../goffice/graph/gog-object.c:796
+#: ../goffice/graph/gog-object.c:792
 msgid "Position and size of object, in percentage of parent size"
 msgstr "按父物件大小百分比指定的物件位置及大小"
 
-#: ../goffice/graph/gog-object.c:801
+#: ../goffice/graph/gog-object.c:797
 msgid "Compass"
 msgstr "指南針"
 
-#: ../goffice/graph/gog-object.c:802
+#: ../goffice/graph/gog-object.c:798
 msgid "Compass auto position flags"
 msgstr "指南針自動位置旗標"
 
-#: ../goffice/graph/gog-object.c:807
+#: ../goffice/graph/gog-object.c:803
 msgid "Alignment"
 msgstr "對齊方式"
 
-#: ../goffice/graph/gog-object.c:808
+#: ../goffice/graph/gog-object.c:804
 msgid "Alignment flag"
 msgstr "對齊方式旗標"
 
-#: ../goffice/graph/gog-object.c:813 ../goffice/graph/gog-object.c:814
+#: ../goffice/graph/gog-object.c:809 ../goffice/graph/gog-object.c:810
 msgid "Is position manual"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:820
+#: ../goffice/graph/gog-object.c:816
 msgid "Anchor for manual position"
 msgstr "手動位置的錨點"
 
-#: ../goffice/graph/gog-object.c:825 ../goffice/graph/gog-object.c:826
+#: ../goffice/graph/gog-object.c:821 ../goffice/graph/gog-object.c:822
 msgid "Should the object be hidden"
 msgstr "物件是否隱藏"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:1
-#: ../goffice/graph/gog-plot-prefs.ui.h:3
+#: ../goffice/graph/gog-plot-prefs.ui.h:7
 msgid "_Object position:"
 msgstr "物件位置(_O)："
 
@@ -2083,31 +2090,31 @@ msgstr "位置(_P)："
 msgid "_Alignment:"
 msgstr "對齊方式(_A)："
 
-#: ../goffice/graph/gog-object-prefs.ui.h:5
-#: ../goffice/graph/gog-plot-prefs.ui.h:8
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
-#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:6
-#: ../plugins/plot_pie/gog-pie-series.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: ../goffice/graph/gog-object-prefs.ui.h:6
-#: ../goffice/graph/gog-plot-prefs.ui.h:4
-msgid "_Y:"
-msgstr "_Y："
-
-#: ../goffice/graph/gog-object-prefs.ui.h:7
-#: ../goffice/graph/gog-plot-prefs.ui.h:9
+#: ../goffice/graph/gog-object-prefs.ui.h:4
+#: ../goffice/graph/gog-plot-prefs.ui.h:1
 msgid "_X:"
 msgstr "_X："
 
-#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-object-prefs.ui.h:5
+#: ../goffice/graph/gog-plot-prefs.ui.h:2
+msgid "_Y:"
+msgstr "_Y："
+
+#: ../goffice/graph/gog-object-prefs.ui.h:6
 msgid "Anchor:"
 msgstr "錨點："
+
+#: ../goffice/graph/gog-object-prefs.ui.h:8
+#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
+#: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-series.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
+#, no-c-format
+msgid "%"
+msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:9
 msgid "Column:"
@@ -2134,12 +2141,12 @@ msgid "Object size:"
 msgstr "物件大小："
 
 #: ../goffice/graph/gog-object-prefs.ui.h:16
-#: ../goffice/graph/gog-plot-prefs.ui.h:2
+#: ../goffice/graph/gog-plot-prefs.ui.h:9
 msgid "Manual"
 msgstr "手動"
 
-#: ../goffice/graph/gog-object-prefs.ui.h:17
-#: ../goffice/graph/gog-plot-prefs.ui.h:6
+#: ../goffice/graph/gog-object-prefs.ui.h:18
+#: ../goffice/graph/gog-plot-prefs.ui.h:4
 msgid "_Height:"
 msgstr "高度(_H)："
 
@@ -2183,118 +2190,118 @@ msgstr "彩色軸："
 msgid "Bubble axis:"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:299
+#: ../goffice/graph/gog-plot.c:300
 msgid "Axes"
 msgstr "軸心"
 
-#: ../goffice/graph/gog-plot.c:437 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "數列"
 
-#: ../goffice/graph/gog-plot.c:458
+#: ../goffice/graph/gog-plot.c:459
 msgid "Vary style by element"
 msgstr "根據元素改變樣式"
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:460
 msgid "Use a different style for each segment"
 msgstr "每個線段使用不同樣式"
 
-#: ../goffice/graph/gog-plot.c:464
+#: ../goffice/graph/gog-plot.c:465
 msgid "X axis"
 msgstr "X 軸"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:466
 msgid "Reference to X axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:470
+#: ../goffice/graph/gog-plot.c:471
 msgid "Y axis"
 msgstr "Y 軸"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:472
 msgid "Reference to Y axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:476
+#: ../goffice/graph/gog-plot.c:477
 msgid "Z axis"
 msgstr "Z 軸"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:478
 msgid "Reference to Z axis"
 msgstr "對 Z 軸的參考"
 
-#: ../goffice/graph/gog-plot.c:482
+#: ../goffice/graph/gog-plot.c:483
 msgid "Circular axis"
 msgstr "環軸"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
 msgstr "對環軸的參考"
 
-#: ../goffice/graph/gog-plot.c:488
+#: ../goffice/graph/gog-plot.c:489
 msgid "Radial axis"
 msgstr "輻射軸"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
 msgstr "對輻射軸的參考"
 
-#: ../goffice/graph/gog-plot.c:494
+#: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:500
+#: ../goffice/graph/gog-plot.c:501
 msgid "Color axis"
 msgstr "彩色軸"
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
 msgstr "對彩色軸的參考"
 
-#: ../goffice/graph/gog-plot.c:506
+#: ../goffice/graph/gog-plot.c:507
 msgid "Bubble axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:512
+#: ../goffice/graph/gog-plot.c:513
 msgid "Plot group"
 msgstr "圖表群組"
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:514
 msgid "Name of plot group if any"
 msgstr "圖表群組的名稱（如有的話）"
 
-#: ../goffice/graph/gog-plot.c:518
+#: ../goffice/graph/gog-plot.c:519
 msgid "Guru hints"
 msgstr "大師提示"
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:520
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:525
+#: ../goffice/graph/gog-plot.c:526
 msgid "Default interpolation"
 msgstr "預設插值"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:527
 msgid "Default type of series line interpolation"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:1174
+#: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
 msgstr "移動繪製區域"
 
-#: ../goffice/graph/gog-plot.c:1226
+#: ../goffice/graph/gog-plot.c:1227
 msgid "Resize plot area"
 msgstr "重設繪製區域大小"
 
@@ -2350,13 +2357,12 @@ msgid "High bound:"
 msgstr "上限："
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
-#: ../goffice/graph/gog-series-labels.c:452
+#: ../goffice/graph/gog-series-labels.c:471
 msgid "Used data"
 msgstr "使用的資料"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
 #, fuzzy
-#| msgid "<b>Drawing Limits:</b>"
 msgid "Drawing Limits:"
 msgstr "<b>圖表界限：</b>"
 
@@ -2407,19 +2413,19 @@ msgstr "顯示等式(_E)"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "顯示迴歸系數 _R²"
 
-#: ../goffice/graph/gog-renderer.c:1834 ../goffice/graph/gog-view.c:691
+#: ../goffice/graph/gog-renderer.c:1824 ../goffice/graph/gog-view.c:691
 msgid "Model"
 msgstr "模型"
 
-#: ../goffice/graph/gog-renderer.c:1835
+#: ../goffice/graph/gog-renderer.c:1825
 msgid "The GogGraph this renderer displays"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1840
+#: ../goffice/graph/gog-renderer.c:1830
 msgid "View"
 msgstr "檢視"
 
-#: ../goffice/graph/gog-renderer.c:1841
+#: ../goffice/graph/gog-renderer.c:1831
 msgid "the GogView this renderer is displaying"
 msgstr ""
 
@@ -2463,83 +2469,83 @@ msgstr "Y 軸最小值"
 msgid "Y axis maximum"
 msgstr "Y 軸最大值"
 
-#: ../goffice/graph/gog-series.c:223 ../goffice/graph/gog-series-labels.c:395
+#: ../goffice/graph/gog-series.c:231 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
 msgstr "索引："
 
-#: ../goffice/graph/gog-series.c:242 ../plugins/plot_pie/gog-pie.c:91
+#: ../goffice/graph/gog-series.c:244 ../plugins/plot_pie/gog-pie.c:91
 msgid "Settings"
 msgstr "設定"
 
-#: ../goffice/graph/gog-series.c:283 ../goffice/graph/gog-series-labels.c:897
+#: ../goffice/graph/gog-series.c:285 ../goffice/graph/gog-series-labels.c:916
 msgid "Index"
 msgstr "索引"
 
-#: ../goffice/graph/gog-series.c:284 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-series.c:286 ../goffice/graph/gog-series-labels.c:917
 msgid "Index of the corresponding data element"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:607 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:610 ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
 msgstr "在圖例顯示(_S)"
 
-#: ../goffice/graph/gog-series.c:617
+#: ../goffice/graph/gog-series.c:620
 msgid "Data"
 msgstr "資料"
 
-#: ../goffice/graph/gog-series.c:659
+#: ../goffice/graph/gog-series.c:662
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:664
+#: ../goffice/graph/gog-series.c:667
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:737 ../goffice/graph/gog-series-labels.c:1382
+#: ../goffice/graph/gog-series.c:740 ../goffice/graph/gog-series-labels.c:1401
 msgid "Point"
 msgstr "位置"
 
-#: ../goffice/graph/gog-series.c:743
+#: ../goffice/graph/gog-series.c:746
 msgid "Regression curve"
 msgstr "迴歸曲線"
 
-#: ../goffice/graph/gog-series.c:751 ../goffice/graph/gog-theme.c:592
+#: ../goffice/graph/gog-series.c:754 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
 msgstr "趨勢線"
 
-#: ../goffice/graph/gog-series.c:759
+#: ../goffice/graph/gog-series.c:762
 msgid "Data labels"
 msgstr "資料標籤"
 
-#: ../goffice/graph/gog-series.c:794 ../goffice/graph/gog-trend-line.c:153
+#: ../goffice/graph/gog-series.c:797 ../goffice/graph/gog-trend-line.c:151
 msgid "Has-legend"
 msgstr "有圖例"
 
-#: ../goffice/graph/gog-series.c:795
+#: ../goffice/graph/gog-series.c:798
 msgid "Should the series show up in legends"
 msgstr "數列是否在圖例顯示"
 
-#: ../goffice/graph/gog-series.c:800 ../goffice/graph/gog-series-prefs.ui.h:2
+#: ../goffice/graph/gog-series.c:803 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr "插值"
 
-#: ../goffice/graph/gog-series.c:801
+#: ../goffice/graph/gog-series.c:804
 msgid "Type of line interpolation"
 msgstr "線條插值類型"
 
-#: ../goffice/graph/gog-series.c:806
+#: ../goffice/graph/gog-series.c:809
 msgid "Interpolation skip invalid"
 msgstr "插值跳過無效值"
 
-#: ../goffice/graph/gog-series.c:807
+#: ../goffice/graph/gog-series.c:810
 msgid "Should the series interpolation ignore the invalid data"
 msgstr "數列插值是否跳過無效資料"
 
-#: ../goffice/graph/gog-series.c:812
+#: ../goffice/graph/gog-series.c:815
 msgid "Fill type"
 msgstr "填充類型"
 
-#: ../goffice/graph/gog-series.c:813
+#: ../goffice/graph/gog-series.c:816
 msgid "How to fill the area"
 msgstr "如何填滿該區域"
 
@@ -2559,30 +2565,30 @@ msgstr "內部"
 msgid "Near origin"
 msgstr "近原點"
 
-#: ../goffice/graph/gog-series-labels.c:403
+#: ../goffice/graph/gog-series-labels.c:422
 msgid "Custom label"
 msgstr "自訂標籤"
 
-#: ../goffice/graph/gog-series-labels.c:413
+#: ../goffice/graph/gog-series-labels.c:432
 msgid "Custom labels"
 msgstr "自訂標籤"
 
-#: ../goffice/graph/gog-series-labels.c:444
+#: ../goffice/graph/gog-series-labels.c:463
 msgid "Available data"
 msgstr "可用的資料"
 
-#: ../goffice/graph/gog-series-labels.c:497
-#: ../goffice/graph/gog-series-labels.c:565
+#: ../goffice/graph/gog-series-labels.c:516
+#: ../goffice/graph/gog-series-labels.c:584
 msgid "Legend entry"
 msgstr "圖例項目"
 
-#: ../goffice/graph/gog-series-labels.c:502
-#: ../goffice/graph/gog-series-labels.c:569
+#: ../goffice/graph/gog-series-labels.c:521
+#: ../goffice/graph/gog-series-labels.c:588
 msgid "Series name"
 msgstr "數列名稱"
 
-#: ../goffice/graph/gog-series-labels.c:508
-#: ../goffice/graph/gog-series-labels.c:573
+#: ../goffice/graph/gog-series-labels.c:527
+#: ../goffice/graph/gog-series-labels.c:592
 msgid "Values as percent"
 msgstr "百分比數值"
 
@@ -2590,29 +2596,29 @@ msgstr "百分比數值"
 #. FIXME: should the number of digits be customizable?
 #. Note to translators: a space might be needed before '%%' in someo_is_finie languages
 #. FIXME: should the number of digits be customizable?
-#: ../goffice/graph/gog-series-labels.c:822
-#: ../goffice/graph/gog-series-labels.c:1262
+#: ../goffice/graph/gog-series-labels.c:841
+#: ../goffice/graph/gog-series-labels.c:1281
 #, c-format
 msgid "%.1f%%"
 msgstr ""
 
-#: ../goffice/graph/gog-series-labels.c:880
-#: ../goffice/graph/gog-series-labels.c:1406
+#: ../goffice/graph/gog-series-labels.c:899
+#: ../goffice/graph/gog-series-labels.c:1425
 msgid "Position of the label relative to the data graphic element"
 msgstr ""
 
-#: ../goffice/graph/gog-series-labels.c:885
-#: ../goffice/graph/gog-series-labels.c:1411
+#: ../goffice/graph/gog-series-labels.c:904
+#: ../goffice/graph/gog-series-labels.c:1430
 msgid "Offset"
 msgstr "偏移"
 
-#: ../goffice/graph/gog-series-labels.c:886
-#: ../goffice/graph/gog-series-labels.c:1412
+#: ../goffice/graph/gog-series-labels.c:905
+#: ../goffice/graph/gog-series-labels.c:1431
 msgid "Offset to add to the label position"
 msgstr "加至標籤位置的偏移值"
 
-#: ../goffice/graph/gog-series-labels.c:892
-#: ../goffice/graph/gog-series-labels.c:1418
+#: ../goffice/graph/gog-series-labels.c:911
+#: ../goffice/graph/gog-series-labels.c:1437
 msgid "Label format"
 msgstr "標籤格式"
 
@@ -2650,59 +2656,51 @@ msgstr "<i>y'</i>(<i>x</i><sub>末個</sub>):"
 msgid "content"
 msgstr "內容"
 
-#: ../goffice/graph/gog-smoothed-curve.c:53
+#: ../goffice/graph/gog-smoothed-curve.c:54
 msgid "(Name):"
 msgstr "(名稱)："
 
-#: ../goffice/graph/gog-smoothed-curve.c:90
+#: ../goffice/graph/gog-smoothed-curve.c:91
 msgid "Smoothed Curve"
 msgstr "平滑曲線"
 
 #: ../goffice/graph/gog-theme.c:323
 #, fuzzy
-#| msgid "The anchor point for the text"
 msgid "The resource type for the theme"
 msgstr "文字的錨點"
 
 #: ../goffice/graph/gog-theme.c:582
 #, fuzzy
-#| msgid "Graph"
 msgid "Graph title"
 msgstr "圖表"
 
 #: ../goffice/graph/gog-theme.c:584
 #, fuzzy
-#| msgid "Chart Theme"
 msgid "Chart title"
 msgstr "圖表主題"
 
 #: ../goffice/graph/gog-theme.c:586
 #, fuzzy
-#| msgid "X-Axis"
 msgid "Axis"
 msgstr "X-軸"
 
 #: ../goffice/graph/gog-theme.c:587
 #, fuzzy
-#| msgid "AxisLine"
 msgid "Axis line"
 msgstr "軸線"
 
 #: ../goffice/graph/gog-theme.c:589
 #, fuzzy
-#| msgid "Ma_jor ticks"
 msgid "Major grid"
 msgstr "主格線(_J)"
 
 #: ../goffice/graph/gog-theme.c:590
 #, fuzzy
-#| msgid "Mi_nor ticks"
 msgid "Minor grid"
 msgstr "次格線(_N)"
 
 #: ../goffice/graph/gog-theme.c:593
 #, fuzzy
-#| msgid "Regression Equation"
 msgid "Regression equation"
 msgstr "迴歸等式"
 
@@ -2712,13 +2710,11 @@ msgstr "數列線"
 
 #: ../goffice/graph/gog-theme.c:599
 #, fuzzy
-#| msgid "Categories labels"
 msgid "Series labels"
 msgstr "分類標籤"
 
 #: ../goffice/graph/gog-theme.c:600
 #, fuzzy
-#| msgid "Data labels"
 msgid "Data label"
 msgstr "資料標籤"
 
@@ -2733,7 +2729,6 @@ msgstr "Guppi"
 
 #: ../goffice/graph/gog-theme.c:1412
 #, fuzzy
-#| msgid "Guppi"
 msgid "Guppi theme"
 msgstr "Guppi"
 
@@ -2747,13 +2742,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-theme.c:1858 ../goffice/graph/new-theme-prefs.ui.h:1
 #, fuzzy
-#| msgid "New image name"
 msgid "New theme"
 msgstr "新圖片名稱"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:1
 #, fuzzy
-#| msgid "Theme name"
 msgid "Theme editor"
 msgstr "主題名稱"
 
@@ -2778,16 +2771,16 @@ msgstr ""
 #: ../plugins/plot_surface/gog-xyz-surface.c:315
 #: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:463
 #: ../plugins/plot_xy/gog-xy.c:734 ../plugins/plot_xy/gog-xy-dropbar.c:154
-#: ../plugins/smoothing/gog-exp-smooth.c:79
+#: ../plugins/smoothing/gog-exp-smooth.c:80
 #: ../plugins/smoothing/gog-moving-avg.c:112
 msgid "Properties"
 msgstr "屬性"
 
-#: ../goffice/graph/gog-trend-line.c:134
+#: ../goffice/graph/gog-trend-line.c:132
 msgid "Trend Line"
 msgstr "趨勢線"
 
-#: ../goffice/graph/gog-trend-line.c:154
+#: ../goffice/graph/gog-trend-line.c:152
 msgid "Should the trend line show up in legends"
 msgstr "是否在圖例顯示趨勢線"
 
@@ -2813,7 +2806,6 @@ msgstr "此檢視顯示的 GogObject"
 
 #: ../goffice/graph/new-theme-prefs.ui.h:2
 #, fuzzy
-#| msgid "Series name"
 msgid "Series number"
 msgstr "數列名稱"
 
@@ -2881,7 +2873,8 @@ msgstr "越南文"
 msgid "Western"
 msgstr "西歐語系"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-locale-sel.c:72
+#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:604
+#: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "其它"
 
@@ -3225,185 +3218,186 @@ msgstr "轉換方向："
 msgid "This value determines which iconv test to perform."
 msgstr "本數值決定 iconv 會進行甚麼測試。"
 
-#: ../goffice/gtk/go-color-palette.c:76
+#. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
+#: ../goffice/gtk/go-color-palette.c:77
 msgid "black"
 msgstr "黑色"
 
-#: ../goffice/gtk/go-color-palette.c:77
+#: ../goffice/gtk/go-color-palette.c:78
 msgid "light brown"
 msgstr "淺啡色"
 
-#: ../goffice/gtk/go-color-palette.c:78
+#: ../goffice/gtk/go-color-palette.c:79
 msgid "brown gold"
 msgstr "金啡色"
 
-#: ../goffice/gtk/go-color-palette.c:79
+#: ../goffice/gtk/go-color-palette.c:80
 msgid "dark green #2"
 msgstr "深綠色 #2"
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "navy"
 msgstr "海軍藍色"
 
-#: ../goffice/gtk/go-color-palette.c:81 ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:82 ../goffice/gtk/go-color-palette.c:134
 msgid "dark blue"
 msgstr "深藍色"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "purple #2"
 msgstr "紫色 #2"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:84
 msgid "very dark gray"
 msgstr "十分深的灰色"
 
-#: ../goffice/gtk/go-color-palette.c:85 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:139
 msgid "dark red"
 msgstr "深紅色"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:87
 msgid "red-orange"
 msgstr "橙紅色"
 
-#: ../goffice/gtk/go-color-palette.c:87
+#: ../goffice/gtk/go-color-palette.c:88
 msgid "gold"
 msgstr "金色"
 
-#: ../goffice/gtk/go-color-palette.c:88
+#: ../goffice/gtk/go-color-palette.c:89
 msgid "dark green"
 msgstr "深綠色"
 
-#: ../goffice/gtk/go-color-palette.c:89 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
 msgid "dull blue"
 msgstr "暗藍色"
 
-#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:91 ../goffice/gtk/go-color-palette.c:141
 msgid "blue"
 msgstr "藍色"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:92
 msgid "dull purple"
 msgstr "暗紫色"
 
-#: ../goffice/gtk/go-color-palette.c:92
+#: ../goffice/gtk/go-color-palette.c:93
 msgid "dark gray"
 msgstr "深灰色"
 
-#: ../goffice/gtk/go-color-palette.c:94
+#: ../goffice/gtk/go-color-palette.c:95
 msgid "red"
 msgstr "紅色"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:96
 msgid "orange"
 msgstr "橙色"
 
-#: ../goffice/gtk/go-color-palette.c:96
+#: ../goffice/gtk/go-color-palette.c:97
 msgid "lime"
 msgstr "青綠色"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:98
 msgid "dull green"
 msgstr "暗綠色"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "dull blue #2"
 msgstr "暗綠色 #2"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "sky blue #2"
 msgstr "天藍色 #2"
 
-#: ../goffice/gtk/go-color-palette.c:100 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:101 ../goffice/gtk/go-color-palette.c:138
 msgid "purple"
 msgstr "紫色"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "gray"
 msgstr "灰色"
 
-#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:135
 msgid "magenta"
 msgstr "洋紅色"
 
-#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:105
 msgid "bright orange"
 msgstr "鮮橙色"
 
-#: ../goffice/gtk/go-color-palette.c:105 ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:136
 msgid "yellow"
 msgstr "黃色"
 
-#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:107
 msgid "green"
 msgstr "綠色"
 
-#: ../goffice/gtk/go-color-palette.c:107 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:137
 msgid "cyan"
 msgstr "青藍色"
 
-#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:109
 msgid "bright blue"
 msgstr "鮮藍色"
 
-#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:125
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:126
 msgid "red purple"
 msgstr "紫紅色"
 
-#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:111
 msgid "light gray"
 msgstr "淺灰色"
 
-#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:130
 msgid "pink"
 msgstr "粉紅色"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:114
 msgid "light orange"
 msgstr "淺橙色"
 
-#: ../goffice/gtk/go-color-palette.c:114 ../goffice/gtk/go-color-palette.c:126
+#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:127
 msgid "light yellow"
 msgstr "淺黃色"
 
-#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:116
 msgid "light green"
 msgstr "淺綠色"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:117
 msgid "light cyan"
 msgstr "淺青藍色"
 
-#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:128
 msgid "light blue"
 msgstr "淺藍色"
 
-#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:132
 msgid "light purple"
 msgstr "淺紫色"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:120
 msgid "white"
 msgstr "白色"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:124
+#: ../goffice/gtk/go-color-palette.c:125
 msgid "purplish blue"
 msgstr "紫藍色"
 
-#: ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:129
 msgid "dark purple"
 msgstr "深紫色"
 
-#: ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:131
 msgid "sky blue"
 msgstr "天藍色"
 
-#: ../goffice/gtk/go-color-palette.c:468
+#: ../goffice/gtk/go-color-palette.c:473
 msgid "custom"
 msgstr "自訂"
 
-#: ../goffice/gtk/go-color-palette.c:475 ../goffice/gtk/go-color-palette.c:729
-#: ../goffice/gtk/go-color-selector.c:198
+#: ../goffice/gtk/go-color-palette.c:480 ../goffice/gtk/go-color-palette.c:735
+#: ../goffice/gtk/go-color-selector.c:199
 msgid "Custom color..."
 msgstr "自選顏色..."
 
@@ -3415,39 +3409,39 @@ msgstr "選單可撕下"
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr ""
 
-#: ../goffice/gtk/goffice-gtk.c:219
+#: ../goffice/gtk/goffice-gtk.c:218
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "無法開啟檔案‘%s’"
 
-#: ../goffice/gtk/goffice-gtk.c:791 ../goffice/utils/go-style.c:215
+#: ../goffice/gtk/goffice-gtk.c:859 ../goffice/utils/go-style.c:215
 #, fuzzy, c-format
 msgid "%d x %d"
 msgstr "%d行 × %d列"
 
-#: ../goffice/gtk/goffice-gtk.c:826
+#: ../goffice/gtk/goffice-gtk.c:894
 msgid "All Files"
 msgstr "所有檔案"
 
-#: ../goffice/gtk/goffice-gtk.c:831
+#: ../goffice/gtk/goffice-gtk.c:899
 msgid "Images"
 msgstr "圖片"
 
-#: ../goffice/gtk/goffice-gtk.c:883
+#: ../goffice/gtk/goffice-gtk.c:951
 msgid "Select an Image"
 msgstr "選取圖片"
 
-#: ../goffice/gtk/goffice-gtk.c:962
+#: ../goffice/gtk/goffice-gtk.c:1030
 msgid "Save as"
 msgstr "另存為"
 
-#: ../goffice/gtk/goffice-gtk.c:1035
+#: ../goffice/gtk/goffice-gtk.c:1103
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr "指定的延伸檔名和選定的檔案格式不相符。是否仍然確定使用這個檔案名稱？"
 
-#: ../goffice/gtk/goffice-gtk.c:1254
+#: ../goffice/gtk/goffice-gtk.c:1322
 #, c-format
 msgid ""
 "%s\n"
@@ -3456,7 +3450,7 @@ msgstr ""
 "%s\n"
 "是目錄名稱"
 
-#: ../goffice/gtk/goffice-gtk.c:1258
+#: ../goffice/gtk/goffice-gtk.c:1326
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3465,7 +3459,7 @@ msgstr ""
 "您沒有權限將內容儲存至\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1268
+#: ../goffice/gtk/goffice-gtk.c:1336
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3476,44 +3470,593 @@ msgstr ""
 "\n"
 "是否要覆寫內容？"
 
-#: ../goffice/gtk/go-font-sel.c:188 ../goffice/math/go-distribution.c:75
-msgid "Normal"
-msgstr "正常"
+#: ../goffice/gtk/go-font-sel.c:348
+msgid "Faces"
+msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:189
-msgid "Bold"
-msgstr "粗體"
+#.
+#. * List of observed face names.  Translators: these represent
+#. * attributes of a font face, i.e., how bold the letters are
+#. * and whether it is an italic or regular face.  The four
+#. * first here are the important ones.
+#.
+#: ../goffice/gtk/go-font-sel.c:389
+msgctxt "FontFace"
+msgid "Regular"
+msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:190
-msgid "Bold italic"
-msgstr "粗斜體"
-
-#: ../goffice/gtk/go-font-sel.c:191
+#: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
+#, fuzzy
+msgctxt "FontFace"
 msgid "Italic"
 msgstr "斜體"
 
-#. xgettext: This text is used as a sample when selecting a font
-#. * please choose a translation that would produce common
-#. * characters specific to the target alphabet.
-#: ../goffice/gtk/go-font-sel.c:474
-msgid "AaBbCcDdEe12345"
-msgstr "AaBbCcDdEe12345 中文測試"
+#: ../goffice/gtk/go-font-sel.c:391
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold"
+msgstr "粗體"
+
+#: ../goffice/gtk/go-font-sel.c:392
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic"
+msgstr "粗斜體"
+
+#. These are fairly rare.
+#: ../goffice/gtk/go-font-sel.c:395
+#, fuzzy
+msgctxt "FontFace"
+msgid "Black"
+msgstr "黑"
+
+#: ../goffice/gtk/go-font-sel.c:396
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Condensed Italic"
+msgstr "粗斜體"
+
+#: ../goffice/gtk/go-font-sel.c:397
+msgctxt "FontFace"
+msgid "Bold Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:398
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Italic Small Caps"
+msgstr "粗斜體"
+
+#: ../goffice/gtk/go-font-sel.c:399
+msgctxt "FontFace"
+msgid "Bold Nonextended"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:400
+#, fuzzy
+msgctxt "FontFace"
+msgid "Bold Oblique"
+msgstr "粗斜體"
+
+#: ../goffice/gtk/go-font-sel.c:401
+msgctxt "FontFace"
+msgid "Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:402
+msgctxt "FontFace"
+msgid "Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:403
+msgctxt "FontFace"
+msgid "Book Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:404
+msgctxt "FontFace"
+msgid "Book"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:405
+#, fuzzy
+msgctxt "FontFace"
+msgid "Condensed Bold Italic"
+msgstr "粗斜體"
+
+#: ../goffice/gtk/go-font-sel.c:406
+msgctxt "FontFace"
+msgid "Condensed Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:407
+msgctxt "FontFace"
+msgid "Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:408
+msgctxt "FontFace"
+msgid "Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:409
+msgctxt "FontFace"
+msgid "Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:410
+msgctxt "FontFace"
+msgid "Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:411
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold Italic"
+msgstr "粗斜體"
+
+#: ../goffice/gtk/go-font-sel.c:412
+#, fuzzy
+msgctxt "FontFace"
+msgid "Demi Bold"
+msgstr "粗體"
+
+#: ../goffice/gtk/go-font-sel.c:413
+msgctxt "FontFace"
+msgid "Demi Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:414
+msgctxt "FontFace"
+msgid "Demi"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:415
+msgctxt "FontFace"
+msgid "Demi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:416
+msgctxt "FontFace"
+msgid "Embossed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:417
+#, fuzzy
+msgctxt "FontFace"
+msgid "Expanded Bold Italic"
+msgstr "粗斜體"
+
+#: ../goffice/gtk/go-font-sel.c:418
+msgctxt "FontFace"
+msgid "Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:419
+msgctxt "FontFace"
+msgid "Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:420
+msgctxt "FontFace"
+msgid "Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:421
+#, fuzzy
+msgctxt "FontFace"
+msgid "Extra Light"
+msgstr "向右三角形"
+
+#: ../goffice/gtk/go-font-sel.c:422
+msgctxt "FontFace"
+msgid "Heavy"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:423
+msgctxt "FontFace"
+msgid "Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:425
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Italic"
+msgstr "斜體"
+
+#: ../goffice/gtk/go-font-sel.c:426
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light Oblique"
+msgstr "淺藍色"
+
+#: ../goffice/gtk/go-font-sel.c:427
+#, fuzzy
+msgctxt "FontFace"
+msgid "Light"
+msgstr "右"
+
+#: ../goffice/gtk/go-font-sel.c:428
+#, fuzzy
+msgctxt "FontFace"
+msgid "Medium Italic"
+msgstr "斜體"
+
+#: ../goffice/gtk/go-font-sel.c:429
+msgctxt "FontFace"
+msgid "Medium"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:430
+#, fuzzy
+msgctxt "FontFace"
+msgid "Normal"
+msgstr "正常"
+
+#: ../goffice/gtk/go-font-sel.c:431
+msgctxt "FontFace"
+msgid "Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:432
+msgctxt "FontFace"
+msgid "Regular Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:433
+msgctxt "FontFace"
+msgid "Regular Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:434
+#, fuzzy
+msgctxt "FontFace"
+msgid "Regular Italic"
+msgstr "斜體"
+
+#: ../goffice/gtk/go-font-sel.c:435
+msgctxt "FontFace"
+msgid "Regular Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:436
+msgctxt "FontFace"
+msgid "Roman Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:437
+msgctxt "FontFace"
+msgid "Roman"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:438
+#, fuzzy
+msgctxt "FontFace"
+msgid "Rounded"
+msgstr "界限"
+
+#: ../goffice/gtk/go-font-sel.c:439
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold Italic"
+msgstr "粗斜體"
+
+#: ../goffice/gtk/go-font-sel.c:440
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Bold"
+msgstr "粗體"
+
+#: ../goffice/gtk/go-font-sel.c:441
+#, fuzzy
+msgctxt "FontFace"
+msgid "Sans Italic"
+msgstr "斜體"
+
+#: ../goffice/gtk/go-font-sel.c:442
+msgctxt "FontFace"
+msgid "Sans"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:443
+msgctxt "FontFace"
+msgid "Semi-Bold Italic Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:444
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold Italic"
+msgstr "粗斜體"
+
+#: ../goffice/gtk/go-font-sel.c:445
+msgctxt "FontFace"
+msgid "Semi-Bold Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:446
+msgctxt "FontFace"
+msgid "Semi-Bold Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:447
+msgctxt "FontFace"
+msgid "Semi-Bold Small Caps"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:448
+#, fuzzy
+msgctxt "FontFace"
+msgid "Semi-Bold"
+msgstr "粗體"
+
+#: ../goffice/gtk/go-font-sel.c:449
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:450
+msgctxt "FontFace"
+msgid "Semi-Condensed Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:451
+msgctxt "FontFace"
+msgid "Semi-Condensed Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:452
+msgctxt "FontFace"
+msgid "Semi-Condensed Oblique"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:453
+msgctxt "FontFace"
+msgid "Semi-Condensed"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:454
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:455
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:456
+msgctxt "FontFace"
+msgid "Semi-Expanded Italic"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:457
+msgctxt "FontFace"
+msgid "Semi-Expanded"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:458
+msgctxt "FontFace"
+msgid "Slanted"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:459
+#, fuzzy
+msgctxt "FontFace"
+msgid "Small Caps"
+msgstr "小圓"
+
+#: ../goffice/gtk/go-font-sel.c:460
+msgctxt "FontFace"
+msgid "Thin"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:461
+#, fuzzy
+msgctxt "FontFace"
+msgid "Upright Italic"
+msgstr "斜體"
+
+#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
+msgid "Font"
+msgstr "字型"
+
+#: ../goffice/gtk/go-font-sel.c:605
+msgid "All fonts..."
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:905
+#, fuzzy
+msgctxt "underline"
+msgid "None"
+msgstr "無"
+
+#: ../goffice/gtk/go-font-sel.c:906
+#, fuzzy
+msgctxt "underline"
+msgid "Single"
+msgstr "角度"
+
+#: ../goffice/gtk/go-font-sel.c:907
+msgctxt "underline"
+msgid "Double"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:908
+#, fuzzy
+msgctxt "underline"
+msgid "Low"
+msgstr "低(_L)"
+
+#: ../goffice/gtk/go-font-sel.c:909
+#, fuzzy
+msgctxt "underline"
+msgid "Error"
+msgstr "誤差間條"
+
+#: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
+msgid "Normal"
+msgstr "正常"
+
+#: ../goffice/gtk/go-font-sel.c:931
+#, fuzzy
+msgid "Subscript"
+msgstr "描述"
+
+#: ../goffice/gtk/go-font-sel.c:932
+#, fuzzy
+msgid "Superscript"
+msgstr "使用上標(_S)"
+
+#: ../goffice/gtk/go-font-sel.c:1185
+#, fuzzy
+msgid "Show Style"
+msgstr "樣式"
+
+#: ../goffice/gtk/go-font-sel.c:1186
+msgid "Whether style is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1194
+#, fuzzy
+msgid "Show Color"
+msgstr "顏色"
+
+#: ../goffice/gtk/go-font-sel.c:1195
+msgid "Whether color is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1203
+#, fuzzy
+msgid "Show Underline"
+msgstr "底線"
+
+#: ../goffice/gtk/go-font-sel.c:1204
+msgid "Whether underlining is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1212
+msgid "Show Script"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1213
+msgid "Whether subscript/superscript is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1221
+#, fuzzy
+msgid "Show Strikethrough"
+msgstr "劃線"
+
+#: ../goffice/gtk/go-font-sel.c:1222
+msgid "Whether strikethrough is part of the font being selected"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1230
+msgid "Color unset text"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1231
+#, fuzzy
+msgid "The text to show for selecing no color"
+msgstr "要搜尋的文字"
+
+#: ../goffice/gtk/go-font-sel.c:1239
+#, fuzzy
+msgid "Color Group"
+msgstr "圖表群組"
+
+#: ../goffice/gtk/go-font-sel.c:1240
+msgid "The color group to use for the color picker"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1248
+#, fuzzy
+msgid "Color Default"
+msgstr "預設"
+
+#: ../goffice/gtk/go-font-sel.c:1249
+msgid "The color to show for an unset color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:1259
+#, fuzzy
+msgid "Underline Picker"
+msgstr "底線集"
+
+#: ../goffice/gtk/go-font-sel.c:1260
+msgid "The widget to use for picking underline type"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel-dialog.c:107
+msgid "Pick a Font"
+msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
+#, fuzzy
+msgid "Select the font family"
+msgstr "字型族"
+
+#: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
 msgstr "字型："
 
-#: ../goffice/gtk/go-font-sel.ui.h:2
-msgid "Font style:"
-msgstr "字型樣式："
-
 #: ../goffice/gtk/go-font-sel.ui.h:3
+#, fuzzy
+msgid "Select the size"
+msgstr "選取圖片"
+
+#: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
 msgstr "大小："
 
-#: ../goffice/gtk/go-font-sel.ui.h:4
-msgid "Preview"
-msgstr "預覽"
+#: ../goffice/gtk/go-font-sel.ui.h:5
+#, fuzzy
+msgid "Select the font face"
+msgstr "選取圖片"
+
+#: ../goffice/gtk/go-font-sel.ui.h:6
+#, fuzzy
+msgid "Style:"
+msgstr "樣式(_Y)："
+
+#: ../goffice/gtk/go-font-sel.ui.h:7
+#, fuzzy
+msgid "Select whether a line should be drawn through the text"
+msgstr "框線是否連同文字一起旋轉"
+
+#: ../goffice/gtk/go-font-sel.ui.h:8
+#, fuzzy
+msgid "Strikethrough:"
+msgstr "劃線"
+
+#: ../goffice/gtk/go-font-sel.ui.h:9
+msgid "Select the font color"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:10
+#, fuzzy
+msgid "Color:"
+msgstr "顏色(_R)："
+
+#: ../goffice/gtk/go-font-sel.ui.h:11
+msgid ""
+"Select whether the font should be modified for use as subscript or "
+"superscript"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:12
+msgid "Script:"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:13
+msgid "Select the type of underlining"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.ui.h:14
+#, fuzzy
+msgid "Underline:"
+msgstr "底線"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
@@ -3873,7 +4416,6 @@ msgstr "前置部分(mantissa)等於 1 時只顯示指數部份 (例如 10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:39
 #, fuzzy
-#| msgid "Append SI prefix"
 msgid "Append SI _prefix"
 msgstr "附加 SI 前置字元"
 
@@ -4408,13 +4950,11 @@ msgstr "英國/蘇格蘭蓋爾亞語 (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
 #, fuzzy
-#| msgid "Eritrea/Ge'ez “gez_ER)"
 msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr "厄利垂亞/吉茲語 (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
 #, fuzzy
-#| msgid "Ethiopia/Ge'ez “gez_ET)"
 msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr "衣索比亞/吉茲語 (gez_ET)"
 
@@ -4424,7 +4964,6 @@ msgstr "西班牙/加里西亞語 (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
 #, fuzzy
-#| msgid "India/Gurajati “gu_IN)"
 msgid "India/Gujarati (gu_IN)"
 msgstr "印度/古吉拉特語 (gu_IN)"
 
@@ -4931,7 +5470,6 @@ msgstr "瑞士/Walser (wae_CH)"
 # zh_HK:埃塞俄比亞
 #: ../goffice/gtk/go-locale-sel.c:342
 #, fuzzy
-#| msgid "Ethiopia/Walaita (wal_ET)"
 msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr "衣索比亞/Walaita (wal_ET)"
 
@@ -4979,11 +5517,11 @@ msgstr "南非/祖魯語 (zu_ZA)"
 msgid "Current Locale: "
 msgstr "目前地域："
 
-#: ../goffice/gtk/go-optionmenu.c:427
+#: ../goffice/gtk/go-optionmenu.c:476
 msgid "Menu"
 msgstr "選單"
 
-#: ../goffice/gtk/go-optionmenu.c:428
+#: ../goffice/gtk/go-optionmenu.c:477
 msgid "The menu of options"
 msgstr "選單選項"
 
@@ -5752,7 +6290,7 @@ msgstr "無法載入圖像資料\n"
 msgid "Could not input the image data\n"
 msgstr "無法輸入圖像資料\n"
 
-#: ../goffice/utils/go-emf.c:4576 ../goffice/utils/go-emf.c:4582
+#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
 #, c-format
 msgid "Invalid image data\n"
 msgstr "圖像資料無效\n"
@@ -5828,40 +6366,40 @@ msgstr "黃"
 msgid "color"
 msgstr "顏色"
 
-#: ../goffice/utils/go-geometry.c:334 ../goffice/utils/go-marker.c:96
+#: ../goffice/utils/go-geometry.c:296 ../goffice/utils/go-marker.c:96
 msgid "none"
 msgstr "無"
 
-#: ../goffice/utils/go-geometry.c:335
+#: ../goffice/utils/go-geometry.c:297
 msgid "down"
 msgstr "下"
 
-#: ../goffice/utils/go-geometry.c:336
+#: ../goffice/utils/go-geometry.c:298
 msgid "up"
 msgstr "上"
 
-#: ../goffice/utils/go-geometry.c:337
+#: ../goffice/utils/go-geometry.c:299
 msgid "right"
 msgstr "右"
 
-#: ../goffice/utils/go-geometry.c:338
+#: ../goffice/utils/go-geometry.c:300
 msgid "left"
 msgstr "左"
 
-#: ../goffice/utils/go-glib-extras.c:917
+#: ../goffice/utils/go-glib-extras.c:915
 msgid "yes"
 msgstr "是"
 
-#: ../goffice/utils/go-glib-extras.c:923
+#: ../goffice/utils/go-glib-extras.c:921
 msgid "no"
 msgstr "否"
 
-#: ../goffice/utils/go-glib-extras.c:1141
+#: ../goffice/utils/go-glib-extras.c:1139
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "字串未有正確終結元 (terminated)"
 
-#: ../goffice/utils/go-glib-extras.c:1148
+#: ../goffice/utils/go-glib-extras.c:1146
 #, c-format
 msgid "Syntax error"
 msgstr "語法錯誤"
@@ -6174,114 +6712,108 @@ msgstr "前景："
 msgid "Background:"
 msgstr "背景："
 
-#: ../goffice/utils/go-style.c:870
+#: ../goffice/utils/go-style.c:868
 msgid "Markers"
 msgstr "標記符"
 
-#: ../goffice/utils/go-style.c:942
-msgid "Font"
-msgstr "字型"
-
 #: ../goffice/utils/go-style-prefs.ui.h:1
-msgid "St_yle:"
-msgstr "樣式(_Y)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:2
 msgid "Co_lor:"
 msgstr "顏色(_L)："
 
-#: ../goffice/utils/go-style-prefs.ui.h:3
-msgid "_Size:"
-msgstr "大小(_S)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:7
-msgid "Pattern"
-msgstr "圖樣"
-
-#: ../goffice/utils/go-style-prefs.ui.h:8
-msgid "Bicolor gradient"
-msgstr "雙色漸變"
-
-#: ../goffice/utils/go-style-prefs.ui.h:9
-msgid "Unicolor gradient"
-msgstr "單色漸變"
-
-#: ../goffice/utils/go-style-prefs.ui.h:11
-msgid "_Direction:"
-msgstr "方向(_D)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:12
-msgid "_Pattern:"
-msgstr "圖樣(_P)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:13
-msgid "_Foreground:"
-msgstr "前景(_F)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:14
-msgid "_Background:"
-msgstr "背景(_B)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:15
-msgid "B_rightness:"
-msgstr "亮度(_R)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:16
-msgid "_Select..."
-msgstr "選擇(_S)..."
-
-#: ../goffice/utils/go-style-prefs.ui.h:17
-msgid "_Fit:"
-msgstr "符合(_F)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:18
-msgid "stretched"
-msgstr "伸展"
-
-#: ../goffice/utils/go-style-prefs.ui.h:19
-msgid "wallpaper"
-msgstr "牆紙"
-
-#: ../goffice/utils/go-style-prefs.ui.h:20
-msgid "centered"
-msgstr "置中"
-
-#: ../goffice/utils/go-style-prefs.ui.h:21
-msgid "centered wallpaper"
-msgstr "牆紙置中"
-
-#: ../goffice/utils/go-style-prefs.ui.h:22
-#, fuzzy
-#| msgid "O_utline:"
-msgid "Outline"
-msgstr "外框(_U)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:23
-#: ../plugins/plot_barcol/plot-types.xml.in.h:1
-msgid "Line"
-msgstr "直線"
-
-#: ../goffice/utils/go-style-prefs.ui.h:25
-#, fuzzy
-#| msgid "Markers"
-msgid "Marker"
-msgstr "標記符"
-
-#: ../goffice/utils/go-style-prefs.ui.h:26
-msgid "_Fill:"
-msgstr "填充(_F)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:27
-msgid "O_utline:"
-msgstr "外框(_U)："
-
-#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../goffice/utils/go-style-prefs.ui.h:2
 msgid "Si_ze:"
 msgstr "大小(_Z)："
 
-#: ../goffice/utils/go-style-prefs.ui.h:29
+#: ../goffice/utils/go-style-prefs.ui.h:3
+msgid "O_utline:"
+msgstr "外框(_U)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:4
+msgid "_Fill:"
+msgstr "填充(_F)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:5
 msgid "Sha_pe:"
 msgstr "形狀(_P)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:6
+#, fuzzy
+msgid "Marker"
+msgstr "標記符"
+
+#: ../goffice/utils/go-style-prefs.ui.h:8
+msgid "St_yle:"
+msgstr "樣式(_Y)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:9
+msgid "_Size:"
+msgstr "大小(_S)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:11
+msgid "Pattern"
+msgstr "圖樣"
+
+#: ../goffice/utils/go-style-prefs.ui.h:12
+msgid "Bicolor gradient"
+msgstr "雙色漸變"
+
+#: ../goffice/utils/go-style-prefs.ui.h:13
+msgid "Unicolor gradient"
+msgstr "單色漸變"
+
+#: ../goffice/utils/go-style-prefs.ui.h:15
+msgid "_Direction:"
+msgstr "方向(_D)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:16
+msgid "_Pattern:"
+msgstr "圖樣(_P)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:17
+msgid "_Foreground:"
+msgstr "前景(_F)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:18
+msgid "_Background:"
+msgstr "背景(_B)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:19
+msgid "B_rightness:"
+msgstr "亮度(_R)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:20
+msgid "_Fit:"
+msgstr "符合(_F)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:21
+msgid "stretched"
+msgstr "伸展"
+
+#: ../goffice/utils/go-style-prefs.ui.h:22
+msgid "wallpaper"
+msgstr "牆紙"
+
+#: ../goffice/utils/go-style-prefs.ui.h:23
+msgid "centered"
+msgstr "置中"
+
+#: ../goffice/utils/go-style-prefs.ui.h:24
+msgid "centered wallpaper"
+msgstr "牆紙置中"
+
+#: ../goffice/utils/go-style-prefs.ui.h:25
+msgid "_Select..."
+msgstr "選擇(_S)..."
+
+#: ../goffice/utils/go-style-prefs.ui.h:27
+#, fuzzy
+msgid "Outline"
+msgstr "外框(_U)："
+
+#: ../goffice/utils/go-style-prefs.ui.h:28
+#: ../plugins/plot_barcol/plot-types.xml.in.h:1
+msgid "Line"
+msgstr "直線"
 
 #: ../goffice/utils/regutf8.c:59
 msgid "Pattern not found."
@@ -6445,7 +6977,7 @@ msgid "Error bars"
 msgstr "誤差間條"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:650
-#: ../plugins/plot_distrib/gog-histogram.c:1095
+#: ../plugins/plot_distrib/gog-histogram.c:1097
 msgid "Drop lines"
 msgstr "短棒"
 
@@ -6462,8 +6994,8 @@ msgid "GogErrorBar *"
 msgstr "Gog誤差間條 *"
 
 #: ../plugins/plot_barcol/gog-area-prefs.ui.h:1
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:5
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:3
 #: ../plugins/plot_radar/gog-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
@@ -6528,11 +7060,11 @@ msgstr "圖表應否顯示在格線之前"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
 #: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:1
 msgid "_Gap:"
 msgstr "間距(_G)："
 
-#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:4
+#: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:2
 msgid "O_verlap:"
 msgstr "重疊(_V)："
 
@@ -6899,7 +7431,7 @@ msgid "Box-Plot"
 msgstr ""
 
 #: ../plugins/plot_distrib/gog-boxplot.c:395
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:2
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
 #: ../plugins/plot_distrib/gog-histogram.c:362
 msgid "Vertical"
 msgstr "垂直"
@@ -6926,15 +7458,15 @@ msgid ""
 "rectangle width"
 msgstr "代表外框的圓形半徑和矩形寬度的比例"
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
 msgid "_Layout"
 msgstr "配置(_L)"
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
 msgid "_Exclude and show outliers"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
 msgid "_Diameter/width:"
 msgstr "直徑/寬度(_D)："
 
@@ -6967,7 +7499,7 @@ msgid "Use cumulated data"
 msgstr "使用累加的資料"
 
 #: ../plugins/plot_distrib/gog-histogram.c:388
-#: ../plugins/plot_distrib/gog-histogram.c:476
+#: ../plugins/plot_distrib/gog-histogram.c:478
 msgid "Limits"
 msgstr "限制"
 
@@ -6977,25 +7509,25 @@ msgid ""
 "be used."
 msgstr "Y 分類的標籤。如未設定或是空白，會使用「首要值」。"
 
-#: ../plugins/plot_distrib/gog-histogram.c:441
+#: ../plugins/plot_distrib/gog-histogram.c:442
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
 msgstr "Y 分類的標籤。如未設定或是空白，會使用「次要值」。"
 
-#: ../plugins/plot_distrib/gog-histogram.c:446
+#: ../plugins/plot_distrib/gog-histogram.c:448
 msgid "Categories labels"
 msgstr "分類標籤"
 
-#: ../plugins/plot_distrib/gog-histogram.c:478
-#: ../plugins/plot_distrib/gog-histogram.c:753
+#: ../plugins/plot_distrib/gog-histogram.c:480
+#: ../plugins/plot_distrib/gog-histogram.c:755
 msgid "First values"
 msgstr "首要值"
 
-#: ../plugins/plot_distrib/gog-histogram.c:480
-#: ../plugins/plot_distrib/gog-histogram.c:761
-#: ../plugins/plot_distrib/gog-histogram.c:772
-#: ../plugins/plot_distrib/gog-histogram.c:784
+#: ../plugins/plot_distrib/gog-histogram.c:482
+#: ../plugins/plot_distrib/gog-histogram.c:763
+#: ../plugins/plot_distrib/gog-histogram.c:774
+#: ../plugins/plot_distrib/gog-histogram.c:786
 msgid "Second values"
 msgstr "次要值"
 
@@ -7237,24 +7769,24 @@ msgid "Degrees clockwise from 12 O'Clock"
 msgstr "由十二點方向開始順時針方向的角度"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
 msgid "Slices start _at:"
 msgstr "開始於(_A)："
 
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
-msgid "_Vary colors by slice"
-msgstr "不同片使用不同顏色(_V)"
-
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:2
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
 msgid "_Slice Separation:"
 msgstr "分隔(_S)："
 
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:2
 msgid "Negative data:"
 msgstr "負數資料："
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:1
+msgid "_Vary colors by slice"
+msgstr "不同片使用不同顏色(_V)"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
@@ -7275,7 +7807,7 @@ msgstr "帶白色背景的絕對值"
 msgid "_Separation:"
 msgstr "分隔符號(_S)："
 
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
 msgid "Cen_ter size:"
 msgstr "中心大小(_T)："
 
@@ -7685,7 +8217,7 @@ msgid "Default surface plot types"
 msgstr "預設曲面繪製引擎"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:1
-msgid "3_D"
+msgid "_Size represented by:"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
@@ -7697,16 +8229,16 @@ msgid "Dia_meter"
 msgstr "直徑(_M)"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:4
-msgid "_Size represented by:"
-msgstr ""
+msgid "Show _negative values"
+msgstr "顯示負值(_N)"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:5
 msgid "_Vary colors by bubble"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:6
-msgid "Show _negative values"
-msgstr "顯示負值(_N)"
+msgid "3_D"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:7
 msgid "_Bubbles scaled to"
@@ -8206,7 +8738,7 @@ msgid "Logarithmic fitting curve"
 msgstr ""
 
 #: ../plugins/smoothing/gog-exp-smooth.c:64
-#: ../plugins/smoothing/gog-exp-smooth.c:220
+#: ../plugins/smoothing/gog-exp-smooth.c:221
 msgid "Number of interpolation steps"
 msgstr ""
 
@@ -8222,12 +8754,12 @@ msgstr ""
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
 #. * 	Exponentially smoothed curve2
-#: ../plugins/smoothing/gog-exp-smooth.c:165
+#: ../plugins/smoothing/gog-exp-smooth.c:166
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Exponentially smoothed curve"
 msgstr "指數式平滑曲線"
 
-#: ../plugins/smoothing/gog-exp-smooth.c:219
+#: ../plugins/smoothing/gog-exp-smooth.c:220
 msgid "Steps"
 msgstr "步"
 
@@ -8298,6 +8830,15 @@ msgstr "平滑曲線類型"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "移動平均平滑曲線"
+
+#~ msgid "AaBbCcDdEe12345"
+#~ msgstr "AaBbCcDdEe12345 中文測試"
+
+#~ msgid "Font style:"
+#~ msgstr "字型樣式："
+
+#~ msgid "Preview"
+#~ msgstr "預覽"
 
 #~ msgid "<b>Euler angles</b>"
 #~ msgstr "<b>歐拉角</b>"
@@ -8428,9 +8969,6 @@ msgstr "移動平均平滑曲線"
 #~ msgid "Font description as a PangoFontDescription struct"
 #~ msgstr "PangoFontDescription struct 形式的字型描述"
 
-#~ msgid "Font family"
-#~ msgstr "字型族"
-
 #~ msgid "Name of the font family, e.g. Sans, Helvetica, Times, Monospace"
 #~ msgstr "字型族名稱，例如明體、楷書、Sans、Helvetica、Times、Monospace"
 
@@ -8454,12 +8992,6 @@ msgstr "移動平均平滑曲線"
 
 #~ msgid "Rise"
 #~ msgstr "升高"
-
-#~ msgid "Strikethrough"
-#~ msgstr "劃線"
-
-#~ msgid "Underline"
-#~ msgstr "底線"
 
 #~ msgid "Text color, as string"
 #~ msgstr "文字顏色（以文字表示）"
@@ -8496,9 +9028,6 @@ msgstr "移動平均平滑曲線"
 
 #~ msgid "Strikethrough set"
 #~ msgstr "劃線集"
-
-#~ msgid "Underline set"
-#~ msgstr "底線集"
 
 #~ msgid "Scale set"
 #~ msgstr "伸縮集"
