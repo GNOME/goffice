@@ -1006,6 +1006,8 @@ go_font_sel_get_font
 go_font_sel_new
 go_font_sel_set_font
 go_font_sel_set_sample_text
+go_font_sel_set_color
+go_font_sel_set_script
 <SUBSECTION Standard>
 GO_FONT_SEL
 GO_IS_FONT_SEL
@@ -1535,9 +1537,11 @@ GOMatrix3x3
 GOOptionMenu
 go_option_menu_get_history
 go_option_menu_new
+go_option_menu_build
 go_option_menu_select_item
 go_option_menu_set_history
 go_option_menu_set_menu
+go_option_menu_get_menu
 <SUBSECTION Standard>
 GOOptionMenuClass
 GO_IS_OPTION_MENU
