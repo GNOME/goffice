@@ -75,6 +75,7 @@ struct _GOOptionMenuClass
 
 GType      go_option_menu_get_type    (void) G_GNUC_CONST;
 GtkWidget* go_option_menu_new         (void);
+GtkWidget *go_option_menu_get_menu    (GOOptionMenu *option_menu);
 void       go_option_menu_set_menu    (GOOptionMenu *option_menu,
 				       GtkWidget *menu);
 void       go_option_menu_set_history (GOOptionMenu *option_menu,

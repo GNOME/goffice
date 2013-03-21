@@ -1,5 +1,9 @@
 2013-03-20  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-optionmenu.c (go_option_menu_set_history): Plug
+	leak.
+	(go_option_menu_get_menu): New function.
+
 	* goffice/gtk/go-font-sel.c: Add color group.
 	(go_font_sel_set_color): Add is_default argument and make this
 	public.
