@@ -141,11 +141,7 @@ go_color_palette_render_func (cairo_t *cr,
 	cairo_surface_destroy (check);
 
 	cairo_set_line_width (cr, 1);
-	cairo_set_source_rgba (cr,
-			       GO_COLOR_DOUBLE_R(color),
-			       GO_COLOR_DOUBLE_G(color),
-			       GO_COLOR_DOUBLE_B(color),
-			       GO_COLOR_DOUBLE_A(color));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_rectangle (cr, area->x + .5 , area->y + .5 , area->width - 1, area->height - 1);
 	cairo_fill_preserve (cr);
 	cairo_set_source_rgb (cr, .75, .75, .75);
