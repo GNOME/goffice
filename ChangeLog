@@ -1,5 +1,8 @@
 2013-03-20  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-color-group.c (go_color_group_finalize): Don't
+	leak the hash.
+
 	* goffice/gtk/go-combo-color.c (go_combo_color_class_init): Fix
 	type of first argument of color_changed signal.  Fixes #696022.
 

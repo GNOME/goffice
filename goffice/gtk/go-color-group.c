@@ -55,11 +55,15 @@ go_color_group_finalize (GObject *obj)
 	/* make this name available */
 	if (cg->name) {
 		g_hash_table_remove (go_color_groups, cg);
+		if (g_hash_table_size (go_color_groups) == 0) {
+			g_hash_table_destroy (go_color_groups);
+			go_color_groups = NULL;
+		}
 		g_free (cg->name);
 		cg->name = NULL;
 	}
 
-	(go_color_group_parent_class->finalize) (obj);
+	go_color_group_parent_class->finalize (obj);
 }
 
 static void
@@ -172,16 +176,14 @@ go_color_group_fetch (char const *name, gpointer context)
 	} else {
 		new_name = g_strdup (name);
 		cg = go_color_group_find (new_name, context);
-	if (cg != NULL) {
-		g_free (new_name);
-		g_object_ref (cg);
-		return cg;
-	}
+		if (cg != NULL) {
+			g_free (new_name);
+			g_object_ref (cg);
+			return cg;
+		}
 	}
 
 	cg = g_object_new (go_color_group_get_type (), NULL);
-
-	g_return_val_if_fail(cg != NULL, NULL);
 
 	cg->name = new_name;
 	cg->context = context;
