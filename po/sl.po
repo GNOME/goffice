@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-21 14:58+0000\n"
-"PO-Revision-Date: 2013-03-21 22:17+0100\n"
+"POT-Creation-Date: 2013-03-21 21:18+0000\n"
+"PO-Revision-Date: 2013-03-21 22:19+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -3988,33 +3988,37 @@ msgid "Style:"
 msgstr "Slog:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
+msgid "Select whether a line should be drawn through the text"
+msgstr "Ali naj bo izrisana črta preko besedila"
+
+#: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
 msgstr "Prečrtano:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:8
+#: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
 msgstr "Izbor barve pisave"
 
-#: ../goffice/gtk/go-font-sel.ui.h:9
+#: ../goffice/gtk/go-font-sel.ui.h:10
 msgid "Color:"
 msgstr "Barva:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:10
+#: ../goffice/gtk/go-font-sel.ui.h:11
 msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
 msgstr ""
 "Ali naj bo pisava spremenjena za uporabo kot nadpisano in podpisano besedilo"
 
-#: ../goffice/gtk/go-font-sel.ui.h:11
+#: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
 msgstr "Pisana pisava:"
 
-#: ../goffice/gtk/go-font-sel.ui.h:12
+#: ../goffice/gtk/go-font-sel.ui.h:13
 msgid "Select the type of underlining"
 msgstr "Izbor oblike podčrtavanja"
 
-#: ../goffice/gtk/go-font-sel.ui.h:13
+#: ../goffice/gtk/go-font-sel.ui.h:14
 msgid "Underline:"
 msgstr "Podčrtanost:"
 
@@ -5466,11 +5470,11 @@ msgstr "Južna Afrika/Zulujsko (zu_ZA)"
 msgid "Current Locale: "
 msgstr "Trenutno jezikovno določilo: "
 
-#: ../goffice/gtk/go-optionmenu.c:464
+#: ../goffice/gtk/go-optionmenu.c:476
 msgid "Menu"
 msgstr "Meni"
 
-#: ../goffice/gtk/go-optionmenu.c:465
+#: ../goffice/gtk/go-optionmenu.c:477
 msgid "The menu of options"
 msgstr "Meni možnosti"
 
