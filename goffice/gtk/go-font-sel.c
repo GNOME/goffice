@@ -54,6 +54,7 @@ struct _GOFontSel {
 	GtkWidget       *color_picker;
 	GOColorGroup    *color_group;
 	char            *color_unset_text;
+	GOColor          color_default;
 
 	gboolean        show_strikethrough;
 	GtkWidget       *strikethrough_button;
@@ -86,6 +87,7 @@ enum {
 	PROP_SHOW_STRIKETHROUGH,
 	PROP_COLOR_UNSET_TEXT,
 	PROP_COLOR_GROUP,
+	PROP_COLOR_DEFAULT,
 
 	GFS_GTK_FONT_CHOOSER_PROP_FIRST           = 0x4000,
 	GFS_GTK_FONT_CHOOSER_PROP_FONT,
@@ -776,6 +778,7 @@ gfs_init (GOFontSel *gfs)
 	gfs->show_preview_entry = TRUE;
 	gfs->preview_text = g_strdup (pango_language_get_sample_string (NULL));
 	gfs->font_sizes = go_fonts_list_sizes ();
+	gfs->color_default = GO_COLOR_BLACK;
 }
 
 static void
@@ -861,7 +864,7 @@ gfs_constructor (GType type,
 		gfs->color_group = go_color_group_fetch (NULL, gfs);
 	gfs->color_picker =
 		go_combo_color_new (NULL, gfs->color_unset_text,
-				    GO_COLOR_BLACK,
+				    gfs->color_default,
 				    gfs->color_group);
 	g_object_ref_sink (gfs->color_picker);
 	gtk_widget_show_all (gfs->color_picker);
@@ -1010,6 +1013,10 @@ gfs_get_property (GObject         *object,
 		g_value_set_object (value, gfs->color_group);
 		break;
 
+	case PROP_COLOR_DEFAULT:
+		g_value_set_uint (value, gfs->color_default);
+		break;
+
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
 		PangoFontDescription *desc = go_font_sel_get_font_desc (gfs);
 		g_value_take_string (value, pango_font_description_to_string (desc));
@@ -1068,6 +1075,10 @@ gfs_set_property (GObject         *object,
 	case PROP_COLOR_GROUP:
 		g_clear_object (&gfs->color_group);
 		gfs->color_group = g_value_dup_object (value);
+		break;
+
+	case PROP_COLOR_DEFAULT:
+		gfs->color_default = g_value_get_uint (value);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_FONT: {
@@ -1165,6 +1176,17 @@ gfs_class_init (GObjectClass *klass)
 				      GO_TYPE_COLOR_GROUP,
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(klass, PROP_COLOR_DEFAULT,
+		 g_param_spec_uint ("color-default",
+				    _("Color Default"),
+				    _("The color to show for an unset color"),
+				    GO_COLOR_FROM_RGBA (0,0,0,0),
+				    GO_COLOR_FROM_RGBA (0xff,0xff,0xff,0xff),
+				    GO_COLOR_BLACK,
+				    G_PARAM_READWRITE |
+				    G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_override_property (klass,
 					  GFS_GTK_FONT_CHOOSER_PROP_FONT,
@@ -1415,6 +1437,25 @@ go_font_sel_set_strikethrough (GOFontSel *fs, gboolean strikethrough)
 	gtk_toggle_button_set_active (but, strikethrough);
 	go_font_sel_add_attr (fs, pango_attr_strikethrough_new (strikethrough));
 	update_preview (fs);
+}
+
+void
+go_font_sel_set_script (GOFontSel *fs, GOFontScript script)
+{
+	GOOptionMenu *om = GO_OPTION_MENU (fs->script_picker);
+	GtkMenuShell *ms = GTK_MENU_SHELL (go_option_menu_get_menu (om));
+	GList *children = gtk_container_get_children (GTK_CONTAINER (ms));
+	GList *l;
+
+	for (l = children; l; l = l->next) {
+		GtkMenuItem *item = GTK_MENU_ITEM (l->data);
+		GOFontScript s = GPOINTER_TO_INT
+			(g_object_get_data (G_OBJECT (item), "script"));
+		if (s == script)
+			go_option_menu_select_item (om, item);
+	}
+
+	g_list_free (children);
 }
 
 static void
