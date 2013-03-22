@@ -21,9 +21,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#ifdef GOFFICE_WITH_GTK
-#       include <gtk/gtk.h>
-#endif
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
@@ -217,12 +214,8 @@ goc_item_dispose (GObject *object)
 			item->canvas->last_item = NULL;
 		if (item->canvas->grabbed_item == item)
 			item->canvas->grabbed_item = NULL;
-#ifdef GOFFICE_WITH_GTK
-		if (gtk_widget_get_realized (GTK_WIDGET (item->canvas))) {
-			item->cached_bounds = TRUE; /* avoids a call to update_bounds */
-			goc_item_invalidate (item);
-		}
-#endif
+		item->cached_bounds = TRUE; /* avoids a call to update_bounds */
+		goc_item_invalidate (item);
 	}
 
 	if (item->parent != NULL)
@@ -463,10 +456,9 @@ goc_item_maybe_invalidate (GocItem *item, gboolean ignore_visibility)
 	if (!parent)
 		return;
 
-#ifdef GOFFICE_WITH_GTK
-	if (!gtk_widget_get_realized (GTK_WIDGET (item->canvas)))
+	if (!goc_canvas_get_realized (item->canvas))
 		return;
-#endif
+
 	if (!ignore_visibility && !item->visible)
 		return;
 

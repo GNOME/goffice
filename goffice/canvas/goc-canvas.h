@@ -75,6 +75,7 @@ void		 goc_canvas_get_scroll_position (GocCanvas *canvas, double *x, double *y);
 void		 goc_canvas_set_pixels_per_unit (GocCanvas *canvas, double pixels_per_unit);
 double		 goc_canvas_get_pixels_per_unit (GocCanvas *canvas);
 void		 goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, double y1);
+gboolean         goc_canvas_get_realized (GocCanvas *canvas);
 GocItem		*goc_canvas_get_item_at (GocCanvas *canvas, double x, double y);
 void		 goc_canvas_grab_item (GocCanvas *canvas, GocItem *item);
 void		 goc_canvas_ungrab_item (GocCanvas *canvas);

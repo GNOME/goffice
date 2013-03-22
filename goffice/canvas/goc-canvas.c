@@ -1,5 +1,5 @@
 /*
- * goc-canvas.c :
+ * goc-canvas.c:
  *
  * Copyright (C) 2008-2009 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -451,7 +451,7 @@ goc_canvas_get_pixels_per_unit (GocCanvas *canvas)
 }
 
 /**
- * goc_canvas_invalidate :
+ * goc_canvas_invalidate:
  * @canvas: #GocCanvas
  * @x0: minimum x coordinate of the invalidated region in canvas coordinates
  * @y0: minimum y coordinate of the invalidated region in canvas coordinates
@@ -464,9 +464,9 @@ goc_canvas_get_pixels_per_unit (GocCanvas *canvas)
 void
 goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, double y1)
 {
-#ifdef GOFFICE_WITH_GTK
-	if (!gtk_widget_get_realized (GTK_WIDGET (canvas)))
+	if (!goc_canvas_get_realized (canvas))
 		return;
+#ifdef GOFFICE_WITH_GTK
 	x0 = (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
 	y0 = (y0 - canvas->scroll_y1) * canvas->pixels_per_unit;
 	x1 = (x1 - canvas->scroll_x1) * canvas->pixels_per_unit;
@@ -491,6 +491,23 @@ goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, doubl
 		                            (int) ceil (y1) - (int) floor (y0) + 2);
 #endif
 }
+
+/**
+ * goc_canvas_get_realized:
+ * @canvas: #GocCanvas
+ *
+ * Returns: %TRUE if the canvas has been realized as a #GtkWidget.
+ **/
+gboolean
+goc_canvas_get_realized (GocCanvas *canvas)
+{
+#ifdef GOFFICE_WITH_GTK
+	return gtk_widget_get_realized (GTK_WIDGET (canvas));
+#else
+	return FALSE;
+#endif
+}
+
 
 /**
  * goc_canvas_get_item_at:
