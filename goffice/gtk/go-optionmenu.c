@@ -154,7 +154,7 @@ go_option_menu_position (GtkMenu  *menu,
 	GOOptionMenu *option_menu = user_data;
 	GtkWidget *widget;
 	GtkRequisition requisition;
-	GList *children;
+	GList *children, *l;
 	gint screen_width;
 	gint menu_xpos;
 	gint menu_ypos;
@@ -173,8 +173,8 @@ go_option_menu_position (GtkMenu  *menu,
 	menu_ypos += allocation.y + allocation.height / 2 - 2;
 
 	children = gtk_container_get_children (GTK_CONTAINER (option_menu->menu));
-	while (children) {
-		GtkWidget *child = children->data;
+	for (l = children; l; l = l->next) {
+		GtkWidget *child = l->data;
 
 		if (child == (GtkWidget*)option_menu->selected) {
 			gtk_widget_get_preferred_size (child, &requisition, NULL);
@@ -189,6 +189,7 @@ go_option_menu_position (GtkMenu  *menu,
 
 		children = children->next;
 	}
+	g_list_free (children);
 
 	screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
 

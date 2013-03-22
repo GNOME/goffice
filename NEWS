@@ -7,6 +7,7 @@ Morten:
 	* Add dialog version of the font selector.
 	* Rewrite font selector.  [#695031]
 	* Fix GOComboColor signal problem.  [#696022]
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 goffice 0.10.1:
