@@ -8,6 +8,7 @@ Morten:
 	* Rewrite font selector.  [#695031]
 	* Fix GOComboColor signal problem.  [#696022]
 	* Plug leaks.
+	* Enhance canvas with posibility of css.
 
 --------------------------------------------------------------------------
 goffice 0.10.1:

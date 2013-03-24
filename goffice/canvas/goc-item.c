@@ -117,6 +117,10 @@ enum {
 
 static GObjectClass *item_parent_class;
 
+static GParamSpecPool *style_property_spec_pool;
+static GQuark quark_property_parser;
+static GQuark quark_style_context;
+
 static gboolean
 goc_item_button_pressed (GocItem *item, int button, double x, double y)
 {
@@ -278,6 +282,10 @@ goc_item_class_init (GocItemClass *item_klass)
 	item_klass->key_pressed = goc_item_key_pressed;
 	item_klass->key_released = goc_item_key_released;
 #endif
+
+	style_property_spec_pool = g_param_spec_pool_new (FALSE);
+	quark_property_parser = g_quark_from_static_string ("gtk-rc-property-parser");
+	quark_style_context = g_quark_from_static_string ("GocItem::style-context");
 }
 
 static void
@@ -832,3 +840,39 @@ _goc_item_transform (GocItem const *item, cairo_t *cr, gboolean scaled)
 	}
 	cairo_transform (cr, &m);
 }
+
+#ifdef GOFFICE_WITH_GTK
+/**
+ * goc_item_get_style_context:
+ * @item: #GocItem
+ *
+ * Returns: (transfer none): The style context to use for the item.
+ */
+GtkStyleContext *
+goc_item_get_style_context (const GocItem *item)
+{
+	GtkStyleContext *context;
+	g_return_val_if_fail (GOC_IS_ITEM (item), NULL);
+
+	context = g_object_get_qdata (G_OBJECT (item), quark_style_context);
+	if (!context) {
+		GtkWidgetPath *path;
+
+		path = gtk_widget_path_new ();
+		gtk_widget_path_append_type (path,
+					     G_TYPE_FROM_INSTANCE (item));
+
+		context = gtk_style_context_new ();
+		gtk_style_context_set_path (context, path);
+		gtk_style_context_set_parent (context,
+					      gtk_widget_get_style_context (GTK_WIDGET (item->canvas)));
+
+		g_object_set_qdata_full (G_OBJECT (item),
+					 quark_style_context,
+					 context,
+					 g_object_unref);
+	}
+
+	return context;
+}
+#endif

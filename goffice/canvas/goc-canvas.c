@@ -322,12 +322,18 @@ goc_canvas_init (GocCanvas *canvas)
 #endif
 }
 
+#ifdef GOFFICE_WITH_GTK
+#define CANVAS_BASE_TYPE GTK_TYPE_LAYOUT
+#else
+#define CANVAS_BASE_TYPE G_TYPE_OBJECT
+#endif
+
+
 GSF_CLASS (GocCanvas, goc_canvas,
 	   goc_canvas_class_init, goc_canvas_init,
-#ifdef GOFFICE_WITH_GTK
-	   GTK_TYPE_LAYOUT)
-#else
-	   G_TYPE_OBJECT)
+	   CANVAS_BASE_TYPE)
+#if 0
+;
 #endif
 
 /**

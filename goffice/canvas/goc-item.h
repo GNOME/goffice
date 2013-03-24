@@ -38,6 +38,10 @@ struct _GocItem {
 	cairo_operator_t	 op;
 	cairo_matrix_t		transform; /* not used for now */
 	gboolean		transformed; /* TRUE if the matrix is not identity */
+
+	/* FIXME: Next development release needs to add style context and
+	   room for expansion.  */
+
 	gpointer		 priv;
 };
 
@@ -65,8 +69,8 @@ struct _GocItemClass {
 	gboolean		(*key_pressed) (GocItem *item, GdkEventKey* ev);
 	gboolean		(*key_released) (GocItem *item, GdkEventKey* ev);
 	GdkWindow*		(*get_window) (GocItem *item);
-	/* <private> */
 #endif
+	/* <private> */
 	void (*reserved1) (void);
 	void (*reserved2) (void);
 	void (*reserved3) (void);
@@ -116,6 +120,10 @@ void		 _goc_item_transform    (GocItem const *item, cairo_t *cr,
 void		 goc_item_set_operator  (GocItem *item, cairo_operator_t op);
 cairo_operator_t goc_item_get_operator  (GocItem *item);
 void		 goc_item_set_transform (GocItem *item, cairo_matrix_t *m);
+
+#ifdef GOFFICE_WITH_GTK
+GtkStyleContext *goc_item_get_style_context (const GocItem *item);
+#endif
 
 G_END_DECLS
 
