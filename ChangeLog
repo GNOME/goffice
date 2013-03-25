@@ -1,5 +1,10 @@
 2013-03-25  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_barcol/gog-dropbar.c (gog_dropbar_view_render): one more
+	uninitialized value issue fixed.
+
+2013-03-25  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): don't use
 	uninitialized values. [#696569]
 

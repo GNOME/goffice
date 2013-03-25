@@ -298,8 +298,10 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 		base_series = GOG_SERIES (series);
-		if (!gog_series_is_valid (base_series))
+		if (!gog_series_is_valid (base_series)) {
+			path1[j++] = NULL;
 			continue;
+		}
 		prec_valid = FALSE;
 		neg_style = go_style_dup ((GOG_STYLED_OBJECT (series))->style);
 		neg_style->line.color ^= 0xffffff00;
