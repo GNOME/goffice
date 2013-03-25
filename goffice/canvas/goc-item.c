@@ -859,6 +859,7 @@ goc_item_get_style_context (const GocItem *item)
 		GtkWidgetPath *path;
 
 		path = gtk_widget_path_new ();
+		gtk_widget_path_append_type (path, GOC_TYPE_CANVAS);
 		gtk_widget_path_append_type (path,
 					     G_TYPE_FROM_INSTANCE (item));
 

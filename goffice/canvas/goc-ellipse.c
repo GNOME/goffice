@@ -215,18 +215,23 @@ static void
 goc_ellipse_draw (GocItem const *item, cairo_t *cr)
 {
 	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	gboolean needs_restore;
+
 	cairo_save(cr);
+	needs_restore = TRUE;
 	if (goc_ellipse_prepare_draw (item, cr, 1)) {
 		go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);
-		if (!scale_line_width)
+		if (!scale_line_width) {
 			cairo_restore (cr);
+			needs_restore = FALSE;
+		}
 		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
 			cairo_stroke (cr);
 		} else {
 			cairo_new_path (cr);
 		}
 	}
-	if (scale_line_width)
+	if (needs_restore)
 		cairo_restore(cr);
 }
 

@@ -111,8 +111,11 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	GocPolyline *polyline = GOC_POLYLINE (item);
 	unsigned i;
 	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	gboolean needs_restore;
 
 	cairo_save (cr);
+	needs_restore = TRUE;
+
 	_goc_item_transform (item, cr, flag);
 	if (polyline->nb_points == 0)
 		return FALSE;
@@ -148,15 +151,17 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 		}
 	}
 
-	if (!scale_line_width)
+	if (!scale_line_width) {
 		cairo_restore (cr);
+		needs_restore = FALSE;
+	}
 	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
-		if (!scale_line_width)
+		if (needs_restore)
 			cairo_restore (cr);
 		return TRUE;
 	}
 
-	if (!scale_line_width)
+	if (needs_restore)
 		cairo_restore (cr);
 	return FALSE;
 }
@@ -222,7 +227,6 @@ goc_polyline_draw (GocItem const *item, cairo_t *cr)
 	if (goc_polyline_prepare_draw (item, cr, 1)) {
 		cairo_stroke (cr);
 	}
-	cairo_restore (cr);
 }
 
 static void

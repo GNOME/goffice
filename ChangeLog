@@ -1,3 +1,8 @@
+2013-03-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-polyline.c (goc_polyline_draw): Fix cairo
+	save stack imbalance.
+
 2013-03-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-item.c (goc_item_get_style_context): New
