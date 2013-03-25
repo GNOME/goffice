@@ -16,23 +16,23 @@
 # Chris Leonard <cjl@laptop.org>, 2012.
 # Miguel Rodríguez Núñez <bokerones.fritos@gmail.com>, 2012.
 # Nicolás Satragno <nsatragno@gnome.org>, 2012.
-# miguel rodriguez nuñez <bokerones.fritos@gmail.com>, 2013.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2012, 2013.
+# miguel rodriguez nuñez <bokerones.fritos@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-21 23:23+0000\n"
-"PO-Revision-Date: 2013-03-22 10:32+0100\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2013-03-24 13:48+0000\n"
+"PO-Revision-Date: 2013-03-24 19:03+0100\n"
+"Last-Translator: Nicolás Satragno <nsatragno@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 "X-Project-Style: gnome\n"
 
@@ -41,8 +41,6 @@ msgid "ID"
 msgstr "ID"
 
 #: ../goffice/app/file.c:178
-#, fuzzy
-#| msgid "The identifier of the saver."
 msgid "The identifier of the opener"
 msgstr "El identificador del guardador."
 
@@ -51,20 +49,16 @@ msgid "Description"
 msgstr "Descripción"
 
 #: ../goffice/app/file.c:188
-#, fuzzy
-#| msgid "The description of the saver."
 msgid "The description of the opener"
-msgstr "La descripción del guardador."
+msgstr "La descripción del abridor"
 
 #: ../goffice/app/file.c:197 ../goffice/app/file.c:644
-#, fuzzy
-#| msgid "Interpolation"
 msgid "Interactive only"
-msgstr "Interpolación"
+msgstr "Solo intectativo"
 
 #: ../goffice/app/file.c:198
 msgid "TRUE if this opener requires interaction"
-msgstr ""
+msgstr "VERDADERO si el abridor requiere interacción"
 
 #: ../goffice/app/file.c:594
 msgid "The identifier of the saver."
@@ -100,7 +94,7 @@ msgstr "Indica si el guardador sobrescribirá los archivos."
 
 #: ../goffice/app/file.c:645
 msgid "TRUE if this saver requires interaction"
-msgstr ""
+msgstr "VERDADERO si el guardador requiere interacción"
 
 #: ../goffice/app/file.c:655
 msgid "Format Level"
@@ -216,7 +210,8 @@ msgstr "No se puede leer el archivo de información del complemento («%s»)."
 #: ../goffice/app/go-plugin.c:788
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "El archivo «%s» no es un archivo válido de información de complementos."
+msgstr ""
+"El archivo «%s» no es un archivo válido de información de complementos."
 
 #: ../goffice/app/go-plugin.c:871
 #, c-format
@@ -794,19 +789,19 @@ msgstr ""
 "El área recortada en la parte superior de la imagen como una fracción de la "
 "altura de la imagen"
 
-#: ../goffice/canvas/goc-item.c:265
+#: ../goffice/canvas/goc-item.c:262
 msgid "Canvas"
 msgstr "Lienzo"
 
-#: ../goffice/canvas/goc-item.c:266
+#: ../goffice/canvas/goc-item.c:263
 msgid "The canvas object on which the item resides"
 msgstr "El objeto del lienzo en el que reside el elemento"
 
-#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:685
+#: ../goffice/canvas/goc-item.c:268 ../goffice/graph/gog-view.c:685
 msgid "Parent"
 msgstr "Padre"
 
-#: ../goffice/canvas/goc-item.c:272
+#: ../goffice/canvas/goc-item.c:269
 msgid "The group in which the item resides"
 msgstr "El grupo en el que reside el elemento"
 
@@ -3535,40 +3530,30 @@ msgid "Regular"
 msgstr "Regular"
 
 #: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
-#, fuzzy
-#| msgid "Italic"
 msgctxt "FontFace"
 msgid "Italic"
 msgstr "Cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:391
-#, fuzzy
-#| msgid "Bold"
 msgctxt "FontFace"
 msgid "Bold"
 msgstr "Negrita"
 
 #: ../goffice/gtk/go-font-sel.c:392
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Bold Italic"
-msgstr "Negritas cursivas"
+msgstr "Negrita cursiva"
 
 #. These are fairly rare.
 #: ../goffice/gtk/go-font-sel.c:395
-#, fuzzy
-#| msgid "Black"
 msgctxt "FontFace"
 msgid "Black"
 msgstr "Negro"
 
 #: ../goffice/gtk/go-font-sel.c:396
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Bold Condensed Italic"
-msgstr "Negritas cursivas"
+msgstr "Negrita cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:397
 msgctxt "FontFace"
@@ -3576,11 +3561,9 @@ msgid "Bold Condensed"
 msgstr "Negrita condensada"
 
 #: ../goffice/gtk/go-font-sel.c:398
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Bold Italic Small Caps"
-msgstr "Negritas cursivas"
+msgstr "Versalita negrita cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:399
 msgctxt "FontFace"
@@ -3588,11 +3571,9 @@ msgid "Bold Nonextended"
 msgstr "Negrita no expandida"
 
 #: ../goffice/gtk/go-font-sel.c:400
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Bold Oblique"
-msgstr "Negritas cursivas"
+msgstr "Negrita oblicua"
 
 #: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
@@ -3615,11 +3596,9 @@ msgid "Book"
 msgstr "Libro"
 
 #: ../goffice/gtk/go-font-sel.c:405
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Condensed Bold Italic"
-msgstr "Negritas cursivas"
+msgstr "Negrita cursiva condensada"
 
 #: ../goffice/gtk/go-font-sel.c:406
 msgctxt "FontFace"
@@ -3647,18 +3626,14 @@ msgid "Condensed"
 msgstr "Condensada"
 
 #: ../goffice/gtk/go-font-sel.c:411
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Demi Bold Italic"
-msgstr "Negritas cursivas"
+msgstr "Demi negrita cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:412
-#, fuzzy
-#| msgid "Bold"
 msgctxt "FontFace"
 msgid "Demi Bold"
-msgstr "Negrita"
+msgstr "Demi negrita"
 
 #: ../goffice/gtk/go-font-sel.c:413
 msgctxt "FontFace"
@@ -3681,11 +3656,9 @@ msgid "Embossed"
 msgstr "Relieve"
 
 #: ../goffice/gtk/go-font-sel.c:417
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Expanded Bold Italic"
-msgstr "Negritas cursivas"
+msgstr "Negrita cursiva expandida"
 
 #: ../goffice/gtk/go-font-sel.c:418
 msgctxt "FontFace"
@@ -3703,11 +3676,9 @@ msgid "Expanded"
 msgstr "Expandido"
 
 #: ../goffice/gtk/go-font-sel.c:421
-#, fuzzy
-#| msgid "triangle right"
 msgctxt "FontFace"
 msgid "Extra Light"
-msgstr "triángulo a la derecha"
+msgstr "Extra ligera"
 
 #: ../goffice/gtk/go-font-sel.c:422
 msgctxt "FontFace"
@@ -3720,32 +3691,24 @@ msgid "Italic Small Caps"
 msgstr "Formas pequeñas y cursivas"
 
 #: ../goffice/gtk/go-font-sel.c:425
-#, fuzzy
-#| msgid "Italic"
 msgctxt "FontFace"
 msgid "Light Italic"
-msgstr "Cursiva"
+msgstr "Cursiva ligera"
 
 #: ../goffice/gtk/go-font-sel.c:426
-#, fuzzy
-#| msgid "light blue"
 msgctxt "FontFace"
 msgid "Light Oblique"
-msgstr "azul pálido"
+msgstr "Oblicua ligera"
 
 #: ../goffice/gtk/go-font-sel.c:427
-#, fuzzy
-#| msgid "Right"
 msgctxt "FontFace"
 msgid "Light"
-msgstr "Derecha"
+msgstr "Ligera"
 
 #: ../goffice/gtk/go-font-sel.c:428
-#, fuzzy
-#| msgid "Italic"
 msgctxt "FontFace"
 msgid "Medium Italic"
-msgstr "Cursiva"
+msgstr "Cursiva media"
 
 #: ../goffice/gtk/go-font-sel.c:429
 msgctxt "FontFace"
@@ -3753,8 +3716,6 @@ msgid "Medium"
 msgstr "Mediano"
 
 #: ../goffice/gtk/go-font-sel.c:430
-#, fuzzy
-#| msgid "Normal"
 msgctxt "FontFace"
 msgid "Normal"
 msgstr "Normal"
@@ -3775,11 +3736,9 @@ msgid "Regular Condensed"
 msgstr "Regular condensada"
 
 #: ../goffice/gtk/go-font-sel.c:434
-#, fuzzy
-#| msgid "Italic"
 msgctxt "FontFace"
 msgid "Regular Italic"
-msgstr "Cursiva"
+msgstr "Regular cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:435
 msgctxt "FontFace"
@@ -3798,32 +3757,24 @@ msgstr "Roman"
 
 # Muestra o ejemplo? serrador@arrakis.es
 #: ../goffice/gtk/go-font-sel.c:438
-#, fuzzy
-#| msgid "Bounds"
 msgctxt "FontFace"
 msgid "Rounded"
-msgstr "Límites"
+msgstr "Redondeada"
 
 #: ../goffice/gtk/go-font-sel.c:439
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Sans Bold Italic"
-msgstr "Negritas cursivas"
+msgstr "Negrita cursiva sans"
 
 #: ../goffice/gtk/go-font-sel.c:440
-#, fuzzy
-#| msgid "Bold"
 msgctxt "FontFace"
 msgid "Sans Bold"
-msgstr "Negrita"
+msgstr "Negrita sans"
 
 #: ../goffice/gtk/go-font-sel.c:441
-#, fuzzy
-#| msgid "Italic"
 msgctxt "FontFace"
 msgid "Sans Italic"
-msgstr "Cursiva"
+msgstr "Cursiva sans"
 
 #: ../goffice/gtk/go-font-sel.c:442
 msgctxt "FontFace"
@@ -3836,78 +3787,74 @@ msgid "Semi-Bold Italic Small Caps"
 msgstr "Semi-negrita cursiva formas pequeñas"
 
 #: ../goffice/gtk/go-font-sel.c:444
-#, fuzzy
-#| msgid "Bold italic"
 msgctxt "FontFace"
 msgid "Semi-Bold Italic"
-msgstr "Negritas cursivas"
+msgstr "Semi negrita cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:445
 msgctxt "FontFace"
 msgid "Semi-Bold Oblique"
-msgstr ""
+msgstr "Semi negrita oblicua"
 
 #: ../goffice/gtk/go-font-sel.c:446
 msgctxt "FontFace"
 msgid "Semi-Bold Slanted"
-msgstr ""
+msgstr "Semi negrita inclinada"
 
 #: ../goffice/gtk/go-font-sel.c:447
 msgctxt "FontFace"
 msgid "Semi-Bold Small Caps"
-msgstr ""
+msgstr "Versalita semi negrita"
 
 #: ../goffice/gtk/go-font-sel.c:448
-#, fuzzy
-#| msgid "Bold"
 msgctxt "FontFace"
 msgid "Semi-Bold"
-msgstr "Negrita"
+msgstr "Semi negrita"
 
 #: ../goffice/gtk/go-font-sel.c:449
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold Italic"
-msgstr ""
+msgstr "Cursiva semi condensada negrita"
 
 #: ../goffice/gtk/go-font-sel.c:450
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold"
-msgstr ""
+msgstr "Semi condensada negrita"
 
 #: ../goffice/gtk/go-font-sel.c:451
 msgctxt "FontFace"
 msgid "Semi-Condensed Italic"
-msgstr ""
+msgstr "Semi condensada cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:452
 msgctxt "FontFace"
 msgid "Semi-Condensed Oblique"
-msgstr ""
+msgstr "Semi condensada oblicua"
 
 #: ../goffice/gtk/go-font-sel.c:453
 msgctxt "FontFace"
 msgid "Semi-Condensed"
-msgstr ""
+msgstr "Semi condensada"
 
 #: ../goffice/gtk/go-font-sel.c:454
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold Italic"
-msgstr ""
+msgstr "Semi expandida negrita cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:455
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold"
-msgstr ""
+msgstr "Semi expandida negrita"
 
 #: ../goffice/gtk/go-font-sel.c:456
 msgctxt "FontFace"
 msgid "Semi-Expanded Italic"
-msgstr ""
+msgstr "Semi expandida cursiva"
 
 #: ../goffice/gtk/go-font-sel.c:457
 msgctxt "FontFace"
 msgid "Semi-Expanded"
-msgstr ""
+msgstr "Semi expandida"
 
 #: ../goffice/gtk/go-font-sel.c:458
 msgctxt "FontFace"
@@ -3915,11 +3862,9 @@ msgid "Slanted"
 msgstr "Inclinada"
 
 #: ../goffice/gtk/go-font-sel.c:459
-#, fuzzy
-#| msgid "Small Circles"
 msgctxt "FontFace"
 msgid "Small Caps"
-msgstr "Pequeños círculos"
+msgstr "Versalita"
 
 #: ../goffice/gtk/go-font-sel.c:460
 msgctxt "FontFace"
@@ -3942,85 +3887,65 @@ msgid "All fonts..."
 msgstr "Todas las tipografías..."
 
 #: ../goffice/gtk/go-font-sel.c:905
-#, fuzzy
-#| msgid "None"
 msgctxt "underline"
 msgid "None"
 msgstr "Ninguno"
 
 #: ../goffice/gtk/go-font-sel.c:906
-#, fuzzy
-#| msgid "Angle"
 msgctxt "underline"
 msgid "Single"
-msgstr "Ángulo"
+msgstr "Sencillo"
 
 #: ../goffice/gtk/go-font-sel.c:907
 msgctxt "underline"
 msgid "Double"
-msgstr ""
+msgstr "Doble"
 
 #: ../goffice/gtk/go-font-sel.c:908
-#, fuzzy
-#| msgid "_Low"
 msgctxt "underline"
 msgid "Low"
-msgstr "_Bajo"
+msgstr "Bajo"
 
 #: ../goffice/gtk/go-font-sel.c:909
-#, fuzzy
-#| msgid "Error bars"
 msgctxt "underline"
 msgid "Error"
-msgstr "Barras de error"
+msgstr "Error"
 
 #: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
 msgid "Normal"
 msgstr "Normal"
 
 #: ../goffice/gtk/go-font-sel.c:931
-#, fuzzy
-#| msgid "Description"
 msgid "Subscript"
-msgstr "Descripción"
+msgstr "Subíndice"
 
 #: ../goffice/gtk/go-font-sel.c:932
-#, fuzzy
-#| msgid "Use _superscript"
 msgid "Superscript"
-msgstr "Usar _superíndice"
+msgstr "Superíndice"
 
 #: ../goffice/gtk/go-font-sel.c:1185
-#, fuzzy
-#| msgid "Style"
 msgid "Show Style"
-msgstr "Estilo"
+msgstr "Mostrar estilo"
 
 #: ../goffice/gtk/go-font-sel.c:1186
 msgid "Whether style is part of the font being selected"
 msgstr "Indica si el estilo es parte de la tipografía seleccionada"
 
 #: ../goffice/gtk/go-font-sel.c:1194
-#, fuzzy
-#| msgid "Color"
 msgid "Show Color"
-msgstr "Color"
+msgstr "Mostrar color"
 
 #: ../goffice/gtk/go-font-sel.c:1195
 msgid "Whether color is part of the font being selected"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:1203
-#, fuzzy
-#| msgid "Show negatives"
 msgid "Show Underline"
-msgstr "Mostrar negativos"
+msgstr "Mostrar subrayado"
 
 #: ../goffice/gtk/go-font-sel.c:1204
-#, fuzzy
-#| msgid "Whether style is part of the font being selected"
 msgid "Whether underlining is part of the font being selected"
-msgstr "Indica si el estilo es parte de la tipografía seleccionada"
+msgstr "Indica si el subrayado es parte de la tipografía seleccionada"
 
 #: ../goffice/gtk/go-font-sel.c:1212
 msgid "Show Script"
@@ -5602,11 +5527,11 @@ msgstr "Sudáfrica/Zulú (zu_ZA)"
 msgid "Current Locale: "
 msgstr "Localización actual (i18n): "
 
-#: ../goffice/gtk/go-optionmenu.c:476
+#: ../goffice/gtk/go-optionmenu.c:477
 msgid "Menu"
 msgstr "Menú"
 
-#: ../goffice/gtk/go-optionmenu.c:477
+#: ../goffice/gtk/go-optionmenu.c:478
 msgid "The menu of options"
 msgstr "El menú de opciones"
 
