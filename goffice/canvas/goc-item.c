@@ -415,11 +415,7 @@ goc_item_draw (GocItem const *item, cairo_t *cr)
 	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 	g_return_if_fail (klass != NULL);
 
-	if (klass->draw == NULL)
-		return;
-	if (GOC_IS_GROUP (item))
-		klass->draw (item, cr);
-	else
+	if (klass->draw != NULL)
 		klass->draw (item, cr);
 }
 
@@ -446,12 +442,9 @@ goc_item_draw_region (GocItem const *item, cairo_t *cr,
 	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 	g_return_val_if_fail (klass != NULL, FALSE);
 
-	if (klass->draw_region == NULL)
-		return FALSE;
-	if (GOC_IS_GROUP (item))
-		return klass->draw_region (item, cr, x0, y0, x1, y1);
-	else
-		return klass->draw_region (item, cr, x0, y0, x1, y1);
+	return (klass->draw_region != NULL)?
+		klass->draw_region (item, cr, x0, y0, x1, y1):
+		FALSE;
 }
 
 static void
