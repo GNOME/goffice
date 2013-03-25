@@ -546,6 +546,7 @@ CFLAGS="$CFLAGS $GOFFICE_CFLAGS"
 LIBS="$GOFFICE_LIBS $LIBS"
 AC_CHECK_FUNCS(gsf_odf_out_get_version)
 AC_CHECK_FUNCS(gdk_event_get_scroll_deltas)
+AC_CHECK_FUNCS(gtk_style_context_set_parent)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 

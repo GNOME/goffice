@@ -865,8 +865,10 @@ goc_item_get_style_context (const GocItem *item)
 
 		context = gtk_style_context_new ();
 		gtk_style_context_set_path (context, path);
+#ifdef HAVE_GTK_STYLE_CONTEXT_SET_PARENT
 		gtk_style_context_set_parent (context,
 					      gtk_widget_get_style_context (GTK_WIDGET (item->canvas)));
+#endif
 
 		g_object_set_qdata_full (G_OBJECT (item),
 					 quark_style_context,
