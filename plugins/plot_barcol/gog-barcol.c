@@ -618,6 +618,9 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		base_series = GOG_SERIES (series);
 		if (!gog_series_is_valid (base_series)) {
 			lengths[i] = 0;
+			errors[i] = NULL;
+			lines[i] = NULL;
+			labels[i] = NULL;
 			continue;
 		}
 		vals[i] = go_data_get_values (base_series->values[1].data);
