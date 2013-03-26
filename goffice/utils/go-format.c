@@ -6879,7 +6879,7 @@ find_currency (char const *ptr, gsize len, gboolean precedes)
 	gboolean quoted;
 
 	if (len <= 0)
-		return 0;
+		return NULL;
 
 	if (precedes) {
 		has_space = ptr[len - 1] == ' ';
