@@ -139,17 +139,34 @@ go_pattern_as_str (GOPatternType pattern)
 gboolean
 go_pattern_is_solid (GOPattern const *pat, GOColor *color)
 {
+	GOPatternType p;
+
 	g_return_val_if_fail (pat != NULL, FALSE);
 
-	if (pat->pattern == GO_PATTERN_SOLID || pat->fore == pat->back) {
+	p = pat->pattern;
+	if (pat->fore == pat->back)
+		p = GO_PATTERN_SOLID;
+
+	switch (p) {
+	case GO_PATTERN_GREY75:
+	case GO_PATTERN_GREY50:
+	case GO_PATTERN_GREY25:
+	case GO_PATTERN_GREY125:
+	case GO_PATTERN_GREY625: {
+		static double const grey[] = { -1, 0.75, 0.50, 0.25, 0.125, 0.0625 };
+		double g = grey[p];
+		*color = GO_COLOR_INTERPOLATE (pat->back, pat->fore, g);
+		return TRUE;
+	}
+	case GO_PATTERN_SOLID:
 		*color = pat->back;
 		return TRUE;
-	}
-	if (pat->pattern == GO_PATTERN_FOREGROUND_SOLID) {
+	case GO_PATTERN_FOREGROUND_SOLID:
 		*color = pat->fore;
 		return TRUE;
+	default:
+		return FALSE;
 	}
-	return FALSE;
 }
 
 /**
@@ -256,6 +273,7 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 
 	if (go_pattern_is_solid (pattern, &color)) {
 		cr_pattern = cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color));
+
 #if 0
 		/* This code is disabled for now. Cairo export of vector pattern
 		 * to PDF or PS looks terrible, and even SVG export is not properly rendered

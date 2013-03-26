@@ -12,6 +12,7 @@ Morten:
 	* Fix GOComboColor signal problem.  [#696022]
 	* Plug leaks.
 	* Enhance canvas with posibility of css.
+	* Improve printing of grey patterns.
 
 --------------------------------------------------------------------------
 goffice 0.10.1:
