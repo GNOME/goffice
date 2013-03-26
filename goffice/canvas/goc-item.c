@@ -835,6 +835,36 @@ _goc_item_transform (GocItem const *item, cairo_t *cr, gboolean scaled)
 }
 
 #ifdef GOFFICE_WITH_GTK
+
+static void
+cb_parent_changed (const GocItem *item)
+{
+	GtkStyleContext *context = goc_item_get_style_context (item);
+	GtkStyleContext *pcontext;
+	GtkWidgetPath *path;
+
+	if (item->parent) {
+		pcontext = goc_item_get_style_context (GOC_ITEM (item->parent));
+	} else if (item->canvas &&
+		   GOC_ITEM (item->canvas->root) == item) {
+		pcontext = gtk_widget_get_style_context (GTK_WIDGET (item->canvas));
+	} else {
+		pcontext = NULL;
+	}
+	if (pcontext)
+		path = gtk_widget_path_copy (gtk_style_context_get_path (pcontext));
+	else
+		path = gtk_widget_path_new ();
+
+	gtk_widget_path_append_type (path, G_TYPE_FROM_INSTANCE (item));
+	gtk_style_context_set_path (context, path);
+	gtk_widget_path_free (path);
+#ifdef HAVE_GTK_STYLE_CONTEXT_SET_PARENT
+	gtk_style_context_set_parent (context, pcontext);
+#endif
+}
+
+
 /**
  * goc_item_get_style_context:
  * @item: #GocItem
@@ -849,24 +879,16 @@ goc_item_get_style_context (const GocItem *item)
 
 	context = g_object_get_qdata (G_OBJECT (item), quark_style_context);
 	if (!context) {
-		GtkWidgetPath *path;
-
-		path = gtk_widget_path_new ();
-		gtk_widget_path_append_type (path, GOC_TYPE_CANVAS);
-		gtk_widget_path_append_type (path,
-					     G_TYPE_FROM_INSTANCE (item));
-
 		context = gtk_style_context_new ();
-		gtk_style_context_set_path (context, path);
-#ifdef HAVE_GTK_STYLE_CONTEXT_SET_PARENT
-		gtk_style_context_set_parent (context,
-					      gtk_widget_get_style_context (GTK_WIDGET (item->canvas)));
-#endif
-
 		g_object_set_qdata_full (G_OBJECT (item),
 					 quark_style_context,
 					 context,
 					 g_object_unref);
+
+		g_signal_connect (G_OBJECT (item),
+				  "notify::parent", G_CALLBACK (cb_parent_changed),
+				  NULL);
+		cb_parent_changed (item);
 	}
 
 	return context;
