@@ -334,17 +334,30 @@ goc_group_clear (GocGroup *group)
 void
 goc_group_add_child (GocGroup *parent, GocItem *item)
 {
+	GocCanvas *old_canvas;
+
 	g_return_if_fail (GOC_IS_GROUP (parent));
 	g_return_if_fail (GOC_IS_ITEM (item));
+
 	if (item->parent == parent)
 		return;
+
+	/* Remove from current group.  */
 	if (item->parent != NULL)
 		goc_group_remove_child (item->parent, item);
+
+	old_canvas = item->canvas;
+
+	/* Insert into new group.  */
 	parent->children = g_list_append (parent->children, item);
 	item->parent = parent;
 	item->canvas = parent->base.canvas;
+
+	/* Notify of changes.  */
 	g_object_notify (G_OBJECT (item), "parent");
-	g_object_notify (G_OBJECT (item), "canvas");
+	if (item->canvas != old_canvas)
+		g_object_notify (G_OBJECT (item), "canvas");
+
 	if (GOC_ITEM (parent)->realized)
 		_goc_item_realize (item);
 	goc_item_bounds_changed (GOC_ITEM (parent));
