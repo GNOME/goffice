@@ -236,7 +236,7 @@ color_table_setup (GOComboColor *cc,
 
 /* go_combo_color_get_color:
  * @cc:  #GOComboColor
- * @is_default : non-NULL storage for whether the current colour is the default.
+ * @is_default: non-NULL storage for whether the current colour is the default.
  *
  * Returns: current GOColor
  */
@@ -297,8 +297,8 @@ go_combo_color_set_instant_apply (GOComboColor *cc, gboolean active)
 
 /**
  * go_combo_color_set_allow_alpha :
- * @cc : #GOComboColor
- * @allow_alpha : Support alpha layer
+ * @cc: #GOComboColor
+ * @allow_alpha: Support alpha layer
  *
  * Should the custom colour selector allow the use of opacity.
  **/
@@ -327,8 +327,8 @@ go_combo_color_set_color_to_default (GOComboColor *cc)
  * go_combo_color_new :
  * @icon: optionally NULL.
  * @no_color_label: FIXME
- * @default_color : The colour to use a the default
- * @color_group : #GOColorGroup
+ * @default_color: The colour to use a the default
+ * @color_group: #GOColorGroup
  *
  * Default constructor. Pass an optional icon and an optional label for the
  * no/auto color button.

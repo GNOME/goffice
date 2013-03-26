@@ -382,12 +382,12 @@ days_between_GO_BASIS_30Ep_360 (GDate const *from, GDate const *to)
 /*
  * go_date_days_between_basis
  *
- * @from      : GDate *
- * @to        : GDate *
- * @basis     : GOBasisType
+ * @from: GDate *
+ * @to: GDate *
+ * @basis: GOBasisType
  * see datetime.h and doc/fn-financial-basis.txt for details
  *
- * @in_order  : dates are considered in order
+ * @in_order: dates are considered in order
  *
  * returns    : Number of days after the earlier and not after the later date
  *
@@ -427,13 +427,13 @@ go_date_days_between_basis (GDate const *from, GDate const *to, GOBasisType basi
 /*
  * go_coup_cd
  *
- * @res	      :
+ * @res:
  * @settlement: GDate *
- * @maturity  : GDate *  must follow settlement strictly
- * @freq      : int      divides 12 evenly
- * @eom       : gboolean whether to do special end of month
+ * @maturity: GDate *  must follow settlement strictly
+ * @freq: int      divides 12 evenly
+ * @eom: gboolean whether to do special end of month
  *                       handling
- * @next      : gboolean whether next or previous date
+ * @next: gboolean whether next or previous date
  *
  * returns    : GDate *  next  or previous coupon date
  *

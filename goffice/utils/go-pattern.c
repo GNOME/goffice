@@ -130,8 +130,8 @@ go_pattern_as_str (GOPatternType pattern)
 
 /**
  * go_pattern_is_solid :
- * @pat : #GOPattern
- * @color : #GOColor
+ * @pat: #GOPattern
+ * @color: #GOColor
  *
  * Returns: if @pat is solid, and stores the color in @color.
  * 	If @pat is not solid @color is not touched.
@@ -171,8 +171,8 @@ go_pattern_is_solid (GOPattern const *pat, GOColor *color)
 
 /**
  * go_pattern_set_solid :
- * @pat  : a #GOPattern
- * @fore : a #GOColor
+ * @pat: a #GOPattern
+ * @fore: a #GOColor
  *
  * Makes @pat a solid pattern with colour @fore.
  *

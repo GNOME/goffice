@@ -112,8 +112,8 @@ replace_rich_base_with_plain (GOStringRichImpl *rich)
 
 /**
  * go_string_new_len :
- * @str : string (optionally %NULL)
- * @len : guint32
+ * @str: string (optionally %NULL)
+ * @len: guint32
  *
  * GOString duplicates @str if no string already exists.
  *
@@ -181,7 +181,7 @@ go_string_new_nocopy_len (char *str, guint32 len)
 
 /**
  * go_string_new :
- * @str : string (optionally %NULL)
+ * @str: string (optionally %NULL)
  *
  * GOString duplicates @str if no string already exists.
  *

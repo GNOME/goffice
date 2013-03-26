@@ -483,10 +483,10 @@ GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
 
 /**
  * gog_error_bar_get_bounds :
- * @bar : A GogErrorBar
- * @index : the index corresponding to the value which error limits are
- * @min : where the minimum value will be stored
- * @max : where the maximum value will be stored
+ * @bar: A GogErrorBar
+ * @index: the index corresponding to the value which error limits are
+ * @min: where the minimum value will be stored
+ * @max: where the maximum value will be stored
  *
  * If the value correponding to @index is valid, fills min and max with the error values:
  * -> positive_error in @max.
@@ -618,14 +618,14 @@ gog_error_bar_dup		(GogErrorBar const *bar)
 
 /**
  * gog_error_bar_render :
- * @bar : A GogErrorBar
- * @rend : A GogRenderer
- * @map :  A GogChartMap for the chart
- * @x : x coordinate of the origin of the bar
- * @y : y coordinate of the origin of the bar
- * @plus : distance from the origin to the positive end of the bar
- * @minus : distance from the origin to the negative end of the bar
- * @direction : the #GogErrorBarDirection for the bar.
+ * @bar: A GogErrorBar
+ * @rend: A GogRenderer
+ * @map:  A GogChartMap for the chart
+ * @x: x coordinate of the origin of the bar
+ * @y: y coordinate of the origin of the bar
+ * @plus: distance from the origin to the positive end of the bar
+ * @minus: distance from the origin to the negative end of the bar
+ * @direction: the #GogErrorBarDirection for the bar.
  *
  * Displays the error bar. If @plus is negative, the positive side of the bar is not displayed,
  * and if @minus is negative, the negative side of the bar is not displayed.

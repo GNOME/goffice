@@ -77,7 +77,7 @@
  * @GO_FORMAT_MAGIC_SHORT_DATETIME: short date with time.
  * @GO_FORMAT_MAGIC_LONG_TIME: long time (Official).
  * @GO_FORMAT_MAGIC_MEDIUM_TIME: medium time.
- * @GO_FORMAT_MAGIC_SHORT_TIME : short time.
+ * @GO_FORMAT_MAGIC_SHORT_TIME: short time.
  **/
 
 /**
@@ -727,10 +727,10 @@ static struct {
 
 /*
  * go_format_parse_color :
- * @str :
- * @color :
- * @n :
- * @named :
+ * @str:
+ * @color:
+ * @n:
+ * @named:
  *
  * Return: TRUE, if ok.  Then @color will be filled in, and @n will be
  * 	a number 0-7 for standard colors.
@@ -5465,7 +5465,7 @@ make_frobbed_format (char *str, const GOFormat *fmt)
 
 /**
  * go_format_inc_precision :
- * @fmt : #GOFormat
+ * @fmt: #GOFormat
  *
  * Increases the displayed precision for @fmt by one digit.
  *
@@ -5573,7 +5573,7 @@ go_format_inc_precision (GOFormat const *fmt)
 
 /**
  * go_format_dec_precision :
- * @fmt : #GOFormat
+ * @fmt: #GOFormat
  *
  * Decreases the displayed precision for @fmt by one digit.
  *
@@ -5971,8 +5971,8 @@ go_format_new_from_XL (char const *str)
 #ifdef DEFINE_COMMON
 /**
  * go_format_new_markup :
- * @markup : #PangoAttrList
- * @add_ref : boolean
+ * @markup: #PangoAttrList
+ * @add_ref: boolean
  *
  * If @add_ref is FALSE absorb the reference to @markup, otherwise add a
  * reference.
@@ -6029,7 +6029,7 @@ go_format_eq (GOFormat const *a, GOFormat const *b)
 #ifdef DEFINE_COMMON
 /**
  * go_format_ref :
- * @fmt : a #GOFormat
+ * @fmt: a #GOFormat
  *
  * Adds a reference to a GOFormat.
  *
@@ -6057,7 +6057,7 @@ go_format_ref (GOFormat const *gf_)
 #ifdef DEFINE_COMMON
 /**
  * go_format_unref :
- * @fmt : a #GOFormat
+ * @fmt: a #GOFormat
  *
  * Removes a reference to @fmt, freeing when it goes to zero.
  *

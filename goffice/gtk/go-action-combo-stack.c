@@ -369,9 +369,9 @@ check_sensitivity (GOActionComboStack *saction, unsigned old_count)
 
 /**
  * go_action_combo_stack_push :
- * @act : #GOActionComboStack
- * @str : The label to push
- * @key : a key value to id the pushe item
+ * @act: #GOActionComboStack
+ * @str: The label to push
+ * @key: a key value to id the pushe item
  **/
 void
 go_action_combo_stack_push (GOActionComboStack *act,
@@ -393,8 +393,8 @@ go_action_combo_stack_push (GOActionComboStack *act,
 
 /**
  * go_action_combo_stack_pop :
- * @act : #GOActionComboStack
- * @n : count
+ * @act: #GOActionComboStack
+ * @n: count
  *
  * Shorten list @act by removing @n off the top (or fewer if the list is
  * shorter)
@@ -417,8 +417,8 @@ go_action_combo_stack_pop (GOActionComboStack *act, unsigned n)
 
 /**
  * go_action_combo_stack_truncate :
- * @act : #GOActionComboStack
- * @n : maximum length
+ * @act: #GOActionComboStack
+ * @n: maximum length
  *
  * Ensure that list @act is no longer than @n, dropping any extra off the
  * bottom.

@@ -55,7 +55,7 @@ static GogObjectClass *plot_xyz_parent_klass;
 
 /**
  * gog_xyz_plot_build_matrix :
- * @plot :
+ * @plot:
  *
  * builds a table of normalized values: first slice = 0-1 second = 1-2,... if any.
  **/

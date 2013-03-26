@@ -170,10 +170,10 @@ typedef GogPlotViewClass	GogDropBarViewClass;
 /**
  * FIXME FIXME FIXME Wrong description
  * barcol_draw_rect :
- * @rend : #GogRenderer
- * @flip :
- * @base : #GogViewAllocation
- * @rect : #GogViewAllocation
+ * @rend: #GogRenderer
+ * @flip:
+ * @base: #GogViewAllocation
+ * @rect: #GogViewAllocation
  *
  * A utility routine to build a vpath in @rect.  @rect is assumed to be in
  * coordinates relative to @base with 0,0 as the upper left.  @flip transposes

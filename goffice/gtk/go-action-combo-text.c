@@ -253,9 +253,9 @@ go_action_combo_text_get_entry (GOActionComboText const *a)
 
 /**
  * go_action_combo_text_set_entry :
- * @taction : @GOActionComboText
- * @text : the new text
- * @dir : #GOActionComboTextSearchDir
+ * @taction: @GOActionComboText
+ * @text: the new text
+ * @dir: #GOActionComboTextSearchDir
  *
  * Set the entry of any toolbar proxies of @taction to @text.  Does not
  * generate an 'activate' signal.

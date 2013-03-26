@@ -196,8 +196,8 @@ go_color_group_fetch (char const *name, gpointer context)
 
 /**
  * go_color_group_add_color :
- * @cg : #GOColorGroup
- * @c : the color
+ * @cg: #GOColorGroup
+ * @c: the color
  *
  * Potentially slide the history to add the new colour.  If it was already in
  * the history reorder.

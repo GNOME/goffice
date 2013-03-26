@@ -174,8 +174,8 @@ go_data_dup (GOData const *src)
 
 /**
  * go_data_eq :
- * @a : #GOData
- * @b : #GOData
+ * @a: #GOData
+ * @b: #GOData
  *
  * Returns: TRUE if @a and @b are the same
  **/
@@ -200,7 +200,7 @@ go_data_eq (GOData const *a, GOData const *b)
 
 /**
  * go_data_preferred_fmt :
- * @dat : #GOData
+ * @dat: #GOData
  *
  * Caller is responsible for unrefing the result.
  *
@@ -218,7 +218,7 @@ go_data_preferred_fmt (GOData const *dat)
 
 /**
  * go_data_date_conv :
- * @dat : #GOData
+ * @dat: #GOData
  *
  * Returns: the date conventions used by the data, or NULL if not determined.
  **/
@@ -235,8 +235,8 @@ go_data_date_conv (GOData const *dat)
 
 /**
  * go_data_serialize :
- * @dat : #GOData
- * @user : a gpointer describing the context.
+ * @dat: #GOData
+ * @user: a gpointer describing the context.
  *
  * NOTE : This is the _source_ not the content.  (I.e., this refers to the
  * expression, not its current value.)
@@ -254,9 +254,9 @@ go_data_serialize (GOData const *dat, gpointer user)
 
 /**
  * go_data_unserialize :
- * @dat : #GOData
- * @str : string to parse
- * @user : a gpointer describing the context.
+ * @dat: #GOData
+ * @str: string to parse
+ * @user: a gpointer describing the context.
  *
  * De-serializes the source information returned from go_data_serialize.
  *
@@ -280,7 +280,7 @@ go_data_is_valid (GOData const *data)
 
 /**
  * go_data_emit_changed :
- * @dat : #GOData
+ * @dat: #GOData
  *
  * protected utility to emit a 'changed' signal
  **/

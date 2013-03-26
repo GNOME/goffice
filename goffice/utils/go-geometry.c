@@ -270,7 +270,7 @@ go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset
 
 /**
  * go_direction_is_horizontal :
- * @d : #GODirection
+ * @d: #GODirection
  *
  * Returns: TRUE for GO_DIRECTION_LEFT and GO_DIRECTION_RIGHT.
  **/
@@ -282,7 +282,7 @@ go_direction_is_horizontal (GODirection d)
 
 /**
  * go_direction_is_forward :
- * @d : #GODirection
+ * @d: #GODirection
  *
  * Returns: TRUE for GO_DIRECTION_DOWN or GO_DIRECTION_RIGHT.
  **/
