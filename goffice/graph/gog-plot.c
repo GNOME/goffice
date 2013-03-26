@@ -347,18 +347,16 @@ gog_plot_set_property (GObject *obj, guint param_id,
 	case PLOT_PROP_AXIS_BUBBLE:
 		gog_plot_set_axis_by_id (plot, GOG_AXIS_BUBBLE, g_value_get_uint (value));
 		break;
-	case PLOT_PROP_GROUP: {
-		char const *group = g_value_get_string (value);
+	case PLOT_PROP_GROUP:
 		g_free (plot->plot_group);
-		plot->plot_group = (group)? g_strdup (g_value_get_string (value)): NULL;
+		plot->plot_group = g_value_dup_string (value);
 		break;
-	}
 	case PLOT_PROP_DEFAULT_INTERPOLATION:
 		plot->interpolation = go_line_interpolation_from_str (g_value_get_string (value));
 		break;
 	case PLOT_PROP_GURU_HINTS:
 		g_free (plot->guru_hints);
-		plot->guru_hints = g_strdup (g_value_get_string (value));
+		plot->guru_hints = g_value_dup_string (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);

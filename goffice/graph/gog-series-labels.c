@@ -672,7 +672,7 @@ gog_data_label_set_property (GObject *obj, guint param_id,
 		break;
 	case DATA_LABEL_PROP_FORMAT:
 		g_free (label->format);
-		label->format = g_strdup (g_value_get_string (value));
+		label->format = g_value_dup_string (value);
 		break;
 	}
 	case DATA_LABEL_PROP_INDEX:
@@ -1101,7 +1101,7 @@ gog_series_labels_set_property (GObject *obj, guint param_id,
 		break;
 	case SERIES_LABELS_PROP_FORMAT:
 		g_free (labels->format);
-		labels->format = g_strdup (g_value_get_string (value));
+		labels->format = g_value_dup_string (value);
 		break;
 	}
 

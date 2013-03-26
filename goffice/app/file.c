@@ -83,13 +83,13 @@ go_file_opener_set_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case FO_PROP_ID: {
-		char *s = g_strdup (g_value_get_string (value));
+		char *s = g_value_dup_string (value);
 		g_free (fo->id);
 		fo->id = s;
 		break;
 	}
 	case FO_PROP_DESCRIPTION: {
-		char *s = g_strdup (g_value_get_string (value));
+		char *s = g_value_dup_string (value);
 		g_free (fo->description);
 		fo->description = s;
 		break;
@@ -487,25 +487,25 @@ go_file_saver_set_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case FS_PROP_ID: {
-		char *s = g_strdup (g_value_get_string (value));
+		char *s = g_value_dup_string (value);
 		g_free (fs->id);
 		fs->id = s;
 		break;
 	}
 	case FS_PROP_MIME_TYPE: {
-		char *s = g_strdup (g_value_get_string (value));
+		char *s = g_value_dup_string (value);
 		g_free (fs->mime_type);
 		fs->mime_type = s;
 		break;
 	}
 	case FS_PROP_EXTENSION: {
-		char *s = g_strdup (g_value_get_string (value));
+		char *s = g_value_dup_string (value);
 		g_free (fs->extension);
 		fs->extension = s;
 		break;
 	}
 	case FS_PROP_DESCRIPTION: {
-		char *s = g_strdup (g_value_get_string (value));
+		char *s = g_value_dup_string (value);
 		g_free (fs->description);
 		fs->description = s;
 		break;
