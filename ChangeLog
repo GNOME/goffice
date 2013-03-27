@@ -1,3 +1,9 @@
+2013-03-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-widget.c (goc_widget_connect_signals): Plug
+	leak.
+	(goc_widget_set_widget): Properly disconnect signals.
+
 2013-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-widget.c (goc_widget_connect_signals),
