@@ -471,7 +471,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">3</property>
+            <property name="top_attach">5</property>
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>
@@ -491,7 +491,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">3</property>
+            <property name="top_attach">4</property>
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>
@@ -517,7 +517,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">4</property>
+            <property name="top_attach">5</property>
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>
@@ -542,7 +542,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">4</property>
+            <property name="top_attach">6</property>
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>
@@ -604,8 +604,8 @@
             <child>
               <object class="GtkEntry" id="format_entry">
                 <property name="visible">True</property>
-                <property name="hexpand">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="invisible_char">•</property>
               </object>
               <packing>
@@ -615,7 +615,7 @@
                 <property name="height">1</property>
               </packing>
             </child>
-         </object>
+          </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">7</property>
@@ -686,12 +686,6 @@
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
             </child>
           </object>
           <packing>
@@ -962,7 +956,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">4</property>
+            <property name="top_attach">5</property>
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>
@@ -981,10 +975,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="has_tooltip">FALSE</property>
-                <property name="margin_top">6</property>
-                <property name="use_underline">True</property>
                 <property name="valign">start</property>
+                <property name="margin_top">6</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_underline">True</property>
                 <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
               </object>
@@ -1005,8 +999,9 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_markup" translatable="yes">Restrict exponent to multiples of 3</property>
                 <property name="tooltip_text" translatable="yes">Restrict exponent to multiples of 3</property>
-                <property name="use_underline">True</property>
                 <property name="valign">start</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_underline">True</property>
                 <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
               </object>
@@ -1027,6 +1022,7 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_markup" translatable="yes">Use superscript for exponent (e.g. 4×10²)</property>
                 <property name="tooltip_text" translatable="yes">Use superscript for exponent (e.g. 4×10²)</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
@@ -1049,6 +1045,7 @@
                 <property name="tooltip_markup" translatable="yes">When mantissa is equal to 1, only show exponent part (e.g. 10²)</property>
                 <property name="tooltip_text" translatable="yes">When mantissa is equal to 1, only show exponent part (e.g. 10²)</property>
                 <property name="margin_left">18</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
@@ -1070,6 +1067,7 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_markup" translatable="yes">Append an SI prefix (e.g. instead of 4×10⁶ show 4M)</property>
                 <property name="tooltip_text" translatable="yes">Append an SI prefix (e.g. instead of 4×10⁶ show 4M)</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
@@ -1089,6 +1087,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="margin_left">18</property>
+                <property name="use_action_appearance">False</property>
                 <property name="xalign">0</property>
                 <property name="image_position">top</property>
                 <property name="draw_indicator">True</property>
@@ -1109,6 +1108,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="margin_left">18</property>
+                <property name="use_action_appearance">False</property>
                 <property name="xalign">0</property>
                 <property name="yalign">0.52999997138977051</property>
                 <property name="active">True</property>
@@ -1124,9 +1124,9 @@
             <child>
               <object class="GtkComboBox" id="format_SI_unit_combo">
                 <property name="visible">True</property>
-                <property name="hexpand">True</property>
                 <property name="can_focus">False</property>
                 <property name="margin_left">18</property>
+                <property name="hexpand">True</property>
                 <property name="model">liststore1</property>
               </object>
               <packing>
@@ -1136,10 +1136,28 @@
                 <property name="height">1</property>
               </packing>
             </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">4</property>
+            <property name="top_attach">5</property>
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>

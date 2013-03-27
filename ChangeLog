@@ -1,3 +1,7 @@
+2013-03-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-format-sel.ui: fix currency selector visibility. [#696647]
+
 2013-03-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pattern.c (go_pattern_is_solid): Handle greys.

@@ -2,6 +2,7 @@ goffice 0.10.2:
 
 Jean:
 	* Don't use uninitialized values in bar/column plots. [#696569]
+	* Fix currency selector visibility. [#696647]
 
 Morten:
 	* Fix problems with cspline boxed type. [#695550]
