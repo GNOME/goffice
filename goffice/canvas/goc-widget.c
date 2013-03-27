@@ -596,9 +596,9 @@ goc_widget_connect_signals (GtkWidget *widget, GocWidget *item,
 					  G_CALLBACK (button_press_cb), item);
 		} else {
 			g_signal_handlers_disconnect_by_func
-				(item->ofbox, G_CALLBACK (enter_notify_cb), item);
+				(widget, G_CALLBACK (enter_notify_cb), item);
 			g_signal_handlers_disconnect_by_func
-				(item->ofbox, G_CALLBACK (button_press_cb), item);
+				(widget, G_CALLBACK (button_press_cb), item);
 		}
 }
 

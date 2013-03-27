@@ -274,7 +274,7 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 	if (go_pattern_is_solid (pattern, &color)) {
 		cr_pattern = cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color));
 
-#if 0
+#if 1
 		/* This code is disabled for now. Cairo export of vector pattern
 		 * to PDF or PS looks terrible, and even SVG export is not properly rendered
 		 * with Inkscape. */
