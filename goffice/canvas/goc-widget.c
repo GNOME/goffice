@@ -611,7 +611,7 @@ goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
 	if (item->ofbox) {
 		GtkWidget *parent = gtk_widget_get_parent (item->ofbox);
 
-		goc_widget_connect_signals (widget, item, FALSE);
+		goc_widget_connect_signals (item->widget, item, FALSE);
 
 		if (parent)
 			gtk_container_remove (GTK_CONTAINER (parent),
