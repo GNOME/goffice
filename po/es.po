@@ -16,23 +16,23 @@
 # Chris Leonard <cjl@laptop.org>, 2012.
 # Miguel Rodríguez Núñez <bokerones.fritos@gmail.com>, 2012.
 # Nicolás Satragno <nsatragno@gnome.org>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2012, 2013.
 # miguel rodriguez nuñez <bokerones.fritos@gmail.com>, 2013.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2012, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-24 13:48+0000\n"
-"PO-Revision-Date: 2013-03-24 19:03+0100\n"
-"Last-Translator: Nicolás Satragno <nsatragno@gnome.org>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2013-03-26 22:20+0000\n"
+"PO-Revision-Date: 2013-03-27 10:08+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 "X-Project-Style: gnome\n"
 
@@ -210,8 +210,7 @@ msgstr "No se puede leer el archivo de información del complemento («%s»)."
 #: ../goffice/app/go-plugin.c:788
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr ""
-"El archivo «%s» no es un archivo válido de información de complementos."
+msgstr "El archivo «%s» no es un archivo válido de información de complementos."
 
 #: ../goffice/app/go-plugin.c:871
 #, c-format
@@ -558,7 +557,7 @@ msgid "The arc end angle"
 msgstr "El ángulo de final del arco"
 
 #: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
-#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
+#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-path.c:284
 #: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
@@ -595,9 +594,9 @@ msgid "Arrow for line's end"
 msgstr "Flecha para el final de la línea"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-graph.c:441
 #: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
-#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-path.c:272 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
 #: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
 msgid "x"
@@ -608,9 +607,9 @@ msgid "The circle center horizontal position"
 msgstr "La posición horizontal del centro del círculo"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-ellipse.c:270 ../goffice/canvas/goc-graph.c:447
 #: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
-#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-path.c:278 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
 #: ../goffice/canvas/goc-widget.c:779
 msgid "y"
@@ -637,7 +636,7 @@ msgid "The object top position"
 msgstr "La posición superior del objeto"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-ellipse.c:282 ../goffice/canvas/goc-graph.c:453
 #: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
 #: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
 #: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
@@ -646,7 +645,7 @@ msgid "Height"
 msgstr "Altura"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-ellipse.c:276 ../goffice/canvas/goc-graph.c:459
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
 #: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
 #: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
@@ -667,23 +666,23 @@ msgstr "Objeto"
 msgid "The embedded GOComponent object"
 msgstr "El objeto empotrado GOComponent"
 
-#: ../goffice/canvas/goc-ellipse.c:260
+#: ../goffice/canvas/goc-ellipse.c:265
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "La posición izquierda de la elipse (o posición derecha en modo I-->D)"
 
-#: ../goffice/canvas/goc-ellipse.c:266
+#: ../goffice/canvas/goc-ellipse.c:271
 msgid "The ellipse top position"
 msgstr "La posición superior de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:272
+#: ../goffice/canvas/goc-ellipse.c:277
 msgid "The ellipse width"
 msgstr "La anchura de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:278
+#: ../goffice/canvas/goc-ellipse.c:283
 msgid "The ellipse height"
 msgstr "La altura de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-ellipse.c:289 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "La rotación alrededor de la posición superior izquierda"
 
@@ -837,39 +836,39 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "La coordenada y de final de la línea"
 
-#: ../goffice/canvas/goc-path.c:269
+#: ../goffice/canvas/goc-path.c:273
 msgid "The path first point x coordinate"
 msgstr "La coordenada x del primer punto de la ruta"
 
-#: ../goffice/canvas/goc-path.c:275
+#: ../goffice/canvas/goc-path.c:279
 msgid "The path first point y coordinate"
 msgstr "La coordenada y del primer punto de la ruta"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:285
 msgid "The rotation around first point position"
 msgstr "La rotación alrededor de la posición del primer punto"
 
-#: ../goffice/canvas/goc-path.c:286
+#: ../goffice/canvas/goc-path.c:290
 msgid "Closed"
 msgstr "Cerrada"
 
-#: ../goffice/canvas/goc-path.c:287
+#: ../goffice/canvas/goc-path.c:291
 msgid "The flag for closed path"
 msgstr "La opción para la ruta cerrada"
 
-#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
+#: ../goffice/canvas/goc-path.c:296 ../goffice/canvas/goc-polygon.c:360
 msgid "Fill rule"
 msgstr "Regla de rellenado"
 
-#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
+#: ../goffice/canvas/goc-path.c:297 ../goffice/canvas/goc-polygon.c:361
 msgid "Set fill rule to winding or even/odd"
 msgstr "Establecer la regla de rellenado a índice o par/impar"
 
-#: ../goffice/canvas/goc-path.c:298
+#: ../goffice/canvas/goc-path.c:302
 msgid "Path"
 msgstr "Ruta"
 
-#: ../goffice/canvas/goc-path.c:299
+#: ../goffice/canvas/goc-path.c:303
 msgid "The path points"
 msgstr "Los puntos de la ruta"
 
@@ -881,27 +880,27 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "El GdkPixbuf que mostrar"
 
-#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:263
 msgid "points"
 msgstr "puntos"
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:349
 msgid "The polygon vertices"
 msgstr "Los vértices del polígono"
 
-#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
+#: ../goffice/canvas/goc-polygon.c:354 ../goffice/canvas/goc-polyline.c:268
 msgid "Use spline"
 msgstr "Usar splines"
 
-#: ../goffice/canvas/goc-polygon.c:350
+#: ../goffice/canvas/goc-polygon.c:355
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Usar un splin cúbica cerrada de Beizer como contorno"
 
-#: ../goffice/canvas/goc-polygon.c:360
+#: ../goffice/canvas/goc-polygon.c:365
 msgid "sizes"
 msgstr "tamaños"
 
-#: ../goffice/canvas/goc-polygon.c:361
+#: ../goffice/canvas/goc-polygon.c:366
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
@@ -912,11 +911,11 @@ msgstr ""
 "los valores que sigan un valor no válido. Configurar la propiedad «punto» "
 "reiniciará los tamaños."
 
-#: ../goffice/canvas/goc-polyline.c:259
+#: ../goffice/canvas/goc-polyline.c:263
 msgid "The polyline vertices"
 msgstr "Los vértices de la polilínea"
 
-#: ../goffice/canvas/goc-polyline.c:265
+#: ../goffice/canvas/goc-polyline.c:269
 msgid "Use a Bezier cubic spline as line"
 msgstr "Usar el splin cúbico de Beizer como línea"
 
@@ -2243,96 +2242,96 @@ msgstr "Eje de burbuja:"
 msgid "Axes"
 msgstr "Ejes"
 
-#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-plot.c:436 ../goffice/graph/gog-theme.c:598
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "Series"
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:457
 msgid "Vary style by element"
 msgstr "Variar el estilo por elemento"
 
-#: ../goffice/graph/gog-plot.c:460
+#: ../goffice/graph/gog-plot.c:458
 msgid "Use a different style for each segment"
 msgstr "Usar un estilo diferente para cada segmento"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:463
 msgid "X axis"
 msgstr "Eje X"
 
-#: ../goffice/graph/gog-plot.c:466
+#: ../goffice/graph/gog-plot.c:464
 msgid "Reference to X axis"
 msgstr "Referencia al eje X"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:469
 msgid "Y axis"
 msgstr "Eje Y"
 
-#: ../goffice/graph/gog-plot.c:472
+#: ../goffice/graph/gog-plot.c:470
 msgid "Reference to Y axis"
 msgstr "Referencia al eje Y"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:475
 msgid "Z axis"
 msgstr "Eje Z"
 
-#: ../goffice/graph/gog-plot.c:478
+#: ../goffice/graph/gog-plot.c:476
 msgid "Reference to Z axis"
 msgstr "Referencia al eje Z"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:481
 msgid "Circular axis"
 msgstr "Eje circular"
 
-#: ../goffice/graph/gog-plot.c:484
+#: ../goffice/graph/gog-plot.c:482
 msgid "Reference to circular axis"
 msgstr "Referencia al eje circular"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:487
 msgid "Radial axis"
 msgstr "Eje radial"
 
-#: ../goffice/graph/gog-plot.c:490
+#: ../goffice/graph/gog-plot.c:488
 msgid "Reference to radial axis"
 msgstr "Referencia al eje radial"
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:493
 msgid "Pseudo-3D axis"
 msgstr "Eje pseudo 3D"
 
-#: ../goffice/graph/gog-plot.c:496
+#: ../goffice/graph/gog-plot.c:494
 msgid "Reference to pseudo-3D axis"
 msgstr "Referencia al eje pseudo 3D"
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:499
 msgid "Color axis"
 msgstr "Ejes de color"
 
-#: ../goffice/graph/gog-plot.c:502
+#: ../goffice/graph/gog-plot.c:500
 msgid "Reference to color axis"
 msgstr "Referencia a los ejes de color"
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:505
 msgid "Bubble axis"
 msgstr "Eje de burbuja"
 
-#: ../goffice/graph/gog-plot.c:508
+#: ../goffice/graph/gog-plot.c:506
 msgid "Reference to bubble axis"
 msgstr "Referencia al eje de burbuja"
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:511
 msgid "Plot group"
 msgstr "Grupo de dibujado"
 
-#: ../goffice/graph/gog-plot.c:514
+#: ../goffice/graph/gog-plot.c:512
 msgid "Name of plot group if any"
 msgstr "Nombre del grupo de dibujado si lo hay"
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:517
 msgid "Guru hints"
 msgstr "Consejos de gurú"
 
-#: ../goffice/graph/gog-plot.c:520
+#: ../goffice/graph/gog-plot.c:518
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
@@ -2340,19 +2339,19 @@ msgstr ""
 "Lista de los consejos de gurú separados por punto y coma para la adición "
 "automática de objetos en el diálogo de gurú"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:524
 msgid "Default interpolation"
 msgstr "Interpolación predeterminada"
 
-#: ../goffice/graph/gog-plot.c:527
+#: ../goffice/graph/gog-plot.c:525
 msgid "Default type of series line interpolation"
 msgstr "Tipo predeterminado de series de líneas de interpolación"
 
-#: ../goffice/graph/gog-plot.c:1175
+#: ../goffice/graph/gog-plot.c:1173
 msgid "Move plot area"
 msgstr "Mover área de dibujado"
 
-#: ../goffice/graph/gog-plot.c:1227
+#: ../goffice/graph/gog-plot.c:1225
 msgid "Resize plot area"
 msgstr "Redimensionar área de dibujado"
 
@@ -3872,11 +3871,9 @@ msgid "Thin"
 msgstr "Fina"
 
 #: ../goffice/gtk/go-font-sel.c:461
-#, fuzzy
-#| msgid "Italic"
 msgctxt "FontFace"
 msgid "Upright Italic"
-msgstr "Cursiva"
+msgstr "Cursiva vertical"
 
 #: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
 msgid "Font"
@@ -3937,7 +3934,7 @@ msgstr "Mostrar color"
 
 #: ../goffice/gtk/go-font-sel.c:1195
 msgid "Whether color is part of the font being selected"
-msgstr ""
+msgstr "Indica si el color es parte de la tipografía seleccionada"
 
 #: ../goffice/gtk/go-font-sel.c:1203
 msgid "Show Underline"
@@ -3949,135 +3946,118 @@ msgstr "Indica si el subrayado es parte de la tipografía seleccionada"
 
 #: ../goffice/gtk/go-font-sel.c:1212
 msgid "Show Script"
-msgstr ""
+msgstr "Mostrar la escritura"
 
 #: ../goffice/gtk/go-font-sel.c:1213
 msgid "Whether subscript/superscript is part of the font being selected"
 msgstr ""
+"Indica si el subíndice o el superíndice son parte de la tipografía "
+"seleccionada"
 
 #: ../goffice/gtk/go-font-sel.c:1221
 msgid "Show Strikethrough"
-msgstr ""
+msgstr "Mostrar tachado"
 
 #: ../goffice/gtk/go-font-sel.c:1222
 msgid "Whether strikethrough is part of the font being selected"
-msgstr ""
+msgstr "Indica si el tachado es parte de la tipografía seleccionada"
 
 #: ../goffice/gtk/go-font-sel.c:1230
 msgid "Color unset text"
 msgstr "Texto sin colorear"
 
 #: ../goffice/gtk/go-font-sel.c:1231
-#, fuzzy
-#| msgid "The text to search for"
 msgid "The text to show for selecing no color"
-msgstr "El texto que buscar"
+msgstr "El texto que mostrar cuando no se selecciona ningún color"
 
 #: ../goffice/gtk/go-font-sel.c:1239
-#, fuzzy
-#| msgid "Plot group"
 msgid "Color Group"
-msgstr "Grupo de dibujado"
+msgstr "Grupo de color"
 
 #: ../goffice/gtk/go-font-sel.c:1240
-#, fuzzy
-#| msgid "The resource type for the color map"
 msgid "The color group to use for the color picker"
-msgstr "El tipo de recurso para el mapa de color"
+msgstr "El grupo de color que utilizar por el puntero de color"
 
 #: ../goffice/gtk/go-font-sel.c:1248
-#, fuzzy
-#| msgid "Default"
 msgid "Color Default"
-msgstr "Predeterminado"
+msgstr "Color predeterminado"
 
 #: ../goffice/gtk/go-font-sel.c:1249
 msgid "The color to show for an unset color"
 msgstr ""
+"El color predeterminado que mostrar cuando no se selecciona ningún color"
 
 #: ../goffice/gtk/go-font-sel.c:1259
 msgid "Underline Picker"
-msgstr ""
+msgstr "Selector de subrayado"
 
 #: ../goffice/gtk/go-font-sel.c:1260
 msgid "The widget to use for picking underline type"
-msgstr ""
+msgstr "El widget que usar para seleccionar el subrayado"
 
 #: ../goffice/gtk/go-font-sel-dialog.c:107
 msgid "Pick a Font"
-msgstr "Escoja una tipografía"
+msgstr "Escoger una tipografía"
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
 msgid "Select the font family"
-msgstr "Seleccione la familia de tipografía"
+msgstr "Seleccionar la familia tipográfica"
 
 #: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
 msgstr "Tipografía:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:3
-#, fuzzy
-#| msgid "Select an image"
 msgid "Select the size"
-msgstr "Seleccionar una imagen"
+msgstr "Seleccionar el tamaño"
 
 #: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
 msgstr "Tamaño:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:5
-#, fuzzy
-#| msgid "Select an Image"
 msgid "Select the font face"
-msgstr "Seleccione una imagen"
+msgstr "Seleccionar una tipografía"
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
-#, fuzzy
-#| msgid "St_yle:"
 msgid "Style:"
-msgstr "_Estilo:"
+msgstr "Estilo:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
-#, fuzzy
-#| msgid "Whether the frame should be rotated with the text"
 msgid "Select whether a line should be drawn through the text"
-msgstr "Indica si el marco se debe rotar con el texto"
+msgstr "Seleccionar si una línea se debe dibujar atravesando el texto"
 
 #: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
-msgstr ""
+msgstr "Tachado:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
 msgstr "Seleccione el color de la tipografía"
 
 #: ../goffice/gtk/go-font-sel.ui.h:10
-#, fuzzy
-#| msgid "Colo_r:"
 msgid "Color:"
-msgstr "Colo_r:"
+msgstr "Color:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:11
 msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
 msgstr ""
+"Seleccione si la tipografía debe ser modificada para su uso como subíndice o "
+"superíndice"
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
 msgstr "Escritura:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
-#, fuzzy
-#| msgid "Select an Image"
 msgid "Select the type of underlining"
-msgstr "Seleccione una imagen"
+msgstr "Seleccionar el tipo de subrayado"
 
 #: ../goffice/gtk/go-font-sel.ui.h:14
-#, fuzzy
-#| msgid "Use spline"
 msgid "Underline:"
-msgstr "Usar splines"
+msgstr "Subrayado:"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
