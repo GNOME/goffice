@@ -1,5 +1,11 @@
 2013-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-widget.c (goc_widget_connect_signals),
+	(goc_widget_set_widget): connetc the signals to all widgets including those
+	 inside a container. [#696533]
+
+2013-03-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-widget.c (goc_widget_distance): fixed distance
 	evaluation. This ensure that the cursor is correctly updated.
 

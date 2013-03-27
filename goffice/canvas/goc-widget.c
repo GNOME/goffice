@@ -576,6 +576,22 @@ cb_canvas_changed (GocWidget *item, G_GNUC_UNUSED GParamSpec *pspec,
 }
 
 static void
+goc_widget_connect_signals (GtkWidget *widget, GocWidget *item)
+{
+		if (GTK_IS_CONTAINER (widget)) {
+			GList *ptr = gtk_container_get_children (GTK_CONTAINER (widget));
+			while (ptr && ptr->data) {
+				goc_widget_connect_signals (ptr->data, item);
+				ptr = ptr->next;
+			}
+		}
+		g_signal_connect (widget, "enter-notify-event",
+				  G_CALLBACK (enter_notify_cb), item);
+		g_signal_connect (widget, "button-press-event",
+				  G_CALLBACK (button_press_cb), item);
+}
+
+static void
 goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
 {
 	if (widget == item->widget)
@@ -612,10 +628,7 @@ goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
 					item->ofbox, item->x, item->y);
 		goc_widget_notify_scrolled (GOC_ITEM (item));
 		/* we need to propagate some signals to the parent item */
-		g_signal_connect (widget, "enter-notify-event",
-				  G_CALLBACK (enter_notify_cb), item);
-		g_signal_connect (widget, "button-press-event",
-				  G_CALLBACK (button_press_cb), item);
+		goc_widget_connect_signals (widget, item);
 	}
 }
 
