@@ -1,5 +1,10 @@
 2013-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-widget.c (goc_widget_distance): fixed distance
+	evaluation. This ensure that the cursor is correctly updated.
+
+2013-03-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/gtk/go-format-sel.ui: fix currency selector visibility. [#696647]
 
 2013-03-26  Morten Welinder  <terra@gnome.org>

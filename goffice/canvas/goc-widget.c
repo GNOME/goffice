@@ -703,7 +703,7 @@ goc_widget_distance (GocItem *item, double x, double y, GocItem **near_item)
 	}
 	if (y < widget->y) {
 		dy = widget->y - y;
-	} else if (x < widget->y + widget->h) {
+	} else if (y < widget->y + widget->h) {
 		dy = 0;
 	} else {
 		dy = y - widget->y - widget->h;
