@@ -37,6 +37,7 @@ struct _GOEditor {
 	GSList		*pages;			/* GOEditorPage */
 	GData		*registered_widgets;
 	unsigned     ref_count;
+	gboolean	 use_scrolled;
 };
 
 /**
@@ -126,12 +127,15 @@ go_editor_add_page (GOEditor *editor, gpointer widget, char const *label)
 	GOEditorPage *page;
 
 	g_return_if_fail (editor != NULL);
-	page = g_new (GOEditorPage, 1);
+	page = g_new0 (GOEditorPage, 1);
 
 	page->widget = widget;
-	page->scrolled = g_object_ref (gtk_scrolled_window_new (NULL, NULL));
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (page->scrolled),
-	                                       widget);
+	if (editor->use_scrolled) {
+		page->scrolled = g_object_ref (gtk_scrolled_window_new (NULL, NULL));
+		gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (page->scrolled),
+			                                   widget);
+	} else
+		page->scrolled = widget;
 	page->label = label;
 
 	editor->pages = g_slist_prepend (editor->pages, page);
@@ -151,6 +155,23 @@ go_editor_set_store_page (GOEditor *editor, unsigned *store_page)
 	g_return_if_fail (editor != NULL);
 
 	editor->store_page = store_page;
+}
+
+/**
+ * go_editor_set_use_scrolled_window:
+ * @editor: a #GOEditor
+ * @use_scrolled: boolean
+ *
+ * Sets whether each page of the editor should be displayed inside a scrolled
+ * window.
+ **/
+
+void
+go_editor_set_use_scrolled_window (GOEditor *editor, gboolean use_scrolled)
+{
+	g_return_if_fail (editor != NULL);
+
+	editor->use_scrolled = use_scrolled;
 }
 
 #ifdef GOFFICE_WITH_GTK

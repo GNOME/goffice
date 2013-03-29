@@ -909,6 +909,7 @@ go_editor_get_page
 go_editor_get_registered_widget
 go_editor_new
 go_editor_register_widget
+go_editor_set_use_scrolled_window
 go_editor_set_store_page
 <SUBSECTION Standard>
 go_editor_get_type

@@ -1494,6 +1494,7 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 	g_return_val_if_fail (klass != NULL, NULL);
 
 	editor = go_editor_new ();
+	go_editor_set_use_scrolled_window (editor, TRUE);
 	if (klass->populate_editor) {
 		/* If there are pending updates do them before creating the editor
 		 * to avoid expensive widget changes later */

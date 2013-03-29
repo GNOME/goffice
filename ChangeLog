@@ -1,3 +1,12 @@
+2013-03-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-object.c (gog_object_get_editor): force pages inside a
+	scrolled window.
+	* goffice/utils/go-editor.c (go_editor_add_page),
+	(go_editor_set_store_page), (go_editor_set_use_scrolled_window): make the
+	scrolled window optional. [#696825]
+	* goffice/utils/go-editor.h:
+
 2013-03-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-widget.c (goc_widget_connect_signals): Plug

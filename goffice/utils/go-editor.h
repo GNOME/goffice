@@ -32,6 +32,7 @@ GOEditor	*go_editor_new 		  (void);
 void 		 go_editor_free 		  (GOEditor *editor);
 void		 go_editor_add_page 		  (GOEditor *editor, gpointer widget, char const *label);
 void 		 go_editor_set_store_page  	  (GOEditor *editor, unsigned *store_page);
+void		 go_editor_set_use_scrolled_window (GOEditor *editor, gboolean use_scrolled);
 #ifdef GOFFICE_WITH_GTK
 void 		 go_editor_register_widget 	  (GOEditor *editor, GtkWidget *widget);
 GtkWidget  	*go_editor_get_registered_widget (GOEditor *editor, char const *name);
