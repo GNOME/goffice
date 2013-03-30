@@ -1,3 +1,13 @@
+2013-03-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component.c (go_component_set_property),
+	(go_component_get_property), (go_component_finalize),
+	(go_component_class_init), (go_component_init),
+	(go_component_duplicate), (go_component_set_inline),
+	(go_component_get_inline), (go_component_set_use_font_from_app),
+	(go_component_get_use_font_from_app): new property and functions.
+	* goffice/component/go-component.h: ditto.
+
 2013-03-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-object.c (gog_object_get_editor): force pages inside a

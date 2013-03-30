@@ -38,6 +38,7 @@ typedef enum {
 	GO_SNAPSHOT_MAX
 } GOSnapshotType;
 
+typedef struct _GOComponentPrivate GOComponentPrivate;
 struct _GOComponent {
 	GObject parent;
 
@@ -55,7 +56,7 @@ struct _GOComponent {
 	size_t snapshot_length;
 	GtkWindow *editor;
 	GOCmdContext *cc;
-	gpointer priv;
+	GOComponentPrivate *priv;
 };
 
 struct _GOComponentClass {
@@ -129,6 +130,11 @@ void const *go_component_get_snapshot (GOComponent *component, GOSnapshotType *t
 gboolean go_component_export_image (GOComponent *component, GOImageFormat format,
                                 GsfOutput *output, double x_dpi, double y_dpi);
 GOComponent *go_component_duplicate (GOComponent const *component);
+
+void go_component_set_inline (GOComponent *component, gboolean is_inline);
+gboolean go_component_get_inline (GOComponent *component);
+void go_component_set_use_font_from_app (GOComponent *component, gboolean use_font_from_app);
+gboolean go_component_get_use_font_from_app (GOComponent *component);
 
 G_END_DECLS
 

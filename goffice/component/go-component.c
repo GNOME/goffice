@@ -32,6 +32,13 @@
 #include <librsvg/rsvg-cairo.h>
 #include <string.h>
 
+struct _GOComponentPrivate {
+	gboolean is_inline; /* if set, the object will be displayed in compact mode
+	 					if meaningful for the component (e.g. equations) */
+	gboolean use_font_from_app; /* if set, the font is set by the calling
+	 					application */
+};
+
 /**
  * GOSnapshotType:
  * @GO_SNAPSHOT_NONE: no snapshot.
@@ -87,6 +94,7 @@ enum {
 	COMPONENT_PROP_ASCENT,
 	COMPONENT_PROP_DESCENT,
 	COMPONENT_PROP_HEIGHT,
+	COMPONENT_PROP_INLINE
 };
 
 enum {
@@ -128,6 +136,9 @@ static void go_component_set_property (GObject *obj, guint param_id,
 	case COMPONENT_PROP_DESCENT:
 		component->descent = g_value_get_double (value);
 		break;
+	case COMPONENT_PROP_INLINE:
+		component->priv->is_inline = g_value_get_boolean (value);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
@@ -155,6 +166,9 @@ go_component_get_property (GObject *obj, guint param_id,
 	case COMPONENT_PROP_HEIGHT:
 		g_value_set_double (value, component->ascent + component->descent);
 		break;
+	case COMPONENT_PROP_INLINE:
+		g_value_set_boolean (value, component->priv->is_inline);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -175,6 +189,7 @@ go_component_finalize (GObject *obj)
 		g_object_unref (component->cc);
 		component->cc = NULL;
 	}
+	g_free (component->priv);
 
 	(*component_parent_klass->finalize) (obj);
 }
@@ -212,6 +227,10 @@ go_component_class_init (GOComponentClass *klass)
 			"Component height",
 			0.0, G_MAXDOUBLE, 0.,
 			G_PARAM_READABLE));
+	g_object_class_install_property (gobject_klass, COMPONENT_PROP_INLINE,
+		g_param_spec_boolean ("inline", "Inline",
+			"Whether the component should be displayed in-line",
+			FALSE, G_PARAM_READWRITE));
 
 	go_component_signals [CHANGED] = g_signal_new ("changed",
 		G_TYPE_FROM_CLASS (klass),
@@ -228,6 +247,7 @@ go_component_init (GOComponent *component)
 	component->mime_type = NULL;
 	component->editable = FALSE;
 	component->resizable = FALSE;
+	component->priv = g_new0 (GOComponentPrivate, 1);
 }
 
 GSF_CLASS_ABSTRACT (GOComponent, go_component,
@@ -940,5 +960,66 @@ go_component_duplicate (GOComponent const *component)
 	res->destroy_data = new_data;
 	if (clearfunc)
 		clearfunc ((user_data)? user_data: buf);
+	res->priv = g_new (GOComponentPrivate, 1);
+	res->priv->is_inline = component->priv->is_inline;
 	return res;
+}
+
+/**
+ * go_component_set_inline:
+ * @component: a #GOComponent
+ * @is_inline: whether the component should be displayed in-line
+ *
+ * Sets the in-line or not nature of the component. Default is %FALSE.
+ **/
+void
+go_component_set_inline (GOComponent *component, gboolean is_inline)
+{
+	g_return_if_fail (GO_IS_COMPONENT (component));
+	component->priv->is_inline = is_inline;
+}
+
+/**
+ * go_component_get_inline:
+ * @component: a #GOComponent
+ *
+ * Returns the in-line or not nature of the component.
+ * Returns: whether the component is displayed in-line
+ **/
+gboolean
+go_component_get_inline (GOComponent *component)
+{
+	g_return_val_if_fail (GO_IS_COMPONENT (component), FALSE);
+	return component->priv->is_inline;
+}
+
+/**
+ * go_component_set_use_font_from_app:
+ * @component: a #GOComponent
+ * @use_font_from_app: whether the component should use the font from the
+ * calling application or use its own font.
+ *
+ * Sets the source of the font that the component should use. Default is %FALSE.
+ **/
+void
+go_component_set_use_font_from_app (GOComponent *component, gboolean use_font_from_app)
+{
+	g_return_if_fail (GO_IS_COMPONENT (component));
+	component->priv->use_font_from_app = use_font_from_app;
+}
+
+/**
+ * go_component_get_use_font_from_app:
+ * @component: a #GOComponent
+ *
+ * Returns whether the component should use the font from the calling
+ * application or use its own font.
+ * Returns: whether the component should use the font from the calling
+ * application
+ **/
+gboolean
+go_component_get_use_font_from_app (GOComponent *component)
+{
+	g_return_val_if_fail (GO_IS_COMPONENT (component), FALSE);
+	return component->priv->use_font_from_app;
 }

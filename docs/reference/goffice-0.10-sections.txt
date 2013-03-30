@@ -559,9 +559,11 @@ go_component_emit_changed
 go_component_export_image
 go_component_get_command_context
 go_component_get_data
+go_component_get_inline
 go_component_get_mime_type
 go_component_get_size
 go_component_get_snapshot
+go_component_get_use_font_from_app
 go_component_is_editable
 go_component_is_resizable
 go_component_new_by_mime_type
@@ -573,8 +575,10 @@ go_component_set_data
 go_component_set_default_command_context
 go_component_set_default_size
 go_component_set_font
+go_component_set_inline
 go_component_set_size
 go_component_set_window
+go_component_set_use_font_from_app
 go_component_stop_editing
 go_component_write_xml_sax
 <SUBSECTION Standard>
