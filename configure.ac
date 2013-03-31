@@ -389,6 +389,14 @@ GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-\$(GOFFICE_API_VER).l
 AC_SUBST(GOFFICE_PLUGIN_LDFLAGS)
 AC_SUBST(GOFFICE_PLUGIN_LIBADD)
 
+dnl **************************************************
+dnl This needs to be done before we add aggressive -Werror=foo flags
+dnl below.
+AC_SUBST(GETTEXT_PACKAGE, goffice-${VERSION})
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
+	[The package name, for gettext])
+AM_GLIB_GNU_GETTEXT
+
 dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
@@ -484,12 +492,6 @@ if test $works_without_bsd_source = no ; then
 		AC_MSG_ERROR([M_PI is not available])
 	fi
 fi
-
-dnl **************************************************
-AC_SUBST(GETTEXT_PACKAGE, goffice-${VERSION})
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
-	[The package name, for gettext])
-AM_GLIB_GNU_GETTEXT
 
 dnl
 dnl On Solaris finite() needs ieeefp.h

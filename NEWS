@@ -1,5 +1,8 @@
 goffice 0.10.2:
 
+Dominique Leuenberger:
+	* Fix locale directory.
+
 Jean:
 	* Don't use uninitialized values in bar/column plots. [#696569]
 	* Fix currency selector visibility. [#696647]
