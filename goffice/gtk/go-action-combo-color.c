@@ -256,10 +256,11 @@ go_action_combo_color_new (char const  *action_name,
 			   GOColor	default_color,
 			   gpointer	group_key)
 {
-	GOActionComboColor *res = g_object_new (go_action_combo_color_get_type (),
-					   "name", action_name,
-					   "stock-id", stock_id,
-					   NULL);
+	GOActionComboColor *res =
+		g_object_new (go_action_combo_color_get_type (),
+			      "name", action_name,
+			      "stock-id", stock_id,
+			      NULL);
 	res->color_group = go_color_group_fetch (action_name, group_key);
 	res->default_val_label = g_strdup (default_color_label);
 	res->current_color = res->default_val = default_color;
