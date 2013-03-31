@@ -1323,7 +1323,7 @@ go_style_init (GOStyle *style)
 	style->text_layout.angle = 0.0;
 }
 
-static struct {
+static const struct {
 	GOStyleFill fstyle;
 	char const *name;
 } fill_names[] = {
@@ -1333,7 +1333,7 @@ static struct {
 	{ GO_STYLE_FILL_IMAGE,    "image" }
 };
 
-static struct {
+static const struct {
 	GOImageType fstyle;
 	char const *name;
 } image_tiling_names[] = {
