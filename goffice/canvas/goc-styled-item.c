@@ -228,7 +228,7 @@ static void
 goc_styled_item_style_changed (GOStyledObject *gsi)
 {
 	GocItem *item = GOC_ITEM (gsi);
-	goc_item_bounds_changed (item); /* FIXME: should not be ther, remove when we branch */
+	goc_item_bounds_changed (item); /* FIXME: should not be there, remove when we branch */
 	g_signal_emit (G_OBJECT (gsi),
 		goc_styled_item_signals [STYLE_CHANGED], 0, GOC_STYLED_ITEM (gsi)->style);
 	goc_item_invalidate (item);
