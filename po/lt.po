@@ -7,9 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice HEAD\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 18:55-0400\n"
-"PO-Revision-Date: 2013-03-16 21:42+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgoffice&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-03-21 22:57+0000\n"
+"PO-Revision-Date: 2013-04-01 20:49+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -3469,7 +3470,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:348
 msgid "Faces"
-msgstr ""
+msgstr "Veidai"
 
 #.
 #. * List of observed face names.  Translators: these represent
@@ -3480,379 +3481,353 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:389
 msgctxt "FontFace"
 msgid "Regular"
-msgstr ""
+msgstr "Įprastiniai"
 
 #: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
-#, fuzzy
 msgctxt "FontFace"
 msgid "Italic"
 msgstr "Kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:391
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold"
-msgstr "Pastorintas"
+msgstr "Pusjuodis"
 
 #: ../goffice/gtk/go-font-sel.c:392
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Italic"
-msgstr "Pastorintas kursyvas"
+msgstr "Pusjuodis kursyvas"
 
 #. These are fairly rare.
 #: ../goffice/gtk/go-font-sel.c:395
-#, fuzzy
 msgctxt "FontFace"
 msgid "Black"
 msgstr "Juoda"
 
 #: ../goffice/gtk/go-font-sel.c:396
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Condensed Italic"
-msgstr "Pastorintas kursyvas"
+msgstr "Pusjuodis suspaustas kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:397
 msgctxt "FontFace"
 msgid "Bold Condensed"
-msgstr ""
+msgstr "Pusjuodis suspaustas"
 
 #: ../goffice/gtk/go-font-sel.c:398
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Italic Small Caps"
-msgstr "Pastorintas kursyvas"
+msgstr "Pusjuodis kursyvas mažosiomis"
 
 #: ../goffice/gtk/go-font-sel.c:399
 msgctxt "FontFace"
 msgid "Bold Nonextended"
-msgstr ""
+msgstr "Pusjuodis neišplėstinis"
 
 #: ../goffice/gtk/go-font-sel.c:400
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Oblique"
-msgstr "Pastorintas kursyvas"
+msgstr "Pusjuodis pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
 msgid "Bold Slanted"
-msgstr ""
+msgstr "Pusjuodis nuožulnus"
 
 #: ../goffice/gtk/go-font-sel.c:402
 msgctxt "FontFace"
 msgid "Bold Small Caps"
-msgstr ""
+msgstr "Pusjuodis mažosiomis"
 
 #: ../goffice/gtk/go-font-sel.c:403
 msgctxt "FontFace"
 msgid "Book Oblique"
-msgstr ""
+msgstr "Pusjuodis pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:404
 msgctxt "FontFace"
 msgid "Book"
-msgstr ""
+msgstr "Knyga"
 
 #: ../goffice/gtk/go-font-sel.c:405
-#, fuzzy
 msgctxt "FontFace"
 msgid "Condensed Bold Italic"
-msgstr "Pastorintas kursyvas"
+msgstr "Suspaustas pusjuodis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:406
 msgctxt "FontFace"
 msgid "Condensed Bold Oblique"
-msgstr ""
+msgstr "Suspaustas pusjuodis pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:407
 msgctxt "FontFace"
 msgid "Condensed Bold"
-msgstr ""
+msgstr "Suspaustas pusjuodis"
 
 #: ../goffice/gtk/go-font-sel.c:408
 msgctxt "FontFace"
 msgid "Condensed Italic"
-msgstr ""
+msgstr "Suspaustas kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:409
 msgctxt "FontFace"
 msgid "Condensed Oblique"
-msgstr ""
+msgstr "Suspaustas pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:410
 msgctxt "FontFace"
 msgid "Condensed"
-msgstr ""
+msgstr "Suspaustas"
 
 #: ../goffice/gtk/go-font-sel.c:411
-#, fuzzy
 msgctxt "FontFace"
 msgid "Demi Bold Italic"
-msgstr "Pastorintas kursyvas"
+msgstr "Dalinis pusjuodis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:412
-#, fuzzy
 msgctxt "FontFace"
 msgid "Demi Bold"
-msgstr "Pastorintas"
+msgstr "Dalinis pusjuodis"
 
 #: ../goffice/gtk/go-font-sel.c:413
 msgctxt "FontFace"
 msgid "Demi Oblique"
-msgstr ""
+msgstr "Dalinis pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:414
 msgctxt "FontFace"
 msgid "Demi"
-msgstr ""
+msgstr "Dalinis"
 
 #: ../goffice/gtk/go-font-sel.c:415
 msgctxt "FontFace"
 msgid "Demi-Condensed"
-msgstr ""
+msgstr "Dalinis suspaustas"
 
 #: ../goffice/gtk/go-font-sel.c:416
 msgctxt "FontFace"
 msgid "Embossed"
-msgstr ""
+msgstr "Papuoštas"
 
 #: ../goffice/gtk/go-font-sel.c:417
-#, fuzzy
 msgctxt "FontFace"
 msgid "Expanded Bold Italic"
-msgstr "Pastorintas kursyvas"
+msgstr "Išplėstinis pusjuodis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:418
 msgctxt "FontFace"
 msgid "Expanded Bold"
-msgstr ""
+msgstr "Išplėstinis pusjuodis"
 
 #: ../goffice/gtk/go-font-sel.c:419
 msgctxt "FontFace"
 msgid "Expanded Italic"
-msgstr ""
+msgstr "Išplėstinis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:420
 msgctxt "FontFace"
 msgid "Expanded"
-msgstr ""
+msgstr "Išplėstinis"
 
 #: ../goffice/gtk/go-font-sel.c:421
-#, fuzzy
 msgctxt "FontFace"
 msgid "Extra Light"
-msgstr "trikampis dešinėn"
+msgstr "Itin lengvas"
 
 #: ../goffice/gtk/go-font-sel.c:422
 msgctxt "FontFace"
 msgid "Heavy"
-msgstr ""
+msgstr "Sunkus"
 
 #: ../goffice/gtk/go-font-sel.c:423
 msgctxt "FontFace"
 msgid "Italic Small Caps"
-msgstr ""
+msgstr "Kursyvas mažosiomis"
 
 #: ../goffice/gtk/go-font-sel.c:425
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light Italic"
-msgstr "Kursyvas"
+msgstr "Lengvas kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:426
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light Oblique"
-msgstr "šviesiai mėlyna"
+msgstr "Lengvas pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:427
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light"
-msgstr "Dešinėje"
+msgstr "Lengvas"
 
 #: ../goffice/gtk/go-font-sel.c:428
-#, fuzzy
 msgctxt "FontFace"
 msgid "Medium Italic"
-msgstr "Kursyvas"
+msgstr "Vidutinis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:429
 msgctxt "FontFace"
 msgid "Medium"
-msgstr ""
+msgstr "Vidutinis"
 
 #: ../goffice/gtk/go-font-sel.c:430
-#, fuzzy
 msgctxt "FontFace"
 msgid "Normal"
-msgstr "Normalus"
+msgstr "Įprastinis"
 
 #: ../goffice/gtk/go-font-sel.c:431
 msgctxt "FontFace"
 msgid "Oblique"
-msgstr ""
+msgstr "Pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:432
 msgctxt "FontFace"
 msgid "Regular Condensed Italic"
-msgstr ""
+msgstr "Įprastinis suspaustas kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:433
 msgctxt "FontFace"
 msgid "Regular Condensed"
-msgstr ""
+msgstr "Įprastinis suspaustas"
 
 #: ../goffice/gtk/go-font-sel.c:434
-#, fuzzy
 msgctxt "FontFace"
 msgid "Regular Italic"
-msgstr "Kursyvas"
+msgstr "Įprastinis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:435
 msgctxt "FontFace"
 msgid "Regular Oblique"
-msgstr ""
+msgstr "Įprastinis pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:436
 msgctxt "FontFace"
 msgid "Roman Slanted"
-msgstr ""
+msgstr "Romėniškas nuožulnus"
 
 #: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Roman"
-msgstr ""
+msgstr "Romėniškas"
 
 #: ../goffice/gtk/go-font-sel.c:438
-#, fuzzy
 msgctxt "FontFace"
 msgid "Rounded"
-msgstr "Ribos"
+msgstr "Užapvalintas"
 
 #: ../goffice/gtk/go-font-sel.c:439
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Bold Italic"
-msgstr "Pastorintas kursyvas"
+msgstr "Pusjuodis kursyvas be užraitų"
 
 #: ../goffice/gtk/go-font-sel.c:440
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Bold"
-msgstr "Pastorintas"
+msgstr "Pusjuodis be užraitų"
 
 #: ../goffice/gtk/go-font-sel.c:441
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Italic"
-msgstr "Kursyvas"
+msgstr "Kursyvas be užraitų"
 
 #: ../goffice/gtk/go-font-sel.c:442
 msgctxt "FontFace"
 msgid "Sans"
-msgstr ""
+msgstr "Be užraitų"
 
 #: ../goffice/gtk/go-font-sel.c:443
 msgctxt "FontFace"
 msgid "Semi-Bold Italic Small Caps"
-msgstr ""
+msgstr "Dalinai-pusjuodis kursyvas mažosiomis"
 
 #: ../goffice/gtk/go-font-sel.c:444
-#, fuzzy
 msgctxt "FontFace"
 msgid "Semi-Bold Italic"
-msgstr "Pastorintas kursyvas"
+msgstr "Dalinai-pusjuodis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:445
 msgctxt "FontFace"
 msgid "Semi-Bold Oblique"
-msgstr ""
+msgstr "Dalinai-pusjuodis pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:446
 msgctxt "FontFace"
 msgid "Semi-Bold Slanted"
-msgstr ""
+msgstr "Dalinai-pusjuodis nuožulnus"
 
 #: ../goffice/gtk/go-font-sel.c:447
 msgctxt "FontFace"
 msgid "Semi-Bold Small Caps"
-msgstr ""
+msgstr "Dalinai-pusjuodis mažosiomis"
 
 #: ../goffice/gtk/go-font-sel.c:448
-#, fuzzy
 msgctxt "FontFace"
 msgid "Semi-Bold"
-msgstr "Pastorintas"
+msgstr "Dalinai-pusjuodis"
 
 #: ../goffice/gtk/go-font-sel.c:449
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold Italic"
-msgstr ""
+msgstr "Dalinai-suspaustas pusjuodis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:450
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold"
-msgstr ""
+msgstr "Dalinai-suspaustas pusjuodis"
 
 #: ../goffice/gtk/go-font-sel.c:451
 msgctxt "FontFace"
 msgid "Semi-Condensed Italic"
-msgstr ""
+msgstr "Dalinai-suspaustas kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:452
 msgctxt "FontFace"
 msgid "Semi-Condensed Oblique"
-msgstr ""
+msgstr "Dalinai-suspaustas pakrypęs"
 
 #: ../goffice/gtk/go-font-sel.c:453
 msgctxt "FontFace"
 msgid "Semi-Condensed"
-msgstr ""
+msgstr "Dalinai-suspaustas"
 
 #: ../goffice/gtk/go-font-sel.c:454
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold Italic"
-msgstr ""
+msgstr "Dalinai-išplėstinis pusjuodis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:455
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold"
-msgstr ""
+msgstr "Dalinai-išplėstinis pusjuodis"
 
 #: ../goffice/gtk/go-font-sel.c:456
 msgctxt "FontFace"
 msgid "Semi-Expanded Italic"
-msgstr ""
+msgstr "Dalinai-išplėstinis kursyvas"
 
 #: ../goffice/gtk/go-font-sel.c:457
 msgctxt "FontFace"
 msgid "Semi-Expanded"
-msgstr ""
+msgstr "Dalinai-išplėstinis"
 
 #: ../goffice/gtk/go-font-sel.c:458
 msgctxt "FontFace"
 msgid "Slanted"
-msgstr ""
+msgstr "Nuožulnus"
 
 #: ../goffice/gtk/go-font-sel.c:459
-#, fuzzy
 msgctxt "FontFace"
 msgid "Small Caps"
-msgstr "Maži apskritimai"
+msgstr "Mažosiomis"
 
 #: ../goffice/gtk/go-font-sel.c:460
 msgctxt "FontFace"
 msgid "Thin"
-msgstr ""
+msgstr "Plonas"
 
 #: ../goffice/gtk/go-font-sel.c:461
-#, fuzzy
 msgctxt "FontFace"
 msgid "Upright Italic"
-msgstr "Kursyvas"
+msgstr "Kursyvas pirmyn"
 
 #: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
 msgid "Font"
@@ -3863,47 +3838,41 @@ msgid "All fonts..."
 msgstr "Visi šriftai..."
 
 #: ../goffice/gtk/go-font-sel.c:905
-#, fuzzy
 msgctxt "underline"
 msgid "None"
-msgstr "Joks"
+msgstr "Nėra"
 
 #: ../goffice/gtk/go-font-sel.c:906
-#, fuzzy
 msgctxt "underline"
 msgid "Single"
-msgstr "Kampas"
+msgstr "Viengubas"
 
 #: ../goffice/gtk/go-font-sel.c:907
 msgctxt "underline"
 msgid "Double"
-msgstr ""
+msgstr "Dvigubas"
 
 #: ../goffice/gtk/go-font-sel.c:908
-#, fuzzy
 msgctxt "underline"
 msgid "Low"
-msgstr "_Apačioje"
+msgstr "Apačioje"
 
 #: ../goffice/gtk/go-font-sel.c:909
-#, fuzzy
 msgctxt "underline"
 msgid "Error"
-msgstr "Klaidų juostos"
+msgstr "Klaida"
 
 #: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
 msgid "Normal"
 msgstr "Normalus"
 
 #: ../goffice/gtk/go-font-sel.c:931
-#, fuzzy
 msgid "Subscript"
-msgstr "Aprašymas"
+msgstr "Apatinis indeksas"
 
 #: ../goffice/gtk/go-font-sel.c:932
-#, fuzzy
 msgid "Superscript"
-msgstr "Naudoti _viršutinį indeksą"
+msgstr "Viršutinis indeksas"
 
 #: ../goffice/gtk/go-font-sel.c:1185
 msgid "Show Style"
@@ -3914,79 +3883,68 @@ msgid "Whether style is part of the font being selected"
 msgstr "Ar stilius yra pasirinktojo šrifto dalis"
 
 #: ../goffice/gtk/go-font-sel.c:1194
-#, fuzzy
 msgid "Show Color"
-msgstr "Spalva"
+msgstr "Rodyti spalvą"
 
 #: ../goffice/gtk/go-font-sel.c:1195
-#, fuzzy
 msgid "Whether color is part of the font being selected"
-msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+msgstr "Ar spalva yra pasirinktojo šrifto dalis"
 
 #: ../goffice/gtk/go-font-sel.c:1203
-#, fuzzy
 msgid "Show Underline"
-msgstr "Rodyti neigiamus"
+msgstr "Rodyti pabraukimą"
 
 #: ../goffice/gtk/go-font-sel.c:1204
-#, fuzzy
 msgid "Whether underlining is part of the font being selected"
-msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+msgstr "Ar pabraukimas yra pasirinktojo šrifto dalis"
 
 #: ../goffice/gtk/go-font-sel.c:1212
-#, fuzzy
 msgid "Show Script"
-msgstr "Rodyti stilių"
+msgstr "Rodyti indeksą"
 
 #: ../goffice/gtk/go-font-sel.c:1213
-#, fuzzy
 msgid "Whether subscript/superscript is part of the font being selected"
-msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+msgstr "Ar apatinis/viršutinis indeksas yra pasirinktojo šrifto dalis"
 
 #: ../goffice/gtk/go-font-sel.c:1221
 msgid "Show Strikethrough"
-msgstr ""
+msgstr "Rodyti perbraukimą"
 
 #: ../goffice/gtk/go-font-sel.c:1222
-#, fuzzy
 msgid "Whether strikethrough is part of the font being selected"
-msgstr "Ar stilius yra pasirinktojo šrifto dalis"
+msgstr "Ar perbraukimas yra pasirinktojo šrifto dalis"
 
 #: ../goffice/gtk/go-font-sel.c:1230
 msgid "Color unset text"
-msgstr ""
+msgstr "Tekstas be spalvos"
 
 #: ../goffice/gtk/go-font-sel.c:1231
-#, fuzzy
 msgid "The text to show for selecing no color"
-msgstr "Ieškomas tekstas"
+msgstr "Tekstas, rodomas nepasirinkus jokios spalvos"
 
 #: ../goffice/gtk/go-font-sel.c:1239
-#, fuzzy
 msgid "Color Group"
-msgstr "Piešimo grupė"
+msgstr "Spalvų grupė"
 
 #: ../goffice/gtk/go-font-sel.c:1240
-#, fuzzy
 msgid "The color group to use for the color picker"
-msgstr "Resurso tipas spalvų žemėlapiui"
+msgstr "Spalvų parinkėjui naudojama spalvų grupė"
 
 #: ../goffice/gtk/go-font-sel.c:1248
-#, fuzzy
 msgid "Color Default"
-msgstr "Įprasta"
+msgstr "Numatyta spalva"
 
 #: ../goffice/gtk/go-font-sel.c:1249
 msgid "The color to show for an unset color"
-msgstr ""
+msgstr "Spalva, rodoma, kai nenustatyta"
 
 #: ../goffice/gtk/go-font-sel.c:1259
 msgid "Underline Picker"
-msgstr ""
+msgstr "Pabraukimo parinkėjas"
 
 #: ../goffice/gtk/go-font-sel.c:1260
 msgid "The widget to use for picking underline type"
-msgstr ""
+msgstr "Elementas, naudojamas pabraukimo pasirinkimui"
 
 #: ../goffice/gtk/go-font-sel-dialog.c:107
 msgid "Pick a Font"
@@ -3994,66 +3952,63 @@ msgstr "Pasirinkite šriftą"
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
 msgid "Select the font family"
-msgstr ""
+msgstr "Pasirinkite šrifto šeimą"
 
 #: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
 msgstr "Šriftas:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:3
-#, fuzzy
 msgid "Select the size"
-msgstr "Pasirinkite paveikslėlį"
+msgstr "Pasirinkite dydį"
 
 #: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
 msgstr "Dydis:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:5
-#, fuzzy
 msgid "Select the font face"
-msgstr "Pasirinkite paveikslą"
+msgstr "Pasirinkite šrifto veidą"
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
 msgid "Style:"
 msgstr "Stilius:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
-#, fuzzy
 msgid "Select whether a line should be drawn through the text"
-msgstr "Ar rėmelis turi būti sukamas su tekstu"
+msgstr "Pasirinkite, ar linija turi būti piešiama per tekstą"
 
 #: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
-msgstr ""
+msgstr "Nubraukta:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
-msgstr ""
+msgstr "Pasirinkite šrifto spalvą"
 
 #: ../goffice/gtk/go-font-sel.ui.h:10
-#, fuzzy
 msgid "Color:"
-msgstr "Sp_alva:"
+msgstr "Spalva:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:11
 msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
 msgstr ""
+"Pasirinkite, ar šriftas turi būti pakeistas naudojimui kaip viršutiniam ar "
+"apatiniam indeksui"
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
-msgstr ""
+msgstr "Indeksas:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
 msgid "Select the type of underlining"
-msgstr ""
+msgstr "Pasirinkite pabraukimo tipą"
 
 #: ../goffice/gtk/go-font-sel.ui.h:14
-#, fuzzy
 msgid "Underline:"
-msgstr "Naudoti kreivę"
+msgstr "Pabraukimas:"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
