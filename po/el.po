@@ -19,9 +19,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric 1.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 18:55-0400\n"
-"PO-Revision-Date: 2013-03-19 11:46+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgof"
+"fice&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-03-21 22:57+0000\n"
+"PO-Revision-Date: 2013-04-03 11:56+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -86,7 +87,7 @@ msgstr "Αντικατάσταση"
 
 #: ../goffice/app/file.c:635
 msgid "Whether the saver will overwrite files."
-msgstr "Εάν ο αποθηκευτής θα αντικαταστήσει αρχεία. "
+msgstr "Εάν ο αποθηκευτής θα αντικαταστήσει αρχεία."
 
 #: ../goffice/app/file.c:645
 msgid "TRUE if this saver requires interaction"
@@ -2992,7 +2993,7 @@ msgstr "Απλοποιημένα κινέζικα (Windows-936)"
 
 #: ../goffice/gtk/go-charmap-sel.c:140
 msgid "Chinese Traditional (Big5)"
-msgstr "Κινεζική παραδοσιακή  (Big5)"
+msgstr "Κινεζική παραδοσιακή (Big5)"
 
 #: ../goffice/gtk/go-charmap-sel.c:141
 msgid "Chinese Traditional (Big5-HKSCS)"
@@ -3088,11 +3089,11 @@ msgstr "Εβραϊκά (ISO-8859-8-I)"
 
 #: ../goffice/gtk/go-charmap-sel.c:164
 msgid "Hebrew (MacHebrew)"
-msgstr "Εβραϊκή (_MacHebrew)"
+msgstr "Εβραϊκή (MacHebrew)"
 
 #: ../goffice/gtk/go-charmap-sel.c:165
 msgid "Hebrew (Windows-1255)"
-msgstr "Εβραϊκή  (Windows-1255)"
+msgstr "Εβραϊκή (Windows-1255)"
 
 #: ../goffice/gtk/go-charmap-sel.c:166
 msgid "Hindi (MacDevanagari)"
@@ -3870,33 +3871,29 @@ msgid "All fonts..."
 msgstr "Όλες οι γραμματοσειρές..."
 
 #: ../goffice/gtk/go-font-sel.c:905
-#, fuzzy
 msgctxt "underline"
 msgid "None"
 msgstr "Καμία"
 
 #: ../goffice/gtk/go-font-sel.c:906
-#, fuzzy
 msgctxt "underline"
 msgid "Single"
-msgstr "Γωνία"
+msgstr "Απλή"
 
 #: ../goffice/gtk/go-font-sel.c:907
 msgctxt "underline"
 msgid "Double"
-msgstr ""
+msgstr "Διπλή"
 
 #: ../goffice/gtk/go-font-sel.c:908
-#, fuzzy
 msgctxt "underline"
 msgid "Low"
-msgstr "_Χαμηλά"
+msgstr "Χαμηλή"
 
 #: ../goffice/gtk/go-font-sel.c:909
-#, fuzzy
 msgctxt "underline"
 msgid "Error"
-msgstr "Γραμμές σφάλματος"
+msgstr "Σφάλμα"
 
 #: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
 msgid "Normal"
@@ -3927,14 +3924,12 @@ msgid "Whether color is part of the font being selected"
 msgstr "Εάν το χρώμα είναι μέρος της επιλεγμένης γραμματοσειράς"
 
 #: ../goffice/gtk/go-font-sel.c:1203
-#, fuzzy
 msgid "Show Underline"
-msgstr "Εμφάνιση αρνητικών"
+msgstr "Εμφάνιση υπογράμμισηw"
 
 #: ../goffice/gtk/go-font-sel.c:1204
-#, fuzzy
 msgid "Whether underlining is part of the font being selected"
-msgstr "Εάν η τεχνοτροπία είναι μέρος της επιλεγμένης γραμματοσειράς"
+msgstr "Εάν η υπογράμμιση είναι μέρος της επιλεγμένης γραμματοσειράς"
 
 #: ../goffice/gtk/go-font-sel.c:1212
 msgid "Show Script"
@@ -3954,39 +3949,35 @@ msgstr "Εάν η διαγράμμιση είναι μέρος της επιλε
 
 #: ../goffice/gtk/go-font-sel.c:1230
 msgid "Color unset text"
-msgstr ""
+msgstr "Χρώμα κειμένου αναίρεσης"
 
 #: ../goffice/gtk/go-font-sel.c:1231
-#, fuzzy
 msgid "The text to show for selecing no color"
-msgstr "Το κείμενο αναζήτησης για"
+msgstr "Το κείμενο που θα εμφανίζεται για μη επιλογή χρώματος"
 
 #: ../goffice/gtk/go-font-sel.c:1239
-#, fuzzy
 msgid "Color Group"
-msgstr "Ομάδα σχεδίασης"
+msgstr "Ομάδα χρώματος"
 
 #: ../goffice/gtk/go-font-sel.c:1240
-#, fuzzy
 msgid "The color group to use for the color picker"
-msgstr "Ο τύπος πόρου για την χρωματική απεικόνιση"
+msgstr "Η ομάδα χρώματος που θα χρησιμοποιηθεί για τον επιλογέα χρώματος"
 
 #: ../goffice/gtk/go-font-sel.c:1248
-#, fuzzy
 msgid "Color Default"
-msgstr "Προεπιλογή"
+msgstr "Προεπιλεγμένο χρώμα"
 
 #: ../goffice/gtk/go-font-sel.c:1249
 msgid "The color to show for an unset color"
-msgstr ""
+msgstr "Το χρώμα που θα εμφανίζεται για μια αναίρεση χρώματος"
 
 #: ../goffice/gtk/go-font-sel.c:1259
 msgid "Underline Picker"
-msgstr ""
+msgstr "Επιλογέας υπογράμμισης"
 
 #: ../goffice/gtk/go-font-sel.c:1260
 msgid "The widget to use for picking underline type"
-msgstr ""
+msgstr "Το χρησιμοποιούμενο γραφικό συστατικό για επιλογή τύπου υπογράμμισης"
 
 #: ../goffice/gtk/go-font-sel-dialog.c:107
 msgid "Pick a Font"
@@ -4017,9 +4008,8 @@ msgid "Style:"
 msgstr "Τεχνοτροπία:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
-#, fuzzy
 msgid "Select whether a line should be drawn through the text"
-msgstr "Εάν το πλαίσιο πρέπει να περιστραφεί με το κείμενο"
+msgstr "Επιλέξτε αν η γραμμή πρέπει να σύρεται μέσα από το κείμενο"
 
 #: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
@@ -4046,14 +4036,12 @@ msgid "Script:"
 msgstr "Γραφή:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
-#, fuzzy
 msgid "Select the type of underlining"
-msgstr "Επιλογή στοιχείου γραμματοσειράς"
+msgstr "Επιλογή τύπου υπογράμμισης"
 
 #: ../goffice/gtk/go-font-sel.ui.h:14
-#, fuzzy
 msgid "Underline:"
-msgstr "Χρήση ευλύγιστης καμπύλης"
+msgstr "Υπογράμμιση:"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
@@ -4247,7 +4235,7 @@ msgstr "Χωρίς προσάρτηση παραπέρα μονάδας."
 #: ../goffice/gtk/go-format-sel.c:1038
 #, c-format
 msgid "Append '%s'."
-msgstr "Προσάρτηση '%s'"
+msgstr "Προσάρτηση '%s'."
 
 #: ../goffice/gtk/go-format-sel.c:1578
 msgid "Negative Number Format"
@@ -5678,7 +5666,7 @@ msgstr "Ελβετία, φράγκα"
 
 #: ../goffice/utils/formats.c:412
 msgid "Switzerland, WIR Francs"
-msgstr "Ελβετία, φράγκα WIR "
+msgstr "Ελβετία, φράγκα WIR"
 
 #: ../goffice/utils/formats.c:413
 msgid "Chile, Unidades de fomento"
@@ -6706,7 +6694,7 @@ msgstr "Μέγε_θος:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:3
 msgid "O_utline:"
-msgstr "Πε_ρίγραμμα"
+msgstr "Πε_ρίγραμμα:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:4
 msgid "_Fill:"
@@ -7193,7 +7181,7 @@ msgstr "Περιοχές ποσοστού"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:24
 msgid "Percentage area plot."
-msgstr "Σχέδιο περιοχής ποσοστού"
+msgstr "Σχέδιο περιοχής ποσοστού."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:25
 msgid "Adjacent Bars"
