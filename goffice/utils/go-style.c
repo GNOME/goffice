@@ -928,7 +928,7 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 	gtk_grid_attach (GTK_GRID (grid), w, 1, 0, 1, 1);
 	gtk_widget_show (w);
 
-	w = go_font_sel_new ();
+	w = GTK_WIDGET (g_object_new (GO_TYPE_FONT_SEL, "show-style", TRUE, NULL));
 	go_font_sel_set_font (GO_FONT_SEL (w), style->font.font);
 	g_signal_connect (G_OBJECT (w), "font_changed",
 			  G_CALLBACK (cb_font_changed), state);

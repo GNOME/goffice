@@ -8,6 +8,7 @@ Jean:
 	* Fix currency selector visibility. [#696647]
 	* Fix mouse events for widgets inside a GtkContainer. [#696533]
 	* Make the GOEditor scrolled window optional. [696825]
+	* Show the font face selector in the graph properties. [#697243]
 
 Morten:
 	* Fix problems with cspline boxed type. [#695550]
