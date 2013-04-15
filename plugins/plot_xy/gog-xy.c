@@ -1177,6 +1177,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				}
 				gog_renderer_fill_serie (view->renderer, path, next_path);
 			}
+		} else if (next_path) {
+			go_path_free (next_path);
+			next_path = NULL;
 		}
 
 		if (series->hdroplines) {

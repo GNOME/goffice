@@ -1,3 +1,8 @@
+2013-04-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): fixed style in scatter plot
+	after a valid but with invisible line series. [#698057] 
+
 2013-04-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-style.c (font_init): show the font face selector.
