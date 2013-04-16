@@ -1,5 +1,11 @@
 2013-04-16  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-editor.c (go_editor_add_page): add a reference to the
+	widget when not using a scrolled window. Avoids unrefing a disposed object.
+	[#698150]
+
+2013-04-16  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-item.c (goc_item_set_transform): fix test. [#698101]
 	* goffice/utils/go-editor.c (go_editor_new): initialize
 	GOEditor::use_scrolled. [#698102]

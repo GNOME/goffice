@@ -136,7 +136,7 @@ go_editor_add_page (GOEditor *editor, gpointer widget, char const *label)
 		gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (page->scrolled),
 			                                   widget);
 	} else
-		page->scrolled = widget;
+		page->scrolled = g_object_ref (widget);
 	page->label = label;
 
 	editor->pages = g_slist_prepend (editor->pages, page);
