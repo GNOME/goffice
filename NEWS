@@ -11,6 +11,8 @@ Jean:
 	* Show the font face selector in the graph properties. [#697243]
 	* Fixed style in scatter plot after a valid but with invisible line
 	series. [#698057]
+	* Fixed test in goc_item_set_transform(). [#698101]
+	* Iinitialize GOEditor::use_scrolled. [#698102]
 
 Morten:
 	* Fix problems with cspline boxed type. [#695550]

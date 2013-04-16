@@ -1,3 +1,9 @@
+2013-04-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-item.c (goc_item_set_transform): fix test. [#698101]
+	* goffice/utils/go-editor.c (go_editor_new): initialize
+	GOEditor::use_scrolled. [#698102]
+
 2013-04-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): fixed style in scatter plot

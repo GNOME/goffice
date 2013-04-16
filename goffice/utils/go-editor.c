@@ -62,6 +62,7 @@ go_editor_new (void)
 	editor->pages = NULL;
 	g_datalist_init (&editor->registered_widgets);
 	editor->ref_count = 1;
+	editor->use_scrolled = FALSE;
 
 	return editor;
 }

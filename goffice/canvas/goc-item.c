@@ -810,7 +810,7 @@ goc_item_set_transform (GocItem *item, cairo_matrix_t *m)
 						|| fabs (m->yx) > matrix_epsilon
 						|| fabs (m->yy - 1.) > matrix_epsilon
 						|| fabs (m->x0) > matrix_epsilon
-						|| fabs (m->x0) > matrix_epsilon;
+						|| fabs (m->y0) > matrix_epsilon;
 	if (item->transformed)
 		item->transform = *m;
 	else
