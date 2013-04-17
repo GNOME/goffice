@@ -1,3 +1,9 @@
+2013-04-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-renderer.c (gog_renderer_export_image): don't cache
+	markers when exporting to svg until things are fixed in cairo 
+	(https://bugs.freedesktop.org/show_bug.cgi?id=63633). [#698162]
+
 2013-04-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_file_sel_dialog): Don't use

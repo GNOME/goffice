@@ -14,6 +14,7 @@ Jean:
 	* Fixed test in goc_item_set_transform(). [#698101]
 	* Iinitialize GOEditor::use_scrolled. [#698102]
 	* Don't unref a disposed widget. [#698150]
+	* Export each marker to svg until cairo bug #63633 is fixed. [#698162]
 
 Morten:
 	* Fix problems with cspline boxed type. [#695550]

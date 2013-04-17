@@ -1564,7 +1564,11 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
 			goto do_export_vectorial;
 		case GO_IMAGE_FORMAT_SVG:
+#ifdef CAIRO_BUG_63633_FIXED
 			rend->marker_as_surface = TRUE;
+#else
+			rend->marker_as_surface = FALSE;
+#endif
 			surface = cairo_svg_surface_create_for_stream
 				(_cairo_write_func,
 				 output, width_in_pts, height_in_pts);
