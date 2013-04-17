@@ -1,3 +1,8 @@
+2013-04-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_file_sel_dialog): Don't use
+	hack post gtk+ 3.4.
+
 2013-04-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-editor.c (go_editor_add_page): add a reference to the
