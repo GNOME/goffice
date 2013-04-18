@@ -1,3 +1,12 @@
+2013-04-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-combo-pixmaps.c (go_combo_pixmaps_init): Keep a
+	ref to grid.
+	(go_combo_pixmaps_screen_changed): Install as class handler, not
+	explicit signal.
+	(go_menu_pixmaps_add_element): Remove workaround for gtk+ 2.16
+	bug.
+
 2013-04-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_export_image): don't cache

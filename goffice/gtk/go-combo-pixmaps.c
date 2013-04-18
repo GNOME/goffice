@@ -36,19 +36,19 @@
 #define PIXMAP_PREVIEW_HEIGHT 15
 
 struct _GOComboPixmaps {
-	GOComboBox     base;
+	GOComboBox parent;
 
 	int selected_index;
 	int cols;
 	GArray *elements;
 
-	GtkWidget    *grid, *preview_button;
-	GtkWidget    *preview_image;
+	GtkWidget *grid, *preview_button;
+	GtkWidget *preview_image;
 };
 
 typedef struct {
 	GOComboBoxClass base;
-	void (* changed) (GOComboPixmaps *pixmaps, int id);
+	void (*changed) (GOComboPixmaps *pixmaps, int id);
 } GOComboPixmapsClass;
 
 enum {
@@ -61,7 +61,7 @@ typedef struct {
 	int	   id;
 } Element;
 
-static guint go_combo_pixmaps_signals [LAST_SIGNAL] = { 0, };
+static guint go_combo_pixmaps_signals[LAST_SIGNAL] = { 0, };
 static GObjectClass *go_combo_pixmaps_parent_class;
 
 static void
@@ -69,26 +69,23 @@ go_combo_pixmaps_finalize (GObject *object)
 {
 	GOComboPixmaps *combo = GO_COMBO_PIXMAPS (object);
 
+	g_clear_object (&combo->grid);
+
 	if (combo->elements) {
 		g_array_free (combo->elements, TRUE);
 		combo->elements = NULL;
 	}
 
-	(*go_combo_pixmaps_parent_class->finalize) (object);
+	go_combo_pixmaps_parent_class->finalize (object);
 }
 
 static void
-cb_screen_changed (GOComboPixmaps *combo, GdkScreen *previous_screen)
+go_combo_pixmaps_screen_changed (GtkWidget *widget, G_GNUC_UNUSED GdkScreen *prev)
 {
-	GtkWidget *w = GTK_WIDGET (combo);
-	GdkScreen *screen = gtk_widget_has_screen (w)
-		? gtk_widget_get_screen (w)
-		: NULL;
-
-	if (screen) {
-		GtkWidget *toplevel = gtk_widget_get_toplevel (combo->grid);
-		gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
-	}
+	GOComboPixmaps *combo = GO_COMBO_PIXMAPS (widget);
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+	GtkWidget *toplevel = gtk_widget_get_toplevel (combo->grid);
+	gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
 }
 
 static void
@@ -96,7 +93,7 @@ emit_change (GOComboPixmaps *combo)
 {
 	if (_go_combo_is_updating (GO_COMBO_BOX (combo)))
 		return;
-	g_signal_emit (combo, go_combo_pixmaps_signals [CHANGED], 0,
+	g_signal_emit (combo, go_combo_pixmaps_signals[CHANGED], 0,
 		g_array_index (combo->elements, Element, combo->selected_index).id);
 	go_combo_box_popup_hide (GO_COMBO_BOX (combo));
 }
@@ -105,16 +102,13 @@ static void
 go_combo_pixmaps_init (GOComboPixmaps *combo)
 {
 	combo->elements = g_array_new (FALSE, FALSE, sizeof (Element));
-	combo->grid = gtk_grid_new ();
+	combo->grid = g_object_ref (gtk_grid_new ());
 
 	combo->preview_button = gtk_toggle_button_new ();
 	combo->preview_image = gtk_image_new ();
 	gtk_container_add (GTK_CONTAINER (combo->preview_button),
-		GTK_WIDGET (combo->preview_image));
+			   GTK_WIDGET (combo->preview_image));
 
-	g_signal_connect (G_OBJECT (combo),
-		"screen-changed",
-		G_CALLBACK (cb_screen_changed), NULL);
 	g_signal_connect_swapped (combo->preview_button,
 		"clicked",
 		G_CALLBACK (emit_change), combo);
@@ -122,16 +116,20 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 	gtk_widget_show_all (combo->preview_button);
 	gtk_widget_show_all (combo->grid);
 	go_combo_box_construct (GO_COMBO_BOX (combo),
-		combo->preview_button, combo->grid, combo->grid);
+				combo->preview_button, combo->grid, combo->grid);
 }
 
 static void
 go_combo_pixmaps_class_init (GObjectClass *gobject_class)
 {
+	GtkWidgetClass *wclass = (GtkWidgetClass *)gobject_class;
+
 	go_combo_pixmaps_parent_class = g_type_class_ref (GO_TYPE_COMBO_BOX);
 	gobject_class->finalize = go_combo_pixmaps_finalize;
 
-	go_combo_pixmaps_signals [CHANGED] =
+	wclass->screen_changed = go_combo_pixmaps_screen_changed;
+
+	go_combo_pixmaps_signals[CHANGED] =
 		g_signal_new ("changed",
 			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
@@ -186,11 +184,10 @@ cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *comb
 /**
  * go_combo_pixmaps_add_element:
  * @combo: #GOComboPixmaps
- * @pixbuf: #GdkPixbuf
+ * @pixbuf: (transfer full): #GdkPixbuf
  * @id: an identifier for the callbacks
  * @tooltip: optional
  *
- * Absorbs a ref to the pixbuf.
  **/
 
 void
@@ -199,9 +196,13 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 {
 	GtkWidget *button, *box;
 	Element tmp;
-	int col, row;
+	int item_index, col, row;
 
 	g_return_if_fail (GO_IS_COMBO_PIXMAPS (combo));
+
+	item_index = combo->elements->len;
+	row = item_index / combo->cols;
+	col = item_index % combo->cols;
 
 	/* Wrap inside a vbox with a border so that we can see the focus indicator */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -210,31 +211,24 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 			    TRUE, TRUE, 0);
 	g_object_unref (pixbuf);
 
+	tmp.pixbuf = pixbuf;
+	tmp.id = id;
+	g_array_append_val (combo->elements, tmp);
+
 	button = gtk_button_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (box), 2);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_container_add (GTK_CONTAINER (button), box);
-
+	g_object_set_data (G_OBJECT (button), "ItemIndex", GINT_TO_POINTER (item_index));
 	if (tooltip != NULL)
 		gtk_widget_set_tooltip_text (button, tooltip);
-
-	col = combo->elements->len;
-	row = col / combo->cols;
-	col = col % combo->cols;
-
-	tmp.pixbuf = pixbuf;
-	tmp.id = id;
-	g_array_append_val (combo->elements, tmp);
-	g_object_set_data (G_OBJECT (button), "ItemIndex",
-		GINT_TO_POINTER (combo->elements->len-1));
-	gtk_grid_attach (GTK_GRID (combo->grid), button,
-		col, row + 1, 1, 1);
 	gtk_widget_show_all (button);
-
 	g_object_connect (button,
 		"signal::button_release_event", G_CALLBACK (cb_swatch_release_event), combo,
 		"signal::key_press_event", G_CALLBACK (cb_swatch_key_press), combo,
 		NULL);
+	gtk_grid_attach (GTK_GRID (combo->grid), button,
+			 col, row + 1, 1, 1);
 }
 
 gboolean
@@ -304,15 +298,15 @@ struct _GOMenuPixmaps {
 	unsigned cols, n;
 };
 typedef struct {
-	GtkMenuClass	base;
-	void (* changed) (GOMenuPixmaps *pixmaps, int id);
+	GtkMenuClass base;
+	void (*changed) (GOMenuPixmaps *pixmaps, int id);
 } GOMenuPixmapsClass;
 
-static guint go_menu_pixmaps_signals [LAST_SIGNAL] = { 0, };
+static guint go_menu_pixmaps_signals[LAST_SIGNAL] = { 0, };
 static void
 go_menu_pixmaps_class_init (GObjectClass *gobject_class)
 {
-	go_menu_pixmaps_signals [CHANGED] =
+	go_menu_pixmaps_signals[CHANGED] =
 		g_signal_new ("changed",
 			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
@@ -340,13 +334,7 @@ static void
 cb_menu_item_activate (GtkWidget *button, GtkWidget *menu)
 {
 	int id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "ItemID"));
-	g_signal_emit (menu, go_menu_pixmaps_signals [CHANGED], 0, id);
-}
-
-static void
-cb_menu_item_toggle_size_request (GtkWidget *item, gint *requitision)
-{
-	*requitision = 1;
+	g_signal_emit (menu, go_menu_pixmaps_signals[CHANGED], 0, id);
 }
 
 void
@@ -376,7 +364,4 @@ go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
 
 	if (tooltip != NULL)
 		gtk_widget_set_tooltip_text (button, tooltip);
-
-	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
-	g_signal_connect (button, "toggle-size-request", G_CALLBACK (cb_menu_item_toggle_size_request), NULL);
 }

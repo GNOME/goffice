@@ -109,7 +109,7 @@ go_action_combo_pixmaps_connect_proxy (GtkAction *a, GtkWidget *proxy)
 			g_object_unref (icon);
 			gtk_widget_show (image);
 			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (proxy),
-							   image);
+						       image);
 		}
 	}
 }
