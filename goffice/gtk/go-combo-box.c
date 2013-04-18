@@ -63,7 +63,9 @@ struct _GOComboBoxPrivate {
 	GtkWidget *tearable;	/* The tearoff "button" */
 	GtkWidget *popup;	/* Popup */
 
-	gboolean   updating_buttons;
+	gboolean updating_buttons;
+
+	gboolean show_arrow;
 };
 static GObjectClass *go_combo_box_parent_class;
 static guint go_combo_box_signals [LAST_SIGNAL] = { 0, };
@@ -115,10 +117,9 @@ go_combo_box_finalize (GObject *object)
 }
 
 static void
-go_combo_box_destroy (GtkWidget *widget)
+go_combo_box_dispose (GObject *obj)
 {
-	GtkWidgetClass *klass = (GtkWidgetClass *)go_combo_box_parent_class;
-	GOComboBox *combo_box = GO_COMBO_BOX (widget);
+	GOComboBox *combo_box = GO_COMBO_BOX (obj);
 
 	if (combo_box->priv->toplevel) {
 		gtk_widget_destroy (combo_box->priv->toplevel);
@@ -132,8 +133,7 @@ go_combo_box_destroy (GtkWidget *widget)
 		combo_box->priv->tearoff_window = NULL;
 	}
 
-	if (klass->destroy)
-                klass->destroy (widget);
+	go_combo_box_parent_class->dispose (obj);
 }
 
 /* Cut and paste from gtkwindow.c */
@@ -250,9 +250,10 @@ go_combo_box_class_init (GObjectClass *object_class)
 	go_combo_box_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->finalize = go_combo_box_finalize;
+	object_class->dispose = go_combo_box_dispose;
+
 	widget_class->mnemonic_activate = go_combo_box_mnemonic_activate;
 	widget_class->realize = go_combo_box_realize;
-	((GtkWidgetClass *)object_class)->destroy = go_combo_box_destroy;
 
 	gtk_widget_class_install_style_property
 		(widget_class,
@@ -523,6 +524,7 @@ go_combo_box_init (GOComboBox *combo_box)
 
 	combo_box->priv = g_new0 (GOComboBoxPrivate, 1);
 	combo_box->priv->updating_buttons = FALSE;
+	combo_box->priv->show_arrow = TRUE;
 
 	combo_box->priv->arrow_button = gtk_toggle_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (combo_box->priv->arrow_button), GTK_RELIEF_NONE);
