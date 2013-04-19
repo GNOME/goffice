@@ -1,3 +1,8 @@
+2013-04-19  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-combo-box.c (go_combo_box_class_init): Install
+	"title" and "show-arrow" properties.
+
 2013-04-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-combo-box.c (go_combo_box_dispose): Rename from
@@ -13,7 +18,7 @@
 2013-04-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_export_image): don't cache
-	markers when exporting to svg until things are fixed in cairo 
+	markers when exporting to svg until things are fixed in cairo
 	(https://bugs.freedesktop.org/show_bug.cgi?id=63633). [#698162]
 
 2013-04-16  Morten Welinder  <terra@gnome.org>

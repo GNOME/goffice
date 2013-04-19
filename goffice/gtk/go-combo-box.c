@@ -34,6 +34,13 @@
 
 #include <gsf/gsf-impl-utils.h>
 
+enum {
+	PROP_0,
+	PROP_TITLE,
+	PROP_SHOW_ARROW
+};
+
+
 /**
  * GOComboBoxClass:
  * @set_title: sets the title.
@@ -65,6 +72,7 @@ struct _GOComboBoxPrivate {
 
 	gboolean updating_buttons;
 
+	char *title;
 	gboolean show_arrow;
 };
 static GObjectClass *go_combo_box_parent_class;
@@ -133,8 +141,54 @@ go_combo_box_dispose (GObject *obj)
 		combo_box->priv->tearoff_window = NULL;
 	}
 
+	g_free (combo_box->priv->title);
+	combo_box->priv->title = NULL;
+
 	go_combo_box_parent_class->dispose (obj);
 }
+
+static void
+go_combo_box_get_property (GObject      *object,
+			   guint         prop_id,
+			   GValue       *value,
+			   GParamSpec   *pspec)
+{
+	GOComboBox *combo = GO_COMBO_BOX (object);
+
+	switch (prop_id) {
+	case PROP_TITLE:
+		g_value_set_string (value, combo->priv->title);
+		break;
+	case PROP_SHOW_ARROW:
+		g_value_set_boolean (value, combo->priv->show_arrow);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+	}
+}
+
+static void
+go_combo_box_set_property (GObject      *object,
+			   guint         prop_id,
+			   GValue const *value,
+			   GParamSpec   *pspec)
+{
+	GOComboBox *combo = GO_COMBO_BOX (object);
+
+	switch (prop_id) {
+	case PROP_TITLE:
+		go_combo_box_set_title (combo, g_value_get_string (value));
+		break;
+	case PROP_SHOW_ARROW:
+		combo->priv->show_arrow = g_value_get_boolean (value);
+		gtk_widget_set_visible (combo->priv->arrow_button,
+					combo->priv->show_arrow);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+	}
+}
+
 
 /* Cut and paste from gtkwindow.c */
 static void
@@ -251,6 +305,22 @@ go_combo_box_class_init (GObjectClass *object_class)
 
 	object_class->finalize = go_combo_box_finalize;
 	object_class->dispose = go_combo_box_dispose;
+	object_class->get_property = go_combo_box_get_property;
+	object_class->set_property = go_combo_box_set_property;
+
+	g_object_class_install_property (object_class,
+		PROP_TITLE,
+		g_param_spec_string ("title", _("Title"),
+			_("The combo box' title"),
+			NULL,
+			G_PARAM_READWRITE | GSF_PARAM_STATIC));
+
+	g_object_class_install_property (object_class,
+		PROP_SHOW_ARROW,
+		g_param_spec_boolean ("show-arrow", _("Show Arrow"),
+			_("Whether to show an arrow for the combo"),
+			TRUE,
+			G_PARAM_READWRITE | GSF_PARAM_STATIC));
 
 	widget_class->mnemonic_activate = go_combo_box_mnemonic_activate;
 	widget_class->realize = go_combo_box_realize;
@@ -753,10 +823,7 @@ go_combo_box_construct (GOComboBox *combo,
  *
  * This should really change the title even when the popup is already torn off.
  * I guess the tearoff window could attach a listener to title change or
- * something. But I don't think we need the functionality, so I didn't bother
- * to investigate.
- *
- * MW: Just make it a property.
+ * something.
  */
 void
 go_combo_box_set_title (GOComboBox *combo, char const *title)
@@ -766,17 +833,20 @@ go_combo_box_set_title (GOComboBox *combo, char const *title)
 
 	g_return_if_fail (klass != NULL);
 
-	g_object_set_data_full (G_OBJECT (combo), "go-combo-title",
-		g_strdup (title), (GDestroyNotify) g_free);
+	if (g_strcmp0 (title, combo->priv->title) == 0)
+		return;
+
+	g_free (combo->priv->title);
+	combo->priv->title = g_strdup (title);
 
 	if (klass->set_title)
-		(klass->set_title) (combo, title);
+		(klass->set_title) (combo, combo->priv->title);
 }
 
 char const *
 go_combo_box_get_title (GOComboBox *combo)
 {
-	return g_object_get_data (G_OBJECT (combo), "go-combo-title");
+	return combo->priv->title;
 }
 
 /**
@@ -791,7 +861,7 @@ go_combo_box_set_tearable (GOComboBox *combo, gboolean tearable)
 {
 	g_return_if_fail (GO_IS_COMBO_BOX (combo));
 
-	if (tearable){
+	if (tearable) {
 		gtk_widget_show (combo->priv->tearable);
 	} else {
 		go_combo_set_tearoff_state (combo, FALSE);

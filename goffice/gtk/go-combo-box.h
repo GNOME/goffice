@@ -48,6 +48,7 @@ struct _GOComboBoxClass {
 
 	/* <public> */
 	/* virtual */
+	/* DEPRECATED: Use notify::title signal instead.  */
 	void  (*set_title) (GOComboBox *combo, char const *title);
 
 	/* invoked when the popup has been hidden, if the signal
