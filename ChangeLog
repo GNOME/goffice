@@ -1,5 +1,9 @@
 2013-04-19  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-action-combo-color.c
+	(go_action_combo_color_create_tool_item): Show arrow only in
+	horizontal mode.
+
 	* goffice/gtk/go-combo-pixmaps.c (cb_preview_clicked): If arrow
 	isn't shown, just pop up the choices.
 

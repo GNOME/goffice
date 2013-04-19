@@ -147,6 +147,18 @@ cb_proxy_custom_dialog (G_GNUC_UNUSED GObject *ignored,
 		       dialog);
 }
 
+static void
+cb_toolbar_reconfigured (GOToolComboColor *tool)
+{
+	GtkOrientation o = gtk_tool_item_get_orientation (GTK_TOOL_ITEM (tool));
+	gboolean horiz = (o == GTK_ORIENTATION_HORIZONTAL);
+
+	g_object_set (G_OBJECT (tool->combo),
+		      "show-arrow", horiz,
+		      NULL);
+	go_combo_color_set_instant_apply (GO_COMBO_COLOR (tool->combo), horiz);
+}
+
 static GtkWidget *
 go_action_combo_color_create_tool_item (GtkAction *a)
 {
@@ -163,12 +175,16 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 		caction->color_group);
 	if (icon) g_object_unref (icon);
 
-	go_combo_color_set_instant_apply (GO_COMBO_COLOR (tool->combo), TRUE);
 	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (tool->combo), caction->allow_alpha);
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	title = get_title (a);
 	go_combo_box_set_title (GO_COMBO_BOX (tool->combo), title);
 	g_free (title);
+
+	g_signal_connect (tool, "toolbar-reconfigured",
+			  G_CALLBACK (cb_toolbar_reconfigured),
+			  NULL);
+	cb_toolbar_reconfigured (tool);
 
 	go_gtk_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));

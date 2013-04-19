@@ -26,6 +26,7 @@ Morten:
 	* Plug leaks.
 	* Enhance canvas with possibility of css.
 	* Improve printing of grey patterns.
+	* Make narrow versions of combos for vertical toolbars.
 
 --------------------------------------------------------------------------
 goffice 0.10.1:
