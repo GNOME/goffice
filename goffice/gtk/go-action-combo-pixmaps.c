@@ -134,6 +134,16 @@ cb_selection_changed (GOComboPixmaps *combo, int id, GOActionComboPixmaps *pacti
 	gtk_action_activate (GTK_ACTION (paction));
 }
 
+static void
+cb_toolbar_reconfigured (GOToolComboPixmaps *tool)
+{
+	GtkOrientation o = gtk_tool_item_get_orientation (GTK_TOOL_ITEM (tool));
+
+	g_object_set (G_OBJECT (tool->combo),
+		      "show-arrow", o == GTK_ORIENTATION_HORIZONTAL,
+		      NULL);
+}
+
 static GtkWidget *
 go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 {
@@ -151,6 +161,11 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 					      gettext (el->untranslated_tooltip));
 	}
 	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
+
+	g_signal_connect (tool, "toolbar-reconfigured",
+			  G_CALLBACK (cb_toolbar_reconfigured),
+			  NULL);
+	cb_toolbar_reconfigured (tool);
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	go_gtk_widget_disable_focus (GTK_WIDGET (tool->combo));

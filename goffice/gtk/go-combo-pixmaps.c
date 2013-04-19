@@ -99,6 +99,23 @@ emit_change (GOComboPixmaps *combo)
 }
 
 static void
+cb_preview_clicked (GOComboPixmaps *combo)
+{
+	gboolean show_arrow;
+
+	if (_go_combo_is_updating (GO_COMBO_BOX (combo)))
+		return;
+
+	g_object_get (G_OBJECT (combo), "show-arrow", &show_arrow, NULL);
+	if (show_arrow)
+		emit_change (combo);
+	else {
+		/* Condensed mode. */
+		go_combo_box_popup_display (GO_COMBO_BOX (combo));
+	}
+}
+
+static void
 go_combo_pixmaps_init (GOComboPixmaps *combo)
 {
 	combo->elements = g_array_new (FALSE, FALSE, sizeof (Element));
@@ -111,7 +128,7 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 
 	g_signal_connect_swapped (combo->preview_button,
 		"clicked",
-		G_CALLBACK (emit_change), combo);
+		G_CALLBACK (cb_preview_clicked), combo);
 
 	gtk_widget_show_all (combo->preview_button);
 	gtk_widget_show_all (combo->grid);
@@ -173,12 +190,14 @@ cb_swatch_release_event (GtkWidget *button, GdkEventButton *event, GOComboPixmap
 static gboolean
 cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *combo)
 {
-	if (event->keyval == GDK_KEY_Return ||
-	    event->keyval == GDK_KEY_KP_Enter ||
-	    event->keyval == GDK_KEY_space)
+	switch (event->keyval) {
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
+	case GDK_KEY_space:
 		return swatch_activated (combo, button);
-	else
+	default:
 		return FALSE;
+	}
 }
 
 /**

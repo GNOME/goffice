@@ -206,6 +206,7 @@ static void
 set_arrow_state (GOComboBox *combo_box, gboolean state)
 {
 	GOComboBoxPrivate *priv = combo_box->priv;
+
 	g_return_if_fail (!combo_box->priv->updating_buttons);
 
 	combo_box->priv->updating_buttons = TRUE;

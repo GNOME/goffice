@@ -1,5 +1,12 @@
 2013-04-19  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-combo-pixmaps.c (cb_preview_clicked): If arrow
+	isn't shown, just pop up the choices.
+
+	* goffice/gtk/go-action-combo-pixmaps.c
+	(go_action_combo_pixmaps_create_tool_item): Show arrow only in
+	horizontal mode.
+
 	* goffice/gtk/go-combo-box.c (go_combo_box_class_init): Install
 	"title" and "show-arrow" properties.
 
