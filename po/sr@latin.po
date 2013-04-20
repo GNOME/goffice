@@ -2,47 +2,47 @@
 # Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003.
 # This file is distributed under the same license as the gnumeric package.
 # Maintainer: Slobodan Sredojević <ssl@uns.ns.ac.yu>
-# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2012.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 18:55-0400\n"
-"PO-Revision-Date: 2012-10-08 05:57+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgof"
+"fice&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-03-21 22:57+0000\n"
+"PO-Revision-Date: 2013-04-20 10:47+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Project-Style: gnome\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
 msgstr "IB"
 
 #: ../goffice/app/file.c:178
-#, fuzzy
 msgid "The identifier of the opener"
-msgstr "Identifikator čuvara."
+msgstr "Identifikator otvarača"
 
 #: ../goffice/app/file.c:187 ../goffice/app/file.c:624
 msgid "Description"
 msgstr "Opis"
 
 #: ../goffice/app/file.c:188
-#, fuzzy
 msgid "The description of the opener"
-msgstr "Opis čuvara."
+msgstr "Opis otvarača"
 
 #: ../goffice/app/file.c:197 ../goffice/app/file.c:644
 msgid "Interactive only"
-msgstr ""
+msgstr "Samo uzajamno"
 
 #: ../goffice/app/file.c:198
 msgid "TRUE if this opener requires interaction"
-msgstr ""
+msgstr "Izabrano ako ovaj otvarač zahteva uzajamnost"
 
 #: ../goffice/app/file.c:594
 msgid "The identifier of the saver."
@@ -78,7 +78,7 @@ msgstr "Da li će čuvar da prepisuje datoteke."
 
 #: ../goffice/app/file.c:645
 msgid "TRUE if this saver requires interaction"
-msgstr ""
+msgstr "Izabrano ako ovaj čuvar zahteva uzajamnost"
 
 #: ../goffice/app/file.c:655
 msgid "Format Level"
@@ -94,8 +94,7 @@ msgstr "Koja količina dokimenta je sačuvana"
 
 #: ../goffice/app/file.c:830
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
+msgstr "Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
 
 #: ../goffice/app/file.c:840
 msgid ""
@@ -313,11 +312,11 @@ msgstr "Greške prilikom pokretanja sistema priključaka."
 
 #: ../goffice/app/go-plugin-loader.c:83
 msgid "Loader has no set_attributes method.\n"
-msgstr "Učitavač nema način podešavanja atributa.\n"
+msgstr "Učitavač nema način podešavanja_atributa.\n"
 
 #: ../goffice/app/go-plugin-loader.c:98
 msgid "Loader has no load_base method.\n"
-msgstr "Učitavač nema način učitavanja baze.\n"
+msgstr "Učitavač nema način učitavanja_baze.\n"
 
 #: ../goffice/app/go-plugin-loader.c:143 ../goffice/app/go-plugin-loader.c:181
 #, c-format
@@ -484,7 +483,7 @@ msgstr "exec-main-loop"
 
 #: ../goffice/app/io-context.c:169
 msgid "Execute main loop iteration"
-msgstr ""
+msgstr "Izvršava ponavljanje glavne petlje"
 
 #: ../goffice/canvas/goc-arc.c:441
 msgid "xc"
@@ -836,7 +835,7 @@ msgstr "Pravilo ispunjavanja"
 
 #: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
 msgid "Set fill rule to winding or even/odd"
-msgstr ""
+msgstr "Postavite pravilo ispunjavanja na namotavanje ili na parno/neparno"
 
 #: ../goffice/canvas/goc-path.c:298
 msgid "Path"
@@ -864,11 +863,11 @@ msgstr "Tačke mnogougla"
 
 #: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
 msgid "Use spline"
-msgstr ""
+msgstr "Koristi sp-krivu"
 
 #: ../goffice/canvas/goc-polygon.c:350
 msgid "Use a Bezier closed cubic spline as contour"
-msgstr ""
+msgstr "Koristite Bezjerovu zatvorenu kubnu sp-krivu kao obris"
 
 #: ../goffice/canvas/goc-polygon.c:360
 msgid "sizes"
@@ -891,7 +890,7 @@ msgstr "Tačke višelinija"
 
 #: ../goffice/canvas/goc-polyline.c:265
 msgid "Use a Bezier cubic spline as line"
-msgstr ""
+msgstr "Koristite Bezjerovu kubnu sp-krivu kao liniju"
 
 #: ../goffice/canvas/goc-rectangle.c:318
 msgid "The rectangle left position (or right position in RTL mode)"
@@ -915,9 +914,8 @@ msgid ""
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
 msgstr ""
-"Vrsta pravougaonika: 0 za nezaobljene uglove, 1 za zaobljeni gornji levi, 2 "
-"za gornji desni, 4 za donji desni, 8 za donji levi, ili za bilo koju "
-"kombinaciju."
+"Vrsta pravougaonika: 0 za nezaobljene uglove, 1 za zaobljeni gornji levi, 2 za "
+"gornji desni, 4 za donji desni, 8 za donji levi, ili za bilo koju kombinaciju."
 
 #: ../goffice/canvas/goc-rectangle.c:353
 msgid "rx"
@@ -925,7 +923,7 @@ msgstr "rx"
 
 #: ../goffice/canvas/goc-rectangle.c:354
 msgid "The round rectangle rx"
-msgstr ""
+msgstr "rx zaobljenog pravougaonika"
 
 # Question for autor: Is this Y like YES?
 #: ../goffice/canvas/goc-rectangle.c:359
@@ -934,7 +932,7 @@ msgstr "ry"
 
 #: ../goffice/canvas/goc-rectangle.c:360
 msgid "The round rectangle ry"
-msgstr ""
+msgstr "ry zaobljenog pravougaonika"
 
 #: ../goffice/canvas/goc-styled-item.c:160
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
@@ -949,11 +947,11 @@ msgstr "Pokazivač na figuru GO stila"
 
 #: ../goffice/canvas/goc-styled-item.c:166
 msgid "Scale line width"
-msgstr ""
+msgstr "Menja srazmeru širine linije"
 
 #: ../goffice/canvas/goc-styled-item.c:167
 msgid "Whether to scale the line width when zooming"
-msgstr ""
+msgstr "Da li da promeni srazmeru širine linije prilikom uveličavanja"
 
 #: ../goffice/canvas/goc-text.c:466
 msgid "The text horizontal position"
@@ -1077,9 +1075,8 @@ msgid "Field of view"
 msgstr "Polje pregleda"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:1
-#, fuzzy
 msgid "Euler angles"
-msgstr "Psi Eulerovog ugla"
+msgstr "Eulerovi uglovi"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:2
 msgid "Psi:"
@@ -1108,11 +1105,11 @@ msgstr "Gradijani"
 #: ../goffice/graph/gog-axis.c:1494
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
 msgid "Discrete"
-msgstr ""
+msgstr "Zasebno"
 
 #: ../goffice/graph/gog-axis.c:1494
 msgid "Discrete mapping"
-msgstr ""
+msgstr "Zasebno mapiranje"
 
 #: ../goffice/graph/gog-axis.c:1506 ../goffice/utils/go-line.c:161
 #: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
@@ -1162,14 +1159,12 @@ msgstr "Razmera"
 
 #: ../goffice/graph/gog-axis.c:2921 ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
-#, fuzzy
 msgid "Span"
-msgstr "Rasprostrto"
+msgstr "Raspon"
 
 #: ../goffice/graph/gog-axis.c:2978
-#, fuzzy
 msgid "Colors"
-msgstr "XY boja"
+msgstr "Boje"
 
 #: ../goffice/graph/gog-axis.c:2996 ../goffice/graph/gog-series-labels.c:910
 #: ../goffice/graph/gog-series-labels.c:1436
@@ -1229,7 +1224,7 @@ msgstr "Okrenutost kružne ose"
 
 #: ../goffice/graph/gog-axis.c:3088 ../goffice/graph/gog-axis.c:3089
 msgid "Polar axis set unit"
-msgstr ""
+msgstr "Jedinica skupa ose stožera"
 
 #: ../goffice/graph/gog-axis.c:3094
 msgid "Axis start position"
@@ -1240,8 +1235,8 @@ msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
 msgstr ""
-"Položaj oblasti nacrta na kome počinje radna oblast ose, izražen u "
-"procentima dostupnog položaja. Osnovno je 0.0"
+"Položaj oblasti nacrta na kome počinje radna oblast ose, izražen u procentima "
+"dostupnog položaja. Osnovno je 0.0"
 
 #: ../goffice/graph/gog-axis.c:3100
 msgid "Axis end position"
@@ -1253,30 +1248,27 @@ msgid ""
 "as a percentage of the available position. Defaults to 1.0"
 msgstr ""
 "Položaj oblasti nacrta na kome se završava radna oblast ose, izražen u "
-"procentima dostupnog položaja. Osnovno je 0.0"
+"procentima dostupnog položaja. Osnovno je 1.0"
 
 #: ../goffice/graph/gog-axis.c:3105
-#, fuzzy
 msgid "ColorMapName"
-msgstr "Naziv mape"
+msgstr "Naziv mape boja"
 
 #: ../goffice/graph/gog-axis.c:3106
-#, fuzzy
 msgid "The name of the color map"
-msgstr "Naziv mape za razmeravanje"
+msgstr "Naziv mape boja"
 
 #: ../goffice/graph/gog-axis-color-map.c:131 ../goffice/graph/gog-theme.c:322
-#, fuzzy
 msgid "Resource type"
-msgstr "Izvor"
+msgstr "Vrsta izvorišta"
 
 #: ../goffice/graph/gog-axis-color-map.c:132
 msgid "The resource type for the color map"
-msgstr ""
+msgstr "Vrsta izvorišta za mapu boja"
 
 #: ../goffice/graph/gog-axis-color-map.c:589
 msgid "New map"
-msgstr ""
+msgstr "Nova mapa"
 
 #. An MS Excel-ish theme
 #: ../goffice/graph/gog-axis-color-map.c:993 ../goffice/graph/gog-theme.c:1240
@@ -1285,22 +1277,19 @@ msgstr "Osnovno"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
 msgid "Color map editor"
-msgstr ""
+msgstr "Uređivač mape boja"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
-#, fuzzy
 msgid "Current color stop"
-msgstr "Tekući jezik:"
+msgstr "Zaustavljanje tekuće boje"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
-#, fuzzy
 msgid "Value"
-msgstr "Vrednosti"
+msgstr "Vrednost"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
-#, fuzzy
 msgid "Color"
-msgstr "XY boja"
+msgstr "Boja"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
 #: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:579
@@ -1309,22 +1298,20 @@ msgid "Name"
 msgstr "Naziv"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
-#, fuzzy
 msgid "Gradient"
-msgstr "Gradijani"
+msgstr "Postepeno"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
 msgid "Snapshots"
-msgstr ""
+msgstr "Snimci stanja"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
-#, fuzzy
 msgid "Define"
-msgstr "Koji odredi korisnik"
+msgstr "Odredi"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:10
 msgid "Erase"
-msgstr ""
+msgstr "Obriši"
 
 #: ../goffice/graph/gog-axis-line.c:647
 msgid "Layout"
@@ -1409,7 +1396,7 @@ msgstr "Koju osu da preseče"
 
 #: ../goffice/graph/gog-axis-line.c:739
 msgid "Axis padding"
-msgstr "Popuna ose"
+msgstr "Popunjavanje ose"
 
 #: ../goffice/graph/gog-axis-line.c:740
 msgid "Distance from axis line to plot area, in points"
@@ -1434,16 +1421,15 @@ msgstr "<b>Oblast dejstva</b> (u % ostupnog prostora)"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:3 ../goffice/utils/go-style.c:645
 msgid "Start:"
-msgstr "Početak: "
+msgstr "Početak:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:4 ../goffice/utils/go-style.c:646
 msgid "End:"
 msgstr "Kraj:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:5
-#, fuzzy
 msgid "Major ticks"
-msgstr "Gla_vne crtice"
+msgstr "Glavne crtice"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:6
 msgid "_Outside"
@@ -1477,11 +1463,11 @@ msgstr "_Unakrsno"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:13
 msgid "at"
-msgstr ""
+msgstr "u"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:14
 msgid "Padding:"
-msgstr "Popuna:"
+msgstr "Popunjavanje:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:15
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:5
@@ -1490,9 +1476,8 @@ msgid "pts"
 msgstr "tačaka"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:16
-#, fuzzy
 msgid "Minor ticks"
-msgstr "Sp_oredne crtice"
+msgstr "Sporedne crtice"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:17
 msgid "O_utside"
@@ -1503,9 +1488,8 @@ msgid "I_nside"
 msgstr "_Unutra"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:19
-#, fuzzy
 msgid "Bounds"
-msgstr "<b>Granice</b>"
+msgstr "Granice"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
 #: ../goffice/graph/gog-object-prefs.ui.h:15
@@ -1539,35 +1523,33 @@ msgid "degrees"
 msgstr "stepeni"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:26
-#, fuzzy
 msgid "Mapping"
-msgstr "<b>Mapiranje</b>"
+msgstr "Mapiranje"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:27
 msgid "New"
-msgstr ""
+msgstr "Nova"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:28
 msgid "Creates a new color map from scratch"
-msgstr ""
+msgstr "Napravite novu mapu boja od početka"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:29
 msgid "Duplicate"
-msgstr ""
+msgstr "Udvostruči"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:30
 msgid "Creates a new color map based on the currently selected one."
-msgstr ""
+msgstr "Napravite novu mapu boja na osnovu jedne trenutno izabrane."
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:31
 #: ../goffice/graph/gog-graph-prefs.ui.h:3
-#, fuzzy
 msgid "Save"
-msgstr "Sačuvaj kao"
+msgstr "Sačuvaj"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:32
 msgid "Saves the color map to the local disk."
-msgstr ""
+msgstr "Sačuvajte mapu boja na mesni disk."
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:688
 msgid "Plot area"
@@ -1575,19 +1557,19 @@ msgstr "Oblast nacrta"
 
 #: ../goffice/graph/gog-chart.c:584 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
-msgstr ""
+msgstr "Osnova"
 
 #: ../goffice/graph/gog-chart.c:587
 msgid "XY-Backplane"
-msgstr ""
+msgstr "XY-osnova"
 
 #: ../goffice/graph/gog-chart.c:591
 msgid "YZ-Backplane"
-msgstr ""
+msgstr "YZ-osnova"
 
 #: ../goffice/graph/gog-chart.c:595
 msgid "ZX-Backplane"
-msgstr ""
+msgstr "ZX-osnova"
 
 #: ../goffice/graph/gog-chart.c:599
 msgid "X-Axis"
@@ -1615,11 +1597,11 @@ msgstr "Pseudo 3D osa"
 
 #: ../goffice/graph/gog-chart.c:623
 msgid "Bubble-Axis"
-msgstr ""
+msgstr "Osa mehura"
 
 #: ../goffice/graph/gog-chart.c:627
 msgid "Color-Axis"
-msgstr ""
+msgstr "Osa boje"
 
 #: ../goffice/graph/gog-chart.c:631
 msgid "Plot"
@@ -1646,11 +1628,11 @@ msgstr "3D kutija"
 
 #: ../goffice/graph/gog-chart.c:682
 msgid "Valid cardinality"
-msgstr ""
+msgstr "Ispravna osnovnost"
 
 #: ../goffice/graph/gog-chart.c:683
 msgid "Is the charts cardinality currently valid"
-msgstr ""
+msgstr "Da li je osnovnost grafika trenutno ispravna"
 
 #: ../goffice/graph/gog-chart.c:689
 msgid "Position and size of plot area, in percentage of chart size"
@@ -1715,13 +1697,12 @@ msgid "Horizontal"
 msgstr "Vodoravno"
 
 #: ../goffice/graph/gog-color-scale.c:133
-#, fuzzy
 msgid "Whether to display the scale horizontally"
-msgstr "Da li da koristi vodoravne treke"
+msgstr "Da li vodoravno da prikaže lestvicu"
 
 #: ../goffice/graph/gog-color-scale.c:138
 msgid "Color scale thickness."
-msgstr ""
+msgstr "Debljina lestvice boje."
 
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
 msgid "_Compact mode"
@@ -1794,9 +1775,8 @@ msgid "Values"
 msgstr "Vrednosti"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:10
-#, fuzzy
 msgid "Error category"
-msgstr "<b>Kategorija greške</b>"
+msgstr "Kategorija greške"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:12
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
@@ -1865,10 +1845,11 @@ msgstr "Zaboravi stilove korisnika"
 #: ../goffice/graph/gog-graph-prefs.ui.h:4
 msgid "Save the theme as a standalone file in the user home directory."
 msgstr ""
+"Sačuvajte temu kao samostalnu datoteku u korisničkom ličnom direktorijumu."
 
 #: ../goffice/graph/gog-grid.c:128
 msgid "Numerical type of this backplane"
-msgstr ""
+msgstr "Numerička vrsta ove osnove"
 
 #: ../goffice/graph/gog-grid-line.c:113
 msgid "Is-minor"
@@ -1900,14 +1881,12 @@ msgid "_Plot Type"
 msgstr "_Vrsta nacrta"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
-#, fuzzy
 msgid "Sample"
-msgstr "<b>Uzorak</b>"
+msgstr "Uzorak"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
-#, fuzzy
 msgid "_Subtype"
-msgstr "<b>_Podvrsta</b>"
+msgstr "_Podvrsta"
 
 #: ../goffice/graph/gog-label.c:149
 msgid "Allow markup"
@@ -1993,7 +1972,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-label.c:564
 msgid "Regression Equation"
-msgstr ""
+msgstr "Jednačina povraćaja"
 
 #: ../goffice/graph/gog-label.c:603
 msgid "Show equation"
@@ -2009,23 +1988,23 @@ msgstr "Prikazuje koeficijent"
 
 #: ../goffice/graph/gog-label.c:610
 msgid "Show the correlation coefficient on the graph"
-msgstr ""
+msgstr "Prikazuje koeficijent međuodnosa na grafiku"
 
 #: ../goffice/graph/gog-legend.c:218
 msgid "Swatch Size pts"
-msgstr ""
+msgstr "Tačke veličine mustre"
 
 #: ../goffice/graph/gog-legend.c:219
 msgid "size of the swatches in pts."
-msgstr ""
+msgstr "veličina mustre u tačkama."
 
 #: ../goffice/graph/gog-legend.c:224
 msgid "Swatch Padding pts"
-msgstr ""
+msgstr "Tačke popunjavanja mustre"
 
 #: ../goffice/graph/gog-legend.c:225
 msgid "padding between the swatches in pts."
-msgstr ""
+msgstr "popunjavanje između mustri u tačkama."
 
 #: ../goffice/graph/gog-object.c:161 ../goffice/graph/gog-object.c:180
 #: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
@@ -2100,7 +2079,7 @@ msgstr "Kompas"
 
 #: ../goffice/graph/gog-object.c:798
 msgid "Compass auto position flags"
-msgstr ""
+msgstr "Opcija samostalnog položaja kompasa"
 
 #: ../goffice/graph/gog-object.c:803
 msgid "Alignment"
@@ -2116,7 +2095,7 @@ msgstr "Da li je položaj ručni"
 
 #: ../goffice/graph/gog-object.c:816
 msgid "Anchor for manual position"
-msgstr ""
+msgstr "Oslonac za ručni položaj"
 
 #: ../goffice/graph/gog-object.c:821 ../goffice/graph/gog-object.c:822
 msgid "Should the object be hidden"
@@ -2148,7 +2127,7 @@ msgstr "_Y:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:6
 msgid "Anchor:"
-msgstr "Sidro:"
+msgstr "Oslonac:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:8
 #: ../goffice/graph/gog-plot-prefs.ui.h:6
@@ -2198,7 +2177,7 @@ msgstr "_Visina:"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
-msgstr "Tačke podloge"
+msgstr "Tačke popunjavanja"
 
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
@@ -2230,11 +2209,11 @@ msgstr "Pseudo 3D osa:"
 
 #: ../goffice/graph/gog-plot.c:233
 msgid "Color axis:"
-msgstr ""
+msgstr "Osa boje:"
 
 #: ../goffice/graph/gog-plot.c:234
 msgid "Bubble axis:"
-msgstr ""
+msgstr "Osa mehura:"
 
 #: ../goffice/graph/gog-plot.c:300
 msgid "Axes"
@@ -2243,11 +2222,11 @@ msgstr "Ose"
 #: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
-msgstr "Redovi"
+msgstr "Nizovi"
 
 #: ../goffice/graph/gog-plot.c:459
 msgid "Vary style by element"
-msgstr ""
+msgstr "Menjaj izgled prema elementu"
 
 #: ../goffice/graph/gog-plot.c:460
 msgid "Use a different style for each segment"
@@ -2259,7 +2238,7 @@ msgstr "X osa"
 
 #: ../goffice/graph/gog-plot.c:466
 msgid "Reference to X axis"
-msgstr ""
+msgstr "Uputa na X osu"
 
 #: ../goffice/graph/gog-plot.c:471
 msgid "Y axis"
@@ -2267,7 +2246,7 @@ msgstr "Y osa"
 
 #: ../goffice/graph/gog-plot.c:472
 msgid "Reference to Y axis"
-msgstr ""
+msgstr "Uputa na Y osu"
 
 #: ../goffice/graph/gog-plot.c:477
 msgid "Z axis"
@@ -2275,7 +2254,7 @@ msgstr "Z osa"
 
 #: ../goffice/graph/gog-plot.c:478
 msgid "Reference to Z axis"
-msgstr ""
+msgstr "Uputa na Z osu"
 
 #: ../goffice/graph/gog-plot.c:483
 msgid "Circular axis"
@@ -2283,7 +2262,7 @@ msgstr "Kružna osa"
 
 #: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
-msgstr ""
+msgstr "Uputa na kružnu osu"
 
 #: ../goffice/graph/gog-plot.c:489
 msgid "Radial axis"
@@ -2291,7 +2270,7 @@ msgstr "Radijalna osa"
 
 #: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
-msgstr ""
+msgstr "Uputa na radijalnu osu"
 
 #: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
@@ -2299,23 +2278,23 @@ msgstr "Pseudo 3D osa"
 
 #: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
-msgstr ""
+msgstr "Uputa na pseudo 3D osu"
 
 #: ../goffice/graph/gog-plot.c:501
 msgid "Color axis"
-msgstr ""
+msgstr "Osa boje"
 
 #: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
-msgstr ""
+msgstr "Uputa na osu boje"
 
 #: ../goffice/graph/gog-plot.c:507
 msgid "Bubble axis"
-msgstr ""
+msgstr "Osa mehura"
 
 #: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
-msgstr ""
+msgstr "Uputa na osu mehura"
 
 #: ../goffice/graph/gog-plot.c:513
 msgid "Plot group"
@@ -2327,21 +2306,23 @@ msgstr "Naziv grupe nacrta ako ga ima"
 
 #: ../goffice/graph/gog-plot.c:519
 msgid "Guru hints"
-msgstr ""
+msgstr "Saveti sveznalka"
 
 #: ../goffice/graph/gog-plot.c:520
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
+"Spisak saveta razdvojen zapetačkom za samostalno dodavanje figura u "
+"prozorčetu sveznalka"
 
 #: ../goffice/graph/gog-plot.c:526
 msgid "Default interpolation"
-msgstr ""
+msgstr "Osnovno umetanje"
 
 #: ../goffice/graph/gog-plot.c:527
 msgid "Default type of series line interpolation"
-msgstr ""
+msgstr "Osnovna vrsta umetanja linija nizova"
 
 #: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
@@ -2354,7 +2335,7 @@ msgstr "Menja veličinu oblasti nacrta"
 # steam engine je parna mašina, a šta je ovo?
 #: ../goffice/graph/gog-plot-engine.c:81
 msgid "Plot Engine"
-msgstr "Sistem za iscrtavanje"
+msgstr "Pogon iscrtavanja"
 
 #: ../goffice/graph/gog-plot-engine.c:330
 msgid "Plot Type"
@@ -2362,15 +2343,15 @@ msgstr "Vrsta iscrtavanja"
 
 #: ../goffice/graph/gog-plot-engine.c:414
 msgid "Regression Curve Engine"
-msgstr ""
+msgstr "Pogon krive povraćaja"
 
 #: ../goffice/graph/gog-plot-engine.c:608
 msgid "Regression Curve Type"
-msgstr ""
+msgstr "Vrsta krive povraćaja"
 
 #: ../goffice/graph/gog-reg-curve.c:273
 msgid "Regression Curve"
-msgstr ""
+msgstr "Kriva povraćaja"
 
 #: ../goffice/graph/gog-reg-curve.c:308
 msgid "Skip invalid"
@@ -2390,6 +2371,8 @@ msgid ""
 "How the regression line should be limited, acceptable values are \"none\", "
 "\"absolute\", and \"relative\"."
 msgstr ""
+"Kako linija povraćaja treba da bude ograničena, prihvatljive vrednosti su "
+"„none“, „absolute“, i „relative“."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2409,9 +2392,8 @@ msgid "Used data"
 msgstr "Korišćeni podaci"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
-#, fuzzy
 msgid "Drawing Limits:"
-msgstr "<b>Ograničenja iscrtavanja:</b>"
+msgstr "Ograničenja iscrtavanja:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:7
 msgid ""
@@ -2420,6 +2402,10 @@ msgid ""
 "Relative: the line will be displayed between the data range expanded "
 "according to the values given below."
 msgstr ""
+"None: linija će biti prikazana u čitavom vidljivom opsegu.\n"
+"Absolute: linija će biti prikazana između datih ograničenja.\n"
+"Relative: linija će biti prikazana između opsega podataka proširenog u "
+"skladu sa vrednostima datim ispod."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:10
 msgid ""
@@ -2429,6 +2415,11 @@ msgid ""
 "according to the values given below, with positive values enlarging the "
 "range."
 msgstr ""
+"None: linija će biti prikazana u čitavom vidljivom opsegu.\n"
+"Absolute: linija će biti prikazana između datih ograničenja.\n"
+"Relative: linija će biti prikazana između opsega podataka proširenog u "
+"skladu sa vrednostima datim ispod, sa pozitivnim vrednostima koje proširuju "
+"opseg."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:16
 msgid "Low limit:"
@@ -2440,11 +2431,11 @@ msgstr "Gornje ograničenje:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:18
 msgid "Low span:"
-msgstr "Donje prostiranje:"
+msgstr "Donji raspon:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:19
 msgid "High span:"
-msgstr "Gornje prostiranje:"
+msgstr "Gornji raspon:"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
@@ -2452,7 +2443,7 @@ msgstr "Prikaži _jednačinu"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:2
 msgid "Display _regression coefficient R&#xB2;"
-msgstr ""
+msgstr "Prikaži koeficijent _povraćaja R&#xB2;"
 
 #: ../goffice/graph/gog-renderer.c:1824 ../goffice/graph/gog-view.c:691
 msgid "Model"
@@ -2492,23 +2483,23 @@ msgstr "Svoje"
 
 #: ../goffice/graph/gog-series.c:114
 msgid "Next series"
-msgstr "Sledeće serije"
+msgstr "Sledeći nizovi"
 
 #: ../goffice/graph/gog-series.c:115
 msgid "X axis minimum"
-msgstr ""
+msgstr "Minimum X ose"
 
 #: ../goffice/graph/gog-series.c:116
 msgid "X axis maximum"
-msgstr ""
+msgstr "Maksimum X ose"
 
 #: ../goffice/graph/gog-series.c:117
 msgid "Y axis minimum"
-msgstr ""
+msgstr "Minimum Y ose"
 
 #: ../goffice/graph/gog-series.c:118
 msgid "Y axis maximum"
-msgstr ""
+msgstr "Maksimum Y ose"
 
 #: ../goffice/graph/gog-series.c:231 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
@@ -2536,11 +2527,11 @@ msgstr "Podaci"
 
 #: ../goffice/graph/gog-series.c:662
 msgid "Derivative at first point of the clamped cubic spline."
-msgstr ""
+msgstr "Izvedenica na prvoj tački pričvršćene kubne sp-krive."
 
 #: ../goffice/graph/gog-series.c:667
 msgid "Derivative at last point of the clamped cubic spline."
-msgstr ""
+msgstr "Izvedenica na poslednjoj tački pričvršćene kubne sp-krive."
 
 #: ../goffice/graph/gog-series.c:740 ../goffice/graph/gog-series-labels.c:1401
 msgid "Point"
@@ -2548,11 +2539,11 @@ msgstr "Tačka"
 
 #: ../goffice/graph/gog-series.c:746
 msgid "Regression curve"
-msgstr ""
+msgstr "Kriva povraćaja"
 
 #: ../goffice/graph/gog-series.c:754 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
-msgstr ""
+msgstr "Linija očekivanja"
 
 #: ../goffice/graph/gog-series.c:762
 msgid "Data labels"
@@ -2564,23 +2555,23 @@ msgstr "Ima legendu"
 
 #: ../goffice/graph/gog-series.c:798
 msgid "Should the series show up in legends"
-msgstr ""
+msgstr "Treba li nizovi da se prikažu u legendi"
 
 #: ../goffice/graph/gog-series.c:803 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
-msgstr ""
+msgstr "Umetanje"
 
 #: ../goffice/graph/gog-series.c:804
 msgid "Type of line interpolation"
-msgstr ""
+msgstr "Vrsta umetanja linije"
 
 #: ../goffice/graph/gog-series.c:809
 msgid "Interpolation skip invalid"
-msgstr ""
+msgstr "Umetanje preskače neispravnosti"
 
 #: ../goffice/graph/gog-series.c:810
 msgid "Should the series interpolation ignore the invalid data"
-msgstr ""
+msgstr "Treba li umetanje nizova da zanemari neispravne podatke"
 
 #: ../goffice/graph/gog-series.c:815
 msgid "Fill type"
@@ -2626,7 +2617,7 @@ msgstr "Unos legende"
 #: ../goffice/graph/gog-series-labels.c:521
 #: ../goffice/graph/gog-series-labels.c:588
 msgid "Series name"
-msgstr ""
+msgstr "Naziv niza"
 
 #: ../goffice/graph/gog-series-labels.c:527
 #: ../goffice/graph/gog-series-labels.c:592
@@ -2706,62 +2697,52 @@ msgid "Smoothed Curve"
 msgstr "Umekšana kriva"
 
 #: ../goffice/graph/gog-theme.c:323
-#, fuzzy
 msgid "The resource type for the theme"
-msgstr "Tačka oslonca za tekst"
+msgstr "Vrsta izvorišta za temu"
 
 #: ../goffice/graph/gog-theme.c:582
-#, fuzzy
 msgid "Graph title"
-msgstr "Grafik"
+msgstr "Naslov grafika"
 
 #: ../goffice/graph/gog-theme.c:584
-#, fuzzy
 msgid "Chart title"
-msgstr "Grafik"
+msgstr "Naslov nacrta"
 
 #: ../goffice/graph/gog-theme.c:586
-#, fuzzy
 msgid "Axis"
-msgstr "Osa X"
+msgstr "Osa"
 
 #: ../goffice/graph/gog-theme.c:587
-#, fuzzy
 msgid "Axis line"
 msgstr "Linija ose"
 
 #: ../goffice/graph/gog-theme.c:589
-#, fuzzy
 msgid "Major grid"
 msgstr "Glavna mreža"
 
 #: ../goffice/graph/gog-theme.c:590
-#, fuzzy
 msgid "Minor grid"
 msgstr "Sporedna mreža"
 
 #: ../goffice/graph/gog-theme.c:593
-#, fuzzy
 msgid "Regression equation"
-msgstr "Linija unazađivanja"
+msgstr "Jednačina povraćaja"
 
 #: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:643
 msgid "Series lines"
-msgstr ""
+msgstr "Linije niza"
 
 #: ../goffice/graph/gog-theme.c:599
-#, fuzzy
 msgid "Series labels"
-msgstr "Natpisi kategorija"
+msgstr "Natpisi niza"
 
 #: ../goffice/graph/gog-theme.c:600
-#, fuzzy
 msgid "Data label"
-msgstr "Oznake podataka"
+msgstr "Natpis podataka"
 
 #: ../goffice/graph/gog-theme.c:1241
 msgid "An MS Excel like theme"
-msgstr ""
+msgstr "Tema slična MS Ekselu"
 
 #. Guppi
 #: ../goffice/graph/gog-theme.c:1411
@@ -2769,35 +2750,32 @@ msgid "Guppi"
 msgstr "Gupi"
 
 #: ../goffice/graph/gog-theme.c:1412
-#, fuzzy
 msgid "Guppi theme"
-msgstr "Gupi"
+msgstr "Gupi tema"
 
 #: ../goffice/graph/gog-theme.c:1840
 msgid "Class"
-msgstr ""
+msgstr "Razred"
 
 #: ../goffice/graph/gog-theme.c:1843
 msgid "Create"
-msgstr ""
+msgstr "Napravi"
 
 #: ../goffice/graph/gog-theme.c:1858 ../goffice/graph/new-theme-prefs.ui.h:1
-#, fuzzy
 msgid "New theme"
-msgstr "Naziv nove slike"
+msgstr "Nova tema"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:1
-#, fuzzy
 msgid "Theme editor"
-msgstr "Naziv teme"
+msgstr "Uređivač teme"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:3
 msgid "Classes"
-msgstr ""
+msgstr "Razredi"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:5
 msgid "Snapshot"
-msgstr ""
+msgstr "Snimak stanja"
 
 #: ../goffice/graph/gog-trend-line.c:90
 #: ../plugins/plot_barcol/gog-barcol.c:166
@@ -2819,11 +2797,11 @@ msgstr "Svojstva"
 
 #: ../goffice/graph/gog-trend-line.c:132
 msgid "Trend Line"
-msgstr ""
+msgstr "Linija očekivanja"
 
 #: ../goffice/graph/gog-trend-line.c:152
 msgid "Should the trend line show up in legends"
-msgstr ""
+msgstr "Treba li linija očekivanja da se prikaže u legendi"
 
 #: ../goffice/graph/gog-view.c:129
 msgid "Select object"
@@ -2839,16 +2817,15 @@ msgstr "Promeni veličinu figure"
 
 #: ../goffice/graph/gog-view.c:686
 msgid "the GogView parent"
-msgstr ""
+msgstr "roditelj Gog pregleda"
 
 #: ../goffice/graph/gog-view.c:692
 msgid "The GogObject this view displays"
 msgstr "Gog figura koju prikazuje ovaj pregled"
 
 #: ../goffice/graph/new-theme-prefs.ui.h:2
-#, fuzzy
 msgid "Series number"
-msgstr "Redovi"
+msgstr "Broj niza"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -3249,11 +3226,11 @@ msgstr "Zapadni (Windows-1252)"
 
 #: ../goffice/gtk/go-charmap-sel.c:416
 msgid "Locale: "
-msgstr "Lokalitet:"
+msgstr "Lokalitet: "
 
 #: ../goffice/gtk/go-charmap-sel.c:457
 msgid "Conversion Direction"
-msgstr ""
+msgstr "Smer pretvaranja"
 
 #: ../goffice/gtk/go-charmap-sel.c:458
 msgid "This value determines which iconv test to perform."
@@ -3515,7 +3492,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:348
 msgid "Faces"
-msgstr ""
+msgstr "Izgled"
 
 #.
 #. * List of observed face names.  Translators: these represent
@@ -3526,212 +3503,195 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:389
 msgctxt "FontFace"
 msgid "Regular"
-msgstr ""
+msgstr "Obična"
 
 #: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
-#, fuzzy
 msgctxt "FontFace"
 msgid "Italic"
-msgstr "Iskošeno"
+msgstr "Iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:391
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold"
-msgstr "Podebljano"
+msgstr "Podebljana"
 
 #: ../goffice/gtk/go-font-sel.c:392
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Italic"
-msgstr "Podebljano iskošeno"
+msgstr "Podebljana iskošena"
 
 #. These are fairly rare.
 #: ../goffice/gtk/go-font-sel.c:395
-#, fuzzy
 msgctxt "FontFace"
 msgid "Black"
-msgstr "Crni"
+msgstr "Crna"
 
 #: ../goffice/gtk/go-font-sel.c:396
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Condensed Italic"
-msgstr "Podebljano iskošeno"
+msgstr "Podebljana zbijena iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:397
 msgctxt "FontFace"
 msgid "Bold Condensed"
-msgstr ""
+msgstr "Podebljana zbijena"
 
 #: ../goffice/gtk/go-font-sel.c:398
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Italic Small Caps"
-msgstr "Podebljano iskošeno"
+msgstr "Podebljana iskošena mala velika slova"
 
 #: ../goffice/gtk/go-font-sel.c:399
 msgctxt "FontFace"
 msgid "Bold Nonextended"
-msgstr ""
+msgstr "Podebljana neproširena"
 
 #: ../goffice/gtk/go-font-sel.c:400
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Oblique"
-msgstr "Podebljano iskošeno"
+msgstr "Podebljana zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
 msgid "Bold Slanted"
-msgstr ""
+msgstr "Podebljana nagnuta"
 
 #: ../goffice/gtk/go-font-sel.c:402
 msgctxt "FontFace"
 msgid "Bold Small Caps"
-msgstr ""
+msgstr "Podebljana mala velika slova"
 
 #: ../goffice/gtk/go-font-sel.c:403
 msgctxt "FontFace"
 msgid "Book Oblique"
-msgstr ""
+msgstr "Knjiška zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:404
 msgctxt "FontFace"
 msgid "Book"
-msgstr ""
+msgstr "Knjiška"
 
 #: ../goffice/gtk/go-font-sel.c:405
-#, fuzzy
 msgctxt "FontFace"
 msgid "Condensed Bold Italic"
-msgstr "Podebljano iskošeno"
+msgstr "Zbijena podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:406
 msgctxt "FontFace"
 msgid "Condensed Bold Oblique"
-msgstr ""
+msgstr "Zbijena podebljana zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:407
 msgctxt "FontFace"
 msgid "Condensed Bold"
-msgstr ""
+msgstr "Zbijena podebljana"
 
 #: ../goffice/gtk/go-font-sel.c:408
 msgctxt "FontFace"
 msgid "Condensed Italic"
-msgstr ""
+msgstr "Podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:409
 msgctxt "FontFace"
 msgid "Condensed Oblique"
-msgstr ""
+msgstr "Zbijena zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:410
 msgctxt "FontFace"
 msgid "Condensed"
-msgstr ""
+msgstr "Zbijena"
 
 #: ../goffice/gtk/go-font-sel.c:411
-#, fuzzy
 msgctxt "FontFace"
 msgid "Demi Bold Italic"
-msgstr "Podebljano iskošeno"
+msgstr "Polu-podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:412
-#, fuzzy
 msgctxt "FontFace"
 msgid "Demi Bold"
-msgstr "Podebljano"
+msgstr "Polu-podebljana"
 
 #: ../goffice/gtk/go-font-sel.c:413
 msgctxt "FontFace"
 msgid "Demi Oblique"
-msgstr ""
+msgstr "Polu-zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:414
 msgctxt "FontFace"
 msgid "Demi"
-msgstr ""
+msgstr "Polutni"
 
 #: ../goffice/gtk/go-font-sel.c:415
 msgctxt "FontFace"
 msgid "Demi-Condensed"
-msgstr ""
+msgstr "Polu-zbijena"
 
 #: ../goffice/gtk/go-font-sel.c:416
 msgctxt "FontFace"
 msgid "Embossed"
-msgstr ""
+msgstr "Ispupčena"
 
 #: ../goffice/gtk/go-font-sel.c:417
-#, fuzzy
 msgctxt "FontFace"
 msgid "Expanded Bold Italic"
-msgstr "Podebljano iskošeno"
+msgstr "Raširena podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:418
 msgctxt "FontFace"
 msgid "Expanded Bold"
-msgstr ""
+msgstr "Raširena podebljana"
 
 #: ../goffice/gtk/go-font-sel.c:419
 msgctxt "FontFace"
 msgid "Expanded Italic"
-msgstr ""
+msgstr "Raširena iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:420
 msgctxt "FontFace"
 msgid "Expanded"
-msgstr ""
+msgstr "Raširena"
 
 #: ../goffice/gtk/go-font-sel.c:421
-#, fuzzy
 msgctxt "FontFace"
 msgid "Extra Light"
-msgstr "trougao na desno"
+msgstr "Posebno svetla"
 
 #: ../goffice/gtk/go-font-sel.c:422
 msgctxt "FontFace"
 msgid "Heavy"
-msgstr ""
+msgstr "Zacrnjena"
 
 #: ../goffice/gtk/go-font-sel.c:423
 msgctxt "FontFace"
 msgid "Italic Small Caps"
-msgstr ""
+msgstr "Iskošena mala velika slova"
 
 #: ../goffice/gtk/go-font-sel.c:425
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light Italic"
-msgstr "Iskošeno"
+msgstr "Svetla iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:426
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light Oblique"
-msgstr "svetloplava"
+msgstr "Svetla zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:427
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light"
-msgstr "Desno"
+msgstr "Svetla"
 
 #: ../goffice/gtk/go-font-sel.c:428
-#, fuzzy
 msgctxt "FontFace"
 msgid "Medium Italic"
-msgstr "Iskošeno"
+msgstr "Srednja iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:429
 msgctxt "FontFace"
 msgid "Medium"
-msgstr ""
+msgstr "Srednja"
 
 #: ../goffice/gtk/go-font-sel.c:430
-#, fuzzy
 msgctxt "FontFace"
 msgid "Normal"
 msgstr "Normalna"
@@ -3739,165 +3699,157 @@ msgstr "Normalna"
 #: ../goffice/gtk/go-font-sel.c:431
 msgctxt "FontFace"
 msgid "Oblique"
-msgstr ""
+msgstr "Zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:432
 msgctxt "FontFace"
 msgid "Regular Condensed Italic"
-msgstr ""
+msgstr "Obična zbijena iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:433
 msgctxt "FontFace"
 msgid "Regular Condensed"
-msgstr ""
+msgstr "Obična zbijena"
 
 #: ../goffice/gtk/go-font-sel.c:434
-#, fuzzy
 msgctxt "FontFace"
 msgid "Regular Italic"
-msgstr "Iskošeno"
+msgstr "Obična iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:435
 msgctxt "FontFace"
 msgid "Regular Oblique"
-msgstr ""
+msgstr "Obična zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:436
 msgctxt "FontFace"
 msgid "Roman Slanted"
-msgstr ""
+msgstr "Romanska nagnuta"
 
 #: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Roman"
-msgstr ""
+msgstr "Romanska"
 
 #: ../goffice/gtk/go-font-sel.c:438
 msgctxt "FontFace"
 msgid "Rounded"
-msgstr ""
+msgstr "Zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:439
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Bold Italic"
-msgstr "Podebljano iskošeno"
+msgstr "Sans podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:440
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Bold"
-msgstr "Podebljano"
+msgstr "Sans podebljana"
 
 #: ../goffice/gtk/go-font-sel.c:441
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Italic"
-msgstr "Iskošeno"
+msgstr "Sans iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:442
 msgctxt "FontFace"
 msgid "Sans"
-msgstr ""
+msgstr "Sans"
 
 #: ../goffice/gtk/go-font-sel.c:443
 msgctxt "FontFace"
 msgid "Semi-Bold Italic Small Caps"
-msgstr ""
+msgstr "Semi-podebljana iskošena mala velika slova"
 
 #: ../goffice/gtk/go-font-sel.c:444
-#, fuzzy
 msgctxt "FontFace"
 msgid "Semi-Bold Italic"
-msgstr "Podebljano iskošeno"
+msgstr "Semi-podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:445
 msgctxt "FontFace"
 msgid "Semi-Bold Oblique"
-msgstr ""
+msgstr "Semi-podebljana zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:446
 msgctxt "FontFace"
 msgid "Semi-Bold Slanted"
-msgstr ""
+msgstr "Semi-podebljana nagnuta"
 
 #: ../goffice/gtk/go-font-sel.c:447
 msgctxt "FontFace"
 msgid "Semi-Bold Small Caps"
-msgstr ""
+msgstr "Semi-podebljana mala velika slova"
 
 #: ../goffice/gtk/go-font-sel.c:448
-#, fuzzy
 msgctxt "FontFace"
 msgid "Semi-Bold"
-msgstr "Podebljano"
+msgstr "Semi-podebljana"
 
 #: ../goffice/gtk/go-font-sel.c:449
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold Italic"
-msgstr ""
+msgstr "Semi-zbijena podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:450
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold"
-msgstr ""
+msgstr "Semi-zbijena podebljana"
 
 #: ../goffice/gtk/go-font-sel.c:451
 msgctxt "FontFace"
 msgid "Semi-Condensed Italic"
-msgstr ""
+msgstr "Semi-podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:452
 msgctxt "FontFace"
 msgid "Semi-Condensed Oblique"
-msgstr ""
+msgstr "Semi-zbijena zaobljena"
 
 #: ../goffice/gtk/go-font-sel.c:453
 msgctxt "FontFace"
 msgid "Semi-Condensed"
-msgstr ""
+msgstr "Semi-zbijena"
 
 #: ../goffice/gtk/go-font-sel.c:454
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold Italic"
-msgstr ""
+msgstr "Semi-raširena podebljana iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:455
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold"
-msgstr ""
+msgstr "Semi-raširena podebljana"
 
 #: ../goffice/gtk/go-font-sel.c:456
 msgctxt "FontFace"
 msgid "Semi-Expanded Italic"
-msgstr ""
+msgstr "Semi-raširena iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:457
 msgctxt "FontFace"
 msgid "Semi-Expanded"
-msgstr ""
+msgstr "Semi-raširena"
 
 #: ../goffice/gtk/go-font-sel.c:458
 msgctxt "FontFace"
 msgid "Slanted"
-msgstr ""
+msgstr "Nagnuta"
 
 #: ../goffice/gtk/go-font-sel.c:459
-#, fuzzy
 msgctxt "FontFace"
 msgid "Small Caps"
-msgstr "Kružići"
+msgstr "Mala slova"
 
 #: ../goffice/gtk/go-font-sel.c:460
 msgctxt "FontFace"
 msgid "Thin"
-msgstr ""
+msgstr "Tanka"
 
 #: ../goffice/gtk/go-font-sel.c:461
-#, fuzzy
 msgctxt "FontFace"
 msgid "Upright Italic"
-msgstr "Iskošeno"
+msgstr "Uspravna iskošena"
 
 #: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
 msgid "Font"
@@ -3905,7 +3857,7 @@ msgstr "Pismo"
 
 #: ../goffice/gtk/go-font-sel.c:605
 msgid "All fonts..."
-msgstr ""
+msgstr "Sva pisma..."
 
 # add a "None" option to the stores menu
 # Put the "None" and "UTC" entries at the top of the combo's list.
@@ -3913,191 +3865,177 @@ msgstr ""
 # Note that we don't show this here, since by default a 'None' date
 # is not permitted.
 #: ../goffice/gtk/go-font-sel.c:905
-#, fuzzy
 msgctxt "underline"
 msgid "None"
 msgstr "Ništa"
 
 #: ../goffice/gtk/go-font-sel.c:906
-#, fuzzy
 msgctxt "underline"
 msgid "Single"
-msgstr "Ugao"
+msgstr "Jednostruko"
 
 #: ../goffice/gtk/go-font-sel.c:907
 msgctxt "underline"
 msgid "Double"
-msgstr ""
+msgstr "Dvostruko"
 
 #: ../goffice/gtk/go-font-sel.c:908
-#, fuzzy
 msgctxt "underline"
 msgid "Low"
-msgstr "_Nisko"
+msgstr "Slabo"
 
 #: ../goffice/gtk/go-font-sel.c:909
-#, fuzzy
 msgctxt "underline"
 msgid "Error"
-msgstr "Trake greške"
+msgstr "Greška"
 
 #: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
 msgid "Normal"
 msgstr "Normalna"
 
 #: ../goffice/gtk/go-font-sel.c:931
-#, fuzzy
 msgid "Subscript"
-msgstr "Opis"
+msgstr "Indeks"
 
 #: ../goffice/gtk/go-font-sel.c:932
-#, fuzzy
 msgid "Superscript"
-msgstr "Koristi _stepen"
+msgstr "Eksponent"
 
 #: ../goffice/gtk/go-font-sel.c:1185
-#, fuzzy
 msgid "Show Style"
-msgstr "Stil"
+msgstr "Prikaži izgled"
 
 #: ../goffice/gtk/go-font-sel.c:1186
 msgid "Whether style is part of the font being selected"
-msgstr ""
+msgstr "Da li je izgled sastojak izabranog slovnog lika"
 
 #: ../goffice/gtk/go-font-sel.c:1194
 msgid "Show Color"
-msgstr ""
+msgstr "Prikaži boju"
 
 #: ../goffice/gtk/go-font-sel.c:1195
 msgid "Whether color is part of the font being selected"
-msgstr ""
+msgstr "Da li je boja sastojak izabranog slovnog lika"
 
 #: ../goffice/gtk/go-font-sel.c:1203
-#, fuzzy
 msgid "Show Underline"
-msgstr "Prikaži negativne"
+msgstr "Prikaži podvučeno"
 
 #: ../goffice/gtk/go-font-sel.c:1204
 msgid "Whether underlining is part of the font being selected"
-msgstr ""
+msgstr "Da li je podvlačenje sastojak izabranog slovnog lika"
 
 #: ../goffice/gtk/go-font-sel.c:1212
 msgid "Show Script"
-msgstr ""
+msgstr "Prikaži skriptu"
 
 #: ../goffice/gtk/go-font-sel.c:1213
 msgid "Whether subscript/superscript is part of the font being selected"
-msgstr ""
+msgstr "Da li je indeks/stepen sastojak izabranog slovnog lika"
 
 #: ../goffice/gtk/go-font-sel.c:1221
 msgid "Show Strikethrough"
-msgstr ""
+msgstr "Prikaži precrtano"
 
 #: ../goffice/gtk/go-font-sel.c:1222
 msgid "Whether strikethrough is part of the font being selected"
-msgstr ""
+msgstr "Da li je precrtano sastojak izabranog slovnog lika"
 
 #: ../goffice/gtk/go-font-sel.c:1230
 msgid "Color unset text"
-msgstr ""
+msgstr "Boja nepodešenog teksta"
 
 #: ../goffice/gtk/go-font-sel.c:1231
-#, fuzzy
 msgid "The text to show for selecing no color"
-msgstr "Tekst za traženje"
+msgstr "Tekst koji se prikazuje kada se ne bira boja"
 
 #: ../goffice/gtk/go-font-sel.c:1239
-#, fuzzy
 msgid "Color Group"
-msgstr "Grupa nacrta"
+msgstr "Grupa boje"
 
 #: ../goffice/gtk/go-font-sel.c:1240
 msgid "The color group to use for the color picker"
-msgstr ""
+msgstr "Grupa boje koja se koristi za birača boja"
 
 #: ../goffice/gtk/go-font-sel.c:1248
-#, fuzzy
 msgid "Color Default"
-msgstr "Osnovno"
+msgstr "Osnovnost boje"
 
 #: ../goffice/gtk/go-font-sel.c:1249
 msgid "The color to show for an unset color"
-msgstr ""
+msgstr "Boja koja se prikazuje za nepodešenu boju"
 
 #: ../goffice/gtk/go-font-sel.c:1259
 msgid "Underline Picker"
-msgstr ""
+msgstr "Birač podvlačenja"
 
 #: ../goffice/gtk/go-font-sel.c:1260
 msgid "The widget to use for picking underline type"
-msgstr ""
+msgstr "Element koji se koristi za biranje vrste podvlačenja"
 
 #: ../goffice/gtk/go-font-sel-dialog.c:107
 msgid "Pick a Font"
-msgstr ""
+msgstr "Izaberite slovni lik"
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
 msgid "Select the font family"
-msgstr ""
+msgstr "Izaberite porodicu slova"
 
 #: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
 msgstr "Slova:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:3
-#, fuzzy
 msgid "Select the size"
-msgstr "Izaberite sliku"
+msgstr "Izaberite veličinu"
 
 #: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
 msgstr "Veličina:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:5
-#, fuzzy
 msgid "Select the font face"
-msgstr "Izaberite sliku"
+msgstr "Izaberite lice slova"
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
-#, fuzzy
 msgid "Style:"
-msgstr "Na_čin:"
+msgstr "Izgled:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
-#, fuzzy
 msgid "Select whether a line should be drawn through the text"
-msgstr "Da li kadar treba da bude zaokrenut sa tekstom"
+msgstr "Izaberite da li linija treba da bude iscrtana kroz tekst"
 
 #: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
-msgstr ""
+msgstr "Precrtano:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
-msgstr ""
+msgstr "Izaberite boju slova"
 
 #: ../goffice/gtk/go-font-sel.ui.h:10
-#, fuzzy
 msgid "Color:"
-msgstr "Boj_a:"
+msgstr "Boja:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:11
 msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
 msgstr ""
+"Izaberite da li slova treba da budu izmenjena za korišćenje kao indeks ili "
+"stepen"
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
-msgstr ""
+msgstr "Skripta:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
 msgid "Select the type of underlining"
-msgstr ""
+msgstr "Izaberite vrstu podvlačenja"
 
 #: ../goffice/gtk/go-font-sel.ui.h:14
 msgid "Underline:"
-msgstr ""
+msgstr "Podvuci:"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
@@ -4325,7 +4263,7 @@ msgstr "Prikazuje iznose valuta."
 
 #: ../goffice/gtk/go-format-sel.ui.h:6
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Prikazuje veličine u tradicionalnom stilu računovođa."
 
 #: ../goffice/gtk/go-format-sel.ui.h:7
 msgid "Display dates and optionally times of day."
@@ -4341,7 +4279,7 @@ msgstr "Prikazuje vrednosti kao najbliže približne razlomke."
 
 #: ../goffice/gtk/go-format-sel.ui.h:10
 msgid "Display values with power-of-ten scaling."
-msgstr "Prikazuje vrednosti sa skaliranjem stepena desetke."
+msgstr "Prikazuje vrednosti sa srazmeravanjem stepena desetke."
 
 #: ../goffice/gtk/go-format-sel.ui.h:11
 msgid "Display and input values as strings with no interpretation."
@@ -4434,11 +4372,11 @@ msgstr "Navedeni imenilac:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
 msgid "Always show exponent si_gn"
-msgstr ""
+msgstr "Uvek prikaži znak _izložioca"
 
 #: ../goffice/gtk/go-format-sel.ui.h:33
 msgid "_Engineering notation"
-msgstr ""
+msgstr "_Inženjersko beleženje"
 
 #: ../goffice/gtk/go-format-sel.ui.h:34
 msgid "Restrict exponent to multiples of 3"
@@ -4450,7 +4388,7 @@ msgstr "Koristi _stepen"
 
 #: ../goffice/gtk/go-format-sel.ui.h:36
 msgid "Use superscript for exponent (e.g. 4×10²)"
-msgstr "Koristi stepen za izložilac (npr. 4×10²)"
+msgstr "Koristi stepen za izložioca (npr. 4×10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:37
 msgid "_Don't show 1×s"
@@ -4462,9 +4400,8 @@ msgstr ""
 "Kada je mantisa jednaka 1, prikazuje samo sastojak izložioca (npr. 10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:39
-#, fuzzy
 msgid "Append SI _prefix"
-msgstr "Dodaj SI prefiks"
+msgstr "Dodaj SI _prefiks"
 
 #: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append an SI prefix (e.g. instead of 4×10⁶ show 4M)"
@@ -4996,12 +4933,10 @@ msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Velika Britanija/škotski galski (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
-#, fuzzy
 msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr "Eritreja/Ge'ez (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
-#, fuzzy
 msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr "Etiopija/Ge'ez (gez_ET)"
 
@@ -5010,7 +4945,6 @@ msgid "Spain/Galician (gl_ES)"
 msgstr "Španija/galicijski (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
-#, fuzzy
 msgid "India/Gujarati (gu_IN)"
 msgstr "Indija/gudžarati (gu_IN)"
 
@@ -5507,7 +5441,6 @@ msgid "Switzerland/Walser (wae_CH)"
 msgstr "Švajcarska/valserški (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
-#, fuzzy
 msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr "Etiopija/valaitaski (wal_ET)"
 
@@ -5553,7 +5486,7 @@ msgstr "Južna Afrika/zulu (zu_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:571
 msgid "Current Locale: "
-msgstr "Tekući jezik:"
+msgstr "Tekući jezik: "
 
 #: ../goffice/gtk/go-optionmenu.c:476
 msgid "Menu"
@@ -5568,9 +5501,8 @@ msgid "Custom..."
 msgstr "Proizvoljno..."
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
-#, fuzzy
 msgid "Orientation"
-msgstr "<b>Usmerenje</b>"
+msgstr "Usmerenje"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:2
 msgid "A_ngle:"
@@ -6255,7 +6187,7 @@ msgstr "Zlato, unca"
 
 #: ../goffice/utils/formats.c:543
 msgid "Bond Markets Units, European Coposite Units (EURCO)"
-msgstr ""
+msgstr "Jedinice tržišta obveznica, evropska objedinjena jedinica (EURCO)"
 
 #: ../goffice/utils/formats.c:544
 msgid "European Monetary Units (E.M.U.-6)"
@@ -6275,7 +6207,7 @@ msgstr "Istočnokaraibski dolar"
 
 #: ../goffice/utils/formats.c:548
 msgid "UIC-Francs"
-msgstr ""
+msgstr "Franak Međunarodne zajednice železnica"
 
 #: ../goffice/utils/formats.c:549
 msgid "Communaute Financiere Africaine BCEAO, Francs"
@@ -6283,7 +6215,7 @@ msgstr "Afrička finansijska zajednica BCEAO, franak"
 
 #: ../goffice/utils/formats.c:550
 msgid "Comptoirs Francais du Pacifique, Francs"
-msgstr ""
+msgstr "Pacifički francuski brojači, franak"
 
 #: ../goffice/utils/formats.c:551
 msgid "Palladium, Ounces"
@@ -6523,31 +6455,31 @@ msgstr "Duga crta crta crta"
 
 #: ../goffice/utils/go-line.c:163
 msgid "Bezier cubic spline"
-msgstr ""
+msgstr "Bezjerova kubna sp-kriva"
 
 #: ../goffice/utils/go-line.c:165
 msgid "Closed Bezier cubic spline"
-msgstr ""
+msgstr "Zatvorena Bezjerova kubna sp-kriva"
 
 #: ../goffice/utils/go-line.c:167
 msgid "ODF compatible Bezier cubic spline"
-msgstr ""
+msgstr "Bezjerova kubna sp-kriva saglasna sa ODF-om"
 
 #: ../goffice/utils/go-line.c:169
 msgid "Natural cubic spline"
-msgstr ""
+msgstr "Prirodna kubna sp-kriva"
 
 #: ../goffice/utils/go-line.c:171
 msgid "Cubic spline with parabolic extrapolation"
-msgstr ""
+msgstr "Kubna sp-kriva sa parabolnim posebnim uvrštavanjem"
 
 #: ../goffice/utils/go-line.c:173
 msgid "Cubic spline with cubic extrapolation"
-msgstr ""
+msgstr "Kubna sp-kriva sa kubnim posebnim uvrštavanjem"
 
 #: ../goffice/utils/go-line.c:175
 msgid "Clamped cubic spline"
-msgstr ""
+msgstr "Pričvršćena kubna sp-kriva"
 
 #: ../goffice/utils/go-line.c:177
 msgid "Step at start"
@@ -6563,7 +6495,7 @@ msgstr "Razmak na sredini"
 
 #: ../goffice/utils/go-line.c:183
 msgid "Step to mean"
-msgstr ""
+msgstr "Razmak na prosečnoj vrednosti"
 
 #: ../goffice/utils/go-locale.c:517
 msgid "TRUE"
@@ -6718,7 +6650,7 @@ msgstr "Polukrugovi"
 #. Applix
 #: ../goffice/utils/go-pattern.c:105
 msgid "Thatch"
-msgstr ""
+msgstr "Slama"
 
 #. Applix small thatch
 #: ../goffice/utils/go-pattern.c:106
@@ -6770,9 +6702,8 @@ msgid "Sha_pe:"
 msgstr "_Oblik:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:6
-#, fuzzy
 msgid "Marker"
-msgstr "Obileživači"
+msgstr "Obileživač"
 
 #: ../goffice/utils/go-style-prefs.ui.h:8
 msgid "St_yle:"
@@ -6840,9 +6771,8 @@ msgid "_Select..."
 msgstr "_Izaberi..."
 
 #: ../goffice/utils/go-style-prefs.ui.h:27
-#, fuzzy
 msgid "Outline"
-msgstr "_Okvir:"
+msgstr "Okvir"
 
 #: ../goffice/utils/go-style-prefs.ui.h:28
 #: ../plugins/plot_barcol/plot-types.xml.in.h:1
@@ -6859,7 +6789,7 @@ msgstr "Neispravan šablon."
 
 #: ../goffice/utils/regutf8.c:62
 msgid "Invalid collating element."
-msgstr ""
+msgstr "Neispravan element sravnjivanja."
 
 #: ../goffice/utils/regutf8.c:63
 msgid "Invalid character class name."
@@ -6879,7 +6809,7 @@ msgstr "Nepoklopljena leva zagrada."
 
 #: ../goffice/utils/regutf8.c:67
 msgid "Parenthesis imbalance."
-msgstr ""
+msgstr "Neravnoteža zagrada."
 
 #: ../goffice/utils/regutf8.c:68
 msgid "Unmatched \\{."
@@ -6989,7 +6919,7 @@ msgstr "Uporedite samo cele reči."
 
 #: ../plugins/plot_barcol/gog-1.5d.c:348
 msgid "How to group multiple series, normal, stacked, as_percentage"
-msgstr ""
+msgstr "Kako treba grupisati više nizova, uobičajeno, naslagano, kao_procente"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:353 ../plugins/plot_pie/gog-pie.c:319
 #: ../plugins/plot_xy/gog-xy.c:563
@@ -6998,7 +6928,7 @@ msgstr "U 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:354
 msgid "Placeholder to allow us to round trip pseudo 3D state"
-msgstr ""
+msgstr "Mestodržač koji nam omogućava da obostrano raspodelimo pseudo 3D stanje"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:362
 #: ../plugins/plot_barcol/gog-dropbar.c:141
@@ -7014,7 +6944,7 @@ msgstr "Trake greške"
 #: ../plugins/plot_barcol/gog-1.5d.c:650
 #: ../plugins/plot_distrib/gog-histogram.c:1097
 msgid "Drop lines"
-msgstr ""
+msgstr "Linije odbacivanja"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:658
 #: ../plugins/plot_barcol/plot-types.xml.in.h:13
@@ -7036,7 +6966,7 @@ msgstr "Traka Gog greške *"
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
 #: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
 msgid "_Display the grids above the plot"
-msgstr "Prikažite naslov priključka"
+msgstr "_Prikaži mreže iznad nacrta"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
@@ -7055,7 +6985,7 @@ msgstr "Procenat jaza"
 #: ../plugins/plot_barcol/gog-minmax.c:222
 #: ../plugins/plot_distrib/gog-boxplot.c:390
 msgid "The padding around each group as a percentage of their width"
-msgstr "Popuna oko svake grupe u procentima njihove širine"
+msgstr "Popunjavanje oko svake grupe u procentima njihove širine"
 
 #: ../plugins/plot_barcol/gog-barcol.c:266
 msgid "Overlap percentage"
@@ -7063,7 +6993,7 @@ msgstr "Procenat preklapanja"
 
 #: ../plugins/plot_barcol/gog-barcol.c:267
 msgid "The distance between series as a percentage of their width"
-msgstr "Razmak između klikova potreban za otkrivanje višestrukog klika"
+msgstr "Rastojanje između nizova kao procenat njihove širine"
 
 #: ../plugins/plot_barcol/gog-barcol.c:272
 msgid "horizontal"
@@ -7108,7 +7038,7 @@ msgstr "_Preklapanje:"
 #. * 	PlotDropBar2
 #: ../plugins/plot_barcol/gog-dropbar.c:115
 msgid "PlotDropBar"
-msgstr ""
+msgstr "Padajuća traka nacrta"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -7130,7 +7060,7 @@ msgstr "Osnovni označivači"
 #: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:373
 #: ../plugins/plot_xy/gog-xy-minmax.c:298
 msgid "Should the default style of a series include markers"
-msgstr "Treba li osnovni stil serije da uključi označivače"
+msgstr "Treba li osnovni izgled nizova da uključi označavače"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -7145,7 +7075,7 @@ msgstr "Oblast nacrta"
 #. * 	PlotMinMax2
 #: ../plugins/plot_barcol/gog-minmax.c:143
 msgid "PlotMinMax"
-msgstr "Najmanje-najviše"
+msgstr "Najmanje-najviše nacrta"
 
 #: ../plugins/plot_barcol/gog-minmax.c:228
 #: ../plugins/plot_xy/gog-xy-minmax.c:292
@@ -7177,7 +7107,7 @@ msgstr "Kolona"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:5
 #: ../plugins/plot_xy/plot-types.xml.in.h:5
 msgid "DropBar"
-msgstr ""
+msgstr "Padajuća traka"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:6
 msgid "MinMax"
@@ -7375,25 +7305,25 @@ msgstr ""
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:97
 msgid "Vertical Drop Bars"
-msgstr ""
+msgstr "Uspravne padajuće trake"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:98
 msgid "Vertical drop bars."
-msgstr ""
+msgstr "Uspravne padajuće trake."
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:102
 msgid "Horizontal Drop Bars"
-msgstr ""
+msgstr "Vodoravne padajuće trake"
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:106
 msgid "Horizontal drop bars."
-msgstr ""
+msgstr "Vodoravne padajuće trake."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical Min Max Lines"
@@ -7449,7 +7379,7 @@ msgstr "Sistem za iscrtavanje traka/kolona"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Drop Bar/Col plotting engine"
-msgstr ""
+msgstr "Sistem za iscrtavanje padajuće trake/kolone"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:7
 msgid "Min Max plotting engine"
@@ -7457,7 +7387,7 @@ msgstr "Sistem iscrtavanja najmanjeg-najvećeg"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:8
 msgid "Default 1.5d plot types"
-msgstr "Osnovne vrste 1,5D iscrtavanja"
+msgstr "Osnovne vrste 1,5d iscrtavanja"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:61
 #: ../plugins/plot_distrib/go-distribution-prefs.c:139
@@ -7473,7 +7403,7 @@ msgstr "Raspodela:"
 #. * 	BoxPlot2
 #: ../plugins/plot_distrib/gog-boxplot.c:208
 msgid "Box-Plot"
-msgstr ""
+msgstr "Nacrt okvira"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:395
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
@@ -7487,11 +7417,11 @@ msgstr "Da li iscrtavanje okvira treba da bude uspravno umesto vodoravnog"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:401
 msgid "Outliers"
-msgstr ""
+msgstr "Ekstremne vrednosti"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:402
 msgid "Whether outliers should be taken into account and displayed"
-msgstr ""
+msgstr "Da li ekstremne vrednosti treba da budu uzete u obzir i prikazane"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:407
 msgid "Radius ratio"
@@ -7502,6 +7432,8 @@ msgid ""
 "The ratio between the radius of the circles representing outliers and the "
 "rectangle width"
 msgstr ""
+"Odnos između poluprečnika krugova koji predstavljaju ekstremne vrednosti i "
+"širinu pravougaonika"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
 msgid "_Layout"
@@ -7509,7 +7441,7 @@ msgstr "_Raspored"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
 msgid "_Exclude and show outliers"
-msgstr ""
+msgstr "_Isključi i prikaži ekstremne vrednosti"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
 msgid "_Diameter/width:"
@@ -7620,7 +7552,7 @@ msgstr "Verovatnoća"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:289
 msgid "A pointer to the GODistribution used by this plot"
-msgstr ""
+msgstr "Pokazivač na GO raspodelu koju koristi ovaj nacrt"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:294
 msgid "Shape parameter"
@@ -7648,7 +7580,7 @@ msgstr "da li će podaci biti mapirani na Y osu."
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:642
 msgid "Regression line"
-msgstr "Linija unazađivanja"
+msgstr "Linija povraćaja"
 
 # bug(slobo): potrošnja se posmatra preko dijagrama potrošnje promeni statistika u dijagram potrošnje na svim mestima
 #: ../plugins/plot_distrib/plot-types.xml.in.h:1
@@ -7657,7 +7589,7 @@ msgstr "Statistika"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:2
 msgid "HBoxPlots"
-msgstr ""
+msgstr "Nacrti vodoravnog okvira"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:3
 msgid "Horizontal Box-Plot."
@@ -7665,7 +7597,7 @@ msgstr "Vodoravno iscrtavanje okvira."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:4
 msgid "VBoxPlots"
-msgstr ""
+msgstr "Nacrti uspravnog okvira"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:5
 msgid "Vertical Box-Plot."
@@ -7673,19 +7605,19 @@ msgstr "Uspravno iscrtavanje okvira."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
 msgid "HBoxPlotOutliers"
-msgstr ""
+msgstr "Ekstremne vrednosti nacrta vodoravnog okvira"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:7
 msgid "Horizontal Box-Plot showing outliers."
-msgstr ""
+msgstr "Vodoravni okvir nacrta koji prikazuje ekstremne vrednosti."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:8
 msgid "VBoxPlotOutliers"
-msgstr ""
+msgstr "Ekstremne vrednosti nacrta uspravnog okvira"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:9
 msgid "Vertical Box-Plot showing outliers."
-msgstr ""
+msgstr "Uspravni okvir nacrta koji prikazuje ekstremne vrednosti."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:11
 msgid "Histogram."
@@ -7718,7 +7650,7 @@ msgstr "Nacrt verovatnoće."
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:1
 msgid "Charting : distribution related plots"
-msgstr ""
+msgstr "Crtanje : nacrti svojstveni raspodeli"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:2
 msgid "box-plots, histograms, and other distribution related plots"
@@ -7739,7 +7671,7 @@ msgstr "Sistem iscrtavanja verovatnoće"
 # bug(slobo): potrošnja se posmatra preko dijagrama potrošnje promeni statistika u dijagram potrošnje na svim mestima
 #: ../plugins/plot_distrib/plugin.xml.in.h:6
 msgid "Statistics plot types"
-msgstr ""
+msgstr "Vrste statističkog nacrta"
 
 #: ../plugins/plot_pie/gog-pie.c:112 ../plugins/plot_pie/gog-pie.c:1302
 msgid "Separation"
@@ -7787,7 +7719,7 @@ msgstr "Kako se prikazuju negativne vrednosti"
 
 #: ../plugins/plot_pie/gog-pie.c:424
 msgid "PlotRing"
-msgstr "CrtaniPrsten"
+msgstr "Prsten nacrta"
 
 #: ../plugins/plot_pie/gog-pie.c:461
 msgid "Center-size"
@@ -7904,8 +7836,8 @@ msgid ""
 "Percentage of each contributor displayed as a segment of a ring with one "
 "ring for each series."
 msgstr ""
-"Procenat svakog učesnika prikazan kao sastojak prstena sa jednim prstenom za "
-"svaki red."
+"Procenat svakog učesnika prikazan kao podeok prstena sa jednim prstenom za "
+"svaki niz."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:11
 msgid "Split Ring"
@@ -7917,8 +7849,8 @@ msgid ""
 "ring for each series; the wedges of the outside ring (corresponding to the "
 "last series) are split apart."
 msgstr ""
-"Procenat svakog učesnika prikazanog kao sastojak prstena sa jednim prstenom "
-"za svaki red; odsečci spoljnog prstena (koji odgovaraju poslednjem redu) su "
+"Procenat svakog učesnika prikazanog kao podeok prstena sa jednim prstenom za "
+"svaki niz; odsečci spoljnog prstena (koji odgovaraju poslednjem nizu) su "
 "odvojeni."
 
 #: ../plugins/plot_pie/plugin.xml.in.h:1
@@ -7953,14 +7885,14 @@ msgstr "Osnovna popuna"
 #: ../plugins/plot_radar/gog-radar.c:239 ../plugins/plot_xy/gog-xy.c:385
 #: ../plugins/plot_xy/gog-xy.c:814
 msgid "Should the default style of a series include fill"
-msgstr "Treba li osnovni stil serije da uključi popunu"
+msgstr "Treba li osnovni izgled niza da uključi popunu"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotRT2
 #: ../plugins/plot_radar/gog-radar.c:274
 msgid "PlotRadar"
-msgstr ""
+msgstr "Presek nacrta"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -7968,14 +7900,14 @@ msgstr ""
 #.
 #: ../plugins/plot_radar/gog-radar.c:434
 msgid "PlotRadarArea"
-msgstr ""
+msgstr "Oblast preseka nacrta"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotPolar2
 #: ../plugins/plot_radar/gog-radar.c:478
 msgid "PlotPolar"
-msgstr ""
+msgstr "Stožer nacrta"
 
 #: ../plugins/plot_radar/gog-radar.c:528 ../plugins/plot_radar/gog-radar.c:730
 msgid "Angle"
@@ -7990,11 +7922,11 @@ msgstr "Intenzitet"
 #. * 	PlotColoredPolar2
 #: ../plugins/plot_radar/gog-radar.c:641
 msgid "PlotColorPolar"
-msgstr ""
+msgstr "Stožer boje nacrta"
 
 #: ../plugins/plot_radar/gog-radar.c:721 ../plugins/plot_xy/gog-xy.c:819
 msgid "hide-outliers"
-msgstr ""
+msgstr "sakrij-ekstremne vrednosti"
 
 #: ../plugins/plot_radar/gog-radar.c:722 ../plugins/plot_xy/gog-xy.c:820
 msgid "Hide data outside of the color axis bounds"
@@ -8010,96 +7942,96 @@ msgstr "Z"
 #: ../plugins/plot_radar/gog-radar.c:1309
 #: ../plugins/plot_radar/gog-radar.c:1342
 msgid "Radial error bars"
-msgstr ""
+msgstr "Trake greške poluprečnika"
 
 #: ../plugins/plot_radar/gog-radar.c:1317
 msgid "Radial drop lines"
-msgstr ""
+msgstr "Padajuće linije poluprečnika"
 
 #: ../plugins/plot_radar/gog-radar.c:1425
 #: ../plugins/plot_radar/gog-radar.c:1468
 msgid "Angular error bars"
-msgstr ""
+msgstr "Trake ugaone greške"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Radar"
-msgstr "Radrar"
+msgstr "Presek"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:2
 msgid "Polar"
-msgstr "Polar"
+msgstr "Stožer"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:3
 msgid "Radar plot."
-msgstr ""
+msgstr "Nacrt preseka."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Dotted Radar"
-msgstr ""
+msgstr "Tačkasti presek"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Radar plot with dots."
-msgstr ""
+msgstr "Nacrt preseka sa tačkama."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:6
 msgid "Area Radar"
-msgstr ""
+msgstr "Presek oblasti"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:7
 msgid "Area radar plot."
-msgstr ""
+msgstr "Nacrt preseka oblasti."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:8
 msgid "Polar plot."
-msgstr ""
+msgstr "Nacrt stožera."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:9
 msgid "Colored Polar"
-msgstr ""
+msgstr "Obojeni stožer"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:10
 msgid "Polar plot with colored marks."
-msgstr ""
+msgstr "Nacrt stožera sa obojenim označavačima."
 
 #: ../plugins/plot_radar/plugin.xml.in.h:1
 msgid "Charting : Polar/Radar"
-msgstr "Grafikon: Polar/Radar"
+msgstr "Grafikon: Stožer/Presek"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:2
 msgid "Polar and Radar plots"
-msgstr ""
+msgstr "Nacrti preseka i stožera"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:3
 msgid "Radar plotting engine"
-msgstr ""
+msgstr "Sistem iscrtavanja preseka"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:4
 msgid "Radar Area plotting engine"
-msgstr ""
+msgstr "Sistem iscrtavanja oblasti preseka"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:5
 msgid "Polar plotting engine"
-msgstr ""
+msgstr "Sistem iscrtavanja stožera"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:6
 msgid "Polar plotting engine with colored marks"
-msgstr ""
+msgstr "Sistem iscrtavanja stožera sa obojenim označavačima"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:7
 msgid "Default radar plot types"
-msgstr ""
+msgstr "Osnovne vrste iscrtavanja preseka"
 
 #. xgettext : the base for how to name contour plot objects
 #.
 #: ../plugins/plot_surface/gog-contour.c:131
 msgid "PlotContour"
-msgstr ""
+msgstr "Obris preseka"
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-surface.c:68
 msgid "PlotSurface"
-msgstr ""
+msgstr "Površina preseka"
 
 #: ../plugins/plot_surface/gog-xyz.c:383
 msgid "Transposed"
@@ -8132,13 +8064,13 @@ msgstr "Premesti"
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:292
 msgid "PlotXYZContour"
-msgstr ""
+msgstr "Obris XYZ nacrta"
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:300
 msgid "PlotXYZSurface"
-msgstr ""
+msgstr "XYZ površina nacrta"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:502
 msgid "Rows"
@@ -8150,11 +8082,11 @@ msgstr "Broj redova"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:508
 msgid "Auto Rows"
-msgstr ""
+msgstr "Samostalni redovi"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:509
 msgid "Whether the rows limits should be evaluated"
-msgstr ""
+msgstr "Da li ograničenja redova treba da budu procenjena"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:514
 msgid "Columns"
@@ -8166,11 +8098,11 @@ msgstr "Broj kolona"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:520
 msgid "Auto Columns"
-msgstr ""
+msgstr "Samostalne kolone"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:521
 msgid "Whether the columns limits should be evaluated"
-msgstr ""
+msgstr "Da li ograničenja kolona treba da budu procenjena"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:526
 msgid "Missing as"
@@ -8178,7 +8110,7 @@ msgstr "Nedostaje kao"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:527
 msgid "How to deal with missing data"
-msgstr ""
+msgstr "Kako da postupa sa nedostajućim podacima"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
 msgid "<b>_Columns:</b>"
@@ -8258,7 +8190,7 @@ msgstr "Sistem iscrtavanja obrisa"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "XYZ contour plotting engine"
-msgstr "XYZ sistem iscrtavanja obrisa"
+msgstr "Sistem iscrtavanja XYZ obrisa"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
 msgid "Surface plotting engine"
@@ -8266,7 +8198,7 @@ msgstr "Sistem iscrtavanja površine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:6
 msgid "XYZ surface plotting engine"
-msgstr "XYZ sistem iscrtavanja površine"
+msgstr "Sistem iscrtavanja XYZ površine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:7
 msgid "Default surface plot types"
@@ -8310,7 +8242,7 @@ msgstr "% onovne veličine"
 #. * 	PlotXY2
 #: ../plugins/plot_xy/gog-xy.c:256
 msgid "PlotXY"
-msgstr "Crtež XY"
+msgstr "Nacrt XY"
 
 #: ../plugins/plot_xy/gog-xy.c:372
 msgid "Has markers by default"
@@ -8322,23 +8254,23 @@ msgstr "Ima linije po osnovi"
 
 #: ../plugins/plot_xy/gog-xy.c:379 ../plugins/plot_xy/gog-xy.c:808
 msgid "Should the default style of a series include lines"
-msgstr "Treba li osnovni stil serije da uključi linije"
+msgstr "Treba li osnovni izgled niza da uključi linije"
 
 #: ../plugins/plot_xy/gog-xy.c:384 ../plugins/plot_xy/gog-xy.c:813
 msgid "Has fill by default"
-msgstr ""
+msgstr "Ima popunu po osnovi"
 
 #: ../plugins/plot_xy/gog-xy.c:390
 msgid "Use splines"
-msgstr ""
+msgstr "Koristi sp-krive"
 
 #: ../plugins/plot_xy/gog-xy.c:391
 msgid "Should the plot use splines instead of linear interpolation"
-msgstr ""
+msgstr "Treba li nacrt da koristi sp-krive umesto linijskog umetanja"
 
 #: ../plugins/plot_xy/gog-xy.c:451
 msgid "PlotBubble"
-msgstr "Mehur"
+msgstr "Mehur nacrta"
 
 #: ../plugins/plot_xy/gog-xy.c:551
 msgid "Size as area"
@@ -8389,11 +8321,11 @@ msgstr "Y trake greške"
 
 #: ../plugins/plot_xy/gog-xy.c:2115
 msgid "Horizontal drop lines"
-msgstr ""
+msgstr "Vodoravne padajuće linije"
 
 #: ../plugins/plot_xy/gog-xy.c:2123
 msgid "Vertical drop lines"
-msgstr ""
+msgstr "Uspravne padajuće linije"
 
 #: ../plugins/plot_xy/gog-xy.c:2186
 msgid "Invalid as zero"
@@ -8406,30 +8338,34 @@ msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:2192
 msgid "Clamp at start"
-msgstr ""
+msgstr "Pričvrsti na početku"
 
 #: ../plugins/plot_xy/gog-xy.c:2193
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Nagni na početku umetnute krive prilikom korišćenja umetanja pričvršćene "
+"sp-krive"
 
 #: ../plugins/plot_xy/gog-xy.c:2198
 msgid "Clamp at end"
-msgstr ""
+msgstr "Pričvrsti na kraju"
 
 #: ../plugins/plot_xy/gog-xy.c:2199
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Nagni na kraju umetnute krive prilikom korišćenja umetanja pričvršćene "
+"sp-krive"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
 #. * 	PlotDropBar2
 #: ../plugins/plot_xy/gog-xy-dropbar.c:285
 msgid "PlotXYDropBar"
-msgstr ""
+msgstr "XY padajuća traka nacrta"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:307
 msgid "Whether to use horizontal bars"
@@ -8486,8 +8422,8 @@ msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
-"Linearno interpoliraj između višedimenzionalnih tačaka, sa obeleživačima u "
-"svakoj tački."
+"Linearno umetni između višedimenzionalnih tačaka, sa obeleživačima u svakoj "
+"tački."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:10
 msgid "XY Lines"
@@ -8504,39 +8440,39 @@ msgstr "XY krive"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:13
 msgid "Interpolate between multi-dimensional points with Bezier splines."
-msgstr ""
+msgstr "Umetnite između višedimenzionalnih tačaka sa Bezjerovim sp-krivama."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:14
 msgid "XY Steps Start"
-msgstr ""
+msgstr "Početak XY koraka"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:15
 msgid "Stepped curve using the first y value."
-msgstr ""
+msgstr "Izmerena kriva korišćenjem prve u vrednosti."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:16
 msgid "XY Steps End"
-msgstr ""
+msgstr "Kraj XY koraka"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:17
 msgid "Stepped curve using the last y value."
-msgstr ""
+msgstr "Izmerena kriva korišćenjem poslednje u vrednosti."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "XY Steps Center"
-msgstr ""
+msgstr "Središte XY koraka"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "Stepped curve using the nearest y value."
-msgstr ""
+msgstr "Izmerena kriva korišćenjem najbliže u vrednosti."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "XY Steps Mean"
-msgstr ""
+msgstr "Srednja vrednost XY koraka"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "Stepped curve using the mean y value."
-msgstr ""
+msgstr "Izmerena kriva korišćenjem srednje u vrednosti."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:22
 msgid "Multi-dimensional points with circle at each point."
@@ -8558,7 +8494,7 @@ msgstr ""
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:28
 msgid "Scattered Vertical Drop Bars"
-msgstr ""
+msgstr "Raspirene uspravne padajuće trake"
 
 #. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
@@ -8569,7 +8505,7 @@ msgstr "Uspravne pruge sa neprekidnom H-osom."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:33
 msgid "Scattered Horizontal Drop Bars"
-msgstr ""
+msgstr "Raspirene vodoravne padajuće trake"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:34
 msgid "Horizontal drop bars with continuous Y-axis."
@@ -8577,7 +8513,7 @@ msgstr "Vodoravne pruge sa neprekidnom Y-osom."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:35
 msgid "Scattered Vertical Min Max Lines"
-msgstr ""
+msgstr "Raspirene uspravne linije najmanjeg-najvećeg"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:36
 msgid "Vertical Min Max lines with continuous X-axis."
@@ -8585,7 +8521,7 @@ msgstr "Uspravne linije najmanjeg-najvećeg sa neprekidnom X-osom."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:37
 msgid "Scattered Marked Vertical Min Max Lines"
-msgstr ""
+msgstr "Raspirene označene uspravne linije najmanjeg-najvećeg"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:38
 msgid "Vertical Min Max lines with markers and a continuous X-axis."
@@ -8594,7 +8530,7 @@ msgstr ""
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:39
 msgid "Scattered Horizontal Min Max Lines"
-msgstr ""
+msgstr "Raspirene vodoravne linije najmanjeg-najvećeg"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:40
 msgid "Horizontal Min Max lines with continuous Y-axis."
@@ -8602,7 +8538,7 @@ msgstr "Vodoravne linije najmanjeg-najvećeg sa neprekidnom Y-osom."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:41
 msgid "Scattered Marked Horizontal Min Max Lines"
-msgstr ""
+msgstr "Raspirene označene vodoravne linije najmanjeg-najvećeg"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:42
 msgid "Horizontal Min Max lines with markers and a continuous Y-axis."
@@ -8611,16 +8547,15 @@ msgstr ""
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
 msgid "Charting : XY/Scatter/Bubble"
-msgstr ""
+msgstr "Grafik : XY/Raspirivač/Mehur"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
 msgstr "2D nacrti"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:3
-#, fuzzy
 msgid "2D scatter plotting engine"
-msgstr "Sistem za iscrtavanje razbacanih 2D grafikona"
+msgstr "Sistem iscrtavanja 2D rasejanja"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:4
 msgid "Bubble plotting engine"
@@ -8628,31 +8563,31 @@ msgstr "Sistem iscrtavanja mehura"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:5
 msgid "2D colored scatter plotting engine"
-msgstr ""
+msgstr "Sistem iscrtavanja 2D obojenog rasejanja"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
 msgid "Stock Scatter plot types"
-msgstr ""
+msgstr "Vrste nacrta raspirivača gomile"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:7
 msgid "Scattered dropbar plotting engine"
-msgstr ""
+msgstr "Sistem iscrtavanja raspirene padajuće trake"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:8
 msgid "Scattered Min Max plotting engine"
-msgstr ""
+msgstr "Sistem iscrtavanja raspirenog najmanjeg-najvećeg"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Exponential regression2
 #: ../plugins/reg_linear/gog-exp-reg.c:63
 msgid "Exponential regression"
-msgstr ""
+msgstr "Eksponencijalni povraćaj"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:158
 #: ../plugins/reg_linear/gog-lin-reg.c:269
 msgid "Affine"
-msgstr ""
+msgstr "Afinitet"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
@@ -8663,7 +8598,7 @@ msgstr "Odznačite da primorate presretanje nule"
 #. * 	Linear regression2
 #: ../plugins/reg_linear/gog-lin-reg.c:178
 msgid "Linear regression"
-msgstr ""
+msgstr "Linijski povraćaj"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:270
 msgid "If true, a non-zero constant is allowed"
@@ -8671,7 +8606,7 @@ msgstr "Ako je izabrano, dopuštena je konstanta koja nije nula"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:275
 msgid "Dims"
-msgstr ""
+msgstr "Veličine"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:276
 msgid "Number of x-vectors"
@@ -8682,7 +8617,7 @@ msgstr "Broj h-vektora"
 #. * 	Logarithmic regression2
 #: ../plugins/reg_linear/gog-log-reg.c:94
 msgid "Logarithmic regression"
-msgstr ""
+msgstr "Logaritamski povraćaj"
 
 #: ../plugins/reg_linear/gog-polynom-reg.c:202
 msgid "Order:"
@@ -8693,50 +8628,50 @@ msgstr "Poredak:"
 #. * 	Polynomial regression2
 #: ../plugins/reg_linear/gog-polynom-reg.c:227
 msgid "Polynomial regression"
-msgstr ""
+msgstr "Polinomski povraćaj"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Power regression2
 #: ../plugins/reg_linear/gog-power-reg.c:63
 msgid "Power regression"
-msgstr ""
+msgstr "Stepeni povraćaj"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:1
 msgid "Regression curve : linear"
-msgstr ""
+msgstr "Kriva povraćaja : linijska"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:2
 msgid "Linear regression curves"
-msgstr ""
+msgstr "Krive linijskog povraćaja"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:3
 msgid "Linear regression curve engine"
-msgstr ""
+msgstr "Pogon krive linijskog povraćaja"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:4
 msgid "Exponential regression curve engine"
-msgstr ""
+msgstr "Pogon krive eksponencijalnog povraćaja"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:5
 msgid "Power regression curve engine"
-msgstr ""
+msgstr "Pogon krive stepenog povraćaja"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:6
 msgid "Logarithmic regression curve engine"
-msgstr ""
+msgstr "Pogon krive logaritamskog povraćaja"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:7
 msgid "Polynomial regression curve engine"
-msgstr ""
+msgstr "Pogon krive polinomskog povraćaja"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:8
 msgid "Linear regression curves types"
-msgstr ""
+msgstr "Vrste krive linijskog povraćaja"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:2
 msgid "Linear regression curve"
-msgstr ""
+msgstr "Kriva linijskog povraćaja"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:3
 msgid "Polynomial"
@@ -8744,15 +8679,15 @@ msgstr "Polinom"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:4
 msgid "Polynomial regression curve"
-msgstr ""
+msgstr "Kriva polinomskog povraćaja"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:5
 msgid "Exponential"
-msgstr ""
+msgstr "Eksponent"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:6
 msgid "Exponential regression curve"
-msgstr ""
+msgstr "Kriva eksponencijalnog povraćaja"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:7
 msgid "Power"
@@ -8760,7 +8695,7 @@ msgstr "Stepen"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:8
 msgid "Power regression curve"
-msgstr ""
+msgstr "Kriva stepenog povraćaja"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:9
 msgid "Logarithmic"
@@ -8768,43 +8703,43 @@ msgstr "Logaritamski"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:10
 msgid "Logarithmic regression curve"
-msgstr ""
+msgstr "Kriva logaritamskog povraćaja"
 
 #. xgettext : the base for how to name logarithmic fits
 #. * eg The 2nd fit for a series will be called
 #. * 	Log fit2
 #: ../plugins/reg_logfit/gog-logfit.c:140
 msgid "Log fit"
-msgstr ""
+msgstr "Logaritamsko ispunjavanje"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:1
 msgid "Regression curve : logfit"
-msgstr ""
+msgstr "Kriva povraćaja : logaritamsko ispunjavanje"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:2
 msgid "Logarithmic fitting curves"
-msgstr ""
+msgstr "Krive logaritamskog ispunjavanja"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:3
 msgid "Logarithmic fitting curve engine"
-msgstr ""
+msgstr "Sistem krive logaritamskog ispunjavanja"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:4
 msgid "Logarithmic fitting curves types"
-msgstr ""
+msgstr "Vrste krivih logaritamskog ispunjavanja"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:1
 msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
-msgstr ""
+msgstr "Logaritamsko ispunjavanje (y=a+b*ln(sign*(x-c)))"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:2
 msgid "Logarithmic fitting curve"
-msgstr ""
+msgstr "Kriva logaritamskog ispunjavanja"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:64
 #: ../plugins/smoothing/gog-exp-smooth.c:221
 msgid "Number of interpolation steps"
-msgstr ""
+msgstr "Broj koraka umetanja"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:72
 msgid ""
@@ -8822,7 +8757,7 @@ msgstr ""
 #: ../plugins/smoothing/gog-exp-smooth.c:166
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Exponentially smoothed curve"
-msgstr ""
+msgstr "Eksponencijalno umekšana kriva"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:220
 msgid "Steps"
@@ -8850,7 +8785,7 @@ msgstr "Da li da izvlači prosek iz h vrednosti ili da koristi poslednju"
 #: ../plugins/smoothing/gog-moving-avg.c:175
 #: ../plugins/smoothing/types.xml.in.h:1
 msgid "Moving average"
-msgstr ""
+msgstr "Klizni prosek"
 
 #: ../plugins/smoothing/gog-moving-avg.c:196
 msgid "Number of averaged values"
@@ -8866,7 +8801,7 @@ msgstr "Koristi prosečne h vrednosti"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:1
 msgid "_Span:"
-msgstr ""
+msgstr "_Raspon:"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:2
 msgid "_Use averaged abscissa"
@@ -8874,7 +8809,7 @@ msgstr "_Koristi prosečnu apscisu"
 
 #: ../plugins/smoothing/plugin.xml.in.h:1
 msgid "Charting : Trends and Curves"
-msgstr ""
+msgstr "Grafik : Očekivanja i krive"
 
 #: ../plugins/smoothing/plugin.xml.in.h:2
 msgid "Smoothed curves"
@@ -8882,7 +8817,7 @@ msgstr "Umekšana krive"
 
 #: ../plugins/smoothing/plugin.xml.in.h:3
 msgid "Moving average smoothing engine"
-msgstr ""
+msgstr "Sistem umekšavanja kliznog proseka"
 
 #: ../plugins/smoothing/plugin.xml.in.h:4
 msgid "exponential smoothing engine"
@@ -8894,195 +8829,4 @@ msgstr "Vrste umekšanih krivih"
 
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
-msgstr ""
-
-#~ msgid "<b>Euler angles</b>"
-#~ msgstr "<b>Eulerovi uglovi</b>"
-
-#~ msgid "<b>Major ticks</b>"
-#~ msgstr "<b>Veće crtice</b>"
-
-#~ msgid "<b>Position</b>"
-#~ msgstr "<b>Položaj</b>"
-
-#~ msgid "<b>Minor ticks</b>"
-#~ msgstr "<b>Manje crtice</b>"
-
-#~ msgid "<b>Style</b>"
-#~ msgstr "<b>Stil</b>"
-
-#~ msgid "<b>Values</b>"
-#~ msgstr "<b>Vrednosti:</b>"
-
-#~ msgid "<b>_Plot Type</b>"
-#~ msgstr "<b>Vrsta _nacrta</b>"
-
-#~ msgid "<b>Used data</b>"
-#~ msgstr "<b>Korišćeni podaci</b>"
-
-#~ msgid "<b>Rotation</b>"
-#~ msgstr "<b>Okrenutost</b>"
-
-#~ msgid "AaBbCcDdEe12345"
-#~ msgstr "AaBbVvGgDd12345"
-
-#~ msgid "Font style:"
-#~ msgstr "Izgled pisma:"
-
-#~ msgid "Preview"
-#~ msgstr "Pregled"
-
-#~ msgid "<b>Outline</b>"
-#~ msgstr "<b>Okvir</b>"
-
-#~ msgid "<b>Line</b>"
-#~ msgstr "<b>Linija</b>"
-
-#~ msgid "<b>Fill</b>"
-#~ msgstr "<b>Popuna</b>"
-
-#~ msgid "<b>Marker</b>"
-#~ msgstr "<b>Obeleživač</b>"
-
-#~ msgid "Seborga, Luigini"
-#~ msgstr "Seborga, Luiđini"
-
-#~ msgid "Tuvalu, Tuvalu Dollars"
-#~ msgstr "Tuvalu, tuvalski dolari"
-
-#~ msgid "Yugoslavia, New Dinars"
-#~ msgstr "Srbija i Crna Gora, dinari"
-
-#~ msgid "Separation between groups as a percentage of bar/col width"
-#~ msgstr "Razmak među grupama kao postotak širine trake/kolone"
-
-#~ msgid "Degrees counter clockwise from 3 O'Clock"
-#~ msgstr "Stepeni u suprotnom smeru od kazaljke na časovniku od 3 časa"
-
-#~ msgid ""
-#~ "The default amount each slice is separated from the center measured as a "
-#~ "percentage of the radius of the pie"
-#~ msgstr ""
-#~ "Podrazumevana vrednost za koju je svako parče odvojeno od središta mereno "
-#~ "u procentima poluprečnika pite"
-
-#~ msgid "Matrix"
-#~ msgstr "Matrica"
-
-#~ msgid "sixth"
-#~ msgstr "šestu"
-
-#~ msgid "GNOME Office Graph"
-#~ msgstr "Grafikoni Gnomove kancelarije"
-
-#~ msgid "Ty_pe:"
-#~ msgstr "Vr_sta:"
-
-#~ msgid "*Sun"
-#~ msgstr "*Ned"
-
-#~ msgid "*Mon"
-#~ msgstr "*Pon"
-
-#~ msgid "*Tue"
-#~ msgstr "*Uto"
-
-#~ msgid "*Wed"
-#~ msgstr "*Sre"
-
-#~ msgid "*Thu"
-#~ msgstr "*Čet"
-
-#~ msgid "*Fri"
-#~ msgstr "*Pet"
-
-#~ msgid "*Sat"
-#~ msgstr "*Sub"
-
-#~ msgid "*Jan"
-#~ msgstr "*Jan"
-
-#~ msgid "*Feb"
-#~ msgstr "*Feb"
-
-#~ msgid "*Mar"
-#~ msgstr "*Mar"
-
-#~ msgid "*Apr"
-#~ msgstr "*Apr"
-
-#~ msgid "*May"
-#~ msgstr "*Maj"
-
-#~ msgid "*Jun"
-#~ msgstr "*Jun"
-
-#~ msgid "*Jul"
-#~ msgstr "*Jul"
-
-#~ msgid "*Aug"
-#~ msgstr "*Avg"
-
-#~ msgid "*Oct"
-#~ msgstr "*Okt"
-
-#~ msgid "*Nov"
-#~ msgstr "*Nov"
-
-#~ msgid "*Dec"
-#~ msgstr "*Dec"
-
-#~ msgid "Plugin version \"%s\" is different from application \"%s\"."
-#~ msgstr "Verzija dodatka „%s“ je različita od programa „%s“."
-
-#~ msgid "3D Stacked Bars"
-#~ msgstr "3D naređane trake"
-
-#~ msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
-#~ msgstr ""
-#~ "Susedne vodoravne 3D trake grupisane prema glavnim i sporednim "
-#~ "kategorijama."
-
-#~ msgid "Adjacent vertical 3D columns grouped by major and minor categories."
-#~ msgstr ""
-#~ "Susedne uspravne 3D kolone grupisane prema glavnim i sporednim "
-#~ "kategorijama."
-
-#~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in 3D "
-#~ "horizontal bars, grouped by major category."
-#~ msgstr ""
-#~ "Sporedne kategorije naređene prema procentu ukupnog sporednog, u "
-#~ "vodoravnim 3D trakama, grupisane prema glavnoj kategoriji."
-
-#~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in 3D "
-#~ "vertical bars, grouped by major category."
-#~ msgstr ""
-#~ "Sporedne kategorije naređene prema procentu ukupnog sporednog, u "
-#~ "uspravnim 3D trakama, grupisane prema glavnoj kategoriji."
-
-#~ msgid ""
-#~ "Minor categories stacked in horizontal 3D bars, grouped by major category."
-#~ msgstr ""
-#~ "Sporedne kategorije naređene u vodoravnim 3D trakama, grupisane prema "
-#~ "glavnoj kategoriji."
-
-#~ msgid ""
-#~ "Minor categories stacked in vertical 3D columns, grouped by major "
-#~ "category."
-#~ msgstr ""
-#~ "Sporedne kategorije naređene u uspravnim 3D trakama, grupisane prema "
-#~ "glavnoj kategoriji."
-
-#~ msgid "3D Pie"
-#~ msgstr "3D pita"
-
-#~ msgid "3D Split Pie"
-#~ msgstr "Podeljena 3D pita"
-
-#~ msgid "Percentage of each contributor with 3D wedges split apart."
-#~ msgstr "Procenat svakog učesnika sa izdvojenim 3D ivicama."
-
-#~ msgid "Plot X, Y and bubble size."
-#~ msgstr "Iscrtaj X, Y i veličinu mehura."
+msgstr "Umekšana kriva kliznog proseka"
