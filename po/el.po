@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgof"
 "fice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-21 22:57+0000\n"
-"PO-Revision-Date: 2013-04-03 11:56+0300\n"
+"POT-Creation-Date: 2013-04-19 14:02+0000\n"
+"PO-Revision-Date: 2013-04-22 09:13+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -553,7 +553,7 @@ msgid "The arc end angle"
 msgstr "Η γωνία τέλους τόξου"
 
 #: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
-#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
+#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-path.c:284
 #: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
@@ -590,11 +590,11 @@ msgid "Arrow for line's end"
 msgstr "Βέλος για το τέλος της γραμμής"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-graph.c:441
 #: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
-#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-path.c:272 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
-#: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-widget.c:794 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -603,11 +603,11 @@ msgid "The circle center horizontal position"
 msgstr "Η θέση οριζόντιου κέντρου κύκλου"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-ellipse.c:270 ../goffice/canvas/goc-graph.c:447
 #: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
-#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-path.c:278 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
-#: ../goffice/canvas/goc-widget.c:779
+#: ../goffice/canvas/goc-widget.c:800
 msgid "y"
 msgstr "y"
 
@@ -632,19 +632,19 @@ msgid "The object top position"
 msgstr "Η θέση κορυφής αντικειμένου"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-ellipse.c:282 ../goffice/canvas/goc-graph.c:453
 #: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
 #: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
-#: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
+#: ../goffice/canvas/goc-widget.c:813 ../goffice/graph/gog-graph.c:499
 #: ../goffice/utils/go-image.c:503
 msgid "Height"
 msgstr "Ύψος"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-ellipse.c:276 ../goffice/canvas/goc-graph.c:459
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
 #: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
-#: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
+#: ../goffice/canvas/goc-widget.c:807 ../goffice/graph/gog-color-scale.c:137
 #: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
 #: ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
@@ -662,23 +662,23 @@ msgstr "Αντικείμενο"
 msgid "The embedded GOComponent object"
 msgstr "Το ενσωματωμένο αντικείμενο GOComponent"
 
-#: ../goffice/canvas/goc-ellipse.c:260
+#: ../goffice/canvas/goc-ellipse.c:265
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Η αριστερή θέση της έλλειψης (ή δεξιά θέση για κατάσταση RTL)"
 
-#: ../goffice/canvas/goc-ellipse.c:266
+#: ../goffice/canvas/goc-ellipse.c:271
 msgid "The ellipse top position"
 msgstr "Η επάνω θέση της έλλειψης"
 
-#: ../goffice/canvas/goc-ellipse.c:272
+#: ../goffice/canvas/goc-ellipse.c:277
 msgid "The ellipse width"
 msgstr "Το πλάτος έλλειψης"
 
-#: ../goffice/canvas/goc-ellipse.c:278
+#: ../goffice/canvas/goc-ellipse.c:283
 msgid "The ellipse height"
 msgstr "Το ύψος έλλειψης"
 
-#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-ellipse.c:289 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "Η περιστροφή γύρω από την επάνω αριστερή θέση"
 
@@ -778,19 +778,19 @@ msgid "The cropped area at the image top as a fraction of the image height"
 msgstr ""
 "Η περικομμένη περιοχή στην κορυφή της εικόνας ως κλάσμα του ύψους της εικόνας"
 
-#: ../goffice/canvas/goc-item.c:265
+#: ../goffice/canvas/goc-item.c:262
 msgid "Canvas"
 msgstr "Καμβάς"
 
-#: ../goffice/canvas/goc-item.c:266
+#: ../goffice/canvas/goc-item.c:263
 msgid "The canvas object on which the item resides"
 msgstr "Το αντικείμενο καμβά στο οποίο βρίσκεται το στοιχείο"
 
-#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:685
+#: ../goffice/canvas/goc-item.c:268 ../goffice/graph/gog-view.c:685
 msgid "Parent"
 msgstr "Γονικό"
 
-#: ../goffice/canvas/goc-item.c:272
+#: ../goffice/canvas/goc-item.c:269
 msgid "The group in which the item resides"
 msgstr "Η ομάδα στην οποία ανήκει το στοιχείο"
 
@@ -826,39 +826,39 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "Η συντεταγμένη y του τέλους της γραμμής"
 
-#: ../goffice/canvas/goc-path.c:269
+#: ../goffice/canvas/goc-path.c:273
 msgid "The path first point x coordinate"
 msgstr "Η συντεταγμένη x του πρώτου σημείου της διαδρομής"
 
-#: ../goffice/canvas/goc-path.c:275
+#: ../goffice/canvas/goc-path.c:279
 msgid "The path first point y coordinate"
 msgstr "Η συντεταγμένη y του πρώτου σημείου της διαδρομής"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:285
 msgid "The rotation around first point position"
 msgstr "Η περιστροφή γύρω από την θέση του πρώτου σημείου"
 
-#: ../goffice/canvas/goc-path.c:286
+#: ../goffice/canvas/goc-path.c:290
 msgid "Closed"
 msgstr "Κλειστό"
 
-#: ../goffice/canvas/goc-path.c:287
+#: ../goffice/canvas/goc-path.c:291
 msgid "The flag for closed path"
 msgstr "Η σημαία για κλειστή διαδρομή"
 
-#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
+#: ../goffice/canvas/goc-path.c:296 ../goffice/canvas/goc-polygon.c:360
 msgid "Fill rule"
 msgstr "Κανόνας γεμίσματος"
 
-#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
+#: ../goffice/canvas/goc-path.c:297 ../goffice/canvas/goc-polygon.c:361
 msgid "Set fill rule to winding or even/odd"
 msgstr "Ορισμός κανόνα γεμίσματος σε στριφτό ή ζυγό/μονό"
 
-#: ../goffice/canvas/goc-path.c:298
+#: ../goffice/canvas/goc-path.c:302
 msgid "Path"
 msgstr "Διαδρομή"
 
-#: ../goffice/canvas/goc-path.c:299
+#: ../goffice/canvas/goc-path.c:303
 msgid "The path points"
 msgstr "Τα σημεία της διαδρομής"
 
@@ -870,28 +870,28 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "Το GdkPixbuf για εμφάνιση"
 
-#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:263
 msgid "points"
 msgstr "σημεία"
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:349
 msgid "The polygon vertices"
 msgstr "Οι κορυφές του πολυγώνου"
 
-#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
+#: ../goffice/canvas/goc-polygon.c:354 ../goffice/canvas/goc-polyline.c:268
 msgid "Use spline"
 msgstr "Χρήση ευλύγιστης καμπύλης"
 
-#: ../goffice/canvas/goc-polygon.c:350
+#: ../goffice/canvas/goc-polygon.c:355
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr ""
 "Χρήση μιας κλειστής κυβικής ευλίγιστης καμπύλης Bezier ως περιγράμματος"
 
-#: ../goffice/canvas/goc-polygon.c:360
+#: ../goffice/canvas/goc-polygon.c:365
 msgid "sizes"
 msgstr "μεγέθη"
 
-#: ../goffice/canvas/goc-polygon.c:361
+#: ../goffice/canvas/goc-polygon.c:366
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
@@ -902,11 +902,11 @@ msgstr ""
 "ακολουθούν μια άκυρη τιμή θα απορριφθούν. Ορίζοντας την ιδιότητα \"point\" "
 "θα επαναφέρει τα μεγέθη."
 
-#: ../goffice/canvas/goc-polyline.c:259
+#: ../goffice/canvas/goc-polyline.c:263
 msgid "The polyline vertices"
 msgstr "Οι κορυφές της πολυγραμμής"
 
-#: ../goffice/canvas/goc-polyline.c:265
+#: ../goffice/canvas/goc-polyline.c:269
 msgid "Use a Bezier cubic spline as line"
 msgstr "Χρήση μιας κυβικής ευλύγιστης καμπύλης Μπεζιέ ως γραμμής"
 
@@ -1040,27 +1040,27 @@ msgstr "Πλάτος αναδίπλωσης"
 msgid "Wrap width for the text"
 msgstr "Πλάτος αναδίπλωσης για το κείμενο"
 
-#: ../goffice/canvas/goc-widget.c:767
+#: ../goffice/canvas/goc-widget.c:788
 msgid "Widget"
 msgstr "Γραφικό συστατικό"
 
-#: ../goffice/canvas/goc-widget.c:768
+#: ../goffice/canvas/goc-widget.c:789
 msgid "A pointer to the embedded widget"
 msgstr "Ένας δείκτης στο ενσωματωμένο γραφικό συστατικό"
 
-#: ../goffice/canvas/goc-widget.c:774
+#: ../goffice/canvas/goc-widget.c:795
 msgid "The widget left position"
 msgstr "Η αριστερή θέση του γραφικού συστατικού"
 
-#: ../goffice/canvas/goc-widget.c:780
+#: ../goffice/canvas/goc-widget.c:801
 msgid "The widget top position"
 msgstr "Η άνω θέση του γραφικού συστατικού"
 
-#: ../goffice/canvas/goc-widget.c:787
+#: ../goffice/canvas/goc-widget.c:808
 msgid "The widget width"
 msgstr "Το πλάτος του γραφικού συστατικού"
 
-#: ../goffice/canvas/goc-widget.c:793
+#: ../goffice/canvas/goc-widget.c:814
 msgid "The widget height"
 msgstr "Το ύψος γραφικού συστατικού"
 
@@ -1626,7 +1626,7 @@ msgid "Plot"
 msgstr "Σχεδίαση"
 
 #: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:426
-#: ../goffice/graph/gog-legend.c:195
+#: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
 msgid "Title"
 msgstr "Τίτλος"
 
@@ -1964,7 +1964,7 @@ msgstr ""
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2098
+#: ../plugins/plot_xy/gog-xy.c:2101
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
@@ -2229,96 +2229,96 @@ msgstr "Άξονας φυσαλίδων:"
 msgid "Axes"
 msgstr "Άξονες"
 
-#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-plot.c:436 ../goffice/graph/gog-theme.c:598
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "Σειρές"
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:457
 msgid "Vary style by element"
 msgstr "Ποικιλία τεχνοτροπίας κατά στοιχείο"
 
-#: ../goffice/graph/gog-plot.c:460
+#: ../goffice/graph/gog-plot.c:458
 msgid "Use a different style for each segment"
 msgstr "Χρήση διαφορετικής τεχνοτροπίας για κάθε τμήμα"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:463
 msgid "X axis"
 msgstr "Άξονας Χ"
 
-#: ../goffice/graph/gog-plot.c:466
+#: ../goffice/graph/gog-plot.c:464
 msgid "Reference to X axis"
 msgstr "Αναφορά στον άξονα Χ"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:469
 msgid "Y axis"
 msgstr "Άξονας Υ"
 
-#: ../goffice/graph/gog-plot.c:472
+#: ../goffice/graph/gog-plot.c:470
 msgid "Reference to Y axis"
 msgstr "Αναφορά στον άξονα Υ"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:475
 msgid "Z axis"
 msgstr "Άξονας Ζ"
 
-#: ../goffice/graph/gog-plot.c:478
+#: ../goffice/graph/gog-plot.c:476
 msgid "Reference to Z axis"
 msgstr "Αναφορά στον άξονα Ζ"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:481
 msgid "Circular axis"
 msgstr "Κυκλικός άξονας"
 
-#: ../goffice/graph/gog-plot.c:484
+#: ../goffice/graph/gog-plot.c:482
 msgid "Reference to circular axis"
 msgstr "Αναφορά στον κυκλικό άξονα"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:487
 msgid "Radial axis"
 msgstr "Ακτινικός άξονας"
 
-#: ../goffice/graph/gog-plot.c:490
+#: ../goffice/graph/gog-plot.c:488
 msgid "Reference to radial axis"
 msgstr "Αναφορά στον ακτινικό άξονα"
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:493
 msgid "Pseudo-3D axis"
 msgstr "Ψεύδο-3Δ άξονας"
 
-#: ../goffice/graph/gog-plot.c:496
+#: ../goffice/graph/gog-plot.c:494
 msgid "Reference to pseudo-3D axis"
 msgstr "Αναφορά στον ψεύδο-3Δ άξονα"
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:499
 msgid "Color axis"
 msgstr "Χρωματικός άξονας"
 
-#: ../goffice/graph/gog-plot.c:502
+#: ../goffice/graph/gog-plot.c:500
 msgid "Reference to color axis"
 msgstr "Αναφορά στον χρωματικό άξονα"
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:505
 msgid "Bubble axis"
 msgstr "Άξονας φυσαλίδων"
 
-#: ../goffice/graph/gog-plot.c:508
+#: ../goffice/graph/gog-plot.c:506
 msgid "Reference to bubble axis"
 msgstr "Αναφορά στον άξονα φυσαλίδων"
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:511
 msgid "Plot group"
 msgstr "Ομάδα σχεδίασης"
 
-#: ../goffice/graph/gog-plot.c:514
+#: ../goffice/graph/gog-plot.c:512
 msgid "Name of plot group if any"
 msgstr "Όνομα της ομάδας σχεδίασης εάν υπάρχει"
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:517
 msgid "Guru hints"
 msgstr "Συμβουλές ειδικού"
 
-#: ../goffice/graph/gog-plot.c:520
+#: ../goffice/graph/gog-plot.c:518
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
@@ -2326,19 +2326,19 @@ msgstr ""
 "Λίστα που ξεχωρίζεται με άνω τελεία των συμβουλών για αυτόματη προσθήκη "
 "αντικειμένων στον διάλογο ειδικού"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:524
 msgid "Default interpolation"
 msgstr "Προεπιλεγμένη παρεμβολή"
 
-#: ../goffice/graph/gog-plot.c:527
+#: ../goffice/graph/gog-plot.c:525
 msgid "Default type of series line interpolation"
 msgstr "Προεπιλεγμένος τύπος παρεμβολής γραμμής σειρών"
 
-#: ../goffice/graph/gog-plot.c:1175
+#: ../goffice/graph/gog-plot.c:1173
 msgid "Move plot area"
 msgstr "Μετακίνηση περιοχής σχεδίασης"
 
-#: ../goffice/graph/gog-plot.c:1227
+#: ../goffice/graph/gog-plot.c:1225
 msgid "Resize plot area"
 msgstr "Αυξομείωση περιοχής σχεδίασης"
 
@@ -2454,19 +2454,19 @@ msgstr "Εμφάνιση ε_ξίσωσης"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Εμφάνιση συντελεστή _παλινδρόμησης R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1824 ../goffice/graph/gog-view.c:691
+#: ../goffice/graph/gog-renderer.c:1828 ../goffice/graph/gog-view.c:691
 msgid "Model"
 msgstr "Πρότυπο"
 
-#: ../goffice/graph/gog-renderer.c:1825
+#: ../goffice/graph/gog-renderer.c:1829
 msgid "The GogGraph this renderer displays"
 msgstr "Το GogGraph που αυτή η απόδοση εμφανίζει"
 
-#: ../goffice/graph/gog-renderer.c:1830
+#: ../goffice/graph/gog-renderer.c:1834
 msgid "View"
 msgstr "Προβολή"
 
-#: ../goffice/graph/gog-renderer.c:1831
+#: ../goffice/graph/gog-renderer.c:1835
 msgid "the GogView this renderer is displaying"
 msgstr "το GogView που αυτή η απόδοση εμφανίζει"
 
@@ -3426,15 +3426,28 @@ msgid "custom"
 msgstr "προσαρμοσμένο"
 
 #: ../goffice/gtk/go-color-palette.c:480 ../goffice/gtk/go-color-palette.c:735
-#: ../goffice/gtk/go-color-selector.c:199
+#: ../goffice/gtk/go-color-selector.c:195
 msgid "Custom color..."
 msgstr "Προσαρμοσμένο χρώμα..."
 
-#: ../goffice/gtk/go-combo-box.c:260
+#: ../goffice/gtk/go-combo-box.c:315
+msgid "The combo box' title"
+msgstr "Ο τίτλος του σύνθετου πλαισίου"
+
+#: ../goffice/gtk/go-combo-box.c:321
+#| msgid "Start Arrow"
+msgid "Show Arrow"
+msgstr "Προβολή βέλους"
+
+#: ../goffice/gtk/go-combo-box.c:322
+msgid "Whether to show an arrow for the combo"
+msgstr "Αν θα εμφανιστεί ένα βέλος για το σύνθετο πλαίσιο"
+
+#: ../goffice/gtk/go-combo-box.c:332
 msgid "Add tearoffs to menus"
 msgstr "Προσθήκη αποσπώμενων στα μενού"
 
-#: ../goffice/gtk/go-combo-box.c:261
+#: ../goffice/gtk/go-combo-box.c:333
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Αν τα πτυσσόμενα θα πρέπει να έχουν στοιχείο αποσπώμενου μενού"
 
@@ -3443,28 +3456,28 @@ msgstr "Αν τα πτυσσόμενα θα πρέπει να έχουν στο�
 msgid "Unable to open file '%s'"
 msgstr "Αδυναμία ανοίγματος αρχείου '%s'"
 
-#: ../goffice/gtk/goffice-gtk.c:859 ../goffice/utils/go-style.c:215
+#: ../goffice/gtk/goffice-gtk.c:867 ../goffice/utils/go-style.c:215
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:894
+#: ../goffice/gtk/goffice-gtk.c:902
 msgid "All Files"
 msgstr "Όλα τα αρχεία"
 
-#: ../goffice/gtk/goffice-gtk.c:899
+#: ../goffice/gtk/goffice-gtk.c:907
 msgid "Images"
 msgstr "Εικόνες"
 
-#: ../goffice/gtk/goffice-gtk.c:951
+#: ../goffice/gtk/goffice-gtk.c:959
 msgid "Select an Image"
 msgstr "Επιλογή εικόνας"
 
-#: ../goffice/gtk/goffice-gtk.c:1030
+#: ../goffice/gtk/goffice-gtk.c:1038
 msgid "Save as"
 msgstr "Αποθήκευση ως"
 
-#: ../goffice/gtk/goffice-gtk.c:1103
+#: ../goffice/gtk/goffice-gtk.c:1111
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3472,7 +3485,7 @@ msgstr ""
 "Η δοσμένη επέκταση αρχείου δεν ταιριάζει με τον τύπο του επιλεγμένου "
 "αρχείου. Θέλετε να χρησιμοποιήσετε αυτό το όνομα οπωσδήποτε;"
 
-#: ../goffice/gtk/goffice-gtk.c:1322
+#: ../goffice/gtk/goffice-gtk.c:1330
 #, c-format
 msgid ""
 "%s\n"
@@ -3481,7 +3494,7 @@ msgstr ""
 "%s\n"
 "είναι όνομα καταλόγου"
 
-#: ../goffice/gtk/goffice-gtk.c:1326
+#: ../goffice/gtk/goffice-gtk.c:1334
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3490,7 +3503,7 @@ msgstr ""
 "Δεν έχετε άδεια αποθήκευσης σε\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1336
+#: ../goffice/gtk/goffice-gtk.c:1344
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -5491,11 +5504,11 @@ msgstr "Νότιος Αφρική/ζουλού (zu_ZA)"
 msgid "Current Locale: "
 msgstr "Τρέχον τοπικό: "
 
-#: ../goffice/gtk/go-optionmenu.c:476
+#: ../goffice/gtk/go-optionmenu.c:477
 msgid "Menu"
 msgstr "Μενού"
 
-#: ../goffice/gtk/go-optionmenu.c:477
+#: ../goffice/gtk/go-optionmenu.c:478
 msgid "The menu of options"
 msgstr "Το μενού των επιλογών"
 
@@ -6955,8 +6968,8 @@ msgstr "Γραμμές"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
 #: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2175
-#: ../plugins/plot_xy/gog-xy.c:2181
+#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2178
+#: ../plugins/plot_xy/gog-xy.c:2184
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -8314,36 +8327,36 @@ msgstr "Φυσαλίδα"
 msgid "XYColor"
 msgstr "XYColor"
 
-#: ../plugins/plot_xy/gog-xy.c:2103 ../plugins/plot_xy/gog-xy.c:2174
+#: ../plugins/plot_xy/gog-xy.c:2106 ../plugins/plot_xy/gog-xy.c:2177
 msgid "X error bars"
 msgstr "Γραμμές σφάλματος Χ"
 
-#: ../plugins/plot_xy/gog-xy.c:2106 ../plugins/plot_xy/gog-xy.c:2180
+#: ../plugins/plot_xy/gog-xy.c:2109 ../plugins/plot_xy/gog-xy.c:2183
 msgid "Y error bars"
 msgstr "Γραμμές σφάλματος Υ"
 
-#: ../plugins/plot_xy/gog-xy.c:2115
+#: ../plugins/plot_xy/gog-xy.c:2118
 msgid "Horizontal drop lines"
 msgstr "Οριζόντιες γραμμές απόθεσης"
 
-#: ../plugins/plot_xy/gog-xy.c:2123
+#: ../plugins/plot_xy/gog-xy.c:2126
 msgid "Vertical drop lines"
 msgstr "Κατακόρυφες Ρίγες"
 
-#: ../plugins/plot_xy/gog-xy.c:2186
+#: ../plugins/plot_xy/gog-xy.c:2189
 msgid "Invalid as zero"
 msgstr "Άκυρο ως μηδέν"
 
-#: ../plugins/plot_xy/gog-xy.c:2187
+#: ../plugins/plot_xy/gog-xy.c:2190
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Αντικατάσταση άκυρων τιμών με 0 όταν σχεδιάζονται σημειωτές ή φυσαλίδες"
 
-#: ../plugins/plot_xy/gog-xy.c:2192
+#: ../plugins/plot_xy/gog-xy.c:2195
 msgid "Clamp at start"
 msgstr "Δέσμευση στην αρχή"
 
-#: ../plugins/plot_xy/gog-xy.c:2193
+#: ../plugins/plot_xy/gog-xy.c:2196
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -8351,11 +8364,11 @@ msgstr ""
 "Κλίση στην αρχή της παρεμβαλλόμενης καμπύλης όταν χρησιμοποιείται δεσμευμένη "
 "παρεμβολή ευλύγιστης καμπύλης"
 
-#: ../plugins/plot_xy/gog-xy.c:2198
+#: ../plugins/plot_xy/gog-xy.c:2201
 msgid "Clamp at end"
 msgstr "Δέσμευση στο τέλος"
 
-#: ../plugins/plot_xy/gog-xy.c:2199
+#: ../plugins/plot_xy/gog-xy.c:2202
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
