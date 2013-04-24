@@ -1,3 +1,8 @@
+2013-04-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-widget.c (goc_offscreen_box_size_allocate):
+	Clip crazy height/width to avoid program crash.
+
 2013-04-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-action-combo-color.c

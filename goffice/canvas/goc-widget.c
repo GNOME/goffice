@@ -321,13 +321,15 @@ goc_offscreen_box_size_allocate (GtkWidget     *widget,
 
 	gtk_widget_set_allocation (widget, allocation);
 
-	if (gtk_widget_get_realized (widget))
+	if (gtk_widget_get_realized (widget)) {
+		/* See https://bugzilla.gnome.org/show_bug.cgi?id=698758 */
+		guint h = MIN (allocation->height, 0x7fff);
+		guint w = MIN (allocation->width, 0x7fff);
 		gdk_window_move_resize (gtk_widget_get_window (widget),
 		                        allocation->x,
 		                        allocation->y,
-		                        allocation->width,
-		                        allocation->height);
-
+		                        w, h);
+	}
 
 	if (offscreen_box->child
 	    && gtk_widget_get_visible (offscreen_box->child)) {
@@ -335,18 +337,18 @@ goc_offscreen_box_size_allocate (GtkWidget     *widget,
 		GtkAllocation child_allocation;
 
 		gtk_widget_get_preferred_size (offscreen_box->child,
-				             &child_requisition, NULL);
+					       &child_requisition, NULL);
 		child_allocation.x = 0;
 		child_allocation.y = 0;
 		child_allocation.width = child_requisition.width;
 		child_allocation.height = child_requisition.height;
 
 		if (gtk_widget_get_realized (widget))
-		gdk_window_move_resize (offscreen_box->offscreen_window,
-					child_allocation.x,
-				        child_allocation.y,
-					child_allocation.width,
-				        child_allocation.height);
+			gdk_window_move_resize (offscreen_box->offscreen_window,
+						child_allocation.x,
+						child_allocation.y,
+						child_allocation.width,
+						child_allocation.height);
 
 		gtk_widget_size_allocate (offscreen_box->child, &child_allocation);
 	}
