@@ -1,3 +1,14 @@
+2013-04-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series-prefs.ui: fix interpolation selector.
+	* goffice/graph/gog-series.c (gog_series_set_property),
+	(cb_line_interpolation_changed), (gog_series_populate_editor): ditto.
+	* goffice/utils/go-style.c (outline_init):
+	* plugins/plot_barcol/gog-1.5d.c (go_plugin_init): add new area series type.
+	* plugins/plot_barcol/gog-line.c: implement interpolation in line and area
+	plots. [#698534]
+	* plugins/plot_barcol/gog-line.h: ditto.
+
 2013-04-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-widget.c (goc_offscreen_box_size_allocate):

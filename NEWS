@@ -15,6 +15,7 @@ Jean:
 	* Iinitialize GOEditor::use_scrolled. [#698102]
 	* Don't unref a disposed widget. [#698150]
 	* Export each marker to svg until cairo bug #63633 is fixed. [#698162]
+	* Implement interpolation in line and area plots. [#698534]
 
 Morten:
 	* Fix problems with cspline boxed type. [#695550]

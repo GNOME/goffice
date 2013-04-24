@@ -267,6 +267,8 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		return;
 	}
 
+	go_editor_register_widget (editor, grid);
+
 	/* DashType */
 	w = go_selector_new_line_dash (style->line.dash_type,
 				       default_style->line.dash_type);

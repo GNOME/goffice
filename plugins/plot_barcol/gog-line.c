@@ -127,11 +127,217 @@ GSF_DYNAMIC_CLASS (GogLineSeriesView, gog_line_series_view,
 
 typedef struct {
 	GogSeries1_5d base;
+	double	clamped_derivs[2]; /* start and and slopes for clamped cubic splines */
+	GogDataset	  *interpolation_props;
+} GogAreaSeries;
+
+/****************************************************************************/
+
+typedef struct {
+	GogObject base;
+	GogAreaSeries *series;
+	GogDatasetElement *derivs;
+} GogLineInterpolationClamps;
+
+typedef GogObjectClass GogLineInterpolationClampsClass;
+
+#define GOG_TYPE_LINE_INTERPOLATION_CLAMPS	(gog_line_interpolation_clamps_get_type ())
+#define GOG_LINE_INTERPOLATION_CLAMPS(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LINE_INTERPOLATION_CLAMPS, GogLineInterpolationClamps))
+#define GOG_IS_LINE_INTERPOLATION_CLAMPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LINE_INTERPOLATION_CLAMPS))
+GType gog_line_interpolation_clamps_get_type (void);
+
+static GObjectClass *interp_parent_klass;
+
+static void
+gog_line_interpolation_clamps_dataset_dims (GogDataset const *set, int *first, int *last)
+{
+	*first = 0;
+	*last = 1;
+}
+
+static GogDatasetElement *
+gog_line_interpolation_clamps_dataset_get_elem (GogDataset const *set, int dim_i)
+{
+	GogLineInterpolationClamps *clamps = GOG_LINE_INTERPOLATION_CLAMPS (set);
+	g_return_val_if_fail (2 > dim_i, NULL);
+	g_return_val_if_fail (dim_i >= 0, NULL);
+	return clamps->derivs + dim_i;
+}
+
+static void
+gog_line_interpolation_clamps_dataset_dim_changed (GogDataset *set, int dim_i)
+{
+	GogLineInterpolationClamps *clamps = GOG_LINE_INTERPOLATION_CLAMPS (set);
+	clamps->series->clamped_derivs[dim_i] = (GO_IS_DATA ((clamps->derivs + dim_i)->data))?
+		go_data_get_scalar_value ((clamps->derivs + dim_i)->data): 0.;
+	gog_object_request_update (GOG_OBJECT (clamps->series));
+}
+
+static void
+gog_line_interpolation_clamps_dataset_init (GogDatasetClass *iface)
+{
+	iface->get_elem	   = gog_line_interpolation_clamps_dataset_get_elem;
+	iface->dims	   = gog_line_interpolation_clamps_dataset_dims;
+	iface->dim_changed = gog_line_interpolation_clamps_dataset_dim_changed;
+}
+
+static void
+gog_line_interpolation_clamps_finalize (GObject *obj)
+{
+	GogLineInterpolationClamps *clamps = GOG_LINE_INTERPOLATION_CLAMPS (obj);
+	if (clamps->derivs != NULL) {
+		gog_dataset_finalize (GOG_DATASET (obj));
+		g_free (clamps->derivs);
+		clamps->derivs = NULL;
+	}
+	(*interp_parent_klass->finalize) (obj);
+}
+
+static void
+gog_line_interpolation_clamps_class_init (GObjectClass *klass)
+{
+	interp_parent_klass = g_type_class_peek_parent (klass);
+	klass->finalize	    = gog_line_interpolation_clamps_finalize;
+}
+
+static void
+gog_line_interpolation_clamps_init (GogLineInterpolationClamps *clamps)
+{
+	clamps->derivs = g_new0 (GogDatasetElement, 2);
+}
+
+GSF_CLASS_FULL (GogLineInterpolationClamps, gog_line_interpolation_clamps,
+		NULL, NULL, gog_line_interpolation_clamps_class_init, NULL,
+		gog_line_interpolation_clamps_init, GOG_TYPE_OBJECT, 0,
+		GSF_INTERFACE (gog_line_interpolation_clamps_dataset_init, GOG_TYPE_DATASET))
+
+/*****************************************************************************/
+
+enum {
+	SERIES_PROP_0,
+	SERIES_PROP_CLAMP0,
+	SERIES_PROP_CLAMP1
+};
+
+typedef GogSeries1_5dClass	GogAreaSeriesClass;
+
+static GogStyledObjectClass *area_series_parent_klass;
+
+GType gog_area_series_get_type (void);
+#define GOG_TYPE_AREA_SERIES	(gog_area_series_get_type ())
+#define GOG_AREA_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_AREA_SERIES, GogAreaSeries))
+#define GOG_IS_AREA_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_AREA_SERIES))
+
+static GogDataset *
+gog_area_series_get_interpolation_params (GogSeries const *series)
+{
+	GogAreaSeries *aseries = GOG_AREA_SERIES (series);
+	g_return_val_if_fail (aseries, NULL);
+	return aseries->interpolation_props;
+}
+
+static void
+gog_area_series_set_property (GObject *obj, guint param_id,
+			    GValue const *value, GParamSpec *pspec)
+{
+	GogAreaSeries *series=  GOG_AREA_SERIES (obj);
+
+	switch (param_id) {
+	case SERIES_PROP_CLAMP0:
+		gog_dataset_set_dim (series->interpolation_props, 0,
+				     go_data_scalar_val_new (g_value_get_double (value)), NULL);
+		break;
+	case SERIES_PROP_CLAMP1:
+		gog_dataset_set_dim (series->interpolation_props, 1,
+				     go_data_scalar_val_new (g_value_get_double (value)), NULL);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_area_series_get_property (GObject *obj, guint param_id,
+			  GValue *value, GParamSpec *pspec)
+{
+	GogAreaSeries *series=  GOG_AREA_SERIES (obj);
+
+	switch (param_id) {
+	case SERIES_PROP_CLAMP0:
+		g_value_set_double (value, series->clamped_derivs[0]);
+		break;
+	case SERIES_PROP_CLAMP1:
+		g_value_set_double (value, series->clamped_derivs[1]);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_area_series_finalize (GObject *obj)
+{
+	GogAreaSeries *series = GOG_AREA_SERIES (obj);
+
+	if (series->interpolation_props != NULL) {
+		g_object_unref (series->interpolation_props);
+		series->interpolation_props = NULL;
+	}
+
+	G_OBJECT_CLASS (area_series_parent_klass)->finalize (obj);
+}
+
+static void
+gog_area_series_class_init (GogStyledObjectClass *gso_klass)
+{
+	GObjectClass *obj_klass = (GObjectClass *)gso_klass;
+	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
+	GogSeriesClass *series_klass = (GogSeriesClass*) gso_klass;
+	area_series_parent_klass = g_type_class_peek_parent (gso_klass);
+	obj_klass->finalize = gog_area_series_finalize;
+	obj_klass->set_property = gog_area_series_set_property;
+	obj_klass->get_property = gog_area_series_get_property;
+	gog_klass->view_type = gog_line_series_view_get_type ();
+	series_klass->has_interpolation = TRUE;
+	series_klass->get_interpolation_params = gog_area_series_get_interpolation_params;
+	g_object_class_install_property (obj_klass, SERIES_PROP_CLAMP0,
+		g_param_spec_double ("clamp0",
+			_("Clamp at start"),
+			_("Slope at start of the interpolated curve when using clamped spline interpolation"),
+			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (obj_klass, SERIES_PROP_CLAMP1,
+		g_param_spec_double ("clamp1",
+			_("Clamp at end"),
+			_("Slope at end of the interpolated curve when using clamped spline interpolation"),
+			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+}
+
+static void
+gog_area_series_init (GogAreaSeries *series)
+{
+	g_object_set_data (G_OBJECT (series), "no-bezier-interpolation", GINT_TO_POINTER (1));
+	series->interpolation_props = g_object_new (GOG_TYPE_LINE_INTERPOLATION_CLAMPS, NULL);
+	GOG_LINE_INTERPOLATION_CLAMPS (series->interpolation_props)->series = series;
+	gog_dataset_set_dim (series->interpolation_props, 0, go_data_scalar_val_new (0.), NULL);
+	gog_dataset_set_dim (series->interpolation_props, 1, go_data_scalar_val_new (0.), NULL);
+}
+
+GSF_DYNAMIC_CLASS (GogAreaSeries, gog_area_series,
+	gog_area_series_class_init, gog_area_series_init,
+	GOG_SERIES1_5D_TYPE)
+
+/*****************************************************************************/
+
+typedef struct {
+	GogAreaSeries base;
 	double *x;
 } GogLineSeries;
+
 typedef GogSeries1_5dClass	GogLineSeriesClass;
 
-static GogStyledObjectClass *series_parent_klass;
+static GogStyledObjectClass *line_series_parent_klass;
 
 GType gog_line_series_get_type (void);
 #define GOG_TYPE_LINE_SERIES	(gog_line_series_get_type ())
@@ -144,7 +350,7 @@ gog_line_series_init_style (GogStyledObject *gso, GOStyle *style)
 	GogSeries *series = GOG_SERIES (gso);
 	GogLinePlot const *plot;
 
-	series_parent_klass->init_style (gso, style);
+	line_series_parent_klass->init_style (gso, style);
 	if (series->plot == NULL)
 		return;
 
@@ -167,7 +373,7 @@ gog_line_series_update (GogObject *obj)
 	GogSeries *base_series = GOG_SERIES (obj);
 	unsigned i, nb = base_series->num_elements;
 	GSList *ptr;
-	(GOG_OBJECT_CLASS (series_parent_klass))->update (obj);
+	(GOG_OBJECT_CLASS (line_series_parent_klass))->update (obj);
 	if (nb != base_series->num_elements) {
 		nb = base_series->num_elements;
 		g_free (series->x);
@@ -199,7 +405,7 @@ gog_line_series_finalize (GObject *obj)
 	g_free (series->x);
 	series->x = NULL;
 
-	G_OBJECT_CLASS (series_parent_klass)->finalize (obj);
+	G_OBJECT_CLASS (line_series_parent_klass)->finalize (obj);
 }
 
 static void
@@ -208,18 +414,16 @@ gog_line_series_class_init (GogStyledObjectClass *gso_klass)
 	GObjectClass *obj_klass = (GObjectClass *)gso_klass;
 	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
 	GogSeriesClass *series_klass = (GogSeriesClass*) gso_klass;
-	series_parent_klass = g_type_class_peek_parent (gso_klass);
+	line_series_parent_klass = g_type_class_peek_parent (gso_klass);
 	obj_klass->finalize = gog_line_series_finalize;
 	gso_klass->init_style = gog_line_series_init_style;
-	gog_klass->view_type = gog_line_series_view_get_type ();
 	gog_klass->update = gog_line_series_update;
 	series_klass->get_xy_data = gog_line_series_get_xy_data;
-	series_klass->series_element_type = GOG_TYPE_LINE_SERIES_ELEMENT;
 }
 
 GSF_DYNAMIC_CLASS (GogLineSeries, gog_line_series,
 	gog_line_series_class_init, NULL,
-	GOG_SERIES1_5D_TYPE)
+	GOG_TYPE_AREA_SERIES)
 
 static void
 child_added_cb (GogLinePlot *plot, GogObject *obj)
@@ -453,8 +657,9 @@ gog_area_plot_class_init (GObjectClass *gobject_klass)
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
-	plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
-	plot_klass->series_type = gog_series1_5d_get_type ();
+	plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL
+										   | GO_STYLE_INTERPOLATION;
+	plot_klass->series_type = gog_area_series_get_type ();
 
 	gog_klass->populate_editor = gog_area_plot_populate_editor;
 	gog_klass->type_name	= gog_area_plot_type_name;
@@ -504,16 +709,17 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	double plus, minus;
 
-	double **vals;
+	double **vals, **yvals;
 	ErrorBarData **error_data;
 	GOStyle **styles;
 	unsigned *lengths;
-	GOPath **paths;
+	GOPath *path, *last_path = NULL;
 	GOPath **drop_paths;
 	Point **points = NULL;
 	GogErrorBar **errors;
 	GogObjectRole const *role = NULL;
 	GogSeriesLines **lines;
+	GOLineInterpolation *interpolations;
 
 	double y_zero, y_top, y_bottom, drop_lines_y_min, drop_lines_y_max;
 	double abs_sum, sum, value, x, y = 0.;
@@ -554,10 +760,11 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	y_zero = gog_axis_map_get_baseline (y_map);
 
 	vals    = g_alloca (num_series * sizeof (double *));
+	yvals   = g_alloca (num_series * sizeof (double *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
 	styles  = g_alloca (num_series * sizeof (GOStyle *));
-	paths	= g_alloca (num_series * sizeof (GOPath *));
+	interpolations	= g_alloca (num_series * sizeof (GOLineInterpolation));
 	if (!is_area_plot)
 		points  = g_alloca (num_series * sizeof (Point *));
 	errors	= g_alloca (num_series * sizeof (GogErrorBar *));
@@ -576,10 +783,13 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		vals[i] = go_data_get_values (base_series->values[1].data);
+		yvals[i] = g_new (double, num_elements);
 		lengths[i] = go_data_get_vector_size (base_series->values[1].data);
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
+		interpolations[i] = base_series->interpolation;
+		if (interpolations[i] == GO_LINE_INTERPOLATION_CLOSED_SPLINE)
+			interpolations[i] = GO_LINE_INTERPOLATION_SPLINE;
 
-		paths[i] = go_path_new ();
 		if (!is_area_plot)
 			points[i] = g_malloc (sizeof (Point) * (lengths[i]));
 
@@ -645,12 +855,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						error_data[i][j].minus = minus;
 						error_data[i][j].plus = plus;
 					}
+					yvals[i][j] = value;
 					if (isnan (y))
 						break;
-					if (!j || (!is_area_plot && isnan (points[i][j-1].y)))
-						go_path_move_to (paths[i], x, y);
-					else
-						go_path_line_to (paths[i], x, y);
 					break;
 
 				case GOG_1_5D_STACKED :
@@ -662,10 +869,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						error_data[i][j].minus = minus;
 						error_data[i][j].plus = plus;
 					}
-					if (!j)
-						go_path_move_to (paths[i], x, y);
-					else
-						go_path_line_to (paths[i], x, y);
+					yvals[i][j] = sum;
 					break;
 
 				case GOG_1_5D_AS_PERCENTAGE :
@@ -679,10 +883,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						error_data[i][j].minus = is_null ? -1. : minus / abs_sum;
 						error_data[i][j].plus = is_null ? -1. : plus / abs_sum;
 					}
-					if (!j)
-						go_path_move_to (paths[i], x, y);
-					else
-						go_path_line_to (paths[i], x, y);
+					yvals[i][j] = sum / abs_sum;
 					break;
 			}
 			if (!is_area_plot){
@@ -729,27 +930,34 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (i = 0; i < num_series; i++) {
 		if (lengths[i] == 0)
 			continue;
+		path = gog_chart_map_make_path (chart_map, NULL, yvals[i], lengths[i],
+		                                interpolations[i], type == GOG_1_5D_NORMAL, NULL);
 
 		gog_renderer_push_style (view->renderer, styles[i]);
 
-		if (!is_area_plot)
-			gog_renderer_stroke_serie (view->renderer, paths[i]);
-		else {
-			if (type == GOG_1_5D_NORMAL || i == 0) {
+		if (!is_area_plot) {
+			gog_renderer_stroke_serie (view->renderer, path);
+			go_path_free (path);
+		} else {
+			if (type == GOG_1_5D_NORMAL || last_path == NULL) {
 				GOPath *close_path = go_path_new ();
 				go_path_move_to (close_path, gog_axis_map_to_view (x_map, 1), y_zero);
 				go_path_line_to (close_path, gog_axis_map_to_view (x_map, lengths[i]), y_zero);
-				gog_renderer_fill_serie (view->renderer, paths[i], close_path);
+				gog_renderer_fill_serie (view->renderer, path, close_path);
 				gog_renderer_stroke_serie (view->renderer, close_path);
 				go_path_free (close_path);
 			} else {
-				gog_renderer_fill_serie (view->renderer, paths[i], paths[i-1]);
+				gog_renderer_fill_serie (view->renderer, path, last_path);
+				go_path_free (last_path);
 			}
-			gog_renderer_stroke_serie (view->renderer, paths[i]);
+			gog_renderer_stroke_serie (view->renderer, path);
+			last_path = path;
 		}
 
 		gog_renderer_pop_style (view->renderer);
 	}
+	if (last_path)
+		go_path_free (last_path);
 
 	/*Now draw drop lines */
 	for (i = 0; i < num_series; i++)
@@ -823,7 +1031,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!is_area_plot)
 			g_free (points[i]);
 		g_free (error_data[i]);
-		go_path_free (paths[i]);
+		g_free (yvals[i]);
 	}
 
 	/* Now render children */

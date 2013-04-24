@@ -433,6 +433,16 @@ gog_series_set_property (GObject *obj, guint param_id,
 		break;
 	case SERIES_PROP_INTERPOLATION:
 		series->interpolation = go_line_interpolation_from_str (g_value_get_string (value));
+		/* check if the interpolation mode is compatible with the plot type ans
+		 * replace if not */
+		if (gog_plot_axis_set_pref (gog_series_get_plot (series)) & 1 << GOG_AXIS_RADIAL &&
+		    !go_line_interpolation_supports_radial (series->interpolation))
+			series->interpolation = GO_LINE_INTERPOLATION_SPLINE;
+		else if (g_object_get_data (obj, "no-bezier-interpolation") != NULL &&
+		         (series->interpolation == GO_LINE_INTERPOLATION_CLOSED_SPLINE ||
+		          series->interpolation == GO_LINE_INTERPOLATION_SPLINE ||
+		          series->interpolation == GO_LINE_INTERPOLATION_ODF_SPLINE))
+			series->interpolation = GO_LINE_INTERPOLATION_CUBIC_SPLINE;
 		break;
 	case SERIES_PROP_INTERPOLATION_SKIP_INVALID:
 		series->interpolation_skip_invalid = g_value_get_boolean (value);
@@ -514,7 +524,9 @@ cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
 	GtkBuilder *gui = g_object_get_data (G_OBJECT (box), "gui");
 	GtkWidget *widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "skip-button"));
 	GtkWidget *grid = go_gtk_builder_get_widget (gui, "clamps-grid");
-	series->interpolation = gtk_combo_box_get_active (box);
+	GtkTreeIter iter;
+	gtk_combo_box_get_active_iter (box, &iter);
+	gtk_tree_model_get (gtk_combo_box_get_model (box), &iter, 1, &series->interpolation, -1);
 	gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
 	widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "fill-type"));
 	if (series->interpolation == GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE)
@@ -556,7 +568,7 @@ gog_series_populate_editor (GogObject *gobj,
 	GogDataset *set = GOG_DATASET (gobj);
 	GogSeriesDesc const *desc;
 	GogDataType data_type;
-	GtkComboBoxText *combo = NULL;
+	GtkComboBox *combo = NULL;
 
 	g_return_if_fail (series->plot != NULL);
 
@@ -622,31 +634,48 @@ gog_series_populate_editor (GogObject *gobj,
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
 	grid = GTK_GRID (go_editor_get_registered_widget (editor, "line-grid"));
+	if (grid == NULL)
+		grid = GTK_GRID (go_editor_get_registered_widget (editor, "outline-grid"));
 	if (series_class->has_interpolation && grid != NULL) {
 		GtkBuilder *gui;
 		GtkWidget *widget;
 
 		gui = go_gtk_builder_load_internal ("res:go:graph/gog-series-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
-			int i;
+			unsigned i;
 			GogAxisSet set = gog_plot_axis_set_pref (gog_series_get_plot (series));
 			GogDataset *clamp_set = gog_series_get_interpolation_params (series);
+			GtkListStore *model;
+			GtkTreeIter iter;
+			GtkCellRenderer *renderer;
+			/* FIXME: change when we can filter out non supported modes, see #698100, comment #3 */
+			gboolean no_bezier = g_object_get_data (G_OBJECT (gobj), "no-bezier-interpolation") != NULL;
 			widget = go_gtk_builder_get_widget (gui, "interpolation-prefs");
 			gtk_grid_attach (grid, widget, 0, 3, 4, 1);
 			/* create an interpolation type combo and populate it */
-			combo = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
-			if (set & 1 << GOG_AXIS_RADIAL)
-				for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++) {
-					if (go_line_interpolation_supports_radial (i))
-						gtk_combo_box_text_append_text (combo, _(go_line_interpolation_as_label (i)));
-				}
-			else
-				for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++)
-					gtk_combo_box_text_append_text (combo, _(go_line_interpolation_as_label (i)));
-			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), series->interpolation);
+			combo = GTK_COMBO_BOX (gtk_builder_get_object (gui, "interp-combo"));
+			renderer = gtk_cell_renderer_text_new ();
+			gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, FALSE);
+			gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer,
+					"text", 0,
+					NULL);
+			model = GTK_LIST_STORE (gtk_combo_box_get_model (combo));
+			for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++) {
+				if ((set & 1 << GOG_AXIS_RADIAL && !go_line_interpolation_supports_radial (i)) ||
+				    (no_bezier &&
+					    (i == GO_LINE_INTERPOLATION_CLOSED_SPLINE ||
+					     i == GO_LINE_INTERPOLATION_SPLINE ||
+					     i == GO_LINE_INTERPOLATION_ODF_SPLINE)))
+					continue;
+				gtk_list_store_append (model, &iter);
+				gtk_list_store_set (model, &iter,
+				                    0, _(go_line_interpolation_as_label (i)),
+				                    1, i, -1);
+				if (i == series->interpolation)
+					gtk_combo_box_set_active_iter (combo, &iter);
+			}
 			g_signal_connect (combo, "changed",
 					  G_CALLBACK (cb_line_interpolation_changed), series);
-			gtk_grid_attach (GTK_GRID (widget), GTK_WIDGET (combo), 1, 1, 1, 1),
 			w = go_gtk_builder_get_widget (gui, "interpolation-skip-invalid");
 			g_object_set_data (G_OBJECT (combo), "skip-button", w);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), series->interpolation_skip_invalid);

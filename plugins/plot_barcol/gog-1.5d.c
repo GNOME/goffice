@@ -719,6 +719,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_barcol_series_element_register_type (module);
 	gog_dropbar_plot_register_type (module);
 	gog_dropbar_view_register_type (module);
+	gog_area_series_register_type (module);
 	gog_line_series_register_type (module);
 	gog_line_series_view_register_type (module);
 	gog_line_series_element_register_type (module);

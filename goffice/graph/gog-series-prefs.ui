@@ -51,6 +51,14 @@
       </packing>
     </child>
   </object>
+  <object class="GtkListStore" id="interpolation-list">
+    <columns>
+      <!-- column-name text -->
+      <column type="gchararray"/>
+      <!-- column-name interpolation -->
+      <column type="guint"/>
+    </columns>
+  </object>
   <object class="GtkGrid" id="interpolation-prefs">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -66,7 +74,7 @@
         <property name="xalign">0</property>
         <property name="label" translatable="yes">Interpolation</property>
         <attributes>
-         <attribute name="weight" value="bold"/>
+          <attribute name="weight" value="bold"/>
         </attributes>
       </object>
       <packing>
@@ -151,27 +159,6 @@
             <property name="height">1</property>
           </packing>
         </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
       </object>
       <packing>
         <property name="left_attach">0</property>
@@ -181,19 +168,21 @@
       </packing>
     </child>
     <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
+      <object class="GtkComboBox" id="interp-combo">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="hexpand">True</property>
+        <property name="model">interpolation-list</property>
+        <property name="entry_text_column">0</property>
+        <property name="id_column">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
     </child>
   </object>
   <object class="GtkListStore" id="model1">
