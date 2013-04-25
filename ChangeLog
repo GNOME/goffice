@@ -1,3 +1,10 @@
+2013-04-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series.c (gog_series_populate_editor): hide the skip
+	invalid checkbox for line and area plots.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): fixed skip invalid
+	test.
+
 2013-04-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series-prefs.ui: fix interpolation selector.

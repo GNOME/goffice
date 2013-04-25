@@ -684,6 +684,9 @@ gog_series_populate_editor (GogObject *gobj,
 			g_signal_connect (w, "toggled",
 					  G_CALLBACK (cb_line_interpolation_skip_changed), series);
 			gtk_widget_show_all (widget);
+			/* FIXME: a very bad hack to hide this check box for line and area plots */
+			if (no_bezier)
+				gtk_widget_hide (w);
 			if (clamp_set) {
 				GtkWidget *w;
 				widget = go_gtk_builder_get_widget (gui, "clamps-grid");

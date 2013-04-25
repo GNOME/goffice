@@ -855,9 +855,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						error_data[i][j].minus = minus;
 						error_data[i][j].plus = plus;
 					}
-					yvals[i][j] = value;
-					if (isnan (y))
-						break;
+					yvals[i][j] = isnan (y)? go_nan: value;
 					break;
 
 				case GOG_1_5D_STACKED :
@@ -931,7 +929,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (lengths[i] == 0)
 			continue;
 		path = gog_chart_map_make_path (chart_map, NULL, yvals[i], lengths[i],
-		                                interpolations[i], type == GOG_1_5D_NORMAL, NULL);
+		                                interpolations[i], type != GOG_1_5D_NORMAL && !is_area_plot,
+		                                &GOG_AREA_SERIES (series)->clamped_derivs);
 
 		gog_renderer_push_style (view->renderer, styles[i]);
 
