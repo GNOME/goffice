@@ -1,3 +1,8 @@
+2013-04-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-font-sel.c (gfs_screen_changed): ensure a full
+	initialization of all fields in the font selector. [#698867]
+
 2013-04-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c (gog_series_populate_editor): hide the skip

@@ -16,6 +16,8 @@ Jean:
 	* Don't unref a disposed widget. [#698150]
 	* Export each marker to svg until cairo bug #63633 is fixed. [#698162]
 	* Implement interpolation in line and area plots. [#698534]
+	* Ensure a full initialization of all fields in the font selector.
+	[#698867]
 
 Morten:
 	* Fix problems with cspline boxed type. [#695550]

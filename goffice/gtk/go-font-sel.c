@@ -640,6 +640,7 @@ gfs_screen_changed (GtkWidget *w, GdkScreen *previous_screen)
 	reload_families (gfs);
 
 	desc = pango_font_description_from_string ("Sans 72");
+	g_object_set (w, "font-desc", desc, NULL);
 	width = go_pango_measure_string
 		(gtk_widget_get_pango_context (w),
 		 desc,
