@@ -1,3 +1,7 @@
+2013-04-26  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.2
+
 2013-04-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-font-sel.c (gfs_screen_changed): ensure a full
