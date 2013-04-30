@@ -307,9 +307,11 @@ copy_stats (go_regression_stat_t *s1,
  *
  * V is a pre-allocated output m-times-n matrix.  V will contrain
  * n vectors of different lengths: n, n-1, ..., 1.  These are the
- * Householder vectors (or null for the degenerate case).
+ * Householder vectors (or null for the degenerate case).  The
+ * matrix Q of size m-times-n is implied from V.
  *
- * Rfinal is a pre-allocated output matrix of size n-times-n.
+ * Rfinal is a pre-allocated output matrix of size n-times-n.  (To
+ * get the m-times-n version of R, simply add m-n null rows.)
  *
  * qdet is an optional output location for det(Q).
  *
@@ -2133,4 +2135,177 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
 	SUFFIX(go_quad_end) (state);
 
 	return regres;
+}
+
+/*
+ * Compute the pseudo-inverse of a matrix, see
+ *     http://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_pseudoinverse
+ *
+ * Think of this as A+ = (AT A)^-1 AT, except that the pseudo-inverse
+ * is defined even if AT*A isn't invertible.
+ *
+ * Properties:
+ *
+ *     A  A+ A  = A
+ *     A+ A  A+ = A+
+ *     (A A+)^T = A A+
+ *     (A+ A)^T = A+ A
+ *
+ * assuming threshold==0 and no rounding errors.  
+ */
+
+void
+SUFFIX(go_matrix_pseudo_inverse) (CONSTMATRIX A, int m, int n,
+				  DOUBLE threshold,
+				  MATRIX B)
+{
+	QMATRIX V;
+	QMATRIX R;
+	QMATRIX R2 = NULL;
+	QMATRIX R2inv = NULL;
+	gboolean *null_dim;
+	QUAD *x = NULL;
+	gboolean has_result;	
+	void *state = SUFFIX(go_quad_start) ();
+	int i, j, i2, j2, rank;
+	DOUBLE emax;
+	gboolean debug = FALSE;
+
+	ALLOC_MATRIX2 (V, m, n, QUAD);
+	ALLOC_MATRIX2 (R, n, n, QUAD);
+	null_dim = g_new0 (gboolean, n);
+
+	has_result = SUFFIX(QRH)(A, FALSE, V, R, m, n, NULL);
+	if (!has_result)
+		goto null_result;
+
+	if (debug) {
+		g_printerr ("R:\n");
+		PRINT_QMATRIX (R, n, n);
+	}
+
+	emax = 0;
+	for (i = 0; i < n; i++) {
+		DOUBLE abs_e = SUFFIX(fabs) (SUFFIX(go_quad_value)(&R[i][i]));
+		emax = MAX (emax, abs_e);
+	}
+
+	rank = 0;
+	for (i = 0; i < n; i++) {
+		DOUBLE abs_e = SUFFIX(fabs) (SUFFIX(go_quad_value)(&R[i][i]));
+		null_dim[i] = abs_e <= emax * threshold;
+		if (!null_dim[i])
+			rank++;
+	}
+	if (rank == 0)
+		goto null_result;
+
+	/*
+	 * R2 is R after removing columns and rows that were deemed
+	 * null dimensions.
+	 */
+	ALLOC_MATRIX2 (R2, rank, rank, QUAD);
+	for (i = i2 = 0; i < n; i++) {
+		if (null_dim[i])
+			continue;
+		for (j = j2 = 0; j < n; j++) {
+			if (null_dim[j])
+				continue;
+			R2[i2][j2] = R[i][j];
+			j2++;
+		}
+		i2++;
+	}
+	if (debug) {
+		g_printerr ("R2:\n");
+		PRINT_QMATRIX (R2, rank, rank);
+	}
+
+	/* R2inv := R2^-1 */
+	ALLOC_MATRIX2 (R2inv, rank, rank, QUAD);
+	x = g_new (QUAD, rank);
+	for (j = 0; j < rank; j++) {
+		for (i = 0; i < rank; i++)
+			SUFFIX(go_quad_init)(&x[i], i == j ? 1 : 0);
+
+		if (SUFFIX(back_solve) (R2, x, x, rank))
+			goto cannot_happen;
+
+		for (i = 0; i < rank; i++)
+			R2inv[i][j] = x[i];
+	}
+	g_free (x);
+	x = NULL;
+	if (debug) {
+		g_printerr ("R2inv:\n");
+		PRINT_QMATRIX (R2inv, rank, rank);
+	}
+
+	/* R := R2inv with null columns/rows inserted back in */
+	for (i = i2 = 0; i < n; i++) {
+		if (null_dim[i]) {
+			for (j = 0; j < n; j++)
+				SUFFIX(go_quad_init)(&R[i][j], 0.0);
+		} else {
+			for (j = j2 = 0; j < n; j++) {
+				if (null_dim[j])
+					SUFFIX(go_quad_init)(&R[i][j], 0.0);
+				else {
+					R[i][j] = R2inv[i2][j2];
+					j2++;
+				}
+			}
+			i2++;
+		}
+	}
+	if (debug) {
+		g_printerr ("R2-inv-expand:\n");
+		PRINT_QMATRIX (R, n, n);
+	}
+
+	/* B := R Q^T */
+	x = g_new (QUAD, m);
+	for (j = 0; j < m; j++) {
+		QUAD acc;
+
+		/* Compute Q^T e_j.  */
+		for (i = 0; i < m; i++)
+			SUFFIX(go_quad_init)(&x[i], i == j ? 1 : 0);
+		SUFFIX(multiply_Qt) (x, V, m, n);
+
+		SUFFIX(go_quad_init) (&acc, 0);
+		for (i = 0; i < n; i++) {
+			QUAD acc;
+			int k;
+
+			SUFFIX(go_quad_init) (&acc, 0);
+			for (k = 0; k < n /* Only n */; k++) {
+				QUAD p;
+				SUFFIX(go_quad_mul) (&p, &R[i][k], &x[k]);
+				SUFFIX(go_quad_add) (&acc, &acc, &p);
+			}
+
+			B[i][j] = SUFFIX(go_quad_value)(&acc);
+		}
+	}
+
+out:
+	FREE_MATRIX (V, m, n);
+	FREE_MATRIX (R, n, n);
+	if (R2) FREE_MATRIX (R2, rank, rank);
+	if (R2inv) FREE_MATRIX (R2inv, rank, rank);
+	g_free (null_dim);
+	g_free (x);
+
+	SUFFIX(go_quad_end) (state);
+	return;
+
+cannot_happen:
+	g_printerr ("This cannot happen\n");
+
+null_result:
+	for (i = 0; i < n; i++)
+		for (j = 0; j < m; j++)
+			B[i][j] = 0;
+	goto out;
 }

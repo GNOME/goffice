@@ -1,3 +1,8 @@
+2013-04-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (go_matrix_pseudo_inverse): New
+	function.
+
 2013-04-26  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -106,6 +106,10 @@ GORegressionResult go_non_linear_regression (GORegressionFunction f,
 gboolean go_matrix_invert 	(double **A, int n);
 double   go_matrix_determinant 	(double *const *const A, int n);
 
+void     go_matrix_pseudo_inverse (double *const * const A, int m, int n,
+				   double threshold,
+				   double **B);
+
 GORegressionResult go_linear_solve (double *const *const A,
 				    const double *b,
 				    int n,
@@ -189,6 +193,10 @@ GORegressionResult    go_non_linear_regressionl	(GORegressionFunctionl f,
 
 gboolean    go_matrix_invertl 		(long double **A, int n);
 long double go_matrix_determinantl 	(long double *const * const A, int n);
+
+void     go_matrix_pseudo_inversel (long double *const * const A, int m, int n,
+				    long double threshold,
+				    long double **B);
 
 GORegressionResult go_linear_solvel (long double *const *const A,
 				     const long double *b,
