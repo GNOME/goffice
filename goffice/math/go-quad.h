@@ -27,6 +27,8 @@ void go_quad_mul12 (GOQuad *res, double x, double y);
 
 void go_quad_dot_product (GOQuad *res, const GOQuad *a, const GOQuad *b, int n);
 
+GO_VAR_DECL const GOQuad go_quad_zero;
+
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 struct GOQuadl_ {
 	long double h;
@@ -50,6 +52,8 @@ void go_quad_mul12l (GOQuadl *res, long double x, long double y);
 
 void go_quad_dot_productl (GOQuadl *res,
 			   const GOQuadl *a, const GOQuadl *b, int n);
+
+GO_VAR_DECL const GOQuadl go_quad_zerol;
 #endif
 
 G_END_DECLS

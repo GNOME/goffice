@@ -171,6 +171,8 @@ SUFFIX(go_quad_end) (void *state)
 	g_free (state);
 }
 
+const QUAD SUFFIX(go_quad_zero);
+
 /**
  * go_quad_init: (skip)
  **/
