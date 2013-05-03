@@ -45,6 +45,7 @@ goffice/graph/gog-axis-line.c
 goffice/graph/gog-chart.c
 goffice/graph/gog-child-button.c
 goffice/graph/gog-color-scale.c
+[type: gettext/glade]goffice/graph/gog-color-scale-prefs.ui
 goffice/graph/gog-data-allocator.c
 goffice/graph/gog-data-set.c
 [type: gettext/glade]goffice/graph/gog-equation-prefs.ui
