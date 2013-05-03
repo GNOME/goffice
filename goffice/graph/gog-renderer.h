@@ -106,6 +106,10 @@ void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text,
 				   gboolean use_markup, GOGeometryAABR *aabr,
                                    double max_width);
 
+void  gog_renderer_draw_color_map	(GogRenderer *rend, GogAxisColorMap const *map,
+	                                 int discrete, gboolean horizontal,
+	                                 GogViewAllocation const *rect);
+
 void  gog_renderer_push_style     	(GogRenderer *rend, GOStyle const *style);
 void  gog_renderer_pop_style      	(GogRenderer *rend);
 

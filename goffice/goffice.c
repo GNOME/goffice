@@ -208,6 +208,7 @@ libgoffice_init (void)
 	(void) GOG_TYPE_LEGEND;
 	(void) GOG_TYPE_AXIS;
 	(void) GOG_TYPE_AXIS_LINE;
+	(void) GOG_TYPE_COLOR_SCALE;
 	(void) GOG_TYPE_LABEL;
 	(void) GOG_TYPE_GRID;
 	(void) GOG_TYPE_GRID_LINE;

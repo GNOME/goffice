@@ -1254,6 +1254,18 @@ _free_marker_data (GogRenderer *rend)
 }
 
 void
+gog_renderer_draw_color_map (GogRenderer *rend, GogAxisColorMap const *map,
+                             int discrete, gboolean horizontal,
+                             GogViewAllocation const *rect)
+{
+	cairo_save (rend->cairo);
+	cairo_translate (rend->cairo, rect->x, rect->y);
+	gog_axis_color_map_to_cairo (map, rend->cairo, discrete, horizontal,
+	                             rect->w, rect->h);
+	cairo_restore (rend->cairo);
+}
+
+void
 gog_renderer_push_style (GogRenderer *rend, GOStyle const *style)
 {
 	g_return_if_fail (GOG_IS_RENDERER (rend));

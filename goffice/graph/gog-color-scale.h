@@ -31,6 +31,8 @@ G_BEGIN_DECLS
 #define GOG_IS_COLOR_SCALE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_COLOR_SCALE))
 
 GType gog_color_scale_get_type (void);
+GogAxis *gog_color_scale_get_axis (GogColorScale *scale);
+void gog_color_scale_set_axis (GogColorScale *scale, GogAxis *axis);
 
 G_END_DECLS
 

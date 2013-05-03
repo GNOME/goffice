@@ -545,7 +545,7 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 	GogView *child;
 	GogObjectPosition pos;
 	GogViewRequisition req, available;
-	GogViewAllocation tmp, res = *allocation;
+	GogViewAllocation tmp, res = *allocation, align;
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
@@ -589,7 +589,8 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 					req.h = 0;
 				tmp.h  = req.h;
 				vertical = FALSE;
-			}
+			}/* else
+				tmp.h = req.h;*/
 
 				if (pos & GOG_POSITION_E) {
 					if (req.w > 0) {
@@ -611,8 +612,14 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 					/* For NE & NW only alignment fill makes sense */
 					if (pos & (GOG_POSITION_N|GOG_POSITION_S))
 						pos = GOG_POSITION_ALIGN_FILL;
- 				}
+ 				}/* else
+					tmp.w = req.w;*/
 
+				/* the following line adjust the manual sizes if needed */
+				align = gog_object_get_manual_allocation (gog_view_get_model (child),
+				                                          allocation, &req);
+				req.h = align.h;
+				req.w = align.w;
 				pos &= GOG_POSITION_ALIGNMENT;
 				if (GOG_POSITION_ALIGN_FILL != pos) {
 					if (vertical) {

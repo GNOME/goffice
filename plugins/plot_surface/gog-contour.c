@@ -180,7 +180,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 		for (i = 0; i < j; i++) {
 			style->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (map, i * scale);
 			label = g_strdup_printf ("[%g%s %g%c", limits[j - i - 1], separator,
-						limits[j - i], (limits[i - j] - minimum > epsilon)? '[':']');
+						limits[j - i], (limits[j - i] - minimum > epsilon)? '[':']');
 			(func) (i, style, label, NULL, data);
 			g_free (label);
 		}

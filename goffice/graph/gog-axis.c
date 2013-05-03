@@ -125,6 +125,7 @@ struct _GogAxis {
 	double span_start, span_end;    /* percent of used area */
 	GogAxisColorMap const *color_map;		/* color map for color and pseudo-3d axis */
 	gboolean auto_color_map;
+	GogColorScale *color_scale;
 };
 
 /*****************************************************************************/
@@ -3552,6 +3553,23 @@ gog_axis_get_color_map (GogAxis *axis)
 	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
 
 	return axis->color_map;
+}
+
+GogColorScale *
+_gog_axis_get_color_scale (GogAxis *axis)
+{
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
+
+	return axis->color_scale;
+}
+
+void
+_gog_axis_set_color_scale (GogAxis *axis, GogColorScale *scale)
+{
+	g_return_if_fail (GOG_IS_AXIS (axis) &&
+	                  (axis->type == GOG_AXIS_COLOR || axis->type == GOG_AXIS_PSEUDO_3D) &&
+	                  (axis->color_scale == NULL || scale == NULL));
+	axis->color_scale = scale;
 }
 
 /****************************************************************************/

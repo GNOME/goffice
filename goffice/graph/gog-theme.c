@@ -597,7 +597,8 @@ static GogThemeRoles roles[] = {
 	{"GogSeriesLine", NULL, N_("Series lines"), GO_STYLE_LINE, SNAPSHOT_SERIESLINES},
 	{"GogSeries", NULL, N_("Series"), GO_STYLE_LINE | GO_STYLE_FILL | GO_STYLE_MARKER, SNAPSHOT_SERIES},
 	{"GogSeriesLabels", NULL, N_("Series labels"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_SERIESLABELS},
-	{"GogDataLabel", NULL, N_("Data label"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_SERIESLABELS}
+	{"GogDataLabel", NULL, N_("Data label"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_SERIESLABELS},
+	{"GogColorScale", NULL, N_("Color scale"), GO_STYLE_OUTLINE, SNAPSHOT_GRAPH}
 };
 
 static void
@@ -1389,6 +1390,14 @@ build_predefined_themes (void)
 	go_style_set_font_desc (style, pango_font_description_from_string ("Sans 6"));
 	gog_theme_add_element (theme, style, NULL,  g_strdup ("GogDataLabel"), NULL);
 
+	/* Color scale */
+	style = go_style_new ();
+	go_style_clear_auto (style);
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = GO_COLOR_BLACK;
+	gog_theme_add_element (theme, style, NULL,  g_strdup ("GogColorScale"), NULL);
+
 #ifdef GOFFICE_WITH_LASEM
 	/* Equations */
 	style = go_style_new ();
@@ -1553,6 +1562,14 @@ build_predefined_themes (void)
 	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_WHITE);
 	go_style_set_font_desc (style, pango_font_description_from_string ("Sans 6"));
 	gog_theme_add_element (theme, style, NULL,  g_strdup ("GogDataLabel"), NULL);
+
+	/* Color scale */
+	style = go_style_new ();
+	go_style_clear_auto (style);
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = GO_COLOR_BLACK;
+	gog_theme_add_element (theme, style, NULL,  g_strdup ("GogColorScale"), NULL);
 
 #ifdef GOFFICE_WITH_LASEM
 	/* Equations */

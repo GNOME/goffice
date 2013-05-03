@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-xyz.h"
+#include "gog-contour.h"
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
@@ -32,6 +33,12 @@ static void
 cb_transpose (GtkToggleButton *btn, GObject *plot)
 {
 	g_object_set (plot, "transposed", gtk_toggle_button_get_active (btn), NULL);
+}
+
+static void
+cb_show_colors (GtkToggleButton *btn, GObject *plot)
+{
+	g_object_set (plot, "vary-style-by-element", gtk_toggle_button_get_active (btn), NULL);
 }
 
 GtkWidget *
@@ -49,6 +56,14 @@ gog_xyz_plot_pref (GogXYZPlot *plot, GOCmdContext *cc)
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_transpose), plot);
+
+	w = go_gtk_builder_get_widget (gui, "colors");
+	if (GOG_IS_CONTOUR_PLOT (plot)) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), plot->base.vary_style_by_element);
+		g_signal_connect (G_OBJECT (w), "toggled",
+		                  G_CALLBACK (cb_show_colors), plot);
+	} else
+		gtk_widget_hide (w);
 
 	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog-xyz-prefs")));
 	g_object_unref (gui);

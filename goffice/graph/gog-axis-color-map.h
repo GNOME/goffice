@@ -44,6 +44,9 @@ GdkPixbuf *gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
                                             gboolean horizontal,
                                             unsigned width,
                                             unsigned height);
+void gog_axis_color_map_to_cairo (GogAxisColorMap const *map, cairo_t *cr,
+                                  unsigned discrete, gboolean horizontal,
+                                  double width, double height);
 char const *gog_axis_color_map_get_id (GogAxisColorMap const *map);
 char const *gog_axis_color_map_get_name (GogAxisColorMap const *map);
 GoResourceType gog_axis_color_map_get_resource_type (GogAxisColorMap const *map);

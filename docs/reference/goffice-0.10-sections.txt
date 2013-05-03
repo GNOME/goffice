@@ -586,6 +586,7 @@ GO_COMPONENT
 GO_IS_COMPONENT
 GO_TYPE_COMPONENT
 go_component_get_type
+GOComponentPrivate
 </SECTION>
 
 <SECTION>
@@ -1981,6 +1982,8 @@ go_matrix_determinant
 go_matrix_determinantl
 go_matrix_invert
 go_matrix_invertl
+go_matrix_pseudo_inverse
+go_matrix_pseudo_inversel
 go_non_linear_regression
 go_non_linear_regressionl
 go_power_regression
@@ -2258,6 +2261,7 @@ goc_canvas_get_grabbed_item
 goc_canvas_get_height
 goc_canvas_get_item_at
 goc_canvas_get_pixels_per_unit
+goc_canvas_get_realized
 goc_canvas_get_root
 goc_canvas_get_scroll_position
 goc_canvas_get_width
@@ -2368,6 +2372,7 @@ goc_item_draw_region
 goc_item_get_bounds
 goc_item_get_operator
 goc_item_get_parent
+goc_item_get_style_context
 goc_item_get_window
 goc_item_grab
 goc_item_hide
@@ -2794,6 +2799,7 @@ gog_axis_color_map_get_id
 gog_axis_color_map_get_name
 gog_axis_color_map_get_resource_type
 gog_axis_color_map_get_snapshot
+gog_axis_color_map_to_cairo
 <SUBSECTION Standard>
 GOG_AXIS_COLOR_MAP
 GOG_IS_AXIS_COLOR_MAP
@@ -2889,6 +2895,8 @@ gog_child_button_get_type
 <FILE>gog-color-scale</FILE>
 <TITLE>GogColorScale</TITLE>
 GogColorScale
+gog_color_scale_get_axis
+gog_color_scale_set_axis
 <SUBSECTION Standard>
 GOG_COLOR_SCALE
 GOG_IS_COLOR_SCALE
@@ -3269,6 +3277,7 @@ gog_reg_curve_get_type
 GOG_RENDERER_GRIP_SIZE
 GOG_RENDERER_HAIRLINE_WIDTH_PTS
 gog_renderer_draw_circle
+gog_renderer_draw_color_map
 gog_renderer_draw_data_label
 gog_renderer_draw_gostring
 gog_renderer_draw_grip

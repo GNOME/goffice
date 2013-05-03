@@ -1,3 +1,29 @@
+2013-05-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: add new UI file.
+	* goffice/goffice.c (libgoffice_init): implement color scales.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-axis-color-map.c: ditto.
+	* goffice/graph/gog-axis-color-map.h: ditto.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-chart.c: ditto.
+	* goffice/graph/gog-color-scale-prefs.ui: new UI file.
+	* goffice/graph/gog-color-scale.c: implement color scales.
+	* goffice/graph/gog-color-scale.h: ditto.
+	* goffice/graph/gog-object.c: fix manual size issues.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_color_map): new function.
+	* goffice/graph/gog-renderer.h: ditto.
+	* goffice/graph/gog-theme.c (build_predefined_themes): add color scale.
+	* goffice/graph/gog-view.c (gog_view_size_allocate_real): fix manual size
+	issues.
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem): don't crash when inverting the pseudo-3d
+	axis.
+	* plugins/plot_surface/gog-xyz-prefs.c: add an option to not show the colors
+	in the legend.
+	* plugins/plot_surface/gog-xyz-prefs.ui: ditto.
+
 2013-04-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (go_matrix_pseudo_inverse): New

@@ -554,12 +554,66 @@ axis_post_add (GogObject *axis, GogAxisType t)
 }
 
 static void
-axis_pre_remove (GogObject *parent, GogObject *axis)
+axis_pre_remove (GogObject *parent, GogObject *child)
 {
 	GogChart *chart = GOG_CHART (parent);
+	GogAxis *axis = GOG_AXIS (child);
+	GogColorScale *scale = _gog_axis_get_color_scale (axis);
+	if (scale)
+		gog_color_scale_set_axis (scale, NULL);
 	gog_axis_clear_contributors (GOG_AXIS (axis));
 	chart->axes = g_slist_remove (chart->axes, axis);
 }
+
+/*  Color scale related code */
+static gboolean
+color_scale_can_add (GogObject const *parent)
+{
+	/* TRUE if there are more color or pseudo-3d axes than there are color scales */
+	GogChart *chart = GOG_CHART (parent);
+	GSList *ptr;
+	GogAxis *axis;
+	GogAxisType type;
+
+	if ((chart->axis_set & ((1 << GOG_AXIS_COLOR) | (1 << GOG_AXIS_PSEUDO_3D ))) == 0)
+		return FALSE;
+	for (ptr = chart->axes; ptr && ptr->data; ptr = ptr->next) {
+		axis = GOG_AXIS (ptr->data);
+		type = gog_axis_get_atype (axis);
+		if ((type == GOG_AXIS_COLOR || type == GOG_AXIS_PSEUDO_3D)
+		    && _gog_axis_get_color_scale (axis) == NULL)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+static void
+color_scale_post_add (GogObject *parent, GogObject *child)
+{
+	/* Link the color scale to an axis without a preexisting color scale */
+	GogChart *chart = GOG_CHART (parent);
+	GSList *ptr;
+	GogAxis *axis;
+	GogAxisType type;
+
+	for (ptr = chart->axes; ptr && ptr->data; ptr = ptr->next) {
+		axis = GOG_AXIS (ptr->data);
+		type = gog_axis_get_atype (axis);
+		if ((type == GOG_AXIS_COLOR || type == GOG_AXIS_PSEUDO_3D)
+		    && _gog_axis_get_color_scale (axis) == NULL) {
+				gog_color_scale_set_axis (GOG_COLOR_SCALE (child), axis);
+				break;
+			}
+	}
+}
+
+static void
+color_scale_pre_remove (GogObject *parent, GogObject *scale)
+{
+	/* Unlink the color scale */
+	gog_color_scale_set_axis (GOG_COLOR_SCALE (scale), NULL);
+}
+
 
 static gboolean x_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_X); }
 static void x_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_X); }
@@ -650,7 +704,13 @@ static GogObjectRole const roles[] = {
 #endif
 	{ N_("3D-Box"), "Gog3DBox",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-	  role_3d_box_can_add, role_3d_box_can_remove, NULL, NULL, NULL, NULL, { -1 } }
+	  role_3d_box_can_add, role_3d_box_can_remove, NULL, NULL, NULL, NULL, { -1 } },
+	{ N_("Color-Scale"), "GogColorScale", 7,
+	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL|GOG_POSITION_ANY_MANUAL_SIZE,
+	  GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER,
+	  GOG_OBJECT_NAME_BY_ROLE,
+	  color_scale_can_add, NULL, NULL,
+	  color_scale_post_add, color_scale_pre_remove, NULL, { -1 } }
 };
 
 static GogManualSizeMode

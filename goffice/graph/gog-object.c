@@ -187,6 +187,16 @@ static GogPositionFlagDesc const position_anchor[] = {
 	{N_("Bottom right"),	"bottom-right",	GOG_POSITION_ANCHOR_SE}
 };
 
+static GogPositionFlagDesc const manual_size[] = {
+	{N_("None"),			"none",		  GOG_POSITION_AUTO},
+	{N_("Width"), 			"width",	  GOG_POSITION_MANUAL_W},
+	{N_("Absolute width"), 	"abs-width",  GOG_POSITION_MANUAL_W_ABS},
+	{N_("Height"), 			"height",	  GOG_POSITION_MANUAL_H},
+	{N_("Absolute height"), "abs-height", GOG_POSITION_MANUAL_H_ABS},
+	{N_("Size"), 			"size",		  GOG_POSITION_MANUAL_W | GOG_POSITION_MANUAL_H},
+	{N_("Absolute size"),	"abs-size",	  GOG_POSITION_MANUAL_W_ABS | GOG_POSITION_MANUAL_H_ABS}
+};
+
 enum {
 	OBJECT_PROP_0,
 	OBJECT_PROP_ID,
@@ -196,6 +206,7 @@ enum {
 	OBJECT_PROP_POSITION_IS_MANUAL,
 	OBJECT_PROP_POSITION_ANCHOR,
 	OBJECT_PROP_INVISIBLE,
+	OBJECT_PROP_MANUAL_SIZE_MODE
 };
 
 enum {
@@ -320,6 +331,18 @@ gog_object_set_property (GObject *obj, guint param_id,
 	case OBJECT_PROP_INVISIBLE :
 		gog_object_set_invisible (gobj, g_value_get_boolean (value));
 		break;
+	case OBJECT_PROP_MANUAL_SIZE_MODE:
+		str = g_value_get_string (value);
+		if (str == NULL)
+			break;
+		for (id = 0; id < G_N_ELEMENTS (manual_size); id++)
+			if (strcmp (str, manual_size[id].value) == 0)
+				break;
+		if (id < G_N_ELEMENTS (manual_size))
+			gog_object_set_position_flags (gobj,
+						       manual_size[id].flags,
+						       GOG_POSITION_ANY_MANUAL_SIZE);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -382,6 +405,16 @@ gog_object_get_property (GObject *obj, guint param_id,
 	case OBJECT_PROP_INVISIBLE :
 		g_value_set_boolean (value, gobj->invisible != 0);
 		break;
+	case OBJECT_PROP_MANUAL_SIZE_MODE:
+		flags = gog_object_get_position_flags (GOG_OBJECT (obj), GOG_POSITION_ANY_MANUAL_SIZE);
+		for (i = 0; i < G_N_ELEMENTS (manual_size); i++)
+			if (manual_size[i].flags == flags) {
+				g_value_set_string (value, manual_size[i].value);
+				break;
+			}
+			if (i == G_N_ELEMENTS (manual_size))
+				g_value_set_string (value, "none");
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -396,6 +429,7 @@ typedef struct {
 	GogObject	*gobj;
 	GtkBuilder	*gui;
 	gulong		 update_editor_handler;
+	gulong		 h_sig, w_sig;
 } ObjectPrefState;
 
 static void
@@ -429,7 +463,7 @@ cb_position_changed (GtkWidget *spin, ObjectPrefState *state)
 	GogViewAllocation pos;
 	double value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)) / 100.0;
 
-       	gog_object_get_manual_position (state->gobj, &pos);
+    gog_object_get_manual_position (state->gobj, &pos);
 	if (spin == state->x_spin)
 		pos.x = value;
 	else if (spin == state->y_spin)
@@ -492,14 +526,26 @@ cb_anchor_changed (GtkComboBox *combo, ObjectPrefState *state)
 static void
 cb_update_editor (GogObject *gobj, ObjectPrefState *state)
 {
+	GogObjectPosition manual_size = gog_object_get_position_flags (gobj, GOG_POSITION_ANY_MANUAL_SIZE);
+	gboolean visible;
 	if (state->x_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), gobj->manual_position.x * 100.0);
 	if (state->y_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), gobj->manual_position.y * 100.0);
-	if (state->w_spin != NULL)
+	if (state->w_spin != NULL) {
+		visible = manual_size & GOG_POSITION_MANUAL_W;
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), gobj->manual_position.w * 100.0);
-	if (state->h_spin != NULL)
+		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_label"), visible);
+		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_spin"), visible);
+		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"), visible);
+	}
+	if (state->h_spin != NULL) {
+		visible = manual_size & GOG_POSITION_MANUAL_H;
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), gobj->manual_position.h * 100.0);
+		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_label"), visible);
+		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_spin"), visible);
+		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height-pc-lbl"), visible);
+	}
 
 	update_select_state (state);
 }
@@ -514,29 +560,32 @@ cb_chart_position_changed (GtkWidget *spin, ObjectPrefState *state)
 static void
 cb_manual_size_changed (GtkComboBox *combo, ObjectPrefState *state)
 {
-	if (gtk_combo_box_get_active (combo) == 1) {
-		if (state->w_spin) {
-			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "width_label"));
-			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "width_spin"));
-			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"));
+	int index = gtk_combo_box_get_active (combo);
+	GogObjectPosition pos = GOG_POSITION_AUTO;
+	gboolean visible;
+	if (index > 0)
+		switch (gog_object_get_manual_size_mode (state->gobj)) {
+		case GOG_MANUAL_SIZE_AUTO:
+			break;
+		case GOG_MANUAL_SIZE_WIDTH:
+			pos = GOG_POSITION_MANUAL_W;
+			break;
+		case GOG_MANUAL_SIZE_HEIGHT:
+			pos = GOG_POSITION_MANUAL_H;
+			break;
+		case GOG_MANUAL_SIZE_FULL:
+			pos = GOG_POSITION_MANUAL_W | GOG_POSITION_MANUAL_H;
+			break;
 		}
-		if (state->h_spin) {
-			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "height_label"));
-			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "height_spin"));
-			gtk_widget_show (go_gtk_builder_get_widget (state->gui, "height-pc-lbl"));
-		}
-	} else {
-		if (state->w_spin) {
-			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "width_label"));
-			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "width_spin"));
-			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"));
-		}
-		if (state->h_spin) {
-			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "height_label"));
-			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "height_spin"));
-			gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "height-pc-lbl"));
-		}
-	}
+	gog_object_set_position_flags (state->gobj, pos, GOG_POSITION_ANY_MANUAL_SIZE);
+	visible = pos & GOG_POSITION_MANUAL_W;
+	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_label"), visible);
+	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_spin"), visible);
+	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"), visible);
+	visible = pos & GOG_POSITION_MANUAL_H;
+	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_label"), visible);
+	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_spin"), visible);
+	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height-pc-lbl"), visible);
 }
 
 static void
@@ -551,7 +600,6 @@ gog_object_populate_editor (GogObject *gobj,
 	GogObjectPosition allowable_positions, flags;
 	ObjectPrefState *state;
 	unsigned i;
-	GogManualSizeMode size_mode = gog_object_get_manual_size_mode (gobj);
 
 	if (gobj->role == NULL)
 		return;
@@ -653,7 +701,7 @@ gog_object_populate_editor (GogObject *gobj,
 
 	}
 
-	if (size_mode == GOG_MANUAL_SIZE_AUTO)  {
+	if (gog_object_get_manual_size_mode (gobj) == GOG_MANUAL_SIZE_AUTO)  {
 		w = go_gtk_builder_get_widget (gui, "manual-sizes");
 		gtk_widget_destroy (w);
 		w = go_gtk_builder_get_widget (gui, "size-select-box");
@@ -665,38 +713,22 @@ gog_object_populate_editor (GogObject *gobj,
 		                          manual_size? 1: 0);
 		g_signal_connect (G_OBJECT (w),
 				  "changed", G_CALLBACK (cb_manual_size_changed), state);
-		if (size_mode & GOG_MANUAL_SIZE_WIDTH) {
-			w = go_gtk_builder_get_widget (gui, "width_label");
-			gtk_size_group_add_widget (label_size_group, w);
-			w = go_gtk_builder_get_widget (gui, "width_spin");
-			gtk_size_group_add_widget (widget_size_group, w);
-			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.w * 100.0);
-			g_signal_connect (G_OBJECT (w), "value-changed",
-					  G_CALLBACK (cb_size_changed), state);
-			state->w_spin = w;
-		}
-		if (!manual_size) {
-			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width_label"));
-			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width_spin"));
-			gtk_widget_hide (go_gtk_builder_get_widget (gui, "width-pc-lbl"));
-		}
+		w = go_gtk_builder_get_widget (gui, "width_label");
+		gtk_size_group_add_widget (label_size_group, w);
+		w = go_gtk_builder_get_widget (gui, "width_spin");
+		gtk_size_group_add_widget (widget_size_group, w);
+		g_signal_connect (G_OBJECT (w), "value-changed",
+		                  G_CALLBACK (cb_size_changed), state);
+		state->w_spin = w;
 
-		if (size_mode & GOG_MANUAL_SIZE_HEIGHT) {
-			w = go_gtk_builder_get_widget (gui, "height_label");
-			gtk_size_group_add_widget (label_size_group, w);
-			w = go_gtk_builder_get_widget (gui, "height_spin");
-			gtk_size_group_add_widget (widget_size_group, w);
-			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.h * 100.0);
-			g_signal_connect (G_OBJECT (w), "value-changed",
-					  G_CALLBACK (cb_size_changed), state);
-			state->h_spin = w;
-		}
-		if (!manual_size) {
-			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height_label"));
-			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height_spin"));
-			gtk_widget_hide (go_gtk_builder_get_widget (gui, "height-pc-lbl"));
-		}
-
+		w = go_gtk_builder_get_widget (gui, "height_label");
+		gtk_size_group_add_widget (label_size_group, w);
+		w = go_gtk_builder_get_widget (gui, "height_spin");
+		gtk_size_group_add_widget (widget_size_group, w);
+		g_signal_connect (G_OBJECT (w), "value-changed",
+		                  G_CALLBACK (cb_size_changed), state);
+		state->h_spin = w;
+		cb_update_editor (gobj, state);
 	}
 
 	if (GOG_IS_CHART (gobj)) {
@@ -821,6 +853,12 @@ gog_object_class_init (GObjectClass *klass)
 			_("Should the object be hidden"),
 			_("Should the object be hidden"),
 			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (klass, OBJECT_PROP_MANUAL_SIZE_MODE,
+		g_param_spec_string ("manual-size",
+			_("Manual size"),
+			_("Whether the height or width are manually set"),
+			"none",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	/**
@@ -1828,7 +1866,8 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
 		return TRUE;
 
 	if ((flags & obj->role->allowable_positions) !=
-	    (flags & (GOG_POSITION_COMPASS | GOG_POSITION_ANY_MANUAL))) {
+	    (flags & (GOG_POSITION_COMPASS | GOG_POSITION_ANY_MANUAL |
+	              GOG_POSITION_ANY_MANUAL_SIZE))) {
 		g_warning ("[GogObject::set_position_flags] Invalid flags (%s)",
 			   gog_object_get_name (obj));
 		return FALSE;

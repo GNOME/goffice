@@ -496,7 +496,6 @@ gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 16, 16);
 	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 	cairo_t *cr = cairo_create (surface);
-	unsigned i, max = gog_axis_color_map_get_max (map);
 	cairo_pattern_t *pattern;
 
 	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
@@ -519,31 +518,70 @@ gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
 	cairo_set_source (cr, pattern);
 	cairo_fill (cr);
 	cairo_pattern_destroy (pattern);
+	gog_axis_color_map_to_cairo (map, cr, discrete, horizontal, width, height);
+
+	go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (pixbuf),
+	                                 cairo_image_surface_get_data (surface),
+	                                 width, height, width * 4);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	return pixbuf;
+}
+
+
+/**
+ * gog_axis_color_map_to_cairo:
+ * @map: a #GogAxisMap
+ * @cr: a cairo context.
+ * @discrete: whether to use constant colors between each stop or a gradient.
+ * @horizontal: whether to get an horizontal or a vertical snapshot.
+ * @width: the rectangle width.
+ * @height: the rectangle height.
+ *
+ * When @discrete is larger than 1, it will be interpreted as the number of 
+ * major ticks used. The number of colors will then be @discrete − 1.
+ * Draws a snapshot of the color map inside the rectangle.
+ **/
+void
+gog_axis_color_map_to_cairo (GogAxisColorMap const *map, cairo_t *cr,
+                             unsigned discrete, gboolean horizontal,
+                             double width, double height)
+{
+	unsigned i, max = gog_axis_color_map_get_max (map);
 	if (discrete) {
 		GOColor color;
-		unsigned t0 = 0, t1, maxt = horizontal? width: height;
+		double t0, maxt, step, start, scale = 1;
+		if (discrete > 1) {
+			if (discrete > max + 1) { /* we need to have at least two colors */
+				scale = (double) gog_axis_color_map_get_max (map) / (discrete - 2);
+				max = discrete - 2;
+			}
+		}
 		max++;
+		if (horizontal) {
+			maxt = width;
+			step = maxt / max;
+			start = 0;
+		} else {
+			maxt = height;
+			step = -maxt / max;
+			start = height;
+		}
 		for (i = 0; i < max; i++) {
-			t1 = (i + 1) * maxt / max;
-			color = gog_axis_color_map_get_color (map, i);
+			t0 = start + i * step;
+			color = gog_axis_color_map_get_color (map, i * scale);
 			if (horizontal)
-				cairo_rectangle (cr, t0, 0., t1, height);
+				cairo_rectangle (cr, t0, 0., step, height);
 			else
-				cairo_rectangle (cr, 0., t0, width, t1);
+				cairo_rectangle (cr, 0., t0, width, step);
 			cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 			cairo_fill (cr);
-			t0 = t1;
 		}
 	} else {
-		double x1, y1;
-		if (horizontal) {
-			x1 = width;
-			y1 = 0.;
-		} else {
-			x1 = 0.;
-			y1 = height;
-		}
-		pattern = cairo_pattern_create_linear (0., 0., x1, y1);
+		cairo_pattern_t *pattern;
+		pattern = (horizontal)?
+					cairo_pattern_create_linear (0., 0., width, 0.):
+					cairo_pattern_create_linear (0., height, 0., 0.);
 		for (i = 0; i < map->size; i++) {
 			cairo_pattern_add_color_stop_rgba (pattern,
 			                                   (double) map->limits[i] / (double) max,
@@ -554,13 +592,6 @@ gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
 	}
-
-	go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (pixbuf),
-	                                 cairo_image_surface_get_data (surface),
-	                                 width, height, width * 4);
-	cairo_destroy (cr);
-	cairo_surface_destroy (surface);
-	return pixbuf;
 }
 
 static void

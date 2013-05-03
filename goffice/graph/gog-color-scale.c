@@ -40,11 +40,11 @@
 struct _GogColorScale {
 	GogStyledObject base;
 	GogAxis *color_axis; /* the color or pseudo-3d axis */
-	GogAxis *axis; /* the axis used to display the scale */
 	gboolean horizontal;
 	gboolean axis_at_low;	/* axis position on low coordinates side */
 	double width; /* will actually be height of the colored rectangle if
 	 			   * horizontal */
+	int tick_size;
 };
 typedef GogStyledObjectClass GogColorScaleClass;
 
@@ -54,16 +54,157 @@ static GType gog_color_scale_view_get_type (void);
 static void
 gog_color_scale_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	style->interesting_fields = GO_STYLE_LINE | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT;
+	style->interesting_fields = GO_STYLE_LINE | GO_STYLE_FILL |
+	                        GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-				style, GOG_OBJECT (gso), 0, GO_STYLE_LINE |
+	                        style, GOG_OBJECT (gso), 0,
+	                        GO_STYLE_LINE | GO_STYLE_FILL |
 	                        GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT);
+}
+
+#ifdef GOFFICE_WITH_GTK
+
+static void
+position_fill_cb (GtkComboBoxText *box, GogColorScale *scale)
+{
+	if (scale->horizontal) {
+		gtk_combo_box_text_append_text (box, _("Top"));
+		gtk_combo_box_text_append_text (box, _("Bottom"));
+	} else {
+		gtk_combo_box_text_append_text (box, _("Left"));
+		gtk_combo_box_text_append_text (box, _("Right"));
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX (box), (scale->axis_at_low)? 0: 1);
+}
+
+static void
+position_changed_cb (GtkComboBox *box, GogColorScale *scale)
+{
+	scale->axis_at_low = gtk_combo_box_get_active (box) == 0;
+	gog_object_emit_changed (GOG_OBJECT (scale), FALSE);
+}
+
+static void
+direction_changed_cb (GtkComboBox *box, GogColorScale *scale)
+{
+	GogObjectPosition pos;
+	GogObject *gobj = GOG_OBJECT (scale);
+	GtkComboBoxText *text;
+	scale->horizontal = gtk_combo_box_get_active (box) == 0;
+	/* if the position is automatic, try to adjust accordingly */
+	pos = gog_object_get_position_flags (gobj, GOG_POSITION_MANUAL);
+	if (!pos) {
+		gboolean changed = TRUE;
+		pos = gog_object_get_position_flags (gobj, GOG_POSITION_COMPASS);
+		switch (pos) {
+		case GOG_POSITION_N:
+			pos = GOG_POSITION_W;
+			break;
+		case GOG_POSITION_S:
+			pos = GOG_POSITION_E;
+			break;
+		case GOG_POSITION_E:
+			pos = GOG_POSITION_S;
+			break;
+		case GOG_POSITION_W:
+			pos = GOG_POSITION_N;
+			break;
+		default:
+			changed = FALSE;
+		}
+		if (changed)
+			gog_object_set_position_flags (gobj, pos, GOG_POSITION_COMPASS);
+	}
+	pos = gog_object_get_position_flags (gobj, GOG_POSITION_ANY_MANUAL_SIZE);
+	if (pos) {
+		GogViewAllocation alloc;
+		double buf;
+		switch (pos) {
+		case GOG_POSITION_MANUAL_W:
+			gog_object_set_position_flags (gobj, GOG_POSITION_MANUAL_H,
+				                           GOG_POSITION_ANY_MANUAL_SIZE);
+			break;
+		case GOG_POSITION_MANUAL_W_ABS:
+			gog_object_set_position_flags (gobj, GOG_POSITION_MANUAL_H_ABS,
+				                           GOG_POSITION_ANY_MANUAL_SIZE);
+			break;
+		case GOG_POSITION_MANUAL_H:
+			gog_object_set_position_flags (gobj, GOG_POSITION_MANUAL_W,
+				                           GOG_POSITION_ANY_MANUAL_SIZE);
+			break;
+		case GOG_POSITION_MANUAL_H_ABS:
+			gog_object_set_position_flags (gobj, GOG_POSITION_MANUAL_W_ABS,
+				                           GOG_POSITION_ANY_MANUAL_SIZE);
+			break;
+		default:
+			break;
+		}
+		gog_object_get_manual_position (gobj, &alloc);
+		buf = alloc.w;
+		alloc.w = alloc.h;
+		alloc.h = buf;
+       	gog_object_set_manual_position (gobj, &alloc);
+	}
+	g_signal_emit_by_name (gobj, "update-editor");
+	text = GTK_COMBO_BOX_TEXT (g_object_get_data (G_OBJECT (box), "position"));
+	g_signal_handlers_block_by_func (text, position_changed_cb, scale);
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (text))));
+	position_fill_cb (text, scale);
+	g_signal_handlers_unblock_by_func (text, position_changed_cb, scale);
+}
+
+static void
+width_changed_cb (GtkSpinButton *btn, GogColorScale *scale)
+{
+	scale->width = gtk_spin_button_get_value_as_int (btn);
+	gog_object_emit_changed (GOG_OBJECT (scale), TRUE);
+}
+
+static void
+gog_color_scale_populate_editor (GogObject *gobj,
+			   GOEditor *editor,
+			   G_GNUC_UNUSED GogDataAllocator *dalloc,
+			   GOCmdContext *cc)
+{
+	GogColorScale *scale = GOG_COLOR_SCALE (gobj);
+	GtkBuilder *gui;
+	GtkWidget *w, *w_;
+
+	gui = go_gtk_builder_load_internal ("res:go:graph/gog-color-scale-prefs.ui", GETTEXT_PACKAGE, cc);
+	if (gui == NULL)
+		return;
+
+	w = go_gtk_builder_get_widget (gui, "direction-btn");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), (scale->horizontal)? 0: 1);
+	g_signal_connect (w, "changed", G_CALLBACK (direction_changed_cb), scale);
+
+	w_ = go_gtk_builder_get_widget (gui, "position-btn");
+	g_object_set_data (G_OBJECT (w), "position", w_);
+	position_fill_cb (GTK_COMBO_BOX_TEXT (w_), scale);
+	g_signal_connect (w_, "changed", G_CALLBACK (position_changed_cb), scale);
+
+	w = go_gtk_builder_get_widget (gui, "width-btn");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), scale->width);
+	g_signal_connect (w, "changed", G_CALLBACK (width_changed_cb), scale);
+
+	go_editor_add_page (editor, go_gtk_builder_get_widget (gui, "color-scale-prefs"), _("Details"));
+	g_object_unref (gui);
+	((GogObjectClass *) parent_klass)->populate_editor (gobj, editor, dalloc, cc);
+}
+#endif
+
+static GogManualSizeMode
+gog_color_scale_get_manual_size_mode (GogObject *obj)
+{
+	return GOG_COLOR_SCALE (obj)->horizontal? GOG_MANUAL_SIZE_WIDTH: GOG_MANUAL_SIZE_HEIGHT;
 }
 
 enum {
 	COLOR_SCALE_PROP_0,
 	COLOR_SCALE_PROP_HORIZONTAL,
-	COLOR_SCALE_PROP_WIDTH
+	COLOR_SCALE_PROP_WIDTH,
+	COLOR_SCALE_PROP_AXIS,
+	COLOR_SCALE_PROP_TICK_SIZE_PTS
 };
 
 static void
@@ -75,17 +216,40 @@ gog_color_scale_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case COLOR_SCALE_PROP_HORIZONTAL:
 		scale->horizontal = g_value_get_boolean (value);
-		g_object_set (G_OBJECT (scale->axis), "type",
-		              scale->horizontal? GOG_AXIS_X: GOG_AXIS_Y, NULL);
 		break;
 	case COLOR_SCALE_PROP_WIDTH:
 		scale->width = g_value_get_double (value);
+		break;
+	case COLOR_SCALE_PROP_AXIS: {
+		GogChart *chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (obj)));
+		GSList *ptr;
+		char const *buf = g_value_get_string (value);
+		GogAxis *axis = NULL;
+		for (ptr = gog_chart_get_axes (chart, GOG_AXIS_COLOR); ptr && ptr->data; ptr = ptr->next) {
+			if (!strcmp (buf, gog_object_get_name (GOG_OBJECT (ptr->data)))) {
+			    axis = GOG_AXIS (ptr->data);
+				break;
+			}
+		}
+		if (axis == NULL) /* try with the pseudo-3d axes */
+			for (ptr = gog_chart_get_axes (chart, GOG_AXIS_PSEUDO_3D); ptr && ptr->data; ptr = ptr->next) {
+				if (!strcmp (buf, gog_object_get_name (GOG_OBJECT (ptr->data)))) {
+					axis = GOG_AXIS (ptr->data);
+					break;
+				}
+			}
+		gog_color_scale_set_axis (scale, axis);
+		break;
+	}
+	case COLOR_SCALE_PROP_TICK_SIZE_PTS:
+		scale->tick_size = g_value_get_int (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
+
+	gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
 static void
@@ -101,20 +265,16 @@ gog_color_scale_get_property (GObject *obj, guint param_id,
 	case COLOR_SCALE_PROP_WIDTH:
 		g_value_set_double (value, scale->width);
 		break;
+	case COLOR_SCALE_PROP_AXIS:
+		g_value_set_string (value, gog_object_get_name (GOG_OBJECT (scale->color_axis)));
+		break;
+	case COLOR_SCALE_PROP_TICK_SIZE_PTS:
+		g_value_set_int (value, scale->tick_size);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-}
-
-static void
-gog_color_scale_finalize (GObject *obj)
-{
-	GogColorScale *scale = GOG_COLOR_SCALE (obj);
-
-	g_object_unref (scale->axis);
-
-	parent_klass->finalize (obj);
 }
 
 static void
@@ -125,7 +285,6 @@ gog_color_scale_class_init (GObjectClass *gobject_klass)
 
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 	/* GObjectClass */
-	gobject_klass->finalize = gog_color_scale_finalize;
 	gobject_klass->get_property = gog_color_scale_get_property;
 	gobject_klass->set_property = gog_color_scale_set_property;
 	g_object_class_install_property (gobject_klass, COLOR_SCALE_PROP_HORIZONTAL,
@@ -136,11 +295,26 @@ gog_color_scale_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, COLOR_SCALE_PROP_WIDTH,
 		g_param_spec_double ("width", _("Width"),
 			_("Color scale thickness."),
-			0., 255., 10.,
+			1., 255., 10.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, COLOR_SCALE_PROP_AXIS,
+		g_param_spec_string ("axis",
+			_("Axis"),
+			_("Reference to the color or pseudo-3d axis"),
+			NULL,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, COLOR_SCALE_PROP_TICK_SIZE_PTS,
+		g_param_spec_int ("tick-size-pts",
+			_("Tick size"),
+			_("Size of the tick marks, in points"),
+			0, 20, 4,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
+	gog_klass->get_manual_size_mode = gog_color_scale_get_manual_size_mode;
 	gog_klass->view_type	= gog_color_scale_view_get_type ();
-
+#ifdef GOFFICE_WITH_GTK
+	gog_klass->populate_editor = gog_color_scale_populate_editor;
+#endif
 	style_klass->init_style = gog_color_scale_init_style;
 }
 
@@ -148,18 +322,53 @@ static void
 gog_color_scale_init (GogColorScale *scale)
 {
 	scale->width = 10;
-	scale->axis = (GogAxis *) g_object_new (GOG_TYPE_AXIS,
-	                                        "type", GOG_AXIS_Y,
-	                                        NULL);
+	scale->tick_size = 4;
 }
 
 GSF_CLASS (GogColorScale, gog_color_scale,
 	   gog_color_scale_class_init, gog_color_scale_init,
 	   GOG_TYPE_STYLED_OBJECT)
 
+/**
+ * gog_color_scale_get_axis:
+ * @scale: #GogColorScale
+ *
+ * Gets the axis mapping to the colors and associated with @scale
+ * Returns: (transfer none): the associated axis.
+ **/
+GogAxis *
+gog_color_scale_get_axis (GogColorScale *scale)
+{
+	g_return_val_if_fail (GOG_IS_COLOR_SCALE (scale), NULL);
+	return scale->color_axis;
+}
+
+/**
+ * gog_color_scale_set_axis:
+ * @scale: #GogColorScale
+ * @axis: a color or pseudo-3d axis
+ *
+ * Associates the axis with @scale.
+ **/
+void
+gog_color_scale_set_axis (GogColorScale *scale, GogAxis *axis)
+{
+	g_return_if_fail (GOG_IS_COLOR_SCALE (scale));
+	if (scale->color_axis == axis)
+		return;
+	if (scale->color_axis != NULL)
+		_gog_axis_set_color_scale (scale->color_axis, NULL);
+	scale->color_axis = axis;
+	if (axis)
+		_gog_axis_set_color_scale (axis, scale);
+}
+
 /************************************************************************/
 
-typedef GogView		GogColorScaleView;
+typedef struct {
+	GogView	base;
+	GogViewAllocation scale_area;
+} GogColorScaleView;
 typedef GogViewClass	GogColorScaleViewClass;
 
 #define GOG_TYPE_COLOR_SCALE_VIEW	(gog_color_scale_view_get_type ())
@@ -171,11 +380,299 @@ gog_color_scale_view_size_request (GogView *v,
                                    GogViewRequisition const *available,
                                    GogViewRequisition *req)
 {
+	GogColorScale *scale = GOG_COLOR_SCALE (v->model);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (scale));
+	double line_width, tick_size, label_padding, max_width = 0., max_height = 0.;
+	unsigned nb_ticks, i;
+	GogAxisTick *ticks;
+	GOGeometryAABR txt_aabr;
+	GOGeometryOBR txt_obr;
+
+	gog_renderer_push_style (v->renderer, style);
+	gog_renderer_get_text_OBR (v->renderer, "0", TRUE, &txt_obr, -1.);
+	label_padding = txt_obr.h * .15;
+	nb_ticks = gog_axis_get_ticks (scale->color_axis, &ticks);
+	for (i = 0; i < nb_ticks; i++)
+		if (ticks[i].type == GOG_AXIS_TICK_MAJOR) {
+			gog_renderer_get_gostring_AABR (v->renderer, ticks[i].str, &txt_aabr, 0.);
+			if (txt_aabr.w > max_width)
+				max_width = txt_aabr.w;
+			if (txt_aabr.h > max_height)
+				max_height = txt_aabr.h;
+		}
+
+	if (go_style_is_line_visible (style)) {
+		line_width = gog_renderer_line_size (v->renderer, style->line.width);
+		tick_size = gog_renderer_pt2r (v->renderer, scale->tick_size);
+	} else
+		line_width = tick_size = 0.;
+	if (scale->horizontal) {
+		req->w = available->w;
+		req->h = gog_renderer_pt2r (v->renderer, scale->width)
+				 + 2 * line_width + tick_size + label_padding + max_height;
+	} else {
+		req->h = available->h;
+		req->w = gog_renderer_pt2r (v->renderer, scale->width)
+				 + 2 * line_width + tick_size + label_padding + max_width;
+	}
+	gog_renderer_pop_style (v->renderer);
 }
 
 static void
 gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 {
+	GogColorScale *scale = GOG_COLOR_SCALE (view->model);
+	unsigned nb_ticks, nb_maj_ticks = 0, i, j, l;
+	GogAxisTick *ticks;
+	GogViewAllocation scale_area, label_pos;
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (scale));
+	double line_width, tick_size, label_padding, width, pos, start, stop;
+	GOGeometryOBR txt_obr;
+	GOGeometryOBR *obrs = NULL;
+	GogAxisMap *map;
+	GOPath *path;
+	gboolean is_line_visible;
+	double min, max, first, last, hf, hl;
+	GOAnchorType anchor;
+	gboolean discrete = gog_axis_get_atype (scale->color_axis) == GOG_AXIS_PSEUDO_3D;
+	GogAxisColorMap const *cmap = gog_axis_get_color_map (scale->color_axis);
+
+	gog_renderer_push_style (view->renderer, style);
+	nb_ticks = gog_axis_get_ticks (scale->color_axis, &ticks);
+	for (i = 0; i < nb_ticks; i++)
+		if (ticks[i].type == GOG_AXIS_TICK_MAJOR)
+			nb_maj_ticks++;
+	gog_renderer_get_text_OBR (view->renderer, "0", TRUE, &txt_obr, -1.);
+	label_padding = txt_obr.h * .15;
+	width = gog_renderer_pt2r (view->renderer, scale->width);
+	obrs = g_new0 (GOGeometryOBR, nb_maj_ticks);
+	gog_axis_get_bounds (scale->color_axis, &min, &max);
+	first = min - 1.;
+	/* evaluate labels size, and find first and last label */
+	for (i = 0, j = 0; i < nb_ticks; i++)
+		if (ticks[i].type == GOG_AXIS_TICK_MAJOR) {
+			gog_renderer_get_gostring_OBR (view->renderer, ticks[i].str, obrs + j, -1.);
+			if (first < min) {
+				first = last = ticks[i].position;
+				hf = hl = scale->horizontal? obrs[j].w: obrs[j].h;
+			} else if (ticks[i].position > last) {
+				last = ticks[i].position;
+				hl = scale->horizontal? obrs[j].w: obrs[j].h;
+			} else if (ticks[i].position < first) {
+				first = ticks[i].position;
+				hf = scale->horizontal? obrs[j].w: obrs[j].h;
+			}
+			j++;
+		}
+	hf /= 2.;
+	hl /= 2.;
+
+	/* evaluate color scale area */
+	if ((is_line_visible = go_style_is_line_visible (style))) {
+		line_width = gog_renderer_line_size (view->renderer, style->line.width);
+		tick_size = gog_renderer_pt2r (view->renderer, scale->tick_size);
+	} else
+		line_width = tick_size = 0.;
+	if (scale->horizontal) {
+		scale_area.x = view->allocation.x;
+		/* we make sure that we have enough room to display the last and first labels */
+		pos = (scale_area.w = view->allocation.w) - hf - hl;
+		stop = hl - pos * (max - last) / (max - min);
+		start = hf - pos * (first - min) / (max - min);
+		if (start < 0)
+			start = 0.;
+		if (stop < 0.)
+			stop = 0.;
+		/* we might actually remove slightly more than needed */
+		scale_area.w -= start + stop;
+		scale_area.x += gog_axis_is_inverted (scale->color_axis)? stop: start;
+		scale_area.y = (scale->axis_at_low)?
+			view->allocation.y + view->allocation.h - width - 2 * line_width:
+			view->allocation.y;
+		scale_area.h = width + 2 * line_width;
+	} else {
+		scale_area.x = (scale->axis_at_low)?
+			view->allocation.x + view->allocation.w - width - 2 * line_width:
+			view->allocation.x;
+		scale_area.w = width + 2 * line_width;
+		scale_area.y = view->allocation.y;
+		/* we make sure that we have enough room to display the last and first labels */
+		pos = (scale_area.h = view->allocation.h) - hf -hl;
+		stop = hl - pos * (max - last) / (max - min);
+		start = hf - pos * (first - min) / (max - min);
+		if (start < 0)
+			start = 0.;
+		if (stop < 0.)
+			stop = 0.;
+		/* we might actually remove slightly more than needed */
+		scale_area.h -= start + stop;
+		scale_area.y += gog_axis_is_inverted (scale->color_axis)? start: stop;
+	}
+
+	gog_renderer_stroke_rectangle (view->renderer, &scale_area);
+	scale_area.x += line_width / 2.;
+	scale_area.w -= line_width;
+	scale_area.y += line_width / 2.;
+	scale_area.h -= line_width;
+	if (scale->horizontal)
+		map = gog_axis_map_new (scale->color_axis, scale_area.x, scale_area.w);
+	else
+		map = gog_axis_map_new (scale->color_axis, scale_area.y + scale_area.h, -scale_area.h);
+	if (discrete) {
+		GOStyle *dstyle;
+		double *limits, epsilon, sc, *x, *w;
+		/* some of the code was copied from gog-contour.c to be consistent */
+		i = j = 0;
+		epsilon = (max - min) / nb_ticks * 1e-10; /* should avoid rounding errors */
+		while (ticks[i].type != GOG_AXIS_TICK_MAJOR)
+			i++;
+		if (ticks[i].position - min > epsilon) {
+			limits = g_new (double, nb_maj_ticks + 2);
+			limits[j++] = min;
+		} else
+			limits = g_new (double, nb_maj_ticks + 1);
+		for (; i < nb_ticks; i++)
+			if (ticks[i].type == GOG_AXIS_TICK_MAJOR)
+				limits[j++] = ticks[i].position;
+		if (j == 0 || max - limits[j - 1] > epsilon)
+			limits[j] = max;
+		else
+			j--;
+		sc = (j > gog_axis_color_map_get_max (cmap) && j > 1)? (double) gog_axis_color_map_get_max (cmap) / (j - 1): 1.;
+		dstyle = go_style_dup (style);
+		dstyle->interesting_fields = GO_STYLE_FILL | GO_STYLE_OUTLINE;
+		dstyle->fill.type = GO_STYLE_FILL_PATTERN;
+		dstyle->fill.pattern.pattern = GO_PATTERN_SOLID;
+		gog_renderer_push_style (view->renderer, dstyle);
+		/* using label_pos as drawing rectangle */
+		if (scale->horizontal) {
+			x = &label_pos.x;
+			w = &label_pos.w;
+			label_pos.y = scale_area.y;
+			label_pos.h = scale_area.h;
+		} else {
+			x = &label_pos.y;
+			w = &label_pos.h;
+			label_pos.x = scale_area.x;
+			label_pos.w = scale_area.w;
+		}
+		if (gog_axis_is_inverted (scale->color_axis)) {
+			for (i = 0; i < j; i++) {
+				dstyle->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (cmap, i * sc);
+				*x = gog_axis_map_to_view (map, limits[j - i - 1]);
+				*w = gog_axis_map_to_view (map, limits[j - i]) - *x;
+				gog_renderer_fill_rectangle (view->renderer, &label_pos);
+			}
+			if (limits[i - j] - min > epsilon) {
+				dstyle->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (cmap, i * sc);
+				*x = gog_axis_map_to_view (map, min);
+				*w = gog_axis_map_to_view (map, limits[i - j]) - *x;
+				gog_renderer_fill_rectangle (view->renderer, &label_pos);
+			}
+		} else {
+			if (epsilon < limits[0] - min) {
+				dstyle->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (cmap, 0);
+				*x = gog_axis_map_to_view (map, min);
+				*w = gog_axis_map_to_view (map, limits[0]) - *x;
+				gog_renderer_fill_rectangle (view->renderer, &label_pos);
+				i = 1;
+				j++;
+			} else
+				i = 0;
+			for (; i < j; i++) {
+				dstyle->fill.pattern.back = (j < 2)? GO_COLOR_WHITE: gog_axis_color_map_get_color (cmap, i * sc);
+				*x = gog_axis_map_to_view (map, limits[i]);
+				*w = gog_axis_map_to_view (map, limits[i + 1]) - *x;
+				gog_renderer_fill_rectangle (view->renderer, &label_pos);
+			}
+		}
+		gog_renderer_pop_style (view->renderer);
+		g_free (limits);
+		g_object_unref (dstyle);
+	} else
+		gog_renderer_draw_color_map (view->renderer, cmap,
+		                             FALSE, scale->horizontal, &scale_area);
+	/* draw ticks */
+	if (scale->horizontal) {
+		if (scale->axis_at_low) {
+			stop = scale_area.y - line_width;
+			start = stop - tick_size;
+			anchor = GO_ANCHOR_SOUTH;
+			if (discrete)
+				stop += scale_area.h;
+		} else {
+			stop = scale_area.y + scale_area.h + line_width;
+			start = stop + tick_size;
+			anchor = GO_ANCHOR_NORTH;
+			if (discrete)
+				stop -= scale_area.h;
+		}
+		j = l = 0;
+		for (i = 0; i < nb_ticks; i++)
+			/* Only major ticks are displayed, at least for now */
+			if (ticks[i].type == GOG_AXIS_TICK_MAJOR) {
+				pos = gog_axis_map_to_view (map, ticks[i].position);
+				if (is_line_visible) { 
+					path = go_path_new ();
+					go_path_move_to (path, pos, start);
+					go_path_line_to (path, pos, stop);
+					gog_renderer_stroke_shape (view->renderer, path);
+					go_path_free (path);
+				}
+				label_pos.x = pos;
+				label_pos.y = start + ((scale->axis_at_low)? -label_padding: label_padding);
+				obrs[j].x = label_pos.x - obrs[j].w / 2.;
+				obrs[j].y = pos;
+				if (j == 0 || !go_geometry_test_OBR_overlap (obrs + j, obrs + l)) {
+					gog_renderer_draw_gostring (view->renderer, ticks[i].str,
+						                        &label_pos, anchor,
+							                    GTK_JUSTIFY_CENTER, -1.);
+					l = j;
+				}
+				j++;
+			}
+	} else {
+		if (scale->axis_at_low) {
+			stop = scale_area.x - line_width;
+			start = stop - tick_size;
+			anchor = GO_ANCHOR_EAST;
+			if (discrete)
+				stop += scale_area.w;
+		} else {
+			stop = scale_area.x + scale_area.w + line_width;
+			start = stop + tick_size;
+			anchor = GO_ANCHOR_WEST;
+			if (discrete)
+				stop -= scale_area.w;
+		}
+		j = l = 0;
+		for (i = 0; i < nb_ticks; i++)
+			/* Only major ticks are displayed, at least for now */
+			if (ticks[i].type == GOG_AXIS_TICK_MAJOR) {
+				pos = gog_axis_map_to_view (map, ticks[i].position);
+				if (is_line_visible) { 
+					path = go_path_new ();
+					go_path_move_to (path, start, pos);
+					go_path_line_to (path, stop, pos);
+					gog_renderer_stroke_shape (view->renderer, path);
+					go_path_free (path);
+				}
+				label_pos.x = start + ((scale->axis_at_low)? -label_padding: label_padding);
+				label_pos.y = pos;
+				obrs[j].x = label_pos.x;
+				obrs[j].y = pos - obrs[j].h / 2.;
+				if (j == 0 || !go_geometry_test_OBR_overlap (obrs + j, obrs + l)) {
+					gog_renderer_draw_gostring (view->renderer, ticks[i].str,
+						                        &label_pos, anchor,
+							                    GTK_JUSTIFY_CENTER, -1.);
+					l = j;
+				}
+				j++;
+			}
+	}
+	g_free (obrs);
+	gog_axis_map_free (map);
+	gog_renderer_pop_style (view->renderer);
 }
 
 static void
