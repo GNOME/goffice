@@ -1,3 +1,8 @@
+2013-05-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (go_matrix_pseudo_inverse): Improve
+	algorithm.
+
 2013-05-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/Makefile.am: add new UI file.

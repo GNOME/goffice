@@ -221,6 +221,19 @@ go_regression_statl_get_type (void)
 	       (dst)[_i] = (src)[_i];		\
   } while (0)
 
+#define PRINT_MATRIX(var,dim1,dim2)				\
+  do {								\
+	int _i, _j, _d1, _d2;					\
+	_d1 = (dim1);						\
+	_d2 = (dim2);						\
+	for (_i = 0; _i < _d1; _i++) {				\
+	  for (_j = 0; _j < _d2; _j++) {			\
+		  g_printerr (" %12.8" FORMAT_g, (var)[_i][_j]); \
+	  }							\
+	  g_printerr ("\n");					\
+	}							\
+  } while (0)
+
 #define PRINT_QMATRIX(var,dim1,dim2)				\
   do {								\
 	int _i, _j, _d1, _d2;					\
@@ -308,7 +321,7 @@ copy_stats (go_regression_stat_t *s1,
  * V is a pre-allocated output m-times-n matrix.  V will contrain
  * n vectors of different lengths: n, n-1, ..., 1.  These are the
  * Householder vectors (or null for the degenerate case).  The
- * matrix Q of size m-times-n is implied from V.
+ * matrix Q of size m-times-m is implied from V.
  *
  * Rfinal is a pre-allocated output matrix of size n-times-n.  (To
  * get the m-times-n version of R, simply add m-n null rows.)
@@ -326,6 +339,7 @@ SUFFIX(QRH) (CONSTMATRIX A, gboolean qAT,
 	int i, j, k;
 	QUAD *tmp = g_new (QUAD, n);
 	gboolean ok = TRUE;
+	gboolean debug = FALSE;
 
 	if (m < n || n < 1) {
 		ok = FALSE;
@@ -370,6 +384,8 @@ SUFFIX(QRH) (CONSTMATRIX A, gboolean qAT,
 		SUFFIX(go_quad_add)(&L2p, &L2p, &s);
 		SUFFIX(go_quad_sqrt)(&L, &L2p);
 		if (SUFFIX(go_quad_value)(&L) == 0) {
+			if (debug)
+				g_printerr ("L=0 in round %d:\n", k);
 			/* This will be an identity so no determinant sign */
 			continue;
 		}
@@ -404,15 +420,15 @@ SUFFIX(QRH) (CONSTMATRIX A, gboolean qAT,
 		for (i = k + 1; i < m; i++)
 			SUFFIX(go_quad_init) (&R[i][k], 0);
 
-#if 0
-		g_printerr ("After round %d:\n", k);
-		g_printerr ("R:\n");
-		PRINT_QMATRIX(R, m ,n );
-		g_printerr ("\n");
-		g_printerr ("V:\n");
-		PRINT_QMATRIX(V, m ,n );
-		g_printerr ("\n\n");
-#endif
+		if (debug) {
+			g_printerr ("After round %d:\n", k);
+			g_printerr ("R:\n");
+			PRINT_QMATRIX(R, m, n);
+			g_printerr ("\n");
+			g_printerr ("V:\n");
+			PRINT_QMATRIX(V, m, n);
+			g_printerr ("\n\n");
+		}
 	}
 
 	for (i = 0; i < n /* Only n */; i++)
@@ -447,6 +463,31 @@ SUFFIX(multiply_Qt) (QUAD *x, CONSTQMATRIX V, int m, int n)
 			SUFFIX(go_quad_sub) (&x[i], &x[i], &p);
 		}
 	}
+}
+
+static void
+SUFFIX(print_Q) (CONSTQMATRIX V, int m, int n)
+{
+	QMATRIX Q;
+	int i, j;
+	QUAD *x;
+
+	ALLOC_MATRIX2 (Q, m, m, QUAD);
+	x = g_new (QUAD, m);
+
+	for (j = 0; j < m; j++) {
+		for (i = 0; i < m; i++)
+			SUFFIX(go_quad_init)(&x[i], i == j ? 1 : 0);
+
+		SUFFIX(multiply_Qt)(x, V, m, n);
+		for (i = 0; i < m; i++)
+			Q[j][i] = x[i];
+	}
+
+	PRINT_QMATRIX (Q, m, m);
+
+	FREE_MATRIX (Q, m, m);
+	g_free (x);
 }
 
 /*
@@ -511,10 +552,6 @@ SUFFIX(regres_from_condition) (CONSTQMATRIX R, int n)
 	DOUBLE c, lc;
 	int i;
 
-	/*
-	 * R is triangular, so all the eigenvalues are in the diagonal.
-	 * We need the absolute largest and smallest.
-	 */
 	for (i = 0; i < n; i++) {
 		DOUBLE e = SUFFIX(fabs)(SUFFIX(go_quad_value)(&R[i][i]));
 		if (e < emin) emin = e;
@@ -2137,6 +2174,30 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
 	return regres;
 }
 
+static void
+SUFFIX(qmatrix_mul) (QMATRIX C, QMATRIX A, QMATRIX B,
+		     int C_m, int C_n, int A_n)
+{
+	int i, j, k;
+
+	for (i = 0; i < C_n; i++) {
+		for (j = 0; j < C_m; j++) {
+			QUAD acc;
+
+			SUFFIX(go_quad_init) (&acc, 0);
+			for (k = 0; k < A_n; k++) {
+				QUAD p;
+
+				SUFFIX(go_quad_mul) (&p, &A[i][k], &B[k][j]);
+				SUFFIX(go_quad_add) (&acc, &acc, &p);
+			}
+
+			C[i][j] = acc;
+		}
+	}
+}
+
+
 /*
  * Compute the pseudo-inverse of a matrix, see
  *     http://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_pseudoinverse
@@ -2161,25 +2222,63 @@ SUFFIX(go_matrix_pseudo_inverse) (CONSTMATRIX A, int m, int n,
 {
 	QMATRIX V;
 	QMATRIX R;
-	QMATRIX R2 = NULL;
-	QMATRIX R2inv = NULL;
-	gboolean *null_dim;
-	QUAD *x = NULL;
+	QMATRIX Bi = NULL;
+	MATRIX RTR = NULL;
 	gboolean has_result;	
-	void *state = SUFFIX(go_quad_start) ();
-	int i, j, i2, j2, rank;
-	DOUBLE emax;
+	void *state;
+	int i, j;
+	DOUBLE emin, emax, delta;
+	QUAD *x;
+	int steps;
+	gboolean full_rank;
 	gboolean debug = FALSE;
+
+	if (debug) {
+		g_printerr ("A:\n");
+		PRINT_MATRIX (A, m, n);
+	}
+
+	if (m < n) {
+		MATRIX AT;
+		MATRIX BT;
+
+		if (debug)
+			g_printerr ("Pseudo-inverse via transpose\n");
+
+		/*
+		 * The code below assumes m >= n.  Luckily, taking the
+		 * pseudo-inverse commutes with transposition.
+		 */
+
+		ALLOC_MATRIX (AT, n, m);
+		ALLOC_MATRIX (BT, m, n);
+		for (i = 0; i < m; i++)
+			for (j = 0; j < n; j++)
+				AT[j][i] = A[i][j];
+		SUFFIX(go_matrix_pseudo_inverse)(AT, n, m, threshold, BT);
+		for (i = 0; i < m; i++)
+			for (j = 0; j < n; j++)
+				B[j][i] = BT[i][j];
+		FREE_MATRIX (AT, n, m);
+		FREE_MATRIX (BT, m, n);
+		return;
+	}
+
+	state = SUFFIX(go_quad_start) ();
 
 	ALLOC_MATRIX2 (V, m, n, QUAD);
 	ALLOC_MATRIX2 (R, n, n, QUAD);
-	null_dim = g_new0 (gboolean, n);
 
 	has_result = SUFFIX(QRH)(A, FALSE, V, R, m, n, NULL);
-	if (!has_result)
+	if (!has_result) {
+		if (debug)
+			g_printerr ("QRH failed\n");
 		goto null_result;
+	}
 
 	if (debug) {
+		g_printerr ("Q:\n");
+		SUFFIX(print_Q) (V, m, n);
 		g_printerr ("R:\n");
 		PRINT_QMATRIX (R, n, n);
 	}
@@ -2189,81 +2288,109 @@ SUFFIX(go_matrix_pseudo_inverse) (CONSTMATRIX A, int m, int n,
 		DOUBLE abs_e = SUFFIX(fabs) (SUFFIX(go_quad_value)(&R[i][i]));
 		emax = MAX (emax, abs_e);
 	}
-
-	rank = 0;
-	for (i = 0; i < n; i++) {
-		DOUBLE abs_e = SUFFIX(fabs) (SUFFIX(go_quad_value)(&R[i][i]));
-		null_dim[i] = abs_e <= emax * threshold;
-		if (!null_dim[i])
-			rank++;
-	}
-	if (rank == 0)
+	if (emax == 0)
 		goto null_result;
 
+	emin = emax;
+	full_rank = TRUE;
+	for (i = 0; i < n; i++) {
+		DOUBLE abs_e = SUFFIX(fabs) (SUFFIX(go_quad_value)(&R[i][i]));
+		if (abs_e <= emax * threshold) {
+			full_rank = FALSE;
+			SUFFIX(go_quad_init)(&R[i][i], 0);
+		} else
+			emin = MIN (emin, abs_e);
+	}
+
+	delta = full_rank ? 0 : emax * threshold;
+
 	/*
-	 * R2 is R after removing columns and rows that were deemed
-	 * null dimensions.
+	 * Starting point for the iteration:
+	 *
+	 *    Bi := (RT R + delta I)^-1 * RT
+	 *
+	 * (RT R) is positive semi-definite and (delta I) is positive definite,
+	 * so the sum is positive definite and invertible.
 	 */
-	ALLOC_MATRIX2 (R2, rank, rank, QUAD);
-	for (i = i2 = 0; i < n; i++) {
-		if (null_dim[i])
-			continue;
-		for (j = j2 = 0; j < n; j++) {
-			if (null_dim[j])
-				continue;
-			R2[i2][j2] = R[i][j];
-			j2++;
-		}
-		i2++;
-	}
-	if (debug) {
-		g_printerr ("R2:\n");
-		PRINT_QMATRIX (R2, rank, rank);
-	}
+	ALLOC_MATRIX (RTR, n, n);
+	ALLOC_MATRIX2 (Bi, n, n, QUAD);
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			QUAD acc;
+			int k;
 
-	/* R2inv := R2^-1 */
-	ALLOC_MATRIX2 (R2inv, rank, rank, QUAD);
-	x = g_new (QUAD, rank);
-	for (j = 0; j < rank; j++) {
-		for (i = 0; i < rank; i++)
-			SUFFIX(go_quad_init)(&x[i], i == j ? 1 : 0);
+			SUFFIX(go_quad_init) (&acc, i == j ? delta : 0.0);
+			for (k = 0; k <= i && k <= j; k++) {
+				QUAD p;
 
-		if (SUFFIX(back_solve) (R2, x, x, rank))
-			goto cannot_happen;
-
-		for (i = 0; i < rank; i++)
-			R2inv[i][j] = x[i];
-	}
-	g_free (x);
-	x = NULL;
-	if (debug) {
-		g_printerr ("R2inv:\n");
-		PRINT_QMATRIX (R2inv, rank, rank);
-	}
-
-	/* R := R2inv with null columns/rows inserted back in */
-	for (i = i2 = 0; i < n; i++) {
-		if (null_dim[i]) {
-			for (j = 0; j < n; j++)
-				SUFFIX(go_quad_init)(&R[i][j], 0.0);
-		} else {
-			for (j = j2 = 0; j < n; j++) {
-				if (null_dim[j])
-					SUFFIX(go_quad_init)(&R[i][j], 0.0);
-				else {
-					R[i][j] = R2inv[i2][j2];
-					j2++;
-				}
+				SUFFIX(go_quad_mul) (&p, &R[k][i], &R[k][j]);
+				SUFFIX(go_quad_add) (&acc, &acc, &p);
 			}
-			i2++;
+
+			RTR[i][j] = SUFFIX(go_quad_value) (&acc);
 		}
 	}
 	if (debug) {
-		g_printerr ("R2-inv-expand:\n");
-		PRINT_QMATRIX (R, n, n);
+		g_printerr ("RTR:\n");
+		PRINT_MATRIX (RTR, n, n);
+	}
+	if (!SUFFIX(go_matrix_invert)(RTR, n))
+		goto null_result;
+	if (debug) {
+		g_printerr ("RTR inverse:\n");
+		PRINT_MATRIX (RTR, n, n);
+	}
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			QUAD acc;
+			int k;
+
+			SUFFIX(go_quad_init) (&acc, 0.0);
+			for (k = 0; k < n; k++) {
+				QUAD p, a;
+
+				SUFFIX(go_quad_init) (&a, RTR[i][k]);
+				SUFFIX(go_quad_mul) (&p, &a, &R[j][k]);
+				SUFFIX(go_quad_add) (&acc, &acc, &p);
+			}
+
+			Bi[i][j] = acc;
+		}
+	}
+	if (debug) {
+		g_printerr ("B0:\n");
+		PRINT_QMATRIX (Bi, n, n);
 	}
 
-	/* B := R Q^T */
+	/* B_{i+1} = (2 I - B_i R) B_i */
+	for (steps = 0; steps < 10; steps++) {
+		QMATRIX W;
+		QMATRIX Bip1;
+		QUAD two;
+
+		SUFFIX(go_quad_init)(&two, 2);
+
+		ALLOC_MATRIX2 (W, n, n, QUAD);
+		ALLOC_MATRIX2 (Bip1, n, n, QUAD);
+
+		SUFFIX(qmatrix_mul) (W, Bi, R, n, n, n);
+		for (i = 0; i < n; i++)
+			for (j = 0; j < n; j++)
+				SUFFIX(go_quad_sub) (&W[i][j],
+						     i == j ? &two : &SUFFIX(go_quad_zero),
+						     &W[i][j]);
+		SUFFIX(qmatrix_mul) (Bip1, W, Bi, n, n, n);
+		COPY_MATRIX (Bi, Bip1, n, n);
+		if (debug) {
+			g_printerr ("B%d:\n", steps + 1);
+			PRINT_QMATRIX (Bi, n, n);
+		}
+
+		FREE_MATRIX (W, n, n);
+		FREE_MATRIX (Bip1, n, n);
+	}
+
+	/* B := (Bi|O) Q^T */
 	x = g_new (QUAD, m);
 	for (j = 0; j < m; j++) {
 		QUAD acc;
@@ -2281,29 +2408,26 @@ SUFFIX(go_matrix_pseudo_inverse) (CONSTMATRIX A, int m, int n,
 			SUFFIX(go_quad_init) (&acc, 0);
 			for (k = 0; k < n /* Only n */; k++) {
 				QUAD p;
-				SUFFIX(go_quad_mul) (&p, &R[i][k], &x[k]);
+				SUFFIX(go_quad_mul) (&p, &Bi[i][k], &x[k]);
 				SUFFIX(go_quad_add) (&acc, &acc, &p);
 			}
 
 			B[i][j] = SUFFIX(go_quad_value)(&acc);
 		}
 	}
+	g_free (x);
 
 out:
 	FREE_MATRIX (V, m, n);
 	FREE_MATRIX (R, n, n);
-	if (R2) FREE_MATRIX (R2, rank, rank);
-	if (R2inv) FREE_MATRIX (R2inv, rank, rank);
-	g_free (null_dim);
-	g_free (x);
+	if (RTR) FREE_MATRIX (RTR, n, n);
+	if (Bi) FREE_MATRIX (Bi, n, n);
 
 	SUFFIX(go_quad_end) (state);
 	return;
 
-cannot_happen:
-	g_printerr ("This cannot happen\n");
-
 null_result:
+	if (debug) g_printerr ("Null result\n");
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
 			B[i][j] = 0;
