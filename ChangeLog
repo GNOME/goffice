@@ -17,16 +17,17 @@
 	* goffice/graph/gog-color-scale.c: implement color scales.
 	* goffice/graph/gog-color-scale.h: ditto.
 	* goffice/graph/gog-object.c: fix manual size issues.
-	* goffice/graph/gog-renderer.c (gog_renderer_draw_color_map): new function.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_color_map): new
+	function.
 	* goffice/graph/gog-renderer.h: ditto.
 	* goffice/graph/gog-theme.c (build_predefined_themes): add color scale.
-	* goffice/graph/gog-view.c (gog_view_size_allocate_real): fix manual size
-	issues.
+	* goffice/graph/gog-view.c (gog_view_size_allocate_real): fix
+	manual size issues.
 	* plugins/plot_surface/gog-contour.c
-	(gog_contour_plot_foreach_elem): don't crash when inverting the pseudo-3d
-	axis.
-	* plugins/plot_surface/gog-xyz-prefs.c: add an option to not show the colors
-	in the legend.
+	(gog_contour_plot_foreach_elem): don't crash when inverting the
+	pseudo-3d axis.
+	* plugins/plot_surface/gog-xyz-prefs.c: add an option to not show
+	the colors in the legend.
 	* plugins/plot_surface/gog-xyz-prefs.ui: ditto.
 
 2013-04-30  Morten Welinder  <terra@gnome.org>
