@@ -4,10 +4,14 @@
 /* Forward stuff */
 typedef struct GOAccumulator_ GOAccumulator;
 typedef struct GOQuad_ GOQuad;
+typedef struct GOQuadMatrix_ GOQuadMatrix;
+typedef struct GOQuadQR_ GOQuadQR;
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 typedef struct GOAccumulatorl_ GOAccumulatorl;
 typedef struct GOQuadl_ GOQuadl;
+typedef struct GOQuadMatrixl_ GOQuadMatrixl;
+typedef struct GOQuadQRl_ GOQuadQRl;
 #endif
 
 #include <goffice/math/go-accumulator.h>
@@ -16,6 +20,7 @@ typedef struct GOQuadl_ GOQuadl;
 #include <goffice/math/go-distribution.h>
 #include <goffice/math/go-fft.h>
 #include <goffice/math/go-math.h>
+#include <goffice/math/go-matrix.h>
 #include <goffice/math/go-matrix3x3.h>
 #include <goffice/math/go-quad.h>
 #include <goffice/math/go-R.h>

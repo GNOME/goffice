@@ -340,6 +340,7 @@ math_SOURCES =					\
 	math/go-cspline.c			\
 	math/go-complex.c			\
 	math/go-fft.c				\
+	math/go-matrix.c			\
 	math/go-matrix3x3.c			\
 	math/go-quad.c				\
 	math/go-R.c				\
@@ -355,6 +356,7 @@ math_HEADERS =					\
 	math/go-cspline.h			\
 	math/go-complex.h			\
 	math/go-fft.h				\
+	math/go-matrix.h			\
 	math/go-matrix3x3.h			\
 	math/go-quad.h				\
 	math/go-R.h				\
