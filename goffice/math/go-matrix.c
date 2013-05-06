@@ -125,7 +125,7 @@ SUFFIX(go_quad_matrix_dup) (const QMATRIX *A)
  * @B: Source matrix.
  *
  * Copies B to A.
- */
+ **/
 void
 SUFFIX(go_quad_matrix_copy) (QMATRIX *A, const QMATRIX *B)
 {
@@ -149,7 +149,7 @@ SUFFIX(go_quad_matrix_copy) (QMATRIX *A, const QMATRIX *B)
  * @B: Source matrix.
  *
  * Transposes B into A.
- */
+ **/
 void
 SUFFIX(go_quad_matrix_transpose) (QMATRIX *A, const QMATRIX *B)
 {
@@ -175,7 +175,7 @@ SUFFIX(go_quad_matrix_transpose) (QMATRIX *A, const QMATRIX *B)
  * @B: Source matrix.
  *
  * Multiplies A*B and stores the result in C.
- */
+ **/
 void
 SUFFIX(go_quad_matrix_multiply) (QMATRIX *C,
 				 const QMATRIX *A,
@@ -212,10 +212,11 @@ SUFFIX(go_quad_matrix_multiply) (QMATRIX *C,
  * eigenvalue is less than or equal to the given threshold, %NULL is returning
  * indicating a matrix that cannot be inverted.  (Note: this doesn't actually
  * use the eigenvalues of A, but of A after an orthogonal transformation.)
- */
+ **/
+
 /**
  * go_quad_matrix_inversel: (skip)
- */
+ **/
 QMATRIX *
 SUFFIX(go_quad_matrix_inverse) (const QMATRIX *A, DOUBLE threshold)
 {
@@ -309,10 +310,11 @@ SUFFIX(go_quad_matrix_determinant) (const QMATRIX *A, QUAD *res)
  * go_quad_matrix_pseudo_inverse: (skip)
  * @A: An arbitrary matrix.
  * @threshold: condition number threshold.
- */
+ **/
+
 /**
  * go_quad_matrix_pseudo_inversel: (skip)
- */
+ **/
 QMATRIX *
 SUFFIX(go_quad_matrix_pseudo_inverse) (const QMATRIX *A, DOUBLE threshold)
 {
@@ -456,7 +458,7 @@ out:
  * Returns: %TRUE on error.
  *
  * This function solves the triangular system RT*x=b.
- */
+ **/
 gboolean
 SUFFIX(go_quad_matrix_fwd_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
 {
@@ -495,7 +497,7 @@ SUFFIX(go_quad_matrix_fwd_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
  * Returns: %TRUE on error.
  *
  * This function solves the triangular system R*x=b.
- */
+ **/
 gboolean
 SUFFIX(go_quad_matrix_back_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
 {
@@ -531,7 +533,7 @@ SUFFIX(go_quad_matrix_back_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
  * @A: Triangular matrix.
  * @emin: (out): Smallest absolute eigen value.
  * @emax: (out): Largest absolute eigen value.
- */
+ **/
 void
 SUFFIX(go_quad_matrix_eigen_range) (const QMATRIX *A,
 				    DOUBLE *emin, DOUBLE *emax)
@@ -571,11 +573,11 @@ SUFFIX(go_quad_matrix_eigen_range) (const QMATRIX *A,
  *
  * R is a matrix of size n-times-n.  (To get the m-times-n version
  * of R, simply add m-n null rows.)
- */
+ **/
 
 /**
  * go_quad_qr_newl: (skip)
- */
+ **/
 QQR *
 SUFFIX(go_quad_qr_new) (const QMATRIX *A)
 {
@@ -689,6 +691,13 @@ SUFFIX(go_quad_qr_determinant) (const QQR *qr, QUAD *det)
 	*det = qr->det;
 }
 
+/**
+ * go_quad_qr_r:
+ * @qr: A QR decomposition.
+ *
+ * Returns: the small R from the decomposition, i.e., a square matrix
+ * of size n.  To get the large R, if needed, add m-n zero rows.
+ **/
 const QMATRIX *
 SUFFIX(go_quad_qr_r) (const QQR *qr)
 {
@@ -703,7 +712,7 @@ SUFFIX(go_quad_qr_r) (const QQR *qr)
  * @x: (inout): a vector.
  *
  * Replaces @x by Q^t * x
- */
+ **/
 void
 SUFFIX(go_quad_qr_multiply_qt) (const QQR *qr, QUAD *x)
 {
