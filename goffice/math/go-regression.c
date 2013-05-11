@@ -102,21 +102,7 @@
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 
-#if 0
-/* We define this to cause certain "double" functions to be implemented in
-   terms of their "long double" counterparts.  */
-#define BOUNCE
-static GORegressionResult
-general_linear_regressionl (long double *const *const xssT, int n,
-			    const long double *ys, int m,
-			    long double *result,
-			    go_regression_stat_tl *stat_,
-			    gboolean affine);
-#endif
-
-
 #include "go-regression.c"
-#undef BOUNCE
 #undef DEFINE_COMMON
 #undef DOUBLE
 #undef DOUBLE_EPS
@@ -293,52 +279,6 @@ SUFFIX(copy_quad_matrix_to_matrix) (MATRIX A, const SUFFIX(GOQuadMatrix) *qA)
 }
 
 /* ------------------------------------------------------------------------- */
-#ifdef BOUNCE
-/* Suppport routines for bouncing double to long double.  */
-
-static double *
-shrink_vector (const long double *V, int d)
-{
-	if (V) {
-		double *V2 = g_new (double, d);
-		COPY_VECTOR (V2, V, d);
-		return V2;
-	} else
-		return NULL;
-}
-
-static void
-copy_stats (go_regression_stat_t *s1,
-	    const go_regression_stat_tl *s2, int n)
-{
-	if (!s2)
-		return;
-
-	g_free (s1->se);
-	g_free (s1->t);
-	g_free (s1->xbar);
-
-	s1->se = shrink_vector (s2->se, n);
-	s1->t = shrink_vector (s2->t, n);
-	s1->sqr_r = s2->sqr_r;
-	s1->adj_sqr_r = s2->adj_sqr_r;
-	s1->se_y = s2->se_y;
-	s1->F = s2->F;
-	s1->df_reg = s2->df_reg;
-	s1->df_resid = s2->df_resid;
-	s1->df_total = s2->df_total;
-	s1->ss_reg = s2->ss_reg;
-	s1->ss_resid = s2->ss_resid;
-	s1->ss_total = s2->ss_total;
-	s1->ms_reg = s2->ms_reg;
-	s1->ms_resid = s2->ms_resid;
-	s1->ybar = s2->ybar;
-	s1->xbar = shrink_vector (s2->xbar, n);
-	s1->var = s2->var;
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
 
 #if 0
 static void
@@ -367,8 +307,6 @@ SUFFIX(print_Q) (CONSTQMATRIX V, int m, int n)
 }
 #endif
 
-#ifndef BOUNCE
-
 static void
 SUFFIX(calc_residual) (CONSTMATRIX AT, const DOUBLE *b, int m, int n,
 		       const QUAD *y, QUAD *N2)
@@ -393,9 +331,6 @@ SUFFIX(calc_residual) (CONSTMATRIX AT, const DOUBLE *b, int m, int n,
 		SUFFIX(go_quad_add) (N2, N2, &d);
 	}
 }
-
-
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -549,29 +484,6 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 				   gboolean affine)
 {
 	GORegressionResult regerr;
-#ifdef BOUNCE
-	long double **xssT2, *ys2, *result2;
-	go_regression_stat_tl *stat2;
-
-	ALLOC_MATRIX2 (xssT2, n, m, long double);
-	COPY_MATRIX (xssT2, xssT, n, m);
-
-	ys2 = g_new (long double, m);
-	COPY_VECTOR (ys2, ys, m);
-
-	result2 = g_new (long double, n);
-	stat2 = stat_ ? go_regression_stat_newl () : NULL;
-
-	regerr = general_linear_regressionl (xssT2, n, ys2, m,
-					     result2, stat2, affine);
-	COPY_VECTOR (result, result2, n);
-	copy_stats (stat_, stat2, n);
-
-	go_regression_stat_destroyl (stat2);
-	g_free (result2);
-	g_free (ys2);
-	FREE_MATRIX (xssT2, n, m);
-#else
 	SUFFIX(GOQuadMatrix) *xss;
 	SUFFIX(GOQuadQR) *qr;
 	QUAD *qresult;
@@ -746,7 +658,6 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 out:
 	if (!has_stat)
 		SUFFIX(go_regression_stat_destroy) (stat_);
-#endif
 
 	return regerr;
 }
