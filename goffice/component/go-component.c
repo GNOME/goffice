@@ -29,7 +29,10 @@
 #include <gio/gio.h>
 #include <cairo-svg.h>
 #include <librsvg/rsvg.h>
+#if LIBRSVG_CHECK_VERSION(2,36,2)
+#else
 #include <librsvg/rsvg-cairo.h>
+#endif
 #include <string.h>
 
 struct _GOComponentPrivate {

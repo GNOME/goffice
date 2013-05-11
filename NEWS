@@ -3,6 +3,9 @@ goffice 0.10.3:
 Jean:
 	* Implement color scales. [#695829]
 
+Morten:
+	* Fix issue with librsvg includes.  [#695167]
+
 --------------------------------------------------------------------------
 goffice 0.10.2:
 

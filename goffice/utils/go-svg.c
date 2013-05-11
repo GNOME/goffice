@@ -22,7 +22,10 @@
 #include <goffice/goffice-config.h>
 #include "go-svg.h"
 #include <librsvg/rsvg.h>
+#if LIBRSVG_CHECK_VERSION(2,36,2)
+#else
 #include <librsvg/rsvg-cairo.h>
+#endif
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-stdio.h>
