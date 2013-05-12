@@ -37,6 +37,8 @@ gboolean go_quad_matrix_fwd_solve (const GOQuadMatrix *R, GOQuad *x,
 void go_quad_matrix_eigen_range (const GOQuadMatrix *A,
 				 double *emin, double *emax);
 
+void go_quad_matrix_dump (const GOQuadMatrix *A, const char *fmt);
+
 /* ---------------------------------------- */
 
 GOQuadQR *go_quad_qr_new (const GOQuadMatrix *A);
@@ -79,6 +81,8 @@ gboolean go_quad_matrix_fwd_solvel (const GOQuadMatrixl *R, GOQuadl *x,
 
 void go_quad_matrix_eigen_rangel (const GOQuadMatrixl *A,
 				  long double *emin, long double *emax);
+
+void go_quad_matrix_dumpl (const GOQuadMatrixl *A, const char *fmt);
 
 /* ---------------------------------------- */
 

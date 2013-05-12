@@ -1,3 +1,8 @@
+2013-05-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-matrix.c (go_quad_matrix_dump): New function for
+	debugging.
+
 2013-05-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/component/go-component.c: Fix issue with librsvg includes.

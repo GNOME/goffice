@@ -465,7 +465,7 @@ SUFFIX(go_quad_matrix_fwd_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
 	int i, j, n;
 
 	g_return_val_if_fail (R != NULL, TRUE);
-	g_return_val_if_fail (R->m == R-> n, TRUE);
+	g_return_val_if_fail (R->m == R->n, TRUE);
 	g_return_val_if_fail (x != NULL, TRUE);
 	g_return_val_if_fail (b != NULL, TRUE);
 
@@ -504,7 +504,7 @@ SUFFIX(go_quad_matrix_back_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
 	int i, j, n;
 
 	g_return_val_if_fail (R != NULL, TRUE);
-	g_return_val_if_fail (R->m == R-> n, TRUE);
+	g_return_val_if_fail (R->m == R->n, TRUE);
 	g_return_val_if_fail (x != NULL, TRUE);
 	g_return_val_if_fail (b != NULL, TRUE);
 
@@ -554,6 +554,18 @@ SUFFIX(go_quad_matrix_eigen_range) (const QMATRIX *A,
 	}
 }
 
+
+void
+SUFFIX(go_quad_matrix_dump) (const QMATRIX *A, const char *fmt)
+{
+	int i, j;
+
+	for (i = 0; i < A->m; i++) {
+		for (j = 0; j < A->n; j++)
+			g_printerr (fmt, A->data[i][j]);
+		g_printerr ("\n");
+	}
+}
 
 /* -------------------------------------------------------------------------- */
 
