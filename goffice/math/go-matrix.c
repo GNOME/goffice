@@ -38,7 +38,7 @@
 struct GOQuadQR_ {
 	QMATRIX *V;
 	QMATRIX *R;
-	QUAD det;
+	int qdet;
 };
 
 
@@ -52,7 +52,7 @@ struct GOQuadQR_ {
 struct GOQuadQRl_ {
 	QMATRIX *V;
 	QMATRIX *R;
-	QUAD det;
+	int qdet;
 };
 
 #endif
@@ -675,9 +675,7 @@ SUFFIX(go_quad_qr_new) (const QMATRIX *A)
 		for (j = 0; j < n; j++)
 			qr->R->data[i][j] = R->data[i][j];
 
-	SUFFIX(go_quad_init) (&qr->det, qdet);
-	for (i = 0; i < n; i++)
-		SUFFIX(go_quad_mul) (&qr->det, &qr->det, &R->data[i][i]);
+	qr->qdet = qdet;
 
 	SUFFIX(go_quad_matrix_free) (R);
 
@@ -697,10 +695,14 @@ SUFFIX(go_quad_qr_free) (QQR *qr)
 void
 SUFFIX(go_quad_qr_determinant) (const QQR *qr, QUAD *det)
 {
+	int i;
+
 	g_return_if_fail (qr != NULL);
 	g_return_if_fail (det != NULL);
 
-	*det = qr->det;
+	SUFFIX(go_quad_init) (det, qr->qdet);
+	for (i = 0; i < qr->R->n; i++)
+		SUFFIX(go_quad_mul) (det, det, &qr->R->data[i][i]);
 }
 
 /**

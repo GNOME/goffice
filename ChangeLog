@@ -2,6 +2,7 @@
 
 	* goffice/math/go-matrix.c (go_quad_matrix_dump): New function for
 	debugging.
+	(go_quad_qr_determinant): Move the determinant computation here.
 
 2013-05-11  Morten Welinder  <terra@gnome.org>
 
