@@ -252,7 +252,7 @@ SUFFIX(go_quad_matrix_inverse) (const QMATRIX *A, DOUBLE threshold)
 		SUFFIX(go_quad_qr_multiply_qt) (qr, QTk);
 
 		/* Solve R x = Q^T e_k */
-		if (SUFFIX(go_quad_matrix_back_solve) (R, x, QTk)) {
+		if (SUFFIX(go_quad_matrix_back_solve) (R, x, QTk, FALSE)) {
 			ok = FALSE;
 			break;
 		}
@@ -454,13 +454,17 @@ out:
  * @R: An upper triangular matrix.
  * @x: (out): Result vector.
  * @b: Input vector.
+ * @allow_degenerate: If %TRUE, then degenerate dimensions are ignored other
+ * than being given a zero result.  A degenerate dimension is one whose
+ * diagonal entry is zero.
  *
  * Returns: %TRUE on error.
  *
  * This function solves the triangular system RT*x=b.
  **/
 gboolean
-SUFFIX(go_quad_matrix_fwd_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
+SUFFIX(go_quad_matrix_fwd_solve) (const QMATRIX *R, QUAD *x, const QUAD *b,
+				  gboolean allow_degenerate)
 {
 	int i, j, n;
 
@@ -473,16 +477,26 @@ SUFFIX(go_quad_matrix_fwd_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
 
 	for (i = 0; i < n; i++) {
 		QUAD d = b[i];
+		QUAD Rii = R->data[i][i];
+
+		if (SUFFIX(go_quad_value)(&Rii) == 0) {
+			if (allow_degenerate) {
+				x[i] = SUFFIX(go_quad_zero);
+				continue;
+			} else {
+				while (i < n)
+					x[i++] = SUFFIX(go_quad_zero);
+				return TRUE;
+			}
+		}
+
 		for (j = 0; j < i; j++) {
 			QUAD p;
 			SUFFIX(go_quad_mul) (&p, &R->data[j][i], &x[j]);
 			SUFFIX(go_quad_sub) (&d, &d, &p);
 		}
-		if (SUFFIX(go_quad_value)(&R->data[i][i]) == 0) {
-			while (i < n) x[i++] = SUFFIX(go_quad_zero);
-			return TRUE;
-		}
-		SUFFIX(go_quad_div) (&x[i], &d, &R->data[i][i]);
+
+		SUFFIX(go_quad_div) (&x[i], &d, &Rii);
 	}
 
 	return FALSE;
@@ -493,13 +507,17 @@ SUFFIX(go_quad_matrix_fwd_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
  * @R: An upper triangular matrix.
  * @x: (out): Result vector.
  * @b: Input vector.
+ * @allow_degenerate: If %TRUE, then degenerate dimensions are ignored other
+ * than being given a zero result.  A degenerate dimension is one whose
+ * diagonal entry is zero.
  *
  * Returns: %TRUE on error.
  *
  * This function solves the triangular system R*x=b.
  **/
 gboolean
-SUFFIX(go_quad_matrix_back_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
+SUFFIX(go_quad_matrix_back_solve) (const QMATRIX *R, QUAD *x, const QUAD *b,
+				   gboolean allow_degenerate)
 {
 	int i, j, n;
 
@@ -512,17 +530,26 @@ SUFFIX(go_quad_matrix_back_solve) (const QMATRIX *R, QUAD *x, const QUAD *b)
 
 	for (i = n - 1; i >= 0; i--) {
 		QUAD d = b[i];
+		QUAD Rii = R->data[i][i];
+
+		if (SUFFIX(go_quad_value)(&Rii) == 0) {
+			if (allow_degenerate) {
+				x[i] = SUFFIX(go_quad_zero);
+				continue;
+			} else {
+				while (i >= 0)
+					x[i--] = SUFFIX(go_quad_zero);
+				return TRUE;
+			}
+		}
+
 		for (j = i + 1; j < n; j++) {
 			QUAD p;
 			SUFFIX(go_quad_mul) (&p, &R->data[i][j], &x[j]);
 			SUFFIX(go_quad_sub) (&d, &d, &p);
 		}
-		if (SUFFIX(go_quad_value)(&R->data[i][i]) == 0) {
-			while (i >= 0)
-				x[i--] = SUFFIX(go_quad_zero);
-			return TRUE;
-		}
-		SUFFIX(go_quad_div) (&x[i], &d, &R->data[i][i]);
+
+		SUFFIX(go_quad_div) (&x[i], &d, &Rii);
 	}
 
 	return FALSE;
@@ -747,4 +774,21 @@ SUFFIX(go_quad_qr_multiply_qt) (const QQR *qr, QUAD *x)
 			SUFFIX(go_quad_sub) (&x[i], &x[i], &p);
 		}
 	}
+}
+
+/**
+ * go_quad_qr_mark_degenerate: (skip)
+ * @qr: A QR decomposition.
+ * @i: a dimension
+ *
+ * Marks dimension i of the qr decomposition as degenerate.  In practice
+ * this means setting the i-th eigenvalue of R to zero.
+ **/
+void
+SUFFIX(go_quad_qr_mark_degenerate) (QQR *qr, int i)
+{
+	g_return_if_fail (qr != NULL);
+	g_return_if_fail (i >= 0 && i < qr->R->n);
+
+	qr->R->data[i][i] = SUFFIX(go_quad_zero);
 }

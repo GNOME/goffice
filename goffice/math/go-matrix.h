@@ -30,9 +30,11 @@ GOQuadMatrix *go_quad_matrix_pseudo_inverse (const GOQuadMatrix *A,
 					     double threshold);
 
 gboolean go_quad_matrix_back_solve (const GOQuadMatrix *R, GOQuad *x,
-				    const GOQuad *b);
+				    const GOQuad *b,
+				    gboolean allow_degenerate);
 gboolean go_quad_matrix_fwd_solve (const GOQuadMatrix *R, GOQuad *x,
-				   const GOQuad *b);
+				   const GOQuad *b,
+				   gboolean allow_degenerate);
 
 void go_quad_matrix_eigen_range (const GOQuadMatrix *A,
 				 double *emin, double *emax);
@@ -46,6 +48,7 @@ void go_quad_qr_free (GOQuadQR *qr);
 void go_quad_qr_determinant (const GOQuadQR *qr, GOQuad *det);
 const GOQuadMatrix *go_quad_qr_r (const GOQuadQR *qr);
 void go_quad_qr_multiply_qt (const GOQuadQR *qr, GOQuad *x);
+void go_quad_qr_mark_degenerate (GOQuadQR *qr, int i);
 
 /* ---------------------------------------- */
 
@@ -75,9 +78,11 @@ GOQuadMatrixl *go_quad_matrix_pseudo_inversel (const GOQuadMatrixl *A,
 					       long double threshold);
 
 gboolean go_quad_matrix_back_solvel (const GOQuadMatrixl *R, GOQuadl *x,
-				     const GOQuadl *b);
+				     const GOQuadl *b,
+				     gboolean allow_degenerate);
 gboolean go_quad_matrix_fwd_solvel (const GOQuadMatrixl *R, GOQuadl *x,
-				    const GOQuadl *b);
+				    const GOQuadl *b,
+				    gboolean allow_degenerate);
 
 void go_quad_matrix_eigen_rangel (const GOQuadMatrixl *A,
 				  long double *emin, long double *emax);
@@ -91,6 +96,7 @@ void go_quad_qr_freel (GOQuadQRl *qr);
 void go_quad_qr_determinantl (const GOQuadQRl *qr, GOQuadl *det);
 const GOQuadMatrixl *go_quad_qr_rl (const GOQuadQRl *qr);
 void go_quad_qr_multiply_qtl (const GOQuadQRl *qr, GOQuadl *x);
+void go_quad_qr_mark_degeneratel (GOQuadQRl *qr, int i);
 
 #endif
 

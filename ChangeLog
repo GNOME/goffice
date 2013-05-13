@@ -1,8 +1,17 @@
 2013-05-12  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-regression.c (general_linear_regression): Take
+	threshold argument.  All callers changed.  Detect and mark
+	degenerate dimensions; adjust degrees-of-freedom accordingly.
+	Compute coefficient variances in a way that negatives can be ruled
+	out.
+
 	* goffice/math/go-matrix.c (go_quad_matrix_dump): New function for
 	debugging.
 	(go_quad_qr_determinant): Move the determinant computation here.
+	(go_quad_qr_mark_degenerate): New function.
+	(go_quad_matrix_back_solve, go_quad_matrix_fwd_solve): Handle
+	degenerate dimensions.
 
 2013-05-11  Morten Welinder  <terra@gnome.org>
 
