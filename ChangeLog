@@ -1,3 +1,7 @@
+2013-05-13  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-svg.c: Try another variant of previous fix.
+
 2013-05-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (general_linear_regression): Take

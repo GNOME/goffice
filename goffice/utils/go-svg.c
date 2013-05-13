@@ -21,11 +21,17 @@
 
 #include <goffice/goffice-config.h>
 #include "go-svg.h"
+
 #include <librsvg/rsvg.h>
-#if LIBRSVG_CHECK_VERSION(2,36,2)
+#ifdef LIBRSVG_CHECK_VERSION
+#define NEEDS_LIBRSVG_CAIRO_H LIBRSVG_CHECK_VERSION(2,36,2)
 #else
+#define NEEDS_LIBRSVG_CAIRO_H 1
+#endif
+#if NEEDS_LIBRSVG_CAIRO_H
 #include <librsvg/rsvg-cairo.h>
 #endif
+
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-stdio.h>

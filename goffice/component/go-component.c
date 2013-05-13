@@ -28,12 +28,17 @@
 #include <gsf/gsf-output-memory.h>
 #include <gio/gio.h>
 #include <cairo-svg.h>
+#include <string.h>
+
 #include <librsvg/rsvg.h>
-#if LIBRSVG_CHECK_VERSION(2,36,2)
+#ifdef LIBRSVG_CHECK_VERSION
+#define NEEDS_LIBRSVG_CAIRO_H LIBRSVG_CHECK_VERSION(2,36,2)
 #else
+#define NEEDS_LIBRSVG_CAIRO_H 1
+#endif
+#if NEEDS_LIBRSVG_CAIRO_H
 #include <librsvg/rsvg-cairo.h>
 #endif
-#include <string.h>
 
 struct _GOComponentPrivate {
 	gboolean is_inline; /* if set, the object will be displayed in compact mode
