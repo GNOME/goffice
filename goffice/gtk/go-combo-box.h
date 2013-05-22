@@ -53,7 +53,7 @@ struct _GOComboBoxClass {
 
 	/* invoked when the popup has been hidden, if the signal
 	 * returns TRUE, it means it should be killed */
-	gboolean   (*pop_down_done)   (GOComboBox *combo, GtkWidget *);
+	gboolean   (*pop_down_done)   (GOComboBox *combo, GtkWidget *w);
 };
 
 /* public */

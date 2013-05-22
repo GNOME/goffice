@@ -66,6 +66,16 @@ go_hash_keys (GHashTable *hash)
 }
 
 /***************************************************************************/
+
+/**
+ * go_ptr_array_insert:
+ * @array: (element-type void): a #GPtrArray
+ * @value: the pointer to insert
+ * @index: where to insert @value
+ *
+ * Inserts a pointer inside an existing array.
+ **/
+ 
 void
 go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 {

@@ -24,7 +24,7 @@
 
 G_BEGIN_DECLS
 
-double go_trunc (double);
+double go_trunc (double x);
 double go_dnorm (double x, double mu, double sigma, gboolean give_log);
 double go_pnorm (double x, double mu, double sigma, gboolean lower_tail, gboolean log_p);
 void go_pnorm_both (double x, double *cum, double *ccum, int i_tail, gboolean log_p);
@@ -41,7 +41,7 @@ double go_qcauchy (double p, double location, double scale, gboolean lower_tail,
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 
-long double go_truncl (long double);
+long double go_truncl (long double x);
 long double go_dnorml (long double x, long double mu, long double sigma, gboolean give_log);
 long double go_pnorml (long double x, long double mu, long double sigma, gboolean lower_tail, gboolean log_p);
 void go_pnorm_bothl (long double x, long double *cum, long double *ccum, int i_tail, gboolean log_p);

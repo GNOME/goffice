@@ -1,3 +1,11 @@
+2013-05-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/goffice.c (libgoffice_init): fixed warnings.
+	* goffice/graph/gog-view.h: ditto.
+	* goffice/gtk/go-combo-box.h: ditto.
+	* goffice/math/go-R.h: ditto.
+	* goffice/utils/go-glib-extras.c: ditto.
+
 2013-05-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/goffice.c (libgoffice_init): Install the unknown_image

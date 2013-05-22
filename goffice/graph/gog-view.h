@@ -85,7 +85,7 @@ typedef struct {
 	unsigned clip; 	/* Automaticaly clip to object bounding box */
 
 	/* Virtuals */
-	void	 (*state_init)    (GogView *);
+	void	 (*state_init)    (GogView *view);
 	void	 (*padding_request) 		(GogView *view, GogViewAllocation const *bbox,
 						 GogViewPadding *padding);
 	void	 (*size_request)    		(GogView *view, GogViewRequisition const *available,
