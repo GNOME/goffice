@@ -455,6 +455,8 @@ go_image_get_pixbuf_fb (GOImage *image)
 		 "unknown_image", 100, 0, NULL);
 	double dx, dy;
 	int n;
+	if (placeholder == NULL)
+		return NULL;
 	n = go_fake_floor (image->width / gdk_pixbuf_get_width (placeholder));
 	dx = (image->width - n * gdk_pixbuf_get_width (placeholder)) / 2.;
 	n = go_fake_floor (image->height / gdk_pixbuf_get_height (placeholder));

@@ -17,6 +17,9 @@
 			 id="go:plot_xy/dropbar.xpm"
 			 file="dropbar.xpm"/>
 		<service type="resource"
+			 id="go:plot_xy/minmax.xpm"
+			 file="minmax.xpm"/>
+		<service type="resource"
 			 id="go:plot_xy/scatter.xpm"
 			 file="scatter.xpm"/>
 

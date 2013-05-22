@@ -22,7 +22,7 @@ if WITH_GTK
 xy_la_SOURCES  += gog-bubble-prefs.c
 endif
 
-plugin_resources = bubble.xpm color.xpm dropbar.xpm scatter.xpm
+plugin_resources = bubble.xpm color.xpm dropbar.xpm minmax.xpm scatter.xpm
 pofiles = $(wildcard $(top_srcdir)/po/*.po)
 
 plugin.xml: plugin.xml.in $(plugin_resources) $(pofiles) $(top_srcdir)/tools/resource-embedder

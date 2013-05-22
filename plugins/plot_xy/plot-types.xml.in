@@ -4,6 +4,7 @@
     <Family _name="Bubble"	sample_image_file="res:go:plot_xy/bubble.xpm" axis_set="xy"/>
     <Family _name="ColoredXY"	sample_image_file="res:go:plot_xy/color.xpm" axis_set="xy-color"/>
     <Family _name="DropBar"	sample_image_file="res:go:plot_xy/dropbar.xpm" axis_set="xy"/>
+	<Family _name="MinMax"	sample_image_file="res:go:plot_xy/minmax.xpm" axis_set="xy"/>
 
     <Type _name="XY Points" row="1" col="1"
 	  engine="GogXYPlot" family="XY"
