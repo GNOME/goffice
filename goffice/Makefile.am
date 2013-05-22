@@ -587,6 +587,7 @@ embedded_stuff_compress = \
 
 embedded_stuff_raw = \
 	utils/svg-patterns.xml			\
+	utils/unknown_image.png			\
 	graph/bar-none.png 			\
 	graph/bar-vplus.png 			\
 	graph/bar-vminus.png 			\

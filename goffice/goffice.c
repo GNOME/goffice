@@ -122,6 +122,19 @@ go_sys_extern_plugin_dir (void)
 	return libgoffice_extern_plugin_dir;
 }
 
+#ifdef GOFFICE_WITH_GTK
+static void
+install_icons (void)
+{
+	GdkPixbuf *pixbuf = go_gdk_pixbuf_load_from_file ("res:go:utils/unknown_image.png");
+	int size = gdk_pixbuf_get_width (pixbuf);
+	gtk_icon_theme_add_builtin_icon ("unknown_image",
+					 size,
+					 pixbuf);
+	g_object_unref (pixbuf);
+}
+#endif
+
 
 /**
  * libgoffice_init:
@@ -199,6 +212,7 @@ libgoffice_init (void)
 	_gog_plugin_services_init ();
 #ifdef GOFFICE_WITH_GTK
 	_goc_plugin_services_init ();
+	install_icons ();
 #endif
 	(void) GOG_TYPE_GRAPH;
 	(void) GOG_TYPE_CHART;

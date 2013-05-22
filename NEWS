@@ -7,6 +7,7 @@ Morten:
 	* Fix issue with librsvg includes.  [#695167]
 	* Make linear regression handle the case where the input
           columns are not independent.  [#551457]
+	* Install the unknown_image icon from Gnumeric.  [#700742]
 
 --------------------------------------------------------------------------
 goffice 0.10.2:
