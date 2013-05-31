@@ -62,35 +62,14 @@ gog_color_scale_init_style (GogStyledObject *gso, GOStyle *style)
 	                        GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT);
 }
 
-#ifdef GOFFICE_WITH_GTK
-
 static void
-position_fill_cb (GtkComboBoxText *box, GogColorScale *scale)
-{
-	if (scale->horizontal) {
-		gtk_combo_box_text_append_text (box, _("Top"));
-		gtk_combo_box_text_append_text (box, _("Bottom"));
-	} else {
-		gtk_combo_box_text_append_text (box, _("Left"));
-		gtk_combo_box_text_append_text (box, _("Right"));
-	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX (box), (scale->axis_at_low)? 0: 1);
-}
-
-static void
-position_changed_cb (GtkComboBox *box, GogColorScale *scale)
-{
-	scale->axis_at_low = gtk_combo_box_get_active (box) == 0;
-	gog_object_emit_changed (GOG_OBJECT (scale), FALSE);
-}
-
-static void
-direction_changed_cb (GtkComboBox *box, GogColorScale *scale)
+gog_color_scale_set_orientation (GogColorScale *scale, gboolean horizontal)
 {
 	GogObjectPosition pos;
 	GogObject *gobj = GOG_OBJECT (scale);
-	GtkComboBoxText *text;
-	scale->horizontal = gtk_combo_box_get_active (box) == 0;
+	GSList *l, *ptr;
+	GOStyle *style;
+	scale->horizontal = horizontal;
 	/* if the position is automatic, try to adjust accordingly */
 	pos = gog_object_get_position_flags (gobj, GOG_POSITION_MANUAL);
 	if (!pos) {
@@ -145,7 +124,45 @@ direction_changed_cb (GtkComboBox *box, GogColorScale *scale)
 		alloc.h = buf;
        	gog_object_set_manual_position (gobj, &alloc);
 	}
-	g_signal_emit_by_name (gobj, "update-editor");
+	l = gog_object_get_children (gobj, NULL);
+	for (ptr = l; ptr; ptr = ptr->next) {
+		if (GO_IS_STYLED_OBJECT (ptr->data)) {
+			style = go_style_dup (go_styled_object_get_style (ptr->data));
+			go_styled_object_set_style (ptr->data, style);
+			g_object_unref (style);
+		}
+	}
+	g_slist_free (l);
+}
+
+#ifdef GOFFICE_WITH_GTK
+
+static void
+position_fill_cb (GtkComboBoxText *box, GogColorScale *scale)
+{
+	if (scale->horizontal) {
+		gtk_combo_box_text_append_text (box, _("Top"));
+		gtk_combo_box_text_append_text (box, _("Bottom"));
+	} else {
+		gtk_combo_box_text_append_text (box, _("Left"));
+		gtk_combo_box_text_append_text (box, _("Right"));
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX (box), (scale->axis_at_low)? 0: 1);
+}
+
+static void
+position_changed_cb (GtkComboBox *box, GogColorScale *scale)
+{
+	scale->axis_at_low = gtk_combo_box_get_active (box) == 0;
+	gog_object_emit_changed (GOG_OBJECT (scale), FALSE);
+}
+
+static void
+direction_changed_cb (GtkComboBox *box, GogColorScale *scale)
+{
+	GtkComboBoxText *text;
+	gog_color_scale_set_orientation (scale, gtk_combo_box_get_active (box) == 0);
+	g_signal_emit_by_name (scale, "update-editor");
 	text = GTK_COMBO_BOX_TEXT (g_object_get_data (G_OBJECT (box), "position"));
 	g_signal_handlers_block_by_func (text, position_changed_cb, scale);
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (text))));
@@ -215,7 +232,7 @@ gog_color_scale_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case COLOR_SCALE_PROP_HORIZONTAL:
-		scale->horizontal = g_value_get_boolean (value);
+		gog_color_scale_set_orientation (scale, g_value_get_boolean (value));
 		break;
 	case COLOR_SCALE_PROP_WIDTH:
 		scale->width = g_value_get_double (value);
@@ -282,6 +299,11 @@ gog_color_scale_class_init (GObjectClass *gobject_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
+	static GogObjectRole const roles[] = {
+		{ N_("Label"), "GogLabel", 0,
+		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } }
+	};
 
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 	/* GObjectClass */
@@ -315,6 +337,7 @@ gog_color_scale_class_init (GObjectClass *gobject_klass)
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_color_scale_populate_editor;
 #endif
+	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 	style_klass->init_style = gog_color_scale_init_style;
 }
 
@@ -371,6 +394,8 @@ typedef struct {
 } GogColorScaleView;
 typedef GogViewClass	GogColorScaleViewClass;
 
+static GogViewClass *view_parent_class;
+
 #define GOG_TYPE_COLOR_SCALE_VIEW	(gog_color_scale_view_get_type ())
 #define GOG_COLOR_SCALE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_COLOR_SCALE_VIEW, GogColorScaleView))
 #define GOG_IS_COLOR_SCALE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_COLOR_SCALE_VIEW))
@@ -383,10 +408,15 @@ gog_color_scale_view_size_request (GogView *v,
 	GogColorScale *scale = GOG_COLOR_SCALE (v->model);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (scale));
 	double line_width, tick_size, label_padding, max_width = 0., max_height = 0.;
+	double extra_h = 0., extra_w = 0.;
 	unsigned nb_ticks, i;
 	GogAxisTick *ticks;
 	GOGeometryAABR txt_aabr;
 	GOGeometryOBR txt_obr;
+	GSList *ptr;
+	GogView *child;
+	GogObjectPosition pos;
+	GogViewRequisition child_req;
 
 	gog_renderer_push_style (v->renderer, style);
 	gog_renderer_get_text_OBR (v->renderer, "0", TRUE, &txt_obr, -1.);
@@ -416,6 +446,73 @@ gog_color_scale_view_size_request (GogView *v,
 				 + 2 * line_width + tick_size + label_padding + max_width;
 	}
 	gog_renderer_pop_style (v->renderer);
+	for (ptr = v->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+		pos = child->model->position;
+		if (!(pos & GOG_POSITION_MANUAL)) {
+			gog_view_size_request (child, available, &child_req);
+			if (scale->horizontal)
+				extra_h += child_req.h;
+			else
+				extra_w += child_req.w;
+		} else {
+		}
+	}
+	req->w += extra_w;
+	req->h += extra_h;
+}
+
+static void
+gog_color_scale_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
+{
+	GogColorScale *scale = GOG_COLOR_SCALE (view->model);
+	GSList *ptr;
+	GogView *child;
+	GogObjectPosition pos = view->model->position, child_pos;
+	GogViewAllocation child_alloc, res = *bbox;
+	GogViewRequisition available, req;
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+		child_pos = child->model->position;
+		available.w = res.w;
+		available.h = res.h;
+		if (child_pos & GOG_POSITION_MANUAL) {
+			gog_view_size_request (child, &available, &req);
+			child_alloc = gog_object_get_manual_allocation (gog_view_get_model (child),
+			                                                bbox, &req);
+		} else if (child_pos == GOG_POSITION_SPECIAL) {
+			gog_view_size_request (child, &available, &req);
+			if (scale->horizontal) {
+				if (pos & GOG_POSITION_N) {
+					child_alloc.y = res.y;
+					res.y += req.h;
+				} else {
+					child_alloc.y = res.y + res.h - req.h;
+				}
+				res.h -= req.h;
+				child_alloc.x = res.x + (res.w - req.w) / 2.;
+			} else {
+				if (pos & GOG_POSITION_W) {
+					child_alloc.x = res.x;
+					res.x += req.w;
+				} else {
+					child_alloc.x = res.x + res.w - req.w;
+				}
+				res.w -= req.w;
+				child_alloc.y = res.y + (res.h - req.h) / 2.;
+				child_alloc.w = req.w;
+				child_alloc.h = req.h;
+			}
+			child_alloc.w = req.w;
+			child_alloc.h = req.h;
+		} else {
+			g_warning ("[GogColorScaleView::size_allocate] unexpected position %x for child %p of %p",
+				   pos, child, view);
+			continue;
+		}
+		gog_view_size_allocate (child, &child_alloc);
+	}
+	view->residual = res;
 }
 
 static void
@@ -432,7 +529,7 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogAxisMap *map;
 	GOPath *path;
 	gboolean is_line_visible;
-	double min, max, first, last, hf, hl;
+	double min, max, first, last = 0., hf = 0., hl = 0.;
 	GOAnchorType anchor;
 	gboolean discrete = gog_axis_get_atype (scale->color_axis) == GOG_AXIS_PSEUDO_3D;
 	GogAxisColorMap const *cmap = gog_axis_get_color_map (scale->color_axis);
@@ -474,9 +571,9 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 	} else
 		line_width = tick_size = 0.;
 	if (scale->horizontal) {
-		scale_area.x = view->allocation.x;
+		scale_area.x = view->residual.x;
 		/* we make sure that we have enough room to display the last and first labels */
-		pos = (scale_area.w = view->allocation.w) - hf - hl;
+		pos = (scale_area.w = view->residual.w) - hf - hl;
 		stop = hl - pos * (max - last) / (max - min);
 		start = hf - pos * (first - min) / (max - min);
 		if (start < 0)
@@ -487,17 +584,17 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 		scale_area.w -= start + stop;
 		scale_area.x += gog_axis_is_inverted (scale->color_axis)? stop: start;
 		scale_area.y = (scale->axis_at_low)?
-			view->allocation.y + view->allocation.h - width - 2 * line_width:
-			view->allocation.y;
+			view->residual.y + view->residual.h - width - 2 * line_width:
+			view->residual.y;
 		scale_area.h = width + 2 * line_width;
 	} else {
 		scale_area.x = (scale->axis_at_low)?
-			view->allocation.x + view->allocation.w - width - 2 * line_width:
-			view->allocation.x;
+			view->residual.x + view->residual.w - width - 2 * line_width:
+			view->residual.x;
 		scale_area.w = width + 2 * line_width;
-		scale_area.y = view->allocation.y;
+		scale_area.y = view->residual.y;
 		/* we make sure that we have enough room to display the last and first labels */
-		pos = (scale_area.h = view->allocation.h) - hf -hl;
+		pos = (scale_area.h = view->residual.h) - hf -hl;
 		stop = hl - pos * (max - last) / (max - min);
 		start = hf - pos * (first - min) / (max - min);
 		if (start < 0)
@@ -673,6 +770,7 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 	g_free (obrs);
 	gog_axis_map_free (map);
 	gog_renderer_pop_style (view->renderer);
+	view_parent_class->render (view, bbox);
 }
 
 static void
@@ -680,8 +778,10 @@ gog_color_scale_view_class_init (GogColorScaleViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
 
+	view_parent_class = g_type_class_peek_parent (gview_klass);
 	view_klass->size_request = gog_color_scale_view_size_request;
 	view_klass->render = gog_color_scale_view_render;
+	view_klass->size_allocate = gog_color_scale_view_size_allocate;
 }
 
 static GSF_CLASS (GogColorScaleView, gog_color_scale_view,

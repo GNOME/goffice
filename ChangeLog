@@ -1,3 +1,15 @@
+2013-05-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-color-scale.c
+	(gog_color_scale_set_orientation), (position_fill_cb),
+	(position_changed_cb), (direction_changed_cb),
+	(gog_color_scale_set_property), (gog_color_scale_class_init),
+	(gog_color_scale_view_size_request),
+	(gog_color_scale_view_size_allocate),
+	(gog_color_scale_view_render), (gog_color_scale_view_class_init): allow
+	color scales to have titles. [#688595]
+	* goffice/graph/gog-label.c (gog_text_init_style): ditto.
+
 2013-05-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/goffice.c (libgoffice_init): fixed warnings.

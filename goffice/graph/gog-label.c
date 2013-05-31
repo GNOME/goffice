@@ -124,6 +124,10 @@ gog_text_init_style (GogStyledObject *gso, GOStyle *style)
 		    && gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y
 		    && style->text_layout.auto_angle)
 			style->text_layout.angle = 90.0;
+	} else if (GOG_IS_COLOR_SCALE (parent) && style->text_layout.auto_angle) {
+		gboolean horizontal;
+		g_object_get (G_OBJECT (parent), "horizontal", &horizontal, NULL);
+		style->text_layout.angle = (horizontal)? 0.0: 90.0;
 	}
 }
 
