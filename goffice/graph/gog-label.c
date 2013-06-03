@@ -534,7 +534,7 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 			     GogDataAllocator *dalloc,
 			     GOCmdContext *cc)
 {
-	GtkWidget *w;
+	GtkWidget *w, *box;
 	GtkBuilder *gui;
 	GogRegEqn *reg_eqn = GOG_REG_EQN (gobj);
 
@@ -542,9 +542,8 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 	if (gui == NULL)
 		return;
 
-	go_editor_add_page (editor,
-			     go_gtk_builder_get_widget (gui, "reg-eqn-prefs"),
-			     _("Details"));
+	box = go_gtk_builder_get_widget (gui, "reg-eqn-prefs");
+	go_editor_add_page (editor, box, _("Details"));
 
 	w = go_gtk_builder_get_widget (gui, "show_eq");
 	g_object_set_data (G_OBJECT (w), "prop", (void*) "show-eq");
@@ -555,6 +554,15 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 	g_object_set_data (G_OBJECT (w), "prop", (void*) "show-r2");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), reg_eqn->show_r2);
 	g_signal_connect (w, "toggled", G_CALLBACK (cb_text_visibility_changed), gobj);
+	w = gtk_check_button_new_with_label (_("Rotate frame with text"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->rotate_frame);
+	g_signal_connect (w, "toggled", G_CALLBACK (rotate_frame_cb), gobj);
+	gtk_container_add (GTK_CONTAINER (box), w);
+	w = gtk_check_button_new_with_label (_("Rotate background with text"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->rotate_bg);
+	g_signal_connect (w, "toggled", G_CALLBACK (rotate_bg_cb), gobj);
+	gtk_container_add (GTK_CONTAINER (box), w);
+	gtk_widget_show_all (box);
 
 	g_object_unref (gui);
 

@@ -3,6 +3,7 @@ goffice 0.10.3:
 Jean:
 	* Implement color scales. [#695829]
 	* Allow color scales to have titles. [#688595]
+	* Allow regression equation frame to rotate with text. [#701546]
 
 Morten:
 	* Fix issue with librsvg includes.  [#695167]

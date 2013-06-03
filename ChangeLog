@@ -1,3 +1,8 @@
+2013-06-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-label.c (gog_reg_eqn_populate_editor): allow regression
+	equation frame to rotate with text. [#701546]
+
 2013-05-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-color-scale.c
