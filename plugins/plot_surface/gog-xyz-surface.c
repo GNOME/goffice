@@ -560,10 +560,7 @@ gog_xyz_surface_plot_update (GogObject *obj)
 		g_free (model->plotted_data);
 	model->plotted_data = gog_xyz_plot_build_matrix (model, NULL);
 	if (model->plotted_data) {
-		gog_axis_bound_changed (model->base.axis[GOG_IS_CONTOUR_PLOT (model)?
-		                                         GOG_AXIS_PSEUDO_3D:
-			                                     (GOG_IS_MATRIX_PLOT (model)?
-			                                   	  GOG_AXIS_COLOR: GOG_AXIS_Z)],
+		gog_axis_bound_changed (model->base.axis[GOG_XYZ_PLOT_GET_CLASS (model)->third_axis],
 		        	            GOG_OBJECT (model));
 	}
 
