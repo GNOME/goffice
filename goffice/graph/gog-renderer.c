@@ -428,7 +428,7 @@ _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean 
 	g_return_if_fail (renderer->cur_style != NULL);
 	g_return_if_fail (GO_IS_PATH (path));
 
-        style = renderer->cur_style;
+    style = renderer->cur_style;
 
 	line_options = go_path_get_options (path);
 	width = stroke ? _grc_line_size (renderer, style->line.width,

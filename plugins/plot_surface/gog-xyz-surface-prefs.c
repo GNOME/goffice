@@ -24,6 +24,7 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
+#include <glib/gi18n-lib.h>
 #include <string.h>
 
 GtkWidget *gog_xyz_surface_plot_pref   (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdContext *cc);
@@ -86,12 +87,21 @@ cb_missing_as_changed (GtkComboBoxText *box, XYZSurfPrefsState *state)
 
 }
 
+static void
+cb_as_density_toggled (GtkToggleButton *btn, XYZSurfPrefsState *state)
+{
+	g_object_set (state->plot,
+	              "as_density", gtk_toggle_button_get_active (btn),
+	              NULL);
+
+}
 GtkWidget *
 gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdContext *cc)
 {
 	GogDataset *set = GOG_DATASET (plot);
 	XYZSurfPrefsState *state;
 	GtkWidget  *w, *grid;
+	int prop;
 	GtkBuilder *gui =
 		go_gtk_builder_load ("res:go:plot_surface/gog-xyz-surface-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
@@ -146,11 +156,20 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_rows_toggled), state);
 
 	w = go_gtk_builder_get_widget (gui, "missing-as-btn");
-	gtk_combo_box_set_active (GTK_COMBO_BOX (w),
-	                          GOG_IS_CONTOUR_PLOT (plot)?
-	                              GOG_XYZ_CONTOUR_PLOT (plot)->missing_as:
-		                          GOG_XYZ_SURFACE_PLOT (plot)->missing_as);
-	g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_missing_as_changed), state);
+	if (GOG_PLOT (plot)->desc.series.num_dim == 2) {
+		gtk_widget_hide (w);
+		gtk_widget_hide (go_gtk_builder_get_widget (gui, "missing-lbl"));
+		w = gtk_check_button_new_with_label (_("Display population density"));
+		gtk_container_add (GTK_CONTAINER (grid), w);
+		gtk_widget_show (w);
+		g_object_get (plot, "as-density", &prop, NULL);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), prop);
+		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_as_density_toggled), state);
+	} else {
+		g_object_get (plot, "missing-as", &prop, NULL);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (w), prop);
+		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_missing_as_changed), state);
+	}
 
 	w = GTK_WIDGET (g_object_ref (grid));
 	g_object_set_data_full (G_OBJECT (w), "state", state, g_free);

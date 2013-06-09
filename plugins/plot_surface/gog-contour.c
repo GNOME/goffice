@@ -1,5 +1,5 @@
 /*
- * gog-xyz.c
+ * gog-contour.c
  *
  * Copyright (C) 2004-2007 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -46,7 +46,7 @@ static GType gog_contour_view_get_type (void);
  */
 
 static double *
-gog_contour_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_changed)
+gog_contour_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 {
 	unsigned i, j;
 	GogAxisMap *map;
@@ -59,9 +59,10 @@ gog_contour_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 	unsigned n = plot->rows * plot->columns;
 	double *data, minimum, maximum, slope, offset = 0.;
 	unsigned max;
+	gboolean has_scale = gog_axis_get_color_scale (axis) != NULL;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
-		series->num_elements = 2;
+		series->num_elements = has_scale? 1: 2;
 		*cardinality_changed = TRUE;
 		return NULL;
 	}
@@ -109,10 +110,11 @@ gog_contour_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 			else
 				data[i * plot->columns + j] = val;
 		}
-	if (series->num_elements != max) {
-		series->num_elements = max;
+	if ((has_scale && series->num_elements != 1) || series->num_elements != max) {
+		series->num_elements = has_scale? 1: max;
 		*cardinality_changed = TRUE;
 	}
+	GOG_CONTOUR_PLOT (plot)->max_colors = max;
 	gog_axis_map_free (map);
 	g_free (x);
 	if (max < 2) { /* this might happen with bad 3d axis configuration */
@@ -151,6 +153,10 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 		func (0, style,
 			  gog_object_get_name (plot->series->data), NULL, data);
 
+	if (gog_axis_get_color_scale (axis)) {
+		g_object_unref (style);
+		return;
+	}
 	gog_axis_get_bounds (axis, &minimum, &maximum);
 
 	nticks = gog_axis_get_ticks (axis, &zticks);
@@ -278,7 +284,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (plot->base.series == NULL)
 		return;
 	series = GOG_SERIES (plot->base.series->data);
-	max = series->num_elements;
+	max = GOG_CONTOUR_PLOT (plot)->max_colors;
 	if (plot->transposed) {
 		imax = plot->columns;
 		jmax = plot->rows;
@@ -292,8 +298,6 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (plot->plotted_data)
 		data = plot->plotted_data;
 	else
-		data = gog_xyz_plot_build_matrix (plot, &cw);
-	if (data == NULL)
 		return;
 
 	x_map = gog_axis_map_new (plot->base.axis[0],
@@ -1039,6 +1043,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	g_free (color);
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);
+	if (!plot->plotted_data)
+		g_free (data);
 }
 
 static void

@@ -19,6 +19,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">12</property>
+    <property name="orientation">vertical</property>
     <property name="row_spacing">6</property>
     <property name="column_spacing">12</property>
     <child>
@@ -217,18 +218,6 @@
       </packing>
     </child>
     <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
       <object class="GtkComboBoxText" id="missing-as-btn">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -245,6 +234,18 @@
         <property name="width">1</property>
         <property name="height">1</property>
       </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
 </interface>

@@ -23,6 +23,7 @@
 #define GOG_XYZ_SURFACE_H
 
 #include "gog-contour.h"
+#include "gog-matrix.h"
 #include "gog-surface.h"
 
 G_BEGIN_DECLS
@@ -52,6 +53,29 @@ void  gog_xyz_contour_plot_register_type   (GTypeModule *module);
 
 /*-----------------------------------------------------------------------------
  *
+ * GogXYZMatrixPlot
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+
+typedef struct {
+	GogMatrixPlot base;
+	GogDatasetElement grid[2];       /* for preset cols and rows */
+	unsigned missing_as;
+} GogXYZMatrixPlot;
+typedef GogMatrixPlotClass GogXYZMatrixPlotClass;
+
+#define GOG_TYPE_XYZ_MATRIX_PLOT	(gog_xyz_matrix_plot_get_type ())
+#define GOG_XYZ_MATRIX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XYZ_MATRIX_PLOT, GogXYZMatrixPlot))
+#define GOG_IS_XYZ_MATRIX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XYZ_MATRIX_PLOT))
+
+GType gog_xyz_matrix_plot_get_type (void);
+
+void  gog_xyz_matrix_plot_register_type   (GTypeModule *module);
+
+/*-----------------------------------------------------------------------------
+ *
  * GogXYZSurfacePlot
  *
  *-----------------------------------------------------------------------------
@@ -71,6 +95,70 @@ typedef GogSurfacePlotClass GogXYZSurfacePlotClass;
 GType gog_xyz_surface_plot_get_type (void);
 
 void  gog_xyz_surface_plot_register_type   (GTypeModule *module);
+
+/*-----------------------------------------------------------------------------
+ *
+ * GogXYContourPlot
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+
+typedef struct {
+	GogContourPlot base;
+	GogDatasetElement grid[2];       /* for preset cols and rows */
+	gboolean as_density;
+} GogXYContourPlot;
+typedef GogContourPlotClass GogXYContourPlotClass;
+
+#define GOG_TYPE_XY_CONTOUR_PLOT	(gog_xy_contour_plot_get_type ())
+#define GOG_XY_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_CONTOUR_PLOT, GogXYContourPlot))
+#define GOG_IS_XY_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_CONTOUR_PLOT))
+
+GType gog_xy_contour_plot_get_type (void);
+void  gog_xy_contour_plot_register_type   (GTypeModule *module);
+
+/*-----------------------------------------------------------------------------
+ *
+ * GogXYMatrixPlot
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+typedef struct {
+	GogMatrixPlot base;
+	GogDatasetElement grid[2];       /* for preset cols and rows */
+	gboolean as_density;
+} GogXYMatrixPlot;
+typedef GogMatrixPlotClass GogXYMatrixPlotClass;
+
+#define GOG_TYPE_XY_MATRIX_PLOT	(gog_xy_matrix_plot_get_type ())
+#define GOG_XY_MATRIX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_MATRIX_PLOT, GogXYMatrixPlot))
+#define GOG_IS_XY_MATRIX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_MATRIX_PLOT))
+
+GType gog_xy_matrix_plot_get_type (void);
+void  gog_xy_matrix_plot_register_type   (GTypeModule *module);
+
+/*-----------------------------------------------------------------------------
+ *
+ * GogXYSurfacePlot
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+typedef struct {
+	GogSurfacePlot base;
+	GogDatasetElement grid[2];       /* for preset cols and rows */
+	gboolean as_density;
+} GogXYSurfacePlot;
+typedef GogSurfacePlotClass GogXYSurfacePlotClass;
+
+#define GOG_TYPE_XY_SURFACE_PLOT	(gog_xy_surface_plot_get_type ())
+#define GOG_XY_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_SURFACE_PLOT, GogXYSurfacePlot))
+#define GOG_IS_XY_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_SURFACE_PLOT))
+
+GType gog_xy_surface_plot_get_type (void);
+void  gog_xy_surface_plot_register_type   (GTypeModule *module);
 
 G_END_DECLS
 

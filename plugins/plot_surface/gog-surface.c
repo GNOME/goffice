@@ -37,7 +37,7 @@
 static GType gog_surface_view_get_type (void);
 
 static double *
-gog_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_changed)
+gog_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 {
 	unsigned i, j;
 	double val;
@@ -126,21 +126,19 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogChartMap3D *chart_map;
 	GogChart *chart = GOG_CHART (view->model->parent);
 	GogViewAllocation const *area;
-	int i, imax, j, jmax, max, nbvalid;
+	int i, imax, j, jmax, nbvalid;
 	double x, y, z, x0, y0, x1, y1;
 	GogRenderer *rend = view->renderer;
 	GOStyle *style;
 	double *data;
 	GOData *x_vec = NULL, *y_vec = NULL;
 	gboolean xdiscrete, ydiscrete;
-	gboolean cw;
 	GSList *tiles = NULL, *cur;
 	GogSurfaceTile *tile;
 
 	if (plot->base.series == NULL)
 		return;
 	series = GOG_SERIES (plot->base.series->data);
-	max = series->num_elements;
 	if (plot->transposed) {
 		imax = plot->rows;
 		jmax = plot->columns;
@@ -155,8 +153,6 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (plot->plotted_data)
 		data = plot->plotted_data;
 	else
-		data = gog_xyz_plot_build_matrix (plot, &cw);
-	if (data == NULL)
 		return;
 
 	chart_map = gog_chart_map_3d_new (chart, area,
@@ -261,6 +257,8 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	gog_renderer_pop_style (rend);
 	gog_chart_map_3d_free (chart_map);
+	if (!plot->plotted_data)
+		g_free (data);
 }
 
 static void

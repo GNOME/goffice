@@ -1,3 +1,31 @@
+2013-06-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_get_color_scale): make public.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-chart.c: ensure that contour plot slices don't appear in
+	legend when a color scale is used.
+	* plugins/plot_surface/chart_contour_2_2.svg: new pixmaps.
+	* plugins/plot_surface/chart_matrix_1_1.svg: ditto.
+	* plugins/plot_surface/chart_matrix_1_2.svg: ditto.
+	* plugins/plot_surface/chart_matrix_1_3.svg: ditto.
+	* plugins/plot_surface/chart_surface_2_3.svg: ditto.
+	* plugins/plot_surface/Makefile.am: new files.
+	* plugins/plot_surface/gog-contour.c: make compatible with XY plots.
+	* plugins/plot_surface/gog-contour.h: ditto.
+	* plugins/plot_surface/gog-matrix.c: new matrix plots. [#657918][#680806]
+	* plugins/plot_surface/gog-matrix.h:
+	* plugins/plot_surface/gog-surface.c: make compatible with XY plots.
+	* plugins/plot_surface/gog-xyz-surface-prefs.c: ditto.
+	* plugins/plot_surface/gog-xyz-surface-prefs.ui: ditto.
+	* plugins/plot_surface/gog-xyz-surface.c: add new plot types.
+	* plugins/plot_surface/gog-xyz-surface.h: ditto.
+	* plugins/plot_surface/gog-xyz.c: ditto.
+	* plugins/plot_surface/gog-xyz.h: ditto.
+	* plugins/plot_surface/matrix.xpm: new pixmap
+	* plugins/plot_surface/plot-types.xml.in: add new plot types.
+	* plugins/plot_surface/plugin.xml.in: ditto.
+	* plugins/plot_surface/xl-surface.c: make compatible with XY plots.
+
 2013-06-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-label.c (gog_reg_eqn_populate_editor): allow regression

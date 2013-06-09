@@ -209,8 +209,7 @@ static GogObjectClass *xl_contour_parent_klass;
 typedef GogContourPlotClass XLContourPlotClass;
 
 static double *
-xl_contour_plot_build_matrix (GogXYZPlot const *plot,
-			gboolean *cardinality_changed)
+xl_contour_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 {
 	unsigned i, j, length;
 	GogAxisMap *map;
@@ -224,6 +223,7 @@ xl_contour_plot_build_matrix (GogXYZPlot const *plot,
 	double *data, minimum, maximum;
 	unsigned max;
 	GSList *ptr;
+	gboolean has_scale = gog_axis_get_color_scale (axis) != NULL;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum))
 		return NULL;
@@ -266,8 +266,8 @@ xl_contour_plot_build_matrix (GogXYZPlot const *plot,
 	g_return_val_if_fail (series != NULL, NULL);
 	max = (unsigned) ceil (1 / x[1]);
 	series = plot->base.series->data;
-	if (series->num_elements != max) {
-		series->num_elements = max;
+	if ((has_scale && series->num_elements != 1) || series->num_elements != max) {
+		series->num_elements = has_scale? 1: max;
 		*cardinality_changed = TRUE;
 	}
 	gog_axis_map_free (map);
@@ -333,8 +333,7 @@ static GogObjectClass *xl_surface_parent_klass;
 typedef GogSurfacePlotClass XLSurfacePlotClass;
 
 static double *
-xl_surface_plot_build_matrix (GogXYZPlot const *plot,
-			gboolean *cardinality_changed)
+xl_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 {
 	unsigned i, j, length;
 	double val;

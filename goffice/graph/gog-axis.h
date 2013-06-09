@@ -110,9 +110,9 @@ GogAxisPolarUnit	gog_axis_get_polar_unit		(GogAxis *axis);
 double 			gog_axis_get_polar_perimeter 	(GogAxis *axis);
 double 			gog_axis_get_circular_rotation 	(GogAxis *axis);
 GogAxisColorMap const *gog_axis_get_color_map	(GogAxis *axis);
+GogColorScale *gog_axis_get_color_scale (GogAxis *axis);
 
 /* private */
-GogColorScale *_gog_axis_get_color_scale (GogAxis *axis);
 void _gog_axis_set_color_scale (GogAxis *axis, GogColorScale *scale);
 
 G_END_DECLS

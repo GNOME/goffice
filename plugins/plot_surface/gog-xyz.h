@@ -60,14 +60,14 @@ typedef struct {
 
 	GogAxisType third_axis;
 
-	double * (*build_matrix) (GogXYZPlot const *plot, gboolean *cardinality_changed);
+	double * (*build_matrix) (GogXYZPlot *plot, gboolean *cardinality_changed);
 	GOData * (*get_x_vals) (GogXYZPlot *plot);
 	GOData * (*get_y_vals) (GogXYZPlot *plot);
 } GogXYZPlotClass;
 
 #define GOG_XYZ_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_XYZ_PLOT, GogXYZPlotClass))
 
-double *gog_xyz_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_changed);
+double *gog_xyz_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed);
 GOData *gog_xyz_plot_get_x_vals (GogXYZPlot *plot);
 GOData *gog_xyz_plot_get_y_vals (GogXYZPlot *plot);
 

@@ -558,7 +558,7 @@ axis_pre_remove (GogObject *parent, GogObject *child)
 {
 	GogChart *chart = GOG_CHART (parent);
 	GogAxis *axis = GOG_AXIS (child);
-	GogColorScale *scale = _gog_axis_get_color_scale (axis);
+	GogColorScale *scale = gog_axis_get_color_scale (axis);
 	if (scale)
 		gog_color_scale_set_axis (scale, NULL);
 	gog_axis_clear_contributors (GOG_AXIS (axis));
@@ -581,7 +581,7 @@ color_scale_can_add (GogObject const *parent)
 		axis = GOG_AXIS (ptr->data);
 		type = gog_axis_get_atype (axis);
 		if ((type == GOG_AXIS_COLOR || type == GOG_AXIS_PSEUDO_3D)
-		    && _gog_axis_get_color_scale (axis) == NULL)
+		    && gog_axis_get_color_scale (axis) == NULL)
 			return TRUE;
 	}
 	return FALSE;
@@ -595,23 +595,31 @@ color_scale_post_add (GogObject *parent, GogObject *child)
 	GSList *ptr;
 	GogAxis *axis;
 	GogAxisType type;
+	GSList const *l;
 
 	for (ptr = chart->axes; ptr && ptr->data; ptr = ptr->next) {
 		axis = GOG_AXIS (ptr->data);
 		type = gog_axis_get_atype (axis);
 		if ((type == GOG_AXIS_COLOR || type == GOG_AXIS_PSEUDO_3D)
-		    && _gog_axis_get_color_scale (axis) == NULL) {
+		    && gog_axis_get_color_scale (axis) == NULL) {
 				gog_color_scale_set_axis (GOG_COLOR_SCALE (child), axis);
+				for (l = gog_axis_contributors (axis); l; l = l->next)
+					gog_object_request_update (GOG_OBJECT (l->data));
 				break;
 			}
 	}
+	gog_chart_request_cardinality_update (chart);
 }
 
 static void
 color_scale_pre_remove (GogObject *parent, GogObject *scale)
 {
 	/* Unlink the color scale */
+	GSList const *l = gog_axis_contributors (gog_color_scale_get_axis (GOG_COLOR_SCALE (scale)));
 	gog_color_scale_set_axis (GOG_COLOR_SCALE (scale), NULL);
+	for (; l; l = l->next)
+		gog_object_request_update (GOG_OBJECT (l->data));
+	gog_chart_request_cardinality_update (GOG_CHART (parent));
 }
 
 

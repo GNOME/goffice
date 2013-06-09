@@ -2,6 +2,7 @@
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
 	<Family _name="Contour"	sample_image_file="res:go:plot_surface/contour.xpm" axis_set="pseudo-3d"/>
 	<Family _name="Surface"	sample_image_file="res:go:plot_surface/surface.xpm" axis_set="xyz"/>
+	<Family _name="Matrix"	sample_image_file="res:go:plot_surface/matrix.xpm" axis_set="xy-color"/>
 
 	<Type _name="Contour" row="1" col="1"
 		engine="GogContourPlot" family="Contour"
@@ -13,6 +14,11 @@
 		_description="Builds a contour from a set of points with three coordinates"
 		sample_image_file="res:go:plot_surface/chart_contour_2_1.png">
 	</Type>
+	<Type _name="XYContour" row="1" col="3"
+		engine="GogXYContourPlot" family="Contour"
+		_description="Builds a contour from the number of (X,Y) values around each vertex"
+		sample_image_file="res:go:plot_surface/chart_contour_2_2.png">
+	</Type>
 	<Type _name="Surface" row="1" col="1"
 		engine="GogSurfacePlot" family="Surface"
 		_description="Surface plot."
@@ -22,5 +28,25 @@
 		engine="GogXYZSurfacePlot" family="Surface"
 		_description="Builds a surface from a set of points with three coordinates"
 		sample_image_file="res:go:plot_surface/chart_surface_2_2.png">
+	</Type>
+	<Type _name="XYSurface" row="1" col="3"
+		engine="GogXYSurfacePlot" family="Surface"
+		_description="Builds a surface from the number of (X,Y) values around each vertex"
+		sample_image_file="res:go:plot_surface/chart_surface_2_3.png">
+	</Type>
+	<Type _name="Matrix" row="1" col="1"
+		engine="GogMatrixPlot" family="Matrix"
+		_description="Matrix plot. Displays as colors the values given as a matrix."
+		sample_image_file="res:go:plot_surface/chart_matrix_1_1.png">
+	</Type>
+	<Type _name="XYZMatrix" row="1" col="2"
+		engine="GogXYZMatrixPlot" family="Matrix"
+		_description="Displays as colors the mean Z values of the (X,Y,Z) data in each cell."
+		sample_image_file="res:go:plot_surface/chart_matrix_1_2.png">
+	</Type>
+	<Type _name="XYMatrix" row="1" col="3"
+		engine="GogXYMatrixPlot" family="Matrix"
+		_description="Displays as colors the number of (X,Y) values in each cell."
+		sample_image_file="res:go:plot_surface/chart_matrix_1_3.png">
 	</Type>
 </Types>

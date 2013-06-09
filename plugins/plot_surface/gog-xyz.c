@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "gog-xyz.h"
 #include "gog-contour.h"
+#include "gog-matrix.h"
 #include "gog-surface.h"
 #include "gog-xyz-surface.h"
 #include "xl-surface.h"
@@ -61,7 +62,7 @@ static GogObjectClass *plot_xyz_parent_klass;
  **/
 
 double *
-gog_xyz_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_changed)
+gog_xyz_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 {
 	GogXYZPlotClass *klass = GOG_XYZ_PLOT_GET_CLASS (plot);
 	return klass->build_matrix (plot, cardinality_changed);
@@ -115,6 +116,8 @@ gog_xyz_plot_get_x_vals (GogXYZPlot *plot)
 	if (plot->data_xyz) {
 		if (plot->x_vals == NULL) {
 			imax = plot->columns;
+			if (GOG_IS_MATRIX_PLOT (plot))
+				imax++;
 			inc = (plot->x.maxima - plot->x.minima) / (imax - 1);
 			vals = g_new (double, imax);
 			for (i = 0; i < imax; ++i)
@@ -137,6 +140,8 @@ gog_xyz_plot_get_y_vals (GogXYZPlot *plot)
 	if (plot->data_xyz) {
 		if (plot->y_vals == NULL) {
 			imax = plot->rows;
+			if (GOG_IS_MATRIX_PLOT (plot))
+				imax++;
 			inc = (plot->y.maxima - plot->y.minima) / (imax - 1);
 			vals = g_new (double, imax);
 			for (i = 0; i < imax; ++i)
@@ -438,7 +443,7 @@ static void
 gog_xyz_series_update (GogObject *obj)
 {
 	GogXYZSeries *series = GOG_XYZ_SERIES (obj);
-	GODataMatrixSize size, old_size;
+	GODataMatrixSize size;
 	GOData *mat;
 	GOData *vec;
 	int length;
@@ -451,8 +456,6 @@ gog_xyz_series_update (GogObject *obj)
 								     &x_vals, &y_vals, &z_vals);
 	} else {
 		if (series->base.values[2].data != NULL) {
-			old_size.rows = series->rows;
-			old_size.columns = series->columns;
 			mat = series->base.values[2].data;
 			go_data_get_values (mat);
 			go_data_get_matrix_size (mat, &size.rows, &size.columns);
@@ -461,6 +464,8 @@ gog_xyz_series_update (GogObject *obj)
 			vec = series->base.values[0].data;
 			go_data_get_values (vec);
 			length = go_data_get_vector_size (vec);
+			if (GOG_IS_MATRIX_PLOT (series->base.plot) && length > 0)
+				length--;
 			if (length < size.columns)
 				size.columns = length;
 		}
@@ -468,6 +473,8 @@ gog_xyz_series_update (GogObject *obj)
 			vec = series->base.values[1].data;
 			go_data_get_values (vec);
 			length = go_data_get_vector_size (vec);
+			if (GOG_IS_MATRIX_PLOT (series->base.plot) && length > 0)
+				length--;
 			if (length < size.rows)
 				size.rows = length;
 		}
@@ -477,7 +484,6 @@ gog_xyz_series_update (GogObject *obj)
 
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
-/*	gog_plot_request_cardinality_update (series->base.plot);*/
 
 	if (series_parent_klass->base.update)
 		series_parent_klass->base.update (obj);
@@ -487,6 +493,8 @@ static void
 gog_xyz_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	series_parent_klass->init_style (gso, style);
+	if (GOG_IS_MATRIX_PLOT (GOG_SERIES (gso)->plot) && style->line.auto_dash)
+		style->line.dash_type = GO_LINE_NONE;
 }
 
 static void
@@ -513,11 +521,17 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_xyz_plot_register_type (module);
 	gog_contour_plot_register_type (module);
 	gog_contour_view_register_type (module);
+	gog_matrix_plot_register_type (module);
+	gog_matrix_view_register_type (module);
 	gog_surface_plot_register_type (module);
 	gog_surface_view_register_type (module);
 	gog_xyz_contour_plot_register_type (module);
+	gog_xyz_matrix_plot_register_type (module);
 	gog_xyz_surface_plot_register_type (module);
 	gog_xyz_series_register_type (module);
+	gog_xy_contour_plot_register_type (module);
+	gog_xy_matrix_plot_register_type (module);
+	gog_xy_surface_plot_register_type (module);
 	xl_xyz_series_register_type (module);
 	xl_contour_plot_register_type (module);
 	xl_surface_plot_register_type (module);

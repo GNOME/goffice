@@ -3556,7 +3556,7 @@ gog_axis_get_color_map (GogAxis *axis)
 }
 
 GogColorScale *
-_gog_axis_get_color_scale (GogAxis *axis)
+gog_axis_get_color_scale (GogAxis *axis)
 {
 	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
 

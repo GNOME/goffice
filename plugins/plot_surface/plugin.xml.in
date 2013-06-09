@@ -14,6 +14,9 @@
 		<service type="resource"
 			 id="go:plot_surface/contour.xpm"
 			 file="contour.xpm"/>
+		<service type="resource"
+			 id="go:plot_surface/matrix.xpm"
+			 file="matrix.xpm"/>
 
 		<service type="plot_engine" id="GogContourPlot">
 			<information>
@@ -30,6 +33,11 @@
 				<_description>XYZ contour plotting engine</_description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogXYContourPlot">
+			<information>
+				<_description>XY contour plotting engine</_description>
+			</information>
+		</service>
 		<service type="plot_engine" id="GogSurfacePlot">
 			<information>
 				<_description>Surface plotting engine</_description>
@@ -43,6 +51,26 @@
 		<service type="plot_engine" id="GogXYZSurfacePlot">
 			<information>
 				<_description>XYZ surface plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_engine" id="GogXYSurfacePlot">
+			<information>
+				<_description>XY surface plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_engine" id="GogMatrixPlot">
+			<information>
+				<_description>Matrix plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_engine" id="GogXYMatrixPlot">
+			<information>
+				<_description>XY matrix plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_engine" id="GogXYZMatrixPlot">
+			<information>
+				<_description>XYZ matrix plotting engine</_description>
 			</information>
 		</service>
 		<service type="plot_type" id="surface">

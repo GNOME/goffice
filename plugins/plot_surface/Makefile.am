@@ -10,6 +10,8 @@ surface_la_SOURCES = \
 	gog-xyz.h		\
 	gog-contour.c		\
 	gog-contour.h		\
+	gog-matrix.c		\
+	gog-matrix.h		\
 	gog-surface.c		\
 	gog-surface.h		\
 	gog-xyz-surface.c	\
@@ -28,7 +30,7 @@ surface_la_SOURCES += \
 	gog-xyz-surface-prefs.c
 endif
 
-plugin_resources = contour.xpm surface.xpm
+plugin_resources = contour.xpm matrix.xpm surface.xpm
 pofiles = $(wildcard $(top_srcdir)/po/*.po)
 
 plugin.xml: plugin.xml.in $(plugin_resources) $(pofiles) $(top_srcdir)/tools/resource-embedder
@@ -45,8 +47,13 @@ plot-types.xml : plot-types.xml.in
 embedded_stuff_raw = \
 	chart_contour_1_1.png	\
 	chart_contour_2_1.png	\
+	chart_contour_2_2.png	\
+	chart_matrix_1_1.png	\
+	chart_matrix_1_2.png	\
+	chart_matrix_1_3.png	\
 	chart_surface_2_1.png	\
-	chart_surface_2_2.png
+	chart_surface_2_2.png	\
+	chart_surface_2_3.png
 
 embedded_stuff_compress = \
 	gog-xyz-prefs.ui	\
