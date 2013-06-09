@@ -168,6 +168,7 @@ plugins/plot_radar/gog-radar.c
 plugins/plot_radar/plot-types.xml.in
 plugins/plot_radar/plugin.xml.in
 plugins/plot_surface/gog-contour.c
+plugins/plot_surface/gog-matrix.c
 plugins/plot_surface/gog-surface.c
 plugins/plot_surface/gog-xyz.c
 plugins/plot_surface/gog-xyz-prefs.c

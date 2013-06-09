@@ -2696,6 +2696,7 @@ gog_axis_get_atype
 gog_axis_get_bounds
 gog_axis_get_circular_rotation
 gog_axis_get_color_map
+gog_axis_get_color_scale
 gog_axis_get_date_conv
 gog_axis_get_effective_format
 gog_axis_get_effective_span
