@@ -79,10 +79,10 @@ cb_rows_toggled (GtkToggleButton *btn, XYZSurfPrefsState *state)
 }
 
 static void
-cb_missing_as_changed (GtkComboBoxText *box, XYZSurfPrefsState *state)
+cb_missing_as_changed (GtkComboBox *box, XYZSurfPrefsState *state)
 {
 	g_object_set (state->plot,
-	              "missing-as", gtk_combo_box_text_get_active_text (box),
+	              "missing-as", missing_as_string (gtk_combo_box_get_active (box)),
 	              NULL);
 
 }
@@ -101,7 +101,6 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 	GogDataset *set = GOG_DATASET (plot);
 	XYZSurfPrefsState *state;
 	GtkWidget  *w, *grid;
-	int prop;
 	GtkBuilder *gui =
 		go_gtk_builder_load ("res:go:plot_surface/gog-xyz-surface-prefs.ui",
 				    GETTEXT_PACKAGE, cc);
@@ -157,17 +156,19 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 
 	w = go_gtk_builder_get_widget (gui, "missing-as-btn");
 	if (GOG_PLOT (plot)->desc.series.num_dim == 2) {
+		gboolean as_density;
 		gtk_widget_hide (w);
 		gtk_widget_hide (go_gtk_builder_get_widget (gui, "missing-lbl"));
 		w = gtk_check_button_new_with_label (_("Display population density"));
 		gtk_container_add (GTK_CONTAINER (grid), w);
 		gtk_widget_show (w);
-		g_object_get (plot, "as-density", &prop, NULL);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), prop);
+		g_object_get (plot, "as-density", &as_density, NULL);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), as_density);
 		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_as_density_toggled), state);
 	} else {
-		g_object_get (plot, "missing-as", &prop, NULL);
-		gtk_combo_box_set_active (GTK_COMBO_BOX (w), prop);
+		char const *missing;
+		g_object_get (plot, "missing-as", &missing, NULL);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (w), missing_as_value (missing));
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_missing_as_changed), state);
 	}
 

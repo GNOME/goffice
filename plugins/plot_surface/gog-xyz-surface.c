@@ -42,7 +42,7 @@ static struct {unsigned n; char const *name;} missing_as_strings[] =
 	{XYZ_SURFACE_MISSING_AS_ZERO, "0"}
 };
 
-static char const *
+char const *
 missing_as_string (unsigned n)
 {
 	unsigned i;
@@ -52,7 +52,7 @@ missing_as_string (unsigned n)
 	return "invalid";	/* default property value */
 }
 
-static unsigned
+unsigned
 missing_as_value (char const *name)
 {
 	unsigned i;
@@ -108,13 +108,13 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 	
 	if (GOG_IS_XYZ_MATRIX_PLOT (plot)) {
 		GogXYZMatrixPlot *xyz = GOG_XYZ_MATRIX_PLOT (plot);
-		if (xyz->grid[0].data) {
+		if (!plot->auto_x && xyz->grid[0].data) {
 			if (xyz->base.x_vals)
 				g_object_unref (xyz->base.x_vals);
 			xyz->base.x_vals = g_object_ref (xyz->grid[0].data);
 			xyz->base.columns = go_data_get_vector_size (plot->x_vals) - 1;
 		}
-		if (xyz->grid[1].data) {
+		if (!plot->auto_y && xyz->grid[1].data) {
 			if (xyz->base.y_vals)
 				g_object_unref (xyz->base.y_vals);
 			xyz->base.y_vals = g_object_ref (xyz->grid[1].data);
@@ -122,13 +122,13 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 		}
 	} else {
 		GogXYMatrixPlot *xyz = GOG_XY_MATRIX_PLOT (plot);
-		if (xyz->grid[0].data) {
+		if (!plot->auto_x && xyz->grid[0].data) {
 			if (xyz->base.x_vals)
 				g_object_unref (xyz->base.x_vals);
 			xyz->base.x_vals = g_object_ref (xyz->grid[0].data);
 			xyz->base.columns = go_data_get_vector_size (plot->x_vals) - 1;
 		}
-		if (xyz->grid[1].data) {
+		if (!plot->auto_y && xyz->grid[1].data) {
 			if (xyz->base.y_vals)
 				g_object_unref (xyz->base.y_vals);
 			xyz->base.y_vals = g_object_ref (xyz->grid[1].data);
@@ -232,13 +232,13 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 	if (GOG_IS_CONTOUR_PLOT (plot)) {
 		if (is_3d) {
 			GogXYZContourPlot *xyz = GOG_XYZ_CONTOUR_PLOT (plot);
-			if (xyz->grid[0].data) {
+			if (!plot->auto_x && xyz->grid[0].data) {
 				if (plot->x_vals)
 					g_object_unref (plot->x_vals);
 				plot->x_vals = g_object_ref (xyz->grid[0].data);
 				plot->columns = go_data_get_vector_size (plot->x_vals);
 			}
-			if (xyz->grid[1].data) {
+			if (!plot->auto_y && xyz->grid[1].data) {
 				if (plot->y_vals)
 					g_object_unref (plot->y_vals);
 				plot->y_vals = g_object_ref (xyz->grid[1].data);
@@ -246,13 +246,13 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 			}
 		} else {
 			GogXYContourPlot *xyz = GOG_XY_CONTOUR_PLOT (plot);
-			if (xyz->grid[0].data) {
+			if (!plot->auto_x && xyz->grid[0].data) {
 				if (plot->x_vals)
 					g_object_unref (plot->x_vals);
 				plot->x_vals = g_object_ref (xyz->grid[0].data);
 				plot->columns = go_data_get_vector_size (plot->x_vals);
 			}
-			if (xyz->grid[1].data) {
+			if (!plot->auto_y && xyz->grid[1].data) {
 				if (plot->y_vals)
 					g_object_unref (plot->y_vals);
 				plot->y_vals = g_object_ref (xyz->grid[1].data);
@@ -262,13 +262,13 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 	} else {
 		if (is_3d) {
 			GogXYZSurfacePlot *xyz = GOG_XYZ_SURFACE_PLOT (plot);
-			if (xyz->grid[0].data) {
+			if (!plot->auto_x && xyz->grid[0].data) {
 				if (xyz->base.x_vals)
 					g_object_unref (xyz->base.x_vals);
 				xyz->base.x_vals = g_object_ref (xyz->grid[0].data);
 				xyz->base.columns = go_data_get_vector_size (plot->x_vals);
 			}
-			if (xyz->grid[1].data) {
+			if (!plot->auto_y && xyz->grid[1].data) {
 				if (xyz->base.y_vals)
 					g_object_unref (xyz->base.y_vals);
 				xyz->base.y_vals = g_object_ref (xyz->grid[1].data);
@@ -276,13 +276,13 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 			}
 		} else {
 			GogXYSurfacePlot *xyz = GOG_XY_SURFACE_PLOT (plot);
-			if (xyz->grid[0].data) {
+			if (!plot->auto_x && xyz->grid[0].data) {
 				if (xyz->base.x_vals)
 					g_object_unref (xyz->base.x_vals);
 				xyz->base.x_vals = g_object_ref (xyz->grid[0].data);
 				xyz->base.columns = go_data_get_vector_size (plot->x_vals);
 			}
-			if (xyz->grid[1].data) {
+			if (!plot->auto_y && xyz->grid[1].data) {
 				if (xyz->base.y_vals)
 					g_object_unref (xyz->base.y_vals);
 				xyz->base.y_vals = g_object_ref (xyz->grid[1].data);
@@ -639,6 +639,7 @@ gog_xyz_surface_plot_set_property (GObject *obj, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
+	gog_object_request_update (GOG_OBJECT (obj));
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 

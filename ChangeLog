@@ -1,3 +1,14 @@
+2013-06-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-xyz-surface-prefs.c
+	(cb_missing_as_changed), (gog_xyz_surface_plot_pref): fixed "missing as"
+	combo box. 
+	* plugins/plot_surface/gog-xyz-surface.c
+	(gog_xyz_matrix_plot_build_matrix),
+	(gog_xyz_surface_plot_build_matrix),
+	(gog_xyz_surface_plot_set_property): force update when bins change.
+	* plugins/plot_surface/gog-xyz-surface.h: make two halper functions public.
+
 2013-06-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (gog_axis_get_color_scale): make public.

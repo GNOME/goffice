@@ -34,6 +34,8 @@ G_BEGIN_DECLS
  *
  *-----------------------------------------------------------------------------
  */
+char const *missing_as_string (unsigned n);
+unsigned missing_as_value (char const *name);
 
 
 typedef struct {
