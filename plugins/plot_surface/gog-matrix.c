@@ -141,7 +141,7 @@ gog_matrix_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (plot->plotted_data)
 		data = plot->plotted_data;
 	else
-		return;
+		data = GOG_XYZ_PLOT (plot)->plotted_data = gog_matrix_plot_build_matrix (GOG_XYZ_PLOT (plot), NULL);
 
 	x_map = gog_axis_map_new (plot->base.axis[0],
 				  view->residual.x , view->residual.w);

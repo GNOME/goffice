@@ -1,5 +1,10 @@
 2013-06-10  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_surface/gog-matrix.c (gog_matrix_view_render): ensure that
+	the plot is always rendered.
+
+2013-06-10  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/gog-xyz-surface-prefs.c
 	(cb_missing_as_changed), (gog_xyz_surface_plot_pref): fixed "missing as"
 	combo box. 
