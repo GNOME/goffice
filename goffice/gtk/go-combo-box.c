@@ -312,7 +312,7 @@ go_combo_box_class_init (GObjectClass *object_class)
 	g_object_class_install_property (object_class,
 		PROP_TITLE,
 		g_param_spec_string ("title", _("Title"),
-			_("The combo box' title"),
+			_("The combo box's title"),
 			NULL,
 			G_PARAM_READWRITE | GSF_PARAM_STATIC));
 
