@@ -69,7 +69,9 @@ gog_dataset_get_type (void)
 void
 gog_dataset_dims (GogDataset const *set, int *first, int *last)
 {
-	GogDatasetClass *klass = GOG_DATASET_GET_CLASS (set);
+	GogDatasetClass *klass;
+	g_return_if_fail (set);
+	klass = GOG_DATASET_GET_CLASS (set);
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (first != NULL);
 	g_return_if_fail (last != NULL);
@@ -87,7 +89,9 @@ gog_dataset_dims (GogDataset const *set, int *first, int *last)
 GOData *
 gog_dataset_get_dim (GogDataset const *set, int dim_i)
 {
-	GogDatasetElement *elem = gog_dataset_get_elem (set, dim_i);
+	GogDatasetElement *elem;
+	g_return_val_if_fail (set, NULL);
+	elem = gog_dataset_get_elem (set, dim_i);
 	if (NULL == elem)
 		return NULL;
 	return elem->data;
@@ -108,7 +112,7 @@ gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 	GogDatasetClass *klass;
 	int first, last;
 
-	g_return_if_fail (val == NULL || GO_IS_DATA (val));
+	g_return_if_fail (set != NULL || val == NULL || GO_IS_DATA (val));
 
 	if (set == NULL || !GOG_IS_DATASET (set)) {
 		g_warning ("gog_dataset_set_dim called with invalid GogDataset");

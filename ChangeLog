@@ -1,3 +1,9 @@
+2013-06-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-data-set.c (gog_dataset_dims),
+	(gog_dataset_get_dim), (gog_dataset_set_dim): protect against a NULL set.
+	(see #702126).
+
 2013-06-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-matrix.c (gog_matrix_view_render): ensure that
