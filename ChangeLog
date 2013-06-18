@@ -1,3 +1,7 @@
+2013-06-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.ui: set a minimal size. [#699473]
+
 2013-06-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-data-set.c (gog_dataset_dims),

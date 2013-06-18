@@ -2,6 +2,8 @@
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkDialog" id="GraphGuru">
+    <property name="width_request">560</property>
+    <property name="height_request">625</property>
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
     <property name="title">GNOME Office Graph</property>
@@ -22,6 +24,7 @@
             <child>
               <object class="GtkButton" id="help_button">
                 <property name="label">gtk-help</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -38,6 +41,7 @@
             <child>
               <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -54,6 +58,7 @@
             <child>
               <object class="GtkButton" id="button_navigate">
                 <property name="label">gtk-go-forward</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -70,6 +75,7 @@
             <child>
               <object class="GtkButton" id="button_ok">
                 <property name="label">gtk-ok</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -143,6 +149,7 @@
                                 <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkButton" id="first_precedence">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -163,6 +170,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="inc_precedence">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -183,6 +191,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="dec_precedence">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -203,6 +212,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="last_precedence">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -223,6 +233,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="delete">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>

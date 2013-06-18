@@ -5,6 +5,7 @@ Jean:
 	* Allow color scales to have titles. [#688595]
 	* Allow regression equation frame to rotate with text. [#701546]
 	* New matrix plots. [#657918][#680806]
+	* Set a minimal size for the graph property box. [#699473]
 
 Morten:
 	* Fix issue with librsvg includes.  [#695167]
