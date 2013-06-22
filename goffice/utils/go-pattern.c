@@ -189,6 +189,7 @@ go_pattern_set_solid (GOPattern *pat, GOColor fore)
 guint8 const *
 go_pattern_get_pattern (GOPattern const *pat)
 {
+	g_return_val_if_fail (pat != NULL && pat->pattern < GO_PATTERN_MAX, NULL);
 	return go_patterns [pat->pattern].pattern;
 }
 
@@ -271,6 +272,7 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 	cairo_pattern_t *cr_pattern;
 	GOColor color;
 
+	g_return_val_if_fail (pat != NULL && pat->pattern < GO_PATTERN_MAX, NULL);
 	if (go_pattern_is_solid (pattern, &color)) {
 		cr_pattern = cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color));
 

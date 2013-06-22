@@ -1,3 +1,10 @@
+2013-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-pattern.c (go_pattern_get_pattern),
+	(go_pattern_create_cairo_pattern): don't use an invalid pattern.
+	[see #702833]
+	* goffice/utils/go-style.c (go_style_set_cairo_line): ditto.
+
 2013-06-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru.ui: set a minimal size. [#699473]

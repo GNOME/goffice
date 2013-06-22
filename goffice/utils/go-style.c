@@ -2149,6 +2149,7 @@ go_style_set_cairo_line (GOStyle const *style, cairo_t *cr)
 		pat.back = style->line.color;
 		pat.pattern = style->line.pattern;
 		cp = go_pattern_create_cairo_pattern (&pat, cr);
+		g_return_val_if_fail (cp != NULL, FALSE);
 		cairo_user_to_device_distance (cr, &scalex, &scaley);
 		cairo_matrix_init_scale (&mat, scalex, scaley);
 		cairo_pattern_set_matrix (cp, &mat);
