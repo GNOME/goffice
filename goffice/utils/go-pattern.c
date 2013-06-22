@@ -272,7 +272,7 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 	cairo_pattern_t *cr_pattern;
 	GOColor color;
 
-	g_return_val_if_fail (pat != NULL && pat->pattern < GO_PATTERN_MAX, NULL);
+	g_return_val_if_fail (pattern != NULL && pattern->pattern < GO_PATTERN_MAX, NULL);
 	if (go_pattern_is_solid (pattern, &color)) {
 		cr_pattern = cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color));
 

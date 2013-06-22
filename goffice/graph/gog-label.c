@@ -647,6 +647,47 @@ typedef GogOutlinedViewClass	GogTextViewClass;
 static GogViewClass *text_view_parent_klass;
 
 static void
+gog_text_view_natural_size (GogView *view, GogViewRequisition *req)
+{
+	GogText *text = GOG_TEXT (view->model);
+	char *str = gog_text_get_str (text);
+	PangoAttrList *pl = gog_text_get_markup (text);
+	GOGeometryAABR aabr;
+
+	req->w = req->h = 0.;
+	if (str != NULL) {
+		GOString *gostr = pl
+			? go_string_new_rich (str, -1,
+					      gog_text_get_markup (text),
+					      NULL)
+			: NULL;
+		GOStyle *style = go_style_dup (text->base.base.style);
+		double rot = fabs (style->text_layout.angle / 180 * M_PI);
+		if (rot > M_PI / 2.)
+			rot = M_PI - rot;
+	    if (text->rotate_frame)
+			style->text_layout.angle = 0.;
+		gog_renderer_push_style (view->renderer, style);
+		/* for natural size, we never force wrapping so use -1 as max width */
+		if (gostr) {
+			gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr, -1);
+			go_string_unref (gostr);
+		} else
+			gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr, -1);
+		gog_renderer_pop_style (view->renderer);
+		g_object_unref (style);
+		if (text->rotate_frame) {
+			req->w = aabr.w * cos (rot) + aabr.h * sin (rot);
+			req->h = aabr.w * sin (rot) + aabr.h * cos (rot);
+		} else {
+			req->w = aabr.w;
+			req->h = aabr.h;
+		}
+		g_free (str);
+	}
+}
+
+static void
 gog_text_view_size_request (GogView *v,
 			    GogViewRequisition const *available,
 			    GogViewRequisition *req)
@@ -771,6 +812,7 @@ gog_text_view_class_init (GogTextViewClass *gview_klass)
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
 
 	text_view_parent_klass = g_type_class_peek_parent (gview_klass);
+	view_klass->natural_size    = gog_text_view_natural_size;
 	view_klass->size_request    = gog_text_view_size_request;
 	view_klass->render	    = gog_text_view_render;
 }

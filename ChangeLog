@@ -1,5 +1,11 @@
 2013-06-22  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-label.c (gog_text_view_natural_size),
+	(gog_text_view_class_init): implement natural_size().
+	* goffice/utils/go-pattern.c (go_pattern_create_cairo_pattern): fix build.
+
+2013-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/utils/go-pattern.c (go_pattern_get_pattern),
 	(go_pattern_create_cairo_pattern): don't use an invalid pattern.
 	[see #702833]
