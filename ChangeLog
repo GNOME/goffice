@@ -1,3 +1,11 @@
+2013-06-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-graph.c (gog_graph_finalize): destroy all sources.
+	[#702887]
+	* goffice/graph/gog-theme.c (gog_theme_get_color_map),
+	(gog_theme_set_name), (gog_theme_set_description), (gog_theme_dup),
+	(gog_theme_edit): check the argument type.
+
 2013-06-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-label.c (gog_text_view_natural_size),

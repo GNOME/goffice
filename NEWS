@@ -6,6 +6,7 @@ Jean:
 	* Allow regression equation frame to rotate with text. [#701546]
 	* New matrix plots. [#657918][#680806]
 	* Set a minimal size for the graph property box. [#699473]
+	* Fix crash when loading an invalid graph with a custom theme. [#702887]
 
 Morten:
 	* Fix issue with librsvg includes.  [#695167]

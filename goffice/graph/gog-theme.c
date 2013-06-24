@@ -1705,6 +1705,7 @@ _gog_themes_shutdown (void)
 GogAxisColorMap const *
 gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
 {
+	g_return_val_if_fail (GOG_IS_THEME (theme), NULL);
 	if (discrete)
 		return theme->dcm;
 	else
@@ -1754,6 +1755,7 @@ gog_theme_foreach (GFunc handler, gpointer user_data)
 static void
 gog_theme_set_name (GogTheme *theme, char const *name)
 {
+	g_return_if_fail (GOG_IS_THEME (theme));
 	g_free (theme->name);
 	g_hash_table_remove_all (theme->names);
 	theme->name = g_strdup (name);
@@ -1762,6 +1764,7 @@ gog_theme_set_name (GogTheme *theme, char const *name)
 static void
 gog_theme_set_description (GogTheme *theme, char const *desc)
 {
+	g_return_if_fail (GOG_IS_THEME (theme));
 	g_free (theme->description);
 	g_hash_table_remove_all (theme->descs);
 	theme->description = g_strdup (desc);
@@ -1778,11 +1781,13 @@ gog_theme_set_description (GogTheme *theme, char const *desc)
 GogTheme*
 gog_theme_dup (GogTheme *theme)
 {
-	GogTheme *new_theme = g_object_new (GOG_TYPE_THEME,
-	                                    "resource-type", GO_RESOURCE_RW,
-	                                    NULL);
+	GogTheme *new_theme;
 	char *desc, *name;
 
+	g_return_val_if_fail (GOG_IS_THEME (theme), NULL);
+	new_theme = g_object_new (GOG_TYPE_THEME,
+	                          "resource-type", GO_RESOURCE_RW,
+	                          NULL);
 	new_theme->id = go_uuid ();
 	gog_theme_build_uri (new_theme);
 	gog_theme_set_name (new_theme, "New theme");
@@ -1841,7 +1846,7 @@ gog_theme_edit (GogTheme *theme, GOCmdContext *cc)
 	struct theme_edit_state state;
 	GtkWidget *w;
 
-	if (theme == NULL) {
+	if (!GOG_IS_THEME (theme)) {
 		/* display a dialog box to select used roles and series number */
 		GtkBuilder *gui = go_gtk_builder_load_internal ("res:go:graph/new-theme-prefs.ui", GETTEXT_PACKAGE, cc);
 		int response;

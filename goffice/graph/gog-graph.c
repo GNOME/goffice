@@ -244,6 +244,9 @@ gog_graph_finalize (GObject *obj)
 
 	g_hash_table_unref (graph->data_refs);
 
+	/* remove timers and other idles, see #702887 */
+	while (g_source_remove_by_user_data (graph));
+
 	(graph_parent_klass->finalize) (obj);
 }
 
