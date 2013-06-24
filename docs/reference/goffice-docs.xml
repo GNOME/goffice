@@ -20,6 +20,7 @@
 			<xi:include href="xml/gog-grid.xml"/>
 			<xi:include href="xml/gog-axis.xml"/>
 			<xi:include href="xml/gog-axis-line.xml"/>
+			<xi:include href="xml/gog-color-scale.xml"/>
 			<xi:include href="xml/gog-grid-line.xml"/>
 			<xi:include href="xml/gog-error-bar.xml"/>
 			<xi:include href="xml/gog-label.xml"/>
