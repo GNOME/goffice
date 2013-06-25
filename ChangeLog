@@ -1,3 +1,7 @@
+2013-06-25  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.3
+
 2013-06-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-graph.c (gog_graph_finalize): destroy all sources.
