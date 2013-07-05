@@ -496,7 +496,7 @@ go_doc_init_read (GODoc *doc, GsfInput *input)
 }
 
 static void
-save_image_cb (gpointer key, gpointer img_, gpointer user)
+save_image_cb (G_GNUC_UNUSED gpointer key, gpointer img_, gpointer user)
 {
 	go_image_save ((GOImage *) img_, (GsfXMLOut *) user);
 }
@@ -549,9 +549,9 @@ load_image (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GODoc *doc = GO_DOC (xin->user_state);
 	GOImage *image = NULL;
-	xmlChar const **attr = 	attrs;
+	xmlChar const **attr;
 	GType type = 0;
-	if (!*attr)
+	if (!attrs || !*attrs)
 		return;
 	for (attr = attrs; *attr; attr += 2)
 		if (!strcmp (*attr, "name"))
@@ -566,7 +566,7 @@ load_image (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-load_image_data (GsfXMLIn *xin, GsfXMLBlob *unknown)
+load_image_data (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
 	GODoc *doc = GO_DOC (xin->user_state);
 	GOImage *image = GO_IMAGE (g_object_get_data (G_OBJECT (doc), "new image")), *real;

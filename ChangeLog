@@ -1,3 +1,7 @@
+2013-07-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/app/go-doc.c (load_image): check for NULL attrs
+
 2013-07-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-doc.c (go_doc_image_fetch): make it more secure.
