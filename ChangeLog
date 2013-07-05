@@ -1,3 +1,7 @@
+2013-07-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-doc.c (go_doc_image_fetch): make it more secure.
+
 2013-06-25  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

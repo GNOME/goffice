@@ -673,7 +673,14 @@ go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 	g_return_val_if_fail (doc && doc->priv->imagebuf, NULL);
 	image = g_hash_table_lookup (doc->priv->imagebuf, id);
 	if (!image) {
+		g_return_val_if_fail (type != 0, NULL);
 		image = g_object_new (type, NULL);
+		if (!GO_IS_IMAGE (image)) {
+			if (image)
+				g_object_unref (image);
+			g_critical ("Invalid image type");
+			return NULL;
+		}
 		go_image_set_name (image, id);
 		g_hash_table_replace (doc->priv->imagebuf,
 				      g_strdup (go_image_get_name (image)),
