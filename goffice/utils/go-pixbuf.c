@@ -105,9 +105,15 @@ go_pixbuf_load_attr (GOImage *image, xmlChar const *attr_name, xmlChar const *at
 static void
 go_pixbuf_load_data (GOImage *image, GsfXMLIn *xin)
 {
-	int length;
+	size_t length, expected;
 	length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	image->data = g_memdup (xin->content->str, length);
+	expected = image->height * go_pixbuf_get_rowstride (GO_PIXBUF (image));
+	if (expected != length)
+		g_critical ("Invalid image size, expected %lu bytes, got %lu", expected, length);
+	image->data = g_malloc (expected);
+	memcpy (image->data, xin->content->str, (length < expected)? length: expected);
+	if (length < expected) /* fill with 0 */
+		memset (image->data + length, 0, expected - length);
 }
 
 static void

@@ -3,6 +3,9 @@ goffice 0.10.4:
 Andreas
 	* Fix crash on corrupted GOImage. [#703670]
 
+Jean
+	* Fix loading of image with invalid size or data. [#703740]
+
 --------------------------------------------------------------------------
 goffice 0.10.3:
 

@@ -1,3 +1,8 @@
+2013-07-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-pixbuf.c (go_pixbuf_load_data): fix loading of image with
+	invalid size or data. [#703740]
+
 2013-07-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/app/go-doc.c (load_image): check for NULL attrs
