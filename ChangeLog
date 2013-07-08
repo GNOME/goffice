@@ -1,5 +1,10 @@
 2013-07-08  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-pixbuf.c (go_pixbuf_save),
+	(go_pixbuf_load_data), (go_pixbuf_draw): avoid writing to a NULL buffer.
+
+2013-07-08  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/utils/go-pixbuf.c (go_pixbuf_load_data): fix loading of image with
 	invalid size or data. [#703740]
 
