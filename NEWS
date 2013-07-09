@@ -6,6 +6,10 @@ Andreas
 Jean
 	* Fix loading of image with invalid size or data. [#703740]
 
+Morten:
+	* Fix linear regression failure.
+	* Add prescaling to linear regression.  [#703381]
+
 --------------------------------------------------------------------------
 goffice 0.10.3:
 

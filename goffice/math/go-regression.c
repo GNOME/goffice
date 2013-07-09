@@ -473,6 +473,24 @@ SUFFIX(go_matrix_determinant) (CONSTMATRIX A, int n)
 	return res;
 }
 
+static DOUBLE
+SUFFIX(calc_scale) (const DOUBLE *xs, int m)
+{
+	DOUBLE M;
+	int e;
+
+	if (SUFFIX(go_range_maxabs) (xs, m, &M) || M == 0)
+		return 1;
+
+	/*
+	 * Pick a scale such that the largest value will be in the
+	 * range [1;2[.  The scale will be a power of 2 so scaling
+	 * doesn't introduce rounding errors of it own.
+	 */
+	(void) SUFFIX(frexp) (M, &e);
+	return SUFFIX(ldexp) (1.0, e - 1);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Note, that this function takes a transposed matrix xssT.  */
@@ -493,6 +511,8 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 	gboolean has_stat;
 	int err;
 	QUAD N2;
+	DOUBLE *xscale;
+	gboolean debug_scale = FALSE;
 
 	ZERO_VECTOR (result, n);
 
@@ -507,10 +527,15 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 
 	state = SUFFIX(go_quad_start) ();
 
+	xscale = g_new (DOUBLE, n);
 	xss = SUFFIX(go_quad_matrix_new) (m, n);
-	for (i = 0; i < m; i++)
-		for (j = 0; j < n; j++)
-			SUFFIX(go_quad_init) (&xss->data[i][j], xssT[j][i]);
+	for (j = 0; j < n; j++) {
+		xscale[j] = SUFFIX(calc_scale) (xssT[j], m);
+		if (debug_scale)
+			g_printerr ("Scale %d: %" FORMAT_g "\n", j, xscale[j]);
+		for (i = 0; i < m; i++)
+			SUFFIX(go_quad_init) (&xss->data[i][j], xssT[j][i] / xscale[j]);
+	}
 	qr = SUFFIX(go_quad_qr_new) (xss);
 	SUFFIX(go_quad_matrix_free) (xss);
 
@@ -552,7 +577,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 			has_result = FALSE;
 
 		for (i = 0; i < n; i++)
-			result[i] = SUFFIX(go_quad_value) (&qresult[i]);
+			result[i] = SUFFIX(go_quad_value) (&qresult[i]) / xscale[i];
 
 		/* This should not fail since n >= 1.  */
 		err = SUFFIX(go_range_average) (ys, m, &stat_->ybar);
@@ -595,6 +620,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 		else {
 			QUAD d;
 			SUFFIX(go_quad_init) (&d, df_resid);
+			SUFFIX(go_quad_init) (&N2, stat_->ss_resid);
 			SUFFIX(go_quad_div) (&N2, &N2, &d);
 		}
 		stat_->var = SUFFIX(go_quad_value) (&N2);
@@ -616,7 +642,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 			SUFFIX(go_quad_dot_product) (&N, inv, inv, n);
 			SUFFIX(go_quad_mul) (&p, &N2, &N);
 			SUFFIX(go_quad_sqrt) (&p, &p);
-			stat_->se[k] = SUFFIX(go_quad_value) (&p);
+			stat_->se[k] = SUFFIX(go_quad_value) (&p) / xscale[k];
 		}
 
 		stat_->t = g_new (DOUBLE, n);
@@ -653,6 +679,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xssT, int n,
 	SUFFIX(go_quad_end) (state);
 
 	if (qr) SUFFIX(go_quad_qr_free) (qr);
+	g_free (xscale);
 out:
 	if (!has_stat)
 		SUFFIX(go_regression_stat_destroy) (stat_);
