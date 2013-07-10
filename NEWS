@@ -5,6 +5,7 @@ Andreas:
 
 Jean:
 	* Fix loading of image with invalid size or data. [#703740]
+	* Don't use invalid GOImage arguments. [#703949]
 
 Morten:
 	* Fix linear regression failure.

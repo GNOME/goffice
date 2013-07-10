@@ -536,7 +536,7 @@ go_image_draw (GOImage *image, cairo_t *cr)
 GdkPixbuf const *
 go_image_get_thumbnail (GOImage *image)
 {
-	g_return_val_if_fail (image != NULL, NULL);
+	g_return_val_if_fail (GO_IS_IMAGE (image), NULL);
 	if (image->thumbnail == NULL)
 		image->thumbnail = go_image_get_scaled_pixbuf (image, GO_THUMBNAIL_SIZE, GO_THUMBNAIL_SIZE);
 	return image->thumbnail;
@@ -553,6 +553,7 @@ go_image_get_thumbnail (GOImage *image)
 GdkPixbuf *
 go_image_get_pixbuf (GOImage *image)
 {
+	g_return_val_if_fail (GO_IS_IMAGE (image), NULL);
 	if (image->pixbuf == NULL)
 		image->pixbuf = ((GOImageClass *) G_OBJECT_GET_CLASS (image))->get_pixbuf (image);
 	return g_object_ref (image->pixbuf);
@@ -572,6 +573,7 @@ go_image_get_pixbuf (GOImage *image)
 GdkPixbuf *
 go_image_get_scaled_pixbuf (GOImage *image, int width, int height)
 {
+	g_return_val_if_fail (GO_IS_IMAGE (image), NULL);
 	if (image->width > width || image->height > height) {
 		if (image->width * height > image->height * width) {
 			height = width * image->height / image->width;
@@ -719,6 +721,7 @@ go_image_get_data (GOImage *image, gsize *length)
 void
 go_image_set_name (GOImage *image, char const *name)
 {
+	g_return_if_fail (GO_IS_IMAGE (image));
 	g_free (image->name);
 	image->name = (name)? g_strdup (name): NULL;
 }
@@ -789,12 +792,14 @@ _go_image_changed (GOImage *image, double width, double height)
 double
 go_image_get_width (GOImage const *image)
 {
+	g_return_val_if_fail (GO_IS_IMAGE (image), 0.);
 	return image->width;
 }
 
 double
 go_image_get_height (GOImage const *image)
 {
+	g_return_val_if_fail (GO_IS_IMAGE (image), 0.);
 	return image->height;
 }
 

@@ -1,3 +1,10 @@
+2013-07-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-image.c (go_image_get_thumbnail),
+	(go_image_get_pixbuf), (go_image_get_scaled_pixbuf),
+	(go_image_set_name), (go_image_get_width), (go_image_get_height): protect
+	against invalid image argument [#703949]
+
 2013-07-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (general_linear_regression):
