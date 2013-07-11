@@ -30,9 +30,10 @@ typedef struct _GOComponent GOComponent;
 typedef struct _GOComponentType GOComponentType;
 typedef struct _GOComponentMimeDialog GOComponentMimeDialog;
 
+G_END_DECLS
+
 #include <goffice/component/go-component.h>
 #include <goffice/component/go-component-factory.h>
 #include <goffice/component/go-component-mime-dialog.h>
-G_END_DECLS
 
 #endif	/* GOFFICE_COMPONENT_H */
