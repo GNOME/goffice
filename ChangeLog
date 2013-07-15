@@ -1,6 +1,11 @@
+2013-07-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (go_linear_regression_leverage):
+	Prescale.
+
 2013-07-11  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/component/goffice-component.h: move includes outside of 
+	* goffice/component/goffice-component.h: move includes outside of
 	G_BEGIN_DECLS/G_END_DECLS.
 
 2013-07-10  Morten Welinder <terra@gnome.org>

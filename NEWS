@@ -1,5 +1,8 @@
 goffice 0.10.5:
 
+Morten:
+	* Add prescaling to go_linear_regression_leverage.  [#703381]
+
 --------------------------------------------------------------------------
 goffice 0.10.4:
 

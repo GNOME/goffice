@@ -255,14 +255,17 @@ go_regression_statl_get_type (void)
 
 static SUFFIX(GOQuadMatrix)
 *
-SUFFIX(quad_matrix_from_matrix) (CONSTMATRIX A, int m, int n)
+SUFFIX(quad_matrix_from_matrix) (CONSTMATRIX A, int m, int n, DOUBLE *scale)
 {
 	int i, j;
 	SUFFIX(GOQuadMatrix) *qA = SUFFIX(go_quad_matrix_new) (m, n);
 
-	for (i = 0; i < m; i++)
-		for (j = 0; j < n; j++)
-			SUFFIX(go_quad_init) (&qA->data[i][j], A[i][j]);
+	for (i = 0; i < m; i++) {
+		for (j = 0; j < n; j++) {
+			DOUBLE x = scale ? A[i][j] / scale[j] : A[i][j];
+			SUFFIX(go_quad_init) (&qA->data[i][j], x);
+		}
+	}
 
 	return qA;
 }
@@ -367,7 +370,7 @@ SUFFIX(go_linear_solve_multiple) (CONSTMATRIX A, MATRIX B, int n, int bn)
 
 	state = SUFFIX(go_quad_start) ();
 
-	qA = SUFFIX(quad_matrix_from_matrix) (A, n, n);
+	qA = SUFFIX(quad_matrix_from_matrix) (A, n, n, NULL);
 	qr = SUFFIX(go_quad_qr_new) (qA);
 	if (!qr) {
 		regres = GO_REG_invalid_data;
@@ -438,7 +441,7 @@ SUFFIX(go_matrix_invert) (MATRIX A, int n)
 	gboolean ok;
 
 	state = SUFFIX(go_quad_start) ();
-	qA = SUFFIX(quad_matrix_from_matrix) (A, n, n);
+	qA = SUFFIX(quad_matrix_from_matrix) (A, n, n, NULL);
 	qZ = SUFFIX(go_quad_matrix_inverse) (qA, threshold);
 	ok = (qZ != NULL);
 	SUFFIX(go_quad_matrix_free) (qA);
@@ -463,7 +466,7 @@ SUFFIX(go_matrix_determinant) (CONSTMATRIX A, int n)
 
 	state = SUFFIX(go_quad_start) ();
 
-	qA = SUFFIX(quad_matrix_from_matrix) (A, n, n);
+	qA = SUFFIX(quad_matrix_from_matrix) (A, n, n, NULL);
 	SUFFIX(go_quad_matrix_determinant) (qA, &qres);
 	SUFFIX(go_quad_matrix_free) (qA);
 	res = SUFFIX(go_quad_value) (&qres);
@@ -1722,8 +1725,22 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
 	void *state = SUFFIX(go_quad_start) ();
 	GORegressionResult regres;
 	DOUBLE threshold = DEFAULT_THRESHOLD;
+	DOUBLE *xscale, *Aj;
+	int i, j;
 
-	qA = SUFFIX(quad_matrix_from_matrix) (A, m, n);
+	/*
+	 * Leverages are independing of column scaling.
+	 */
+	xscale = g_new (DOUBLE, n);
+	Aj = g_new (DOUBLE, m);
+	for (j = 0; j < n; j++) {
+		for (i = 0; i < m; i++)
+			Aj[i] = A[i][j];
+		xscale[j] = SUFFIX(calc_scale) (Aj, m);
+	}
+	g_free (Aj);
+
+	qA = SUFFIX(quad_matrix_from_matrix) (A, m, n, xscale);
 	qr = SUFFIX(go_quad_qr_new) (qA);
 	if (qr) {
 		int k;
@@ -1771,6 +1788,8 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
 	} else
 		regres = GO_REG_invalid_data;
 
+	g_free (xscale);
+
 	SUFFIX(go_quad_end) (state);
 
 	return regres;
@@ -1802,7 +1821,7 @@ SUFFIX(go_matrix_pseudo_inverse) (CONSTMATRIX A, int m, int n,
 	void *state;
 
 	state = SUFFIX(go_quad_start) ();
-	qA = SUFFIX(quad_matrix_from_matrix) (A, m, n);
+	qA = SUFFIX(quad_matrix_from_matrix) (A, m, n, NULL);
 	qZ = SUFFIX(go_quad_matrix_pseudo_inverse) (qA, threshold);
 	SUFFIX(go_quad_matrix_free) (qA);
 	if (qZ) {
