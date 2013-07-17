@@ -257,9 +257,11 @@ GOImage *
 go_emf_new_from_data (char const *data, size_t length, GError **error)
 {
 	GOEmf *emf = NULL;
-	GsfInput *input = gsf_input_memory_new (data, length, FALSE);
+	GsfInput *input;
 	GOImage *image;
 
+	g_return_val_if_fail (data != NULL && length > 0, NULL);
+	input = gsf_input_memory_new (data, length, FALSE);
 	if (input == NULL) {
 		if (error)
 			*error = g_error_new (go_error_invalid (), 0,
@@ -4549,7 +4551,11 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 
 #endif
 	fsize = gsf_input_size (input);
+	if (fsize < 4)
+		return FALSE;
 	data = gsf_input_read (input, 4, NULL);
+	if (!data)
+		return FALSE;
 	switch (GSF_LE_GET_GUINT32 (data)) {
 	case 0x9ac6cdd7:
 		d_ (("Aldus Placeable Metafile\n"));
