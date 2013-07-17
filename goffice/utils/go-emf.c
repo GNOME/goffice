@@ -4684,6 +4684,8 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 				break;
 			state.length = rsize;
 			state.data = gsf_input_read (input, rsize, NULL);
+			if (!state.data)
+				break;
 			if (!go_emf_handlers[rid] (&state))
 				break;
 			if (offset + 4 >= fsize)
