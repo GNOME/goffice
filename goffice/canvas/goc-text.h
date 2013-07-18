@@ -37,7 +37,6 @@ struct _GocText {
 	char *text;
 	GOAnchorType anchor;
 	PangoAttrList *attributes;
-	PangoLayout *layout;
 	gpointer priv;
 };
 

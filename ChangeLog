@@ -1,3 +1,16 @@
+2013-07-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/canvas/goc-ellipse.c (goc_ellipse_distance): fixed.
+	* goffice/canvas/goc-path.c (goc_path_distance): fixed distance evaluation.
+	[#704391]
+	* goffice/canvas/goc-text.c (goc_text_set_property),
+	(goc_text_prepare_draw), (goc_text_update_bounds),
+	(goc_text_distance), (goc_text_draw), (goc_text_style_changed),
+	(goc_text_class_init): fixed text position. [#704391]
+	* goffice/canvas/goc-text.h: ditto.
+
 2013-07-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-emf.c (go_emf_new_from_data), (go_emf_parse): protect

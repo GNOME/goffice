@@ -170,6 +170,8 @@ goc_path_distance (GocItem *item, double x, double y, GocItem **near_item)
 	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
 	cairo_surface_t *surface;
 	cairo_t *cr;
+	gboolean set_line,
+		scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
 
 	*near_item = item;
 	tmp_width = style->line.width;
@@ -180,15 +182,22 @@ goc_path_distance (GocItem *item, double x, double y, GocItem **near_item)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
+	cairo_save (cr);
 	if (goc_path_prepare_draw (item, cr, 0)) {
 		/* Filled OR both fill and stroke are none */
+		if (!scale_line_width)
+			cairo_restore (cr);
+		set_line = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
+		if (scale_line_width)
+			cairo_restore (cr);
 		if ((path->closed && style->fill.type != GO_STYLE_FILL_NONE) ||
-			(style->fill.type == GO_STYLE_FILL_NONE && !goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))) {
+			(style->fill.type == GO_STYLE_FILL_NONE && !set_line)) {
 			if (cairo_in_fill (cr, x, y))
 				res = 0;
 		}
-		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr) && cairo_in_stroke (cr, x, y))
+		if (set_line && cairo_in_stroke (cr, x, y)) {
 			res = 0;
+		}
 	}
 
 	cairo_destroy (cr);

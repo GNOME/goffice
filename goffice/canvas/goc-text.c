@@ -106,8 +106,6 @@ goc_text_set_property (GObject *gobject, guint param_id,
 	case TEXT_PROP_TEXT:
 		g_free (text->text);
 		text->text = g_value_dup_string (value);
-		if (text->layout)
-			pango_layout_set_text (text->layout, text->text, -1);
 		break;
 
 	case TEXT_PROP_ATTRIBUTES: {
@@ -115,8 +113,6 @@ goc_text_set_property (GObject *gobject, guint param_id,
 		if (text->attributes)
 			pango_attr_list_unref (text->attributes);
 		text->attributes = (attrs)? pango_attr_list_copy (attrs): pango_attr_list_new ();
-		if (text->layout)
-			pango_layout_set_attributes (text->layout, text->attributes);
 		break;
 	}
 
@@ -134,13 +130,6 @@ goc_text_set_property (GObject *gobject, guint param_id,
 
 	case TEXT_PROP_WRAP_WIDTH:
 		text->wrap_width = g_value_get_double (value);
-		if (text->layout) {
-			if (text->wrap_width > 0) {
-				pango_layout_set_width (text->layout, text->wrap_width * PANGO_SCALE);
-				pango_layout_set_wrap (text->layout, PANGO_WRAP_WORD);
-			} else
-				pango_layout_set_width (text->layout, -1);
-		}
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -204,44 +193,6 @@ goc_text_get_property (GObject *gobject, guint param_id,
 }
 
 static void
-goc_text_realize (GocItem *item)
-{
-#ifdef GOFFICE_WITH_GTK
-	GocText *text = GOC_TEXT (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-
-	if (parent_class->realize)
-		(*parent_class->realize) (item);
-
-	text->layout = pango_layout_new (gtk_widget_get_pango_context (GTK_WIDGET (item->canvas)));
-	pango_layout_set_font_description (text->layout, style->font.font->desc);
-	if (text->text)
-		pango_layout_set_text (text->layout, text->text, -1);
-	if (text->attributes)
-		pango_layout_set_attributes (text->layout, text->attributes);
-	if (text->wrap_width > 0) {
-		pango_layout_set_width (text->layout, text->wrap_width * PANGO_SCALE);
-		pango_layout_set_wrap (text->layout, PANGO_WRAP_WORD_CHAR);
-	} else
-		pango_layout_set_width (text->layout, -1);
-	goc_item_bounds_changed (item);
-#endif
-}
-
-static void
-goc_text_unrealize (GocItem *item)
-{
-	GocText *text = GOC_TEXT (item);
-
-	if (text->layout)
-		g_object_unref (text->layout);
-	text->layout = NULL;
-
-	if (parent_class->unrealize)
-		(*parent_class->unrealize) (item);
-}
-
-static void
 goc_text_finalize (GObject *gobject)
 {
 	GocText *text = GOC_TEXT (gobject);
@@ -257,20 +208,38 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 {
 	GocText *text = GOC_TEXT (item);
 	PangoRectangle rect;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1., dx, dy;
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double w, h, dx, dy;
+	PangoLayout *pl;
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	if (!text->text)
+		return;
+	w = (text->clip_width > 0.)? MIN (text->clip_width, text->w): text->w;
+	h = (text->clip_height > 0.)? MIN (text->clip_height, text->h): text->h;
+	pl = pango_cairo_create_layout (cr);
+	pango_layout_set_font_description (pl, style->font.font->desc);
+	pango_layout_set_text (pl, text->text, -1);
+	if (text->wrap_width > 0) {
+		pango_layout_set_width (pl, text->wrap_width * PANGO_SCALE);
+		pango_layout_set_wrap (pl, PANGO_WRAP_WORD_CHAR);
+	}
+	if (text->attributes)
+		pango_layout_set_attributes (pl, text->attributes);
 
-	pango_layout_get_extents (text->layout, NULL, &rect);
+	pango_layout_get_extents (pl, NULL, &rect);
 	text->w = (double) rect.width / PANGO_SCALE;
 	text->h = (double) rect.height / PANGO_SCALE;
 	item->x0 = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x;
 	item->y0 = text->y;
 	dx = dy = 0;
+	w = (text->clip_width > 0.)? MIN (text->clip_width, text->w): text->w;
+	h = (text->clip_height > 0.)? MIN (text->clip_height, text->h): text->h;
 	/* adjust horizontally */
 	switch (text->anchor) {
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_NORTH:
 	case GO_ANCHOR_SOUTH:
-		dx = -text->w / 2.;
+		dx = -w / 2.;
 		break;
 	case GO_ANCHOR_NORTH_WEST:
 	case GO_ANCHOR_SOUTH_WEST:
@@ -279,7 +248,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	case GO_ANCHOR_NORTH_EAST:
 	case GO_ANCHOR_SOUTH_EAST:
 	case GO_ANCHOR_EAST:
-		dx = -text->w;
+		dx = -w;
 		break;
 	default: /* should not occur */
 		break;
@@ -293,12 +262,12 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_WEST:
 	case GO_ANCHOR_EAST:
-		dy = -text->h / 2.;
+		dy = -h / 2.;
 		break;
 	case GO_ANCHOR_SOUTH:
 	case GO_ANCHOR_SOUTH_WEST:
 	case GO_ANCHOR_SOUTH_EAST:
-		dy = -text->h;
+		dy = -h;
 		break;
 	default: /* should not occur */
 		break;
@@ -307,23 +276,16 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	_goc_item_transform (item, cr, flag);
 	cairo_translate (cr, item->x0, item->y0);
 	cairo_rotate (cr, text->rotation * sign);
-	if (text->clip_height > 0. && text->clip_width > 0.) {
-		cairo_rectangle (cr, dx, dy, text->clip_width, text->clip_height);
-	} else {
-		cairo_rectangle (cr, dx, dy, text->w, text->h);
-	}
+	cairo_rectangle (cr, dx, dy, w, h);
 	cairo_restore (cr);
+	g_object_unref (pl);
 }
 
 static void
 goc_text_update_bounds (GocItem *item)
 {
-	GocText *text = GOC_TEXT (item);
 	cairo_surface_t *surface;
 	cairo_t *cr;
-
-	if (!text->layout)
-		return;
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
@@ -336,15 +298,11 @@ goc_text_update_bounds (GocItem *item)
 static double
 goc_text_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
-	GocText *text = GOC_TEXT (item);
 	cairo_surface_t *surface;
 	cairo_t *cr;
 	double res = 20;
 
 	*near_item = item;
-
-	if (!text->layout)
-		return res;
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
@@ -362,13 +320,15 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
 	double x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x,
-	       y = text->y, dx = 0., dy = 0.;
+	       y = text->y, dx = 0., dy = 0., h, w;
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 
 	PangoLayout *pl;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	if (!text->text)
 		return;
+	w = (text->clip_width > 0.)? MIN (text->clip_width, text->w): text->w;
+	h = (text->clip_height > 0.)? MIN (text->clip_height, text->h): text->h;
 	pl = pango_cairo_create_layout (cr);
 	pango_layout_set_font_description (pl, style->font.font->desc);
 	pango_layout_set_text (pl, text->text, -1);
@@ -383,7 +343,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_NORTH:
 	case GO_ANCHOR_SOUTH:
-		dx = -text->w / 2.;
+		dx = -w / 2.;
 		break;
 	case GO_ANCHOR_NORTH_WEST:
 	case GO_ANCHOR_SOUTH_WEST:
@@ -392,7 +352,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	case GO_ANCHOR_NORTH_EAST:
 	case GO_ANCHOR_SOUTH_EAST:
 	case GO_ANCHOR_EAST:
-		dx = -text->w;
+		dx = -w;
 		break;
 	default: /* should not occur */
 		break;
@@ -406,12 +366,12 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_WEST:
 	case GO_ANCHOR_EAST:
-		dy = -text->h / 2.;
+		dy = -h / 2.;
 		break;
 	case GO_ANCHOR_SOUTH:
 	case GO_ANCHOR_SOUTH_WEST:
 	case GO_ANCHOR_SOUTH_EAST:
-		dy = -text->h;
+		dy = -h;
 		break;
 	default: /* should not occur */
 		break;
@@ -422,10 +382,8 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_rotate (cr, text->rotation * sign);
 	cairo_translate (cr, dx, dy);
-	if (text->clip_height > 0. && text->clip_width > 0.) {
-		cairo_rectangle (cr, 0., 0., text->clip_width, text->clip_height);
-		cairo_clip (cr);
-	}
+	cairo_rectangle (cr, 0., 0., w, h);
+	cairo_clip (cr);
 	pango_cairo_show_layout (cr, pl);
 	cairo_new_path (cr);
 	cairo_restore (cr);
@@ -443,10 +401,6 @@ goc_text_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 static void
 goc_text_style_changed (GOStyledObject *obj)
 {
-	GOStyle *style = go_styled_object_get_style (obj);
-	GocText *text = GOC_TEXT (obj);
-	if (text->layout)
-		pango_layout_set_font_description (text->layout, style->font.font->desc);
 	goc_item_bounds_changed (GOC_ITEM (obj));
 }
 
@@ -523,8 +477,6 @@ goc_text_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_text_update_bounds;
 	item_klass->distance = goc_text_distance;
 	item_klass->draw = goc_text_draw;
-	item_klass->realize = goc_text_realize;
-	item_klass->unrealize = goc_text_unrealize;
 }
 
 static void

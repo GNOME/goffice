@@ -194,7 +194,6 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 		set_line = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
 		if (scale_line_width)
 			cairo_restore (cr);
-		if (set_line)
 		if (style->fill.type != GO_STYLE_FILL_NONE ||
 			(style->fill.type == GO_STYLE_FILL_NONE && !set_line)) {
 			if (cairo_in_fill (cr, x, y))

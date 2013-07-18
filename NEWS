@@ -2,6 +2,7 @@ goffice 0.10.5:
 
 Jean:
 	* Don't crash when loading an EMF image without valid data. [#704311]
+	* Fixed text and path items positions. [see #704391]
 
 Morten:
 	* Add prescaling to go_linear_regression_leverage.  [#703381]
