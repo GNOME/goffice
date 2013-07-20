@@ -107,13 +107,18 @@ static void
 go_pixbuf_load_data (GOImage *image, GsfXMLIn *xin)
 {
 	size_t length, expected;
+	int stride;
+
+	stride = go_pixbuf_get_rowstride (GO_PIXBUF (image));
+	g_return_if_fail (stride > 0);
+
 	length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	expected = image->height * go_pixbuf_get_rowstride (GO_PIXBUF (image));
+	expected = image->height * stride;
 	if (expected != length)
 		g_critical ("Invalid image size, expected %lu bytes, got %lu", expected, length);
 	image->data = g_try_malloc (expected);
 	g_return_if_fail (image->data != NULL);
-	memcpy (image->data, xin->content->str, (length < expected)? length: expected);
+	memcpy (image->data, xin->content->str, MIN (length, expected));
 	if (length < expected) /* fill with 0 */
 		memset (image->data + length, 0, expected - length);
 }
