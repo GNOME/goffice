@@ -1,3 +1,9 @@
+2013-07-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-pixbuf.c (go_pixbuf_save),
+	(go_pixbuf_load_data), (go_pixbuf_draw): fix more out of memory issues.
+	[#705005]
+
 2013-07-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-pixbuf.c (go_pixbuf_load_data): use g_try_malloc instead

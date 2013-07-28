@@ -85,8 +85,11 @@ go_pixbuf_save (GOImage *image, GsfXMLOut *output)
 	pixbuf = GO_PIXBUF (image);
 	gsf_xml_out_add_int (output, "rowstride", pixbuf->rowstride);
 	if (!image->data) {
-		image->data = g_new0 (guint8, image->height * pixbuf->rowstride);
-		g_return_if_fail (image->data !=NULL);
+		image->data = g_try_new0 (guint8, image->height * pixbuf->rowstride);
+		if (image->data == NULL) {
+			g_critical ("go_pixbuf_save: assertion `image->data != NULL' failed");
+			return;
+		}
 		pixbuf_to_cairo (pixbuf);
 	}
 	gsf_xml_out_add_base64
@@ -117,7 +120,10 @@ go_pixbuf_load_data (GOImage *image, GsfXMLIn *xin)
 	if (expected != length)
 		g_critical ("Invalid image size, expected %lu bytes, got %lu", expected, length);
 	image->data = g_try_malloc (expected);
-	g_return_if_fail (image->data != NULL);
+	if (image->data == NULL) {
+		g_critical ("go_pixbuf_load_data: assertion `image->data != NULL' failed");
+		return;
+	}
 	memcpy (image->data, xin->content->str, MIN (length, expected));
 	if (length < expected) /* fill with 0 */
 		memset (image->data + length, 0, expected - length);
@@ -131,8 +137,11 @@ go_pixbuf_draw (GOImage *image, cairo_t *cr)
 	if (pixbuf->surface == NULL) {
 		if (image->data == NULL) {
 			/* image built from a pixbuf */
-			image->data = g_new0 (guint8, image->height * pixbuf->rowstride);
-			g_return_if_fail (image->data !=NULL);
+			image->data = g_try_new0 (guint8, image->height * pixbuf->rowstride);
+			if (image->data == NULL) {
+				g_critical ("go_pixbuf_load_data: assertion `image->data != NULL' failed");
+				return;
+			}
 			pixbuf_to_cairo (pixbuf);
 		}
 		pixbuf->surface = cairo_image_surface_create_for_data (image->data,
