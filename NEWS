@@ -1,5 +1,8 @@
 goffice 0.10.5:
 
+Andreas:
+	* Don't crash on inconsistent format. [#705099]
+
 Jean:
 	* Don't crash when loading an EMF image without valid data. [#704311]
 	* Fixed text and path items positions. [see #704391]

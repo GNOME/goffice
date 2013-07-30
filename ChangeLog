@@ -1,3 +1,8 @@
+2013-07-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_to_odf): watch for conditions
+	without format
+
 2013-07-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-pixbuf.c (go_pixbuf_save),

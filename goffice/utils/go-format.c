@@ -8639,6 +8639,9 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		act_fmt = fmt;
 	}
 
+	if (act_fmt == NULL)
+			return FALSE;
+
 	g_object_get (G_OBJECT (xout), "pretty-print", &pp, NULL);
 	/* We need to switch off pretty printing since number:text preserves whitespace */
 	g_object_set (G_OBJECT (xout), "pretty-print", FALSE, NULL);
