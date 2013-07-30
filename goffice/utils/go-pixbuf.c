@@ -116,9 +116,10 @@ go_pixbuf_load_data (GOImage *image, GsfXMLIn *xin)
 	g_return_if_fail (stride > 0);
 
 	length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	expected = image->height * stride;
+	expected = image->height * (size_t)stride;
 	if (expected != length)
-		g_critical ("Invalid image size, expected %lu bytes, got %lu", expected, length);
+		g_critical ("Invalid image size, expected %" G_GSIZE_FORMAT " bytes, got %" G_GSIZE_FORMAT,
+			    expected, length);
 	image->data = g_try_malloc (expected);
 	if (image->data == NULL) {
 		g_critical ("go_pixbuf_load_data: assertion `image->data != NULL' failed");
