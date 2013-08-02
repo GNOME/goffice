@@ -1,3 +1,8 @@
+2013-08-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-bubble-prefs.ui: fix area vs diameter selection.
+	[#705312]
+
 2013-07-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_to_odf): watch for conditions

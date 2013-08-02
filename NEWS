@@ -7,6 +7,8 @@ Jean:
 	* Don't crash when loading an EMF image without valid data. [#704311]
 	* Fixed text and path items positions. [see #704391]
 	* Don't crash when a pixbuf has an invalid size. [#704560][#705005]
+	* Fix area vs diameter selection in bubble plots. [#705312]
+
 
 Morten:
 	* Add prescaling to go_linear_regression_leverage.  [#703381]
