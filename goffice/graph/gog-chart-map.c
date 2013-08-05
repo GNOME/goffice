@@ -466,7 +466,7 @@ xy_make_path_step (GogChartMap *map, double const *x, double const *y, int n_poi
 
 			if (n_valid_points == 1)
 				go_path_move_to (path, xx, yy);
-			else
+			else {
 				switch (interpolation) {
 					case GO_LINE_INTERPOLATION_STEP_START:
 						go_path_line_to (path, xx, last_yy);
@@ -486,7 +486,8 @@ xy_make_path_step (GogChartMap *map, double const *x, double const *y, int n_poi
 						g_assert_not_reached ();
 						break;
 				}
-			go_path_line_to (path, xx, yy);
+				go_path_line_to (path, xx, yy);
+			}
 			last_xx = xx;
 			last_yy = yy;
 		} else if (!skip_invalid)

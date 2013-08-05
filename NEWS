@@ -8,7 +8,8 @@ Jean:
 	* Fixed text and path items positions. [see #704391]
 	* Don't crash when a pixbuf has an invalid size. [#704560][#705005]
 	* Fix area vs diameter selection in bubble plots. [#705312]
-
+	* Implement get_data_at_point for area and line plots. [#627277][#689661]
+	* Fix rendring of stacked area plots. [#705034]
 
 Morten:
 	* Add prescaling to go_linear_regression_leverage.  [#703381]

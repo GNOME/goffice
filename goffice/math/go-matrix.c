@@ -612,6 +612,7 @@ SUFFIX(go_quad_matrix_dump) (const QMATRIX *A, const char *fmt)
  *
  * R is a matrix of size n-times-n.  (To get the m-times-n version
  * of R, simply add m-n null rows.)
+ * Returns: (transfer full): a new #GOQuadQR.
  **/
 
 /**

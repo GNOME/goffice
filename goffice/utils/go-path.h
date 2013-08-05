@@ -105,12 +105,21 @@ void	go_path_interpret	(GOPath const *path,
 				 GOPathCurveToFunc curve_to,
 				 GOPathClosePathFunc close_path,
 				 void *closure);
+void	go_path_interpret_full (GOPath const *path,
+	             gssize start, gssize end,
+				 GOPathDirection direction,
+				 GOPathMoveToFunc move_to,
+				 GOPathLineToFunc line_to,
+				 GOPathCurveToFunc curve_to,
+				 GOPathClosePathFunc close_path,
+				 void *closure);
 
 void    go_path_to_cairo	(GOPath const *path,
 				 GOPathDirection direction,
 				 cairo_t *cr);
 
 GOPath *go_path_copy		(GOPath const *path);
+GOPath *go_path_copy_restricted	(GOPath const *path, gssize start, gssize end);
 GOPath *go_path_append		(GOPath *path1, GOPath const *path2);
 GOPath *go_path_scale       (GOPath *path, double scale_x, double scale_y);
 char   *go_path_to_svg      (GOPath *path);

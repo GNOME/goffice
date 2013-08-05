@@ -346,11 +346,12 @@ static void
 go_path_add_points (GOPath *path, GOPathAction action,
 		    GOPathPoint *points, int n_points)
 {
-	GOPathDataBuffer *buffer = path->data_buffer_tail;
+	GOPathDataBuffer *buffer;
 	int i;
 
 	g_return_if_fail (GO_IS_PATH (path));
 
+	buffer = path->data_buffer_tail;
 	if (buffer->n_actions + 1 > GO_PATH_DEFAULT_BUFFER_SIZE
 	    || buffer->n_points + n_points > GO_PATH_DEFAULT_BUFFER_SIZE)
 		buffer = go_path_add_data_buffer (path);
@@ -657,6 +658,153 @@ go_path_interpret (GOPath const		*path,
 	}
 }
 
+/**
+ * go_path_interpret_full:
+ * @path: #GOPath
+ * @start: index of the first action to interpret
+ * @end: index of the last action to interpret
+ * @direction: #GOPathDirection
+ * @move_to: (scope call): the callback for move to.
+ * @line_to: (scope call): the callback for drawing a line.
+ * @curve_to: (scope call): the callback for drawing a bezier cubic spline.
+ * @close_path: (scope call): the callback for closing the path.
+ * @closure: data to pass as first argument to the callbacks.
+ *
+ * This function can be used to draw a portion path or for other purposes.
+ * Only actions between start and end will be executed. If start or end is
+ * negative, it is not taken into account.
+ * Since: 0.10.5
+ **/
+void
+go_path_interpret_full (GOPath const		*path,
+                        gssize				 start,
+                        gssize				 end,
+                        GOPathDirection 	 direction,
+                        GOPathMoveToFunc 	 move_to,
+                        GOPathLineToFunc 	 line_to,
+                        GOPathCurveToFunc 	 curve_to,
+                        GOPathClosePathFunc  close_path,
+                        void				*closure)
+{
+	GOPathDataBuffer *buffer;
+	GOPathAction action, next_action;
+	GOPathPoint *points;
+	GOPathPoint *prev_control_points = NULL;
+	gboolean forward = (direction == GO_PATH_DIRECTION_FORWARD);
+	int index;
+	gssize cur;
+
+	if (path == NULL || start >= end)
+		return;
+
+	if (forward) {
+		cur = 0;
+		for (buffer = path->data_buffer_head; buffer != NULL; buffer = buffer->next) {
+			int i;
+			points = buffer->points;
+
+			for (i = 0; i != buffer->n_actions; i++) {
+
+				action = buffer->actions[i];
+
+				if (end > 0 && cur > end)
+					return;
+				else if (cur == start)
+					switch (action) {
+					case GO_PATH_ACTION_MOVE_TO:
+					case GO_PATH_ACTION_LINE_TO:
+						move_to (closure, &points[0]);
+						break;
+					case GO_PATH_ACTION_CURVE_TO:
+						move_to (closure, &points[2]);
+						break;
+					case GO_PATH_ACTION_CLOSE_PATH:
+					default:
+						break;
+					}
+				else if (cur > start)
+					switch (action) {
+					case GO_PATH_ACTION_MOVE_TO:
+						move_to (closure, &points[0]);
+						break;
+					case GO_PATH_ACTION_LINE_TO:
+						line_to (closure, &points[0]);
+						break;
+					case GO_PATH_ACTION_CURVE_TO:
+						curve_to (closure, &points[0], &points[1], &points[2]);
+						break;
+					case GO_PATH_ACTION_CLOSE_PATH:
+					default:
+						close_path (closure);
+						break;
+					}
+				points += action_n_args[action];
+				cur++;
+			}
+		}
+		return;
+	}
+
+	next_action = GO_PATH_ACTION_MOVE_TO;
+	cur = 0;
+	for (buffer = path->data_buffer_head; buffer != NULL; buffer = buffer->next)
+		cur += buffer->n_actions;
+
+	for (buffer = path->data_buffer_tail; buffer != NULL; buffer = buffer->previous) {
+		int i;
+
+		points = buffer->points + buffer->n_points;
+
+		for (i = buffer->n_actions - 1; i != -1; i--) {
+			cur--;
+			action = next_action;
+			next_action = buffer->actions[i];
+
+			points -= action_n_args[next_action];
+
+			index = next_action == GO_PATH_ACTION_CURVE_TO ? 2 : 0;
+
+			if (end > 0 && cur > end)
+				continue;
+			else if (cur == end)
+				switch (action) {
+				case GO_PATH_ACTION_MOVE_TO:
+				case GO_PATH_ACTION_LINE_TO:
+				case GO_PATH_ACTION_CURVE_TO:
+					(*move_to) (closure, &points[index]);
+					break;
+				case GO_PATH_ACTION_CLOSE_PATH:
+				default:
+					break;
+				}
+			else {
+				switch (action) {
+				case GO_PATH_ACTION_MOVE_TO:
+					(*move_to) (closure, &points[index]);
+					break;
+				case GO_PATH_ACTION_LINE_TO:
+					(*line_to) (closure, &points[index]);
+					break;
+				case GO_PATH_ACTION_CURVE_TO:
+					(*curve_to) (closure,
+							 &prev_control_points[1],
+							 &prev_control_points[0],
+							 &points[index]);
+					break;
+				case GO_PATH_ACTION_CLOSE_PATH:
+				default:
+					(*close_path) (closure);
+					break;
+				}
+				if (cur < start)
+					return;
+			}
+
+			prev_control_points = &points[0];
+		}
+	}
+}
+
 static void
 go_path_cairo_move_to (cairo_t *cr, GOPathPoint const *point)
 {
@@ -729,7 +877,11 @@ go_path_append_close (GOPath *path)
 
 GOPath *go_path_copy (GOPath const *path)
 {
-	GOPath *new_path = go_path_new ();
+	GOPath *new_path;
+
+	if (path == NULL)
+		return NULL;
+	new_path = go_path_new ();
 	new_path->options = path->options;
 	go_path_interpret (path, GO_PATH_DIRECTION_FORWARD,
 			   (GOPathMoveToFunc) go_path_append_move_to,
@@ -739,6 +891,33 @@ GOPath *go_path_copy (GOPath const *path)
 	return new_path;
 }
 
+
+/**
+ * go_path_copy_restricted:
+ * @path: #GOPath
+ * @start: the first action to copy
+ * @end: the second action to copy
+ *
+ * Copies actions between start and end will be copied inside a new #GOPath.
+ * Returns: a new #GOPath. If start or end is
+ * negative, it is not taken into account.
+ * Since: 0.10.5
+ **/
+
+GOPath *go_path_copy_restricted (GOPath const *path, gssize start, gssize end)
+{
+	GOPath *new_path;
+	if (path == NULL)
+		return NULL;
+	new_path = go_path_new ();
+	new_path->options = path->options;
+	go_path_interpret_full (path, start, end, GO_PATH_DIRECTION_FORWARD,
+			   (GOPathMoveToFunc) go_path_append_move_to,
+			   (GOPathLineToFunc) go_path_append_line_to,
+			   (GOPathCurveToFunc) go_path_append_curve_to,
+			   (GOPathClosePathFunc) go_path_append_close, new_path);
+	return new_path;
+}
 /**
  * go_path_append:
  * @path1: #GOPath
@@ -749,6 +928,10 @@ GOPath *go_path_copy (GOPath const *path)
  */
 GOPath *go_path_append (GOPath *path1, GOPath const *path2)
 {
+	if (path2 == NULL)
+		return path1;
+	if (path1 == NULL)
+		return go_path_copy (path2);
 	go_path_interpret (path2, GO_PATH_DIRECTION_FORWARD,
 			   (GOPathMoveToFunc) go_path_append_move_to,
 			   (GOPathLineToFunc) go_path_append_line_to,

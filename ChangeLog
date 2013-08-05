@@ -1,3 +1,21 @@
+2013-08-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.10-sections.txt: make gtk-doc happy.
+	* goffice/graph/gog-chart-map.c (xy_make_path_step): remove an unneeded
+	lineto instruction.
+	* goffice/math/go-matrix.c: make gtk-doc happy.
+	* goffice/utils/go-path.c (go_path_add_points),
+	(go_path_interpret_full), (go_path_copy),
+	(go_path_copy_restricted), (go_path_append): two new functions and sanitize
+	a few others.
+	* goffice/utils/go-path.h: new functions.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_get_data_at_point),
+	(gog_line_view_render):, (gog_line_view_class_init): implement 
+	get_data_at_point for area and line plots and fix rendring of stacked area
+	plots. [#627277][#689661][#705034]
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_get_data_at_point): minor
+	optimization.
+
 2013-08-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-bubble-prefs.ui: fix area vs diameter selection.

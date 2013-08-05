@@ -897,7 +897,6 @@ static int
 gog_xy_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)
 {
 	Gog2DPlot const *model = GOG_2D_PLOT (view->base.model);
-	unsigned num_series;
 	GogChart *chart = GOG_CHART (view->base.model->parent);
 	GogChartMap *chart_map;
 	GogAxisMap *x_map, *y_map;
@@ -912,8 +911,7 @@ gog_xy_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries 
 	GogSeriesElement *gse;
 	GList *overrides; /* not const because we call g_list_* which have no const equivalent */
 
-	for (num_series = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, num_series++);
-	if (num_series < 1)
+	if (g_slist_length (model->base.series) < 1)
 		return -1;
 
 	area = gog_chart_view_get_plot_area (view->base.parent);
