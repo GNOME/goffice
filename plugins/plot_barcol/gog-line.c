@@ -1003,9 +1003,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (series[i]->has_drop_lines) {
 			if (!role)
 				role = gog_object_find_role_by_name (
-							GOG_OBJECT (series), "Drop lines");
+							GOG_OBJECT (series[i]), "Drop lines");
 			lines[i] = GOG_SERIES_LINES (
-					gog_object_get_child_by_role (GOG_OBJECT (series), role));
+					gog_object_get_child_by_role (GOG_OBJECT (series[i]), role));
 			drop_paths [i] = go_path_new ();
 		} else
 			lines[i] = NULL;
