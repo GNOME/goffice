@@ -1,3 +1,11 @@
+2013-08-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c: fix build without gtk.
+	* goffice/graph/gog-renderer.h: ditto.
+	* goffice/utils/go-editor.c (go_editor_add_page): ditto.
+	* goffice/utils/go-image.c (go_image_draw_fb),
+	(go_image_get_pixbuf_fb), (go_image_new_from_data): ditto and .
+
 2013-08-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-0.10-sections.txt: make gtk-doc happy.

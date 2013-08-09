@@ -224,6 +224,7 @@ goc_graph_update_bounds (GocItem *item)
 				      (int) (graph->h * item->canvas->pixels_per_unit));
 }
 
+#ifdef GOFFICE_WITH_GTK
 static char *
 format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 {
@@ -245,7 +246,6 @@ format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 	return g_string_free (res, FALSE);
 }
 
-#ifdef GOFFICE_WITH_GTK
 static void
 goc_graph_do_tooltip (GocGraph *graph)
 {

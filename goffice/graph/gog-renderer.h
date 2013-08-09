@@ -79,6 +79,16 @@ void  gog_renderer_draw_selection_rectangle	(GogRenderer *renderer, GogViewAlloc
 
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 
+#ifndef GOFFICE_WITH_GTK
+typedef enum
+{
+  GTK_JUSTIFY_LEFT,
+  GTK_JUSTIFY_RIGHT,
+  GTK_JUSTIFY_CENTER,
+  GTK_JUSTIFY_FILL
+} GtkJustification;
+#endif
+
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos,
 				   GOAnchorType anchor,

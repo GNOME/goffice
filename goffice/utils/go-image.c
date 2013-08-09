@@ -418,6 +418,7 @@ go_image_finalize (GObject *obj)
 static void
 go_image_draw_fb (GOImage *image, cairo_t *cr)
 {
+#ifdef GOFFICE_WITH_GTK
 	if (image->pixbuf) {
 		cairo_rectangle (cr, 0., 0., image->width, image->height);
 		gdk_cairo_set_source_pixbuf (cr, image->pixbuf, 0, 0);
@@ -428,6 +429,8 @@ go_image_draw_fb (GOImage *image, cairo_t *cr)
 											 "unknown_image", 100, 0, NULL);
 		double dx, dy;
 		int n;
+		if (placeholder == NULL)
+			return;
 		n = go_fake_floor (image->width / gdk_pixbuf_get_width (placeholder));
 		dx = (image->width - n * gdk_pixbuf_get_width (placeholder)) / 2.;
 		n = go_fake_floor (image->height / gdk_pixbuf_get_height (placeholder));
@@ -440,12 +443,15 @@ go_image_draw_fb (GOImage *image, cairo_t *cr)
 		cairo_pattern_set_extend (cairo_get_source (cr), CAIRO_EXTEND_REPEAT);
 		cairo_fill (cr);
 		cairo_restore (cr);
+		g_object_unref (placeholder);
 	}
+#endif
 }
 
 static GdkPixbuf *
 go_image_get_pixbuf_fb (GOImage *image)
 {
+#ifdef GOFFICE_WITH_GTK
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
 		                                                    image->width,
 		                                                    image->height);
@@ -479,6 +485,9 @@ go_image_get_pixbuf_fb (GOImage *image)
 			                               gdk_pixbuf_get_rowstride (ret));
 	cairo_surface_destroy (surface);
 	return ret;
+#else
+	return NULL;
+#endif
 }
 
 static GdkPixbuf *
@@ -660,6 +669,7 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 		}
 	}
 	if (image == NULL) {
+#ifdef GOFFICE_WITH_GTK
 		GdkScreen *screen = gdk_screen_get_default ();
 		GtkIconTheme *theme = screen
 			? gtk_icon_theme_get_default()
@@ -667,19 +677,22 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 		GdkPixbuf *placeholder;
 		const char *icon_name;
 
-		if (gtk_icon_theme_has_icon (theme,"unknown_image"))
-			icon_name = "unknown_image";
-		else if (gtk_icon_theme_has_icon (theme,"unknown"))
-			icon_name = "unknown";
-		else
-			icon_name = gtk_icon_theme_get_example_icon_name (theme);
+		if (theme) {
+			if (gtk_icon_theme_has_icon (theme, "unknown_image"))
+				icon_name = "unknown_image";
+			else if (gtk_icon_theme_has_icon (theme, "unknown"))
+				icon_name = "unknown";
+			else
+				icon_name = gtk_icon_theme_get_example_icon_name (theme);
 
-		placeholder = gtk_icon_theme_load_icon (theme, icon_name, 100, 0, NULL);
-		image = go_pixbuf_new_from_pixbuf (placeholder);
-		g_object_unref (placeholder);
+			placeholder = gtk_icon_theme_load_icon (theme, icon_name, 100, 0, NULL);
+			image = go_pixbuf_new_from_pixbuf (placeholder);
+			g_object_unref (placeholder);
 
-		if (!screen)
-			g_object_unref (theme);
+			if (!screen)
+				g_object_unref (theme);
+		}
+#endif
 	}
 	if (format)
 		*format = g_strdup (type);
