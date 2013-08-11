@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 #define GO_SUBSCRIPT_RISE -5000
 
 
-/* Keep these sequential, they are used as the index for _go_format_builtins */
+/* Keep these sequential.  */
 typedef enum {
 	GO_FORMAT_UNKNOWN	= -1,
 
@@ -272,8 +272,8 @@ void go_format_foreach (GHFunc func, gpointer user_data);
 
 /*************************************************************************/
 
-/* Indexed by GOFormatFamily */
-GO_VAR_DECL char const * const * const _go_format_builtins [];
+char const * const *_go_format_builtins(GOFormatFamily fam);
+
 GO_VAR_DECL GOFormatCurrency     const _go_format_currencies [];
 
 GOFormatCurrency const *go_format_locale_currency (void);

@@ -114,21 +114,25 @@ fmts_text [] = {
 	NULL,
 };
 
-/* Note: there is no entry for GO_FORMAT_UNKNOWN.  */
-char const * const * const
-_go_format_builtins[] = {
-	fmts_general,
-	fmts_number,
-	fmts_currency,
-	fmts_accounting,
-	fmts_date,
-	fmts_time,
-	fmts_percentage,
-	fmts_fraction,
-	fmts_science,
-	fmts_text,
-	NULL,                     /* GO_FORMAT_SPECIAL */
-	NULL                      /* GO_FORMAT_MARKUP */
+char const * const *
+_go_format_builtins(GOFormatFamily fam)
+{
+	switch (fam) {
+	case GO_FORMAT_GENERAL: return fmts_general;
+	case GO_FORMAT_NUMBER: return fmts_number;
+	case GO_FORMAT_CURRENCY: return fmts_currency;
+	case GO_FORMAT_ACCOUNTING: return fmts_accounting;
+	case GO_FORMAT_DATE: return fmts_date;
+	case GO_FORMAT_TIME: return fmts_time;
+	case GO_FORMAT_PERCENTAGE: return fmts_percentage;
+	case GO_FORMAT_FRACTION: return fmts_fraction;
+	case GO_FORMAT_SCIENTIFIC: return fmts_science;
+	case GO_FORMAT_TEXT: return fmts_text;
+	case GO_FORMAT_SPECIAL:
+	case GO_FORMAT_MARKUP:
+	default:
+		return NULL;
+	}
 };
 
 static void

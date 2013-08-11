@@ -14,6 +14,7 @@ Jean:
 
 Morten:
 	* Add prescaling to go_linear_regression_leverage.  [#703381]
+	* Improve C standard compliance a tiny bit.
 
 --------------------------------------------------------------------------
 goffice 0.10.4:

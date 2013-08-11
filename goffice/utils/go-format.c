@@ -6506,7 +6506,7 @@ go_format_general (void)
 {
 	if (!default_general_fmt)
 		default_general_fmt = go_format_new_from_XL (
-			_go_format_builtins[GO_FORMAT_GENERAL][0]);
+			_go_format_builtins (GO_FORMAT_GENERAL)[0]);
 	return default_general_fmt;
 }
 #endif
@@ -6560,7 +6560,7 @@ go_format_default_percentage (void)
 {
 	if (!default_percentage_fmt)
 		default_percentage_fmt = go_format_new_from_XL (
-			_go_format_builtins[GO_FORMAT_PERCENTAGE][1]);
+			_go_format_builtins (GO_FORMAT_PERCENTAGE) [1]);
 	return default_percentage_fmt;
 }
 #endif
@@ -6571,7 +6571,7 @@ go_format_default_money (void)
 {
 	if (!default_money_fmt)
 		default_money_fmt = go_format_new_from_XL (
-			_go_format_builtins[GO_FORMAT_CURRENCY][2]);
+			_go_format_builtins (GO_FORMAT_CURRENCY)[2]);
 	return default_money_fmt;
 }
 #endif
@@ -6582,7 +6582,7 @@ go_format_default_accounting (void)
 {
 	if (!default_accounting_fmt)
 		default_accounting_fmt = go_format_new_from_XL (
-			_go_format_builtins[GO_FORMAT_ACCOUNTING][2]);
+			_go_format_builtins (GO_FORMAT_ACCOUNTING)[2]);
 	return default_accounting_fmt;
 }
 #endif

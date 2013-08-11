@@ -649,7 +649,7 @@ find_builtin (const char *fmtstr, int page, gboolean def)
 	if (page == GO_FORMAT_UNKNOWN)
 		return NULL;
 
-	candidates = _go_format_builtins[page];
+	candidates = _go_format_builtins (page);
 	if (!candidates)
 		return NULL;
 
@@ -900,7 +900,7 @@ stays:
 			select.stamp = 0;
 			gtk_list_store_clear (gfs->format.formats.model);
 			for (; start <= end ; ++start)
-				fmt_dialog_init_fmt_list (gfs, _go_format_builtins[start],
+				fmt_dialog_init_fmt_list (gfs, _go_format_builtins (start),
 							  &select, fhash);
 
 			if  (page == FMT_CUSTOM) {
