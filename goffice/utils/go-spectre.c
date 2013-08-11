@@ -32,6 +32,7 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
+#include <unistd.h>
 
 struct _GOSpectre {
 	GOImage parent;
