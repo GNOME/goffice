@@ -1252,8 +1252,8 @@ cb_format_currency_select (GtkComboBoxText *combo, GOFormatSel *gfs)
 		return FALSE;
 	}
 
-	for (i = 0; _go_format_currencies[i].symbol != NULL ; ++i) {
-		GOFormatCurrency const *ci = _go_format_currencies + i;
+	for (i = 0; _go_format_currencies ()[i].symbol != NULL ; ++i) {
+		GOFormatCurrency const *ci = _go_format_currencies () + i;
 		if (!strcmp (_(ci->description), new_text)) {
 			gfs->format.details.currency = ci;
 			break;
@@ -1655,8 +1655,8 @@ nfs_init (GOFormatSel *gfs)
 		GtkEntry *entry =
 			GTK_ENTRY (gtk_bin_get_child (GTK_BIN (combo)));
 
-		for (i = 0; _go_format_currencies[i].symbol != NULL ; ++i)
-			l = g_slist_prepend (l, _((gchar *)_go_format_currencies[i].description));
+		for (i = 0; _go_format_currencies ()[i].symbol != NULL ; ++i)
+			l = g_slist_prepend (l, _((gchar *)_go_format_currencies ()[i].description));
 		l = g_slist_sort (l, funny_currency_order);
 
 		for (ptr = l; ptr != NULL ; ptr = ptr->next)

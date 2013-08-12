@@ -273,8 +273,7 @@ void go_format_foreach (GHFunc func, gpointer user_data);
 /*************************************************************************/
 
 char const * const *_go_format_builtins(GOFormatFamily fam);
-
-GO_VAR_DECL GOFormatCurrency     const _go_format_currencies [];
+GOFormatCurrency const *_go_format_currencies (void);
 
 GOFormatCurrency const *go_format_locale_currency (void);
 

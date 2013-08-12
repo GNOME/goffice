@@ -365,7 +365,7 @@ _go_currency_date_format_shutdown (void)
 	}
 }
 
-GOFormatCurrency const _go_format_currencies[] =
+static GOFormatCurrency const _go_format_currencies_table[] =
 {
  	{ "", N_("None"), TRUE, FALSE },	/* These first six elements */
  	{ "$", "$", TRUE, FALSE },		/* Must stay in this order */
@@ -562,3 +562,9 @@ GOFormatCurrency const _go_format_currencies[] =
 
 	{ NULL, NULL, FALSE, FALSE }
 };
+
+
+GOFormatCurrency const *_go_format_currencies (void)
+{
+	return &_go_format_currencies_table[0];
+}

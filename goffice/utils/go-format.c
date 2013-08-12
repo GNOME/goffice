@@ -6765,7 +6765,7 @@ go_format_generate_accounting_str (GString *dst,
 	GOFormatCurrency const *currency = details->currency;
 
 	if (!currency)
-		currency = &_go_format_currencies[0];
+		currency = _go_format_currencies ();
 
 	symstr = currency->symbol;
 	switch (g_utf8_get_char (symstr)) {
@@ -6835,7 +6835,7 @@ go_format_generate_currency_str (GString *dst,
 	GOFormatCurrency const *currency = details->currency;
 
 	if (!currency)
-		currency = &_go_format_currencies[0];
+		currency = _go_format_currencies ();
 
 	extra_quotes = (details->force_quoted &&
 			currency->symbol[0] != '"' &&
@@ -6893,8 +6893,8 @@ find_currency (char const *ptr, gsize len, gboolean precedes)
 
 	quoted = len > 2 && ptr[0] == '\"' && ptr[len - 1] == '\"';
 
-	for (i = 1; _go_format_currencies[i].symbol; i++) {
-		const GOFormatCurrency *ci = _go_format_currencies + i;
+	for (i = 1; _go_format_currencies ()[i].symbol; i++) {
+		const GOFormatCurrency *ci = _go_format_currencies() + i;
 
 		if (ci->precedes != precedes)
 			continue;
