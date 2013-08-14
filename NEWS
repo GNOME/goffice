@@ -11,6 +11,7 @@ Jean:
 	* Implement get_data_at_point for area and line plots. [#627277][#689661]
 	* Fix rendring of stacked area plots. [#705034]
 	* Fix crash when drawing a fallback image without gtk. [#705677]
+	* Fix crash in countour plots when no color is used. [#705913]
 
 Morten:
 	* Add prescaling to go_linear_regression_leverage.  [#703381]

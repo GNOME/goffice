@@ -1,3 +1,8 @@
+2013-08-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-contour.c (gog_contour_view_render): don't crash
+	if there is no color is used. [#705913]
+
 2013-08-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/formats.c (_go_format_builtins)
@@ -10,7 +15,8 @@
 	* goffice/graph/gog-renderer.h: ditto.
 	* goffice/utils/go-editor.c (go_editor_add_page): ditto.
 	* goffice/utils/go-image.c (go_image_draw_fb),
-	(go_image_get_pixbuf_fb), (go_image_new_from_data): ditto and .
+	(go_image_get_pixbuf_fb), (go_image_new_from_data): ditto and fix crash
++	when drawing a fallback image without gtk (from ssconvert). [#705677]
 
 2013-08-05  Jean Brefort  <jean.brefort@normalesup.org>
 

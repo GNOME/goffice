@@ -285,6 +285,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	series = GOG_SERIES (plot->base.series->data);
 	max = GOG_CONTOUR_PLOT (plot)->max_colors;
+	if (max < 1)
+		return;
 	if (plot->transposed) {
 		imax = plot->columns;
 		jmax = plot->rows;
