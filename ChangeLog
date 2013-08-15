@@ -1,5 +1,14 @@
 2013-08-15  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_xy/gog-xy-dropbar.c (gog_xy_dropbar_plot_update): fixed x/y
+	confusion.
+	* plugins/plot_xy/gog-xy-minmax.c (gog_xy_minmax_plot_update): ditto,
+	(gog_xy_minmax_plot_finalize), (gog_xy_minmax_plot_class_init): unref the
+	formats. See bug 705913, comment 6.
+	* plugins/plot_xy/plot-types.xml.in: fixed min max plots types.
+
+2013-08-15  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/gog-xyz.c (gog_xyz_plot_update_3d),
 	(gog_xyz_plot_get_x_vals), (gog_xyz_plot_get_y_vals): fixed memory leaks.
 

@@ -106,20 +106,20 @@
 		<property name="default-style-has-markers">False</property>
 		<property name="guru-hints">backplane</property>
     </Type>
-    <Type _name="Scattered Marked Vertical Min Max Lines" row="1" col="4"
-      engine="GogXYMinMaxPlot" family="MinMax"
-      _description="Vertical Min Max lines with markers and a continuous X-axis."
-      sample_image_file="res:go:plot_xy/chart_minmax_1_4.png">
-		<property name="horizontal">False</property>
-		<property name="default-style-has-markers">True</property>
-		<property name="guru-hints">backplane</property>
-    </Type>
-    <Type _name="Scattered Horizontal Min Max Lines" row="2" col="3"
+    <Type _name="Scattered Horizontal Min Max Lines" row="1" col="4"
       engine="GogXYMinMaxPlot" family="MinMax"
       _description="Horizontal Min Max lines with continuous Y-axis."
-      sample_image_file="res:go:plot_xy/chart_minmax_2_3.png">
+      sample_image_file="res:go:plot_xy/chart_minmax_1_4.png">
 		<property name="horizontal">True</property>
 		<property name="default-style-has-markers">False</property>
+		<property name="guru-hints">backplane</property>
+    </Type>
+    <Type _name="Scattered Marked Vertical Min Max Lines" row="2" col="3"
+      engine="GogXYMinMaxPlot" family="MinMax"
+      _description="Vertical Min Max lines with markers and a continuous X-axis."
+      sample_image_file="res:go:plot_xy/chart_minmax_2_3.png">
+		<property name="horizontal">False</property>
+		<property name="default-style-has-markers">True</property>
 		<property name="guru-hints">backplane</property>
     </Type>
     <Type _name="Scattered Marked Horizontal Min Max Lines" row="2" col="4"

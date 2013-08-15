@@ -166,15 +166,14 @@ gog_xy_dropbar_plot_update (GogObject *obj)
 	GogSeries const *series = NULL;
 	double x_min, x_max, y_min, y_max, tmp_min, tmp_max;
 	GSList *ptr;
-	gboolean is_discrete = FALSE;
-	struct axes_data *realx, *realy;
+	unsigned xaxis, yaxis;
 
 	if (model->horizontal) {
-		realx = &model->y;
-		realy = &model->x;
+		xaxis = 1;
+		yaxis = 0;
 	} else {
-		realx = &model->x;
-		realy = &model->y;
+		xaxis = 0;
+		yaxis = 1;
 	}
 	x_min = y_min =  DBL_MAX;
 	x_max = y_max = -DBL_MAX;
@@ -187,9 +186,9 @@ gog_xy_dropbar_plot_update (GogObject *obj)
 		go_data_get_bounds (series->values[1].data, &tmp_min, &tmp_max);
 		if (y_min > tmp_min) y_min = tmp_min;
 		if (y_max < tmp_max) y_max = tmp_max;
-		if (realy->fmt == NULL) {
-			realy->fmt = go_data_preferred_fmt (series->values[1].data);
-			realy->date_conv = go_data_date_conv (series->values[1].data);
+		if (model->y.fmt == NULL) {
+			model->y.fmt = go_data_preferred_fmt (series->values[1].data);
+			model->y.date_conv = go_data_date_conv (series->values[1].data);
 		}
 		go_data_get_bounds (series->values[2].data, &tmp_min, &tmp_max);
 		if (y_min > tmp_min)
@@ -204,16 +203,13 @@ gog_xy_dropbar_plot_update (GogObject *obj)
 			    tmp_min > tmp_max) {
 				tmp_min = 0;
 				tmp_max = go_data_get_vector_size (series->values[1].data);
-
-				is_discrete = TRUE;
 			} else if (model->x.fmt == NULL) {
-				realx->fmt = go_data_preferred_fmt (series->values[0].data);
-				realy->date_conv = go_data_date_conv (series->values[0].data);
+				model->x.fmt = go_data_preferred_fmt (series->values[0].data);
+				model->x.date_conv = go_data_date_conv (series->values[0].data);
 			}
 		} else {
 			tmp_min = 0;
 			tmp_max = go_data_get_vector_size (series->values[1].data);
-			is_discrete = TRUE;
 		}
 
 		if (x_min > tmp_min)
@@ -225,15 +221,15 @@ gog_xy_dropbar_plot_update (GogObject *obj)
 	tmp_max = (x_max - x_min) * model->width / 200.;
 	x_min -= tmp_max;
 	x_max += tmp_max;
-	if (realx->minima != x_min || realx->maxima != x_max) {
-		realx->minima = x_min;
-		realx->maxima = x_max;
-		gog_axis_bound_changed (model->base.axis[0], GOG_OBJECT (model));
+	if (model->x.minima != x_min || model->x.maxima != x_max) {
+		model->x.minima = x_min;
+		model->x.maxima = x_max;
+		gog_axis_bound_changed (model->base.axis[xaxis], GOG_OBJECT (model));
 	}
-	if (realy->minima != y_min || realy->maxima != y_max) {
-		realy->minima = y_min;
-		realy->maxima = y_max;
-		gog_axis_bound_changed (model->base.axis[1], GOG_OBJECT (model));
+	if (model->y.minima != y_min || model->y.maxima != y_max) {
+		model->y.minima = y_min;
+		model->y.maxima = y_max;
+		gog_axis_bound_changed (model->base.axis[yaxis], GOG_OBJECT (model));
 	}
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 	if (gog_xy_dropbar_parent_klass->update)
