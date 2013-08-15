@@ -21,7 +21,7 @@
 	* goffice/utils/go-editor.c (go_editor_add_page): ditto.
 	* goffice/utils/go-image.c (go_image_draw_fb),
 	(go_image_get_pixbuf_fb), (go_image_new_from_data): ditto and fix crash
-+	when drawing a fallback image without gtk (from ssconvert). [#705677]
+	when drawing a fallback image without gtk (from ssconvert). [#705677]
 
 2013-08-05  Jean Brefort  <jean.brefort@normalesup.org>
 
@@ -35,7 +35,7 @@
 	a few others.
 	* goffice/utils/go-path.h: new functions.
 	* plugins/plot_barcol/gog-line.c (gog_line_view_get_data_at_point),
-	(gog_line_view_render):, (gog_line_view_class_init): implement 
+	(gog_line_view_render):, (gog_line_view_class_init): implement
 	get_data_at_point for area and line plots and fix rendring of stacked area
 	plots. [#627277][#689661][#705034]
 	* plugins/plot_xy/gog-xy.c (gog_xy_view_get_data_at_point): minor
@@ -176,7 +176,7 @@
 
 	* plugins/plot_surface/gog-xyz-surface-prefs.c
 	(cb_missing_as_changed), (gog_xyz_surface_plot_pref): fixed "missing as"
-	combo box. 
+	combo box.
 	* plugins/plot_surface/gog-xyz-surface.c
 	(gog_xyz_matrix_plot_build_matrix),
 	(gog_xyz_surface_plot_build_matrix),
