@@ -1,3 +1,8 @@
+2013-08-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-xyz.c (gog_xyz_plot_update_3d),
+	(gog_xyz_plot_get_x_vals), (gog_xyz_plot_get_y_vals): fixed memory leaks.
+
 2013-08-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-contour.c (gog_contour_view_render): don't crash

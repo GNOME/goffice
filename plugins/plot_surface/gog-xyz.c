@@ -77,6 +77,7 @@ gog_xyz_plot_update_3d (GogPlot *plot)
 	if (plot->series == NULL)
 		return;
 
+	g_free (xyz->plotted_data);
 	xyz->plotted_data = gog_xyz_plot_build_matrix (xyz, &cardinality_changed);
 	if (cardinality_changed) {
 		/*	gog_plot_request_cardinality_update can't be called from here
@@ -122,7 +123,7 @@ gog_xyz_plot_get_x_vals (GogXYZPlot *plot)
 			vals = g_new (double, imax);
 			for (i = 0; i < imax; ++i)
 				vals[i] = plot->x.minima + i * inc;
-			plot->x_vals = GO_DATA (go_data_vector_val_new (vals, imax, NULL));
+			plot->x_vals = GO_DATA (go_data_vector_val_new (vals, imax, g_free));
 		}
 		return plot->x_vals;
 	} else {
@@ -146,7 +147,7 @@ gog_xyz_plot_get_y_vals (GogXYZPlot *plot)
 			vals = g_new (double, imax);
 			for (i = 0; i < imax; ++i)
 				vals[i] = plot->y.minima + i * inc;
-			plot->y_vals = GO_DATA (go_data_vector_val_new (vals, imax, NULL));
+			plot->y_vals = GO_DATA (go_data_vector_val_new (vals, imax, g_free));
 		}
 		return plot->y_vals;
 	} else {
