@@ -99,7 +99,7 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 	unsigned i, j, k, l, index;
 	GogSeries *series = GOG_SERIES (plot->base.series->data);
 	const double *x_vals, *y_vals, *z_vals = NULL;
-	double *x_limits, *y_limits;
+	double *x_limits, *y_limits, zmin = DBL_MAX, zmax = -DBL_MAX;
 	double *data;
 	unsigned *grid, n, kmax, imax, jmax;
 	xyz_data raw_data;
@@ -212,8 +212,15 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 	g_free (sort);
 	g_free (grid);
 
-	go_range_min (data, n, &((GogXYZPlot *) plot)->z.minima);
-	go_range_max (data, n, &((GogXYZPlot *) plot)->z.maxima);
+	for (k = 0; k < n; ++k)
+		if (go_finite (data[k])) {
+			if (zmin > data[k])
+				zmin = data[k];
+			if (zmax < data[k])
+				zmax = data[k];
+		}
+	((GogXYZPlot *) plot)->z.minima = zmin;
+	((GogXYZPlot *) plot)->z.maxima = zmax;
 	return data;
 }
 
@@ -223,7 +230,7 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 	unsigned i, j, k, l, index;
 	GogSeries *series = GOG_SERIES (plot->base.series->data);
 	const double *x_vals, *y_vals, *z_vals = NULL;
-	double *x_limits, *y_limits, xmin, ymin;
+	double *x_limits, *y_limits, xmin, ymin, zmin = DBL_MAX, zmax = -DBL_MAX;
 	double *data;
 	unsigned *grid, n, kmax, imax, jmax;
 	xyz_data raw_data;
@@ -388,8 +395,15 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 	g_free (sort);
 	g_free (grid);
 
-	go_range_min (data, n, &((GogXYZPlot *) plot)->z.minima);
-	go_range_max (data, n, &((GogXYZPlot *) plot)->z.maxima);
+	for (k = 0; k < n; ++k)
+		if (go_finite (data[k])) {
+			if (zmin > data[k])
+				zmin = data[k];
+			if (zmax < data[k])
+				zmax = data[k];
+		}
+	((GogXYZPlot *) plot)->z.minima = zmin;
+	((GogXYZPlot *) plot)->z.maxima = zmax;
 
 	if (GOG_IS_CONTOUR_PLOT (plot)) {
 		GogAxisMap *map;
