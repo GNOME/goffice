@@ -48,39 +48,25 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 {
 	double x0, y0, x1, y1;
 	double ax0, ay0, ax1, ay1;
+	double clip_x1, clip_y1, clip_x2, clip_y2;
 	GocCanvas *canvas = GOC_CANVAS (widget);
 	GdkEventExpose *event = (GdkEventExpose *) gtk_get_current_event ();
 
-	if (event && event->type == GDK_EXPOSE) {
-		if (event->count)
-			return TRUE;
-		goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
-		if (canvas->direction == GOC_DIRECTION_RTL) {
-			ax1 = (double) (canvas->width - event->area.x) / canvas->pixels_per_unit + canvas->scroll_x1;
-			ax0 = (double) (canvas->width - event->area.x - event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
-		} else {
-			ax0 = (double) event->area.x / canvas->pixels_per_unit + canvas->scroll_x1;
-			ax1 = ((double) event->area.x + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
-		}
-		ay0 = (double) event->area.y / canvas->pixels_per_unit + canvas->scroll_y1;
-		ay1 = ((double) event->area.y + event->area.height) / canvas->pixels_per_unit + canvas->scroll_y1;
-		if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0) {
-			canvas->cur_event = (GdkEvent *) event;
-			goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
-		}
+	cairo_clip_extents (cr, &clip_x1, &clip_y1, &clip_x2, &clip_y2);
+
+	goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
+	if (canvas->direction == GOC_DIRECTION_RTL) {
+		ax1 = (double) (canvas->width - clip_x1) / canvas->pixels_per_unit + canvas->scroll_x1;
+		ax0 = (double) (canvas->width - clip_x2) / canvas->pixels_per_unit + canvas->scroll_x1;
 	} else {
-		goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
-		if (canvas->direction == GOC_DIRECTION_RTL) {
-			ax1 = (double)  canvas->width / canvas->pixels_per_unit + canvas->scroll_x1;
-			ax0 = canvas->scroll_x1;
-		} else {
-			ax0 = canvas->scroll_x1;
-			ax1 = (double)  canvas->width / canvas->pixels_per_unit + canvas->scroll_x1;
-		}
-		ay0 = canvas->scroll_y1;
-		ay1 = (double) canvas->height / canvas->pixels_per_unit + canvas->scroll_y1;
-		if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0)
-			goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
+		ax0 = (double) clip_x1 / canvas->pixels_per_unit + canvas->scroll_x1;
+		ax1 = ((double) clip_x1 + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+	}
+	ay0 = (double) clip_y1 / canvas->pixels_per_unit + canvas->scroll_y1;
+	ay1 = (double) clip_y2 / canvas->pixels_per_unit + canvas->scroll_y1;
+	if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0) {
+		canvas->cur_event = (GdkEvent *) event;
+		goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
 	}
 	return TRUE;
 }
