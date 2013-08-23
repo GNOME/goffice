@@ -3,6 +3,9 @@ goffice 0.10.6:
 Alexander Larsson:
 	* Fix gtk+ 3.9 redraw problems.  [#703124]
 
+Jean:
+	* Fix NULL pointer issue in line plots. [#706663]
+
 --------------------------------------------------------------------------
 goffice 0.10.5:
 
