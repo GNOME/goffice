@@ -1,3 +1,7 @@
+2013-08-27  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.6
+
 2013-08-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-line.c (gog_line_view_render): always allocate
