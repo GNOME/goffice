@@ -8893,7 +8893,7 @@ msgstr "Logarithmische Regression"
 
 #: ../plugins/reg_linear/gog-polynom-reg.c:202
 msgid "Order:"
-msgstr "Reihenfolge:"
+msgstr "Grad:"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
