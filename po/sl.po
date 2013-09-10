@@ -4,16 +4,16 @@
 #
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009.
 # Chris Leonard <cjl@laptop.org>, 2012.
-# Martin Srebotnjak <miles@filmsi.net>, 2011 - 2013.
-# Matej Urbančič <mateju@svn.gnome.org>, 2010 - 2013.
+# Martin Srebotnjak <miles@filmsi.net>, 2011-2013.
+# Matej Urbančič <mateju@svn.gnome.org>, 2010-2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-11 19:46+0000\n"
-"PO-Revision-Date: 2013-06-13 21:42+0100\n"
+"POT-Creation-Date: 2013-09-02 19:57+0000\n"
+"PO-Revision-Date: 2013-09-10 20:54+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -542,8 +542,8 @@ msgid "The arc end angle"
 msgstr "Končni kot loka"
 
 #: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
-#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-path.c:284
-#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
+#: ../goffice/canvas/goc-ellipse.c:287 ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:431
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Vrtenje"
@@ -579,10 +579,10 @@ msgid "Arrow for line's end"
 msgstr "Puščica za konec črte"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-ellipse.c:263 ../goffice/canvas/goc-graph.c:441
 #: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
-#: ../goffice/canvas/goc-path.c:272 ../goffice/canvas/goc-pixbuf.c:235
-#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
+#: ../goffice/canvas/goc-path.c:281 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:419
 #: ../goffice/canvas/goc-widget.c:796 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
@@ -592,10 +592,10 @@ msgid "The circle center horizontal position"
 msgstr "Vodoravni položaj središča kroga"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:270 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-ellipse.c:269 ../goffice/canvas/goc-graph.c:447
 #: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
-#: ../goffice/canvas/goc-path.c:278 ../goffice/canvas/goc-pixbuf.c:241
-#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
+#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:425
 #: ../goffice/canvas/goc-widget.c:802
 msgid "y"
 msgstr "y"
@@ -621,21 +621,21 @@ msgid "The object top position"
 msgstr "Zgornji položaj predmeta"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:282 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-ellipse.c:281 ../goffice/canvas/goc-graph.c:453
 #: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
 #: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
-#: ../goffice/canvas/goc-widget.c:815 ../goffice/graph/gog-graph.c:499
-#: ../goffice/graph/gog-object.c:194 ../goffice/utils/go-image.c:505
+#: ../goffice/canvas/goc-widget.c:815 ../goffice/graph/gog-graph.c:502
+#: ../goffice/graph/gog-object.c:194 ../goffice/utils/go-image.c:514
 msgid "Height"
 msgstr "Višina"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:276 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-ellipse.c:275 ../goffice/canvas/goc-graph.c:459
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
 #: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
 #: ../goffice/canvas/goc-widget.c:809 ../goffice/graph/gog-color-scale.c:318
-#: ../goffice/graph/gog-graph.c:493 ../goffice/graph/gog-object.c:192
-#: ../goffice/utils/go-image.c:501 ../plugins/plot_xy/gog-xy-dropbar.c:312
+#: ../goffice/graph/gog-graph.c:496 ../goffice/graph/gog-object.c:192
+#: ../goffice/utils/go-image.c:510 ../plugins/plot_xy/gog-xy-dropbar.c:308
 msgid "Width"
 msgstr "Širina"
 
@@ -651,23 +651,23 @@ msgstr "Predmet"
 msgid "The embedded GOComponent object"
 msgstr "Vdelani predmet GOComponent"
 
-#: ../goffice/canvas/goc-ellipse.c:265
+#: ../goffice/canvas/goc-ellipse.c:264
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Leva točka položaja elipse (ali desna v načinu D-L)"
 
-#: ../goffice/canvas/goc-ellipse.c:271
+#: ../goffice/canvas/goc-ellipse.c:270
 msgid "The ellipse top position"
 msgstr "Zgornja točka položaja elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:277
+#: ../goffice/canvas/goc-ellipse.c:276
 msgid "The ellipse width"
 msgstr "Širina elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:283
+#: ../goffice/canvas/goc-ellipse.c:282
 msgid "The ellipse height"
 msgstr "Višina elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:289 ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "Vrtenje okoli zgornje leve točke"
 
@@ -688,8 +688,8 @@ msgstr "Zgornja lega diagrama"
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:525 ../goffice/graph/gog-theme.c:581
+#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:256
+#: ../goffice/graph/gog-graph.c:528 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Diagram"
 
@@ -697,7 +697,7 @@ msgstr "Diagram"
 msgid "The GogGraph this object displays"
 msgstr "Predmet GogGraph, ki ga ta predmet izrisuje"
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1071
+#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1074
 msgid "Renderer"
 msgstr "Izrisovalnik"
 
@@ -813,43 +813,43 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "Koordinata y konca črte"
 
-#: ../goffice/canvas/goc-path.c:273
+#: ../goffice/canvas/goc-path.c:282
 msgid "The path first point x coordinate"
 msgstr "Koordinata x prve točke poti"
 
-#: ../goffice/canvas/goc-path.c:279
+#: ../goffice/canvas/goc-path.c:288
 msgid "The path first point y coordinate"
 msgstr "Koordinata y prve točke poti"
 
-#: ../goffice/canvas/goc-path.c:285
+#: ../goffice/canvas/goc-path.c:294
 msgid "The rotation around first point position"
 msgstr "Vrtenje okoli položaja prve točke"
 
-#: ../goffice/canvas/goc-path.c:290
+#: ../goffice/canvas/goc-path.c:299
 msgid "Closed"
 msgstr "Zaprto"
 
-#: ../goffice/canvas/goc-path.c:291
+#: ../goffice/canvas/goc-path.c:300
 msgid "The flag for closed path"
 msgstr "Zastavica za zaprto pot"
 
-#: ../goffice/canvas/goc-path.c:296 ../goffice/canvas/goc-polygon.c:360
+#: ../goffice/canvas/goc-path.c:305 ../goffice/canvas/goc-polygon.c:360
 msgid "Fill rule"
 msgstr "Pravilo polnjenja"
 
-#: ../goffice/canvas/goc-path.c:297 ../goffice/canvas/goc-polygon.c:361
+#: ../goffice/canvas/goc-path.c:306 ../goffice/canvas/goc-polygon.c:361
 msgid "Set fill rule to winding or even/odd"
 msgstr "Določilo pravila navojnega števila za sode in lihe vrednosti"
 
-#: ../goffice/canvas/goc-path.c:302
+#: ../goffice/canvas/goc-path.c:311
 msgid "Path"
 msgstr "Pot"
 
-#: ../goffice/canvas/goc-path.c:303
+#: ../goffice/canvas/goc-path.c:312
 msgid "The path points"
 msgstr "Točke poti"
 
-#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:300
 msgid "Pixbuf"
 msgstr "Sličica"
 
@@ -957,72 +957,72 @@ msgstr "Širina črte merila"
 msgid "Whether to scale the line width when zooming"
 msgstr "Ali naj se med približevanjem spremeni merilo širine črte"
 
-#: ../goffice/canvas/goc-text.c:466
+#: ../goffice/canvas/goc-text.c:420
 msgid "The text horizontal position"
 msgstr "Položaj vodoravnega besedila"
 
-#: ../goffice/canvas/goc-text.c:472
+#: ../goffice/canvas/goc-text.c:426
 msgid "The text position"
 msgstr "Lega besedila"
 
-#: ../goffice/canvas/goc-text.c:478
+#: ../goffice/canvas/goc-text.c:432
 msgid "The rotation around the anchor"
 msgstr "Vrtenje okoli točke sidrišča"
 
-#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:847
+#: ../goffice/canvas/goc-text.c:437 ../goffice/graph/gog-object.c:847
 msgid "Anchor"
 msgstr "Sidro"
 
-#: ../goffice/canvas/goc-text.c:484
+#: ../goffice/canvas/goc-text.c:438
 msgid "The anchor point for the text"
 msgstr "Sidrna točka za besedilo"
 
-#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/canvas/goc-text.c:443 ../goffice/gtk/go-format-sel.c:69
 #: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:972
 msgid "Text"
 msgstr "Besedilo"
 
-#: ../goffice/canvas/goc-text.c:490
+#: ../goffice/canvas/goc-text.c:444
 msgid "The text to display"
 msgstr "Besedilo za prikaz"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:447
 msgid "Attributes"
 msgstr "Določila"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:447
 msgid "The attributes list as a PangoAttrList"
 msgstr "Seznam določil kot PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:498
+#: ../goffice/canvas/goc-text.c:452
 msgid "Clip"
 msgstr "Izreži"
 
-#: ../goffice/canvas/goc-text.c:499
+#: ../goffice/canvas/goc-text.c:453
 msgid "Whether to clip or not"
 msgstr "Ali naj bodo mere izrezane ali ne"
 
-#: ../goffice/canvas/goc-text.c:504
+#: ../goffice/canvas/goc-text.c:458
 msgid "Clip width"
 msgstr "Izrezana širina"
 
-#: ../goffice/canvas/goc-text.c:505
+#: ../goffice/canvas/goc-text.c:459
 msgid "Clip width for the text"
 msgstr "Izrezana širina za besedilo"
 
-#: ../goffice/canvas/goc-text.c:510
+#: ../goffice/canvas/goc-text.c:464
 msgid "Clip height"
 msgstr "Izrezana višina"
 
-#: ../goffice/canvas/goc-text.c:511
+#: ../goffice/canvas/goc-text.c:465
 msgid "Clip height for the text"
 msgstr "Izrezana višina za besedilo"
 
-#: ../goffice/canvas/goc-text.c:516
+#: ../goffice/canvas/goc-text.c:470
 msgid "Wrap width"
 msgstr "Prelomi širino"
 
-#: ../goffice/canvas/goc-text.c:517
+#: ../goffice/canvas/goc-text.c:471
 msgid "Wrap width for the text"
 msgstr "Prelomi širino besedila"
 
@@ -1610,7 +1610,7 @@ msgstr "Barvna os"
 msgid "Plot"
 msgstr "Diagram"
 
-#: ../goffice/graph/gog-chart.c:696 ../goffice/graph/gog-graph.c:426
+#: ../goffice/graph/gog-chart.c:696 ../goffice/graph/gog-graph.c:429
 #: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
 msgid "Title"
 msgstr "Naslov"
@@ -1721,7 +1721,7 @@ msgstr "Desno"
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2101
+#: ../plugins/plot_xy/gog-xy.c:2099
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -1729,8 +1729,8 @@ msgstr "Podrobnosti"
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:3
 #: ../plugins/plot_barcol/gog-minmax.c:227
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
-#: ../plugins/plot_xy/gog-xy-dropbar.c:306
-#: ../plugins/plot_xy/gog-xy-minmax.c:291
+#: ../plugins/plot_xy/gog-xy-dropbar.c:302
+#: ../plugins/plot_xy/gog-xy-minmax.c:299
 msgid "Horizontal"
 msgstr "Vodoravni"
 
@@ -1786,7 +1786,7 @@ msgstr "_Strnjen način"
 #: ../goffice/graph/gog-object.c:191
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
 #: ../goffice/gtk/go-format-sel.c:1670 ../goffice/gtk/go-format-sel.c:1846
-#: ../goffice/utils/formats.c:366 ../goffice/utils/go-line.c:127
+#: ../goffice/utils/formats.c:370 ../goffice/utils/go-line.c:127
 #: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "Brez"
@@ -1862,44 +1862,44 @@ msgid "Percent"
 msgstr "Odstotek"
 
 #. builds the default discrete color map
-#: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
+#: ../goffice/graph/gog-graph.c:363 ../goffice/graph/gog-graph.c:484
 #: ../goffice/graph/gog-theme.c:1415 ../goffice/graph/gog-theme.c:1588
 msgid "Theme"
 msgstr "Tema"
 
-#: ../goffice/graph/gog-graph.c:421 ../goffice/graph/gog-theme.c:583
+#: ../goffice/graph/gog-graph.c:424 ../goffice/graph/gog-theme.c:583
 msgid "Chart"
 msgstr "Diagram"
 
-#: ../goffice/graph/gog-graph.c:482
+#: ../goffice/graph/gog-graph.c:485
 msgid "The theme for elements of the graph"
 msgstr "Tema za predmete diagrama"
 
-#: ../goffice/graph/gog-graph.c:487
+#: ../goffice/graph/gog-graph.c:490
 msgid "Theme name"
 msgstr "Ime teme"
 
-#: ../goffice/graph/gog-graph.c:488
+#: ../goffice/graph/gog-graph.c:491
 msgid "The name of the theme for elements of the graph"
 msgstr "Ime teme za predmete diagrama"
 
-#: ../goffice/graph/gog-graph.c:494
+#: ../goffice/graph/gog-graph.c:497
 msgid "Logical graph width, in points"
 msgstr "Logična širina diagramov v točkah"
 
-#: ../goffice/graph/gog-graph.c:500
+#: ../goffice/graph/gog-graph.c:503
 msgid "Logical graph height, in points"
 msgstr "Logična višina diagrama v točkah"
 
-#: ../goffice/graph/gog-graph.c:505
+#: ../goffice/graph/gog-graph.c:508
 msgid "Document"
 msgstr "Dokument"
 
-#: ../goffice/graph/gog-graph.c:506
+#: ../goffice/graph/gog-graph.c:509
 msgid "the document for this graph"
 msgstr "dokument za ta diagram"
 
-#: ../goffice/graph/gog-graph.c:1072
+#: ../goffice/graph/gog-graph.c:1075
 msgid "the renderer for this view"
 msgstr "izrisovalnik pogleda"
 
@@ -2085,12 +2085,12 @@ msgid "Fill"
 msgstr "Zapolni"
 
 #: ../goffice/graph/gog-object.c:173 ../plugins/plot_barcol/gog-dropbar.c:143
-#: ../plugins/plot_xy/gog-xy-dropbar.c:326
+#: ../plugins/plot_xy/gog-xy-dropbar.c:322
 msgid "Start"
 msgstr "Začetek"
 
 #: ../goffice/graph/gog-object.c:174 ../plugins/plot_barcol/gog-dropbar.c:145
-#: ../plugins/plot_xy/gog-xy-dropbar.c:328
+#: ../plugins/plot_xy/gog-xy-dropbar.c:324
 msgid "End"
 msgstr "Konec"
 
@@ -2815,15 +2815,15 @@ msgstr "Guppi"
 msgid "Guppi theme"
 msgstr "Tema Guppi"
 
-#: ../goffice/graph/gog-theme.c:1857
+#: ../goffice/graph/gog-theme.c:1862
 msgid "Class"
 msgstr "Razred"
 
-#: ../goffice/graph/gog-theme.c:1860
+#: ../goffice/graph/gog-theme.c:1865
 msgid "Create"
 msgstr "Ustvari"
 
-#: ../goffice/graph/gog-theme.c:1875 ../goffice/graph/new-theme-prefs.ui.h:1
+#: ../goffice/graph/gog-theme.c:1880 ../goffice/graph/new-theme-prefs.ui.h:1
 msgid "New theme"
 msgstr "Nova tema"
 
@@ -2848,8 +2848,8 @@ msgstr "Zaslonska slika"
 #: ../plugins/plot_distrib/gog-histogram.c:333
 #: ../plugins/plot_pie/gog-pie.c:275 ../plugins/plot_pie/gog-pie.c:438
 #: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:595
-#: ../plugins/plot_surface/gog-xyz.c:102
-#: ../plugins/plot_surface/gog-xyz-surface.c:504
+#: ../plugins/plot_surface/gog-xyz.c:103
+#: ../plugins/plot_surface/gog-xyz-surface.c:518
 #: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:463
 #: ../plugins/plot_xy/gog-xy.c:734 ../plugins/plot_xy/gog-xy-dropbar.c:154
 #: ../plugins/smoothing/gog-exp-smooth.c:80
@@ -3482,7 +3482,6 @@ msgid "Custom color..."
 msgstr "Barva po meri ..."
 
 #: ../goffice/gtk/go-combo-box.c:315
-#| msgid "The combo box' title"
 msgid "The combo box's title"
 msgstr "Naziv spustnega okna"
 
@@ -5608,707 +5607,707 @@ msgstr "Dejavnik oblike"
 #. * The second column has the long names of the currencies.
 #.
 #. 2010/08/12 Updated to match iso 4217
-#: ../goffice/utils/formats.c:382
+#: ../goffice/utils/formats.c:386
 msgid "United Arab Emirates, Dirhams"
 msgstr "Združeni Arabski Emirati, dirhami"
 
-#: ../goffice/utils/formats.c:383
+#: ../goffice/utils/formats.c:387
 msgid "Afghanistan, Afghanis"
 msgstr "Afganistan, afgani"
 
-#: ../goffice/utils/formats.c:384
+#: ../goffice/utils/formats.c:388
 msgid "Albania, Leke"
 msgstr "Albanija, leki"
 
-#: ../goffice/utils/formats.c:385
+#: ../goffice/utils/formats.c:389
 msgid "Armenia, Drams"
 msgstr "Armenija, drami"
 
-#: ../goffice/utils/formats.c:386
+#: ../goffice/utils/formats.c:390
 msgid "Netherlands antilles, Guilders"
 msgstr "Nizozemski Antili, gulden"
 
-#: ../goffice/utils/formats.c:387
+#: ../goffice/utils/formats.c:391
 msgid "Angola, Kwanza"
 msgstr "Angola, kvanza"
 
-#: ../goffice/utils/formats.c:388
+#: ../goffice/utils/formats.c:392
 msgid "Argentina, Pesos"
 msgstr "Argentina, pesi"
 
-#: ../goffice/utils/formats.c:389
+#: ../goffice/utils/formats.c:393
 msgid "Australia, Dollars"
 msgstr "Avstralija, dolarji"
 
-#: ../goffice/utils/formats.c:390
+#: ../goffice/utils/formats.c:394
 msgid "Aruba, Guilders"
 msgstr "Aruba, guilderi"
 
-#: ../goffice/utils/formats.c:391
+#: ../goffice/utils/formats.c:395
 msgid "Azerbaijan, Manats"
 msgstr "Azerbajdžan, manati"
 
-#: ../goffice/utils/formats.c:392
+#: ../goffice/utils/formats.c:396
 msgid "Bosnia and herzegovina, Convertible Marka"
 msgstr "Bosna in Hercegovina, konvertibilna marka"
 
-#: ../goffice/utils/formats.c:393
+#: ../goffice/utils/formats.c:397
 msgid "Barbados, Dollars"
 msgstr "Barbados, dolarji"
 
-#: ../goffice/utils/formats.c:394
+#: ../goffice/utils/formats.c:398
 msgid "Bangladesh, Taka"
 msgstr "Bangladeš, taka"
 
-#: ../goffice/utils/formats.c:395
+#: ../goffice/utils/formats.c:399
 msgid "Bulgaria, Leva"
 msgstr "Bolgarija, levi"
 
-#: ../goffice/utils/formats.c:396
+#: ../goffice/utils/formats.c:400
 msgid "Bahrain, Dinars"
 msgstr "Bahrajn, dinarji"
 
-#: ../goffice/utils/formats.c:397
+#: ../goffice/utils/formats.c:401
 msgid "Burundi, Francs"
 msgstr "Burundi, franki"
 
-#: ../goffice/utils/formats.c:398
+#: ../goffice/utils/formats.c:402
 msgid "Bermuda, Dollars"
 msgstr "Bermuda, dolarji"
 
-#: ../goffice/utils/formats.c:399
+#: ../goffice/utils/formats.c:403
 msgid "Brunei Darussalam, Dollars"
 msgstr "Brunej, dolarji"
 
-#: ../goffice/utils/formats.c:400
+#: ../goffice/utils/formats.c:404
 msgid "Bolivia, Bolivianos"
 msgstr "Bolivija, boliviani"
 
-#: ../goffice/utils/formats.c:401
+#: ../goffice/utils/formats.c:405
 msgid "Bolivia, Mvdol"
 msgstr "Bolivija, boliviani"
 
-#: ../goffice/utils/formats.c:402
+#: ../goffice/utils/formats.c:406
 msgid "Brazil, Brazilian Real"
 msgstr "Brazilija, brazilski real"
 
-#: ../goffice/utils/formats.c:403
+#: ../goffice/utils/formats.c:407
 msgid "Bahamas, Dollars"
 msgstr "Bahami, dolarji"
 
-#: ../goffice/utils/formats.c:404
+#: ../goffice/utils/formats.c:408
 msgid "Bhutan, Ngultrum"
 msgstr "Butan, ngultrum"
 
-#: ../goffice/utils/formats.c:405
+#: ../goffice/utils/formats.c:409
 msgid "Botswana, Pulas"
 msgstr "Botsvana, pule"
 
-#: ../goffice/utils/formats.c:406
+#: ../goffice/utils/formats.c:410
 msgid "Belarus, Rubles"
 msgstr "Belorusija, rublji"
 
-#: ../goffice/utils/formats.c:407
+#: ../goffice/utils/formats.c:411
 msgid "Belize, Dollars"
 msgstr "Belize, dolarji"
 
-#: ../goffice/utils/formats.c:408
+#: ../goffice/utils/formats.c:412
 msgid "Canada, Dollars"
 msgstr "Kanada, dolarji"
 
-#: ../goffice/utils/formats.c:409
+#: ../goffice/utils/formats.c:413
 msgid "Congo, the democratic republic of, Congolese Francs"
 msgstr "Kongo, kongoški franki"
 
-#: ../goffice/utils/formats.c:410
+#: ../goffice/utils/formats.c:414
 msgid "Switzerland, WIR Euros"
 msgstr "Švica, evro"
 
-#: ../goffice/utils/formats.c:411
+#: ../goffice/utils/formats.c:415
 msgid "Switzerland, Francs"
 msgstr "Švica, franki"
 
-#: ../goffice/utils/formats.c:412
+#: ../goffice/utils/formats.c:416
 msgid "Switzerland, WIR Francs"
 msgstr "Švica, franki"
 
-#: ../goffice/utils/formats.c:413
+#: ../goffice/utils/formats.c:417
 msgid "Chile, Unidades de fomento"
 msgstr "Čile, Podporna denarna enota (UF)"
 
-#: ../goffice/utils/formats.c:414
+#: ../goffice/utils/formats.c:418
 msgid "Chile, Pesos"
 msgstr "Čile, pesi"
 
-#: ../goffice/utils/formats.c:415
+#: ../goffice/utils/formats.c:419
 msgid "China, Yuan Renminbi"
 msgstr "Kitajska, yuan"
 
-#: ../goffice/utils/formats.c:416
+#: ../goffice/utils/formats.c:420
 msgid "Colombia, Pesos"
 msgstr "Kolumbija, pesi"
 
-#: ../goffice/utils/formats.c:417
+#: ../goffice/utils/formats.c:421
 msgid "Colombia, Unidades de Valor Real"
 msgstr "Kolumbija, valoriziran real"
 
-#: ../goffice/utils/formats.c:418
+#: ../goffice/utils/formats.c:422
 msgid "Costa rica, Colones"
 msgstr "Kostarika, koloni"
 
-#: ../goffice/utils/formats.c:419
+#: ../goffice/utils/formats.c:423
 msgid "Cuba, Pesos Convertibles"
 msgstr "Kuba, konvertibilni peso"
 
-#: ../goffice/utils/formats.c:420
+#: ../goffice/utils/formats.c:424
 msgid "Cuba, Pesos"
 msgstr "Kuba, pesi"
 
-#: ../goffice/utils/formats.c:421
+#: ../goffice/utils/formats.c:425
 msgid "Cape verde, Escudos"
 msgstr "Zelenortski otoki, eskvadi"
 
-#: ../goffice/utils/formats.c:422
+#: ../goffice/utils/formats.c:426
 msgid "Czech republic, Koruny"
 msgstr "Češka republika, krona"
 
-#: ../goffice/utils/formats.c:423
+#: ../goffice/utils/formats.c:427
 msgid "Djibouti, Francs"
 msgstr "Džibuti, franki"
 
-#: ../goffice/utils/formats.c:424
+#: ../goffice/utils/formats.c:428
 msgid "Denmark, Kroner"
 msgstr "Danska, krone"
 
-#: ../goffice/utils/formats.c:425
+#: ../goffice/utils/formats.c:429
 msgid "Dominican republic, Pesos"
 msgstr "Dominikanska republika, peso"
 
-#: ../goffice/utils/formats.c:426
+#: ../goffice/utils/formats.c:430
 msgid "Algeria, Algerian Dinars"
 msgstr "Alžirija, alžirski dinarji"
 
-#: ../goffice/utils/formats.c:427
+#: ../goffice/utils/formats.c:431
 msgid "Egypt, Pounds"
 msgstr "Egipt, funti"
 
-#: ../goffice/utils/formats.c:428
+#: ../goffice/utils/formats.c:432
 msgid "Eritrea, Nakfa"
 msgstr "Eritrija, nakfa"
 
-#: ../goffice/utils/formats.c:429
+#: ../goffice/utils/formats.c:433
 msgid "Ethiopia, Birr"
 msgstr "Etiopija, bir"
 
-#: ../goffice/utils/formats.c:430
+#: ../goffice/utils/formats.c:434
 msgid "Euro Members Countries, Euros"
 msgstr "Države članice evra, evro"
 
-#: ../goffice/utils/formats.c:431
+#: ../goffice/utils/formats.c:435
 msgid "Fiji, Dollars"
 msgstr "Fidži, dolarji"
 
-#: ../goffice/utils/formats.c:432
+#: ../goffice/utils/formats.c:436
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Ferski otoki, funti"
 
-#: ../goffice/utils/formats.c:433
+#: ../goffice/utils/formats.c:437
 msgid "United kingdom, Pounds"
 msgstr "Združeno kraljestvo, funti"
 
-#: ../goffice/utils/formats.c:434
+#: ../goffice/utils/formats.c:438
 msgid "Georgia, Lari"
 msgstr "Gruzija, lari"
 
-#: ../goffice/utils/formats.c:435
+#: ../goffice/utils/formats.c:439
 msgid "Ghana, Cedis"
 msgstr "Gana, cedi"
 
-#: ../goffice/utils/formats.c:436
+#: ../goffice/utils/formats.c:440
 msgid "Gibraltar, Pounds"
 msgstr "Gibraltar, funti"
 
-#: ../goffice/utils/formats.c:437
+#: ../goffice/utils/formats.c:441
 msgid "Gambia, Dalasi"
 msgstr "Gambija, dalasi"
 
-#: ../goffice/utils/formats.c:438
+#: ../goffice/utils/formats.c:442
 msgid "Guinea, Francs"
 msgstr "Gvineja, franki"
 
-#: ../goffice/utils/formats.c:439
+#: ../goffice/utils/formats.c:443
 msgid "Guatemala, Quetzales"
 msgstr "Gvatemala, quetzali"
 
-#: ../goffice/utils/formats.c:440
+#: ../goffice/utils/formats.c:444
 msgid "Guyana, Dollars"
 msgstr "Gvajana, dolarji"
 
-#: ../goffice/utils/formats.c:441
+#: ../goffice/utils/formats.c:445
 msgid "Hong Kong, Dollars"
 msgstr "Hong Kong, dolarji"
 
-#: ../goffice/utils/formats.c:442
+#: ../goffice/utils/formats.c:446
 msgid "Honduras, Lempiras"
 msgstr "Honduras, lempire"
 
-#: ../goffice/utils/formats.c:443
+#: ../goffice/utils/formats.c:447
 msgid "Croatia, Kuna"
 msgstr "Hrvaška, kune"
 
-#: ../goffice/utils/formats.c:444
+#: ../goffice/utils/formats.c:448
 msgid "Haiti, Gourdes"
 msgstr "Haiti, gourde"
 
-#: ../goffice/utils/formats.c:445
+#: ../goffice/utils/formats.c:449
 msgid "Hungary, Forint"
 msgstr "Madžarska, forinti"
 
-#: ../goffice/utils/formats.c:446
+#: ../goffice/utils/formats.c:450
 msgid "Indonesia, Rupiahs"
 msgstr "Indonezija, rupije"
 
-#: ../goffice/utils/formats.c:447
+#: ../goffice/utils/formats.c:451
 msgid "Israel, New Sheqels"
 msgstr "Izrael, šekel"
 
-#: ../goffice/utils/formats.c:448
+#: ../goffice/utils/formats.c:452
 msgid "India, Rupees"
 msgstr "Indija, rupije"
 
-#: ../goffice/utils/formats.c:449
+#: ../goffice/utils/formats.c:453
 msgid "Iraq, Dinars"
 msgstr "Irak, dinarji"
 
-#: ../goffice/utils/formats.c:450
+#: ../goffice/utils/formats.c:454
 msgid "Iran, Rials"
 msgstr "Iran, riali"
 
-#: ../goffice/utils/formats.c:451
+#: ../goffice/utils/formats.c:455
 msgid "Iceland, Krohur"
 msgstr "Islandija, krona"
 
-#: ../goffice/utils/formats.c:452
+#: ../goffice/utils/formats.c:456
 msgid "Jamaica, Dollars"
 msgstr "Jamajka, dolarji"
 
-#: ../goffice/utils/formats.c:453
+#: ../goffice/utils/formats.c:457
 msgid "Jordan, Dinars"
 msgstr "Jordan, dinarji"
 
-#: ../goffice/utils/formats.c:454
+#: ../goffice/utils/formats.c:458
 msgid "Japan, Yen"
 msgstr "Japonska, jen"
 
-#: ../goffice/utils/formats.c:455
+#: ../goffice/utils/formats.c:459
 msgid "Kenya, Shillings"
 msgstr "Kenija, šilingi"
 
-#: ../goffice/utils/formats.c:456
+#: ../goffice/utils/formats.c:460
 msgid "Kyrgyzstan, Soms"
 msgstr "Kirgistan, somi"
 
-#: ../goffice/utils/formats.c:457
+#: ../goffice/utils/formats.c:461
 msgid "Cambodia, Riels"
 msgstr "Kambodža, rieli"
 
-#: ../goffice/utils/formats.c:458
+#: ../goffice/utils/formats.c:462
 msgid "Comoros, Francs"
 msgstr "Komori, franki"
 
-#: ../goffice/utils/formats.c:459
+#: ../goffice/utils/formats.c:463
 msgid "Korea (North), Won"
 msgstr "Severna Koreja, von"
 
-#: ../goffice/utils/formats.c:460
+#: ../goffice/utils/formats.c:464
 msgid "Korea (South) Wons"
 msgstr "Koreja (južna)/won"
 
-#: ../goffice/utils/formats.c:461
+#: ../goffice/utils/formats.c:465
 msgid "Kuwait, Dinars"
 msgstr "Kuvajt, dinarji"
 
-#: ../goffice/utils/formats.c:462
+#: ../goffice/utils/formats.c:466
 msgid "Cayman islands, Dollars"
 msgstr "Kajmansko otočje, dolar"
 
-#: ../goffice/utils/formats.c:463
+#: ../goffice/utils/formats.c:467
 msgid "Kazakhstan, Tenge"
 msgstr "Kazahstan, tenge"
 
-#: ../goffice/utils/formats.c:464
+#: ../goffice/utils/formats.c:468
 msgid "Laos, Kips"
 msgstr "Laos, kip"
 
-#: ../goffice/utils/formats.c:465
+#: ../goffice/utils/formats.c:469
 msgid "Lebanon, Pounds"
 msgstr "Libanon, funti"
 
-#: ../goffice/utils/formats.c:466
+#: ../goffice/utils/formats.c:470
 msgid "Sri Lanka, Rupees"
 msgstr "Šrilanka, rupije"
 
-#: ../goffice/utils/formats.c:467
+#: ../goffice/utils/formats.c:471
 msgid "Liberia, Dollars"
 msgstr "Liberija, dolarji"
 
-#: ../goffice/utils/formats.c:468
+#: ../goffice/utils/formats.c:472
 msgid "Lithuania, Litai"
 msgstr "Litva, litas"
 
-#: ../goffice/utils/formats.c:469
+#: ../goffice/utils/formats.c:473
 msgid "Latvia, Lati"
 msgstr "Latvija, lat"
 
-#: ../goffice/utils/formats.c:470
+#: ../goffice/utils/formats.c:474
 msgid "Libya, Dinars"
 msgstr "Libija, dinarji"
 
-#: ../goffice/utils/formats.c:471
+#: ../goffice/utils/formats.c:475
 msgid "Morocco, Dirhams"
 msgstr "Maroko, dirhme"
 
-#: ../goffice/utils/formats.c:472
+#: ../goffice/utils/formats.c:476
 msgid "Moldova, Lei"
 msgstr "Moldova, lei"
 
-#: ../goffice/utils/formats.c:473
+#: ../goffice/utils/formats.c:477
 msgid "Madagascar, Malagasy Ariary"
 msgstr "Madagaskar, ariari"
 
-#: ../goffice/utils/formats.c:474
+#: ../goffice/utils/formats.c:478
 msgid "Macedonia, Denars"
 msgstr "Makedonija, denarji"
 
-#: ../goffice/utils/formats.c:475
+#: ../goffice/utils/formats.c:479
 msgid "Myanmar (Burma), Kyats"
 msgstr "Mijanmar, kjat"
 
-#: ../goffice/utils/formats.c:476
+#: ../goffice/utils/formats.c:480
 msgid "Mongolia, Tugriks"
 msgstr "Mongolija, tugriks"
 
-#: ../goffice/utils/formats.c:477
+#: ../goffice/utils/formats.c:481
 msgid "Macao, Patacas"
 msgstr "Makao, patakas"
 
-#: ../goffice/utils/formats.c:478
+#: ../goffice/utils/formats.c:482
 msgid "Mauritania, Ouguiyas"
 msgstr "Mavretanija, uguija"
 
-#: ../goffice/utils/formats.c:479
+#: ../goffice/utils/formats.c:483
 msgid "Mauritius, Rupees"
 msgstr "Mavricius, rupije"
 
-#: ../goffice/utils/formats.c:480
+#: ../goffice/utils/formats.c:484
 msgid "Maldives (Maldive Islands), Rufiyaas"
 msgstr "Maldivi, rafije"
 
-#: ../goffice/utils/formats.c:481
+#: ../goffice/utils/formats.c:485
 msgid "Malawi, Kwachas"
 msgstr "Malavi, kvača"
 
-#: ../goffice/utils/formats.c:482
+#: ../goffice/utils/formats.c:486
 msgid "Mexico, Pesos"
 msgstr "Mehika, pesi"
 
-#: ../goffice/utils/formats.c:483
+#: ../goffice/utils/formats.c:487
 msgid "Mexico, Unidades de Inversion"
 msgstr "Mehika, Investicijska enota (UI)"
 
-#: ../goffice/utils/formats.c:484
+#: ../goffice/utils/formats.c:488
 msgid "Malaysia, Ringgits"
 msgstr "Malezija, ringiti"
 
-#: ../goffice/utils/formats.c:485
+#: ../goffice/utils/formats.c:489
 msgid "Mozambique, Meticais"
 msgstr "Mozambik, metikal"
 
-#: ../goffice/utils/formats.c:486
+#: ../goffice/utils/formats.c:490
 msgid "Nigeria, Nairas"
 msgstr "Nigerija, nairi"
 
-#: ../goffice/utils/formats.c:487
+#: ../goffice/utils/formats.c:491
 msgid "Nicaragua, Gold Cordobas"
 msgstr "Nikaragva, zlate kordobe"
 
-#: ../goffice/utils/formats.c:488
+#: ../goffice/utils/formats.c:492
 msgid "Norway, Norwegian Krone"
 msgstr "Norveška, Norveška krona"
 
-#: ../goffice/utils/formats.c:489
+#: ../goffice/utils/formats.c:493
 msgid "Nepal, Nepalese Rupees"
 msgstr "Nepal, nepalske rupije"
 
-#: ../goffice/utils/formats.c:490
+#: ../goffice/utils/formats.c:494
 msgid "New zealand, Dollars"
 msgstr "Nova Zelandija, dolarji"
 
-#: ../goffice/utils/formats.c:491
+#: ../goffice/utils/formats.c:495
 msgid "Oman, Rials"
 msgstr "Oman, riali"
 
-#: ../goffice/utils/formats.c:492
+#: ../goffice/utils/formats.c:496
 msgid "Panama, Balboa"
 msgstr "Panama, balboa"
 
-#: ../goffice/utils/formats.c:493
+#: ../goffice/utils/formats.c:497
 msgid "Peru, Nuevo Soles"
 msgstr "Peru, novi soli"
 
-#: ../goffice/utils/formats.c:494
+#: ../goffice/utils/formats.c:498
 msgid "Papua New Guinea, Kina"
 msgstr "Papua nova gvineja, kina"
 
-#: ../goffice/utils/formats.c:495
+#: ../goffice/utils/formats.c:499
 msgid "Philippines, Pesos"
 msgstr "Filipini, pesi"
 
-#: ../goffice/utils/formats.c:496
+#: ../goffice/utils/formats.c:500
 msgid "Pakistan, Rupees"
 msgstr "Pakistan, rupije"
 
-#: ../goffice/utils/formats.c:497
+#: ../goffice/utils/formats.c:501
 msgid "Poland, Zlotys"
 msgstr "Poljska, zloti"
 
-#: ../goffice/utils/formats.c:498
+#: ../goffice/utils/formats.c:502
 msgid "Paraguay, Guarani"
 msgstr "Paragvaj, guarani"
 
-#: ../goffice/utils/formats.c:499
+#: ../goffice/utils/formats.c:503
 msgid "Qatar, Rials"
 msgstr "Katar, riali"
 
-#: ../goffice/utils/formats.c:500
+#: ../goffice/utils/formats.c:504
 msgid "Romania, New Lei"
 msgstr "Romunija, novi lev"
 
-#: ../goffice/utils/formats.c:501
+#: ../goffice/utils/formats.c:505
 msgid "Serbia, Dinars"
 msgstr "Srbija, dinarji"
 
-#: ../goffice/utils/formats.c:502
+#: ../goffice/utils/formats.c:506
 msgid "Russia, Rubles"
 msgstr "Rusija, rublji"
 
-#: ../goffice/utils/formats.c:503
+#: ../goffice/utils/formats.c:507
 msgid "Rwanda, Rwanda Francs"
 msgstr "Ruanda, ruandski franki"
 
-#: ../goffice/utils/formats.c:504
+#: ../goffice/utils/formats.c:508
 msgid "Saudi arabia, Riyals"
 msgstr "Saudska Arabija, riali"
 
-#: ../goffice/utils/formats.c:505
+#: ../goffice/utils/formats.c:509
 msgid "Solomon Islands, Dollars"
 msgstr "Salomonovi otoki, dolar"
 
-#: ../goffice/utils/formats.c:506
+#: ../goffice/utils/formats.c:510
 msgid "Seychelles, Rupees"
 msgstr "Sejšeli, rupije"
 
-#: ../goffice/utils/formats.c:507
+#: ../goffice/utils/formats.c:511
 msgid "Sudan, Pounds"
 msgstr "Sudan, funti"
 
-#: ../goffice/utils/formats.c:508
+#: ../goffice/utils/formats.c:512
 msgid "International Monetary Fund (I.M.F), SDR"
 msgstr "Mednarodni denarni sklad (I.M.F), SDR"
 
-#: ../goffice/utils/formats.c:509
+#: ../goffice/utils/formats.c:513
 msgid "Sweden, Kronor"
 msgstr "Švedska, krone"
 
-#: ../goffice/utils/formats.c:510
+#: ../goffice/utils/formats.c:514
 msgid "Singapore, Dollars"
 msgstr "Singapur, dolarji"
 
-#: ../goffice/utils/formats.c:511
+#: ../goffice/utils/formats.c:515
 msgid "Saint Helena, Ascension and Tristan da Cunha, Pounds"
 msgstr "St. Helena, Ascension in Tristan, funti"
 
-#: ../goffice/utils/formats.c:512
+#: ../goffice/utils/formats.c:516
 msgid "Sierra leone, Leones"
 msgstr "Sierra Leone, leoni"
 
-#: ../goffice/utils/formats.c:513
+#: ../goffice/utils/formats.c:517
 msgid "Somalia, Shillings"
 msgstr "Somalija, šilingi"
 
-#: ../goffice/utils/formats.c:514
+#: ../goffice/utils/formats.c:518
 msgid "Suriname, Dollars"
 msgstr "Surinam, dolarji"
 
-#: ../goffice/utils/formats.c:515
+#: ../goffice/utils/formats.c:519
 msgid "São Tome and Principe, Dobras"
 msgstr "Sao Tome in Principe, dobre"
 
-#: ../goffice/utils/formats.c:516
+#: ../goffice/utils/formats.c:520
 msgid "El Salvador, Colones"
 msgstr "El Salvador, koloni"
 
-#: ../goffice/utils/formats.c:517
+#: ../goffice/utils/formats.c:521
 msgid "Syria, Pounds"
 msgstr "Sirija, funti"
 
-#: ../goffice/utils/formats.c:518
+#: ../goffice/utils/formats.c:522
 msgid "Swaziland, Emalangeni"
 msgstr "Svaziland, emalangeni"
 
-#: ../goffice/utils/formats.c:519
+#: ../goffice/utils/formats.c:523
 msgid "Thailand, Baht"
 msgstr "Tajska, baht"
 
-#: ../goffice/utils/formats.c:520
+#: ../goffice/utils/formats.c:524
 msgid "Tajikistan, Somoni"
 msgstr "Tadžikistan, somoni"
 
-#: ../goffice/utils/formats.c:521
+#: ../goffice/utils/formats.c:525
 msgid "Turkmenistan, Manats"
 msgstr "Turkmenistan, manate"
 
-#: ../goffice/utils/formats.c:522
+#: ../goffice/utils/formats.c:526
 msgid "Tunisia, Dinars"
 msgstr "Tunizija, dinarji"
 
-#: ../goffice/utils/formats.c:523
+#: ../goffice/utils/formats.c:527
 msgid "Tonga, Pa'angas"
 msgstr "Tonga, pange"
 
-#: ../goffice/utils/formats.c:524
+#: ../goffice/utils/formats.c:528
 msgid "Turkey, Liras"
 msgstr "Turčija, lire"
 
-#: ../goffice/utils/formats.c:525
+#: ../goffice/utils/formats.c:529
 msgid "Trinidad and Tobago, Dollars"
 msgstr "Trinidad in Tobago, dolarji"
 
-#: ../goffice/utils/formats.c:526
+#: ../goffice/utils/formats.c:530
 msgid "Taiwan, New Dollars"
 msgstr "Tajvan, novi dolarji"
 
-#: ../goffice/utils/formats.c:527
+#: ../goffice/utils/formats.c:531
 msgid "Tanzania, Shillings"
 msgstr "Tanzanija, šilingi"
 
-#: ../goffice/utils/formats.c:528
+#: ../goffice/utils/formats.c:532
 msgid "Ukraine, Hryvnia"
 msgstr "Ukrajina, grivinja"
 
-#: ../goffice/utils/formats.c:529
+#: ../goffice/utils/formats.c:533
 msgid "Uganda, Shillings"
 msgstr "Uganda, šilingi"
 
-#: ../goffice/utils/formats.c:530
+#: ../goffice/utils/formats.c:534
 msgid "United States of America, Dollars"
 msgstr "Združene države Amerike, dolarji"
 
-#: ../goffice/utils/formats.c:531
+#: ../goffice/utils/formats.c:535
 msgid "United States of America, Dollars (Next day)"
 msgstr "Združene države Amerike, dolarji (prihodni)"
 
-#: ../goffice/utils/formats.c:532
+#: ../goffice/utils/formats.c:536
 msgid "United States of America, Dollars (Same day)"
 msgstr "Združene države Amerike, dolarji (trenutni)"
 
-#: ../goffice/utils/formats.c:533
+#: ../goffice/utils/formats.c:537
 msgid "Uruguay, Pesos en Unidades Indexadas"
 msgstr "Urugvaj, peso"
 
-#: ../goffice/utils/formats.c:534
+#: ../goffice/utils/formats.c:538
 msgid "Uruguay, Pesos"
 msgstr "Urugvaj, pesi"
 
-#: ../goffice/utils/formats.c:535
+#: ../goffice/utils/formats.c:539
 msgid "Uzbekistan, Sums"
 msgstr "Uzbekistan, sumi"
 
-#: ../goffice/utils/formats.c:536
+#: ../goffice/utils/formats.c:540
 msgid "Venezuela, Bolivares Fuertes"
 msgstr "Venezuela, bolivarji"
 
-#: ../goffice/utils/formats.c:537
+#: ../goffice/utils/formats.c:541
 msgid "Viet Nam, Dong"
 msgstr "Vietnam, dong"
 
-#: ../goffice/utils/formats.c:538
+#: ../goffice/utils/formats.c:542
 msgid "Vanuatu, Vatu"
 msgstr "Vanuatu, vatu"
 
-#: ../goffice/utils/formats.c:539
+#: ../goffice/utils/formats.c:543
 msgid "Samoa, Tala"
 msgstr "Ameriška Samoa, tala"
 
-#: ../goffice/utils/formats.c:540
+#: ../goffice/utils/formats.c:544
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr "CFA, franki (BEAC)"
 
-#: ../goffice/utils/formats.c:541
+#: ../goffice/utils/formats.c:545
 msgid "Silver, Ounces"
 msgstr "Srebro, unče"
 
-#: ../goffice/utils/formats.c:542
+#: ../goffice/utils/formats.c:546
 msgid "Gold, Ounces"
 msgstr "Zlato, unče"
 
-#: ../goffice/utils/formats.c:543
+#: ../goffice/utils/formats.c:547
 msgid "Bond Markets Units, European Coposite Units (EURCO)"
 msgstr "Delniške tržne enote (EURCO)"
 
-#: ../goffice/utils/formats.c:544
+#: ../goffice/utils/formats.c:548
 msgid "European Monetary Units (E.M.U.-6)"
 msgstr "Evropska monetarna enota (E.M.U.-6)"
 
-#: ../goffice/utils/formats.c:545
+#: ../goffice/utils/formats.c:549
 msgid "European Units of Account 9 (E.U.A.-9)"
 msgstr "Evropska računovodska enota 9 (E.U.A.-9)"
 
-#: ../goffice/utils/formats.c:546
+#: ../goffice/utils/formats.c:550
 msgid "European Units of Account 17 (E.U.A.-17)"
 msgstr "Evropska računovodska enota 17 (E.U.A.-17)"
 
-#: ../goffice/utils/formats.c:547
+#: ../goffice/utils/formats.c:551
 msgid "East Caribbean Dollars"
 msgstr "Vzhodnokaribski dolarji"
 
-#: ../goffice/utils/formats.c:548
+#: ../goffice/utils/formats.c:552
 msgid "UIC-Francs"
 msgstr "UIC, franki"
 
-#: ../goffice/utils/formats.c:549
+#: ../goffice/utils/formats.c:553
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "CFA, franki (BEACO)"
 
-#: ../goffice/utils/formats.c:550
+#: ../goffice/utils/formats.c:554
 msgid "Comptoirs Francais du Pacifique, Francs"
 msgstr "Francosko pacifiško ozemlje, franki"
 
-#: ../goffice/utils/formats.c:551
+#: ../goffice/utils/formats.c:555
 msgid "Palladium, Ounces"
 msgstr "Paladij, unče"
 
-#: ../goffice/utils/formats.c:552
+#: ../goffice/utils/formats.c:556
 msgid "Yemen, Rials"
 msgstr "Jemen, riali"
 
-#: ../goffice/utils/formats.c:553
+#: ../goffice/utils/formats.c:557
 msgid "South Africa, Rands"
 msgstr "Južno Afriška republika, randi"
 
-#: ../goffice/utils/formats.c:554
+#: ../goffice/utils/formats.c:558
 msgid "Lesotho, Maloti"
 msgstr "Lesoto, maloti"
 
-#: ../goffice/utils/formats.c:555
+#: ../goffice/utils/formats.c:559
 msgid "Namibia, Dollars"
 msgstr "Namibija, dolarji"
 
-#: ../goffice/utils/formats.c:556
+#: ../goffice/utils/formats.c:560
 msgid "Zambia, Zambian Kwacha"
 msgstr "Zambija, kvača"
 
-#: ../goffice/utils/formats.c:557
+#: ../goffice/utils/formats.c:561
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabve, zimbabski dolar"
 
@@ -6317,12 +6316,12 @@ msgstr "Zimbabve, zimbabski dolar"
 msgid "Could not load the image data\n"
 msgstr "Ni mogoče naložiti podatkov slike\n"
 
-#: ../goffice/utils/go-emf.c:266
+#: ../goffice/utils/go-emf.c:268
 #, c-format
 msgid "Could not input the image data\n"
 msgstr "Ni mogoče vnesti podatkov slike\n"
 
-#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
+#: ../goffice/utils/go-emf.c:4705 ../goffice/utils/go-emf.c:4711
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Neveljavni podatki slike\n"
@@ -6468,11 +6467,11 @@ msgstr "WMF (windows metadatoteka)"
 msgid "EPS (encapsulated postscript)"
 msgstr "EPS (vložen postscript)"
 
-#: ../goffice/utils/go-image.c:502
+#: ../goffice/utils/go-image.c:511
 msgid "Image width in pixels"
 msgstr "Širina slike v točkah"
 
-#: ../goffice/utils/go-image.c:506
+#: ../goffice/utils/go-image.c:515
 msgid "Image height in pixels"
 msgstr "Višina slike v točkah"
 
@@ -6751,7 +6750,7 @@ msgstr "veliki krožci"
 msgid "Bricks"
 msgstr "opečno"
 
-#: ../goffice/utils/go-pixbuf.c:277
+#: ../goffice/utils/go-pixbuf.c:301
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr "Predmet GdkPixbuf iz katerega je izgrajen GOPixbuf"
 
@@ -7043,8 +7042,8 @@ msgstr "Črtni"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
 #: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2178
-#: ../plugins/plot_xy/gog-xy.c:2184
+#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2176
+#: ../plugins/plot_xy/gog-xy.c:2182
 msgid "GogErrorBar *"
 msgstr "Diagram"
 
@@ -7099,7 +7098,7 @@ msgstr "navpični palični ali vodoravni stolpični"
 #: ../plugins/plot_distrib/gog-boxplot.c:413
 #: ../plugins/plot_distrib/gog-histogram.c:374
 #: ../plugins/plot_radar/gog-radar.c:446 ../plugins/plot_radar/gog-radar.c:517
-#: ../plugins/plot_xy/gog-xy.c:396 ../plugins/plot_xy/gog-xy-dropbar.c:300
+#: ../plugins/plot_xy/gog-xy.c:396 ../plugins/plot_xy/gog-xy-dropbar.c:296
 msgid "Displayed under the grids"
 msgstr "Izrisano pod mrežami"
 
@@ -7109,7 +7108,7 @@ msgstr "Izrisano pod mrežami"
 #: ../plugins/plot_distrib/gog-boxplot.c:414
 #: ../plugins/plot_distrib/gog-histogram.c:375
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:518
-#: ../plugins/plot_xy/gog-xy.c:397 ../plugins/plot_xy/gog-xy-dropbar.c:301
+#: ../plugins/plot_xy/gog-xy.c:397 ../plugins/plot_xy/gog-xy-dropbar.c:297
 msgid "Should the plot be displayed before the grids"
 msgstr "Ali naj bo diagram prikazan pred mrežo"
 
@@ -7130,22 +7129,22 @@ msgstr "_Prekrivanje:"
 msgid "PlotDropBar"
 msgstr "Diagram - vretenasti"
 
-#: ../plugins/plot_barcol/gog-line.c:305 ../plugins/plot_xy/gog-xy.c:2195
+#: ../plugins/plot_barcol/gog-line.c:305 ../plugins/plot_xy/gog-xy.c:2193
 msgid "Clamp at start"
 msgstr "Reži na začetku"
 
-#: ../plugins/plot_barcol/gog-line.c:306 ../plugins/plot_xy/gog-xy.c:2196
+#: ../plugins/plot_barcol/gog-line.c:306 ../plugins/plot_xy/gog-xy.c:2194
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
 "Naklon začetka interpolirane krivulje pri interpolaciji rezanih zlepkov"
 
-#: ../plugins/plot_barcol/gog-line.c:311 ../plugins/plot_xy/gog-xy.c:2201
+#: ../plugins/plot_barcol/gog-line.c:311 ../plugins/plot_xy/gog-xy.c:2199
 msgid "Clamp at end"
 msgstr "Reži na koncu"
 
-#: ../plugins/plot_barcol/gog-line.c:312 ../plugins/plot_xy/gog-xy.c:2202
+#: ../plugins/plot_barcol/gog-line.c:312 ../plugins/plot_xy/gog-xy.c:2200
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7162,14 +7161,14 @@ msgstr "Diagram - črtni"
 #: ../plugins/plot_barcol/gog-line.c:531
 #: ../plugins/plot_barcol/gog-minmax.c:233
 #: ../plugins/plot_radar/gog-radar.c:231
-#: ../plugins/plot_xy/gog-xy-minmax.c:297
+#: ../plugins/plot_xy/gog-xy-minmax.c:305
 msgid "Default markers"
 msgstr "Privzete oznake"
 
 #: ../plugins/plot_barcol/gog-line.c:532
 #: ../plugins/plot_barcol/gog-minmax.c:234
 #: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:373
-#: ../plugins/plot_xy/gog-xy-minmax.c:298
+#: ../plugins/plot_xy/gog-xy-minmax.c:306
 msgid "Should the default style of a series include markers"
 msgstr ""
 "Ali naj bodo v privzetem slogu prikaza nizov, izrisane tudi oznake vrednosti"
@@ -7190,17 +7189,17 @@ msgid "PlotMinMax"
 msgstr "Diagram - vretenasti razponski"
 
 #: ../plugins/plot_barcol/gog-minmax.c:228
-#: ../plugins/plot_xy/gog-xy-minmax.c:292
+#: ../plugins/plot_xy/gog-xy-minmax.c:300
 msgid "Horizontal or vertical lines"
 msgstr "Vodoravni ali navpični črtni"
 
 #: ../plugins/plot_barcol/gog-minmax.c:248
-#: ../plugins/plot_xy/gog-xy-minmax.c:310
+#: ../plugins/plot_xy/gog-xy-minmax.c:318
 msgid "Min"
 msgstr "Najmanjša vrednost"
 
 #: ../plugins/plot_barcol/gog-minmax.c:250
-#: ../plugins/plot_xy/gog-xy-minmax.c:312
+#: ../plugins/plot_xy/gog-xy-minmax.c:320
 msgid "Max"
 msgstr "Največja vrednost"
 
@@ -8038,8 +8037,8 @@ msgstr "skrij izstopajoče vrednosti"
 msgid "Hide data outside of the color axis bounds"
 msgstr "Skrij podatke izven mej barve osi"
 
-#: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:405
-#: ../plugins/plot_surface/gog-xyz-surface.c:743
+#: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:406
+#: ../plugins/plot_surface/gog-xyz-surface.c:757
 #: ../plugins/plot_surface/xl-surface.c:304
 #: ../plugins/plot_surface/xl-surface.c:396 ../plugins/plot_xy/gog-xy.c:832
 msgid "Z"
@@ -8138,7 +8137,6 @@ msgstr "Diagram - obrisni"
 #. xgettext : the base for how to name matrix objects
 #.
 #: ../plugins/plot_surface/gog-matrix.c:70
-#| msgid "PlotMinMax"
 msgid "PlotMatrix"
 msgstr "Diagram - matrica"
 
@@ -8148,26 +8146,26 @@ msgstr "Diagram - matrica"
 msgid "PlotSurface"
 msgstr "Diagram - površinski"
 
-#: ../plugins/plot_surface/gog-xyz.c:388
+#: ../plugins/plot_surface/gog-xyz.c:389
 msgid "Transposed"
 msgstr "Transponirano"
 
-#: ../plugins/plot_surface/gog-xyz.c:389
+#: ../plugins/plot_surface/gog-xyz.c:390
 msgid "Transpose the plot"
 msgstr "Transponiran izris grafa ali diagrama"
 
-#: ../plugins/plot_surface/gog-xyz.c:401
-#: ../plugins/plot_surface/gog-xyz-surface.c:739
-#: ../plugins/plot_surface/gog-xyz-surface.c:758
+#: ../plugins/plot_surface/gog-xyz.c:402
+#: ../plugins/plot_surface/gog-xyz-surface.c:753
+#: ../plugins/plot_surface/gog-xyz-surface.c:772
 #: ../plugins/plot_surface/xl-surface.c:302
 #: ../plugins/plot_surface/xl-surface.c:394 ../plugins/plot_xy/gog-xy.c:405
 #: ../plugins/plot_xy/gog-xy.c:575 ../plugins/plot_xy/gog-xy.c:828
 msgid "X"
 msgstr "X"
 
-#: ../plugins/plot_surface/gog-xyz.c:403
-#: ../plugins/plot_surface/gog-xyz-surface.c:741
-#: ../plugins/plot_surface/gog-xyz-surface.c:760
+#: ../plugins/plot_surface/gog-xyz.c:404
+#: ../plugins/plot_surface/gog-xyz-surface.c:755
+#: ../plugins/plot_surface/gog-xyz-surface.c:774
 #: ../plugins/plot_xy/gog-xy.c:407 ../plugins/plot_xy/gog-xy.c:577
 #: ../plugins/plot_xy/gog-xy.c:830
 msgid "Y"
@@ -8183,69 +8181,67 @@ msgstr "Pokaži barve v legendi"
 
 #. xgettext : the base for how to name contour plot objects with (x,y,z) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:475
+#: ../plugins/plot_surface/gog-xyz-surface.c:489
 msgid "PlotXYZContour"
 msgstr "Diagram - obrisni XYZ"
 
 #. xgettext : the base for how to name matrix plot objects with (x,y,z) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:483
-#| msgid "PlotXYMinMax"
+#: ../plugins/plot_surface/gog-xyz-surface.c:497
 msgid "PlotXYZMatrix"
 msgstr "Diagram - matrični XYZ"
 
 #. xgettext : the base for how to name surface plot objects with (x,y,z) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:491
+#: ../plugins/plot_surface/gog-xyz-surface.c:505
 msgid "PlotXYZSurface"
 msgstr "Diagram - ploščinski XYZ"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:708
+#: ../plugins/plot_surface/gog-xyz-surface.c:722
 msgid "Rows"
 msgstr "Vrstice"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:709
+#: ../plugins/plot_surface/gog-xyz-surface.c:723
 msgid "Number of rows"
 msgstr "Število vrstic"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:714
+#: ../plugins/plot_surface/gog-xyz-surface.c:728
 msgid "Auto Rows"
 msgstr "Samodejne vrstice"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:715
+#: ../plugins/plot_surface/gog-xyz-surface.c:729
 msgid "Whether the rows limits should be evaluated"
 msgstr "Ali naj bodo ocenjene omejitve širine vrstic"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:720
+#: ../plugins/plot_surface/gog-xyz-surface.c:734
 msgid "Columns"
 msgstr "Stolpci"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:721
+#: ../plugins/plot_surface/gog-xyz-surface.c:735
 msgid "Number of columns"
 msgstr "Število stolpcev"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:726
+#: ../plugins/plot_surface/gog-xyz-surface.c:740
 msgid "Auto Columns"
 msgstr "Samodejni stolpci"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:727
+#: ../plugins/plot_surface/gog-xyz-surface.c:741
 msgid "Whether the columns limits should be evaluated"
 msgstr "Ali naj bodo ocenjene omejitve višine stolpcev"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:733
+#: ../plugins/plot_surface/gog-xyz-surface.c:747
 msgid "Missing as"
 msgstr "Manjkajoče vrednosti"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:734
+#: ../plugins/plot_surface/gog-xyz-surface.c:748
 msgid "How to deal with missing data"
 msgstr "Kako naj bodo obravnavani manjkajoči podatki"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:752
+#: ../plugins/plot_surface/gog-xyz-surface.c:766
 msgid "As density"
 msgstr "Kot gostota"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:753
-#| msgid "Display size as area instead of diameter"
+#: ../plugins/plot_surface/gog-xyz-surface.c:767
 msgid "Display the data as density instead or raw data"
 msgstr "Prikazuj podatke kot gostoto raje kot surove podatke"
 
@@ -8253,21 +8249,18 @@ msgstr "Prikazuj podatke kot gostoto raje kot surove podatke"
 #.
 #. xgettext : the base for how to name matrix plot objects with (x,y) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:901
-#: ../plugins/plot_surface/gog-xyz-surface.c:957
-#| msgid "PlotXYMinMax"
+#: ../plugins/plot_surface/gog-xyz-surface.c:915
+#: ../plugins/plot_surface/gog-xyz-surface.c:971
 msgid "PlotXYMatrix"
 msgstr "Diagram - matrični XY"
 
 #. xgettext : the base for how to name surface plots objects with (x,y) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:1013
-#| msgid "PlotXYZSurface"
+#: ../plugins/plot_surface/gog-xyz-surface.c:1027
 msgid "PlotXYSurface"
 msgstr "Diagram - ploščinski XY"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.c:162
-#| msgid "Display _equation"
 msgid "Display population density"
 msgstr "Pokaži gostoto populacije"
 
@@ -8328,13 +8321,12 @@ msgid "Builds a contour from a set of points with three coordinates"
 msgstr "Izriše obris iz skupka točk s tremi koordinatami"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:7
-#| msgid "XYZContour"
 msgid "XYContour"
 msgstr "XYZObrisni"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:8
 msgid "Builds a contour from the number of (X,Y) values around each vertex"
-msgstr ""
+msgstr "Izriše obrobo iz številke vrednosti (X,Y) okoli vsake točke ogljišča."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:9
 msgid "Surface plot."
@@ -8349,13 +8341,13 @@ msgid "Builds a surface from a set of points with three coordinates"
 msgstr "Izriše površino iz skupka točk s tremi koordinatami"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:12
-#| msgid "XYZSurface"
 msgid "XYSurface"
 msgstr "XYZPovršinski"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:13
 msgid "Builds a surface from the number of (X,Y) values around each vertex"
 msgstr ""
+"Izriše površino iz številke vrednosti (X,Y) okoli vsake točke ogljišča."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:14
 msgid "Matrix plot. Displays as colors the values given as a matrix."
@@ -8368,6 +8360,7 @@ msgstr "Matrika XYZ"
 #: ../plugins/plot_surface/plot-types.xml.in.h:16
 msgid "Displays as colors the mean Z values of the (X,Y,Z) data in each cell."
 msgstr ""
+"Z barvo prikaže srednje vrednosti Z iz podatkov (X,Y,Z) v vsaki celici."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:17
 msgid "XYMatrix"
@@ -8375,7 +8368,7 @@ msgstr "Matrika XY"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:18
 msgid "Displays as colors the number of (X,Y) values in each cell."
-msgstr ""
+msgstr "Z barvo prikaže številko vrednosti (X,Y) v vsaki celici."
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
 msgid "Charting : Surfaces"
@@ -8394,7 +8387,6 @@ msgid "XYZ contour plotting engine"
 msgstr "Programnik izrisa obrisnega XYZ diagrama"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
-#| msgid "XYZ contour plotting engine"
 msgid "XY contour plotting engine"
 msgstr "Programnik izrisa obrisnega diagrama XYZ"
 
@@ -8407,22 +8399,18 @@ msgid "XYZ surface plotting engine"
 msgstr "Programnik izrisa površinskega XYZ diagrama"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:8
-#| msgid "XYZ surface plotting engine"
 msgid "XY surface plotting engine"
 msgstr "Programnik izrisa površinskega diagrama XYZ"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:9
-#| msgid "Min Max plotting engine"
 msgid "Matrix plotting engine"
 msgstr "Programnik izrisovanja matrik"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:10
-#| msgid "XYZ contour plotting engine"
 msgid "XY matrix plotting engine"
 msgstr "Programnik izrisa matrike XY"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:11
-#| msgid "XYZ contour plotting engine"
 msgid "XYZ matrix plotting engine"
 msgstr "Programnik izrisa matrike XYZ"
 
@@ -8537,47 +8525,47 @@ msgstr "Mehurček"
 msgid "XYColor"
 msgstr "Diagram - barvni XY"
 
-#: ../plugins/plot_xy/gog-xy.c:2106 ../plugins/plot_xy/gog-xy.c:2177
+#: ../plugins/plot_xy/gog-xy.c:2104 ../plugins/plot_xy/gog-xy.c:2175
 msgid "X error bars"
 msgstr "Stolpci intervala napake X"
 
-#: ../plugins/plot_xy/gog-xy.c:2109 ../plugins/plot_xy/gog-xy.c:2183
+#: ../plugins/plot_xy/gog-xy.c:2107 ../plugins/plot_xy/gog-xy.c:2181
 msgid "Y error bars"
 msgstr "Stolpci intervala napake Y"
 
-#: ../plugins/plot_xy/gog-xy.c:2118
+#: ../plugins/plot_xy/gog-xy.c:2116
 msgid "Horizontal drop lines"
 msgstr "Vodoravne spustne vrstice"
 
-#: ../plugins/plot_xy/gog-xy.c:2126
+#: ../plugins/plot_xy/gog-xy.c:2124
 msgid "Vertical drop lines"
 msgstr "Navpične spustne vrstice"
 
-#: ../plugins/plot_xy/gog-xy.c:2189
+#: ../plugins/plot_xy/gog-xy.c:2187
 msgid "Invalid as zero"
 msgstr "Neveljavno kot nič"
 
-#: ../plugins/plot_xy/gog-xy.c:2190
+#: ../plugins/plot_xy/gog-xy.c:2188
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr "Zamenjaj neveljavne vrednosti z 0 med izrisovanjem oznak ali mehurčkov"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
 #. * 	PlotDropBar2
-#: ../plugins/plot_xy/gog-xy-dropbar.c:285
+#: ../plugins/plot_xy/gog-xy-dropbar.c:281
 msgid "PlotXYDropBar"
 msgstr "Diagram - vretenasti XY"
 
-#: ../plugins/plot_xy/gog-xy-dropbar.c:307
+#: ../plugins/plot_xy/gog-xy-dropbar.c:303
 msgid "Whether to use horizontal bars"
 msgstr "Ali naj bo uporabljen palični diagram"
 
-#: ../plugins/plot_xy/gog-xy-dropbar.c:313
+#: ../plugins/plot_xy/gog-xy-dropbar.c:309
 msgid "Bars width as a percentage of the plot width"
 msgstr "Širina palic, kot odstotek celotnega diagrama"
 
-#: ../plugins/plot_xy/gog-xy-dropbar.c:324
-#: ../plugins/plot_xy/gog-xy-minmax.c:308
+#: ../plugins/plot_xy/gog-xy-dropbar.c:320
+#: ../plugins/plot_xy/gog-xy-minmax.c:316
 msgid "Positions"
 msgstr "Položaji"
 
@@ -8719,20 +8707,20 @@ msgid "Vertical Min Max lines with continuous X-axis."
 msgstr "Navpične razponske črte z neskončno osjo Y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:38
-msgid "Scattered Marked Vertical Min Max Lines"
-msgstr "Označene navpične črte raztresenega razponskega diagrama"
-
-#: ../plugins/plot_xy/plot-types.xml.in.h:39
-msgid "Vertical Min Max lines with markers and a continuous X-axis."
-msgstr "Navpične razponske črte z oznakami in z neskončno osjo Y."
-
-#: ../plugins/plot_xy/plot-types.xml.in.h:40
 msgid "Scattered Horizontal Min Max Lines"
 msgstr "Vodoravne razponske črte raztresenega diagrama."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:41
+#: ../plugins/plot_xy/plot-types.xml.in.h:39
 msgid "Horizontal Min Max lines with continuous Y-axis."
 msgstr "Vodoravne razponske črte z neskončno osjo Y."
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:40
+msgid "Scattered Marked Vertical Min Max Lines"
+msgstr "Označene navpične črte raztresenega razponskega diagrama"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:41
+msgid "Vertical Min Max lines with markers and a continuous X-axis."
+msgstr "Navpične razponske črte z oznakami in z neskončno osjo Y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:42
 msgid "Scattered Marked Horizontal Min Max Lines"
