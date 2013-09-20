@@ -570,6 +570,17 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 		tick_size = gog_renderer_pt2r (view->renderer, scale->tick_size);
 	} else
 		line_width = tick_size = 0.;
+	if (min == max || first == last) {
+		/* avoid infinites and nans later, this might happen if no data are available */
+		if (min < first)
+			first = min;
+		else
+			min = first;
+		if (max > last)
+			last = max;
+		else
+			max = last;
+	}
 	if (scale->horizontal) {
 		scale_area.x = view->residual.x;
 		/* we make sure that we have enough room to display the last and first labels */

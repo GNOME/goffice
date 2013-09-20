@@ -44,8 +44,8 @@ enum {
 /**
  * GOComboBoxClass:
  * @set_title: sets the title.
- * @pop_down_done: invoked when the popup has been hidden, if the signal
- * returns %TRUE, it means it should be killed
+ * @pop_down_done: invoked when the popup has been hidden, if the
+ * signal returns %TRUE, it means it should be killed
  **/
 
 enum {

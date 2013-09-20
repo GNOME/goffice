@@ -1,3 +1,10 @@
+2013-09-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-color-scale.c (gog_color_scale_view_render): ensure that
+	the scale doe not extend outside of its bounding box, especially when axis
+	settings are wrong or missing.
+	* goffice/gtk/go-combo-box.c: make gtk-doc happy.
+
 2013-09-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/Makefile.am: add subdir-objects option.
