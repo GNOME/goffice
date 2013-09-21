@@ -1,5 +1,8 @@
 goffice 0.10.8:
 
+Jean:
+	* Do not destroy axes after adding a plot using a restricted set. [#708292]
+
 --------------------------------------------------------------------------
 goffice 0.10.7:
 

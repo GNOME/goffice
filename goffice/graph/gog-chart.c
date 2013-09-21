@@ -1055,7 +1055,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 		if (!gog_plot_axis_set_assign (ptr->data, axis_set))
 			return FALSE;
 
-	/* remove any existing axis that do not fit this scheme */
+	/* add any existing axis that do not fit this scheme to the set */
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ) {
 		axis = ptr->data;
 		ptr = ptr->next; /* list may change under us */
@@ -1068,8 +1068,9 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 			}
 
 			if (0 == (axis_set & (1 << type))) {
-				gog_object_clear_parent (GOG_OBJECT (axis));
-				g_object_unref (axis);
+				/* We used to delete those axes but if the first plot use a
+				 restricted set, all other axes are lost, see #708292 */
+				chart->axis_set |= 1 << type;
 			}
 		}
 	}

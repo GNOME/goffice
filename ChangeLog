@@ -1,3 +1,8 @@
+2013-09-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart.c (gog_chart_axis_set_assign): do not remove
+extra axes after adding a plot. [#708292]
+
 2013-09-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-color-scale.c (gog_color_scale_view_render): ensure that
