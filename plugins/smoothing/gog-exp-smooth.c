@@ -109,9 +109,9 @@ gog_exp_smooth_update (GogObject *obj)
 	y = g_new (double, nb);
 	/* Remove invalid data */
 	for (i = 0, n = 0; i < nb; i++) {
-		if (!go_finite (x_vals[i]) || !go_finite (y_vals[i]))
+		if ((x_vals && !go_finite (x_vals[i])) || !go_finite (y_vals[i]))
 			continue;
-		x[n] = x_vals[i];
+		x[n] = (x_vals)? x_vals[i]: i;
 		y[n++] = y_vals[i];
 	}
 	go_range_min (x, n, &xmin);

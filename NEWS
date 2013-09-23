@@ -2,6 +2,8 @@ goffice 0.10.8:
 
 Jean:
 	* Do not destroy axes after adding a plot using a restricted set. [#708292]
+	* Don't crash when there are no x values for a moving average smoothing.
+	[#708562]
 
 --------------------------------------------------------------------------
 goffice 0.10.7:

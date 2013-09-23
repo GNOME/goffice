@@ -140,7 +140,7 @@ gog_moving_avg_update (GogObject *obj)
 	ma->base.y = g_new (double, ma->base.nb);
 	invalid = ma->span;
 	for (i = 0, j = 1 - ma->span; i < nb; i++, j++) {
-		if (!go_finite (x_vals[i]) || !go_finite (y_vals[i])) {
+		if ((x_vals && !go_finite (x_vals[i])) || !go_finite (y_vals[i])) {
 			invalid = ma->span;
 			xtot = ytot = 0;
 			if (j >= 0)
@@ -148,16 +148,16 @@ gog_moving_avg_update (GogObject *obj)
 			continue;
 		}
 		if (invalid == 0) {
-			xtot -= x_vals[i - ma->span];
+			xtot -= (x_vals)? x_vals[i - ma->span]: i - ma->span;
 			ytot -= y_vals[i - ma->span];
 		} else
 			invalid --;
-		xtot += x_vals[i];
+		xtot += (x_vals)? x_vals[i]: i;
 		ytot += y_vals[i];
 		if (j >= 0) {
 			ma->base.x[j] = (ma->xavg)
 				? ((invalid == 0) ? xtot / ma->span: go_nan)
-				: x_vals[i];
+				: ((x_vals)? x_vals[i]: i);
 			ma->base.y[j] = (invalid == 0)
 				? ytot / ma->span
 				: go_nan;

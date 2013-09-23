@@ -1,7 +1,13 @@
+2013-09-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/smoothing/gog-exp-smooth.c (gog_exp_smooth_update): protect
+	against missing x values. [#708562]
+	* plugins/smoothing/gog-moving-avg.c (gog_moving_avg_update): ditto.
+
 2013-09-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-chart.c (gog_chart_axis_set_assign): do not remove
-extra axes after adding a plot. [#708292]
+	extra axes after adding a plot. [#708292]
 
 2013-09-20  Jean Brefort  <jean.brefort@normalesup.org>
 
