@@ -1,3 +1,8 @@
+2013-09-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/goffice.h: Don't check glib version when macro check
+	will do.
+
 2013-09-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/smoothing/gog-exp-smooth.c (gog_exp_smooth_update): protect

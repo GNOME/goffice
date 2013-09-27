@@ -44,7 +44,7 @@
 #  endif
 #endif /* GO_VAR_DECL */
 
-#if GLIB_CHECK_VERSION(2,32,0)
+#ifdef G_DEPRECATED_FOR
 #define GOFFICE_DEPRECATED_FOR(f) G_DEPRECATED_FOR(f)
 #else
 #define GOFFICE_DEPRECATED_FOR(f)
