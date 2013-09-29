@@ -536,20 +536,16 @@ if WITH_WIN32
 LIB_PUBLIC_HDRS = $(libgoffice_@GOFFICE_API_VER@_la_HEADERS)
 
 
-if WITH_GTK
-GTK_DEFS = gtk/local.def drawing/local.def component/local.def \
-	canvas/local.def
-else
-GTK_DEFS =
-endif
-
-goffice.def: local.def app/local.def \
-	data/local.def graph/local.def \
-	math/local.def \
-	ms-compat/local.def utils/local.def \
-	$(GTK_DEFS)
+goffice.def: $(app_HEADERS) $(top_srcdir)/tools/dumpdef.pl
+	cat $(top_builddir)/goffice/goffice-config.h $(app_HEADERS) | \
+	sed -e 's/^#[ 	]*include[ 	]\+.*$$//g' | \
+	$(CPP) $(AM_CPPFLAGS) "-DGO_VAR_DECL=__declspec(dllexport)" -P - > xgen-localdef.1
+	@PERL@ $(top_srcdir)/tools/dumpdef.pl \
+		xgen-localdef.1 > xgen-localdef.2
+	(cmp -s xgen-localdef.2 local.def || cp xgen-localdef.2 local.def)
+	rm -f xgen-localdef.1 xgen-localdef.2
 	echo EXPORTS > $@ && \
-	cat $^ | sort >> $@
+	cat local.def | sort >> $@
 
 if HAVE_LIBEXE
 goffice_mslibdir = $(DESTDIR)$(libdir)
