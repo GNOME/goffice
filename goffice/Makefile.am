@@ -532,12 +532,19 @@ goffice-paths.h: Makefile
 
 include $(top_srcdir)/goffice.mk
 
+ALL_HDRS = $(app_HEADERS) \
+	$(canvas_HEADERS) \
+	$(go_data_HEADERS) \
+	$(graph_HEADERS) \
+	$(math_HEADERS) \
+	$(utils_HEADERS)
+
 if WITH_WIN32
 LIB_PUBLIC_HDRS = $(libgoffice_@GOFFICE_API_VER@_la_HEADERS)
 
 
-goffice.def: $(app_HEADERS) $(top_srcdir)/tools/dumpdef.pl
-	cat $(top_builddir)/goffice/goffice-config.h $(app_HEADERS) | \
+goffice.def: $(ALL_HDRS) $(top_srcdir)/tools/dumpdef.pl
+	cat $(top_builddir)/goffice/goffice-config.h $(ALL_HDRS) | \
 	sed -e 's/^#[ 	]*include[ 	]\+.*$$//g' | \
 	$(CPP) $(AM_CPPFLAGS) "-DGO_VAR_DECL=__declspec(dllexport)" -P - > xgen-localdef.1
 	@PERL@ $(top_srcdir)/tools/dumpdef.pl \
@@ -628,12 +635,7 @@ GOffice_@GOFFICE_API_VER_@_gir_CFLAGS = $(AM_CPPFLAGS)
 GOffice_@GOFFICE_API_VER_@_gir_LIBS = libgoffice-@GOFFICE_API_VER@.la
 GOffice_@GOFFICE_API_VER_@_gir_FILES = \
 	$(libgoffice_@GOFFICE_API_VER@_la_SOURCES) \
-	$(app_HEADERS) \
-	$(canvas_HEADERS) \
-	$(go_data_HEADERS) \
-	$(graph_HEADERS) \
-	$(math_HEADERS) \
-	$(utils_HEADERS)
+	$(ALL_HDRS)
 
 if WITH_GTK
 GOffice_@GOFFICE_API_VER_@_gir_FILES += \
