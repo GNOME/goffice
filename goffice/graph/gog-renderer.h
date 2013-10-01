@@ -79,21 +79,19 @@ void  gog_renderer_draw_selection_rectangle	(GogRenderer *renderer, GogViewAlloc
 
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 
-#ifndef GOFFICE_WITH_GTK
 typedef enum
 {
-  GTK_JUSTIFY_LEFT,
-  GTK_JUSTIFY_RIGHT,
-  GTK_JUSTIFY_CENTER,
-  GTK_JUSTIFY_FILL
-} GtkJustification;
-#endif
+  GO_JUSTIFY_LEFT,
+  GO_JUSTIFY_RIGHT,
+  GO_JUSTIFY_CENTER,
+  GO_JUSTIFY_FILL
+} GoJustification;
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos,
 				   GOAnchorType anchor,
 				   gboolean use_markup,
-                                   GtkJustification justification, double width);
+                                   GoJustification justification, double width);
 
 void  gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
                                     GogViewAllocation const *pos, GOAnchorType anchor,
@@ -103,7 +101,7 @@ void  gog_renderer_draw_gostring  (GogRenderer *rend,
 				   GOString *str,
 				   GogViewAllocation const *pos,
 				   GOAnchorType anchor,
-                                   GtkJustification justification, double width);
+                                   GoJustification justification, double width);
 
 void  gog_renderer_get_gostring_OBR   (GogRenderer *rend, GOString *str,
 				       GOGeometryOBR *obr, double max_width);

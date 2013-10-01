@@ -826,12 +826,22 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 }
 
 /**
+ * GoJustification:
+ * @GO_JUSTIFY_LEFT: The text is placed at the left edge of the label.
+ * @GO_JUSTIFY_RIGHT: The text is placed at the right edge of the label.
+ * @GO_JUSTIFY_CENTER: The text is placed in the center of the label.
+ * @GO_JUSTIFY_FILL: The text is placed is distributed across the label.
+ *
+ * Used for justifying the text inside multiline label.
+ */
+
+/**
  * gog_renderer_draw_gostring:
  * @rend: #GogRenderer
  * @str: the #GOString to draw
  * @pos: #GogViewAllocation
  * @anchor: #GOAnchorType how to draw relative to @pos
- * @justification: #GtkJustification for multiline string.
+ * @justification: #GoJustification for multiline string.
  * @width: if positive, the maximum width to get a multiline string if needed.
  *
  * Have @rend draw @layout in the at @pos.{x,y} anchored by the @anchor corner.
@@ -841,7 +851,7 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 void
 gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 			    GogViewAllocation const *pos, GOAnchorType anchor,
-                            GtkJustification justification, double width)
+                            GoJustification justification, double width)
 {
 	PangoLayout *layout;
 	PangoContext *context;
@@ -866,16 +876,16 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 	if (width > 0)
 		pango_layout_set_width (layout, width * PANGO_SCALE / rend->scale);
 	switch (justification) {
-	case GTK_JUSTIFY_CENTER:
+	case GO_JUSTIFY_CENTER:
 		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
 		break;
-	case GTK_JUSTIFY_LEFT:
+	case GO_JUSTIFY_LEFT:
 		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 		break;
-	case GTK_JUSTIFY_RIGHT:
+	case GO_JUSTIFY_RIGHT:
 		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
 		break;
-	case GTK_JUSTIFY_FILL:
+	case GO_JUSTIFY_FILL:
 		pango_layout_set_justify (layout, TRUE);
 		break;
 	}
@@ -938,7 +948,7 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
  * @pos: #GogViewAllocation
  * @anchor: #GOAnchorType how to draw relative to @pos
  * @use_markup: wether to use pango markup
- * @justification: #GtkJustification for multiline text.
+ * @justification: #GoJustification for multiline text.
  * @width: if positive, the maximum width to get a multiline text if needed.
  *
  * Have @rend draw @text in the at @pos.{x,y} anchored by the @anchor corner.
@@ -948,7 +958,7 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 void
 gog_renderer_draw_text (GogRenderer *rend, char const *text,
 			GogViewAllocation const *pos, GOAnchorType anchor,
-			gboolean use_markup, GtkJustification justification,
+			gboolean use_markup, GoJustification justification,
                         double width)
 {
 	GOString *str;

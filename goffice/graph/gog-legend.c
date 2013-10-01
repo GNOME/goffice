@@ -524,11 +524,11 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 	if (l) {
 		GOString *str = go_string_new_rich (name, -1, l, NULL);
 		gog_renderer_draw_gostring (view->renderer, str, &pos,
-		                            GO_ANCHOR_W, GTK_JUSTIFY_LEFT, -1.);
+		                            GO_ANCHOR_W, GO_JUSTIFY_LEFT, -1.);
 		go_string_unref (str);
 	} else
 		gog_renderer_draw_text (renderer, name, &pos,
-		                        GO_ANCHOR_W, FALSE, GTK_JUSTIFY_LEFT, -1.);
+		                        GO_ANCHOR_W, FALSE, GO_JUSTIFY_LEFT, -1.);
 
 	if (style != base_style && style != NULL)
 		g_object_unref (style);

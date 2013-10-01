@@ -734,7 +734,7 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (j == 0 || !go_geometry_test_OBR_overlap (obrs + j, obrs + l)) {
 					gog_renderer_draw_gostring (view->renderer, ticks[i].str,
 						                        &label_pos, anchor,
-							                    GTK_JUSTIFY_CENTER, -1.);
+							                    GO_JUSTIFY_CENTER, -1.);
 					l = j;
 				}
 				j++;
@@ -772,7 +772,7 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (j == 0 || !go_geometry_test_OBR_overlap (obrs + j, obrs + l)) {
 					gog_renderer_draw_gostring (view->renderer, ticks[i].str,
 						                        &label_pos, anchor,
-							                    GTK_JUSTIFY_CENTER, -1.);
+							                    GO_JUSTIFY_CENTER, -1.);
 					l = j;
 				}
 				j++;

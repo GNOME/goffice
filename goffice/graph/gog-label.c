@@ -225,7 +225,7 @@ struct _GogLabel {
 	GogText base;
 
 	GogDatasetElement text;
-	GtkJustification justification;
+	GoJustification justification;
 };
 enum {
 	LABEL_PROP_0,
@@ -350,13 +350,13 @@ gog_label_set_property (GObject *obj, guint param_id,
 	case LABEL_PROP_JUSTIFICATION: {
 		char const *str = g_value_get_string (value);
 		if (!strcmp (str, "left"))
-			label->justification = GTK_JUSTIFY_LEFT;
+			label->justification = GO_JUSTIFY_LEFT;
 		else if (!strcmp (str, "right"))
-			label->justification = GTK_JUSTIFY_RIGHT;
+			label->justification = GO_JUSTIFY_RIGHT;
 		else if (!strcmp (str, "fill"))
-			label->justification = GTK_JUSTIFY_FILL;
+			label->justification = GO_JUSTIFY_FILL;
 		else
-			label->justification = GTK_JUSTIFY_CENTER;
+			label->justification = GO_JUSTIFY_CENTER;
 		break;
 	}
 
@@ -375,16 +375,16 @@ gog_label_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case LABEL_PROP_JUSTIFICATION:
 		switch (label->justification) {
-		case GTK_JUSTIFY_CENTER:
+		case GO_JUSTIFY_CENTER:
 			g_value_set_string (value, "center");
 			break;
-		case GTK_JUSTIFY_LEFT:
+		case GO_JUSTIFY_LEFT:
 			g_value_set_string (value, "left");
 			break;
-		case GTK_JUSTIFY_RIGHT:
+		case GO_JUSTIFY_RIGHT:
 			g_value_set_string (value, "right");
 			break;
-		case GTK_JUSTIFY_FILL:
+		case GO_JUSTIFY_FILL:
 			g_value_set_string (value, "fill");
 			break;
 		}
@@ -429,7 +429,7 @@ gog_label_class_init (GogLabelClass *klass)
 static void
 gog_label_init (GogLabel *label)
 {
-	label->justification = GTK_JUSTIFY_CENTER;
+	label->justification = GO_JUSTIFY_CENTER;
 }
 
 static void
@@ -792,14 +792,14 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (gostr) {
 			gog_renderer_draw_gostring (view->renderer, gostr,
 			                            &view->residual, GO_ANCHOR_NW,
-			                            (GOG_IS_LABEL (text)? GOG_LABEL (text)->justification: GTK_JUSTIFY_LEFT),
+			                            (GOG_IS_LABEL (text)? GOG_LABEL (text)->justification: GO_JUSTIFY_LEFT),
 			                            w);
 			go_string_unref (gostr);
 		} else
 			gog_renderer_draw_text (view->renderer, str,
 		                    		&view->residual, GO_ANCHOR_NW,
 			                        text->allow_markup,
-			                        (GOG_IS_LABEL (text)? GOG_LABEL (text)->justification: GTK_JUSTIFY_LEFT),
+			                        (GOG_IS_LABEL (text)? GOG_LABEL (text)->justification: GO_JUSTIFY_LEFT),
 			                        w);
 		g_free (str);
 	}

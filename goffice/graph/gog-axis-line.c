@@ -1279,7 +1279,7 @@ axis_line_render (GogAxisBase *axis_base,
 			label_pos.y = obrs[j].y;
 			gog_renderer_draw_gostring (renderer, ticks[j].str,
 						    &label_pos, GO_ANCHOR_CENTER,
-			                            GTK_JUSTIFY_CENTER, -1.);
+			                            GO_JUSTIFY_CENTER, -1.);
 		}
 	}
 	g_free (obrs);
@@ -1485,7 +1485,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 				gog_renderer_draw_gostring
 					(renderer, ticks[i].str,
 					 &label_pos, GO_ANCHOR_CENTER,
-					 GTK_JUSTIFY_CENTER, -1.);
+					 GO_JUSTIFY_CENTER, -1.);
 				txt_obr_old = txt_obr;
 			}
 			if (!first_label_done) {

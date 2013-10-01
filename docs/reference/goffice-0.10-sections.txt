@@ -3332,6 +3332,7 @@ gog_reg_curve_get_type
 <SECTION>
 <FILE>gog-renderer</FILE>
 <TITLE>GogRenderer</TITLE>
+GoJustification
 GOG_RENDERER_GRIP_SIZE
 GOG_RENDERER_HAIRLINE_WIDTH_PTS
 gog_renderer_draw_circle

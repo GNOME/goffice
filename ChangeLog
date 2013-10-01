@@ -1,3 +1,19 @@
+2013-10-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.10-sections.txt: never redefine GtkJustfication,
+	use GoJustification instead. [#709007]
+	* goffice/graph/gog-axis-line.c (axis_line_render),
+	(axis_circle_render): ditto.
+	* goffice/graph/gog-color-scale.c (gog_color_scale_view_render): ditto.
+	* goffice/graph/gog-label.c (gog_label_set_property),
+	(gog_label_get_property), (gog_label_init), (gog_text_view_render): ditto.
+	* goffice/graph/gog-legend.c (cb_render_elements): ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_gostring),
+	(gog_renderer_draw_text): ditto.
+	* goffice/graph/gog-renderer.h: ditto.
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_view_render): ditto.
+
 2013-09-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/goffice.h: Don't check glib version when macro check
