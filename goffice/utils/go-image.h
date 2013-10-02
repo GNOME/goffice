@@ -99,7 +99,6 @@ GOImage 	*go_image_new_for_format   	(char const *format);
 GType		 go_image_type_for_format      	(char const *format);
 
 guint8 const	*go_image_get_data 		(GOImage *image, gsize *length);
-void 		 go_image_fill 			(GOImage *image, GOColor color);
 
 void		 go_image_set_name		(GOImage *image, char const *name);
 char const	*go_image_get_name 		(GOImage const *image);

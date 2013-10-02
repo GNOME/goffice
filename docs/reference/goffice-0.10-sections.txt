@@ -1268,7 +1268,6 @@ GOImageFormat
 GOImageFormatInfo
 go_image_differ
 go_image_draw
-go_image_fill
 go_image_format_info_get_type
 go_image_format_to_mime
 go_image_get_data
