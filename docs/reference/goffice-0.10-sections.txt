@@ -2200,7 +2200,6 @@ go_styled_object_fill
 go_styled_object_get_auto_style
 go_styled_object_get_document
 go_styled_object_get_style
-go_styled_object_is_filled
 go_styled_object_set_cairo_line
 go_styled_object_set_style
 go_styled_object_style_changed

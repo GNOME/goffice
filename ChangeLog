@@ -1,3 +1,8 @@
+2013-10-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-styled-object.h: Remove
+	go_styled_object_is_filled which isn't implemented.
+
 2013-10-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-0.10-sections.txt: never redefine GtkJustfication,
