@@ -3,6 +3,7 @@
 	* goffice/Makefile.am (goffice.def): Don't export go_plugin_init
 	and go_plugin_shutdown (which are prototyped because modules may
 	defined them).
+	(ALL_HDRS): Export gtk related headers too.
 
 	* goffice/utils/go-styled-object.h: Remove
 	go_styled_object_is_filled which isn't implemented.

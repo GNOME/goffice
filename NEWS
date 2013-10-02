@@ -6,6 +6,10 @@ Jean:
 	[#708562]
 	* Never redefine GtkJustfication, use GoJustification instead. [#709007]
 
+Morten:
+	* Build fixes.
+	* Win32 work.
+
 --------------------------------------------------------------------------
 goffice 0.10.7:
 

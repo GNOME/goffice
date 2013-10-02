@@ -539,6 +539,20 @@ ALL_HDRS = $(app_HEADERS) \
 	$(math_HEADERS) \
 	$(utils_HEADERS)
 
+if WITH_GTK
+ALL_HDRS += \
+	$(canvas_gtk_HEADERS) \
+	$(component_HEADERS) \
+	$(graph_gtk_HEADERS) \
+	$(gtk_HEADERS)
+endif
+
+if GOFFICE_WITH_LASEM
+ALL_HDRS += \
+	$(graph_lasem_HEADERS)
+endif
+
+
 if WITH_WIN32
 LIB_PUBLIC_HDRS = $(libgoffice_@GOFFICE_API_VER@_la_HEADERS)
 
@@ -636,19 +650,6 @@ GOffice_@GOFFICE_API_VER_@_gir_LIBS = libgoffice-@GOFFICE_API_VER@.la
 GOffice_@GOFFICE_API_VER_@_gir_FILES = \
 	$(libgoffice_@GOFFICE_API_VER@_la_SOURCES) \
 	$(ALL_HDRS)
-
-if WITH_GTK
-GOffice_@GOFFICE_API_VER_@_gir_FILES += \
-	$(canvas_gtk_HEADERS) \
-	$(component_HEADERS) \
-	$(graph_gtk_HEADERS) \
-	$(gtk_HEADERS)
-endif
-
-if GOFFICE_WITH_LASEM
-GOffice_@GOFFICE_API_VER_@_gir_FILES += \
-	$(graph_lasem_HEADERS)
-endif
 
 girdir = $(GIRDIR)
 gir_DATA = $(INTROSPECTION_GIRS)
