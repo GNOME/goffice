@@ -532,7 +532,7 @@ goffice-paths.h: Makefile
 
 include $(top_srcdir)/goffice.mk
 
-ALL_HDRS = $(app_HEADERS) \
+ALL_HDRS = goffice.h $(app_HEADERS) \
 	$(canvas_HEADERS) \
 	$(go_data_HEADERS) \
 	$(graph_HEADERS) \

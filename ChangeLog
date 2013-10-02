@@ -1,5 +1,7 @@
 2013-10-01  Morten Welinder  <terra@gnome.org>
 
+	* goffice/Makefile.am (ALL_HDRS): We also need goffice.h
+
 	* goffice/gtk/go-font-sel-dialog.c (go_font_sel_dialog_new):
 	Actually implement.
 
