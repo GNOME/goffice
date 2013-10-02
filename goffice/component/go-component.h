@@ -99,7 +99,9 @@ GOComponent  *go_component_new_from_uri	(char const *uri);
 
 void go_component_set_default_size (GOComponent *component,
 				    double width, double ascent, double descent);
+#if 0
 void go_component_set_window (GOComponent *component, GdkWindow *window);
+#endif
 void go_component_set_data (GOComponent *component,
 			    char const *data, int length);
 gboolean go_component_get_data (GOComponent *component, gpointer *data, int *length,
