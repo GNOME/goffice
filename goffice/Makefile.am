@@ -552,7 +552,7 @@ goffice.def: $(ALL_HDRS) $(top_srcdir)/tools/dumpdef.pl
 	(cmp -s xgen-localdef.2 local.def || cp xgen-localdef.2 local.def)
 	rm -f xgen-localdef.1 xgen-localdef.2
 	echo EXPORTS > $@ && \
-	cat local.def | sort >> $@
+	grep -E -v '^(go_plugin_init|go_plugin_shutdown)$$' local.def | sort >> $@
 
 if HAVE_LIBEXE
 goffice_mslibdir = $(DESTDIR)$(libdir)
