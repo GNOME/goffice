@@ -180,3 +180,9 @@ GSF_CLASS_FULL (GOFontSelDialog, go_font_sel_dialog,
 #if 0
 ;
 #endif
+
+GtkWidget *
+go_font_sel_dialog_new (void)
+{
+	return g_object_new (GO_TYPE_FONT_SEL_DIALOG, NULL);
+}

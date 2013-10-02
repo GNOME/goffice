@@ -1,5 +1,8 @@
 2013-10-01  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-font-sel-dialog.c (go_font_sel_dialog_new):
+	Actually implement.
+
 	* goffice/Makefile.am (goffice.def): Don't export go_plugin_init
 	and go_plugin_shutdown (which are prototyped because modules may
 	defined them).
