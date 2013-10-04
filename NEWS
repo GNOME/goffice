@@ -9,6 +9,7 @@ Jean:
 Morten:
 	* Build fixes.
 	* Win32 work.
+	* Fix font selector crash.  [#709438]
 
 --------------------------------------------------------------------------
 goffice 0.10.7:

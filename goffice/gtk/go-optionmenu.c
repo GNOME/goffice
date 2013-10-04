@@ -310,6 +310,8 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 	if (option_menu->menu == shell)
 		return;
 
+	option_menu->selected = NULL;
+
 	if (option_menu->menu) {
 		if (option_menu->active)
 			gtk_menu_shell_cancel (option_menu->menu);

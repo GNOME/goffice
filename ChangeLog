@@ -1,3 +1,8 @@
+2013-10-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-optionmenu.c (go_option_menu_set_menu): When a
+	new menu is set, clear the selected item.  [#709438]
+
 2013-10-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/Makefile.am (ALL_HDRS): We also need goffice.h
