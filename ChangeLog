@@ -1,3 +1,7 @@
+2013-10-07  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.8
+
 2013-10-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-optionmenu.c (go_option_menu_set_menu): When a
