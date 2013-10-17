@@ -7,7 +7,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2013-07-20 06:16+0000\n"
-"PO-Revision-Date: 2013-10-13 14:24+0300\n"
+"PO-Revision-Date: 2013-10-15 23:02+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -320,7 +320,7 @@ msgstr "Ielādētājs neatbalsta pakalpojumu “%s”."
 
 #: ../goffice/app/go-plugin-loader-module.c:71
 msgid "Module file name not given."
-msgstr "Nav dots pirmā moduļa nosaukums."
+msgstr "Nav dots moduļa datnes nosaukums."
 
 #: ../goffice/app/go-plugin-loader-module.c:82
 #, c-format
