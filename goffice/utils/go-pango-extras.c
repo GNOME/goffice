@@ -701,7 +701,7 @@ go_pango_attr_subscript_copy (PangoAttribute const *attr)
 }
 
 static PangoAttribute *
-go_pango_attr_superscript_copy (G_GNUC_UNUSED PangoAttribute const *attr)
+go_pango_attr_superscript_copy (PangoAttribute const *attr)
 {
 	GOPangoAttrSuperscript *at = (GOPangoAttrSuperscript *)attr;
 	return go_pango_attr_superscript_new (at->val);
