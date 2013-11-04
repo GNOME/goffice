@@ -210,7 +210,6 @@ SUFFIX(go_quad_start) (void)
 					   G_N_ELEMENTS (pi_hex_digits),
 					   256.0,
 					   256.0);
-		g_printerr ("pi=%.20g\n", (double)(SUFFIX(go_quad_value) (&SUFFIX(go_quad_pi))));
 
 		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_e),
 					   e_hex_digits,
