@@ -27,7 +27,15 @@ void go_quad_mul12 (GOQuad *res, double x, double y);
 
 void go_quad_dot_product (GOQuad *res, const GOQuad *a, const GOQuad *b, int n);
 
+void go_quad_constant8 (GOQuad *res, const guint8 *data, gsize n, double base, double scale);
+
 GO_VAR_DECL const GOQuad go_quad_zero;
+GO_VAR_DECL const GOQuad go_quad_one;
+GO_VAR_DECL const GOQuad go_quad_pi;
+GO_VAR_DECL const GOQuad go_quad_e;
+GO_VAR_DECL const GOQuad go_quad_ln2;
+GO_VAR_DECL const GOQuad go_quad_sqrt2;
+GO_VAR_DECL const GOQuad go_quad_euler;
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 struct GOQuadl_ {
@@ -53,7 +61,16 @@ void go_quad_mul12l (GOQuadl *res, long double x, long double y);
 void go_quad_dot_productl (GOQuadl *res,
 			   const GOQuadl *a, const GOQuadl *b, int n);
 
+void go_quad_constant8l (GOQuadl *res, const guint8 *data, gsize n, long double base, long double scale);
+
 GO_VAR_DECL const GOQuadl go_quad_zerol;
+GO_VAR_DECL const GOQuadl go_quad_onel;
+GO_VAR_DECL const GOQuadl go_quad_pil;
+GO_VAR_DECL const GOQuadl go_quad_el;
+GO_VAR_DECL const GOQuadl go_quad_ln2l;
+GO_VAR_DECL const GOQuadl go_quad_sqrt2l;
+GO_VAR_DECL const GOQuadl go_quad_eulerl;
+
 #endif
 
 G_END_DECLS
