@@ -1,5 +1,8 @@
 2013-11-04  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-quad.c (go_quad_pow, go_quad_exp)
+	(go_quad_expm1): new functions.
+
 	* goffice/math/go-quad.h (go_quad_one, go_quad_pi, go_quad_e)
 	(go_quad_ln2, go_quad_sqrt2, go_quad_euler): Supply a handful of
 	useful constants at high accuracy.

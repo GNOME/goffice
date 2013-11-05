@@ -424,6 +424,12 @@ SUFFIX(go_quad_dot_product) (QUAD *res, const QUAD *a, const QUAD *b, int n)
 	}
 }
 
+/**
+ * go_quad_constant8: (skip)
+ **/
+/**
+ * go_quad_constant8l: (skip)
+ **/
 void
 SUFFIX(go_quad_constant8) (QUAD *res, const guint8 *data, gsize n,
 			   DOUBLE base, DOUBLE scale)
@@ -441,4 +447,257 @@ SUFFIX(go_quad_constant8) (QUAD *res, const guint8 *data, gsize n,
 
 	SUFFIX(go_quad_init) (&q, scale);
 	SUFFIX(go_quad_mul) (res, res, &q);
+}
+
+static void
+SUFFIX(rescale2) (QUAD *x, DOUBLE *e)
+{
+	int xe;
+
+	(void)SUFFIX(frexp) (SUFFIX(go_quad_value) (x), &xe);
+	if (xe != 0) {
+		QUAD qs;
+		SUFFIX(go_quad_init) (&qs, SUFFIX(ldexp) (1.0, -xe));
+		SUFFIX(go_quad_mul) (x, x, &qs);
+		*e += xe;
+	}
+}
+
+
+static void
+SUFFIX(go_quad_pow_int) (QUAD *res, DOUBLE *exp2, const QUAD *x, const QUAD *y)
+{
+	QUAD xn;
+	DOUBLE dy;
+	DOUBLE xe = 0;
+
+	xn = *x;
+	*exp2 = 0;
+
+	dy = SUFFIX(go_quad_value) (y);
+	g_return_if_fail (dy >= 0);
+
+	*res = SUFFIX(go_quad_one);
+	SUFFIX(rescale2) (&xn, &xe);
+
+	while (dy > 0) {
+		if (SUFFIX(fmod) (dy, 2) > 0) {
+			SUFFIX(go_quad_mul) (res, res, &xn);
+			*exp2 += xe;
+			SUFFIX(rescale2) (res, exp2);
+			dy--;
+			if (dy == 0)
+				break;
+		}
+		dy /= 2;
+		SUFFIX(go_quad_mul) (&xn, &xn, &xn);
+		xe *= 2;
+		SUFFIX(rescale2) (&xn, &xe);
+	}
+}
+
+static void
+SUFFIX(go_quad_sqrt1pm1) (QUAD *res, const QUAD *a)
+{
+	QUAD x0, x1, d;
+
+	SUFFIX(go_quad_add) (&x0, a, &SUFFIX(go_quad_one));
+	SUFFIX(go_quad_sqrt) (&x0, &x0);
+	SUFFIX(go_quad_sub) (&x0, &x0, &SUFFIX(go_quad_one));
+
+	/* Newton step.  */
+	SUFFIX(go_quad_mul) (&x1, &x0, &x0);
+	SUFFIX(go_quad_add) (&x1, &x1, a);
+	SUFFIX(go_quad_add) (&d, &x0, &SUFFIX(go_quad_one));
+	SUFFIX(go_quad_add) (&d, &d, &d);
+	SUFFIX(go_quad_div) (&x1, &x1, &d);
+
+	*res = x1;
+}
+
+/*
+ * Compute pow(x,y) assuming y is in [0;1[.  If r1m is true,
+ * compute 1-pow(x,y) instead.
+ */
+
+static void
+SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
+			  gboolean r1m)
+{
+	QUAD qx, qr, qy = *y;
+	DOUBLE dy;
+	gboolean x1m;
+
+	g_return_if_fail (SUFFIX(go_quad_value) (y) >= 0);
+	g_return_if_fail (SUFFIX(go_quad_value) (y) <= 1); /* =1 might happen */
+
+	/*
+	 * "1m" mode refers to keeping 1-v instead of just v.
+	 */
+	x1m = SUFFIX(fabs) (SUFFIX(go_quad_value) (x)) >= 0.5;
+	if (x1m) {
+		SUFFIX(go_quad_sub) (&qx, x, &SUFFIX(go_quad_one));
+	} else {
+		qx = *x;
+	}
+
+	qr = r1m ? SUFFIX(go_quad_zero) : SUFFIX(go_quad_one);
+
+	while ((dy = SUFFIX(go_quad_value) (&qy)) > 0) {
+		SUFFIX(go_quad_add) (&qy, &qy, &qy);
+		if (x1m)
+			SUFFIX(go_quad_sqrt1pm1) (&qx, &qx);
+		else {
+			SUFFIX(go_quad_sqrt) (&qx, &qx);
+			if (SUFFIX(go_quad_value) (&qx) >= 0.5) {
+				x1m = TRUE;
+				SUFFIX(go_quad_sub) (&qx, &qx, &SUFFIX(go_quad_one));
+			}
+		}
+		if (dy >= 0.5) {
+			QUAD qp;
+			SUFFIX(go_quad_sub) (&qy, &qy, &SUFFIX(go_quad_one));
+			SUFFIX(go_quad_mul) (&qp, &qx, &qr);
+			if (x1m && r1m) {
+				SUFFIX(go_quad_add) (&qr, &qr, &qp);
+				SUFFIX(go_quad_add) (&qr, &qr, &qx);
+			} else if (x1m) {
+				SUFFIX(go_quad_add) (&qr, &qr, &qp);
+			} else if (r1m) {
+				QUAD qy;
+				SUFFIX(go_quad_sub) (&qy, &qx, &SUFFIX(go_quad_one));
+				SUFFIX(go_quad_add) (&qr, &qp, &qy);
+			} else {
+				qr = qp;
+			}
+		}
+	}
+
+	*res = qr;
+}
+
+/*
+ * This computes pow(x,y) in the following way:
+ *
+ * 1. y is considered the sum of a number of one-but values.
+ * 2. For each y bit in the integer part of y, the corresponding x^y
+ *    is computed by repeated squaring.
+ * 3. For each y bit in the fractional part of y, the corresponding x^y
+ *    is computed by repeating square rooting.
+ *
+ * Except that it's not quite as simple.  Repeating square rooting of x
+ * will bring the value closer and closer to 1.  That's no good, so we
+ * sometimes keep those values a 1-v instead of v.  A square root in
+ * that representation is sqrt1pm1(v)=sqrt(1+v)-1.
+ *
+ * Finally we don't simply return one value.  If the optional exp2 location
+ * is non-null, it is treated as a place to put a base 2 exponent with which
+ * to scale the returned result.  This isn't much different from the exponent
+ * inside the floating point number, except that the range is *huge*.  This
+ * function will happily compute exp(1e6):
+ *   exp(1e+06) = 0.5143737638002868*2^1442696  [1.028747527600574*2^1442695]
+ * The bracked result is a reference value from Mathematica.
+ */
+
+/**
+ * go_quad_pow: (skip)
+ **/
+/**
+ * go_quad_powl: (skip)
+ **/
+void
+SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
+		     const QUAD *x, const QUAD *y)
+{
+	DOUBLE dy, w, exp2ew;
+	QUAD qw, qf, qew, qef, qxm1;
+
+	dy = SUFFIX(go_quad_value) (y);
+
+	SUFFIX(go_quad_sub) (&qxm1, x, &SUFFIX(go_quad_one));
+	if (SUFFIX(go_quad_value) (&qxm1) == 0 || dy == 0) {
+		*res = SUFFIX(go_quad_one);
+		if (exp2) *exp2 = 0;
+		return;
+	}
+
+	w = SUFFIX(floor) (dy);
+	SUFFIX(go_quad_init) (&qw, w);
+	SUFFIX(go_quad_sub) (&qf, y, &qw);
+	if (SUFFIX(go_quad_value) (&qxm1) == 0 && dy > 0) {
+		if (SUFFIX(go_quad_value) (&qf) == 0 &&
+		    SUFFIX(fmod)(SUFFIX(fabs)(w),2) == 1) {
+			/* 0 ^ (odd positive integer) */
+			*res = *x;
+		} else {
+			/* 0 ^ y, y positive, but not odd integer */
+			*res = SUFFIX(go_quad_zero);
+		}
+		if (exp2) *exp2 = 0;
+		return;
+	}
+
+	/* Lots of infinity/nan cases ignored */
+
+	if (dy < 0) {
+		QUAD my;
+		SUFFIX(go_quad_sub) (&my, &SUFFIX(go_quad_zero), y);
+		SUFFIX(go_quad_pow) (res, exp2, x, &my);
+		SUFFIX(go_quad_div) (res, &SUFFIX(go_quad_one), res);
+		if (exp2) *exp2 = 0 - *exp2;
+		return;
+	}
+
+	SUFFIX(go_quad_pow_int) (&qew, &exp2ew, x, &qw);
+	SUFFIX(go_quad_pow_frac) (&qef, x, &qf, FALSE);
+
+	SUFFIX(go_quad_mul) (res, &qew, &qef);
+	if (exp2)
+		*exp2 = exp2ew;
+	else {
+		QUAD qs;
+		int e = CLAMP (exp2ew, G_MININT, G_MAXINT);
+		SUFFIX(go_quad_init) (&qs, SUFFIX(ldexp)(1.0, e));
+		SUFFIX(go_quad_mul) (res, res, &qs);
+	}
+}
+
+
+/**
+ * go_quad_exp: (skip)
+ **/
+/**
+ * go_quad_expl: (skip)
+ **/
+void
+SUFFIX(go_quad_exp) (QUAD *res, DOUBLE *exp2, const QUAD *a)
+{
+	SUFFIX(go_quad_pow) (res, exp2, &SUFFIX(go_quad_e), a);
+}
+
+/**
+ * go_quad_expm1: (skip)
+ **/
+/**
+ * go_quad_expm1l: (skip)
+ **/
+void
+SUFFIX(go_quad_expm1) (QUAD *res, const QUAD *a)
+{
+	DOUBLE da = SUFFIX(go_quad_value) (a);
+
+	if (!SUFFIX(go_finite) (da))
+		*res = *a;
+	else if (SUFFIX (fabs) (da) > 0.5) {
+		SUFFIX(go_quad_exp) (res, NULL, a);
+		SUFFIX(go_quad_sub) (res, res, &SUFFIX(go_quad_one));
+	} else if (da >= 0) {
+		SUFFIX(go_quad_pow_frac) (res, &SUFFIX(go_quad_e), a, TRUE);
+	} else {
+		QUAD ma, z, zp1;
+		SUFFIX(go_quad_sub) (&ma, &SUFFIX(go_quad_zero), a);
+		SUFFIX(go_quad_pow_frac) (&z, &SUFFIX(go_quad_e), &ma, TRUE);
+		SUFFIX(go_quad_add) (&zp1, &z, &SUFFIX(go_quad_one));
+		SUFFIX(go_quad_div) (res, &z, &zp1);
+	}
 }

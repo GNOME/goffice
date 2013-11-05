@@ -22,6 +22,9 @@ void go_quad_sub (GOQuad *res, const GOQuad *a, const GOQuad *b);
 void go_quad_mul (GOQuad *res, const GOQuad *a, const GOQuad *b);
 void go_quad_div (GOQuad *res, const GOQuad *a, const GOQuad *b);
 void go_quad_sqrt (GOQuad *res, const GOQuad *a);
+void go_quad_pow (GOQuad *res, double *exp2, const GOQuad *x, const GOQuad *y);
+void go_quad_exp (GOQuad *res, double *exp2, const GOQuad *a);
+void go_quad_expm1 (GOQuad *res, const GOQuad *a);
 
 void go_quad_mul12 (GOQuad *res, double x, double y);
 
@@ -55,6 +58,9 @@ void go_quad_subl (GOQuadl *res, const GOQuadl *a, const GOQuadl *b);
 void go_quad_mull (GOQuadl *res, const GOQuadl *a, const GOQuadl *b);
 void go_quad_divl (GOQuadl *res, const GOQuadl *a, const GOQuadl *b);
 void go_quad_sqrtl (GOQuadl *res, const GOQuadl *a);
+void go_quad_powl (GOQuadl *res, long double *exp2, const GOQuadl *x, const GOQuadl *y);
+void go_quad_expl (GOQuadl *res, long double *exp2, const GOQuadl *a);
+void go_quad_expm1l (GOQuadl *res, const GOQuadl *a);
 
 void go_quad_mul12l (GOQuadl *res, long double x, long double y);
 
