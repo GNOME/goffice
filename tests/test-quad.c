@@ -1,6 +1,22 @@
 #include <goffice/goffice.h>
 
 
+#define UNTEST1(a_,QOP,OP,txt)						\
+do {									\
+	double a, p;							\
+	GOQuad qa, qc;							\
+	a = (a_);							\
+	go_quad_init (&qa, a);						\
+	QOP (&qc, &qa);							\
+	p = OP (a);							\
+	g_printerr ("%s(%g) = %g  [%g]\n",				\
+		    txt, a, go_quad_value (&qc), p);			\
+	if (p == floor (p))						\
+		g_assert (go_quad_value (&qc) == p);			\
+	else								\
+		g_assert (fabs (go_quad_value (&qc) - p) / p < 1e-14);	\
+} while (0)
+
 #define BINTEST1(a_,b_,QOP,OP,txt)					\
 do {									\
 	double a, b, p;							\
@@ -98,6 +114,94 @@ basic4_tests (void)
 
 /* ------------------------------------------------------------------------- */
 
+#define TEST1(a_) UNTEST1(a_,go_quad_floor,floor,"floor")
+
+static void
+floor_tests (void)
+{
+	GOQuad a, b, r;
+
+	TEST1 (0);
+	TEST1 (1);
+	TEST1 (-1);
+	TEST1 (1.0/3);
+	TEST1 (-1.0/3);
+
+	go_quad_floor (&a, &go_quad_sqrt2);
+	g_printerr ("floor(sqrt(2))=%g\n", go_quad_value (&a));
+	g_assert (go_quad_value (&a) == 1);
+
+	go_quad_init (&a, 11);
+	go_quad_init (&b, ldexp (1, -80));
+	go_quad_sub (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(11-2^-80)=%g\n", go_quad_value (&r));
+	g_assert (go_quad_value (&r) == 10);
+
+	go_quad_init (&a, 11);
+	go_quad_init (&b, ldexp (1, -80));
+	go_quad_add (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(11+2^-80)=%g\n", go_quad_value (&r));
+	g_assert (go_quad_value (&r) == 11);
+
+	go_quad_init (&a, -11);
+	go_quad_init (&b, ldexp (1, -80));
+	go_quad_sub (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(-11-2^-80)=%g\n", go_quad_value (&r));
+	g_assert (go_quad_value (&r) == -12);
+
+	go_quad_init (&a, -11);
+	go_quad_init (&b, ldexp (1, -80));
+	go_quad_add (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(-11+2^-80)=%g\n", go_quad_value (&r));
+	g_assert (go_quad_value (&r) == -11);
+
+	go_quad_init (&a, ldexp (11, 80));
+	go_quad_init (&b, 1);
+	go_quad_sub (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
+	go_quad_sub (&b, &a, &r);
+	g_assert (go_quad_value (&b) == 0);
+
+	go_quad_init (&a, ldexp (11, 80));
+	go_quad_init (&b, 0.5);
+	go_quad_sub (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
+	go_quad_sub (&b, &a, &r);
+	g_assert (go_quad_value (&b) == 0.5);
+
+	go_quad_init (&a, ldexp (11, 80));
+	go_quad_init (&b, 0.5);
+	go_quad_add (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
+	go_quad_sub (&b, &a, &r);
+	g_assert (go_quad_value (&b) == 0.5);
+
+	go_quad_init (&a, ldexp (11, 80));
+	go_quad_init (&b, -0.5);
+	go_quad_sub (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
+	go_quad_sub (&b, &a, &r);
+	g_assert (go_quad_value (&b) == 0.5);
+
+	go_quad_init (&a, ldexp (11, 80));
+	go_quad_init (&b, -0.5);
+	go_quad_add (&a, &a, &b);
+	go_quad_floor (&r, &a);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
+	go_quad_sub (&b, &a, &r);
+	g_assert (go_quad_value (&b) == 0.5);
+}
+
+/* ------------------------------------------------------------------------- */
+
 int
 main (int argc, char **argv)
 {
@@ -132,6 +236,7 @@ main (int argc, char **argv)
 
 	basic4_tests ();
 	pow_tests ();
+	floor_tests ();
 
 	go_quad_end (state);
 
