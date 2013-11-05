@@ -407,6 +407,34 @@ SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 }
 
 /**
+ * go_quad_floor: (skip)
+ **/
+/**
+ * go_quad_floorl: (skip)
+ **/
+void
+SUFFIX(go_quad_floor) (QUAD *res, const QUAD *a)
+{
+	QUAD qh, ql, q, r;
+
+	SUFFIX(go_quad_init) (&qh, SUFFIX(floor)(a->h));
+	SUFFIX(go_quad_init) (&ql, SUFFIX(floor)(a->l));
+	SUFFIX(go_quad_add) (&q, &qh, &ql);
+
+	/* Due to dual floors, we might be off by one.  */
+	SUFFIX(go_quad_sub) (&r, a, &q);
+	if (SUFFIX(go_quad_value) (&r) < 0)
+		SUFFIX(go_quad_sub) (res, &q, &SUFFIX(go_quad_one));
+	else {
+		SUFFIX(go_quad_sub) (&r, &r, &SUFFIX(go_quad_one));
+		if (SUFFIX(go_quad_value) (&r) < 0)
+			*res = q;
+		else
+			SUFFIX(go_quad_add) (res, &q, &SUFFIX(go_quad_one));
+	}
+}
+
+/**
  * go_quad_dot_product: (skip)
  **/
 /**
@@ -609,7 +637,7 @@ void
 SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
 		     const QUAD *x, const QUAD *y)
 {
-	DOUBLE dy, w, exp2ew;
+	DOUBLE dy, exp2ew;
 	QUAD qw, qf, qew, qef, qxm1;
 
 	dy = SUFFIX(go_quad_value) (y);
@@ -621,12 +649,13 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
 		return;
 	}
 
-	w = SUFFIX(floor) (dy);
-	SUFFIX(go_quad_init) (&qw, w);
+	SUFFIX(go_quad_floor) (&qw, y);
 	SUFFIX(go_quad_sub) (&qf, y, &qw);
 	if (SUFFIX(go_quad_value) (&qxm1) == 0 && dy > 0) {
-		if (SUFFIX(go_quad_value) (&qf) == 0 &&
-		    SUFFIX(fmod)(SUFFIX(fabs)(w),2) == 1) {
+		gboolean wodd =
+			(SUFFIX(fmod)(SUFFIX(fabs)(qw.h),2) +
+			 SUFFIX(fmod)(SUFFIX(fabs)(qw.l),2)) == 1;
+		if (SUFFIX(go_quad_value) (&qf) == 0 && wodd) {
 			/* 0 ^ (odd positive integer) */
 			*res = *x;
 		} else {
