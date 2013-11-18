@@ -1,15 +1,15 @@
-# Serbian translation of gnumeric
+# Serbian translation of goffice
 # Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003.
-# This file is distributed under the same license as the gnumeric package.
+# This file is distributed under the same license as the goffice package.
 # Maintainer: Slobodan Sredojević <ssl@uns.ns.ac.yu>
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.2\n"
+"Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgof"
 "fice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-05-03 19:23+0000\n"
-"PO-Revision-Date: 2013-05-13 11:08+0200\n"
+"POT-Creation-Date: 2013-07-20 06:16+0000\n"
+"PO-Revision-Date: 2013-11-18 09:12+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -536,8 +536,8 @@ msgid "The arc end angle"
 msgstr "Крајњи угао лука"
 
 #: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
-#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-path.c:284
-#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
+#: ../goffice/canvas/goc-ellipse.c:287 ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:431
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Окренутост"
@@ -573,10 +573,10 @@ msgid "Arrow for line's end"
 msgstr "Стрелица за крај линије"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-ellipse.c:263 ../goffice/canvas/goc-graph.c:441
 #: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
-#: ../goffice/canvas/goc-path.c:272 ../goffice/canvas/goc-pixbuf.c:235
-#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
+#: ../goffice/canvas/goc-path.c:281 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:419
 #: ../goffice/canvas/goc-widget.c:796 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
@@ -587,10 +587,10 @@ msgstr "Водоравни положај средишта круга"
 
 # Question for autor: Is this Y like YES?
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:270 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-ellipse.c:269 ../goffice/canvas/goc-graph.c:447
 #: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
-#: ../goffice/canvas/goc-path.c:278 ../goffice/canvas/goc-pixbuf.c:241
-#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
+#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:425
 #: ../goffice/canvas/goc-widget.c:802
 msgid "y"
 msgstr "y"
@@ -616,21 +616,21 @@ msgid "The object top position"
 msgstr "Горњи положај фигуре"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:282 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-ellipse.c:281 ../goffice/canvas/goc-graph.c:453
 #: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
 #: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
-#: ../goffice/canvas/goc-widget.c:815 ../goffice/graph/gog-graph.c:499
-#: ../goffice/graph/gog-object.c:194 ../goffice/utils/go-image.c:503
+#: ../goffice/canvas/goc-widget.c:815 ../goffice/graph/gog-graph.c:502
+#: ../goffice/graph/gog-object.c:194 ../goffice/utils/go-image.c:505
 msgid "Height"
 msgstr "Висина"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:276 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-ellipse.c:275 ../goffice/canvas/goc-graph.c:459
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
 #: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
-#: ../goffice/canvas/goc-widget.c:809 ../goffice/graph/gog-color-scale.c:296
-#: ../goffice/graph/gog-graph.c:493 ../goffice/graph/gog-object.c:192
-#: ../goffice/utils/go-image.c:499 ../plugins/plot_xy/gog-xy-dropbar.c:312
+#: ../goffice/canvas/goc-widget.c:809 ../goffice/graph/gog-color-scale.c:318
+#: ../goffice/graph/gog-graph.c:496 ../goffice/graph/gog-object.c:192
+#: ../goffice/utils/go-image.c:501 ../plugins/plot_xy/gog-xy-dropbar.c:312
 msgid "Width"
 msgstr "Ширина"
 
@@ -647,23 +647,23 @@ msgstr "Фигура"
 msgid "The embedded GOComponent object"
 msgstr "Угнеждена фигура ГО састојка"
 
-#: ../goffice/canvas/goc-ellipse.c:265
+#: ../goffice/canvas/goc-ellipse.c:264
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Леви положај елипсе (или десни у РТЛ режиму)"
 
-#: ../goffice/canvas/goc-ellipse.c:271
+#: ../goffice/canvas/goc-ellipse.c:270
 msgid "The ellipse top position"
 msgstr "Горњи положај елипсе"
 
-#: ../goffice/canvas/goc-ellipse.c:277
+#: ../goffice/canvas/goc-ellipse.c:276
 msgid "The ellipse width"
 msgstr "Ширина елипсе"
 
-#: ../goffice/canvas/goc-ellipse.c:283
+#: ../goffice/canvas/goc-ellipse.c:282
 msgid "The ellipse height"
 msgstr "Висина елипсе"
 
-#: ../goffice/canvas/goc-ellipse.c:289 ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "Окренутост око горњег левог положаја"
 
@@ -684,8 +684,8 @@ msgstr "Горњи положај графика"
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:525 ../goffice/graph/gog-theme.c:581
+#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:256
+#: ../goffice/graph/gog-graph.c:528 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "График"
 
@@ -693,7 +693,7 @@ msgstr "График"
 msgid "The GogGraph this object displays"
 msgstr "Гог график који приказује ова фигура"
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1071
+#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1074
 msgid "Renderer"
 msgstr "Исцртавач"
 
@@ -809,43 +809,43 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "Усправна координата завршетка линије"
 
-#: ../goffice/canvas/goc-path.c:273
+#: ../goffice/canvas/goc-path.c:282
 msgid "The path first point x coordinate"
 msgstr "Водоравна координата прве тачке путање"
 
-#: ../goffice/canvas/goc-path.c:279
+#: ../goffice/canvas/goc-path.c:288
 msgid "The path first point y coordinate"
 msgstr "Усправна координата прве тачке путање"
 
-#: ../goffice/canvas/goc-path.c:285
+#: ../goffice/canvas/goc-path.c:294
 msgid "The rotation around first point position"
 msgstr "Окренутост око положаја прве тачке"
 
-#: ../goffice/canvas/goc-path.c:290
+#: ../goffice/canvas/goc-path.c:299
 msgid "Closed"
 msgstr "Затворено"
 
-#: ../goffice/canvas/goc-path.c:291
+#: ../goffice/canvas/goc-path.c:300
 msgid "The flag for closed path"
 msgstr "Опција за затворену путању"
 
-#: ../goffice/canvas/goc-path.c:296 ../goffice/canvas/goc-polygon.c:360
+#: ../goffice/canvas/goc-path.c:305 ../goffice/canvas/goc-polygon.c:360
 msgid "Fill rule"
 msgstr "Правило испуњавања"
 
-#: ../goffice/canvas/goc-path.c:297 ../goffice/canvas/goc-polygon.c:361
+#: ../goffice/canvas/goc-path.c:306 ../goffice/canvas/goc-polygon.c:361
 msgid "Set fill rule to winding or even/odd"
 msgstr "Поставите правило испуњавања на намотавање или на парно/непарно"
 
-#: ../goffice/canvas/goc-path.c:302
+#: ../goffice/canvas/goc-path.c:311
 msgid "Path"
 msgstr "Путања"
 
-#: ../goffice/canvas/goc-path.c:303
+#: ../goffice/canvas/goc-path.c:312
 msgid "The path points"
 msgstr "Тачке путање"
 
-#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:285
 msgid "Pixbuf"
 msgstr "Сличица"
 
@@ -953,72 +953,72 @@ msgstr "Мења сразмеру ширине линије"
 msgid "Whether to scale the line width when zooming"
 msgstr "Да ли да промени сразмеру ширине линије приликом увеличавања"
 
-#: ../goffice/canvas/goc-text.c:466
+#: ../goffice/canvas/goc-text.c:420
 msgid "The text horizontal position"
 msgstr "Водоравни положај текста"
 
-#: ../goffice/canvas/goc-text.c:472
+#: ../goffice/canvas/goc-text.c:426
 msgid "The text position"
 msgstr "Положај текста"
 
-#: ../goffice/canvas/goc-text.c:478
+#: ../goffice/canvas/goc-text.c:432
 msgid "The rotation around the anchor"
 msgstr "Окренутост око ослонца"
 
-#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:847
+#: ../goffice/canvas/goc-text.c:437 ../goffice/graph/gog-object.c:847
 msgid "Anchor"
 msgstr "Ослонац"
 
-#: ../goffice/canvas/goc-text.c:484
+#: ../goffice/canvas/goc-text.c:438
 msgid "The anchor point for the text"
 msgstr "Тачка ослонца за текст"
 
-#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/canvas/goc-text.c:443 ../goffice/gtk/go-format-sel.c:69
 #: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:972
 msgid "Text"
 msgstr "Текст"
 
-#: ../goffice/canvas/goc-text.c:490
+#: ../goffice/canvas/goc-text.c:444
 msgid "The text to display"
 msgstr "Текст за приказивање"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:447
 msgid "Attributes"
 msgstr "Особине"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:447
 msgid "The attributes list as a PangoAttrList"
 msgstr "Списак особина као Панго списак особина"
 
-#: ../goffice/canvas/goc-text.c:498
+#: ../goffice/canvas/goc-text.c:452
 msgid "Clip"
 msgstr "Одсецање"
 
-#: ../goffice/canvas/goc-text.c:499
+#: ../goffice/canvas/goc-text.c:453
 msgid "Whether to clip or not"
 msgstr "Да ли да одсече или не"
 
-#: ../goffice/canvas/goc-text.c:504
+#: ../goffice/canvas/goc-text.c:458
 msgid "Clip width"
 msgstr "Ширина одсецања"
 
-#: ../goffice/canvas/goc-text.c:505
+#: ../goffice/canvas/goc-text.c:459
 msgid "Clip width for the text"
 msgstr "Ширина одсецања за текст"
 
-#: ../goffice/canvas/goc-text.c:510
+#: ../goffice/canvas/goc-text.c:464
 msgid "Clip height"
 msgstr "Висина одсецања"
 
-#: ../goffice/canvas/goc-text.c:511
+#: ../goffice/canvas/goc-text.c:465
 msgid "Clip height for the text"
 msgstr "Висина одсецања за текст"
 
-#: ../goffice/canvas/goc-text.c:516
+#: ../goffice/canvas/goc-text.c:470
 msgid "Wrap width"
 msgstr "Ширина прелома"
 
-#: ../goffice/canvas/goc-text.c:517
+#: ../goffice/canvas/goc-text.c:471
 msgid "Wrap width for the text"
 msgstr "Ширина прелома за текст"
 
@@ -1183,7 +1183,8 @@ msgstr "Споредна мрежа"
 msgid "AxisLine"
 msgstr "Линија осе"
 
-#: ../goffice/graph/gog-axis.c:3044 ../goffice/graph/gog-theme.c:591
+#: ../goffice/graph/gog-axis.c:3044 ../goffice/graph/gog-color-scale.c:303
+#: ../goffice/graph/gog-theme.c:591
 msgid "Label"
 msgstr "Натпис"
 
@@ -1552,139 +1553,138 @@ msgstr "Сачувај"
 msgid "Saves the color map to the local disk."
 msgstr "Сачувајте мапу боја на месни диск."
 
-#: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:748
+#: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:756
 msgid "Plot area"
 msgstr "Област нацрта"
 
-#: ../goffice/graph/gog-chart.c:638 ../goffice/graph/gog-theme.c:588
+#: ../goffice/graph/gog-chart.c:646 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
 msgstr "Основа"
 
-#: ../goffice/graph/gog-chart.c:641
+#: ../goffice/graph/gog-chart.c:649
 msgid "XY-Backplane"
 msgstr "XY-основа"
 
-#: ../goffice/graph/gog-chart.c:645
+#: ../goffice/graph/gog-chart.c:653
 msgid "YZ-Backplane"
 msgstr "YZ-основа"
 
-#: ../goffice/graph/gog-chart.c:649
+#: ../goffice/graph/gog-chart.c:657
 msgid "ZX-Backplane"
 msgstr "ZX-основа"
 
-#: ../goffice/graph/gog-chart.c:653
+#: ../goffice/graph/gog-chart.c:661
 msgid "X-Axis"
 msgstr "Оса X"
 
-#: ../goffice/graph/gog-chart.c:657
+#: ../goffice/graph/gog-chart.c:665
 msgid "Y-Axis"
 msgstr "Оса Y"
 
-#: ../goffice/graph/gog-chart.c:661
+#: ../goffice/graph/gog-chart.c:669
 msgid "Z-Axis"
 msgstr "Оса Z"
 
-#: ../goffice/graph/gog-chart.c:665
+#: ../goffice/graph/gog-chart.c:673
 msgid "Circular-Axis"
 msgstr "Кружна оса"
 
-#: ../goffice/graph/gog-chart.c:669
+#: ../goffice/graph/gog-chart.c:677
 msgid "Radial-Axis"
 msgstr "Радијална оса"
 
-#: ../goffice/graph/gog-chart.c:673
+#: ../goffice/graph/gog-chart.c:681
 msgid "Pseudo-3D-Axis"
 msgstr "Псеудо 3Д оса"
 
-#: ../goffice/graph/gog-chart.c:677
+#: ../goffice/graph/gog-chart.c:685
 msgid "Bubble-Axis"
 msgstr "Оса мехура"
 
-#: ../goffice/graph/gog-chart.c:681
+#: ../goffice/graph/gog-chart.c:689
 msgid "Color-Axis"
 msgstr "Оса боје"
 
-#: ../goffice/graph/gog-chart.c:685
+#: ../goffice/graph/gog-chart.c:693
 msgid "Plot"
 msgstr "Нацрт"
 
-#: ../goffice/graph/gog-chart.c:688 ../goffice/graph/gog-graph.c:426
+#: ../goffice/graph/gog-chart.c:696 ../goffice/graph/gog-graph.c:429
 #: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
 msgid "Title"
 msgstr "Наслов"
 
-#: ../goffice/graph/gog-chart.c:693 ../goffice/graph/gog-theme.c:585
+#: ../goffice/graph/gog-chart.c:701 ../goffice/graph/gog-theme.c:585
 #: ../goffice/graph/gog-trend-line.c:97
 msgid "Legend"
 msgstr "Легенда"
 
-#: ../goffice/graph/gog-chart.c:699 ../goffice/graph/gog-reg-curve.c:280
+#: ../goffice/graph/gog-chart.c:707 ../goffice/graph/gog-reg-curve.c:280
 #: ../goffice/graph/gog-theme.c:595
 msgid "Equation"
 msgstr "Једначина"
 
-#: ../goffice/graph/gog-chart.c:705
+#: ../goffice/graph/gog-chart.c:713
 msgid "3D-Box"
 msgstr "3Д кутија"
 
-#: ../goffice/graph/gog-chart.c:708
-#| msgid "Scale"
+#: ../goffice/graph/gog-chart.c:716
 msgid "Color-Scale"
 msgstr "Сразмера боје"
 
-#: ../goffice/graph/gog-chart.c:742
+#: ../goffice/graph/gog-chart.c:750
 msgid "Valid cardinality"
 msgstr "Исправна основност"
 
-#: ../goffice/graph/gog-chart.c:743
+#: ../goffice/graph/gog-chart.c:751
 msgid "Is the charts cardinality currently valid"
 msgstr "Да ли је основност графика тренутно исправна"
 
-#: ../goffice/graph/gog-chart.c:749
+#: ../goffice/graph/gog-chart.c:757
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr "Положај и величина области нацрта, у процентима величине графика"
 
-#: ../goffice/graph/gog-chart.c:754
+#: ../goffice/graph/gog-chart.c:762
 msgid "Manual plot area"
 msgstr "Ручна област нацрта"
 
-#: ../goffice/graph/gog-chart.c:755
+#: ../goffice/graph/gog-chart.c:763
 msgid "Is plot area manual"
 msgstr "Да ли је област нацрта ручна"
 
-#: ../goffice/graph/gog-chart.c:759
+#: ../goffice/graph/gog-chart.c:767
 msgid "xpos"
 msgstr "x-пол"
 
-#: ../goffice/graph/gog-chart.c:760
+#: ../goffice/graph/gog-chart.c:768
 msgid "Horizontal chart position in graph grid"
 msgstr "Водоравни положај графика на мрежи графика"
 
-#: ../goffice/graph/gog-chart.c:764
+#: ../goffice/graph/gog-chart.c:772
 msgid "ypos"
 msgstr "y-пол"
 
-#: ../goffice/graph/gog-chart.c:765
+#: ../goffice/graph/gog-chart.c:773
 msgid "Vertical chart position in graph grid"
 msgstr "Усправни положај графика на мрежи графика"
 
 # bug(danilo): plural-forms
 # исто објашњење као за „rows“
-#: ../goffice/graph/gog-chart.c:768
+#: ../goffice/graph/gog-chart.c:776
 msgid "columns"
 msgstr "колоне"
 
-#: ../goffice/graph/gog-chart.c:769
+#: ../goffice/graph/gog-chart.c:777
 msgid "Number of columns in graph grid"
 msgstr "Број колона на мрежи графика"
 
 # bug(danilo): plural-forms
 # изабрао сам ово зато што ћемо најчешће имати 2, 3 или 4 реда, а ређе 1 ред, а још ређе 5, 6, ... редова
-#: ../goffice/graph/gog-chart.c:772
+#: ../goffice/graph/gog-chart.c:780
 msgid "rows"
 msgstr "редови"
 
-#: ../goffice/graph/gog-chart.c:773
+#: ../goffice/graph/gog-chart.c:781
 msgid "Number of rows in graph grid"
 msgstr "Број редова на мрежи графика"
 
@@ -1694,32 +1694,32 @@ msgstr "Број редова на мрежи графика"
 msgid "%s to %s"
 msgstr "%s на %s"
 
-#: ../goffice/graph/gog-color-scale.c:71 ../goffice/graph/gog-object.c:161
+#: ../goffice/graph/gog-color-scale.c:144 ../goffice/graph/gog-object.c:161
 #: ../goffice/graph/gog-object.c:180 ../goffice/graph/gog-series.c:108
 #: ../goffice/graph/gog-series-labels.c:58
 msgid "Top"
 msgstr "Горе"
 
-#: ../goffice/graph/gog-color-scale.c:72 ../goffice/graph/gog-object.c:165
+#: ../goffice/graph/gog-color-scale.c:145 ../goffice/graph/gog-object.c:165
 #: ../goffice/graph/gog-object.c:186 ../goffice/graph/gog-series.c:106
 #: ../goffice/graph/gog-series-labels.c:59
 msgid "Bottom"
 msgstr "Доле"
 
-#: ../goffice/graph/gog-color-scale.c:74 ../goffice/graph/gog-object.c:167
+#: ../goffice/graph/gog-color-scale.c:147 ../goffice/graph/gog-object.c:167
 #: ../goffice/graph/gog-object.c:182 ../goffice/graph/gog-series.c:107
 #: ../goffice/graph/gog-series-labels.c:60
 msgid "Left"
 msgstr "Лево"
 
-#: ../goffice/graph/gog-color-scale.c:75 ../goffice/graph/gog-object.c:163
+#: ../goffice/graph/gog-color-scale.c:148 ../goffice/graph/gog-object.c:163
 #: ../goffice/graph/gog-object.c:184 ../goffice/graph/gog-series.c:109
 #: ../goffice/graph/gog-series-labels.c:61
 msgid "Right"
 msgstr "Десно"
 
-#: ../goffice/graph/gog-color-scale.c:190 ../goffice/graph/gog-label.c:306
-#: ../goffice/graph/gog-label.c:543 ../goffice/graph/gog-reg-curve.c:133
+#: ../goffice/graph/gog-color-scale.c:207 ../goffice/graph/gog-label.c:310
+#: ../goffice/graph/gog-label.c:546 ../goffice/graph/gog-reg-curve.c:133
 #: ../goffice/graph/gog-series-labels.c:607
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
@@ -1728,7 +1728,7 @@ msgstr "Десно"
 msgid "Details"
 msgstr "Појединости"
 
-#: ../goffice/graph/gog-color-scale.c:291
+#: ../goffice/graph/gog-color-scale.c:313
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:3
 #: ../plugins/plot_barcol/gog-minmax.c:227
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
@@ -1737,42 +1737,37 @@ msgstr "Појединости"
 msgid "Horizontal"
 msgstr "Водоравнo"
 
-#: ../goffice/graph/gog-color-scale.c:292
+#: ../goffice/graph/gog-color-scale.c:314
 msgid "Whether to display the scale horizontally"
 msgstr "Да ли водоравно да прикаже лествицу"
 
-#: ../goffice/graph/gog-color-scale.c:297
+#: ../goffice/graph/gog-color-scale.c:319
 msgid "Color scale thickness."
 msgstr "Дебљина лествице боје."
 
-#: ../goffice/graph/gog-color-scale.c:302 ../goffice/graph/gog-theme.c:586
+#: ../goffice/graph/gog-color-scale.c:324 ../goffice/graph/gog-theme.c:586
 msgid "Axis"
 msgstr "Оса"
 
-#: ../goffice/graph/gog-color-scale.c:303
-#| msgid "Reference to pseudo-3D axis"
+#: ../goffice/graph/gog-color-scale.c:325
 msgid "Reference to the color or pseudo-3d axis"
 msgstr "Упута на боју или на псеудо-3д осу"
 
 # Чаробни штапић? :)
-#: ../goffice/graph/gog-color-scale.c:308
-#| msgid "Major tick size"
+#: ../goffice/graph/gog-color-scale.c:330
 msgid "Tick size"
 msgstr "Величина цртице"
 
-#: ../goffice/graph/gog-color-scale.c:309
-#| msgid "Size of the major tick marks, in points"
+#: ../goffice/graph/gog-color-scale.c:331
 msgid "Size of the tick marks, in points"
 msgstr "Величина ознаке цртице, у тачкама"
 
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:1
-#| msgid "Axis position"
 msgid "Ticks position:"
 msgstr "Положај цртица:"
 
 # Mozda "razlomak"
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:2
-#| msgid "_Direction:"
 msgid "Direction:"
 msgstr "Правац:"
 
@@ -1784,7 +1779,6 @@ msgid "Vertical"
 msgstr "Усправно"
 
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:5
-#| msgid "_Width:"
 msgid "Width:"
 msgstr "Ширина:"
 
@@ -1878,44 +1872,44 @@ msgid "Percent"
 msgstr "Процентни"
 
 #. builds the default discrete color map
-#: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
+#: ../goffice/graph/gog-graph.c:363 ../goffice/graph/gog-graph.c:484
 #: ../goffice/graph/gog-theme.c:1415 ../goffice/graph/gog-theme.c:1588
 msgid "Theme"
 msgstr "Тема"
 
-#: ../goffice/graph/gog-graph.c:421 ../goffice/graph/gog-theme.c:583
+#: ../goffice/graph/gog-graph.c:424 ../goffice/graph/gog-theme.c:583
 msgid "Chart"
 msgstr "График"
 
-#: ../goffice/graph/gog-graph.c:482
+#: ../goffice/graph/gog-graph.c:485
 msgid "The theme for elements of the graph"
 msgstr "Тема за елементе графика"
 
-#: ../goffice/graph/gog-graph.c:487
+#: ../goffice/graph/gog-graph.c:490
 msgid "Theme name"
 msgstr "Назив теме"
 
-#: ../goffice/graph/gog-graph.c:488
+#: ../goffice/graph/gog-graph.c:491
 msgid "The name of the theme for elements of the graph"
 msgstr "Назив теме за елементе графика"
 
-#: ../goffice/graph/gog-graph.c:494
+#: ../goffice/graph/gog-graph.c:497
 msgid "Logical graph width, in points"
 msgstr "Логичка ширина графика, у тачкама"
 
-#: ../goffice/graph/gog-graph.c:500
+#: ../goffice/graph/gog-graph.c:503
 msgid "Logical graph height, in points"
 msgstr "Логичка висина графика, у тачкама"
 
-#: ../goffice/graph/gog-graph.c:505
+#: ../goffice/graph/gog-graph.c:508
 msgid "Document"
 msgstr "Документ"
 
-#: ../goffice/graph/gog-graph.c:506
+#: ../goffice/graph/gog-graph.c:509
 msgid "the document for this graph"
 msgstr "документ за овај график"
 
-#: ../goffice/graph/gog-graph.c:1072
+#: ../goffice/graph/gog-graph.c:1075
 msgid "the renderer for this view"
 msgstr "исцртавач за овај преглед"
 
@@ -1973,59 +1967,59 @@ msgstr "Узорак"
 msgid "_Subtype"
 msgstr "_Подврста"
 
-#: ../goffice/graph/gog-label.c:149
+#: ../goffice/graph/gog-label.c:153
 msgid "Allow markup"
 msgstr "Допушта означавање"
 
-#: ../goffice/graph/gog-label.c:150
+#: ../goffice/graph/gog-label.c:154
 msgid "Support basic HTML-ish markup"
 msgstr "Подржава основно ХТМЛ означавање"
 
-#: ../goffice/graph/gog-label.c:156
+#: ../goffice/graph/gog-label.c:160
 msgid "Rotate the frame with the text"
 msgstr "Заокреће кадар са текстом"
 
-#: ../goffice/graph/gog-label.c:157
+#: ../goffice/graph/gog-label.c:161
 msgid "Whether the frame should be rotated with the text"
 msgstr "Да ли кадар треба да буде заокренут са текстом"
 
-#: ../goffice/graph/gog-label.c:162
+#: ../goffice/graph/gog-label.c:166
 msgid "Rotate the background with the text"
 msgstr "Заокреће позадину са текстом"
 
-#: ../goffice/graph/gog-label.c:163
+#: ../goffice/graph/gog-label.c:167
 msgid "Whether the background should be rotated with the text"
 msgstr "Да ли позадина треба да буде заокренута са текстом"
 
-#: ../goffice/graph/gog-label.c:168
+#: ../goffice/graph/gog-label.c:172
 msgid "Wrap the text"
 msgstr "Прелама текст"
 
-#: ../goffice/graph/gog-label.c:169
+#: ../goffice/graph/gog-label.c:173
 msgid "Whether the text might be displayed using several lines"
 msgstr "Да ли текст може да буде приказан коришћењем више редова"
 
-#: ../goffice/graph/gog-label.c:285
+#: ../goffice/graph/gog-label.c:289
 msgid "_Text:"
 msgstr "_Текст:"
 
-#: ../goffice/graph/gog-label.c:287
+#: ../goffice/graph/gog-label.c:291 ../goffice/graph/gog-label.c:557
 msgid "Rotate frame with text"
 msgstr "Заокрени кадар са текстом"
 
-#: ../goffice/graph/gog-label.c:291
+#: ../goffice/graph/gog-label.c:295
 msgid "Display the text on several lines if needed"
 msgstr "Прикажи текст у више редова ако је потребно"
 
-#: ../goffice/graph/gog-label.c:295
+#: ../goffice/graph/gog-label.c:299 ../goffice/graph/gog-label.c:561
 msgid "Rotate background with text"
 msgstr "Заокрени позадину са текстом"
 
-#: ../goffice/graph/gog-label.c:299
+#: ../goffice/graph/gog-label.c:303
 msgid "Interpret text as markup"
 msgstr "Протумачи текст као ознаку"
 
-#: ../goffice/graph/gog-label.c:300
+#: ../goffice/graph/gog-label.c:304
 msgid ""
 "Interpret the text as an HTML like markup as described at http://developer."
 "gnome.org/pango/stable/PangoMarkupFormat.html"
@@ -2033,11 +2027,11 @@ msgstr ""
 "Тумачи текст као ХТМЛ-у сличну ознаку као што је описано на „http://"
 "developer.gnome.org/pango/stable/PangoMarkupFormat.html“"
 
-#: ../goffice/graph/gog-label.c:416
+#: ../goffice/graph/gog-label.c:420
 msgid "Text justification"
 msgstr "Поравнавање текста"
 
-#: ../goffice/graph/gog-label.c:417
+#: ../goffice/graph/gog-label.c:421
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
@@ -2045,23 +2039,23 @@ msgstr ""
 "Поравнавање текста као ниска. Могуће вредности су „center“ (по средини, "
 "основна вредност), „left“ (лево), „right“ (десно), или „fill“ (испуни)."
 
-#: ../goffice/graph/gog-label.c:564
+#: ../goffice/graph/gog-label.c:576
 msgid "Regression Equation"
 msgstr "Једначина повраћаја"
 
-#: ../goffice/graph/gog-label.c:603
+#: ../goffice/graph/gog-label.c:615
 msgid "Show equation"
 msgstr "Прикажи једначину"
 
-#: ../goffice/graph/gog-label.c:604
+#: ../goffice/graph/gog-label.c:616
 msgid "Show the equation on the graph"
 msgstr "Приказује једначину на графику"
 
-#: ../goffice/graph/gog-label.c:609
+#: ../goffice/graph/gog-label.c:621
 msgid "Show coefficient"
 msgstr "Приказује коефицијент"
 
-#: ../goffice/graph/gog-label.c:610
+#: ../goffice/graph/gog-label.c:622
 msgid "Show the correlation coefficient on the graph"
 msgstr "Приказује коефицијент међуодноса на графику"
 
@@ -2117,22 +2111,18 @@ msgid "Center"
 msgstr "По средини"
 
 #: ../goffice/graph/gog-object.c:193
-#| msgid "Absolute"
 msgid "Absolute width"
 msgstr "Апсолутна ширина"
 
 #: ../goffice/graph/gog-object.c:195
-#| msgid "Absolute"
 msgid "Absolute height"
 msgstr "Апсолутна висина"
 
 #: ../goffice/graph/gog-object.c:196
-#| msgid "Size:"
 msgid "Size"
 msgstr "Величина"
 
 #: ../goffice/graph/gog-object.c:197
-#| msgid "Absolute"
 msgid "Absolute size"
 msgstr "Апсолутна величина"
 
@@ -2177,7 +2167,6 @@ msgid "Should the object be hidden"
 msgstr "Да ли фигура треба да буде скривена"
 
 #: ../goffice/graph/gog-object.c:859
-#| msgid "Manual"
 msgid "Manual size"
 msgstr "Ручна величина"
 
@@ -2419,7 +2408,7 @@ msgstr "Мења величину области нацрта"
 # steam engine је парна машина, а шта је ово?
 #: ../goffice/graph/gog-plot-engine.c:81
 msgid "Plot Engine"
-msgstr "Погон исцртавања"
+msgstr "Систем исцртавања"
 
 #: ../goffice/graph/gog-plot-engine.c:330
 msgid "Plot Type"
@@ -2821,7 +2810,6 @@ msgid "Data label"
 msgstr "Натпис података"
 
 #: ../goffice/graph/gog-theme.c:601
-#| msgid "Colors"
 msgid "Color scale"
 msgstr "Сразмера боје"
 
@@ -2838,15 +2826,15 @@ msgstr "Гупи"
 msgid "Guppi theme"
 msgstr "Гупи тема"
 
-#: ../goffice/graph/gog-theme.c:1857
+#: ../goffice/graph/gog-theme.c:1862
 msgid "Class"
 msgstr "Разред"
 
-#: ../goffice/graph/gog-theme.c:1860
+#: ../goffice/graph/gog-theme.c:1865
 msgid "Create"
 msgstr "Направи"
 
-#: ../goffice/graph/gog-theme.c:1875 ../goffice/graph/new-theme-prefs.ui.h:1
+#: ../goffice/graph/gog-theme.c:1880 ../goffice/graph/new-theme-prefs.ui.h:1
 msgid "New theme"
 msgstr "Нова тема"
 
@@ -2871,8 +2859,8 @@ msgstr "Снимак стања"
 #: ../plugins/plot_distrib/gog-histogram.c:333
 #: ../plugins/plot_pie/gog-pie.c:275 ../plugins/plot_pie/gog-pie.c:438
 #: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:595
-#: ../plugins/plot_surface/gog-xyz.c:101
-#: ../plugins/plot_surface/gog-xyz-surface.c:315
+#: ../plugins/plot_surface/gog-xyz.c:102
+#: ../plugins/plot_surface/gog-xyz-surface.c:504
 #: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:463
 #: ../plugins/plot_xy/gog-xy.c:734 ../plugins/plot_xy/gog-xy-dropbar.c:154
 #: ../plugins/smoothing/gog-exp-smooth.c:80
@@ -3505,7 +3493,8 @@ msgid "Custom color..."
 msgstr "Произвољна боја..."
 
 #: ../goffice/gtk/go-combo-box.c:315
-msgid "The combo box' title"
+#| msgid "The combo box' title"
+msgid "The combo box's title"
 msgstr "Наслов оквира за избор"
 
 #: ../goffice/gtk/go-combo-box.c:321
@@ -6347,12 +6336,12 @@ msgstr "Зимбабве, зимбабски долар"
 msgid "Could not load the image data\n"
 msgstr "Не мог да учитам податке слике\n"
 
-#: ../goffice/utils/go-emf.c:266
+#: ../goffice/utils/go-emf.c:268
 #, c-format
 msgid "Could not input the image data\n"
 msgstr "Не мог да унесем податке слике\n"
 
-#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
+#: ../goffice/utils/go-emf.c:4705 ../goffice/utils/go-emf.c:4711
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Неисправни подаци слике\n"
@@ -6448,20 +6437,20 @@ msgstr "десно"
 msgid "left"
 msgstr "лево"
 
-#: ../goffice/utils/go-glib-extras.c:915
+#: ../goffice/utils/go-glib-extras.c:925
 msgid "yes"
 msgstr "да"
 
-#: ../goffice/utils/go-glib-extras.c:921
+#: ../goffice/utils/go-glib-extras.c:931
 msgid "no"
 msgstr "не"
 
-#: ../goffice/utils/go-glib-extras.c:1139
+#: ../goffice/utils/go-glib-extras.c:1149
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Ниска под наводницима није окончана"
 
-#: ../goffice/utils/go-glib-extras.c:1146
+#: ../goffice/utils/go-glib-extras.c:1156
 #, c-format
 msgid "Syntax error"
 msgstr "Грешка синтаксе"
@@ -6498,11 +6487,11 @@ msgstr "ВМФ (виндоуз мета датотека)"
 msgid "EPS (encapsulated postscript)"
 msgstr "ЕПС (угњеждени постскрипт)"
 
-#: ../goffice/utils/go-image.c:500
+#: ../goffice/utils/go-image.c:502
 msgid "Image width in pixels"
 msgstr "Ширина слике у тачкама"
 
-#: ../goffice/utils/go-image.c:504
+#: ../goffice/utils/go-image.c:506
 msgid "Image height in pixels"
 msgstr "Висина слике у тачкама"
 
@@ -6758,7 +6747,7 @@ msgstr "Велики кругови"
 msgid "Bricks"
 msgstr "Цигле"
 
-#: ../goffice/utils/go-pixbuf.c:277
+#: ../goffice/utils/go-pixbuf.c:286
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr "Објекат Гдк сличице из које је изграђена ГО сличица"
 
@@ -7230,6 +7219,7 @@ msgid "DropBar"
 msgstr "Падајућа трака"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:6
+#: ../plugins/plot_xy/plot-types.xml.in.h:6
 msgid "MinMax"
 msgstr "Најмање-највише"
 
@@ -7283,7 +7273,7 @@ msgstr "Области"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:20
 msgid "Area plot."
-msgstr "Цртање области."
+msgstr "Нацрт области."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:21
 msgid "Stacked Areas"
@@ -7291,7 +7281,7 @@ msgstr "Наређане области"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:22
 msgid "Stacked area plot."
-msgstr "Цртање наређаних области."
+msgstr "Нацрт наређаних области."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:23
 msgid "Percentage Areas"
@@ -8046,10 +8036,10 @@ msgstr "сакриј-екстремне вредности"
 msgid "Hide data outside of the color axis bounds"
 msgstr "Сакриј податке изван граница осе боје"
 
-#: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:400
-#: ../plugins/plot_surface/gog-xyz-surface.c:543
+#: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:405
+#: ../plugins/plot_surface/gog-xyz-surface.c:743
 #: ../plugins/plot_surface/xl-surface.c:304
-#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:832
+#: ../plugins/plot_surface/xl-surface.c:396 ../plugins/plot_xy/gog-xy.c:832
 msgid "Z"
 msgstr "Z"
 
@@ -8137,34 +8127,43 @@ msgstr "Основне врсте исцртавања пресека"
 
 #. xgettext : the base for how to name contour plot objects
 #.
-#: ../plugins/plot_surface/gog-contour.c:131
+#: ../plugins/plot_surface/gog-contour.c:133
 msgid "PlotContour"
-msgstr "Обрис пресека"
+msgstr "Обрис нацрта"
+
+#. xgettext : the base for how to name matrix objects
+#.
+#: ../plugins/plot_surface/gog-matrix.c:70
+#| msgid "PlotMinMax"
+msgid "PlotMatrix"
+msgstr "Матрица нацрта"
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-surface.c:68
 msgid "PlotSurface"
-msgstr "Површина пресека"
+msgstr "Површина нацрта"
 
-#: ../plugins/plot_surface/gog-xyz.c:383
+#: ../plugins/plot_surface/gog-xyz.c:388
 msgid "Transposed"
 msgstr "Премештено"
 
-#: ../plugins/plot_surface/gog-xyz.c:384
+#: ../plugins/plot_surface/gog-xyz.c:389
 msgid "Transpose the plot"
 msgstr "Премести нацрт"
 
-#: ../plugins/plot_surface/gog-xyz.c:396
-#: ../plugins/plot_surface/gog-xyz-surface.c:539
+#: ../plugins/plot_surface/gog-xyz.c:401
+#: ../plugins/plot_surface/gog-xyz-surface.c:739
+#: ../plugins/plot_surface/gog-xyz-surface.c:758
 #: ../plugins/plot_surface/xl-surface.c:302
-#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:405
+#: ../plugins/plot_surface/xl-surface.c:394 ../plugins/plot_xy/gog-xy.c:405
 #: ../plugins/plot_xy/gog-xy.c:575 ../plugins/plot_xy/gog-xy.c:828
 msgid "X"
 msgstr "X"
 
-#: ../plugins/plot_surface/gog-xyz.c:398
-#: ../plugins/plot_surface/gog-xyz-surface.c:541
+#: ../plugins/plot_surface/gog-xyz.c:403
+#: ../plugins/plot_surface/gog-xyz-surface.c:741
+#: ../plugins/plot_surface/gog-xyz-surface.c:760
 #: ../plugins/plot_xy/gog-xy.c:407 ../plugins/plot_xy/gog-xy.c:577
 #: ../plugins/plot_xy/gog-xy.c:830
 msgid "Y"
@@ -8175,61 +8174,98 @@ msgid "Transpose"
 msgstr "Премести"
 
 #: ../plugins/plot_surface/gog-xyz-prefs.ui.h:2
-#| msgid "_Show in Legend"
 msgid "Show colors in legend"
 msgstr "Прикажите боје у легенди"
 
-#. xgettext : the base for how to name surface plot objects
+#. xgettext : the base for how to name contour plot objects with (x,y,z) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:292
+#: ../plugins/plot_surface/gog-xyz-surface.c:475
 msgid "PlotXYZContour"
 msgstr "Обрис XYZ нацрта"
 
-#. xgettext : the base for how to name surface plot objects
+#. xgettext : the base for how to name matrix plot objects with (x,y,z) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:300
+#: ../plugins/plot_surface/gog-xyz-surface.c:483
+#| msgid "PlotXYMinMax"
+msgid "PlotXYZMatrix"
+msgstr "XYZ матрица нацрта"
+
+#. xgettext : the base for how to name surface plot objects with (x,y,z) data
+#.
+#: ../plugins/plot_surface/gog-xyz-surface.c:491
 msgid "PlotXYZSurface"
 msgstr "XYZ површина нацрта"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:502
+#: ../plugins/plot_surface/gog-xyz-surface.c:708
 msgid "Rows"
 msgstr "Редови"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:503
+#: ../plugins/plot_surface/gog-xyz-surface.c:709
 msgid "Number of rows"
 msgstr "Број редова"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:508
+#: ../plugins/plot_surface/gog-xyz-surface.c:714
 msgid "Auto Rows"
 msgstr "Самостални редови"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:509
+#: ../plugins/plot_surface/gog-xyz-surface.c:715
 msgid "Whether the rows limits should be evaluated"
 msgstr "Да ли ограничења редова треба да буду процењена"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:514
+#: ../plugins/plot_surface/gog-xyz-surface.c:720
 msgid "Columns"
 msgstr "Колоне"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:515
+#: ../plugins/plot_surface/gog-xyz-surface.c:721
 msgid "Number of columns"
 msgstr "Број колона"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:520
+#: ../plugins/plot_surface/gog-xyz-surface.c:726
 msgid "Auto Columns"
 msgstr "Самосталне колоне"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:521
+#: ../plugins/plot_surface/gog-xyz-surface.c:727
 msgid "Whether the columns limits should be evaluated"
 msgstr "Да ли ограничења колона треба да буду процењена"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:526
+#: ../plugins/plot_surface/gog-xyz-surface.c:733
 msgid "Missing as"
 msgstr "Недостаје као"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:527
+#: ../plugins/plot_surface/gog-xyz-surface.c:734
 msgid "How to deal with missing data"
 msgstr "Како да поступа са недостајућим подацима"
+
+#: ../plugins/plot_surface/gog-xyz-surface.c:752
+msgid "As density"
+msgstr "Као густина"
+
+#: ../plugins/plot_surface/gog-xyz-surface.c:753
+#| msgid "Display size as area instead of diameter"
+msgid "Display the data as density instead or raw data"
+msgstr "Прикажите величину као густину уместо сирових података"
+
+#. xgettext : the base for how to name contour plot objects with (x,y) data
+#.
+#. xgettext : the base for how to name matrix plot objects with (x,y) data
+#.
+#: ../plugins/plot_surface/gog-xyz-surface.c:901
+#: ../plugins/plot_surface/gog-xyz-surface.c:957
+#| msgid "PlotXYMinMax"
+msgid "PlotXYMatrix"
+msgstr "XY матрица нацрта"
+
+#. xgettext : the base for how to name surface plots objects with (x,y) data
+#.
+#: ../plugins/plot_surface/gog-xyz-surface.c:1013
+#| msgid "PlotXYZSurface"
+msgid "PlotXYSurface"
+msgstr "XY површина нацрта"
+
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.c:162
+#| msgid "Display _equation"
+msgid "Display population density"
+msgstr "Прикажите густину испуњености"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
 msgid "<b>_Columns:</b>"
@@ -8272,28 +8308,70 @@ msgid "Surface"
 msgstr "Површина"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:3
+msgid "Matrix"
+msgstr "Матрица"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:4
 msgid "Contour plot."
 msgstr "Нацрт обриса."
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:4
+#: ../plugins/plot_surface/plot-types.xml.in.h:5
 msgid "XYZContour"
 msgstr "XYZ обрис"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:5
+#: ../plugins/plot_surface/plot-types.xml.in.h:6
 msgid "Builds a contour from a set of points with three coordinates"
 msgstr "Изградите обрис из скупа тачака са три координате"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:6
+#: ../plugins/plot_surface/plot-types.xml.in.h:7
+#| msgid "XYZContour"
+msgid "XYContour"
+msgstr "XY обрис"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:8
+msgid "Builds a contour from the number of (X,Y) values around each vertex"
+msgstr "Изградите обрис од броја (X,Y) вредности око сваког врхунца"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:9
 msgid "Surface plot."
 msgstr "Нацрт површине."
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:7
+#: ../plugins/plot_surface/plot-types.xml.in.h:10
 msgid "XYZSurface"
 msgstr "XYZ површина"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:8
+#: ../plugins/plot_surface/plot-types.xml.in.h:11
 msgid "Builds a surface from a set of points with three coordinates"
 msgstr "Изградите површину из скупа тачака са три координате"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:12
+#| msgid "XYZSurface"
+msgid "XYSurface"
+msgstr "XY површина"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:13
+msgid "Builds a surface from the number of (X,Y) values around each vertex"
+msgstr "Изградите површину од броја (X,Y) вредности око сваког врхунца"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:14
+msgid "Matrix plot. Displays as colors the values given as a matrix."
+msgstr "Нацрт матрице. Прикажите као боје вредности дате као матрица."
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:15
+msgid "XYZMatrix"
+msgstr "XYZ матрица"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:16
+msgid "Displays as colors the mean Z values of the (X,Y,Z) data in each cell."
+msgstr "Прикажите као боје средње вредности Z (X,Y,Z) података у свакој ћелији."
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:17
+msgid "XYMatrix"
+msgstr "XY матрица"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:18
+msgid "Displays as colors the number of (X,Y) values in each cell."
+msgstr "Прикажите као боје број вредности (X,Y) у свакој ћелији."
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
 msgid "Charting : Surfaces"
@@ -8312,14 +8390,39 @@ msgid "XYZ contour plotting engine"
 msgstr "Систем исцртавања XYZ обриса"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
+#| msgid "XYZ contour plotting engine"
+msgid "XY contour plotting engine"
+msgstr "Систем исцртавања XY обриса"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:6
 msgid "Surface plotting engine"
 msgstr "Систем исцртавања површине"
 
-#: ../plugins/plot_surface/plugin.xml.in.h:6
+#: ../plugins/plot_surface/plugin.xml.in.h:7
 msgid "XYZ surface plotting engine"
 msgstr "Систем исцртавања XYZ површине"
 
-#: ../plugins/plot_surface/plugin.xml.in.h:7
+#: ../plugins/plot_surface/plugin.xml.in.h:8
+#| msgid "XYZ surface plotting engine"
+msgid "XY surface plotting engine"
+msgstr "Систем исцртавања XY површине"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:9
+#| msgid "Min Max plotting engine"
+msgid "Matrix plotting engine"
+msgstr "Систем исцртавања матрице"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:10
+#| msgid "XYZ contour plotting engine"
+msgid "XY matrix plotting engine"
+msgstr "Систем исцртавања XY матрице"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:11
+#| msgid "XYZ contour plotting engine"
+msgid "XYZ matrix plotting engine"
+msgstr "Систем исцртавања XYZ матрице"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:12
 msgid "Default surface plot types"
 msgstr "Основне врсте исцртавања површине"
 
@@ -8503,16 +8606,16 @@ msgstr "XY"
 msgid "ColoredXY"
 msgstr "Обојено XY"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:6
+#: ../plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY Points"
 msgstr "XY тачке"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:7
+#: ../plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Markers at each point."
 msgstr "Означавачи на свакој тачки."
 
 #. really 3_1
-#: ../plugins/plot_xy/plot-types.xml.in.h:9
+#: ../plugins/plot_xy/plot-types.xml.in.h:10
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
@@ -8520,64 +8623,64 @@ msgstr ""
 "Линеарно уметни између вишедимензионалних тачака, са обележивачима у свакој "
 "тачки."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:10
+#: ../plugins/plot_xy/plot-types.xml.in.h:11
 msgid "XY Lines"
 msgstr "XY линије"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:11
+#: ../plugins/plot_xy/plot-types.xml.in.h:12
 msgid "Linearly interpolate between multi-dimensional points."
 msgstr "Линеарно интерполирај између вишедимензионалних тачака."
 
 # bug(slobo): plural forms
-#: ../plugins/plot_xy/plot-types.xml.in.h:12
+#: ../plugins/plot_xy/plot-types.xml.in.h:13
 msgid "XY Splines"
 msgstr "XY криве"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:13
+#: ../plugins/plot_xy/plot-types.xml.in.h:14
 msgid "Interpolate between multi-dimensional points with Bezier splines."
 msgstr "Уметните између вишедимензионалних тачака са Безјеровим сп-кривама."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:14
+#: ../plugins/plot_xy/plot-types.xml.in.h:15
 msgid "XY Steps Start"
 msgstr "Почетак XY корака"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:15
+#: ../plugins/plot_xy/plot-types.xml.in.h:16
 msgid "Stepped curve using the first y value."
 msgstr "Измерена крива коришћењем прве у вредности."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:16
+#: ../plugins/plot_xy/plot-types.xml.in.h:17
 msgid "XY Steps End"
 msgstr "Крај XY корака"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:17
+#: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "Stepped curve using the last y value."
 msgstr "Измерена крива коришћењем последње у вредности."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:18
+#: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "XY Steps Center"
 msgstr "Средиште XY корака"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:19
+#: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "Stepped curve using the nearest y value."
 msgstr "Измерена крива коришћењем најближе у вредности."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:20
+#: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "XY Steps Mean"
 msgstr "Средња вредност XY корака"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:21
+#: ../plugins/plot_xy/plot-types.xml.in.h:22
 msgid "Stepped curve using the mean y value."
 msgstr "Измерена крива коришћењем средње у вредности."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:22
+#: ../plugins/plot_xy/plot-types.xml.in.h:23
 msgid "Multi-dimensional points with circle at each point."
 msgstr "Вишедимензионалне тачке са кругом на свакој тачки."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:23
+#: ../plugins/plot_xy/plot-types.xml.in.h:24
 msgid "Map"
 msgstr "Карта"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:24
+#: ../plugins/plot_xy/plot-types.xml.in.h:25
 msgid ""
 "Multi-dimensional points with data dependent color marker at each point."
 msgstr ""
@@ -8587,55 +8690,55 @@ msgstr ""
 #. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
-#: ../plugins/plot_xy/plot-types.xml.in.h:28
+#: ../plugins/plot_xy/plot-types.xml.in.h:29
 msgid "Scattered Vertical Drop Bars"
 msgstr "Распирене усправне падајуће траке"
 
 #. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
-#: ../plugins/plot_xy/plot-types.xml.in.h:32
+#: ../plugins/plot_xy/plot-types.xml.in.h:33
 msgid "Vertical drop bars with continuous X-axis."
 msgstr "Усправне пруге са непрекидном Х-осом."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:33
+#: ../plugins/plot_xy/plot-types.xml.in.h:34
 msgid "Scattered Horizontal Drop Bars"
 msgstr "Распирене водоравне падајуће траке"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:34
+#: ../plugins/plot_xy/plot-types.xml.in.h:35
 msgid "Horizontal drop bars with continuous Y-axis."
 msgstr "Водоравне пруге са непрекидном Y-осом."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:35
+#: ../plugins/plot_xy/plot-types.xml.in.h:36
 msgid "Scattered Vertical Min Max Lines"
 msgstr "Распирене усправне линије најмањег-највећег"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:36
+#: ../plugins/plot_xy/plot-types.xml.in.h:37
 msgid "Vertical Min Max lines with continuous X-axis."
 msgstr "Усправне линије најмањег-највећег са непрекидном X-осом."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:37
+#: ../plugins/plot_xy/plot-types.xml.in.h:38
 msgid "Scattered Marked Vertical Min Max Lines"
 msgstr "Распирене означене усправне линије најмањег-највећег"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:38
+#: ../plugins/plot_xy/plot-types.xml.in.h:39
 msgid "Vertical Min Max lines with markers and a continuous X-axis."
 msgstr ""
 "Усправне линије најмањег-највећег са означавачима и непрекидном X-осом."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:39
+#: ../plugins/plot_xy/plot-types.xml.in.h:40
 msgid "Scattered Horizontal Min Max Lines"
 msgstr "Распирене водоравне линије најмањег-највећег"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:40
+#: ../plugins/plot_xy/plot-types.xml.in.h:41
 msgid "Horizontal Min Max lines with continuous Y-axis."
 msgstr "Водоравне линије најмањег-највећег са непрекидном Y-осом."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:41
+#: ../plugins/plot_xy/plot-types.xml.in.h:42
 msgid "Scattered Marked Horizontal Min Max Lines"
 msgstr "Распирене означене водоравне линије најмањег-највећег"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:42
+#: ../plugins/plot_xy/plot-types.xml.in.h:43
 msgid "Horizontal Min Max lines with markers and a continuous Y-axis."
 msgstr ""
 "Водоравне линије најмањег-највећег са означавачима и непрекидном Y-осом."
