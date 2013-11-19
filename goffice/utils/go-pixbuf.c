@@ -102,8 +102,11 @@ go_pixbuf_load_attr (GOImage *image, xmlChar const *attr_name, xmlChar const *at
 {
 	GOPixbuf *pixbuf = GO_PIXBUF (image);
 	g_return_if_fail (pixbuf);
-	if (!strcmp (attr_name, "rowstride"))
-		pixbuf->rowstride = strtol (attr_value, NULL, 10);
+	if (!strcmp (attr_name, "rowstride")) {
+		long l = strtol (attr_value, NULL, 10);
+		g_return_if_fail (l > 0 && l < G_MAXINT);
+		pixbuf->rowstride = l;
+	}
 }
 
 static void
