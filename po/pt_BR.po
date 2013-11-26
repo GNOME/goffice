@@ -7,22 +7,22 @@
 # Afonso Celso Medina <medina@maua.br>, 2004, 2005.
 # Rafael Ferreira <rafael.f.f1@gmail.com>, 2013.
 # Juan Diego Martins da Costa Cruz <juan.martins@ifrn.edu.br>, 2013.
+# Junninho Riot <Lima1042@hotmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-20 12:28+0000\n"
-"PO-Revision-Date: 2013-09-05 10:29-0300\n"
-"Last-Translator: Juan Diego Martins da Costa Cruz <juan.martins@ifrn.edu."
-"br>\n"
-"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
+"POT-Creation-Date: 2013-11-19 18:00+0000\n"
+"PO-Revision-Date: 2013-11-13 13:59-0300\n"
+"Last-Translator: Junninho Riot <Lima1042@hotmail.com>\n"
+"Language-Team: Português <gnome-pt_br-list@gnome.com>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n>1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:593
@@ -847,7 +847,7 @@ msgstr "Caminho"
 msgid "The path points"
 msgstr "Os pontos do caminho"
 
-#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:300
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:303
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
@@ -1647,7 +1647,7 @@ msgstr "Equação"
 
 #: ../goffice/graph/gog-chart.c:713
 msgid "3D-Box"
-msgstr ""
+msgstr "Caixa-3D"
 
 #: ../goffice/graph/gog-chart.c:716
 msgid "Color-Scale"
@@ -1681,7 +1681,7 @@ msgstr "xpos"
 
 #: ../goffice/graph/gog-chart.c:768
 msgid "Horizontal chart position in graph grid"
-msgstr ""
+msgstr "Posição horizontal gráfica na grade gráfica"
 
 #: ../goffice/graph/gog-chart.c:772
 msgid "ypos"
@@ -1689,7 +1689,7 @@ msgstr "ypos"
 
 #: ../goffice/graph/gog-chart.c:773
 msgid "Vertical chart position in graph grid"
-msgstr ""
+msgstr "Posição vertical gráfica na grade gráfica"
 
 #: ../goffice/graph/gog-chart.c:776
 msgid "columns"
@@ -1724,7 +1724,7 @@ msgstr "Topo"
 #: ../goffice/graph/gog-object.c:186 ../goffice/graph/gog-series.c:106
 #: ../goffice/graph/gog-series-labels.c:59
 msgid "Bottom"
-msgstr ""
+msgstr "Fundo"
 
 #: ../goffice/graph/gog-color-scale.c:147 ../goffice/graph/gog-object.c:167
 #: ../goffice/graph/gog-object.c:182 ../goffice/graph/gog-series.c:107
@@ -1763,7 +1763,7 @@ msgstr "Exibir a escala horizontalmente"
 
 #: ../goffice/graph/gog-color-scale.c:319
 msgid "Color scale thickness."
-msgstr ""
+msgstr "Espessura da escala de cores."
 
 #: ../goffice/graph/gog-color-scale.c:324 ../goffice/graph/gog-theme.c:586
 msgid "Axis"
@@ -1903,7 +1903,7 @@ msgstr "Gráfico"
 
 #: ../goffice/graph/gog-graph.c:485
 msgid "The theme for elements of the graph"
-msgstr ""
+msgstr "O tema para os elementos do gráfico"
 
 #: ../goffice/graph/gog-graph.c:490
 msgid "Theme name"
@@ -1911,7 +1911,7 @@ msgstr "Nome do tema"
 
 #: ../goffice/graph/gog-graph.c:491
 msgid "The name of the theme for elements of the graph"
-msgstr ""
+msgstr "O nome do tema para os elementos do gráfico"
 
 #: ../goffice/graph/gog-graph.c:497
 msgid "Logical graph width, in points"
@@ -1927,11 +1927,11 @@ msgstr "Documento"
 
 #: ../goffice/graph/gog-graph.c:509
 msgid "the document for this graph"
-msgstr ""
+msgstr "O documento para este gráfico"
 
 #: ../goffice/graph/gog-graph.c:1075
 msgid "the renderer for this view"
-msgstr ""
+msgstr "O representante para essa visão"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:1
 msgid "Theme:"
@@ -1944,6 +1944,7 @@ msgstr "Esquecer dos estilos do usuário"
 #: ../goffice/graph/gog-graph-prefs.ui.h:4
 msgid "Save the theme as a standalone file in the user home directory."
 msgstr ""
+"Salva o tema como um arquivo independente no diretório home do usuário."
 
 #: ../goffice/graph/gog-grid.c:128
 msgid "Numerical type of this backplane"
@@ -1951,11 +1952,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-grid-line.c:113
 msgid "Is-minor"
-msgstr ""
+msgstr "É-menor"
 
 #: ../goffice/graph/gog-grid-line.c:114
 msgid "Are these minor grid lines"
-msgstr ""
+msgstr "São estas as linhas de grade menores"
 
 #: ../goffice/graph/gog-guru.c:1057
 msgid "Step 1 of 2: Select Chart Type"
@@ -1988,27 +1989,27 @@ msgstr "_Subtipo"
 
 #: ../goffice/graph/gog-label.c:153
 msgid "Allow markup"
-msgstr ""
+msgstr "Permitir marcação"
 
 #: ../goffice/graph/gog-label.c:154
 msgid "Support basic HTML-ish markup"
-msgstr ""
+msgstr "Suporte a marcação básica de HTML"
 
 #: ../goffice/graph/gog-label.c:160
 msgid "Rotate the frame with the text"
-msgstr ""
+msgstr "Girar o quadro com o texto"
 
 #: ../goffice/graph/gog-label.c:161
 msgid "Whether the frame should be rotated with the text"
-msgstr ""
+msgstr "Se o quadro deve ser girado com o texto"
 
 #: ../goffice/graph/gog-label.c:166
 msgid "Rotate the background with the text"
-msgstr ""
+msgstr "Girar o fundo com o texto"
 
 #: ../goffice/graph/gog-label.c:167
 msgid "Whether the background should be rotated with the text"
-msgstr ""
+msgstr "Se o fundo deve ser alternado com o texto"
 
 #: ../goffice/graph/gog-label.c:172
 msgid "Wrap the text"
@@ -2016,7 +2017,7 @@ msgstr "Ajustar o texto"
 
 #: ../goffice/graph/gog-label.c:173
 msgid "Whether the text might be displayed using several lines"
-msgstr ""
+msgstr "Se o texto pode ser exibido usando várias linhas"
 
 #: ../goffice/graph/gog-label.c:289
 msgid "_Text:"
@@ -2024,25 +2025,27 @@ msgstr "_Texto:"
 
 #: ../goffice/graph/gog-label.c:291 ../goffice/graph/gog-label.c:557
 msgid "Rotate frame with text"
-msgstr ""
+msgstr "Girar a armação com texto"
 
 #: ../goffice/graph/gog-label.c:295
 msgid "Display the text on several lines if needed"
-msgstr ""
+msgstr "Apresentar o texto em várias linhas, se necessário"
 
 #: ../goffice/graph/gog-label.c:299 ../goffice/graph/gog-label.c:561
 msgid "Rotate background with text"
-msgstr ""
+msgstr "Girar fundo com texto"
 
 #: ../goffice/graph/gog-label.c:303
 msgid "Interpret text as markup"
-msgstr ""
+msgstr "Interpretar o texto como marcação"
 
 #: ../goffice/graph/gog-label.c:304
 msgid ""
 "Interpret the text as an HTML like markup as described at http://developer."
 "gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr ""
+"Interpreta o texto como um HTML como marcação, conforme descrito no http://"
+"developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 
 #: ../goffice/graph/gog-label.c:420
 msgid "Text justification"
@@ -2053,6 +2056,8 @@ msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
 msgstr ""
+"Justificação do texto como uma string. Os valores possíveis são \"centro"
+"\" (valor padrão), \"esquerda\", \"direita\", ou \"encher\"."
 
 #: ../goffice/graph/gog-label.c:576
 msgid "Regression Equation"
@@ -2072,7 +2077,7 @@ msgstr "Mostrar coeficiente"
 
 #: ../goffice/graph/gog-label.c:622
 msgid "Show the correlation coefficient on the graph"
-msgstr ""
+msgstr "Ver o coeficiente de correlação no gráfico"
 
 #: ../goffice/graph/gog-legend.c:218
 msgid "Swatch Size pts"
@@ -2080,7 +2085,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-legend.c:219
 msgid "size of the swatches in pts."
-msgstr ""
+msgstr "tamanho das amostras em pts."
 
 #: ../goffice/graph/gog-legend.c:224
 msgid "Swatch Padding pts"
@@ -2088,7 +2093,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-legend.c:225
 msgid "padding between the swatches in pts."
-msgstr ""
+msgstr "preenchimento entre as amostras em pts."
 
 #: ../goffice/graph/gog-object.c:162 ../goffice/graph/gog-object.c:181
 msgid "Top right"
@@ -2096,11 +2101,11 @@ msgstr "Topo direito"
 
 #: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:187
 msgid "Bottom right"
-msgstr ""
+msgstr "Canto inferior direito"
 
 #: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
 msgid "Bottom left"
-msgstr ""
+msgstr "Canto inferior esquerdo"
 
 #: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:179
 msgid "Top left"
@@ -2151,7 +2156,7 @@ msgstr "ID do objeto numérico"
 
 #: ../goffice/graph/gog-object.c:824
 msgid "Position and size of object, in percentage of parent size"
-msgstr ""
+msgstr "Posição e tamanho do objeto, em porcentagem do tamanho dos pais"
 
 #: ../goffice/graph/gog-object.c:829
 msgid "Compass"
@@ -2175,7 +2180,7 @@ msgstr "Posição é manual"
 
 #: ../goffice/graph/gog-object.c:848
 msgid "Anchor for manual position"
-msgstr ""
+msgstr "Âncora para a posição manual"
 
 #: ../goffice/graph/gog-object.c:853 ../goffice/graph/gog-object.c:854
 msgid "Should the object be hidden"
@@ -2187,7 +2192,7 @@ msgstr "Tamanho do manual"
 
 #: ../goffice/graph/gog-object.c:860
 msgid "Whether the height or width are manually set"
-msgstr ""
+msgstr "Se a altura ou largura são definidos manualmente"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:1
 #: ../goffice/graph/gog-plot-prefs.ui.h:7
@@ -2270,7 +2275,7 @@ msgstr "Gráficos do tipo Pizza e Anel"
 
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
-msgstr ""
+msgstr "Número de pts que separam os gráficos na grade"
 
 #: ../goffice/graph/gog-plot.c:227
 msgid "X axis:"
@@ -2315,7 +2320,7 @@ msgstr "Séries"
 
 #: ../goffice/graph/gog-plot.c:457
 msgid "Vary style by element"
-msgstr ""
+msgstr "Variar de estilo, elemento"
 
 #: ../goffice/graph/gog-plot.c:458
 msgid "Use a different style for each segment"
@@ -2392,7 +2397,7 @@ msgstr "Tipo de Gráfico"
 
 #: ../goffice/graph/gog-plot.c:512
 msgid "Name of plot group if any"
-msgstr ""
+msgstr "Nome do grupo trama se houver"
 
 #: ../goffice/graph/gog-plot.c:517
 msgid "Guru hints"
@@ -2403,6 +2408,8 @@ msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
+"Lista separada por vírgula de dicas para adição automática de objetos em "
+"diálogo guru"
 
 #: ../goffice/graph/gog-plot.c:524
 msgid "Default interpolation"
@@ -2430,7 +2437,7 @@ msgstr "Tipo de gráfico"
 
 #: ../goffice/graph/gog-plot-engine.c:414
 msgid "Regression Curve Engine"
-msgstr ""
+msgstr "Motor de regressão da curva"
 
 #: ../goffice/graph/gog-plot-engine.c:608
 msgid "Regression Curve Type"
@@ -2447,20 +2454,20 @@ msgstr "Ignorar inválido"
 # plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
 #: ../goffice/graph/gog-reg-curve.c:309
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
-#, fuzzy
 msgid "Skip invalid data"
-msgstr "Dado inválido."
+msgstr "Ignorar dados inválidos"
 
 #: ../goffice/graph/gog-reg-curve.c:314
-#, fuzzy
 msgid "Drawing bounds"
-msgstr "marrom claro"
+msgstr "limites de desenho"
 
 #: ../goffice/graph/gog-reg-curve.c:315
 msgid ""
 "How the regression line should be limited, acceptable values are \"none\", "
 "\"absolute\", and \"relative\"."
 msgstr ""
+"Como a linha de regressão deve ser limitado, os valores aceitáveis ​​são \"nada"
+"\", \"absoluto\" e \"relativo\"."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2468,16 +2475,16 @@ msgstr "(_Nome):"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
 msgid "Low bound:"
-msgstr ""
+msgstr "Limite baixo:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
 msgid "High bound:"
-msgstr ""
+msgstr "Limite alto:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
 #: ../goffice/graph/gog-series-labels.c:471
 msgid "Used data"
-msgstr ""
+msgstr "Dados utilizados"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
 #, fuzzy
@@ -2491,6 +2498,10 @@ msgid ""
 "Relative: the line will be displayed between the data range expanded "
 "according to the values given below."
 msgstr ""
+"Nenhum: a linha será exibida para toda a gama visível.\n"
+"Absoluto: a linha será exibida entre os limites indicados.\n"
+"Relativa: a linha será exibida entre os dados que variam expandido de acordo "
+"com os valores indicados abaixo."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:10
 msgid ""
@@ -2525,19 +2536,19 @@ msgstr "Exibir _equação"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Exibir _coeficiente de regressão R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1840 ../goffice/graph/gog-view.c:698
+#: ../goffice/graph/gog-renderer.c:1850 ../goffice/graph/gog-view.c:698
 msgid "Model"
 msgstr "Modelo"
 
-#: ../goffice/graph/gog-renderer.c:1841
+#: ../goffice/graph/gog-renderer.c:1851
 msgid "The GogGraph this renderer displays"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1846
+#: ../goffice/graph/gog-renderer.c:1856
 msgid "View"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1847
+#: ../goffice/graph/gog-renderer.c:1857
 msgid "the GogView this renderer is displaying"
 msgstr ""
 
@@ -5700,11 +5711,11 @@ msgstr "África do Sul/Inglês (en_ZA)"
 msgid "Current Locale: "
 msgstr "Localidade atual: "
 
-#: ../goffice/gtk/go-optionmenu.c:477
+#: ../goffice/gtk/go-optionmenu.c:479
 msgid "Menu"
 msgstr "Menu"
 
-#: ../goffice/gtk/go-optionmenu.c:478
+#: ../goffice/gtk/go-optionmenu.c:480
 msgid "The menu of options"
 msgstr "Menu de opções"
 
@@ -6914,7 +6925,7 @@ msgstr "Círculos grandes"
 msgid "Bricks"
 msgstr "Tijolos"
 
-#: ../goffice/utils/go-pixbuf.c:301
+#: ../goffice/utils/go-pixbuf.c:304
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr ""
 
