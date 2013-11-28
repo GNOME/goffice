@@ -1,3 +1,7 @@
+2013-11-28  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.9
+
 2013-11-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pixbuf.c (go_pixbuf_load_attr): Handle crazy
