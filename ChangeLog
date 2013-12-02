@@ -1,3 +1,10 @@
+2013-12-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* INSTALL:
+	* goffice/graph/gog-guru.ui:
+
 2013-11-28  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
