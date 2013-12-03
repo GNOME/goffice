@@ -6,23 +6,23 @@
 # Johnny Birnfeld <akiractb@icqmail.com>, 2003.
 # Afonso Celso Medina <medina@maua.br>, 2004, 2005.
 # Rafael Ferreira <rafael.f.f1@gmail.com>, 2013.
-# Juan Diego Martins da Costa Cruz <juan.martins@ifrn.edu.br>, 2013.
 # Junninho Riot <Lima1042@hotmail.com>, 2013.
+# Juan Diego <juan.martins@academico.ifrn.edu.br>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-11-19 18:00+0000\n"
-"PO-Revision-Date: 2013-11-13 13:59-0300\n"
-"Last-Translator: Junninho Riot <Lima1042@hotmail.com>\n"
-"Language-Team: Português <gnome-pt_br-list@gnome.com>\n"
+"POT-Creation-Date: 2013-11-26 03:06+0000\n"
+"PO-Revision-Date: 2013-11-27 10:07-0300\n"
+"Last-Translator: Juan Diego <juan.martins@academico.ifrn.edu.br>\n"
+"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:593
@@ -1081,9 +1081,8 @@ msgid "Field of view"
 msgstr "Ponto de vista"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:1
-#, fuzzy
 msgid "Euler angles"
-msgstr "triângulo para cima"
+msgstr "Ângulos de Euler"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:2
 msgid "Psi:"
@@ -1106,9 +1105,8 @@ msgid "Radians"
 msgstr "Radianos"
 
 #: ../goffice/graph/gog-axis.c:88
-#, fuzzy
 msgid "Grads"
-msgstr "Grade"
+msgstr "Grades"
 
 #: ../goffice/graph/gog-axis.c:1495
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
@@ -1509,9 +1507,8 @@ msgid "I_nside"
 msgstr "I_nternos"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:19
-#, fuzzy
 msgid "Bounds"
-msgstr "<b>Valores</b>"
+msgstr "Valores"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
 #: ../goffice/graph/gog-object-prefs.ui.h:15
@@ -1574,9 +1571,8 @@ msgid "Saves the color map to the local disk."
 msgstr "Salva o mapa de cores no disco local."
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:756
-#, fuzzy
 msgid "Plot area"
-msgstr "PlotArea"
+msgstr "Área de plotagem"
 
 #: ../goffice/graph/gog-chart.c:646 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
@@ -1667,9 +1663,8 @@ msgstr ""
 "Posição e tamanho da área de plotagem, em porcentagem de tamanho de gráfico"
 
 #: ../goffice/graph/gog-chart.c:762
-#, fuzzy
 msgid "Manual plot area"
-msgstr "PlotArea"
+msgstr "Manual da área de plotagem"
 
 #: ../goffice/graph/gog-chart.c:763
 msgid "Is plot area manual"
@@ -1776,9 +1771,8 @@ msgid "Reference to the color or pseudo-3d axis"
 msgstr "Referência ao eixo pseudo-3D"
 
 #: ../goffice/graph/gog-color-scale.c:330
-#, fuzzy
 msgid "Tick size"
-msgstr "Mar_cadores Principais"
+msgstr "Tamanho do marcador"
 
 #: ../goffice/graph/gog-color-scale.c:331
 #, fuzzy
@@ -1787,10 +1781,8 @@ msgid "Size of the tick marks, in points"
 msgstr "Tamanho da marca maior, em pontos"
 
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:1
-#, fuzzy
-#| msgid "Axis position"
 msgid "Ticks position:"
-msgstr "Posição do eixo"
+msgstr "Posição do marcador"
 
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:2
 msgid "Direction:"
@@ -2546,7 +2538,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-renderer.c:1856
 msgid "View"
-msgstr ""
+msgstr "Visualização"
 
 #: ../goffice/graph/gog-renderer.c:1857
 msgid "the GogView this renderer is displaying"
@@ -2574,7 +2566,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-series.c:114
 msgid "Next series"
-msgstr ""
+msgstr "Próxima(s) série(s)"
 
 #: ../goffice/graph/gog-series.c:115
 msgid "X axis minimum"
@@ -2678,9 +2670,8 @@ msgid "How to fill the area"
 msgstr ""
 
 #: ../goffice/graph/gog-series-labels.c:57
-#, fuzzy
 msgid "Centered"
-msgstr "Tamanho do Cen_tro:"
+msgstr "Centralizado"
 
 #: ../goffice/graph/gog-series-labels.c:62
 msgid "Outside"
@@ -2714,9 +2705,8 @@ msgstr "Legenda"
 
 #: ../goffice/graph/gog-series-labels.c:521
 #: ../goffice/graph/gog-series-labels.c:588
-#, fuzzy
 msgid "Series name"
-msgstr "Séries"
+msgstr "Nome(s) da(s) série(s)"
 
 #: ../goffice/graph/gog-series-labels.c:527
 #: ../goffice/graph/gog-series-labels.c:592
@@ -2765,9 +2755,8 @@ msgid "Custom labels:"
 msgstr "Categorias entre _rótulos"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:4
-#, fuzzy
 msgid "Separator:"
-msgstr "_Separador:"
+msgstr "Separador:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
 #, fuzzy
@@ -2866,11 +2855,11 @@ msgstr "Guppi"
 
 #: ../goffice/graph/gog-theme.c:1862
 msgid "Class"
-msgstr ""
+msgstr "Classe"
 
 #: ../goffice/graph/gog-theme.c:1865
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #: ../goffice/graph/gog-theme.c:1880 ../goffice/graph/new-theme-prefs.ui.h:1
 msgid "New theme"
@@ -2882,11 +2871,11 @@ msgstr "Editor de tema"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:3
 msgid "Classes"
-msgstr ""
+msgstr "Classes"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:5
 msgid "Snapshot"
-msgstr ""
+msgstr "Captura de tela"
 
 #: ../goffice/graph/gog-trend-line.c:90
 #: ../plugins/plot_barcol/gog-barcol.c:166
@@ -2936,9 +2925,8 @@ msgid "The GogObject this view displays"
 msgstr ""
 
 #: ../goffice/graph/new-theme-prefs.ui.h:2
-#, fuzzy
 msgid "Series number"
-msgstr "Séries"
+msgstr "Número de série"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -3537,9 +3525,8 @@ msgid "The combo box's title"
 msgstr ""
 
 #: ../goffice/gtk/go-combo-box.c:321
-#, fuzzy
 msgid "Show Arrow"
-msgstr "_Início:"
+msgstr "Mostrar seta"
 
 #: ../goffice/gtk/go-combo-box.c:322
 msgid "Whether to show an arrow for the combo"
@@ -3629,7 +3616,7 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:389
 msgctxt "FontFace"
 msgid "Regular"
-msgstr ""
+msgstr "Regular"
 
 #: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
 msgctxt "FontFace"
@@ -3653,10 +3640,9 @@ msgid "Black"
 msgstr "Preto"
 
 #: ../goffice/gtk/go-font-sel.c:396
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Condensed Italic"
-msgstr "Itálico negrito"
+msgstr "Negrito itálico"
 
 #: ../goffice/gtk/go-font-sel.c:397
 msgctxt "FontFace"
@@ -3672,13 +3658,12 @@ msgstr "Itálico negrito"
 #: ../goffice/gtk/go-font-sel.c:399
 msgctxt "FontFace"
 msgid "Bold Nonextended"
-msgstr ""
+msgstr "Negrito não-extendido"
 
 #: ../goffice/gtk/go-font-sel.c:400
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Oblique"
-msgstr "Itálico negrito"
+msgstr "Negrito obliquo"
 
 #: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
@@ -3851,10 +3836,9 @@ msgid "Regular Condensed"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:434
-#, fuzzy
 msgctxt "FontFace"
 msgid "Regular Italic"
-msgstr "Itálico"
+msgstr "Regular Itálico"
 
 #: ../goffice/gtk/go-font-sel.c:435
 msgctxt "FontFace"
@@ -3869,7 +3853,7 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Roman"
-msgstr ""
+msgstr "Roman"
 
 #: ../goffice/gtk/go-font-sel.c:438
 msgctxt "FontFace"
@@ -3877,27 +3861,24 @@ msgid "Rounded"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:439
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Bold Italic"
-msgstr "Itálico negrito"
+msgstr "Sans Negrito Itálico"
 
 #: ../goffice/gtk/go-font-sel.c:440
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Bold"
-msgstr "Negrito"
+msgstr "Sans Negrito"
 
 #: ../goffice/gtk/go-font-sel.c:441
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Italic"
-msgstr "Itálico"
+msgstr "Sans Itálico"
 
 #: ../goffice/gtk/go-font-sel.c:442
 msgctxt "FontFace"
 msgid "Sans"
-msgstr ""
+msgstr "Sans"
 
 #: ../goffice/gtk/go-font-sel.c:443
 msgctxt "FontFace"
@@ -3905,10 +3886,9 @@ msgid "Semi-Bold Italic Small Caps"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:444
-#, fuzzy
 msgctxt "FontFace"
 msgid "Semi-Bold Italic"
-msgstr "Itálico negrito"
+msgstr "Semi-Negrito Itálico"
 
 #: ../goffice/gtk/go-font-sel.c:445
 msgctxt "FontFace"
@@ -4004,7 +3984,7 @@ msgstr "Fonte"
 
 #: ../goffice/gtk/go-font-sel.c:605
 msgid "All fonts..."
-msgstr ""
+msgstr "Todas as fontes..."
 
 #: ../goffice/gtk/go-font-sel.c:906
 msgctxt "underline"
@@ -4036,19 +4016,16 @@ msgid "Normal"
 msgstr "Normal"
 
 #: ../goffice/gtk/go-font-sel.c:932
-#, fuzzy
 msgid "Subscript"
-msgstr "<b>Definição</b>"
+msgstr "Subscrito"
 
 #: ../goffice/gtk/go-font-sel.c:933
-#, fuzzy
 msgid "Superscript"
-msgstr "<b>Definição</b>"
+msgstr "Sobrescrito"
 
 #: ../goffice/gtk/go-font-sel.c:1186
-#, fuzzy
 msgid "Show Style"
-msgstr "Estilo"
+msgstr "Mostrar estilo"
 
 #: ../goffice/gtk/go-font-sel.c:1187
 msgid "Whether style is part of the font being selected"
@@ -4056,16 +4033,15 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:1195
 msgid "Show Color"
-msgstr ""
+msgstr "Mostrar cor"
 
 #: ../goffice/gtk/go-font-sel.c:1196
 msgid "Whether color is part of the font being selected"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:1204
-#, fuzzy
 msgid "Show Underline"
-msgstr "Mostras valores _negativos"
+msgstr "Mostrar sublinhar"
 
 #: ../goffice/gtk/go-font-sel.c:1205
 msgid "Whether underlining is part of the font being selected"
@@ -4073,7 +4049,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:1213
 msgid "Show Script"
-msgstr ""
+msgstr "Mostrar script"
 
 #: ../goffice/gtk/go-font-sel.c:1214
 msgid "Whether subscript/superscript is part of the font being selected"
@@ -4096,18 +4072,16 @@ msgid "The text to show for selecing no color"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:1240
-#, fuzzy
 msgid "Color Group"
-msgstr "Tipo de Gráfico"
+msgstr "Grupo de cor"
 
 #: ../goffice/gtk/go-font-sel.c:1241
 msgid "The color group to use for the color picker"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:1249
-#, fuzzy
 msgid "Color Default"
-msgstr "Padrão"
+msgstr "Cor padrão"
 
 #: ../goffice/gtk/go-font-sel.c:1250
 msgid "The color to show for an unset color"
@@ -4127,25 +4101,23 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
 msgid "Select the font family"
-msgstr ""
+msgstr "Selecione a família da fonte"
 
 #: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
 msgstr "Fonte:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:3
-#, fuzzy
 msgid "Select the size"
-msgstr "Seleciona uma Imagem"
+msgstr "Selecione o tamanho da fonte"
 
 #: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
 msgstr "Tamanho:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:5
-#, fuzzy
 msgid "Select the font face"
-msgstr "Seleciona uma Imagem"
+msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
 msgid "Style:"
@@ -4161,7 +4133,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
-msgstr ""
+msgstr "Selecione a cor da fonte"
 
 #: ../goffice/gtk/go-font-sel.ui.h:10
 msgid "Color:"
@@ -4175,7 +4147,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
-msgstr ""
+msgstr "Script:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
 msgid "Select the type of underlining"
@@ -4627,7 +4599,7 @@ msgstr "Austrália"
 
 #: ../goffice/gtk/go-locale-sel.c:71
 msgid "Caribbean"
-msgstr ""
+msgstr "Caribe"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -4643,17 +4615,15 @@ msgstr "Estados Unidos/Inglês (C)"
 
 #: ../goffice/gtk/go-locale-sel.c:105
 msgid "Djibouti/Afar (aa_DJ)"
-msgstr ""
+msgstr "Djibouti/Afar (aa_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:106
-#, fuzzy
 msgid "Eritrea/Afar (aa_ER)"
-msgstr "Eritréia (ti_ER)"
+msgstr "Eritreia/Afar (ti_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:107
-#, fuzzy
 msgid "Ethiopia/Afar (aa_ET)"
-msgstr "Etiópia/Amárico (am_ET)"
+msgstr "Etiópia/Afar (aa_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:108
 msgid "South Africa Afrikaans (af_ZA)"
@@ -4664,9 +4634,8 @@ msgid "Ethiopia/Amharic (am_ET)"
 msgstr "Etiópia/Amárico (am_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:110
-#, fuzzy
 msgid "Spain/Aragonese (an_ES)"
-msgstr "Espanha/Basco (eu_ES)"
+msgstr "Espanha/Aragonês (eu_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:111
 msgid "United Arab Emirates (ar_AE)"
@@ -4741,14 +4710,12 @@ msgid "Yemen (ar_YE)"
 msgstr "Iêmen (ar_YE)"
 
 #: ../goffice/gtk/go-locale-sel.c:129
-#, fuzzy
 msgid "India/Assamese (as_IN)"
-msgstr "Índia/Tamil (ta_IN)"
+msgstr "Índia/Assamês (as_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:130
-#, fuzzy
 msgid "Spain/Asturian (ast_ES)"
-msgstr "Espanha/Catalão (ca_ES)"
+msgstr "Espanha/Asturiano (ast_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:131
 msgid "Azerbaijan (az_AZ)"
@@ -4763,14 +4730,12 @@ msgid "Zambia/Bemba (bem_ZM)"
 msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:134
-#, fuzzy
 msgid "Algeria/Amazigh (ber_DZ)"
-msgstr "Algéria (ar_DZ)"
+msgstr "Algéria/Amazigh (ber_DZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:135
-#, fuzzy
 msgid "Morocco/Amazigh (ber_MA)"
-msgstr "Marrocos (ar_MA)"
+msgstr "Marrocos/Amazigh (ber_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:136
 msgid "Bulgaria (bg_BG)"
@@ -4785,14 +4750,12 @@ msgid "India/Bengali (bn_IN)"
 msgstr "Índia/Bengali (bn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:139
-#, fuzzy
 msgid "China/Tibetan (bo_CN)"
-msgstr "China (zh_CN)"
+msgstr "China/Tibetano (zh_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:140
-#, fuzzy
 msgid "India/Tibetan (bo_IN)"
-msgstr "Índia/Bengali (bn_IN)"
+msgstr "Índia/Tibetano (bn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:141
 msgid "France/Breton (br_FR)"
@@ -4803,28 +4766,24 @@ msgid "Bosnia and Herzegowina (bs_BA)"
 msgstr "Bósnia e Herzegovina (bs_BA)"
 
 #: ../goffice/gtk/go-locale-sel.c:143
-#, fuzzy
 msgid "Eritrea/Blin (byn_ER)"
-msgstr "Eritréia (ti_ER)"
+msgstr "Eritréia/Blin (byn_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:144
-#, fuzzy
 msgid "Andorra/Catalan (ca_AD)"
-msgstr "Espanha/Catalão (ca_ES)"
+msgstr "Andorra/Catalão (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:145
 msgid "Spain/Catalan (ca_ES)"
 msgstr "Espanha/Catalão (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:146
-#, fuzzy
 msgid "France/Catalan (ca_FR)"
-msgstr "França/Occitan (oc_FR)"
+msgstr "França/Catalão (oc_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:147
-#, fuzzy
 msgid "Italy/Catalan (ca_IT)"
-msgstr "Espanha/Catalão (ca_ES)"
+msgstr "Itália/Catalão (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:148
 #, fuzzy
@@ -4875,11 +4834,11 @@ msgstr "Luxemburgo/Alemão (de_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:159
 msgid "Maldives (dv_MV)"
-msgstr ""
+msgstr "Ilhas Maldivas (dv_MV)"
 
 #: ../goffice/gtk/go-locale-sel.c:160
 msgid "Bhutan (dz_BT)"
-msgstr ""
+msgstr "Butão (dz_BT)"
 
 #: ../goffice/gtk/go-locale-sel.c:161
 msgid "Cyprus/Greek (el_CY)"
@@ -4890,7 +4849,6 @@ msgid "Greece (el_GR)"
 msgstr "Grécia (el_GR)"
 
 #: ../goffice/gtk/go-locale-sel.c:163
-#, fuzzy
 msgid "Antigua and Barbuda/English (en_AG)"
 msgstr "Canadá/Inglês (en_CA)"
 
@@ -5051,9 +5009,8 @@ msgid "Finland/Finnish (fi_FI)"
 msgstr "Finlândia/Finlandês (fi_Fl)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
-#, fuzzy
 msgid "Phillipines/Filipino (fil_PH)"
-msgstr "Filipinas/Tagalog (tl_PH)"
+msgstr "Filipinas/Filipino (tl_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:204
 msgid "Faroe Islands (fo_FO)"
@@ -5076,9 +5033,8 @@ msgid "France (fr_FR)"
 msgstr "França (fr_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:209
-#, fuzzy
 msgid "Luxembourg/French (fr_LU)"
-msgstr "Luxemburgo/Alemão (de_LU)"
+msgstr "Luxemburgo/Francês (de_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:210
 #, fuzzy
@@ -5131,9 +5087,8 @@ msgid "Nigeria/Hausa (ha_NG)"
 msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:221
-#, fuzzy
 msgid "Israel/Hebrew (he_IL)"
-msgstr "Israel/Hebráico (iw_IL)"
+msgstr "Israel/Hebráico (he_IL)"
 
 #: ../goffice/gtk/go-locale-sel.c:222
 msgid "India/Hindu (hi_IN)"
