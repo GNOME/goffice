@@ -254,11 +254,16 @@ SUFFIX(go_complex_pow) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFF
 		else
 			SUFFIX(go_complex_real) (dst, 0);
 	} else {
-		DOUBLE res_r, res_a1, res_a2, res_a2_pi, r, arg;
+		DOUBLE res_r, res_a1, res_a2, res_a2_pi, r, rre, arg;
 		SUFFIX(GOComplex) F;
 
 		SUFFIX(go_complex_to_polar) (&r, &arg, a);
-		res_r = SUFFIX(pow) (r, b->re) * SUFFIX(exp) (-b->im * arg);
+		/*
+		 * This is the square root of the power we really want,
+		 * but it is much less likely to cause overflow.
+		 */
+		rre = SUFFIX(pow) (r, b->re / 2);
+		res_r = rre * SUFFIX(exp) (-b->im * arg) * rre;
 		res_a1 = b->im * SUFFIX(log) (r);
 		res_a2 = b->re * arg;
 		res_a2_pi = b->re * SUFFIX(go_complex_angle_pi) (a);

@@ -2,6 +2,10 @@ goffice 0.10.10:
 
 Jean
 	* Fix graph guru appearance when used with gtk+-3.10. [#719681]
+
+Morten:
+	* Improve complex math.
+
 --------------------------------------------------------------------------
 goffice 0.10.9:
 
