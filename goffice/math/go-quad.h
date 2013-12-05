@@ -26,6 +26,7 @@ void go_quad_floor (GOQuad *res, const GOQuad *a);
 void go_quad_pow (GOQuad *res, double *exp2, const GOQuad *x, const GOQuad *y);
 void go_quad_exp (GOQuad *res, double *exp2, const GOQuad *a);
 void go_quad_expm1 (GOQuad *res, const GOQuad *a);
+void go_quad_log (GOQuad *res, const GOQuad *a);
 
 void go_quad_mul12 (GOQuad *res, double x, double y);
 
@@ -36,6 +37,7 @@ void go_quad_constant8 (GOQuad *res, const guint8 *data, gsize n, double base, d
 GO_VAR_DECL const GOQuad go_quad_zero;
 GO_VAR_DECL const GOQuad go_quad_one;
 GO_VAR_DECL const GOQuad go_quad_pi;
+GO_VAR_DECL const GOQuad go_quad_2pi;
 GO_VAR_DECL const GOQuad go_quad_e;
 GO_VAR_DECL const GOQuad go_quad_ln2;
 GO_VAR_DECL const GOQuad go_quad_sqrt2;
@@ -63,6 +65,7 @@ void go_quad_floorl (GOQuadl *res, const GOQuadl *a);
 void go_quad_powl (GOQuadl *res, long double *exp2, const GOQuadl *x, const GOQuadl *y);
 void go_quad_expl (GOQuadl *res, long double *exp2, const GOQuadl *a);
 void go_quad_expm1l (GOQuadl *res, const GOQuadl *a);
+void go_quad_logl (GOQuadl *res, const GOQuadl *a);
 
 void go_quad_mul12l (GOQuadl *res, long double x, long double y);
 
@@ -74,6 +77,7 @@ void go_quad_constant8l (GOQuadl *res, const guint8 *data, gsize n, long double 
 GO_VAR_DECL const GOQuadl go_quad_zerol;
 GO_VAR_DECL const GOQuadl go_quad_onel;
 GO_VAR_DECL const GOQuadl go_quad_pil;
+GO_VAR_DECL const GOQuadl go_quad_2pil;
 GO_VAR_DECL const GOQuadl go_quad_el;
 GO_VAR_DECL const GOQuadl go_quad_ln2l;
 GO_VAR_DECL const GOQuadl go_quad_sqrt2l;

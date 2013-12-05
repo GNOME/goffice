@@ -1,3 +1,10 @@
+2013-12-05  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-quad.c (go_quad_pi): New constant.
+	(go_quad_log): New function.
+
+	* tests/test-quad.c (main): Check value of go_quad_2pi.
+
 2013-12-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-complex.c (go_complex_pow): Fix class over

@@ -5,6 +5,7 @@ Jean
 
 Morten:
 	* Improve complex math.
+	* Add quad precision log function.
 
 --------------------------------------------------------------------------
 goffice 0.10.9:

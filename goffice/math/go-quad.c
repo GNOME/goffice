@@ -215,6 +215,12 @@ SUFFIX(go_quad_start) (void)
 					   256.0,
 					   256.0);
 
+		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_2pi),
+					   pi_hex_digits,
+					   G_N_ELEMENTS (pi_hex_digits),
+					   256.0,
+					   512.0);
+
 		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_e),
 					   e_hex_digits,
 					   G_N_ELEMENTS (e_hex_digits),
@@ -265,9 +271,10 @@ SUFFIX(go_quad_end) (void *state)
 	g_free (state);
 }
 
-const QUAD SUFFIX(go_quad_zero);
+const QUAD SUFFIX(go_quad_zero) = { 0, 0 };
 const QUAD SUFFIX(go_quad_one) = { 1, 0 };
 const QUAD SUFFIX(go_quad_pi);
+const QUAD SUFFIX(go_quad_2pi);
 const QUAD SUFFIX(go_quad_e);
 const QUAD SUFFIX(go_quad_ln2);
 const QUAD SUFFIX(go_quad_sqrt2);
@@ -732,5 +739,36 @@ SUFFIX(go_quad_expm1) (QUAD *res, const QUAD *a)
 		SUFFIX(go_quad_pow_frac) (&z, &SUFFIX(go_quad_e), &ma, TRUE);
 		SUFFIX(go_quad_add) (&zp1, &z, &SUFFIX(go_quad_one));
 		SUFFIX(go_quad_div) (res, &z, &zp1);
+	}
+}
+
+/**
+ * go_quad_log: (skip)
+ **/
+/**
+ * go_quad_logl: (skip)
+ **/
+void
+SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
+{
+	DOUBLE da = SUFFIX(go_quad_value) (a);
+
+	if (da == 0)
+		SUFFIX(go_quad_init) (res, SUFFIX(go_ninf));
+	else if (da < 0)
+		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
+	else if (!SUFFIX(go_finite) (da))
+		*res = *a;
+	else {
+		QUAD xi, yi, dx;
+		SUFFIX(go_quad_init) (&xi, SUFFIX(log) (da));
+
+		/* Newton step. */
+		SUFFIX(go_quad_exp) (&yi, NULL, &xi);
+		SUFFIX(go_quad_sub) (&dx, a, &yi);
+		SUFFIX(go_quad_div) (&dx, &dx, &yi);
+		SUFFIX(go_quad_add) (&xi, &xi, &dx);
+		
+		*res = xi;
 	}
 }
