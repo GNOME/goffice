@@ -782,6 +782,15 @@ SUFFIX(go_quad_atan_internal) (QUAD *res, const QUAD *x)
 
 	g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
 
+	/*
+	 * This follows "An Algorithm for Computing Logarithms
+	 * and Arctangents" by B. C. Carlson in *Mathematics of
+	 * Computation*, Volume 26, Number 118, April 1972.
+	 *
+	 * If need be we can do log, arcsin, arccos, arctanh,
+	 * arcsinh, and arccosh we the same code.
+	 */
+
 	qrp = SUFFIX(go_quad_zero);
 
 	dpk[0] = SUFFIX(go_quad_one);
@@ -809,7 +818,7 @@ SUFFIX(go_quad_atan_internal) (QUAD *res, const QUAD *x)
 		SUFFIX(go_quad_div) (&qr, x, &dk[n]);
 		
 		SUFFIX(go_quad_sub) (&qrp, &qrp, &qr);
-		if (SUFFIX(fabs)(qrp.h) <= SUFFIX(ldexp) (SUFFIX(fabs)(qr.h), -100)) {
+		if (SUFFIX(fabs)(qrp.h) <= SUFFIX(ldexp) (SUFFIX(fabs)(qr.h), -2 * (DBL_MANT_DIG - 1))) {
 			converged = TRUE;
 			break;
 		}
