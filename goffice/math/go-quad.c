@@ -772,3 +772,144 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
 		*res = xi;
 	}
 }
+
+static void
+SUFFIX(go_quad_atan_internal) (QUAD *res, const QUAD *x)
+{
+	QUAD g, gp, dk[20], dpk[20], qr, qrp;
+	int n, k;
+	gboolean converged = FALSE;
+
+	g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
+
+	qrp = SUFFIX(go_quad_zero);
+
+	dpk[0] = SUFFIX(go_quad_one);
+	SUFFIX(go_quad_mul) (&gp, x, x);
+	SUFFIX(go_quad_add) (&gp, &gp, &SUFFIX(go_quad_one));
+	SUFFIX(go_quad_sqrt) (&gp, &gp);
+
+	for (n = 1; n < (int)G_N_ELEMENTS(dk); n++) {
+		SUFFIX(go_quad_add) (&dk[0], &dpk[0], &gp);
+		dk[0].h *= 0.5; dk[0].l *= 0.5;
+
+		SUFFIX(go_quad_mul) (&g, &dk[0], &gp);
+		SUFFIX(go_quad_sqrt) (&g, &g);
+
+		for (k = 1; k <= n; k++) {
+			QUAD f;
+
+			SUFFIX(go_quad_init) (&f, SUFFIX(ldexp) (1, -(2 * k)));
+			SUFFIX(go_quad_mul) (&dk[k], &f, &dpk[k-1]);
+			SUFFIX(go_quad_sub) (&dk[k], &dk[k-1], &dk[k]);
+			SUFFIX(go_quad_sub) (&f, &SUFFIX(go_quad_one), &f);
+			SUFFIX(go_quad_div) (&dk[k], &dk[k], &f);
+		}
+
+		SUFFIX(go_quad_div) (&qr, x, &dk[n]);
+		
+		SUFFIX(go_quad_sub) (&qrp, &qrp, &qr);
+		if (SUFFIX(fabs)(qrp.h) <= SUFFIX(ldexp) (SUFFIX(fabs)(qr.h), -100)) {
+			converged = TRUE;
+			break;
+		}
+
+		qrp = qr;
+		gp = g;
+		for (k = 0; k <= n; k++) dpk[k] = dk[k];
+	}
+
+	if (!converged)
+		g_warning ("go_quad_atan_internal(%.20g) failed to converge\n",
+			   (double)SUFFIX(go_quad_value) (x));
+
+	*res = qr;
+}
+
+static gboolean
+SUFFIX(go_quad_atan2_special) (const QUAD *y, const QUAD *x, DOUBLE *f)
+{
+	DOUBLE dy = SUFFIX(go_quad_value) (y);
+	DOUBLE dx = SUFFIX(go_quad_value) (x);
+
+	if (dy == 0) {
+		/* This assumes all zeros are +0. */
+		*f = (dx >= 0 ? 0 : +1);
+		return TRUE;
+	}
+
+	if (dx == 0) {
+		*f = (dy >= 0 ? 0.5 : -0.5);
+		return TRUE;
+	}
+
+	/* We could do quarters too */
+
+	return FALSE;
+}
+
+/**
+ * go_quad_atan2: (skip)
+ **/
+/**
+ * go_quad_atan2l: (skip)
+ **/
+void
+SUFFIX(go_quad_atan2) (QUAD *res, const QUAD *y, const QUAD *x)
+{
+	DOUBLE f;
+	DOUBLE dy = SUFFIX(go_quad_value) (y);
+	DOUBLE dx = SUFFIX(go_quad_value) (x);
+	QUAD qr;
+
+	if (SUFFIX(go_quad_atan2_special) (y, x, &f)) {
+		res->h = f * SUFFIX(go_quad_pi).h;
+		res->l = f * SUFFIX(go_quad_pi).l;
+		return;
+	}
+
+	if (SUFFIX(fabs) (dx) >= SUFFIX(fabs) (dy)) {
+		SUFFIX(go_quad_div) (&qr, y, x);
+		SUFFIX(go_quad_atan_internal) (res, &qr);
+	} else {
+		DOUBLE f;
+		QUAD qa;
+
+		SUFFIX(go_quad_div) (&qr, x, y);
+		SUFFIX(go_quad_atan_internal) (res, &qr);
+
+		f = (qr.h >= 0) ? 0.5 : -0.5;
+		qa.h = f * SUFFIX(go_quad_pi).h;
+		qa.l = f * SUFFIX(go_quad_pi).l;
+		SUFFIX(go_quad_sub) (res, &qa, res);
+	}
+
+	if (dx < 0) {
+		/* Correct for quadrants 2 and 3. */
+		if (dy > 0)
+			SUFFIX(go_quad_add) (res, res, &SUFFIX(go_quad_pi));
+		else
+			SUFFIX(go_quad_sub) (res, res, &SUFFIX(go_quad_pi));
+	}
+}
+
+/**
+ * go_quad_atan2pi: (skip)
+ **/
+/**
+ * go_quad_atan2pil: (skip)
+ **/
+void
+SUFFIX(go_quad_atan2pi) (QUAD *res, const QUAD *y, const QUAD *x)
+{
+	DOUBLE f;
+
+	if (SUFFIX(go_quad_atan2_special) (y, x, &f)) {
+		SUFFIX(go_quad_init) (res, f);
+		return;
+	}
+
+	/* Fallback.  */
+	SUFFIX(go_quad_atan2) (res, y, x);
+	SUFFIX(go_quad_div) (res, res, &SUFFIX(go_quad_pi));
+}

@@ -4,8 +4,8 @@ Jean
 	* Fix graph guru appearance when used with gtk+-3.10. [#719681]
 
 Morten:
-	* Improve complex math.
-	* Add quad precision log function.
+	* Improve complex math, notably complex power.
+	* Add quad precision log, atan2 functions.
 
 --------------------------------------------------------------------------
 goffice 0.10.9:

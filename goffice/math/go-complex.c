@@ -44,6 +44,7 @@
 #undef M_PIgo
 #undef go_strto
 #undef GO_const
+#define LONG_DOUBLE_VERSION
 
 #ifdef HAVE_SUNMATH_H
 #include <sunmath.h>
@@ -193,6 +194,35 @@ SUFFIX(go_complex_from_polar) (SUFFIX(GOComplex) *dst, DOUBLE mod, DOUBLE angle)
 	SUFFIX(go_complex_init) (dst, mod * SUFFIX(cos) (angle), mod * SUFFIX(sin) (angle));
 }
 
+static  void
+SUFFIX(go_complex_from_polar_pi) (SUFFIX(GOComplex) *dst, DOUBLE mod, DOUBLE angle)
+{
+	DOUBLE s, c;
+
+	if (SUFFIX(fabs) (angle) >= 1) {
+		angle = SUFFIX(fmod) (angle, 2);
+		if (angle > 1)
+			angle -= 2;
+		else if (angle <= -1)
+			angle += 2;		
+	}
+
+	if (angle == 0)
+		s = 0, c = 1;
+	else if (angle == 0.5)
+		s = 1, c = 0;
+	else if (angle == 1)
+		s = 0, c = -1;
+	else if (angle == -0.5)
+		s = -1, c = 0;
+	else {
+		s = SUFFIX(sin) (angle * M_PIgo);
+		c = SUFFIX(cos) (angle * M_PIgo);
+	}
+
+	SUFFIX(go_complex_init) (dst, mod * c, mod * s);
+}
+
 /* ------------------------------------------------------------------------- */
 
 void
@@ -238,9 +268,9 @@ SUFFIX(go_complex_sqrt) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
 		else
 			SUFFIX(go_complex_init) (dst, 0, SUFFIX(sqrt) (-src->re));
 	} else
-		SUFFIX(go_complex_from_polar) (dst,
+		SUFFIX(go_complex_from_polar_pi) (dst,
 				    SUFFIX(sqrt) (SUFFIX(go_complex_mod) (src)),
-				    SUFFIX(go_complex_angle) (src) / 2);
+				    SUFFIX(go_complex_angle_pi) (src) / 2);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -254,42 +284,49 @@ SUFFIX(go_complex_pow) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFF
 		else
 			SUFFIX(go_complex_real) (dst, 0);
 	} else {
-		DOUBLE res_r, res_a1, res_a2, res_a2_pi, r, rre, arg;
-		SUFFIX(GOComplex) F;
+		DOUBLE res_r, res_a;
+		SUFFIX(GOQuad) qr, qa, qb, qarg;
+		void *state = SUFFIX(go_quad_start) ();
 
-		SUFFIX(go_complex_to_polar) (&r, &arg, a);
+		SUFFIX(go_quad_init) (&qa, a->re);
+		SUFFIX(go_quad_init) (&qb, a->im);
+		SUFFIX(go_quad_atan2pi) (&qarg, &qb, &qa);
+		SUFFIX(go_quad_mul) (&qa, &qa, &qa);
+		SUFFIX(go_quad_mul) (&qb, &qb, &qb);
+		SUFFIX(go_quad_add) (&qa, &qa, &qb);
+		SUFFIX(go_quad_sqrt) (&qr, &qa);
+
 		/*
 		 * This is the square root of the power we really want,
 		 * but it is much less likely to cause overflow.
 		 */
-		rre = SUFFIX(pow) (r, b->re / 2);
-		res_r = rre * SUFFIX(exp) (-b->im * arg) * rre;
-		res_a1 = b->im * SUFFIX(log) (r);
-		res_a2 = b->re * arg;
-		res_a2_pi = b->re * SUFFIX(go_complex_angle_pi) (a);
+		SUFFIX(go_quad_init) (&qa, b->re / 2);
+		SUFFIX(go_quad_pow) (&qa, NULL, &qr, &qa);
+		SUFFIX(go_quad_init) (&qb, -b->im);
+		SUFFIX(go_quad_mul) (&qb, &qb, &qarg);
+		SUFFIX(go_quad_mul) (&qb, &qb, &SUFFIX(go_quad_pi));
+		SUFFIX(go_quad_exp) (&qb, NULL, &qb);
+		SUFFIX(go_quad_mul) (&qb, &qa, &qb);
+		SUFFIX(go_quad_mul) (&qb, &qa, &qb);
+		res_r = SUFFIX(go_quad_value) (&qb);
 
-		res_a2_pi = SUFFIX(fmod) (res_a2_pi, 2);
-		if (res_a2_pi < 0) res_a2_pi += 2;
+		SUFFIX(go_quad_log) (&qa, &qr);
+		SUFFIX(go_quad_init) (&qb, b->im);
+		SUFFIX(go_quad_mul) (&qa, &qa, &qb);
+		SUFFIX(go_quad_div) (&qa, &qa, &SUFFIX(go_quad_2pi));
+		SUFFIX(go_quad_init) (&qb, b->re / 2);
+		SUFFIX(go_quad_mul) (&qb, &qb, &qarg);
+		SUFFIX(go_quad_add) (&qa, &qa, &qb);
+		SUFFIX(go_quad_init) (&qb, 0.5);
+		SUFFIX(go_quad_add) (&qb, &qb, &qa);
+		SUFFIX(go_quad_floor) (&qb, &qb);
+		SUFFIX(go_quad_sub) (&qa, &qa, &qb);
+		SUFFIX(go_quad_add) (&qa, &qa, &qa);
+		res_a = SUFFIX(go_quad_value) (&qa);
 
-		/*
-		 * Problem: sometimes res_a2 is a nice fraction of pi.
-		 * Actually adding it will introduce pointless rounding
-		 * errors.
-		 */
-		if (res_a2_pi == 0.5) {
-			res_a2 = 0;
-			SUFFIX(go_complex_init) (&F, 0, 1);
-		} else if (res_a2_pi == 1) {
-			res_a2 = 0;
-			SUFFIX(go_complex_real) (&F, -1);
-		} else if (res_a2_pi == 1.5) {
-			res_a2 = 0;
-			SUFFIX(go_complex_init) (&F, 0, -1);
-		} else
-			SUFFIX(go_complex_real) (&F, 1);
+		SUFFIX(go_complex_from_polar_pi) (dst, res_r, res_a);
 
-		SUFFIX(go_complex_from_polar) (dst, res_r, res_a1 + res_a2);
-		SUFFIX(go_complex_mul) (dst, dst, &F);
+		SUFFIX(go_quad_end) (state);
 	}
 }
 
@@ -445,3 +482,5 @@ void SUFFIX(go_complex_tan) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *sr
 	SUFFIX(go_complex_cos) (&c, src);
 	SUFFIX(go_complex_div) (dst, &s, &c);
 }
+
+/* ------------------------------------------------------------------------- */

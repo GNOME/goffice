@@ -85,6 +85,47 @@ pow_tests (void)
 
 /* ------------------------------------------------------------------------- */
 
+#define ATAN2PI(y_,x_) (atan2((y_),(x_))/M_PI)
+
+static void
+atan2_tests (void)
+{
+#define TEST1(a_,b_) do {				\
+    BINTEST1(a_,b_,go_quad_atan2,atan2,"atan2");	\
+    BINTEST1(a_,b_,go_quad_atan2pi,ATAN2PI,"atan2pi");	\
+} while (0)
+	TEST1 (0, +2);
+	TEST1 (0, -2);
+	TEST1 (3, 0);
+	TEST1 (-3, 0);
+	TEST1 (0, 0);
+	TEST1 (+1, +1);
+	TEST1 (+2.3, +1.2);
+	TEST1 (+2.3, -1.2);
+	TEST1 (+2.3, +0.2);
+	TEST1 (+2.3, -0.2);
+	TEST1 (+0.2, +2.3);
+	TEST1 (+0.2, -2.3);
+	TEST1 (+2.3, +3);
+	TEST1 (+2.3, -3);
+	TEST1 (-2.3, +3);
+	TEST1 (-2.3, -3);
+	TEST1 (+2.3, +4);
+	TEST1 (+2.3, -4);
+	TEST1 (-2.3, +4);
+	TEST1 (-2.3, -4);
+	TEST1 (2, 100);
+	TEST1 (2, -100);
+	TEST1 (1.0/256, 1.0/1024);
+	TEST1 (exp(1), 1);
+	TEST1 (exp(1), -1);
+	TEST1 (exp(1), log(2));
+	TEST1 (exp(1), -log(2));
+}
+#undef TEST1
+
+/* ------------------------------------------------------------------------- */
+
 #define TEST1(a_,b_)				\
 do {						\
 	BINTEST1(a_,b_,go_quad_add,ADD,"add");	\
@@ -202,6 +243,27 @@ floor_tests (void)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+const_tests (void)
+{
+	GOQuad a;
+
+	g_assert (fabs (go_quad_value (&go_quad_pi) - M_PI) < 1e-14);
+	g_assert (fabs (go_quad_value (&go_quad_2pi) - 2 * M_PI) < 1e-14);
+	g_assert (fabs (go_quad_value (&go_quad_e) - exp(1)) < 1e-14);
+	g_assert (fabs (go_quad_value (&go_quad_ln2) - log(2)) < 1e-14);
+	g_assert (go_quad_value (&go_quad_zero) == 0);
+	g_assert (go_quad_value (&go_quad_one) == 1);
+
+	go_quad_mul (&a, &go_quad_sqrt2, &go_quad_sqrt2);
+	go_quad_sub (&a, &a, &go_quad_one);
+	go_quad_sub (&a, &a, &go_quad_one);
+	g_assert (go_quad_value (&a) < ldexp (1.0, -100));
+}
+
+
+/* ------------------------------------------------------------------------- */
+
 int
 main (int argc, char **argv)
 {
@@ -223,21 +285,11 @@ main (int argc, char **argv)
 	go_quad_sub (&c, &c, &a);
 	g_assert (go_quad_value (&c) == ldexp (1.0, -80));
 
-	g_assert (fabs (go_quad_value (&go_quad_pi) - M_PI) < 1e-14);
-	g_assert (fabs (go_quad_value (&go_quad_2pi) - 2 * M_PI) < 1e-14);
-	g_assert (fabs (go_quad_value (&go_quad_e) - exp(1)) < 1e-14);
-	g_assert (fabs (go_quad_value (&go_quad_ln2) - log(2)) < 1e-14);
-	g_assert (go_quad_value (&go_quad_zero) == 0);
-	g_assert (go_quad_value (&go_quad_one) == 1);
-
-	go_quad_mul (&a, &go_quad_sqrt2, &go_quad_sqrt2);
-	go_quad_sub (&a, &a, &go_quad_one);
-	go_quad_sub (&a, &a, &go_quad_one);
-	g_assert (go_quad_value (&a) < ldexp (1.0, -100));
-
+	const_tests ();
 	basic4_tests ();
 	pow_tests ();
 	floor_tests ();
+	atan2_tests ();
 
 	go_quad_end (state);
 
