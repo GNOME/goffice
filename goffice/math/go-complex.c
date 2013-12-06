@@ -278,11 +278,33 @@ SUFFIX(go_complex_sqrt) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
 void
 SUFFIX(go_complex_pow) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFFIX(GOComplex) const *b)
 {
-	if (SUFFIX(go_complex_zero_p) (a) && SUFFIX(go_complex_real_p) (b)) {
-		if (b->re <= 0)
-			SUFFIX(go_complex_invalid) (dst);
-		else
-			SUFFIX(go_complex_real) (dst, 0);
+	if (SUFFIX(go_complex_real_p) (a) && SUFFIX(go_complex_real_p) (b)) {
+		SUFFIX(go_complex_init) (dst, pow (a->re, b->re), 0);
+	} else if (SUFFIX(go_complex_real_p) (b)) {
+		DOUBLE p = SUFFIX(fabs) (b->re);
+		DOUBLE r, arg;
+		SUFFIX(GOComplex) t;
+
+		if (p == 0) {
+			SUFFIX(go_complex_init) (dst, 1, 0);
+			return;
+		}
+
+		arg = SUFFIX(go_complex_angle_pi) (a);
+		if (p >= 2) {
+			r = SUFFIX(pow) (a->re * a->re + a->im * a->im, p / 2);
+		} else {
+			r = SUFFIX(pow) (SUFFIX(hypot) (a->re, a->im), p);
+		}
+
+		SUFFIX(go_complex_from_polar_pi) (&t, r, arg * p);
+		if (b->re > 0)
+			*dst = t;
+		else {
+			SUFFIX(GOComplex) one;
+			one.re = 1; one.im = 0;
+			SUFFIX(go_complex_div) (dst, &one, &t);
+		}
 	} else {
 		DOUBLE res_r, res_a;
 		SUFFIX(GOQuad) qr, qa, qb, qarg;
