@@ -58,10 +58,12 @@
 
 #endif
 
+#define COMPLEX SUFFIX(GOComplex)
+
 /* ------------------------------------------------------------------------- */
 
 char *
-SUFFIX(go_complex_to_string) (SUFFIX(GOComplex) const *src, char const *reformat,
+SUFFIX(go_complex_to_string) (COMPLEX const *src, char const *reformat,
 		   char const *imformat, char imunit)
 {
 	char *re_buffer = NULL;
@@ -126,7 +128,7 @@ SUFFIX(is_unit_imaginary) (char const *src, DOUBLE *im, char *imunit)
 }
 
 int
-SUFFIX(go_complex_from_string) (SUFFIX(GOComplex) *dst, char const *src, char *imunit)
+SUFFIX(go_complex_from_string) (COMPLEX *dst, char const *src, char *imunit)
 {
 	DOUBLE x, y;
 	char *end;
@@ -180,7 +182,7 @@ SUFFIX(go_complex_from_string) (SUFFIX(GOComplex) *dst, char const *src, char *i
 /* ------------------------------------------------------------------------- */
 
 void
-SUFFIX(go_complex_to_polar) (DOUBLE *mod, DOUBLE *angle, SUFFIX(GOComplex) const *src)
+SUFFIX(go_complex_to_polar) (DOUBLE *mod, DOUBLE *angle, COMPLEX const *src)
 {
 	*mod = SUFFIX(go_complex_mod) (src);
 	*angle = SUFFIX(go_complex_angle) (src);
@@ -189,13 +191,13 @@ SUFFIX(go_complex_to_polar) (DOUBLE *mod, DOUBLE *angle, SUFFIX(GOComplex) const
 /* ------------------------------------------------------------------------- */
 
 void
-SUFFIX(go_complex_from_polar) (SUFFIX(GOComplex) *dst, DOUBLE mod, DOUBLE angle)
+SUFFIX(go_complex_from_polar) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 {
 	SUFFIX(go_complex_init) (dst, mod * SUFFIX(cos) (angle), mod * SUFFIX(sin) (angle));
 }
 
 static  void
-SUFFIX(go_complex_from_polar_pi) (SUFFIX(GOComplex) *dst, DOUBLE mod, DOUBLE angle)
+SUFFIX(go_complex_from_polar_pi) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 {
 	DOUBLE s, c;
 
@@ -226,7 +228,7 @@ SUFFIX(go_complex_from_polar_pi) (SUFFIX(GOComplex) *dst, DOUBLE mod, DOUBLE ang
 /* ------------------------------------------------------------------------- */
 
 void
-SUFFIX(go_complex_mul) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFFIX(GOComplex) const *b)
+SUFFIX(go_complex_mul) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	SUFFIX(go_complex_init) (dst,
 		      a->re * b->re - a->im * b->im,
@@ -236,7 +238,7 @@ SUFFIX(go_complex_mul) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFF
 /* ------------------------------------------------------------------------- */
 
 void
-SUFFIX(go_complex_div) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFFIX(GOComplex) const *b)
+SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	DOUBLE bmod = SUFFIX(go_complex_mod) (b);
 
@@ -260,7 +262,7 @@ SUFFIX(go_complex_div) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFF
 /* ------------------------------------------------------------------------- */
 
 void
-SUFFIX(go_complex_sqrt) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
+SUFFIX(go_complex_sqrt) (COMPLEX *dst, COMPLEX const *src)
 {
 	if (SUFFIX(go_complex_real_p) (src)) {
 		if (src->re >= 0)
@@ -274,6 +276,23 @@ SUFFIX(go_complex_sqrt) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/*
+ * Subtract a whole number leaving a fractional part in [-0.5,+0.5]
+ * We only look at z->h, so this probably won't do the full reduction
+ * for huge z.
+ */
+static void
+SUFFIX(reduce1) (SUFFIX(GOQuad) *z)
+{
+	SUFFIX(GOQuad) d;
+
+	if (SUFFIX (fabs) (z->h) <= 0.5)
+		return;
+
+	SUFFIX(go_quad_init) (&d, SUFFIX(floor) (z->h + 0.5));
+	SUFFIX(go_quad_sub) (z, z, &d);
+}
 
 static void
 SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
@@ -316,42 +335,48 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 	SUFFIX(go_quad_mul) (&res, &qfa, &qfb);
 
 	SUFFIX(go_quad_mul12) (&qp, wa, b);
+	SUFFIX(reduce1) (&qp);
 	SUFFIX(go_quad_add) (&res, &res, &qp);
 
 	SUFFIX(go_quad_init) (&qp, wb);
 	SUFFIX(go_quad_mul) (&qp, &qp, &qfa);
+	SUFFIX(reduce1) (&qp);
 	SUFFIX(go_quad_add) (&res, &res, &qp);
+
+	SUFFIX(reduce1) (&res);
 
 	*dst = res;
 }
 
 void
-SUFFIX(go_complex_pow) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFFIX(GOComplex) const *b)
+SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	if (SUFFIX(go_complex_real_p) (a) && SUFFIX(go_complex_real_p) (b)) {
 		SUFFIX(go_complex_init) (dst, pow (a->re, b->re), 0);
 	} else if (SUFFIX(go_complex_real_p) (b)) {
 		DOUBLE p = SUFFIX(fabs) (b->re);
-		DOUBLE r, arg;
-		SUFFIX(GOComplex) t;
+		COMPLEX t;
 
 		if (p == 0) {
 			SUFFIX(go_complex_init) (dst, 1, 0);
 			return;
 		}
 
-		arg = SUFFIX(go_complex_angle_pi) (a);
-		if (p >= 2) {
-			r = SUFFIX(pow) (a->re * a->re + a->im * a->im, p / 2);
+		if (p == 1) {
+			t = *a;
 		} else {
-			r = SUFFIX(pow) (SUFFIX(hypot) (a->re, a->im), p);
+			DOUBLE arg = SUFFIX(go_complex_angle_pi) (a);
+			DOUBLE r = (p >= 2)
+				? SUFFIX(pow) (a->re * a->re +
+					       a->im * a->im, p / 2)
+				: SUFFIX(pow) (SUFFIX(hypot) (a->re, a->im), p);
+			SUFFIX(go_complex_from_polar_pi) (&t, r, arg * p);
 		}
 
-		SUFFIX(go_complex_from_polar_pi) (&t, r, arg * p);
 		if (b->re > 0)
 			*dst = t;
 		else {
-			SUFFIX(GOComplex) one;
+			COMPLEX one;
 			one.re = 1; one.im = 0;
 			SUFFIX(go_complex_div) (dst, &one, &t);
 		}
@@ -398,7 +423,7 @@ SUFFIX(go_complex_pow) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFF
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_init) (SUFFIX(GOComplex) *dst, DOUBLE re, DOUBLE im)
+void SUFFIX(go_complex_init) (COMPLEX *dst, DOUBLE re, DOUBLE im)
 {
 	dst->re = re;
 	dst->im = im;
@@ -406,13 +431,13 @@ void SUFFIX(go_complex_init) (SUFFIX(GOComplex) *dst, DOUBLE re, DOUBLE im)
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_invalid) (SUFFIX(GOComplex) *dst)
+void SUFFIX(go_complex_invalid) (COMPLEX *dst)
 {
 	dst->re = SUFFIX(go_nan);
 	dst->im = SUFFIX(go_nan);
 }
 
-void SUFFIX(go_complex_real) (SUFFIX(GOComplex) *dst, DOUBLE re)
+void SUFFIX(go_complex_real) (COMPLEX *dst, DOUBLE re)
 {
 	dst->re = re;
 	dst->im = 0;
@@ -420,35 +445,35 @@ void SUFFIX(go_complex_real) (SUFFIX(GOComplex) *dst, DOUBLE re)
 
 /* ------------------------------------------------------------------------- */
 
-int SUFFIX(go_complex_real_p) (SUFFIX(GOComplex) const *src)
+int SUFFIX(go_complex_real_p) (COMPLEX const *src)
 {
 	return src->im == 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
-int SUFFIX(go_complex_zero_p) (SUFFIX(GOComplex) const *src)
+int SUFFIX(go_complex_zero_p) (COMPLEX const *src)
 {
 	return src->re == 0 && src->im == 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
-int SUFFIX(go_complex_invalid_p) (SUFFIX(GOComplex) const *src)
+int SUFFIX(go_complex_invalid_p) (COMPLEX const *src)
 {
 	return !(SUFFIX(go_finite) (src->re) && SUFFIX(go_finite) (src->im));
 }
 
 /* ------------------------------------------------------------------------- */
 
-DOUBLE SUFFIX(go_complex_mod) (SUFFIX(GOComplex) const *src)
+DOUBLE SUFFIX(go_complex_mod) (COMPLEX const *src)
 {
 	return SUFFIX(hypot) (src->re, src->im);
 }
 
 /* ------------------------------------------------------------------------- */
 
-DOUBLE SUFFIX(go_complex_angle) (SUFFIX(GOComplex) const *src)
+DOUBLE SUFFIX(go_complex_angle) (COMPLEX const *src)
 {
 	return SUFFIX(atan2) (src->im, src->re);
 }
@@ -459,7 +484,7 @@ DOUBLE SUFFIX(go_complex_angle) (SUFFIX(GOComplex) const *src)
  * nice round numbers not suffering from rounding errors).
  */
 
-DOUBLE SUFFIX(go_complex_angle_pi) (SUFFIX(GOComplex) const *src)
+DOUBLE SUFFIX(go_complex_angle_pi) (COMPLEX const *src)
 {
 	if (src->im == 0)
 		return (src->re >= 0 ? 0 : -1);
@@ -475,14 +500,14 @@ DOUBLE SUFFIX(go_complex_angle_pi) (SUFFIX(GOComplex) const *src)
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_conj) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
+void SUFFIX(go_complex_conj) (COMPLEX *dst, COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst, src->re, -src->im);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_scale_real) (SUFFIX(GOComplex) *dst, DOUBLE f)
+void SUFFIX(go_complex_scale_real) (COMPLEX *dst, DOUBLE f)
 {
 	dst->re *= f;
 	dst->im *= f;
@@ -490,30 +515,28 @@ void SUFFIX(go_complex_scale_real) (SUFFIX(GOComplex) *dst, DOUBLE f)
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_add) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFFIX(GOComplex) const *b)
+void SUFFIX(go_complex_add) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	SUFFIX(go_complex_init) (dst, a->re + b->re, a->im + b->im);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_sub) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFFIX(GOComplex) const *b)
+void SUFFIX(go_complex_sub) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	SUFFIX(go_complex_init) (dst, a->re - b->re, a->im - b->im);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_exp) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
+void SUFFIX(go_complex_exp) (COMPLEX *dst, COMPLEX const *src)
 {
-	SUFFIX(go_complex_init) (dst,
-		SUFFIX(exp) (src->re) * SUFFIX(cos) (src->im),
-		SUFFIX(exp) (src->re) * SUFFIX(sin) (src->im));
+	SUFFIX(go_complex_from_polar) (dst, SUFFIX(exp) (src->re), src->im);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_ln) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
+void SUFFIX(go_complex_ln) (COMPLEX *dst, COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst,
 		SUFFIX(log) (SUFFIX(go_complex_mod) (src)),
@@ -522,7 +545,7 @@ void SUFFIX(go_complex_ln) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_sin) ( SUFFIX(GOComplex) *dst,  SUFFIX(GOComplex) const *src)
+void SUFFIX(go_complex_sin) ( COMPLEX *dst,  COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst,
 		SUFFIX(sin) (src->re) * SUFFIX(cosh) (src->im),
@@ -531,7 +554,7 @@ void SUFFIX(go_complex_sin) ( SUFFIX(GOComplex) *dst,  SUFFIX(GOComplex) const *
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_cos) (SUFFIX(GOComplex) *dst,  SUFFIX(GOComplex) const *src)
+void SUFFIX(go_complex_cos) (COMPLEX *dst,  COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst,
 		SUFFIX(cos) (src->re) * SUFFIX(cosh) (src->im),
@@ -540,9 +563,9 @@ void SUFFIX(go_complex_cos) (SUFFIX(GOComplex) *dst,  SUFFIX(GOComplex) const *s
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_tan) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
+void SUFFIX(go_complex_tan) (COMPLEX *dst, COMPLEX const *src)
 {
-	SUFFIX(GOComplex) s, c;
+	COMPLEX s, c;
 
 	SUFFIX(go_complex_sin) (&s, src);
 	SUFFIX(go_complex_cos) (&c, src);

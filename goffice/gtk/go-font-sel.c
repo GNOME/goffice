@@ -201,7 +201,7 @@ update_preview_after_face_change (GOFontSel *gfs, gboolean signal_change)
 	 * not be so easy.
 	 */
 	PangoWeight weight = pango_font_description_get_weight (desc);
-	PangoWeight style = pango_font_description_get_style (desc);
+	PangoStyle style = pango_font_description_get_style (desc);
 	go_font_sel_add_attr (gfs, pango_attr_weight_new (weight));
 	go_font_sel_add_attr (gfs, pango_attr_style_new (style));
 	pango_font_description_free (desc);
@@ -1458,7 +1458,7 @@ go_font_sel_set_style (GOFontSel *fs, PangoWeight weight, PangoStyle style)
 		PangoFontFace *face = faces->data;
 		PangoFontDescription *desc = pango_font_face_describe (face);
 		PangoWeight fweight = pango_font_description_get_weight (desc);
-		PangoWeight fstyle = pango_font_description_get_style (desc);
+		PangoStyle fstyle = pango_font_description_get_style (desc);
 		int badness =
 			(500 * ABS ((int)style - (int)fstyle) +
 			 ABS ((int)weight - (int)fweight));
