@@ -275,6 +275,56 @@ SUFFIX(go_complex_sqrt) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *src)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
+{
+	SUFFIX(GOQuad) qa = *qa_, qfb, qfa, qp, res;
+	DOUBLE wb, wa;
+	int ea, eb, de;
+
+	(void)SUFFIX(frexp) (SUFFIX(go_quad_value) (&qa), &ea);
+	(void)SUFFIX(frexp) (b, &eb);
+	if (ea + eb <= 0) {
+		/* |ab| <= 2 */
+		SUFFIX(go_quad_init) (&qfb, b);
+		SUFFIX(go_quad_mul) (dst, &qfb, &qa);
+		return;
+	}
+
+	de = (ea - eb) / 2;
+	if (de) {
+		DOUBLE f = SUFFIX(ldexp) (1, de);
+		b *= f;
+		qa.h /= f;
+		qa.l /= f;
+	}
+
+	wb = SUFFIX(floor) (b + 0.5);
+	b -= wb;
+	SUFFIX(go_quad_init) (&qfb, b);
+
+	wa = SUFFIX (floor) (SUFFIX(go_quad_value) (&qa) + 0.5);
+	SUFFIX(go_quad_init) (&qfa, wa);
+	SUFFIX(go_quad_sub) (&qfa, &qa, &qfa);
+
+	/*
+	 * Compute (wb+qfb)*(wa+qfa) mod 1.
+	 *
+	 * We can ignore wa*wb.  (And qfb==b.)
+	 */
+
+	SUFFIX(go_quad_mul) (&res, &qfa, &qfb);
+
+	SUFFIX(go_quad_mul12) (&qp, wa, b);
+	SUFFIX(go_quad_add) (&res, &res, &qp);
+
+	SUFFIX(go_quad_init) (&qp, wb);
+	SUFFIX(go_quad_mul) (&qp, &qp, &qfa);
+	SUFFIX(go_quad_add) (&res, &res, &qp);
+
+	*dst = res;
+}
+
 void
 SUFFIX(go_complex_pow) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFFIX(GOComplex) const *b)
 {
@@ -333,16 +383,10 @@ SUFFIX(go_complex_pow) (SUFFIX(GOComplex) *dst, SUFFIX(GOComplex) const *a, SUFF
 		res_r = SUFFIX(go_quad_value) (&qb);
 
 		SUFFIX(go_quad_log) (&qa, &qr);
-		SUFFIX(go_quad_init) (&qb, b->im);
-		SUFFIX(go_quad_mul) (&qa, &qa, &qb);
 		SUFFIX(go_quad_div) (&qa, &qa, &SUFFIX(go_quad_2pi));
-		SUFFIX(go_quad_init) (&qb, b->re / 2);
-		SUFFIX(go_quad_mul) (&qb, &qb, &qarg);
+		SUFFIX(mulmod1) (&qa, &qa, b->im);
+		SUFFIX(mulmod1) (&qb, &qarg, b->re / 2);
 		SUFFIX(go_quad_add) (&qa, &qa, &qb);
-		SUFFIX(go_quad_init) (&qb, 0.5);
-		SUFFIX(go_quad_add) (&qb, &qb, &qa);
-		SUFFIX(go_quad_floor) (&qb, &qb);
-		SUFFIX(go_quad_sub) (&qa, &qa, &qb);
 		SUFFIX(go_quad_add) (&qa, &qa, &qa);
 		res_a = SUFFIX(go_quad_value) (&qa);
 
