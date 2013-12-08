@@ -1,4 +1,4 @@
-2013-12-07  welinder  <terra@gnome.org>
+2013-12-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-font-sel.c (update_preview_after_face_change)
 	(go_font_sel_set_style): Fix enum confusion.
