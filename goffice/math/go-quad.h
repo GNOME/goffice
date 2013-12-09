@@ -29,6 +29,7 @@ void go_quad_expm1 (GOQuad *res, const GOQuad *a);
 void go_quad_log (GOQuad *res, const GOQuad *a);
 void go_quad_atan2 (GOQuad *res, const GOQuad *y, const GOQuad *x);
 void go_quad_atan2pi (GOQuad *res, const GOQuad *y, const GOQuad *x);
+void go_quad_hypot (GOQuad *res, const GOQuad *a, const GOQuad *b);
 
 void go_quad_mul12 (GOQuad *res, double x, double y);
 
@@ -70,6 +71,7 @@ void go_quad_expm1l (GOQuadl *res, const GOQuadl *a);
 void go_quad_logl (GOQuadl *res, const GOQuadl *a);
 void go_quad_atan2l (GOQuadl *res, const GOQuadl *y, const GOQuadl *x);
 void go_quad_atan2pil (GOQuadl *res, const GOQuadl *y, const GOQuadl *x);
+void go_quad_hypotl (GOQuadl *res, const GOQuadl *a, const GOQuadl *b);
 
 void go_quad_mul12l (GOQuadl *res, long double x, long double y);
 

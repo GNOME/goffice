@@ -618,7 +618,7 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 /*
  * This computes pow(x,y) in the following way:
  *
- * 1. y is considered the sum of a number of one-but values.
+ * 1. y is considered the sum of a number of one-bit values.
  * 2. For each y bit in the integer part of y, the corresponding x^y
  *    is computed by repeated squaring.
  * 3. For each y bit in the fractional part of y, the corresponding x^y
@@ -921,4 +921,36 @@ SUFFIX(go_quad_atan2pi) (QUAD *res, const QUAD *y, const QUAD *x)
 	/* Fallback.  */
 	SUFFIX(go_quad_atan2) (res, y, x);
 	SUFFIX(go_quad_div) (res, res, &SUFFIX(go_quad_pi));
+}
+
+void
+SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
+{
+	int e;
+	QUAD qa2, qb2, qn;
+
+	if (a->h == 0) {
+		*res = *b;
+		return;
+	}
+	if (b->h == 0) {
+		*res = *a;
+		return;
+	}
+
+	/* Scale by power of 2 to protect against over- and underflow */
+	(void)SUFFIX(frexp) (MAX (SUFFIX(fabs) (a->h), SUFFIX(fabs) (b->h)), &e);
+
+	qa2.h = SUFFIX(ldexp) (a->h, -e);
+	qa2.l = SUFFIX(ldexp) (a->l, -e);
+	SUFFIX(go_quad_mul) (&qa2, &qa2, &qa2);
+
+	qb2.h = SUFFIX(ldexp) (b->h, -e);
+	qb2.l = SUFFIX(ldexp) (b->l, -e);
+	SUFFIX(go_quad_mul) (&qb2, &qb2, &qb2);
+
+	SUFFIX(go_quad_add) (&qn, &qa2, &qb2);
+	SUFFIX(go_quad_sqrt) (&qn, &qn);
+	res->h = SUFFIX(ldexp) (qn.h, e);
+	res->l = SUFFIX(ldexp) (qn.l, e);
 }

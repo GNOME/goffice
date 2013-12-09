@@ -388,10 +388,7 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 		SUFFIX(go_quad_init) (&qa, a->re);
 		SUFFIX(go_quad_init) (&qb, a->im);
 		SUFFIX(go_quad_atan2pi) (&qarg, &qb, &qa);
-		SUFFIX(go_quad_mul) (&qa, &qa, &qa);
-		SUFFIX(go_quad_mul) (&qb, &qb, &qb);
-		SUFFIX(go_quad_add) (&qa, &qa, &qb);
-		SUFFIX(go_quad_sqrt) (&qr, &qa);
+		SUFFIX(go_quad_hypot) (&qr, &qa, &qb);
 
 		/*
 		 * This is the square root of the power we really want,
