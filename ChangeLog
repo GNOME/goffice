@@ -1,5 +1,9 @@
-2013-12-12  Jean Brefort  <jean.brefort@normalesup.org>
+2013-12-12  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-complex.c (go_complex_pow): Improve prevention
+	of intermediate overflow.
+
+2013-12-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-boxplot.c
 	(gog_box_plot_axis_get_bounds): fix crasher [#720310],

@@ -381,7 +381,7 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 			SUFFIX(go_complex_div) (dst, &one, &t);
 		}
 	} else {
-		DOUBLE res_r, res_a;
+		DOUBLE res_r, res_a, e1, e2;
 		SUFFIX(GOQuad) qr, qa, qb, qarg;
 		void *state = SUFFIX(go_quad_start) ();
 
@@ -390,19 +390,15 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 		SUFFIX(go_quad_atan2pi) (&qarg, &qb, &qa);
 		SUFFIX(go_quad_hypot) (&qr, &qa, &qb);
 
-		/*
-		 * This is the square root of the power we really want,
-		 * but it is much less likely to cause overflow.
-		 */
-		SUFFIX(go_quad_init) (&qa, b->re / 2);
-		SUFFIX(go_quad_pow) (&qa, NULL, &qr, &qa);
+		SUFFIX(go_quad_init) (&qa, b->re);
+		SUFFIX(go_quad_pow) (&qa, &e1, &qr, &qa);
 		SUFFIX(go_quad_init) (&qb, -b->im);
 		SUFFIX(go_quad_mul) (&qb, &qb, &qarg);
 		SUFFIX(go_quad_mul) (&qb, &qb, &SUFFIX(go_quad_pi));
-		SUFFIX(go_quad_exp) (&qb, NULL, &qb);
+		SUFFIX(go_quad_exp) (&qb, &e2, &qb);
 		SUFFIX(go_quad_mul) (&qb, &qa, &qb);
-		SUFFIX(go_quad_mul) (&qb, &qa, &qb);
-		res_r = SUFFIX(go_quad_value) (&qb);
+		res_r = SUFFIX(ldexp) (SUFFIX(go_quad_value) (&qb),
+				       CLAMP (e1 + e2, G_MININT, G_MAXINT));
 
 		SUFFIX(go_quad_log) (&qa, &qr);
 		SUFFIX(go_quad_div) (&qa, &qa, &SUFFIX(go_quad_2pi));
