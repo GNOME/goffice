@@ -323,7 +323,7 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		GOData *s;
 		GogSeries *series;
 		GSList *ptr;
-		int n = 0;
+		unsigned n = 0;
 		gboolean has_names = FALSE;
 		if (model->names)
 			for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -332,7 +332,7 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 					!go_data_get_vector_size (series->values[0].data))
 					continue;
 				s = gog_series_get_name (series);
-				if (s) {
+				if (s && n < model->num_series) {
 					model->names[n] = go_data_get_scalar_string (s);
 					has_names = TRUE;
 				}
@@ -515,7 +515,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			l2 = series->vals[1] - d * 3.;
 			m1 = series->vals[3] + d * 1.5;
 			m2 = series->vals[3] + d * 3.;
-			while (series->svals[i] < l1) {
+			while (i < series->nb_valid && series->svals[i] < l1) {
 				/* display the outlier as a mark */
 				d = gog_axis_map_to_view (map, series->svals[i]);
 				if (model->vertical) {

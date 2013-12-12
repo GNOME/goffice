@@ -1,3 +1,10 @@
+2013-12-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+
+	* plugins/plot_distrib/gog-boxplot.c
+	(gog_box_plot_axis_get_bounds): fix crasher [#720310],
+	(gog_box_plot_view_render): fix valgrind warning.
+
 2013-12-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-font-sel.c (update_preview_after_face_change)
@@ -18,10 +25,8 @@
 
 2013-12-02  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* INSTALL:
-	* goffice/graph/gog-guru.ui:
+	* goffice/graph/gog-guru.ui:fix graph guru appearance when used with
+	gtk+-3.10. [#719681]
 
 2013-11-28  Morten Welinder <terra@gnome.org>
 
