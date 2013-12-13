@@ -1192,6 +1192,12 @@ gog_rt_series_update (GogObject *obj)
 		vals = go_data_get_values (series->base.values[1].data);
 		len = go_data_get_vector_size (series->base.values[1].data);
 	}
+	if (GOG_IS_POLAR_SERIES (obj) && series->base.values[0].data != NULL)
+	{
+		unsigned alen = go_data_get_vector_size (series->base.values[0].data);
+		if (alen < len)
+			len = alen;
+	}
 	series->base.num_elements = len;
 
 	/* queue plot and axis for redraw */

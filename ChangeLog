@@ -1,3 +1,8 @@
+2013-12-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_radar/gog-radar.c (gog_rt_series_update): fix elements
+	number in polar plot series. [#720355]
+
 2013-12-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-complex.c (go_complex_pow): Improve prevention
