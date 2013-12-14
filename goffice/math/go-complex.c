@@ -351,7 +351,8 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 void
 SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
-	if (SUFFIX(go_complex_real_p) (a) && SUFFIX(go_complex_real_p) (b)) {
+	if (SUFFIX(go_complex_real_p) (a) && a->re >= 0 &&
+	    SUFFIX(go_complex_real_p) (b)) {
 		SUFFIX(go_complex_init) (dst, pow (a->re, b->re), 0);
 	} else if (SUFFIX(go_complex_real_p) (b)) {
 		DOUBLE p = SUFFIX(fabs) (b->re);
