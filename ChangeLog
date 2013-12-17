@@ -1,3 +1,8 @@
+2013-12-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-complex.c (go_complex_from_polar_pi)
+	(go_complex_angle_pi): Handle diagonals too.
+
 2013-12-16  Morten Welinder  <terra@gnome.org>
 
 	* tests/test-quad.c (main): Test hypot.

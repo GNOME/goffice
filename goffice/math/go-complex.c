@@ -200,6 +200,7 @@ static  void
 SUFFIX(go_complex_from_polar_pi) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 {
 	DOUBLE s, c;
+	gboolean neg;
 
 	if (SUFFIX(fabs) (angle) >= 1) {
 		angle = SUFFIX(fmod) (angle, 2);
@@ -209,18 +210,26 @@ SUFFIX(go_complex_from_polar_pi) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 			angle += 2;		
 	}
 
+	neg = (angle < 0);  /* Ignores -0 */
+	angle = SUFFIX(fabs) (angle);
+
 	if (angle == 0)
 		s = 0, c = 1;
+	else if (angle == 0.25)
+		s = c = SUFFIX(sqrt) (0.5);
 	else if (angle == 0.5)
 		s = 1, c = 0;
+	else if (angle == 0.75)
+		s = SUFFIX(sqrt) (0.5), c = -s;
 	else if (angle == 1)
 		s = 0, c = -1;
-	else if (angle == -0.5)
-		s = -1, c = 0;
 	else {
 		s = SUFFIX(sin) (angle * M_PIgo);
 		c = SUFFIX(cos) (angle * M_PIgo);
 	}
+
+	if (neg)
+		s = -s;
 
 	SUFFIX(go_complex_init) (dst, mod * c, mod * s);
 }
@@ -480,13 +489,16 @@ DOUBLE SUFFIX(go_complex_angle) (COMPLEX const *src)
 
 DOUBLE SUFFIX(go_complex_angle_pi) (COMPLEX const *src)
 {
+	/* This ignores loads of cases with -0. */
+
 	if (src->im == 0)
 		return (src->re >= 0 ? 0 : +1);
 
 	if (src->re == 0)
 		return (src->im >= 0 ? 0.5 : -0.5);
 
-	/* We could do quarters too */
+	if (SUFFIX(fabs) (src->re) == SUFFIX(fabs) (src->im))
+		return (src->im > 0 ? +1 : -1) * (src->im > 0 ? 0.25 : 0.75);
 
 	/* Fallback.  */
 	return SUFFIX(go_complex_angle) (src) / M_PIgo;
