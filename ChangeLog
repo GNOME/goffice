@@ -1,3 +1,9 @@
+2013-12-16  Morten Welinder  <terra@gnome.org>
+
+	* tests/test-quad.c (main): Test hypot.
+
+	* goffice/math/go-quad.c: Fix the on-axis case.  *Sigh*
+
 2013-12-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_radar/gog-radar.c (gog_rt_series_update): fix elements

@@ -930,11 +930,13 @@ SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 	QUAD qa2, qb2, qn;
 
 	if (a->h == 0) {
-		*res = *b;
+		res->h = SUFFIX(fabs)(b->h);
+		res->l = SUFFIX(fabs)(b->l);
 		return;
 	}
 	if (b->h == 0) {
-		*res = *a;
+		res->h = SUFFIX(fabs)(a->h);
+		res->l = SUFFIX(fabs)(a->l);
 		return;
 	}
 

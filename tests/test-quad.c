@@ -126,6 +126,42 @@ atan2_tests (void)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+hypot_tests (void)
+{
+#define TEST1(a_,b_) BINTEST1(a_,b_,go_quad_hypot,hypot,"hypot");
+	TEST1 (0, +2);
+	TEST1 (0, -2);
+	TEST1 (3, 0);
+	TEST1 (-3, 0);
+	TEST1 (0, 0);
+	TEST1 (+1, +1);
+	TEST1 (+2.3, +1.2);
+	TEST1 (+2.3, -1.2);
+	TEST1 (+2.3, +0.2);
+	TEST1 (+2.3, -0.2);
+	TEST1 (+0.2, +2.3);
+	TEST1 (+0.2, -2.3);
+	TEST1 (+2.3, +3);
+	TEST1 (+2.3, -3);
+	TEST1 (-2.3, +3);
+	TEST1 (-2.3, -3);
+	TEST1 (+2.3, +4);
+	TEST1 (+2.3, -4);
+	TEST1 (-2.3, +4);
+	TEST1 (-2.3, -4);
+	TEST1 (2, 100);
+	TEST1 (2, -100);
+	TEST1 (1.0/256, 1.0/1024);
+	TEST1 (exp(1), 1);
+	TEST1 (exp(1), -1);
+	TEST1 (exp(1), log(2));
+	TEST1 (exp(1), -log(2));
+}
+#undef TEST1
+
+/* ------------------------------------------------------------------------- */
+
 #define TEST1(a_,b_)				\
 do {						\
 	BINTEST1(a_,b_,go_quad_add,ADD,"add");	\
@@ -290,6 +326,7 @@ main (int argc, char **argv)
 	pow_tests ();
 	floor_tests ();
 	atan2_tests ();
+	hypot_tests ();
 
 	go_quad_end (state);
 
