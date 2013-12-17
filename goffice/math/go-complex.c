@@ -481,7 +481,7 @@ DOUBLE SUFFIX(go_complex_angle) (COMPLEX const *src)
 DOUBLE SUFFIX(go_complex_angle_pi) (COMPLEX const *src)
 {
 	if (src->im == 0)
-		return (src->re >= 0 ? 0 : -1);
+		return (src->re >= 0 ? 0 : +1);
 
 	if (src->re == 0)
 		return (src->im >= 0 ? 0.5 : -0.5);
