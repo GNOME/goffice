@@ -1,5 +1,10 @@
 2013-12-17  Morten Welinder  <terra@gnome.org>
 
+	* tests/test-quad.c (floor_tests): Test asin and acos.
+
+	* goffice/math/go-quad.c (go_quad_acos, go_quad_asin): new
+	functions.
+
 	* goffice/math/go-complex.c (go_complex_from_polar_pi)
 	(go_complex_angle_pi): Handle diagonals too.
 

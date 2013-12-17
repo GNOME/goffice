@@ -7,7 +7,7 @@ Jean
 
 Morten:
 	* Improve complex math, notably complex power.
-	* Add quad precision log, atan2, hypot functions.
+	* Add quad precision log, atan2, hypot, asin, acos functions.
 
 --------------------------------------------------------------------------
 goffice 0.10.9:

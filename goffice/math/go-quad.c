@@ -773,30 +773,92 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
 	}
 }
 
-static void
-SUFFIX(go_quad_atan_internal) (QUAD *res, const QUAD *x)
+void
+SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 {
-	QUAD g, gp, dk[20], dpk[20], qr, qrp;
+	int e;
+	QUAD qa2, qb2, qn;
+
+	if (a->h == 0) {
+		res->h = SUFFIX(fabs)(b->h);
+		res->l = SUFFIX(fabs)(b->l);
+		return;
+	}
+	if (b->h == 0) {
+		res->h = SUFFIX(fabs)(a->h);
+		res->l = SUFFIX(fabs)(a->l);
+		return;
+	}
+
+	/* Scale by power of 2 to protect against over- and underflow */
+	(void)SUFFIX(frexp) (MAX (SUFFIX(fabs) (a->h), SUFFIX(fabs) (b->h)), &e);
+
+	qa2.h = SUFFIX(ldexp) (a->h, -e);
+	qa2.l = SUFFIX(ldexp) (a->l, -e);
+	SUFFIX(go_quad_mul) (&qa2, &qa2, &qa2);
+
+	qb2.h = SUFFIX(ldexp) (b->h, -e);
+	qb2.l = SUFFIX(ldexp) (b->l, -e);
+	SUFFIX(go_quad_mul) (&qb2, &qb2, &qb2);
+
+	SUFFIX(go_quad_add) (&qn, &qa2, &qb2);
+	SUFFIX(go_quad_sqrt) (&qn, &qn);
+	res->h = SUFFIX(ldexp) (qn.h, e);
+	res->l = SUFFIX(ldexp) (qn.l, e);
+}
+
+#ifdef DEFINE_COMMON
+typedef enum {
+	AGM_ARCSIN,
+	AGM_ARCCOS,
+	AGM_ARCTAN
+} AGM_Method;
+#endif
+
+static void
+SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
+{
+	QUAD g, gp, dk[20], dpk[20], qr, qrp, qnum;
 	int n, k;
 	gboolean converged = FALSE;
-
-	g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
 
 	/*
 	 * This follows "An Algorithm for Computing Logarithms
 	 * and Arctangents" by B. C. Carlson in *Mathematics of
 	 * Computation*, Volume 26, Number 118, April 1972.
 	 *
-	 * If need be we can do log, arcsin, arccos, arctanh,
-	 * arcsinh, and arccosh we the same code.
+	 * If need be we can do log, arctanh, arcsinh, and
+	 * arccosh we the same code.
 	 */
 
 	qrp = SUFFIX(go_quad_zero);
 
-	dpk[0] = SUFFIX(go_quad_one);
-	SUFFIX(go_quad_mul) (&gp, x, x);
-	SUFFIX(go_quad_add) (&gp, &gp, &SUFFIX(go_quad_one));
-	SUFFIX(go_quad_sqrt) (&gp, &gp);
+	switch (method) {
+	case AGM_ARCSIN:
+		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
+		SUFFIX(go_quad_mul) (&dpk[0], x, x);
+		SUFFIX(go_quad_sub) (&dpk[0], &SUFFIX(go_quad_one), &dpk[0]);
+		SUFFIX(go_quad_sqrt) (&dpk[0], &dpk[0]);
+		gp = SUFFIX(go_quad_one);
+		qnum = *x;
+		break;
+	case AGM_ARCCOS:
+		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
+		dpk[0] = *x;
+		gp = SUFFIX(go_quad_one);
+		SUFFIX(go_quad_mul) (&qnum, x, x);
+		SUFFIX(go_quad_sub) (&qnum, &SUFFIX(go_quad_one), &qnum);
+		SUFFIX(go_quad_sqrt) (&qnum, &qnum);
+		break;
+	case AGM_ARCTAN:
+		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
+		dpk[0] = SUFFIX(go_quad_one);
+		SUFFIX(go_quad_hypot) (&gp, x, &SUFFIX(go_quad_one));
+		qnum = *x;
+		break;
+	default:
+		g_assert_not_reached ();
+	}
 
 	for (n = 1; n < (int)G_N_ELEMENTS(dk); n++) {
 		SUFFIX(go_quad_add) (&dk[0], &dpk[0], &gp);
@@ -815,8 +877,7 @@ SUFFIX(go_quad_atan_internal) (QUAD *res, const QUAD *x)
 			SUFFIX(go_quad_div) (&dk[k], &dk[k], &f);
 		}
 
-		SUFFIX(go_quad_div) (&qr, x, &dk[n]);
-		
+		SUFFIX(go_quad_div) (&qr, &qnum, &dk[n]);
 		SUFFIX(go_quad_sub) (&qrp, &qrp, &qr);
 		if (SUFFIX(fabs)(qrp.h) <= SUFFIX(ldexp) (SUFFIX(fabs)(qr.h), -2 * (DBL_MANT_DIG - 1))) {
 			converged = TRUE;
@@ -829,7 +890,7 @@ SUFFIX(go_quad_atan_internal) (QUAD *res, const QUAD *x)
 	}
 
 	if (!converged)
-		g_warning ("go_quad_atan_internal(%.20g) failed to converge\n",
+		g_warning ("go_quad_agm_internal(%.20g) failed to converge\n",
 			   (double)SUFFIX(go_quad_value) (x));
 
 	*res = qr;
@@ -879,13 +940,13 @@ SUFFIX(go_quad_atan2) (QUAD *res, const QUAD *y, const QUAD *x)
 
 	if (SUFFIX(fabs) (dx) >= SUFFIX(fabs) (dy)) {
 		SUFFIX(go_quad_div) (&qr, y, x);
-		SUFFIX(go_quad_atan_internal) (res, &qr);
+		SUFFIX(go_quad_agm_internal) (res, AGM_ARCTAN, &qr);
 	} else {
 		DOUBLE f;
 		QUAD qa;
 
 		SUFFIX(go_quad_div) (&qr, x, y);
-		SUFFIX(go_quad_atan_internal) (res, &qr);
+		SUFFIX(go_quad_agm_internal) (res, AGM_ARCTAN, &qr);
 
 		f = (qr.h >= 0) ? 0.5 : -0.5;
 		qa.h = f * SUFFIX(go_quad_pi).h;
@@ -923,36 +984,48 @@ SUFFIX(go_quad_atan2pi) (QUAD *res, const QUAD *y, const QUAD *x)
 	SUFFIX(go_quad_div) (res, res, &SUFFIX(go_quad_pi));
 }
 
+/**
+ * go_quad_asin: (skip)
+ **/
+/**
+ * go_quad_asinl: (skip)
+ **/
 void
-SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
+SUFFIX(go_quad_asin) (QUAD *res, const QUAD *a)
 {
-	int e;
-	QUAD qa2, qb2, qn;
+	QUAD aa, aam1;
 
-	if (a->h == 0) {
-		res->h = SUFFIX(fabs)(b->h);
-		res->l = SUFFIX(fabs)(b->l);
-		return;
-	}
-	if (b->h == 0) {
-		res->h = SUFFIX(fabs)(a->h);
-		res->l = SUFFIX(fabs)(a->l);
+	aa.h = SUFFIX(fabs) (a->h);
+	aa.l = SUFFIX(fabs) (a->l);
+	SUFFIX(go_quad_sub) (&aam1, &aa, &SUFFIX(go_quad_one));
+	if (aam1.h > 0) {
+		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
 		return;
 	}
 
-	/* Scale by power of 2 to protect against over- and underflow */
-	(void)SUFFIX(frexp) (MAX (SUFFIX(fabs) (a->h), SUFFIX(fabs) (b->h)), &e);
+	SUFFIX(go_quad_agm_internal) (res, AGM_ARCSIN, a);
+}
 
-	qa2.h = SUFFIX(ldexp) (a->h, -e);
-	qa2.l = SUFFIX(ldexp) (a->l, -e);
-	SUFFIX(go_quad_mul) (&qa2, &qa2, &qa2);
+/**
+ * go_quad_acos: (skip)
+ **/
+/**
+ * go_quad_acosl: (skip)
+ **/
+void
+SUFFIX(go_quad_acos) (QUAD *res, const QUAD *a)
+{
+	QUAD aa, aam1;
 
-	qb2.h = SUFFIX(ldexp) (b->h, -e);
-	qb2.l = SUFFIX(ldexp) (b->l, -e);
-	SUFFIX(go_quad_mul) (&qb2, &qb2, &qb2);
+	aa.h = SUFFIX(fabs) (a->h);
+	aa.l = SUFFIX(fabs) (a->l);
+	SUFFIX(go_quad_sub) (&aam1, &aa, &SUFFIX(go_quad_one));
+	if (aam1.h > 0) {
+		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
+		return;
+	}
 
-	SUFFIX(go_quad_add) (&qn, &qa2, &qb2);
-	SUFFIX(go_quad_sqrt) (&qn, &qn);
-	res->h = SUFFIX(ldexp) (qn.h, e);
-	res->l = SUFFIX(ldexp) (qn.l, e);
+	SUFFIX(go_quad_agm_internal) (res, AGM_ARCCOS, &aa);
+	if (a->h < 0)
+		SUFFIX(go_quad_sub) (res, &SUFFIX(go_quad_pi), res);
 }

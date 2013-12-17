@@ -277,6 +277,31 @@ floor_tests (void)
 	g_assert (go_quad_value (&b) == 0.5);
 }
 
+#undef TEST1
+
+/* ------------------------------------------------------------------------- */
+
+#define TEST1(a_) do {				\
+	UNTEST1(a_,go_quad_asin,asin,"asin");	\
+	UNTEST1(a_,go_quad_acos,acos,"acos");	\
+} while (0)
+
+static void
+trig_tests (void)
+{
+	TEST1 (0);
+	TEST1 (0.25);
+	TEST1 (0.5);
+	TEST1 (0.75);
+	TEST1 (1);
+	TEST1 (-0.25);
+	TEST1 (-0.5);
+	TEST1 (-0.75);
+	TEST1 (-1);
+}
+
+#undef TEST1
+
 /* ------------------------------------------------------------------------- */
 
 static void
@@ -327,6 +352,7 @@ main (int argc, char **argv)
 	floor_tests ();
 	atan2_tests ();
 	hypot_tests ();
+	trig_tests ();
 
 	go_quad_end (state);
 
