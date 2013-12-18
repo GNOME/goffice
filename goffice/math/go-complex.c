@@ -273,15 +273,10 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 void
 SUFFIX(go_complex_sqrt) (COMPLEX *dst, COMPLEX const *src)
 {
-	if (SUFFIX(go_complex_real_p) (src)) {
-		if (src->re >= 0)
-			SUFFIX(go_complex_init) (dst, SUFFIX(sqrt) (src->re), 0);
-		else
-			SUFFIX(go_complex_init) (dst, 0, SUFFIX(sqrt) (-src->re));
-	} else
-		SUFFIX(go_complex_from_polar_pi) (dst,
-				    SUFFIX(sqrt) (SUFFIX(go_complex_mod) (src)),
-				    SUFFIX(go_complex_angle_pi) (src) / 2);
+	SUFFIX(go_complex_from_polar_pi)
+		(dst,
+		 SUFFIX(sqrt) (SUFFIX(go_complex_mod) (src)),
+		 SUFFIX(go_complex_angle_pi) (src) / 2);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -498,7 +493,7 @@ DOUBLE SUFFIX(go_complex_angle_pi) (COMPLEX const *src)
 		return (src->im >= 0 ? 0.5 : -0.5);
 
 	if (SUFFIX(fabs) (src->re) == SUFFIX(fabs) (src->im))
-		return (src->im > 0 ? +1 : -1) * (src->im > 0 ? 0.25 : 0.75);
+		return (src->im > 0 ? +1 : -1) * (src->re > 0 ? 0.25 : 0.75);
 
 	/* Fallback.  */
 	return SUFFIX(go_complex_angle) (src) / M_PIgo;
