@@ -930,7 +930,7 @@ reduce_half (double x, int *pk)
 }
 
 static double
-do_sin (double x, int k)
+do_sinpi (double x, int k)
 {
 	double y;
 
@@ -957,7 +957,7 @@ go_sinpi (double x)
 {
 	int k;
 	x = reduce_half (x, &k);
-	return do_sin (x, k);
+	return do_sinpi (x, k);
 }
 
 /**
@@ -972,7 +972,7 @@ go_cospi (double x)
 {
 	int k;
 	x = reduce_half (x, &k);
-	return do_sin (x, k + 1);
+	return do_sinpi (x, k + 1);
 }
 
 /**
@@ -987,7 +987,7 @@ go_tanpi (double x)
 {
 	int k;
 	x = reduce_half (x, &k);
-	return do_sin (x, k) / do_sin (x, k + 1);
+	return do_sinpi (x, k) / do_sinpi (x, k + 1);
 }
 
 double
@@ -1037,7 +1037,7 @@ reduce_halfl (long double x, int *pk)
 }
 
 static long double
-do_sinl (long double x, int k)
+do_sinpil (long double x, int k)
 {
 	long double y;
 
@@ -1064,7 +1064,7 @@ go_sinpil (long double x)
 {
 	int k;
 	x = reduce_halfl (x, &k);
-	return do_sinl (x, k);
+	return do_sinpil (x, k);
 }
 
 /**
@@ -1079,7 +1079,7 @@ go_cospil (long double x)
 {
 	int k;
 	x = reduce_halfl (x, &k);
-	return do_sinl (x, k + 1);
+	return do_sinpil (x, k + 1);
 }
 
 /**
@@ -1094,7 +1094,7 @@ go_tanpil (long double x)
 {
 	int k;
 	x = reduce_halfl (x, &k);
-	return do_sinl (x, k) / do_sinl (x, k + 1);
+	return do_sinpil (x, k) / do_sinpil (x, k + 1);
 }
 
 long double
