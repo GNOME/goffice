@@ -193,45 +193,17 @@ SUFFIX(go_complex_to_polar) (DOUBLE *mod, DOUBLE *angle, COMPLEX const *src)
 void
 SUFFIX(go_complex_from_polar) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 {
-	SUFFIX(go_complex_init) (dst, mod * SUFFIX(cos) (angle), mod * SUFFIX(sin) (angle));
+	SUFFIX(go_complex_init) (dst,
+				 mod * SUFFIX(cos) (angle),
+				 mod * SUFFIX(sin) (angle));
 }
 
 static  void
 SUFFIX(go_complex_from_polar_pi) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 {
-	DOUBLE s, c;
-	gboolean neg;
-
-	if (SUFFIX(fabs) (angle) >= 1) {
-		angle = SUFFIX(fmod) (angle, 2);
-		if (angle > 1)
-			angle -= 2;
-		else if (angle <= -1)
-			angle += 2;		
-	}
-
-	neg = (angle < 0);  /* Ignores -0 */
-	angle = SUFFIX(fabs) (angle);
-
-	if (angle == 0)
-		s = 0, c = 1;
-	else if (angle == 0.25)
-		s = c = SUFFIX(sqrt) (0.5);
-	else if (angle == 0.5)
-		s = 1, c = 0;
-	else if (angle == 0.75)
-		s = SUFFIX(sqrt) (0.5), c = -s;
-	else if (angle == 1)
-		s = 0, c = -1;
-	else {
-		s = SUFFIX(sin) (angle * M_PIgo);
-		c = SUFFIX(cos) (angle * M_PIgo);
-	}
-
-	if (neg)
-		s = -s;
-
-	SUFFIX(go_complex_init) (dst, mod * c, mod * s);
+	SUFFIX(go_complex_init) (dst,
+				 mod * SUFFIX(go_cospi) (angle),
+				 mod * SUFFIX(go_sinpi) (angle));
 }
 
 /* ------------------------------------------------------------------------- */
