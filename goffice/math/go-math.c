@@ -945,6 +945,13 @@ do_sin (double x, int k)
 }
 
 
+/**
+ * go_sinpi:
+ * @x: a number
+ *
+ * Returns: the sine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
 double
 go_sinpi (double x)
 {
@@ -953,6 +960,13 @@ go_sinpi (double x)
 	return do_sin (x, k);
 }
 
+/**
+ * go_cospi:
+ * @x: a number
+ *
+ * Returns: the cosine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
 double
 go_cospi (double x)
 {
@@ -961,6 +975,13 @@ go_cospi (double x)
 	return do_sin (x, k + 1);
 }
 
+/**
+ * go_tanpi:
+ * @x: a number
+ *
+ * Returns: the tangent of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
 double
 go_tanpi (double x)
 {
@@ -1031,6 +1052,13 @@ do_sinl (long double x, int k)
 }
 
 
+/**
+ * go_sinpil:
+ * @x: a number
+ *
+ * Returns: the sine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
 long double
 go_sinpil (long double x)
 {
@@ -1039,6 +1067,13 @@ go_sinpil (long double x)
 	return do_sinl (x, k);
 }
 
+/**
+ * go_cospil:
+ * @x: a number
+ *
+ * Returns: the cosine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
 long double
 go_cospil (long double x)
 {
@@ -1047,6 +1082,13 @@ go_cospil (long double x)
 	return do_sinl (x, k + 1);
 }
 
+/**
+ * go_tanpil:
+ * @x: a number
+ *
+ * Returns: the tangent of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
 long double
 go_tanpil (long double x)
 {
