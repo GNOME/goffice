@@ -1,5 +1,8 @@
 2013-12-17  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-math.c (go_add_epsilon, go_sub_epsilon): Base
+	upon C99's nextafter.
+
 	* tests/test-quad.c (floor_tests): Test asin and acos.
 
 	* goffice/math/go-quad.c (go_quad_acos, go_quad_asin): new

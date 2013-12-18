@@ -544,6 +544,8 @@ if test $ac_cv_func_log = no; then
          LIBS="$LIBS -lm"])
 fi
 
+AC_CHECK_FUNCS(nextafter nextafterl)
+
 SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GOFFICE_CFLAGS"

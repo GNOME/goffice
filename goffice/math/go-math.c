@@ -64,7 +64,7 @@ running_under_buggy_valgrind (void)
 		return FALSE;
 
 	/*
-	 * We get here is long double fails to satisfy a requirement of
+	 * We get here when long double fails to satisfy a requirement of
 	 * C99, namely that LDBL_MIN is positive.  That is probably
 	 * valgrind mapping long doubles to doubles.
 	 *
@@ -212,6 +212,9 @@ _go_math_init (void)
 double
 go_add_epsilon (double x)
 {
+#ifdef HAVE_NEXTAFTER
+	return x == 0 ? x : nextafter (x, go_pinf);
+#else
 	if (!go_finite (x) || x == 0)
 		return x;
 	else {
@@ -220,11 +223,15 @@ go_add_epsilon (double x)
 		double absres = ldexp (mant + DBL_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
+#endif
 }
 
 double
 go_sub_epsilon (double x)
 {
+#ifdef HAVE_NEXTAFTER
+	return x == 0 ? x : nextafter (x, go_ninf);
+#else
 	if (!go_finite (x) || x == 0)
 		return x;
 	else {
@@ -233,6 +240,7 @@ go_sub_epsilon (double x)
 		double absres = ldexp (mant - DBL_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
+#endif
 }
 
 static double
@@ -648,6 +656,9 @@ go_ascii_strtold (const char *s, char **end)
 long double
 go_add_epsilonl (long double x)
 {
+#ifdef HAVE_NEXTAFTERL
+	return x == 0 ? x : nextafterl (x, go_pinfl);
+#else
 	if (!go_finitel (x) || x == 0)
 		return x;
 	else {
@@ -656,11 +667,15 @@ go_add_epsilonl (long double x)
 		long double absres = ldexpl (mant + LDBL_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
+#endif
 }
 
 long double
 go_sub_epsilonl (long double x)
 {
+#ifdef HAVE_NEXTAFTERL
+	return x == 0 ? x : nextafterl (x, go_ninfl);
+#else
 	if (!go_finitel (x) || x == 0)
 		return x;
 	else {
@@ -669,6 +684,7 @@ go_sub_epsilonl (long double x)
 		long double absres = ldexpl (mant - LDBL_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
+#endif
 }
 
 long double
