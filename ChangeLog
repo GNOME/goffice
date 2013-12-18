@@ -2,6 +2,7 @@
 
 	* goffice/math/go-complex.c (go_complex_from_polar_pi): Use
 	go_sinpi and go_cospi.
+	(go_complex_angle_pi): Use go_atan2pi.
 
 	* goffice/math/go-math.c (go_sinpi, go_cospi, go_tanpi): New
 	functions.

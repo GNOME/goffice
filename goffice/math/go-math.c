@@ -969,6 +969,24 @@ go_tanpi (double x)
 	return do_sin (x, k) / do_sin (x, k + 1);
 }
 
+double
+go_atan2pi (double y, double x)
+{
+	/* This ignores loads of cases with -0. */
+
+	if (y == 0)
+		return (x >= 0 ? 0 : +1);
+
+	if (x == 0)
+		return (y >= 0 ? 0.5 : -0.5);
+
+	if (fabs (x) == fabs (y))
+		return (y > 0 ? +1 : -1) * (x > 0 ? 0.25 : 0.75);
+
+	/* Fallback.  */
+	return atan2 (y, x) / M_PI;
+}
+
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 
 #define M_PIgo    3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117L
@@ -1035,6 +1053,24 @@ go_tanpil (long double x)
 	int k;
 	x = reduce_halfl (x, &k);
 	return do_sinl (x, k) / do_sinl (x, k + 1);
+}
+
+long double
+go_atan2pil (long double y, long double x)
+{
+	/* This ignores loads of cases with -0. */
+
+	if (y == 0)
+		return (x >= 0 ? 0 : +1);
+
+	if (x == 0)
+		return (y >= 0 ? 0.5 : -0.5);
+
+	if (fabs (x) == fabs (y))
+		return (y > 0 ? +1 : -1) * (x > 0 ? 0.25 : 0.75);
+
+	/* Fallback.  */
+	return atan2l (y, x) / M_PIgo;
 }
 
 #endif

@@ -456,19 +456,7 @@ DOUBLE SUFFIX(go_complex_angle) (COMPLEX const *src)
 
 DOUBLE SUFFIX(go_complex_angle_pi) (COMPLEX const *src)
 {
-	/* This ignores loads of cases with -0. */
-
-	if (src->im == 0)
-		return (src->re >= 0 ? 0 : +1);
-
-	if (src->re == 0)
-		return (src->im >= 0 ? 0.5 : -0.5);
-
-	if (SUFFIX(fabs) (src->re) == SUFFIX(fabs) (src->im))
-		return (src->im > 0 ? +1 : -1) * (src->re > 0 ? 0.25 : 0.75);
-
-	/* Fallback.  */
-	return SUFFIX(go_complex_angle) (src) / M_PIgo;
+	return SUFFIX(go_atan2pi) (src->im, src->re);
 }
 
 /* ------------------------------------------------------------------------- */
