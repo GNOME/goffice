@@ -1,3 +1,8 @@
+2013-12-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-math.c (go_sinpi, go_cospi, go_tanpi): New
+	functions.
+
 2013-12-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (go_add_epsilon, go_sub_epsilon): Base

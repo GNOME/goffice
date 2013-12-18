@@ -30,27 +30,6 @@
 #include <signal.h>
 #include <errno.h>
 
-#if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
-/* Make sure we have this symbol defined, since the existance of either
-   header file implies it.  */
-#ifndef IEEE_754
-#define IEEE_754
-#endif
-#endif
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-
-#ifdef HAVE_IEEEFP_H
-#include <ieeefp.h>
-#endif
-#ifdef HAVE_IEEE754_H
-#include <ieee754.h>
-#endif
-
-#define ML_UNDERFLOW (GO_EPSILON * GO_EPSILON)
-
 double go_nan;
 double go_pinf;
 double go_ninf;
@@ -923,3 +902,141 @@ go_stern_brocot (double val, int max_denom, int *res_num, int *res_denom)
 		*res_denom = bd;
 	}
 }
+
+/* ------------------------------------------------------------------------- */
+
+static double
+reduce_half (double x, int *pk)
+{
+	int k = 0;
+
+	if (x < 0) {
+		x = -reduce_half (-x, &k);
+		k = 4 - k;
+		if (x == -0.25)
+			x += 0.5, k += 3;
+	} else {
+		x = fmod (x, 2);
+		if (x >= 1)
+			x -= 1, k += 2;
+		if (x >= 0.5)
+			x -= 0.5, k++;
+		if (x > 0.25)
+			x -= 0.5, k++;
+	}
+
+	*pk = (k & 3);
+	return x;
+}
+
+static double
+do_sin (double x, int k)
+{
+	double y;
+
+	if (x == 0)
+		y = k & 1;
+	else if (x == 0.25)
+		y = 0.707106781186547524400844362104849039284835937688474036588339;
+	else
+		y = (k & 1) ? cos (M_PI * x) : sin (M_PI * x);
+
+	return (k & 2) ? 0 - y : y;
+}
+
+
+double
+go_sinpi (double x)
+{
+	int k;
+	x = reduce_half (x, &k);
+	return do_sin (x, k);
+}
+
+double
+go_cospi (double x)
+{
+	int k;
+	x = reduce_half (x, &k);
+	return do_sin (x, k + 1);
+}
+
+double
+go_tanpi (double x)
+{
+	int k;
+	x = reduce_half (x, &k);
+	return do_sin (x, k) / do_sin (x, k + 1);
+}
+
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+
+#define M_PIgo    3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117L
+
+static long double
+reduce_halfl (long double x, int *pk)
+{
+	int k = 0;
+
+	if (x < 0) {
+		x = -reduce_halfl (-x, &k);
+		k = 4 - k;
+		if (x == -0.25)
+			x += 0.5, k += 3;
+	} else {
+		x = fmod (x, 2);
+		if (x >= 1)
+			x -= 1, k += 2;
+		if (x >= 0.5)
+			x -= 0.5, k++;
+		if (x > 0.25)
+			x -= 0.5, k++;
+	}
+
+	*pk = (k & 3);
+	return x;
+}
+
+static long double
+do_sinl (long double x, int k)
+{
+	long double y;
+
+	if (x == 0)
+		y = k & 1;
+	else if (x == 0.25)
+		y = 0.707106781186547524400844362104849039284835937688474036588339L;
+	else
+		y = (k & 1) ? cos (M_PIgo * x) : sin (M_PIgo * x);
+
+	return (k & 2) ? 0 - y : y;
+}
+
+
+long double
+go_sinpil (long double x)
+{
+	int k;
+	x = reduce_halfl (x, &k);
+	return do_sinl (x, k);
+}
+
+long double
+go_cospil (long double x)
+{
+	int k;
+	x = reduce_halfl (x, &k);
+	return do_sinl (x, k + 1);
+}
+
+long double
+go_tanpil (long double x)
+{
+	int k;
+	x = reduce_halfl (x, &k);
+	return do_sinl (x, k) / do_sinl (x, k + 1);
+}
+
+#endif
+
+/* ------------------------------------------------------------------------- */

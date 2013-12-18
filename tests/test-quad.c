@@ -100,6 +100,9 @@ atan2_tests (void)
 	TEST1 (-3, 0);
 	TEST1 (0, 0);
 	TEST1 (+1, +1);
+	TEST1 (-1, +1);
+	TEST1 (+1, -1);
+	TEST1 (-1, -1);
 	TEST1 (+2.3, +1.2);
 	TEST1 (+2.3, -1.2);
 	TEST1 (+2.3, +0.2);
