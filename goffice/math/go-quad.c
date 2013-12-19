@@ -807,6 +807,18 @@ SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->l = SUFFIX(ldexp) (qn.l, e);
 }
 
+/* sqrt(1-a*a) helper */
+static void
+SUFFIX(go_quad_ihypot) (QUAD *res, const QUAD *a)
+{
+	QUAD qp;
+
+	SUFFIX(go_quad_mul) (&qp, a, a);
+	SUFFIX(go_quad_sub) (&qp, &SUFFIX(go_quad_one), &qp);
+	SUFFIX(go_quad_sqrt) (res, &qp);
+}
+
+
 #ifdef DEFINE_COMMON
 typedef enum {
 	AGM_ARCSIN,
@@ -836,9 +848,7 @@ SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
 	switch (method) {
 	case AGM_ARCSIN:
 		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
-		SUFFIX(go_quad_mul) (&dpk[0], x, x);
-		SUFFIX(go_quad_sub) (&dpk[0], &SUFFIX(go_quad_one), &dpk[0]);
-		SUFFIX(go_quad_sqrt) (&dpk[0], &dpk[0]);
+		SUFFIX(go_quad_ihypot) (&dpk[0], x);
 		gp = SUFFIX(go_quad_one);
 		qnum = *x;
 		break;
@@ -846,9 +856,7 @@ SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
 		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
 		dpk[0] = *x;
 		gp = SUFFIX(go_quad_one);
-		SUFFIX(go_quad_mul) (&qnum, x, x);
-		SUFFIX(go_quad_sub) (&qnum, &SUFFIX(go_quad_one), &qnum);
-		SUFFIX(go_quad_sqrt) (&qnum, &qnum);
+		SUFFIX(go_quad_ihypot) (&qnum, x);
 		break;
 	case AGM_ARCTAN:
 		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
@@ -879,7 +887,7 @@ SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
 
 		SUFFIX(go_quad_div) (&qr, &qnum, &dk[n]);
 		SUFFIX(go_quad_sub) (&qrp, &qrp, &qr);
-		if (SUFFIX(fabs)(qrp.h) <= SUFFIX(ldexp) (SUFFIX(fabs)(qr.h), -2 * (DBL_MANT_DIG - 1))) {
+		if (SUFFIX(fabs)(qrp.h) <= SUFFIX(ldexp) (SUFFIX(fabs)(qr.h), -2 * (DOUBLE_MANT_DIG - 1))) {
 			converged = TRUE;
 			break;
 		}
@@ -984,6 +992,113 @@ SUFFIX(go_quad_atan2pi) (QUAD *res, const QUAD *y, const QUAD *x)
 	SUFFIX(go_quad_div) (res, res, &SUFFIX(go_quad_pi));
 }
 
+static gboolean
+SUFFIX(reduce_pi_half) (QUAD *res, const QUAD *a, int *pk)
+{
+	static QUAD pi_half;
+	QUAD qa, qk, qh, qb;
+	DOUBLE k;
+	unsigned ui;
+	static const DOUBLE pi_half_parts[] = {
+		+0x1.921fb54442d18p+0,
+		+0x1.1a62633145c04p-54,
+		+0x1.707344a40938p-105,
+		+0x1.114cf98e80414p-156,
+		+0x1.bea63b139b224p-207,
+		+0x1.14a08798e3404p-259,
+		+0x1.bbdf2a33679a4p-312,
+		+0x1.a431b302b0a6cp-363,
+		+0x1.f25f14374fe1p-415,
+		+0x1.ab6b6a8e122fp-466
+	};
+
+	if (!SUFFIX(go_finite) (a->h))
+		return TRUE;
+
+	if (SUFFIX(fabs) (a->h) > SUFFIX(ldexp) (1.0, DOUBLE_MANT_DIG)) {
+		g_warning ("Reduced accuracy for very large trigonometric arguments");
+		return TRUE;
+	}
+
+	if (pi_half.h == 0) {
+		pi_half.h = SUFFIX(go_quad_pi).h * 0.5;
+		pi_half.l = SUFFIX(go_quad_pi).l * 0.5;
+	}
+
+	SUFFIX(go_quad_div) (&qk, a, &pi_half);
+	qh.h = 0.5; qh.l = 0;
+	SUFFIX(go_quad_add) (&qk, &qk, &qh);
+	SUFFIX(go_quad_floor) (&qk, &qk);
+	k = SUFFIX(go_quad_value) (&qk);
+	*pk = (int)(SUFFIX(fmod) (k, 4));
+
+	qa = *a;
+	for (ui = 0; ui < G_N_ELEMENTS(pi_half_parts); ui++) {
+		SUFFIX(go_quad_mul12) (&qb, pi_half_parts[ui], k);
+		SUFFIX(go_quad_sub) (&qa, &qa, &qb);
+	}
+
+	*res = qa;
+
+	return FALSE;
+}
+
+static void
+SUFFIX(do_sin) (QUAD *res, const QUAD *a, int k)
+{
+	QUAD qr;
+
+	if (k & 1) {
+		QUAD qn, qd, qq, aa;
+
+		aa.h = SUFFIX(fabs)(a->h);
+		aa.l = SUFFIX(fabs)(a->l);
+		SUFFIX(go_quad_init) (&qr, cos (aa.h));
+
+		/* Newton step */
+		SUFFIX(go_quad_acos) (&qn, &qr);
+		SUFFIX(go_quad_sub) (&qn, &qn, &aa);
+		SUFFIX(go_quad_ihypot) (&qd, &qr);
+		SUFFIX(go_quad_mul) (&qq, &qn, &qd);
+		SUFFIX(go_quad_add) (&qr, &qr, &qq);
+	} else {
+		QUAD qn, qd, qq;
+		SUFFIX(go_quad_init) (&qr, sin (a->h));
+
+		/* Newton step */
+		SUFFIX(go_quad_asin) (&qn, &qr);
+		SUFFIX(go_quad_sub) (&qn, &qn, a);
+		SUFFIX(go_quad_ihypot) (&qd, &qr);
+		SUFFIX(go_quad_mul) (&qq, &qn, &qd);
+		SUFFIX(go_quad_sub) (&qr, &qr, &qq);
+	}
+
+	if (k & 2) {
+		qr.h = 0 - qr.h;
+		qr.l = 0 - qr.l;
+	}
+
+	*res = qr;
+}
+
+/**
+ * go_quad_sin: (skip)
+ **/
+/**
+ * go_quad_sinl: (skip)
+ **/
+void
+SUFFIX(go_quad_sin) (QUAD *res, const QUAD *a)
+{
+	int k;
+	QUAD a0;
+
+	if (SUFFIX(reduce_pi_half) (&a0, a, &k))
+		SUFFIX(go_quad_init) (res, SUFFIX(sin) (a->h));
+	else
+		SUFFIX(do_sin) (res, &a0, k);
+}
+
 /**
  * go_quad_asin: (skip)
  **/
@@ -1004,6 +1119,24 @@ SUFFIX(go_quad_asin) (QUAD *res, const QUAD *a)
 	}
 
 	SUFFIX(go_quad_agm_internal) (res, AGM_ARCSIN, a);
+}
+
+/**
+ * go_quad_cos: (skip)
+ **/
+/**
+ * go_quad_cosl: (skip)
+ **/
+void
+SUFFIX(go_quad_cos) (QUAD *res, const QUAD *a)
+{
+	int k;
+	QUAD a0;
+
+	if (SUFFIX(reduce_pi_half) (&a0, a, &k))
+		SUFFIX(go_quad_init) (res, SUFFIX(cos) (a->h));
+	else
+		SUFFIX(do_sin) (res, &a0, k + 1);
 }
 
 /**

@@ -289,9 +289,16 @@ floor_tests (void)
 	UNTEST1(a_,go_quad_acos,acos,"acos");	\
 } while (0)
 
+#define TEST2(a_) do {				\
+	UNTEST1(a_,go_quad_sin,sin,"sin");	\
+	UNTEST1(a_,go_quad_cos,cos,"cos");	\
+} while (0)
+
 static void
 trig_tests (void)
 {
+	double d;
+
 	TEST1 (0);
 	TEST1 (0.25);
 	TEST1 (0.5);
@@ -301,6 +308,11 @@ trig_tests (void)
 	TEST1 (-0.5);
 	TEST1 (-0.75);
 	TEST1 (-1);
+
+	for (d = 0; d < 10; d += 0.125) {
+		TEST2(d);
+		TEST2(-d);
+	}
 }
 
 #undef TEST1

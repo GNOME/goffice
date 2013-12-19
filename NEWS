@@ -7,7 +7,8 @@ Jean
 
 Morten:
 	* Improve complex math, notably complex power.
-	* Add quad precision log, atan2, hypot, asin, acos functions.
+	* Add quad precision log and hypot functions.
+	* Add quad precision atan2, sin, asin, cos, acos functions.
 	* Add go_sinpi, go_cospi, go_tanpi, go_atan2pi.
 
 --------------------------------------------------------------------------
