@@ -358,8 +358,9 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 			SUFFIX(go_complex_div) (dst, &one, &t);
 		}
 	} else {
-		DOUBLE res_r, res_a, e1, e2;
-		SUFFIX(GOQuad) qr, qa, qb, qarg;
+		DOUBLE e1, e2;
+		int e;
+		SUFFIX(GOQuad) qr, qa, qb, qarg, qrr, qra;
 		void *state = SUFFIX(go_quad_start) ();
 
 		SUFFIX(go_quad_init) (&qa, a->re);
@@ -373,19 +374,26 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 		SUFFIX(go_quad_mul) (&qb, &qb, &qarg);
 		SUFFIX(go_quad_mul) (&qb, &qb, &SUFFIX(go_quad_pi));
 		SUFFIX(go_quad_exp) (&qb, &e2, &qb);
-		SUFFIX(go_quad_mul) (&qb, &qa, &qb);
-		res_r = SUFFIX(ldexp) (SUFFIX(go_quad_value) (&qb),
-				       CLAMP (e1 + e2, G_MININT, G_MAXINT));
+		SUFFIX(go_quad_mul) (&qrr, &qa, &qb);
+		e = CLAMP (e1 + e2, G_MININT, G_MAXINT);
+		qrr.h = SUFFIX(ldexp) (qrr.h, e);
+		qrr.l = SUFFIX(ldexp) (qrr.l, e);
 
 		SUFFIX(go_quad_log) (&qa, &qr);
 		SUFFIX(go_quad_div) (&qa, &qa, &SUFFIX(go_quad_2pi));
 		SUFFIX(mulmod1) (&qa, &qa, b->im);
 		SUFFIX(mulmod1) (&qb, &qarg, b->re / 2);
 		SUFFIX(go_quad_add) (&qa, &qa, &qb);
-		SUFFIX(go_quad_add) (&qa, &qa, &qa);
-		res_a = SUFFIX(go_quad_value) (&qa);
+		SUFFIX(go_quad_add) (&qra, &qa, &qa);
 
-		SUFFIX(go_complex_from_polar_pi) (dst, res_r, res_a);
+		SUFFIX(go_quad_sinpi) (&qa, &qra);
+		SUFFIX(go_quad_mul) (&qa, &qa, &qrr);
+		SUFFIX(go_quad_cospi) (&qb, &qra);
+		SUFFIX(go_quad_mul) (&qb, &qb, &qrr);
+
+		SUFFIX(go_complex_init) (dst,
+					 SUFFIX(go_quad_value) (&qb),
+					 SUFFIX(go_quad_value) (&qa));
 
 		SUFFIX(go_quad_end) (state);
 	}

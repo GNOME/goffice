@@ -1,8 +1,13 @@
 2013-12-18  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-quad.c (go_quad_sin, go_quad_sinpi)
+	(go_quad_asin, go_quad_cos, go_quad_cospi, go_quad_acos): New
+	functions.
+
 	* goffice/math/go-complex.c (go_complex_from_polar_pi): Use
 	go_sinpi and go_cospi.
 	(go_complex_angle_pi): Use go_atan2pi.
+	(go_complex_pow): Improve accuracy.
 
 	* goffice/math/go-math.c (go_sinpi, go_cospi, go_tanpi): New
 	functions.

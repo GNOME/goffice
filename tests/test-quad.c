@@ -292,6 +292,8 @@ floor_tests (void)
 #define TEST2(a_) do {				\
 	UNTEST1(a_,go_quad_sin,sin,"sin");	\
 	UNTEST1(a_,go_quad_cos,cos,"cos");	\
+	UNTEST1(a_,go_quad_sinpi,go_sinpi,"sinpi");	\
+	UNTEST1(a_,go_quad_cospi,go_cospi,"cospi");	\
 } while (0)
 
 static void

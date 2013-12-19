@@ -1044,6 +1044,52 @@ SUFFIX(reduce_pi_half) (QUAD *res, const QUAD *a, int *pk)
 }
 
 static void
+SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
+{
+	static const QUAD half = { 0.5, 0 };
+	int k = 0;
+	QUAD qxr = *a;
+
+	if (a->h < 0) {
+		QUAD aa;
+		aa.h = -a->h; aa.l = -a->l;
+		SUFFIX(reduce_half) (&qxr, &aa, &k);
+		qxr.h = -qxr.h; qxr.l = -qxr.l;
+		k = 4 - k;
+		if (qxr.h <= -0.25 && qxr.l == 0) {
+			SUFFIX(go_quad_add) (&qxr, &qxr, &half);
+			k += 3;
+		}
+	} else {
+		QUAD qdx;
+
+		/* Remove integer multiples of 2.  */
+		SUFFIX(go_quad_init) (&qdx, qxr.h - SUFFIX(fmod) (qxr.h, 2));
+		SUFFIX(go_quad_sub) (&qxr, &qxr, &qdx);
+
+		/* Again, just in case it was really big.  */
+		SUFFIX(go_quad_init) (&qdx, qxr.h - SUFFIX(fmod) (qxr.h, 2));
+		SUFFIX(go_quad_sub) (&qxr, &qxr, &qdx);
+
+		if (qxr.h >= 1) {
+			SUFFIX(go_quad_sub) (&qxr, &qxr, &SUFFIX(go_quad_one));
+			k += 2;
+		}
+		if (qxr.h >= 0.5) {
+			SUFFIX(go_quad_sub) (&qxr, &qxr, &half);
+			k++;
+		}
+		if (qxr.h > 0.25) {
+			SUFFIX(go_quad_sub) (&qxr, &qxr, &half);
+			k++;
+		}
+	}
+
+	*pk = (k & 3);
+	*res = qxr;
+}
+
+static void
 SUFFIX(do_sin) (QUAD *res, const QUAD *a, int k)
 {
 	QUAD qr;
@@ -1081,6 +1127,31 @@ SUFFIX(do_sin) (QUAD *res, const QUAD *a, int k)
 	*res = qr;
 }
 
+static void
+SUFFIX(do_sinpi) (QUAD *res, const QUAD *a, int k)
+{
+	QUAD qr;
+
+	if (a->h == 0)
+		SUFFIX(go_quad_init) (&qr, k & 1);
+	else if (a->h == 0.25 && a->l == 0)
+		SUFFIX(go_quad_div) (&qr,
+				     &SUFFIX(go_quad_one),
+				     &SUFFIX(go_quad_sqrt2));
+	else {
+		QUAD api;
+		SUFFIX(go_quad_mul) (&api, a, &SUFFIX(go_quad_pi));
+		SUFFIX(do_sin) (&qr, &api, k & 1);
+	}
+
+	if (k & 2) {
+		qr.h = 0 - qr.h;
+		qr.l = 0 - qr.l;
+	}
+
+	*res = qr;
+}
+
 /**
  * go_quad_sin: (skip)
  **/
@@ -1097,6 +1168,22 @@ SUFFIX(go_quad_sin) (QUAD *res, const QUAD *a)
 		SUFFIX(go_quad_init) (res, SUFFIX(sin) (a->h));
 	else
 		SUFFIX(do_sin) (res, &a0, k);
+}
+
+/**
+ * go_quad_sinpi: (skip)
+ **/
+/**
+ * go_quad_sinpil: (skip)
+ **/
+void
+SUFFIX(go_quad_sinpi) (QUAD *res, const QUAD *a)
+{
+	int k;
+	QUAD a0;
+
+	SUFFIX(reduce_half) (&a0, a, &k);
+	SUFFIX(do_sinpi) (res, &a0, k);
 }
 
 /**
@@ -1137,6 +1224,22 @@ SUFFIX(go_quad_cos) (QUAD *res, const QUAD *a)
 		SUFFIX(go_quad_init) (res, SUFFIX(cos) (a->h));
 	else
 		SUFFIX(do_sin) (res, &a0, k + 1);
+}
+
+/**
+ * go_quad_cospi: (skip)
+ **/
+/**
+ * go_quad_cospil: (skip)
+ **/
+void
+SUFFIX(go_quad_cospi) (QUAD *res, const QUAD *a)
+{
+	int k;
+	QUAD a0;
+
+	SUFFIX(reduce_half) (&a0, a, &k);
+	SUFFIX(do_sinpi) (res, &a0, k + 1);
 }
 
 /**
