@@ -33,7 +33,6 @@
 
 #define DOUBLE double
 #define SUFFIX(_n) _n
-#define M_PIgo    3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117
 #define go_strto go_strtod
 #define GO_const(_n) _n
 
@@ -41,7 +40,6 @@
 #include "go-complex.c"
 #undef DOUBLE
 #undef SUFFIX
-#undef M_PIgo
 #undef go_strto
 #undef GO_const
 #define LONG_DOUBLE_VERSION
@@ -51,7 +49,6 @@
 #endif
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
-#define M_PIgo    3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117L
 #define go_strto go_strtold
 #define GO_const(_n) _n ## L
 #endif
