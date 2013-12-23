@@ -921,7 +921,19 @@ SUFFIX(go_quad_atan2_special) (const QUAD *y, const QUAD *x, DOUBLE *f)
 		return TRUE;
 	}
 
-	/* We could do quarters too */
+	if (SUFFIX(fabs) (SUFFIX(fabs)(dx) - SUFFIX(fabs)(dy)) < 1e-10) {
+		QUAD d;
+		SUFFIX(go_quad_sub) (&d, x, y);
+		if (d.h == 0) {
+			*f = (dy >= 0 ? 0.25 : -0.75);
+			return TRUE;
+		}
+		SUFFIX(go_quad_add) (&d, x, y);
+		if (d.h == 0) {
+			*f = (dy >= 0 ? -0.25 : +0.75);
+			return TRUE;
+		}
+	}
 
 	return FALSE;
 }

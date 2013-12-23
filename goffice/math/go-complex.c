@@ -327,47 +327,41 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 void
 SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
-	if (SUFFIX(go_complex_real_p) (a) && a->re >= 0 &&
-	    SUFFIX(go_complex_real_p) (b)) {
-		SUFFIX(go_complex_init) (dst, pow (a->re, b->re), 0);
-	} else if (SUFFIX(go_complex_real_p) (b)) {
-		DOUBLE p = SUFFIX(fabs) (b->re);
-		COMPLEX t;
+	if (b->im == 0) {
+		if (SUFFIX(go_complex_real_p) (a) && a->re >= 0) {
+			SUFFIX(go_complex_init) (dst, pow (a->re, b->re), 0);
+			return;
+		}
 
-		if (p == 0) {
+		if (b->re == 0) {
 			SUFFIX(go_complex_init) (dst, 1, 0);
 			return;
 		}
 
-		if (p == 1) {
-			t = *a;
-		} else {
-			DOUBLE arg = SUFFIX(go_complex_angle_pi) (a);
-			DOUBLE r = (p >= 2)
-				? SUFFIX(pow) (a->re * a->re +
-					       a->im * a->im, p / 2)
-				: SUFFIX(pow) (SUFFIX(hypot) (a->re, a->im), p);
-			SUFFIX(go_complex_from_polar_pi) (&t, r, arg * p);
+		if (b->re == 1) {
+			*dst = *a;
+			return;
 		}
 
-		if (b->re > 0)
-			*dst = t;
-		else {
-			COMPLEX one;
-			one.re = 1; one.im = 0;
-			SUFFIX(go_complex_div) (dst, &one, &t);
+		if (b->re == 2) {
+			SUFFIX(go_complex_mul) (dst, a, a);
+			return;
 		}
-	} else {
+	}
+
+	{
 		DOUBLE e1, e2;
 		int e;
 		SUFFIX(GOQuad) qr, qa, qb, qarg, qrr, qra;
 		void *state = SUFFIX(go_quad_start) ();
 
+		/* Convert a to polar coordinates.  */
 		SUFFIX(go_quad_init) (&qa, a->re);
 		SUFFIX(go_quad_init) (&qb, a->im);
 		SUFFIX(go_quad_atan2pi) (&qarg, &qb, &qa);
 		SUFFIX(go_quad_hypot) (&qr, &qa, &qb);
 
+		/* Compute result modulus.  */
 		SUFFIX(go_quad_init) (&qa, b->re);
 		SUFFIX(go_quad_pow) (&qa, &e1, &qr, &qa);
 		SUFFIX(go_quad_init) (&qb, -b->im);
@@ -379,6 +373,7 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 		qrr.h = SUFFIX(ldexp) (qrr.h, e);
 		qrr.l = SUFFIX(ldexp) (qrr.l, e);
 
+		/* Compute result angle.  */
 		SUFFIX(go_quad_log) (&qa, &qr);
 		SUFFIX(go_quad_div) (&qa, &qa, &SUFFIX(go_quad_2pi));
 		SUFFIX(mulmod1) (&qa, &qa, b->im);
@@ -386,6 +381,7 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 		SUFFIX(go_quad_add) (&qa, &qa, &qb);
 		SUFFIX(go_quad_add) (&qra, &qa, &qa);
 
+		/* Convert to rectangular coordinates.  */
 		SUFFIX(go_quad_sinpi) (&qa, &qra);
 		SUFFIX(go_quad_mul) (&qa, &qa, &qrr);
 		SUFFIX(go_quad_cospi) (&qb, &qra);

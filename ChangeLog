@@ -1,3 +1,7 @@
+2013-12-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-quad.c (go_quad_atan2_special): Do quarters too.
+
 2013-12-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-quad.c (go_quad_sin, go_quad_sinpi)
