@@ -432,22 +432,22 @@ go_ascii_strtod (const char *s, char **end)
 double
 log1p (double x)
 {
-  double term, sum;
-  int i;
+	double term, sum;
+	int i;
 
-  if (fabs (x) > 0.25)
-    return log (x + 1);
+	if (fabs (x) > 0.25)
+		return log (x + 1);
 
-  i = 0;
-  sum = 0;
-  term = -1;
-  while (fabs (term) > fabs (sum) * DBL_EPSILON) {
-    term *= -x;
-    i++;
-    sum += term / i;
-  }
+	i = 0;
+	sum = 0;
+	term = -1;
+	while (fabs (term) > fabs (sum) * DBL_EPSILON) {
+		term *= -x;
+		i++;
+		sum += term / i;
+	}
 
-  return sum;
+	return sum;
 }
 #endif
 
@@ -478,9 +478,9 @@ expm1 (double x)
 double
 asinh (double x)
 {
-  double y = fabs (x);
-  double r = log1p (y * y / (hypot (y, 1.0) + 1.0) + y);
-  return (x >= 0) ? r : -r;
+	double y = fabs (x);
+	double r = log1p (y * y / (hypot (y, 1.0) + 1.0) + y);
+	return (x >= 0) ? r : -r;
 }
 #endif
 
@@ -488,8 +488,8 @@ asinh (double x)
 double
 acosh (double x)
 {
-  double xm1 = x - 1;
-  return log1p (xm1 + sqrt (xm1) * sqrt (x + 1.0));
+	double xm1 = x - 1;
+	return log1p (xm1 + sqrt (xm1) * sqrt (x + 1.0));
 }
 #endif
 
@@ -497,9 +497,9 @@ acosh (double x)
 double
 atanh (double x)
 {
-  double y = fabs (x);
-  double r = -0.5 * log1p (-(y + y) / (1.0 + y));
-  return (x >= 0) ? r : -r;
+	double y = fabs (x);
+	double r = -0.5 * log1p (-(y + y) / (1.0 + y));
+	return (x >= 0) ? r : -r;
 }
 #endif
 
