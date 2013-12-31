@@ -11,6 +11,7 @@ Morten:
 	* Add quad precision atan2, sin, sinpi, asin, cos, cospi, acos
 	  functions.
 	* Add go_sinpi, go_cospi, go_tanpi, go_atan2pi.
+	* Improve "General" format.
 
 --------------------------------------------------------------------------
 goffice 0.10.9:

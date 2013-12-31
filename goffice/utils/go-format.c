@@ -4676,6 +4676,23 @@ go_format_measure_strlen (const GString *str,
 	}								\
 	} while (0)
 
+#ifdef DEFINE_COMMON
+static void
+drop_zeroes (GString *str, int *prec)
+{
+	while (str->str[str->len - 1] == '0') {
+		g_string_truncate (str, str->len - 1);
+		(*prec)--;
+	}
+	if (*prec == 0) {
+		/* We got "xxxxxx.000" and dropped the zeroes.  */
+		const char *dot = g_utf8_prev_char (str->str + str->len);
+		g_string_truncate (str, dot - str->str);
+	}
+}
+#endif
+
+
 /**
  * go_render_general:
  * @layout: Optional PangoLayout, probably preseeded with font attribute.
@@ -4721,11 +4738,12 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			   guint shape_flags)
 {
 	DOUBLE aval, l10;
-	int prec, safety, digs, maxdigits;
+	int prec, safety, digs, maxdigits = PREFIX(DIG);
 	size_t epos;
 	gboolean rounds_to_0;
 	int sign_width;
 	int min_digit_width = metrics->min_digit_width;
+	gboolean check_val = TRUE;
 
 	if (num_shape > 0) {
 		/* FIXME: We should adjust min_digit_width if num_shape != 0 */
@@ -4733,11 +4751,15 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
 	if (col_width == -1) {
 		measure = go_format_measure_zero;
-		maxdigits = PREFIX(DIG);
 		col_width = INT_MAX;
 		sign_width = 0;
 	} else {
-		maxdigits = MIN (PREFIX(DIG), col_width / min_digit_width);
+		int w = col_width / min_digit_width;
+		if (w <= maxdigits) {
+			/* We're limited by width.  */
+			maxdigits = w;
+			check_val = FALSE;
+		}
 		sign_width = unicode_minus
 			? metrics->minus_width
 			: metrics->hyphen_width;
@@ -4798,19 +4820,19 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
 	prec = maxdigits - digs;
 	g_string_printf (str, "%.*" FORMAT_f, prec, val);
+	if (check_val) {
+		/*
+		 * We're not width-limited; we may have to increase maxdigits
+		 * by one.  This is a terribly wasteful way of doing this.
+		 */
+		if (val != STRTO(str->str, NULL)) {
+			maxdigits++, prec++;
+			g_string_printf (str, "%.*" FORMAT_f, prec, val);
+		}
+	}
 	HANDLE_NUMERAL_SHAPE;
 	HANDLE_SIGN (0);
-	while (str->str[str->len - 1] == '0') {
-		g_string_truncate (str, str->len - 1);
-		prec--;
-	}
-	if (prec == 0) {
-		/* We got "xxxxxx.000" and dropped the zeroes.  */
-		const char *dot = g_utf8_prev_char (str->str + str->len);
-		g_string_truncate (str, dot - str->str);
-		SETUP_LAYOUT;
-		return;
-	}
+	drop_zeroes (str, &prec);
 
 	while (prec > 0) {
 		int w;
@@ -4822,6 +4844,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
 		prec--;
 		g_string_printf (str, "%.*" FORMAT_f, prec, val);
+		drop_zeroes (str, &prec);
 		HANDLE_NUMERAL_SHAPE;
 		HANDLE_SIGN (0);
 	}
