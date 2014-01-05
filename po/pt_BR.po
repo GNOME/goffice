@@ -1,11 +1,11 @@
 # Brazilian Portuguese translation of goffice.
-# Copyright (C) 2000-2004, 2005, 2013 Free Software Foundation, Inc.
-# This file is distributed under the same license as the gnumeric package.
+# Copyright (C) 2000-2013 Free Software Foundation, Inc.
+# This file is distributed under the same license as the goffice package.
 # E. A. Tacão <tacao@conectiva.com.br>, 2000.
 # Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001.
 # Johnny Birnfeld <akiractb@icqmail.com>, 2003.
 # Afonso Celso Medina <medina@maua.br>, 2004, 2005.
-# Rafael Ferreira <rafael.f.f1@gmail.com>, 2013.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2013, 2014.
 # Junninho Riot <Lima1042@hotmail.com>, 2013.
 # Juan Diego <juan.martins@academico.ifrn.edu.br>, 2013.
 #
@@ -14,16 +14,16 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-11-26 03:06+0000\n"
-"PO-Revision-Date: 2013-11-27 10:07-0300\n"
-"Last-Translator: Juan Diego <juan.martins@academico.ifrn.edu.br>\n"
+"POT-Creation-Date: 2013-12-18 17:22+0000\n"
+"PO-Revision-Date: 2014-01-05 03:36-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 2.91.5\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
@@ -1310,7 +1310,7 @@ msgstr "Nome"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
 msgid "Gradient"
-msgstr "Gradiente"
+msgstr "Degradê"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
 msgid "Snapshots"
@@ -6941,11 +6941,11 @@ msgstr "Padrão"
 
 #: ../goffice/utils/go-style-prefs.ui.h:12
 msgid "Bicolor gradient"
-msgstr "Gradiente bicolor"
+msgstr "Degradê bicolor"
 
 #: ../goffice/utils/go-style-prefs.ui.h:13
 msgid "Unicolor gradient"
-msgstr "Gradiente monocolorido"
+msgstr "Degradê monocolorido"
 
 #: ../goffice/utils/go-style-prefs.ui.h:15
 msgid "_Direction:"
@@ -7176,8 +7176,8 @@ msgid "Lines"
 msgstr "Linhas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
-#: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2176
+#: ../plugins/plot_radar/gog-radar.c:1349
+#: ../plugins/plot_radar/gog-radar.c:1475 ../plugins/plot_xy/gog-xy.c:2176
 #: ../plugins/plot_xy/gog-xy.c:2182
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
@@ -8243,19 +8243,19 @@ msgstr ""
 msgid "Z"
 msgstr "Z"
 
-#: ../plugins/plot_radar/gog-radar.c:1309
-#: ../plugins/plot_radar/gog-radar.c:1342
+#: ../plugins/plot_radar/gog-radar.c:1315
+#: ../plugins/plot_radar/gog-radar.c:1348
 #, fuzzy
 msgid "Radial error bars"
 msgstr "Barras de Erro X"
 
-#: ../plugins/plot_radar/gog-radar.c:1317
+#: ../plugins/plot_radar/gog-radar.c:1323
 #, fuzzy
 msgid "Radial drop lines"
 msgstr "Listra Vertical"
 
-#: ../plugins/plot_radar/gog-radar.c:1425
-#: ../plugins/plot_radar/gog-radar.c:1468
+#: ../plugins/plot_radar/gog-radar.c:1431
+#: ../plugins/plot_radar/gog-radar.c:1474
 #, fuzzy
 msgid "Angular error bars"
 msgstr "Barras de Erro X"
