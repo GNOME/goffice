@@ -256,7 +256,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 	GogViewAllocation alloc;
 	double xpos, ypos;
 	GogChartMap *map = NULL;
-	GogAxis *x_axis, *y_axis = NULL;
+	GogAxis *x_axis = NULL, *y_axis = NULL;
 	GogAxisSet set;
 	GogPlot *plot;
 	GSList *l, *ptr;
