@@ -95,6 +95,9 @@ gog_axis_base_set_property (GObject *obj, guint param_id,
 				position = GOG_AXIS_CROSS;
 			else if (!g_ascii_strcasecmp (str, "high"))
 				position = GOG_AXIS_AT_HIGH;
+			else if (!g_ascii_strcasecmp (str, "auto"))
+				/* this should not occur, but it is the default */
+				position = GOG_AXIS_AUTO;
 			else {
 				g_warning ("[GogAxisBase::set_property] invalid axis position (%s)", str);
 				return;
@@ -681,7 +684,8 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 		g_param_spec_string ("pos-str",
 			_("Axis position (as a string)"),
 			_("Where to position an axis low, high, or crossing"),
-			"low",
+			"auto", /*the default will never occur, we need that to avoid axis
+		    loose their "low" position on serialization, see #722402. */
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_LABELED,
 		g_param_spec_boolean ("major-tick-labeled",

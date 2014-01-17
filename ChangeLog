@@ -1,3 +1,8 @@
+2014-01-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_set_property),
+	(gog_axis_base_class_init): always save the axis position. [#722402]
+
 2014-01-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): fix compiler warning.
