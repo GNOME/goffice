@@ -324,6 +324,35 @@ go_combo_color_set_color_to_default (GOComboColor *cc)
 }
 
 /**
+ * go_combo_color_set_icon:
+ * @icon: optionally NULL.
+ **/
+void
+go_combo_color_set_icon (GOComboColor *cc, GdkPixbuf *icon)
+{
+	GdkPixbuf *pixbuf;
+
+	if (cc->preview_image)
+		gtk_container_remove (GTK_CONTAINER (cc->preview_button), cc->preview_image);
+
+	if (icon != NULL &&
+	    gdk_pixbuf_get_width (icon) > 4 &&
+	    gdk_pixbuf_get_height (icon) > 4) {
+		cc->preview_is_icon = TRUE;
+		pixbuf = gdk_pixbuf_copy (icon);
+	} else {
+		cc->preview_is_icon = FALSE;
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+					 PREVIEW_SIZE, PREVIEW_SIZE);
+	}
+
+	cc->preview_image = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (pixbuf);
+	gtk_widget_show (cc->preview_image);
+	gtk_container_add (GTK_CONTAINER (cc->preview_button), cc->preview_image);
+}
+
+/**
  * go_combo_color_new :
  * @icon: optionally NULL.
  * @no_color_label: FIXME
@@ -342,23 +371,11 @@ go_combo_color_new (GdkPixbuf *icon, char const *no_color_label,
 {
 	GOColor     color;
 	gboolean    is_default;
-	GdkPixbuf  *pixbuf = NULL;
 	GOComboColor *cc = g_object_new (GO_TYPE_COMBO_COLOR, NULL);
 
         cc->default_color = default_color;
-	if (icon != NULL &&
-	    gdk_pixbuf_get_width (icon) > 4 &&
-	    gdk_pixbuf_get_height (icon) > 4) {
-		cc->preview_is_icon = TRUE;
-		pixbuf = gdk_pixbuf_copy (icon);
-	} else
-		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-					 PREVIEW_SIZE, PREVIEW_SIZE);
 
-	cc->preview_image = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref (pixbuf);
-	gtk_widget_show (cc->preview_image);
-	gtk_container_add (GTK_CONTAINER (cc->preview_button), cc->preview_image);
+	go_combo_color_set_icon (cc, icon);
 
 	color_table_setup (cc, no_color_label, color_group);
 	gtk_widget_show_all (cc->preview_button);

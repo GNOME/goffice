@@ -13,7 +13,8 @@ Morten:
 	  functions.
 	* Add go_sinpi, go_cospi, go_tanpi, go_atan2pi.
 	* Improve "General" format.
-	* Improve Undo/Redo buttons.
+	* Improve Undo/Redo toolbar items.
+	* Improve Color selector toolbar items.
 
 --------------------------------------------------------------------------
 goffice 0.10.9:

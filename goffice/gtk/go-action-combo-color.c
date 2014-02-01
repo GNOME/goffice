@@ -50,18 +50,13 @@ make_icon (GtkAction *a, GtkWidget *tool)
 	g_object_get (a, "stock-id", &stock_id, NULL);
 	if (stock_id == NULL)
 		return NULL;
-	if (GO_IS_TOOL_COMBO_COLOR (tool)) {
-		GtkWidget *parent = gtk_widget_get_parent (tool);
-		if (parent)
-			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (parent));
-		else
-			g_object_get (settings,
-					  "gtk-toolbar-icon-size", &size,
-					  NULL);
-		gtk_icon_size_lookup_for_settings (settings, size,
-						   &pixels, NULL);
-	} else
-		size = GTK_ICON_SIZE_MENU;
+
+	size = GTK_IS_TOOL_ITEM (tool)
+		? gtk_tool_item_get_icon_size (GTK_TOOL_ITEM (tool))
+		: GTK_ICON_SIZE_MENU;
+	gtk_icon_size_lookup_for_settings (settings, size,
+					   &pixels, NULL);
+
 	icon = gtk_icon_theme_load_icon
 		(gtk_icon_theme_get_for_screen (screen),
 		 stock_id, pixels, 0, NULL);
@@ -148,15 +143,23 @@ cb_proxy_custom_dialog (G_GNUC_UNUSED GObject *ignored,
 }
 
 static void
-cb_toolbar_reconfigured (GOToolComboColor *tool)
+cb_toolbar_reconfigured (GOToolComboColor *tool, GtkAction *a)
 {
 	GtkOrientation o = gtk_tool_item_get_orientation (GTK_TOOL_ITEM (tool));
 	gboolean horiz = (o == GTK_ORIENTATION_HORIZONTAL);
+	GtkReliefStyle relief = gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (tool));
+	GdkPixbuf *icon;
 
 	g_object_set (G_OBJECT (tool->combo),
 		      "show-arrow", horiz,
 		      NULL);
 	go_combo_color_set_instant_apply (GO_COMBO_COLOR (tool->combo), horiz);
+
+	icon = make_icon (a, GTK_WIDGET (tool));
+	go_combo_color_set_icon (GO_COMBO_COLOR (tool->combo), icon);
+	if (icon) g_object_unref (icon);
+
+	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), relief);
 }
 
 static GtkWidget *
@@ -165,9 +168,6 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 	GOActionComboColor *caction = (GOActionComboColor *)a;
 	GOToolComboColor *tool = g_object_new (GO_TYPE_TOOL_COMBO_COLOR, NULL);
 	char *title;
-
-	/* FIXME: We probably should re-do this when tool changes screen or
-	   parent.  */
 	GdkPixbuf *icon = make_icon (a, GTK_WIDGET (tool));
 
 	tool->combo = (GOComboColor *)go_combo_color_new (icon,
@@ -176,15 +176,14 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 	if (icon) g_object_unref (icon);
 
 	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (tool->combo), caction->allow_alpha);
-	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	title = get_title (a);
 	go_combo_box_set_title (GO_COMBO_BOX (tool->combo), title);
 	g_free (title);
 
 	g_signal_connect (tool, "toolbar-reconfigured",
 			  G_CALLBACK (cb_toolbar_reconfigured),
-			  NULL);
-	cb_toolbar_reconfigured (tool);
+			  a);
+	cb_toolbar_reconfigured (tool, a);
 
 	go_gtk_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));

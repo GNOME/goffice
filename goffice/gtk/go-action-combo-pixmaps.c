@@ -79,16 +79,10 @@ make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
 
 	if (stock_id == NULL)
 		return NULL;
-	if (GO_IS_TOOL_COMBO_PIXMAPS (tool)) {
-		GtkWidget *parent = gtk_widget_get_parent (tool);
-		if (parent)
-			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (parent));
-		else {
-			GtkSettings *settings = gtk_widget_get_settings (tool);
-			g_object_get (settings, "gtk-toolbar-icon-size", &size, NULL);
-		}
-	} else
-		size = GTK_ICON_SIZE_MENU;
+
+	size = GTK_IS_TOOL_ITEM (tool)
+		? gtk_tool_item_get_icon_size (GTK_TOOL_ITEM (tool))
+		: GTK_ICON_SIZE_MENU;
 
 	return gtk_widget_render_icon_pixbuf (tool, stock_id, size);
 }
@@ -138,10 +132,13 @@ static void
 cb_toolbar_reconfigured (GOToolComboPixmaps *tool)
 {
 	GtkOrientation o = gtk_tool_item_get_orientation (GTK_TOOL_ITEM (tool));
+	GtkReliefStyle relief = gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (tool));
 
 	g_object_set (G_OBJECT (tool->combo),
 		      "show-arrow", o == GTK_ORIENTATION_HORIZONTAL,
 		      NULL);
+
+	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), relief);
 }
 
 static GtkWidget *
@@ -167,7 +164,6 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 			  NULL);
 	cb_toolbar_reconfigured (tool);
 
-	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	go_gtk_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));
