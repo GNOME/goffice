@@ -263,17 +263,36 @@ cb_tool_popped (GOToolComboStack *tool, gpointer key, GOActionComboStack *a)
 	a->last_selection = NULL;
 }
 
+static void
+cb_reconfig (GOToolComboStack *tool, GtkAction *a)
+{
+	GtkIconSize size = gtk_tool_item_get_icon_size (GTK_TOOL_ITEM (tool));
+	GtkReliefStyle relief = gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (tool));
+	char *stock_id;
+	GtkWidget *image;
+	GtkWidget *child;
+
+	child = gtk_bin_get_child (GTK_BIN (tool->combo->button));
+	if (child)
+		gtk_container_remove (GTK_CONTAINER (tool->combo->button), child);
+
+	g_object_get (G_OBJECT (a), "stock-id", &stock_id, NULL);
+	image = gtk_image_new_from_stock (stock_id, size);
+	g_free (stock_id);
+	gtk_widget_show (image);
+	gtk_container_add (GTK_CONTAINER (tool->combo->button), image);
+
+	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), relief);
+}
+
+
 static GtkWidget *
 go_action_combo_stack_create_tool_item (GtkAction *a)
 {
 	GOActionComboStack *saction = (GOActionComboStack *)a;
-	GtkWidget *image;
 	GtkTreeView *tree_view;
 	GOToolComboStack *tool = g_object_new (GO_TYPE_TOOL_COMBO_STACK, NULL);
-	char *stock_id;
 	gboolean is_sensitive = gtk_tree_model_iter_n_children (saction->model, NULL) > 0;
-	GtkIconSize size;
-	GtkSettings *settings;
 
 	tool->combo = g_object_new (GO_TYPE_COMBO_STACK, NULL);
 	tree_view = GTK_TREE_VIEW (tool->combo->list);
@@ -285,20 +304,12 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 			"text", 0,
 			NULL));
 
-	/* FIXME: This probably isn't 100% right as tool isn't mapped yet.  */
-	settings = gtk_widget_get_settings (GTK_WIDGET (tool));
-	g_object_get (settings,
-		      "gtk-toolbar-icon-size", &size,
-		      NULL);
-	g_object_get (G_OBJECT (a), "stock-id", &stock_id, NULL);
-	image = gtk_image_new_from_stock (stock_id, size);
-	g_free (stock_id);
-	gtk_widget_show (image);
-	gtk_container_add (GTK_CONTAINER (tool->combo->button), image);
+	g_signal_connect (tool, "toolbar-reconfigured",
+			  G_CALLBACK (cb_reconfig), a);
+	cb_reconfig (tool, a);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (tool), is_sensitive);
 
-	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	go_gtk_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));

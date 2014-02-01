@@ -1,3 +1,9 @@
+2014-01-31  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-action-combo-stack.c
+	(go_action_combo_stack_create_tool_item): Handler reconfiguration
+	of the toolbar the item is in.
+
 2014-01-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c (gog_axis_base_set_property),
