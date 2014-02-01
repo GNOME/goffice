@@ -1,7 +1,13 @@
 2014-01-31  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-action-combo-pixmaps.c (cb_toolbar_reconfigured):
+	Redo all icons here.
+
 	* goffice/gtk/go-combo-color.c (go_combo_color_set_icon): New
 	function.
+
+	* goffice/gtk/go-combo-pixmaps.c
+	(go_combo_pixmaps_clear_elements): New function.
 
 	* goffice/gtk/go-action-combo-pixmaps.c (make_icon): Simplify
 	sizing.

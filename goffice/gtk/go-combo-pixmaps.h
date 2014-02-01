@@ -38,6 +38,7 @@ typedef struct _GOMenuPixmaps	GOMenuPixmaps;
 
 GType      go_combo_pixmaps_get_type	 (void);
 GOComboPixmaps *go_combo_pixmaps_new	 (int ncols);
+void       go_combo_pixmaps_clear_elements (GOComboPixmaps *combo);
 void       go_combo_pixmaps_add_element  (GOComboPixmaps *combo,
 					  GdkPixbuf *pixbuf, int id,
 					  char const *tooltip);

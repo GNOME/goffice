@@ -129,14 +129,30 @@ cb_selection_changed (GOComboPixmaps *combo, int id, GOActionComboPixmaps *pacti
 }
 
 static void
-cb_toolbar_reconfigured (GOToolComboPixmaps *tool)
+cb_toolbar_reconfigured (GOToolComboPixmaps *tool, GtkAction *a)
 {
 	GtkOrientation o = gtk_tool_item_get_orientation (GTK_TOOL_ITEM (tool));
 	GtkReliefStyle relief = gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (tool));
+	GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
+	GOActionComboPixmapsElement const *el = paction->elements;
 
 	g_object_set (G_OBJECT (tool->combo),
 		      "show-arrow", o == GTK_ORIENTATION_HORIZONTAL,
 		      NULL);
+
+	go_combo_pixmaps_clear_elements (tool->combo);
+	for ( ; el->stock_id != NULL ; el++) {
+		GdkPixbuf *icon = make_icon (a, el->stock_id, GTK_WIDGET (tool));
+		/*
+		 * FIXME FIXME FIXME: we must find a better solution for
+		 * translating strings not in goffice domain
+		 */
+		go_combo_pixmaps_add_element (tool->combo,
+					      icon,
+					      el->id,
+					      gettext (el->untranslated_tooltip));
+	}
+	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), relief);
 }
@@ -146,23 +162,13 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 {
 	GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
 	GOToolComboPixmaps *tool = g_object_new (GO_TYPE_TOOL_COMBO_PIXMAPS, NULL);
-	GOActionComboPixmapsElement const *el = paction->elements;
 
 	tool->combo = go_combo_pixmaps_new (paction->ncols);
-	for ( ; el->stock_id != NULL ; el++) {
-		GdkPixbuf *icon = make_icon (a, el->stock_id, GTK_WIDGET (tool));
-/* FIXME FIXME FIXME we must find a better solution for translating strings not in goffice domain */
-		go_combo_pixmaps_add_element (tool->combo,
-					      icon,
-					      el->id,
-					      gettext (el->untranslated_tooltip));
-	}
-	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 
 	g_signal_connect (tool, "toolbar-reconfigured",
 			  G_CALLBACK (cb_toolbar_reconfigured),
-			  NULL);
-	cb_toolbar_reconfigured (tool);
+			  a);
+	cb_toolbar_reconfigured (tool, a);
 
 	go_gtk_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));

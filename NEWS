@@ -15,6 +15,7 @@ Morten:
 	* Improve "General" format.
 	* Improve Undo/Redo toolbar items.
 	* Improve Color selector toolbar items.
+	* Improve Pixmap selector toolbar items.
 
 --------------------------------------------------------------------------
 goffice 0.10.9:

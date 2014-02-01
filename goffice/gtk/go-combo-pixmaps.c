@@ -201,6 +201,28 @@ cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *comb
 }
 
 /**
+ * go_combo_pixmaps_clear_elements:
+ * @combo: #GOComboPixmaps
+ *
+ * Remove all elements.
+ */
+void
+go_combo_pixmaps_clear_elements (GOComboPixmaps *combo)
+{
+	GList *children, *l;
+
+	children = gtk_container_get_children (GTK_CONTAINER (combo->grid));
+	for (l = children; l; l = l->next) {
+		GtkWidget *child = l->data;
+		gtk_container_remove (GTK_CONTAINER (combo->grid), child);
+	}
+	g_list_free (children);
+
+	g_array_set_size (combo->elements, 0);
+}
+
+
+/**
  * go_combo_pixmaps_add_element:
  * @combo: #GOComboPixmaps
  * @pixbuf: (transfer full): #GdkPixbuf
@@ -208,7 +230,6 @@ cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *comb
  * @tooltip: optional
  *
  **/
-
 void
 go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 			      GdkPixbuf *pixbuf, int id, char const *tooltip)
