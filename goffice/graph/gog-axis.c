@@ -897,7 +897,7 @@ typedef struct {
 static gboolean
 dt_add (double *res, double start, double i, const DateStep *step)
 {
-	if (start <= 0 && start > j_horizon)
+	if (start <= 0 || start > j_horizon)
 		return FALSE;
 
 	switch (step->unit) {
