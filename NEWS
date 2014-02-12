@@ -3,7 +3,7 @@ goffice 0.10.11:
 --------------------------------------------------------------------------
 goffice 0.10.10:
 
-Jean
+Jean:
 	* Fix graph guru appearance when used with gtk+-3.10. [#719681]
 	* Fix crasher in box plots. [#720310]
 	* Fix elements number in polar plot series. [#720355]
