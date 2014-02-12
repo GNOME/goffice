@@ -930,7 +930,7 @@ SUFFIX(go_quad_atan2_special) (const QUAD *y, const QUAD *x, DOUBLE *f)
 		}
 		SUFFIX(go_quad_add) (&d, x, y);
 		if (d.h == 0) {
-			*f = (dy >= 0 ? -0.25 : +0.75);
+			*f = (dy >= 0 ? +0.75 : -0.25);
 			return TRUE;
 		}
 	}
