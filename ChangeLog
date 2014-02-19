@@ -1,3 +1,33 @@
+2014-02-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: add new mmlitex subdir.
+	* configure.ac: need libxslt.
+	* goffice/Makefile.am: add new files.
+	* goffice/component/go-component.c: fix data cleaning issues.
+	* goffice/graph/gog-equation.c: use the new GoMathEditor widget.
+	* goffice/gtk/go-font-sel.c: add go_font_sel_get_color().
+	* goffice/gtk/go-font-sel.h: ditto.
+	* goffice/gtk/go-math-editor.c: new math editor widget.
+	* goffice/gtk/go-math-editor.h: ditto.
+	* goffice/gtk/go-rotation-sel.c: use GtkGrid as parent.
+	* goffice/gtk/goffice-gtk.h: add the new GoMathEditor widget.
+	* goffice/utils/go-mml-to-itex.c: new MathML to ITEX convertor.
+	* goffice/utils/go-mml-to-itex.h: ditto.
+	* goffice/utils/goffice-utils.h: ditto.
+	* mmlitex/Makefile.am: ditto.
+	* mmlitex/README: ditto.
+	* mmlitex/cmarkup.xsl: ditto.
+	* mmlitex/entities.xsl: ditto.
+	* mmlitex/glayout.xsl: ditto.
+	* mmlitex/mmlitex.xsl: ditto.
+	* mmlitex/scripts.xsl: ditto.
+	* mmlitex/tables.xsl: ditto.
+	* mmlitex/tokens.xsl: ditto.
+	* plugins/Makefile.am: new math equations component.
+	* plugins/lasem/Makefile.am: ditto.
+	* plugins/lasem/component.c: ditto.
+	* plugins/lasem/plugin.xml.in: ditto.
+
 2014-02-16  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

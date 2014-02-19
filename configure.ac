@@ -124,6 +124,7 @@ goffice_reqs="
 	cairo			>= 1.10.0
 	librsvg-2.0		>= 2.22.0
 	gdk-pixbuf-2.0	>= 2.22.0
+	libxslt
 "
 
 goffice_gtk_reqs="
@@ -145,6 +146,18 @@ dnl Should we use lasem ?
 dnl ***********************
 
 goffice_with_lasem=false
+lasem=
+for ver in 0.6 0.4 ; do
+  if test "x$lasem" = x; then
+    if pkg-config --exists lasem-$ver; then
+      lasem=lasem-$ver
+    fi
+  fi
+done
+if test "x$lasem" = x; then
+  # Not important.  Things will fail below.
+  lasem=lasem-0.4
+fi
 AC_ARG_WITH(lasem,
 	AS_HELP_STRING([--with-lasem[=@<:@no/auto/yes@:>@]],
                          [Build with lasem use (default=auto)]),
@@ -153,17 +166,17 @@ AC_ARG_WITH(lasem,
 AS_CASE([$with_lasem],
 	[no],[found_lasem="disabled by request"],
 	[auto], [
-	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.4.1,
+	PKG_CHECK_MODULES(Lasem, $lasem >= 0.4.1,
 	[found_lasem="yes";goffice_with_lasem=true], [found_lasem="no, missing or too old lasem library"])
 	],
 	[yes],[found_lasem="yes";
-	PKG_CHECK_MODULES(Lasem, lasem-0.4 >= 0.4.1);
+	PKG_CHECK_MODULES(Lasem, $lasem >= 0.4.1);
 	goffice_with_lasem=true
 	],[AC_MSG_ERROR([invalid argument passed to --with-lasem, should be one of @<:@no/auto/yes@:>@])])
 if test "x$goffice_with_lasem" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_LASEM, 1, [Define if Lasem is used])
-	goffice_reqs="$goffice_reqs lasem-0.4 >= 0.4.1 "
-	EXTRA_DEPS="$EXTRA_DEPS lasem-0.4"
+	goffice_reqs="$goffice_reqs $lasem >= 0.4.1 "
+	EXTRA_DEPS="$EXTRA_DEPS $lasem"
 fi
 
 AM_CONDITIONAL(GOFFICE_WITH_LASEM, $goffice_with_lasem)
@@ -811,6 +824,8 @@ plugins/plot_distrib/Makefile
 plugins/reg_linear/Makefile
 plugins/reg_logfit/Makefile
 plugins/smoothing/Makefile
+plugins/lasem/Makefile
+mmlitex/Makefile
 po/Makefile.in
 tests/Makefile
 tools/Makefile

@@ -190,7 +190,9 @@ go_component_finalize (GObject *obj)
 	g_free (component->mime_type);
 
 	if (component->destroy_notify != NULL) {
-		component->destroy_notify (component->destroy_data);
+		component->destroy_notify ((component->destroy_data)?
+									component->destroy_data:
+									(void *) component->data);
 		component->destroy_notify = NULL;
 	}
 	if (component->cc) {
@@ -542,6 +544,16 @@ go_component_emit_changed (GOComponent *component)
 	g_free (component->snapshot_data);
 	component->snapshot_data = NULL;
 	component->snapshot_length = 0;
+	/* invalidate the old data if any */
+	if (component->destroy_notify != NULL) {
+		component->destroy_notify ((component->destroy_data)?
+									component->destroy_data:
+									(void *) component->data);
+		component->destroy_notify = NULL;
+		component->destroy_data = NULL;
+	}
+	component->data = NULL;
+	component->length = 0;
 
 	g_signal_emit (G_OBJECT (component),
 		go_component_signals [CHANGED], 0);
@@ -857,6 +869,7 @@ go_component_new_from_uri (char const *uri)
 	gsf_input_read (input, length, data);
 	go_component_set_data (component, data, length);
 	component->destroy_notify = g_free;
+	component->destroy_data = data;
 	return component;
 }
 

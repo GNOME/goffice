@@ -8,3 +8,8 @@ SUBDIRS = \
 	reg_linear \
 	reg_logfit \
 	smoothing
+
+if GOFFICE_WITH_LASEM
+SUBDIRS += \
+	lasem
+endif

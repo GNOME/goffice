@@ -108,6 +108,7 @@ goffice/gtk/go-optionmenu.c
 goffice/gtk/go-palette.c
 goffice/gtk/go-rotation-sel.c
 [type: gettext/glade]goffice/gtk/go-rotation-sel.ui
+goffice/gtk/go-math-editor.c
 goffice/math/go-complex.c
 goffice/math/go-cspline.c
 goffice/math/go-distribution.c

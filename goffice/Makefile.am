@@ -293,7 +293,8 @@ gtk_SOURCES =					\
 	gtk/go-pattern-selector.c		\
 						\
 	gtk/go-graph-widget.c			\
-	gtk/go-image-sel.c
+	gtk/go-image-sel.c				\
+	gtk/go-math-editor.c
 
 gtkdir = $(goffice_include_dir)/gtk
 gtk_HEADERS =					\
@@ -329,7 +330,8 @@ gtk_HEADERS =					\
 	gtk/go-pattern-selector.h		\
 						\
 	gtk/go-graph-widget.h			\
-	gtk/go-image-sel.h
+	gtk/go-image-sel.h				\
+	gtk/go-math-editor.h
 
 #####################################
 # maths directory files
@@ -384,6 +386,7 @@ utils_SOURCES =					\
 	utils/go-line.c				\
 	utils/go-locale.c			\
 	utils/go-marker.c			\
+	utils/go-mml-to-itex.c		\
 	utils/go-path.c				\
 	utils/go-pattern.c			\
 	utils/go-geometry.c			\
@@ -421,6 +424,7 @@ utils_HEADERS =					\
 	utils/go-line.h				\
 	utils/go-locale.h			\
 	utils/go-marker.h			\
+	utils/go-mml-to-itex.h		\
 	utils/go-path.h				\
 	utils/go-pattern.h			\
 	utils/go-units.h			\

@@ -538,7 +538,7 @@ gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
  * @width: the rectangle width.
  * @height: the rectangle height.
  *
- * When @discrete is larger than 1, it will be interpreted as the number of 
+ * When @discrete is larger than 1, it will be interpreted as the number of
  * major ticks used. The number of colors will then be @discrete − 1.
  * Draws a snapshot of the color map inside the rectangle.
  **/

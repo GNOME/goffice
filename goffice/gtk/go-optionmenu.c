@@ -72,7 +72,7 @@ go_option_menu_new (void)
  * and fills in a menu with the given texts.  Each menu entry will
  * have a data property "value" sets to the given value.  The menu is
  * then placed inside a new #GOOptionMenu which is then returned.
- */ 
+ */
 GtkWidget *
 go_option_menu_build (const char *first_entry, ...)
 {
@@ -87,7 +87,7 @@ go_option_menu_build (const char *first_entry, ...)
 		gtk_menu_shell_append (GTK_MENU_SHELL (m), w);
 		g_object_set_data (G_OBJECT (w), "value", GINT_TO_POINTER (v));
 		first_entry = va_arg (var_args, char *);
-	}		
+	}
 	va_end (var_args);
 	gtk_widget_show_all (m);
 

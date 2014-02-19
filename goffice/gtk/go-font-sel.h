@@ -47,6 +47,7 @@ void go_font_sel_set_style         (GOFontSel *fs,
 void go_font_sel_set_strikethrough (GOFontSel *fs, gboolean strikethrough);
 void go_font_sel_set_color         (GOFontSel *gfs, GOColor c,
 				    gboolean is_default);
+GOColor go_font_sel_get_color	   (GOFontSel *gfs);
 void go_font_sel_set_script        (GOFontSel *fs, GOFontScript script);
 
 void go_font_sel_set_font_desc     (GOFontSel *fs, PangoFontDescription *desc);

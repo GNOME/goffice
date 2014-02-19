@@ -1,6 +1,6 @@
 # Makefile.am for goffice
 
-SUBDIRS = goffice tests plugins po docs tools
+SUBDIRS = goffice tests plugins mmlitex po docs tools
 
 EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 	COPYING-gpl2 COPYING-gpl3 \

@@ -75,7 +75,7 @@ go_hash_keys (GHashTable *hash)
  *
  * Inserts a pointer inside an existing array.
  **/
- 
+
 void
 go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 {

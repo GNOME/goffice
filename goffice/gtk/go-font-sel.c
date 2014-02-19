@@ -1554,6 +1554,12 @@ go_font_sel_set_color (GOFontSel *gfs, GOColor c, gboolean is_default)
 		go_combo_color_set_color (cc, c);
 }
 
+GOColor
+go_font_sel_get_color (GOFontSel *gfs) {
+	g_return_val_if_fail (GO_IS_FONT_SEL (gfs), 0);
+	return go_combo_color_get_color (GO_COMBO_COLOR (gfs->color_picker), NULL);
+}
+
 void
 go_font_sel_set_font_desc (GOFontSel *fs, PangoFontDescription *desc)
 {

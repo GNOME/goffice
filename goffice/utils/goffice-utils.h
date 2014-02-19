@@ -163,6 +163,7 @@ G_END_DECLS
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-mml-to-itex.h>
 #include <goffice/utils/go-pango-extras.h>
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-pattern.h>

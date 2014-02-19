@@ -720,7 +720,7 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 			/* Only major ticks are displayed, at least for now */
 			if (ticks[i].type == GOG_AXIS_TICK_MAJOR) {
 				pos = gog_axis_map_to_view (map, ticks[i].position);
-				if (is_line_visible) { 
+				if (is_line_visible) {
 					path = go_path_new ();
 					go_path_move_to (path, pos, start);
 					go_path_line_to (path, pos, stop);
@@ -758,7 +758,7 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 			/* Only major ticks are displayed, at least for now */
 			if (ticks[i].type == GOG_AXIS_TICK_MAJOR) {
 				pos = gog_axis_map_to_view (map, ticks[i].position);
-				if (is_line_visible) { 
+				if (is_line_visible) {
 					path = go_path_new ();
 					go_path_move_to (path, start, pos);
 					go_path_line_to (path, stop, pos);

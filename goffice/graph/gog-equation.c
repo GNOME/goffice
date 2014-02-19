@@ -57,18 +57,15 @@ GType gog_equation_view_get_type (void);
 #ifdef GOFFICE_WITH_GTK
 
 static void
-cb_equation_buffer_changed (GtkTextBuffer *buffer, GogEquation *equation)
+cb_equation_buffer_changed (GoMathEditor *gme, GogEquation *equation)
 {
-	GtkTextIter start;
-	GtkTextIter end;
-
-	gtk_text_buffer_get_bounds (buffer, &start, &end);
-	g_object_set (G_OBJECT (equation), "itex", gtk_text_buffer_get_text (buffer, &start, &end, FALSE), NULL);
+	g_object_set (G_OBJECT (equation), "itex", go_math_editor_get_itex (gme), NULL);
 }
+
 static void
-cb_inline_mode_check_toggled (GtkToggleButton *button, GogEquation *equation)
+cb_inline_mode_check_toggled (GoMathEditor *gme, GogEquation *equation)
 {
-	g_object_set (G_OBJECT (equation), "inline-mode", gtk_toggle_button_get_active (button), NULL);
+	g_object_set (G_OBJECT (equation), "inline-mode", go_math_editor_get_inline (gme), NULL);
 }
 
 static void
@@ -78,28 +75,15 @@ gog_equation_populate_editor (GogObject *obj,
 			      GOCmdContext *cc)
 {
 	GogEquation *equation = GOG_EQUATION (obj);
-	GtkBuilder *gui;
 	GtkWidget *widget;
-	GtkTextBuffer *buffer;
 	static guint equation_pref_page = 0;
 
-	gui = go_gtk_builder_load_internal ("res:go:graph/gog-equation-prefs.ui", GETTEXT_PACKAGE, cc);
-	g_return_if_fail (gui != NULL);
-
-	widget = go_gtk_builder_get_widget (gui, "equation_text");
-	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
-	gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), equation->itex != NULL ? equation->itex: "", -1);
-	g_signal_connect (G_OBJECT (buffer), "changed", G_CALLBACK (cb_equation_buffer_changed), obj);
-
-	widget = go_gtk_builder_get_widget (gui, "compact_mode_check");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), equation->inline_mode);
-	g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (cb_inline_mode_check_toggled), obj);
-
-
-	widget = go_gtk_builder_get_widget (gui, "gog_equation_prefs");
-
+	widget = go_math_editor_new ();
+	go_math_editor_set_itex (GO_MATH_EDITOR (widget), equation->itex != NULL ? equation->itex: "");
+	go_math_editor_set_inline (GO_MATH_EDITOR (widget), equation->inline_mode);
+	g_signal_connect (G_OBJECT (widget), "itex-changed", G_CALLBACK (cb_equation_buffer_changed), obj);
+	g_signal_connect (G_OBJECT (widget), "inline-changed", G_CALLBACK (cb_inline_mode_check_toggled), obj);
 	go_editor_add_page (editor, widget, _("Equation"));
-	g_object_unref (gui);
 
 	(GOG_OBJECT_CLASS(equation_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 
@@ -147,6 +131,8 @@ _update_equation_style (GogEquation *equation, const GOStyle *style)
 		g_free (value);
 	}
 }
+
+char *itex2MML_parse(char const*str, unsigned longlength);
 
 static void
 gog_equation_update (GogObject *obj)

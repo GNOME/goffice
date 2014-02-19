@@ -24,7 +24,7 @@
 #include <string.h>
 
 struct _GORotationSel {
-	GtkBox		 box;
+	GtkGrid		 grid;
 	GtkBuilder	*gui;
 	int		 angle;
 
@@ -236,7 +236,7 @@ grs_init (GORotationSel *grs)
 	gtk_spin_button_set_value (grs->rotate_spinner, grs->angle);
 
 	w = go_gtk_builder_get_widget (grs->gui, "toplevel");
-	gtk_box_pack_start (GTK_BOX (grs), w, TRUE, TRUE, 0);
+	gtk_grid_attach (GTK_GRID (grs), w, 0, 0, 1, 1);
 	gtk_widget_show_all (GTK_WIDGET (grs));
 }
 

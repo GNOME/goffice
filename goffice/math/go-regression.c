@@ -1809,7 +1809,7 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
  *     (A A+)^T = A A+
  *     (A+ A)^T = A+ A
  *
- * assuming threshold==0 and no rounding errors.  
+ * assuming threshold==0 and no rounding errors.
  */
 
 void

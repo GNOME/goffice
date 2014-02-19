@@ -105,7 +105,7 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 	xyz_data raw_data;
 	unsigned *sort;
 	gboolean is_3d = GOG_PLOT (plot)->desc.series.num_dim == 3;
-	
+
 	if (GOG_IS_XYZ_MATRIX_PLOT (plot)) {
 		GogXYZMatrixPlot *xyz = GOG_XYZ_MATRIX_PLOT (plot);
 		if (!plot->auto_x && xyz->grid[0].data) {
@@ -569,7 +569,7 @@ gog_xyz_surface_plot_update (GogObject *obj)
 	}
 
 	if (GOG_PLOT (model)->desc.series.num_dim > 2 && model->z.fmt == NULL)
-			model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);	
+			model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);
 	if (model->plotted_data != NULL)
 		g_free (model->plotted_data);
 	model->plotted_data = gog_xyz_plot_build_matrix (model, NULL);

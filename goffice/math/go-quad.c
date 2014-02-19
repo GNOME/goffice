@@ -768,7 +768,7 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
 		SUFFIX(go_quad_sub) (&dx, a, &yi);
 		SUFFIX(go_quad_div) (&dx, &dx, &yi);
 		SUFFIX(go_quad_add) (&xi, &xi, &dx);
-		
+
 		*res = xi;
 	}
 }

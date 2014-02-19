@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GOffice_lasem">
+	<information>
+		<_name>Component : Lasem</_name>
+		<_description>Math equation support</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="lasem"/>
+	</loader>
+	<services>
+		<service type="component_engine" id="GoLasemComponent">
+			<information>
+				<_description>Math equation component engine</_description>
+			</information>
+		</service>
+		<service type="component_type" id="GoLasemComponent">
+			<mime_type name="application/mathml+xml" priority="full"/>
+			<information>
+				<_description>Equation</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

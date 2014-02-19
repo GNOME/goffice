@@ -50,6 +50,7 @@
 #include <goffice/gtk/go-optionmenu.h>
 #include <goffice/gtk/go-pattern-selector.h>
 #include <goffice/gtk/go-rotation-sel.h>
+#include <goffice/gtk/go-math-editor.h>
 
 
 G_BEGIN_DECLS

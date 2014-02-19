@@ -823,7 +823,7 @@ gog_line_view_get_data_at_point (GogPlotView *view, double x, double y, GogSerie
 			path = gog_chart_map_make_path (chart_map, NULL, yvals[j], lengths[j],
 				                            interpolations[j], FALSE,
 				                            &GOG_AREA_SERIES (pseries[j])->clamped_derivs);
-			
+
 			go_path_line_to (path, gog_axis_map_to_view (x_map, lengths[j]), y_zero);
 			go_path_line_to (path, gog_axis_map_to_view (x_map, 1), y_zero);
 			go_path_close (path);
@@ -888,7 +888,7 @@ gog_line_view_get_data_at_point (GogPlotView *view, double x, double y, GogSerie
 				break;
 		}
 		for (j = 0; j < num_series; j++)
-			g_free (yvals[j]); 
+			g_free (yvals[j]);
 	}
 
 	gog_chart_map_free (chart_map);
