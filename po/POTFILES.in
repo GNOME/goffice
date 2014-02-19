@@ -136,6 +136,8 @@ goffice/utils/go-pixbuf.c
 goffice/utils/go-style.c
 [type: gettext/glade]goffice/utils/go-style-prefs.ui
 goffice/utils/regutf8.c
+plugins/lasem/component.c
+plugins/lasem/plugin.xml.in
 plugins/plot_barcol/gog-1.5d.c
 [type: gettext/glade]plugins/plot_barcol/gog-area-prefs.ui
 plugins/plot_barcol/gog-barcol.c
