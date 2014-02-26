@@ -5,15 +5,15 @@
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009.
 # Chris Leonard <cjl@laptop.org>, 2012.
 # Martin Srebotnjak <miles@filmsi.net>, 2011-2013.
-# Matej Urbančič <mateju@svn.gnome.org>, 2010-2013.
+# Matej Urbančič <mateju@svn.gnome.org>, 2010-2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-02 19:57+0000\n"
-"PO-Revision-Date: 2013-09-10 20:54+0100\n"
+"POT-Creation-Date: 2014-02-26 10:50+0000\n"
+"PO-Revision-Date: 2014-02-26 19:17+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -414,7 +414,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Funkcija čiščenja znotraj vstavka je vrnila napako."
 
 #: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:60
-#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5243
+#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5266
 msgid "General"
 msgstr "Splošno"
 
@@ -849,7 +849,7 @@ msgstr "Pot"
 msgid "The path points"
 msgstr "Točke poti"
 
-#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:300
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:303
 msgid "Pixbuf"
 msgstr "Sličica"
 
@@ -1292,6 +1292,7 @@ msgid "Value"
 msgstr "Vrednost"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+#: ../plugins/lasem/component.c:430
 msgid "Color"
 msgstr "Barva"
 
@@ -1317,103 +1318,103 @@ msgstr "Določi"
 msgid "Erase"
 msgstr "Izbriši"
 
-#: ../goffice/graph/gog-axis-line.c:647
+#: ../goffice/graph/gog-axis-line.c:650
 msgid "Layout"
 msgstr "Postavitev"
 
-#: ../goffice/graph/gog-axis-line.c:676
+#: ../goffice/graph/gog-axis-line.c:679
 msgid "Axis position"
 msgstr "Lega osi"
 
-#: ../goffice/graph/gog-axis-line.c:677 ../goffice/graph/gog-axis-line.c:683
+#: ../goffice/graph/gog-axis-line.c:680 ../goffice/graph/gog-axis-line.c:686
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Kje postaviti najnižjo in najvišjo točko osi oziroma kje se križa"
 
-#: ../goffice/graph/gog-axis-line.c:682
+#: ../goffice/graph/gog-axis-line.c:685
 msgid "Axis position (as a string)"
 msgstr "Lega osi (kot niz)"
 
-#: ../goffice/graph/gog-axis-line.c:688
+#: ../goffice/graph/gog-axis-line.c:692
 msgid "Major labels"
 msgstr "Glavne oznake"
 
-#: ../goffice/graph/gog-axis-line.c:689
+#: ../goffice/graph/gog-axis-line.c:693
 msgid "Show labels for major ticks"
 msgstr "Pokaži označbe glavnih oznak"
 
-#: ../goffice/graph/gog-axis-line.c:694
+#: ../goffice/graph/gog-axis-line.c:698
 msgid "Inside major ticks"
 msgstr "Znotraj glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:695
+#: ../goffice/graph/gog-axis-line.c:699
 msgid "Major tick marks inside the chart area"
 msgstr "Glavne označbe znotraj območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:700
+#: ../goffice/graph/gog-axis-line.c:704
 msgid "Outside major ticks"
 msgstr "Izven glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:701
+#: ../goffice/graph/gog-axis-line.c:705
 msgid "Major tick marks outside the chart area"
 msgstr "Glavne oznake izven območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:706
+#: ../goffice/graph/gog-axis-line.c:710
 msgid "Major tick size"
 msgstr "Velikost glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:707
+#: ../goffice/graph/gog-axis-line.c:711
 msgid "Size of the major tick marks, in points"
 msgstr "Velikost oznak glavnih točk osi (v točkah)"
 
-#: ../goffice/graph/gog-axis-line.c:713
+#: ../goffice/graph/gog-axis-line.c:717
 msgid "Inside minor ticks"
 msgstr "Znotraj podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:714
+#: ../goffice/graph/gog-axis-line.c:718
 msgid "Minor tick marks inside the chart area"
 msgstr "Podrobne oznake znotraj območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:719
+#: ../goffice/graph/gog-axis-line.c:723
 msgid "Outside minor ticks"
 msgstr "Izven podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:720
+#: ../goffice/graph/gog-axis-line.c:724
 msgid "Minor tick marks outside the axis"
 msgstr "Podrobne oznake izven območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:725
+#: ../goffice/graph/gog-axis-line.c:729
 msgid "Minor tick size"
 msgstr "Velikost podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:726
+#: ../goffice/graph/gog-axis-line.c:730
 msgid "Size of the minor tick marks, in points"
 msgstr "Velikost oznak podrobnih točk osi (v točkah)"
 
-#: ../goffice/graph/gog-axis-line.c:732
+#: ../goffice/graph/gog-axis-line.c:736
 msgid "Cross axis ID"
 msgstr "ID izhodišča osi"
 
-#: ../goffice/graph/gog-axis-line.c:733
+#: ../goffice/graph/gog-axis-line.c:737
 msgid "Which axis to cross"
 msgstr "Katero os naj se seka"
 
-#: ../goffice/graph/gog-axis-line.c:739
+#: ../goffice/graph/gog-axis-line.c:743
 msgid "Axis padding"
 msgstr "Blazinjenje osi"
 
-#: ../goffice/graph/gog-axis-line.c:740
+#: ../goffice/graph/gog-axis-line.c:744
 msgid "Distance from axis line to plot area, in points"
 msgstr "Razdalja med osno črto in diagramom površine v točkah"
 
-#: ../goffice/graph/gog-axis-line.c:832
+#: ../goffice/graph/gog-axis-line.c:836
 msgid "Select axis"
 msgstr "Izbor osi"
 
-#: ../goffice/graph/gog-axis-line.c:938
+#: ../goffice/graph/gog-axis-line.c:942
 msgid "Set start bound"
 msgstr "Določi začetno mejo"
 
-#: ../goffice/graph/gog-axis-line.c:949
+#: ../goffice/graph/gog-axis-line.c:953
 msgid "Set stop bound"
 msgstr "Določi končno mejo"
 
@@ -1621,7 +1622,7 @@ msgid "Legend"
 msgstr "Legenda"
 
 #: ../goffice/graph/gog-chart.c:707 ../goffice/graph/gog-reg-curve.c:280
-#: ../goffice/graph/gog-theme.c:595
+#: ../goffice/graph/gog-theme.c:595 ../plugins/lasem/plugin.xml.in.h:4
 msgid "Equation"
 msgstr "Izraz"
 
@@ -1778,6 +1779,7 @@ msgid "Width:"
 msgstr "Širina:"
 
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
+#: ../goffice/gtk/go-math-editor.c:106
 msgid "_Compact mode"
 msgstr "_Strnjen način"
 
@@ -2507,19 +2509,19 @@ msgstr "Prikaži _enačbo"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Prikaži koeficient _regresije R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1840 ../goffice/graph/gog-view.c:698
+#: ../goffice/graph/gog-renderer.c:1850 ../goffice/graph/gog-view.c:698
 msgid "Model"
 msgstr "Model"
 
-#: ../goffice/graph/gog-renderer.c:1841
+#: ../goffice/graph/gog-renderer.c:1851
 msgid "The GogGraph this renderer displays"
 msgstr "Predmet GogGraph prikazan v izrisovalniku"
 
-#: ../goffice/graph/gog-renderer.c:1846
+#: ../goffice/graph/gog-renderer.c:1856
 msgid "View"
 msgstr "Pogled"
 
-#: ../goffice/graph/gog-renderer.c:1847
+#: ../goffice/graph/gog-renderer.c:1857
 msgid "the GogView this renderer is displaying"
 msgstr "Predmet GogView, ki ga prikazuje izrisovalnik"
 
@@ -3927,6 +3929,7 @@ msgid "Upright Italic"
 msgstr "Pokončna ležeča"
 
 #: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:942
+#: ../plugins/lasem/component.c:212 ../plugins/lasem/component.c:436
 msgid "Font"
 msgstr "Pisava"
 
@@ -5554,11 +5557,11 @@ msgstr "Južna Afrika/Zulujsko (zu_ZA)"
 msgid "Current Locale: "
 msgstr "Trenutno jezikovno določilo: "
 
-#: ../goffice/gtk/go-optionmenu.c:477
+#: ../goffice/gtk/go-optionmenu.c:479
 msgid "Menu"
 msgstr "Meni"
 
-#: ../goffice/gtk/go-optionmenu.c:478
+#: ../goffice/gtk/go-optionmenu.c:480
 msgid "The menu of options"
 msgstr "Meni možnosti"
 
@@ -6750,7 +6753,7 @@ msgstr "veliki krožci"
 msgid "Bricks"
 msgstr "opečno"
 
-#: ../goffice/utils/go-pixbuf.c:301
+#: ../goffice/utils/go-pixbuf.c:304
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr "Predmet GdkPixbuf iz katerega je izgrajen GOPixbuf"
 
@@ -7004,6 +7007,42 @@ msgstr "Skladnje besed"
 msgid "Match whole words only."
 msgstr "Skladnja le celih besed."
 
+#: ../plugins/lasem/component.c:193
+msgid "Equation editor"
+msgstr "Urejevalnik izrazov"
+
+#: ../plugins/lasem/component.c:201
+msgid "Contents"
+msgstr "Vsebina"
+
+#: ../plugins/lasem/component.c:424
+msgid "Itex markup"
+msgstr "Oblikovanje Itex"
+
+#: ../plugins/lasem/component.c:425
+msgid "Itex markup string"
+msgstr "Niz oblikovanja Itex"
+
+#: ../plugins/lasem/component.c:431
+msgid "Default font color"
+msgstr "Privzeta barva pisave"
+
+#: ../plugins/lasem/component.c:437
+msgid "Default font"
+msgstr "Privzeta pisava"
+
+#: ../plugins/lasem/plugin.xml.in.h:1
+msgid "Component : Lasem"
+msgstr "Programnik : Lasem"
+
+#: ../plugins/lasem/plugin.xml.in.h:2
+msgid "Math equation support"
+msgstr "Podpora matematičnim enačbam"
+
+#: ../plugins/lasem/plugin.xml.in.h:3
+msgid "Math equation component engine"
+msgstr "Programnik pisanja matematičnih enačb"
+
 #: ../plugins/plot_barcol/gog-1.5d.c:348
 msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr ""
@@ -7041,8 +7080,8 @@ msgid "Lines"
 msgstr "Črtni"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
-#: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2176
+#: ../plugins/plot_radar/gog-radar.c:1349
+#: ../plugins/plot_radar/gog-radar.c:1475 ../plugins/plot_xy/gog-xy.c:2176
 #: ../plugins/plot_xy/gog-xy.c:2182
 msgid "GogErrorBar *"
 msgstr "Diagram"
@@ -8044,17 +8083,17 @@ msgstr "Skrij podatke izven mej barve osi"
 msgid "Z"
 msgstr "Z"
 
-#: ../plugins/plot_radar/gog-radar.c:1309
-#: ../plugins/plot_radar/gog-radar.c:1342
+#: ../plugins/plot_radar/gog-radar.c:1315
+#: ../plugins/plot_radar/gog-radar.c:1348
 msgid "Radial error bars"
 msgstr "Krožni razpon napake"
 
-#: ../plugins/plot_radar/gog-radar.c:1317
+#: ../plugins/plot_radar/gog-radar.c:1323
 msgid "Radial drop lines"
 msgstr "Krožne razponske črte"
 
-#: ../plugins/plot_radar/gog-radar.c:1425
-#: ../plugins/plot_radar/gog-radar.c:1468
+#: ../plugins/plot_radar/gog-radar.c:1431
+#: ../plugins/plot_radar/gog-radar.c:1474
 msgid "Angular error bars"
 msgstr "Kotni razpon napake"
 
