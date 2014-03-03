@@ -40,7 +40,7 @@ struct _GORotationSel {
 };
 
 typedef struct {
-	GtkBoxClass parent_class;
+	GtkGridClass parent_class;
 	void (* rotation_changed) (GORotationSel *grs, int angle);
 } GORotationSelClass;
 
@@ -269,7 +269,7 @@ grs_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (GORotationSel, go_rotation_sel,
-	   grs_class_init, grs_init, GTK_TYPE_BOX)
+	   grs_class_init, grs_init, GTK_TYPE_GRID)
 
 GtkWidget *
 go_rotation_sel_new (void)

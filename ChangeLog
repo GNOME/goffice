@@ -1,3 +1,7 @@
+2014-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-rotation-sel.c: fixed parent class.
+
 2014-02-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: add new mmlitex subdir.
