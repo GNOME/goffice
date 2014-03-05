@@ -7,6 +7,6 @@ xslt_DATA = \
 	mmlitex.xsl	\
 	tables.xsl \
 	README 
-xsltdir = $(DESTDIR)$(goffice_datadir)/mmlitex
+xsltdir = $(goffice_datadir)/mmlitex
 
 EXTRA_DIST = $(xslt_DATA)

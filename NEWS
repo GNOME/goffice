@@ -1,5 +1,11 @@
 goffice 0.10.13:
 
+Jean:
+	* Ensure that the lasem plugin builds with lasem-0.4.1. [#725693]
+
+Julian Sikorski:
+	* Remove extra DESTDIR in mathml to itex converter. [#725684]
+
 --------------------------------------------------------------------------
 goffice 0.10.12:
 

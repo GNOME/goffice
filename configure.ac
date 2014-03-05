@@ -177,6 +177,14 @@ if test "x$goffice_with_lasem" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_LASEM, 1, [Define if Lasem is used])
 	goffice_reqs="$goffice_reqs $lasem >= 0.4.1 "
 	EXTRA_DEPS="$EXTRA_DEPS $lasem"
+dnl check for lsm_itex_to_mathml
+	saved_CFLAGS=$CFLAGS
+	saved_LIBS=$LIBS
+	CFLAGS="$CFLAGS $Lasem_CFLAGS"
+	LIBS="$LIBS $Lasem_LIBS"
+	AC_CHECK_FUNCS(lsm_itex_to_mathml)
+	CFLAGS=$saved_CFLAGS
+	LIBS=$saved_LIBS
 fi
 
 AM_CONDITIONAL(GOFFICE_WITH_LASEM, $goffice_with_lasem)
