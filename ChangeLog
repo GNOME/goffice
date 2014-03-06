@@ -1,3 +1,8 @@
+2014-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-file.c (go_file_open): use GsfInputHTTP for URLs
+	starting with "http://" or "https://". [see #724970]
+
 2014-03-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.ac: add test for lsm_itex_to_mathml

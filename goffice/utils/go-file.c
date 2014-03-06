@@ -595,6 +595,11 @@ go_file_open (char const *uri, GError **err)
 		return result;
 	}
 
+	/* for now, GIO seems unable to retrieve files properly using http(s)
+	 * see https://bugzilla.gnome.org/show_bug.cgi?id=724970 */
+	if (!g_ascii_strncasecmp (uri, "http://", 7) || !g_ascii_strncasecmp (uri, "https://", 8))
+		return gsf_input_http_new (uri, err);
+
 	return gsf_input_gio_new_for_uri (uri, err);
 }
 
