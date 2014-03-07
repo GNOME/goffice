@@ -8529,7 +8529,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				forced_exponent_sign = TRUE;
 				xl++;
 			}
-			if (*xl++ == '-')
+			if (*xl == '-')
 				xl++;
 			while (*xl == '0') {
 				xl++;
