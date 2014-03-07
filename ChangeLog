@@ -1,3 +1,9 @@
+2014-03-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_number_to_odf): write
+	invisible characters; add argument
+	(go_format_output_to_odf): adjust call to go_format_output_number_to_odf
+
 2014-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-file.c (go_file_open): use GsfInputHTTP for URLs

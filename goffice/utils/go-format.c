@@ -8076,7 +8076,7 @@ go_format_output_number_element_to_odf (GsfXMLOut *xout,
 static void
 go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				GOFormatFamily family,
-				char const *name, int cond_part)
+				char const *name, int cond_part, gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
@@ -8196,12 +8196,26 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case TOK_ELAPSED_M:
 		case TOK_ELAPSED_S:
 		case TOK_GENERAL:
-		case TOK_INVISIBLE_CHAR:
 		case TOK_REPEATED_CHAR:
 		case TOK_CONDITION:
 		case TOK_ERROR:
 			ODF_WRITE_NUMBER;
 			break;
+
+		case TOK_INVISIBLE_CHAR: 
+			if (with_extension) {
+				size_t len = g_utf8_next_char(token + 1) - (token + 1);
+				if (len > 0) {
+					gchar *text = g_strndup (token + 1, len);
+					ODF_WRITE_NUMBER;
+					gsf_xml_out_start_element (xout, GNMSTYLE "invisible");
+					gsf_xml_out_add_cstr (xout, GNMSTYLE  "char", text);
+					gsf_xml_out_end_element (xout); /* </gnm:invisible> */
+					g_free (text);
+				}
+			}
+			break;
+	   
 
 		case TOK_STRING: {
 			size_t len = strchr (token + 1, '"') - (token + 1);
@@ -8703,7 +8717,7 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	case GO_FORMAT_CURRENCY:
 	case GO_FORMAT_PERCENTAGE:
 	case GO_FORMAT_NUMBER:
-		go_format_output_number_to_odf (xout, act_fmt, family, name, cond_part);
+		go_format_output_number_to_odf (xout, act_fmt, family, name, cond_part, with_extension);
 		break;
 	default: {
 		/* We need to output something and we don't need any details for this */

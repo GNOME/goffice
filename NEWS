@@ -1,5 +1,8 @@
 goffice 0.10.13:
 
+Andreas:
+	* Write invisible characters in ODF number style export. [#725852]
+
 Jean:
 	* Ensure that the lasem plugin builds with lasem-0.4.1. [#725693]
 
