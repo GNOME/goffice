@@ -40,16 +40,16 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 17:22+0000\n"
-"PO-Revision-Date: 2014-01-30 21:45+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2014-03-05 14:41+0000\n"
+"PO-Revision-Date: 2014-03-09 20:26+0100\n"
+"Last-Translator: Benjamin Steinwender <b@stbe.at>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Project-Style: gnome\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:593
@@ -444,7 +444,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Die Aufräumfunktion im Plugin gab einen Fehler zurück."
 
 #: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:60
-#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5243
+#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5266
 msgid "General"
 msgstr "Allgemein"
 
@@ -1330,6 +1330,7 @@ msgid "Value"
 msgstr "Wert"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+#: ../plugins/lasem/component.c:490
 msgid "Color"
 msgstr "Farbe"
 
@@ -1344,9 +1345,8 @@ msgid "Gradient"
 msgstr "Farbverlauf"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
-#, fuzzy
 msgid "Snapshots"
-msgstr "Snapshots"
+msgstr "Schnappschüsse"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
 msgid "Define"
@@ -1356,103 +1356,103 @@ msgstr "Festlegen"
 msgid "Erase"
 msgstr "Leeren"
 
-#: ../goffice/graph/gog-axis-line.c:647
+#: ../goffice/graph/gog-axis-line.c:650
 msgid "Layout"
 msgstr "Layout"
 
-#: ../goffice/graph/gog-axis-line.c:676
+#: ../goffice/graph/gog-axis-line.c:679
 msgid "Axis position"
 msgstr "Achsenposition"
 
-#: ../goffice/graph/gog-axis-line.c:677 ../goffice/graph/gog-axis-line.c:683
+#: ../goffice/graph/gog-axis-line.c:680 ../goffice/graph/gog-axis-line.c:686
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Die Position der Achse: tief, hoch oder quer"
 
-#: ../goffice/graph/gog-axis-line.c:682
+#: ../goffice/graph/gog-axis-line.c:685
 msgid "Axis position (as a string)"
 msgstr "Achsenposition (als Zeichenkette)"
 
-#: ../goffice/graph/gog-axis-line.c:688
+#: ../goffice/graph/gog-axis-line.c:692
 msgid "Major labels"
 msgstr "Wichtige Beschriftungen"
 
-#: ../goffice/graph/gog-axis-line.c:689
+#: ../goffice/graph/gog-axis-line.c:693
 msgid "Show labels for major ticks"
 msgstr "Beschriftungen für Hauptskalenstriche"
 
-#: ../goffice/graph/gog-axis-line.c:694
+#: ../goffice/graph/gog-axis-line.c:698
 msgid "Inside major ticks"
 msgstr "Hauptskalenstriche innenliegend"
 
-#: ../goffice/graph/gog-axis-line.c:695
+#: ../goffice/graph/gog-axis-line.c:699
 msgid "Major tick marks inside the chart area"
 msgstr "Hauptskalenstriche innerhalb des Graphen"
 
-#: ../goffice/graph/gog-axis-line.c:700
+#: ../goffice/graph/gog-axis-line.c:704
 msgid "Outside major ticks"
 msgstr "Hauptskalenstriche außenliegend"
 
-#: ../goffice/graph/gog-axis-line.c:701
+#: ../goffice/graph/gog-axis-line.c:705
 msgid "Major tick marks outside the chart area"
 msgstr "Hauptskalenstriche außerhalb des Graphen"
 
-#: ../goffice/graph/gog-axis-line.c:706
+#: ../goffice/graph/gog-axis-line.c:710
 msgid "Major tick size"
 msgstr "Größe der Hauptskalenstriche"
 
-#: ../goffice/graph/gog-axis-line.c:707
+#: ../goffice/graph/gog-axis-line.c:711
 msgid "Size of the major tick marks, in points"
 msgstr "Größe der Hauptskalenstriche, in Punkt"
 
-#: ../goffice/graph/gog-axis-line.c:713
+#: ../goffice/graph/gog-axis-line.c:717
 msgid "Inside minor ticks"
 msgstr "Feine Skalenstriche innenliegend"
 
-#: ../goffice/graph/gog-axis-line.c:714
+#: ../goffice/graph/gog-axis-line.c:718
 msgid "Minor tick marks inside the chart area"
 msgstr "Feine Skalenstriche außerhalb des Graphen"
 
-#: ../goffice/graph/gog-axis-line.c:719
+#: ../goffice/graph/gog-axis-line.c:723
 msgid "Outside minor ticks"
 msgstr "Feine Skalenstriche außenliegend"
 
-#: ../goffice/graph/gog-axis-line.c:720
+#: ../goffice/graph/gog-axis-line.c:724
 msgid "Minor tick marks outside the axis"
 msgstr "Feine Skalenstriche innerhalb der Achsen"
 
-#: ../goffice/graph/gog-axis-line.c:725
+#: ../goffice/graph/gog-axis-line.c:729
 msgid "Minor tick size"
 msgstr "Größe der feinen Skalenstriche"
 
-#: ../goffice/graph/gog-axis-line.c:726
+#: ../goffice/graph/gog-axis-line.c:730
 msgid "Size of the minor tick marks, in points"
 msgstr "Größe der feinen Skalenstriche, in Punkt"
 
-#: ../goffice/graph/gog-axis-line.c:732
+#: ../goffice/graph/gog-axis-line.c:736
 msgid "Cross axis ID"
 msgstr "Kennung der gekreuzten Achse"
 
-#: ../goffice/graph/gog-axis-line.c:733
+#: ../goffice/graph/gog-axis-line.c:737
 msgid "Which axis to cross"
 msgstr "Welche Achse gekreuzt werden soll"
 
-#: ../goffice/graph/gog-axis-line.c:739
+#: ../goffice/graph/gog-axis-line.c:743
 msgid "Axis padding"
 msgstr "Achsenauffüllung"
 
-#: ../goffice/graph/gog-axis-line.c:740
+#: ../goffice/graph/gog-axis-line.c:744
 msgid "Distance from axis line to plot area, in points"
 msgstr "Abstand zwischen Achse und Darstellungsbereich, in Punkt"
 
-#: ../goffice/graph/gog-axis-line.c:832
+#: ../goffice/graph/gog-axis-line.c:836
 msgid "Select axis"
 msgstr "Achse wählen"
 
-#: ../goffice/graph/gog-axis-line.c:938
+#: ../goffice/graph/gog-axis-line.c:942
 msgid "Set start bound"
 msgstr "Grenzenbeginn festlegen"
 
-#: ../goffice/graph/gog-axis-line.c:949
+#: ../goffice/graph/gog-axis-line.c:953
 msgid "Set stop bound"
 msgstr "Grenzenende festlegen"
 
@@ -1660,7 +1660,7 @@ msgid "Legend"
 msgstr "Legende"
 
 #: ../goffice/graph/gog-chart.c:707 ../goffice/graph/gog-reg-curve.c:280
-#: ../goffice/graph/gog-theme.c:595
+#: ../goffice/graph/gog-theme.c:595 ../plugins/lasem/plugin.xml.in.h:4
 msgid "Equation"
 msgstr "Gleichung"
 
@@ -1669,10 +1669,9 @@ msgid "3D-Box"
 msgstr "3D-Box"
 
 #: ../goffice/graph/gog-chart.c:716
-#, fuzzy
 #| msgid "Scale"
 msgid "Color-Scale"
-msgstr "Skala"
+msgstr "Farbskala"
 
 #: ../goffice/graph/gog-chart.c:750
 msgid "Valid cardinality"
@@ -1821,6 +1820,7 @@ msgid "Width:"
 msgstr "Breite:"
 
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
+#: ../goffice/gtk/go-math-editor.c:106
 msgid "_Compact mode"
 msgstr "_Kompakter Modus"
 
@@ -2840,19 +2840,17 @@ msgid "Series lines"
 msgstr "Verbindungslinien"
 
 #: ../goffice/graph/gog-theme.c:599
-#, fuzzy
 msgid "Series labels"
-msgstr "Kategoriebeschriftungen"
+msgstr "Serienbeschriftungen"
 
 #: ../goffice/graph/gog-theme.c:600
 msgid "Data label"
 msgstr "Datenbeschriftungen"
 
 #: ../goffice/graph/gog-theme.c:601
-#, fuzzy
 #| msgid "Colors"
 msgid "Color scale"
-msgstr "Farben"
+msgstr "Farbskala"
 
 #: ../goffice/graph/gog-theme.c:1242
 msgid "An MS Excel like theme"
@@ -2864,9 +2862,8 @@ msgid "Guppi"
 msgstr "Guppi"
 
 #: ../goffice/graph/gog-theme.c:1421
-#, fuzzy
 msgid "Guppi theme"
-msgstr "Guppi"
+msgstr "Guppi-Thema"
 
 #: ../goffice/graph/gog-theme.c:1862
 msgid "Class"
@@ -2940,11 +2937,9 @@ msgstr "Der GogView-Vorgänger"
 msgid "The GogObject this view displays"
 msgstr "Das von dieser Ansicht dargestellte GogObject"
 
-# CHECK
 #: ../goffice/graph/new-theme-prefs.ui.h:2
-#, fuzzy
 msgid "Series number"
-msgstr "Name der Serie"
+msgstr "Seriennummer"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -3541,7 +3536,6 @@ msgid "Custom color..."
 msgstr "Benutzerdefinierte Farbe …"
 
 #: ../goffice/gtk/go-combo-box.c:315
-#| msgid "The combo box' title"
 msgid "The combo box's title"
 msgstr "Der Titel des Auswahlfelds"
 
@@ -3672,10 +3666,9 @@ msgid "Bold Condensed"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:398
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Italic Small Caps"
-msgstr "Fett-kursiv"
+msgstr "Fett-kursiv Kapitälchen"
 
 #: ../goffice/gtk/go-font-sel.c:399
 msgctxt "FontFace"
@@ -3683,10 +3676,9 @@ msgid "Bold Nonextended"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:400
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Oblique"
-msgstr "Fett-kursiv"
+msgstr "Fett schräggestellt"
 
 #: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
@@ -3739,6 +3731,7 @@ msgctxt "FontFace"
 msgid "Condensed"
 msgstr "Verdichtet"
 
+# sollte es vlt. "semi bold italic" heißen?
 #: ../goffice/gtk/go-font-sel.c:411
 #, fuzzy
 msgctxt "FontFace"
@@ -3812,10 +3805,9 @@ msgid "Light Italic"
 msgstr "Kursiv leicht"
 
 #: ../goffice/gtk/go-font-sel.c:426
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light Oblique"
-msgstr "Hellblau"
+msgstr "Leicht schräggestellt"
 
 #: ../goffice/gtk/go-font-sel.c:427
 msgctxt "FontFace"
@@ -3823,10 +3815,9 @@ msgid "Light"
 msgstr "Leicht"
 
 #: ../goffice/gtk/go-font-sel.c:428
-#, fuzzy
 msgctxt "FontFace"
 msgid "Medium Italic"
-msgstr "Kursiv"
+msgstr "Mittelkursiv"
 
 #: ../goffice/gtk/go-font-sel.c:429
 msgctxt "FontFace"
@@ -3904,10 +3895,9 @@ msgid "Semi-Bold Italic Small Caps"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.c:444
-#, fuzzy
 msgctxt "FontFace"
 msgid "Semi-Bold Italic"
-msgstr "Fett-kursiv"
+msgstr "Halbfett-kursiv"
 
 #: ../goffice/gtk/go-font-sel.c:445
 msgctxt "FontFace"
@@ -3990,12 +3980,12 @@ msgid "Thin"
 msgstr "Dünn"
 
 #: ../goffice/gtk/go-font-sel.c:461
-#, fuzzy
 msgctxt "FontFace"
 msgid "Upright Italic"
-msgstr "Kursiv"
+msgstr "Aufrecht-Kursiv"
 
 #: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:942
+#: ../plugins/lasem/component.c:272 ../plugins/lasem/component.c:496
 msgid "Font"
 msgstr "Schrift"
 
@@ -4150,7 +4140,7 @@ msgstr "Durchgestrichen:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
-msgstr "Schriftfarge wählen"
+msgstr "Schriftfarbe wählen"
 
 #: ../goffice/gtk/go-font-sel.ui.h:10
 msgid "Color:"
@@ -7054,6 +7044,50 @@ msgstr "Nur Wörter"
 msgid "Match whole words only."
 msgstr "Nur vollständige Wörter berücksichtigen."
 
+#: ../plugins/lasem/component.c:253
+#| msgid "Equation"
+msgid "Equation editor"
+msgstr "Formeleditor"
+
+#: ../plugins/lasem/component.c:261
+#| msgid "content"
+msgid "Contents"
+msgstr "Inhalt"
+
+#: ../plugins/lasem/component.c:484
+#, fuzzy
+#| msgid "Interpret text as markup"
+msgid "Itex markup"
+msgstr "Text als Markup behandeln"
+
+#: ../plugins/lasem/component.c:485
+msgid "Itex markup string"
+msgstr ""
+
+#: ../plugins/lasem/component.c:491
+#| msgid "Select the font color"
+msgid "Default font color"
+msgstr "Vorgabeschriftfarbe"
+
+#: ../plugins/lasem/component.c:497
+#| msgid "Default fill"
+msgid "Default font"
+msgstr "Vorgabeschriftart"
+
+#: ../plugins/lasem/plugin.xml.in.h:1
+#| msgid "Component Type"
+msgid "Component : Lasem"
+msgstr "Komponente : Lasem"
+
+#: ../plugins/lasem/plugin.xml.in.h:2
+msgid "Math equation support"
+msgstr "Mathematikformelunterstützung"
+
+#: ../plugins/lasem/plugin.xml.in.h:3
+#| msgid "Component Engine"
+msgid "Math equation component engine"
+msgstr "Mathematikformel-Komponenten-Engine"
+
 #: ../plugins/plot_barcol/gog-1.5d.c:348
 msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr "Gruppierung mehrerer Datenreihen: normal, stacked, as_percentage"
@@ -8184,10 +8218,9 @@ msgstr "GraphKontur"
 #. xgettext : the base for how to name matrix objects
 #.
 #: ../plugins/plot_surface/gog-matrix.c:70
-#, fuzzy
 #| msgid "PlotMinMax"
 msgid "PlotMatrix"
-msgstr "PlotMinMax"
+msgstr "PlotMatrix"
 
 #. xgettext : the base for how to name surface plot objects
 #.
@@ -8237,10 +8270,9 @@ msgstr "PlotXYZContour"
 #. xgettext : the base for how to name matrix plot objects with (x,y,z) data
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:497
-#, fuzzy
 #| msgid "PlotXYMinMax"
 msgid "PlotXYZMatrix"
-msgstr "PlotXYMinMax"
+msgstr "PlotXYZMatrix"
 
 #. xgettext : the base for how to name surface plot objects with (x,y,z) data
 #.
@@ -8293,10 +8325,9 @@ msgid "As density"
 msgstr ""
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:767
-#, fuzzy
 #| msgid "Display size as area instead of diameter"
 msgid "Display the data as density instead or raw data"
-msgstr "Größe als Fläche anstatt Durchmesser anzeigen"
+msgstr "Daten als Dichte anstatt Rohdaten anzeigen"
 
 #. xgettext : the base for how to name contour plot objects with (x,y) data
 #.
@@ -8304,18 +8335,16 @@ msgstr "Größe als Fläche anstatt Durchmesser anzeigen"
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:915
 #: ../plugins/plot_surface/gog-xyz-surface.c:971
-#, fuzzy
 #| msgid "PlotXYMinMax"
 msgid "PlotXYMatrix"
-msgstr "PlotXYMinMax"
+msgstr "PlotXYMatrix"
 
 #. xgettext : the base for how to name surface plots objects with (x,y) data
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:1027
-#, fuzzy
 #| msgid "PlotXYZSurface"
 msgid "PlotXYSurface"
-msgstr "PlotXYZSurface"
+msgstr "PlotXYSurface"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.c:162
 #, fuzzy
@@ -8380,7 +8409,6 @@ msgid "Builds a contour from a set of points with three coordinates"
 msgstr "Zeichnet eine Kontur aus einem Satz von Punkten mit drei Koordinaten"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:7
-#| msgid "XYZContour"
 msgid "XYContour"
 msgstr "XYZKontur"
 
@@ -8402,10 +8430,9 @@ msgstr ""
 "Zeichnet eine Oberfläche aus einem Satz von Punkten mit drei Koordinaten"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:12
-#, fuzzy
 #| msgid "XYZSurface"
 msgid "XYSurface"
-msgstr "XYZSurface"
+msgstr "XY-Oberfläche"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:13
 msgid "Builds a surface from the number of (X,Y) values around each vertex"
@@ -8448,10 +8475,9 @@ msgid "XYZ contour plotting engine"
 msgstr "XYZ Konturdarstellungs-Engine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
-#, fuzzy
 #| msgid "XYZ contour plotting engine"
 msgid "XY contour plotting engine"
-msgstr "XYZ Konturdarstellungs-Engine"
+msgstr "XY Konturdarstellungs-Engine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:6
 msgid "Surface plotting engine"
@@ -8462,23 +8488,19 @@ msgid "XYZ surface plotting engine"
 msgstr "XYZ Oberflächendarstellungs-Engine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:8
-#, fuzzy
 #| msgid "XYZ surface plotting engine"
 msgid "XY surface plotting engine"
-msgstr "XYZ Oberflächendarstellungs-Engine"
+msgstr "XY Oberflächendarstellungs-Engine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:9
-#| msgid "Min Max plotting engine"
 msgid "Matrix plotting engine"
 msgstr "Matrixdarstellungs-Engine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:10
-#| msgid "XYZ contour plotting engine"
 msgid "XY matrix plotting engine"
 msgstr "XY Matrixdarstellungs-Engine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:11
-#| msgid "XYZ contour plotting engine"
 msgid "XYZ matrix plotting engine"
 msgstr "XYZ Matrixdarstellungs-Engine"
 
