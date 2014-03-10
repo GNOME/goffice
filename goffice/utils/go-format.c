@@ -7371,6 +7371,7 @@ go_format_locale_currency (void)
 #define FOSTYLE	 "fo:"
 #define NUMBER   "number:"
 #define GNMSTYLE "gnm:"
+#define OFFICE   "office:"
 
 
 #ifdef DEFINE_COMMON
@@ -8202,20 +8203,29 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			ODF_WRITE_NUMBER;
 			break;
 
-		case TOK_INVISIBLE_CHAR: 
-			if (with_extension) {
-				size_t len = g_utf8_next_char(token + 1) - (token + 1);
-				if (len > 0) {
+		case TOK_INVISIBLE_CHAR: {
+			size_t len = g_utf8_next_char(token + 1) - (token + 1);
+			if (len > 0) {
+				if (with_extension) {
 					gchar *text = g_strndup (token + 1, len);
 					ODF_WRITE_NUMBER;
+					ODF_OPEN_STRING;
+					gsf_xml_out_add_cstr (xout, NULL, accum->str);
+					g_string_erase (accum, 0, -1);
+					gsf_xml_out_add_cstr (xout, NULL, " ");
 					gsf_xml_out_start_element (xout, GNMSTYLE "invisible");
 					gsf_xml_out_add_cstr (xout, GNMSTYLE  "char", text);
+					odf_add_bool (xout, OFFICE "process-content", 1);
+					gsf_xml_out_add_cstr (xout, NULL, " ");
 					gsf_xml_out_end_element (xout); /* </gnm:invisible> */
 					g_free (text);
+				} else {
+					ODF_OPEN_STRING;
+					g_string_append_len (accum, token + 1, len);
 				}
 			}
 			break;
-	   
+		}
 
 		case TOK_STRING: {
 			size_t len = strchr (token + 1, '"') - (token + 1);
