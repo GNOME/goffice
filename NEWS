@@ -10,6 +10,9 @@ Jean:
 Julian Sikorski:
 	* Remove extra DESTDIR in mathml to itex converter. [#725684]
 
+Morten:
+	* Fix problem saving print settings.  [#698630]
+
 --------------------------------------------------------------------------
 goffice 0.10.12:
 

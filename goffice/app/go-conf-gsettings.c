@@ -363,6 +363,7 @@ go_conf_load_str_list (GOConfNode *node, gchar const *key)
 		for (ptr = strs; *ptr; ptr++)
 			list = g_slist_prepend (list, g_strdup (*ptr));
 		g_strfreev (strs);
+		list = g_slist_reverse (list);
 	}
 
 	return list;

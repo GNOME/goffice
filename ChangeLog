@@ -1,3 +1,8 @@
+2014-03-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf-gsettings.c (go_conf_load_str_list): Don't
+	reverse the order of elements.  Fixes #698630.
+
 2014-03-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_number_to_odf): write
