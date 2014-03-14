@@ -3,6 +3,7 @@ goffice 0.10.13:
 Andreas:
 	* Write invisible characters in ODF number style export. [part of #725852]
 	* Fix writing of scientific number format to ODF. [part of #725852]
+	* Fix strict number style export to ODF. [#726237]
 
 Jean:
 	* Ensure that the lasem plugin builds with lasem-0.4.1. [#725693]

@@ -8220,8 +8220,9 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 					gsf_xml_out_end_element (xout); /* </gnm:invisible> */
 					g_free (text);
 				} else {
+					ODF_WRITE_NUMBER;
 					ODF_OPEN_STRING;
-					g_string_append_len (accum, token + 1, len);
+					g_string_append_c (accum, ' ');
 				}
 			}
 			break;
