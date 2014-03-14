@@ -1,5 +1,5 @@
 # Brazilian Portuguese translation of goffice.
-# Copyright (C) 2000-2013 Free Software Foundation, Inc.
+# Copyright (C) 2000-2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the goffice package.
 # E. A. Tacão <tacao@conectiva.com.br>, 2000.
 # Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001.
@@ -8,22 +8,23 @@
 # Rafael Ferreira <rafael.f.f1@gmail.com>, 2013, 2014.
 # Junninho Riot <Lima1042@hotmail.com>, 2013.
 # Juan Diego <juan.martins@academico.ifrn.edu.br>, 2013.
+# Ricardo Barbosa <barbosa.cisco@gmail.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 17:22+0000\n"
-"PO-Revision-Date: 2014-01-05 03:36-0300\n"
-"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
+"POT-Creation-Date: 2014-03-14 09:13+0000\n"
+"PO-Revision-Date: 2014-03-14 08:11-0300\n"
+"Last-Translator: Ricardo Barbosa <barbosa.cisco@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.6.4\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
@@ -412,7 +413,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Função de fechamento do plugin retornou erro."
 
 #: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:60
-#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5243
+#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5266
 msgid "General"
 msgstr "Geral"
 
@@ -1299,6 +1300,7 @@ msgid "Value"
 msgstr "Valor"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+#: ../plugins/lasem/component.c:490
 msgid "Color"
 msgstr "Cor"
 
@@ -1324,110 +1326,104 @@ msgstr "Definir"
 msgid "Erase"
 msgstr "Apagar"
 
-#: ../goffice/graph/gog-axis-line.c:647
+#: ../goffice/graph/gog-axis-line.c:650
 msgid "Layout"
 msgstr "Disposição"
 
-#: ../goffice/graph/gog-axis-line.c:676
+#: ../goffice/graph/gog-axis-line.c:679
 msgid "Axis position"
 msgstr "Posição do eixo"
 
-#: ../goffice/graph/gog-axis-line.c:677 ../goffice/graph/gog-axis-line.c:683
+#: ../goffice/graph/gog-axis-line.c:680 ../goffice/graph/gog-axis-line.c:686
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Onde posicionar um eixo: baixo, alto ou cruzado"
 
-#: ../goffice/graph/gog-axis-line.c:682
+#: ../goffice/graph/gog-axis-line.c:685
 msgid "Axis position (as a string)"
 msgstr "Posição do eixo (como uma string)"
 
-#: ../goffice/graph/gog-axis-line.c:688
+#: ../goffice/graph/gog-axis-line.c:692
 msgid "Major labels"
 msgstr "Rótulos maiores"
 
-#: ../goffice/graph/gog-axis-line.c:689
+#: ../goffice/graph/gog-axis-line.c:693
 msgid "Show labels for major ticks"
 msgstr "Mostra rótulos para marcas maiores"
 
-#: ../goffice/graph/gog-axis-line.c:694
-#, fuzzy
+#: ../goffice/graph/gog-axis-line.c:698
 msgid "Inside major ticks"
-msgstr "Mar_cadores Principais"
+msgstr "Marcas maiores internas"
 
-#: ../goffice/graph/gog-axis-line.c:695
+#: ../goffice/graph/gog-axis-line.c:699
 msgid "Major tick marks inside the chart area"
 msgstr "Marcas maiores dentro da área do gráfico"
 
-#: ../goffice/graph/gog-axis-line.c:700
-#, fuzzy
+#: ../goffice/graph/gog-axis-line.c:704
 msgid "Outside major ticks"
-msgstr "Mar_cadores Principais"
+msgstr "Marcas maiores externas"
 
-#: ../goffice/graph/gog-axis-line.c:701
+#: ../goffice/graph/gog-axis-line.c:705
 msgid "Major tick marks outside the chart area"
 msgstr "Marcas maiores fora da área do gráfico"
 
-#: ../goffice/graph/gog-axis-line.c:706
-#, fuzzy
+#: ../goffice/graph/gog-axis-line.c:710
 msgid "Major tick size"
-msgstr "Mar_cadores Principais"
+msgstr "Tamanho da marca maior"
 
-#: ../goffice/graph/gog-axis-line.c:707
+#: ../goffice/graph/gog-axis-line.c:711
 msgid "Size of the major tick marks, in points"
 msgstr "Tamanho da marca maior, em pontos"
 
-#: ../goffice/graph/gog-axis-line.c:713
-#, fuzzy
+#: ../goffice/graph/gog-axis-line.c:717
 msgid "Inside minor ticks"
-msgstr "Marca_dores Secundários"
+msgstr "Marcas menores internas"
 
-#: ../goffice/graph/gog-axis-line.c:714
+#: ../goffice/graph/gog-axis-line.c:718
 msgid "Minor tick marks inside the chart area"
 msgstr "Marca menor dentro da área do gráfico"
 
-#: ../goffice/graph/gog-axis-line.c:719
-#, fuzzy
+#: ../goffice/graph/gog-axis-line.c:723
 msgid "Outside minor ticks"
-msgstr "Marca_dores Secundários"
+msgstr "Marcas menores externas"
 
-#: ../goffice/graph/gog-axis-line.c:720
+#: ../goffice/graph/gog-axis-line.c:724
 msgid "Minor tick marks outside the axis"
 msgstr "Marca menor fora do eixo"
 
-#: ../goffice/graph/gog-axis-line.c:725
-#, fuzzy
+#: ../goffice/graph/gog-axis-line.c:729
 msgid "Minor tick size"
-msgstr "Marca_dores Secundários"
+msgstr "Tamanho da marca menor"
 
-#: ../goffice/graph/gog-axis-line.c:726
+#: ../goffice/graph/gog-axis-line.c:730
 msgid "Size of the minor tick marks, in points"
 msgstr "Tamanho da marca menor, em pontos"
 
-#: ../goffice/graph/gog-axis-line.c:732
+#: ../goffice/graph/gog-axis-line.c:736
 msgid "Cross axis ID"
 msgstr "Cruzar o ID de eixo"
 
-#: ../goffice/graph/gog-axis-line.c:733
+#: ../goffice/graph/gog-axis-line.c:737
 msgid "Which axis to cross"
 msgstr "Qual eixo cruzar"
 
-#: ../goffice/graph/gog-axis-line.c:739
+#: ../goffice/graph/gog-axis-line.c:743
 #, fuzzy
 msgid "Axis padding"
 msgstr "Linha"
 
-#: ../goffice/graph/gog-axis-line.c:740
+#: ../goffice/graph/gog-axis-line.c:744
 msgid "Distance from axis line to plot area, in points"
 msgstr "Distância de uma linha de eixo para a área de plotagem, em pontos"
 
-#: ../goffice/graph/gog-axis-line.c:832
+#: ../goffice/graph/gog-axis-line.c:836
 msgid "Select axis"
 msgstr "Seleciona eixo"
 
-#: ../goffice/graph/gog-axis-line.c:938
+#: ../goffice/graph/gog-axis-line.c:942
 msgid "Set start bound"
 msgstr "Define limite inicial"
 
-#: ../goffice/graph/gog-axis-line.c:949
+#: ../goffice/graph/gog-axis-line.c:953
 msgid "Set stop bound"
 msgstr "Define limite final"
 
@@ -1637,7 +1633,7 @@ msgid "Legend"
 msgstr "Legenda"
 
 #: ../goffice/graph/gog-chart.c:707 ../goffice/graph/gog-reg-curve.c:280
-#: ../goffice/graph/gog-theme.c:595
+#: ../goffice/graph/gog-theme.c:595 ../plugins/lasem/plugin.xml.in.h:4
 msgid "Equation"
 msgstr "Equação"
 
@@ -1800,6 +1796,7 @@ msgid "Width:"
 msgstr "Largura:"
 
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
+#: ../goffice/gtk/go-math-editor.c:106
 msgid "_Compact mode"
 msgstr "Modo _compacto"
 
@@ -2558,7 +2555,7 @@ msgstr "Origem"
 
 #: ../goffice/graph/gog-series.c:112
 msgid "Edge"
-msgstr ""
+msgstr "Extremidade"
 
 #: ../goffice/graph/gog-series.c:113
 msgid "Self"
@@ -2635,13 +2632,12 @@ msgid "Data labels"
 msgstr "Rótulos de data"
 
 #: ../goffice/graph/gog-series.c:829 ../goffice/graph/gog-trend-line.c:151
-#, fuzzy
 msgid "Has-legend"
-msgstr "Legenda"
+msgstr "Tem legenda"
 
 #: ../goffice/graph/gog-series.c:830
 msgid "Should the series show up in legends"
-msgstr ""
+msgstr "A série deve ser mostrada em legendas"
 
 #: ../goffice/graph/gog-series.c:835 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
@@ -2652,22 +2648,20 @@ msgid "Type of line interpolation"
 msgstr "Tipo de interpolação"
 
 #: ../goffice/graph/gog-series.c:841
-#, fuzzy
 msgid "Interpolation skip invalid"
-msgstr "Descrição"
+msgstr "Importação ignora inválidos"
 
 #: ../goffice/graph/gog-series.c:842
 msgid "Should the series interpolation ignore the invalid data"
-msgstr ""
+msgstr "A série de interpolação deve ignorar dados inválidos"
 
 #: ../goffice/graph/gog-series.c:847
-#, fuzzy
 msgid "Fill type"
-msgstr "_Tipo de Arquivo:"
+msgstr "Tipo de preenchimento"
 
 #: ../goffice/graph/gog-series.c:848
 msgid "How to fill the area"
-msgstr ""
+msgstr "Como preencher a área"
 
 #: ../goffice/graph/gog-series-labels.c:57
 msgid "Centered"
@@ -2695,7 +2689,7 @@ msgstr "Rótulos personalizados"
 
 #: ../goffice/graph/gog-series-labels.c:463
 msgid "Available data"
-msgstr ""
+msgstr "Dados disponíveis"
 
 #: ../goffice/graph/gog-series-labels.c:516
 #: ../goffice/graph/gog-series-labels.c:584
@@ -2721,38 +2715,35 @@ msgstr "Valores percentuais"
 #: ../goffice/graph/gog-series-labels.c:1281
 #, c-format
 msgid "%.1f%%"
-msgstr ""
+msgstr "%.1f%%"
 
 #: ../goffice/graph/gog-series-labels.c:899
 #: ../goffice/graph/gog-series-labels.c:1425
 msgid "Position of the label relative to the data graphic element"
-msgstr ""
+msgstr "Posição do rótulo em relação ao elemento de dados gráficos"
 
 #: ../goffice/graph/gog-series-labels.c:904
 #: ../goffice/graph/gog-series-labels.c:1430
 msgid "Offset"
-msgstr ""
+msgstr "Posição"
 
 #: ../goffice/graph/gog-series-labels.c:905
 #: ../goffice/graph/gog-series-labels.c:1431
-#, fuzzy
 msgid "Offset to add to the label position"
-msgstr "Menu de opções"
+msgstr "Deslocamento para adicionar a posição do rótulo"
 
 #: ../goffice/graph/gog-series-labels.c:911
 #: ../goffice/graph/gog-series-labels.c:1437
-#, fuzzy
 msgid "Label format"
-msgstr "Formatos de Números"
+msgstr "Formatos de rótulo"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:2
 msgid "_Offset:"
-msgstr ""
+msgstr "_Deslocamento:"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:3
-#, fuzzy
 msgid "Custom labels:"
-msgstr "Categorias entre _rótulos"
+msgstr "Rótulos personalizados:"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:4
 msgid "Separator:"
@@ -2772,17 +2763,16 @@ msgstr "Dado inválido."
 #. derivative (curve slope) at first point for the clamped cubic spline
 #: ../goffice/graph/gog-series-prefs.ui.h:6
 msgid "<i>y'</i>(<i>x</i><sub>first</sub>):"
-msgstr ""
+msgstr "<i>y'</i>(<i>x</i><sub>primeiro</sub>):"
 
 #. derivative (curve slope) at last point for the clamped cubic spline
 #: ../goffice/graph/gog-series-prefs.ui.h:8
 msgid "<i>y'</i>(<i>x</i><sub>last</sub>):"
-msgstr ""
+msgstr "<i>y'</i>(<i>x</i><sub>último</sub>):"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:9
-#, fuzzy
 msgid "content"
-msgstr "_Indentar:"
+msgstr "conteúdo"
 
 #: ../goffice/graph/gog-smoothed-curve.c:54
 msgid "(Name):"
@@ -2790,7 +2780,7 @@ msgstr "(Nome):"
 
 #: ../goffice/graph/gog-smoothed-curve.c:91
 msgid "Smoothed Curve"
-msgstr ""
+msgstr "Curva suavizada"
 
 #: ../goffice/graph/gog-theme.c:323
 msgid "The resource type for the theme"
@@ -2841,7 +2831,7 @@ msgstr "Escala de cor"
 
 #: ../goffice/graph/gog-theme.c:1242
 msgid "An MS Excel like theme"
-msgstr ""
+msgstr "Tema similar ao MS Excel"
 
 #. Guppi
 #: ../goffice/graph/gog-theme.c:1420
@@ -2930,11 +2920,11 @@ msgstr "Número de série"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Maiúsculo/minúsculo"
 
 #: ../goffice/gtk/go-action-combo-text.c:225
 msgid "Should the text comparison be case sensitive"
-msgstr ""
+msgstr "A comparação do texto deve diferenciar maiúsculo de minúsculo"
 
 #: ../goffice/gtk/go-charmap-sel.c:73
 msgid "Arabic"
@@ -3979,6 +3969,7 @@ msgid "Upright Italic"
 msgstr "Itálico"
 
 #: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:942
+#: ../plugins/lasem/component.c:272 ../plugins/lasem/component.c:496
 msgid "Font"
 msgstr "Fonte"
 
@@ -4587,7 +4578,7 @@ msgstr "Ásia"
 
 #: ../goffice/gtk/go-locale-sel.c:68
 msgid "Middle East"
-msgstr ""
+msgstr "Oriente Médio"
 
 #: ../goffice/gtk/go-locale-sel.c:69
 msgid "Africa"
@@ -5688,7 +5679,7 @@ msgstr ""
 
 #: ../goffice/math/go-distribution.c:76
 msgid "Uniform"
-msgstr ""
+msgstr "Uniforme"
 
 #: ../goffice/math/go-distribution.c:77
 msgid "Cauchy"
@@ -6478,39 +6469,37 @@ msgstr "Dados de imagem inválidos\n"
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:601
 msgid "*Long Date Format"
-msgstr ""
+msgstr "*Formato de data longa"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:609
-#, fuzzy
 msgid "*Medium Date Format"
-msgstr "Formatos de Números"
+msgstr "*Formato de data média"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:617
 msgid "*Short Date Format"
-msgstr ""
+msgstr "*Formato de data curta"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:630
 msgid "*Short Date/Time Format"
-msgstr ""
+msgstr "*Formato de data curta/tempo"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:645
 msgid "*Long Time Format"
-msgstr ""
+msgstr "*Formato de tempo longo"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:657
-#, fuzzy
 msgid "*Medium Time Format"
-msgstr "Formatos de Números"
+msgstr "*Formato de tempo médio"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:669
 msgid "*Short Time Format"
-msgstr ""
+msgstr "*Formato de tempo curto"
 
 #: ../goffice/utils/go-format.c:718
 msgid "Black"
@@ -6579,7 +6568,7 @@ msgstr "nenhum"
 #: ../goffice/utils/go-glib-extras.c:1149
 #, c-format
 msgid "Quoted string not terminated"
-msgstr ""
+msgstr "String comentada não terminada"
 
 #: ../goffice/utils/go-glib-extras.c:1156
 #, c-format
@@ -6592,7 +6581,7 @@ msgstr "SVG (gráfico vetorial)"
 
 #: ../goffice/utils/go-image.c:160
 msgid "PNG (raster graphics)"
-msgstr ""
+msgstr "PNG (gráficos raster)"
 
 #: ../goffice/utils/go-image.c:162
 msgid "JPEG (photograph)"
@@ -6608,11 +6597,11 @@ msgstr "PS (postsript)"
 
 #: ../goffice/utils/go-image.c:168
 msgid "EMF (extended metafile)"
-msgstr ""
+msgstr "EMF (metarquivo estedido)"
 
 #: ../goffice/utils/go-image.c:170
 msgid "WMF (windows metafile)"
-msgstr ""
+msgstr "WMF (metarquivo do windows)"
 
 #: ../goffice/utils/go-image.c:172
 msgid "EPS (encapsulated postscript)"
@@ -6700,11 +6689,11 @@ msgstr ""
 
 #: ../goffice/utils/go-line.c:177
 msgid "Step at start"
-msgstr ""
+msgstr "Espaço no inicio"
 
 #: ../goffice/utils/go-line.c:179
 msgid "Step at end"
-msgstr ""
+msgstr "Espaço no fim"
 
 #: ../goffice/utils/go-line.c:181
 #, fuzzy
@@ -6886,7 +6875,7 @@ msgstr ""
 
 #: ../goffice/utils/go-style.c:201
 msgid "No image!"
-msgstr ""
+msgstr "Sem imagem!"
 
 #: ../goffice/utils/go-style.c:650
 msgid "Foreground:"
@@ -7016,7 +7005,7 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:63
 msgid "Invalid character class name."
-msgstr ""
+msgstr "Nomenclatura de classe inválida."
 
 #: ../goffice/utils/regutf8.c:64
 msgid "Trailing backslash."
@@ -7040,7 +7029,7 @@ msgstr "Não encontrado \\{."
 
 #: ../goffice/utils/regutf8.c:69
 msgid "Invalid contents of \\{\\}."
-msgstr ""
+msgstr "Conteúdos inválidos de \\{\\}."
 
 # plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
 #: ../goffice/utils/regutf8.c:70
@@ -7050,15 +7039,15 @@ msgstr "Dado inválido."
 
 #: ../goffice/utils/regutf8.c:71
 msgid "Out of memory."
-msgstr ""
+msgstr "Memória insuficiente."
 
 #: ../goffice/utils/regutf8.c:72
 msgid "Invalid repetition operator."
-msgstr ""
+msgstr "Operador de repetição inválida."
 
 #: ../goffice/utils/regutf8.c:73
 msgid "Premature end of pattern."
-msgstr ""
+msgstr "Fim prematuro do padrão."
 
 #: ../goffice/utils/regutf8.c:74
 msgid "Pattern is too big."
@@ -7066,17 +7055,17 @@ msgstr "Padrão é muito grande."
 
 #: ../goffice/utils/regutf8.c:75
 msgid "Unmatched ) or \\)"
-msgstr ""
+msgstr ") ou \\) sem correspondente"
 
 #: ../goffice/utils/regutf8.c:278
 #, c-format
 msgid "Search string must not be empty."
-msgstr ""
+msgstr "Texto da pesquisa não pode estar vazio."
 
 #: ../goffice/utils/regutf8.c:288
 #, c-format
 msgid "Replacement string must be set."
-msgstr ""
+msgstr "Texto de reposição deve ser definido."
 
 #: ../goffice/utils/regutf8.c:300
 #, c-format
@@ -7086,7 +7075,7 @@ msgstr ""
 #: ../goffice/utils/regutf8.c:324
 #, c-format
 msgid "Invalid $-specification in replacement."
-msgstr ""
+msgstr "$-especificação inválida na reposição."
 
 #: ../goffice/utils/regutf8.c:334
 #, c-format
@@ -7107,15 +7096,15 @@ msgstr "Substituir texto"
 
 #: ../goffice/utils/regutf8.c:832
 msgid "The text to replace with"
-msgstr ""
+msgstr "O texto para ser substituído por"
 
 #: ../goffice/utils/regutf8.c:840
 msgid "Is Regular Expression"
-msgstr ""
+msgstr "É expressão irregular"
 
 #: ../goffice/utils/regutf8.c:841
 msgid "Is the search text a regular expression."
-msgstr ""
+msgstr "É o texto de procura uma expressão regular."
 
 #: ../goffice/utils/regutf8.c:849
 msgid "Ignore Case"
@@ -7131,15 +7120,62 @@ msgstr "Preservar diferença maiúsc./minúsc."
 
 #: ../goffice/utils/regutf8.c:859
 msgid "Preserve the case of letters."
-msgstr ""
+msgstr "Preserve as maiúsculas das letras."
 
 #: ../goffice/utils/regutf8.c:867
 msgid "Match Words"
-msgstr ""
+msgstr "Ligue as palavras"
 
 #: ../goffice/utils/regutf8.c:868
 msgid "Match whole words only."
+msgstr "Ligue somente as palavras inteiras."
+
+#: ../plugins/lasem/component.c:253
+#, fuzzy
+#| msgid "Equation"
+msgid "Equation editor"
+msgstr "Equação"
+
+#: ../plugins/lasem/component.c:261
+#, fuzzy
+msgid "Contents"
+msgstr "_Indentar:"
+
+#: ../plugins/lasem/component.c:484
+#, fuzzy
+#| msgid "Interpret text as markup"
+msgid "Itex markup"
+msgstr "Interpretar o texto como marcação"
+
+#: ../plugins/lasem/component.c:485
+msgid "Itex markup string"
 msgstr ""
+
+#: ../plugins/lasem/component.c:491
+#, fuzzy
+#| msgid "Select the font color"
+msgid "Default font color"
+msgstr "Selecione a cor da fonte"
+
+#: ../plugins/lasem/component.c:497
+msgid "Default font"
+msgstr "Fonte padrão"
+
+#: ../plugins/lasem/plugin.xml.in.h:1
+#, fuzzy
+#| msgid "Component Type"
+msgid "Component : Lasem"
+msgstr "Tipo de componente"
+
+#: ../plugins/lasem/plugin.xml.in.h:2
+msgid "Math equation support"
+msgstr "Suporte a equação matemática"
+
+#: ../plugins/lasem/plugin.xml.in.h:3
+#, fuzzy
+#| msgid "Component Engine"
+msgid "Math equation component engine"
+msgstr "Engine do componente"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:348
 msgid "How to group multiple series, normal, stacked, as_percentage"
@@ -7148,7 +7184,7 @@ msgstr ""
 #: ../plugins/plot_barcol/gog-1.5d.c:353 ../plugins/plot_pie/gog-pie.c:319
 #: ../plugins/plot_xy/gog-xy.c:563
 msgid "In 3D"
-msgstr ""
+msgstr "Em 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:354
 msgid "Placeholder to allow us to round trip pseudo 3D state"
@@ -7664,7 +7700,7 @@ msgstr "Tipos de gráficos de 1.5d padrão"
 #: ../plugins/plot_distrib/go-distribution-prefs.c:61
 #: ../plugins/plot_distrib/go-distribution-prefs.c:139
 msgid ":"
-msgstr ""
+msgstr ":"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:100
 #, fuzzy
@@ -7729,7 +7765,7 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-histogram.c:71
 #: ../plugins/plot_distrib/plot-types.xml.in.h:10
 msgid "Histogram"
-msgstr ""
+msgstr "Histograma"
 
 #: ../plugins/plot_distrib/gog-histogram.c:363
 msgid "Draw the histogram vertically or horizontally"
@@ -7737,11 +7773,11 @@ msgstr ""
 
 #: ../plugins/plot_distrib/gog-histogram.c:368
 msgid "Cumulative"
-msgstr ""
+msgstr "Cumulativo"
 
 #: ../plugins/plot_distrib/gog-histogram.c:369
 msgid "Use cumulated data"
-msgstr ""
+msgstr "Usar dados acumulados"
 
 #: ../plugins/plot_distrib/gog-histogram.c:388
 #: ../plugins/plot_distrib/gog-histogram.c:478
@@ -7768,7 +7804,7 @@ msgstr "Categorias entre _rótulos"
 #: ../plugins/plot_distrib/gog-histogram.c:480
 #: ../plugins/plot_distrib/gog-histogram.c:755
 msgid "First values"
-msgstr ""
+msgstr "Primeiros valores"
 
 #: ../plugins/plot_distrib/gog-histogram.c:482
 #: ../plugins/plot_distrib/gog-histogram.c:763
@@ -7785,7 +7821,7 @@ msgstr "Listra Vertical"
 
 #: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
 msgid "_Cumulative"
-msgstr ""
+msgstr "_Cumulativo"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:70
 msgid "Use data as Y-values"
@@ -7824,27 +7860,28 @@ msgstr ""
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:294
 msgid "Shape parameter"
-msgstr ""
+msgstr "Parâmetro de forma"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:295
 msgid "Name of the first shape parameter if any"
-msgstr ""
+msgstr "Nome do primeiro parâmetro de forma se houver"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:300
 msgid "Second shape parameter"
-msgstr ""
+msgstr "Segundo parâmetro de forma"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:301
 msgid "Name of the second shape parameter if any"
-msgstr ""
+msgstr "Nome do segundo parâmetro de forma se houver"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:306
 msgid "Data as Y values"
-msgstr ""
+msgstr "Dados como valores Y"
 
+# Traduzido em maiúsculo, pois parece ser um erro de escrita do desenvolvedor -- Rafael
 #: ../plugins/plot_distrib/gog-probability-plot.c:307
 msgid "whether the data should be mapped to the Y axis."
-msgstr ""
+msgstr "Se os dados deveriam ser mapeados para o eixo Y."
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:642
 #, fuzzy
@@ -7898,15 +7935,15 @@ msgstr "Box-Plot"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:11
 msgid "Histogram."
-msgstr ""
+msgstr "Histograma."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:12
 msgid "CumulativeHistogram"
-msgstr ""
+msgstr "HistogramaCumulativo"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:13
 msgid "Cumulative histogram."
-msgstr ""
+msgstr "Histograma cumulativo."
 
 #. <Type _name="DoubleHistogram" row="3" col="3"
 #. engine="GogDoubleHistogramPlot" family="Statistics"
@@ -7997,7 +8034,7 @@ msgstr ""
 
 #: ../plugins/plot_pie/gog-pie.c:326
 msgid "Total angle used as a percentage of the full circle"
-msgstr ""
+msgstr "Total do ângulo utilizado como porcentagem de todo o círculo"
 
 #: ../plugins/plot_pie/gog-pie.c:331
 #, fuzzy
@@ -8266,7 +8303,7 @@ msgstr "Radar"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:2
 msgid "Polar"
-msgstr ""
+msgstr "Polar"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:3
 msgid "Radar plot."
@@ -8415,52 +8452,48 @@ msgid "Rows"
 msgstr "Linhas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:723
-#, fuzzy
 msgid "Number of rows"
-msgstr "Formatos de Números"
+msgstr "Número de linhas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:728
 msgid "Auto Rows"
-msgstr ""
+msgstr "linhas automáticas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:729
 msgid "Whether the rows limits should be evaluated"
-msgstr ""
+msgstr "Se os limites das linhas devem ser avaliados"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:734
-#, fuzzy
 msgid "Columns"
-msgstr "Coluna"
+msgstr "Colunas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:735
-#, fuzzy
 msgid "Number of columns"
-msgstr "Formatos de Números"
+msgstr "Número de colunas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:740
-#, fuzzy
 msgid "Auto Columns"
-msgstr "Coluna"
+msgstr "Colunas automáticas"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:741
 msgid "Whether the columns limits should be evaluated"
-msgstr ""
+msgstr "Se os limites das colunas devem ser avaliados"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:747
 msgid "Missing as"
-msgstr ""
+msgstr "Faltando como"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:748
 msgid "How to deal with missing data"
-msgstr ""
+msgstr "Como lidar com os dados faltantes"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:766
 msgid "As density"
-msgstr ""
+msgstr "Como densidade"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:767
 msgid "Display the data as density instead or raw data"
-msgstr ""
+msgstr "Mostrar os dados por densidade ao invés de dados crus"
 
 #. xgettext : the base for how to name contour plot objects with (x,y) data
 #.
@@ -8481,7 +8514,7 @@ msgstr "Superfície"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.c:162
 msgid "Display population density"
-msgstr ""
+msgstr "Mostrar densidade populacional"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
 #, fuzzy
@@ -8533,7 +8566,7 @@ msgstr "Superfície"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:3
 msgid "Matrix"
-msgstr ""
+msgstr "Matriz"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:4
 msgid "Contour plot."
@@ -8598,12 +8631,11 @@ msgstr ""
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:18
 msgid "Displays as colors the number of (X,Y) values in each cell."
-msgstr ""
+msgstr "Mostra como cores o número de valores (X,Y) em cada célula."
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
-#, fuzzy
 msgid "Charting : Surfaces"
-msgstr "Gráficos: Pizza/Anel"
+msgstr "Gráficos: Superfícies"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:2
 msgid "Surface charts"
@@ -8708,7 +8740,7 @@ msgstr "Tem linhas por padrão"
 
 #: ../plugins/plot_xy/gog-xy.c:379 ../plugins/plot_xy/gog-xy.c:808
 msgid "Should the default style of a series include lines"
-msgstr ""
+msgstr "O padrão de estilo de uma série deve incluir linhas"
 
 #: ../plugins/plot_xy/gog-xy.c:384 ../plugins/plot_xy/gog-xy.c:813
 msgid "Has fill by default"
@@ -8733,7 +8765,7 @@ msgstr "Tamanho com área"
 
 #: ../plugins/plot_xy/gog-xy.c:552
 msgid "Display size as area instead of diameter"
-msgstr ""
+msgstr "Mostra tamanho em area ao invés de diâmetro"
 
 #: ../plugins/plot_xy/gog-xy.c:557
 msgid "Show negatives"
@@ -8741,7 +8773,7 @@ msgstr "Mostrar negativos"
 
 #: ../plugins/plot_xy/gog-xy.c:558
 msgid "Draw bubbles for negative values"
-msgstr "Desenhar bolhas para valores negativos"
+msgstr "Desenha bolhas para valores negativos"
 
 #: ../plugins/plot_xy/gog-xy.c:564
 msgid "Draw 3D bubbles"
@@ -8840,7 +8872,7 @@ msgstr "PlotLine"
 
 #: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
 msgid "_Use null value instead of invalid"
-msgstr ""
+msgstr "_Usar valor nulo ao invés de um valor inválido"
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
@@ -8848,9 +8880,8 @@ msgid "XY"
 msgstr "XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:4
-#, fuzzy
 msgid "ColoredXY"
-msgstr "Co_r:"
+msgstr "XYColorido"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY Points"
@@ -9055,11 +9086,11 @@ msgstr ""
 #. * 	Linear regression2
 #: ../plugins/reg_linear/gog-lin-reg.c:178
 msgid "Linear regression"
-msgstr ""
+msgstr "Regressão Linear"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:270
 msgid "If true, a non-zero constant is allowed"
-msgstr ""
+msgstr "Se verdadeiro, uma constante não zero é permitida"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:275
 msgid "Dims"
@@ -9067,15 +9098,14 @@ msgstr ""
 
 #: ../plugins/reg_linear/gog-lin-reg.c:276
 msgid "Number of x-vectors"
-msgstr ""
+msgstr "Número de vetores-x"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Logarithmic regression2
 #: ../plugins/reg_linear/gog-log-reg.c:94
-#, fuzzy
 msgid "Logarithmic regression"
-msgstr "Mapeamento logarítmico"
+msgstr "Regressão logarítmica"
 
 #: ../plugins/reg_linear/gog-polynom-reg.c:202
 #, fuzzy
@@ -9107,11 +9137,11 @@ msgstr "Curvas de regressão linear"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:3
 msgid "Linear regression curve engine"
-msgstr ""
+msgstr "Ferramenta curva de regressão linear"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:4
 msgid "Exponential regression curve engine"
-msgstr ""
+msgstr "Ferramenta curva e regressão exponencial"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:5
 msgid "Power regression curve engine"
@@ -9225,7 +9255,7 @@ msgstr "*Set"
 
 #: ../plugins/smoothing/gog-exp-smooth.ui.h:1
 msgid "_Period:"
-msgstr ""
+msgstr "_Período:"
 
 #: ../plugins/smoothing/gog-exp-smooth.ui.h:2
 #, fuzzy
@@ -9234,7 +9264,7 @@ msgstr "_Tamanho:"
 
 #: ../plugins/smoothing/gog-moving-avg.c:103
 msgid "Number of values from which to calculate an average"
-msgstr ""
+msgstr "Número de valores para calcular uma média"
 
 #: ../plugins/smoothing/gog-moving-avg.c:108
 msgid "Whether to average x values as well or use the last one"
