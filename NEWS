@@ -7,6 +7,7 @@ Andreas:
 
 Jean:
 	* Ensure that the lasem plugin builds with lasem-0.4.1. [#725693]
+	* Support leave_notify events in the canvas. [#668103]
 
 Julian Sikorski:
 	* Remove extra DESTDIR in mathml to itex converter. [#725684]

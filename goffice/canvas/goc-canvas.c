@@ -290,6 +290,7 @@ goc_canvas_init (GocCanvas *canvas)
 	                       GDK_KEY_PRESS_MASK |
 	                       GDK_KEY_RELEASE_MASK |
 	                       GDK_ENTER_NOTIFY_MASK |
+	                       GDK_LEAVE_NOTIFY_MASK |
 #ifdef HAVE_GDK_EVENT_GET_SCROLL_DELTAS
 	                       GDK_SMOOTH_SCROLL_MASK |
 #endif

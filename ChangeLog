@@ -1,3 +1,8 @@
+2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_init): really accept leave_notify
+	events. [#668103][see also #706659]
+
 2014-03-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_number_to_odf): write
