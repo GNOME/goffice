@@ -1,5 +1,10 @@
 2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-canvas.c (goc_canvas_dispose): fix criticals related
+	to style contexts destruction.
+
+2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-canvas.c (goc_canvas_init): really accept leave_notify
 	events. [#668103][see also #706659]
 

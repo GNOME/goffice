@@ -250,7 +250,13 @@ static void
 goc_canvas_dispose (GObject *obj)
 {
 	GocCanvas *canvas = GOC_CANVAS (obj);
+	GtkStyleContext *context = goc_item_get_style_context (GOC_ITEM (canvas->root));
 	goc_group_clear (canvas->root);
+	/* we need to set the parent context to NULL for root before unrefing it
+	 * because Gtk+ calls the "changed" signal when the parent is set to
+	 * NULL from gtk_style_context_finalize(), and as the ref_count is already
+	 * NULL, this fires criticals. */
+	gtk_style_context_set_parent (context, NULL);
 	parent_klass->dispose (obj);
 }
 
