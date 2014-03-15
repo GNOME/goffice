@@ -1,7 +1,12 @@
+2014-03-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-pango-extras.c (go_pango_translate_here): Plug
+	leak.
+
 2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/canvas/goc-canvas.c (goc_canvas_dispose): fix criticals related
-	to style contexts destruction.
+	* goffice/canvas/goc-canvas.c (goc_canvas_dispose): fix criticals
+	related to style contexts destruction.
 
 2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 

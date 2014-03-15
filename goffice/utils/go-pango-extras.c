@@ -535,7 +535,7 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 	double scale = 1.;
 	int rise = 0;
 	PangoAttribute *pa;
-	PangoFontDescription *desc = pango_font_description_new ();
+	PangoFontDescription *desc;
 	GSList *the_attrs, *l;
 	gint range_start, range_end;
 

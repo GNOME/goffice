@@ -14,6 +14,7 @@ Julian Sikorski:
 
 Morten:
 	* Fix problem saving print settings.  [#698630]
+	* Plug leak.
 
 --------------------------------------------------------------------------
 goffice 0.10.12:
