@@ -176,6 +176,15 @@ _go_math_init (void)
 	}
 #endif
 
+	{
+		double x = atof ("24985672148.49707");
+		double sx = sin (x);
+		double ref = -0.55266506738426566413304;
+		if (fabs (sx - ref) > 0.01) {
+			g_warning ("Running with buggy math library, see https://bugzilla.gnome.org/show_bug.cgi?id=726250");
+		}
+	}
+
 	g_free (old_locale);
 #ifdef SIGFPE
 	signal (SIGFPE, signal_handler);

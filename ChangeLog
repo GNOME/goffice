@@ -1,3 +1,8 @@
+2014-03-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-math.c (_go_math_init): Add test for buggy math
+	library (probably caused by compiler bug).
+
 2014-03-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pango-extras.c (go_pango_translate_here): Plug
@@ -10,8 +15,8 @@
 
 2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/canvas/goc-canvas.c (goc_canvas_init): really accept leave_notify
-	events. [#668103][see also #706659]
+	* goffice/canvas/goc-canvas.c (goc_canvas_init): really accept
+	leave_notify events. [#668103][see also #706659]
 
 2014-03-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
