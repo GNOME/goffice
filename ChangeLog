@@ -1,3 +1,11 @@
+2014-03-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_dispose): Dispose of
+	->root instead of simply clearing it.
+
+	* goffice/canvas/goc-item.c (goc_item_dispose): Dispose of style
+	context, if we have one.
+
 2014-03-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-polyline.c (goc_polyline_distance): Don't

@@ -24,6 +24,11 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+#ifdef GOFFICE_WITH_GTK
+static void cb_parent_changed (const GocItem *item);
+#endif
+
+
 /**
  * SECTION:goc-item
  * @short_description: Base canvas item.
@@ -213,6 +218,8 @@ static void
 goc_item_dispose (GObject *object)
 {
 	GocItem *item = GOC_ITEM (object);
+	GtkStyleContext *context;
+
 	if (item->canvas) {
 		if (item->canvas->last_item == item)
 			item->canvas->last_item = NULL;
@@ -224,6 +231,18 @@ goc_item_dispose (GObject *object)
 
 	if (item->parent != NULL)
 		goc_group_remove_child (item->parent, item);
+
+#ifdef GOFFICE_WITH_GTK
+	context = g_object_get_qdata (G_OBJECT (item), quark_style_context);
+	if (context) {
+		g_signal_handlers_disconnect_by_func
+			(object, G_CALLBACK (cb_parent_changed), NULL);
+#ifdef HAVE_GTK_STYLE_CONTEXT_SET_PARENT
+		gtk_style_context_set_parent (context, NULL);
+#endif
+		g_object_set_qdata (object, quark_style_context, NULL);
+	}
+#endif
 
 	item_parent_class->dispose (object);
 }
