@@ -15,6 +15,7 @@ Julian Sikorski:
 Morten:
 	* Fix problem saving print settings.  [#698630]
 	* Plug leak.
+	* Fix FMW problem with GocPolyline.
 
 --------------------------------------------------------------------------
 goffice 0.10.12:

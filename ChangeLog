@@ -1,5 +1,9 @@
 2014-03-16  Morten Welinder  <terra@gnome.org>
 
+	* goffice/canvas/goc-polyline.c (goc_polyline_distance): Don't
+	save and restore style->width.  Code was changed four years ago to
+	copy the style.  And restoring after the _unref is bad.
+
 	* goffice/math/go-math.c (_go_math_init): Add test for buggy math
 	library (probably caused by compiler bug).
 
