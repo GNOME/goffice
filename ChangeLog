@@ -4,6 +4,8 @@
 	save and restore style->width.  Code was changed four years ago to
 	copy the style.  And restoring after the _unref is bad.
 
+	* goffice/canvas/goc-polygon.c (goc_polygon_distance): Ditto.
+
 	* goffice/math/go-math.c (_go_math_init): Add test for buggy math
 	library (probably caused by compiler bug).
 

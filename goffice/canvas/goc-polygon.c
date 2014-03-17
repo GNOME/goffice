@@ -247,8 +247,6 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GOStyle *style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 	double res = G_MAXDOUBLE;
 	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
-	double tmp_width = 0;
-	gboolean tmp_auto_dash = style->line.auto_dash;
 	GOLineDashType tmp_dash_type = style->line.dash_type;
 	cairo_surface_t *surface;
 	cairo_t *cr;
@@ -257,7 +255,6 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 		return res;
 
 	*near_item = item;
-	tmp_width = style->line.width;
 	if (style->line.width * ppu < 5)
 		style->line.width = 5. / (ppu * ppu);
 	else
@@ -284,9 +281,6 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 	g_object_unref (style);
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
-	style->line.width = tmp_width;
-	style->line.auto_dash = tmp_auto_dash;
-	style->line.dash_type = tmp_dash_type;
 	return res;
 }
 
