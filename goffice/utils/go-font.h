@@ -49,7 +49,7 @@ struct _GOFont {
 
 	PangoFontDescription *desc;
 
-	/* Attributes.  Currently unused.  */
+	/* Attributes.  */
 	int underline;
 	gboolean strikethrough;
 	GOColor color;
