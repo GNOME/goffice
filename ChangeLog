@@ -1,3 +1,7 @@
+2014-03-18  Morten Welinder <terra@gnome.org>
+
+	* configure.ac: Post-release bump.
+
 2014-03-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-child-button.c
