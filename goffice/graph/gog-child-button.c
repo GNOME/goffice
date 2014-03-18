@@ -150,18 +150,16 @@ typedef struct {
 } BuildAdditionData;
 
 static void
-build_addition_process_childs (GogObject *object, BuildAdditionData *closure)
+build_addition_process_children (GogObject *object, BuildAdditionData *closure)
 {
-	GogObjectRole *role;
-	Addition *addition;
-	GSList *child_iter;
 	GSList *role_iter;
 	GSList *additions;
 
 	additions = gog_object_possible_additions (object);
 	for (role_iter = additions; role_iter != NULL; role_iter = role_iter->next) {
-		role = role_iter->data;
-		addition = g_hash_table_lookup (closure->additions, role->id);
+		GogObjectRole *role = role_iter->data;
+		Addition *addition =
+			g_hash_table_lookup (closure->additions, role->id);
 		if ( addition == NULL) {
 			addition = g_new (Addition, 1);
 			addition->role = role;
@@ -177,10 +175,15 @@ build_addition_process_childs (GogObject *object, BuildAdditionData *closure)
 		} else if (addition->parent != closure->child_button->object)
 			addition->parent = NULL;
 	}
+	g_slist_free (additions);
 
-	if (!GOG_IS_GRAPH (object))
-		for (child_iter = object->children; child_iter != NULL; child_iter = child_iter->next)
-				build_addition_process_childs (child_iter->data, closure);
+	if (!GOG_IS_GRAPH (object)) {
+		GSList *child_iter;
+		for (child_iter = object->children;
+		     child_iter;
+		     child_iter = child_iter->next)
+			build_addition_process_children (child_iter->data, closure);
+	}
 }
 
 static void
@@ -222,7 +225,7 @@ gog_child_button_build_additions (GogChildButton *child_button)
 		  start_object = start_object->parent);
 
 	if (start_object != NULL) {
-		build_addition_process_childs (start_object, &closure);
+		build_addition_process_children (start_object, &closure);
 
 		g_hash_table_foreach (closure.additions,
 				      (GHFunc) build_addition_foreach,

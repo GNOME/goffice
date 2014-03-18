@@ -14,7 +14,7 @@ Julian Sikorski:
 
 Morten:
 	* Fix problem saving print settings.  [#698630]
-	* Plug leak.
+	* Plug leaks.
 	* Fix FMW problem with GocPolyline/GocPolygon.
 
 --------------------------------------------------------------------------

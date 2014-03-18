@@ -1,5 +1,9 @@
 2014-03-17  Morten Welinder  <terra@gnome.org>
 
+	* goffice/graph/gog-child-button.c
+	(build_addition_process_children): Renamed from
+	build_addition_process_childs.  Plug leak.
+
 	* goffice/canvas/goc-canvas.c (goc_canvas_dispose): Dispose of
 	->root instead of simply clearing it.
 
