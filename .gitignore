@@ -30,6 +30,7 @@ missing
 mkinstalldirs
 omf.make
 tags
+test-driver
 xlibtool
 xltmain.sh
 xmldocs.make
