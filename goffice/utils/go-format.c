@@ -7379,12 +7379,18 @@ char *
 go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 {
 	char const *format_string = NULL;
+	GString *gstr;
+	int digits;
+	double l10;
 
 	g_return_val_if_fail (fmt != NULL, NULL);
 	g_return_val_if_fail (fmt->typ == GO_FMT_COND, NULL);
 
 	if (cond_part >= fmt->u.cond.n)
 		return NULL;
+
+	l10 = log10 (FLT_RADIX);
+	digits = (int)ceil (DBL_MANT_DIG * l10) + (l10 == (int)l10 ? 0 : 1);
 
 	switch (fmt->u.cond.conditions[cond_part].op) {
 	case GO_FMT_COND_EQ:
@@ -7410,9 +7416,13 @@ go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 	default:
 		return NULL;
 	}
-	return g_strdup_printf (format_string,
-				fmt->u.cond.conditions[cond_part].val);
-
+	
+	gstr = g_string_new (format_string);
+	g_string_append_printf (gstr, "%.*g",
+				digits,
+ 				fmt->u.cond.conditions[cond_part].val);
+ 
+	return g_string_free (gstr, FALSE);
 }
 #endif
 
