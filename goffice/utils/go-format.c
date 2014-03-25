@@ -7394,24 +7394,24 @@ go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 
 	switch (fmt->u.cond.conditions[cond_part].op) {
 	case GO_FMT_COND_EQ:
-		format_string = "value()=%g";
+		format_string = "value()=";
 		break;
 	case GO_FMT_COND_NE:
-		format_string = "value()!=%g";
+		format_string = "value()!=";
 		break;
 	case GO_FMT_COND_NONTEXT: /* Under certain circumstances this */
                                   /*appears for second of two conditions */
 	case GO_FMT_COND_LT:
-		format_string = "value()<%g";
+		format_string = "value()<";
 		break;
 	case GO_FMT_COND_LE:
-		format_string = "value()<=%g";
+		format_string = "value()<=";
 		break;
 	case GO_FMT_COND_GT:
-		format_string = "value()>%g";
+		format_string = "value()>";
 		break;
 	case GO_FMT_COND_GE:
-		format_string = "value()>=%g";
+		format_string = "value()>=";
 		break;
 	default:
 		return NULL;
