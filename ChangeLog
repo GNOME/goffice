@@ -1,3 +1,11 @@
+2014-03-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_output_to_odf): Handle
+	conditional formats.
+	(go_format_output_simple_to_odf): New function extracted from
+	go_format_output_to_odf.
+	(go_format_output_conditional_to_odf): New function.
+
 2014-03-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_odf_style_map): fix format

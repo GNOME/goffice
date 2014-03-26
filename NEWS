@@ -1,7 +1,10 @@
 goffice 0.10.14:
 
 Andreas:
-	* Improve conditional format roundtrip through ODF. [part of 725852]
+	* Improve conditional format roundtrip through ODF.  [part of #725852]
+
+Morten:
+	* Work on conditional formats for ODF.
 
 --------------------------------------------------------------------------
 goffice 0.10.13:
