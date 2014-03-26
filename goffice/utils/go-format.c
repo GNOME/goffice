@@ -8338,6 +8338,7 @@ go_format_output_text_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
+	gboolean color_completed = FALSE;
 
 	gboolean string_is_open = FALSE;
 
@@ -8359,9 +8360,12 @@ go_format_output_text_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case TOK_COLOR: {
 			GOColor color;
+			if (color_completed)
+				break;
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
 				odf_output_color (xout, color);
+				color_completed = TRUE;
 			}
 		} break;
 
