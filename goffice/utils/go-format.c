@@ -7434,6 +7434,22 @@ odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
 	gsf_xml_out_add_cstr_unchecked (xout, id, val ? "true" : "false");
 }
 
+static void
+odf_output_color (GsfXMLOut *xout, GOColor color)
+{
+	char *str = g_strdup_printf ("#%.2X%.2X%.2X",
+				     GO_COLOR_UINT_R (color),
+				     GO_COLOR_UINT_G (color),
+				     GO_COLOR_UINT_B (color));
+
+	gsf_xml_out_start_element (xout, STYLE "text-properties");
+	gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
+	gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+
+	g_free (str);
+}
+
+
 #define ODF_CLOSE_STRING  if (string_is_open) {  \
                                  gsf_xml_out_add_cstr (xout, NULL, accum->str); \
                                  gsf_xml_out_end_element (xout); /* </number:text> */  \
@@ -7771,18 +7787,11 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case TOK_COLOR: {
 			GOColor color;
-			char *str;
 			if (color_completed)
 				break;
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
-				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X",
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
-						       GO_COLOR_UINT_B (color));
-				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
-				g_free (str);
-				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				odf_output_color (xout, color);
 				color_completed = TRUE;
 			}
 		} break;
@@ -7972,18 +7981,11 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case TOK_COLOR: {
 			GOColor color;
-			char *str;
 			if (color_completed)
 				break;
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
-				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X",
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
-						       GO_COLOR_UINT_B (color));
-				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
-				g_free (str);
-				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				odf_output_color (xout, color);
 				color_completed = TRUE;
 			}
 		} break;
@@ -8179,19 +8181,12 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case TOK_COLOR: {
 			GOColor color;
-			char *str;
 			if (color_completed)
 				break;
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
 				ODF_WRITE_NUMBER;
-				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X",
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
-						       GO_COLOR_UINT_B (color));
-				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
-				g_free (str);
-				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				odf_output_color (xout, color);
 				color_completed = TRUE;
 			}
 		} break;
@@ -8364,16 +8359,9 @@ go_format_output_text_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case TOK_COLOR: {
 			GOColor color;
-			char *str;
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
-				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X",
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
-						       GO_COLOR_UINT_B (color));
-				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
-				g_free (str);
-				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				odf_output_color (xout, color);
 			}
 		} break;
 
@@ -8580,18 +8568,11 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case TOK_COLOR: {
 			GOColor color;
-			char *str;
 			if (color_completed)
 				break;
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
-				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X",
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
-						       GO_COLOR_UINT_B (color));
-				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
-				g_free (str);
-				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				odf_output_color (xout, color);
 				color_completed = TRUE;
 			}
 		} break;

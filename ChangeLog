@@ -5,6 +5,8 @@
 	doesn't really like that.
 	(go_format_output_simple_to_odf): New argument keep_open controls
 	whether to close the outermost xml tag.
+	(odf_output_color): New function.  Use this for all odf fornat
+	colour output.
 
 2014-03-25  Morten Welinder  <terra@gnome.org>
 
