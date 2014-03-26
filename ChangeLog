@@ -1,3 +1,11 @@
+2014-03-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_output_conditional_to_odf):
+	Don't make up a number format with nothing but maps in it.  LO
+	doesn't really like that.
+	(go_format_output_simple_to_odf): New argument keep_open controls
+	whether to close the outermost xml tag.
+
 2014-03-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_to_odf): Handle

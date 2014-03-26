@@ -7494,7 +7494,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			ODF_CLOSE_STRING;
 			if (!element_written)
 				gsf_xml_out_simple_element (xout, NUMBER "am-pm", NULL);
-			gsf_xml_out_end_element (xout); /* </number:date-style or time-style> */
+			/* keep element open */
 			g_string_free (accum, TRUE);
 			return;
 
@@ -7882,7 +7882,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 1);
 				gsf_xml_out_end_element (xout); /* </number:fraction> */
 			}
-			gsf_xml_out_end_element (xout); /* </number:number-style> */
+			/* keep element open */
 			g_string_free (accum, TRUE);
 			return;
 
@@ -8138,7 +8138,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case 0: case ';':
 			ODF_CLOSE_STRING;
 			ODF_WRITE_NUMBER;
-			gsf_xml_out_end_element (xout); /* </number:number-style> */
+			/* keep element open */
 			g_string_free (accum, TRUE);
 			return;
 
@@ -8339,7 +8339,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 static void
 go_format_output_text_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
-			      char const *name, gboolean keep_open)
+			      char const *name)
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
@@ -8358,8 +8358,7 @@ go_format_output_text_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		switch (t) {
 		case 0: case ';':
 			ODF_CLOSE_STRING;
-			if (!keep_open)
-				gsf_xml_out_end_element (xout); /* </number:text-style> */
+			/* keep element open */
 			g_string_free (accum, TRUE);
 			return;
 
@@ -8459,7 +8458,7 @@ go_format_output_scientific_number_element_to_odf (GsfXMLOut *xout,
 		odf_add_bool (xout, GNMSTYLE "engineering", engineering);
 		odf_add_bool (xout, GNMSTYLE "literal-E", use_literal_E);
 	}
-	gsf_xml_out_end_element (xout); /* </number:number> */
+	gsf_xml_out_end_element (xout); /* </number:scientific-number> */
 }
 
 static void
@@ -8493,7 +8492,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		switch (t) {
 		case 0: case ';':
 			ODF_CLOSE_STRING;
-			gsf_xml_out_end_element (xout); /* </number:number-style> */
+			/* keep element open */
 			g_string_free (accum, TRUE);
 			return;
 
@@ -8674,13 +8673,13 @@ go_format_output_general_to_odf (GsfXMLOut *xout, char const *name, int cond_par
 	if (cond_part == 1)
 		gsf_xml_out_add_int (xout, NUMBER "display-factor",  -1);
 	gsf_xml_out_end_element (xout); /* </number:number> */
-	gsf_xml_out_end_element (xout); /* </number:number-style> */
+	/* keep element open */
 }
 
 static gboolean
 go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 				GOFormat const *fmt, GOFormat const *parent_fmt,
-				char const *name)
+				char const *name, gboolean keep_open)
 {
 	gboolean result;
 	int cond_part = 0;
@@ -8711,7 +8710,7 @@ go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 		go_format_output_fraction_to_odf (xout, fmt, name, with_extension);
 		break;
 	case GO_FORMAT_TEXT:
-		go_format_output_text_to_odf (xout, fmt, name, FALSE);
+		go_format_output_text_to_odf (xout, fmt, name);
 		break;
 	case GO_FORMAT_SCIENTIFIC:
 		go_format_output_scientific_number_to_odf (xout, fmt, name, with_extension);
@@ -8752,12 +8751,14 @@ go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 			gsf_xml_out_add_cstr (xout, STYLE "name", name);
 			gsf_xml_out_start_element (xout, NUMBER "text");
 			gsf_xml_out_add_cstr (xout, NULL, fstr);
-			gsf_xml_out_end_element (xout); /* </number:text> */
 		}
 		result = FALSE;
 		break;
 	}
 	}
+
+	if (!keep_open)
+		gsf_xml_out_end_element (xout);
 
 	return result;
 }
@@ -8766,7 +8767,7 @@ static void
 go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 				     GOFormat const *fmt, char const *name)
 {
-	int i, N, texti = -1;
+	int i, N, defi = -1;
 	GOFormatCondition const *cond0;
 	static int digits;
 
@@ -8783,33 +8784,44 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 	g_return_if_fail (cond0->op >= GO_FMT_COND_EQ && cond0->op <= GO_FMT_COND_GE);
 
 	/*
-	 * Output all sub-formats, except those with text condition.
+	 * Output all sub-formats, except perhaps one deemed the default.
 	 */
 	for (i = 0; i < fmt->u.cond.n; i++) {
 		GOFormatCondition const *cond = &fmt->u.cond.conditions[i];
-		if (cond->op == GO_FMT_COND_TEXT) {
-			if (texti == -1)
-				texti = i;
-		} else {
+		switch (cond->op) {
+		case GO_FMT_COND_TEXT:
+		case GO_FMT_COND_NONTEXT:
+			if (defi != -1 || i >= 4)
+				g_warning ("This shouldn't happen.");
+			defi = i;
+			break;
+		case GO_FMT_COND_NONE:
+			if (i < 4)
+				g_warning ("This shouldn't happen.");
+			if (defi == -1)
+				defi = i;
+			break;
+		default: {
 			char *partname = g_strdup_printf ("%s-%d", name, i);
 			go_format_output_simple_to_odf (xout, with_extension,
 							cond->fmt, fmt,
-							partname);
+							partname, FALSE);
 			g_free (partname);
+		}
 		}
 	}
 
-	/*
-	 * The text format is the default format.  If we don't have that,
-	 * just make up a number format.
-	 */
-	if (texti == -1) {
-		gsf_xml_out_start_element (xout, NUMBER "number-style");
-		gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	} else {
-		GOFormatCondition const *cond = &fmt->u.cond.conditions[texti];
-		go_format_output_text_to_odf (xout, cond->fmt, name, TRUE);
+	if (defi == -1) {
+		/*
+		 * Use the last as default; that is probably not completely
+		 * right, but close enough for now.
+		 */
+		defi = fmt->u.cond.n - 1;
 	}
+
+	go_format_output_simple_to_odf (xout, with_extension,
+					fmt->u.cond.conditions[defi].fmt, fmt,
+					name, TRUE);
 
 	for (i = 0; i < fmt->u.cond.n; i++) {
 		GOFormatCondition const *cond = &fmt->u.cond.conditions[i];
@@ -8818,30 +8830,15 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 		char *partname;
 		char *condition;
 
-		switch (cond->op) {
-		case GO_FMT_COND_TEXT:
-			/* Already handled */
+		if (i == defi)
 			continue;
 
-		default:
+		switch (cond->op) {
+		case GO_FMT_COND_TEXT:
 		case GO_FMT_COND_NONE:
 		case GO_FMT_COND_NONTEXT:
-			/*
-			 * We need a condition that always matches.  Use
-			 * the negation of cond0.
-			 */
-			val = cond0->val;
-			switch (cond0->op) {
-			default:
-				g_assert_not_reached ();
-			case GO_FMT_COND_EQ: oper = "!="; break;
-			case GO_FMT_COND_NE: oper = "="; break;
-			case GO_FMT_COND_LT: oper = ">="; break;
-			case GO_FMT_COND_LE: oper = ">"; break;
-			case GO_FMT_COND_GT: oper = "<="; break;
-			case GO_FMT_COND_GE: oper = "<"; break;
-			}
-			break;
+			/* Already handled or to be ignored.  */
+			continue;
 
 		case GO_FMT_COND_EQ: oper = "="; break;
 		case GO_FMT_COND_NE: oper = "!="; break;
@@ -8886,7 +8883,7 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		result = TRUE;
 	} else {
 		result = go_format_output_simple_to_odf (xout, with_extension,
-							 fmt, NULL, name);
+							 fmt, NULL, name, FALSE);
 	}
 
 	if (pp)
