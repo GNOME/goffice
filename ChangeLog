@@ -2,6 +2,9 @@
 
 	* goffice/utils/go-format.c (go_format_output_general_to_odf):
 	Match what LO does for "General".
+	(go_format_output_date_to_odf, go_format_output_to_odf): Make sure
+	we don't accidentally output a non-character token as-if it was a
+	single character.
 
 2014-03-26  Morten Welinder  <terra@gnome.org>
 

@@ -7800,8 +7800,10 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			break;
 
 		default:
-			ODF_OPEN_STRING;
-			g_string_append_c (accum, t);
+			if (t <= 0x7f) {
+				ODF_OPEN_STRING;
+				g_string_append_c (accum, t);
+			}
 			break;
 		}
 	}
@@ -8039,8 +8041,10 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			}
 			/* no break */
 		default:
-			ODF_OPEN_STRING;
-			g_string_append_c (accum, t);
+			if (t <= 0x7f) {
+				ODF_OPEN_STRING;
+				g_string_append_c (accum, t);
+			}
 			break;
 		}
 	}
@@ -8284,9 +8288,11 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		}
 
 		default:
-			ODF_WRITE_NUMBER;
-			ODF_OPEN_STRING;
-			g_string_append_c (accum, t);
+			if (t <= 0x7f) {
+				ODF_WRITE_NUMBER;
+				ODF_OPEN_STRING;
+				g_string_append_c (accum, t);
+			}
 			break;
 		}
 	}
@@ -8373,8 +8379,10 @@ go_format_output_text_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			break;
 
 		default:
-			ODF_OPEN_STRING;
-			g_string_append_c (accum, t);
+			if (t <= 0x7f) {
+				ODF_OPEN_STRING;
+				g_string_append_c (accum, t);
+			}
 			break;
 		}
 	}
@@ -8591,8 +8599,10 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		}
 
 		default:
-			ODF_OPEN_STRING;
-			g_string_append_c (accum, t);
+			if (t <= 0x7f) {
+				ODF_OPEN_STRING;
+				g_string_append_c (accum, t);
+			}
 			break;
 		}
 	}
