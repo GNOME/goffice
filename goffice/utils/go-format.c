@@ -8169,7 +8169,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			ODF_WRITE_NUMBER;
 			if (family == GO_FORMAT_CURRENCY) {
 				ODF_CLOSE_STRING;
-				gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", "$");
+				gsf_xml_out_simple_element (xout, NUMBER "currency-symbol", "$");
 			}
 			break;
 
@@ -8241,7 +8241,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 					char *str;
 					ODF_CLOSE_STRING;
 					str = g_strndup (token, len);
-					gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", str);
+					gsf_xml_out_simple_element (xout, NUMBER "currency-symbol", str);
 					g_free (str);
 				} else {
 					ODF_OPEN_STRING;
@@ -8264,7 +8264,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 					char *str;
 					ODF_CLOSE_STRING;
 					str = g_strndup (token, len);
-					gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", str);
+					gsf_xml_out_simple_element (xout, NUMBER "currency-symbol", str);
 					g_free (str);
 				}
 			}
@@ -8603,18 +8603,15 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 static void
 go_format_output_general_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
-				 char const *name, int cond_part)
+				 char const *name)
 {
 	gsf_xml_out_start_element (xout, NUMBER "number-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
 	odf_output_color (xout, fmt);
-	if (cond_part == 1)
-		gsf_xml_out_simple_element(xout, NUMBER "text", "\xe2\x88\x92");
 	gsf_xml_out_start_element (xout, NUMBER "number");
-	gsf_xml_out_add_int (xout, NUMBER "decimal-places", 2);
-	if (cond_part == 1)
-		gsf_xml_out_add_int (xout, NUMBER "display-factor",  -1);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 1);
 	gsf_xml_out_end_element (xout); /* </number:number> */
+	gsf_xml_out_simple_element (xout, NUMBER "text", NULL);
 	/* keep element open */
 }
 
@@ -8639,7 +8636,7 @@ go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 
 	switch (family) {
 	case GO_FORMAT_GENERAL:
-		go_format_output_general_to_odf (xout, fmt, name, cond_part);
+		go_format_output_general_to_odf (xout, fmt, name);
 		result = FALSE;
 		break;
 	case GO_FORMAT_DATE:

@@ -1,3 +1,8 @@
+2014-03-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_output_general_to_odf):
+	Match what LO does for "General".
+
 2014-03-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_conditional_to_odf):
