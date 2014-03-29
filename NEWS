@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Work on conditional formats for ODF.
+	* Implement numbered colours in number formats.
 
 --------------------------------------------------------------------------
 goffice 0.10.13:

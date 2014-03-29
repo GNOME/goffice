@@ -1,3 +1,8 @@
+2014-03-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_parse_color): Implement
+	numbered colours instead of just parsing them.
+
 2014-03-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_general_to_odf):
