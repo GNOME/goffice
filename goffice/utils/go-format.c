@@ -820,8 +820,15 @@ color_dist (GOColor c1, GOColor c2)
 	return dr * dr + dg * dg + db * db;
 }
 
+/**
+ * go_format_palette_index_from_color:
+ * @c: color
+ *
+ * Returns: the index of the color closest to the argument color in some
+ * sense.
+ */
 int
-go_format_palette_index_from_color (GOColor c, gboolean *exact)
+go_format_palette_index_from_color (GOColor c)
 {
 	int mindist = G_MAXINT;
 	unsigned ui;
@@ -833,11 +840,10 @@ go_format_palette_index_from_color (GOColor c, gboolean *exact)
 		if (d < mindist) {
 			mindist = d;
 			res = ui;
+			if (d == 0)
+				break;
 		}
 	}
-
-	if (exact)
-		*exact = (mindist == 0);
 
 	return res;
 }

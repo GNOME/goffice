@@ -280,7 +280,7 @@ GOFormatCurrency const *go_format_locale_currency (void);
 /*************************************************************************/
 
 GOColor go_format_palette_color_of_index (int i);
-int go_format_palette_index_from_color (GOColor c, gboolean *exact);
+int go_format_palette_index_from_color (GOColor c);
 char *go_format_palette_name_of_index (int i);
 
 /*************************************************************************/
