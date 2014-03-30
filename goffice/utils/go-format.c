@@ -714,15 +714,15 @@ go_format_foreach (GHFunc func, gpointer user_data)
 static struct {
 	char const *name;
 	GOColor	go_color;
-} const format_colors[] = {
-	{ N_("Black"),	 GO_COLOR_BLACK },
-	{ N_("Blue"),	 GO_COLOR_BLUE },
-	{ N_("Cyan"),	 GO_COLOR_CYAN },
-	{ N_("Green"),	 GO_COLOR_GREEN },
-	{ N_("Magenta"), GO_COLOR_VIOLET },
-	{ N_("Red"),	 GO_COLOR_RED },
-	{ N_("White"),	 GO_COLOR_WHITE },
-	{ N_("Yellow"),	 GO_COLOR_YELLOW }
+} const format_colors[8] = {
+	{ N_("Black"),	 GO_COLOR_BLACK },   /* Color 1 */
+	{ N_("White"),	 GO_COLOR_WHITE },   /* Color 2 */
+	{ N_("Red"),	 GO_COLOR_RED },     /* Color 3 */
+	{ N_("Green"),	 GO_COLOR_GREEN },   /* Color 4 */
+	{ N_("Blue"),	 GO_COLOR_BLUE },    /* Color 5 */
+	{ N_("Yellow"),	 GO_COLOR_YELLOW },  /* Color 6 */
+	{ N_("Magenta"), GO_COLOR_VIOLET },  /* Color 7 */
+	{ N_("Cyan"),	 GO_COLOR_CYAN }    /* Color 8 */
 };
 
 static const GOColor
@@ -786,6 +786,61 @@ format_numbered_colors[56 + 1] = {
 	GO_COLOR_FROM_RGB (0x33, 0x33, 0x33)
 };
 
+GOColor
+go_format_palette_color_of_index (int i)
+{
+	g_return_val_if_fail (i >= 1, 0);
+
+	return (i < (int)G_N_ELEMENTS (format_numbered_colors))
+		? format_numbered_colors[i]
+		: 0;
+}
+
+char *
+go_format_palette_name_of_index (int i)
+{
+	g_return_val_if_fail (i >= 1, NULL);
+	g_return_val_if_fail (i < (int)G_N_ELEMENTS (format_numbered_colors), NULL);
+
+	if (i <= 8)
+		return g_strdup (format_colors[i - 1].name);
+	else
+		return g_strdup_printf ("Color%d", i);
+}
+
+
+static int
+color_dist (GOColor c1, GOColor c2)
+{
+	/* Simple 2-norm in rgb space. */
+	int dr = (int)GO_COLOR_UINT_R(c1) - (int)GO_COLOR_UINT_R(c2);
+	int dg = (int)GO_COLOR_UINT_G(c1) - (int)GO_COLOR_UINT_G(c2);
+	int db = (int)GO_COLOR_UINT_B(c1) - (int)GO_COLOR_UINT_B(c2);
+
+	return dr * dr + dg * dg + db * db;
+}
+
+int
+go_format_palette_index_from_color (GOColor c, gboolean *exact)
+{
+	int mindist = G_MAXINT;
+	unsigned ui;
+	int res = -1;
+
+	for (ui = 1; ui < G_N_ELEMENTS (format_numbered_colors); ui++) {
+		GOColor c2 = format_numbered_colors[ui];
+		int d = color_dist (c, c2);
+		if (d < mindist) {
+			mindist = d;
+			res = ui;
+		}
+	}
+
+	if (exact)
+		*exact = (mindist == 0);
+
+	return res;
+}
 
 /*
  * go_format_parse_color :

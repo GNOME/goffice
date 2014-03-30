@@ -279,6 +279,12 @@ GOFormatCurrency const *go_format_locale_currency (void);
 
 /*************************************************************************/
 
+GOColor go_format_palette_color_of_index (int i);
+int go_format_palette_index_from_color (GOColor c, gboolean *exact);
+char *go_format_palette_name_of_index (int i);
+
+/*************************************************************************/
+
 void _go_number_format_init (void);
 void _go_number_format_shutdown (void);
 void _go_currency_date_format_init     (void);
