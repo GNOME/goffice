@@ -1516,26 +1516,43 @@ go_plugin_db_activate_plugin_list (GSList *plugins, GOErrorInfo **ret_error)
 void
 go_plugin_db_deactivate_plugin_list (GSList *plugins, GOErrorInfo **ret_error)
 {
-	GSList *error_list = NULL;
+	GSList *plugins_copy = g_slist_copy (plugins);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	GO_SLIST_FOREACH (plugins, GOPlugin, plugin,
-		GOErrorInfo *error;
 
-		go_plugin_deactivate (plugin, &error);
-		if (error != NULL) {
-			GOErrorInfo *new_error;
+	while (plugins_copy) {
+		gboolean progress = FALSE;
+		GSList *bad = NULL;
+		GSList *error_list = NULL;
 
-			new_error = go_error_info_new_printf (
-			            _("Couldn't deactivate plugin \"%s\" (ID: %s)."),
-			            plugin->name, plugin->id);
-			go_error_info_add_details (new_error, error);
-			GO_SLIST_PREPEND (error_list, new_error);
+		while (plugins_copy) {
+			GOPlugin *plugin = plugins_copy->data;
+			GOErrorInfo *error;
+
+			go_plugin_deactivate (plugin, &error);
+
+			if (error) {
+				GOErrorInfo *new_error =
+					go_error_info_new_printf (
+						_("Couldn't deactivate plugin \"%s\" (ID: %s)."),
+						plugin->name, plugin->id);
+				go_error_info_add_details (new_error, error);
+				GO_SLIST_PREPEND (error_list, new_error);
+				bad = g_slist_prepend (bad, plugin);
+			} else
+				progress = TRUE;
+
+			plugins_copy = g_slist_delete_link (plugins_copy, plugins_copy);
 		}
-	);
-	if (error_list != NULL) {
-		GO_SLIST_REVERSE (error_list);
-		*ret_error = go_error_info_new_from_error_list (error_list);
+
+		if (progress) {
+			g_slist_free_full (error_list, (GDestroyNotify)go_error_info_free);
+			plugins_copy = bad;
+		} else {
+			GO_SLIST_REVERSE (error_list);
+			*ret_error = go_error_info_new_from_error_list (error_list);
+			break;
+		}
 	}
 }
 
@@ -1890,6 +1907,7 @@ go_plugins_shutdown (void)
 
 	if (plugins_marked_for_deactivation_hash != NULL) {
 		g_hash_table_destroy (plugins_marked_for_deactivation_hash);
+		plugins_marked_for_deactivation_hash = NULL;
 	}
 
 	/* deactivate all plugins */

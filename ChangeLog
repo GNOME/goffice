@@ -1,3 +1,9 @@
+2014-03-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-plugin.c (go_plugin_db_deactivate_plugin_list):
+	Retry failed deactivations as long as we make progress.  (Some
+	plugins depend on others.)
+
 2014-03-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_parse_color): Implement
