@@ -315,11 +315,16 @@ gog_plot_type_service_deactivate (GOPluginService *service, GOErrorInfo **ret_er
 	plot_service->types = NULL;
 
 	if (pending_plot_type_files) {
-		l = plot_service->paths;
-		while (l) {
-		    g_hash_table_remove (pending_plot_type_files, l->data);
-		    l = l->next;
-	    }
+		GSList *l;
+		for (l = plot_service->paths; l; l = l->next) {
+			const char *path = l->data;
+			g_hash_table_remove (pending_plot_type_files, path);
+		}
+
+		if (g_hash_table_size (pending_plot_type_files) == 0) {
+			g_hash_table_destroy (pending_plot_type_files);
+			pending_plot_type_files = NULL;
+		}
 	}
 	service->is_active = FALSE;
 }
@@ -593,11 +598,15 @@ gog_trend_line_service_deactivate (GOPluginService *service, GOErrorInfo **ret_e
 	line_service->types = NULL;
 
 	if (pending_trend_line_type_files) {
-		l = line_service->paths;
-		while (l) {
-		    g_hash_table_remove (pending_trend_line_type_files, l->data);
-		    l = l->next;
-	    }
+		GSList *l;
+		for (l = line_service->paths; l; l = l->next) {
+			const char *path = l->data;
+			g_hash_table_remove (pending_trend_line_type_files, path);
+		}
+		if (g_hash_table_size (pending_trend_line_type_files) == 0) {
+			g_hash_table_destroy (pending_trend_line_type_files);
+			pending_trend_line_type_files = NULL;
+		}
 	}
 	service->is_active = FALSE;
 }

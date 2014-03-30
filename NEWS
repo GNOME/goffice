@@ -7,6 +7,7 @@ Morten:
 	* Work on conditional formats for ODF.
 	* Implement numbered colours in number formats.
 	* Fix plugin deactivation.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 goffice 0.10.13:

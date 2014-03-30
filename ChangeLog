@@ -1,5 +1,9 @@
 2014-03-30  Morten Welinder  <terra@gnome.org>
 
+	* goffice/graph/gog-plot-engine.c
+	(gog_trend_line_service_deactivate): Plug leak.
+	(gog_plot_type_service_deactivate): Ditto.
+
 	* goffice/app/go-plugin.c (go_plugin_db_deactivate_plugin_list):
 	Retry failed deactivations as long as we make progress.  (Some
 	plugins depend on others.)
