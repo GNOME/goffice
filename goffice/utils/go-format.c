@@ -8189,7 +8189,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 #define ODF_WRITE_NUMBER  if (number_seen && !number_completed) {	\
 		go_format_output_number_element_to_odf			\
 			(xout, min_integer_digits, min_decimal_digits,	\
-			 comma_seen, cond_part);			\
+			 comma_seen);					\
 		number_completed = TRUE;				\
 	}
 
@@ -8197,12 +8197,10 @@ static void
 go_format_output_number_element_to_odf (GsfXMLOut *xout,
 					int min_integer_digits,
 					int min_decimal_digits,
-					gboolean comma_seen,
-					int cond_part)
+					gboolean comma_seen)
 {
 	gsf_xml_out_start_element (xout, NUMBER "number");
 	gsf_xml_out_add_int (xout, NUMBER "decimal-places", min_decimal_digits);
-	gsf_xml_out_add_int (xout, NUMBER "display-factor", (cond_part > 0) ? -1 : 1);
 	odf_add_bool (xout, NUMBER "grouping", comma_seen);
 	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", min_integer_digits);
 	gsf_xml_out_end_element (xout); /* </number:number> */
@@ -8211,7 +8209,7 @@ go_format_output_number_element_to_odf (GsfXMLOut *xout,
 static void
 go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				GOFormatFamily family,
-				char const *name, int cond_part, gboolean with_extension)
+				char const *name, gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
@@ -8754,7 +8752,6 @@ go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 				char const *name, gboolean keep_open)
 {
 	gboolean result;
-	int cond_part = 0;
 	GOFormatFamily family;
 	GOFormatDetails details;
 	gboolean exact;
@@ -8793,7 +8790,7 @@ go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 	case GO_FORMAT_CURRENCY:
 	case GO_FORMAT_PERCENTAGE:
 	case GO_FORMAT_NUMBER:
-		go_format_output_number_to_odf (xout, fmt, family, name, cond_part, with_extension);
+		go_format_output_number_to_odf (xout, fmt, family, name, with_extension);
 		break;
 	default: {
 		/* We need to output something and we don't need any details for this */
