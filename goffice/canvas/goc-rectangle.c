@@ -283,8 +283,9 @@ goc_rectangle_draw (GocItem const *item, cairo_t *cr)
 		} else {
 			cairo_new_path (cr);
 		}
-	}
-	if (scale_line_width)
+		if (scale_line_width)
+			cairo_restore (cr);
+	} else
 		cairo_restore (cr);
 }
 
