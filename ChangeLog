@@ -1,3 +1,9 @@
+2014-04-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_output_conditional_to_odf):
+	Only use last condition as default if it is implicit.  If that in
+	turn means we have no default, use General.
+
 2014-04-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-rectangle.c (goc_rectangle_draw): always call

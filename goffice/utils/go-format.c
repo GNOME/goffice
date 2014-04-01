@@ -8865,6 +8865,7 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 {
 	int i, N, defi = -1;
 	GOFormatCondition const *cond0;
+	int last_implicit_num = -1;
 	static int digits;
 
 	if (!digits) {
@@ -8884,6 +8885,10 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 	 */
 	for (i = 0; i < fmt->u.cond.n; i++) {
 		GOFormatCondition const *cond = &fmt->u.cond.conditions[i];
+
+		if (cond->implicit && cond->op != GO_FMT_COND_TEXT)
+			last_implicit_num = i;
+
 		switch (cond->op) {
 		case GO_FMT_COND_TEXT:
 		case GO_FMT_COND_NONTEXT:
@@ -8907,17 +8912,25 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 		}
 	}
 
-	if (defi == -1) {
+	if (defi == -1 && last_implicit_num != -1) {
 		/*
-		 * Use the last as default; that is probably not completely
-		 * right, but close enough for now.
+		 * The default could be this one, but unless we cannot reorder
+		 * conditions unless we can prove it doesn't matter.  Just
+		 * check if it is last.
 		 */
-		defi = fmt->u.cond.n - 1;
+		if (last_implicit_num == fmt->u.cond.n - 1)
+			defi = last_implicit_num;
 	}
 
-	go_format_output_simple_to_odf (xout, with_extension,
-					fmt->u.cond.conditions[defi].fmt, fmt,
-					name, TRUE);
+	if (defi == -1) {
+		/* We don't have a default; make one.  */
+		go_format_output_general_to_odf (xout, go_format_general (),
+						 name);
+	} else {
+		go_format_output_simple_to_odf (xout, with_extension,
+						fmt->u.cond.conditions[defi].fmt, fmt,
+						name, TRUE);
+	}
 
 	for (i = 0; i < fmt->u.cond.n; i++) {
 		GOFormatCondition const *cond = &fmt->u.cond.conditions[i];
@@ -8947,7 +8960,6 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 		partname = g_strdup_printf ("%s-%d", name, i);
 
 		condition = g_strdup_printf ("value()%s%.*g", oper, digits, val);
-
 		gsf_xml_out_start_element (xout, STYLE "map");
 		gsf_xml_out_add_cstr (xout, STYLE "condition", condition);
 		gsf_xml_out_add_cstr (xout, STYLE "apply-style-name", partname);
