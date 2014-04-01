@@ -1,7 +1,7 @@
 2014-03-31  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_number_to_odf):
-	Remove remaining cond_part references.
+	Remove remaining cond_part references.  Handle embedded text.
 
 2014-03-30  Morten Welinder  <terra@gnome.org>
 
