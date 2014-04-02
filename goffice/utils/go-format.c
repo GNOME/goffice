@@ -684,12 +684,6 @@ static GOFormat *default_date_time_fmt;
 static GOFormat *default_general_fmt;
 static GOFormat *default_empty_fmt;
 
-
-static double beyond_precision;
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-static long double beyond_precisionl;
-#endif
-
 /***************************************************************************/
 
 /* WARNING : Global */
@@ -5275,11 +5269,6 @@ _go_number_format_init (void)
 {
 	style_format_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) go_format_unref);
-
-	beyond_precision = go_pow10 (DBL_DIG) + 1;
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-	beyond_precisionl = go_pow10l (LDBL_DIG) + 1;
-#endif
 }
 #endif
 

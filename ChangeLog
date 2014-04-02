@@ -2,6 +2,7 @@
 
 	* goffice/utils/go-format.c (go_format_output_conditional_to_odf):
 	Use go_ascii_dtoa.
+	(_go_number_format_init): Remove unused beyond_precision.
 
 	* goffice/math/go-math.c (go_ascii_dtoa): New function.
 
