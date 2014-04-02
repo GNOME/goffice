@@ -4809,6 +4809,18 @@ drop_zeroes (GString *str, int *prec)
 }
 #endif
 
+static int
+SUFFIX(ilog10) (DOUBLE x)
+{
+	if (x >= 1000)
+		return (int)log10 (x);
+	if (x >= 100)
+		return 2;
+	if (x >= 10)
+		return 1;
+	return 0;
+}
+
 
 /**
  * go_render_general:
@@ -4854,8 +4866,8 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			   guint num_shape,
 			   guint shape_flags)
 {
-	DOUBLE aval, l10;
-	int prec, safety, digs, maxdigits = PREFIX(DIG);
+	DOUBLE aval;
+	int prec, safety, digs, digs_as_int, maxdigits = PREFIX(DIG);
 	size_t epos;
 	gboolean rounds_to_0;
 	int sign_width;
@@ -4871,15 +4883,18 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		col_width = INT_MAX;
 		sign_width = 0;
 	} else {
-		int w = col_width / min_digit_width;
+		int w;
+
+		sign_width = unicode_minus
+			? metrics->minus_width
+			: metrics->hyphen_width;
+
+		w = (col_width - (val <= -0.5 ? sign_width : 0)) / min_digit_width;
 		if (w <= maxdigits) {
 			/* We're limited by width.  */
 			maxdigits = w;
 			check_val = FALSE;
 		}
-		sign_width = unicode_minus
-			? metrics->minus_width
-			: metrics->hyphen_width;
 	}
 
 #ifdef DEBUG_GENERAL
@@ -4892,25 +4907,24 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	aval = SUFFIX(fabs) (val);
 	if (aval >= SUFFIX(1e15) || aval < SUFFIX(1e-4))
 		goto e_notation;
-	l10 = SUFFIX(log10) (aval);
 
-	/* Number of digits in [aval].  */
-	digs = (aval >= 1 ? 1 + (int)l10 : 1);
+	/* Number of digits in round(aval).  */
+	digs_as_int = (aval >= 9.5 ? 1 + SUFFIX(ilog10) (aval + 0.5) : 1);
 
 	/* Check if there is room for the whole part, including sign.  */
 	safety = metrics->avg_digit_width / 2;
 
-	if (digs * min_digit_width > col_width) {
+	if (digs_as_int * min_digit_width > col_width) {
 #ifdef DEBUG_GENERAL
 		g_print ("No room for whole part.\n");
 #endif
 		goto e_notation;
-	} else if (digs * metrics->max_digit_width + safety <
+	} else if (digs_as_int * metrics->max_digit_width + safety <
 		   col_width - (val > 0 ? 0 : sign_width)) {
 #ifdef DEBUG_GENERAL
 		g_print ("Room for whole part.\n");
 #endif
-		if (val == SUFFIX(floor) (val) || digs == maxdigits) {
+		if (val == SUFFIX(floor) (val) || digs_as_int == maxdigits) {
 			g_string_printf (str, "%.0" FORMAT_f, val);
 			HANDLE_NUMERAL_SHAPE;
 			HANDLE_SIGN (0);
@@ -4931,9 +4945,12 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		if (w > col_width)
 			goto e_notation;
 
-		if (val == SUFFIX(floor) (val) || digs == maxdigits)
+		if (val == SUFFIX(floor) (val) || digs_as_int == maxdigits)
 			return;
 	}
+
+	/* Number of digits in [aval].  */
+	digs = (aval >= 1 ? 1 + SUFFIX(ilog10) (aval) : 1);
 
 	prec = maxdigits - digs;
 	g_string_printf (str, "%.*" FORMAT_f, prec, val);
@@ -4972,7 +4989,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
  e_notation:
 	rounds_to_0 = (aval < 0.5);
 	prec = (col_width -
-		(val > 0 ? 0 : sign_width) -
+		(val >= 0 ? 0 : sign_width) -
 		(aval < 1 ? sign_width : metrics->plus_width) -
 		metrics->E_width) / min_digit_width - 3;
 	if (prec <= 0) {
