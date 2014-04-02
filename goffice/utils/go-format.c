@@ -7501,19 +7501,14 @@ go_format_locale_currency (void)
 char *
 go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 {
-	char const *format_string = NULL;
-	GString *gstr;
-	int digits;
-	double l10;
+	char const *format_string;
+	char *res, *valstr;
 
 	g_return_val_if_fail (fmt != NULL, NULL);
 	g_return_val_if_fail (fmt->typ == GO_FMT_COND, NULL);
 
-	if (cond_part >= fmt->u.cond.n)
+	if (cond_part > fmt->u.cond.n)
 		return NULL;
-
-	l10 = log10 (FLT_RADIX);
-	digits = (int)ceil (DBL_MANT_DIG * l10) + (l10 == (int)l10 ? 0 : 1);
 
 	switch (fmt->u.cond.conditions[cond_part].op) {
 	case GO_FMT_COND_EQ:
@@ -7539,13 +7534,12 @@ go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 	default:
 		return NULL;
 	}
-	
-	gstr = g_string_new (format_string);
-	g_string_append_printf (gstr, "%.*g",
-				digits,
- 				fmt->u.cond.conditions[cond_part].val);
- 
-	return g_string_free (gstr, FALSE);
+
+	valstr = go_ascii_dtoa (fmt->u.cond.conditions[cond_part].val, 'g');
+	res = g_strconcat (format_string, valstr, NULL);
+	g_free (valstr);
+
+	return res;
 }
 #endif
 
@@ -8866,12 +8860,6 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 	int i, N, defi = -1;
 	GOFormatCondition const *cond0;
 	int last_implicit_num = -1;
-	static int digits;
-
-	if (!digits) {
-		double l10 = log10 (FLT_RADIX);
-		digits = (int)ceil (DBL_MANT_DIG * l10) + (l10 == (int)l10 ? 0 : 1);
-	}
 
 	g_return_if_fail (fmt->typ == GO_FMT_COND);
 
@@ -8936,6 +8924,7 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 		GOFormatCondition const *cond = &fmt->u.cond.conditions[i];
 		const char *oper = NULL;
 		double val = cond->val;
+		char *valstr;
 		char *partname;
 		char *condition;
 
@@ -8959,7 +8948,10 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 
 		partname = g_strdup_printf ("%s-%d", name, i);
 
-		condition = g_strdup_printf ("value()%s%.*g", oper, digits, val);
+		valstr = go_ascii_dtoa (val, 'g');
+		condition = g_strdup_printf ("value()%s%s", oper, valstr);
+		g_free (valstr);
+
 		gsf_xml_out_start_element (xout, STYLE "map");
 		gsf_xml_out_add_cstr (xout, STYLE "condition", condition);
 		gsf_xml_out_add_cstr (xout, STYLE "apply-style-name", partname);
