@@ -1,5 +1,7 @@
 2014-04-02  Morten Welinder  <terra@gnome.org>
 
+	* tests/test-format.c: New test program.
+
 	* goffice/utils/go-format.c (go_format_output_conditional_to_odf):
 	Use go_ascii_dtoa.
 	(_go_number_format_init): Remove unused beyond_precision.
