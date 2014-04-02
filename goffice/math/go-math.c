@@ -269,7 +269,18 @@ go_fake_ceil (double x)
 double
 go_fake_round (double x)
 {
-	double y = go_fake_floor (fabs (x) + 0.5);
+	double y;
+
+	x = go_d2d (x);
+
+	if (x == floor (x))
+		return x;
+
+	/*
+	 * Adding a half here is ok.  The only problematic non-integer
+	 * case is nextafter(0.5,-1) for which we want to produce 1 here.
+	 */
+	y = go_fake_floor (fabs (x) + 0.5);
 	return (x < 0) ? -y : y;
 }
 

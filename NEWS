@@ -9,6 +9,7 @@ Morten:
 	* Fix plugin deactivation.
 	* Plug leaks.
 	* New function go_ascii_dtoa.
+	* Fix rounding problem.
 
 --------------------------------------------------------------------------
 goffice 0.10.13:
