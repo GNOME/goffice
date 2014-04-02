@@ -39,6 +39,8 @@ double go_pow10 (int n);
 double go_strtod (const char *s, char **end);
 double go_ascii_strtod (const char *s, char **end);
 
+char *go_ascii_dtoa (double d, char fmt);
+
 double go_sinpi (double x);
 double go_cospi (double x);
 double go_tanpi (double x);
@@ -84,6 +86,8 @@ long double go_pow10l (int n);
 
 long double go_strtold (const char *s, char **end);
 long double go_ascii_strtold (const char *s, char **end);
+
+char *go_ascii_ldtoa (long double d, char fmt);
 
 long double go_sinpil (long double x);
 long double go_cospil (long double x);

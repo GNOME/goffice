@@ -29,6 +29,7 @@
 #include <locale.h>
 #include <signal.h>
 #include <errno.h>
+#include <string.h>
 
 double go_nan;
 double go_pinf;
@@ -68,7 +69,7 @@ running_under_buggy_valgrind (void)
 void
 _go_math_init (void)
 {
-	const char *bug_url = "http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice";
+	const char *bug_url = "https://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice";
 	char *old_locale;
 	double d;
 #ifdef SIGFPE
@@ -435,6 +436,180 @@ go_ascii_strtod (const char *s, char **end)
 
 	return res;
 }
+
+static void
+go_ascii_dtoa_fmt_helper (char *buf, size_t bufsiz, char fmt,
+			  double d, int prec)
+{
+	char fmtstr[8], *p = fmtstr;
+
+	*p++ = '%';
+	*p++ = '.';
+	if (prec >= 10)	*p++ = '0' + (prec / 10);
+	*p++ = '0' + (prec % 10);
+	*p++ = fmt;
+	*p = 0;
+
+	g_ascii_formatd (buf, bufsiz, fmtstr, d);
+}
+
+/**
+ * go_ascii_dtoa:
+ * @d: value to convert
+ * @fmt: printf-style format specified; 'e', 'E', or 'g'.
+ *
+ * Returns: (transfer full): a string that when converted back into a floating-
+ * point value will produce @d.  This function will use '.' and decimal
+ * point.
+ *
+ * The resulting string is not necessarily the shortest possible, but some
+ * care is put into avoiding needless ...0003 and ...9998 endings.
+ */
+char *
+go_ascii_dtoa (double d, char fmt)
+{
+	char buf[128];
+	char *epos;
+	gboolean enotation;
+	static int prec;
+
+	if (!prec) {
+		double l10 = log10 (FLT_RADIX);
+		prec = (int)ceil (DBL_MANT_DIG * l10) + (l10 != (int)l10);
+		g_assert (prec >= 11 && prec <= 99);
+	}
+
+	if (!go_finite (d)) {
+		if (d > 0)
+			return g_strdup ("+inf");
+		if (d < 0)
+			return g_strdup ("-inf");
+		return g_strdup ("nan");
+	}
+
+	if (fabs (d) >= 1e16 || (d != 0 && fabs (d) < 1e-4))
+		fmt = g_ascii_islower (fmt) ? 'e' : 'E';
+	enotation = g_ascii_tolower (fmt) == 'e';
+
+	/* e-notation counts digits after the decimal point.  */
+	if (enotation)
+		prec--;
+
+	go_ascii_dtoa_fmt_helper (buf, 128, fmt, d, prec);
+	epos = (enotation ? strchr (buf, fmt) : buf + strlen (buf));
+	if (epos[-1] == '0') {
+		/* Nothing */
+	} else if ((epos[-1] <= '5' && epos[-2] == '0' && epos[-3] == '0') ||
+		   (epos[-1] >= '5' && epos[-2] == '9' && epos[-3] == '9')) {
+		char bufm1[128];
+		go_ascii_dtoa_fmt_helper (bufm1, 128, fmt, d, prec - 1);
+		if (go_ascii_strtod (bufm1, NULL) == d) {
+			strcpy (buf, bufm1);
+			epos = (enotation ? strchr (buf, fmt) : buf + strlen (buf));
+		}
+	}
+
+	if (epos[-1] == '0' && strchr (buf, '.')) {
+		char *p = epos;
+		while (p[-1] == '0') p--;
+		if (p[-1] == '.') p--;
+		memmove (p, epos, strlen (epos) + 1);
+	}
+
+	return g_strdup (buf);
+}
+
+
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+
+static void
+go_ascii_ldtoa_fmt_helper (char *buf, size_t bufsiz, char fmt,
+			   long double d, int prec)
+{
+	char fmtstr[8], *p = fmtstr;
+	char *old_locale;
+
+	*p++ = '%';
+	*p++ = '.';
+	if (prec >= 10)	*p++ = '0' + (prec / 10);
+	*p++ = '0' + (prec % 10);
+	*p++ = fmt;
+	*p = 0;
+
+	/* Just use setlocale and hope for the best.  */
+	old_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	g_snprintf (buf, bufsiz, fmtstr, d);
+	setlocale (LC_NUMERIC, old_locale);
+	g_free (old_locale);
+}
+
+
+/**
+ * go_ascii_ldtoa:
+ * @d: value to convert
+ * @fmt: printf-style format specified; 'e', 'E', or 'g'.
+ *
+ * Returns: (transfer full): a string that when converted back into a floating-
+ * point value will produce @d.  This function will use '.' and decimal
+ * point.
+ *
+ * The resulting string is not necessarily the shortest possible, but some
+ * care is put into avoiding needless ...0003 and ...9998 endings.
+ */
+char *
+go_ascii_ldtoa (long double d, char fmt)
+{
+	char buf[128];
+	char *epos;
+	gboolean enotation;
+	static int prec;
+
+	if (!prec) {
+		double l10 = log10 (FLT_RADIX);
+		prec = (int)ceil (LDBL_MANT_DIG * l10) + (l10 != (int)l10);
+		g_assert (prec >= 11 && prec <= 99);
+	}
+
+	if (!go_finitel (d)) {
+		if (d > 0)
+			return g_strdup ("+inf");
+		if (d < 0)
+			return g_strdup ("-inf");
+		return g_strdup ("nan");
+	}
+
+	if (fabsl (d) >= 1e16 || (d != 0 && fabsl (d) < 1e-4))
+		fmt = g_ascii_islower (fmt) ? 'e' : 'E';
+	enotation = g_ascii_tolower (fmt) == 'e';
+
+	/* e-notation counts digits after the decimal point.  */
+	if (enotation)
+		prec--;
+
+	go_ascii_ldtoa_fmt_helper (buf, 128, fmt, d, prec);
+	epos = (enotation ? strchr (buf, fmt) : buf + strlen (buf));
+	if (epos[-1] == '0') {
+		/* Nothing */
+	} else if ((epos[-1] <= '5' && epos[-2] == '0' && epos[-3] == '0') ||
+		   (epos[-1] >= '5' && epos[-2] == '9' && epos[-3] == '9')) {
+		char bufm1[128];
+		go_ascii_ldtoa_fmt_helper (bufm1, 128, fmt, d, prec - 1);
+		if (go_ascii_strtold (bufm1, NULL) == d) {
+			strcpy (buf, bufm1);
+			epos = (enotation ? strchr (buf, fmt) : buf + strlen (buf));
+		}
+	}
+
+	if (epos[-1] == '0' && strchr (buf, '.')) {
+		char *p = epos;
+		while (p[-1] == '0') p--;
+		if (p[-1] == '.') p--;
+		memmove (p, epos, strlen (epos) + 1);
+	}
+
+	return g_strdup (buf);
+}
+#endif
 
 
 #ifdef GOFFICE_SUPPLIED_LOG1P

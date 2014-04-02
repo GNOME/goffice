@@ -1,3 +1,7 @@
+2014-04-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-math.c (go_ascii_dtoa): New function.
+
 2014-04-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_conditional_to_odf):

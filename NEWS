@@ -8,6 +8,7 @@ Morten:
 	* Implement numbered colours in number formats.
 	* Fix plugin deactivation.
 	* Plug leaks.
+	* New function go_ascii_dtoa.
 
 --------------------------------------------------------------------------
 goffice 0.10.13:

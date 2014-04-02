@@ -91,10 +91,44 @@ trig_tests (void)
 
 /* ------------------------------------------------------------------------- */
 
+#define TEST1(a_) do {						\
+	double d = (a_);					\
+	char *s = go_ascii_dtoa (d, 'g');			\
+	double r = go_ascii_strtod (s, NULL);			\
+	g_printerr ("dtoa: %.17g --> \"%s\" --> %.17g\n", d, s, r);	\
+	g_free (s);						\
+        g_assert (r == d);					\
+} while (0)
+
+static void
+test_dtoa (void)
+{
+	TEST1 (0.1);
+	TEST1 (go_pinf);
+	TEST1 (50388143.0682372152805328369140625);
+	TEST1 (54167628.179999999701976776123046875);
+	TEST1 (9161196241250.05078125);
+	TEST1 (9.87e+031);
+	TEST1 (9.944932e+031);
+	TEST1 (8.948471e+015);
+	TEST1 (1.23456789012345e+300);
+	TEST1 (1.23456e-300);
+	TEST1 (1e-006);
+}
+
+#undef TEST1
+
+/* ------------------------------------------------------------------------- */
+
 int
 main (int argc, char **argv)
 {
+	libgoffice_init ();
+
+	test_dtoa ();
 	trig_tests ();
+
+	libgoffice_shutdown ();
 
 	return 0;
 }
