@@ -886,7 +886,16 @@ go_fake_ceill (long double x)
 long double
 go_fake_roundl (long double x)
 {
-	long double y = go_fake_floorl (fabsl (x) + 0.5L);
+	long double y;
+
+	if (x == floorl (x))
+		return x;
+
+	/*
+	 * Adding a half here is ok.  The only problematic non-integer
+	 * case is nextafter(0.5,-1) for which we want to produce 1 here.
+	 */
+	y = go_fake_floorl (fabsl (x) + 0.5L);
 	return (x < 0) ? -y : y;
 }
 
