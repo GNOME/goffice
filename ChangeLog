@@ -1,5 +1,8 @@
 2014-04-02  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_format_output_number_to_odf): Also
+	flush string on '#' and '?'.
+
 	* goffice/math/go-math.c (go_fake_round): Fix problem for 2^51 and
 	like integers.
 	(go_fake_roundl): Ditto, although for different set of numbers.

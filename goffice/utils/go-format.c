@@ -8319,6 +8319,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case '#':
 		case '?':
+			ODF_FLUSH_STRING;
 			digits++;
 			break;
 
