@@ -3,6 +3,7 @@
 	* goffice/math/go-math.c (go_fake_round): Fix problem for 2^51 and
 	like integers.
 	(go_fake_roundl): Ditto, although for different set of numbers.
+	(go_rint): Just use rint.
 
 	* tests/test-format.c: New test program.
 

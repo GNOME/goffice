@@ -565,7 +565,7 @@ if test $ac_cv_func_log = no; then
          LIBS="$LIBS -lm"])
 fi
 
-AC_CHECK_FUNCS(nextafter nextafterl)
+AC_CHECK_FUNCS(nextafter nextafterl rint)
 
 SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS

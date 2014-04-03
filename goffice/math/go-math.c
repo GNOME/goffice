@@ -300,8 +300,12 @@ go_fake_trunc (double x)
 double
 go_rint (double x)
 {
+#ifdef HAVE_RINT
+	return rint (x);
+#else
 	double y = floor (fabs (x) + 0.5);
 	return (x < 0) ? -y : y;
+#endif
 }
 
 int
