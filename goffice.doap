@@ -5,11 +5,11 @@
          xmlns="http://usefulinc.com/ns/doap#">
 
   <name xml:lang="en">GOffice</name>
-  <shortdesc xml:lang="en">A glib/gtk set of document centric objects and charting library</shortdesc>
-  <homepage rdf:resource="http://projects.gnome.org/gnumeric/" />
+  <shortdesc xml:lang="en">A GLib/GTK+ set of document-centric objects and charting library</shortdesc>
+  <homepage rdf:resource="http://www.gnumeric.org/" />
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/gnumeric-list" />
   <download-page rdf:resource="http://download.gnome.org/sources/goffice/" />
-  <bug-database rdf:resource="http://bugzilla.gnome.org/browse.cgi?product=goffice" />
+  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=goffice" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#productivity" />
 

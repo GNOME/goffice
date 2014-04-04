@@ -1,7 +1,7 @@
-GOffice -- A glib/gtk set of document centric objects and utilities
+GOffice -- A GLib/GTK+ set of document-centric objects and utilities
 Jody Goldberg <jody@gnome.org>
 
-There are common operations for document centric applications that are
+There are common operations for document-centric applications that are
 conceptually simple, but complex to implement fully.
     - plugins
     - load/save documents
