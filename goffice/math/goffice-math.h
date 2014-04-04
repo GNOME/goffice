@@ -18,6 +18,7 @@ typedef struct GOQuadQRl_ GOQuadQRl;
 #include <goffice/math/go-complex.h>
 #include <goffice/math/go-cspline.h>
 #include <goffice/math/go-distribution.h>
+#include <goffice/math/go-dtoa.h>
 #include <goffice/math/go-fft.h>
 #include <goffice/math/go-math.h>
 #include <goffice/math/go-matrix.h>

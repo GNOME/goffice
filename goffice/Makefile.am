@@ -338,6 +338,7 @@ gtk_HEADERS =					\
 
 math_SOURCES =					\
 	math/go-accumulator.c			\
+	math/go-dtoa.c				\
 	math/go-math.c				\
 	math/go-rangefunc.c			\
 	math/go-regression.c			\

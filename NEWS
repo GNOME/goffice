@@ -8,8 +8,8 @@ Morten:
 	* Implement numbered colours in number formats.
 	* Fix plugin deactivation.
 	* Plug leaks.
-	* New function go_ascii_dtoa.
 	* Fix rounding problem.
+	* Use musl code for dtoa.  Adapt to round-ties-away-from-0.
 
 --------------------------------------------------------------------------
 goffice 0.10.13:

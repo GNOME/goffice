@@ -2856,7 +2856,7 @@ SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
 	const GString *decimal = go_locale_get_decimal ();
 
 	if (wd <= 1 || val == 0 || !SUFFIX(go_finite) (val)) {
-		g_string_printf (dst, "%.*" FORMAT_E, n, val);
+		go_dtoa (dst, "=^.*" FORMAT_E, n, val);
 		return;
 	}
 
@@ -2866,7 +2866,7 @@ SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
 		? exponent_guess % wd
 		: (wd - ((-exponent_guess) % wd)) % wd;
 
-	g_string_printf (dst, "%.*" FORMAT_E, n + nde, val);
+	go_dtoa (dst, "=^.*" FORMAT_E, n + nde, val);
 	epos = (char *)strchr (dst->str, 'E');
 	if (!epos)
 		return;
@@ -4202,7 +4202,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			const char *dot;
 			if (!numtxt)
 				numtxt = g_string_sized_new (100);
-			g_string_printf (numtxt, "%.*" FORMAT_f, n, val);
+			go_dtoa (numtxt, "=^.*" FORMAT_f, n, val);
 			dot = strstr (numtxt->str, decimal->str);
 			handle_chinese (numtxt, &dot,
 					numeral_shape, shape_flags);
@@ -4797,6 +4797,9 @@ go_format_measure_strlen (const GString *str,
 static void
 drop_zeroes (GString *str, int *prec)
 {
+	if (*prec == 0)
+		return;
+
 	while (str->str[str->len - 1] == '0') {
 		g_string_truncate (str, str->len - 1);
 		(*prec)--;
@@ -4925,7 +4928,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		g_print ("Room for whole part.\n");
 #endif
 		if (val == SUFFIX(floor) (val) || digs_as_int == maxdigits) {
-			g_string_printf (str, "%.0" FORMAT_f, val);
+			go_dtoa (str, "=^.0" FORMAT_f, val);
 			HANDLE_NUMERAL_SHAPE;
 			HANDLE_SIGN (0);
 			SETUP_LAYOUT;
@@ -4937,7 +4940,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		g_print ("Maybe room for whole part.\n");
 #endif
 
-		g_string_printf (str, "%.0" FORMAT_f, val);
+		go_dtoa (str, "=^.0" FORMAT_f, val);
 		HANDLE_NUMERAL_SHAPE;
 		HANDLE_SIGN (0);
 		SETUP_LAYOUT;
@@ -4950,10 +4953,10 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	}
 
 	/* Number of digits in [aval].  */
-	digs = (aval >= 1 ? 1 + SUFFIX(ilog10) (aval) : 1);
+	digs = (aval >= 10 ? 1 + SUFFIX(ilog10) (aval) : 1);
 
 	prec = maxdigits - digs;
-	g_string_printf (str, "%.*" FORMAT_f, prec, val);
+	go_dtoa (str, "=^.*" FORMAT_f, prec, val);
 	if (check_val) {
 		/*
 		 * We're not width-limited; we may have to increase maxdigits
@@ -4961,7 +4964,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		 */
 		if (val != STRTO(str->str, NULL)) {
 			maxdigits++, prec++;
-			g_string_printf (str, "%.*" FORMAT_f, prec, val);
+			go_dtoa (str, "=^.*" FORMAT_f, prec, val);
 		}
 	}
 	HANDLE_NUMERAL_SHAPE;
@@ -4977,7 +4980,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			return;
 
 		prec--;
-		g_string_printf (str, "%.*" FORMAT_f, prec, val);
+		go_dtoa (str, "=^.*" FORMAT_f, prec, val);
 		drop_zeroes (str, &prec);
 		HANDLE_NUMERAL_SHAPE;
 		HANDLE_SIGN (0);
@@ -5003,7 +5006,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		if (prec == 0 || !rounds_to_0) {
 			int w;
 
-			g_string_printf (str, "%.0" FORMAT_E, val);
+			go_dtoa (str, "=^.0" FORMAT_E, val);
 			HANDLE_NUMERAL_SHAPE;
 			HANDLE_SIGN (0);
 			epos = strchr (str->str, 'E') - str->str;
@@ -5020,7 +5023,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		goto zero;
 	}
 	prec = MIN (prec, PREFIX(DIG) - 1);
-	g_string_printf (str, "%.*" FORMAT_E, prec, val);
+	go_dtoa (str, "=^.*" FORMAT_E, prec, val);
 	epos = strchr (str->str, 'E') - str->str;
 	digs = 0;
 	while (str->str[epos - 1 - digs] == '0')
@@ -5054,7 +5057,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			if (prec < 0)
 				break;
 		}
-		g_string_printf (str, "%.*" FORMAT_E, prec, val);
+		go_dtoa (str, "=^.*" FORMAT_E, prec, val);
 	}
 
 	if (rounds_to_0)
@@ -7508,7 +7511,7 @@ char *
 go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 {
 	char const *format_string;
-	char *res, *valstr;
+	GString *valstr;
 
 	g_return_val_if_fail (fmt != NULL, NULL);
 	g_return_val_if_fail (fmt->typ == GO_FMT_COND, NULL);
@@ -7541,11 +7544,9 @@ go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 		return NULL;
 	}
 
-	valstr = go_ascii_dtoa (fmt->u.cond.conditions[cond_part].val, 'g');
-	res = g_strconcat (format_string, valstr, NULL);
-	g_free (valstr);
-
-	return res;
+	valstr = g_string_new (format_string);
+	go_dtoa (valstr, "!g", fmt->u.cond.conditions[cond_part].val);
+	return g_string_free (valstr, FALSE);
 }
 #endif
 
@@ -8931,9 +8932,8 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 		GOFormatCondition const *cond = &fmt->u.cond.conditions[i];
 		const char *oper = NULL;
 		double val = cond->val;
-		char *valstr;
 		char *partname;
-		char *condition;
+		GString *condition;
 
 		if (i == defi)
 			continue;
@@ -8955,17 +8955,17 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 
 		partname = g_strdup_printf ("%s-%d", name, i);
 
-		valstr = go_ascii_dtoa (val, 'g');
-		condition = g_strdup_printf ("value()%s%s", oper, valstr);
-		g_free (valstr);
+		condition = g_string_new ("value()");
+		g_string_append (condition, oper);
+		go_dtoa (condition, "!g", val);
 
 		gsf_xml_out_start_element (xout, STYLE "map");
-		gsf_xml_out_add_cstr (xout, STYLE "condition", condition);
+		gsf_xml_out_add_cstr (xout, STYLE "condition", condition->str);
 		gsf_xml_out_add_cstr (xout, STYLE "apply-style-name", partname);
 		gsf_xml_out_end_element (xout); /* </style:map> */
 
 		g_free (partname);
-		g_free (condition);
+		g_string_free (condition, TRUE);
 	}
 	/* Do we need to add a catch-all General?  */
 
