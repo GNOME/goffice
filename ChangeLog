@@ -1,6 +1,7 @@
 2014-04-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-dtoa.c (go_dtoa): New function.
+	(fmt_fp): Fix buffer overrun.  Hit "%.3E" for 999999999.
 
 	* goffice/utils/go-format.c: Use go_dtoa extensively.
 
