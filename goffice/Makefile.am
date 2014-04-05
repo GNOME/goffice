@@ -355,6 +355,7 @@ mathdir = $(goffice_include_dir)/math
 math_HEADERS =					\
 	math/goffice-math.h			\
 	math/go-accumulator.h			\
+	math/go-dtoa.h				\
 	math/go-math.h				\
 	math/go-rangefunc.h			\
 	math/go-regression.h			\
