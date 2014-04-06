@@ -597,7 +597,7 @@ go_format_magic_fmt_str (GOFormatMagic m)
 		return NULL;
 
 	case GO_FORMAT_MAGIC_LONG_DATE: {
-		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		/* xgettext: See http://www.gnumeric.org/date-time-formats.shtml */
 		const char *fmt = _("*Long Date Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
@@ -605,7 +605,7 @@ go_format_magic_fmt_str (GOFormatMagic m)
 	}
 
 	case GO_FORMAT_MAGIC_MEDIUM_DATE: {
-		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		/* xgettext: See http://www.gnumeric.org/date-time-formats.shtml */
 		const char *fmt = _("*Medium Date Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
@@ -613,7 +613,7 @@ go_format_magic_fmt_str (GOFormatMagic m)
 	}
 
 	case GO_FORMAT_MAGIC_SHORT_DATE: {
-		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		/* xgettext: See http://www.gnumeric.org/date-time-formats.shtml */
 		const char *fmt = _("*Short Date Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
@@ -626,7 +626,7 @@ go_format_magic_fmt_str (GOFormatMagic m)
 	}
 
 	case GO_FORMAT_MAGIC_SHORT_DATETIME: {
-		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		/* xgettext: See http://www.gnumeric.org/date-time-formats.shtml */
 		const char *fmt = _("*Short Date/Time Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
@@ -641,7 +641,7 @@ go_format_magic_fmt_str (GOFormatMagic m)
 	}
 
 	case GO_FORMAT_MAGIC_LONG_TIME: {
-		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		/* xgettext: See http://www.gnumeric.org/date-time-formats.shtml */
 		const char *fmt = _("*Long Time Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
@@ -653,7 +653,7 @@ go_format_magic_fmt_str (GOFormatMagic m)
 	}
 
 	case GO_FORMAT_MAGIC_MEDIUM_TIME: {
-		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		/* xgettext: See http://www.gnumeric.org/date-time-formats.shtml */
 		const char *fmt = _("*Medium Time Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
@@ -665,7 +665,7 @@ go_format_magic_fmt_str (GOFormatMagic m)
 	}
 
 	case GO_FORMAT_MAGIC_SHORT_TIME: {
-		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		/* xgettext: See http://www.gnumeric.org/date-time-formats.shtml */
 		const char *fmt = _("*Short Time Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
