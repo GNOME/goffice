@@ -1,5 +1,8 @@
 2014-04-07  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-dtoa.c (fmt_fp): Two fixes from musl.  (One we
+	already had.)
+
 	* goffice/app/go-plugin.c (go_plugin_db_deactivate_plugin_list):
 	Another leak fix.
 	(go_plugins_get_available_plugins): Introspection fix.

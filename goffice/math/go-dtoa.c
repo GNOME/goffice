@@ -298,18 +298,15 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 				*d = *d + i;
 				while (*d > 999999999) {
 					*d--=0;
-#ifndef MUSL_ORIGINAL
-					if (d < a) *--a = 0;
-#endif
+					if (d<a) *--a=0;
 					(*d)++;
 				}
-				if (d<a) a=d;
 				for (i=10, e=9*(r-a); *a>=i; i*=10, e++);
 			}
 		}
 		if (z>d+1) z=d+1;
-		for (; !z[-1] && z>a; z--);
 	}
+	for (; !z[-1] && z>a; z--);
 	
 	if ((t|32)=='g') {
 		if (!p) p++;
