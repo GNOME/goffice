@@ -242,8 +242,8 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 			*d = x % 1000000000;
 			carry = x / 1000000000;
 		}
-		if (!z[-1] && z>a) z--;
 		if (carry) *--a = carry;
+		while (z>a && !z[-1]) z--;
 		e2-=sh;
 	}
 	while (e2<0) {
