@@ -1278,12 +1278,10 @@ go_plugin_use_unref (GOPlugin *plugin)
  * go_plugin_get_dependencies_ids:
  * @plugin: #GOPlugin
  *
- * Returns: (element-type char) (transfer full): the list of identifiers of
+ * Returns: (element-type utf8) (transfer full): the list of identifiers of
  * plugins that @plugin depends on.
  * 	All these plugins will be automatically activated before activating the
- * 	@plugin itself.  The caller must free the returned list together with
- * 	the strings it points to (use g_slist_free_full (list, g_free) to do
- * 	this).
+ * 	@plugin itself.
  **/
 GSList *
 go_plugin_get_dependencies_ids (GOPlugin *plugin)
@@ -1301,7 +1299,7 @@ go_plugin_get_dependencies_ids (GOPlugin *plugin)
  * go_plugin_get_services:
  * @plugin: #GOPlugin
  *
- * Returns: (element-type GOPluginService) (transfer none):A list of services.
+ * Returns: (element-type GOPluginService) (transfer none): A list of services.
  * The list must not be freed or changed.
  **/
 GSList *
@@ -1549,6 +1547,7 @@ go_plugin_db_deactivate_plugin_list (GSList *plugins, GOErrorInfo **ret_error)
 			g_slist_free_full (error_list, (GDestroyNotify)go_error_info_free);
 			plugins_copy = bad;
 		} else {
+			g_slist_free (bad);
 			GO_SLIST_REVERSE (error_list);
 			*ret_error = go_error_info_new_from_error_list (error_list);
 			break;
@@ -1559,7 +1558,7 @@ go_plugin_db_deactivate_plugin_list (GSList *plugins, GOErrorInfo **ret_error)
 /**
  * go_plugins_get_available_plugins:
  *
- * Returns: (element-type GOPlugin) (transfer container): the list of available
+ * Returns: (element-type GOPlugin) (transfer none): the list of available
  * plugins. The returned value must not be freed and stays valid until calling
  * plugins_rescan or plugins_shutdown.
  **/
@@ -1572,8 +1571,8 @@ go_plugins_get_available_plugins (void)
 /**
  * go_plugins_get_active_plugins:
  *
- * Returns: (element-type char) (transfer container): the list of active
- * plugins names. The caller needs to free the list, but not the content.
+ * Returns: (element-type utf8) (transfer container): the list of active
+ * plugins names.
  **/
 GSList *
 go_plugins_get_active_plugins (void)
