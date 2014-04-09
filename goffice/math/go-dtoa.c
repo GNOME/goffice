@@ -390,11 +390,10 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 /* musl code ends here */
 
 static void
-parse_fmt (const char *fmt, va_list args,
+parse_fmt (const char *fmt, va_list args, gboolean *is_long,
 	   int *w, int *p, int *fl, int *t, long double *d)
 {
-	gboolean is_long = FALSE;
-
+	*is_long = FALSE;
 	*w = 1;
 	*p = -1;
 	*fl = 0;
@@ -430,7 +429,7 @@ parse_fmt (const char *fmt, va_list args,
 	}
 
 	if (*fmt == 'L') {
-		is_long = TRUE;
+		*is_long = TRUE;
 		fmt++;
 	}
 
@@ -438,7 +437,7 @@ parse_fmt (const char *fmt, va_list args,
 		return;
 	*t = *fmt;
 
-	if (is_long)
+	if (*is_long)
 		*d = va_arg (args, long double);
 	else
 		*d = va_arg (args, double);
@@ -452,13 +451,19 @@ go_dtoa (GString *dst, const char *fmt, ...)
 	int w, p, fl, t;
 	va_list args;
 	long double d;
+	gboolean is_long;
 	gboolean debug = FALSE;
 
 	va_start (args, fmt);
-	parse_fmt (fmt, args, &w, &p, &fl, &t, &d);
+	parse_fmt (fmt, args, &is_long, &w, &p, &fl, &t, &d);
 	va_end (args);
 
-	if (fl & FLAG_SHORTEST) p = 17;
+	/*
+	 * FLAG_SHORTEST isn't fully implemented yet.  For now we just
+	 * ensure a roundtrip.
+	 */
+	if (fl & FLAG_SHORTEST) p = is_long ? 20 : 17;
+
 	if (debug) g_printerr ("%Lg [%s] t=%c  p=%d\n", d, fmt, t, p);
 	fmt_fp (dst, d, w, p, fl, t);
 	if (debug) g_printerr ("  --> %s\n", dst->str);
