@@ -53,6 +53,47 @@ test_general_format (void)
 	test_general_format_1 (-9.25, 2, "-9");
 	test_general_format_1 (-9.25, 1, NULL);
 
+	test_general_format_1 (0.125, 10, "0.125");
+	test_general_format_1 (0.125, 5, "0.125");
+	test_general_format_1 (0.125, 4, "0.13");
+	test_general_format_1 (0.125, 3, "0.1");
+	test_general_format_1 (0.125, 3, "0.1");
+	test_general_format_1 (0.125, 2, "0");
+	test_general_format_1 (0.125, 1, "0");
+
+	test_general_format_1 (-0.125, 6, "-0.125");
+	test_general_format_1 (-0.125, 5, "-0.13");
+	test_general_format_1 (-0.125, 4, "-0.1");
+	test_general_format_1 (-0.125, 3, "-0");
+	test_general_format_1 (-0.125, 2, "-0");
+	test_general_format_1 (-0.125, 1, NULL);
+
+	test_general_format_1 (1e-20, 25, "1E-20");
+	test_general_format_1 (1e-20, 20, "1E-20");
+	test_general_format_1 (1e-20, 15, "1E-20");
+	test_general_format_1 (1e-20,  5, "1E-20");
+	test_general_format_1 (1e-20,  4, "0");
+
+	test_general_format_1 (1.0 / 3, 19, "0.3333333333333333");
+	test_general_format_1 (1.0 / 3, 18, "0.3333333333333333");
+	test_general_format_1 (1.0 / 3, 17, "0.333333333333333");
+	test_general_format_1 (1.0 / 3, 10, "0.33333333");
+
+	test_general_format_1 (0.12509999, 11, "0.12509999");
+	test_general_format_1 (0.12509999, 10, "0.12509999");
+	test_general_format_1 (0.12509999, 9, "0.1251");
+	test_general_format_1 (0.12509999, 8, "0.1251");
+	test_general_format_1 (0.12509999, 7, "0.1251");
+	test_general_format_1 (0.12509999, 6, "0.1251");
+
+	test_general_format_1 (0.12509999001, 13, "0.12509999001");
+	test_general_format_1 (0.12509999001, 12, "0.12509999");
+	test_general_format_1 (0.12509999001, 11, "0.12509999");
+	test_general_format_1 (0.12509999001, 10, "0.12509999");
+	test_general_format_1 (0.12509999001, 9, "0.1251");
+	test_general_format_1 (0.12509999001, 8, "0.1251");
+	test_general_format_1 (0.12509999001, 7, "0.1251");
+	test_general_format_1 (0.12509999001, 6, "0.1251");
 }
 
 /* ------------------------------------------------------------------------- */
