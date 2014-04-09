@@ -52,6 +52,8 @@
 #include <errno.h>
 #include <stdlib.h>
 
+#undef DEBUG_GENERAL
+
 /**
  * GOFormatFamily:
  * @GO_FORMAT_UNKNOWN: unknown ,should not occur.
@@ -490,6 +492,14 @@ typedef struct {
 #define UTF8_MINUS "\xe2\x88\x92"
 #define UTF8_FULLWIDTH_MINUS "\357\274\215"
 #define UTF8_FULLWIDTH_PLUS  "\357\274\213"
+
+/* Number of digits required for roundtrip of DOUBLE.  */
+#ifdef DEFINE_COMMON
+static int go_format_roundtrip_digits;
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+static int go_format_roundtrip_digitsl;
+#endif
+#endif
 
 gboolean
 go_format_allow_ee_markup (void)
@@ -4756,7 +4766,7 @@ go_format_measure_pango (G_GNUC_UNUSED const GString *str,
 	int w;
 	pango_layout_get_size (layout, &w, NULL);
 #ifdef DEBUG_GENERAL
-	g_print ("[%s] --> %d\n", str->str, w);
+	g_printerr ("[%s] --> %d\n", str->str, w);
 #endif
 	return w;
 }
@@ -4809,6 +4819,46 @@ drop_zeroes (GString *str, int *prec)
 		const char *dot = g_utf8_prev_char (str->str + str->len);
 		g_string_truncate (str, dot - str->str);
 	}
+}
+
+static gboolean
+cheap_drop_decimal (GString *str, size_t pos)
+{
+	char l = str->str[pos];
+	int carry;
+
+	if (!g_ascii_isdigit (l) || l == '5')
+		return FALSE;
+
+	g_string_erase (str, pos, 1);
+	pos--;
+
+	carry = (l > '5');
+	if (!carry && !g_ascii_isdigit (str->str[pos])) {
+		const char *dot = g_utf8_prev_char (str->str + pos + 1);
+		g_string_erase (str, dot - str->str, str->str + pos + 1 - dot);
+#ifdef DEBUG_GENERAL
+		g_printerr ("Removing decimal cheaply\n");
+#endif
+	}
+
+	while (carry) {
+		l = str->str[pos];
+		if (!g_ascii_isdigit (l))
+			return FALSE;
+
+		if (l < '9') {
+			str->str[pos] = l + 1;
+			carry = 0;
+		} else
+			str->str[pos] = '0';
+		pos--;
+	}
+
+#ifdef DEBUG_GENERAL
+	g_printerr ("Cheaply dropped decimal\n");
+#endif
+	return TRUE;
 }
 #endif
 
@@ -4870,7 +4920,8 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			   guint shape_flags)
 {
 	DOUBLE aval;
-	int prec, safety, digs, digs_as_int, maxdigits = PREFIX(DIG);
+	int prec, safety, digs, digs_as_int;
+	int maxdigits = SUFFIX(go_format_roundtrip_digits) - 1;
 	size_t epos;
 	gboolean rounds_to_0;
 	int sign_width;
@@ -4901,7 +4952,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	}
 
 #ifdef DEBUG_GENERAL
-	g_print ("Rendering %" FORMAT_G " to width %d (<=%d digits)\n",
+	g_printerr ("Rendering %" FORMAT_G " to width %d (<=%d digits)\n",
 		 val, col_width, maxdigits);
 #endif
 	if (val == 0)
@@ -4919,15 +4970,18 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
 	if (digs_as_int * min_digit_width > col_width) {
 #ifdef DEBUG_GENERAL
-		g_print ("No room for whole part.\n");
+		g_printerr ("No room for whole part.\n");
 #endif
 		goto e_notation;
 	} else if (digs_as_int * metrics->max_digit_width + safety <
 		   col_width - (val > 0 ? 0 : sign_width)) {
 #ifdef DEBUG_GENERAL
-		g_print ("Room for whole part.\n");
+		g_printerr ("Room for whole part.\n");
 #endif
 		if (val == SUFFIX(floor) (val) || digs_as_int == maxdigits) {
+#ifdef DEBUG_GENERAL
+			g_printerr ("Integer or room for nothing else.\n");
+#endif
 			go_dtoa (str, "=^.0" FORMAT_f, val);
 			HANDLE_NUMERAL_SHAPE;
 			HANDLE_SIGN (0);
@@ -4937,7 +4991,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	} else {
 		int w;
 #ifdef DEBUG_GENERAL
-		g_print ("Maybe room for whole part.\n");
+		g_printerr ("Maybe room for whole part.\n");
 #endif
 
 		go_dtoa (str, "=^.0" FORMAT_f, val);
@@ -4948,14 +5002,21 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		if (w > col_width)
 			goto e_notation;
 
-		if (val == SUFFIX(floor) (val) || digs_as_int == maxdigits)
+		if (val == SUFFIX(floor) (val) || digs_as_int == maxdigits) {
+#ifdef DEBUG_GENERAL
+			g_printerr ("Integer or room for nothing else.\n");
+#endif
 			return;
+		}
 	}
 
 	/* Number of digits in [aval].  */
 	digs = (aval >= 10 ? 1 + SUFFIX(ilog10) (aval) : 1);
 
 	prec = maxdigits - digs;
+#ifdef DEBUG_GENERAL
+	g_printerr ("Starting with with %d decimals\n", prec);
+#endif
 	go_dtoa (str, "=^.*" FORMAT_f, prec, val);
 	if (check_val) {
 		/*
@@ -4974,22 +5035,35 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	while (prec > 0) {
 		int w;
 
+#ifdef DEBUG_GENERAL
+		g_printerr ("Trying with %d decimals\n", prec);
+#endif
 		SETUP_LAYOUT;
 		w = measure (str, layout);
-		if (w <= col_width)
+		if (w <= col_width) {
+#ifdef DEBUG_GENERAL
+			g_printerr ("Success\n");
+#endif
 			return;
+		}
 
 		prec--;
-		go_dtoa (str, "=^.*" FORMAT_f, prec, val);
-		drop_zeroes (str, &prec);
-		HANDLE_NUMERAL_SHAPE;
-		HANDLE_SIGN (0);
+		if (num_shape > 1 || !cheap_drop_decimal (str, str->len - 1)) {
+			go_dtoa (str, "=^.*" FORMAT_f, prec, val);
+			drop_zeroes (str, &prec);
+			HANDLE_NUMERAL_SHAPE;
+			HANDLE_SIGN (0);
+		} else
+			drop_zeroes (str, &prec);
 	}
 
 	SETUP_LAYOUT;
 	return;
 
  e_notation:
+#ifdef DEBUG_GENERAL
+	g_printerr ("Trying E-notation\n");
+#endif
 	rounds_to_0 = (aval < 0.5);
 	prec = (col_width -
 		(val >= 0 ? 0 : sign_width) -
@@ -4998,9 +5072,9 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	if (prec <= 0) {
 #ifdef DEBUG_GENERAL
 		if (prec == 0)
-			g_print ("Maybe room for E notation with no decimals.\n");
+			g_printerr ("Maybe room for E notation with no decimals.\n");
 		else
-			g_print ("No room for E notation.\n");
+			g_printerr ("No room for E notation.\n");
 #endif
 		/* Certainly too narrow for precision.  */
 		if (prec == 0 || !rounds_to_0) {
@@ -5068,7 +5142,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
  zero:
 #ifdef DEBUG_GENERAL
-	g_print ("Zero.\n");
+	g_printerr ("Zero.\n");
 #endif
 	g_string_assign (str, "0");
 	SETUP_LAYOUT;
@@ -5287,6 +5361,14 @@ SUFFIX(go_format_value) (GOFormat const *fmt, DOUBLE val)
 void
 _go_number_format_init (void)
 {
+	double l10 = log10 (FLT_RADIX);
+	go_format_roundtrip_digits =
+		(int)ceil (DBL_MANT_DIG * l10) + (l10 != (int)l10);
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+	go_format_roundtrip_digitsl =
+		(int)ceil (LDBL_MANT_DIG * l10) + (l10 != (int)l10);
+#endif
+
 	style_format_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) go_format_unref);
 }
@@ -8967,7 +9049,6 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 		g_free (partname);
 		g_string_free (condition, TRUE);
 	}
-	/* Do we need to add a catch-all General?  */
 
 	gsf_xml_out_end_element (xout); /* </number:text-style> or </number:number-style> */
 }

@@ -1,5 +1,8 @@
 2014-04-09  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_render_general): Drop a decimal by
+	double-rounding the decimal string unless the string ends in '5'.
+
 	* goffice/math/go-dtoa.c (go_dtoa): Improve long-double handling.
 
 2014-04-07  Morten Welinder  <terra@gnome.org>
