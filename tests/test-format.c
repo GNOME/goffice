@@ -28,6 +28,21 @@ test_general_format_1 (double val, int width, const char *expected)
 static void
 test_general_format (void)
 {
+	test_general_format_1 (nextafter (1.999999999, 2), 12, "1.999999999");
+	test_general_format_1 (nextafter (1.999999999, 2), 11, "1.999999999");
+	test_general_format_1 (nextafter (1.999999999, 2), 10, "2");
+	test_general_format_1 (nextafter (1.999999999, 2),  9, "2");
+
+	test_general_format_1 (1.999999999, 12, "1.999999999");
+	test_general_format_1 (1.999999999, 11, "1.999999999");
+	test_general_format_1 (1.999999999, 10, "2");
+	test_general_format_1 (1.999999999,  9, "2");
+
+	test_general_format_1 (999999999, 9, "999999999");
+	test_general_format_1 (999999999, 8, "1E+09");
+	test_general_format_1 (-999999999, 10, "-999999999");
+	test_general_format_1 (-999999999, 9, "-1E+09");
+
 	test_general_format_1 (0, 5, "0");
 	test_general_format_1 (0, 3, "0");
 	test_general_format_1 (0, 2, "0");
