@@ -25,7 +25,7 @@
 #include <glib/gi18n-lib.h>
 
 #ifdef GOFFICE_WITH_GTK
-static void cb_parent_changed (const GocItem *item);
+static void cb_hierarchy_changed (const GocItem *item);
 #endif
 
 
@@ -236,7 +236,7 @@ goc_item_dispose (GObject *object)
 	context = g_object_get_qdata (G_OBJECT (item), quark_style_context);
 	if (context) {
 		g_signal_handlers_disconnect_by_func
-			(object, G_CALLBACK (cb_parent_changed), NULL);
+			(object, G_CALLBACK (cb_hierarchy_changed), NULL);
 #ifdef HAVE_GTK_STYLE_CONTEXT_SET_PARENT
 		gtk_style_context_set_parent (context, NULL);
 #endif
@@ -856,7 +856,7 @@ _goc_item_transform (GocItem const *item, cairo_t *cr, gboolean scaled)
 #ifdef GOFFICE_WITH_GTK
 
 static void
-cb_parent_changed (const GocItem *item)
+cb_hierarchy_changed (const GocItem *item)
 {
 	GtkStyleContext *context = goc_item_get_style_context (item);
 	GtkStyleContext *pcontext;
@@ -905,9 +905,14 @@ goc_item_get_style_context (const GocItem *item)
 					 g_object_unref);
 
 		g_signal_connect (G_OBJECT (item),
-				  "notify::parent", G_CALLBACK (cb_parent_changed),
+				  "notify::parent",
+				  G_CALLBACK (cb_hierarchy_changed),
 				  NULL);
-		cb_parent_changed (item);
+		g_signal_connect (G_OBJECT (item),
+				  "notify::canvas",
+				  G_CALLBACK (cb_hierarchy_changed),
+				  NULL);
+		cb_hierarchy_changed (item);
 	}
 
 	return context;
