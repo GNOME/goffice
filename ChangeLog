@@ -1,5 +1,9 @@
 2014-04-10  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-dtoa.c: When building with
+	!GOFFICE_WITH_LONG_DOUBLE, don't use go_finitel.  Just assume we
+	have isfinite.
+
 	* goffice/canvas/goc-item.c (cb_hierarchy_changed): Renamed from
 	cb_parent_changed.
 	(goc_item_get_style_context): Also watch ::canvas.

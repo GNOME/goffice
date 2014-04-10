@@ -39,6 +39,11 @@
 
 typedef GString FAKE_FILE;
 
+#ifndef GOFFICE_WITH_LONG_DOUBLE
+#define go_finitel isfinite
+#endif
+
+
 /* musl code starts here */
 
 /* Some useful macros */
