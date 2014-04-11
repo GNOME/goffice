@@ -3,6 +3,9 @@ goffice 0.10.14:
 Andreas:
 	* Improve conditional format roundtrip through ODF.  [part of #725852]
 
+Jean:
+	* Fix canvas drawing problem.
+
 Morten:
 	* Work on conditional formats for ODF.
 	* Implement numbered colours in number formats.
