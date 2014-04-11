@@ -223,17 +223,23 @@ size_changed_cb (GocCanvas *canvas, GtkAllocation *alloc, G_GNUC_UNUSED gpointer
 }
 
 static void
-realize_cb (GocCanvas *canvas, G_GNUC_UNUSED gpointer data)
+goc_canvas_realize (GtkWidget *widget)
 {
-	GocItemClass *klass = GOC_ITEM_GET_CLASS (canvas->root);
-	klass->realize (GOC_ITEM (canvas->root));
+	GocCanvas *canvas = GOC_CANVAS (widget);
+
+	GTK_WIDGET_CLASS (parent_klass)->realize (widget);
+
+	GOC_ITEM_GET_CLASS (canvas->root)->realize (GOC_ITEM (canvas->root));
 }
 
 static void
-unrealize_cb (GocCanvas *canvas, G_GNUC_UNUSED gpointer data)
+goc_canvas_unrealize (GtkWidget *widget)
 {
-	GocItemClass *klass = GOC_ITEM_GET_CLASS (canvas->root);
-	klass->unrealize (GOC_ITEM (canvas->root));
+	GocCanvas *canvas = GOC_CANVAS (widget);
+
+	GOC_ITEM_GET_CLASS (canvas->root)->unrealize (GOC_ITEM (canvas->root));
+
+	GTK_WIDGET_CLASS (parent_klass)->unrealize (widget);
 }
 
 #endif
@@ -267,6 +273,8 @@ goc_canvas_class_init (GObjectClass *klass)
 
 #ifdef GOFFICE_WITH_GTK
 	widget_klass->draw = goc_canvas_draw;
+	widget_klass->realize = goc_canvas_realize;
+	widget_klass->unrealize = goc_canvas_unrealize;
 #endif
 }
 
@@ -304,8 +312,6 @@ goc_canvas_init (GocCanvas *canvas)
 	g_signal_connect (G_OBJECT (w), "size-allocate", (GCallback) size_changed_cb, NULL);
 	g_signal_connect (G_OBJECT (w), "enter-notify-event", G_CALLBACK (enter_notify_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "leave-notify-event", G_CALLBACK (leave_notify_cb), NULL);
-	g_signal_connect (G_OBJECT (w), "realize", G_CALLBACK (realize_cb), NULL);
-	g_signal_connect (G_OBJECT (w), "unrealize", G_CALLBACK (unrealize_cb), NULL);
 #endif
 }
 

@@ -1,3 +1,9 @@
+2014-04-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_realize)
+	(goc_canvas_unrealize): Install these as class methods, not
+	signals.
+
 2014-04-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-dtoa.c: When building with
