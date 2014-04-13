@@ -527,20 +527,19 @@ static void
 cb_update_editor (GogObject *gobj, ObjectPrefState *state)
 {
 	GogObjectPosition manual_size = gog_object_get_position_flags (gobj, GOG_POSITION_ANY_MANUAL_SIZE);
-	gboolean visible;
 	if (state->x_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), gobj->manual_position.x * 100.0);
 	if (state->y_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), gobj->manual_position.y * 100.0);
 	if (state->w_spin != NULL) {
-		visible = manual_size & GOG_POSITION_MANUAL_W;
+		gboolean visible = (manual_size & GOG_POSITION_MANUAL_W) != 0;
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), gobj->manual_position.w * 100.0);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_label"), visible);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_spin"), visible);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"), visible);
 	}
 	if (state->h_spin != NULL) {
-		visible = manual_size & GOG_POSITION_MANUAL_H;
+		gboolean visible = (manual_size & GOG_POSITION_MANUAL_H) != 0;
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), gobj->manual_position.h * 100.0);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_label"), visible);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_spin"), visible);

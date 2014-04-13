@@ -2,6 +2,7 @@
 
 	* goffice/graph/gog-object.c (cb_manual_size_changed): Use a
 	canonical gboolean as argument to gtk_widget_set_visible.
+	(cb_update_editor): Ditto.
 
 2014-04-13  Morten Welinder <terra@gnome.org>
 
