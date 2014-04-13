@@ -578,11 +578,11 @@ cb_manual_size_changed (GtkComboBox *combo, ObjectPrefState *state)
 			break;
 		}
 	gog_object_set_position_flags (state->gobj, pos, GOG_POSITION_ANY_MANUAL_SIZE);
-	visible = pos & GOG_POSITION_MANUAL_W;
+	visible = (pos & GOG_POSITION_MANUAL_W) != 0;
 	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_label"), visible);
 	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_spin"), visible);
 	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"), visible);
-	visible = pos & GOG_POSITION_MANUAL_H;
+	visible = (pos & GOG_POSITION_MANUAL_H) != 0;
 	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_label"), visible);
 	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_spin"), visible);
 	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height-pc-lbl"), visible);
@@ -1868,8 +1868,9 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
 	if ((flags & obj->role->allowable_positions) !=
 	    (flags & (GOG_POSITION_COMPASS | GOG_POSITION_ANY_MANUAL |
 	              GOG_POSITION_ANY_MANUAL_SIZE))) {
-		g_warning ("[GogObject::set_position_flags] Invalid flags (%s)",
-			   gog_object_get_name (obj));
+		g_warning ("[GogObject::set_position_flags] Invalid flags (%s) flags=0x%x  allowable=0x%x",
+			   gog_object_get_name (obj),
+			   flags, obj->role->allowable_positions);
 		return FALSE;
 	}
 	obj->position = (obj->position & ~mask) | (flags & mask);

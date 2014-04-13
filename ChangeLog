@@ -1,3 +1,8 @@
+2014-04-13  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-object.c (cb_manual_size_changed): Use a
+	canonical gboolean as argument to gtk_widget_set_visible.
+
 2014-04-13  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
