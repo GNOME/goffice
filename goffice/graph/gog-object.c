@@ -1932,16 +1932,20 @@ gog_object_get_manual_allocation (GogObject *gobj,
 				  GogViewRequisition const *requisition)
 {
 	GogViewAllocation pos;
-	unsigned anchor;
+	unsigned anchor, size;
 	GogManualSizeMode size_mode = gog_object_get_manual_size_mode (gobj);
 
 	pos.x = parent_allocation->x + gobj->manual_position.x * parent_allocation->w;
 	pos.y = parent_allocation->y + gobj->manual_position.y * parent_allocation->h;
 
-	pos.w = (size_mode & GOG_MANUAL_SIZE_WIDTH)?
+	size = gog_object_get_position_flags (gobj, GOG_POSITION_ANY_MANUAL_SIZE);
+
+	pos.w = ((size_mode & GOG_MANUAL_SIZE_WIDTH) &&
+	         (size & (GOG_POSITION_MANUAL_W | GOG_POSITION_MANUAL_W_ABS)))?
 		gobj->manual_position.w * parent_allocation->w:
 		requisition->w;
-	pos.h = (size_mode & GOG_MANUAL_SIZE_HEIGHT)?
+	pos.h = ((size_mode & GOG_MANUAL_SIZE_HEIGHT) &&
+		     (size & (GOG_POSITION_MANUAL_H | GOG_POSITION_MANUAL_H_ABS)))?
 		gobj->manual_position.h * parent_allocation->h:
 		requisition->h;
 

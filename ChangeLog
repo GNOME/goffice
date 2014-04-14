@@ -1,3 +1,10 @@
+2014-04-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-graph.c (gog_graph_class_init): explicitly allow manual
+	charts size. [728134]
+	* goffice/graph/gog-object.c (gog_object_get_manual_allocation): take
+	manual size flags into account.
+
 2014-04-13  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-object.c (cb_manual_size_changed): Use a
