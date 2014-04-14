@@ -51,9 +51,9 @@ typedef GString FAKE_FILE;
 #ifdef MUSL_ORIGINAL
 #define MAX(a,b) ((a)>(b) ? (a) : (b))
 #define MIN(a,b) ((a)<(b) ? (a) : (b))
-#endif
 #define CONCAT2(x,y) x ## y
 #define CONCAT(x,y) CONCAT2(x,y)
+#endif
 
 /* Convenient bit representation for modifier flags, which all fall
  * within 31 codepoints of the space character. */
@@ -282,7 +282,11 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 		x = *d % i;
 		/* Are there any significant digits past j? */
 		if (x || d+1!=z) {
+#ifdef MUSL_ORIGINAL
 			long double round = CONCAT(0x1p,LDBL_MANT_DIG);
+#else
+			long double round = 2 / LDBL_EPSILON;
+#endif
 			long double small;
 #ifdef MUSL_ORIGINAL
 			if (*d/i & 1) round += 2;

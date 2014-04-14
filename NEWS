@@ -1,7 +1,10 @@
 goffice 0.10.15:
 
 Jean:
-	* Explicitly allow manual charts size. [728134]
+	* Explicitly allow manual charts size. [#728134]
+
+Morten:
+	* Portability improvement.
 
 --------------------------------------------------------------------------
 goffice 0.10.14:
