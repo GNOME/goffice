@@ -1402,12 +1402,18 @@ go_style_line_sax_save (GsfXMLOut *output, char const *name,
 			 GOStyleLine const *line)
 {
 	gsf_xml_out_start_element (output, name);
-	gsf_xml_out_add_cstr_unchecked (output, "dash",
-		go_line_dash_as_str (line->dash_type));
+
 	gsf_xml_out_add_bool (output, "auto-dash", line->auto_dash);
+	if (!line->auto_dash)
+		gsf_xml_out_add_cstr_unchecked (output, "dash",
+						go_line_dash_as_str (line->dash_type));
+
 	gsf_xml_out_add_float (output, "width", line->width, 6);
-	go_xml_out_add_color (output, "color", line->color);
+
 	gsf_xml_out_add_bool (output, "auto-color", line->auto_color);
+	if (!line->auto_color)
+		go_xml_out_add_color (output, "color", line->color);
+
 	gsf_xml_out_end_element (output);
 }
 
@@ -1436,12 +1442,9 @@ go_style_fill_sax_save (GsfXMLOut *output, GOStyle const *style)
 		    fill_style_as_str (
 			(style->fill.type != GO_STYLE_FILL_IMAGE || style->fill.image.image != NULL)?
 		                       style->fill.type: GO_STYLE_FILL_NONE));
-	gsf_xml_out_add_bool (output, "auto-type",
-		style->fill.auto_type);
-	gsf_xml_out_add_bool (output, "is-auto",
-		style->fill.auto_back);
-	gsf_xml_out_add_bool (output, "auto-fore",
-		style->fill.auto_fore);
+	gsf_xml_out_add_bool (output, "auto-type", style->fill.auto_type);
+	gsf_xml_out_add_bool (output, "is-auto", style->fill.auto_back);
+	gsf_xml_out_add_bool (output, "auto-fore", style->fill.auto_fore);
 
 	switch (style->fill.type) {
 	case GO_STYLE_FILL_NONE: break;
@@ -1484,18 +1487,26 @@ static void
 go_style_marker_sax_save (GsfXMLOut *output, GOStyle const *style)
 {
 	gsf_xml_out_start_element (output, "marker");
+
 	gsf_xml_out_add_bool (output, "auto-shape", style->marker.auto_shape);
-	gsf_xml_out_add_cstr (output, "shape",
-		go_marker_shape_as_str (go_marker_get_shape (style->marker.mark)));
+	if (!style->marker.auto_shape)
+		gsf_xml_out_add_cstr (output, "shape",
+				      go_marker_shape_as_str (go_marker_get_shape (style->marker.mark)));
+
 	gsf_xml_out_add_bool (output, "auto-outline",
-		style->marker.auto_outline_color);
-	go_xml_out_add_color (output, "outline-color",
-		go_marker_get_outline_color (style->marker.mark));
+			      style->marker.auto_outline_color);
+	if (!style->marker.auto_outline_color)
+		go_xml_out_add_color (output, "outline-color",
+				      go_marker_get_outline_color (style->marker.mark));
+
 	gsf_xml_out_add_bool (output, "auto-fill", style->marker.auto_fill_color);
-	go_xml_out_add_color (output, "fill-color",
-		go_marker_get_fill_color (style->marker.mark));
+	if (!style->marker.auto_fill_color)
+		go_xml_out_add_color (output, "fill-color",
+				      go_marker_get_fill_color (style->marker.mark));
+
 	gsf_xml_out_add_int (output, "size",
-		go_marker_get_size (style->marker.mark));
+			     go_marker_get_size (style->marker.mark));
+
 	gsf_xml_out_end_element (output);
 }
 
