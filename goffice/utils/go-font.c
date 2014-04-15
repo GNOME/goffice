@@ -65,7 +65,7 @@ go_font_free (GOFont *font)
 
 /**
  * go_font_new_by_desc:
- * @desc: #PangoFontDescription
+ * @desc: (transfer full): #PangoFontDescription
  *
  * NOTE : Absorbs @desc.
  * Returns: a ref to a font that matches @desc.

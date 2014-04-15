@@ -2131,7 +2131,7 @@ role_label_can_add (GogObject const *parent)
 /**
  * gog_axis_set_format:
  * @axis: #GogAxis
- * @fmt: #GOFormat
+ * @fmt: (transfer full): #GOFormat
  *
  * Absorbs a reference to @fmt, and accepts NULL.
  *

@@ -1847,7 +1847,7 @@ go_style_force_auto (GOStyle *style)
  * Sets all auto fields in @style to %FALSE.
  **/
 void
-go_style_clear_auto	(GOStyle *style)
+go_style_clear_auto (GOStyle *style)
 {
 	g_return_if_fail (GO_IS_STYLE (style));
 
@@ -1886,7 +1886,7 @@ go_style_is_auto (GOStyle *style)
 /**
  * go_style_set_marker:
  * @style: #GOStyle
- * @marker: #GOMarker
+ * @marker: (transfer full): #GOMarker
  *
  * Absorb a reference to @marker and assign it to @style.
  **/

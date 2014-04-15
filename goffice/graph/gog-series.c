@@ -1097,7 +1097,7 @@ gog_series_get_name (GogSeries const *series)
 /**
  * gog_series_set_name:
  * @series: a #GogSeries
- * @name_src: a #GODataScalar
+ * @name_src: (transfer full): a #GODataScalar
  * @err: a #GError
  *
  * Absorbs a ref to @name_src.
@@ -1113,7 +1113,7 @@ gog_series_set_name (GogSeries *series, GODataScalar *name_src, GError **err)
  * gog_series_set_dim:
  * @series: #GogSeries
  * @dim_i: Which dimension
- * @val: #GOData
+ * @val: (transfer full): #GOData
  * @err: optional #GError pointer
  *
  * Absorbs a ref to @val

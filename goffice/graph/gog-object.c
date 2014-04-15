@@ -1219,7 +1219,7 @@ gog_object_get_name (GogObject const *obj)
 /**
  * gog_object_set_name:
  * @obj: #GogObject
- * @name: The new name for @obj
+ * @name: (transfer full): The new name for @obj
  * @err: #GError
  *
  * Assign the new name and signals that it has changed.
@@ -1695,7 +1695,7 @@ gog_object_clear_parent (GogObject *obj)
 
 /**
  * gog_object_set_parent:
- * @child: #GogObject.
+ * @child: (transfer full): #GogObject.
  * @parent: #GogObject.
  * @id: optionally %NULL.
  * @role: a static string that can be sent to @parent::add
@@ -1746,7 +1746,7 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
  * gog_object_add_by_role:
  * @parent: #GogObject
  * @role: #GogObjectRole
- * @child: #GogObject
+ * @child: (transfer full) (allow-none): #GogObject
  *
  * Absorb a ref to @child if it is non-NULL.
  * Returns: (transfer none): @child or a newly created object with @role.  Callers do _not_ own
