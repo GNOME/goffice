@@ -45,12 +45,12 @@
 
 #include <glib-object.h>
 #include <glib/gi18n-lib.h>
+#include <glib/gstdio.h>
 #include <gmodule.h>
 
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
@@ -291,9 +291,9 @@ static GHashTable *plugin_file_state_dir_hash;
 static gchar *
 get_file_state_as_string (gchar const *file_name)
 {
-	struct stat st;
+	GStatBuf st;
 
-	if (stat (file_name, &st) == -1) {
+	if (g_stat (file_name, &st) == -1) {
 		return NULL;
 	}
 

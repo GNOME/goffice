@@ -1,5 +1,11 @@
 2014-04-15  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-file.c (go_filename_simplify): Fix argument
+	type for g_lstat.
+
+	* goffice/app/go-plugin.c (get_file_state_as_string): Use g_stat,
+	not raw stat.
+
 	* goffice/utils/go-style.c (go_style_marker_sax_save): Don't
 	output (meaningless) values for things that are "auto".
 	(go_style_line_sax_save): Ditto.

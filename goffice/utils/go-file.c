@@ -185,7 +185,7 @@ go_filename_simplify (char const *filename, GODotDot dotdot,
 					isdir = TRUE;
 					break;
 				case GO_DOTDOT_TEST: {
-					struct stat statbuf;
+					GStatBuf statbuf;
 					char savec = *q;
 					/*
 					 * Terminate the path so far so we can
