@@ -5,6 +5,7 @@ Jean:
 
 Morten:
 	* Portability improvements.
+	* Fix UMR in graph view.
 
 --------------------------------------------------------------------------
 goffice 0.10.14:

@@ -556,6 +556,7 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 		if (pos & GOG_POSITION_MANUAL) {
 			available.w = res.w;
 			available.h = res.h;
+
 			gog_view_size_request (child, &available, &req);
 			tmp = gog_object_get_manual_allocation (gog_view_get_model (child),
 								allocation, &req);
@@ -787,9 +788,10 @@ gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewP
  * @available: available space.
  * @requisition: a #GogViewRequisition.
  *
- * When called @available holds the available space and @requisition is populated
- * with the desired size based on that input and other elements of the view or
- * its model's state (eg the position).
+ * Determines the desired size of a view.
+ *
+ * Note, that the virtual method deviates slightly from this function.  This
+ * function will zero @requisition before calling the virtual method.
  *
  * Remember that the size request is not necessarily the size a view will
  * actually be allocated.
@@ -806,9 +808,10 @@ gog_view_size_request (GogView *view,
 	g_return_if_fail (requisition != NULL);
 	g_return_if_fail (available != NULL);
 
-	if (klass->size_request)
-		(klass->size_request) (view, available, requisition);
-	else
+	if (klass->size_request) {
+		requisition->w = requisition->h = 0;
+		klass->size_request (view, available, requisition);
+	} else
 		requisition->w = requisition->h = 1.;
 }
 

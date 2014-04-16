@@ -1,3 +1,9 @@
+2014-04-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-view.c (gog_view_size_request): Zero
+	requisition before calling virtual method.  All callers expect
+	this.
+
 2014-04-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_filename_simplify): Fix argument
