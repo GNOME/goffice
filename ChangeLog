@@ -1,3 +1,8 @@
+2014-04-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-object.c (gog_object_get_manual_allocation): use
+	available space when position is manual but size is automatic. [#728391]
+
 2014-04-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-view.c (gog_view_size_request): Zero

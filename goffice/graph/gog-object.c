@@ -1939,17 +1939,31 @@ gog_object_get_manual_allocation (GogObject *gobj,
 	pos.y = parent_allocation->y + gobj->manual_position.y * parent_allocation->h;
 
 	size = gog_object_get_position_flags (gobj, GOG_POSITION_ANY_MANUAL_SIZE);
-
-	pos.w = ((size_mode & GOG_MANUAL_SIZE_WIDTH) &&
-	         (size & (GOG_POSITION_MANUAL_W | GOG_POSITION_MANUAL_W_ABS)))?
-		gobj->manual_position.w * parent_allocation->w:
-		requisition->w;
-	pos.h = ((size_mode & GOG_MANUAL_SIZE_HEIGHT) &&
-		     (size & (GOG_POSITION_MANUAL_H | GOG_POSITION_MANUAL_H_ABS)))?
-		gobj->manual_position.h * parent_allocation->h:
-		requisition->h;
-
 	anchor = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
+
+	if ((size_mode & GOG_MANUAL_SIZE_WIDTH) &&
+	         (size & (GOG_POSITION_MANUAL_W | GOG_POSITION_MANUAL_W_ABS)))
+		pos.w = gobj->manual_position.w * parent_allocation->w;
+	else {
+		/* use available width */
+		switch (anchor) {
+			case GOG_POSITION_ANCHOR_N:
+			case GOG_POSITION_ANCHOR_CENTER:
+			case GOG_POSITION_ANCHOR_S:
+				pos.w = MIN (gobj->manual_position.x, 1 - gobj->manual_position.x)
+						 * 2. * parent_allocation->w;
+				break;
+			case GOG_POSITION_ANCHOR_SE:
+			case GOG_POSITION_ANCHOR_E:
+			case GOG_POSITION_ANCHOR_NE:
+				pos.w = gobj->manual_position.x * parent_allocation->w;
+				break;
+			default:
+				pos.w = (1 - gobj->manual_position.x) * parent_allocation->w;
+				break;
+		}
+		if (pos.w < requisition->w)
+			pos.w = requisition->w;
 
 	switch (anchor) {
 		case GOG_POSITION_ANCHOR_N:
@@ -1964,6 +1978,30 @@ gog_object_get_manual_allocation (GogObject *gobj,
 			break;
 		default:
 			break;
+	}
+	if ((size_mode & GOG_MANUAL_SIZE_HEIGHT) &&
+	         (size & (GOG_POSITION_MANUAL_H | GOG_POSITION_MANUAL_H_ABS)))
+		pos.h = gobj->manual_position.h * parent_allocation->h;
+	else {
+		/* use available width */
+		switch (anchor) {
+			case GOG_POSITION_ANCHOR_E:
+			case GOG_POSITION_ANCHOR_CENTER:
+			case GOG_POSITION_ANCHOR_W:
+				pos.h = MIN (gobj->manual_position.y, 1 - gobj->manual_position.y)
+						 * 2. * parent_allocation->h;
+				break;
+			case GOG_POSITION_ANCHOR_SE:
+			case GOG_POSITION_ANCHOR_S:
+			case GOG_POSITION_ANCHOR_SW:
+				pos.h = gobj->manual_position.y * parent_allocation->h;
+				break;
+			default:
+				pos.h = (1 - gobj->manual_position.y) * parent_allocation->h;
+				break;
+		}
+		if (pos.h < requisition->h)
+			pos.h = requisition->h;
 	}
 	switch (anchor) {
 		case GOG_POSITION_ANCHOR_E:
