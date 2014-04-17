@@ -1964,6 +1964,7 @@ gog_object_get_manual_allocation (GogObject *gobj,
 		}
 		if (pos.w < requisition->w)
 			pos.w = requisition->w;
+	}
 
 	switch (anchor) {
 		case GOG_POSITION_ANCHOR_N:
