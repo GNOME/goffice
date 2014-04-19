@@ -8289,19 +8289,34 @@ go_format_output_number_element_to_odf (GsfXMLOut *xout,
 }
 
 #define ODF_WRITE_NUMBER do {						\
-	if (!number_completed) {					\
+	if (phase < 3) {						\
 		go_format_output_number_element_to_odf			\
 			(xout, min_integer_digits, min_decimal_places,	\
 			 comma_seen, embedded);				\
 		embedded = NULL;					\
-		number_completed = TRUE;				\
+		phase = 3;						\
 	}								\
 } while (0)
+
+#define ODF_OPEN_STRING do {						\
+	if (!string_is_open) {						\
+		string_is_open = TRUE;					\
+		gsf_xml_out_start_element (xout, NUMBER "text");	\
+	}								\
+} while (0)
+
+#define ODF_CLOSE_STRING do {						\
+	if (string_is_open) {						\
+		string_is_open = FALSE;					\
+		gsf_xml_out_end_element (xout); /* NUMBER "text" */	\
+	}								\
+} while (0)
+
 
 #define ODF_FLUSH_STRING do {						\
 	if (accum->len == 0) {						\
 		/* Nothing */						\
-	} else if (digits > 0 && !dot_seen) {				\
+	} else if (phase == 1) {					\
 		embedded = g_slist_prepend				\
 				(embedded,				\
 				 GINT_TO_POINTER (digits));		\
@@ -8309,10 +8324,11 @@ go_format_output_number_element_to_odf (GsfXMLOut *xout,
 				(embedded,				\
 				 g_strdup (accum->str));		\
 	} else {							\
-		if (digits) ODF_WRITE_NUMBER;				\
-		gsf_xml_out_simple_element (xout, NUMBER "text", accum->str); \
+		ODF_OPEN_STRING;					\
+		gsf_xml_out_add_cstr (xout, NULL, accum->str);		\
 	}								\
 	g_string_truncate (accum, 0);					\
+	ODF_CLOSE_STRING;						\
 } while (0)
 
 /*
@@ -8339,11 +8355,17 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	int digits = 0;
 	int min_integer_digits = 0;
 	int min_decimal_places = 0;
-	gboolean dot_seen = FALSE;
 	gboolean comma_seen = FALSE;
 	GSList *embedded = NULL;
 	GString *accum = g_string_new (NULL);
-	gboolean number_completed = FALSE;
+	/*
+	 * 0: before number
+	 * 1: in number, before dot
+	 * 2: in number, after dot
+	 * 3: after number
+	 */
+	int phase = 0;
+	gboolean string_is_open = FALSE;
 
 	switch (family) {
 	case GO_FORMAT_PERCENTAGE:
@@ -8368,12 +8390,14 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		switch (t) {
 		case 0: {
-			gboolean needs_fixup = !dot_seen;
-			dot_seen = TRUE; /* pretend */
-			ODF_FLUSH_STRING;
-			if (needs_fixup)
+			if (phase == 1)
 				fixup_embedded (embedded, digits);
+			if (string_is_open)
+				ODF_CLOSE_STRING;
 			ODF_WRITE_NUMBER;
+			/* Move any pending string into phase 3.  */
+			phase = MAX (phase, 3);
+			ODF_FLUSH_STRING;
 			/* keep element open */
 			g_string_free (accum, TRUE);
 			return;
@@ -8381,10 +8405,9 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case TOK_DECIMAL:
 			ODF_FLUSH_STRING;
-			if (dot_seen)
-				break;
-			dot_seen = TRUE;
-			fixup_embedded (embedded, digits);
+			if (phase == 1)
+				fixup_embedded (embedded, digits);
+			phase = MAX (phase, 2);
 			break;
 
 		case TOK_THOUSAND:
@@ -8393,7 +8416,8 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case '0':
 			ODF_FLUSH_STRING;
-			if (dot_seen)
+			phase = MAX (phase, 1);
+			if (phase == 2)
 				min_decimal_places++;
 			else
 				min_integer_digits++;
@@ -8403,6 +8427,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case '#':
 		case '?':
 			ODF_FLUSH_STRING;
+			phase = MAX (phase, 1);
 			digits++;
 			break;
 
@@ -8443,16 +8468,22 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			break;
 
 		case TOK_INVISIBLE_CHAR: {
-#if 0
 			size_t len = g_utf8_next_char(token + 1) - (token + 1);
 			if (len > 0) {
-				if (with_extension) {
+				if (phase != 1 && with_extension) {
 					gchar *text = g_strndup (token + 1, len);
-					ODF_WRITE_NUMBER;
+
+					if (phase == 2) {
+						ODF_FLUSH_STRING;
+						ODF_WRITE_NUMBER;
+						phase = MAX (phase, 3);
+					}
+
+					/* Flush visible prior contents */
 					ODF_OPEN_STRING;
 					gsf_xml_out_add_cstr (xout, NULL, accum->str);
-					g_string_erase (accum, 0, -1);
-					gsf_xml_out_add_cstr (xout, NULL, " ");
+					g_string_truncate (accum, 0);
+
 					gsf_xml_out_start_element (xout, GNMSTYLE "invisible");
 					gsf_xml_out_add_cstr (xout, GNMSTYLE  "char", text);
 					odf_add_bool (xout, OFFICE "process-content", 1);
@@ -8460,12 +8491,9 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 					gsf_xml_out_end_element (xout); /* </gnm:invisible> */
 					g_free (text);
 				} else {
-					ODF_WRITE_NUMBER;
-					ODF_OPEN_STRING;
 					g_string_append_c (accum, ' ');
 				}
 			}
-#endif
 			break;
 		}
 
@@ -8529,7 +8557,8 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 }
 
 #undef ODF_FLUSH_STRING
-
+#undef ODF_OPEN_STRING
+#undef ODF_CLOSE_STRING
 
 
 
