@@ -7,6 +7,7 @@ Jean:
 Morten:
 	* Portability improvements.
 	* Fix UMR in graph view.
+	* Improve GOFormat export to ods.
 
 --------------------------------------------------------------------------
 goffice 0.10.14:

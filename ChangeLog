@@ -1,3 +1,10 @@
+2014-04-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_output_number_to_odf):
+	Handle text formats here too.  That might not seem logical, but a
+	text format really just has an "@" instead of some combination of
+	0/#/?; all the other parts are handled identically.
+
 2014-04-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_number_to_odf):
