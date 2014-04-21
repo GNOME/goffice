@@ -8501,10 +8501,16 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 					gsf_xml_out_add_cstr (xout, NULL, accum->str);
 					g_string_truncate (accum, 0);
 
+					/*
+					 * Readers that do not understand gnm:invisible will
+					 * see this space.  Readers that do understand the tag
+					 * will reach back and replace this space.
+					 */
+					gsf_xml_out_add_cstr (xout, NULL, " ");
+
 					gsf_xml_out_start_element (xout, GNMSTYLE "invisible");
 					gsf_xml_out_add_cstr (xout, GNMSTYLE  "char", text);
-					odf_add_bool (xout, OFFICE "process-content", 1);
-					gsf_xml_out_add_cstr (xout, NULL, " ");
+					odf_add_bool (xout, OFFICE "process-content", TRUE);
 					gsf_xml_out_end_element (xout); /* </gnm:invisible> */
 					g_free (text);
 				} else {
