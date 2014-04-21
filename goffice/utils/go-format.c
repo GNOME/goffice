@@ -2,9 +2,8 @@
 /*
  * go-format.c :
  *
- * Copyright (C) 1998 Chris Lahey, Miguel de Icaza
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2005-2007 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2005-2014 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
