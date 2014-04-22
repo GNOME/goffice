@@ -8515,39 +8515,56 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			g_printerr ("Unexpected token: %d\n", ti->token);
 			break;
 
-		case TOK_REPEATED_CHAR:
-			/* ??? */
-			break;
-
-		case TOK_INVISIBLE_CHAR: {
+		case TOK_REPEATED_CHAR: {
 			size_t len = g_utf8_next_char (tstr + 1) - (tstr + 1);
-			if (len > 0) {
-				if (phase != 1 && with_extension) {
-					gchar *text = g_strndup (tstr + 1, len);
+			char *text;
 
-					/* Flush visible prior contents */
-					ODF_OPEN_STRING;
-					gsf_xml_out_add_cstr (xout, NULL, accum->str);
-					g_string_truncate (accum, 0);
+			if (!with_extension)
+				break;
 
-					/*
-					 * Readers that do not understand gnm:invisible will
-					 * see this space.  Readers that do understand the tag
-					 * will reach back and replace this space.
-					 */
-					gsf_xml_out_add_cstr (xout, NULL, " ");
+			if (phase == 1 || phase == 2)
+				break; /* Don't know what to do */
 
-					gsf_xml_out_start_element (xout, GNMSTYLE "invisible");
-					gsf_xml_out_add_cstr (xout, GNMSTYLE  "char", text);
-					odf_add_bool (xout, OFFICE "process-content", TRUE);
-					gsf_xml_out_end_element (xout); /* </gnm:invisible> */
-					g_free (text);
-				} else {
-					g_string_append_c (accum, ' ');
-				}
-			}
+			/* Flush visible prior contents */
+			ODF_OPEN_STRING;
+			gsf_xml_out_add_cstr (xout, NULL, accum->str);
+			g_string_truncate (accum, 0);
+
+			text = g_strndup (tstr + 1, len);
+			gsf_xml_out_start_element (xout, GNMSTYLE "repeated");
+			gsf_xml_out_add_cstr (xout, NULL, text);
+			gsf_xml_out_end_element (xout); /* </gnm:repeated> */
+			g_free (text);
+
 			break;
 		}
+
+		case TOK_INVISIBLE_CHAR:
+			if ((phase == 1 || phase == 2) || !with_extension) {
+				g_string_append_c (accum, ' ');
+			} else {
+				size_t len = g_utf8_next_char (tstr + 1) - (tstr + 1);
+				gchar *text = g_strndup (tstr + 1, len);
+
+				/* Flush visible prior contents */
+				ODF_OPEN_STRING;
+				gsf_xml_out_add_cstr (xout, NULL, accum->str);
+				g_string_truncate (accum, 0);
+
+				/*
+				 * Readers that do not understand gnm:invisible will
+				 * see this space.  Readers that do understand the tag
+				 * will reach back and replace this space.
+				 */
+				gsf_xml_out_add_cstr (xout, NULL, " ");
+
+				gsf_xml_out_start_element (xout, GNMSTYLE "invisible");
+				gsf_xml_out_add_cstr (xout, GNMSTYLE  "char", text);
+				odf_add_bool (xout, OFFICE "process-content", TRUE);
+				gsf_xml_out_end_element (xout); /* </gnm:invisible> */
+				g_free (text);
+			}
+			break;
 
 		case TOK_STRING: {
 			size_t len = strchr (tstr + 1, '"') - (tstr + 1);
