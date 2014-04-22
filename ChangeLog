@@ -1,3 +1,8 @@
+2014-04-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_output_number_to_odf):
+	Improve phase detection.
+
 2014-04-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_output_number_to_odf):

@@ -8287,16 +8287,6 @@ go_format_output_number_element_to_odf (GsfXMLOut *xout,
 	gsf_xml_out_end_element (xout); /* </number:number> */
 }
 
-#define ODF_WRITE_NUMBER do {						\
-	if (phase < 3) {						\
-		go_format_output_number_element_to_odf			\
-			(xout, min_integer_digits, min_decimal_places,	\
-			 comma_seen, embedded);				\
-		embedded = NULL;					\
-		phase = 3;						\
-	}								\
-} while (0)
-
 #define ODF_OPEN_STRING do {						\
 	if (!string_is_open) {						\
 		string_is_open = TRUE;					\
@@ -8368,18 +8358,27 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	int phase = 0;
 	gboolean string_is_open = FALSE;
 	gboolean allow_embedded;
+	gboolean has_currency = FALSE;
+	gboolean has_number = TRUE;
+	GOFormatParseState state;
+	const GOFormatParseState *pstate = &state;
+	unsigned tno, tno_end;
+	unsigned tno_phase1 = 0, tno_phase2 = 0, tno_phase3 = 0;
 
 	switch (family) {
 	case GO_FORMAT_TEXT:
 		allow_embedded = FALSE;
+		has_number = FALSE;
 		gsf_xml_out_start_element (xout, NUMBER "text-style");
 		break;
 	case GO_FORMAT_PERCENTAGE:
 		allow_embedded = TRUE;
 		gsf_xml_out_start_element (xout, NUMBER "percentage-style");
 		break;
+	case GO_FORMAT_ACCOUNTING:
 	case GO_FORMAT_CURRENCY:
 		allow_embedded = FALSE;
+		has_currency = TRUE;
 		gsf_xml_out_start_element (xout, NUMBER "currency-style");
 		break;
 	case GO_FORMAT_NUMBER:
@@ -8393,37 +8392,76 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 	odf_output_color (xout, fmt);
 
-	while (1) {
-		const char *token = xl;
-		GOFormatTokenType tt;
-		int t = go_format_token (&xl, &tt);
+	memset (&state, 0, sizeof (state));
+	(void)go_format_preparse (xl, &state, TRUE, FALSE);
 
-		switch (t) {
-		case 0: {
-			if (phase == 1)
-				fixup_embedded (embedded, digits);
-			if (string_is_open)
-				ODF_CLOSE_STRING;
-			ODF_WRITE_NUMBER;
-			/* Move any pending string into phase 3.  */
-			phase = MAX (phase, 3);
+	/* Find the start of each phase.  */
+	for (tno = 0; tno < state.tokens->len; tno++) {
+		const GOFormatParseItem *ti = &GET_TOKEN(tno);
+
+		switch (ti->token) {
+		case TOK_DECIMAL:
+			tno_phase2 = tno + 1;
+			/* Fall through */
+		case '0': case '?': case '#':
+		case '@':
+			if (!tno_phase3)
+				tno_phase1 = tno;
+			tno_phase3 = tno + 1;
+			break;
+		default:
+			break;
+		}
+	}
+	if (!tno_phase2)
+		tno_phase2 = tno_phase3;
+
+	/* Add terminator token */
+	tno_end = pstate->tokens->len;
+	g_array_set_size (pstate->tokens, tno_end + 1);
+	GET_TOKEN(tno_end).tstr = "";
+	GET_TOKEN(tno_end).token = 0;
+	GET_TOKEN(tno_end).tt = 0;
+
+	for (tno = 0; tno < state.tokens->len; tno++) {
+		const GOFormatParseItem *ti = &GET_TOKEN(tno);
+		const char *tstr = ti->tstr;
+
+		if (phase == 0 && tno >= tno_phase1) {
 			ODF_FLUSH_STRING;
+			phase = 1;
+		}
+		if (phase == 1 && tno >= tno_phase2) {
+			ODF_FLUSH_STRING;
+			fixup_embedded (embedded, digits);
+			phase = 2;
+		}
+		if (phase == 2 && tno >= tno_phase3) {
+			ODF_FLUSH_STRING;
+			if (has_number) {
+				go_format_output_number_element_to_odf
+					(xout,
+					 min_integer_digits, min_decimal_places,
+					 comma_seen, embedded);
+				embedded = NULL;
+			}
+			phase = 3;
+		}
+
+		switch (ti->token) {
+		case 0:
+			ODF_FLUSH_STRING;
+			g_array_free (state.tokens, TRUE);
 			/* keep element open */
 			g_string_free (accum, TRUE);
 			return;
-		}
 
 		case '@':
-			ODF_FLUSH_STRING;
-			phase = MAX (phase, 3);
 			gsf_xml_out_simple_element (xout, NUMBER "text-content", NULL);
 			break;
 
 		case TOK_DECIMAL:
-			ODF_FLUSH_STRING;
-			if (phase == 1)
-				fixup_embedded (embedded, digits);
-			phase = MAX (phase, 2);
+			/* Nothing special */
 			break;
 
 		case TOK_THOUSAND:
@@ -8432,7 +8470,6 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case '0':
 			ODF_FLUSH_STRING;
-			phase = MAX (phase, 1);
 			if (phase == 2)
 				min_decimal_places++;
 			else
@@ -8443,7 +8480,6 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case '#':
 		case '?':
 			ODF_FLUSH_STRING;
-			phase = MAX (phase, 1);
 			digits++;
 			break;
 
@@ -8453,8 +8489,8 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			break;
 
 		default:
-			if (t <= 0x7f) {
-				g_string_append_c (accum, t);
+			if (ti->token <= 0x7f) {
+				g_string_append_c (accum, *tstr);
 				break;
 			}
 			/* Fall through */
@@ -8476,7 +8512,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case TOK_ELAPSED_S:
 		case TOK_GENERAL:
 		case TOK_ERROR:
-			g_printerr ("Unexpected token: %d\n", t);
+			g_printerr ("Unexpected token: %d\n", ti->token);
 			break;
 
 		case TOK_REPEATED_CHAR:
@@ -8484,16 +8520,10 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			break;
 
 		case TOK_INVISIBLE_CHAR: {
-			size_t len = g_utf8_next_char(token + 1) - (token + 1);
+			size_t len = g_utf8_next_char (tstr + 1) - (tstr + 1);
 			if (len > 0) {
 				if (phase != 1 && with_extension) {
-					gchar *text = g_strndup (token + 1, len);
-
-					if (phase == 2) {
-						ODF_FLUSH_STRING;
-						ODF_WRITE_NUMBER;
-						phase = MAX (phase, 3);
-					}
+					gchar *text = g_strndup (tstr + 1, len);
 
 					/* Flush visible prior contents */
 					ODF_OPEN_STRING;
@@ -8520,16 +8550,16 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		}
 
 		case TOK_STRING: {
-			size_t len = strchr (token + 1, '"') - (token + 1);
-			g_string_append_len (accum, token + 1, len);
+			size_t len = strchr (tstr + 1, '"') - (tstr + 1);
+			g_string_append_len (accum, tstr + 1, len);
 			break;
 		}
 
 		case '$':
 		case TOK_CHAR: {
-			size_t len = g_utf8_next_char (token) - (token);
-			gunichar uc = family == GO_FORMAT_CURRENCY
-				? g_utf8_get_char (token)
+			size_t len = g_utf8_next_char (tstr) - tstr;
+			gunichar uc = has_currency
+				? g_utf8_get_char (tstr)
 				: 0;
 			switch (uc) {
 			case '$':
@@ -8538,7 +8568,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			case UNICODE_YEN:
 			case UNICODE_YEN_WIDE:
 			case UNICODE_EURO: {
-				char *str = g_strndup (token, len);
+				char *str = g_strndup (tstr, len);
 				ODF_FLUSH_STRING;
 				gsf_xml_out_simple_element (xout, NUMBER "currency-symbol", str);
 				g_free (str);
@@ -8546,7 +8576,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			}
 
 			default:
-				g_string_append_len (accum, token, len);
+				g_string_append_len (accum, tstr, len);
 			}
 			break;
 		}
@@ -8554,14 +8584,14 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 #if 0
 		case TOK_LOCALE:
 			ODF_WRITE_NUMBER;
-			if ((family == GO_FORMAT_CURRENCY) && (*token == '[') && (*(token + 1) == '$')) {
+			if (has_currency && (*str == '[') && (*(tstr + 1) == '$')) {
 				int len;
-				token += 2;
-				len = strcspn (token, "-]");
+				tstr += 2;
+				len = strcspn (tstr, "-]");
 				if (len > 0) {
 					char *str;
 					ODF_CLOSE_STRING;
-					str = g_strndup (token, len);
+					str = g_strndup (tstr, len);
 					gsf_xml_out_simple_element (xout, NUMBER "currency-symbol", str);
 					g_free (str);
 				}
@@ -8570,12 +8600,14 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 #endif
 
 		case TOK_ESCAPED_CHAR: {
-			size_t len = g_utf8_next_char (token + 1) - (token + 1);
-			g_string_append_len (accum, token + 1, len);
+			size_t len = g_utf8_next_char (tstr + 1) - (tstr + 1);
+			g_string_append_len (accum, tstr + 1, len);
 			break;
 		}
 		}
 	}
+
+	g_assert_not_reached ();
 }
 
 #undef ODF_FLUSH_STRING
@@ -8854,8 +8886,6 @@ go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 		go_format_output_scientific_number_to_odf (xout, fmt, name, with_extension);
 		break;
 	case GO_FORMAT_ACCOUNTING:
-		family = GO_FORMAT_CURRENCY;
-		/* no break;   fall through */
 	case GO_FORMAT_CURRENCY:
 	case GO_FORMAT_PERCENTAGE:
 	case GO_FORMAT_NUMBER:
