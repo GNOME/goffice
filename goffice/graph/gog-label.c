@@ -739,7 +739,7 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 	GOStyle *style = text->base.base.style;
 	char *str = gog_text_get_str (text);
 	PangoAttrList *pl = gog_text_get_markup (text);
-	double w = text->allow_wrap? view->allocation.w: -1.;
+	double w = text->allow_wrap? view->residual.w: -1.;
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {

@@ -3,6 +3,7 @@ goffice 0.10.15:
 Jean:
 	* Explicitly allow manual charts size. [#728134]
 	* Fix automatic chart size for manual position. [#728391]
+	* Fix text alignment. [#728752]
 
 Morten:
 	* Portability improvements.

@@ -1932,7 +1932,7 @@ gog_object_get_manual_allocation (GogObject *gobj,
 				  GogViewRequisition const *requisition)
 {
 	GogViewAllocation pos;
-	unsigned anchor, size;
+	unsigned anchor, size, expand;
 	GogManualSizeMode size_mode = gog_object_get_manual_size_mode (gobj);
 
 	pos.x = parent_allocation->x + gobj->manual_position.x * parent_allocation->w;
@@ -1940,11 +1940,12 @@ gog_object_get_manual_allocation (GogObject *gobj,
 
 	size = gog_object_get_position_flags (gobj, GOG_POSITION_ANY_MANUAL_SIZE);
 	anchor = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
+	expand = gobj->role->allowable_positions & GOG_POSITION_EXPAND;
 
 	if ((size_mode & GOG_MANUAL_SIZE_WIDTH) &&
 	         (size & (GOG_POSITION_MANUAL_W | GOG_POSITION_MANUAL_W_ABS)))
 		pos.w = gobj->manual_position.w * parent_allocation->w;
-	else {
+	else  if (expand & GOG_POSITION_HEXPAND) {
 		/* use available width */
 		switch (anchor) {
 			case GOG_POSITION_ANCHOR_N:
@@ -1964,7 +1965,8 @@ gog_object_get_manual_allocation (GogObject *gobj,
 		}
 		if (pos.w < requisition->w)
 			pos.w = requisition->w;
-	}
+	} else
+		pos.w = requisition->w;
 
 	switch (anchor) {
 		case GOG_POSITION_ANCHOR_N:
@@ -1983,7 +1985,7 @@ gog_object_get_manual_allocation (GogObject *gobj,
 	if ((size_mode & GOG_MANUAL_SIZE_HEIGHT) &&
 	         (size & (GOG_POSITION_MANUAL_H | GOG_POSITION_MANUAL_H_ABS)))
 		pos.h = gobj->manual_position.h * parent_allocation->h;
-	else {
+	else  if (expand & GOG_POSITION_VEXPAND) {
 		/* use available width */
 		switch (anchor) {
 			case GOG_POSITION_ANCHOR_E:
@@ -2003,7 +2005,8 @@ gog_object_get_manual_allocation (GogObject *gobj,
 		}
 		if (pos.h < requisition->h)
 			pos.h = requisition->h;
-	}
+	} else
+		pos.h = requisition->h;
 	switch (anchor) {
 		case GOG_POSITION_ANCHOR_E:
 		case GOG_POSITION_ANCHOR_CENTER:

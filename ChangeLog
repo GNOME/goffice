@@ -1,3 +1,11 @@
+2014-04-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/goffice-graph.h: add expand fields to GogPosition.
+	* goffice/graph/gog-graph.c (gog_graph_class_init): make charts expand.
+	* goffice/graph/gog-label.c (gog_text_view_render): fix alignment.
+	* goffice/graph/gog-object.c (gog_object_get_manual_allocation): take expand
+	field into account. [#728752]
+
 2014-04-22  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-dtoa.c (go_dtoa): Mostly implement the
