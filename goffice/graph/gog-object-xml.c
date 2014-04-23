@@ -72,7 +72,7 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 	GValue	 value = { 0 };
 
 	g_value_init (&value, prop_type);
-	g_object_get_property  (G_OBJECT (obj), pspec->name, &value);
+	g_object_get_property (G_OBJECT (obj), pspec->name, &value);
 
 	/* No need to save default values */
 	if (((pspec->flags & GOG_PARAM_POSITION) &&
@@ -92,8 +92,6 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 	case G_TYPE_UINT:
 	case G_TYPE_LONG:
 	case G_TYPE_ULONG:
-	case G_TYPE_FLOAT:
-	case G_TYPE_DOUBLE:
 	case G_TYPE_ENUM:
 	case G_TYPE_FLAGS: {
 		GValue str = { 0 };
@@ -104,6 +102,24 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 		gsf_xml_out_add_cstr (output, NULL, g_value_get_string (&str));
 		gsf_xml_out_end_element (output); /* </property> */
 		g_value_unset (&str);
+		break;
+	}
+
+	case G_TYPE_FLOAT:
+	case G_TYPE_DOUBLE: {
+		GValue vd = { 0 };
+		GString *str = g_string_new (NULL);
+
+		g_value_init (&vd, G_TYPE_DOUBLE);
+		g_value_transform (&value, &vd);
+		go_dtoa (str, "!g", g_value_get_double (&vd));
+		g_value_unset (&vd);
+
+		gsf_xml_out_start_element (output, "property");
+		gsf_xml_out_add_cstr_unchecked (output, "name", pspec->name);
+		gsf_xml_out_add_cstr (output, NULL, str->str);
+		gsf_xml_out_end_element (output); /* </property> */
+		g_string_free (str, TRUE);
 		break;
 	}
 
