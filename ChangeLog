@@ -1,5 +1,8 @@
 2014-04-22  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-dtoa.c (go_dtoa): Mostly implement the
+	shortest-version flag.
+
 	* goffice/graph/gog-object-xml.c (gog_object_write_property_sax):
 	Properly handle float/double properties.
 

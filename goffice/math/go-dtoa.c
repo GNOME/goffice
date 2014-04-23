@@ -452,6 +452,26 @@ parse_fmt (const char *fmt, va_list args, gboolean *is_long,
 		*d = va_arg (args, double);
 }
 
+static long double
+strto (const char *str, gboolean is_long, gboolean is_ascii)
+{
+	if (is_long) {
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+		/*
+		 * FIXME: ignore ascii flag for now.  Given the limited
+		 * and checked usage of this function this should still
+		 * be safe, if suboptimal.
+		 */
+		return go_strtold (str, NULL);
+#else
+		return go_nan;
+#endif
+	} else {
+		return is_ascii
+			? g_ascii_strtod (str, NULL)
+			: go_strtod (str, NULL);
+	}
+}
 
 
 void
@@ -462,18 +482,43 @@ go_dtoa (GString *dst, const char *fmt, ...)
 	long double d;
 	gboolean is_long;
 	gboolean debug = FALSE;
+	size_t oldlen;
 
 	va_start (args, fmt);
 	parse_fmt (fmt, args, &is_long, &w, &p, &fl, &t, &d);
 	va_end (args);
 
-	/*
-	 * FLAG_SHORTEST isn't fully implemented yet.  For now we just
-	 * ensure a roundtrip.
-	 */
 	if (fl & FLAG_SHORTEST) p = is_long ? 20 : 17;
+	oldlen = (fl & FLAG_TRUNCATE) ? 0 : dst->len;
 
 	if (debug) g_printerr ("%Lg [%s] t=%c  p=%d\n", d, fmt, t, p);
 	fmt_fp (dst, d, w, p, fl, t);
 	if (debug) g_printerr ("  --> %s\n", dst->str);
+
+	if (fl & FLAG_SHORTEST) {
+		const char *dec = (fl & FLAG_ASCII)
+			? "."
+			: go_locale_get_decimal()->str;
+		const char *dot = strstr (dst->str + oldlen, dec);
+		if (dot) {
+			/*
+			 * This is crude.  We have a dot, so try to render
+			 * the same number with less precision and check
+			 * that the result round-trips.
+			 */
+			GString *alt = g_string_new (NULL);
+			long double dalt;
+
+			fmt_fp (alt, d, w, p - 1, fl, t);
+
+			dalt = strto (alt->str, is_long, (fl & FLAG_ASCII));
+
+			if (dalt == d) {
+				g_string_truncate (dst, oldlen);
+				go_string_append_gstring (dst, alt);
+				if (debug) g_printerr ("  --> %s\n", dst->str);
+			}
+			g_string_free (alt, TRUE);
+		}
+	}
 }
