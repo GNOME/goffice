@@ -8261,9 +8261,11 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 static void
 go_format_output_number_element_to_odf (GsfXMLOut *xout,
 					int min_integer_digits,
+					int min_integer_chars,
 					int min_decimal_digits,
 					gboolean comma_seen,
-					GSList *embedded)
+					GSList *embedded,
+					gboolean with_extension)
 {
 	GSList *l;
 
@@ -8271,6 +8273,8 @@ go_format_output_number_element_to_odf (GsfXMLOut *xout,
 	gsf_xml_out_add_int (xout, NUMBER "decimal-places", min_decimal_digits);
 	odf_add_bool (xout, NUMBER "grouping", comma_seen);
 	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", min_integer_digits);
+	if (with_extension && (min_integer_chars > min_integer_digits))
+		gsf_xml_out_add_int (xout, GNMSTYLE "min-integer-chars", min_integer_chars);
 
 	embedded = g_slist_reverse (embedded);
 	for (l = embedded; l; l = l->next->next) {
@@ -8345,6 +8349,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	char const *xl = go_format_as_XL (fmt);
 	int digits = 0;
 	int min_integer_digits = 0;
+	int min_integer_chars = 0;
 	int min_decimal_places = 0;
 	gboolean comma_seen = FALSE;
 	GSList *embedded = NULL;
@@ -8441,8 +8446,10 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (has_number) {
 				go_format_output_number_element_to_odf
 					(xout,
-					 min_integer_digits, min_decimal_places,
-					 comma_seen, embedded);
+					 min_integer_digits, min_integer_chars,
+					 min_decimal_places,
+					 comma_seen, embedded,
+					 with_extension);
 				embedded = NULL;
 			}
 			phase = 3;
@@ -8468,17 +8475,24 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			comma_seen = TRUE;
 			break;
 
+		case '?':
+			ODF_FLUSH_STRING;
+			if (phase != 2)
+				min_integer_chars++;
+			break;
+
 		case '0':
 			ODF_FLUSH_STRING;
 			if (phase == 2)
 				min_decimal_places++;
-			else
+			else {
 				min_integer_digits++;
+				min_integer_chars++;
+			}
 			digits++;
 			break;
 
 		case '#':
-		case '?':
 			ODF_FLUSH_STRING;
 			digits++;
 			break;
