@@ -522,6 +522,7 @@ go_dtoa (GString *dst, const char *fmt, ...)
 				go_string_append_gstring (dst, alt);
 				if (debug) g_printerr ("  --> %s\n", dst->str);
 				p--;
+				again = (p > 0);
 			} else
 				again = FALSE;
 
