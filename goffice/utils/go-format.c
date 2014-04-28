@@ -4932,9 +4932,12 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	}
 
 	if (col_width == -1) {
-		measure = go_format_measure_zero;
-		col_width = INT_MAX;
-		sign_width = 0;
+#ifdef DEBUG_GENERAL
+		g_printerr ("Rendering %.20" FORMAT_G " to needed width\n", val);
+#endif
+		go_dtoa (str, "=!^" FORMAT_G, val);
+		SETUP_LAYOUT;
+		return;
 	} else {
 		int w;
 
@@ -4951,7 +4954,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	}
 
 #ifdef DEBUG_GENERAL
-	g_printerr ("Rendering %" FORMAT_G " to width %d (<=%d digits)\n",
+	g_printerr ("Rendering %.20" FORMAT_G " to width %d (<=%d digits)\n",
 		 val, col_width, maxdigits);
 #endif
 	if (val == 0)

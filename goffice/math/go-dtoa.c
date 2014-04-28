@@ -499,25 +499,32 @@ go_dtoa (GString *dst, const char *fmt, ...)
 		const char *dec = (fl & FLAG_ASCII)
 			? "."
 			: go_locale_get_decimal()->str;
-		const char *dot = strstr (dst->str + oldlen, dec);
-		if (dot) {
+		gboolean again = TRUE;
+		while (again) {
+			GString *alt;
+			const char *dot = strstr (dst->str + oldlen, dec);
+			long double dalt;
+			if (!dot)
+				break;
+
 			/*
 			 * This is crude.  We have a dot, so try to render
 			 * the same number with less precision and check
 			 * that the result round-trips.
 			 */
-			GString *alt = g_string_new (NULL);
-			long double dalt;
 
+			alt = g_string_new (NULL);
 			fmt_fp (alt, d, w, p - 1, fl, t);
-
 			dalt = strto (alt->str, is_long, (fl & FLAG_ASCII));
 
 			if (dalt == d) {
 				g_string_truncate (dst, oldlen);
 				go_string_append_gstring (dst, alt);
 				if (debug) g_printerr ("  --> %s\n", dst->str);
-			}
+				p--;
+			} else
+				again = FALSE;
+
 			g_string_free (alt, TRUE);
 		}
 	}

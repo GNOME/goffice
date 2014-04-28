@@ -117,6 +117,9 @@ test_general_format (void)
 	test_general_format_1 (6861116509411105.0, 16, "6.8611165094E+15");
 	test_general_format_1 (6861116509411105.0, 15, "6.861116509E+15");
 	test_general_format_1 (6861116509411105.0, 14, "6.86111651E+15");
+
+	/* Only 15 digits needed.  Lots of terminating zeros.  */
+	test_general_format_1 (75776.21, -1, "75776.21");
 }
 
 /* ------------------------------------------------------------------------- */

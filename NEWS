@@ -12,6 +12,8 @@ Morten:
 	* Portability improvements.
 	* Fix UMR in graph view.
 	* Improve GOFormat export to ods.
+	* Improve testing.
+	* Improve go_dtoa and use it for go_format_general.
 
 --------------------------------------------------------------------------
 goffice 0.10.14:

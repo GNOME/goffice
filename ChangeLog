@@ -1,3 +1,15 @@
+2014-04-28  Morten Welinder  <terra@gnome.org>
+
+	* tests/test-format.c (test_general_format): Simple test for
+	shortest-representation.
+
+	* goffice/utils/go-format.c (go_render_general): When we have
+	infinite room, just use go_dtoa to get the shortest
+	representation.
+
+	* goffice/math/go-dtoa.c (go_dtoa): Improve short-representation
+	handling.
+
 2014-03-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_number_element_to_odf):
