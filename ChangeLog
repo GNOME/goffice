@@ -1,3 +1,7 @@
+2014-04-29  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-dtoa.c (fmt_fp): Fix FMR.
+
 2014-04-28  Morten Welinder  <terra@gnome.org>
 
 	* tests/test-format.c (test_general_format): Simple test for
