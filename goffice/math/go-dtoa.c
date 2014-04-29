@@ -496,12 +496,12 @@ go_dtoa (GString *dst, const char *fmt, ...)
 	if (debug) g_printerr ("  --> %s\n", dst->str);
 
 	if (fl & FLAG_SHORTEST) {
+		GString *alt = g_string_new (NULL);
 		const char *dec = (fl & FLAG_ASCII)
 			? "."
 			: go_locale_get_decimal()->str;
-		gboolean again = TRUE;
-		while (again) {
-			GString *alt;
+		while (p > 0) {
+			ssize_t len_dif;
 			const char *dot = strstr (dst->str + oldlen, dec);
 			long double dalt;
 			if (!dot)
@@ -513,20 +513,27 @@ go_dtoa (GString *dst, const char *fmt, ...)
 			 * that the result round-trips.
 			 */
 
-			alt = g_string_new (NULL);
-			fmt_fp (alt, d, w, p - 1, fl, t);
+			fmt_fp (alt, d, w, p - 1, fl | FLAG_TRUNCATE, t);
+			len_dif = dst->len - oldlen - alt->len;
+
+			if (len_dif == 0) {
+				/* Same string so we've already removed 0s. */
+				break;
+			}
+
 			dalt = strto (alt->str, is_long, (fl & FLAG_ASCII));
+			if (dalt != d)
+				break;
 
-			if (dalt == d) {
-				g_string_truncate (dst, oldlen);
-				go_string_append_gstring (dst, alt);
-				if (debug) g_printerr ("  --> %s\n", dst->str);
-				p--;
-				again = (p > 0);
-			} else
-				again = FALSE;
+			g_string_truncate (dst, oldlen);
+			go_string_append_gstring (dst, alt);
+			if (debug) g_printerr ("  --> %s\n", dst->str);
 
-			g_string_free (alt, TRUE);
+			p--;
+
+			if (len_dif > 1)
+				break;
 		}
+		g_string_free (alt, TRUE);
 	}
 }
