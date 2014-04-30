@@ -1,3 +1,7 @@
+2014-04-30  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.15
+
 2014-04-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-dtoa.c (fmt_fp): Fix FMR.
