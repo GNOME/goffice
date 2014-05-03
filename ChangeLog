@@ -1,3 +1,8 @@
+2014-05-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-graph-widget.c (idle_handler): don't use GDK_THREADS_*.
+	[728793]
+
 2014-04-30  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

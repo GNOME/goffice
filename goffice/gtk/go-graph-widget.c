@@ -255,15 +255,12 @@ static gint
 idle_handler (GOGraphWidget *w)
 {
 	GtkAllocation allocation;
-	GDK_THREADS_ENTER ();
 
 	/* Reset idle id */
 	w->idle_id = 0;
 	gtk_widget_get_allocation (GTK_WIDGET (w), &allocation);
 	update_image_rect (w, allocation);
 	gtk_widget_queue_draw (GTK_WIDGET (w));
-
-	GDK_THREADS_LEAVE ();
 
 	return FALSE;
 }
