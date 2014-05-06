@@ -3,6 +3,9 @@ goffice 0.10.16:
 Jean
 	* Don't use GDK_THREADS_*. [728793]
 
+Morten:
+	* Clean out old #ifdef mess.
+
 --------------------------------------------------------------------------
 goffice 0.10.15:
 

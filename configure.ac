@@ -1,4 +1,4 @@
--*- mode: m4 -*-
+>-*- mode: m4 -*-
 dnl We require Automake 1.7.2, which requires Autoconf 2.54.
 dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
@@ -113,11 +113,11 @@ PKG_PROG_PKG_CONFIG
 
 dnl *****************************
 goffice_reqs="
-	glib-2.0		>= 2.28.0
-	gobject-2.0		>= 2.28.0
-	gmodule-2.0		>= 2.28.0
-	gio-2.0			>= 2.28.0
-	libgsf-1		>= 1.14.9
+	glib-2.0		>= 2.38.0
+	gobject-2.0		>= 2.38.0
+	gmodule-2.0		>= 2.38.0
+	gio-2.0			>= 2.38.0
+	libgsf-1		>= 1.14.24
 	libxml-2.0		>= 2.4.12
 	pango			>= 1.24.0
 	pangocairo		>= 1.24.0
@@ -128,7 +128,7 @@ goffice_reqs="
 "
 
 goffice_gtk_reqs="
-	gtk+-3.0		>= 3.2.0
+	gtk+-3.0		>= 3.8.7
 "
 
 surfaces_reqs="
@@ -566,16 +566,6 @@ if test $ac_cv_func_log = no; then
 fi
 
 AC_CHECK_FUNCS(nextafter nextafterl rint)
-
-SAVE_CFLAGS=$CFLAGS
-SAVE_LIBS=$LIBS
-CFLAGS="$CFLAGS $GOFFICE_CFLAGS"
-LIBS="$GOFFICE_LIBS $LIBS"
-AC_CHECK_FUNCS(gsf_odf_out_get_version)
-AC_CHECK_FUNCS(gdk_event_get_scroll_deltas)
-AC_CHECK_FUNCS(gtk_style_context_set_parent)
-CFLAGS=$SAVE_CFLAGS
-LIBS=$SAVE_LIBS
 
 AC_DEFUN([GOFFICE_CHECK_FUNC],
 [AC_CHECK_FUNC([$1],

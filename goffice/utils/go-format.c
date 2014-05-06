@@ -8020,18 +8020,6 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 #undef ODF_CLOSE_STRING
 #undef ODF_OPEN_STRING
 
-static int
-get_odf_version (GsfXMLOut *xout)
-{
-#ifdef HAVE_GSF_ODF_OUT_GET_VERSION
-	return gsf_odf_out_get_version (GSF_ODF_OUT (xout));
-#else
-	return get_gsf_odf_version ();
-#endif
-}
-
-
-
 #define ODF_CLOSE_STRING  if (string_is_open) {  \
                                  gsf_xml_out_add_cstr (xout, NULL, accum->str); \
                                  gsf_xml_out_end_element (xout); /* </number:text> */  \
@@ -8051,7 +8039,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
-	int odf_version = get_odf_version (xout);
+	int odf_version = gsf_odf_out_get_version (GSF_ODF_OUT (xout));
 
 	int int_digits = -1; /* -1 means no integer part */
 	int min_numerator_digits = 0;

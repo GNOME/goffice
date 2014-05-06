@@ -237,9 +237,7 @@ goc_item_dispose (GObject *object)
 	if (context) {
 		g_signal_handlers_disconnect_by_func
 			(object, G_CALLBACK (cb_hierarchy_changed), NULL);
-#ifdef HAVE_GTK_STYLE_CONTEXT_SET_PARENT
 		gtk_style_context_set_parent (context, NULL);
-#endif
 		g_object_set_qdata (object, quark_style_context, NULL);
 	}
 #endif
@@ -878,9 +876,7 @@ cb_hierarchy_changed (const GocItem *item)
 	gtk_widget_path_append_type (path, G_TYPE_FROM_INSTANCE (item));
 	gtk_style_context_set_path (context, path);
 	gtk_widget_path_free (path);
-#ifdef HAVE_GTK_STYLE_CONTEXT_SET_PARENT
 	gtk_style_context_set_parent (context, pcontext);
-#endif
 }
 
 

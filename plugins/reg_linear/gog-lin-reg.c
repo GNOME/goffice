@@ -158,12 +158,7 @@ gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 	w = gtk_check_button_new_with_label (_("Affine"));
 	gtk_widget_set_tooltip_text (w, _("Uncheck to force zero intercept"));
 	gtk_widget_show (w);
-#if GTK_CHECK_VERSION(3,4,0)
 	gtk_grid_attach_next_to (table, w, NULL, GTK_POS_BOTTOM, 1, 3);
-#else
-	gtk_grid_attach_next_to (table, w, GTK_WIDGET (g_object_get_data (table, "last-label")), GTK_POS_BOTTOM, 1, 3);
-	g_object_set_data (G_OBJECT (table), "last-label", w);
-#endif
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), lin->affine);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (affine_toggled_cb), lin);
 }

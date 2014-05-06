@@ -718,18 +718,6 @@ gu_delete_handler (GtkDialog *dialog,
 	return TRUE; /* Do not destroy */
 }
 
-#if !GTK_CHECK_VERSION(3,4,0)
-static void
-recent_func_log_func (G_GNUC_UNUSED const gchar   *log_domain,
-		      G_GNUC_UNUSED GLogLevelFlags log_level,
-		      G_GNUC_UNUSED const gchar   *message,
-		      G_GNUC_UNUSED gpointer       user_data)
-{
-	/* We just want to suppress the warnings */
-	/* http://bugzilla.gnome.org/show_bug.cgi?id=664587 */
-}
-#endif
-
 /**
  * go_gtk_file_sel_dialog:
  * @toplevel: #GtkWindow
@@ -758,21 +746,7 @@ go_gtk_file_sel_dialog (GtkWindow *toplevel, GtkWidget *w)
 	gtk_widget_show (w);
 	gtk_grab_add (w);
 
-#if GTK_CHECK_VERSION(3,4,0)
 	gtk_main ();
-#else
-	/* Hack: the gtk file dialog warns when it can't access a new file, so shut it up.  */
-	/* http://bugzilla.gnome.org/show_bug.cgi?id=664587 */
-	/* This hack should be unneccessary in GTK 3.3.5 and later  */
-	{
-		const char *domain = "Gtk";
-		guint log_handler =
-			g_log_set_handler (domain, G_LOG_LEVEL_WARNING,
-					   recent_func_log_func, NULL);
-		gtk_main ();
-		g_log_remove_handler (domain, log_handler);
-	}
-#endif
 
 	g_signal_handler_disconnect (w, delete_handler);
 

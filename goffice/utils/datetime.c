@@ -137,11 +137,7 @@ go_date_timet_to_serial_raw (time_t t, GODateConventions const *conv)
 	GDate date;
 
         g_date_clear (&date, 1);
-#if GLIB_CHECK_VERSION(2,10,0)
 	g_date_set_time_t (&date, t);
-#else
-	g_date_set_time (&date, t);
-#endif
 	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
 	return go_date_g_to_serial (&date, conv) +
 		secs / (double)SECS_PER_DAY;

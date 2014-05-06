@@ -299,9 +299,7 @@ goc_canvas_init (GocCanvas *canvas)
 	                       GDK_KEY_RELEASE_MASK |
 	                       GDK_ENTER_NOTIFY_MASK |
 	                       GDK_LEAVE_NOTIFY_MASK |
-#ifdef HAVE_GDK_EVENT_GET_SCROLL_DELTAS
 	                       GDK_SMOOTH_SCROLL_MASK |
-#endif
 	                       GDK_SCROLL_MASK
 	                       );
 	g_signal_connect (G_OBJECT (w), "button-press-event", G_CALLBACK (button_press_cb), NULL);

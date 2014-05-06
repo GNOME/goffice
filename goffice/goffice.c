@@ -197,9 +197,6 @@ libgoffice_init (void)
 
 	bindtextdomain (GETTEXT_PACKAGE, libgoffice_locale_dir);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#if (!GLIB_CHECK_VERSION (2, 36, 0))
-	g_type_init ();
-#endif
 	gsf_init ();
 
 	_go_string_init ();
