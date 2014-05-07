@@ -155,7 +155,7 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	else
 		return;
 
-	chart_map = gog_chart_map_3d_new (chart, area,
+	chart_map = gog_chart_map_3d_new (view, area,
 				       GOG_PLOT (plot)->axis[GOG_AXIS_X],
 				       GOG_PLOT (plot)->axis[GOG_AXIS_Y],
 				       GOG_PLOT (plot)->axis[GOG_AXIS_Z]);

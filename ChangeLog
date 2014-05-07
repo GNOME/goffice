@@ -1,5 +1,20 @@
 2014-05-07  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-3d-box.c (gog_3d_box_class_init): add a view class for
+	the 3d box to support data that are view dependent.
+	* goffice/graph/gog-3d-box.h: ditto.
+	* goffice/graph/gog-axis-line.c (xyz_process): change gog_chart_map_3d_new()
+	signature to suppor the new view class.
+	* goffice/graph/gog-chart-map-3d.c (xyz_map_3D_to_view),
+	(gog_chart_map_3d_new), (gog_chart_map_3d_free): ditto.
+	* goffice/graph/gog-chart-map-3d.h: ditto.
+	* goffice/graph/gog-chart.c (gog_chart_view_3d_process): ditto.
+	* goffice/graph/gog-grid-line.c (gog_grid_line_xyz_render): ditto.
+	* goffice/graph/gog-grid.c (gog_grid_view_xyz_render): ditto.
+	* plugins/plot_surface/gog-surface.c (gog_surface_view_render): ditto.
+
+2014-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-3d-box.c (cb_g3d_update),
 	(gog_3d_box_populate_editor): fixed criticals.
 

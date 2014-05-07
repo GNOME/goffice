@@ -3,6 +3,7 @@ goffice 0.10.16:
 Jean
 	* Don't use GDK_THREADS_*. [728793]
 	* Fixed Gog3DBox properties editor.
+	* Add a view class to Gog3DBox to support data that are view dependent.
 
 Morten:
 	* Clean out old #ifdef mess.

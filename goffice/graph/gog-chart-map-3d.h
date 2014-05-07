@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 typedef struct _GogChartMap3D GogChartMap3D;
 
 GType		 gog_chart_map_3d_get_type (void);
-GogChartMap3D 	*gog_chart_map_3d_new 		(GogChart *chart, GogViewAllocation const *area,
+GogChartMap3D 	*gog_chart_map_3d_new 		(GogView *view, GogViewAllocation const *area,
 						 GogAxis *axis0, GogAxis *axis1, GogAxis *axis2);
 void 		 gog_chart_map_3d_to_view	(GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w);
 GogAxisMap	*gog_chart_map_3d_get_axis_map 	(GogChartMap3D *map, unsigned int index);

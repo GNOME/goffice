@@ -30,10 +30,6 @@ struct _Gog3DBox {
 	GogObject base;
 
 	double fov, psi, theta, phi; /* field of view and orientation */
-	double dx, dy, dz; /* box size */
-	double r; /* distance from view point to the center of the box */
-	double ratio; /* ratio to use to be certain that everything fits
-	in the view */
 	GOMatrix3x3 mat; /* the matrix based on psi, theta, and phi */
 };
 
@@ -42,6 +38,22 @@ struct _Gog3DBox {
 #define GOG_IS_3D_BOX(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_3D_BOX_TYPE))
 
 GType 	gog_3d_box_get_type 	(void);
+
+struct _Gog3DBoxView {
+	GogView base;
+
+	double dx, dy, dz; /* box size */
+	double r; /* distance from view point to the center of the box */
+	double ratio; /* ratio to use to be certain that everything fits
+	in the view */
+};
+typedef struct _Gog3DBoxView Gog3DBoxView;
+
+#define GOG_3D_BOX_VIEW_TYPE		(gog_3d_box_view_get_type ())
+#define GOG_3D_BOX_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_3D_BOX_VIEW_TYPE, Gog3DBoxView))
+#define GOG_IS_3D_BOX_VIEW(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_3D_BOX_VIEW_TYPE))
+
+GType 	gog_3d_box_view_get_type 	(void);
 
 G_END_DECLS
 

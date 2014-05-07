@@ -273,7 +273,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 		axes  = gog_chart_get_axes (chart, GOG_AXIS_Z);
 		axis2 = GOG_AXIS (axes->data);
 		g_slist_free (axes);
-		c_map = gog_chart_map_3d_new (chart, plot_area,
+		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis, axis1, axis2);
 	} else if (axis_type == GOG_AXIS_Y) {
 		axes  = gog_chart_get_axes (chart, GOG_AXIS_Z);
@@ -282,7 +282,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 		axes  = gog_chart_get_axes (chart, GOG_AXIS_X);
 		axis2 = GOG_AXIS (axes->data);
 		g_slist_free (axes);
-		c_map = gog_chart_map_3d_new (chart, plot_area,
+		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis2, axis, axis1);
 	} else {
 		axes  = gog_chart_get_axes (chart, GOG_AXIS_X);
@@ -291,7 +291,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 		axes  = gog_chart_get_axes (chart, GOG_AXIS_Y);
 		axis2 = GOG_AXIS (axes->data);
 		g_slist_free (axes);
-		c_map = gog_chart_map_3d_new (chart, plot_area,
+		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis1, axis2, axis);
 	}
 

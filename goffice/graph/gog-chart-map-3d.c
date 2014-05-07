@@ -23,7 +23,7 @@
 #include <goffice/goffice.h>
 
 struct _GogChartMap3D {
-	GogChart 		*chart;
+	Gog3DBoxView *view;
 	GogViewAllocation	 area;
 	gpointer	 	 data;
 	GogAxisMap		*axis_map[3];
@@ -43,17 +43,17 @@ null_map_3D (GogChartMap3D *map, double x, double y, double z, double *u, double
 static void
 xyz_map_3D_to_view (GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w)
 {
-	Gog3DBox *box = GOG_3D_BOX (gog_object_get_child_by_name (GOG_OBJECT (map->chart), "3D-Box"));
+	Gog3DBox *box = GOG_3D_BOX (gog_view_get_model (GOG_VIEW (map->view)));
 	x = gog_axis_map_to_view (map->axis_map[0], x);
 	y = gog_axis_map_to_view (map->axis_map[1], y);
 	z = gog_axis_map_to_view (map->axis_map[2], z);
 	go_matrix3x3_transform (&box->mat, x, y, z, &x, &y, &z);
 	if (box->fov > 0.) {
-	    x /= (1. - y / box->r) * box->ratio;
-	    z /= (1. - y / box->r) * box->ratio;
+	    x /= (1. - y / map->view->r) * map->view->ratio;
+	    z /= (1. - y / map->view->r) * map->view->ratio;
 	} else {
-	    x /= box->ratio;
-	    z /= box->ratio;
+	    x /= map->view->ratio;
+	    z /= map->view->ratio;
 	}
 	if (u)
 	    *u = map->area.x + map->area.w / 2. * (1. + x / map->area.w);
@@ -65,7 +65,7 @@ xyz_map_3D_to_view (GogChartMap3D *map, double x, double y, double z, double *u,
 
 /**
  * gog_chart_map_3d_new:
- * @chart: a #GogChart with 3D support
+ * @view: a #GogView for a chart with 3D support or one of its children
  * @area: area allocated to chart
  * @axis0: 1st dimension axis
  * @axis1: 2nd dimension axis
@@ -78,31 +78,38 @@ xyz_map_3D_to_view (GogChartMap3D *map, double x, double y, double z, double *u,
  **/
 
 GogChartMap3D*
-gog_chart_map_3d_new (GogChart *chart, GogViewAllocation const *area,
+gog_chart_map_3d_new (GogView *view, GogViewAllocation const *area,
 			GogAxis *axis0, GogAxis *axis1, GogAxis *axis2)
 {
 	GogChartMap3D *map;
 	GogAxisSet axis_set;
 	Gog3DBox *box;
+	GogChart *chart;
 
-	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
+	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
+
+	while (view && !GOG_IS_CHART (view->model))
+		view = view->parent;
+
+	g_return_val_if_fail (view, NULL);
+
+	chart = GOG_CHART (view->model);
 
 	map = g_new (GogChartMap3D, 1);
 
-	g_object_ref (chart);
-	map->chart = chart;
 	map->area = *area;
 	map->data = NULL;
 	map->is_valid = FALSE;
 	map->ref_count = 1;
 	box = GOG_3D_BOX (gog_object_get_child_by_name (GOG_OBJECT (chart), "3D-Box"));
+	map->view = GOG_3D_BOX_VIEW (g_object_ref (gog_view_find_child_view (view, (GogObject *) box)));
 
 	axis_set = gog_chart_get_axis_set (chart);
 	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 	case GOG_AXIS_SET_XYZ: {
-		map->axis_map[0] = gog_axis_map_new (axis0, -box->dx, 2 * box->dx);
-		map->axis_map[1] = gog_axis_map_new (axis1, -box->dy, 2 * box->dy);
-		map->axis_map[2] = gog_axis_map_new (axis2, -box->dz, 2 * box->dz);
+		map->axis_map[0] = gog_axis_map_new (axis0, -map->view->dx, 2 * map->view->dx);
+		map->axis_map[1] = gog_axis_map_new (axis1, -map->view->dy, 2 * map->view->dy);
+		map->axis_map[2] = gog_axis_map_new (axis2, -map->view->dz, 2 * map->view->dz);
 
 		map->data = NULL;
 		map->map_3D_to_view = xyz_map_3D_to_view;
@@ -199,7 +206,7 @@ gog_chart_map_3d_free (GogChartMap3D *map)
 			gog_axis_map_free (map->axis_map[i]);
 
 	g_free (map->data);
-	g_object_unref (map->chart);
+	g_object_unref (map->view);
 	g_free (map);
 }
 

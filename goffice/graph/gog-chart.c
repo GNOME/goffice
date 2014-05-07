@@ -1146,6 +1146,7 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	double xmin, xmax, ymin, ymax, zmin, zmax;
 	double o[3], x[3], y[3], z[3], tg, d;
 	Gog3DBox *box;
+	Gog3DBoxView *box_view;
 	GogChart *chart = GOG_CHART (gog_view_get_model (view));
 	GogObject *obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "3D-Box");
 	GSList *ptr;
@@ -1157,6 +1158,7 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 		gog_object_add_by_name (GOG_OBJECT (chart), "3D-Box", obj);
 	}
 	box = GOG_3D_BOX (obj);
+	box_view = GOG_3D_BOX_VIEW (gog_view_find_child_view (view, obj));
 
 	/* Only use the first of the axes. */
 	axes = gog_chart_get_axes (chart, GOG_AXIS_X);
@@ -1173,20 +1175,20 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	gog_axis_get_bounds (axisZ, &zmin, &zmax);
 	/* define the 3d box */
 	/* FIXME: take axes into account */
-	box->dz = tmp.h;
+	box_view->dz = tmp.h;
 	if (ymax - ymin > xmax - xmin) {
-		box->dy = tmp.w;
-		box->dx = (xmax - xmin) / (ymax - ymin) * tmp.w;
+		box_view->dy = tmp.w;
+		box_view->dx = (xmax - xmin) / (ymax - ymin) * tmp.w;
 	} else {
-		box->dx = tmp.w;
-		box->dy = (ymax - ymin) / (xmax - xmin) * tmp.w;
+		box_view->dx = tmp.w;
+		box_view->dy = (ymax - ymin) / (xmax - xmin) * tmp.w;
 	}
 
 	/* now compute the position of each vertex, ignoring the fov */
-	go_matrix3x3_transform (&box->mat, -box->dx, -box->dy, -box->dz, o, o + 1, o + 2);
-	go_matrix3x3_transform (&box->mat, box->dx, -box->dy, -box->dz, x, x + 1, x + 2);
-	go_matrix3x3_transform (&box->mat, -box->dx, box->dy, -box->dz, y, y + 1, y + 2);
-	go_matrix3x3_transform (&box->mat, -box->dx, -box->dy, box->dz, z, z + 1, z + 2);
+	go_matrix3x3_transform (&box->mat, -box_view->dx, -box_view->dy, -box_view->dz, o, o + 1, o + 2);
+	go_matrix3x3_transform (&box->mat, box_view->dx, -box_view->dy, -box_view->dz, x, x + 1, x + 2);
+	go_matrix3x3_transform (&box->mat, -box_view->dx, box_view->dy, -box_view->dz, y, y + 1, y + 2);
+	go_matrix3x3_transform (&box->mat, -box_view->dx, -box_view->dy, box_view->dz, z, z + 1, z + 2);
 	/* for each diagonal, we need to take the vertex closer to the view point */
 	if (o[1] > 0) {
 		o[0] = -o[0];
@@ -1211,35 +1213,35 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	/* if the fov is positive, calculate the position of the viewpoint */
 	if (box->fov > 0.) {
 		tg = tan (box->fov / 2.);
-		box->r = -sqrt (o[0] * o[0] + o[2] * o[2]) / tg + o[1];
+		box_view->r = -sqrt (o[0] * o[0] + o[2] * o[2]) / tg + o[1];
 		d = -sqrt (x[0] * x[0] + x[2] * x[2]) / tg + x[1];
-		if (d < box->r)
-			box->r = d;
+		if (d < box_view->r)
+			box_view->r = d;
 		d = -sqrt (y[0] * y[0] + y[2] * y[2]) / tg + y[1];
-		if (d < box->r)
-			box->r = d;
+		if (d < box_view->r)
+			box_view->r = d;
 		d = -sqrt (z[0] *z[0] + z[2] * z[2]) / tg + z[1];
-		if (d < box->r)
-			box->r = d;
+		if (d < box_view->r)
+			box_view->r = d;
 		/* also calculate the reduction factor we need to make things fit in the bbox */
-		xmax = fabs (o[0]) / (1. - o[1] / box->r);
-		zmax = fabs (o[2]) / (1. - o[1] / box->r);
-		d = fabs (x[0]) / (1. - x[1] / box->r);
+		xmax = fabs (o[0]) / (1. - o[1] / box_view->r);
+		zmax = fabs (o[2]) / (1. - o[1] / box_view->r);
+		d = fabs (x[0]) / (1. - x[1] / box_view->r);
 		if (d > xmax)
 			xmax = d;
-		d = fabs (x[2]) / (1. - x[1] / box->r);
+		d = fabs (x[2]) / (1. - x[1] / box_view->r);
 		if (d > zmax)
 			zmax = d;
-		d = fabs (y[0]) / (1. - y[1] / box->r);
+		d = fabs (y[0]) / (1. - y[1] / box_view->r);
 		if (d > xmax)
 			xmax = d;
-		d = fabs (y[2]) / (1. - y[1] / box->r);
+		d = fabs (y[2]) / (1. - y[1] / box_view->r);
 		if (d > zmax)
 			zmax = d;
-		d = fabs (z[0]) / (1. - z[1] / box->r);
+		d = fabs (z[0]) / (1. - z[1] / box_view->r);
 		if (d > xmax)
 			xmax = d;
-		d = fabs (z[2]) / (1. - z[1] / box->r);
+		d = fabs (z[2]) / (1. - z[1] / box_view->r);
 		if (d > zmax)
 			zmax = d;
 	} else {
@@ -1268,7 +1270,7 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	/* use d and tg as x and z ratios, respectively */
 	d = xmax / tmp.w;
 	tg = zmax / tmp.h;
-	box->ratio = (d > tg)? d: tg;
+	box_view->ratio = (d > tg)? d: tg;
 
 	gog_view_padding_request (view, bbox, &padding);
 
@@ -1287,7 +1289,7 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	/* Recalculating ratio */
 	d = xmax / bbox->w;
 	tg = zmax / bbox->h;
-	box->ratio = (d > tg)? d: tg;
+	box_view->ratio = (d > tg)? d: tg;
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;

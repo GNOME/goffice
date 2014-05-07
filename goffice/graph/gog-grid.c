@@ -192,7 +192,7 @@ gog_grid_view_xyz_render (GogGrid *grid, GogView *view,
 	axes  = gog_chart_get_axes (chart, GOG_AXIS_Z);
 	zaxis = GOG_AXIS (axes->data);
 	g_slist_free (axes);
-	c_map = gog_chart_map_3d_new (chart, plot_area,
+	c_map = gog_chart_map_3d_new (view, plot_area,
 		xaxis, yaxis, zaxis);
 
 	a_map = gog_chart_map_3d_get_axis_map (c_map, 0);

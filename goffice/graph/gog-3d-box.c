@@ -312,6 +312,7 @@ gog_3d_box_class_init (Gog3DBoxClass *klass)
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_3d_box_populate_editor;
 #endif
+	gog_klass->view_type = gog_3d_box_view_get_type ();
 }
 
 static void
@@ -324,6 +325,14 @@ gog_3d_box_init (Gog3DBox *box)
 	go_matrix3x3_from_euler (&box->mat, box->psi, box->theta, box->phi);
 }
 
+typedef GogViewClass Gog3DBoxViewClass;
+
 GSF_CLASS (Gog3DBox, gog_3d_box,
 	   gog_3d_box_class_init, gog_3d_box_init,
 	   GOG_TYPE_OBJECT)
+
+/* Gog3DViewClass*/
+
+GSF_CLASS (Gog3DBoxView, gog_3d_box_view,
+	   NULL, NULL,
+	   GOG_TYPE_VIEW)

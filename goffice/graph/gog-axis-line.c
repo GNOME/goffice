@@ -1838,7 +1838,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Z);
 		axis2 = GOG_AXIS (axes->data);
 		g_slist_free (axes);
-		c_map = gog_chart_map_3d_new (axis_base->chart, plot_area,
+		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis_base->axis, axis1, axis2);
 	} else if (axis_type == GOG_AXIS_Y) {
 		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Z);
@@ -1847,7 +1847,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_X);
 		axis2 = GOG_AXIS (axes->data);
 		g_slist_free (axes);
-		c_map = gog_chart_map_3d_new (axis_base->chart, plot_area,
+		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis2, axis_base->axis, axis1);
 	} else {
 		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_X);
@@ -1856,7 +1856,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Y);
 		axis2 = GOG_AXIS (axes->data);
 		g_slist_free (axes);
-		c_map = gog_chart_map_3d_new (axis_base->chart, plot_area,
+		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis1, axis2, axis_base->axis);
 	}
 
