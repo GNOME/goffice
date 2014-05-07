@@ -2,6 +2,7 @@ goffice 0.10.16:
 
 Jean
 	* Don't use GDK_THREADS_*. [728793]
+	* Fixed Gog3DBox properties editor.
 
 Morten:
 	* Clean out old #ifdef mess.

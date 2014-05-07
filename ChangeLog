@@ -1,3 +1,8 @@
+2014-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-3d-box.c (cb_g3d_update),
+	(gog_3d_box_populate_editor): fixed criticals.
+
 2014-05-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-graph-widget.c (idle_handler): don't use GDK_THREADS_*.

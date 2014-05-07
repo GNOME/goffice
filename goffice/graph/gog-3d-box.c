@@ -45,7 +45,7 @@ enum {
 #ifdef GOFFICE_WITH_GTK
 
 static gboolean
-cb_g3d_update (GO3DRotationSel *g3d, GdkEventExpose *event, GObject *gobj)
+cb_g3d_update (GO3DRotationSel *g3d, GObject *gobj)
 {
 	Gog3DBox *box = GOG_3D_BOX (gobj);
 	go_3d_rotation_sel_set_matrix (g3d, &box->mat);
@@ -170,12 +170,12 @@ gog_3d_box_populate_editor (GogObject *gobj,
 		return;
 
 	g_object_connect (G_OBJECT (g3d),
-		"signal::expose-event",   G_CALLBACK (cb_g3d_update), gobj,
+		"signal::realize",   G_CALLBACK (cb_g3d_update), gobj, /* why do we need that? */
 		"signal::matrix-changed", G_CALLBACK (cb_matrix_changed), gobj,
 		"signal::fov-changed",    G_CALLBACK (cb_fov_changed), gobj,
 		NULL);
 
-	w = go_gtk_builder_get_widget (gui, "psi_scale");
+	w = go_gtk_builder_get_widget (gui, "psi-scale");
 	gtk_range_set_value (GTK_RANGE (w), box->psi * 180 / M_PI);
 	g_object_connect (G_OBJECT (w),
 		"signal::button-release-event", G_CALLBACK (cb_box_psi_changed), gobj,
@@ -186,7 +186,7 @@ gog_3d_box_populate_editor (GogObject *gobj,
 	                  G_CALLBACK (cb_g3d_change_psi),
 	                  GTK_RANGE (w));
 
-	w = go_gtk_builder_get_widget (gui, "theta_scale");
+	w = go_gtk_builder_get_widget (gui, "theta-scale");
 	gtk_range_set_value (GTK_RANGE (w), box->theta * 180 / M_PI);
 	g_object_connect (G_OBJECT (w),
 		"signal::button-release-event", G_CALLBACK (cb_box_theta_changed), gobj,
@@ -197,7 +197,7 @@ gog_3d_box_populate_editor (GogObject *gobj,
 	                  G_CALLBACK (cb_g3d_change_theta),
 	                  GTK_RANGE (w));
 
-	w = go_gtk_builder_get_widget (gui, "phi_scale");
+	w = go_gtk_builder_get_widget (gui, "phi-scale");
 	gtk_range_set_value (GTK_RANGE (w), box->phi * 180 / M_PI);
 	g_object_connect (G_OBJECT (w),
 		"signal::button-release-event", G_CALLBACK (cb_box_phi_changed), gobj,
@@ -208,7 +208,7 @@ gog_3d_box_populate_editor (GogObject *gobj,
 	                  G_CALLBACK (cb_g3d_change_phi),
 	                  GTK_RANGE (w));
 
-	w = go_gtk_builder_get_widget (gui, "gog_3d_box_prefs");
+	w = go_gtk_builder_get_widget (gui, "gog-3d-box-prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", gui, (GDestroyNotify) g_object_unref);
 
