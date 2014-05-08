@@ -8,6 +8,7 @@ Jean
 
 Morten:
 	* Clean out old #ifdef mess.
+	* Improve axis value computation.
 
 --------------------------------------------------------------------------
 goffice 0.10.15:

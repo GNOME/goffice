@@ -773,12 +773,40 @@ map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bo
 		bound[GOG_AXIS_ELEM_MAX] = 0;
 }
 
+static double
+scale_step (double step, double *scale)
+{
+	double f, r, l10;
+
+	if (step <= 0 || !go_finite (step)) {
+		*scale = 1;
+		return step;
+	}
+
+	r = go_fake_floor (step);
+	f = step - r;
+	if (f <= step * 1e-10) {
+		*scale = 1;
+		return r;
+	}
+
+	l10 = floor (log10 (f));
+	*scale = pow (10, -l10 + 1);
+	step *= *scale;
+
+	r = go_fake_floor (step);
+	if (fabs (r - step) < 1e-10)
+		step = r;
+
+	return step;
+}
+
 static void
 map_linear_calc_ticks (GogAxis *axis)
 {
 	GogAxisTick *ticks;
 	double maximum, minimum, start_i, range;
-	double maj_step, min_step;
+	double maj_step, min_step, step_scale;
 	int t, N;
 	int maj_i, maj_N; /* Ticks for -1,....,maj_N     */
 	int min_i, min_N; /* Ticks for 1,....,(min_N-1) */
@@ -788,6 +816,7 @@ map_linear_calc_ticks (GogAxis *axis)
 		return;
 	}
 	range = maximum - minimum;
+
 
 	maj_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
 	if (maj_step <= 0.) maj_step = range;
@@ -844,6 +873,13 @@ map_linear_calc_ticks (GogAxis *axis)
 	N = (maj_N + 2) * min_N;
 	ticks = g_new0 (GogAxisTick, N);
 
+	/*
+	 * maj_step might be something like 1.1 which is inexact.
+	 * Turn this into 110/100 so calculations can use integers
+	 * as long as possible.
+	 */
+	maj_step = scale_step (maj_step, &step_scale);
+
 	t = 0;
 	for (maj_i = -1; maj_i <= maj_N; maj_i++) {
 		/*
@@ -852,7 +888,7 @@ map_linear_calc_ticks (GogAxis *axis)
 		 * integer, so we will get precisely zero when we need
 		 * to.
 		 */
-		double maj_pos = (start_i + maj_i) * maj_step;
+		double maj_pos = (start_i + maj_i) * maj_step / step_scale;
 
 		if (maj_i >= 0) {
 			g_assert (t < N);

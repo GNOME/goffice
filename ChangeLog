@@ -1,3 +1,8 @@
+2014-05-08  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Keep values as
+	integers as long as possible.
+
 2014-05-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-line.c: restore dashes with dots.
