@@ -107,12 +107,12 @@ typedef struct {
 	double 		 dash[8];
 } GOLineDashDesc;
 
-static GOLineDashDesc const line_short_dot_desc = 		{2, 10,	{ 0, 2 } };
+static GOLineDashDesc const line_short_dot_desc = 		{2, 10,	{ 1e-10, 2 } };
 static GOLineDashDesc const line_dot_desc = 			{2, 12,	{ 3, 3 } };
 static GOLineDashDesc const line_short_dash_desc =		{2, 9,	{ 6, 3 } };
-static GOLineDashDesc const line_short_dash_dot_desc =		{4, 12,	{ 6, 3, 0, 3 } };
-static GOLineDashDesc const line_short_dash_dot_dot_desc =    	{6, 15,	{ 6, 3, 0, 3, 0, 3 } };
-static GOLineDashDesc const line_dash_dot_dot_dot_desc =    	{8, 21,	{ 9, 3, 0, 3, 0, 3, 0, 3 } };
+static GOLineDashDesc const line_short_dash_dot_desc =		{4, 12,	{ 6, 3, 1e-10, 3 } };
+static GOLineDashDesc const line_short_dash_dot_dot_desc =    	{6, 15,	{ 6, 3, 1e-10, 3, 1e-10, 3 } };
+static GOLineDashDesc const line_dash_dot_dot_dot_desc =    	{8, 21,	{ 9, 3, 1e-10, 3, 1e-10, 3, 1e-10, 3 } };
 static GOLineDashDesc const line_dash_dot_desc =		{4, 24,	{ 9, 6, 3, 6 } };
 static GOLineDashDesc const line_dash_dot_dot_desc =    	{6, 24,	{ 9, 3, 3, 3, 3, 3 } };
 static GOLineDashDesc const line_dash_desc =			{2, 16,	{ 12, 4 } };

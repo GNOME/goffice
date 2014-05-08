@@ -1,3 +1,7 @@
+2014-05-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-line.c: restore dashes with dots.
+
 2014-05-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-3d-box.c (gog_3d_box_class_init): add a view class for

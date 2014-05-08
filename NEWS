@@ -4,6 +4,7 @@ Jean
 	* Don't use GDK_THREADS_*. [728793]
 	* Fixed Gog3DBox properties editor.
 	* Add a view class to Gog3DBox to support data that are view dependent.
+	* Restore dashes with dots in charts lines.
 
 Morten:
 	* Clean out old #ifdef mess.
