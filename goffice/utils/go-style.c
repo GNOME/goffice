@@ -1265,15 +1265,22 @@ go_style_apply_theme (GOStyle *dst, GOStyle const *src, GOStyleFlag fields)
 	if ((fields & GO_STYLE_TEXT_LAYOUT) && dst->text_layout.auto_angle)
 		dst->text_layout.angle = src->text_layout.angle;
 
+	if (fields & GO_STYLE_FONT) {
+		if (dst->font.auto_color)
+			dst->font.color = src->font.color;
+
 #if 0
-	/* Fonts are not themed until we have some sort of auto mechanism
-	 * stronger than 'auto_size' */
-	if (src->font.font != NULL)
-		go_font_ref (src->font.font);
-	if (dst->font.font != NULL)
-		go_font_unref (dst->font.font);
-	dst->font = src->font;
+		/*
+		 * Fonts are not themed until we have some sort of auto
+		 * mechanism stronger than 'auto_size'
+		 */
+		if (src->font.font != NULL)
+			go_font_ref (src->font.font);
+		if (dst->font.font != NULL)
+			go_font_unref (dst->font.font);
+		dst->font = src->font;
 #endif
+	}
 }
 
 static void
@@ -1516,12 +1523,21 @@ static void
 go_style_font_sax_save (GsfXMLOut *output, GOStyle const *style)
 {
 	char *str;
+
 	gsf_xml_out_start_element (output, "font");
-	go_xml_out_add_color (output, "color", style->font.color);
+
+	gsf_xml_out_add_bool (output, "auto-color", style->font.auto_color);
+	if (!style->font.auto_color)
+		go_xml_out_add_color (output, "color", style->font.color);
+
+	gsf_xml_out_add_bool (output, "auto-font", style->font.auto_font);
+	/* Unconditionally save font; theme support for fonts is incomplete */
 	str = go_font_as_str (style->font.font);
 	gsf_xml_out_add_cstr (output, "font", str);
 	g_free (str);
+
 	gsf_xml_out_add_bool (output, "auto-scale", style->font.auto_scale);
+
 	gsf_xml_out_end_element (output);
 }
 
@@ -1676,10 +1692,15 @@ static void
 go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GOStyle *style = GO_STYLE (xin->user_state);
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "color"))
+	gboolean seen_auto_color = FALSE, seen_color = FALSE;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (0 == strcmp (attrs[0], "color")) {
+			seen_color = TRUE;
 			go_color_from_str (attrs[1], &style->font.color);
-		else if (0 == strcmp (attrs[0], "font")) {
+		} else if (bool_sax_prop ("auto-color", attrs[0], attrs[1], &style->font.auto_color)) {
+			seen_auto_color = TRUE;
+		} else if (0 == strcmp (attrs[0], "font")) {
 			PangoFontDescription *desc = pango_font_description_from_string (attrs[1]);
 			if (desc != NULL) {
 				if (pango_font_description_get_family (desc) == NULL)
@@ -1688,7 +1709,17 @@ go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		} else if (bool_sax_prop ("auto-scale", attrs[0], attrs[1], &style->font.auto_scale))
 			;
+	}
+
+	if (seen_color && !seen_auto_color) {
+		/*
+		 * Pre-0.10.16 lacked the auto-color attribute.  Let's just
+		 * assume it was explicitly set iff it is black.
+		 */
+		style->font.auto_color = (style->font.color == GO_COLOR_BLACK);
+	}
 }
+
 static void
 go_style_sax_load_text_layout (GsfXMLIn *xin, xmlChar const **attrs)
 {

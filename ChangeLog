@@ -4,6 +4,10 @@
 	auto-width.
 	(go_style_line_sax_save): Save auto_width.  Don't save width when
 	auto_width.
+	(go_style_apply_theme): Apply font color.
+	(go_style_font_sax_save): Save auto_color and auto_font (but see
+	comments).
+	(go_style_sax_load_font): Read auto-color.
 
 	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Keep values as
 	integers as long as possible.
