@@ -1408,7 +1408,9 @@ go_style_line_sax_save (GsfXMLOut *output, char const *name,
 		gsf_xml_out_add_cstr_unchecked (output, "dash",
 						go_line_dash_as_str (line->dash_type));
 
-	gsf_xml_out_add_float (output, "width", line->width, 6);
+	gsf_xml_out_add_bool (output, "auto-width", line->auto_width);
+	if (!line->auto_width)
+		gsf_xml_out_add_float (output, "width", line->width, 6);
 
 	gsf_xml_out_add_bool (output, "auto-color", line->auto_color);
 	if (!line->auto_color)
@@ -1537,13 +1539,15 @@ go_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GOStyle *style = GO_STYLE (xin->user_state);
 	GOStyleLine *line = &style->line;
+	gboolean seen_auto_width = FALSE, seen_width = FALSE;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "dash"))
 			line->dash_type = go_line_dash_from_str (attrs[1]);
 		else if (bool_sax_prop ("auto-dash", attrs[0], attrs[1], &line->auto_dash))
 			;
 		else if (0 == strcmp (attrs[0], "width")) {
+			seen_width = TRUE;
 			line->width = g_strtod (attrs[1], NULL);
 			/* For compatibility with older graphs, when dash_type
 			 * didn't exist */
@@ -1551,10 +1555,22 @@ go_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 				line->width = 0.;
 				line->dash_type = GO_LINE_NONE;
 			}
+		} else if (bool_sax_prop ("auto-width", attrs[0], attrs[1], &line->auto_width)) {
+			/* auto-width was introduced in 0.10.16 */
+			seen_auto_width = TRUE;
 		} else if (0 == strcmp (attrs[0], "color"))
 			go_color_from_str (attrs[1], &line->color);
 		else if (bool_sax_prop ("auto-color", attrs[0], attrs[1], &line->auto_color))
 			;
+	}
+
+	if (seen_width && !seen_auto_width) {
+		/*
+		 * Pre-0.10.16 lacked the auto-width attribute.  Let's just
+		 * assume the width was explicitly set iff it is non-zero.
+		 */
+		line->auto_width = (line->width == 0);
+	}
 }
 
 static void

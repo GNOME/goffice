@@ -1,5 +1,10 @@
 2014-05-08  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-style.c (go_style_sax_load_line): Read
+	auto-width.
+	(go_style_line_sax_save): Save auto_width.  Don't save width when
+	auto_width.
+
 	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Keep values as
 	integers as long as possible.
 
