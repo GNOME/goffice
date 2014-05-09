@@ -1714,7 +1714,7 @@ go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 	if (seen_color && !seen_auto_color) {
 		/*
 		 * Pre-0.10.16 lacked the auto-color attribute.  Let's just
-		 * assume it was explicitly set iff it is black.
+		 * assume it was explicitly set iff it is not black.
 		 */
 		style->font.auto_color = (style->font.color == GO_COLOR_BLACK);
 	}
