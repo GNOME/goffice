@@ -9,6 +9,7 @@ Jean
 Morten:
 	* Clean out old #ifdef mess.
 	* Improve axis value computation.
+	* Improve xml import/export of GOStyle.
 
 --------------------------------------------------------------------------
 goffice 0.10.15:
