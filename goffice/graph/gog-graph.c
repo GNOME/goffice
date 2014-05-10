@@ -1037,7 +1037,9 @@ gog_graph_view_render  (GogView *view, GogViewAllocation const *bbox)
 		gog_view_render	(ptr->data, bbox);
 	}
 
-	if (gview->selected_view != NULL)
+	if (gview->selected_view != NULL &&
+	    GOG_IS_STYLED_OBJECT (gview->selected_view->model) &&
+	    !gview->selected_view->model->invisible)
 		gog_view_render_toolkit (gview->selected_view);
 }
 
