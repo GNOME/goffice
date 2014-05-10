@@ -1,3 +1,7 @@
+2014-05-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-style.c (go_style_get_marker): Constify.
+
 2014-05-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-graph.c (gog_graph_view_render): don't crash when

@@ -1980,7 +1980,7 @@ go_style_set_marker (GOStyle *style, GOMarker *marker)
  * Returns: (transfer none): the style #GOMarker.
  **/
 GOMarker const *
-go_style_get_marker (GOStyle *style)
+go_style_get_marker (GOStyle const *style)
 {
 	g_return_val_if_fail (GO_IS_STYLE (style), NULL);
 
