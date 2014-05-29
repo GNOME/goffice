@@ -271,6 +271,7 @@ libgoffice_shutdown (void)
 	_go_string_shutdown ();
 	_go_locale_shutdown ();
 	_go_rsm_shutdown ();
+	_go_unit_shutdown ();
 #ifdef G_OS_WIN32
 	/* const_cast, we created these above */
 	g_free ((char *)libgoffice_data_dir);

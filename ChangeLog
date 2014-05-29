@@ -1,3 +1,14 @@
+2014-05-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: new GoUnit objects.
+	* goffice/goffice.c (libgoffice_shutdown): ditto.
+	* goffice/graph/gog-axis.c: Add control for 3D plots axes lengths. [#694746]
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-chart.c (gog_chart_view_3d_process): ditto.
+	* goffice/utils/goffice-utils.h: new GoUnit objects.
+	* goffice/utils/go-unit.c: ditto.
+	* goffice/utils/go-unit.h: ditto.
+
 2014-05-23  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

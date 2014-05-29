@@ -395,6 +395,7 @@ utils_SOURCES =					\
 	utils/go-rsm.c				\
 	utils/go-string.c			\
 	utils/go-undo.c				\
+	utils/go-unit.c				\
 	utils/datetime.c			\
 	utils/formats.c				\
 	utils/go-format.c			\
@@ -429,6 +430,7 @@ utils_HEADERS =					\
 	utils/go-mml-to-itex.h		\
 	utils/go-path.h				\
 	utils/go-pattern.h			\
+	utils/go-unit.h				\
 	utils/go-units.h			\
 	utils/go-geometry.h			\
 	utils/go-string.h			\

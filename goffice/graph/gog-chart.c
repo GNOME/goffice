@@ -1141,7 +1141,7 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	/* A XYZ axis set in supposed. If new sets (cylindrical, spherical or
 	other are added, we'll need to change this code */
 	GogViewAllocation tmp = *bbox;
-	GogAxis *axisX, *axisY, *axisZ;
+	GogAxis *axisX, *axisY, *axisZ, *ref = NULL;
 	GSList *axes;
 	double xmin, xmax, ymin, ymax, zmin, zmax;
 	double o[3], x[3], y[3], z[3], tg, d;
@@ -1152,6 +1152,7 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	GSList *ptr;
 	GogView *child;
 	GogViewPadding padding;
+	GogAxisMetrics xm, ym, zm;
 
 	if (!obj) {
 		obj = g_object_new (GOG_3D_BOX_TYPE, NULL);
@@ -1163,25 +1164,105 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	/* Only use the first of the axes. */
 	axes = gog_chart_get_axes (chart, GOG_AXIS_X);
 	axisX = GOG_AXIS (axes->data);
+	xm = gog_axis_get_metrics (axisX);
+	if (xm != GOG_AXIS_METRICS_DEFAULT)
+		ref = gog_axis_get_ref_axis (axisX);
 	g_slist_free (axes);
 	gog_axis_get_bounds (axisX, &xmin, &xmax);
 	axes = gog_chart_get_axes (chart, GOG_AXIS_Y);
 	axisY = GOG_AXIS (axes->data);
+	ym = gog_axis_get_metrics (axisY);
+	if (ym != GOG_AXIS_METRICS_DEFAULT && ref == NULL)
+		ref = gog_axis_get_ref_axis (axisY);
 	g_slist_free (axes);
 	gog_axis_get_bounds (axisY, &ymin, &ymax);
 	axes = gog_chart_get_axes (chart, GOG_AXIS_Z);
 	axisZ = GOG_AXIS (axes->data);
+	zm = gog_axis_get_metrics (axisZ);
+	if (zm != GOG_AXIS_METRICS_DEFAULT && ref == NULL)
+		ref = gog_axis_get_ref_axis (axisZ);
 	g_slist_free (axes);
 	gog_axis_get_bounds (axisZ, &zmin, &zmax);
 	/* define the 3d box */
-	/* FIXME: take axes into account */
-	box_view->dz = tmp.h;
-	if (ymax - ymin > xmax - xmin) {
-		box_view->dy = tmp.w;
-		box_view->dx = (xmax - xmin) / (ymax - ymin) * tmp.w;
+	if (ref == NULL) {
+		box_view->dz = tmp.h;
+		if (ymax - ymin > xmax - xmin) {
+			box_view->dy = tmp.w;
+			box_view->dx = (xmax - xmin) / (ymax - ymin) * tmp.w;
+		} else {
+			box_view->dx = tmp.w;
+			box_view->dy = (ymax - ymin) / (xmax - xmin) * tmp.w;
+		}
 	} else {
-		box_view->dx = tmp.w;
-		box_view->dy = (ymax - ymin) / (xmax - xmin) * tmp.w;
+		double ref_length, ref_tick_dist, xspan, yspan, zspan;
+		gog_axis_get_bounds (ref, &ref_length, &xspan);
+		ref_length -= xspan;
+		ref_tick_dist = gog_axis_get_major_ticks_distance (ref);
+		xspan = xmax - xmin;
+		if (xm == GOG_AXIS_METRICS_RELATIVE_TICKS) {
+			double ratio, tick_dist = gog_axis_get_major_ticks_distance (axisX);
+			g_object_get (axisX, "metrics-ratio", &ratio, NULL);
+			xspan = (xmax - xmin) / tick_dist * ref_tick_dist * ratio;
+		}
+		yspan = ymax - ymin;
+		if (ym == GOG_AXIS_METRICS_RELATIVE_TICKS) {
+			double ratio, tick_dist = gog_axis_get_major_ticks_distance (axisY);
+			g_object_get (axisY, "metrics-ratio", &ratio, NULL);
+			yspan = (ymax - ymin) / tick_dist * ref_tick_dist * ratio;
+		}
+		zspan = zmax - zmin;
+		if (zm == GOG_AXIS_METRICS_RELATIVE_TICKS) {
+			double ratio, tick_dist = gog_axis_get_major_ticks_distance (axisZ);
+			g_object_get (axisZ, "metrics-ratio", &ratio, NULL);
+			zspan = (zmax - zmin) / tick_dist * ref_tick_dist * ratio;
+		}
+		if (ref == axisZ) {
+			gboolean xrel = FALSE;
+			box_view->dz = tmp.h;
+			switch (xm) {
+			case GOG_AXIS_METRICS_RELATIVE:
+			case GOG_AXIS_METRICS_RELATIVE_TICKS:
+				box_view->dx = xspan / zspan * tmp.h;
+				if (box_view->dx > tmp.w) {
+					box_view->dz *= tmp.w / box_view->dx;
+					box_view->dx = tmp.w;
+				}
+					xrel = TRUE;
+				break;
+			default:
+				box_view->dx = tmp.w;
+				break;
+			}
+			switch (ym) {
+			case GOG_AXIS_METRICS_RELATIVE:
+			case GOG_AXIS_METRICS_RELATIVE_TICKS:
+				box_view->dy = yspan / zspan * box_view->dz;
+				if (box_view->dy > tmp.w) {
+					box_view->dz *= tmp.w / box_view->dy;
+					if (xrel)
+						box_view->dx *= tmp.w / box_view->dy;
+					box_view->dy = tmp.w;
+				}
+				break;
+			default:
+				box_view->dy = tmp.w;
+				break;
+			}
+		} else {
+			if (yspan > xspan) {
+				box_view->dy = tmp.w;
+				box_view->dx = xspan / yspan * tmp.w;
+			} else {
+				box_view->dx = tmp.w;
+				box_view->dy = yspan / xspan * tmp.w;
+			}
+			if (zm == GOG_AXIS_METRICS_DEFAULT)
+				box_view->dz = tmp.h;
+			else
+				box_view->dz = (ref == axisX)?
+								zspan / xspan * box_view->dx:
+								zspan / yspan * box_view->dy;
+		}
 	}
 
 	/* now compute the position of each vertex, ignoring the fov */

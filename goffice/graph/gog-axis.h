@@ -42,6 +42,15 @@ typedef enum {
 	GOG_AXIS_ELEM_MAX_ENTRY
 } GogAxisElemType;
 
+typedef enum {
+	GOG_AXIS_METRICS_INVALID = -1,
+	GOG_AXIS_METRICS_DEFAULT,
+	GOG_AXIS_METRICS_ABSOLUTE,
+	GOG_AXIS_METRICS_RELATIVE,
+	GOG_AXIS_METRICS_RELATIVE_TICKS,
+	GOG_AXIS_METRICS_MAX
+} GogAxisMetrics;
+
 typedef struct {
 	double		 position;
 	GogAxisTickTypes type;
@@ -111,7 +120,9 @@ double 			gog_axis_get_polar_perimeter 	(GogAxis *axis);
 double 			gog_axis_get_circular_rotation 	(GogAxis *axis);
 GogAxisColorMap const *gog_axis_get_color_map	(GogAxis *axis);
 GogColorScale *gog_axis_get_color_scale (GogAxis *axis);
-
+GogAxisMetrics gog_axis_get_metrics (GogAxis const *axis);
+GogAxis	      *gog_axis_get_ref_axis (GogAxis const *axis);
+double		   gog_axis_get_major_ticks_distance (GogAxis const *axis);
 /* private */
 void _gog_axis_set_color_scale (GogAxis *axis, GogColorScale *scale);
 

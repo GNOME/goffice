@@ -173,6 +173,7 @@ G_END_DECLS
 #include <goffice/utils/go-styled-object.h>
 #include <goffice/utils/go-style.h>
 #include <goffice/utils/go-undo.h>
+#include <goffice/utils/go-unit.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/regutf8.h>
 

@@ -93,6 +93,46 @@ static struct {
 
 typedef struct _GogAxisMapDesc GogAxisMapDesc;
 
+static struct {
+	GogAxisMetrics metrics;
+	const char 	*name;
+} metrics_desc[GOG_AXIS_METRICS_MAX] = {
+	{ GOG_AXIS_METRICS_DEFAULT, "default"},
+	{ GOG_AXIS_METRICS_ABSOLUTE, "absolute"},
+	{ GOG_AXIS_METRICS_RELATIVE, "relative"},
+	{ GOG_AXIS_METRICS_RELATIVE_TICKS, "relative-ticks-distance"}
+};
+
+static GogAxisMetrics
+gog_axis_metrics_from_str (char const *name)
+{
+	unsigned i;
+	GogAxisMetrics ret = GOG_AXIS_METRICS_DEFAULT;
+
+	for (i = 0; i < GO_LINE_MAX; i++) {
+		if (strcmp (metrics_desc[i].name, name) == 0) {
+			ret = metrics_desc[i].metrics;
+			break;
+		}
+	}
+	return ret;
+}
+
+static char const *
+gog_axis_metrics_as_str (GogAxisMetrics metrics)
+{
+	unsigned i;
+	char const *ret = "default";
+
+	for (i = 0; i < GO_LINE_MAX; i++) {
+		if (metrics_desc[i].metrics == metrics) {
+			ret = metrics_desc[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
 struct _GogAxis {
 	GogAxisBase	 base;
 
@@ -126,6 +166,11 @@ struct _GogAxis {
 	GogAxisColorMap const *color_map;		/* color map for color and pseudo-3d axis */
 	gboolean auto_color_map;
 	GogColorScale *color_scale;
+	GogAxisMetrics metrics;
+	GogAxis *ref_axis;
+	GSList *refering_axes;
+	double metrics_ratio;
+	GoUnitId unit;
 };
 
 /*****************************************************************************/
@@ -2093,7 +2138,11 @@ enum {
 	AXIS_PROP_POLAR_UNIT,
 	AXIS_PROP_SPAN_START,
 	AXIS_PROP_SPAN_END,
-	AXIS_PROP_COLOR_MAP
+	AXIS_PROP_COLOR_MAP,
+	AXIS_PROP_METRICS,
+	AXIS_PROP_REF_AXIS,
+	AXIS_PROP_METRICS_RATIO,
+	AXIS_PROP_METRICS_UNIT
 };
 
 /*****************************************************************************/
@@ -2255,6 +2304,44 @@ gog_axis_sax_save (GOPersist const *gp, GsfXMLOut *output)
 	                      GO_PERSIST (axis->color_map));
 }
 
+struct axis_ref_struct {
+	GogAxis *axis;
+	char *ref;
+};
+
+static gboolean
+axis_ref_load_cb (struct axis_ref_struct *s)
+{
+	GogObject *parent = gog_object_get_parent ((GogObject *) s->axis);
+	GogAxis *axis;
+	GSList *ptr, *l;
+	l = gog_object_get_children (parent, NULL);
+	s->axis->ref_axis = NULL;
+	if (s->axis->refering_axes != NULL) {
+		s->axis->metrics = GOG_AXIS_METRICS_DEFAULT;
+		s->axis->metrics_ratio = 1.;
+		s->axis->unit = GO_UNIT_CENTIMETER;
+		goto clean;
+	}
+	for (ptr = l; (ptr != NULL) && (s->axis->ref_axis == NULL); ptr = ptr->next) {
+		if (!GOG_IS_AXIS (ptr->data))
+			continue;
+		axis = ptr->data;
+		if (axis->metrics > GOG_AXIS_METRICS_ABSOLUTE || axis == s->axis)
+			continue;
+		if (!strcmp (gog_object_get_name (ptr->data), s->ref)) {
+			s->axis->ref_axis = axis;
+			axis->refering_axes = g_slist_prepend (axis->refering_axes, s->axis);
+		}
+	}
+	g_slist_free (l);
+clean:
+	gog_object_request_update ((GogObject *) s->axis);
+	g_free (s->ref);
+	g_free (s);
+	return FALSE;
+}
+
 static void
 gog_axis_set_property (GObject *obj, guint param_id,
 		       GValue const *value, GParamSpec *pspec)
@@ -2337,6 +2424,30 @@ gog_axis_set_property (GObject *obj, guint param_id,
 		}
 		break;
 	}
+	case AXIS_PROP_METRICS:
+		axis->metrics = gog_axis_metrics_from_str (g_value_get_string (value));
+		break;
+	case AXIS_PROP_REF_AXIS: {
+		char const *str = g_value_get_string (value);
+		if ((axis->ref_axis == NULL && !strcmp (str, "none")) ||
+		    (axis->ref_axis && !strcmp (gog_object_get_name (GOG_OBJECT (axis->ref_axis)), str)))
+			return;
+		if (strcmp (str, "none")) {
+			struct axis_ref_struct *s = g_new (struct axis_ref_struct, 1);
+			s->ref = g_strdup (str);
+			s->axis = axis;
+			g_idle_add ((GSourceFunc) axis_ref_load_cb, s);
+			return;
+		}
+		axis->ref_axis = NULL;
+		break;
+	}
+	case AXIS_PROP_METRICS_RATIO:
+		axis->metrics_ratio = g_value_get_double (value);
+		break;
+	case AXIS_PROP_METRICS_UNIT:
+		axis->unit = (strcmp (g_value_get_string (value), "in"))? GO_UNIT_CENTIMETER: GO_UNIT_INCH;
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -2388,6 +2499,21 @@ gog_axis_get_property (GObject *obj, guint param_id,
 		break;
 	case AXIS_PROP_COLOR_MAP:
 		g_value_set_string (value, (axis->auto_color_map)? "default": gog_axis_color_map_get_id (axis->color_map));
+		break;
+	case AXIS_PROP_METRICS:
+		g_value_set_string (value, gog_axis_metrics_as_str (axis->metrics));
+		break;
+	case AXIS_PROP_REF_AXIS:
+		if (axis->ref_axis == NULL || axis->metrics < GOG_AXIS_METRICS_RELATIVE)
+			g_value_set_string (value, "none");
+		else
+			g_value_set_string (value, gog_object_get_name ((GogObject *) axis->ref_axis));
+		break;
+	case AXIS_PROP_METRICS_RATIO:
+		g_value_set_double (value, axis->metrics_ratio);
+		break;
+	case AXIS_PROP_METRICS_UNIT:
+		g_value_set_string (value, (axis->unit == GO_UNIT_INCH)? "in": "cm");
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -2830,6 +2956,101 @@ add_color_map_cb (GogAxisColorMap const *map, struct ColorMapState *state)
 		gtk_combo_box_set_active_iter (state->combo, &iter);
 }
 
+struct MetricsState {
+	GogAxis *axis;
+	GtkWidget *axes, *label, *ratio, *unit;
+};
+
+static void
+metrics_ratio_changed_cb (GtkSpinButton *btn, struct MetricsState *state)
+{
+	state->axis->metrics_ratio = gtk_spin_button_get_value (btn);
+	gog_object_request_update ((GogObject *) state->axis);
+}
+
+static void
+metrics_unit_changed_cb (GtkComboBox *box, struct MetricsState *state)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model = gtk_combo_box_get_model (box);
+	gtk_combo_box_get_active_iter (box, &iter);
+	gtk_tree_model_get (model, &iter, 1, &state->axis->unit, -1);
+	gog_object_request_update ((GogObject *) state->axis);
+}
+
+static void
+metrics_axis_changed_cb (GtkComboBox *box, struct MetricsState *state)
+{
+	GogAxis *ref_axis;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	if (state->axis->ref_axis != NULL)
+		state->axis->ref_axis->refering_axes = g_slist_remove (state->axis->ref_axis->refering_axes, state->axis);
+	model = gtk_combo_box_get_model (box);
+	gtk_combo_box_get_active_iter (box, &iter);
+	gtk_tree_model_get (model, &iter, 1, &ref_axis, -1);
+	ref_axis->refering_axes = g_slist_prepend (ref_axis->refering_axes, state->axis);
+	state->axis->ref_axis = ref_axis;
+	gog_object_request_update ((GogObject *) state->axis);
+}
+
+static void
+metrics_changed_cb (GtkComboBox *box, struct MetricsState *state)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	model = gtk_combo_box_get_model (box);
+	gtk_combo_box_get_active_iter (box, &iter);
+	gtk_tree_model_get (model, &iter, 1, &state->axis->metrics, -1);
+	switch (state->axis->metrics) {
+	case GOG_AXIS_METRICS_DEFAULT:
+		gtk_widget_hide (state->axes);
+		gtk_widget_hide (state->label);
+		gtk_widget_hide (state->ratio);
+		gtk_widget_hide (state->unit);
+		state->axis->ref_axis = NULL;
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->ratio), 1.);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (state->unit), 0);
+		break;
+	case GOG_AXIS_METRICS_ABSOLUTE:
+		gtk_widget_hide (state->axes);
+		state->axis->ref_axis = NULL;
+		gtk_label_set_text (GTK_LABEL (state->label), _("Distance:"));
+		gtk_widget_show (state->label);
+		gtk_widget_show (state->ratio);
+		gtk_widget_show (state->unit);
+		break;
+	case GOG_AXIS_METRICS_RELATIVE:
+		gtk_widget_show (state->axes);
+		gtk_label_set_text (GTK_LABEL (state->label), _("Ratio:"));
+		gtk_widget_show (state->label);
+		gtk_widget_show (state->ratio);
+		gtk_widget_hide (state->unit);
+		if (gtk_combo_box_get_active ((GtkComboBox *) state->axes) < 0)
+			gtk_combo_box_set_active ((GtkComboBox *) state->axes, 0);
+		else
+			metrics_axis_changed_cb (GTK_COMBO_BOX (state->axes), state);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (state->unit), 0);
+		break;
+	case GOG_AXIS_METRICS_RELATIVE_TICKS:
+		gtk_widget_show (state->axes);
+		gtk_label_set_text (GTK_LABEL (state->label), _("Ratio:"));
+		gtk_widget_show (state->label);
+		gtk_widget_show (state->ratio);
+		gtk_widget_hide (state->unit);
+		if (gtk_combo_box_get_active ((GtkComboBox *) state->axes) < 0)
+				gtk_combo_box_set_active ((GtkComboBox *) state->axes, 0);
+		else
+			metrics_axis_changed_cb ((GtkComboBox *) state->axes, state);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (state->unit), 0);
+		break;
+	default:
+		/* will never occur */
+		break;
+	}
+	gog_object_request_update ((GogObject *) state->axis);
+}
+
 static void
 gog_axis_populate_editor (GogObject *gobj,
 			  GOEditor *editor,
@@ -3014,6 +3235,117 @@ gog_axis_populate_editor (GogObject *gobj,
 		                    go_gtk_builder_get_widget (gui, "color-map-grid"),
 		                    _("Colors"));
 	}
+	/* Metrics */
+	if ((axis->type == GOG_AXIS_X || axis->type == GOG_AXIS_Y ||
+	    axis->type == GOG_AXIS_Z || axis->type == GOG_AXIS_RADIAL)
+	    && (gog_chart_is_3d (GOG_CHART (gog_object_get_parent ((GogObject *) axis)))
+	        && axis->refering_axes == NULL)) {
+		/* only 3d for now */
+		GogChart *parent = GOG_CHART (gog_object_get_parent ((GogObject *) axis));
+		GogAxis *axis_;
+		GtkGrid *grid;
+		GtkWidget *combo;
+		GSList *l, *ptr;
+		GtkListStore *store;
+		GtkCellRenderer *cell;
+		GtkTreeIter iter;
+		GtkAdjustment *adj;
+		GoUnit const *unit;
+		struct MetricsState *state = g_new (struct MetricsState, 1);
+		state->axis = axis;
+		w = gtk_grid_new ();
+		g_object_set (w, "border-width", 12, "column-spacing", 12, "row-spacing", 6, NULL);
+		gtk_widget_show (w);
+		grid = GTK_GRID (w);
+		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
+		combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+		cell = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
+						                "text", 0, NULL);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, _("Default"), 1, GOG_AXIS_METRICS_DEFAULT, -1);
+		if (axis->metrics == GOG_AXIS_METRICS_DEFAULT)
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
+		if (!gog_chart_is_3d ((GogChart *) parent)) {
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter, 0, _("Absolute"), 1, GOG_AXIS_METRICS_ABSOLUTE, -1);
+			if (axis->metrics == GOG_AXIS_METRICS_ABSOLUTE)
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
+		}
+		if (axis->refering_axes == NULL) {
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter, 0, _("Relative length"), 1, GOG_AXIS_METRICS_RELATIVE, -1);
+			if (axis->metrics == GOG_AXIS_METRICS_RELATIVE)
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter, 0, _("Relative ticks distance"), 1, GOG_AXIS_METRICS_RELATIVE_TICKS, -1);
+			if (axis->metrics == GOG_AXIS_METRICS_RELATIVE_TICKS)
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
+		}
+		gtk_grid_attach (grid, combo, 0, 0, 3, 1);
+		gtk_widget_show ((GtkWidget *) combo);
+		state->axes = gtk_combo_box_new ();
+		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+		gtk_combo_box_set_model (GTK_COMBO_BOX (state->axes), GTK_TREE_MODEL (store));
+		cell = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->axes), cell, TRUE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->axes), cell,
+						                "text", 0, NULL);
+		l = gog_object_get_children ((GogObject *) parent, NULL);
+		for (ptr = l; ptr != NULL; ptr = ptr->next) {
+			if (!GOG_IS_AXIS (ptr->data))
+				continue;
+			axis_ = ptr->data;
+			if (axis_->metrics > GOG_AXIS_METRICS_ABSOLUTE || axis_ == axis)
+				continue;
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter, 0, gog_object_get_name (ptr->data), 1, axis_, -1);
+			if (axis_ == axis->ref_axis)
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->axes), &iter);
+		}
+		/* now add a spin button for the metrix_ratio */
+		gtk_grid_attach (grid, state->axes, 0, 1, 3, 1);
+		g_signal_connect (state->axes, "changed", G_CALLBACK (metrics_axis_changed_cb), state);
+		if (axis->metrics > GOG_AXIS_METRICS_ABSOLUTE)
+			gtk_widget_show (state->axes);
+		state->label = gtk_label_new (NULL); /* the text will be set later */
+		gtk_grid_attach (grid, state->label, 0, 2, 1, 1);
+		g_signal_connect (combo, "changed", G_CALLBACK (metrics_changed_cb), state);
+		/* now add a spin button for the metrix_ratio */
+		adj = gtk_adjustment_new (1., 0.01, 100., .1, 1., 1.);
+		state->ratio = gtk_spin_button_new (adj, .1, 2);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->ratio), axis->metrics_ratio);
+		g_signal_connect (state->ratio, "value-changed", G_CALLBACK (metrics_ratio_changed_cb), state);
+		gtk_grid_attach (grid, state->ratio, 1, 2, 1, 1);
+		state->unit = gtk_combo_box_new ();
+		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+		gtk_combo_box_set_model (GTK_COMBO_BOX (state->unit), GTK_TREE_MODEL (store));
+		cell = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->unit), cell, TRUE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->unit), cell,
+						                "text", 0, NULL);
+		unit = go_unit_get (GO_UNIT_CENTIMETER);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, go_unit_get_symbol (unit), 1, unit, -1);
+		if (axis->unit == GO_UNIT_CENTIMETER)
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->unit), &iter);
+		unit = go_unit_get (GO_UNIT_INCH);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, go_unit_get_symbol (unit), 1, unit, -1);
+		if (axis->unit == GO_UNIT_INCH)
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->unit), &iter);
+		gtk_grid_attach (grid, state->unit, 2, 2, 1, 1);
+		g_signal_connect (state->unit, "changed", G_CALLBACK (metrics_unit_changed_cb), state);
+		if (axis->metrics >= GOG_AXIS_METRICS_ABSOLUTE) {
+			gtk_widget_show (state->label);
+			gtk_widget_show (state->ratio);
+			if (axis->metrics == GOG_AXIS_METRICS_ABSOLUTE)
+				gtk_widget_show (state->unit);
+		}
+		g_object_set_data_full ((GObject *) w, "state", state, g_free);
+		go_editor_add_page (editor, w, _("Metrics"));
+	}
 
 	if (gog_object_is_visible (axis) && gog_axis_get_atype (axis) < GOG_AXIS_VIRTUAL) {
 	    /* Style page */
@@ -3143,6 +3475,27 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			_("The name of the color map"),
 			"default",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_METRICS,
+		g_param_spec_string ("metrics", _("Metrics"),
+			_("The way the axis ticks distance is evaluated"),
+			"default",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_REF_AXIS,
+		g_param_spec_string ("axis-ref", _("AxisRef"),
+			_("The name of the axis used as reference for ticks distance"),
+			"none",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_METRICS_RATIO,
+		g_param_spec_double ("metrics-ratio",
+			_("Metrics ratio"),
+			_("If an axis is used as reference, gives the ratio of the ticks distance, and it the metrix is absolute, the ticks distance. Defaults to 1.0"),
+		    0.01, 100., 1.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_REF_AXIS,
+		g_param_spec_string ("metrics-unit", _("Matrics Unit"),
+			_("The unit symbol for the absolute distance unit between ticks. Might be \"cm\" or \"in\""),
+			"cm",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
@@ -3181,6 +3534,8 @@ gog_axis_init (GogAxis *axis)
 	axis->span_start = 0.;
 	axis->span_end = 1.;
 	axis->auto_color_map = TRUE;
+	axis->metrics_ratio = 1.;
+	axis->unit = GO_UNIT_CENTIMETER;
 }
 
 static void
@@ -3615,6 +3970,27 @@ _gog_axis_set_color_scale (GogAxis *axis, GogColorScale *scale)
 	                  (axis->type == GOG_AXIS_COLOR || axis->type == GOG_AXIS_PSEUDO_3D) &&
 	                  (axis->color_scale == NULL || scale == NULL));
 	axis->color_scale = scale;
+}
+
+GogAxisMetrics
+gog_axis_get_metrics (GogAxis const *axis)
+{
+	g_return_val_if_fail (GOG_IS_AXIS (axis), GOG_AXIS_METRICS_INVALID);
+	return axis->metrics;
+}
+
+GogAxis *
+gog_axis_get_ref_axis (GogAxis const *axis)
+{
+	g_return_val_if_fail (GOG_IS_AXIS (axis) && axis->metrics > GOG_AXIS_METRICS_ABSOLUTE, NULL);
+	return axis->ref_axis;
+}
+
+double
+gog_axis_get_major_ticks_distance (GogAxis const *axis)
+{
+	g_return_val_if_fail (GOG_IS_AXIS (axis), go_nan);
+	return gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
 }
 
 /****************************************************************************/
