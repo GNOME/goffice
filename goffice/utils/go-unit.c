@@ -32,7 +32,7 @@ struct _GoUnit {
 	unsigned Id;
 };
 
-static unsigned last_unit = GO_UNIT_MAX;
+static int last_unit = GO_UNIT_MAX;
 
 GoUnit units[GO_UNIT_MAX] = {
 	{(char *) "m", (char *) "L", 1., GO_UNIT_METER},
