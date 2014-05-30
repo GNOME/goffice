@@ -1,29 +1,32 @@
 # Gnumeric Finnish translation.
 # Suomennos: http://gnome.fi/
 # Copyright (C) 1998-2001,2003-2004 Free Software Foundation, Inc.
-# Sami Kuhmonen <sami@iqs.fi>, 1999.
-# Jarkko Ranta <jjranta@cc.joensuu.fi>, 2001.
-# Pauli Virtanen <pauli.virtanen@hut.fi>, 2003.
-# Tommi Vainikainen <Tommi.Vainikainen@iki.fi>, 2003-2004.
-# Risto Jääskeläinen <risto.i.j@jippii.fi>, 2010.
 #
 #
 # workbook = työkirja
 # spreadsheet = sheet = taulukko
 #
+# Sami Kuhmonen <sami@iqs.fi>, 1999.
+# Jarkko Ranta <jjranta@cc.joensuu.fi>, 2001.
+# Pauli Virtanen <pauli.virtanen@hut.fi>, 2003.
+# Tommi Vainikainen <Tommi.Vainikainen@iki.fi>, 2003-2004.
+# Risto Jääskeläinen <risto.i.j@jippii.fi>, 2010.
+# Lasse Liehu <lasse.liehu@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 18:55-0400\n"
-"PO-Revision-Date: 2010-07-20 22:48+0200\n"
-"Last-Translator: Risto I. Jääskeläinen <risto.i.j@jippii.fi>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgoffice&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-02-19 19:33+0000\n"
+"PO-Revision-Date: 2014-05-21 18:02+0300\n"
+"Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:593
 msgid "ID"
@@ -422,7 +425,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Liitännäisen sisäinen siivousfunktio palautti virheen."
 
 #: ../goffice/app/go-plugin-service.c:228 ../goffice/gtk/go-format-sel.c:60
-#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5243
+#: ../goffice/utils/go-format.c:911 ../goffice/utils/go-format.c:5266
 msgid "General"
 msgstr "Yleinen"
 
@@ -551,8 +554,8 @@ msgid "The arc end angle"
 msgstr "Kaaren päättökulma"
 
 #: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-component.c:315
-#: ../goffice/canvas/goc-ellipse.c:283 ../goffice/canvas/goc-path.c:280
-#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:477
+#: ../goffice/canvas/goc-ellipse.c:287 ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-text.c:431
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Kierto"
@@ -562,7 +565,7 @@ msgid "The rotation around center position"
 msgstr "Kierto keskipisteen suhteen"
 
 #: ../goffice/canvas/goc-arc.c:483 ../goffice/canvas/goc-rectangle.c:347
-#: ../goffice/graph/gog-axis.c:3058 ../goffice/graph/gog-grid.c:127
+#: ../goffice/graph/gog-axis.c:3059 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 msgid "Type"
 msgstr "Tyyppi"
@@ -588,11 +591,11 @@ msgid "Arrow for line's end"
 msgstr "Viivan päättönuoli"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:259 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-ellipse.c:263 ../goffice/canvas/goc-graph.c:441
 #: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
-#: ../goffice/canvas/goc-path.c:268 ../goffice/canvas/goc-pixbuf.c:235
-#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:465
-#: ../goffice/canvas/goc-widget.c:773 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-path.c:281 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:317 ../goffice/canvas/goc-text.c:419
+#: ../goffice/canvas/goc-widget.c:796 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -601,11 +604,11 @@ msgid "The circle center horizontal position"
 msgstr "Ympyrän keskipisteen vaakasijainti"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:265 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-ellipse.c:269 ../goffice/canvas/goc-graph.c:447
 #: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
-#: ../goffice/canvas/goc-path.c:274 ../goffice/canvas/goc-pixbuf.c:241
-#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:471
-#: ../goffice/canvas/goc-widget.c:779
+#: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:323 ../goffice/canvas/goc-text.c:425
+#: ../goffice/canvas/goc-widget.c:802
 msgid "y"
 msgstr "y"
 
@@ -632,21 +635,21 @@ msgid "The object top position"
 msgstr "Ikkunaelementin yläpiste"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:277 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-ellipse.c:281 ../goffice/canvas/goc-graph.c:453
 #: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
 #: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:335
-#: ../goffice/canvas/goc-widget.c:792 ../goffice/graph/gog-graph.c:499
-#: ../goffice/utils/go-image.c:503
+#: ../goffice/canvas/goc-widget.c:815 ../goffice/graph/gog-graph.c:502
+#: ../goffice/graph/gog-object.c:194 ../goffice/utils/go-image.c:514
 msgid "Height"
 msgstr "Korkeus"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:271 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-ellipse.c:275 ../goffice/canvas/goc-graph.c:459
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
 #: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:329
-#: ../goffice/canvas/goc-widget.c:786 ../goffice/graph/gog-color-scale.c:137
-#: ../goffice/graph/gog-graph.c:493 ../goffice/utils/go-image.c:499
-#: ../plugins/plot_xy/gog-xy-dropbar.c:312
+#: ../goffice/canvas/goc-widget.c:809 ../goffice/graph/gog-color-scale.c:318
+#: ../goffice/graph/gog-graph.c:496 ../goffice/graph/gog-object.c:192
+#: ../goffice/utils/go-image.c:510 ../plugins/plot_xy/gog-xy-dropbar.c:308
 msgid "Width"
 msgstr "Leveys"
 
@@ -664,23 +667,23 @@ msgstr "Objektit"
 msgid "The embedded GOComponent object"
 msgstr ""
 
-#: ../goffice/canvas/goc-ellipse.c:260
+#: ../goffice/canvas/goc-ellipse.c:264
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Soikion vasen piste (tai oikea RTL-tilassa)"
 
-#: ../goffice/canvas/goc-ellipse.c:266
+#: ../goffice/canvas/goc-ellipse.c:270
 msgid "The ellipse top position"
 msgstr "Soikion yläpiste"
 
-#: ../goffice/canvas/goc-ellipse.c:272
+#: ../goffice/canvas/goc-ellipse.c:276
 msgid "The ellipse width"
 msgstr "Soikion leveys"
 
-#: ../goffice/canvas/goc-ellipse.c:278
+#: ../goffice/canvas/goc-ellipse.c:282
 msgid "The ellipse height"
 msgstr "Soikion korkeus"
 
-#: ../goffice/canvas/goc-ellipse.c:284 ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-rectangle.c:342
 msgid "The rotation around top left position"
 msgstr "Kierto ylävasemman pisteen suhteen"
 
@@ -701,8 +704,8 @@ msgstr "Graafin yläpiste"
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:253
-#: ../goffice/graph/gog-graph.c:525 ../goffice/graph/gog-theme.c:581
+#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:256
+#: ../goffice/graph/gog-graph.c:528 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Graafi"
 
@@ -710,7 +713,7 @@ msgstr "Graafi"
 msgid "The GogGraph this object displays"
 msgstr "Tämän objektin esittämä GogGraph"
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1071
+#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1074
 msgid "Renderer"
 msgstr "Hahmonnin"
 
@@ -785,21 +788,21 @@ msgstr ""
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr "Kuvan uusi korkeus tai -1, jos käytetään vanhaa korkeutta"
 
-#: ../goffice/canvas/goc-item.c:265
+#: ../goffice/canvas/goc-item.c:262
 #, fuzzy
 msgid "Canvas"
 msgstr "Perusta"
 
-#: ../goffice/canvas/goc-item.c:266
+#: ../goffice/canvas/goc-item.c:263
 #, fuzzy
 msgid "The canvas object on which the item resides"
 msgstr "Perusta, jolla kohde sijaitsee"
 
-#: ../goffice/canvas/goc-item.c:271 ../goffice/graph/gog-view.c:685
+#: ../goffice/canvas/goc-item.c:268 ../goffice/graph/gog-view.c:692
 msgid "Parent"
 msgstr "Lähde"
 
-#: ../goffice/canvas/goc-item.c:272
+#: ../goffice/canvas/goc-item.c:269
 msgid "The group in which the item resides"
 msgstr "Ryhmä, jossa kohde sijaitsee"
 
@@ -835,43 +838,43 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "Viivan lopun y-koordinaatti"
 
-#: ../goffice/canvas/goc-path.c:269
+#: ../goffice/canvas/goc-path.c:282
 msgid "The path first point x coordinate"
 msgstr "Polun ensimmäisen pisteen x-koordinaatti"
 
-#: ../goffice/canvas/goc-path.c:275
+#: ../goffice/canvas/goc-path.c:288
 msgid "The path first point y coordinate"
 msgstr "Polun ensimmäisen pisteen y-koordinaatti"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:294
 msgid "The rotation around first point position"
 msgstr "Kierto ensimmäisen pisteen suhteen"
 
-#: ../goffice/canvas/goc-path.c:286
+#: ../goffice/canvas/goc-path.c:299
 msgid "Closed"
 msgstr "Suljettu"
 
-#: ../goffice/canvas/goc-path.c:287
+#: ../goffice/canvas/goc-path.c:300
 msgid "The flag for closed path"
 msgstr "Suljetun polun lippu"
 
-#: ../goffice/canvas/goc-path.c:292 ../goffice/canvas/goc-polygon.c:355
+#: ../goffice/canvas/goc-path.c:305 ../goffice/canvas/goc-polygon.c:360
 msgid "Fill rule"
 msgstr "Täyttösääntö"
 
-#: ../goffice/canvas/goc-path.c:293 ../goffice/canvas/goc-polygon.c:356
+#: ../goffice/canvas/goc-path.c:306 ../goffice/canvas/goc-polygon.c:361
 msgid "Set fill rule to winding or even/odd"
 msgstr "Aseta täyttösäännöksi kierto tai parillinen/pariton"
 
-#: ../goffice/canvas/goc-path.c:298
+#: ../goffice/canvas/goc-path.c:311
 msgid "Path"
 msgstr "Polku"
 
-#: ../goffice/canvas/goc-path.c:299
+#: ../goffice/canvas/goc-path.c:312
 msgid "The path points"
 msgstr "Polkupisteet"
 
-#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:276
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:303
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
@@ -879,27 +882,27 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "Näytettävä GdkPixbuf"
 
-#: ../goffice/canvas/goc-polygon.c:344 ../goffice/canvas/goc-polyline.c:259
+#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:263
 msgid "points"
 msgstr "pistettä"
 
-#: ../goffice/canvas/goc-polygon.c:344
+#: ../goffice/canvas/goc-polygon.c:349
 msgid "The polygon vertices"
 msgstr "Monikulmion kulmapisteet"
 
-#: ../goffice/canvas/goc-polygon.c:349 ../goffice/canvas/goc-polyline.c:264
+#: ../goffice/canvas/goc-polygon.c:354 ../goffice/canvas/goc-polyline.c:268
 msgid "Use spline"
 msgstr "Käytä spliniä"
 
-#: ../goffice/canvas/goc-polygon.c:350
+#: ../goffice/canvas/goc-polygon.c:355
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Käytä Bezierin suljettua kuutiospliniä korkeuskäyränä"
 
-#: ../goffice/canvas/goc-polygon.c:360
+#: ../goffice/canvas/goc-polygon.c:365
 msgid "sizes"
 msgstr "koot"
 
-#: ../goffice/canvas/goc-polygon.c:361
+#: ../goffice/canvas/goc-polygon.c:366
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
@@ -909,11 +912,11 @@ msgstr ""
 "mukaan. Kunkin koon pitää olla vähintään 3. Virheellistä arvoa seuraavat "
 "arvot hylätään. Piste-ominaisuuden asettaminen palauttaa oletuskoot."
 
-#: ../goffice/canvas/goc-polyline.c:259
+#: ../goffice/canvas/goc-polyline.c:263
 msgid "The polyline vertices"
 msgstr "Murtoviivan kulmapisteet"
 
-#: ../goffice/canvas/goc-polyline.c:265
+#: ../goffice/canvas/goc-polyline.c:269
 msgid "Use a Bezier cubic spline as line"
 msgstr "Käytä Bezierin kuutiospliniä viivana"
 
@@ -958,7 +961,7 @@ msgstr "Pyöristetty suorakulmio ry"
 
 #: ../goffice/canvas/goc-styled-item.c:160
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1104
+#: ../goffice/graph/gog-styled-object.c:222 ../goffice/utils/go-style.c:1106
 msgid "Style"
 msgstr "Tyyli"
 
@@ -975,97 +978,97 @@ msgstr "Asteikkoviivan paksuus"
 msgid "Whether to scale the line width when zooming"
 msgstr "Skaalataanko viivan paksuutta suurennettaessa"
 
-#: ../goffice/canvas/goc-text.c:466
+#: ../goffice/canvas/goc-text.c:420
 msgid "The text horizontal position"
 msgstr "Tekstin vaakasijainti"
 
-#: ../goffice/canvas/goc-text.c:472
+#: ../goffice/canvas/goc-text.c:426
 msgid "The text position"
 msgstr "Tekstin sijainti"
 
-#: ../goffice/canvas/goc-text.c:478
+#: ../goffice/canvas/goc-text.c:432
 msgid "The rotation around the anchor"
 msgstr "Kierto ankkurin suhteen"
 
-#: ../goffice/canvas/goc-text.c:483 ../goffice/graph/gog-object.c:815
+#: ../goffice/canvas/goc-text.c:437 ../goffice/graph/gog-object.c:847
 msgid "Anchor"
 msgstr "Ankkuri"
 
-#: ../goffice/canvas/goc-text.c:484
+#: ../goffice/canvas/goc-text.c:438
 msgid "The anchor point for the text"
 msgstr "Tekstin ankkuripiste"
 
-#: ../goffice/canvas/goc-text.c:489 ../goffice/gtk/go-format-sel.c:69
-#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:970
+#: ../goffice/canvas/goc-text.c:443 ../goffice/gtk/go-format-sel.c:69
+#: ../goffice/gtk/go-rotation-sel.c:145 ../goffice/utils/go-style.c:972
 msgid "Text"
 msgstr "Teksti"
 
-#: ../goffice/canvas/goc-text.c:490
+#: ../goffice/canvas/goc-text.c:444
 msgid "The text to display"
 msgstr "Näytettävä teksti"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:447
 msgid "Attributes"
 msgstr "Määritteet"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:447
 msgid "The attributes list as a PangoAttrList"
 msgstr "Määriteluettelo muodossa PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:498
+#: ../goffice/canvas/goc-text.c:452
 #, fuzzy
 msgid "Clip"
 msgstr "Leike"
 
-#: ../goffice/canvas/goc-text.c:499
+#: ../goffice/canvas/goc-text.c:453
 msgid "Whether to clip or not"
 msgstr "Leikatako vaiko ei"
 
-#: ../goffice/canvas/goc-text.c:504
+#: ../goffice/canvas/goc-text.c:458
 msgid "Clip width"
 msgstr "Leikkeen leveys"
 
-#: ../goffice/canvas/goc-text.c:505
+#: ../goffice/canvas/goc-text.c:459
 msgid "Clip width for the text"
 msgstr "Leikkeen leveys tekstille"
 
-#: ../goffice/canvas/goc-text.c:510
+#: ../goffice/canvas/goc-text.c:464
 msgid "Clip height"
 msgstr "Leikkeen korkeus"
 
-#: ../goffice/canvas/goc-text.c:511
+#: ../goffice/canvas/goc-text.c:465
 msgid "Clip height for the text"
 msgstr "Leikkeen korkeus tekstille"
 
-#: ../goffice/canvas/goc-text.c:516
+#: ../goffice/canvas/goc-text.c:470
 msgid "Wrap width"
 msgstr "Rivitysleveys"
 
-#: ../goffice/canvas/goc-text.c:517
+#: ../goffice/canvas/goc-text.c:471
 msgid "Wrap width for the text"
 msgstr "Tekstin rivitysleveys"
 
-#: ../goffice/canvas/goc-widget.c:767
+#: ../goffice/canvas/goc-widget.c:790
 msgid "Widget"
 msgstr "Ikkunaelementti"
 
-#: ../goffice/canvas/goc-widget.c:768
+#: ../goffice/canvas/goc-widget.c:791
 msgid "A pointer to the embedded widget"
 msgstr "Osoitin upotettuun ikkunaelementtiin"
 
-#: ../goffice/canvas/goc-widget.c:774
+#: ../goffice/canvas/goc-widget.c:797
 msgid "The widget left position"
 msgstr "Ikkunaelementin vasen piste"
 
-#: ../goffice/canvas/goc-widget.c:780
+#: ../goffice/canvas/goc-widget.c:803
 msgid "The widget top position"
 msgstr "Ikkunaelementin yläpiste"
 
-#: ../goffice/canvas/goc-widget.c:787
+#: ../goffice/canvas/goc-widget.c:810
 msgid "The widget width"
 msgstr "Ikkunaelementin leveys"
 
-#: ../goffice/canvas/goc-widget.c:793
+#: ../goffice/canvas/goc-widget.c:816
 msgid "The widget height"
 msgstr "Ikkunaelementin korkeus"
 
@@ -1126,158 +1129,159 @@ msgstr "radiaani"
 msgid "Grads"
 msgstr "graadi"
 
-#: ../goffice/graph/gog-axis.c:1494
+#: ../goffice/graph/gog-axis.c:1495
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
 msgid "Discrete"
 msgstr "Diskreetti"
 
-#: ../goffice/graph/gog-axis.c:1494
+#: ../goffice/graph/gog-axis.c:1495
 msgid "Discrete mapping"
 msgstr "Diskreetti kuvaus"
 
-#: ../goffice/graph/gog-axis.c:1506 ../goffice/utils/go-line.c:161
+#: ../goffice/graph/gog-axis.c:1507 ../goffice/utils/go-line.c:161
 #: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Linear"
 msgstr "lineaarinen"
 
-#: ../goffice/graph/gog-axis.c:1506
+#: ../goffice/graph/gog-axis.c:1507
 msgid "Linear mapping"
 msgstr "Lineaarinen kuvaus"
 
-#: ../goffice/graph/gog-axis.c:1518
+#: ../goffice/graph/gog-axis.c:1519
 msgid "Log"
 msgstr "logaritminen"
 
-#: ../goffice/graph/gog-axis.c:1518
+#: ../goffice/graph/gog-axis.c:1519
 msgid "Logarithm mapping"
 msgstr "Logaritminen kuvaus"
 
-#: ../goffice/graph/gog-axis.c:2827 ../goffice/graph/gog-axis.c:2837
+#: ../goffice/graph/gog-axis.c:2828 ../goffice/graph/gog-axis.c:2838
 msgid "M_inimum"
 msgstr "Alemp_i"
 
-#: ../goffice/graph/gog-axis.c:2828 ../goffice/graph/gog-axis.c:2838
+#: ../goffice/graph/gog-axis.c:2829 ../goffice/graph/gog-axis.c:2839
 msgid "M_aximum"
 msgstr "Yle_mpi"
 
-#: ../goffice/graph/gog-axis.c:2829
+#: ../goffice/graph/gog-axis.c:2830
 msgid "Categories between _ticks"
 msgstr "_Luokkia jakoviivojen välillä"
 
-#: ../goffice/graph/gog-axis.c:2830
+#: ../goffice/graph/gog-axis.c:2831
 msgid "Categories between _labels"
 msgstr "Nimiöiden välisiä _luokkia"
 
-#: ../goffice/graph/gog-axis.c:2839
+#: ../goffice/graph/gog-axis.c:2840
 msgid "Ma_jor ticks"
 msgstr "Pää_jakoviivat"
 
-#: ../goffice/graph/gog-axis.c:2840
+#: ../goffice/graph/gog-axis.c:2841
 msgid "Mi_nor ticks"
 msgstr "_Apujakoviivat"
 
-#: ../goffice/graph/gog-axis.c:2899 ../goffice/math/go-distribution.c:171
+#: ../goffice/graph/gog-axis.c:2900 ../goffice/math/go-distribution.c:171
 #: ../goffice/math/go-distribution.c:172
 msgid "Scale"
 msgstr "Asteikko"
 
-#: ../goffice/graph/gog-axis.c:2921 ../plugins/plot_pie/gog-pie.c:325
+#: ../goffice/graph/gog-axis.c:2922 ../plugins/plot_pie/gog-pie.c:325
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Etäisyys"
 
-#: ../goffice/graph/gog-axis.c:2978
+#: ../goffice/graph/gog-axis.c:2979
 #, fuzzy
 msgid "Colors"
 msgstr "Väri:"
 
-#: ../goffice/graph/gog-axis.c:2996 ../goffice/graph/gog-series-labels.c:910
+#: ../goffice/graph/gog-axis.c:2997 ../goffice/graph/gog-series-labels.c:910
 #: ../goffice/graph/gog-series-labels.c:1436
 msgid "Format"
 msgstr "Muoto"
 
-#: ../goffice/graph/gog-axis.c:3034
+#: ../goffice/graph/gog-axis.c:3035
 msgid "MajorGrid"
 msgstr "Pääviivasto"
 
-#: ../goffice/graph/gog-axis.c:3037
+#: ../goffice/graph/gog-axis.c:3038
 msgid "MinorGrid"
 msgstr "Apuviivasto"
 
-#: ../goffice/graph/gog-axis.c:3040
+#: ../goffice/graph/gog-axis.c:3041
 msgid "AxisLine"
 msgstr "Akseliviiva"
 
-#: ../goffice/graph/gog-axis.c:3043 ../goffice/graph/gog-theme.c:591
+#: ../goffice/graph/gog-axis.c:3044 ../goffice/graph/gog-color-scale.c:303
+#: ../goffice/graph/gog-theme.c:591
 msgid "Label"
 msgstr "Nimiö"
 
-#: ../goffice/graph/gog-axis.c:3059
+#: ../goffice/graph/gog-axis.c:3060
 msgid "Numerical type of this axis"
 msgstr "Tämän akselin numeerinen tyyppi"
 
-#: ../goffice/graph/gog-axis.c:3063
+#: ../goffice/graph/gog-axis.c:3064
 msgid "Invert axis"
 msgstr "Käännä akseli"
 
-#: ../goffice/graph/gog-axis.c:3064
+#: ../goffice/graph/gog-axis.c:3065
 msgid "Scale from high to low rather than low to high"
 msgstr "Asteikko ylhäältä alas, eikä alhaalta ylös"
 
-#: ../goffice/graph/gog-axis.c:3068
+#: ../goffice/graph/gog-axis.c:3069
 #, fuzzy
 msgid "MapName"
 msgstr "KuvausNimi"
 
-#: ../goffice/graph/gog-axis.c:3069
+#: ../goffice/graph/gog-axis.c:3070
 msgid "The name of the map for scaling"
 msgstr "Skaalauskuvauksen nimi"
 
-#: ../goffice/graph/gog-axis.c:3074
+#: ../goffice/graph/gog-axis.c:3075
 msgid "Assigned XL format"
 msgstr "Määritä XL-tyylin muotoilu "
 
-#: ../goffice/graph/gog-axis.c:3075
+#: ../goffice/graph/gog-axis.c:3076
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3080 ../goffice/graph/gog-axis.c:3081
+#: ../goffice/graph/gog-axis.c:3081 ../goffice/graph/gog-axis.c:3082
 msgid "Rotation of circular axis"
 msgstr "Ympyräakselin kierto"
 
-#: ../goffice/graph/gog-axis.c:3088 ../goffice/graph/gog-axis.c:3089
+#: ../goffice/graph/gog-axis.c:3089 ../goffice/graph/gog-axis.c:3090
 msgid "Polar axis set unit"
 msgstr "Napa-akselin asetettu yksikkö"
 
-#: ../goffice/graph/gog-axis.c:3094
+#: ../goffice/graph/gog-axis.c:3095
 #, fuzzy
 msgid "Axis start position"
 msgstr "Akselin sijainti"
 
-#: ../goffice/graph/gog-axis.c:3095
+#: ../goffice/graph/gog-axis.c:3096
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3100
+#: ../goffice/graph/gog-axis.c:3101
 #, fuzzy
 msgid "Axis end position"
 msgstr "Akselin sijainti"
 
-#: ../goffice/graph/gog-axis.c:3101
+#: ../goffice/graph/gog-axis.c:3102
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:3105
+#: ../goffice/graph/gog-axis.c:3106
 #, fuzzy
 msgid "ColorMapName"
 msgstr "KuvausNimi"
 
-#: ../goffice/graph/gog-axis.c:3106
+#: ../goffice/graph/gog-axis.c:3107
 #, fuzzy
 msgid "The name of the color map"
 msgstr "Skaalauskuvauksen nimi"
@@ -1290,12 +1294,13 @@ msgstr ""
 msgid "The resource type for the color map"
 msgstr ""
 
-#: ../goffice/graph/gog-axis-color-map.c:589
+#: ../goffice/graph/gog-axis-color-map.c:620
 msgid "New map"
 msgstr ""
 
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-axis-color-map.c:993 ../goffice/graph/gog-theme.c:1240
+#: ../goffice/graph/gog-axis-color-map.c:1024
+#: ../goffice/graph/gog-theme.c:1241
 msgid "Default"
 msgstr "Oletus"
 
@@ -1315,12 +1320,13 @@ msgid "Value"
 msgstr "Arvot"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
+#: ../plugins/lasem/component.c:430
 #, fuzzy
 msgid "Color"
 msgstr "Väri:"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:579
+#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:591
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "Nimi"
@@ -1343,104 +1349,104 @@ msgstr "Käyttäjän määrittelemä"
 msgid "Erase"
 msgstr ""
 
-#: ../goffice/graph/gog-axis-line.c:647
+#: ../goffice/graph/gog-axis-line.c:650
 msgid "Layout"
 msgstr "Asettelu"
 
-#: ../goffice/graph/gog-axis-line.c:676
+#: ../goffice/graph/gog-axis-line.c:679
 msgid "Axis position"
 msgstr "Akselin sijainti"
 
-#: ../goffice/graph/gog-axis-line.c:677 ../goffice/graph/gog-axis-line.c:683
+#: ../goffice/graph/gog-axis-line.c:680 ../goffice/graph/gog-axis-line.c:686
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Onko akselin sijainti alhaalla, ylhäällä vaiko leikkaamassa"
 
-#: ../goffice/graph/gog-axis-line.c:682
+#: ../goffice/graph/gog-axis-line.c:685
 msgid "Axis position (as a string)"
 msgstr "Akselin sijainti (merkkijonona)"
 
-#: ../goffice/graph/gog-axis-line.c:688
+#: ../goffice/graph/gog-axis-line.c:692
 msgid "Major labels"
 msgstr "Päänimiöt"
 
-#: ../goffice/graph/gog-axis-line.c:689
+#: ../goffice/graph/gog-axis-line.c:693
 msgid "Show labels for major ticks"
 msgstr "Esitä nimiöt pääjakoviivoille"
 
-#: ../goffice/graph/gog-axis-line.c:694
+#: ../goffice/graph/gog-axis-line.c:698
 msgid "Inside major ticks"
 msgstr "Sisäpuoliset pääjakoviivat"
 
-#: ../goffice/graph/gog-axis-line.c:695
+#: ../goffice/graph/gog-axis-line.c:699
 msgid "Major tick marks inside the chart area"
 msgstr "Pääjakoviivat kaavioalueen sisällä"
 
-#: ../goffice/graph/gog-axis-line.c:700
+#: ../goffice/graph/gog-axis-line.c:704
 msgid "Outside major ticks"
 msgstr "Ulkopuoliset pääjakoviivat"
 
-#: ../goffice/graph/gog-axis-line.c:701
+#: ../goffice/graph/gog-axis-line.c:705
 msgid "Major tick marks outside the chart area"
 msgstr "Pääjakoviivat kaavioalueen ulkopuolella"
 
-#: ../goffice/graph/gog-axis-line.c:706
+#: ../goffice/graph/gog-axis-line.c:710
 msgid "Major tick size"
 msgstr "Pääjakoviiva koko"
 
-#: ../goffice/graph/gog-axis-line.c:707
+#: ../goffice/graph/gog-axis-line.c:711
 msgid "Size of the major tick marks, in points"
 msgstr "Pääjakoviivojen koko pisteinä."
 
-#: ../goffice/graph/gog-axis-line.c:713
+#: ../goffice/graph/gog-axis-line.c:717
 msgid "Inside minor ticks"
 msgstr "Sisäpuoliset apujakoviivat"
 
-#: ../goffice/graph/gog-axis-line.c:714
+#: ../goffice/graph/gog-axis-line.c:718
 msgid "Minor tick marks inside the chart area"
 msgstr "Apujakoviivat kaavioalueen sisällä"
 
-#: ../goffice/graph/gog-axis-line.c:719
+#: ../goffice/graph/gog-axis-line.c:723
 msgid "Outside minor ticks"
 msgstr "Ulkopuoliset apujakoviivat"
 
-#: ../goffice/graph/gog-axis-line.c:720
+#: ../goffice/graph/gog-axis-line.c:724
 msgid "Minor tick marks outside the axis"
 msgstr "Apujakoviivat akselin ulkopuolella"
 
-#: ../goffice/graph/gog-axis-line.c:725
+#: ../goffice/graph/gog-axis-line.c:729
 msgid "Minor tick size"
 msgstr "Apujakoviiva koko"
 
-#: ../goffice/graph/gog-axis-line.c:726
+#: ../goffice/graph/gog-axis-line.c:730
 msgid "Size of the minor tick marks, in points"
 msgstr "Apujakoviivojen koko pisteinä."
 
-#: ../goffice/graph/gog-axis-line.c:732
+#: ../goffice/graph/gog-axis-line.c:736
 #, fuzzy
 msgid "Cross axis ID"
 msgstr "Leikkaa toinen akseli"
 
-#: ../goffice/graph/gog-axis-line.c:733
+#: ../goffice/graph/gog-axis-line.c:737
 msgid "Which axis to cross"
 msgstr "Mikä akseli leikataan"
 
-#: ../goffice/graph/gog-axis-line.c:739
+#: ../goffice/graph/gog-axis-line.c:743
 msgid "Axis padding"
 msgstr "Akselin siirros"
 
-#: ../goffice/graph/gog-axis-line.c:740
+#: ../goffice/graph/gog-axis-line.c:744
 msgid "Distance from axis line to plot area, in points"
 msgstr "Etäisyys akselista kuvaaja-alueelle pisteinä"
 
-#: ../goffice/graph/gog-axis-line.c:832
+#: ../goffice/graph/gog-axis-line.c:836
 msgid "Select axis"
 msgstr "Valitse akseli"
 
-#: ../goffice/graph/gog-axis-line.c:938
+#: ../goffice/graph/gog-axis-line.c:942
 msgid "Set start bound"
 msgstr "Aseta alkuraja"
 
-#: ../goffice/graph/gog-axis-line.c:949
+#: ../goffice/graph/gog-axis-line.c:953
 msgid "Set stop bound"
 msgstr "Aseta loppuraja"
 
@@ -1449,11 +1455,11 @@ msgstr "Aseta loppuraja"
 msgid "<b>Effective area</b> (as % of available room)"
 msgstr ""
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:3 ../goffice/utils/go-style.c:645
+#: ../goffice/graph/gog-axis-prefs.ui.h:3 ../goffice/utils/go-style.c:647
 msgid "Start:"
 msgstr "Alku:"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:4 ../goffice/utils/go-style.c:646
+#: ../goffice/graph/gog-axis-prefs.ui.h:4 ../goffice/utils/go-style.c:648
 msgid "End:"
 msgstr "Loppu:"
 
@@ -1474,8 +1480,8 @@ msgstr "S_isäpuoliset"
 msgid "_Show Labels"
 msgstr "_Näytä nimiöt"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:747
-#: ../goffice/graph/gog-object.c:791 ../goffice/graph/gog-series-labels.c:898
+#: ../goffice/graph/gog-axis-prefs.ui.h:9 ../goffice/graph/gog-object.c:779
+#: ../goffice/graph/gog-object.c:823 ../goffice/graph/gog-series-labels.c:898
 #: ../goffice/graph/gog-series-labels.c:1424
 msgid "Position"
 msgstr "Sijainti"
@@ -1585,130 +1591,136 @@ msgstr "Tallenna nimellä"
 msgid "Saves the color map to the local disk."
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:688
+#: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:756
 msgid "Plot area"
 msgstr "Kuvaaja-alue"
 
-#: ../goffice/graph/gog-chart.c:584 ../goffice/graph/gog-theme.c:588
+#: ../goffice/graph/gog-chart.c:646 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
 msgstr "Tausta"
 
-#: ../goffice/graph/gog-chart.c:587
+#: ../goffice/graph/gog-chart.c:649
 msgid "XY-Backplane"
 msgstr "XY-tausta"
 
-#: ../goffice/graph/gog-chart.c:591
+#: ../goffice/graph/gog-chart.c:653
 msgid "YZ-Backplane"
 msgstr "YZ-tausta"
 
-#: ../goffice/graph/gog-chart.c:595
+#: ../goffice/graph/gog-chart.c:657
 msgid "ZX-Backplane"
 msgstr "ZX-tausta"
 
-#: ../goffice/graph/gog-chart.c:599
+#: ../goffice/graph/gog-chart.c:661
 msgid "X-Axis"
 msgstr "X-akseli"
 
-#: ../goffice/graph/gog-chart.c:603
+#: ../goffice/graph/gog-chart.c:665
 msgid "Y-Axis"
 msgstr "Y-akseli"
 
-#: ../goffice/graph/gog-chart.c:607
+#: ../goffice/graph/gog-chart.c:669
 msgid "Z-Axis"
 msgstr "Z-akseli"
 
-#: ../goffice/graph/gog-chart.c:611
+#: ../goffice/graph/gog-chart.c:673
 msgid "Circular-Axis"
 msgstr "Ympyräakseli"
 
-#: ../goffice/graph/gog-chart.c:615
+#: ../goffice/graph/gog-chart.c:677
 msgid "Radial-Axis"
 msgstr "Sädeakseli"
 
-#: ../goffice/graph/gog-chart.c:619
+#: ../goffice/graph/gog-chart.c:681
 msgid "Pseudo-3D-Axis"
 msgstr "Näennäis-3D-akseli"
 
-#: ../goffice/graph/gog-chart.c:623
+#: ../goffice/graph/gog-chart.c:685
 msgid "Bubble-Axis"
 msgstr "Kupla-akseli"
 
-#: ../goffice/graph/gog-chart.c:627
+#: ../goffice/graph/gog-chart.c:689
 msgid "Color-Axis"
 msgstr "Väriakseli"
 
-#: ../goffice/graph/gog-chart.c:631
+#: ../goffice/graph/gog-chart.c:693
 msgid "Plot"
 msgstr "Kuvaaja"
 
-#: ../goffice/graph/gog-chart.c:634 ../goffice/graph/gog-graph.c:426
-#: ../goffice/graph/gog-legend.c:195
+#: ../goffice/graph/gog-chart.c:696 ../goffice/graph/gog-graph.c:429
+#: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
 msgid "Title"
 msgstr "Nimi"
 
-#: ../goffice/graph/gog-chart.c:639 ../goffice/graph/gog-theme.c:585
+#: ../goffice/graph/gog-chart.c:701 ../goffice/graph/gog-theme.c:585
 #: ../goffice/graph/gog-trend-line.c:97
 msgid "Legend"
 msgstr "Selite"
 
-#: ../goffice/graph/gog-chart.c:645 ../goffice/graph/gog-reg-curve.c:280
-#: ../goffice/graph/gog-theme.c:595
+#: ../goffice/graph/gog-chart.c:707 ../goffice/graph/gog-reg-curve.c:280
+#: ../goffice/graph/gog-theme.c:595 ../plugins/lasem/plugin.xml.in.h:4
 msgid "Equation"
 msgstr "Yhtälö"
 
-#: ../goffice/graph/gog-chart.c:651
+#: ../goffice/graph/gog-chart.c:713
 msgid "3D-Box"
 msgstr "3D-laatikko"
 
-#: ../goffice/graph/gog-chart.c:682
+#: ../goffice/graph/gog-chart.c:716
+#, fuzzy
+#| msgid "Scale"
+msgid "Color-Scale"
+msgstr "Asteikko"
+
+#: ../goffice/graph/gog-chart.c:750
 msgid "Valid cardinality"
 msgstr "Kelpo mahtavuus"
 
-#: ../goffice/graph/gog-chart.c:683
+#: ../goffice/graph/gog-chart.c:751
 msgid "Is the charts cardinality currently valid"
 msgstr "Onko kaavioiden mahtavuus nyt kelvollinen"
 
-#: ../goffice/graph/gog-chart.c:689
+#: ../goffice/graph/gog-chart.c:757
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr "Kuvaaja-alueen sijainti ja koko, prosentteina kaavion koosta"
 
-#: ../goffice/graph/gog-chart.c:694
+#: ../goffice/graph/gog-chart.c:762
 msgid "Manual plot area"
 msgstr "Manuaalinen piirrosalue"
 
-#: ../goffice/graph/gog-chart.c:695
+#: ../goffice/graph/gog-chart.c:763
 msgid "Is plot area manual"
 msgstr "Onko piirrosalue manuaalinen"
 
-#: ../goffice/graph/gog-chart.c:699
+#: ../goffice/graph/gog-chart.c:767
 msgid "xpos"
 msgstr "x-koord."
 
-#: ../goffice/graph/gog-chart.c:700
+#: ../goffice/graph/gog-chart.c:768
 msgid "Horizontal chart position in graph grid"
 msgstr "Kaavion vaakasijainti graafin viivastossa"
 
-#: ../goffice/graph/gog-chart.c:704
+#: ../goffice/graph/gog-chart.c:772
 msgid "ypos"
 msgstr "y-koord."
 
-#: ../goffice/graph/gog-chart.c:705
+#: ../goffice/graph/gog-chart.c:773
 msgid "Vertical chart position in graph grid"
 msgstr "Kaavion pystysijainti graafin viivastossa"
 
-#: ../goffice/graph/gog-chart.c:708
+#: ../goffice/graph/gog-chart.c:776
 msgid "columns"
 msgstr "pystyviivat"
 
-#: ../goffice/graph/gog-chart.c:709
+#: ../goffice/graph/gog-chart.c:777
 msgid "Number of columns in graph grid"
 msgstr "Graafin viivaston pystyviivojen määrä"
 
-#: ../goffice/graph/gog-chart.c:712
+#: ../goffice/graph/gog-chart.c:780
 msgid "rows"
 msgstr "rivit"
 
-#: ../goffice/graph/gog-chart.c:713
+#: ../goffice/graph/gog-chart.c:781
 msgid "Number of rows in graph grid"
 msgstr "Graafin viivaston vaakaviivojen määrä"
 
@@ -1718,32 +1730,116 @@ msgstr "Graafin viivaston vaakaviivojen määrä"
 msgid "%s to %s"
 msgstr "%s per %s"
 
-#: ../goffice/graph/gog-color-scale.c:132
+#: ../goffice/graph/gog-color-scale.c:144 ../goffice/graph/gog-object.c:161
+#: ../goffice/graph/gog-object.c:180 ../goffice/graph/gog-series.c:108
+#: ../goffice/graph/gog-series-labels.c:58
+msgid "Top"
+msgstr "ylhäällä"
+
+#: ../goffice/graph/gog-color-scale.c:145 ../goffice/graph/gog-object.c:165
+#: ../goffice/graph/gog-object.c:186 ../goffice/graph/gog-series.c:106
+#: ../goffice/graph/gog-series-labels.c:59
+msgid "Bottom"
+msgstr "alhaalla"
+
+#: ../goffice/graph/gog-color-scale.c:147 ../goffice/graph/gog-object.c:167
+#: ../goffice/graph/gog-object.c:182 ../goffice/graph/gog-series.c:107
+#: ../goffice/graph/gog-series-labels.c:60
+msgid "Left"
+msgstr "vasemmalla"
+
+#: ../goffice/graph/gog-color-scale.c:148 ../goffice/graph/gog-object.c:163
+#: ../goffice/graph/gog-object.c:184 ../goffice/graph/gog-series.c:109
+#: ../goffice/graph/gog-series-labels.c:61
+msgid "Right"
+msgstr "oikealla"
+
+#: ../goffice/graph/gog-color-scale.c:207 ../goffice/graph/gog-label.c:310
+#: ../goffice/graph/gog-label.c:546 ../goffice/graph/gog-reg-curve.c:133
+#: ../goffice/graph/gog-series-labels.c:607
+#: ../goffice/graph/gog-smoothed-curve.c:60
+#: ../goffice/graph/gog-trend-line.c:92
+#: ../plugins/plot_distrib/gog-probability-plot.c:75
+#: ../plugins/plot_xy/gog-xy.c:2099
+msgid "Details"
+msgstr "Yksityiskohdat"
+
+#: ../goffice/graph/gog-color-scale.c:313
+#: ../goffice/graph/gog-color-scale-prefs.ui.h:3
 #: ../plugins/plot_barcol/gog-minmax.c:227
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
-#: ../plugins/plot_xy/gog-xy-dropbar.c:306
-#: ../plugins/plot_xy/gog-xy-minmax.c:291
+#: ../plugins/plot_xy/gog-xy-dropbar.c:302
+#: ../plugins/plot_xy/gog-xy-minmax.c:299
 msgid "Horizontal"
 msgstr "Vaakataso"
 
-#: ../goffice/graph/gog-color-scale.c:133
+#: ../goffice/graph/gog-color-scale.c:314
 #, fuzzy
 msgid "Whether to display the scale horizontally"
 msgstr "Olisiko laatikkokuvaajan oltava pystysuuntainen vaakasuunnan asemesta"
 
-#: ../goffice/graph/gog-color-scale.c:138
+#: ../goffice/graph/gog-color-scale.c:319
 msgid "Color scale thickness."
 msgstr ""
 
+#: ../goffice/graph/gog-color-scale.c:324 ../goffice/graph/gog-theme.c:586
+#, fuzzy
+msgid "Axis"
+msgstr "X-akseli"
+
+#: ../goffice/graph/gog-color-scale.c:325
+#, fuzzy
+msgid "Reference to the color or pseudo-3d axis"
+msgstr "Suhteessa x-akseliin"
+
+#: ../goffice/graph/gog-color-scale.c:330
+#, fuzzy
+#| msgid "Major tick size"
+msgid "Tick size"
+msgstr "Pääjakoviiva koko"
+
+#: ../goffice/graph/gog-color-scale.c:331
+#, fuzzy
+#| msgid "Size of the major tick marks, in points"
+msgid "Size of the tick marks, in points"
+msgstr "Pääjakoviivojen koko pisteinä."
+
+#: ../goffice/graph/gog-color-scale-prefs.ui.h:1
+#, fuzzy
+#| msgid "Axis position"
+msgid "Ticks position:"
+msgstr "Akselin sijainti"
+
+#: ../goffice/graph/gog-color-scale-prefs.ui.h:2
+#, fuzzy
+#| msgid "_Direction:"
+msgid "Direction:"
+msgstr "_Suunta:"
+
+#: ../goffice/graph/gog-color-scale-prefs.ui.h:4
+#: ../plugins/plot_distrib/gog-boxplot.c:395
+#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
+#: ../plugins/plot_distrib/gog-histogram.c:362
+msgid "Vertical"
+msgstr "Pystytaso"
+
+#: ../goffice/graph/gog-color-scale-prefs.ui.h:5
+#, fuzzy
+#| msgid "_Width:"
+msgid "Width:"
+msgstr "_Leveys"
+
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
+#: ../goffice/gtk/go-math-editor.c:106
 msgid "_Compact mode"
 msgstr "Tii_vis tapa"
 
 #: ../goffice/graph/gog-error-bar.c:79
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:11
+#: ../goffice/graph/gog-object.c:191
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
 #: ../goffice/gtk/go-format-sel.c:1670 ../goffice/gtk/go-format-sel.c:1846
-#: ../goffice/utils/formats.c:366 ../goffice/utils/go-line.c:127
+#: ../goffice/utils/formats.c:370 ../goffice/utils/go-line.c:127
 #: ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "ei mikään"
@@ -1820,44 +1916,44 @@ msgid "Percent"
 msgstr "prosentti"
 
 #. builds the default discrete color map
-#: ../goffice/graph/gog-graph.c:360 ../goffice/graph/gog-graph.c:481
-#: ../goffice/graph/gog-theme.c:1406 ../goffice/graph/gog-theme.c:1571
+#: ../goffice/graph/gog-graph.c:363 ../goffice/graph/gog-graph.c:484
+#: ../goffice/graph/gog-theme.c:1415 ../goffice/graph/gog-theme.c:1588
 msgid "Theme"
 msgstr "Teema"
 
-#: ../goffice/graph/gog-graph.c:421 ../goffice/graph/gog-theme.c:583
+#: ../goffice/graph/gog-graph.c:424 ../goffice/graph/gog-theme.c:583
 msgid "Chart"
 msgstr "Kaavio"
 
-#: ../goffice/graph/gog-graph.c:482
+#: ../goffice/graph/gog-graph.c:485
 msgid "The theme for elements of the graph"
 msgstr "Graafin elementtien teema"
 
-#: ../goffice/graph/gog-graph.c:487
+#: ../goffice/graph/gog-graph.c:490
 msgid "Theme name"
 msgstr "Teeman nimi"
 
-#: ../goffice/graph/gog-graph.c:488
+#: ../goffice/graph/gog-graph.c:491
 msgid "The name of the theme for elements of the graph"
 msgstr "Graafin osatekijöiden teemanimi"
 
-#: ../goffice/graph/gog-graph.c:494
+#: ../goffice/graph/gog-graph.c:497
 msgid "Logical graph width, in points"
 msgstr "Looginen graafin leveys pisteinä"
 
-#: ../goffice/graph/gog-graph.c:500
+#: ../goffice/graph/gog-graph.c:503
 msgid "Logical graph height, in points"
 msgstr "Looginen graafin korkeus pisteinä"
 
-#: ../goffice/graph/gog-graph.c:505
+#: ../goffice/graph/gog-graph.c:508
 msgid "Document"
 msgstr "Asiakirja"
 
-#: ../goffice/graph/gog-graph.c:506
+#: ../goffice/graph/gog-graph.c:509
 msgid "the document for this graph"
 msgstr "tämän graafin asiakirja"
 
-#: ../goffice/graph/gog-graph.c:1072
+#: ../goffice/graph/gog-graph.c:1075
 msgid "the renderer for this view"
 msgstr "tämän näkymän hahmonnin"
 
@@ -1919,107 +2015,97 @@ msgstr ""
 msgid "_Subtype"
 msgstr "<b>_Alatyyppi</b>"
 
-#: ../goffice/graph/gog-label.c:149
+#: ../goffice/graph/gog-label.c:153
 msgid "Allow markup"
 msgstr "Salli merkintä"
 
-#: ../goffice/graph/gog-label.c:150
+#: ../goffice/graph/gog-label.c:154
 #, fuzzy
 msgid "Support basic HTML-ish markup"
 msgstr "Tue html-tyylistä perusmerkintää"
 
-#: ../goffice/graph/gog-label.c:156
+#: ../goffice/graph/gog-label.c:160
 #, fuzzy
 msgid "Rotate the frame with the text"
 msgstr "Tekstin rivitysleveys"
 
-#: ../goffice/graph/gog-label.c:157
+#: ../goffice/graph/gog-label.c:161
 #, fuzzy
 msgid "Whether the frame should be rotated with the text"
 msgstr "Olisiko laatikkokuvaajan oltava pystysuuntainen vaakasuunnan asemesta"
 
-#: ../goffice/graph/gog-label.c:162
+#: ../goffice/graph/gog-label.c:166
 msgid "Rotate the background with the text"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:163
+#: ../goffice/graph/gog-label.c:167
 #, fuzzy
 msgid "Whether the background should be rotated with the text"
 msgstr "Olisiko laatikkokuvaajan oltava pystysuuntainen vaakasuunnan asemesta"
 
-#: ../goffice/graph/gog-label.c:168
+#: ../goffice/graph/gog-label.c:172
 #, fuzzy
 msgid "Wrap the text"
 msgstr "Tekstin rivitysleveys"
 
-#: ../goffice/graph/gog-label.c:169
+#: ../goffice/graph/gog-label.c:173
 msgid "Whether the text might be displayed using several lines"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:285
+#: ../goffice/graph/gog-label.c:289
 msgid "_Text:"
 msgstr "_Teksti:"
 
-#: ../goffice/graph/gog-label.c:287
+#: ../goffice/graph/gog-label.c:291 ../goffice/graph/gog-label.c:557
 msgid "Rotate frame with text"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:291
+#: ../goffice/graph/gog-label.c:295
 msgid "Display the text on several lines if needed"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:295
+#: ../goffice/graph/gog-label.c:299 ../goffice/graph/gog-label.c:561
 msgid "Rotate background with text"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:299
+#: ../goffice/graph/gog-label.c:303
 msgid "Interpret text as markup"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:300
+#: ../goffice/graph/gog-label.c:304
 msgid ""
 "Interpret the text as an HTML like markup as described at http://developer."
 "gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:306 ../goffice/graph/gog-label.c:543
-#: ../goffice/graph/gog-reg-curve.c:133
-#: ../goffice/graph/gog-series-labels.c:607
-#: ../goffice/graph/gog-smoothed-curve.c:60
-#: ../goffice/graph/gog-trend-line.c:92
-#: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2098
-msgid "Details"
-msgstr "Yksityiskohdat"
-
-#: ../goffice/graph/gog-label.c:416
+#: ../goffice/graph/gog-label.c:420
 #, fuzzy
 msgid "Text justification"
 msgstr "Tekstin sijainti"
 
-#: ../goffice/graph/gog-label.c:417
+#: ../goffice/graph/gog-label.c:421
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
 msgstr ""
 
-#: ../goffice/graph/gog-label.c:564
+#: ../goffice/graph/gog-label.c:576
 msgid "Regression Equation"
 msgstr "Regressioyhtälö"
 
-#: ../goffice/graph/gog-label.c:603
+#: ../goffice/graph/gog-label.c:615
 msgid "Show equation"
 msgstr "Näytä yhtälö"
 
-#: ../goffice/graph/gog-label.c:604
+#: ../goffice/graph/gog-label.c:616
 msgid "Show the equation on the graph"
 msgstr "Näytä yhtälö graafilla"
 
-#: ../goffice/graph/gog-label.c:609
+#: ../goffice/graph/gog-label.c:621
 msgid "Show coefficient"
 msgstr "Näytä kerroin"
 
-#: ../goffice/graph/gog-label.c:610
+#: ../goffice/graph/gog-label.c:622
 msgid "Show the correlation coefficient on the graph"
 msgstr "Näytä korrelaatiokerroin graafilla"
 
@@ -2039,37 +2125,17 @@ msgstr "Tilkkutäyte pisteinä"
 msgid "padding between the swatches in pts."
 msgstr "täyte tilkkujen välissä pisteinä"
 
-#: ../goffice/graph/gog-object.c:161 ../goffice/graph/gog-object.c:180
-#: ../goffice/graph/gog-series.c:108 ../goffice/graph/gog-series-labels.c:58
-msgid "Top"
-msgstr "ylhäällä"
-
 #: ../goffice/graph/gog-object.c:162 ../goffice/graph/gog-object.c:181
 msgid "Top right"
 msgstr "yläoikealla"
-
-#: ../goffice/graph/gog-object.c:163 ../goffice/graph/gog-object.c:184
-#: ../goffice/graph/gog-series.c:109 ../goffice/graph/gog-series-labels.c:61
-msgid "Right"
-msgstr "oikealla"
 
 #: ../goffice/graph/gog-object.c:164 ../goffice/graph/gog-object.c:187
 msgid "Bottom right"
 msgstr "alaoikealla"
 
-#: ../goffice/graph/gog-object.c:165 ../goffice/graph/gog-object.c:186
-#: ../goffice/graph/gog-series.c:106 ../goffice/graph/gog-series-labels.c:59
-msgid "Bottom"
-msgstr "alhaalla"
-
 #: ../goffice/graph/gog-object.c:166 ../goffice/graph/gog-object.c:185
 msgid "Bottom left"
 msgstr "alavasemmalla"
-
-#: ../goffice/graph/gog-object.c:167 ../goffice/graph/gog-object.c:182
-#: ../goffice/graph/gog-series.c:107 ../goffice/graph/gog-series-labels.c:60
-msgid "Left"
-msgstr "vasemmalla"
 
 #: ../goffice/graph/gog-object.c:168 ../goffice/graph/gog-object.c:179
 msgid "Top left"
@@ -2080,12 +2146,12 @@ msgid "Fill"
 msgstr "täyttö"
 
 #: ../goffice/graph/gog-object.c:173 ../plugins/plot_barcol/gog-dropbar.c:143
-#: ../plugins/plot_xy/gog-xy-dropbar.c:326
+#: ../plugins/plot_xy/gog-xy-dropbar.c:322
 msgid "Start"
 msgstr "alku"
 
 #: ../goffice/graph/gog-object.c:174 ../plugins/plot_barcol/gog-dropbar.c:145
-#: ../plugins/plot_xy/gog-xy-dropbar.c:328
+#: ../plugins/plot_xy/gog-xy-dropbar.c:324
 msgid "End"
 msgstr "loppu"
 
@@ -2094,45 +2160,79 @@ msgstr "loppu"
 msgid "Center"
 msgstr "keskitys"
 
-#: ../goffice/graph/gog-object.c:785
+#: ../goffice/graph/gog-object.c:193
+#, fuzzy
+#| msgid "Absolute"
+msgid "Absolute width"
+msgstr "absoluuttinen"
+
+#: ../goffice/graph/gog-object.c:195
+#, fuzzy
+#| msgid "Absolute"
+msgid "Absolute height"
+msgstr "absoluuttinen"
+
+#: ../goffice/graph/gog-object.c:196
+#, fuzzy
+#| msgid "Size:"
+msgid "Size"
+msgstr "Koko:"
+
+#: ../goffice/graph/gog-object.c:197
+#, fuzzy
+#| msgid "Absolute"
+msgid "Absolute size"
+msgstr "absoluuttinen"
+
+#: ../goffice/graph/gog-object.c:817
 msgid "Object ID"
 msgstr "Objektitunnus"
 
-#: ../goffice/graph/gog-object.c:786
+#: ../goffice/graph/gog-object.c:818
 msgid "Object numerical ID"
 msgstr "Numeerinen objektitunnus"
 
-#: ../goffice/graph/gog-object.c:792
+#: ../goffice/graph/gog-object.c:824
 msgid "Position and size of object, in percentage of parent size"
 msgstr "Objektin sijainti ja koko prosentteina lähteen koosta"
 
-#: ../goffice/graph/gog-object.c:797
+#: ../goffice/graph/gog-object.c:829
 msgid "Compass"
 msgstr "Kompassi"
 
-#: ../goffice/graph/gog-object.c:798
+#: ../goffice/graph/gog-object.c:830
 msgid "Compass auto position flags"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:803
+#: ../goffice/graph/gog-object.c:835
 msgid "Alignment"
 msgstr "Tasaus"
 
-#: ../goffice/graph/gog-object.c:804
+#: ../goffice/graph/gog-object.c:836
 msgid "Alignment flag"
 msgstr "Tasauslippu"
 
-#: ../goffice/graph/gog-object.c:809 ../goffice/graph/gog-object.c:810
+#: ../goffice/graph/gog-object.c:841 ../goffice/graph/gog-object.c:842
 msgid "Is position manual"
 msgstr "Onko sijainti manuaalinen"
 
-#: ../goffice/graph/gog-object.c:816
+#: ../goffice/graph/gog-object.c:848
 msgid "Anchor for manual position"
 msgstr "Manuaalisen sijainnin ankkuri"
 
-#: ../goffice/graph/gog-object.c:821 ../goffice/graph/gog-object.c:822
+#: ../goffice/graph/gog-object.c:853 ../goffice/graph/gog-object.c:854
 msgid "Should the object be hidden"
 msgstr "Pitäisikö objektin olla piilotettu"
+
+#: ../goffice/graph/gog-object.c:859
+#, fuzzy
+#| msgid "Manual"
+msgid "Manual size"
+msgstr "Manuaalinen"
+
+#: ../goffice/graph/gog-object.c:860
+msgid "Whether the height or width are manually set"
+msgstr ""
 
 #: ../goffice/graph/gog-object-prefs.ui.h:1
 #: ../goffice/graph/gog-plot-prefs.ui.h:7
@@ -2253,109 +2353,109 @@ msgstr "Kupla-akseli:"
 msgid "Axes"
 msgstr "Akselit"
 
-#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-plot.c:436 ../goffice/graph/gog-theme.c:598
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "Sarjat"
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:457
 msgid "Vary style by element"
 msgstr "Vaihtele tyyliä osatekijöittäin"
 
-#: ../goffice/graph/gog-plot.c:460
+#: ../goffice/graph/gog-plot.c:458
 #, fuzzy
 msgid "Use a different style for each segment"
 msgstr "Käytä eri tyyliä kullekin segmentille"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:463
 msgid "X axis"
 msgstr "X-akseli"
 
-#: ../goffice/graph/gog-plot.c:466
+#: ../goffice/graph/gog-plot.c:464
 msgid "Reference to X axis"
 msgstr "Suhteessa x-akseliin"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:469
 msgid "Y axis"
 msgstr "Y-akseli"
 
-#: ../goffice/graph/gog-plot.c:472
+#: ../goffice/graph/gog-plot.c:470
 msgid "Reference to Y axis"
 msgstr "Suhteessa y-akseliin"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:475
 #, fuzzy
 msgid "Z axis"
 msgstr "Z-akseli:"
 
-#: ../goffice/graph/gog-plot.c:478
+#: ../goffice/graph/gog-plot.c:476
 #, fuzzy
 msgid "Reference to Z axis"
 msgstr "Suhteessa x-akseliin"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:481
 #, fuzzy
 msgid "Circular axis"
 msgstr "Ympyräakseli:"
 
-#: ../goffice/graph/gog-plot.c:484
+#: ../goffice/graph/gog-plot.c:482
 #, fuzzy
 msgid "Reference to circular axis"
 msgstr "Suhteessa x-akseliin"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:487
 #, fuzzy
 msgid "Radial axis"
 msgstr "Sädeakseli:"
 
-#: ../goffice/graph/gog-plot.c:490
+#: ../goffice/graph/gog-plot.c:488
 #, fuzzy
 msgid "Reference to radial axis"
 msgstr "Suhteessa x-akseliin"
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:493
 #, fuzzy
 msgid "Pseudo-3D axis"
 msgstr "Näennäis-3D-akseli:"
 
-#: ../goffice/graph/gog-plot.c:496
+#: ../goffice/graph/gog-plot.c:494
 #, fuzzy
 msgid "Reference to pseudo-3D axis"
 msgstr "Suhteessa x-akseliin"
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:499
 #, fuzzy
 msgid "Color axis"
 msgstr "Väriakseli:"
 
-#: ../goffice/graph/gog-plot.c:502
+#: ../goffice/graph/gog-plot.c:500
 #, fuzzy
 msgid "Reference to color axis"
 msgstr "Suhteessa x-akseliin"
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:505
 #, fuzzy
 msgid "Bubble axis"
 msgstr "Kupla-akseli:"
 
-#: ../goffice/graph/gog-plot.c:508
+#: ../goffice/graph/gog-plot.c:506
 #, fuzzy
 msgid "Reference to bubble axis"
 msgstr "Suhteessa x-akseliin"
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:511
 msgid "Plot group"
 msgstr "Kuvaajaryhmä"
 
-#: ../goffice/graph/gog-plot.c:514
+#: ../goffice/graph/gog-plot.c:512
 msgid "Name of plot group if any"
 msgstr "Kuvaajaryhmän nimi, jos on"
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:517
 msgid "Guru hints"
 msgstr "Gurun vihjeet"
 
-#: ../goffice/graph/gog-plot.c:520
+#: ../goffice/graph/gog-plot.c:518
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
@@ -2363,19 +2463,19 @@ msgstr ""
 "Puolipistein eroteltujen vihjeiden lista objektien ohjelmalliseksi "
 "lisäämiseksi guruikkunassa"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:524
 msgid "Default interpolation"
 msgstr "Oletusinterpolointi"
 
-#: ../goffice/graph/gog-plot.c:527
+#: ../goffice/graph/gog-plot.c:525
 msgid "Default type of series line interpolation"
 msgstr ""
 
-#: ../goffice/graph/gog-plot.c:1175
+#: ../goffice/graph/gog-plot.c:1173
 msgid "Move plot area"
 msgstr "Siirrä kuvaaja-aluetta"
 
-#: ../goffice/graph/gog-plot.c:1227
+#: ../goffice/graph/gog-plot.c:1225
 msgid "Resize plot area"
 msgstr "Muuta kuvaaja-alueen kokoa"
 
@@ -2484,19 +2584,19 @@ msgstr "Näytä _yhtälö"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Esitä _regressiokerroin R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1824 ../goffice/graph/gog-view.c:691
+#: ../goffice/graph/gog-renderer.c:1850 ../goffice/graph/gog-view.c:698
 msgid "Model"
 msgstr "Malli"
 
-#: ../goffice/graph/gog-renderer.c:1825
+#: ../goffice/graph/gog-renderer.c:1851
 msgid "The GogGraph this renderer displays"
 msgstr "Tämän hahmontimen esittämä GogGraph"
 
-#: ../goffice/graph/gog-renderer.c:1830
+#: ../goffice/graph/gog-renderer.c:1856
 msgid "View"
 msgstr "Näytä"
 
-#: ../goffice/graph/gog-renderer.c:1831
+#: ../goffice/graph/gog-renderer.c:1857
 msgid "the GogView this renderer is displaying"
 msgstr "Tämän hahmontimen esittämä GogView"
 
@@ -2560,70 +2660,70 @@ msgstr "Indeksi"
 msgid "Index of the corresponding data element"
 msgstr "Vastaavan data-alkion järjestysnumero"
 
-#: ../goffice/graph/gog-series.c:610 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:622 ../goffice/graph/gog-trend-line.c:99
 #, fuzzy
 msgid "_Show in Legend"
 msgstr "Näytä vastaluvut"
 
-#: ../goffice/graph/gog-series.c:620
+#: ../goffice/graph/gog-series.c:632
 msgid "Data"
 msgstr "Tieto"
 
-#: ../goffice/graph/gog-series.c:662
+#: ../goffice/graph/gog-series.c:694
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr "Derivaatta kiinnitetyn kuutiosplinin ensimmäisessä pisteessä."
 
-#: ../goffice/graph/gog-series.c:667
+#: ../goffice/graph/gog-series.c:699
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr "Derivaatta kiinnitetyn kuutiosplinin viimeisessä pisteessä."
 
-#: ../goffice/graph/gog-series.c:740 ../goffice/graph/gog-series-labels.c:1401
+#: ../goffice/graph/gog-series.c:772 ../goffice/graph/gog-series-labels.c:1401
 msgid "Point"
 msgstr "Piste"
 
-#: ../goffice/graph/gog-series.c:746
+#: ../goffice/graph/gog-series.c:778
 msgid "Regression curve"
 msgstr "Regressiokäyrä"
 
-#: ../goffice/graph/gog-series.c:754 ../goffice/graph/gog-theme.c:592
+#: ../goffice/graph/gog-series.c:786 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
 msgstr "Trendiviiva"
 
-#: ../goffice/graph/gog-series.c:762
+#: ../goffice/graph/gog-series.c:794
 #, fuzzy
 msgid "Data labels"
 msgstr "Päänimiöt"
 
-#: ../goffice/graph/gog-series.c:797 ../goffice/graph/gog-trend-line.c:151
+#: ../goffice/graph/gog-series.c:829 ../goffice/graph/gog-trend-line.c:151
 #, fuzzy
 msgid "Has-legend"
 msgstr "On-selite"
 
-#: ../goffice/graph/gog-series.c:798
+#: ../goffice/graph/gog-series.c:830
 msgid "Should the series show up in legends"
 msgstr "Pitäisikö sarjojen näkyä selitteessä"
 
-#: ../goffice/graph/gog-series.c:803 ../goffice/graph/gog-series-prefs.ui.h:2
+#: ../goffice/graph/gog-series.c:835 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr "Interpolointi"
 
-#: ../goffice/graph/gog-series.c:804
+#: ../goffice/graph/gog-series.c:836
 msgid "Type of line interpolation"
 msgstr "Lineaarisen Interpoloinnin tyyppi"
 
-#: ../goffice/graph/gog-series.c:809
+#: ../goffice/graph/gog-series.c:841
 msgid "Interpolation skip invalid"
 msgstr "Interpolointi ohittaa virheelliset"
 
-#: ../goffice/graph/gog-series.c:810
+#: ../goffice/graph/gog-series.c:842
 msgid "Should the series interpolation ignore the invalid data"
 msgstr "Pitäisikö interpolaatiosarjan ohittaa virheellinen data"
 
-#: ../goffice/graph/gog-series.c:815
+#: ../goffice/graph/gog-series.c:847
 msgid "Fill type"
 msgstr "Täyttötyyppi"
 
-#: ../goffice/graph/gog-series.c:816
+#: ../goffice/graph/gog-series.c:848
 msgid "How to fill the area"
 msgstr "Kuinka alue täytetään"
 
@@ -2771,11 +2871,6 @@ msgstr "Graafi"
 msgid "Chart title"
 msgstr "Kaavioteema"
 
-#: ../goffice/graph/gog-theme.c:586
-#, fuzzy
-msgid "Axis"
-msgstr "X-akseli"
-
 #: ../goffice/graph/gog-theme.c:587
 #, fuzzy
 msgid "Axis line"
@@ -2810,29 +2905,34 @@ msgstr "Sarjojen viivat"
 msgid "Data label"
 msgstr "Päänimiöt"
 
-#: ../goffice/graph/gog-theme.c:1241
+#: ../goffice/graph/gog-theme.c:601
+#, fuzzy
+msgid "Color scale"
+msgstr "Väri:"
+
+#: ../goffice/graph/gog-theme.c:1242
 msgid "An MS Excel like theme"
 msgstr ""
 
 #. Guppi
-#: ../goffice/graph/gog-theme.c:1411
+#: ../goffice/graph/gog-theme.c:1420
 msgid "Guppi"
 msgstr "Guppi"
 
-#: ../goffice/graph/gog-theme.c:1412
+#: ../goffice/graph/gog-theme.c:1421
 #, fuzzy
 msgid "Guppi theme"
 msgstr "Guppi"
 
-#: ../goffice/graph/gog-theme.c:1840
+#: ../goffice/graph/gog-theme.c:1862
 msgid "Class"
 msgstr ""
 
-#: ../goffice/graph/gog-theme.c:1843
+#: ../goffice/graph/gog-theme.c:1865
 msgid "Create"
 msgstr ""
 
-#: ../goffice/graph/gog-theme.c:1858 ../goffice/graph/new-theme-prefs.ui.h:1
+#: ../goffice/graph/gog-theme.c:1880 ../goffice/graph/new-theme-prefs.ui.h:1
 msgid "New theme"
 msgstr ""
 
@@ -2852,14 +2952,14 @@ msgstr ""
 #: ../goffice/graph/gog-trend-line.c:90
 #: ../plugins/plot_barcol/gog-barcol.c:166
 #: ../plugins/plot_barcol/gog-dropbar.c:101
-#: ../plugins/plot_barcol/gog-line.c:422
+#: ../plugins/plot_barcol/gog-line.c:626
 #: ../plugins/plot_barcol/gog-minmax.c:195
 #: ../plugins/plot_distrib/gog-boxplot.c:172
 #: ../plugins/plot_distrib/gog-histogram.c:333
 #: ../plugins/plot_pie/gog-pie.c:275 ../plugins/plot_pie/gog-pie.c:438
 #: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:595
-#: ../plugins/plot_surface/gog-xyz.c:101
-#: ../plugins/plot_surface/gog-xyz-surface.c:315
+#: ../plugins/plot_surface/gog-xyz.c:103
+#: ../plugins/plot_surface/gog-xyz-surface.c:518
 #: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:463
 #: ../plugins/plot_xy/gog-xy.c:734 ../plugins/plot_xy/gog-xy-dropbar.c:154
 #: ../plugins/smoothing/gog-exp-smooth.c:80
@@ -2888,11 +2988,11 @@ msgstr "Siirrä"
 msgid "Resize object"
 msgstr "Muuta objektin kokoa"
 
-#: ../goffice/graph/gog-view.c:686
+#: ../goffice/graph/gog-view.c:693
 msgid "the GogView parent"
 msgstr "GogViewin lähde"
 
-#: ../goffice/graph/gog-view.c:692
+#: ../goffice/graph/gog-view.c:699
 msgid "The GogObject this view displays"
 msgstr "Tämän näkymän esittämä GogObject"
 
@@ -3489,16 +3589,30 @@ msgid "custom"
 msgstr "muu"
 
 #: ../goffice/gtk/go-color-palette.c:480 ../goffice/gtk/go-color-palette.c:735
-#: ../goffice/gtk/go-color-selector.c:199
+#: ../goffice/gtk/go-color-selector.c:195
 msgid "Custom color..."
 msgstr "Mukautettu väri..."
 
-#: ../goffice/gtk/go-combo-box.c:260
+#: ../goffice/gtk/go-combo-box.c:315
+msgid "The combo box's title"
+msgstr ""
+
+#: ../goffice/gtk/go-combo-box.c:321
+#, fuzzy
+#| msgid "Start Arrow"
+msgid "Show Arrow"
+msgstr "Lähtönuoli"
+
+#: ../goffice/gtk/go-combo-box.c:322
+msgid "Whether to show an arrow for the combo"
+msgstr ""
+
+#: ../goffice/gtk/go-combo-box.c:332
 #, fuzzy
 msgid "Add tearoffs to menus"
 msgstr "Lisää irtovalikot valikoihin"
 
-#: ../goffice/gtk/go-combo-box.c:261
+#: ../goffice/gtk/go-combo-box.c:333
 #, fuzzy
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Olisiko pudotusvalikoissa oltava irtovalikkorivejä"
@@ -3508,28 +3622,28 @@ msgstr "Olisiko pudotusvalikoissa oltava irtovalikkorivejä"
 msgid "Unable to open file '%s'"
 msgstr "Tiedoston avaaminen epäonnistui: '%s'"
 
-#: ../goffice/gtk/goffice-gtk.c:859 ../goffice/utils/go-style.c:215
+#: ../goffice/gtk/goffice-gtk.c:867 ../goffice/utils/go-style.c:215
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
 
-#: ../goffice/gtk/goffice-gtk.c:894
+#: ../goffice/gtk/goffice-gtk.c:902
 msgid "All Files"
 msgstr "Kaikki tiedostot"
 
-#: ../goffice/gtk/goffice-gtk.c:899
+#: ../goffice/gtk/goffice-gtk.c:907
 msgid "Images"
 msgstr "Kuvat"
 
-#: ../goffice/gtk/goffice-gtk.c:951
+#: ../goffice/gtk/goffice-gtk.c:959
 msgid "Select an Image"
 msgstr "Valitse kuva"
 
-#: ../goffice/gtk/goffice-gtk.c:1030
+#: ../goffice/gtk/goffice-gtk.c:1038
 msgid "Save as"
 msgstr "Tallenna nimellä"
 
-#: ../goffice/gtk/goffice-gtk.c:1103
+#: ../goffice/gtk/goffice-gtk.c:1111
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3537,7 +3651,7 @@ msgstr ""
 "Annettu tiedostopääte ei sovi valitulle tiedostotyypille. Haluatko käyttää "
 "tätä nimeä joka tapauksessa?"
 
-#: ../goffice/gtk/goffice-gtk.c:1322
+#: ../goffice/gtk/goffice-gtk.c:1330
 #, c-format
 msgid ""
 "%s\n"
@@ -3546,7 +3660,7 @@ msgstr ""
 "%s\n"
 "on hakemistonimi"
 
-#: ../goffice/gtk/goffice-gtk.c:1326
+#: ../goffice/gtk/goffice-gtk.c:1334
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3555,7 +3669,7 @@ msgstr ""
 "Sinulla ei ole oikeutta tallentaa kohteeseen\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1336
+#: ../goffice/gtk/goffice-gtk.c:1344
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3953,132 +4067,133 @@ msgctxt "FontFace"
 msgid "Upright Italic"
 msgstr "kursiivi"
 
-#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:940
+#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:942
+#: ../plugins/lasem/component.c:212 ../plugins/lasem/component.c:436
 msgid "Font"
-msgstr "Kirjasin"
+msgstr "Fontti"
 
 #: ../goffice/gtk/go-font-sel.c:605
 msgid "All fonts..."
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:905
+#: ../goffice/gtk/go-font-sel.c:906
 #, fuzzy
 msgctxt "underline"
 msgid "None"
 msgstr "ei mikään"
 
-#: ../goffice/gtk/go-font-sel.c:906
+#: ../goffice/gtk/go-font-sel.c:907
 #, fuzzy
 msgctxt "underline"
 msgid "Single"
 msgstr "Kulma"
 
-#: ../goffice/gtk/go-font-sel.c:907
+#: ../goffice/gtk/go-font-sel.c:908
 msgctxt "underline"
 msgid "Double"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:908
+#: ../goffice/gtk/go-font-sel.c:909
 #, fuzzy
 msgctxt "underline"
 msgid "Low"
 msgstr "A_lhaalla"
 
-#: ../goffice/gtk/go-font-sel.c:909
+#: ../goffice/gtk/go-font-sel.c:910
 #, fuzzy
 msgctxt "underline"
 msgid "Error"
 msgstr "Virhejanat"
 
-#: ../goffice/gtk/go-font-sel.c:930 ../goffice/math/go-distribution.c:75
+#: ../goffice/gtk/go-font-sel.c:931 ../goffice/math/go-distribution.c:75
 msgid "Normal"
 msgstr "normaali"
 
-#: ../goffice/gtk/go-font-sel.c:931
+#: ../goffice/gtk/go-font-sel.c:932
 #, fuzzy
 msgid "Subscript"
 msgstr "Kuvaus"
 
-#: ../goffice/gtk/go-font-sel.c:932
+#: ../goffice/gtk/go-font-sel.c:933
 #, fuzzy
 msgid "Superscript"
 msgstr "Käytä yläindek_siä"
 
-#: ../goffice/gtk/go-font-sel.c:1185
+#: ../goffice/gtk/go-font-sel.c:1186
 #, fuzzy
 msgid "Show Style"
 msgstr "Tyyli"
 
-#: ../goffice/gtk/go-font-sel.c:1186
+#: ../goffice/gtk/go-font-sel.c:1187
 msgid "Whether style is part of the font being selected"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1194
+#: ../goffice/gtk/go-font-sel.c:1195
 #, fuzzy
 msgid "Show Color"
 msgstr "Väri:"
 
-#: ../goffice/gtk/go-font-sel.c:1195
+#: ../goffice/gtk/go-font-sel.c:1196
 msgid "Whether color is part of the font being selected"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1203
+#: ../goffice/gtk/go-font-sel.c:1204
 #, fuzzy
 msgid "Show Underline"
 msgstr "Näytä vastaluvut"
 
-#: ../goffice/gtk/go-font-sel.c:1204
+#: ../goffice/gtk/go-font-sel.c:1205
 msgid "Whether underlining is part of the font being selected"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1212
+#: ../goffice/gtk/go-font-sel.c:1213
 msgid "Show Script"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1213
+#: ../goffice/gtk/go-font-sel.c:1214
 msgid "Whether subscript/superscript is part of the font being selected"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1221
+#: ../goffice/gtk/go-font-sel.c:1222
 msgid "Show Strikethrough"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1222
+#: ../goffice/gtk/go-font-sel.c:1223
 msgid "Whether strikethrough is part of the font being selected"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1230
+#: ../goffice/gtk/go-font-sel.c:1231
 msgid "Color unset text"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1231
+#: ../goffice/gtk/go-font-sel.c:1232
 #, fuzzy
 msgid "The text to show for selecing no color"
 msgstr "Haettava teksti"
 
-#: ../goffice/gtk/go-font-sel.c:1239
+#: ../goffice/gtk/go-font-sel.c:1240
 #, fuzzy
 msgid "Color Group"
 msgstr "Kuvaajaryhmä"
 
-#: ../goffice/gtk/go-font-sel.c:1240
+#: ../goffice/gtk/go-font-sel.c:1241
 msgid "The color group to use for the color picker"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1248
+#: ../goffice/gtk/go-font-sel.c:1249
 #, fuzzy
 msgid "Color Default"
 msgstr "Oletus"
 
-#: ../goffice/gtk/go-font-sel.c:1249
+#: ../goffice/gtk/go-font-sel.c:1250
 msgid "The color to show for an unset color"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1259
+#: ../goffice/gtk/go-font-sel.c:1260
 msgid "Underline Picker"
 msgstr ""
 
-#: ../goffice/gtk/go-font-sel.c:1260
+#: ../goffice/gtk/go-font-sel.c:1261
 msgid "The widget to use for picking underline type"
 msgstr ""
 
@@ -4092,7 +4207,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
-msgstr "Kirjasin:"
+msgstr "Fontti:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:3
 #, fuzzy
@@ -5678,11 +5793,11 @@ msgstr "Etelä-Afrikka/englanti (en_ZA)"
 msgid "Current Locale: "
 msgstr "Tämänhetkinen maa-asetusto: "
 
-#: ../goffice/gtk/go-optionmenu.c:476
+#: ../goffice/gtk/go-optionmenu.c:479
 msgid "Menu"
 msgstr "Valikko"
 
-#: ../goffice/gtk/go-optionmenu.c:477
+#: ../goffice/gtk/go-optionmenu.c:480
 msgid "The menu of options"
 msgstr "Vaihtoehtojen valikko"
 
@@ -5731,751 +5846,751 @@ msgstr "Muotokerroin"
 #. * The second column has the long names of the currencies.
 #.
 #. 2010/08/12 Updated to match iso 4217
-#: ../goffice/utils/formats.c:382
+#: ../goffice/utils/formats.c:386
 msgid "United Arab Emirates, Dirhams"
 msgstr "Arabiemiirikunnat, dirhami"
 
-#: ../goffice/utils/formats.c:383
+#: ../goffice/utils/formats.c:387
 msgid "Afghanistan, Afghanis"
 msgstr "Afganistan, afgaani (AFA)"
 
-#: ../goffice/utils/formats.c:384
+#: ../goffice/utils/formats.c:388
 msgid "Albania, Leke"
 msgstr "Albania, lek"
 
-#: ../goffice/utils/formats.c:385
+#: ../goffice/utils/formats.c:389
 msgid "Armenia, Drams"
 msgstr "Armenia, dram"
 
-#: ../goffice/utils/formats.c:386
+#: ../goffice/utils/formats.c:390
 #, fuzzy
 msgid "Netherlands antilles, Guilders"
 msgstr "Alankomaiden Antillit, guldeni"
 
-#: ../goffice/utils/formats.c:387
+#: ../goffice/utils/formats.c:391
 msgid "Angola, Kwanza"
 msgstr "Angola, kwanza"
 
-#: ../goffice/utils/formats.c:388
+#: ../goffice/utils/formats.c:392
 msgid "Argentina, Pesos"
 msgstr "Argentiina, peso"
 
-#: ../goffice/utils/formats.c:389
+#: ../goffice/utils/formats.c:393
 msgid "Australia, Dollars"
 msgstr "Australia, dollari"
 
-#: ../goffice/utils/formats.c:390
+#: ../goffice/utils/formats.c:394
 msgid "Aruba, Guilders"
 msgstr "Aruba, guldeni"
 
-#: ../goffice/utils/formats.c:391
+#: ../goffice/utils/formats.c:395
 msgid "Azerbaijan, Manats"
 msgstr "Azerbaidžan, manat"
 
-#: ../goffice/utils/formats.c:392
+#: ../goffice/utils/formats.c:396
 #, fuzzy
 msgid "Bosnia and herzegovina, Convertible Marka"
 msgstr "Bosnia ja Hertsegovina, vaihdettava markka"
 
-#: ../goffice/utils/formats.c:393
+#: ../goffice/utils/formats.c:397
 msgid "Barbados, Dollars"
 msgstr "Barbados, dollari"
 
-#: ../goffice/utils/formats.c:394
+#: ../goffice/utils/formats.c:398
 msgid "Bangladesh, Taka"
 msgstr "Bangladesh, taka"
 
-#: ../goffice/utils/formats.c:395
+#: ../goffice/utils/formats.c:399
 msgid "Bulgaria, Leva"
 msgstr "Bulgaria, kova lev"
 
-#: ../goffice/utils/formats.c:396
+#: ../goffice/utils/formats.c:400
 msgid "Bahrain, Dinars"
 msgstr "Bahrain, dinaari"
 
-#: ../goffice/utils/formats.c:397
+#: ../goffice/utils/formats.c:401
 msgid "Burundi, Francs"
 msgstr "Burundi, frangi"
 
-#: ../goffice/utils/formats.c:398
+#: ../goffice/utils/formats.c:402
 msgid "Bermuda, Dollars"
 msgstr "Bermuda, dollari"
 
-#: ../goffice/utils/formats.c:399
+#: ../goffice/utils/formats.c:403
 msgid "Brunei Darussalam, Dollars"
 msgstr "Brunei, dollari"
 
-#: ../goffice/utils/formats.c:400
+#: ../goffice/utils/formats.c:404
 msgid "Bolivia, Bolivianos"
 msgstr "Bolivia, boliviano"
 
-#: ../goffice/utils/formats.c:401
+#: ../goffice/utils/formats.c:405
 #, fuzzy
 msgid "Bolivia, Mvdol"
 msgstr "Bolivia, boliviano"
 
-#: ../goffice/utils/formats.c:402
+#: ../goffice/utils/formats.c:406
 #, fuzzy
 msgid "Brazil, Brazilian Real"
 msgstr "Brasilia, real"
 
-#: ../goffice/utils/formats.c:403
+#: ../goffice/utils/formats.c:407
 msgid "Bahamas, Dollars"
 msgstr "Bahama, dollari"
 
-#: ../goffice/utils/formats.c:404
+#: ../goffice/utils/formats.c:408
 msgid "Bhutan, Ngultrum"
 msgstr "Bhutan, ngultrum"
 
-#: ../goffice/utils/formats.c:405
+#: ../goffice/utils/formats.c:409
 msgid "Botswana, Pulas"
 msgstr "Botswana, pula"
 
-#: ../goffice/utils/formats.c:406
+#: ../goffice/utils/formats.c:410
 msgid "Belarus, Rubles"
 msgstr "Valko-Venäjä, rupla"
 
-#: ../goffice/utils/formats.c:407
+#: ../goffice/utils/formats.c:411
 msgid "Belize, Dollars"
 msgstr "Belize, dollari"
 
-#: ../goffice/utils/formats.c:408
+#: ../goffice/utils/formats.c:412
 msgid "Canada, Dollars"
 msgstr "Kanada, dollari"
 
-#: ../goffice/utils/formats.c:409
+#: ../goffice/utils/formats.c:413
 #, fuzzy
 msgid "Congo, the democratic republic of, Congolese Francs"
 msgstr "Kongo (Kinshasa), frangi"
 
-#: ../goffice/utils/formats.c:410
+#: ../goffice/utils/formats.c:414
 #, fuzzy
 msgid "Switzerland, WIR Euros"
 msgstr "Sveitsi, frangi"
 
-#: ../goffice/utils/formats.c:411
+#: ../goffice/utils/formats.c:415
 msgid "Switzerland, Francs"
 msgstr "Sveitsi, frangi"
 
-#: ../goffice/utils/formats.c:412
+#: ../goffice/utils/formats.c:416
 #, fuzzy
 msgid "Switzerland, WIR Francs"
 msgstr "Sveitsi, frangi"
 
-#: ../goffice/utils/formats.c:413
+#: ../goffice/utils/formats.c:417
 msgid "Chile, Unidades de fomento"
 msgstr ""
 
-#: ../goffice/utils/formats.c:414
+#: ../goffice/utils/formats.c:418
 msgid "Chile, Pesos"
 msgstr "Chile, peso"
 
-#: ../goffice/utils/formats.c:415
+#: ../goffice/utils/formats.c:419
 msgid "China, Yuan Renminbi"
 msgstr "Kiina, yuan"
 
-#: ../goffice/utils/formats.c:416
+#: ../goffice/utils/formats.c:420
 msgid "Colombia, Pesos"
 msgstr "Kolumbia, peso"
 
-#: ../goffice/utils/formats.c:417
+#: ../goffice/utils/formats.c:421
 msgid "Colombia, Unidades de Valor Real"
 msgstr ""
 
-#: ../goffice/utils/formats.c:418
+#: ../goffice/utils/formats.c:422
 #, fuzzy
 msgid "Costa rica, Colones"
 msgstr "Costa Rica, colón"
 
-#: ../goffice/utils/formats.c:419
+#: ../goffice/utils/formats.c:423
 #, fuzzy
 msgid "Cuba, Pesos Convertibles"
 msgstr "Kuuba, peso"
 
-#: ../goffice/utils/formats.c:420
+#: ../goffice/utils/formats.c:424
 msgid "Cuba, Pesos"
 msgstr "Kuuba, peso"
 
-#: ../goffice/utils/formats.c:421
+#: ../goffice/utils/formats.c:425
 #, fuzzy
 msgid "Cape verde, Escudos"
 msgstr "Kap Verde, escudo"
 
-#: ../goffice/utils/formats.c:422
+#: ../goffice/utils/formats.c:426
 #, fuzzy
 msgid "Czech republic, Koruny"
 msgstr "Tšekki, koruna"
 
-#: ../goffice/utils/formats.c:423
+#: ../goffice/utils/formats.c:427
 msgid "Djibouti, Francs"
 msgstr "Djibouti, frangi"
 
-#: ../goffice/utils/formats.c:424
+#: ../goffice/utils/formats.c:428
 msgid "Denmark, Kroner"
 msgstr "Tanska, kruunu"
 
-#: ../goffice/utils/formats.c:425
+#: ../goffice/utils/formats.c:429
 #, fuzzy
 msgid "Dominican republic, Pesos"
 msgstr "Dominikaaninen tasavalta, peso"
 
-#: ../goffice/utils/formats.c:426
+#: ../goffice/utils/formats.c:430
 #, fuzzy
 msgid "Algeria, Algerian Dinars"
 msgstr "Algeria, dinaari"
 
-#: ../goffice/utils/formats.c:427
+#: ../goffice/utils/formats.c:431
 msgid "Egypt, Pounds"
 msgstr "Egypti, punta"
 
-#: ../goffice/utils/formats.c:428
+#: ../goffice/utils/formats.c:432
 msgid "Eritrea, Nakfa"
 msgstr "Eritrea, nakfa"
 
-#: ../goffice/utils/formats.c:429
+#: ../goffice/utils/formats.c:433
 msgid "Ethiopia, Birr"
 msgstr "Etiopia, birr"
 
-#: ../goffice/utils/formats.c:430
+#: ../goffice/utils/formats.c:434
 #, fuzzy
 msgid "Euro Members Countries, Euros"
 msgstr "Euro-jäsenmaat, euro"
 
-#: ../goffice/utils/formats.c:431
+#: ../goffice/utils/formats.c:435
 msgid "Fiji, Dollars"
 msgstr "Fidži, dollari"
 
-#: ../goffice/utils/formats.c:432
+#: ../goffice/utils/formats.c:436
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Falklandinsaaret, punta"
 
-#: ../goffice/utils/formats.c:433
+#: ../goffice/utils/formats.c:437
 #, fuzzy
 msgid "United kingdom, Pounds"
 msgstr "Britannia, punta"
 
-#: ../goffice/utils/formats.c:434
+#: ../goffice/utils/formats.c:438
 msgid "Georgia, Lari"
 msgstr "Georgia, lari"
 
-#: ../goffice/utils/formats.c:435
+#: ../goffice/utils/formats.c:439
 msgid "Ghana, Cedis"
 msgstr "Ghana, cedi"
 
-#: ../goffice/utils/formats.c:436
+#: ../goffice/utils/formats.c:440
 msgid "Gibraltar, Pounds"
 msgstr "Gibraltar, punta"
 
-#: ../goffice/utils/formats.c:437
+#: ../goffice/utils/formats.c:441
 msgid "Gambia, Dalasi"
 msgstr "Gambia, dalasi"
 
-#: ../goffice/utils/formats.c:438
+#: ../goffice/utils/formats.c:442
 msgid "Guinea, Francs"
 msgstr "Guinea, frangi"
 
-#: ../goffice/utils/formats.c:439
+#: ../goffice/utils/formats.c:443
 msgid "Guatemala, Quetzales"
 msgstr "Guatemala, quetzal"
 
-#: ../goffice/utils/formats.c:440
+#: ../goffice/utils/formats.c:444
 msgid "Guyana, Dollars"
 msgstr "Guyana, dollari"
 
-#: ../goffice/utils/formats.c:441
+#: ../goffice/utils/formats.c:445
 msgid "Hong Kong, Dollars"
 msgstr "Hongkong, dollari"
 
-#: ../goffice/utils/formats.c:442
+#: ../goffice/utils/formats.c:446
 msgid "Honduras, Lempiras"
 msgstr "Honduras, lempira"
 
-#: ../goffice/utils/formats.c:443
+#: ../goffice/utils/formats.c:447
 msgid "Croatia, Kuna"
 msgstr "Kroatia, kuna"
 
-#: ../goffice/utils/formats.c:444
+#: ../goffice/utils/formats.c:448
 msgid "Haiti, Gourdes"
 msgstr "Haiti, gourde"
 
-#: ../goffice/utils/formats.c:445
+#: ../goffice/utils/formats.c:449
 msgid "Hungary, Forint"
 msgstr "Unkari, forintti"
 
-#: ../goffice/utils/formats.c:446
+#: ../goffice/utils/formats.c:450
 msgid "Indonesia, Rupiahs"
 msgstr "Indonesia, rupia"
 
-#: ../goffice/utils/formats.c:447
+#: ../goffice/utils/formats.c:451
 #, fuzzy
 msgid "Israel, New Sheqels"
 msgstr "Israel, uusi sekeli"
 
-#: ../goffice/utils/formats.c:448
+#: ../goffice/utils/formats.c:452
 msgid "India, Rupees"
 msgstr "Intia, rupia"
 
-#: ../goffice/utils/formats.c:449
+#: ../goffice/utils/formats.c:453
 msgid "Iraq, Dinars"
 msgstr "Irak, dinaari"
 
-#: ../goffice/utils/formats.c:450
+#: ../goffice/utils/formats.c:454
 msgid "Iran, Rials"
 msgstr "Iran, rial"
 
-#: ../goffice/utils/formats.c:451
+#: ../goffice/utils/formats.c:455
 #, fuzzy
 msgid "Iceland, Krohur"
 msgstr "Islanti, kruunu"
 
-#: ../goffice/utils/formats.c:452
+#: ../goffice/utils/formats.c:456
 msgid "Jamaica, Dollars"
 msgstr "Jamaika, dollari"
 
-#: ../goffice/utils/formats.c:453
+#: ../goffice/utils/formats.c:457
 msgid "Jordan, Dinars"
 msgstr "Jordania, dinaari"
 
-#: ../goffice/utils/formats.c:454
+#: ../goffice/utils/formats.c:458
 msgid "Japan, Yen"
 msgstr "Japani, jeni"
 
-#: ../goffice/utils/formats.c:455
+#: ../goffice/utils/formats.c:459
 msgid "Kenya, Shillings"
 msgstr "Kenia, šillinki"
 
-#: ../goffice/utils/formats.c:456
+#: ../goffice/utils/formats.c:460
 msgid "Kyrgyzstan, Soms"
 msgstr "Kirkisia, som"
 
-#: ../goffice/utils/formats.c:457
+#: ../goffice/utils/formats.c:461
 msgid "Cambodia, Riels"
 msgstr "Kambodža, riel"
 
-#: ../goffice/utils/formats.c:458
+#: ../goffice/utils/formats.c:462
 msgid "Comoros, Francs"
 msgstr "Komorit, frangi"
 
-#: ../goffice/utils/formats.c:459
+#: ../goffice/utils/formats.c:463
 msgid "Korea (North), Won"
 msgstr "Pohjois-Korea, won"
 
-#: ../goffice/utils/formats.c:460
+#: ../goffice/utils/formats.c:464
 #, fuzzy
 msgid "Korea (South) Wons"
 msgstr "Etelä-Korea, won"
 
-#: ../goffice/utils/formats.c:461
+#: ../goffice/utils/formats.c:465
 msgid "Kuwait, Dinars"
 msgstr "Kuwait, dinaari"
 
-#: ../goffice/utils/formats.c:462
+#: ../goffice/utils/formats.c:466
 #, fuzzy
 msgid "Cayman islands, Dollars"
 msgstr "Caymansaaret, dollari"
 
-#: ../goffice/utils/formats.c:463
+#: ../goffice/utils/formats.c:467
 #, fuzzy
 msgid "Kazakhstan, Tenge"
 msgstr "Kazakstan, tenge"
 
-#: ../goffice/utils/formats.c:464
+#: ../goffice/utils/formats.c:468
 msgid "Laos, Kips"
 msgstr "Laos, kip"
 
-#: ../goffice/utils/formats.c:465
+#: ../goffice/utils/formats.c:469
 msgid "Lebanon, Pounds"
 msgstr "Libanon, punta"
 
-#: ../goffice/utils/formats.c:466
+#: ../goffice/utils/formats.c:470
 msgid "Sri Lanka, Rupees"
 msgstr "Sri Lanka, rupia"
 
-#: ../goffice/utils/formats.c:467
+#: ../goffice/utils/formats.c:471
 msgid "Liberia, Dollars"
 msgstr "Liberia, dollari"
 
-#: ../goffice/utils/formats.c:468
+#: ../goffice/utils/formats.c:472
 msgid "Lithuania, Litai"
 msgstr "Liettua, liti"
 
-#: ../goffice/utils/formats.c:469
+#: ../goffice/utils/formats.c:473
 msgid "Latvia, Lati"
 msgstr "Latvia, lati"
 
-#: ../goffice/utils/formats.c:470
+#: ../goffice/utils/formats.c:474
 msgid "Libya, Dinars"
 msgstr "Libya, dinaari"
 
-#: ../goffice/utils/formats.c:471
+#: ../goffice/utils/formats.c:475
 msgid "Morocco, Dirhams"
 msgstr "Marokko, dirhami"
 
-#: ../goffice/utils/formats.c:472
+#: ../goffice/utils/formats.c:476
 msgid "Moldova, Lei"
 msgstr "Moldova, leu"
 
-#: ../goffice/utils/formats.c:473
+#: ../goffice/utils/formats.c:477
 #, fuzzy
 msgid "Madagascar, Malagasy Ariary"
 msgstr "Madagaskar, Malagassian frangi"
 
-#: ../goffice/utils/formats.c:474
+#: ../goffice/utils/formats.c:478
 msgid "Macedonia, Denars"
 msgstr "Makedonia, dinaari"
 
-#: ../goffice/utils/formats.c:475
+#: ../goffice/utils/formats.c:479
 msgid "Myanmar (Burma), Kyats"
 msgstr "Myanmar, kyat"
 
-#: ../goffice/utils/formats.c:476
+#: ../goffice/utils/formats.c:480
 msgid "Mongolia, Tugriks"
 msgstr "Mongolia, tugrik"
 
-#: ../goffice/utils/formats.c:477
+#: ../goffice/utils/formats.c:481
 #, fuzzy
 msgid "Macao, Patacas"
 msgstr "Macau, pataca"
 
-#: ../goffice/utils/formats.c:478
+#: ../goffice/utils/formats.c:482
 msgid "Mauritania, Ouguiyas"
 msgstr "Mauritania, ouguiya"
 
-#: ../goffice/utils/formats.c:479
+#: ../goffice/utils/formats.c:483
 msgid "Mauritius, Rupees"
 msgstr "Mauritius, rupia"
 
-#: ../goffice/utils/formats.c:480
+#: ../goffice/utils/formats.c:484
 #, fuzzy
 msgid "Maldives (Maldive Islands), Rufiyaas"
 msgstr "Malediivit, rufiyaa"
 
-#: ../goffice/utils/formats.c:481
+#: ../goffice/utils/formats.c:485
 msgid "Malawi, Kwachas"
 msgstr "Malawi, kwacha"
 
-#: ../goffice/utils/formats.c:482
+#: ../goffice/utils/formats.c:486
 msgid "Mexico, Pesos"
 msgstr "Meksiko, peso"
 
-#: ../goffice/utils/formats.c:483
+#: ../goffice/utils/formats.c:487
 msgid "Mexico, Unidades de Inversion"
 msgstr ""
 
-#: ../goffice/utils/formats.c:484
+#: ../goffice/utils/formats.c:488
 msgid "Malaysia, Ringgits"
 msgstr "Malesia, ringgit"
 
-#: ../goffice/utils/formats.c:485
+#: ../goffice/utils/formats.c:489
 msgid "Mozambique, Meticais"
 msgstr "Mosambik, metical"
 
-#: ../goffice/utils/formats.c:486
+#: ../goffice/utils/formats.c:490
 msgid "Nigeria, Nairas"
 msgstr "Nigeria, naira"
 
-#: ../goffice/utils/formats.c:487
+#: ../goffice/utils/formats.c:491
 msgid "Nicaragua, Gold Cordobas"
 msgstr "Nicaragua, kultacordoba"
 
-#: ../goffice/utils/formats.c:488
+#: ../goffice/utils/formats.c:492
 #, fuzzy
 msgid "Norway, Norwegian Krone"
 msgstr "Norja, kruunu"
 
-#: ../goffice/utils/formats.c:489
+#: ../goffice/utils/formats.c:493
 #, fuzzy
 msgid "Nepal, Nepalese Rupees"
 msgstr "Nepal, rupia"
 
-#: ../goffice/utils/formats.c:490
+#: ../goffice/utils/formats.c:494
 #, fuzzy
 msgid "New zealand, Dollars"
 msgstr "Uusi-Seelanti, dollari"
 
-#: ../goffice/utils/formats.c:491
+#: ../goffice/utils/formats.c:495
 msgid "Oman, Rials"
 msgstr "Oman, rial"
 
-#: ../goffice/utils/formats.c:492
+#: ../goffice/utils/formats.c:496
 msgid "Panama, Balboa"
 msgstr "Panama, balboa"
 
-#: ../goffice/utils/formats.c:493
+#: ../goffice/utils/formats.c:497
 #, fuzzy
 msgid "Peru, Nuevo Soles"
 msgstr "Peru, uusi sol"
 
-#: ../goffice/utils/formats.c:494
+#: ../goffice/utils/formats.c:498
 msgid "Papua New Guinea, Kina"
 msgstr "Papua-Uusi-Guinea, kina"
 
-#: ../goffice/utils/formats.c:495
+#: ../goffice/utils/formats.c:499
 msgid "Philippines, Pesos"
 msgstr "Filippiinit, peso"
 
-#: ../goffice/utils/formats.c:496
+#: ../goffice/utils/formats.c:500
 msgid "Pakistan, Rupees"
 msgstr "Pakistan, rupia"
 
-#: ../goffice/utils/formats.c:497
+#: ../goffice/utils/formats.c:501
 msgid "Poland, Zlotys"
 msgstr "Puola, zloty"
 
-#: ../goffice/utils/formats.c:498
+#: ../goffice/utils/formats.c:502
 msgid "Paraguay, Guarani"
 msgstr "Paraguay, guarani"
 
-#: ../goffice/utils/formats.c:499
+#: ../goffice/utils/formats.c:503
 msgid "Qatar, Rials"
 msgstr "Qatar, rial"
 
-#: ../goffice/utils/formats.c:500
+#: ../goffice/utils/formats.c:504
 #, fuzzy
 msgid "Romania, New Lei"
 msgstr "Romania, leu"
 
-#: ../goffice/utils/formats.c:501
+#: ../goffice/utils/formats.c:505
 #, fuzzy
 msgid "Serbia, Dinars"
 msgstr "Irak, dinaari"
 
-#: ../goffice/utils/formats.c:502
+#: ../goffice/utils/formats.c:506
 msgid "Russia, Rubles"
 msgstr "Venäjä, rupla (RUR)"
 
-#: ../goffice/utils/formats.c:503
+#: ../goffice/utils/formats.c:507
 msgid "Rwanda, Rwanda Francs"
 msgstr "Ruanda, frangi"
 
-#: ../goffice/utils/formats.c:504
+#: ../goffice/utils/formats.c:508
 #, fuzzy
 msgid "Saudi arabia, Riyals"
 msgstr "Saudi-Arabia, rial"
 
-#: ../goffice/utils/formats.c:505
+#: ../goffice/utils/formats.c:509
 msgid "Solomon Islands, Dollars"
 msgstr "Salomonsaaret, dollari"
 
-#: ../goffice/utils/formats.c:506
+#: ../goffice/utils/formats.c:510
 msgid "Seychelles, Rupees"
 msgstr "Seychellit, rupia"
 
-#: ../goffice/utils/formats.c:507
+#: ../goffice/utils/formats.c:511
 #, fuzzy
 msgid "Sudan, Pounds"
 msgstr "Syyria, punta"
 
-#: ../goffice/utils/formats.c:508
+#: ../goffice/utils/formats.c:512
 #, fuzzy
 msgid "International Monetary Fund (I.M.F), SDR"
 msgstr "erityisnosto-oikeus (SDR)"
 
-#: ../goffice/utils/formats.c:509
+#: ../goffice/utils/formats.c:513
 msgid "Sweden, Kronor"
 msgstr "Ruotsi, kruunu"
 
-#: ../goffice/utils/formats.c:510
+#: ../goffice/utils/formats.c:514
 msgid "Singapore, Dollars"
 msgstr "Singapore, dollari"
 
-#: ../goffice/utils/formats.c:511
+#: ../goffice/utils/formats.c:515
 msgid "Saint Helena, Ascension and Tristan da Cunha, Pounds"
 msgstr ""
 
-#: ../goffice/utils/formats.c:512
+#: ../goffice/utils/formats.c:516
 #, fuzzy
 msgid "Sierra leone, Leones"
 msgstr "Sierra Leone, leone"
 
-#: ../goffice/utils/formats.c:513
+#: ../goffice/utils/formats.c:517
 msgid "Somalia, Shillings"
 msgstr "Somalia, šillinki"
 
-#: ../goffice/utils/formats.c:514
+#: ../goffice/utils/formats.c:518
 #, fuzzy
 msgid "Suriname, Dollars"
 msgstr "Singapore, dollari"
 
-#: ../goffice/utils/formats.c:515
+#: ../goffice/utils/formats.c:519
 #, fuzzy
 msgid "São Tome and Principe, Dobras"
 msgstr "São Tomé ja Príncipe, dobra"
 
-#: ../goffice/utils/formats.c:516
+#: ../goffice/utils/formats.c:520
 msgid "El Salvador, Colones"
 msgstr "El Salvador, colon"
 
-#: ../goffice/utils/formats.c:517
+#: ../goffice/utils/formats.c:521
 msgid "Syria, Pounds"
 msgstr "Syyria, punta"
 
-#: ../goffice/utils/formats.c:518
+#: ../goffice/utils/formats.c:522
 msgid "Swaziland, Emalangeni"
 msgstr "Swazimaa, lilangeni"
 
-#: ../goffice/utils/formats.c:519
+#: ../goffice/utils/formats.c:523
 msgid "Thailand, Baht"
 msgstr "Thaimaa, baht"
 
 # Tämä, niinkuin muutama muunkin maan valuutta on nykyään vaihtunut, mutta käännös vastaa ohjelman käyttämää valuuttakoodia
-#: ../goffice/utils/formats.c:520
+#: ../goffice/utils/formats.c:524
 #, fuzzy
 msgid "Tajikistan, Somoni"
 msgstr "Tadžikistan, rupla"
 
-#: ../goffice/utils/formats.c:521
+#: ../goffice/utils/formats.c:525
 msgid "Turkmenistan, Manats"
 msgstr "Turkmenistan, manat"
 
-#: ../goffice/utils/formats.c:522
+#: ../goffice/utils/formats.c:526
 msgid "Tunisia, Dinars"
 msgstr "Tunisia, dinaari"
 
-#: ../goffice/utils/formats.c:523
+#: ../goffice/utils/formats.c:527
 #, fuzzy
 msgid "Tonga, Pa'angas"
 msgstr "Tonga, pa'anga"
 
-#: ../goffice/utils/formats.c:524
+#: ../goffice/utils/formats.c:528
 msgid "Turkey, Liras"
 msgstr "Turkki, liira"
 
-#: ../goffice/utils/formats.c:525
+#: ../goffice/utils/formats.c:529
 msgid "Trinidad and Tobago, Dollars"
 msgstr "Trinidad ja Tobago, dollari"
 
-#: ../goffice/utils/formats.c:526
+#: ../goffice/utils/formats.c:530
 msgid "Taiwan, New Dollars"
 msgstr "Taiwan, uusi dollari"
 
-#: ../goffice/utils/formats.c:527
+#: ../goffice/utils/formats.c:531
 msgid "Tanzania, Shillings"
 msgstr "Tansania, šillinki"
 
-#: ../goffice/utils/formats.c:528
+#: ../goffice/utils/formats.c:532
 msgid "Ukraine, Hryvnia"
 msgstr "Ukraina, hryvnia"
 
-#: ../goffice/utils/formats.c:529
+#: ../goffice/utils/formats.c:533
 msgid "Uganda, Shillings"
 msgstr "Uganda, šillinki"
 
-#: ../goffice/utils/formats.c:530
+#: ../goffice/utils/formats.c:534
 msgid "United States of America, Dollars"
 msgstr "Yhdysvallat, dollari"
 
-#: ../goffice/utils/formats.c:531
+#: ../goffice/utils/formats.c:535
 #, fuzzy
 msgid "United States of America, Dollars (Next day)"
 msgstr "Yhdysvallat, dollari"
 
-#: ../goffice/utils/formats.c:532
+#: ../goffice/utils/formats.c:536
 #, fuzzy
 msgid "United States of America, Dollars (Same day)"
 msgstr "Yhdysvallat, dollari"
 
-#: ../goffice/utils/formats.c:533
+#: ../goffice/utils/formats.c:537
 msgid "Uruguay, Pesos en Unidades Indexadas"
 msgstr ""
 
-#: ../goffice/utils/formats.c:534
+#: ../goffice/utils/formats.c:538
 msgid "Uruguay, Pesos"
 msgstr "Uruguay, peso"
 
-#: ../goffice/utils/formats.c:535
+#: ../goffice/utils/formats.c:539
 msgid "Uzbekistan, Sums"
 msgstr "Uzbekistan, sum"
 
-#: ../goffice/utils/formats.c:536
+#: ../goffice/utils/formats.c:540
 #, fuzzy
 msgid "Venezuela, Bolivares Fuertes"
 msgstr "Venezuela, bolivar"
 
-#: ../goffice/utils/formats.c:537
+#: ../goffice/utils/formats.c:541
 msgid "Viet Nam, Dong"
 msgstr "Vietnam, dong"
 
-#: ../goffice/utils/formats.c:538
+#: ../goffice/utils/formats.c:542
 msgid "Vanuatu, Vatu"
 msgstr "Vanuatu, vatu"
 
-#: ../goffice/utils/formats.c:539
+#: ../goffice/utils/formats.c:543
 msgid "Samoa, Tala"
 msgstr "Samoa, tala"
 
-#: ../goffice/utils/formats.c:540
+#: ../goffice/utils/formats.c:544
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr "CFA-frangi (BEAC)"
 
-#: ../goffice/utils/formats.c:541
+#: ../goffice/utils/formats.c:545
 msgid "Silver, Ounces"
 msgstr "hopeaunssi"
 
-#: ../goffice/utils/formats.c:542
+#: ../goffice/utils/formats.c:546
 msgid "Gold, Ounces"
 msgstr "kultaunssi"
 
-#: ../goffice/utils/formats.c:543
+#: ../goffice/utils/formats.c:547
 msgid "Bond Markets Units, European Coposite Units (EURCO)"
 msgstr ""
 
-#: ../goffice/utils/formats.c:544
+#: ../goffice/utils/formats.c:548
 msgid "European Monetary Units (E.M.U.-6)"
 msgstr ""
 
-#: ../goffice/utils/formats.c:545
+#: ../goffice/utils/formats.c:549
 msgid "European Units of Account 9 (E.U.A.-9)"
 msgstr ""
 
-#: ../goffice/utils/formats.c:546
+#: ../goffice/utils/formats.c:550
 msgid "European Units of Account 17 (E.U.A.-17)"
 msgstr ""
 
-#: ../goffice/utils/formats.c:547
+#: ../goffice/utils/formats.c:551
 msgid "East Caribbean Dollars"
 msgstr "Itä-Karibian dollari"
 
-#: ../goffice/utils/formats.c:548
+#: ../goffice/utils/formats.c:552
 msgid "UIC-Francs"
 msgstr ""
 
-#: ../goffice/utils/formats.c:549
+#: ../goffice/utils/formats.c:553
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "CFA-frangi (BCEAO)"
 
-#: ../goffice/utils/formats.c:550
+#: ../goffice/utils/formats.c:554
 #, fuzzy
 msgid "Comptoirs Francais du Pacifique, Francs"
 msgstr "CFP-frangi"
 
-#: ../goffice/utils/formats.c:551
+#: ../goffice/utils/formats.c:555
 msgid "Palladium, Ounces"
 msgstr "palladiumunssi"
 
-#: ../goffice/utils/formats.c:552
+#: ../goffice/utils/formats.c:556
 msgid "Yemen, Rials"
 msgstr "Jemen, rial"
 
-#: ../goffice/utils/formats.c:553
+#: ../goffice/utils/formats.c:557
 #, fuzzy
 msgid "South Africa, Rands"
 msgstr "Etelä-Afrikka, randi"
 
-#: ../goffice/utils/formats.c:554
+#: ../goffice/utils/formats.c:558
 msgid "Lesotho, Maloti"
 msgstr "Lesotho, loti"
 
-#: ../goffice/utils/formats.c:555
+#: ../goffice/utils/formats.c:559
 msgid "Namibia, Dollars"
 msgstr "Namibia, dollari"
 
-#: ../goffice/utils/formats.c:556
+#: ../goffice/utils/formats.c:560
 #, fuzzy
 msgid "Zambia, Zambian Kwacha"
 msgstr "Sambia, kwacha"
 
-#: ../goffice/utils/formats.c:557
+#: ../goffice/utils/formats.c:561
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, dollari (ZWD)"
 
@@ -6484,12 +6599,12 @@ msgstr "Zimbabwe, dollari (ZWD)"
 msgid "Could not load the image data\n"
 msgstr ""
 
-#: ../goffice/utils/go-emf.c:266
+#: ../goffice/utils/go-emf.c:268
 #, c-format
 msgid "Could not input the image data\n"
 msgstr ""
 
-#: ../goffice/utils/go-emf.c:4697 ../goffice/utils/go-emf.c:4703
+#: ../goffice/utils/go-emf.c:4705 ../goffice/utils/go-emf.c:4711
 #, fuzzy, c-format
 msgid "Invalid image data\n"
 msgstr "Virheellinen alueen loppu."
@@ -6587,20 +6702,20 @@ msgstr "oikealla"
 msgid "left"
 msgstr "ylävasemmalla"
 
-#: ../goffice/utils/go-glib-extras.c:915
+#: ../goffice/utils/go-glib-extras.c:925
 msgid "yes"
 msgstr "kyllä"
 
-#: ../goffice/utils/go-glib-extras.c:921
+#: ../goffice/utils/go-glib-extras.c:931
 msgid "no"
 msgstr "ei"
 
-#: ../goffice/utils/go-glib-extras.c:1139
+#: ../goffice/utils/go-glib-extras.c:1149
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Merkkijonon lainaus ei pääty"
 
-#: ../goffice/utils/go-glib-extras.c:1146
+#: ../goffice/utils/go-glib-extras.c:1156
 #, c-format
 msgid "Syntax error"
 msgstr "Syntaksivirhe"
@@ -6637,11 +6752,11 @@ msgstr "WMF ( Windows-metatiedosto)"
 msgid "EPS (encapsulated postscript)"
 msgstr "EPS (kapseloitu postscript)"
 
-#: ../goffice/utils/go-image.c:500
+#: ../goffice/utils/go-image.c:511
 msgid "Image width in pixels"
 msgstr "Kuvan leveys pikseleinä"
 
-#: ../goffice/utils/go-image.c:504
+#: ../goffice/utils/go-image.c:515
 msgid "Image height in pixels"
 msgstr "Kuvan korkeus pikseleinä"
 
@@ -6898,7 +7013,7 @@ msgstr "Suuret ympyrät"
 msgid "Bricks"
 msgstr "Tiilet"
 
-#: ../goffice/utils/go-pixbuf.c:277
+#: ../goffice/utils/go-pixbuf.c:304
 #, fuzzy
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr "GdkPixbuf-objekti, josta GOImage rakennetaan"
@@ -6907,15 +7022,15 @@ msgstr "GdkPixbuf-objekti, josta GOImage rakennetaan"
 msgid "No image!"
 msgstr ""
 
-#: ../goffice/utils/go-style.c:648
+#: ../goffice/utils/go-style.c:650
 msgid "Foreground:"
 msgstr "Edusta:"
 
-#: ../goffice/utils/go-style.c:649
+#: ../goffice/utils/go-style.c:651
 msgid "Background:"
 msgstr "Tausta:"
 
-#: ../goffice/utils/go-style.c:868
+#: ../goffice/utils/go-style.c:870
 msgid "Markers"
 msgstr "Merkkipisteet"
 
@@ -7157,6 +7272,56 @@ msgstr "Täsmää sanoja"
 msgid "Match whole words only."
 msgstr "Täsmää vain kokonaisia sanoja."
 
+#: ../plugins/lasem/component.c:193
+#, fuzzy
+#| msgid "Equation"
+msgid "Equation editor"
+msgstr "Yhtälö"
+
+#: ../plugins/lasem/component.c:201
+#, fuzzy
+#| msgid "content"
+msgid "Contents"
+msgstr "sisältö"
+
+#: ../plugins/lasem/component.c:424
+#, fuzzy
+#| msgid "Allow markup"
+msgid "Itex markup"
+msgstr "Salli merkintä"
+
+#: ../plugins/lasem/component.c:425
+msgid "Itex markup string"
+msgstr ""
+
+#: ../plugins/lasem/component.c:431
+#, fuzzy
+#| msgid "Default fill"
+msgid "Default font color"
+msgstr "Oletustäyttö"
+
+#: ../plugins/lasem/component.c:437
+#, fuzzy
+#| msgid "Default fill"
+msgid "Default font"
+msgstr "Oletustäyttö"
+
+#: ../plugins/lasem/plugin.xml.in.h:1
+#, fuzzy
+#| msgid "Component Type"
+msgid "Component : Lasem"
+msgstr "Komponenttityyppi"
+
+#: ../plugins/lasem/plugin.xml.in.h:2
+msgid "Math equation support"
+msgstr ""
+
+#: ../plugins/lasem/plugin.xml.in.h:3
+#, fuzzy
+#| msgid "Component Engine"
+msgid "Math equation component engine"
+msgstr "Komponenttiohjelma"
+
 #: ../plugins/plot_barcol/gog-1.5d.c:348
 msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr "Useiden sarjojen ryhmittely: normaali, pinottu, prosentteina"
@@ -7194,9 +7359,9 @@ msgid "Lines"
 msgstr "Viivat"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:687
-#: ../plugins/plot_radar/gog-radar.c:1343
-#: ../plugins/plot_radar/gog-radar.c:1469 ../plugins/plot_xy/gog-xy.c:2175
-#: ../plugins/plot_xy/gog-xy.c:2181
+#: ../plugins/plot_radar/gog-radar.c:1349
+#: ../plugins/plot_radar/gog-radar.c:1475 ../plugins/plot_xy/gog-xy.c:2176
+#: ../plugins/plot_xy/gog-xy.c:2182
 #, fuzzy
 msgid "GogErrorBar *"
 msgstr "Virhe jäsennettäessä riviä"
@@ -7248,21 +7413,21 @@ msgstr "vaakapalkkeja tai pystysuuntaisia pylväitä"
 
 #: ../plugins/plot_barcol/gog-barcol.c:278
 #: ../plugins/plot_barcol/gog-dropbar.c:130
-#: ../plugins/plot_barcol/gog-line.c:451
+#: ../plugins/plot_barcol/gog-line.c:655
 #: ../plugins/plot_distrib/gog-boxplot.c:413
 #: ../plugins/plot_distrib/gog-histogram.c:374
 #: ../plugins/plot_radar/gog-radar.c:446 ../plugins/plot_radar/gog-radar.c:517
-#: ../plugins/plot_xy/gog-xy.c:396 ../plugins/plot_xy/gog-xy-dropbar.c:300
+#: ../plugins/plot_xy/gog-xy.c:396 ../plugins/plot_xy/gog-xy-dropbar.c:296
 msgid "Displayed under the grids"
 msgstr ""
 
 #: ../plugins/plot_barcol/gog-barcol.c:279
 #: ../plugins/plot_barcol/gog-dropbar.c:131
-#: ../plugins/plot_barcol/gog-line.c:452
+#: ../plugins/plot_barcol/gog-line.c:656
 #: ../plugins/plot_distrib/gog-boxplot.c:414
 #: ../plugins/plot_distrib/gog-histogram.c:375
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:518
-#: ../plugins/plot_xy/gog-xy.c:397 ../plugins/plot_xy/gog-xy-dropbar.c:301
+#: ../plugins/plot_xy/gog-xy.c:397 ../plugins/plot_xy/gog-xy-dropbar.c:297
 msgid "Should the plot be displayed before the grids"
 msgstr ""
 
@@ -7283,25 +7448,49 @@ msgstr "Limitys:"
 msgid "PlotDropBar"
 msgstr "Kelluva palkki -kuvaaja"
 
+#: ../plugins/plot_barcol/gog-line.c:305 ../plugins/plot_xy/gog-xy.c:2193
+msgid "Clamp at start"
+msgstr "Kiinnitys alussa"
+
+#: ../plugins/plot_barcol/gog-line.c:306 ../plugins/plot_xy/gog-xy.c:2194
+msgid ""
+"Slope at start of the interpolated curve when using clamped spline "
+"interpolation"
+msgstr ""
+"Interpoloidun käyrän alkukulmakerroin käytettäessä kiinnitettyä splini-"
+"interpolaatiota"
+
+#: ../plugins/plot_barcol/gog-line.c:311 ../plugins/plot_xy/gog-xy.c:2199
+msgid "Clamp at end"
+msgstr "Kiinnitys lopussa"
+
+#: ../plugins/plot_barcol/gog-line.c:312 ../plugins/plot_xy/gog-xy.c:2200
+msgid ""
+"Slope at end of the interpolated curve when using clamped spline "
+"interpolation"
+msgstr ""
+"Interpoloidun käyrän loppukulmakerroin käytettäessä kiinnitettyä splini-"
+"interpolaatiota"
+
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: ../plugins/plot_barcol/gog-line.c:240
+#: ../plugins/plot_barcol/gog-line.c:444
 msgid "PlotLine"
 msgstr "Viivakuvaaja"
 
-#: ../plugins/plot_barcol/gog-line.c:327
+#: ../plugins/plot_barcol/gog-line.c:531
 #: ../plugins/plot_barcol/gog-minmax.c:233
 #: ../plugins/plot_radar/gog-radar.c:231
-#: ../plugins/plot_xy/gog-xy-minmax.c:297
+#: ../plugins/plot_xy/gog-xy-minmax.c:305
 msgid "Default markers"
 msgstr "Oletusmerkkipisteet"
 
-#: ../plugins/plot_barcol/gog-line.c:328
+#: ../plugins/plot_barcol/gog-line.c:532
 #: ../plugins/plot_barcol/gog-minmax.c:234
 #: ../plugins/plot_radar/gog-radar.c:232 ../plugins/plot_xy/gog-xy.c:373
-#: ../plugins/plot_xy/gog-xy-minmax.c:298
+#: ../plugins/plot_xy/gog-xy-minmax.c:306
 msgid "Should the default style of a series include markers"
 msgstr "Pitäisikö sarjojen oletustyylissä olla merkkipisteet"
 
@@ -7309,7 +7498,7 @@ msgstr "Pitäisikö sarjojen oletustyylissä olla merkkipisteet"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: ../plugins/plot_barcol/gog-line.c:437
+#: ../plugins/plot_barcol/gog-line.c:641
 msgid "PlotArea"
 msgstr "Aluekuvaaja"
 
@@ -7321,17 +7510,17 @@ msgid "PlotMinMax"
 msgstr "Janakuvaaja"
 
 #: ../plugins/plot_barcol/gog-minmax.c:228
-#: ../plugins/plot_xy/gog-xy-minmax.c:292
+#: ../plugins/plot_xy/gog-xy-minmax.c:300
 msgid "Horizontal or vertical lines"
 msgstr "Vaaka- ja pystyviivat"
 
 #: ../plugins/plot_barcol/gog-minmax.c:248
-#: ../plugins/plot_xy/gog-xy-minmax.c:310
+#: ../plugins/plot_xy/gog-xy-minmax.c:318
 msgid "Min"
 msgstr "Vähin"
 
 #: ../plugins/plot_barcol/gog-minmax.c:250
-#: ../plugins/plot_xy/gog-xy-minmax.c:312
+#: ../plugins/plot_xy/gog-xy-minmax.c:320
 msgid "Max"
 msgstr "Enin"
 
@@ -7353,6 +7542,7 @@ msgid "DropBar"
 msgstr "Kelluva palkki"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:6
+#: ../plugins/plot_xy/plot-types.xml.in.h:6
 msgid "MinMax"
 msgstr "Jana"
 
@@ -7641,12 +7831,6 @@ msgstr "Välien tasaus:"
 #: ../plugins/plot_distrib/gog-boxplot.c:208
 msgid "Box-Plot"
 msgstr "Laatikkokuvaaja"
-
-#: ../plugins/plot_distrib/gog-boxplot.c:395
-#: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
-#: ../plugins/plot_distrib/gog-histogram.c:362
-msgid "Vertical"
-msgstr "Pystytaso"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
@@ -8170,24 +8354,24 @@ msgstr "piilopoikkeukset"
 msgid "Hide data outside of the color axis bounds"
 msgstr "Piilota väriakselin rajojen ulkopuolinen data"
 
-#: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:400
-#: ../plugins/plot_surface/gog-xyz-surface.c:543
+#: ../plugins/plot_radar/gog-radar.c:734 ../plugins/plot_surface/gog-xyz.c:406
+#: ../plugins/plot_surface/gog-xyz-surface.c:757
 #: ../plugins/plot_surface/xl-surface.c:304
-#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:832
+#: ../plugins/plot_surface/xl-surface.c:396 ../plugins/plot_xy/gog-xy.c:832
 msgid "Z"
 msgstr "Z"
 
-#: ../plugins/plot_radar/gog-radar.c:1309
-#: ../plugins/plot_radar/gog-radar.c:1342
+#: ../plugins/plot_radar/gog-radar.c:1315
+#: ../plugins/plot_radar/gog-radar.c:1348
 msgid "Radial error bars"
 msgstr "Säteettäiset virhejanat"
 
-#: ../plugins/plot_radar/gog-radar.c:1317
+#: ../plugins/plot_radar/gog-radar.c:1323
 msgid "Radial drop lines"
 msgstr "Kelluvat sädeviivat"
 
-#: ../plugins/plot_radar/gog-radar.c:1425
-#: ../plugins/plot_radar/gog-radar.c:1468
+#: ../plugins/plot_radar/gog-radar.c:1431
+#: ../plugins/plot_radar/gog-radar.c:1474
 msgid "Angular error bars"
 msgstr "Kaarevat virhejanat"
 
@@ -8261,9 +8445,16 @@ msgstr "Verkkokuvaajien oletustyypit"
 
 #. xgettext : the base for how to name contour plot objects
 #.
-#: ../plugins/plot_surface/gog-contour.c:131
+#: ../plugins/plot_surface/gog-contour.c:133
 msgid "PlotContour"
 msgstr "Korkeuskäyräkuvaaja"
+
+#. xgettext : the base for how to name matrix objects
+#.
+#: ../plugins/plot_surface/gog-matrix.c:70
+#, fuzzy
+msgid "PlotMatrix"
+msgstr "Maksimi"
 
 #. xgettext : the base for how to name surface plot objects
 #.
@@ -8271,24 +8462,26 @@ msgstr "Korkeuskäyräkuvaaja"
 msgid "PlotSurface"
 msgstr "Pintakuvaaja"
 
-#: ../plugins/plot_surface/gog-xyz.c:383
+#: ../plugins/plot_surface/gog-xyz.c:389
 msgid "Transposed"
 msgstr "Paikka vaihdettu"
 
-#: ../plugins/plot_surface/gog-xyz.c:384
+#: ../plugins/plot_surface/gog-xyz.c:390
 msgid "Transpose the plot"
 msgstr "Transponoi kuvaaja"
 
-#: ../plugins/plot_surface/gog-xyz.c:396
-#: ../plugins/plot_surface/gog-xyz-surface.c:539
+#: ../plugins/plot_surface/gog-xyz.c:402
+#: ../plugins/plot_surface/gog-xyz-surface.c:753
+#: ../plugins/plot_surface/gog-xyz-surface.c:772
 #: ../plugins/plot_surface/xl-surface.c:302
-#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:405
+#: ../plugins/plot_surface/xl-surface.c:394 ../plugins/plot_xy/gog-xy.c:405
 #: ../plugins/plot_xy/gog-xy.c:575 ../plugins/plot_xy/gog-xy.c:828
 msgid "X"
 msgstr "X"
 
-#: ../plugins/plot_surface/gog-xyz.c:398
-#: ../plugins/plot_surface/gog-xyz-surface.c:541
+#: ../plugins/plot_surface/gog-xyz.c:404
+#: ../plugins/plot_surface/gog-xyz-surface.c:755
+#: ../plugins/plot_surface/gog-xyz-surface.c:774
 #: ../plugins/plot_xy/gog-xy.c:407 ../plugins/plot_xy/gog-xy.c:577
 #: ../plugins/plot_xy/gog-xy.c:830
 msgid "Y"
@@ -8298,61 +8491,107 @@ msgstr "Y"
 msgid "Transpose"
 msgstr "Vaihda paikkaa"
 
-#. xgettext : the base for how to name surface plot objects
+#: ../plugins/plot_surface/gog-xyz-prefs.ui.h:2
+#, fuzzy
+msgid "Show colors in legend"
+msgstr "Näytä vastaluvut"
+
+#. xgettext : the base for how to name contour plot objects with (x,y,z) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:292
+#: ../plugins/plot_surface/gog-xyz-surface.c:489
 msgid "PlotXYZContour"
 msgstr "XYZ-korkeuskäyräkuvaaja"
 
-#. xgettext : the base for how to name surface plot objects
+#. xgettext : the base for how to name matrix plot objects with (x,y,z) data
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:300
+#: ../plugins/plot_surface/gog-xyz-surface.c:497
+#, fuzzy
+msgid "PlotXYZMatrix"
+msgstr "Janakuvaaja"
+
+#. xgettext : the base for how to name surface plot objects with (x,y,z) data
+#.
+#: ../plugins/plot_surface/gog-xyz-surface.c:505
 msgid "PlotXYZSurface"
 msgstr "XYZ-pintakuvaaja"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:502
+#: ../plugins/plot_surface/gog-xyz-surface.c:722
 msgid "Rows"
 msgstr "Rivejä"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:503
+#: ../plugins/plot_surface/gog-xyz-surface.c:723
 msgid "Number of rows"
 msgstr "Rivien määrä"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:508
+#: ../plugins/plot_surface/gog-xyz-surface.c:728
 #, fuzzy
 msgid "Auto Rows"
 msgstr "Rivejä"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:509
+#: ../plugins/plot_surface/gog-xyz-surface.c:729
 #, fuzzy
 msgid "Whether the rows limits should be evaluated"
 msgstr "Olisiko laatikkokuvaajan oltava pystysuuntainen vaakasuunnan asemesta"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:514
+#: ../plugins/plot_surface/gog-xyz-surface.c:734
 msgid "Columns"
 msgstr "Sarakkeita"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:515
+#: ../plugins/plot_surface/gog-xyz-surface.c:735
 msgid "Number of columns"
 msgstr "Sarakkeiden määrä"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:520
+#: ../plugins/plot_surface/gog-xyz-surface.c:740
 #, fuzzy
 msgid "Auto Columns"
 msgstr "Sarakkeita"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:521
+#: ../plugins/plot_surface/gog-xyz-surface.c:741
 #, fuzzy
 msgid "Whether the columns limits should be evaluated"
 msgstr "Onko asiakirjaa muutettu."
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:526
+#: ../plugins/plot_surface/gog-xyz-surface.c:747
 msgid "Missing as"
 msgstr ""
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:527
+#: ../plugins/plot_surface/gog-xyz-surface.c:748
 msgid "How to deal with missing data"
 msgstr ""
+
+#: ../plugins/plot_surface/gog-xyz-surface.c:766
+msgid "As density"
+msgstr ""
+
+#: ../plugins/plot_surface/gog-xyz-surface.c:767
+#, fuzzy
+#| msgid "Display size as area instead of diameter"
+msgid "Display the data as density instead or raw data"
+msgstr "Esitä koko pinta-alana halkaisijan asemesta"
+
+#. xgettext : the base for how to name contour plot objects with (x,y) data
+#.
+#. xgettext : the base for how to name matrix plot objects with (x,y) data
+#.
+#: ../plugins/plot_surface/gog-xyz-surface.c:915
+#: ../plugins/plot_surface/gog-xyz-surface.c:971
+#, fuzzy
+msgid "PlotXYMatrix"
+msgstr "Janakuvaaja"
+
+#. xgettext : the base for how to name surface plots objects with (x,y) data
+#.
+#: ../plugins/plot_surface/gog-xyz-surface.c:1027
+#, fuzzy
+#| msgid "PlotXYZSurface"
+msgid "PlotXYSurface"
+msgstr "XYZ-pintakuvaaja"
+
+#: ../plugins/plot_surface/gog-xyz-surface-prefs.c:162
+#, fuzzy
+#| msgid "Display _equation"
+msgid "Display population density"
+msgstr "Näytä _yhtälö"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
 #, fuzzy
@@ -8400,28 +8639,75 @@ msgid "Surface"
 msgstr "Pinta"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:3
+#, fuzzy
+msgid "Matrix"
+msgstr "Maksimi"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:4
 msgid "Contour plot."
 msgstr "Korkeuskäyräkuvaaja."
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:4
+#: ../plugins/plot_surface/plot-types.xml.in.h:5
 msgid "XYZContour"
 msgstr "XYZ-korkeuskäyrä"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:5
+#: ../plugins/plot_surface/plot-types.xml.in.h:6
 msgid "Builds a contour from a set of points with three coordinates"
 msgstr "Koostetaan korkeuskäyrä kolmikoordinaattisesta pistejoukosta"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:6
+#: ../plugins/plot_surface/plot-types.xml.in.h:7
+#, fuzzy
+#| msgid "XYZContour"
+msgid "XYContour"
+msgstr "XYZ-korkeuskäyrä"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:8
+msgid "Builds a contour from the number of (X,Y) values around each vertex"
+msgstr ""
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:9
 msgid "Surface plot."
 msgstr "Pintakuvaaja."
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:7
+#: ../plugins/plot_surface/plot-types.xml.in.h:10
 msgid "XYZSurface"
 msgstr "XYZ-pinta"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:8
+#: ../plugins/plot_surface/plot-types.xml.in.h:11
 msgid "Builds a surface from a set of points with three coordinates"
 msgstr "Koostetaan pinta kolmikoordinaattisesta pistejoukosta"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:12
+#, fuzzy
+#| msgid "XYZSurface"
+msgid "XYSurface"
+msgstr "XYZ-pinta"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:13
+msgid "Builds a surface from the number of (X,Y) values around each vertex"
+msgstr ""
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:14
+msgid "Matrix plot. Displays as colors the values given as a matrix."
+msgstr ""
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:15
+#, fuzzy
+msgid "XYZMatrix"
+msgstr "Maksimi"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:16
+msgid "Displays as colors the mean Z values of the (X,Y,Z) data in each cell."
+msgstr ""
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:17
+#, fuzzy
+msgid "XYMatrix"
+msgstr "Maksimi"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:18
+msgid "Displays as colors the number of (X,Y) values in each cell."
+msgstr ""
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
 msgid "Charting : Surfaces"
@@ -8440,14 +8726,44 @@ msgid "XYZ contour plotting engine"
 msgstr "XYZ-korkeuskäyrän piirto-ohjelma"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
+#, fuzzy
+#| msgid "XYZ contour plotting engine"
+msgid "XY contour plotting engine"
+msgstr "XYZ-korkeuskäyrän piirto-ohjelma"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:6
 msgid "Surface plotting engine"
 msgstr "Pintakuvaajan piirto-ohjelma"
 
-#: ../plugins/plot_surface/plugin.xml.in.h:6
+#: ../plugins/plot_surface/plugin.xml.in.h:7
 msgid "XYZ surface plotting engine"
 msgstr "XYZ-pintakuvaajan piirto-ohjelma"
 
-#: ../plugins/plot_surface/plugin.xml.in.h:7
+#: ../plugins/plot_surface/plugin.xml.in.h:8
+#, fuzzy
+#| msgid "XYZ surface plotting engine"
+msgid "XY surface plotting engine"
+msgstr "XYZ-pintakuvaajan piirto-ohjelma"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:9
+#, fuzzy
+#| msgid "Min Max plotting engine"
+msgid "Matrix plotting engine"
+msgstr "Janakuvaajan piirto-ohjelma"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:10
+#, fuzzy
+#| msgid "XYZ contour plotting engine"
+msgid "XY matrix plotting engine"
+msgstr "XYZ-korkeuskäyrän piirto-ohjelma"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:11
+#, fuzzy
+#| msgid "XYZ contour plotting engine"
+msgid "XYZ matrix plotting engine"
+msgstr "XYZ-korkeuskäyrän piirto-ohjelma"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:12
 msgid "Default surface plot types"
 msgstr "Pintakuvaajien oletustyypit"
 
@@ -8561,75 +8877,51 @@ msgstr "Kupla"
 msgid "XYColor"
 msgstr "XY-värikuvaaja"
 
-#: ../plugins/plot_xy/gog-xy.c:2103 ../plugins/plot_xy/gog-xy.c:2174
+#: ../plugins/plot_xy/gog-xy.c:2104 ../plugins/plot_xy/gog-xy.c:2175
 msgid "X error bars"
 msgstr "X-virhejanat"
 
-#: ../plugins/plot_xy/gog-xy.c:2106 ../plugins/plot_xy/gog-xy.c:2180
+#: ../plugins/plot_xy/gog-xy.c:2107 ../plugins/plot_xy/gog-xy.c:2181
 msgid "Y error bars"
 msgstr "Y-virhejanat"
 
-#: ../plugins/plot_xy/gog-xy.c:2115
+#: ../plugins/plot_xy/gog-xy.c:2116
 msgid "Horizontal drop lines"
 msgstr "Kelluvat vaakaviivat"
 
-#: ../plugins/plot_xy/gog-xy.c:2123
+#: ../plugins/plot_xy/gog-xy.c:2124
 msgid "Vertical drop lines"
 msgstr "Kelluvat pystyviivat"
 
-#: ../plugins/plot_xy/gog-xy.c:2186
+#: ../plugins/plot_xy/gog-xy.c:2187
 msgid "Invalid as zero"
 msgstr "Virheellinen nollana"
 
-#: ../plugins/plot_xy/gog-xy.c:2187
+#: ../plugins/plot_xy/gog-xy.c:2188
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Korvaa virheelliset arvot nollalla kun piirretään merkkipisteitä tai kuplia"
 
-#: ../plugins/plot_xy/gog-xy.c:2192
-msgid "Clamp at start"
-msgstr "Kiinnitys alussa"
-
-#: ../plugins/plot_xy/gog-xy.c:2193
-msgid ""
-"Slope at start of the interpolated curve when using clamped spline "
-"interpolation"
-msgstr ""
-"Interpoloidun käyrän alkukulmakerroin käytettäessä kiinnitettyä splini-"
-"interpolaatiota"
-
-#: ../plugins/plot_xy/gog-xy.c:2198
-msgid "Clamp at end"
-msgstr "Kiinnitys lopussa"
-
-#: ../plugins/plot_xy/gog-xy.c:2199
-msgid ""
-"Slope at end of the interpolated curve when using clamped spline "
-"interpolation"
-msgstr ""
-"Interpoloidun käyrän loppukulmakerroin käytettäessä kiinnitettyä splini-"
-"interpolaatiota"
-
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
 #. * 	PlotDropBar2
-#: ../plugins/plot_xy/gog-xy-dropbar.c:285
+#: ../plugins/plot_xy/gog-xy-dropbar.c:281
 #, fuzzy
 msgid "PlotXYDropBar"
 msgstr "Kelluva palkki -kuvaaja"
 
-#: ../plugins/plot_xy/gog-xy-dropbar.c:307
+#: ../plugins/plot_xy/gog-xy-dropbar.c:303
 #, fuzzy
 msgid "Whether to use horizontal bars"
 msgstr "Ryhmän pystypoikkeama"
 
-#: ../plugins/plot_xy/gog-xy-dropbar.c:313
+#: ../plugins/plot_xy/gog-xy-dropbar.c:309
 #, fuzzy
 msgid "Bars width as a percentage of the plot width"
 msgstr "Sarjojen välinen etäisyys prosentteina niiden leveydestä"
 
-#: ../plugins/plot_xy/gog-xy-dropbar.c:324
-#: ../plugins/plot_xy/gog-xy-minmax.c:308
+#: ../plugins/plot_xy/gog-xy-dropbar.c:320
+#: ../plugins/plot_xy/gog-xy-minmax.c:316
 #, fuzzy
 msgid "Positions"
 msgstr "Sijainti"
@@ -8666,16 +8958,16 @@ msgstr "XY"
 msgid "ColoredXY"
 msgstr "Väri-XY"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:6
+#: ../plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY Points"
 msgstr "XY-pisteet"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:7
+#: ../plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Markers at each point."
 msgstr "Merkit joka pisteessä."
 
 #. really 3_1
-#: ../plugins/plot_xy/plot-types.xml.in.h:9
+#: ../plugins/plot_xy/plot-types.xml.in.h:10
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
@@ -8683,63 +8975,63 @@ msgstr ""
 "Interpoloi lineaarisesti moniulotteisten pisteiden välillä merkkein joka "
 "pisteessä."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:10
+#: ../plugins/plot_xy/plot-types.xml.in.h:11
 msgid "XY Lines"
 msgstr "XY-viivat"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:11
+#: ../plugins/plot_xy/plot-types.xml.in.h:12
 msgid "Linearly interpolate between multi-dimensional points."
 msgstr "Interpoloi lineaarisesti moniulotteisten pisteiden välillä."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:12
+#: ../plugins/plot_xy/plot-types.xml.in.h:13
 msgid "XY Splines"
 msgstr "XY-splinit"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:13
+#: ../plugins/plot_xy/plot-types.xml.in.h:14
 msgid "Interpolate between multi-dimensional points with Bezier splines."
 msgstr "Interpoloi moniulotteisten pisteiden välillä Bezier-splinein."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:14
+#: ../plugins/plot_xy/plot-types.xml.in.h:15
 msgid "XY Steps Start"
 msgstr "XY-portaat, alku-"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:15
+#: ../plugins/plot_xy/plot-types.xml.in.h:16
 msgid "Stepped curve using the first y value."
 msgstr "Porraskäyrä, jossa käytetään ensimmäistä y-arvoa."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:16
+#: ../plugins/plot_xy/plot-types.xml.in.h:17
 msgid "XY Steps End"
 msgstr "XY-portaat, loppu-"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:17
+#: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "Stepped curve using the last y value."
 msgstr "Porraskäyrä, jossa käytetään viimeistä y-arvoa."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:18
+#: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "XY Steps Center"
 msgstr "XY-portaat, keskus-"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:19
+#: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "Stepped curve using the nearest y value."
 msgstr "Porraskäyrä, jossa käytetään lähintä y-arvoa."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:20
+#: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "XY Steps Mean"
 msgstr "XY-portaat, keskiarvo-"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:21
+#: ../plugins/plot_xy/plot-types.xml.in.h:22
 msgid "Stepped curve using the mean y value."
 msgstr "Porraskäyrä, jossa käytetään y-keskiarvoa."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:22
+#: ../plugins/plot_xy/plot-types.xml.in.h:23
 msgid "Multi-dimensional points with circle at each point."
 msgstr "Moniulotteiset pisteet ympyrä kussakin pisteessä."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:23
+#: ../plugins/plot_xy/plot-types.xml.in.h:24
 msgid "Map"
 msgstr "Kartta"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:24
+#: ../plugins/plot_xy/plot-types.xml.in.h:25
 msgid ""
 "Multi-dimensional points with data dependent color marker at each point."
 msgstr ""
@@ -8749,7 +9041,7 @@ msgstr ""
 #. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
-#: ../plugins/plot_xy/plot-types.xml.in.h:28
+#: ../plugins/plot_xy/plot-types.xml.in.h:29
 #, fuzzy
 msgid "Scattered Vertical Drop Bars"
 msgstr "Kelluvat pylväät"
@@ -8757,57 +9049,57 @@ msgstr "Kelluvat pylväät"
 #. Drop bars are bars going from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
-#: ../plugins/plot_xy/plot-types.xml.in.h:32
+#: ../plugins/plot_xy/plot-types.xml.in.h:33
 #, fuzzy
 msgid "Vertical drop bars with continuous X-axis."
 msgstr "Kelluvat pylväät."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:33
+#: ../plugins/plot_xy/plot-types.xml.in.h:34
 #, fuzzy
 msgid "Scattered Horizontal Drop Bars"
 msgstr "Kelluvat vaakapalkit"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:34
+#: ../plugins/plot_xy/plot-types.xml.in.h:35
 #, fuzzy
 msgid "Horizontal drop bars with continuous Y-axis."
 msgstr "Kelluvat vaakapalkit."
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:35
+#: ../plugins/plot_xy/plot-types.xml.in.h:36
 #, fuzzy
 msgid "Scattered Vertical Min Max Lines"
 msgstr "Pystyjanakuvaajat merkkipistein"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:36
+#: ../plugins/plot_xy/plot-types.xml.in.h:37
 #, fuzzy
 msgid "Vertical Min Max lines with continuous X-axis."
 msgstr "Pystyjanakuvaajat merkkipistein. "
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:37
-#, fuzzy
-msgid "Scattered Marked Vertical Min Max Lines"
-msgstr "Pystyjanakuvaajat merkkipistein"
-
 #: ../plugins/plot_xy/plot-types.xml.in.h:38
-#, fuzzy
-msgid "Vertical Min Max lines with markers and a continuous X-axis."
-msgstr "Pystyjanakuvaajat merkkipistein. "
-
-#: ../plugins/plot_xy/plot-types.xml.in.h:39
 #, fuzzy
 msgid "Scattered Horizontal Min Max Lines"
 msgstr "Vaakajanakuvaajat merkkipistein"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:40
+#: ../plugins/plot_xy/plot-types.xml.in.h:39
 #, fuzzy
 msgid "Horizontal Min Max lines with continuous Y-axis."
 msgstr "Vaakajanakuvaajat merkkipistein. "
 
+#: ../plugins/plot_xy/plot-types.xml.in.h:40
+#, fuzzy
+msgid "Scattered Marked Vertical Min Max Lines"
+msgstr "Pystyjanakuvaajat merkkipistein"
+
 #: ../plugins/plot_xy/plot-types.xml.in.h:41
+#, fuzzy
+msgid "Vertical Min Max lines with markers and a continuous X-axis."
+msgstr "Pystyjanakuvaajat merkkipistein. "
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:42
 #, fuzzy
 msgid "Scattered Marked Horizontal Min Max Lines"
 msgstr "Vaakajanakuvaajat merkkipistein"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:42
+#: ../plugins/plot_xy/plot-types.xml.in.h:43
 #, fuzzy
 msgid "Horizontal Min Max lines with markers and a continuous Y-axis."
 msgstr "Vaakajanakuvaajat merkkipistein. "
@@ -9100,404 +9392,3 @@ msgstr "Tasoitettujen käyrien tyypit"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Liukuvin keskiarvoin tasoitettu käyrä"
-
-#~ msgid "The rectangle type"
-#~ msgstr "Suorakulmion tyyppi"
-
-#~ msgid "Flags"
-#~ msgstr "Tunnisteet"
-
-#~ msgid "Indent"
-#~ msgstr "Sisennä"
-
-#~ msgid "Space Before"
-#~ msgstr "Väli ennen"
-
-#~ msgid "Space After"
-#~ msgstr "Väli jälkeen"
-
-#~ msgid "Bullet Character"
-#~ msgstr "Luetelmamerkki"
-
-#~ msgid "Bullet Indent"
-#~ msgstr "Luetelmasisennys"
-
-#~ msgid "Bullet Size"
-#~ msgstr "Pistemerkin koko"
-
-#~ msgid "Bullet Family"
-#~ msgstr "Pistemerkkiryhmä"
-
-#~ msgid "Bullet On"
-#~ msgstr "Pistemerkki käytössä"
-
-#~ msgid "<b>Euler angles</b>"
-#~ msgstr "<b>Eulerin kulmat</b>"
-
-#~ msgid "<b>Major ticks</b>"
-#~ msgstr "<b>Pääjakoviivat</b>"
-
-#~ msgid "<b>Minor ticks</b>"
-#~ msgstr "<b>Apujakoviivat</b>"
-
-#~ msgid "<b>Position</b>"
-#~ msgstr "<b>Sijainti</b>"
-
-#~ msgid "<b>Style</b>"
-#~ msgstr "<b>Tyyli</b>"
-
-#~ msgid "<b>Sample</b>"
-#~ msgstr "<b>Malli</b>"
-
-#~ msgid "<b>_Plot type</b>"
-#~ msgstr "<b>Kuvaajatyy_ppi</b>"
-
-#~ msgid "<b>Interpolation</b>"
-#~ msgstr "<b>Interpolointi</b>"
-
-#~ msgid "<b>Rotation</b>"
-#~ msgstr "<b>Kierto</b>"
-
-#~ msgid "Custom Color..."
-#~ msgstr "Mukautettu väri..."
-
-#~ msgid "AaBbCcDdEe12345"
-#~ msgstr "AaBbCcÄäÖö12345"
-
-#~ msgid "Font style:"
-#~ msgstr "Kirjasintyyli:"
-
-#~ msgid "Preview"
-#~ msgstr "Esikatselu"
-
-#~ msgid "<b>Add an image</b>"
-#~ msgstr "<b>Lisää kuva</b>"
-
-#~ msgid "Name:"
-#~ msgstr "Nimi:"
-
-#~ msgid "<b>Orientation</b>"
-#~ msgstr "<b>Suunta</b>"
-
-#~ msgid "Cyprus, Pounds"
-#~ msgstr "Kypros, punta"
-
-#~ msgid "Estonia, Krooni"
-#~ msgstr "Viro, kruunu"
-
-#~ msgid "Guernsey, Pounds"
-#~ msgstr "Guernsey, punta"
-
-#~ msgid "Isle of Man, Pounds"
-#~ msgstr "Mansaari, punta"
-
-#~ msgid "Jersey, Pounds"
-#~ msgstr "Jersey, punta"
-
-#~ msgid "Malta, Liri"
-#~ msgstr "Malta, liira"
-
-#~ msgid "Sudan, Dinars"
-#~ msgstr "Sudan, dinaari"
-
-#~ msgid "Saint Helena, Pounds"
-#~ msgstr "Saint Helena, punta"
-
-#~ msgid "Slovenia, Tolars"
-#~ msgstr "Slovenia, tolar"
-
-#~ msgid "Slovakia, Koruny"
-#~ msgstr "Slovakia, koruna"
-
-# Hiukka tuntemattomampi valuutta Välimeren rannalta.
-#~ msgid "Seborga, Luigini"
-#~ msgstr "Seborga, Luigini"
-
-# Tämä, niinkuin muutama muunkin maan valuutta on nykyään vaihtunut, mutta käännös vastaa ohjelman käyttämää valuuttakoodia.
-#~ msgid "Suriname, Guilders"
-#~ msgstr "Suriname, guldeni"
-
-#~ msgid "Tuvalu, Tuvalu Dollars"
-#~ msgstr "Tuvalu, dollari"
-
-#~ msgid "Platinum, Ounces"
-#~ msgstr "platinaunssi"
-
-#~ msgid "Yugoslavia, New Dinars"
-#~ msgstr "Jugoslavia, uusi dinaari"
-
-#~ msgid "<b>Fill</b>"
-#~ msgstr "<b>Täyttö</b>"
-
-#~ msgid "<b>Line</b>"
-#~ msgstr "<b>Viiva</b>"
-
-#~ msgid "<b>Marker</b>"
-#~ msgstr "<b>Pistemerkki</b>"
-
-#~ msgid "<b>Outline</b>"
-#~ msgstr "<b>Reunat</b>"
-
-#~ msgid "_Columns:"
-#~ msgstr "_Sarakkeet:"
-
-#~ msgid "_Rows:"
-#~ msgstr "_Rivit:"
-
-#, fuzzy
-#~ msgid "Font description"
-#~ msgstr "Kuvaus"
-
-#, fuzzy
-#~ msgid "Font style"
-#~ msgstr "Kirjasintyyli:"
-
-#, fuzzy
-#~ msgid "Font size"
-#~ msgstr "Kirjasintyyli:"
-
-#, fuzzy
-#~ msgid "Text width"
-#~ msgstr "Viivanleveys:"
-
-#, fuzzy
-#~ msgid "Font style set"
-#~ msgstr "Kirjasintyyli:"
-
-#, fuzzy
-#~ msgid "Scale set"
-#~ msgstr "Tallenna kaikki"
-
-#~ msgid "H"
-#~ msgstr "K"
-
-#~ msgid "W"
-#~ msgstr "L"
-
-#, fuzzy
-#~ msgid "<b>Description</b>"
-#~ msgstr "<b>Suunta</b>"
-
-#, fuzzy
-#~ msgid ""
-#~ "Automatic\n"
-#~ "Manual"
-#~ msgstr "Automaattinen"
-
-#, fuzzy
-#~ msgid "GogObjectPrefs"
-#~ msgstr "Tavoite"
-
-#~ msgid "*"
-#~ msgstr "×"
-
-#, fuzzy
-#~ msgid ""
-#~ "Horizontal\n"
-#~ "Vertical"
-#~ msgstr "Vaakaraita"
-
-#, fuzzy
-#~ msgid "Angles"
-#~ msgstr "Alueet"
-
-#, fuzzy
-#~ msgid "Indexs"
-#~ msgstr "_Sisennä:"
-
-#, fuzzy
-#~ msgid "Matrix"
-#~ msgstr "Maksimi"
-
-#, fuzzy
-#~ msgid "Regenerate Charts"
-#~ msgstr "_Lähdealueet:"
-
-#, fuzzy
-#~ msgid "Starts"
-#~ msgstr "*La"
-
-#, fuzzy
-#~ msgid "_File"
-#~ msgstr "_Sovita:"
-
-#, fuzzy
-#~ msgid "fifth"
-#~ msgstr "Leveys"
-
-#, fuzzy
-#~ msgid "first"
-#~ msgstr "Diskreetti"
-
-#, fuzzy
-#~ msgid "sixth"
-#~ msgstr "Leveys"
-
-#, fuzzy
-#~ msgid "third"
-#~ msgstr "Muu"
-
-#~ msgid "Grid"
-#~ msgstr "Ruudukko"
-
-#, fuzzy
-#~ msgid "Type axis:"
-#~ msgstr "_Tyyppi:"
-
-#~ msgid "Shadow type"
-#~ msgstr "Varjotyyppi"
-
-#, fuzzy
-#~ msgid "[Color"
-#~ msgstr "Väri:"
-
-#, fuzzy
-#~ msgid "Spline"
-#~ msgstr "XY-viivat"
-
-#, fuzzy
-#~ msgid "Charting : Box-Plots/Histograms"
-#~ msgstr "Muutetaan välilehtien värejä"
-
-#, fuzzy
-#~ msgid "Default lines"
-#~ msgstr "Oletus"
-
-#, fuzzy
-#~ msgid "<b>Plot area position</b>"
-#~ msgstr "<b>Suunta</b>"
-
-#, fuzzy
-#~ msgid "_Order"
-#~ msgstr "Reunaviiva"
-
-#, fuzzy
-#~ msgid "<b>Manual position</b>"
-#~ msgstr "<b>Suunta</b>"
-
-#~ msgid "Ty_pe:"
-#~ msgstr "_Tyyppi:"
-
-#~ msgid "_Fill color:"
-#~ msgstr "_Väri:"
-
-#~ msgid "*Sun"
-#~ msgstr "*Su"
-
-#~ msgid "*Mon"
-#~ msgstr "*Ma"
-
-#~ msgid "*Tue"
-#~ msgstr "*Ti"
-
-#~ msgid "*Wed"
-#~ msgstr "*Ke"
-
-#~ msgid "*Thu"
-#~ msgstr "*To"
-
-#~ msgid "*Fri"
-#~ msgstr "*Pe"
-
-#~ msgid "*Sat"
-#~ msgstr "*La"
-
-#~ msgid "Sunday"
-#~ msgstr "Sunnuntai"
-
-#~ msgid "Monday"
-#~ msgstr "Maanantai"
-
-#~ msgid "Tuesday"
-#~ msgstr "Tiistai"
-
-#~ msgid "Wednesday"
-#~ msgstr "Keskiviikko"
-
-#~ msgid "Thursday"
-#~ msgstr "Torstai"
-
-#~ msgid "Friday"
-#~ msgstr "Perjantai"
-
-#~ msgid "Saturday"
-#~ msgstr "Lauantai"
-
-#~ msgid "*Jan"
-#~ msgstr "*Tammi"
-
-#~ msgid "*Feb"
-#~ msgstr "*Helmi"
-
-#~ msgid "*Mar"
-#~ msgstr "*Maalis"
-
-#~ msgid "*Apr"
-#~ msgstr "*Huhti"
-
-#~ msgid "*May"
-#~ msgstr "*Touko"
-
-#~ msgid "*Jun"
-#~ msgstr "*Kesä"
-
-#~ msgid "*Jul"
-#~ msgstr "*Heinä"
-
-#~ msgid "*Aug"
-#~ msgstr "*Elo"
-
-#~ msgid "*Oct"
-#~ msgstr "*Loka"
-
-#~ msgid "*Nov"
-#~ msgstr "*Marras"
-
-#~ msgid "*Dec"
-#~ msgstr "*Joulu"
-
-#~ msgid "January"
-#~ msgstr "Tammikuu"
-
-#~ msgid "February"
-#~ msgstr "Helmikuu"
-
-#~ msgid "March"
-#~ msgstr "Maaliskuu"
-
-#~ msgid "April"
-#~ msgstr "Huhtikuu"
-
-#~ msgid "June"
-#~ msgstr "Kesäkuu"
-
-#~ msgid "July"
-#~ msgstr "Heinäkuu"
-
-#~ msgid "August"
-#~ msgstr "Elokuu"
-
-#~ msgid "September"
-#~ msgstr "Syyskuu"
-
-#~ msgid "October"
-#~ msgstr "Lokakuu"
-
-#~ msgid "November"
-#~ msgstr "Marraskuu"
-
-#~ msgid "December"
-#~ msgstr "Joulukuu"
-
-#~ msgid "Automatic (%s)"
-#~ msgstr "Automaattinen (%s)"
-
-#, fuzzy
-#~ msgid "Excel compatibility contour plotting engine"
-#~ msgstr "Virhe jäsennettäessä riviä"
-
-#~ msgid "T_ype:"
-#~ msgstr "T_yyppi:"
-
-#~ msgid "3D Pie"
-#~ msgstr "3D-piirakka"
