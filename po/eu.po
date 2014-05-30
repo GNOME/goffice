@@ -681,7 +681,7 @@ msgstr "Goiko ezkerreko posizioaren inguruko biraketa"
 #: ../goffice/canvas/goc-graph.c:373
 #, c-format
 msgid "(%s,%s)"
-msgstr "(%s,%s)"
+msgstr "(%s;%s)"
 
 #: ../goffice/canvas/goc-graph.c:442
 msgid "The graph left position"
