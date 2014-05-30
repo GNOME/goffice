@@ -178,7 +178,7 @@ _go_math_init (void)
 #endif
 
 	{
-		double x = atof ("24985672148.49707");
+		double x = g_ascii_strtod ("24985672148.49707", NULL);
 		double sx = sin (x);
 		double ref = -0.55266506738426566413304;
 		if (fabs (sx - ref) > 0.01) {
