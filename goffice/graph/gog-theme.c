@@ -58,8 +58,8 @@
  * GOStyle nodes:
  *
  * These nodes actually define the theme. Attributes and contents are:
- * attributes: class, role.
- * contents: (line|outline)?, fill?, marker?, font?, text_layout?
+ * node attributes: class, role.
+ * node contents: (line|outline)?, fill?, marker?, font?, text_layout?
  *
  * The attributes define the target for the style. You might have a class and
  * a role attribute, or just one of them. If the role attribute is given, the class attribute,

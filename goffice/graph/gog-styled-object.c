@@ -36,10 +36,11 @@ enum {
 	LAST_SIGNAL
 };
 
-/**GogStyle:
+/*
+ * GogStyle:
  * This is a mere copy of GOStyle but is needed for file
  * format compatibility
- **/
+ */
 struct _GogStyle {
 	GOStyle base;
 };

@@ -72,6 +72,17 @@
  * The indices of the #GOData associated to the axis.
  **/
 
+/**
+ * GogAxisMetrics:
+ * @GOG_AXIS_METRICS_INVALID: invalid.
+ * @GOG_AXIS_METRICS_DEFAULT: default.
+ * @GOG_AXIS_METRICS_ABSOLUTE: absolute distance between major ticks.
+ * @GOG_AXIS_METRICS_RELATIVE: relative to another axis.
+ * @GOG_AXIS_METRICS_RELATIVE_TICKS: relative distance between ticks related to
+ * another axis.
+ * @GOG_AXIS_METRICS_MAX: first unused value.
+ **/
+
 
 static struct {
 	GogAxisPolarUnit unit;
@@ -3979,6 +3990,14 @@ gog_axis_get_metrics (GogAxis const *axis)
 	return axis->metrics;
 }
 
+/**
+ * gog_axis_get_ref_axis:
+ * @axis: a #GogAxis
+ *
+ * Since: 0.10.17
+ * Returns: (transfer none): the axis used to evaluate the length of @axis or
+ * NULL.
+ **/
 GogAxis *
 gog_axis_get_ref_axis (GogAxis const *axis)
 {

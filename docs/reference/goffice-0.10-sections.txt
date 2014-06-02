@@ -453,6 +453,7 @@ go_combo_color_set_allow_alpha
 go_combo_color_set_color
 go_combo_color_set_color_gdk
 go_combo_color_set_color_to_default
+go_combo_color_set_icon
 go_combo_color_set_instant_apply
 <SUBSECTION Standard>
 GO_COMBO_COLOR
@@ -468,6 +469,7 @@ go_combo_color_get_type
 GOComboPixmaps
 GOMenuPixmaps
 go_combo_pixmaps_add_element
+go_combo_pixmaps_clear_elements
 go_combo_pixmaps_get_preview
 go_combo_pixmaps_get_selected
 go_combo_pixmaps_new
@@ -667,6 +669,20 @@ GOCSpline
 GOCSplinel
 go_cspline_get_type
 go_csplinel_get_type
+</SECTION>
+
+<SECTION>
+<FILE>go-unit</FILE>
+<TITLE>GoUnit</TITLE>
+GoUnit
+GoUnitId
+go_unit_convert
+go_unit_define
+go_unit_get
+go_unit_get_from_symbol
+go_unit_get_id
+go_unit_get_symbol
+go_unit_get_type
 </SECTION>
 
 <SECTION>
@@ -1008,6 +1024,7 @@ go_font_metrics_get_type
 <TITLE>GOFontSel</TITLE>
 GOFontSel
 go_font_sel_editable_enters
+go_font_sel_get_color
 go_font_sel_get_font
 go_font_sel_new
 go_font_sel_set_font
@@ -1101,6 +1118,9 @@ go_format_new_magic
 go_format_new_markup
 go_format_odf_style_map
 go_format_output_to_odf
+go_format_palette_color_of_index
+go_format_palette_index_from_color
+go_format_palette_name_of_index
 go_format_ref
 go_format_specialize
 go_format_specializel
@@ -1518,6 +1538,11 @@ go_strtod
 go_strtold
 go_sub_epsilon
 go_sub_epsilonl
+go_atan2pi
+go_atan2pil
+go_cospi
+go_cospil
+go_dtoa
 isnan
 ldexpl
 log1p
@@ -1882,6 +1907,40 @@ go_quad_sub
 go_quad_subl
 go_quad_value
 go_quad_valuel
+go_quad_acos
+go_quad_acosl
+go_quad_asin
+go_quad_asinl
+go_quad_atan2
+go_quad_atan2l
+go_quad_atan2pi
+go_quad_atan2pil
+go_quad_constant8
+go_quad_constant8l
+go_quad_cos
+go_quad_cosl
+go_quad_cospi
+go_quad_cospil
+go_quad_exp
+go_quad_expl
+go_quad_expm1
+go_quad_expm1l
+go_quad_floor
+go_quad_floorl
+go_quad_hypot
+go_quad_hypotl
+go_quad_log
+go_quad_logl
+go_quad_pow
+go_quad_powl
+go_quad_sin
+go_quad_sinl
+go_quad_sinpi
+go_quad_sinpil
+go_sinpi
+go_sinpil
+go_tanpi
+go_tanpil
 <SUBSECTION Private>
 GOQuad
 GOQuadl
@@ -2719,6 +2778,25 @@ go_pango_measure_string
 </SECTION>
 
 <SECTION>
+<FILE>go-math-editor</FILE>
+<TITLE>GoMathEditor</TITLE>
+GO_TYPE_MATH_EDITOR
+GoMathEditor
+go_math_editor_get_inline
+go_math_editor_get_itex
+go_math_editor_get_mathml
+go_math_editor_get_type
+go_math_editor_new
+go_math_editor_set_inline
+go_math_editor_set_itex
+go_math_editor_set_mathml
+go_mathml_to_itex
+<SUBSECTION Standard>
+GO_IS_MATH_EDITOR
+GO_MATH_EDITOR
+</SECTION>
+
+<SECTION>
 <FILE>goffice-math</FILE>
 
 </SECTION>
@@ -2728,10 +2806,15 @@ go_pango_measure_string
 <TITLE>Gog3DBox</TITLE>
 GOG_3D_BOX_TYPE
 Gog3DBox
+Gog3DBoxView
 <SUBSECTION Standard>
 GOG_3D_BOX
 GOG_IS_3D_BOX
 gog_3d_box_get_type
+GOG_3D_BOX_VIEW
+GOG_3D_BOX_VIEW_TYPE
+GOG_IS_3D_BOX_VIEW
+gog_3d_box_view_get_type
 </SECTION>
 
 <SECTION>
@@ -2741,6 +2824,7 @@ GogAxisElemType
 GogAxisPolarUnit
 GogAxisTick
 GogAxisSet
+GogAxisMetrics
 GogAxisType
 gog_axis_add_contributor
 gog_axis_bound_changed
@@ -2759,8 +2843,11 @@ gog_axis_get_entry
 gog_axis_get_format
 gog_axis_get_grid_line
 gog_axis_get_labels
+gog_axis_get_major_ticks_distance
+gog_axis_get_metrics
 gog_axis_get_polar_perimeter
 gog_axis_get_polar_unit
+gog_axis_get_ref_axis
 gog_axis_get_ticks
 gog_axis_is_center_on_ticks
 gog_axis_is_discrete

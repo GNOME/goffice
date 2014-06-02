@@ -1,12 +1,9 @@
 goffice 0.10.17:
 
-<<<<<<< Updated upstream
 Jean:
 	* Add control for 3D plots axes lengths. [#694746]
-=======
 Morten:
 	* Fix test for buggy C library.
->>>>>>> Stashed changes
 
 --------------------------------------------------------------------------
 goffice 0.10.16:

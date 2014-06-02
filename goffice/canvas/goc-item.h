@@ -70,6 +70,7 @@ struct _GocItemClass {
 	gboolean		(*key_released) (GocItem *item, GdkEventKey* ev);
 	GdkWindow*		(*get_window) (GocItem *item);
 #endif
+
 	/* <private> */
 	void (*reserved1) (void);
 	void (*reserved2) (void);

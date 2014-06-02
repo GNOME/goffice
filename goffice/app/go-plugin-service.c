@@ -577,7 +577,7 @@ GSF_CLASS (GOPluginServiceFileOpener, go_plugin_service_file_opener,
            GO_TYPE_PLUGIN_SERVICE)
 
 
-/** GOPluginFileOpener class **/
+/*** GOPluginFileOpener class ***/
 
 #define TYPE_GO_PLUGIN_FILE_OPENER             (go_plugin_file_opener_get_type ())
 #define GO_PLUGIN_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_PLUGIN_FILE_OPENER, GOPluginFileOpener))
@@ -729,7 +729,7 @@ go_plugin_file_opener_new (GOPluginService *service)
 	return fo;
 }
 
-/** -- **/
+/*** -- ***/
 
 
 /*
@@ -898,7 +898,7 @@ GSF_CLASS (GOPluginServiceFileSaver, go_plugin_service_file_saver,
            GO_TYPE_PLUGIN_SERVICE)
 
 
-/** GOPluginFileSaver class **/
+/*** GOPluginFileSaver class ***/
 
 #define TYPE_GO_PLUGIN_FILE_SAVER             (go_plugin_file_saver_get_type ())
 #define GO_PLUGIN_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_PLUGIN_FILE_SAVER, GOPluginFileSaver))

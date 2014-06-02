@@ -22,6 +22,16 @@
 #include <goffice/utils/go-unit.h>
 #include <string.h>
 
+/**
+ * GoUnitId:
+ * @GO_UNIT_UNKNOWN: unknown unit.
+ * @GO_UNIT_METER: meter.
+ * @GO_UNIT_CENTIMETER: centimeter.
+ * @GO_UNIT_INCH: inch.
+ * @GO_UNIT_POINT: point.
+ * @GO_UNIT_MAX: first unregistered unit.
+ **/
+
 static GHashTable *units_hash = NULL;
 static GPtrArray *custom_units;
 
@@ -31,6 +41,32 @@ struct _GoUnit {
 	double factor_to_SI; /* how many SI units is this one: 0.0254 for inch */
 	unsigned Id;
 };
+
+/* let's have a boxed type to make introspection happy */
+static GoUnit const *
+go_unit_copy (GoUnit const *unit)
+{
+	return unit;
+}
+
+static void
+go_unit_free (GoUnit *unit)
+{
+	/* nothing to do */
+}
+
+GType
+go_unit_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GoUnit",
+			 (GBoxedCopyFunc)go_unit_copy,
+			 (GBoxedFreeFunc)go_unit_free);
+	}
+	return t;
+}
 
 static int last_unit = GO_UNIT_MAX;
 

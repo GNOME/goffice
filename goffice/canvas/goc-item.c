@@ -115,7 +115,7 @@ enum {
  * @notify_scrolled: callback for a notify scrolled event. This is useful to
  * reposition children of the GtkLayout parent of the canvas to their new
  * position.
- * @get_window: returns the#GdkWindow for the item if any.
+ * @get_window: returns the #GdkWindow for the item if any.
  *
  * The base class for all canvas items.
  **/

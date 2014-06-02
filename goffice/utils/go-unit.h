@@ -37,6 +37,8 @@ typedef enum  {
 	GO_UNIT_MAX
 } GoUnitId;
 
+GType go_unit_get_type (void);
+
 char const *go_unit_get_symbol (GoUnit const *unit);
 GoUnitId go_unit_get_id (GoUnit const *unit);
 double go_unit_convert (GoUnit const *from, GoUnit const *to, double value);
