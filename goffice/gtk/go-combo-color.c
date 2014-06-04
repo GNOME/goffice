@@ -356,7 +356,7 @@ go_combo_color_set_icon (GOComboColor *cc, GdkPixbuf *icon)
  * go_combo_color_new :
  * @icon: optionally NULL.
  * @no_color_label: FIXME
- * @default_color: The colour to use a the default
+ * @default_color: The colour to use as the default
  * @color_group: #GOColorGroup
  *
  * Default constructor. Pass an optional icon and an optional label for the
