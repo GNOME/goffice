@@ -22,7 +22,7 @@ Plans
 	: It incorrectly accepts mmm:ss as some sort of minute spec.
 	: Consider adding "%" to entry text when typing a text with a percentage
 	  format.  (I.e., user has "44%" in cell and presses "5" -- that causes
-	"5%" to be shown the the cursor between "5" and "%".)
+	"5%" to be shown the cursor between "5" and "%".)
 
     2) GOActionComboText
 	2.1) stub						(DONE)	

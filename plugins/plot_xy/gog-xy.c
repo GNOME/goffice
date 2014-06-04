@@ -1089,7 +1089,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	/* What we really want is to draw drop lines from point to
 	 * a selected axis. But for this purpose, we need a GogAxisBase selector in
 	 * GogSeriesLines (we might actually need GogDropLines. For now just let
-	 * the drop lines go the the axis. */
+	 * the drop lines go the axis. */
 
 	gog_axis_map_get_extents (x_map, &x_left, &x_right);
 	x_left = gog_axis_map_to_view (x_map, x_left);

@@ -847,12 +847,13 @@ msgstr "Lærredobjektet som elementet hviler på"
 
 # Har du set i hvilken sammenhæng det er her? Normalt oversætter vi jo
 # "parent" til sådan noget som "Over.." eller "Ophavs..". Her har du
-# selvfølgelig et problem fordi fordi den ene er i ..-item.c og den
+# selvfølgelig et problem fordi den ene er i ..-item.c og den
 # anden i ..-view.c, hvilket måske betyder at den både kan hentyde til
 # et objekt og en visning og i så fald kan det jo så i bedste fald blive
 # "Ophav", men det dur heller ikke rigtig. Det var måske værd at
 # undersøge nærmere og evt. få det til at lave det som to strenge med
 # forskellig kontekst.
+# MW: fuldstændigt uden betydning.
 #: ../goffice/canvas/goc-item.c:268 ../goffice/graph/gog-view.c:692
 msgid "Parent"
 msgstr "Overdel"

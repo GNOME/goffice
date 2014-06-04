@@ -175,7 +175,7 @@ go_locale_get_thousand (void)
  * @precedes: a pointer to a boolean which is set to TRUE if the currency
  * 		should precede
  * @space_sep: a pointer to a boolean which is set to TRUE if the currency
- * 		should have a space separating it from the the value
+ * 		should have a space separating it from the value
  *
  * Play with the default logic so that things come out nicely for the default
  * case.

@@ -15084,7 +15084,7 @@
 
 	* configure.in:
 	* plugins/plot_*/Makefile.am: modify GOFFICE_PLUGIN_LDFLAGS and
-	  add add GOFFICE_PLUGIN_LIBADD. They help when
+	  add GOFFICE_PLUGIN_LIBADD. They help when
 	  host_os == win32.
 
 	* goffice/Makefile.am: -export-all-symbols is not the
@@ -19395,7 +19395,7 @@
 	(role_series_pre_remove) : ditto.
 	(gog_plot_update) : delete.  Already handled at the chart level.
 	(gog_plot_init) : Make sure cardinailty is initially valid so that we
-	  queue an an update request as necessary when it really
+	  queue an update request as necessary when it really
 	  does change.
 
 	* graph/gog-chart.c (gog_chart_view_size_allocate) : support the
@@ -19403,7 +19403,7 @@
 	(role_plot_post_add) : adding a plot changes the cardinality.
 	(role_plot_pre_remove) : ditto.
 	(gog_chart_init) : Make sure cardinailty is initially valid so that we
-	  queue an an update request as necessary when it really
+	  queue an update request as necessary when it really
 	  does change.
 
 2003-05-29  Jody Goldberg <jody@gnome.org>

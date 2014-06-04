@@ -5017,7 +5017,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 
 	prec = maxdigits - digs;
 #ifdef DEBUG_GENERAL
-	g_printerr ("Starting with with %d decimals\n", prec);
+	g_printerr ("Starting with %d decimals\n", prec);
 #endif
 	go_dtoa (str, "=^.*" FORMAT_f, prec, val);
 	if (check_val) {

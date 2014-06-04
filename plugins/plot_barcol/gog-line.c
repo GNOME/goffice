@@ -127,7 +127,7 @@ GSF_DYNAMIC_CLASS (GogLineSeriesView, gog_line_series_view,
 
 typedef struct {
 	GogSeries1_5d base;
-	double	clamped_derivs[2]; /* start and and slopes for clamped cubic splines */
+	double	clamped_derivs[2]; /* start and slopes for clamped cubic splines */
 	GogDataset	  *interpolation_props;
 } GogAreaSeries;
 

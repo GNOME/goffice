@@ -96,7 +96,7 @@ typedef struct {
 	GogObject 	  *hdroplines;
     GogObject	  *vdroplines;
 	gboolean 	   invalid_as_zero;
-	double		   clamped_derivs[2]; /* start and and slopes for clamped cubic splines */
+	double		   clamped_derivs[2]; /* start and slopes for clamped cubic splines */
 	GogDataset	  *interpolation_props;
 } GogXYSeries;
 

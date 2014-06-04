@@ -389,7 +389,7 @@ go_line_interpolation_as_label (GOLineInterpolation type)
  * @type: an interpolation type
  *
  * Returns: TRUE if the line interpolation type can be used with radial
- * axes set, FALSE it it can't.
+ * axes set, FALSE if it can't.
  **/
 gboolean
 go_line_interpolation_supports_radial (GOLineInterpolation type)

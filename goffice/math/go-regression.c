@@ -1453,7 +1453,7 @@ SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
  *   The coefficient matrix of the LM method.
  *
  * DETAIS:
- *   The coefficient matrix matrix is defined by
+ *   The coefficient matrix is defined by
  *
  *            N        1      df  df
  *     A   = Sum  ( -------   --  --  ( i == j ? 1 + r : 1 ) a)
