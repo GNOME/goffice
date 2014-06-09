@@ -1,3 +1,7 @@
+2014-06-09  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.17
+
 2014-05-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (_go_math_init): Ensure test is locale
