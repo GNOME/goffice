@@ -1,5 +1,10 @@
 2014-07-19  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-trend-line.c (gog_trend_line_init_style): fix another
+	theme support issue.
+
+2014-07-19  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-grid-line.c (gog_grid_line_init_style): fix theme
 	support. [#733403]
 
