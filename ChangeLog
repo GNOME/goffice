@@ -1,3 +1,8 @@
+2014-07-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-grid-line.c (gog_grid_line_init_style): fix theme
+	support. [#733403]
+
 2014-06-09  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
