@@ -2,6 +2,7 @@ goffice 0.10.18:
 
 Jean:
 	* Fix grid line theme support. [#733403]
+	* Fix default ticks position.
 
 --------------------------------------------------------------------------
 goffice 0.10.17:

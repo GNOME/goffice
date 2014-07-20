@@ -3530,7 +3530,7 @@ gog_axis_init (GogAxis *axis)
 	axis->max_val = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
 	axis->is_discrete = FALSE;
-	axis->center_on_ticks = FALSE;
+	axis->center_on_ticks = TRUE;
 	axis->labels = NULL;
 	axis->plot_that_supplied_labels = NULL;
 	axis->format = axis->assigned_format = NULL;

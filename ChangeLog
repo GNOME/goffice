@@ -1,3 +1,9 @@
+2014-07-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_init): center ticks by default.
+	* goffice/graph/gog-renderer.c (_draw_rotated_shape): add a missing
+	cairo_restore() call.
+
 2014-07-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-trend-line.c (gog_trend_line_init_style): fix another

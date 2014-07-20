@@ -491,7 +491,8 @@ _draw_rotated_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, g
 			cairo_restore (renderer->cairo);
 			emit_fill (renderer, stroke);
 		}
-	}
+	} else
+		cairo_restore (renderer->cairo);
 
 	if (stroke)
 		emit_line (renderer, FALSE, go_path_get_options (path));
