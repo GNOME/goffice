@@ -244,6 +244,7 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 	g_return_if_fail (style != NULL);
 
 	style->line.width = go_rint (gtk_adjustment_get_value (adj) * 100.) / 100.;
+	style->line.auto_width = style->line.width == state->default_style->line.width;
 	set_style (state);
 }
 
@@ -320,6 +321,7 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 	g_return_if_fail (style != NULL);
 
 	style->line.width = go_rint (gtk_adjustment_get_value (adj) * 100.) / 100.;
+	style->line.auto_width = style->line.width == state->default_style->line.width;
 	set_style (state);
 }
 

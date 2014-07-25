@@ -1,3 +1,8 @@
+2014-07-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-style.c (cb_outline_size_changed),
+	(cb_line_size_changed): fixed persistence of line width.
+
 2014-07-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (gog_axis_init): center ticks by default.
