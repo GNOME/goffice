@@ -4,6 +4,9 @@ Jean:
 	* Fix grid line theme support. [#733403]
 	* Fix default ticks position.
 
+Morten:
+	* Work around gtk+ ABI break for colour selector.  [#733350]
+
 --------------------------------------------------------------------------
 goffice 0.10.17:
 

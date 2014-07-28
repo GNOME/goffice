@@ -1,3 +1,11 @@
+2014-07-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-combo-color.c
+	(go_combo_color_set_color_internal): Copy the pixbuf and set it
+	back onto the image.  An ABI change in gtk means that changes no
+	longer take effect right away if we just change the image's pixbuf
+	directly.  Fixes #733350.
+
 2014-07-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-style.c (cb_outline_size_changed),

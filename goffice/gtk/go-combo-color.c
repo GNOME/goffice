@@ -82,6 +82,8 @@ go_combo_color_set_color_internal (GOComboColor *cc, GOColor color, gboolean is_
 	pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (cc->preview_image));
 	if (!pixbuf)
 		return;
+	pixbuf = gdk_pixbuf_copy (pixbuf);
+
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
 	if (cc->preview_is_icon) {
@@ -107,7 +109,9 @@ go_combo_color_set_color_internal (GOComboColor *cc, GOColor color, gboolean is_
 	}
 
 	g_object_unref (color_pixbuf);
-	gtk_widget_queue_draw (cc->preview_image);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (cc->preview_image),
+				   pixbuf);
+	g_object_unref (pixbuf);
 }
 
 static void
