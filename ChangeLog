@@ -1,3 +1,10 @@
+2014-08-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-style.c (cb_pattern_type_activate),
+	(cb_brightness_changed), (cb_gradient_type_changed),
+	(cb_fill_type_changed), (cb_font_color_changed),
+	(cb_angle_changed): fixed more auto style issues. [see Debian #757611]
+
 2014-07-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-combo-color.c

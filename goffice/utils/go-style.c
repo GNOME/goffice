@@ -416,9 +416,8 @@ static void
 cb_pattern_type_activate (GtkWidget *selector, StylePrefState const *state)
 {
 	GOStyle *style = state->style;
-	gboolean is_auto;
 
-	style->fill.pattern.pattern = go_selector_get_active (GO_SELECTOR (selector), &is_auto);
+	style->fill.pattern.pattern = go_selector_get_active (GO_SELECTOR (selector), &style->fill.auto_pattern);
 	set_style (state);
 }
 
@@ -455,6 +454,7 @@ cb_brightness_changed (GtkRange *range, StylePrefState *state)
 	GOStyle *style = state->style;
 
 	go_style_set_fill_brightness (style, gtk_range_get_value (range));
+	style->fill.gradient.auto_brightness = state->default_style->fill.gradient.auto_brightness;
 	set_style (state);
 	fill_update_selectors (state);
 }
@@ -463,7 +463,7 @@ static void
 cb_gradient_type_changed (GOSelector *selector, StylePrefState const *state)
 {
 	GOStyle *style = state->style;
-	style->fill.gradient.dir = go_selector_get_active (selector, NULL);
+	style->fill.gradient.dir = go_selector_get_active (selector, &style->fill.gradient.auto_dir);
 	set_style (state);
 }
 
@@ -675,7 +675,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 	/* we need to set brightness to 0 because of unicolor gradients recognition */
 		gtk_range_set_value (GTK_RANGE (state->fill.gradient.brightness), 0.);
 	state->style->fill.type = fill_infos[index].type;
-	state->style->fill.auto_type = FALSE;
+	state->style->fill.auto_type = state->style->fill.type == state->default_style->fill.type;
 	set_style (state);
 
 	fill_update_visibilies (index, state);
@@ -912,6 +912,7 @@ cb_font_color_changed (GOSelector *selector,
 	GOStyle *style = state->style;
 
 	style->font.color = go_color_selector_get_color (selector, NULL);
+	style->font.auto_color = style->font.color == state->default_style->font.color;
 	set_style (state);
 }
 
@@ -958,6 +959,7 @@ static void
 cb_angle_changed (GORotationSel *grs, int angle, StylePrefState *state)
 {
 	go_style_set_text_angle (state->style, angle);
+	state->style->text_layout.auto_angle = state->style->text_layout.angle == state->default_style->text_layout.angle;
 	set_style (state);
 }
 

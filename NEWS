@@ -3,6 +3,7 @@ goffice 0.10.18:
 Jean:
 	* Fix grid line theme support. [#733403]
 	* Fix default ticks position.
+	* Fix font color theme support. [Debian 757611]
 
 Morten:
 	* Work around gtk+ ABI break for colour selector.  [#733350]
