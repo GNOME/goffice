@@ -32,6 +32,7 @@
 #ifdef GOFFICE_WITH_GTK
 #include <gtk/gtk.h>
 #endif
+#include <sys/stat.h>
 
 /**
  * SECTION: gog-axis-color-map
@@ -303,7 +304,18 @@ static void
 gog_axis_color_map_save (GogAxisColorMap const *map)
 {
 	GsfOutput *output = gsf_output_gio_new_for_uri (map->uri, NULL);
-	GsfXMLOut *xml = gsf_xml_out_new (output);
+	GsfXMLOut *xml;
+	if (output == NULL) {
+		char *dir = go_dirname_from_uri (map->uri, TRUE);
+		int res = g_mkdir_with_parents (dir, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+		g_free (dir);
+		if (res < 0) {
+			g_warning ("[GogAxisColorMap]: Could not save color map to %s", map->uri);
+			return;
+		}
+		output = gsf_output_gio_new_for_uri (map->uri, NULL);
+	}
+	xml = gsf_xml_out_new (output);
 	gsf_xml_out_start_element (xml, "GogAxisColorMap");
 	gog_axis_color_map_write (GO_PERSIST (map), xml);
 	gsf_xml_out_end_element (xml);

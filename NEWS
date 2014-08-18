@@ -4,6 +4,7 @@ Jean:
 	* Fix grid line theme support. [#733403]
 	* Fix default ticks position.
 	* Fix font color theme support. [Debian 757611]
+	* Fix saving color maps when directory does not exists. [#735008]
 
 Morten:
 	* Work around gtk+ ABI break for colour selector.  [#733350]

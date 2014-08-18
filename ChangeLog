@@ -1,3 +1,8 @@
+2014-08-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-color-map.c (gog_axis_color_map_save): create
+	$HOME/.goffice/colormaps if needed. [#735008]
+
 2014-08-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-style.c (cb_pattern_type_activate),
