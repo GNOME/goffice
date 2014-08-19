@@ -1,3 +1,9 @@
+2014-08-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-color-map.c (gog_axis_color_map_save): better
+	file mode, (color_maps_load_from_dir): don't check the mime type as it
+	seems not so reliable, just check the extension. [#735007]
+
 2014-08-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-color-map.c (gog_axis_color_map_save): create

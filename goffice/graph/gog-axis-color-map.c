@@ -307,7 +307,7 @@ gog_axis_color_map_save (GogAxisColorMap const *map)
 	GsfXMLOut *xml;
 	if (output == NULL) {
 		char *dir = go_dirname_from_uri (map->uri, TRUE);
-		int res = g_mkdir_with_parents (dir, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+		int res = g_mkdir_with_parents (dir, 0777);
 		g_free (dir);
 		if (res < 0) {
 			g_warning ("[GogAxisColorMap]: Could not save color map to %s", map->uri);
@@ -947,10 +947,12 @@ color_maps_load_from_dir (char const *path)
 	while ((d_name = g_dir_read_name (dir)) != NULL) {
 		char *fullname = g_build_filename (path, d_name, NULL);
 		char *uri = go_filename_to_uri (fullname);
-		char *mime_type = go_get_mime_type (uri);
-		if (!strcmp (mime_type, "application/xml")) /* we don't have a better one */
+		size_t n = strlen (uri);
+		 /* checking for mime type does not look safe, so we check for the
+		 extension. TRhings might fail later if the file does not describe a
+		 valid color map */
+		if (n >= 4 && !strcmp (uri + n - 4, ".map"))
 			color_map_load_from_uri (uri);
-		g_free (mime_type);
 		g_free (uri);
 		g_free (fullname);
 	}
