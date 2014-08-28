@@ -9,6 +9,7 @@ Jean:
 	* Fix font color theme support. [Debian 757611]
 	* Fix saving color maps when directory does not exists. [#735008]
 	* Fix color maps loading. [#735007]
+	* Don't pass NULL to g_strtod(). [#735555]
 
 Morten:
 	* Work around gtk+ ABI break for colour selector.  [#733350]

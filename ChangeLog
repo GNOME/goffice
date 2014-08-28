@@ -1,3 +1,8 @@
+2014-08-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-simple.c (go_data_vector_str_load_values),
+	(go_data_vector_str_get_value): don't pass NULL to g_strtod(). [#735555]
+
 2014-08-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/graph/gog-axis-color-map.c (save_name_cb): don't skip

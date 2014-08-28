@@ -661,6 +661,10 @@ go_data_vector_str_load_values (GODataVector *vec)
 	if (vec->values == NULL)
 		vec->values = g_new (double, strs->n);
 	while (i-- > 0) {
+		if (strs->str[i] == NULL) {
+			vec->values[i] = go_nan;
+			continue;
+		}
 		vec->values[i] = g_strtod (strs->str[i], &end);
 		if (*end) {
 			vec->values[i] = go_nan;
@@ -681,7 +685,10 @@ go_data_vector_str_get_value (GODataVector *vec, unsigned i)
 {
 	char *end;
 	GODataVectorStr *strs = (GODataVectorStr *)vec;
-	double d = g_strtod (strs->str[i], &end);
+	double d;
+	if (strs->str[i] == NULL)
+		return go_nan;
+	d = g_strtod (strs->str[i], &end);
 	return (*end)? go_nan: d;
 }
 
