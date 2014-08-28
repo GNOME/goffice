@@ -147,7 +147,7 @@ save_name_cb (char const *lang, char const *name, GsfXMLOut *output)
 	gsf_xml_out_start_element (output, "name");
 	if (strcmp (lang, "C"))
 		gsf_xml_out_add_cstr_unchecked (output, "xml:lang", lang);
-	gsf_xml_out_add_cstr_unchecked (output, NULL, name);
+	gsf_xml_out_add_cstr (output, NULL, name);
 	gsf_xml_out_end_element (output);
 }
 

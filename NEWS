@@ -1,5 +1,8 @@
 goffice 0.10.18:
 
+Andreas:
+	* Fix saving of color map names. [#735298]
+
 Jean:
 	* Fix grid line theme support. [#733403]
 	* Fix default ticks position.

@@ -1,3 +1,8 @@
+2014-08-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/graph/gog-axis-color-map.c (save_name_cb): don't skip
+	encoding on user entered names
+
 2014-08-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-color-map.c (gog_axis_color_map_save): better
