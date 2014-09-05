@@ -5667,7 +5667,7 @@
 2009-12-04  Jody Goldberg <jody@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_help_display) : support tab as a
-	  seperator in the hhmap file.
+	  separator in the hhmap file.
 
 2009-12-02  Morten Welinder  <terra@gnome.org>
 
