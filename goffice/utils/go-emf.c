@@ -950,10 +950,12 @@ typedef struct {
 	GOPath *path;
 	gboolean closed_path;
 	gboolean PolygonFillMode; /* TRUE: winding, FALSE: alternate */
-	unsigned text_align;
+	GOAnchorType text_align;
 	GOColor text_color;
 	cairo_matrix_t m;
 	double xpos, ypos; /* current position used to emit text */
+	GOFont const *font;
+	double text_rotation;
 } GOEmfDC;
 
 typedef struct {
@@ -2533,6 +2535,8 @@ static void go_emf_dc_free (GOEmfDC *dc)
 {
 	if (dc->style)
 		g_object_unref (dc->style);
+	if (dc->font)
+		go_font_unref (dc->font);
 	g_free (dc);
 }
 
@@ -2978,9 +2982,42 @@ go_emf_setstretchbltmode (GOEmfState *state)
 static gboolean
 go_emf_settextalign (GOEmfState *state)
 {
+	int align;
 	d_(("settextalign\n"));
-	state->curDC->text_align = GSF_LE_GET_GUINT32 (state->data);
-	d_(("\talignment=%04x\n", state->curDC->text_align));
+	align = GSF_LE_GET_GUINT32 (state->data);
+	/* Note: we currently ignore the first bit which tells if current position
+	 must be updated after each text output call */
+	switch (align & 0x1e) {
+	default:
+	case 0:
+		state->curDC->text_align = GO_ANCHOR_NORTH_WEST;
+		break;
+	case 2:
+		state->curDC->text_align = GO_ANCHOR_NORTH_EAST;
+		break;
+	case 6:
+		state->curDC->text_align = GO_ANCHOR_NORTH;
+		break;
+	case 8:
+		state->curDC->text_align = GO_ANCHOR_SOUTH_WEST;
+		break;
+	case 0xa:
+		state->curDC->text_align = GO_ANCHOR_SOUTH_EAST;
+		break;
+	case 0xe:
+		state->curDC->text_align = GO_ANCHOR_SOUTH;
+		break;
+	case 18:
+		state->curDC->text_align = GO_ANCHOR_BASELINE_WEST;
+		break;
+	case 0x1a:
+		state->curDC->text_align = GO_ANCHOR_BASELINE_EAST;
+		break;
+	case 0x1e:
+		state->curDC->text_align = GO_ANCHOR_BASELINE_CENTER;
+		break;
+	}
+	d_(("\talignment=%04x\n", align));
 	return TRUE;
 }
 
@@ -3085,6 +3122,7 @@ go_emf_savedc (GOEmfState *state)
 	state->curDC = g_new (GOEmfDC, 1);
 	memcpy (state->curDC, state->dc_stack->data, sizeof (GOEmfDC));
 	state->curDC->style = go_style_new ();
+	state->curDC->font = NULL;
 	return TRUE;
 }
 
@@ -3282,6 +3320,28 @@ go_emf_selectobject (GOEmfState *state)
 			break;
 		}
 		case GO_EMF_OBJ_TYPE_FONT: {
+			double rotation;
+			GOEmfFont *font = (GOEmfFont *) tool;
+			PangoFontDescription *desc = pango_font_description_new ();
+			pango_font_description_set_family (desc, font->facename);
+			/* FIXME take size sign into account */
+			if (font->size != 0) /* what happens if size is 0? */
+				pango_font_description_set_size (desc, abs (font->size * PANGO_SCALE));
+			if (font->weight != 0)
+				pango_font_description_set_weight (desc, font->weight);
+			if (font->italic)
+				pango_font_description_set_style (desc, PANGO_STYLE_ITALIC);
+			if (state->curDC->font != NULL)
+				go_font_unref (state->curDC->font);
+			state->curDC->font = go_font_new_by_desc (desc);
+			rotation = (double) font->escape / 10.; 
+			if (rotation < 0.)
+				rotation += 360.;
+			state->curDC->text_rotation = (360. - rotation) / 180. * M_PI;
+			/* we actually igonore the glyphs orientation which we suppose to
+			 be the same than the text rotation, if not we should display the
+			 text glyph per glyph, not using a global layout */
+			d_(("\tselected font #%u\n", index));
 			break;
 		}
 		default:
@@ -3366,27 +3426,62 @@ go_emf_selectobject (GOEmfState *state)
 		break;
 	case GO_EMF_OEM_FIXED_FONT:
 		d_(("\tEOM fixed font\n"));
+		if (state->curDC->font != NULL) {
+			go_font_unref (state->curDC->font);
+			state->curDC->font = NULL;
+		}
+		/* FIXME, select a font? */
 		break;
 	case GO_EMF_ANSI_FIXED_FONT:
 		d_(("\tANSI fixed font\n"));
+		if (state->curDC->font != NULL) {
+			go_font_unref (state->curDC->font);
+			state->curDC->font = NULL;
+		}
+		/* FIXME, select a font? */
 		break;
 	case GO_EMF_ANSI_VAR_FONT:
 		d_(("\tANSI var font\n"));
+		if (state->curDC->font != NULL) {
+			go_font_unref (state->curDC->font);
+			state->curDC->font = NULL;
+		}
+		/* FIXME, select a font? */
 		break;
 	case GO_EMF_SYSTEM_FONT:
 		d_(("\tSystem font\n"));
+		if (state->curDC->font != NULL) {
+			go_font_unref (state->curDC->font);
+			state->curDC->font = NULL;
+		}
+		/* FIXME, select a font? */
 		break;
 	case GO_EMF_DEVICE_DEFAULT_FONT:
 		d_(("\tDevice default font\n"));
+		if (state->curDC->font != NULL) {
+			go_font_unref (state->curDC->font);
+			state->curDC->font = NULL;
+		}
+		/* FIXME, select a font? */
 		break;
 	case GO_EMF_DEFAULT_PALETTE:
 		d_(("\tDefault palette\n"));
 		break;
 	case GO_EMF_SYSTEM_FIXED_FONT:
 		d_(("\tSystem fixed font\n"));
+		if (state->curDC->font != NULL) {
+			go_font_unref (state->curDC->font);
+			state->curDC->font = NULL;
+		}
+		/* FIXME, select a font? */
 		break;
 	case GO_EMF_DEFAULT_GUI_FONT:
 		d_(("\tDefault GUI font\n"));
+		if (state->curDC->font != NULL) {
+			go_font_unref (state->curDC->font);
+			state->curDC->font = NULL;
+		}
+		/* FIXME, select a font? */
 		break;
 	case GO_EMF_DC_BRUSH:
 		d_(("\tDC brush\n"));
@@ -3918,7 +4013,29 @@ go_emf_extselectcliprgn (GOEmfState *state)
 static gboolean
 go_emf_bitblt (GOEmfState *state)
 {
+	GOWmfRectL rect;
+	gint32 xDest, yDest, cxDest, cyDest, xSrc, ySrc;
+	guint32 Oper;
+	double m11, m12, m21, m22, dx, dy;
 	d_(("bitblt\n"));
+	go_wmf_read_rectl (&rect, state->data); /* do we need it? */
+	xDest = GSF_LE_GET_GINT32 (state->data + 16);
+	yDest = GSF_LE_GET_GINT32 (state->data + 20);
+	cxDest = GSF_LE_GET_GINT32 (state->data + 24);
+	cyDest = GSF_LE_GET_GINT32 (state->data + 28);
+	Oper = GSF_LE_GET_GINT32 (state->data + 32);
+	xSrc = GSF_LE_GET_GINT32 (state->data + 36);
+	ySrc = GSF_LE_GET_GINT32 (state->data + 40);
+	d_(("\tDestination: x=%d y=%d cx=%d cy=%d Operation: %X\n", xDest, yDest, cxDest, cyDest, Oper));
+	d_(("\tSource: x=%d y=%d\n", xSrc, ySrc));
+	m11 = GSF_LE_GET_FLOAT (state->data + 44);
+	m12 = GSF_LE_GET_FLOAT (state->data + 48);
+	m21 = GSF_LE_GET_FLOAT (state->data + 52);
+	m22 = GSF_LE_GET_FLOAT (state->data + 56);
+	dx = GSF_LE_GET_FLOAT (state->data + 60);
+	dy = GSF_LE_GET_FLOAT (state->data + 64);
+	d_(("\tXForm: m11=%g m12=%g dx=%g\n\t       m21=%g m22=%g dy=%g\n",
+	    m11, m12, dx, m21, m22, dy));
 	return TRUE;
 }
 
@@ -4027,25 +4144,27 @@ go_emf_extcreatefontindirectw (GOEmfState *state)
 	font->obj_type = GO_EMF_OBJ_TYPE_FONT;
 	d_(("extcreatefontindirectw\n"));
 	index = GSF_LE_GET_GUINT32 (state->data);
+	font->size = GSF_LE_GET_GINT32 (state->data + 4) * state->dh / state->wh;
+	font->width = GSF_LE_GET_GINT32 (state->data + 8);
+	font->escape = GSF_LE_GET_GINT32 (state->data + 12);
+	font->orient = GSF_LE_GET_GINT32 (state->data + 16);
+	font->weight = GSF_LE_GET_GINT32 (state->data + 20);
+	font->italic = GSF_LE_GET_GUINT8 (state->data + 24);
+	font->under = GSF_LE_GET_GUINT8 (state->data + 25);
+	font->strike = GSF_LE_GET_GUINT8 (state->data + 26);
+	font->charset = GSF_LE_GET_GUINT8 (state->data + 27);
+	font->outprec = GSF_LE_GET_GUINT8 (state->data + 28);
+	font->clipprec = GSF_LE_GET_GUINT8 (state->data + 29);
+	font->quality = GSF_LE_GET_GUINT8 (state->data + 30);
+	font->pitch_and_family = GSF_LE_GET_GUINT8 (state->data + 31);
+	buf = g_utf16_to_utf8 ((gunichar2 const *) (state->data + 32), 32, NULL, NULL, NULL);
+	strncpy (font->facename, buf, 64);
+	g_free (buf);
+#if 0
+	/* We do not support DesignVector objects for now and we don't need full font names. */
 	if (state->length > 332) {
-	} else {
-		font->size = GSF_LE_GET_GINT32 (state->data + 4) * state->dh / state->wh;
-		font->width = GSF_LE_GET_GINT32 (state->data + 8);
-		font->escape = GSF_LE_GET_GINT32 (state->data + 12);
-		font->orient = GSF_LE_GET_GINT32 (state->data + 16);
-		font->weight = GSF_LE_GET_GINT32 (state->data + 20);
-		font->italic = GSF_LE_GET_GUINT8 (state->data + 24);
-		font->under = GSF_LE_GET_GUINT8 (state->data + 25);
-		font->strike = GSF_LE_GET_GUINT8 (state->data + 26);
-		font->charset = GSF_LE_GET_GUINT8 (state->data + 27);
-		font->outprec = GSF_LE_GET_GUINT8 (state->data + 28);
-		font->clipprec = GSF_LE_GET_GUINT8 (state->data + 29);
-		font->quality = GSF_LE_GET_GUINT8 (state->data + 30);
-		font->pitch_and_family = GSF_LE_GET_GUINT8 (state->data + 31);
-		buf = g_utf16_to_utf8 ((gunichar2 const *) (state->data + 32), 32, NULL, NULL, NULL);
-		strncpy (font->facename, buf, 64);
-		g_free (buf);
 	}
+#endif
 	g_hash_table_replace (state->mfobjs, GUINT_TO_POINTER (index), font);
 	d_(("\tfont index=%u face=%s size=%d\n",index,font->facename, font->size));
 	return TRUE;
@@ -4054,23 +4173,78 @@ go_emf_extcreatefontindirectw (GOEmfState *state)
 static gboolean
 go_emf_exttextouta (GOEmfState *state)
 {
+	unsigned mode, nb, offset;
+	float xscale = 1., yscale = 1.;
+	double x, y;
+	char *buf;
+	GOStyle *style = go_style_new ();
 	d_(("exttextouta\n"));
+	mode = GSF_LE_GET_GUINT32 (state->data + 16);
+	d_(("\t graphic mode is %s\n", mode == 1? "compatible": "advanced"));
+	if (mode == 1) {
+		xscale = GSF_LE_GET_FLOAT (state->data + 20); /* don't use for now */
+		yscale = GSF_LE_GET_FLOAT (state->data + 24);
+		d_(("\t exScale = %g \t eyScale = %g\n", xscale, yscale));
+	}
+	go_wmf_read_pointl (state->data + 28, &x, &y);
+	nb = GSF_LE_GET_GUINT32 (state->data + 36);
+	offset = GSF_LE_GET_GUINT32 (state->data + 40) - 8; /* 8 for code and size */
+	buf = g_strndup (state->data + offset, nb);
+	d_(("\t text is %s\n", buf));
+	style->font.color = state->curDC->text_color;
+	if (style->font.font)
+		go_font_unref (style->font.font);
+	style->font.font = go_font_ref (state->curDC->font);
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_TEXT,
+	                                      "text", buf,
+	                                      "x", x,
+	                                      "y", y,
+	                                      "anchor",  state->curDC->text_align,
+	                                      "rotation", state->curDC->text_rotation,
+	                                      "style", style,
+	                                      NULL),
+	                        &state->curDC->m);
+	g_object_unref (style);
+	g_free (buf);
 	return TRUE;
 }
 
 static gboolean
 go_emf_exttextoutw (GOEmfState *state)
 {
-	unsigned mode;
+	unsigned mode, nb, offset;
 	float xscale = 1., yscale = 1.;
+	double x, y;
+	char *buf;
+	GOStyle *style = go_style_new ();
 	d_(("exttextoutw\n"));
 	mode = GSF_LE_GET_GUINT32 (state->data + 16);
 	d_(("\t graphic mode is %s\n", mode == 1? "compatible": "advanced"));
 	if (mode == 1) {
-		xscale = GSF_LE_GET_FLOAT (state->data + 20);
+		xscale = GSF_LE_GET_FLOAT (state->data + 20); /* don't use for now */
 		yscale = GSF_LE_GET_FLOAT (state->data + 24);
 		d_(("\t exScale = %g \t eyScale = %g\n", xscale, yscale));
 	}
+	go_wmf_read_pointl (state->data + 28, &x, &y);
+	nb = GSF_LE_GET_GUINT32 (state->data + 36);
+	offset = GSF_LE_GET_GUINT32 (state->data + 40) - 8; /* 8 for code and size */
+	buf = g_utf16_to_utf8 ((gunichar2 const *) (state->data + offset), nb, NULL, NULL, NULL);
+	d_(("\t text is %s\n", buf));
+	style->font.color = state->curDC->text_color;
+	if (style->font.font)
+		go_font_unref (style->font.font);
+	style->font.font = go_font_ref (state->curDC->font);
+	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_TEXT,
+	                                      "text", buf,
+	                                      "x", x,
+	                                      "y", y,
+	                                      "anchor",  state->curDC->text_align,
+	                                      "rotation", state->curDC->text_rotation,
+	                                      "style", style,
+	                                      NULL),
+	                        &state->curDC->m);
+	g_object_unref (style);
+	g_free (buf);
 	return TRUE;
 }
 
@@ -4458,8 +4632,8 @@ static  GOEmfHandler go_emf_handlers[] = {
 	go_emf_scalewindowextex,	/* 0x0020 todo */
 	go_emf_savedc,			/* 0x0021 ok */
 	go_emf_restoredc,		/* 0x0022 ok */
-	go_emf_setworldtransform,	/* 0x0023 todo */
-	go_emf_modifyworldtransform,	/* 0x0024 todo */
+	go_emf_setworldtransform,	/* 0x0023 ok */
+	go_emf_modifyworldtransform,	/* 0x0024 ok */
 	go_emf_selectobject,		/* 0x0025 partial */
 	go_emf_createpen,		/* 0x0026 ok */
 	go_emf_createbrushindirect,	/* 0x0027 ok */
@@ -4506,8 +4680,8 @@ static  GOEmfHandler go_emf_handlers[] = {
 	go_emf_setdibitstodevice,	/* 0x0050 todo */
 	go_emf_stretchdibits,		/* 0x0051 partial */
 	go_emf_extcreatefontindirectw,	/* 0x0052 partial */
-	go_emf_exttextouta,		/* 0x0053 todo */
-	go_emf_exttextoutw,		/* 0x0054 todo */
+	go_emf_exttextouta,		/* 0x0053 partial and untested */
+	go_emf_exttextoutw,		/* 0x0054 partial */
 	go_emf_polybezier16,		/* 0x0055 ok */
 	go_emf_polygon16,		/* 0x0056 ok */
 	go_emf_polyline16,		/* 0x0057 ok */
@@ -4669,6 +4843,7 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 		state.curDC = g_new0 (GOEmfDC, 1);
 		state.curDC->style = go_style_new ();
 		state.curDC->group = state.canvas->root;
+		state.curDC->text_color = GO_COLOR_BLACK;
 		state.dx = state.dy = state.wx = state.wy = 0.;
 		state.dw = state.dh = state.ww = state.wh = 1.;
 		state.mfobjs = g_hash_table_new_full (g_direct_hash, g_direct_equal,
@@ -4684,8 +4859,8 @@ go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
 				break;
 			state.length = rsize;
 			state.data = gsf_input_read (input, rsize, NULL);
-			if (!state.data)
-				break;
+			if (rsize > 0 && !state.data)
+					break;
 			if (!go_emf_handlers[rid] (&state))
 				break;
 			if (offset + 4 >= fsize)

@@ -1,3 +1,14 @@
+2014-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-text.c (go_anchor_type_get_type),
+	(goc_text_prepare_draw), (goc_text_draw): add baseline anchor values.
+	* goffice/utils/go-emf.c (go_emf_dc_free), (go_emf_settextalign),
+	(go_emf_savedc), (go_emf_selectobject), (go_emf_bitblt),
+	(go_emf_extcreatefontindirectw), (go_emf_exttextouta),
+	(go_emf_exttextoutw), (go_emf_parse): partial implementation of text
+	support.
+	* goffice/utils/goffice-utils.h: add baseline anchor values.
+
 2014-08-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data-simple.c (go_data_vector_str_load_values),

@@ -65,6 +65,9 @@ go_anchor_type_get_type (void)
 			{ GO_ANCHOR_SOUTH_EAST,	"GO_ANCHOR_SOUTH_EAST",	"south-east" },
 			{ GO_ANCHOR_WEST,	"GO_ANCHOR_WEST",	"west" },
 			{ GO_ANCHOR_EAST,	"GO_ANCHOR_EAST",	"east" },
+			{ GO_ANCHOR_BASELINE_CENTER, "GO_ANCHOR_BASELINE_CENTER", "baseline-centered" },
+			{ GO_ANCHOR_BASELINE_WEST, "GO_ANCHOR_BASELINE_WEST", "baseline-west" },
+			{ GO_ANCHOR_BASELINE_EAST, "GO_ANCHOR_BASELINE_EAST", "baseline-east" },
 			{ GO_ANCHOR_N,	"GO_ANCHOR_N",	"n" },
 			{ GO_ANCHOR_NW,	"GO_ANCHOR_NW",	"nw" },
 			{ GO_ANCHOR_NE,	"GO_ANCHOR_NE",	"ne" },
@@ -73,6 +76,9 @@ go_anchor_type_get_type (void)
 			{ GO_ANCHOR_SE,	"GO_ANCHOR_SE",	"se" },
 			{ GO_ANCHOR_W,	"GO_ANCHOR_W",	"w" },
 			{ GO_ANCHOR_E,	"GO_ANCHOR_E",	"e" },
+			{ GO_ANCHOR_B,	"GO_ANCHOR_B",	"b" },
+			{ GO_ANCHOR_BW,	"GO_ANCHOR_BW",	"bw" },
+			{ GO_ANCHOR_BE,	"GO_ANCHOR_BE",	"be" },
 			{ 0, NULL, NULL }
 		};
 		etype = g_enum_register_static (g_intern_static_string ("GOAnchorType"), values);
@@ -239,15 +245,18 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_NORTH:
 	case GO_ANCHOR_SOUTH:
+	case GO_ANCHOR_BASELINE_CENTER:
 		dx = -w / 2.;
 		break;
 	case GO_ANCHOR_NORTH_WEST:
 	case GO_ANCHOR_SOUTH_WEST:
 	case GO_ANCHOR_WEST:
+	case GO_ANCHOR_BASELINE_WEST:
 		break;
 	case GO_ANCHOR_NORTH_EAST:
 	case GO_ANCHOR_SOUTH_EAST:
 	case GO_ANCHOR_EAST:
+	case GO_ANCHOR_BASELINE_EAST:
 		dx = -w;
 		break;
 	default: /* should not occur */
@@ -269,6 +278,14 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	case GO_ANCHOR_SOUTH_EAST:
 		dy = -h;
 		break;
+	case GO_ANCHOR_BASELINE_CENTER:
+	case GO_ANCHOR_BASELINE_WEST:
+	case GO_ANCHOR_BASELINE_EAST: {
+		PangoLayoutIter* iter = pango_layout_get_iter (pl);
+		dy -= (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		pango_layout_iter_free (iter);
+		break;
+	}
 	default: /* should not occur */
 		break;
 	}
@@ -343,15 +360,18 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_NORTH:
 	case GO_ANCHOR_SOUTH:
+	case GO_ANCHOR_BASELINE_CENTER:
 		dx = -w / 2.;
 		break;
 	case GO_ANCHOR_NORTH_WEST:
 	case GO_ANCHOR_SOUTH_WEST:
 	case GO_ANCHOR_WEST:
+	case GO_ANCHOR_BASELINE_WEST:
 		break;
 	case GO_ANCHOR_NORTH_EAST:
 	case GO_ANCHOR_SOUTH_EAST:
 	case GO_ANCHOR_EAST:
+	case GO_ANCHOR_BASELINE_EAST:
 		dx = -w;
 		break;
 	default: /* should not occur */
@@ -373,12 +393,21 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	case GO_ANCHOR_SOUTH_EAST:
 		dy = -h;
 		break;
+	case GO_ANCHOR_BASELINE_CENTER:
+	case GO_ANCHOR_BASELINE_WEST:
+	case GO_ANCHOR_BASELINE_EAST: {
+		PangoLayoutIter* iter = pango_layout_get_iter (pl);
+		dy -= (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		pango_layout_iter_free (iter);
+		break;
+	}
 	default: /* should not occur */
 		break;
 	}
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
-	cairo_set_source_rgb (cr, 0., 0., 0.);
+//	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->font.color));
+	cairo_set_source_rgb (cr, 0.,0.,0.);
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_rotate (cr, text->rotation * sign);
 	cairo_translate (cr, dx, dy);
