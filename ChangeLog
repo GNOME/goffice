@@ -1,3 +1,7 @@
+2014-09-25  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.18
+
 2014-09-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-text.c (go_anchor_type_get_type),
