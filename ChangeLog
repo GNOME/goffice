@@ -1,3 +1,8 @@
+2014-09-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-combo-box.c (cb_state_flags_change): Don't use
+	deprecated signal and functions.
+
 2014-09-25  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

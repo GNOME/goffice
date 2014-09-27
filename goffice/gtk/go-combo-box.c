@@ -580,12 +580,25 @@ go_combo_box_button_press (GtkWidget *widget, GdkEventButton *event, GOComboBox 
 }
 
 static void
-cb_state_change (GtkWidget *widget, GtkStateType old_state, GOComboBox *combo_box)
+cb_state_flags_change (GtkWidget *widget,
+		       G_GNUC_UNUSED GtkStateFlags old_flags,
+		       GOComboBox *combo_box)
 {
-	GtkStateType const new_state = gtk_widget_get_state (widget);
-	if (combo_box->priv->display_widget)
-		gtk_widget_set_state (combo_box->priv->display_widget,
-				      new_state);
+	GtkStateFlags const new_flags = gtk_widget_get_state_flags (widget);
+	if (combo_box->priv->display_widget) {
+		GtkWidget *w = combo_box->priv->display_widget;
+		GtkStateFlags mask =
+			(GTK_STATE_FLAG_NORMAL |
+			 GTK_STATE_FLAG_ACTIVE |
+			 GTK_STATE_FLAG_PRELIGHT |
+			 GTK_STATE_FLAG_SELECTED |
+			 GTK_STATE_FLAG_INSENSITIVE |
+			 GTK_STATE_FLAG_INCONSISTENT |
+			 GTK_STATE_FLAG_FOCUSED |
+			 GTK_STATE_FLAG_BACKDROP);
+		gtk_widget_set_state_flags (w, new_flags & mask, FALSE);
+		gtk_widget_unset_state_flags (w, (~new_flags) & mask);
+	}
 }
 
 static void
@@ -612,8 +625,8 @@ go_combo_box_init (GOComboBox *combo_box)
 	/*
 	 * prelight the display widget when mousing over the arrow.
 	 */
-	g_signal_connect (combo_box->priv->arrow_button, "state-changed",
-			  G_CALLBACK (cb_state_change), combo_box);
+	g_signal_connect (combo_box->priv->arrow_button, "state-flags-changed",
+			  G_CALLBACK (cb_state_flags_change), combo_box);
 
 	/*
 	 * The pop-down container
@@ -678,7 +691,9 @@ static gboolean
 cb_tearable_enter_leave (GtkWidget *w, GdkEventCrossing *event, gpointer data)
 {
 	gboolean const flag = GPOINTER_TO_INT(data);
-	gtk_widget_set_state (w, flag ? GTK_STATE_PRELIGHT : GTK_STATE_NORMAL);
+	gtk_widget_set_state_flags (w,
+				    flag ? GTK_STATE_FLAG_PRELIGHT : GTK_STATE_FLAG_NORMAL,
+				    FALSE);
 	return FALSE;
 }
 
