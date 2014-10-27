@@ -3334,7 +3334,7 @@ go_emf_selectobject (GOEmfState *state)
 			if (state->curDC->font != NULL)
 				go_font_unref (state->curDC->font);
 			state->curDC->font = go_font_new_by_desc (desc);
-			rotation = (double) font->escape / 10.; 
+			rotation = (double) font->escape / 10.;
 			if (rotation < 0.)
 				rotation += 360.;
 			state->curDC->text_rotation = (360. - rotation) / 180. * M_PI;

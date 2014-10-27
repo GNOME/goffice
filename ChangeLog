@@ -1,3 +1,10 @@
+2014-10-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_draw),
+	(goc_canvas_finalize), (goc_canvas_init), (goc_canvas_invalidate),
+	(goc_canvas_invalidate_region): add new goc_canvas_invalidate_region().
+	* goffice/canvas/goc-canvas.h: ditto.
+
 2014-09-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-combo-box.c (cb_state_flags_change): Don't use

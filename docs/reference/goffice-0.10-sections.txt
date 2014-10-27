@@ -1944,6 +1944,8 @@ go_tanpil
 <SUBSECTION Private>
 GOQuad
 GOQuadl
+GOQuad_
+GOQuadl_
 </SECTION>
 
 <SECTION>
@@ -1978,6 +1980,8 @@ go_quad_matrix_transposel
 <SUBSECTION Private>
 GOQuadMatrix
 GOQuadMatrixl
+GOQuadMatrix_
+GOQuadMatrixl_
 </SECTION>
 
 <SECTION>
@@ -2381,6 +2385,7 @@ goc_canvas_get_scroll_position
 goc_canvas_get_width
 goc_canvas_grab_item
 goc_canvas_invalidate
+goc_canvas_invalidate_region
 goc_canvas_render
 goc_canvas_scroll_to
 goc_canvas_set_direction

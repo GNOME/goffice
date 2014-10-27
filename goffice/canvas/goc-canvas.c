@@ -24,6 +24,12 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
+typedef struct {
+	 GocItem *invalidated_item;
+	 cairo_region_t *invalid_region;
+	 gboolean done;
+ } GocCanvasPrivate;
+
 /**
  * SECTION: goc-canvas
  * @short_description: The canvas widget
@@ -51,23 +57,59 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 	double clip_x1, clip_y1, clip_x2, clip_y2;
 	GocCanvas *canvas = GOC_CANVAS (widget);
 	GdkEventExpose *event = (GdkEventExpose *) gtk_get_current_event ();
+	GocCanvasPrivate *priv = (GocCanvasPrivate *) canvas->priv;
+	cairo_rectangle_list_t *l = cairo_copy_clip_rectangle_list (cr);
+	int i;
 
-	cairo_clip_extents (cr, &clip_x1, &clip_y1, &clip_x2, &clip_y2);
-
+	if (GOC_IS_ITEM (priv->invalidated_item) && priv->invalid_region) {
+		/* evaluate the cairo clipped region and compare with the saved one */
+		cairo_region_t *region;
+		cairo_rectangle_int_t rect[l->num_rectangles];
+	    for (i= 0; i  < l->num_rectangles; i++) {
+			rect[i].x = l->rectangles[i].x;
+			rect[i].y = l->rectangles[i].y;
+			rect[i].width = l->rectangles[i].width;
+			rect[i].height = l->rectangles[i].height;
+		}
+		region = cairo_region_create_rectangles (rect, l->num_rectangles);
+		if (cairo_region_equal (priv->invalid_region, region)) {
+			cairo_rectangle_list_destroy (l);
+			cairo_region_destroy (region);
+			/* looks like each time we call gtk_widget_queue_draw*,
+			   the draw event is fired twice */
+			if (priv->done) {
+				priv->invalidated_item = NULL;
+				cairo_region_destroy (priv->invalid_region);
+				priv->invalid_region = NULL;
+			} else {
+				goc_item_draw (priv->invalidated_item, cr);
+				priv->done = TRUE;
+			}
+			return TRUE;
+		}
+	}
 	goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
-	if (canvas->direction == GOC_DIRECTION_RTL) {
-		ax1 = (double) (canvas->width - clip_x1) / canvas->pixels_per_unit + canvas->scroll_x1;
-		ax0 = (double) (canvas->width - clip_x2) / canvas->pixels_per_unit + canvas->scroll_x1;
-	} else {
-		ax0 = (double) clip_x1 / canvas->pixels_per_unit + canvas->scroll_x1;
-		ax1 = ((double) clip_x1 + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+    for (i= 0; i  < l->num_rectangles; i++) {
+		clip_x1 = l->rectangles[i].x;
+		clip_y1 = l->rectangles[i].y;
+		clip_x2 = clip_x1 + l->rectangles[i].width;
+		clip_y2 = clip_y1 + l->rectangles[i].height;
+
+		if (canvas->direction == GOC_DIRECTION_RTL) {
+			ax1 = (double) (canvas->width - clip_x1) / canvas->pixels_per_unit + canvas->scroll_x1;
+			ax0 = (double) (canvas->width - clip_x2) / canvas->pixels_per_unit + canvas->scroll_x1;
+		} else {
+			ax0 = (double) clip_x1 / canvas->pixels_per_unit + canvas->scroll_x1;
+			ax1 = ((double) clip_x1 + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+		}
+		ay0 = (double) clip_y1 / canvas->pixels_per_unit + canvas->scroll_y1;
+		ay1 = (double) clip_y2 / canvas->pixels_per_unit + canvas->scroll_y1;
+		if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0) {
+			canvas->cur_event = (GdkEvent *) event;
+			goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
+		}
 	}
-	ay0 = (double) clip_y1 / canvas->pixels_per_unit + canvas->scroll_y1;
-	ay1 = (double) clip_y2 / canvas->pixels_per_unit + canvas->scroll_y1;
-	if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0) {
-		canvas->cur_event = (GdkEvent *) event;
-		goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
-	}
+	cairo_rectangle_list_destroy (l);
 	return TRUE;
 }
 
@@ -248,7 +290,11 @@ static void
 goc_canvas_finalize (GObject *obj)
 {
 	GocCanvas *canvas = GOC_CANVAS (obj);
+	GocCanvasPrivate *priv = (GocCanvasPrivate *) canvas->priv;
 	g_object_unref (canvas->root);
+	if (priv->invalid_region != NULL)
+		cairo_region_destroy (priv->invalid_region);
+	g_free (canvas->priv);
 	parent_klass->finalize (obj);
 }
 
@@ -288,6 +334,7 @@ goc_canvas_init (GocCanvas *canvas)
 	canvas->root = GOC_GROUP (g_object_new (GOC_TYPE_GROUP, NULL));
 	canvas->root->base.canvas = canvas;
 	canvas->pixels_per_unit = 1.;
+	canvas->priv = g_new0 (GocCanvasPrivate, 1);
 #ifdef GOFFICE_WITH_GTK
 	gtk_widget_add_events (w,
 	                       GDK_POINTER_MOTION_MASK |
@@ -487,6 +534,34 @@ goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, doubl
 					    (int) ceil (x1) - (int) floor (x0) + 2,
 		                            (int) ceil (y1) - (int) floor (y0) + 2);
 #endif
+}
+
+
+/**
+ * goc_canvas_invalidate_region:
+ * @canvas: #GocCanvas
+ * @item: the item to redraw
+ * @region: the region to redraw
+ *
+ * Invalidates a region of the canvas. Only @item will be redrawn if the next
+ * draw event is called with a cairo contest clipped to @region. Used in
+ * gnumeric for the walking ants cursor.
+ **/
+void
+goc_canvas_invalidate_region (GocCanvas *canvas, GocItem *item, cairo_region_t *region)
+{
+	GocCanvasPrivate *priv;
+
+	g_return_if_fail (GOC_IS_CANVAS (canvas));
+	g_return_if_fail (item && region);
+
+	priv = (GocCanvasPrivate *) canvas->priv;
+	if (priv->invalid_region != NULL)
+		cairo_region_destroy (priv->invalid_region);
+	priv->invalidated_item = item;
+	priv->invalid_region = cairo_region_reference (region);
+	priv->done = FALSE;
+	gtk_widget_queue_draw_region (GTK_WIDGET (canvas), region);
 }
 
 /**

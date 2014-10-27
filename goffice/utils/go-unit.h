@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 typedef struct _GoUnit GoUnit;
 
 typedef enum  {
-	GO_UNIT_UNKNOWN = -1,	
+	GO_UNIT_UNKNOWN = -1,
 	GO_UNIT_METER,
 	GO_UNIT_CENTIMETER,
 	GO_UNIT_INCH,
