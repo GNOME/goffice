@@ -1,3 +1,8 @@
+2014-11-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_init_style): allow rotation
+	of axis line labels. [#740198]
+
 2014-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c (goc_canvas_draw),
