@@ -1,3 +1,11 @@
+2014-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_padding_request),
+	(gog_axis_view_size_allocate): Move the titles with the axis when some other
+	axis has an offset. [#684777]
+
 2014-11-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c (gog_axis_base_init_style): allow rotation

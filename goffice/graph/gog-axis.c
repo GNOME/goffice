@@ -4014,7 +4014,10 @@ gog_axis_get_major_ticks_distance (GogAxis const *axis)
 
 /****************************************************************************/
 
-typedef GogAxisBaseView		GogAxisView;
+typedef struct {
+	GogAxisBaseView base;
+	double padding_low, padding_high;
+} GogAxisView;
 typedef GogAxisBaseViewClass	GogAxisViewClass;
 
 #define GOG_TYPE_AXIS_VIEW	(gog_axis_view_get_type ())
@@ -4081,6 +4084,7 @@ gog_axis_view_padding_request (GogView *view,
 {
 	GogView *child;
 	GogAxis *axis = GOG_AXIS (view->model);
+	GogAxisView *axis_view = GOG_AXIS_VIEW (view);
 	GogAxisType type = gog_axis_get_atype (axis);
 	GogObjectPosition pos;
 	GogAxisPosition axis_pos;
@@ -4163,6 +4167,15 @@ gog_axis_view_padding_request (GogView *view,
 	padding->wl += label_padding.wl;
 	padding->ht += label_padding.ht;
 	padding->hb += label_padding.hb;
+	if (!is_3d) {
+		if (type == GOG_AXIS_X) {
+			axis_view->padding_high = padding->ht;
+			axis_view->padding_low = padding->hb;
+		} else {
+			axis_view->padding_high = padding->wr;
+			axis_view->padding_low = padding->wl;
+		}
+	}
 }
 
 static void
@@ -4195,6 +4208,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	GogView *child;
 	GogAxis *axis = GOG_AXIS (view->model);
+	GogAxisView *axis_view = GOG_AXIS_VIEW (view);
 	GogAxisType type = gog_axis_get_atype (axis);
 	GogViewAllocation tmp = *bbox;
 	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
@@ -4207,8 +4221,20 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 	double start, end;
 
-	available.w = bbox->w;
-	available.h = bbox->h;
+	if (!gog_chart_is_3d (chart)) {
+		double d;
+		if (type == GOG_AXIS_X) {
+			d = plot_area->y - tmp.y - axis_view->padding_high;
+			tmp.y += d;
+			tmp.h = plot_area->h + axis_view->padding_low - d;
+		} else {
+			d = plot_area->x - tmp.x - axis_view->padding_low;
+			tmp.x += d;
+			tmp.w = plot_area->w + axis_view->padding_high - d;
+		}
+	}
+	available.w = tmp.w;
+	available.h = tmp.h;
 
 	axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
 
