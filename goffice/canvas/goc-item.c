@@ -221,10 +221,6 @@ goc_item_dispose (GObject *object)
 	GtkStyleContext *context;
 
 	if (item->canvas) {
-		if (item->canvas->last_item == item)
-			item->canvas->last_item = NULL;
-		if (item->canvas->grabbed_item == item)
-			item->canvas->grabbed_item = NULL;
 		item->cached_bounds = TRUE; /* avoids a call to update_bounds */
 		goc_item_invalidate (item);
 	}

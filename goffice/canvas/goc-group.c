@@ -354,6 +354,8 @@ goc_group_add_child (GocGroup *parent, GocItem *item)
 	item->canvas = parent->base.canvas;
 
 	/* Notify of changes.  */
+	if (old_canvas && item->canvas != old_canvas)
+		_goc_canvas_remove_item (old_canvas, item);
 	g_object_notify (G_OBJECT (item), "parent");
 	if (item->canvas != old_canvas)
 		g_object_notify (G_OBJECT (item), "canvas");
@@ -377,8 +379,8 @@ goc_group_remove_child (GocGroup *parent, GocItem *item)
 	g_return_if_fail (GOC_IS_GROUP (parent));
 	g_return_if_fail (GOC_IS_ITEM (item));
 	g_return_if_fail (item->parent == parent);
-	if (item->canvas && item->canvas->last_item == item)
-		item->canvas->last_item = NULL;
+	if (item->canvas)
+		_goc_canvas_remove_item (item->canvas, item);
 	if (GOC_ITEM (parent)->realized)
 		_goc_item_unrealize (item);
 	parent->children = g_list_remove (parent->children, item);

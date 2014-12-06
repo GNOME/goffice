@@ -93,6 +93,8 @@ void		 goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_);
 void		 goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double x1, double y1);
 void		 goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, double *x1, double *y1);
 
+void _goc_canvas_remove_item (GocCanvas *canvas, GocItem *item);
+
 G_END_DECLS
 
 #endif  /* GOC_CANVAS_H */

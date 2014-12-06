@@ -87,9 +87,12 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 			}
 			return TRUE;
 		}
+
+		cairo_region_destroy (region);
 	}
+
 	goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
-    for (i= 0; i  < l->num_rectangles; i++) {
+	for (i= 0; i  < l->num_rectangles; i++) {
 		clip_x1 = l->rectangles[i].x;
 		clip_y1 = l->rectangles[i].y;
 		clip_x2 = clip_x1 + l->rectangles[i].width;
@@ -292,8 +295,6 @@ goc_canvas_finalize (GObject *obj)
 	GocCanvas *canvas = GOC_CANVAS (obj);
 	GocCanvasPrivate *priv = (GocCanvasPrivate *) canvas->priv;
 	g_object_unref (canvas->root);
-	if (priv->invalid_region != NULL)
-		cairo_region_destroy (priv->invalid_region);
 	g_free (canvas->priv);
 	parent_klass->finalize (obj);
 }
@@ -768,3 +769,28 @@ goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, double *x1, do
 	goc_item_get_bounds (GOC_ITEM (canvas->root), x0, y0, x1, y1);
 }
 
+/*
+ * Item is leaving this canvas.  Get rid of direct pointers.
+ */
+void
+_goc_canvas_remove_item (GocCanvas *canvas, GocItem *item)
+{
+	GocCanvasPrivate *priv;
+
+	g_return_if_fail (GOC_IS_CANVAS (canvas));
+	g_return_if_fail (GOC_IS_ITEM (item));
+
+	priv = (GocCanvasPrivate *) canvas->priv;
+
+	if (canvas->last_item == item)
+		canvas->last_item = NULL;
+	if (canvas->grabbed_item == item)
+		canvas->grabbed_item = NULL;
+	if (priv->invalidated_item == item) {
+		if (priv->invalid_region != NULL) {
+			cairo_region_destroy (priv->invalid_region);
+			priv->invalid_region = NULL;
+		}
+		priv->invalidated_item = NULL;
+	}
+}
