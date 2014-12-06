@@ -277,13 +277,6 @@ cb_history_changed (GOColorPalette *pal)
 	for (i = 0 ; i < GO_COLOR_GROUP_HISTORY_SIZE ; i++)
 		gtk_widget_override_background_color (pal->swatches [i], GTK_STATE_FLAG_NORMAL,
 			go_color_to_gdk_rgba (group->history[i], &gdk));
-#if 0
-	if (next_swatch != NULL) {
-		next_swatch->style->bg[GTK_STATE_NORMAL] = *new_color;
-		gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (pal->picker),
-			new_color->red, new_color->green, new_color->blue, 0);
-	}
-#endif
 }
 
 static gboolean
