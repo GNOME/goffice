@@ -570,8 +570,7 @@ gog_xyz_surface_plot_update (GogObject *obj)
 
 	if (GOG_PLOT (model)->desc.series.num_dim > 2 && model->z.fmt == NULL)
 			model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);
-	if (model->plotted_data != NULL)
-		g_free (model->plotted_data);
+	g_free (model->plotted_data);
 	model->plotted_data = gog_xyz_plot_build_matrix (model, NULL);
 	if (model->plotted_data) {
 		gog_axis_bound_changed (model->base.axis[GOG_XYZ_PLOT_GET_CLASS (model)->third_axis],
