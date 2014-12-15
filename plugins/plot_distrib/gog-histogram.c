@@ -52,6 +52,15 @@ GType gog_histogram_plot_view_get_type (void);
 
 static GogObjectClass *histogram_plot_parent_klass;
 
+/* Tests if product is strictly positive without causing overflow.  */
+static gboolean
+pos_product (double x1, double x2)
+{
+	return ((x1 > 0 && x2 > 0) ||
+		(x1 < 0 && x2 < 0));
+}
+
+
 static void
 gog_histogram_plot_clear_formats (GogHistogramPlot *model)
 {
@@ -137,7 +146,7 @@ gog_histogram_plot_update (GogObject *obj)
 				if (val > y_max)
 					y_max = val;
 			} else
-				series->y[i] = (model->cumulative)? sum: 0.;
+				series->y[i] = model->cumulative ? sum : 0.;
 		if (model->y.fmt == NULL)
 			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
 		model->y.date_conv = go_data_date_conv (series->base.values[1].data);
@@ -172,7 +181,7 @@ gog_histogram_plot_update (GogObject *obj)
 					if (val > max)
 						max = val;
 				} else
-					series->y_[i] = (model->cumulative)? sum: 0.;
+					series->y_[i] = model->cumulative ? sum : 0.;
 		}
 		if (y_max < 0)
 			y_max = max;
@@ -262,9 +271,10 @@ gog_histogram_plot_set_property (GObject *obj, guint param_id,
 		}
 		break;
 	case HISTOGRAM_PROP_BEFORE_GRID:
-		GOG_PLOT (obj)->rendering_order = (g_value_get_boolean (value))?
-						GOG_PLOT_RENDERING_BEFORE_GRID:
-						GOG_PLOT_RENDERING_LAST;
+		GOG_PLOT (obj)->rendering_order =
+			(g_value_get_boolean (value)
+			 ? GOG_PLOT_RENDERING_BEFORE_GRID
+			 : GOG_PLOT_RENDERING_LAST);
 		gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 		break;
 
@@ -542,8 +552,8 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogAxisMap *x_map, *y_map;
 	GogViewAllocation const *area;
 	GogHistogramPlotSeries const *series;
-	double *x_vals = NULL, *y_vals, curx, cury, y0;
-	unsigned i, j, nb;
+	double *x_vals = NULL, *y_vals, y0;
+	unsigned i;
 	GOPath *path ;
 	GSList *ptr;
 	GOStyle *style;
@@ -551,7 +561,6 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (model->base.series == NULL)
 		return;
 	series = GOG_HISTOGRAM_PLOT_SERIES (model->base.series->data);
-	nb = (series->base.num_elements + 1) * 2 + 2;
 	style = GOG_STYLED_OBJECT (series)->style;
 	if (series->base.num_elements < 1)
 		return;
@@ -575,27 +584,27 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		x_vals = series->real_x;
 	else if (series->base.values[0].data)
 		x_vals = go_data_get_values (series->base.values[0].data);
-	y_vals = (series->y)? series->y: go_data_get_values (series->base.values[1].data);
+	y_vals = series->y ? series->y : go_data_get_values (series->base.values[1].data);
 
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 	if (model->vertical) {
-		curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[0]: 0.));
+		double curx = gog_axis_map_to_view (x_map, x_vals ? x_vals[0] : 0);
 		go_path_move_to (path, curx, y0 = gog_axis_map_get_baseline (y_map));
-		for (i = 0, j = 1; i < series->base.num_elements; i++) {
-			cury = gog_axis_map_to_view (y_map, y_vals[i]);
+		for (i = 0; i < series->base.num_elements; i++) {
+			double cury = gog_axis_map_to_view (y_map, y_vals[i]);
 			go_path_line_to (path, curx, cury);
-			curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i+1]: 0.));
+			curx = gog_axis_map_to_view (x_map, x_vals ? x_vals[i+1] : 0);
 			go_path_line_to (path, curx, cury);
 		}
 		go_path_line_to (path, curx, y0);
 	} else {
-		curx = gog_axis_map_to_view (y_map, ((x_vals)? x_vals[0]: 0.));
+		double curx = gog_axis_map_to_view (y_map, x_vals ? x_vals[0] : 0);
 		go_path_move_to (path, y0 = gog_axis_map_get_baseline (x_map), curx);
-		for (i = 0, j = 1; i < series->base.num_elements; i++) {
-			cury = gog_axis_map_to_view (x_map, y_vals[i]);
+		for (i = 0; i < series->base.num_elements; i++) {
+			double cury = gog_axis_map_to_view (x_map, y_vals[i]);
 			go_path_line_to (path, cury, curx);
-			curx = gog_axis_map_to_view (y_map, ((x_vals)? x_vals[i+1]: 0.));
+			curx = gog_axis_map_to_view (y_map, x_vals ? x_vals[i+1] : 0);
 			go_path_line_to (path, cury, curx);
 		}
 		go_path_line_to (path, y0, curx);
@@ -606,46 +615,47 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (series->droplines) {
 		GOPath *drop_path = go_path_new ();
+		double cury = y0;
 		go_path_set_options (drop_path, GO_PATH_OPTIONS_SHARP);
 		gog_renderer_push_style (view->renderer,
 			go_styled_object_get_style (GO_STYLED_OBJECT (series->droplines)));
-		cury = y0;
-		if (model->vertical)
+		if (model->vertical) {
 			for (i = 1; i < series->base.num_elements; i++) {
-				curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i]: 0.));
-				if (y_vals[i-1] * y_vals[i] > 0.) {
-					go_path_move_to (drop_path, curx, y0);
-					if (y_vals[i] > 0.)
-						cury = gog_axis_map_to_view (y_map,
-							MIN (y_vals[i-1], y_vals[i]));
-					else
-						cury = gog_axis_map_to_view (y_map,
-							MAX (y_vals[i-1], y_vals[i]));
+				double x = x_vals ? x_vals[i] : 0;
+				double y = y_vals[i];
+				double y_prev = y_vals[i - 1];
+				double curx = gog_axis_map_to_view (x_map, x);
 
+				if (pos_product (y, y_prev)) {
+					go_path_move_to (drop_path, curx, y0);
+					cury = gog_axis_map_to_view
+						(y_map,
+						 y > 0 ? MIN (y_prev, y) : MAX (y_prev, y));
 				} else {
 					go_path_move_to (drop_path, curx, cury);
-					cury = gog_axis_map_to_view (y_map, y_vals[i]);
+					cury = gog_axis_map_to_view (y_map, y);
 				}
 				go_path_line_to (drop_path, curx, cury);
 			}
-		else
+		} else {
 			for (i = 1; i < series->base.num_elements; i++) {
-				curx = gog_axis_map_to_view (y_map, ((x_vals)? x_vals[i]: 0.));
-				if (y_vals[i-1] * y_vals[i] > 0.) {
-					go_path_move_to (drop_path, y0, curx);
-					if (y_vals[i] > 0.)
-						cury = gog_axis_map_to_view (x_map,
-							MIN (y_vals[i-1], y_vals[i]));
-					else
-						cury = gog_axis_map_to_view (x_map,
-							MAX (y_vals[i-1], y_vals[i]));
+				double x = x_vals ? x_vals[i] : 0;
+				double y = y_vals[i];
+				double y_prev = y_vals[i - 1];
+				double curx = gog_axis_map_to_view (y_map, x);
 
+				if (pos_product (y, y_prev)) {
+					go_path_move_to (drop_path, y0, curx);
+					cury = gog_axis_map_to_view
+						(x_map,
+						 y > 0 ? MIN (y_prev, y) : MAX (y_prev, y));
 				} else {
 					go_path_move_to (drop_path, cury, curx);
-					cury = gog_axis_map_to_view (x_map, y_vals[i]);
+					cury = gog_axis_map_to_view (x_map, y);
 				}
 				go_path_line_to (drop_path, cury, curx);
 			}
+		}
 		gog_renderer_stroke_serie (view->renderer, drop_path);
 		go_path_free (drop_path);
 		gog_renderer_pop_style (view->renderer);
@@ -655,26 +665,26 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	go_path_free (path);
 	/* Redo the same for the other side of a double histogram. */
 	if (GOG_IS_DOUBLE_HISTOGRAM_PLOT (model) && series->base.values[2].data != NULL) {
-		y_vals = (series->y_)? series->y_: go_data_get_values (series->base.values[2].data);
+		y_vals = series->y_ ? series->y_ : go_data_get_values (series->base.values[2].data);
 		path = go_path_new ();
 		go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 		if (model->vertical) {
-			curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[0]: 0.));
+			double curx = gog_axis_map_to_view (x_map, x_vals ? x_vals[0]: 0);
 			go_path_move_to (path, curx, y0);
-			for (i = 0, j = 1; i < series->base.num_elements; i++) {
-				cury = gog_axis_map_to_view (y_map, y_vals[i]);
+			for (i = 0; i < series->base.num_elements; i++) {
+				double cury = gog_axis_map_to_view (y_map, y_vals[i]);
 				go_path_line_to (path, curx, cury);
-				curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i+1]: 0.));
+				curx = gog_axis_map_to_view (x_map, (x_vals ? x_vals[i+1]: 0.));
 				go_path_line_to (path, curx, cury);
 			}
 			go_path_line_to (path, curx, y0);
 		} else {
-			curx = gog_axis_map_to_view (y_map, ((x_vals)? x_vals[0]: 0.));
+			double curx = gog_axis_map_to_view (y_map, x_vals ? x_vals[0]: 0);
 			go_path_move_to (path, y0, curx);
-			for (i = 0, j = 1; i < series->base.num_elements; i++) {
-				cury = gog_axis_map_to_view (x_map, y_vals[i]);
+			for (i = 0; i < series->base.num_elements; i++) {
+				double cury = gog_axis_map_to_view (x_map, y_vals[i]);
 				go_path_line_to (path, cury, curx);
-				curx = gog_axis_map_to_view (y_map, ((x_vals)? x_vals[i+1]: 0.));
+				curx = gog_axis_map_to_view (y_map, (x_vals ? x_vals[i+1]: 0.));
 				go_path_line_to (path, cury, curx);
 			}
 			go_path_line_to (path, y0, curx);
@@ -685,46 +695,47 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (series->droplines) {
 			GOPath *drop_path = go_path_new ();
+			double cury = y0;
 			go_path_set_options (drop_path, GO_PATH_OPTIONS_SHARP);
 			gog_renderer_push_style (view->renderer,
 				go_styled_object_get_style (GO_STYLED_OBJECT (series->droplines)));
-			cury = y0;
-			if (model->vertical)
+			if (model->vertical) {
 				for (i = 1; i < series->base.num_elements; i++) {
-					curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i]: 0.));
-					if (y_vals[i-1] * y_vals[i] > 0.) {
-						go_path_move_to (drop_path, curx, y0);
-						if (y_vals[i] > 0.)
-							cury = gog_axis_map_to_view (y_map,
-								MIN (y_vals[i-1], y_vals[i]));
-						else
-							cury = gog_axis_map_to_view (y_map,
-								MAX (y_vals[i-1], y_vals[i]));
+					double x = x_vals ? x_vals[i] : 0;
+					double y = y_vals[i];
+					double y_prev = y_vals[i - 1];
+					double curx = gog_axis_map_to_view (x_map, x);
 
+					if (pos_product (y_prev, y)) {
+						go_path_move_to (drop_path, curx, y0);
+						cury = gog_axis_map_to_view
+							(y_map,
+							 y > 0 ? MIN (y_prev, y) : MAX (y_prev, y));
 					} else {
 						go_path_move_to (drop_path, curx, cury);
-						cury = gog_axis_map_to_view (y_map, y_vals[i]);
+						cury = gog_axis_map_to_view (y_map, y);
 					}
 					go_path_line_to (drop_path, curx, cury);
 				}
-			else
+			} else {
 				for (i = 1; i < series->base.num_elements; i++) {
-					curx = gog_axis_map_to_view (y_map, ((x_vals)? x_vals[i]: 0.));
-					if (y_vals[i-1] * y_vals[i] > 0.) {
-						go_path_move_to (drop_path, y0, curx);
-						if (y_vals[i] > 0.)
-							cury = gog_axis_map_to_view (x_map,
-								MIN (y_vals[i-1], y_vals[i]));
-						else
-							cury = gog_axis_map_to_view (x_map,
-								MAX (y_vals[i-1], y_vals[i]));
+					double x = x_vals ? x_vals[i] : 0;
+					double y = y_vals[i];
+					double y_prev = y_vals[i - 1];
+					double curx = gog_axis_map_to_view (y_map, x);
 
+					if (pos_product (y_prev, y)) {
+						go_path_move_to (drop_path, y0, curx);
+						cury = gog_axis_map_to_view
+							(x_map,
+							 y > 0 ? MIN (y_prev, y) : MAX (y_prev, y));
 					} else {
 						go_path_move_to (drop_path, cury, curx);
-						cury = gog_axis_map_to_view (x_map, y_vals[i]);
+						cury = gog_axis_map_to_view (x_map, y);
 					}
 					go_path_line_to (drop_path, cury, curx);
 				}
+			}
 			gog_renderer_stroke_serie (view->renderer, drop_path);
 			go_path_free (drop_path);
 			gog_renderer_pop_style (view->renderer);
@@ -752,7 +763,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 					text2 = NULL;
 				}
 			}
-			text = (text1)? text1: _("First values");
+			text = text1 ? text1 : _("First values");
 			if (model->cumulative) {
 				if (model->vertical) {
 					alloc.x = area->x + 2; /* FIXME: replace 2 by something configurable */
@@ -760,7 +771,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 					gog_renderer_draw_text (view->renderer, text, &alloc,
 							        GO_ANCHOR_NORTH_WEST, FALSE,
 					                        GO_JUSTIFY_LEFT, -1.);
-					text = (text2)? text2: _("Second values");
+					text =  text2 ? text2 : _("Second values");
 					alloc.y = area->y + area->h - 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
 							        GO_ANCHOR_SOUTH_WEST, FALSE,
@@ -771,7 +782,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 					gog_renderer_draw_text (view->renderer, text, &alloc,
 							        GO_ANCHOR_SOUTH_EAST, FALSE,
 					                        GO_JUSTIFY_LEFT, -1.);
-					text = (text2)? text2: _("Second values");
+					text = text2 ? text2 : _("Second values");
 					alloc.x = area->x + 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
 							        GO_ANCHOR_SOUTH_WEST, FALSE,
@@ -783,7 +794,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_draw_text (view->renderer, text, &alloc,
 					                GO_ANCHOR_NORTH_EAST, FALSE,
 				                        GO_JUSTIFY_LEFT, -1.);
-				text = (text2)? text2: _("Second values");
+				text = text2 ? text2 : _("Second values");
 				if (model->vertical) {
 					alloc.y = area->y + area->h - 2;
 					gog_renderer_draw_text (view->renderer, text, &alloc,
@@ -996,8 +1007,8 @@ gog_histogram_plot_series_update (GogObject *obj)
 				double m, M;
 				/* ignore nans */
 				if (y) {
-					m = (y_)? (MIN (y[0], y_[0])): y[0];
-					M = (y_)? (MAX (y[y_len-1], y_[y__len-1])): y[y_len-1];
+					m = y_ ? (MIN (y[0], y_[0])) : y[0];
+					M = y_ ? MAX (y[y_len-1], y_[y__len-1]) : y[y_len-1];
 				} else {
 					m = y_[0];
 					M = y_[y__len-1];
@@ -1041,7 +1052,7 @@ gog_histogram_plot_series_update (GogObject *obj)
 			}
 		}
 	}
-	series->base.num_elements = (x_len > 0)? MIN (x_len - 1, nb): 0;
+	series->base.num_elements = (x_len > 0 ? MIN (x_len - 1, nb) : 0);
 
 	/* update children */
 	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
@@ -1085,7 +1096,7 @@ gog_histogram_plot_series_get_xy_data (GogSeries const *series,
 	GogHistogramPlotSeries *hist_ser = GOG_HISTOGRAM_PLOT_SERIES (series);
 
 	*x = hist_ser->x;
-	*y = (hist_ser->y)? hist_ser->y: go_data_get_values (series->values[1].data);
+	*y = hist_ser->y ? hist_ser->y : go_data_get_values (series->values[1].data);
 
 	return series->num_elements;
 }
