@@ -295,7 +295,7 @@ goc_canvas_finalize (GObject *obj)
 	GocCanvas *canvas = GOC_CANVAS (obj);
 	GocCanvasPrivate *priv = (GocCanvasPrivate *) canvas->priv;
 	g_object_unref (canvas->root);
-	g_free (canvas->priv);
+	g_free (priv);
 	parent_klass->finalize (obj);
 }
 
