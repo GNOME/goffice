@@ -84,7 +84,7 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-05 12:34+0200\n"
-"PO-Revision-Date: 2014-05-30 15:31-0400\n"
+"PO-Revision-Date: 2014-12-19 07:40-0500\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -4298,9 +4298,8 @@ msgid "Select the font face"
 msgstr "Vælg et billede"
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
-#, fuzzy
 msgid "Style:"
-msgstr "_Stil:"
+msgstr "Stil:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
 #, fuzzy
@@ -4309,16 +4308,15 @@ msgstr "Hvorvidt rammen roteres med teksten"
 
 #: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
-msgstr ""
+msgstr "Gennemstreget:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:10
-#, fuzzy
 msgid "Color:"
-msgstr "_Farve:"
+msgstr "Farve:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:11
 msgid ""
@@ -4335,9 +4333,8 @@ msgid "Select the type of underlining"
 msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:14
-#, fuzzy
 msgid "Underline:"
-msgstr "Brug spline"
+msgstr "Understregning:"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Number"
@@ -4486,7 +4483,6 @@ msgstr "rad (radian)"
 
 #. See http://en.wikipedia.org/wiki/Second
 #: ../goffice/gtk/go-format-sel.c:350
-#, fuzzy
 msgid "s (second)"
 msgstr "s (sekund)"
 
@@ -4706,7 +4702,6 @@ msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
 msgstr "Når mantisse svarer til 1 vises kun eksponentdel (f.eks. 10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:39
-#, fuzzy
 msgid "Append SI _prefix"
 msgstr "Tilføj SI-præfiks"
 
@@ -4774,7 +4769,7 @@ msgstr "Asien"
 
 #: ../goffice/gtk/go-locale-sel.c:68
 msgid "Middle East"
-msgstr ""
+msgstr "Mellemøsten"
 
 #: ../goffice/gtk/go-locale-sel.c:69
 msgid "Africa"
@@ -5883,9 +5878,8 @@ msgid "Custom..."
 msgstr "Tilpasset..."
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
-#, fuzzy
 msgid "Orientation"
-msgstr "<b>Orientering</b>"
+msgstr "Orientering"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:2
 msgid "A_ngle:"
