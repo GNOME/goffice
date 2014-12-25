@@ -268,7 +268,6 @@ cb_reconfig (GOToolComboStack *tool, GtkAction *a)
 {
 	GtkIconSize size = gtk_tool_item_get_icon_size (GTK_TOOL_ITEM (tool));
 	GtkReliefStyle relief = gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (tool));
-	char *stock_id;
 	GtkWidget *image;
 	GtkWidget *child;
 
@@ -276,9 +275,7 @@ cb_reconfig (GOToolComboStack *tool, GtkAction *a)
 	if (child)
 		gtk_container_remove (GTK_CONTAINER (tool->combo->button), child);
 
-	g_object_get (G_OBJECT (a), "stock-id", &stock_id, NULL);
-	image = gtk_image_new_from_stock (stock_id, size);
-	g_free (stock_id);
+	image = gtk_action_create_icon (a, size);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (tool->combo->button), image);
 
