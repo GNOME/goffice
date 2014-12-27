@@ -1,3 +1,8 @@
+2014-12-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-action-combo-pixmaps.c (make_icon): Handle a
+	stock_id which is really an icon name.
+
 2014-12-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-action-combo-stack.c (cb_reconfig): Simplify
