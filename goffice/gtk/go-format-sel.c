@@ -1513,15 +1513,18 @@ nfs_init (GOFormatSel *gfs)
 		PangoContext *context;
 		GtkWidget *w = GTK_WIDGET (gfs->format.preview);
 		gint char_width;
+		PangoFontDescription *font_desc;
 
 		/* request width in number of chars */
+		gtk_style_context_get (gtk_widget_get_style_context (w), GTK_STATE_FLAG_NORMAL,
+				       "font", &font_desc, NULL);
 		context = gtk_widget_get_pango_context (w);
-		metrics = pango_context_get_metrics (context,
-						     gtk_style_context_get_font (gtk_widget_get_style_context (w), GTK_STATE_FLAG_NORMAL),
+		metrics = pango_context_get_metrics (context, font_desc,
 						     pango_context_get_language (context));
 		char_width = pango_font_metrics_get_approximate_char_width (metrics);
 		gtk_widget_set_size_request (w, PANGO_PIXELS (char_width) * FORMAT_PREVIEW_MAX, -1);
 		pango_font_metrics_unref (metrics);
+		pango_font_description_free (font_desc);
 	}
 	gfs->format.preview_buffer = gtk_text_view_get_buffer (gfs->format.preview);
 	go_create_std_tags_for_buffer (gfs->format.preview_buffer);
