@@ -861,10 +861,6 @@ cb_graph_idle (GogGraph *graph)
 gboolean
 gog_graph_request_update (GogGraph *graph)
 {
-	/* people may try to queue an update during destruction */
-	if (G_OBJECT (graph)->ref_count <= 0)
-		return FALSE;
-
 	g_return_val_if_fail (GOG_IS_GRAPH (graph), FALSE);
 
 	if (graph->idle_handler == 0) { /* higher priority than canvas */
@@ -884,8 +880,8 @@ gog_graph_request_update (GogGraph *graph)
 void
 gog_graph_force_update (GogGraph *graph)
 {
-	/* people may try to queue an update during destruction */
-	while (G_OBJECT (graph)->ref_count > 0 && graph->idle_handler != 0) {
+	g_return_if_fail (GOG_IS_GRAPH (graph));
+	while (graph->idle_handler != 0) {
 		g_source_remove (graph->idle_handler);
 		graph->idle_handler = 0;
 		gog_object_update (GOG_OBJECT (graph));
