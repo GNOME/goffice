@@ -70,13 +70,9 @@ gog_child_button_init (GogChildButton *child_button)
 	child_button->menu = NULL;
 	child_button->button_handling_in_progress = FALSE;
 
-	gtk_widget_push_composite_child ();
-
 	child_button->toggle_button = gtk_toggle_button_new_with_label ("gtk-add");
 	gtk_button_set_use_stock (GTK_BUTTON (child_button->toggle_button), TRUE);
 	gtk_widget_show (child_button->toggle_button);
-
-	gtk_widget_pop_composite_child ();
 
 	gtk_box_pack_start (GTK_BOX (child_button), child_button->toggle_button, TRUE, TRUE, 0);
 

@@ -488,8 +488,6 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	GtkBox *box;
 	GtkWidget *arrow, *sep;
 
-	gtk_widget_push_composite_child ();
-
 	gtk_widget_set_can_focus (GTK_WIDGET (option_menu), TRUE);
 	gtk_button_set_focus_on_click (GTK_BUTTON (option_menu), TRUE);
 	gtk_widget_set_can_default (GTK_WIDGET (option_menu), FALSE);
@@ -512,8 +510,6 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	gtk_box_pack_end (box, sep, FALSE, FALSE, 0);
 
 	gtk_container_add (GTK_CONTAINER (option_menu), GTK_WIDGET (box));
-
-	gtk_widget_pop_composite_child ();
 }
 
 GSF_CLASS (GOOptionMenu, go_option_menu,

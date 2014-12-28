@@ -233,7 +233,7 @@ goc_offscreen_box_realize (GtkWidget *widget)
 		attributes.width = child_area.width;
 		attributes.height = child_area.height;
 	}
-	offscreen_box->offscreen_window = gdk_window_new (gtk_widget_get_root_window (widget),
+	offscreen_box->offscreen_window = gdk_window_new (gdk_screen_get_root_window (gtk_widget_get_screen (widget)),
 	                                                  &attributes, attributes_mask);
 	gdk_window_set_user_data (offscreen_box->offscreen_window, widget);
 	if (offscreen_box->child)

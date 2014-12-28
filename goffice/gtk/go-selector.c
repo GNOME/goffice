@@ -90,8 +90,6 @@ go_selector_init (GOSelector *selector)
 	priv->selected_index = 0;
 	priv->selected_is_auto = FALSE;
 
-	gtk_widget_push_composite_child ();
-
 	priv->button = gtk_toggle_button_new ();
 	g_signal_connect (priv->button, "toggled",
 			  G_CALLBACK (go_selector_button_toggled), selector);
@@ -120,8 +118,6 @@ go_selector_init (GOSelector *selector)
 	gtk_box_pack_start (GTK_BOX (priv->box),
 			    priv->arrow, FALSE, FALSE, 0);
 	gtk_widget_show (priv->arrow);
-
-	gtk_widget_pop_composite_child ();
 
 	gtk_box_pack_start (GTK_BOX (selector), priv->button, TRUE, TRUE, 0);
 
