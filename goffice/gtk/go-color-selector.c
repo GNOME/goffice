@@ -29,6 +29,9 @@
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 
+#define COLOR_DIALOG_KEY "GOColorSelector::color-dialog"
+#define CCW_KEY "GOColorSelector::ccw"
+
 typedef struct {
 	int n_swatches;
 	GOColorGroup *color_group;
@@ -50,8 +53,7 @@ get_index (int n_swatches, GOColorGroup *color_group, GOColor color)
 {
 	int i = 0;
 	int index = -1;
-	const GONamedColor *default_color_set =
-		_go_color_palette_default_color_set ();
+	const GONamedColor *default_color_set =	_go_color_palette_default_color_set ();
 
 	while (default_color_set[i].name != NULL) {
 		if (default_color_set[i].color == color && index < 0) {
@@ -76,8 +78,7 @@ get_index (int n_swatches, GOColorGroup *color_group, GOColor color)
 static GOColor
 get_color (int n_swatches, GOColorGroup *color_group, int index)
 {
-	const GONamedColor *default_color_set =
-		_go_color_palette_default_color_set ();
+	const GONamedColor *default_color_set =	_go_color_palette_default_color_set ();
 
 	if (index < 0 || index >= (n_swatches))
 		index = 0;
@@ -149,20 +150,18 @@ go_color_palette_render_func (cairo_t *cr,
 }
 
 static void
-cb_color_dialog_response (GtkColorSelectionDialog *color_dialog,
+cb_color_dialog_response (GtkDialog *color_dialog,
 			  gint response,
 			  GOSelector *selector)
 {
-	GtkWidget *color_selection;
-
-	color_selection = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (color_dialog));
+	GtkColorChooser *chooser =
+		g_object_get_data (G_OBJECT (color_dialog), CCW_KEY);
 
 	if (response == GTK_RESPONSE_OK) {
 		GdkRGBA gdk_color;
 		GOColor color;
 
-		gtk_color_selection_get_current_rgba (GTK_COLOR_SELECTION (color_selection),
-						       &gdk_color);
+		gtk_color_chooser_get_rgba (chooser, &gdk_color);
 
 		color = GO_COLOR_FROM_GDK_RGBA (gdk_color);
 		if (!go_color_selector_set_color (selector, color))
@@ -170,41 +169,59 @@ cb_color_dialog_response (GtkColorSelectionDialog *color_dialog,
 			go_selector_activate (selector);
 	}
 
-	g_object_set_data (G_OBJECT (selector), "color-dialog", NULL);
+	g_object_set_data (G_OBJECT (selector), COLOR_DIALOG_KEY, NULL);
 }
 
 static void
 cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 {
 	GtkWidget *color_dialog;
-	GtkWidget *color_selection;
+	GtkWidget *ccw, *dca;
 	GdkRGBA gdk_color;
-	GOColor color;
 	GOColorSelectorState *state = go_selector_get_user_data (selector);
+	GOColor color = go_color_selector_get_color (selector, NULL);
+	GtkWidget *toplevel = gtk_widget_get_toplevel (GTK_WIDGET (selector));
 
-	color_dialog = g_object_get_data (G_OBJECT (selector), "color-dialog");
+	go_color_to_gdk_rgba (color, &gdk_color);
+
+	color_dialog = g_object_get_data (G_OBJECT (selector), COLOR_DIALOG_KEY);
 	if (color_dialog != NULL) {
-		color_selection = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (color_dialog));
-		color = go_color_selector_get_color (selector, NULL);
-		gtk_color_selection_set_current_rgba (GTK_COLOR_SELECTION (color_selection),
-						       go_color_to_gdk_rgba (color, &gdk_color));
+		GtkColorChooser *chooser =
+			g_object_get_data (G_OBJECT (color_dialog), CCW_KEY);
+		gtk_color_chooser_set_rgba (chooser, &gdk_color);
 		gtk_window_present (GTK_WINDOW (color_dialog));
 		return;
 	}
 
-	color_dialog = gtk_color_selection_dialog_new (_("Custom color..."));
-	color_selection = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (color_dialog));
-	gtk_color_selection_set_has_opacity_control (GTK_COLOR_SELECTION (color_selection), state->allow_alpha);
-	g_object_set_data_full (G_OBJECT (selector), "color-dialog", color_dialog,
-				(GDestroyNotify) gtk_widget_destroy);
-	color = go_color_selector_get_color (selector, NULL);
-	gtk_color_selection_set_current_rgba (GTK_COLOR_SELECTION (color_selection),
-					       go_color_to_gdk_rgba (color, &gdk_color));
-	if (state->allow_alpha)
-		gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection),
-					       GO_COLOR_UINT_A (color) * 257);
-	g_signal_connect (color_dialog, "response", G_CALLBACK (cb_color_dialog_response), selector);
-       	gtk_widget_show (color_dialog);
+	color_dialog = gtk_dialog_new_with_buttons
+		(_("Custom color..."),
+		 (gtk_widget_is_toplevel (toplevel)
+		  ? GTK_WINDOW (toplevel)
+		  : NULL),
+		 GTK_DIALOG_DESTROY_WITH_PARENT,
+		 GTK_STOCK_OK, GTK_RESPONSE_OK,
+		 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		 NULL);
+	ccw = gtk_color_chooser_widget_new ();
+	g_object_set_data (G_OBJECT (color_dialog), CCW_KEY, ccw);
+	dca = gtk_dialog_get_content_area (GTK_DIALOG (color_dialog));
+	gtk_container_add (GTK_CONTAINER (dca), ccw);
+
+	g_object_set (G_OBJECT (ccw),
+		      "use-alpha", state->allow_alpha,
+		      "rgba", &gdk_color,
+		      "show-editor", TRUE,
+		      NULL);
+
+	g_object_set_data_full (G_OBJECT (selector),
+				COLOR_DIALOG_KEY, color_dialog,
+				(GDestroyNotify)gtk_widget_destroy);
+
+	g_signal_connect (color_dialog,
+			  "response", G_CALLBACK (cb_color_dialog_response),
+			  selector);
+
+	gtk_widget_show_all (color_dialog);
 }
 
 static void

@@ -48,7 +48,7 @@ struct _GOColorPalette {
 	gboolean      allow_alpha;
 
 	/* only for custom colours */
-	GtkWidget   *swatches [GO_COLOR_GROUP_HISTORY_SIZE];
+	GtkWidget   *swatches[GO_COLOR_GROUP_HISTORY_SIZE];
 
 	/* The table with our default color names */
 	GONamedColor const *default_set;
@@ -65,6 +65,8 @@ typedef struct {
 
 #define COLOR_PREVIEW_WIDTH 12
 #define COLOR_PREVIEW_HEIGHT 12
+
+#define CCW_KEY "GOColorPalette::ccw"
 
 enum {
 	COLOR_CHANGED,
@@ -153,36 +155,52 @@ static guint go_color_palette_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *go_color_palette_parent_class;
 
 static GtkWidget *
-create_color_sel (GObject *action_proxy, GOColor c, GCallback handler, gboolean allow_alpha)
+create_color_sel (GtkWidget *parent_widget, GObject *action_proxy,
+		  GOColor c, GCallback handler, gboolean allow_alpha)
 {
-	char *title = g_object_get_data (G_OBJECT (action_proxy), "title");
-	GtkWidget *w = gtk_color_selection_dialog_new (title), *hb;
-	GtkColorSelectionDialog *dialog = GTK_COLOR_SELECTION_DIALOG (w);
-	GtkColorSelection *colorsel = GTK_COLOR_SELECTION (gtk_color_selection_dialog_get_color_selection (dialog));
+	const char *title =
+		g_object_get_data (G_OBJECT (action_proxy), "title");
+	GtkWidget *toplevel = gtk_widget_get_toplevel (parent_widget);
+	GtkWidget *dialog = gtk_dialog_new_with_buttons
+		(title,
+		 (gtk_widget_is_toplevel (toplevel)
+		  ? GTK_WINDOW (toplevel)
+		  : NULL),
+		 GTK_DIALOG_DESTROY_WITH_PARENT,
+		 GTK_STOCK_OK, GTK_RESPONSE_OK,
+		 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		 NULL);
+	GtkWidget *ccw = gtk_color_chooser_widget_new ();
+	GtkWidget *dca = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	GdkRGBA gdk;
 
-	g_object_get (G_OBJECT (w), "help-button", &hb, NULL);
-	gtk_widget_hide (hb);
-	gtk_color_selection_set_has_opacity_control (colorsel, allow_alpha);
-	gtk_color_selection_set_current_rgba (colorsel,
-		go_color_to_gdk_rgba (c, &gdk));
+	g_object_set_data (G_OBJECT (dialog), CCW_KEY, ccw);
+
+	gtk_container_add (GTK_CONTAINER (dca), ccw);
+
+	go_color_to_gdk_rgba (c, &gdk);
+
+	g_object_set (G_OBJECT (ccw),
+		      "use-alpha", allow_alpha,
+		      "rgba", &gdk,
+		      "show-editor", TRUE,
+		      NULL);
 
 	g_signal_connect_object (dialog,
 		"response", handler, action_proxy, 0);
 
 	/* require an explicit show _after_ the custom-dialog signal fires */
-	return w;
+	return dialog;
 }
 
 static gboolean
-handle_color_sel (GtkColorSelectionDialog *dialog,
+handle_color_sel (GtkDialog *dialog,
 		  gint response_id, GOColor *res)
 {
 	if (response_id == GTK_RESPONSE_OK) {
+		GtkColorChooser *chooser = g_object_get_data (G_OBJECT (dialog), CCW_KEY);
 		GdkRGBA gdk;
-		GtkColorSelection *colorsel = GTK_COLOR_SELECTION (gtk_color_selection_dialog_get_color_selection (dialog));
-
-		gtk_color_selection_get_current_rgba (colorsel, &gdk);
+		gtk_color_chooser_get_rgba (chooser, &gdk);
 		*res = GO_COLOR_FROM_GDK_RGBA (gdk);
 	}
 	/* destroy _before_ we emit */
@@ -376,7 +394,7 @@ go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 }
 
 static void
-cb_combo_custom_response (GtkColorSelectionDialog *dialog,
+cb_combo_custom_response (GtkDialog *dialog,
 			  gint response_id, GOColorPalette *pal)
 {
 	GOColor c;
@@ -387,11 +405,14 @@ cb_combo_custom_response (GtkColorSelectionDialog *dialog,
 static void
 cb_combo_custom_clicked (GtkWidget *button, GOColorPalette *pal)
 {
-	GtkWidget *dialog = create_color_sel (G_OBJECT (pal), pal->selection,
-		G_CALLBACK (cb_combo_custom_response), pal->allow_alpha);
+	GtkWidget *dialog = create_color_sel
+		(button,
+		 G_OBJECT (pal), pal->selection,
+		 G_CALLBACK (cb_combo_custom_response),
+		 pal->allow_alpha);
 	g_signal_emit (pal, go_color_palette_signals [DISPLAY_CUSTOM_DIALOG], 0,
 		dialog);
-	gtk_widget_show (dialog);
+	gtk_widget_show_all (dialog);
 }
 
 void
@@ -643,7 +664,7 @@ cb_menu_color_activate (GtkWidget *button, GOMenuColor *menu)
 		       color, FALSE, TRUE, FALSE);
 }
 static void
-cb_menu_custom_response (GtkColorSelectionDialog *dialog,
+cb_menu_custom_response (GtkDialog *dialog,
 			 gint response_id, GOMenuColor *menu)
 {
 	GOColor c;
@@ -657,11 +678,14 @@ cb_menu_custom_response (GtkColorSelectionDialog *dialog,
 static void
 cb_menu_custom_activate (GtkWidget *button, GOMenuColor *menu)
 {
-	GtkWidget *dialog = create_color_sel (G_OBJECT (menu), menu->selection,
-		G_CALLBACK (cb_menu_custom_response), menu->allow_alpha);
-	g_signal_emit (menu, go_menu_color_signals [DISPLAY_CUSTOM_DIALOG], 0,
+	GtkWidget *dialog = create_color_sel
+		(button,
+		 G_OBJECT (menu), menu->selection,
+		 G_CALLBACK (cb_menu_custom_response),
+		 menu->allow_alpha);
+	g_signal_emit (menu, go_menu_color_signals[DISPLAY_CUSTOM_DIALOG], 0,
 		dialog);
-	gtk_widget_show (dialog);
+	gtk_widget_show_all (dialog);
 }
 
 /**
