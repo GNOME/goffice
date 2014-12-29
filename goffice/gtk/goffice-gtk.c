@@ -139,7 +139,7 @@ apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
 		/*
 		 * This is sad, but see bugs 662503 and 662679.  Since
 		 * ui files can contain relative filenames we must use
-		 * the _file interface to load such files.  Do no
+		 * the _file interface to load such files.  Do not
 		 * compress such files for the time being.
 		 */
 		res = gtk_builder_add_from_file (gui, uifile, error);
@@ -274,12 +274,14 @@ go_gtk_builder_new (char const *uifile,
 **/
 GtkBuilder *
 go_gtk_builder_load_internal (char const *uifile,
-			     char const *domain, GOCmdContext *gcc)
+			      char const *domain, GOCmdContext *gcc)
 {
 	char *f;
 	GtkBuilder *res;
 
-	if (g_path_is_absolute (uifile) || strncmp (uifile, "res:", 4) == 0)
+	if (g_path_is_absolute (uifile) ||
+	    strncmp (uifile, "res:", 4) == 0 ||
+	    strncmp (uifile, "data:", 5) == 0)
 		return go_gtk_builder_load (uifile, domain, gcc);
 
 	f = g_build_filename (go_sys_data_dir (), "ui", uifile, NULL);
