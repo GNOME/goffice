@@ -62,9 +62,6 @@ GtkBuilder *go_gtk_builder_load_internal (char const *uifile,
 GtkBuilder *go_gtk_builder_load (char const *uifile,
 				char const *domain, GOCmdContext *gcc);
 #ifndef GOFFICE_DISABLE_DEPRECATED
-GOFFICE_DEPRECATED_FOR(go_gtk_builder_load_internal)
-GtkBuilder *go_gtk_builder_new_internal (char const *uifile,
-					 char const *domain, GOCmdContext *gcc);
 GOFFICE_DEPRECATED_FOR(go_gtk_builder_load)
 GtkBuilder *go_gtk_builder_new (char const *uifile,
 				char const *domain, GOCmdContext *gcc);

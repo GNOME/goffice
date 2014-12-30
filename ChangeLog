@@ -1,3 +1,8 @@
+2014-12-29  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.h (go_gtk_builder_new_internal): Remove.
+	Anyone crazy enough to use that deserves the pain.
+
 2014-12-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_builder_load_internal):

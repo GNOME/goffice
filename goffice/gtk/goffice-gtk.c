@@ -292,35 +292,6 @@ go_gtk_builder_load_internal (char const *uifile,
 }
 
 /**
- * go_gtk_builder_new_internal:
- * @uifile: the name of the file load
- * @domain: the translation domain
- * @gcc: #GOCmdContext
- *
- * Simple utility to open ui files
- *
- * Deprecated: 0.9.6, use go_gtk_builder_load_internal().
- * Returns: (transfer full): a new #GtkBuilder or NULL
- *
- * Variant of go_gtk_builder_new that searchs goffice directories
- * for files.
- * @uifile should be one of these:
- *
- * res:NAME  -- data from resource manager
- * data:DATA -- data right here
- * filename  -- data from local file
- *
- * Data may be compressed, regardless of source.
-**/
-GtkBuilder *
-go_gtk_builder_new_internal (char const *uifile,
-			     char const *domain, GOCmdContext *gcc)
-{
-	return go_gtk_builder_load_internal (uifile, domain, gcc);
-}
-
-
-/**
  * go_gtk_builder_signal_connect:
  * @gui: #GtkBuilder
  * @instance_name: widget name

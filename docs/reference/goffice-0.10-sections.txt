@@ -2753,7 +2753,6 @@ go_gtk_builder_group_value
 go_gtk_builder_load
 go_gtk_builder_load_internal
 go_gtk_builder_new
-go_gtk_builder_new_internal
 go_gtk_builder_signal_connect
 go_gtk_builder_signal_connect_swapped
 go_gtk_button_build_with_stock
