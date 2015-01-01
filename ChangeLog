@@ -1,3 +1,9 @@
+2014-12-31  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_guess_encoding): Lean a bit
+	heavier on libxml's encoding guess instead of g_get_charset which
+	may be a bit random.
+
 2014-12-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.h (go_gtk_builder_new_internal): Remove.

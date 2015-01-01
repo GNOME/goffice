@@ -754,8 +754,7 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 
 		switch (try) {
 		case 1: guess = user_guess; break;
-		case 2: g_get_charset (&guess); break;
-		case 3: {
+		case 2: {
 			xmlCharEncoding enc =
 				xmlDetectCharEncoding ((const unsigned char*)raw, len);
 			switch (enc) {
@@ -775,6 +774,7 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 			}
 			break;
 		}
+		case 3: g_get_charset (&guess); break;
 		case 4: guess = "ASCII"; break;
 		case 5: guess = "ISO-8859-1"; break;
 		case 6: guess = "UTF-8"; break;
@@ -785,7 +785,8 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 			continue;
 
 		if (debug)
-			g_printerr ("Trying %s as encoding.\n", guess);
+			g_printerr ("Trying %s as encoding using method %d.\n",
+				    guess, try);
 
 		utf8_data = g_convert (raw, len, "UTF-8", guess,
 				       &bytes_read, &bytes_written, &error);
