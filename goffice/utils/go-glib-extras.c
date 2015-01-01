@@ -774,10 +774,10 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 			}
 			break;
 		}
-		case 3: g_get_charset (&guess); break;
-		case 4: guess = "ASCII"; break;
-		case 5: guess = "ISO-8859-1"; break;
-		case 6: guess = "UTF-8"; break;
+		case 3: guess = "ASCII"; break;
+		case 4: guess = "UTF-8"; break;
+		case 5: g_get_charset (&guess); break;
+		case 6: guess = "ISO-8859-1"; break;
 		default: return NULL;
 		}
 
