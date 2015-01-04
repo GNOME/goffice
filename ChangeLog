@@ -1,3 +1,18 @@
+2015-01-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (update_preview_cb): Fix flags
+	argument of gtk_icon_theme_load_icon.
+	(go_gtk_widget_render_icon_pixbuf): New function.
+
+	* goffice/gtk/go-action-combo-pixmaps.c (make_icon): Use
+	go_gtk_widget_render_icon_pixbuf.
+	* goffice/gtk/go-action-combo-color.c (make_icon): Ditto.
+
+2015-01-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_button_build_with_stock): Make
+	this work with icon names.
+
 2014-12-31  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_guess_encoding): Lean a bit

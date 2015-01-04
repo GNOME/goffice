@@ -133,6 +133,11 @@ void 	   go_menu_position_below (GtkMenu *menu, gint *x, gint *y,
 
 GError	  *go_gtk_url_show (gchar const *url, GdkScreen *screen);
 
+GdkPixbuf *go_gtk_widget_render_icon_pixbuf (GtkWidget   *widget,
+					     const gchar *icon_name,
+					     GtkIconSize  size);
+
+
 G_END_DECLS
 
 #endif /* _GOFFICE_GTK_H_ */

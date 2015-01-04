@@ -76,7 +76,6 @@ static GdkPixbuf *
 make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
 {
 	GtkIconSize size;
-	int isize;
 	GdkPixbuf *res;
 
 	if (stock_id == NULL)
@@ -91,25 +90,7 @@ make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
 	if (res)
 		return res;
 
-	switch (size) {
-	default:
-	case GTK_ICON_SIZE_MENU:
-	case GTK_ICON_SIZE_SMALL_TOOLBAR:
-	case GTK_ICON_SIZE_BUTTON:
-		isize = 16;
-		break;
-	case GTK_ICON_SIZE_LARGE_TOOLBAR:
-	case GTK_ICON_SIZE_DND:
-		isize = 24;
-		break;
-	case GTK_ICON_SIZE_DIALOG:
-		isize = 48;
-		break;
-	}
-
-	return gtk_icon_theme_load_icon
-		(gtk_icon_theme_get_default (),
-		 stock_id, isize, 0, NULL);
+	return go_gtk_widget_render_icon_pixbuf (tool, stock_id, size);
 }
 
 

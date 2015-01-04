@@ -52,7 +52,7 @@
 /**
  * go_gtk_button_build_with_stock:
  * @text: button label
- * @stock_id: id for stock icon
+ * @stock_id: icon name (or stock id)
  *
  * FROM : gedit
  * Creates a new GtkButton with custom label and stock image.
@@ -68,6 +68,9 @@ go_gtk_button_build_with_stock (char const *text, char const* stock_id)
 	if (gtk_stock_lookup (stock_id, &item))
 		gtk_button_set_image (GTK_BUTTON (button),
 			gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON));
+	else
+		gtk_button_set_image (GTK_BUTTON (button),
+				      gtk_image_new_from_icon_name (stock_id, GTK_ICON_SIZE_BUTTON));
 	return button;
 }
 
@@ -79,7 +82,7 @@ go_gtk_button_build_with_stock (char const *text, char const* stock_id)
  * FROM : gedit
  * Creates a new GtkButton with custom label and stock image.
  *
- * Deprecated: 09.6., use go_gtk_button_build_with_stock().
+ * Deprecated: 0.9.6., use go_gtk_button_build_with_stock().
  * Returns: (transfer full): newly created button
  **/
 GtkWidget*
@@ -796,7 +799,7 @@ update_preview_cb (GtkFileChooser *chooser)
 			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (chooser));
 			buf = go_pixbuf_new_from_pixbuf (gtk_icon_theme_load_icon
 						(gtk_icon_theme_get_for_screen (screen),
-						 "unknown_image", 100, 100, NULL));
+						 "unknown_image", 100, 0, NULL));
 			dummy = buf != NULL;
 		}
 
@@ -1566,4 +1569,49 @@ go_gtk_url_show (gchar const *url, GdkScreen *screen)
 	GError *error = NULL;
 	gtk_show_uri (screen, url, GDK_CURRENT_TIME, &error);
 	return error;
+}
+
+/**
+ * go_gtk_widget_render_icon_pixbuf:
+ * @widget: a mapped widget determining the screen targeted
+ * @icon_name: the name of the icon to render
+ * @size: the symbolic size desired.
+ *
+ * This function works as gtk_widget_render_icon_pixbuf except that it takes
+ * an icon name, not a stock id.
+ *
+ * Returns: (transfer full): A #GdkPixbuf.
+ **/
+GdkPixbuf *
+go_gtk_widget_render_icon_pixbuf (GtkWidget   *widget,
+				  const gchar *icon_name,
+				  GtkIconSize  size)
+{
+	GdkScreen *screen;
+	GtkIconTheme *theme;
+	int pixels;
+
+	/* The widget really ought to be mapped.  */
+	screen = gtk_widget_get_screen (widget);
+	if (!screen)
+		screen = gdk_screen_get_default ();
+	theme = gtk_icon_theme_get_for_screen (screen);
+
+	switch (size) {
+	default:
+	case GTK_ICON_SIZE_MENU:
+	case GTK_ICON_SIZE_SMALL_TOOLBAR:
+	case GTK_ICON_SIZE_BUTTON:
+		pixels = 16;
+		break;
+	case GTK_ICON_SIZE_LARGE_TOOLBAR:
+	case GTK_ICON_SIZE_DND:
+		pixels = 24;
+		break;
+	case GTK_ICON_SIZE_DIALOG:
+		pixels = 48;
+		break;
+	}
+
+	return gtk_icon_theme_load_icon (theme, icon_name, pixels, 0, NULL);
 }

@@ -41,11 +41,8 @@ static GdkPixbuf *
 make_icon (GtkAction *a, GtkWidget *tool)
 {
 	GtkIconSize size;
-	gint pixels = 8;
 	char *stock_id;
 	GdkPixbuf *icon;
-	GtkSettings *settings = gtk_widget_get_settings (tool);
-	GdkScreen *screen = gtk_widget_get_screen (tool);
 
 	g_object_get (a, "stock-id", &stock_id, NULL);
 	if (stock_id == NULL)
@@ -54,12 +51,7 @@ make_icon (GtkAction *a, GtkWidget *tool)
 	size = GTK_IS_TOOL_ITEM (tool)
 		? gtk_tool_item_get_icon_size (GTK_TOOL_ITEM (tool))
 		: GTK_ICON_SIZE_MENU;
-	gtk_icon_size_lookup_for_settings (settings, size,
-					   &pixels, NULL);
-
-	icon = gtk_icon_theme_load_icon
-		(gtk_icon_theme_get_for_screen (screen),
-		 stock_id, pixels, 0, NULL);
+	icon = go_gtk_widget_render_icon_pixbuf (tool, stock_id, size);
 	g_free (stock_id);
 
 	return icon;

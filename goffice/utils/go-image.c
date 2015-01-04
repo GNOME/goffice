@@ -425,8 +425,8 @@ go_image_draw_fb (GOImage *image, cairo_t *cr)
 		cairo_fill (cr);
 	} else {
 		GdkPixbuf *placeholder = gtk_icon_theme_load_icon
-											(gtk_icon_theme_get_default (),
-											 "unknown_image", 100, 0, NULL);
+			(gtk_icon_theme_get_default (),
+			 "unknown_image", 100, 0, NULL);
 		double dx, dy;
 		int n;
 		if (placeholder == NULL)
