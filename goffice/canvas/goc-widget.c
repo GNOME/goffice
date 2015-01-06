@@ -217,7 +217,8 @@ goc_offscreen_box_realize (GtkWidget *widget)
 	window = gdk_window_new (gtk_widget_get_parent_window (widget),
 	                         &attributes, attributes_mask);
 	gtk_widget_set_window (widget, window);
-	gdk_window_set_composited (window, TRUE);
+	if (gdk_screen_is_composited (gdk_window_get_screen (window))) 
+		gdk_window_set_composited (window, TRUE);
 	gdk_window_set_user_data (window, widget);
 
 	g_signal_connect (window, "pick-embedded-child",
