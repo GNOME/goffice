@@ -4226,11 +4226,11 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 		if (type == GOG_AXIS_X) {
 			d = plot_area->y - tmp.y - axis_view->padding_high;
 			tmp.y += d;
-			tmp.h = plot_area->h + axis_view->padding_low - d;
+			tmp.h = plot_area->h + axis_view->padding_low + axis_view->padding_high;
 		} else {
 			d = plot_area->x - tmp.x - axis_view->padding_low;
 			tmp.x += d;
-			tmp.w = plot_area->w + axis_view->padding_high - d;
+			tmp.w = plot_area->w + axis_view->padding_low + axis_view->padding_high;
 		}
 	}
 	available.w = tmp.w;

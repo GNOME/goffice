@@ -1,5 +1,9 @@
 2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-axis.c: fix axis title position when at high coordinate.
+
+2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/data/go-data-impl.h: add GO_DATA_HAS_VALUE to GODataFlags.
 	* goffice/data/go-data.c: new go_data_has_value().
 	* goffice/data/go-data.h: ditto.
