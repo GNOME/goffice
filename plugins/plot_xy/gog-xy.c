@@ -1118,7 +1118,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			n = gog_series_get_xyz_data (GOG_SERIES (series), &x_vals, &y_vals, &z_vals);
 		else
 			n = gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
-		if (n < 1)
+		if (n < 1 || y_vals == NULL)
 			continue;
 
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));

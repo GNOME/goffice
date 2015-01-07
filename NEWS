@@ -4,6 +4,7 @@ Jean:
 	* Allow rotation of axis line labels. [#740198]
 	* Move the title with its axis parent. [#684777]
 	* Implement canvas native scrolling. [#741394]
+	* Don't use a data vector with no valid value. [#741910]
 
 Morten:
 	* Dead kitten salvage.

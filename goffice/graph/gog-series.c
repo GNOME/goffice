@@ -1256,7 +1256,7 @@ gog_series_get_data (GogSeries const *series, int *indices, double **data, int n
 		index = indices != NULL ? indices[i] : i;
 		if (index >= first && index <= last &&
 		    (vector = series->values[index].data) != NULL) {
-			data[i] = go_data_get_values (vector);
+			data[i] = (go_data_has_value (vector))? go_data_get_values (vector): NULL;
 			vector_n_points = go_data_get_vector_size (vector);
 			if (!is_set) {
 				is_set = TRUE;

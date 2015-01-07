@@ -48,6 +48,7 @@ void		go_data_get_bounds		(GOData *data, double *minimum, double *maximum);
 gboolean	go_data_is_increasing		(GOData *data);
 gboolean	go_data_is_decreasing		(GOData *data);
 gboolean	go_data_is_varying_uniformly	(GOData *data);
+gboolean	go_data_has_value	    (GOData const *data);
 
 unsigned int 	go_data_get_n_dimensions 	(GOData *data);
 unsigned int	go_data_get_n_values		(GOData *data);

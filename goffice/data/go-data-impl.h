@@ -31,7 +31,8 @@ G_BEGIN_DECLS
 typedef enum {
 	GO_DATA_CACHE_IS_VALID =	1 << 0,
 	GO_DATA_IS_EDITABLE =		1 << 1,
-	GO_DATA_SIZE_CACHED =		1 << 2
+	GO_DATA_SIZE_CACHED =		1 << 2,
+	GO_DATA_HAS_VALUE = 1 << 3
 } GODataFlags;
 
 struct _GOData {

@@ -1,5 +1,14 @@
 2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/data/go-data-impl.h: add GO_DATA_HAS_VALUE to GODataFlags.
+	* goffice/data/go-data.c: new go_data_has_value().
+	* goffice/data/go-data.h: ditto.
+	* goffice/graph/gog-series.c: don't use a data vector with no valid value.
+	[#741910]
+	* plugins/plot_xy/gog-xy.c: protect against NULL y vector.
+
+2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-canvas.c (goc_canvas_draw): implement native scrolling.
 	[#741394]
 

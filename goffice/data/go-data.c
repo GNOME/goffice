@@ -347,6 +347,15 @@ go_data_is_varying_uniformly (GOData *data)
 	return go_data_check_variation (data, GO_DATA_VARIATION_CHECK_UNIFORMLY);
 }
 
+gboolean
+go_data_has_value (GOData const *data)
+{
+	g_return_val_if_fail (GO_IS_DATA (data), FALSE);
+	if (!(data->flags & GO_DATA_CACHE_IS_VALID))
+		go_data_get_values (GO_DATA (data));
+	return data->flags & GO_DATA_HAS_VALUE;
+}
+
 unsigned int
 go_data_get_n_dimensions (GOData *data)
 {
@@ -724,7 +733,7 @@ go_data_scalar_get_markup (GODataScalar *scalar)
 static void
 _data_vector_emit_changed (GOData *data)
 {
-	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_VECTOR_LEN_CACHED);
+	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_VECTOR_LEN_CACHED | GO_DATA_HAS_VALUE);
 }
 
 static unsigned int
@@ -815,6 +824,14 @@ go_data_vector_get_values (GODataVector *vec)
 		g_return_val_if_fail (klass != NULL, NULL);
 
 		(*klass->load_values) (vec);
+
+		{
+			double min, max;
+			go_data_get_bounds (&vec->base, &min, &max);
+			if (go_finite (min) && go_finite (max) && min <= max)
+				vec->base.flags |= GO_DATA_HAS_VALUE;
+
+		}
 
 		g_return_val_if_fail (vec->base.flags & GO_DATA_CACHE_IS_VALID, NULL);
 	}
@@ -921,7 +938,7 @@ go_data_vector_vary_uniformly (GODataVector *vec)
 static void
 _data_matrix_emit_changed (GOData *data)
 {
-	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_MATRIX_SIZE_CACHED);
+	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_MATRIX_SIZE_CACHED | GO_DATA_HAS_VALUE);
 }
 
 static unsigned int
@@ -1059,6 +1076,13 @@ go_data_matrix_get_values (GODataMatrix *mat)
 		g_return_val_if_fail (klass != NULL, NULL);
 
 		(*klass->load_values) (mat);
+
+		{
+			double min, max;
+			go_data_get_bounds (&mat->base, &min, &max);
+			if (go_finite (min) && go_finite (max) && min <= max)
+				mat->base.flags |= GO_DATA_HAS_VALUE;
+		}
 
 		g_return_val_if_fail (mat->base.flags & GO_DATA_CACHE_IS_VALID, NULL);
 	}
