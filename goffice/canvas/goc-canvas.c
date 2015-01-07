@@ -59,7 +59,7 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 	GdkEventExpose *event = (GdkEventExpose *) gtk_get_current_event ();
 	GocCanvasPrivate *priv = (GocCanvasPrivate *) canvas->priv;
 	cairo_rectangle_list_t *l = cairo_copy_clip_rectangle_list (cr);
-	int i;
+	int i, x, y;
 
 	if (GOC_IS_ITEM (priv->invalidated_item) && priv->invalid_region) {
 		/* evaluate the cairo clipped region and compare with the saved one */
@@ -91,6 +91,9 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 		cairo_region_destroy (region);
 	}
 
+	x = gtk_adjustment_get_value (gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas)));
+	y = gtk_adjustment_get_value (gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas)));
+	cairo_translate (cr, -x, -y);
 	goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
 	for (i= 0; i  < l->num_rectangles; i++) {
 		clip_x1 = l->rectangles[i].x;

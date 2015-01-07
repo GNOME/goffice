@@ -1,3 +1,8 @@
+2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_draw): implement native scrolling.
+	[#741394]
+
 2015-01-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-widget.c (goc_offscreen_box_realize): Only
