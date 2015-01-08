@@ -51,12 +51,6 @@ typedef enum {
 	GOG_AXIS_METRICS_MAX
 } GogAxisMetrics;
 
-typedef struct {
-	double		 position;
-	GogAxisTickTypes type;
-	GOString        *str;
-} GogAxisTick;
-
 typedef struct _GogAxisMap GogAxisMap;
 
 GType		  gog_axis_map_get_type (void);

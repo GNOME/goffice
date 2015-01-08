@@ -5,7 +5,7 @@ Jean:
 	* Move the title with its axis parent. [#684777]
 	* Implement canvas native scrolling. [#741394]
 	* Don't use a data vector with no valid value. [#741910]
-
+	* Allow custom ticks and grid lines for axis lines. [#600482]
 Morten:
 	* Dead kitten salvage.
 	* Fix canvas issues when removing items.

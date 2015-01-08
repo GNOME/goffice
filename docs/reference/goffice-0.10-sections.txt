@@ -708,6 +708,7 @@ go_data_get_vector_markup
 go_data_get_vector_size
 go_data_get_vector_string
 go_data_get_vector_value
+go_data_has_value
 go_data_is_decreasing
 go_data_is_increasing
 go_data_is_valid
@@ -2774,6 +2775,7 @@ go_gtk_select_image_with_extra_widget
 go_gtk_url_is_writeable
 go_gtk_url_show
 go_gtk_widget_disable_focus
+go_gtk_widget_render_icon_pixbuf
 go_gtk_widget_replace
 go_gtk_window_set_transient
 go_gui_get_image_save_info
@@ -2900,6 +2902,7 @@ GogAxisPosition
 GogAxisTickTypes
 gog_axis_base_get_cross_location
 gog_axis_base_get_crossed_axis
+gog_axis_line_get_ticks
 <SUBSECTION Standard>
 GOG_AXIS_BASE
 GOG_AXIS_LINE

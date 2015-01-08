@@ -1482,6 +1482,22 @@ grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
 						major_grid_lines = g_slist_prepend (major_grid_lines,
 										    axis_child_view);
 				}
+				else if (GOG_IS_AXIS_LINE (axis_child_view->model)) {
+					GogView *grid_child_view;
+					GSList *lptr;
+					for (lptr = axis_child_view->children; lptr != NULL; lptr = lptr->next) {
+						grid_child_view = lptr->data;
+					if (GOG_IS_GRID_LINE (grid_child_view->model)) {
+						if (gog_grid_line_is_minor (GOG_GRID_LINE (grid_child_view->model)))
+							minor_grid_lines = g_slist_prepend (minor_grid_lines,
+												grid_child_view);
+						else
+							major_grid_lines = g_slist_prepend (major_grid_lines,
+												grid_child_view);
+				}
+
+					}
+				}
 			}
 		}
 	}

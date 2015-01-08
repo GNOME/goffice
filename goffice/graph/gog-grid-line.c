@@ -831,6 +831,7 @@ gog_grid_line_view_render (GogView *view, gboolean stripes)
 {
 	GogGridLine *grid_line = GOG_GRID_LINE (view->model);
 	GogAxis *axis;
+	GogAxisLine *line;
 	GogChart *chart;
 	GogView *chart_view;
 	GOStyle *style;
@@ -839,16 +840,24 @@ gog_grid_line_view_render (GogView *view, gboolean stripes)
 	unsigned tick_nbr;
 	GogViewAllocation const *plot_area;
 
-	axis = GOG_AXIS (view->model->parent);
+	if (GOG_IS_AXIS_LINE (view->model->parent)) {
+		line = GOG_AXIS_LINE (view->model->parent);
+		axis = GOG_AXIS (view->model->parent->parent);
+	}
+	else {
+		line = NULL;
+		axis = GOG_AXIS (view->model->parent);
+	}
 	g_return_if_fail (axis != NULL);
-	chart = GOG_CHART (view->model->parent->parent);
+	chart = GOG_CHART (GOG_OBJECT (axis)->parent);
 	g_return_if_fail (chart != NULL);
 	g_return_if_fail (view->parent != NULL);
-	chart_view = GOG_VIEW (view->parent->parent);
+	chart_view = GOG_VIEW ((line)? view->parent->parent->parent: view->parent->parent);
 	g_return_if_fail (chart_view != NULL);
 
 	axis_type = gog_axis_get_atype (axis);
-	tick_nbr = gog_axis_get_ticks (axis, &ticks);
+	tick_nbr = (line)? gog_axis_line_get_ticks (line, &ticks):
+					   gog_axis_get_ticks (axis, &ticks);
 	if (tick_nbr < 1)
 		return;
 

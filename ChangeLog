@@ -1,3 +1,13 @@
+2015-01-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c: allow custom ticks and grid lines for axis
+	lines. [#600482]
+	* goffice/graph/gog-axis-line.h: ditto.
+	* goffice/graph/gog-axis-prefs.ui: ditto.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-chart.c: ditto.
+	* goffice/graph/gog-grid-line.c: ditto.
+
 2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c: fix axis title position when at high coordinate.
