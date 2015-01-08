@@ -261,6 +261,13 @@ goc_offscreen_box_unrealize (GtkWidget *widget)
 {
 	GocOffscreenBox *offscreen_box = GOC_OFFSCREEN_BOX (widget);
 
+	gdk_offscreen_window_set_embedder (offscreen_box->offscreen_window, NULL);
+
+	if (offscreen_box->child) {
+		gtk_widget_unrealize (offscreen_box->child);
+		gtk_widget_set_parent_window (offscreen_box->child, NULL);
+	}
+
 	gdk_window_set_user_data (offscreen_box->offscreen_window, NULL);
 	gdk_window_destroy (offscreen_box->offscreen_window);
 	offscreen_box->offscreen_window = NULL;

@@ -1,3 +1,8 @@
+2015-01-08  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-widget.c (goc_offscreen_box_unrealize): Undo
+	the embedder part of realization too.
+
 2015-01-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c (gog_axis_line_get_ticks): don't return
