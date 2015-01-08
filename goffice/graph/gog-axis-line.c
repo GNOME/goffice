@@ -2693,6 +2693,9 @@ GSF_CLASS_FULL (GogAxisLine, gog_axis_line,
 unsigned
 gog_axis_line_get_ticks (GogAxisLine *axis_line, GogAxisTick **ticks)
 {
-	*ticks = axis_line->ticks;
-	return axis_line->tick_nbr;
+	if (axis_line->custom_ticks[0].data != NULL && go_data_has_value (axis_line->custom_ticks[0].data)) {
+		*ticks = axis_line->ticks;
+		return axis_line->tick_nbr;
+	}
+	return 0;
 }

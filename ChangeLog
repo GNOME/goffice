@@ -1,5 +1,10 @@
 2015-01-08  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-axis-line.c (gog_axis_line_get_ticks): don't return
+	invalid ticks.
+
+2015-01-08  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-axis-line.c: allow custom ticks and grid lines for axis
 	lines. [#600482]
 	* goffice/graph/gog-axis-line.h: ditto.
