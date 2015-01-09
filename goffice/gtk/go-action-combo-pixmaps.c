@@ -199,9 +199,7 @@ go_action_combo_pixmaps_create_menu_item (GtkAction *a)
 	for ( ; el->stock_id != NULL ; el++)
 		go_menu_pixmaps_add_element
 			(submenu,
-			 gtk_widget_render_icon_pixbuf (GTK_WIDGET (item),
-							el->stock_id,
-							GTK_ICON_SIZE_MENU),
+			 make_icon (a, el->stock_id, item),
 			 el->id,
 			 gettext (el->untranslated_tooltip));
 

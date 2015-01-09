@@ -1,3 +1,8 @@
+2015-01-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-action-combo-pixmaps.c
+	(go_action_combo_pixmaps_create_menu_item): Use make_icon.
+
 2015-01-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-widget.c (goc_offscreen_box_unrealize): Undo
