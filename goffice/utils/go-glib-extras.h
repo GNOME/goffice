@@ -117,6 +117,9 @@ gboolean go_parse_key_value (const char *options,
 gboolean go_debug_flag (const char *flag);
 void _go_glib_extras_shutdown (void);
 
+void go_debug_check_finalized (gpointer obj, const char *id);
+
+
 G_END_DECLS
 
 #endif /* GO_GLIB_EXTRAS_H */

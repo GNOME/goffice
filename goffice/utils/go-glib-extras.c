@@ -1168,9 +1168,43 @@ go_debug_flag (const char *flag)
 	return g_parse_debug_string (g_getenv ("GO_DEBUG"), &key, 1) != 0;
 }
 
+static GHashTable *finalize_hash;
+
+static void
+cb_finalized (gpointer data, GObject *victim)
+{
+	g_hash_table_remove (finalize_hash, victim);
+}
+
+void
+go_debug_check_finalized (gpointer obj, const char *id)
+{
+	g_return_if_fail (G_IS_OBJECT (obj));
+
+	if (!finalize_hash)
+		finalize_hash = g_hash_table_new_full
+			(g_direct_hash, g_direct_equal,
+			 NULL, (GDestroyNotify)g_free);
+	g_hash_table_replace (finalize_hash, obj, g_strdup (id));
+	g_object_weak_ref (obj, cb_finalized, NULL);
+}
+
+
 void
 _go_glib_extras_shutdown (void)
 {
 	g_free (go_real_name);
 	go_real_name = NULL;
+	if (finalize_hash) {
+		GHashTableIter hiter;
+		gpointer key, value;
+		g_hash_table_iter_init (&hiter, finalize_hash);
+		while (g_hash_table_iter_next (&hiter, &key, &value)) {
+			const char *name = value;
+			g_printerr ("%s \"%s\" at %p not finalized.\n",
+				    G_OBJECT_TYPE_NAME (key), name, key);
+		}
+		g_hash_table_destroy (finalize_hash);
+		finalize_hash = NULL;
+	}
 }

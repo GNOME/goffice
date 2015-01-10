@@ -178,7 +178,7 @@ apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
 **/
 GtkBuilder *
 go_gtk_builder_load (char const *uifile,
-		    char const *domain, GOCmdContext *gcc)
+		     char const *domain, GOCmdContext *gcc)
 {
 	GtkBuilder *gui;
 	GError *error = NULL;
@@ -223,6 +223,18 @@ go_gtk_builder_load (char const *uifile,
 		g_free (msg);
 	} else if (error)
 		g_error_free (error);
+
+	if (gui && go_debug_flag ("leaks")) {
+		GSList *l, *objs = gtk_builder_get_objects (gui);
+		for (l = objs; l; l = l->next) {
+			GObject *obj = l->data;
+			/* Darn -- cannot access object name! */
+			char *name = g_strdup_printf ("Anonymous from %s", uifile);
+			go_debug_check_finalized (obj, name);
+			g_free (name);
+		}
+		g_slist_free (objs);
+	}
 
 	return gui;
 }
@@ -1590,11 +1602,12 @@ go_gtk_widget_render_icon_pixbuf (GtkWidget   *widget,
 	GdkScreen *screen;
 	GtkIconTheme *theme;
 	int pixels;
+	GdkPixbuf *res;
 
 	/* The widget really ought to be mapped.  */
-	screen = gtk_widget_get_screen (widget);
-	if (!screen)
-		screen = gdk_screen_get_default ();
+	screen = gtk_widget_has_screen (widget)
+		? gtk_widget_get_screen (widget)
+		: gdk_screen_get_default ();
 	theme = gtk_icon_theme_get_for_screen (screen);
 
 	switch (size) {
@@ -1613,5 +1626,10 @@ go_gtk_widget_render_icon_pixbuf (GtkWidget   *widget,
 		break;
 	}
 
-	return gtk_icon_theme_load_icon (theme, icon_name, pixels, 0, NULL);
+	res = gtk_icon_theme_load_icon (theme, icon_name, pixels, 0, NULL);
+
+	if (res && go_debug_flag ("leaks"))
+		go_debug_check_finalized (res, icon_name);
+
+	return res;
 }
