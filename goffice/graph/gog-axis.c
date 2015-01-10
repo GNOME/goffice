@@ -3503,7 +3503,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		    0.01, 100., 1.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_REF_AXIS,
-		g_param_spec_string ("metrics-unit", _("Matrics Unit"),
+		g_param_spec_string ("metrics-unit", _("Metrics Unit"),
 			_("The unit symbol for the absolute distance unit between ticks. Might be \"cm\" or \"in\""),
 			"cm",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));

@@ -200,7 +200,7 @@ static LocaleInfo locale_trans_array[] = {
 	{N_("Iran (fa_IR)"),                             "fa_IR", LG_MIDDLE_EAST },
 	{N_("Senegal/Fulah (ff_SN)"),                    "ff_SN", LG_AFRICA },
 	{N_("Finland/Finnish (fi_FI)"),                  "fi_FI", LG_WESTERN_EUROPE },
-	{N_("Phillipines/Filipino (fil_PH)"),            "fil_PH", LG_ASIA },
+	{N_("Philippines/Filipino (fil_PH)"),            "fil_PH", LG_ASIA },
 	{N_("Faroe Islands (fo_FO)"),                    "fo_FO", LG_WESTERN_EUROPE },
 	{N_("Belgium/French (fr_BE)"),                   "fr_BE", LG_WESTERN_EUROPE },
 	{N_("Canada/French (fr_CA)"),                    "fr_CA", LG_NORTH_AMERICA },

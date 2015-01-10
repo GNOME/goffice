@@ -544,7 +544,7 @@ static GOFormatCurrency const _go_format_currencies_table[] =
 	{ "[$XAF]",	N_("Communaute Financiere Africaine BEAC, Francs"), TRUE, TRUE},
 	{ "[$XAG]",	N_("Silver, Ounces"), TRUE, TRUE },
 	{ "[$XAU]",	N_("Gold, Ounces"), TRUE, TRUE },
-	{ "[$XBA]",	N_("Bond Markets Units, European Coposite Units (EURCO)"), TRUE, TRUE },
+	{ "[$XBA]",	N_("Bond Markets Units, European Composite Units (EURCO)"), TRUE, TRUE },
 	{ "[$XBB]",	N_("European Monetary Units (E.M.U.-6)"), TRUE, TRUE },
 	{ "[$XBC]",	N_("European Units of Account 9 (E.U.A.-9)"), TRUE, TRUE },
 	{ "[$XBD]",	N_("European Units of Account 17 (E.U.A.-17)"), TRUE, TRUE },

@@ -1229,7 +1229,7 @@ gfs_class_init (GObjectClass *klass)
 		(klass, PROP_COLOR_UNSET_TEXT,
 		 g_param_spec_string ("color-unset-text",
 				      _("Color unset text"),
-				      _("The text to show for selecing no color"),
+				      _("The text to show for selecting no color"),
 				      NULL,
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
