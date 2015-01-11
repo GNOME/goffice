@@ -1,3 +1,7 @@
+2015-01-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* libgoffice.pc.in: add missing libraries to Requires.private.
+
 2015-01-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-action-combo-pixmaps.c
