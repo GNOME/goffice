@@ -80,9 +80,9 @@ gog_log_fit_curve_update (GogObject *obj)
 		g_free (tx_vals);
 		g_free (ty_vals);
 	} else {
-		model->R2 = go_nan;
+		rc->R2 = go_nan;
 		for (i = 0; i < 5; i++)
-			model->a[i] = go_nan;
+			rc->a[i] = go_nan;
 	}
 	g_free (rc->equation);
 	rc->equation = NULL;
