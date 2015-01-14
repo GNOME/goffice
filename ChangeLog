@@ -1,3 +1,10 @@
+2015-01-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_update): protect
+	against missing data. [#742859]
+	* plugins/reg_logfit/gog-logfit.c (gog_log_fit_curve_update): ditto.
+	* plugins/smoothing/gog-moving-avg.c (gog_moving_avg_update): ditto.
+
 2015-01-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* libgoffice.pc.in: add missing libraries to Requires.private.

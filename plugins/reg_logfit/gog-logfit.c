@@ -39,45 +39,51 @@ gog_log_fit_curve_update (GogObject *obj)
 	GogSeries *series = GOG_SERIES (obj->parent);
 	double const *y_vals, *x_vals = NULL;
 	double *tx_vals, *ty_vals, x, y;
-	int i, used, nb;
+	int i, used = 0, nb;
 	double xmin, xmax;
 
 	g_return_if_fail (gog_series_is_valid (series));
 
 	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
-	gog_reg_curve_get_bounds (rc, &xmin, &xmax);
-	tx_vals = g_new (double, nb);
-	ty_vals = g_new (double, nb);
-	for (i = 0, used = 0; i < nb; i++) {
-		x = (x_vals)? x_vals[i]: i;
-		y = y_vals[i];
-		if (!go_finite (x) || !go_finite (y)) {
-			if (rc->skip_invalid)
+	if (nb > 0) {
+		gog_reg_curve_get_bounds (rc, &xmin, &xmax);
+		tx_vals = g_new (double, nb);
+		ty_vals = g_new (double, nb);
+		for (i = 0, used = 0; i < nb; i++) {
+			x = (x_vals)? x_vals[i]: i;
+			y = y_vals[i];
+			if (!go_finite (x) || !go_finite (y)) {
+				if (rc->skip_invalid)
+					continue;
+				used = 0;
+				break;
+			}
+			if (x < xmin || x > xmax)
 				continue;
-			used = 0;
-			break;
+			tx_vals[used] = x;
+			ty_vals[used] = y;
+			used++;
 		}
-		if (x < xmin || x > xmax)
-			continue;
-		tx_vals[used] = x;
-		ty_vals[used] = y;
-		used++;
-	}
-	if (used > 4) {
-		GORegressionResult res = go_logarithmic_fit (tx_vals, ty_vals,
-								used, rc->a);
-		if (res == GO_REG_ok) {
-			go_range_devsq (ty_vals, used, &x);
-			rc->R2 = (x - rc->a[4]) / x;
-		} else for (nb = 0; nb < 5; nb++)
-			rc->a[nb] = go_nan;
+		if (used > 4) {
+			GORegressionResult res = go_logarithmic_fit (tx_vals, ty_vals,
+									used, rc->a);
+			if (res == GO_REG_ok) {
+				go_range_devsq (ty_vals, used, &x);
+				rc->R2 = (x - rc->a[4]) / x;
+			} else for (nb = 0; nb < 5; nb++)
+				rc->a[nb] = go_nan;
+		} else {
+			rc->R2 = go_nan;
+			for (nb = 0; nb < 5; nb++)
+				rc->a[nb] = go_nan;
+		}
+		g_free (tx_vals);
+		g_free (ty_vals);
 	} else {
-		rc->R2 = go_nan;
-		for (nb = 0; nb < 5; nb++)
-			rc->a[nb] = go_nan;
+		model->R2 = go_nan;
+		for (i = 0; i < 5; i++)
+			model->a[i] = go_nan;
 	}
-	g_free (tx_vals);
-	g_free (ty_vals);
 	g_free (rc->equation);
 	rc->equation = NULL;
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);

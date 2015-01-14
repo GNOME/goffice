@@ -133,7 +133,7 @@ gog_moving_avg_update (GogObject *obj)
 		return;
 
 	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
-	if (nb < ma->span)
+	if (nb < ma->span || y_vals == NULL)
 		return;
 	ma->base.nb = nb - ma->span + 1;
 	ma->base.x = g_new (double, ma->base.nb);

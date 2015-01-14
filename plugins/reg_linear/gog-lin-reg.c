@@ -60,7 +60,7 @@ gog_lin_reg_curve_update (GogObject *obj)
 		return;
 
 	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
-	used = (GOG_LIN_REG_CURVE_GET_CLASS(rc))->build_values (rc, x_vals, y_vals, nb);
+	used = (y_vals)? (GOG_LIN_REG_CURVE_GET_CLASS(rc))->build_values (rc, x_vals, y_vals, nb): 0;
 	if (used > 1) {
 		go_regression_stat_t *stats = go_regression_stat_new ();
 		GORegressionResult res =
