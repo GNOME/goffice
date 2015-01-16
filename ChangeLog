@@ -1,3 +1,9 @@
+2015-01-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_series_update): don't loose any data when using
+	automatic bins. [#742996]
+
 2015-01-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_update): protect

@@ -6,6 +6,7 @@ Jean:
 	* Implement canvas native scrolling. [#741394]
 	* Don't use a data vector with no valid value. [#741910]
 	* Allow custom ticks and grid lines for axis lines. [#600482]
+	* Don't loose any data in an histogram when using automatic bins. [#742996]
 
 Morten:
 	* Dead kitten salvage.

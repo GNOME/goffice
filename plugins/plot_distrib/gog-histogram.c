@@ -1004,7 +1004,7 @@ gog_histogram_plot_series_update (GogObject *obj)
 				}
 			}
 			if (width > 0. && (y || y_)) {
-				double m, M;
+				double m, M, nm;
 				/* ignore nans */
 				if (y) {
 					m = y_ ? (MIN (y[0], y_[0])) : y[0];
@@ -1016,7 +1016,10 @@ gog_histogram_plot_series_update (GogObject *obj)
 				if (!go_finite (m) || !go_finite (M))
 					return;
 				/* round m */
-				m = floor ((m - origin)/ width) * width + origin;
+				nm = floor ((m - origin)/ width) * width + origin;
+				/* we need to include all data so we must ensure that the
+				 * first bin must be lower than the first value, see  #742996 */
+				m = (nm == m)? nm - width: nm;
 				x_len = ceil ((M - m) / width) + 1;
 				series->real_x = g_new (double, x_len);
 				for (max = 0; max < x_len; max++) {
