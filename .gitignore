@@ -16,6 +16,7 @@ configure
 depcomp
 doltcompile
 doltlibtool
+gtk-doc.m4
 gtk-doc.make
 install-sh
 intl
