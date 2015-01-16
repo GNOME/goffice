@@ -3499,7 +3499,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, AXIS_PROP_METRICS_RATIO,
 		g_param_spec_double ("metrics-ratio",
 			_("Metrics ratio"),
-			_("If an axis is used as reference, gives the ratio of the ticks distance, and it the metrix is absolute, the ticks distance. Defaults to 1.0"),
+			_("If an axis is used as reference, gives the ratio of the ticks distance, and if the metrix is absolute, the ticks distance. Defaults to 1.0"),
 		    0.01, 100., 1.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_REF_AXIS,
