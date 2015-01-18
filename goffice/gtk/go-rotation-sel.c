@@ -75,12 +75,13 @@ cb_rotate_changed (GORotationSel *grs)
 		}
 
 	if (grs->line != NULL) {
-		double rad = grs->angle * M_PI / 180.;
+		double c = go_cospi (grs->angle / 180.);
+		double s = go_sinpi (grs->angle / 180.);
 		goc_item_set (grs->line,
-		              "x0", x0 + cos (rad) * grs->rot_width,
-		              "y0", 100 - sin (rad) * grs->rot_width,
-		              "x1", x0 + cos (rad) * 72.,
-		              "y1", 100 - sin (rad) * 72.,
+		              "x0",  x0 + c * grs->rot_width,
+		              "y0", 100 - s * grs->rot_width,
+		              "x1",  x0 + c * 72.,
+		              "y1", 100 - s * 72.,
 		              NULL);
 	}
 
@@ -161,7 +162,7 @@ set_rot_from_point (GORotationSel *grs, double x, double y)
 	x -= grs->full? 100.: 15.;	if (!grs->full && x < 0.) x = 0.;
 	y -= 100.;
 
-	degrees = atan2 (-y, x) * 180 / M_PI;
+	degrees = go_atan2pi (-y, x) * 180;
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (grs->rotate_spinner),
 		go_fake_round (degrees));

@@ -1,3 +1,8 @@
+2015-01-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-rotation-sel.c (cb_rotate_changed): Avoid
+	rounding errors by using go_cospi and go_sinpi.
+
 2015-01-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-histogram.c
