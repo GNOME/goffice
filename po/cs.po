@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-08 14:35+0000\n"
+"POT-Creation-Date: 2015-01-16 18:37+0000\n"
 "PO-Revision-Date: 2015-01-08 22:52+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -587,7 +587,7 @@ msgstr "Šipka na konci čáry"
 #: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:264
 #: ../goffice/canvas/goc-path.c:281 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-text.c:448
-#: ../goffice/canvas/goc-widget.c:797 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-widget.c:804 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -600,7 +600,7 @@ msgstr "Svislá poloha středu kružnice"
 #: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:270
 #: ../goffice/canvas/goc-path.c:287 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:324 ../goffice/canvas/goc-text.c:454
-#: ../goffice/canvas/goc-widget.c:803
+#: ../goffice/canvas/goc-widget.c:810
 msgid "y"
 msgstr "y"
 
@@ -628,7 +628,7 @@ msgstr "Poloha horní strany objektu"
 #: ../goffice/canvas/goc-ellipse.c:281 ../goffice/canvas/goc-graph.c:453
 #: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:282
 #: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:336
-#: ../goffice/canvas/goc-widget.c:816 ../goffice/graph/gog-graph.c:503
+#: ../goffice/canvas/goc-widget.c:823 ../goffice/graph/gog-graph.c:503
 #: ../goffice/graph/gog-object.c:194 ../goffice/utils/go-image.c:514
 msgid "Height"
 msgstr "Výška"
@@ -637,7 +637,7 @@ msgstr "Výška"
 #: ../goffice/canvas/goc-ellipse.c:275 ../goffice/canvas/goc-graph.c:459
 #: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:276
 #: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:330
-#: ../goffice/canvas/goc-widget.c:810 ../goffice/graph/gog-color-scale.c:318
+#: ../goffice/canvas/goc-widget.c:817 ../goffice/graph/gog-color-scale.c:318
 #: ../goffice/graph/gog-graph.c:497 ../goffice/graph/gog-object.c:192
 #: ../goffice/utils/go-image.c:510 ../plugins/plot_xy/gog-xy-dropbar.c:308
 msgid "Width"
@@ -1030,27 +1030,27 @@ msgstr "Šířka zalomení"
 msgid "Wrap width for the text"
 msgstr "Šířka zalomení pro text"
 
-#: ../goffice/canvas/goc-widget.c:791
+#: ../goffice/canvas/goc-widget.c:798
 msgid "Widget"
 msgstr "Widget"
 
-#: ../goffice/canvas/goc-widget.c:792
+#: ../goffice/canvas/goc-widget.c:799
 msgid "A pointer to the embedded widget"
 msgstr "Ukazatel na vložený widget"
 
-#: ../goffice/canvas/goc-widget.c:798
+#: ../goffice/canvas/goc-widget.c:805
 msgid "The widget left position"
 msgstr "Poloha levé strany weidgetu"
 
-#: ../goffice/canvas/goc-widget.c:804
+#: ../goffice/canvas/goc-widget.c:811
 msgid "The widget top position"
 msgstr "Poloha horní strany weidgetu"
 
-#: ../goffice/canvas/goc-widget.c:811
+#: ../goffice/canvas/goc-widget.c:818
 msgid "The widget width"
 msgstr "Šířka widgetu"
 
-#: ../goffice/canvas/goc-widget.c:817
+#: ../goffice/canvas/goc-widget.c:824
 msgid "The widget height"
 msgstr "Výška widgetu"
 
@@ -1319,14 +1319,14 @@ msgstr "Poměr mřížky"
 #: ../goffice/graph/gog-axis.c:3502
 msgid ""
 "If an axis is used as reference, gives the ratio of the ticks distance, and "
-"it the metrix is absolute, the ticks distance. Defaults to 1.0"
+"if the metrix is absolute, the ticks distance. Defaults to 1.0"
 msgstr ""
 "Když je některá osa použita jako vztažná, udává poměr vzdálenosti značek, a "
 "když je mřížka absolutní, tak vzdálenost značek. Výchozí je 1.0."
 
 #: ../goffice/graph/gog-axis.c:3506
-msgid "Matrics Unit"
-msgstr "Jednotka mřížky"
+msgid "Metrics Unit"
+msgstr "Metrická jednotka"
 
 #: ../goffice/graph/gog-axis.c:3507
 msgid ""
@@ -3588,28 +3588,28 @@ msgstr "Zda by měly mít rozbalovací nabídky oddělovací položku"
 msgid "Unable to open file '%s'"
 msgstr "Soubor „%s“ nelze otevřít"
 
-#: ../goffice/gtk/goffice-gtk.c:817 ../goffice/utils/go-style.c:223
+#: ../goffice/gtk/goffice-gtk.c:829 ../goffice/utils/go-style.c:223
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
 
-#: ../goffice/gtk/goffice-gtk.c:852
+#: ../goffice/gtk/goffice-gtk.c:864
 msgid "All Files"
 msgstr "Všechny soubory"
 
-#: ../goffice/gtk/goffice-gtk.c:857
+#: ../goffice/gtk/goffice-gtk.c:869
 msgid "Images"
 msgstr "Obrázky"
 
-#: ../goffice/gtk/goffice-gtk.c:909
+#: ../goffice/gtk/goffice-gtk.c:921
 msgid "Select an Image"
 msgstr "Výběr obrázku"
 
-#: ../goffice/gtk/goffice-gtk.c:988
+#: ../goffice/gtk/goffice-gtk.c:1000
 msgid "Save as"
 msgstr "Uložit jako"
 
-#: ../goffice/gtk/goffice-gtk.c:1061
+#: ../goffice/gtk/goffice-gtk.c:1073
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3617,7 +3617,7 @@ msgstr ""
 "Zadaná přípona souboru neodpovídá vybranému typu souboru. Chcete přesto "
 "použít tento název souboru?"
 
-#: ../goffice/gtk/goffice-gtk.c:1280
+#: ../goffice/gtk/goffice-gtk.c:1292
 #, c-format
 msgid ""
 "%s\n"
@@ -3626,7 +3626,7 @@ msgstr ""
 "%s\n"
 "je název složky"
 
-#: ../goffice/gtk/goffice-gtk.c:1284
+#: ../goffice/gtk/goffice-gtk.c:1296
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3635,7 +3635,7 @@ msgstr ""
 "Nemáte práva pro ukládaní do\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1294
+#: ../goffice/gtk/goffice-gtk.c:1306
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -4098,7 +4098,7 @@ msgid "Color unset text"
 msgstr "Text pro nenastavenou barvu"
 
 #: ../goffice/gtk/go-font-sel.c:1232
-msgid "The text to show for selecing no color"
+msgid "The text to show for selecting no color"
 msgstr "Text, který se má zobrazit, když není vybrána žádná barva"
 
 #: ../goffice/gtk/go-font-sel.c:1240
@@ -5032,7 +5032,7 @@ msgid "Finland/Finnish (fi_FI)"
 msgstr "Finsko/finština (fi_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
-msgid "Phillipines/Filipino (fil_PH)"
+msgid "Philippines/Filipino (fil_PH)"
 msgstr "Filipíny/filipínština (fil_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:204
@@ -6333,7 +6333,7 @@ msgid "Gold, Ounces"
 msgstr "Zlato, unce"
 
 #: ../goffice/utils/formats.c:547
-msgid "Bond Markets Units, European Coposite Units (EURCO)"
+msgid "Bond Markets Units, European Composite Units (EURCO)"
 msgstr "Měny trhu s cennými papíry, evropská smíšená jednotka (EURCO)"
 
 #: ../goffice/utils/formats.c:548
@@ -7132,7 +7132,7 @@ msgid "Error bars"
 msgstr "Sloupce chyby"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:650
-#: ../plugins/plot_distrib/gog-histogram.c:1108
+#: ../plugins/plot_distrib/gog-histogram.c:1111
 msgid "Drop lines"
 msgstr "Přívodní čáry"
 
@@ -8992,7 +8992,7 @@ msgstr "Logaritmická regresní křivka"
 #. xgettext : the base for how to name logarithmic fits
 #. * eg The 2nd fit for a series will be called
 #. * 	Log fit2
-#: ../plugins/reg_logfit/gog-logfit.c:140
+#: ../plugins/reg_logfit/gog-logfit.c:146
 msgid "Log fit"
 msgstr "LogPřizpůsobení"
 
