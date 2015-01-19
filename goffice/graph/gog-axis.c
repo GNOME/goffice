@@ -2663,7 +2663,7 @@ gog_axis_update (GogObject *obj)
 	axis->format = bounds.fmt; /* just absorb the ref if it exists */
 
 	gog_axis_figure_subclass (axis);
-
+	
 	gog_axis_auto_bound (axis);
 
 	if (go_finite (axis->logical_min_val) &&
@@ -3447,7 +3447,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, AXIS_PROP_MAP,
 		g_param_spec_string ("map-name", _("MapName"),
 			_("The name of the map for scaling"),
-			"linear",
+			"Linear",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_ASSIGNED_FORMAT_STR_XL,
 		g_param_spec_string ("assigned-format-string-XL",

@@ -1,3 +1,9 @@
+2015-01-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_class_init): fixed typo in default map
+	name.
+	* goffice/graph/gog-guru.ui: allow the window to be maximized. [see #742897]
+
 2015-01-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-rotation-sel.c (cb_rotate_changed): Avoid
