@@ -1749,14 +1749,13 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
  * @child: (transfer full) (allow-none): #GogObject
  *
  * Absorb a ref to @child if it is non-NULL.
- * Returns: (transfer none): @child or a newly created object with @role.  Callers do _not_ own
- * 	the reference.
+ * Returns: (transfer none): @child or a newly created object with @role.
  **/
 GogObject *
 gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject *child)
 {
 	GType is_a;
-	gboolean const explicitly_typed_role = (child != NULL);
+	gboolean explicitly_typed_role;
 
 	g_return_val_if_fail (role != NULL, NULL);
 	g_return_val_if_fail (GOG_OBJECT (parent) != NULL, NULL);
@@ -1765,15 +1764,11 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 
 	g_return_val_if_fail (is_a != 0, NULL);
 
-
-#if 0
-	/* do not perform a not allowed addition */
-	if (role->can_add != NULL && !(role->can_add) (parent)) {
-		if (child)
-			g_object_unref (child);
-		return NULL;
-	}
-#endif
+	/*
+	 * It's unclear why we need this flag; just set is to indicate a non-default
+	 * type.  We used to set for any pre-allocated child.
+	 */
+	explicitly_typed_role = (child && G_OBJECT_TYPE (child) != is_a);
 
 	if (child == NULL) {
 		child = (role->allocate)
