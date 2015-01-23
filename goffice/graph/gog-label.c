@@ -288,23 +288,28 @@ gog_label_populate_editor (GogObject *gobj,
 	gtk_grid_attach (GTK_GRID (grid),
 		gtk_label_new_with_mnemonic (_("_Text:")), 0, 0, 1, 1);
 	gtk_grid_attach (GTK_GRID (grid), editor_widget, 1, 0, 1, 1);
+
 	w = gtk_check_button_new_with_label (_("Rotate frame with text"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->rotate_frame);
 	g_signal_connect (w, "toggled", G_CALLBACK (rotate_frame_cb), gobj);
 	gtk_grid_attach (GTK_GRID (grid), w, 0, 1, 2, 1);
+
 	w = gtk_check_button_new_with_label (_("Display the text on several lines if needed"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->allow_wrap);
 	g_signal_connect (w, "toggled", G_CALLBACK (wrap_cb), gobj);
 	gtk_grid_attach (GTK_GRID (grid), w, 0, 2, 2, 1);
+
 	w = gtk_check_button_new_with_label (_("Rotate background with text"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->rotate_bg);
 	g_signal_connect (w, "toggled", G_CALLBACK (rotate_bg_cb), gobj);
 	gtk_grid_attach (GTK_GRID (grid), w, 0, 3, 2, 1);
+
 	w = gtk_check_button_new_with_label (_("Interpret text as markup"));
 	gtk_widget_set_tooltip_text (w, _("Interpret the text as an HTML like markup as described at http://developer.gnome.org/pango/stable/PangoMarkupFormat.html"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GOG_TEXT (gobj)->allow_markup);
 	g_signal_connect (w, "toggled", G_CALLBACK (allow_markup_cb), gobj);
 	gtk_grid_attach (GTK_GRID (grid), w, 0, 4, 2, 1);
+
 	gtk_widget_show_all (grid);
 
 	go_editor_add_page (editor, grid, _("Details"));
@@ -657,15 +662,13 @@ gog_text_view_natural_size (GogView *view, GogViewRequisition *req)
 	req->w = req->h = 0.;
 	if (str != NULL) {
 		GOString *gostr = pl
-			? go_string_new_rich (str, -1,
-					      gog_text_get_markup (text),
-					      NULL)
+			? go_string_new_rich (str, -1, pl, NULL)
 			: NULL;
 		GOStyle *style = go_style_dup (text->base.base.style);
 		double rot = fabs (style->text_layout.angle / 180 * M_PI);
 		if (rot > M_PI / 2.)
 			rot = M_PI - rot;
-	    if (text->rotate_frame)
+		if (text->rotate_frame)
 			style->text_layout.angle = 0.;
 		gog_renderer_push_style (view->renderer, style);
 		/* for natural size, we never force wrapping so use -1 as max width */
@@ -701,15 +704,13 @@ gog_text_view_size_request (GogView *v,
 	req->w = req->h = 0.;
 	if (str != NULL) {
 		GOString *gostr = pl
-			? go_string_new_rich (str, -1,
-					      gog_text_get_markup (text),
-					      NULL)
+			? go_string_new_rich (str, -1, pl, NULL)
 			: NULL;
 		GOStyle *style = go_style_dup (text->base.base.style);
 		double rot = fabs (style->text_layout.angle / 180 * M_PI);
 		if (rot > M_PI / 2.)
 			rot = M_PI - rot;
-	    if (text->rotate_frame)
+		if (text->rotate_frame)
 			style->text_layout.angle = 0.;
 		gog_renderer_push_style (v->renderer, style);
 		if (gostr) {
@@ -739,14 +740,31 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 	GOStyle *style = text->base.base.style;
 	char *str = gog_text_get_str (text);
 	PangoAttrList *pl = gog_text_get_markup (text);
-	double w = text->allow_wrap? view->residual.w: -1.;
+	double w = -1;
+	double rotpi = style->text_layout.angle / 180;
+
+	if (text->allow_wrap) {
+		/*
+		 * This is a band-aid necessitated by charts imported from
+		 * xlsx files have wrapping on by default.
+		 *
+		 * It is mostly correct for horizontal and vertical text
+		 * It is mostly correct for rotated single-line text
+		 * It is poor for rotated multi-line text
+		 *
+		 * We may need some fancier line breaking to fix a rotated text
+		 * into an axis-parallel rectangle.
+		 */
+		double s = go_sinpi (rotpi), c = go_cospi (rotpi);
+		double w1 = c ? view->residual.w / fabs (c) : go_pinf;
+		double w2 = s ? view->residual.h / fabs (s) : go_pinf;
+		w = MIN (w1, w2);
+	}
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
 		GOString *gostr = pl
-			? go_string_new_rich (str, -1,
-					      gog_text_get_markup (text),
-					      NULL)
+			? go_string_new_rich (str, -1, pl, NULL)
 			: NULL;
 		double outline = gog_renderer_line_size (view->renderer,
 							 goo->base.style->line.width);
@@ -756,7 +774,6 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 			GOStyle *rect_style = NULL;
 			double pad_x = gog_renderer_pt2r_x (view->renderer, goo->padding_pts);
 			double pad_y = gog_renderer_pt2r_y (view->renderer, goo->padding_pts);
-			double rot = style->text_layout.angle / 180 * M_PI;
 			if (text->rotate_frame) {
 				rect_style = go_style_dup (text->base.base.style);
 				rect_style->text_layout.angle = 0.;
@@ -770,18 +787,18 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 			rect.w = aabr.w + 2. * outline + pad_x;
 			rect.h = aabr.h + 2. * outline + pad_y;
 			if (text->rotate_frame) {
-				if (rot > 0.) {
-					if (rot > M_PI / 2.) {
-						rect.y += rect.w * sin (rot) - rect.h * cos (rot);
-						rect.x -= rect.w * cos (rot);
+				if (rotpi > 0.) {
+					if (rotpi > 0.5) {
+						rect.y += rect.w * go_sinpi (rotpi) - rect.h * go_cospi (rotpi);
+						rect.x -= rect.w * go_cospi (rotpi);
 					} else
-						rect.y += rect.w * sin (rot);
+						rect.y += rect.w * go_sinpi (rotpi);
 				} else {
-					if (rot < -M_PI / 2.) {
-						rect.y -= rect.h * cos (rot);
-						rect.x -= rect.w * cos (rot) + rect.h * sin (rot);
+					if (rotpi < -0.5) {
+						rect.y -= rect.h * go_cospi (rotpi);
+						rect.x -= rect.w * go_cospi (rotpi) + rect.h * go_sinpi (rotpi);
 					} else
-						rect.x -= rect.h * sin (rot);
+						rect.x -= rect.h * go_sinpi (rotpi);
 				}
 				gog_renderer_pop_style (view->renderer);
 				g_object_unref (rect_style);
