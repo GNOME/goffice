@@ -1,3 +1,7 @@
+2015-01-23  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.19
+
 2015-01-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-object.c (gog_object_add_by_role): Only
