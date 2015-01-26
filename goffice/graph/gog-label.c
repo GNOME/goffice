@@ -117,6 +117,12 @@ gog_text_init_style (GogStyledObject *gso, GOStyle *style)
 	/* Kludge for default Y axis title orientation. This should have be done
 	 * in GogTheme, but it's not possible without breaking graph persistence
 	 * compatibility */
+
+	/*
+	 * Note: if you create the axis object by hand, this will only be called
+	 * when the object is given a role.  Your carefully computed angle will
+	 * be wiped out at that time.  (As any other style.)
+	 */
 	parent = gog_object_get_parent (GOG_OBJECT (gso));
 	if (GOG_IS_AXIS (parent)) {
 		GogChart *chart = GOG_CHART (gog_object_get_parent (parent));
