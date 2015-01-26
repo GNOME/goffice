@@ -44,6 +44,7 @@ typedef struct {
 				    go_regression_stat_t *stat);
 	int (*build_values) (GogLinRegCurve *rc, double const *x_vals,
 					double const *y_vals, int n);
+	int max_dims;
 } GogLinRegCurveClass;
 
 #define GOG_TYPE_LIN_REG_CURVE	(gog_lin_reg_curve_get_type ())

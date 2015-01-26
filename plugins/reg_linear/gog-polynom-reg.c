@@ -231,6 +231,7 @@ gog_polynom_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 	gog_polynom_reg_curve_parent_klass = g_type_class_peek_parent (reg_curve_klass);
 
 	lin_reg_klass->build_values = gog_polynom_reg_curve_build_values;
+	lin_reg_klass->max_dims = 10;
 
 	reg_curve_klass->get_value_at = gog_polynom_reg_curve_get_value_at;
 	reg_curve_klass->get_equation = gog_polynom_reg_curve_get_equation;

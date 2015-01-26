@@ -200,7 +200,8 @@ gog_lin_reg_curve_set_property (GObject *obj, guint param_id,
 	case REG_LIN_REG_CURVE_PROP_AFFINE:
 		rc->affine = g_value_get_boolean (value);
 		break;
-	case REG_LIN_REG_CURVE_PROP_DIMS:
+	case REG_LIN_REG_CURVE_PROP_DIMS: {
+		int max_dims = ((GogLinRegCurveClass *) G_OBJECT_GET_CLASS (rc))->max_dims;
 		if (rc->x_vals) {
 			int i;
 			for (i = 0; i < rc->dims; i++){
@@ -210,9 +211,14 @@ gog_lin_reg_curve_set_property (GObject *obj, guint param_id,
 		g_free (rc->x_vals);
 		rc->x_vals = NULL;
 		rc->dims = g_value_get_uint (value);
+		if (rc->dims > max_dims) {
+			g_warning ("Invalid value %u for the \"dims\" property\n", rc->dims);
+			rc->dims = max_dims;
+		}
 		g_free (rc->base.a);
 		rc->base.a = g_new (double, rc->dims + 1);
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -258,6 +264,7 @@ gog_lin_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 
 	lin_klass->lin_reg_func = go_linear_regression;
 	lin_klass->build_values = gog_lin_reg_curve_build_values;
+	lin_klass->max_dims = 1;
 
 	g_object_class_install_property (gobject_klass, REG_LIN_REG_CURVE_PROP_AFFINE,
 		g_param_spec_boolean ("affine",

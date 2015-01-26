@@ -1,3 +1,10 @@
+2015-01-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/reg_linear/gog-lin-reg.c: ensure that the dims number is correct
+	in all cases. [see #743507]
+	* plugins/reg_linear/gog-lin-reg.h: ditto.
+	* plugins/reg_linear/gog-polynom-reg.c: ditto.
+
 2015-01-23  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -1,5 +1,8 @@
 goffice 0.10.20:
 
+Jean:
+	* Ensure the validity of the dims property for linear regression curves.
+
 --------------------------------------------------------------------------
 goffice 0.10.19:
 
