@@ -68,7 +68,7 @@ gog_minmax_series_init_style (GogStyledObject *gso, GOStyle *style)
 	if (!plot->default_style_has_markers) {
 		style->disable_theming |= GO_STYLE_MARKER;
 		if (style->marker.auto_shape) {
-			GOMarker *m = go_marker_new ();
+			GOMarker *m = go_marker_dup (style->marker.mark);
 			go_marker_set_shape (m, GO_MARKER_NONE);
 			go_style_set_marker (style, m);
 		}

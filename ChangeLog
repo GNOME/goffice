@@ -3,6 +3,11 @@
 	* plugins/plot_barcol/gog-line.c (gog_line_series_init_style):
 	Don't wipe out marker colours just because the shape auto.
 
+	* plugins/plot_barcol/gog-minmax.c (gog_minmax_series_init_style): Ditto.
+
+	* plugins/plot_xy/gog-xy-minmax.c
+	(gog_xy_minmax_series_init_style): Ditto.
+
 2015-01-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/reg_linear/gog-lin-reg.c: ensure that the dims number is correct
