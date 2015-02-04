@@ -3,6 +3,9 @@ goffice 0.10.20:
 Jean:
 	* Ensure the validity of the dims property for linear regression curves.
 
+Morten:
+	* Fix marker problem with line plots.
+
 --------------------------------------------------------------------------
 goffice 0.10.19:
 
