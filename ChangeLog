@@ -2,6 +2,11 @@
 
 	* graph/gog-chart-map.c: protect against missing data
 
+2015-02-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (go_linear_solve_multiple):
+	Initialize regres.  Why didn't the compiler warn about that?
+
 2015-02-04  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
