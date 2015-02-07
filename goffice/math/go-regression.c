@@ -346,7 +346,7 @@ GORegressionResult
 SUFFIX(go_linear_solve_multiple) (CONSTMATRIX A, MATRIX B, int n, int bn)
 {
 	void *state;
-	GORegressionResult regres;
+	GORegressionResult regres = GO_REG_ok;
 	SUFFIX(GOQuadMatrix) *qA;
 	const SUFFIX(GOQuadMatrix) *R;
 	SUFFIX(GOQuadQR) *qr;
