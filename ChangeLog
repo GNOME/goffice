@@ -1,3 +1,7 @@
+2015-02-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* graph/gog-chart-map.c: protect against missing data
+
 2015-02-04  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
