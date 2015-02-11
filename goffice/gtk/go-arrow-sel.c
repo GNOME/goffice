@@ -51,6 +51,19 @@ enum {
 static GObjectClass *as_parent_class;
 
 static void
+set_actives (GOArrowSel *as)
+{
+	static guint8 active_sliders[3] = { 0, 7, 3 };
+
+	gtk_widget_set_sensitive (GTK_WIDGET (as->spin_a),
+				  (active_sliders[as->arrow.typ] & 1) != 0);
+	gtk_widget_set_sensitive (GTK_WIDGET (as->spin_b),
+				  (active_sliders[as->arrow.typ] & 2) != 0);
+	gtk_widget_set_sensitive (GTK_WIDGET (as->spin_c),
+				  (active_sliders[as->arrow.typ] & 4) != 0);
+}
+
+static void
 cb_changed (GOArrowSel *as)
 {
 	GOArrow arr = as->arrow;
@@ -62,7 +75,6 @@ cb_changed (GOArrowSel *as)
 	arr.a = gtk_spin_button_get_value (as->spin_a);
 	arr.b = gtk_spin_button_get_value (as->spin_b);
 	arr.c = gtk_spin_button_get_value (as->spin_c);
-
 
 	go_arrow_sel_set_arrow (as, &arr);
 }
@@ -114,6 +126,7 @@ go_arrow_sel_constructor (GType type,
 
 	as->type_selector = go_gtk_builder_get_widget (as->gui, "type-selector");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (as->type_selector), GO_ARROW_NONE);
+	set_actives (as);
 	g_signal_connect_swapped (as->type_selector, "changed", G_CALLBACK (cb_changed), as);
 
 	as->preview = go_gtk_builder_get_widget (as->gui, "preview");
@@ -239,6 +252,7 @@ go_arrow_sel_set_arrow (GOArrowSel *as, GOArrow const *arrow)
 	gtk_spin_button_set_value (as->spin_a, arrow->a);
 	gtk_spin_button_set_value (as->spin_b, arrow->b);
 	gtk_spin_button_set_value (as->spin_c, arrow->c);
+	set_actives (as);
 	g_object_thaw_notify (G_OBJECT (as));
 
 	gtk_widget_queue_draw (as->preview);
