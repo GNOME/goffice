@@ -77,7 +77,7 @@ struct _GOFontSel {
 };
 
 typedef struct {
-	GtkGridClass parent_class;
+	GtkBoxClass parent_class;
 
 	void (* font_changed) (GOFontSel *gfs, PangoAttrList *modfications);
 } GOFontSelClass;
