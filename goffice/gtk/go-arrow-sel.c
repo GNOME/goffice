@@ -113,6 +113,7 @@ go_arrow_sel_constructor (GType type,
 	g_signal_connect_swapped (as->spin_c, "value-changed", G_CALLBACK (cb_changed), as);
 
 	as->type_selector = go_gtk_builder_get_widget (as->gui, "type-selector");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (as->type_selector), GO_ARROW_NONE);
 	g_signal_connect_swapped (as->type_selector, "changed", G_CALLBACK (cb_changed), as);
 
 	as->preview = go_gtk_builder_get_widget (as->gui, "preview");
