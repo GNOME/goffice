@@ -87,6 +87,8 @@ goffice/gtk/go-action-combo-color.c
 goffice/gtk/go-action-combo-pixmaps.c
 goffice/gtk/go-action-combo-stack.c
 goffice/gtk/go-action-combo-text.c
+goffice/gtk/go-arrow-sel.c
+[type: gettext/glade]goffice/gtk/go-arrow-sel.ui
 goffice/gtk/go-charmap-sel.c
 goffice/gtk/go-color-group.c
 goffice/gtk/go-color-palette.c
