@@ -34,6 +34,7 @@ struct _GOArrowSel {
 	GtkBuilder *gui;
 	GOArrow arrow;
 
+	GtkWidget *type_selector;
 	GtkSpinButton *spin_a, *spin_b, *spin_c;
 	GtkWidget *preview;
 };
@@ -50,13 +51,19 @@ enum {
 static GObjectClass *as_parent_class;
 
 static void
-cb_spin_changed (GtkWidget *spin, GOArrowSel *as)
+cb_changed (GOArrowSel *as)
 {
 	GOArrow arr = as->arrow;
+	int idx;
 
+	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (as->type_selector));
+	if (idx >= 0)
+		arr.typ = idx;
 	arr.a = gtk_spin_button_get_value (as->spin_a);
 	arr.b = gtk_spin_button_get_value (as->spin_b);
 	arr.c = gtk_spin_button_get_value (as->spin_c);
+
+
 	go_arrow_sel_set_arrow (as, &arr);
 }
 
@@ -88,7 +95,7 @@ go_arrow_sel_constructor (GType type,
 			  guint n_construct_properties,
 			  GObjectConstructParam *construct_params)
 {
-	GtkWidget *arrowsel, *placeholder;
+	GtkWidget *arrowsel;
 	GOArrowSel *as = (GOArrowSel *)
 		(as_parent_class->constructor (type,
 						n_construct_properties,
@@ -99,11 +106,14 @@ go_arrow_sel_constructor (GType type,
 
 	as->gui = go_gtk_builder_load_internal ("res:go:gtk/go-arrow-sel.ui", GETTEXT_PACKAGE, NULL);
 	as->spin_a = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (as->gui, "spin_a"));
-	g_signal_connect (as->spin_a, "value-changed", G_CALLBACK (cb_spin_changed), as);
+	g_signal_connect_swapped (as->spin_a, "value-changed", G_CALLBACK (cb_changed), as);
 	as->spin_b = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (as->gui, "spin_b"));
-	g_signal_connect (as->spin_b, "value-changed", G_CALLBACK (cb_spin_changed), as);
+	g_signal_connect_swapped (as->spin_b, "value-changed", G_CALLBACK (cb_changed), as);
 	as->spin_c = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (as->gui, "spin_c"));
-	g_signal_connect (as->spin_c, "value-changed", G_CALLBACK (cb_spin_changed), as);
+	g_signal_connect_swapped (as->spin_c, "value-changed", G_CALLBACK (cb_changed), as);
+
+	as->type_selector = go_gtk_builder_get_widget (as->gui, "type-selector");
+	g_signal_connect_swapped (as->type_selector, "changed", G_CALLBACK (cb_changed), as);
 
 	as->preview = go_gtk_builder_get_widget (as->gui, "preview");
 	g_signal_connect (G_OBJECT (as->preview), "draw",
@@ -224,6 +234,7 @@ go_arrow_sel_set_arrow (GOArrowSel *as, GOArrow const *arrow)
 	g_object_freeze_notify (G_OBJECT (as));
 	as->arrow = *arrow;
 	g_object_notify (G_OBJECT (as), "arrow");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (as->type_selector), arrow->typ);
 	gtk_spin_button_set_value (as->spin_a, arrow->a);
 	gtk_spin_button_set_value (as->spin_b, arrow->b);
 	gtk_spin_button_set_value (as->spin_c, arrow->c);
