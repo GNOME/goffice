@@ -2,6 +2,7 @@ goffice 0.10.21:
 
 Morten:
 	* Fix problem with linear solver.
+	* Add arrow selector widget.
 
 --------------------------------------------------------------------------
 goffice 0.10.20:

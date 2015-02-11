@@ -25,6 +25,7 @@
 #include <goffice/gtk/go-palette.h>
 #include <goffice/gtk/go-selector.h>
 
+#include <goffice/gtk/go-arrow-sel.h>
 #include <goffice/gtk/go-3d-rotation-sel.h>
 #include <goffice/gtk/go-action-combo-color.h>
 #include <goffice/gtk/go-action-combo-pixmaps.h>

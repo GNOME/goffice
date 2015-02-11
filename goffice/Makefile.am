@@ -270,6 +270,7 @@ gtk_SOURCES =					\
 	gtk/go-charmap-sel.c			\
 	gtk/go-locale-sel.c			\
 	gtk/go-3d-rotation-sel.c		\
+	gtk/go-arrow-sel.c			\
 						\
 	gtk/go-optionmenu.c			\
 	gtk/go-combo-box.c			\
@@ -307,6 +308,7 @@ gtk_HEADERS =					\
 	gtk/go-charmap-sel.h			\
 	gtk/go-locale-sel.h			\
 	gtk/go-3d-rotation-sel.h		\
+	gtk/go-arrow-sel.h			\
 						\
 	gtk/go-optionmenu.h			\
 	gtk/go-combo-box.h			\
@@ -605,6 +607,7 @@ embedded_stuff_compress = \
 	graph/gog-theme-editor.ui		\
 	graph/new-theme-prefs.ui		\
 	gtk/go-3d-rotation-sel.ui		\
+	gtk/go-arrow-sel.ui			\
 	gtk/go-font-sel.ui			\
 	gtk/go-format-sel.ui			\
 	gtk/go-image-save-dialog-extra.ui	\
