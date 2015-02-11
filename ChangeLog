@@ -1,5 +1,7 @@
 2015-02-11  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-font-sel.c (GOFontSelClass): Fix base class.
+
 	* goffice/utils/go-line.c (go_arrow_draw): New function extracted
 	from Gnumeric.
 
