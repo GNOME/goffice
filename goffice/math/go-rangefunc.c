@@ -307,22 +307,42 @@ SUFFIX(go_range_constant) (DOUBLE const *xs, int n)
 int
 SUFFIX(go_range_increasing) (DOUBLE const *xs, int n)
 {
-	int i;
+	int i = 0;
+	DOUBLE last;
 	g_return_val_if_fail (n == 0 || xs != NULL, 0);
-	for (i = 1; i < n; i++)
-		if (xs[i - 1] >= xs[i])
+	while ( i < n && isnan (xs[i]))
+		i++;
+	if (i == n)
+		return 0;
+	last = xs[i];
+	for (i = i + 1; i < n; i++) {
+		if (isnan (xs[i]))
+		    continue;
+		if (last >= xs[i])
 			return 0;
+		last = xs[i];
+	}
 	return 1;
 }
 
 int
 SUFFIX(go_range_decreasing) (DOUBLE const *xs, int n)
 {
-	int i;
+	int i = 0;
+	DOUBLE last;
 	g_return_val_if_fail (n == 0 || xs != NULL, 0);
-	for (i = 1; i < n; i++)
-		if (xs[i - 1] <= xs[i])
+	while ( i < n &&  isnan (xs[i]))
+		i++;
+	if (i == n)
+		return 0;
+	last = xs[i];
+	for (i = i + 1; i < n; i++) {
+		if (isnan (xs[i]))
+		    continue;
+		if (last <= xs[i])
 			return 0;
+		last = xs[i];
+	}
 	return 1;
 }
 

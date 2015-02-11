@@ -1,3 +1,8 @@
+2015-02-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/math/go-rangefunc.c (go_range_increasing),
+	(go_range_decreasing): ignore nans. [#744200]
+
 2015-02-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-arc.c (prepare_draw_arrow): Protect oval
