@@ -201,19 +201,19 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 {
 	double w, x, y, phi;
 	GocArc *arc = GOC_ARC (item);
-	GOArrow arrow;
+	GOArrow const *arrow;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 	double rsign = sign;
 
 	w = style->line.width? style->line.width / 2.0: 0.5;
 
-	if (0 == end) {
-		arrow = arc->start_arrow;
-		goc_arc_start (item, &x, &y, &phi);
-	} else {
-		arrow = arc->end_arrow;
+	if (end) {
+		arrow = &arc->end_arrow;
 		goc_arc_end (item, &x, &y, &phi);
+	} else {
+		arrow = &arc->start_arrow;
+		goc_arc_start (item, &x, &y, &phi);
 	}
 
 	cairo_save (cr);
@@ -225,21 +225,23 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 		rsign = 1;
 	}
 
-	switch (arrow.typ) {
+#warning "FIXME: this should use go_arrow_draw"
+
+	switch (arrow->typ) {
 	case GO_ARROW_KITE:
 		cairo_save (cr);
 		cairo_translate (cr, (x - arc->xc) * sign, y - arc->yc);
 		cairo_rotate (cr, phi * rsign);
-		cairo_move_to (cr, -arrow.a * sign,  w);
-		cairo_line_to (cr, -arrow.b * sign, w + arrow.c);
+		cairo_move_to (cr, -arrow->a * sign,  w);
+		cairo_line_to (cr, -arrow->b * sign, w + arrow->c);
 		if (w > 0.5) {
 			cairo_line_to (cr, 0., w);
 			cairo_line_to (cr, 0., -w);
 		} else {
 			cairo_line_to (cr, 0., 0.);
 		}
-		cairo_line_to (cr, -arrow.b * sign, -w - arrow.c);
-		cairo_line_to (cr, -arrow.a * sign, -w);
+		cairo_line_to (cr, -arrow->b * sign, -w - arrow->c);
+		cairo_line_to (cr, -arrow->a * sign, -w);
 		cairo_close_path (cr);
 		cairo_restore (cr);
 		break;
@@ -248,9 +250,12 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 		cairo_save (cr);
 		cairo_translate (cr, (x - arc->xc) * sign, y - arc->yc);
 		cairo_rotate (cr, phi * rsign);
-		cairo_scale (cr, arrow.a * sign, arrow.b);
-		cairo_move_to (cr, 0., 0.);
-		cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
+		if (arrow->a > 0 && arrow->b > 0) {
+			cairo_scale (cr, arrow->a * sign, arrow->b);
+			cairo_move_to (cr, 0., 0.);
+			cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
+		} else
+			cairo_move_to (cr, 0., 0.);
 		cairo_close_path (cr);
 		cairo_restore (cr);
 		break;

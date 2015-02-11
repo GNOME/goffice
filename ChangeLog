@@ -1,5 +1,8 @@
 2015-02-11  Morten Welinder  <terra@gnome.org>
 
+	* goffice/canvas/goc-arc.c (prepare_draw_arrow): Protect oval
+	drawing against invalid sizes.
+
 	* goffice/canvas/goc-line.c (goc_line_draw): Avoid overflow.
 	Round a bit more consistently.
 	(draw_arrow): Use go_arrow_draw.
