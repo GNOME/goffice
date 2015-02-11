@@ -509,3 +509,51 @@ go_arrow_dup (GOArrow *src)
 {
 	return g_memdup (src, sizeof (*src));
 }
+
+/**
+ * go_arrow_draw:
+ * @arrow: arrow to draw
+ * @cr: cairo surface to draw on
+ * @dx: (out): suggested change of line end-point
+ * @dy: (out): suggested change of line end-point
+ * @phi: angle to draw at
+ *
+ **/
+void
+go_arrow_draw (const GOArrow *arrow, cairo_t *cr,
+	       double *dx, double *dy, double phi)
+{
+	if (dx) *dx = 0;
+	if (dy) *dy = 0;
+
+	switch (arrow->typ) {
+	case GO_ARROW_NONE:
+		return;
+
+	case GO_ARROW_KITE:
+		cairo_rotate (cr, phi);
+		cairo_set_line_width (cr, 1.0);
+		cairo_new_path (cr);
+		cairo_move_to (cr, 0.0, 0.0);
+		cairo_line_to (cr, -arrow->c, -arrow->b);
+		cairo_line_to (cr, 0.0, -arrow->a);
+		cairo_line_to (cr, arrow->c, -arrow->b);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+
+		/*
+		 * Make the line shorter so that the arrow won't be on top
+		 * of a (perhaps quite fat) line.
+		 */
+		if (dx) *dx = +arrow->a * sin (phi);
+	        if (dy) *dy = -arrow->a * cos (phi);
+		break;
+
+	case GO_ARROW_OVAL:
+		cairo_rotate (cr, phi);
+		cairo_scale (cr, arrow->a, arrow->b);
+		cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
+		cairo_fill (cr);
+		break;
+	}
+}

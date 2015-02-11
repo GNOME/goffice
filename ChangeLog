@@ -1,3 +1,8 @@
+2015-02-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-line.c (go_arrow_draw): New function extracted
+	from Gnumeric.
+
 2015-02-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* graph/gog-chart-map.c: protect against missing data
