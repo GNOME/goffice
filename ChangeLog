@@ -1,5 +1,12 @@
 2015-02-11  Morten Welinder  <terra@gnome.org>
 
+	* goffice/canvas/goc-line.c (goc_line_draw): Avoid overflow.
+	Round a bit more consistently.
+	(draw_arrow): Use go_arrow_draw.
+
+	* goffice/utils/go-line.c (go_arrow_draw): Only draw oval heads
+	when sizes are positive.
+
 	* goffice/gtk/go-font-sel.c (GOFontSelClass): Fix base class.
 
 	* goffice/utils/go-line.c (go_arrow_draw): New function extracted

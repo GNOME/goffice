@@ -550,10 +550,12 @@ go_arrow_draw (const GOArrow *arrow, cairo_t *cr,
 		break;
 
 	case GO_ARROW_OVAL:
-		cairo_rotate (cr, phi);
-		cairo_scale (cr, arrow->a, arrow->b);
-		cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
-		cairo_fill (cr);
+		if (arrow->a > 0 && arrow->b > 0) {
+			cairo_rotate (cr, phi);
+			cairo_scale (cr, arrow->a, arrow->b);
+			cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
+			cairo_fill (cr);
+		}
 		break;
 	}
 }

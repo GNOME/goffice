@@ -206,49 +206,18 @@ static void
 draw_arrow (GOArrow const *arrow, cairo_t *cr, GOStyle *style,
 	    double *endx, double *endy, double phi)
 {
-	double l, w;
+	double dx, dy;
 
 	if (arrow->typ == GO_ARROW_NONE)
 		return;
 
-	l = hypot (*endx, *endy);
-	w = style->line.width ? style->line.width / 2.0 : 0.5;
-
-	switch (arrow->typ) {
-	case GO_ARROW_KITE:
-		cairo_save (cr);
-		cairo_translate (cr, (int) *endx, (int) *endy);
-		cairo_rotate (cr, phi);
-		cairo_move_to (cr, -arrow->a, w);
-		cairo_line_to (cr, -arrow->b, w + arrow->c);
-		cairo_line_to (cr, 0., 0.);
-		cairo_line_to (cr, -arrow->b, -w - arrow->c);
-		cairo_line_to (cr, -arrow->a, -w);
-		cairo_close_path (cr);
-		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
-		cairo_fill (cr);
-		cairo_restore (cr);
-		if (l > 0.) {
-			(*endx) -= arrow->a * *endx / l;
-			(*endy) -= arrow->a * *endy / l;
-		} else
-			*endx = *endy = 0.;
-		break;
-
-	case GO_ARROW_OVAL:
-		cairo_save (cr);
-		cairo_translate (cr, *endx, *endy);
-		cairo_rotate (cr, phi);
-		cairo_scale (cr, arrow->a, arrow->b);
-		cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
-		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
-		cairo_fill (cr);
-		cairo_restore (cr);
-		break;
-
-	default:
-		g_assert_not_reached ();
-	}
+	cairo_save (cr);
+	cairo_translate (cr, *endx, *endy);
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
+	go_arrow_draw (arrow, cr, &dx, &dy, phi - M_PI / 2);
+	*endx += dx;
+	*endy += dy;
+	cairo_restore (cr);
 }
 
 static void
@@ -276,8 +245,11 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
 	goc_group_cairo_transform (item->parent, cr,
-				   hoffs + (int) line->startx,
-				   voffs + (int) line->starty);
+				   hoffs + floor (line->startx),
+				   voffs + floor (line->starty));
+
+	endx = (endx > 0.)? ceil (endx): floor (endx);
+	endy = (endy > 0.)? ceil (endy): floor (endy);
 
 	phi = atan2 (endy, endx);
 	draw_arrow (&line->start_arrow, cr, style,
@@ -289,8 +261,6 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 	    go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
 		/* try to avoid horizontal and vertical lines between two pixels */
 		cairo_move_to (cr, 0., 0.);
-		endx = (endx > 0.)? ceil (endx): floor (endx);
-		endy = (endy > 0.)? ceil (endy): floor (endy);
 		cairo_line_to (cr, endx, endy);
 		cairo_stroke (cr);
 	}
