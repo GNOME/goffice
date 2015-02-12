@@ -1,3 +1,8 @@
+2015-02-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-line.c: Use 0.0, not G_MINDOUBLE, to make cairo
+	produce dots.  That seems to be the documented way to do it.
+
 2015-02-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/math/go-rangefunc.c (go_range_increasing),

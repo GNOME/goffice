@@ -6,6 +6,7 @@ Jean:
 Morten:
 	* Fix problem with linear solver.
 	* Add arrow selector widget.
+	* Fix rendering of dotted lines.  [#744419]
 
 --------------------------------------------------------------------------
 goffice 0.10.20:
