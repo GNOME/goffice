@@ -1991,20 +1991,28 @@ go_style_get_marker (GOStyle const *style)
 	return style->marker.mark;
 }
 
+/**
+ * go_style_set_font:
+ * @style: #GOStyle
+ * @desc: (transfer full): new font description to use
+ *
+ * Set text font used by the style.
+ **/
 void
 go_style_set_font_desc (GOStyle *style, PangoFontDescription *desc)
 {
-	GOFont const *font;
-
 	g_return_if_fail (GO_IS_STYLE (style));
 
-	font = go_font_new_by_desc (desc);
-	if (font != NULL) {
-		go_font_unref (style->font.font);
-		style->font.font = font;
-	}
+	go_style_set_font (go_font_new_by_desc (desc));
 }
 
+/**
+ * go_style_set_font:
+ * @style: #GOStyle
+ * @font: (transfer full): new font
+ *
+ * Set text font used by the style.
+ **/
 void
 go_style_set_font (GOStyle *style, GOFont const *font)
 {
