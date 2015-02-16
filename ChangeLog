@@ -1,3 +1,14 @@
+2015-02-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-style.c (cb_font_changed): Set auto_font.
+	(go_style_apply_theme): Apply font theming.
+	(go_style_font_sax_save): Only save font when not auto.
+	(go_style_sax_load_font): Be fairly smart about reading files
+	created prior to this fix.
+	(go_style_is_auto): Include auto_font and auto_color.
+	(go_style_line_sax_save, go_style_gradient_sax_save)
+	(go_style_text_layout_sax_save): Use sufficient precision.
+
 2015-02-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-line.c (go_arrow_equal): New function.

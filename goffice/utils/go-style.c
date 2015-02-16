@@ -901,6 +901,7 @@ cb_font_changed (GOFontSel *fs, PangoAttrList *list,
 	g_slist_foreach (extra_attrs, (GFunc)pango_attribute_destroy, NULL);
 	g_slist_free (extra_attrs);
 	pango_attr_iterator_destroy (iter);
+	state->style->font.auto_font = (font == state->default_style->font.font);
 	go_style_set_font (state->style, font);
 	set_style (state);
 }
@@ -1281,17 +1282,13 @@ go_style_apply_theme (GOStyle *dst, GOStyle const *src, GOStyleFlag fields)
 		if (dst->font.auto_color)
 			dst->font.color = src->font.color;
 
-#if 0
-		/*
-		 * Fonts are not themed until we have some sort of auto
-		 * mechanism stronger than 'auto_size'
-		 */
-		if (src->font.font != NULL)
-			go_font_ref (src->font.font);
-		if (dst->font.font != NULL)
-			go_font_unref (dst->font.font);
-		dst->font = src->font;
-#endif
+		if (dst->font.auto_font) {
+			if (src->font.font != NULL)
+				go_font_ref (src->font.font);
+			if (dst->font.font != NULL)
+				go_font_unref (dst->font.font);
+			dst->font = src->font;
+		}
 	}
 }
 
@@ -1429,7 +1426,7 @@ go_style_line_sax_save (GsfXMLOut *output, char const *name,
 
 	gsf_xml_out_add_bool (output, "auto-width", line->auto_width);
 	if (!line->auto_width)
-		gsf_xml_out_add_float (output, "width", line->width, 6);
+		gsf_xml_out_add_float (output, "width", line->width, -1);
 
 	gsf_xml_out_add_bool (output, "auto-color", line->auto_color);
 	if (!line->auto_color)
@@ -1448,7 +1445,7 @@ go_style_gradient_sax_save (GsfXMLOut *output, GOStyle const *style)
 		style->fill.pattern.back);
 	if (style->fill.gradient.brightness >= 0.)
 		gsf_xml_out_add_float (output, "brightness",
-			style->fill.gradient.brightness, 6);
+			style->fill.gradient.brightness, -1);
 	else
 		go_xml_out_add_color (output, "end-color",
 			style->fill.pattern.fore);
@@ -1534,8 +1531,6 @@ go_style_marker_sax_save (GsfXMLOut *output, GOStyle const *style)
 static void
 go_style_font_sax_save (GsfXMLOut *output, GOStyle const *style)
 {
-	char *str;
-
 	gsf_xml_out_start_element (output, "font");
 
 	gsf_xml_out_add_bool (output, "auto-color", style->font.auto_color);
@@ -1543,10 +1538,11 @@ go_style_font_sax_save (GsfXMLOut *output, GOStyle const *style)
 		go_xml_out_add_color (output, "color", style->font.color);
 
 	gsf_xml_out_add_bool (output, "auto-font", style->font.auto_font);
-	/* Unconditionally save font; theme support for fonts is incomplete */
-	str = go_font_as_str (style->font.font);
-	gsf_xml_out_add_cstr (output, "font", str);
-	g_free (str);
+	if (!style->font.auto_font) {
+		char *str = go_font_as_str (style->font.font);
+		gsf_xml_out_add_cstr (output, "font", str);
+		g_free (str);
+	}
 
 	gsf_xml_out_add_bool (output, "auto-scale", style->font.auto_scale);
 
@@ -1558,7 +1554,7 @@ go_style_text_layout_sax_save (GsfXMLOut *output, GOStyle const *style)
 {
 	gsf_xml_out_start_element (output, "text_layout");
 	if (!style->text_layout.auto_angle)
-		gsf_xml_out_add_float (output, "angle", style->text_layout.angle, 6);
+		gsf_xml_out_add_float (output, "angle", style->text_layout.angle, -1);
 	gsf_xml_out_end_element (output);
 }
 
@@ -1704,6 +1700,7 @@ go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GOStyle *style = GO_STYLE (xin->user_state);
 	gboolean seen_auto_color = FALSE, seen_color = FALSE;
+	gboolean seen_auto_font = FALSE, seen_font = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "color")) {
@@ -1711,6 +1708,8 @@ go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 			go_color_from_str (attrs[1], &style->font.color);
 		} else if (bool_sax_prop ("auto-color", attrs[0], attrs[1], &style->font.auto_color)) {
 			seen_auto_color = TRUE;
+		} else if (bool_sax_prop ("auto-font", attrs[0], attrs[1], &style->font.auto_font)) {
+			seen_auto_font = TRUE;
 		} else if (attr_eq (attrs[0], "font")) {
 			PangoFontDescription *desc = pango_font_description_from_string (attrs[1]);
 			if (desc != NULL) {
@@ -1718,6 +1717,7 @@ go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 					pango_font_description_set_family_static (desc, "Sans");
 				go_style_set_font_desc (style, desc);
 			}
+			seen_font = TRUE;
 		} else if (bool_sax_prop ("auto-scale", attrs[0], attrs[1], &style->font.auto_scale))
 			;
 	}
@@ -1728,6 +1728,17 @@ go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 		 * assume it was explicitly set iff it is not black.
 		 */
 		style->font.auto_color = (style->font.color == GO_COLOR_BLACK);
+	}
+
+	if (seen_font && seen_auto_font && style->font.auto_font) {
+		GOFont const *def = go_font_new_by_index (0);
+		/*
+		 * Pre-0.10.21 lacked the font styling.  We were always saving a font and
+		 * always saving auto-font=TRUE.  Since we weren't actually applying any
+		 * font theming, the default is font 0 (aka "Sans 8").
+		 */
+		style->font.auto_font = (style->font.font == def);
+		go_font_unref (def);
 	}
 }
 
@@ -1948,11 +1959,12 @@ go_style_clear_auto (GOStyle *style)
 gboolean
 go_style_is_auto (GOStyle *style)
 {
-	return style->marker.auto_shape && style->marker.auto_outline_color &&
-	       style->marker.auto_fill_color && style->line.auto_dash &&
-	       style->line.auto_color && style->fill.auto_type &&
-	       style->fill.auto_fore && style->fill.auto_back &&
-	       style->font.auto_scale && style->text_layout.auto_angle;
+	return (style->marker.auto_shape && style->marker.auto_outline_color &&
+		style->marker.auto_fill_color && style->line.auto_dash &&
+		style->line.auto_color && style->fill.auto_type &&
+		style->fill.auto_fore && style->fill.auto_back &&
+		style->font.auto_scale && style->font.auto_color && style->font.auto_font &&
+		style->text_layout.auto_angle);
 }
 
 /**
@@ -2003,7 +2015,7 @@ go_style_set_font_desc (GOStyle *style, PangoFontDescription *desc)
 {
 	g_return_if_fail (GO_IS_STYLE (style));
 
-	go_style_set_font (go_font_new_by_desc (desc));
+	go_style_set_font (style, go_font_new_by_desc (desc));
 }
 
 /**
