@@ -257,7 +257,7 @@ cb_outline_color_changed (GOSelector *selector,
 	g_return_if_fail (style != NULL);
 
 	style->line.color = go_color_selector_get_color (selector,
-							    &style->line.auto_color);
+							 &style->line.auto_color);
 	set_style (state);
 }
 
@@ -913,7 +913,7 @@ cb_font_color_changed (GOSelector *selector,
 	GOStyle *style = state->style;
 
 	style->font.color = go_color_selector_get_color (selector, NULL);
-	style->font.auto_color = style->font.color == state->default_style->font.color;
+	style->font.auto_color = (style->font.color == state->default_style->font.color);
 	set_style (state);
 }
 
@@ -1287,7 +1287,7 @@ go_style_apply_theme (GOStyle *dst, GOStyle const *src, GOStyleFlag fields)
 				go_font_ref (src->font.font);
 			if (dst->font.font != NULL)
 				go_font_unref (dst->font.font);
-			dst->font = src->font;
+			dst->font.font = src->font.font;
 		}
 	}
 }
