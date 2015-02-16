@@ -380,6 +380,8 @@ _go_fonts_init (void)
 		(GHashFunc)pango_font_description_hash,
 		(GEqualFunc)pango_font_description_equal,
 		NULL, (GDestroyNotify) go_font_free);
+
+	/* This will become font #0 available through go_font_new_by_index.  */
 	font_default = go_font_new_by_desc (
 		pango_font_description_from_string ("Sans 8"));
 }
