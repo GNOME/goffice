@@ -238,12 +238,10 @@ void
 go_arrow_sel_set_arrow (GOArrowSel *as, GOArrow const *arrow)
 {
 	g_return_if_fail (GO_IS_ARROW_SEL (as));
+	g_return_if_fail (arrow != NULL);
 
-	if (as->arrow.typ == arrow->typ &&
-	    as->arrow.a == arrow->a &&
-	    as->arrow.b == arrow->b &&
-	    as->arrow.c == arrow->c)
-		return;	    
+	if (go_arrow_equal (arrow, &as->arrow))
+		return;
 
 	g_object_freeze_notify (G_OBJECT (as));
 	as->arrow = *arrow;

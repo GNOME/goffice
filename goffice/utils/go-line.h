@@ -76,6 +76,8 @@ void go_arrow_clear (GOArrow *dst);
 void go_arrow_init_kite (GOArrow *dst, double a, double b, double c);
 void go_arrow_init_oval (GOArrow *dst, double ra, double rb);
 
+gboolean go_arrow_equal (const GOArrow *a, const GOArrow *b);
+
 void go_arrow_draw (const GOArrow *arrow, cairo_t *cr,
 		    double *dx, double *dy, double phi);
 

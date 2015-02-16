@@ -510,6 +510,31 @@ go_arrow_dup (GOArrow *src)
 	return g_memdup (src, sizeof (*src));
 }
 
+gboolean
+go_arrow_equal (const GOArrow *a, const GOArrow *b)
+{
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (a->typ != b->typ)
+		return FALSE;
+
+	switch (a->typ) {
+	default:
+		g_assert_not_reached ();
+	case GO_ARROW_NONE:
+		return TRUE;
+
+	case GO_ARROW_KITE:
+		if (a->c != b->c)
+			return FALSE;
+		/* fall through */
+	case GO_ARROW_OVAL:
+		return (a->a == b->a && a->b == b->b);
+	}
+}
+
+
 /**
  * go_arrow_draw:
  * @arrow: arrow to draw

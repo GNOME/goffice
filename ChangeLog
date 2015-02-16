@@ -1,3 +1,10 @@
+2015-02-14  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-line.c (go_arrow_equal): New function.
+
+	* goffice/gtk/go-arrow-sel.c (go_arrow_sel_set_arrow): Use
+	go_arrow_equal.
+
 2015-02-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-line.c: Use 0.0, not G_MINDOUBLE, to make cairo
