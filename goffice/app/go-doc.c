@@ -641,8 +641,10 @@ go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 		GSF_XML_IN_NODE_END
 	};
 	static GsfXMLInDoc *xmldoc = NULL;
-	if (NULL == xmldoc)
+	if (NULL == xmldoc) {
 		xmldoc = gsf_xml_in_doc_new (dtd, NULL);
+		go_xml_in_doc_dispose_on_exit (&xmldoc);
+	}
 	gsf_xml_in_push_state (xin, xmldoc, doc, NULL, attrs);
 }
 

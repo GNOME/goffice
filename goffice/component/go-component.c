@@ -763,8 +763,10 @@ go_component_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 	static GsfXMLInDoc *doc = NULL;
 	GOCompXMLReadState *state;
 
-	if (NULL == doc)
+	if (NULL == doc) {
 		doc = gsf_xml_in_doc_new (dtd, NULL);
+		go_xml_in_doc_dispose_on_exit (&doc);
+	}
 	state = g_new0 (GOCompXMLReadState, 1);
 	state->handler = handler;
 	state->user_data = user_data;

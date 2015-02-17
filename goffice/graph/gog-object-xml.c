@@ -529,8 +529,10 @@ gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 {
 	GogXMLReadState *state;
 
-	if (NULL == gog_sax_doc)
+	if (NULL == gog_sax_doc) {
 		gog_sax_doc = gsf_xml_in_doc_new (gog_dtd, NULL);
+		go_xml_in_doc_dispose_on_exit (&gog_sax_doc);
+	}
 	state = g_new0 (GogXMLReadState, 1);
 	state->handler = handler;
 	state->user_data = user_data;
@@ -545,8 +547,10 @@ gog_object_new_from_input (GsfInput *input,
 {
 	GogObject *res = NULL;
 	GogXMLReadState *state = g_new0 (GogXMLReadState, 1);
-	if (NULL == gog_sax_doc)
+	if (NULL == gog_sax_doc) {
 		gog_sax_doc = gsf_xml_in_doc_new (gog_dtd, NULL);
+		go_xml_in_doc_dispose_on_exit (&gog_sax_doc);
+	}
 	state->user_unserialize = user_unserialize;
 	if (gsf_xml_in_doc_parse (gog_sax_doc, input, state)) {
 		res = state->obj;

@@ -803,8 +803,10 @@ gog_theme_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 	state->name_lang_score = G_MAXINT;
 	state->desc_lang_score = G_MAXINT;
 	state->garbage = NULL;
-	if (!xml)
+	if (!xml) {
 		xml = gsf_xml_in_doc_new (theme_dtd, NULL);
+		go_xml_in_doc_dispose_on_exit (&xml);
+	}
 	gsf_xml_in_push_state (xin, xml, state, (GsfXMLInExtDtor) parse_done_cb, attrs);
 }
 
@@ -1604,8 +1606,10 @@ theme_load_from_uri (char const *uri)
 	state.desc = state.lang = state.name = NULL;
 	state.langs = g_get_language_names ();
 	state.name_lang_score = state.desc_lang_score = G_MAXINT;
-	if (!xml)
+	if (!xml) {
 		xml = gsf_xml_in_doc_new (theme_dtd, NULL);
+		go_xml_in_doc_dispose_on_exit (&xml);
+	}
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogTheme]: Could not parse %s", uri);
 	if (state.theme != NULL) {

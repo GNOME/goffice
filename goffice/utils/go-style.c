@@ -1823,8 +1823,10 @@ go_style_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	static GsfXMLInDoc *doc = NULL;
 
-	if (NULL == doc)
+	if (NULL == doc) {
 		doc = gsf_xml_in_doc_new (dtd, NULL);
+		go_xml_in_doc_dispose_on_exit (&doc);
+	}
 	gsf_xml_in_push_state (xin, doc, gp, NULL, attrs);
 }
 

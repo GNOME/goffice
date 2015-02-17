@@ -354,3 +354,25 @@ go_xml_out_add_color (GsfXMLOut *output, char const *id, GOColor c)
 	gsf_xml_out_add_cstr_unchecked (output, id, str);
 	g_free (str);
 }
+
+static GSList *xml_in_docs;
+
+void
+_go_libxml_extras_shutdown (void)
+{
+	GSList *l;
+
+	for (l = xml_in_docs; l; l = l->next) {
+		GsfXMLInDoc **pdoc = l->data;
+		gsf_xml_in_doc_free (*pdoc);
+		*pdoc = NULL;
+	}
+	g_slist_free (xml_in_docs);
+	xml_in_docs = NULL;
+}
+
+void
+go_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc)
+{
+	xml_in_docs = g_slist_prepend (xml_in_docs, pdoc);
+}

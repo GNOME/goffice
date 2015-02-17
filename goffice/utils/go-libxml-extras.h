@@ -48,6 +48,10 @@ xmlNode *go_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name
 
 void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
 
+void       go_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc);
+
+void _go_libxml_extras_shutdown (void);
+
 G_END_DECLS
 
 #endif /* GO_LIBXML_EXTRAS_H */

@@ -279,4 +279,5 @@ libgoffice_shutdown (void)
 	g_free ((char *)libgoffice_locale_dir);
 	g_free ((char *)libgoffice_lib_dir);
 #endif
+	_go_libxml_extras_shutdown ();
 }
