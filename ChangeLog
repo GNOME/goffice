@@ -1,3 +1,9 @@
+2015-02-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-style.c (go_style_set_font_desc): Doc fix.
+
+	* goffice/utils/go-pattern.c (go_pattern_get_svg_path): Plug leak.
+
 2015-02-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-style.c (cb_font_changed): Set auto_font.

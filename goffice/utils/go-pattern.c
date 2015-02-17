@@ -242,6 +242,7 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 						go_xml_node_get_double (ptr, "height", &value))
 					    *height = value;
 					svg_path = xmlGetProp (ptr, CC2XML ("d"));
+					xmlFree (name);
 					break;
 				}
 				xmlFree (name);

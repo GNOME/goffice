@@ -2004,7 +2004,7 @@ go_style_get_marker (GOStyle const *style)
 }
 
 /**
- * go_style_set_font:
+ * go_style_set_font_desc:
  * @style: #GOStyle
  * @desc: (transfer full): new font description to use
  *

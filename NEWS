@@ -8,6 +8,7 @@ Morten:
 	* Add arrow selector widget.
 	* Fix rendering of dotted lines.  [#744419]
 	* Activate font part of graph theming.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 goffice 0.10.20:
