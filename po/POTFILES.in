@@ -102,14 +102,14 @@ goffice/gtk/go-font-sel-dialog.c
 [type: gettext/glade]goffice/gtk/go-font-sel.ui
 goffice/gtk/go-format-sel.c
 [type: gettext/glade]goffice/gtk/go-format-sel.ui
-goffice/gtk/go-gradient-sel.c
+goffice/gtk/go-gradient-selector.c
 [type: gettext/glade]goffice/gtk/go-image-save-dialog-extra.ui
 goffice/gtk/go-image-sel.c
 [type: gettext/glade]goffice/gtk/go-image-sel.ui
 goffice/gtk/go-locale-sel.c
 goffice/gtk/go-optionmenu.c
 goffice/gtk/go-palette.c
-goffice/gtk/go-pattern-sel.c
+goffice/gtk/go-pattern-selector.c
 goffice/gtk/go-rotation-sel.c
 [type: gettext/glade]goffice/gtk/go-rotation-sel.ui
 goffice/gtk/go-math-editor.c
