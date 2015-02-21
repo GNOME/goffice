@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <glib/gi18n-lib.h>
 
 typedef struct {
 	GOColor start_color;
@@ -84,6 +85,47 @@ go_gradient_swatch_render_func (cairo_t *cr,
 	cairo_pattern_destroy (cr_pattern);
 }
 
+static const char *
+go_gradient_tooltip_func (int index, gpointer data)
+{
+	switch ((GOGradientDirection)index) {
+	case GO_GRADIENT_N_TO_S:
+		return _("Up");
+	case GO_GRADIENT_S_TO_N:
+		return _("Down");
+	case GO_GRADIENT_N_TO_S_MIRRORED:
+		return _("Vertical from middle");
+	case GO_GRADIENT_S_TO_N_MIRRORED:
+		return _("Vertical from middle");
+	case GO_GRADIENT_W_TO_E:
+		return _("Left");
+	case GO_GRADIENT_E_TO_W:
+		return _("Right");
+	case GO_GRADIENT_W_TO_E_MIRRORED:
+		return _("Horizontal from middle");
+	case GO_GRADIENT_E_TO_W_MIRRORED:
+		return _("Horizontal to middle");
+	case GO_GRADIENT_NW_TO_SE:
+		return _("Up and left");
+	case GO_GRADIENT_SE_TO_NW:
+		return _("Down and right");
+	case GO_GRADIENT_NW_TO_SE_MIRRORED:
+		return _("Diagonal from middle");
+	case GO_GRADIENT_SE_TO_NW_MIRRORED:
+		return _("Diagonal from middle");
+	case GO_GRADIENT_NE_TO_SW:
+		return _("Up and right");
+	case GO_GRADIENT_SW_TO_NE:
+		return _("Down and left");
+	case GO_GRADIENT_SW_TO_NE_MIRRORED:
+		return _("Reverse diagonal from middle");
+	case GO_GRADIENT_NE_TO_SW_MIRRORED:
+		return _("Reverse diagonal to middle");
+	default:
+		return NULL;
+	}
+}
+
 /**
  * go_selector_new_gradient:
  * @initial_direction: initially selected direction
@@ -107,7 +149,8 @@ go_selector_new_gradient (GOGradientDirection initial_direction,
 	state->stop_color = GO_COLOR_WHITE;
 
 	palette = go_palette_new (GO_GRADIENT_MAX, 1.0, 4,
-				  go_gradient_swatch_render_func, NULL,
+				  go_gradient_swatch_render_func,
+				  go_gradient_tooltip_func,
 				  state, g_free);
 	go_palette_show_automatic (GO_PALETTE (palette),
 				   CLAMP (default_direction, 0, GO_GRADIENT_MAX -1),

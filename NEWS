@@ -9,6 +9,7 @@ Morten:
 	* Fix rendering of dotted lines.  [#744419]
 	* Activate font part of graph theming.
 	* Plug leaks.
+	* Add tooltips to gradient selector.
 
 --------------------------------------------------------------------------
 goffice 0.10.20:

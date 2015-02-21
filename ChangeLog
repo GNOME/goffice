@@ -1,3 +1,8 @@
+2015-02-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-gradient-selector.c (go_gradient_tooltip_func):
+	New function.
+
 2015-02-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-style.c (go_style_set_font_desc): Doc fix.
