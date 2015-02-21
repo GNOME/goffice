@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <glib/gi18n-lib.h>
 
 typedef struct {
 	GOColor foreground;
@@ -58,6 +59,38 @@ go_pattern_palette_render_func (cairo_t *cr,
 	cairo_pattern_destroy (cr_pattern);
 }
 
+static const char *
+go_pattern_tooltip_func (int index, gpointer data)
+{
+	switch ((GOPatternType)index) {
+	case GO_PATTERN_SOLID: return _("Solid background");
+	case GO_PATTERN_GREY75: return _("75% background");
+	case GO_PATTERN_GREY50: return _("50% background");
+	case GO_PATTERN_GREY25: return _("25% background");
+	case GO_PATTERN_GREY125: return _("12.5% background");
+	case GO_PATTERN_GREY625: return _("6.25% background");
+	case GO_PATTERN_HORIZ: return _("Horizontal stripes");
+	case GO_PATTERN_VERT: return _("Vertical stripes");
+	case GO_PATTERN_REV_DIAG: return _("Reverse diagonal stripes");
+	case GO_PATTERN_DIAG: return _("Diagonal stripes");
+	case GO_PATTERN_DIAG_CROSS: return _("Diagonal crosshatch");
+	case GO_PATTERN_THICK_DIAG_CROSS: return _("Thick diagonal crosshatch");
+	case GO_PATTERN_THIN_HORIZ: return _("Thin horizontal stripes");
+	case GO_PATTERN_THIN_VERT: return _("Thin vertical stripes");
+	case GO_PATTERN_THIN_REV_DIAG: return _("Thin reverse diagonal stripes");
+	case GO_PATTERN_THIN_DIAG: return _("Thin diagonal stripes");
+	case GO_PATTERN_THIN_HORIZ_CROSS: return _("Thin horizontal crosshatch");
+	case GO_PATTERN_THIN_DIAG_CROSS: return _("Thin diagonal crosshatch");
+	case GO_PATTERN_FOREGROUND_SOLID: return _("Solid foreground");
+	case GO_PATTERN_SMALL_CIRCLES: return _("Small circles");
+	case GO_PATTERN_SEMI_CIRCLES: return _("Semi-circles");
+	case GO_PATTERN_THATCH: return _("Thatch");
+	case GO_PATTERN_LARGE_CIRCLES: return _("Large circles");
+	case GO_PATTERN_BRICKS: return _("Bricks");
+	default: return NULL;
+	}
+}
+
 /**
  * go_pattern_selector_new:
  * @initial_type: pattern type initially selected
@@ -80,7 +113,8 @@ go_pattern_selector_new (GOPatternType initial_type,
 	state->background = GO_COLOR_BLACK;
 
 	palette = go_palette_new (GO_PATTERN_MAX, 1.0, 5,
-				  go_pattern_palette_render_func, NULL,
+				  go_pattern_palette_render_func,
+				  go_pattern_tooltip_func,
 				  state, g_free);
 	go_palette_show_automatic (GO_PALETTE (palette),
 				   CLAMP (default_type, 0, GO_PATTERN_MAX - 1),

@@ -10,6 +10,7 @@ Morten:
 	* Activate font part of graph theming.
 	* Plug leaks.
 	* Add tooltips to gradient selector.
+	* Add tooltips to pattern selector.
 
 --------------------------------------------------------------------------
 goffice 0.10.20:

@@ -1,5 +1,8 @@
 2015-02-20  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-pattern-selector.c (go_pattern_tooltip_func): New
+	function.
+
 	* goffice/gtk/go-gradient-selector.c (go_gradient_tooltip_func):
 	New function.
 

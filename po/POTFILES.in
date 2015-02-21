@@ -109,6 +109,7 @@ goffice/gtk/go-image-sel.c
 goffice/gtk/go-locale-sel.c
 goffice/gtk/go-optionmenu.c
 goffice/gtk/go-palette.c
+goffice/gtk/go-pattern-sel.c
 goffice/gtk/go-rotation-sel.c
 [type: gettext/glade]goffice/gtk/go-rotation-sel.ui
 goffice/gtk/go-math-editor.c
