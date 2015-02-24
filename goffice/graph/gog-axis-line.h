@@ -32,7 +32,9 @@ G_BEGIN_DECLS
 
 GType gog_axis_base_get_type (void);
 
+GogAxisType gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base);
 GogAxis *gog_axis_base_get_crossed_axis (GogAxisBase *axis_base);
+GogAxis *gog_axis_base_get_crossed_axis_for_plot (GogAxisBase *axis_base, GogPlot *plot);
 double gog_axis_base_get_cross_location (GogAxisBase *axis_base);
 
 typedef enum {

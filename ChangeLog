@@ -1,3 +1,10 @@
+2015-02-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis-line.c
+	(gog_axis_base_get_crossed_axis_type): Make this public.
+	(gog_axis_base_get_crossed_axis_for_plot): New function -- when we
+	know the plot we can pick the desired axis.
+
 2015-02-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-pattern-selector.c (go_pattern_tooltip_func): New

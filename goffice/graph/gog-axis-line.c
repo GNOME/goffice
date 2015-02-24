@@ -259,7 +259,7 @@ gog_axis_base_finalize (GObject *obj)
 	(gab_parent_klass->finalize) (obj);
 }
 
-static GogAxisType
+GogAxisType
 gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 {
 	GogAxisType axis_type, crossed_type;
@@ -299,6 +299,26 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 }
 
 /**
+ * gog_axis_base_get_crossed_axis_for_plot:
+ * @axis_base: #GogAxisBase
+ * @plot: #GogPlot
+ *
+ * Returns: (transfer none): returns the crossing axis in a 2D plot if set.
+ **/
+GogAxis *
+gog_axis_base_get_crossed_axis_for_plot (GogAxisBase *axis_base, GogPlot *plot)
+{
+	GogAxisType cross_axis_type;
+
+	g_return_val_if_fail (GOG_IS_AXIS_BASE (axis_base), NULL);
+	g_return_val_if_fail (GOG_IS_PLOT (plot), NULL);
+
+	cross_axis_type = gog_axis_base_get_crossed_axis_type (axis_base);
+	return gog_plot_get_axis (plot, cross_axis_type);
+}
+
+
+/**
  * gog_axis_base_get_crossed_axis:
  * @axis_base: #GogAxisBase
  *
@@ -310,17 +330,16 @@ gog_axis_base_get_crossed_axis (GogAxisBase *axis_base)
 	GogAxis *crossed_axis = NULL;
 	GSList *axes, *ptr;
 	gboolean found = FALSE;
-	GogAxisType axis_type = gog_axis_base_get_crossed_axis_type (axis_base);
+	GogAxisType cross_axis_type = gog_axis_base_get_crossed_axis_type (axis_base);
 
-	if (axis_type == GOG_AXIS_UNKNOWN)
+	if (cross_axis_type == GOG_AXIS_UNKNOWN)
 		return NULL;
-	axes = gog_chart_get_axes (axis_base->chart, axis_type);
+	axes = gog_chart_get_axes (axis_base->chart, cross_axis_type);
 	g_return_val_if_fail (axes != NULL, NULL);
 
-	for (ptr = axes; ptr != NULL && !found; ptr = ptr->next) {
+	for (ptr = axes; !found && ptr; ptr = ptr->next) {
 		crossed_axis = GOG_AXIS (ptr->data);
-		if (gog_object_get_id (GOG_OBJECT (crossed_axis)) == axis_base->crossed_axis_id)
-			found = TRUE;
+		found = (gog_object_get_id (GOG_OBJECT (crossed_axis)) == axis_base->crossed_axis_id);
 	}
 
 	if (!found)
