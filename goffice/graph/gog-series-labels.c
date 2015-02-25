@@ -755,6 +755,7 @@ gog_data_label_finalize (GObject *obj)
 	GogDataLabel *label = GOG_DATA_LABEL (obj);
 	gog_dataset_finalize (GOG_DATASET (obj));
 	g_free (label->format);
+	g_free (label->separator);
 	go_string_unref (label->element.str);
 	data_label_parent_klass->finalize (obj);
 }
@@ -1337,6 +1338,7 @@ gog_series_labels_finalize (GObject *obj)
 			go_string_unref (labels->elements[i].str);
 		g_free (labels->elements);
 	}
+	g_list_free (labels->overrides);
 	series_labels_parent_klass->finalize (obj);
 }
 
@@ -1368,11 +1370,19 @@ role_data_label_post_add (GogObject *parent, GogObject *child)
 		go_styled_object_get_style (GO_STYLED_OBJECT (parent)));
 	lbls->overrides = g_list_insert_sorted (lbls->overrides, child,
 		(GCompareFunc) element_compare);
+
+	lbl->format = g_strdup ("");
+	lbl->default_pos = lbls->default_pos;
+	lbl->allowed_pos = lbls->allowed_pos;
+	lbl->position = lbls->position;
+	lbl->supports_percent = lbls->supports_percent;
+
 	plot = (GogPlot *) gog_object_get_parent_typed (child, GOG_TYPE_PLOT);
 	for (j = 0; j < plot->desc.series.num_dim; j++) {
 		/* FIXME, this might depend upon the series type */
 		switch (plot->desc.series.dim[j].ms_type) {
 		case GOG_MS_DIM_VALUES:
+			g_free (lbl->format);
 			lbl->format = g_strdup_printf ("%%%u", j);
 			j = plot->desc.series.num_dim; /* ensure we exit the loop */
 			break;
@@ -1380,11 +1390,6 @@ role_data_label_post_add (GogObject *parent, GogObject *child)
 			break;
 		}
 	}
-	lbl->format = g_strdup ("");
-	lbl->default_pos = lbls->default_pos;
-	lbl->allowed_pos = lbls->allowed_pos;
-	lbl->position = lbls->position;
-	lbl->supports_percent = lbls->supports_percent;
 }
 
 static void

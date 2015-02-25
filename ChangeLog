@@ -1,5 +1,10 @@
 2015-02-24  Morten Welinder  <terra@gnome.org>
 
+	* goffice/graph/gog-series-labels.c (gog_data_label_finalize):
+	Plug leak.
+	(role_data_label_post_add): Plug leak.
+	(gog_series_labels_finalize): Plug leak.
+
 	* goffice/graph/gog-axis-line.c
 	(gog_axis_base_get_crossed_axis_type): Make this public.
 	(gog_axis_base_get_crossed_axis_for_plot): New function -- when we
