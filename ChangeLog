@@ -1,3 +1,8 @@
+2015-02-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-image.c (go_image_new_from_data): If no image
+	data is given, create an unknown image placeholder.
+
 2015-02-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-series-labels.c (gog_data_label_finalize):

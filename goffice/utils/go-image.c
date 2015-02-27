@@ -287,7 +287,7 @@ go_image_get_format_from_name (char const *name)
 {
 	unsigned i;
 
-	if (name == NULL)
+	if (name == NULL || strcmp (name, "unknown") == 0)
 		return GO_IMAGE_FORMAT_UNKNOWN;
 
 	go_image_build_pixbuf_format_infos ();
@@ -653,7 +653,10 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 		g_warning ("unrecognized image format");
 		return NULL;
 	}
-	if (!strcmp (type, "svg")) {
+	if (data == NULL || length == 0) {
+		image = NULL;
+		type = "unknown";
+	} else if (!strcmp (type, "svg")) {
 		image = go_svg_new_from_data (data, length, error);
 	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {
 		image = go_emf_new_from_data (data, length, error);
