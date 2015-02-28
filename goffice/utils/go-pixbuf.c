@@ -386,6 +386,11 @@ GOImage *
 go_pixbuf_new_from_data (char const *type, guint8 const *data, gsize length, GError **error)
 {
 	GOImage *image = g_object_new (GO_TYPE_PIXBUF, NULL);
+	GError *dummy = NULL;
+
+	if (!error)
+		error = &dummy;
+
 	image->data = g_memdup (data, length);
 	image->data_length = length;
 	g_object_set (image, "image-type", type, NULL);
@@ -394,6 +399,10 @@ go_pixbuf_new_from_data (char const *type, guint8 const *data, gsize length, GEr
 		g_object_unref (image);
 		return NULL;
 	}
+
+	if (dummy)
+		g_error_free (dummy);
+
 	return image;
 }
 
