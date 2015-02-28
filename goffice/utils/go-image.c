@@ -828,3 +828,25 @@ go_image_get_default_dpi (double *dpi_x, double *dpi_y)
 	*dpi_x = _go_image_dpi_x;
 	*dpi_y = _go_image_dpi_y;
 }
+
+GOImageFormatInfo const *
+go_image_get_info (GOImage *image)
+{
+	if (GO_IS_PIXBUF (image)) {
+		GOImageFormat f;
+		char *typ;
+		g_object_get (image, "image-type", &typ, NULL);
+		f = go_image_get_format_from_name (typ);
+		g_free (typ);
+		return go_image_get_format_info (f);
+	}
+
+	/* Dubious */
+	if (GO_IS_EMF (image))
+		return go_image_get_format_info (GO_IMAGE_FORMAT_EMF);
+	if (GO_IS_SVG (image))
+		return go_image_get_format_info (GO_IMAGE_FORMAT_SVG);
+	if (GO_IS_SPECTRE (image))
+		return go_image_get_format_info (GO_IMAGE_FORMAT_EPS);
+	return NULL;
+}
