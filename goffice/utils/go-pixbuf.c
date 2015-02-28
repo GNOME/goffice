@@ -34,6 +34,9 @@ struct _GOPixbuf {
 	unsigned rowstride;
 	GdkPixbuf *pixbuf;
 	cairo_surface_t *surface;
+	guint8 *cairo_pixels;
+	gsize length;
+	char *type;
 };
 
 typedef GOImageClass GOPixbufClass;
@@ -42,7 +45,8 @@ static GObjectClass *parent_klass;
 
 enum {
 	PIXBUF_PROP_0,
-	PIXBUF_PROP_PIXBUF
+	PIXBUF_PROP_PIXBUF,
+	PIXBUF_PROP_TYPE
 };
 
 static void
@@ -51,10 +55,10 @@ pixbuf_to_cairo (GOPixbuf *pixbuf)
 	unsigned char *src, *dst;
 	GOImage *image = GO_IMAGE (pixbuf);
 
-	g_return_if_fail (GO_IS_PIXBUF (pixbuf) && image->data && pixbuf->pixbuf);
+	g_return_if_fail (GO_IS_PIXBUF (pixbuf) && pixbuf->cairo_pixels && pixbuf->pixbuf);
 
 	src = gdk_pixbuf_get_pixels (pixbuf->pixbuf);
-	dst = image->data;
+	dst = pixbuf->cairo_pixels;
 
 	g_return_if_fail (gdk_pixbuf_get_rowstride (pixbuf->pixbuf) == (int) pixbuf->rowstride);
 
@@ -67,10 +71,10 @@ cairo_to_pixbuf (GOPixbuf *pixbuf)
 	unsigned char *src, *dst;
 	GOImage *image = GO_IMAGE (pixbuf);
 
-	g_return_if_fail (GO_IS_PIXBUF (pixbuf) && image->data && pixbuf->pixbuf);
+	g_return_if_fail (GO_IS_PIXBUF (pixbuf) && pixbuf->cairo_pixels && pixbuf->pixbuf);
 
 	dst = gdk_pixbuf_get_pixels (pixbuf->pixbuf);
-	src = image->data;
+	src = pixbuf->cairo_pixels;
 
 	g_return_if_fail (gdk_pixbuf_get_rowstride (pixbuf->pixbuf) == (int) pixbuf->rowstride);
 
@@ -83,18 +87,16 @@ go_pixbuf_save (GOImage *image, GsfXMLOut *output)
 	GOPixbuf *pixbuf;
 	g_return_if_fail (GO_IS_PIXBUF (image));
 	pixbuf = GO_PIXBUF (image);
-	gsf_xml_out_add_int (output, "rowstride", pixbuf->rowstride);
-	if (!image->data) {
-		image->data = g_try_new0 (guint8, image->height * pixbuf->rowstride);
-		if (image->data == NULL) {
-			g_critical ("go_pixbuf_save: assertion `image->data != NULL' failed");
-			return;
-		}
-		pixbuf_to_cairo (pixbuf);
+	if (pixbuf->type == NULL) {
+		pixbuf->type = g_strdup ("png");
+		g_free (image->data); /* just in case, but the pointer should be NULL */
+		gdk_pixbuf_save_to_buffer (pixbuf->pixbuf, (gchar **) &image->data,
+		                           &image->data_length, pixbuf->type, NULL,
+		                           "compression", 9, NULL);
 	}
-	gsf_xml_out_add_base64
-		(output, NULL,
-		 image->data, image->height * pixbuf->rowstride);
+	gsf_xml_out_add_cstr_unchecked (output, "image-type", pixbuf->type);
+	gsf_xml_out_add_base64 (output, NULL,
+	                        image->data, image->data_length);
 }
 
 static void
@@ -106,7 +108,40 @@ go_pixbuf_load_attr (GOImage *image, xmlChar const *attr_name, xmlChar const *at
 		long l = strtol (attr_value, NULL, 10);
 		g_return_if_fail (l > 0 && l < G_MAXINT);
 		pixbuf->rowstride = l;
+	} else if (!strcmp (attr_name, "image-type"))
+		pixbuf->type = g_strdup (attr_value);
+}
+
+static void
+go_pixbuf_create_pixbuf (GOPixbuf *pixbuf, GError **error)
+{
+	GOImage *image = GO_IMAGE (pixbuf);
+	GdkPixbufLoader *loader = gdk_pixbuf_loader_new_with_type (pixbuf->type, NULL);
+	if (loader) {
+		if (gdk_pixbuf_loader_write (loader, image->data, image->data_length, error))
+			g_object_set (pixbuf,
+			              "pixbuf", gdk_pixbuf_loader_get_pixbuf (loader),
+			              NULL);
+		gdk_pixbuf_loader_close (loader, error);
+		g_object_unref (loader);
 	}
+}
+
+static void
+go_pixbuf_restore_data (GOPixbuf *pixbuf)
+{
+	GOImage *image = GO_IMAGE (pixbuf);
+	if (pixbuf->pixbuf == NULL) {
+		if (image->width == 0 || image->height == 0 || pixbuf->cairo_pixels == NULL)
+			return;
+		pixbuf->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+		                                 image->width, image->height);
+		cairo_to_pixbuf (pixbuf);
+	}
+	if (image->data == NULL && pixbuf->pixbuf && pixbuf->type)
+		gdk_pixbuf_save_to_buffer (pixbuf->pixbuf, (gchar **) &image->data,
+				                   &image->data_length, pixbuf->type, NULL,
+				                   NULL);
 }
 
 static void
@@ -114,24 +149,37 @@ go_pixbuf_load_data (GOImage *image, GsfXMLIn *xin)
 {
 	size_t length, expected;
 	int stride;
+	GOPixbuf *pixbuf = GO_PIXBUF (image);
 
 	stride = go_pixbuf_get_rowstride (GO_PIXBUF (image));
-	g_return_if_fail (stride > 0);
-
 	length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	expected = image->height * (size_t)stride;
-	if (expected != length)
-		g_critical ("Invalid image size, expected %" G_GSIZE_FORMAT " bytes, got %" G_GSIZE_FORMAT,
-			    expected, length);
-	image->data = g_try_malloc (expected);
-	image->data_length = expected;
-	if (image->data == NULL) {
-		g_critical ("go_pixbuf_load_data: assertion `image->data != NULL' failed");
-		return;
+	if (stride > 0) {
+		/* load raw pixels */
+		expected = image->height * (size_t)stride;
+		if (expected != length)
+			g_critical ("Invalid image size, expected %" G_GSIZE_FORMAT " bytes, got %" G_GSIZE_FORMAT,
+					expected, length);
+		pixbuf->cairo_pixels = g_try_malloc (expected);
+		pixbuf->length = expected;
+		if (pixbuf->cairo_pixels == NULL) {
+			g_critical ("go_pixbuf_load_data: assertion `pixbuf->cairo_pixels != NULL' failed");
+			return;
+		}
+		memcpy (pixbuf->cairo_pixels, xin->content->str, MIN (length, expected));
+		if (length < expected) /* fill with 0 */
+			memset (pixbuf->cairo_pixels + length, 0, expected - length);
+		go_pixbuf_restore_data (pixbuf);
+	} else {
+		image->data = g_try_malloc (length);
+		image->data_length = length;
+		if (image->data == NULL) {
+			g_critical ("go_pixbuf_load_data: assertion `image->data != NULL' failed");
+			return;
+		}
+		memcpy (image->data, xin->content->str, length);
+		/* create the pixbuf */
+		go_pixbuf_create_pixbuf (pixbuf, NULL);
 	}
-	memcpy (image->data, xin->content->str, MIN (length, expected));
-	if (length < expected) /* fill with 0 */
-		memset (image->data + length, 0, expected - length);
 }
 
 static void
@@ -140,16 +188,16 @@ go_pixbuf_draw (GOImage *image, cairo_t *cr)
 	GOPixbuf *pixbuf = GO_PIXBUF (image);
 	g_return_if_fail (pixbuf);
 	if (pixbuf->surface == NULL) {
-		if (image->data == NULL) {
+		if (pixbuf->cairo_pixels == NULL) {
 			/* image built from a pixbuf */
-			image->data = g_try_new0 (guint8, image->height * pixbuf->rowstride);
-			if (image->data == NULL) {
+			pixbuf->cairo_pixels = g_try_new0 (guint8, image->height * pixbuf->rowstride);
+			if (pixbuf->cairo_pixels == NULL) {
 				g_critical ("go_pixbuf_load_data: assertion `image->data != NULL' failed");
 				return;
 			}
 			pixbuf_to_cairo (pixbuf);
 		}
-		pixbuf->surface = cairo_image_surface_create_for_data (image->data,
+		pixbuf->surface = cairo_image_surface_create_for_data (pixbuf->cairo_pixels,
 			                                               CAIRO_FORMAT_ARGB32,
 			                                               image->width,
 			                                               image->height,
@@ -168,7 +216,7 @@ go_pixbuf_get_pixbuf (GOImage *image)
 	GOPixbuf *pixbuf = GO_PIXBUF (image);
 	g_return_val_if_fail (pixbuf, NULL);
 	if (!pixbuf->pixbuf) {
-		if (image->width == 0 || image->height == 0 || image->data == NULL)
+		if (image->width == 0 || image->height == 0 || pixbuf->cairo_pixels == NULL)
 			return NULL;
 		pixbuf->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 								image->width, image->height);
@@ -243,10 +291,17 @@ go_pixbuf_set_property (GObject *obj, guint param_id,
 		if (pixbuf->pixbuf)
 			g_object_unref (pixbuf->pixbuf);
 		pixbuf->pixbuf = pix;
-		g_free (image->data); /* this should be in GOPixbuf */
-		image->data = NULL; /* this should be in GOPixbuf */
 		_go_image_changed (image, gdk_pixbuf_get_width (pix), gdk_pixbuf_get_height (pix));
 		pixbuf->rowstride = gdk_pixbuf_get_rowstride (pix); /* this should be in GOPixbuf */
+	}
+		break;
+	case PIXBUF_PROP_TYPE: {
+		char const *type = g_value_get_string (value);
+		if (pixbuf->type && !strcmp (type, pixbuf->type))
+			break;
+		g_return_if_fail (pixbuf->type == NULL);
+		pixbuf->type = g_strdup (type);
+		go_pixbuf_restore_data (pixbuf);
 	}
 		break;
 
@@ -265,6 +320,9 @@ go_pixbuf_get_property (GObject *obj, guint param_id,
 	case PIXBUF_PROP_PIXBUF:
 		g_value_set_object (value, pixbuf->pixbuf);
 		break;
+	case PIXBUF_PROP_TYPE:
+		g_value_set_string (value, pixbuf->type);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -279,6 +337,7 @@ go_pixbuf_finalize (GObject *obj)
 		g_object_unref (pixbuf->pixbuf);
 	if (pixbuf->surface)
 		cairo_surface_destroy (pixbuf->surface);
+	g_free (pixbuf->type);
 	(parent_klass->finalize) (obj);
 }
 
@@ -304,6 +363,12 @@ go_pixbuf_class_init (GObjectClass *klass)
 					 g_param_spec_object ("pixbuf", _("Pixbuf"),
 							      _("GdkPixbuf object from which the GOPixbuf is built"),
 							      GDK_TYPE_PIXBUF, G_PARAM_READWRITE));
+	g_object_class_install_property (klass, PIXBUF_PROP_TYPE,
+		 g_param_spec_string ("image-type",
+				      N_("Image type"),
+				      N_("Type of image"),
+				      NULL,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_CLASS (GOPixbuf, go_pixbuf,
@@ -315,6 +380,21 @@ GOImage *
 go_pixbuf_new_from_pixbuf (GdkPixbuf *pixbuf)
 {
 	return g_object_new (GO_TYPE_PIXBUF, "pixbuf", pixbuf, NULL);
+}
+
+GOImage *
+go_pixbuf_new_from_data (char const *type, guint8 const *data, gsize length, GError **error)
+{
+	GOImage *image = g_object_new (GO_TYPE_PIXBUF, NULL);
+	image->data = g_memdup (data, length);
+	image->data_length = length;
+	g_object_set (image, "image-type", type, NULL);
+	go_pixbuf_create_pixbuf (GO_PIXBUF (image), error);
+	if (*error != NULL) {
+		g_object_unref (image);
+		return NULL;
+	}
+	return image;
 }
 
 int

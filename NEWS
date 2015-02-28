@@ -2,6 +2,7 @@ goffice 0.10.21:
 
 Jean:
 	* Ignore invalid values while checking data order. [#744200]
+	* Ensure that GOPixbuf 	keeps the original data around. [#745297]
 
 Morten:
 	* Fix problem with linear solver.

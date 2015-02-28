@@ -33,7 +33,9 @@ G_BEGIN_DECLS
 
 GType go_pixbuf_get_type (void);
 
-GOImage		*go_pixbuf_new_from_pixbuf      (GdkPixbuf *pixbuf);
+GOImage		*go_pixbuf_new_from_pixbuf  (GdkPixbuf *pixbuf);
+GOImage		*go_pixbuf_new_from_data	(char const *type, guint8 const *data,
+			                             gsize length, GError **error);
 int 		 go_pixbuf_get_rowstride 	(GOPixbuf *pixbuf);
 
 G_END_DECLS

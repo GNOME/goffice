@@ -1,3 +1,10 @@
+2015-02-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-image.c (go_image_new_from_data): ensure that GOPixbuf
+	keeps the original data around. [#745297]
+	* goffice/utils/go-pixbuf.c: ditto.
+	* goffice/utils/go-pixbuf.h: ditto.
+
 2015-02-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pixbuf.c (go_pixbuf_load_data): Set

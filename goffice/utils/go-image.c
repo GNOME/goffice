@@ -663,13 +663,7 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 	} else if (!strcmp (type, "eps")) {
 		image = go_spectre_new_from_data (data, length, error);
 	} else {
-		GdkPixbufLoader *loader = gdk_pixbuf_loader_new_with_type (type, error);
-		if (loader) {
-			if (gdk_pixbuf_loader_write (loader, data, length, error))
-				image = go_pixbuf_new_from_pixbuf (gdk_pixbuf_loader_get_pixbuf (loader));
-			gdk_pixbuf_loader_close (loader, error);
-			g_object_unref (loader);
-		}
+		image = go_pixbuf_new_from_data (type, data, length, error);
 	}
 	if (image == NULL) {
 #ifdef GOFFICE_WITH_GTK
