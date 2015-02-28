@@ -397,7 +397,7 @@ go_pixbuf_new_from_data (char const *type, guint8 const *data, gsize length, GEr
 	go_pixbuf_create_pixbuf (GO_PIXBUF (image), error);
 	if (*error != NULL) {
 		g_object_unref (image);
-		return NULL;
+		image = NULL;
 	}
 
 	if (dummy)
