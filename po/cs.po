@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-28 19:05+0000\n"
+"POT-Creation-Date: 2015-03-01 18:12+0000\n"
 "PO-Revision-Date: 2015-03-01 19:04+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -4602,9 +4602,12 @@ msgid "Down"
 msgstr "Dolů"
 
 #: ../goffice/gtk/go-gradient-selector.c:97
-#: ../goffice/gtk/go-gradient-selector.c:99
 msgid "Vertical from middle"
 msgstr "Svisle od středu"
+
+#: ../goffice/gtk/go-gradient-selector.c:99
+msgid "Vertical to middle"
+msgstr "Svisle ke středu"
 
 #: ../goffice/gtk/go-gradient-selector.c:105
 msgid "Horizontal from middle"
@@ -4623,9 +4626,12 @@ msgid "Down and right"
 msgstr "Doprava dolů"
 
 #: ../goffice/gtk/go-gradient-selector.c:113
-#: ../goffice/gtk/go-gradient-selector.c:115
 msgid "Diagonal from middle"
 msgstr "Úhlopříčně od středu"
+
+#: ../goffice/gtk/go-gradient-selector.c:115
+msgid "Diagonal to middle"
+msgstr "Úhlopříčně ke středu"
 
 #: ../goffice/gtk/go-gradient-selector.c:117
 msgid "Up and right"
