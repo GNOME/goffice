@@ -96,7 +96,7 @@ go_gradient_tooltip_func (int index, gpointer data)
 	case GO_GRADIENT_N_TO_S_MIRRORED:
 		return _("Vertical from middle");
 	case GO_GRADIENT_S_TO_N_MIRRORED:
-		return _("Vertical from middle");
+		return _("Vertical to middle");
 	case GO_GRADIENT_W_TO_E:
 		return _("Left");
 	case GO_GRADIENT_E_TO_W:
@@ -112,7 +112,7 @@ go_gradient_tooltip_func (int index, gpointer data)
 	case GO_GRADIENT_NW_TO_SE_MIRRORED:
 		return _("Diagonal from middle");
 	case GO_GRADIENT_SE_TO_NW_MIRRORED:
-		return _("Diagonal from middle");
+		return _("Diagonal to middle");
 	case GO_GRADIENT_NE_TO_SW:
 		return _("Up and right");
 	case GO_GRADIENT_SW_TO_NE:
