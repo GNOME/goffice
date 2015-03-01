@@ -7,6 +7,7 @@
 
 	* goffice/utils/go-pixbuf.c (go_pixbuf_create_pixbuf): Avoid
 	critical when loading fails.
+	(go_pixbuf_load_attr): Plug leak.
 
 2015-02-28  Morten Welinder  <terra@gnome.org>
 

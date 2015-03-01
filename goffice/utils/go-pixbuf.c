@@ -108,8 +108,10 @@ go_pixbuf_load_attr (GOImage *image, xmlChar const *attr_name, xmlChar const *at
 		long l = strtol (attr_value, NULL, 10);
 		g_return_if_fail (l > 0 && l < G_MAXINT);
 		pixbuf->rowstride = l;
-	} else if (!strcmp (attr_name, "image-type"))
+	} else if (!strcmp (attr_name, "image-type")) {
+		g_free (pixbuf->type);
 		pixbuf->type = g_strdup (attr_value);
+	}
 }
 
 static void
