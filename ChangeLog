@@ -1,3 +1,8 @@
+2015-03-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-pixbuf.c (go_pixbuf_create_pixbuf): Avoid
+	critical when loading fails.
+
 2015-02-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-image.c (go_image_get_info): New function.

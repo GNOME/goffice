@@ -122,7 +122,7 @@ go_pixbuf_create_pixbuf (GOPixbuf *pixbuf, GError **error)
 			g_object_set (pixbuf,
 			              "pixbuf", gdk_pixbuf_loader_get_pixbuf (loader),
 			              NULL);
-		gdk_pixbuf_loader_close (loader, error);
+		gdk_pixbuf_loader_close (loader, error && !*error ? error : NULL);
 		g_object_unref (loader);
 	}
 }
