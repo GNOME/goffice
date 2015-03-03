@@ -1,3 +1,8 @@
+2015-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_draw): clip each rectangle before
+	drawing. [#744076]
+
 2015-03-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pixbuf.c (go_pixbuf_create_pixbuf): Avoid

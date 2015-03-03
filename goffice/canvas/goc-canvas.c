@@ -96,6 +96,10 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 	cairo_translate (cr, -x, -y);
 	goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
 	for (i= 0; i  < l->num_rectangles; i++) {
+		cairo_save (cr);
+		cairo_rectangle (cr, l->rectangles[i].x, l->rectangles[i].y,
+		                 l->rectangles[i].width, l->rectangles[i].height);
+		cairo_clip (cr);
 		clip_x1 = l->rectangles[i].x;
 		clip_y1 = l->rectangles[i].y;
 		clip_x2 = clip_x1 + l->rectangles[i].width;
@@ -114,6 +118,7 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 			canvas->cur_event = (GdkEvent *) event;
 			goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
 		}
+		cairo_restore (cr);
 	}
 	cairo_rectangle_list_destroy (l);
 	return TRUE;

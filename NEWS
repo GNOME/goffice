@@ -3,6 +3,7 @@ goffice 0.10.21:
 Jean:
 	* Ignore invalid values while checking data order. [#744200]
 	* Ensure that GOPixbuf 	keeps the original data around. [#745297]
+	* Fix sheet objects rendering, including widgets. [#744076]
 
 Morten:
 	* Fix problem with linear solver.
