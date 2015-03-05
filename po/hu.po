@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-28 19:05+0000\n"
-"PO-Revision-Date: 2015-03-01 17:14+0100\n"
+"POT-Creation-Date: 2015-03-01 18:09+0000\n"
+"PO-Revision-Date: 2015-03-06 00:24+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
@@ -3012,7 +3012,6 @@ msgid "Should the text comparison be case sensitive"
 msgstr "A szövegösszehasonlítás megkülönböztesse-e a kis- és nagybetűket"
 
 #: ../goffice/gtk/go-arrow-sel.c:209
-#| msgid "End Arrow"
 msgid "Arrow"
 msgstr "Nyíl"
 
@@ -3021,17 +3020,14 @@ msgid "The currently selected arrow"
 msgstr "Az aktuálisan kijelölt nyíl"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:1
-#| msgid "Extension"
 msgid "Dimension A"
 msgstr "A-dimenzió"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:2
-#| msgid "Extension"
 msgid "Dimension B"
 msgstr "B-dimenzió"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:3
-#| msgid "Extension"
 msgid "Dimension C"
 msgstr "C-dimenzió"
 
@@ -4825,39 +4821,40 @@ msgid "Down"
 msgstr "Le"
 
 #: ../goffice/gtk/go-gradient-selector.c:97
-#: ../goffice/gtk/go-gradient-selector.c:99
-#| msgid "Vertical drop lines"
 msgid "Vertical from middle"
 msgstr "Függőlegesen a közepétől"
 
+#: ../goffice/gtk/go-gradient-selector.c:99
+#| msgid "Vertical from middle"
+msgid "Vertical to middle"
+msgstr "Függőlegesen a közepéig"
+
 #: ../goffice/gtk/go-gradient-selector.c:105
-#| msgid "Horizontal drop lines"
 msgid "Horizontal from middle"
 msgstr "Vízszintesen a közepétől"
 
 #: ../goffice/gtk/go-gradient-selector.c:107
-#| msgid "Horizontal Stripe"
 msgid "Horizontal to middle"
 msgstr "Vízszintesen a közepéig"
 
 #: ../goffice/gtk/go-gradient-selector.c:109
-#| msgid "Top left"
 msgid "Up and left"
 msgstr "Fel és balra"
 
 #: ../goffice/gtk/go-gradient-selector.c:111
-#| msgid "Top right"
 msgid "Down and right"
 msgstr "Le és jobbra"
 
 #: ../goffice/gtk/go-gradient-selector.c:113
-#: ../goffice/gtk/go-gradient-selector.c:115
-#| msgid "Diagonal Stripe"
 msgid "Diagonal from middle"
 msgstr "Átlósan a közepétől"
 
+#: ../goffice/gtk/go-gradient-selector.c:115
+#| msgid "Diagonal from middle"
+msgid "Diagonal to middle"
+msgstr "Átlósan a közepéig"
+
 #: ../goffice/gtk/go-gradient-selector.c:117
-#| msgid "Top right"
 msgid "Up and right"
 msgstr "Fel és jobbra"
 
@@ -4866,12 +4863,10 @@ msgid "Down and left"
 msgstr "Le és balra"
 
 #: ../goffice/gtk/go-gradient-selector.c:121
-#| msgid "Reverse Diagonal Stripe"
 msgid "Reverse diagonal from middle"
 msgstr "Fordított átlósan a közepétől"
 
 #: ../goffice/gtk/go-gradient-selector.c:123
-#| msgid "Reverse Diagonal Stripe"
 msgid "Reverse diagonal to middle"
 msgstr "Fordított átlósan a közepéig"
 
@@ -5968,117 +5963,96 @@ msgstr "Egyéni…"
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
 #: ../goffice/gtk/go-pattern-selector.c:66
-#| msgid "Background:"
 msgid "Solid background"
 msgstr "Egyszínű háttér"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
 #: ../goffice/gtk/go-pattern-selector.c:67
-#| msgid "Background:"
 msgid "75% background"
 msgstr "75%-os háttér"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
 #: ../goffice/gtk/go-pattern-selector.c:68
-#| msgid "Background:"
 msgid "50% background"
 msgstr "50%-os háttér"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
 #: ../goffice/gtk/go-pattern-selector.c:69
-#| msgid "Background:"
 msgid "25% background"
 msgstr "25%-os háttér"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
 #: ../goffice/gtk/go-pattern-selector.c:70
-#| msgid "Background:"
 msgid "12.5% background"
 msgstr "12.5%-os háttér"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
 #: ../goffice/gtk/go-pattern-selector.c:71
-#| msgid "Background:"
 msgid "6.25% background"
 msgstr "6.25%-os háttér"
 
 #: ../goffice/gtk/go-pattern-selector.c:72
-#| msgid "Horizontal Stripe"
 msgid "Horizontal stripes"
 msgstr "Vízszintes csíkok"
 
 #: ../goffice/gtk/go-pattern-selector.c:73
-#| msgid "Vertical Stripe"
 msgid "Vertical stripes"
 msgstr "Függőleges csíkok"
 
 #: ../goffice/gtk/go-pattern-selector.c:74
-#| msgid "Reverse Diagonal Stripe"
 msgid "Reverse diagonal stripes"
 msgstr "Fordított átlós csíkok"
 
 #: ../goffice/gtk/go-pattern-selector.c:75
-#| msgid "Diagonal Stripe"
 msgid "Diagonal stripes"
 msgstr "Átlós csíkok"
 
 #: ../goffice/gtk/go-pattern-selector.c:76
-#| msgid "Diagonal Crosshatch"
 msgid "Diagonal crosshatch"
 msgstr "Átlós keresztmintás"
 
 #: ../goffice/gtk/go-pattern-selector.c:77
-#| msgid "Thick Diagonal Crosshatch"
 msgid "Thick diagonal crosshatch"
 msgstr "Vastag átlós keresztmintás"
 
 #: ../goffice/gtk/go-pattern-selector.c:78
-#| msgid "Thin Horizontal Stripe"
 msgid "Thin horizontal stripes"
 msgstr "Vékony vízszintes csíkok"
 
 #: ../goffice/gtk/go-pattern-selector.c:79
-#| msgid "Thin Vertical Stripe"
 msgid "Thin vertical stripes"
 msgstr "Vékony függőleges csíkok"
 
 #: ../goffice/gtk/go-pattern-selector.c:80
-#| msgid "Thin Reverse Diagonal Stripe"
 msgid "Thin reverse diagonal stripes"
 msgstr "Vékony fordított átlós csíkok"
 
 #: ../goffice/gtk/go-pattern-selector.c:81
-#| msgid "Thin Diagonal Stripe"
 msgid "Thin diagonal stripes"
 msgstr "Vékony átlós csíkok"
 
 #: ../goffice/gtk/go-pattern-selector.c:82
-#| msgid "Thin Horizontal Crosshatch"
 msgid "Thin horizontal crosshatch"
 msgstr "Vékony vízszintes keresztmintás"
 
 #: ../goffice/gtk/go-pattern-selector.c:83
-#| msgid "Thin Diagonal Crosshatch"
 msgid "Thin diagonal crosshatch"
 msgstr "Vékony átlós keresztmintás"
 
 #: ../goffice/gtk/go-pattern-selector.c:84
-#| msgid "Foreground:"
 msgid "Solid foreground"
 msgstr "Egyszínű előtér"
 
 #: ../goffice/gtk/go-pattern-selector.c:85
-#| msgid "Small Circles"
 msgid "Small circles"
 msgstr "Kis körök"
 
 #: ../goffice/gtk/go-pattern-selector.c:86
-#| msgid "Semi Circles"
 msgid "Semi-circles"
 msgstr "Félkörök"
 
@@ -6088,7 +6062,6 @@ msgid "Thatch"
 msgstr "Zsúp"
 
 #: ../goffice/gtk/go-pattern-selector.c:88
-#| msgid "Large Circles"
 msgid "Large circles"
 msgstr "Nagy körök"
 
@@ -7265,12 +7238,10 @@ msgstr "A GdkPixbuf objektum, amelyből a GOPixbuf készült"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/nautilus-property-browser.c:957
 #: ../goffice/utils/go-pixbuf.c:368
-#| msgid "Image"
 msgid "Image type"
 msgstr "Képtípus"
 
 #: ../goffice/utils/go-pixbuf.c:369
-#| msgid "No image!"
 msgid "Type of image"
 msgstr "A kép típusa"
 
