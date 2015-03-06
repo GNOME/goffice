@@ -260,7 +260,7 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
         if ((endx != 0. || endy!= 0.) &&
 	    go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
 		/* try to avoid horizontal and vertical lines between two pixels */
-		cairo_move_to (cr, 0., 0.);
+		cairo_move_to (cr, startx, endx);
 		cairo_line_to (cr, endx, endy);
 		cairo_stroke (cr);
 	}

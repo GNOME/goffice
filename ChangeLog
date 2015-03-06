@@ -10,6 +10,11 @@
 	(axis_line_render): ensure that ticks on limits are not hidden because of
 	rounding errors.
 
+2015-03-06  Johannes Deutsch  <j_deutsch@web.de>
+
+	* goffice/canvas/goc-line.c (goc_line_draw): do not draw the line over the
+	arrow head at start. [#745736]
+
 2015-03-04  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
