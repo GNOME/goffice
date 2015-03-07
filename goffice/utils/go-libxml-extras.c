@@ -347,6 +347,45 @@ go_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
 	return best_node;
 }
 
+/**
+ * go_xml_out_add_double:
+ * @output: destination
+ * @id: (allow-none): attribute name
+ * @d: value
+ *
+ * Output a representation of @d that will be read back without loss of
+ * precision.
+ */
+void
+go_xml_out_add_double (GsfXMLOut *output, char const *id, double d)
+{
+	GString *str = g_string_new (NULL);
+	go_dtoa (str, "!g", d);
+	gsf_xml_out_add_cstr (output, id, str->str);
+	g_string_free (str, TRUE);
+}
+
+#if GOFFICE_WITH_LONG_DOUBLE
+/**
+ * go_xml_out_add_long_double:
+ * @output: destination
+ * @id: (allow-none): attribute name
+ * @ld: value
+ *
+ * Output a representation of @ld that will be read back without loss of
+ * precision.
+ */
+void
+go_xml_out_add_long_double (GsfXMLOut *output, char const *id, long double ld)
+{
+	GString *str = g_string_new (NULL);
+	go_dtoa (str, "!Lg", ld);
+	gsf_xml_out_add_cstr (output, id, str->str);
+	g_string_free (str, TRUE);
+}
+#endif
+
+
 void
 go_xml_out_add_color (GsfXMLOut *output, char const *id, GOColor c)
 {
