@@ -1011,6 +1011,7 @@ axis_line_point (GogAxisBase *axis_base, GogRenderer *renderer,
 	return go_geometry_point_to_segment (x, y, xa, ya, wa, ha) <= POINT_MIN_DISTANCE;
 }
 
+#define GO_EPSILON 1e-10
 static GogViewAllocation
 axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		    double x, double y, double w, double h,
@@ -1031,7 +1032,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	double minor_tick_len, major_tick_len, tick_len;
 	double padding = gog_axis_base_get_padding (axis_base);
 	double label_size_max = 0;
-	double min, max;
+	double min, max, epsilon;
 	unsigned i, tick_nbr;
 	gboolean is_line_visible;
 
@@ -1089,6 +1090,9 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	map = gog_axis_map_new (axis_base->axis, 0., axis_length);
 	gog_axis_map_get_real_bounds (map, &min, &max);
 
+	epsilon = (max - min) * GO_EPSILON;
+	min -= epsilon;
+	max += epsilon;
 	obrs = g_new0 (GOGeometryOBR, tick_nbr);
 	for (i = 0; i < tick_nbr; i++) {
 		if (ticks[i].position < min || ticks[i].position > max)
@@ -1153,7 +1157,7 @@ axis_line_render (GogAxisBase *axis_base,
 	double padding = gog_axis_base_get_padding (axis_base);
 	double label_size_max = 0;
 	double s, e;
-	double min, max;
+	double min, max, epsilon;
 	unsigned i, tick_nbr, nobr = 0, *indexmap = NULL;
 	gboolean draw_major, draw_minor;
 	gboolean is_line_visible;
@@ -1205,6 +1209,10 @@ axis_line_render (GogAxisBase *axis_base,
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &zero_obr, -1.);
 	label_padding = zero_obr.h * .15;
 
+	/* add some epsilon toerance to avoid roundin errors */
+	epsilon = (max - min) * GO_EPSILON;
+	min -= epsilon;
+	max += epsilon;
 	tick_nbr = gog_axis_base_get_ticks (axis_base, &ticks);
 	if (draw_labels) {
 		obrs = g_new0 (GOGeometryOBR, tick_nbr);
