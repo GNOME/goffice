@@ -308,6 +308,8 @@ gog_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		(axis == GOG_AXIS_X && !xyz->transposed)) ?
 			series->columns:
 			series->rows;
+		if (GOG_IS_MATRIX_PLOT (plot))
+			bounds->val.maxima++;
 	}
 	return (GOData*) vec;
 }

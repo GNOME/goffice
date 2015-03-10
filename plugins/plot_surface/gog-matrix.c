@@ -180,8 +180,8 @@ gog_matrix_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	for (j = 0; j < jmax; j++) {
 		if (xdiscrete) {
-			rect.x = gog_axis_map_to_view (x_map, j);
-			rect.w = gog_axis_map_to_view (x_map, j + 1) - rect.x;
+			rect.x = gog_axis_map_to_view (x_map, j + 1);
+			rect.w = gog_axis_map_to_view (x_map, j + 2) - rect.x;
 		} else {
 			rect.x = gog_axis_map_to_view (x_map, go_data_get_vector_value (x_vec, j));
 			rect.w = gog_axis_map_to_view (x_map, go_data_get_vector_value (x_vec, j + 1)) - rect.x;
@@ -189,8 +189,8 @@ gog_matrix_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		for (i = 0; i < imax; i++) {
 			if (ydiscrete) {
-				rect.y = gog_axis_map_to_view (y_map, i);
-				rect.h = gog_axis_map_to_view (y_map, i + 1) - rect.y;
+				rect.y = gog_axis_map_to_view (y_map, i + 1);
+				rect.h = gog_axis_map_to_view (y_map, i + 2) - rect.y;
 			} else {
 				rect.y = gog_axis_map_to_view (y_map, go_data_get_vector_value (y_vec, i));
 				rect.h = gog_axis_map_to_view (y_map, go_data_get_vector_value (y_vec, i + 1)) - rect.y;

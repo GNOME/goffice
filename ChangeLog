@@ -1,5 +1,11 @@
 2015-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_surface/gog-matrix.c (gog_matrix_view_render): fix rendering
+	of matrix plots with a discrete axis.
+	* plugins/plot_surface/gog-xyz.c (gog_xyz_plot_axis_get_bounds): ditto.
+
+2015-03-10  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-axis-line.c (axis_line_get_bbox),
 	(axis_line_render): ensure that ticks on limits are not hidden because of
 	rounding errors.
