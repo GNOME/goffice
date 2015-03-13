@@ -1,3 +1,11 @@
+2015-03-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_data_get_bounds): New
+	function.
+
+	* plugins/plot_xy/gog-xy.c (gog_2d_plot_update): Use
+	gog_axis_data_get_bounds.
+
 2015-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-matrix.c (gog_matrix_view_render): fix rendering

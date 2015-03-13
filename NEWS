@@ -3,6 +3,9 @@ goffice 0.10.22:
 Johannes Deutsch:
 	* Do not draw the line over the arrow head at start. [#745736]
 
+Morten:
+	* Improve log axis bounds.
+
 --------------------------------------------------------------------------
 goffice 0.10.21:
 

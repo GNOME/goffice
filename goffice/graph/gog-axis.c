@@ -3853,6 +3853,36 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 	gog_object_request_update (GOG_OBJECT (axis));
 }
 
+/*
+ * gog_axis_data_get_bounds:
+ * @axis: (allow-none): the axis for which the data applies
+ * @data: the data to get bounds for
+ * @minimum: smallest valid data value.
+ * @maximum: largest valid data value.
+ */
+void
+gog_axis_data_get_bounds (GogAxis *axis, GOData *data,
+			  double *minimum, double *maximum)
+{
+	gboolean (*map_finite) (double value) =
+		axis ? axis->actual_map_desc->map_finite : go_finite;
+
+	if (map_finite != go_finite) {
+		size_t i, n = go_data_get_n_values (data);
+		const double *values = go_data_get_values (data);
+		*minimum = go_pinf;
+		*maximum = go_ninf;
+		for (i = 0; i < n; i++) {
+			double x = values[i];
+			if (!map_finite (x))
+				continue;
+			*minimum = MIN (*minimum, x);
+			*maximum = MAX (*maximum, x);
+		}
+	} else
+		go_data_get_bounds (data, minimum, maximum);
+}
+
 /**
  * gog_axis_get_grid_line:
  * @axis: #GogAxis

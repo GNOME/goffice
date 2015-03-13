@@ -73,6 +73,8 @@ gog_2d_plot_update (GogObject *obj)
 	GogXYSeries const *series = NULL;
 	double x_min, x_max, y_min, y_max, tmp_min, tmp_max;
 	GSList *ptr;
+	GogAxis *x_axis = gog_plot_get_axis (GOG_PLOT (model), GOG_AXIS_X);
+	GogAxis *y_axis = gog_plot_get_axis (GOG_PLOT (model), GOG_AXIS_Y);
 
 	x_min = y_min =  DBL_MAX;
 	x_max = y_max = -DBL_MAX;
@@ -82,7 +84,7 @@ gog_2d_plot_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		go_data_get_bounds (series->base.values[1].data, &tmp_min, &tmp_max);
+		gog_axis_data_get_bounds (y_axis, series->base.values[1].data, &tmp_min, &tmp_max);
 		if (y_min > tmp_min) y_min = tmp_min;
 		if (y_max < tmp_max) y_max = tmp_max;
 		if (model->y.fmt == NULL)
@@ -90,7 +92,7 @@ gog_2d_plot_update (GogObject *obj)
 		model->y.date_conv = go_data_date_conv (series->base.values[1].data);
 
 		if (series->base.values[0].data != NULL) {
-			go_data_get_bounds (series->base.values[0].data, &tmp_min, &tmp_max);
+			gog_axis_data_get_bounds (x_axis, series->base.values[0].data, &tmp_min, &tmp_max);
 
 			if (!go_finite (tmp_min) || !go_finite (tmp_max) ||
 			    tmp_min > tmp_max) {
