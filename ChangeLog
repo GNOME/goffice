@@ -1,3 +1,9 @@
+2015-03-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/canvas/goc-line.c (goc_line_draw):
+
 2015-03-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (gog_axis_data_get_bounds): New
