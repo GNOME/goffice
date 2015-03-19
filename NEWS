@@ -8,6 +8,7 @@ Johannes Deutsch:
 
 Morten:
 	* Improve log axis bounds.
+	* Fix format used for stacked percentage graphs.
 
 --------------------------------------------------------------------------
 goffice 0.10.21:

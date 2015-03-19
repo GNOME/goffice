@@ -279,8 +279,7 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			if (model->maxima <= 1.)
 				bounds->logical.maxima =  1.;
 			if (bounds->fmt == NULL) {
-				bounds->fmt = go_format_ref (
-					go_format_default_percentage ());
+				bounds->fmt = go_format_new_from_XL ("0%");
 			}
 		} else if (bounds->fmt == NULL && model->fmt != NULL)
 			bounds->fmt = go_format_ref (model->fmt);

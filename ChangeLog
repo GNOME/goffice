@@ -3,9 +3,13 @@
 	* goffice/graph/gog-axis-line.c (axis_line_point): fix selection of
 	axes using only part fo the plot area. [#746456]
 
-2015-03-13  Jean Brefort  <jean.brefort@normalesup.org>
+2015-03-19  Morten Welinder  <terra@gnome.org>
 
-	reviewed by: <delete if not using a buddy>
+	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_axis_get_bounds):
+	Use 0% as format instead of the ill-defined default which happens
+	to be 0.00% -- and that makes no sense here.
+
+2015-03-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-line.c (goc_line_draw):
 
@@ -19,20 +23,20 @@
 
 2015-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* plugins/plot_surface/gog-matrix.c (gog_matrix_view_render): fix rendering
-	of matrix plots with a discrete axis.
+	* plugins/plot_surface/gog-matrix.c (gog_matrix_view_render): fix
+	rendering of matrix plots with a discrete axis.
 	* plugins/plot_surface/gog-xyz.c (gog_xyz_plot_axis_get_bounds): ditto.
 
 2015-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c (axis_line_get_bbox),
-	(axis_line_render): ensure that ticks on limits are not hidden because of
-	rounding errors.
+	(axis_line_render): ensure that ticks on limits are not hidden
+	because of rounding errors.
 
 2015-03-06  Johannes Deutsch  <j_deutsch@web.de>
 
-	* goffice/canvas/goc-line.c (goc_line_draw): do not draw the line over the
-	arrow head at start. [#745736]
+	* goffice/canvas/goc-line.c (goc_line_draw): do not draw the line
+	over the arrow head at start. [#745736]
 
 2015-03-04  Morten Welinder <terra@gnome.org>
 
@@ -44,8 +48,8 @@
 
 2015-03-03  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/canvas/goc-canvas.c (goc_canvas_draw): clip each rectangle before
-	drawing. [#744076]
+	* goffice/canvas/goc-canvas.c (goc_canvas_draw): clip each
+	rectangle before drawing. [#744076]
 
 2015-03-01  Morten Welinder  <terra@gnome.org>
 
