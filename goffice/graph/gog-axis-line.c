@@ -1003,6 +1003,13 @@ axis_line_point (GogAxisBase *axis_base, GogRenderer *renderer,
 	double padding = gog_axis_base_get_padding (axis_base);
 	double cos_alpha, sin_alpha;
 
+	/* we need to take the axis span into account, see #746456 */
+	/* using cos_alpha and sin-alpha to store the axis span for now */
+	gog_axis_get_effective_span (axis_base->axis, &cos_alpha, &sin_alpha);
+	xa += wa * cos_alpha;
+	ya += ha * cos_alpha;
+	wa *= (sin_alpha - cos_alpha);
+	ha *= (sin_alpha - cos_alpha);
 	go_geometry_cartesian_to_polar (wa, ha, &axis_length, &axis_angle);
 	cos_alpha = side == GO_SIDE_LEFT ? - sin (axis_angle) : + sin (axis_angle);
 	sin_alpha = side == GO_SIDE_LEFT ? + cos (axis_angle) : - cos (axis_angle);

@@ -1,3 +1,8 @@
+2015-03-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (axis_line_point): fix selection of
+	axes using only part fo the plot area. [#746456]
+
 2015-03-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	reviewed by: <delete if not using a buddy>
