@@ -129,7 +129,7 @@ _go_math_init (void)
 #error "Please do not compile this code with -ffast-math.  It will not work."
 #endif
 
-	go_nan = go_pinf * 0.0;
+	go_nan = fabs (go_pinf * 0.0);
 	if (isnan (go_nan))
 		goto have_nan;
 
