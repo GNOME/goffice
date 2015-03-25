@@ -159,6 +159,7 @@ gog_rt_plot_update (GogObject *obj)
 	double val_min, val_max, tmp_min, tmp_max;
 	GSList *ptr;
 	GogErrorBar *errors;
+	GogAxis *raxis = model->base.axis[GOG_AXIS_RADIAL];
 
 	val_min =  DBL_MAX;
 	val_max = -DBL_MAX;
@@ -169,7 +170,7 @@ gog_rt_plot_update (GogObject *obj)
 
 		if (num_elements < series->base.num_elements)
 			num_elements = series->base.num_elements;
-		go_data_get_bounds (series->base.values[1].data, &tmp_min, &tmp_max);
+		gog_axis_data_get_bounds (raxis, series->base.values[1].data, &tmp_min, &tmp_max);
 		if (val_min > tmp_min) val_min = tmp_min;
 		if (val_max < tmp_max) val_max = tmp_max;
 
@@ -187,7 +188,7 @@ gog_rt_plot_update (GogObject *obj)
 	if (model->r.minima != val_min || model->r.maxima != val_max) {
 		model->r.minima = val_min;
 		model->r.maxima = val_max;
-		gog_axis_bound_changed (model->base.axis [GOG_AXIS_RADIAL], GOG_OBJECT (model));
+		gog_axis_bound_changed (raxis, GOG_OBJECT (model));
 	}
 
 	model->t.minima = 1;
@@ -479,25 +480,29 @@ gog_polar_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 static GOData *
-gog_polar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
+gog_polar_plot_axis_get_bounds (GogPlot *plot, GogAxisType atype,
 				GogPlotBoundInfo * bounds)
 {
 	GogRTPlot *rt = GOG_RT_PLOT (plot);
+	GogAxis *axis = gog_plot_get_axis (plot, atype);
 
-	switch (axis) {
+	switch (atype) {
 	case GOG_AXIS_CIRCULAR:
 		bounds->val.minima = bounds->logical.minima= -G_MAXDOUBLE;
 		bounds->val.maxima = bounds->logical.maxima=  G_MAXDOUBLE;
 		bounds->is_discrete    = FALSE;
 		break;
 	case GOG_AXIS_RADIAL:
-		bounds->val.minima = bounds->logical.minima = 0.;
+		bounds->val.minima = bounds->logical.minima =
+			gog_axis_is_zero_important (axis)
+			? 0.0
+			: rt->r.minima;
 		bounds->val.maxima = rt->r.maxima;
 		bounds->logical.maxima = go_nan;
 		bounds->is_discrete = FALSE;
 		break;
 	default:
-		g_warning("[GogPolarPlot::axis_set_bounds] bad axis (%i)", axis);
+		g_warning("[GogPolarPlot::axis_set_bounds] bad axis (%i)", atype);
 		break;
 	}
 
