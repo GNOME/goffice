@@ -1,3 +1,12 @@
+2015-03-24  Morten Welinder  <terra@gnome.org>
+
+	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_axis_get_bounds):
+	Use gog_axis_is_zero_important.  Avoid underflow.
+	(gog_plot1_5d_update): Use gog_axis_data_get_bounds.
+
+	* goffice/graph/gog-axis.c (gog_axis_is_zero_important): New
+	function.
+
 2015-03-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (_go_math_init): generate positive nan.
@@ -5,7 +14,7 @@
 2015-03-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c (axis_line_point): fix selection of
-	axes using only part fo the plot area. [#746456]
+	axes using only part of the plot area. [#746456]
 
 2015-03-19  Morten Welinder  <terra@gnome.org>
 

@@ -162,8 +162,9 @@ gog_plot1_5d_update (GogObject *obj)
 	GSList *ptr;
 	GOData *index_dim = NULL;
 	GogPlot *plot_that_labeled_axis;
-	GogAxis *axis;
 	gboolean index_changed = FALSE;
+	GogAxis *iaxis = gog_plot1_5d_get_index_axis (model);
+	GogAxis *vaxis = gog_plot1_5d_get_value_axis (model);
 
 	old_minima =  model->minima;
 	old_maxima =  model->maxima;
@@ -191,7 +192,7 @@ gog_plot1_5d_update (GogObject *obj)
 			if (gog_error_bar_is_visible (series->errors))
 				gog_error_bar_get_minmax (series->errors, &minima, &maxima);
 			else
-				go_data_get_bounds (series->base.values[1].data, &minima, &maxima);
+				gog_axis_data_get_bounds (vaxis, series->base.values[1].data, &minima, &maxima);
 			if (series->base.plot->desc.series.num_dim == 3) {
 				double tmp_min, tmp_max;
 				go_data_get_bounds (series->base.values[2].data, &tmp_min, &tmp_max);
@@ -210,17 +211,17 @@ gog_plot1_5d_update (GogObject *obj)
 		model->date_conv = go_data_date_conv (series->base.values[1].data);
 		index_dim = series->base.values[0].data;
 	}
-	axis = gog_plot1_5d_get_index_axis (model);
+
 	if (model->num_elements != num_elements ||
 	    model->implicit_index ^ (index_dim == NULL) ||
-	    (index_dim != gog_axis_get_labels (axis, &plot_that_labeled_axis) &&
+	    (index_dim != gog_axis_get_labels (iaxis, &plot_that_labeled_axis) &&
 	     GOG_PLOT (model) == plot_that_labeled_axis)) {
 		model->num_elements = num_elements;
 		model->implicit_index = (index_dim == NULL);
-		gog_axis_bound_changed (axis, GOG_OBJECT (model));
+		gog_axis_bound_changed (iaxis, GOG_OBJECT (model));
 	} else {
 		if (index_changed)
-			gog_axis_bound_changed (axis, GOG_OBJECT (model));
+			gog_axis_bound_changed (iaxis, GOG_OBJECT (model));
 	}
 
 	model->num_series = num_series;
@@ -257,8 +258,7 @@ gog_plot1_5d_update (GogObject *obj)
 	}
 
 	if (old_minima != model->minima || old_maxima != model->maxima)
-		gog_axis_bound_changed (
-			gog_plot1_5d_get_value_axis (model), GOG_OBJECT (model));
+		gog_axis_bound_changed (vaxis, GOG_OBJECT (model));
 
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 	if (plot1_5d_parent_klass->update)
@@ -266,11 +266,14 @@ gog_plot1_5d_update (GogObject *obj)
 }
 
 static GOData *
-gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
+gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType atype,
 			      GogPlotBoundInfo *bounds)
 {
 	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
-	if (axis == gog_axis_get_atype (gog_plot1_5d_get_value_axis (model))) {
+	GogAxis *iaxis = gog_plot1_5d_get_index_axis (model);
+	GogAxis *vaxis = gog_plot1_5d_get_value_axis (model);
+
+	if (atype == gog_axis_get_atype (vaxis)) {
 		bounds->val.minima = model->minima;
 		bounds->val.maxima = model->maxima;
 		if (model->type == GOG_1_5D_AS_PERCENTAGE) {
@@ -292,14 +295,15 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		 * value. See https://bugzilla.gnome.org/show_bug.cgi?id=663717.
 		 * The check for num_dim is there because the requirement is less
 		 * obvious for dropbars. */
-		if (plot->desc.series.num_dim == 4 && bounds->val.minima * bounds->val.maxima > 0) {
-			if (bounds->val.minima > 0)
+		if (gog_axis_is_zero_important (vaxis) &&
+		    plot->desc.series.num_dim == 4) {
+			if (bounds->val.minima > 0 && bounds->val.maxima > 0)
 				bounds->val.minima = 0;
-			else
+			else if (bounds->val.minima < 0 && bounds->val.maxima < 0)
 				bounds->val.maxima = 0.;
 		}
 		return NULL;
-	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
+	} else if (atype == gog_axis_get_atype (iaxis)) {
 		GSList *ptr;
 
 		bounds->val.minima = 1.;

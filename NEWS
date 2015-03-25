@@ -9,6 +9,7 @@ Johannes Deutsch:
 Morten:
 	* Improve log axis bounds.
 	* Fix format used for stacked percentage graphs.
+	* Don't force bar/col axis to include 0 for log axis.
 
 --------------------------------------------------------------------------
 goffice 0.10.21:

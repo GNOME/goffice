@@ -108,6 +108,8 @@ void	      gog_axis_bound_changed	  (GogAxis *axis, GogObject *contrib);
 
 void          gog_axis_data_get_bounds    (GogAxis *axis, GOData *data, double *minimum, double *maximum);
 
+gboolean      gog_axis_is_zero_important  (GogAxis *axis);
+
 GogGridLine  *gog_axis_get_grid_line 	  (GogAxis *axis, gboolean major);
 
 void	      		gog_axis_set_polar_unit		(GogAxis *axis, GogAxisPolarUnit unit);

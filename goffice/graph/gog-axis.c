@@ -873,7 +873,6 @@ map_linear_calc_ticks (GogAxis *axis)
 	}
 	range = maximum - minimum;
 
-
 	maj_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
 	if (maj_step <= 0.) maj_step = range;
 	while (1) {
@@ -3881,6 +3880,26 @@ gog_axis_data_get_bounds (GogAxis *axis, GOData *data,
 		}
 	} else
 		go_data_get_bounds (data, minimum, maximum);
+}
+
+/*
+ * gog_axis_is_zero_important:
+ * @axis: the axis to check
+ *
+ * Returns %TRUE if the axis is of a type in which zero is important and
+ * preferentially should be included in the range.
+ *
+ * This generally means a linear axis, i.e., not a log axis and not a
+ * date formatted axis.
+ */
+gboolean
+gog_axis_is_zero_important (GogAxis *axis)
+{
+	GogAxisMapDesc const *desc = axis->actual_map_desc;
+
+	return !axis->is_discrete &&
+		desc->map_finite (0.0) &&
+		desc->auto_bound != map_date_auto_bound;
 }
 
 /**
