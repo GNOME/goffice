@@ -7,7 +7,7 @@ Johannes Deutsch:
 	* Do not draw the line over the arrow head at start. [#745736]
 
 Morten:
-	* Improve log axis bounds.
+	* Improve log axis bounds.  [#745960]
 	* Fix format used for stacked percentage graphs.
 	* Don't force bar/col axis to include 0 for log axis.
 	* Don't force radial plots to include 0 for log axis.
