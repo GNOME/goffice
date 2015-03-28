@@ -1046,7 +1046,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation const *area;
 	GOPath *path = NULL, *next_path = NULL;
 	GSList *ptr;
-	double const *y_vals, *x_vals, *z_vals;
+	double const *y_vals, *x_vals, *z_vals =  NULL;
 	double x = 0., y = 0., z = 0., x_canvas = 0., y_canvas = 0.;
 	double zmax, rmax = 0., x_left, y_bottom, x_right, y_top;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
@@ -1120,7 +1120,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			n = gog_series_get_xyz_data (GOG_SERIES (series), &x_vals, &y_vals, &z_vals);
 		else
 			n = gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
-		if (n < 1 || y_vals == NULL)
+		if (n < 1 || y_vals == NULL || ((is_map || GOG_IS_BUBBLE_PLOT(model)) && z_vals == NULL))
 			continue;
 
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));

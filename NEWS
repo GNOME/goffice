@@ -2,6 +2,7 @@ goffice 0.10.22:
 
 Jean:
 	* Fix selection of axes using only part fo the plot area. [#746456]
+	* Protect colored xy and bubble plots against NULL z values.
 
 Johannes Deutsch:
 	* Do not draw the line over the arrow head at start. [#745736]
