@@ -1,7 +1,11 @@
+2015-03-31  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-object-xml.c (gog_dtd): Remove duplicate node.
+
 2015-03-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (make_dim_editor),
-	(cb_polar_unit_changed), (gog_axis_populate_editor): update circular axis 
+	(cb_polar_unit_changed), (gog_axis_populate_editor): update circular axis
 	bounds after a unit change. [#746738]
 
 2015-03-28  Jean Brefort  <jean.brefort@normalesup.org>

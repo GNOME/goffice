@@ -506,7 +506,6 @@ static GsfXMLInNode const gog_dtd[] = {
     GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ_PROP, -1, "property", GSF_XML_CONTENT, &gogo_prop_start, &gogo_prop_end),
     GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ_DATA, -1, "data", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (GOG_OBJ_DATA, GOG_DATA_DIM, -1, "dimension", GSF_XML_CONTENT, &gogo_dim_start, &gogo_dim_end),
-    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ, -1, "GogObject",	GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE_END
 };
 static GsfXMLInDoc *gog_sax_doc = NULL;
