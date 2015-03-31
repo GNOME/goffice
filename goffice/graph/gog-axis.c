@@ -2687,6 +2687,7 @@ typedef struct {
 	GtkComboBox *color_map_combo;
 	GOCmdContext *cc;
 	GtkBuilder *gui;
+	GogDataEditor *de[GOG_AXIS_ELEM_CROSS_POINT];
 } GogAxisPrefState;
 
 static void
@@ -2764,7 +2765,7 @@ cb_update_dim_editor (GogObject *gobj, ElemToggleData *closure)
 	g_signal_handler_unblock (closure->toggle, closure->toggle_handler);
 }
 
-static void
+static GogDataEditor *
 make_dim_editor (GogDataset *set, GtkGrid *grid, unsigned dim,
 		 GogDataAllocator *dalloc, char const *dim_name)
 {
@@ -2808,7 +2809,7 @@ make_dim_editor (GogDataset *set, GtkGrid *grid, unsigned dim,
 	g_object_set (G_OBJECT (editor), "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, editor,
 		1, dim + 1, 1, 1);
-
+	return GOG_DATA_EDITOR (editor);
 }
 
 static void
@@ -2847,6 +2848,7 @@ cb_polar_unit_changed (GtkComboBox *combo,
 {
 	GogAxis *axis = state->axis;
 	GOFormat *format;
+	int i;
 
 	axis->polar_unit = gtk_combo_box_get_active (combo);
 	format = go_format_new_from_XL (polar_units[axis->polar_unit].xl_format);
@@ -2854,6 +2856,13 @@ cb_polar_unit_changed (GtkComboBox *combo,
 	if (gog_axis_set_format (axis, format) &&
 	    state->format_selector != NULL)
 		go_format_sel_set_style_format (GO_FORMAT_SEL (state->format_selector), format);
+	gog_axis_auto_bound (axis);
+	for (i = GOG_AXIS_ELEM_MIN; i < GOG_AXIS_ELEM_CROSS_POINT; i++) {
+		GOData *data = gog_dataset_get_dim (GOG_DATASET (axis), i);
+		gog_data_editor_set_value_double (state->de[i],
+			                              (data)? go_data_get_scalar_value (data): axis->auto_bound[i],
+			                              axis->date_conv);
+	}
 }
 
 static void
@@ -3098,8 +3107,8 @@ gog_axis_populate_editor (GogObject *gobj,
 			N_("Categories between _labels")
 		};
 		for (i = GOG_AXIS_ELEM_MIN; i < GOG_AXIS_ELEM_CROSS_POINT ; i++)
-			make_dim_editor (set, grid, i, dalloc,
-					 _(dim_names[i]));
+			state->de[i] = make_dim_editor (set, grid, i, dalloc,
+			                                _(dim_names[i]));
 	} else {
 		static char const * const dim_names[] = {
 			N_("M_inimum"),
@@ -3109,8 +3118,8 @@ gog_axis_populate_editor (GogObject *gobj,
 		};
 
 		for (i = GOG_AXIS_ELEM_MIN; i < GOG_AXIS_ELEM_CROSS_POINT ; i++)
-			make_dim_editor (set, grid, i, dalloc,
-					 _(dim_names[i]));
+			state->de[i] = make_dim_editor (set, grid, i, dalloc,
+			                                _(dim_names[i]));
 	}
 	gtk_widget_show_all (GTK_WIDGET (grid));
 
