@@ -1,3 +1,17 @@
+2015-04-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-renderer.c (_get_marker_surface),
+	(gog_renderer_draw_marker), (_free_marker_data): auto fill color made
+	transparent for opened markers (x, +, and *). [#691025]
+	* goffice/graph/gog-theme.c (map_marker): ditto.
+	* goffice/gtk/go-marker-selector.c (go_marker_palette_render_func),
+	(go_marker_selector_set_shape), (go_marker_selector_set_auto_fill): ditto.
+	* goffice/gtk/go-marker-selector.h: ditto.
+	* goffice/utils/go-marker.c (go_marker_is_closed_shape): ditto.
+	* goffice/utils/go-marker.h: ditto.
+	* goffice/utils/go-style.c (cb_marker_fill_color_changed),
+	(marker_init): ditto.
+
 2015-03-31  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-object-xml.c (gog_dtd): Remove duplicate node.

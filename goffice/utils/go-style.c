@@ -787,6 +787,7 @@ cb_marker_fill_color_changed (GOSelector *selector,
 	color = go_color_selector_get_color (selector, &is_auto);
 	go_marker_set_fill_color (style->marker.mark, color);
 	style->marker.auto_fill_color = is_auto;
+	go_marker_selector_set_auto_fill (GO_SELECTOR (state->marker.selector), is_auto);
 	set_style (state);
 
 	go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector),
@@ -831,6 +832,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	else
 		go_marker_selector_set_colors (GO_SELECTOR (selector),
 					       GO_COLOR_BLUE, GO_COLOR_BLUE);
+	go_marker_selector_set_auto_fill (GO_SELECTOR (selector), style->marker.auto_fill_color);
 	w = go_gtk_builder_get_widget (gui, "marker_shape_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), selector);
 	gtk_grid_attach (GTK_GRID (grid), selector, 1, 1, 1, 1);

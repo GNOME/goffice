@@ -26,6 +26,7 @@
 typedef struct {
 	GOColor outline_color;
 	GOColor fill_color;
+	gboolean auto_fill;
 } GOMarkerSelectorState;
 
 static void
@@ -42,10 +43,10 @@ go_marker_palette_render_func (cairo_t *cr,
 		return;
 
 	marker = go_marker_new ();
-	go_marker_set_fill_color (marker, state->fill_color);
 	go_marker_set_outline_color (marker, state->outline_color);
 	go_marker_set_size (marker, size);
 	go_marker_set_shape (marker, index);
+	go_marker_set_fill_color (marker, (state->auto_fill && !go_marker_is_closed_shape (marker))? 0: state->fill_color);
 
 	cairo_set_line_width (cr, 1);
 	cairo_set_source_rgb (cr, 1., 1., 1.);
@@ -128,4 +129,22 @@ go_marker_selector_set_shape (GOSelector *selector, GOMarkerShape shape)
 	go_selector_set_active (GO_SELECTOR (selector),
 				CLAMP (shape, 0, GO_MARKER_MAX - 1));
 	go_selector_update_swatch (selector);
+}
+
+
+/**
+ * go_marker_selector_set_auto_fill:
+ * @selector: a #GOSelector
+ * @auto_fill: whether to use a transparent color for opened markers such as
+ * cross, x, or asterisk.
+ *
+ **/
+void
+go_marker_selector_set_auto_fill (GOSelector *selector, gboolean auto_fill)
+{
+	GOMarkerSelectorState *state;
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+	state = go_selector_get_user_data (selector);
+	g_return_if_fail (state != NULL);
+	state->auto_fill = auto_fill;
 }

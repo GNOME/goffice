@@ -56,6 +56,7 @@ GOMarkerShape    go_marker_shape_from_str       (char const *name);
 char const      *go_marker_shape_as_str         (GOMarkerShape shape);
 GOMarkerShape 	 go_marker_get_shape		(GOMarker const *m);
 void 		 go_marker_set_shape 		(GOMarker *m, GOMarkerShape shape);
+gboolean	 go_marker_is_closed_shape		(GOMarker const *m);
 GOColor 	 go_marker_get_outline_color	(GOMarker const *m);
 void		 go_marker_set_outline_color	(GOMarker *m, GOColor color);
 GOColor		 go_marker_get_fill_color	(GOMarker const *m);

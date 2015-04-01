@@ -33,6 +33,8 @@ void 		 go_marker_selector_set_colors  (GOSelector *selector,
 						 GOColor fill);
 void		 go_marker_selector_set_shape   (GOSelector *selector,
 						 GOMarkerShape shape);
+void		 go_marker_selector_set_auto_fill (GOSelector *selector,
+		                 gboolean auto_fill);
 
 G_END_DECLS
 

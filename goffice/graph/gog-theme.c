@@ -1024,13 +1024,6 @@ map_marker (GOStyleMark *mark, unsigned shape, unsigned palette_index,
 		GO_MARKER_CROSS,	GO_MARKER_HALF_BAR,
 		GO_MARKER_BAR
 	};
-	static gboolean const shape_is_fill_transparent [] = {
-		TRUE,	TRUE,
-		TRUE,	FALSE,
-		FALSE,	TRUE,
-		FALSE,	TRUE,
-		TRUE
-	};
 
 	if (shape >= G_N_ELEMENTS (shape_palette))
 		shape %= G_N_ELEMENTS (shape_palette);
@@ -1041,9 +1034,7 @@ map_marker (GOStyleMark *mark, unsigned shape, unsigned palette_index,
 		go_marker_set_outline_color (mark->mark,
 			palette [palette_index]);
 	if (mark->auto_fill_color)
-		go_marker_set_fill_color (mark->mark,
-			shape_is_fill_transparent [shape]
-			? palette [palette_index] : 0);
+		go_marker_set_fill_color (mark->mark, palette [palette_index]);
 }
 
 static GOColor const default_palette [] = {

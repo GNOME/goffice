@@ -171,6 +171,20 @@ go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 	marker->shape = shape;
 }
 
+gboolean
+go_marker_is_closed_shape (GOMarker const *m)
+{
+	g_return_val_if_fail (GO_IS_MARKER (m), FALSE);
+	switch (m->shape) {
+	case GO_MARKER_X:
+	case GO_MARKER_CROSS:
+	case GO_MARKER_ASTERISK:
+		return FALSE;
+	default:
+		return TRUE;
+	}
+}
+
 GOColor
 go_marker_get_outline_color (GOMarker const *marker)
 {

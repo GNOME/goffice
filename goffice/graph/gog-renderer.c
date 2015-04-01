@@ -94,6 +94,7 @@ struct _GogRenderer {
 	gboolean	 marker_as_surface;
 	cairo_surface_t *marker_surface;
 	double		 marker_offset;
+	GOMarker	*marker;
 };
 
 typedef struct {
@@ -777,7 +778,7 @@ gog_renderer_draw_selection_rectangle (GogRenderer *renderer, GogViewAllocation 
 static cairo_surface_t *
 _get_marker_surface (GogRenderer *rend)
 {
-	GOMarker *marker = rend->cur_style->marker.mark;
+	GOMarker *marker = rend->marker;
 	double width;
 
 	if (rend->marker_surface != NULL)
@@ -803,8 +804,17 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 	g_return_if_fail (GOG_IS_RENDERER (rend));
 	g_return_if_fail (rend->cur_style != NULL);
 
+	if (rend->marker == NULL) {
+		if (rend->cur_style->marker.auto_fill_color &&
+		    !go_marker_is_closed_shape (rend->cur_style->marker.mark)) {
+			rend->marker = go_marker_dup (rend->cur_style->marker.mark);
+			go_marker_set_fill_color (rend->marker, 0);
+		} else
+			rend->marker = g_object_ref (rend->cur_style->marker.mark);
+	}
+
 	if (rend->is_vector && !rend->marker_as_surface) {
-		go_marker_render (rend->cur_style->marker.mark, rend->cairo,
+		go_marker_render (rend->marker, rend->cairo,
 				  x, y, rend->scale);
 		return;
 	}
@@ -1261,6 +1271,10 @@ _free_marker_data (GogRenderer *rend)
 	if (rend->marker_surface != NULL) {
 		cairo_surface_destroy (rend->marker_surface);
 		rend->marker_surface = NULL;
+	}
+	if (rend->marker) {
+		g_object_unref (rend->marker);
+		rend->marker = NULL;
 	}
 }
 
