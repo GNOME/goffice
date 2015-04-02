@@ -269,8 +269,85 @@ color_to_data (GOColor color, unsigned char data[4])
 #undef MULT
 }
 
+static cairo_pattern_t *
+solid_pattern (GOColor color)
+{
+	return cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color));
+}
 
-#define SVG_PATTERN_SCALE 2.0
+static cairo_pattern_t *
+legacy_pattern (GOPattern const *pattern, cairo_t *cr)
+{
+	cairo_surface_t *cr_surface;
+	cairo_pattern_t *cr_pattern;
+	unsigned int stride, i, j;
+	unsigned char *iter;
+	guint8 const *pattern_data = go_pattern_get_pattern (pattern);
+	unsigned char data_fore[4], data_back[4];
+
+	cr_surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 8, 8);
+	cairo_surface_flush (cr_surface); /* documentation says this one must be called */
+	stride = cairo_image_surface_get_stride (cr_surface);
+	iter = cairo_image_surface_get_data (cr_surface);
+
+	color_to_data (pattern->fore, data_fore);
+	color_to_data (pattern->back, data_back);
+
+	for (i = 0; i < 8; i++) {
+		for (j = 0; j < 8; j++) {
+			memcpy (iter, (pattern_data[i] & (1 << j)) ? data_fore : data_back, 4);
+			iter += 4;
+		}
+		iter += stride - 32;
+	}
+
+	cairo_surface_mark_dirty (cr_surface);
+
+	cr_pattern = cairo_pattern_create_for_surface (cr_surface);
+	cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
+	cairo_surface_destroy (cr_surface);
+
+	return cr_pattern;
+}
+
+static cairo_pattern_t *
+svg_pattern (GOPattern const *pattern, cairo_t *cr)
+{
+	double SVG_PATTERN_SCALE = 2.0;
+	cairo_t *cr_tmp;
+	xmlChar *svg_path;
+	double width, height;
+	cairo_surface_t *cr_surface;
+	cairo_pattern_t *cr_pattern;
+
+	svg_path = go_pattern_get_svg_path (pattern, &width, &height);
+
+	cr_surface = cairo_surface_create_similar (cairo_get_target (cr),
+						   CAIRO_CONTENT_COLOR_ALPHA,
+						   width * SVG_PATTERN_SCALE,
+						   height * SVG_PATTERN_SCALE);
+
+	cr_tmp = cairo_create (cr_surface);
+
+	cairo_set_source_rgba (cr_tmp, GO_COLOR_TO_CAIRO (pattern->back));
+	cairo_paint (cr_tmp);
+
+	cairo_set_source_rgba (cr_tmp, GO_COLOR_TO_CAIRO (pattern->fore));
+	cairo_scale (cr_tmp, SVG_PATTERN_SCALE, SVG_PATTERN_SCALE);
+	go_cairo_emit_svg_path (cr_tmp, svg_path);
+	cairo_set_line_width (cr_tmp, 0.2);
+	cairo_fill (cr_tmp);
+
+	cairo_destroy (cr_tmp);
+
+	xmlFree (svg_path);
+
+	cr_pattern = cairo_pattern_create_for_surface (cr_surface);
+	cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
+	cairo_surface_destroy (cr_surface);
+
+	return cr_pattern;
+}
 
 /**
  * go_pattern_create_cairo_pattern:
@@ -283,79 +360,18 @@ color_to_data (GOColor color, unsigned char data[4])
 cairo_pattern_t *
 go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 {
-	cairo_surface_t *cr_surface;
-	cairo_pattern_t *cr_pattern;
 	GOColor color;
 
 	g_return_val_if_fail (pattern != NULL && pattern->pattern < GO_PATTERN_MAX, NULL);
-	if (go_pattern_is_solid (pattern, &color)) {
-		cr_pattern = cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color));
 
-#if 1
+	if (go_pattern_is_solid (pattern, &color))
+		return solid_pattern (color);
+	else if (TRUE && go_cairo_surface_is_vector (cairo_get_target (cr)))
+		/* MW 20150402: doesn't look so disabled to me. */
 		/* This code is disabled for now. Cairo export of vector pattern
 		 * to PDF or PS looks terrible, and even SVG export is not properly rendered
 		 * with Inkscape. */
-
-	} else if (go_cairo_surface_is_vector (cairo_get_target (cr))) {
-		cairo_t *cr_tmp;
-		xmlChar *svg_path;
-		double width, height;
-
-		svg_path = go_pattern_get_svg_path (pattern, &width, &height);
-
-		cr_surface = cairo_surface_create_similar (cairo_get_target (cr),
-							   CAIRO_CONTENT_COLOR_ALPHA,
-							   width * SVG_PATTERN_SCALE,
-							   height * SVG_PATTERN_SCALE);
-
-		cr_tmp = cairo_create (cr_surface);
-
-		cairo_set_source_rgba (cr_tmp, GO_COLOR_TO_CAIRO (pattern->back));
-		cairo_paint (cr_tmp);
-
-		cairo_set_source_rgba (cr_tmp, GO_COLOR_TO_CAIRO (pattern->fore));
-		cairo_scale (cr_tmp, SVG_PATTERN_SCALE, SVG_PATTERN_SCALE);
-		go_cairo_emit_svg_path (cr_tmp, svg_path);
-		cairo_set_line_width (cr_tmp, 0.2);
-		cairo_fill (cr_tmp);
-		xmlFree (svg_path);
-
-		cairo_destroy (cr_tmp);
-
-		cr_pattern = cairo_pattern_create_for_surface (cr_surface);
-		cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
-		cairo_surface_destroy (cr_surface);
-#endif
-	} else {
-		unsigned int stride, i, j;
-		unsigned char *iter;
-		guint8 const *pattern_data;
-		unsigned char data_fore[4], data_back[4];
-
-		pattern_data = go_pattern_get_pattern (pattern);
-
-		cr_surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 8, 8);
-		cairo_surface_flush (cr_surface); /* documentation says this one must be called */
-		stride = cairo_image_surface_get_stride (cr_surface);
-		iter = cairo_image_surface_get_data (cr_surface);
-
-		color_to_data (pattern->fore, data_fore);
-		color_to_data (pattern->back, data_back);
-
-		for (i = 0; i < 8; i++) {
-			for (j = 0; j < 8; j++) {
-				memcpy (iter, (pattern_data[i] & (1 << j)) ? data_fore : data_back, 4);
-				iter += 4;
-			}
-			iter += stride - 32;
-		}
-
-		cairo_surface_mark_dirty (cr_surface);
-
-		cr_pattern = cairo_pattern_create_for_surface (cr_surface);
-		cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
-		cairo_surface_destroy (cr_surface);
-	}
-
-	return cr_pattern;
+		return svg_pattern (pattern, cr);
+	else
+		return legacy_pattern (pattern, cr);
 }

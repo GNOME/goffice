@@ -1,7 +1,8 @@
 2015-04-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pattern.c (go_pattern_create_cairo_pattern): Do
-	2 colour translations instead of 64.
+	2 colour translations instead of 64.  Split submethods into
+	separate functions.
 
 2015-04-01  Jean Brefort  <jean.brefort@normalesup.org>
 
