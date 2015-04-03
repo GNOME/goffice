@@ -313,7 +313,7 @@ legacy_pattern (GOPattern const *pattern, cairo_t *cr)
 static cairo_pattern_t *
 svg_pattern (GOPattern const *pattern, cairo_t *cr)
 {
-	double SVG_PATTERN_SCALE = 2.0;
+	int target_size = 16;
 	cairo_t *cr_tmp;
 	xmlChar *svg_path;
 	double width, height;
@@ -324,8 +324,7 @@ svg_pattern (GOPattern const *pattern, cairo_t *cr)
 
 	cr_surface = cairo_surface_create_similar (cairo_get_target (cr),
 						   CAIRO_CONTENT_COLOR_ALPHA,
-						   width * SVG_PATTERN_SCALE,
-						   height * SVG_PATTERN_SCALE);
+						   target_size, target_size);
 
 	cr_tmp = cairo_create (cr_surface);
 
@@ -333,9 +332,9 @@ svg_pattern (GOPattern const *pattern, cairo_t *cr)
 	cairo_paint (cr_tmp);
 
 	cairo_set_source_rgba (cr_tmp, GO_COLOR_TO_CAIRO (pattern->fore));
-	cairo_scale (cr_tmp, SVG_PATTERN_SCALE, SVG_PATTERN_SCALE);
+	cairo_scale (cr_tmp, target_size / width, target_size / height);
 	go_cairo_emit_svg_path (cr_tmp, svg_path);
-	cairo_set_line_width (cr_tmp, 0.2);
+	cairo_set_line_width (cr_tmp, 0.01);
 	cairo_fill (cr_tmp);
 
 	cairo_destroy (cr_tmp);
@@ -354,8 +353,8 @@ svg_pattern (GOPattern const *pattern, cairo_t *cr)
  * @pattern: a #GOPattern
  * @cr: a cairo context
  *
- * Returns: a cairo pattern object corresponding to @pattern parameters. The returned
- * 	surface must be freed after use, using cairo_pattern_destroy.
+ * Returns: (transfer full): a cairo pattern object corresponding to @pattern
+ * parameters.
  **/
 cairo_pattern_t *
 go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
