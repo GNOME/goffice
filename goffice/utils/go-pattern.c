@@ -621,15 +621,16 @@ create_direct_pattern (GOPattern const *pattern, cairo_t *cr)
 	}
 
 	case GO_PATTERN_SEMI_CIRCLES:
+		cairo_set_line_cap (cr_tmp, CAIRO_LINE_CAP_ROUND);
 		cairo_arc (cr_tmp, target_size / 2.0, target_size / 2.0,
 			   target_size / 2.0, 0, M_PI);
-		cairo_stroke (cr_tmp);
+		cairo_new_sub_path (cr_tmp);
 		cairo_arc (cr_tmp, 0, 0,
 			   target_size / 2.0, 0, M_PI);
-		cairo_stroke (cr_tmp);
+		cairo_new_sub_path (cr_tmp);
 		cairo_arc (cr_tmp, target_size, 0,
 			   target_size / 2.0, 0, M_PI);
-		cairo_stroke (cr_tmp);
+		cairo_new_sub_path (cr_tmp);
 		cairo_arc (cr_tmp, target_size / 2.0, -target_size / 2.0,
 			   target_size / 2.0, 0, M_PI);
 		cairo_stroke (cr_tmp);
