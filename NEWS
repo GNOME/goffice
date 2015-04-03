@@ -14,6 +14,7 @@ Morten:
 	* Fix format used for stacked percentage graphs.
 	* Don't force bar/col axis to include 0 for log axis.
 	* Don't force radial plots to include 0 for log axis.
+	* Improve how patterns look on screen.  [#747212]
 
 --------------------------------------------------------------------------
 goffice 0.10.21:

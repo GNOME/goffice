@@ -72,40 +72,160 @@
 typedef struct {
 	char const *name;
 	char const *str;
+	int size;
+	enum { PT_NA, PT_THIN, PT_NORMAL, PT_THICK } line_width;
 	guint8 pattern[8];
 } GOPatternSpec;
 
 static GOPatternSpec const go_patterns [] = {
-  { N_("Solid"),                     "solid",           { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff } },
-/* xgettext:no-c-format */
-  { N_("75% Grey"),                  "grey75",          { 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee } },
-/* xgettext:no-c-format */
-  { N_("50% Grey"),                  "grey50",          { 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55 } },
-/* xgettext:no-c-format */
-  { N_("25% Grey"),                  "grey25",          { 0x22, 0x88, 0x22, 0x88, 0x22, 0x88, 0x22, 0x88 } },
-/* xgettext:no-c-format */
-  { N_("12.5% Grey"),                "grey12.5",        { 0x88, 0x00, 0x22, 0x00, 0x88, 0x00, 0x22, 0x00 } },
-/* xgettext:no-c-format */
-  { N_("6.25% Grey"),                "grey6.25",        { 0x20, 0x00, 0x02, 0x00, 0x20, 0x00, 0x02, 0x00 } },
-  { N_("Horizontal Stripe"),         "horiz",           { 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff } },
-  { N_("Vertical Stripe"),           "vert",            { 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33 } },
-  { N_("Reverse Diagonal Stripe"),   "rev-diag",        { 0x33, 0x66, 0xcc, 0x99, 0x33, 0x66, 0xcc, 0x99 } },
-  { N_("Diagonal Stripe"),           "diag",            { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 } },
-  { N_("Diagonal Crosshatch"),       "diag-cross",      { 0x99, 0x66, 0x66, 0x99, 0x99, 0x66, 0x66, 0x99 } },
-  { N_("Thick Diagonal Crosshatch"), "thick-diag-cross",{ 0xff, 0x66, 0xff, 0x99, 0xff, 0x66, 0xff, 0x99 } },
-  { N_("Thin Horizontal Stripe"),    "thin-horiz",      { 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00 } },
-  { N_("Thin Vertical Stripe"),      "thin-vert",       { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 } },
-  { N_("Thin Reverse Diagonal Stripe"),"thin-rev-diag", { 0x11, 0x22, 0x44, 0x88, 0x11, 0x22, 0x44, 0x88 } },
-  { N_("Thin Diagonal Stripe"),      "thin-diag",       { 0x88, 0x44, 0x22, 0x11, 0x88, 0x44, 0x22, 0x11 } },
-  { N_("Thin Horizontal Crosshatch"),"thin-horiz-cross",{ 0x22, 0x22, 0xff, 0x22, 0x22, 0x22, 0xff, 0x22 } },
-  { N_("Thin Diagonal Crosshatch"),  "thin-diag-cross", { 0x88, 0x55, 0x22, 0x55, 0x88, 0x55, 0x22, 0x55 } },
-  { N_("Foreground Solid"),          "foreground-solid",{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } },
-  { N_("Small Circles")/* Applix */, "small-circles",   { 0x99, 0x55, 0x33, 0xff, 0x99, 0x55, 0x33, 0xff } },
-  { N_("Semi Circles") /* Applix */, "semi-circles",    { 0x10, 0x10, 0x28, 0xc7, 0x01, 0x01, 0x82, 0x7c } },
-  { N_("Thatch") /* Applix small thatch */, "thatch",   { 0x22, 0x74, 0xf8, 0x71, 0x22, 0x17, 0x8f, 0x47 } },
-  { N_("Large Circles")/*Applix round thatch*/,
-				     "large-circles",   { 0xc1, 0x80, 0x1c, 0x3e, 0x3e, 0x3e, 0x1c, 0x80 } },
-  { N_("Bricks") /* Applix Brick */, "bricks",          { 0x20, 0x20, 0x20, 0xff, 0x02, 0x02, 0x02, 0xff } }
+	{
+		N_("Solid"),
+		"solid",
+		1, PT_NA,
+		{ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }
+	},
+	{
+		/* xgettext:no-c-format */
+		N_("75% Grey"),
+		"grey75",
+	1,  PT_NA,
+		{ 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee }
+	},
+	{
+		/* xgettext:no-c-format */
+		N_("50% Grey"),
+		"grey50",
+		1, PT_NA,
+		{ 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55 }
+	},
+	{
+		/* xgettext:no-c-format */
+		N_("25% Grey"),
+		"grey25",
+		1, PT_NA,
+		{ 0x22, 0x88, 0x22, 0x88, 0x22, 0x88, 0x22, 0x88 }
+	},
+	{
+		/* xgettext:no-c-format */
+		N_("12.5% Grey"),
+		"grey12.5",
+		1, PT_NA,
+		{ 0x88, 0x00, 0x22, 0x00, 0x88, 0x00, 0x22, 0x00 }
+	},
+	{
+		/* xgettext:no-c-format */
+		N_("6.25% Grey"),
+		"grey6.25",
+		1, PT_NA,
+		{ 0x20, 0x00, 0x02, 0x00, 0x20, 0x00, 0x02, 0x00 }
+	},
+	{
+		N_("Horizontal Stripe"),
+		"horiz",
+		8, PT_NORMAL,
+		{ 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff }
+	},
+	{
+		N_("Vertical Stripe"),
+		"vert",
+		8, PT_NORMAL,
+		{ 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33 }
+	},
+	{
+		N_("Reverse Diagonal Stripe"),
+		"rev-diag",
+		12, PT_NORMAL,
+		{ 0x33, 0x66, 0xcc, 0x99, 0x33, 0x66, 0xcc, 0x99 }
+	},
+	{
+		N_("Diagonal Stripe"),
+		"diag",
+		12, PT_NORMAL,
+		{ 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 }
+	},
+	{
+		N_("Diagonal Crosshatch"),
+		"diag-cross",
+		16, PT_NORMAL,
+		{ 0x99, 0x66, 0x66, 0x99, 0x99, 0x66, 0x66, 0x99 }
+	},
+	{
+		N_("Thick Diagonal Crosshatch"),
+		"thick-diag-cross",
+		16, PT_THICK,
+		{ 0xff, 0x66, 0xff, 0x99, 0xff, 0x66, 0xff, 0x99 }
+	},
+	{
+		N_("Thin Horizontal Stripe"),
+		"thin-horiz",
+		6, PT_THIN,
+		{ 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00 }
+	},
+	{
+		N_("Thin Vertical Stripe"),
+		"thin-vert",
+		6, PT_THIN,
+		{ 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 }
+	},
+	{
+		N_("Thin Reverse Diagonal Stripe"),
+		"thin-rev-diag",
+		8, PT_THIN,
+		{ 0x11, 0x22, 0x44, 0x88, 0x11, 0x22, 0x44, 0x88 }
+	},
+	{
+		N_("Thin Diagonal Stripe"),
+		"thin-diag",
+		8, PT_THIN,
+		{ 0x88, 0x44, 0x22, 0x11, 0x88, 0x44, 0x22, 0x11 }
+	},
+	{
+		N_("Thin Horizontal Crosshatch"),
+		"thin-horiz-cross",
+		6, PT_THIN,
+		{ 0x22, 0x22, 0xff, 0x22, 0x22, 0x22, 0xff, 0x22 }
+	},
+	{
+		N_("Thin Diagonal Crosshatch"),
+		"thin-diag-cross",
+		9, PT_THIN,
+		{ 0x88, 0x55, 0x22, 0x55, 0x88, 0x55, 0x22, 0x55 }
+	},
+	{
+		N_("Foreground Solid"),
+		"foreground-solid",
+		1, PT_NA,
+		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
+	},
+	{
+		N_("Small Circles") /* Applix */,
+		"small-circles",
+		8, PT_THIN,
+		{ 0x99, 0x55, 0x33, 0xff, 0x99, 0x55, 0x33, 0xff } },
+	{
+		N_("Semi Circles") /* Applix */,
+		"semi-circles",
+		12, PT_THIN,
+		{ 0x10, 0x10, 0x28, 0xc7, 0x01, 0x01, 0x82, 0x7c }
+	},
+	{
+		N_("Thatch") /* Applix small thatch */,
+		"thatch",
+		14, PT_NA,
+		{ 0x22, 0x74, 0xf8, 0x71, 0x22, 0x17, 0x8f, 0x47 }
+	},
+	{
+		N_("Large Circles") /*Applix round thatch */,
+		"large-circles",
+		16, PT_NA,
+		{ 0xc1, 0x80, 0x1c, 0x3e, 0x3e, 0x3e, 0x1c, 0x80 }
+	},
+	{
+		N_("Bricks") /* Applix Brick */,
+		"bricks",
+		12, PT_THIN,
+		{ 0x20, 0x20, 0x20, 0xff, 0x02, 0x02, 0x02, 0xff }
+	}
 };
 
 
@@ -270,12 +390,6 @@ color_to_data (GOColor color, unsigned char data[4])
 }
 
 static cairo_pattern_t *
-solid_pattern (GOColor color)
-{
-	return cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color));
-}
-
-static cairo_pattern_t *
 legacy_pattern (GOPattern const *pattern, cairo_t *cr)
 {
 	cairo_surface_t *cr_surface;
@@ -320,6 +434,40 @@ svg_pattern (GOPattern const *pattern, cairo_t *cr)
 	cairo_surface_t *cr_surface;
 	cairo_pattern_t *cr_pattern;
 
+	switch (pattern->pattern) {
+	case GO_PATTERN_HORIZ:
+	case GO_PATTERN_VERT:
+		target_size = 10;
+		break;
+	case GO_PATTERN_DIAG:
+	case GO_PATTERN_REV_DIAG:
+		target_size = 12;
+		break;
+	case GO_PATTERN_THIN_REV_DIAG:
+	case GO_PATTERN_THIN_DIAG:
+		target_size = 8;
+		break;
+	case GO_PATTERN_THIN_HORIZ:
+	case GO_PATTERN_THIN_VERT:
+		target_size = 6;
+		break;
+	case GO_PATTERN_THIN_DIAG_CROSS:
+		target_size = 8;
+		break;
+	case GO_PATTERN_THIN_HORIZ_CROSS:
+		target_size = 8;
+		break;
+
+	case GO_PATTERN_SEMI_CIRCLES:
+	case GO_PATTERN_THATCH:
+	case GO_PATTERN_BRICKS:
+		target_size = 12;
+		break;
+	default:
+		target_size = 16;
+		break;
+	}
+
 	svg_path = go_pattern_get_svg_path (pattern, &width, &height);
 
 	cr_surface = cairo_surface_create_similar (cairo_get_target (cr),
@@ -348,6 +496,178 @@ svg_pattern (GOPattern const *pattern, cairo_t *cr)
 	return cr_pattern;
 }
 
+static cairo_pattern_t *
+create_direct_pattern (GOPattern const *pattern, cairo_t *cr)
+{
+	int target_size;
+	cairo_surface_t *cr_surface;
+	cairo_pattern_t *pat;
+	cairo_t *cr_tmp;
+	int lw;
+	static const int line_widths[4] = { 0, 2, 4, 6 };
+	double lwoff;
+
+	target_size = go_patterns[pattern->pattern].size;
+	lw = line_widths[go_patterns[pattern->pattern].line_width];
+	lwoff = (lw & 1) ? 0.5 : 0;
+
+	cr_surface = cairo_surface_create_similar (cairo_get_target (cr),
+						   CAIRO_CONTENT_COLOR_ALPHA,
+						   target_size, target_size);
+
+	cr_tmp = cairo_create (cr_surface);
+	cairo_set_source_rgba (cr_tmp, GO_COLOR_TO_CAIRO (pattern->back));
+	cairo_paint (cr_tmp);
+	cairo_set_source_rgba (cr_tmp, GO_COLOR_TO_CAIRO (pattern->fore));
+	cairo_set_line_width (cr_tmp, lw);
+
+	/*
+	 * Note: axis-parallel lines are created at integer coordinates
+	 * (using integer division) plus lwoff in case the width is odd.
+	 * That ought to ensure we fill pixels right.  (But note, that
+	 * lwoff is bound to be zero right now.)
+	 */
+
+	switch (pattern->pattern) {
+	default:
+		g_assert_not_reached ();
+
+	case GO_PATTERN_HORIZ:
+	case GO_PATTERN_THIN_HORIZ:
+		cairo_move_to (cr_tmp, 0, target_size / 2 + lwoff);
+		cairo_line_to (cr_tmp, target_size, target_size / 2 + lwoff);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_VERT:
+	case GO_PATTERN_THIN_VERT:
+		cairo_move_to (cr_tmp, target_size / 2 + lwoff, 0);
+		cairo_line_to (cr_tmp, target_size / 2 + lwoff, target_size);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_THIN_HORIZ_CROSS:
+		cairo_move_to (cr_tmp, 0, target_size / 2 + lwoff);
+		cairo_line_to (cr_tmp, target_size, target_size / 2 + lwoff);
+		cairo_move_to (cr_tmp, target_size / 2 + lwoff, 0);
+		cairo_line_to (cr_tmp, target_size / 2 + lwoff, target_size);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_DIAG:
+	case GO_PATTERN_THIN_DIAG:
+		cairo_move_to (cr_tmp, 0, target_size);
+		cairo_line_to (cr_tmp, target_size, 0);
+		cairo_move_to (cr_tmp, 0, 2 * target_size);
+		cairo_line_to (cr_tmp, 2 * target_size, 0);
+		cairo_move_to (cr_tmp, -target_size, target_size);
+		cairo_line_to (cr_tmp, target_size, -target_size);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_REV_DIAG:
+	case GO_PATTERN_THIN_REV_DIAG:
+		cairo_move_to (cr_tmp, 0, 0);
+		cairo_line_to (cr_tmp, target_size, target_size);
+		cairo_move_to (cr_tmp, -target_size, 0);
+		cairo_line_to (cr_tmp, target_size, 2 * target_size);
+		cairo_move_to (cr_tmp, 0, -target_size);
+		cairo_line_to (cr_tmp, 2 * target_size, target_size);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_DIAG_CROSS:
+	case GO_PATTERN_THICK_DIAG_CROSS:
+	case GO_PATTERN_THIN_DIAG_CROSS:
+		cairo_move_to (cr_tmp, 0, 0);
+		cairo_line_to (cr_tmp, target_size, target_size);
+		cairo_move_to (cr_tmp, 0, target_size);
+		cairo_line_to (cr_tmp, target_size, 0);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_BRICKS:
+		cairo_move_to (cr_tmp, 0, 0);
+		cairo_line_to (cr_tmp, target_size, 0);
+		cairo_move_to (cr_tmp, 0, target_size / 2 + lwoff);
+		cairo_line_to (cr_tmp, target_size, target_size / 2 + lwoff);
+		cairo_move_to (cr_tmp, 0, target_size);
+		cairo_line_to (cr_tmp, target_size, target_size);
+		cairo_move_to (cr_tmp, target_size / 4 + lwoff, 0);
+		cairo_line_to (cr_tmp, target_size / 4 + lwoff, target_size / 2 + lwoff);
+		cairo_move_to (cr_tmp, target_size * 3 / 4 + lwoff, target_size / 2 + lwoff);
+		cairo_line_to (cr_tmp, target_size * 3 / 4 + lwoff, target_size);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_SMALL_CIRCLES:
+		cairo_arc (cr_tmp, target_size / 2.0, target_size / 2.0,
+			   target_size / 2.0 - lw * 0.45,  /* 2 * 5% overlap */
+			   0, 2 * M_PI);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_LARGE_CIRCLES: {
+		double dlw = target_size * (sqrt (5) - 1) / 4.0;
+		/* Inverse colours */
+		cairo_paint (cr_tmp);
+		cairo_set_source_rgba (cr_tmp, GO_COLOR_TO_CAIRO (pattern->back));
+		cairo_set_line_width (cr_tmp, dlw);
+		cairo_arc (cr_tmp, target_size / 2.0, target_size / 2.0,
+			   dlw / 2 + target_size / 4.0,
+			   0, 2 * M_PI);
+		cairo_stroke (cr_tmp);
+		break;
+	}
+
+	case GO_PATTERN_SEMI_CIRCLES:
+		cairo_arc (cr_tmp, target_size / 2.0, target_size / 2.0,
+			   target_size / 2.0, 0, M_PI);
+		cairo_stroke (cr_tmp);
+		cairo_arc (cr_tmp, 0, 0,
+			   target_size / 2.0, 0, M_PI);
+		cairo_stroke (cr_tmp);
+		cairo_arc (cr_tmp, target_size, 0,
+			   target_size / 2.0, 0, M_PI);
+		cairo_stroke (cr_tmp);
+		cairo_arc (cr_tmp, target_size / 2.0, -target_size / 2.0,
+			   target_size / 2.0, 0, M_PI);
+		cairo_stroke (cr_tmp);
+		break;
+
+	case GO_PATTERN_THATCH: {
+		double U = target_size / 4.0;
+
+		cairo_move_to (cr_tmp, 1 * U, 0 * U);
+		cairo_line_to (cr_tmp, 0 * U, 1 * U);
+                cairo_line_to (cr_tmp, 0 * U, 3 * U);
+                cairo_line_to (cr_tmp, 0.9 * U, 2.1 * U);
+                cairo_line_to (cr_tmp, 1.9 * U, 3.1 * U);
+                cairo_line_to (cr_tmp, 1 * U, 4 * U);
+                cairo_line_to (cr_tmp, 3 * U, 4 * U);
+                cairo_line_to (cr_tmp, 4 * U, 3 * U);
+                cairo_line_to (cr_tmp, 4 * U, 1 * U);
+                cairo_line_to (cr_tmp, 3.1 * U, 1.9 * U);
+                cairo_line_to (cr_tmp, 2.1 * U, 0.9 * U);
+                cairo_line_to (cr_tmp, 3 * U, 0 * U);
+		cairo_close_path (cr_tmp);
+		cairo_move_to (cr_tmp, 1.1 * U, 0.1 * U);
+                cairo_line_to (cr_tmp, 3.9 * U, 2.9 * U);
+                cairo_line_to (cr_tmp, 2.9 * U, 3.9 * U);
+                cairo_line_to (cr_tmp, 0.1 * U, 1.1 * U);
+		cairo_close_path (cr_tmp);
+		cairo_fill (cr_tmp);
+		break;
+	}
+	}
+	cairo_destroy (cr_tmp);
+	pat = cairo_pattern_create_for_surface (cr_surface);
+	cairo_pattern_set_extend (pat, CAIRO_EXTEND_REPEAT);
+	cairo_surface_destroy (cr_surface);
+
+	return pat;
+}
+
 /**
  * go_pattern_create_cairo_pattern:
  * @pattern: a #GOPattern
@@ -364,13 +684,16 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 	g_return_val_if_fail (pattern != NULL && pattern->pattern < GO_PATTERN_MAX, NULL);
 
 	if (go_pattern_is_solid (pattern, &color))
-		return solid_pattern (color);
-	else if (TRUE && go_cairo_surface_is_vector (cairo_get_target (cr)))
+		return cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color));
+
+	if (TRUE && go_cairo_surface_is_vector (cairo_get_target (cr)))
 		/* MW 20150402: doesn't look so disabled to me. */
 		/* This code is disabled for now. Cairo export of vector pattern
 		 * to PDF or PS looks terrible, and even SVG export is not properly rendered
 		 * with Inkscape. */
 		return svg_pattern (pattern, cr);
+	else if (TRUE)
+		return create_direct_pattern (pattern, cr);
 	else
 		return legacy_pattern (pattern, cr);
 }

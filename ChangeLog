@@ -1,3 +1,8 @@
+2015-04-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-pattern.c (go_pattern_create_cairo_pattern):
+	Don't use 8x8 bitmaps for patterns.  Draw all patterns with cairo.
+
 2015-04-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pattern.c (go_pattern_create_cairo_pattern): Do
