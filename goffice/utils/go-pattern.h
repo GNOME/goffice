@@ -65,8 +65,12 @@ GOPatternType	 go_pattern_from_str     (char const *name);
 char const	*go_pattern_as_str       (GOPatternType pattern);
 gboolean	 go_pattern_is_solid     (GOPattern const *pat, GOColor *color);
 void		 go_pattern_set_solid    (GOPattern *pat, GOColor fore);
+#ifndef GOFFICE_DISABLE_DEPRECATED
+GOFFICE_DEPRECATED_FOR(go_pattern_create_cairo_pattern)
 guint8 const 	*go_pattern_get_pattern  (GOPattern const *pat);
+GOFFICE_DEPRECATED_FOR(go_pattern_create_cairo_pattern)
 xmlChar		*go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height);
+#endif
 
 cairo_pattern_t *go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr);
 
