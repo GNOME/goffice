@@ -429,7 +429,7 @@ _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean 
 	g_return_if_fail (renderer->cur_style != NULL);
 	g_return_if_fail (GO_IS_PATH (path));
 
-    style = renderer->cur_style;
+	style = renderer->cur_style;
 
 	line_options = go_path_get_options (path);
 	width = stroke ? _grc_line_size (renderer, style->line.width,
@@ -1615,9 +1615,6 @@ do_export_vectorial:
 			cairo = cairo_create (surface);
 			cairo_surface_destroy (surface);
 			status = gog_renderer_render_to_cairo (rend, cairo, width_in_pts, height_in_pts);
-			/* This call was needed by cairo version < 1.4. It could be safely removed
-			 * once we depend on cairo 1.4 instead of 1.2. */
-			cairo_show_page (cairo);
 			cairo_destroy (cairo);
 
 			return status;
