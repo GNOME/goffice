@@ -42,7 +42,9 @@ double go_ascii_strtod (const char *s, char **end);
 double go_sinpi (double x);
 double go_cospi (double x);
 double go_tanpi (double x);
+double go_cotpi (double x);
 double go_atan2pi (double y, double x);
+double go_atanpi (double x);
 
 /*
  * We provide working versions of these functions for doubles.
@@ -88,7 +90,9 @@ long double go_ascii_strtold (const char *s, char **end);
 long double go_sinpil (long double x);
 long double go_cospil (long double x);
 long double go_tanpil (long double x);
+long double go_cotpil (long double x);
 long double go_atan2pil (long double y, long double x);
+long double go_atanpil (long double x);
 
 /*
  * We provide working versions of these functions for long doubles.

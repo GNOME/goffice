@@ -15,6 +15,7 @@ Morten:
 	* Don't force bar/col axis to include 0 for log axis.
 	* Don't force radial plots to include 0 for log axis.
 	* Rewrite pattern-fill rendering.  [#747212]
+	* Add go_cotpi and go_atan2pi.
 
 --------------------------------------------------------------------------
 goffice 0.10.21:

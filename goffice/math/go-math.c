@@ -1025,21 +1025,27 @@ go_tanpi (double x)
 }
 
 double
+go_cotpi (double x)
+{
+	int k;
+	x = reduce_half (x, &k);
+	return do_sinpi (x, k + 1) / do_sinpi (x, k);
+}
+
+double
 go_atan2pi (double y, double x)
 {
-	/* This ignores loads of cases with -0. */
-
-	if (y == 0)
-		return (x >= 0 ? 0 : +1);
-
-	if (x == 0)
-		return (y >= 0 ? 0.5 : -0.5);
-
-	if (fabs (x) == fabs (y))
-		return (y > 0 ? +1 : -1) * (x > 0 ? 0.25 : 0.75);
-
-	/* Fallback.  */
+	/*
+	 * This works perfectly for results that are (n/4).   We currently have
+	 * nothing interesting to add.
+	 */
 	return atan2 (y, x) / M_PI;
+}
+
+double
+go_atanpi (double x)
+{
+	return x < 0 ? go_atan2pi (-x, -1) : go_atan2pi (x, 1);
 }
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
@@ -1132,21 +1138,27 @@ go_tanpil (long double x)
 }
 
 long double
+go_cotpil (long double x)
+{
+	int k;
+	x = reduce_halfl (x, &k);
+	return do_sinpil (x, k + 1) / do_sinpil (x, k);
+}
+
+long double
 go_atan2pil (long double y, long double x)
 {
-	/* This ignores loads of cases with -0. */
-
-	if (y == 0)
-		return (x >= 0 ? 0 : +1);
-
-	if (x == 0)
-		return (y >= 0 ? 0.5 : -0.5);
-
-	if (fabs (x) == fabs (y))
-		return (y > 0 ? +1 : -1) * (x > 0 ? 0.25 : 0.75);
-
-	/* Fallback.  */
+	/*
+	 * This works perfectly for results that are (n/4), at least with x86
+	 * long double.   We currently have nothing interesting to add.
+	 */
 	return atan2l (y, x) / M_PIgo;
+}
+
+long double
+go_atanpil (long double x)
+{
+	return x < 0 ? go_atan2pil (-x, -1) : go_atan2pil (x, 1);
 }
 
 #endif

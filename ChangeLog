@@ -1,3 +1,8 @@
+2015-04-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-math.c (go_atan2pi): Simplify.
+	(go_atanpi, go_cotpi): New functions.
+
 2015-04-03  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pattern.c (go_pattern_create_cairo_pattern):
