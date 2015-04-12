@@ -1,3 +1,8 @@
+2015-04-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (cb_enable_dim): make manual scale really manual
+	even if it matches the auto value. [#700599]
+
 2015-04-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (go_atan2pi): Simplify.

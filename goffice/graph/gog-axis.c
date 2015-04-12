@@ -2741,10 +2741,15 @@ cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 
 	gtk_widget_set_sensitive (closure->editor, !is_auto);
 
-	if (is_auto)
+	if (is_auto) {
 		gog_dataset_set_dim (closure->set, closure->dim, NULL, NULL);
+		set_to_auto_value (closure);
+	} else {
+		GogAxis *axis = GOG_AXIS (closure->set);
+		GOData *data = go_data_scalar_val_new (axis->auto_bound[closure->dim]);
+		gog_dataset_set_dim (closure->set, closure->dim, data, NULL);
+	}
 
-	set_to_auto_value (closure);
 }
 
 static void

@@ -5,6 +5,7 @@ Jean:
 	* Protect colored xy and bubble plots against NULL z values.
 	* Update circular axis bounds after a unit change. [#746738]
 	* Auto fill color made transparent for opened markers. [#691025]
+	* Make manual scale really manual. [#700599]
 
 Johannes Deutsch:
 	* Do not draw the line over the arrow head at start. [#745736]
