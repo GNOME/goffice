@@ -1,3 +1,8 @@
+2015-04-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-simple.c (go_data_scalar_val_new): ensure that
+	go_data_has_value() returns TRUE if there is a valid number.
+
 2015-04-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (cb_enable_dim): make manual scale really manual

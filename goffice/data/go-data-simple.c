@@ -153,6 +153,9 @@ go_data_scalar_val_new (double val)
 {
 	GODataScalarVal *res = g_object_new (GO_TYPE_DATA_SCALAR_VAL, NULL);
 	res->val = val;
+	if (go_finite (val))
+		GO_DATA (res)->flags = 	GO_DATA_CACHE_IS_VALID | GO_DATA_HAS_VALUE;
+
 	return GO_DATA (res);
 }
 
