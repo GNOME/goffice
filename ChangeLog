@@ -1,3 +1,8 @@
+2015-04-13  Morten Welinder  <terra@gnome.org>
+
+	* plugins/plot_pie/gog-pie.c (gog_ring_plot_class_init): Persist
+	the center size.
+
 2015-04-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data-simple.c (go_data_scalar_val_new): ensure that

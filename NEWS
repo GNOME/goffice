@@ -17,6 +17,7 @@ Morten:
 	* Don't force radial plots to include 0 for log axis.
 	* Rewrite pattern-fill rendering.  [#747212]
 	* Add go_cotpi and go_atan2pi.
+	* Fix persistence of ring plot center size.
 
 --------------------------------------------------------------------------
 goffice 0.10.21:

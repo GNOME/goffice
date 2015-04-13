@@ -461,7 +461,7 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 			_("Center-size"),
 			_("Size of the center hole as a percentage of the radius"),
 			0, 100., 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
