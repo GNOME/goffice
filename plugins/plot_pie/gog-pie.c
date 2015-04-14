@@ -194,9 +194,13 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 	GogPiePlot *pie = GOG_PIE_PLOT (obj);
 
 	switch (param_id) {
-	case PLOT_PROP_INITIAL_ANGLE:
-		pie->initial_angle = g_value_get_double (value);
+	case PLOT_PROP_INITIAL_ANGLE: {
+		double a = g_value_get_double (value);
+		a = fmod (a, 360);
+		if (a < 0) a += 360;
+		pie->initial_angle = a;
 		break;
+	}
 	case PLOT_PROP_DEFAULT_SEPARATION: {
 		double f = g_value_get_double (value);
 		pie->default_separation = CLAMP (f, 0., 5.);
@@ -306,7 +310,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 		g_param_spec_double ("initial-angle",
 			_("Initial angle"),
 			_("Degrees clockwise from 12 O'Clock."),
-			0, G_MAXFLOAT, 0.,
+			-G_MAXFLOAT, G_MAXFLOAT, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
 		g_param_spec_double ("default-separation",
