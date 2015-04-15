@@ -227,7 +227,7 @@ gog_minmax_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 			_("Horizontal"),
 			_("Horizontal or vertical lines"),
 			FALSE,
-			G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_DEFAULT_STYLE_HAS_MARKERS,
 		g_param_spec_boolean ("default-style-has-markers",
 			_("Default markers"),
