@@ -990,7 +990,16 @@ double
 go_sinpi (double x)
 {
 	int k;
+	double x0 = x;
 	x = reduce_half (x, &k);
+
+	/*
+	 * Per IEEE 754 2008:
+	 * sinpi(n) == 0 with sign of n.
+	 */
+	if (x == 0 && (k & 1) == 0)
+		return copysign (0, x0);
+
 	return do_sinpi (x, k);
 }
 
@@ -1006,6 +1015,14 @@ go_cospi (double x)
 {
 	int k;
 	x = reduce_half (x, &k);
+
+	/*
+	 * Per IEEE 754 2008:
+	 * cospi(n+0.5) == +0 for any integer n.
+	 */
+	if (x == 0 && (k & 1) == 1)
+		return +0.0;
+
 	return do_sinpi (x, k + 1);
 }
 
@@ -1019,17 +1036,40 @@ go_cospi (double x)
 double
 go_tanpi (double x)
 {
-	int k;
-	x = reduce_half (x, &k);
-	return do_sinpi (x, k) / do_sinpi (x, k + 1);
+	/*
+	 * IEEE 754 2008 doesn't have tanpi and thus doesn't define the
+	 * behaviour for -0 argument or result.  crlibm has tanpi, but
+	 * doesn't seem to be fully clear on these cases.
+	 */
+
+	/* inf -> nan; -n -> -0; +n -> +0 */
+	x = fmod (x, 1.0);
+
+	if (x == 0)
+		return copysign (0.0, x);
+	if (fabs (x) == 0.5)
+		return copysign (go_nan, x);
+	else
+		return go_sinpi (x) / go_cospi (x);
 }
 
 double
 go_cotpi (double x)
 {
-	int k;
-	x = reduce_half (x, &k);
-	return do_sinpi (x, k + 1) / do_sinpi (x, k);
+	/*
+	 * IEEE 754 2008 doesn't have tanpi.  Neither does crlibm.  Mirror
+	 * tanpi here.
+	 */
+
+	/* inf -> nan; -n -> -0; +n -> +0 */
+	x = fmod (x, 1.0);
+
+	if (x == 0)
+		return copysign (go_nan, x);
+	if (fabs (x) == 0.5)
+		return copysign (0.0, x);
+	else
+		return go_cospi (x) / go_sinpi (x);
 }
 
 double
@@ -1045,7 +1085,7 @@ go_atan2pi (double y, double x)
 double
 go_atanpi (double x)
 {
-	return x < 0 ? go_atan2pi (-x, -1) : go_atan2pi (x, 1);
+	return x < 0 ? -go_atan2pi (-x, 1) : go_atan2pi (x, 1);
 }
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
@@ -1103,7 +1143,16 @@ long double
 go_sinpil (long double x)
 {
 	int k;
+	long double x0 = x;
 	x = reduce_halfl (x, &k);
+
+	/*
+	 * Per IEEE 754 2008:
+	 * sinpi(n) == 0 with sign of n.
+	 */
+	if (x == 0 && (k & 1) == 0)
+		return copysign (0, x0);
+
 	return do_sinpil (x, k);
 }
 
@@ -1119,6 +1168,14 @@ go_cospil (long double x)
 {
 	int k;
 	x = reduce_halfl (x, &k);
+
+	/*
+	 * Per IEEE 754 2008:
+	 * cospi(n+0.5) == +0 for any integer n.
+	 */
+	if (x == 0 && (k & 1) == 1)
+		return +0.0l;
+
 	return do_sinpil (x, k + 1);
 }
 
@@ -1132,17 +1189,40 @@ go_cospil (long double x)
 long double
 go_tanpil (long double x)
 {
-	int k;
-	x = reduce_halfl (x, &k);
-	return do_sinpil (x, k) / do_sinpil (x, k + 1);
+	/*
+	 * IEEE 754 2008 doesn't have tanpi and thus doesn't define the
+	 * behaviour for -0 argument or result.  crlibm has tanpi, but
+	 * doesn't seem to be fully clear on these cases.
+	 */
+
+	/* inf -> nan; -n -> -0; +n -> +0 */
+	x = fmodl (x, 1.0l);
+
+	if (x == 0)
+		return copysignl (0.0l, x);
+	if (fabsl (x) == 0.5l)
+		return copysignl (go_nanl, x);
+	else
+		return go_sinpil (x) / go_cospil (x);
 }
 
 long double
 go_cotpil (long double x)
 {
-	int k;
-	x = reduce_halfl (x, &k);
-	return do_sinpil (x, k + 1) / do_sinpil (x, k);
+	/*
+	 * IEEE 754 2008 doesn't have tanpi.  Neither does crlibm.  Mirror
+	 * tanpi here.
+	 */
+
+	/* inf -> nan; -n -> -0; +n -> +0 */
+	x = fmodl (x, 1.0l);
+
+	if (x == 0)
+		return copysignl (go_nanl, x);
+	if (fabsl (x) == 0.5)
+		return copysignl (0.0l, x);
+	else
+		return go_cospil (x) / go_sinpil (x);
 }
 
 long double
@@ -1158,7 +1238,7 @@ go_atan2pil (long double y, long double x)
 long double
 go_atanpil (long double x)
 {
-	return x < 0 ? go_atan2pil (-x, -1) : go_atan2pil (x, 1);
+	return x < 0 ? -go_atan2pil (-x, 1) : go_atan2pil (x, 1);
 }
 
 #endif
