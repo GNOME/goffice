@@ -212,16 +212,18 @@ gog_plot1_5d_update (GogObject *obj)
 		index_dim = series->base.values[0].data;
 	}
 
-	if (model->num_elements != num_elements ||
-	    model->implicit_index ^ (index_dim == NULL) ||
-	    (index_dim != gog_axis_get_labels (iaxis, &plot_that_labeled_axis) &&
-	     GOG_PLOT (model) == plot_that_labeled_axis)) {
-		model->num_elements = num_elements;
-		model->implicit_index = (index_dim == NULL);
-		gog_axis_bound_changed (iaxis, GOG_OBJECT (model));
-	} else {
-		if (index_changed)
+	if (iaxis) {
+		if (model->num_elements != num_elements ||
+		    model->implicit_index ^ (index_dim == NULL) ||
+		    (index_dim != gog_axis_get_labels (iaxis, &plot_that_labeled_axis) &&
+		     GOG_PLOT (model) == plot_that_labeled_axis)) {
+			model->num_elements = num_elements;
+			model->implicit_index = (index_dim == NULL);
 			gog_axis_bound_changed (iaxis, GOG_OBJECT (model));
+		} else {
+			if (index_changed)
+				gog_axis_bound_changed (iaxis, GOG_OBJECT (model));
+		}
 	}
 
 	model->num_series = num_series;
@@ -273,7 +275,7 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType atype,
 	GogAxis *iaxis = gog_plot1_5d_get_index_axis (model);
 	GogAxis *vaxis = gog_plot1_5d_get_value_axis (model);
 
-	if (atype == gog_axis_get_atype (vaxis)) {
+	if (vaxis && atype == gog_axis_get_atype (vaxis)) {
 		bounds->val.minima = model->minima;
 		bounds->val.maxima = model->maxima;
 		if (model->type == GOG_1_5D_AS_PERCENTAGE) {
@@ -303,7 +305,7 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType atype,
 				bounds->val.maxima = 0.;
 		}
 		return NULL;
-	} else if (atype == gog_axis_get_atype (iaxis)) {
+	} else if (iaxis && atype == gog_axis_get_atype (iaxis)) {
 		GSList *ptr;
 
 		bounds->val.minima = 1.;
