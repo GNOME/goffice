@@ -1,3 +1,8 @@
+2015-04-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-image.c (go_image_type_for_format): disable metafiles
+	support when there is no screen. [#748493]
+
 2015-04-16  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
