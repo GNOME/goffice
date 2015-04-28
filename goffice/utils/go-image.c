@@ -659,7 +659,9 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 	} else if (!strcmp (type, "svg")) {
 		image = go_svg_new_from_data (data, length, error);
 	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {
-		image = go_emf_new_from_data (data, length, error);
+#warning Remove this when we have a widgetless canvas, see bug #748493
+		if (gdk_screen_get_default () != NULL)
+			image = go_emf_new_from_data (data, length, error);
 	} else if (!strcmp (type, "eps")) {
 		image = go_spectre_new_from_data (data, length, error);
 	} else {
