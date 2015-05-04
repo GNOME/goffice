@@ -1,3 +1,10 @@
+2015-05-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (axis_format_value): Allow caller to
+	handling scaling.
+	(map_linear_calc_ticks): Handling scaling so we can control
+	rounding errors in ticks.
+
 2015-05-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (axis_format_value),

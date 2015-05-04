@@ -263,7 +263,8 @@ gog_axis_get_effective_format (GogAxis const *axis)
 }
 
 static void
-axis_format_value (GogAxis *axis, double val, GOString **str)
+axis_format_value (GogAxis *axis, double val, GOString **str,
+		   gboolean do_scale)
 {
 	GOFormat *fmt = gog_axis_get_effective_format (axis);
 	const GODateConventions *date_conv = axis->date_conv;
@@ -274,12 +275,20 @@ axis_format_value (GogAxis *axis, double val, GOString **str)
 
 	go_string_unref (*str);
 
+	if (do_scale)
+		val /= axis->display_factor;
+	else {
+		/* Caller handled scaling, except for sign.  */
+		if (axis->display_factor < 0)
+			val = 0 - val;
+	}
+
 	err = go_format_value_gstring
 		(layout, NULL,
 		 go_format_measure_strlen,
 		 go_font_metrics_unit,
 		 fmt,
-		 val / axis->display_factor, 'F', NULL, NULL,
+		 val, 'F', NULL, NULL,
 		 -1, date_conv, TRUE);
 	if (err)
 		*str = go_string_new ("#####");
@@ -497,7 +506,7 @@ map_discrete_calc_ticks (GogAxis *axis)
 				} else {
 					double val = go_data_get_vector_value (axis->labels, index);
 					if (go_finite (val))
-						axis_format_value (axis, val, &ticks[j].str);
+						axis_format_value (axis, val, &ticks[j].str, TRUE);
 					else {
 						char *label = go_data_get_vector_string (axis->labels, index);
 						gog_axis_ticks_set_text (&ticks[j], label);
@@ -833,7 +842,8 @@ map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bo
 static double
 scale_step (double step, double *scale)
 {
-	double f, r, l10;
+	double f, r;
+	int l10;
 
 	if (step <= 0 || !go_finite (step)) {
 		*scale = 1;
@@ -847,9 +857,9 @@ scale_step (double step, double *scale)
 		return r;
 	}
 
-	l10 = floor (log10 (f));
-	*scale = pow (10, -l10 + 1);
-	step *= *scale;
+	l10 = (int)floor (log10 (f));
+	*scale = go_pow10 (-l10 + 1);
+	step *=* scale;  /* "*= *" isn't cute enough.  */
 
 	r = go_fake_floor (step);
 	if (fabs (r - step) < 1e-10)
@@ -867,15 +877,21 @@ map_linear_calc_ticks (GogAxis *axis)
 	int t, N;
 	int maj_i, maj_N; /* Ticks for -1,....,maj_N     */
 	int min_i, min_N; /* Ticks for 1,....,(min_N-1) */
+	double display_factor = fabs (axis->display_factor);
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
 		return;
 	}
+	maximum /= display_factor;
+	minimum /= display_factor;
 	range = maximum - minimum;
 
 	maj_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
-	if (maj_step <= 0.) maj_step = range;
+	if (maj_step <= 0.)
+		maj_step = range;
+	else
+		maj_step /= display_factor;
 	while (1) {
 		double ratio = go_fake_floor (range / maj_step);
 		double Nd = (ratio + 1);  /* Correct if no minor */
@@ -890,7 +906,10 @@ map_linear_calc_ticks (GogAxis *axis)
 	}
 
 	min_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
-	if (min_step <= 0.) min_step = maj_step;
+	if (min_step <= 0.)
+		min_step = maj_step;
+	else
+		min_step /= display_factor;
 	while (1) {
 		/* add 0.9 there because the ratio might not be an integer
 		 * or there might be rounding errors, more than 0.9 would
@@ -948,9 +967,9 @@ map_linear_calc_ticks (GogAxis *axis)
 
 		if (maj_i >= 0) {
 			g_assert (t < N);
-			ticks[t].position = maj_pos;
+			ticks[t].position = maj_pos * display_factor;
 			ticks[t].type = GOG_AXIS_TICK_MAJOR;
-			axis_format_value (axis, maj_pos, &ticks[t].str);
+			axis_format_value (axis, maj_pos, &ticks[t].str, FALSE);
 			t++;
 		}
 
@@ -962,7 +981,7 @@ map_linear_calc_ticks (GogAxis *axis)
 				break;
 
 			g_assert (t < N);
-			ticks[t].position = min_pos;
+			ticks[t].position = min_pos * display_factor;
 			ticks[t].type = GOG_AXIS_TICK_MINOR;
 			ticks[t].str = NULL;
 			t++;
@@ -1174,7 +1193,7 @@ map_date_calc_ticks (GogAxis *axis)
 
 		ticks[t].position = maj_pos;
 		ticks[t].type = GOG_AXIS_TICK_MAJOR;
-		axis_format_value (axis, maj_pos, &ticks[t].str);
+		axis_format_value (axis, maj_pos, &ticks[t].str, TRUE);
 		t++;
 
 		/* Calculate next major so we know when to stop minors.  */
@@ -1539,7 +1558,7 @@ map_log_calc_ticks (GogAxis *axis)
 			g_assert (t < N);
 			ticks[t].position = maj_pos;
 			ticks[t].type = GOG_AXIS_TICK_MAJOR;
-		        axis_format_value (axis, maj_pos, &ticks[t].str);
+		        axis_format_value (axis, maj_pos, &ticks[t].str, TRUE);
 			t++;
 		}
 
