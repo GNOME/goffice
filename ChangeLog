@@ -1,3 +1,10 @@
+2015-05-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (axis_format_value),
+	(gog_axis_set_property), (gog_axis_get_property),
+	(gog_axis_class_init), (gog_axis_init): add a display factor to scale
+	axis ticks labels. [#748295]
+
 2015-04-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-image.c (go_image_type_for_format): disable metafiles

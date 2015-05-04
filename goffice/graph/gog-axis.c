@@ -182,6 +182,7 @@ struct _GogAxis {
 	GSList *refering_axes;
 	double metrics_ratio;
 	GoUnitId unit;
+	double display_factor;
 };
 
 /*****************************************************************************/
@@ -278,7 +279,7 @@ axis_format_value (GogAxis *axis, double val, GOString **str)
 		 go_format_measure_strlen,
 		 go_font_metrics_unit,
 		 fmt,
-		 val, 'F', NULL, NULL,
+		 val / axis->display_factor, 'F', NULL, NULL,
 		 -1, date_conv, TRUE);
 	if (err)
 		*str = go_string_new ("#####");
@@ -2152,7 +2153,8 @@ enum {
 	AXIS_PROP_METRICS,
 	AXIS_PROP_REF_AXIS,
 	AXIS_PROP_METRICS_RATIO,
-	AXIS_PROP_METRICS_UNIT
+	AXIS_PROP_METRICS_UNIT,
+	AXIS_PROP_DISPLAY_FACTOR
 };
 
 /*****************************************************************************/
@@ -2458,6 +2460,9 @@ gog_axis_set_property (GObject *obj, guint param_id,
 	case AXIS_PROP_METRICS_UNIT:
 		axis->unit = (strcmp (g_value_get_string (value), "in"))? GO_UNIT_CENTIMETER: GO_UNIT_INCH;
 		break;
+	case AXIS_PROP_DISPLAY_FACTOR:
+		axis->display_factor = g_value_get_double (value);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -2524,6 +2529,9 @@ gog_axis_get_property (GObject *obj, guint param_id,
 		break;
 	case AXIS_PROP_METRICS_UNIT:
 		g_value_set_string (value, (axis->unit == GO_UNIT_INCH)? "in": "cm");
+		break;
+	case AXIS_PROP_DISPLAY_FACTOR:
+		g_value_set_double (value, axis->display_factor);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -3520,6 +3528,12 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			_("The unit symbol for the absolute distance unit between ticks. Might be \"cm\" or \"in\""),
 			"cm",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_DISPLAY_FACTOR,
+		g_param_spec_double ("display-factor",
+			_("Display factor"),
+			_("Real values are the displayed ones multipled by the display factor."),
+		    G_MINDOUBLE, G_MAXDOUBLE, 1.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
@@ -3560,6 +3574,7 @@ gog_axis_init (GogAxis *axis)
 	axis->auto_color_map = TRUE;
 	axis->metrics_ratio = 1.;
 	axis->unit = GO_UNIT_CENTIMETER;
+	axis->display_factor = 1.;
 }
 
 static void
