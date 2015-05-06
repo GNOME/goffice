@@ -1,3 +1,8 @@
+2015-05-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-image.c (go_image_save): save original pixbuf data.
+	[see #748493, comments 13 and 14] 
+
 2015-05-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (axis_format_value): Allow caller to

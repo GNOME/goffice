@@ -770,7 +770,10 @@ go_image_save (GOImage *image, GsfXMLOut *output)
 	gsf_xml_out_add_cstr (output, "type", G_OBJECT_TYPE_NAME (image));
 	gsf_xml_out_add_int (output, "width", image->width);
 	gsf_xml_out_add_int (output, "height", image->height);
-	((GOImageClass *) G_OBJECT_GET_CLASS (image))->save (image, output);
+	if (image->data != NULL && image->data_length > 0)
+		gsf_xml_out_add_base64 (output, NULL, image->data, image->data_length);
+	else /* should this still happen? */
+		((GOImageClass *) G_OBJECT_GET_CLASS (image))->save (image, output);
 	gsf_xml_out_end_element (output);
 }
 
