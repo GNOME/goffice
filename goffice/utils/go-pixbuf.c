@@ -85,7 +85,7 @@ static void
 go_pixbuf_save (GOImage *image, GsfXMLOut *output)
 {
 	GOPixbuf *pixbuf;
-	g_return_if_fail (GO_IS_PIXBUF (image));
+	g_return_if_fail (GO_IS_PIXBUF (image) && image->data != NULL);
 	pixbuf = GO_PIXBUF (image);
 	if (pixbuf->type == NULL) {
 		pixbuf->type = g_strdup ("png");
