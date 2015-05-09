@@ -2548,7 +2548,7 @@ go_format_parse (const char *str)
 				GO_FMT_COND_TEXT
 			};
 			GOFormatCondition *cond = conditions + i;
-			if (i <= 4 && cond->op == GO_FMT_COND_NONE) {
+			if (i < 4 && cond->op == GO_FMT_COND_NONE) {
 				cond->implicit = TRUE;
 				cond->val = 0;
 				if (i == 0 && no_zero_format && !negative_explicit)

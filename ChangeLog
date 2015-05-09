@@ -1,7 +1,12 @@
+2015-05-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_parse): Don't read beyond
+	global variable's end.  [#749167]
+
 2015-05-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-pixbuf.c (go_pixbuf_save): don't save when no data is
-	available [see #748493, comments 13 to 16] 
+	available [see #748493, comments 13 to 16]
 
 2015-05-04  Morten Welinder  <terra@gnome.org>
 
