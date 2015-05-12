@@ -1,3 +1,9 @@
+2015-05-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-renderer.c (gog_renderer_get_pixbuf): Handle
+	degenerate image size.
+	(gog_renderer_export_image): Limit size to shield cairo.  Fixes #749274.
+
 2015-05-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_parse): Don't read beyond

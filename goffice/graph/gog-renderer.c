@@ -1453,12 +1453,16 @@ gog_renderer_get_pixbuf (GogRenderer *rend)
 	if (rend->pixbuf == NULL) {
 		int width = cairo_image_surface_get_width (rend->cairo_surface);
 		int height = cairo_image_surface_get_height (rend->cairo_surface);
-		int rowstride = cairo_image_surface_get_stride (rend->cairo_surface);
-		unsigned char *data = cairo_image_surface_get_data (rend->cairo_surface);
 
-		rend->pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, TRUE, 8,
-							 width, height, rowstride, NULL, NULL);
-		go_cairo_convert_data_to_pixbuf (data, NULL, width, height, rowstride);
+		if (width <= 0 || height <= 0)
+			rend->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+		else {
+			int rowstride = cairo_image_surface_get_stride (rend->cairo_surface);
+			unsigned char *data = cairo_image_surface_get_data (rend->cairo_surface);
+			rend->pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, TRUE, 8,
+								 width, height, rowstride, NULL, NULL);
+			go_cairo_convert_data_to_pixbuf (data, NULL, width, height, rowstride);
+		}
 	}
 
 	return rend->pixbuf;
@@ -1576,6 +1580,10 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 	gog_graph_force_update (rend->model);
 
 	gog_graph_get_size (rend->model, &width_in_pts, &height_in_pts);
+
+	/* Prevent Cairo from faulting.  */
+	width_in_pts = CLAMP (width_in_pts, 1, 32767 * 72.0 / x_dpi);
+	height_in_pts = CLAMP (height_in_pts, 1, 32767 * 72.0 / y_dpi);
 
 	switch (format) {
 		case GO_IMAGE_FORMAT_EPS:
