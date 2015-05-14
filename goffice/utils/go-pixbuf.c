@@ -339,6 +339,7 @@ go_pixbuf_finalize (GObject *obj)
 		g_object_unref (pixbuf->pixbuf);
 	if (pixbuf->surface)
 		cairo_surface_destroy (pixbuf->surface);
+	g_free (pixbuf->cairo_pixels);
 	g_free (pixbuf->type);
 	(parent_klass->finalize) (obj);
 }
