@@ -2700,7 +2700,7 @@ gog_axis_line_dataset_get_elem (GogDataset const *set, int dim_i)
 
 	return (dim_i == GOG_AXIS_ELEM_CROSS_POINT)?
 		&line->base.cross_location:
-		line->custom_ticks + dim_i - 1 - GOG_AXIS_ELEM_CROSS_POINT;
+		line->custom_ticks + (dim_i - 1 - GOG_AXIS_ELEM_CROSS_POINT);
 }
 
 static void
