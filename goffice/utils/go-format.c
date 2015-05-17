@@ -4401,7 +4401,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		}
 
 		case OP_NUM_VAL_EXPONENT:
-			val = SUFFIX (fabs) (exponent);
+			val = SUFFIX (fabs) (exponent + 0.0);
 			break;
 
 		case OP_NUM_STORE_POS:
@@ -8877,7 +8877,7 @@ go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 				GOFormat const *fmt, GOFormat const *parent_fmt,
 				char const *name, gboolean keep_open)
 {
-	gboolean result;
+	gboolean result = TRUE;
 	GOFormatFamily family;
 	GOFormatDetails details;
 	gboolean exact;

@@ -1,5 +1,11 @@
 2015-05-17  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_format_output_simple_to_odf):
+	Taking a wild guess that result should have been initialized to
+	TRUE.
+
+	* configure.ac (set_more_warnings): clang fix from gnumeric.
+
 	* goffice/math/go-quad.c (go_quad_start): Initialize constants via
 	non-const objects.  See bug #749463.
 
