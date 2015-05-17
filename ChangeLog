@@ -1,3 +1,8 @@
+2015-05-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-quad.c (go_quad_start): Initialize constants via
+	non-const objects.  See bug #749463.
+
 2015-05-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-theme.c (theme_load_from_uri): Avoid double

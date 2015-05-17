@@ -31,6 +31,8 @@
  * Note: the compiler should not rearrange expressions.
  */
 
+#define GO_QUAD_IMPL
+
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 #include <math.h>
@@ -209,37 +211,37 @@ SUFFIX(go_quad_start) (void)
 	if (first) {
 		first = FALSE;
 		SUFFIX(CST) = 1 + SUFFIX(ldexp) (1.0, (DOUBLE_MANT_DIG + 1) / 2);
-		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_pi),
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_pi),
 					   pi_hex_digits,
 					   G_N_ELEMENTS (pi_hex_digits),
 					   256.0,
 					   256.0);
 
-		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_2pi),
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_2pi),
 					   pi_hex_digits,
 					   G_N_ELEMENTS (pi_hex_digits),
 					   256.0,
 					   512.0);
 
-		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_e),
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_e),
 					   e_hex_digits,
 					   G_N_ELEMENTS (e_hex_digits),
 					   256.0,
 					   256.0);
 
-		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_ln2),
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_ln2),
 					   ln2_hex_digits,
 					   G_N_ELEMENTS (ln2_hex_digits),
 					   256.0,
 					   1);
 
-		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_sqrt2),
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_sqrt2),
 					   sqrt2_hex_digits,
 					   G_N_ELEMENTS (sqrt2_hex_digits),
 					   256.0,
 					   256.0);
 
-		SUFFIX(go_quad_constant8) ((QUAD *)&SUFFIX(go_quad_euler),
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_euler),
 					   euler_hex_digits,
 					   G_N_ELEMENTS (euler_hex_digits),
 					   256.0,
@@ -273,12 +275,17 @@ SUFFIX(go_quad_end) (void *state)
 
 const QUAD SUFFIX(go_quad_zero) = { 0, 0 };
 const QUAD SUFFIX(go_quad_one) = { 1, 0 };
-const QUAD SUFFIX(go_quad_pi);
-const QUAD SUFFIX(go_quad_2pi);
-const QUAD SUFFIX(go_quad_e);
-const QUAD SUFFIX(go_quad_ln2);
-const QUAD SUFFIX(go_quad_sqrt2);
-const QUAD SUFFIX(go_quad_euler);
+/*
+ * The following are non-const so we can initialize them.  However,
+ * from other compilation units there are const.  My reading of C99
+ * Section 6.2.7 says that is allowed.
+ */
+QUAD SUFFIX(go_quad_pi);
+QUAD SUFFIX(go_quad_2pi);
+QUAD SUFFIX(go_quad_e);
+QUAD SUFFIX(go_quad_ln2);
+QUAD SUFFIX(go_quad_sqrt2);
+QUAD SUFFIX(go_quad_euler);
 
 /**
  * go_quad_init: (skip)

@@ -7,6 +7,7 @@ Morten:
 	* Fix ABR [#749167]
 	* Shield Cairo from image sizes it cannot handle.  [#749274]
 	* Plug leak.  [#749395]
+	* Portability problem affecting macs.  [#749463]
 
 --------------------------------------------------------------------------
 goffice 0.10.22:
