@@ -2222,12 +2222,13 @@ go_style_set_cairo_line (GOStyle const *style, cairo_t *cr)
 			if (line_dash->dash[i] == 0.)
 				line_dash->dash[i] = width;
 	}
-	if (line_dash != NULL)
+	if (line_dash != NULL) {
 		cairo_set_dash (cr,
 				line_dash->dash,
 				line_dash->n_dash,
 				line_dash->offset);
-	else
+		go_line_dash_sequence_free (line_dash);
+	} else
 		cairo_set_dash (cr, NULL, 0, 0);
 	switch (style->line.pattern) {
 	case GO_PATTERN_SOLID:

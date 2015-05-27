@@ -887,8 +887,8 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
  * @ys: y-vector.  (Dependent data.)
  * @n: number of data points.
  * @affine: if true, a non-zero constant is allowed.
- * @res: output place for constant[0] and slope1[1], slope2[2],... There will be dim+1 results.
- * @stat_: non-NULL storage for additional results.
+ * @res: (out): place for constant[0] and slope1[1], slope2[2],... There will be dim+1 results.
+ * @stat_: (out): non-NULL storage for additional results.
  *
  * Performs multi-dimensional linear regressions on the input points.
  * Fits to "y = b + a1 * x1 + ... ad * xd".
