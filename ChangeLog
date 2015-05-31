@@ -1,3 +1,8 @@
+2015-05-31  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_parse_number_new_1):
+	Prevent ABR.
+
 2015-05-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-style.c (go_style_set_cairo_line): Plug leak.

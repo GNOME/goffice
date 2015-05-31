@@ -8,6 +8,7 @@ Morten:
 	* Shield Cairo from image sizes it cannot handle.  [#749274]
 	* Plug leak.  [#749395]
 	* Portability problem affecting macs.  [#749463]
+	* Fuzzed file fix.  [#750047]
 
 --------------------------------------------------------------------------
 goffice 0.10.22:

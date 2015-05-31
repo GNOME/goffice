@@ -1960,6 +1960,15 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 		}
 #endif
 	} else {
+		/*
+		 * It's unclear whether this is the correct action, but it
+		 * happens for
+		 *   "_($* /,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
+		 * in bug 750047.
+		 */
+		if (tno_numstart == -1)
+			goto error;
+
 		if (scale && !frac_part && E_part != 2)
 			ADD_OP2 (OP_NUM_SCALE, scale);
 		ADD_OP2 (OP_NUM_PRINTF_F, decimals);
