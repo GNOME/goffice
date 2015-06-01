@@ -389,10 +389,8 @@ gog_axis_color_map_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 	state->langs = g_get_language_names ();
 	state->name_lang_score = G_MAXINT;
 	state->color_stops = NULL;
-	if (!xml) {
+	if (!xml)
 		xml = gsf_xml_in_doc_new (color_map_dtd, NULL);
-		go_xml_in_doc_dispose_on_exit (&xml);
-	}
 	gsf_xml_in_push_state (xin, xml, state, (GsfXMLInExtDtor) parse_done_cb, attrs);
 }
 
