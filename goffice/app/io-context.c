@@ -77,6 +77,9 @@ ioc_finalize (GObject *obj)
 		g_object_unref (ioc->impl);
 	}
 
+	g_list_free_full (ioc->progress_ranges, (GFreeFunc)g_free);
+	ioc->progress_ranges = NULL;
+
 	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
 }
 

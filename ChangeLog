@@ -1,3 +1,7 @@
+2015-06-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/io-context.c (ioc_finalize): Plug leak.
+
 2015-06-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-color-map.c (gog_axis_color_map_prep_sax): don't
