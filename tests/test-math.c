@@ -85,16 +85,16 @@ static double fake_atan2pi (double y, double x) { return atan2 (y,x) / M_PI; }
 	REFTEST(a_,go_cotpi,fake_cotpi(a_),"cotpi");			\
 	REFTEST(a_,go_atanpi,fake_atanpi(a_),"atanpi");			\
 									\
-	REFTEST(a_,go_sinpil,fake_sinpi(a_),"sinpil");			\
-	REFTEST(a_,go_cospil,fake_cospi(a_),"cospil");			\
-	REFTEST(a_,go_tanpil,fake_tanpi(a_),"tanpil");			\
-	REFTEST(a_,go_cotpil,fake_cotpi(a_),"cotpil");			\
-	REFTEST(a_,go_atanpil,fake_atanpi(a_),"atanpil");		\
+	REFTESTl(a_,go_sinpil,fake_sinpi(a_),"sinpil");			\
+	REFTESTl(a_,go_cospil,fake_cospi(a_),"cospil");			\
+	REFTESTl(a_,go_tanpil,fake_tanpi(a_),"tanpil");			\
+	REFTESTl(a_,go_cotpil,fake_cotpi(a_),"cotpil");			\
+	REFTESTl(a_,go_atanpil,fake_atanpi(a_),"atanpil");		\
 } while (0)
 
 #define TEST2(a_,b_) do {						\
 		REFTEST2(a_,b_,go_atan2pi,fake_atan2pi(a_,b_),"atan2pi"); \
-		REFTEST2(a_,b_,go_atan2pil,fake_atan2pi(a_,b_),"atan2pil"); \
+		REFTEST2l(a_,b_,go_atan2pil,fake_atan2pi(a_,b_),"atan2pil"); \
 } while (0)
 
 static void
