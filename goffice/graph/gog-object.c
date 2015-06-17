@@ -967,10 +967,13 @@ gog_object_is_same_type (GogObject *obj_a, GogObject *obj_b)
 static void
 gog_object_generate_name (GogObject *obj)
 {
-	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
+	GogObjectClass *klass;
+
 	char const *type_name;
 
-	g_return_if_fail (klass != NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
+
+	klass = GOG_OBJECT_GET_CLASS (obj);
 	g_return_if_fail (obj->role != NULL);
 
 	switch (obj->role->naming_conv) {
@@ -1283,8 +1286,11 @@ GogObject *
 gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
 {
 	GogObject *res = NULL;
-	GSList *children = gog_object_get_children (obj, role);
+	GSList *children;
 
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
+
+	children = gog_object_get_children (obj, role);
 	if (children != NULL && children->next == NULL)
 		res = children->data;
 	g_slist_free (children);
@@ -1303,6 +1309,7 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
 GogObject *
 gog_object_get_child_by_name (GogObject const *obj, char const *name)
 {
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
 	return gog_object_get_child_by_role (obj,
 		gog_object_find_role_by_name (obj, name));
 }
@@ -1385,8 +1392,11 @@ gog_role_cmp_full (GogObjectRole const *a, GogObjectRole const *b)
 GSList *
 gog_object_possible_additions (GogObject const *parent)
 {
-	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (parent);
-	g_return_val_if_fail (klass != NULL, NULL);
+	GogObjectClass *klass;
+
+	g_return_val_if_fail (GOG_IS_OBJECT (parent), NULL);
+
+	klass = GOG_OBJECT_GET_CLASS (parent);
 
 	if (klass->roles != NULL) {
 		struct possible_add_closure data;
@@ -1526,9 +1536,11 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 #ifdef GOFFICE_WITH_GTK
 	GtkWidget *notebook;
 	GOEditor *editor;
-	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
+	GogObjectClass *klass;
 
-	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
+
+	klass = GOG_OBJECT_GET_CLASS (obj);
 
 	editor = go_editor_new ();
 	go_editor_set_use_scrolled_window (editor, TRUE);
@@ -1561,9 +1573,11 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 GogView *
 gog_object_new_view (GogObject const *obj, GogView *parent)
 {
-	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
+	GogObjectClass *klass;
 
-	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
+
+	klass = GOG_OBJECT_GET_CLASS (obj);
 
 	if (klass->view_type != 0)
 		/* set model before parent */
@@ -1578,10 +1592,12 @@ gog_object_new_view (GogObject const *obj, GogView *parent)
 void
 gog_object_update (GogObject *obj)
 {
-	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
+	GogObjectClass *klass;
 	GSList *ptr;
 
-	g_return_if_fail (klass != NULL);
+	g_return_if_fail (GOG_IS_OBJECT (obj));
+
+	klass = GOG_OBJECT_GET_CLASS (obj);
 
 	ptr = obj->children; /* depth first */
 	for (; ptr != NULL ; ptr = ptr->next)
@@ -2053,9 +2069,11 @@ gog_object_is_default_position_flags (GogObject const *obj, char const *name)
 GogObjectRole const *
 gog_object_find_role_by_name (GogObject const *obj, char const *role)
 {
-	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
+	GogObjectClass *klass;
 
-	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
+
+	klass = GOG_OBJECT_GET_CLASS (obj);
 
 	return g_hash_table_lookup (klass->roles, role);
 }

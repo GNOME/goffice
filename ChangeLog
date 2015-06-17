@@ -1,3 +1,8 @@
+2015-06-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-object.c (gog_object_get_child_by_role): protect against
+	NULL argument. [#750860]
+
 2015-06-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/io-context.c (ioc_finalize): Plug leak.
