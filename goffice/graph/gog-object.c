@@ -971,7 +971,7 @@ gog_object_generate_name (GogObject *obj)
 
 	char const *type_name;
 
-	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
+	g_return_if_fail (GOG_IS_OBJECT (obj));
 
 	klass = GOG_OBJECT_GET_CLASS (obj);
 	g_return_if_fail (obj->role != NULL);
