@@ -675,7 +675,7 @@ go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 	g_return_val_if_fail (doc && doc->priv->imagebuf, NULL);
 	image = g_hash_table_lookup (doc->priv->imagebuf, id);
 	if (!image) {
-		g_return_val_if_fail (type != 0, NULL);
+		g_return_val_if_fail (g_type_is_a (type, GO_TYPE_IMAGE), NULL);
 		image = g_object_new (type, NULL);
 		if (!GO_IS_IMAGE (image)) {
 			if (image)

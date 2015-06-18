@@ -132,6 +132,7 @@ gog_plot_new_by_name (char const *id)
 		g_object_ref (plugin);
 		go_plugin_use_ref (plugin);
 	}
+	g_return_val_if_fail (g_type_is_a (type, GOG_TYPE_PLOT), NULL);
 
 	return g_object_new (type, NULL);
 }
@@ -470,9 +471,11 @@ gog_trend_line_new_by_name (char const *id)
 		g_object_ref (plugin);
 		go_plugin_use_ref (plugin);
 	}
+	g_return_val_if_fail (g_type_is_a (type, GOG_TYPE_TREND_LINE), NULL);
 
 	return g_object_new (type, NULL);
 }
+
 /***************************************************************************/
 /* Use a plugin service to define regression curves types */
 

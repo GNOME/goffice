@@ -452,8 +452,10 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 			res = (GogObject *)gog_plot_new_by_name (type);
 			if (NULL == res)
 				res = (GogObject *)gog_trend_line_new_by_name (type);
-		} else
+		} else if (g_type_is_a (t, GOG_TYPE_OBJECT))
 			res = g_object_new (t, NULL);
+		else
+			res = NULL;
 
 		if (res == NULL) {
 			g_warning ("unknown type '%s'", type);
