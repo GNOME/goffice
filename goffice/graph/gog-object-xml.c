@@ -290,7 +290,7 @@ gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 		g_warning ("unknown type '%s' for dimension `%s' of class `%s'",
 			   type_str, dim_str, G_OBJECT_TYPE_NAME (state->obj));
 		return;
-	} else if (!g_type_is_a (type, GO_TYPE_DATA)) {
+	} else if (!g_type_is_a (type, GO_TYPE_DATA) || G_TYPE_IS_ABSTRACT (type)) {
 		g_warning ("type '%s' is invalid as dimension `%s' of class `%s'",
 			   type_str, dim_str, G_OBJECT_TYPE_NAME (state->obj));
 		return;
@@ -370,7 +370,7 @@ gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 			g_warning ("unknown type '%s' for property `%s' of class `%s'",
 				   type_str, prop_str, G_OBJECT_TYPE_NAME (state->obj));
 			return;
-		} else if (!g_type_is_a (type, prop_type)) {
+		} else if (!g_type_is_a (type, prop_type) || G_TYPE_IS_ABSTRACT (type)) {
 			g_warning ("invalid type '%s' for property `%s' of class `%s'",
 				   type_str, prop_str, G_OBJECT_TYPE_NAME (state->obj));
 			return;
@@ -452,7 +452,7 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 			res = (GogObject *)gog_plot_new_by_name (type);
 			if (NULL == res)
 				res = (GogObject *)gog_trend_line_new_by_name (type);
-		} else if (g_type_is_a (t, GOG_TYPE_OBJECT))
+		} else if (g_type_is_a (t, GOG_TYPE_OBJECT) && !G_TYPE_IS_ABSTRACT (t))
 			res = g_object_new (t, NULL);
 		else
 			res = NULL;
