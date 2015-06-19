@@ -974,7 +974,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	drop_paths = g_alloca (num_series * sizeof (GOPath *));
 
 	i = 0;
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = model->base.series ; ptr != NULL && i < num_series ; ptr = ptr->next) {
 		series[i] = ptr->data;
 		base_series = GOG_SERIES (ptr->data);
 
@@ -1010,6 +1010,10 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		} else
 			lines[i] = NULL;
 		i++;
+	}
+	if (ptr != NULL || i != num_series) {
+		g_warning ("Wrong series number in bar/col plot");
+		num_series = i;
 	}
 
 	for (j = 0; j < num_elements; j++) {

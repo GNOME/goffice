@@ -613,7 +613,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	label_pos = g_alloca (num_series * sizeof (gpointer));
 
 	i = 0;
-	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
+	for (ptr = gog_1_5d_model->base.series ; ptr != NULL && i < num_series ; ptr = ptr->next, i++) {
 		series = ptr->data;
 		base_series = GOG_SERIES (series);
 		if (!gog_series_is_valid (base_series)) {
@@ -650,6 +650,10 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				label_pos[i][j].elt = gog_series_labels_vector_get_element (labels[i] , j);
 		} else
 			label_pos[i] = NULL;
+	}
+	if (ptr != NULL || i != num_series) {
+		g_warning ("Wrong series number in bar/col plot");
+		num_series = i;
 	}
 
 	/* work in coordinates drawing bars from the top */

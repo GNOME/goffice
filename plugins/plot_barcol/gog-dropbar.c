@@ -295,7 +295,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	offset = - (step * (num_series - 1.0) + work.w) / 2.0;
 
 
-	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = gog_1_5d_model->base.series ; ptr != NULL && j < num_series; ptr = ptr->next) {
 		series = ptr->data;
 		base_series = GOG_SERIES (series);
 		if (!gog_series_is_valid (base_series)) {
@@ -378,6 +378,10 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		offset += step;
 		g_object_unref (neg_style);
 		j++;
+	}
+	if (ptr != NULL || j != num_series) {
+		g_warning ("Wrong series number in dropbar plot");
+		num_series = j;
 	}
 	for (j = 0; j < num_series; j++)
 		if (path1[j] != NULL) {

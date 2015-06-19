@@ -1,3 +1,10 @@
+2015-06-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): protect
+	against wrong series number. [#751059]
+	* plugins/plot_barcol/gog-dropbar.c (gog_dropbar_view_render):
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render):
+
 2015-06-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-doc.c (go_doc_image_fetch): Sanity check image
