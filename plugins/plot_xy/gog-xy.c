@@ -1461,9 +1461,14 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_pop_style (view->renderer);
 				g_free (markers[j]);
 			} else if (overrides != NULL) {
-				gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
+				n = gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
 				while (overrides != NULL) {
 					gse = GOG_SERIES_ELEMENT (overrides->data);
+					if (gse->index >= n) {
+						g_warning ("Invalid series element index");
+						overrides = overrides->next;
+						continue;
+					}
 					x = x_vals ? x_vals[gse->index] : gse->index + 1;
 					y = y_vals[gse->index];
 					if (gog_axis_map_finite (y_map, y) && gog_axis_map_finite (x_map, x)) {
