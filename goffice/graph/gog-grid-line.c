@@ -609,6 +609,9 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 				   circular_axis, axis, NULL, FALSE);
 
 	parms = gog_chart_map_get_polar_parms (c_map);
+	if (!parms)
+		return;
+
 	path = go_path_new ();
 
 	if (gog_axis_is_discrete (circular_axis)) {

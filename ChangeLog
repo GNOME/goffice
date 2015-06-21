@@ -18,6 +18,14 @@
 	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): protect against wrong
 	series element index. [#751256]
 
+2015-06-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-grid-line.c (gog_grid_line_radial_render):
+	Survive missing parameters.
+
+	* goffice/graph/gog-chart-map.c (null_map_2D): Zero output
+	variables.
+
 2015-06-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): protect

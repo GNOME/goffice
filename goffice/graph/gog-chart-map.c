@@ -164,6 +164,7 @@ static void
 null_map_2D (GogChartMap *map, double x, double y, double *u, double *v)
 {
 	g_warning ("[GogChartMap::map_2D] not implemented");
+	*u = *v = 0;
 }
 
 typedef struct {
