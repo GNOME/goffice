@@ -918,10 +918,8 @@ color_map_load_from_uri (char const *uri)
 	state.langs = g_get_language_names ();
 	state.name_lang_score = G_MAXINT;
 	state.color_stops = NULL;
-	if (!xml) {
+	if (!xml)
 		xml = gsf_xml_in_doc_new (color_map_dtd, NULL);
-		go_xml_in_doc_dispose_on_exit (&xml);
-	}
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogAxisColorMap]: Could not parse %s", uri);
 	if (state.map != NULL) {

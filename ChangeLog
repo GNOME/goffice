@@ -1,5 +1,10 @@
 2015-06-21  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-axis-color-map.c (color_map_load_from_uri): do not
+	free the GsfXMLInDoc* twice.
+
+2015-06-21  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/xl-surface.c (get_y_vector): skip invalid series.
 	[#751257]
 
