@@ -153,7 +153,7 @@ get_y_vector (GogPlot *plot)
 	g_free (*y_labels);
 	*y_labels = g_new0 (char const *, GOG_XYZ_PLOT (plot)->rows);
 
-	for (ptr = plot->series, i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
+	for (ptr = plot->series, i = 0 ; ptr != NULL ; ptr = ptr->next) {
 		XLXYZSeries *series = ptr->data;
 
 		if (!gog_series_is_valid (GOG_SERIES (series)))
@@ -161,6 +161,7 @@ get_y_vector (GogPlot *plot)
 		(*y_labels) [i] = (series->values[-1].data)?
 				go_data_get_scalar_string (series->values[-1].data):
 				g_strdup_printf("S%d", i + 1); /* excel like labels */
+		i++;
 	}
 
 	return GO_DATA (go_data_vector_str_new (*y_labels, i, g_free));
