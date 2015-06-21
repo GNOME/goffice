@@ -1409,7 +1409,7 @@ msgstr "Posició dels eixos"
 
 #: ../goffice/graph/gog-axis-line.c:677 ../goffice/graph/gog-axis-line.c:683
 msgid "Where to position an axis low, high, or crossing"
-msgstr "On s'han de posicions els eixos, a baix, a dalt, o al mig"
+msgstr "On s'han de posicionar els eixos, a baix, a dalt, o a creuats"
 
 #: ../goffice/graph/gog-axis-line.c:682
 msgid "Axis position (as a string)"
@@ -4740,7 +4740,7 @@ msgstr "Qatar (ar_QA)"
 
 #: ../goffice/gtk/go-locale-sel.c:124
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Aràbia Saudí (ar_SA)"
+msgstr "Aràbia Saudita (ar_SA)"
 
 #: ../goffice/gtk/go-locale-sel.c:125
 msgid "Sudan (ar_SD)"
@@ -4752,11 +4752,11 @@ msgstr "Síria (ar_SY)"
 
 #: ../goffice/gtk/go-locale-sel.c:127
 msgid "Tunisia (ar_TN)"
-msgstr "Tuníssia (ar_TN)"
+msgstr "Tunísia (ar_TN)"
 
 #: ../goffice/gtk/go-locale-sel.c:128
 msgid "Yemen (ar_YE)"
-msgstr "Ièmen (ar_YE)"
+msgstr "Iemen (ar_YE)"
 
 #: ../goffice/gtk/go-locale-sel.c:129
 #, fuzzy
@@ -4818,7 +4818,7 @@ msgstr "França/Bretó (br_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:142
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr "Bòsnia i Herzegovina (bs_BA)"
+msgstr "Bòsnia i Hercegovina (bs_BA)"
 
 #: ../goffice/gtk/go-locale-sel.c:143
 #, fuzzy
@@ -5176,7 +5176,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:227
 msgid "Hungary (hu_HU)"
-msgstr "Hungria (hu_HU)"
+msgstr "Hongria (hu_HU)"
 
 #: ../goffice/gtk/go-locale-sel.c:228
 msgid "Armenia (hy_AM)"
@@ -5655,7 +5655,7 @@ msgstr "Índia/Hindú (hi_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:336
 msgid "Pakistan (ur_PK)"
-msgstr "Paquistan (ur_PK)"
+msgstr "Pakistan (ur_PK)"
 
 #: ../goffice/gtk/go-locale-sel.c:337
 msgid "Uzbekistan (uz_UZ)"
@@ -5817,7 +5817,7 @@ msgstr "Argentina, pesos"
 
 #: ../goffice/utils/formats.c:389
 msgid "Australia, Dollars"
-msgstr "Austràlia, dòl·lars"
+msgstr "Austràlia, dòlars"
 
 #: ../goffice/utils/formats.c:390
 msgid "Aruba, Guilders"
@@ -5830,11 +5830,11 @@ msgstr "Azerbaijan, manats"
 #: ../goffice/utils/formats.c:392
 #, fuzzy
 msgid "Bosnia and herzegovina, Convertible Marka"
-msgstr "Bòsnia i Herzegovina, Marka Convertible"
+msgstr "Bòsnia i Hercegovina, Marka Convertible"
 
 #: ../goffice/utils/formats.c:393
 msgid "Barbados, Dollars"
-msgstr "Barbados, dòl·lars"
+msgstr "Barbados, dòlars"
 
 #: ../goffice/utils/formats.c:394
 msgid "Bangladesh, Taka"
@@ -5854,11 +5854,11 @@ msgstr "Burundi, francs"
 
 #: ../goffice/utils/formats.c:398
 msgid "Bermuda, Dollars"
-msgstr "Bermudes, dòl·lars"
+msgstr "Bermudes, dòlars"
 
 #: ../goffice/utils/formats.c:399
 msgid "Brunei Darussalam, Dollars"
-msgstr "Brunei, dòl·lars"
+msgstr "Brunei, dòlars"
 
 #: ../goffice/utils/formats.c:400
 msgid "Bolivia, Bolivianos"
@@ -5876,7 +5876,7 @@ msgstr "Brasil, reial"
 
 #: ../goffice/utils/formats.c:403
 msgid "Bahamas, Dollars"
-msgstr "Bahames, dòl·lars"
+msgstr "Bahames, dòlars"
 
 #: ../goffice/utils/formats.c:404
 msgid "Bhutan, Ngultrum"
@@ -5892,11 +5892,11 @@ msgstr "Bielorús, ruble"
 
 #: ../goffice/utils/formats.c:407
 msgid "Belize, Dollars"
-msgstr "Belize, dòl·lars"
+msgstr "Belize, dòlars"
 
 #: ../goffice/utils/formats.c:408
 msgid "Canada, Dollars"
-msgstr "Canadà, dòl·lars"
+msgstr "Canadà, dòlars"
 
 #: ../goffice/utils/formats.c:409
 #, fuzzy
@@ -5998,7 +5998,7 @@ msgstr "Països de la zona euro, euro"
 
 #: ../goffice/utils/formats.c:431
 msgid "Fiji, Dollars"
-msgstr "Fiji, dòl·lars"
+msgstr "Fiji, dòlars"
 
 #: ../goffice/utils/formats.c:432
 msgid "Falkland Islands (Malvinas), Pounds"
@@ -6035,11 +6035,11 @@ msgstr "Guatemala, quetzals"
 
 #: ../goffice/utils/formats.c:440
 msgid "Guyana, Dollars"
-msgstr "Guaiana, dòl·lars"
+msgstr "Guaiana, dòlars"
 
 #: ../goffice/utils/formats.c:441
 msgid "Hong Kong, Dollars"
-msgstr "Hong Kong, dòl·lars"
+msgstr "Hong Kong, dòlars"
 
 #: ../goffice/utils/formats.c:442
 msgid "Honduras, Lempiras"
@@ -6072,7 +6072,7 @@ msgstr "Índia, rúpies"
 
 #: ../goffice/utils/formats.c:449
 msgid "Iraq, Dinars"
-msgstr "Iraq, dínars"
+msgstr "Iraq, Dinars"
 
 #: ../goffice/utils/formats.c:450
 msgid "Iran, Rials"
@@ -6085,15 +6085,15 @@ msgstr "Islàndia, corones"
 
 #: ../goffice/utils/formats.c:452
 msgid "Jamaica, Dollars"
-msgstr "Jamaica, dòl·lars"
+msgstr "Jamaica, dòlars"
 
 #: ../goffice/utils/formats.c:453
 msgid "Jordan, Dinars"
-msgstr "Jordània, dínars"
+msgstr "Jordània, Dinars"
 
 #: ../goffice/utils/formats.c:454
 msgid "Japan, Yen"
-msgstr "Japò, iens"
+msgstr "Japó, iens"
 
 #: ../goffice/utils/formats.c:455
 msgid "Kenya, Shillings"
@@ -6105,7 +6105,7 @@ msgstr "Kyrgyzstan, soms"
 
 #: ../goffice/utils/formats.c:457
 msgid "Cambodia, Riels"
-msgstr "Cambòia, riels"
+msgstr "Cambodja, riels"
 
 #: ../goffice/utils/formats.c:458
 msgid "Comoros, Francs"
@@ -6122,12 +6122,12 @@ msgstr "Corea (Sud), wons"
 
 #: ../goffice/utils/formats.c:461
 msgid "Kuwait, Dinars"
-msgstr "Kuwait, dínars"
+msgstr "Kuwait, Dinars"
 
 #: ../goffice/utils/formats.c:462
 #, fuzzy
 msgid "Cayman islands, Dollars"
-msgstr "Illes Caiman, dòl·lars"
+msgstr "Illes Caiman, dòlars"
 
 #: ../goffice/utils/formats.c:463
 #, fuzzy
@@ -6148,7 +6148,7 @@ msgstr "Sri Lanka, rúpies"
 
 #: ../goffice/utils/formats.c:467
 msgid "Liberia, Dollars"
-msgstr "Libèria, dòl·lars"
+msgstr "Libèria, dòlars"
 
 #: ../goffice/utils/formats.c:468
 msgid "Lithuania, Litai"
@@ -6160,7 +6160,7 @@ msgstr "Letònia, latis"
 
 #: ../goffice/utils/formats.c:470
 msgid "Libya, Dinars"
-msgstr "Líbia, dínars"
+msgstr "Líbia, Dinars"
 
 #: ../goffice/utils/formats.c:471
 msgid "Morocco, Dirhams"
@@ -6177,7 +6177,7 @@ msgstr "Madagascar, ariary"
 
 #: ../goffice/utils/formats.c:474
 msgid "Macedonia, Denars"
-msgstr "Macedònia, dínars"
+msgstr "Macedònia, Denar"
 
 #: ../goffice/utils/formats.c:475
 msgid "Myanmar (Burma), Kyats"
@@ -6231,7 +6231,7 @@ msgstr "Nigèria, nairas"
 
 #: ../goffice/utils/formats.c:487
 msgid "Nicaragua, Gold Cordobas"
-msgstr "Nicaràgua, or de Còrdoba"
+msgstr "Nicaragua, or de Còrdova"
 
 #: ../goffice/utils/formats.c:488
 #, fuzzy
@@ -6246,7 +6246,7 @@ msgstr "Nepal, rúpia del Nepal"
 #: ../goffice/utils/formats.c:490
 #, fuzzy
 msgid "New zealand, Dollars"
-msgstr "Nova Zelanda, dòl·lars"
+msgstr "Nova Zelanda, dòlars"
 
 #: ../goffice/utils/formats.c:491
 msgid "Oman, Rials"
@@ -6271,7 +6271,7 @@ msgstr "Filipines, pesos"
 
 #: ../goffice/utils/formats.c:496
 msgid "Pakistan, Rupees"
-msgstr "Paquistan, rúpies"
+msgstr "Pakistan, rúpies"
 
 #: ../goffice/utils/formats.c:497
 msgid "Poland, Zlotys"
@@ -6293,7 +6293,7 @@ msgstr "Romania, leis"
 #: ../goffice/utils/formats.c:501
 #, fuzzy
 msgid "Serbia, Dinars"
-msgstr "Iraq, dínars"
+msgstr "Iraq, Dinars"
 
 #: ../goffice/utils/formats.c:502
 msgid "Russia, Rubles"
@@ -6306,11 +6306,11 @@ msgstr "Ruanda, francs de ruanda"
 #: ../goffice/utils/formats.c:504
 #, fuzzy
 msgid "Saudi arabia, Riyals"
-msgstr "Arabia Saudí, riyals"
+msgstr "Aràbia Saudita, riyals"
 
 #: ../goffice/utils/formats.c:505
 msgid "Solomon Islands, Dollars"
-msgstr "Illes Salomó, dòl·lars"
+msgstr "Illes Salomó, dòlars"
 
 #: ../goffice/utils/formats.c:506
 msgid "Seychelles, Rupees"
@@ -6331,7 +6331,7 @@ msgstr "Suècia, corones"
 
 #: ../goffice/utils/formats.c:510
 msgid "Singapore, Dollars"
-msgstr "Singapur, dòl·lars"
+msgstr "Singapur, dòlars"
 
 #: ../goffice/utils/formats.c:511
 msgid "Saint Helena, Ascension and Tristan da Cunha, Pounds"
@@ -6349,7 +6349,7 @@ msgstr "Somàlia, xílings"
 #: ../goffice/utils/formats.c:514
 #, fuzzy
 msgid "Suriname, Dollars"
-msgstr "Singapur, dòl·lars"
+msgstr "Singapur, dòlars"
 
 #: ../goffice/utils/formats.c:515
 #, fuzzy
@@ -6383,7 +6383,7 @@ msgstr "Turkmenistan, manats"
 
 #: ../goffice/utils/formats.c:522
 msgid "Tunisia, Dinars"
-msgstr "Tuníssia, dínars"
+msgstr "Tunísia, Dinars"
 
 #: ../goffice/utils/formats.c:523
 #, fuzzy
@@ -6396,11 +6396,11 @@ msgstr "Turquia, lires"
 
 #: ../goffice/utils/formats.c:525
 msgid "Trinidad and Tobago, Dollars"
-msgstr "Trinitat i Tobago, dòl·lars"
+msgstr "Trinitat i Tobago, dòlars"
 
 #: ../goffice/utils/formats.c:526
 msgid "Taiwan, New Dollars"
-msgstr "Taiwan, nou dòl·lar"
+msgstr "Taiwan, nou dòlar"
 
 #: ../goffice/utils/formats.c:527
 msgid "Tanzania, Shillings"
@@ -6416,17 +6416,17 @@ msgstr "Uganda, xílings"
 
 #: ../goffice/utils/formats.c:530
 msgid "United States of America, Dollars"
-msgstr "Estats Units d'Amèrica, dòl·lars"
+msgstr "Estats Units d'Amèrica, dòlars"
 
 #: ../goffice/utils/formats.c:531
 #, fuzzy
 msgid "United States of America, Dollars (Next day)"
-msgstr "Estats Units d'Amèrica, dòl·lars"
+msgstr "Estats Units d'Amèrica, dòlars"
 
 #: ../goffice/utils/formats.c:532
 #, fuzzy
 msgid "United States of America, Dollars (Same day)"
-msgstr "Estats Units d'Amèrica, dòl·lars"
+msgstr "Estats Units d'Amèrica, dòlars"
 
 #: ../goffice/utils/formats.c:533
 msgid "Uruguay, Pesos en Unidades Indexadas"
@@ -6487,7 +6487,7 @@ msgstr ""
 
 #: ../goffice/utils/formats.c:547
 msgid "East Caribbean Dollars"
-msgstr "Carib Oriental, dòl·lars"
+msgstr "Carib Oriental, dòlars"
 
 #: ../goffice/utils/formats.c:548
 msgid "UIC-Francs"
@@ -6520,7 +6520,7 @@ msgstr "Lesotho, malotis"
 
 #: ../goffice/utils/formats.c:555
 msgid "Namibia, Dollars"
-msgstr "Namíbia, dòl·lar"
+msgstr "Namíbia, dòlar"
 
 #: ../goffice/utils/formats.c:556
 #, fuzzy
@@ -6529,7 +6529,7 @@ msgstr "Zàmbia, kwacha"
 
 #: ../goffice/utils/formats.c:557
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr "Zimbabwe, dòl·lar de Zimbabwe"
+msgstr "Zimbabwe, dòlar de Zimbabwe"
 
 #: ../goffice/utils/go-emf.c:229
 #, c-format
