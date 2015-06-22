@@ -1,3 +1,8 @@
+2015-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_radar/gog-radar.c (gog_rt_view_render): protect against wrong
+	series element index. [#751272]
+
 2015-06-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-color-map.c (color_map_load_from_uri): do not

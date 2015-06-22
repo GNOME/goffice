@@ -1055,6 +1055,11 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		} else if (overrides) {
 			while (overrides) {
 				count = GOG_SERIES_ELEMENT (overrides->data)->index;
+				if (count >= series->base.num_elements) {
+					g_warning ("Invalid series element index");
+					overrides = overrides->next;
+					continue;
+				}
 				gse = GOG_SERIES_ELEMENT (overrides->data);
 				rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
 					r_vals[count] : rho_min;
