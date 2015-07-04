@@ -2125,6 +2125,7 @@ void
 gog_object_document_changed (GogObject *obj, GODoc *doc)
 {
 	GSList *ptr;
+	g_return_if_fail (GOG_IS_OBJECT (obj) && GO_IS_DOC (doc));
 	if (GOG_OBJECT_GET_CLASS (obj)->document_changed != NULL)
 		GOG_OBJECT_GET_CLASS (obj)->document_changed (obj, doc);
 	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
