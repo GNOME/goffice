@@ -51,7 +51,7 @@ gog_log_fit_curve_update (GogObject *obj)
 		ty_vals = g_new (double, nb);
 		for (i = 0, used = 0; i < nb; i++) {
 			x = (x_vals)? x_vals[i]: i;
-			y = y_vals[i];
+			y = y_vals ? y_vals[i] : go_nan;
 			if (!go_finite (x) || !go_finite (y)) {
 				if (rc->skip_invalid)
 					continue;

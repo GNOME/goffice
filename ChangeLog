@@ -1,3 +1,8 @@
+2015-07-08  Morten Welinder  <terra@gnome.org>
+
+	* plugins/reg_logfit/gog-logfit.c (gog_log_fit_curve_update):
+	Survive missing y_val.  Fixes Redhat #1240470.
+
 2015-07-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-object.c (gog_object_document_changed): check args

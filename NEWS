@@ -11,6 +11,7 @@ Morten:
 	* Plug leaks.  [#749395]
 	* Portability problem affecting macs.  [#749463]
 	* Fuzzed file fixes.  [#750047]  [#751250]
+	* Fix log-fit problem.  [Redhat #1240470]
 
 --------------------------------------------------------------------------
 goffice 0.10.22:
