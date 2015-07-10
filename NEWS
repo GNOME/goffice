@@ -3,7 +3,7 @@ goffice 0.10.23:
 Jean:
 	* Disable metafiles support when there is no screen. [#748493]
 	* Fuzzed file fixes.  [#750860] [#751059] [#751256] [#751257] [#751272]
-	  [#751925]
+	  [#751925] [#752223]
 
 Morten:
 	* Fix ABR [#749167]

@@ -120,7 +120,7 @@ gog_axis_metrics_from_str (char const *name)
 	unsigned i;
 	GogAxisMetrics ret = GOG_AXIS_METRICS_DEFAULT;
 
-	for (i = 0; i < GO_LINE_MAX; i++) {
+	for (i = 0; i < GOG_AXIS_METRICS_MAX; i++) {
 		if (strcmp (metrics_desc[i].name, name) == 0) {
 			ret = metrics_desc[i].metrics;
 			break;
