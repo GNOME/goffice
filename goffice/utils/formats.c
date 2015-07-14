@@ -452,7 +452,7 @@ static GOFormatCurrency const _go_format_currencies_table[] =
 	{ "[$INR]",	N_("India, Rupees"), TRUE, TRUE},
 	{ "[$IQD]",	N_("Iraq, Dinars"), TRUE, TRUE},
 	{ "[$IRR]",	N_("Iran, Rials"), TRUE, TRUE},
-	{ "[$ISK]",	N_("Iceland, Krohur"), TRUE, TRUE},
+	{ "[$ISK]",	N_("Iceland, Kronur"), TRUE, TRUE},
 	{ "[$JMD]",	N_("Jamaica, Dollars"), TRUE, TRUE},
 	{ "[$JOD]",	N_("Jordan, Dinars"), TRUE, TRUE},
 	{ "[$JPY]",	N_("Japan, Yen"), TRUE, TRUE},
