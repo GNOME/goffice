@@ -1,7 +1,13 @@
+2015-07-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_render_general): Try the shortest
+	representation when we're not width limited.  Fixes #752839.
+	Also handle sign and shape when using shortest.
+
 2015-07-10  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/graph/gog-axis.c (gog_axis_metrics_from_str): fix a paste error.
-	Fixes #752223.
+	* goffice/graph/gog-axis.c (gog_axis_metrics_from_str): fix a
+	paste error.  Fixes #752223.
 
 2015-07-08  Morten Welinder  <terra@gnome.org>
 

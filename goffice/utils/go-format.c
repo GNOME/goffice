@@ -4935,18 +4935,14 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	int sign_width;
 	int min_digit_width = metrics->min_digit_width;
 	gboolean check_val = TRUE;
+	gboolean try_needed = FALSE;
 
 	if (num_shape > 0) {
 		/* FIXME: We should adjust min_digit_width if num_shape != 0 */
 	}
 
 	if (col_width == -1) {
-#ifdef DEBUG_GENERAL
-		g_printerr ("Rendering %.20" FORMAT_G " to needed width\n", val);
-#endif
-		go_dtoa (str, "=!^" FORMAT_G, val);
-		SETUP_LAYOUT;
-		return;
+		try_needed = TRUE;
 	} else {
 		int w;
 
@@ -4959,7 +4955,20 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			/* We're limited by width.  */
 			maxdigits = w;
 			check_val = FALSE;
-		}
+		} else
+			try_needed = TRUE;
+	}
+
+	if (try_needed) {
+#ifdef DEBUG_GENERAL
+		g_printerr ("Rendering %.20" FORMAT_G " to needed width\n", val);
+#endif
+		go_dtoa (str, "=!^" FORMAT_G, val);
+		HANDLE_NUMERAL_SHAPE;
+		HANDLE_SIGN (0);
+		SETUP_LAYOUT;
+		if (col_width == -1 || measure (str, layout) <= col_width)
+			return;
 	}
 
 #ifdef DEBUG_GENERAL
