@@ -4955,8 +4955,9 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			/* We're limited by width.  */
 			maxdigits = w;
 			check_val = FALSE;
-		} else
-			try_needed = TRUE;
+		}
+
+		try_needed = (w >= maxdigits);
 	}
 
 	if (try_needed) {

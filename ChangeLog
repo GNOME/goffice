@@ -1,3 +1,8 @@
+2015-08-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_render_general): Also try the
+	shortest representation when we're barely width limited.
+
 2015-07-28  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
