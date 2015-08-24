@@ -124,17 +124,16 @@ goc_path_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocPath *path = GOC_PATH (item);
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-	double rsign = sign;
 
 	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, path->x , path->y);
 	} else {
-		cairo_translate (cr, path->x , path->y);
-		rsign = 1;
+		cairo_translate (cr, path->x, path->y);
+		sign = 1;
 	}
 	cairo_scale (cr, sign, 1.);
-	cairo_rotate (cr, path->rotation * rsign);
+	cairo_rotate (cr, path->rotation * sign);
 	go_path_to_cairo (path->path, GO_PATH_DIRECTION_FORWARD, cr);
 
 	return TRUE;

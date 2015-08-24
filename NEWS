@@ -1,5 +1,8 @@
 goffice 0.10.24:
 
+Jean:
+	* Fix bounds and distance for rectangle and paths in RTL mode. [#753963]
+
 --------------------------------------------------------------------------
 goffice 0.10.23:
 

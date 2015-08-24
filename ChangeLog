@@ -1,3 +1,9 @@
+2015-08-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-path.c (goc_path_prepare_draw): fix bounds and distance
+	in RTL mode. [#753963]
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_prepare_draw): ditto.
+
 2015-08-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_render_general): Also try the

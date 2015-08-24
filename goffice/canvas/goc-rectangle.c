@@ -146,12 +146,13 @@ goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, rect->x, rect->y);
+		cairo_scale (cr, sign, 1.);
 	} else {
 		cairo_translate (cr, rect->x, rect->y);
 	}
 	cairo_rotate (cr, rect->rotation * sign);
 	if (0 == rect->type || 0 == rect->rx || 0 == rect->ry) {
-		cairo_rectangle (cr, 0., 0., (int) rect->width * sign, (int) rect->height);
+		cairo_rectangle (cr, 0., 0., (int) rect->width, (int) rect->height);
 	} else {
 
 		if (rect->type & 1) {
