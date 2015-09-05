@@ -167,18 +167,18 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 	grid = g_new0 (unsigned, n);
 
 	l = index = 0;
-	while (l < kmax && y_vals[sort[l]] < y_limits[0])
+	while (l < kmax && y_vals && y_vals[sort[l]] < y_limits[0])
 		l++;
 	k = l;
 	for (i = 1; i < imax; i++) {
-		while (l < kmax && y_vals[sort[l]] <= y_limits[i])
+		while (l < kmax && y_vals && y_vals[sort[l]] <= y_limits[i])
 			l++;
 		g_qsort_with_data (sort + k, l - k, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
-		while (k < l && x_vals[sort[k]] < x_limits[0])
+		while (k < l && x_vals && x_vals[sort[k]] < x_limits[0])
 			k++;
 		for (j = 1; j < jmax && k < l; j++) {
 			index = (i - 1) * plot->columns + j - 1;
-			while (k < l && x_vals[sort[k]] <= x_limits[j]) {
+			while (k < l && x_vals && x_vals[sort[k]] <= x_limits[j]) {
 				if (G_LIKELY (index < n)) {
 					data[index] += (z_vals)? z_vals[sort[k]]: 1;
 					grid[index]++;

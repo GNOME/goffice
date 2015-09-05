@@ -2,6 +2,7 @@ goffice 0.10.24:
 
 Jean:
 	* Fix bounds and distance for rectangle and paths in RTL mode. [#753963]
+	* Don't access NULL X or Y values in YXZ matrix plots. [#754590]
 
 --------------------------------------------------------------------------
 goffice 0.10.23:
