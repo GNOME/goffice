@@ -56,7 +56,7 @@ struct _GocOffscreenBoxClass
 	GtkBinClass parent_class;
 };
 
-GType	   goc_offscreen_box_get_type  (void) G_GNUC_CONST;
+static GType	   goc_offscreen_box_get_type  (void);
 
 static void
 to_child (GocOffscreenBox *offscreen_box,

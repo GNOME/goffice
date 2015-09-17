@@ -37,7 +37,7 @@ typedef struct _GogChildButtonClass   	GogChildButtonClass;
 #define GOG_IS_CHILD_BUTTON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GOG_TYPE_CHILD_BUTTON))
 #define GOG_CHILD_BUTTON_GET_CLASS(obj)	 (G_TYPE_INSTANCE_GET_CLASS ((obj), GOG_TYPE_CHILD_BUTTON, GogChildButtonClass))
 
-GType		 gog_child_button_get_type 	(void) G_GNUC_CONST;
+GType		 gog_child_button_get_type 	(void);
 
 GtkWidget	*gog_child_button_new 		(void);
 void 		 gog_child_button_set_object 	(GogChildButton *child_button, GogObject *gog_object);

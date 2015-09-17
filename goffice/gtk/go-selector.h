@@ -52,7 +52,7 @@ struct _GOSelectorClass
 	void (*activate)		(GtkWidget *selector);
 };
 
-GType		 go_selector_get_type (void) G_GNUC_CONST;
+GType		 go_selector_get_type (void);
 
 GtkWidget	*go_selector_new 		(GOPalette *palette);
 

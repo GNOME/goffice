@@ -62,7 +62,7 @@ struct _GOPaletteClass
 	void (*custom_activate)		(GtkWidget *palette);
 };
 
-GType            go_palette_get_type 		(void) G_GNUC_CONST;
+GType            go_palette_get_type 		(void);
 GtkWidget 	*go_palette_new 		(int n_swatches,
 						 double swatch_width,
 						 int n_columns,

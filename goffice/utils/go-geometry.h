@@ -109,7 +109,7 @@ GOGeometrySide		go_geometry_calc_label_position	(GOGeometryOBR *obr, double alph
 							 GOGeometrySide side, GOGeometrySide anchor);
 
 #define  GO_TYPE_DIRECTION (go_direction_get_type())
-GType    go_direction_get_type	    (void) G_GNUC_CONST;
+GType    go_direction_get_type	    (void);
 gboolean go_direction_is_horizontal (GODirection d);
 gboolean go_direction_is_forward    (GODirection d);
 char const *go_direction_get_name   (GODirection d);

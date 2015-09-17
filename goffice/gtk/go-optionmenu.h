@@ -73,7 +73,7 @@ struct _GOOptionMenuClass
 };
 
 
-GType      go_option_menu_get_type    (void) G_GNUC_CONST;
+GType      go_option_menu_get_type    (void);
 
 GtkWidget *go_option_menu_new         (void);
 GtkWidget *go_option_menu_build       (const char *first_entry, ...);
