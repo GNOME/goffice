@@ -1,5 +1,9 @@
 2015-09-20  Morten Welinder <terra@gnome.org>
 
+	* configure.ac: Post-release bump.
+
+2015-09-20  Morten Welinder <terra@gnome.org>
+
 	* Release 0.10.24
 
 2015-09-05  Jean Brefort  <jean.brefort@normalesup.org>
