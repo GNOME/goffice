@@ -841,6 +841,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 				GO_SLIST_PREPEND (dependency_list, dep);
 			}
 		} else {
+			g_free (loader_id);
 			loader_id = NULL;
 			loader_attrs = NULL;
 		}
@@ -865,6 +866,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 		plugin->loader_attrs = loader_attrs;
 		plugin->loader = NULL;
 		plugin->services = go_plugin_read_service_list (plugin, tree, &services_error);
+		loader_attrs = NULL;
 
 		if (services_error != NULL) {
 			*ret_error = go_error_info_new_printf (
@@ -906,6 +908,9 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 	}
 	g_free (file_name);
 	xmlFreeDoc (doc);
+
+	if (loader_attrs)
+		g_hash_table_destroy (loader_attrs);
 }
 
 static void

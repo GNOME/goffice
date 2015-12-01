@@ -1,3 +1,7 @@
+2015-12-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-plugin.c (go_plugin_read): Plug leak.
+
 2015-09-20  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
