@@ -920,7 +920,7 @@ gog_tool_move_bound_init (GogToolAction *action)
 	data->axis = axis_base->axis;
 	data->length = hypot (view->x_start - view->x_stop,
 			      view->y_start - view->y_stop);
-	gog_axis_map_get_extents (data->map, &data->start, &data->stop);
+	gog_axis_map_get_real_extents (data->map, &data->start, &data->stop);
 }
 
 static void
