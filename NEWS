@@ -3,6 +3,7 @@ goffice 0.10.25:
 Morten:
 	* Plug leaks.
 	* Fix axis editing bug.  [#684886]
+	* Make builds more reproducible.
 
 --------------------------------------------------------------------------
 goffice 0.10.24:
