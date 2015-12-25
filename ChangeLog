@@ -1,3 +1,7 @@
+2015-12-25  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.25
+
 2015-12-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis-line.c (gog_tool_move_bound_init): Use
