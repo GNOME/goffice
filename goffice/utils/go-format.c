@@ -7918,6 +7918,16 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		}
 
 		case TOK_AMPM3:
+			if (seen_elapsed || seen_ampm) break;
+			seen_ampm = TRUE;
+			ODF_CLOSE_STRING;
+			element_written = TRUE;
+			gsf_xml_out_start_element (xout, NUMBER "am-pm");
+			if (with_extension)
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "style", "short");			
+			gsf_xml_out_end_element (xout); /* </number:am-pm> */
+			break;
+
 		case TOK_AMPM5:
 			if (seen_elapsed || seen_ampm) break;
 			seen_ampm = TRUE;
