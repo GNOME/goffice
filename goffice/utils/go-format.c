@@ -7923,8 +7923,14 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			ODF_CLOSE_STRING;
 			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "am-pm");
-			if (with_extension)
-				gsf_xml_out_add_cstr (xout, GNMSTYLE "style", "short");			
+			if (with_extension) {
+				gchar *suffix = g_strndup (token, 1);
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "am-suffix", suffix);
+				g_free (suffix);
+				suffix = g_strndup (token + 2, 1);
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "pm-suffix", suffix);
+				g_free (suffix);
+			}		
 			gsf_xml_out_end_element (xout); /* </number:am-pm> */
 			break;
 
@@ -7933,7 +7939,12 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			seen_ampm = TRUE;
 			ODF_CLOSE_STRING;
 			element_written = TRUE;
-			gsf_xml_out_simple_element (xout, NUMBER "am-pm", NULL);
+			gsf_xml_out_start_element (xout, NUMBER "am-pm");
+			if (with_extension) {
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "am-suffix", "AM");
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "pm-suffix", "PM");
+			}			
+			gsf_xml_out_end_element (xout); /* </number:am-pm> */
 			break;
 
 		case TOK_ELAPSED_H:
