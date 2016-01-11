@@ -1786,10 +1786,10 @@ go_plugins_set_dirs (GSList *plugin_dirs)
 
 /**
  * go_plugins_init:
- * @context: #GOCmdContext used to report errors
- * @known_states: (element-type char): A list of known states (defined how ?)
- * @active_plugins: (element-type char): A list of active plugins
- * @plugin_dirs: (element-type char): a list of directories to search for plugins
+ * @context: (allow-none): #GOCmdContext used to report errors
+ * @known_states: (allow-none) (element-type char): A list of known states (defined how ?)
+ * @active_plugins: (allow-none) (element-type char): A list of active plugins
+ * @plugin_dirs: (allow-none) (element-type char): a list of directories to search for plugins
  * @activate_new_plugins: activate plugins we have no seen before.
  * @default_loader_type: importer to use by default.
  *

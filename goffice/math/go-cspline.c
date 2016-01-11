@@ -82,7 +82,7 @@ GType go_csplinel_get_type (void) { return G_TYPE_NONE; }
  * members of the new structure.
  *
  * Returns: a newly created GOCSpline instance which should be
- * destroyed by a call to go_bezier_spline_destroy.
+ * destroyed by a call to go_cspline_destroy.
  */
 SUFFIX(GOCSpline) *
 SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,

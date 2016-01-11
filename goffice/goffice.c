@@ -213,6 +213,7 @@ libgoffice_init (void)
 	_goc_plugin_services_init ();
 	install_icons ();
 #endif
+	(void) GO_TYPE_PLUGIN_LOADER_MODULE;
 	(void) GOG_TYPE_GRAPH;
 	(void) GOG_TYPE_CHART;
 	(void) GOG_TYPE_PLOT;

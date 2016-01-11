@@ -1,3 +1,11 @@
+2016-01-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-plugin.c: add introspection anotations.
+	* goffice/goffice.c (libgoffice_init): initialise GOPluginLoaderModule
+	class to allow plugins initialization through introspection.
+	* goffice/graph/gog-object.c:  add an introspection anotation.
+	* goffice/math/go-cspline.c: typo.
+
 2016-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* utils/go-format.c (go_format_output_date_to_odf): write
