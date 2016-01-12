@@ -1,9 +1,18 @@
+2016-01-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.10-sections.txt: add missing declarations.
+	* goffice/data/go-data-simple.c (go_data_scalar_str_new_copy),
+	(go_data_vector_val_new_copy), (go_data_vector_str_new_copy): new
+	functions for introspection.
+	* goffice/data/go-data-simple.h: ditto.
+	* goffice/graph/gog-series.c: add an annotation.
+
 2016-01-11  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/app/go-plugin.c: add introspection anotations.
+	* goffice/app/go-plugin.c: add introspection annotations.
 	* goffice/goffice.c (libgoffice_init): initialise GOPluginLoaderModule
 	class to allow plugins initialization through introspection.
-	* goffice/graph/gog-object.c:  add an introspection anotation.
+	* goffice/graph/gog-object.c:  add an introspection annotation.
 	* goffice/math/go-cspline.c: typo.
 
 2016-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>

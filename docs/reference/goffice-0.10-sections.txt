@@ -798,12 +798,15 @@ GODataVectorStr
 GODataVectorVal
 go_data_matrix_val_new
 go_data_scalar_str_new
+go_data_scalar_str_new_copy
 go_data_scalar_str_set_str
 go_data_scalar_val_new
 go_data_vector_str_new
+go_data_vector_str_new_copy
 go_data_vector_str_set_translate_func
 go_data_vector_str_set_translation_domain
 go_data_vector_val_new
+go_data_vector_val_new_copy
 <SUBSECTION Standard>
 GO_DATA_MATRIX_VAL
 GO_DATA_SCALAR_STR
@@ -1211,6 +1214,7 @@ GO_SLIST_REVERSE
 GO_SLIST_SORT
 go_ascii_strcase_equal
 go_ascii_strcase_hash
+go_debug_check_finalized
 go_debug_flag
 go_destroy_password
 go_get_real_name
@@ -1297,6 +1301,7 @@ go_image_get_format_from_name
 go_image_get_format_info
 go_image_get_formats_with_pixbuf_saver
 go_image_get_height
+go_image_get_info
 go_image_get_name
 go_image_get_pixbuf
 go_image_get_scaled_pixbuf
@@ -1371,6 +1376,7 @@ go_image_sel_new
 go_xml_get_child_by_name
 go_xml_get_child_by_name_by_lang
 go_xml_get_child_by_name_no_lang
+go_xml_in_doc_dispose_on_exit
 go_xml_node_get_bool
 go_xml_node_get_cstr
 go_xml_node_get_double
@@ -1384,6 +1390,8 @@ go_xml_node_set_enum
 go_xml_node_set_gocolor
 go_xml_node_set_int
 go_xml_out_add_color
+go_xml_out_add_double
+go_xml_out_add_long_double
 go_xml_parse_file
 </SECTION>
 
@@ -1392,20 +1400,31 @@ go_xml_parse_file
 <TITLE>GOArrow</TITLE>
 GOArrow
 GOArrowType
+GOArrowSel
 go_arrow_clear
+go_arrow_draw
 go_arrow_dup
+go_arrow_equal
 go_arrow_init
 go_arrow_init_kite
 go_arrow_init_oval
 go_arrow_type_as_str
 go_arrow_type_from_str
+go_arrow_sel_get_arrow
+go_arrow_sel_get_type
+go_arrow_sel_new
+go_arrow_sel_set_arrow
+<SUBSECTION Standard>
+GO_ARROW_TYPE
+GO_ARROW_SEL
+GO_IS_ARROW_SEL
+GO_TYPE_ARROW_SEL
 </SECTION>
 
 <SECTION>
 <FILE>go-line</FILE>
 <TITLE>Line</TITLE>
 GOLineDashSequence
-GO_ARROW_TYPE
 go_line_dash_as_label
 go_line_dash_as_str
 go_line_dash_from_str
@@ -1474,6 +1493,7 @@ go_marker_get_outline_color
 go_marker_get_outline_width
 go_marker_get_shape
 go_marker_get_size
+go_marker_is_closed_shape
 go_marker_new
 go_marker_render
 go_marker_set_fill_color
@@ -1492,6 +1512,7 @@ go_marker_get_type
 <SECTION>
 <FILE>go-marker-selector</FILE>
 go_marker_selector_new
+go_marker_selector_set_auto_fill
 go_marker_selector_set_colors
 go_marker_selector_set_shape
 </SECTION>
@@ -1518,7 +1539,16 @@ go_add_epsilon
 go_add_epsilonl
 go_ascii_strtod
 go_ascii_strtold
+go_atan2pi
+go_atan2pil
+go_atanpi
+go_atanpil
 go_continued_fraction
+go_cospi
+go_cospil
+go_cotpi
+go_cotpil
+go_dtoa
 go_fake_ceil
 go_fake_ceill
 go_fake_floor
@@ -1539,11 +1569,6 @@ go_strtod
 go_strtold
 go_sub_epsilon
 go_sub_epsilonl
-go_atan2pi
-go_atan2pil
-go_cospi
-go_cospil
-go_dtoa
 isnan
 ldexpl
 log1p
@@ -1715,6 +1740,7 @@ go_persist_get_type
 <TITLE>GOPixbuf</TITLE>
 GOPixbuf
 go_pixbuf_get_rowstride
+go_pixbuf_new_from_data
 go_pixbuf_new_from_pixbuf
 <SUBSECTION Standard>
 GO_IS_PIXBUF
@@ -1947,6 +1973,7 @@ GOQuad
 GOQuadl
 GOQuad_
 GOQuadl_
+GO_QUAD_IMPL
 </SECTION>
 
 <SECTION>
@@ -2836,6 +2863,7 @@ gog_axis_add_contributor
 gog_axis_bound_changed
 gog_axis_clear_contributors
 gog_axis_contributors
+gog_axis_data_get_bounds
 gog_axis_del_contributor
 gog_axis_get_atype
 gog_axis_get_bounds
@@ -2858,6 +2886,7 @@ gog_axis_get_ticks
 gog_axis_is_center_on_ticks
 gog_axis_is_discrete
 gog_axis_is_inverted
+gog_axis_is_zero_important
 gog_axis_set_bounds
 gog_axis_set_extents
 gog_axis_set_format
@@ -2902,6 +2931,8 @@ GogAxisPosition
 GogAxisTickTypes
 gog_axis_base_get_cross_location
 gog_axis_base_get_crossed_axis
+gog_axis_base_get_crossed_axis_for_plot
+gog_axis_base_get_crossed_axis_type
 gog_axis_line_get_ticks
 <SUBSECTION Standard>
 GOG_AXIS_BASE

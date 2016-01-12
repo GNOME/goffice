@@ -40,7 +40,8 @@ GOData	*go_data_scalar_val_new      (double val);
 
 typedef struct _GODataScalarStr GODataScalarStr;
 GType	 go_data_scalar_str_get_type (void);
-GOData	*go_data_scalar_str_new      (char const *text, gboolean needs_free);
+GOData	*go_data_scalar_str_new      (char const *str, gboolean needs_free);
+GOData	*go_data_scalar_str_new_copy (char const *str);
 void     go_data_scalar_str_set_str  (GODataScalarStr *str,
 				      char const *text, gboolean needs_free);
 
@@ -51,7 +52,7 @@ void     go_data_scalar_str_set_str  (GODataScalarStr *str,
 typedef struct _GODataVectorVal GODataVectorVal;
 GType	 go_data_vector_val_get_type (void);
 GOData	*go_data_vector_val_new      (double *val, unsigned n, GDestroyNotify   notify);
-
+GOData  *go_data_vector_val_new_copy (double *val, unsigned n);
 #define GO_TYPE_DATA_VECTOR_STR  (go_data_vector_str_get_type ())
 #define GO_DATA_VECTOR_STR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_DATA_VECTOR_STR, GODataVectorStr))
 #define GO_IS_DATA_VECTOR_STR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_DATA_VECTOR_STR))
@@ -59,6 +60,7 @@ GOData	*go_data_vector_val_new      (double *val, unsigned n, GDestroyNotify   n
 typedef struct _GODataVectorStr GODataVectorStr;
 GType	go_data_vector_str_get_type	      (void);
 GOData *go_data_vector_str_new		      (char const * const *str, unsigned n, GDestroyNotify notify);
+GOData  *go_data_vector_str_new_copy      (char const * const *str, unsigned n);
 void    go_data_vector_str_set_translate_func (GODataVectorStr *vector,
 					       GOTranslateFunc  func,
 					       gpointer         data,

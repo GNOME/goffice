@@ -262,6 +262,13 @@ GSF_CLASS (GODataScalarStr, go_data_scalar_str,
 	   go_data_scalar_str_class_init, go_data_scalar_str_init,
 	   GO_TYPE_DATA_SCALAR)
 
+/**
+ * go_data_scalar_str_new: (skip)
+ * @str: the string.
+ * @needs_free: whether to free the string.
+ *
+ * Returns: (transfer full): the newly created #GOData.
+ **/
 GOData *
 go_data_scalar_str_new (char const *str, gboolean needs_free)
 {
@@ -270,6 +277,23 @@ go_data_scalar_str_new (char const *str, gboolean needs_free)
 	res->needs_free = needs_free;
 	return GO_DATA (res);
 }
+
+/**
+ * go_data_scalar_str_new_copy: (rename-to go_data_scalar_str_new)
+ * @str: (transfer none): the string.
+ *
+ * Makes a copy of the string.
+ * Returns: (transfer full): the newly created #GOData.
+ **/
+GOData *
+go_data_scalar_str_new_copy (char const *str)
+{
+	GODataScalarStr *res = g_object_new (GO_TYPE_DATA_SCALAR_STR, NULL);
+	res->str	= g_strdup(str);
+	res->needs_free = TRUE;
+	return GO_DATA (res);
+}
+
 void
 go_data_scalar_str_set_str (GODataScalarStr *str,
 			    char const *text, gboolean needs_free)
@@ -469,6 +493,14 @@ GSF_CLASS (GODataVectorVal, go_data_vector_val,
 	   go_data_vector_val_class_init, NULL,
 	   GO_TYPE_DATA_VECTOR)
 
+/**
+ * go_data_vector_val_new: (skip)
+ * @val: the values.
+ * @n: the values number.
+ * @notify: callback to destroy the values if needed.
+ *
+ * Returns: (transfer full): the newly created #GOData.
+ **/
 GOData *
 go_data_vector_val_new (double *val, unsigned n, GDestroyNotify notify)
 {
@@ -476,6 +508,24 @@ go_data_vector_val_new (double *val, unsigned n, GDestroyNotify notify)
 	res->val = val;
 	res->n = n;
 	res->notify = notify;
+	return GO_DATA (res);
+}
+
+/**
+ * go_data_vector_val_new_copy: (rename-to go_data_vector_val_new)
+ * @val: (array length=n): the values.
+ * @n: the values number.
+ *
+ * Returns: (transfer full): the newly created #GOData.
+ **/
+GOData *
+go_data_vector_val_new_copy (double *val, unsigned n)
+{
+	GODataVectorVal *res = g_object_new (GO_TYPE_DATA_VECTOR_VAL, NULL);
+	res->val = g_malloc (n * sizeof (double));
+	memcpy (res->val, val, n * sizeof (double));
+	res->n = n;
+	res->notify = g_free;
 	return GO_DATA (res);
 }
 
@@ -739,6 +789,14 @@ GSF_CLASS (GODataVectorStr, go_data_vector_str,
 	   go_data_vector_str_class_init, go_data_vector_str_init,
 	   GO_TYPE_DATA_VECTOR)
 
+/**
+ * go_data_vector_str_new: (skip)
+ * @str: (array length=n) (transfer container): the values.
+ * @n: the values number.
+ * @notify: (allow-none): callback to destroy the values if needed.
+ *
+ * Returns: (transfer full): the newly created #GOData.
+ **/
 GOData *
 go_data_vector_str_new (char const * const *str, unsigned n, GDestroyNotify notify)
 {
@@ -746,6 +804,39 @@ go_data_vector_str_new (char const * const *str, unsigned n, GDestroyNotify noti
 	res->str = str;
 	res->n	 = n;
 	res->notify = notify;
+	return GO_DATA (res);
+}
+
+static void 
+clear_strings_cb (char **str)
+{
+	int i = 0;
+	while (str[i] != NULL) {
+		g_free (str[i]);
+		i++;
+	}
+	g_free (str);
+}
+
+/**
+ * go_data_vector_str_new_copy: (rename-to go_data_vector_str_new)
+ * @str: (array length=n) (transfer none): the values.
+ * @n: the values number.
+ *
+ * Returns: (transfer full): the newly created #GOData.
+ **/
+GOData *
+go_data_vector_str_new_copy (char const * const *str, unsigned n)
+{
+	GODataVectorStr *res = g_object_new (GO_TYPE_DATA_VECTOR_STR, NULL);
+	unsigned i;
+	char **cpy = g_malloc ((n + 1) * sizeof (char*));
+	for (i = 0; i < n; i++)
+		cpy[i] = g_strdup (str[i]);
+	cpy[i] = NULL;
+	res->str = (char const * const *) cpy;
+	res->n	 = n;
+	res->notify = (GDestroyNotify) clear_strings_cb;
 	return GO_DATA (res);
 }
 
