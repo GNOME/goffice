@@ -2179,42 +2179,6 @@ enum {
 /*****************************************************************************/
 
 static gboolean
-role_grid_line_major_can_add (GogObject const *parent)
-{
-	GogAxis *axis = GOG_AXIS (parent);
-	GogAxisType type = gog_axis_get_atype (axis);
-
-	return ((type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z
-		 || type == GOG_AXIS_RADIAL ||
-		 (type == GOG_AXIS_CIRCULAR && !gog_axis_is_discrete (axis))) &&
-		gog_axis_get_grid_line (GOG_AXIS (parent), TRUE) == NULL);
-}
-
-static gboolean
-role_grid_line_minor_can_add (GogObject const *parent)
-{
-	GogAxis *axis = GOG_AXIS (parent);
-	GogAxisType type = gog_axis_get_atype (axis);
-
-	return (!gog_axis_is_discrete (GOG_AXIS (parent)) &&
-		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z ||
-		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
-		gog_axis_get_grid_line (GOG_AXIS (parent), FALSE) == NULL);
-}
-
-static void
-role_grid_line_major_post_add (GogObject *parent, GogObject *child)
-{
-	g_object_set (G_OBJECT (child), "is-minor", (gboolean)FALSE, NULL);
-}
-
-static void
-role_grid_line_minor_post_add (GogObject *parent, GogObject *child)
-{
-	g_object_set (G_OBJECT (child), "is-minor", (gboolean)TRUE, NULL);
-}
-
-static gboolean
 role_axis_line_can_add (GogObject const *parent)
 {
 	GogChart *chart = GOG_AXIS_BASE (parent)->chart;
@@ -2232,16 +2196,6 @@ static void
 role_axis_line_post_add (GogObject *parent, GogObject *child)
 {
 	gog_axis_base_set_position (GOG_AXIS_BASE (child), GOG_AXIS_AUTO);
-}
-
-static gboolean
-role_label_can_add (GogObject const *parent)
-{
-	GogAxisType type = gog_axis_get_atype (GOG_AXIS (parent));
-
-	return (type == GOG_AXIS_X ||
-		type == GOG_AXIS_Y ||
-		type == GOG_AXIS_Z);
 }
 
 /**
@@ -3451,18 +3405,9 @@ static void
 gog_axis_class_init (GObjectClass *gobject_klass)
 {
 	static GogObjectRole const roles[] = {
-		{ N_("MajorGrid"), "GogGridLine", 0,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_line_major_can_add, NULL, NULL, role_grid_line_major_post_add, NULL, NULL, { -1 } },
-		{ N_("MinorGrid"), "GogGridLine", 1,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_line_minor_can_add, NULL, NULL, role_grid_line_minor_post_add, NULL, NULL, { -1 } },
 		{ N_("AxisLine"), "GogAxisLine", 2,
 		  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 		  role_axis_line_can_add, NULL, NULL, role_axis_line_post_add, NULL, NULL, { -1 } },
-		{ N_("Label"), "GogLabel", 3,
-		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_label_can_add, NULL, NULL, NULL, NULL, NULL, { -1 } }
 	};
 
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
@@ -4184,21 +4129,22 @@ gog_axis_view_padding_request (GogView *view,
 	GogAxisView *axis_view = GOG_AXIS_VIEW (view);
 	GogAxisType type = gog_axis_get_atype (axis);
 	GogObjectPosition pos;
-	GogAxisPosition axis_pos;
+	GogAxisPosition axis_pos, base_axis_pos;
 	GogViewAllocation tmp = *bbox;
 	GogViewRequisition req, available;
 	GogViewPadding label_padding, child_padding;
 	GogObject *parent = gog_object_get_parent (view->model);
 	gboolean is_3d = GOG_IS_CHART (parent) && gog_chart_is_3d (GOG_CHART (parent));
-	GSList *ptr;
+	GSList *ptr, *saved_ptr = NULL;
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
 	label_padding.wr = label_padding.wl = label_padding.ht = label_padding.hb = 0;
 
-	axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
+	base_axis_pos = axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
 
-	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+	ptr = view->children;
+	while (ptr) {
 		child = ptr->data;
 		pos = child->model->position;
 		if (GOG_IS_LABEL (child->model) && !(pos & GOG_POSITION_MANUAL)) {
@@ -4231,6 +4177,16 @@ gog_axis_view_padding_request (GogView *view,
 					}
 			}
 		}
+		if (GOG_IS_AXIS_LINE (child->model) && saved_ptr == NULL && child->children != NULL) {
+			axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (child->model));
+			saved_ptr = ptr;
+			ptr = child->children;
+		} else if (saved_ptr != NULL && ptr->next == NULL) {
+			axis_pos = base_axis_pos;
+			ptr = saved_ptr->next;
+			saved_ptr = NULL;
+		} else
+			ptr = ptr->next;
 	}
 
 	if (is_3d) {
@@ -4302,7 +4258,7 @@ gog_axis_view_size_allocate_3d (GogView *view, GogView *child,
 static void
 gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 {
-	GSList *ptr;
+	GSList *ptr, *saved_ptr = NULL;
 	GogView *child;
 	GogAxis *axis = GOG_AXIS (view->model);
 	GogAxisView *axis_view = GOG_AXIS_VIEW (view);
@@ -4312,7 +4268,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation child_bbox;
 	GogViewRequisition req, available;
 	GogObjectPosition pos;
-	GogAxisPosition axis_pos;
+	GogAxisPosition axis_pos, base_axis_pos;
 	GogChart *chart = GOG_CHART (gog_object_get_parent (view->model));
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
@@ -4333,9 +4289,10 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	available.w = tmp.w;
 	available.h = tmp.h;
 
-	axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
+	base_axis_pos = axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
 
-	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+	ptr = view->children;
+	while (ptr != NULL) {
 		child = ptr->data;
 		pos = child->model->position;
 		if (GOG_IS_LABEL (child->model) && (pos & GOG_POSITION_MANUAL)) {
@@ -4349,7 +4306,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 					if (gog_chart_is_3d (chart)) {
 						gog_axis_view_size_allocate_3d (view,
 							child, plot_area);
-						return;
+						continue;
 					}
 					gog_view_size_request (child, &available, &req);
 					gog_axis_get_effective_span (axis, &start, &end);
@@ -4392,22 +4349,43 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 				}
 			}
 		}
+		if (GOG_IS_AXIS_LINE (child->model) && saved_ptr == NULL && child->children != NULL) {
+			axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (child->model));
+			saved_ptr = ptr;
+			ptr = child->children;
+		} else if (saved_ptr != NULL && ptr->next == NULL) {
+			axis_pos = base_axis_pos;
+			ptr = saved_ptr->next;
+			saved_ptr = NULL;
+		} else
+			ptr = ptr->next;
 	}
 }
 
 static void
 gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
 {
-	GSList *ptr;
+	GSList *ptr, *saved_ptr = NULL;
+	GogView *child;
 
 	(aview_parent_klass->render) (view, bbox);
 
 	/* Render every child except grid lines. Those are rendered
 	 * before in gog_chart_view since we don't want to render them
 	 * over axis. */
-	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
-		if (!GOG_IS_GRID_LINE (GOG_VIEW (ptr->data)->model))
+	ptr = view->children;
+	while (ptr != NULL) {
+		child = ptr->data;
+		if (!GOG_IS_GRID_LINE (child->model))
 			gog_view_render	(ptr->data, bbox);
+		if (GOG_IS_AXIS_LINE (child->model) && saved_ptr == NULL && child->children != NULL) {
+			saved_ptr = ptr;
+			ptr = child->children;
+		} else if (saved_ptr != NULL && ptr->next == NULL) {
+			ptr = saved_ptr->next;
+			saved_ptr = NULL;
+		} else
+			ptr = ptr->next;
 	}
 }
 

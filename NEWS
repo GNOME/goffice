@@ -3,6 +3,9 @@ goffice 0.10.27:
 Andreas:
 	* Support new foreign element in ODF export of time styles
 
+Jean:
+	* Add title to axis lines. [#760675]
+
 --------------------------------------------------------------------------
 goffice 0.10.26:
 

@@ -683,9 +683,85 @@ gog_axis_base_init_style (GogStyledObject *gso, GOStyle *style)
 		style, GOG_OBJECT (gso), 0, GO_STYLE_LINE | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT);
 }
 
+static GogGridLine *
+gog_axis_base_get_grid_line (GogAxisBase *axis_base, gboolean major)
+{
+	GogGridLine *grid_line;
+	GSList *children;
+
+	children = gog_object_get_children (GOG_OBJECT (axis_base),
+		gog_object_find_role_by_name (GOG_OBJECT (axis_base),
+			major ? "MajorGrid" : "MinorGrid"));
+	if (children != NULL) {
+		grid_line = GOG_GRID_LINE (children->data);
+		g_slist_free (children);
+		return grid_line;
+	}
+	return NULL;
+}
+
+static gboolean
+role_grid_line_major_can_add (GogObject const *parent)
+{
+	GogAxisBase *axis_base = GOG_AXIS_BASE (parent);
+	GogAxis *axis = axis_base->axis;
+	GogAxisType type = gog_axis_get_atype (axis);
+
+	return (!gog_axis_is_discrete (axis) &&
+		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z ||
+		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
+		 gog_axis_base_get_grid_line (axis_base, TRUE) == NULL);
+}
+
+static gboolean
+role_grid_line_minor_can_add (GogObject const *parent)
+{
+	GogAxisBase *axis_base = GOG_AXIS_BASE (parent);
+	GogAxis *axis = axis_base->axis;
+	GogAxisType type = gog_axis_get_atype (axis);
+
+	return (!gog_axis_is_discrete (axis) &&
+		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z ||
+		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
+		 gog_axis_base_get_grid_line (axis_base, FALSE) == NULL);
+}
+
+static void
+role_grid_line_major_post_add (GogObject *parent, GogObject *child)
+{
+	g_object_set (G_OBJECT (child), "is-minor", (gboolean)FALSE, NULL);
+}
+
+static void
+role_grid_line_minor_post_add (GogObject *parent, GogObject *child)
+{
+	g_object_set (G_OBJECT (child), "is-minor", (gboolean)TRUE, NULL);
+}
+
+static gboolean
+role_label_can_add (GogObject const *parent)
+{
+	GogAxisType type = gog_axis_get_atype (GOG_AXIS_BASE (parent)->axis);
+
+	return (type == GOG_AXIS_X ||
+		type == GOG_AXIS_Y ||
+		type == GOG_AXIS_Z);
+}
+
 static void
 gog_axis_base_class_init (GObjectClass *gobject_klass)
 {
+	static GogObjectRole const roles[] = {
+		{ N_("MajorGrid"), "GogGridLine", 0,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  role_grid_line_major_can_add, NULL, NULL, role_grid_line_major_post_add, NULL, NULL, { -1 } },
+		{ N_("MinorGrid"), "GogGridLine", 1,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  role_grid_line_minor_can_add, NULL, NULL, role_grid_line_minor_post_add, NULL, NULL, { -1 } },
+		{ N_("Label"), "GogLabel", 3,
+		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  role_label_can_add, NULL, NULL, NULL, NULL, NULL, { -1 } }
+	};
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
 	GogStyledObjectClass *gso_klass = (GogStyledObjectClass *) gobject_klass;
 
@@ -765,6 +841,8 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 			_("Distance from axis line to plot area, in points"),
 			-G_MAXINT, G_MAXINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+
+	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_axis_base_populate_editor;
@@ -2598,72 +2676,9 @@ gog_axis_line_finalize (GObject *obj)
 	(gal_parent_klass->finalize) (obj);
 }
 
-static GogGridLine *
-gog_axis_line_get_grid_line (GogAxisLine *line, gboolean major)
-{
-	GogGridLine *grid_line;
-	GSList *children;
-
-	children = gog_object_get_children (GOG_OBJECT (line),
-		gog_object_find_role_by_name (GOG_OBJECT (line),
-			major ? "MajorGrid" : "MinorGrid"));
-	if (children != NULL) {
-		grid_line = GOG_GRID_LINE (children->data);
-		g_slist_free (children);
-		return grid_line;
-	}
-	return NULL;
-}
-
-static gboolean
-role_grid_line_major_can_add (GogObject const *parent)
-{
-	GogAxisLine *line = GOG_AXIS_LINE (parent);
-	GogAxis *axis = line->base.axis;
-	GogAxisType type = gog_axis_get_atype (axis);
-
-	return (!gog_axis_is_discrete (axis) &&
-		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z ||
-		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
-		 gog_axis_line_get_grid_line (line, TRUE) == NULL);
-}
-
-static gboolean
-role_grid_line_minor_can_add (GogObject const *parent)
-{
-	GogAxisLine *line = GOG_AXIS_LINE (parent);
-	GogAxis *axis = line->base.axis;
-	GogAxisType type = gog_axis_get_atype (axis);
-
-	return (!gog_axis_is_discrete (axis) &&
-		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z ||
-		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
-		 gog_axis_line_get_grid_line (line, FALSE) == NULL);
-}
-
-static void
-role_grid_line_major_post_add (GogObject *parent, GogObject *child)
-{
-	g_object_set (G_OBJECT (child), "is-minor", (gboolean)FALSE, NULL);
-}
-
-static void
-role_grid_line_minor_post_add (GogObject *parent, GogObject *child)
-{
-	g_object_set (G_OBJECT (child), "is-minor", (gboolean)TRUE, NULL);
-}
-
 static void
 gog_axis_line_class_init (GObjectClass *gobject_klass)
 {
-	static GogObjectRole const roles[] = {
-		{ N_("MajorGrid"), "GogGridLine", 0,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_line_major_can_add, NULL, NULL, role_grid_line_major_post_add, NULL, NULL, { -1 } },
-		{ N_("MinorGrid"), "GogGridLine", 1,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_line_minor_can_add, NULL, NULL, role_grid_line_minor_post_add, NULL, NULL, { -1 } },
-	};
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
 
 	gal_parent_klass = g_type_class_peek_parent (gobject_klass);
@@ -2673,8 +2688,6 @@ gog_axis_line_class_init (GObjectClass *gobject_klass)
 	gobject_klass->set_property = gog_axis_line_set_property;
 	gobject_klass->get_property = gog_axis_line_get_property;
 	gobject_klass->finalize = gog_axis_line_finalize;
-
-	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, AXIS_LINE_PROP_ASSIGNED_FORMAT_STR_XL,
 		g_param_spec_string ("assigned-format-string-XL",
