@@ -4347,7 +4347,11 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 				} else {
 					gog_view_size_allocate (child, plot_area);
 				}
-			}
+			} else if (GOG_IS_AXIS_LINE (child->model))
+				child->allocation_valid = TRUE; /* KLUDGE, but needed for axis lines
+					otherwise adding a title does not invalidate the chart allocation,
+					see #760675, comments 5+ */
+
 		}
 		if (GOG_IS_AXIS_LINE (child->model) && saved_ptr == NULL && child->children != NULL) {
 			axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (child->model));
