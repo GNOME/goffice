@@ -326,7 +326,7 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	if (b->im == 0) {
 		if (SUFFIX(go_complex_real_p) (a) && a->re >= 0) {
-			SUFFIX(go_complex_init) (dst, pow (a->re, b->re), 0);
+			SUFFIX(go_complex_init) (dst, SUFFIX(pow) (a->re, b->re), 0);
 			return;
 		}
 

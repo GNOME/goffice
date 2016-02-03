@@ -5,6 +5,8 @@ Andreas:
 
 Jean:
 	* Add title to axis lines. [#760675]
+Morten:
+	* Fix go_complex_powl accuracy for real case.
 
 --------------------------------------------------------------------------
 goffice 0.10.26:
