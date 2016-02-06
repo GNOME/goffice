@@ -195,7 +195,7 @@ SUFFIX(go_complex_from_polar) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 				 mod * SUFFIX(sin) (angle));
 }
 
-static  void
+void
 SUFFIX(go_complex_from_polar_pi) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 {
 	SUFFIX(go_complex_init) (dst,
@@ -220,8 +220,8 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	DOUBLE bmod = SUFFIX(go_complex_mod) (b);
 
-	if (bmod >= GO_const(1e10)) {
-		/* Ok, it's big.  */
+	if (bmod >= GO_const(1e10) || bmod < GO_const(1e-10)) {
+		/* Ok, it's very big or very small.  */
 		DOUBLE a_re = a->re / bmod;
 		DOUBLE a_im = a->im / bmod;
 		DOUBLE b_re = b->re / bmod;

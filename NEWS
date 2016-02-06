@@ -7,6 +7,7 @@ Jean:
 	* Add title to axis lines. [#760675]
 Morten:
 	* Fix go_complex_powl accuracy for real case.
+	* Fix go_complex_div for very small divisor.
 
 --------------------------------------------------------------------------
 goffice 0.10.26:

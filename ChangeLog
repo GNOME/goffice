@@ -1,7 +1,13 @@
+2016-02-06  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-complex.c (go_complex_from_polar_pi): Make this
+	public.
+
 2016-02-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-complex.c (go_complex_powl): Fix real case
 	accuracy.
+	(go_complex_div): Avoid intermediate underflow when possible.
 
 2016-01-29  Jean Brefort  <jean.brefort@normalesup.org>
 

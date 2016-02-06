@@ -28,6 +28,7 @@ int go_complex_from_string (GOComplex *dst, char const *src, char *imunit);
 
 void go_complex_to_polar (double *mod, double *angle, GOComplex const *src);
 void go_complex_from_polar (GOComplex *dst, double mod, double angle);
+void go_complex_from_polar_pi (GOComplex *dst, double mod, double angle);
 void go_complex_mul  (GOComplex *dst, GOComplex const *a, GOComplex const *b);
 void go_complex_div  (GOComplex *dst, GOComplex const *a, GOComplex const *b);
 void go_complex_pow  (GOComplex *dst, GOComplex const *a, GOComplex const *b);
@@ -63,6 +64,7 @@ int go_complex_from_stringl (GOComplexl *dst, char const *src, char *imunit);
 
 void go_complex_to_polarl (long double *mod, long double *angle, GOComplexl const *src);
 void go_complex_from_polarl (GOComplexl *dst, long double mod, long double angle);
+void go_complex_from_polar_pil (GOComplexl *dst, long double mod, long double angle);
 void go_complex_mull  (GOComplexl *dst, GOComplexl const *a, GOComplexl const *b);
 void go_complex_divl  (GOComplexl *dst, GOComplexl const *a, GOComplexl const *b);
 void go_complex_powl  (GOComplexl *dst, GOComplexl const *a, GOComplexl const *b);
