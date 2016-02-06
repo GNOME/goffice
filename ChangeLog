@@ -1,3 +1,7 @@
+2016-02-06  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.27
+
 2016-02-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-complex.c (go_complex_from_polar_pi): Make this
