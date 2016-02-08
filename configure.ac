@@ -84,8 +84,10 @@ AC_CANONICAL_HOST
 
 AC_ISC_POSIX
 AC_PROG_CC
-AC_PROG_YACC
-AM_PROG_LEX
+AC_PROG_CC_C99
+if test "$ac_cv_prog_cc_c99" = no; then
+	AC_MSG_ERROR([*** c99 is required])
+fi
 AC_PROG_LN_S
 AC_HEADER_STDC
 AC_SYS_LARGEFILE
@@ -590,7 +592,8 @@ if test "x$with_long_double" = "xyes"; then
   if test $ac_cv_type_long_double = yes; then
     have_mandatory_funcs=yes
     need_sunmath=0
-    ss_cc=`which $CC`
+    ss_ccprog=`echo $CC | sed -e 's/ .*//'`
+    ss_cc=`which $ss_ccprog`
     ss_dir=`dirname "$ss_cc"`"/.."
     if test ! -f "$ss_dir/lib/libsunmath.so"; then
         ss_dir="/opt/SUNWspro"
