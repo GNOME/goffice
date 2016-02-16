@@ -59,6 +59,35 @@
 
 /* ------------------------------------------------------------------------- */
 
+static COMPLEX *
+SUFFIX(go_complex_dup) (COMPLEX *src)
+{
+	return g_memdup (src, sizeof (*src));
+}
+
+#define MAKE_BOXED_TYPE(id,name)					\
+GType									\
+id (void)								\
+{									\
+	static GType t = 0;						\
+									\
+	if (t == 0)							\
+		t = g_boxed_type_register_static			\
+			(name,						\
+			 (GBoxedCopyFunc)SUFFIX(go_complex_dup),	\
+			 (GBoxedFreeFunc)g_free);			\
+	return t;							\
+}
+
+
+#ifdef LONG_DOUBLE_VERSION
+MAKE_BOXED_TYPE(go_complexl_get_type, "GOComplexl")
+#else
+MAKE_BOXED_TYPE(go_complex_get_type, "GOComplex")
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 char *
 SUFFIX(go_complex_to_string) (COMPLEX const *src, char const *reformat,
 		   char const *imformat, char imunit)

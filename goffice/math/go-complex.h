@@ -21,6 +21,8 @@ typedef struct {
 
 /* ------------------------------------------------------------------------- */
 
+GType go_complex_get_type (void);
+
 char *go_complex_to_string (GOComplex const *src, char const *reformat,
 			 char const *imformat, char imunit);
 
@@ -56,6 +58,8 @@ void go_complex_tan (GOComplex *dst, GOComplex const *src);
 /* long double version                                                       */
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
+
+GType go_complexl_get_type (void);
 
 char *go_complex_to_stringl (GOComplexl const *src, char const *reformat,
 			 char const *imformat, char imunit);
