@@ -34,6 +34,8 @@ void go_complex_from_polar_pi (GOComplex *dst, double mod, double angle);
 void go_complex_mul  (GOComplex *dst, GOComplex const *a, GOComplex const *b);
 void go_complex_div  (GOComplex *dst, GOComplex const *a, GOComplex const *b);
 void go_complex_pow  (GOComplex *dst, GOComplex const *a, GOComplex const *b);
+void go_complex_powx (GOComplex *dst, double *e,
+		      GOComplex const *a, GOComplex const *b);
 void go_complex_sqrt (GOComplex *dst, GOComplex const *src);
 void go_complex_init (GOComplex *dst, double re, double im);
 void go_complex_invalid (GOComplex *dst);
@@ -72,6 +74,8 @@ void go_complex_from_polar_pil (GOComplexl *dst, long double mod, long double an
 void go_complex_mull  (GOComplexl *dst, GOComplexl const *a, GOComplexl const *b);
 void go_complex_divl  (GOComplexl *dst, GOComplexl const *a, GOComplexl const *b);
 void go_complex_powl  (GOComplexl *dst, GOComplexl const *a, GOComplexl const *b);
+void go_complex_powxl  (GOComplexl *dst, long double *e,
+			GOComplexl const *a, GOComplexl const *b);
 void go_complex_sqrtl (GOComplexl *dst, GOComplexl const *src);
 void go_complex_initl (GOComplexl *dst, long double re, long double im);
 void go_complex_invalidl (GOComplexl *dst);

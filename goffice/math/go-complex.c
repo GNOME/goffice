@@ -351,10 +351,14 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 }
 
 void
-SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
+SUFFIX(go_complex_powx) (COMPLEX *dst, DOUBLE *e,
+			 COMPLEX const *a, COMPLEX const *b)
 {
+	if (e)
+		*e = 0;
+
 	if (b->im == 0) {
-		if (SUFFIX(go_complex_real_p) (a) && a->re >= 0) {
+		if (!e && SUFFIX(go_complex_real_p) (a) && a->re >= 0) {
 			SUFFIX(go_complex_init) (dst, SUFFIX(pow) (a->re, b->re), 0);
 			return;
 		}
@@ -376,8 +380,7 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 	}
 
 	{
-		DOUBLE e1, e2;
-		int e;
+		DOUBLE e1, e2, er;
 		SUFFIX(GOQuad) qr, qa, qb, qarg, qrr, qra;
 		void *state = SUFFIX(go_quad_start) ();
 
@@ -395,9 +398,14 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 		SUFFIX(go_quad_mul) (&qb, &qb, &SUFFIX(go_quad_pi));
 		SUFFIX(go_quad_exp) (&qb, &e2, &qb);
 		SUFFIX(go_quad_mul) (&qrr, &qa, &qb);
-		e = CLAMP (e1 + e2, G_MININT, G_MAXINT);
-		qrr.h = SUFFIX(ldexp) (qrr.h, e);
-		qrr.l = SUFFIX(ldexp) (qrr.l, e);
+		er = e1 + e2;
+		if (e)
+			*e = er;
+		else {
+			er = CLAMP (er, G_MININT, G_MAXINT);
+			qrr.h = SUFFIX(ldexp) (qrr.h, er);
+			qrr.l = SUFFIX(ldexp) (qrr.l, er);
+		}
 
 		/* Compute result angle.  */
 		SUFFIX(go_quad_log) (&qa, &qr);
@@ -419,6 +427,12 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 
 		SUFFIX(go_quad_end) (state);
 	}
+}
+
+void
+SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
+{
+	SUFFIX(go_complex_powx) (dst, NULL, a, b);
 }
 
 /* ------------------------------------------------------------------------- */
