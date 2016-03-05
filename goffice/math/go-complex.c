@@ -564,7 +564,7 @@ void SUFFIX(go_complex_ln) (COMPLEX *dst, COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_sin) ( COMPLEX *dst,  COMPLEX const *src)
+void SUFFIX(go_complex_sin) (COMPLEX *dst, COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst,
 		SUFFIX(sin) (src->re) * SUFFIX(cosh) (src->im),
@@ -573,7 +573,7 @@ void SUFFIX(go_complex_sin) ( COMPLEX *dst,  COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
-void SUFFIX(go_complex_cos) (COMPLEX *dst,  COMPLEX const *src)
+void SUFFIX(go_complex_cos) (COMPLEX *dst, COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst,
 		SUFFIX(cos) (src->re) * SUFFIX(cosh) (src->im),
@@ -584,11 +584,29 @@ void SUFFIX(go_complex_cos) (COMPLEX *dst,  COMPLEX const *src)
 
 void SUFFIX(go_complex_tan) (COMPLEX *dst, COMPLEX const *src)
 {
-	COMPLEX s, c;
+	DOUBLE R = src->re, I = src->im;
+	DOUBLE sr = SUFFIX(sin) (R);
+	DOUBLE cr = SUFFIX(cos) (R);
 
-	SUFFIX(go_complex_sin) (&s, src);
-	SUFFIX(go_complex_cos) (&c, src);
-	SUFFIX(go_complex_div) (dst, &s, &c);
+	// Code here inspired by gsl, but doesn't follow it.
+
+	if (SUFFIX(fabs) (I) < 1) {
+		DOUBLE shi = SUFFIX(sinh) (I);
+		DOUBLE D = cr * cr + shi * shi;
+
+		SUFFIX(go_complex_init) (dst,
+					 sr * cr / D,
+					 0.5 * SUFFIX(sinh) (2 * I) / D);
+	} else {
+		DOUBLE u = SUFFIX(exp) (-SUFFIX(fabs)(I));
+		DOUBLE C = 2 * u / (1 - u * u);
+		DOUBLE S = C * C;
+		DOUBLE D = 1 + cr * cr * S;
+		DOUBLE T = 1.0 / SUFFIX(tanh) (SUFFIX(fabs) (I));
+		SUFFIX(go_complex_init) (dst,
+					 sr * cr * S / D,
+					 (I < 0 ? -T : T) / D);
+	}
 }
 
 /* ------------------------------------------------------------------------- */
