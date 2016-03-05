@@ -3,6 +3,7 @@
 	* goffice/math/go-complex.c (go_complex_sqrt): Fix accuracy of
 	real component when argument is very near the negative real axis.
 	(go_complex_tan): Improve accuracy.
+	(go_complex_ln): Improve accuracy near unit circle.
 
 2016-02-23  Morten Welinder  <terra@gnome.org>
 

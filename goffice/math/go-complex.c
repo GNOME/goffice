@@ -557,9 +557,14 @@ void SUFFIX(go_complex_exp) (COMPLEX *dst, COMPLEX const *src)
 
 void SUFFIX(go_complex_ln) (COMPLEX *dst, COMPLEX const *src)
 {
-	SUFFIX(go_complex_init) (dst,
-		SUFFIX(log) (SUFFIX(go_complex_mod) (src)),
-		SUFFIX(go_complex_angle) (src));
+	DOUBLE x = SUFFIX(fabs) (src->re);
+	DOUBLE y = SUFFIX(fabs) (src->im);
+	DOUBLE lm = x > y
+		? SUFFIX(log) (x) + 0.5 * SUFFIX(log1p) ((y / x) * (y / x))
+		: SUFFIX(log) (y) + 0.5 * SUFFIX(log1p) ((x / y) * (x / y));
+	DOUBLE a = SUFFIX(go_complex_angle) (src);
+
+	SUFFIX(go_complex_init) (dst, lm, a);
 }
 
 /* ------------------------------------------------------------------------- */

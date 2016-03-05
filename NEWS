@@ -5,6 +5,7 @@ Morten:
 	* Introspection improvements.
 	* Improve go_complex_sqrt.
 	* Improve go_complex_tan.
+	* Improve go_complex_ln.
 
 --------------------------------------------------------------------------
 goffice 0.10.27:
