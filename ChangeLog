@@ -1,3 +1,8 @@
+2016-03-05  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-complex.c (go_complex_sqrt): Fix accuracy of
+	real component when argument is very near the negative real axis.
+
 2016-02-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-complex.c (go_complex_powx): Expose the power

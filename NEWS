@@ -3,6 +3,7 @@ goffice 0.10.28:
 Morten:
 	* Configuration fixes.
 	* Introspection improvements.
+	* Improve go_complex_sqrt.
 
 --------------------------------------------------------------------------
 goffice 0.10.27:

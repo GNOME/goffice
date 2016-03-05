@@ -271,6 +271,20 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 void
 SUFFIX(go_complex_sqrt) (COMPLEX *dst, COMPLEX const *src)
 {
+	if (src->re < 0 && -src->re > SUFFIX(fabs)(src->im)) {
+		// Near the negative axis we do not want to squeeze
+		// angle/pi against +-1.
+		COMPLEX msrc, r;
+		msrc.re = - src->re;
+		msrc.im = - src->im;
+		SUFFIX(go_complex_sqrt) (&r, &msrc);
+		if (src->im >= 0)
+			SUFFIX(go_complex_init) (dst, 0 - r.im, r.re);
+		else
+			SUFFIX(go_complex_init) (dst, r.im, 0 - r.re);
+		return;
+	}
+
 	SUFFIX(go_complex_from_polar_pi)
 		(dst,
 		 SUFFIX(sqrt) (SUFFIX(go_complex_mod) (src)),
