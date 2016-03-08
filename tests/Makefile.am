@@ -1,4 +1,4 @@
-check_PROGRAMS=test-quad test-math test-format
+check_PROGRAMS=test-quad test-math test-format constants
 if WITH_GTK
 check_PROGRAMS += pie-demo go-demo shapes-demo mf-demo
 endif
@@ -8,6 +8,9 @@ include $(top_srcdir)/goffice.mk
 AM_CFLAGS = $(GOFFICE_CFLAGS)
 
 TESTS = test-quad test-math
+
+constants_LDADD = $(GOFFICE_PLUGIN_LIBADD)
+constants_SOURCES = constants.c
 
 pie_demo_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 pie_demo_SOURCES = pie-demo.c
@@ -31,4 +34,3 @@ test_format_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_format_SOURCES = test-format.c
 
 EXTRA_DIST = go-demo.ui
-

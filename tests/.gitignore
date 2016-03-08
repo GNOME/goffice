@@ -5,6 +5,7 @@
 *.o
 .deps
 .libs
+*~
 Makefile
 Makefile.in
 go-demo
@@ -14,3 +15,4 @@ shapes-demo
 test-format
 test-math
 test-quad
+constants
