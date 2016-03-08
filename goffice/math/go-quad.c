@@ -1118,7 +1118,7 @@ SUFFIX(do_sin) (QUAD *res, const QUAD *a, int k)
 
 		aa.h = SUFFIX(fabs)(a->h);
 		aa.l = SUFFIX(fabs)(a->l);
-		SUFFIX(go_quad_init) (&qr, cos (aa.h));
+		SUFFIX(go_quad_init) (&qr, SUFFIX(cos) (aa.h));
 
 		/* Newton step */
 		SUFFIX(go_quad_acos) (&qn, &qr);
@@ -1128,7 +1128,7 @@ SUFFIX(do_sin) (QUAD *res, const QUAD *a, int k)
 		SUFFIX(go_quad_add) (&qr, &qr, &qq);
 	} else {
 		QUAD qn, qd, qq;
-		SUFFIX(go_quad_init) (&qr, sin (a->h));
+		SUFFIX(go_quad_init) (&qr, SUFFIX(sin) (a->h));
 
 		/* Newton step */
 		SUFFIX(go_quad_asin) (&qn, &qr);
