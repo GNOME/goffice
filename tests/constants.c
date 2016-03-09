@@ -53,15 +53,13 @@ static GOQuad qln10;
 static void
 print_bits (GOQuad const *qc)
 {
-	GOQuad qx = *qc;
-	GOQuad qhalf;
+	GOQuad qx = *qc, qd;
 	int e;
 	double s;
 	int b;
-	int N = 53 + 5;
+	int N = 53 + 7;
 
-	qhalf.h = 0.5;
-	qhalf.l = 0;
+	g_return_if_fail (go_finite (qx.h) && qx.h != 0);
 
 	if (qx.h < 0) {
 		g_printerr ("-");
@@ -69,17 +67,21 @@ print_bits (GOQuad const *qc)
 		qx.l = -qx.l;
 	}
 
+	// Scale mantissa to [0.5 ; 1.0[
 	(void)frexp (go_quad_value (&qx), &e);
 	s = ldexp (1.0, -e);
 	qx.h *= s;
 	qx.l *= s;
 
+	// Add to cause rounding when we truncate below
+	go_quad_init (&qd, ldexp (0.5, -N));
+	go_quad_add (&qx, &qx, &qd);
+
 	for (b = 0; b < N; b++) {
 		GOQuad d;
 		qx.h *= 2;
 		qx.l *= 2;
-		// For the last bit we compare against 1/2 to simulate rounding.
-		go_quad_sub (&d, &qx, (b == (N - 1) ? &qhalf : &go_quad_one));
+		go_quad_sub (&d, &qx, &go_quad_one);
 		if (go_quad_value (&d) >= 0) {
 			qx = d;
 			g_printerr ("1");
@@ -164,7 +166,7 @@ main (int argc, char **argv)
 	GOQuad qc;
 
 	g_printerr ("Determine for certain constants, c, whether its representation\n");
-	g_printerr ("as a double is more accurate than its inverse's.\n\n");
+	g_printerr ("as a double is more accurate than its inverse's representation.\n\n");
 
 	state = go_quad_start ();
 
