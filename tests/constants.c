@@ -46,8 +46,6 @@
 // Conclusion: for sqrt(2pi), use inverse
 // ----------------------------------------
 
-
-
 static GOQuad qln10;
 
 static void
@@ -73,7 +71,7 @@ print_bits (GOQuad const *qc)
 	qx.h *= s;
 	qx.l *= s;
 
-	// Add to cause rounding when we truncate below
+	// Add to simulate rounding when we truncate below
 	go_quad_init (&qd, ldexp (0.5, -N));
 	go_quad_add (&qx, &qx, &qd);
 
@@ -96,6 +94,58 @@ print_bits (GOQuad const *qc)
 
 	g_printerr (" * 2^%d", e - 1);
 }
+
+static void
+print_decimal (GOQuad const *qc)
+{
+	// Note: this is highly limited implementation not fit for general
+	// use.
+
+	GOQuad qe, qd, qr;
+	int d, e;
+	int N = 24;
+
+	g_return_if_fail (go_finite (qc->h) && qc->h > 0);
+
+	go_quad_log (&qe, qc);
+	go_quad_div (&qe, &qe, &qln10);
+	e = (int)floor (go_quad_value (&qe));
+
+	// Scale mantissa to [1 ; 10[
+	go_quad_init (&qe, -e);
+	go_quad_init (&qd, 10);
+	go_quad_pow (&qe, NULL, &qd, &qe);
+	go_quad_mul (&qd, qc, &qe);
+
+	// Add to simulate rounding when we truncate below
+	go_quad_init (&qe, 1 - N);
+	go_quad_init (&qr, 10);
+	go_quad_pow (&qr, NULL, &qr, &qe);
+	go_quad_init (&qe, 0.5);
+	go_quad_mul (&qr, &qr, &qe);
+	go_quad_add (&qd, &qd, &qr);
+
+	for (d = 0; d < N; d++) {
+		GOQuad qw;
+		// Specifically use the high part; rounding implied by
+		// go_quad_value could otherwise make w bigger than qd.
+		int w = floor (qd.h);
+
+		g_printerr ("%c", '0' + w);
+		go_quad_init (&qw, w);
+		go_quad_sub (&qd, &qd, &qw);
+
+		go_quad_init (&qw, 10);
+		go_quad_mul (&qd, &qd, &qw);
+
+		if (d == 0)
+			g_printerr (".");
+	}
+
+	if (e)
+		g_printerr (" * 10^%d", e);
+}
+
 
 
 static double
@@ -121,6 +171,9 @@ examine_constant (const char *descr, GOQuad const *qc)
 	g_printerr ("\n");
 
 	dc = go_quad_value (qc);
+	g_printerr ("Value: ");
+	print_decimal (qc);
+	g_printerr ("\n");
 	g_printerr ("Value bit pattern: ");
 	print_bits (qc);
 	g_printerr ("\n");
@@ -138,6 +191,9 @@ examine_constant (const char *descr, GOQuad const *qc)
 	// answer our question.
 	go_quad_div (&qic, &go_quad_one, qc);
 	dic = go_quad_value (&qic);
+	g_printerr ("Inverse value: ");
+	print_decimal (&qic);
+	g_printerr ("\n");
 	g_printerr ("Inverse bit pattern: ");
 	print_bits (&qic);
 	g_printerr ("\n");
