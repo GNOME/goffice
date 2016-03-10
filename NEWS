@@ -1,11 +1,11 @@
 goffice 0.10.28:
 
+Jean:
+	* Fix histograms with missing values. [#763446]
+
 Morten:
 	* Configuration fixes.
 	* Introspection improvements.
-	* Improve go_complex_sqrt.
-	* Improve go_complex_tan.
-	* Improve go_complex_ln.
 
 --------------------------------------------------------------------------
 goffice 0.10.27:

@@ -1,3 +1,9 @@
+2016-03-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_series_update): don't take nans and infinite into
+	account when evaluating automatic bins. [#763446]
+
 2016-03-09  Morten Welinder  <terra@gnome.org>
 
 	* tests/constants.c (print_bits): Fix bit pattern rounding past

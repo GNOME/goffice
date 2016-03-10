@@ -975,9 +975,13 @@ gog_histogram_plot_series_update (GogObject *obj)
 		double *y = NULL, *y_ = NULL;
 		if (y_vals) {
 			y = go_range_sort (y_vals, y_len);
+			while (y_len > 0 && !go_finite (y[y_len-1]))
+				y_len--;
 		}
 		if (y__vals) {
 			y_ = go_range_sort (y__vals, y__len);
+			while (y__len > 0 && !go_finite (y_[y__len-1]))
+				y__len--;
 		}
 		if (!x_vals || x_len <= 1) {
 			/* guess reasonable values */
