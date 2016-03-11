@@ -918,7 +918,7 @@ static void
 gog_histogram_plot_series_update (GogObject *obj)
 {
 	double *x_vals = NULL, *y_vals = NULL, *y__vals = NULL, cur;
-	int x_len = 1, y_len = 0, y__len = 0, max, nb = 0, i;
+	int x_len = 1, y_len = 0, y__len = 0, max, nb = 0, i, y_0 = 0, y__0 = 0;
 	GogHistogramPlotSeries *series = GOG_HISTOGRAM_PLOT_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
 	GSList *ptr;
@@ -975,22 +975,26 @@ gog_histogram_plot_series_update (GogObject *obj)
 		double *y = NULL, *y_ = NULL;
 		if (y_vals) {
 			y = go_range_sort (y_vals, y_len);
-			while (y_len > 0 && !go_finite (y[y_len-1]))
+			while (y_0 < y_len && !go_finite (y[y_0]))
+				y_0++;
+			while (y_len > y_0 && !go_finite (y[y_len-1]))
 				y_len--;
 		}
 		if (y__vals) {
 			y_ = go_range_sort (y__vals, y__len);
-			while (y__len > 0 && !go_finite (y_[y__len-1]))
+			while (y__0 < y__len && !go_finite (y[y__0]))
+				y__0++;
+			while (y__len > y__0 && !go_finite (y_[y__len-1]))
 				y__len--;
 		}
 		if (!x_vals || x_len <= 1) {
 			/* guess reasonable values */
 			if (width <= 0) {
 				max = go_fake_round (sqrt (MAX (y_len, y__len)));
-				if (y && y_len > 2)
-					width = (y[y_len-1] - y[0]) / max;
-				if (y_ && y__len > 2) {
-					double w_ = (y_[y__len-1] - y_[0]) / max;
+				if (y && y_len - y_0 > 2)
+					width = (y[y_len-1] - y[y_0]) / max;
+				if (y_ && y__len - y__0 > 2) {
+					double w_ = (y_[y__len-1] - y_[y__0]) / max;
 					width = MAX (width, w_);
 				}
 				if (width > 0.) {
@@ -1011,10 +1015,10 @@ gog_histogram_plot_series_update (GogObject *obj)
 				double m, M, nm;
 				/* ignore nans */
 				if (y) {
-					m = y_ ? (MIN (y[0], y_[0])) : y[0];
+					m = y_ ? (MIN (y[y_0], y_[y__0])) : y[y_0];
 					M = y_ ? MAX (y[y_len-1], y_[y__len-1]) : y[y_len-1];
 				} else {
-					m = y_[0];
+					m = y_[y__0];
 					M = y_[y__len-1];
 				}
 				if (!go_finite (m) || !go_finite (M))
