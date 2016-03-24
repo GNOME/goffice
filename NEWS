@@ -1,5 +1,9 @@
 goffice 0.10.29:
 
+Morten:
+	* Improve go_complex_sqrt.
+	* Improve go_complex_div.
+
 --------------------------------------------------------------------------
 goffice 0.10.28:
 

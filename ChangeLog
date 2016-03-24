@@ -1,3 +1,10 @@
+2016-03-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-complex.c (go_complex_sqrt): Avoid extreme-case
+	unnecessary overflow.
+	(go_complex_div): Avoid extreme-case unnecessary overflow and
+	marginally improve accuracy.
+
 2016-03-22  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

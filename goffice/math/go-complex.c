@@ -247,23 +247,58 @@ SUFFIX(go_complex_mul) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 void
 SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
-	DOUBLE bmod = SUFFIX(go_complex_mod) (b);
+	DOUBLE a_re = a->re, a_im = a->im;
+	DOUBLE b_re = b->re, b_im = b->im;
+	DOUBLE asize = MAX (SUFFIX(fabs)(a_re), SUFFIX(fabs)(a_im));
+	DOUBLE bsize = MAX (SUFFIX(fabs)(b_re), SUFFIX(fabs)(b_im));
+	DOUBLE bmodsqr, q_re, q_im;
+	int e = 0;
 
-	if (bmod >= GO_const(1e10) || bmod < GO_const(1e-10)) {
-		/* Ok, it's very big or very small.  */
-		DOUBLE a_re = a->re / bmod;
-		DOUBLE a_im = a->im / bmod;
-		DOUBLE b_re = b->re / bmod;
-		DOUBLE b_im = b->im / bmod;
-		SUFFIX(go_complex_init) (dst,
-			      a_re * b_re + a_im * b_im,
-			      a_im * b_re - a_re * b_im);
-	} else {
-		DOUBLE bmodsqr = bmod * bmod;
-		SUFFIX(go_complex_init) (dst,
-			      (a->re * b->re + a->im * b->im) / bmodsqr,
-			      (a->im * b->re - a->re * b->im) / bmodsqr);
+	if (!SUFFIX(go_finite) (asize) || !SUFFIX(go_finite) (bsize) ||
+	    bsize == 0) {
+		// Inf or Nan occurs somewhere.  Or divide by zero.
+		SUFFIX(go_complex_invalid) (dst);
+		return;
 	}
+
+	if (b_im == 0) {
+		// Special case for correctly-rounded result
+		SUFFIX(go_complex_init) (dst, a_re / b_re, a_im / b_re);
+		return;
+	}
+
+	if (b_re == 0) {
+		// Special case for correctly-rounded result
+		SUFFIX(go_complex_init) (dst, a_im / b_im, -a_re / b_im);
+		return;
+	}
+
+	if (asize + bsize > 1e100 || asize < 1e-100 || bsize < 1e-100) {
+		// Avoid overflows and underflows by scaling both arguments
+		// to sane sizes without any rounding errors.
+		int ea, eb;
+
+		(void)SUFFIX(frexp) (asize, &ea);
+		a_re = SUFFIX(ldexp) (a_re, -ea);
+		a_im = SUFFIX(ldexp) (a_im, -ea);
+
+		(void)SUFFIX(frexp) (bsize, &eb);
+		b_re = SUFFIX(ldexp) (b_re, -eb);
+		b_im = SUFFIX(ldexp) (b_im, -eb);
+
+		e = ea - eb;
+	}
+
+	bmodsqr = b_re * b_re + b_im * b_im;
+	q_re = (a_re * b_re + a_im * b_im) / bmodsqr;
+	q_im = (a_im * b_re - a_re * b_im) / bmodsqr;
+
+	if (e) {
+		q_re = SUFFIX(ldexp) (q_re, e);
+		q_im = SUFFIX(ldexp) (q_im, e);
+	}
+
+	SUFFIX(go_complex_init) (dst, q_re, q_im);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -271,6 +306,8 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 void
 SUFFIX(go_complex_sqrt) (COMPLEX *dst, COMPLEX const *src)
 {
+	DOUBLE m, sm;
+
 	if (src->re < 0 && -src->re > SUFFIX(fabs)(src->im)) {
 		// Near the negative axis we do not want to squeeze
 		// angle/pi against +-1.
@@ -285,9 +322,17 @@ SUFFIX(go_complex_sqrt) (COMPLEX *dst, COMPLEX const *src)
 		return;
 	}
 
+	m = SUFFIX(go_complex_mod) (src);
+	if (SUFFIX(go_finite) (m))
+		sm = SUFFIX(sqrt) (m);
+	else {
+		// Overflow avoidance
+		sm = 2 * SUFFIX(sqrt) (SUFFIX(hypot) (src->re / 4, src->im / 4));
+	}
+
 	SUFFIX(go_complex_from_polar_pi)
 		(dst,
-		 SUFFIX(sqrt) (SUFFIX(go_complex_mod) (src)),
+		 sm,
 		 SUFFIX(go_complex_angle_pi) (src) / 2);
 }
 
