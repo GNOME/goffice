@@ -1527,7 +1527,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (zmin > zmax) zmax = zmin;
 			}
 			n = gog_series_get_xyz_data (GOG_SERIES (series), &x_vals, &y_vals, &z_vals);
-		}
+		} else if (GOG_IS_XY_COLOR_PLOT (model))
+			n = gog_series_get_xyz_data (GOG_SERIES (series), &x_vals, &y_vals, &z_vals);
 		else
 			n = gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
 		if (n < 1) {
@@ -1566,7 +1567,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				alloc.x = gog_axis_map_to_view (x_map, x);
 				alloc.y = gog_axis_map_to_view (y_map, y);
 				Elt = gog_series_labels_vector_get_element (lbls, i - 1);
-				if (Elt->point) {
+				if (Elt && Elt->point) {
 					g_object_get (Elt->point, "offset", &cur_offset, NULL);
 					cur_position = gog_data_label_get_position (GOG_DATA_LABEL (Elt->point));
 				} else {

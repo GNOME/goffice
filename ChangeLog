@@ -1,3 +1,8 @@
+2016-04-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): do not load invalid data
+	labels in XYcolor plots. [#765155]
+
 2016-03-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-complex.c (go_complex_sqrt): Avoid extreme-case
