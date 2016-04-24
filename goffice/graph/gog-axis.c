@@ -4306,6 +4306,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 					if (gog_chart_is_3d (chart)) {
 						gog_axis_view_size_allocate_3d (view,
 							child, plot_area);
+						ptr = ptr->next;
 						continue;
 					}
 					gog_view_size_request (child, &available, &req);

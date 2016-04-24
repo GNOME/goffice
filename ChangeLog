@@ -1,3 +1,8 @@
+2016-04-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): fix an infinite
+	loop condition. [#765480]
+
 2016-04-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): do not load invalid data
