@@ -870,6 +870,9 @@ cb_hierarchy_changed (const GocItem *item)
 		path = gtk_widget_path_new ();
 
 	gtk_widget_path_append_type (path, G_TYPE_FROM_INSTANCE (item));
+#if GTK_CHECK_VERSION(3,20,0)
+	gtk_widget_path_iter_set_object_name (path, -1, G_OBJECT_TYPE_NAME (item));
+#endif
 	gtk_style_context_set_path (context, path);
 	gtk_widget_path_free (path);
 	gtk_style_context_set_parent (context, pcontext);

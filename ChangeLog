@@ -1,3 +1,8 @@
+2016-04-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-item.c (cb_hierarchy_changed): make css work again with
+	gtk+-3.20.
+
 2016-04-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): fix an infinite
