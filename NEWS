@@ -3,6 +3,7 @@ goffice 0.10.29:
 Jean:
 	* Do not load invalid data labels in XYcolor plots. [#765155]
 	* Fix an infinite loop condition in 3D plots. [#765480]
+	* Implement line width and fill pattern support in themes. [#765970]
 
 Morten:
 	* Improve go_complex_sqrt.

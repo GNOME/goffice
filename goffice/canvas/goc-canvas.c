@@ -400,7 +400,7 @@ goc_canvas_get_root (GocCanvas *canvas)
  * goc_canvas_get_width:
  * @canvas: #GocCanvas
  *
- * Returns: (transfer none): the width of the widget visible region.
+ * Returns: the width of the widget visible region.
  **/
 int
 goc_canvas_get_width (GocCanvas *canvas)

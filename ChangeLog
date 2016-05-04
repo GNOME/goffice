@@ -1,3 +1,12 @@
+2016-05-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c: fix doc.
+	* goffice/utils/go-style.c (go_style_apply_theme),
+	(go_style_gradient_sax_save), (go_style_fill_sax_save),
+	(go_style_sax_load_fill_pattern),
+	(go_style_sax_load_fill_gradient), (go_style_persist_sax_save),
+	(go_style_is_auto): really implement all auto flags.
+
 2016-04-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-item.c (cb_hierarchy_changed): make css work again with

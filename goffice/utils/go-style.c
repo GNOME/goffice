@@ -1253,10 +1253,16 @@ go_style_apply_theme (GOStyle *dst, GOStyle const *src, GOStyleFlag fields)
 	if (fields & GO_STYLE_FILL) {
 		if (dst->fill.auto_type)
 			dst->fill.type = src->fill.type;
+		if (dst->fill.auto_pattern)
+			dst->fill.pattern.pattern = src->fill.pattern.pattern;
 		if (dst->fill.auto_fore)
 			dst->fill.pattern.fore = src->fill.pattern.fore;
 		if (dst->fill.auto_back)
 			dst->fill.pattern.back = src->fill.pattern.back;
+		if (dst->fill.gradient.auto_dir)
+			dst->fill.gradient.dir = src->fill.gradient.dir;
+		if (dst->fill.gradient.auto_brightness)
+			dst->fill.gradient.brightness = src->fill.gradient.brightness;
 	}
 
 	if (fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) {
@@ -1264,6 +1270,8 @@ go_style_apply_theme (GOStyle *dst, GOStyle const *src, GOStyleFlag fields)
 			dst->line.dash_type = src->line.dash_type;
 		if (dst->line.auto_color)
 			dst->line.color = src->line.color;
+		if (dst->line.auto_width)
+			dst->line.width = src->line.width;
 	}
 	if (fields & GO_STYLE_MARKER) {
 		if (dst->marker.auto_shape)
@@ -1451,6 +1459,8 @@ go_style_gradient_sax_save (GsfXMLOut *output, GOStyle const *style)
 	else
 		go_xml_out_add_color (output, "end-color",
 			style->fill.pattern.fore);
+	gsf_xml_out_add_bool (output, "auto-direction", style->fill.gradient.auto_dir);
+	gsf_xml_out_add_bool (output, "auto-brightness", style->fill.gradient.auto_brightness);
 	gsf_xml_out_end_element (output);
 }
 
@@ -1476,6 +1486,7 @@ go_style_fill_sax_save (GsfXMLOut *output, GOStyle const *style)
 			style->fill.pattern.fore);
 		go_xml_out_add_color (output, "back",
 			style->fill.pattern.back);
+		gsf_xml_out_add_bool (output, "auto-pattern", style->fill.auto_pattern);
 		gsf_xml_out_end_element (output);
 		break;
 
@@ -1610,6 +1621,8 @@ go_style_sax_load_fill_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 			go_color_from_str (attrs[1], &style->fill.pattern.fore);
 		else if (attr_eq (attrs[0], "back"))
 			go_color_from_str (attrs[1], &style->fill.pattern.back);
+		else if (bool_sax_prop ("auto-pattern", attrs[0], attrs[1], &style->fill.auto_pattern))
+			;
 }
 
 static void
@@ -1626,6 +1639,10 @@ go_style_sax_load_fill_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 			go_color_from_str (attrs[1], &style->fill.pattern.fore);
 		else if (attr_eq (attrs[0], "brightness"))
 			go_style_set_fill_brightness (style, g_strtod (attrs[1], NULL));
+		else if (bool_sax_prop ("auto-direction", attrs[0], attrs[1], &style->fill.gradient.auto_dir))
+			;
+		else if (bool_sax_prop ("auto-brightness", attrs[0], attrs[1], &style->fill.gradient.auto_brightness))
+			;
 }
 
 static void
@@ -1764,10 +1781,11 @@ go_style_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 	gsf_xml_out_add_cstr_unchecked (output, "type",
 		G_OBJECT_TYPE_NAME (style));
 
-	if (style->interesting_fields & GO_STYLE_OUTLINE)
-		go_style_line_sax_save (output, "outline", &style->line);
 	if (style->interesting_fields & GO_STYLE_LINE)
 		go_style_line_sax_save (output, "line", &style->line);
+	else if (style->interesting_fields & GO_STYLE_OUTLINE)
+		/* no need to save both line and outline */
+		go_style_line_sax_save (output, "outline", &style->line);
 	if (style->interesting_fields & GO_STYLE_FILL)
 		go_style_fill_sax_save (output, style);
 	if (style->interesting_fields & GO_STYLE_MARKER)
@@ -1967,6 +1985,10 @@ go_style_is_auto (GOStyle *style)
 		style->marker.auto_fill_color && style->line.auto_dash &&
 		style->line.auto_color && style->fill.auto_type &&
 		style->fill.auto_fore && style->fill.auto_back &&
+	    (style->fill.type == GO_STYLE_FILL_NONE ||
+	     (style->fill.type == GO_STYLE_FILL_PATTERN && style->fill.auto_pattern) ||
+	     (style->fill.type == GO_STYLE_FILL_GRADIENT && style->fill.gradient.auto_dir
+	      && style->fill.gradient.auto_brightness)) &&
 		style->font.auto_scale && style->font.auto_color && style->font.auto_font &&
 		style->text_layout.auto_angle);
 }
