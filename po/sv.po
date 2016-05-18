@@ -24,9 +24,9 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-05-06 23:02+0000\n"
-"PO-Revision-Date: 2016-05-14 12:59+0200\n"
-"Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
+"POT-Creation-Date: 2016-05-14 11:05+0000\n"
+"PO-Revision-Date: 2016-05-18 14:16+0200\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -4518,10 +4518,9 @@ msgstr "_Format:"
 msgid "S_ymbol:"
 msgstr "S_ymbol:"
 
-# https://bugzilla.gnome.org/show_bug.cgi?id=766296
 #: ../goffice/gtk/go-format-sel.ui.h:19
 msgid "Format c_ode:"
-msgstr "Formatera k_od:"
+msgstr "Formatk_od:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:20
 msgid "Show _separate integer part"
@@ -7312,10 +7311,9 @@ msgstr "Stöd för matematiska ekvationer"
 msgid "Math equation component engine"
 msgstr "Motor för matematikekvationskomponenter"
 
-# https://bugzilla.gnome.org/show_bug.cgi?id=766296#c1
 #: ../plugins/plot_barcol/gog-1.5d.c:353
 msgid "How to group multiple series, normal, stacked, as_percentage"
-msgstr "Hur multiple series, normal, stacked och as_percentage ska grupperas"
+msgstr "Hur flera serier ska grupperas: normal, stacked eller as_percentage"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:358 ../plugins/plot_pie/gog-pie.c:323
 #: ../plugins/plot_xy/gog-xy.c:565
