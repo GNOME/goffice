@@ -559,7 +559,10 @@ gog_axis_color_map_to_cairo (GogAxisColorMap const *map, cairo_t *cr,
                              unsigned discrete, gboolean horizontal,
                              double width, double height)
 {
-	unsigned i, max = gog_axis_color_map_get_max (map);
+	unsigned i, max;
+
+	g_return_if_fail (GOG_IS_AXIS_COLOR_MAP (map));
+	max = gog_axis_color_map_get_max (map);
 	if (discrete) {
 		GOColor color;
 		double t0, maxt, step, start, scale = 1;
