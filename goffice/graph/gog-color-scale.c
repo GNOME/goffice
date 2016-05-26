@@ -241,20 +241,36 @@ gog_color_scale_set_property (GObject *obj, guint param_id,
 		GogChart *chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (obj)));
 		GSList *ptr;
 		char const *buf = g_value_get_string (value);
+		GogAxisType	 type;
+		int id;
 		GogAxis *axis = NULL;
-		for (ptr = gog_chart_get_axes (chart, GOG_AXIS_COLOR); ptr && ptr->data; ptr = ptr->next) {
-			if (!strcmp (buf, gog_object_get_name (GOG_OBJECT (ptr->data)))) {
+		if (!strncmp (buf, "color", 5)) {
+			type = GOG_AXIS_COLOR;
+			buf += 5;
+		} else if (!strncmp (buf, "3d", 2)) {
+			type = GOG_AXIS_PSEUDO_3D;
+			buf += 2;
+		} else {
+			unsigned index;
+			/* kludge: old file searching for 3D in all known locales */
+			type = (strstr (buf, "3D") != NULL || strstr (buf , "3d") !=NULL ||
+					strstr (buf, "3Д") != NULL || strstr (buf, "3Δ") != NULL ||
+					strstr (buf, "ترويسات متعلقة بالمحور") != NULL)?
+					GOG_AXIS_PSEUDO_3D: GOG_AXIS_COLOR;
+			index = strlen (buf) - 1;
+			while (index > 0 && buf[index] <= '9' && buf[index] >= '0')
+				index--;
+			buf += index + 1;	
+		}
+		id = atoi (buf);
+		if (id < 1) /* this should not happen */
+				id = 1;
+		for (ptr = gog_chart_get_axes (chart, type); ptr && ptr->data; ptr = ptr->next) {
+			if ((unsigned ) id == gog_object_get_id (GOG_OBJECT (ptr->data))) {
 			    axis = GOG_AXIS (ptr->data);
 				break;
 			}
 		}
-		if (axis == NULL) /* try with the pseudo-3d axes */
-			for (ptr = gog_chart_get_axes (chart, GOG_AXIS_PSEUDO_3D); ptr && ptr->data; ptr = ptr->next) {
-				if (!strcmp (buf, gog_object_get_name (GOG_OBJECT (ptr->data)))) {
-					axis = GOG_AXIS (ptr->data);
-					break;
-				}
-			}
 		gog_color_scale_set_axis (scale, axis);
 		break;
 	}
@@ -282,9 +298,15 @@ gog_color_scale_get_property (GObject *obj, guint param_id,
 	case COLOR_SCALE_PROP_WIDTH:
 		g_value_set_double (value, scale->width);
 		break;
-	case COLOR_SCALE_PROP_AXIS:
-		g_value_set_string (value, gog_object_get_name (GOG_OBJECT (scale->color_axis)));
+	case COLOR_SCALE_PROP_AXIS: {
+		char buf[16];
+		if (gog_axis_get_atype (scale->color_axis) == GOG_AXIS_COLOR)
+			snprintf (buf, 16, "color%u", gog_object_get_id (GOG_OBJECT (scale->color_axis)));
+		else
+			snprintf (buf, 16, "3d%u", gog_object_get_id (GOG_OBJECT (scale->color_axis)));
+		g_value_set_string (value, buf);
 		break;
+	}
 	case COLOR_SCALE_PROP_TICK_SIZE_PTS:
 		g_value_set_int (value, scale->tick_size);
 		break;

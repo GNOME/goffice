@@ -1,3 +1,9 @@
+2016-05-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-color-scale.c (gog_color_scale_set_property),
+	(gog_color_scale_get_property): properly save and load the reference to
+	the axis. [#766829]
+
 2016-05-06  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
