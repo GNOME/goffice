@@ -1,3 +1,7 @@
+2016-06-17  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.30
+
 2016-05-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-color-scale.c (gog_color_scale_set_property),
