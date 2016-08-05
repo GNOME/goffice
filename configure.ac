@@ -2,6 +2,8 @@
 dnl We require Automake 1.7.2, which requires Autoconf 2.54.
 dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
+AC_CONFIG_MACRO_DIR([m4])
+AX_IS_RELEASE([git-directory])
 
 m4_define([goffice_version_epoch], [0])
 m4_define([goffice_version_major], [10])
@@ -434,10 +436,6 @@ AC_ARG_VAR(PERL, [The Perl executable.])
 AC_CHECK_PROG(PERL, perl, perl)
 
 ## this should come after `AC_PROG_CC'
-ifdef([GNOME_COMPILE_WARNINGS],
-	[GNOME_COMPILE_WARNINGS] CFLAGS="$CFLAGS $WARN_CFLAGS",
-	[]
-)
 set_more_warnings=yes
 if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 	dnl Clang needs this option, or else it will appear to support any
@@ -453,7 +451,8 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 	AC_MSG_RESULT($has_unknown_warning_option)
 	CFLAGS="$SAVE_CFLAGS"
 
-	warning_options="-Wsign-compare -Wpointer-arith \
+	warning_options="-Wall -Werror=init-self -Werror=missing-include-dirs \
+			 -Wsign-compare -Werror=pointer-arith \
 			 -Wchar-subscripts -Wwrite-strings \
 			 -Wdeclaration-after-statement -Wnested-externs \
 			 -Wmissing-noreturn \
@@ -806,6 +805,7 @@ AC_DEFINE(GO_VERSION_MINOR, goffice_version_minor,
 AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
 	[Extra, possibly empty tag for this release])
 
+dnl AX_REQUIRE_DEFINED([GTK_DOC_CHECK])
 GTK_DOC_CHECK([1.12])
 if test "x$with_gtk" = "xno" -a "x$enable_gtk_doc" = "xyes"; then
 	AC_MSG_ERROR([Building documentation is not allowed for a without Gtk+ build])
