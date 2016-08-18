@@ -1,3 +1,8 @@
+2016-08-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (go_linear_regression_leverage):
+	Plug leak.
+
 2016-06-29  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

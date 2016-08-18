@@ -1788,6 +1788,7 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
 	} else
 		regres = GO_REG_invalid_data;
 
+	SUFFIX(go_quad_matrix_free) (qA);
 	g_free (xscale);
 
 	SUFFIX(go_quad_end) (state);

@@ -1,5 +1,9 @@
 goffice 0.10.32:
 
+Morten:
+	* Plug leak.
+	* Avoid gnome-common dependency.
+
 --------------------------------------------------------------------------
 goffice 0.10.31:
 
