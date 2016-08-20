@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+MKHTML_OPTIONS=--path="$(abs_builddir)"
+
 DOC_MODULE=goffice-@GOFFICE_API_VER@
 
 DOC_MAIN_SGML_FILE=goffice-docs.xml
@@ -38,9 +40,7 @@ endif
 
 HTML_IMAGES=
 
-content_files = \
-        $(top_srcdir)/docs/reference/version.xml
-
+content_files =
 expand_content_files=
 
 GTKDOC_CFLAGS = -I$(top_srcdir) -I$(top_builddir) $(GOFFICE_CFLAGS)
@@ -48,8 +48,7 @@ GTKDOC_LIBS = $(top_builddir)/goffice/libgoffice-@GOFFICE_API_VER@.la $(GOFFICE_
 
 include $(top_srcdir)/gtk-doc.make
 
-# To work around bug #314105, we have to distribute the generated file, too.
-EXTRA_DIST += version.xml.in version.xml
+EXTRA_DIST += version.xml.in
 
 CLEANFILES += \
 	goffice-@GOFFICE_API_VER@-decl-list.txt	\
@@ -60,6 +59,3 @@ CLEANFILES += \
 	goffice-@GOFFICE_API_VER@-undocumented.txt	\
 	goffice-@GOFFICE_API_VER@.types	\
 	html/* tmpl/* xml/*
-
-$(top_srcdir)/docs/reference/version.xml:
-	cp $(top_builddir)/docs/reference/version.xml $@
