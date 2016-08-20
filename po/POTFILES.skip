@@ -11,3 +11,13 @@ plugins/smoothing/types.xml
 goffice/graph/gog-equation-prefs.glade
 goffice/graph/gog-equation.c
 tests/go-demo.ui
+# These are due to auto*/intltool interaction
+sub/plugins/plot_barcol/plot-types.xml
+sub/plugins/plot_distrib/plot-types.xml
+sub/plugins/plot_pie/plot-types.xml
+sub/plugins/plot_radar/plot-types.xml
+sub/plugins/plot_surface/plot-types.xml
+sub/plugins/plot_xy/plot-types.xml
+sub/plugins/reg_linear/reg-types.xml
+sub/plugins/reg_logfit/reg-types.xml
+sub/plugins/smoothing/types.xml
