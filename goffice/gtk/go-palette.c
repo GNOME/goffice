@@ -283,6 +283,7 @@ cb_custom_activate (GtkWidget *item, GOPalette *palette)
  * @swatch_width: swatch width as multiple of swatch height
  * @n_columns: number of columns for displaying palette items
  * @swatch_render: (scope notified): a user function used for swatch rendering
+ * @get_tooltip: (scope notified): a user function for tooltips.
  * @data: user data for use by swatch render function
  * @destroy: (scope async): a function to destroy user data on widget finalization
  *

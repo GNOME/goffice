@@ -1,3 +1,4 @@
+
 /*
  * gog-chart-map.h :
  *
@@ -1130,6 +1131,7 @@ gog_chart_map_get_type (void)
  * @n_points: number of points
  * @interpolation: interpolation type
  * @skip_invalid: whether to ignore invalid data or interrupt the interpolation
+ * @data: a user pointer
  *
  * Returns: a new GOPath using @x and @y data, each valid point being connected with respect to @interpolation.
  **/

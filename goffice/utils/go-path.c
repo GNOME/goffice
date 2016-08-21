@@ -1566,6 +1566,7 @@ go_path_new_from_svg (char const *src)
 /**
  * go_path_new_from_odf_enhanced_path:
  * @src: an ODF enhanced path.
+ * @variables: environment
  *
  * Returns: (transfer full): the newly allocated #GOPath or %NULL on error.
  **/
