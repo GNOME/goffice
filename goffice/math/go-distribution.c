@@ -65,6 +65,8 @@ enum {
  * @GO_DISTRIBUTION_CAUCHY: Cauchy.,
  * @GO_DISTRIBUTION_WEIBULL: Weibull.
  * @GO_DISTRIBUTION_LOGNORMAL: Lognormal.
+ * @GO_DISTRIBUTION_MAX: (skip)
+ * @GO_DISTRIBUTION_INVALID: (skip)
  **/
 
 static struct

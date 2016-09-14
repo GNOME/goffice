@@ -33,7 +33,8 @@
  * GODataFlags:
  * @GO_DATA_CACHE_IS_VALID: data in cache are valid.
  * @GO_DATA_IS_EDITABLE: data can be edited.
- * @GO_DATA_SIZE_CACHED: cached sise is valid.
+ * @GO_DATA_SIZE_CACHED: cached size is valid.
+ * @GO_DATA_HAS_VALUE: object is not empty.
  **/
 
 /**

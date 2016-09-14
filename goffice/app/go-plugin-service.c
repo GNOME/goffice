@@ -66,6 +66,7 @@
 
 /**
  * GOPluginServiceClass:
+ * @g_object_class: base class.
  * @read_xml: read XML node containing the service description.
  * @activate: actviates the service.
  * @deactivate: deactivates the service.

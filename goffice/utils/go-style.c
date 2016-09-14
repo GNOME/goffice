@@ -78,6 +78,7 @@ attr_eq (const xmlChar *a, const char *s)
  * <0 == no line,
  * =0 == hairline : unscaled, minimum useful (can be bigger than visible) size.
  * >0 in pts.
+ * @auto_width: automatic width
  * @dash_type: #GOLineDashType.
  * @auto_dash: automatic dash type.
  * @color: color is used as background for compatibility
