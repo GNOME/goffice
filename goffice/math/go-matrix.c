@@ -588,8 +588,10 @@ SUFFIX(go_quad_matrix_dump) (const QMATRIX *A, const char *fmt)
 	int i, j;
 
 	for (i = 0; i < A->m; i++) {
-		for (j = 0; j < A->n; j++)
-			g_printerr (fmt, A->data[i][j]);
+		for (j = 0; j < A->n; j++) {
+			DOUBLE x = SUFFIX(go_quad_value) (&A->data[i][j]);
+			g_printerr (fmt, x);
+		}
 		g_printerr ("\n");
 	}
 }

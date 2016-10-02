@@ -4941,14 +4941,14 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		/* FIXME: We should adjust min_digit_width if num_shape != 0 */
 	}
 
+	sign_width = unicode_minus
+		? metrics->minus_width
+		: metrics->hyphen_width;
+
 	if (col_width == -1) {
 		try_needed = TRUE;
 	} else {
 		int w;
-
-		sign_width = unicode_minus
-			? metrics->minus_width
-			: metrics->hyphen_width;
 
 		w = (col_width - (val <= -0.5 ? sign_width : 0)) / min_digit_width;
 		if (w <= maxdigits) {
@@ -7461,12 +7461,23 @@ go_format_get_details (GOFormat const *fmt,
 	}
 
 	case GO_FORMAT_FRACTION: {
-		char *c_str = pango_trim_string (str);
- 		gchar **tokens = g_strsplit_set (c_str, " /", 3);
+		char *c_str = g_strdup (str), *p;
+		gchar **tokens;
 		int numerator_base;
 		char const *integer;
 		int d;
 		gboolean pi_token;
+
+		// Trim spaces
+		for (p = c_str + strlen (c_str); p > c_str && p[-1] == ' '; p--)
+			p[-1] = 0;
+		p = c_str;
+		while (p[0] == ' ')
+			p++;
+
+		// This is really a hack that doesn't take quoted string
+		// into account.
+		tokens = g_strsplit_set (c_str, " /", 3);
 
 		/* Since it is a fraction we get at least 2 tokens */
 		g_return_if_fail (tokens[1] != NULL);

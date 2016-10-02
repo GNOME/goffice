@@ -1,3 +1,11 @@
+2016-10-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_render_general): Fix warning.
+	(go_format_get_details): Avoid pango_trom_string.
+
+	* goffice/math/go-matrix.c (go_quad_matrix_dump): Fix printf
+	argument.  (Somehow magically worked -- on x86 at least.)
+
 2016-08-20  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
