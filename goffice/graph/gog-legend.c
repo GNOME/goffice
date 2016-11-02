@@ -461,7 +461,7 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 	}
 	data->count++;
 
-	if (base_style->interesting_fields & GO_STYLE_LINE) { /* line and marker */
+	if ((base_style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) == GO_STYLE_LINE) { /* line and marker */
 		style = go_style_dup (base_style);
 		g_return_if_fail (style != NULL);
 		if (style->line.width > data->hairline_width)

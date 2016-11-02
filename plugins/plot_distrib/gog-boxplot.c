@@ -434,7 +434,7 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_box_plot_series_get_type ();
 	plot_klass->axis_set = GOG_AXIS_SET_XY;
-	plot_klass->desc.series.style_fields	= GO_STYLE_LINE | GO_STYLE_FILL;
+	plot_klass->desc.series.style_fields	= GO_STYLE_LINE | GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	plot_klass->axis_get_bounds   		= gog_box_plot_axis_get_bounds;
 }
 

@@ -1,3 +1,9 @@
+2016-11-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-legend.c (cb_render_elements): allow box plots look
+	like bar plots in legends. [#773825]
+	* plugins/plot_distrib/gog-boxplot.c (gog_box_plot_class_init): ditto.
+
 2016-10-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_render_general): Fix warning.
