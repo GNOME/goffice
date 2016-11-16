@@ -365,7 +365,7 @@ go_xml_out_add_double (GsfXMLOut *output, char const *id, double d)
 	g_string_free (str, TRUE);
 }
 
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 /**
  * go_xml_out_add_long_double:
  * @output: destination

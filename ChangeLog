@@ -1,3 +1,8 @@
+2016-11-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-libxml-extras.c: fix long double support condition.
+	[#774439]
+
 2016-11-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-legend.c (cb_render_elements): allow box plots look
