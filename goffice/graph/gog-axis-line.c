@@ -707,10 +707,10 @@ role_grid_line_major_can_add (GogObject const *parent)
 	GogAxis *axis = axis_base->axis;
 	GogAxisType type = gog_axis_get_atype (axis);
 
-	return (!gog_axis_is_discrete (axis) &&
-		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z ||
-		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
-		 gog_axis_base_get_grid_line (axis_base, TRUE) == NULL);
+	return ((type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z
+	         || type == GOG_AXIS_RADIAL ||
+	         (type == GOG_AXIS_CIRCULAR && !gog_axis_is_discrete (axis))) &&
+	        gog_axis_base_get_grid_line (axis_base, TRUE) == NULL);
 }
 
 static gboolean

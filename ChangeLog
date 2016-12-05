@@ -1,3 +1,8 @@
+2016-12-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (role_grid_line_major_can_add):
+	reimplement major grids for discrete axes. [#775624].
+
 2016-11-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-libxml-extras.c: fix long double support condition.

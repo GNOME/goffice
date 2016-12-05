@@ -4,6 +4,7 @@ Jean:
 	* Make box plots look like bar plots in legends. [#773825]
 	* Fix conditional compilation for long double. Patch from Ludovic
 	Rousseau). [#774439]
+	* Reimplement major grids for discrete axes. [#775624].
 
 Morten:
 	* Introspection fixes.
