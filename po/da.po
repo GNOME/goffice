@@ -9,7 +9,7 @@
 # Joe Hansen (joedalton2@yahoo.dk), 2010, 2011, 2012, 2013.
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2016.
 #
-# Konventioner:
+# Ordliste (se dog særordliste for skrifttyper nedenfor):
 #
 # abscissa -> x-koordinat
 # array -> matrix, vektor
@@ -59,6 +59,23 @@
 # wedge -> kile
 # workbook -> arbejdsbog
 #
+# Nyttigt link:
+#   http://www.grafisk-litteratur.dk/grafisk_fagsprog.asp
+#
+# Skrifttyper (msgctxt "FontFace"):
+#   book -> bog (hvorfor er det en skrifttype og hvad er mon den egentlige betydning?)
+#   condensed -> smal
+#   demi bold -> halvfed
+#   embossed -> præget
+#   expanded -> bred (jf. linket: expanded type -> bred skrift)
+#   oblique -> skrå
+#   roman -> ordinær (fra linket, og wikipedia)
+#   regular -> regulær (kunne også være almindelig)
+#   rounded -> afrundet
+#   semi-bold -> halvfed (samme som demi bold; men er synonymer på engelsk og burde
+#                         ikke begge forekomme for samme skrifttype)
+#   slanted -> skråtstillet
+#
 # Formater og formatér er med ét 't'. Eksemplerne under tekstrutinerne
 # er danskificerede. Den mærkelige mani med at sætte et mellemrum foran
 # kolon (som i "Cell :") er ikke bevaret i oversættelserne.
@@ -85,7 +102,7 @@ msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-07-14 16:52+0000\n"
-"PO-Revision-Date: 2016-12-10 17:18+0100\n"
+"PO-Revision-Date: 2016-12-10 18:33+0100\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -3839,7 +3856,7 @@ msgstr "Skrifttypefamilier"
 #: ../goffice/gtk/go-font-sel.c:389
 msgctxt "FontFace"
 msgid "Regular"
-msgstr "Almindelig"
+msgstr "Regulær"
 
 #: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
 msgctxt "FontFace"
@@ -3860,7 +3877,7 @@ msgstr "Fed kursiv"
 #: ../goffice/gtk/go-font-sel.c:395
 msgctxt "FontFace"
 msgid "Black"
-msgstr "Sort"
+msgstr "Ekstra fed"
 
 #: ../goffice/gtk/go-font-sel.c:396
 msgctxt "FontFace"
@@ -3890,7 +3907,7 @@ msgstr "Fed skrå"
 #: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
 msgid "Bold Slanted"
-msgstr "Fed hældende"
+msgstr "Fed skråtstillet"
 
 #: ../goffice/gtk/go-font-sel.c:402
 msgctxt "FontFace"
@@ -3900,7 +3917,7 @@ msgstr "Fed kapitæler"
 #: ../goffice/gtk/go-font-sel.c:403
 msgctxt "FontFace"
 msgid "Book Oblique"
-msgstr ""
+msgstr "Bog skråtstillet"
 
 #: ../goffice/gtk/go-font-sel.c:404
 msgctxt "FontFace"
@@ -3968,7 +3985,7 @@ msgstr "Halvsmal"
 #: ../goffice/gtk/go-font-sel.c:416
 msgctxt "FontFace"
 msgid "Embossed"
-msgstr ""
+msgstr "Præget"
 
 #: ../goffice/gtk/go-font-sel.c:417
 msgctxt "FontFace"
@@ -4043,37 +4060,37 @@ msgstr "Skrå"
 #: ../goffice/gtk/go-font-sel.c:432
 msgctxt "FontFace"
 msgid "Regular Condensed Italic"
-msgstr "Almindelig smal kursiv"
+msgstr "Regulær smal kursiv"
 
 #: ../goffice/gtk/go-font-sel.c:433
 msgctxt "FontFace"
 msgid "Regular Condensed"
-msgstr "Almindelig smal"
+msgstr "Regulær smal"
 
 #: ../goffice/gtk/go-font-sel.c:434
 msgctxt "FontFace"
 msgid "Regular Italic"
-msgstr "Almindelig kursiv"
+msgstr "Regulær kursiv"
 
 #: ../goffice/gtk/go-font-sel.c:435
 msgctxt "FontFace"
 msgid "Regular Oblique"
-msgstr "Almindelig skrå"
+msgstr "Regulær skrå"
 
 #: ../goffice/gtk/go-font-sel.c:436
 msgctxt "FontFace"
 msgid "Roman Slanted"
-msgstr ""
+msgstr "Ordinær skråtstillet"
 
 #: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Roman"
-msgstr ""
+msgstr "Ordinær"
 
 #: ../goffice/gtk/go-font-sel.c:438
 msgctxt "FontFace"
 msgid "Rounded"
-msgstr ""
+msgstr "Afrundet"
 
 #: ../goffice/gtk/go-font-sel.c:439
 msgctxt "FontFace"
@@ -4113,7 +4130,7 @@ msgstr "Halvfed skrå"
 #: ../goffice/gtk/go-font-sel.c:446
 msgctxt "FontFace"
 msgid "Semi-Bold Slanted"
-msgstr ""
+msgstr "Halvfed skråtstillet"
 
 #: ../goffice/gtk/go-font-sel.c:447
 msgctxt "FontFace"
@@ -4153,27 +4170,27 @@ msgstr "Halvsmal"
 #: ../goffice/gtk/go-font-sel.c:454
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold Italic"
-msgstr ""
+msgstr "Halvbred fed kursiv"
 
 #: ../goffice/gtk/go-font-sel.c:455
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold"
-msgstr ""
+msgstr "Halvbred fed"
 
 #: ../goffice/gtk/go-font-sel.c:456
 msgctxt "FontFace"
 msgid "Semi-Expanded Italic"
-msgstr ""
+msgstr "Halvbred kursiv"
 
 #: ../goffice/gtk/go-font-sel.c:457
 msgctxt "FontFace"
 msgid "Semi-Expanded"
-msgstr ""
+msgstr "Halvbred"
 
 #: ../goffice/gtk/go-font-sel.c:458
 msgctxt "FontFace"
 msgid "Slanted"
-msgstr ""
+msgstr "Skråtstillet"
 
 #: ../goffice/gtk/go-font-sel.c:459
 msgctxt "FontFace"
