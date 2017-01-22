@@ -5,6 +5,7 @@ Jean:
 	* Fix conditional compilation for long double. Patch from Ludovic
 	Rousseau). [#774439]
 	* Reimplement major grids for discrete axes. [#775624].
+	* Fix add child menu in graph guru. [#777336]
 
 Morten:
 	* Introspection fixes.

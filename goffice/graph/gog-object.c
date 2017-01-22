@@ -1691,8 +1691,6 @@ gog_object_clear_parent (GogObject *obj)
 
 	klass = GOG_OBJECT_GET_CLASS (obj);
 	parent = obj->parent;
-	g_signal_emit (G_OBJECT (parent),
-		gog_object_signals [CHILD_REMOVED], 0, obj);
 	(*klass->parent_changed) (obj, FALSE);
 
 	if (obj->role != NULL && obj->role->pre_remove != NULL)
@@ -1705,6 +1703,9 @@ gog_object_clear_parent (GogObject *obj)
 		(obj->role->post_remove) (parent, obj);
 
 	obj->role = NULL;
+
+	g_signal_emit (G_OBJECT (parent),
+		gog_object_signals [CHILD_REMOVED], 0, obj);
 
 	return TRUE;
 }
