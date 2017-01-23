@@ -129,6 +129,7 @@ typedef struct {
 	GogSeries1_5d base;
 	double	clamped_derivs[2]; /* start and slopes for clamped cubic splines */
 	GogDataset	  *interpolation_props;
+	double *x;
 } GogAreaSeries;
 
 /****************************************************************************/
@@ -219,7 +220,7 @@ enum {
 	SERIES_PROP_CLAMP1
 };
 
-typedef GogSeries1_5dClass	GogAreaSeriesClass;
+typedef GogSeries1_5dClass GogAreaSeriesClass;
 
 static GogStyledObjectClass *area_series_parent_klass;
 
@@ -234,6 +235,37 @@ gog_area_series_get_interpolation_params (GogSeries const *series)
 	GogAreaSeries *aseries = GOG_AREA_SERIES (series);
 	g_return_val_if_fail (aseries, NULL);
 	return aseries->interpolation_props;
+}
+
+static void
+gog_area_series_update (GogObject *obj)
+{
+	GogAreaSeries *series = GOG_AREA_SERIES (obj);
+	GogSeries *base_series = GOG_SERIES (obj);
+	unsigned i, nb = base_series->num_elements;
+	GSList *ptr;
+	(GOG_OBJECT_CLASS (area_series_parent_klass))->update (obj);
+	if (nb != base_series->num_elements) {
+		nb = base_series->num_elements;
+		g_free (series->x);
+		series->x = g_new (double, nb);
+		for (i = 0; i < nb; i++)
+			series->x[i] = i + 1;
+	}
+	/* update children */
+	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
+		if (!GOG_IS_SERIES_LINES (ptr->data))
+			gog_object_request_update (GOG_OBJECT (ptr->data));
+}
+
+static unsigned
+gog_area_series_get_xy_data (GogSeries const *series,
+					double const **x, double const **y)
+{
+	GogAreaSeries *area_ser = GOG_AREA_SERIES (series);
+	*x = area_ser->x;
+	*y = go_data_get_values (series->values[1].data);
+	return series->num_elements;
 }
 
 static void
@@ -284,6 +316,9 @@ gog_area_series_finalize (GObject *obj)
 		series->interpolation_props = NULL;
 	}
 
+	g_free (series->x);
+	series->x = NULL;
+
 	G_OBJECT_CLASS (area_series_parent_klass)->finalize (obj);
 }
 
@@ -300,6 +335,8 @@ gog_area_series_class_init (GogStyledObjectClass *gso_klass)
 	gog_klass->view_type = gog_line_series_view_get_type ();
 	series_klass->has_interpolation = TRUE;
 	series_klass->get_interpolation_params = gog_area_series_get_interpolation_params;
+	gog_klass->update = gog_area_series_update;
+	series_klass->get_xy_data = gog_area_series_get_xy_data;
 	g_object_class_install_property (obj_klass, SERIES_PROP_CLAMP0,
 		g_param_spec_double ("clamp0",
 			_("Clamp at start"),
@@ -330,10 +367,7 @@ GSF_DYNAMIC_CLASS (GogAreaSeries, gog_area_series,
 
 /*****************************************************************************/
 
-typedef struct {
-	GogAreaSeries base;
-	double *x;
-} GogLineSeries;
+typedef  GogAreaSeries GogLineSeries;
 
 typedef GogSeries1_5dClass	GogLineSeriesClass;
 
@@ -367,58 +401,10 @@ gog_line_series_init_style (GogStyledObject *gso, GOStyle *style)
 }
 
 static void
-gog_line_series_update (GogObject *obj)
-{
-	GogLineSeries *series = GOG_LINE_SERIES (obj);
-	GogSeries *base_series = GOG_SERIES (obj);
-	unsigned i, nb = base_series->num_elements;
-	GSList *ptr;
-	(GOG_OBJECT_CLASS (line_series_parent_klass))->update (obj);
-	if (nb != base_series->num_elements) {
-		nb = base_series->num_elements;
-		g_free (series->x);
-		series->x = g_new (double, nb);
-		for (i = 0; i < nb; i++)
-			series->x[i] = i + 1;
-	}
-	/* update children */
-	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
-		if (!GOG_IS_SERIES_LINES (ptr->data))
-			gog_object_request_update (GOG_OBJECT (ptr->data));
-}
-
-static unsigned
-gog_line_series_get_xy_data (GogSeries const *series,
-					double const **x, double const **y)
-{
-	GogLineSeries *line_ser = GOG_LINE_SERIES (series);
-	*x = line_ser->x;
-	*y = go_data_get_values (series->values[1].data);
-	return series->num_elements;
-}
-
-static void
-gog_line_series_finalize (GObject *obj)
-{
-	GogLineSeries *series = GOG_LINE_SERIES (obj);
-
-	g_free (series->x);
-	series->x = NULL;
-
-	G_OBJECT_CLASS (line_series_parent_klass)->finalize (obj);
-}
-
-static void
 gog_line_series_class_init (GogStyledObjectClass *gso_klass)
 {
-	GObjectClass *obj_klass = (GObjectClass *)gso_klass;
-	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
-	GogSeriesClass *series_klass = (GogSeriesClass*) gso_klass;
 	line_series_parent_klass = g_type_class_peek_parent (gso_klass);
-	obj_klass->finalize = gog_line_series_finalize;
 	gso_klass->init_style = gog_line_series_init_style;
-	gog_klass->update = gog_line_series_update;
-	series_klass->get_xy_data = gog_line_series_get_xy_data;
 }
 
 GSF_DYNAMIC_CLASS (GogLineSeries, gog_line_series,
@@ -1263,7 +1249,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (lengths[i] == 0)
 				continue;
 
-				gog_renderer_push_style (view->renderer, styles[i]);
+			gog_renderer_push_style (view->renderer, styles[i]);
 
 			for (j = 0; j < lengths[i]; j++) {
 				x = points[i][j].x;

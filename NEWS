@@ -6,6 +6,7 @@ Jean:
 	Rousseau). [#774439]
 	* Reimplement major grids for discrete axes. [#775624].
 	* Fix add child menu in graph guru. [#777336]
+	* Fix evaluation of regression curves for area plots. [#777334]
 
 Morten:
 	* Introspection fixes.
