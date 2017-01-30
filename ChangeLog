@@ -1,3 +1,7 @@
+2017-01-29  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.33
+
 2017-01-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-line.c : fix evaluation of regression curves
