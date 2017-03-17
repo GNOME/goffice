@@ -6194,23 +6194,23 @@ go_format_new_from_XL (char const *str)
 
 	g_return_val_if_fail (str != NULL, go_format_general ());
 
-	if (str[0] == '@' && str[1] == '[') {
-		PangoAttrList *attrs;
-		char *desc_copy = g_strdup (str);
-		attrs = go_format_parse_markup (desc_copy);
-		if (attrs) {
-			format = go_format_create (GO_FMT_MARKUP, str);
-			format->u.markup = attrs;
-		} else
-			format = go_format_create (GO_FMT_INVALID, str);
-
-		g_free (desc_copy);
-		return format;
-	}
-
 	format = g_hash_table_lookup (style_format_hash, str);
+
 	if (format == NULL) {
-		format = go_format_parse (str);
+		if (str[0] == '@' && str[1] == '[') {
+			PangoAttrList *attrs;
+			char *desc_copy = g_strdup (str);
+			attrs = go_format_parse_markup (desc_copy);
+			if (attrs) {
+				format = go_format_create (GO_FMT_MARKUP, str);
+				format->u.markup = attrs;
+			} else
+				format = go_format_create (GO_FMT_INVALID, str);
+
+			g_free (desc_copy);
+		} else
+			format = go_format_parse (str);
+
 		g_hash_table_insert (style_format_hash,
 				     format->format,
 				     format);

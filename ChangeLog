@@ -1,3 +1,8 @@
+2017-03-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_new_from_XL): Cache also
+	rich-text formats.
+
 2017-01-29  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
