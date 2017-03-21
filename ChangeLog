@@ -1,3 +1,7 @@
+2017-03-20  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.34
+
 2017-03-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_new_from_XL): Cache also
