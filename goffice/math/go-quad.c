@@ -69,6 +69,7 @@ typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
 #define DOUBLE double
 #define SUFFIX(_n) _n
 #define DOUBLE_MANT_DIG DBL_MANT_DIG
+#define DOUBLE_EPSILON DBL_EPSILON
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 #include "go-quad.c"
@@ -76,9 +77,11 @@ typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
 #undef DOUBLE
 #undef SUFFIX
 #undef DOUBLE_MANT_DIG
+#undef DOUBLE_EPSILON
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
 #define DOUBLE_MANT_DIG LDBL_MANT_DIG
+#define DOUBLE_EPSILON LDBL_EPSILON
 #endif
 
 #endif
@@ -392,6 +395,22 @@ SUFFIX(go_quad_sub) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->l = r - res->h + s;
 }
 
+
+#define SPLIT1(x,h,t) do {				\
+  DOUBLE p = x * SUFFIX(CST);				\
+  if (!SUFFIX(go_finite) (p) && SUFFIX(go_finite)(x)) {	\
+     x *= DOUBLE_EPSILON;				\
+     p = x * SUFFIX(CST);				\
+     h = x - p + p;					\
+     t = x - h;						\
+     h *= (1 / DOUBLE_EPSILON);				\
+     t *= (1 / DOUBLE_EPSILON);				\
+  } else {						\
+     h = x - p + p;					\
+     t = x - h;						\
+  }							\
+} while (0)
+
 /**
  * go_quad_mul12:
  * @res: (out): result location
@@ -413,19 +432,19 @@ SUFFIX(go_quad_sub) (QUAD *res, const QUAD *a, const QUAD *b)
 void
 SUFFIX(go_quad_mul12) (QUAD *res, DOUBLE x, DOUBLE y)
 {
-	DOUBLE p1 = x * SUFFIX(CST);
-	DOUBLE hx = x - p1 + p1;
-	DOUBLE tx = x - hx;
+	DOUBLE hx, tx, hy, ty, p, q;
 
-	DOUBLE p2 = y * SUFFIX(CST);
-	DOUBLE hy = y - p2 + p2;
-	DOUBLE ty = y - hy;
+	SPLIT1 (x, hx, tx);
+	SPLIT1 (y, hy, ty);
 
-	DOUBLE p = hx * hy;
-	DOUBLE q = hx * ty + tx * hy;
+	p = hx * hy;
+	q = hx * ty + tx * hy;
 	res->h = p + q;
 	res->l = p - res->h + q + tx * ty;
 }
+
+#undef SPLIT1
+
 
 /**
  * go_quad_mul:

@@ -1,5 +1,8 @@
 goffice 0.10.35:
 
+Morten:
+	* Fix quad-precision overflow problem.
+
 --------------------------------------------------------------------------
 goffice 0.10.34:
 
