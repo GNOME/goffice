@@ -6985,7 +6985,7 @@ msgstr "_Mida:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:3
 msgid "O_utline:"
-msgstr "C_ontorn"
+msgstr "C_ontorn:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:4
 msgid "_Fill:"
@@ -7141,7 +7141,7 @@ msgstr "Final de patró massa aviat."
 
 #: ../goffice/utils/regutf8.c:74
 msgid "Pattern is too big."
-msgstr "El patró es massa gran."
+msgstr "El patró és massa gran."
 
 #: ../goffice/utils/regutf8.c:75
 msgid "Unmatched ) or \\)"
@@ -8014,7 +8014,7 @@ msgstr "Angle inicial"
 
 #: ../plugins/plot_pie/gog-pie.c:308
 msgid "Degrees clockwise from 12 O'Clock."
-msgstr "Graus en el sentit horari des de les 12 en punt"
+msgstr "Graus en el sentit horari des de les 12 en punt."
 
 #: ../plugins/plot_pie/gog-pie.c:313
 msgid "Default separation"
@@ -8304,7 +8304,7 @@ msgstr "Radar de punts"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Radar plot with dots."
-msgstr "Traçat de radar amb punts"
+msgstr "Traçat de radar amb punts."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:6
 msgid "Area Radar"
