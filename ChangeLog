@@ -1,3 +1,7 @@
+2017-07-06  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.35
+
 2017-05-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-quad.c (go_quad_mul12): Avoid unnecessary
