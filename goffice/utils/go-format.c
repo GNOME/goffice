@@ -2891,6 +2891,7 @@ SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
 
 	exponent = atoi (epos + 1);
 	g_string_truncate (dst, epos - dst->str);
+	dot = (char *)strstr (dst->str, decimal->str);
 	if (exponent != exponent_guess) {
 		/*
 		 * We rounded from 9.99Exx to
@@ -2900,11 +2901,13 @@ SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
 		nde = (nde + 1) % wd;
 		if (nde == 0)
 			g_string_truncate (dst, dst->len - (wd - 1));
-		else
+		else if (dot) /* only add a 0 when a decimal separator is present,
+					   * see #785669 */
 			g_string_append_c (dst, '0');
 	}
 
-	dot = (char *)strstr (dst->str, decimal->str);
+	/* we need to adjust exponent before any modification to nde, see #785669 */
+	exponent -= nde;
 	if (dot) {
 		memmove (dot, dot + decimal->len, nde);
 		memcpy (dot + nde, decimal->str, decimal->len);
@@ -2914,7 +2917,6 @@ SUFFIX(printf_engineering) (GString *dst, DOUBLE val, int n, int wd)
 			nde--;
 		}
 	}
-	exponent -= nde;
 
 	g_string_append_printf (dst, "E%+d", exponent);
 }
