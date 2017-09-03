@@ -2264,7 +2264,7 @@ msgstr "pàgina 3"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:14
 msgid "Object size:"
-msgstr "Mida de 'objecte:"
+msgstr "Mida d'objecte:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:16
 #: ../goffice/graph/gog-plot-prefs.ui.h:9
