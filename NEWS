@@ -2,6 +2,7 @@ goffice 0.10.36:
 
 Jean:
 	* Fix engineering format. [#785669]
+	* Fix crash in 3D plots when X or Y values are missing. [#788437]
 
 --------------------------------------------------------------------------
 goffice 0.10.35:

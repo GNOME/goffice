@@ -1,3 +1,9 @@
+2017-10-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-xyz-surface.c
+	(gog_xyz_surface_plot_build_matrix): don't crash if X or Y values are
+	missing. [#788437]
+
 2017-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-format.c (printf_engineering): fix engineering format.

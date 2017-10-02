@@ -325,6 +325,8 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 							 &x_vals, &y_vals, &z_vals);
 	else
 		kmax = gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
+	if (x_vals == NULL || y_vals == NULL)
+		return NULL;
 	/* sort the data by column and row */
 	raw_data.values[0] = x_vals;
 	raw_data.values[1] = y_vals;
