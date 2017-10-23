@@ -276,6 +276,7 @@ xl_contour_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 		series->num_elements = has_scale? 1: max;
 		*cardinality_changed = TRUE;
 	}
+	GOG_CONTOUR_PLOT (plot)->max_colors = max;
 	gog_axis_map_free (map);
 	return data;
 }

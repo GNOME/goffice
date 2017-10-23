@@ -3,7 +3,7 @@ goffice 0.10.36:
 Jean:
 	* Fix engineering format. [#785669]
 	* Fix crash in 3D plots when X or Y values are missing. [#788437]
-	* Don't use invalid styles in legned from contour or surface plots imported
+	* Don't use invalid styles in legend from contour or surface plots imported
 	from Excel. [#788861]
 
 --------------------------------------------------------------------------
