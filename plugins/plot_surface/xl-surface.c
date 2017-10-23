@@ -79,9 +79,14 @@ xl_xyz_series_class_init (GogStyledObjectClass *gso_klass)
 	obj_klass->update = xl_xyz_series_update;
 }
 
+static void
+xl_xyz_series_init (GogSeries *series)
+{
+	series->has_legend = FALSE;
+}
 
 GSF_DYNAMIC_CLASS (XLXYZSeries, xl_xyz_series,
-	xl_xyz_series_class_init, NULL,
+	xl_xyz_series_class_init, xl_xyz_series_init,
 	GOG_TYPE_SERIES)
 
 /*****************************************************************************/

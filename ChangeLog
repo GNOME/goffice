@@ -1,3 +1,8 @@
+2017-10-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/xl-surface.c (xl_xyz_series_init): don't show these
+	series in the legend. [#788861]
+
 2017-10-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-xyz-surface.c
