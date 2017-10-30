@@ -73,7 +73,7 @@ static char const *libgoffice_extern_plugin_dir = GOFFICE_EXTERNPLUGINDIR;
  * To include GOffice use:
  * <informalexample>
  * <programlisting>
- * #include <goffice/goffice.h>
+ * #include &lt;goffice/goffice.h&gt;
  * </programlisting>
  * </informalexample>
  * GOffice provides a pkg-config metadata file named

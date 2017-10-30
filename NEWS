@@ -5,6 +5,7 @@ Jean:
 	* Fix crash in 3D plots when X or Y values are missing. [#788437]
 	* Don't use invalid styles in legend from contour or surface plots imported
 	from Excel. [#788861]
+	* Fix documentation build with recent gtk-doc. [#788710]
 
 --------------------------------------------------------------------------
 goffice 0.10.35:

@@ -1,3 +1,9 @@
+2017-10-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/Makefile.am: fix documentation build with recent gtk-doc.
+	[#788710]
+	* goffice/goffice.c:
+
 2017-10-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/xl-surface.c (xl_contour_plot_build_matrix): fix
