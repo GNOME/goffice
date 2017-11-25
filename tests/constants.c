@@ -253,6 +253,8 @@ main (int argc, char **argv)
 	go_quad_init (&qc, 180);
 	go_quad_div (&qc, &qc, &go_quad_pi);
 	examine_constant ("180/pi", &qc);
+	g_printerr ("180/pi computed as double: %.55g\n", 180 / M_PI);
+	g_printerr ("pi/180 computed as double: %.55g\n", M_PI / 180);
 
 	go_quad_end (state);
 
