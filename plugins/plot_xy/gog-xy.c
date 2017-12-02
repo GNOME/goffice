@@ -1140,7 +1140,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				path = gog_chart_map_make_path (chart_map, x_vals, y_vals,
 								n, series->base.interpolation,
 								series->base.interpolation_skip_invalid,
-								&series->clamped_derivs);
+								(gpointer)&series->clamped_derivs);
 
 			next_path = NULL;
 
@@ -1171,7 +1171,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 							(chart_map, next_x_vals, next_y_vals,
 							 next_n_points, next_series->base.interpolation,
 							 series->base.interpolation_skip_invalid,
-							 &series->clamped_derivs);
+							 (gpointer)&series->clamped_derivs);
 
 					}
 				}
