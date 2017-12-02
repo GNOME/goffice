@@ -289,12 +289,12 @@ static void
 cb_history_changed (GOColorPalette *pal)
 {
 	int i;
-	GdkRGBA gdk;
 	GOColorGroup *group = pal->group;
 
 	for (i = 0 ; i < GO_COLOR_GROUP_HISTORY_SIZE ; i++)
-		gtk_widget_override_background_color (pal->swatches [i], GTK_STATE_FLAG_NORMAL,
-			go_color_to_gdk_rgba (group->history[i], &gdk));
+		g_object_set_data (G_OBJECT (pal->swatches[i]),
+				   "color",
+				   GUINT_TO_POINTER (group->history[i]));
 }
 
 static gboolean
@@ -309,17 +309,15 @@ swatch_activated (GOColorPalette *pal, GtkBin *button)
 {
 	GList *tmp = gtk_container_get_children (GTK_CONTAINER (gtk_bin_get_child (button)));
 	GtkWidget *swatch = (tmp != NULL) ? tmp->data : NULL;
-	GtkStyleContext *style_ctx;
-	GdkRGBA rgba;
+	GOColor color;
 
 	g_list_free (tmp);
 
 	g_return_if_fail (swatch != NULL);
 
-	style_ctx = gtk_widget_get_style_context (swatch);
-	gtk_style_context_get_background_color (style_ctx, GTK_STATE_FLAG_NORMAL, &rgba);
-	set_color (pal, GO_COLOR_FROM_GDK_RGBA (rgba),
-		   FALSE, TRUE, FALSE);
+	color = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (swatch),
+						     "color"));
+	set_color (pal, color, FALSE, TRUE, FALSE);
 }
 
 static gboolean
@@ -346,7 +344,8 @@ static gboolean
 draw_color_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
 {
 	GtkAllocation allocation;
-	GOColor color = GPOINTER_TO_UINT (data);
+	GOColor color = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (widget),
+							     "color"));
 	gtk_widget_get_allocation (widget, &allocation);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
@@ -369,9 +368,9 @@ go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 
 	swatch = gtk_drawing_area_new ();
 	g_signal_connect (G_OBJECT (swatch), "draw", G_CALLBACK (draw_color_cb),
-	                  GUINT_TO_POINTER (color_name->color));
-	gtk_widget_override_background_color (swatch, GTK_STATE_FLAG_NORMAL,
-	        go_color_to_gdk_rgba (color_name->color, &gdk));
+	                  NULL);
+	g_object_set_data (G_OBJECT (swatch), "color",
+			   GUINT_TO_POINTER (color_name->color));
 	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 
 	/* Wrap inside a vbox with a border so that we can see the focus indicator */
@@ -486,7 +485,7 @@ custom_colors :
 	for (col = 0; col < cols && col < GO_COLOR_GROUP_HISTORY_SIZE; col++) {
 		GONamedColor color_name = { 0, N_("custom") };
 		color_name.color = pal->group->history [col];
-		pal->swatches [col] = go_color_palette_button_new (pal,
+		pal->swatches[col] = go_color_palette_button_new (pal,
 			GTK_GRID (grid),
 			&color_name, col, row + 1);
 	}
