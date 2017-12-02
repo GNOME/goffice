@@ -42,7 +42,10 @@ struct _GORotationSel {
 typedef struct {
 	GtkGridClass parent_class;
 	void (* rotation_changed) (GORotationSel *grs, int angle);
+
+	GtkCssProvider *css_canvas;
 } GORotationSelClass;
+#define GO_ROTATION_SEL_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), GO_TYPE_ROTATION_SEL, GORotationSelClass))
 
 enum {
 	ROTATION_CHANGED,
@@ -100,11 +103,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 	GocGroup  *group = goc_canvas_get_root (canvas);
 	int i, maxint = grs->full? 23: 12;
 	GOStyle *go_style;
-	GdkRGBA color = {1., 1., 1., 1.};
 	double x0 = grs->full? 100.: 15.;
-
-	gtk_widget_override_background_color (GTK_WIDGET (canvas),
-	                                      GTK_STATE_FLAG_NORMAL, &color);
 
 	for (i = 0 ; i <= maxint ; i++) {
 		double rad = (i-6) * M_PI / 12.;
@@ -238,6 +237,12 @@ grs_init (GORotationSel *grs)
 
 	w = go_gtk_builder_get_widget (grs->gui, "toplevel");
 	gtk_grid_attach (GTK_GRID (grs), w, 0, 0, 1, 1);
+
+	gtk_style_context_add_provider
+		(gtk_widget_get_style_context (GTK_WIDGET (grs->rotate_canvas)),
+		 GTK_STYLE_PROVIDER (GO_ROTATION_SEL_GET_CLASS (grs)->css_canvas),
+		 GTK_STYLE_PROVIDER_PRIORITY_FALLBACK);
+
 	gtk_widget_show_all (GTK_WIDGET (grs));
 }
 
@@ -257,8 +262,8 @@ grs_finalize (GObject *obj)
 static void
 grs_class_init (GObjectClass *klass)
 {
-	GObjectClass *gobj_class = (GObjectClass *) klass;
-	gobj_class->finalize = grs_finalize;
+	GORotationSelClass *gors_class = (GORotationSelClass *) klass;
+	klass->finalize = grs_finalize;
 
 	grs_parent_class = g_type_class_peek (gtk_box_get_type ());
 	grs_signals [ROTATION_CHANGED] = g_signal_new ("rotation-changed",
@@ -267,6 +272,15 @@ grs_class_init (GObjectClass *klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__INT,
 		G_TYPE_NONE, 1, G_TYPE_INT);
+
+	gors_class->css_canvas = gtk_css_provider_new ();
+	gtk_css_provider_load_from_data
+		(gors_class->css_canvas,
+		 "GORotationSel GocCanvas {\n"
+		 "  background-image: none;\n"
+		 "  background-color: white;\n"
+		 "}\n",
+		 -1, NULL);
 }
 
 GSF_CLASS (GORotationSel, go_rotation_sel,
