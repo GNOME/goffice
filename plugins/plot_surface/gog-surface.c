@@ -124,7 +124,6 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogSurfacePlot *plot = GOG_SURFACE_PLOT (view->model);
 	GogSeries const *series;
 	GogChartMap3D *chart_map;
-	GogChart *chart = GOG_CHART (view->model->parent);
 	GogViewAllocation const *area;
 	int i, imax, j, jmax, nbvalid;
 	double x, y, z, x0, y0, x1, y1;
