@@ -648,7 +648,7 @@ gog_pie_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries
 	GogPieSeries const *pseries = NULL;
 	double r_tot, r_cur, r_int, r_ext, cx, cy, r, th, th0, theta, scale, *vals;
 	double separated_cx, separated_cy;
-	unsigned int index, elem, k;
+	unsigned int index, k;
 	double center_radius;
 	double center_size = 0.0;
 	unsigned num_series = 0;
@@ -791,7 +791,6 @@ gog_pie_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries
 	if (r < center_radius)
 		return -1;
 
-	elem = model->base.index_num;
 	index = 1;
 	th0 = (model->initial_angle + pseries->initial_angle) * M_PI / 180. - M_PI / 2.;
 	th = atan2 (y - cy, x - cx);
@@ -888,7 +887,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogPieSeries const *series = NULL;
 	double separated_cx, separated_cy, cx, cy, r, theta, len, *vals, scale;
 	double default_sep;
-	unsigned elem, k;
+	unsigned k;
 	GOPath *path;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GOStyle *style, *white_style = NULL, *elt_style = NULL;
@@ -1038,7 +1037,6 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	center_radius = r_tot * center_size;
 	r = r_tot * (1. - center_size);
 
-	elem = model->base.index_num;
 	index = 1;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;

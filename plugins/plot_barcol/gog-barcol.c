@@ -398,7 +398,7 @@ gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSer
 	GogViewAllocation const *area;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
-	gboolean is_vertical = ! (model->horizontal), valid;
+	gboolean is_vertical = ! (model->horizontal);
 	double **vals, sum, neg_base, pos_base, tmp;
 	double col_step, group_step, offset, data_scale;
 	unsigned i, j, jinit, jend, jstep;
@@ -476,17 +476,17 @@ gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSer
 		pos_base = neg_base = 0.0;
 		for (j = jinit; j != jend; j += jstep) {
 			double x0, y0, x1, y1;
+			gboolean valid;
+
 			work.y = (double) j * col_step + (double) i - offset + 1.0;
 
 			if (i >= lengths[j])
 				continue;
 
 			tmp = vals[j][i];
-			valid = TRUE;
-			if (!gog_axis_map_finite (map, tmp)) {
+			valid = gog_axis_map_finite (map, tmp);
+			if (!valid)
 				tmp = 0;
-				valid = FALSE;
-			}
 			tmp *= data_scale;
 			if (tmp >= 0.) {
 				work.x = pos_base;
@@ -524,12 +524,12 @@ gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSer
 				y1 = gog_axis_map_to_view (y_map, work.y + work.h);
 			}
 			if (x0 > x1) {
-				tmp = x0;
+				double tmp = x0;
 				x0 = x1;
 				x1 = tmp;
 			}
 			if (y0 > y1) {
-				tmp = y0;
+				double tmp = y0;
 				y0 = y1;
 				y1 = tmp;
 			}

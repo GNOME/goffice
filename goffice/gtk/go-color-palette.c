@@ -364,7 +364,6 @@ go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 			     gint col, gint row)
 {
 	GtkWidget *button, *swatch, *box;
-	GdkRGBA   gdk;
 
 	swatch = gtk_drawing_area_new ();
 	g_signal_connect (G_OBJECT (swatch), "draw", G_CALLBACK (draw_color_cb),

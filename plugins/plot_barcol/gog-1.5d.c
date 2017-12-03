@@ -552,6 +552,9 @@ gog_series1_5d_update (GogObject *obj)
 			len = tmp;
 	}
 
+	// Why did we want these?
+	(void)vals;
+
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->plot));
 	if (old_num != series->num_elements)

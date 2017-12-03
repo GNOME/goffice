@@ -1051,8 +1051,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double zmax, rmax = 0., x_left, y_bottom, x_right, y_top;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 	double xerrmin, xerrmax, yerrmin, yerrmax;
-	double x_baseline, y_baseline;
-	gboolean show_marks, show_lines, show_fill, show_negatives, in_3d, size_as_area = TRUE;
+	gboolean show_marks, show_lines, show_fill, show_negatives, size_as_area = TRUE;
 	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model), hide_outliers = TRUE;
 	GogObjectRole const *lbl_role = NULL;
 	GogAxisColorMap const *color_map = NULL;
@@ -1099,9 +1098,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_axis_map_get_extents (y_map, &y_bottom, &y_top);
 	y_bottom = gog_axis_map_to_view (y_map, y_bottom);
 	y_top = gog_axis_map_to_view (y_map, y_top);
-
-	x_baseline = gog_axis_map_get_baseline (x_map);
-	y_baseline = gog_axis_map_get_baseline (y_map);
 
 	gog_renderer_push_clip_rectangle (view->renderer, view->allocation.x, view->allocation.y,
 					  view->allocation.w, view->allocation.h);
@@ -1289,7 +1285,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			rmax = MIN (view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO
 						* GOG_BUBBLE_PLOT (view->model)->bubble_scale;
 			size_as_area = GOG_BUBBLE_PLOT (view->model)->size_as_area;
-			in_3d = GOG_BUBBLE_PLOT (view->model)->in_3d;
+			// in_3d = GOG_BUBBLE_PLOT (view->model)->in_3d;
 			if (show_negatives) {
 				zmin = fabs (zmin);
 				if (zmin > zmax) zmax = zmin;

@@ -805,7 +805,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation const *area;
 	GOPath *next_path = NULL;
 	GSList   *ptr;
-	double th0, theta_min, theta_max, theta = 0;
+	double theta_min, theta_max, theta = 0;
 	double rho_min, rho_max, rho;
 	gboolean const is_polar = GOG_IS_PLOT_POLAR (model);
 	gboolean is_map = GOG_IS_PLOT_COLOR_POLAR (model), hide_outliers = TRUE;
@@ -834,7 +834,6 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 
 	gog_axis_map_get_bounds (c_map, &theta_min, &theta_max);
-	th0 = theta_min;
 	gog_axis_map_get_bounds (r_map, &rho_min, &rho_max);
 	/* convert theta value to radians */
 	theta_min = gog_axis_map_to_view (c_map, theta_min);
@@ -910,15 +909,12 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 
 						next_series = ptr->next->data;
 						if (gog_series_is_valid (GOG_SERIES (next_series))) {
-							GOStyle *next_style;
 							const double *next_x_vals, *next_y_vals;
 							unsigned int next_n_points;
 
 							next_n_points = gog_series_get_xy_data
 								(GOG_SERIES (next_series),
 								 &next_x_vals, &next_y_vals);
-							next_style = go_styled_object_get_style
-								(GO_STYLED_OBJECT (next_series));
 
 							next_path = gog_chart_map_make_path
 								(chart_map, next_x_vals, next_y_vals,
@@ -1195,11 +1191,10 @@ gog_rt_series_update (GogObject *obj)
 {
 	GogRTSeries *series = GOG_RT_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
-	double *vals;
 	unsigned len = 0;
 
 	if (series->base.values[1].data != NULL) {
-		vals = go_data_get_values (series->base.values[1].data);
+		//vals = go_data_get_values (series->base.values[1].data);
 		len = go_data_get_vector_size (series->base.values[1].data);
 	}
 	if (GOG_IS_POLAR_SERIES (obj) && series->base.values[0].data != NULL)

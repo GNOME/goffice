@@ -256,7 +256,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	double *start_vals, *end_vals;
 	double x, xmapped;
 	double step, offset, group_step;
-	unsigned i, j, k;
+	unsigned i, j;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
@@ -327,7 +327,6 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 			go_path_set_options (path2[j], GO_PATH_OPTIONS_SHARP);
 		} else
 			path1[j] = NULL;
-		k = 0;
 		for (i = 0; i < n; i++) {
 			x++;
 			work.x = x;

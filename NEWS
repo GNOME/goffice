@@ -2,6 +2,7 @@ goffice 0.10.38:
 
 Morten:
 	* Avoid a few dubious uses of deprecated gtk+ functions.
+	* Reduce number of compiler warnings.
 
 --------------------------------------------------------------------------
 goffice 0.10.37:
