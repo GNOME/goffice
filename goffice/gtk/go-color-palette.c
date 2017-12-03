@@ -242,6 +242,10 @@ go_color_palette_class_init (GObjectClass *gobject_class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
+
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name ((GtkWidgetClass *)gobject_class, "colorpalette");
+#endif
 }
 
 static void
@@ -371,6 +375,8 @@ go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 	g_object_set_data (G_OBJECT (swatch), "color",
 			   GUINT_TO_POINTER (color_name->color));
 	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
+	gtk_widget_set_halign (swatch, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (swatch, GTK_ALIGN_CENTER);
 
 	/* Wrap inside a vbox with a border so that we can see the focus indicator */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
