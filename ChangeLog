@@ -2,6 +2,7 @@
 
 	* goffice/gtk/go-rotation-sel.c (cb_rotate_canvas_realize): Use
 	css for styling.
+	* goffice/gtk/go-3d-rotation-sel.c (cb_rotate_canvas_realize): Ditto.
 
 2017-12-01  Morten Welinder <terra@gnome.org>
 

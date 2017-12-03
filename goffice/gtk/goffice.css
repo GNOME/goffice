@@ -9,5 +9,10 @@
 
 GORotationSel GocCanvas {
   background-image: none;
-  background-color: blue;
+  background-color: white;
+}
+
+GO3DRotationSel GocCanvas {
+  background-image: none;
+  background-color: white;
 }

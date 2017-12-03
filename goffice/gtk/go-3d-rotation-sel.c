@@ -192,10 +192,6 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 	int i;
 	GOStyle *go_style;
 	double mgn = g3d->margin - 2 + g3d->radius;
-	GdkRGBA color = {1., 1., 1., 1.};
-
-	gtk_widget_override_background_color (GTK_WIDGET (canvas),
-	                                      GTK_STATE_FLAG_NORMAL, &color);
 
 	for (i = 0; i < 6; ++i) {
 		g3d->cube_polygons[i] = goc_item_new (group,
@@ -366,6 +362,9 @@ g3d_init (GO3DRotationSel *g3d)
 			  NULL);
 	w = go_gtk_builder_get_widget (g3d->gui, "toplevel");
 	gtk_box_pack_start (GTK_BOX (g3d), w, TRUE, TRUE, 0);
+
+	_go_gtk_widget_add_css_provider (GTK_WIDGET (g3d->rotate_canvas));
+
 	gtk_widget_show_all (GTK_WIDGET (g3d));
 }
 
