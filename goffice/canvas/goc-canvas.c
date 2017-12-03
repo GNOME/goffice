@@ -327,6 +327,9 @@ goc_canvas_class_init (GObjectClass *klass)
 	klass->dispose = goc_canvas_dispose;
 
 #ifdef GOFFICE_WITH_GTK
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name (widget_klass, "canvas");
+#endif
 	widget_klass->draw = goc_canvas_draw;
 	widget_klass->realize = goc_canvas_realize;
 	widget_klass->unrealize = goc_canvas_unrealize;

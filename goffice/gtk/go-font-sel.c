@@ -1168,7 +1168,7 @@ gfs_set_property (GObject         *object,
 static void
 gfs_class_init (GObjectClass *klass)
 {
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+	GtkWidgetClass *widget_klass = GTK_WIDGET_CLASS (klass);
 
 	klass->constructor = gfs_constructor;
 	klass->finalize = gfs_finalize;
@@ -1176,7 +1176,7 @@ gfs_class_init (GObjectClass *klass)
 	klass->get_property = gfs_get_property;
 	klass->set_property = gfs_set_property;
 
-	widget_class->screen_changed = gfs_screen_changed;
+	widget_klass->screen_changed = gfs_screen_changed;
 
 	gfs_parent_class = g_type_class_peek_parent (klass);
 
@@ -1285,6 +1285,10 @@ gfs_class_init (GObjectClass *klass)
 			NULL, NULL,
 			g_cclosure_marshal_VOID__POINTER,
 			G_TYPE_NONE, 1, G_TYPE_POINTER);
+
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name (widget_klass, "fontselector");
+#endif
 }
 
 static void

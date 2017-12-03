@@ -210,6 +210,10 @@ go_arrow_sel_class_init (GObjectClass *klass)
 				     _("The currently selected arrow"),
 				     GO_ARROW_TYPE,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name ((GtkWidgetClass *)klass, "arrowselector");
+#endif
 }
 
 GSF_CLASS (GOArrowSel, go_arrow_sel,

@@ -650,6 +650,10 @@ ls_class_init (GtkWidgetClass *widget_klass)
 
 	setlocale (LC_ALL, oldlocale);
 	g_free (oldlocale);
+
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name (widget_klass, "localeselector");
+#endif
 }
 
 GSF_CLASS (GOLocaleSel, go_locale_sel,

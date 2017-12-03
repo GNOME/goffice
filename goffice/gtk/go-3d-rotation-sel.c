@@ -384,8 +384,7 @@ g3d_finalize (GObject *obj)
 static void
 g3d_class_init (GObjectClass *klass)
 {
-	GObjectClass *gobj_class = (GObjectClass *) klass;
-	gobj_class->finalize = g3d_finalize;
+	klass->finalize = g3d_finalize;
 
 	g3d_parent_class = g_type_class_peek (gtk_box_get_type ());
 	g3d_signals [MATRIX_CHANGED] = g_signal_new ("matrix-changed",
@@ -418,6 +417,10 @@ g3d_class_init (GObjectClass *klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__INT,
 		G_TYPE_NONE, 1, G_TYPE_INT);
+
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name ((GtkWidgetClass *)klass, "rotation3dselector");
+#endif
 }
 
 GSF_CLASS (GO3DRotationSel, go_3d_rotation_sel,

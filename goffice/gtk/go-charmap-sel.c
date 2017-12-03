@@ -555,6 +555,10 @@ cs_class_init (GtkWidgetClass *widget_klass)
 
 		g_free (autoaliases);
 	}
+
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name (widget_klass, "charmapselector");
+#endif
 }
 
 GSF_CLASS (GOCharmapSel, go_charmap_sel,
