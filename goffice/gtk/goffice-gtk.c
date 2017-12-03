@@ -1633,3 +1633,29 @@ go_gtk_widget_render_icon_pixbuf (GtkWidget   *widget,
 
 	return res;
 }
+
+static GtkCssProvider *css_provider;
+
+void
+_go_gtk_widget_add_css_provider (GtkWidget *w)
+{
+	g_return_if_fail (GTK_IS_WIDGET (w));
+
+	if (!css_provider) {
+		const char *data = go_rsm_lookup ("go:gtk/goffice.css", NULL);
+		css_provider = gtk_css_provider_new ();
+		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
+	}
+
+	// NOTE: This applies to *just* this widget.
+	gtk_style_context_add_provider
+		(gtk_widget_get_style_context (w),
+		 GTK_STYLE_PROVIDER (css_provider),
+		 GTK_STYLE_PROVIDER_PRIORITY_FALLBACK);
+}
+
+void
+_go_gtk_shutdown (void)
+{
+	g_clear_object (&css_provider);
+}

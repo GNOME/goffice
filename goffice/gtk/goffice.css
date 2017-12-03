@@ -1,0 +1,13 @@
+/*
+ * css bindings for goffice.
+ *
+ * These are loaded with "fallback" priority, i.e., everything else will
+ * override them.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+GORotationSel GocCanvas {
+  background-image: none;
+  background-color: blue;
+}

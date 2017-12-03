@@ -264,6 +264,7 @@ libgoffice_shutdown (void)
 	_go_fonts_shutdown ();
 	_go_conf_shutdown ();
 #ifdef GOFFICE_WITH_GTK
+	_go_gtk_shutdown ();
 	_goc_plugin_services_shutdown ();
 #endif
 	_gog_plugin_services_shutdown ();

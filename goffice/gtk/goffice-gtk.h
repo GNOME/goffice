@@ -56,6 +56,11 @@
 
 G_BEGIN_DECLS
 
+void       _go_gtk_shutdown (void);
+
+// Add goffice-specific css provider
+void       _go_gtk_widget_add_css_provider (GtkWidget *w);
+
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
 GtkBuilder *go_gtk_builder_load_internal (char const *uifile,
