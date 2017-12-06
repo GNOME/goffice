@@ -1,3 +1,8 @@
+2017-12-05  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (_go_gtk_widget_add_css_provider):
+	Install the css provider screen-wide.
+
 2017-12-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-rotation-sel.c (cb_rotate_canvas_realize): Use

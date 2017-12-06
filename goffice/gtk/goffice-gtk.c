@@ -1635,6 +1635,21 @@ go_gtk_widget_render_icon_pixbuf (GtkWidget   *widget,
 }
 
 static GtkCssProvider *css_provider;
+static GSList *css_provider_screens;
+
+static void
+cb_screen_changed (GtkWidget *widget)
+{
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+
+	if (!screen || g_slist_find (css_provider_screens, screen))
+		return;
+
+	css_provider_screens = g_slist_prepend (css_provider_screens, screen);
+	gtk_style_context_add_provider_for_screen (screen, css_provider,
+						   GTK_STYLE_PROVIDER_PRIORITY_FALLBACK);
+}
+
 
 void
 _go_gtk_widget_add_css_provider (GtkWidget *w)
@@ -1647,15 +1662,15 @@ _go_gtk_widget_add_css_provider (GtkWidget *w)
 		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
 	}
 
-	// NOTE: This applies to *just* this widget.
-	gtk_style_context_add_provider
-		(gtk_widget_get_style_context (w),
-		 GTK_STYLE_PROVIDER (css_provider),
-		 GTK_STYLE_PROVIDER_PRIORITY_FALLBACK);
+	g_signal_connect (w, "screen-changed",
+			  G_CALLBACK (cb_screen_changed), NULL);
+	cb_screen_changed (w);
 }
 
 void
 _go_gtk_shutdown (void)
 {
 	g_clear_object (&css_provider);
+	g_slist_free (css_provider_screens);
+	css_provider_screens = NULL;
 }

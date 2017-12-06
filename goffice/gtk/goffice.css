@@ -6,6 +6,7 @@
  */
 
 /* ------------------------------------------------------------------------- */
+/* Gtk 3.19 and earlier: */
 
 GORotationSel GocCanvas {
   background-image: none;
@@ -13,6 +14,19 @@ GORotationSel GocCanvas {
 }
 
 GO3DRotationSel GocCanvas {
+  background-image: none;
+  background-color: white;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Gtk 3.20 and later: */
+
+rotationselector canvas {
+  background-image: none;
+  background-color: white;
+}
+
+rotation3dselector canvas {
   background-image: none;
   background-color: white;
 }
