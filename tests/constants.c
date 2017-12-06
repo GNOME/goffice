@@ -158,6 +158,9 @@ qmlogabs (GOQuad const *qx)
 	return -go_quad_value (&qy);
 }
 
+static double last_direct;
+static double last_inverse;
+static gboolean last_need_nl;
 
 static void
 examine_constant (const char *descr, GOQuad const *qc)
@@ -170,7 +173,7 @@ examine_constant (const char *descr, GOQuad const *qc)
 	g_printerr ("Examining constant %s\n", descr);
 	g_printerr ("\n");
 
-	dc = go_quad_value (qc);
+	last_direct = dc = go_quad_value (qc);
 	g_printerr ("Value: ");
 	print_decimal (qc);
 	g_printerr ("\n");
@@ -190,7 +193,7 @@ examine_constant (const char *descr, GOQuad const *qc)
 	// For the inverse we assume that using double-double is good enough to
 	// answer our question.
 	go_quad_div (&qic, &go_quad_one, qc);
-	dic = go_quad_value (&qic);
+	last_inverse = dic = go_quad_value (&qic);
 	g_printerr ("Inverse value: ");
 	print_decimal (&qic);
 	g_printerr ("\n");
@@ -213,6 +216,17 @@ examine_constant (const char *descr, GOQuad const *qc)
 
 	g_printerr ("Conclusion: for %s, use %s\n", descr,
 		    (dig_direct >= dig_inverse ? "direct" : "inverse"));
+	last_need_nl = TRUE;
+}
+
+static void
+check_computable (const char *fmla, double x, gboolean direct)
+{
+	gboolean ok = (x == (direct ? last_direct : last_inverse));
+
+	g_printerr ("%sComputing %s as double yields the right value?  %s\n",
+		    (last_need_nl ? "\n" : ""), fmla, (ok ? "yes" : "no"));
+	last_need_nl = FALSE;
 }
 
 int
@@ -245,16 +259,24 @@ main (int argc, char **argv)
 	go_quad_init (&qc, 5);
 	go_quad_sqrt (&qc, &qc);
 	examine_constant ("sqrt(5)", &qc);
+
 	go_quad_sqrt (&qc, &go_quad_pi);
 	examine_constant ("sqrt(pi)", &qc);
+	check_computable ("sqrt(pi)", sqrt (M_PI), TRUE);
+	check_computable ("1/sqrt(pi)", 1 / sqrt (M_PI), FALSE);
+	check_computable ("sqrt(1/pi)", sqrt (1 / M_PI), FALSE);
+
 	go_quad_sqrt (&qc, &go_quad_2pi);
 	examine_constant ("sqrt(2pi)", &qc);
+	check_computable ("sqrt(2pi)", sqrt (2 * M_PI), TRUE);
+	check_computable ("sqrt(2)*sqrt(pi)", sqrt (2) * sqrt (M_PI), TRUE);
+	check_computable ("1/sqrt(2pi)", 1 / sqrt (2 * M_PI), FALSE);
 
 	go_quad_init (&qc, 180);
 	go_quad_div (&qc, &qc, &go_quad_pi);
 	examine_constant ("180/pi", &qc);
-	g_printerr ("180/pi computed as double: %.55g\n", 180 / M_PI);
-	g_printerr ("pi/180 computed as double: %.55g\n", M_PI / 180);
+	check_computable ("180/pi", 180 / M_PI, TRUE);
+	check_computable ("pi/180", M_PI / 180, FALSE);
 
 	go_quad_end (state);
 

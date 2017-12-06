@@ -1,5 +1,8 @@
 2017-12-05  Morten Welinder  <terra@gnome.org>
 
+	* tests/constants.c (main): Improve checking if double math
+	produces the right values for direct and inverse.
+
 	* goffice/gtk/goffice-gtk.c (_go_gtk_widget_add_css_provider):
 	Install the css provider screen-wide.
 
