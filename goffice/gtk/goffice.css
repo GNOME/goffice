@@ -30,3 +30,25 @@ rotation3dselector canvas {
   background-image: none;
   background-color: white;
 }
+
+/* ---------------------------------------- */
+
+colorpalette button box {
+  min-height: 1.5em;
+  min-width: 1.5em;
+
+  border-width: 3px;
+  padding: 0;
+  margin: 3px;
+}
+
+colorpalette button {
+  padding: 0;
+}
+
+colorpalette grid {
+  margin: 0;
+  padding: 0.2em;
+}
+
+/* ---------------------------------------- */

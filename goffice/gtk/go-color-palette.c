@@ -252,6 +252,7 @@ static void
 go_color_palette_init (GObject *obj)
 {
 	g_object_set (obj, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+	_go_gtk_widget_add_css_provider (GTK_WIDGET (obj));
 }
 
 GSF_CLASS (GOColorPalette, go_color_palette,
@@ -374,13 +375,9 @@ go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 	                  NULL);
 	g_object_set_data (G_OBJECT (swatch), "color",
 			   GUINT_TO_POINTER (color_name->color));
-	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
-	gtk_widget_set_halign (swatch, GTK_ALIGN_CENTER);
-	gtk_widget_set_valign (swatch, GTK_ALIGN_CENTER);
 
 	/* Wrap inside a vbox with a border so that we can see the focus indicator */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (box), 2);
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (swatch), TRUE, TRUE, 0);
 
 	button = gtk_button_new ();
@@ -394,6 +391,14 @@ go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 		"signal::button_release_event", G_CALLBACK (cb_swatch_release_event), pal,
 		"signal::key_press_event", G_CALLBACK (cb_swatch_key_press), pal,
 		NULL);
+
+	if (!_go_gtk_new_theming ()) {
+		gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
+		gtk_widget_set_halign (swatch, GTK_ALIGN_FILL);
+		gtk_widget_set_valign (swatch, GTK_ALIGN_FILL);
+		gtk_container_set_border_width (GTK_CONTAINER (box), 2);
+	}
+
 	return swatch;
 }
 

@@ -1646,8 +1646,10 @@ cb_screen_changed (GtkWidget *widget)
 		return;
 
 	css_provider_screens = g_slist_prepend (css_provider_screens, screen);
-	gtk_style_context_add_provider_for_screen (screen, css_provider,
-						   GTK_STYLE_PROVIDER_PRIORITY_FALLBACK);
+	gtk_style_context_add_provider_for_screen
+		(screen,
+		 GTK_STYLE_PROVIDER (css_provider),
+		 GTK_STYLE_PROVIDER_PRIORITY_FALLBACK);
 }
 
 
@@ -1666,6 +1668,22 @@ _go_gtk_widget_add_css_provider (GtkWidget *w)
 			  G_CALLBACK (cb_screen_changed), NULL);
 	cb_screen_changed (w);
 }
+
+gboolean
+_go_gtk_new_theming (void)
+{
+#if GTK_CHECK_VERSION(3,20,0)
+	return TRUE;
+#else
+	static int new_theming = -1;
+	if (new_theming == -1)
+		new_theming = (gtk_get_major_version() > 3 ||
+			       gtk_get_minor_version() >= 20);
+
+	return new_theming;
+#endif
+}
+
 
 void
 _go_gtk_shutdown (void)
