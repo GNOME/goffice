@@ -1,0 +1,12 @@
+/* css bindings for goffice.  This is loaded for gtk+ 3.19 or earlier.  */
+/* ------------------------------------------------------------------------- */
+
+GORotationSel GocCanvas {
+  background-image: none;
+  background-color: white;
+}
+
+GO3DRotationSel GocCanvas {
+  background-image: none;
+  background-color: white;
+}

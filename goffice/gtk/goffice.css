@@ -1,25 +1,5 @@
-/*
- * css bindings for goffice.
- *
- * These are loaded with "fallback" priority, i.e., everything else will
- * override them.
- */
-
+/* css bindings for goffice.  This is loaded for gtk+ 3.20 and later.  */
 /* ------------------------------------------------------------------------- */
-/* Gtk 3.19 and earlier: */
-
-GORotationSel GocCanvas {
-  background-image: none;
-  background-color: white;
-}
-
-GO3DRotationSel GocCanvas {
-  background-image: none;
-  background-color: white;
-}
-
-/* ------------------------------------------------------------------------- */
-/* Gtk 3.20 and later: */
 
 rotationselector canvas {
   background-image: none;

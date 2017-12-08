@@ -1659,7 +1659,9 @@ _go_gtk_widget_add_css_provider (GtkWidget *w)
 	g_return_if_fail (GTK_IS_WIDGET (w));
 
 	if (!css_provider) {
-		const char *data = go_rsm_lookup ("go:gtk/goffice.css", NULL);
+		const char *data = _go_gtk_new_theming ()
+			? go_rsm_lookup ("go:gtk/goffice.css", NULL)
+			: go_rsm_lookup ("go:gtk/goffice-old.css", NULL);
 		css_provider = gtk_css_provider_new ();
 		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
 	}
