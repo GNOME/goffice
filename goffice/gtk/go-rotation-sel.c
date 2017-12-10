@@ -85,6 +85,8 @@ grs_reload_style (GORotationSel *grs)
 #else
 	grs->tick_colour[FALSE] = GO_COLOR_BLACK;
 	grs->tick_colour[TRUE] = GO_COLOR_GREEN;
+	grs->tick_outline_colour[FALSE] = GO_COLOR_BLACK;
+	grs->tick_outline_colour[TRUE] = GO_COLOR_BLACK;
 #endif
 }
 
