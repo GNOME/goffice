@@ -1,3 +1,8 @@
+2017-12-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_style_context_from_selector):
+	Import from Gnumeric (in turn from gtk+).
+
 2017-12-05  Morten Welinder  <terra@gnome.org>
 
 	* tests/constants.c (main): Improve checking if double math

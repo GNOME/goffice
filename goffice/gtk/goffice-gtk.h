@@ -61,6 +61,9 @@ void       _go_gtk_shutdown (void);
 // Add goffice-specific css provider
 void       _go_gtk_widget_add_css_provider (GtkWidget *w);
 
+GtkStyleContext *go_style_context_from_selector (GtkStyleContext *parent,
+						 const char      *selector);
+
 gboolean _go_gtk_new_theming (void);
 
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
