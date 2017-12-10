@@ -36,6 +36,9 @@ struct _GORotationSel {
 	int		 rot_width, rot_height;
 	gulong		 motion_handle;
 	gboolean full;
+
+	GOColor          tick_colour[2];         // [selected]
+	GOColor          tick_outline_colour[2]; // [selected]
 };
 
 typedef struct {
@@ -52,9 +55,43 @@ static guint grs_signals[LAST_SIGNAL] = { 0 };
 static GObjectClass *grs_parent_class;
 
 static void
+grs_reload_style (GORotationSel *grs)
+{
+#if GTK_CHECK_VERSION(3,20,0)
+	int qSel;
+	GtkStyleContext *ctxt_canvas =
+		gtk_widget_get_style_context (GTK_WIDGET (grs->rotate_canvas));
+	static const char * const css_sniplet[2] = {
+		"ticks",
+		"ticks:selected"
+	};
+
+	for (qSel = FALSE; qSel <= TRUE; qSel++) {
+		GtkStyleContext *ctxt = go_style_context_from_selector
+			(ctxt_canvas, css_sniplet[qSel]);
+		GdkRGBA *c, *oc;
+
+		gtk_style_context_get (ctxt,
+				       gtk_style_context_get_state (ctxt),
+				       "color", &c,
+				       "outline-color", &oc,
+				       NULL);
+		grs->tick_colour[qSel] = GO_COLOR_FROM_GDK_RGBA (*c);
+		grs->tick_outline_colour[qSel] = GO_COLOR_FROM_GDK_RGBA (*oc);
+		gdk_rgba_free (c);
+		gdk_rgba_free (oc);
+
+	}
+#else
+	grs->tick_colour[FALSE] = GO_COLOR_BLACK;
+	grs->tick_colour[TRUE] = GO_COLOR_GREEN;
+#endif
+}
+
+
+static void
 cb_rotate_changed (GORotationSel *grs)
 {
-	GOColor colour;
 	int i, maxi = grs->full? 23: 12;
 	double x0 = grs->full? 100.: 15.;
 	int angle;
@@ -63,15 +100,22 @@ cb_rotate_changed (GORotationSel *grs)
 		gtk_spin_button_get_value_as_int (grs->rotate_spinner) % 360);
 	angle = (grs->angle < -90)? grs->angle + 360: grs->angle;
 
-	for (i = 0 ; i <= maxi ; i++)
+	for (i = 0 ; i <= maxi ; i++) {
+		int mark_angle = (i - 6) * 15;
+
 		if (grs->rotate_marks[i] != NULL) {
 			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->rotate_marks[i]));
-			colour = (angle == (i-6)*15) ? GO_COLOR_GREEN : GO_COLOR_BLACK;
-			if (style->fill.pattern.back != colour){
+			gboolean qSelected = (angle == mark_angle);
+			GOColor colour = grs->tick_colour[qSelected];
+			GOColor outline_colour = grs->tick_outline_colour[qSelected];
+			if (style->fill.pattern.back != colour ||
+			    style->line.color != outline_colour) {
+				style->line.color = outline_colour;
 				style->fill.pattern.back = colour;
 				goc_item_invalidate (grs->rotate_marks[i]);
 			}
 		}
+	}
 
 	if (grs->line != NULL) {
 		double c = go_cospi (grs->angle / 180.);
@@ -101,11 +145,12 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 	GOStyle *go_style;
 	double x0 = grs->full? 100.: 15.;
 
-	for (i = 0 ; i <= maxint ; i++) {
-		double rad = (i-6) * M_PI / 12.;
-		double x = x0 + cos (rad) * 80.;
-		double y = 100 - sin (rad) * 80.;
-		double size = (i % 3) ? 3.0 : 4.0;
+	for (i = 0 ; i <= maxint; i++) {
+		int mark_angle = (i - 6) * 15;
+		double x = x0 + go_cospi (mark_angle / 180.0) * 80.;
+		double y = 100 - go_sinpi (mark_angle / 180.0) * 80.;
+		gboolean qMajor = (i % 3 == 0);
+		double size = qMajor ? 4.0 : 3.0;
 		GocItem *item = goc_item_new (group,
 			GOC_TYPE_CIRCLE,
 			"x", x,	"y", y,
@@ -113,8 +158,8 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 			NULL);
 		go_style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 		go_style->line.width = 1.;
-		go_style->line.color = GO_COLOR_BLACK;
-		go_style->fill.pattern.back = GO_COLOR_BLACK;
+		go_style->line.color = grs->tick_outline_colour[FALSE];
+		go_style->fill.pattern.back = grs->tick_colour[FALSE];
 		grs->rotate_marks[i] = item;
 	}
 	grs->line = goc_item_new (group, GOC_TYPE_LINE, NULL);
@@ -235,6 +280,8 @@ grs_init (GORotationSel *grs)
 	gtk_grid_attach (GTK_GRID (grs), w, 0, 0, 1, 1);
 
 	_go_gtk_widget_add_css_provider (GTK_WIDGET (grs->rotate_canvas));
+
+	grs_reload_style (grs);
 
 	gtk_widget_show_all (GTK_WIDGET (grs));
 }

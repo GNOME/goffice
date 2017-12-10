@@ -11,6 +11,15 @@ rotation3dselector canvas {
   background-color: white;
 }
 
+rotationselector canvas ticks {
+  color: black;
+  outline-color: black;
+}
+
+rotationselector canvas ticks:selected {
+  color: #00ff00;
+}
+
 /* ---------------------------------------- */
 
 colorpalette button box {
