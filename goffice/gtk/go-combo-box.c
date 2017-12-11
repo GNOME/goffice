@@ -235,7 +235,7 @@ go_combo_box_popup_hide_unconditional (GOComboBox *combo_box)
 	gdk_device_ungrab (gtk_get_current_event_device (),
 	                   GDK_CURRENT_TIME);
 
-	pdc = g_object_ref (combo_box->priv->popdown_container);
+	pdc = (GObject *)g_object_ref (combo_box->priv->popdown_container);
 	g_signal_emit (combo_box,
 		       go_combo_box_signals [POP_DOWN_DONE], 0,
 		       pdc, &popup_info_destroyed);

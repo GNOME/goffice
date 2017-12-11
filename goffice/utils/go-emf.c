@@ -203,10 +203,11 @@ GSF_CLASS (GOEmf, go_emf,
  * Returns: (transfer full): the canvas displaying the EMF image, adding a
  * reference to it.
  **/
-GObject *go_emf_get_canvas (GOEmf *emf)
+GObject *
+go_emf_get_canvas (GOEmf *emf)
 {
 	g_return_val_if_fail (GO_IS_EMF (emf), NULL);
-	return g_object_ref (emf->canvas);
+	return (GObject *)g_object_ref (emf->canvas);
 }
 
 GOImage *
