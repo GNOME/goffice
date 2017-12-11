@@ -90,13 +90,22 @@ goc_circle_get_property (GObject *gobject, guint param_id,
 }
 
 static double
+goc_circle_outline_extra_radius (GocItem *item)
+{
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+
+	if (style->line.dash_type == GO_LINE_NONE)
+		return 0;
+
+	/* FIXME take transform into account */
+	return style->line.width > 0 ? style->line.width / 2. : .5;
+}
+
+static double
 goc_circle_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocCircle *circle = GOC_CIRCLE (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	double d, extra_dist = 0.;
-	if (style->line.dash_type != GO_LINE_NONE)
-		extra_dist = (style->line.width)? style->line.width / 2.: .5;
+	double d, extra_dist = goc_circle_outline_extra_radius (item);
 	*near_item = item;
 	x -= circle->x;
 	y -= circle->y;
@@ -129,11 +138,7 @@ static void
 goc_circle_update_bounds (GocItem *item)
 {
 	GocCircle *circle = GOC_CIRCLE (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	double r = circle->radius;
-	/* FIXME take transform into account */
-	if (style->line.dash_type != GO_LINE_NONE)
-		r += (style->line.width)? style->line.width / 2.: .5;
+	double r = circle->radius + goc_circle_outline_extra_radius (item);
 	item->x0 = circle->x - r;
 	item->y0 = circle->y - r;
 	item->x1 = circle->x + r;

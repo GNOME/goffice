@@ -33,12 +33,16 @@ struct _GORotationSel {
 	GocItem		*line;
 	GtkWidget       *text_widget;
 	GocItem		*text;
-	int		 rot_width, rot_height;
+	int		 rot_width0, rot_width1;
 	gulong		 motion_handle;
 	gboolean full;
 
-	GOColor          tick_colour[2];         // [selected]
-	GOColor          tick_outline_colour[2]; // [selected]
+	// Styling
+	GOColor          tick_color[2];         // [selected]
+	GOColor          tick_outline_color[2]; // [selected]
+	double           tick_outline_width[2]; // [selected]
+	GOColor          line_color;
+	double           line_width;
 };
 
 typedef struct {
@@ -70,23 +74,45 @@ grs_reload_style (GORotationSel *grs)
 		GtkStyleContext *ctxt = go_style_context_from_selector
 			(ctxt_canvas, css_sniplet[qSel]);
 		GdkRGBA *c, *oc;
+		int ow;
 
 		gtk_style_context_get (ctxt,
 				       gtk_style_context_get_state (ctxt),
 				       "color", &c,
 				       "outline-color", &oc,
+				       "outline-width", &ow,
 				       NULL);
-		grs->tick_colour[qSel] = GO_COLOR_FROM_GDK_RGBA (*c);
-		grs->tick_outline_colour[qSel] = GO_COLOR_FROM_GDK_RGBA (*oc);
+		grs->tick_color[qSel] = GO_COLOR_FROM_GDK_RGBA (*c);
+		grs->tick_outline_color[qSel] = GO_COLOR_FROM_GDK_RGBA (*oc);
+		grs->tick_outline_width[qSel] = ow;
 		gdk_rgba_free (c);
 		gdk_rgba_free (oc);
-
+		g_object_unref (ctxt);
+	}
+	{
+		GtkStyleContext *ctxt = go_style_context_from_selector
+			(ctxt_canvas, "line");
+		GdkRGBA *c;
+		int ow;
+		gtk_style_context_get (ctxt,
+				       gtk_style_context_get_state (ctxt),
+				       "color", &c,
+				       "outline-width", &ow,
+				       NULL);
+		grs->line_color = GO_COLOR_FROM_GDK_RGBA (*c);
+		grs->line_width = ow;
+		gdk_rgba_free (c);
+		g_object_unref (ctxt);
 	}
 #else
-	grs->tick_colour[FALSE] = GO_COLOR_BLACK;
-	grs->tick_colour[TRUE] = GO_COLOR_GREEN;
-	grs->tick_outline_colour[FALSE] = GO_COLOR_BLACK;
-	grs->tick_outline_colour[TRUE] = GO_COLOR_BLACK;
+	grs->tick_color[FALSE] = GO_COLOR_BLACK;
+	grs->tick_color[TRUE] = GO_COLOR_GREEN;
+	grs->tick_outline_color[FALSE] = GO_COLOR_BLACK;
+	grs->tick_outline_color[TRUE] = GO_COLOR_BLACK;
+	grs->tick_outline_width[FALSE] = 1;
+	grs->tick_outline_width[TRUE] = 1;
+	grs->line_color = GO_COLOR_BLACK;
+	grs->line_width = 2;
 #endif
 }
 
@@ -106,15 +132,19 @@ cb_rotate_changed (GORotationSel *grs)
 		int mark_angle = (i - 6) * 15;
 
 		if (grs->rotate_marks[i] != NULL) {
-			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->rotate_marks[i]));
+			GOStyledObject *so = GO_STYLED_OBJECT (grs->rotate_marks[i]);
+			GOStyle *style = go_styled_object_get_style (so);
 			gboolean qSelected = (angle == mark_angle);
-			GOColor colour = grs->tick_colour[qSelected];
-			GOColor outline_colour = grs->tick_outline_colour[qSelected];
-			if (style->fill.pattern.back != colour ||
-			    style->line.color != outline_colour) {
-				style->line.color = outline_colour;
-				style->fill.pattern.back = colour;
-				goc_item_invalidate (grs->rotate_marks[i]);
+			GOColor color = grs->tick_color[qSelected];
+			GOColor outline_color = grs->tick_outline_color[qSelected];
+			int outline_width = grs->tick_outline_width[qSelected];
+			if (style->fill.pattern.back != color ||
+			    style->line.color != outline_color ||
+			    style->line.width != outline_width) {
+				style->line.color = outline_color;
+				style->line.width = outline_width;
+				style->fill.pattern.back = color;
+				go_styled_object_style_changed (so);
 			}
 		}
 	}
@@ -123,10 +153,10 @@ cb_rotate_changed (GORotationSel *grs)
 		double c = go_cospi (grs->angle / 180.);
 		double s = go_sinpi (grs->angle / 180.);
 		goc_item_set (grs->line,
-		              "x0",  x0 + c * grs->rot_width,
-		              "y0", 100 - s * grs->rot_width,
-		              "x1",  x0 + c * 72.,
-		              "y1", 100 - s * 72.,
+		              "x0",  x0 + c * grs->rot_width0,
+		              "y0", 100 - s * grs->rot_width0,
+		              "x1",  x0 + c * grs->rot_width1,
+		              "y1", 100 - s * grs->rot_width1,
 		              NULL);
 	}
 
@@ -159,15 +189,15 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 			"radius", size,
 			NULL);
 		go_style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-		go_style->line.width = 1.;
-		go_style->line.color = grs->tick_outline_colour[FALSE];
-		go_style->fill.pattern.back = grs->tick_colour[FALSE];
+		go_style->line.width = grs->tick_outline_width[FALSE];
+		go_style->line.color = grs->tick_outline_color[FALSE];
+		go_style->fill.pattern.back = grs->tick_color[FALSE];
 		grs->rotate_marks[i] = item;
 	}
 	grs->line = goc_item_new (group, GOC_TYPE_LINE, NULL);
 	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->line));
-	go_style->line.width = 2.;
-	go_style->line.color = GO_COLOR_BLACK;
+	go_style->line.width = grs->line_width;
+	go_style->line.color = grs->line_color;
 
 	{
 		double x, y, w, h;
@@ -190,9 +220,11 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 		goc_item_get_bounds (grs->text, &x, &y, &w, &h);
 		pango_attr_list_unref (attrs);
 
-		grs->rot_width  = w - x;
-		grs->rot_height = h - y;
+		grs->rot_width0  = w - x;
 	}
+
+	grs->rot_width1 = 73 - MAX (grs->tick_outline_width[FALSE],
+				    grs->tick_outline_width[TRUE]);
 
 	cb_rotate_changed (grs);
 }

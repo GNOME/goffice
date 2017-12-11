@@ -6,18 +6,26 @@ rotationselector canvas {
   background-color: white;
 }
 
-rotation3dselector canvas {
-  background-image: none;
-  background-color: white;
-}
-
-rotationselector canvas ticks {
+rotationselector ticks {
   color: black;
   outline-color: black;
 }
 
-rotationselector canvas ticks:selected {
+rotationselector ticks:selected {
   color: #00ff00;
+  outline-width: 1px;
+}
+
+rotationselector line {
+  color: black;
+  outline-width: 2px;
+}
+
+/* ---------------------------------------- */
+
+rotation3dselector canvas {
+  background-image: none;
+  background-color: white;
 }
 
 /* ---------------------------------------- */
