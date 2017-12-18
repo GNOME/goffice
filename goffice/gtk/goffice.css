@@ -11,6 +11,14 @@ rotationselector ticks {
   outline-color: black;
 }
 
+rotationselector ticks.minor {
+    min-width: 6px;
+}
+
+rotationselector ticks.major {
+    min-width: 8px;
+}
+
 rotationselector ticks:selected {
   color: #00ff00;
   outline-width: 1px;
