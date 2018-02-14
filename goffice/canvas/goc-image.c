@@ -214,25 +214,31 @@ static void
 goc_image_draw (GocItem const *item, cairo_t *cr)
 {
 	GocImage *image = GOC_IMAGE (item);
-	double height, width;
+	double height, width, iw, ih;
 	double scalex = 1., scaley = 1.;
 	int x;
 
 	if (image->image == NULL || image->width == 0. || image->height == 0.)
 		return;
 
+	iw = go_image_get_width (image->image);
+	ih = go_image_get_height (image->image);
+	if (iw == 0. || ih == 0.)
+	    return;
+
 	if (image->width < 0.)
-		width = go_image_get_width (image->image) * (1 - image->crop_left -image->crop_right);
+		width = iw * (1 - image->crop_left -image->crop_right);
 	else {
 		width = image->width;
-		scalex = width / go_image_get_width (image->image) / (1 - image->crop_left -image->crop_right);
+		scalex = width / iw / (1 - image->crop_left -image->crop_right);
 	}
 	if (image->height < 0.)
-		height = go_image_get_height (image->image) * (1 - image->crop_top -image->crop_bottom);
+		height = ih * (1 - image->crop_top -image->crop_bottom);
 	else {
 		height = image->height;
-		scaley = height / go_image_get_height (image->image) / (1 - image->crop_top -image->crop_bottom);
+		scaley = height / ih / (1 - image->crop_top -image->crop_bottom);
 	}
+
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
 	x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?

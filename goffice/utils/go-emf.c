@@ -3818,8 +3818,12 @@ go_emf_lineto (GOEmfState *state)
 {
 	double x, y;
 	d_(("lineto\n"));
-	if (state->curDC->path == NULL)
-		return FALSE;
+	if (state->curDC->path == NULL) {
+		state->curDC->path = go_path_new ();
+		go_path_move_to (state->curDC->path,
+		                 state->curDC->xpos,
+		                 state->curDC->ypos);
+	}
 	go_wmf_read_pointl (state->data, &x, &y);
 	go_emf_convert_coords (state, &x, &y);
 	go_path_line_to (state->curDC->path, x, y);
