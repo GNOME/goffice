@@ -1,3 +1,8 @@
+2018-03-06  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-math.c (do_sinpil): Improve accuracy of
+	fallback.
+
 2018-02-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-image.c (goc_image_draw): don't try to display an image

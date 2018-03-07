@@ -1126,7 +1126,7 @@ do_sinpil (long double x, int k)
 	else if (x == 0.25)
 		y = 0.707106781186547524400844362104849039284835937688474036588339L;
 	else
-		y = (k & 1) ? cos (M_PIgo * x) : sin (M_PIgo * x);
+		y = (k & 1) ? cosl (M_PIgo * x) : sinl (M_PIgo * x);
 
 	return (k & 2) ? 0 - y : y;
 }
