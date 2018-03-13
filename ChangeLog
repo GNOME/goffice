@@ -1,3 +1,7 @@
+2018-03-13  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.39
+
 2018-03-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (do_sinpil): Improve accuracy of
