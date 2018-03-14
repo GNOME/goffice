@@ -5,9 +5,12 @@
 do {									\
 	double a, p;							\
 	GOQuad qa, qc;							\
+	void *state;							\
 	a = (a_);							\
+	state = go_quad_start ();					\
 	go_quad_init (&qa, a);						\
 	QOP (&qc, &qa);							\
+	go_quad_end (state);						\
 	p = OP (a);							\
 	g_printerr ("%s(%g) = %g  [%g]\n",				\
 		    txt, a, go_quad_value (&qc), p);			\
@@ -21,11 +24,14 @@ do {									\
 do {									\
 	double a, b, p;							\
 	GOQuad qa, qb, qc;						\
+	void *state;							\
 	a = (a_);							\
 	b = (b_);							\
+	state = go_quad_start ();					\
 	go_quad_init (&qa, a);						\
 	go_quad_init (&qb, b);						\
 	QOP (&qc, &qa, &qb);						\
+	go_quad_end (state);						\
 	p = OP (a, b);							\
 	g_printerr ("%s(%g,%g) = %g  [%g]\n",				\
 		    txt, a, b, go_quad_value (&qc), p);			\
@@ -200,6 +206,7 @@ static void
 floor_tests (void)
 {
 	GOQuad a, b, r;
+	void *state;
 
 	TEST1 (0);
 	TEST1 (1);
@@ -207,76 +214,96 @@ floor_tests (void)
 	TEST1 (1.0/3);
 	TEST1 (-1.0/3);
 
+	state = go_quad_start ();
 	go_quad_floor (&a, &go_quad_sqrt2);
+	go_quad_end (state);
 	g_printerr ("floor(sqrt(2))=%g\n", go_quad_value (&a));
 	g_assert (go_quad_value (&a) == 1);
 
+	state = go_quad_start ();
 	go_quad_init (&a, 11);
 	go_quad_init (&b, ldexp (1, -80));
 	go_quad_sub (&a, &a, &b);
 	go_quad_floor (&r, &a);
+	go_quad_end (state);
 	g_printerr ("floor(11-2^-80)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&r) == 10);
 
+	state = go_quad_start ();
 	go_quad_init (&a, 11);
 	go_quad_init (&b, ldexp (1, -80));
 	go_quad_add (&a, &a, &b);
 	go_quad_floor (&r, &a);
+	go_quad_end (state);
 	g_printerr ("floor(11+2^-80)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&r) == 11);
 
+	state = go_quad_start ();
 	go_quad_init (&a, -11);
 	go_quad_init (&b, ldexp (1, -80));
 	go_quad_sub (&a, &a, &b);
 	go_quad_floor (&r, &a);
+	go_quad_end (state);
 	g_printerr ("floor(-11-2^-80)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&r) == -12);
 
+	state = go_quad_start ();
 	go_quad_init (&a, -11);
 	go_quad_init (&b, ldexp (1, -80));
 	go_quad_add (&a, &a, &b);
 	go_quad_floor (&r, &a);
+	go_quad_end (state);
 	g_printerr ("floor(-11+2^-80)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&r) == -11);
 
+	state = go_quad_start ();
 	go_quad_init (&a, ldexp (11, 80));
 	go_quad_init (&b, 1);
 	go_quad_sub (&a, &a, &b);
 	go_quad_floor (&r, &a);
-	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	go_quad_sub (&b, &a, &r);
+	go_quad_end (state);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&b) == 0);
 
+	state = go_quad_start ();
 	go_quad_init (&a, ldexp (11, 80));
 	go_quad_init (&b, 0.5);
 	go_quad_sub (&a, &a, &b);
 	go_quad_floor (&r, &a);
-	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	go_quad_sub (&b, &a, &r);
+	go_quad_end (state);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&b) == 0.5);
 
+	state = go_quad_start ();
 	go_quad_init (&a, ldexp (11, 80));
 	go_quad_init (&b, 0.5);
 	go_quad_add (&a, &a, &b);
 	go_quad_floor (&r, &a);
-	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	go_quad_sub (&b, &a, &r);
+	go_quad_end (state);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&b) == 0.5);
 
+	state = go_quad_start ();
 	go_quad_init (&a, ldexp (11, 80));
 	go_quad_init (&b, -0.5);
 	go_quad_sub (&a, &a, &b);
 	go_quad_floor (&r, &a);
-	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	go_quad_sub (&b, &a, &r);
+	go_quad_end (state);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&b) == 0.5);
 
+	state = go_quad_start ();
 	go_quad_init (&a, ldexp (11, 80));
 	go_quad_init (&b, -0.5);
 	go_quad_add (&a, &a, &b);
 	go_quad_floor (&r, &a);
-	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	go_quad_sub (&b, &a, &r);
+	go_quad_end (state);
+	g_printerr ("floor(11*2^-80-1)=%g\n", go_quad_value (&r));
 	g_assert (go_quad_value (&b) == 0.5);
 }
 
@@ -324,31 +351,20 @@ trig_tests (void)
 static void
 const_tests (void)
 {
-	GOQuad a;
-
 	g_assert (fabs (go_quad_value (&go_quad_pi) - M_PI) < 1e-14);
 	g_assert (fabs (go_quad_value (&go_quad_2pi) - 2 * M_PI) < 1e-14);
 	g_assert (fabs (go_quad_value (&go_quad_e) - exp(1)) < 1e-14);
 	g_assert (fabs (go_quad_value (&go_quad_ln2) - log(2)) < 1e-14);
+	g_assert (fabs (go_quad_value (&go_quad_sqrt2) - sqrt(2)) < 1e-14);
 	g_assert (go_quad_value (&go_quad_zero) == 0);
 	g_assert (go_quad_value (&go_quad_one) == 1);
-
-	go_quad_mul (&a, &go_quad_sqrt2, &go_quad_sqrt2);
-	go_quad_sub (&a, &a, &go_quad_one);
-	go_quad_sub (&a, &a, &go_quad_one);
-	g_assert (go_quad_value (&a) < ldexp (1.0, -100));
 }
 
-
-/* ------------------------------------------------------------------------- */
-
-int
-main (int argc, char **argv)
+static void
+init_tests (void)
 {
-	void *state;
 	GOQuad a, b, c;
-
-	state = go_quad_start ();
+	void *state = go_quad_start ();
 
 	go_quad_init (&a, 42.125);
 	g_assert (go_quad_value (&a) == 42.125);
@@ -363,6 +379,15 @@ main (int argc, char **argv)
 	go_quad_sub (&c, &c, &a);
 	g_assert (go_quad_value (&c) == ldexp (1.0, -80));
 
+	go_quad_end (state);
+}
+
+/* ------------------------------------------------------------------------- */
+
+int
+main (int argc, char **argv)
+{
+	init_tests ();
 	const_tests ();
 	basic4_tests ();
 	pow_tests ();
@@ -370,8 +395,6 @@ main (int argc, char **argv)
 	atan2_tests ();
 	hypot_tests ();
 	trig_tests ();
-
-	go_quad_end (state);
 
 	return 0;
 }
