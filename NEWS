@@ -1,5 +1,8 @@
 goffice 0.10.40:
 
+Morten:
+	* Fixes required for running with musl.  [#794115]
+
 --------------------------------------------------------------------------
 goffice 0.10.39:
 

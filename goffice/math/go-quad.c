@@ -200,11 +200,12 @@ SUFFIX(go_quad_start) (void)
 		fpu_control_t state, newstate;
 		fpu_control_t mask =
 			_FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE;
+
 		_FPU_GETCW (state);
+		res = g_memdup (&state, sizeof (state));
+
 		newstate = (state & ~mask) | _FPU_DOUBLE;
 		_FPU_SETCW (newstate);
-
-		res = g_memdup (&state, sizeof (state));
 #else
 		/* Hope for the best.  */
 #endif
