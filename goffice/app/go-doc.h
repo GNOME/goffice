@@ -40,6 +40,9 @@ gboolean go_doc_is_dirty		 (GODoc const *doc);
 void     go_doc_set_dirty_time           (GODoc *doc, gint64 t);
 gint64   go_doc_get_dirty_time           (GODoc const *doc);
 
+void     go_doc_set_modtime              (GODoc *doc, GDateTime *modtime);
+GDateTime *go_doc_get_modtime            (GODoc const *doc);
+
 gboolean	 go_doc_set_uri		 (GODoc *doc, char const *uri);
 char const	*go_doc_get_uri		 (GODoc const *doc);
 

@@ -34,6 +34,7 @@ struct _GODoc {
 	gint64           first_modification_time;
 	gboolean	 pristine;
 	GHashTable	*images;
+	GDateTime       *modtime;
 
 	/* <private> */
 	struct _GODocPrivate *priv;

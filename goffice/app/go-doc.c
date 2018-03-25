@@ -54,7 +54,8 @@ enum {
 	PROP_URI,
 	PROP_DIRTY,
 	PROP_DIRTY_TIME,
-	PROP_PRISTINE
+	PROP_PRISTINE,
+	PROP_MODTIME
 };
 enum {
 	METADATA_CHANGED,
@@ -87,6 +88,10 @@ go_doc_get_property (GObject *obj, guint property_id,
 		g_value_set_boolean (value, go_doc_is_pristine (doc));
 		break;
 
+	case PROP_MODTIME:
+		g_value_set_boxed (value, go_doc_get_modtime (doc));
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 		break;
@@ -114,6 +119,10 @@ go_doc_set_property (GObject *obj, guint property_id,
 
  	case PROP_PRISTINE:
 		go_doc_set_pristine (doc, g_value_get_boolean (value));
+		break;
+
+	case PROP_MODTIME:
+		go_doc_set_modtime (doc, g_value_get_boxed (value));
 		break;
 
 	default:
@@ -182,6 +191,13 @@ go_doc_class_init (GObjectClass *object_class)
 		 g_param_spec_boolean ("pristine", _("Pristine"),
 			_("Whether the document is unchanged since it was created."),
 			FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property (object_class, PROP_MODTIME,
+		 g_param_spec_boxed ("modtime",
+				     _("Modification time"),
+				     _("The known file system modification time"),
+				     G_TYPE_DATE_TIME,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
 
 	signals [METADATA_UPDATE] = g_signal_new ("metadata-update",
 		GO_TYPE_DOC,	G_SIGNAL_RUN_LAST,
@@ -395,6 +411,47 @@ go_doc_update_meta_data (GODoc *doc)
 	/* update linked properties and automatic content */
 	g_signal_emit (G_OBJECT (doc), signals [METADATA_UPDATE], 0);
 }
+
+/**
+ * go_doc_set_modtime:
+ * @doc: #GODoc
+ * @modtime: (allow-none): new file system time stamp
+ *
+ * Sets the last known file system time stamp for the document, %NULL
+ * if unknown.
+ **/
+void
+go_doc_set_modtime (GODoc *doc, GDateTime *modtime)
+{
+	g_return_if_fail (GO_IS_DOC (doc));
+
+	if (modtime == doc->modtime)
+		return;
+
+	if (modtime)
+		g_date_time_ref (modtime);
+	if (doc->modtime)
+		g_date_time_unref (doc->modtime);
+	doc->modtime = modtime;
+
+	g_object_notify (G_OBJECT (doc), "modtime");
+}
+
+/**
+ * go_doc_get_modtime:
+ * @doc: #GODoc
+ *
+ * Returns: (transfer none): the last known file system time stamp for
+ * the document, or %NULL if unknown.
+ **/
+GDateTime *
+go_doc_get_modtime (GODoc const *doc)
+{
+	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
+
+	return doc->modtime;
+}
+
 
 /**
  * go_doc_get_image:
