@@ -86,6 +86,8 @@ GType go_file_permissions_get_type (void);
 GOFilePermissions *go_get_file_permissions (char const *uri);
 void go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions);
 
+GDateTime *go_file_get_modtime   (char const *uri);
+
 time_t go_file_get_date_accessed (char const *uri);
 time_t go_file_get_date_modified (char const *uri);
 time_t go_file_get_date_changed  (char const *uri);

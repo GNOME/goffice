@@ -1,3 +1,7 @@
+2018-03-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_file_get_modtime): New function.
+
 2018-03-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-quad.c (go_quad_start): Allocate memory before

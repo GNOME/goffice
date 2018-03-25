@@ -969,6 +969,38 @@ go_file_get_date_changed (char const *uri)
 	return go_file_get_date (uri, GO_FILE_DATE_TYPE_CHANGED);
 }
 
+/**
+ * go_file_get_modtime:
+ * @uri: The uri
+ *
+ * Determine the last modification time of @uri.
+ *
+ * Returns: (transfer full): the modification time of the file, or %NULL
+ * if it could not be determined.
+ **/
+GDateTime *
+go_file_get_modtime (char const *uri)
+{
+	GDateTime *modtime = NULL;
+	GFile *file = g_file_new_for_uri (uri);
+	GFileInfo *info;
+
+	info = g_file_query_info (file,
+				  G_FILE_ATTRIBUTE_TIME_MODIFIED ","
+				  G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC,
+				  G_FILE_QUERY_INFO_NONE, NULL, NULL);
+	if (info) {
+		GTimeVal tv;
+		g_file_info_get_modification_time (info, &tv);
+		modtime = g_date_time_new_from_timeval_utc (&tv);
+		g_object_unref (info);
+	}
+
+	g_object_unref (file);
+
+	return modtime;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /**
