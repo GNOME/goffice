@@ -247,7 +247,7 @@ go_file_opener_setup (GOFileOpener *fo, gchar const *id,
 
 /**
  * go_file_opener_new:
- * @id: Optional ID of the opener (or NULL)
+ * @id: (nullable): Optional ID of the opener
  * @description: Description of supported file format
  * @suffixes: (element-type char): List of suffixes to associate with the opener
  * @mimes: (element-type char): List of mime types to associate with the opener
@@ -278,7 +278,7 @@ go_file_opener_new (gchar const *id,
 
 /**
  * go_file_opener_new_with_enc:
- * @id: Optional ID of the opener (or NULL)
+ * @id: (nullable): Optional ID of the opener
  * @description: Description of supported file format
  * @suffixes: (element-type char): List of suffixes to associate with the opener
  * @mimes: (element-type char): List of mime types to associate with the opener
@@ -395,7 +395,7 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel 
 /**
  * go_file_opener_open:
  * @fo: GOFileOpener object
- * @opt_enc: Optional encoding
+ * @opt_enc: (nullable): Optional encoding
  * @io_context: Context for i/o operation
  * @view: #GoView
  * @input: Gsf input stream
@@ -690,8 +690,8 @@ GSF_CLASS (GOFileSaver, go_file_saver,
 
 /**
  * go_file_saver_new:
- * @id: Optional ID of the saver (or NULL)
- * @extension: Optional default extension of saved files (or NULL)
+ * @id: (nullable): Optional ID of the saver
+ * @extension: (nullable): Optional default extension of saved files
  * @description: Description of supported file format
  * @level: File format level
  * @save_func: (scope async): Pointer to "save" function
