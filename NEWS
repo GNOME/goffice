@@ -6,6 +6,7 @@ Hiroshi Hatake:
 Morten:
 	* Fixes required for running with musl.  [#794115]
 	* Store last-know modtime for GODoc.
+	* Option menus: handle markup for labels.
 
 --------------------------------------------------------------------------
 goffice 0.10.39:
