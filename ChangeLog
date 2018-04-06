@@ -2,6 +2,8 @@
 
 	* goffice/gtk/go-optionmenu.c (go_option_menu_update_contents):
 	Handle markup.
+	(go_option_menu_init): Add a bit of space between label and
+	separator so they don't touch.
 
 2018-03-25  Morten Welinder  <terra@gnome.org>
 

@@ -508,7 +508,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	gtk_box_pack_end (box, arrow, FALSE, FALSE, 0);
 
 	sep = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-	gtk_box_pack_end (box, sep, FALSE, FALSE, 0);
+	gtk_box_pack_end (box, sep, FALSE, FALSE, 6);
 
 	gtk_container_add (GTK_CONTAINER (option_menu), GTK_WIDGET (box));
 }
