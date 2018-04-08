@@ -16,3 +16,5 @@ test-format
 test-math
 test-quad
 constants
+*.log
+*.trs
