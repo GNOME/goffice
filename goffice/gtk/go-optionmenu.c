@@ -109,18 +109,20 @@ static void
 go_option_menu_update_contents (GOOptionMenu *option_menu)
 {
 	GtkWidget *w;
-	const char *text = NULL;
-	gboolean use_markup = FALSE;
 
 	g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
 	w = gtk_bin_get_child (GTK_BIN (option_menu->selected));
 	if (GTK_IS_LABEL (w)) {
-		text = gtk_label_get_label (GTK_LABEL (w));
-		use_markup = gtk_label_get_use_markup (GTK_LABEL (w));
+		GtkLabel *src = GTK_LABEL (w);
+		GtkLabel *dst = option_menu->button_label;
+
+		gtk_label_set_text (dst, gtk_label_get_label (src));
+		gtk_label_set_use_markup (dst, gtk_label_get_use_markup (src));
+		gtk_label_set_ellipsize (dst, gtk_label_get_ellipsize (src));
+	} else {
+		gtk_label_set_text (option_menu->button_label, NULL);
 	}
-	gtk_label_set_text (option_menu->button_label, text);
-	gtk_label_set_use_markup (option_menu->button_label, use_markup);
 }
 
 void
