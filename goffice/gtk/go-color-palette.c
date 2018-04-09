@@ -144,6 +144,20 @@ static GONamedColor const default_color_set [] = {
 
 	{ 0, NULL},
 };
+
+gboolean
+go_color_palette_query (int n, GONamedColor *color)
+{
+	if (n < 0 || n >= (int)G_N_ELEMENTS (default_color_set) - 1)
+		return FALSE;
+
+	color->name = _(default_color_set[n].name);
+	color->color = default_color_set[n].color;
+	return TRUE;
+}
+
+
+
 const GONamedColor *
 _go_color_palette_default_color_set (void)
 {

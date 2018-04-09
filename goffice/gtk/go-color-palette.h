@@ -60,6 +60,9 @@ GOColor go_color_palette_get_current_color	(GOColorPalette *p,
 						 gboolean *is_default, gboolean *is_custom);
 void	go_color_palette_set_allow_alpha	(GOColorPalette *p, gboolean allow_alpha);
 
+/* static */
+gboolean go_color_palette_query (int n, GONamedColor *color);
+
 /* private */
 const GONamedColor *_go_color_palette_default_color_set (void);
 
