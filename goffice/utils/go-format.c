@@ -6761,6 +6761,11 @@ SUFFIX(go_format_specialize) (GOFormat const *fmt, DOUBLE val, char type,
 }
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_general:
+ *
+ * Returns: (transfer none): the general format
+ */
 GOFormat *
 go_format_general (void)
 {
@@ -6772,6 +6777,11 @@ go_format_general (void)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_empty:
+ *
+ * Returns: (transfer none): the empty format
+ */
 GOFormat *
 go_format_empty (void)
 {
@@ -6782,6 +6792,11 @@ go_format_empty (void)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_default_date:
+ *
+ * Returns: (transfer none): the default date format
+ */
 GOFormat *
 go_format_default_date (void)
 {
@@ -6793,6 +6808,11 @@ go_format_default_date (void)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_default_time:
+ *
+ * Returns: (transfer none): the default time format
+ */
 GOFormat *
 go_format_default_time (void)
 {
@@ -6804,6 +6824,11 @@ go_format_default_time (void)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_default_date_time:
+ *
+ * Returns: (transfer none): the default date-and-time format
+ */
 GOFormat *
 go_format_default_date_time (void)
 {
@@ -6815,6 +6840,11 @@ go_format_default_date_time (void)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_default_percentage:
+ *
+ * Returns: (transfer none): the default percentage format
+ */
 GOFormat *
 go_format_default_percentage (void)
 {
@@ -6826,6 +6856,11 @@ go_format_default_percentage (void)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_default_money:
+ *
+ * Returns: (transfer none): the default monetary format
+ */
 GOFormat *
 go_format_default_money (void)
 {
@@ -6837,6 +6872,11 @@ go_format_default_money (void)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_default_accounting:
+ *
+ * Returns: (transfer none): the default accounting format
+ */
 GOFormat *
 go_format_default_accounting (void)
 {
