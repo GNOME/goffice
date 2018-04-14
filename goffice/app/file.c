@@ -140,7 +140,7 @@ go_file_opener_probe_real (GOFileOpener const *fo, GsfInput *input,
 	gboolean ret = FALSE;
 
 	if (fo->probe_func != NULL) {
-		ret =  fo->probe_func (fo, input, pl);
+		ret = fo->probe_func (fo, input, pl);
 		gsf_input_seek (input, 0, G_SEEK_SET);
 	}
 	return ret;
@@ -237,7 +237,6 @@ go_file_opener_setup (GOFileOpener *fo, gchar const *id,
 {
 	g_return_if_fail (GO_IS_FILE_OPENER (fo));
 	g_return_if_fail (description != NULL);
-	g_return_if_fail (open_func != NULL);
 
 	fo->id = g_strdup (id);
 	fo->description = g_strdup (description);
@@ -744,7 +743,6 @@ go_file_saver_new (gchar const *id,
 	GOFileSaver *fs;
 
 	g_return_val_if_fail (description != NULL, NULL);
-	g_return_val_if_fail (save_func != NULL, NULL);
 
 	fs = GO_FILE_SAVER (g_object_new (GO_TYPE_FILE_SAVER,
 					  "id", id,
