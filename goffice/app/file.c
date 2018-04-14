@@ -214,11 +214,13 @@ GSF_CLASS (GOFileOpener, go_file_opener,
  * @fo: Newly created GOFileOpener object
  * @id: (allow-none): ID of the opener
  * @description: Description of supported file format
- * @suffixes: (element-type char): List of suffixes to associate with the opener
- * @mimes: (element-type char): List of mime types to associate with the opener
+ * @suffixes: (element-type utf8) (transfer full): List of suffixes to
+ * associate with the opener
+ * @mimes: (element-type utf8) (transfer full): List of mime types to
+ * associate with the opener
  * @encoding_dependent: whether the opener depends on an encoding sel.
- * @probe_func: (scope async):  Optional pointer to "probe" function (or NULL)
- * @open_func: (scope async): Pointer to "open" function
+ * @probe_func: (scope async) (nullable): "probe" function
+ * @open_func: (scope async): "open" function
  *
  * Sets up GOFileOpener object, newly created with g_object_new function.
  * This is intended to be used only by GOFileOpener derivates.
@@ -234,6 +236,8 @@ go_file_opener_setup (GOFileOpener *fo, gchar const *id,
 		      GOFileOpenerOpenFunc open_func)
 {
 	g_return_if_fail (GO_IS_FILE_OPENER (fo));
+	g_return_if_fail (description != NULL);
+	g_return_if_fail (open_func != NULL);
 
 	fo->id = g_strdup (id);
 	fo->description = g_strdup (description);
@@ -249,10 +253,12 @@ go_file_opener_setup (GOFileOpener *fo, gchar const *id,
  * go_file_opener_new:
  * @id: (nullable): Optional ID of the opener
  * @description: Description of supported file format
- * @suffixes: (element-type char): List of suffixes to associate with the opener
- * @mimes: (element-type char): List of mime types to associate with the opener
- * @probe_func: (scope async): Optional pointer to "probe" function (or NULL)
- * @open_func: (scope async): Pointer to "open" function
+ * @suffixes: (element-type utf8) (transfer full): List of suffixes to
+ * associate with the opener
+ * @mimes: (element-type utf8) (transfer full): List of mime types to
+ * associate with the opener
+ * @probe_func: (scope async) (nullable): "probe" function
+ * @open_func: (scope async): "open" function
  *
  * Creates new GOFileOpener object. Optional @id will be used
  * after registering it with go_file_opener_register function.
@@ -280,12 +286,14 @@ go_file_opener_new (gchar const *id,
  * go_file_opener_new_with_enc:
  * @id: (nullable): Optional ID of the opener
  * @description: Description of supported file format
- * @suffixes: (element-type char): List of suffixes to associate with the opener
- * @mimes: (element-type char): List of mime types to associate with the opener
- * @probe_func: (scope async): Optional pointer to "probe" function (or NULL)
- * @open_func: (scope async): Pointer to "open" function
+ * @suffixes: (element-type utf8) (transfer full): List of suffixes to
+ * associate with the opener
+ * @mimes: (element-type utf8) (transfer full): List of mime types to
+ * associate with the opener
+ * @probe_func: (scope async) (nullable): "probe" function
+ * @open_func: (scope async): "open" function
  *
- * Creates new GOFileOpener object. Optional @id will be used
+ * Creates new #GOFileOpener object. Optional @id will be used
  * after registering it with go_file_opener_register function.
  *
  * Returns: (transfer full): newly created #GOFileOpener object.
@@ -308,7 +316,12 @@ go_file_opener_new_with_enc (gchar const *id,
 
 
 
-
+/**
+ * go_file_opener_get_id:
+ * @fo: #GOFileOpener to query
+ *
+ * Returns: (transfer none) (nullable): the id of @fo
+ */
 gchar const *
 go_file_opener_get_id (GOFileOpener const *fo)
 {
@@ -317,6 +330,12 @@ go_file_opener_get_id (GOFileOpener const *fo)
 	return fo->id;
 }
 
+/**
+ * go_file_opener_get_description:
+ * @fo: #GOFileOpener to query
+ *
+ * Returns: (transfer none): the description of @fo
+ */
 gchar const *
 go_file_opener_get_description (GOFileOpener const *fo)
 {
@@ -325,6 +344,12 @@ go_file_opener_get_description (GOFileOpener const *fo)
 	return fo->description;
 }
 
+/**
+ * go_file_opener_is_encoding_dependent:
+ * @fo: #GOFileOpener to query
+ *
+ * Returns: %TRUE if @fo is encoding dependent
+ */
 gboolean
 go_file_opener_is_encoding_dependent (GOFileOpener const *fo)
 {
@@ -333,6 +358,12 @@ go_file_opener_is_encoding_dependent (GOFileOpener const *fo)
 	return fo->encoding_dependent;
 }
 
+/**
+ * go_file_opener_can_probe:
+ * @fo: #GOFileOpener to query
+ *
+ * Returns: %TRUE if @fo has a probe function
+ */
 gboolean
 go_file_opener_can_probe (GOFileOpener const *fo, GOFileProbeLevel pl)
 {
@@ -345,7 +376,8 @@ go_file_opener_can_probe (GOFileOpener const *fo, GOFileProbeLevel pl)
  * go_file_opener_get_suffixes:
  * @fo: #GOFileOpener
  *
- * Returns: (element-type char) (transfer none): the suffixes for the supporte file types.
+ * Returns: (element-type utf8) (transfer none): the suffixes for the
+ * supported file types.
  **/
 GSList const *
 go_file_opener_get_suffixes (GOFileOpener const *fo)
@@ -356,9 +388,9 @@ go_file_opener_get_suffixes (GOFileOpener const *fo)
 
 /**
  * go_file_opener_get_mimes:
- * @fo: #GOFileOpener
+ * @fo: #GOFileOpener to query
  *
- * Returns: (element-type char) (transfer none): the supported mime types.
+ * Returns: (element-type utf8) (transfer none): the supported mime types.
  **/
 GSList const *
 go_file_opener_get_mimes (GOFileOpener const *fo)
@@ -409,7 +441,7 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel 
 void
 go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
 		     GOIOContext *io_context,
-		      GoView *view, GsfInput *input)
+		     GoView *view, GsfInput *input)
 {
 	g_return_if_fail (GO_IS_FILE_OPENER (fo));
 	g_return_if_fail (GSF_IS_INPUT (input));
@@ -690,17 +722,17 @@ GSF_CLASS (GOFileSaver, go_file_saver,
 
 /**
  * go_file_saver_new:
- * @id: (nullable): Optional ID of the saver
- * @extension: (nullable): Optional default extension of saved files
+ * @id: (nullable): ID of the saver
+ * @extension: (nullable): Default extension of saved files
  * @description: Description of supported file format
  * @level: File format level
  * @save_func: (scope async): Pointer to "save" function
  *
- * Creates new GOFileSaver object. Optional @id will be used
+ * Creates new #GOFileSaver object. Optional @id will be used
  * after registering it with go_file_saver_register or
  * go_file_saver_register_as_default function.
  *
- * Returns: newly created GOFileSaver object.
+ * Returns: newly created #GOFileSaver object.
  */
 GOFileSaver *
 go_file_saver_new (gchar const *id,
@@ -710,6 +742,9 @@ go_file_saver_new (gchar const *id,
 		   GOFileSaverSaveFunc save_func)
 {
 	GOFileSaver *fs;
+
+	g_return_val_if_fail (description != NULL, NULL);
+	g_return_val_if_fail (save_func != NULL, NULL);
 
 	fs = GO_FILE_SAVER (g_object_new (GO_TYPE_FILE_SAVER,
 					  "id", id,
@@ -731,6 +766,12 @@ go_file_saver_set_save_scope (GOFileSaver *fs, GOFileSaveScope scope)
 	fs->save_scope = scope;
 }
 
+/**
+ * go_file_saver_get_save_scope:
+ * @fs: #GOFileSaver to query
+ *
+ * Returns: The save scope of @fs.
+ */
 GOFileSaveScope
 go_file_saver_get_save_scope (GOFileSaver const *fs)
 {
@@ -739,6 +780,12 @@ go_file_saver_get_save_scope (GOFileSaver const *fs)
 	return fs->save_scope;
 }
 
+/**
+ * go_file_saver_get_id:
+ * @fs: #GOFileSaver to query
+ *
+ * Returns: (nullable) (transfer none): The id of @fs.
+ */
 gchar const *
 go_file_saver_get_id (GOFileSaver const *fs)
 {
@@ -747,6 +794,12 @@ go_file_saver_get_id (GOFileSaver const *fs)
 	return fs->id;
 }
 
+/**
+ * go_file_saver_get_mime_type:
+ * @fs: #GOFileSaver to query
+ *
+ * Returns: (nullable) (transfer none): The mime type of the @fs.
+ */
 gchar const *
 go_file_saver_get_mime_type (GOFileSaver const *fs)
 {
@@ -755,6 +808,13 @@ go_file_saver_get_mime_type (GOFileSaver const *fs)
 	return fs->mime_type;
 }
 
+/**
+ * go_file_saver_get_extension:
+ * @fs: #GOFileSaver to query
+ *
+ * Returns: (nullable) (transfer none): The default extensions for files saved
+ * by @fs.
+ */
 gchar const *
 go_file_saver_get_extension (GOFileSaver const *fs)
 {
@@ -763,6 +823,12 @@ go_file_saver_get_extension (GOFileSaver const *fs)
 	return fs->extension;
 }
 
+/**
+ * go_file_saver_get_description:
+ * @fs: #GOFileSaver to query
+ *
+ * Returns: (transfer none): The description of @fs.
+ */
 gchar const *
 go_file_saver_get_description (GOFileSaver const *fs)
 {
@@ -771,6 +837,12 @@ go_file_saver_get_description (GOFileSaver const *fs)
 	return fs->description;
 }
 
+/**
+ * go_file_saver_get_format_level:
+ * @fs: #GOFileSaver to query
+ *
+ * Returns: The format level of @fs.
+ */
 GOFileFormatLevel
 go_file_saver_get_format_level (GOFileSaver const *fs)
 {
@@ -850,7 +922,7 @@ go_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 /**
  * go_file_saver_set_overwrite_files:
- * @fs: GOFileSaver object
+ * @fs: #GOFileSaver object
  * @overwrite: A boolean value saying whether the saver should overwrite
  *                existing files.
  *
@@ -968,8 +1040,8 @@ go_file_opener_register (GOFileOpener *fo, gint priority)
 
 /**
  * go_file_opener_unregister:
- * @fo: GOFileOpener object previously registered using
- *                go_file_opener_register
+ * @fo: #GOFileOpener object previously registered using
+ *    go_file_opener_register
  *
  * Removes @fo opener from list of available file openers. Reference count
  * for the opener is decremented inside the function.
@@ -1014,7 +1086,7 @@ default_file_saver_cmp_priority (gconstpointer a, gconstpointer b)
 
 /**
  * go_file_saver_register:
- * @fs: GOFileSaver object
+ * @fs: #GOFileSaver object
  *
  * Adds @fs saver to the list of available file savers, making it
  * available for the user when selecting file format for save.
@@ -1069,7 +1141,7 @@ go_file_saver_register_as_default (GOFileSaver *fs, gint priority)
 
 /**
  * go_file_saver_unregister:
- * @fs: GOFileSaver object previously registered using
+ * @fs: #GOFileSaver object previously registered using
  *                go_file_saver_register or go_file_saver_register_as_default
  *
  * Removes @fs saver from list of available file savers. Reference count
@@ -1115,8 +1187,8 @@ go_file_saver_unregister (GOFileSaver *fs)
  * Finds file saver registered as default saver with the highest priority.
  * Reference count for the saver is NOT incremented.
  *
- * Returns: (transfer none): GOFileSaver object or NULL if default saver is not
- *               available.
+ * Returns: (transfer none) (nullable): #GOFileSaver for the highest priority
+ * default saver.
  **/
 GOFileSaver *
 go_file_saver_get_default (void)
@@ -1131,7 +1203,8 @@ go_file_saver_get_default (void)
  * go_file_saver_for_mime_type:
  * @mime_type: A mime type
  *
- * Returns: (transfer none): A #GOFileSaver object associated with @mime_type, or %NULL
+ * Returns: (transfer none) (nullable): A #GOFileSaver object associated with
+ * @mime_type.
  **/
 GOFileSaver *
 go_file_saver_for_mime_type (gchar const *mime_type)
@@ -1162,10 +1235,10 @@ go_file_saver_for_mime_type (gchar const *mime_type)
  * go_file_saver_for_file_name:
  * @file_name: name
  *
- * Searches for file saver with given @filename, registered using
- * go_file_opener_register
+ * Searches for file saver matching the given @file_name, registered using
+ * go_file_saver_register.
  *
- * Returns: (transfer none): GOFileSaver object or NULL if opener cannot be found.
+ * Returns: (transfer none) (nullable): #GOFileSaver for @file_name
  **/
 GOFileSaver *
 go_file_saver_for_file_name (char const *file_name)
@@ -1190,7 +1263,7 @@ go_file_saver_for_file_name (char const *file_name)
  * Searches for file opener with given @id, registered using
  * go_file_opener_register
  *
- * Returns: (transfer none): #GOFileOpener object or %NULL if opener cannot be found.
+ * Returns: (transfer none) (nullable): #GOFileOpener with given id.
  **/
 GOFileOpener *
 go_file_opener_for_id (gchar const *id)
@@ -1209,7 +1282,7 @@ go_file_opener_for_id (gchar const *id)
  * Searches for file saver with given @id, registered using
  * go_file_saver_register or register_file_opener_as_default.
  *
- * Returns: (transfer none): GOFileSaver object or NULL if saver cannot be found.
+ * Returns: (transfer none) (nullable): #GOFileSaver with given id.
  **/
 GOFileSaver *
 go_file_saver_for_id (gchar const *id)
@@ -1236,7 +1309,7 @@ go_get_file_savers (void)
 /**
  * go_get_file_openers:
  *
- * Returns: (element-type GOFileSaver) (transfer none): list of known
+ * Returns: (element-type GOFileOpener) (transfer none): list of known
  * #GOFileOpener types (do not modify list)
  **/
 GList *
