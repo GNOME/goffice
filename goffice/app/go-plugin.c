@@ -1475,7 +1475,7 @@ go_plugin_list_read_for_all_dirs (GOErrorInfo **ret_error)
 /**
  * go_plugin_db_activate_plugin_list:
  * @plugins: (element-type GOPlugin): The list of plugins
- * @ret_error: Pointer used to report errors
+ * @ret_error: (out): Pointer used to report errors
  *
  * Activates all plugins in the list. If some of the plugins cannot be
  * activated, the function reports this via @ret_error (errors don't
