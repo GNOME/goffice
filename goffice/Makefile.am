@@ -6,6 +6,7 @@ INTROSPECTION_SCANNER_ARGS = \
 	--add-include-path="${INTROSPECTION_GIRDIR}" \
 	-v --warn-all --accept-unprefixed -DGOFFICE_DISABLE_DEPRECATED \
 	--namespace GOffice --nsversion="@GOFFICE_API_VER@" \
+	--identifier-filter-cmd="$(top_srcdir)/tools/introspection-identifier-filter" \
 	--identifier-prefix="GO"  --identifier-prefix="Go" \
 	--symbol-prefix="go" --symbol-prefix="libgoffice"
 

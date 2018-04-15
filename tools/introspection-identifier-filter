@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+
+while (<STDIN>) {
+    # s/^GogGraph/GoGraph/; # GogView will clash with GogGraphView
+    s/^Gog/GoGraph/;
+
+    s/^GocCanvas/GoCanvas/;
+    s/^Goc/GoCanvas/;
+    print;
+}
