@@ -62,6 +62,7 @@
 
 /**
  * GogPlotClass:
+ * @base: base class
  * @desc: #GogPlotDesc
  * @series_type: series type.
  * @axis_set: set of use axes.
@@ -78,6 +79,7 @@
 
 /**
  * GogPlotViewClass:
+ * @base: base class
  * @get_data_at_point: returns the data index at the given position, -1 if none.
  **/
 

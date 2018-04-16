@@ -31,6 +31,7 @@
 
 /**
  * GogDatasetClass:
+ * @base: base class
  * @get_elem: gets i-th element.
  * @set_dim: sets the data for i-th element.
  * @dims: gest first and last valid elements indices.

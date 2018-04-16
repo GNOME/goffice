@@ -36,6 +36,7 @@
 
 /**
  * GogTextClass:
+ * @base: base class
  * @get_str: returns the text associated with the object.
  * @get_markup: returns the pango attributes.
  **/

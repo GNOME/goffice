@@ -36,6 +36,8 @@
 /**
  * GocStyledItemClass :
  * @init_style: style initialization handler.
+ * @reserved1: reserved for future expansion
+ * @reserved2: reserved for future expansion
  **/
 enum {
 	STYLED_ITEM_PROP_0,

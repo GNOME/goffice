@@ -32,6 +32,7 @@
 
 /**
  * GOStyledObjectClass :
+ * @base: base class
  * @set_style: sets the object style.
  * @get_style: returns the object current style.
  * @get_auto_style: returns the default style for the object.

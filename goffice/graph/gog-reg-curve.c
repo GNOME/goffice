@@ -34,6 +34,7 @@
 
 /**
  * GogRegCurveClass:
+ * @base: base class
  * @get_value_at: returns the calculated value.
  * @get_equation: gets the regresion equation as a string.
  * @populate_editor: populates the editor.

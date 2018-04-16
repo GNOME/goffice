@@ -4887,13 +4887,13 @@ SUFFIX(ilog10) (DOUBLE x)
 
 /**
  * go_render_general:
- * @layout: Optional PangoLayout, probably preseeded with font attribute.
+ * @layout: Optional #PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
  * @measure: (scope call): Function to measure width of string/layout.
  * @metrics: Font metrics corresponding to @mesaure.
  * @val: floating-point value.  Must be finite.
- * @col_width: intended max width of layout in pango units.  -1 means
- *             no restriction.
+ * @col_width: intended max width of layout in the units that @measure uses.
+ * A width of -1 means no restriction.
  * @unicode_minus: Use unicode minuses, not hyphens.
  * @numeral_shape: numeral shape identifier.
  * @custom_shape_flags: flags for using @numeral_shape.
@@ -4904,13 +4904,13 @@ SUFFIX(ilog10) (DOUBLE x)
  **/
 /**
  * go_render_generall:
- * @layout: Optional PangoLayout, probably preseeded with font attribute.
+ * @layout: Optional #PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
  * @measure: (scope call): Function to measure width of string/layout.
  * @metrics: Font metrics corresponding to @mesaure.
  * @val: floating-point value.  Must be finite.
- * @col_width: intended max width of layout in pango units.  -1 means
- *             no restriction.
+ * @col_width: intended max width of layout in the units that @measure uses.
+ * A width of -1 means no restriction.
  * @unicode_minus: Use unicode minuses, not hyphens.
  * @numeral_shape: numeral shape identifier.
  * @custom_shape_flags: flags for using @numeral_shape.
@@ -6670,6 +6670,29 @@ go_format_new_magic (GOFormatMagic m)
 #endif
 
 
+/**
+ * go_format_specialize:
+ * @fmt: the format to specialize
+ * @val: the value to use
+ * @type: the type of value; 'F' for numeric, 'B' for boolean, 'S' for string.
+ * @inhibit_minus: (out): set to %TRUE if the format dictates that a minus
+ * should be inhibited when rendering negative values.
+ *
+ * Returns: (transfer none): @fmt format, presumably a conditional format,
+ * specialized to @value of @type.
+ */
+
+/**
+ * go_format_specializel:
+ * @fmt: the format to specialize
+ * @val: the value to use
+ * @type: the type of value; 'F' for numeric, 'B' for boolean, 'S' for string.
+ * @inhibit_minus: (out): set to %TRUE if the format dictates that a minus
+ * should be inhibited when rendering negative values.
+ *
+ * Returns: (transfer none): @fmt format, presumably a conditional format,
+ * specialized to @value of @type.
+ */
 const GOFormat *
 SUFFIX(go_format_specialize) (GOFormat const *fmt, DOUBLE val, char type,
 			      gboolean *inhibit_minus)
@@ -9096,7 +9119,7 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 
 	if (defi == -1 && last_implicit_num != -1) {
 		/*
-		 * The default could be this one, but unless we cannot reorder
+		 * The default could be this one, but we cannot reorder
 		 * conditions unless we can prove it doesn't matter.  Just
 		 * check if it is last.
 		 */

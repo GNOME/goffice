@@ -45,6 +45,7 @@
 
 /**
  * GogObjectClass:
+ * @base: base class.
  * @roles: roles for the class.
  * @view_type: view type.
  * @update: updates the object.
@@ -53,6 +54,14 @@
  * @populate_editor: populates the editor.
  * @document_changed: the document changed.
  * @get_manual_size_mode: resize mode.
+ * @changed: implements the "changed" signal.
+ * @name_changed: implements the "name-changed" signal.
+ * @possible_additions_changed: implements the "possible-additions-changed" signal.
+ * @child_added: implements the "child-added" signal.
+ * @child_removed: implements the "child-removed" signal.
+ * @child_name_changed: implements the "child-name-changed" signal.
+ * @children_reordered: implements the "children-reordered" signal.
+ * @update_editor: implements the "update-editor" signal.
  **/
 
 /**
@@ -91,6 +100,9 @@
  * @GOG_POSITION_MANUAL_H: relative height.
  * @GOG_POSITION_MANUAL_H_ABS: absolute height.
  * @GOG_POSITION_ANY_MANUAL_SIZE: mask for manual sizes.
+ * @GOG_POSITION_HEXPAND: expands in the horizontal direction.
+ * @GOG_POSITION_VEXPAND: expands in the vertical direction.
+ * @GOG_POSITION_EXPAND: expands in either direction.
  **/
 
 /**

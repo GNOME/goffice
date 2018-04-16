@@ -68,6 +68,20 @@
  * @GO_ANCHOR_SE: anchor bottom left.
  * @GO_ANCHOR_W: anchor left.
  * @GO_ANCHOR_E: anchor right.
+ * @GO_ANCHOR_BASELINE_CENTER: anchor centered on baseline
+ * @GO_ANCHOR_BASELINE_WEST: anchor left on baseline
+ * @GO_ANCHOR_BASELINE_EAST: anchor right on baseline
+ * @GO_ANCHOR_N: synonym for GO_ANCHOR_NORTH
+ * @GO_ANCHOR_NW: synonym for GO_ANCHOR_NORTH_WEST
+ * @GO_ANCHOR_NE: synonym for GO_ANCHOR_NORTH_EAST
+ * @GO_ANCHOR_S: synonym for GO_ANCHOR_SOUTH
+ * @GO_ANCHOR_SW: synonym for GO_ANCHOR_SOUTH_WEST
+ * @GO_ANCHOR_SE: synonym for GO_ANCHOR_SOUTH_EAST
+ * @GO_ANCHOR_W: synonym for GO_ANCHOR_WEST
+ * @GO_ANCHOR_E: synonym for GO_ANCHOR_EAST
+ * @GO_ANCHOR_B: synonym for GO_ANCHOR_BASELINE_CENTER
+ * @GO_ANCHOR_BW: synonym for GO_ANCHOR_BASELINE_WEST
+ * @GO_ANCHOR_BE: synonym for GO_ANCHOR_BASELINE_EAST
  **/
 
 /**

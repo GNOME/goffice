@@ -120,6 +120,7 @@ typedef struct {
 	void (*child_name_changed) (GogObject const *obj, GogObject const *child);
 	void (*children_reordered) (GogObject *obj);
 	void (*update_editor)	   (GogObject *obj);
+	 /*< private >*/
 	void (*extra_signal1)	   (GogObject *view);
 	void (*extra_signal2)	   (GogObject *view);
 } GogObjectClass;

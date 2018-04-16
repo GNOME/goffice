@@ -360,6 +360,7 @@ go_file_opener_is_encoding_dependent (GOFileOpener const *fo)
 /**
  * go_file_opener_can_probe:
  * @fo: #GOFileOpener to query
+ * @pl: probe level
  *
  * Returns: %TRUE if @fo has a probe function
  */

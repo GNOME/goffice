@@ -997,6 +997,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
  * @rend: #GogRenderer
  * @str: the string to draw
  * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
+ * @max_width: maximum width or -1 for unrestricted
  **/
 void
 gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str,
@@ -1059,6 +1060,7 @@ gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str,
  * @text: the string to draw
  * @use_markup: wether to use pango markup
  * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
+ * @max_width: maximum width or -1 for unrestricted
  **/
 void
 gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
@@ -1089,6 +1091,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
  * @text: the string to draw
  * @use_markup: whether to use pango markup
  * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
+ * @max_width: maximum width or -1 for unrestricted
  **/
 void
 gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
@@ -1106,10 +1109,11 @@ gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
  * @rend: #GogRenderer
  * @str: the string to draw
  * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
+ * @max_width: maximum width or -1 for unrestricted
  **/
 void
 gog_renderer_get_gostring_AABR (GogRenderer *rend, GOString *str,
-			    GOGeometryAABR *aabr, double max_width)
+				GOGeometryAABR *aabr, double max_width)
 {
 	GOGeometryOBR obr;
 

@@ -61,6 +61,8 @@
 /**
  * GogGraphClass:
  * @base: base class.
+ * @add_data: implements the "add-data" signal.
+ * @remove_data: implements the "remove-data" signal.
  **/
 
 /**

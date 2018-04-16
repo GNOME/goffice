@@ -98,6 +98,7 @@ gog_outlined_object_get_pad (GogOutlinedObject const *goo)
 
 /**
  * GogOutlinedViewClass:
+ * @base: base class
  * @call_parent_render: whether the parent class render() method must be
  * called when done.
  **/

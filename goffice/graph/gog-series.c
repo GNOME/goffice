@@ -56,6 +56,7 @@
 
 /**
  * GogSeriesClass:
+ * @base: base class
  * @has_interpolation: supports interpolation.
  * @has_fill_type: %TRUE if filling is supported.
  * @valid_fill_type_list: list of supported #GogSeriesFillType values.
@@ -68,6 +69,7 @@
 
 /**
  * GogSeriesElementClass:
+ * @base: base class
  * @gse_populate_editor: populates editor.
  **/
 

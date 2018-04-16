@@ -52,7 +52,9 @@ GSF_CLASS (GogStyle, gog_style,
 
 /**
  * GogStyledObjectClass:
+ * @base: base class
  * @init_style: intiializes the style.
+ * @style_changed: implemens the style-changed signal
  **/
 
 static void gog_styled_object_style_changed (GOStyledObject *obj);
