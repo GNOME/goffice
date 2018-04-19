@@ -1787,9 +1787,9 @@ go_plugins_set_dirs (GSList *plugin_dirs)
 /**
  * go_plugins_init:
  * @context: (allow-none): #GOCmdContext used to report errors
- * @known_states: (allow-none) (element-type char): A list of known states (defined how ?)
- * @active_plugins: (allow-none) (element-type char): A list of active plugins
- * @plugin_dirs: (allow-none) (element-type char): a list of directories to search for plugins
+ * @known_states: (allow-none) (element-type utf8): A list of known states (defined how ?)
+ * @active_plugins: (allow-none) (element-type utf8): A list of active plugins
+ * @plugin_dirs: (allow-none) (element-type utf8): a list of directories to search for plugins
  * @activate_new_plugins: activate plugins we have no seen before.
  * @default_loader_type: importer to use by default.
  *
@@ -1900,7 +1900,7 @@ ghf_collect_used_plugin_state_strings (gpointer key, gpointer value, gpointer us
  * exiting the application. Some plugins may be left active or in broken
  * state, so calling plugins_init again will NOT work properly.
  *
- * Returns: (element-type char) (transfer full): the list of plugins still in
+ * Returns: (element-type utf8) (transfer full): the list of plugins still in
  * use.
  */
 GSList *

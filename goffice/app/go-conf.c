@@ -60,7 +60,7 @@ go_conf_closure_free (GOConfClosure *cls)
  * go_conf_set_str_list:
  * @node: #GOConfNode
  * @key: configuration key
- * @list: (element-type char): the list of strings to set.
+ * @list: (element-type utf8): the list of strings to set.
  *
  * Sets @list as the value for @key.
  **/
@@ -69,7 +69,7 @@ go_conf_closure_free (GOConfClosure *cls)
  * @node: #GOConfNode
  * @key: configuration key
  *
- * Returns: (element-type char) (transfer full): a list of strings asociated
+ * Returns: (element-type utf8) (transfer full): a list of strings asociated
  * with @key.
  **/
 /**
@@ -77,7 +77,7 @@ go_conf_closure_free (GOConfClosure *cls)
  * @node: #GOConfNode
  * @key: configuration key
  *
- * Returns: (element-type char) (transfer full): a list of strings asociated
+ * Returns: (element-type utf8) (transfer full): a list of strings asociated
  * with @key.
  **/
 /**

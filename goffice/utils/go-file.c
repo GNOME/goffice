@@ -649,7 +649,7 @@ go_file_create (char const *uri, GError **err)
  * @data: a string filled with a list of URIs separated by new lines.
  *
  * Splits the chain into a list of URIs. Lines starting with '#' are ignored.
- * Returns: (element-type char) (transfer full): the URIs list.
+ * Returns: (element-type utf8) (transfer full): the URIs list.
  **/
 GSList *
 go_file_split_urls (char const *data)

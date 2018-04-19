@@ -170,7 +170,7 @@ go_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
  *
  * Splits up string into tokens at delim and returns a string list.
  *
- * Returns: (element-type char) (transfer full): string list which you should
+ * Returns: (element-type utf8) (transfer full): string list which you should
  * free after use using function g_slist_free_full(), using g_free as second
  * argument.
  **/

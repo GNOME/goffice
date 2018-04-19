@@ -188,8 +188,8 @@ go_font_cache_unregister (GClosure *watcher)
  * go_fonts_list_families:
  * @context: #PangoContext
  *
- * Returns: (element-type char) (transfer full):  a sorted list of strings of
- * font family names.  The list and the names must be freed.
+ * Returns: (element-type utf8) (transfer full):  a sorted list of strings of
+ * font family names.
  **/
 GSList *
 go_fonts_list_families (PangoContext *context)

@@ -285,7 +285,7 @@ _goc_plugin_services_shutdown (void)
 /**
  * go_components_get_mime_types:
  *
- * Returns: (element-type char) (transfer none): the list of mime types
+ * Returns: (element-type utf8) (transfer none): the list of mime types
  * supported by at least one registered component.
  **/
 GSList *
