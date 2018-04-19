@@ -569,7 +569,7 @@ go_mem_chunk_get_type (void)
  * go_mem_chunk_alloc:
  * @chunk: #GOMemChunk
  *
- * Returns: (transfer none): an unused memory block
+ * Returns: (transfer full): an unused memory block
  **/
 gpointer
 go_mem_chunk_alloc (GOMemChunk *chunk)
@@ -629,7 +629,7 @@ go_mem_chunk_alloc (GOMemChunk *chunk)
  * go_mem_chunk_alloc0:
  * @chunk: #GOMemChunk
  *
- * Returns: (transfer none): an unused memory block filled with 0
+ * Returns: (transfer full): an unused memory block filled with 0
  **/
 gpointer
 go_mem_chunk_alloc0 (GOMemChunk *chunk)
@@ -639,6 +639,13 @@ go_mem_chunk_alloc0 (GOMemChunk *chunk)
 	return res;
 }
 
+/**
+ * go_mem_chunk_free:
+ * @chunk: #GOMemChunk
+ * @mem: (transfer full): item to release
+ *
+ * Returns the given item to the pool.
+ **/
 void
 go_mem_chunk_free (GOMemChunk *chunk, gpointer mem)
 {
@@ -819,8 +826,7 @@ static char *go_real_name = NULL;
 /**
  * go_get_real_name:
  *
- * Returns: a utf8 encoded string with the current user name.
- * 	Caller should _NOT_ free the result.
+ * Returns: (transfer none): a utf8 encoded string with the current user name.
  **/
 char const *
 go_get_real_name (void)
@@ -1190,7 +1196,9 @@ go_debug_check_finalized (gpointer obj, const char *id)
 	g_object_weak_ref (obj, cb_finalized, NULL);
 }
 
-
+/**
+ * _go_glib_extras_shutdown: (skip)
+ */
 void
 _go_glib_extras_shutdown (void)
 {

@@ -43,7 +43,7 @@ char const *go_unit_get_symbol (GoUnit const *unit);
 GoUnitId go_unit_get_id (GoUnit const *unit);
 double go_unit_convert (GoUnit const *from, GoUnit const *to, double value);
 GoUnit const *go_unit_get_from_symbol (char const *symbol);
-GoUnit const *go_unit_get (GoUnitId Id);
+GoUnit const *go_unit_get (GoUnitId id);
 GoUnit const *go_unit_define (char const *symbol, char const *dim, double factor_to_SI);
 
 /* private */

@@ -61,4 +61,3 @@ go_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (GO_IS_PERSIST (gp));
 	GO_PERSIST_GET_CLASS (gp)->prep_sax (gp, xin, attrs);
 }
-

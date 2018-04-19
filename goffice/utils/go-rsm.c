@@ -30,6 +30,9 @@ typedef struct {
 static gboolean debug;
 static GHashTable *rsm;
 
+/**
+ * _go_rsm_init: (skip)
+ */
 void
 _go_rsm_init (void)
 {
@@ -37,6 +40,9 @@ _go_rsm_init (void)
   rsm = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 }
 
+/**
+ * _go_rsm_shutdown: (skip)
+ */
 void
 _go_rsm_shutdown (void)
 {

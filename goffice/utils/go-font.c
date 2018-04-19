@@ -355,7 +355,9 @@ static GOFontMetrics go_font_metrics_unit_var;
 /* All widths == 1.  */
 const GOFontMetrics *go_font_metrics_unit = &go_font_metrics_unit_var;
 
-/* private */
+/**
+ * _go_fonts_init: (skip)
+ */
 void
 _go_fonts_init (void)
 {
@@ -386,6 +388,9 @@ _go_fonts_init (void)
 		pango_font_description_from_string ("Sans 8"));
 }
 
+/**
+ * _go_fonts_shutdown: (skip)
+ */
 void
 _go_fonts_shutdown (void)
 {

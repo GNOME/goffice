@@ -120,8 +120,8 @@ go_resource_type_get_type (void)
 	if (etype == 0) {
 		static GEnumValue const values[] = {
 			{ GO_RESOURCE_NATIVE,	"GO_RESOURCE_NATIVE",	"native" },
-			{ GO_RESOURCE_RW,		"GO_RESOURCE_RW",		"rw" },
-			{ GO_RESOURCE_RO,		"GO_RESOURCE_RO",		"ro" },
+			{ GO_RESOURCE_RW,	"GO_RESOURCE_RW",	"rw" },
+			{ GO_RESOURCE_RO,	"GO_RESOURCE_RO",	"ro" },
 			{ GO_RESOURCE_CHILD,	"GO_RESOURCE_CHILD",	"child" },
 			{ GO_RESOURCE_EXTERNAL,	"GO_RESOURCE_EXTERNAL",	"external" },
 			{ GO_RESOURCE_INVALID,	"GO_RESOURCE_INVALID",	"invalid" },

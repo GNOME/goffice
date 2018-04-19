@@ -68,6 +68,9 @@ go_setlocale (int category, char const *val)
 	return setlocale (category, val);
 }
 
+/**
+ * _go_locale_shutdown: (skip)
+ */
 void
 _go_locale_shutdown (void)
 {

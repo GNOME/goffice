@@ -5381,6 +5381,9 @@ SUFFIX(go_format_value) (GOFormat const *fmt, DOUBLE val)
 
 
 #ifdef DEFINE_COMMON
+/**
+ * _go_number_format_init: (skip)
+ */
 void
 _go_number_format_init (void)
 {
@@ -5408,6 +5411,9 @@ cb_format_leak (G_GNUC_UNUSED gpointer key, gpointer value, G_GNUC_UNUSED gpoint
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * _go_number_format_shutdown: (skip)
+ */
 void
 _go_number_format_shutdown (void)
 {

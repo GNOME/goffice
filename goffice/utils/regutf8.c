@@ -587,8 +587,13 @@ go_search_match_string (GOSearchReplace *sr, const char *src)
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * Returns NULL if nothing changed, or a g_malloc string otherwise.
+/**
+ * go_search_replace_string:
+ * @sr: A #GOSearchReplace search-and-replace specification
+ * @src: the source string
+ *
+ * Returns: (transfer full) (nullable): the string after search-and-replace.
+ * However, if nothing changed, %NULL is returned.
  */
 char *
 go_search_replace_string (GOSearchReplace *sr, const char *src)

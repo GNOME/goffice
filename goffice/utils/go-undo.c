@@ -85,14 +85,14 @@ go_undo_undo (GOUndo *u)
 
 /**
  * go_undo_combine:
- * @a: (transfer full): optional first undo operation
- * @b: (transfer full): optional last undo operation
+ * @a: (transfer full) (nullable): first undo operation
+ * @b: (transfer full) (nullable): last undo operation
  *
  * This function takes ownership of the argument references and gives ownership
- * of the result to the caller.  Either argument may be NULL in which case the
+ * of the result to the caller.  Either argument may be %NULL in which case the
  * other is returned.
  *
- * Returns: (transfer full): the combination of two undo operations.
+ * Returns: (transfer full) (nullable): the combination of two undo operations.
  **/
 GOUndo *
 go_undo_combine (GOUndo *a, GOUndo *b)
@@ -183,7 +183,7 @@ go_undo_group_new (void)
 /**
  * go_undo_group_add:
  * @g: undo group
- * @u: undo object
+ * @u: (transfer full): undo object
  *
  * This function adds @u to @g.
  **/

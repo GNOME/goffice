@@ -70,7 +70,7 @@ go_unit_get_type (void)
 
 static int last_unit = GO_UNIT_MAX;
 
-GoUnit units[GO_UNIT_MAX] = {
+static GoUnit units[GO_UNIT_MAX] = {
 	{(char *) "m", (char *) "L", 1., GO_UNIT_METER},
 	{(char *) "cm", (char *) "L", 0.01, GO_UNIT_CENTIMETER},
 	{(char *) "in", (char *) "L", 0.0254, GO_UNIT_INCH},
@@ -107,18 +107,34 @@ GoUnit const *go_unit_get_from_symbol (char const *symbol)
 	return (GoUnit const *) g_hash_table_lookup (units_hash, symbol);
 }
 
+/**
+ * go_unit_get:
+ * @id: #GoUnitId for unit to query
+ *
+ * Returns: (transfer none) (nullable): the #GoUnit corresponding to @id.
+ */
 GoUnit const *
-go_unit_get (GoUnitId Id)
+go_unit_get (GoUnitId id)
 {
-	if (Id < 0)
+	if (id < 0)
 		return NULL;
-	if (Id < GO_UNIT_MAX)
-		return units + Id;
-	else if (custom_units != NULL && Id < last_unit)
-		return g_ptr_array_index (custom_units, Id - GO_UNIT_MAX);
+	if (id < GO_UNIT_MAX)
+		return units + id;
+	else if (custom_units != NULL && id < last_unit)
+		return g_ptr_array_index (custom_units, id - GO_UNIT_MAX);
 	return NULL;
 }
 
+/**
+ * go_unit_define:
+ * @symbol: symbol name for unit.
+ * @dim: dimension measured by unit.
+ * @factor_to_SI: factor to convert to SI unit.
+ *
+ * Returns: (transfer none): the named #GoUnit.  If a #GoUnit of that name
+ * already exists, the existing is returned.  Otherwise a new one is
+ * created.
+ */
 GoUnit const *
 go_unit_define (char const *symbol, char const *dim, double factor_to_SI)
 {
@@ -127,7 +143,7 @@ go_unit_define (char const *symbol, char const *dim, double factor_to_SI)
 		_go_unit_init ();
 	unit = (GoUnit *) go_unit_get_from_symbol (symbol);
 	if (unit == NULL) {
-		unit = (GoUnit *) g_new (GoUnit, 1);
+		unit = g_new (GoUnit, 1);
 		unit->symbol = g_strdup (symbol);
 		unit->dim = g_strdup (dim);
 		unit->factor_to_SI = factor_to_SI;
@@ -150,6 +166,9 @@ go_unit_destroy (GoUnit *unit)
 	}
 }
 
+/**
+ * _go_unit_init: (skip)
+ */
 void
 _go_unit_init ()
 {
@@ -161,7 +180,11 @@ _go_unit_init ()
 		g_hash_table_insert (units_hash, units[Id].symbol, units + Id);
 }
 
-void _go_unit_shutdown ()
+/**
+ * _go_unit_shutdown: (skip)
+ */
+void
+_go_unit_shutdown ()
 {
 	if (units_hash == NULL)
 		return;

@@ -396,6 +396,9 @@ go_xml_out_add_color (GsfXMLOut *output, char const *id, GOColor c)
 
 static GSList *xml_in_docs;
 
+/**
+ * _go_libxml_extras_shutdown: (skip)
+ */
 void
 _go_libxml_extras_shutdown (void)
 {

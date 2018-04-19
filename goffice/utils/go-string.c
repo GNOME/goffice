@@ -501,6 +501,10 @@ go_string_equal_internal (gconstpointer gstr_a, gconstpointer gstr_b)
 		 (GO_STRING_LEN (a) == GO_STRING_LEN (b)) &&
 		 0 == strcmp (a->base.str, b->base.str));
 }
+
+/**
+ * _go_string_init: (skip)
+ */
 void
 _go_string_init (void)
 {
@@ -522,6 +526,9 @@ cb_string_pool_leak (G_GNUC_UNUSED gpointer key,
 	return TRUE;
 }
 
+/**
+ * _go_string_shutdown: (skip)
+ */
 void
 _go_string_shutdown (void)
 {
