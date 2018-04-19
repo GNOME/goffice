@@ -141,6 +141,8 @@ go_doc_finalize (GObject *obj)
 	g_free (doc->uri);
 	doc->uri = NULL;
 
+	go_doc_set_modtime (doc, NULL);
+
 	if (doc->images)
 		g_hash_table_destroy (doc->images);
 	doc->images = NULL;
