@@ -475,9 +475,9 @@ go_color_palette_set_group (GOColorPalette *p, GOColorGroup *cg)
 
 static GtkWidget *
 go_color_palette_setup (GOColorPalette *pal,
-		     char const *no_color_label,
-		     int cols, int rows,
-		     GONamedColor const *color_names)
+			char const *no_color_label,
+			int cols, int rows,
+			GONamedColor const *color_names)
 {
 	GtkWidget	*w, *grid;
 	int pos, row, col = 0;

@@ -353,13 +353,12 @@ go_color_selector_new (GOColor initial_color,
 
 /**
  * go_color_selector_set_color:
- * @selector: a color selector
- * @color: a color
+ * @selector: #GOColorSelector to change
+ * @color: a #GOColor
  *
- * Sets current selection to @color. An "activate" signal will be emited.
- * Selector has to be a selector created via @go_color_selector_new.
+ * Sets current selection to @color. An "activate" signal will be emitted.
  *
- * Returns: TRUE if selection changed.
+ * Returns: %TRUE if selection changed.
  **/
 gboolean
 go_color_selector_set_color (GOSelector *selector, GOColor color)
@@ -381,13 +380,10 @@ go_color_selector_set_color (GOSelector *selector, GOColor color)
 /**
  * go_color_selector_get_color:
  * @selector: a #GOSelector
- * @is_auto: non-NULL result storage
+ * @is_auto: (out) (optional): %TRUE if the current selection was set
+ * by clicking on automatic palette item.
  *
- * Retrieves current color selection of a #GOSelector
- * created via @go_color_selector_new. @is_auto will be set to
- * TRUE if current selection was set by clicking on automatic palette item.
- *
- * Returns: current color selection.
+ * Returns: current color selection of @selector.
  **/
 GOColor
 go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
@@ -414,9 +410,9 @@ go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
 /**
  * go_color_selector_set_allow_alpha:
  * @selector: #GOColorSelector
- * @allow_alpha: boolean
+ * @allow_alpha: If %TRUE, the selector will have an alpha channel.
  *
- * Should the custom colour selector allow the use of opacity.
+ * Seta whether the custom colour selector should allow the use of opacity.
  **/
 void
 go_color_selector_set_allow_alpha (GOSelector *selector, gboolean allow_alpha)

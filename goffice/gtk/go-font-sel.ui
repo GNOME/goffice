@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.8"/>
   <object class="GtkBox" id="font-selector">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -13,20 +14,19 @@
         <property name="halign">center</property>
         <property name="row_spacing">4</property>
         <property name="column_spacing">4</property>
+        <property name="row_homogeneous">True</property>
         <child>
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="tooltip_text" translatable="yes">Select the font family</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Font:</property>
             <property name="justify">center</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -40,8 +40,6 @@
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -49,15 +47,13 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="tooltip_text" translatable="yes">Select the size</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Size:</property>
             <property name="justify">center</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">2</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -65,15 +61,13 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="tooltip_text" translatable="yes">Select the font face</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Style:</property>
             <property name="justify">center</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">1</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -87,8 +81,6 @@
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">1</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -96,8 +88,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="has_entry">True</property>
-            <property name="entry_text_column">0</property>
-            <property name="id_column">1</property>
             <child internal-child="entry">
               <object class="GtkEntry" id="comboboxtext-entry2">
                 <property name="can_focus">True</property>
@@ -107,8 +97,6 @@
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">2</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -118,15 +106,13 @@
             <property name="has_tooltip">True</property>
             <property name="tooltip_markup" translatable="yes">Select whether a line should be drawn through the text</property>
             <property name="tooltip_text" translatable="yes">Select whether a line should be drawn through the text</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Strikethrough:</property>
             <property name="justify">center</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">5</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -137,15 +123,12 @@
             <property name="receives_default">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
-            <property name="use_action_appearance">False</property>
             <property name="xalign">0</property>
             <property name="draw_indicator">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">5</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -155,15 +138,13 @@
             <property name="has_tooltip">True</property>
             <property name="tooltip_markup" translatable="yes">Select the size</property>
             <property name="tooltip_text" translatable="yes">Select the font color</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Color:</property>
             <property name="justify">center</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">3</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -177,8 +158,6 @@
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">3</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -188,15 +167,13 @@
             <property name="has_tooltip">True</property>
             <property name="tooltip_markup" translatable="yes">Select the size</property>
             <property name="tooltip_text" translatable="yes">Select whether the font should be modified for use as subscript or superscript</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Script:</property>
             <property name="justify">center</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">6</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -210,8 +187,6 @@
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">6</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -221,15 +196,13 @@
             <property name="has_tooltip">True</property>
             <property name="tooltip_markup" translatable="yes">Select the type of underlining</property>
             <property name="tooltip_text" translatable="yes">Select the type of underlining</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Underline:</property>
             <property name="justify">center</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">4</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -243,8 +216,6 @@
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">4</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
       </object>

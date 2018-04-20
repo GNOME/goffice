@@ -622,6 +622,14 @@ reload_families (GOFontSel *gfs)
 }
 #undef ADD_OBSERVED
 
+static int
+by_integer (gconstpointer a_, gconstpointer b_)
+{
+	int a = *(int *)a_;
+	int b = *(int *)b_;
+	return (a < b ? -1 : (a == b ? 0 : +1));
+}
+
 static void
 gfs_screen_changed (GtkWidget *w, GdkScreen *previous_screen)
 {
@@ -629,6 +637,12 @@ gfs_screen_changed (GtkWidget *w, GdkScreen *previous_screen)
 	PangoFontDescription *desc;
 	GdkScreen *screen;
 	GOFontSel *gfs = GO_FONT_SEL (w);
+	PangoContext *pctxt = gtk_widget_get_pango_context (w);
+	PangoLayout *layout = gtk_widget_create_pango_layout (w, NULL);
+	GHashTableIter iter;
+	gpointer key;
+	GArray *widths;
+	GtkWidget *label = go_option_menu_get_label (GO_OPTION_MENU (gfs->family_picker));
 
 	screen = gtk_widget_get_screen (w);
 	if (!previous_screen)
@@ -641,14 +655,30 @@ gfs_screen_changed (GtkWidget *w, GdkScreen *previous_screen)
 
 	desc = pango_font_description_from_string ("Sans 72");
 	g_object_set (w, "font-desc", desc, NULL);
-	width = go_pango_measure_string
-		(gtk_widget_get_pango_context (w),
-		 desc,
-		 "M");
+	width = go_pango_measure_string (pctxt, desc, "M");
 	pango_font_description_free (desc);
 	/* Let's hope pixels are roughly square.  */
 	gtk_widget_set_size_request (GTK_WIDGET (gfs->preview_label),
 				     5 * width, width * 11 / 10);
+
+	// Compute the 95% percentile of family name widths.  This is in the
+	// hope that less than 5% are crazy.
+	widths = g_array_new (FALSE, FALSE, sizeof (int));
+	g_hash_table_iter_init (&iter, gfs->family_by_name);
+	while (g_hash_table_iter_next (&iter, &key, NULL)) {
+		const char *name = key;
+		pango_layout_set_text (layout, name, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+		g_array_append_val (widths, width);
+	}
+	g_array_sort (widths, by_integer);
+	width = widths->len > 0
+		? g_array_index (widths, int, widths->len * 95 / 100)
+		: -1;
+	gtk_widget_set_size_request (label, width, -1);
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	g_array_free (widths, TRUE);
+	g_object_unref (layout);
 }
 
 static void

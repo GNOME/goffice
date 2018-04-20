@@ -87,6 +87,7 @@ GtkWidget *go_option_menu_get_history (GOOptionMenu *option_menu);
 
 void       go_option_menu_select_item (GOOptionMenu *option_menu,
 				       GtkMenuItem *item);
+GtkWidget *go_option_menu_get_label   (GOOptionMenu *option_menu);
 
 
 G_END_DECLS

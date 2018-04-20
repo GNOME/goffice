@@ -395,6 +395,17 @@ go_option_menu_get_history (GOOptionMenu *option_menu)
 	return GTK_WIDGET (option_menu->selected);
 }
 
+/**
+ * go_option_menu_get_label:
+ * @option_menu: #GOOptionMenu
+ *
+ * Returns: (transfer none): The #GtkLabel used for the button text.
+ */
+GtkWidget *
+go_option_menu_get_label (GOOptionMenu *option_menu)
+{
+	return GTK_WIDGET (option_menu->button_label);
+}
 
 static void
 go_option_menu_set_property (GObject            *object,
@@ -504,6 +515,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	option_menu->button_label = GTK_LABEL (gtk_label_new (""));
 	gtk_box_pack_start (box, GTK_WIDGET (option_menu->button_label),
 			    FALSE, TRUE, 0);
+	g_object_set (option_menu->button_label, "xalign", 0.0, NULL);
 
 	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	g_object_set (arrow, "xalign", 0.75, NULL);

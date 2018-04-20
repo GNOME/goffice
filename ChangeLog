@@ -1,3 +1,10 @@
+2018-04-19  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-font-sel.c (gfs_screen_changed): Set a minimum
+	size for the family name picker so it's wide enough for 95% of the
+	possible values.  (That leaves room for 5% of families with crazy
+	names, just in case.)
+
 2018-04-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-doc.c (go_doc_finalize): Plug leak.

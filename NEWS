@@ -8,6 +8,7 @@ Morten:
 	* Store last-known modtime for GODoc.
 	* Option menus: handle markup for labels.
 	* Introspection fixes
+	* Improve font selector sizing a bit.
 
 --------------------------------------------------------------------------
 goffice 0.10.39:
