@@ -1,3 +1,7 @@
+2018-04-29  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.40
+
 2018-04-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-font-sel.c (gfs_screen_changed): Set a minimum
