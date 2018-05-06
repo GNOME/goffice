@@ -270,6 +270,7 @@ axis_format_value (GogAxis *axis, double val, GOString **str,
 	const GODateConventions *date_conv = axis->date_conv;
 	GOFormatNumberError err;
 	PangoLayout *layout = gog_get_layout ();
+	int chars;
 
 	g_return_if_fail (layout != NULL);
 
@@ -283,13 +284,18 @@ axis_format_value (GogAxis *axis, double val, GOString **str,
 			val = 0 - val;
 	}
 
+	// If no format is explicitly set, avoid using excess precision
+	chars = !fmt || go_format_is_general (fmt)
+		? 10 + (val < 0)
+		: -1;
+
 	err = go_format_value_gstring
 		(layout, NULL,
 		 go_format_measure_strlen,
 		 go_font_metrics_unit,
 		 fmt,
 		 val, 'F', NULL, NULL,
-		 -1, date_conv, TRUE);
+		 chars, date_conv, TRUE);
 	if (err)
 		*str = go_string_new ("#####");
 	else {
@@ -1867,14 +1873,12 @@ gog_axis_map_get_baseline (GogAxisMap *map)
 /**
  * gog_axis_map_get_extents:
  * @map: a #GogAxisMap
- * @start: location to store start for this axis
- * @stop: location to store stop for this axis
+ * @start: (out) (optional): location to store start for this axis
+ * @stop: (out) (optional): location to store stop for this axis
  *
  * Gets start and stop for the whole chart relative to the given axis map
  * in data coordinates. If axis is not inverted, start = minimum and
  * stop = maximum.  If axis is invalid, it'll return arbitrary bounds.
- *
- * Any of @start and @stop may be NULL.
  **/
 
 void
@@ -1910,14 +1914,12 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 /**
  * gog_axis_map_get_real_extents:
  * @map: a #GogAxisMap
- * @start: location to store start for this axis
- * @stop: location to store stop for this axis
+ * @start: (out) (optional): location to store start for this axis
+ * @stop: (out) (optional): location to store stop for this axis
  *
  * Gets start and stop for the given axis map in data coordinates. If
- * axis is not inverted, start = minimum and stop = maximum.  If axis is invalid,
- * it'll return arbitrary bounds.
- *
- * Any of @start and @stop may be NULL.
+ * axis is not inverted, start = minimum and stop = maximum.  If axis is
+ * invalid, it'll return arbitrary bounds.
  **/
 
 void
@@ -1939,15 +1941,12 @@ gog_axis_map_get_real_extents (GogAxisMap *map, double *start, double *stop)
 /**
  * gog_axis_map_get_bounds:
  * @map: a #GogAxisMap
- * @minimum: location to store minimum for this axis
- * @maximum: location to store maximum for this axis
+ * @minimum: (out) (optional): location to store minimum for this axis
+ * @maximum: (out) (optional): location to store maximum for this axis
  *
  * Gets bounds for the whole chart relative to the given axis map in data
  * coordinates. If axis is invalid, it'll return arbitrary bounds.
- *
- * Any of @minimum and @maximum may be NULL.
  **/
-
 void
 gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
@@ -1981,15 +1980,12 @@ gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 /**
  * gog_axis_map_get_real_bounds:
  * @map: a #GogAxisMap
- * @minimum: location to store minimum for this axis
- * @maximum: location to store maximum for this axis
+ * @minimum: (out) (optional): location to store minimum for this axis
+ * @maximum: (out) (optional): location to store maximum for this axis
  *
  * Gets bounds for the given axis map in data coordinates. If axis is invalid,
  * it'll return arbitrary bounds.
- *
- * Any of @minimum and @maximum may be NULL.
  **/
-
 void
 gog_axis_map_get_real_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
@@ -2036,11 +2032,10 @@ gog_axis_map_is_discrete (GogAxisMap *map)
 
 /**
  * gog_axis_map_free:
- * @map: a #GogAxisMap
+ * @map: (transfer full): a #GogAxisMap
  *
  * Frees #GogAxisMap object.
  **/
-
 void
 gog_axis_map_free (GogAxisMap *map)
 {
@@ -2201,11 +2196,9 @@ role_axis_line_post_add (GogObject *parent, GogObject *child)
 /**
  * gog_axis_set_format:
  * @axis: #GogAxis
- * @fmt: (transfer full): #GOFormat
+ * @fmt: (transfer full) (nullable): #GOFormat
  *
- * Absorbs a reference to @fmt, and accepts NULL.
- *
- * Returns: TRUE if things changed
+ * Returns: %TRUE if things changed
  **/
 gboolean
 gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
@@ -2230,8 +2223,7 @@ gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
  * gog_axis_get_format:
  * @axis: #GogAxis
  *
- * Returns: (transfer none): the format assigned to @axis but does not add
- * a reference.
+ * Returns: (transfer none): the format assigned to @axis.
  **/
 GOFormat *
 gog_axis_get_format (GogAxis const *axis)

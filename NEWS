@@ -1,5 +1,8 @@
 goffice 0.10.41:
 
+Morten:
+	* Avoid excess precision of graph ticks.
+
 --------------------------------------------------------------------------
 goffice 0.10.40:
 
