@@ -213,30 +213,30 @@ go_fonts_list_families (PangoContext *context)
 /**
  * go_fonts_list_sizes:
  *
- * Returns: (element-type void) (transfer container):  a sorted list of font
+ * Returns: (element-type guint) (transfer container):  a sorted list of font
  * sizes in Pango units.  The list must be freed.
  **/
 GSList *
 go_fonts_list_sizes (void)
 {
 	return go_slist_create
-		(GINT_TO_POINTER (4 * PANGO_SCALE),
-		 GINT_TO_POINTER (8 * PANGO_SCALE),
-		 GINT_TO_POINTER (9 * PANGO_SCALE),
-		 GINT_TO_POINTER (10 * PANGO_SCALE),
-		 GINT_TO_POINTER (11 * PANGO_SCALE),
-		 GINT_TO_POINTER (12 * PANGO_SCALE),
-		 GINT_TO_POINTER (14 * PANGO_SCALE),
-		 GINT_TO_POINTER (16 * PANGO_SCALE),
-		 GINT_TO_POINTER (18 * PANGO_SCALE),
-		 GINT_TO_POINTER (20 * PANGO_SCALE),
-		 GINT_TO_POINTER (22 * PANGO_SCALE),
-		 GINT_TO_POINTER (24 * PANGO_SCALE),
-		 GINT_TO_POINTER (26 * PANGO_SCALE),
-		 GINT_TO_POINTER (28 * PANGO_SCALE),
-		 GINT_TO_POINTER (36 * PANGO_SCALE),
-		 GINT_TO_POINTER (48 * PANGO_SCALE),
-		 GINT_TO_POINTER (72 * PANGO_SCALE),
+		(GUINT_TO_POINTER (4 * PANGO_SCALE),
+		 GUINT_TO_POINTER (8 * PANGO_SCALE),
+		 GUINT_TO_POINTER (9 * PANGO_SCALE),
+		 GUINT_TO_POINTER (10 * PANGO_SCALE),
+		 GUINT_TO_POINTER (11 * PANGO_SCALE),
+		 GUINT_TO_POINTER (12 * PANGO_SCALE),
+		 GUINT_TO_POINTER (14 * PANGO_SCALE),
+		 GUINT_TO_POINTER (16 * PANGO_SCALE),
+		 GUINT_TO_POINTER (18 * PANGO_SCALE),
+		 GUINT_TO_POINTER (20 * PANGO_SCALE),
+		 GUINT_TO_POINTER (22 * PANGO_SCALE),
+		 GUINT_TO_POINTER (24 * PANGO_SCALE),
+		 GUINT_TO_POINTER (26 * PANGO_SCALE),
+		 GUINT_TO_POINTER (28 * PANGO_SCALE),
+		 GUINT_TO_POINTER (36 * PANGO_SCALE),
+		 GUINT_TO_POINTER (48 * PANGO_SCALE),
+		 GUINT_TO_POINTER (72 * PANGO_SCALE),
 		 NULL);
 }
 
