@@ -117,10 +117,10 @@ PKG_PROG_PKG_CONFIG
 
 dnl *****************************
 goffice_reqs="
-	glib-2.0		>= 2.38.0
-	gobject-2.0		>= 2.38.0
-	gmodule-2.0		>= 2.38.0
-	gio-2.0			>= 2.38.0
+	glib-2.0		>= 2.40.0
+	gobject-2.0		>= 2.40.0
+	gmodule-2.0		>= 2.40.0
+	gio-2.0			>= 2.40.0
 	libgsf-1		>= 1.14.24
 	libxml-2.0		>= 2.4.12
 	pango			>= 1.24.0

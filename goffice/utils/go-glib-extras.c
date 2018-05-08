@@ -40,12 +40,6 @@
 #include <unistd.h>
 #endif
 
-static void
-cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)
-{
-	*accum = g_slist_prepend (*accum, key);
-}
-
 /**
  * go_hash_keys:
  * @hash: #GHashTable
@@ -54,13 +48,20 @@ cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)
  *
  * Returns: (element-type void) (transfer container): a list which the
  * caller needs to free. The content has not additional references added
+ *
+ * Note: consider using g_hash_table_get_keys instead.
  **/
 GSList *
 go_hash_keys (GHashTable *hash)
 {
+	GHashTableIter hiter;
 	GSList *accum = NULL;
-	g_hash_table_foreach (hash,
-		(GHFunc )cb_hash_collect_keys, &accum);
+	gpointer key;
+
+	g_hash_table_iter_init (&hiter, hash);
+	while (g_hash_table_iter_next (&hiter, &key, NULL))
+		accum = g_slist_prepend (accum, key);
+
 	return accum;
 }
 
@@ -73,23 +74,14 @@ go_hash_keys (GHashTable *hash)
  * @index: where to insert @value
  *
  * Inserts a pointer inside an existing array.
+ *
+ * Note: consider using g_ptr_array_insert instead, but watch out of the
+ * argument order.
  **/
-
 void
 go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 {
-	if (index < (int)array->len) {
-		int i = array->len - 1;
-		gpointer last = g_ptr_array_index (array, i);
-		g_ptr_array_add (array, last);
-
-		while (i-- > index) {
-			gpointer tmp = g_ptr_array_index (array, i);
-			g_ptr_array_index (array, i + 1) = tmp;
-		}
-		g_ptr_array_index (array, index) = value;
-	} else
-		g_ptr_array_add (array, value);
+	g_ptr_array_insert (array, index, value);
 }
 
 /**
@@ -124,17 +116,13 @@ go_slist_create (gconstpointer item1, ...)
  *
  * The ownership of the list elements depends on map_func.
  * Returns: (element-type void) (transfer container): the mapped list
+ *
+ * Note: consider using g_slist_copy_deep instead.
  **/
 GSList *
 go_slist_map (GSList const *list, GOMapFunc map_func)
 {
-	GSList *list_copy = NULL;
-
-	GO_SLIST_FOREACH (list, void, value,
-		GO_SLIST_PREPEND (list_copy, map_func (value))
-	);
-
-	return g_slist_reverse (list_copy);
+	return g_slist_copy_deep ((GSList *)list, (GCopyFunc)map_func, NULL);
 }
 
 /**

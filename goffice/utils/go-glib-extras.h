@@ -7,15 +7,20 @@ G_BEGIN_DECLS
 
 /* Misc convenience routines that would be nice to have in glib */
 
-typedef gpointer (*GOMapFunc) (gpointer value);
-
+#ifndef GOFFICE_DISABLE_DEPRECATED
+GOFFICE_DEPRECATED_FOR(g_ptr_array_insert)
 void	 go_ptr_array_insert	(GPtrArray *array, gpointer value, int index);
+#endif
 
 GSList	*go_hash_keys		(GHashTable *hash);
 
+#ifndef GOFFICE_DISABLE_DEPRECATED
+typedef gpointer (*GOMapFunc) (gpointer value);
+GOFFICE_DEPRECATED_FOR(g_slist_copy_deep)
 GSList	*go_slist_map		(GSList const *list, GOMapFunc map_func);
+#endif
 GSList	*go_slist_create	(gconstpointer item1, ...);
-#define	 go_string_slist_copy(list) go_slist_map (list, (GOMapFunc) g_strdup)
+#define	 go_string_slist_copy(list) g_slist_copy_deep (list, (GCopyFunc)g_strdup, NULL)
 GSList	*go_strsplit_to_slist	(char const *str, gchar delimiter);
 #define GO_SLIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
