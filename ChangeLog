@@ -1,3 +1,8 @@
+2018-05-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/file.c (go_file_saver_for_file_name): Pick the most
+	capable saver if multiple are possible.
+
 2018-05-07  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

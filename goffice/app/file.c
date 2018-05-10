@@ -1260,16 +1260,28 @@ GOFileSaver *
 go_file_saver_for_file_name (char const *file_name)
 {
 	GList *l;
+	GOFileSaver *best_saver = NULL;
 	char const *extension = gsf_extension_pointer (file_name);
 
-	for (l = default_file_saver_list ; l != NULL; l = l->next)
-		if (!strcmp (go_file_saver_get_extension (((DefaultFileSaver *)(l->data))->saver), extension))
-			return ((DefaultFileSaver *)(l->data))->saver;
+	for (l = default_file_saver_list; l != NULL; l = l->next) {
+		DefaultFileSaver *def_saver = l->data;
+		GOFileSaver *saver = def_saver->saver;
+		if (g_strcmp0 (go_file_saver_get_extension (saver), extension))
+			continue;
+		return saver;
+	}
 
-	for (l = file_saver_list; l != NULL; l = l->next)
-		if (!strcmp (go_file_saver_get_extension (l->data), extension))
-			return l->data;
-	return NULL;
+	for (l = file_saver_list; l != NULL; l = l->next) {
+		GOFileSaver *saver = l->data;
+		if (g_strcmp0 (go_file_saver_get_extension (saver), extension))
+			continue;
+
+		if (!best_saver ||
+		    (saver->save_scope < best_saver->save_scope))
+			best_saver = saver;
+	}
+
+	return best_saver;
 }
 
 /**
