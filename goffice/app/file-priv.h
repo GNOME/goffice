@@ -92,10 +92,11 @@ struct _GOFileSaver {
 	gchar                *mime_type;
 	gchar                *extension;
 	gchar                *description;
-	gboolean              overwrite_files;
-	gboolean              interactive_only;
-	GOFileFormatLevel       format_level;
-	GOFileSaveScope         save_scope;
+	guint                 overwrite_files : 1;
+	guint                 interactive_only : 1;
+	guint                 sheet_selection : 1;
+	GOFileFormatLevel     format_level;
+	GOFileSaveScope       save_scope;
 	GOFileSaverSaveFunc   save_func;
 };
 

@@ -755,6 +755,8 @@ struct _GOPluginServiceFileSaver {
 	gint   default_saver_priority;
 	GOFileSaveScope save_scope;
 	gboolean overwrite_files;
+	gboolean interactive_only;
+	gboolean sheet_selection;
 
 	GOFileSaver *saver;
 	GOPluginServiceFileSaverCallbacks cbs;
@@ -835,6 +837,12 @@ go_plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, 
 
 		if (!go_xml_node_get_bool (tree, "overwrite_files", &(psfs->overwrite_files)))
 			psfs->overwrite_files = TRUE;
+
+		if (!go_xml_node_get_bool (tree, "interactive_only", &(psfs->interactive_only)))
+			psfs->interactive_only = FALSE;
+
+		if (!go_xml_node_get_bool (tree, "sheet_selection", &(psfs->sheet_selection)))
+			psfs->sheet_selection = FALSE;
 	} else {
 		*ret_error = go_error_info_new_str (_("File saver has no description"));
 	}
@@ -980,7 +988,9 @@ go_plugin_file_saver_new (GOPluginService *service)
 				    "description", psfs->description,
 				    "format-level", psfs->format_level,
 				    "overwrite", psfs->overwrite_files,
+				    "interactive-only", psfs->interactive_only,
 				    "scope", psfs->save_scope,
+				    "sheet-selection", psfs->sheet_selection,
 				    NULL));
 
 	pfs->service = service;

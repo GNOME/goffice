@@ -24,7 +24,6 @@
 #include "module-plugin-defs.h"
 
 #include <goffice/app/file.h>
-#include <goffice/app/file-priv.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-loader.h>
@@ -270,7 +269,7 @@ go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService 
 	g_return_if_fail (input != NULL);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	if (fo->encoding_dependent) {
+	if (go_file_opener_is_encoding_dependent (fo)) {
 		void (*module_func_file_open) (GOFileOpener const *fo, char const *enc,
 					       GOIOContext *io_context,
 					       GoView *view,

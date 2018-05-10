@@ -501,7 +501,8 @@ enum {
 	FS_PROP_OVERWRITE,
 	FS_PROP_INTERACTIVE_ONLY,
 	FS_PROP_FORMAT_LEVEL,
-	FS_PROP_SCOPE
+	FS_PROP_SCOPE,
+	FS_PROP_SHEET_SELECTION
 };
 
 enum {
@@ -554,6 +555,9 @@ go_file_saver_set_property (GObject *object, guint property_id,
 	case FS_PROP_SCOPE:
 		fs->save_scope = g_value_get_enum (value);
 		break;
+	case FS_PROP_SHEET_SELECTION:
+		fs->sheet_selection = g_value_get_boolean (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -590,6 +594,9 @@ go_file_saver_get_property (GObject *object, guint property_id,
 		break;
 	case FS_PROP_SCOPE:
 		g_value_set_enum (value, fs->save_scope);
+		break;
+	case FS_PROP_SHEET_SELECTION:
+		g_value_set_boolean (value, fs->sheet_selection);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -701,6 +708,16 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 				    GO_FILE_SAVE_WORKBOOK,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
+
+        g_object_class_install_property
+		(goc,
+		 FS_PROP_SHEET_SELECTION,
+		 g_param_spec_boolean ("sheet-selection",
+				      _("Sheet Selection"),
+				      _("TRUE if this saver supports saving a subset of all sheet"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
 
 	klass->save = go_file_saver_save_real;
 
