@@ -155,6 +155,11 @@ update_lc (void)
 	locale_info_cached = TRUE;
 }
 
+/**
+ * go_locale_get_decimal:
+ *
+ * Returns: (transfer none): Current locale's decimal separator.
+ */
 GString const *
 go_locale_get_decimal (void)
 {
@@ -164,6 +169,12 @@ go_locale_get_decimal (void)
 	return lc_decimal;
 }
 
+/**
+ * go_locale_get_thousand:
+ *
+ * Returns: (transfer none): Current locale's thousands separator.  This may
+ * be an empty string.
+ */
 GString const *
 go_locale_get_thousand (void)
 {
@@ -183,7 +194,7 @@ go_locale_get_thousand (void)
  * Play with the default logic so that things come out nicely for the default
  * case.
  *
- * Returns: A string with the default currency
+ * Returns: (transfer none): A string with the default currency
  **/
 GString const *
 go_locale_get_currency (gboolean *precedes, gboolean *space_sep)
@@ -220,6 +231,11 @@ go_locale_win32_get_user_default (GString *res, unsigned int id)
 }
 #endif
 
+/**
+ * go_locale_get_date_format:
+ *
+ * Returns: (transfer none): Current locale's date format as a string.
+ */
 GString const *
 go_locale_get_date_format (void)
 {
@@ -301,6 +317,11 @@ go_locale_get_date_format (void)
 	return lc_date_format;
 }
 
+/**
+ * go_locale_get_time_format:
+ *
+ * Returns: (transfer none): Current locale's time format as a string.
+ */
 GString const *
 go_locale_get_time_format (void)
 {
@@ -466,7 +487,7 @@ go_locale_month_before_day (void)
 /**
  * go_locale_24h :
  *
- * Returns: TRUE if the locale uses a 24h clock, FALSE otherwise.
+ * Returns: %TRUE if the locale uses a 24h clock, %FALSE otherwise.
  */
 gboolean
 go_locale_24h (void)
@@ -513,6 +534,12 @@ go_locale_get_row_sep (void)
 	return ';';
 }
 
+/**
+ * go_locale_boolean_name:
+ * @b: a boolean value
+ *
+ * Returns: (transfer none): Current locale's rendering of @b.
+ */
 char const *
 go_locale_boolean_name (gboolean b)
 {
@@ -525,7 +552,7 @@ go_locale_boolean_name (gboolean b)
 }
 
 /**
- * go_locale_untranslated_booleans :
+ * go_locale_untranslated_booleans:
  *
  * Short circuit the current locale so that we can import files
  * and still produce error messages in the current LC_MESSAGE

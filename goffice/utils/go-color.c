@@ -27,10 +27,10 @@
 
 /**
  * go_color_from_str :
- * @str:
- * @res:
+ * @str: String to parse
+ * @res: (out): the parsed color
  *
- * Returns: TRUE if @str can be parsed as a color of the form R:G:B:A and the
+ * Returns: %TRUE if @str can be parsed as a color of the form R:G:B:A and the
  * 	result is stored in @res.
  **/
 gboolean
@@ -51,6 +51,7 @@ go_color_from_str (gchar const *str, GOColor *res)
 		}
 	}
 #endif
+	*res = 0;
 	return FALSE;
 }
 
@@ -66,7 +67,7 @@ go_color_as_str (GOColor color)
 /**
  * go_color_to_pango: (skip)
  * @color: #GOColor
- * @is_fore: whether to create a foreground or background color attribute.
+ * @is_fore: %TRUE for foreground, %FALSE for background
  *
  * Returns: (transfer full): the newly created #PangoAttribute.
  **/
@@ -90,6 +91,13 @@ go_color_to_pango (GOColor color, gboolean is_fore)
 #ifdef GOFFICE_WITH_GTK
 #include <gdk/gdk.h>
 
+/**
+ * go_color_to_gdk_rgba:
+ * @color: #GOColor
+ * @res: %GdkRGBA to change
+ *
+ * Returns: (transfer none): @res
+ **/
 GdkRGBA *
 go_color_to_gdk_rgba (GOColor color, GdkRGBA *res)
 {
@@ -101,6 +109,13 @@ go_color_to_gdk_rgba (GOColor color, GdkRGBA *res)
 	return res;
 }
 
+/**
+ * go_color_from_gdk_rgba:
+ * @rgbacolor: #GdkRGBA to convert
+ * @res: (out) (optional): resulting color
+ *
+ * Returns: resulting color
+ **/
 GOColor
 go_color_from_gdk_rgba (GdkRGBA const *rgbacolor, GOColor *res)
 {

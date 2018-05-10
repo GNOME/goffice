@@ -6323,10 +6323,9 @@ go_format_ref (GOFormat const *gf_)
 #ifdef DEFINE_COMMON
 /**
  * go_format_unref :
- * @fmt: a #GOFormat
+ * @fmt: (transfer full) (nullable): a #GOFormat
  *
  * Removes a reference to @fmt, freeing when it goes to zero.
- *
  **/
 void
 go_format_unref (GOFormat const *gf_)
@@ -6417,10 +6416,10 @@ go_format_is_invalid (GOFormat const *fmt)
  * go_format_is_general:
  * @fmt: Format to query
  *
- * Returns: TRUE if the format is "General", possibly with condition,
+ * Returns: %TRUE if the format is "General", possibly with condition,
  * 	color, and/or locale.  ("xGeneral" is thus not considered to be General
  * 	for the purpose of this function.)
- *	Returns FALSE otherwise.
+ *	Returns %FALSE otherwise.
  **/
 gboolean
 go_format_is_general (GOFormat const *fmt)
@@ -6435,8 +6434,7 @@ go_format_is_general (GOFormat const *fmt)
  * go_format_is_markup:
  * @fmt: Format to query
  *
- * Returns: TRUE if the format is a markup format
- * 	Returns FALSE otherwise.
+ * Returns: %TRUE if the format is a markup format and %FALSE otherwise.
  */
 gboolean
 go_format_is_markup (GOFormat const *fmt)
@@ -6451,8 +6449,7 @@ go_format_is_markup (GOFormat const *fmt)
  * go_format_is_text:
  * @fmt: Format to query
  *
- * Returns: TRUE if the format is a text format
- * 	Returns FALSE otherwise.
+ * Returns: %TRUE if the format is a text format and %FALSE otherwise.
  **/
 gboolean
 go_format_is_text (GOFormat const *fmt)
@@ -6467,8 +6464,7 @@ go_format_is_text (GOFormat const *fmt)
  * go_format_is_var_width:
  * @fmt: Format to query
  *
- * Returns: TRUE if the format is variable width, i.e., can stretch.
- * 	Returns FALSE otherwise.
+ * Returns: %TRUE if the format is variable width, i.e., can stretch.
  **/
 gboolean
 go_format_is_var_width (GOFormat const *fmt)
@@ -7371,6 +7367,12 @@ go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
 
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_get_details:
+ * @fmt: Format to quert
+ * @dst: (out): #GOFormatDetails
+ * @exact: (out) (optional): whether @dst describes @fmt exactly.
+ */
 void
 go_format_get_details (GOFormat const *fmt,
 		       GOFormatDetails *dst,
@@ -7657,6 +7659,11 @@ go_format_currency_get_type (void)
 	return t;
 }
 
+/**
+ * go_format_locale_currency:
+ *
+ * Returns: (transfer none): The #GOFormatCurrency matches the current locale.
+ */
 GOFormatCurrency const *
 go_format_locale_currency (void)
 {
