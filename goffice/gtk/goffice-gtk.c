@@ -191,12 +191,31 @@ go_gtk_builder_load (char const *uifile,
 		gtk_builder_set_translation_domain (gui, domain);
 
 	if (strncmp (uifile, "res:", 4) == 0) {
+		const char *resname = uifile + 4;
 		size_t len;
-		gconstpointer data = go_rsm_lookup (uifile + 4, &len);
-		GsfInput *src = data
+		gconstpointer data;
+		GsfInput *src;
+		GBytes *bytes = NULL;
+
+		// First try go resources
+		data = go_rsm_lookup (resname, &len);
+
+		// Then try glib
+		if (!data) {
+			bytes = g_resources_lookup_data (resname, 0, NULL);
+			if (bytes) {
+				data = g_bytes_get_data (bytes, NULL);
+				len = g_bytes_get_size (bytes);
+			}
+		}
+
+		src = data
 			? gsf_input_memory_new (data, len, FALSE)
 			: NULL;
 		ok = apply_ui_from_file (gui, src, NULL, &error);
+
+		if (bytes)
+			g_bytes_unref (bytes);
 	} else if (strncmp (uifile, "data:", 5) == 0) {
 		const char *data = uifile + 5;
 		GsfInput *src = gsf_input_memory_new (data, strlen (data), FALSE);
