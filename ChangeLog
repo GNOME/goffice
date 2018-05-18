@@ -1,3 +1,8 @@
+2018-05-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-plugin.c (go_plugins_shutdown): Avoid hash order
+	dependency.
+
 2018-05-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/file.c (go_file_saver_for_file_name): Pick the most

@@ -3,6 +3,7 @@ goffice 0.10.42:
 Morten:
 	* Introspection fixes.
 	* Improve file saver api.
+	* Avoid hash order dependency for plugins.
 
 --------------------------------------------------------------------------
 goffice 0.10.41:

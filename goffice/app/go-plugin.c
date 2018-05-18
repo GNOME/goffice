@@ -1928,6 +1928,8 @@ go_plugins_shutdown (void)
 	    g_hash_table_size (plugin_file_state_dir_hash) == g_slist_length (used_plugin_state_strings)) {
 		g_slist_free_full (used_plugin_state_strings, g_free);
 		used_plugin_state_strings = NULL;
+	} else {
+		used_plugin_state_strings = g_slist_sort (used_plugin_state_strings, (GCompareFunc)strcmp);
 	}
 
 	g_hash_table_destroy (plugin_file_state_dir_hash);
