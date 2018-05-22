@@ -12,6 +12,7 @@
   <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/goffice/issues" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#apps" />
+  <programming-language>C</programming-language>
 
   <maintainer>
     <foaf:Person>
