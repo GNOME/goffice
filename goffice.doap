@@ -6,6 +6,7 @@
 
   <name xml:lang="en">GOffice</name>
   <shortdesc xml:lang="en">A GLib/GTK+ set of document-centric objects and charting library</shortdesc>
+  <description>Goffice is a support framework for office-type applicatons</description>
   <homepage rdf:resource="http://www.gnumeric.org/" />
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/gnumeric-list" />
   <download-page rdf:resource="http://download.gnome.org/sources/goffice/" />
