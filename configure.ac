@@ -17,7 +17,7 @@ m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
 ======== $1])])
 
 AC_INIT([goffice], [goffice_full_version],
-	[http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice])
+	[https://gitlab.gnome.org/GNOME/goffice/issues])
 
 AC_CONFIG_SRCDIR(goffice/goffice.h)
 AM_INIT_AUTOMAKE([dist-bzip2])

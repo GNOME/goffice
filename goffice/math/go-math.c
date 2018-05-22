@@ -69,7 +69,7 @@ running_under_buggy_valgrind (void)
 void
 _go_math_init (void)
 {
-	const char *bug_url = "https://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice";
+	const char *bug_url = "https://gitlab.gnome.org/GNOME/goffice/issues";
 	char *old_locale;
 	double d;
 #ifdef SIGFPE
