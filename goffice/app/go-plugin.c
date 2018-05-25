@@ -154,6 +154,9 @@ static GObjectClass *parent_class = NULL;
 
 static void plugin_dependency_free (gpointer data);
 
+static void go_plugin_message (gint level, gchar const *format, ...)
+	G_GNUC_PRINTF (2, 3);
+
 static void
 go_plugin_message (gint level, gchar const *format, ...)
 {
