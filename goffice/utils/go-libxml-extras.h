@@ -47,7 +47,7 @@ xmlNode *go_xml_get_child_by_name_no_lang (xmlNode const *tree, char const *name
 xmlNode *go_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name);
 
 void       go_xml_out_add_double (GsfXMLOut *output, char const *id, double d);
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 void       go_xml_out_add_long_double (GsfXMLOut *output, char const *id, long double ld);
 #endif
 void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
