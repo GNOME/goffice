@@ -1,5 +1,8 @@
 goffice 0.10.42:
 
+Jean:
+	* Fix box plots when only outliers lie outside of the box. [#345]
+
 Morten:
 	* Introspection fixes.
 	* Improve file saver api.

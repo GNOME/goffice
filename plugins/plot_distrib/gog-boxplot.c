@@ -567,14 +567,20 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			go_path_close (path);
 			gog_renderer_draw_shape (view->renderer, path);
 			go_path_clear (path);
-			go_path_move_to (path, y + hbar, min);
-			go_path_line_to (path, y - hbar, min);
-			go_path_move_to (path, y + hbar, max);
-			go_path_line_to (path, y - hbar, max);
-			go_path_move_to (path, y, max);
-			go_path_line_to (path, y, qu3);
-			go_path_move_to (path, y, min);
-			go_path_line_to (path, y, qu1);
+			/* whiskers are displayed only if they are not inside the quartile box
+			 * which might be the case if outliers are taken into account, see #345 */
+			if ((qu1 - min) * (med - qu1) > 0) { /* we don't compare the real value but the canvas coordinates */
+				go_path_move_to (path, y + hbar, min);
+				go_path_line_to (path, y - hbar, min);
+				go_path_move_to (path, y, min);
+				go_path_line_to (path, y, qu1);
+			}
+			if ((max - qu3) * (qu3 - med) > 0) {
+				go_path_move_to (path, y + hbar, max);
+				go_path_line_to (path, y - hbar, max);
+				go_path_move_to (path, y, max);
+				go_path_line_to (path, y, qu3);
+			}
 			go_path_move_to (path, y - hrect, med);
 			go_path_line_to (path, y + hrect, med);
 			gog_renderer_stroke_shape (view->renderer, path);
@@ -587,14 +593,18 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			go_path_close (path);
 			gog_renderer_draw_shape (view->renderer, path);
 			go_path_clear (path);
-			go_path_move_to (path, min, y + hbar);
-			go_path_line_to (path, min, y - hbar);
-			go_path_move_to (path, max, y + hbar);
-			go_path_line_to (path, max, y - hbar);
-			go_path_move_to (path, max, y);
-			go_path_line_to (path, qu3, y);
-			go_path_move_to (path, min, y);
-			go_path_line_to (path, qu1, y);
+			if ((qu1 - min) * (med - qu1) > 0) {
+				go_path_move_to (path, min, y + hbar);
+				go_path_line_to (path, min, y - hbar);
+				go_path_move_to (path, min, y);
+				go_path_line_to (path, qu1, y);
+			}
+			if ((max - qu3) * (qu3 - med) > 0) {
+				go_path_move_to (path, max, y + hbar);
+				go_path_line_to (path, max, y - hbar);
+				go_path_move_to (path, max, y);
+				go_path_line_to (path, qu3, y);
+			}
 			go_path_move_to (path, med, y - hrect);
 			go_path_line_to (path, med, y + hrect);
 			gog_renderer_stroke_shape (view->renderer, path);

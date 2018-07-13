@@ -1,3 +1,9 @@
+2018-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-boxplot.c (gog_box_plot_view_render): do
+	not display whiskers when there are only ouliers outside of the box. Fixes
+	#345.
+
 2018-05-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-plugin.c (go_plugins_shutdown): Avoid hash order
