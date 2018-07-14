@@ -468,6 +468,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	GOStyle *style;
 	int num_ser = 1;
+	gboolean show_low_whisker, show_high_whisker;
 
 	area = gog_chart_view_get_plot_area (view->parent);
 	chart_map = gog_chart_map_new (chart, area,
@@ -554,6 +555,8 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			min = series->vals[0];
 			max = series->vals[4];
 		}
+		show_low_whisker = min < series->vals[1];
+		show_high_whisker = max > series->vals[3];
 		min = gog_axis_map_to_view (map, min);
 		qu1 = gog_axis_map_to_view (map, series->vals[1]);
 		med = gog_axis_map_to_view (map, series->vals[2]);
@@ -569,13 +572,13 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			go_path_clear (path);
 			/* whiskers are displayed only if they are not inside the quartile box
 			 * which might be the case if outliers are taken into account, see #345 */
-			if ((qu1 - min) * (med - qu1) > 0) { /* we don't compare the real value but the canvas coordinates */
+			if (show_low_whisker) {
 				go_path_move_to (path, y + hbar, min);
 				go_path_line_to (path, y - hbar, min);
 				go_path_move_to (path, y, min);
 				go_path_line_to (path, y, qu1);
 			}
-			if ((max - qu3) * (qu3 - med) > 0) {
+			if (show_high_whisker) {
 				go_path_move_to (path, y + hbar, max);
 				go_path_line_to (path, y - hbar, max);
 				go_path_move_to (path, y, max);
@@ -593,13 +596,13 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			go_path_close (path);
 			gog_renderer_draw_shape (view->renderer, path);
 			go_path_clear (path);
-			if ((qu1 - min) * (med - qu1) > 0) {
+			if (show_low_whisker) {
 				go_path_move_to (path, min, y + hbar);
 				go_path_line_to (path, min, y - hbar);
 				go_path_move_to (path, min, y);
 				go_path_line_to (path, qu1, y);
 			}
-			if ((max - qu3) * (qu3 - med) > 0) {
+			if (show_high_whisker) {
 				go_path_move_to (path, max, y + hbar);
 				go_path_line_to (path, max, y - hbar);
 				go_path_move_to (path, max, y);
