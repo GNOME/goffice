@@ -424,8 +424,8 @@ gog_object_get_property (GObject *obj, guint param_id,
 				g_value_set_string (value, manual_size[i].value);
 				break;
 			}
-			if (i == G_N_ELEMENTS (manual_size))
-				g_value_set_string (value, "none");
+		if (i == G_N_ELEMENTS (manual_size))
+			g_value_set_string (value, "none");
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
