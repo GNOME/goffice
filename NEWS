@@ -7,6 +7,7 @@ Morten:
 	* Introspection fixes.
 	* Improve file saver api.
 	* Avoid hash order dependency for plugins.
+	* dtoa: ensure fpu rounding mode here.
 
 --------------------------------------------------------------------------
 goffice 0.10.41:

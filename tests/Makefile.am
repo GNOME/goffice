@@ -1,13 +1,13 @@
 check_PROGRAMS=test-quad test-math test-format constants
 if WITH_GTK
-check_PROGRAMS += pie-demo go-demo shapes-demo mf-demo
+check_PROGRAMS += pie-demo go-demo mf-demo
 endif
 
 include $(top_srcdir)/goffice.mk
 
 AM_CFLAGS = $(GOFFICE_CFLAGS)
 
-TESTS = test-quad test-math
+TESTS = test-quad test-math test-format
 
 constants_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 constants_SOURCES = constants.c

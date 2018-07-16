@@ -37,6 +37,11 @@
 #include <inttypes.h>
 #include <stdarg.h>
 
+#if (defined(i386) || defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64)) && HAVE_FPU_CONTROL_H
+#define ENSURE_FPU_STATE
+#include <fpu_control.h>
+#endif
+
 typedef GString FAKE_FILE;
 
 #ifndef GOFFICE_WITH_LONG_DOUBLE
@@ -483,6 +488,10 @@ go_dtoa (GString *dst, const char *fmt, ...)
 	gboolean is_long;
 	gboolean debug = FALSE;
 	size_t oldlen;
+#ifdef ENSURE_FPU_STATE
+	fpu_control_t oldstate;
+	const fpu_control_t mask = _FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE;
+#endif
 
 	va_start (args, fmt);
 	parse_fmt (fmt, args, &is_long, &w, &p, &fl, &t, &d);
@@ -490,6 +499,18 @@ go_dtoa (GString *dst, const char *fmt, ...)
 
 	if (fl & FLAG_SHORTEST) p = is_long ? 20 : 17;
 	oldlen = (fl & FLAG_TRUNCATE) ? 0 : dst->len;
+
+#ifdef ENSURE_FPU_STATE
+	// fmt_fp depends on "long double" behaving right.  That means that the
+	// fpu must not be in round-to-double mode.
+	// This code ought to do nothing on Linux, but Windows and FreeBSD seem
+	// to have round-to-double as default.
+	_FPU_GETCW (oldstate);
+	if ((oldstate & mask) != _FPU_EXTENDED) {
+		fpu_control_t newstate = (oldstate & ~mask) | _FPU_EXTENDED;
+		_FPU_SETCW (newstate);
+	}
+#endif
 
 	if (debug) g_printerr ("%Lg [%s] t=%c  p=%d\n", d, fmt, t, p);
 	fmt_fp (dst, d, w, p, fl, t);
@@ -536,4 +557,10 @@ go_dtoa (GString *dst, const char *fmt, ...)
 		}
 		g_string_free (alt, TRUE);
 	}
+
+#ifdef ENSURE_FPU_STATE
+	if ((oldstate & mask) != _FPU_EXTENDED) {
+		_FPU_SETCW (oldstate);
+	}
+#endif
 }
