@@ -1,3 +1,8 @@
+2018-08-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/goffice.c (libgoffice_init): Use g_type_ensure to avoid
+	giving the compiler any good ideas about removing calls.
+
 2018-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-boxplot.c (gog_box_plot_view_render): do
