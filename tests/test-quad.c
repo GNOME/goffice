@@ -1,9 +1,21 @@
 #include <goffice/goffice.h>
 
+// A rather expensive way of forcing the compiler to drop any excess
+// precision it might have for x.
+static double
+kill_excess_precision (double x)
+{
+	GString *s = g_string_new (NULL);
+	double y;
+	g_string_append_len (s, (char *)&x, sizeof (x));
+	memcpy (&y, s->str, sizeof (y));
+	g_string_free (s, TRUE);
+	return y;
+}
 
 #define UNTEST1(a_,QOP,OP,txt)						\
 do {									\
-	double a, p;							\
+	double a, p, v;							\
 	GOQuad qa, qc;							\
 	void *state;							\
 	a = (a_);							\
@@ -11,18 +23,18 @@ do {									\
 	go_quad_init (&qa, a);						\
 	QOP (&qc, &qa);							\
 	go_quad_end (state);						\
-	p = OP (a);							\
-	g_printerr ("%s(%g) = %g  [%g]\n",				\
-		    txt, a, go_quad_value (&qc), p);			\
+	p = kill_excess_precision (OP (a));				\
+	v = kill_excess_precision (go_quad_value (&qc));		\
+	g_printerr ("%s(%g) = %g  [%g]\n", txt, a, v, p);		\
 	if (p == floor (p))						\
-		g_assert (go_quad_value (&qc) == p);			\
+		g_assert (v == p);					\
 	else								\
-		g_assert (fabs (go_quad_value (&qc) - p) / p < 1e-14);	\
+		g_assert (fabs (v - p) / p < 1e-14);			\
 } while (0)
 
 #define BINTEST1(a_,b_,QOP,OP,txt)					\
 do {									\
-	double a, b, p;							\
+	double a, b, p, v;						\
 	GOQuad qa, qb, qc;						\
 	void *state;							\
 	a = (a_);							\
@@ -32,13 +44,13 @@ do {									\
 	go_quad_init (&qb, b);						\
 	QOP (&qc, &qa, &qb);						\
 	go_quad_end (state);						\
-	p = OP (a, b);							\
-	g_printerr ("%s(%g,%g) = %g  [%g]\n",				\
-		    txt, a, b, go_quad_value (&qc), p);			\
+	p = kill_excess_precision (OP (a, b));				\
+	v = kill_excess_precision (go_quad_value (&qc));		\
+	g_printerr ("%s(%g,%g) = %g  [%g]\n", txt, a, b, v, p);		\
 	if (p == floor (p))						\
-		g_assert (go_quad_value (&qc) == p);			\
+		g_assert (v == p);					\
 	else								\
-		g_assert (fabs (go_quad_value (&qc) - p) / p < 1e-14);	\
+		g_assert (fabs (v - p) / p < 1e-14);			\
 } while (0)
 
 /* ------------------------------------------------------------------------- */
