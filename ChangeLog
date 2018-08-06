@@ -1,3 +1,8 @@
+2018-08-06  Morten Welinder  <terra@gnome.org>
+
+	* tests/test-quad.c (pow_tests): Comment out exp test.  It's not
+	setup for quad correctly.
+
 2018-08-05  Morten Welinder  <terra@gnome.org>
 
 	* tests/test-quad.c: Try to make the tests work a bit better for

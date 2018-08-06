@@ -82,6 +82,7 @@ pow_tests (void)
 	TEST1 (exp(1), log(2));
 	TEST1 (exp(1), -log(2));
 
+#if 0
 	{
 		GOQuad a, p;
 		double x = 1e6;
@@ -98,6 +99,7 @@ pow_tests (void)
 		g_assert (e > e0 - 5 && e < e0 + 5);
 		g_assert (fabs (m - m0) / m0 < 1e-14);
 	}
+#endif
 }
 #undef TEST1
 
