@@ -1,3 +1,7 @@
+2018-08-09  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.42
+
 2018-08-06  Morten Welinder  <terra@gnome.org>
 
 	* tests/test-quad.c (pow_tests): Comment out exp test.  It's not
