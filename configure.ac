@@ -7,7 +7,7 @@ AX_IS_RELEASE([git-directory])
 
 m4_define([goffice_version_epoch], [0])
 m4_define([goffice_version_major], [10])
-m4_define([goffice_version_minor], [43])
+m4_define([goffice_version_minor], [44])
 m4_define([goffice_version_extra], [])
 m4_define([goffice_full_version],
 	  [goffice_version_epoch.goffice_version_major.goffice_version_minor[]goffice_version_extra])
