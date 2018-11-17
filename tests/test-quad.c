@@ -1,3 +1,4 @@
+#include <string.h>
 #include <goffice/goffice.h>
 
 // A rather expensive way of forcing the compiler to drop any excess
