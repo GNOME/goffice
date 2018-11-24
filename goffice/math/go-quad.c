@@ -565,10 +565,18 @@ SUFFIX(go_quad_floor) (QUAD *res, const QUAD *a)
 }
 
 /**
- * go_quad_dot_product: (skip)
+ * go_quad_dot_product:
+ * @res: (out): result location
+ * @a: (array length=n): vector of quad-precision values
+ * @b: (array length=n): vector of quad-precision values
+ * @n: length of vectors.
  **/
 /**
- * go_quad_dot_productl: (skip)
+ * go_quad_dot_productl:
+ * @res: (out): result location
+ * @a: (array length=n): vector of quad-precision values
+ * @b: (array length=n): vector of quad-precision values
+ * @n: length of vectors.
  **/
 void
 SUFFIX(go_quad_dot_product) (QUAD *res, const QUAD *a, const QUAD *b, int n)
@@ -583,10 +591,26 @@ SUFFIX(go_quad_dot_product) (QUAD *res, const QUAD *a, const QUAD *b, int n)
 }
 
 /**
- * go_quad_constant8: (skip)
+ * go_quad_constant8:
+ * @res: (out): result location
+ * @data: (array length=n): vector of digits
+ * @base: base of vector's elements
+ * @n: length of digit vector.
+ * @scale: scaling value after interpreting digits
+ *
+ * This function interprets a vector of digits in a given base as a
+ * quad-precision value.  It is mostly meant for internal use.
  **/
 /**
- * go_quad_constant8l: (skip)
+ * go_quad_constant8l:
+ * @res: (out): result location
+ * @data: (array length=n): vector of digits
+ * @base: base of vector's elements
+ * @n: length of digit vector.
+ * @scale: scaling value after interpreting digits
+ *
+ * This function interprets a vector of digits in a given base as a
+ * quad-precision value.  It is mostly meant for internal use.
  **/
 void
 SUFFIX(go_quad_constant8) (QUAD *res, const guint8 *data, gsize n,
