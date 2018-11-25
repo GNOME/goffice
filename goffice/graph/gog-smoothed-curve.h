@@ -31,7 +31,7 @@ struct  _GogSmoothedCurve {
 
 	GogSeries 	  *series;
 	double *x, *y;
-	unsigned nb;
+	unsigned int nb;
 	GogDatasetElement *name;
 };
 

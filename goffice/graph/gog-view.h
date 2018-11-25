@@ -49,7 +49,7 @@ struct _GogToolAction {
 	GogTool 	*tool;
 	gpointer	 data;
 	/* private */
-	unsigned ref_count;
+	unsigned int ref_count;
 };
 
 GType        gog_tool_action_get_type   (void);
@@ -82,7 +82,7 @@ struct _GogView {
 typedef struct {
 	GObjectClass	base;
 
-	unsigned clip; 	/* Automaticaly clip to object bounding box */
+	unsigned int clip; 	/* Automaticaly clip to object bounding box */
 
 	/* Virtuals */
 	void	 (*state_init)    (GogView *view);

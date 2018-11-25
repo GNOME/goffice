@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 
 struct _GOPattern {
 	GOColor	 fore, back;
-	unsigned pattern;
+	unsigned int pattern;
 };
 
 /* Useful for themes to explicitly name the pattern */

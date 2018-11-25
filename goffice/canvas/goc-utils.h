@@ -26,8 +26,8 @@
 
 typedef struct {
 	/*< private >*/
-	unsigned n;
-	unsigned refs;
+	unsigned int n;
+	unsigned int refs;
 	/*< public >*/
 	GocPoint *points;
 } GocPoints;
@@ -41,9 +41,9 @@ void		 goc_points_unref (GocPoints *points);
 
 typedef struct {
 	/*< private >*/
-	unsigned refs;
+	unsigned int refs;
 	/*< public >*/
-	unsigned n;
+	unsigned int n;
 	int *vals;
 } GocIntArray;
 

@@ -38,7 +38,7 @@ struct _GogAxisBase {
 	GogAxis		*axis;
 
 	GogAxisPosition    position;
-	unsigned 	   crossed_axis_id;
+	unsigned int 	   crossed_axis_id;
 	GogDatasetElement  cross_location;
 
 	int		   padding;

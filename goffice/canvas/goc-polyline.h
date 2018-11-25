@@ -32,7 +32,7 @@ struct _GocPolyline {
 	GocStyledItem base;
 
 	GocPoint *points;
-	unsigned nb_points;
+	unsigned int nb_points;
 	gboolean use_spline;
 	gpointer priv;
 };

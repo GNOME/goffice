@@ -37,11 +37,11 @@ struct _GogDataLabel {
 	GogOutlinedObject base;
 
 	/* private */
-	unsigned index;
+	unsigned int index;
 	GogSeriesLabelsPos position;
 	GogSeriesLabelsPos default_pos;
-	unsigned allowed_pos;
-	unsigned offset; /* position offset in pixels */
+	unsigned int allowed_pos;
+	unsigned int offset; /* position offset in pixels */
 	char *format;
 	char *separator;
 	GogDatasetElement custom_label[2];
@@ -67,12 +67,12 @@ struct _GogSeriesLabels {
 	/* private */
 	GogSeriesLabelsPos position;
 	GogSeriesLabelsPos default_pos;
-	unsigned allowed_pos;
-	unsigned offset; /* position offset in pixels */
+	unsigned int allowed_pos;
+	unsigned int offset; /* position offset in pixels */
 	char *format;
 	char *separator;
 	GogDatasetElement custom_labels[2];
-	unsigned n_elts;
+	unsigned int n_elts;
 	GogSeriesLabelElt *elements;
 	GList *overrides;
 	gboolean supports_percent;

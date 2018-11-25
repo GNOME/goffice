@@ -31,7 +31,7 @@ struct _GOCSpline {
 	double const *x, *y;
 	double *a, *b, *c;
 	int n;
-	unsigned ref_count;
+	unsigned int ref_count;
 };
 
 typedef enum {
@@ -59,12 +59,12 @@ struct _GOCSplinel {
 	long double const *x, *y;
 	long double *a, *b, *c;
 	int n;
-	unsigned ref_count;
+	unsigned int ref_count;
 };
 
 GType go_csplinel_get_type (void);
 GOCSplinel *go_cspline_initl (long double const *x, long double const *y, int n,
-				     unsigned limits, long double a0, long double a1);
+			      unsigned limits, long double a0, long double a1);
 void go_cspline_destroyl (GOCSplinel *sp);
 long double go_cspline_get_valuel (GOCSplinel const *sp, long double x);
 long double go_cspline_get_derivl (GOCSplinel const *sp, long double x);

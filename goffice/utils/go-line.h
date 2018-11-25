@@ -31,7 +31,7 @@ typedef struct {
 	unsigned int	 n_dash;
 	double		*dash;
 	/* <private> */
-	unsigned ref_count;
+	unsigned int ref_count;
 } GOLineDashSequence;
 GType go_line_dash_sequence_get_type (void);
 

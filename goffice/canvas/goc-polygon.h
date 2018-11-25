@@ -32,10 +32,10 @@ struct _GocPolygon {
 	GocStyledItem base;
 
 	GocPoint *points;
-	unsigned nb_points;
+	unsigned int nb_points;
 	gboolean use_spline;
 	gboolean fill_rule;
-	unsigned nb_sizes;
+	unsigned int nb_sizes;
 	int *sizes;
 	gpointer priv;
 };

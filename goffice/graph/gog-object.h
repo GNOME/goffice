@@ -41,7 +41,7 @@ typedef enum {
 struct _GogObjectRole {
 	char const *id;	/* for persistence */
 	char const *is_a_typename;
-	unsigned    priority;
+	unsigned    int priority;
 
 	guint32		  	allowable_positions;
 	GogObjectPosition 	default_position;
@@ -64,7 +64,7 @@ GType gog_object_role_get_type (void);
 struct _GogObject {
 	GObject		 base;
 
-	unsigned	 id;
+	unsigned int	 id;
 	char		*user_name;	/* user assigned, NULL will fall back to system generated */
 	char		*auto_name;	/* system generated, in current locale */
 
@@ -90,10 +90,8 @@ typedef struct {
 	GHashTable *roles;
 	GType	    view_type;
 
-	/* using some Private/Public statements to make gtk-doc happy since it does not like the ":1"*/
-	unsigned use_parent_as_proxy /*< private >*/:1/*< public >*/; /* when we change, pretend it was our parent */
-	 /*< private >*/
-	unsigned roles_allocated:1;
+	unsigned int use_parent_as_proxy : 1; /* when we change, pretend it was our parent */
+	unsigned int roles_allocated:1;
 	/*< public >*/
 
 	/* Virtuals */

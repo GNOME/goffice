@@ -121,7 +121,7 @@ typedef struct {
 
 	/* <private> */
 	int expansion[30]; /* what is this for? */
-	unsigned ref_count;
+	unsigned int ref_count;
 } GOFormatDetails;
 
 GType go_format_details_get_type (void);

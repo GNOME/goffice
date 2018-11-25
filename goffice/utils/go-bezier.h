@@ -30,8 +30,8 @@ struct  _GOBezierSpline {
 	double *x, *y;
 	int n;
 	gboolean closed;
-	/* private */
-	unsigned ref_count;
+	/*< private >*/
+	unsigned int ref_count;
 };
 
 GType go_bezier_spline_get_type (void);

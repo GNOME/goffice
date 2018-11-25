@@ -1,5 +1,9 @@
 goffice 0.10.45:
 
+Morten:
+	* Introspection fixes.
+	* Work around gtk-doc bugs.
+
 --------------------------------------------------------------------------
 goffice 0.10.44:
 

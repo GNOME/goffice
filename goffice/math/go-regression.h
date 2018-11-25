@@ -35,7 +35,7 @@ typedef struct {
 	double *xbar;
 	double var; 		/* The variance of the entire regression: sum(errors^2)/(n-xdim) */
 	/*<private>*/
-	unsigned ref_count;
+	unsigned int ref_count;
 } go_regression_stat_t;
 #define GORegressionStat go_regression_stat_t
 
@@ -139,7 +139,7 @@ typedef struct {
 	long double var; /* The variance of the entire regression:
 			sum(errors^2)/(n-xdim) */
 	/*<private>*/
-	unsigned ref_count;
+	unsigned int ref_count;
 } go_regression_stat_tl;
 #define GORegressionStatl go_regression_stat_tl
 

@@ -30,14 +30,14 @@ struct _GogChart {
 	GogOutlinedObject	 base;
 
 	GSList  *plots;
-	unsigned full_cardinality, visible_cardinality;
+	unsigned int full_cardinality, visible_cardinality;
 	gboolean cardinality_valid;
 
 	/* use a simple grid layout to position charts within graph */
-	unsigned x_pos, y_pos;
-	unsigned cols, rows; 		/* if == 0, chart is not positionned */
+	unsigned int x_pos, y_pos;
+	unsigned int cols, rows; 		/* if == 0, chart is not positionned */
 	/* actual chart position in graph grid after layout validation */
-	unsigned x_pos_actual, y_pos_actual;
+	unsigned int x_pos_actual, y_pos_actual;
 
 	GogObject *grid;
 	GSList  *axes;

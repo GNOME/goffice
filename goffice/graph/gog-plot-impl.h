@@ -27,7 +27,7 @@
 G_BEGIN_DECLS
 
 struct _GogPlotDesc {
-	unsigned  num_series_max;
+	unsigned int num_series_max;
 	GogSeriesDesc series;
 };
 
@@ -35,9 +35,9 @@ struct _GogPlot {
 	GogObject	 base;
 
 	GSList		*series;
-	unsigned	 full_cardinality, visible_cardinality;
+	unsigned int	 full_cardinality, visible_cardinality;
 	gboolean	 cardinality_valid;
-	unsigned	 index_num;
+	unsigned int	 index_num;
 	gboolean	 vary_style_by_element;
 	GogPlotRenderingOrder rendering_order;
 	gchar		*plot_group;

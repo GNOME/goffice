@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 typedef struct {
 	GogStyledObject base;
 
-	unsigned index;
+	unsigned int index;
 } GogSeriesElement;
 
 typedef struct {
@@ -61,8 +61,8 @@ struct _GogSeriesDimDesc {
 };
 
 struct _GogSeriesDesc {
-	unsigned style_fields;
-	unsigned num_dim;
+	unsigned int style_fields;
+	unsigned int num_dim;
 	GogSeriesDimDesc const *dim;
 };
 
@@ -78,7 +78,7 @@ struct _GogSeries {
 	GogPlot	  	  *plot;
 	GogDatasetElement *values;
 	gboolean	   has_legend;
-	unsigned   	   num_elements;
+	unsigned int   	   num_elements;
 	GogSeriesFillType  fill_type;
 	GList		  *overrides;  /* GogSeriesElement (individual points) */
 
@@ -86,7 +86,7 @@ struct _GogSeries {
 	gboolean interpolation_skip_invalid;
 	/* data related to data labels */
 	GogSeriesLabelsPos default_pos;
-	unsigned allowed_pos; /* if 0, no data labels can be addded */
+	unsigned int allowed_pos; /* if 0, no data labels can be addded */
 };
 
 typedef struct {
