@@ -1,5 +1,8 @@
 goffice 0.10.45:
 
+Jean:
+	* Fix crash in exponential smoothing with invalid y data. [#377]
+
 Morten:
 	* Introspection fixes.
 	* Work around gtk-doc bugs.

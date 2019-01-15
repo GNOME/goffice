@@ -103,7 +103,7 @@ gog_exp_smooth_update (GogObject *obj)
 		return;
 
 	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
-	if (nb == 0)
+	if (nb == 0 || y_vals == NULL)
 		return;
 	x = g_new (double, nb);
 	y = g_new (double, nb);
