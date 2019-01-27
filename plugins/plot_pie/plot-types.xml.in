@@ -64,7 +64,6 @@
     </Type>
     <Type _name="Multi-pie-bars" row="2" col="3"
 	  engine="GogPiePlot" family="Pie"
-	  _description="Percentage of each contributor with 3D wedges split apart."
 	  _description="Major totals as percentages with each wedge subdivided into secondary stacked bars."
 	  sample_image_file="res:go:plot_pie/chart_pie_2_3.png">
 	<property name="default_separation">.20</property>
