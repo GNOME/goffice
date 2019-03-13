@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
 "POT-Creation-Date: 2019-02-19 21:13+0000\n"
-"PO-Revision-Date: 2019-03-12 17:54+0100\n"
+"PO-Revision-Date: 2019-03-13 16:08+0100\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
@@ -435,7 +435,7 @@ msgstr "Risorse"
 
 #: ../goffice/app/go-plugin-service.c:357
 msgid "Invalid resource service"
-msgstr ""
+msgstr "Servizi di risorse no valit"
 
 #: ../goffice/app/go-plugin-service.c:526
 msgid "File opener has no description"
@@ -444,55 +444,57 @@ msgstr "Il vierzidôr dal file nol à descrizion"
 #: ../goffice/app/go-plugin-service.c:560
 #, c-format
 msgid "File opener - %s"
-msgstr ""
+msgstr "Vierzidôr di file - %s"
 
 #: ../goffice/app/go-plugin-service.c:681
 msgid "Error while reading file."
-msgstr ""
+msgstr "Erôr tal lei il file."
 
 #: ../goffice/app/go-plugin-service.c:847
 msgid "File saver has no description"
-msgstr ""
+msgstr "Il salvadôr dal file nol à descrizion"
 
 #: ../goffice/app/go-plugin-service.c:890
 #, c-format
 msgid "File saver - %s"
-msgstr ""
+msgstr "Salvadôr di file - %s"
 
 #: ../goffice/app/go-plugin-service.c:950
 msgid "Error while loading plugin for saving."
-msgstr ""
+msgstr "Erôr tal cjariâ il plugin pal salvament."
 
 #: ../goffice/app/go-plugin-service.c:952
 msgid "Failed to load plugin for saving"
-msgstr ""
+msgstr "No si è rivâts a cjariâ il plugin pal salvament"
 
 #: ../goffice/app/go-plugin-service.c:1079
 msgid "Plugin loader"
-msgstr ""
+msgstr "Cjariadôr di plugin"
 
 #: ../goffice/app/go-plugin-service.c:1104
 msgid "GObject loader"
-msgstr ""
+msgstr "Cjariadôr di GObject"
 
 #: ../goffice/app/go-plugin-service.c:1211
 msgid "No \"type\" attribute on \"service\" element."
-msgstr ""
+msgstr "Nissun atribût \"type\" sul element \"servizi\"."
 
 #: ../goffice/app/go-plugin-service.c:1217
 #, c-format
 msgid "Unknown service type: %s."
-msgstr ""
+msgstr "Gjenar di servizi no cognossût: %s."
 
 #: ../goffice/app/go-plugin-service.c:1233
 msgid "Error reading service information."
-msgstr ""
+msgstr "Erôr tal lei lis informazions dal servizi."
 
 #: ../goffice/app/go-plugin-service.c:1307
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
 msgstr ""
+"Si scugne cjariâ il servizi prime di ativâlu (PLUGIN_ALWAYS_LOAD al è "
+"stabilît) ma il cjariament al è falît."
 
 #: ../goffice/app/io-context.c:171
 msgid "exec-main-loop"
@@ -500,92 +502,92 @@ msgstr ""
 
 #: ../goffice/app/io-context.c:172
 msgid "Execute main loop iteration"
-msgstr ""
+msgstr "Eseguìs la iterazion dal loop principâl"
 
 #: ../goffice/canvas/goc-arc.c:446
 msgid "xc"
-msgstr ""
+msgstr "xc"
 
 #: ../goffice/canvas/goc-arc.c:447
 msgid "The arc center x coordinate"
-msgstr ""
+msgstr "La coordenade x dal centri dal arc"
 
 #: ../goffice/canvas/goc-arc.c:452
 msgid "yc"
-msgstr ""
+msgstr "yc"
 
 #: ../goffice/canvas/goc-arc.c:453
 msgid "The arc center y coordinate"
-msgstr ""
+msgstr "La coordenade y dal centri dal arc"
 
 #: ../goffice/canvas/goc-arc.c:458
 msgid "xr"
-msgstr ""
+msgstr "xr"
 
 #: ../goffice/canvas/goc-arc.c:459
 msgid "The arc x radius"
-msgstr ""
+msgstr "Il rai x dal arc"
 
 #: ../goffice/canvas/goc-arc.c:464
 msgid "yr"
-msgstr ""
+msgstr "yr"
 
 #: ../goffice/canvas/goc-arc.c:465
 msgid "The arc y radius"
-msgstr ""
+msgstr "Il rai y dal arc"
 
 #: ../goffice/canvas/goc-arc.c:470
 msgid "ang1"
-msgstr ""
+msgstr "ang1"
 
 #: ../goffice/canvas/goc-arc.c:471
 msgid "The arc start angle"
-msgstr ""
+msgstr "L'angul dal inizi dal arc"
 
 #: ../goffice/canvas/goc-arc.c:476
 msgid "ang2"
-msgstr ""
+msgstr "ang2"
 
 #: ../goffice/canvas/goc-arc.c:477
 msgid "The arc end angle"
-msgstr ""
+msgstr "L'angul dal finâl dal arc"
 
 #: ../goffice/canvas/goc-arc.c:482 ../goffice/canvas/goc-component.c:315
 #: ../goffice/canvas/goc-ellipse.c:287 ../goffice/canvas/goc-path.c:292
 #: ../goffice/canvas/goc-rectangle.c:343 ../goffice/canvas/goc-text.c:460
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
-msgstr ""
+msgstr "Rotazion"
 
 #: ../goffice/canvas/goc-arc.c:483
 msgid "The rotation around center position"
-msgstr ""
+msgstr "La rotazion tor ator de posizion dal centri"
 
 #: ../goffice/canvas/goc-arc.c:488 ../goffice/canvas/goc-rectangle.c:349
 #: ../goffice/graph/gog-axis.c:3415 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:352
 msgid "Type"
-msgstr ""
+msgstr "Gjenar"
 
 #: ../goffice/canvas/goc-arc.c:489
 msgid "The type of arc: arc, chord or pie"
-msgstr ""
+msgstr "Il gjenar di arc: arc, cuarde o torte"
 
 #: ../goffice/canvas/goc-arc.c:495 ../goffice/canvas/goc-line.c:318
 msgid "Start Arrow"
-msgstr ""
+msgstr "Frece iniziâl"
 
 #: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:319
 msgid "Arrow for line's start"
-msgstr ""
+msgstr "Frece pal inizi de rie"
 
 #: ../goffice/canvas/goc-arc.c:501 ../goffice/canvas/goc-line.c:324
 msgid "End Arrow"
-msgstr ""
+msgstr "Frece finâl"
 
 #: ../goffice/canvas/goc-arc.c:502 ../goffice/canvas/goc-line.c:325
 msgid "Arrow for line's end"
-msgstr ""
+msgstr "Frece pe fin de rie"
 
 #: ../goffice/canvas/goc-circle.c:174 ../goffice/canvas/goc-component.c:291
 #: ../goffice/canvas/goc-ellipse.c:263 ../goffice/canvas/goc-graph.c:441
@@ -594,11 +596,11 @@ msgstr ""
 #: ../goffice/canvas/goc-rectangle.c:319 ../goffice/canvas/goc-text.c:448
 #: ../goffice/canvas/goc-widget.c:804 ../goffice/utils/go-marker.c:104
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: ../goffice/canvas/goc-circle.c:175
 msgid "The circle center horizontal position"
-msgstr ""
+msgstr "La posizion orizontâl dal centri dal cercli"
 
 #: ../goffice/canvas/goc-circle.c:180 ../goffice/canvas/goc-component.c:297
 #: ../goffice/canvas/goc-ellipse.c:269 ../goffice/canvas/goc-graph.c:447
@@ -607,27 +609,27 @@ msgstr ""
 #: ../goffice/canvas/goc-rectangle.c:325 ../goffice/canvas/goc-text.c:454
 #: ../goffice/canvas/goc-widget.c:810
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: ../goffice/canvas/goc-circle.c:181
 msgid "The circle center vertical position"
-msgstr ""
+msgstr "La posizion verticâl dal centri dal cercli"
 
 #: ../goffice/canvas/goc-circle.c:186
 msgid "Radius"
-msgstr ""
+msgstr "Rai"
 
 #: ../goffice/canvas/goc-circle.c:187
 msgid "The circle radius"
-msgstr ""
+msgstr "Il rai dal cercli"
 
 #: ../goffice/canvas/goc-component.c:292
 msgid "The object left position"
-msgstr ""
+msgstr "La posizion di çampe dal ogjet"
 
 #: ../goffice/canvas/goc-component.c:298
 msgid "The object top position"
-msgstr ""
+msgstr "La posizion superiôr dal ogjet"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
 #: ../goffice/canvas/goc-ellipse.c:281 ../goffice/canvas/goc-graph.c:453
@@ -636,7 +638,7 @@ msgstr ""
 #: ../goffice/canvas/goc-widget.c:823 ../goffice/graph/gog-graph.c:505
 #: ../goffice/graph/gog-object.c:206 ../goffice/utils/go-image.c:514
 msgid "Height"
-msgstr ""
+msgstr "Altece"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
 #: ../goffice/canvas/goc-ellipse.c:275 ../goffice/canvas/goc-graph.c:459
@@ -646,53 +648,53 @@ msgstr ""
 #: ../goffice/graph/gog-graph.c:499 ../goffice/graph/gog-object.c:204
 #: ../goffice/utils/go-image.c:510 ../plugins/plot_xy/gog-xy-dropbar.c:308
 msgid "Width"
-msgstr ""
+msgstr "Largjece"
 
 #: ../goffice/canvas/goc-component.c:316
 msgid "The rotation around center"
-msgstr ""
+msgstr "La rotazion tor ator dal centri"
 
 #: ../goffice/canvas/goc-component.c:321
 msgid "Object"
-msgstr ""
+msgstr "Ogjet"
 
 #: ../goffice/canvas/goc-component.c:322
 msgid "The embedded GOComponent object"
-msgstr ""
+msgstr "L'ogjet GOComponent incorporât"
 
 #: ../goffice/canvas/goc-ellipse.c:264
 msgid "The ellipse left position (or right position in RTL mode)"
-msgstr ""
+msgstr "La posizion di çampe dal elìs (o posizion di drete te modalitât RTL)"
 
 #: ../goffice/canvas/goc-ellipse.c:270
 msgid "The ellipse top position"
-msgstr ""
+msgstr "La posizion superiôr dal elìs"
 
 #: ../goffice/canvas/goc-ellipse.c:276
 msgid "The ellipse width"
-msgstr ""
+msgstr "La largjece dal elìs"
 
 #: ../goffice/canvas/goc-ellipse.c:282
 msgid "The ellipse height"
-msgstr ""
+msgstr "La altece dal elìs"
 
 #: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-rectangle.c:344
 msgid "The rotation around top left position"
-msgstr ""
+msgstr "La rotazion tor ator de posizion in alt a çampe"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
 #: ../goffice/canvas/goc-graph.c:373
 #, c-format
 msgid "(%s,%s)"
-msgstr ""
+msgstr "(%s,%s)"
 
 #: ../goffice/canvas/goc-graph.c:442
 msgid "The graph left position"
-msgstr ""
+msgstr "La posizion di çampe dal grafic"
 
 #: ../goffice/canvas/goc-graph.c:448
 msgid "The graph top position"
-msgstr ""
+msgstr "La posizion superiôr dal grafic"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -700,7 +702,7 @@ msgstr ""
 #: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:258
 #: ../goffice/graph/gog-graph.c:531 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
-msgstr ""
+msgstr "Grafic"
 
 #: ../goffice/canvas/goc-graph.c:466
 msgid "The GogGraph this object displays"
@@ -724,19 +726,19 @@ msgstr ""
 
 #: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
-msgstr ""
+msgstr "La posizion di çampe de imagjin"
 
 #: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
-msgstr ""
+msgstr "La posizion superiôr de imagjin"
 
 #: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
-msgstr ""
+msgstr "La largjece de imagjin o -1 par doprâ la largjece de imagjin"
 
 #: ../goffice/canvas/goc-image.c:289 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
-msgstr ""
+msgstr "La altece de imagjin o -1 par doprâ la altece de imagjin"
 
 #: ../goffice/canvas/goc-image.c:300
 msgid "The GOImage to display"
@@ -744,35 +746,41 @@ msgstr ""
 
 #: ../goffice/canvas/goc-image.c:304
 msgid "Cropped bottom"
-msgstr ""
+msgstr "Inferiôr taiât fûr"
 
 #: ../goffice/canvas/goc-image.c:305
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr ""
+"La aree taiade fûr te zone inferiôr de imagjin segnade come frazion de "
+"altece de imagjin"
 
 #: ../goffice/canvas/goc-image.c:309
 msgid "Cropped left"
-msgstr ""
+msgstr "Çampe taiade fûr"
 
 #: ../goffice/canvas/goc-image.c:310
 msgid "The cropped area at the image left of the image width"
 msgstr ""
+"La aree taiade fûr de zone a çampe de imagjin in relazion ae sô largjece"
 
 #: ../goffice/canvas/goc-image.c:314
 msgid "Cropped right"
-msgstr ""
+msgstr "Drete taiade fûr"
 
 #: ../goffice/canvas/goc-image.c:315
 msgid "The cropped area at the image right of the image width"
 msgstr ""
+"La aree taiade fûr de zone a diestre de imagjin in relazion ae sô largjece"
 
 #: ../goffice/canvas/goc-image.c:319
 msgid "Cropped top"
-msgstr ""
+msgstr "Superiôr taiât fûr"
 
 #: ../goffice/canvas/goc-image.c:320
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr ""
+"La aree taiade fûr te zone superiôr de imagjin segnade come frazion de "
+"altece de imagjin"
 
 #: ../goffice/canvas/goc-item.c:275
 msgid "Canvas"
@@ -792,35 +800,35 @@ msgstr ""
 
 #: ../goffice/canvas/goc-line.c:294
 msgid "x0"
-msgstr ""
+msgstr "x0"
 
 #: ../goffice/canvas/goc-line.c:295
 msgid "The line start x coordinate"
-msgstr ""
+msgstr "La coordenade x dal inizi de rie"
 
 #: ../goffice/canvas/goc-line.c:300
 msgid "y0"
-msgstr ""
+msgstr "y0"
 
 #: ../goffice/canvas/goc-line.c:301
 msgid "The line start y coordinate"
-msgstr ""
+msgstr "La coordenade y dal inizi de rie"
 
 #: ../goffice/canvas/goc-line.c:306
 msgid "x1"
-msgstr ""
+msgstr "x1"
 
 #: ../goffice/canvas/goc-line.c:307
 msgid "The line end x coordinate"
-msgstr ""
+msgstr "La coordenade x de fin de rie"
 
 #: ../goffice/canvas/goc-line.c:312
 msgid "y1"
-msgstr ""
+msgstr "y1"
 
 #: ../goffice/canvas/goc-line.c:313
 msgid "The line end y coordinate"
-msgstr ""
+msgstr "La coordenade y de fin de rie"
 
 #: ../goffice/canvas/goc-path.c:281
 msgid "The path first point x coordinate"
@@ -832,11 +840,11 @@ msgstr ""
 
 #: ../goffice/canvas/goc-path.c:293
 msgid "The rotation around first point position"
-msgstr ""
+msgstr "La rotazion tor ator de posizion dal pont iniziâl"
 
 #: ../goffice/canvas/goc-path.c:298
 msgid "Closed"
-msgstr ""
+msgstr "Sierade"
 
 #: ../goffice/canvas/goc-path.c:299
 msgid "The flag for closed path"
@@ -852,11 +860,11 @@ msgstr ""
 
 #: ../goffice/canvas/goc-path.c:310
 msgid "Path"
-msgstr ""
+msgstr "Percors"
 
 #: ../goffice/canvas/goc-path.c:311
 msgid "The path points"
-msgstr ""
+msgstr "Il percors dai ponts"
 
 #: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:366
 msgid "Pixbuf"
@@ -868,11 +876,11 @@ msgstr ""
 
 #: ../goffice/canvas/goc-polygon.c:343 ../goffice/canvas/goc-polyline.c:260
 msgid "points"
-msgstr ""
+msgstr "ponts"
 
 #: ../goffice/canvas/goc-polygon.c:343
 msgid "The polygon vertices"
-msgstr ""
+msgstr "I vertiçs dal poligon"
 
 #: ../goffice/canvas/goc-polygon.c:348 ../goffice/canvas/goc-polyline.c:265
 msgid "Use spline"
@@ -884,7 +892,7 @@ msgstr ""
 
 #: ../goffice/canvas/goc-polygon.c:359
 msgid "sizes"
-msgstr ""
+msgstr "dimensions"
 
 #: ../goffice/canvas/goc-polygon.c:360
 msgid ""
@@ -907,15 +915,15 @@ msgstr ""
 
 #: ../goffice/canvas/goc-rectangle.c:326
 msgid "The rectangle top position"
-msgstr ""
+msgstr "La posizion superiôr dal retangul"
 
 #: ../goffice/canvas/goc-rectangle.c:332
 msgid "The rectangle width"
-msgstr ""
+msgstr "La largjece dal retangul"
 
 #: ../goffice/canvas/goc-rectangle.c:338
 msgid "The rectangle height"
-msgstr ""
+msgstr "La altece dal retangul"
 
 #: ../goffice/canvas/goc-rectangle.c:350
 msgid ""
@@ -926,7 +934,7 @@ msgstr ""
 
 #: ../goffice/canvas/goc-rectangle.c:355
 msgid "rx"
-msgstr ""
+msgstr "rx"
 
 #: ../goffice/canvas/goc-rectangle.c:356
 msgid "The round rectangle rx"
@@ -934,7 +942,7 @@ msgstr ""
 
 #: ../goffice/canvas/goc-rectangle.c:361
 msgid "ry"
-msgstr ""
+msgstr "ry"
 
 #: ../goffice/canvas/goc-rectangle.c:362
 msgid "The round rectangle ry"
@@ -944,7 +952,7 @@ msgstr ""
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
 #: ../goffice/graph/gog-styled-object.c:225 ../goffice/utils/go-style.c:1122
 msgid "Style"
-msgstr ""
+msgstr "Stîl"
 
 #: ../goffice/canvas/goc-styled-item.c:163
 #: ../goffice/graph/gog-styled-object.c:226
@@ -961,40 +969,40 @@ msgstr ""
 
 #: ../goffice/canvas/goc-text.c:449
 msgid "The text horizontal position"
-msgstr ""
+msgstr "La posizion orizontâl dal test"
 
 #: ../goffice/canvas/goc-text.c:455
 msgid "The text position"
-msgstr ""
+msgstr "La posizion dal test"
 
 #: ../goffice/canvas/goc-text.c:461
 msgid "The rotation around the anchor"
-msgstr ""
+msgstr "La rotazion tor ator de ancure"
 
 #: ../goffice/canvas/goc-text.c:466 ../goffice/graph/gog-object.c:858
 msgid "Anchor"
-msgstr ""
+msgstr "Ancure"
 
 #: ../goffice/canvas/goc-text.c:467
 msgid "The anchor point for the text"
-msgstr ""
+msgstr "Il pont de ancure pal test"
 
 #: ../goffice/canvas/goc-text.c:472 ../goffice/gtk/go-format-sel.c:68
 #: ../goffice/gtk/go-rotation-sel.c:230 ../goffice/utils/go-style.c:988
 msgid "Text"
-msgstr ""
+msgstr "Test"
 
 #: ../goffice/canvas/goc-text.c:473
 msgid "The text to display"
-msgstr ""
+msgstr "Il test di mostrâ"
 
 #: ../goffice/canvas/goc-text.c:476
 msgid "Attributes"
-msgstr ""
+msgstr "Atribûts"
 
 #: ../goffice/canvas/goc-text.c:476
 msgid "The attributes list as a PangoAttrList"
-msgstr ""
+msgstr "La liste di atribûts come une PangoAttrList"
 
 #: ../goffice/canvas/goc-text.c:481
 msgid "Clip"
@@ -1098,15 +1106,15 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:97
 msgid "Degrees"
-msgstr ""
+msgstr "Grâts"
 
 #: ../goffice/graph/gog-axis.c:98
 msgid "Radians"
-msgstr ""
+msgstr "Radiants"
 
 #: ../goffice/graph/gog-axis.c:99
 msgid "Grads"
-msgstr ""
+msgstr "Gradients"
 
 #: ../goffice/graph/gog-axis.c:1612
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:7
@@ -1120,7 +1128,7 @@ msgstr ""
 #: ../goffice/graph/gog-axis.c:1624 ../goffice/utils/go-line.c:161
 #: ../goffice/utils/go-line.c:376 ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Linear"
-msgstr ""
+msgstr "Lineâr"
 
 #: ../goffice/graph/gog-axis.c:1624
 msgid "Linear mapping"
@@ -1128,7 +1136,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:1636
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: ../goffice/graph/gog-axis.c:1636
 msgid "Logarithm mapping"
@@ -1136,19 +1144,19 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3015
 msgid "Distance:"
-msgstr ""
+msgstr "Distance:"
 
 #: ../goffice/graph/gog-axis.c:3022 ../goffice/graph/gog-axis.c:3034
 msgid "Ratio:"
-msgstr ""
+msgstr "Proporzion:"
 
 #: ../goffice/graph/gog-axis.c:3082 ../goffice/graph/gog-axis.c:3092
 msgid "M_inimum"
-msgstr ""
+msgstr "M_inim"
 
 #: ../goffice/graph/gog-axis.c:3083 ../goffice/graph/gog-axis.c:3093
 msgid "M_aximum"
-msgstr ""
+msgstr "M_assim"
 
 #: ../goffice/graph/gog-axis.c:3084
 msgid "Categories between _ticks"
@@ -1178,23 +1186,23 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3233
 msgid "Colors"
-msgstr ""
+msgstr "Colôrs"
 
 #. An MS Excel-ish theme
 #: ../goffice/graph/gog-axis.c:3264 ../goffice/graph/gog-axis-color-map.c:1041
 #: ../goffice/graph/gog-theme.c:1232
 msgid "Default"
-msgstr ""
+msgstr "Predefinît"
 
 #: ../goffice/graph/gog-axis.c:3269
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:12
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
 msgid "Absolute"
-msgstr ""
+msgstr "Assolût"
 
 #: ../goffice/graph/gog-axis.c:3275
 msgid "Relative length"
-msgstr ""
+msgstr "Lungjece relative"
 
 #: ../goffice/graph/gog-axis.c:3279
 msgid "Relative ticks distance"
@@ -1202,13 +1210,13 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3344 ../goffice/graph/gog-axis.c:3467
 msgid "Metrics"
-msgstr ""
+msgstr "Metriche"
 
 #: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2606
 #: ../goffice/graph/gog-series-labels.c:911
 #: ../goffice/graph/gog-series-labels.c:1441
 msgid "Format"
-msgstr ""
+msgstr "Formât"
 
 #: ../goffice/graph/gog-axis.c:3400
 msgid "AxisLine"
@@ -1220,7 +1228,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3420
 msgid "Invert axis"
-msgstr ""
+msgstr "Invertìs as"
 
 #: ../goffice/graph/gog-axis.c:3421
 msgid "Scale from high to low rather than low to high"
@@ -1236,7 +1244,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3431 ../goffice/graph/gog-axis-line.c:2694
 msgid "Assigned XL format"
-msgstr ""
+msgstr "Formât XL assegnât"
 
 #: ../goffice/graph/gog-axis.c:3432 ../goffice/graph/gog-axis-line.c:2695
 msgid ""
@@ -1245,7 +1253,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3437 ../goffice/graph/gog-axis.c:3438
 msgid "Rotation of circular axis"
-msgstr ""
+msgstr "Rotazion dal as circolâr"
 
 #: ../goffice/graph/gog-axis.c:3445 ../goffice/graph/gog-axis.c:3446
 msgid "Polar axis set unit"
@@ -1253,7 +1261,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3451
 msgid "Axis start position"
-msgstr ""
+msgstr "Posizion iniziâl dal as"
 
 #: ../goffice/graph/gog-axis.c:3452
 msgid ""
@@ -1263,7 +1271,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3457
 msgid "Axis end position"
-msgstr ""
+msgstr "Posizion finâl dal as"
 
 #: ../goffice/graph/gog-axis.c:3458
 msgid ""
@@ -1277,7 +1285,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3463
 msgid "The name of the color map"
-msgstr ""
+msgstr "Il non de mape dai colôrs"
 
 #: ../goffice/graph/gog-axis.c:3468
 msgid "The way the axis ticks distance is evaluated"
@@ -1293,7 +1301,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3478
 msgid "Metrics ratio"
-msgstr ""
+msgstr "Proporzion metriche"
 
 #: ../goffice/graph/gog-axis.c:3479
 msgid ""
@@ -1303,7 +1311,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3483
 msgid "Metrics Unit"
-msgstr ""
+msgstr "Unitât metriche"
 
 #: ../goffice/graph/gog-axis.c:3484
 msgid ""
@@ -1313,7 +1321,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3489
 msgid "Display factor"
-msgstr ""
+msgstr "Mostre fatôr"
 
 #: ../goffice/graph/gog-axis.c:3490
 msgid "Real values are the displayed ones multipled by the display factor."
@@ -1321,7 +1329,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-color-map.c:132 ../goffice/graph/gog-theme.c:322
 msgid "Resource type"
-msgstr ""
+msgstr "Gjenar di risorse"
 
 #: ../goffice/graph/gog-axis-color-map.c:133
 msgid "The resource type for the color map"
@@ -1329,11 +1337,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-color-map.c:635
 msgid "New map"
-msgstr ""
+msgstr "Gnove mape"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
 msgid "Color map editor"
-msgstr ""
+msgstr "Editôr de mape dai colôrs"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
 msgid "Current color stop"
@@ -1341,38 +1349,38 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
 msgid "Value"
-msgstr ""
+msgstr "Valôr"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:4
 #: ../plugins/lasem/component.c:486
 msgid "Color"
-msgstr ""
+msgstr "Colôr"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
 #: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:593
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
-msgstr ""
+msgstr "Non "
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
 msgid "Gradient"
-msgstr ""
+msgstr "Gradient"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
 msgid "Snapshots"
-msgstr ""
+msgstr "Istantaniis"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:9
 msgid "Define"
-msgstr ""
+msgstr "Definìs"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:10
 msgid "Erase"
-msgstr ""
+msgstr "Scancele"
 
 #: ../goffice/graph/gog-axis-line.c:671
 msgid "Layout"
-msgstr ""
+msgstr "Disposizion"
 
 #: ../goffice/graph/gog-axis-line.c:755
 msgid "MajorGrid"
@@ -1385,11 +1393,11 @@ msgstr ""
 #: ../goffice/graph/gog-axis-line.c:761 ../goffice/graph/gog-color-scale.c:325
 #: ../goffice/graph/gog-theme.c:591
 msgid "Label"
-msgstr ""
+msgstr "Etichete"
 
 #: ../goffice/graph/gog-axis-line.c:776
 msgid "Axis position"
-msgstr ""
+msgstr "Posizion as"
 
 #: ../goffice/graph/gog-axis-line.c:777 ../goffice/graph/gog-axis-line.c:783
 msgid "Where to position an axis low, high, or crossing"
@@ -1397,7 +1405,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:782
 msgid "Axis position (as a string)"
-msgstr ""
+msgstr "Posizion as (come une stringhe)"
 
 #: ../goffice/graph/gog-axis-line.c:789
 msgid "Major labels"
@@ -1495,31 +1503,31 @@ msgstr ""
 #: ../goffice/graph/gog-object-prefs.ui.h:15
 #: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:349
 msgid "Automatic"
-msgstr ""
+msgstr "Automatic"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:3
 #: ../goffice/graph/gog-series-prefs.ui.h:4
 #: ../goffice/utils/go-style-prefs.ui.h:26
 msgid "_Type:"
-msgstr ""
+msgstr "_Gjenar:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:4
 msgid "_Invert axis"
-msgstr ""
+msgstr "_Invertìs as"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:5
 msgid "_Unit:"
-msgstr ""
+msgstr "_Unitât:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:6
 msgid "_Rotation:"
-msgstr ""
+msgstr "_Rotazion:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:7 ../goffice/gtk/go-rotation-sel.ui.h:3
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
 msgid "degrees"
-msgstr ""
+msgstr "grâts"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:8
 msgid "Mapping"
@@ -1531,21 +1539,21 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:10
 msgid "_Outside"
-msgstr ""
+msgstr "_Fûr"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:11
 msgid "_Inside"
-msgstr ""
+msgstr "_Dentri"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:12
 msgid "_Show Labels"
-msgstr ""
+msgstr "_Mostre etichetis"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:13 ../goffice/graph/gog-object.c:790
 #: ../goffice/graph/gog-object.c:834 ../goffice/graph/gog-series-labels.c:899
 #: ../goffice/graph/gog-series-labels.c:1429
 msgid "Position"
-msgstr ""
+msgstr "Posizion"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:14
 msgid "_Low"
@@ -1579,36 +1587,37 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:21
 msgid "O_utside"
-msgstr ""
+msgstr "Fû_r"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:22
 msgid "I_nside"
-msgstr ""
+msgstr "D_entri"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:23
 msgid "New"
-msgstr ""
+msgstr "Gnûf"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:24
 msgid "Creates a new color map from scratch"
-msgstr ""
+msgstr "Al cree une gnove mape dai colôrs di zero"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:25
 msgid "Duplicate"
-msgstr ""
+msgstr "Doplee"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:26
 msgid "Creates a new color map based on the currently selected one."
 msgstr ""
+"Al cree une gnove mape di colôrs basade su chê atualmentri selezionade."
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:27
 #: ../goffice/graph/gog-graph-prefs.ui.h:3
 msgid "Save"
-msgstr ""
+msgstr "Salve"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:28
 msgid "Saves the color map to the local disk."
-msgstr ""
+msgstr "Salve la mape dai colôrs sul disc locâl."
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:29
 msgid "Custom ticks"
@@ -1616,11 +1625,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:30
 msgid "Positions:"
-msgstr ""
+msgstr "Posizions:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:31
 msgid "Labels:"
-msgstr ""
+msgstr "Etichetis:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:33
 #, no-c-format
@@ -1629,11 +1638,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:34 ../goffice/utils/go-style.c:658
 msgid "Start:"
-msgstr ""
+msgstr "Inizi:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:35 ../goffice/utils/go-style.c:659
 msgid "End:"
-msgstr ""
+msgstr "Fin:"
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:756
 msgid "Plot area"
@@ -1657,27 +1666,27 @@ msgstr ""
 
 #: ../goffice/graph/gog-chart.c:661
 msgid "X-Axis"
-msgstr ""
+msgstr "As-X"
 
 #: ../goffice/graph/gog-chart.c:665
 msgid "Y-Axis"
-msgstr ""
+msgstr "As-Y"
 
 #: ../goffice/graph/gog-chart.c:669
 msgid "Z-Axis"
-msgstr ""
+msgstr "As-Z"
 
 #: ../goffice/graph/gog-chart.c:673
 msgid "Circular-Axis"
-msgstr ""
+msgstr "As-circolâr"
 
 #: ../goffice/graph/gog-chart.c:677
 msgid "Radial-Axis"
-msgstr ""
+msgstr "As-radiâl"
 
 #: ../goffice/graph/gog-chart.c:681
 msgid "Pseudo-3D-Axis"
-msgstr ""
+msgstr "As-Pseudo-3D"
 
 #: ../goffice/graph/gog-chart.c:685
 msgid "Bubble-Axis"
@@ -1685,7 +1694,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-chart.c:689
 msgid "Color-Axis"
-msgstr ""
+msgstr "As-Colôr"
 
 #: ../goffice/graph/gog-chart.c:693
 msgid "Plot"
@@ -1694,17 +1703,17 @@ msgstr ""
 #: ../goffice/graph/gog-chart.c:696 ../goffice/graph/gog-graph.c:432
 #: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
 msgid "Title"
-msgstr ""
+msgstr "Titul"
 
 #: ../goffice/graph/gog-chart.c:701 ../goffice/graph/gog-theme.c:585
 #: ../goffice/graph/gog-trend-line.c:97
 msgid "Legend"
-msgstr ""
+msgstr "Liende"
 
 #: ../goffice/graph/gog-chart.c:707 ../goffice/graph/gog-reg-curve.c:278
 #: ../goffice/graph/gog-theme.c:595 ../plugins/lasem/plugin.xml.in.h:4
 msgid "Equation"
-msgstr ""
+msgstr "Ecuazion"
 
 #: ../goffice/graph/gog-chart.c:713
 msgid "3D-Box"
@@ -1806,7 +1815,7 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
 #: ../plugins/plot_xy/gog-xy.c:2103
 msgid "Details"
-msgstr ""
+msgstr "Detais"
 
 #: ../goffice/graph/gog-color-scale.c:335
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:3
@@ -1815,7 +1824,7 @@ msgstr ""
 #: ../plugins/plot_xy/gog-xy-dropbar.c:302
 #: ../plugins/plot_xy/gog-xy-minmax.c:299
 msgid "Horizontal"
-msgstr ""
+msgstr "Orizontâl"
 
 #: ../goffice/graph/gog-color-scale.c:336
 msgid "Whether to display the scale horizontally"
@@ -1827,7 +1836,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-color-scale.c:346 ../goffice/graph/gog-theme.c:586
 msgid "Axis"
-msgstr ""
+msgstr "As"
 
 #: ../goffice/graph/gog-color-scale.c:347
 msgid "Reference to the color or pseudo-3d axis"
@@ -1847,23 +1856,23 @@ msgstr ""
 
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:2
 msgid "Direction:"
-msgstr ""
+msgstr "Direzion:"
 
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:4
 #: ../plugins/plot_distrib/gog-boxplot.c:395
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
 #: ../plugins/plot_distrib/gog-histogram.c:372
 msgid "Vertical"
-msgstr ""
+msgstr "Verticâl"
 
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:5
 msgid "Width:"
-msgstr ""
+msgstr "Largjece:"
 
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
 #: ../goffice/gtk/go-math-editor.c:106
 msgid "_Compact mode"
-msgstr ""
+msgstr "Modalitât _compate"
 
 #: ../goffice/graph/gog-error-bar.c:79
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:11
@@ -1900,23 +1909,23 @@ msgstr ""
 #: ../goffice/graph/gog-object-prefs.ui.h:17
 #: ../goffice/graph/gog-plot-prefs.ui.h:3
 msgid "_Width:"
-msgstr ""
+msgstr "_Largjece:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:3
 msgid "_Line width:"
-msgstr ""
+msgstr "Largjece de _rie:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:4
 msgid "Colo_r:"
-msgstr ""
+msgstr "Colô_r:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:7
 msgid "(+)"
-msgstr ""
+msgstr "(+)"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:8
 msgid "(-)"
-msgstr ""
+msgstr "(-)"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:9
 #: ../plugins/plot_barcol/gog-1.5d.c:369
@@ -1925,26 +1934,26 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-probability-plot.c:317
 #: ../plugins/plot_pie/gog-pie.c:344 ../plugins/plot_radar/gog-radar.c:324
 msgid "Values"
-msgstr ""
+msgstr "Valôrs"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:10
 msgid "Error category"
-msgstr ""
+msgstr "Categorie di erôr"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:13
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
 msgid "Relative"
-msgstr ""
+msgstr "Relatîf"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:14
 msgid "Percent"
-msgstr ""
+msgstr "Percentuâl"
 
 #. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:365 ../goffice/graph/gog-graph.c:487
 #: ../goffice/graph/gog-theme.c:1406 ../goffice/graph/gog-theme.c:1579
 msgid "Theme"
-msgstr ""
+msgstr "Teme"
 
 #: ../goffice/graph/gog-graph.c:426 ../goffice/graph/gog-theme.c:583
 msgid "Chart"
@@ -1952,15 +1961,15 @@ msgstr ""
 
 #: ../goffice/graph/gog-graph.c:488
 msgid "The theme for elements of the graph"
-msgstr ""
+msgstr "Il teme pai elements tal grafic"
 
 #: ../goffice/graph/gog-graph.c:493
 msgid "Theme name"
-msgstr ""
+msgstr "Non dal teme"
 
 #: ../goffice/graph/gog-graph.c:494
 msgid "The name of the theme for elements of the graph"
-msgstr ""
+msgstr "Il non dal teme pai elements dal grafic"
 
 #: ../goffice/graph/gog-graph.c:500
 msgid "Logical graph width, in points"
@@ -1972,7 +1981,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-graph.c:511
 msgid "Document"
-msgstr ""
+msgstr "Document"
 
 #: ../goffice/graph/gog-graph.c:512
 msgid "the document for this graph"
@@ -1984,11 +1993,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:1
 msgid "Theme:"
-msgstr ""
+msgstr "Teme:"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:2
 msgid "Forget user styles"
-msgstr ""
+msgstr "Dismentee i stîi dal utent"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:4
 msgid "Save the theme as a standalone file in the user home directory."
@@ -2020,7 +2029,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-guru.c:1145
 msgid "_Insert"
-msgstr ""
+msgstr "_Inserìs"
 
 #: ../goffice/graph/gog-guru.c:1216
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
@@ -2033,7 +2042,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
 msgid "_Subtype"
-msgstr ""
+msgstr "_Sotgjenar"
 
 #: ../goffice/graph/gog-label.c:160
 msgid "Allow markup"
@@ -2069,7 +2078,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-label.c:296
 msgid "_Text:"
-msgstr ""
+msgstr "_Test:"
 
 #: ../goffice/graph/gog-label.c:299 ../goffice/graph/gog-label.c:569
 msgid "Rotate frame with text"
@@ -2095,7 +2104,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-label.c:432
 msgid "Text justification"
-msgstr ""
+msgstr "Justificazions dal test"
 
 #: ../goffice/graph/gog-label.c:433
 msgid ""
@@ -2105,23 +2114,23 @@ msgstr ""
 
 #: ../goffice/graph/gog-label.c:588
 msgid "Regression Equation"
-msgstr ""
+msgstr "Ecuazion di regrès"
 
 #: ../goffice/graph/gog-label.c:627
 msgid "Show equation"
-msgstr ""
+msgstr "Mostre ecuazion"
 
 #: ../goffice/graph/gog-label.c:628
 msgid "Show the equation on the graph"
-msgstr ""
+msgstr "Mostre la ecuazion sul grafic"
 
 #: ../goffice/graph/gog-label.c:633
 msgid "Show coefficient"
-msgstr ""
+msgstr "Mostre coeficient"
 
 #: ../goffice/graph/gog-label.c:634
 msgid "Show the correlation coefficient on the graph"
-msgstr ""
+msgstr "Mostre il coeficient de corelazion sul grafic"
 
 #: ../goffice/graph/gog-legend.c:218
 msgid "Swatch Size pts"
@@ -2157,50 +2166,51 @@ msgstr ""
 
 #: ../goffice/graph/gog-object.c:184 ../goffice/utils/go-style-prefs.ui.h:29
 msgid "Fill"
-msgstr ""
+msgstr "Jemple"
 
 #: ../goffice/graph/gog-object.c:185 ../plugins/plot_barcol/gog-dropbar.c:143
 #: ../plugins/plot_xy/gog-xy-dropbar.c:322
 msgid "Start"
-msgstr ""
+msgstr "Inizi"
 
 #: ../goffice/graph/gog-object.c:186 ../plugins/plot_barcol/gog-dropbar.c:145
 #: ../plugins/plot_xy/gog-xy-dropbar.c:324
 msgid "End"
-msgstr ""
+msgstr "Fin"
 
 #: ../goffice/graph/gog-object.c:187 ../goffice/graph/gog-object.c:195
 #: ../goffice/graph/gog-series.c:113
 msgid "Center"
-msgstr ""
+msgstr "Centri"
 
 #: ../goffice/graph/gog-object.c:205
 msgid "Absolute width"
-msgstr ""
+msgstr "Largjece assolude"
 
 #: ../goffice/graph/gog-object.c:207
 msgid "Absolute height"
-msgstr ""
+msgstr "Altece assolude"
 
 #: ../goffice/graph/gog-object.c:208
 msgid "Size"
-msgstr ""
+msgstr "Dimension"
 
 #: ../goffice/graph/gog-object.c:209
 msgid "Absolute size"
-msgstr ""
+msgstr "Dimension assolude"
 
 #: ../goffice/graph/gog-object.c:828
 msgid "Object ID"
-msgstr ""
+msgstr "ID dal ogjet"
 
 #: ../goffice/graph/gog-object.c:829
 msgid "Object numerical ID"
-msgstr ""
+msgstr "ID numeric dal ogjet"
 
 #: ../goffice/graph/gog-object.c:835
 msgid "Position and size of object, in percentage of parent size"
 msgstr ""
+"Posizion e dimension dal ogjet, in percentuâl de dimension dal gjenitôr"
 
 #: ../goffice/graph/gog-object.c:840
 msgid "Compass"
@@ -2212,7 +2222,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-object.c:846
 msgid "Alignment"
-msgstr ""
+msgstr "Inlineament"
 
 #: ../goffice/graph/gog-object.c:847
 msgid "Alignment flag"
@@ -2232,39 +2242,39 @@ msgstr ""
 
 #: ../goffice/graph/gog-object.c:870
 msgid "Manual size"
-msgstr ""
+msgstr "Dimension manuâl"
 
 #: ../goffice/graph/gog-object.c:871
 msgid "Whether the height or width are manually set"
-msgstr ""
+msgstr "Indiche se la altece o la largjece a son stabilidis a man"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:1
 #: ../goffice/graph/gog-plot-prefs.ui.h:7
 msgid "_Object position:"
-msgstr ""
+msgstr "Posizion dal _ogjet:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:2
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:1
 msgid "_Position:"
-msgstr ""
+msgstr "_Posizion:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:3
 msgid "_Alignment:"
-msgstr ""
+msgstr "_Inlineament:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:4
 #: ../goffice/graph/gog-plot-prefs.ui.h:1
 msgid "_X:"
-msgstr ""
+msgstr "_X:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:5
 #: ../goffice/graph/gog-plot-prefs.ui.h:2
 msgid "_Y:"
-msgstr ""
+msgstr "_Y:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:6
 msgid "Anchor:"
-msgstr ""
+msgstr "Ancure:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:8
 #: ../goffice/graph/gog-plot-prefs.ui.h:6
@@ -2276,15 +2286,15 @@ msgstr ""
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:9
 msgid "Column:"
-msgstr ""
+msgstr "Colone:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:10
 msgid "Row:"
-msgstr ""
+msgstr "Rie:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:11
 msgid "Width in columns:"
@@ -2296,21 +2306,21 @@ msgstr ""
 
 #: ../goffice/graph/gog-object-prefs.ui.h:13
 msgid "page 3"
-msgstr ""
+msgstr "pagjine 3"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:14
 msgid "Object size:"
-msgstr ""
+msgstr "Dimension ogjet:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:16
 #: ../goffice/graph/gog-plot-prefs.ui.h:9
 msgid "Manual"
-msgstr ""
+msgstr "Manuâl"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:18
 #: ../goffice/graph/gog-plot-prefs.ui.h:4
 msgid "_Height:"
-msgstr ""
+msgstr "_Altece:"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
@@ -2322,31 +2332,31 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:229
 msgid "X axis:"
-msgstr ""
+msgstr "As X:"
 
 #: ../goffice/graph/gog-plot.c:230
 msgid "Y axis:"
-msgstr ""
+msgstr "As Y:"
 
 #: ../goffice/graph/gog-plot.c:231
 msgid "Z axis:"
-msgstr ""
+msgstr "As Z:"
 
 #: ../goffice/graph/gog-plot.c:232
 msgid "Circular axis:"
-msgstr ""
+msgstr "As circolâr:"
 
 #: ../goffice/graph/gog-plot.c:233
 msgid "Radial axis:"
-msgstr ""
+msgstr "As radiâl:"
 
 #: ../goffice/graph/gog-plot.c:234
 msgid "Pseudo 3D axis:"
-msgstr ""
+msgstr "As pseudo 3D:"
 
 #: ../goffice/graph/gog-plot.c:235
 msgid "Color axis:"
-msgstr ""
+msgstr "As dal colôr:"
 
 #: ../goffice/graph/gog-plot.c:236
 msgid "Bubble axis:"
@@ -2354,12 +2364,12 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:302
 msgid "Axes"
-msgstr ""
+msgstr "As"
 
 #: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
-msgstr ""
+msgstr "Seriis"
 
 #: ../goffice/graph/gog-plot.c:459
 msgid "Vary style by element"
@@ -2371,7 +2381,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:465
 msgid "X axis"
-msgstr ""
+msgstr "As X"
 
 #: ../goffice/graph/gog-plot.c:466
 msgid "Reference to X axis"
@@ -2379,7 +2389,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:471
 msgid "Y axis"
-msgstr ""
+msgstr "As Y"
 
 #: ../goffice/graph/gog-plot.c:472
 msgid "Reference to Y axis"
@@ -2387,7 +2397,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:477
 msgid "Z axis"
-msgstr ""
+msgstr "As Z"
 
 #: ../goffice/graph/gog-plot.c:478
 msgid "Reference to Z axis"
@@ -2395,7 +2405,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:483
 msgid "Circular axis"
-msgstr ""
+msgstr "As circolâr"
 
 #: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
@@ -2403,7 +2413,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:489
 msgid "Radial axis"
-msgstr ""
+msgstr "As radiâl"
 
 #: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
@@ -2411,7 +2421,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
-msgstr ""
+msgstr "As pseudo-3D"
 
 #: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
@@ -2419,7 +2429,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:501
 msgid "Color axis"
-msgstr ""
+msgstr "As dal colôr"
 
 #: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
@@ -2453,11 +2463,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:526
 msgid "Default interpolation"
-msgstr ""
+msgstr "Interpolazion predefinide"
 
 #: ../goffice/graph/gog-plot.c:527
 msgid "Default type of series line interpolation"
-msgstr ""
+msgstr "Gjenar predefinît de interpolazion de linie des seriis"
 
 #: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
@@ -2508,7 +2518,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
-msgstr ""
+msgstr "(_Non):"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
 msgid "Low bound:"
@@ -2570,7 +2580,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-renderer.c:1874 ../goffice/graph/gog-view.c:699
 msgid "Model"
-msgstr ""
+msgstr "Model"
 
 #: ../goffice/graph/gog-renderer.c:1875
 msgid "The GogGraph this renderer displays"
@@ -2578,7 +2588,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-renderer.c:1880
 msgid "View"
-msgstr ""
+msgstr "Visualize"
 
 #: ../goffice/graph/gog-renderer.c:1881
 msgid "the GogView this renderer is displaying"
@@ -2586,19 +2596,19 @@ msgstr ""
 
 #: ../goffice/graph/gog-series.c:106
 msgid "Y origin"
-msgstr ""
+msgstr "Origjin Y"
 
 #: ../goffice/graph/gog-series.c:107
 msgid "X origin"
-msgstr ""
+msgstr "Origjin X"
 
 #: ../goffice/graph/gog-series.c:112
 msgid "Origin"
-msgstr ""
+msgstr "Origjin"
 
 #: ../goffice/graph/gog-series.c:114
 msgid "Edge"
-msgstr ""
+msgstr "Ôr"
 
 #: ../goffice/graph/gog-series.c:115
 msgid "Self"
@@ -2626,27 +2636,27 @@ msgstr ""
 
 #: ../goffice/graph/gog-series.c:233 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
-msgstr ""
+msgstr "Indiç:"
 
 #: ../goffice/graph/gog-series.c:246 ../plugins/plot_pie/gog-pie.c:91
 msgid "Settings"
-msgstr ""
+msgstr "Impostazions"
 
 #: ../goffice/graph/gog-series.c:287 ../goffice/graph/gog-series-labels.c:917
 msgid "Index"
-msgstr ""
+msgstr "Indiç"
 
 #: ../goffice/graph/gog-series.c:288 ../goffice/graph/gog-series-labels.c:918
 msgid "Index of the corresponding data element"
-msgstr ""
+msgstr "Indiç dal element dai dâts corispondent"
 
 #: ../goffice/graph/gog-series.c:624 ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
-msgstr ""
+msgstr "_Mostre te liende"
 
 #: ../goffice/graph/gog-series.c:634
 msgid "Data"
-msgstr ""
+msgstr "Dâts"
 
 #: ../goffice/graph/gog-series.c:696
 msgid "Derivative at first point of the clamped cubic spline."
@@ -2658,11 +2668,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-series.c:774 ../goffice/graph/gog-series-labels.c:1406
 msgid "Point"
-msgstr ""
+msgstr "Pont"
 
 #: ../goffice/graph/gog-series.c:780
 msgid "Regression curve"
-msgstr ""
+msgstr "Curve di regression"
 
 #: ../goffice/graph/gog-series.c:788 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
@@ -2670,11 +2680,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-series.c:796
 msgid "Data labels"
-msgstr ""
+msgstr "Etichetis dai dâts"
 
 #: ../goffice/graph/gog-series.c:831 ../goffice/graph/gog-trend-line.c:151
 msgid "Has-legend"
-msgstr ""
+msgstr "Al à liende"
 
 #: ../goffice/graph/gog-series.c:832
 msgid "Should the series show up in legends"
@@ -2682,11 +2692,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-series.c:837 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
-msgstr ""
+msgstr "Interpolazion"
 
 #: ../goffice/graph/gog-series.c:838
 msgid "Type of line interpolation"
-msgstr ""
+msgstr "Gjenar di interpolazion de linie"
 
 #: ../goffice/graph/gog-series.c:843
 msgid "Interpolation skip invalid"
@@ -2698,11 +2708,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-series.c:849
 msgid "Fill type"
-msgstr ""
+msgstr "Gjenar di jemplament"
 
 #: ../goffice/graph/gog-series.c:850
 msgid "How to fill the area"
-msgstr ""
+msgstr "Ce mût jemplâ la aree"
 
 #: ../goffice/graph/gog-series-labels.c:57
 msgid "Centered"
@@ -2745,7 +2755,7 @@ msgstr ""
 #: ../goffice/graph/gog-series-labels.c:527
 #: ../goffice/graph/gog-series-labels.c:592
 msgid "Values as percent"
-msgstr ""
+msgstr "Valôrs come percentuâl"
 
 #. Note to translators: a space might be needed before '%%' in some languages
 #. FIXME: should the number of digits be customizable?
@@ -2787,7 +2797,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:4
 msgid "Separator:"
-msgstr ""
+msgstr "Separadôr:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
 msgid "Fill _to:"
