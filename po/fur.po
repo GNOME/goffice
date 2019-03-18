@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
 "POT-Creation-Date: 2019-02-19 21:13+0000\n"
-"PO-Revision-Date: 2019-03-13 16:08+0100\n"
+"PO-Revision-Date: 2019-03-18 10:24+0100\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
@@ -1646,7 +1646,7 @@ msgstr "Fin:"
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:756
 msgid "Plot area"
-msgstr ""
+msgstr "Aree di dissen"
 
 #: ../goffice/graph/gog-chart.c:646 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
@@ -1698,7 +1698,7 @@ msgstr "As-Colôr"
 
 #: ../goffice/graph/gog-chart.c:693
 msgid "Plot"
-msgstr ""
+msgstr "Dissen"
 
 #: ../goffice/graph/gog-chart.c:696 ../goffice/graph/gog-graph.c:432
 #: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
@@ -1734,14 +1734,16 @@ msgstr ""
 #: ../goffice/graph/gog-chart.c:757
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr ""
+"La posizion e dimension de aree dal dissen, in percentuâl de dimension dal "
+"diagram"
 
 #: ../goffice/graph/gog-chart.c:762
 msgid "Manual plot area"
-msgstr ""
+msgstr "Aree di dissen manuâl"
 
 #: ../goffice/graph/gog-chart.c:763
 msgid "Is plot area manual"
-msgstr ""
+msgstr "E je une aree di dissen manuâl"
 
 #: ../goffice/graph/gog-chart.c:767
 msgid "xpos"
@@ -1749,7 +1751,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-chart.c:768
 msgid "Horizontal chart position in graph grid"
-msgstr ""
+msgstr "La posizion orizontâl dal diagram inte gridele dal grafic"
 
 #: ../goffice/graph/gog-chart.c:772
 msgid "ypos"
@@ -1757,23 +1759,23 @@ msgstr ""
 
 #: ../goffice/graph/gog-chart.c:773
 msgid "Vertical chart position in graph grid"
-msgstr ""
+msgstr "La posizion verticâl dal diagram inte gridele dal grafic"
 
 #: ../goffice/graph/gog-chart.c:776
 msgid "columns"
-msgstr ""
+msgstr "colonis"
 
 #: ../goffice/graph/gog-chart.c:777
 msgid "Number of columns in graph grid"
-msgstr ""
+msgstr "Numar di colonis inte gridele dal grafic"
 
 #: ../goffice/graph/gog-chart.c:780
 msgid "rows"
-msgstr ""
+msgstr "riis"
 
 #: ../goffice/graph/gog-chart.c:781
 msgid "Number of rows in graph grid"
-msgstr ""
+msgstr "Numar di riis inte gridele dal grafic"
 
 #. Note for translators: first string represent the new child object and second string is the parent object
 #: ../goffice/graph/gog-child-button.c:498
@@ -1828,7 +1830,7 @@ msgstr "Orizontâl"
 
 #: ../goffice/graph/gog-color-scale.c:336
 msgid "Whether to display the scale horizontally"
-msgstr ""
+msgstr "Indiche se visualizâ la scjale par orizontâl"
 
 #: ../goffice/graph/gog-color-scale.c:341
 msgid "Color scale thickness."
@@ -1882,28 +1884,28 @@ msgstr "Modalitât _compate"
 #: ../goffice/gtk/go-format-sel.c:1852 ../goffice/utils/formats.c:370
 #: ../goffice/utils/go-line.c:127 ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
-msgstr ""
+msgstr "Nissun"
 
 #: ../goffice/graph/gog-error-bar.c:84
 msgid "Positive"
-msgstr ""
+msgstr "Positîf"
 
 #: ../goffice/graph/gog-error-bar.c:89
 msgid "Negative"
-msgstr ""
+msgstr "Negatîf"
 
 #: ../goffice/graph/gog-error-bar.c:94
 msgid "Both"
-msgstr ""
+msgstr "Ducj i doi"
 
 #. Note for translator: the angle unit
 #: ../goffice/graph/gog-error-bar.c:336
 msgid "°"
-msgstr ""
+msgstr "°"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 msgid "Dis_play:"
-msgstr ""
+msgstr "Vi_sôr:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:2
 #: ../goffice/graph/gog-object-prefs.ui.h:17
@@ -1957,7 +1959,7 @@ msgstr "Teme"
 
 #: ../goffice/graph/gog-graph.c:426 ../goffice/graph/gog-theme.c:583
 msgid "Chart"
-msgstr ""
+msgstr "Diagram"
 
 #: ../goffice/graph/gog-graph.c:488
 msgid "The theme for elements of the graph"
@@ -1973,11 +1975,11 @@ msgstr "Il non dal teme pai elements dal grafic"
 
 #: ../goffice/graph/gog-graph.c:500
 msgid "Logical graph width, in points"
-msgstr ""
+msgstr "Largjece dal grafic logjic, in ponts"
 
 #: ../goffice/graph/gog-graph.c:506
 msgid "Logical graph height, in points"
-msgstr ""
+msgstr "Altece dal grafic logjic, in ponts"
 
 #: ../goffice/graph/gog-graph.c:511
 msgid "Document"
@@ -1985,11 +1987,11 @@ msgstr "Document"
 
 #: ../goffice/graph/gog-graph.c:512
 msgid "the document for this graph"
-msgstr ""
+msgstr "il document par chest grafic"
 
 #: ../goffice/graph/gog-graph.c:1076
 msgid "the renderer for this view"
-msgstr ""
+msgstr "il visualizadôr par cheste viodude"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:1
 msgid "Theme:"
@@ -2002,6 +2004,7 @@ msgstr "Dismentee i stîi dal utent"
 #: ../goffice/graph/gog-graph-prefs.ui.h:4
 msgid "Save the theme as a standalone file in the user home directory."
 msgstr ""
+"Salve il teme come file indipendent inte cartele cjase (home) dal utent."
 
 #: ../goffice/graph/gog-grid.c:128
 msgid "Numerical type of this backplane"
@@ -2017,15 +2020,15 @@ msgstr ""
 
 #: ../goffice/graph/gog-guru.c:1057
 msgid "Step 1 of 2: Select Chart Type"
-msgstr ""
+msgstr "Pas 1 di 2: Selezione il gjenar di diagram"
 
 #: ../goffice/graph/gog-guru.c:1065
 msgid "Step 2 of 2: Customize Chart"
-msgstr ""
+msgstr "Pas 2 di 2: Personalize il diagram"
 
 #: ../goffice/graph/gog-guru.c:1070
 msgid "Customize Chart"
-msgstr ""
+msgstr "Personalize diagram"
 
 #: ../goffice/graph/gog-guru.c:1145
 msgid "_Insert"
@@ -2034,7 +2037,7 @@ msgstr "_Inserìs"
 #: ../goffice/graph/gog-guru.c:1216
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
-msgstr ""
+msgstr "Gjenar _dissen"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
 msgid "Sample"
@@ -2298,11 +2301,11 @@ msgstr "Rie:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:11
 msgid "Width in columns:"
-msgstr ""
+msgstr "Largjece in colonis:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:12
 msgid "Height in rows:"
-msgstr ""
+msgstr "Altece in riis:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:13
 msgid "page 3"
@@ -2471,19 +2474,19 @@ msgstr "Gjenar predefinît de interpolazion de linie des seriis"
 
 #: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
-msgstr ""
+msgstr "Sposte aree di dissen"
 
 #: ../goffice/graph/gog-plot.c:1227
 msgid "Resize plot area"
-msgstr ""
+msgstr "Ridimensione aree di dissen"
 
 #: ../goffice/graph/gog-plot-engine.c:81
 msgid "Plot Engine"
-msgstr ""
+msgstr "Motôr dissen"
 
 #: ../goffice/graph/gog-plot-engine.c:336
 msgid "Plot Type"
-msgstr ""
+msgstr "Gjenar dissen"
 
 #: ../goffice/graph/gog-plot-engine.c:420
 msgid "Regression Curve Engine"
@@ -2572,7 +2575,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
-msgstr ""
+msgstr "Mostre _ecuazion"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:2
 msgid "Display _regression coefficient R&#xB2;"
@@ -2716,36 +2719,36 @@ msgstr "Ce mût jemplâ la aree"
 
 #: ../goffice/graph/gog-series-labels.c:57
 msgid "Centered"
-msgstr ""
+msgstr "Centrât"
 
 #: ../goffice/graph/gog-series-labels.c:62
 msgid "Outside"
-msgstr ""
+msgstr "Fûr"
 
 #: ../goffice/graph/gog-series-labels.c:63
 msgid "Inside"
-msgstr ""
+msgstr "Dentri"
 
 #: ../goffice/graph/gog-series-labels.c:64
 msgid "Near origin"
-msgstr ""
+msgstr "Dongje la origjin"
 
 #: ../goffice/graph/gog-series-labels.c:422
 msgid "Custom label"
-msgstr ""
+msgstr "Etichete personalizade"
 
 #: ../goffice/graph/gog-series-labels.c:432
 msgid "Custom labels"
-msgstr ""
+msgstr "Etichetis personalizadis"
 
 #: ../goffice/graph/gog-series-labels.c:463
 msgid "Available data"
-msgstr ""
+msgstr "Dâts disponibii"
 
 #: ../goffice/graph/gog-series-labels.c:516
 #: ../goffice/graph/gog-series-labels.c:584
 msgid "Legend entry"
-msgstr ""
+msgstr "Vôs de liende"
 
 #: ../goffice/graph/gog-series-labels.c:521
 #: ../goffice/graph/gog-series-labels.c:588
@@ -2793,7 +2796,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:3
 msgid "Custom labels:"
-msgstr ""
+msgstr "Etichetis personalizadis:"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:4
 msgid "Separator:"
@@ -2819,11 +2822,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-series-prefs.ui.h:9
 msgid "content"
-msgstr ""
+msgstr "contignût"
 
 #: ../goffice/graph/gog-smoothed-curve.c:54
 msgid "(Name):"
-msgstr ""
+msgstr "(Non):"
 
 #: ../goffice/graph/gog-smoothed-curve.c:91
 msgid "Smoothed Curve"
@@ -2835,11 +2838,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-theme.c:582
 msgid "Graph title"
-msgstr ""
+msgstr "Titul grafic"
 
 #: ../goffice/graph/gog-theme.c:584
 msgid "Chart title"
-msgstr ""
+msgstr "Titul dal diagram"
 
 #: ../goffice/graph/gog-theme.c:587
 msgid "Axis line"
@@ -2855,7 +2858,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-theme.c:593
 msgid "Regression equation"
-msgstr ""
+msgstr "Ecuazion di regrès"
 
 #: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:651
 msgid "Series lines"
@@ -2867,7 +2870,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-theme.c:600
 msgid "Data label"
-msgstr ""
+msgstr "Etichete dâts"
 
 #: ../goffice/graph/gog-theme.c:601
 msgid "Color scale"
@@ -2875,40 +2878,40 @@ msgstr ""
 
 #: ../goffice/graph/gog-theme.c:1233
 msgid "An MS Excel like theme"
-msgstr ""
+msgstr "Un teme simil a MS Excel"
 
 #. Guppi
 #: ../goffice/graph/gog-theme.c:1411
 msgid "Guppi"
-msgstr ""
+msgstr "Guppi"
 
 #: ../goffice/graph/gog-theme.c:1412
 msgid "Guppi theme"
-msgstr ""
+msgstr "Teme Guppi"
 
 #: ../goffice/graph/gog-theme.c:1853
 msgid "Class"
-msgstr ""
+msgstr "Classe"
 
 #: ../goffice/graph/gog-theme.c:1856
 msgid "Create"
-msgstr ""
+msgstr "Cree"
 
 #: ../goffice/graph/gog-theme.c:1871 ../goffice/graph/new-theme-prefs.ui.h:1
 msgid "New theme"
-msgstr ""
+msgstr "Gnûf teme"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:1
 msgid "Theme editor"
-msgstr ""
+msgstr "Editôr di teme"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:3
 msgid "Classes"
-msgstr ""
+msgstr "Classis"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:5
 msgid "Snapshot"
-msgstr ""
+msgstr "Istantanie"
 
 #: ../goffice/graph/gog-trend-line.c:90 ../plugins/plot_barcol/gog-barcol.c:166
 #: ../plugins/plot_barcol/gog-dropbar.c:101
@@ -2925,7 +2928,7 @@ msgstr ""
 #: ../plugins/smoothing/gog-exp-smooth.c:80
 #: ../plugins/smoothing/gog-moving-avg.c:112
 msgid "Properties"
-msgstr ""
+msgstr "Propietâts"
 
 #: ../goffice/graph/gog-trend-line.c:132
 msgid "Trend Line"
@@ -2937,15 +2940,15 @@ msgstr ""
 
 #: ../goffice/graph/gog-view.c:129
 msgid "Select object"
-msgstr ""
+msgstr "Selezione ogjet"
 
 #: ../goffice/graph/gog-view.c:200
 msgid "Move"
-msgstr ""
+msgstr "Sposte"
 
 #: ../goffice/graph/gog-view.c:247
 msgid "Resize object"
-msgstr ""
+msgstr "Ridimensione ogjet"
 
 #: ../goffice/graph/gog-view.c:694
 msgid "the GogView parent"
@@ -2977,417 +2980,417 @@ msgstr ""
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:1
 msgid "Dimension A"
-msgstr ""
+msgstr "Dimension A"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:2
 msgid "Dimension B"
-msgstr ""
+msgstr "Dimension B"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:3
 msgid "Dimension C"
-msgstr ""
+msgstr "Dimension C"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:4
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:8
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:6
 msgid "Kite"
-msgstr ""
+msgstr "Acuilon"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:7
 msgid "Oval"
-msgstr ""
+msgstr "Ovâl"
 
 #: ../goffice/gtk/go-charmap-sel.c:73
 msgid "Arabic"
-msgstr ""
+msgstr "Arap"
 
 #: ../goffice/gtk/go-charmap-sel.c:74
 msgid "Baltic"
-msgstr ""
+msgstr "Baltic"
 
 #: ../goffice/gtk/go-charmap-sel.c:75
 msgid "Central European"
-msgstr ""
+msgstr "European centrâl"
 
 #: ../goffice/gtk/go-charmap-sel.c:76
 msgid "Chinese"
-msgstr ""
+msgstr "Cinês"
 
 #: ../goffice/gtk/go-charmap-sel.c:77
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cirilic"
 
 #: ../goffice/gtk/go-charmap-sel.c:78
 msgid "Greek"
-msgstr ""
+msgstr "Grêc"
 
 #: ../goffice/gtk/go-charmap-sel.c:79
 msgid "Hebrew"
-msgstr ""
+msgstr "Ebraic"
 
 #: ../goffice/gtk/go-charmap-sel.c:80
 msgid "Indian"
-msgstr ""
+msgstr "Indian"
 
 #: ../goffice/gtk/go-charmap-sel.c:81
 msgid "Japanese"
-msgstr ""
+msgstr "Gjaponês"
 
 #: ../goffice/gtk/go-charmap-sel.c:82
 msgid "Korean"
-msgstr ""
+msgstr "Corean"
 
 #: ../goffice/gtk/go-charmap-sel.c:83
 msgid "Turkish"
-msgstr ""
+msgstr "Turc"
 
 #: ../goffice/gtk/go-charmap-sel.c:84
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: ../goffice/gtk/go-charmap-sel.c:85
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamît"
 
 #: ../goffice/gtk/go-charmap-sel.c:86
 msgid "Western"
-msgstr ""
+msgstr "Ocidentâl"
 
 #: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:604
 #: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
-msgstr ""
+msgstr "Altri"
 
 #: ../goffice/gtk/go-charmap-sel.c:118
 msgid "Arabic (IBM-864)"
-msgstr ""
+msgstr "Arap (IBM-864)"
 
 #: ../goffice/gtk/go-charmap-sel.c:119
 msgid "Arabic (IBM-864-I)"
-msgstr ""
+msgstr "Arap (IBM-864-I)"
 
 #: ../goffice/gtk/go-charmap-sel.c:120
 msgid "Arabic (ISO-8859-6)"
-msgstr ""
+msgstr "Arap (ISO-8859-6)"
 
 #: ../goffice/gtk/go-charmap-sel.c:121
 msgid "Arabic (ISO-8859-6-E)"
-msgstr ""
+msgstr "Arap (ISO-8859-6-E)"
 
 #: ../goffice/gtk/go-charmap-sel.c:123
 msgid "Arabic (ISO-8859-6-I)"
-msgstr ""
+msgstr "Arap (ISO-8859-6-I)"
 
 #: ../goffice/gtk/go-charmap-sel.c:124
 msgid "Arabic (MacArabic)"
-msgstr ""
+msgstr "Arap (MacArabic)"
 
 #: ../goffice/gtk/go-charmap-sel.c:125
 msgid "Arabic (Windows-1256)"
-msgstr ""
+msgstr "Arap (Windows-1256)"
 
 #: ../goffice/gtk/go-charmap-sel.c:126
 msgid "Armenian (ARMSCII-8)"
-msgstr ""
+msgstr "Armen (ARMSCII-8)"
 
 #: ../goffice/gtk/go-charmap-sel.c:127
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Baltic (ISO-8859-13)"
 
 #: ../goffice/gtk/go-charmap-sel.c:128
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Baltic (ISO-8859-4)"
 
 #: ../goffice/gtk/go-charmap-sel.c:129
 msgid "Baltic (Windows-1257)"
-msgstr ""
+msgstr "Baltic (Windows-1257)"
 
 #: ../goffice/gtk/go-charmap-sel.c:130
 msgid "Celtic (ISO-8859-14)"
-msgstr ""
+msgstr "Celtic (ISO-8859-14)"
 
 #: ../goffice/gtk/go-charmap-sel.c:131
 msgid "Central European (IBM-852)"
-msgstr ""
+msgstr "European Centrâl (IBM-852)"
 
 #: ../goffice/gtk/go-charmap-sel.c:132
 msgid "Central European (ISO-8859-2)"
-msgstr ""
+msgstr "European Centrâl (ISO-8859-2)"
 
 #: ../goffice/gtk/go-charmap-sel.c:133
 msgid "Central European (MacCE)"
-msgstr ""
+msgstr "European Centrâl (MacCE)"
 
 #: ../goffice/gtk/go-charmap-sel.c:134
 msgid "Central European (Windows-1250)"
-msgstr ""
+msgstr "European Centrâl (Windows-1250)"
 
 #: ../goffice/gtk/go-charmap-sel.c:135
 msgid "Chinese Simplified (GB18030)"
-msgstr ""
+msgstr "Cinês Semplificât (GB18030)"
 
 #: ../goffice/gtk/go-charmap-sel.c:136
 msgid "Chinese Simplified (GB2312)"
-msgstr ""
+msgstr "Cinês Semplificât (GB2312)"
 
 #: ../goffice/gtk/go-charmap-sel.c:137
 msgid "Chinese Simplified (GBK)"
-msgstr ""
+msgstr "Cinês Semplificât (GBK)"
 
 #: ../goffice/gtk/go-charmap-sel.c:138
 msgid "Chinese Simplified (HZ)"
-msgstr ""
+msgstr "Chinese Simplified(HZ)"
 
 #: ../goffice/gtk/go-charmap-sel.c:139
 msgid "Chinese Simplified (Windows-936)"
-msgstr ""
+msgstr "Cinês Semplificât (Windows-936)"
 
 #: ../goffice/gtk/go-charmap-sel.c:140
 msgid "Chinese Traditional (Big5)"
-msgstr ""
+msgstr "Cinês Tradizionâl (Big5)"
 
 #: ../goffice/gtk/go-charmap-sel.c:141
 msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
+msgstr "Cinês Tradizionâl (Big5-HKSCS)"
 
 #: ../goffice/gtk/go-charmap-sel.c:142
 msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
+msgstr "Cinês Tradizionâl (EUC-TW)"
 
 #: ../goffice/gtk/go-charmap-sel.c:143
 msgid "Croatian (MacCroatian)"
-msgstr ""
+msgstr "Cravuat (MacCroatian)"
 
 #: ../goffice/gtk/go-charmap-sel.c:144
 msgid "Cyrillic (IBM-855)"
-msgstr ""
+msgstr "Cirilic (IBM-855)"
 
 #: ../goffice/gtk/go-charmap-sel.c:145
 msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
+msgstr "Cirilic (ISO-8859-5)"
 
 #: ../goffice/gtk/go-charmap-sel.c:146
 msgid "Cyrillic (ISO-IR-111)"
-msgstr ""
+msgstr "Cirilic (ISO-IR-111)"
 
 #: ../goffice/gtk/go-charmap-sel.c:147
 msgid "Cyrillic (KOI8-R)"
-msgstr ""
+msgstr "Cirilic (KOI8-R)"
 
 #: ../goffice/gtk/go-charmap-sel.c:148
 msgid "Cyrillic (MacCyrillic)"
-msgstr ""
+msgstr "Cirilic (MacCyrillic)"
 
 #: ../goffice/gtk/go-charmap-sel.c:149
 msgid "Cyrillic (Windows-1251)"
-msgstr ""
+msgstr "Cirilic (Windows-1251)"
 
 #: ../goffice/gtk/go-charmap-sel.c:150
 msgid "Russian (CP-866)"
-msgstr ""
+msgstr "Rus (CP-866)"
 
 #: ../goffice/gtk/go-charmap-sel.c:151
 msgid "Ukrainian (KOI8-U)"
-msgstr ""
+msgstr "Ucrain (KOI8-U)"
 
 #: ../goffice/gtk/go-charmap-sel.c:152
 msgid "Ukrainian (MacUkrainian)"
-msgstr ""
+msgstr "Ucrain (MacUkrainian)"
 
 #: ../goffice/gtk/go-charmap-sel.c:153
 msgid "English (ASCII)"
-msgstr ""
+msgstr "Inglês (ASCII)"
 
 #: ../goffice/gtk/go-charmap-sel.c:154
 msgid "Farsi (MacFarsi)"
-msgstr ""
+msgstr "Persian (MacFarsi)"
 
 #: ../goffice/gtk/go-charmap-sel.c:155
 msgid "Georgian (GEOSTD8)"
-msgstr ""
+msgstr "Gjeorgjian (GEOSTD8)"
 
 #: ../goffice/gtk/go-charmap-sel.c:156
 msgid "Greek (ISO-8859-7)"
-msgstr ""
+msgstr "Grêc (ISO-8859-7)"
 
 #: ../goffice/gtk/go-charmap-sel.c:157
 msgid "Greek (MacGreek)"
-msgstr ""
+msgstr "Grêc (MacGreek)"
 
 #: ../goffice/gtk/go-charmap-sel.c:158
 msgid "Greek (Windows-1253)"
-msgstr ""
+msgstr "Grêc (Windows-1253)"
 
 #: ../goffice/gtk/go-charmap-sel.c:159
 msgid "Gujarati (MacGujarati)"
-msgstr ""
+msgstr "Gujarati (MacGujarati)"
 
 #: ../goffice/gtk/go-charmap-sel.c:160
 msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
+msgstr "Gurmukhi (MacGurmukhi)"
 
 #: ../goffice/gtk/go-charmap-sel.c:161
 msgid "Hebrew (IBM-862)"
-msgstr ""
+msgstr "Ebraic (IBM-862)"
 
 #: ../goffice/gtk/go-charmap-sel.c:162
 msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
+msgstr "Ebraic (ISO-8859-8-E)"
 
 #: ../goffice/gtk/go-charmap-sel.c:163
 msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
+msgstr "Ebraic (ISO-8859-8-I)"
 
 #: ../goffice/gtk/go-charmap-sel.c:164
 msgid "Hebrew (MacHebrew)"
-msgstr ""
+msgstr "Ebraic (MacHebrew)"
 
 #: ../goffice/gtk/go-charmap-sel.c:165
 msgid "Hebrew (Windows-1255)"
-msgstr ""
+msgstr "Ebraic (Windows-1255)"
 
 #: ../goffice/gtk/go-charmap-sel.c:166
 msgid "Hindi (MacDevanagari)"
-msgstr ""
+msgstr "Hindi (MacDevanagari)"
 
 #: ../goffice/gtk/go-charmap-sel.c:167
 msgid "Icelandic (MacIcelandic)"
-msgstr ""
+msgstr "Islandês (MacIcelandic)"
 
 #: ../goffice/gtk/go-charmap-sel.c:168
 msgid "Japanese (EUC-JP)"
-msgstr ""
+msgstr "Gjaponês (EUC-JP)"
 
 #: ../goffice/gtk/go-charmap-sel.c:169
 msgid "Japanese (ISO-2022-JP)"
-msgstr ""
+msgstr "Gjaponês (ISO-2022-JP)"
 
 #: ../goffice/gtk/go-charmap-sel.c:170
 msgid "Japanese (Shift_JIS)"
-msgstr ""
+msgstr "Gjaponês (Shift-JIS)"
 
 #: ../goffice/gtk/go-charmap-sel.c:171
 msgid "Korean (EUC-KR)"
-msgstr ""
+msgstr "Corean (EUC-KR)"
 
 #: ../goffice/gtk/go-charmap-sel.c:172
 msgid "Korean (ISO-2022-KR)"
-msgstr ""
+msgstr "Corean (ISO-2022-KR)"
 
 #: ../goffice/gtk/go-charmap-sel.c:173
 msgid "Korean (JOHAB)"
-msgstr ""
+msgstr "Corean (JOHAB)"
 
 #: ../goffice/gtk/go-charmap-sel.c:174
 msgid "Korean (UHC)"
-msgstr ""
+msgstr "Corean (UHC)"
 
 #: ../goffice/gtk/go-charmap-sel.c:175
 msgid "Nordic (ISO-8859-10)"
-msgstr ""
+msgstr "Nordic (ISO-8859-10)"
 
 #: ../goffice/gtk/go-charmap-sel.c:176
 msgid "Romanian (MacRomanian)"
-msgstr ""
+msgstr "Rumen (MacRomanian)"
 
 #: ../goffice/gtk/go-charmap-sel.c:177
 msgid "Romanian (ISO-8859-16)"
-msgstr ""
+msgstr "Rumen (ISO-8859-16)"
 
 #: ../goffice/gtk/go-charmap-sel.c:178
 msgid "South European (ISO-8859-3)"
-msgstr ""
+msgstr "Sud European (ISO-8859-3)"
 
 #: ../goffice/gtk/go-charmap-sel.c:179
 msgid "Thai (TIS-620)"
-msgstr ""
+msgstr "Tailandês (TIS-620)"
 
 #: ../goffice/gtk/go-charmap-sel.c:180
 msgid "Turkish (IBM-857)"
-msgstr ""
+msgstr "Turc (IBM-857)"
 
 #: ../goffice/gtk/go-charmap-sel.c:181
 msgid "Turkish (ISO-8859-9)"
-msgstr ""
+msgstr "Turc (ISO-8859-9)"
 
 #: ../goffice/gtk/go-charmap-sel.c:182
 msgid "Turkish (MacTurkish)"
-msgstr ""
+msgstr "Turc (MacTurkish)"
 
 #: ../goffice/gtk/go-charmap-sel.c:183
 msgid "Turkish (Windows-1254)"
-msgstr ""
+msgstr "Turc (Windows-1254)"
 
 #: ../goffice/gtk/go-charmap-sel.c:184
 msgid "Unicode (UTF-7)"
-msgstr ""
+msgstr "Unicode (UTF-7)"
 
 #: ../goffice/gtk/go-charmap-sel.c:185
 msgid "Unicode (UTF-8)"
-msgstr ""
+msgstr "Unicode (UTF-8)"
 
 #: ../goffice/gtk/go-charmap-sel.c:186
 msgid "Unicode (UTF-16BE)"
-msgstr ""
+msgstr "Unicode (UTF-16BE)"
 
 #: ../goffice/gtk/go-charmap-sel.c:187
 msgid "Unicode (UTF-16LE)"
-msgstr ""
+msgstr "Unicode (UTF-16LE)"
 
 #: ../goffice/gtk/go-charmap-sel.c:188
 msgid "Unicode (UTF-32BE)"
-msgstr ""
+msgstr "Unicode (UTF-32BE)"
 
 #: ../goffice/gtk/go-charmap-sel.c:189
 msgid "Unicode (UTF-32LE)"
-msgstr ""
+msgstr "Unicode (UTF-32LE)"
 
 #: ../goffice/gtk/go-charmap-sel.c:190
 msgid "User Defined"
-msgstr ""
+msgstr "Definît dal utent"
 
 #: ../goffice/gtk/go-charmap-sel.c:191
 msgid "Vietnamese (TCVN)"
-msgstr ""
+msgstr "Vietnamît (TCVN)"
 
 #: ../goffice/gtk/go-charmap-sel.c:192
 msgid "Vietnamese (VISCII)"
-msgstr ""
+msgstr "Vietnamît (VISCII)"
 
 #: ../goffice/gtk/go-charmap-sel.c:193
 msgid "Vietnamese (VPS)"
-msgstr ""
+msgstr "Vietnamît (VPS)"
 
 #: ../goffice/gtk/go-charmap-sel.c:194
 msgid "Vietnamese (Windows-1258)"
-msgstr ""
+msgstr "Vietnamît (Windows-1258)"
 
 #: ../goffice/gtk/go-charmap-sel.c:195
 msgid "Visual Hebrew (ISO-8859-8)"
-msgstr ""
+msgstr "Ebraic Visuâl (ISO-8859-8)"
 
 #: ../goffice/gtk/go-charmap-sel.c:196
 msgid "Western (IBM-850)"
-msgstr ""
+msgstr "Ocidentâl (IBM-850)"
 
 #: ../goffice/gtk/go-charmap-sel.c:197
 msgid "Western (ISO-8859-1)"
-msgstr ""
+msgstr "Ocidentâl (ISO-8859-1)"
 
 #: ../goffice/gtk/go-charmap-sel.c:198
 msgid "Western (ISO-8859-15)"
-msgstr ""
+msgstr "Ocidentâl (ISO-8859-15)"
 
 #: ../goffice/gtk/go-charmap-sel.c:199
 msgid "Western (MacRoman)"
-msgstr ""
+msgstr "Ocidentâl (MacRoman)"
 
 #: ../goffice/gtk/go-charmap-sel.c:200
 msgid "Western (Windows-1252)"
-msgstr ""
+msgstr "Ocidentâl (Windows-1252)"
 
 #: ../goffice/gtk/go-charmap-sel.c:416
 msgid "Locale: "
@@ -3404,197 +3407,197 @@ msgstr ""
 #. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
 #: ../goffice/gtk/go-color-palette.c:79
 msgid "black"
-msgstr ""
+msgstr "neri"
 
 #: ../goffice/gtk/go-color-palette.c:80
 msgid "light brown"
-msgstr ""
+msgstr "maron clâr"
 
 #: ../goffice/gtk/go-color-palette.c:81
 msgid "brown gold"
-msgstr ""
+msgstr "maron aur"
 
 #: ../goffice/gtk/go-color-palette.c:82
 msgid "dark green #2"
-msgstr ""
+msgstr "vert scûr #2"
 
 #: ../goffice/gtk/go-color-palette.c:83
 msgid "navy"
-msgstr ""
+msgstr "blu scûr mâr"
 
 #: ../goffice/gtk/go-color-palette.c:84 ../goffice/gtk/go-color-palette.c:136
 msgid "dark blue"
-msgstr ""
+msgstr "blu scûr"
 
 #: ../goffice/gtk/go-color-palette.c:85
 msgid "purple #2"
-msgstr ""
+msgstr "purpure #2"
 
 #: ../goffice/gtk/go-color-palette.c:86
 msgid "very dark gray"
-msgstr ""
+msgstr "grîs une vore scûr"
 
 #: ../goffice/gtk/go-color-palette.c:88 ../goffice/gtk/go-color-palette.c:141
 msgid "dark red"
-msgstr ""
+msgstr "ros scûr"
 
 #: ../goffice/gtk/go-color-palette.c:89
 msgid "red-orange"
-msgstr ""
+msgstr "ros-naranç"
 
 #: ../goffice/gtk/go-color-palette.c:90
 msgid "gold"
-msgstr ""
+msgstr "aur"
 
 #: ../goffice/gtk/go-color-palette.c:91
 msgid "dark green"
-msgstr ""
+msgstr "vert scûr"
 
 #: ../goffice/gtk/go-color-palette.c:92 ../goffice/gtk/go-color-palette.c:142
 msgid "dull blue"
-msgstr ""
+msgstr "blu opac"
 
 #: ../goffice/gtk/go-color-palette.c:93 ../goffice/gtk/go-color-palette.c:143
 msgid "blue"
-msgstr ""
+msgstr "blu"
 
 #: ../goffice/gtk/go-color-palette.c:94
 msgid "dull purple"
-msgstr ""
+msgstr "purpure opache"
 
 #: ../goffice/gtk/go-color-palette.c:95
 msgid "dark gray"
-msgstr ""
+msgstr "grîs scûr"
 
 #: ../goffice/gtk/go-color-palette.c:97
 msgid "red"
-msgstr ""
+msgstr "ros"
 
 #: ../goffice/gtk/go-color-palette.c:98
 msgid "orange"
-msgstr ""
+msgstr "naranç"
 
 #: ../goffice/gtk/go-color-palette.c:99
 msgid "lime"
-msgstr ""
+msgstr "zâl-vert lime"
 
 #: ../goffice/gtk/go-color-palette.c:100
 msgid "dull green"
-msgstr ""
+msgstr "vert opac"
 
 #: ../goffice/gtk/go-color-palette.c:101
 msgid "dull blue #2"
-msgstr ""
+msgstr "blu opac #2"
 
 #: ../goffice/gtk/go-color-palette.c:102
 msgid "sky blue #2"
-msgstr ""
+msgstr "blu cîl opac #2"
 
 #: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:140
 msgid "purple"
-msgstr ""
+msgstr "purpure"
 
 #: ../goffice/gtk/go-color-palette.c:104
 msgid "gray"
-msgstr ""
+msgstr "grîs"
 
 #: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:137
 msgid "magenta"
-msgstr ""
+msgstr "magenta"
 
 #: ../goffice/gtk/go-color-palette.c:107
 msgid "bright orange"
-msgstr ""
+msgstr "naranç une vore clâr"
 
 #: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:138
 msgid "yellow"
-msgstr ""
+msgstr "zâl"
 
 #: ../goffice/gtk/go-color-palette.c:109
 msgid "green"
-msgstr ""
+msgstr "vert"
 
 #: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:139
 msgid "cyan"
-msgstr ""
+msgstr "turchin"
 
 #: ../goffice/gtk/go-color-palette.c:111
 msgid "bright blue"
-msgstr ""
+msgstr "blu une vore clâr"
 
 #: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:128
 msgid "red purple"
-msgstr ""
+msgstr "ros purpure"
 
 #: ../goffice/gtk/go-color-palette.c:113
 msgid "light gray"
-msgstr ""
+msgstr "grîs clâr"
 
 #: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:132
 msgid "pink"
-msgstr ""
+msgstr "rose"
 
 #: ../goffice/gtk/go-color-palette.c:116
 msgid "light orange"
-msgstr ""
+msgstr "naranç clâr"
 
 #: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:129
 msgid "light yellow"
-msgstr ""
+msgstr "zâl clâr"
 
 #: ../goffice/gtk/go-color-palette.c:118
 msgid "light green"
-msgstr ""
+msgstr "vert clâr"
 
 #: ../goffice/gtk/go-color-palette.c:119
 msgid "light cyan"
-msgstr ""
+msgstr "turchin clâr"
 
 #: ../goffice/gtk/go-color-palette.c:120 ../goffice/gtk/go-color-palette.c:130
 msgid "light blue"
-msgstr ""
+msgstr "blu clâr"
 
 #: ../goffice/gtk/go-color-palette.c:121 ../goffice/gtk/go-color-palette.c:134
 msgid "light purple"
-msgstr ""
+msgstr "purpure clare"
 
 #: ../goffice/gtk/go-color-palette.c:122
 msgid "white"
-msgstr ""
+msgstr "blanc"
 
 #. Disable these for now, they are mostly repeats
 #: ../goffice/gtk/go-color-palette.c:127
 msgid "purplish blue"
-msgstr ""
+msgstr "blu purpure"
 
 #: ../goffice/gtk/go-color-palette.c:131
 msgid "dark purple"
-msgstr ""
+msgstr "purpure scure"
 
 #: ../goffice/gtk/go-color-palette.c:133
 msgid "sky blue"
-msgstr ""
+msgstr "blu cîl"
 
 #: ../goffice/gtk/go-color-palette.c:510
 msgid "custom"
-msgstr ""
+msgstr "personalizât"
 
 #: ../goffice/gtk/go-color-palette.c:517 ../goffice/gtk/go-color-palette.c:775
 #: ../goffice/gtk/go-color-selector.c:197
 msgid "Custom color..."
-msgstr ""
+msgstr "Colôr personalizât..."
 
 #: ../goffice/gtk/go-combo-box.c:315
 msgid "The combo box's title"
-msgstr ""
+msgstr "Il titul de casele cumbinade"
 
 #: ../goffice/gtk/go-combo-box.c:321
 msgid "Show Arrow"
-msgstr ""
+msgstr "Mostre frece"
 
 #: ../goffice/gtk/go-combo-box.c:322
 msgid "Whether to show an arrow for the combo"
-msgstr ""
+msgstr "Indiche se mostrâ une frece pe casele cumbinade"
 
 #: ../goffice/gtk/go-combo-box.c:332
 msgid "Add tearoffs to menus"
@@ -3607,28 +3610,28 @@ msgstr ""
 #: ../goffice/gtk/goffice-gtk.c:240
 #, c-format
 msgid "Unable to open file '%s'"
-msgstr ""
+msgstr "Impussibil vierzi il file '%s'"
 
 #: ../goffice/gtk/goffice-gtk.c:848 ../goffice/utils/go-style.c:224
 #, c-format
 msgid "%d x %d"
-msgstr ""
+msgstr "%d x %d"
 
 #: ../goffice/gtk/goffice-gtk.c:883
 msgid "All Files"
-msgstr ""
+msgstr "Ducj i File"
 
 #: ../goffice/gtk/goffice-gtk.c:888
 msgid "Images"
-msgstr ""
+msgstr "Imagjins"
 
 #: ../goffice/gtk/goffice-gtk.c:940
 msgid "Select an Image"
-msgstr ""
+msgstr "Selezione une imagjin"
 
 #: ../goffice/gtk/goffice-gtk.c:1019
 msgid "Save as"
-msgstr ""
+msgstr "Salve come"
 
 #: ../goffice/gtk/goffice-gtk.c:1092
 msgid ""
@@ -3642,6 +3645,8 @@ msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
+"%s\n"
+"al è un non di cartele"
 
 #: ../goffice/gtk/goffice-gtk.c:1315
 #, c-format
@@ -3649,6 +3654,8 @@ msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
+"No si à i permès par salvâ su\n"
+"%s"
 
 #: ../goffice/gtk/goffice-gtk.c:1325
 #, c-format
@@ -3657,6 +3664,9 @@ msgid ""
 "\n"
 "Do you want to save over it?"
 msgstr ""
+"Un file clamât <i>%s</i> al esist za in %s.\n"
+"\n"
+"Sorescrivilu?"
 
 #: ../goffice/gtk/go-font-sel.c:348
 msgid "Faces"
@@ -3671,28 +3681,28 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:389
 msgctxt "FontFace"
 msgid "Regular"
-msgstr ""
+msgstr "Regolâr"
 
 #: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
 msgctxt "FontFace"
 msgid "Italic"
-msgstr ""
+msgstr "Corsîf"
 
 #: ../goffice/gtk/go-font-sel.c:391
 msgctxt "FontFace"
 msgid "Bold"
-msgstr ""
+msgstr "Neret"
 
 #: ../goffice/gtk/go-font-sel.c:392
 msgctxt "FontFace"
 msgid "Bold Italic"
-msgstr ""
+msgstr "Corsîf neret"
 
 #. These are fairly rare.
 #: ../goffice/gtk/go-font-sel.c:395
 msgctxt "FontFace"
 msgid "Black"
-msgstr ""
+msgstr "Neri"
 
 #: ../goffice/gtk/go-font-sel.c:396
 msgctxt "FontFace"
@@ -3737,7 +3747,7 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:404
 msgctxt "FontFace"
 msgid "Book"
-msgstr ""
+msgstr "Libri"
 
 #: ../goffice/gtk/go-font-sel.c:405
 msgctxt "FontFace"
@@ -3767,7 +3777,7 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:410
 msgctxt "FontFace"
 msgid "Condensed"
-msgstr ""
+msgstr "Condensât"
 
 #: ../goffice/gtk/go-font-sel.c:411
 msgctxt "FontFace"
@@ -3817,7 +3827,7 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:420
 msgctxt "FontFace"
 msgid "Expanded"
-msgstr ""
+msgstr "Pandût"
 
 #: ../goffice/gtk/go-font-sel.c:421
 msgctxt "FontFace"
@@ -3827,7 +3837,7 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:422
 msgctxt "FontFace"
 msgid "Heavy"
-msgstr ""
+msgstr "Pesant"
 
 #: ../goffice/gtk/go-font-sel.c:423
 msgctxt "FontFace"
@@ -3847,7 +3857,7 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:427
 msgctxt "FontFace"
 msgid "Light"
-msgstr ""
+msgstr "Lizêr"
 
 #: ../goffice/gtk/go-font-sel.c:428
 msgctxt "FontFace"
@@ -3857,17 +3867,17 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:429
 msgctxt "FontFace"
 msgid "Medium"
-msgstr ""
+msgstr "Medi"
 
 #: ../goffice/gtk/go-font-sel.c:430
 msgctxt "FontFace"
 msgid "Normal"
-msgstr ""
+msgstr "Normâl"
 
 #: ../goffice/gtk/go-font-sel.c:431
 msgctxt "FontFace"
 msgid "Oblique"
-msgstr ""
+msgstr "Oblicui"
 
 #: ../goffice/gtk/go-font-sel.c:432
 msgctxt "FontFace"
@@ -3897,12 +3907,12 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Roman"
-msgstr ""
+msgstr "Roman"
 
 #: ../goffice/gtk/go-font-sel.c:438
 msgctxt "FontFace"
 msgid "Rounded"
-msgstr ""
+msgstr "Staronzât"
 
 #: ../goffice/gtk/go-font-sel.c:439
 msgctxt "FontFace"
@@ -4012,7 +4022,7 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:460
 msgctxt "FontFace"
 msgid "Thin"
-msgstr ""
+msgstr "Fin"
 
 #: ../goffice/gtk/go-font-sel.c:461
 msgctxt "FontFace"
@@ -4022,88 +4032,88 @@ msgstr ""
 #: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:957
 #: ../plugins/lasem/component.c:268 ../plugins/lasem/component.c:492
 msgid "Font"
-msgstr ""
+msgstr "Caratar"
 
 #: ../goffice/gtk/go-font-sel.c:605
 msgid "All fonts..."
-msgstr ""
+msgstr "Ducj i caratars..."
 
 #: ../goffice/gtk/go-font-sel.c:936
 msgctxt "underline"
 msgid "None"
-msgstr ""
+msgstr "Nissune"
 
 #: ../goffice/gtk/go-font-sel.c:937
 msgctxt "underline"
 msgid "Single"
-msgstr ""
+msgstr "Ugnule"
 
 #: ../goffice/gtk/go-font-sel.c:938
 msgctxt "underline"
 msgid "Double"
-msgstr ""
+msgstr "Dople"
 
 #: ../goffice/gtk/go-font-sel.c:939
 msgctxt "underline"
 msgid "Low"
-msgstr ""
+msgstr "Basse"
 
 #: ../goffice/gtk/go-font-sel.c:940
 msgctxt "underline"
 msgid "Error"
-msgstr ""
+msgstr "Erôr"
 
 #: ../goffice/gtk/go-font-sel.c:961 ../goffice/math/go-distribution.c:77
 msgid "Normal"
-msgstr ""
+msgstr "Normâl"
 
 #: ../goffice/gtk/go-font-sel.c:962
 msgid "Subscript"
-msgstr ""
+msgstr "Deponent"
 
 #: ../goffice/gtk/go-font-sel.c:963
 msgid "Superscript"
-msgstr ""
+msgstr "Apiç"
 
 #: ../goffice/gtk/go-font-sel.c:1216
 msgid "Show Style"
-msgstr ""
+msgstr "Mostre stîl"
 
 #: ../goffice/gtk/go-font-sel.c:1217
 msgid "Whether style is part of the font being selected"
-msgstr ""
+msgstr "Indiche se il stîl al è part dal caratar che si sta sielzint"
 
 #: ../goffice/gtk/go-font-sel.c:1225
 msgid "Show Color"
-msgstr ""
+msgstr "Mostre colôr"
 
 #: ../goffice/gtk/go-font-sel.c:1226
 msgid "Whether color is part of the font being selected"
-msgstr ""
+msgstr "Indiche se il colôr al è part dal caratar che si sta sielzint"
 
 #: ../goffice/gtk/go-font-sel.c:1234
 msgid "Show Underline"
-msgstr ""
+msgstr "Mostre sotliniadure"
 
 #: ../goffice/gtk/go-font-sel.c:1235
 msgid "Whether underlining is part of the font being selected"
-msgstr ""
+msgstr "Indiche se la sotliniadure e je part dal caratar che si sta sielzint"
 
 #: ../goffice/gtk/go-font-sel.c:1243
 msgid "Show Script"
-msgstr ""
+msgstr "Mostre scriture"
 
 #: ../goffice/gtk/go-font-sel.c:1244
 msgid "Whether subscript/superscript is part of the font being selected"
-msgstr ""
+msgstr "Indiche se deponent/apiç al è part dal caratar che si sta sielzint"
 
 #: ../goffice/gtk/go-font-sel.c:1252
 msgid "Show Strikethrough"
-msgstr ""
+msgstr "Mostre stricât"
 
 #: ../goffice/gtk/go-font-sel.c:1253
 msgid "Whether strikethrough is part of the font being selected"
-msgstr ""
+msgstr "Indiche se la stricadure e je part dal caratar che si sta sielzint"
 
 #: ../goffice/gtk/go-font-sel.c:1261
 msgid "Color unset text"
@@ -4139,23 +4149,23 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel-dialog.c:107
 msgid "Pick a Font"
-msgstr ""
+msgstr "Sielç un caratar"
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
 msgid "Select the font family"
-msgstr ""
+msgstr "Selezione la famee dal caratar"
 
 #: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
-msgstr ""
+msgstr "Caratar:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:3
 msgid "Select the size"
-msgstr ""
+msgstr "Selezione la dimension"
 
 #: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
-msgstr ""
+msgstr "Dimension:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:5
 msgid "Select the font face"
@@ -4163,49 +4173,51 @@ msgstr ""
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
 msgid "Style:"
-msgstr ""
+msgstr "Stîl:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
 msgid "Select whether a line should be drawn through the text"
-msgstr ""
+msgstr "Selezione se un rie e à di jessi disegnade sul test"
 
 #: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
-msgstr ""
+msgstr "Stricât:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
-msgstr ""
+msgstr "Selezione il colôr dal caratar"
 
 #: ../goffice/gtk/go-font-sel.ui.h:10
 msgid "Color:"
-msgstr ""
+msgstr "Colôr:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:11
 msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
 msgstr ""
+"Selezione se il caratar al à di jessi modificât par doprâlu come deponent o "
+"apiç"
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
-msgstr ""
+msgstr "Scriture:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
 msgid "Select the type of underlining"
-msgstr ""
+msgstr "Selezione il gjenar di sotlineament"
 
 #: ../goffice/gtk/go-font-sel.ui.h:14
 msgid "Underline:"
-msgstr ""
+msgstr "Sotlineament:"
 
 #: ../goffice/gtk/go-format-sel.c:60
 msgid "Number"
-msgstr ""
+msgstr "Numar"
 
 #: ../goffice/gtk/go-format-sel.c:61
 msgid "Currency"
-msgstr ""
+msgstr "Valude"
 
 #: ../goffice/gtk/go-format-sel.c:62
 msgid "Accounting"
@@ -4213,176 +4225,176 @@ msgstr ""
 
 #: ../goffice/gtk/go-format-sel.c:63
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 #: ../goffice/gtk/go-format-sel.c:64
 msgid "Time"
-msgstr ""
+msgstr "Ore"
 
 #: ../goffice/gtk/go-format-sel.c:65
 msgid "Percentage"
-msgstr ""
+msgstr "Percentuâl"
 
 #: ../goffice/gtk/go-format-sel.c:66
 msgid "Fraction"
-msgstr ""
+msgstr "Frazion"
 
 #: ../goffice/gtk/go-format-sel.c:67
 msgid "Scientific"
-msgstr ""
+msgstr "Sientific"
 
 #: ../goffice/gtk/go-format-sel.c:69
 msgid "Special"
-msgstr ""
+msgstr "Speciâl"
 
 #: ../goffice/gtk/go-format-sel.c:70
 msgid "Custom"
-msgstr ""
+msgstr "Personalizât"
 
 #. See http://en.wikipedia.org/wiki/Ampere
 #: ../goffice/gtk/go-format-sel.c:309
 msgid "A (ampere)"
-msgstr ""
+msgstr "A (ampere)"
 
 #. See http://en.wikipedia.org/wiki/Becquerel
 #: ../goffice/gtk/go-format-sel.c:311
 msgid "Bq (becquerel)"
-msgstr ""
+msgstr "Bq (becquerel)"
 
 #. See http://en.wikipedia.org/wiki/Candela
 #: ../goffice/gtk/go-format-sel.c:313
 msgid "cd (candela)"
-msgstr ""
+msgstr "cd (candela)"
 
 #. See http://en.wikipedia.org/wiki/Coulomb
 #: ../goffice/gtk/go-format-sel.c:315
 msgid "C (coulomb)"
-msgstr ""
+msgstr "C (coulomb)"
 
 #. See http://en.wikipedia.org/wiki/Degree_Celsius
 #: ../goffice/gtk/go-format-sel.c:317
 msgid "°C (degree Celsius)"
-msgstr ""
+msgstr "°C (grât centigradi)"
 
 #. See http://en.wikipedia.org/wiki/Farad
 #: ../goffice/gtk/go-format-sel.c:319
 msgid "F (farad)"
-msgstr ""
+msgstr "F (farad)"
 
 #. See http://en.wikipedia.org/wiki/Gray_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:321
 msgid "Gy (gray)"
-msgstr ""
+msgstr "Gy (gray)"
 
 #. See http://en.wikipedia.org/wiki/Henry_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:323
 msgid "H (henry)"
-msgstr ""
+msgstr "H (henry)"
 
 #. See http://en.wikipedia.org/wiki/Hertz
 #: ../goffice/gtk/go-format-sel.c:325
 msgid "Hz (hertz)"
-msgstr ""
+msgstr "Hz (hertz)"
 
 #. See http://en.wikipedia.org/wiki/Joule
 #: ../goffice/gtk/go-format-sel.c:327
 msgid "J (joule)"
-msgstr ""
+msgstr "J (joule)"
 
 #. See http://en.wikipedia.org/wiki/Kelvin
 #: ../goffice/gtk/go-format-sel.c:329
 msgid "K (kelvin)"
-msgstr ""
+msgstr "K (kelvin)"
 
 #. See http://en.wikipedia.org/wiki/Kilogram
 #: ../goffice/gtk/go-format-sel.c:331
 msgid "kg (kilogram)"
-msgstr ""
+msgstr "kg (chilogram)"
 
 #. See http://en.wikipedia.org/wiki/Lumen_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:333
 msgid "lm (lumen)"
-msgstr ""
+msgstr "lm (lumen)"
 
 #. See http://en.wikipedia.org/wiki/Lux
 #: ../goffice/gtk/go-format-sel.c:335
 msgid "lx (lux)"
-msgstr ""
+msgstr "lx (lux)"
 
 #. See http://en.wikipedia.org/wiki/Metre
 #: ../goffice/gtk/go-format-sel.c:337
 msgid "m (meter)"
-msgstr ""
+msgstr "m (metri)"
 
 #. See http://en.wikipedia.org/wiki/Mole_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:339
 msgid "mol (mole)"
-msgstr ""
+msgstr "mol (mole)"
 
 #. See http://en.wikipedia.org/wiki/Newton_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:341
 msgid "N (newton)"
-msgstr ""
+msgstr "N (newton)"
 
 #. See http://en.wikipedia.org/wiki/Ohm_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:343
 msgid "Ω (ohm)"
-msgstr ""
+msgstr "Ω (ohm)"
 
 #. See http://en.wikipedia.org/wiki/Pascal_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:345
 msgid "Pa (pascal)"
-msgstr ""
+msgstr "Pa (pascal)"
 
 #. See http://en.wikipedia.org/wiki/Radian
 #: ../goffice/gtk/go-format-sel.c:347
 msgid "rad (radian)"
-msgstr ""
+msgstr "rad (radiant)"
 
 #. See http://en.wikipedia.org/wiki/Second
 #: ../goffice/gtk/go-format-sel.c:349
 msgid "s (second)"
-msgstr ""
+msgstr "s (secont)"
 
 #. See http://en.wikipedia.org/wiki/Siemens_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:351
 msgid "S (siemens)"
-msgstr ""
+msgstr "S (siemens)"
 
 #. See http://en.wikipedia.org/wiki/Steradian
 #: ../goffice/gtk/go-format-sel.c:353
 msgid "sr (steradian)"
-msgstr ""
+msgstr "sr (radiant cuadrât)"
 
 #. See http://en.wikipedia.org/wiki/Sievert
 #: ../goffice/gtk/go-format-sel.c:355
 msgid "Sv (sievert)"
-msgstr ""
+msgstr "Sv (sievert)"
 
 #. See http://en.wikipedia.org/wiki/Tesla_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:357
 msgid "T (tesla)"
-msgstr ""
+msgstr "T (tesla)"
 
 #. See http://en.wikipedia.org/wiki/Katal
 #: ../goffice/gtk/go-format-sel.c:359
 msgid "kat (katal)"
-msgstr ""
+msgstr "kat (katal)"
 
 #. See http://en.wikipedia.org/wiki/Volt
 #: ../goffice/gtk/go-format-sel.c:361
 msgid "V (volt)"
-msgstr ""
+msgstr "V (volt)"
 
 #. See http://en.wikipedia.org/wiki/Watt
 #: ../goffice/gtk/go-format-sel.c:363
 msgid "W (watt)"
-msgstr ""
+msgstr "W (watt)"
 
 #. See http://en.wikipedia.org/wiki/Weber_%28Wb%29
 #: ../goffice/gtk/go-format-sel.c:365
 msgid "Wb (weber)"
-msgstr ""
+msgstr "Wb (weber)"
 
 #: ../goffice/gtk/go-format-sel.c:1030 ../goffice/gtk/go-format-sel.ui.h:41
 msgid "Append no further unit."
@@ -4391,11 +4403,11 @@ msgstr ""
 #: ../goffice/gtk/go-format-sel.c:1037
 #, c-format
 msgid "Append '%s'."
-msgstr ""
+msgstr "Zonte '%s'."
 
 #: ../goffice/gtk/go-format-sel.c:1580
 msgid "Negative Number Format"
-msgstr ""
+msgstr "Formât numar negatîf"
 
 #: ../goffice/gtk/go-format-sel.c:1640
 msgid "Number Formats"
@@ -4403,23 +4415,23 @@ msgstr ""
 
 #: ../goffice/gtk/go-format-sel.ui.h:1
 msgid "Preview:"
-msgstr ""
+msgstr "Anteprime:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:2
 msgid "Ca_tegories:"
-msgstr ""
+msgstr "Ca_tegoriis:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:3
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Selezione in automatic un formât adat."
 
 #: ../goffice/gtk/go-format-sel.ui.h:4
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Mostre i valôrs numerics cuntun numar fis di decimâi."
 
 #: ../goffice/gtk/go-format-sel.ui.h:5
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Mostre lis cuantitâts di valude."
 
 #: ../goffice/gtk/go-format-sel.ui.h:6
 msgid "Display amounts in traditional accounting styles."
@@ -4427,23 +4439,23 @@ msgstr ""
 
 #: ../goffice/gtk/go-format-sel.ui.h:7
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Mostre datis e volint oris di zornade."
 
 #: ../goffice/gtk/go-format-sel.ui.h:8
 msgid "Display times of day."
-msgstr ""
+msgstr "Mostre oris de zornade."
 
 #: ../goffice/gtk/go-format-sel.ui.h:9
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Mostre i valôrs come aprossimazion frazionâl plui dongje."
 
 #: ../goffice/gtk/go-format-sel.ui.h:10
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Mostre i valôrs cun la scjale de potence di dîs."
 
 #: ../goffice/gtk/go-format-sel.ui.h:11
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Mostre e cjape i valôrs come stringhis cence interpretazion."
 
 #: ../goffice/gtk/go-format-sel.ui.h:12
 msgid "Specify an XL-style format directly"
@@ -4451,101 +4463,103 @@ msgstr ""
 
 #: ../goffice/gtk/go-format-sel.ui.h:13
 msgid "Display values as percentages."
-msgstr ""
+msgstr "Mostre valôrs come percentuâi."
 
 #: ../goffice/gtk/go-format-sel.ui.h:14
 msgid "Deci_mal places:"
-msgstr ""
+msgstr "Puescj deci_mâi:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:15
 msgid "_Use separator for 1000s"
-msgstr ""
+msgstr "_Dopre separadôr pai 1000"
 
 #: ../goffice/gtk/go-format-sel.ui.h:16
 msgid "Negative number _format:"
-msgstr ""
+msgstr "_Formât numar negatîf:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:17
 msgid "_Format:"
-msgstr ""
+msgstr "_Formât:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:18
 msgid "S_ymbol:"
-msgstr ""
+msgstr "S_imbul:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:19
 msgid "Format c_ode:"
-msgstr ""
+msgstr "C_odiç formât:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:20
 msgid "Show _separate integer part"
-msgstr ""
+msgstr "Mostre la part interie _separade"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
 msgid ""
 "Split fractions with absolute value larger than 1 into an integer part and a "
 "fractional part (e.g. 4 5/6)"
 msgstr ""
+"Divît lis frazions cun valôr assolût plui grant di 1 intune part interie e "
+"une part frazionâl (p.e. 4 5/6)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
 msgid "Minimum number of integer digits:"
-msgstr ""
+msgstr "Minim numar des cifris interiis:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:23
 msgid "Minimum number of _numerator digits:"
-msgstr ""
+msgstr "Minim numar des cifris dal _numeradôr:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:24
 msgid "Minimum number of e_xponent digits:"
-msgstr ""
+msgstr "Minim numar des cifris dal e_sponent:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:25
 msgid "As multiple of 𝜋"
-msgstr ""
+msgstr "Come multipli di 𝜋"
 
 #: ../goffice/gtk/go-format-sel.ui.h:26
 msgid "Write the fractions as multiples of 𝜋 (e.g. 9 𝜋/4 or 2 𝜋 + 𝜋/4)"
-msgstr ""
+msgstr "Scrîf lis frazions come multiplis di 𝜋 (p.e.  9 𝜋/4 o 2 𝜋 + 𝜋/4)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:27
 msgid "Minimum number of denominator digits:"
-msgstr ""
+msgstr "Minim numar des cifris dal denominadôr:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:28
 msgid "Maximum number of denominator digits:"
-msgstr ""
+msgstr "Massim numar des cifris dal denominadôr:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:29
 msgid "Automatic denominator"
-msgstr ""
+msgstr "Denominadôr automatic"
 
 #: ../goffice/gtk/go-format-sel.ui.h:30
 msgid "Denominator:"
-msgstr ""
+msgstr "Denominadôr:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:31
 msgid "Specified denominator:"
-msgstr ""
+msgstr "Denominadôr specificât:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
 msgid "Always show exponent si_gn"
-msgstr ""
+msgstr "Mostre simpri il se_gn dal esponent"
 
 #: ../goffice/gtk/go-format-sel.ui.h:33
 msgid "_Engineering notation"
-msgstr ""
+msgstr "Notazion di _inzegnerie"
 
 #: ../goffice/gtk/go-format-sel.ui.h:34
 msgid "Restrict exponent to multiples of 3"
-msgstr ""
+msgstr "Limite l'esponent a multiplis di 3"
 
 #: ../goffice/gtk/go-format-sel.ui.h:35
 msgid "Use _superscript"
-msgstr ""
+msgstr "Dopre _apiç"
 
 #: ../goffice/gtk/go-format-sel.ui.h:36
 msgid "Use superscript for exponent (e.g. 4×10²)"
-msgstr ""
+msgstr "Dopre apiç pal esponent (p.e. 4×10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:37
 msgid "_Don't show 1×s"
@@ -4569,67 +4583,67 @@ msgstr ""
 
 #: ../goffice/gtk/go-gradient-selector.c:93
 msgid "Up"
-msgstr ""
+msgstr "Sù"
 
 #: ../goffice/gtk/go-gradient-selector.c:95
 msgid "Down"
-msgstr ""
+msgstr "Jù"
 
 #: ../goffice/gtk/go-gradient-selector.c:97
 msgid "Vertical from middle"
-msgstr ""
+msgstr "Verticâl dal mieç"
 
 #: ../goffice/gtk/go-gradient-selector.c:99
 msgid "Vertical to middle"
-msgstr ""
+msgstr "Verticâl al mieç"
 
 #: ../goffice/gtk/go-gradient-selector.c:105
 msgid "Horizontal from middle"
-msgstr ""
+msgstr "Orizontâl dal mieç"
 
 #: ../goffice/gtk/go-gradient-selector.c:107
 msgid "Horizontal to middle"
-msgstr ""
+msgstr "Orizontâl al mieç"
 
 #: ../goffice/gtk/go-gradient-selector.c:109
 msgid "Up and left"
-msgstr ""
+msgstr "Sù e çampe"
 
 #: ../goffice/gtk/go-gradient-selector.c:111
 msgid "Down and right"
-msgstr ""
+msgstr "Ju e diestre"
 
 #: ../goffice/gtk/go-gradient-selector.c:113
 msgid "Diagonal from middle"
-msgstr ""
+msgstr "Diagonâl dal mieç"
 
 #: ../goffice/gtk/go-gradient-selector.c:115
 msgid "Diagonal to middle"
-msgstr ""
+msgstr "Diagonâl al mieç"
 
 #: ../goffice/gtk/go-gradient-selector.c:117
 msgid "Up and right"
-msgstr ""
+msgstr "Sù e diestre"
 
 #: ../goffice/gtk/go-gradient-selector.c:119
 msgid "Down and left"
-msgstr ""
+msgstr "Ju e çampe"
 
 #: ../goffice/gtk/go-gradient-selector.c:121
 msgid "Reverse diagonal from middle"
-msgstr ""
+msgstr "Diagonâl invierse dal mieç"
 
 #: ../goffice/gtk/go-gradient-selector.c:123
 msgid "Reverse diagonal to middle"
-msgstr ""
+msgstr "Diagonâl invierse al mieç"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:1
 msgid "_File type:"
-msgstr ""
+msgstr "_Gjenar di file:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:2
 msgid "Resolution:"
-msgstr ""
+msgstr "Risoluzion:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:3
 msgid "pixels/in"
@@ -4637,60 +4651,60 @@ msgstr ""
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:4
 msgid "Export settings"
-msgstr ""
+msgstr "Espuarte impostazions"
 
 #: ../goffice/gtk/go-image-sel.c:68
 msgid "New image name"
-msgstr ""
+msgstr "Gnûf non di imagjin"
 
 #: ../goffice/gtk/go-image-sel.c:72
 #, c-format
 msgid "image%u"
-msgstr ""
+msgstr "imagjin%u"
 
 #: ../goffice/gtk/go-image-sel.ui.h:1
 msgid "Select an image"
-msgstr ""
+msgstr "Selezione une imagjin"
 
 #: ../goffice/gtk/go-image-sel.ui.h:2
 msgid "_Select a new image"
-msgstr ""
+msgstr "_Selezione une gnove imagjin"
 
 #: ../goffice/gtk/go-locale-sel.c:63
 msgid "Western Europe"
-msgstr ""
+msgstr "Europe ocidentâl"
 
 #: ../goffice/gtk/go-locale-sel.c:64
 msgid "Eastern Europe"
-msgstr ""
+msgstr "Europe orientâl"
 
 #: ../goffice/gtk/go-locale-sel.c:65
 msgid "North America"
-msgstr ""
+msgstr "Americhe dal nord"
 
 #: ../goffice/gtk/go-locale-sel.c:66
 msgid "South & Central America"
-msgstr ""
+msgstr "Americhe centrâl e dal sud"
 
 #: ../goffice/gtk/go-locale-sel.c:67
 msgid "Asia"
-msgstr ""
+msgstr "Asie"
 
 #: ../goffice/gtk/go-locale-sel.c:68
 msgid "Middle East"
-msgstr ""
+msgstr "Medi orient"
 
 #: ../goffice/gtk/go-locale-sel.c:69
 msgid "Africa"
-msgstr ""
+msgstr "Afriche"
 
 #: ../goffice/gtk/go-locale-sel.c:70
 msgid "Australia"
-msgstr ""
+msgstr "Australie"
 
 #: ../goffice/gtk/go-locale-sel.c:71
 msgid "Caribbean"
-msgstr ""
+msgstr "Caraibic"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -4702,55 +4716,55 @@ msgstr ""
 #.
 #: ../goffice/gtk/go-locale-sel.c:104
 msgid "United States/English (C)"
-msgstr ""
+msgstr "Stâts Unîts/Inglês (C)"
 
 #: ../goffice/gtk/go-locale-sel.c:105
 msgid "Djibouti/Afar (aa_DJ)"
-msgstr ""
+msgstr "Djibouti/Afar (aa_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:106
 msgid "Eritrea/Afar (aa_ER)"
-msgstr ""
+msgstr "Eritree/Afar (aa_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:107
 msgid "Ethiopia/Afar (aa_ET)"
-msgstr ""
+msgstr "Etiopie/Afar (aa_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:108
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr ""
+msgstr "Afrikaans dal sud Afriche (af_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:109
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "Etiopie/Amharic (am_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:110
 msgid "Spain/Aragonese (an_ES)"
-msgstr ""
+msgstr "Spagne/Aragonês (an_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:111
 msgid "United Arab Emirates (ar_AE)"
-msgstr ""
+msgstr "Emirâts Araps Unîts (ar_AE)"
 
 #: ../goffice/gtk/go-locale-sel.c:112
 msgid "Bahrain (ar_BH)"
-msgstr ""
+msgstr "Bahrain (ar_BH)"
 
 #: ../goffice/gtk/go-locale-sel.c:113
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "Algjerie (ar_DZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:114
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "Egjit (ar_EG)"
 
 #: ../goffice/gtk/go-locale-sel.c:115
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "Indie/Arap (ar_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:116
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "Iraq (ar_IQ)"
 
 #: ../goffice/gtk/go-locale-sel.c:117
 msgid "Jordan (ar_JO)"
@@ -4758,7 +4772,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:118
 msgid "Kuwait (ar_KW)"
-msgstr ""
+msgstr "Kuwait (ar_KW)"
 
 #: ../goffice/gtk/go-locale-sel.c:119
 msgid "Lebanon (ar_LB)"
@@ -4766,39 +4780,39 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:120
 msgid "Libya (ar_LY)"
-msgstr ""
+msgstr "Libie (ar_LY)"
 
 #: ../goffice/gtk/go-locale-sel.c:121
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "Maroc (ar_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:122
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "Oman (ar_OM)"
 
 #: ../goffice/gtk/go-locale-sel.c:123
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "Qatar (ar_QA)"
 
 #: ../goffice/gtk/go-locale-sel.c:124
 msgid "Saudi Arabia (ar_SA)"
-msgstr ""
+msgstr "Arabie Saudide (ar_SA)"
 
 #: ../goffice/gtk/go-locale-sel.c:125
 msgid "Sudan (ar_SD)"
-msgstr ""
+msgstr "Sudan (ar_SD)"
 
 #: ../goffice/gtk/go-locale-sel.c:126
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "Sirie (ar_SY)"
 
 #: ../goffice/gtk/go-locale-sel.c:127
 msgid "Tunisia (ar_TN)"
-msgstr ""
+msgstr "Tunisie (ar_TN)"
 
 #: ../goffice/gtk/go-locale-sel.c:128
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "Yemen (ar_YE)"
 
 #: ../goffice/gtk/go-locale-sel.c:129
 msgid "India/Assamese (as_IN)"
@@ -4806,7 +4820,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:130
 msgid "Spain/Asturian (ast_ES)"
-msgstr ""
+msgstr "Spagne/Asturian (ast_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:131
 msgid "Azerbaijan (az_AZ)"
@@ -5126,7 +5140,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:210
 msgid "Italy/Furlan (fur_IT)"
-msgstr ""
+msgstr "Italie/Furlan (fur_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:211
 msgid "Germany/Frisian (fy_DE)"
