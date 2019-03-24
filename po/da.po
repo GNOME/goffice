@@ -101,7 +101,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2018-06-10 17:20+0000\n"
+"POT-Creation-Date: 2018-12-06 19:32+0000\n"
 "PO-Revision-Date: 2018-11-06 15:12+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -189,7 +189,8 @@ msgstr "Arkudvælgelse"
 
 #: ../goffice/app/file.c:717
 msgid "TRUE if this saver supports saving a subset of all sheet"
-msgstr "Sand hvis denne gemmefunktion understøtter, at en andel af alle ark gemmes"
+msgstr ""
+"Sand hvis denne gemmefunktion understøtter, at en andel af alle ark gemmes"
 
 #: ../goffice/app/file.c:918
 msgid "Saving over old files of this type is disabled for safety."
@@ -2776,7 +2777,7 @@ msgstr "Minimum for x-akse"
 
 #: ../goffice/graph/gog-series.c:118
 msgid "X axis maximum"
-msgstr "Maksimum for x-akse "
+msgstr "Maksimum for x-akse"
 
 #: ../goffice/graph/gog-series.c:119
 msgid "Y axis minimum"
