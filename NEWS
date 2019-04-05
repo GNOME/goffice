@@ -2,6 +2,7 @@ goffice 0.10.45:
 
 Jean:
 	* Fix crash in exponential smoothing with invalid y data. [#377]
+	* Fix ring plot center size persistence. [#395]
 
 Morten:
 	* Introspection fixes.

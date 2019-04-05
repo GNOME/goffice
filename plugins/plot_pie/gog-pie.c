@@ -464,7 +464,7 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 		g_param_spec_double ("center-size",
 			_("Center-size"),
 			_("Size of the center hole as a percentage of the radius"),
-			0, 100., 0.,
+			0, 100., 0.5,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	plot_klass->desc.num_series_max = G_MAXINT;

@@ -1,3 +1,8 @@
+2019-04-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_pie/gog-pie.c (gog_ring_plot_class_init): fix ring plot
+	center size persistence. [#395]
+
 2019-01-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/smoothing/gog-exp-smooth.c (gog_exp_smooth_update): protect
