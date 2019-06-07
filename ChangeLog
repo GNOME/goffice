@@ -1,3 +1,8 @@
+2019-06-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-math-editor.c (go_math_editor_class_init): fix signals to
+	make it work again.
+
 2019-05-22  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

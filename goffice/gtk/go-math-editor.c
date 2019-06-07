@@ -58,7 +58,7 @@ go_math_editor_class_init (GtkWidgetClass *klass)
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GoMathEditorClass, itex_changed),
 			NULL, NULL,
-			g_cclosure_marshal_VOID__POINTER,
+			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE, 0);
 	gme_signals[INLINE_CHANGED] =
 		g_signal_new (
@@ -67,7 +67,7 @@ go_math_editor_class_init (GtkWidgetClass *klass)
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GoMathEditorClass, inline_changed),
 			NULL, NULL,
-			g_cclosure_marshal_VOID__POINTER,
+			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE, 0);
 }
 
