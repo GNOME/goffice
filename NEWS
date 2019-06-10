@@ -3,6 +3,9 @@ goffice 0.10.46:
 Jean:
 	* Fix equations edition inside charts.
 
+Morten:
+	* Add more functions to inspect formats.
+
 --------------------------------------------------------------------------
 goffice 0.10.45:
 

@@ -205,6 +205,10 @@ int       go_format_is_date             (GOFormat const *fmt);
 int       go_format_is_time             (GOFormat const *fmt);
 
 int       go_format_month_before_day    (GOFormat const *fmt);
+gboolean  go_format_has_year            (GOFormat const *fmt);
+gboolean  go_format_has_month           (GOFormat const *fmt);
+gboolean  go_format_has_day             (GOFormat const *fmt);
+
 gboolean  go_format_has_hour            (GOFormat const *fmt);
 gboolean  go_format_has_minute          (GOFormat const *fmt);
 

@@ -417,6 +417,9 @@ struct _GOFormat {
 			unsigned int date_ybm    : 1;  /* year, then month.  */
 			unsigned int date_mbd    : 1;  /* month, then day.  */
 			unsigned int date_dbm    : 1;  /* day, then month.  */
+			unsigned int has_year    : 1;
+			unsigned int has_month   : 1;
+			unsigned int has_day     : 1;
 			unsigned int has_time    : 1;
 			unsigned int has_hour    : 1;
 			unsigned int has_minute  : 1;
@@ -1803,6 +1806,9 @@ go_format_parse_sequential (const char *str, GString *prg,
 			fmt->u.number.date_ybm = date_ybm;
 			fmt->u.number.date_mbd = date_mbd;
 			fmt->u.number.date_dbm = date_dbm;
+			fmt->u.number.has_year = seen_year;
+			fmt->u.number.has_month = seen_month;
+			fmt->u.number.has_day = seen_day;
 		}
 		if (seen_time) {
 			guchar op;
@@ -6560,6 +6566,60 @@ go_format_month_before_day (GOFormat const *fmt)
 }
 #endif
 
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_has_year:
+ * @fmt: Format to query
+ *
+ * Returns: TRUE if format is a number format with a year specifier
+ * 	    FALSE otherwise.
+ **/
+gboolean
+go_format_has_year (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, FALSE);
+
+	return (fmt->typ == GO_FMT_NUMBER &&
+		fmt->u.number.has_year);
+}
+#endif
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_has_month:
+ * @fmt: Format to query
+ *
+ * Returns: TRUE if format is a number format with a year specifier
+ * 	    FALSE otherwise.
+ **/
+gboolean
+go_format_has_month (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, FALSE);
+
+	return (fmt->typ == GO_FMT_NUMBER &&
+		fmt->u.number.has_month);
+}
+#endif
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_has_day:
+ * @fmt: Format to query
+ *
+ * Returns: TRUE if format is a number format with a day-of-month specifier
+ * 	    FALSE otherwise.
+ **/
+gboolean
+go_format_has_day (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, FALSE);
+
+	return (fmt->typ == GO_FMT_NUMBER &&
+		fmt->u.number.has_day);
+}
+#endif
 
 #ifdef DEFINE_COMMON
 /**
