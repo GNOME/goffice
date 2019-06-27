@@ -110,8 +110,11 @@ gog_contour_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 			else
 				data[i * plot->columns + j] = val;
 		}
+	if (gog_series_has_legend (series))
+		max++;
 	if ((has_scale && series->num_elements != 1) || series->num_elements != max) {
-		series->num_elements = has_scale? 1: max;
+		series->num_elements = has_scale? 1: max; /* we need to count 1 more
+		 												for the series style */
 		*cardinality_changed = TRUE;
 	}
 	GOG_CONTOUR_PLOT (plot)->max_colors = max;
@@ -143,17 +146,21 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	GogAxis *axis = plot->axis[GOG_AXIS_PSEUDO_3D];
 	GogAxisColorMap const *map = gog_axis_get_color_map (axis);
 	GogAxisTick *zticks;
+	GogSeries *series = GOG_SERIES (plot->series->data);
 	double *limits;
 	double minimum, maximum, epsilon, scale;
 	char const *separator = go_locale_get_decimal ()->str;
 
 	/* First get the series name and style */
 	style = go_style_dup (go_styled_object_get_style (plot->series->data));
-	if (gog_series_has_legend (GOG_SERIES (plot->series->data)))
+	i = 0;
+	if (gog_series_has_legend (series)) {
 		func (0, style,
 			  gog_object_get_name (plot->series->data), NULL, data);
+		i = 1;
+	}
 
-	if (gog_axis_get_color_scale (axis)) {
+	if (gog_axis_get_color_scale (axis) || !plot->vary_style_by_element) {
 		g_object_unref (style);
 		return;
 	}

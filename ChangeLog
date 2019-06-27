@@ -1,3 +1,10 @@
+2019-06-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c: typo.
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_build_matrix), (gog_contour_plot_foreach_elem): fix
+	legend contents. [#404]
+
 2019-06-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_has_year)

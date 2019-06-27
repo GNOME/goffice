@@ -3998,7 +3998,7 @@ gog_axis_get_color_map (GogAxis *axis)
  *
  * Retrieves the #GogColorScale associated to the axis or %NULL.
  * Returns: (transfer none): the color scale used to display the axis colors
- * dor color and pseudo-3d axes.
+ * for color and pseudo-3d axes.
  **/
 GogColorScale *
 gog_axis_get_color_scale (GogAxis *axis)
