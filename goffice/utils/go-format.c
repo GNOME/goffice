@@ -4014,7 +4014,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_DATE_MONTH_NAME_1: {
 			char *s = go_date_month_name (month, TRUE);
-			g_string_append_c (dst, *s);
+			g_string_append_unichar (dst, g_utf8_get_char (s));
 			g_free (s);
 			break;
 		}

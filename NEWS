@@ -6,6 +6,7 @@ Jean:
 
 Morten:
 	* Add more functions to inspect formats.
+	* Fix UTF-8 problem with format "mmmmm".
 
 --------------------------------------------------------------------------
 goffice 0.10.45:
