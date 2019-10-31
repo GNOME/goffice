@@ -4896,7 +4896,7 @@ SUFFIX(ilog10) (DOUBLE x)
  * @layout: Optional #PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
  * @measure: (scope call): Function to measure width of string/layout.
- * @metrics: Font metrics corresponding to @mesaure.
+ * @metrics: Font metrics corresponding to @measure.
  * @val: floating-point value.  Must be finite.
  * @col_width: intended max width of layout in the units that @measure uses.
  * A width of -1 means no restriction.
