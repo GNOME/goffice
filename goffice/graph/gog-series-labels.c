@@ -49,7 +49,7 @@ static GObjectClass *series_labels_parent_klass;
  * @GOG_SERIES_LABELS_NEAR_ORIGIN: near origin.
  **/
 
-struct {
+static const struct {
 	char const *label;
 	GogSeriesLabelsPos pos;
 } positions [] =

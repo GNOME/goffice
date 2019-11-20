@@ -112,7 +112,7 @@ typedef struct
 typedef GOPluginServiceSimpleClass GOComponentTypeServiceClass;
 
 static GObjectClass *component_type_parent_klass;
-char const *GOPriorityName[] = {
+static char const * const GOPriorityName[] = {
 	"display",
 	"print",
 	"partial",
