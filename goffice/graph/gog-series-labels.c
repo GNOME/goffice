@@ -1243,7 +1243,7 @@ gog_series_labels_update (GogObject *obj)
 							break;
 						case 'c':
 							next = (GO_IS_DATA (labels->custom_labels[0].data) &&
-							        go_data_get_vector_size (labels->custom_labels[0].data) > 0)?
+							        go_data_get_vector_size (labels->custom_labels[0].data) > i)?
 									go_data_get_vector_string (labels->custom_labels[0].data, i):
 									NULL;
 							if (next) {
