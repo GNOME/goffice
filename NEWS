@@ -3,6 +3,9 @@ goffice 0.10.47:
 Jean:
 	* Fix crash if a XY plot series has data labels but no valid data. [#426]
 
+Morten:
+	* Fix library namespace issue.
+
 --------------------------------------------------------------------------
 goffice 0.10.46:
 
