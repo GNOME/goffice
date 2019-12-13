@@ -1541,6 +1541,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			cur_x = x_vals;
 			cur_y = y_vals;
 			cur_z = z_vals;
+			if (cur_x == NULL || cur_y == NULL)
+				break;
 			gog_renderer_push_style (view->renderer, go_styled_object_get_style (GO_STYLED_OBJECT (lbls)));
 			overrides = gog_series_get_overrides (GOG_SERIES (series));
 			for (i = 1 ; i <= n ; i++) {
