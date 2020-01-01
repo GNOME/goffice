@@ -26,7 +26,7 @@ msgstr "ID"
 
 #: ../goffice/app/file.c:178
 msgid "The identifier of the opener"
-msgstr "L'identificador de l'obridor."
+msgstr "L'identificador de l'obridor"
 
 #: ../goffice/app/file.c:187 ../goffice/app/file.c:624
 msgid "Description"
@@ -34,7 +34,7 @@ msgstr "Descripció"
 
 #: ../goffice/app/file.c:188
 msgid "The description of the opener"
-msgstr "La descripció de l'obridor."
+msgstr "La descripció de l'obridor"
 
 #: ../goffice/app/file.c:197 ../goffice/app/file.c:644
 msgid "Interactive only"
@@ -50,7 +50,7 @@ msgstr "L'identificador del desador."
 
 #: ../goffice/app/file.c:604
 msgid "MIME type"
-msgstr "tipus MIME"
+msgstr "Tipus MIME"
 
 #: ../goffice/app/file.c:605
 msgid "The MIME type of the saver."
@@ -474,7 +474,7 @@ msgstr "Carregador de connectors"
 
 #: ../goffice/app/go-plugin-service.c:1093
 msgid "GObject loader"
-msgstr "Carregador GObject "
+msgstr "Carregador GObject"
 
 #: ../goffice/app/go-plugin-service.c:1200
 msgid "No \"type\" attribute on \"service\" element."
@@ -7382,7 +7382,7 @@ msgstr "Traçat àrea"
 #. * 	PlotMinMax2
 #: ../plugins/plot_barcol/gog-minmax.c:143
 msgid "PlotMinMax"
-msgstr "Traça mín/màx "
+msgstr "Traça mín/màx"
 
 #: ../plugins/plot_barcol/gog-minmax.c:228
 #: ../plugins/plot_xy/gog-xy-minmax.c:292
@@ -7675,7 +7675,7 @@ msgstr "Gràfic : barra/columna/línia/àrea"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Line, Area, Bar and Column plots"
-msgstr "Traçats de línia, d'àrees, de barres i de columnes."
+msgstr "Traçats de línia, d'àrees, de barres i de columnes"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Line plotting engine"
@@ -7772,7 +7772,7 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-histogram.c:71
 #: ../plugins/plot_distrib/plot-types.xml.in.h:10
 msgid "Histogram"
-msgstr "Histograma "
+msgstr "Histograma"
 
 #: ../plugins/plot_distrib/gog-histogram.c:363
 msgid "Draw the histogram vertically or horizontally"
@@ -9082,7 +9082,7 @@ msgstr "Corba de regressió logarítmica"
 #. * 	Log fit2
 #: ../plugins/reg_logfit/gog-logfit.c:140
 msgid "Log fit"
-msgstr "Correspondència logarítmica "
+msgstr "Correspondència logarítmica"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:1
 msgid "Regression curve : logfit"
