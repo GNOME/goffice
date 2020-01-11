@@ -3,6 +3,7 @@ goffice 0.10.47:
 Jean:
 	* Fix crash if a XY plot series has data labels but no valid data. [#426]
 	* Fix criticals related to data labels. [#428]
+	* Fix a drawing error in contour plots. [#458]
 
 Morten:
 	* Fix library namespace issue.

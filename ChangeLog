@@ -1,3 +1,8 @@
+2020-01-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-contour.c (gog_contour_view_render): fix a
+	drawing error in contour plots. Fix #458
+
 2019-12-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series-labels.c (gog_series_labels_update):

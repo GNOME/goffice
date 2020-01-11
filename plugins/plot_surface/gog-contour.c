@@ -918,7 +918,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						}
 					} else {
 						k = 0;
-						for (s = 0; s < 8; s++) {
+						if (xl[0] < 0)
+							go_path_move_to (path, x[0], y[0]);
+						else
+							go_path_move_to (path, xl[0], yl[0]);
+						for (s = 1; s < 8; s++) {
 							if (xl[s] < 0.) {
 								if (s == 7)
 									break;
