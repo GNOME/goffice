@@ -1037,7 +1037,7 @@ go_url_encode (gchar const *uri_fragment, int type)
  * go_url_check_extension:
  * @uri: Uri
  * @std_ext: Standard extension for the content type
- * @new_uri: New uri
+ * @new_uri: (optional) (nullable): New uri
  *
  * Modifies given @uri by adding the extension @std_ext if needed.
  * If no @std_ext is given or @uri already has some extension,
@@ -1046,7 +1046,7 @@ go_url_encode (gchar const *uri_fragment, int type)
  * Value in new_uri:  newly allocated string which you should free after
  *                    use, containing (optionally) modified uri.
  *
- * Return Value:  FALSE if the uri has an extension not matching @std_ext
+ * Return Value: %FALSE if the uri has an extension not matching @std_ext
  */
 gboolean
 go_url_check_extension (gchar const *uri,
@@ -1058,17 +1058,17 @@ go_url_check_extension (gchar const *uri,
 	gboolean res;
 
 	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (new_uri != NULL, FALSE);
 
 	res      = TRUE;
 	base     = g_path_get_basename (uri);
 	user_ext = strrchr (base, '.');
-	if (std_ext != NULL && strlen (std_ext) > 0 && user_ext == NULL)
+	if (std_ext != NULL && strlen (std_ext) > 0 && !user_ext && new_uri)
 		*new_uri = g_strconcat (uri, ".", std_ext, NULL);
 	else {
 		if (user_ext != NULL && std_ext != NULL)
 			res = !go_utf8_collate_casefold (user_ext + 1, std_ext);
-		*new_uri = g_strdup (uri);
+		if (new_uri)
+			*new_uri = g_strdup (uri);
 	}
 	g_free (base);
 

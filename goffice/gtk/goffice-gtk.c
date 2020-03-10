@@ -982,7 +982,7 @@ cb_format_combo_changed (GtkComboBox *combo, GtkWidget *expander)
  * @ret_format: default file format
  * @resolution: export resolution
  *
- * Opens a file chooser and let user choose file URI and format in a list of
+ * Opens a file chooser and lets user choose file URI and format in a list of
  * supported ones.
  *
  * Returns: file URI string, file #GOImageFormat stored in @ret_format, and
@@ -1003,6 +1003,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	SaveInfoState *state;
 	char const *key = "go_gui_get_image_save_info";
 	char *uri = NULL;
+	gboolean by_ext = FALSE;
 
 	state = g_object_get_data (G_OBJECT (toplevel), key);
 	if (state == NULL) {
@@ -1028,6 +1029,10 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			int i;
 			GSList *l;
 			format_combo = go_gtk_builder_combo_box_init_text (gui, "format_combo");
+
+			by_ext = TRUE;
+			go_gtk_combo_box_append_text (format_combo, _("Auto by extension"));
+
 			for (l = supported_formats, i = 0; l != NULL; l = l->next, i++) {
 				format = GPOINTER_TO_UINT (l->data);
 				format_info = go_image_get_format_info (format);
@@ -1083,9 +1088,23 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 		char *new_uri = NULL;
 		int index = gtk_combo_box_get_active (format_combo);
 
-		if (index >= 0) {
+		format = GO_IMAGE_FORMAT_UNKNOWN;
+		if (index < 0)
+			; // That's it.
+		else if (by_ext && index == 0) {
+			GSList *l;
+
+			for (l = supported_formats; l; l = l->next) {
+				GOImageFormat f = GPOINTER_TO_UINT (l->data);
+				GOImageFormatInfo const *format_info = go_image_get_format_info (f);
+				if (go_url_check_extension (uri, format_info->ext, NULL))
+					format = f;
+			}
+			if (format == GO_IMAGE_FORMAT_UNKNOWN)
+				goto loop;
+		} else {
 			format = GPOINTER_TO_UINT (g_slist_nth_data
-				(supported_formats, index));
+				(supported_formats, index - by_ext));
 			format_info = go_image_get_format_info (format);
 			if (!go_url_check_extension (uri, format_info->ext, &new_uri) &&
 			    !go_gtk_query_yes_no (GTK_WINDOW (fsel), TRUE,
@@ -1099,8 +1118,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			}
 			g_free (uri);
 			uri = new_uri;
-		} else
-			format = GO_IMAGE_FORMAT_UNKNOWN;
+		}
 		*ret_format = format;
 	}
 	if (!go_gtk_url_is_writeable (GTK_WINDOW (fsel), uri, TRUE)) {

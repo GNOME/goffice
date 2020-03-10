@@ -1,3 +1,8 @@
+2020-03-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_url_check_extension): Make new_uri
+	optional.
+
 2020-01-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-contour.c (gog_contour_view_render): fix a
@@ -10,9 +15,9 @@
 
 2019-12-13  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/graph/gog-series-labels.c (gog_series_labels_update): fix warnings
-	when the vector length is nil. See #426.
-	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): do not process labels 
+	* goffice/graph/gog-series-labels.c (gog_series_labels_update):
+	fix warnings when the vector length is nil. See #426.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): do not process labels
 	if the series does not contain any valid data. Fix #426.
 
 2019-11-06  Morten Welinder <terra@gnome.org>
