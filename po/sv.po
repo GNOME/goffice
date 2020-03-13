@@ -1,12 +1,12 @@
 # Swedish messages for Gnumeric.
-# Copyright © 1998, 1999, 2000, 2001, 2002, 2015, 2016 Free Software Foundation, Inc.
+# Copyright © 1998, 1999, 2000, 2001, 2002, 2015, 2016, 2020 Free Software Foundation, Inc.
 # Richard Hult <rhult@codefactory.se>, 1999, 2000, 2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002.
 # Jörgen Tegnér <jorgen.tegner@telia.com>, 2001.
 # Jan Morén <jan.moren@lucs.lu.se>, 2002.
 # Josef Andersson <josef.andersson@fripost.org>, 2015, 2016.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2020.
 #
 # Regler:
 # * ' översätts med ”
@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2018-06-10 17:20+0000\n"
-"PO-Revision-Date: 2018-09-10 21:39+0200\n"
+"POT-Creation-Date: 2020-03-10 00:16+0000\n"
+"PO-Revision-Date: 2020-03-13 11:52+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.3\n"
 "X-Project-Style: gnome\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -442,7 +442,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Uppstädningsfunktionen i insticksmodulen returnerade ett fel."
 
 #: ../goffice/app/go-plugin-service.c:229 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:1037 ../goffice/utils/go-format.c:5509
+#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5515
 msgid "General"
 msgstr "Allmän"
 
@@ -1233,7 +1233,7 @@ msgstr "Mätvärden"
 
 #: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2606
 #: ../goffice/graph/gog-series-labels.c:911
-#: ../goffice/graph/gog-series-labels.c:1441
+#: ../goffice/graph/gog-series-labels.c:1442
 msgid "Format"
 msgstr "Format"
 
@@ -1584,7 +1584,7 @@ msgstr "_Visa etiketter"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:13 ../goffice/graph/gog-object.c:790
 #: ../goffice/graph/gog-object.c:834 ../goffice/graph/gog-series-labels.c:899
-#: ../goffice/graph/gog-series-labels.c:1429
+#: ../goffice/graph/gog-series-labels.c:1430
 msgid "Position"
 msgstr "Position"
 
@@ -1845,7 +1845,7 @@ msgstr "Höger"
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2103
+#: ../plugins/plot_xy/gog-xy.c:2105
 msgid "Details"
 msgstr "Detaljer"
 
@@ -2715,7 +2715,7 @@ msgstr "Derivata av första punkten av clamped kubisk spline."
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr "Derivata av sista punkten av clamped kubisk spline."
 
-#: ../goffice/graph/gog-series.c:774 ../goffice/graph/gog-series-labels.c:1406
+#: ../goffice/graph/gog-series.c:774 ../goffice/graph/gog-series-labels.c:1407
 msgid "Point"
 msgstr "Punkt"
 
@@ -2811,28 +2811,28 @@ msgstr "Värden som procent"
 #. Note to translators: a space might be needed before '%%' in someo_is_finie languages
 #. FIXME: should the number of digits be customizable?
 #: ../goffice/graph/gog-series-labels.c:842
-#: ../goffice/graph/gog-series-labels.c:1282
+#: ../goffice/graph/gog-series-labels.c:1283
 #, c-format
 msgid "%.1f%%"
 msgstr "%.1f%%"
 
 #: ../goffice/graph/gog-series-labels.c:900
-#: ../goffice/graph/gog-series-labels.c:1430
+#: ../goffice/graph/gog-series-labels.c:1431
 msgid "Position of the label relative to the data graphic element"
 msgstr "Positionen på etikett relativ till datagrafiska elementet"
 
 #: ../goffice/graph/gog-series-labels.c:905
-#: ../goffice/graph/gog-series-labels.c:1435
+#: ../goffice/graph/gog-series-labels.c:1436
 msgid "Offset"
 msgstr "Förskjutning"
 
 #: ../goffice/graph/gog-series-labels.c:906
-#: ../goffice/graph/gog-series-labels.c:1436
+#: ../goffice/graph/gog-series-labels.c:1437
 msgid "Offset to add to the label position"
 msgstr "Förskjutning att lägga till etikettens position"
 
 #: ../goffice/graph/gog-series-labels.c:912
-#: ../goffice/graph/gog-series-labels.c:1442
+#: ../goffice/graph/gog-series-labels.c:1443
 msgid "Label format"
 msgstr "Etikettformat"
 
@@ -3675,11 +3675,15 @@ msgstr "Bilder"
 msgid "Select an Image"
 msgstr "Välj en bild"
 
-#: ../goffice/gtk/goffice-gtk.c:1019
+#: ../goffice/gtk/goffice-gtk.c:1020
 msgid "Save as"
 msgstr "Spara som"
 
-#: ../goffice/gtk/goffice-gtk.c:1092
+#: ../goffice/gtk/goffice-gtk.c:1034
+msgid "Auto by extension"
+msgstr "Automatisk enligt ändelse"
+
+#: ../goffice/gtk/goffice-gtk.c:1111
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3687,7 +3691,7 @@ msgstr ""
 "Den givna ändelsen passar inte den valda filtypen. Vill du använda detta "
 "namn i alla fall?"
 
-#: ../goffice/gtk/goffice-gtk.c:1311
+#: ../goffice/gtk/goffice-gtk.c:1329
 #, c-format
 msgid ""
 "%s\n"
@@ -3696,7 +3700,7 @@ msgstr ""
 "%s\n"
 "är ett katalognamn"
 
-#: ../goffice/gtk/goffice-gtk.c:1315
+#: ../goffice/gtk/goffice-gtk.c:1333
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3705,7 +3709,7 @@ msgstr ""
 "Du har inte rättigheter att spara till\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1325
+#: ../goffice/gtk/goffice-gtk.c:1343
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -6631,80 +6635,80 @@ msgid "Invalid image data\n"
 msgstr "Ogiltig bilddata\n"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:610
+#: ../goffice/utils/go-format.c:613
 msgid "*Long Date Format"
 msgstr "*Långt datumformat"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:618
+#: ../goffice/utils/go-format.c:621
 msgid "*Medium Date Format"
 msgstr "*Medeldatumformat"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:626
+#: ../goffice/utils/go-format.c:629
 msgid "*Short Date Format"
 msgstr "*Kort datumformat"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:639
+#: ../goffice/utils/go-format.c:642
 msgid "*Short Date/Time Format"
 msgstr "*Kort datum-/tidformat"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:654
+#: ../goffice/utils/go-format.c:657
 msgid "*Long Time Format"
 msgstr "*Långt tidformat"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:666
+#: ../goffice/utils/go-format.c:669
 msgid "*Medium Time Format"
 msgstr "*Medellångt tidformat"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:678
+#: ../goffice/utils/go-format.c:681
 msgid "*Short Time Format"
 msgstr "*Kort tidformat"
 
-#: ../goffice/utils/go-format.c:721
+#: ../goffice/utils/go-format.c:724
 msgid "Black"
 msgstr "Svart"
 
 #. Color 1
-#: ../goffice/utils/go-format.c:722
+#: ../goffice/utils/go-format.c:725
 msgid "White"
 msgstr "Vit"
 
 #. Color 2
-#: ../goffice/utils/go-format.c:723
+#: ../goffice/utils/go-format.c:726
 msgid "Red"
 msgstr "Röd"
 
 #. Color 3
-#: ../goffice/utils/go-format.c:724
+#: ../goffice/utils/go-format.c:727
 msgid "Green"
 msgstr "Grön"
 
 #. Color 4
-#: ../goffice/utils/go-format.c:725
+#: ../goffice/utils/go-format.c:728
 msgid "Blue"
 msgstr "Blå"
 
 #. Color 5
-#: ../goffice/utils/go-format.c:726
+#: ../goffice/utils/go-format.c:729
 msgid "Yellow"
 msgstr "Gul"
 
 #. Color 6
-#: ../goffice/utils/go-format.c:727
+#: ../goffice/utils/go-format.c:730
 msgid "Magenta"
 msgstr "Magenta"
 
 #. Color 7
-#: ../goffice/utils/go-format.c:728
+#: ../goffice/utils/go-format.c:731
 msgid "Cyan"
 msgstr "Cyan"
 
-#: ../goffice/utils/go-format.c:871
+#: ../goffice/utils/go-format.c:874
 msgid "color"
 msgstr "färg"
 
@@ -7361,8 +7365,8 @@ msgid "Lines"
 msgstr "Linjer"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:695 ../plugins/plot_radar/gog-radar.c:1354
-#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2180
-#: ../plugins/plot_xy/gog-xy.c:2186
+#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2182
+#: ../plugins/plot_xy/gog-xy.c:2188
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -7448,11 +7452,11 @@ msgstr "_Överlappning:"
 msgid "PlotDropBar"
 msgstr "DiagramStap"
 
-#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2197
+#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2199
 msgid "Clamp at start"
 msgstr "Klämma vid start"
 
-#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2198
+#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2200
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7460,11 +7464,11 @@ msgstr ""
 "Lutning vid början av den interpolerade kurvan vid användning av clamped "
 "spline interpolation"
 
-#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2203
+#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2205
 msgid "Clamp at end"
 msgstr "Klämma vid slutet"
 
-#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2204
+#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2206
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -8446,7 +8450,7 @@ msgstr "Standard radardiagramtyper"
 
 #. xgettext : the base for how to name contour plot objects
 #.
-#: ../plugins/plot_surface/gog-contour.c:133
+#: ../plugins/plot_surface/gog-contour.c:136
 msgid "PlotContour"
 msgstr "Konturdiagram"
 
@@ -8835,27 +8839,27 @@ msgstr "Bubbel"
 msgid "XYColor"
 msgstr "XYFärg"
 
-#: ../plugins/plot_xy/gog-xy.c:2108 ../plugins/plot_xy/gog-xy.c:2179
+#: ../plugins/plot_xy/gog-xy.c:2110 ../plugins/plot_xy/gog-xy.c:2181
 msgid "X error bars"
 msgstr "X-felstaplar"
 
-#: ../plugins/plot_xy/gog-xy.c:2111 ../plugins/plot_xy/gog-xy.c:2185
+#: ../plugins/plot_xy/gog-xy.c:2113 ../plugins/plot_xy/gog-xy.c:2187
 msgid "Y error bars"
 msgstr "Y-felstaplar"
 
-#: ../plugins/plot_xy/gog-xy.c:2120
+#: ../plugins/plot_xy/gog-xy.c:2122
 msgid "Horizontal drop lines"
 msgstr "Vågräta ränder"
 
-#: ../plugins/plot_xy/gog-xy.c:2128
+#: ../plugins/plot_xy/gog-xy.c:2130
 msgid "Vertical drop lines"
 msgstr "Lodräta ränder"
 
-#: ../plugins/plot_xy/gog-xy.c:2191
+#: ../plugins/plot_xy/gog-xy.c:2193
 msgid "Invalid as zero"
 msgstr "Ogiltigt som noll"
 
-#: ../plugins/plot_xy/gog-xy.c:2192
+#: ../plugins/plot_xy/gog-xy.c:2194
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Ersätt ogiltiga värden med 0 när ritning av markörer eller bubblor sker"
