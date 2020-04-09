@@ -1,5 +1,10 @@
 2020-04-09  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-series.c (gog_series_dataset_dim_changed): check
+	validity when the data change. Fix #468.
+
+2020-04-09  Jean Brefort  <jean.brefort@normalesup.org>
+
 	reviewed by: <delete if not using a buddy>
 
 	* goffice/graph/gog-series.c (gog_series_check_validity): ensure all

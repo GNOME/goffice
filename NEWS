@@ -6,6 +6,7 @@ Jean:
 	* Fix a drawing error in contour plots. [#458]
 	* Ensure that all required dims have valid data in a valid series. [#466]
 	* Fix legend order in bar plots.
+	* Test plot series validity after a data change. [#468] 
 
 Morten:
 	* Fix library namespace issue.

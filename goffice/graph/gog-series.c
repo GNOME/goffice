@@ -963,6 +963,7 @@ gog_series_dataset_dim_changed (GogDataset *set, int dim_i)
 			? go_data_get_scalar_string (name_src) : NULL;
 		gog_object_set_name (GOG_OBJECT (set), name, NULL);
 	}
+	gog_series_check_validity (series);
 }
 
 static void
