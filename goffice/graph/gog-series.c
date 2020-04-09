@@ -1024,8 +1024,9 @@ gog_series_check_validity (GogSeries *series)
 
 	desc = &series->plot->desc.series;
 	for (i = series->plot->desc.series.num_dim; i-- > 0; )
-		if (series->values[i].data == NULL &&
-		    desc->dim[i].priority == GOG_SERIES_REQUIRED) {
+		if (desc->dim[i].priority == GOG_SERIES_REQUIRED && (
+		      series->values[i].data == NULL ||
+		      !go_data_has_value (series->values[i].data))) {
 			series->is_valid = FALSE;
 			return;
 		}

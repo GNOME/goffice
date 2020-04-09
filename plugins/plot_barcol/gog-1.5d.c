@@ -333,7 +333,10 @@ static gboolean
 gog_1_5d_enum_in_reverse (GogPlot const *plot)
 {
 	GogPlot1_5d *gog_1_5d = GOG_PLOT1_5D (plot);
-	return gog_1_5d->type != GOG_1_5D_NORMAL; /* stacked or percentage */
+	GogPlot1_5dClass *klass = GOG_PLOT1_5D_GET_CLASS (plot);
+	return (gog_1_5d->type != GOG_1_5D_NORMAL && /* stacked or percentage */
+	        ((klass->swap_x_and_y == NULL) || (!(*klass->swap_x_and_y ) (gog_1_5d))));
+			/* the value axis is the Y-axis, not the X-axis */
 }
 
 static void

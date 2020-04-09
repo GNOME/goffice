@@ -1,3 +1,12 @@
+2020-04-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/graph/gog-series.c (gog_series_check_validity): ensure all
+	required dims has valid data. Fix #466.
+	* plugins/plot_barcol/gog-1.5d.c (gog_1_5d_enum_in_reverse): fix legend
+	order in bar plots.
+
 2020-03-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_url_check_extension): Make new_uri
