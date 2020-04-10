@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2019-06-27 15:12+0000\n"
-"PO-Revision-Date: 2019-11-17 08:03+0700\n"
-"Last-Translator: Andika Triwidada <atriwidada@gnome.org>\n"
+"POT-Creation-Date: 2020-03-26 14:51+0000\n"
+"PO-Revision-Date: 2020-04-10 10:40+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -92,11 +92,12 @@ msgstr "Seberapa banyak dari suatu dokumen yang disimpan"
 
 #: ../goffice/app/file.c:716
 msgid "Sheet Selection"
-msgstr ""
+msgstr "Seleksi Lembar"
 
 #: ../goffice/app/file.c:717
 msgid "TRUE if this saver supports saving a subset of all sheet"
 msgstr ""
+"TRUE bila penyimpan ini mendukung penyimpanan suatu subset dari semua lembar"
 
 #: ../goffice/app/file.c:918
 msgid "Saving over old files of this type is disabled for safety."
@@ -1210,7 +1211,7 @@ msgstr "Metrik"
 
 #: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2606
 #: ../goffice/graph/gog-series-labels.c:911
-#: ../goffice/graph/gog-series-labels.c:1441
+#: ../goffice/graph/gog-series-labels.c:1442
 msgid "Format"
 msgstr "Format"
 
@@ -1349,7 +1350,7 @@ msgstr "Penyunting peta warna"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
 msgid "Current color stop"
-msgstr ""
+msgstr "Warna saat ini"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
 msgid "Value"
@@ -1489,11 +1490,11 @@ msgstr "Pilih sumbu"
 
 #: ../goffice/graph/gog-axis-line.c:1041
 msgid "Set start bound"
-msgstr ""
+msgstr "Atur batas mulai"
 
 #: ../goffice/graph/gog-axis-line.c:1052
 msgid "Set stop bound"
-msgstr ""
+msgstr "Atur batas selesai"
 
 #: ../goffice/graph/gog-axis-line.c:2594
 msgid "Ticks"
@@ -1501,7 +1502,7 @@ msgstr "Tik"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:1
 msgid "Bounds"
-msgstr ""
+msgstr "Batas"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:2
 #: ../goffice/graph/gog-object-prefs.ui.h:15
@@ -1555,7 +1556,7 @@ msgstr "_Tampilkan Label"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:13 ../goffice/graph/gog-object.c:790
 #: ../goffice/graph/gog-object.c:834 ../goffice/graph/gog-series-labels.c:899
-#: ../goffice/graph/gog-series-labels.c:1429
+#: ../goffice/graph/gog-series-labels.c:1430
 msgid "Position"
 msgstr "Posisi"
 
@@ -1816,7 +1817,7 @@ msgstr "Kanan"
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2103
+#: ../plugins/plot_xy/gog-xy.c:2105
 msgid "Details"
 msgstr "Rincian"
 
@@ -2142,19 +2143,19 @@ msgstr "Tampilkan koefisien korelasi pada grafik"
 
 #: ../goffice/graph/gog-legend.c:218
 msgid "Swatch Size pts"
-msgstr ""
+msgstr "Ukuran Swatch pt"
 
 #: ../goffice/graph/gog-legend.c:219
 msgid "size of the swatches in pts."
-msgstr ""
+msgstr "ukuran swatch dalam pt."
 
 #: ../goffice/graph/gog-legend.c:224
 msgid "Swatch Padding pts"
-msgstr ""
+msgstr "Pengganjal Swatch pt"
 
 #: ../goffice/graph/gog-legend.c:225
 msgid "padding between the swatches in pts."
-msgstr ""
+msgstr "pengganjal antara swatch dalam pt."
 
 #: ../goffice/graph/gog-object.c:174 ../goffice/graph/gog-object.c:193
 msgid "Top right"
@@ -2331,11 +2332,11 @@ msgstr "_Tinggi:"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
-msgstr ""
+msgstr "Pengganjal Pt"
 
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
-msgstr ""
+msgstr "Banyaknya pt yang memisahkan bagab dalam kisi"
 
 #: ../goffice/graph/gog-plot.c:229
 msgid "X axis:"
@@ -2686,7 +2687,7 @@ msgstr "Turunan pada titik pertama dari spline kubik yang dijepit."
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr "Turunan pada titik terakhir dari spline kubik yang dijepit."
 
-#: ../goffice/graph/gog-series.c:774 ../goffice/graph/gog-series-labels.c:1406
+#: ../goffice/graph/gog-series.c:774 ../goffice/graph/gog-series-labels.c:1407
 msgid "Point"
 msgstr "Titik"
 
@@ -2782,28 +2783,28 @@ msgstr "Nilai sebagai persen"
 #. Note to translators: a space might be needed before '%%' in someo_is_finie languages
 #. FIXME: should the number of digits be customizable?
 #: ../goffice/graph/gog-series-labels.c:842
-#: ../goffice/graph/gog-series-labels.c:1282
+#: ../goffice/graph/gog-series-labels.c:1283
 #, c-format
 msgid "%.1f%%"
 msgstr "%.1f%%"
 
 #: ../goffice/graph/gog-series-labels.c:900
-#: ../goffice/graph/gog-series-labels.c:1430
+#: ../goffice/graph/gog-series-labels.c:1431
 msgid "Position of the label relative to the data graphic element"
 msgstr "Posisi label relatif terhadap elemen grafik data"
 
 #: ../goffice/graph/gog-series-labels.c:905
-#: ../goffice/graph/gog-series-labels.c:1435
+#: ../goffice/graph/gog-series-labels.c:1436
 msgid "Offset"
 msgstr "Ofset"
 
 #: ../goffice/graph/gog-series-labels.c:906
-#: ../goffice/graph/gog-series-labels.c:1436
+#: ../goffice/graph/gog-series-labels.c:1437
 msgid "Offset to add to the label position"
 msgstr "Ofset yang ditambahkan ke posisi label"
 
 #: ../goffice/graph/gog-series-labels.c:912
-#: ../goffice/graph/gog-series-labels.c:1442
+#: ../goffice/graph/gog-series-labels.c:1443
 msgid "Label format"
 msgstr "Format label"
 
@@ -3646,11 +3647,15 @@ msgstr "Citra"
 msgid "Select an Image"
 msgstr "Pilih Gambar"
 
-#: ../goffice/gtk/goffice-gtk.c:1019
+#: ../goffice/gtk/goffice-gtk.c:1020
 msgid "Save as"
 msgstr "Simpan sebagai"
 
-#: ../goffice/gtk/goffice-gtk.c:1092
+#: ../goffice/gtk/goffice-gtk.c:1034
+msgid "Auto by extension"
+msgstr "Otomatis menurut Ekstensi"
+
+#: ../goffice/gtk/goffice-gtk.c:1111
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3658,7 +3663,7 @@ msgstr ""
 "Ekstensi berkas yang diberikan tak cocok dengan tipe berkas yang dipilih. "
 "Anda tetap ingin memakai nama ini?"
 
-#: ../goffice/gtk/goffice-gtk.c:1311
+#: ../goffice/gtk/goffice-gtk.c:1329
 #, c-format
 msgid ""
 "%s\n"
@@ -3667,7 +3672,7 @@ msgstr ""
 "%s\n"
 "adalah suatu nama direktori"
 
-#: ../goffice/gtk/goffice-gtk.c:1315
+#: ../goffice/gtk/goffice-gtk.c:1333
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3676,7 +3681,7 @@ msgstr ""
 "Anda tak punya izin untuk menyimpan ke\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1325
+#: ../goffice/gtk/goffice-gtk.c:1343
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -6530,9 +6535,8 @@ msgid "Gold, Ounces"
 msgstr "Emas, Ounce"
 
 #: ../goffice/utils/formats.c:547
-#, fuzzy
 msgid "Bond Markets Units, European Composite Units (EURCO)"
-msgstr "Unit Pasar Bond, European Composite Units (EURCO)"
+msgstr "Unit Pasar Surat Berharga, European Composite Units (EURCO)"
 
 #: ../goffice/utils/formats.c:548
 msgid "European Monetary Units (E.M.U.-6)"
@@ -7040,7 +7044,7 @@ msgstr "_Ukuran:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:3
 msgid "O_utline:"
-msgstr ""
+msgstr "_Kerangka:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:4
 msgid "_Fill:"
@@ -7119,9 +7123,8 @@ msgid "_Select..."
 msgstr "_Pilih..."
 
 #: ../goffice/utils/go-style-prefs.ui.h:27
-#, fuzzy
 msgid "Outline"
-msgstr "Outline"
+msgstr "Kerangka"
 
 #: ../goffice/utils/go-style-prefs.ui.h:28
 #: ../plugins/plot_barcol/plot-types.xml.in.h:1
@@ -7314,7 +7317,7 @@ msgstr "Dalam 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:359
 msgid "Placeholder to allow us to round trip pseudo 3D state"
-msgstr ""
+msgstr "Placeholder yang mengizinkan kita menempuh keadaan 3D pseudo"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:367
 #: ../plugins/plot_barcol/gog-dropbar.c:141
@@ -7329,9 +7332,8 @@ msgstr "Bilah galat"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:658
 #: ../plugins/plot_distrib/gog-histogram.c:1119
-#, fuzzy
 msgid "Drop lines"
-msgstr "Lipat baris"
+msgstr "Garis jatuh"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:666
 #: ../plugins/plot_barcol/plot-types.xml.in.h:13
@@ -7339,8 +7341,8 @@ msgid "Lines"
 msgstr "Garis"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:695 ../plugins/plot_radar/gog-radar.c:1354
-#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2180
-#: ../plugins/plot_xy/gog-xy.c:2186
+#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2182
+#: ../plugins/plot_xy/gog-xy.c:2188
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -7372,6 +7374,8 @@ msgstr "Persentase celah"
 #: ../plugins/plot_distrib/gog-boxplot.c:390
 msgid "The padding around each group as a percentage of their width"
 msgstr ""
+"Pengganjal sekitar masing-masing kelompok sebagai persentase dari lebar "
+"mereka"
 
 #: ../plugins/plot_barcol/gog-barcol.c:266
 msgid "Overlap percentage"
@@ -7426,25 +7430,29 @@ msgstr "_Tumpang Tindih:"
 msgid "PlotDropBar"
 msgstr "PlotDropBar"
 
-#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2197
+#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2199
 msgid "Clamp at start"
 msgstr "Jepit di awal"
 
-#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2198
+#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2200
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Kemiringan pada awal kurva interpolasi saat menggunakan interpolasi spline "
+"terjepit"
 
-#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2203
+#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2205
 msgid "Clamp at end"
 msgstr "Jepit di akhir"
 
-#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2204
+#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2206
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Kemiringan di ujung kurva interpolasi saat menggunakan interpolasi spline "
+"terjepit"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -8330,11 +8338,11 @@ msgstr "PlotColorPolar"
 
 #: ../plugins/plot_radar/gog-radar.c:726 ../plugins/plot_xy/gog-xy.c:821
 msgid "hide-outliers"
-msgstr ""
+msgstr "hide-outliers"
 
 #: ../plugins/plot_radar/gog-radar.c:727 ../plugins/plot_xy/gog-xy.c:822
 msgid "Hide data outside of the color axis bounds"
-msgstr ""
+msgstr "Sembunyikan data di luar batas sumbu warna"
 
 #: ../plugins/plot_radar/gog-radar.c:739 ../plugins/plot_surface/gog-xyz.c:408
 #: ../plugins/plot_surface/gog-xyz-surface.c:758
@@ -8350,7 +8358,7 @@ msgstr "Bilah galat radial"
 
 #: ../plugins/plot_radar/gog-radar.c:1328
 msgid "Radial drop lines"
-msgstr ""
+msgstr "Garis jatuh radial"
 
 #: ../plugins/plot_radar/gog-radar.c:1436
 #: ../plugins/plot_radar/gog-radar.c:1479
@@ -8821,27 +8829,27 @@ msgstr "Gelembung"
 msgid "XYColor"
 msgstr "XYColor"
 
-#: ../plugins/plot_xy/gog-xy.c:2108 ../plugins/plot_xy/gog-xy.c:2179
+#: ../plugins/plot_xy/gog-xy.c:2110 ../plugins/plot_xy/gog-xy.c:2181
 msgid "X error bars"
 msgstr "Batang galat X"
 
-#: ../plugins/plot_xy/gog-xy.c:2111 ../plugins/plot_xy/gog-xy.c:2185
+#: ../plugins/plot_xy/gog-xy.c:2113 ../plugins/plot_xy/gog-xy.c:2187
 msgid "Y error bars"
 msgstr "Batang galat Y"
 
-#: ../plugins/plot_xy/gog-xy.c:2120
+#: ../plugins/plot_xy/gog-xy.c:2122
 msgid "Horizontal drop lines"
 msgstr "Garis jatuh horisontal"
 
-#: ../plugins/plot_xy/gog-xy.c:2128
+#: ../plugins/plot_xy/gog-xy.c:2130
 msgid "Vertical drop lines"
 msgstr "Garis jatuh vertikal"
 
-#: ../plugins/plot_xy/gog-xy.c:2191
+#: ../plugins/plot_xy/gog-xy.c:2193
 msgid "Invalid as zero"
 msgstr "Tak valid sebagai nol"
 
-#: ../plugins/plot_xy/gog-xy.c:2192
+#: ../plugins/plot_xy/gog-xy.c:2194
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Gantikan nilai-nilai yang tak valid dengan 0 ketika menggambar penanda atau "
@@ -9071,7 +9079,7 @@ msgstr "Regresi eksponensial"
 #: ../plugins/reg_linear/gog-lin-reg.c:158
 #: ../plugins/reg_linear/gog-lin-reg.c:271
 msgid "Affine"
-msgstr ""
+msgstr "Afinisasi"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
