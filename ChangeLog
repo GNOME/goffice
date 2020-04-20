@@ -1,3 +1,8 @@
+2020-04-19  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (cb_format_combo_changed): Take
+	auto-by-extension into account.
+
 2020-04-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c (gog_series_dataset_dim_changed): check

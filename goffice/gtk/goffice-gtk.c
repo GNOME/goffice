@@ -955,6 +955,11 @@ typedef struct {
 	double resolution;
 	gboolean is_expanded;
 	GOImageFormat format;
+
+	// Not saved, but used by handlers
+	gboolean by_ext;
+	GSList *supported_formats;
+	GtkWidget *resolution_widget;
 } SaveInfoState;
 
 static void
@@ -965,14 +970,24 @@ save_info_state_free (SaveInfoState *state)
 }
 
 static void
-cb_format_combo_changed (GtkComboBox *combo, GtkWidget *expander)
+cb_format_combo_changed (GtkComboBox *combo, SaveInfoState *state)
 {
 	GOImageFormatInfo const *format_info;
+	gboolean sensitive;
+	int i;
 
-	format_info = go_image_get_format_info (gtk_combo_box_get_active (combo));
-	gtk_widget_set_sensitive (expander,
-				  format_info != NULL &&
-				  format_info->is_dpi_useful);
+	i = gtk_combo_box_get_active (combo);
+	if (state->by_ext && i == 0)
+		sensitive = TRUE;
+	else {
+		GOImageFormat fmt = GPOINTER_TO_UINT
+			(g_slist_nth_data (state->supported_formats,
+					   i - state->by_ext));
+		GOImageFormatInfo const *format_info =
+			go_image_get_format_info (fmt);
+		sensitive = format_info && format_info->is_dpi_useful;
+	}
+	gtk_widget_set_sensitive (state->resolution_widget, sensitive);
 }
 
 /**
@@ -1003,7 +1018,6 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	SaveInfoState *state;
 	char const *key = "go_gui_get_image_save_info";
 	char *uri = NULL;
-	gboolean by_ext = FALSE;
 
 	state = g_object_get_data (G_OBJECT (toplevel), key);
 	if (state == NULL) {
@@ -1016,6 +1030,8 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 		g_object_set_data_full (G_OBJECT (toplevel), key,
 					state, (GDestroyNotify) save_info_state_free);
 	}
+	state->supported_formats = supported_formats;
+	state->by_ext = FALSE;
 
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 
@@ -1024,13 +1040,15 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	if (gui != NULL) {
 		GtkWidget *widget;
 
+		state->resolution_widget = resolution_grid = go_gtk_builder_get_widget (gui, "resolution-grid");
+
 		/* Format selection UI */
 		if (supported_formats != NULL && ret_format != NULL) {
 			int i;
 			GSList *l;
 			format_combo = go_gtk_builder_combo_box_init_text (gui, "format_combo");
 
-			by_ext = TRUE;
+			state->by_ext = TRUE;
 			go_gtk_combo_box_append_text (format_combo, _("Auto by extension"));
 
 			for (l = supported_formats, i = 0; l != NULL; l = l->next, i++) {
@@ -1064,11 +1082,10 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			gtk_widget_hide (expander);
 
 		if (resolution != NULL && supported_formats != NULL && ret_format != NULL) {
-			resolution_grid = go_gtk_builder_get_widget (gui, "resolution-grid");
-
-			cb_format_combo_changed (format_combo, resolution_grid);
+			cb_format_combo_changed (format_combo, state);
 			g_signal_connect (GTK_WIDGET (format_combo), "changed",
-					  G_CALLBACK (cb_format_combo_changed), resolution_grid);
+					  G_CALLBACK (cb_format_combo_changed),
+					  state);
 		}
 
 		g_object_unref (gui);
@@ -1091,7 +1108,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 		format = GO_IMAGE_FORMAT_UNKNOWN;
 		if (index < 0)
 			; // That's it.
-		else if (by_ext && index == 0) {
+		else if (state->by_ext && index == 0) {
 			GSList *l;
 
 			for (l = supported_formats; l; l = l->next) {
@@ -1104,7 +1121,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 				goto loop;
 		} else {
 			format = GPOINTER_TO_UINT (g_slist_nth_data
-				(supported_formats, index - by_ext));
+				(supported_formats, index - state->by_ext));
 			format_info = go_image_get_format_info (format);
 			if (!go_url_check_extension (uri, format_info->ext, &new_uri) &&
 			    !go_gtk_query_yes_no (GTK_WINDOW (fsel), TRUE,
