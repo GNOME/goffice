@@ -1037,7 +1037,7 @@ go_url_encode (gchar const *uri_fragment, int type)
  * go_url_check_extension:
  * @uri: Uri
  * @std_ext: Standard extension for the content type
- * @new_uri: (optional) (nullable): New uri
+ * @new_uri: (out) (optional) (nullable): New uri
  *
  * Modifies given @uri by adding the extension @std_ext if needed.
  * If no @std_ext is given or @uri already has some extension,
