@@ -1,3 +1,8 @@
+2020-04-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c
+	(gog_axis_base_get_clamped_position): fix crossing axis position. [#45]
+
 2020-04-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (cb_format_combo_changed): Take

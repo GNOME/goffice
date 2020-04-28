@@ -1,3 +1,4 @@
+
 /*
  * gog-axis-line.c :
  *
@@ -416,10 +417,16 @@ gog_axis_base_get_clamped_position (GogAxisBase *axis_base)
 			return GOG_AXIS_AUTO;
 		cross_location = gog_axis_base_get_cross_location (axis_base);
 		if (gog_axis_get_bounds (cross_axis, &minimum, &maximum)) {
+			double start, end;
+			gog_axis_get_effective_span (cross_axis, &start, &end);
 			if (go_sub_epsilon (cross_location - minimum) <= 0.0)
 				axis_pos = gog_axis_is_inverted (cross_axis) ? GOG_AXIS_AT_HIGH : GOG_AXIS_AT_LOW;
 			else if (go_add_epsilon (cross_location - maximum) >= 0.0)
 				axis_pos = gog_axis_is_inverted (cross_axis) ? GOG_AXIS_AT_LOW : GOG_AXIS_AT_HIGH;
+			if (axis_pos == GOG_AXIS_AT_LOW && start > 0.)
+				return GOG_AXIS_CROSS;
+			if (axis_pos == GOG_AXIS_AT_HIGH && end < 1.)
+				return GOG_AXIS_CROSS;
 		}
 	}
 

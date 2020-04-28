@@ -7,6 +7,7 @@ Jean:
 	* Ensure that all required dims have valid data in a valid series. [#466]
 	* Fix legend order in bar plots.
 	* Test plot series validity after a data change. [#468] 
+	* Fix crossing axis position. [#45]
 
 Morten:
 	* Fix library namespace issue.
