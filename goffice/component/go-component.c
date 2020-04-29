@@ -947,10 +947,6 @@ GOComponent *
 go_component_duplicate (GOComponent const *component)
 {
 	GOComponent *res;
-	char *buf;
-	int length;
-	void (*clearfunc) (gpointer) = NULL;
-	gpointer user_data = NULL;
 	GValue	 value;
 	guint i, nbprops;
 	GType    prop_type;
@@ -975,14 +971,11 @@ go_component_duplicate (GOComponent const *component)
 			g_value_unset (&value);
 		}
 	/* and now the data */
-	go_component_get_data ((GOComponent *) component, (gpointer) &buf, &length, &clearfunc, &user_data);
-	new_data = g_malloc (length);
-	memcpy (new_data, buf, length);
-	go_component_set_data (res, new_data, length);
+	new_data = g_malloc (component->length);
+	memcpy (new_data, component->data, component->length);
+	go_component_set_data (res, new_data, component->length);
 	res->destroy_notify = g_free;
 	res->destroy_data = new_data;
-	if (clearfunc)
-		clearfunc ((user_data)? user_data: buf);
 	res->priv = g_new (GOComponentPrivate, 1);
 	res->priv->is_inline = component->priv->is_inline;
 	return res;

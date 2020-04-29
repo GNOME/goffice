@@ -8,6 +8,7 @@ Jean:
 	* Fix legend order in bar plots.
 	* Test plot series validity after a data change. [#468] 
 	* Fix crossing axis position. [#45]
+	* Fix component duplication. [#483]
 
 Morten:
 	* Fix library namespace issue.

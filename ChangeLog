@@ -1,3 +1,8 @@
+2020-04-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component.c (go_component_duplicate): do not destroy
+	original data. Fix #483.
+
 2020-04-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c
