@@ -168,11 +168,14 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output, gpointer user)
 		if (dat == NULL)
 			continue;
 
+		tmp = go_data_serialize (dat, user);
+		/* only save the data if there is some valid content, see #46 */
+		if (tmp == NULL || *tmp == 0)
+			continue;
 		gsf_xml_out_start_element (output, "dimension");
 		gsf_xml_out_add_int (output, "id", i);
 		gsf_xml_out_add_cstr (output, "type",
 			G_OBJECT_TYPE_NAME (dat));
-		tmp = go_data_serialize (dat, user);
 		gsf_xml_out_add_cstr (output, NULL, tmp);
 		g_free (tmp);
 		gsf_xml_out_end_element (output); /* </dimension> */

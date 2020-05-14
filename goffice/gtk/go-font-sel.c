@@ -99,6 +99,11 @@ enum {
 	GFS_GTK_FONT_CHOOSER_PROP_FONT_DESC,
 	GFS_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT,
 	GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY,
+#if GTK_CHECK_VERSION(3,24,0)
+	GFS_GTK_FONT_CHOOSER_PROP_LEVEL,
+	GFS_GTK_FONT_CHOOSER_PROP_LANGUAGE,
+	GFS_GTK_FONT_CHOOSER_PROP_FONT_FEATURES,
+#endif
 	GFS_GTK_FONT_CHOOSER_PROP_LAST
 };
 
@@ -1114,6 +1119,22 @@ gfs_get_property (GObject         *object,
 		g_value_set_boolean (value, gfs->show_preview_entry);
 		break;
 
+#if GTK_CHECK_VERSION(3,24,0)
+	case GFS_GTK_FONT_CHOOSER_PROP_LEVEL:
+		g_value_set_int (value, GTK_FONT_CHOOSER_LEVEL_FAMILY |
+				              GTK_FONT_CHOOSER_LEVEL_STYLE |
+				              GTK_FONT_CHOOSER_LEVEL_SIZE);
+		break;
+
+	case GFS_GTK_FONT_CHOOSER_PROP_LANGUAGE:
+		g_value_set_string (value, "");
+		break;
+
+	case GFS_GTK_FONT_CHOOSER_PROP_FONT_FEATURES:
+		g_value_set_string (value, "");
+		break;
+#endif
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -1188,6 +1209,20 @@ gfs_set_property (GObject         *object,
 		gfs->show_preview_entry = g_value_get_boolean (value);
 		update_preview (gfs);
 		break;
+
+#if GTK_CHECK_VERSION(3,24,0)
+	case GFS_GTK_FONT_CHOOSER_PROP_LEVEL:
+		/* not supported, just to avoid criticals */
+
+		break;
+	case GFS_GTK_FONT_CHOOSER_PROP_LANGUAGE:
+		/* not supported, just to avoid criticals */
+
+		break;
+	case GFS_GTK_FONT_CHOOSER_PROP_FONT_FEATURES:
+		/* not supported, just to avoid criticals */
+		break;
+#endif
 
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -1305,6 +1340,17 @@ gfs_class_init (GObjectClass *klass)
 	g_object_class_override_property (klass,
 					  GFS_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY,
 					  "show-preview-entry");
+#if GTK_CHECK_VERSION(3,24,0)
+	g_object_class_override_property (klass,
+					  GFS_GTK_FONT_CHOOSER_PROP_LEVEL,
+					  "level");
+	g_object_class_override_property (klass,
+					  GFS_GTK_FONT_CHOOSER_PROP_LANGUAGE,
+					  "language");
+	g_object_class_override_property (klass,
+					  GFS_GTK_FONT_CHOOSER_PROP_FONT_FEATURES,
+					  "font-features");
+#endif
 
 	gfs_signals[FONT_CHANGED] =
 		g_signal_new (

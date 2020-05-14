@@ -268,6 +268,8 @@ go_data_unserialize (GOData *dat, char const *str, gpointer user)
 {
 	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
 	g_return_val_if_fail (klass != NULL, FALSE);
+	/* an empty string is not valid, see #46 */
+	g_return_val_if_fail (str && *str, FALSE);
 	return (*klass->unserialize) (dat, str, user);
 }
 

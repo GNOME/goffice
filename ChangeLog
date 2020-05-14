@@ -1,3 +1,12 @@
+2020-05-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data.c (go_data_unserialize): don't load an invalid
+	empty string. [#46]
+	* goffice/graph/gog-object-xml.c (gog_dataset_sax_save): don't save any
+	void data. [#46]
+	* goffice/gtk/go-font-sel.c (gfs_get_property), (gfs_set_property),
+	(gfs_class_init): fix criticals with Gtk+ >= 3.24.
+
 2020-05-09  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
