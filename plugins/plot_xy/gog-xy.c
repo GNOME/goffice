@@ -1416,8 +1416,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			g_object_unref (neg_style);
 	}
 
-	gog_renderer_pop_clip (view->renderer);
-
 	if (!GOG_IS_BUBBLE_PLOT (model))
 		for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
 			series = ptr->data;
@@ -1617,6 +1615,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		g_slist_free (labels);
 	}
+
+	gog_renderer_pop_clip (view->renderer);
 
 	/* Now render children, may be should come before markers? */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)

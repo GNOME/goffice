@@ -1,3 +1,8 @@
+2020-05-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): keep clipping for data
+	labels. [#47]
+
 2020-05-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data.c (go_data_unserialize): don't load an invalid

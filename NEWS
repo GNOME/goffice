@@ -2,6 +2,7 @@ goffice 0.10.48:
 
 Jean:
 	* Avoid serializing empty graph data. [#46]
+	* Clip data labels in XY plots. [#47]
 
 --------------------------------------------------------------------------
 goffice 0.10.47:
