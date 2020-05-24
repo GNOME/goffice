@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
 "POT-Creation-Date: 2020-05-21 08:57+0000\n"
-"PO-Revision-Date: 2020-05-23 16:15+0300\n"
+"PO-Revision-Date: 2020-05-24 15:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -2339,9 +2339,8 @@ msgid "Color axis:"
 msgstr "Колір вісі:"
 
 #: ../goffice/graph/gog-plot.c:236
-#, fuzzy
 msgid "Bubble axis:"
-msgstr "Подвійний"
+msgstr "Бульбашкова вісь:"
 
 #: ../goffice/graph/gog-plot.c:302
 msgid "Axes"
@@ -2354,11 +2353,11 @@ msgstr "Послідовність"
 
 #: ../goffice/graph/gog-plot.c:459
 msgid "Vary style by element"
-msgstr ""
+msgstr "Змінювати стиль за елементами"
 
 #: ../goffice/graph/gog-plot.c:460
 msgid "Use a different style for each segment"
-msgstr ""
+msgstr "Використовувати різний стиль для різних сегментів"
 
 #: ../goffice/graph/gog-plot.c:465
 msgid "X axis"
@@ -2366,7 +2365,7 @@ msgstr "Вісь X"
 
 #: ../goffice/graph/gog-plot.c:466
 msgid "Reference to X axis"
-msgstr ""
+msgstr "Прив'язка до вісі X"
 
 #: ../goffice/graph/gog-plot.c:471
 msgid "Y axis"
@@ -2374,7 +2373,7 @@ msgstr "Вісь Y"
 
 #: ../goffice/graph/gog-plot.c:472
 msgid "Reference to Y axis"
-msgstr ""
+msgstr "Прив'язка до вісі Y"
 
 #: ../goffice/graph/gog-plot.c:477
 msgid "Z axis"
@@ -2382,7 +2381,7 @@ msgstr "Вісь Z"
 
 #: ../goffice/graph/gog-plot.c:478
 msgid "Reference to Z axis"
-msgstr ""
+msgstr "Прив'язка до вісі Z"
 
 #: ../goffice/graph/gog-plot.c:483
 msgid "Circular axis"
@@ -2448,7 +2447,7 @@ msgstr "Типова інтерполяція"
 
 #: ../goffice/graph/gog-plot.c:527
 msgid "Default type of series line interpolation"
-msgstr ""
+msgstr "Стандартний тип для лінії інтерполяції послідовності"
 
 #: ../goffice/graph/gog-plot.c:1175
 msgid "Move plot area"
@@ -2472,22 +2471,20 @@ msgstr "Рушій кривої регресії"
 
 #: ../goffice/graph/gog-plot-engine.c:620
 msgid "Regression Curve Type"
-msgstr ""
+msgstr "Тип кривої регресії"
 
 #: ../goffice/graph/gog-reg-curve.c:271
 msgid "Regression Curve"
-msgstr ""
+msgstr "Крива регресії"
 
 #: ../goffice/graph/gog-reg-curve.c:306
-#, fuzzy
 msgid "Skip invalid"
-msgstr "Неправильний вираз"
+msgstr "Пропустити некоректні"
 
 #: ../goffice/graph/gog-reg-curve.c:307
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
-#, fuzzy
 msgid "Skip invalid data"
-msgstr "Неправильний вираз"
+msgstr "Пропустити некоректні дані"
 
 #: ../goffice/graph/gog-reg-curve.c:312
 msgid "Drawing bounds"
@@ -2500,9 +2497,8 @@ msgid ""
 msgstr ""
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
-#, fuzzy
 msgid "(_Name):"
-msgstr "_Назва:"
+msgstr "(_Назва):"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
 msgid "Low bound:"
@@ -2591,64 +2587,54 @@ msgid "Origin"
 msgstr "Початок"
 
 #: ../goffice/graph/gog-series.c:114
-#, fuzzy
 msgid "Edge"
 msgstr "Край"
 
 #: ../goffice/graph/gog-series.c:115
-#, fuzzy
 msgid "Self"
-msgstr "Набутий"
+msgstr ""
 
 #: ../goffice/graph/gog-series.c:116
 msgid "Next series"
-msgstr ""
+msgstr "Наступна послідовність"
 
 #: ../goffice/graph/gog-series.c:117
-#, fuzzy
 msgid "X axis minimum"
-msgstr "Тип"
+msgstr "Мінімум на вісі X"
 
 #: ../goffice/graph/gog-series.c:118
-#, fuzzy
 msgid "X axis maximum"
-msgstr "Тип"
+msgstr "Максимум на вісі X"
 
 #: ../goffice/graph/gog-series.c:119
-#, fuzzy
 msgid "Y axis minimum"
-msgstr "Тип"
+msgstr "Мінімум на вісі Y"
 
 #: ../goffice/graph/gog-series.c:120
-#, fuzzy
 msgid "Y axis maximum"
-msgstr "Тип"
+msgstr "Максимум на вісі Y"
 
 #: ../goffice/graph/gog-series.c:233 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
 msgstr "Індекс:"
 
 #: ../goffice/graph/gog-series.c:246 ../plugins/plot_pie/gog-pie.c:91
-#, fuzzy
 msgid "Settings"
 msgstr "Параметри"
 
 #: ../goffice/graph/gog-series.c:287 ../goffice/graph/gog-series-labels.c:917
-#, fuzzy
 msgid "Index"
-msgstr "Покажчик"
+msgstr "Індекс"
 
 #: ../goffice/graph/gog-series.c:288 ../goffice/graph/gog-series-labels.c:918
 msgid "Index of the corresponding data element"
-msgstr ""
+msgstr "Індекс відповідного елемента даних"
 
 #: ../goffice/graph/gog-series.c:624 ../goffice/graph/gog-trend-line.c:99
-#, fuzzy
 msgid "_Show in Legend"
-msgstr "Позначка"
+msgstr "По_казати в умовних позначеннях"
 
 #: ../goffice/graph/gog-series.c:634
-#, fuzzy
 msgid "Data"
 msgstr "Дані"
 
@@ -2666,44 +2652,39 @@ msgstr "Точка"
 
 #: ../goffice/graph/gog-series.c:780
 msgid "Regression curve"
-msgstr ""
+msgstr "Крива регресії"
 
 #: ../goffice/graph/gog-series.c:788 ../goffice/graph/gog-theme.c:592
-#, fuzzy
 msgid "Trend line"
-msgstr "Назва серій"
+msgstr "Лінія тенденції"
 
 #: ../goffice/graph/gog-series.c:796
 msgid "Data labels"
-msgstr ""
+msgstr "Мітки даних"
 
 #: ../goffice/graph/gog-series.c:831 ../goffice/graph/gog-trend-line.c:151
-#, fuzzy
 msgid "Has-legend"
-msgstr "Відіслати"
+msgstr "Має умовні позначення"
 
 #: ../goffice/graph/gog-series.c:832
 msgid "Should the series show up in legends"
-msgstr ""
+msgstr "Чи має бути показано послідовність в умовних позначеннях"
 
 #: ../goffice/graph/gog-series.c:837 ../goffice/graph/gog-series-prefs.ui.h:2
-#, fuzzy
 msgid "Interpolation"
 msgstr "Інтерполяція"
 
 #: ../goffice/graph/gog-series.c:838
-#, fuzzy
 msgid "Type of line interpolation"
-msgstr "Опис"
+msgstr "Тип лінії інтерполяції"
 
 #: ../goffice/graph/gog-series.c:843
-#, fuzzy
 msgid "Interpolation skip invalid"
-msgstr "Опис"
+msgstr "Пропускання некоректних даних при інтерполяції"
 
 #: ../goffice/graph/gog-series.c:844
 msgid "Should the series interpolation ignore the invalid data"
-msgstr ""
+msgstr "Чи слід при інтерполяції послідовності ігнорувати некоректні дані"
 
 #: ../goffice/graph/gog-series.c:849
 msgid "Fill type"
@@ -2711,57 +2692,50 @@ msgstr "Тип заповнення"
 
 #: ../goffice/graph/gog-series.c:850
 msgid "How to fill the area"
-msgstr ""
+msgstr "Як заповнювати область"
 
 #: ../goffice/graph/gog-series-labels.c:57
-#, fuzzy
 msgid "Centered"
-msgstr "У центрі"
+msgstr "За центром"
 
 #: ../goffice/graph/gog-series-labels.c:62
-#, fuzzy
 msgid "Outside"
-msgstr "ззовні"
+msgstr "Ззовні"
 
 #: ../goffice/graph/gog-series-labels.c:63
-#, fuzzy
 msgid "Inside"
-msgstr "зсередини"
+msgstr "Всередині"
 
 #: ../goffice/graph/gog-series-labels.c:64
 msgid "Near origin"
-msgstr ""
+msgstr "Поряд із початком"
 
 #: ../goffice/graph/gog-series-labels.c:422
-#, fuzzy
 msgid "Custom label"
-msgstr "Користувацький"
+msgstr "Нетипова мітка"
 
 #: ../goffice/graph/gog-series-labels.c:432
-#, fuzzy
 msgid "Custom labels"
-msgstr "Користувацький"
+msgstr "Нетипові мітки"
 
 #: ../goffice/graph/gog-series-labels.c:463
 msgid "Available data"
-msgstr ""
+msgstr "Доступні дані"
 
 #: ../goffice/graph/gog-series-labels.c:516
 #: ../goffice/graph/gog-series-labels.c:584
-#, fuzzy
 msgid "Legend entry"
-msgstr "Відіслати"
+msgstr "Запис умовних позначень"
 
 #: ../goffice/graph/gog-series-labels.c:521
 #: ../goffice/graph/gog-series-labels.c:588
-#, fuzzy
 msgid "Series name"
-msgstr "Назва серій"
+msgstr "Назва послідовності"
 
 #: ../goffice/graph/gog-series-labels.c:527
 #: ../goffice/graph/gog-series-labels.c:592
 msgid "Values as percent"
-msgstr ""
+msgstr "Значення як відсотки"
 
 #. Note to translators: a space might be needed before '%%' in some languages
 #. FIXME: should the number of digits be customizable?
@@ -2769,26 +2743,24 @@ msgstr ""
 #. FIXME: should the number of digits be customizable?
 #: ../goffice/graph/gog-series-labels.c:842
 #: ../goffice/graph/gog-series-labels.c:1283
-#, fuzzy, c-format
+#, c-format
 msgid "%.1f%%"
-msgstr "F"
+msgstr "%.1f%%"
 
 #: ../goffice/graph/gog-series-labels.c:900
 #: ../goffice/graph/gog-series-labels.c:1431
 msgid "Position of the label relative to the data graphic element"
-msgstr ""
+msgstr "Розташування мітки відносно графічного елемента даних"
 
 #: ../goffice/graph/gog-series-labels.c:905
 #: ../goffice/graph/gog-series-labels.c:1436
-#, fuzzy
 msgid "Offset"
-msgstr "Зсув"
+msgstr "Відступ"
 
 #: ../goffice/graph/gog-series-labels.c:906
 #: ../goffice/graph/gog-series-labels.c:1437
-#, fuzzy
 msgid "Offset to add to the label position"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Відступ, який слід додати до позиції мітки."
 
 #: ../goffice/graph/gog-series-labels.c:912
 #: ../goffice/graph/gog-series-labels.c:1443
@@ -2800,38 +2772,34 @@ msgid "_Offset:"
 msgstr "_Зсув:"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:3
-#, fuzzy
 msgid "Custom labels:"
-msgstr "Користувацький"
+msgstr "Нетипові мітки:"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:4
 msgid "Separator:"
 msgstr "Роздільник:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
-#, fuzzy
 msgid "Fill _to:"
-msgstr "Файл"
+msgstr "Заповнити _до:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:3
-#, fuzzy
 msgid "S_kip invalid data"
-msgstr "Неправильний вираз"
+msgstr "П_ропустдити некоректні дані"
 
 #. derivative (curve slope) at first point for the clamped cubic spline
 #: ../goffice/graph/gog-series-prefs.ui.h:6
 msgid "<i>y'</i>(<i>x</i><sub>first</sub>):"
-msgstr ""
+msgstr "<i>y'</i>(<i>x</i><sub>перш.</sub>):"
 
 #. derivative (curve slope) at last point for the clamped cubic spline
 #: ../goffice/graph/gog-series-prefs.ui.h:8
 msgid "<i>y'</i>(<i>x</i><sub>last</sub>):"
-msgstr ""
+msgstr "<i>y'</i>(<i>x</i><sub>ост.</sub>):"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:9
-#, fuzzy
 msgid "content"
-msgstr "Вміст"
+msgstr "вміст"
 
 #: ../goffice/graph/gog-smoothed-curve.c:54
 msgid "(Name):"
@@ -2968,9 +2936,8 @@ msgid "The GogObject this view displays"
 msgstr ""
 
 #: ../goffice/graph/new-theme-prefs.ui.h:2
-#, fuzzy
 msgid "Series number"
-msgstr "Число в серії"
+msgstr ""
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -3645,13 +3612,15 @@ msgstr "Зберегти як"
 
 #: ../goffice/gtk/goffice-gtk.c:1052
 msgid "Auto by extension"
-msgstr ""
+msgstr "Автоматично за суфіксом"
 
 #: ../goffice/gtk/goffice-gtk.c:1128
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
+"Вказаний суфікс назви файла не відповідає вбираному типу фалів. Хочете"
+" скористатися ним попри це?"
 
 #: ../goffice/gtk/goffice-gtk.c:1346
 #, c-format
@@ -3678,6 +3647,9 @@ msgid ""
 "\n"
 "Do you want to save over it?"
 msgstr ""
+"Файл із назвою <i>%s</i> вже існує у %s.\n"
+"\n"
+"Хочете його перезаписати?"
 
 #: ../goffice/gtk/go-font-sel.c:353
 msgid "Faces"
@@ -3702,113 +3674,108 @@ msgstr "Курсив"
 #: ../goffice/gtk/go-font-sel.c:396
 msgctxt "FontFace"
 msgid "Bold"
-msgstr "Жирний"
+msgstr "Виразний"
 
 #: ../goffice/gtk/go-font-sel.c:397
 msgctxt "FontFace"
 msgid "Bold Italic"
-msgstr "Жирний курсив"
+msgstr "Виразний курсив"
 
 #. These are fairly rare.
 #: ../goffice/gtk/go-font-sel.c:400
 msgctxt "FontFace"
 msgid "Black"
-msgstr "Чорний"
+msgstr "Надважкий"
 
 #: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
 msgid "Bold Condensed Italic"
-msgstr "Жирний стиснений курсив"
+msgstr "Виразний стиснений курсив"
 
 #: ../goffice/gtk/go-font-sel.c:402
 msgctxt "FontFace"
 msgid "Bold Condensed"
-msgstr ""
+msgstr "Виразний стиснений"
 
 #: ../goffice/gtk/go-font-sel.c:403
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Italic Small Caps"
-msgstr "Товстий курсивний"
+msgstr "Виразні курсивні малі прописні"
 
 #: ../goffice/gtk/go-font-sel.c:404
 msgctxt "FontFace"
 msgid "Bold Nonextended"
-msgstr ""
+msgstr "Виразний нерозширений"
 
 #: ../goffice/gtk/go-font-sel.c:405
-#, fuzzy
 msgctxt "FontFace"
 msgid "Bold Oblique"
-msgstr "Товстий курсивний"
+msgstr "Виразний похилий"
 
 #: ../goffice/gtk/go-font-sel.c:406
 msgctxt "FontFace"
 msgid "Bold Slanted"
-msgstr ""
+msgstr "Виразний нахилений"
 
 #: ../goffice/gtk/go-font-sel.c:407
 msgctxt "FontFace"
 msgid "Bold Small Caps"
-msgstr ""
+msgstr "Виразні малі прописні"
 
 #: ../goffice/gtk/go-font-sel.c:408
 msgctxt "FontFace"
 msgid "Book Oblique"
-msgstr ""
+msgstr "Книжний похилий"
 
 #: ../goffice/gtk/go-font-sel.c:409
 msgctxt "FontFace"
 msgid "Book"
-msgstr "Книга"
+msgstr "Книжний"
 
 #: ../goffice/gtk/go-font-sel.c:410
-#, fuzzy
 msgctxt "FontFace"
 msgid "Condensed Bold Italic"
-msgstr "Товстий курсивний"
+msgstr "Стиснений виразний курсив"
 
 #: ../goffice/gtk/go-font-sel.c:411
 msgctxt "FontFace"
 msgid "Condensed Bold Oblique"
-msgstr ""
+msgstr "Стиснений виразний похилий"
 
 #: ../goffice/gtk/go-font-sel.c:412
 msgctxt "FontFace"
 msgid "Condensed Bold"
-msgstr ""
+msgstr "Стиснений виразний"
 
 #: ../goffice/gtk/go-font-sel.c:413
 msgctxt "FontFace"
 msgid "Condensed Italic"
-msgstr ""
+msgstr "Стиснений курсив"
 
 #: ../goffice/gtk/go-font-sel.c:414
 msgctxt "FontFace"
 msgid "Condensed Oblique"
-msgstr ""
+msgstr "Стиснений похилий"
 
 #: ../goffice/gtk/go-font-sel.c:415
 msgctxt "FontFace"
 msgid "Condensed"
-msgstr "Ущільнений"
+msgstr "Стиснений"
 
 #: ../goffice/gtk/go-font-sel.c:416
-#, fuzzy
 msgctxt "FontFace"
 msgid "Demi Bold Italic"
-msgstr "Товстий курсивний"
+msgstr "Напіввиразний курсив"
 
 #: ../goffice/gtk/go-font-sel.c:417
-#, fuzzy
 msgctxt "FontFace"
 msgid "Demi Bold"
-msgstr "Напівжирний"
+msgstr "Напіввиразний"
 
 #: ../goffice/gtk/go-font-sel.c:418
 msgctxt "FontFace"
 msgid "Demi Oblique"
-msgstr ""
+msgstr "Напівпохилий"
 
 #: ../goffice/gtk/go-font-sel.c:419
 msgctxt "FontFace"
@@ -3818,89 +3785,79 @@ msgstr "Напівжирний"
 #: ../goffice/gtk/go-font-sel.c:420
 msgctxt "FontFace"
 msgid "Demi-Condensed"
-msgstr ""
+msgstr "Напівстиснений"
 
 #: ../goffice/gtk/go-font-sel.c:421
 msgctxt "FontFace"
 msgid "Embossed"
-msgstr ""
+msgstr "Тиснений"
 
 #: ../goffice/gtk/go-font-sel.c:422
-#, fuzzy
 msgctxt "FontFace"
 msgid "Expanded Bold Italic"
-msgstr "Товстий курсивний"
+msgstr "Розширений виразний курсивний"
 
 #: ../goffice/gtk/go-font-sel.c:423
 msgctxt "FontFace"
 msgid "Expanded Bold"
-msgstr ""
+msgstr "Розширений виразний"
 
 #: ../goffice/gtk/go-font-sel.c:424
 msgctxt "FontFace"
 msgid "Expanded Italic"
-msgstr ""
+msgstr "Розширений курсивний"
 
 #: ../goffice/gtk/go-font-sel.c:425
-#, fuzzy
 msgctxt "FontFace"
 msgid "Expanded"
 msgstr "Розширений"
 
 #: ../goffice/gtk/go-font-sel.c:426
-#, fuzzy
 msgctxt "FontFace"
 msgid "Extra Light"
-msgstr "Дуже світлий (1)"
+msgstr "Надлегкий"
 
 #: ../goffice/gtk/go-font-sel.c:427
-#, fuzzy
 msgctxt "FontFace"
 msgid "Heavy"
-msgstr "Жирна"
+msgstr "Важкий"
 
 #: ../goffice/gtk/go-font-sel.c:428
 msgctxt "FontFace"
 msgid "Italic Small Caps"
-msgstr ""
+msgstr "Курсивні малі прописні"
 
 #: ../goffice/gtk/go-font-sel.c:430
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light Italic"
-msgstr "Курсивний"
+msgstr "Легкий курсив"
 
 #: ../goffice/gtk/go-font-sel.c:431
 msgctxt "FontFace"
 msgid "Light Oblique"
-msgstr ""
+msgstr "Легкий похилий"
 
 #: ../goffice/gtk/go-font-sel.c:432
-#, fuzzy
 msgctxt "FontFace"
 msgid "Light"
-msgstr "Світла"
+msgstr "Легкий"
 
 #: ../goffice/gtk/go-font-sel.c:433
-#, fuzzy
 msgctxt "FontFace"
 msgid "Medium Italic"
-msgstr "Курсивний"
+msgstr "Середній курсив"
 
 #: ../goffice/gtk/go-font-sel.c:434
-#, fuzzy
 msgctxt "FontFace"
 msgid "Medium"
 msgstr "Середній"
 
 #: ../goffice/gtk/go-font-sel.c:435
-#, fuzzy
 msgctxt "FontFace"
 msgid "Normal"
-msgstr "Звичайний"
+msgstr "Нормальний"
 
 #: ../goffice/gtk/go-font-sel.c:436
-#, fuzzy
 msgctxt "FontFace"
 msgid "Oblique"
 msgstr "Похилий"
@@ -3908,28 +3865,27 @@ msgstr "Похилий"
 #: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Regular Condensed Italic"
-msgstr ""
+msgstr "Звичайний стиснений курсив"
 
 #: ../goffice/gtk/go-font-sel.c:438
 msgctxt "FontFace"
 msgid "Regular Condensed"
-msgstr ""
+msgstr "Звичайний стиснений"
 
 #: ../goffice/gtk/go-font-sel.c:439
-#, fuzzy
 msgctxt "FontFace"
 msgid "Regular Italic"
-msgstr "Курсивний"
+msgstr "Звичайний курсив"
 
 #: ../goffice/gtk/go-font-sel.c:440
 msgctxt "FontFace"
 msgid "Regular Oblique"
-msgstr ""
+msgstr "Звичайний похилий"
 
 #: ../goffice/gtk/go-font-sel.c:441
 msgctxt "FontFace"
 msgid "Roman Slanted"
-msgstr ""
+msgstr "Звичайний нахилений"
 
 #: ../goffice/gtk/go-font-sel.c:442
 msgctxt "FontFace"
@@ -3937,83 +3893,79 @@ msgid "Roman"
 msgstr "Романський"
 
 #: ../goffice/gtk/go-font-sel.c:443
-#, fuzzy
 msgctxt "FontFace"
 msgid "Rounded"
-msgstr "Округленість"
+msgstr "Округлений"
 
 #: ../goffice/gtk/go-font-sel.c:444
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Bold Italic"
-msgstr "Товстий курсивний"
+msgstr "Виразний курсив без засічок"
 
 #: ../goffice/gtk/go-font-sel.c:445
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Bold"
-msgstr "Товстий"
+msgstr "Виразний без засічок"
 
 #: ../goffice/gtk/go-font-sel.c:446
-#, fuzzy
 msgctxt "FontFace"
 msgid "Sans Italic"
-msgstr "Курсивний"
+msgstr "Курсив без засічок"
 
 #: ../goffice/gtk/go-font-sel.c:447
 msgctxt "FontFace"
 msgid "Sans"
-msgstr "Без зарубок"
+msgstr "Без засічок"
 
 #: ../goffice/gtk/go-font-sel.c:448
 msgctxt "FontFace"
 msgid "Semi-Bold Italic Small Caps"
-msgstr ""
+msgstr "Напіввиразні курсивні малі прописні"
 
 #: ../goffice/gtk/go-font-sel.c:449
 msgctxt "FontFace"
 msgid "Semi-Bold Italic"
-msgstr "Напівжирний курсивний"
+msgstr "Напіввиразний курсив"
 
 #: ../goffice/gtk/go-font-sel.c:450
 msgctxt "FontFace"
 msgid "Semi-Bold Oblique"
-msgstr ""
+msgstr "Напіввиразний похилий"
 
 #: ../goffice/gtk/go-font-sel.c:451
 msgctxt "FontFace"
 msgid "Semi-Bold Slanted"
-msgstr ""
+msgstr "Напіввиразний нахилений"
 
 #: ../goffice/gtk/go-font-sel.c:452
 msgctxt "FontFace"
 msgid "Semi-Bold Small Caps"
-msgstr ""
+msgstr "Напіввиразні малі прописні"
 
 #: ../goffice/gtk/go-font-sel.c:453
 msgctxt "FontFace"
 msgid "Semi-Bold"
-msgstr "Напівжирний"
+msgstr "Напіввиразний"
 
 #: ../goffice/gtk/go-font-sel.c:454
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold Italic"
-msgstr ""
+msgstr "Напівстиснений виразний курсив"
 
 #: ../goffice/gtk/go-font-sel.c:455
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold"
-msgstr ""
+msgstr "Напівстиснений виразний"
 
 #: ../goffice/gtk/go-font-sel.c:456
 msgctxt "FontFace"
 msgid "Semi-Condensed Italic"
-msgstr ""
+msgstr "Напівстиснений курсив"
 
 #: ../goffice/gtk/go-font-sel.c:457
 msgctxt "FontFace"
 msgid "Semi-Condensed Oblique"
-msgstr ""
+msgstr "Напівстиснений похилий"
 
 #: ../goffice/gtk/go-font-sel.c:458
 msgctxt "FontFace"
@@ -4023,17 +3975,17 @@ msgstr "Напівстиснений"
 #: ../goffice/gtk/go-font-sel.c:459
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold Italic"
-msgstr ""
+msgstr "Напіврозширений виразний курсивний"
 
 #: ../goffice/gtk/go-font-sel.c:460
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold"
-msgstr ""
+msgstr "Напіврозширений виразний"
 
 #: ../goffice/gtk/go-font-sel.c:461
 msgctxt "FontFace"
 msgid "Semi-Expanded Italic"
-msgstr ""
+msgstr "Напіврозширений курсив"
 
 #: ../goffice/gtk/go-font-sel.c:462
 msgctxt "FontFace"
@@ -4058,7 +4010,7 @@ msgstr "Тонкий"
 #: ../goffice/gtk/go-font-sel.c:466
 msgctxt "FontFace"
 msgid "Upright Italic"
-msgstr ""
+msgstr "Вертикальний курсив"
 
 #: ../goffice/gtk/go-font-sel.c:534 ../goffice/utils/go-style.c:957
 #: ../plugins/lasem/component.c:268 ../plugins/lasem/component.c:492
@@ -4216,7 +4168,7 @@ msgstr "Перекреслення:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:9
 msgid "Select the font color"
-msgstr ""
+msgstr "Виберіть колір шрифту"
 
 #: ../goffice/gtk/go-font-sel.ui.h:10
 msgid "Color:"
@@ -4234,7 +4186,7 @@ msgstr "Шрифт:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
 msgid "Select the type of underlining"
-msgstr ""
+msgstr "Виберіть тип підкреслювання"
 
 #: ../goffice/gtk/go-font-sel.ui.h:14
 msgid "Underline:"
@@ -4283,12 +4235,12 @@ msgstr "Користувацький"
 #. See http://en.wikipedia.org/wiki/Ampere
 #: ../goffice/gtk/go-format-sel.c:309
 msgid "A (ampere)"
-msgstr ""
+msgstr "А (ампер)"
 
 #. See http://en.wikipedia.org/wiki/Becquerel
 #: ../goffice/gtk/go-format-sel.c:311
 msgid "Bq (becquerel)"
-msgstr ""
+msgstr "Бк (бекерель)"
 
 #. See http://en.wikipedia.org/wiki/Candela
 #: ../goffice/gtk/go-format-sel.c:313
@@ -4343,12 +4295,12 @@ msgstr "кг (кілограм)"
 #. See http://en.wikipedia.org/wiki/Lumen_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:333
 msgid "lm (lumen)"
-msgstr ""
+msgstr "лм (люмен)"
 
 #. See http://en.wikipedia.org/wiki/Lux
 #: ../goffice/gtk/go-format-sel.c:335
 msgid "lx (lux)"
-msgstr ""
+msgstr "лк (люкс)"
 
 #. See http://en.wikipedia.org/wiki/Metre
 #: ../goffice/gtk/go-format-sel.c:337
@@ -4393,46 +4345,46 @@ msgstr "См (сименс)"
 #. See http://en.wikipedia.org/wiki/Steradian
 #: ../goffice/gtk/go-format-sel.c:353
 msgid "sr (steradian)"
-msgstr ""
+msgstr "ср (стерадіан)"
 
 #. See http://en.wikipedia.org/wiki/Sievert
 #: ../goffice/gtk/go-format-sel.c:355
 msgid "Sv (sievert)"
-msgstr ""
+msgstr "Зв (зіверт)"
 
 #. See http://en.wikipedia.org/wiki/Tesla_%28unit%29
 #: ../goffice/gtk/go-format-sel.c:357
 msgid "T (tesla)"
-msgstr ""
+msgstr "Тл (тесла)"
 
 #. See http://en.wikipedia.org/wiki/Katal
 #: ../goffice/gtk/go-format-sel.c:359
 msgid "kat (katal)"
-msgstr ""
+msgstr "кат (катал)"
 
 #. See http://en.wikipedia.org/wiki/Volt
 #: ../goffice/gtk/go-format-sel.c:361
 msgid "V (volt)"
-msgstr ""
+msgstr "В (вольт)"
 
 #. See http://en.wikipedia.org/wiki/Watt
 #: ../goffice/gtk/go-format-sel.c:363
 msgid "W (watt)"
-msgstr ""
+msgstr "Вт (ват)"
 
 #. See http://en.wikipedia.org/wiki/Weber_%28Wb%29
 #: ../goffice/gtk/go-format-sel.c:365
 msgid "Wb (weber)"
-msgstr ""
+msgstr "Вб (вебер)"
 
 #: ../goffice/gtk/go-format-sel.c:1030 ../goffice/gtk/go-format-sel.ui.h:41
 msgid "Append no further unit."
-msgstr ""
+msgstr "Не дописувати одиниці."
 
 #: ../goffice/gtk/go-format-sel.c:1037
 #, c-format
 msgid "Append '%s'."
-msgstr ""
+msgstr "Дописати «%s»."
 
 #: ../goffice/gtk/go-format-sel.c:1580
 msgid "Negative Number Format"
@@ -4443,72 +4395,68 @@ msgid "Number Formats"
 msgstr "Від'ємні числа"
 
 #: ../goffice/gtk/go-format-sel.ui.h:1
-#, fuzzy
 msgid "Preview:"
-msgstr "Перегляд"
+msgstr "Перегляд:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:2
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "Ка_тегорії…"
+msgstr "Ка_тегорії:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:3
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Вибрати відповідний формат автоматично."
 
 #: ../goffice/gtk/go-format-sel.ui.h:4
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Показувати числові значення із фіксованою кількістю цифр."
 
 #: ../goffice/gtk/go-format-sel.ui.h:5
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Показувати суми валют."
 
 #: ../goffice/gtk/go-format-sel.ui.h:6
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Показувати величини у традиційних стилях обліку."
 
 #: ../goffice/gtk/go-format-sel.ui.h:7
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Показати дати і, необов'язково, час доби."
 
 #: ../goffice/gtk/go-format-sel.ui.h:8
-#, fuzzy
 msgid "Display times of day."
-msgstr "Показати формули"
+msgstr "Показати час доби."
 
 #: ../goffice/gtk/go-format-sel.ui.h:9
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Показувати значення у найближчій дробовій апроксимації"
 
 #: ../goffice/gtk/go-format-sel.ui.h:10
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Показувати значення у масштабі степенів десяти."
 
 #: ../goffice/gtk/go-format-sel.ui.h:11
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Показувати вхідні значення як рядки без обробки."
 
 #: ../goffice/gtk/go-format-sel.ui.h:12
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "Вказати формат у стилі XL безпосередньо"
 
 #: ../goffice/gtk/go-format-sel.ui.h:13
 msgid "Display values as percentages."
-msgstr ""
+msgstr "Показувати значення у відсотках."
 
 #: ../goffice/gtk/go-format-sel.ui.h:14
 msgid "Deci_mal places:"
-msgstr ""
+msgstr "Дес_ятковий позицій:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:15
 msgid "_Use separator for 1000s"
-msgstr ""
+msgstr "_Роздільник для тисяч"
 
 #: ../goffice/gtk/go-format-sel.ui.h:16
-#, fuzzy
 msgid "Negative number _format:"
-msgstr "Від'ємне біномінальне"
+msgstr "_Формат від'ємних чисел:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:17
 msgid "_Format:"
@@ -4516,55 +4464,55 @@ msgstr "_Формат:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:18
 msgid "S_ymbol:"
-msgstr ""
+msgstr "Си_мвол:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:19
-#, fuzzy
 msgid "Format c_ode:"
-msgstr "Формати"
+msgstr "_Код формату:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:20
 msgid "Show _separate integer part"
-msgstr ""
+msgstr "Показувати _окрему цілу частину"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
 msgid ""
 "Split fractions with absolute value larger than 1 into an integer part and a "
 "fractional part (e.g. 4 5/6)"
 msgstr ""
+"Розділяти дроби із модулем, більшим за 1, на цілу і дробову частини"
+" (наприклад, 4 5/6)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
 msgid "Minimum number of integer digits:"
-msgstr ""
+msgstr "Мінімальна кількість цифр у цілому:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:23
 msgid "Minimum number of _numerator digits:"
-msgstr ""
+msgstr "Мінімальна кількість цифр у _чисельнику:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:24
 msgid "Minimum number of e_xponent digits:"
-msgstr ""
+msgstr "Мінімальна кількість цифр у п_оказнику:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:25
 msgid "As multiple of 𝜋"
-msgstr ""
+msgstr "Як кратні до 𝜋"
 
 #: ../goffice/gtk/go-format-sel.ui.h:26
 msgid "Write the fractions as multiples of 𝜋 (e.g. 9 𝜋/4 or 2 𝜋 + 𝜋/4)"
-msgstr ""
+msgstr "Записувати дроби як кратні до 𝜋 (e.g. 9 𝜋/4 or 2 𝜋 + 𝜋/4)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:27
 msgid "Minimum number of denominator digits:"
-msgstr ""
+msgstr "Мінімальна кількість цифр у знаменнику:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:28
 msgid "Maximum number of denominator digits:"
-msgstr ""
+msgstr "Максимальна кількість цифр у знаменнику:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:29
-#, fuzzy
 msgid "Automatic denominator"
-msgstr "Перегляд друку"
+msgstr "Автоматичний знаменник"
 
 #: ../goffice/gtk/go-format-sel.ui.h:30
 msgid "Denominator:"
@@ -4572,147 +4520,137 @@ msgstr "Знаменник:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:31
 msgid "Specified denominator:"
-msgstr ""
+msgstr "Вказаний знаменник:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
 msgid "Always show exponent si_gn"
-msgstr ""
+msgstr "Завжди показувати зн_ак степеня"
 
 #: ../goffice/gtk/go-format-sel.ui.h:33
 msgid "_Engineering notation"
-msgstr ""
+msgstr "_Інженерний запис"
 
 #: ../goffice/gtk/go-format-sel.ui.h:34
 msgid "Restrict exponent to multiples of 3"
-msgstr ""
+msgstr "Обмежити степінь кратним до 3 значеннями"
 
 #: ../goffice/gtk/go-format-sel.ui.h:35
 msgid "Use _superscript"
-msgstr ""
+msgstr "Використовувати _верхній індекс"
 
 #: ../goffice/gtk/go-format-sel.ui.h:36
 msgid "Use superscript for exponent (e.g. 4×10²)"
-msgstr ""
+msgstr "Використовувати верхній індекс для степеня (наприклад, 4×10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:37
 msgid "_Don't show 1×s"
-msgstr ""
+msgstr "_Не показувати 1×s"
 
 #: ../goffice/gtk/go-format-sel.ui.h:38
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
 msgstr ""
+"Якщо мантиса рівна 1, показувати лише степеневу частину (наприклад, 10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:39
 msgid "Append SI _prefix"
-msgstr ""
+msgstr "Дописувати _префікс СІ"
 
 #: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append an SI prefix (e.g. instead of 4×10⁶ show 4M)"
-msgstr ""
+msgstr "Дописувати префікс СІ (наприклад, замість 4×10⁶ показувати 4М)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:42
 msgid "Append the SI unit:"
-msgstr ""
+msgstr "Дописувати одиницю СІ:"
 
 #: ../goffice/gtk/go-gradient-selector.c:93
-#, fuzzy
 msgid "Up"
-msgstr "Вгору"
+msgstr "Згори"
 
 #: ../goffice/gtk/go-gradient-selector.c:95
-#, fuzzy
 msgid "Down"
-msgstr "Вниз"
+msgstr "Знизу"
 
 #: ../goffice/gtk/go-gradient-selector.c:97
 msgid "Vertical from middle"
-msgstr ""
+msgstr "Вертикально від середини"
 
 #: ../goffice/gtk/go-gradient-selector.c:99
-#, fuzzy
 msgid "Vertical to middle"
-msgstr "Точка"
+msgstr "Вертикально до середини"
 
 #: ../goffice/gtk/go-gradient-selector.c:105
-#, fuzzy
 msgid "Horizontal from middle"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Горизонтально від середини"
 
 #: ../goffice/gtk/go-gradient-selector.c:107
-#, fuzzy
 msgid "Horizontal to middle"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Горизонтально до середини"
 
 #: ../goffice/gtk/go-gradient-selector.c:109
 msgid "Up and left"
-msgstr ""
+msgstr "Згори і ліворуч"
 
 #: ../goffice/gtk/go-gradient-selector.c:111
 msgid "Down and right"
-msgstr ""
+msgstr "Знизу і праворуч"
 
 #: ../goffice/gtk/go-gradient-selector.c:113
 msgid "Diagonal from middle"
-msgstr ""
+msgstr "Діагонально від середини"
 
 #: ../goffice/gtk/go-gradient-selector.c:115
 msgid "Diagonal to middle"
-msgstr ""
+msgstr "Діагонально до середини"
 
 #: ../goffice/gtk/go-gradient-selector.c:117
-#, fuzzy
 msgid "Up and right"
-msgstr "Праворуч:"
+msgstr "Згори і праворуч"
 
 #: ../goffice/gtk/go-gradient-selector.c:119
 msgid "Down and left"
-msgstr ""
+msgstr "Знизу і ліворуч"
 
 #: ../goffice/gtk/go-gradient-selector.c:121
 msgid "Reverse diagonal from middle"
-msgstr ""
+msgstr "Обернено діагонально від середини"
 
 #: ../goffice/gtk/go-gradient-selector.c:123
 msgid "Reverse diagonal to middle"
-msgstr ""
+msgstr "Обернено діагонально до середини"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:1
-#, fuzzy
 msgid "_File type:"
-msgstr "Файл"
+msgstr "Тип _файла:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:2
-#, fuzzy
 msgid "Resolution:"
 msgstr "Роздільна здатність:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:3
 msgid "pixels/in"
-msgstr ""
+msgstr "пікселів/дюйм"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:4
-#, fuzzy
 msgid "Export settings"
 msgstr "Параметри експортування"
 
 #: ../goffice/gtk/go-image-sel.c:68
 msgid "New image name"
-msgstr ""
+msgstr "Назва нового зображення"
 
 #: ../goffice/gtk/go-image-sel.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "image%u"
-msgstr "_Зображення..."
+msgstr "зображення%u"
 
 #: ../goffice/gtk/go-image-sel.ui.h:1
-#, fuzzy
 msgid "Select an image"
-msgstr "Виберіть зображення"
+msgstr "Вибрати зображення"
 
 #: ../goffice/gtk/go-image-sel.ui.h:2
-#, fuzzy
 msgid "_Select a new image"
-msgstr "Виюрати весь стовпчик"
+msgstr "_Вибрати нове зображення"
 
 #: ../goffice/gtk/go-locale-sel.c:63
 msgid "Western Europe"
@@ -4728,7 +4666,7 @@ msgstr "Північна Америка"
 
 #: ../goffice/gtk/go-locale-sel.c:66
 msgid "South & Central America"
-msgstr ""
+msgstr "Південна і Центральна Америка"
 
 #: ../goffice/gtk/go-locale-sel.c:67
 msgid "Asia"
@@ -4760,1172 +4698,1097 @@ msgstr "Карибські острови"
 #.
 #: ../goffice/gtk/go-locale-sel.c:104
 msgid "United States/English (C)"
-msgstr ""
+msgstr "Сполучені Штати/англійська (C)"
 
 #: ../goffice/gtk/go-locale-sel.c:105
 msgid "Djibouti/Afar (aa_DJ)"
-msgstr ""
+msgstr "Джибуті/афарська (aa_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:106
 msgid "Eritrea/Afar (aa_ER)"
-msgstr ""
+msgstr "Еритрея/афарська (aa_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:107
 msgid "Ethiopia/Afar (aa_ET)"
-msgstr ""
+msgstr "Ефіопія/афарська (aa_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:108
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка, африкаас (af_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:109
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "Ефіопія/амхарська (am_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:110
-#, fuzzy
 msgid "Spain/Aragonese (an_ES)"
-msgstr "Вибірка"
+msgstr "Іспанія/арагонська (an_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:111
 msgid "United Arab Emirates (ar_AE)"
-msgstr ""
+msgstr "Об'єднані Арабські Емірати (ar_AE)"
 
 #: ../goffice/gtk/go-locale-sel.c:112
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "Бахрейн, динари"
+msgstr "Бахрейн (ar_BH)"
 
 #: ../goffice/gtk/go-locale-sel.c:113
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "Алжир (ar_DZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:114
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "Єгипет (ar_EG)"
 
 #: ../goffice/gtk/go-locale-sel.c:115
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "Індія/арабська (ar_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:116
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "Ірак (ar_IQ)"
 
 #: ../goffice/gtk/go-locale-sel.c:117
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "Йорданські динари"
+msgstr "Йорданія (ar_JO)"
 
 #: ../goffice/gtk/go-locale-sel.c:118
-#, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "Кувейтські динари"
+msgstr "Кувейт (ar_KW)"
 
 #: ../goffice/gtk/go-locale-sel.c:119
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "Ліван (ar_LB)"
 
 #: ../goffice/gtk/go-locale-sel.c:120
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "Лівія, динар"
+msgstr "Лівія (ar_LY)"
 
 #: ../goffice/gtk/go-locale-sel.c:121
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "Марокко (ar_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:122
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "Оман (ar_OM)"
 
 #: ../goffice/gtk/go-locale-sel.c:123
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "Катар (ar_QA)"
 
 #: ../goffice/gtk/go-locale-sel.c:124
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Саудівська Аравії, ріяли"
+msgstr "Саудівська Аравія (ar_SA)"
 
 #: ../goffice/gtk/go-locale-sel.c:125
-#, fuzzy
 msgid "Sudan (ar_SD)"
-msgstr "Судан, динари"
+msgstr "Судан (ar_SD)"
 
 #: ../goffice/gtk/go-locale-sel.c:126
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "Сирія (ar_SY)"
 
 #: ../goffice/gtk/go-locale-sel.c:127
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "Туніс, динари"
+msgstr "Туніс (ar_TN)"
 
 #: ../goffice/gtk/go-locale-sel.c:128
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "Ємен (ar_YE)"
 
 #: ../goffice/gtk/go-locale-sel.c:129
 msgid "India/Assamese (as_IN)"
-msgstr ""
+msgstr "Індія/асамська (as_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:130
-#, fuzzy
 msgid "Spain/Asturian (ast_ES)"
-msgstr "Вибірка"
+msgstr "Іспанія/астурійська (ast_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:131
 msgid "Azerbaijan (az_AZ)"
-msgstr ""
+msgstr "Азербайджан (az_AZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:132
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "Білоруські рублі"
+msgstr "Білорусь (be_BY)"
 
 #: ../goffice/gtk/go-locale-sel.c:133
 msgid "Zambia/Bemba (bem_ZM)"
-msgstr ""
+msgstr "Замбія/бемба (bem_ZM)"
 
 #: ../goffice/gtk/go-locale-sel.c:134
 msgid "Algeria/Amazigh (ber_DZ)"
-msgstr ""
+msgstr "Алжир/берберська (ber_DZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:135
 msgid "Morocco/Amazigh (ber_MA)"
-msgstr ""
+msgstr "Марокко/берберська (ber_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:136
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "Болгарія, леви"
+msgstr "Болгарія (bg_BG)"
 
 #: ../goffice/gtk/go-locale-sel.c:137
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "Банґладешські таки"
+msgstr "Бангладеш (bn_BD)"
 
 #: ../goffice/gtk/go-locale-sel.c:138
 msgid "India/Bengali (bn_IN)"
-msgstr ""
+msgstr "Індія/бенгальська (bn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:139
 msgid "China/Tibetan (bo_CN)"
-msgstr ""
+msgstr "Китай/тибетська (bo_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:140
 msgid "India/Tibetan (bo_IN)"
-msgstr ""
+msgstr "Індія/тибетська (bo_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:141
 msgid "France/Breton (br_FR)"
-msgstr ""
+msgstr "Французька/бретонська (br_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:142
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr ""
+msgstr "Боснія та Герцеговина (bs_BA)"
 
 #: ../goffice/gtk/go-locale-sel.c:143
 msgid "Eritrea/Blin (byn_ER)"
-msgstr ""
+msgstr "Еритрея/блін (byn_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:144
 msgid "Andorra/Catalan (ca_AD)"
-msgstr ""
+msgstr "Андорра/каталонська (ca_AD)"
 
 #: ../goffice/gtk/go-locale-sel.c:145
 msgid "Spain/Catalan (ca_ES)"
-msgstr ""
+msgstr "Іспанія/каталонська (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:146
 msgid "France/Catalan (ca_FR)"
-msgstr ""
+msgstr "Франція/каталонська (ca_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:147
 msgid "Italy/Catalan (ca_IT)"
-msgstr ""
+msgstr "Італія/каталонська (ca_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:148
 msgid "Ukraine/Crimean Tatar (crh_UA)"
-msgstr ""
+msgstr "Україна/кримськотатарська (crh_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:149
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "Чешські крони"
+msgstr "Чеська республіка (cs_CZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:150
 msgid "Poland/Kashubian (csb_PL)"
-msgstr ""
+msgstr "Польща/кашубська (csb_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:151
 msgid "Russia/Chuvash (cv_RU)"
-msgstr ""
+msgstr "Росія/чуваська (cv_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:152
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr ""
+msgstr "Велика Британія/валійська (cy_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:153
 msgid "Denmark (da_DK)"
-msgstr ""
+msgstr "Данія (da_DK)"
 
 #: ../goffice/gtk/go-locale-sel.c:154
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "Австрія (de_AT)"
 
 #: ../goffice/gtk/go-locale-sel.c:155
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "Бельгія/німецька (de_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:156
 msgid "Switzerland/German (de_CH)"
-msgstr ""
+msgstr "Швейцарія/німецька (de_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:157
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "Німеччина (de_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:158
 msgid "Luxembourg/German (de_LU)"
-msgstr ""
+msgstr "Люксембург/німецька (de_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:159
 msgid "Maldives (dv_MV)"
-msgstr ""
+msgstr "Мальдівські острови (dv_MV)"
 
 #: ../goffice/gtk/go-locale-sel.c:160
 msgid "Bhutan (dz_BT)"
-msgstr ""
+msgstr "Бутан (dz_BT)"
 
 #: ../goffice/gtk/go-locale-sel.c:161
 msgid "Cyprus/Greek (el_CY)"
-msgstr ""
+msgstr "Кіпр/грецька (el_CY)"
 
 #: ../goffice/gtk/go-locale-sel.c:162
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "Греція (el_GR)"
 
 #: ../goffice/gtk/go-locale-sel.c:163
-#, fuzzy
 msgid "Antigua and Barbuda/English (en_AG)"
-msgstr "Південна Африка, ранди"
+msgstr "Антигуа і Барбуда/англійська (en_AG)"
 
 #: ../goffice/gtk/go-locale-sel.c:164
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "Австралія (en_AU)"
 
 #: ../goffice/gtk/go-locale-sel.c:165
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "Ботсвана (en_BW)"
 
 #: ../goffice/gtk/go-locale-sel.c:166
 msgid "Canada/English (en_CA)"
-msgstr ""
+msgstr "Канада/англійська (en_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:167
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "Велика Британія (en_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:168
 msgid "Hong Kong/English (en_HK)"
-msgstr ""
+msgstr "Гонконг/англійська (en_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:169
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "Ірландія (en_IE)"
 
 #: ../goffice/gtk/go-locale-sel.c:170
 msgid "India/English (en_IN)"
-msgstr ""
+msgstr "Індія/англійська (en_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:171
-#, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "Нова Зеландія, долари"
+msgstr "Нова Зеландія (en_NZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:172
-#, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "Філіпіни, песо"
+msgstr "Філіппіни (en_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:173
 msgid "Singapore/English (en_SG)"
-msgstr ""
+msgstr "Сінгапур/англійська (en_SG)"
 
 #: ../goffice/gtk/go-locale-sel.c:174
 msgid "United States/English (en_US)"
-msgstr ""
+msgstr "Сполучені Штати/англійська (en_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:175
-#, fuzzy
 msgid "South Africa/English (en_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/англійська (en_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:176
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "Зімбабве (en_ZW)"
 
 #: ../goffice/gtk/go-locale-sel.c:177
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "Есперанто (eo_EO)"
 
 #: ../goffice/gtk/go-locale-sel.c:178
-#, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "Арґентина, песо"
+msgstr "Аргентина (es_AR)"
 
 #: ../goffice/gtk/go-locale-sel.c:179
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "Болівія (es_BO)"
 
 #: ../goffice/gtk/go-locale-sel.c:180
-#, fuzzy
 msgid "Chile (es_CL)"
-msgstr "Чілійські песо"
+msgstr "Чилі (es_CL)"
 
 #: ../goffice/gtk/go-locale-sel.c:181
-#, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "Колумбійські песо"
+msgstr "Колумбія (es_CO)"
 
 #: ../goffice/gtk/go-locale-sel.c:182
-#, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "Колони Коста Ріко"
+msgstr "Коста-Рика (es_CR)"
 
 #: ../goffice/gtk/go-locale-sel.c:183
-#, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "Домініканські песо"
+msgstr "Домініканська республіка (es_DO)"
 
 #: ../goffice/gtk/go-locale-sel.c:184
 msgid "Ecuador (es_EC)"
-msgstr ""
+msgstr "Еквадор (es_EC)"
 
 #: ../goffice/gtk/go-locale-sel.c:185
-#, fuzzy
 msgid "Spain (es_ES)"
-msgstr "Вибірка"
+msgstr "Іспанія (es_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:186
-#, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "Ґватемальські кветцали"
+msgstr "Гватемала (es_GT)"
 
 #: ../goffice/gtk/go-locale-sel.c:187
-#, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "Годураські лемпіри"
+msgstr "Гондурас (es_HN)"
 
 #: ../goffice/gtk/go-locale-sel.c:188
-#, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "Мексика, песо"
+msgstr "Мексика (es_MX)"
 
 #: ../goffice/gtk/go-locale-sel.c:189
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "Нікарагуа (es_NI)"
 
 #: ../goffice/gtk/go-locale-sel.c:190
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "Панама (es_PA)"
 
 #: ../goffice/gtk/go-locale-sel.c:191
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "Перу (es_PE)"
 
 #: ../goffice/gtk/go-locale-sel.c:192
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "Пуерто-Рико (es_PR)"
 
 #: ../goffice/gtk/go-locale-sel.c:193
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "Парагвай (es_PY)"
 
 #: ../goffice/gtk/go-locale-sel.c:194
 msgid "El Salvador (es_SV)"
-msgstr ""
+msgstr "Сальвадор (es_SV)"
 
 #: ../goffice/gtk/go-locale-sel.c:195
 msgid "United States/Spanish (es_US)"
-msgstr ""
+msgstr "Сполучені Штати/іспанська (es_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:196
-#, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "Уруґвай, песо"
+msgstr "Уругвай (es_UY)"
 
 #: ../goffice/gtk/go-locale-sel.c:197
-#, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "Венесуела, болівари"
+msgstr "Венесуела (es_VE)"
 
 #: ../goffice/gtk/go-locale-sel.c:198
 msgid "Estonia (et_EE)"
-msgstr ""
+msgstr "Естонія (et_EE)"
 
 #: ../goffice/gtk/go-locale-sel.c:199
-#, fuzzy
 msgid "Spain/Basque (eu_ES)"
-msgstr "Вибірка"
+msgstr "Іспанія/баскська (eu_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:200
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "Іран (fa_IR)"
 
 #: ../goffice/gtk/go-locale-sel.c:201
 msgid "Senegal/Fulah (ff_SN)"
-msgstr ""
+msgstr "Сенегал/фула (ff_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:202
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "Фінляндія/фінська (fi_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
-#, fuzzy
 msgid "Philippines/Filipino (fil_PH)"
-msgstr "Філіпіни, песо"
+msgstr "Філіппіни/філіппінська (fil_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:204
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
+msgstr "Фарерські острови (fo_FO)"
 
 #: ../goffice/gtk/go-locale-sel.c:205
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "Бельгія/французька (fr_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:206
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "Канада/французька (fr_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:207
 msgid "Switzerland/French (fr_CH)"
-msgstr ""
+msgstr "Швейцарія/французька (fr_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:208
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "Франція (fr_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:209
 msgid "Luxembourg/French (fr_LU)"
-msgstr ""
+msgstr "Люксембург/французька (fr_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:210
 msgid "Italy/Furlan (fur_IT)"
-msgstr ""
+msgstr "Італія/фріульська (fur_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:211
 msgid "Germany/Frisian (fy_DE)"
-msgstr ""
+msgstr "Німеччина/фризька (fy_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:212
 msgid "Netherlands/Frisian (fy_NL)"
-msgstr ""
+msgstr "Нідерланди/фризька (fy_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:213
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "Ірландія/гельська (ga_IE)"
 
 #: ../goffice/gtk/go-locale-sel.c:214
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr ""
+msgstr "Велика Британія/шотландська гельська (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
 msgid "Eritrea/Ge'ez (gez_ER)"
-msgstr ""
+msgstr "Еритрея/ґеез (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
 msgid "Ethiopia/Ge'ez (gez_ET)"
-msgstr ""
+msgstr "Ефіопія/ґеез (gez_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:217
 msgid "Spain/Galician (gl_ES)"
-msgstr ""
+msgstr "Іспанія/галісійська (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
 msgid "India/Gujarati (gu_IN)"
-msgstr ""
+msgstr "Індія/гуджараті (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr ""
+msgstr "Велика Британія/маншська гельська (gv_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:220
 msgid "Nigeria/Hausa (ha_NG)"
-msgstr ""
+msgstr "Нігерія/хауса (ha_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:221
 msgid "Israel/Hebrew (he_IL)"
-msgstr ""
+msgstr "Ізраїль/іврит (he_IL)"
 
 #: ../goffice/gtk/go-locale-sel.c:222
 msgid "India/Hindu (hi_IN)"
-msgstr ""
+msgstr "Індія/хінді (hi_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:223
 msgid "India/Chhattisgarhi (hne_IN)"
-msgstr ""
+msgstr "Індія/чхатісгарі (hne_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:224
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "Хорватія (hr_HR)"
 
 #: ../goffice/gtk/go-locale-sel.c:225
 msgid "Germany/Upper Sorbian (hsb_DE)"
-msgstr ""
+msgstr "Німеччина/верхньолужицька (hsb_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:226
 msgid "Haiti/Kreyol (ht_HT)"
-msgstr ""
+msgstr "Гаїті/креольська (ht_HT)"
 
 #: ../goffice/gtk/go-locale-sel.c:227
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "Угорщина (hu_HU)"
 
 #: ../goffice/gtk/go-locale-sel.c:228
 msgid "Armenia (hy_AM)"
-msgstr ""
+msgstr "Вірменія (hy_AM)"
 
 #: ../goffice/gtk/go-locale-sel.c:229
-#, fuzzy
 msgid "(i18n)"
-msgstr "i18n"
+msgstr "(i18n)"
 
 #: ../goffice/gtk/go-locale-sel.c:230
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "Індонезійські рупії"
+msgstr "Індонезія (id_ID)"
 
 #: ../goffice/gtk/go-locale-sel.c:231
 msgid "Nigeria/Igbo (ig_NG)"
-msgstr ""
+msgstr "Нігерія/іґбо (ig_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:232
 msgid "Canada/Inupiaq (ik_CA)"
-msgstr ""
+msgstr "Канада/інупіак (ik_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:233
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "Ісландія (is_IS)"
 
 #: ../goffice/gtk/go-locale-sel.c:234
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: ../goffice/gtk/go-locale-sel.c:235
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "Швейцарія/італійська (it_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:236
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "Італія (it_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:237
 msgid "Canada/Inuktitut (iu_CA)"
-msgstr ""
+msgstr "Канада/інуктикут (iu_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:238
 msgid "Japan (ja_JP)"
-msgstr ""
+msgstr "Японія (ja_JP)"
 
 #: ../goffice/gtk/go-locale-sel.c:239
 msgid "Georgia (ka_GE)"
-msgstr ""
+msgstr "Грузія (ka_GE)"
 
 #: ../goffice/gtk/go-locale-sel.c:240
 msgid "Kazakhstan/Kazakh (kk_KZ)"
-msgstr ""
+msgstr "Казахстан/казахська (kk_KZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:241
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "Гренландія (kl_GL)"
 
 #: ../goffice/gtk/go-locale-sel.c:242
 msgid "Cambodia/Khmer (km_KH)"
-msgstr ""
+msgstr "Камбоджа/кхмерська (km_KH)"
 
 #: ../goffice/gtk/go-locale-sel.c:243
 msgid "India/Kannada (kn_IN)"
-msgstr ""
+msgstr "Індія/каннада (kn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:244
 msgid "Korea (ko_KR)"
-msgstr ""
+msgstr "Корея (ko_KR)"
 
 #: ../goffice/gtk/go-locale-sel.c:245
 msgid "India/Konkani (kok_IN)"
-msgstr ""
+msgstr "Індія/конкані (kok_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:246
 msgid "India/Kashmiri (ks_IN)"
-msgstr ""
+msgstr "Індія/кашмірська (ks_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:247
 msgid "Turkey/Kurdish (ku_TR)"
-msgstr ""
+msgstr "Туреччина/курдська (ku_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:248
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr ""
+msgstr "Велика Британія/корнуольська (kw_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:249
 msgid "Kyrgyzstan/Kyrgyz (ky_KG)"
-msgstr ""
+msgstr "Киргизстан/киргизька (ky_KG)"
 
 #: ../goffice/gtk/go-locale-sel.c:250
 msgid "Luxembourg/Luxembourgish (lb_LU)"
-msgstr ""
+msgstr "Люксембург/люксембурзька (lb_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:251
 msgid "Uganda/Luganda (lg_UG)"
-msgstr ""
+msgstr "Уганда/луганда (lg_UG)"
 
 #: ../goffice/gtk/go-locale-sel.c:252
 msgid "Belgium/Limburgish (li_BE)"
-msgstr ""
+msgstr "Бельгія/лімбурзька (li_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:253
 msgid "Netherlands/Limburgish (li_NL)"
-msgstr ""
+msgstr "Нідерланди/лімбурзька (li_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:254
 msgid "Italy/Ligurian (lij_IT)"
-msgstr ""
+msgstr "Італія/лігурійська (lij_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:255
 msgid "Laos (lo_LA)"
-msgstr ""
+msgstr "Лаос (lo_LA)"
 
 #: ../goffice/gtk/go-locale-sel.c:256
 msgid "Lithuania (lt_LT)"
-msgstr ""
+msgstr "Литва (lt_LT)"
 
 #: ../goffice/gtk/go-locale-sel.c:257
 msgid "Latvia (lv_LV)"
-msgstr ""
+msgstr "Латвія (lv_LV)"
 
 #: ../goffice/gtk/go-locale-sel.c:258
 msgid "India/Maithili (mai_IN)"
-msgstr ""
+msgstr "Індія/майтхілі (mai_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:259
 msgid "Madagascar/Malagasy (mg_MG)"
-msgstr ""
+msgstr "Мадагаскар/малагасійська (mg_MG)"
 
 #: ../goffice/gtk/go-locale-sel.c:260
 msgid "Russia/Mari (mhr_RU)"
-msgstr ""
+msgstr "Росія/марійська (mhr_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:261
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
+msgstr "Нова Зеландія/маорійська (mi_NZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:262
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "Македонія (mk_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:263
 msgid "India/Malayalam (ml_IN)"
-msgstr ""
+msgstr "Індія/малаялам (ml_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:264
 msgid "Mongolia (mn_MN)"
-msgstr ""
+msgstr "Монголія (mn_MN)"
 
 #: ../goffice/gtk/go-locale-sel.c:265
 msgid "India/Marathi (mr_IN)"
-msgstr ""
+msgstr "Індія/мараті (mr_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:266
 msgid "Malaysia (ms_MY)"
-msgstr ""
+msgstr "Малайзія (ms_MY)"
 
 #: ../goffice/gtk/go-locale-sel.c:267
 msgid "Malta (mt_MT)"
-msgstr ""
+msgstr "Мальта (mt_MT)"
 
 #: ../goffice/gtk/go-locale-sel.c:268
 msgid "Myanmar/Burmese (my_MM)"
-msgstr ""
+msgstr "М'янма/м'янманська (my_MM)"
 
 #: ../goffice/gtk/go-locale-sel.c:269
 msgid "Taiwan/Minnan (nan_TW@latin)"
-msgstr ""
+msgstr "Тайвань/міннан (nan_TW@latin)"
 
 #: ../goffice/gtk/go-locale-sel.c:270
 msgid "Norway/Bokmal (nb_NO)"
-msgstr ""
+msgstr "Норвегія/букмол (nb_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:271
 msgid "Germany/Low Saxon (nds_DE)"
-msgstr ""
+msgstr "Німеччина/нижньосаксонська (nds_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:272
 msgid "Netherlands/Low Saxon (nds_NL)"
-msgstr ""
+msgstr "Нідерланди/нижньосаксонська (nds_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:273
-#, fuzzy
 msgid "Nepal/Nepali (ne_NP)"
-msgstr "Непал, рупії"
+msgstr "Непал/непальська (ne_NP)"
 
 #: ../goffice/gtk/go-locale-sel.c:274
 msgid "Aruba/Dutch (nl_AW)"
-msgstr ""
+msgstr "Аруба/голландська (nl_AW)"
 
 #: ../goffice/gtk/go-locale-sel.c:275
 msgid "Belgium/Flemish (nl_BE)"
-msgstr ""
+msgstr "Бельгія/фламандська (nl_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:276
 msgid "The Netherlands (nl_NL)"
-msgstr ""
+msgstr "Нідерланди (nl_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:277
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr ""
+msgstr "Норвегія/нюноршк (nn_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:278
-#, fuzzy
 msgid "South Africa/Southern Ndebele (nr_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/південна ндебеле (nr_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:279
-#, fuzzy
 msgid "South Africa/Northern Sotho (nso_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/північна сото (nso_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:280
 msgid "France/Occitan (oc_FR)"
-msgstr ""
+msgstr "Франція/окситанська (oc_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:281
 msgid "Ethiopia/Oromo (om_ET)"
-msgstr ""
+msgstr "Ефіопія/оромо (om_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:282
 msgid "Kenya/Oromo (om_KE)"
-msgstr ""
+msgstr "Кенія/оромо (om_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:283
 msgid "India/Oriya (or_IN)"
-msgstr ""
+msgstr "Індія/орія (or_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:284
 msgid "Russia/Ossetian (os_RU)"
-msgstr ""
+msgstr "Росія/осетинська (os_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:285
 msgid "India/Punjabi (Gurmukhi) (pa_IN)"
-msgstr ""
+msgstr "Індія/пенджабська (гурмухі) (pa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:286
 msgid "Pakistan/Punjabi (Shamukhi) (pa_PK)"
-msgstr ""
+msgstr "Пакистан/пенджабі (шамухі) (pa_PK)"
 
 #: ../goffice/gtk/go-locale-sel.c:287
-#, fuzzy
 msgid "Netherland Antilles/Papiamento (pap_AN)"
-msgstr "Голандські гульдени"
+msgstr "Нідерландські Антильські острови/папіаменто (pap_AN)"
 
 #: ../goffice/gtk/go-locale-sel.c:288
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "Польща (pl_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:289
 msgid "Afghanistan/Pashto (ps_AF)"
-msgstr ""
+msgstr "Афганістан/пуштунська (ps_AF)"
 
 #: ../goffice/gtk/go-locale-sel.c:290
 msgid "Brazil (pt_BR)"
-msgstr ""
+msgstr "Бразилія (pt_BR)"
 
 #: ../goffice/gtk/go-locale-sel.c:291
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "Португалія (pt_PT)"
 
 #: ../goffice/gtk/go-locale-sel.c:292
 msgid "Romania (ro_RO)"
-msgstr ""
+msgstr "Румунія (ro_RO)"
 
 #: ../goffice/gtk/go-locale-sel.c:293
 msgid "Russia (ru_RU)"
-msgstr ""
+msgstr "Росія (ru_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:294
 msgid "Ukraine/Russian (ru_UA)"
-msgstr ""
+msgstr "Україна/російська (ru_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:295
 msgid "Rwanda/Kinyarwanda (rw_RW)"
-msgstr ""
+msgstr "Руанда/кіньяруанда (rw_RW)"
 
 #: ../goffice/gtk/go-locale-sel.c:296
 msgid "India/Sanskrit (sa_IN)"
-msgstr ""
+msgstr "Індія/санскрит (sa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:297
 msgid "Italy/Sardinian (sc_IT)"
-msgstr ""
+msgstr "Італія/сардинська (sc_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:298
 msgid "India/Sindhi (sd_IN)"
-msgstr ""
+msgstr "Індія/синдхі (sd_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:299
 msgid "Norway/Saami (se_NO)"
-msgstr ""
+msgstr "Норвегія/саамська (se_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:300
 msgid "Canada/Secwepemctsin (Shuswap) (shs_CA)"
-msgstr ""
+msgstr "Канада/секвепемктсін (шусвап) (shs_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:301
 msgid "Sri Lanka/Sinhala (si_LK)"
-msgstr ""
+msgstr "Шрі-Ланка/сингальська (si_LK)"
 
 #: ../goffice/gtk/go-locale-sel.c:302
 msgid "Ethiopia/Sidama (sid_ET)"
-msgstr ""
+msgstr "Ефіопія/сидама (sid_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:303
-#, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "Словакія, крони"
+msgstr "Словаччина (sk_SK)"
 
 #: ../goffice/gtk/go-locale-sel.c:304
 msgid "Slovenia (sl_SI)"
-msgstr ""
+msgstr "Словенія (sl_SI)"
 
 #: ../goffice/gtk/go-locale-sel.c:305
 msgid "Djibouti/Somali (so_DJ)"
-msgstr ""
+msgstr "Джибуті/сомалійська (so_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:306
 msgid "Ethiopia/Somali (so_ET)"
-msgstr ""
+msgstr "Ефіопія/сомалійська (so_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:307
 msgid "Kenya/Somali (so_KE)"
-msgstr ""
+msgstr "Кенія/сомалійська (so_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:308
 msgid "Somalia/Somali (so_SO)"
-msgstr ""
+msgstr "Сомалі/сомалійська (so_SO)"
 
 #: ../goffice/gtk/go-locale-sel.c:309
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "Албанія, леки"
+msgstr "Албанія (sq_AL)"
 
 #: ../goffice/gtk/go-locale-sel.c:310
-#, fuzzy
 msgid "Macedonia/Albanian (sq_MK)"
-msgstr "Албанія, леки"
+msgstr "Македонія/албанська (sq_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:311
 msgid "Montenegro/Serbian (sr_ME)"
-msgstr ""
+msgstr "Чорногорія/сербська (sr_ME)"
 
 #: ../goffice/gtk/go-locale-sel.c:312
-#, fuzzy
 msgid "Yugoslavia (sr_RS)"
-msgstr "Югославія, нові динари"
+msgstr "Югославія (sr_RS)"
 
 #: ../goffice/gtk/go-locale-sel.c:313
-#, fuzzy
 msgid "South Africa/Swati (ss_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/сваті (ss_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:314
-#, fuzzy
 msgid "South Africa/Sotho (st_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/сото (st_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:315
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "Фінляндія/шведська (sv_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:316
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "Швеція (sv_SE)"
 
 #: ../goffice/gtk/go-locale-sel.c:317
 msgid "Kenya/Swahili (sw_KE)"
-msgstr ""
+msgstr "Кенія/суахілі (sw_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:318
-#, fuzzy
 msgid "Tanzania/Swahili (sw_TZ)"
-msgstr "Танзанія, шилінґи"
+msgstr "Танзанія/суахілі (sw_TZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:319
 msgid "India/Tamil (ta_IN)"
-msgstr ""
+msgstr "Індія/тамільська (ta_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:320
 msgid "India/Telugu (te_IN)"
-msgstr ""
+msgstr "Індія/телугу (te_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:321
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "Таджикістан, рублі"
+msgstr "Таджикистан (tg_TJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:322
 msgid "Thailand (th_TH)"
-msgstr ""
+msgstr "Таїланд (th_TH)"
 
 #: ../goffice/gtk/go-locale-sel.c:323
 msgid "Eritrea/Tigrinya (ti_ER)"
-msgstr ""
+msgstr "Еритрея/тигринійська (ti_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:324
 msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr ""
+msgstr "Ефіопія/тигринійська (ti_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:325
 msgid "Eritrea/Tigre (tig_ER)"
-msgstr ""
+msgstr "Еритрея/тигре (tig_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:326
 msgid "Turkmenistan /Turkmen (tk_TM)"
-msgstr ""
+msgstr "Туркменістан/туркменська (tk_TM)"
 
 #: ../goffice/gtk/go-locale-sel.c:327
 msgid "Philippines/Tagalog (tl_PH)"
-msgstr ""
+msgstr "Філіппіни/тагалог (tl_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:328
-#, fuzzy
 msgid "South Africa/Tswana (tn_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/тсвана (tn_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:329
 msgid "Cyprus/Turkish (tr_CY)"
-msgstr ""
+msgstr "Кіпр/турецька (tr_CY)"
 
 #: ../goffice/gtk/go-locale-sel.c:330
 msgid "Turkey (tr_TR)"
-msgstr ""
+msgstr "Туреччина (tr_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:331
-#, fuzzy
 msgid "South Africa/Tsonga (ts_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/тсонга (ts_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:332
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "Росія/татарська (tt_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:333
 msgid "China/Uyghur (ug_CN)"
-msgstr ""
+msgstr "Китай/уйгурська (ug_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:334
 msgid "Ukraine (uk_UA)"
-msgstr ""
+msgstr "Україна (uk_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:335
 msgid "India/Urdu (ur_IN)"
-msgstr ""
+msgstr "Індія/урду (ur_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:336
-#, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "Пакістан, рупії"
+msgstr "Пакистан (ur_PK)"
 
 #: ../goffice/gtk/go-locale-sel.c:337
-#, fuzzy
 msgid "Uzbekistan (uz_UZ)"
-msgstr "Узбекистан, суми"
+msgstr "Узбекистан (uz_UZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:338
-#, fuzzy
 msgid "South Africa/Venda (ve_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/венда (ve_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:339
 msgid "Vietnam (vi_VN)"
-msgstr ""
+msgstr "В'єтнам (vi_VN)"
 
 #: ../goffice/gtk/go-locale-sel.c:340
 msgid "Belgium/Walloon (wa_BE)"
-msgstr ""
+msgstr "Бельгія/валлонська (wa_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:341
 msgid "Switzerland/Walser (wae_CH)"
-msgstr ""
+msgstr "Швейцарія/вальзерська (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
 msgid "Ethiopia/Wollayta (wal_ET)"
-msgstr ""
+msgstr "Ефіопія/волайта (wal_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:343
 msgid "Senegal/Wolof (wo_SN)"
-msgstr ""
+msgstr "Сенегал/волоф (wo_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:344
-#, fuzzy
 msgid "South Africa/Xhosa (xh_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/кхоса (xh_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:345
 msgid "United States/Yiddish (yi_US)"
-msgstr ""
+msgstr "Сполучені Штати/ідиш (yi_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:346
 msgid "Nigeria/Yoruba (yo_NG)"
-msgstr ""
+msgstr "Нігерія/йоруба (yo_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:347
 msgid "Hong Kong/Cantonese (Yue) (yue_HK)"
-msgstr ""
+msgstr "Гонконг/кантонська (ю) (yue_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:348
 msgid "China (zh_CN)"
-msgstr ""
+msgstr "Китай (zh_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:349
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr ""
+msgstr "Гонконг/китайська (zh_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:350
 msgid "Singapore/Chinese (zh_SG)"
-msgstr ""
+msgstr "Сінгапур/китайська (zh_SG)"
 
 #: ../goffice/gtk/go-locale-sel.c:351
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "Тайвань (zh_TW)"
 
 #: ../goffice/gtk/go-locale-sel.c:352
-#, fuzzy
 msgid "South Africa/Zulu (zu_ZA)"
-msgstr "Південна Африка, ранди"
+msgstr "Південна Африка/зулуська (zu_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:571
-#, fuzzy
 msgid "Current Locale: "
-msgstr "Поточна локаль"
+msgstr "Поточна локаль:"
 
 #: ../goffice/gtk/go-optionmenu.c:493
-#, fuzzy
 msgid "Menu"
-msgstr "Середнє:"
+msgstr "Меню"
 
 #: ../goffice/gtk/go-optionmenu.c:494
 msgid "The menu of options"
 msgstr "Меню параметрів"
 
 #: ../goffice/gtk/go-palette.c:373
-#, fuzzy
 msgid "Custom..."
-msgstr "Нетиповий"
+msgstr "Нетиповий…"
 
 #: ../goffice/gtk/go-pattern-selector.c:66
-#, fuzzy
 msgid "Solid background"
-msgstr "Тло"
+msgstr "Суцільне тло"
 
 #: ../goffice/gtk/go-pattern-selector.c:67
-#, fuzzy
 msgid "75% background"
-msgstr "Тло"
+msgstr "Тло 75%"
 
 #: ../goffice/gtk/go-pattern-selector.c:68
-#, fuzzy
 msgid "50% background"
-msgstr "Тло"
+msgstr "Тло 50%"
 
 #: ../goffice/gtk/go-pattern-selector.c:69
-#, fuzzy
 msgid "25% background"
-msgstr "Тло"
+msgstr "Тло 25%"
 
 #: ../goffice/gtk/go-pattern-selector.c:70
-#, fuzzy
 msgid "12.5% background"
-msgstr "Тло"
+msgstr "Тло 12,5%"
 
 #: ../goffice/gtk/go-pattern-selector.c:71
-#, fuzzy
 msgid "6.25% background"
-msgstr "Тло"
+msgstr "Тло 6,25%"
 
 #: ../goffice/gtk/go-pattern-selector.c:72
-#, fuzzy
 msgid "Horizontal stripes"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Горизонтальні смужки"
 
 #: ../goffice/gtk/go-pattern-selector.c:73
-#, fuzzy
 msgid "Vertical stripes"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Вертикальні смужки"
 
 #: ../goffice/gtk/go-pattern-selector.c:74
 msgid "Reverse diagonal stripes"
-msgstr ""
+msgstr "Обернені діагональні смужки"
 
 #: ../goffice/gtk/go-pattern-selector.c:75
-#, fuzzy
 msgid "Diagonal stripes"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Діагональні смужки"
 
 #: ../goffice/gtk/go-pattern-selector.c:76
-#, fuzzy
 msgid "Diagonal crosshatch"
 msgstr "Діагональні хрестики"
 
 #: ../goffice/gtk/go-pattern-selector.c:77
-#, fuzzy
 msgid "Thick diagonal crosshatch"
 msgstr "Товсті діагональні хрестики"
 
 #: ../goffice/gtk/go-pattern-selector.c:78
-#, fuzzy
 msgid "Thin horizontal stripes"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Тонкі горизонтальні смужки"
 
 #: ../goffice/gtk/go-pattern-selector.c:79
-#, fuzzy
 msgid "Thin vertical stripes"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Тонкі вертикальні смужки"
 
 #: ../goffice/gtk/go-pattern-selector.c:80
-#, fuzzy
 msgid "Thin reverse diagonal stripes"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Тонкі обернені діагональні смужки"
 
 #: ../goffice/gtk/go-pattern-selector.c:81
-#, fuzzy
 msgid "Thin diagonal stripes"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Тонкі діагональні смужки"
 
 #: ../goffice/gtk/go-pattern-selector.c:82
-#, fuzzy
 msgid "Thin horizontal crosshatch"
 msgstr "Тонкі горизонтальні хрестики"
 
 #: ../goffice/gtk/go-pattern-selector.c:83
-#, fuzzy
 msgid "Thin diagonal crosshatch"
 msgstr "Тонкі діагональні хрестики"
 
 #: ../goffice/gtk/go-pattern-selector.c:84
-#, fuzzy
 msgid "Solid foreground"
-msgstr "Передній план"
+msgstr "Суцільний передній план"
 
 #: ../goffice/gtk/go-pattern-selector.c:85
-#, fuzzy
 msgid "Small circles"
 msgstr "Малі кола"
 
 #: ../goffice/gtk/go-pattern-selector.c:86
-#, fuzzy
 msgid "Semi-circles"
 msgstr "Напівкола"
 
@@ -5934,7 +5797,6 @@ msgid "Thatch"
 msgstr "Солома"
 
 #: ../goffice/gtk/go-pattern-selector.c:88
-#, fuzzy
 msgid "Large circles"
 msgstr "Великі кола"
 
@@ -5943,7 +5805,6 @@ msgid "Bricks"
 msgstr "Цегла"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
-#, fuzzy
 msgid "Orientation"
 msgstr "Орієнтація"
 
@@ -5952,7 +5813,6 @@ msgid "A_ngle:"
 msgstr "_Кут:"
 
 #: ../goffice/math/go-distribution.c:78
-#, fuzzy
 msgid "Uniform"
 msgstr "Рівномірний"
 
@@ -5969,18 +5829,16 @@ msgid "Lognormal"
 msgstr "Логнормальний"
 
 #: ../goffice/math/go-distribution.c:165 ../goffice/math/go-distribution.c:166
-#, fuzzy
 msgid "Location"
-msgstr "Адреса"
+msgstr "Розташування"
 
 #: ../goffice/math/go-distribution.c:703 ../goffice/math/go-distribution.c:815
 msgid "Shape"
 msgstr "Форма"
 
 #: ../goffice/math/go-distribution.c:704 ../goffice/math/go-distribution.c:816
-#, fuzzy
 msgid "Shape factor"
-msgstr "Зберегти"
+msgstr "Множник форми"
 
 #. The first column has three letter acronyms
 #. * for each currency.  They MUST start with '[$'
@@ -5989,7 +5847,7 @@ msgstr "Зберегти"
 #. 2010/08/12 Updated to match iso 4217
 #: ../goffice/utils/formats.c:386
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
+msgstr "Об'єднані Арабські Емірати, дирхами"
 
 #: ../goffice/utils/formats.c:387
 msgid "Afghanistan, Afghanis"
@@ -6001,17 +5859,15 @@ msgstr "Албанія, леки"
 
 #: ../goffice/utils/formats.c:389
 msgid "Armenia, Drams"
-msgstr ""
+msgstr "Вірменія, драми"
 
 #: ../goffice/utils/formats.c:390
-#, fuzzy
 msgid "Netherlands antilles, Guilders"
-msgstr "Голандські гульдени"
+msgstr "Нідерландські Антильські острови, гульдени"
 
 #: ../goffice/utils/formats.c:391
-#, fuzzy
 msgid "Angola, Kwanza"
-msgstr "Ангольські нові кванза"
+msgstr "Ангола, кванза"
 
 #: ../goffice/utils/formats.c:392
 msgid "Argentina, Pesos"
@@ -6034,14 +5890,12 @@ msgid "Bosnia and herzegovina, Convertible Marka"
 msgstr ""
 
 #: ../goffice/utils/formats.c:397
-#, fuzzy
 msgid "Barbados, Dollars"
-msgstr "Барбадоські долари"
+msgstr "Барбадос, долари"
 
 #: ../goffice/utils/formats.c:398
-#, fuzzy
 msgid "Bangladesh, Taka"
-msgstr "Банґладешські таки"
+msgstr "Бангладеш, таки"
 
 #: ../goffice/utils/formats.c:399
 msgid "Bulgaria, Leva"
@@ -6060,54 +5914,44 @@ msgid "Bermuda, Dollars"
 msgstr "Бермуди, долари"
 
 #: ../goffice/utils/formats.c:403
-#, fuzzy
 msgid "Brunei Darussalam, Dollars"
-msgstr "Брунейські долари"
+msgstr ""
 
 #: ../goffice/utils/formats.c:404
-#, fuzzy
 msgid "Bolivia, Bolivianos"
-msgstr "Болівійські болівіано"
+msgstr ""
 
 #: ../goffice/utils/formats.c:405
-#, fuzzy
 msgid "Bolivia, Mvdol"
-msgstr "Болівійські болівіано"
+msgstr ""
 
 #: ../goffice/utils/formats.c:406
-#, fuzzy
 msgid "Brazil, Brazilian Real"
-msgstr "Бразильські реали"
+msgstr ""
 
 #: ../goffice/utils/formats.c:407
-#, fuzzy
 msgid "Bahamas, Dollars"
-msgstr "Багамські долари"
+msgstr ""
 
 #: ../goffice/utils/formats.c:408
-#, fuzzy
 msgid "Bhutan, Ngultrum"
-msgstr "Бутанський нгултрум"
+msgstr ""
 
 #: ../goffice/utils/formats.c:409
-#, fuzzy
 msgid "Botswana, Pulas"
-msgstr "Ботсванські пули"
+msgstr ""
 
 #: ../goffice/utils/formats.c:410
-#, fuzzy
 msgid "Belarus, Rubles"
-msgstr "Білоруські рублі"
+msgstr "Білорусь, рублі"
 
 #: ../goffice/utils/formats.c:411
-#, fuzzy
 msgid "Belize, Dollars"
-msgstr "Белізькі долари"
+msgstr ""
 
 #: ../goffice/utils/formats.c:412
-#, fuzzy
 msgid "Canada, Dollars"
-msgstr "Канадські долари"
+msgstr "Канада, долари"
 
 #: ../goffice/utils/formats.c:413
 msgid "Congo, the democratic republic of, Congolese Francs"
@@ -6122,104 +5966,88 @@ msgid "Switzerland, Francs"
 msgstr ""
 
 #: ../goffice/utils/formats.c:416
-#, fuzzy
 msgid "Switzerland, WIR Francs"
-msgstr "Руанда, франки"
+msgstr ""
 
 #: ../goffice/utils/formats.c:417
 msgid "Chile, Unidades de fomento"
 msgstr ""
 
 #: ../goffice/utils/formats.c:418
-#, fuzzy
 msgid "Chile, Pesos"
-msgstr "Чілійські песо"
+msgstr "Чилі, песо"
 
 #: ../goffice/utils/formats.c:419
-#, fuzzy
 msgid "China, Yuan Renminbi"
-msgstr "Китайські юані"
+msgstr "Китай, юані"
 
 #: ../goffice/utils/formats.c:420
-#, fuzzy
 msgid "Colombia, Pesos"
-msgstr "Колумбійські песо"
+msgstr "Колумбія, песо"
 
 #: ../goffice/utils/formats.c:421
 msgid "Colombia, Unidades de Valor Real"
 msgstr ""
 
 #: ../goffice/utils/formats.c:422
-#, fuzzy
 msgid "Costa rica, Colones"
-msgstr "Колони Коста Ріко"
+msgstr "Коста-Рика, колони"
 
 #: ../goffice/utils/formats.c:423
-#, fuzzy
 msgid "Cuba, Pesos Convertibles"
-msgstr "Кубинські песо"
+msgstr ""
 
 #: ../goffice/utils/formats.c:424
-#, fuzzy
 msgid "Cuba, Pesos"
-msgstr "Кубинські песо"
+msgstr "Куба, песо"
 
 #: ../goffice/utils/formats.c:425
-#, fuzzy
 msgid "Cape verde, Escudos"
-msgstr "Ескудо Капе Верде"
+msgstr "Кабо-Верде, ескудо"
 
 #: ../goffice/utils/formats.c:426
-#, fuzzy
 msgid "Czech republic, Koruny"
-msgstr "Чешські крони"
+msgstr "Чеська республіка, крони"
 
 #: ../goffice/utils/formats.c:427
-#, fuzzy
 msgid "Djibouti, Francs"
-msgstr "Джибутські франки"
+msgstr "Джибуті, франки"
 
 #: ../goffice/utils/formats.c:428
 msgid "Denmark, Kroner"
 msgstr ""
 
 #: ../goffice/utils/formats.c:429
-#, fuzzy
 msgid "Dominican republic, Pesos"
-msgstr "Домініканські песо"
+msgstr "Домініканська республіка, песо"
 
 #: ../goffice/utils/formats.c:430
-#, fuzzy
 msgid "Algeria, Algerian Dinars"
-msgstr "Динари Алгерії"
+msgstr ""
 
 #: ../goffice/utils/formats.c:431
-#, fuzzy
 msgid "Egypt, Pounds"
-msgstr "Єгипетські фунти"
+msgstr "Єгипет, фунти"
 
 #: ../goffice/utils/formats.c:432
 msgid "Eritrea, Nakfa"
 msgstr ""
 
 #: ../goffice/utils/formats.c:433
-#, fuzzy
 msgid "Ethiopia, Birr"
-msgstr "Ефіопські біри"
+msgstr ""
 
 #: ../goffice/utils/formats.c:434
 msgid "Euro Members Countries, Euros"
 msgstr ""
 
 #: ../goffice/utils/formats.c:435
-#, fuzzy
 msgid "Fiji, Dollars"
-msgstr "Долари Фіджі"
+msgstr ""
 
 #: ../goffice/utils/formats.c:436
-#, fuzzy
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr "Фунти Фолклендських островів"
+msgstr ""
 
 #: ../goffice/utils/formats.c:437
 msgid "United kingdom, Pounds"
@@ -6230,108 +6058,88 @@ msgid "Georgia, Lari"
 msgstr ""
 
 #: ../goffice/utils/formats.c:439
-#, fuzzy
 msgid "Ghana, Cedis"
-msgstr "Ґанські седі"
+msgstr ""
 
 #: ../goffice/utils/formats.c:440
-#, fuzzy
 msgid "Gibraltar, Pounds"
-msgstr "Ґібралтарські фунти"
+msgstr ""
 
 #: ../goffice/utils/formats.c:441
-#, fuzzy
 msgid "Gambia, Dalasi"
-msgstr "Ґамбійські даласі"
+msgstr ""
 
 #: ../goffice/utils/formats.c:442
-#, fuzzy
 msgid "Guinea, Francs"
-msgstr "Ґвінейські франки"
+msgstr "Гвінея, франки"
 
 #: ../goffice/utils/formats.c:443
-#, fuzzy
 msgid "Guatemala, Quetzales"
-msgstr "Ґватемальські кветцали"
+msgstr "Гватемала, квецалі"
 
 #: ../goffice/utils/formats.c:444
-#, fuzzy
 msgid "Guyana, Dollars"
-msgstr "Ґаянанський долар"
+msgstr "Гаяна, долари"
 
 #: ../goffice/utils/formats.c:445
-#, fuzzy
 msgid "Hong Kong, Dollars"
-msgstr "%1 гонконзьких долара"
+msgstr ""
 
 #: ../goffice/utils/formats.c:446
-#, fuzzy
 msgid "Honduras, Lempiras"
-msgstr "Годураські лемпіри"
+msgstr ""
 
 #: ../goffice/utils/formats.c:447
-#, fuzzy
 msgid "Croatia, Kuna"
-msgstr "Хорватські куни"
+msgstr "Хорватія, куни"
 
 #: ../goffice/utils/formats.c:448
 msgid "Haiti, Gourdes"
 msgstr ""
 
 #: ../goffice/utils/formats.c:449
-#, fuzzy
 msgid "Hungary, Forint"
-msgstr "Угорські форинти"
+msgstr "Угорщина, форинти"
 
 #: ../goffice/utils/formats.c:450
-#, fuzzy
 msgid "Indonesia, Rupiahs"
-msgstr "Індонезійські рупії"
+msgstr "Індонезія, рупії"
 
 #: ../goffice/utils/formats.c:451
-#, fuzzy
 msgid "Israel, New Sheqels"
-msgstr "Ізраільські шекелі"
+msgstr ""
 
 #: ../goffice/utils/formats.c:452
-#, fuzzy
 msgid "India, Rupees"
-msgstr "Індійські рупії"
+msgstr ""
 
 #: ../goffice/utils/formats.c:453
-#, fuzzy
 msgid "Iraq, Dinars"
-msgstr "Іракські динари"
+msgstr ""
 
 #: ../goffice/utils/formats.c:454
-#, fuzzy
 msgid "Iran, Rials"
-msgstr "Іранські ріали"
+msgstr "Іран, ріали"
 
 #: ../goffice/utils/formats.c:455
-#, fuzzy
 msgid "Iceland, Kronur"
-msgstr "Ісландські крони"
+msgstr "Ісландія, крони"
 
 #: ../goffice/utils/formats.c:456
-#, fuzzy
 msgid "Jamaica, Dollars"
-msgstr "Ямайські долари"
+msgstr "Ямайка, долари"
 
 #: ../goffice/utils/formats.c:457
-#, fuzzy
 msgid "Jordan, Dinars"
-msgstr "Йорданські динари"
+msgstr "Йорданія, динари"
 
 #: ../goffice/utils/formats.c:458
-#, fuzzy
 msgid "Japan, Yen"
-msgstr "Японські єни"
+msgstr "Японія, єни"
 
 #: ../goffice/utils/formats.c:459
-#, fuzzy
 msgid "Kenya, Shillings"
-msgstr "Кенійські шилінґи"
+msgstr ""
 
 #: ../goffice/utils/formats.c:460
 msgid "Kyrgyzstan, Soms"
@@ -6342,9 +6150,8 @@ msgid "Cambodia, Riels"
 msgstr ""
 
 #: ../goffice/utils/formats.c:462
-#, fuzzy
 msgid "Comoros, Francs"
-msgstr "Комороські франки"
+msgstr ""
 
 #: ../goffice/utils/formats.c:463
 msgid "Korea (North), Won"
@@ -6355,61 +6162,52 @@ msgid "Korea (South) Wons"
 msgstr ""
 
 #: ../goffice/utils/formats.c:465
-#, fuzzy
 msgid "Kuwait, Dinars"
-msgstr "Кувейтські динари"
+msgstr ""
 
 #: ../goffice/utils/formats.c:466
-#, fuzzy
 msgid "Cayman islands, Dollars"
-msgstr "Долари Кайманових островів"
+msgstr ""
 
 #: ../goffice/utils/formats.c:467
-#, fuzzy
 msgid "Kazakhstan, Tenge"
-msgstr "Казахське тенґе"
+msgstr "Казахстан, тенґе"
 
 #: ../goffice/utils/formats.c:468
-#, fuzzy
 msgid "Laos, Kips"
-msgstr "Лаоські кіпи"
+msgstr ""
 
 #: ../goffice/utils/formats.c:469
-#, fuzzy
 msgid "Lebanon, Pounds"
-msgstr "Лібанезькі фунти"
+msgstr ""
 
 #: ../goffice/utils/formats.c:470
-#, fuzzy
 msgid "Sri Lanka, Rupees"
-msgstr "Рупії Шрі-Ланки"
+msgstr ""
 
 #: ../goffice/utils/formats.c:471
-#, fuzzy
 msgid "Liberia, Dollars"
-msgstr "Ліберійський долар"
+msgstr "Ліберія, долари"
 
 #: ../goffice/utils/formats.c:472
 msgid "Lithuania, Litai"
-msgstr ""
+msgstr "Литва, літи"
 
 #: ../goffice/utils/formats.c:473
 msgid "Latvia, Lati"
-msgstr ""
+msgstr "Латвія, лати"
 
 #: ../goffice/utils/formats.c:474
 msgid "Libya, Dinars"
-msgstr "Лівія, динар"
+msgstr "Лівія, динари"
 
 #: ../goffice/utils/formats.c:475
-#, fuzzy
 msgid "Morocco, Dirhams"
-msgstr "Марокканські динари"
+msgstr ""
 
 #: ../goffice/utils/formats.c:476
-#, fuzzy
 msgid "Moldova, Lei"
-msgstr "Молдовський лей"
+msgstr "Молдова, леї"
 
 #: ../goffice/utils/formats.c:477
 msgid "Madagascar, Malagasy Ariary"
@@ -6424,9 +6222,8 @@ msgid "Myanmar (Burma), Kyats"
 msgstr ""
 
 #: ../goffice/utils/formats.c:480
-#, fuzzy
 msgid "Mongolia, Tugriks"
-msgstr "Монгольський тугрик"
+msgstr "Монголія, тугрики"
 
 #: ../goffice/utils/formats.c:481
 msgid "Macao, Patacas"
@@ -6437,9 +6234,8 @@ msgid "Mauritania, Ouguiyas"
 msgstr ""
 
 #: ../goffice/utils/formats.c:483
-#, fuzzy
 msgid "Mauritius, Rupees"
-msgstr "Мавританські рупії"
+msgstr ""
 
 #: ../goffice/utils/formats.c:484
 msgid "Maldives (Maldive Islands), Rufiyaas"
@@ -6467,26 +6263,23 @@ msgstr ""
 
 #: ../goffice/utils/formats.c:490
 msgid "Nigeria, Nairas"
-msgstr "Ніґерія, наіри"
+msgstr "Нігерія, наїри"
 
 #: ../goffice/utils/formats.c:491
 msgid "Nicaragua, Gold Cordobas"
 msgstr ""
 
 #: ../goffice/utils/formats.c:492
-#, fuzzy
 msgid "Norway, Norwegian Krone"
-msgstr "Норвегія, крони"
+msgstr ""
 
 #: ../goffice/utils/formats.c:493
-#, fuzzy
 msgid "Nepal, Nepalese Rupees"
-msgstr "Непал, рупії"
+msgstr ""
 
 #: ../goffice/utils/formats.c:494
-#, fuzzy
 msgid "New zealand, Dollars"
-msgstr "%1 новозеландський долар"
+msgstr "Нова Зеландія, долари"
 
 #: ../goffice/utils/formats.c:495
 msgid "Oman, Rials"
@@ -6501,39 +6294,36 @@ msgid "Peru, Nuevo Soles"
 msgstr ""
 
 #: ../goffice/utils/formats.c:498
-#, fuzzy
 msgid "Papua New Guinea, Kina"
-msgstr "Кіна Папуа-Нова Гвінея"
+msgstr ""
 
 #: ../goffice/utils/formats.c:499
 msgid "Philippines, Pesos"
-msgstr "Філіпіни, песо"
+msgstr "Філіппіни, песо"
 
 #: ../goffice/utils/formats.c:500
 msgid "Pakistan, Rupees"
-msgstr "Пакістан, рупії"
+msgstr "Пакистан, рупії"
 
 #: ../goffice/utils/formats.c:501
 msgid "Poland, Zlotys"
-msgstr ""
+msgstr "Польща, злоті"
 
 #: ../goffice/utils/formats.c:502
 msgid "Paraguay, Guarani"
-msgstr "Параґвай, ґуарані"
+msgstr "Парагвай, гуарані"
 
 #: ../goffice/utils/formats.c:503
 msgid "Qatar, Rials"
 msgstr "Катар, ріали"
 
 #: ../goffice/utils/formats.c:504
-#, fuzzy
 msgid "Romania, New Lei"
-msgstr "Румунія, леї"
+msgstr "Румунія, нові леї"
 
 #: ../goffice/utils/formats.c:505
-#, fuzzy
 msgid "Serbia, Dinars"
-msgstr "Іракські динари"
+msgstr "Сербія, динари"
 
 #: ../goffice/utils/formats.c:506
 msgid "Russia, Rubles"
@@ -6544,9 +6334,8 @@ msgid "Rwanda, Rwanda Francs"
 msgstr "Руанда, франки"
 
 #: ../goffice/utils/formats.c:508
-#, fuzzy
 msgid "Saudi arabia, Riyals"
-msgstr "Саудівська Аравії, ріяли"
+msgstr "Саудівська Аравія, ріали"
 
 #: ../goffice/utils/formats.c:509
 msgid "Solomon Islands, Dollars"
@@ -6557,9 +6346,8 @@ msgid "Seychelles, Rupees"
 msgstr "Сейшели, рупії"
 
 #: ../goffice/utils/formats.c:511
-#, fuzzy
 msgid "Sudan, Pounds"
-msgstr "Сірія, фунти"
+msgstr "Сирія, фунти"
 
 #: ../goffice/utils/formats.c:512
 msgid "International Monetary Fund (I.M.F), SDR"
@@ -6567,29 +6355,27 @@ msgstr ""
 
 #: ../goffice/utils/formats.c:513
 msgid "Sweden, Kronor"
-msgstr ""
+msgstr "Швеція, крони"
 
 #: ../goffice/utils/formats.c:514
 msgid "Singapore, Dollars"
-msgstr "Сінґапур, долари"
+msgstr "Сінгапур, долари"
 
 #: ../goffice/utils/formats.c:515
 msgid "Saint Helena, Ascension and Tristan da Cunha, Pounds"
 msgstr ""
 
 #: ../goffice/utils/formats.c:516
-#, fuzzy
 msgid "Sierra leone, Leones"
-msgstr "Сьєра-Леоне, леони"
+msgstr "Сьєрра-Леоне, леони"
 
 #: ../goffice/utils/formats.c:517
 msgid "Somalia, Shillings"
 msgstr "Сомалі, шилінґи"
 
 #: ../goffice/utils/formats.c:518
-#, fuzzy
 msgid "Suriname, Dollars"
-msgstr "Сінґапур, долари"
+msgstr "Суринам, долари"
 
 #: ../goffice/utils/formats.c:519
 msgid "São Tome and Principe, Dobras"
@@ -6597,7 +6383,7 @@ msgstr ""
 
 #: ../goffice/utils/formats.c:520
 msgid "El Salvador, Colones"
-msgstr ""
+msgstr "Сальвадор, колони"
 
 #: ../goffice/utils/formats.c:521
 msgid "Syria, Pounds"
@@ -6612,13 +6398,12 @@ msgid "Thailand, Baht"
 msgstr ""
 
 #: ../goffice/utils/formats.c:524
-#, fuzzy
 msgid "Tajikistan, Somoni"
-msgstr "Таджицький сомоні"
+msgstr "Таджикистан, сомоні"
 
 #: ../goffice/utils/formats.c:525
 msgid "Turkmenistan, Manats"
-msgstr ""
+msgstr "Туркменістан, манати"
 
 #: ../goffice/utils/formats.c:526
 msgid "Tunisia, Dinars"
