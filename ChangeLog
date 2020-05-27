@@ -1,3 +1,8 @@
+2020-05-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/reg_logfit/gog-logfit.c (gog_log_fit_curve_update): don't emit a
+	critical if the series is not valid. [#49]
+
 2020-05-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): keep clipping for data

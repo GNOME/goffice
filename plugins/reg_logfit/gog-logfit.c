@@ -42,7 +42,8 @@ gog_log_fit_curve_update (GogObject *obj)
 	int i, used = 0, nb;
 	double xmin, xmax;
 
-	g_return_if_fail (gog_series_is_valid (series));
+	if (!gog_series_is_valid (series))
+		return;
 
 	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
 	if (nb > 0) {
