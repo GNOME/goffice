@@ -36,6 +36,7 @@ G_BEGIN_DECLS
 typedef struct {
 	GogXYZPlot base;
 	unsigned max_colors;
+	gboolean use_splines;
 } GogContourPlot;
 typedef GogXYZPlotClass GogContourPlotClass;
 

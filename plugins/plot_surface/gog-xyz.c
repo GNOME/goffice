@@ -68,6 +68,21 @@ gog_xyz_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 	return klass->build_matrix (plot, cardinality_changed);
 }
 
+void
+gog_xyz_plot_build_paths (GogXYZPlot const *plot, gpointer data)
+{
+	GogXYZPlotClass *klass = GOG_XYZ_PLOT_GET_CLASS (plot);
+	if (plot->paths != NULL)
+		return;
+	if (klass->build_paths != NULL)
+		klass->build_paths (plot, data);
+}
+
+void
+gog_xyz_plot_clear_paths (GogXYZPlot *plot)
+{
+}
+
 static void
 gog_xyz_plot_update_3d (GogPlot *plot)
 {
@@ -87,6 +102,7 @@ gog_xyz_plot_update_3d (GogPlot *plot)
 		plot->cardinality_valid = FALSE;
 		if (chart != NULL)
 			gog_chart_request_cardinality_update (chart);
+		gog_xyz_plot_clear_paths (xyz);
 	}
 }
 

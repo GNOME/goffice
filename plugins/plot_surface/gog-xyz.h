@@ -33,6 +33,12 @@ G_BEGIN_DECLS
  *-----------------------------------------------------------------------------
  */
 
+typedef enum {
+	 GO_INTERPOLATION_LINEAR,
+	 GO_INTERPOLATION_BEZIER,
+	 GO_INTERPOLATION_MAX
+} GoInterpolationMode;
+
 typedef struct {
 	GogPlot	base;
 
@@ -47,6 +53,8 @@ typedef struct {
 	} x, y, z;
 	double *plotted_data;
 	GOData *x_vals, *y_vals;
+	GoInterpolationMode interpolation;
+	GArray *paths;
 } GogXYZPlot;
 
 #define GOG_TYPE_XYZ_PLOT	(gog_xyz_plot_get_type ())
@@ -61,6 +69,7 @@ typedef struct {
 	GogAxisType third_axis;
 
 	double * (*build_matrix) (GogXYZPlot *plot, gboolean *cardinality_changed);
+	void	 (*build_paths) (GogXYZPlot const *plot, gpointer data);
 	GOData * (*get_x_vals) (GogXYZPlot *plot);
 	GOData * (*get_y_vals) (GogXYZPlot *plot);
 } GogXYZPlotClass;
@@ -68,6 +77,8 @@ typedef struct {
 #define GOG_XYZ_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_XYZ_PLOT, GogXYZPlotClass))
 
 double *gog_xyz_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed);
+void	gog_xyz_plot_build_paths (GogXYZPlot const *plot, gpointer data);
+void	gog_xyz_plot_clear_paths (GogXYZPlot *plot);
 GOData *gog_xyz_plot_get_x_vals (GogXYZPlot *plot);
 GOData *gog_xyz_plot_get_y_vals (GogXYZPlot *plot);
 
