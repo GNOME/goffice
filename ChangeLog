@@ -1,5 +1,9 @@
 2020-06-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-canvas.c (size_changed_cb): revert previous change.
+
+2020-06-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-canvas.c (size_changed_cb): optimize GtkWidget
 	embedding in the canvas. See #465.
 	* goffice/canvas/goc-widget.c (goc_widget_connect_signals),

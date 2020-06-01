@@ -271,11 +271,8 @@ leave_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 static void
 size_changed_cb (GocCanvas *canvas, GtkAllocation *alloc, G_GNUC_UNUSED gpointer data)
 {
-	GocItemClass *klass = GOC_ITEM_GET_CLASS (canvas->root);
 	canvas->width = alloc->width;
 	canvas->height = alloc->height;
-	/* we need to call notify_scroll() to show or hide widgets if necessary */
-	klass->notify_scrolled (GOC_ITEM (canvas->root));
 }
 
 static void
