@@ -1,3 +1,11 @@
+2020-06-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (size_changed_cb): optimize GtkWidget
+	embedding in the canvas. See #465.
+	* goffice/canvas/goc-widget.c (goc_widget_connect_signals),
+	(goc_widget_notify_scrolled), (cb_canvas_changed),
+	(goc_widget_set_widget), (goc_widget_draw):
+
 2020-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/reg_logfit/gog-logfit.c (gog_log_fit_curve_update): don't emit a
