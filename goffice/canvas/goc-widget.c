@@ -530,6 +530,26 @@ goc_widget_connect_signals (GtkWidget *widget, GocWidget *item,
 		}
 }
 
+// Get rid of the off-screen box, but keep the reference to the widget, if
+// any.
+static void
+goc_widget_destroy_ofbox (GocWidget *item)
+{
+	if (!item->ofbox)
+		return;
+
+	if (item->widget) {
+		// Remove the widget from the ofbox.  Keep the ref.
+		goc_widget_connect_signals (item->widget, item, FALSE);
+		gtk_container_remove (GTK_CONTAINER (item->ofbox), item->widget);
+	}
+
+	// Destroy the ofbox
+	gtk_widget_destroy (item->ofbox);
+	g_object_unref (item->ofbox);
+	item->ofbox = NULL;
+}
+
 static void
 goc_widget_notify_scrolled (GocItem *item)
 {
@@ -602,16 +622,8 @@ goc_widget_notify_scrolled (GocItem *item)
 			/* we need to propagate some signals to the parent item */
 			goc_widget_connect_signals (widget->widget, widget, TRUE);
 		}
-	} else if (widget->ofbox) {
-		GtkWidget *parent = gtk_widget_get_parent (widget->ofbox);
-		if (parent) {
-			gtk_container_remove (GTK_CONTAINER (widget->ofbox), widget->widget);
-			goc_widget_connect_signals (widget->widget, widget, FALSE);
-			gtk_widget_hide (widget->widget);
-			gtk_container_remove (GTK_CONTAINER (parent), widget->ofbox);
-		}
-		g_object_unref (widget->ofbox);
-		widget->ofbox = NULL;
+	} else {
+		goc_widget_destroy_ofbox (widget);
 	}
 }
 
@@ -619,24 +631,18 @@ static void
 cb_canvas_changed (GocWidget *item, G_GNUC_UNUSED GParamSpec *pspec,
 		   G_GNUC_UNUSED gpointer user)
 {
-	GtkWidget *parent, *box = item->ofbox, *w = item->widget;
+	GtkWidget *parent, *box = item->ofbox;
 	GocItem *gitem = (GocItem *)item;
 
-	if (!box || !GTK_IS_WIDGET (box))
+	if (!box)
 		return;
 
 	parent = gtk_widget_get_parent (box);
 	if (parent == (GtkWidget *)gitem->canvas)
 		return;
 
-	if (parent) {
-		gtk_container_remove (GTK_CONTAINER (box), w);
-		goc_widget_connect_signals (w, item, FALSE);
-		gtk_widget_hide (w);
-		gtk_container_remove (GTK_CONTAINER (parent), box);
-		g_object_unref (box);
-		item->ofbox = NULL;
-	}
+	goc_widget_destroy_ofbox (item);
+
 	goc_widget_notify_scrolled (GOC_ITEM (item));
 }
 
@@ -646,19 +652,9 @@ goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
 	if (widget == item->widget)
 		return;
 
-	if (item->ofbox) {
-		GtkWidget *parent = gtk_widget_get_parent (item->ofbox);
-
-		goc_widget_connect_signals (item->widget, item, FALSE);
-
-		if (parent)
-			gtk_container_remove (GTK_CONTAINER (parent),
-					      item->ofbox);
-
-		g_object_unref (item->ofbox);
-		item->ofbox = NULL;
+	goc_widget_destroy_ofbox (item);
+	if (item->widget)
 		g_object_unref (item->widget);
-	}
 
 	item->widget = widget;
 
