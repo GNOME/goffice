@@ -5,6 +5,7 @@ Jean:
 	* Clip data labels in XY plots. [#47]
 	* Don't emit a critical for invalid series in Logarithmic fit. [#49]
 	* Optimize GtkWidget embedding in the canvas. See #465.
+	* Clip grid lines rendering to the plot area. [#50]
 
 --------------------------------------------------------------------------
 goffice 0.10.47:

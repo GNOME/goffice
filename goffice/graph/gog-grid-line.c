@@ -141,6 +141,10 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 	unsigned int i;
 	gboolean stripe_started = FALSE;
 
+	gog_renderer_push_clip_rectangle (view->renderer,
+	                                  plot_area->x, plot_area->y,
+	                                  plot_area->w, plot_area->h);
+
 	switch (axis_type) {
 		case GOG_AXIS_X:
 			map = gog_axis_map_new (axis, plot_area->x, plot_area->w);
@@ -223,6 +227,7 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 			return;
 	}
 
+	gog_renderer_pop_clip (view->renderer);
 	go_path_free (path);
 	gog_axis_map_free (map);
 }

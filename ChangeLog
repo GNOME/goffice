@@ -1,3 +1,8 @@
+2020-06-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-grid-line.c (gog_grid_line_xy_render): clip grid lines
+	rendering to the plot area. [#50]
+
 2020-06-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c (size_changed_cb): revert previous change.
