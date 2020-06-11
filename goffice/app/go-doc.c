@@ -595,7 +595,7 @@ go_doc_save_image (GODoc *doc, char const *id)
 	if (!doc)
 		return;
 	if (!g_hash_table_lookup (doc->priv->imagebuf, id)) {
-		GOImage *image = g_hash_table_lookup (doc->images, id);
+		GOImage *image = go_doc_get_image (doc, id);
 		if (image)
 			g_hash_table_replace (doc->priv->imagebuf,
 					      g_strdup (id),

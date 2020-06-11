@@ -7,6 +7,9 @@ Jean:
 	* Optimize GtkWidget embedding in the canvas. See #465.
 	* Clip grid lines rendering to the plot area. [#50]
 
+Morten:
+	* Avoid critical in document image handling.
+
 --------------------------------------------------------------------------
 goffice 0.10.47:
 
