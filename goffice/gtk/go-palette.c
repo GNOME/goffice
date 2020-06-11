@@ -330,7 +330,7 @@ go_palette_new (int n_swatches,
  * go_palette_show_automatic:
  * @palette: a #GOPalette
  * @index: index to use on automatic item activation
- * @label: if not NULL, replace automatic button label
+ * @label: if not %NULL, replace automatic button label
  *
  * Adds an automatic button to @palette.
  **/
@@ -354,7 +354,7 @@ go_palette_show_automatic (GOPalette *palette,
 /**
  * go_palette_show_custom:
  * @palette: a #GOPalette
- * @label: if not NULL, replaces custom button label
+ * @label: if not %NULL, replaces custom button label
  *
  * Adds a custom button to bottom of @palette. An activation
  * of custom button will cause an emition of "custom_activate" signal.

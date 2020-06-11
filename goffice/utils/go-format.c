@@ -5469,7 +5469,7 @@ _go_number_format_shutdown (void)
  * Localizes the given format string, i.e., changes decimal dots to the
  * locale's notion of that and performs other such transformations.
  *
- * Returns: a localized format string, or NULL if the format was not valid.
+ * Returns: a localized format string, or %NULL if the format was not valid.
  **/
 char *
 go_format_str_localize (char const *str)
@@ -5585,7 +5585,7 @@ go_format_str_localize (char const *str)
  * De-localizes the given format string, i.e., changes locale's decimal
  * separators to dots and performs other such transformations.
  *
- * Returns: a non-local format string, or NULL if the format was not valid.
+ * Returns: a non-local format string, or %NULL if the format was not valid.
  **/
 char *
 go_format_str_delocalize (char const *str)

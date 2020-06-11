@@ -1052,7 +1052,7 @@ gog_view_get_toolkit (GogView *view)
  * @view: #GogView
  * @x: in coords
  * @y: in coords
- * @gobj: pointed object or NULL
+ * @gobj: pointed object or %NULL
  *
  * Returns: (transfer none): tool under cursor for a given view, or %NULL
  **/
@@ -1083,8 +1083,8 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
  * @view: #GogView
  * @x: cursor x position
  * @y: cursor y position
- * @obj: pointed object or NULL
- * @tool: pointed tool or NULL
+ * @obj: pointed object or %NULL
+ * @tool: pointed tool or %NULL
  *
  * Gets view under cursor, searching recursively from @view. Corresponding object
  * is stored in @obj. This object may or may not be @view->model of pointed view.
@@ -1133,7 +1133,7 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
  * Gets a tip string related to the position as defined by (@x,@y) in @view.
  *
  * return value: the newly allocated tip string if the view class supports
- * that or NULL.
+ * that or %NULL.
  **/
 char*
 gog_view_get_tip_at_point (GogView *view, double x, double y)

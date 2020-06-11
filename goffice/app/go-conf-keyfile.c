@@ -283,7 +283,7 @@ go_conf_get_double (GOConfNode *node, gchar const *key)
 /**
  * go_conf_get_string :
  * @node: #GOConfNode
- * @key: non NULL string.
+ * @key: non-%NULL string.
  *
  * Returns: the string value of @node's @key child as a string which the called needs to free
  **/

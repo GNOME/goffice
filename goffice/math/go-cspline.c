@@ -341,7 +341,7 @@ DOUBLE SUFFIX(go_cspline_get_deriv) (SUFFIX(GOCSpline) const *sp, DOUBLE x)
  * The x values must be sorted in increasing order.
  *
  * Returns: a newly allocated array of interpolated values which should
- * be destroyed by a call to g_free when not anymore needed, or NULL if
+ * be destroyed by a call to g_free when not anymore needed, or %NULL if
  * an error occurred.
  */
 DOUBLE *SUFFIX(go_cspline_get_values) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
@@ -375,7 +375,7 @@ DOUBLE *SUFFIX(go_cspline_get_values) (SUFFIX(GOCSpline) const *sp, DOUBLE const
  * The x values must be sorted in increasing order.
  *
  * Returns: a newly allocated array of the n interpolated derivatives which
- * should be destroyed by a call to g_free when not anymore needed, or NULL if
+ * should be destroyed by a call to g_free when not anymore needed, or %NULL if
  * an error occurred.
  */
 DOUBLE *SUFFIX(go_cspline_get_derivs) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
@@ -410,7 +410,7 @@ DOUBLE *SUFFIX(go_cspline_get_derivs) (SUFFIX(GOCSpline) const *sp, DOUBLE const
  *
  * Returns: a newly allocated array of the n-1 integrals on the intervals
  * between two consecutive values stored in x. which should be destroyed by
- * a call to g_free when not anymore needed, or NULL if  an error occurred.
+ * a call to g_free when not anymore needed, or %NULL if  an error occurred.
  */
 DOUBLE *SUFFIX(go_cspline_get_integrals) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
 {

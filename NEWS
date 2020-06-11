@@ -9,6 +9,7 @@ Jean:
 
 Morten:
 	* Avoid critical in document image handling.
+	* Introspection fixes.
 
 --------------------------------------------------------------------------
 goffice 0.10.47:

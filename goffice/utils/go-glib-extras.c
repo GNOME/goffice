@@ -246,7 +246,7 @@ go_strescape (GString *target, char const *string)
 
 /*
  * The reverse operation of go_strescape.  Returns a pointer to the
- * first char after the string on success or NULL on failure.
+ * first char after the string on success or %NULL on failure.
  *
  * First character of the string should be an ASCII character used
  * for quoting.

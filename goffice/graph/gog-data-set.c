@@ -105,7 +105,7 @@ gog_dataset_get_dim (GogDataset const *set, int dim_i)
  * @val: (transfer full): #GOData
  * @err: #GError
  *
- * Absorbs a ref to @val if it is non NULL
+ * Absorbs a ref to @val if it is non-%NULL
  **/
 void
 gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)

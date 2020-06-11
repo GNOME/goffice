@@ -2531,7 +2531,7 @@ gog_axis_finalize (GObject *obj)
  * gog_axis_get_entry:
  * @axis: #GogAxis
  * @i:
- * @user_defined: an optionally NULL pointr to gboolean
+ * @user_defined: an optionally %NULL pointr to gboolean
  *
  * Returns: the value of axis element @i and sets @user_defined or
  * 	NaN on error

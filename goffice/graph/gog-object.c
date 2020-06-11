@@ -1093,8 +1093,8 @@ dataset_dup (GogDataset const *src, GogDataset *dst)
 /**
  * gog_object_dup:
  * @src: #GogObject
- * @new_parent: #GogObject the parent tree for the object (can be NULL)
- * @datadup: (scope call): a function to duplicate the data (a default one is used if NULL)
+ * @new_parent: #GogObject the parent tree for the object (can be %NULL)
+ * @datadup: (scope call): a function to duplicate the data (a default one is used if %NULL)
  *
  * Create a deep copy of @obj using @new_parent as its parent.
  *
@@ -1522,7 +1522,7 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 	} else
 		obj_follows = NULL;
 
-	/* Pass the sibling that precedes obj, or NULL if is the head */
+	/* Pass the sibling that precedes obj, or %NULL if is the head */
 	g_signal_emit (G_OBJECT (parent),
 		gog_object_signals [CHILDREN_REORDERED], 0);
 	gog_object_emit_changed (parent, FALSE);

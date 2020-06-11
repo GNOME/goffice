@@ -917,7 +917,7 @@ gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area)
  * chart elements that require a different style. Visible cardinality is
  * the number of chart elements shown in chart legend.
  *
- * @full and @visible may be NULL.
+ * @full and @visible may be %NULL.
  **/
 void
 gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)

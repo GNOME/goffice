@@ -166,7 +166,7 @@ apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
  * Simple utility to open ui files
  *
  * Since 0.9.6
- * Returns: (transfer full): a new #GtkBuilder or NULL
+ * Returns: (transfer full): a new #GtkBuilder or %NULL
  *
  * @uifile should be one of these:
  *
@@ -268,7 +268,7 @@ go_gtk_builder_load (char const *uifile,
  * Simple utility to open ui files
  *
  * Deprecated: 0.9.6, use go_gtk_builder_load().
- * Returns: (transfer full): a new #GtkBuilder or NULL
+ * Returns: (transfer full): a new #GtkBuilder or %NULL
  *
  * @uifile should be one of these:
  *
@@ -294,7 +294,7 @@ go_gtk_builder_new (char const *uifile,
  * Simple utility to open ui files
  *
  * Since: 0.9.6
- * Returns: (transfer full): a new #GtkBuilder or NULL
+ * Returns: (transfer full): a new #GtkBuilder or %NULL
  *
  * Variant of go_gtk_builder_new that searchs goffice directories
  * for files.
@@ -385,7 +385,7 @@ go_gtk_builder_signal_connect_swapped (GtkBuilder	*gui,
  * Simple wrapper to #gtk_builder_get_object which returns the object
  * as a GtkWidget.
  *
- * Returns: (transfer none): a new #GtkWidget or NULL
+ * Returns: (transfer none): a new #GtkWidget or %NULL
  **/
 GtkWidget *
 go_gtk_builder_get_widget (GtkBuilder *gui, char const *widget_name)
@@ -401,7 +401,7 @@ go_gtk_builder_get_widget (GtkBuilder *gui, char const *widget_name)
  * searches the #GtkComboBox in @gui and ensures it has a model and a
  * renderer appropriate for using with #gtk_combo_box_append_text and friends.
  *
- * Returns: (transfer none): the #GtkComboBox or NULL
+ * Returns: (transfer none): the #GtkComboBox or %NULL
  **/
 GtkComboBox *
 go_gtk_builder_combo_box_init_text (GtkBuilder *gui, char const *widget_name)

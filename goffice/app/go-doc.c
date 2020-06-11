@@ -474,7 +474,7 @@ go_doc_get_image (GODoc *doc, char const *id)
 /**
  * go_doc_add_image:
  * @doc: a #GODoc
- * @id: the image name or NULL
+ * @id: the image name or %NULL
  * @image: a #GOImage
  *
  * Adds @image to the document if no such image already exists. The name of

@@ -678,7 +678,7 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
  * Return the number of logical elements in the plot.
  * See @gog_chart_get_cardinality.
  *
- * @full and @visible may be NULL.
+ * @full and @visible may be %NULL.
  **/
 void
 gog_plot_get_cardinality (GogPlot *plot, unsigned *full, unsigned *visible)

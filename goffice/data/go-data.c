@@ -221,7 +221,7 @@ go_data_preferred_fmt (GOData const *dat)
  * go_data_date_conv :
  * @dat: #GOData
  *
- * Returns: the date conventions used by the data, or NULL if not determined.
+ * Returns: the date conventions used by the data, or %NULL if not determined.
  **/
 GODateConventions const *
 go_data_date_conv (GOData const *dat)

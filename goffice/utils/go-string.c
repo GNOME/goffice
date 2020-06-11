@@ -117,7 +117,7 @@ replace_rich_base_with_plain (GOStringRichImpl *rich)
  *
  * GOString duplicates @str if no string already exists.
  *
- * Returns: a reference to a #GOString containing @str, or %NULL if @str is NULL
+ * Returns: a reference to a #GOString containing @str, or %NULL if @str is %NULL
  **/
 GOString *
 go_string_new_len (char const *str, guint32 len)
@@ -185,7 +185,7 @@ go_string_new_nocopy_len (char *str, guint32 len)
  *
  * GOString duplicates @str if no string already exists.
  *
- * Returns: a reference to a #GOString containing @str, or %NULL if @str is NULL
+ * Returns: a reference to a #GOString containing @str, or %NULL if @str is %NULL
  **/
 GOString *
 go_string_new (char const *str)

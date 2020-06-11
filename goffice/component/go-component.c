@@ -506,7 +506,7 @@ editor_destroy_cb (GOComponent *component)
  * @component: #GOComponent
  *
  * Opens a top level window editor for the component if it can be edited.
- * Returns: (transfer none): the editor window or NULL
+ * Returns: (transfer none): the editor window or %NULL
  */
 GtkWindow *
 go_component_edit (GOComponent *component)
