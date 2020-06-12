@@ -634,22 +634,20 @@ goc_item_reordered (GocItem *item, int n)
 {
 #ifdef GOFFICE_WITH_GTK
 	GocGroup *group = item->parent;
-	GList *cur = g_list_find (group->children, item);
-	GdkWindow *window;
-	if (n > 0) {
-		while (cur) {
-			window = goc_item_get_window (GOC_ITEM (cur->data));
-			if (window)
+	int cur = goc_group_find_child (group, item);
+	while (TRUE) {
+		GocItem *child = goc_group_get_child (group, cur);
+		GdkWindow *window;
+		if (!child)
+			break;
+		window = goc_item_get_window (child);
+		if (window) {
+			if (n > 0)
 				gdk_window_raise (window);
-			cur = cur->next;
-		}
-	} else {
-		while (cur) {
-			window = goc_item_get_window (GOC_ITEM (cur->data));
-			if (window)
+			else
 				gdk_window_lower (window);
-			cur = cur->prev;
 		}
+		cur += (n > 0 ? +1 : -1);
 	}
 #endif
 }
@@ -666,15 +664,16 @@ goc_item_reordered (GocItem *item, int n)
 void
 goc_item_raise (GocItem *item, int n)
 {
-	GList *orig = g_list_find (item->parent->children, item);
-	GList *dest = g_list_nth (orig, n + 1);
-	if (dest)
-		item->parent->children = g_list_insert_before (item->parent->children, dest, item);
-	else
-		item->parent->children = g_list_append (item->parent->children, item);
-	item->parent->children = g_list_remove_link (item->parent->children, orig);
+	GocGroup *group = item->parent;
+	GPtrArray *children = goc_group_get_children (group);
+	int len = children->len;
+	int ix = goc_group_find_child (group, item);
+	if (n > len - 1 - ix) n = len - 1 - ix;
+	g_ptr_array_remove_index (children, ix);
+	g_ptr_array_insert (children, ix + n, item);
 	goc_item_invalidate (item);
 	goc_item_reordered (item, n);
+	g_ptr_array_unref (children);
 }
 
 /**
@@ -689,15 +688,16 @@ goc_item_raise (GocItem *item, int n)
 void
 goc_item_lower (GocItem *item, int n)
 {
-	GList *orig = g_list_find (item->parent->children, item);
-	GList *dest = g_list_nth_prev (orig, n);
-	if (dest)
-		item->parent->children = g_list_insert_before (item->parent->children, dest, item);
-	else
-		item->parent->children = g_list_prepend (item->parent->children, item);
-	item->parent->children = g_list_remove_link (item->parent->children, orig);
+	GocGroup *group = item->parent;
+	GPtrArray *children = goc_group_get_children (group);
+	int ix = goc_group_find_child (group, item);
+	if (n > ix) n = ix;
+
+	g_ptr_array_remove_index (children, ix);
+	g_ptr_array_insert (children, ix - n, item);
 	goc_item_invalidate (item);
 	goc_item_reordered (item, -n);
+	g_ptr_array_unref (children);
 }
 
 /**
@@ -710,11 +710,7 @@ goc_item_lower (GocItem *item, int n)
 void
 goc_item_lower_to_bottom (GocItem *item)
 {
-	g_return_if_fail (item->parent != NULL);
-	item->parent->children = g_list_remove (item->parent->children, item);
-	item->parent->children = g_list_prepend (item->parent->children, item);
-	goc_item_invalidate (item);
-	goc_item_reordered (item, G_MININT);
+	goc_item_lower (item, G_MAXINT);
 }
 
 /**
@@ -727,11 +723,7 @@ goc_item_lower_to_bottom (GocItem *item)
 void
 goc_item_raise_to_top (GocItem *item)
 {
-	g_return_if_fail (item->parent != NULL);
-	item->parent->children = g_list_remove (item->parent->children, item);
-	item->parent->children = g_list_append (item->parent->children, item);
-	goc_item_invalidate (item);
-	goc_item_reordered (item, G_MAXINT);
+	goc_item_raise (item, G_MAXINT);
 }
 
 void

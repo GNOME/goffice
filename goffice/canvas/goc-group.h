@@ -30,10 +30,10 @@ struct _GocGroup {
 	GocItem			 base;
 
 	double			 x, y;  /* group offset */
-	GList			*children;
+	GList			*Xchildren; // Unused
 	GOPath			*clip_path;
-	cairo_fill_rule_t       clip_rule;
-	gpointer		priv;
+	cairo_fill_rule_t        clip_rule;
+	struct GocGroupPriv     *priv;
 };
 
 typedef struct _GocGroupClass GocGroupClass;
@@ -62,6 +62,11 @@ void goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, dou
 void goc_group_adjust_coords (GocGroup const *group, double *x, double *y);
 void goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double y);
 void goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t clip_rule);
+void goc_group_freeze (GocGroup *group, gboolean freeze);
+
+GPtrArray *goc_group_get_children (GocGroup *group);
+GocItem *goc_group_get_child (GocGroup *group, unsigned n);
+int goc_group_find_child (GocGroup *group, GocItem *item);
 
 G_END_DECLS
 

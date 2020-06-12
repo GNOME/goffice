@@ -6,10 +6,12 @@ Jean:
 	* Don't emit a critical for invalid series in Logarithmic fit. [#49]
 	* Optimize GtkWidget embedding in the canvas. See #465.
 	* Clip grid lines rendering to the plot area. [#50]
+	* Speed up GocGroup for large number of children.  [Gnumeric #465]
 
 Morten:
 	* Avoid critical in document image handling.
 	* Introspection fixes.
+	* Speed up GocGroup for large number of children.  [Gnumeric #465]
 
 --------------------------------------------------------------------------
 goffice 0.10.47:

@@ -182,9 +182,10 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 
 	/* That that modules have been loaded we can get the pixbufs.  */
 	if (!g_object_get_data (G_OBJECT (item->parent), PIXBUFS_LOADED_KEY)) {
-		GList *p;
-		for (p = item->parent->children; p; p = p->next) {
-			GocItem *i = p->data;
+		GPtrArray *children = goc_group_get_children (item->parent);
+		unsigned ui;
+		for (ui = 0; ui < children->len; ui++) {
+			GocItem *i = g_ptr_array_index (children, ui);
 			GogPlotType *t = i
 				? g_object_get_data (G_OBJECT (i), PLOT_TYPE_KEY)
 				: NULL;
@@ -205,6 +206,7 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 					      NULL);
 			}
 		}
+		g_ptr_array_unref (children);
 		g_object_set_data (G_OBJECT (item->parent),
 				   PIXBUFS_LOADED_KEY,
 				   GINT_TO_POINTER (1));

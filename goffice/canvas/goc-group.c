@@ -32,6 +32,11 @@
 
 static GocItemClass *parent_klass;
 
+struct GocGroupPriv {
+	unsigned frozen;
+	GPtrArray *children;
+};
+
 enum {
 	GROUP_PROP_0,
 	GROUP_PROP_X,
@@ -92,13 +97,16 @@ static void
 goc_group_update_bounds (GocItem *item)
 {
 	GocGroup *group = GOC_GROUP (item);
+	GPtrArray *children = group->priv->children;
 	double x0, y0, x1, y1;
+	if (group->priv->frozen)
+		return;
 	item->x0 = item->y0 = G_MAXDOUBLE;
 	item->x1 = item->y1 = -G_MAXDOUBLE;
-	if (group->children != NULL) {
-		GList *l;
-		for (l = group->children; l; l = l->next) {
-			GocItem *child = GOC_ITEM (l->data);
+	if (children->len > 0) {
+		unsigned ui;
+		for (ui = 0; ui < children->len; ui++) {
+			GocItem *child = g_ptr_array_index (children, ui);
 			goc_item_get_bounds (child, &x0, &y0, &x1, &y1);
 			if (x0 < item->x0)
 				item->x0 = x0;
@@ -124,9 +132,11 @@ goc_group_draw_region (GocItem const *item, cairo_t *cr,
 		      double x1, double y1)
 {
 	GocGroup *group = GOC_GROUP (item);
-	GList *l = group->children;
-	if (!l)
+	GPtrArray *children = group->priv->children;
+	unsigned ui;
+	if (children->len == 0)
 		return TRUE;
+
 	cairo_save (cr);
 	if (group->clip_path) {
 		cairo_translate (cr, group->x , group->y);
@@ -138,9 +148,9 @@ goc_group_draw_region (GocItem const *item, cairo_t *cr,
 	y0 -= group->y;
 	x1 -= group->x;
 	y1 -= group->y;
-	for (; l; l = l->next) {
+	for (ui = 0; ui < children->len; ui++) {
 		double x, y, x_, y_;
-		GocItem *item = GOC_ITEM (l->data);
+		GocItem *item = g_ptr_array_index (children, ui);
 		if (!goc_item_is_visible (item))
 			continue;
 
@@ -165,14 +175,15 @@ static double
 goc_group_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocGroup *group = GOC_GROUP (item);
+	GPtrArray *children = group->priv->children;
 	double result = G_MAXDOUBLE, dist;
-	GList *l;
+	unsigned ui;
 	GocItem *cur_item;
 	double th = GOC_THRESHOLD / item->canvas->pixels_per_unit;
 	x -= group->x;
 	y -= group->y;
-	for (l = g_list_last (group->children); l; l = l->prev) {
-		GocItem *it = GOC_ITEM (l->data);
+	for (ui = children->len; ui-- > 0; ) {
+		GocItem *it = g_ptr_array_index (children, ui);
 		if (!it->visible || it->x0 > x + th || it->x1 < x - th
 		    || it->y0 > y + th || it->y1 < y - th)
 			continue;
@@ -194,10 +205,11 @@ static void
 goc_group_realize (GocItem *item)
 {
 	GocGroup *group = GOC_GROUP (item);
-	GList *l;
+	GPtrArray *children = group->priv->children;
+	unsigned ui;
 
-	for (l = group->children; l; l = l->next) {
-		GocItem *child = GOC_ITEM (l->data);
+	for (ui = 0; ui < children->len; ui++) {
+		GocItem *child = g_ptr_array_index (children, ui);
 		_goc_item_realize (child);
 	}
 
@@ -208,12 +220,13 @@ static void
 goc_group_unrealize (GocItem *item)
 {
 	GocGroup *group = GOC_GROUP (item);
-	GList *l;
+	GPtrArray *children = group->priv->children;
+	unsigned ui;
 
 	parent_klass->unrealize (item);
 
-	for (l = group->children; l; l = l->next) {
-		GocItem *child = GOC_ITEM (l->data);
+	for (ui = 0; ui < children->len; ui++) {
+		GocItem *child = g_ptr_array_index (children, ui);
 		_goc_item_unrealize (child);
 	}
 }
@@ -222,11 +235,12 @@ static void
 goc_group_notify_scrolled (GocItem *item)
 {
 	GocGroup *group = GOC_GROUP (item);
-	GList *l;
-	GocItemClass *klass;
-	for (l = group->children; l; l = l->next) {
-		GocItem *child = GOC_ITEM (l->data);
-		klass = GOC_ITEM_GET_CLASS (child);
+	GPtrArray *children = group->priv->children;
+	unsigned ui;
+
+	for (ui = 0; ui < children->len; ui++) {
+		GocItem *child = g_ptr_array_index (children, ui);
+		GocItemClass *klass = GOC_ITEM_GET_CLASS (child);
 		if (klass->notify_scrolled)
 			klass->notify_scrolled (child);
 	}
@@ -241,6 +255,15 @@ goc_group_dispose (GObject *obj)
 }
 
 static void
+goc_group_finalize (GObject *obj)
+{
+	GocGroup *group = GOC_GROUP (obj);
+	g_ptr_array_free (group->priv->children, TRUE);
+	g_free (group->priv);
+	((GObjectClass*)parent_klass)->finalize (obj);
+}
+
+static void
 goc_group_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass*) item_klass;
@@ -249,6 +272,7 @@ goc_group_class_init (GocItemClass *item_klass)
 	obj_klass->get_property = goc_group_get_property;
 	obj_klass->set_property = goc_group_set_property;
 	obj_klass->dispose = goc_group_dispose;
+	obj_klass->finalize = goc_group_finalize;
 	g_object_class_install_property (obj_klass, GROUP_PROP_X,
 		g_param_spec_double ("x",
 			_("x"),
@@ -270,8 +294,15 @@ goc_group_class_init (GocItemClass *item_klass)
 	item_klass->notify_scrolled = goc_group_notify_scrolled;
 }
 
+static void
+goc_group_init (GocGroup *group)
+{
+	group->priv = g_malloc0 (sizeof (struct GocGroupPriv));
+	group->priv->children = g_ptr_array_new ();
+}
+
 GSF_CLASS (GocGroup, goc_group,
-	   goc_group_class_init, NULL,
+	   goc_group_class_init, goc_group_init,
 	   GOC_TYPE_ITEM)
 
 /**
@@ -305,23 +336,32 @@ goc_group_new (GocGroup *parent)
 void
 goc_group_clear (GocGroup *group)
 {
+	GPtrArray *children;
+
 	g_return_if_fail (GOC_IS_GROUP (group));
-	while (group->children != NULL) {
-		GList *this = group->children;
-		GList *next = this->next;
-		GocItem *child = this->data;
+
+	goc_group_freeze (group, TRUE);
+
+	children = group->priv->children;
+	while (children->len > 0) {
+		unsigned len = children->len;
+		GocItem *child = g_ptr_array_index (children, len - 1);
+
 		goc_item_destroy (child);
-		if (group->children != next) {
+
+		if (children->len >= len) {
 			/* The most likely trigger of this is a dispose
 			   method that doesn't chain up to the parent
 			   class' dispose.  */
 			g_warning ("Trouble clearing child %p from group %p\n",
 				   child,
 				   group);
-			if (group->children == this)
-				group->children = next;
+			// Brutal:
+			g_ptr_array_set_size (children, len - 1);
 		}
 	}
+
+	goc_group_freeze (group, TRUE);
 }
 
 /**
@@ -349,7 +389,7 @@ goc_group_add_child (GocGroup *parent, GocItem *item)
 	old_canvas = item->canvas;
 
 	/* Insert into new group.  */
-	parent->children = g_list_append (parent->children, item);
+	g_ptr_array_add (parent->priv->children, item);
 	item->parent = parent;
 	item->canvas = parent->base.canvas;
 
@@ -376,20 +416,91 @@ goc_group_add_child (GocGroup *parent, GocItem *item)
 void
 goc_group_remove_child (GocGroup *parent, GocItem *item)
 {
+	int n;
+
 	g_return_if_fail (GOC_IS_GROUP (parent));
 	g_return_if_fail (GOC_IS_ITEM (item));
 	g_return_if_fail (item->parent == parent);
+
 	if (item->canvas)
 		_goc_canvas_remove_item (item->canvas, item);
 	if (GOC_ITEM (parent)->realized)
 		_goc_item_unrealize (item);
-	parent->children = g_list_remove (parent->children, item);
+	n = goc_group_find_child (parent, item);
+	g_ptr_array_remove_index (parent->priv->children, n);
 	item->parent = NULL;
 	item->canvas = NULL;
 	g_object_notify (G_OBJECT (item), "parent");
 	g_object_notify (G_OBJECT (item), "canvas");
 	goc_item_bounds_changed (GOC_ITEM (parent));
 }
+
+/**
+ * goc_group_get_children:
+ * @group: #GocGroup
+ *
+ * Returns: (transfer container) (element-type GocItem): An array of
+ * the items in @group.
+ **/
+GPtrArray *
+goc_group_get_children (GocGroup *group)
+{
+	g_return_val_if_fail (GOC_IS_GROUP (group), NULL);
+
+	g_ptr_array_ref (group->priv->children);
+	return group->priv->children;
+}
+
+/**
+ * goc_group_get_child:
+ * @group: #GocGroup
+ * @n: number
+ *
+ * Returns: (transfer none) (nullable): The @n'th item, zero-bases, in the
+ * group or %NULL if @n is too big.
+ **/
+GocItem *
+goc_group_get_child (GocGroup *group, unsigned n)
+{
+	g_return_val_if_fail (GOC_IS_GROUP (group), NULL);
+
+	return n >= group->priv->children->len
+		? NULL
+		: g_ptr_array_index (group->priv->children, n);
+}
+
+
+/**
+ * goc_group_find_child:
+ * @group: #GocGroup
+ * @item: #GocItem
+ *
+ * Returns: The index of @item in @group, or -1 if @item is not in @group.
+ **/
+int
+goc_group_find_child (GocGroup *group, GocItem *item)
+{
+	unsigned ui;
+	GPtrArray *children = group->priv->children;
+
+	if (item->parent != group)
+		return -1;
+
+	if (children->len > 1 &&
+	    item == g_ptr_array_index (children, children->len - 1)) {
+		// Very common case for large groups
+		return children->len - 1;
+	}
+
+	for (ui = 0; ui < children->len; ui++) {
+		if (item == g_ptr_array_index (children, ui))
+			return ui;
+	}
+
+	g_warning ("Item not in group?");
+	return -1;
+}
+
 
 /**
  * goc_group_adjust_bounds:
@@ -457,6 +568,7 @@ void
 goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double y)
 {
 	GocGroup *parent;
+
 	g_return_if_fail (GOC_IS_GROUP (group));
 	parent = GOC_ITEM (group)->parent;
 	if (parent)
@@ -485,4 +597,18 @@ goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t c
 	group->clip_path = clip_path;
 	group->clip_rule = clip_rule;
 	goc_item_bounds_changed (GOC_ITEM (group));
+}
+
+void
+goc_group_freeze (GocGroup *group, gboolean freeze)
+{
+	g_return_if_fail (GOC_IS_GROUP (group));
+
+	if (freeze) {
+		group->priv->frozen++;
+	} else {
+		group->priv->frozen--;
+		if (!group->priv->frozen)
+			goc_group_update_bounds ((GocItem*) group);
+	}
 }
