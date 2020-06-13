@@ -128,266 +128,6 @@ gog_contour_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed)
 	return data;
 }
 
-/* Define useful structs there, might go to gog-xyz.h later if also useful
- * for surfaces */
-
-/* we need the paths as an array of XY points */
-typedef struct {
-	GArray *x, *y;
-	unsigned cur_size;
-	/* the z value (as in xyz coordinates) for this path. An integer since
-		ticks positions are integers for the third axis */
-	int level;
-	gboolean pending; /* if TRUE, the path does not start or end at a limit */
-} GogPath;
-
-typedef struct {
-	double z0, z1, z2, z3, zc;
-} GogTile;
-
-typedef struct {
-	GogAxisColorMap const *color_map;
-	GogAxisMap const *x_map, *y_map;
-	/* the paths */
-	GSList *paths;
-} GogPathsStruct;
-
-#define GOG_PATH_ALLOCSIZE 20
-static GogPath *
-gog_path_create (int level, gboolean pending)
-{
-	GogPath *path = g_new (GogPath, 1);
-	path->level = level;
-	path->cur_size = GOG_PATH_ALLOCSIZE;
-	path->x = g_array_sized_new (FALSE, FALSE, sizeof (double), GOG_PATH_ALLOCSIZE);
-	path->y = g_array_sized_new (FALSE, FALSE, sizeof (double), GOG_PATH_ALLOCSIZE);
-	path->pending = pending;
-	return path;
-}
-
-static void
-gog_path_destroy (GogPath *path)
-{
-	g_array_free (path->x, TRUE);
-	g_array_free (path->y, TRUE);
-	g_free (path);
-}
-
-static void
-gog_path_append (GogPath *path, double x, double y)
-{
-	if (path->cur_size == path->x->len) {
-		path->cur_size += GOG_PATH_ALLOCSIZE;
-		g_array_set_size (path->x, path->cur_size);
-		g_array_set_size (path->y, path->cur_size);
-	}
-	g_array_append_val (path->x, x);
-	g_array_append_val (path->y, y);
-}
-
-static void
-gog_path_prepend (GogPath *path, double x, double y)
-{
-	if (path->cur_size == path->x->len) {
-		path->cur_size += GOG_PATH_ALLOCSIZE;
-		g_array_set_size (path->x, path->cur_size);
-		g_array_set_size (path->y, path->cur_size);
-	}
-	g_array_prepend_val (path->x, x);
-	g_array_prepend_val (path->y, y);
-}
-
-static void
-gog_contour_plot_build_paths (GogXYZPlot const *plot, gpointer data)
-{
-	GogPathsStruct *paths = (GogPathsStruct *) data;
-	GOData *xvec, *yvec;
-	unsigned i, imax, j, jmax;
-	double *zvals, *xvals, *yvals;
-	int max;
-	double x0, x1, x, y0, y1, y, z0, z1, z;
-	/* storing paths going though each vertex as lists */
-	GSList **vsegs, *hseg = NULL;
-	GogPath *path;
-	GogTile *tile;
-puts("building paths");
-	
-	max = GOG_CONTOUR_PLOT (plot)->max_colors;
-	if (max < 1)
-		return;
-	if (plot->transposed) {
-		imax = plot->columns;
-		jmax = plot->rows;
-	} else {
-		imax = plot->rows;
-		jmax = plot->columns;
-	}
-	if (imax == 0 || jmax == 0)
-		return;
-
-	if (plot->plotted_data)
-		zvals = plot->plotted_data;
-	else
-		return;
-
-	/* get x and y values */
-	xvec = gog_xyz_plot_get_x_vals (GOG_XYZ_PLOT (plot));
-	yvec = gog_xyz_plot_get_y_vals (GOG_XYZ_PLOT (plot));
-	xvals = (GO_IS_DATA_VECTOR (xvec))? go_data_vector_get_values ((GODataVector *) xvec): NULL;
-	yvals = (GO_IS_DATA_VECTOR (yvec))? go_data_vector_get_values ((GODataVector *) yvec): NULL;
-	if (xvals) {
-		for (i = 0; i < imax; i++)
-			xvals[i] = gog_axis_map_to_view ((GogAxisMap *) paths->x_map, xvals[i]);
-	} else {
-		xvals = g_alloca (imax * sizeof (double));
-		for (i = 0; i < imax; i++)
-			xvals[i] = i;
-	}
-	if (yvals) {
-		for (j = 0; j < jmax; j++)
-			yvals[j] = gog_axis_map_to_view ((GogAxisMap *) paths->y_map, xvals[j]);
-	} else {
-		yvals = g_alloca (jmax * sizeof (double));
-		for (j = 0; j < jmax; j++)
-			yvals[j] = j;
-	}
-	vsegs = g_new0 (GSList*, jmax);
-
-	/* let start the analysis at first x, we need to find every limit intersecting
-	 * the border, and start a GogPath for each */
-	z0 = zvals[0];
-	x0 = xvals[0];
-	y0 = yvals[0];
-	for (j = 1; j < jmax; j++) {
-		y1 = yvals[j];
-		z1 = zvals[j];
-		if (go_finite (z0) && go_finite (z1) && z0 != z1) {
-			y1 = yvals[j];
-			if (z0 < z1) {
-				z = floor (z0);
-				if (z < z0)
-					z += 1;
-				while (z <= z1) {
-					y = y0 + (y1 - y0) * (z - z0) / (z1 - z0);
-					path = gog_path_create (z, FALSE);
-					gog_path_append (path, x0, y);
-					vsegs[j] = g_slist_prepend (vsegs[j], path);
-					z += 1;
-				}
-			} else if (z0 > z1) {
-				z = floor (z1);
-				if (z < z1)
-					z += 1;
-				while (z <= z0) {
-					y = y0 + (y1 - y0) * (z - z0) / (z1 - z0);
-					path = gog_path_create (z, FALSE);
-					gog_path_append (path, x0, y);
-					vsegs[j] = g_slist_prepend (vsegs[j], path);
-					z += 1;
-				}
-			}
-		}
-		y0 = y1;
-		z0 = z1;
-	}
-	/* now exploring each row */
-	for (i = 1; i < imax; i++) {
-		x1 = xvals[i];
-		/* analyze the first horizontal segment */
-		y0 = yvals[0];
-		z0 = zvals[(i - 1) * jmax];
-		z1 = zvals[i * jmax];
-		if (go_finite (z0) && go_finite (z1) && z0 != z1) {
-			if (z0 < z1) {
-				z = floor (z0);
-				if (z < z0)
-					z += 1;
-				while (z <= z1) {
-					x = x0 + (x1 - x0) * (z - z0) / (z1 - z0);
-					path = gog_path_create (z, FALSE);
-					gog_path_append (path, x, y0);
-					hseg = g_slist_prepend (hseg, path);
-					z += 1;
-				}
-			} else if (z0 > z1) {
-				z = floor (z1);
-				if (z < z1)
-					z += 1;
-				while (z <= z0) {
-					x = x0 + (x1 - x0) * (z - z0) / (z1 - z0);
-					path = gog_path_create (z, FALSE);
-					gog_path_append (path, x, y0);
-					hseg = g_slist_prepend (hseg, path);
-					z += 1;
-				}
-			}
-
-		}
-		/* process each tile in the row */
-		for (j = 1; j < jmax; j++) {
-			/* each tile is mapped to five values in this way:
-			 *
-			 *    3-------2
-			 *    |       |
-			 *    |   C   |
-			 *    |       |
-			 *    0-------1
-			 *
-			 * zc is the mean of the four other values if they are all valid
-			 *
-			 * we already know the points on segments 0-1 et 0-3. We start with
-			 * searching crossing points in segment 1-2 and follow each path
-			 * until it gets outside of the tile.
-			 */
-			unsigned valid = 0;
-			double z2, z3, zc = 0.;
-
-			/* at this point x0, x1 and y0 are valid. */
-			y1 = yvals[j];
-			/* evaluate the z values, z0 and z1 being already known */
-			z3 = zvals[(i - 1) * jmax + j];
-			z2 = zvals[i * jmax + j];
-			if (go_finite (z0)) {
-				zc += z0;
-				valid++;
-			}
-			if (go_finite (z1)) {
-				zc += z1;
-				valid++;
-			}
-			if (go_finite (z2)) {
-				zc += z2;
-				valid++;
-			}
-			if (go_finite (z3)) {
-				zc += z3;
-				valid++;
-			}
-			if (valid == 4) {
-				zc /= 4.;
-			} else if (valid == 3) {
-				/* FIXME */
-			} else {
-				/* the tile is full invalid */
-				/* FIXME */
-			}
-			
-
-			/* move to the next tile */
-			y0 = y1;
-			z0 = z3;
-			z2 = z1;
-		}
-		x0 = x1;
-	}
-
-	/* cleaning out what might still be there */
-	g_slist_free_full (hseg, (GDestroyNotify) gog_path_destroy);
-	for (j = 0; j < jmax; j++)
-		g_slist_free_full (vsegs[j], (GDestroyNotify) gog_path_destroy);
-	g_free (vsegs);
-}
-
 static char const *
 gog_contour_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
@@ -503,7 +243,6 @@ gog_contour_plot_class_init (GogContourPlotClass *klass)
 
 	gog_xyz_plot_klass->third_axis = GOG_AXIS_PSEUDO_3D;
 	gog_xyz_plot_klass->build_matrix = gog_contour_plot_build_matrix;
-	gog_xyz_plot_klass->build_paths = gog_contour_plot_build_paths;
 }
 
 static void
@@ -548,9 +287,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	double *data;
 	int max;
 	gboolean xdiscrete, ydiscrete;
-	GogPathsStruct paths;
 
-puts("rendering");
 	if (plot->base.series == NULL)
 		return;
 	series = GOG_SERIES (plot->base.series->data);
@@ -572,9 +309,9 @@ puts("rendering");
 	else
 		return;
 
-	paths.x_map = x_map = gog_axis_map_new (plot->base.axis[0],
+	x_map = gog_axis_map_new (plot->base.axis[0],
 				  view->residual.x , view->residual.w);
-	paths.x_map = y_map = gog_axis_map_new (plot->base.axis[1],
+	y_map = gog_axis_map_new (plot->base.axis[1],
 				  view->residual.y + view->residual.h,
 				  -view->residual.h);
 
@@ -584,8 +321,6 @@ puts("rendering");
 		gog_axis_map_free (y_map);
 		return;
 	}
-	/* ensure we have valid paths */
-	gog_xyz_plot_build_paths (plot, &paths);
 
 	/* Set cw to ensure that polygons will allways be drawn clockwise */
 	xdiscrete = gog_axis_is_discrete (plot->base.axis[0]) ||
