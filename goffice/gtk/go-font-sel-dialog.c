@@ -44,6 +44,11 @@ enum {
 	GFSD_GTK_FONT_CHOOSER_PROP_FONT_DESC,
 	GFSD_GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT,
 	GFSD_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY,
+#if GTK_CHECK_VERSION(3,24,0)
+	GFSD_GTK_FONT_CHOOSER_PROP_LEVEL,
+	GFSD_GTK_FONT_CHOOSER_PROP_LANGUAGE,
+	GFSD_GTK_FONT_CHOOSER_PROP_FONT_FEATURES,
+#endif
 	GFSD_GTK_FONT_CHOOSER_PROP_LAST
 };
 
@@ -127,6 +132,17 @@ gfsd_class_init (GObjectClass *klass)
 	g_object_class_override_property (klass,
 					  GFSD_GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY,
 					  "show-preview-entry");
+#if GTK_CHECK_VERSION(3,24,0)
+	g_object_class_override_property (klass,
+					  GFSD_GTK_FONT_CHOOSER_PROP_LEVEL,
+					  "level");
+	g_object_class_override_property (klass,
+					  GFSD_GTK_FONT_CHOOSER_PROP_LANGUAGE,
+					  "language");
+	g_object_class_override_property (klass,
+					  GFSD_GTK_FONT_CHOOSER_PROP_FONT_FEATURES,
+					  "font-features");
+#endif
 }
 
 static void

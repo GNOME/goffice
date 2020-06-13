@@ -1,3 +1,8 @@
+2020-06-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-font-sel-dialog.c (gfsd_class_init): fix more
+	criticals with Gtk+ >= 3.24.
+
 2020-06-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-grid-line.c (gog_grid_line_xy_render): clip grid lines
