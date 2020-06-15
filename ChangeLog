@@ -1,3 +1,10 @@
+2020-06-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-emf.c (go_emf_bitblt): implement filling with a solid
+	brush.
+	* goffice/utils/go-image.c (go_mime_to_image_format): update the EMF and
+	WMF mime types.
+
 2020-06-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-font-sel-dialog.c (gfsd_class_init): fix more

@@ -4021,7 +4021,7 @@ go_emf_bitblt (GOEmfState *state)
 	GOWmfRectL rect;
 	gint32 xDest, yDest, cxDest, cyDest, xSrc, ySrc;
 	guint32 Oper;
-	double m11, m12, m21, m22, dx, dy;
+	cairo_matrix_t m;
 	d_(("bitblt\n"));
 	go_wmf_read_rectl (&rect, state->data); /* do we need it? */
 	xDest = GSF_LE_GET_GINT32 (state->data + 16);
@@ -4033,14 +4033,41 @@ go_emf_bitblt (GOEmfState *state)
 	ySrc = GSF_LE_GET_GINT32 (state->data + 40);
 	d_(("\tDestination: x=%d y=%d cx=%d cy=%d Operation: %X\n", xDest, yDest, cxDest, cyDest, Oper));
 	d_(("\tSource: x=%d y=%d\n", xSrc, ySrc));
-	m11 = GSF_LE_GET_FLOAT (state->data + 44);
-	m12 = GSF_LE_GET_FLOAT (state->data + 48);
-	m21 = GSF_LE_GET_FLOAT (state->data + 52);
-	m22 = GSF_LE_GET_FLOAT (state->data + 56);
-	dx = GSF_LE_GET_FLOAT (state->data + 60);
-	dy = GSF_LE_GET_FLOAT (state->data + 64);
+	m.xx = GSF_LE_GET_FLOAT (state->data + 44);
+	m.yx = GSF_LE_GET_FLOAT (state->data + 48);
+	m.xy = GSF_LE_GET_FLOAT (state->data + 52);
+	m.yy = GSF_LE_GET_FLOAT (state->data + 56);
+	m.x0 = GSF_LE_GET_FLOAT (state->data + 60);
+	m.y0 = GSF_LE_GET_FLOAT (state->data + 64);
 	d_(("\tXForm: m11=%g m12=%g dx=%g\n\t       m21=%g m22=%g dy=%g\n",
-	    m11, m12, dx, m21, m22, dy));
+	    m.xx, m.yx, m.xy, m.yy, m.x0, m.y0));
+	if (cxDest > 0 && cyDest > 0) {
+		switch (Oper) {
+		case 0x62: // black rectangle
+		case 0xFF0042: //white rectangle
+		case 0xF00021: { // fill with brush
+			GOStyle *style = go_style_dup (state->curDC->style);
+			style->interesting_fields = GO_STYLE_FILL;
+			if (Oper != 0xF00021) {
+				style->fill.type = GO_STYLE_FILL_PATTERN;
+				style->fill.pattern.pattern = GO_PATTERN_SOLID;
+				style->fill.pattern.back = (Oper == 0x62)? GO_COLOR_BLACK: GO_COLOR_WHITE;
+			}
+			goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_RECTANGLE,
+					                              "x", (double) xDest,
+			                                      "y", (double) yDest,
+			                                      "width", (double) cxDest,
+					                              "height", (double) cyDest,
+					                              "style", style, NULL),
+					                &m);
+			g_object_unref (style);
+			break;
+		}
+		default:
+			// TODO: implement, see https://wiki.winehq.org/Ternary_Raster_Ops
+			break;
+		}
+	}
 	return TRUE;
 }
 
