@@ -364,6 +364,18 @@ goc_group_clear (GocGroup *group)
 	goc_group_freeze (group, TRUE);
 }
 
+// Provide just enough of the old ->children fields that it can be used
+// to test for empty and inspection of only child.
+static void
+goc_group_fake_xchildren (GocGroup *group)
+{
+	g_list_free (group->Xchildren);
+	group->Xchildren = group->priv->children
+		? g_list_prepend (NULL, goc_group_get_child (group, 0))
+		: NULL;
+}
+
+
 /**
  * goc_group_add_child:
  * @parent: #GocGroup
@@ -392,6 +404,8 @@ goc_group_add_child (GocGroup *parent, GocItem *item)
 	g_ptr_array_add (parent->priv->children, item);
 	item->parent = parent;
 	item->canvas = parent->base.canvas;
+
+	goc_group_fake_xchildren (parent);
 
 	/* Notify of changes.  */
 	if (old_canvas && item->canvas != old_canvas)
@@ -430,6 +444,7 @@ goc_group_remove_child (GocGroup *parent, GocItem *item)
 	g_ptr_array_remove_index (parent->priv->children, n);
 	item->parent = NULL;
 	item->canvas = NULL;
+	goc_group_fake_xchildren (parent);
 	g_object_notify (G_OBJECT (item), "parent");
 	g_object_notify (G_OBJECT (item), "canvas");
 	goc_item_bounds_changed (GOC_ITEM (parent));
