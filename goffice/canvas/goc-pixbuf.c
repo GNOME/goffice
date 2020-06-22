@@ -209,7 +209,7 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 	}
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
-	x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
+	x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
 		pixbuf->x + pixbuf->width: pixbuf->x;
 	goc_group_cairo_transform (item->parent, cr, x, (int) pixbuf->y);
 	cairo_rotate (cr, pixbuf->rotation);

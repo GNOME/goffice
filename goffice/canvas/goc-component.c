@@ -207,7 +207,7 @@ goc_component_draw (GocItem const *item, cairo_t *cr)
 	GocComponent *component = GOC_COMPONENT (item);
 	GocCanvas *canvas = item->canvas;
 	double x0, y0 = component->y;
-	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
+	if (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		x0 = component->x + component->w;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
 		x0 = canvas->width - (int) (x0 - canvas->scroll_x1);
@@ -245,7 +245,7 @@ goc_component_update_bounds (GocItem *item)
 	double x0, y0 = component->y;
 	GocCanvas *canvas = item->canvas;
 
-	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
+	if (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		x0 = component->x + component->w;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
 		x0 = canvas->width - (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;

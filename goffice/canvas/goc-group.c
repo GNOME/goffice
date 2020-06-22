@@ -264,6 +264,22 @@ goc_group_finalize (GObject *obj)
 }
 
 static void
+goc_group_copy (GocItem *dest, GocItem *source)
+{
+	GocGroup *src = GOC_GROUP (source), *dst = GOC_GROUP (dest);
+	unsigned ui;
+
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->clip_path = go_path_copy (src->clip_path);
+	dst->clip_rule = src->clip_rule;
+	goc_group_freeze (dst, TRUE);
+	for (ui = 0; ui < src->priv->children->len; ui++)
+		goc_item_duplicate (g_ptr_array_index (src->priv->children, ui), dst);
+	goc_group_freeze (dst, FALSE);
+}
+
+static void
 goc_group_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass*) item_klass;
@@ -292,6 +308,7 @@ goc_group_class_init (GocItemClass *item_klass)
 	item_klass->realize = goc_group_realize;
 	item_klass->unrealize = goc_group_unrealize;
 	item_klass->notify_scrolled = goc_group_notify_scrolled;
+	item_klass->copy = goc_group_copy;
 }
 
 static void
@@ -590,10 +607,13 @@ goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double 
 		goc_group_cairo_transform (parent, cr, x + group->x, y + group->y);
 	else {
 		GocCanvas *canvas = GOC_ITEM (group)->canvas;
-		if (canvas->direction == GOC_DIRECTION_RTL)
-			cairo_translate (cr, canvas->width / canvas->pixels_per_unit - (x - canvas->scroll_x1), y - canvas->scroll_y1);
-		else
-			cairo_translate (cr, x - canvas->scroll_x1, y - canvas->scroll_y1);
+		if (canvas) {
+			if (canvas->direction == GOC_DIRECTION_RTL)
+				cairo_translate (cr, canvas->width / canvas->pixels_per_unit - (x - canvas->scroll_x1), y - canvas->scroll_y1);
+			else
+				cairo_translate (cr, x - canvas->scroll_x1, y - canvas->scroll_y1);
+		} else
+			cairo_translate (cr, x, y);
 	}
 }
 

@@ -70,6 +70,7 @@ open_file (char const *filename, GtkWidget *nbook)
 	}
 
 	canvas = GOC_CANVAS (go_emf_get_canvas (GO_EMF (image)));
+	g_object_unref (image);
 	g_signal_connect_swapped (canvas, "button-press-event", G_CALLBACK (my_test), canvas);
 
 	window = gtk_scrolled_window_new (NULL, NULL);

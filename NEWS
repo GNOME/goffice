@@ -7,6 +7,7 @@ Jean:
 	* Optimize GtkWidget embedding in the canvas. See #465.
 	* Clip grid lines rendering to the plot area. [#50]
 	* Speed up GocGroup for large number of children.  [Gnumeric #465]
+	* Make GocGroup usable as a widgetless canvas.
 
 Morten:
 	* Avoid critical in document image handling.

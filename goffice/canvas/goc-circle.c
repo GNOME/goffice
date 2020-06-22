@@ -33,6 +33,8 @@
  * #GocCircle implements circle drawing in the canvas.
 **/
 
+static GocItemClass *parent_class;
+
 enum {
 	CIRCLE_PROP_0,
 	CIRCLE_PROP_X,
@@ -146,6 +148,17 @@ goc_circle_update_bounds (GocItem *item)
 }
 
 static void
+goc_circle_copy (GocItem *dest, GocItem *source)
+{
+	GocCircle *src = GOC_CIRCLE (source), *dst = GOC_CIRCLE (dest);
+
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->radius = src->radius;
+	parent_class->copy (dest, source);
+}
+
+static void
 goc_circle_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
@@ -166,6 +179,7 @@ goc_circle_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
+	parent_class = g_type_class_peek_parent (item_klass);
 
 	obj_klass->get_property = goc_circle_get_property;
 	obj_klass->set_property = goc_circle_set_property;
@@ -192,6 +206,7 @@ goc_circle_class_init (GocItemClass *item_klass)
 
 	item_klass->distance = goc_circle_distance;
 	item_klass->draw = goc_circle_draw;
+	item_klass->copy = goc_circle_copy;
 	item_klass->update_bounds = goc_circle_update_bounds;
 }
 

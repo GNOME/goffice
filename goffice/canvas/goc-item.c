@@ -470,7 +470,7 @@ goc_item_maybe_invalidate (GocItem *item, gboolean ignore_visibility)
 	if (!parent)
 		return;
 
-	if (!goc_canvas_get_realized (item->canvas))
+	if (!item->canvas || !goc_canvas_get_realized (item->canvas))
 		return;
 
 	if (!ignore_visibility && !item->visible)
@@ -825,8 +825,9 @@ goc_item_set_transform (GocItem *item, cairo_matrix_t *m)
 void
 _goc_item_transform (GocItem const *item, cairo_t *cr, gboolean scaled)
 {
+	double scale = item->canvas? item->canvas->pixels_per_unit: 1.0;
 	cairo_matrix_t m = item->transform, buf,
-		sc = {item->canvas->pixels_per_unit, 0., 0., item->canvas->pixels_per_unit, 0., 0.};
+		sc = {scale, 0., 0., scale, 0., 0.};
 	while ((item = GOC_ITEM (item->parent)))
 		if (item->transformed) {
 			cairo_matrix_multiply (&buf, &m, &item->transform);
@@ -905,3 +906,57 @@ goc_item_get_style_context (const GocItem *item)
 	return context;
 }
 #endif
+
+/**
+ * goc_item_duplicate:
+ * @item: #GocItem
+ * @parent: #GocGroup
+ *
+ * Creates a new GocItem identical to @item inside the parent GocGroup if not
+ * NULL.
+ *
+ * Returns: (transfer none): The duplicated item or NULL if the duplication was
+ * not possible.
+ */
+GocItem*
+goc_item_duplicate (GocItem *item, GocGroup *parent)
+{
+	GocItemClass *klass;
+	GocItem *ret;
+
+	g_return_val_if_fail (GOC_IS_ITEM (item), NULL);
+
+	klass = GOC_ITEM_GET_CLASS (item);
+	if (klass->copy == NULL)
+		return NULL;
+
+	ret = GOC_ITEM ((parent)? goc_item_new (parent, G_OBJECT_TYPE (item), NULL):
+							  g_object_new (G_OBJECT_TYPE (item), NULL));
+	
+	klass->copy (ret, item);
+	return ret;
+}
+
+/**
+ * goc_item_copy:
+ * source: #GocItem
+ * dest: #GocItem
+ *
+ * Copies @source properties to @dest. The two items must be of the same type
+ * and their common class needs a @copy member.
+ **/
+void
+goc_item_copy (GocItem *dest, GocItem *source)
+{
+	GocItemClass *klass = GOC_ITEM_GET_CLASS (source);
+
+	g_return_if_fail (GOC_IS_ITEM (source));
+	g_return_if_fail (GOC_IS_ITEM (dest));
+	g_return_if_fail (klass == GOC_ITEM_GET_CLASS (dest));
+	g_return_if_fail (klass->copy);
+	dest->visible = source->visible;
+	dest->op = source->op;
+	dest->transform = source->transform;
+	dest->transformed = source->transformed;
+	klass->copy (dest, source);
+}

@@ -33,6 +33,8 @@
  * arrows at the start and/or at the end.
 **/
 
+static GocItemClass *parent_class;
+
 enum {
 	ARC_PROP_0,
 	ARC_PROP_XC,
@@ -163,7 +165,7 @@ goc_arc_start (GocItem const *item, double *x, double *y, double *phi)
 {
 	GocArc *arc = GOC_ARC (item);
 	double x1, y1, s;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 
 	x1 = arc->xr * cos (atan2 (arc->xr / arc->yr * sin (arc->ang1), cos (arc->ang1)));
 	y1 = arc->yr * sin (atan2 (arc->xr / arc->yr * sin (arc->ang1), cos (arc->ang1)));
@@ -182,7 +184,7 @@ goc_arc_end (GocItem const *item, double *x, double *y, double *phi)
 {
 	GocArc *arc = GOC_ARC (item);
 	double x1, y1, s;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 
 	x1 = arc->xr * cos (atan2 (arc->xr / arc->yr * sin (arc->ang2), cos (arc->ang2)));
 	y1 = arc->yr * sin (atan2 (arc->xr / arc->yr * sin (arc->ang2), cos (arc->ang2)));
@@ -203,7 +205,7 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 	GocArc *arc = GOC_ARC (item);
 	GOArrow const *arrow;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 	double rsign = sign;
 
 	w = style->line.width? style->line.width / 2.0: 0.5;
@@ -410,6 +412,23 @@ goc_arc_draw (GocItem const *item, cairo_t *cr)
 }
 
 static void
+goc_arc_copy (GocItem *dest, GocItem *source)
+{
+	GocArc *src = GOC_ARC (source), *dst = GOC_ARC (dest);
+
+	dst->xc = src->xc;
+	dst->yc = src->yc;
+	dst->xr = src->xr;
+	dst->yr = src->yr;
+	dst->ang1 = src->ang1;
+	dst->ang2 = src->ang2;
+	dst->type = src->type;
+	dst->start_arrow = src->start_arrow;
+	dst->end_arrow = src->end_arrow;
+	parent_class->copy (dest, source);
+}
+
+static void
 goc_arc_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	GocArc *arc = GOC_ARC(item);
@@ -436,6 +455,7 @@ goc_arc_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
+	parent_class = g_type_class_peek_parent (item_klass);
 
 	gsi_klass->init_style = goc_arc_init_style;
 
@@ -506,6 +526,7 @@ goc_arc_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_arc_update_bounds;
 	item_klass->distance = goc_arc_distance;
 	item_klass->draw = goc_arc_draw;
+	item_klass->copy = goc_arc_copy;
 }
 
 GSF_CLASS (GocArc, goc_arc,

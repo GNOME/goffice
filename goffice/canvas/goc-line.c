@@ -32,6 +32,8 @@
  * arrows at the start and/or at the end.
 **/
 
+static GocItemClass *parent_class;
+
 enum {
 	LINE_PROP_0,
 	LINE_PROP_X0,
@@ -225,7 +227,7 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 {
 	GocLine *line = GOC_LINE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 	double endx = (line->endx - line->startx) * sign, endy = line->endy - line->starty;
 	double hoffs, voffs = ceil (style->line.width);
 	double startx = 0, starty = 0;
@@ -268,6 +270,20 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 }
 
 static void
+goc_line_copy (GocItem *dest, GocItem *source)
+{
+	GocLine *src = GOC_LINE (source), *dst = GOC_LINE (dest);
+
+	dst->startx = src->startx;
+	dst->starty = src->starty;
+	dst->endx = src->endx;
+	dst->endy = src->endy;
+	dst->start_arrow = src->start_arrow;
+	dst->end_arrow = src->end_arrow;
+	parent_class->copy (dest, source);
+}
+
+static void
 goc_line_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_LINE;
@@ -284,6 +300,7 @@ goc_line_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
+	parent_class = g_type_class_peek_parent (item_klass);
 
 	gsi_klass->init_style = goc_line_init_style;
 
@@ -329,6 +346,7 @@ goc_line_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_line_update_bounds;
 	item_klass->distance = goc_line_distance;
 	item_klass->draw = goc_line_draw;
+	item_klass->copy = goc_line_copy;
 }
 
 GSF_CLASS (GocLine, goc_line,

@@ -1,3 +1,11 @@
+2020-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/*: enable GocGroup to work as a widgtless canvas.
+	* goffice/utils/go-emf.c: replace the canvas by a GocGroup.
+	* goffice/utils/go-image.c (go_image_new_from_data),
+	(go_image_type_for_format): ditto.
+	* tests/mf-demo.c (open_file): ditto.
+
 2020-06-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-emf.c (go_emf_bitblt): implement filling with a solid

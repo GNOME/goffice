@@ -32,6 +32,8 @@
  * #GocEllipse implements ellipse drawing in the canvas.
 **/
 
+static GocItemClass *parent_class;
+
 enum {
 	ELLIPSE_PROP_0,
 	ELLIPSE_PROP_X,
@@ -110,7 +112,7 @@ static gboolean
 goc_ellipse_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocEllipse *ellipse = GOC_ELLIPSE (item);
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 
 	if (0 == ellipse->width && 0 == ellipse->height)
 		return FALSE;
@@ -235,6 +237,19 @@ goc_ellipse_draw (GocItem const *item, cairo_t *cr)
 }
 
 static void
+goc_ellipse_copy (GocItem *dest, GocItem *source)
+{
+	GocEllipse *src = GOC_ELLIPSE (source), *dst = GOC_ELLIPSE (dest);
+
+	dst->rotation = src->rotation;
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->width = src->width;
+	dst->height = src->height;
+	parent_class->copy (dest, source);
+}
+
+static void
 goc_ellipse_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
@@ -255,6 +270,7 @@ goc_ellipse_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
+	parent_class = g_type_class_peek_parent (item_klass);
 
 	obj_klass->get_property = goc_ellipse_get_property;
 	obj_klass->set_property = goc_ellipse_set_property;
@@ -294,6 +310,7 @@ goc_ellipse_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_ellipse_update_bounds;
 	item_klass->distance = goc_ellipse_distance;
 	item_klass->draw = goc_ellipse_draw;
+	item_klass->copy = goc_ellipse_copy;
 }
 
 GSF_CLASS (GocEllipse, goc_ellipse,

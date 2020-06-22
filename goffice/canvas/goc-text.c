@@ -214,7 +214,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 {
 	GocText *text = GOC_TEXT (item);
 	PangoRectangle rect;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 	double w, h, dx, dy;
 	PangoLayout *pl;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
@@ -235,7 +235,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	pango_layout_get_extents (pl, NULL, &rect);
 	text->w = (double) rect.width / PANGO_SCALE;
 	text->h = (double) rect.height / PANGO_SCALE;
-	item->x0 = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x;
+	item->x0 = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x;
 	item->y0 = text->y;
 	dx = dy = 0;
 	w = (text->clip_width > 0.)? MIN (text->clip_width, text->w): text->w;
@@ -336,9 +336,9 @@ static void
 goc_text_draw (GocItem const *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
-	double x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x,
+	double x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x,
 	       y = text->y, dx = 0., dy = 0., h, w;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 
 	PangoLayout *pl;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
@@ -417,6 +417,26 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	cairo_new_path (cr);
 	cairo_restore (cr);
 	g_object_unref (pl);
+}
+
+static void
+goc_text_copy (GocItem *dest, GocItem *source)
+{
+	GocText *src = GOC_TEXT (source), *dst = GOC_TEXT (dest);
+
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->w = src->w;
+	dst->h = src->h;
+	dst->rotation = src->rotation;
+	dst->clipped = src->clipped;
+	dst->clip_width = src->clip_width;
+	dst->clip_height = src->clip_height;
+	dst->wrap_width = src->wrap_width;
+	dst->text = g_strdup (src->text);
+	dst->anchor = src->anchor;
+	dst->attributes = pango_attr_list_copy (src->attributes);
+	parent_class->copy (dest, source);
 }
 
 static void
@@ -506,6 +526,7 @@ goc_text_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_text_update_bounds;
 	item_klass->distance = goc_text_distance;
 	item_klass->draw = goc_text_draw;
+	item_klass->copy = goc_text_copy;
 }
 
 static void

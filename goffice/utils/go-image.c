@@ -659,9 +659,7 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 	} else if (!strcmp (type, "svg")) {
 		image = go_svg_new_from_data (data, length, error);
 	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {
-#warning Remove this when we have a widgetless canvas, see bug #748493
-		if (gdk_screen_get_default () != NULL)
-			image = go_emf_new_from_data (data, length, error);
+		image = go_emf_new_from_data (data, length, error);
 	} else if (!strcmp (type, "eps")) {
 		image = go_spectre_new_from_data (data, length, error);
 	} else {
@@ -712,13 +710,9 @@ go_image_type_for_format (char const *format)
 	g_return_val_if_fail (format && *format, 0);
 	if (!strcmp (format, "svg"))
 		return GO_TYPE_SVG;
-	if (!strcmp (format, "emf") || !strcmp (format, "wmf")) {
-#warning Remove this when we have a widgetless canvas, see bug #748493
-		if (gdk_screen_get_default() == NULL)
-			return 0;
+	if (!strcmp (format, "emf") || !strcmp (format, "wmf"))
 		return GO_TYPE_EMF;
-	}
-	 if (!strcmp (format, "eps"))
+	if (!strcmp (format, "eps"))
 		return GO_TYPE_SPECTRE;
 	if (go_image_get_format_from_name (format) != GO_IMAGE_FORMAT_UNKNOWN)
 		return GO_TYPE_PIXBUF;

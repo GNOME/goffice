@@ -32,6 +32,8 @@
  * #GocPolygon implements rectangle drawing in the canvas.
 **/
 
+static GocItemClass *parent_klass;
+
 enum {
 	RECT_PROP_0,
 	RECT_PROP_X,
@@ -138,7 +140,7 @@ static gboolean
 goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocRectangle *rect = GOC_RECTANGLE (item);
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 
 	if (0 == rect->width && 0 == rect->height)
 		return FALSE;
@@ -307,10 +309,27 @@ goc_rectangle_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 }
 
 static void
+goc_rectangle_copy (GocItem *dest, GocItem *source)
+{
+	GocRectangle *src = GOC_RECTANGLE (source), *dst = GOC_RECTANGLE (dest);
+
+	dst->rotation = src->rotation;
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->width = src->width;
+	dst->height = src->height;
+	dst->type = src->type;
+	dst->rx = src->rx;
+	dst->ry = src->ry;
+	parent_klass->copy (dest, source);
+}
+
+static void
 goc_rectangle_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
+	parent_klass = g_type_class_peek_parent (item_klass);
 
 	obj_klass->get_property = goc_rectangle_get_property;
 	obj_klass->set_property = goc_rectangle_set_property;
@@ -368,6 +387,7 @@ goc_rectangle_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_rectangle_update_bounds;
 	item_klass->distance = goc_rectangle_distance;
 	item_klass->draw = goc_rectangle_draw;
+	item_klass->copy = goc_rectangle_copy;
 }
 
 GSF_CLASS (GocRectangle, goc_rectangle,

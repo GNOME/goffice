@@ -131,10 +131,10 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 		cairo_save (cr);
 		if (flag == 0)
 			cairo_translate (cr, polyline->points[0].x, polyline->points[0].y);
-		go_bezier_spline_to_cairo (spline, cr, goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL);
+		go_bezier_spline_to_cairo (spline, cr, item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL);
 		cairo_restore (cr);
 	} else {
-		double sign = (flag && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+		double sign = (flag && item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 		gboolean prev_valid = TRUE;
 		for (i = 1; i < polyline->nb_points; i++) {
 			if (go_finite (polyline->points[i].x)) {
@@ -227,6 +227,23 @@ goc_polyline_draw (GocItem const *item, cairo_t *cr)
 }
 
 static void
+goc_polyline_copy (GocItem *dest, GocItem *source)
+{
+	GocPolyline *src = GOC_POLYLINE (source), *dst = GOC_POLYLINE (dest);
+	
+	dst->nb_points = src->nb_points;
+	dst->use_spline = src->use_spline;
+	if (src->nb_points > 0) {
+		unsigned ui;
+		dst->points = g_new (GocPoint, src->nb_points);
+		for (ui = 0; ui < src->nb_points; ui++)
+			dst->points[ui] = src->points[ui];
+	} else
+		dst->points = NULL;
+	((GocItemClass *) parent_class)->copy (dest, source);
+}
+
+static void
 goc_polyline_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_LINE;
@@ -270,6 +287,7 @@ goc_polyline_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_polyline_update_bounds;
 	item_klass->distance = goc_polyline_distance;
 	item_klass->draw = goc_polyline_draw;
+	item_klass->copy = goc_polyline_copy;
 }
 
 GSF_CLASS (GocPolyline, goc_polyline,

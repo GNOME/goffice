@@ -128,6 +128,14 @@ goc_styled_item_init_style (GocStyledItem *gsi, GOStyle *style)
 }
 
 static void
+goc_styled_item_copy (GocItem *dest, GocItem *source)
+{
+	GOStyle *style = go_style_dup (((GocStyledItem *) source)->style);
+	g_object_set (dest, "style", style, NULL);
+	g_object_unref (style);
+}
+
+static void
 goc_styled_item_class_init (GocItemClass *goc_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) goc_klass;
@@ -156,6 +164,7 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
 	gobject_klass->get_property = goc_styled_item_get_property;
 	gobject_klass->finalize	    = goc_styled_item_finalize;
 	style_klass->init_style	    = goc_styled_item_init_style;
+	goc_klass->copy	    		= goc_styled_item_copy;
 
 	g_object_class_install_property (gobject_klass, STYLED_ITEM_PROP_STYLE,
 		g_param_spec_object ("style",
@@ -239,7 +248,7 @@ goc_styled_item_style_changed (GOStyledObject *gsi)
 static GODoc*
 goc_styled_item_get_document (GOStyledObject *gsi)
 {
-	return goc_canvas_get_document (GOC_ITEM (gsi)->canvas);
+	return (GOC_ITEM (gsi)->canvas)? goc_canvas_get_document (GOC_ITEM (gsi)->canvas): NULL;
 }
 
 static void
@@ -281,7 +290,7 @@ goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
 	g_return_val_if_fail (GOC_IS_STYLED_ITEM (gsi), FALSE);
 
 	/* scale the line width */
-	if (gsi->scale_line_width) {
+	if (gsi->scale_line_width && GOC_ITEM (gsi)->canvas) {
 		width = gsi->style->line.width;
 		gsi->style->line.width *= goc_canvas_get_pixels_per_unit (GOC_ITEM (gsi)->canvas);
 	}

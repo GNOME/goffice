@@ -123,7 +123,7 @@ static gboolean
 goc_path_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocPath *path = GOC_PATH (item);
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 
 	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
@@ -233,6 +233,20 @@ goc_path_draw (GocItem const *item, cairo_t *cr)
 }
 
 static void
+goc_path_copy (GocItem *dest, GocItem *source)
+{
+	GocPath *src = GOC_PATH (source), *dst = GOC_PATH (dest);
+
+	dst->rotation = src->rotation;
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->closed = src->closed;
+	dst->fill_rule = src->fill_rule;
+	dst->path = go_path_copy (src->path);
+	((GocItemClass *) parent_class)->copy (dest, source);
+}
+
+static void
 goc_path_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	GocPath *path = GOC_PATH (item);
@@ -314,6 +328,7 @@ goc_path_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_path_update_bounds;
 	item_klass->distance = goc_path_distance;
 	item_klass->draw = goc_path_draw;
+	item_klass->copy = goc_path_copy;
 }
 
 GSF_CLASS (GocPath, goc_path,

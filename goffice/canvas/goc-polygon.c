@@ -176,11 +176,11 @@ goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 		cairo_save (cr);
 		if (flag == 0)
 			cairo_translate (cr, polygon->points[0].x, polygon->points[0].y);
-		go_bezier_spline_to_cairo (spline, cr, goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL);
+		go_bezier_spline_to_cairo (spline, cr, item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL);
 		cairo_restore (cr);
 	} else {
 		/* sign is meaningful only for drawing, so if flag == 0, sign must be 1 */
-		double sign = (flag && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+		double sign = (flag && item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 		if (polygon->nb_sizes > 0) {
 			snum = 0;
 			for (j = 0; j < (int) polygon->nb_sizes; j++) {
@@ -310,6 +310,30 @@ goc_polygon_draw (GocItem const *item, cairo_t *cr)
 }
 
 static void
+goc_polygon_copy (GocItem *dest, GocItem *source)
+{
+	GocPolygon *src = GOC_POLYGON (source), *dst = GOC_POLYGON (dest);
+	unsigned ui;
+	
+	dst->nb_points = src->nb_points;
+	dst->use_spline = src->use_spline;
+	dst->fill_rule = src->fill_rule;
+	if (src->nb_points > 0) {
+		dst->points = g_new (GocPoint, src->nb_points);
+		for (ui = 0; ui < src->nb_points; ui++)
+			dst->points[ui] = src->points[ui];
+	} else
+		dst->points = NULL;
+	if (src->nb_sizes > 0) {
+		dst->sizes = g_new (int, src->nb_sizes);
+		for (ui = 0; ui < src->nb_sizes; ui++)
+			dst->sizes[ui] = src->sizes[ui];
+	} else
+		dst->sizes = NULL;
+	((GocItemClass *) parent_class)->copy (dest, source);
+}
+
+static void
 goc_polygon_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
@@ -366,6 +390,7 @@ goc_polygon_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_polygon_update_bounds;
 	item_klass->distance = goc_polygon_distance;
 	item_klass->draw = goc_polygon_draw;
+	item_klass->copy = goc_polygon_copy;
 }
 
 GSF_CLASS (GocPolygon, goc_polygon,

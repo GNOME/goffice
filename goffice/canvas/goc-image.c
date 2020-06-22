@@ -241,7 +241,7 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
-	x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
+	x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
 		image->x + image->width: image->x;
 	goc_group_cairo_transform (item->parent, cr, x, (int) image->y);
 	cairo_rotate (cr, image->rotation);
@@ -254,6 +254,24 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 	cairo_move_to (cr, 0, 0);
 	go_image_draw (image->image, cr);
 	cairo_restore (cr);
+}
+
+static void
+goc_image_copy (GocItem *dest, GocItem *source)
+{
+	GocImage *src = GOC_IMAGE (source), *dst = GOC_IMAGE (dest);
+
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->width = src->width;
+	dst->height = src->height;
+	dst->rotation = src->rotation;
+	dst->crop_left = src->crop_left;
+	dst->crop_right = src->crop_right;
+	dst->crop_top = src->crop_top;
+	dst->crop_bottom = src->crop_bottom;
+	/* just add a reference to the GOImage, it should never be modified */
+	dst->image = g_object_ref (src->image);
 }
 
 static void
@@ -324,6 +342,7 @@ goc_image_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_image_update_bounds;
 	item_klass->distance = goc_image_distance;
 	item_klass->draw = goc_image_draw;
+	item_klass->copy = goc_image_copy;
 }
 
 GSF_CLASS (GocImage, goc_image,
