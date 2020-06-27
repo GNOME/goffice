@@ -421,7 +421,7 @@
 
 2008-11-08  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
-	* es.po: Updated Spanish translation    
+	* es.po: Updated Spanish translation
 
 2008-10-18  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
@@ -431,7 +431,7 @@
 
 	* Release 0.7.2
 
-2008-10-12  Jorge Gonzalez  <jorgegonz@svn.gnome.org>   
+2008-10-12  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
 
@@ -460,9 +460,9 @@
 
 	* Release 0.7.1
 
-2008-08-25  Jorge Gonzalez  <jorgegonz@svn.gnome.org>  
+2008-08-25  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
-	* es.po: Updated Spanish translation 
+	* es.po: Updated Spanish translation
 
 2008-08-22  Halton Huo <halton.huo@sun.com>
 
@@ -476,7 +476,7 @@
 
 	* es.po: Updated Spanish translation
 
-2008-07-31  Djihed Afifi <djihed@gmail.com> 
+2008-07-31  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Updated Arabic Translation by Djihed Afifi.
 
@@ -512,7 +512,7 @@
 
 	* Release 0.6.4
 
-2008-05-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>   
+2008-05-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
 
@@ -525,7 +525,7 @@
 	* cs.po: Fixed Czech translation by Lucas Lommer
 	(bug #517967).
 
-2008-03-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>     
+2008-03-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
 
@@ -547,7 +547,7 @@
         * zh_HK.po: Added Traditional Chinese translation(Hong Kong).
         * zh_TW.po: Updated Traditional Chinese translation(Taiwan).
 
-2008-03-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org> 
+2008-03-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
 
@@ -568,11 +568,11 @@
 	* lt.po: Added Lithuanian translation.
 	* LINGUAS: Added lt
 
-2007-12-30  Jorge Gonzalez  <jorgegonz@svn.gnome.org>  
+2007-12-30  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
-	* es.po: Updated Spanish translation 
+	* es.po: Updated Spanish translation
 
-2007-12-27  Djihed Afifi <djihed@gmail.com> 
+2007-12-27  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Added Arabic Translation.
 	* LINGUAS: Added ar.
@@ -754,7 +754,7 @@
 2005-10-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* *.po: updated strings to translate because of some strings
-	changes in the sources and removed unwanted #, fuzzy occurences.	
+	changes in the sources and removed unwanted #, fuzzy occurences.
 	* fr.po: updated french translation.
 
 2005-10-01  Stepan Kasal  <kasal@ucw.cz>

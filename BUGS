@@ -25,7 +25,7 @@ Plans
 	"5%" to be shown the cursor between "5" and "%".)
 
     2) GOActionComboText
-	2.1) stub						(DONE)	
+	2.1) stub						(DONE)
 	2.2) Move to TreeModel to simplify sharing
 	2.3) Support custom menu item
     3) Plugin Framework
@@ -305,16 +305,16 @@ Plans
 Misc things to fix
 ------------------
 
-	: Open guru, click on forward, then back. Now		<--------> 
-	navigating through plot list is very slow. That's 
+	: Open guru, click on forward, then back. Now		<-------->
+	navigating through plot list is very slow. That's
 	because at each object addition/removal in object tree,
        	an object editor is created.
 
 	: Current GogGrid object is not used for grid display.	(FIXED)
-	We should rename it to GogBackplane, GogWall or 
+	We should rename it to GogBackplane, GogWall or
 	GogBackground.
 
-	: Markers with non solid fill color are displayed 
+	: Markers with non solid fill color are displayed
 	without filling for some shapes.			(FIXED)
 
 Ideas

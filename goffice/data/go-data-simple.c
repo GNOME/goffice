@@ -807,7 +807,7 @@ go_data_vector_str_new (char const * const *str, unsigned n, GDestroyNotify noti
 	return GO_DATA (res);
 }
 
-static void 
+static void
 clear_strings_cb (char **str)
 {
 	int i = 0;

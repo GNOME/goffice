@@ -156,7 +156,7 @@ go_data_HEADERS =				\
 	data/goffice-data.h			\
 	data/go-data.h				\
 	data/go-data-impl.h			\
-	data/go-data-simple.h 
+	data/go-data-simple.h
 
 #####################################
 # graph directory files
