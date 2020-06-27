@@ -78,7 +78,7 @@ AM_MAINTAINER_MODE([enable])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-dnl We need intltool >= 0.35.0 to use the LINGUAS file in the po dir 
+dnl We need intltool >= 0.35.0 to use the LINGUAS file in the po dir
 IT_PROG_INTLTOOL([0.35.0])
 
 dnl We use $host_os:
@@ -385,26 +385,6 @@ dnl ****************************
 
 PKG_CHECK_MODULES(GOFFICE, $goffice_reqs)
 
-dnl  Checks for Xft/XRender
-have_xrender=no
-xrender_libs="-lXrender -lXext"
-AC_CHECK_LIB(Xrender, XRenderFindFormat, 
-	[have_xrender=yes
-	 dnl See if we really need that -lXext
-	 AC_CHECK_LIB(Xrender, XRenderQueryVersion,
-		      [xrender_libs="-lXrender"],
-		      [],
-		      [])],
-	[],
-	[-lXext])
-if test $have_xrender = yes; then
-  AC_SUBST(RENDER_LIBS, $xrender_libs)
-  AC_DEFINE(HAVE_RENDER, 1, [Define if libXrender is available.])
-else
-  AC_SUBST(RENDER_LIBS, "")
-fi
-unset xrender_libs
-
 dnl *****************************
 dnl FIXME: perhaps declare with AC_ARG_VAR?
 dnl	   If we use the initial value of a variable, we have to make it precious.
@@ -652,7 +632,7 @@ if test "x$with_long_double" = "xyes"; then
 			   [Define if GOffice supplies strtold.])
 		],
 		[AC_MSG_RESULT(assuming not)])
-    else 
+    else
 	AC_DEFINE([GOFFICE_SUPPLIED_STRTOLD], 1,
 		  [Define if GOffice supplies strtold.])
 	AC_CHECK_FUNCS(string_to_decimal decimal_to_quadruple)
@@ -688,7 +668,7 @@ LIBS=$SAVE_LIBS
 GIR_REQ=1.0.0
 AC_ARG_ENABLE(introspection,
           AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
-                         [Enable introspection for this build]),, 
+                         [Enable introspection for this build]),,
                          [enable_introspection=no])
 
 AC_MSG_CHECKING([for gobject-introspection])
@@ -711,7 +691,7 @@ AS_CASE([$enable_introspection],
 dnl Canonicalize enable_introspection
 enable_introspection=$found_introspection
 ],
-[	
+[
     AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
 ])
 

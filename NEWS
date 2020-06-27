@@ -13,6 +13,7 @@ Morten:
 	* Avoid critical in document image handling.
 	* Introspection fixes.
 	* Speed up GocGroup for large number of children.  [Gnumeric #465]
+	* Stop checking for Xrender.
 
 --------------------------------------------------------------------------
 goffice 0.10.47:
@@ -23,7 +24,7 @@ Jean:
 	* Fix a drawing error in contour plots. [#458]
 	* Ensure that all required dims have valid data in a valid series. [#466]
 	* Fix legend order in bar plots.
-	* Test plot series validity after a data change. [#468] 
+	* Test plot series validity after a data change. [#468]
 	* Fix crossing axis position. [#45]
 	* Fix component duplication. [#483]
 
@@ -678,7 +679,7 @@ goffice 0.9.2:
 Andreas:
 	* Improve sensitivity handling of SI related widgets in format selector.
 	* Fix scientific format with SI prefix selection. [#665301]
-	* Fix recognition of formats with SI prefix by format selector. 
+	* Fix recognition of formats with SI prefix by format selector.
 	[#665303]
 	* Handle numeral shapes for number formats.
 
@@ -830,7 +831,7 @@ goffice 0.8.12:
 
 Andreas
 	* Fix US 30/360 date calculations. [#631242][#630784]
-	
+
 Jean:
 	* Fixed sorting with accentuated characters. [#631504]
 	* Allow filled plots to be displayed behind the grids. [#632310]
@@ -847,7 +848,7 @@ goffice 0.8.11:
 
 Jean:
 	* Implement custom grids in xyz plots. [#624273]
-	
+
 Jon Nordby:
 	* Update API documentation.
 
@@ -901,7 +902,7 @@ Jean:
 goffice 0.8.8:
 
 Andreas:
-	* Make sure that go_format_sel_format_classification returns the 
+	* Make sure that go_format_sel_format_classification returns the
 	  value used by the format selector. [#625454]
 
 Jean:

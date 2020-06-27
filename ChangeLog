@@ -1,3 +1,8 @@
+2020-06-26  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (xrender): Stop checking for xrender.  We haven't
+	needed that for a decade or two.
+
 2020-06-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/*: enable GocGroup to work as a widgtless canvas.
@@ -602,7 +607,7 @@
 2016-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* utils/go-format.c (go_format_output_date_to_odf): write
-	gnm:am-suffix and gnm:pm-suffix attributes instead of the 
+	gnm:am-suffix and gnm:pm-suffix attributes instead of the
 	gnm:style attribute for number:style
 
 2016-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
