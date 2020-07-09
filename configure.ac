@@ -660,7 +660,7 @@ SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GOFFICE_CFLAGS"
 LIBS="$GOFFICE_LIBS $LIBS"
-AC_CHECK_FUNCS(gtk_widget_class_set_css_name)
+AC_CHECK_FUNCS(g_file_info_get_modification_date_time gtk_widget_class_set_css_name gdk_display_get_monitor_at_window)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 

@@ -287,11 +287,8 @@ go_io_progress_update (GOIOContext *ioc, gdouble f)
 		  f + PROGRESS_UPDATE_STEP > 1);
 	/* The use of fabs here means we can set progress back if we need to. */
 	if (at_end || fabs (f - ioc->last_progress) >= PROGRESS_UPDATE_STEP) {
-		GTimeVal tv;
-		double t;
+		double t = g_get_monotonic_time () / 1000000.0;
 
-		(void) g_get_current_time (&tv);
-		t = tv.tv_sec + tv.tv_usec / 1000000.0;
 		if (at_end || t - ioc->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
 			GOCmdContext *cc;
 

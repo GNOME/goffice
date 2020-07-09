@@ -2857,9 +2857,9 @@ fill_with_char (GString *str, PangoLayout *layout, gsize fill_pos,
 
 	gap = n * fill_utf8_len;
 	g_string_set_size (str, str->len + gap);
-	g_memmove (str->str + fill_pos + gap,
-		   str->str + fill_pos,
-		   str->len - (fill_pos + gap));
+	memmove (str->str + fill_pos + gap,
+		 str->str + fill_pos,
+		 str->len - (fill_pos + gap));
 	while (n > 0) {
 		memcpy (str->str + fill_pos, fill_utf8, fill_utf8_len);
 		fill_pos += fill_utf8_len;

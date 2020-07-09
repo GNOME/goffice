@@ -972,7 +972,6 @@ save_info_state_free (SaveInfoState *state)
 static void
 cb_format_combo_changed (GtkComboBox *combo, SaveInfoState *state)
 {
-	GOImageFormatInfo const *format_info;
 	gboolean sensitive;
 	int i;
 
@@ -1571,8 +1570,6 @@ go_menu_position_below (GtkMenu  *menu,
 	GtkWidget *widget = GTK_WIDGET (user_data);
 	gint sx, sy;
 	GtkRequisition req;
-	GdkScreen *screen;
-	gint monitor_num;
 	GdkRectangle monitor;
 	GdkWindow *window = gtk_widget_get_window (widget);
 	GtkAllocation size;
@@ -1598,9 +1595,18 @@ go_menu_position_below (GtkMenu  *menu,
 		*x = sx + size.width - req.width;
 	*y = sy;
 
-	screen = gtk_widget_get_screen (widget);
-	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+#ifdef HAVE_GDK_DISPLAY_GET_MONITOR_AT_WINDOW
+	gdk_monitor_get_geometry
+		(gdk_display_get_monitor_at_window
+		 (gtk_widget_get_display (widget), window),
+		 &monitor);
+#else
+	{
+		GdkScreen *screen = gtk_widget_get_screen (widget);
+		gint monitor_num = gdk_screen_get_monitor_at_window (screen, window);
+		gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+	}
+#endif
 
 	if (*x < monitor.x)
 		*x = monitor.x;
