@@ -1,3 +1,12 @@
+2020-07-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-object-xml.c (gogo_prop_end): Handle
+	translated booleans since we've managed to save some files that
+	way.
+
+	* goffice/utils/go-file.c (go_file_get_owner_name)
+	(go_file_get_group_name): Plug leak.
+
 2020-06-26  Morten Welinder  <terra@gnome.org>
 
 	* configure.ac (xrender): Stop checking for xrender.  We haven't

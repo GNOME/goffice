@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -417,13 +418,31 @@ gogo_prop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 		g_value_set_object (&val, G_OBJECT (obj));
 		g_object_unref (obj);
 	} else {
+		gboolean ok = FALSE;
 		if (content == NULL && prop_ftype != G_TYPE_BOOLEAN) {
 			g_warning ("could not convert NULL to type `%s' for property `%s'",
 				   g_type_name (prop_type), state->prop_spec->name);
 			return;
 		}
 
-		if (!gsf_xml_gvalue_from_str (&val, prop_type, content)) {
+		if (prop_type == G_TYPE_BOOLEAN) {
+			// We've managed to save some files with translated
+			// booleans.  Try to recover.
+			if (g_str_equal (content, _("TRUE"))) {
+				g_value_init (&val, prop_type);
+				g_value_set_boolean (&val, TRUE);
+				ok = TRUE;
+			} else if (g_str_equal (content, _("FALSE"))) {
+				g_value_init (&val, prop_type);
+				g_value_set_boolean (&val, FALSE);
+				ok = TRUE;
+			}
+		}
+
+		if (!ok)
+			ok = gsf_xml_gvalue_from_str (&val, prop_type, content);
+
+		if (!ok) {
 			g_warning ("could not convert string to type `%s' for property `%s'",
 				   g_type_name (prop_type), state->prop_spec->name);
 			return;

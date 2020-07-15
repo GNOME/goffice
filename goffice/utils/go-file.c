@@ -721,6 +721,7 @@ go_file_get_owner_name (char const *uri)
 	name = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_OWNER_USER);
 	(void) go_guess_encoding (name, strlen (name),
 				  NULL, &nameutf8, NULL);
+	g_object_unref (info);
 	return (nameutf8 ? g_string_free (nameutf8, FALSE) : NULL);
 }
 
@@ -747,6 +748,7 @@ go_file_get_group_name (char const *uri)
 	name = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_OWNER_GROUP);
 	(void) go_guess_encoding (name, strlen (name),
 				  NULL, &nameutf8, NULL);
+	g_object_unref (info);
 	return (nameutf8 ? g_string_free (nameutf8, FALSE) : NULL);
 }
 
