@@ -3644,7 +3644,7 @@ msgid ""
 "\n"
 "Do you want to save over it?"
 msgstr ""
-"Um arquivo chamado <i>%s<;i> já existe em %s.\n"
+"Um arquivo chamado <i>%s</i> já existe em %s.\n"
 "\n"
 "Deseja sobrescrevê-lo?"
 
