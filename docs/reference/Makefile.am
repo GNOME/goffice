@@ -6,7 +6,7 @@ DOC_MODULE=goffice-@GOFFICE_API_VER@
 
 DOC_MAIN_SGML_FILE=goffice-docs.xml
 
-DOC_SOURCE_DIR=../../goffice
+DOC_SOURCE_DIR=$(top_srcdir)/goffice
 
 SCANGOBJ_OPTIONS=
 
