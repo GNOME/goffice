@@ -4796,11 +4796,11 @@ msgstr "Etiòpia/Àfar (aa_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:108
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Sudàfrica Africà (af_ZA)"
+msgstr "Afrikaans de Sud-àfrica (af_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:109
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr "Etiòpia/Amàric (am_ET)"
+msgstr "Etiòpia/Amhàric (am_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:110
 msgid "Spain/Aragonese (an_ES)"
@@ -5064,7 +5064,7 @@ msgstr "Estats Units/Anglès (en_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:175
 msgid "South Africa/English (en_ZA)"
-msgstr "Sudafricà/Anglès (en_ZA)"
+msgstr "Sud-africà/Anglès (en_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:176
 msgid "Zimbabwe (en_ZW)"
@@ -5136,7 +5136,7 @@ msgstr "Puerto Rico (es_PR)"
 
 #: ../goffice/gtk/go-locale-sel.c:193
 msgid "Paraguay (es_PY)"
-msgstr "Paraguay (es_PY)"
+msgstr "Paraguai (es_PY)"
 
 #: ../goffice/gtk/go-locale-sel.c:194
 msgid "El Salvador (es_SV)"
@@ -5640,7 +5640,7 @@ msgstr "Tanzània/Suahili (sw_TZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:319
 msgid "India/Tamil (ta_IN)"
-msgstr "Índia/Tamil (ta_IN)"
+msgstr "Índia/Tàmil (ta_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:320
 msgid "India/Telugu (te_IN)"
@@ -5744,7 +5744,7 @@ msgstr "Sud-àfrica/Xosa (xh_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:345
 msgid "United States/Yiddish (yi_US)"
-msgstr "Estats Units/Yiddish (yi_US)"
+msgstr "Estats Units/Jiddisch (yi_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:346
 msgid "Nigeria/Yoruba (yo_NG)"
@@ -6060,7 +6060,7 @@ msgstr "Xile, pes"
 
 #: ../goffice/utils/formats.c:419
 msgid "China, Yuan Renminbi"
-msgstr "Xina, yuan renminbi"
+msgstr "Xina, iuan renminbi"
 
 #: ../goffice/utils/formats.c:420
 msgid "Colombia, Pesos"
@@ -6396,7 +6396,7 @@ msgstr "Paraguai, guaraní"
 
 #: ../goffice/utils/formats.c:503
 msgid "Qatar, Rials"
-msgstr "Qatari, rials"
+msgstr "Qatar, rials"
 
 #: ../goffice/utils/formats.c:504
 msgid "Romania, New Lei"
@@ -6424,7 +6424,7 @@ msgstr "Illes Salomó, dòlars"
 
 #: ../goffice/utils/formats.c:510
 msgid "Seychelles, Rupees"
-msgstr "Seixels, rúpies"
+msgstr "Seychelles, rúpies"
 
 #: ../goffice/utils/formats.c:511
 msgid "Sudan, Pounds"
@@ -6628,7 +6628,7 @@ msgstr "Zàmbia, kwacha"
 
 #: ../goffice/utils/formats.c:561
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr "Zimbabwe, dòlar de Zimbabwe"
+msgstr "Zimbàbue, dòlar de Zimbàbue"
 
 #: ../goffice/utils/go-emf.c:234
 #, c-format
