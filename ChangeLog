@@ -1,3 +1,8 @@
+2020-08-29  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_output_simple_to_odf):
+	Close <text> item.  Fixes Gnumeric #518.
+
 2020-08-12  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

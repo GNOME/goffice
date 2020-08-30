@@ -9131,6 +9131,7 @@ go_format_output_simple_to_odf (GsfXMLOut *xout, gboolean with_extension,
 			gsf_xml_out_add_cstr (xout, STYLE "name", name);
 			gsf_xml_out_start_element (xout, NUMBER "text");
 			gsf_xml_out_add_cstr (xout, NULL, fstr);
+			gsf_xml_out_end_element (xout);
 		}
 		result = FALSE;
 		break;
