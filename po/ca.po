@@ -19,10 +19,10 @@ msgstr ""
 "PO-Revision-Date: 2020-08-09 08:08+0000\n"
 "Last-Translator: Miquel-Àngel Burgos i Fradeja <miquel.angel.burgos@gmail.com>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/ca/)\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -152,7 +152,7 @@ msgstr "Impol·lut"
 
 #: ../goffice/app/go-doc.c:194
 msgid "Whether the document is unchanged since it was created."
-msgstr "Tant si el document és inalterat des de va ser creat."
+msgstr "Si el document és inalterat d'ençà que va ser creat."
 
 #: ../goffice/app/go-doc.c:198
 msgid "Modification time"
@@ -260,7 +260,7 @@ msgstr "No s'ha pogut activar el connector amb l'identificador=«%s»."
 #: ../goffice/app/go-plugin.c:1007 ../goffice/app/go-plugin.c:1185
 #, c-format
 msgid "Couldn't find plugin with ID=\"%s\"."
-msgstr "No s'ha pogut trobat el connector amb l'identificador=«%s»."
+msgstr "No s'ha pogut trobar el connector amb l'identificador=«%s»."
 
 #: ../goffice/app/go-plugin.c:1014
 msgid "Error while activating plugin dependencies."
@@ -794,7 +794,7 @@ msgstr "Part superior retallada"
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr ""
 "L'àrea retallada a la part superior de la imatge com a fracció de la seva "
-"alçada."
+"alçada"
 
 #: ../goffice/canvas/goc-item.c:275
 msgid "Canvas"
@@ -1292,7 +1292,7 @@ msgid ""
 " as a percentage of the available position. Defaults to 0.0"
 msgstr ""
 "Posició de la zona de dibuix en què s’inicia l’àrea efectiva de l’eix, "
-"expressada en un percentatge de la posició disponible. Els valor "
+"expressada en un percentatge de la posició disponible. El valor "
 "predeterminat és 0,0"
 
 #: ../goffice/graph/gog-axis.c:3457
@@ -1338,8 +1338,7 @@ msgid ""
 "If an axis is used as reference, gives the ratio of the ticks distance, and "
 "if the metrix is absolute, the ticks distance. Defaults to 1.0"
 msgstr ""
-"Si s'utilitza un eix com a referència, dóna la proporció de la distància de les marques, i si la mètrica és absoluta, la distància de les marques. El valors\n"
-" predefinit és 1.0"
+"Si s'utilitza un eix com a referència, dóna la proporció de la distància de les marques, i si la mètrica és absoluta, la distància de les marques. El valor predefinit és 1.0"
 
 #: ../goffice/graph/gog-axis.c:3483
 msgid "Metrics Unit"
@@ -1660,7 +1659,7 @@ msgstr "Marques personalitzades"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:30
 msgid "Positions:"
-msgstr "Posicions"
+msgstr "Posicions:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:31
 msgid "Labels:"
@@ -1752,7 +1751,7 @@ msgstr "Equació"
 
 #: ../goffice/graph/gog-chart.c:713
 msgid "3D-Box"
-msgstr "3D-Recuadre"
+msgstr "Caixa 3D"
 
 #: ../goffice/graph/gog-chart.c:716
 msgid "Color-Scale"
@@ -1877,7 +1876,7 @@ msgstr "Eix"
 
 #: ../goffice/graph/gog-color-scale.c:347
 msgid "Reference to the color or pseudo-3d axis"
-msgstr "Referència al color o al eix pseudo-3d"
+msgstr "Referència al color o a l'eix pseudo-3d"
 
 #: ../goffice/graph/gog-color-scale.c:352
 msgid "Tick size"
@@ -1975,7 +1974,7 @@ msgstr "Valors"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:10
 msgid "Error category"
-msgstr "Error de categoris"
+msgstr "Error de categoria"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:13
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:15
@@ -2092,7 +2091,7 @@ msgstr "Permet un ressaltat bàsic a l'estil HTML"
 
 #: ../goffice/graph/gog-label.c:167
 msgid "Rotate the frame with the text"
-msgstr "Rota el marc amb el text"
+msgstr "Gira el marc amb el text"
 
 #: ../goffice/graph/gog-label.c:168
 msgid "Whether the frame should be rotated with the text"
@@ -2100,7 +2099,7 @@ msgstr "Estableix si s'ha de rotar el marc amb el text"
 
 #: ../goffice/graph/gog-label.c:173
 msgid "Rotate the background with the text"
-msgstr "Rota el fons amb el text"
+msgstr "Gira el fons amb el text"
 
 #: ../goffice/graph/gog-label.c:174
 msgid "Whether the background should be rotated with the text"
@@ -2120,7 +2119,7 @@ msgstr "_Text:"
 
 #: ../goffice/graph/gog-label.c:299 ../goffice/graph/gog-label.c:569
 msgid "Rotate frame with text"
-msgstr "Rota el marc amb el text"
+msgstr "Gira el marc amb el text"
 
 #: ../goffice/graph/gog-label.c:304
 msgid "Display the text on several lines if needed"
@@ -2128,7 +2127,7 @@ msgstr "Mostra el text en diverses línies si cal"
 
 #: ../goffice/graph/gog-label.c:309 ../goffice/graph/gog-label.c:573
 msgid "Rotate background with text"
-msgstr "Rota el fons amb el text"
+msgstr "Gira el fons amb el text"
 
 #: ../goffice/graph/gog-label.c:314
 msgid "Interpret text as markup"
@@ -2610,7 +2609,7 @@ msgid ""
 msgstr ""
 "Cap: es mostrarà la línia de tot el rang visible.\n"
 "Absolut: es mostrarà la línia entre els límits indicats.\n"
-"Relatiu: es mostrarà la línia entre el rang de dades ampliat segons els valors indicats a continuació. Els valor positius amplien la rang."
+"Relatiu: es mostrarà la línia entre el rang de dades ampliat segons els valors indicats a continuació. Els valor positius amplien el rang."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:16
 msgid "Low limit:"
@@ -2926,7 +2925,7 @@ msgstr "Sèries d'etiquetes"
 
 #: ../goffice/graph/gog-theme.c:600
 msgid "Data label"
-msgstr "Serie de dades"
+msgstr "Sèrie de dades"
 
 #: ../goffice/graph/gog-theme.c:601
 msgid "Color scale"
@@ -3647,7 +3646,7 @@ msgstr "Color personalitzat..."
 
 #: ../goffice/gtk/go-combo-box.c:315
 msgid "The combo box's title"
-msgstr "El título del cuadro combinado"
+msgstr "El títol del quadre combinat"
 
 #: ../goffice/gtk/go-combo-box.c:321
 msgid "Show Arrow"
@@ -4069,7 +4068,7 @@ msgstr "Semi-Expandida Itàlica"
 #: ../goffice/gtk/go-font-sel.c:462
 msgctxt "FontFace"
 msgid "Semi-Expanded"
-msgstr "Semi-Expandida "
+msgstr "Semi-Expandida"
 
 #: ../goffice/gtk/go-font-sel.c:463
 msgctxt "FontFace"
@@ -7470,7 +7469,7 @@ msgid ""
 "interpolation"
 msgstr ""
 "Pendent a l'inici de la corba interpolada en utilitzar la interpolació "
-"d'spline pinçada"
+"de spline pinçada"
 
 #: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2205
 msgid "Clamp at end"
@@ -7482,7 +7481,7 @@ msgid ""
 "interpolation"
 msgstr ""
 "Pendent al final de la corba interpolada en utilitzar la interpolació "
-"d'spline pinçada"
+"de spline pinçada"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -8020,7 +8019,7 @@ msgstr "si les dades s'han de mapar a l'eix Y."
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:642
 msgid "Regression line"
-msgstr "Línia de regressió."
+msgstr "Línia de regressió"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:1
 msgid "Statistics"
