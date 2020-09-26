@@ -2514,9 +2514,8 @@ axis_line_format_value (GogAxisLine *line, double val, GOString **str)
 }
 
 static void
-gog_axis_line_update_ticks (GogAxisLine *line)
+gog_axis_line_discard_ticks (GogAxisLine *line)
 {
-	GODataVector *pos, *labels;
 	if (line->ticks != NULL) {
 		unsigned i;
 		for (i = 0; i < line->tick_nbr; i++)
@@ -2526,6 +2525,14 @@ gog_axis_line_update_ticks (GogAxisLine *line)
 	}
 	line->ticks = NULL;
 	line->tick_nbr = 0;
+}
+
+static void
+gog_axis_line_update_ticks (GogAxisLine *line)
+{
+	GODataVector *pos, *labels;
+
+	gog_axis_line_discard_ticks (line);
 	pos = GO_DATA_VECTOR (line->custom_ticks[0].data);
 	labels = GO_DATA_VECTOR (line->custom_ticks[1].data);
 	if (pos != NULL && go_data_has_value (GO_DATA (pos)) && go_data_is_varying_uniformly (GO_DATA (pos))) {
@@ -2670,13 +2677,7 @@ gog_axis_line_finalize (GObject *obj)
 {
 	GogAxisLine *line = GOG_AXIS_LINE (obj);
 
-	if (line->ticks != NULL) {
-		unsigned i;
-		for (i = 0; i < line->tick_nbr; i++)
-			go_string_unref (line->ticks[i].str);
-
-		g_free (line->ticks);
-	}
+	gog_axis_line_discard_ticks (line);
 	go_format_unref (line->assigned_format);
 	go_format_unref (line->format);
 

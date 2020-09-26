@@ -2,6 +2,7 @@
 
 	* goffice/graph/gog-axis-line.c (gog_axis_line_update_ticks): Zero
 	tick count when we dispose of ticks.  Fixes Gnumeric #524.
+	(gog_axis_line_discard_ticks): Factor this repeated segment out.
 
 2020-08-29  Morten Welinder  <terra@gnome.org>
 
