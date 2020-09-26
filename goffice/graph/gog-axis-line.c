@@ -2525,6 +2525,7 @@ gog_axis_line_update_ticks (GogAxisLine *line)
 		g_free (line->ticks);
 	}
 	line->ticks = NULL;
+	line->tick_nbr = 0;
 	pos = GO_DATA_VECTOR (line->custom_ticks[0].data);
 	labels = GO_DATA_VECTOR (line->custom_ticks[1].data);
 	if (pos != NULL && go_data_has_value (GO_DATA (pos)) && go_data_is_varying_uniformly (GO_DATA (pos))) {

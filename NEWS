@@ -2,6 +2,7 @@ goffice 0.10.49:
 
 Morten:
 	* Fix ods format problem.  [Gnumeric #518]
+	* Fix axis line crash.  [Gnumeric #524]
 
 --------------------------------------------------------------------------
 goffice 0.10.48:
