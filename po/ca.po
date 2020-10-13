@@ -682,15 +682,15 @@ msgstr "La posició esquerra de l'el·lipse (o la posició dreta en mode RTL)"
 
 #: ../goffice/canvas/goc-ellipse.c:286
 msgid "The ellipse top position"
-msgstr "La posició superior de l’el·lipse"
+msgstr "La posició superior de l'el·lipse"
 
 #: ../goffice/canvas/goc-ellipse.c:292
 msgid "The ellipse width"
-msgstr "L’amplada de l’el·lipse"
+msgstr "L'amplada de l'el·lipse"
 
 #: ../goffice/canvas/goc-ellipse.c:298
 msgid "The ellipse height"
-msgstr "L’alçària de l’el·lipse"
+msgstr "L'alçària de l'el·lipse"
 
 #: ../goffice/canvas/goc-ellipse.c:304 ../goffice/canvas/goc-rectangle.c:363
 msgid "The rotation around top left position"
@@ -1291,7 +1291,7 @@ msgid ""
 "Position of the plot area at which the axis effective area starts, expressed"
 " as a percentage of the available position. Defaults to 0.0"
 msgstr ""
-"Posició de la zona de dibuix en què s’inicia l’àrea efectiva de l’eix, "
+"Posició de la zona de dibuix en què s'inicia l'àrea efectiva de l'eix, "
 "expressada en un percentatge de la posició disponible. El valor "
 "predeterminat és 0,0"
 
@@ -1371,7 +1371,7 @@ msgstr "El tipus de recurs del mapa de color"
 
 #: ../goffice/graph/gog-axis-color-map.c:635
 msgid "New map"
-msgstr "Nou mapa"
+msgstr "Mapa nou"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:1
 msgid "Color map editor"
@@ -1398,7 +1398,7 @@ msgstr "Nom"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:6
 msgid "Gradient"
-msgstr "Gradient"
+msgstr "Degradat"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:8
 msgid "Snapshots"
@@ -1868,7 +1868,7 @@ msgstr "Si mostrar l'escala horitzontal"
 
 #: ../goffice/graph/gog-color-scale.c:341
 msgid "Color scale thickness."
-msgstr "Escala del gruix de color"
+msgstr "Escala del gruix de color."
 
 #: ../goffice/graph/gog-color-scale.c:346 ../goffice/graph/gog-theme.c:586
 msgid "Axis"
@@ -2851,7 +2851,7 @@ msgstr "_Desplaçament:"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:3
 msgid "Custom labels:"
-msgstr "Etiquetes personalitzades"
+msgstr "Etiquetes personalitzades:"
 
 #: ../goffice/graph/gog-series-labels-prefs.ui.h:4
 msgid "Separator:"
@@ -2954,7 +2954,7 @@ msgstr "Crea"
 
 #: ../goffice/graph/gog-theme.c:1871 ../goffice/graph/new-theme-prefs.ui.h:1
 msgid "New theme"
-msgstr "Nou tema"
+msgstr "Tema nou"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:1
 msgid "Theme editor"
@@ -4560,7 +4560,7 @@ msgid ""
 " fractional part (e.g. 4 5/6)"
 msgstr ""
 "Dividir les fraccions amb el valor absolut major a 1 en la part entera i la "
-"fraccional (ex. 4 5/6)"
+"fraccional (p. ex. 4 5/6)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
 msgid "Minimum number of integer digits:"
@@ -5975,7 +5975,7 @@ msgstr "Barbados, dòlars"
 
 #: ../goffice/utils/formats.c:398
 msgid "Bangladesh, Taka"
-msgstr "Bangla Desh, taka"
+msgstr "Bangladesh, taka"
 
 #: ../goffice/utils/formats.c:399
 msgid "Bulgaria, Leva"
@@ -7488,7 +7488,7 @@ msgstr ""
 #. * 	PlotLine2
 #: ../plugins/plot_barcol/gog-line.c:430
 msgid "PlotLine"
-msgstr "Traçat línia"
+msgstr "TraçatLínia"
 
 #: ../plugins/plot_barcol/gog-line.c:517
 #: ../plugins/plot_barcol/gog-minmax.c:233
@@ -7509,14 +7509,14 @@ msgstr "L'estil predeterminat de les sèries ha d'incloure marcadors"
 #. * 	PlotArea2
 #: ../plugins/plot_barcol/gog-line.c:627
 msgid "PlotArea"
-msgstr "Traçat àrea"
+msgstr "ÀreaTraçat"
 
 #. xgettext : the base for how to name min/max line plot objects
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
 #: ../plugins/plot_barcol/gog-minmax.c:143
 msgid "PlotMinMax"
-msgstr "Traça mín/màx"
+msgstr "TraçatMínMàx"
 
 #: ../plugins/plot_barcol/gog-minmax.c:228
 #: ../plugins/plot_xy/gog-xy-minmax.c:300
@@ -7991,7 +7991,7 @@ msgstr "DiagramaProbabilitat"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:289
 msgid "A pointer to the GODistribution used by this plot"
-msgstr "Punter a la GODistribution utilitzada per aquest diagrama."
+msgstr "Punter a la GODistribution utilitzada per aquest diagrama"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:294
 msgid "Shape parameter"
