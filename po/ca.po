@@ -1338,7 +1338,7 @@ msgid ""
 "If an axis is used as reference, gives the ratio of the ticks distance, and "
 "if the metrix is absolute, the ticks distance. Defaults to 1.0"
 msgstr ""
-"Si s'utilitza un eix com a referència, dóna la proporció de la distància de les marques, i si la mètrica és absoluta, la distància de les marques. El valor predefinit és 1.0"
+"Si s'utilitza un eix com a referència, dona la proporció de la distància de les marques, i si la mètrica és absoluta, la distància de les marques. El valor predefinit és 1.0"
 
 #: ../goffice/graph/gog-axis.c:3483
 msgid "Metrics Unit"
@@ -2250,7 +2250,7 @@ msgstr "Identificador numèric de l'objecte"
 
 #: ../goffice/graph/gog-object.c:835
 msgid "Position and size of object, in percentage of parent size"
-msgstr "Posició i mida de l'objecte, en percentatge respecte la mida del pare"
+msgstr "Posició i mida de l'objecte, en percentatge respecte a la mida del pare"
 
 #: ../goffice/graph/gog-object.c:840
 msgid "Compass"
@@ -6898,7 +6898,7 @@ msgstr "diamant"
 
 #: ../goffice/utils/go-marker.c:99
 msgid "triangle down"
-msgstr "triangle abaix"
+msgstr "triangle a baix"
 
 #: ../goffice/utils/go-marker.c:100
 msgid "triangle up"
