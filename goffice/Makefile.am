@@ -569,7 +569,16 @@ LIB_PUBLIC_HDRS = $(libgoffice_@GOFFICE_API_VER@_la_HEADERS)
 
 
 goffice.def: $(ALL_HDRS) $(top_srcdir)/tools/dumpdef.pl
-	cat $(top_builddir)/goffice/goffice-config.h $(ALL_HDRS) | \
+	hdrs='$(ALL_HDRS)'; \
+	hdrs_list=''; \
+	for hdr in $$hdrs; do \
+	  if test -f $(srcdir)/$$hdr; then \
+	    hdrs_list="$$hdrs_list $(srcdir)/$$hdr"; \
+	  else \
+	    hdrs_list="$$hdrs_list $$hdr"; \
+	  fi; \
+	done; \
+	cat $(top_builddir)/goffice/goffice-config.h $$hdrs_list | \
 	sed -e 's/^#[ 	]*include[ 	]\+.*$$//g' | \
 	$(CPP) $(AM_CPPFLAGS) "-DGO_VAR_DECL=__declspec(dllexport)" -P - > xgen-localdef.1
 	@PERL@ $(top_srcdir)/tools/dumpdef.pl \

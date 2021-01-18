@@ -35,7 +35,7 @@
 #ifndef GO_VAR_DECL
 #  ifdef WIN32
 #    ifdef GOFFICE_COMPILATION
-#      define GO_VAR_DECL __declspec(dllexport)
+#      define GO_VAR_DECL extern __declspec(dllexport)
 #    else
 #      define GO_VAR_DECL extern __declspec(dllimport)
 #    endif
