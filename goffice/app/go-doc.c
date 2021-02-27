@@ -36,6 +36,8 @@ struct _GODocPrivate {
 
 	/* color maps */
 	GSList	*resourcesbuf; /* used when loading/saving color maps and themes */
+
+	guint64 state, saved_state, last_used_state;
 };
 
 /**
@@ -55,7 +57,9 @@ enum {
 	PROP_DIRTY,
 	PROP_DIRTY_TIME,
 	PROP_PRISTINE,
-	PROP_MODTIME
+	PROP_MODTIME,
+	PROP_STATE,
+	PROP_SAVED_STATE
 };
 enum {
 	METADATA_CHANGED,
@@ -92,6 +96,14 @@ go_doc_get_property (GObject *obj, guint property_id,
 		g_value_set_boxed (value, go_doc_get_modtime (doc));
 		break;
 
+	case PROP_STATE:
+		g_value_set_uint64 (value, go_doc_get_state (doc));
+		break;
+
+	case PROP_SAVED_STATE:
+		g_value_set_uint64 (value, go_doc_get_saved_state (doc));
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 		break;
@@ -123,6 +135,14 @@ go_doc_set_property (GObject *obj, guint property_id,
 
 	case PROP_MODTIME:
 		go_doc_set_modtime (doc, g_value_get_boxed (value));
+		break;
+
+	case PROP_STATE:
+		go_doc_set_state (doc, g_value_get_uint64 (value));
+		break;
+
+	case PROP_SAVED_STATE:
+		go_doc_set_saved_state (doc, g_value_get_uint64 (value));
 		break;
 
 	default:
@@ -200,6 +220,17 @@ go_doc_class_init (GObjectClass *object_class)
 				     G_TYPE_DATE_TIME,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE));
+        g_object_class_install_property (object_class, PROP_STATE,
+		 g_param_spec_uint64 ("state", _("State"),
+			_("Current state of document"),
+			0, G_MAXUINT64, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property (object_class, PROP_STATE,
+		 g_param_spec_uint64 ("saved-state", _("Saved state"),
+			_("State of document when last saved"),
+			0, G_MAXUINT64, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
 
 	signals [METADATA_UPDATE] = g_signal_new ("metadata-update",
 		GO_TYPE_DOC,	G_SIGNAL_RUN_LAST,
@@ -452,6 +483,93 @@ go_doc_get_modtime (GODoc const *doc)
 	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
 
 	return doc->modtime;
+}
+
+
+/**
+ * go_doc_set_state:
+ * @doc: #GODoc
+ * @state: state of document
+ *
+ * Sets the current state of the document as a serial number that is intended
+ * to be incremented for each document change.
+ *
+ * Setting the state will set the document's dirty status also, assuming both
+ * the state and the saved state are known.
+ **/
+void
+go_doc_set_state (GODoc *doc, guint64 state)
+{
+	g_return_if_fail (GO_IS_DOC (doc));
+
+	if (doc->priv->state == state)
+		return;
+
+	doc->priv->state = state;
+	g_object_notify (G_OBJECT (doc), "state");
+	go_doc_set_dirty (doc, state != doc->priv->saved_state);
+}
+
+/**
+ * go_doc_bump_state:
+ * @doc: #GODoc
+ *
+ * Sets the current state of the document to a fresh id.
+ **/
+void
+go_doc_bump_state (GODoc *doc)
+{
+	g_return_if_fail (GO_IS_DOC (doc));
+	go_doc_set_state (doc, ++(doc->priv->last_used_state));
+}
+
+
+/**
+ * go_doc_get_state:
+ * @doc: #GODoc
+ *
+ * Returns: the current state of the document.
+ **/
+guint64
+go_doc_get_state (GODoc *doc)
+{
+	g_return_val_if_fail (GO_IS_DOC (doc), 0);
+
+	return doc->priv->state;
+}
+
+/**
+ * go_doc_set_saved_state:
+ * @doc: #GODoc
+ * @state: state at the time of last save
+ *
+ * Sets the state at the last time the document was saved.
+ **/
+void
+go_doc_set_saved_state (GODoc *doc, guint64 state)
+{
+	g_return_if_fail (GO_IS_DOC (doc));
+
+	if (doc->priv->saved_state == state)
+		return;
+
+	doc->priv->saved_state = state;
+	g_object_notify (G_OBJECT (doc), "saved-state");
+}
+
+
+/**
+ * go_doc_get_saved_state:
+ * @doc: #GODoc
+ *
+ * Returns: the state at the last time the document was saved.
+ **/
+guint64
+go_doc_get_saved_state (GODoc *doc)
+{
+	g_return_val_if_fail (GO_IS_DOC (doc), 0);
+
+	return doc->priv->saved_state;
 }
 
 
