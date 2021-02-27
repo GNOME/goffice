@@ -1,22 +1,22 @@
 # Brazilian Portuguese translation of goffice.
-# Copyright (C) 2000-2020 Free Software Foundation, Inc.
+# Copyright (C) 2000-2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the goffice package.
 # E. A. Tacão <tacao@conectiva.com.br>, 2000.
 # Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001.
 # Johnny Birnfeld <akiractb@icqmail.com>, 2003.
-# Afonso Celso Medina <medina@maua.br>, 2004, 2005.
-# Rafael Ferreira <rafael.f.f1@gmail.com>, 2013, 2014.
+# Afonso Celso Medina <medina@maua.br>, 2004-2005.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2013-2014.
 # Junninho Riot <Lima1042@hotmail.com>, 2013.
 # Juan Diego <juan.martins@academico.ifrn.edu.br>, 2013.
 # Ricardo Barbosa <barbosa.cisco@gmail.com>, 2014.
-# Enrico Nicoletto <liverig@gmail.com>, 2016, 2020.
+# Enrico Nicoletto <liverig@gmail.com>, 2016, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2020-07-24 17:34+0000\n"
-"PO-Revision-Date: 2020-11-25 23:02-0300\n"
+"POT-Creation-Date: 2021-02-27 02:29+0000\n"
+"PO-Revision-Date: 2021-02-27 09:38-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -125,47 +125,63 @@ msgstr ""
 msgid "Invalid %s: '%s'"
 msgstr "%s inválido: \"%s\""
 
-#: ../goffice/app/go-doc.c:177
+#: ../goffice/app/go-doc.c:197
 msgid "URI"
 msgstr "URI"
 
-#: ../goffice/app/go-doc.c:178
+#: ../goffice/app/go-doc.c:198
 msgid "The URI associated with this document."
 msgstr "A URI associada a esse documento."
 
-#: ../goffice/app/go-doc.c:182
+#: ../goffice/app/go-doc.c:202
 msgid "Dirty"
 msgstr "Alterado"
 
-#: ../goffice/app/go-doc.c:183
+#: ../goffice/app/go-doc.c:203
 msgid "Whether the document has been changed."
 msgstr "O documento foi alterado."
 
-#: ../goffice/app/go-doc.c:187
+#: ../goffice/app/go-doc.c:207
 msgid "Dirty Time"
 msgstr "Hora da alteração"
 
-#: ../goffice/app/go-doc.c:188
+#: ../goffice/app/go-doc.c:208
 msgid "When the document was first changed."
 msgstr "Quando o documento foi alterado pela primeira vez."
 
-#: ../goffice/app/go-doc.c:193
+#: ../goffice/app/go-doc.c:213
 msgid "Pristine"
 msgstr "Inalterado"
 
-#: ../goffice/app/go-doc.c:194
+#: ../goffice/app/go-doc.c:214
 msgid "Whether the document is unchanged since it was created."
 msgstr "O documento está inalterado desde sua criação."
 
-#: ../goffice/app/go-doc.c:198
+#: ../goffice/app/go-doc.c:218
 msgid "Modification time"
 msgstr "Horário de modificação"
 
-#: ../goffice/app/go-doc.c:199
+#: ../goffice/app/go-doc.c:219
 msgid "The known file system modification time"
 msgstr "O horário de modificação conhecido pelo sistema de arquivos"
 
-#: ../goffice/app/go-doc.c:505 ../goffice/canvas/goc-image.c:317
+#: ../goffice/app/go-doc.c:224
+msgid "State"
+msgstr "Estado"
+
+#: ../goffice/app/go-doc.c:225
+msgid "Current state of document"
+msgstr "Estado atual do documento"
+
+#: ../goffice/app/go-doc.c:229
+msgid "Saved state"
+msgstr "Estado salvo"
+
+#: ../goffice/app/go-doc.c:230
+msgid "State of document when last saved"
+msgstr "Estado do documento quando salvo pela última vez"
+
+#: ../goffice/app/go-doc.c:623 ../goffice/canvas/goc-image.c:317
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Imagem"
@@ -1217,7 +1233,7 @@ msgstr "Distância relativa entre marcas"
 msgid "Metrics"
 msgstr "Métricas"
 
-#: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2613
+#: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2621
 #: ../goffice/graph/gog-series-labels.c:911
 #: ../goffice/graph/gog-series-labels.c:1442
 msgid "Format"
@@ -1247,11 +1263,11 @@ msgstr "NomeMapa"
 msgid "The name of the map for scaling"
 msgstr "O nome do mapa para aplicar escala"
 
-#: ../goffice/graph/gog-axis.c:3431 ../goffice/graph/gog-axis-line.c:2701
+#: ../goffice/graph/gog-axis.c:3431 ../goffice/graph/gog-axis-line.c:2703
 msgid "Assigned XL format"
 msgstr "Formato XL atribuído"
 
-#: ../goffice/graph/gog-axis.c:3432 ../goffice/graph/gog-axis-line.c:2702
+#: ../goffice/graph/gog-axis.c:3432 ../goffice/graph/gog-axis-line.c:2704
 msgid "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "O formato atribuído do usuário a ser usado para rótulos de eixo não-discreto "
@@ -1505,7 +1521,7 @@ msgstr "Define limite inicial"
 msgid "Set stop bound"
 msgstr "Define limite final"
 
-#: ../goffice/graph/gog-axis-line.c:2601
+#: ../goffice/graph/gog-axis-line.c:2609
 msgid "Ticks"
 msgstr "Marcas"
 
@@ -4644,7 +4660,6 @@ msgid "Horizontal from middle"
 msgstr "Horizontal do meio"
 
 #: ../goffice/gtk/go-gradient-selector.c:107
-#| msgid "Horizontal Stripe"
 msgid "Horizontal to middle"
 msgstr "Horizontal para o meio"
 
@@ -4661,7 +4676,6 @@ msgid "Diagonal from middle"
 msgstr "Diagonal do meio"
 
 #: ../goffice/gtk/go-gradient-selector.c:115
-#| msgid "Diagonal Stripe"
 msgid "Diagonal to middle"
 msgstr "Diagonal para o meio"
 
