@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-02-27 08:51+0000\n"
-"PO-Revision-Date: 2021-02-27 17:02+0200\n"
+"POT-Creation-Date: 2021-02-27 15:03+0000\n"
+"PO-Revision-Date: 2021-02-28 15:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 20.11.70\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -910,6 +911,11 @@ msgid ""
 "sizes. Each size must be at least 3. Values following an invalid value will "
 "be discarded. Setting the \"point\" property will reset the sizes."
 msgstr ""
+"Якщо встановлено, багатокутник буде розділено на декілька багатокутників"
+" відповідно до заданих розмірів. Кожен із розмірів має бути рівним принаймні"
+" 3. Значення, які буде вказано після некоректного значення, буде відкинуто."
+" Встановлення властивості «point» призведе до відновлення початкових значень"
+" розмірів."
 
 #: ../goffice/canvas/goc-polyline.c:277
 msgid "The polyline vertices"
@@ -941,6 +947,9 @@ msgid ""
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
 msgstr ""
+"Тип прямокутника: 0 — без заокруглених кутів, 1 — заокруглений верхній лівий"
+" кут, 2 — заокруглений верхній правий кут, 4 — заокруглений нижній правий"
+" кут, 8 — заокруглений нижній лівий кут, або будь-які поєднання цих значень."
 
 #: ../goffice/canvas/goc-rectangle.c:374
 msgid "rx"
@@ -1260,6 +1269,7 @@ msgstr "Пов'язаний формат XL"
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
+"Призначений користувачем формат для недискретних міток на вісті (формат XL)"
 
 #: ../goffice/graph/gog-axis.c:3437 ../goffice/graph/gog-axis.c:3438
 msgid "Rotation of circular axis"
@@ -1278,7 +1288,8 @@ msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
 msgstr ""
-"Позиція у області графіка, де починається ефективна область вісі, виражена у частці доступної позиції. Типовим значенням є 0.0"
+"Позиція у області графіка, де починається ефективна область вісі, виражена у "
+"частці доступної позиції. Типовим значенням є 0.0"
 
 #: ../goffice/graph/gog-axis.c:3457
 msgid "Axis end position"
@@ -1289,7 +1300,8 @@ msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
 msgstr ""
-"Позиція у області графіка, де завершується ефективна область вісі, виражена у частці доступної позиції. Типовим значенням є 1.0"
+"Позиція у області графіка, де завершується ефективна область вісі, виражена "
+"у частці доступної позиції. Типовим значенням є 1.0"
 
 #: ../goffice/graph/gog-axis.c:3462
 msgid "ColorMapName"
@@ -1324,7 +1336,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3483
 msgid "Metrics Unit"
-msgstr ""
+msgstr "Одиниця метрики"
 
 #: ../goffice/graph/gog-axis.c:3484
 msgid ""
@@ -1620,8 +1632,7 @@ msgstr "Дублювати"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:26
 msgid "Creates a new color map based on the currently selected one."
-msgstr ""
-"Створює нову мапу кольорів на основі поточної вибраної."
+msgstr "Створює нову мапу кольорів на основі поточної вибраної."
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:27
 #: ../goffice/graph/gog-graph-prefs.ui.h:3
@@ -1647,8 +1658,7 @@ msgstr "Позначки:"
 #: ../goffice/graph/gog-axis-prefs.ui.h:33
 #, no-c-format
 msgid "<b>Effective area</b> (as % of available room)"
-msgstr ""
-"<b>Ефективна область</b> (у % від доступного місця)"
+msgstr "<b>Ефективна область</b> (у % від доступного місця)"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:34 ../goffice/utils/go-style.c:658
 msgid "Start:"
@@ -1664,23 +1674,19 @@ msgstr "Область креслення"
 
 #: ../goffice/graph/gog-chart.c:646 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
-msgstr ""
-"Задня площина"
+msgstr "Задня площина"
 
 #: ../goffice/graph/gog-chart.c:649
 msgid "XY-Backplane"
-msgstr ""
-"Задня площина XY"
+msgstr "Задня площина XY"
 
 #: ../goffice/graph/gog-chart.c:653
 msgid "YZ-Backplane"
-msgstr ""
-"Задня площина YZ"
+msgstr "Задня площина YZ"
 
 #: ../goffice/graph/gog-chart.c:657
 msgid "ZX-Backplane"
-msgstr ""
-"Задня площина ZX"
+msgstr "Задня площина ZX"
 
 #: ../goffice/graph/gog-chart.c:661
 msgid "X-Axis"
@@ -1696,28 +1702,23 @@ msgstr "Вісь Z"
 
 #: ../goffice/graph/gog-chart.c:673
 msgid "Circular-Axis"
-msgstr ""
-"Тангенціальна вісь"
+msgstr "Тангенціальна вісь"
 
 #: ../goffice/graph/gog-chart.c:677
 msgid "Radial-Axis"
-msgstr ""
-"Радіальна вісь"
+msgstr "Радіальна вісь"
 
 #: ../goffice/graph/gog-chart.c:681
 msgid "Pseudo-3D-Axis"
-msgstr ""
-"Псевдопросторова вісь"
+msgstr "Псевдопросторова вісь"
 
 #: ../goffice/graph/gog-chart.c:685
 msgid "Bubble-Axis"
-msgstr ""
-"Бульбашкова вісь"
+msgstr "Бульбашкова вісь"
 
 #: ../goffice/graph/gog-chart.c:689
 msgid "Color-Axis"
-msgstr ""
-"Кольорова вісь"
+msgstr "Кольорова вісь"
 
 #: ../goffice/graph/gog-chart.c:693
 msgid "Plot"
@@ -1748,18 +1749,15 @@ msgstr "Шкала кольорів"
 
 #: ../goffice/graph/gog-chart.c:750
 msgid "Valid cardinality"
-msgstr ""
-"Коректна кількість елементів"
+msgstr "Коректна кількість елементів"
 
 #: ../goffice/graph/gog-chart.c:751
 msgid "Is the charts cardinality currently valid"
-msgstr ""
-"Чи є поточна кількість елементів у діаграмі коректною"
+msgstr "Чи є поточна кількість елементів у діаграмі коректною"
 
 #: ../goffice/graph/gog-chart.c:757
 msgid "Position and size of plot area, in percentage of chart size"
-msgstr ""
-"Позиція і розмір області креслення як частка розміру діаграми"
+msgstr "Позиція і розмір області креслення як частка розміру діаграми"
 
 #: ../goffice/graph/gog-chart.c:762
 msgid "Manual plot area"
@@ -1767,8 +1765,7 @@ msgstr "Область креслення вручну"
 
 #: ../goffice/graph/gog-chart.c:763
 msgid "Is plot area manual"
-msgstr ""
-"Чи задано область креслення вручну"
+msgstr "Чи задано область креслення вручну"
 
 #: ../goffice/graph/gog-chart.c:767
 msgid "xpos"
@@ -1776,8 +1773,7 @@ msgstr "xpos"
 
 #: ../goffice/graph/gog-chart.c:768
 msgid "Horizontal chart position in graph grid"
-msgstr ""
-"Горизонтальна позиція діаграми у сітці графіка"
+msgstr "Горизонтальна позиція діаграми у сітці графіка"
 
 #: ../goffice/graph/gog-chart.c:772
 msgid "ypos"
@@ -1785,8 +1781,7 @@ msgstr "ypos"
 
 #: ../goffice/graph/gog-chart.c:773
 msgid "Vertical chart position in graph grid"
-msgstr ""
-"Вертикальна позиція діаграми у сітці графіка"
+msgstr "Вертикальна позиція діаграми у сітці графіка"
 
 #: ../goffice/graph/gog-chart.c:776
 msgid "columns"
@@ -1857,13 +1852,11 @@ msgstr "Горизонтально"
 
 #: ../goffice/graph/gog-color-scale.c:336
 msgid "Whether to display the scale horizontally"
-msgstr ""
-"Чи слід показувати шкалу горизонтально"
+msgstr "Чи слід показувати шкалу горизонтально"
 
 #: ../goffice/graph/gog-color-scale.c:341
 msgid "Color scale thickness."
-msgstr ""
-"Товщина шкали кольорів."
+msgstr "Товщина шкали кольорів."
 
 #: ../goffice/graph/gog-color-scale.c:346 ../goffice/graph/gog-theme.c:586
 msgid "Axis"
@@ -2004,13 +1997,11 @@ msgstr "Назва теми для елементів графіка"
 
 #: ../goffice/graph/gog-graph.c:500
 msgid "Logical graph width, in points"
-msgstr ""
-"Логічна ширина графіка у точках"
+msgstr "Логічна ширина графіка у точках"
 
 #: ../goffice/graph/gog-graph.c:506
 msgid "Logical graph height, in points"
-msgstr ""
-"Логічна висота графіка у точках"
+msgstr "Логічна висота графіка у точках"
 
 #: ../goffice/graph/gog-graph.c:511
 msgid "Document"
@@ -2034,23 +2025,19 @@ msgstr "Забути стилі користувача"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:4
 msgid "Save the theme as a standalone file in the user home directory."
-msgstr ""
-"Зберегти тему як окремий файл у домашньому каталозі користувача."
+msgstr "Зберегти тему як окремий файл у домашньому каталозі користувача."
 
 #: ../goffice/graph/gog-grid.c:128
 msgid "Numerical type of this backplane"
-msgstr ""
-"Числовий тип цією задньої площини"
+msgstr "Числовий тип цією задньої площини"
 
 #: ../goffice/graph/gog-grid-line.c:113
 msgid "Is-minor"
-msgstr ""
-"Чи допоміжні"
+msgstr "Чи допоміжні"
 
 #: ../goffice/graph/gog-grid-line.c:114
 msgid "Are these minor grid lines"
-msgstr ""
-"Чи ці лінії є лініями допоміжної сітки"
+msgstr "Чи ці лінії є лініями допоміжної сітки"
 
 #: ../goffice/graph/gog-guru.c:1059
 msgid "Step 1 of 2: Select Chart Type"
@@ -2087,28 +2074,23 @@ msgstr "Дозволити розмітку"
 
 #: ../goffice/graph/gog-label.c:161
 msgid "Support basic HTML-ish markup"
-msgstr ""
-"Підтримка базової розмітки у стилі HTML"
+msgstr "Підтримка базової розмітки у стилі HTML"
 
 #: ../goffice/graph/gog-label.c:167
 msgid "Rotate the frame with the text"
-msgstr ""
-"Обертати рамку разом із текстом"
+msgstr "Обертати рамку разом із текстом"
 
 #: ../goffice/graph/gog-label.c:168
 msgid "Whether the frame should be rotated with the text"
-msgstr ""
-"Чи слід обертати рамку разом із текстом"
+msgstr "Чи слід обертати рамку разом із текстом"
 
 #: ../goffice/graph/gog-label.c:173
 msgid "Rotate the background with the text"
-msgstr ""
-"Обертати тло разом із текстом"
+msgstr "Обертати тло разом із текстом"
 
 #: ../goffice/graph/gog-label.c:174
 msgid "Whether the background should be rotated with the text"
-msgstr ""
-"Чи слід обертати тло разом із текстом"
+msgstr "Чи слід обертати тло разом із текстом"
 
 #: ../goffice/graph/gog-label.c:179
 msgid "Wrap the text"
@@ -2116,8 +2098,7 @@ msgstr "Перенести рядки тексту"
 
 #: ../goffice/graph/gog-label.c:180
 msgid "Whether the text might be displayed using several lines"
-msgstr ""
-"Чи може бути текст показано у декілька рядків"
+msgstr "Чи може бути текст показано у декілька рядків"
 
 #: ../goffice/graph/gog-label.c:296
 msgid "_Text:"
@@ -2125,18 +2106,15 @@ msgstr "_Текст:"
 
 #: ../goffice/graph/gog-label.c:299 ../goffice/graph/gog-label.c:569
 msgid "Rotate frame with text"
-msgstr ""
-"Обертати рамку разом із текстом"
+msgstr "Обертати рамку разом із текстом"
 
 #: ../goffice/graph/gog-label.c:304
 msgid "Display the text on several lines if needed"
-msgstr ""
-"Показувати текст у декілька рядків, якщо потрібно"
+msgstr "Показувати текст у декілька рядків, якщо потрібно"
 
 #: ../goffice/graph/gog-label.c:309 ../goffice/graph/gog-label.c:573
 msgid "Rotate background with text"
-msgstr ""
-"Обертати тло разом із текстом"
+msgstr "Обертати тло разом із текстом"
 
 #: ../goffice/graph/gog-label.c:314
 msgid "Interpret text as markup"
@@ -2159,7 +2137,9 @@ msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
 msgstr ""
-"Вирівнювання тексту як рядка. Можливі значення — «center» («центр», типове значення), «left» («ліворуч»), «right» («праворуч») або «fill» («розподілити за шириною»)."
+"Вирівнювання тексту як рядка. Можливі значення — «center» («центр», типове "
+"значення), «left» («ліворуч»), «right» («праворуч») або «fill» («розподілити "
+"за шириною»)."
 
 #: ../goffice/graph/gog-label.c:588
 msgid "Regression Equation"
@@ -2179,28 +2159,23 @@ msgstr "Показати коефіцієнт"
 
 #: ../goffice/graph/gog-label.c:634
 msgid "Show the correlation coefficient on the graph"
-msgstr ""
-"Показати коефіцієнт кореляції на графіку"
+msgstr "Показати коефіцієнт кореляції на графіку"
 
 #: ../goffice/graph/gog-legend.c:218
 msgid "Swatch Size pts"
-msgstr ""
-"Розмір зразка, точки"
+msgstr "Розмір зразка, точки"
 
 #: ../goffice/graph/gog-legend.c:219
 msgid "size of the swatches in pts."
-msgstr ""
-"Розмір зразків у точках."
+msgstr "Розмір зразків у точках."
 
 #: ../goffice/graph/gog-legend.c:224
 msgid "Swatch Padding pts"
-msgstr ""
-"Інтервал зразків, точки"
+msgstr "Інтервал зразків, точки"
 
 #: ../goffice/graph/gog-legend.c:225
 msgid "padding between the swatches in pts."
-msgstr ""
-"Інтервал між зразками у точках."
+msgstr "Інтервал між зразками у точках."
 
 #: ../goffice/graph/gog-object.c:174 ../goffice/graph/gog-object.c:193
 msgid "Top right"
@@ -2387,13 +2362,11 @@ msgstr "ХИБНІСТЬ"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
-msgstr ""
-"Фаска, точки"
+msgstr "Фаска, точки"
 
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
-msgstr ""
-"Розмір у точках інтервалу між діаграмами у сітці"
+msgstr "Розмір у точках інтервалу між діаграмами у сітці"
 
 #: ../goffice/graph/gog-plot.c:229
 msgid "X axis:"
@@ -2417,8 +2390,7 @@ msgstr "Радіальна вісь:"
 
 #: ../goffice/graph/gog-plot.c:234
 msgid "Pseudo 3D axis:"
-msgstr ""
-"Псевдопросторова вісь:"
+msgstr "Псевдопросторова вісь:"
 
 #: ../goffice/graph/gog-plot.c:235
 msgid "Color axis:"
@@ -2487,8 +2459,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
-msgstr ""
-"Псевдопросторова вісь"
+msgstr "Псевдопросторова вісь"
 
 #: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
@@ -2504,8 +2475,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:507
 msgid "Bubble axis"
-msgstr ""
-"Бульбашкова вісь"
+msgstr "Бульбашкова вісь"
 
 #: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
@@ -2513,13 +2483,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:513
 msgid "Plot group"
-msgstr ""
-"Група креслень"
+msgstr "Група креслень"
 
 #: ../goffice/graph/gog-plot.c:514
 msgid "Name of plot group if any"
-msgstr ""
-"Назва групи креслень, якщо така є"
+msgstr "Назва групи креслень, якщо така є"
 
 #: ../goffice/graph/gog-plot.c:519
 msgid "Guru hints"
@@ -2601,13 +2569,11 @@ msgstr ""
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
 #: ../goffice/graph/gog-series-labels.c:471
 msgid "Used data"
-msgstr ""
-"Дані користувача"
+msgstr "Дані користувача"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:6
 msgid "Drawing Limits:"
-msgstr ""
-"Межі малювання:"
+msgstr "Межі малювання:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:7
 msgid ""
@@ -2644,13 +2610,11 @@ msgstr ""
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
-msgstr ""
-"Показувати _рівняння"
+msgstr "Показувати _рівняння"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:2
 msgid "Display _regression coefficient R&#xB2;"
-msgstr ""
-"Показувати к_оефіцієнт регресії R&#xB2;"
+msgstr "Показувати к_оефіцієнт регресії R&#xB2;"
 
 #: ../goffice/graph/gog-renderer.c:1874 ../goffice/graph/gog-view.c:699
 msgid "Model"
@@ -2734,13 +2698,11 @@ msgstr "Дані"
 
 #: ../goffice/graph/gog-series.c:696
 msgid "Derivative at first point of the clamped cubic spline."
-msgstr ""
-"Похідна у першій точці защемленого кубічного сплайна."
+msgstr "Похідна у першій точці защемленого кубічного сплайна."
 
 #: ../goffice/graph/gog-series.c:701
 msgid "Derivative at last point of the clamped cubic spline."
-msgstr ""
-"Похідна в останній точці защемленого кубічного сплайна."
+msgstr "Похідна в останній точці защемленого кубічного сплайна."
 
 #: ../goffice/graph/gog-series.c:774 ../goffice/graph/gog-series-labels.c:1407
 msgid "Point"
@@ -2903,13 +2865,11 @@ msgstr "(Назва):"
 
 #: ../goffice/graph/gog-smoothed-curve.c:91
 msgid "Smoothed Curve"
-msgstr ""
-"Згладжена крива"
+msgstr "Згладжена крива"
 
 #: ../goffice/graph/gog-theme.c:323
 msgid "The resource type for the theme"
-msgstr ""
-"Тип ресурсу для теми"
+msgstr "Тип ресурсу для теми"
 
 #: ../goffice/graph/gog-theme.c:582
 msgid "Graph title"
@@ -2978,8 +2938,7 @@ msgstr "Нова тема"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:1
 msgid "Theme editor"
-msgstr ""
-"Редактор тем"
+msgstr "Редактор тем"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:3
 msgid "Classes"
@@ -3012,8 +2971,7 @@ msgstr "Лінія тенденції"
 
 #: ../goffice/graph/gog-trend-line.c:152
 msgid "Should the trend line show up in legends"
-msgstr ""
-"Чи має бути показано лінію тенденції в умовних позначеннях"
+msgstr "Чи має бути показано лінію тенденції в умовних позначеннях"
 
 #: ../goffice/graph/gog-view.c:129
 msgid "Select object"
@@ -3029,13 +2987,11 @@ msgstr "Змінити розміри об'єкта"
 
 #: ../goffice/graph/gog-view.c:694
 msgid "the GogView parent"
-msgstr ""
-"Батьківський об'єкт GogView"
+msgstr "Батьківський об'єкт GogView"
 
 #: ../goffice/graph/gog-view.c:700
 msgid "The GogObject this view displays"
-msgstr ""
-"GogObject, на якому показано цю панель перегляду"
+msgstr "GogObject, на якому показано цю панель перегляду"
 
 #: ../goffice/graph/new-theme-prefs.ui.h:2
 msgid "Series number"
@@ -3047,8 +3003,7 @@ msgstr "Враховувати регістр"
 
 #: ../goffice/gtk/go-action-combo-text.c:225
 msgid "Should the text comparison be case sensitive"
-msgstr ""
-"Чи має бути враховано регістр при порівнянні тексту"
+msgstr "Чи має бути враховано регістр при порівнянні тексту"
 
 #: ../goffice/gtk/go-arrow-sel.c:209
 msgid "Arrow"
@@ -3056,29 +3011,24 @@ msgstr "Стрілка"
 
 #: ../goffice/gtk/go-arrow-sel.c:210
 msgid "The currently selected arrow"
-msgstr ""
-"Поточна вибрана стрілка"
+msgstr "Поточна вибрана стрілка"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:1
 msgid "Dimension A"
-msgstr ""
-"Розмірність A"
+msgstr "Розмірність A"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:2
 msgid "Dimension B"
-msgstr ""
-"Розмірність B"
+msgstr "Розмірність B"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:3
 msgid "Dimension C"
-msgstr ""
-"Розмірність C"
+msgstr "Розмірність C"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:4
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:8
 msgid "0"
-msgstr ""
-"0"
+msgstr "0"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:6
 msgid "Kite"
@@ -3674,8 +3624,7 @@ msgstr "Нетиповий колір…"
 
 #: ../goffice/gtk/go-combo-box.c:315
 msgid "The combo box's title"
-msgstr ""
-"Заголовок спадного списку"
+msgstr "Заголовок спадного списку"
 
 #: ../goffice/gtk/go-combo-box.c:321
 msgid "Show Arrow"
@@ -3683,8 +3632,7 @@ msgstr "Показується стрілка"
 
 #: ../goffice/gtk/go-combo-box.c:322
 msgid "Whether to show an arrow for the combo"
-msgstr ""
-"Чи слід показувати стрілочку для цього спадного списку"
+msgstr "Чи слід показувати стрілочку для цього спадного списку"
 
 #: ../goffice/gtk/go-combo-box.c:332
 msgid "Add tearoffs to menus"
@@ -8590,7 +8538,7 @@ msgstr "PlotXYSurface"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.c:162
 msgid "Display population density"
-msgstr ""
+msgstr "Показати щільність популяції"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
 msgid "<b>_Columns:</b>"
@@ -8706,11 +8654,11 @@ msgstr "Рушій контурних креслень"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "XYZ contour plotting engine"
-msgstr ""
+msgstr "Рушій креслення контурів за XYZ"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
 msgid "XY contour plotting engine"
-msgstr ""
+msgstr "Рушій контурних креслень за XY"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:6
 msgid "Surface plotting engine"
@@ -8718,11 +8666,11 @@ msgstr "Рушій креслення поверхонь"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:7
 msgid "XYZ surface plotting engine"
-msgstr ""
+msgstr "Рушій креслення поверхонь за XYZ"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:8
 msgid "XY surface plotting engine"
-msgstr ""
+msgstr "Рушій креслення поверхні за XY"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:9
 msgid "Matrix plotting engine"
@@ -8730,11 +8678,11 @@ msgstr "Рушій креслення матриць"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:10
 msgid "XY matrix plotting engine"
-msgstr ""
+msgstr "Рушій креслення за матрицею XY"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:11
 msgid "XYZ matrix plotting engine"
-msgstr ""
+msgstr "Рушій креслення за матрицею XYZ"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:12
 msgid "Default surface plot types"
@@ -8742,7 +8690,7 @@ msgstr "Типи стандартних креслень поверхонь"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:1
 msgid "_Size represented by:"
-msgstr ""
+msgstr "_Розмір визначається:"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
 msgid "Sur_face"
@@ -8754,11 +8702,11 @@ msgstr "Діа_метр"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:4
 msgid "Show _negative values"
-msgstr ""
+msgstr "Показувати _від'ємні значення"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:5
 msgid "_Vary colors by bubble"
-msgstr ""
+msgstr "З_мінювати кольори за бульбашками"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:6
 msgid "3_D"
@@ -8766,12 +8714,12 @@ msgstr "Просторовий"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:7
 msgid "_Bubbles scaled to"
-msgstr ""
+msgstr "Масштабування _бульбашок"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:9
 #, no-c-format
 msgid "% of default size"
-msgstr ""
+msgstr "% від типового розміру"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -8782,11 +8730,11 @@ msgstr "PlotXY"
 
 #: ../plugins/plot_xy/gog-xy.c:374
 msgid "Has markers by default"
-msgstr ""
+msgstr "Типово містить позначки"
 
 #: ../plugins/plot_xy/gog-xy.c:380 ../plugins/plot_xy/gog-xy.c:809
 msgid "Has lines by default"
-msgstr ""
+msgstr "Типово містить лінії"
 
 #: ../plugins/plot_xy/gog-xy.c:381 ../plugins/plot_xy/gog-xy.c:810
 msgid "Should the default style of a series include lines"
@@ -8940,7 +8888,7 @@ msgstr "Лінії XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:12
 msgid "Linearly interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Лінійна інтерполяція між багатовимірними точками."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:13
 msgid "XY Splines"
@@ -8980,7 +8928,7 @@ msgstr ""
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:22
 msgid "Stepped curve using the mean y value."
-msgstr ""
+msgstr "Сходинкова крива із використанням середнього значення y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:23
 msgid "Multi-dimensional points with circle at each point."
@@ -9055,23 +9003,23 @@ msgstr ""
 
 #: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
-msgstr ""
+msgstr "Плоскі креслення"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:3
 msgid "2D scatter plotting engine"
-msgstr ""
+msgstr "Рушій креслення плоских графіків розсіювання"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:4
 msgid "Bubble plotting engine"
-msgstr ""
+msgstr "Рушій побудови бульбашкових креслень"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:5
 msgid "2D colored scatter plotting engine"
-msgstr ""
+msgstr "Рушій креслення плоских кольорових графіків розсіювання"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
 msgid "Stock Scatter plot types"
-msgstr ""
+msgstr "Стандартні типи графіків розсіювання"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:7
 msgid "Scattered dropbar plotting engine"
@@ -9086,16 +9034,16 @@ msgstr ""
 #. * 	Exponential regression2
 #: ../plugins/reg_linear/gog-exp-reg.c:63
 msgid "Exponential regression"
-msgstr ""
+msgstr "Експоненційна регресія"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:158
 #: ../plugins/reg_linear/gog-lin-reg.c:271
 msgid "Affine"
-msgstr ""
+msgstr "Афінна"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
-msgstr ""
+msgstr "Зніміть позначку для примусового перетину в нулі"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -9106,11 +9054,11 @@ msgstr "Лінійна регресія"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:272
 msgid "If true, a non-zero constant is allowed"
-msgstr ""
+msgstr "Якщо true, можна використовувати ненульову сталу"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:277
 msgid "Dims"
-msgstr ""
+msgstr "Розмірності"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:278
 msgid "Number of x-vectors"
@@ -9132,50 +9080,50 @@ msgstr "Порядок:"
 #. * 	Polynomial regression2
 #: ../plugins/reg_linear/gog-polynom-reg.c:222
 msgid "Polynomial regression"
-msgstr ""
+msgstr "Поліноміальна регресія"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Power regression2
 #: ../plugins/reg_linear/gog-power-reg.c:63
 msgid "Power regression"
-msgstr ""
+msgstr "Степенева регресія"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:1
 msgid "Regression curve : linear"
-msgstr ""
+msgstr "Крива регресії: лінійна"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:2
 msgid "Linear regression curves"
-msgstr ""
+msgstr "Криві лінійної регресії"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:3
 msgid "Linear regression curve engine"
-msgstr ""
+msgstr "Рушій побудови кривої лінійної регресії"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:4
 msgid "Exponential regression curve engine"
-msgstr ""
+msgstr "Рушій побудови кривих експоненційної регресії"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:5
 msgid "Power regression curve engine"
-msgstr ""
+msgstr "Рушій побудови кривої степеневої регресії"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:6
 msgid "Logarithmic regression curve engine"
-msgstr ""
+msgstr "Рушій побудови кривих логарифмічної регресії"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:7
 msgid "Polynomial regression curve engine"
-msgstr ""
+msgstr "Рушій побудови кривих поліноміальної регресії"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:8
 msgid "Linear regression curves types"
-msgstr ""
+msgstr "Типи кривих лінійної регресії"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:2
 msgid "Linear regression curve"
-msgstr ""
+msgstr "Крива лінійної регресії"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:3
 msgid "Polynomial"
@@ -9183,7 +9131,7 @@ msgstr "Поліноміальний"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:4
 msgid "Polynomial regression curve"
-msgstr ""
+msgstr "Крива поліноміальної регресії"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:5
 msgid "Exponential"
@@ -9191,7 +9139,7 @@ msgstr "Експоненційний"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:6
 msgid "Exponential regression curve"
-msgstr ""
+msgstr "Крива експоненційної регресії"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:7
 msgid "Power"
@@ -9199,7 +9147,7 @@ msgstr "Степеневий"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:8
 msgid "Power regression curve"
-msgstr ""
+msgstr "Крива степеневої регресії"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:9
 msgid "Logarithmic"
@@ -9207,30 +9155,30 @@ msgstr "Логарифмічний"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:10
 msgid "Logarithmic regression curve"
-msgstr ""
+msgstr "Крива логарифмічної регресії"
 
 #. xgettext : the base for how to name logarithmic fits
 #. * eg The 2nd fit for a series will be called
 #. * 	Log fit2
 #: ../plugins/reg_logfit/gog-logfit.c:147
 msgid "Log fit"
-msgstr ""
+msgstr "Логарифмічна апроксимація"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:1
 msgid "Regression curve : logfit"
-msgstr ""
+msgstr "Крива регресії: logfit"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:2
 msgid "Logarithmic fitting curves"
-msgstr ""
+msgstr "Криві логарифмічної апроксимації"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:3
 msgid "Logarithmic fitting curve engine"
-msgstr ""
+msgstr "Рушій побудови кривих логарифмічної апроксимації"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:4
 msgid "Logarithmic fitting curves types"
-msgstr ""
+msgstr "Типи кривих логарифмічної апроксимації"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:1
 msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
@@ -9258,7 +9206,7 @@ msgstr ""
 #: ../plugins/smoothing/gog-exp-smooth.c:166
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Exponentially smoothed curve"
-msgstr ""
+msgstr "Експоненційно згладжена крива"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:220
 msgid "Steps"
@@ -9274,11 +9222,12 @@ msgstr "_Кроки:"
 
 #: ../plugins/smoothing/gog-moving-avg.c:103
 msgid "Number of values from which to calculate an average"
-msgstr ""
+msgstr "Кількість значень, за якими слід обчислити середнє"
 
 #: ../plugins/smoothing/gog-moving-avg.c:108
 msgid "Whether to average x values as well or use the last one"
 msgstr ""
+"Використовувати усереднені значення і за x або скористатися останнім значенням"
 
 #. xgettext : the base for how to name moving averge smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -9298,7 +9247,7 @@ msgstr "Усереднене X"
 
 #: ../plugins/smoothing/gog-moving-avg.c:202
 msgid "Use averaged x values"
-msgstr ""
+msgstr "Використовувати усереднені значення x"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:1
 msgid "_Span:"
@@ -9306,7 +9255,7 @@ msgstr "Ді_апазон:"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:2
 msgid "_Use averaged abscissa"
-msgstr ""
+msgstr "_Усереднена абсциса"
 
 #: ../plugins/smoothing/plugin.xml.in.h:1
 msgid "Charting : Trends and Curves"
