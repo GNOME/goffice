@@ -555,6 +555,7 @@ go_doc_set_saved_state (GODoc *doc, guint64 state)
 
 	doc->priv->saved_state = state;
 	g_object_notify (G_OBJECT (doc), "saved-state");
+	go_doc_set_dirty (doc, state != doc->priv->state);
 }
 
 
