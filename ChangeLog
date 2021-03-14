@@ -1,3 +1,7 @@
+2021-03-14  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.49
+
 2020-09-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis-line.c (gog_axis_line_update_ticks): Zero
