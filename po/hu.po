@@ -1,17 +1,17 @@
 # Hungarian translation for goffice.
-# Copyright (C) 1998, 2000, 2004, 2015, 2020 Free Software Foundation, Inc.
+# Copyright (C) 1998, 2000, 2004, 2015, 2020, 2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the goffice package.
 #
-# Emese Kovács <emese@gnome.hu>, 2000.
-# András Tímár <timar@gnome.hu>, 2000.
-# Gábor Kelemen <kg0021@stud.unideb.hu>, 2004.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2020.
+# Emese Kovács <emese at gnome dot hu>, 2000.
+# András Tímár <timar at gnome dot hu>, 2000.
+# Gábor Kelemen <kelemeng at gnome dot hu>, 2004.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2020-05-27 08:23+0000\n"
-"PO-Revision-Date: 2020-09-12 22:57+0200\n"
+"POT-Creation-Date: 2021-02-27 02:29+0000\n"
+"PO-Revision-Date: 2021-03-17 00:42+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -119,48 +119,66 @@ msgstr ""
 msgid "Invalid %s: '%s'"
 msgstr "Érvénytelen %s: „%s”"
 
-#: ../goffice/app/go-doc.c:177
+#: ../goffice/app/go-doc.c:197
 msgid "URI"
 msgstr "URI"
 
-#: ../goffice/app/go-doc.c:178
+#: ../goffice/app/go-doc.c:198
 msgid "The URI associated with this document."
 msgstr "Ehhez a dokumentumhoz társított URI."
 
-#: ../goffice/app/go-doc.c:182
+#: ../goffice/app/go-doc.c:202
 msgid "Dirty"
 msgstr "Piszkos"
 
-#: ../goffice/app/go-doc.c:183
+#: ../goffice/app/go-doc.c:203
 msgid "Whether the document has been changed."
 msgstr "Változott-e a dokumentum."
 
-#: ../goffice/app/go-doc.c:187
+#: ../goffice/app/go-doc.c:207
 msgid "Dirty Time"
 msgstr "Piszkos idő"
 
-#: ../goffice/app/go-doc.c:188
+#: ../goffice/app/go-doc.c:208
 msgid "When the document was first changed."
 msgstr "Amikor a dokumentumot először módosították."
 
-#: ../goffice/app/go-doc.c:193
+#: ../goffice/app/go-doc.c:213
 msgid "Pristine"
 msgstr "Régi"
 
-#: ../goffice/app/go-doc.c:194
+#: ../goffice/app/go-doc.c:214
 msgid "Whether the document is unchanged since it was created."
 msgstr "A dokumentum változatlan-e a létrehozása óta."
 
-#: ../goffice/app/go-doc.c:198
+#: ../goffice/app/go-doc.c:218
 msgid "Modification time"
 msgstr "Módosítási idő"
 
-#: ../goffice/app/go-doc.c:199
+#: ../goffice/app/go-doc.c:219
 msgid "The known file system modification time"
 msgstr "Az ismert fájlrendszerben tárolt módosítási idő"
 
+#: ../goffice/app/go-doc.c:224
+msgid "State"
+msgstr "Állapot"
+
+#: ../goffice/app/go-doc.c:225
+msgid "Current state of document"
+msgstr "A dokumentum jelenlegi állapota"
+
+#: ../goffice/app/go-doc.c:229
+#| msgid "Save as"
+msgid "Saved state"
+msgstr "Mentett állapot"
+
+#: ../goffice/app/go-doc.c:230
+#| msgid "How much of a document is saved"
+msgid "State of document when last saved"
+msgstr "A dokumentum állapota az utolsó mentéskor"
+
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/nautilus-property-browser.c:957
-#: ../goffice/app/go-doc.c:505 ../goffice/canvas/goc-image.c:299
+#: ../goffice/app/go-doc.c:623 ../goffice/canvas/goc-image.c:317
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Kép"
@@ -515,123 +533,123 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "A fő ciklusléptetés végrehajtása"
 
-#: ../goffice/canvas/goc-arc.c:446
+#: ../goffice/canvas/goc-arc.c:466
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:447
+#: ../goffice/canvas/goc-arc.c:467
 msgid "The arc center x coordinate"
 msgstr "A körív középpontjának x koordinátája"
 
-#: ../goffice/canvas/goc-arc.c:452
+#: ../goffice/canvas/goc-arc.c:472
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:453
+#: ../goffice/canvas/goc-arc.c:473
 msgid "The arc center y coordinate"
 msgstr "A körív középpontjának y koordinátája"
 
-#: ../goffice/canvas/goc-arc.c:458
+#: ../goffice/canvas/goc-arc.c:478
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:459
+#: ../goffice/canvas/goc-arc.c:479
 msgid "The arc x radius"
 msgstr "A körív x sugara"
 
-#: ../goffice/canvas/goc-arc.c:464
+#: ../goffice/canvas/goc-arc.c:484
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:465
+#: ../goffice/canvas/goc-arc.c:485
 msgid "The arc y radius"
 msgstr "A körív y sugara"
 
-#: ../goffice/canvas/goc-arc.c:470
+#: ../goffice/canvas/goc-arc.c:490
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:471
+#: ../goffice/canvas/goc-arc.c:491
 msgid "The arc start angle"
 msgstr "A körív kezdő szöge"
 
-#: ../goffice/canvas/goc-arc.c:476
+#: ../goffice/canvas/goc-arc.c:496
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:477
+#: ../goffice/canvas/goc-arc.c:497
 msgid "The arc end angle"
 msgstr "A körív záró szöge"
 
-#: ../goffice/canvas/goc-arc.c:482 ../goffice/canvas/goc-component.c:315
-#: ../goffice/canvas/goc-ellipse.c:287 ../goffice/canvas/goc-path.c:292
-#: ../goffice/canvas/goc-rectangle.c:343 ../goffice/canvas/goc-text.c:460
+#: ../goffice/canvas/goc-arc.c:502 ../goffice/canvas/goc-component.c:315
+#: ../goffice/canvas/goc-ellipse.c:303 ../goffice/canvas/goc-path.c:306
+#: ../goffice/canvas/goc-rectangle.c:362 ../goffice/canvas/goc-text.c:480
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Forgatás"
 
-#: ../goffice/canvas/goc-arc.c:483
+#: ../goffice/canvas/goc-arc.c:503
 msgid "The rotation around center position"
 msgstr "A középpont pozíciója körüli forgatás"
 
-#: ../goffice/canvas/goc-arc.c:488 ../goffice/canvas/goc-rectangle.c:349
+#: ../goffice/canvas/goc-arc.c:508 ../goffice/canvas/goc-rectangle.c:368
 #: ../goffice/graph/gog-axis.c:3415 ../goffice/graph/gog-grid.c:127
 #: ../plugins/plot_barcol/gog-1.5d.c:355
 msgid "Type"
 msgstr "Típus"
 
-#: ../goffice/canvas/goc-arc.c:489
+#: ../goffice/canvas/goc-arc.c:509
 msgid "The type of arc: arc, chord or pie"
 msgstr "A körív típusa: körív. húr vagy torta"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# libnautilus-private/nautilus-program-chooser.c:1189
-#: ../goffice/canvas/goc-arc.c:495 ../goffice/canvas/goc-line.c:318
+#: ../goffice/canvas/goc-arc.c:515 ../goffice/canvas/goc-line.c:335
 msgid "Start Arrow"
 msgstr "Kezdő nyíl"
 
-#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:319
+#: ../goffice/canvas/goc-arc.c:516 ../goffice/canvas/goc-line.c:336
 msgid "Arrow for line's start"
 msgstr "Nyíl a vonal kezdeténél"
 
-#: ../goffice/canvas/goc-arc.c:501 ../goffice/canvas/goc-line.c:324
+#: ../goffice/canvas/goc-arc.c:521 ../goffice/canvas/goc-line.c:341
 msgid "End Arrow"
 msgstr "Záró nyíl"
 
-#: ../goffice/canvas/goc-arc.c:502 ../goffice/canvas/goc-line.c:325
+#: ../goffice/canvas/goc-arc.c:522 ../goffice/canvas/goc-line.c:342
 msgid "Arrow for line's end"
 msgstr "Nyíl a vonal végénél"
 
-#: ../goffice/canvas/goc-circle.c:174 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:263 ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:270
-#: ../goffice/canvas/goc-path.c:280 ../goffice/canvas/goc-pixbuf.c:235
-#: ../goffice/canvas/goc-rectangle.c:319 ../goffice/canvas/goc-text.c:448
-#: ../goffice/canvas/goc-widget.c:804 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
+#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-group.c:294 ../goffice/canvas/goc-image.c:288
+#: ../goffice/canvas/goc-path.c:294 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:468
+#: ../goffice/canvas/goc-widget.c:820 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
-#: ../goffice/canvas/goc-circle.c:175
+#: ../goffice/canvas/goc-circle.c:189
 msgid "The circle center horizontal position"
 msgstr "A kör középpontjának vízszintes pozíciója"
 
-#: ../goffice/canvas/goc-circle.c:180 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:269 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:276
-#: ../goffice/canvas/goc-path.c:286 ../goffice/canvas/goc-pixbuf.c:241
-#: ../goffice/canvas/goc-rectangle.c:325 ../goffice/canvas/goc-text.c:454
-#: ../goffice/canvas/goc-widget.c:810
+#: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:297
+#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-group.c:300 ../goffice/canvas/goc-image.c:294
+#: ../goffice/canvas/goc-path.c:300 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:474
+#: ../goffice/canvas/goc-widget.c:826
 msgid "y"
 msgstr "y"
 
-#: ../goffice/canvas/goc-circle.c:181
+#: ../goffice/canvas/goc-circle.c:195
 msgid "The circle center vertical position"
 msgstr "A kör középpontjának függőleges pozíciója"
 
-#: ../goffice/canvas/goc-circle.c:186
+#: ../goffice/canvas/goc-circle.c:200
 msgid "Radius"
 msgstr "Sugár"
 
-#: ../goffice/canvas/goc-circle.c:187
+#: ../goffice/canvas/goc-circle.c:201
 msgid "The circle radius"
 msgstr "A kör sugara"
 
@@ -644,19 +662,19 @@ msgid "The object top position"
 msgstr "Az objektum felső pozíciója"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:281 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:288
-#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:337
-#: ../goffice/canvas/goc-widget.c:823 ../goffice/graph/gog-graph.c:505
+#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:453
+#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:306
+#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:356
+#: ../goffice/canvas/goc-widget.c:839 ../goffice/graph/gog-graph.c:505
 #: ../goffice/graph/gog-object.c:206 ../goffice/utils/go-image.c:514
 msgid "Height"
 msgstr "Magasság"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:275 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:282
-#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:331
-#: ../goffice/canvas/goc-widget.c:817 ../goffice/graph/gog-color-scale.c:340
+#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:459
+#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:300
+#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:350
+#: ../goffice/canvas/goc-widget.c:833 ../goffice/graph/gog-color-scale.c:340
 #: ../goffice/graph/gog-graph.c:499 ../goffice/graph/gog-object.c:204
 #: ../goffice/utils/go-image.c:510 ../plugins/plot_xy/gog-xy-dropbar.c:308
 msgid "Width"
@@ -674,23 +692,23 @@ msgstr "Objektum"
 msgid "The embedded GOComponent object"
 msgstr "A beágyazott GOComponent objektum"
 
-#: ../goffice/canvas/goc-ellipse.c:264
+#: ../goffice/canvas/goc-ellipse.c:280
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Az ellipszis bal pozíciója (vagy jobb pozíciója RTL módban)"
 
-#: ../goffice/canvas/goc-ellipse.c:270
+#: ../goffice/canvas/goc-ellipse.c:286
 msgid "The ellipse top position"
 msgstr "Az ellipszis felső pozíciója"
 
-#: ../goffice/canvas/goc-ellipse.c:276
+#: ../goffice/canvas/goc-ellipse.c:292
 msgid "The ellipse width"
 msgstr "Az ellipszis szélessége"
 
-#: ../goffice/canvas/goc-ellipse.c:282
+#: ../goffice/canvas/goc-ellipse.c:298
 msgid "The ellipse height"
 msgstr "Az ellipszis magassága"
 
-#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-rectangle.c:344
+#: ../goffice/canvas/goc-ellipse.c:304 ../goffice/canvas/goc-rectangle.c:363
 msgid "The rotation around top left position"
 msgstr "A bal felső pozíció körüli forgatás"
 
@@ -728,63 +746,63 @@ msgstr "Megjelenítő"
 msgid "The GogRenderer being displayed"
 msgstr "A megjelenített GogRenderer"
 
-#: ../goffice/canvas/goc-group.c:255
+#: ../goffice/canvas/goc-group.c:295
 msgid "The group horizontal offset"
 msgstr "A csoport vízszintes eltolása"
 
-#: ../goffice/canvas/goc-group.c:261
+#: ../goffice/canvas/goc-group.c:301
 msgid "The group vertical offset"
 msgstr "A csoport függőleges eltolása"
 
-#: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:289 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "A kép bal pozíciója"
 
-#: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:295 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "A kép felső pozíciója"
 
-#: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:248
+#: ../goffice/canvas/goc-image.c:301 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr "A kép szélessége vagy -1 esetén a kép szélességének használata"
 
-#: ../goffice/canvas/goc-image.c:289 ../goffice/canvas/goc-pixbuf.c:254
+#: ../goffice/canvas/goc-image.c:307 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr "A kép magassága vagy -1 esetén a kép magasságának használata"
 
-#: ../goffice/canvas/goc-image.c:300
+#: ../goffice/canvas/goc-image.c:318
 msgid "The GOImage to display"
 msgstr "A megjelenítendő GOImage"
 
-#: ../goffice/canvas/goc-image.c:304
+#: ../goffice/canvas/goc-image.c:322
 msgid "Cropped bottom"
 msgstr "Lenti levágás"
 
-#: ../goffice/canvas/goc-image.c:305
+#: ../goffice/canvas/goc-image.c:323
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr "A kép aljáról levágott terület a kép magasságának tört részeként"
 
-#: ../goffice/canvas/goc-image.c:309
+#: ../goffice/canvas/goc-image.c:327
 msgid "Cropped left"
 msgstr "Bal levágás"
 
-#: ../goffice/canvas/goc-image.c:310
+#: ../goffice/canvas/goc-image.c:328
 msgid "The cropped area at the image left of the image width"
 msgstr "A kép bal oldaláról levágott terület a kép szélességéből"
 
-#: ../goffice/canvas/goc-image.c:314
+#: ../goffice/canvas/goc-image.c:332
 msgid "Cropped right"
 msgstr "Jobb levágás"
 
-#: ../goffice/canvas/goc-image.c:315
+#: ../goffice/canvas/goc-image.c:333
 msgid "The cropped area at the image right of the image width"
 msgstr "A kép jobb oldaláról levágott terület a kép szélességéből"
 
-#: ../goffice/canvas/goc-image.c:319
+#: ../goffice/canvas/goc-image.c:337
 msgid "Cropped top"
 msgstr "Fenti levágás"
 
-#: ../goffice/canvas/goc-image.c:320
+#: ../goffice/canvas/goc-image.c:338
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr "A kép tetejéről levágott terület a kép magasságának tört részeként"
 
@@ -804,71 +822,71 @@ msgstr "Szülő"
 msgid "The group in which the item resides"
 msgstr "A csoport, amelyben az elem található"
 
-#: ../goffice/canvas/goc-line.c:294
+#: ../goffice/canvas/goc-line.c:311
 msgid "x0"
 msgstr "x0"
 
-#: ../goffice/canvas/goc-line.c:295
+#: ../goffice/canvas/goc-line.c:312
 msgid "The line start x coordinate"
 msgstr "A vonal kezdetének x koordinátája"
 
-#: ../goffice/canvas/goc-line.c:300
+#: ../goffice/canvas/goc-line.c:317
 msgid "y0"
 msgstr "y0"
 
-#: ../goffice/canvas/goc-line.c:301
+#: ../goffice/canvas/goc-line.c:318
 msgid "The line start y coordinate"
 msgstr "A vonal kezdetének y koordinátája"
 
-#: ../goffice/canvas/goc-line.c:306
+#: ../goffice/canvas/goc-line.c:323
 msgid "x1"
 msgstr "x1"
 
-#: ../goffice/canvas/goc-line.c:307
+#: ../goffice/canvas/goc-line.c:324
 msgid "The line end x coordinate"
 msgstr "A vonal végének x koordinátája"
 
-#: ../goffice/canvas/goc-line.c:312
+#: ../goffice/canvas/goc-line.c:329
 msgid "y1"
 msgstr "y1"
 
-#: ../goffice/canvas/goc-line.c:313
+#: ../goffice/canvas/goc-line.c:330
 msgid "The line end y coordinate"
 msgstr "A vonal végének y koordinátája"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:295
 msgid "The path first point x coordinate"
 msgstr "Az útvonal első pontjának x koordinátája"
 
-#: ../goffice/canvas/goc-path.c:287
+#: ../goffice/canvas/goc-path.c:301
 msgid "The path first point y coordinate"
 msgstr "Az útvonal első pontjának y koordinátája"
 
-#: ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-path.c:307
 msgid "The rotation around first point position"
 msgstr "Az első pont pozíciója körüli forgatás"
 
-#: ../goffice/canvas/goc-path.c:298
+#: ../goffice/canvas/goc-path.c:312
 msgid "Closed"
 msgstr "Zárt"
 
-#: ../goffice/canvas/goc-path.c:299
+#: ../goffice/canvas/goc-path.c:313
 msgid "The flag for closed path"
 msgstr "A zárt útvonalak jelzője"
 
-#: ../goffice/canvas/goc-path.c:304 ../goffice/canvas/goc-polygon.c:354
+#: ../goffice/canvas/goc-path.c:318 ../goffice/canvas/goc-polygon.c:378
 msgid "Fill rule"
 msgstr "Kitöltési szabály"
 
-#: ../goffice/canvas/goc-path.c:305 ../goffice/canvas/goc-polygon.c:355
+#: ../goffice/canvas/goc-path.c:319 ../goffice/canvas/goc-polygon.c:379
 msgid "Set fill rule to winding or even/odd"
 msgstr "Kitöltési szabály beállítása kanyargóra vagy páros/páratlanra"
 
-#: ../goffice/canvas/goc-path.c:310
+#: ../goffice/canvas/goc-path.c:324
 msgid "Path"
 msgstr "Útvonal"
 
-#: ../goffice/canvas/goc-path.c:311
+#: ../goffice/canvas/goc-path.c:325
 msgid "The path points"
 msgstr "Az útvonal pontjai"
 
@@ -880,29 +898,29 @@ msgstr "Kép"
 msgid "The GdkPixbuf to display"
 msgstr "A megjelenítendő GdkPixbuf"
 
-#: ../goffice/canvas/goc-polygon.c:343 ../goffice/canvas/goc-polyline.c:260
+#: ../goffice/canvas/goc-polygon.c:367 ../goffice/canvas/goc-polyline.c:277
 msgid "points"
 msgstr "pont"
 
-#: ../goffice/canvas/goc-polygon.c:343
+#: ../goffice/canvas/goc-polygon.c:367
 msgid "The polygon vertices"
 msgstr "A sokszög csúcsai"
 
-#: ../goffice/canvas/goc-polygon.c:348 ../goffice/canvas/goc-polyline.c:265
+#: ../goffice/canvas/goc-polygon.c:372 ../goffice/canvas/goc-polyline.c:282
 msgid "Use spline"
 msgstr "Spline használata"
 
-#: ../goffice/canvas/goc-polygon.c:349
+#: ../goffice/canvas/goc-polygon.c:373
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Zárt harmadfokú Bezier-spline használata körvonalként"
 
 # #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-# interfaces/memory.glade.h:18 interfaces/memory.glade.h:29
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-# src/file-manager/fm-properties-window.c:1502
-#: ../goffice/canvas/goc-polygon.c:359
+#: ../goffice/canvas/goc-polygon.c:383
 msgid "sizes"
 msgstr "méretek"
 
-#: ../goffice/canvas/goc-polygon.c:360
+#: ../goffice/canvas/goc-polygon.c:384
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
@@ -913,31 +931,31 @@ msgstr ""
 "értéket követő értékek el lesznek dobva. A „point” tulajdonság beállítása "
 "visszaállítja a méreteket."
 
-#: ../goffice/canvas/goc-polyline.c:260
+#: ../goffice/canvas/goc-polyline.c:277
 msgid "The polyline vertices"
 msgstr "A törött vonal csúcsai"
 
-#: ../goffice/canvas/goc-polyline.c:266
+#: ../goffice/canvas/goc-polyline.c:283
 msgid "Use a Bezier cubic spline as line"
 msgstr "Harmadfokú Bezier-spline használata vonalként"
 
-#: ../goffice/canvas/goc-rectangle.c:320
+#: ../goffice/canvas/goc-rectangle.c:339
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr "A téglalap bal pozíciója (vagy jobb pozíciója RTL módban)"
 
-#: ../goffice/canvas/goc-rectangle.c:326
+#: ../goffice/canvas/goc-rectangle.c:345
 msgid "The rectangle top position"
 msgstr "A téglalap felső pozíciója"
 
-#: ../goffice/canvas/goc-rectangle.c:332
+#: ../goffice/canvas/goc-rectangle.c:351
 msgid "The rectangle width"
 msgstr "A téglalap szélessége"
 
-#: ../goffice/canvas/goc-rectangle.c:338
+#: ../goffice/canvas/goc-rectangle.c:357
 msgid "The rectangle height"
 msgstr "A téglalap magassága"
 
-#: ../goffice/canvas/goc-rectangle.c:350
+#: ../goffice/canvas/goc-rectangle.c:369
 msgid ""
 "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for "
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
@@ -947,133 +965,133 @@ msgstr ""
 "lekerekített, 2 - jobb felső lekerekített, 4 - jobb alsó lekerekített, 8 - "
 "bal alsó lekerekített, vagy ezek bármilyen kombinációja."
 
-#: ../goffice/canvas/goc-rectangle.c:355
+#: ../goffice/canvas/goc-rectangle.c:374
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:356
+#: ../goffice/canvas/goc-rectangle.c:375
 msgid "The round rectangle rx"
 msgstr "A lekerekített téglalap rx értéke"
 
-#: ../goffice/canvas/goc-rectangle.c:361
+#: ../goffice/canvas/goc-rectangle.c:380
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:362
+#: ../goffice/canvas/goc-rectangle.c:381
 msgid "The round rectangle ry"
 msgstr "A lekerekített téglalap ry értéke"
 
-#: ../goffice/canvas/goc-styled-item.c:162
+#: ../goffice/canvas/goc-styled-item.c:171
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
 #: ../goffice/graph/gog-styled-object.c:225 ../goffice/utils/go-style.c:1122
 msgid "Style"
 msgstr "Stílus"
 
-#: ../goffice/canvas/goc-styled-item.c:163
+#: ../goffice/canvas/goc-styled-item.c:172
 #: ../goffice/graph/gog-styled-object.c:226
 msgid "A pointer to the GOStyle object"
 msgstr "Egy mutató a GOStyle objektumra"
 
-#: ../goffice/canvas/goc-styled-item.c:168
+#: ../goffice/canvas/goc-styled-item.c:177
 msgid "Scale line width"
 msgstr "Vonalvastagság méretezése"
 
-#: ../goffice/canvas/goc-styled-item.c:169
+#: ../goffice/canvas/goc-styled-item.c:178
 msgid "Whether to scale the line width when zooming"
 msgstr "Méretezze-e a vonalvastagságot nagyításkor"
 
-#: ../goffice/canvas/goc-text.c:449
+#: ../goffice/canvas/goc-text.c:469
 msgid "The text horizontal position"
 msgstr "A szöveg vízszintes pozíciója"
 
-#: ../goffice/canvas/goc-text.c:455
+#: ../goffice/canvas/goc-text.c:475
 msgid "The text position"
 msgstr "A szöveg pozíciója"
 
-#: ../goffice/canvas/goc-text.c:461
+#: ../goffice/canvas/goc-text.c:481
 msgid "The rotation around the anchor"
 msgstr "A horgony körüli forgatás"
 
-#: ../goffice/canvas/goc-text.c:466 ../goffice/graph/gog-object.c:858
+#: ../goffice/canvas/goc-text.c:486 ../goffice/graph/gog-object.c:858
 msgid "Anchor"
 msgstr "Horgony"
 
-#: ../goffice/canvas/goc-text.c:467
+#: ../goffice/canvas/goc-text.c:487
 msgid "The anchor point for the text"
 msgstr "A szöveg horgonypontja"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # components/text/Nautilus_View_text.oaf.in.h:2
-#: ../goffice/canvas/goc-text.c:472 ../goffice/gtk/go-format-sel.c:68
+#: ../goffice/canvas/goc-text.c:492 ../goffice/gtk/go-format-sel.c:68
 #: ../goffice/gtk/go-rotation-sel.c:230 ../goffice/utils/go-style.c:988
 msgid "Text"
 msgstr "Szöveg"
 
-#: ../goffice/canvas/goc-text.c:473
+#: ../goffice/canvas/goc-text.c:493
 msgid "The text to display"
 msgstr "A megjelenítendő szöveg"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:496
 msgid "Attributes"
 msgstr "Attribútumok"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:496
 msgid "The attributes list as a PangoAttrList"
 msgstr "Az attribútumok listája PangoAttrList listaként"
 
-#: ../goffice/canvas/goc-text.c:481
+#: ../goffice/canvas/goc-text.c:501
 msgid "Clip"
 msgstr "Vágás"
 
-#: ../goffice/canvas/goc-text.c:482
+#: ../goffice/canvas/goc-text.c:502
 msgid "Whether to clip or not"
 msgstr "Vágjon-e vagy sem"
 
-#: ../goffice/canvas/goc-text.c:487
+#: ../goffice/canvas/goc-text.c:507
 msgid "Clip width"
 msgstr "Vágás szélessége"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:508
 msgid "Clip width for the text"
 msgstr "A szöveg vágásának szélessége"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:513
 msgid "Clip height"
 msgstr "Vágás magassága"
 
-#: ../goffice/canvas/goc-text.c:494
+#: ../goffice/canvas/goc-text.c:514
 msgid "Clip height for the text"
 msgstr "A szöveg vágásának magassága"
 
-#: ../goffice/canvas/goc-text.c:499
+#: ../goffice/canvas/goc-text.c:519
 msgid "Wrap width"
 msgstr "Tördelés szélessége"
 
-#: ../goffice/canvas/goc-text.c:500
+#: ../goffice/canvas/goc-text.c:520
 msgid "Wrap width for the text"
 msgstr "A szöveg tördelésének szélessége"
 
-#: ../goffice/canvas/goc-widget.c:798
+#: ../goffice/canvas/goc-widget.c:814
 msgid "Widget"
 msgstr "Felületi elem"
 
-#: ../goffice/canvas/goc-widget.c:799
+#: ../goffice/canvas/goc-widget.c:815
 msgid "A pointer to the embedded widget"
 msgstr "Egy mutató a beágyazott felületi elemre"
 
-#: ../goffice/canvas/goc-widget.c:805
+#: ../goffice/canvas/goc-widget.c:821
 msgid "The widget left position"
 msgstr "A felületi elem bal pozíciója"
 
-#: ../goffice/canvas/goc-widget.c:811
+#: ../goffice/canvas/goc-widget.c:827
 msgid "The widget top position"
 msgstr "A felületi elem felső pozíciója"
 
-#: ../goffice/canvas/goc-widget.c:818
+#: ../goffice/canvas/goc-widget.c:834
 msgid "The widget width"
 msgstr "A felületi elem szélessége"
 
-#: ../goffice/canvas/goc-widget.c:824
+#: ../goffice/canvas/goc-widget.c:840
 msgid "The widget height"
 msgstr "A felületi elem magassága"
 
@@ -1231,7 +1249,7 @@ msgstr "Relatív beosztástávolság"
 msgid "Metrics"
 msgstr "Mérőszámok"
 
-#: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2613
+#: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2621
 #: ../goffice/graph/gog-series-labels.c:911
 #: ../goffice/graph/gog-series-labels.c:1442
 msgid "Format"
@@ -1261,11 +1279,11 @@ msgstr "Térképnév"
 msgid "The name of the map for scaling"
 msgstr "A térkép neve a méretezéshez"
 
-#: ../goffice/graph/gog-axis.c:3431 ../goffice/graph/gog-axis-line.c:2701
+#: ../goffice/graph/gog-axis.c:3431 ../goffice/graph/gog-axis-line.c:2703
 msgid "Assigned XL format"
 msgstr "Hozzárendelt XL formátum"
 
-#: ../goffice/graph/gog-axis.c:3432 ../goffice/graph/gog-axis-line.c:2702
+#: ../goffice/graph/gog-axis.c:3432 ../goffice/graph/gog-axis-line.c:2704
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
@@ -1389,7 +1407,7 @@ msgid "Color"
 msgstr "Szín"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:593
+#: ../goffice/graph/gog-guru.c:1032 ../goffice/graph/gog-series.c:593
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "Név"
@@ -1524,7 +1542,7 @@ msgstr "Kezdőhatár beállítása"
 msgid "Set stop bound"
 msgstr "Záróhatár beállítása"
 
-#: ../goffice/graph/gog-axis-line.c:2601
+#: ../goffice/graph/gog-axis-line.c:2609
 msgid "Ticks"
 msgstr "Beosztások"
 
@@ -2057,23 +2075,23 @@ msgstr "Van segéd"
 msgid "Are these minor grid lines"
 msgstr "Vannak-e ezek a segédrácsvonalak"
 
-#: ../goffice/graph/gog-guru.c:1057
+#: ../goffice/graph/gog-guru.c:1059
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "1 / 2 lépés: Diagramtípus kiválasztása"
 
-#: ../goffice/graph/gog-guru.c:1065
+#: ../goffice/graph/gog-guru.c:1067
 msgid "Step 2 of 2: Customize Chart"
 msgstr "2 / 2 lépés: Diagram testreszabása"
 
-#: ../goffice/graph/gog-guru.c:1070
+#: ../goffice/graph/gog-guru.c:1072
 msgid "Customize Chart"
 msgstr "Diagram testreszabása"
 
-#: ../goffice/graph/gog-guru.c:1145
+#: ../goffice/graph/gog-guru.c:1147
 msgid "_Insert"
 msgstr "_Beszúrás"
 
-#: ../goffice/graph/gog-guru.c:1216
+#: ../goffice/graph/gog-guru.c:1218
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "Áb_rázolás típusa"
@@ -2373,6 +2391,16 @@ msgstr "Kézi"
 #: ../goffice/graph/gog-plot-prefs.ui.h:4
 msgid "_Height:"
 msgstr "_Magasság:"
+
+#. We've managed to save some files with translated
+#. booleans.  Try to recover.
+#: ../goffice/graph/gog-object-xml.c:431 ../goffice/utils/go-locale.c:547
+msgid "TRUE"
+msgstr "IGAZ"
+
+#: ../goffice/graph/gog-object-xml.c:435 ../goffice/utils/go-locale.c:548
+msgid "FALSE"
+msgstr "HAMIS"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
@@ -3867,16 +3895,15 @@ msgstr "Képek"
 msgid "Select an Image"
 msgstr "Válasszon egy képet"
 
-#: ../goffice/gtk/goffice-gtk.c:1036
+#: ../goffice/gtk/goffice-gtk.c:1035
 msgid "Save as"
 msgstr "Mentés másként"
 
-#: ../goffice/gtk/goffice-gtk.c:1052
-#| msgid "Extension"
+#: ../goffice/gtk/goffice-gtk.c:1051
 msgid "Auto by extension"
 msgstr "Automatikus kiterjesztés szerint"
 
-#: ../goffice/gtk/goffice-gtk.c:1128
+#: ../goffice/gtk/goffice-gtk.c:1127
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3884,7 +3911,7 @@ msgstr ""
 "A megadott fájlkiterjesztés nem illeszkedik a kiválasztott fájltípushoz. "
 "Mindenképp ezt a nevet szeretné használni?"
 
-#: ../goffice/gtk/goffice-gtk.c:1346
+#: ../goffice/gtk/goffice-gtk.c:1345
 #, c-format
 msgid ""
 "%s\n"
@@ -3893,7 +3920,7 @@ msgstr ""
 "%s\n"
 "egy könyvtárnév"
 
-#: ../goffice/gtk/goffice-gtk.c:1350
+#: ../goffice/gtk/goffice-gtk.c:1349
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3902,7 +3929,7 @@ msgstr ""
 "Nincs jogosultsága elmenteni ide:\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1360
+#: ../goffice/gtk/goffice-gtk.c:1359
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -4396,7 +4423,7 @@ msgstr "Aláhúzás választó"
 msgid "The widget to use for picking underline type"
 msgstr "Az aláhúzástípus kiválasztásához használt felületi elem"
 
-#: ../goffice/gtk/go-font-sel-dialog.c:107
+#: ../goffice/gtk/go-font-sel-dialog.c:112
 msgid "Pick a Font"
 msgstr "Válasszon betűkészletet"
 
@@ -6839,17 +6866,17 @@ msgstr "Zambia, zambiai kwacha"
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, zimbabwei dollár"
 
-#: ../goffice/utils/go-emf.c:230
+#: ../goffice/utils/go-emf.c:234
 #, c-format
 msgid "Could not load the image data\n"
 msgstr "Nem sikerült betölteni a képadatot\n"
 
-#: ../goffice/utils/go-emf.c:269
+#: ../goffice/utils/go-emf.c:273
 #, c-format
 msgid "Could not input the image data\n"
 msgstr "Nem sikerült bevinni a képadatot\n"
 
-#: ../goffice/utils/go-emf.c:4885 ../goffice/utils/go-emf.c:4891
+#: ../goffice/utils/go-emf.c:4918 ../goffice/utils/go-emf.c:4924
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Érvénytelen képadat\n"
@@ -7101,14 +7128,6 @@ msgstr "Léptetés a közepén"
 #: ../goffice/utils/go-line.c:183
 msgid "Step to mean"
 msgstr "Léptetés a középértéken"
-
-#: ../goffice/utils/go-locale.c:547
-msgid "TRUE"
-msgstr "IGAZ"
-
-#: ../goffice/utils/go-locale.c:548
-msgid "FALSE"
-msgstr "HAMIS"
 
 #: ../goffice/utils/go-marker.c:97
 msgid "square"
@@ -9572,469 +9591,3 @@ msgstr "Simított görbék típusai"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Mozgóátlag simított görbe"
-
-#, fuzzy
-#~ msgid "The rectangle type"
-#~ msgstr "Fi_x szélesség"
-
-#, fuzzy
-#~ msgid "Flags"
-#~ msgstr "Képletek"
-
-#, fuzzy
-#~ msgid "Indent"
-#~ msgstr "_Behúzás:"
-
-#, fuzzy
-#~ msgid "Space Before"
-#~ msgstr "Keresés"
-
-#, fuzzy
-#~ msgid "Space After"
-#~ msgstr "Szóköz"
-
-#, fuzzy
-#~ msgid "Bullet Character"
-#~ msgstr "Idézőjel karakter :"
-
-#, fuzzy
-#~ msgid "<b>Euler angles</b>"
-#~ msgstr "<b>Minta</b>"
-
-#, fuzzy
-#~ msgid "<b>Major ticks</b>"
-#~ msgstr "<b>Minta</b>"
-
-#, fuzzy
-#~ msgid "<b>Minor ticks</b>"
-#~ msgstr "<b>Minta</b>"
-
-#, fuzzy
-#~ msgid "<b>Position</b>"
-#~ msgstr "Minta"
-
-#~ msgid "<b>Style</b>"
-#~ msgstr "<b>Stílus</b>"
-
-#, fuzzy
-#~ msgid "<b>Sample</b>"
-#~ msgstr "<b>Stílus</b>"
-
-#, fuzzy
-#~ msgid "<b>_Plot type</b>"
-#~ msgstr "<b>Minta</b>"
-
-#, fuzzy
-#~ msgid "<b>Interpolation</b>"
-#~ msgstr "Irány"
-
-#, fuzzy
-#~ msgid "<b>Rotation</b>"
-#~ msgstr "Minta"
-
-#, fuzzy
-#~ msgid "Custom Color..."
-#~ msgstr "Egyéni szín:"
-
-#~ msgid "Font style:"
-#~ msgstr "Betűstílus:"
-
-#~ msgid "Preview"
-#~ msgstr "Előnézet"
-
-#, fuzzy
-#~ msgid "<b>Add an image</b>"
-#~ msgstr "Minta"
-
-#, fuzzy
-#~ msgid "Name:"
-#~ msgstr "Név"
-
-#, fuzzy
-#~ msgid "<b>Orientation</b>"
-#~ msgstr "Irány"
-
-#, fuzzy
-#~ msgid "Cyprus, Pounds"
-#~ msgstr "ciprusi font"
-
-#, fuzzy
-#~ msgid "Guernsey, Pounds"
-#~ msgstr "szudáni font"
-
-#, fuzzy
-#~ msgid "Malta, Liri"
-#~ msgstr "máltai líra"
-
-#, fuzzy
-#~ msgid "Saint Helena, Pounds"
-#~ msgstr "St. Helena-i font"
-
-#, fuzzy
-#~ msgid "Slovenia, Tolars"
-#~ msgstr "Szlovén tolár"
-
-#, fuzzy
-#~ msgid "Slovakia, Koruny"
-#~ msgstr "Szlovén tolár"
-
-#, fuzzy
-#~ msgid "Suriname, Guilders"
-#~ msgstr "szurinámi guilder"
-
-#, fuzzy
-#~ msgid "Yugoslavia, New Dinars"
-#~ msgstr "új jugoszláv dínár"
-
-#, fuzzy
-#~ msgid "<b>Fill</b>"
-#~ msgstr "Minta"
-
-#, fuzzy
-#~ msgid "<b>Line</b>"
-#~ msgstr "Minta"
-
-#, fuzzy
-#~ msgid "<b>Marker</b>"
-#~ msgstr "<b>Minta</b>"
-
-#, fuzzy
-#~ msgid "<b>Outline</b>"
-#~ msgstr "Minta"
-
-#, fuzzy
-#~ msgid "_Columns:"
-#~ msgstr "Oszlop"
-
-#, fuzzy
-#~ msgid "_Rows:"
-#~ msgstr "So_r"
-
-# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
-# interfaces/nameresolution.glade.h:25
-#, fuzzy
-#~ msgid "Font description"
-#~ msgstr "Leírás"
-
-#, fuzzy
-#~ msgid "Font style"
-#~ msgstr "Betűstílus:"
-
-#, fuzzy
-#~ msgid "Font size"
-#~ msgstr "Betűstílus:"
-
-#, fuzzy
-#~ msgid "Text width"
-#~ msgstr "Fi_x szélesség"
-
-#, fuzzy
-#~ msgid "Font style set"
-#~ msgstr "Betűstílus:"
-
-#, fuzzy
-#~ msgid "Scale set"
-#~ msgstr "Mentés"
-
-#~ msgid "H"
-#~ msgstr "M"
-
-#~ msgid "W"
-#~ msgstr "Sz"
-
-#, fuzzy
-#~ msgid "<b>Description</b>"
-#~ msgstr "Irány"
-
-#, fuzzy
-#~ msgid ""
-#~ "Automatic\n"
-#~ "Manual"
-#~ msgstr "Automatikus"
-
-#, fuzzy
-#~ msgid "GogObjectPrefs"
-#~ msgstr "Célfüggvény"
-
-#~ msgid "*"
-#~ msgstr "*"
-
-#, fuzzy
-#~ msgid ""
-#~ "Horizontal\n"
-#~ "Vertical"
-#~ msgstr "Vízszintes csíkos"
-
-#, fuzzy
-#~ msgid "Indexs"
-#~ msgstr "_Behúzás:"
-
-#, fuzzy
-#~ msgid "Legends"
-#~ msgstr "Jelmagyarázat"
-
-#, fuzzy
-#~ msgid "Regenerate Charts"
-#~ msgstr "Tortadiagram"
-
-# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
-# libnautilus-private/nautilus-program-chooser.c:1189
-#, fuzzy
-#~ msgid "Starts"
-#~ msgstr "Állapot"
-
-#, fuzzy
-#~ msgid "_File"
-#~ msgstr "Legye_n:"
-
-#, fuzzy
-#~ msgid "fifth"
-#~ msgstr "Szélesség"
-
-#, fuzzy
-#~ msgid "first"
-#~ msgstr "Diszkrét"
-
-#, fuzzy
-#~ msgid "sixth"
-#~ msgstr "Szélesség"
-
-#, fuzzy
-#~ msgid "third"
-#~ msgstr "Egyéb"
-
-#, fuzzy
-#~ msgid "Grid"
-#~ msgstr "Péntek"
-
-#, fuzzy
-#~ msgid "Type axis:"
-#~ msgstr "_Típus:"
-
-#, fuzzy
-#~ msgid "Shadow type"
-#~ msgstr "Árnyék"
-
-#, fuzzy
-#~ msgid "[Color"
-#~ msgstr "Szín:"
-
-#, fuzzy
-#~ msgid "Spline"
-#~ msgstr "Vonal"
-
-#, fuzzy
-#~ msgid "BoxPlot"
-#~ msgstr "_Rendezés"
-
-#, fuzzy
-#~ msgid "Charting : Box-Plots/Histograms"
-#~ msgstr "Nem sikerült a fájl létrehozása: %s\n"
-
-# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
-# interfaces/users.glade.h:63
-#, fuzzy
-#~ msgid "Default lines"
-#~ msgstr "Alapértelmezett"
-
-#, fuzzy
-#~ msgid "<b>Plot area position</b>"
-#~ msgstr "Minta"
-
-#, fuzzy
-#~ msgid "_Order"
-#~ msgstr "Á_trendezés"
-
-#, fuzzy
-#~ msgid "<b>Manual position</b>"
-#~ msgstr "Minta"
-
-#, fuzzy
-#~ msgid ""
-#~ "2 Colors\n"
-#~ "Brightness"
-#~ msgstr "élénknarancs"
-
-#, fuzzy
-#~ msgid "Ty_pe:"
-#~ msgstr "_Típus:"
-
-#, fuzzy
-#~ msgid "_Fill color:"
-#~ msgstr "Szín :"
-
-#, fuzzy
-#~ msgid "Indicator Spacing"
-#~ msgstr "Belső HIBA"
-
-#~ msgid "*Sun"
-#~ msgstr "*V"
-
-#~ msgid "*Mon"
-#~ msgstr "*H"
-
-#~ msgid "*Tue"
-#~ msgstr "*K"
-
-#~ msgid "*Wed"
-#~ msgstr "*Sze"
-
-#~ msgid "*Thu"
-#~ msgstr "*Cs"
-
-#~ msgid "*Fri"
-#~ msgstr "*P"
-
-#~ msgid "*Sat"
-#~ msgstr "*Szo"
-
-#~ msgid "Sunday"
-#~ msgstr "Vasárnap"
-
-#~ msgid "Monday"
-#~ msgstr "Hétfő"
-
-#~ msgid "Tuesday"
-#~ msgstr "Kedd"
-
-#~ msgid "Wednesday"
-#~ msgstr "Szerda"
-
-#~ msgid "Thursday"
-#~ msgstr "Csütörtök"
-
-#~ msgid "Friday"
-#~ msgstr "Péntek"
-
-#~ msgid "Saturday"
-#~ msgstr "Szombat"
-
-#~ msgid "*Jan"
-#~ msgstr "*jan."
-
-#~ msgid "*Feb"
-#~ msgstr "*febr."
-
-#~ msgid "*Mar"
-#~ msgstr "*márc."
-
-#~ msgid "*Apr"
-#~ msgstr "*ápr."
-
-#~ msgid "*May"
-#~ msgstr "*máj."
-
-#~ msgid "*Jun"
-#~ msgstr "*jún."
-
-#~ msgid "*Jul"
-#~ msgstr "*júl."
-
-#~ msgid "*Aug"
-#~ msgstr "*aug."
-
-#~ msgid "*Oct"
-#~ msgstr "*okt."
-
-#~ msgid "*Nov"
-#~ msgstr "*nov."
-
-#~ msgid "*Dec"
-#~ msgstr "*dec."
-
-#~ msgid "January"
-#~ msgstr "január"
-
-#~ msgid "February"
-#~ msgstr "február"
-
-#~ msgid "March"
-#~ msgstr "március"
-
-#~ msgid "April"
-#~ msgstr "április"
-
-#~ msgid "June"
-#~ msgstr "június"
-
-#~ msgid "July"
-#~ msgstr "július"
-
-#~ msgid "August"
-#~ msgstr "augusztus"
-
-#~ msgid "September"
-#~ msgstr "szeptember"
-
-#~ msgid "October"
-#~ msgstr "október"
-
-#~ msgid "November"
-#~ msgstr "november"
-
-#~ msgid "December"
-#~ msgstr "december"
-
-#, fuzzy
-#~ msgid "Automatic (%s)"
-#~ msgstr "Automatikus"
-
-#, fuzzy
-#~ msgid "Box-Plots"
-#~ msgstr "_Rendezés"
-
-#, fuzzy
-#~ msgid "Excel compatibility contour plotting engine"
-#~ msgstr "Hiba a sor értelmezésénél"
-
-#~ msgid "Plugin version \"%s\" is different from application \"%s\"."
-#~ msgstr ""
-#~ "A bővítmény verziója (%s) különbözik az alkalmazás verziójától (%s)."
-
-#, fuzzy
-#~ msgid "Error while saving file."
-#~ msgstr "Hiba történt a DIF fájl mentése közben."
-
-#, fuzzy
-#~ msgid "T_ype:"
-#~ msgstr "_Típus:"
-
-#, fuzzy
-#~ msgid "3D Adjacent Bars"
-#~ msgstr "Oszlopok törlése"
-
-#, fuzzy
-#~ msgid "3D Adjacent Columns"
-#~ msgstr "Oszlopok törlése"
-
-#, fuzzy
-#~ msgid "3D Percentage Bars"
-#~ msgstr "S_zázalék"
-
-#, fuzzy
-#~ msgid "3D Percentage Columns"
-#~ msgstr "Oszlopok törlése"
-
-#, fuzzy
-#~ msgid "3D Stacked Bars"
-#~ msgstr "Oszlopok törlése"
-
-#, fuzzy
-#~ msgid "3D Stacked Columns"
-#~ msgstr "Oszlopok törlése"
-
-#, fuzzy
-#~ msgid "3D Pie"
-#~ msgstr "_Cellarácsokkal"
-
-#, fuzzy
-#~ msgid "3D Split Pie"
-#~ msgstr "Felosztás"
-
-#, fuzzy
-#~ msgid "Multi-Pie"
-#~ msgstr "Szorzás"
-
-#, fuzzy
-#~ msgid "Multi-pie-bars"
-#~ msgstr "Szorzás"
