@@ -1162,23 +1162,14 @@ static void
 cb_format_class_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 			 GOFormatSel *gfs)
 {
-	int selected_item = 0;
-	GList *list;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection
 		(GTK_TREE_VIEW(gfs->format.menu));
+	GtkTreeIter iter;
 
-	list = gtk_tree_selection_get_selected_rows
-		(selection, &gfs->format.menu_model);
-	if (list) {
-		GtkTreePath *path;
-		path = list->data;
-		selected_item = *(gtk_tree_path_get_indices (path));
-
-		if (selected_item >= 0) {
-			fmt_dialog_enable_widgets (gfs, selected_item);
-		}
-		g_list_foreach (list, (GFunc)gtk_tree_path_free, NULL);
-		g_list_free (list);
+	if (gtk_tree_selection_get_selected (selection, &gfs->format.menu_model, &iter)) {
+		int ifam;
+		gtk_tree_model_get (gfs->format.menu_model, &iter, 1, &ifam, -1);
+		fmt_dialog_enable_widgets (gfs, ifam);
 	}
 }
 
@@ -1377,10 +1368,10 @@ populate_menu (GOFormatSel *gfs)
 	GtkTreeSelection  *selection;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
-	char const * const *categories = format_category_names;
+	GOFormatFamily fam;
 
 	gfs->format.menu_model = GTK_TREE_MODEL (gtk_list_store_new
-						 (1, G_TYPE_STRING));
+						 (2, G_TYPE_STRING, G_TYPE_INT));
 	gtk_tree_view_set_model (GTK_TREE_VIEW (gfs->format.menu),
 				 gfs->format.menu_model);
 	g_object_unref (gfs->format.menu_model);
@@ -1388,12 +1379,14 @@ populate_menu (GOFormatSel *gfs)
 		(GTK_TREE_VIEW(gfs->format.menu));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 
-	while (*categories) {
+	for (fam = GO_FORMAT_GENERAL; fam <= FMT_CUSTOM; fam++) {
+		const char *name = format_category_names[fam];
+		if (fam != FMT_CUSTOM && _go_format_builtins (fam) == NULL)
+			continue;
 		gtk_list_store_append
 			(GTK_LIST_STORE (gfs->format.menu_model), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (gfs->format.menu_model),
-				    &iter, 0, _(*categories), -1);
-		categories++;
+				    &iter, 0, name, 1, (int)fam, -1);
 	}
 
 	renderer = gtk_cell_renderer_text_new ();
@@ -1941,7 +1934,7 @@ go_format_sel_format_classification (GOFormat const *style_format)
 
 	page = study_format (style_format, &details);
 
-	if (page < 0 || page > FMT_CUSTOM)
+	if (page < 0 || page > FMT_CUSTOM || format_category_names[page] == NULL)
 		page = FMT_CUSTOM; /* Default to custom */
 
 	return _(format_category_names[page]);

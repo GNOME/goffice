@@ -1,5 +1,8 @@
 2021-03-17  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-format-sel.c: Get rid of empty categories.  (That
+	means "Special" which we never filled in.  See #29.)
+
 	* goffice/graph/gog-label.c (gog_reg_eqn_get_str): Show only three
 	decimals for R^2.
 
