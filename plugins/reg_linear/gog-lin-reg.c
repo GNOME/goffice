@@ -92,18 +92,25 @@ gog_lin_reg_curve_get_equation (GogRegCurve *curve)
 {
 	if (!curve->equation) {
 		GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
+		const char *uminus = "\xe2\x88\x92";
+		double a = curve->a[1];
+		double b = curve->a[0];
+		const char *var = "x";
+		const char *times = "";
 		if (lin->affine)
-			curve->equation = (curve->a[0] < 0.)?
-				((curve->a[1] < 0)?
-					g_strdup_printf ("y = \xE2\x88\x92%gx \xE2\x88\x92 %g", -curve->a[1], -curve->a[0]):
-					g_strdup_printf ("y = %gx \xE2\x88\x92 %g", curve->a[1], -curve->a[0])):
-				((curve->a[1] < 0)?
-					g_strdup_printf ("y = \xE2\x88\x92%gx + %g", -curve->a[1], curve->a[0]):
-					g_strdup_printf ("y = %gx + %g", curve->a[1], curve->a[0]));
+			curve->equation =
+				g_strdup_printf ("y = %s%g%s%s %s %g",
+						 (a < 0 ? uminus : ""),
+						 fabs (a),
+						 times, var,
+						 (b < 0 ? uminus : "+"),
+						 fabs (b));
 		else
-			curve->equation = (curve->a[1] < 0)?
-				g_strdup_printf ("y = \xE2\x88\x92%gx", -curve->a[1]):
-				g_strdup_printf ("y = %gx", curve->a[1]);
+			curve->equation =
+				g_strdup_printf ("y = %s%g%s",
+						 (a < 0 ? uminus : ""),
+						 fabs (a),
+						 var);
 	}
 	return curve->equation;
 }
