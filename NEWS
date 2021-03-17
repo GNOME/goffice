@@ -2,6 +2,7 @@ goffice 0.10.50:
 
 Morten:
 	* Simplify regression equation code.
+	* Use only 3 decimals for R^2 for regression lines.
 
 --------------------------------------------------------------------------
 goffice 0.10.49:

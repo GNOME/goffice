@@ -1,5 +1,8 @@
 2021-03-17  Morten Welinder  <terra@gnome.org>
 
+	* goffice/graph/gog-label.c (gog_reg_eqn_get_str): Show only three
+	decimals for R^2.
+
 	* plugins/reg_linear/gog-lin-reg.c
 	(gog_lin_reg_curve_get_equation): Simplify code using fewer
 	branches.

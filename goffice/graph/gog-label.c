@@ -600,10 +600,10 @@ gog_reg_eqn_get_str (GogText *text)
 			NULL;
 	else
 		return reg_eqn->show_eq ?
-			g_strdup_printf ("%s\r\nR² = %g",
+			g_strdup_printf ("%s\r\nR² = %.3f",
 					 gog_reg_curve_get_equation (reg_curve),
 					 gog_reg_curve_get_R2 (reg_curve)) :
-			g_strdup_printf ("R² = %g", gog_reg_curve_get_R2 (reg_curve));
+			g_strdup_printf ("R² = %.3f", gog_reg_curve_get_R2 (reg_curve));
 }
 
 static void
