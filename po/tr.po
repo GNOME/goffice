@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-02-27 02:29+0000\n"
-"PO-Revision-Date: 2021-03-09 03:00+0300\n"
+"POT-Creation-Date: 2021-03-09 00:01+0000\n"
+"PO-Revision-Date: 2021-03-23 00:55+0300\n"
 "Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
 "Language-Team: Turkish <gnometurk@gnome.org>\n"
 "Language: tr\n"
@@ -172,16 +172,14 @@ msgid "Current state of document"
 msgstr "Belgenin güncel durumu"
 
 #: ../goffice/app/go-doc.c:229
-#| msgid "Save as"
 msgid "Saved state"
 msgstr "Kaydedilmiş durum"
 
 #: ../goffice/app/go-doc.c:230
-#| msgid "How much of a document is saved"
 msgid "State of document when last saved"
 msgstr "Belgenin son kaydedildiği zamanki durumu"
 
-#: ../goffice/app/go-doc.c:623 ../goffice/canvas/goc-image.c:317
+#: ../goffice/app/go-doc.c:624 ../goffice/canvas/goc-image.c:317
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Resim"
@@ -3687,7 +3685,6 @@ msgid "Save as"
 msgstr "Farklı kaydet"
 
 #: ../goffice/gtk/goffice-gtk.c:1051
-#| msgid "Extension"
 msgid "Auto by extension"
 msgstr "Uzantıya göre otomatik"
 
@@ -8240,7 +8237,6 @@ msgid "Half Pie"
 msgstr "Yarı Pasta"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:7
-#, fuzzy
 msgid "Percentage of each contributor in a half circle."
 msgstr "Her katılımcının yarım dairedeki yüzdesi."
 
