@@ -32,6 +32,8 @@ typedef  struct {
 	gboolean affine;
 	double **x_vals, *y_vals;
 	int dims;
+	gboolean use_days_var;
+	double xbasis;
 } GogLinRegCurve;
 
 typedef struct {

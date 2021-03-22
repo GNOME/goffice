@@ -1,3 +1,11 @@
+2021-03-22  Morten Welinder  <terra@gnome.org>
+
+	* plugins/reg_linear/gog-lin-reg.c
+	(gog_lin_reg_curve_get_equation): If x-axis is a date axis, use an
+	equation that effectively says y=a * #days + b where #days is
+	counted from the left edge, not the arbitrary zero date in year
+	1900.
+
 2021-03-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c: Get rid of empty categories.  (That

@@ -4,6 +4,7 @@ Morten:
 	* Simplify regression equation code.
 	* Use only 3 decimals for R^2 for regression lines.
 	* Eliminate empty Special category from format selector.  [#29]
+	* Improve regression line equation for date axes.  [#41]
 
 --------------------------------------------------------------------------
 goffice 0.10.49:

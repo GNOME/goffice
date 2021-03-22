@@ -59,6 +59,18 @@ gog_lin_reg_curve_update (GogObject *obj)
 	if (!gog_series_is_valid (series))
 		return;
 
+	if (rc->affine) {
+		GogPlot *plot = gog_series_get_plot (series);
+		GogAxis *xaxis = plot ? gog_plot_get_axis (plot, GOG_AXIS_X) : NULL;
+		GOFormat *fmt = xaxis ? gog_axis_get_effective_format (xaxis) : NULL;
+		gboolean is_date = fmt && go_format_is_date (fmt) > 0;
+		double L, H;
+		gog_axis_get_bounds (xaxis, &L, &H);
+		rc->use_days_var = is_date;
+		rc->xbasis = L;
+	} else
+		rc->use_days_var = FALSE;
+
 	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
 	used = (y_vals)? (GOG_LIN_REG_CURVE_GET_CLASS(rc))->build_values (rc, x_vals, y_vals, nb): 0;
 	if (used > 1) {
@@ -97,6 +109,14 @@ gog_lin_reg_curve_get_equation (GogRegCurve *curve)
 		double b = curve->a[0];
 		const char *var = "x";
 		const char *times = "";
+
+		if (lin->use_days_var) {
+			var = _("#days");
+			// thin-space x thin-space
+			times = "\xe2\x80\x89\xc3\x97\xe2\x80\x89";
+			b += a * lin->xbasis;
+		}
+
 		if (lin->affine)
 			curve->equation =
 				g_strdup_printf ("y = %s%g%s%s %s %g",
@@ -296,6 +316,8 @@ gog_lin_reg_curve_init (GogLinRegCurve *model)
 	model->x_vals = NULL;
 	model->y_vals = NULL;
 	model->dims = 1;
+	model->use_days_var = FALSE;
+	model->xbasis = 0;
 }
 
 GSF_DYNAMIC_CLASS (GogLinRegCurve, gog_lin_reg_curve,
