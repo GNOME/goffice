@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-02-27 15:03+0000\n"
-"PO-Revision-Date: 2021-02-28 15:34+0200\n"
+"POT-Creation-Date: 2021-03-22 23:17+0000\n"
+"PO-Revision-Date: 2021-03-23 13:35+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 20.11.70\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -173,7 +172,7 @@ msgstr "Збережений стан"
 msgid "State of document when last saved"
 msgstr "Стан документа у момент останнього збереження"
 
-#: ../goffice/app/go-doc.c:623 ../goffice/canvas/goc-image.c:317
+#: ../goffice/app/go-doc.c:624 ../goffice/canvas/goc-image.c:317
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Зображення"
@@ -911,11 +910,11 @@ msgid ""
 "sizes. Each size must be at least 3. Values following an invalid value will "
 "be discarded. Setting the \"point\" property will reset the sizes."
 msgstr ""
-"Якщо встановлено, багатокутник буде розділено на декілька багатокутників"
-" відповідно до заданих розмірів. Кожен із розмірів має бути рівним принаймні"
-" 3. Значення, які буде вказано після некоректного значення, буде відкинуто."
-" Встановлення властивості «point» призведе до відновлення початкових значень"
-" розмірів."
+"Якщо встановлено, багатокутник буде розділено на декілька багатокутників "
+"відповідно до заданих розмірів. Кожен із розмірів має бути рівним принаймні "
+"3. Значення, які буде вказано після некоректного значення, буде відкинуто. "
+"Встановлення властивості «point» призведе до відновлення початкових значень "
+"розмірів."
 
 #: ../goffice/canvas/goc-polyline.c:277
 msgid "The polyline vertices"
@@ -947,9 +946,9 @@ msgid ""
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
 msgstr ""
-"Тип прямокутника: 0 — без заокруглених кутів, 1 — заокруглений верхній лівий"
-" кут, 2 — заокруглений верхній правий кут, 4 — заокруглений нижній правий"
-" кут, 8 — заокруглений нижній лівий кут, або будь-які поєднання цих значень."
+"Тип прямокутника: 0 — без заокруглених кутів, 1 — заокруглений верхній лівий "
+"кут, 2 — заокруглений верхній правий кут, 4 — заокруглений нижній правий "
+"кут, 8 — заокруглений нижній лівий кут, або будь-які поєднання цих значень."
 
 #: ../goffice/canvas/goc-rectangle.c:374
 msgid "rx"
@@ -1278,6 +1277,7 @@ msgstr "Обертання осьового кола"
 #: ../goffice/graph/gog-axis.c:3445 ../goffice/graph/gog-axis.c:3446
 msgid "Polar axis set unit"
 msgstr ""
+"Одиниця виміру набору полярної вісі"
 
 #: ../goffice/graph/gog-axis.c:3451
 msgid "Axis start position"
@@ -1327,12 +1327,14 @@ msgstr ""
 #: ../goffice/graph/gog-axis.c:3478
 msgid "Metrics ratio"
 msgstr ""
+"Коефіцієнт метрики"
 
 #: ../goffice/graph/gog-axis.c:3479
 msgid ""
 "If an axis is used as reference, gives the ratio of the ticks distance, and "
 "if the metrix is absolute, the ticks distance. Defaults to 1.0"
 msgstr ""
+"Якщо вісь використано як еталонну, задає коефіцієнт відстані між поділками, і, якщо метрика є абсолютною, задає відстань між поділками. Типовим значенням є 1.0."
 
 #: ../goffice/graph/gog-axis.c:3483
 msgid "Metrics Unit"
@@ -1343,14 +1345,17 @@ msgid ""
 "The unit symbol for the absolute distance unit between ticks. Might be \"cm"
 "\" or \"in\""
 msgstr ""
+"Позначення одиниць для абсолютної відстані між поділками. Може дорівнювати «cm» (сантиметри) або «in» (дюйми)"
 
 #: ../goffice/graph/gog-axis.c:3489
 msgid "Display factor"
 msgstr ""
+"Коефіцієнт показу"
 
 #: ../goffice/graph/gog-axis.c:3490
 msgid "Real values are the displayed ones multipled by the display factor."
 msgstr ""
+"Справжні значення є показаними значеннями із множенням на коефіцієнт показу."
 
 #: ../goffice/graph/gog-axis-color-map.c:132 ../goffice/graph/gog-theme.c:322
 msgid "Resource type"
@@ -1371,6 +1376,7 @@ msgstr "Редактор карти кольорів"
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
 msgid "Current color stop"
 msgstr ""
+"Поточна прив'язка кольору"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
 msgid "Value"
@@ -1902,8 +1908,8 @@ msgstr "_Компактний режим"
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 #: ../goffice/graph/gog-object.c:203
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
-#: ../goffice/gtk/go-arrow-sel.ui.h:5 ../goffice/gtk/go-format-sel.c:1672
-#: ../goffice/gtk/go-format-sel.c:1852 ../goffice/utils/formats.c:370
+#: ../goffice/gtk/go-arrow-sel.ui.h:5 ../goffice/gtk/go-format-sel.c:1665
+#: ../goffice/gtk/go-format-sel.c:1845 ../goffice/utils/formats.c:370
 #: ../goffice/utils/go-line.c:127 ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "Немає"
@@ -4444,11 +4450,11 @@ msgstr "Не дописувати одиниці."
 msgid "Append '%s'."
 msgstr "Дописати «%s»."
 
-#: ../goffice/gtk/go-format-sel.c:1580
+#: ../goffice/gtk/go-format-sel.c:1573
 msgid "Negative Number Format"
 msgstr "Формат від'ємних чисел"
 
-#: ../goffice/gtk/go-format-sel.c:1640
+#: ../goffice/gtk/go-format-sel.c:1633
 msgid "Number Formats"
 msgstr "Від'ємні числа"
 
@@ -8771,10 +8777,12 @@ msgstr "Показувати від'ємні"
 #: ../plugins/plot_xy/gog-xy.c:560
 msgid "Draw bubbles for negative values"
 msgstr ""
+"Малювати бульбашки для від'ємних значень"
 
 #: ../plugins/plot_xy/gog-xy.c:566
 msgid "Draw 3D bubbles"
 msgstr ""
+"Малювати просторові бульбашки"
 
 #: ../plugins/plot_xy/gog-xy.c:571
 msgid "Bubble scale"
@@ -8783,6 +8791,7 @@ msgstr "Масштаб бульбашки"
 #: ../plugins/plot_xy/gog-xy.c:572
 msgid "Fraction of default radius used for display"
 msgstr ""
+"Частка типового радіуса для показу"
 
 #: ../plugins/plot_xy/gog-xy.c:581 ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Bubble"
@@ -8806,10 +8815,12 @@ msgstr "Смужки похибок Y"
 #: ../plugins/plot_xy/gog-xy.c:2122
 msgid "Horizontal drop lines"
 msgstr ""
+"Горизонтальні лінії спадання"
 
 #: ../plugins/plot_xy/gog-xy.c:2130
 msgid "Vertical drop lines"
 msgstr ""
+"Вертикальні лінії спадання"
 
 #: ../plugins/plot_xy/gog-xy.c:2193
 msgid "Invalid as zero"
@@ -8818,6 +8829,7 @@ msgstr "Некоректні як нульові"
 #: ../plugins/plot_xy/gog-xy.c:2194
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
+"Замінити некоректні значення 0 при малюванні позначок або бульбашок"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
@@ -8833,6 +8845,7 @@ msgstr "Чи слід використовувати горизонтальні 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:309
 msgid "Bars width as a percentage of the plot width"
 msgstr ""
+"Ширина стовпчиків у відсотках до ширини креслення"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:320
 #: ../plugins/plot_xy/gog-xy-minmax.c:316
@@ -8881,6 +8894,7 @@ msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
+"Лінійна інтерполяція між багатовимірними точками із позначками у кожній з точок."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:11
 msgid "XY Lines"
@@ -8897,26 +8911,32 @@ msgstr "Сплайни XY"
 #: ../plugins/plot_xy/plot-types.xml.in.h:14
 msgid "Interpolate between multi-dimensional points with Bezier splines."
 msgstr ""
+"Інтерполяція між багатовимірними точками за допомогою сплайнів Безьє."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:15
 msgid "XY Steps Start"
 msgstr ""
+"Початок сходинок XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:16
 msgid "Stepped curve using the first y value."
 msgstr ""
+"Сходинкова крива із використанням першого значення y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:17
 msgid "XY Steps End"
 msgstr ""
+"Кінець сходинок XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "Stepped curve using the last y value."
 msgstr ""
+"Сходинкова крива із використанням останнього значення y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "XY Steps Center"
 msgstr ""
+"Центр сходинок XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "Stepped curve using the nearest y value."
@@ -9036,31 +9056,35 @@ msgstr ""
 msgid "Exponential regression"
 msgstr "Експоненційна регресія"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:158
-#: ../plugins/reg_linear/gog-lin-reg.c:271
+#: ../plugins/reg_linear/gog-lin-reg.c:114
+msgid "#days"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:185
+#: ../plugins/reg_linear/gog-lin-reg.c:298
 msgid "Affine"
 msgstr "Афінна"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:159
+#: ../plugins/reg_linear/gog-lin-reg.c:186
 msgid "Uncheck to force zero intercept"
 msgstr "Зніміть позначку для примусового перетину в нулі"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
-#: ../plugins/reg_linear/gog-lin-reg.c:173
+#: ../plugins/reg_linear/gog-lin-reg.c:200
 msgid "Linear regression"
 msgstr "Лінійна регресія"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:272
+#: ../plugins/reg_linear/gog-lin-reg.c:299
 msgid "If true, a non-zero constant is allowed"
 msgstr "Якщо true, можна використовувати ненульову сталу"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:277
+#: ../plugins/reg_linear/gog-lin-reg.c:304
 msgid "Dims"
 msgstr "Розмірності"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:278
+#: ../plugins/reg_linear/gog-lin-reg.c:305
 msgid "Number of x-vectors"
 msgstr "Кількість векторів x"
 
@@ -9227,7 +9251,8 @@ msgstr "Кількість значень, за якими слід обчисл
 #: ../plugins/smoothing/gog-moving-avg.c:108
 msgid "Whether to average x values as well or use the last one"
 msgstr ""
-"Використовувати усереднені значення і за x або скористатися останнім значенням"
+"Використовувати усереднені значення і за x або скористатися останнім "
+"значенням"
 
 #. xgettext : the base for how to name moving averge smoothed curves objects
 #. * eg The 2nd one for a series will be called
