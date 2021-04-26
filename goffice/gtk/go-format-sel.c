@@ -160,6 +160,8 @@ struct  _GOFormatSel {
 		char *default_si_unit;
 
 		GOFormatDetails details;
+
+		int fam_page[FMT_CUSTOM + 1];
 	} format;
 };
 
@@ -1307,13 +1309,13 @@ funny_currency_order (gconstpointer _a, gconstpointer _b)
 }
 
 static void
-set_format_category (GOFormatSel *gfs, int row)
+set_format_category (GOFormatSel *gfs, GOFormatFamily fam)
 {
 	GtkTreePath *path;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection
 		((GTK_TREE_VIEW(gfs->format.menu)));
 
-	path = gtk_tree_path_new_from_indices (row, -1);
+	path = gtk_tree_path_new_from_indices (gfs->format.fam_page[fam], -1);
 	gtk_tree_selection_select_path  (selection, path);
 	gtk_tree_path_free (path);
 }
@@ -1369,6 +1371,7 @@ populate_menu (GOFormatSel *gfs)
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
 	GOFormatFamily fam;
+	int p = 0;
 
 	gfs->format.menu_model = GTK_TREE_MODEL (gtk_list_store_new
 						 (2, G_TYPE_STRING, G_TYPE_INT));
@@ -1381,8 +1384,11 @@ populate_menu (GOFormatSel *gfs)
 
 	for (fam = GO_FORMAT_GENERAL; fam <= FMT_CUSTOM; fam++) {
 		const char *name = format_category_names[fam];
-		if (fam != FMT_CUSTOM && _go_format_builtins (fam) == NULL)
+		if (fam != FMT_CUSTOM && _go_format_builtins (fam) == NULL) {
+			gfs->format.fam_page[fam] = -1;
 			continue;
+		}
+		gfs->format.fam_page[fam] = p++;
 		gtk_list_store_append
 			(GTK_LIST_STORE (gfs->format.menu_model), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (gfs->format.menu_model),

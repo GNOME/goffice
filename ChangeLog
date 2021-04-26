@@ -1,3 +1,8 @@
+2021-04-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (set_format_category): This takes a
+	family, not a row number.  Handle that properly.
+
 2021-03-22  Morten Welinder  <terra@gnome.org>
 
 	* plugins/reg_linear/gog-lin-reg.c
