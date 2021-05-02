@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-03-22 23:17+0000\n"
-"PO-Revision-Date: 2021-03-23 13:35+0200\n"
+"POT-Creation-Date: 2021-03-23 11:36+0000\n"
+"PO-Revision-Date: 2021-05-02 20:29+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.11.70\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
 msgid "ID"
@@ -1276,8 +1276,7 @@ msgstr "Обертання осьового кола"
 
 #: ../goffice/graph/gog-axis.c:3445 ../goffice/graph/gog-axis.c:3446
 msgid "Polar axis set unit"
-msgstr ""
-"Одиниця виміру набору полярної вісі"
+msgstr "Одиниця виміру набору полярної вісі"
 
 #: ../goffice/graph/gog-axis.c:3451
 msgid "Axis start position"
@@ -1326,15 +1325,16 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis.c:3478
 msgid "Metrics ratio"
-msgstr ""
-"Коефіцієнт метрики"
+msgstr "Коефіцієнт метрики"
 
 #: ../goffice/graph/gog-axis.c:3479
 msgid ""
 "If an axis is used as reference, gives the ratio of the ticks distance, and "
 "if the metrix is absolute, the ticks distance. Defaults to 1.0"
 msgstr ""
-"Якщо вісь використано як еталонну, задає коефіцієнт відстані між поділками, і, якщо метрика є абсолютною, задає відстань між поділками. Типовим значенням є 1.0."
+"Якщо вісь використано як еталонну, задає коефіцієнт відстані між поділками, "
+"і, якщо метрика є абсолютною, задає відстань між поділками. Типовим "
+"значенням є 1.0."
 
 #: ../goffice/graph/gog-axis.c:3483
 msgid "Metrics Unit"
@@ -1345,12 +1345,12 @@ msgid ""
 "The unit symbol for the absolute distance unit between ticks. Might be \"cm"
 "\" or \"in\""
 msgstr ""
-"Позначення одиниць для абсолютної відстані між поділками. Може дорівнювати «cm» (сантиметри) або «in» (дюйми)"
+"Позначення одиниць для абсолютної відстані між поділками. Може дорівнювати "
+"«cm» (сантиметри) або «in» (дюйми)"
 
 #: ../goffice/graph/gog-axis.c:3489
 msgid "Display factor"
-msgstr ""
-"Коефіцієнт показу"
+msgstr "Коефіцієнт показу"
 
 #: ../goffice/graph/gog-axis.c:3490
 msgid "Real values are the displayed ones multipled by the display factor."
@@ -1375,8 +1375,7 @@ msgstr "Редактор карти кольорів"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:2
 msgid "Current color stop"
-msgstr ""
-"Поточна прив'язка кольору"
+msgstr "Поточна прив'язка кольору"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:3
 msgid "Value"
@@ -1433,6 +1432,7 @@ msgstr "Позиція вісі"
 #: ../goffice/graph/gog-axis-line.c:784 ../goffice/graph/gog-axis-line.c:790
 msgid "Where to position an axis low, high, or crossing"
 msgstr ""
+"Де розташувати вісь — знизу, згори або на перехресті"
 
 #: ../goffice/graph/gog-axis-line.c:789
 msgid "Axis position (as a string)"
@@ -1497,10 +1497,11 @@ msgstr "Розмір допоміжних позначок у точках"
 #: ../goffice/graph/gog-axis-line.c:840
 msgid "Cross axis ID"
 msgstr ""
+"Ід. вісі перетину"
 
 #: ../goffice/graph/gog-axis-line.c:841
 msgid "Which axis to cross"
-msgstr "Які вісі перетинати"
+msgstr "Яку вісь перетинати"
 
 #: ../goffice/graph/gog-axis-line.c:847
 msgid "Axis padding"
@@ -1509,6 +1510,7 @@ msgstr "Фаска вісі"
 #: ../goffice/graph/gog-axis-line.c:848
 msgid "Distance from axis line to plot area, in points"
 msgstr ""
+"Відстань від лінії вісі до області графіка, у точках"
 
 #: ../goffice/graph/gog-axis-line.c:942
 msgid "Select axis"
@@ -1517,10 +1519,12 @@ msgstr "Вибрати вісь"
 #: ../goffice/graph/gog-axis-line.c:1048
 msgid "Set start bound"
 msgstr ""
+"Встановити прив'язку початку"
 
 #: ../goffice/graph/gog-axis-line.c:1059
 msgid "Set stop bound"
 msgstr ""
+"Встановити прив'язку кінця"
 
 #: ../goffice/graph/gog-axis-line.c:2609
 msgid "Ticks"
@@ -1871,6 +1875,7 @@ msgstr "Вісь"
 #: ../goffice/graph/gog-color-scale.c:347
 msgid "Reference to the color or pseudo-3d axis"
 msgstr ""
+"Посилання на вісь кольорів або псевдопросторову вісь"
 
 #: ../goffice/graph/gog-color-scale.c:352
 msgid "Tick size"
@@ -2069,6 +2074,7 @@ msgstr "Тип _креслення"
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
 msgid "Sample"
 msgstr ""
+"Вибірка"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
 msgid "_Subtype"
@@ -2253,6 +2259,7 @@ msgstr "Компас"
 #: ../goffice/graph/gog-object.c:841
 msgid "Compass auto position flags"
 msgstr ""
+"Прапорці автоматичного розташування компаса"
 
 #: ../goffice/graph/gog-object.c:846
 msgid "Alignment"
@@ -2454,6 +2461,7 @@ msgstr "Тангенціальна вісь"
 #: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
 msgstr ""
+"Посилання на кругову вісь"
 
 #: ../goffice/graph/gog-plot.c:489
 msgid "Radial axis"
@@ -2462,6 +2470,7 @@ msgstr "Радіальна вісь"
 #: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
 msgstr ""
+"Посилання на радіальну вісь"
 
 #: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
@@ -2470,6 +2479,7 @@ msgstr "Псевдопросторова вісь"
 #: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
 msgstr ""
+"Посилання на псевдопросторову вісь"
 
 #: ../goffice/graph/gog-plot.c:501
 msgid "Color axis"
@@ -2478,6 +2488,7 @@ msgstr "Колір вісі"
 #: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
 msgstr ""
+"Посилання на вісь кольорів"
 
 #: ../goffice/graph/gog-plot.c:507
 msgid "Bubble axis"
@@ -2486,6 +2497,7 @@ msgstr "Бульбашкова вісь"
 #: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
 msgstr ""
+"Посилання на бульбашкову вісь"
 
 #: ../goffice/graph/gog-plot.c:513
 msgid "Plot group"
@@ -2498,12 +2510,14 @@ msgstr "Назва групи креслень, якщо така є"
 #: ../goffice/graph/gog-plot.c:519
 msgid "Guru hints"
 msgstr ""
+"Гуру-підказки"
 
 #: ../goffice/graph/gog-plot.c:520
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
+"Список підказок, відокремлених крапкою з комою, для автоматичного додавання об'єктів у гуру-вікні"
 
 #: ../goffice/graph/gog-plot.c:526
 msgid "Default interpolation"
@@ -2553,12 +2567,14 @@ msgstr "Пропустити некоректні дані"
 #: ../goffice/graph/gog-reg-curve.c:312
 msgid "Drawing bounds"
 msgstr ""
+"Межі креслення"
 
 #: ../goffice/graph/gog-reg-curve.c:313
 msgid ""
 "How the regression line should be limited, acceptable values are \"none\", "
 "\"absolute\", and \"relative\"."
 msgstr ""
+"Спосіб обмеження лінії регресії. Прийнятними значеннями є «none», «absolute» та «relative»."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2567,10 +2583,12 @@ msgstr "(_Назва):"
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
 msgid "Low bound:"
 msgstr ""
+"Нижня межа:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
 msgid "High bound:"
 msgstr ""
+"Верхня межа:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
 #: ../goffice/graph/gog-series-labels.c:471
@@ -2609,10 +2627,12 @@ msgstr "Верхня межа:"
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:18
 msgid "Low span:"
 msgstr ""
+"Нижній діапазон:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:19
 msgid "High span:"
 msgstr ""
+"Верхній діапазон:"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
@@ -3002,6 +3022,7 @@ msgstr "GogObject, на якому показано цю панель перег
 #: ../goffice/graph/new-theme-prefs.ui.h:2
 msgid "Series number"
 msgstr ""
+"Номер у послідовності"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -4124,27 +4145,32 @@ msgstr "Верхній індекс"
 
 #: ../goffice/gtk/go-font-sel.c:1251
 msgid "Show Style"
-msgstr "Показ стилю"
+msgstr "Показати стиль"
 
 #: ../goffice/gtk/go-font-sel.c:1252
 msgid "Whether style is part of the font being selected"
 msgstr ""
+"Чи є стиль частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1260
 msgid "Show Color"
 msgstr ""
+"Показати колір"
 
 #: ../goffice/gtk/go-font-sel.c:1261
 msgid "Whether color is part of the font being selected"
 msgstr ""
+"Чи є колір частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1269
 msgid "Show Underline"
 msgstr ""
+"Показати підкреслювання"
 
 #: ../goffice/gtk/go-font-sel.c:1270
 msgid "Whether underlining is part of the font being selected"
 msgstr ""
+"Чи є підкреслювання частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1278
 msgid "Show Script"
@@ -4153,46 +4179,56 @@ msgstr "Показати писемність"
 #: ../goffice/gtk/go-font-sel.c:1279
 msgid "Whether subscript/superscript is part of the font being selected"
 msgstr ""
+"Чи є колір нижній/верхній індекс частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1287
 msgid "Show Strikethrough"
 msgstr ""
+"Показати перекреслювання"
 
 #: ../goffice/gtk/go-font-sel.c:1288
 msgid "Whether strikethrough is part of the font being selected"
 msgstr ""
+"Чи є перекреслювання частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1296
 msgid "Color unset text"
 msgstr ""
+"Текст для невизначеного кольору"
 
 #: ../goffice/gtk/go-font-sel.c:1297
 msgid "The text to show for selecting no color"
 msgstr ""
+"Текст, який слід показати, якщо не вибрано кольору"
 
 #: ../goffice/gtk/go-font-sel.c:1305
 msgid "Color Group"
-msgstr "Гурпа кольорів"
+msgstr "Група кольорів"
 
 #: ../goffice/gtk/go-font-sel.c:1306
 msgid "The color group to use for the color picker"
 msgstr ""
+"Група кольорів, яку слід використатися, для засобу вибору кольору"
 
 #: ../goffice/gtk/go-font-sel.c:1314
 msgid "Color Default"
 msgstr ""
+"Типовий колір"
 
 #: ../goffice/gtk/go-font-sel.c:1315
 msgid "The color to show for an unset color"
 msgstr ""
+"Колір, який слід показати, якщо колін не встановлено"
 
 #: ../goffice/gtk/go-font-sel.c:1325
 msgid "Underline Picker"
 msgstr ""
+"Вибір підкреслювання"
 
 #: ../goffice/gtk/go-font-sel.c:1326
 msgid "The widget to use for picking underline type"
 msgstr ""
+"Віджет, яким слід скористатися для вибору типу підкреслювання"
 
 #: ../goffice/gtk/go-font-sel-dialog.c:112
 msgid "Pick a Font"
@@ -4201,6 +4237,7 @@ msgstr "Виберіть шрифт"
 #: ../goffice/gtk/go-font-sel.ui.h:1
 msgid "Select the font family"
 msgstr ""
+"Виберіть гарнітуру шрифту"
 
 #: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
@@ -4209,6 +4246,7 @@ msgstr "Шрифт:"
 #: ../goffice/gtk/go-font-sel.ui.h:3
 msgid "Select the size"
 msgstr ""
+"Виберіть розмір"
 
 #: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
@@ -4217,6 +4255,7 @@ msgstr "Розмір:"
 #: ../goffice/gtk/go-font-sel.ui.h:5
 msgid "Select the font face"
 msgstr ""
+"Виберіть стиль шрифту"
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
 msgid "Style:"
@@ -4225,6 +4264,7 @@ msgstr "Стиль:"
 #: ../goffice/gtk/go-font-sel.ui.h:7
 msgid "Select whether a line should be drawn through the text"
 msgstr ""
+"Вкажіть, чи має бути перекреслено текст"
 
 #: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
@@ -4243,6 +4283,7 @@ msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
 msgstr ""
+"Виберіть, чи має бути змінено шрифт так, щоб він використовувався як нижній або верхній індекс"
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
@@ -5948,10 +5989,12 @@ msgstr "Аруба, ґульдени"
 #: ../goffice/utils/formats.c:395
 msgid "Azerbaijan, Manats"
 msgstr ""
+"Азербайджан, манати"
 
 #: ../goffice/utils/formats.c:396
 msgid "Bosnia and herzegovina, Convertible Marka"
 msgstr ""
+"Боснія і Герцеговина, конвертована марка"
 
 #: ../goffice/utils/formats.c:397
 msgid "Barbados, Dollars"
@@ -5980,26 +6023,32 @@ msgstr "Бермуди, долари"
 #: ../goffice/utils/formats.c:403
 msgid "Brunei Darussalam, Dollars"
 msgstr ""
+"Бруней, долари"
 
 #: ../goffice/utils/formats.c:404
 msgid "Bolivia, Bolivianos"
 msgstr ""
+"Болівія, болівіано"
 
 #: ../goffice/utils/formats.c:405
 msgid "Bolivia, Mvdol"
 msgstr ""
+"Болівія, mvdol"
 
 #: ../goffice/utils/formats.c:406
 msgid "Brazil, Brazilian Real"
 msgstr ""
+"Бразилія, бразильський реал"
 
 #: ../goffice/utils/formats.c:407
 msgid "Bahamas, Dollars"
 msgstr ""
+"Багамські острови, долари"
 
 #: ../goffice/utils/formats.c:408
 msgid "Bhutan, Ngultrum"
 msgstr ""
+"Бутан, нгултрум"
 
 #: ../goffice/utils/formats.c:409
 msgid "Botswana, Pulas"
@@ -8776,13 +8825,11 @@ msgstr "Показувати від'ємні"
 
 #: ../plugins/plot_xy/gog-xy.c:560
 msgid "Draw bubbles for negative values"
-msgstr ""
-"Малювати бульбашки для від'ємних значень"
+msgstr "Малювати бульбашки для від'ємних значень"
 
 #: ../plugins/plot_xy/gog-xy.c:566
 msgid "Draw 3D bubbles"
-msgstr ""
-"Малювати просторові бульбашки"
+msgstr "Малювати просторові бульбашки"
 
 #: ../plugins/plot_xy/gog-xy.c:571
 msgid "Bubble scale"
@@ -8790,8 +8837,7 @@ msgstr "Масштаб бульбашки"
 
 #: ../plugins/plot_xy/gog-xy.c:572
 msgid "Fraction of default radius used for display"
-msgstr ""
-"Частка типового радіуса для показу"
+msgstr "Частка типового радіуса для показу"
 
 #: ../plugins/plot_xy/gog-xy.c:581 ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Bubble"
@@ -8814,13 +8860,11 @@ msgstr "Смужки похибок Y"
 
 #: ../plugins/plot_xy/gog-xy.c:2122
 msgid "Horizontal drop lines"
-msgstr ""
-"Горизонтальні лінії спадання"
+msgstr "Горизонтальні лінії спадання"
 
 #: ../plugins/plot_xy/gog-xy.c:2130
 msgid "Vertical drop lines"
-msgstr ""
-"Вертикальні лінії спадання"
+msgstr "Вертикальні лінії спадання"
 
 #: ../plugins/plot_xy/gog-xy.c:2193
 msgid "Invalid as zero"
@@ -8828,8 +8872,7 @@ msgstr "Некоректні як нульові"
 
 #: ../plugins/plot_xy/gog-xy.c:2194
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
-msgstr ""
-"Замінити некоректні значення 0 при малюванні позначок або бульбашок"
+msgstr "Замінити некоректні значення 0 при малюванні позначок або бульбашок"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
@@ -8844,8 +8887,7 @@ msgstr "Чи слід використовувати горизонтальні 
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:309
 msgid "Bars width as a percentage of the plot width"
-msgstr ""
-"Ширина стовпчиків у відсотках до ширини креслення"
+msgstr "Ширина стовпчиків у відсотках до ширини креслення"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:320
 #: ../plugins/plot_xy/gog-xy-minmax.c:316
@@ -8894,7 +8936,8 @@ msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
-"Лінійна інтерполяція між багатовимірними точками із позначками у кожній з точок."
+"Лінійна інтерполяція між багатовимірними точками із позначками у кожній з "
+"точок."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:11
 msgid "XY Lines"
@@ -8910,33 +8953,27 @@ msgstr "Сплайни XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:14
 msgid "Interpolate between multi-dimensional points with Bezier splines."
-msgstr ""
-"Інтерполяція між багатовимірними точками за допомогою сплайнів Безьє."
+msgstr "Інтерполяція між багатовимірними точками за допомогою сплайнів Безьє."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:15
 msgid "XY Steps Start"
-msgstr ""
-"Початок сходинок XY"
+msgstr "Початок сходинок XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:16
 msgid "Stepped curve using the first y value."
-msgstr ""
-"Сходинкова крива із використанням першого значення y."
+msgstr "Сходинкова крива із використанням першого значення y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:17
 msgid "XY Steps End"
-msgstr ""
-"Кінець сходинок XY"
+msgstr "Кінець сходинок XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "Stepped curve using the last y value."
-msgstr ""
-"Сходинкова крива із використанням останнього значення y."
+msgstr "Сходинкова крива із використанням останнього значення y."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "XY Steps Center"
-msgstr ""
-"Центр сходинок XY"
+msgstr "Центр сходинок XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "Stepped curve using the nearest y value."
