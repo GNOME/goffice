@@ -1,5 +1,8 @@
 goffice 0.10.50:
 
+Jean:
+	* Fix data update in matrix plots, see Debian #988397.
+
 Morten:
 	* Simplify regression equation code.
 	* Use only 3 decimals for R^2 for regression lines.

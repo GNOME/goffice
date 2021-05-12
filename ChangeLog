@@ -1,3 +1,8 @@
+2021-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-matrix.c (gog_matrix_view_render): call the
+	build_matrix method for the real plot type. Fixes Debian #988397.
+
 2021-04-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (set_format_category): This takes a
