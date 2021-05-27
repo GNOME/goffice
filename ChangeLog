@@ -1,3 +1,8 @@
+2021-05-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_draw): fix rendering on high
+	resolution monitors when scale is not 1. #578.
+
 2021-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-matrix.c (gog_matrix_view_render): call the

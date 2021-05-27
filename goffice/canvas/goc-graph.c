@@ -186,25 +186,38 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 	GocGraph *graph = GOC_GRAPH (item);
 	GocCanvas *canvas = item->canvas;
 	cairo_surface_t *surf;
-	double x0, y0 = item->y0;
+	double x0, y0 = item->y0, scale = 1.;
 	if (graph->renderer == NULL)
 		return;
-	if (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
+	// Note that we can't have RTL when the scene has no widget, may be we can
+	// add a direction mamber to the group (in its private member) if needed
+	if (canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		x0 = item->x1;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
 		x0 = canvas->width - (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
 	} else {
 		x0 = item->x0;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
-		x0 = go_fake_round ((x0 - canvas->scroll_x1) * canvas->pixels_per_unit);
+		if (canvas)
+			x0 = go_fake_round ((x0 - canvas->scroll_x1) * canvas->pixels_per_unit);
 	}
 	cairo_save (cr);
-	cairo_translate (cr, x0,
-	                 (int) (y0 - canvas->scroll_y1) * canvas->pixels_per_unit);
-	/* scaling only there gives a better rendering, and allows for caching */
-	gog_renderer_update (graph->renderer,
-				      go_fake_round (graph->w * canvas->pixels_per_unit),
-				      go_fake_round (graph->h * canvas->pixels_per_unit));
+	if (canvas) {
+		cairo_translate (cr, x0,
+			             (int) (y0 - canvas->scroll_y1) * canvas->pixels_per_unit);
+#if GTK_CHECK_VERSION(3,10,0)
+		scale = gtk_widget_get_scale_factor (GTK_WIDGET (canvas));
+		cairo_scale (cr, 1. / scale, 1. / scale);
+		/* scaling only there gives a better rendering, and allows for caching */
+		gog_renderer_update (graph->renderer,
+						  go_fake_round (graph->w * canvas->pixels_per_unit * scale),
+						  go_fake_round (graph->h * canvas->pixels_per_unit * scale));
+#endif
+	} else {
+		cairo_translate (cr, x0, y0);
+		/* scaling only there gives a better rendering, and allows for caching */
+		gog_renderer_update (graph->renderer, graph->w, graph->h);
+	}
 	surf = gog_renderer_get_cairo_surface (graph->renderer);
 	cairo_set_source_surface (cr, surf, 0., 0.);
 	cairo_paint (cr);
