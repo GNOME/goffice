@@ -1,3 +1,7 @@
+2021-06-10  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.50
+
 2021-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_draw): fix rendering on high
