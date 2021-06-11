@@ -1415,6 +1415,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (((GogBubblePlot*)model)->show_negatives)
 			g_object_unref (neg_style);
 	}
+	gog_renderer_pop_clip (view->renderer);
+
 
 	if (!GOG_IS_BUBBLE_PLOT (model))
 		for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
@@ -1481,6 +1483,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 	/* render series labels */
+	// first clip again to avoid labels outside of allocation (#47)
+	gog_renderer_push_clip_rectangle (view->renderer, view->allocation.x, view->allocation.y,
+			  view->allocation.w, view->allocation.h);
 	for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
 		GSList *labels, *cur;
 		double const *cur_x, *cur_y, *cur_z;

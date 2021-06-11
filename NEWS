@@ -6,6 +6,7 @@ goffice 0.10.50:
 Jean:
 	* Fix data update in matrix plots, see Debian #988397.
 	* Fix rendering on high resolution monitors when scale is not 1. [#578]
+	* Do not clip markers in scatter plots. [#584]
 
 Morten:
 	* Simplify regression equation code.
