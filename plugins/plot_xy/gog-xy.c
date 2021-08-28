@@ -1594,7 +1594,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					anchor = GO_ANCHOR_CENTER;
 					break;
 				case GOG_SERIES_LABELS_TOP:
-					alloc.y -= cur_offset * gog_renderer_get_scale (view->renderer);;
+					alloc.y -= cur_offset * gog_renderer_get_scale (view->renderer);
 					anchor = GO_ANCHOR_SOUTH;
 					break;
 				case GOG_SERIES_LABELS_BOTTOM:

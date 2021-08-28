@@ -2,6 +2,7 @@ goffice 0.10.51:
 
 Jean:
 	* Do not clip markers in scatter plots. [#584]
+	* Draw background and outline for data labels. [#592]
 
 --------------------------------------------------------------------------
 goffice 0.10.50:
