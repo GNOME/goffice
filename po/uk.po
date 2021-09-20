@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-03-23 11:36+0000\n"
-"PO-Revision-Date: 2021-05-02 20:29+0300\n"
+"POT-Creation-Date: 2021-05-02 17:30+0000\n"
+"PO-Revision-Date: 2021-09-20 17:54+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -1431,8 +1431,7 @@ msgstr "Позиція вісі"
 
 #: ../goffice/graph/gog-axis-line.c:784 ../goffice/graph/gog-axis-line.c:790
 msgid "Where to position an axis low, high, or crossing"
-msgstr ""
-"Де розташувати вісь — знизу, згори або на перехресті"
+msgstr "Де розташувати вісь — знизу, згори або на перехресті"
 
 #: ../goffice/graph/gog-axis-line.c:789
 msgid "Axis position (as a string)"
@@ -1496,8 +1495,7 @@ msgstr "Розмір допоміжних позначок у точках"
 
 #: ../goffice/graph/gog-axis-line.c:840
 msgid "Cross axis ID"
-msgstr ""
-"Ід. вісі перетину"
+msgstr "Ід. вісі перетину"
 
 #: ../goffice/graph/gog-axis-line.c:841
 msgid "Which axis to cross"
@@ -1509,8 +1507,7 @@ msgstr "Фаска вісі"
 
 #: ../goffice/graph/gog-axis-line.c:848
 msgid "Distance from axis line to plot area, in points"
-msgstr ""
-"Відстань від лінії вісі до області графіка, у точках"
+msgstr "Відстань від лінії вісі до області графіка, у точках"
 
 #: ../goffice/graph/gog-axis-line.c:942
 msgid "Select axis"
@@ -1518,13 +1515,11 @@ msgstr "Вибрати вісь"
 
 #: ../goffice/graph/gog-axis-line.c:1048
 msgid "Set start bound"
-msgstr ""
-"Встановити прив'язку початку"
+msgstr "Встановити прив'язку початку"
 
 #: ../goffice/graph/gog-axis-line.c:1059
 msgid "Set stop bound"
-msgstr ""
-"Встановити прив'язку кінця"
+msgstr "Встановити прив'язку кінця"
 
 #: ../goffice/graph/gog-axis-line.c:2609
 msgid "Ticks"
@@ -1874,8 +1869,7 @@ msgstr "Вісь"
 
 #: ../goffice/graph/gog-color-scale.c:347
 msgid "Reference to the color or pseudo-3d axis"
-msgstr ""
-"Посилання на вісь кольорів або псевдопросторову вісь"
+msgstr "Посилання на вісь кольорів або псевдопросторову вісь"
 
 #: ../goffice/graph/gog-color-scale.c:352
 msgid "Tick size"
@@ -1913,8 +1907,8 @@ msgstr "_Компактний режим"
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 #: ../goffice/graph/gog-object.c:203
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
-#: ../goffice/gtk/go-arrow-sel.ui.h:5 ../goffice/gtk/go-format-sel.c:1665
-#: ../goffice/gtk/go-format-sel.c:1845 ../goffice/utils/formats.c:370
+#: ../goffice/gtk/go-arrow-sel.ui.h:5 ../goffice/gtk/go-format-sel.c:1671
+#: ../goffice/gtk/go-format-sel.c:1851 ../goffice/utils/formats.c:370
 #: ../goffice/utils/go-line.c:127 ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "Немає"
@@ -2073,8 +2067,7 @@ msgstr "Тип _креслення"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
 msgid "Sample"
-msgstr ""
-"Вибірка"
+msgstr "Вибірка"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
 msgid "_Subtype"
@@ -2258,8 +2251,7 @@ msgstr "Компас"
 
 #: ../goffice/graph/gog-object.c:841
 msgid "Compass auto position flags"
-msgstr ""
-"Прапорці автоматичного розташування компаса"
+msgstr "Прапорці автоматичного розташування компаса"
 
 #: ../goffice/graph/gog-object.c:846
 msgid "Alignment"
@@ -2460,8 +2452,7 @@ msgstr "Тангенціальна вісь"
 
 #: ../goffice/graph/gog-plot.c:484
 msgid "Reference to circular axis"
-msgstr ""
-"Посилання на кругову вісь"
+msgstr "Посилання на кругову вісь"
 
 #: ../goffice/graph/gog-plot.c:489
 msgid "Radial axis"
@@ -2469,8 +2460,7 @@ msgstr "Радіальна вісь"
 
 #: ../goffice/graph/gog-plot.c:490
 msgid "Reference to radial axis"
-msgstr ""
-"Посилання на радіальну вісь"
+msgstr "Посилання на радіальну вісь"
 
 #: ../goffice/graph/gog-plot.c:495
 msgid "Pseudo-3D axis"
@@ -2478,8 +2468,7 @@ msgstr "Псевдопросторова вісь"
 
 #: ../goffice/graph/gog-plot.c:496
 msgid "Reference to pseudo-3D axis"
-msgstr ""
-"Посилання на псевдопросторову вісь"
+msgstr "Посилання на псевдопросторову вісь"
 
 #: ../goffice/graph/gog-plot.c:501
 msgid "Color axis"
@@ -2487,8 +2476,7 @@ msgstr "Колір вісі"
 
 #: ../goffice/graph/gog-plot.c:502
 msgid "Reference to color axis"
-msgstr ""
-"Посилання на вісь кольорів"
+msgstr "Посилання на вісь кольорів"
 
 #: ../goffice/graph/gog-plot.c:507
 msgid "Bubble axis"
@@ -2496,8 +2484,7 @@ msgstr "Бульбашкова вісь"
 
 #: ../goffice/graph/gog-plot.c:508
 msgid "Reference to bubble axis"
-msgstr ""
-"Посилання на бульбашкову вісь"
+msgstr "Посилання на бульбашкову вісь"
 
 #: ../goffice/graph/gog-plot.c:513
 msgid "Plot group"
@@ -2509,15 +2496,15 @@ msgstr "Назва групи креслень, якщо така є"
 
 #: ../goffice/graph/gog-plot.c:519
 msgid "Guru hints"
-msgstr ""
-"Гуру-підказки"
+msgstr "Гуру-підказки"
 
 #: ../goffice/graph/gog-plot.c:520
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
-"Список підказок, відокремлених крапкою з комою, для автоматичного додавання об'єктів у гуру-вікні"
+"Список підказок, відокремлених крапкою з комою, для автоматичного додавання "
+"об'єктів у гуру-вікні"
 
 #: ../goffice/graph/gog-plot.c:526
 msgid "Default interpolation"
@@ -2566,15 +2553,15 @@ msgstr "Пропустити некоректні дані"
 
 #: ../goffice/graph/gog-reg-curve.c:312
 msgid "Drawing bounds"
-msgstr ""
-"Межі креслення"
+msgstr "Межі креслення"
 
 #: ../goffice/graph/gog-reg-curve.c:313
 msgid ""
 "How the regression line should be limited, acceptable values are \"none\", "
 "\"absolute\", and \"relative\"."
 msgstr ""
-"Спосіб обмеження лінії регресії. Прийнятними значеннями є «none», «absolute» та «relative»."
+"Спосіб обмеження лінії регресії. Прийнятними значеннями є «none», «absolute» "
+"та «relative»."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2582,13 +2569,11 @@ msgstr "(_Назва):"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
 msgid "Low bound:"
-msgstr ""
-"Нижня межа:"
+msgstr "Нижня межа:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
 msgid "High bound:"
-msgstr ""
-"Верхня межа:"
+msgstr "Верхня межа:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:5
 #: ../goffice/graph/gog-series-labels.c:471
@@ -2626,13 +2611,11 @@ msgstr "Верхня межа:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:18
 msgid "Low span:"
-msgstr ""
-"Нижній діапазон:"
+msgstr "Нижній діапазон:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:19
 msgid "High span:"
-msgstr ""
-"Верхній діапазон:"
+msgstr "Верхній діапазон:"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
@@ -2649,6 +2632,7 @@ msgstr "Модель"
 #: ../goffice/graph/gog-renderer.c:1875
 msgid "The GogGraph this renderer displays"
 msgstr ""
+"GogGraph, який показує цей обробник"
 
 #: ../goffice/graph/gog-renderer.c:1880
 msgid "View"
@@ -3021,8 +3005,7 @@ msgstr "GogObject, на якому показано цю панель перег
 
 #: ../goffice/graph/new-theme-prefs.ui.h:2
 msgid "Series number"
-msgstr ""
-"Номер у послідовності"
+msgstr "Номер у послідовності"
 
 #: ../goffice/gtk/go-action-combo-text.c:224
 msgid "Case Sensitive"
@@ -4149,28 +4132,23 @@ msgstr "Показати стиль"
 
 #: ../goffice/gtk/go-font-sel.c:1252
 msgid "Whether style is part of the font being selected"
-msgstr ""
-"Чи є стиль частиною шрифту, який вибирають"
+msgstr "Чи є стиль частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1260
 msgid "Show Color"
-msgstr ""
-"Показати колір"
+msgstr "Показати колір"
 
 #: ../goffice/gtk/go-font-sel.c:1261
 msgid "Whether color is part of the font being selected"
-msgstr ""
-"Чи є колір частиною шрифту, який вибирають"
+msgstr "Чи є колір частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1269
 msgid "Show Underline"
-msgstr ""
-"Показати підкреслювання"
+msgstr "Показати підкреслювання"
 
 #: ../goffice/gtk/go-font-sel.c:1270
 msgid "Whether underlining is part of the font being selected"
-msgstr ""
-"Чи є підкреслювання частиною шрифту, який вибирають"
+msgstr "Чи є підкреслювання частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1278
 msgid "Show Script"
@@ -4178,28 +4156,23 @@ msgstr "Показати писемність"
 
 #: ../goffice/gtk/go-font-sel.c:1279
 msgid "Whether subscript/superscript is part of the font being selected"
-msgstr ""
-"Чи є колір нижній/верхній індекс частиною шрифту, який вибирають"
+msgstr "Чи є колір нижній/верхній індекс частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1287
 msgid "Show Strikethrough"
-msgstr ""
-"Показати перекреслювання"
+msgstr "Показати перекреслювання"
 
 #: ../goffice/gtk/go-font-sel.c:1288
 msgid "Whether strikethrough is part of the font being selected"
-msgstr ""
-"Чи є перекреслювання частиною шрифту, який вибирають"
+msgstr "Чи є перекреслювання частиною шрифту, який вибирають"
 
 #: ../goffice/gtk/go-font-sel.c:1296
 msgid "Color unset text"
-msgstr ""
-"Текст для невизначеного кольору"
+msgstr "Текст для невизначеного кольору"
 
 #: ../goffice/gtk/go-font-sel.c:1297
 msgid "The text to show for selecting no color"
-msgstr ""
-"Текст, який слід показати, якщо не вибрано кольору"
+msgstr "Текст, який слід показати, якщо не вибрано кольору"
 
 #: ../goffice/gtk/go-font-sel.c:1305
 msgid "Color Group"
@@ -4207,28 +4180,23 @@ msgstr "Група кольорів"
 
 #: ../goffice/gtk/go-font-sel.c:1306
 msgid "The color group to use for the color picker"
-msgstr ""
-"Група кольорів, яку слід використатися, для засобу вибору кольору"
+msgstr "Група кольорів, яку слід використатися, для засобу вибору кольору"
 
 #: ../goffice/gtk/go-font-sel.c:1314
 msgid "Color Default"
-msgstr ""
-"Типовий колір"
+msgstr "Типовий колір"
 
 #: ../goffice/gtk/go-font-sel.c:1315
 msgid "The color to show for an unset color"
-msgstr ""
-"Колір, який слід показати, якщо колін не встановлено"
+msgstr "Колір, який слід показати, якщо колін не встановлено"
 
 #: ../goffice/gtk/go-font-sel.c:1325
 msgid "Underline Picker"
-msgstr ""
-"Вибір підкреслювання"
+msgstr "Вибір підкреслювання"
 
 #: ../goffice/gtk/go-font-sel.c:1326
 msgid "The widget to use for picking underline type"
-msgstr ""
-"Віджет, яким слід скористатися для вибору типу підкреслювання"
+msgstr "Віджет, яким слід скористатися для вибору типу підкреслювання"
 
 #: ../goffice/gtk/go-font-sel-dialog.c:112
 msgid "Pick a Font"
@@ -4236,8 +4204,7 @@ msgstr "Виберіть шрифт"
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
 msgid "Select the font family"
-msgstr ""
-"Виберіть гарнітуру шрифту"
+msgstr "Виберіть гарнітуру шрифту"
 
 #: ../goffice/gtk/go-font-sel.ui.h:2
 msgid "Font:"
@@ -4245,8 +4212,7 @@ msgstr "Шрифт:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:3
 msgid "Select the size"
-msgstr ""
-"Виберіть розмір"
+msgstr "Виберіть розмір"
 
 #: ../goffice/gtk/go-font-sel.ui.h:4
 msgid "Size:"
@@ -4254,8 +4220,7 @@ msgstr "Розмір:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:5
 msgid "Select the font face"
-msgstr ""
-"Виберіть стиль шрифту"
+msgstr "Виберіть стиль шрифту"
 
 #: ../goffice/gtk/go-font-sel.ui.h:6
 msgid "Style:"
@@ -4263,8 +4228,7 @@ msgstr "Стиль:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:7
 msgid "Select whether a line should be drawn through the text"
-msgstr ""
-"Вкажіть, чи має бути перекреслено текст"
+msgstr "Вкажіть, чи має бути перекреслено текст"
 
 #: ../goffice/gtk/go-font-sel.ui.h:8
 msgid "Strikethrough:"
@@ -4283,7 +4247,8 @@ msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
 msgstr ""
-"Виберіть, чи має бути змінено шрифт так, щоб він використовувався як нижній або верхній індекс"
+"Виберіть, чи має бути змінено шрифт так, щоб він використовувався як нижній "
+"або верхній індекс"
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
@@ -4338,164 +4303,164 @@ msgid "Custom"
 msgstr "Користувацький"
 
 #. See http://en.wikipedia.org/wiki/Ampere
-#: ../goffice/gtk/go-format-sel.c:309
+#: ../goffice/gtk/go-format-sel.c:311
 msgid "A (ampere)"
 msgstr "А (ампер)"
 
 #. See http://en.wikipedia.org/wiki/Becquerel
-#: ../goffice/gtk/go-format-sel.c:311
+#: ../goffice/gtk/go-format-sel.c:313
 msgid "Bq (becquerel)"
 msgstr "Бк (бекерель)"
 
 #. See http://en.wikipedia.org/wiki/Candela
-#: ../goffice/gtk/go-format-sel.c:313
+#: ../goffice/gtk/go-format-sel.c:315
 msgid "cd (candela)"
 msgstr "кд (кандела)"
 
 #. See http://en.wikipedia.org/wiki/Coulomb
-#: ../goffice/gtk/go-format-sel.c:315
+#: ../goffice/gtk/go-format-sel.c:317
 msgid "C (coulomb)"
 msgstr "Кл (кулон)"
 
 #. See http://en.wikipedia.org/wiki/Degree_Celsius
-#: ../goffice/gtk/go-format-sel.c:317
+#: ../goffice/gtk/go-format-sel.c:319
 msgid "°C (degree Celsius)"
 msgstr "°C (градус Цельсія)"
 
 #. See http://en.wikipedia.org/wiki/Farad
-#: ../goffice/gtk/go-format-sel.c:319
+#: ../goffice/gtk/go-format-sel.c:321
 msgid "F (farad)"
 msgstr "Ф (фарад)"
 
 #. See http://en.wikipedia.org/wiki/Gray_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:321
+#: ../goffice/gtk/go-format-sel.c:323
 msgid "Gy (gray)"
 msgstr "Гр (грей)"
 
 #. See http://en.wikipedia.org/wiki/Henry_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:323
+#: ../goffice/gtk/go-format-sel.c:325
 msgid "H (henry)"
 msgstr "Г (генрі)"
 
 #. See http://en.wikipedia.org/wiki/Hertz
-#: ../goffice/gtk/go-format-sel.c:325
+#: ../goffice/gtk/go-format-sel.c:327
 msgid "Hz (hertz)"
 msgstr "Гц (герц)"
 
 #. See http://en.wikipedia.org/wiki/Joule
-#: ../goffice/gtk/go-format-sel.c:327
+#: ../goffice/gtk/go-format-sel.c:329
 msgid "J (joule)"
 msgstr "Дж (джоуль)"
 
 #. See http://en.wikipedia.org/wiki/Kelvin
-#: ../goffice/gtk/go-format-sel.c:329
+#: ../goffice/gtk/go-format-sel.c:331
 msgid "K (kelvin)"
 msgstr "К (кельвін)"
 
 #. See http://en.wikipedia.org/wiki/Kilogram
-#: ../goffice/gtk/go-format-sel.c:331
+#: ../goffice/gtk/go-format-sel.c:333
 msgid "kg (kilogram)"
 msgstr "кг (кілограм)"
 
 #. See http://en.wikipedia.org/wiki/Lumen_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:333
+#: ../goffice/gtk/go-format-sel.c:335
 msgid "lm (lumen)"
 msgstr "лм (люмен)"
 
 #. See http://en.wikipedia.org/wiki/Lux
-#: ../goffice/gtk/go-format-sel.c:335
+#: ../goffice/gtk/go-format-sel.c:337
 msgid "lx (lux)"
 msgstr "лк (люкс)"
 
 #. See http://en.wikipedia.org/wiki/Metre
-#: ../goffice/gtk/go-format-sel.c:337
+#: ../goffice/gtk/go-format-sel.c:339
 msgid "m (meter)"
 msgstr "м (метр)"
 
 #. See http://en.wikipedia.org/wiki/Mole_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:339
+#: ../goffice/gtk/go-format-sel.c:341
 msgid "mol (mole)"
 msgstr "моль (моль)"
 
 #. See http://en.wikipedia.org/wiki/Newton_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:341
+#: ../goffice/gtk/go-format-sel.c:343
 msgid "N (newton)"
 msgstr "Н (ньютон)"
 
 #. See http://en.wikipedia.org/wiki/Ohm_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:343
+#: ../goffice/gtk/go-format-sel.c:345
 msgid "Ω (ohm)"
 msgstr "Ом (ом)"
 
 #. See http://en.wikipedia.org/wiki/Pascal_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:345
+#: ../goffice/gtk/go-format-sel.c:347
 msgid "Pa (pascal)"
 msgstr "Па (паскаль)"
 
 #. See http://en.wikipedia.org/wiki/Radian
-#: ../goffice/gtk/go-format-sel.c:347
+#: ../goffice/gtk/go-format-sel.c:349
 msgid "rad (radian)"
 msgstr "рад (радіан)"
 
 #. See http://en.wikipedia.org/wiki/Second
-#: ../goffice/gtk/go-format-sel.c:349
+#: ../goffice/gtk/go-format-sel.c:351
 msgid "s (second)"
 msgstr "с (секунда)"
 
 #. See http://en.wikipedia.org/wiki/Siemens_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:351
+#: ../goffice/gtk/go-format-sel.c:353
 msgid "S (siemens)"
 msgstr "См (сименс)"
 
 #. See http://en.wikipedia.org/wiki/Steradian
-#: ../goffice/gtk/go-format-sel.c:353
+#: ../goffice/gtk/go-format-sel.c:355
 msgid "sr (steradian)"
 msgstr "ср (стерадіан)"
 
 #. See http://en.wikipedia.org/wiki/Sievert
-#: ../goffice/gtk/go-format-sel.c:355
+#: ../goffice/gtk/go-format-sel.c:357
 msgid "Sv (sievert)"
 msgstr "Зв (зіверт)"
 
 #. See http://en.wikipedia.org/wiki/Tesla_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:357
+#: ../goffice/gtk/go-format-sel.c:359
 msgid "T (tesla)"
 msgstr "Тл (тесла)"
 
 #. See http://en.wikipedia.org/wiki/Katal
-#: ../goffice/gtk/go-format-sel.c:359
+#: ../goffice/gtk/go-format-sel.c:361
 msgid "kat (katal)"
 msgstr "кат (катал)"
 
 #. See http://en.wikipedia.org/wiki/Volt
-#: ../goffice/gtk/go-format-sel.c:361
+#: ../goffice/gtk/go-format-sel.c:363
 msgid "V (volt)"
 msgstr "В (вольт)"
 
 #. See http://en.wikipedia.org/wiki/Watt
-#: ../goffice/gtk/go-format-sel.c:363
+#: ../goffice/gtk/go-format-sel.c:365
 msgid "W (watt)"
 msgstr "Вт (ват)"
 
 #. See http://en.wikipedia.org/wiki/Weber_%28Wb%29
-#: ../goffice/gtk/go-format-sel.c:365
+#: ../goffice/gtk/go-format-sel.c:367
 msgid "Wb (weber)"
 msgstr "Вб (вебер)"
 
-#: ../goffice/gtk/go-format-sel.c:1030 ../goffice/gtk/go-format-sel.ui.h:41
+#: ../goffice/gtk/go-format-sel.c:1032 ../goffice/gtk/go-format-sel.ui.h:41
 msgid "Append no further unit."
 msgstr "Не дописувати одиниці."
 
-#: ../goffice/gtk/go-format-sel.c:1037
+#: ../goffice/gtk/go-format-sel.c:1039
 #, c-format
 msgid "Append '%s'."
 msgstr "Дописати «%s»."
 
-#: ../goffice/gtk/go-format-sel.c:1573
+#: ../goffice/gtk/go-format-sel.c:1579
 msgid "Negative Number Format"
 msgstr "Формат від'ємних чисел"
 
-#: ../goffice/gtk/go-format-sel.c:1633
+#: ../goffice/gtk/go-format-sel.c:1639
 msgid "Number Formats"
 msgstr "Від'ємні числа"
 
@@ -5988,13 +5953,11 @@ msgstr "Аруба, ґульдени"
 
 #: ../goffice/utils/formats.c:395
 msgid "Azerbaijan, Manats"
-msgstr ""
-"Азербайджан, манати"
+msgstr "Азербайджан, манати"
 
 #: ../goffice/utils/formats.c:396
 msgid "Bosnia and herzegovina, Convertible Marka"
-msgstr ""
-"Боснія і Герцеговина, конвертована марка"
+msgstr "Боснія і Герцеговина, конвертована марка"
 
 #: ../goffice/utils/formats.c:397
 msgid "Barbados, Dollars"
@@ -6022,33 +5985,27 @@ msgstr "Бермуди, долари"
 
 #: ../goffice/utils/formats.c:403
 msgid "Brunei Darussalam, Dollars"
-msgstr ""
-"Бруней, долари"
+msgstr "Бруней, долари"
 
 #: ../goffice/utils/formats.c:404
 msgid "Bolivia, Bolivianos"
-msgstr ""
-"Болівія, болівіано"
+msgstr "Болівія, болівіано"
 
 #: ../goffice/utils/formats.c:405
 msgid "Bolivia, Mvdol"
-msgstr ""
-"Болівія, mvdol"
+msgstr "Болівія, mvdol"
 
 #: ../goffice/utils/formats.c:406
 msgid "Brazil, Brazilian Real"
-msgstr ""
-"Бразилія, бразильський реал"
+msgstr "Бразилія, бразильський реал"
 
 #: ../goffice/utils/formats.c:407
 msgid "Bahamas, Dollars"
-msgstr ""
-"Багамські острови, долари"
+msgstr "Багамські острови, долари"
 
 #: ../goffice/utils/formats.c:408
 msgid "Bhutan, Ngultrum"
-msgstr ""
-"Бутан, нгултрум"
+msgstr "Бутан, нгултрум"
 
 #: ../goffice/utils/formats.c:409
 msgid "Botswana, Pulas"
