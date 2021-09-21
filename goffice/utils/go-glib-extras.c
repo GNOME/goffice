@@ -443,7 +443,7 @@ struct _GOMemChunk {
 
 
 GOMemChunk *
-go_mem_chunk_new (char const *name, size_t user_atom_size, size_t chunk_size)
+go_mem_chunk_new (char const *name, gsize user_atom_size, gsize chunk_size)
 {
 	int atoms_per_block;
 	GOMemChunk *res;
@@ -732,7 +732,7 @@ go_str_compare (void const *x, void const *y)
 
 
 const char *
-go_guess_encoding (const char *raw, size_t len, const char *user_guess,
+go_guess_encoding (const char *raw, gsize len, const char *user_guess,
 		   GString **utf8_str, guint *truncated)
 {
 	int try;
