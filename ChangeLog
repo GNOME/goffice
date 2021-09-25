@@ -1,9 +1,8 @@
 2021-08-28  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* goffice/graph/gog-renderer.c (gog_renderer_draw_data_label):
-	* plugins/plot_xy/gog-xy.c (gog_xy_view_render):
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_data_label): draw
+	background and outline for data labels.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): typo.
 
 2021-06-11  Jean Brefort  <jean.brefort@normalesup.org>
 
