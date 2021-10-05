@@ -240,6 +240,13 @@ go_d2d (double x)
 	return *px;
 }
 
+/*
+ * go_fake_floor: a variant of floor with a 1ulp grace interval
+ * @x: value to floor
+ *
+ * This works like floor, i.e., rounds to integer in the direction of negative
+ * infinity, except that a value of 1ulp less than an integer will round up.
+ */
 double
 go_fake_floor (double x)
 {
@@ -248,11 +255,16 @@ go_fake_floor (double x)
 	if (x == floor (x))
 		return x;
 
-	return (x >= 0)
-		? floor (go_add_epsilon (x))
-		: floor (go_sub_epsilon (x));
+	return floor (go_add_epsilon (x));
 }
 
+/*
+ * go_fake_ceil: a variant of ceil with a 1ulp grace interval
+ * @x: value to ceil
+ *
+ * This works like ceil, i.e., rounds to integer in the direction of positive
+ * infinity, except that a value of 1ulp more than an integer will round down.
+ */
 double
 go_fake_ceil (double x)
 {
@@ -261,9 +273,7 @@ go_fake_ceil (double x)
 	if (x == floor (x))
 		return x;
 
-	return (x >= 0)
-		? ceil (go_sub_epsilon (x))
-		: ceil (go_add_epsilon (x));
+	return ceil (go_sub_epsilon (x));
 }
 
 double

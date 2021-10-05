@@ -4,6 +4,12 @@ Jean:
 	* Do not clip markers in scatter plots. [#584]
 	* Draw background and outline for data labels. [#592]
 
+John Denker:
+	* Fix go_fake_{ceil,floor} confusion.  [#56]
+
+Morten:
+	* Introspection updates.
+
 --------------------------------------------------------------------------
 goffice 0.10.50:
 
