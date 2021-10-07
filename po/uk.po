@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-05-02 17:30+0000\n"
-"PO-Revision-Date: 2021-09-20 17:54+0300\n"
+"POT-Creation-Date: 2021-09-20 14:55+0000\n"
+"PO-Revision-Date: 2021-10-07 20:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -604,7 +604,7 @@ msgid "Arrow for line's end"
 msgstr "Стрілка для кінця лінії"
 
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:441
+#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:454
 #: ../goffice/canvas/goc-group.c:294 ../goffice/canvas/goc-image.c:288
 #: ../goffice/canvas/goc-path.c:294 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:468
@@ -617,7 +617,7 @@ msgid "The circle center horizontal position"
 msgstr "Позиція центра кола за горизонталлю"
 
 #: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:447
+#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:460
 #: ../goffice/canvas/goc-group.c:300 ../goffice/canvas/goc-image.c:294
 #: ../goffice/canvas/goc-path.c:300 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:474
@@ -646,8 +646,8 @@ msgid "The object top position"
 msgstr "Позиція об'єкта від верхнього краю"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:306
+#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:466
+#: ../goffice/canvas/goc-graph.c:467 ../goffice/canvas/goc-image.c:306
 #: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:356
 #: ../goffice/canvas/goc-widget.c:839 ../goffice/graph/gog-graph.c:505
 #: ../goffice/graph/gog-object.c:206 ../goffice/utils/go-image.c:514
@@ -655,8 +655,8 @@ msgid "Height"
 msgstr "Висота"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:300
+#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:472
+#: ../goffice/canvas/goc-graph.c:473 ../goffice/canvas/goc-image.c:300
 #: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:350
 #: ../goffice/canvas/goc-widget.c:833 ../goffice/graph/gog-color-scale.c:340
 #: ../goffice/graph/gog-graph.c:499 ../goffice/graph/gog-object.c:204
@@ -697,36 +697,36 @@ msgid "The rotation around top left position"
 msgstr "Обертання навколо позиції від верхнього і лівого країв"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
-#: ../goffice/canvas/goc-graph.c:373
+#: ../goffice/canvas/goc-graph.c:386
 #, c-format
 msgid "(%s,%s)"
 msgstr "(%s;%s)"
 
-#: ../goffice/canvas/goc-graph.c:442
+#: ../goffice/canvas/goc-graph.c:455
 msgid "The graph left position"
 msgstr "Позиція графіка від лівого краю"
 
-#: ../goffice/canvas/goc-graph.c:448
+#: ../goffice/canvas/goc-graph.c:461
 msgid "The graph top position"
 msgstr "Позиція графіка від верхнього краю"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:258
+#: ../goffice/canvas/goc-graph.c:478 ../goffice/graph/gog-graph.c:258
 #: ../goffice/graph/gog-graph.c:531 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Графік"
 
-#: ../goffice/canvas/goc-graph.c:466
+#: ../goffice/canvas/goc-graph.c:479
 msgid "The GogGraph this object displays"
 msgstr "GogGraph, який показує цей об'єкт"
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1075
+#: ../goffice/canvas/goc-graph.c:484 ../goffice/graph/gog-graph.c:1075
 msgid "Renderer"
 msgstr "Відтворювач"
 
-#: ../goffice/canvas/goc-graph.c:472
+#: ../goffice/canvas/goc-graph.c:485
 msgid "The GogRenderer being displayed"
 msgstr "Показаний GogRenderer"
 
@@ -1842,7 +1842,7 @@ msgstr "Праворуч"
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2105
+#: ../plugins/plot_xy/gog-xy.c:2110
 msgid "Details"
 msgstr "Подробиці"
 
@@ -2625,22 +2625,22 @@ msgstr "Показувати _рівняння"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Показувати к_оефіцієнт регресії R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1874 ../goffice/graph/gog-view.c:699
+#: ../goffice/graph/gog-renderer.c:1897 ../goffice/graph/gog-view.c:699
 msgid "Model"
 msgstr "Модель"
 
-#: ../goffice/graph/gog-renderer.c:1875
+#: ../goffice/graph/gog-renderer.c:1898
 msgid "The GogGraph this renderer displays"
-msgstr ""
-"GogGraph, який показує цей обробник"
+msgstr "GogGraph, який показує цей обробник"
 
-#: ../goffice/graph/gog-renderer.c:1880
+#: ../goffice/graph/gog-renderer.c:1903
 msgid "View"
 msgstr "Перегляд"
 
-#: ../goffice/graph/gog-renderer.c:1881
+#: ../goffice/graph/gog-renderer.c:1904
 msgid "the GogView this renderer is displaying"
 msgstr ""
+"GogView, який показує цей обробник"
 
 #: ../goffice/graph/gog-series.c:106
 msgid "Y origin"
@@ -2661,6 +2661,7 @@ msgstr "Край"
 #: ../goffice/graph/gog-series.c:115
 msgid "Self"
 msgstr ""
+"Власний"
 
 #: ../goffice/graph/gog-series.c:116
 msgid "Next series"
@@ -6010,6 +6011,7 @@ msgstr "Бутан, нгултрум"
 #: ../goffice/utils/formats.c:409
 msgid "Botswana, Pulas"
 msgstr ""
+"Ботсвана, пули"
 
 #: ../goffice/utils/formats.c:410
 msgid "Belarus, Rubles"
@@ -6018,6 +6020,7 @@ msgstr "Білорусь, рублі"
 #: ../goffice/utils/formats.c:411
 msgid "Belize, Dollars"
 msgstr ""
+"Беліз, долари"
 
 #: ../goffice/utils/formats.c:412
 msgid "Canada, Dollars"
@@ -6026,22 +6029,27 @@ msgstr "Канада, долари"
 #: ../goffice/utils/formats.c:413
 msgid "Congo, the democratic republic of, Congolese Francs"
 msgstr ""
+"Конго, Демократична республіка, конголезькі франки"
 
 #: ../goffice/utils/formats.c:414
 msgid "Switzerland, WIR Euros"
 msgstr ""
+"Швейцарія, WIR-євро"
 
 #: ../goffice/utils/formats.c:415
 msgid "Switzerland, Francs"
 msgstr ""
+"Швейцарія, франки"
 
 #: ../goffice/utils/formats.c:416
 msgid "Switzerland, WIR Francs"
 msgstr ""
+"Швейцарія, WIR-франки"
 
 #: ../goffice/utils/formats.c:417
 msgid "Chile, Unidades de fomento"
 msgstr ""
+"Чилі, одиниця обліку"
 
 #: ../goffice/utils/formats.c:418
 msgid "Chile, Pesos"
@@ -6058,6 +6066,7 @@ msgstr "Колумбія, песо"
 #: ../goffice/utils/formats.c:421
 msgid "Colombia, Unidades de Valor Real"
 msgstr ""
+"Колумбія, Unidad de Valor Real"
 
 #: ../goffice/utils/formats.c:422
 msgid "Costa rica, Colones"
@@ -6066,6 +6075,7 @@ msgstr "Коста-Рика, колони"
 #: ../goffice/utils/formats.c:423
 msgid "Cuba, Pesos Convertibles"
 msgstr ""
+"Куба, конвертовані песо"
 
 #: ../goffice/utils/formats.c:424
 msgid "Cuba, Pesos"
@@ -6086,6 +6096,7 @@ msgstr "Джибуті, франки"
 #: ../goffice/utils/formats.c:428
 msgid "Denmark, Kroner"
 msgstr ""
+"Данія, крони"
 
 #: ../goffice/utils/formats.c:429
 msgid "Dominican republic, Pesos"
@@ -6094,6 +6105,7 @@ msgstr "Домініканська республіка, песо"
 #: ../goffice/utils/formats.c:430
 msgid "Algeria, Algerian Dinars"
 msgstr ""
+"Алжир, алжирські динари"
 
 #: ../goffice/utils/formats.c:431
 msgid "Egypt, Pounds"
@@ -6102,42 +6114,52 @@ msgstr "Єгипет, фунти"
 #: ../goffice/utils/formats.c:432
 msgid "Eritrea, Nakfa"
 msgstr ""
+"Еритрея, накфи"
 
 #: ../goffice/utils/formats.c:433
 msgid "Ethiopia, Birr"
 msgstr ""
+"Ефіопія, бири"
 
 #: ../goffice/utils/formats.c:434
 msgid "Euro Members Countries, Euros"
 msgstr ""
+"Країни зони євро, євро"
 
 #: ../goffice/utils/formats.c:435
 msgid "Fiji, Dollars"
 msgstr ""
+"Фіджі, долари"
 
 #: ../goffice/utils/formats.c:436
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr ""
+"Фолклендські (Мальвінські) острови, фунти"
 
 #: ../goffice/utils/formats.c:437
 msgid "United kingdom, Pounds"
 msgstr ""
+"Велика Британія, фунти"
 
 #: ../goffice/utils/formats.c:438
 msgid "Georgia, Lari"
 msgstr ""
+"Грузія, ларі"
 
 #: ../goffice/utils/formats.c:439
 msgid "Ghana, Cedis"
 msgstr ""
+"Гана, седі"
 
 #: ../goffice/utils/formats.c:440
 msgid "Gibraltar, Pounds"
 msgstr ""
+"Гібралтар, фунти"
 
 #: ../goffice/utils/formats.c:441
 msgid "Gambia, Dalasi"
 msgstr ""
+"Гамбія, даласі"
 
 #: ../goffice/utils/formats.c:442
 msgid "Guinea, Francs"
@@ -6154,10 +6176,12 @@ msgstr "Гаяна, долари"
 #: ../goffice/utils/formats.c:445
 msgid "Hong Kong, Dollars"
 msgstr ""
+"Гонконг, долари"
 
 #: ../goffice/utils/formats.c:446
 msgid "Honduras, Lempiras"
 msgstr ""
+"Гондурас, лемпіри"
 
 #: ../goffice/utils/formats.c:447
 msgid "Croatia, Kuna"
@@ -6166,6 +6190,7 @@ msgstr "Хорватія, куни"
 #: ../goffice/utils/formats.c:448
 msgid "Haiti, Gourdes"
 msgstr ""
+"Гаїті, гурди"
 
 #: ../goffice/utils/formats.c:449
 msgid "Hungary, Forint"
@@ -6178,14 +6203,17 @@ msgstr "Індонезія, рупії"
 #: ../goffice/utils/formats.c:451
 msgid "Israel, New Sheqels"
 msgstr ""
+"Ізраїль, нові шекелі"
 
 #: ../goffice/utils/formats.c:452
 msgid "India, Rupees"
 msgstr ""
+"Індія, рупії"
 
 #: ../goffice/utils/formats.c:453
 msgid "Iraq, Dinars"
 msgstr ""
+"Ірак, динари"
 
 #: ../goffice/utils/formats.c:454
 msgid "Iran, Rials"
@@ -6210,34 +6238,42 @@ msgstr "Японія, єни"
 #: ../goffice/utils/formats.c:459
 msgid "Kenya, Shillings"
 msgstr ""
+"Кенія, шилінґи"
 
 #: ../goffice/utils/formats.c:460
 msgid "Kyrgyzstan, Soms"
 msgstr ""
+"Киргизстан, соми"
 
 #: ../goffice/utils/formats.c:461
 msgid "Cambodia, Riels"
 msgstr ""
+"Камбоджа, рієлі"
 
 #: ../goffice/utils/formats.c:462
 msgid "Comoros, Francs"
 msgstr ""
+"Коморські острови, франки"
 
 #: ../goffice/utils/formats.c:463
 msgid "Korea (North), Won"
 msgstr ""
+"Північна Корея, вони"
 
 #: ../goffice/utils/formats.c:464
 msgid "Korea (South) Wons"
 msgstr ""
+"Південна Корея, вони"
 
 #: ../goffice/utils/formats.c:465
 msgid "Kuwait, Dinars"
 msgstr ""
+"Кувейт, динари"
 
 #: ../goffice/utils/formats.c:466
 msgid "Cayman islands, Dollars"
 msgstr ""
+"Кайманові острови, долари"
 
 #: ../goffice/utils/formats.c:467
 msgid "Kazakhstan, Tenge"
@@ -6246,14 +6282,17 @@ msgstr "Казахстан, тенґе"
 #: ../goffice/utils/formats.c:468
 msgid "Laos, Kips"
 msgstr ""
+"Лаос, кіпи"
 
 #: ../goffice/utils/formats.c:469
 msgid "Lebanon, Pounds"
 msgstr ""
+"Ліван, фунти"
 
 #: ../goffice/utils/formats.c:470
 msgid "Sri Lanka, Rupees"
 msgstr ""
+"Шрі-Ланка, рупії"
 
 #: ../goffice/utils/formats.c:471
 msgid "Liberia, Dollars"
@@ -6274,6 +6313,7 @@ msgstr "Лівія, динари"
 #: ../goffice/utils/formats.c:475
 msgid "Morocco, Dirhams"
 msgstr ""
+"Марокко, дирхами"
 
 #: ../goffice/utils/formats.c:476
 msgid "Moldova, Lei"
@@ -6282,14 +6322,17 @@ msgstr "Молдова, леї"
 #: ../goffice/utils/formats.c:477
 msgid "Madagascar, Malagasy Ariary"
 msgstr ""
+"Мадагаскар, малагасійське аріарі"
 
 #: ../goffice/utils/formats.c:478
 msgid "Macedonia, Denars"
 msgstr ""
+"Македонія, денари"
 
 #: ../goffice/utils/formats.c:479
 msgid "Myanmar (Burma), Kyats"
 msgstr ""
+"М’янма (Бірма), к'яти"
 
 #: ../goffice/utils/formats.c:480
 msgid "Mongolia, Tugriks"
@@ -6298,18 +6341,22 @@ msgstr "Монголія, тугрики"
 #: ../goffice/utils/formats.c:481
 msgid "Macao, Patacas"
 msgstr ""
+"Макао, патаки"
 
 #: ../goffice/utils/formats.c:482
 msgid "Mauritania, Ouguiyas"
 msgstr ""
+"Мавританія, угії"
 
 #: ../goffice/utils/formats.c:483
 msgid "Mauritius, Rupees"
 msgstr ""
+"Маврикій, рупії"
 
 #: ../goffice/utils/formats.c:484
 msgid "Maldives (Maldive Islands), Rufiyaas"
 msgstr ""
+"Мальдивські острови, руфії"
 
 #: ../goffice/utils/formats.c:485
 msgid "Malawi, Kwachas"
@@ -6322,14 +6369,17 @@ msgstr "Мексика, песо"
 #: ../goffice/utils/formats.c:487
 msgid "Mexico, Unidades de Inversion"
 msgstr ""
+"Мексика, Unidades de Inversion"
 
 #: ../goffice/utils/formats.c:488
 msgid "Malaysia, Ringgits"
 msgstr ""
+"Малайзія, рингіти"
 
 #: ../goffice/utils/formats.c:489
 msgid "Mozambique, Meticais"
 msgstr ""
+"Мозамбік, метікали"
 
 #: ../goffice/utils/formats.c:490
 msgid "Nigeria, Nairas"
@@ -6338,14 +6388,17 @@ msgstr "Нігерія, наїри"
 #: ../goffice/utils/formats.c:491
 msgid "Nicaragua, Gold Cordobas"
 msgstr ""
+"Нікарагуа, золоті кордоби"
 
 #: ../goffice/utils/formats.c:492
 msgid "Norway, Norwegian Krone"
 msgstr ""
+"Норвегія, норвезька крона"
 
 #: ../goffice/utils/formats.c:493
 msgid "Nepal, Nepalese Rupees"
 msgstr ""
+"Непал, непальські рупії"
 
 #: ../goffice/utils/formats.c:494
 msgid "New zealand, Dollars"
@@ -6354,6 +6407,7 @@ msgstr "Нова Зеландія, долари"
 #: ../goffice/utils/formats.c:495
 msgid "Oman, Rials"
 msgstr ""
+"Оман, ріали"
 
 #: ../goffice/utils/formats.c:496
 msgid "Panama, Balboa"
@@ -6422,6 +6476,7 @@ msgstr "Сирія, фунти"
 #: ../goffice/utils/formats.c:512
 msgid "International Monetary Fund (I.M.F), SDR"
 msgstr ""
+"Міжнародний валютний фонд (МВФ), SDR"
 
 #: ../goffice/utils/formats.c:513
 msgid "Sweden, Kronor"
@@ -6483,6 +6538,7 @@ msgstr "Туніс, динари"
 #: ../goffice/utils/formats.c:527
 msgid "Tonga, Pa'angas"
 msgstr ""
+"Тонга, паанги"
 
 #: ../goffice/utils/formats.c:528
 msgid "Turkey, Liras"
@@ -6523,6 +6579,7 @@ msgstr "Сполучені Штати Америки, долари (той са�
 #: ../goffice/utils/formats.c:537
 msgid "Uruguay, Pesos en Unidades Indexadas"
 msgstr ""
+"Уругвай, Pesos en Unidades Indexadas"
 
 #: ../goffice/utils/formats.c:538
 msgid "Uruguay, Pesos"
@@ -7257,6 +7314,7 @@ msgstr "Текст, на який слід замінити"
 #: ../goffice/utils/regutf8.c:845
 msgid "Is Regular Expression"
 msgstr ""
+"Є формальним виразом"
 
 #: ../goffice/utils/regutf8.c:846
 msgid "Is the search text a regular expression."
@@ -7357,8 +7415,8 @@ msgid "Lines"
 msgstr "Лінії"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:698 ../plugins/plot_radar/gog-radar.c:1354
-#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2182
-#: ../plugins/plot_xy/gog-xy.c:2188
+#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2187
+#: ../plugins/plot_xy/gog-xy.c:2193
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -7406,6 +7464,7 @@ msgstr "горизонтальна"
 #: ../plugins/plot_barcol/gog-barcol.c:273
 msgid "horizontal bars or vertical columns"
 msgstr ""
+"горизонтальні смуги або вертикальні стовпчики"
 
 #: ../plugins/plot_barcol/gog-barcol.c:278
 #: ../plugins/plot_barcol/gog-dropbar.c:130
@@ -7444,21 +7503,21 @@ msgstr "_Перекриття:"
 msgid "PlotDropBar"
 msgstr "PlotDropBar"
 
-#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2199
+#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2204
 msgid "Clamp at start"
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2200
+#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2205
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2205
+#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2210
 msgid "Clamp at end"
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2206
+#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2211
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -8807,27 +8866,27 @@ msgstr "Бульбашка"
 msgid "XYColor"
 msgstr "XYColor"
 
-#: ../plugins/plot_xy/gog-xy.c:2110 ../plugins/plot_xy/gog-xy.c:2181
+#: ../plugins/plot_xy/gog-xy.c:2115 ../plugins/plot_xy/gog-xy.c:2186
 msgid "X error bars"
 msgstr "Смужки похибок X"
 
-#: ../plugins/plot_xy/gog-xy.c:2113 ../plugins/plot_xy/gog-xy.c:2187
+#: ../plugins/plot_xy/gog-xy.c:2118 ../plugins/plot_xy/gog-xy.c:2192
 msgid "Y error bars"
 msgstr "Смужки похибок Y"
 
-#: ../plugins/plot_xy/gog-xy.c:2122
+#: ../plugins/plot_xy/gog-xy.c:2127
 msgid "Horizontal drop lines"
 msgstr "Горизонтальні лінії спадання"
 
-#: ../plugins/plot_xy/gog-xy.c:2130
+#: ../plugins/plot_xy/gog-xy.c:2135
 msgid "Vertical drop lines"
 msgstr "Вертикальні лінії спадання"
 
-#: ../plugins/plot_xy/gog-xy.c:2193
+#: ../plugins/plot_xy/gog-xy.c:2198
 msgid "Invalid as zero"
 msgstr "Некоректні як нульові"
 
-#: ../plugins/plot_xy/gog-xy.c:2194
+#: ../plugins/plot_xy/gog-xy.c:2199
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr "Замінити некоректні значення 0 при малюванні позначок або бульбашок"
 
