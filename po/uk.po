@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
 "POT-Creation-Date: 2021-09-20 14:55+0000\n"
-"PO-Revision-Date: 2021-10-07 20:15+0300\n"
+"PO-Revision-Date: 2021-10-08 15:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -7448,6 +7448,7 @@ msgstr "Частка проміжку"
 #: ../plugins/plot_distrib/gog-boxplot.c:390
 msgid "The padding around each group as a percentage of their width"
 msgstr ""
+"Фаска навколо кожної групи як частка їхньої ширини"
 
 #: ../plugins/plot_barcol/gog-barcol.c:266
 msgid "Overlap percentage"
@@ -7456,6 +7457,7 @@ msgstr "Частка перекриття"
 #: ../plugins/plot_barcol/gog-barcol.c:267
 msgid "The distance between series as a percentage of their width"
 msgstr ""
+"Відстань між послідовностями як частка їхньої ширини"
 
 #: ../plugins/plot_barcol/gog-barcol.c:272
 msgid "horizontal"
@@ -7475,6 +7477,7 @@ msgstr ""
 #: ../plugins/plot_xy/gog-xy.c:398 ../plugins/plot_xy/gog-xy-dropbar.c:296
 msgid "Displayed under the grids"
 msgstr ""
+"Показано під сітками"
 
 #: ../plugins/plot_barcol/gog-barcol.c:279
 #: ../plugins/plot_barcol/gog-dropbar.c:131
@@ -7485,6 +7488,7 @@ msgstr ""
 #: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:297
 msgid "Should the plot be displayed before the grids"
 msgstr ""
+"Чи має бути показано графік над сітками"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
 #: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
