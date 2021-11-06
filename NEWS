@@ -9,6 +9,7 @@ John Denker:
 
 Morten:
 	* Introspection updates.
+	* Improve go_pow10 accuracy by avoiding pow as much as possible.
 
 --------------------------------------------------------------------------
 goffice 0.10.50:

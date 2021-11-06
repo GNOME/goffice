@@ -344,16 +344,32 @@ go_pow2 (int n)
 double
 go_pow10 (int n)
 {
-	static const double fast[] = {
-		1e-20, 1e-19, 1e-18, 1e-17, 1e-16, 1e-15, 1e-14, 1e-13, 1e-12, 1e-11,
-		1e-10, 1e-09, 1e-08, 1e-07, 1e-06, 1e-05, 1e-04, 1e-03, 1e-02, 1e-01,
-		1e+0,
-		1e+01, 1e+02, 1e+03, 1e+04, 1e+05, 1e+06, 1e+07, 1e+08, 1e+09, 1e+10,
-		1e+11, 1e+12, 1e+13, 1e+14, 1e+15, 1e+16, 1e+17, 1e+18, 1e+19, 1e+20
-	};
+	// On the assumption that the compiler's handling of double constants
+	// is correct, make a large table covering more or less the whole
+	// range.  We do not want to depend on the accuracy of pow(10,n)
+	// because it is known not to be what it should be.
 
-	if (n >= -20 && n <= 20)
-		return (fast + 20)[n];
+#define TEN(n) ONE(n ## 0),ONE(n ## 1),ONE(n ## 2),ONE(n ## 3),ONE(n ## 4),ONE(n ## 5),ONE(n ## 6),ONE(n ## 7),ONE(n ## 8),ONE(n ## 9)
+	static const double pos[] = {
+#define ONE(n) 1e+0 ## n
+		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
+		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
+		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
+#undef ONE
+	};
+	static const double neg[] = {
+#define ONE(n) 1e-0 ## n
+		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
+		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
+		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
+#undef ONE
+	};
+#undef TEN
+
+	if (n >= 0 && n < (int)G_N_ELEMENTS(pos))
+		return pos[n];
+	if (n < 0 && -n < (int)G_N_ELEMENTS(neg))
+		return neg[-n];
 
 	return pow (10.0, n);
 }
@@ -570,16 +586,33 @@ go_pow2l (int n)
 long double
 go_pow10l (int n)
 {
-	static const long double fast[] = {
-		1e-20L, 1e-19L, 1e-18L, 1e-17L, 1e-16L, 1e-15L, 1e-14L, 1e-13L, 1e-12L, 1e-11L,
-		1e-10L, 1e-09L, 1e-08L, 1e-07L, 1e-06L, 1e-05L, 1e-04L, 1e-03L, 1e-02L, 1e-01L,
-		1e+0L,
-		1e+01L, 1e+02L, 1e+03L, 1e+04L, 1e+05L, 1e+06L, 1e+07L, 1e+08L, 1e+09L, 1e+10L,
-		1e+11L, 1e+12L, 1e+13L, 1e+14L, 1e+15L, 1e+16L, 1e+17L, 1e+18L, 1e+19L, 1e+20L
-	};
+	// On the assumption that the compiler's handling of long double constants
+	// is correct, make a large table covering more or less the whole
+	// range of double (not long double -- that's much bigger).
+	// We do not want to depend on the accuracy of powl(10,n)
+	// because it is known not to be what it should be.
 
-	if (n >= -20 && n <= 20)
-		return (fast + 20)[n];
+#define TEN(n) ONE(n ## 0),ONE(n ## 1),ONE(n ## 2),ONE(n ## 3),ONE(n ## 4),ONE(n ## 5),ONE(n ## 6),ONE(n ## 7),ONE(n ## 8),ONE(n ## 9)
+	static const double pos[] = {
+#define ONE(n) 1e+0 ## n ## L
+		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
+		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
+		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
+#undef ONE
+	};
+	static const double neg[] = {
+#define ONE(n) 1e-0 ## n ## L
+		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
+		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
+		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
+#undef ONE
+	};
+#undef TEN
+
+	if (n >= 0 && n < (int)G_N_ELEMENTS(pos))
+		return pos[n];
+	if (n < 0 && -n < (int)G_N_ELEMENTS(neg))
+		return neg[-n];
 
 	return powl (10.0L, n);
 }
