@@ -35,6 +35,7 @@ double go_rint (double x);
 int go_finite (double x);
 double go_pow2 (int n);
 double go_pow10 (int n);
+double go_pow (double x, double y);
 
 double go_strtod (const char *s, char **end);
 double go_ascii_strtod (const char *s, char **end);
@@ -83,6 +84,7 @@ long double go_fake_truncl (long double x);
 int go_finitel (long double x);
 long double go_pow2l (int n);
 long double go_pow10l (int n);
+long double go_powl (long double x, long double y);
 
 long double go_strtold (const char *s, char **end);
 long double go_ascii_strtold (const char *s, char **end);

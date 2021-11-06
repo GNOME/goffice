@@ -374,6 +374,15 @@ go_pow10 (int n)
 	return pow (10.0, n);
 }
 
+double
+go_pow (double x, double y)
+{
+	if (x == 10 && y > G_MININT && y < G_MAXINT && y == floor (y))
+		return go_pow10 ((int)y);
+	return pow (x, y);
+}
+
+
 static int
 strtod_helper (const char *s)
 {
@@ -593,14 +602,14 @@ go_pow10l (int n)
 	// because it is known not to be what it should be.
 
 #define TEN(n) ONE(n ## 0),ONE(n ## 1),ONE(n ## 2),ONE(n ## 3),ONE(n ## 4),ONE(n ## 5),ONE(n ## 6),ONE(n ## 7),ONE(n ## 8),ONE(n ## 9)
-	static const double pos[] = {
+	static const long double pos[] = {
 #define ONE(n) 1e+0 ## n ## L
 		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
 		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
 		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
 #undef ONE
 	};
-	static const double neg[] = {
+	static const long double neg[] = {
 #define ONE(n) 1e-0 ## n ## L
 		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
 		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
@@ -615,6 +624,14 @@ go_pow10l (int n)
 		return neg[-n];
 
 	return powl (10.0L, n);
+}
+
+long double
+go_powl (long double x, long double y)
+{
+	if (x == 10 && y > G_MININT && y < G_MAXINT && y == floor (y))
+		return go_pow10l ((int)y);
+	return powl (x, y);
 }
 
 /*
