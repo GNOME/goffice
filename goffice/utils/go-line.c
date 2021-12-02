@@ -507,7 +507,7 @@ go_arrow_init_oval (GOArrow *dst, double ra, double rb)
 GOArrow *
 go_arrow_dup (GOArrow *src)
 {
-	return g_memdup (src, sizeof (*src));
+	return go_memdup (src, sizeof (*src));
 }
 
 gboolean

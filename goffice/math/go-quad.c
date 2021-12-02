@@ -202,7 +202,7 @@ SUFFIX(go_quad_start) (void)
 			_FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE;
 
 		_FPU_GETCW (state);
-		res = g_memdup (&state, sizeof (state));
+		res = go_memdup (&state, sizeof (state));
 
 		newstate = (state & ~mask) | _FPU_DOUBLE;
 		_FPU_SETCW (newstate);

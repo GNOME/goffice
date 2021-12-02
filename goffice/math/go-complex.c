@@ -62,7 +62,7 @@
 static COMPLEX *
 SUFFIX(go_complex_dup) (COMPLEX *src)
 {
-	return g_memdup (src, sizeof (*src));
+	return go_memdup (src, sizeof (*src));
 }
 
 #define MAKE_BOXED_TYPE(id,name)					\

@@ -1,3 +1,8 @@
+2021-12-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_memdup): Replacement for
+	g_memdup until we depend on glib 2.67 or thereabouts.
+
 2021-11-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (go_pow10): Make a much bigger table to

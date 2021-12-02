@@ -855,6 +855,27 @@ go_destroy_password (char *passwd)
 
 
 /**
+ * go_memdup:
+ * @mem: (nullable): Memory to copy
+ * @byte_size: size of memory block to copy
+ *
+ * Like g_memdup or g_memdup2.  This function is meant to easy transition
+ * to g_memdup2 without having to require very new glib.
+ **/
+gpointer
+go_memdup (gconstpointer mem, gsize byte_size)
+{
+	if (mem && byte_size != 0) {
+		gpointer new_mem = g_malloc (byte_size);
+		memcpy (new_mem, mem, byte_size);
+		return new_mem;
+	} else
+		return NULL;
+}
+
+
+
+/**
  * go_object_toggle:
  * @object: #GObject
  * @property_name: name

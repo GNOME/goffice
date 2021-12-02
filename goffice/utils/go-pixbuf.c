@@ -394,7 +394,7 @@ go_pixbuf_new_from_data (char const *type, guint8 const *data, gsize length, GEr
 	if (!error)
 		error = &dummy;
 
-	image->data = g_memdup (data, length);
+	image->data = go_memdup (data, length);
 	image->data_length = length;
 	g_object_set (image, "image-type", type, NULL);
 	go_pixbuf_create_pixbuf (GO_PIXBUF (image), error);
