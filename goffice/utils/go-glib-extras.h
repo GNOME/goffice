@@ -90,6 +90,7 @@ char const *go_get_real_name		(void);
 void	    go_destroy_password	(char *passwd);
 
 gpointer    go_memdup (gconstpointer mem, gsize byte_size);
+gpointer    go_memdup_n (gconstpointer mem, gsize n_blocks, gsize block_size);
 
 GType        go_mem_chunk_get_type  (void);
 GOMemChunk  *go_mem_chunk_new		(char const *name, gsize user_atom_size, gsize chunk_size);

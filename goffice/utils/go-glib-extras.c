@@ -859,7 +859,7 @@ go_destroy_password (char *passwd)
  * @mem: (nullable): Memory to copy
  * @byte_size: size of memory block to copy
  *
- * Like g_memdup or g_memdup2.  This function is meant to easy transition
+ * Like g_memdup or g_memdup2.  This function is meant to ease transition
  * to g_memdup2 without having to require very new glib.
  **/
 gpointer
@@ -872,6 +872,26 @@ go_memdup (gconstpointer mem, gsize byte_size)
 	} else
 		return NULL;
 }
+
+/**
+ * go_memdup_n:
+ * @mem: (nullable): Memory to copy
+ * @n_blocks: Number of blocks to copy.
+ * @block_size: Number of bytes per blocks.
+ *
+ * Like go_memdup (@mem, @n_blocks * @block_size), but with overflow check.
+ * Like a potential future g_memdup_n.
+ **/
+gpointer
+go_memdup_n (gconstpointer mem, gsize n_blocks, gsize block_size)
+{
+	if (mem && n_blocks > 0 && block_size > 0) {
+		gpointer new_mem = g_malloc_n (n_blocks, block_size);
+		memcpy (new_mem, mem, n_blocks * block_size);
+		return new_mem;
+	} else
+		return NULL;
+}       
 
 
 

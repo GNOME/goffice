@@ -105,8 +105,7 @@ go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 #endif
 
 	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	image->data = g_malloc (image->data_length);
-	memcpy (image->data, xin->content->str, image->data_length);
+	image->data = go_memdup (xin->content->str, image->data_length);
 #ifdef GOFFICE_WITH_EPS
 	spectre->doc = spectre_document_new ();
 	if (spectre->doc == NULL)
@@ -273,7 +272,7 @@ go_spectre_new_from_file (char const *filename, GError **error)
 		return NULL;
 	image = GO_IMAGE (spectre);
 	image->data_length = gsf_input_size (input);
-	data = g_malloc (image->data_length);
+	data = g_try_malloc (image->data_length);
 	if (!data || !gsf_input_read (input, image->data_length, data)) {
 		g_object_unref (spectre);
 		g_free (data);

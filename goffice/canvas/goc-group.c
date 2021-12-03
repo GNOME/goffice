@@ -314,7 +314,7 @@ goc_group_class_init (GocItemClass *item_klass)
 static void
 goc_group_init (GocGroup *group)
 {
-	group->priv = g_malloc0 (sizeof (struct GocGroupPriv));
+	group->priv = g_new0 (struct GocGroupPriv, 1);
 	group->priv->children = g_ptr_array_new ();
 }
 

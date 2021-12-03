@@ -971,8 +971,7 @@ go_component_duplicate (GOComponent const *component)
 			g_value_unset (&value);
 		}
 	/* and now the data */
-	new_data = g_malloc (component->length);
-	memcpy (new_data, component->data, component->length);
+	new_data = go_memdup (component->data, component->length);
 	go_component_set_data (res, new_data, component->length);
 	res->destroy_notify = g_free;
 	res->destroy_data = new_data;

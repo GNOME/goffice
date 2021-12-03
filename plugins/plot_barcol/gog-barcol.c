@@ -629,7 +629,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		errors[i] = series->errors;
 		overrides[i] = gog_series_get_overrides (GOG_SERIES (series));
 		if (gog_error_bar_is_visible (series->errors))
-			error_data[i] = g_malloc (sizeof (ErrorBarData) * lengths[i]);
+			error_data[i] = g_new (ErrorBarData, lengths[i]);
 		else
 			error_data[i] = NULL;
 		if (series->has_series_lines && lengths[i] > 0) {
@@ -645,7 +645,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			lbl_role = gog_object_find_role_by_name (GOG_OBJECT (series), "Data labels");
 		labels[i] = (GogSeriesLabels *) gog_object_get_child_by_role (GOG_OBJECT (series), lbl_role);
 		if (labels[i]) {
-			label_pos[i] = g_malloc (sizeof (LabelData) * lengths[i]);
+			label_pos[i] = g_new (LabelData, lengths[i]);
 			for (j = 0; j < lengths[i]; j++)
 				label_pos[i][j].elt = gog_series_labels_vector_get_element (labels[i] , j);
 		} else

@@ -84,8 +84,7 @@ go_emf_load_data (GOImage *image, GsfXMLIn *xin)
 	GsfInput *input;
 #endif
 	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	image->data = g_malloc (image->data_length);
-	memcpy (image->data, xin->content->str, image->data_length);
+	image->data = go_memdup (xin->content->str, image->data_length);
 #ifdef GOFFICE_EMF_SUPPORT
 	input = gsf_input_memory_new (image->data, image->data_length, FALSE);
 	go_emf_parse (emf, input, &error);
@@ -226,7 +225,7 @@ go_emf_new_from_file (char const *filename, GError **error)
 	if (input == NULL)
 		return NULL;
 	size = gsf_input_size (input);
-	data = g_malloc (size);
+	data = g_try_malloc (size);
 	if (!data || !gsf_input_read (input, size, data)) {
 		g_free (data);
 		if (error)
@@ -276,8 +275,7 @@ go_emf_new_from_data (char const *data, size_t length, GError **error)
 	emf = g_object_new (GO_TYPE_EMF, NULL);
 	image = GO_IMAGE (emf);
 	image->data_length = gsf_input_size (input);
-	image->data = g_malloc (length);
-	memcpy (image->data, data, length);
+	image->data = go_memdup (data, length);
 	if (!go_emf_parse (emf, input, error)) {
 		if (image->width < 1.) {
 			/* we load the size for an EMF file, so it should be WMF */

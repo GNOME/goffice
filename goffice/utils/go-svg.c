@@ -67,8 +67,7 @@ go_svg_load_data (GOImage *image, GsfXMLIn *xin)
 	GOSvg *svg = GO_SVG (image);
 	double dpi_x, dpi_y;
 	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
-	image->data = g_malloc (image->data_length);
-	memcpy (image->data, xin->content->str, image->data_length);
+	image->data = go_memdup (xin->content->str, image->data_length);
 	svg->handle = rsvg_handle_new_from_data (image->data, image->data_length, NULL);
 	go_image_get_default_dpi (&dpi_x, &dpi_y);
 	rsvg_handle_set_dpi_x_y (svg->handle, dpi_x, dpi_y);
@@ -178,7 +177,7 @@ go_svg_new_from_file (char const *filename, GError **error)
 	svg = g_object_new (GO_TYPE_SVG, NULL);
 	image = GO_IMAGE (svg);
 	image->data_length = gsf_input_size (input);
-	data = g_malloc (image->data_length);
+	data = g_try_malloc (image->data_length);
 	if (!data || !gsf_input_read (input, image->data_length, data)) {
 		g_object_unref (svg);
 		g_free (data);
@@ -210,7 +209,7 @@ go_svg_new_from_data (char const *data, size_t length, GError **error)
 	svg = g_object_new (GO_TYPE_SVG, NULL);
 	image = GO_IMAGE (svg);
 	image->data_length = length;
-	image->data = g_malloc (length);
+	image->data = g_try_malloc (length);
 	if (image->data == NULL) {
 		g_object_unref (svg);
 		return NULL;

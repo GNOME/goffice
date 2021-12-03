@@ -1,3 +1,20 @@
+2021-12-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_memdup_n): New function.
+
+	* goffice/utils/go-spectre.c (go_spectre_load_data): Use go_memdup.
+
+	* goffice/utils/go-emf.c (go_emf_load_data): Use go_memdup.
+	(go_emf_new_from_data): Ditto.
+
+	* goffice/component/go-component.c (go_component_duplicate): Use go_memdup.
+
+	* goffice/data/go-data-simple.c (go_data_vector_str_new_copy): Use
+	g_new, not g_malloc.
+	(go_data_vector_val_new_copy): Use go_memdup_n.
+
+	* goffice/canvas/goc-group.c (goc_group_init): Use g_new0, not g_malloc0.
+
 2021-12-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_memdup): Replacement for

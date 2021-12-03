@@ -522,8 +522,7 @@ GOData *
 go_data_vector_val_new_copy (double *val, unsigned n)
 {
 	GODataVectorVal *res = g_object_new (GO_TYPE_DATA_VECTOR_VAL, NULL);
-	res->val = g_malloc (n * sizeof (double));
-	memcpy (res->val, val, n * sizeof (double));
+	res->val = go_memdup_n (val, n, sizeof (double));
 	res->n = n;
 	res->notify = g_free;
 	return GO_DATA (res);
@@ -830,7 +829,7 @@ go_data_vector_str_new_copy (char const * const *str, unsigned n)
 {
 	GODataVectorStr *res = g_object_new (GO_TYPE_DATA_VECTOR_STR, NULL);
 	unsigned i;
-	char **cpy = g_malloc ((n + 1) * sizeof (char*));
+	char **cpy = g_new (char *, n + 1);
 	for (i = 0; i < n; i++)
 		cpy[i] = g_strdup (str[i]);
 	cpy[i] = NULL;

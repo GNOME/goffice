@@ -979,11 +979,11 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			interpolations[i] = GO_LINE_INTERPOLATION_SPLINE;
 
 		if (!is_area_plot)
-			points[i] = g_malloc (sizeof (Point) * (type == GOG_1_5D_NORMAL? lengths[i]: num_elements));
+			points[i] = g_new (Point, type == GOG_1_5D_NORMAL? lengths[i]: num_elements);
 
 		errors[i] = series[i]->errors;
 		if (gog_error_bar_is_visible (series[i]->errors))
-			error_data[i] = g_malloc (sizeof (ErrorBarData) * num_elements);
+			error_data[i] = g_new (ErrorBarData, num_elements);
 		else
 			error_data[i] = NULL;
 		if (series[i]->has_drop_lines) {
