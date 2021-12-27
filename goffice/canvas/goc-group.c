@@ -387,7 +387,7 @@ static void
 goc_group_fake_xchildren (GocGroup *group)
 {
 	g_list_free (group->Xchildren);
-	group->Xchildren = group->priv->children
+	group->Xchildren = group->priv->children->len
 		? g_list_prepend (NULL, goc_group_get_child (group, 0))
 		: NULL;
 }
