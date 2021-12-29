@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-09-20 14:55+0000\n"
-"PO-Revision-Date: 2021-10-08 15:28+0300\n"
+"POT-Creation-Date: 2021-10-08 12:39+0000\n"
+"PO-Revision-Date: 2021-12-30 00:25+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -2639,8 +2639,7 @@ msgstr "Перегляд"
 
 #: ../goffice/graph/gog-renderer.c:1904
 msgid "the GogView this renderer is displaying"
-msgstr ""
-"GogView, який показує цей обробник"
+msgstr "GogView, який показує цей обробник"
 
 #: ../goffice/graph/gog-series.c:106
 msgid "Y origin"
@@ -2660,8 +2659,7 @@ msgstr "Край"
 
 #: ../goffice/graph/gog-series.c:115
 msgid "Self"
-msgstr ""
-"Власний"
+msgstr "Власний"
 
 #: ../goffice/graph/gog-series.c:116
 msgid "Next series"
@@ -6010,8 +6008,7 @@ msgstr "Бутан, нгултрум"
 
 #: ../goffice/utils/formats.c:409
 msgid "Botswana, Pulas"
-msgstr ""
-"Ботсвана, пули"
+msgstr "Ботсвана, пули"
 
 #: ../goffice/utils/formats.c:410
 msgid "Belarus, Rubles"
@@ -6019,8 +6016,7 @@ msgstr "Білорусь, рублі"
 
 #: ../goffice/utils/formats.c:411
 msgid "Belize, Dollars"
-msgstr ""
-"Беліз, долари"
+msgstr "Беліз, долари"
 
 #: ../goffice/utils/formats.c:412
 msgid "Canada, Dollars"
@@ -6028,28 +6024,23 @@ msgstr "Канада, долари"
 
 #: ../goffice/utils/formats.c:413
 msgid "Congo, the democratic republic of, Congolese Francs"
-msgstr ""
-"Конго, Демократична республіка, конголезькі франки"
+msgstr "Конго, Демократична республіка, конголезькі франки"
 
 #: ../goffice/utils/formats.c:414
 msgid "Switzerland, WIR Euros"
-msgstr ""
-"Швейцарія, WIR-євро"
+msgstr "Швейцарія, WIR-євро"
 
 #: ../goffice/utils/formats.c:415
 msgid "Switzerland, Francs"
-msgstr ""
-"Швейцарія, франки"
+msgstr "Швейцарія, франки"
 
 #: ../goffice/utils/formats.c:416
 msgid "Switzerland, WIR Francs"
-msgstr ""
-"Швейцарія, WIR-франки"
+msgstr "Швейцарія, WIR-франки"
 
 #: ../goffice/utils/formats.c:417
 msgid "Chile, Unidades de fomento"
-msgstr ""
-"Чилі, одиниця обліку"
+msgstr "Чилі, одиниця обліку"
 
 #: ../goffice/utils/formats.c:418
 msgid "Chile, Pesos"
@@ -6065,8 +6056,7 @@ msgstr "Колумбія, песо"
 
 #: ../goffice/utils/formats.c:421
 msgid "Colombia, Unidades de Valor Real"
-msgstr ""
-"Колумбія, Unidad de Valor Real"
+msgstr "Колумбія, Unidad de Valor Real"
 
 #: ../goffice/utils/formats.c:422
 msgid "Costa rica, Colones"
@@ -6074,8 +6064,7 @@ msgstr "Коста-Рика, колони"
 
 #: ../goffice/utils/formats.c:423
 msgid "Cuba, Pesos Convertibles"
-msgstr ""
-"Куба, конвертовані песо"
+msgstr "Куба, конвертовані песо"
 
 #: ../goffice/utils/formats.c:424
 msgid "Cuba, Pesos"
@@ -6095,8 +6084,7 @@ msgstr "Джибуті, франки"
 
 #: ../goffice/utils/formats.c:428
 msgid "Denmark, Kroner"
-msgstr ""
-"Данія, крони"
+msgstr "Данія, крони"
 
 #: ../goffice/utils/formats.c:429
 msgid "Dominican republic, Pesos"
@@ -6104,8 +6092,7 @@ msgstr "Домініканська республіка, песо"
 
 #: ../goffice/utils/formats.c:430
 msgid "Algeria, Algerian Dinars"
-msgstr ""
-"Алжир, алжирські динари"
+msgstr "Алжир, алжирські динари"
 
 #: ../goffice/utils/formats.c:431
 msgid "Egypt, Pounds"
@@ -6113,53 +6100,43 @@ msgstr "Єгипет, фунти"
 
 #: ../goffice/utils/formats.c:432
 msgid "Eritrea, Nakfa"
-msgstr ""
-"Еритрея, накфи"
+msgstr "Еритрея, накфи"
 
 #: ../goffice/utils/formats.c:433
 msgid "Ethiopia, Birr"
-msgstr ""
-"Ефіопія, бири"
+msgstr "Ефіопія, бири"
 
 #: ../goffice/utils/formats.c:434
 msgid "Euro Members Countries, Euros"
-msgstr ""
-"Країни зони євро, євро"
+msgstr "Країни зони євро, євро"
 
 #: ../goffice/utils/formats.c:435
 msgid "Fiji, Dollars"
-msgstr ""
-"Фіджі, долари"
+msgstr "Фіджі, долари"
 
 #: ../goffice/utils/formats.c:436
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr ""
-"Фолклендські (Мальвінські) острови, фунти"
+msgstr "Фолклендські (Мальвінські) острови, фунти"
 
 #: ../goffice/utils/formats.c:437
 msgid "United kingdom, Pounds"
-msgstr ""
-"Велика Британія, фунти"
+msgstr "Велика Британія, фунти"
 
 #: ../goffice/utils/formats.c:438
 msgid "Georgia, Lari"
-msgstr ""
-"Грузія, ларі"
+msgstr "Грузія, ларі"
 
 #: ../goffice/utils/formats.c:439
 msgid "Ghana, Cedis"
-msgstr ""
-"Гана, седі"
+msgstr "Гана, седі"
 
 #: ../goffice/utils/formats.c:440
 msgid "Gibraltar, Pounds"
-msgstr ""
-"Гібралтар, фунти"
+msgstr "Гібралтар, фунти"
 
 #: ../goffice/utils/formats.c:441
 msgid "Gambia, Dalasi"
-msgstr ""
-"Гамбія, даласі"
+msgstr "Гамбія, даласі"
 
 #: ../goffice/utils/formats.c:442
 msgid "Guinea, Francs"
@@ -6175,13 +6152,11 @@ msgstr "Гаяна, долари"
 
 #: ../goffice/utils/formats.c:445
 msgid "Hong Kong, Dollars"
-msgstr ""
-"Гонконг, долари"
+msgstr "Гонконг, долари"
 
 #: ../goffice/utils/formats.c:446
 msgid "Honduras, Lempiras"
-msgstr ""
-"Гондурас, лемпіри"
+msgstr "Гондурас, лемпіри"
 
 #: ../goffice/utils/formats.c:447
 msgid "Croatia, Kuna"
@@ -6189,8 +6164,7 @@ msgstr "Хорватія, куни"
 
 #: ../goffice/utils/formats.c:448
 msgid "Haiti, Gourdes"
-msgstr ""
-"Гаїті, гурди"
+msgstr "Гаїті, гурди"
 
 #: ../goffice/utils/formats.c:449
 msgid "Hungary, Forint"
@@ -6202,18 +6176,15 @@ msgstr "Індонезія, рупії"
 
 #: ../goffice/utils/formats.c:451
 msgid "Israel, New Sheqels"
-msgstr ""
-"Ізраїль, нові шекелі"
+msgstr "Ізраїль, нові шекелі"
 
 #: ../goffice/utils/formats.c:452
 msgid "India, Rupees"
-msgstr ""
-"Індія, рупії"
+msgstr "Індія, рупії"
 
 #: ../goffice/utils/formats.c:453
 msgid "Iraq, Dinars"
-msgstr ""
-"Ірак, динари"
+msgstr "Ірак, динари"
 
 #: ../goffice/utils/formats.c:454
 msgid "Iran, Rials"
@@ -6237,43 +6208,35 @@ msgstr "Японія, єни"
 
 #: ../goffice/utils/formats.c:459
 msgid "Kenya, Shillings"
-msgstr ""
-"Кенія, шилінґи"
+msgstr "Кенія, шилінґи"
 
 #: ../goffice/utils/formats.c:460
 msgid "Kyrgyzstan, Soms"
-msgstr ""
-"Киргизстан, соми"
+msgstr "Киргизстан, соми"
 
 #: ../goffice/utils/formats.c:461
 msgid "Cambodia, Riels"
-msgstr ""
-"Камбоджа, рієлі"
+msgstr "Камбоджа, рієлі"
 
 #: ../goffice/utils/formats.c:462
 msgid "Comoros, Francs"
-msgstr ""
-"Коморські острови, франки"
+msgstr "Коморські острови, франки"
 
 #: ../goffice/utils/formats.c:463
 msgid "Korea (North), Won"
-msgstr ""
-"Північна Корея, вони"
+msgstr "Північна Корея, вони"
 
 #: ../goffice/utils/formats.c:464
 msgid "Korea (South) Wons"
-msgstr ""
-"Південна Корея, вони"
+msgstr "Південна Корея, вони"
 
 #: ../goffice/utils/formats.c:465
 msgid "Kuwait, Dinars"
-msgstr ""
-"Кувейт, динари"
+msgstr "Кувейт, динари"
 
 #: ../goffice/utils/formats.c:466
 msgid "Cayman islands, Dollars"
-msgstr ""
-"Кайманові острови, долари"
+msgstr "Кайманові острови, долари"
 
 #: ../goffice/utils/formats.c:467
 msgid "Kazakhstan, Tenge"
@@ -6281,18 +6244,15 @@ msgstr "Казахстан, тенґе"
 
 #: ../goffice/utils/formats.c:468
 msgid "Laos, Kips"
-msgstr ""
-"Лаос, кіпи"
+msgstr "Лаос, кіпи"
 
 #: ../goffice/utils/formats.c:469
 msgid "Lebanon, Pounds"
-msgstr ""
-"Ліван, фунти"
+msgstr "Ліван, фунти"
 
 #: ../goffice/utils/formats.c:470
 msgid "Sri Lanka, Rupees"
-msgstr ""
-"Шрі-Ланка, рупії"
+msgstr "Шрі-Ланка, рупії"
 
 #: ../goffice/utils/formats.c:471
 msgid "Liberia, Dollars"
@@ -6312,8 +6272,7 @@ msgstr "Лівія, динари"
 
 #: ../goffice/utils/formats.c:475
 msgid "Morocco, Dirhams"
-msgstr ""
-"Марокко, дирхами"
+msgstr "Марокко, дирхами"
 
 #: ../goffice/utils/formats.c:476
 msgid "Moldova, Lei"
@@ -6321,18 +6280,15 @@ msgstr "Молдова, леї"
 
 #: ../goffice/utils/formats.c:477
 msgid "Madagascar, Malagasy Ariary"
-msgstr ""
-"Мадагаскар, малагасійське аріарі"
+msgstr "Мадагаскар, малагасійське аріарі"
 
 #: ../goffice/utils/formats.c:478
 msgid "Macedonia, Denars"
-msgstr ""
-"Македонія, денари"
+msgstr "Македонія, денари"
 
 #: ../goffice/utils/formats.c:479
 msgid "Myanmar (Burma), Kyats"
-msgstr ""
-"М’янма (Бірма), к'яти"
+msgstr "М’янма (Бірма), к'яти"
 
 #: ../goffice/utils/formats.c:480
 msgid "Mongolia, Tugriks"
@@ -6340,23 +6296,19 @@ msgstr "Монголія, тугрики"
 
 #: ../goffice/utils/formats.c:481
 msgid "Macao, Patacas"
-msgstr ""
-"Макао, патаки"
+msgstr "Макао, патаки"
 
 #: ../goffice/utils/formats.c:482
 msgid "Mauritania, Ouguiyas"
-msgstr ""
-"Мавританія, угії"
+msgstr "Мавританія, угії"
 
 #: ../goffice/utils/formats.c:483
 msgid "Mauritius, Rupees"
-msgstr ""
-"Маврикій, рупії"
+msgstr "Маврикій, рупії"
 
 #: ../goffice/utils/formats.c:484
 msgid "Maldives (Maldive Islands), Rufiyaas"
-msgstr ""
-"Мальдивські острови, руфії"
+msgstr "Мальдивські острови, руфії"
 
 #: ../goffice/utils/formats.c:485
 msgid "Malawi, Kwachas"
@@ -6368,18 +6320,15 @@ msgstr "Мексика, песо"
 
 #: ../goffice/utils/formats.c:487
 msgid "Mexico, Unidades de Inversion"
-msgstr ""
-"Мексика, Unidades de Inversion"
+msgstr "Мексика, Unidades de Inversion"
 
 #: ../goffice/utils/formats.c:488
 msgid "Malaysia, Ringgits"
-msgstr ""
-"Малайзія, рингіти"
+msgstr "Малайзія, рингіти"
 
 #: ../goffice/utils/formats.c:489
 msgid "Mozambique, Meticais"
-msgstr ""
-"Мозамбік, метікали"
+msgstr "Мозамбік, метікали"
 
 #: ../goffice/utils/formats.c:490
 msgid "Nigeria, Nairas"
@@ -6387,18 +6336,15 @@ msgstr "Нігерія, наїри"
 
 #: ../goffice/utils/formats.c:491
 msgid "Nicaragua, Gold Cordobas"
-msgstr ""
-"Нікарагуа, золоті кордоби"
+msgstr "Нікарагуа, золоті кордоби"
 
 #: ../goffice/utils/formats.c:492
 msgid "Norway, Norwegian Krone"
-msgstr ""
-"Норвегія, норвезька крона"
+msgstr "Норвегія, норвезька крона"
 
 #: ../goffice/utils/formats.c:493
 msgid "Nepal, Nepalese Rupees"
-msgstr ""
-"Непал, непальські рупії"
+msgstr "Непал, непальські рупії"
 
 #: ../goffice/utils/formats.c:494
 msgid "New zealand, Dollars"
@@ -6406,8 +6352,7 @@ msgstr "Нова Зеландія, долари"
 
 #: ../goffice/utils/formats.c:495
 msgid "Oman, Rials"
-msgstr ""
-"Оман, ріали"
+msgstr "Оман, ріали"
 
 #: ../goffice/utils/formats.c:496
 msgid "Panama, Balboa"
@@ -6475,8 +6420,7 @@ msgstr "Сирія, фунти"
 
 #: ../goffice/utils/formats.c:512
 msgid "International Monetary Fund (I.M.F), SDR"
-msgstr ""
-"Міжнародний валютний фонд (МВФ), SDR"
+msgstr "Міжнародний валютний фонд (МВФ), SDR"
 
 #: ../goffice/utils/formats.c:513
 msgid "Sweden, Kronor"
@@ -6537,8 +6481,7 @@ msgstr "Туніс, динари"
 
 #: ../goffice/utils/formats.c:527
 msgid "Tonga, Pa'angas"
-msgstr ""
-"Тонга, паанги"
+msgstr "Тонга, паанги"
 
 #: ../goffice/utils/formats.c:528
 msgid "Turkey, Liras"
@@ -6578,8 +6521,7 @@ msgstr "Сполучені Штати Америки, долари (той са�
 
 #: ../goffice/utils/formats.c:537
 msgid "Uruguay, Pesos en Unidades Indexadas"
-msgstr ""
-"Уругвай, Pesos en Unidades Indexadas"
+msgstr "Уругвай, Pesos en Unidades Indexadas"
 
 #: ../goffice/utils/formats.c:538
 msgid "Uruguay, Pesos"
@@ -7313,8 +7255,7 @@ msgstr "Текст, на який слід замінити"
 
 #: ../goffice/utils/regutf8.c:845
 msgid "Is Regular Expression"
-msgstr ""
-"Є формальним виразом"
+msgstr "Є формальним виразом"
 
 #: ../goffice/utils/regutf8.c:846
 msgid "Is the search text a regular expression."
@@ -7355,10 +7296,12 @@ msgstr "Зміст"
 #: ../plugins/lasem/component.c:480
 msgid "Itex markup"
 msgstr ""
+"Розмітка Itex"
 
 #: ../plugins/lasem/component.c:481
 msgid "Itex markup string"
 msgstr ""
+"Рядок розмітки Itex"
 
 #: ../plugins/lasem/component.c:487
 msgid "Default font color"
@@ -7392,6 +7335,7 @@ msgstr "У просторі"
 #: ../plugins/plot_barcol/gog-1.5d.c:362
 msgid "Placeholder to allow us to round trip pseudo 3D state"
 msgstr ""
+"Замінник, який дозволяє нам обходити псевдопросторовий стан"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:370
 #: ../plugins/plot_barcol/gog-dropbar.c:141
@@ -7447,8 +7391,7 @@ msgstr "Частка проміжку"
 #: ../plugins/plot_barcol/gog-minmax.c:222
 #: ../plugins/plot_distrib/gog-boxplot.c:390
 msgid "The padding around each group as a percentage of their width"
-msgstr ""
-"Фаска навколо кожної групи як частка їхньої ширини"
+msgstr "Фаска навколо кожної групи як частка їхньої ширини"
 
 #: ../plugins/plot_barcol/gog-barcol.c:266
 msgid "Overlap percentage"
@@ -7456,8 +7399,7 @@ msgstr "Частка перекриття"
 
 #: ../plugins/plot_barcol/gog-barcol.c:267
 msgid "The distance between series as a percentage of their width"
-msgstr ""
-"Відстань між послідовностями як частка їхньої ширини"
+msgstr "Відстань між послідовностями як частка їхньої ширини"
 
 #: ../plugins/plot_barcol/gog-barcol.c:272
 msgid "horizontal"
@@ -7465,8 +7407,7 @@ msgstr "горизонтальна"
 
 #: ../plugins/plot_barcol/gog-barcol.c:273
 msgid "horizontal bars or vertical columns"
-msgstr ""
-"горизонтальні смуги або вертикальні стовпчики"
+msgstr "горизонтальні смуги або вертикальні стовпчики"
 
 #: ../plugins/plot_barcol/gog-barcol.c:278
 #: ../plugins/plot_barcol/gog-dropbar.c:130
@@ -7476,8 +7417,7 @@ msgstr ""
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:522
 #: ../plugins/plot_xy/gog-xy.c:398 ../plugins/plot_xy/gog-xy-dropbar.c:296
 msgid "Displayed under the grids"
-msgstr ""
-"Показано під сітками"
+msgstr "Показано під сітками"
 
 #: ../plugins/plot_barcol/gog-barcol.c:279
 #: ../plugins/plot_barcol/gog-dropbar.c:131
@@ -7487,8 +7427,7 @@ msgstr ""
 #: ../plugins/plot_radar/gog-radar.c:448 ../plugins/plot_radar/gog-radar.c:523
 #: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:297
 msgid "Should the plot be displayed before the grids"
-msgstr ""
-"Чи має бути показано графік над сітками"
+msgstr "Чи має бути показано графік над сітками"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
 #: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
@@ -7510,16 +7449,19 @@ msgstr "PlotDropBar"
 #: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2204
 msgid "Clamp at start"
 msgstr ""
+"Затискання на початку"
 
 #: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2205
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Нахил на початку інтерпольованої кривої при використанні інтерполяції із затиснутим сплайном"
 
 #: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2210
 msgid "Clamp at end"
 msgstr ""
+"Затискання у кінці"
 
 #: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2211
 msgid ""
