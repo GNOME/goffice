@@ -142,7 +142,7 @@ go_action_combo_text_create_menu_item (GtkAction *act)
 {
 	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (act);
 	GtkWidget *menu = gtk_menu_new ();
-	GtkWidget *item = gtk_image_menu_item_new ();
+	GtkWidget *item = gtk_menu_item_new ();
 	GSList *ptr;
 
 	for (ptr = taction->elements; ptr != NULL ; ptr = ptr->next) {
