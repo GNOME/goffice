@@ -336,6 +336,10 @@ go_combo_box_class_init (GObjectClass *object_class)
 				       G_PARAM_READABLE));
 	widget_class->style_set = go_combo_box_style_set;
 
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name (widget_class, "gocombobox");
+#endif
+
 	go_combo_box_signals [POP_DOWN_DONE] = g_signal_new (
 		"pop_down_done",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -611,10 +615,12 @@ go_combo_box_init (GOComboBox *combo_box)
 	combo_box->priv->show_arrow = TRUE;
 
 	combo_box->priv->arrow_button = gtk_toggle_button_new ();
+	gtk_widget_set_name  (combo_box->priv->arrow_button, "arrow");
 	gtk_button_set_relief (GTK_BUTTON (combo_box->priv->arrow_button), GTK_RELIEF_NONE);
 	gtk_widget_set_can_focus (combo_box->priv->arrow_button, FALSE);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
+	arrow = gtk_image_new_from_icon_name ("pan-down", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_widget_set_name  (arrow, "arrow");
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->arrow_button), arrow);
 	gtk_box_pack_end (GTK_BOX (combo_box), combo_box->priv->arrow_button, FALSE, FALSE, 0);
 	g_signal_connect_swapped (combo_box->priv->arrow_button,

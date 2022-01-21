@@ -122,6 +122,7 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 	combo->grid = g_object_ref (gtk_grid_new ());
 
 	combo->preview_button = gtk_toggle_button_new ();
+	gtk_widget_set_name  (combo->preview_button, "preview");
 	combo->preview_image = gtk_image_new ();
 	gtk_container_add (GTK_CONTAINER (combo->preview_button),
 			   GTK_WIDGET (combo->preview_image));
