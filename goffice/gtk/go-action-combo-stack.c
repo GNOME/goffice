@@ -83,10 +83,8 @@ cb_combo_changed (GtkComboBoxText *combo, GOActionComboStack *action)
 	 * which just use the top.  */
 
 	action->last_selection = gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
-	if (action->last_selection >= 0) {
-		g_printerr ("Activate\n");
+	if (action->last_selection >= 0)
 		gtk_action_activate (GTK_ACTION (action));
-	}
 }
 
 static void
