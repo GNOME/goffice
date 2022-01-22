@@ -168,6 +168,10 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 {
 	GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
 	GOToolComboPixmaps *tool = g_object_new (GO_TYPE_TOOL_COMBO_PIXMAPS, NULL);
+	GtkStyleContext *context;
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (tool));
+        gtk_style_context_add_class (context, "pixmaps");
 
 	tool->combo = go_combo_pixmaps_new (paction->ncols);
 

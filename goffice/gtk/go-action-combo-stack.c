@@ -126,10 +126,15 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 	GOToolComboStack *tool = g_object_new (GO_TYPE_TOOL_COMBO_STACK, NULL);
 	gboolean is_sensitive = goacs_count (saction) > 0;
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
+	GtkStyleContext *context;
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (tool));
+        gtk_style_context_add_class (context, "stack");
 
 	tool->combo = gtk_combo_box_new_with_model (saction->model);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (tool->combo), renderer, FALSE);
-	gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (tool->combo), renderer, "text", 0);
+	gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (tool->combo),
+				       renderer, "text", LABEL_COL);
 
 	g_signal_connect (tool, "toolbar-reconfigured",
 			  G_CALLBACK (cb_reconfig), a);

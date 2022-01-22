@@ -98,6 +98,10 @@ go_action_combo_text_create_tool_item (GtkAction *act)
 	GtkEntry *entry;
 	GSList *ptr;
 	int w = -1;
+	GtkStyleContext *context;
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (tool));
+        gtk_style_context_add_class (context, "text");
 
 	if (taction->largest_elem != NULL)
 		w = g_utf8_strlen (taction->largest_elem, -1);
