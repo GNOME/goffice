@@ -1,12 +1,12 @@
 # Swedish messages for Goffice.
-# Copyright © 1998-2021 Free Software Foundation, Inc.
+# Copyright © 1998-2022 Free Software Foundation, Inc.
 # Richard Hult <rhult@codefactory.se>, 1999, 2000, 2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002.
 # Jörgen Tegnér <jorgen.tegner@telia.com>, 2001.
 # Jan Morén <jan.moren@lucs.lu.se>, 2002.
 # Josef Andersson <josef.andersson@fripost.org>, 2015, 2016.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2020, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2020, 2021, 2022.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 # Regler:
@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-03-23 00:04+0000\n"
-"PO-Revision-Date: 2021-04-13 13:30+0200\n"
+"POT-Creation-Date: 2021-04-13 11:35+0000\n"
+"PO-Revision-Date: 2022-02-07 19:58+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Project-Style: gnome\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -8136,7 +8136,7 @@ msgstr "Startvinkel"
 
 #: ../plugins/plot_pie/gog-pie.c:312
 msgid "Degrees clockwise from 12 O'Clock."
-msgstr "Grader medsols från klockan 12."
+msgstr "Grader medurs från klockan 12."
 
 #: ../plugins/plot_pie/gog-pie.c:317
 msgid "Default separation"
@@ -8194,7 +8194,7 @@ msgstr "Startvinkel"
 
 #: ../plugins/plot_pie/gog-pie.c:1299
 msgid "Degrees clockwise from 12 O'Clock"
-msgstr "Grader medsols från klockan tolv"
+msgstr "Grader medurs från klockan 12"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:1
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
