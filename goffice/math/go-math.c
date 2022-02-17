@@ -213,7 +213,8 @@ go_add_epsilon (double x)
 	else {
 		int e;
 		double mant = frexp (fabs (x), &e);
-		return ldexp (mant + DBL_EPSILON, e);
+		// mant is in range [0.5; 1)
+		return ldexp (mant + DBL_EPSILON / 2, e);
 	}
 #endif
 }
@@ -238,7 +239,8 @@ go_sub_epsilon (double x)
 	else {
 		int e;
 		double mant = frexp (fabs (x), &e);
-		return ldexp (mant - DBL_EPSILON, e);
+		// mant is in range [0.5; 1)
+		return ldexp (mant - (mant == 0.5 ? DBL_EPSILON / 4 : DBL_EPSILON / 2), e);
 	}
 #endif
 }
@@ -764,7 +766,8 @@ go_add_epsilonl (long double x)
 	else {
 		int e;
 		long double mant = frexpl (fabsl (x), &e);
-		return ldexpl (mant + LDBL_EPSILON, e);
+		// mant is in range [0.5; 1)
+		return ldexpl (mant + LDBL_EPSILON / 2, e);
 	}
 #endif
 }
@@ -789,7 +792,8 @@ go_sub_epsilonl (long double x)
 	else {
 		int e;
 		long double mant = frexpl (fabsl (x), &e);
-		return ldexpl (mant - LDBL_EPSILON, e);
+		// mant is in range [0.5; 1)
+		return ldexpl (mant - (mant == 0.5L ? LDBL_EPSILON / 4 : LDBL_EPSILON / 2), e);
 	}
 #endif
 }

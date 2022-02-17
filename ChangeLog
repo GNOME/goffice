@@ -1,3 +1,7 @@
+2022-02-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-math.c (go_add_epsilon): Fix fallback code.
+
 2022-01-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-action-combo-stack.c: Reimplement based on
