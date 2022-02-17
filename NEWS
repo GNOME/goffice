@@ -3,6 +3,8 @@ goffice 0.10.52:
 Morten:
 	* Improve GOComboBox css styling.
 	* Reimplement GOActionComboStack using GtkComboBox.
+	* Introspection fixes.
+	* Fix go_{add,sub}_epsilon{,l} confusion in fallback code for win32.
 
 --------------------------------------------------------------------------
 goffice 0.10.51:

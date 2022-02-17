@@ -193,10 +193,12 @@ _go_math_init (void)
 	return;
 }
 
-/*
- * In preparation for truncation, make the value a tiny bit larger (seen
- * absolutely).  This makes ROUND (etc.) behave a little closer to what
- * people want, even if it is a bit bogus.
+/**
+ * go_add_epsilon:
+ * @x: a number
+ *
+ * Returns the next-smaller representable value, except that zero and
+ * infinites are returned unchanged.
  */
 double
 go_add_epsilon (double x)
@@ -206,15 +208,23 @@ go_add_epsilon (double x)
 #else
 	if (!go_finite (x) || x == 0)
 		return x;
+	else if (x < 0)
+		return 0 - go_sub_epsilon(-x);
 	else {
-		int exp;
-		double mant = frexp (fabs (x), &exp);
-		double absres = ldexp (mant + DBL_EPSILON, exp);
-		return (x < 0) ? -absres : absres;
+		int e;
+		double mant = frexp (fabs (x), &e);
+		return ldexp (mant + DBL_EPSILON, e);
 	}
 #endif
 }
 
+/**
+ * go_sub_epsilon:
+ * @x: a number
+ *
+ * Returns the next-smaller representable value, except that zero and
+ * infinites are returned unchanged.
+ */
 double
 go_sub_epsilon (double x)
 {
@@ -223,11 +233,12 @@ go_sub_epsilon (double x)
 #else
 	if (!go_finite (x) || x == 0)
 		return x;
+	else if (x < 0)
+		return 0 - go_add_epsilon(-x);
 	else {
-		int exp;
-		double mant = frexp (fabs (x), &exp);
-		double absres = ldexp (mant - DBL_EPSILON, exp);
-		return (x < 0) ? -absres : absres;
+		int e;
+		double mant = frexp (fabs (x), &e);
+		return ldexp (mant - DBL_EPSILON, e);
 	}
 #endif
 }
@@ -413,8 +424,9 @@ strtod_helper (const char *s)
 /*
  * go_strtod: A sane strtod.
  * @s: string to convert
- * @end: optional pointer to end of string.
+ * @end: (out): optional pointer to end of string.
  *
+ * Returns: the numeric value of the given string.
  * Like strtod, but without hex notation and MS extensions.
  * Unlike strtod, there is no need to reset errno before calling this.
  */
@@ -634,11 +646,31 @@ go_powl (long double x, long double y)
 	return powl (x, y);
 }
 
+long double
+go_log10l (long double x)
+{
+	long double l = log10l (x);
+	int il;
+
+	// Quick rejection of stuff we cannot improve.  10^28 is too big
+	// for long double to be exact.
+	if (!(x == floorl (x)) || x < 1 || x > 1e27L)
+		return l;
+
+	il = (int)(l + 0.5);
+	if (x != go_pow10l (il))
+		return l;
+
+	return il;
+}
+
+
 /*
  * go_strtold: A sane strtold.
  * @s: string to convert
- * @end: optional pointer to end of string.
+ * @end: (out): optional pointer to end of string.
  *
+ * Returns: the numeric value of the given string.
  * Like strtold, but without hex notation and MS extensions.
  * Unlike strtold, there is no need to reset errno before calling this.
  */
@@ -712,10 +744,12 @@ go_ascii_strtold (const char *s, char **end)
 	return res;
 }
 
-/*
- * In preparation for truncation, make the value a tiny bit larger (seen
- * absolutely).  This makes ROUND (etc.) behave a little closer to what
- * people want, even if it is a bit bogus.
+/**
+ * go_add_epsilonl:
+ * @x: a number
+ *
+ * Returns the next-larger representable value, except that zero and
+ * infinites are returned unchanged.
  */
 long double
 go_add_epsilonl (long double x)
@@ -725,15 +759,23 @@ go_add_epsilonl (long double x)
 #else
 	if (!go_finitel (x) || x == 0)
 		return x;
+	else if (x < 0)
+		return 0 - go_sub_epsilonl(-x);
 	else {
-		int exp;
-		long double mant = frexpl (fabsl (x), &exp);
-		long double absres = ldexpl (mant + LDBL_EPSILON, exp);
-		return (x < 0) ? -absres : absres;
+		int e;
+		long double mant = frexpl (fabsl (x), &e);
+		return ldexpl (mant + LDBL_EPSILON, e);
 	}
 #endif
 }
 
+/**
+ * go_sub_epsilonl:
+ * @x: a number
+ *
+ * Returns the next-smaller representable value, except that zero and
+ * infinites are returned unchanged.
+ */
 long double
 go_sub_epsilonl (long double x)
 {
@@ -742,11 +784,12 @@ go_sub_epsilonl (long double x)
 #else
 	if (!go_finitel (x) || x == 0)
 		return x;
+	else if (x < 0)
+		return 0 - go_add_epsilonl(-x);
 	else {
-		int exp;
-		long double mant = frexpl (fabsl (x), &exp);
-		long double absres = ldexpl (mant - LDBL_EPSILON, exp);
-		return (x < 0) ? -absres : absres;
+		int e;
+		long double mant = frexpl (fabsl (x), &e);
+		return ldexpl (mant - LDBL_EPSILON, e);
 	}
 #endif
 }
@@ -786,7 +829,7 @@ go_fake_roundl (long double x)
 	 * case is nextafter(0.5,-1) for which we want to produce 1 here.
 	 */
 	y = go_fake_floorl (fabsl (x) + 0.5L);
-	return (x < 0) ? -y : y;
+	return (x < 0) ? 0 - y : y;
 }
 
 long double
@@ -797,17 +840,17 @@ go_fake_truncl (long double x)
 
 	return (x >= 0)
 		? floorl (go_add_epsilonl (x))
-		: -floorl (go_add_epsilonl (-x));
+		: 0 - floorl (go_add_epsilonl (-x));
 }
 
 #ifdef GOFFICE_SUPPLIED_LDEXPL
 long double
-ldexpl (long double x, int exp)
+ldexpl (long double x, int e)
 {
 	if (!go_finitel (x) || x == 0)
 		return x;
 	else {
-		long double res = x * go_pow2l (exp);
+		long double res = x * go_pow2l (e);
 		if (go_finitel (res))
 			return res;
 		else {
@@ -820,27 +863,27 @@ ldexpl (long double x, int exp)
 
 #ifdef GOFFICE_SUPPLIED_FREXPL
 long double
-frexpl (long double x, int *exp)
+frexpl (long double x, int *e)
 {
 	long double l2x;
 
 	if (!go_finitel (x) || x == 0) {
-		*exp = 0;
+		*e = 0;
 		return x;
 	}
 
 	l2x = logl (fabsl (x)) / logl (2);
-	*exp = (int)floorl (l2x);
+	*e = (int)floorl (l2x);
 
 	/*
 	 * Now correct the result and adjust things that might have gotten
 	 * off-by-one due to rounding.
 	 */
-	x /= go_pow2l (*exp);
+	x /= go_pow2l (*e);
 	if (fabsl (x) >= 1.0)
-		x /= 2, (*exp)++;
+		x /= 2, (*e)++;
 	else if (fabsl (x) < 0.5)
-		x *= 2, (*exp)--;
+		x *= 2, (*e)--;
 
 	return x;
 }

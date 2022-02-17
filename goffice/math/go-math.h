@@ -85,6 +85,7 @@ int go_finitel (long double x);
 long double go_pow2l (int n);
 long double go_pow10l (int n);
 long double go_powl (long double x, long double y);
+long double go_log10l (long double x);
 
 long double go_strtold (const char *s, char **end);
 long double go_ascii_strtold (const char *s, char **end);
@@ -100,10 +101,10 @@ long double go_atanpil (long double x);
  * We provide working versions of these functions for long doubles.
  */
 #ifdef GOFFICE_SUPPLIED_LDEXPL
-long double ldexpl (long double x, int exp);
+long double ldexpl (long double x, int e);
 #endif
 #ifdef GOFFICE_SUPPLIED_FREXPL
-long double frexpl (long double x, int *exp);
+long double frexpl (long double x, int *e);
 #endif
 #ifdef GOFFICE_SUPPLIED_STRTOLD
 long double strtold (const char *, char **);
