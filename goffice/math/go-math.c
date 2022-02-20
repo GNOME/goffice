@@ -426,7 +426,7 @@ strtod_helper (const char *s)
 /*
  * go_strtod: A sane strtod.
  * @s: string to convert
- * @end: (out): optional pointer to end of string.
+ * @end: (out) (transfer none) (optional): pointer to end of string.
  *
  * Returns: the numeric value of the given string.
  * Like strtod, but without hex notation and MS extensions.
@@ -670,7 +670,7 @@ go_log10l (long double x)
 /*
  * go_strtold: A sane strtold.
  * @s: string to convert
- * @end: (out): optional pointer to end of string.
+ * @end: (out) (transfer none) (optional): pointer to end of string.
  *
  * Returns: the numeric value of the given string.
  * Like strtold, but without hex notation and MS extensions.

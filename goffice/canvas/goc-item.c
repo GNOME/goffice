@@ -116,6 +116,7 @@ enum {
  * reposition children of the GtkLayout parent of the canvas to their new
  * position.
  * @get_window: returns the #GdkWindow for the item if any.
+ * @copy: method for copying an item.
  *
  * The base class for all canvas items.
  **/

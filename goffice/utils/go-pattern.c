@@ -65,8 +65,7 @@
  * GOPattern:
  * @fore: foreground color.
  * @back: background color.
- *
- * GOPattern::pattern is the used #GOPatternType.
+ * @pattern: A #GOPatternType specifying what kinf of pattern to use.
  **/
 
 typedef struct {

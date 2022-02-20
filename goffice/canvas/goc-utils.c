@@ -48,7 +48,7 @@
  *      points->points[0].y = my_y;
  * </programlisting>
  *
- * Returns: the newly created #GocPoints with an initial references count of 1.
+ * Returns: the newly created #GocPoints with an initial reference count of 1.
  **/
 
 GocPoints *
@@ -65,7 +65,7 @@ goc_points_new (unsigned n)
  * goc_points_ref :
  * @points: #GocPoints
  *
- * Increases the references count of @points by 1.
+ * Increases the reference count of @points by 1.
  * Returns: the referenced #GocPoints.
  **/
 GocPoints *
@@ -79,8 +79,8 @@ goc_points_ref (GocPoints *points)
  * goc_points_unref:
  * @points: #GocPoints
  *
- * Decreases the references count of @points by 1, and destroys it if the
- * references count becomes 0.
+ * Decreases the reference count of @points by 1, and destroys it if the
+ * reference count becomes 0.
  **/
 void
 goc_points_unref (GocPoints *points)
@@ -111,8 +111,7 @@ goc_points_get_type (void)
 /**
  * GocIntArray:
  * @vals: The embedded values.
- *
- * FocIntArray::n is the size of the array.
+ * @n: the size of the array.
  * A boxed type used to hold an array of integers.
  * Since: 0.8.2
  **/
@@ -125,12 +124,12 @@ goc_points_get_type (void)
  * The values can be changed using direct access:
  *
  * <programlisting>
- *      GocIntArray array = goc_int_array_new (2);
+ *      GocIntArray *array = goc_int_array_new (2);
  *      array->vals[0] = my_first_int;
  *      array->vals[1] = my_second_int;
  * </programlisting>
  *
- * Returns: the newly created #GocIntArray with an initial references count of 1.
+ * Returns: the newly created #GocIntArray with an initial reference count of 1.
  * Since: 0.8.2
  **/
 
@@ -148,7 +147,7 @@ goc_int_array_new (unsigned n)
  * goc_int_array_ref :
  * @array: #GocIntArray
  *
- * Increases the references count of @array by 1.
+ * Increases the reference count of @array by 1.
  * Returns: the referenced #GocIntArray.
  * Since: 0.8.2
  **/
@@ -163,8 +162,8 @@ goc_int_array_ref (GocIntArray *array)
  * goc_int_array_unref:
  * @array: #GocIntArray
  *
- * Decreases the references count of @array by 1, and destroys it if the
- * references count becomes 0.
+ * Decreases the reference count of @array by 1, and destroys it if the
+ * reference count becomes 0.
  * Since: 0.8.2
  **/
 void
