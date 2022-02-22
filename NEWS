@@ -4,6 +4,7 @@ Morten:
 	* Improve GOComboBox css styling.
 	* Reimplement GOActionComboStack using GtkComboBox.
 	* Introspection fixes.
+	* Documentation fixes.
 	* Fix go_{add,sub}_epsilon{,l} confusion in fallback code for win32.
 
 --------------------------------------------------------------------------

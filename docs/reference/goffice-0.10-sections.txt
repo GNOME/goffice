@@ -397,6 +397,7 @@ GOColorPalette
 go_color_palette_get_current_color
 go_color_palette_make_menu
 go_color_palette_new
+go_color_palette_query
 go_color_palette_set_allow_alpha
 go_color_palette_set_color_to_default
 go_color_palette_set_current_color
@@ -488,6 +489,8 @@ go_menu_pixmaps_get_type
 <SECTION>
 <FILE>go-complex</FILE>
 <TITLE>GOComplex</TITLE>
+go_complex_get_type
+go_complexl_get_type
 go_complex_add
 go_complex_addl
 go_complex_angle
@@ -504,6 +507,8 @@ go_complex_exp
 go_complex_expl
 go_complex_from_polar
 go_complex_from_polarl
+go_complex_from_polar_pi
+go_complex_from_polar_pil
 go_complex_from_string
 go_complex_from_stringl
 go_complex_init
@@ -520,6 +525,8 @@ go_complex_mul
 go_complex_mull
 go_complex_pow
 go_complex_powl
+go_complex_powx
+go_complex_powxl
 go_complex_real
 go_complex_real_p
 go_complex_real_pl
@@ -867,11 +874,15 @@ go_distribution_get_type
 <TITLE>GODoc</TITLE>
 GODoc
 go_doc_add_image
+go_doc_bump_state
 go_doc_end_read
 go_doc_get_dirty_time
 go_doc_get_image
 go_doc_get_images
 go_doc_get_meta_data
+go_doc_get_modtime
+go_doc_get_saved_state
+go_doc_get_state
 go_doc_get_uri
 go_doc_image_fetch
 go_doc_init_read
@@ -884,7 +895,10 @@ go_doc_save_resource
 go_doc_set_dirty
 go_doc_set_dirty_time
 go_doc_set_meta_data
+go_doc_set_modtime
 go_doc_set_pristine
+go_doc_set_saved_state
+go_doc_set_state
 go_doc_set_uri
 go_doc_update_meta_data
 go_doc_write
@@ -972,6 +986,7 @@ go_file_get_date_accessed
 go_file_get_date_changed
 go_file_get_date_modified
 go_file_get_group_name
+go_file_get_modtime
 go_file_get_owner_name
 go_file_open
 go_file_split_urls
@@ -1101,8 +1116,11 @@ go_format_get_details
 go_format_get_family
 go_format_get_magic
 go_format_get_markup
+go_format_has_day
 go_format_has_hour
 go_format_has_minute
+go_format_has_month
+go_format_has_year
 go_format_inc_precision
 go_format_is_date
 go_format_is_general
@@ -1227,6 +1245,8 @@ go_mem_chunk_destroy
 go_mem_chunk_foreach_leak
 go_mem_chunk_free
 go_mem_chunk_new
+go_memdup
+go_memdup_n
 go_object_properties_apply
 go_object_properties_collect
 go_object_properties_free
@@ -1559,6 +1579,9 @@ go_fake_trunc
 go_fake_truncl
 go_finite
 go_finitel
+go_log10l
+go_pow
+go_powl
 go_pow10
 go_pow10l
 go_pow2
@@ -1594,6 +1617,7 @@ GOOptionMenu
 go_option_menu_get_history
 go_option_menu_new
 go_option_menu_build
+go_option_menu_get_label
 go_option_menu_select_item
 go_option_menu_set_history
 go_option_menu_set_menu
@@ -2496,6 +2520,10 @@ goc_group_adjust_bounds
 goc_group_adjust_coords
 goc_group_cairo_transform
 goc_group_clear
+goc_group_find_child
+goc_group_freeze
+goc_group_get_child
+goc_group_get_children
 goc_group_new
 goc_group_remove_child
 goc_group_set_clip_path
@@ -2512,10 +2540,12 @@ goc_group_get_type
 GocItem
 GocItemClass
 goc_item_bounds_changed
+goc_item_copy
 goc_item_destroy
 goc_item_distance
 goc_item_draw
 goc_item_draw_region
+goc_item_duplicate
 goc_item_get_bounds
 goc_item_get_operator
 goc_item_get_parent
@@ -2808,6 +2838,7 @@ go_gtk_window_set_transient
 go_gui_get_image_save_info
 go_menu_position_below
 go_pango_measure_string
+go_style_context_from_selector
 </SECTION>
 
 <SECTION>

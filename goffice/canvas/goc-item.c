@@ -940,8 +940,8 @@ goc_item_duplicate (GocItem *item, GocGroup *parent)
 
 /**
  * goc_item_copy:
- * source: #GocItem
- * dest: #GocItem
+ * @source: #GocItem
+ * @dest: #GocItem
  *
  * Copies @source properties to @dest. The two items must be of the same type
  * and their common class needs a @copy member.

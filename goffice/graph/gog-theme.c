@@ -985,7 +985,7 @@ gog_theme_get_name (GogTheme const *theme)
  * gog_theme_get_descrition:
  * @theme: a #GogTheme
  *
- * Returns: the localized GogTheme decription.
+ * Returns: the localized GogTheme description.
  **/
 
 char const *

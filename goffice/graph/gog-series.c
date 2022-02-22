@@ -86,6 +86,8 @@
 /**
  * GogSeriesDesc:
  * @dim: dimensions descriptions.
+ * @style_fields: the style fields that are meaningful for series.
+ * @num_dim: number of dimensions for series.
  **/
 
 /**

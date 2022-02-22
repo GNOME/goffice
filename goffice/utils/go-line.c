@@ -29,17 +29,17 @@
  * GOLineDashType:
  * @GO_LINE_NONE: No line displayed.
  * @GO_LINE_SOLID: Solid line.
- * @GO_LINE_S_DOT:
- * @GO_LINE_S_DASH_DOT:
- * @GO_LINE_S_DASH_DOT_DOT:
- * @GO_LINE_DASH_DOT_DOT_DOT:
- * @GO_LINE_DOT:
- * @GO_LINE_S_DASH:
- * @GO_LINE_DASH:
- * @GO_LINE_LONG_DASH:
- * @GO_LINE_DASH_DOT:
- * @GO_LINE_DASH_DOT_DOT:
- * @GO_LINE_MAX:
+ * @GO_LINE_S_DOT: Line with dot pattern.
+ * @GO_LINE_S_DASH_DOT: Line with dash-dot pattern.
+ * @GO_LINE_S_DASH_DOT_DOT: Line with dash-dot-dot pattern.
+ * @GO_LINE_DASH_DOT_DOT_DOT: Line with dash-dot-dot-dot pattern.
+ * @GO_LINE_DOT: Dotted line.
+ * @GO_LINE_S_DASH: Line with short dashes.
+ * @GO_LINE_DASH: Line with dash pattern
+ * @GO_LINE_LONG_DASH: Line with long dashes.
+ * @GO_LINE_DASH_DOT: Line with dash-dot pattern.
+ * @GO_LINE_DASH_DOT_DOT: Line with dash-dot-dot pattern.
+ * @GO_LINE_MAX: Number of line dash types
  **/
 
 /**

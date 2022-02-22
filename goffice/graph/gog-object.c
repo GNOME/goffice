@@ -48,6 +48,8 @@
  * @base: base class.
  * @roles: roles for the class.
  * @view_type: view type.
+ * @use_parent_as_proxy: internal.
+ * @roles_allocated: internal.
  * @update: updates the object.
  * @parent_changed: called when parent changed.
  * @type_name: gets the type public name.
@@ -109,6 +111,7 @@
  * GogObjectRole:
  * @id: id for persistence.
  * @is_a_typename: type name.
+ * @priority: priority.
  * @allowable_positions: allowed positions inside parent.
  * @default_position: default position.
  * @naming_conv: naming convention.

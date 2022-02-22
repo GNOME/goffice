@@ -98,6 +98,7 @@
 /**
  * GogPlotDesc:
  * @series: series description.
+ * @num_series_max: maximum number of series that can be added.
  **/
 
 /**

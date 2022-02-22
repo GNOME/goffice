@@ -68,8 +68,15 @@ SUFFIX(sum_helper) (DOUBLE const *xs, int n)
 	return acc;
 }
 
-
-/* Arithmetic sum.  */
+/**
+ * go_range_sum:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  The arithmetic sum of the input
+ * values will be stored in @res.
+ */
 int
 SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
 {
@@ -81,7 +88,15 @@ SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
 	return 0;
 }
 
-/* Arithmetic sum of squares.  */
+/**
+ * go_range_sumsq:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  The arithmetic sum of the squares
+ * of the input values will be stored in @res.
+ */
 int
 SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 {
@@ -99,7 +114,15 @@ SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 	return 0;
 }
 
-/* Arithmetic average.  */
+/**
+ * go_range_average:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  The average of
+ * the input values will be stored in @res.
+ */
 int
 SUFFIX(go_range_average) (DOUBLE const *xs, int n, DOUBLE *res)
 {
@@ -116,7 +139,15 @@ SUFFIX(go_range_average) (DOUBLE const *xs, int n, DOUBLE *res)
 	return 0;
 }
 
-/* Minimum element.  */
+/**
+ * go_range_min:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  The minimum of
+ * the input values will be stored in @res.
+ */
 int
 SUFFIX(go_range_min) (DOUBLE const *xs, int n, DOUBLE *res)
 {
@@ -133,7 +164,15 @@ SUFFIX(go_range_min) (DOUBLE const *xs, int n, DOUBLE *res)
 		return 1;
 }
 
-/* Maximum element.  */
+/**
+ * go_range_max:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  The maximum of
+ * the input values will be stored in @res.
+ */
 int
 SUFFIX(go_range_max) (DOUBLE const *xs, int n, DOUBLE *res)
 {
@@ -150,7 +189,15 @@ SUFFIX(go_range_max) (DOUBLE const *xs, int n, DOUBLE *res)
 		return 1;
 }
 
-/* Maximum absolute element.  */
+/**
+ * go_range_maxabs:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  The maximum of the absolute
+ * values of the input values will be stored in @res.
+ */
 int
 SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
 {
@@ -169,7 +216,15 @@ SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
 		return 1;
 }
 
-/* Sum of square deviations from mean.  */
+/**
+ * go_range_devsq:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  The sum of the input
+ * values deviation from the mean will be stored in @res.
+ */
 int
 SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
 {
@@ -238,7 +293,17 @@ SUFFIX(go_range_sort) (DOUBLE const *xs, int n)
 		return ys;
 	}
 }
-/* This requires sorted data.  */
+
+/**
+ * go_range_fractile_inter_sorted:
+ * @xs: (array length=n): values, which must be sorted.
+ * @n: number of values
+ * @res: (out): result.
+ * @f: fractile
+ *
+ * Returns: 0 unless an error occurred.  This function computes
+ * the interpolated fractile given by @f and stores it in @res.
+ */
 int
 SUFFIX(go_range_fractile_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
 {
@@ -260,6 +325,16 @@ SUFFIX(go_range_fractile_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res, DO
 	return 0;
 }
 
+/**
+ * go_range_fractile_inter:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ * @f: fractile
+ *
+ * Returns: 0 unless an error occurred.  This function computes
+ * the interpolated fractile given by @f and stores it in @res.
+ */
 int
 SUFFIX(go_range_fractile_inter) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
 {
@@ -276,12 +351,30 @@ SUFFIX(go_range_fractile_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res, DOUBLE
 	return SUFFIX(go_range_fractile_inter_sorted) (xs, n, res, f);
 }
 
+/**
+ * go_range_median_inter:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  This function computes
+ * the interpolated median and stores it in @res.
+ */
 int
 SUFFIX(go_range_median_inter) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	return SUFFIX(go_range_fractile_inter) (xs, n, res, 0.5);
 }
 
+/**
+ * go_range_median_inter_sorted:
+ * @xs: (array length=n): values, which must be sorted.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * Returns: 0 unless an error occurred.  This function computes
+ * the interpolated median and stores it in @res.
+ */
 int
 SUFFIX(go_range_median_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res)
 {
@@ -294,6 +387,13 @@ SUFFIX(go_range_median_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res)
 	return SUFFIX(go_range_fractile_inter_nonconst) (xs, n, res, 0.5);
 }
 
+/**
+ * go_range_constant:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ *
+ * Returns: 1 if range is constant, 0 otherwise.
+ */
 int
 SUFFIX(go_range_constant) (DOUBLE const *xs, int n)
 {
@@ -304,6 +404,13 @@ SUFFIX(go_range_constant) (DOUBLE const *xs, int n)
 	return 1;
 }
 
+/**
+ * go_range_increasing:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ *
+ * Returns: 1 if range is increasing, 0 otherwise.
+ */
 int
 SUFFIX(go_range_increasing) (DOUBLE const *xs, int n)
 {
@@ -325,6 +432,13 @@ SUFFIX(go_range_increasing) (DOUBLE const *xs, int n)
 	return 1;
 }
 
+/**
+ * go_range_decreasing:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ *
+ * Returns: 1 if range is decreasing, 0 otherwise.
+ */
 int
 SUFFIX(go_range_decreasing) (DOUBLE const *xs, int n)
 {
@@ -346,6 +460,13 @@ SUFFIX(go_range_decreasing) (DOUBLE const *xs, int n)
 	return 1;
 }
 
+/**
+ * go_range_vary_uniformly:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ *
+ * Returns: 1 if range is either decreasing or increasing, 0 otherwise.
+ */
 int
 SUFFIX(go_range_vary_uniformly) (DOUBLE const *xs, int n)
 {
