@@ -2,13 +2,13 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 #
 # Yuri Syrota <rasta@renome.rovno.ua>, 1999.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2021-10-08 12:39+0000\n"
-"PO-Revision-Date: 2021-12-30 00:25+0200\n"
+"POT-Creation-Date: 2021-12-29 22:26+0000\n"
+"PO-Revision-Date: 2022-03-12 09:14+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -6619,17 +6619,17 @@ msgstr "Замбія, замбійські квачі"
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Зімбабве, зімбабвійський долари"
 
-#: ../goffice/utils/go-emf.c:234
+#: ../goffice/utils/go-emf.c:233
 #, c-format
 msgid "Could not load the image data\n"
 msgstr "Не вдалося завантажити дані зображення\n"
 
-#: ../goffice/utils/go-emf.c:273
+#: ../goffice/utils/go-emf.c:272
 #, c-format
 msgid "Could not input the image data\n"
 msgstr "Не вдалося ввести дані зображення\n"
 
-#: ../goffice/utils/go-emf.c:4918 ../goffice/utils/go-emf.c:4924
+#: ../goffice/utils/go-emf.c:4916 ../goffice/utils/go-emf.c:4922
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Некоректні дані зображення\n"
@@ -6732,20 +6732,20 @@ msgstr "праворуч"
 msgid "left"
 msgstr "ліворуч"
 
-#: ../goffice/utils/go-glib-extras.c:919
+#: ../goffice/utils/go-glib-extras.c:960
 msgid "yes"
 msgstr "так"
 
-#: ../goffice/utils/go-glib-extras.c:925
+#: ../goffice/utils/go-glib-extras.c:966
 msgid "no"
 msgstr "ні"
 
-#: ../goffice/utils/go-glib-extras.c:1144
+#: ../goffice/utils/go-glib-extras.c:1185
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Рядок у лапках не завершено"
 
-#: ../goffice/utils/go-glib-extras.c:1151
+#: ../goffice/utils/go-glib-extras.c:1192
 #, c-format
 msgid "Syntax error"
 msgstr "Синтаксична помилка"
@@ -7295,13 +7295,11 @@ msgstr "Зміст"
 
 #: ../plugins/lasem/component.c:480
 msgid "Itex markup"
-msgstr ""
-"Розмітка Itex"
+msgstr "Розмітка Itex"
 
 #: ../plugins/lasem/component.c:481
 msgid "Itex markup string"
-msgstr ""
-"Рядок розмітки Itex"
+msgstr "Рядок розмітки Itex"
 
 #: ../plugins/lasem/component.c:487
 msgid "Default font color"
@@ -7334,8 +7332,7 @@ msgstr "У просторі"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:362
 msgid "Placeholder to allow us to round trip pseudo 3D state"
-msgstr ""
-"Замінник, який дозволяє нам обходити псевдопросторовий стан"
+msgstr "Замінник, який дозволяє нам обходити псевдопросторовий стан"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:370
 #: ../plugins/plot_barcol/gog-dropbar.c:141
@@ -7448,26 +7445,27 @@ msgstr "PlotDropBar"
 
 #: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2204
 msgid "Clamp at start"
-msgstr ""
-"Затискання на початку"
+msgstr "Затискання на початку"
 
 #: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2205
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
-"Нахил на початку інтерпольованої кривої при використанні інтерполяції із затиснутим сплайном"
+"Нахил на початку інтерпольованої кривої при використанні інтерполяції із "
+"затиснутим сплайном"
 
 #: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2210
 msgid "Clamp at end"
-msgstr ""
-"Затискання у кінці"
+msgstr "Затискання у кінці"
 
 #: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2211
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Нахил у кінці інтерпольованої кривої при використанні інтерполяції із "
+"затиснутим сплайном"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -7541,6 +7539,7 @@ msgstr ""
 #: ../plugins/plot_xy/plot-types.xml.in.h:6
 msgid "MinMax"
 msgstr ""
+"Мінімакс"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:7
 msgid "Unmarked Lines"
@@ -7557,14 +7556,17 @@ msgstr ""
 #: ../plugins/plot_barcol/plot-types.xml.in.h:10
 msgid "Unmarked stacked line plot."
 msgstr ""
+"Стосове креслення без позначення ліній."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Unmarked Percentage Lines"
 msgstr ""
+"Лінії відсотків без позначення"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Unmarked percentage line plot."
 msgstr ""
+"Креслення без позначення ліній за частками."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Line plot with markers."
@@ -7573,10 +7575,12 @@ msgstr "Креслення ліній із позначками."
 #: ../plugins/plot_barcol/plot-types.xml.in.h:15
 msgid "Stacked Lines"
 msgstr ""
+"Стосовані лінії"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Stacked line plot with markers."
 msgstr ""
+"Креслення стосованих ліній із позначками."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:17
 msgid "Percentage Lines"
@@ -7593,14 +7597,17 @@ msgstr "Області"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:20
 msgid "Area plot."
 msgstr ""
+"Креслення областей."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:21
 msgid "Stacked Areas"
 msgstr ""
+"Стосовані області"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:22
 msgid "Stacked area plot."
 msgstr ""
+"Креслення зі стосованими областями."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:23
 msgid "Percentage Areas"
@@ -7613,6 +7620,7 @@ msgstr "Креслення із площами у відсотках."
 #: ../plugins/plot_barcol/plot-types.xml.in.h:25
 msgid "Adjacent Bars"
 msgstr ""
+"Сусідні стовпчики"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Adjacent horizontal bars grouped by major and minor categories."
@@ -7707,6 +7715,7 @@ msgstr ""
 #: ../plugins/plot_barcol/plot-types.xml.in.h:93
 msgid "Stacked Columns"
 msgstr ""
+"Стосовані стовпчики"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:94
 msgid "Minor categories stacked in vertical columns grouped by major category."
@@ -7715,6 +7724,7 @@ msgstr ""
 #: ../plugins/plot_barcol/plot-types.xml.in.h:95
 msgid "Percentage Columns"
 msgstr ""
+"Стовпчики часток"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:96
 msgid ""
@@ -7747,10 +7757,12 @@ msgstr ""
 #: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical Min Max Lines"
 msgstr ""
+"Вертикальні лінії мінімаксу"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:108
 msgid "Vertical min max lines."
 msgstr ""
+"Вертикальні лінії мінімаксу."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:109
 msgid "Marked Vertical Min Max Lines"
@@ -7759,22 +7771,27 @@ msgstr ""
 #: ../plugins/plot_barcol/plot-types.xml.in.h:110
 msgid "Vertical min max lines with markers."
 msgstr ""
+"Вертикальні лінії мінімаксу із позначками."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:111
 msgid "Horizontal Min Max Lines"
 msgstr ""
+"Горизонтальні лінії мінімаксу"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:112
 msgid "Horizontal min max lines."
 msgstr ""
+"Горизонтальні лінії мінімаксу."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:113
 msgid "Marked Horizontal Min Max Lines"
 msgstr ""
+"Горизонтальні лінії мінімаксу із позначками"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:114
 msgid "Horizontal min max lines with markers."
 msgstr ""
+"Горизонтальні лінії мінімаксу із позначками."
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Charting : Bar/Col/Line/Area"
@@ -7787,6 +7804,7 @@ msgstr ""
 #: ../plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Line plotting engine"
 msgstr ""
+"Рушій креслення ліній"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Area plotting engine"
