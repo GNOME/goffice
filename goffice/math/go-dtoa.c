@@ -497,7 +497,7 @@ go_dtoa (GString *dst, const char *fmt, ...)
 	parse_fmt (fmt, args, &is_long, &w, &p, &fl, &t, &d);
 	va_end (args);
 
-	if (fl & FLAG_SHORTEST) p = is_long ? 20 : 17;
+	if (fl & FLAG_SHORTEST) p = is_long ? 21 : 17;
 	oldlen = (fl & FLAG_TRUNCATE) ? 0 : dst->len;
 
 #ifdef ENSURE_FPU_STATE

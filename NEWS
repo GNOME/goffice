@@ -7,6 +7,9 @@ Morten:
 	* Documentation fixes.
 	* Fix go_{add,sub}_epsilon{,l} confusion in fallback code for win32.
 
+B.S:
+	* Fix long double problem with go_dtoa.  [#57]
+
 --------------------------------------------------------------------------
 goffice 0.10.51:
 
