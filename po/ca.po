@@ -5,7 +5,7 @@
 # Xavier Conde Rueda <xaviconde@eresmas.com>, 2004,2005.
 # Jordi Ivars <jordi@ultimobyte.es>, 2004,2005.
 # Albert Gasset <albert.gasset@estudiant.upc.edu>, 2004,2005.
-# Gil Forcrada  <gilforcada@guifi.net>, 2007, 2008.
+# Gil Forcada <gilforcada@guifi.net>, 2007, 2008.
 # Jordi Mas <jmas@softcatala.org>, 2020
 # Ma. Teresa Guix <maite.guix@gmail.com>, 2020
 # Jaume Jorba <jaume.jorba@gmail.com>, 2020
