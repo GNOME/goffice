@@ -4806,6 +4806,12 @@ go_format_measure_strlen (const GString *str,
 			convert_sign (str, (i), num_shape, shape_flags); \
 	} while (0)
 
+#define HANDLE_ESIGN(i) do {			\
+	const char *e = strchr (str->str, 'E');	\
+	if (e)					\
+		HANDLE_SIGN (e - str->str + 1);	\
+} while (0)
+
 
 #define HANDLE_NUMERAL_SHAPE		                                \
 	do {								\
@@ -4975,6 +4981,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		go_dtoa (str, "=!^" FORMAT_G, val);
 		HANDLE_NUMERAL_SHAPE;
 		HANDLE_SIGN (0);
+		HANDLE_ESIGN ();
 		SETUP_LAYOUT;
 		if (col_width == -1 || measure (str, layout) <= col_width)
 			return;
@@ -5112,8 +5119,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			go_dtoa (str, "=^.0" FORMAT_E, val);
 			HANDLE_NUMERAL_SHAPE;
 			HANDLE_SIGN (0);
-			epos = strchr (str->str, 'E') - str->str;
-			HANDLE_SIGN (epos + 1);
+			HANDLE_ESIGN ();
 			SETUP_LAYOUT;
 			if (!rounds_to_0)
 				return;
