@@ -3,20 +3,19 @@
 # Copyright (C) 2010 goffice's COPYRIGHT HOLDER
 # This file is distributed under the same license as the goffice package.
 # Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2011.
-# Asier Sarasua Garmendia <asier.sarasua@gmail.com>, 2020.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2020, 2022.
 #
 msgid ""
 msgstr "Project-Id-Version: goffice_eu\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2020-03-26 14:51+0000\n"
-"PO-Revision-Date: 2020-04-07 10:00+0100\n"
-"Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
+"POT-Creation-Date: 2022-05-02 11:41+0000\n"
+"PO-Revision-Date: 2022-05-02 10:00+0100\n"
+"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -113,47 +112,63 @@ msgstr "Segurtasuneko eginbide hau desaktibatzeko, dagokion plugin.xml fitxategi
 msgid "Invalid %s: '%s'"
 msgstr "%s baliogabea: '%s'"
 
-#: ../goffice/app/go-doc.c:177
+#: ../goffice/app/go-doc.c:197
 msgid "URI"
 msgstr "URIa"
 
-#: ../goffice/app/go-doc.c:178
+#: ../goffice/app/go-doc.c:198
 msgid "The URI associated with this document."
 msgstr "Dokumentu honi loturiko URIa."
 
-#: ../goffice/app/go-doc.c:182
+#: ../goffice/app/go-doc.c:202
 msgid "Dirty"
 msgstr "Zikina"
 
-#: ../goffice/app/go-doc.c:183
+#: ../goffice/app/go-doc.c:203
 msgid "Whether the document has been changed."
 msgstr "Dokumentua aldatu den edo ez."
 
-#: ../goffice/app/go-doc.c:187
+#: ../goffice/app/go-doc.c:207
 msgid "Dirty Time"
 msgstr "Denbora zikina"
 
-#: ../goffice/app/go-doc.c:188
+#: ../goffice/app/go-doc.c:208
 msgid "When the document was first changed."
 msgstr "Dokumentuaren lehen aldaketaren unea"
 
-#: ../goffice/app/go-doc.c:193
+#: ../goffice/app/go-doc.c:213
 msgid "Pristine"
 msgstr "Aldatu gabea"
 
-#: ../goffice/app/go-doc.c:194
+#: ../goffice/app/go-doc.c:214
 msgid "Whether the document is unchanged since it was created."
 msgstr "Dokumentua sortu zenetik aldatu gabe dagoen edo ez."
 
-#: ../goffice/app/go-doc.c:198
+#: ../goffice/app/go-doc.c:218
 msgid "Modification time"
 msgstr "Aldaketa-ordua"
 
-#: ../goffice/app/go-doc.c:199
+#: ../goffice/app/go-doc.c:219
 msgid "The known file system modification time"
 msgstr "Fitxategi-sistemaren aldaketa-ordu ezaguna"
 
-#: ../goffice/app/go-doc.c:505 ../goffice/canvas/goc-image.c:299
+#: ../goffice/app/go-doc.c:224
+msgid "State"
+msgstr "Egoera"
+
+#: ../goffice/app/go-doc.c:225
+msgid "Current state of document"
+msgstr "Dokumentuaren uneko egoera"
+
+#: ../goffice/app/go-doc.c:229
+msgid "Saved state"
+msgstr "Gordetako egoera"
+
+#: ../goffice/app/go-doc.c:230
+msgid "State of document when last saved"
+msgstr "Dokumentuaren egoera gorde zen azken aldian"
+
+#: ../goffice/app/go-doc.c:624 ../goffice/canvas/goc-image.c:317
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Irudia"
@@ -413,7 +428,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Pluginaren barruko garbiketa-funtzioak errorea eman du."
 
 #: ../goffice/app/go-plugin-service.c:229 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5515
+#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5521
 msgid "General"
 msgstr "Orokorra"
 
@@ -490,122 +505,122 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Exekutatu begizta nagusiaren iterazioa"
 
-#: ../goffice/canvas/goc-arc.c:446
+#: ../goffice/canvas/goc-arc.c:466
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:447
+#: ../goffice/canvas/goc-arc.c:467
 msgid "The arc center x coordinate"
 msgstr "Arkuaren zentroko x koordenatua"
 
-#: ../goffice/canvas/goc-arc.c:452
+#: ../goffice/canvas/goc-arc.c:472
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:453
+#: ../goffice/canvas/goc-arc.c:473
 msgid "The arc center y coordinate"
 msgstr "Arkuaren zentroko y koordenatua"
 
-#: ../goffice/canvas/goc-arc.c:458
+#: ../goffice/canvas/goc-arc.c:478
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:459
+#: ../goffice/canvas/goc-arc.c:479
 msgid "The arc x radius"
 msgstr "Arkuaren x erradioa"
 
-#: ../goffice/canvas/goc-arc.c:464
+#: ../goffice/canvas/goc-arc.c:484
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:465
+#: ../goffice/canvas/goc-arc.c:485
 msgid "The arc y radius"
 msgstr "Arkuaren y erradioa"
 
-#: ../goffice/canvas/goc-arc.c:470
+#: ../goffice/canvas/goc-arc.c:490
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:471
+#: ../goffice/canvas/goc-arc.c:491
 msgid "The arc start angle"
 msgstr "Arkuaren hasierako angelua"
 
-#: ../goffice/canvas/goc-arc.c:476
+#: ../goffice/canvas/goc-arc.c:496
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:477
+#: ../goffice/canvas/goc-arc.c:497
 msgid "The arc end angle"
 msgstr "Arkuaren amaierako angelua"
 
-#: ../goffice/canvas/goc-arc.c:482 ../goffice/canvas/goc-component.c:315
-#: ../goffice/canvas/goc-ellipse.c:287 ../goffice/canvas/goc-path.c:292
-#: ../goffice/canvas/goc-rectangle.c:343 ../goffice/canvas/goc-text.c:460
+#: ../goffice/canvas/goc-arc.c:502 ../goffice/canvas/goc-component.c:315
+#: ../goffice/canvas/goc-ellipse.c:303 ../goffice/canvas/goc-path.c:306
+#: ../goffice/canvas/goc-rectangle.c:362 ../goffice/canvas/goc-text.c:480
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Biraketa"
 
-#: ../goffice/canvas/goc-arc.c:483
+#: ../goffice/canvas/goc-arc.c:503
 msgid "The rotation around center position"
 msgstr "Erdiko posizioaren inguruko biraketa"
 
-#: ../goffice/canvas/goc-arc.c:488 ../goffice/canvas/goc-rectangle.c:349
+#: ../goffice/canvas/goc-arc.c:508 ../goffice/canvas/goc-rectangle.c:368
 #: ../goffice/graph/gog-axis.c:3415 ../goffice/graph/gog-grid.c:127
-#: ../plugins/plot_barcol/gog-1.5d.c:352
+#: ../plugins/plot_barcol/gog-1.5d.c:355
 msgid "Type"
 msgstr "Mota"
 
-#: ../goffice/canvas/goc-arc.c:489
+#: ../goffice/canvas/goc-arc.c:509
 msgid "The type of arc: arc, chord or pie"
 msgstr "Arku mota: arkua, lokarria edo gazta"
 
-#: ../goffice/canvas/goc-arc.c:495 ../goffice/canvas/goc-line.c:318
+#: ../goffice/canvas/goc-arc.c:515 ../goffice/canvas/goc-line.c:335
 msgid "Start Arrow"
 msgstr "Hasierako gezia"
 
-#: ../goffice/canvas/goc-arc.c:496 ../goffice/canvas/goc-line.c:319
+#: ../goffice/canvas/goc-arc.c:516 ../goffice/canvas/goc-line.c:336
 msgid "Arrow for line's start"
 msgstr "Marraren hasierako gezia"
 
-#: ../goffice/canvas/goc-arc.c:501 ../goffice/canvas/goc-line.c:324
+#: ../goffice/canvas/goc-arc.c:521 ../goffice/canvas/goc-line.c:341
 msgid "End Arrow"
 msgstr "Amaierako gezia"
 
-#: ../goffice/canvas/goc-arc.c:502 ../goffice/canvas/goc-line.c:325
+#: ../goffice/canvas/goc-arc.c:522 ../goffice/canvas/goc-line.c:342
 msgid "Arrow for line's end"
 msgstr "Marraren amaierako gezia"
 
-#: ../goffice/canvas/goc-circle.c:174 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:263 ../goffice/canvas/goc-graph.c:441
-#: ../goffice/canvas/goc-group.c:254 ../goffice/canvas/goc-image.c:270
-#: ../goffice/canvas/goc-path.c:280 ../goffice/canvas/goc-pixbuf.c:235
-#: ../goffice/canvas/goc-rectangle.c:319 ../goffice/canvas/goc-text.c:448
-#: ../goffice/canvas/goc-widget.c:804 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
+#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:454
+#: ../goffice/canvas/goc-group.c:294 ../goffice/canvas/goc-image.c:288
+#: ../goffice/canvas/goc-path.c:294 ../goffice/canvas/goc-pixbuf.c:235
+#: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:468
+#: ../goffice/canvas/goc-widget.c:820 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
-#: ../goffice/canvas/goc-circle.c:175
+#: ../goffice/canvas/goc-circle.c:189
 msgid "The circle center horizontal position"
 msgstr "Zirkuluan horizontalki zentratutako posizioa"
 
-#: ../goffice/canvas/goc-circle.c:180 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:269 ../goffice/canvas/goc-graph.c:447
-#: ../goffice/canvas/goc-group.c:260 ../goffice/canvas/goc-image.c:276
-#: ../goffice/canvas/goc-path.c:286 ../goffice/canvas/goc-pixbuf.c:241
-#: ../goffice/canvas/goc-rectangle.c:325 ../goffice/canvas/goc-text.c:454
-#: ../goffice/canvas/goc-widget.c:810
+#: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:297
+#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:460
+#: ../goffice/canvas/goc-group.c:300 ../goffice/canvas/goc-image.c:294
+#: ../goffice/canvas/goc-path.c:300 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:474
+#: ../goffice/canvas/goc-widget.c:826
 msgid "y"
 msgstr "y"
 
-#: ../goffice/canvas/goc-circle.c:181
+#: ../goffice/canvas/goc-circle.c:195
 msgid "The circle center vertical position"
 msgstr "Zirkuluan bertikalki zentratutako posizioa"
 
-#: ../goffice/canvas/goc-circle.c:186
+#: ../goffice/canvas/goc-circle.c:200
 msgid "Radius"
 msgstr "Erradioa"
 
-#: ../goffice/canvas/goc-circle.c:187
+#: ../goffice/canvas/goc-circle.c:201
 msgid "The circle radius"
 msgstr "Zirkuluaren erradioa"
 
@@ -618,20 +633,20 @@ msgid "The object top position"
 msgstr "Objektuaren eskuineko posizioa"
 
 #: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:281 ../goffice/canvas/goc-graph.c:453
-#: ../goffice/canvas/goc-graph.c:454 ../goffice/canvas/goc-image.c:288
-#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:337
-#: ../goffice/canvas/goc-widget.c:823 ../goffice/graph/gog-graph.c:505
-#: ../goffice/graph/gog-object.c:206 ../goffice/utils/go-image.c:514
+#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:466
+#: ../goffice/canvas/goc-graph.c:467 ../goffice/canvas/goc-image.c:306
+#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:356
+#: ../goffice/canvas/goc-widget.c:839 ../goffice/graph/gog-graph.c:505
+#: ../goffice/graph/gog-object.c:209 ../goffice/utils/go-image.c:514
 msgid "Height"
 msgstr "Altuera"
 
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:275 ../goffice/canvas/goc-graph.c:459
-#: ../goffice/canvas/goc-graph.c:460 ../goffice/canvas/goc-image.c:282
-#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:331
-#: ../goffice/canvas/goc-widget.c:817 ../goffice/graph/gog-color-scale.c:340
-#: ../goffice/graph/gog-graph.c:499 ../goffice/graph/gog-object.c:204
+#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:472
+#: ../goffice/canvas/goc-graph.c:473 ../goffice/canvas/goc-image.c:300
+#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:350
+#: ../goffice/canvas/goc-widget.c:833 ../goffice/graph/gog-color-scale.c:340
+#: ../goffice/graph/gog-graph.c:499 ../goffice/graph/gog-object.c:207
 #: ../goffice/utils/go-image.c:510 ../plugins/plot_xy/gog-xy-dropbar.c:308
 msgid "Width"
 msgstr "Zabalera"
@@ -648,201 +663,201 @@ msgstr "Objektua"
 msgid "The embedded GOComponent object"
 msgstr "GOComponent objektu kapsulatua"
 
-#: ../goffice/canvas/goc-ellipse.c:264
+#: ../goffice/canvas/goc-ellipse.c:280
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Elipsearen ezkerreko posizioa (edo eskuineko posizioa RTL moduan)"
 
-#: ../goffice/canvas/goc-ellipse.c:270
+#: ../goffice/canvas/goc-ellipse.c:286
 msgid "The ellipse top position"
 msgstr "Elipsearen goiko posizioa"
 
-#: ../goffice/canvas/goc-ellipse.c:276
+#: ../goffice/canvas/goc-ellipse.c:292
 msgid "The ellipse width"
 msgstr "Elipsearen zabalera"
 
-#: ../goffice/canvas/goc-ellipse.c:282
+#: ../goffice/canvas/goc-ellipse.c:298
 msgid "The ellipse height"
 msgstr "Elipsearen altuera"
 
-#: ../goffice/canvas/goc-ellipse.c:288 ../goffice/canvas/goc-rectangle.c:344
+#: ../goffice/canvas/goc-ellipse.c:304 ../goffice/canvas/goc-rectangle.c:363
 msgid "The rotation around top left position"
 msgstr "Goiko ezkerreko posizioaren inguruko biraketa"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
-#: ../goffice/canvas/goc-graph.c:373
+#: ../goffice/canvas/goc-graph.c:386
 #, c-format
 msgid "(%s,%s)"
 msgstr "(%s;%s)"
 
-#: ../goffice/canvas/goc-graph.c:442
+#: ../goffice/canvas/goc-graph.c:455
 msgid "The graph left position"
 msgstr "Grafikoaren ezkerreko posizioa"
 
-#: ../goffice/canvas/goc-graph.c:448
+#: ../goffice/canvas/goc-graph.c:461
 msgid "The graph top position"
 msgstr "Grafikoaren goiko posizioa"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:465 ../goffice/graph/gog-graph.c:258
+#: ../goffice/canvas/goc-graph.c:478 ../goffice/graph/gog-graph.c:258
 #: ../goffice/graph/gog-graph.c:531 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Grafikoa"
 
-#: ../goffice/canvas/goc-graph.c:466
+#: ../goffice/canvas/goc-graph.c:479
 msgid "The GogGraph this object displays"
 msgstr "Objektu honek bistaratzen duen GogGraph"
 
-#: ../goffice/canvas/goc-graph.c:471 ../goffice/graph/gog-graph.c:1075
+#: ../goffice/canvas/goc-graph.c:484 ../goffice/graph/gog-graph.c:1075
 msgid "Renderer"
 msgstr "Errendatzailea"
 
-#: ../goffice/canvas/goc-graph.c:472
+#: ../goffice/canvas/goc-graph.c:485
 msgid "The GogRenderer being displayed"
 msgstr "Bistaratuta dagoen GogRenderer"
 
-#: ../goffice/canvas/goc-group.c:255
+#: ../goffice/canvas/goc-group.c:295
 msgid "The group horizontal offset"
 msgstr "Taldearen desplazamendu horizontala"
 
-#: ../goffice/canvas/goc-group.c:261
+#: ../goffice/canvas/goc-group.c:301
 msgid "The group vertical offset"
 msgstr "Taldearen desplazamendu bertikala"
 
-#: ../goffice/canvas/goc-image.c:271 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:289 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "Irudiaren ezkerreko posizioa"
 
-#: ../goffice/canvas/goc-image.c:277 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:295 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "Irudiaren goiko posizioa"
 
-#: ../goffice/canvas/goc-image.c:283 ../goffice/canvas/goc-pixbuf.c:248
+#: ../goffice/canvas/goc-image.c:301 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr "Irudiaren zabalera edo irudiaren zabalera erabiltzeko -1"
 
-#: ../goffice/canvas/goc-image.c:289 ../goffice/canvas/goc-pixbuf.c:254
+#: ../goffice/canvas/goc-image.c:307 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr "Irudiaren altuera edo irudiaren altuera erabiltzeko -1"
 
-#: ../goffice/canvas/goc-image.c:300
+#: ../goffice/canvas/goc-image.c:318
 msgid "The GOImage to display"
 msgstr "Bistaratuko den GOImage elementua"
 
-#: ../goffice/canvas/goc-image.c:304
+#: ../goffice/canvas/goc-image.c:322
 msgid "Cropped bottom"
 msgstr "Moztutako behealdea"
 
-#: ../goffice/canvas/goc-image.c:305
+#: ../goffice/canvas/goc-image.c:323
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr "Irudiaren behealdean moztutako area, irudiaren altueraren zatiki gisa"
 
-#: ../goffice/canvas/goc-image.c:309
+#: ../goffice/canvas/goc-image.c:327
 msgid "Cropped left"
 msgstr "Moztutako ezkerraldea"
 
-#: ../goffice/canvas/goc-image.c:310
+#: ../goffice/canvas/goc-image.c:328
 msgid "The cropped area at the image left of the image width"
 msgstr "Irudiaren ezkerraldean moztutako area, irudiaren zabaleran"
 
-#: ../goffice/canvas/goc-image.c:314
+#: ../goffice/canvas/goc-image.c:332
 msgid "Cropped right"
 msgstr "Moztutako eskuinaldea"
 
-#: ../goffice/canvas/goc-image.c:315
+#: ../goffice/canvas/goc-image.c:333
 msgid "The cropped area at the image right of the image width"
 msgstr "Irudiaren eskuinaldean moztutako area, irudiaren zabaleran"
 
-#: ../goffice/canvas/goc-image.c:319
+#: ../goffice/canvas/goc-image.c:337
 msgid "Cropped top"
 msgstr "Moztutako goialdea"
 
-#: ../goffice/canvas/goc-image.c:320
+#: ../goffice/canvas/goc-image.c:338
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr "Irudiaren goialdean moztutako area, irudiaren altueraren zatiki gisa"
 
-#: ../goffice/canvas/goc-item.c:275
+#: ../goffice/canvas/goc-item.c:276
 msgid "Canvas"
 msgstr "Oihala"
 
-#: ../goffice/canvas/goc-item.c:276
+#: ../goffice/canvas/goc-item.c:277
 msgid "The canvas object on which the item resides"
 msgstr "Elementua dagoen oihaleko objektua"
 
-#: ../goffice/canvas/goc-item.c:281 ../goffice/graph/gog-view.c:693
+#: ../goffice/canvas/goc-item.c:282 ../goffice/graph/gog-view.c:692
 msgid "Parent"
 msgstr "Gurasoa"
 
-#: ../goffice/canvas/goc-item.c:282
+#: ../goffice/canvas/goc-item.c:283
 msgid "The group in which the item resides"
 msgstr "Elementua dagoen taldea"
 
-#: ../goffice/canvas/goc-line.c:294
+#: ../goffice/canvas/goc-line.c:311
 msgid "x0"
 msgstr "x0"
 
-#: ../goffice/canvas/goc-line.c:295
+#: ../goffice/canvas/goc-line.c:312
 msgid "The line start x coordinate"
 msgstr "Marraren hasierako x koordenatua"
 
-#: ../goffice/canvas/goc-line.c:300
+#: ../goffice/canvas/goc-line.c:317
 msgid "y0"
 msgstr "y0"
 
-#: ../goffice/canvas/goc-line.c:301
+#: ../goffice/canvas/goc-line.c:318
 msgid "The line start y coordinate"
 msgstr "Marraren hasierako y koordenatua"
 
-#: ../goffice/canvas/goc-line.c:306
+#: ../goffice/canvas/goc-line.c:323
 msgid "x1"
 msgstr "x1"
 
-#: ../goffice/canvas/goc-line.c:307
+#: ../goffice/canvas/goc-line.c:324
 msgid "The line end x coordinate"
 msgstr "Marraren amaierako x koordenatua"
 
-#: ../goffice/canvas/goc-line.c:312
+#: ../goffice/canvas/goc-line.c:329
 msgid "y1"
 msgstr "y1"
 
-#: ../goffice/canvas/goc-line.c:313
+#: ../goffice/canvas/goc-line.c:330
 msgid "The line end y coordinate"
 msgstr "Marraren amaierako y koordenatua"
 
-#: ../goffice/canvas/goc-path.c:281
+#: ../goffice/canvas/goc-path.c:295
 msgid "The path first point x coordinate"
 msgstr "Bide-izenaren lehen puntuko x koordenatua"
 
-#: ../goffice/canvas/goc-path.c:287
+#: ../goffice/canvas/goc-path.c:301
 msgid "The path first point y coordinate"
 msgstr "Bide-izenaren lehen puntuko y koordenatua"
 
-#: ../goffice/canvas/goc-path.c:293
+#: ../goffice/canvas/goc-path.c:307
 msgid "The rotation around first point position"
 msgstr "Lehen puntuaren posizioaren inguruko biraketa"
 
-#: ../goffice/canvas/goc-path.c:298
+#: ../goffice/canvas/goc-path.c:312
 msgid "Closed"
 msgstr "Itxita"
 
-#: ../goffice/canvas/goc-path.c:299
+#: ../goffice/canvas/goc-path.c:313
 msgid "The flag for closed path"
 msgstr "Itxitako bide-izenaren marka"
 
-#: ../goffice/canvas/goc-path.c:304 ../goffice/canvas/goc-polygon.c:354
+#: ../goffice/canvas/goc-path.c:318 ../goffice/canvas/goc-polygon.c:378
 msgid "Fill rule"
 msgstr "Betetze-araua"
 
-#: ../goffice/canvas/goc-path.c:305 ../goffice/canvas/goc-polygon.c:355
+#: ../goffice/canvas/goc-path.c:319 ../goffice/canvas/goc-polygon.c:379
 msgid "Set fill rule to winding or even/odd"
 msgstr "Ezarri betetze-araua: ez-zero edo bikoitia/bakoitia"
 
-#: ../goffice/canvas/goc-path.c:310
+#: ../goffice/canvas/goc-path.c:324
 msgid "Path"
 msgstr "Bide-izena"
 
-#: ../goffice/canvas/goc-path.c:311
+#: ../goffice/canvas/goc-path.c:325
 msgid "The path points"
 msgstr "Bide-izeneko puntuak"
 
@@ -854,189 +869,189 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "Bistaratu beharreko GdkPixbuf"
 
-#: ../goffice/canvas/goc-polygon.c:343 ../goffice/canvas/goc-polyline.c:260
+#: ../goffice/canvas/goc-polygon.c:367 ../goffice/canvas/goc-polyline.c:277
 msgid "points"
 msgstr "puntuak"
 
-#: ../goffice/canvas/goc-polygon.c:343
+#: ../goffice/canvas/goc-polygon.c:367
 msgid "The polygon vertices"
 msgstr "Poligonoaren erpinak"
 
-#: ../goffice/canvas/goc-polygon.c:348 ../goffice/canvas/goc-polyline.c:265
+#: ../goffice/canvas/goc-polygon.c:372 ../goffice/canvas/goc-polyline.c:282
 msgid "Use spline"
 msgstr "Erabili spline"
 
-#: ../goffice/canvas/goc-polygon.c:349
+#: ../goffice/canvas/goc-polygon.c:373
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Erabili Bezier-en spline kubiko itxia ingerada gisa"
 
-#: ../goffice/canvas/goc-polygon.c:359
+#: ../goffice/canvas/goc-polygon.c:383
 msgid "sizes"
 msgstr "tamainak"
 
-#: ../goffice/canvas/goc-polygon.c:360
+#: ../goffice/canvas/goc-polygon.c:384
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
 "be discarded. Setting the \"point\" property will reset the sizes."
 msgstr "Ezarrita badago, poligonoa hainbat poligonotan zatituko da, adierazitako tamainak kontuan hartuz. Tamaina bakoitzak gutxienez 3 izan behar du. Balio oker baten ondorengo balioak baztertu egingo dira. \"Puntua\" propietatea ezarriz gero, tamainak berrezarri egingo dira."
 
-#: ../goffice/canvas/goc-polyline.c:260
+#: ../goffice/canvas/goc-polyline.c:277
 msgid "The polyline vertices"
 msgstr "Polimarraren erpinak"
 
-#: ../goffice/canvas/goc-polyline.c:266
+#: ../goffice/canvas/goc-polyline.c:283
 msgid "Use a Bezier cubic spline as line"
 msgstr "Erabili Bezier-en spline kubikoa marra gisa"
 
-#: ../goffice/canvas/goc-rectangle.c:320
+#: ../goffice/canvas/goc-rectangle.c:339
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr "Laukizuzenaren ezkerreko posizioa (edo eskuineko posizioa RTL moduan)"
 
-#: ../goffice/canvas/goc-rectangle.c:326
+#: ../goffice/canvas/goc-rectangle.c:345
 msgid "The rectangle top position"
 msgstr "Laukizuzenaren goiko posizioa"
 
-#: ../goffice/canvas/goc-rectangle.c:332
+#: ../goffice/canvas/goc-rectangle.c:351
 msgid "The rectangle width"
 msgstr "Laukizuzenaren zabalera"
 
-#: ../goffice/canvas/goc-rectangle.c:338
+#: ../goffice/canvas/goc-rectangle.c:357
 msgid "The rectangle height"
 msgstr "Laukizuzenaren altuera"
 
-#: ../goffice/canvas/goc-rectangle.c:350
+#: ../goffice/canvas/goc-rectangle.c:369
 msgid ""
 "The rectangle type: 0 for no rounded corner, 1 for rounded top left, 2 for "
 "top right, 4 for bottom right, 8 for bottom left, or any combination of "
 "these."
-msgstr ""
+msgstr "Laukizuzen mota: 0 biribiltzerik gabeko izkinetarako, 1 goiko ezkerreko izkina biribildurako, 2 goiko eskuineko izkina biribildurako, 4 beheko eskuineko izkina biribildurako, 8 beheko ezkerreko izkina biribildurako, edo horien guztien edozein konbinazio."
 
-#: ../goffice/canvas/goc-rectangle.c:355
+#: ../goffice/canvas/goc-rectangle.c:374
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:356
+#: ../goffice/canvas/goc-rectangle.c:375
 msgid "The round rectangle rx"
 msgstr "Laukizuzen biribilaren rx"
 
-#: ../goffice/canvas/goc-rectangle.c:361
+#: ../goffice/canvas/goc-rectangle.c:380
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:362
+#: ../goffice/canvas/goc-rectangle.c:381
 msgid "The round rectangle ry"
 msgstr "Laukizuzen biribilaren ry"
 
-#: ../goffice/canvas/goc-styled-item.c:162
+#: ../goffice/canvas/goc-styled-item.c:171
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
 #: ../goffice/graph/gog-styled-object.c:225 ../goffice/utils/go-style.c:1122
 msgid "Style"
 msgstr "Estiloa"
 
-#: ../goffice/canvas/goc-styled-item.c:163
+#: ../goffice/canvas/goc-styled-item.c:172
 #: ../goffice/graph/gog-styled-object.c:226
 msgid "A pointer to the GOStyle object"
 msgstr "GOStyle objekturako erakuslea"
 
-#: ../goffice/canvas/goc-styled-item.c:168
+#: ../goffice/canvas/goc-styled-item.c:177
 msgid "Scale line width"
 msgstr "Doitu marraren zabalera"
 
-#: ../goffice/canvas/goc-styled-item.c:169
+#: ../goffice/canvas/goc-styled-item.c:178
 msgid "Whether to scale the line width when zooming"
 msgstr "Zoom egitean marraren zabalera doitu behar den edo ez"
 
-#: ../goffice/canvas/goc-text.c:449
+#: ../goffice/canvas/goc-text.c:469
 msgid "The text horizontal position"
 msgstr "Testuaren posizio horizontala"
 
-#: ../goffice/canvas/goc-text.c:455
+#: ../goffice/canvas/goc-text.c:475
 msgid "The text position"
 msgstr "Testuaren posizioa"
 
-#: ../goffice/canvas/goc-text.c:461
+#: ../goffice/canvas/goc-text.c:481
 msgid "The rotation around the anchor"
 msgstr "Ainguraren inguruko biraketa"
 
-#: ../goffice/canvas/goc-text.c:466 ../goffice/graph/gog-object.c:858
+#: ../goffice/canvas/goc-text.c:486 ../goffice/graph/gog-object.c:861
 msgid "Anchor"
 msgstr "Aingura"
 
-#: ../goffice/canvas/goc-text.c:467
+#: ../goffice/canvas/goc-text.c:487
 msgid "The anchor point for the text"
 msgstr "Testuaren aingura-puntua"
 
-#: ../goffice/canvas/goc-text.c:472 ../goffice/gtk/go-format-sel.c:68
+#: ../goffice/canvas/goc-text.c:492 ../goffice/gtk/go-format-sel.c:68
 #: ../goffice/gtk/go-rotation-sel.c:230 ../goffice/utils/go-style.c:988
 msgid "Text"
 msgstr "Testua"
 
-#: ../goffice/canvas/goc-text.c:473
+#: ../goffice/canvas/goc-text.c:493
 msgid "The text to display"
 msgstr "Bistaratu beharreko testua"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:496
 msgid "Attributes"
 msgstr "Atributuak"
 
-#: ../goffice/canvas/goc-text.c:476
+#: ../goffice/canvas/goc-text.c:496
 msgid "The attributes list as a PangoAttrList"
 msgstr "Atributuen zerrenda PangoAttrList gisa"
 
-#: ../goffice/canvas/goc-text.c:481
+#: ../goffice/canvas/goc-text.c:501
 msgid "Clip"
 msgstr "Moztu"
 
-#: ../goffice/canvas/goc-text.c:482
+#: ../goffice/canvas/goc-text.c:502
 msgid "Whether to clip or not"
 msgstr "Moztu behar den edo ez"
 
-#: ../goffice/canvas/goc-text.c:487
+#: ../goffice/canvas/goc-text.c:507
 msgid "Clip width"
 msgstr "Mozketaren zabalera"
 
-#: ../goffice/canvas/goc-text.c:488
+#: ../goffice/canvas/goc-text.c:508
 msgid "Clip width for the text"
 msgstr "Testuaren mozketaren zabalera"
 
-#: ../goffice/canvas/goc-text.c:493
+#: ../goffice/canvas/goc-text.c:513
 msgid "Clip height"
 msgstr "Mozketaren altuera"
 
-#: ../goffice/canvas/goc-text.c:494
+#: ../goffice/canvas/goc-text.c:514
 msgid "Clip height for the text"
 msgstr "Testuaren mozketaren altuera"
 
-#: ../goffice/canvas/goc-text.c:499
+#: ../goffice/canvas/goc-text.c:519
 msgid "Wrap width"
 msgstr "Egokitzearen zabalera"
 
-#: ../goffice/canvas/goc-text.c:500
+#: ../goffice/canvas/goc-text.c:520
 msgid "Wrap width for the text"
 msgstr "Testuaren egokitzearen zabalera"
 
-#: ../goffice/canvas/goc-widget.c:798
+#: ../goffice/canvas/goc-widget.c:814
 msgid "Widget"
 msgstr "Trepeta"
 
-#: ../goffice/canvas/goc-widget.c:799
+#: ../goffice/canvas/goc-widget.c:815
 msgid "A pointer to the embedded widget"
 msgstr "Kapsulatutako trepetarako erakuslea"
 
-#: ../goffice/canvas/goc-widget.c:805
+#: ../goffice/canvas/goc-widget.c:821
 msgid "The widget left position"
 msgstr "Trepetaren ezkerreko posizioa"
 
-#: ../goffice/canvas/goc-widget.c:811
+#: ../goffice/canvas/goc-widget.c:827
 msgid "The widget top position"
 msgstr "Trepetaren goiko posizioa"
 
-#: ../goffice/canvas/goc-widget.c:818
+#: ../goffice/canvas/goc-widget.c:834
 msgid "The widget width"
 msgstr "Trepetaren zabalera"
 
-#: ../goffice/canvas/goc-widget.c:824
+#: ../goffice/canvas/goc-widget.c:840
 msgid "The widget height"
 msgstr "Trepetaren altuera"
 
@@ -1186,13 +1201,13 @@ msgstr "Luzera erlatiboa"
 
 #: ../goffice/graph/gog-axis.c:3279
 msgid "Relative ticks distance"
-msgstr ""
+msgstr "Marka erlatiboen distantzia"
 
 #: ../goffice/graph/gog-axis.c:3344 ../goffice/graph/gog-axis.c:3467
 msgid "Metrics"
 msgstr "Metrikak"
 
-#: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2606
+#: ../goffice/graph/gog-axis.c:3362 ../goffice/graph/gog-axis-line.c:2621
 #: ../goffice/graph/gog-series-labels.c:911
 #: ../goffice/graph/gog-series-labels.c:1442
 msgid "Format"
@@ -1222,11 +1237,11 @@ msgstr "MapaIzena"
 msgid "The name of the map for scaling"
 msgstr "Doitu beharreko maparen izena"
 
-#: ../goffice/graph/gog-axis.c:3431 ../goffice/graph/gog-axis-line.c:2694
+#: ../goffice/graph/gog-axis.c:3431 ../goffice/graph/gog-axis-line.c:2703
 msgid "Assigned XL format"
 msgstr "Esleitutako XL formatua"
 
-#: ../goffice/graph/gog-axis.c:3432 ../goffice/graph/gog-axis-line.c:2695
+#: ../goffice/graph/gog-axis.c:3432 ../goffice/graph/gog-axis-line.c:2704
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr "Erabiltzaileak esleitutako formatua diskretuak ez diren ardatz-etiketetan erabiltzeko (XL formatua)"
@@ -1247,7 +1262,7 @@ msgstr "Ardatzaren hasierako posizioa"
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
-msgstr ""
+msgstr "Ardatzaren area efektiboa hasten deneko diagrama-arearen posizioa, erabilgarri dagoen posizioaren ehunko gisa adierazia. Balio lehenetsia 0.0 da."
 
 #: ../goffice/graph/gog-axis.c:3457
 msgid "Axis end position"
@@ -1257,11 +1272,11 @@ msgstr "Ardatzaren amaierako posizioa"
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
-msgstr ""
+msgstr "Ardatzaren area efektiboa amaitzen deneko diagrama-arearen posizioa, erabilgarri dagoen posizioaren ehunko gisa adierazia. Balio lehenetsia a.0 da."
 
 #: ../goffice/graph/gog-axis.c:3462
 msgid "ColorMapName"
-msgstr ""
+msgstr "KoloreMaparenIzena"
 
 #: ../goffice/graph/gog-axis.c:3463
 msgid "The name of the color map"
@@ -1269,15 +1284,15 @@ msgstr "Kolore-maparen izena"
 
 #: ../goffice/graph/gog-axis.c:3468
 msgid "The way the axis ticks distance is evaluated"
-msgstr ""
+msgstr "Ardatz-marken distantzia nola ebaluatzen den"
 
 #: ../goffice/graph/gog-axis.c:3472
 msgid "AxisRef"
-msgstr ""
+msgstr "ArdatzErref"
 
 #: ../goffice/graph/gog-axis.c:3473
 msgid "The name of the axis used as reference for ticks distance"
-msgstr ""
+msgstr "Marken distantziarako erreferentzia gisa erabilitako ardatzaren izena"
 
 #: ../goffice/graph/gog-axis.c:3478
 msgid "Metrics ratio"
@@ -1287,7 +1302,7 @@ msgstr "Metriken erlazioa"
 msgid ""
 "If an axis is used as reference, gives the ratio of the ticks distance, and "
 "if the metrix is absolute, the ticks distance. Defaults to 1.0"
-msgstr ""
+msgstr "Ardatz bat erreferentzia gisa erabiltzen bada, marken distantziaren erlazioa ematen du, eta metrika absolutua bada, marken distantzia. Balio lehenetsia 1.0 da."
 
 #: ../goffice/graph/gog-axis.c:3483
 msgid "Metrics Unit"
@@ -1297,7 +1312,7 @@ msgstr "Metriken unitatea"
 msgid ""
 "The unit symbol for the absolute distance unit between ticks. Might be \"cm"
 "\" or \"in\""
-msgstr ""
+msgstr "Marken arteko distantzia absolutuen unitaterako ikurra. Izan daiteke \"cm\" edo \"in\""
 
 #: ../goffice/graph/gog-axis.c:3489
 msgid "Display factor"
@@ -1305,7 +1320,7 @@ msgstr "Bistaratze-faktorea"
 
 #: ../goffice/graph/gog-axis.c:3490
 msgid "Real values are the displayed ones multipled by the display factor."
-msgstr ""
+msgstr "Balio errealak kalkulatzen dira bistaratutako balioak eta bistaratze-faktorea biderkatuta."
 
 #: ../goffice/graph/gog-axis-color-map.c:132 ../goffice/graph/gog-theme.c:322
 msgid "Resource type"
@@ -1337,7 +1352,7 @@ msgid "Color"
 msgstr "Kolorea"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#: ../goffice/graph/gog-guru.c:1030 ../goffice/graph/gog-series.c:593
+#: ../goffice/graph/gog-guru.c:1032 ../goffice/graph/gog-series.c:595
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "Izena"
@@ -1358,120 +1373,120 @@ msgstr "Definitu"
 msgid "Erase"
 msgstr "Ezabatu"
 
-#: ../goffice/graph/gog-axis-line.c:671
+#: ../goffice/graph/gog-axis-line.c:678
 msgid "Layout"
 msgstr "Diseinua"
 
-#: ../goffice/graph/gog-axis-line.c:755
+#: ../goffice/graph/gog-axis-line.c:762
 msgid "MajorGrid"
 msgstr "SaretaNagusia"
 
-#: ../goffice/graph/gog-axis-line.c:758
+#: ../goffice/graph/gog-axis-line.c:765
 msgid "MinorGrid"
 msgstr "SaretaSekundarioa"
 
-#: ../goffice/graph/gog-axis-line.c:761 ../goffice/graph/gog-color-scale.c:325
+#: ../goffice/graph/gog-axis-line.c:768 ../goffice/graph/gog-color-scale.c:325
 #: ../goffice/graph/gog-theme.c:591
 msgid "Label"
 msgstr "Etiketa"
 
-#: ../goffice/graph/gog-axis-line.c:776
+#: ../goffice/graph/gog-axis-line.c:783
 msgid "Axis position"
 msgstr "Ardatzaren posizioa"
 
-#: ../goffice/graph/gog-axis-line.c:777 ../goffice/graph/gog-axis-line.c:783
+#: ../goffice/graph/gog-axis-line.c:784 ../goffice/graph/gog-axis-line.c:790
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Ardatzaren posizioa: behean, goian edo gurutzatuta"
 
-#: ../goffice/graph/gog-axis-line.c:782
+#: ../goffice/graph/gog-axis-line.c:789
 msgid "Axis position (as a string)"
 msgstr "Ardatzaren posizioa (kate gisa)"
 
-#: ../goffice/graph/gog-axis-line.c:789
+#: ../goffice/graph/gog-axis-line.c:796
 msgid "Major labels"
 msgstr "Etiketa nagusiak"
 
-#: ../goffice/graph/gog-axis-line.c:790
+#: ../goffice/graph/gog-axis-line.c:797
 msgid "Show labels for major ticks"
 msgstr "Erakutsi marka nagusien etiketak"
 
-#: ../goffice/graph/gog-axis-line.c:795
+#: ../goffice/graph/gog-axis-line.c:802
 msgid "Inside major ticks"
 msgstr "Marka nagusiak barruan"
 
-#: ../goffice/graph/gog-axis-line.c:796
+#: ../goffice/graph/gog-axis-line.c:803
 msgid "Major tick marks inside the chart area"
 msgstr "Marka nagusiak diagramen arearen barruan"
 
-#: ../goffice/graph/gog-axis-line.c:801
+#: ../goffice/graph/gog-axis-line.c:808
 msgid "Outside major ticks"
 msgstr "Marka nagusiak kanpoan"
 
-#: ../goffice/graph/gog-axis-line.c:802
+#: ../goffice/graph/gog-axis-line.c:809
 msgid "Major tick marks outside the chart area"
 msgstr "Marka nagusiak diagramen areatik kanpo"
 
-#: ../goffice/graph/gog-axis-line.c:807
+#: ../goffice/graph/gog-axis-line.c:814
 msgid "Major tick size"
 msgstr "Marka nagusien tamaina"
 
-#: ../goffice/graph/gog-axis-line.c:808
+#: ../goffice/graph/gog-axis-line.c:815
 msgid "Size of the major tick marks, in points"
 msgstr "Marka nagusien tamaina, puntutan"
 
-#: ../goffice/graph/gog-axis-line.c:814
+#: ../goffice/graph/gog-axis-line.c:821
 msgid "Inside minor ticks"
 msgstr "Bigarren mailako markak barruan"
 
-#: ../goffice/graph/gog-axis-line.c:815
+#: ../goffice/graph/gog-axis-line.c:822
 msgid "Minor tick marks inside the chart area"
 msgstr "Bigarren mailako markak diagramen arearen barruan"
 
-#: ../goffice/graph/gog-axis-line.c:820
+#: ../goffice/graph/gog-axis-line.c:827
 msgid "Outside minor ticks"
 msgstr "Bigarren mailako markak kanpoan"
 
-#: ../goffice/graph/gog-axis-line.c:821
+#: ../goffice/graph/gog-axis-line.c:828
 msgid "Minor tick marks outside the axis"
 msgstr "Bigarren mailako markak ardatzetik kanpo"
 
-#: ../goffice/graph/gog-axis-line.c:826
+#: ../goffice/graph/gog-axis-line.c:833
 msgid "Minor tick size"
 msgstr "Bigarren mailako marken tamaina"
 
-#: ../goffice/graph/gog-axis-line.c:827
+#: ../goffice/graph/gog-axis-line.c:834
 msgid "Size of the minor tick marks, in points"
 msgstr "Bigarren mailako marken tamaina, puntutan"
 
-#: ../goffice/graph/gog-axis-line.c:833
+#: ../goffice/graph/gog-axis-line.c:840
 msgid "Cross axis ID"
-msgstr ""
+msgstr "Gurutzatutako ardatzaren IDa"
 
-#: ../goffice/graph/gog-axis-line.c:834
+#: ../goffice/graph/gog-axis-line.c:841
 msgid "Which axis to cross"
 msgstr "Zer ardatz gurutzatu behar den"
 
-#: ../goffice/graph/gog-axis-line.c:840
+#: ../goffice/graph/gog-axis-line.c:847
 msgid "Axis padding"
 msgstr "Ardatzaren betegarria"
 
-#: ../goffice/graph/gog-axis-line.c:841
+#: ../goffice/graph/gog-axis-line.c:848
 msgid "Distance from axis line to plot area, in points"
 msgstr "Ardatzaren marratik marrazte-areara dagoen distantzia, puntutan"
 
-#: ../goffice/graph/gog-axis-line.c:935
+#: ../goffice/graph/gog-axis-line.c:942
 msgid "Select axis"
 msgstr "Hautatu ardatza"
 
-#: ../goffice/graph/gog-axis-line.c:1041
+#: ../goffice/graph/gog-axis-line.c:1048
 msgid "Set start bound"
 msgstr "Ezarri hasierako muga"
 
-#: ../goffice/graph/gog-axis-line.c:1052
+#: ../goffice/graph/gog-axis-line.c:1059
 msgid "Set stop bound"
 msgstr "Ezarri amaierako muga"
 
-#: ../goffice/graph/gog-axis-line.c:2594
+#: ../goffice/graph/gog-axis-line.c:2609
 msgid "Ticks"
 msgstr "Markak"
 
@@ -1529,8 +1544,8 @@ msgstr "_Barruan"
 msgid "_Show Labels"
 msgstr "_Erakutsi etiketak"
 
-#: ../goffice/graph/gog-axis-prefs.ui.h:13 ../goffice/graph/gog-object.c:790
-#: ../goffice/graph/gog-object.c:834 ../goffice/graph/gog-series-labels.c:899
+#: ../goffice/graph/gog-axis-prefs.ui.h:13 ../goffice/graph/gog-object.c:793
+#: ../goffice/graph/gog-object.c:837 ../goffice/graph/gog-series-labels.c:899
 #: ../goffice/graph/gog-series-labels.c:1430
 msgid "Position"
 msgstr "Kokalekua"
@@ -1613,7 +1628,7 @@ msgstr "Etiketak:"
 #: ../goffice/graph/gog-axis-prefs.ui.h:33
 #, no-c-format
 msgid "<b>Effective area</b> (as % of available room)"
-msgstr ""
+msgstr "<b>Area efektiboa</b> (erabilgarri dagoen espazioaren % gisa)"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:34 ../goffice/utils/go-style.c:658
 msgid "Start:"
@@ -1760,27 +1775,27 @@ msgstr "Grafikoaren saretako errenkada kopurua"
 msgid "%s to %s"
 msgstr "%s(e)tik %s(e)ra"
 
-#: ../goffice/graph/gog-color-scale.c:144 ../goffice/graph/gog-object.c:173
-#: ../goffice/graph/gog-object.c:192 ../goffice/graph/gog-series.c:110
+#: ../goffice/graph/gog-color-scale.c:144 ../goffice/graph/gog-object.c:176
+#: ../goffice/graph/gog-object.c:195 ../goffice/graph/gog-series.c:112
 #: ../goffice/graph/gog-series-labels.c:58
 msgid "Top"
 msgstr "Goian"
 
-#: ../goffice/graph/gog-color-scale.c:145 ../goffice/graph/gog-object.c:177
-#: ../goffice/graph/gog-object.c:198 ../goffice/graph/gog-series.c:108
+#: ../goffice/graph/gog-color-scale.c:145 ../goffice/graph/gog-object.c:180
+#: ../goffice/graph/gog-object.c:201 ../goffice/graph/gog-series.c:110
 #: ../goffice/graph/gog-series-labels.c:59
 msgid "Bottom"
 msgstr "Behean"
 
-#: ../goffice/graph/gog-color-scale.c:147 ../goffice/graph/gog-object.c:179
-#: ../goffice/graph/gog-object.c:194 ../goffice/graph/gog-series.c:109
+#: ../goffice/graph/gog-color-scale.c:147 ../goffice/graph/gog-object.c:182
+#: ../goffice/graph/gog-object.c:197 ../goffice/graph/gog-series.c:111
 #: ../goffice/graph/gog-series-labels.c:60
 #: ../goffice/gtk/go-gradient-selector.c:101
 msgid "Left"
 msgstr "Ezkerrean"
 
-#: ../goffice/graph/gog-color-scale.c:148 ../goffice/graph/gog-object.c:175
-#: ../goffice/graph/gog-object.c:196 ../goffice/graph/gog-series.c:111
+#: ../goffice/graph/gog-color-scale.c:148 ../goffice/graph/gog-object.c:178
+#: ../goffice/graph/gog-object.c:199 ../goffice/graph/gog-series.c:113
 #: ../goffice/graph/gog-series-labels.c:61
 #: ../goffice/gtk/go-gradient-selector.c:103
 msgid "Right"
@@ -1792,7 +1807,7 @@ msgstr "Eskuinean"
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2105
+#: ../plugins/plot_xy/gog-xy.c:2110
 msgid "Details"
 msgstr "Xehetasunak"
 
@@ -1819,7 +1834,7 @@ msgstr "Ardatza"
 
 #: ../goffice/graph/gog-color-scale.c:347
 msgid "Reference to the color or pseudo-3d axis"
-msgstr ""
+msgstr "3D ardatz izunaren kolorearen erreferentzia"
 
 #: ../goffice/graph/gog-color-scale.c:352
 msgid "Tick size"
@@ -1855,10 +1870,10 @@ msgstr "_Modu trinkoa"
 
 #: ../goffice/graph/gog-error-bar.c:79
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:11
-#: ../goffice/graph/gog-object.c:203
+#: ../goffice/graph/gog-object.c:206
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
-#: ../goffice/gtk/go-arrow-sel.ui.h:5 ../goffice/gtk/go-format-sel.c:1672
-#: ../goffice/gtk/go-format-sel.c:1852 ../goffice/utils/formats.c:370
+#: ../goffice/gtk/go-arrow-sel.ui.h:5 ../goffice/gtk/go-format-sel.c:1671
+#: ../goffice/gtk/go-format-sel.c:1851 ../goffice/utils/formats.c:370
 #: ../goffice/utils/go-line.c:127 ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "Bat ere ez"
@@ -1907,7 +1922,7 @@ msgid "(-)"
 msgstr "(-)"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:9
-#: ../plugins/plot_barcol/gog-1.5d.c:369
+#: ../plugins/plot_barcol/gog-1.5d.c:372
 #: ../plugins/plot_distrib/gog-boxplot.c:428
 #: ../plugins/plot_distrib/gog-histogram.c:400
 #: ../plugins/plot_distrib/gog-probability-plot.c:317
@@ -1994,23 +2009,23 @@ msgstr "Sekundarioa-da"
 msgid "Are these minor grid lines"
 msgstr "Sareta-marra sekundarioak diren"
 
-#: ../goffice/graph/gog-guru.c:1057
+#: ../goffice/graph/gog-guru.c:1059
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "1/2 urratsa: aukeratu diagrama mota"
 
-#: ../goffice/graph/gog-guru.c:1065
+#: ../goffice/graph/gog-guru.c:1067
 msgid "Step 2 of 2: Customize Chart"
 msgstr "2/2 urratsa: pertsonalizatu diagrama"
 
-#: ../goffice/graph/gog-guru.c:1070
+#: ../goffice/graph/gog-guru.c:1072
 msgid "Customize Chart"
 msgstr "Pertsonalizatu diagrama"
 
-#: ../goffice/graph/gog-guru.c:1145
+#: ../goffice/graph/gog-guru.c:1147
 msgid "_Insert"
 msgstr "_Txertatu"
 
-#: ../goffice/graph/gog-guru.c:1216
+#: ../goffice/graph/gog-guru.c:1218
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "_Marrazki mota"
@@ -2089,7 +2104,7 @@ msgstr "Testuaren justifikazioa"
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
-msgstr ""
+msgstr "Testu-justifikazioak kate gisa. Balizko balioak: \"center\" (erdia ,balio lehenetsia), \"left\" (ezkerra), \"right\" (eskuina) edo \"fill\" (bete)."
 
 #: ../goffice/graph/gog-label.c:588
 msgid "Regression Equation"
@@ -2127,102 +2142,102 @@ msgstr "Laginaren betegarria puntutan"
 msgid "padding between the swatches in pts."
 msgstr "laginen arteko betegarria puntutan"
 
-#: ../goffice/graph/gog-object.c:174 ../goffice/graph/gog-object.c:193
+#: ../goffice/graph/gog-object.c:177 ../goffice/graph/gog-object.c:196
 msgid "Top right"
 msgstr "Goian eskuinean"
 
-#: ../goffice/graph/gog-object.c:176 ../goffice/graph/gog-object.c:199
+#: ../goffice/graph/gog-object.c:179 ../goffice/graph/gog-object.c:202
 msgid "Bottom right"
 msgstr "Behean eskuinean"
 
-#: ../goffice/graph/gog-object.c:178 ../goffice/graph/gog-object.c:197
+#: ../goffice/graph/gog-object.c:181 ../goffice/graph/gog-object.c:200
 msgid "Bottom left"
 msgstr "Behean ezkerrean"
 
-#: ../goffice/graph/gog-object.c:180 ../goffice/graph/gog-object.c:191
+#: ../goffice/graph/gog-object.c:183 ../goffice/graph/gog-object.c:194
 msgid "Top left"
 msgstr "Goian ezkerrean"
 
-#: ../goffice/graph/gog-object.c:184 ../goffice/utils/go-style-prefs.ui.h:29
+#: ../goffice/graph/gog-object.c:187 ../goffice/utils/go-style-prefs.ui.h:29
 msgid "Fill"
 msgstr "Bete"
 
-#: ../goffice/graph/gog-object.c:185 ../plugins/plot_barcol/gog-dropbar.c:143
+#: ../goffice/graph/gog-object.c:188 ../plugins/plot_barcol/gog-dropbar.c:143
 #: ../plugins/plot_xy/gog-xy-dropbar.c:322
 msgid "Start"
 msgstr "Hasiera"
 
-#: ../goffice/graph/gog-object.c:186 ../plugins/plot_barcol/gog-dropbar.c:145
+#: ../goffice/graph/gog-object.c:189 ../plugins/plot_barcol/gog-dropbar.c:145
 #: ../plugins/plot_xy/gog-xy-dropbar.c:324
 msgid "End"
 msgstr "Amaiera"
 
-#: ../goffice/graph/gog-object.c:187 ../goffice/graph/gog-object.c:195
-#: ../goffice/graph/gog-series.c:113
+#: ../goffice/graph/gog-object.c:190 ../goffice/graph/gog-object.c:198
+#: ../goffice/graph/gog-series.c:115
 msgid "Center"
 msgstr "Erdian"
 
-#: ../goffice/graph/gog-object.c:205
+#: ../goffice/graph/gog-object.c:208
 msgid "Absolute width"
 msgstr "Zabalera absolutua"
 
-#: ../goffice/graph/gog-object.c:207
+#: ../goffice/graph/gog-object.c:210
 msgid "Absolute height"
 msgstr "Altuera absolutua"
 
-#: ../goffice/graph/gog-object.c:208
+#: ../goffice/graph/gog-object.c:211
 msgid "Size"
 msgstr "Tamaina"
 
-#: ../goffice/graph/gog-object.c:209
+#: ../goffice/graph/gog-object.c:212
 msgid "Absolute size"
 msgstr "Tamaina absolutua"
 
-#: ../goffice/graph/gog-object.c:828
+#: ../goffice/graph/gog-object.c:831
 msgid "Object ID"
 msgstr "Objektu-identifikatzailea"
 
-#: ../goffice/graph/gog-object.c:829
+#: ../goffice/graph/gog-object.c:832
 msgid "Object numerical ID"
 msgstr "Objektuaren zenbakizko identifikatzailea"
 
-#: ../goffice/graph/gog-object.c:835
+#: ../goffice/graph/gog-object.c:838
 msgid "Position and size of object, in percentage of parent size"
 msgstr "Objektuaren posizioa eta tamaina, gurasoaren tamainaren ehunekoan"
 
-#: ../goffice/graph/gog-object.c:840
+#: ../goffice/graph/gog-object.c:843
 msgid "Compass"
 msgstr "Iparrorratza"
 
-#: ../goffice/graph/gog-object.c:841
+#: ../goffice/graph/gog-object.c:844
 msgid "Compass auto position flags"
 msgstr "Iparrorratzaren posizio automatikoko markak"
 
-#: ../goffice/graph/gog-object.c:846
+#: ../goffice/graph/gog-object.c:849
 msgid "Alignment"
 msgstr "Lerrokatzea"
 
-#: ../goffice/graph/gog-object.c:847
+#: ../goffice/graph/gog-object.c:850
 msgid "Alignment flag"
 msgstr "Lerrokatze-marka"
 
-#: ../goffice/graph/gog-object.c:852 ../goffice/graph/gog-object.c:853
+#: ../goffice/graph/gog-object.c:855 ../goffice/graph/gog-object.c:856
 msgid "Is position manual"
 msgstr "Kokalekua eskuzkoa den"
 
-#: ../goffice/graph/gog-object.c:859
+#: ../goffice/graph/gog-object.c:862
 msgid "Anchor for manual position"
 msgstr "Eskuko posiziorako aingura"
 
-#: ../goffice/graph/gog-object.c:864 ../goffice/graph/gog-object.c:865
+#: ../goffice/graph/gog-object.c:867 ../goffice/graph/gog-object.c:868
 msgid "Should the object be hidden"
 msgstr "Objektuak ezkutatuta egon beharko lukeen"
 
-#: ../goffice/graph/gog-object.c:870
+#: ../goffice/graph/gog-object.c:873
 msgid "Manual size"
 msgstr "Eskuzko tamaina"
 
-#: ../goffice/graph/gog-object.c:871
+#: ../goffice/graph/gog-object.c:874
 msgid "Whether the height or width are manually set"
 msgstr "Altuera edo zabalera eskuz ezarriko diren ala ez"
 
@@ -2300,6 +2315,16 @@ msgstr "Eskuz"
 msgid "_Height:"
 msgstr "_Altuera:"
 
+#. We've managed to save some files with translated
+#. booleans.  Try to recover.
+#: ../goffice/graph/gog-object-xml.c:431 ../goffice/utils/go-locale.c:547
+msgid "TRUE"
+msgstr "EGIAZKOA"
+
+#: ../goffice/graph/gog-object-xml.c:435 ../goffice/utils/go-locale.c:548
+msgid "FALSE"
+msgstr "FALTSUA"
+
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
 msgstr "Betegarria puntutan"
@@ -2308,150 +2333,150 @@ msgstr "Betegarria puntutan"
 msgid "Number of pts separating charts in the grid"
 msgstr "Saretan diagramen arteko puntu kopurua"
 
-#: ../goffice/graph/gog-plot.c:229
+#: ../goffice/graph/gog-plot.c:230
 msgid "X axis:"
 msgstr "X ardatza:"
 
-#: ../goffice/graph/gog-plot.c:230
+#: ../goffice/graph/gog-plot.c:231
 msgid "Y axis:"
 msgstr "Y ardatza:"
 
-#: ../goffice/graph/gog-plot.c:231
+#: ../goffice/graph/gog-plot.c:232
 msgid "Z axis:"
 msgstr "Z ardatza:"
 
-#: ../goffice/graph/gog-plot.c:232
+#: ../goffice/graph/gog-plot.c:233
 msgid "Circular axis:"
 msgstr "Ardatz zirkularra:"
 
-#: ../goffice/graph/gog-plot.c:233
+#: ../goffice/graph/gog-plot.c:234
 msgid "Radial axis:"
 msgstr "Ardatza erradiala:"
 
-#: ../goffice/graph/gog-plot.c:234
+#: ../goffice/graph/gog-plot.c:235
 msgid "Pseudo 3D axis:"
 msgstr "3D ardatz izuna:"
 
-#: ../goffice/graph/gog-plot.c:235
+#: ../goffice/graph/gog-plot.c:236
 msgid "Color axis:"
 msgstr "Kolorezko ardatza:"
 
-#: ../goffice/graph/gog-plot.c:236
+#: ../goffice/graph/gog-plot.c:237
 msgid "Bubble axis:"
 msgstr "Burbuila-ardatza:"
 
-#: ../goffice/graph/gog-plot.c:302
+#: ../goffice/graph/gog-plot.c:303
 msgid "Axes"
 msgstr "Ardatzak"
 
-#: ../goffice/graph/gog-plot.c:438 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-plot.c:439 ../goffice/graph/gog-theme.c:598
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "Serieak"
 
-#: ../goffice/graph/gog-plot.c:459
+#: ../goffice/graph/gog-plot.c:460
 msgid "Vary style by element"
 msgstr "Aldatu estiloa elementuaren arabera"
 
-#: ../goffice/graph/gog-plot.c:460
+#: ../goffice/graph/gog-plot.c:461
 msgid "Use a different style for each segment"
 msgstr "Erabili estilo bat segmentu bakoitzerako"
 
-#: ../goffice/graph/gog-plot.c:465
+#: ../goffice/graph/gog-plot.c:466
 msgid "X axis"
 msgstr "X ardatza"
 
-#: ../goffice/graph/gog-plot.c:466
+#: ../goffice/graph/gog-plot.c:467
 msgid "Reference to X axis"
 msgstr "X ardatzaren erreferentzia"
 
-#: ../goffice/graph/gog-plot.c:471
+#: ../goffice/graph/gog-plot.c:472
 msgid "Y axis"
 msgstr "Y ardatza"
 
-#: ../goffice/graph/gog-plot.c:472
+#: ../goffice/graph/gog-plot.c:473
 msgid "Reference to Y axis"
 msgstr "Y ardatzaren erreferentzia"
 
-#: ../goffice/graph/gog-plot.c:477
+#: ../goffice/graph/gog-plot.c:478
 msgid "Z axis"
 msgstr "Z ardatza"
 
-#: ../goffice/graph/gog-plot.c:478
+#: ../goffice/graph/gog-plot.c:479
 msgid "Reference to Z axis"
 msgstr "Z ardatzaren erreferentzia"
 
-#: ../goffice/graph/gog-plot.c:483
+#: ../goffice/graph/gog-plot.c:484
 msgid "Circular axis"
 msgstr "Ardatz zirkularra"
 
-#: ../goffice/graph/gog-plot.c:484
+#: ../goffice/graph/gog-plot.c:485
 msgid "Reference to circular axis"
 msgstr "Ardatz zirkularraren erreferentzia"
 
-#: ../goffice/graph/gog-plot.c:489
+#: ../goffice/graph/gog-plot.c:490
 msgid "Radial axis"
 msgstr "Ardatz erradiala"
 
-#: ../goffice/graph/gog-plot.c:490
+#: ../goffice/graph/gog-plot.c:491
 msgid "Reference to radial axis"
 msgstr "Ardatz erradialaren erreferentzia"
 
-#: ../goffice/graph/gog-plot.c:495
+#: ../goffice/graph/gog-plot.c:496
 msgid "Pseudo-3D axis"
 msgstr "3D ardatz izuna"
 
-#: ../goffice/graph/gog-plot.c:496
+#: ../goffice/graph/gog-plot.c:497
 msgid "Reference to pseudo-3D axis"
 msgstr "3D ardatz izunaren erreferentzia"
 
-#: ../goffice/graph/gog-plot.c:501
+#: ../goffice/graph/gog-plot.c:502
 msgid "Color axis"
 msgstr "Kolore-ardatza"
 
-#: ../goffice/graph/gog-plot.c:502
+#: ../goffice/graph/gog-plot.c:503
 msgid "Reference to color axis"
 msgstr "Kolore-ardatzaren erreferentzia"
 
-#: ../goffice/graph/gog-plot.c:507
+#: ../goffice/graph/gog-plot.c:508
 msgid "Bubble axis"
 msgstr "Burbuila-ardatza"
 
-#: ../goffice/graph/gog-plot.c:508
+#: ../goffice/graph/gog-plot.c:509
 msgid "Reference to bubble axis"
 msgstr "Burbuila-ardatzaren erreferentzia"
 
-#: ../goffice/graph/gog-plot.c:513
+#: ../goffice/graph/gog-plot.c:514
 msgid "Plot group"
 msgstr "Marrazki taldea"
 
-#: ../goffice/graph/gog-plot.c:514
+#: ../goffice/graph/gog-plot.c:515
 msgid "Name of plot group if any"
 msgstr "Marrazki taldearen izena, baldin badago"
 
-#: ../goffice/graph/gog-plot.c:519
+#: ../goffice/graph/gog-plot.c:520
 msgid "Guru hints"
 msgstr "Guruen iradokizunak"
 
-#: ../goffice/graph/gog-plot.c:520
+#: ../goffice/graph/gog-plot.c:521
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr "Guruaren elkarrizketa-koadroari objektuak automatikoki gehitzeko iradokizunen puntu eta komaz bereizitako zerrenda"
 
-#: ../goffice/graph/gog-plot.c:526
+#: ../goffice/graph/gog-plot.c:527
 msgid "Default interpolation"
 msgstr "Interpolazio lehenetsia"
 
-#: ../goffice/graph/gog-plot.c:527
+#: ../goffice/graph/gog-plot.c:528
 msgid "Default type of series line interpolation"
 msgstr "Serieen marra-interpolazio lehenetsia"
 
-#: ../goffice/graph/gog-plot.c:1175
+#: ../goffice/graph/gog-plot.c:1176
 msgid "Move plot area"
 msgstr "Aldatu lekuz marrazte-area"
 
-#: ../goffice/graph/gog-plot.c:1227
+#: ../goffice/graph/gog-plot.c:1228
 msgid "Resize plot area"
 msgstr "Aldatu tamainaz marrazte-area"
 
@@ -2492,7 +2517,7 @@ msgstr "Marrazkiaren mugak"
 msgid ""
 "How the regression line should be limited, acceptable values are \"none\", "
 "\"absolute\", and \"relative\"."
-msgstr ""
+msgstr "Nola mugatuko den erregresio-marra, balio onargarriak honakoak dira: \"none\" (bat ere ez), \"absolute\" (absolutua) eta \"relative\" (erlatiboa)."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
 msgid "(_Name):"
@@ -2556,139 +2581,139 @@ msgstr "Bistaratu _ekuazioa"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Bistaratu R&#xB2 _erregresio-koefizientea;"
 
-#: ../goffice/graph/gog-renderer.c:1874 ../goffice/graph/gog-view.c:699
+#: ../goffice/graph/gog-renderer.c:1897 ../goffice/graph/gog-view.c:698
 msgid "Model"
 msgstr "Eredua"
 
-#: ../goffice/graph/gog-renderer.c:1875
+#: ../goffice/graph/gog-renderer.c:1898
 msgid "The GogGraph this renderer displays"
 msgstr "Errendatzaile honek bistaratzen duen GogGraph"
 
-#: ../goffice/graph/gog-renderer.c:1880
+#: ../goffice/graph/gog-renderer.c:1903
 msgid "View"
 msgstr "Ikusi"
 
-#: ../goffice/graph/gog-renderer.c:1881
+#: ../goffice/graph/gog-renderer.c:1904
 msgid "the GogView this renderer is displaying"
 msgstr "errendatzaile hau bistaratzen ari den GogView"
 
-#: ../goffice/graph/gog-series.c:106
+#: ../goffice/graph/gog-series.c:108
 msgid "Y origin"
 msgstr "Y iturburua"
 
-#: ../goffice/graph/gog-series.c:107
+#: ../goffice/graph/gog-series.c:109
 msgid "X origin"
 msgstr "X iturburua"
 
-#: ../goffice/graph/gog-series.c:112
+#: ../goffice/graph/gog-series.c:114
 msgid "Origin"
 msgstr "Iturburua"
 
-#: ../goffice/graph/gog-series.c:114
+#: ../goffice/graph/gog-series.c:116
 msgid "Edge"
 msgstr "Ertza"
 
-#: ../goffice/graph/gog-series.c:115
+#: ../goffice/graph/gog-series.c:117
 msgid "Self"
 msgstr "Bere burua"
 
-#: ../goffice/graph/gog-series.c:116
+#: ../goffice/graph/gog-series.c:118
 msgid "Next series"
 msgstr "Hurrengo seriea"
 
-#: ../goffice/graph/gog-series.c:117
+#: ../goffice/graph/gog-series.c:119
 msgid "X axis minimum"
 msgstr "X ardatz minimoa"
 
-#: ../goffice/graph/gog-series.c:118
+#: ../goffice/graph/gog-series.c:120
 msgid "X axis maximum"
 msgstr "X ardatz maximoa"
 
-#: ../goffice/graph/gog-series.c:119
+#: ../goffice/graph/gog-series.c:121
 msgid "Y axis minimum"
 msgstr "Y ardatz minimoa"
 
-#: ../goffice/graph/gog-series.c:120
+#: ../goffice/graph/gog-series.c:122
 msgid "Y axis maximum"
 msgstr "Y ardatz maximoa"
 
-#: ../goffice/graph/gog-series.c:233 ../goffice/graph/gog-series-labels.c:414
+#: ../goffice/graph/gog-series.c:235 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
 msgstr "Indizea:"
 
-#: ../goffice/graph/gog-series.c:246 ../plugins/plot_pie/gog-pie.c:91
+#: ../goffice/graph/gog-series.c:248 ../plugins/plot_pie/gog-pie.c:91
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: ../goffice/graph/gog-series.c:287 ../goffice/graph/gog-series-labels.c:917
+#: ../goffice/graph/gog-series.c:289 ../goffice/graph/gog-series-labels.c:917
 msgid "Index"
 msgstr "Indizea"
 
-#: ../goffice/graph/gog-series.c:288 ../goffice/graph/gog-series-labels.c:918
+#: ../goffice/graph/gog-series.c:290 ../goffice/graph/gog-series-labels.c:918
 msgid "Index of the corresponding data element"
 msgstr "Dagokion datu-elementuaren indizea"
 
-#: ../goffice/graph/gog-series.c:624 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:626 ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
 msgstr "_Erakutsi legendan"
 
-#: ../goffice/graph/gog-series.c:634
+#: ../goffice/graph/gog-series.c:636
 msgid "Data"
 msgstr "Datuak"
 
-#: ../goffice/graph/gog-series.c:696
+#: ../goffice/graph/gog-series.c:698
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr "Deribatua finkatutako spline kubikoaren lehen puntuan."
 
-#: ../goffice/graph/gog-series.c:701
+#: ../goffice/graph/gog-series.c:703
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr "Deribatua finkatutako spline kubikoaren azken puntuan."
 
-#: ../goffice/graph/gog-series.c:774 ../goffice/graph/gog-series-labels.c:1407
+#: ../goffice/graph/gog-series.c:776 ../goffice/graph/gog-series-labels.c:1407
 msgid "Point"
 msgstr "Puntua"
 
-#: ../goffice/graph/gog-series.c:780
+#: ../goffice/graph/gog-series.c:782
 msgid "Regression curve"
 msgstr "Erregresio-kurba"
 
-#: ../goffice/graph/gog-series.c:788 ../goffice/graph/gog-theme.c:592
+#: ../goffice/graph/gog-series.c:790 ../goffice/graph/gog-theme.c:592
 msgid "Trend line"
 msgstr "Joera-marra"
 
-#: ../goffice/graph/gog-series.c:796
+#: ../goffice/graph/gog-series.c:798
 msgid "Data labels"
 msgstr "Datu-etiketak"
 
-#: ../goffice/graph/gog-series.c:831 ../goffice/graph/gog-trend-line.c:151
+#: ../goffice/graph/gog-series.c:833 ../goffice/graph/gog-trend-line.c:151
 msgid "Has-legend"
 msgstr "Legenda-dauka"
 
-#: ../goffice/graph/gog-series.c:832
+#: ../goffice/graph/gog-series.c:834
 msgid "Should the series show up in legends"
 msgstr "Serieak legendetan agertu behar duen"
 
-#: ../goffice/graph/gog-series.c:837 ../goffice/graph/gog-series-prefs.ui.h:2
+#: ../goffice/graph/gog-series.c:839 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr "Interpolazioa"
 
-#: ../goffice/graph/gog-series.c:838
+#: ../goffice/graph/gog-series.c:840
 msgid "Type of line interpolation"
 msgstr "Marra-interpolazio mota"
 
-#: ../goffice/graph/gog-series.c:843
+#: ../goffice/graph/gog-series.c:845
 msgid "Interpolation skip invalid"
 msgstr "Interpolazioa baliogabeak saltatuz"
 
-#: ../goffice/graph/gog-series.c:844
+#: ../goffice/graph/gog-series.c:846
 msgid "Should the series interpolation ignore the invalid data"
 msgstr "Serie-interpolazioak datu baliogabeei ez ikusi egin behar dien"
 
-#: ../goffice/graph/gog-series.c:849
+#: ../goffice/graph/gog-series.c:851
 msgid "Fill type"
 msgstr "Betegarri mota"
 
-#: ../goffice/graph/gog-series.c:850
+#: ../goffice/graph/gog-series.c:852
 msgid "How to fill the area"
 msgstr "Area nola bete"
 
@@ -2748,7 +2773,7 @@ msgstr "%.1f%%"
 #: ../goffice/graph/gog-series-labels.c:900
 #: ../goffice/graph/gog-series-labels.c:1431
 msgid "Position of the label relative to the data graphic element"
-msgstr ""
+msgstr "Etiketaren posizioa datu-grafikoarekiko"
 
 #: ../goffice/graph/gog-series-labels.c:905
 #: ../goffice/graph/gog-series-labels.c:1436
@@ -2835,7 +2860,7 @@ msgstr "Bigarren mailako sareta"
 msgid "Regression equation"
 msgstr "Erregresio-ekuazioa"
 
-#: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:651
+#: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:654
 msgid "Series lines"
 msgstr "Serie-marrak"
 
@@ -2886,7 +2911,7 @@ msgstr "Klaseak"
 
 #: ../goffice/graph/gog-theme-editor.ui.h:5
 msgid "Snapshot"
-msgstr ""
+msgstr "Pantaila-argazkia"
 
 #: ../goffice/graph/gog-trend-line.c:90 ../plugins/plot_barcol/gog-barcol.c:166
 #: ../plugins/plot_barcol/gog-dropbar.c:101
@@ -2913,23 +2938,23 @@ msgstr "Joera-marra"
 msgid "Should the trend line show up in legends"
 msgstr "Joera-marrak legendetan agertu behar duen"
 
-#: ../goffice/graph/gog-view.c:129
+#: ../goffice/graph/gog-view.c:127
 msgid "Select object"
 msgstr "Hautatu objektua"
 
-#: ../goffice/graph/gog-view.c:200
+#: ../goffice/graph/gog-view.c:198
 msgid "Move"
 msgstr "Aldatu lekuz"
 
-#: ../goffice/graph/gog-view.c:247
+#: ../goffice/graph/gog-view.c:245
 msgid "Resize object"
 msgstr "Aldatu objektuaren tamaina"
 
-#: ../goffice/graph/gog-view.c:694
+#: ../goffice/graph/gog-view.c:693
 msgid "the GogView parent"
 msgstr "GogView-ren gurasoa"
 
-#: ../goffice/graph/gog-view.c:700
+#: ../goffice/graph/gog-view.c:699
 msgid "The GogObject this view displays"
 msgstr "Ikuspegi honetako GogObject-ek hau bistaratzen du:"
 
@@ -2937,11 +2962,11 @@ msgstr "Ikuspegi honetako GogObject-ek hau bistaratzen du:"
 msgid "Series number"
 msgstr "Serie-zenbakia"
 
-#: ../goffice/gtk/go-action-combo-text.c:224
+#: ../goffice/gtk/go-action-combo-text.c:228
 msgid "Case Sensitive"
 msgstr "Maiuskula/Minuskula"
 
-#: ../goffice/gtk/go-action-combo-text.c:225
+#: ../goffice/gtk/go-action-combo-text.c:229
 msgid "Should the text comparison be case sensitive"
 msgstr "Testu-alderaketak maiuskulak eta minuskulak bereizi behar dituen"
 
@@ -3034,7 +3059,7 @@ msgstr "Vietnamdarra"
 msgid "Western"
 msgstr "Mendebaldekoa"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:604
+#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:609
 #: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "Bestelakoa"
@@ -3604,21 +3629,21 @@ msgstr "Irudiak"
 msgid "Select an Image"
 msgstr "Aukeratu irudi bat"
 
-#: ../goffice/gtk/goffice-gtk.c:1020
+#: ../goffice/gtk/goffice-gtk.c:1035
 msgid "Save as"
 msgstr "Gorde honela"
 
-#: ../goffice/gtk/goffice-gtk.c:1034
+#: ../goffice/gtk/goffice-gtk.c:1051
 msgid "Auto by extension"
-msgstr ""
+msgstr "Automatikoa luzapenaren arabera"
 
-#: ../goffice/gtk/goffice-gtk.c:1111
+#: ../goffice/gtk/goffice-gtk.c:1127
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr "Adierazitako fitxategi-luzapena ez dator bat hautatutako fitxategi motarekin. Hala ere izen hori erabili nahi duzu?"
 
-#: ../goffice/gtk/goffice-gtk.c:1329
+#: ../goffice/gtk/goffice-gtk.c:1345
 #, c-format
 msgid ""
 "%s\n"
@@ -3626,7 +3651,7 @@ msgid ""
 msgstr "%s\n"
 "direktorio-izen bat da"
 
-#: ../goffice/gtk/goffice-gtk.c:1333
+#: ../goffice/gtk/goffice-gtk.c:1349
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3634,7 +3659,7 @@ msgid ""
 msgstr "Ez daukazu baimenik hemen gordetzeko:\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1343
+#: ../goffice/gtk/goffice-gtk.c:1359
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3644,9 +3669,9 @@ msgstr "<i>%s</i> izeneko fitxategi bat badago lehendik ere %s(e)n.\n"
 "\n"
 "Haren gainean gorde nahi duzu?"
 
-#: ../goffice/gtk/go-font-sel.c:348
+#: ../goffice/gtk/go-font-sel.c:353
 msgid "Faces"
-msgstr "Aurpegiak"
+msgstr "Tipoak"
 
 #.
 #. * List of observed face names.  Translators: these represent
@@ -3654,476 +3679,476 @@ msgstr "Aurpegiak"
 #. * and whether it is an italic or regular face.  The four
 #. * first here are the important ones.
 #.
-#: ../goffice/gtk/go-font-sel.c:389
+#: ../goffice/gtk/go-font-sel.c:394
 msgctxt "FontFace"
 msgid "Regular"
 msgstr "Arrunta"
 
-#: ../goffice/gtk/go-font-sel.c:390 ../goffice/gtk/go-font-sel.c:424
+#: ../goffice/gtk/go-font-sel.c:395 ../goffice/gtk/go-font-sel.c:429
 msgctxt "FontFace"
 msgid "Italic"
 msgstr "Etzana"
 
-#: ../goffice/gtk/go-font-sel.c:391
+#: ../goffice/gtk/go-font-sel.c:396
 msgctxt "FontFace"
 msgid "Bold"
 msgstr "Lodia"
 
-#: ../goffice/gtk/go-font-sel.c:392
+#: ../goffice/gtk/go-font-sel.c:397
 msgctxt "FontFace"
 msgid "Bold Italic"
 msgstr "Lodi etzana"
 
 #. These are fairly rare.
-#: ../goffice/gtk/go-font-sel.c:395
+#: ../goffice/gtk/go-font-sel.c:400
 msgctxt "FontFace"
 msgid "Black"
 msgstr "Beltza"
 
-#: ../goffice/gtk/go-font-sel.c:396
+#: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
 msgid "Bold Condensed Italic"
 msgstr "Lodi kondentsatu etzana"
 
-#: ../goffice/gtk/go-font-sel.c:397
+#: ../goffice/gtk/go-font-sel.c:402
 msgctxt "FontFace"
 msgid "Bold Condensed"
 msgstr "Lodi kondentsatua"
 
-#: ../goffice/gtk/go-font-sel.c:398
+#: ../goffice/gtk/go-font-sel.c:403
 msgctxt "FontFace"
 msgid "Bold Italic Small Caps"
 msgstr "Lodi etzan maiuskula txikiak"
 
-#: ../goffice/gtk/go-font-sel.c:399
+#: ../goffice/gtk/go-font-sel.c:404
 msgctxt "FontFace"
 msgid "Bold Nonextended"
-msgstr ""
+msgstr "Lodi ez hedatua"
 
-#: ../goffice/gtk/go-font-sel.c:400
+#: ../goffice/gtk/go-font-sel.c:405
 msgctxt "FontFace"
 msgid "Bold Oblique"
 msgstr "Lodi zeiharra"
 
-#: ../goffice/gtk/go-font-sel.c:401
+#: ../goffice/gtk/go-font-sel.c:406
 msgctxt "FontFace"
 msgid "Bold Slanted"
-msgstr ""
+msgstr "Lodi makurtua"
 
-#: ../goffice/gtk/go-font-sel.c:402
+#: ../goffice/gtk/go-font-sel.c:407
 msgctxt "FontFace"
 msgid "Bold Small Caps"
-msgstr ""
+msgstr "Lodi maiuskula txikiak"
 
-#: ../goffice/gtk/go-font-sel.c:403
+#: ../goffice/gtk/go-font-sel.c:408
 msgctxt "FontFace"
 msgid "Book Oblique"
-msgstr ""
+msgstr "Liburu zeiharra"
 
-#: ../goffice/gtk/go-font-sel.c:404
+#: ../goffice/gtk/go-font-sel.c:409
 msgctxt "FontFace"
 msgid "Book"
 msgstr "Liburua"
 
-#: ../goffice/gtk/go-font-sel.c:405
+#: ../goffice/gtk/go-font-sel.c:410
 msgctxt "FontFace"
 msgid "Condensed Bold Italic"
-msgstr ""
+msgstr "Lodi etzan kondentsatua"
 
-#: ../goffice/gtk/go-font-sel.c:406
+#: ../goffice/gtk/go-font-sel.c:411
 msgctxt "FontFace"
 msgid "Condensed Bold Oblique"
-msgstr ""
+msgstr "Kondentsatu lodi zeiharra"
 
-#: ../goffice/gtk/go-font-sel.c:407
+#: ../goffice/gtk/go-font-sel.c:412
 msgctxt "FontFace"
 msgid "Condensed Bold"
-msgstr ""
+msgstr "Kondentsatu lodia"
 
-#: ../goffice/gtk/go-font-sel.c:408
+#: ../goffice/gtk/go-font-sel.c:413
 msgctxt "FontFace"
 msgid "Condensed Italic"
-msgstr ""
+msgstr "Kondentsatu etzana"
 
-#: ../goffice/gtk/go-font-sel.c:409
+#: ../goffice/gtk/go-font-sel.c:414
 msgctxt "FontFace"
 msgid "Condensed Oblique"
-msgstr ""
+msgstr "Kondentsatu zeiharra"
 
-#: ../goffice/gtk/go-font-sel.c:410
+#: ../goffice/gtk/go-font-sel.c:415
 msgctxt "FontFace"
 msgid "Condensed"
 msgstr "Kondentsatuta"
 
-#: ../goffice/gtk/go-font-sel.c:411
-msgctxt "FontFace"
-msgid "Demi Bold Italic"
-msgstr ""
-
-#: ../goffice/gtk/go-font-sel.c:412
-msgctxt "FontFace"
-msgid "Demi Bold"
-msgstr ""
-
-#: ../goffice/gtk/go-font-sel.c:413
-msgctxt "FontFace"
-msgid "Demi Oblique"
-msgstr ""
-
-#: ../goffice/gtk/go-font-sel.c:414
-msgctxt "FontFace"
-msgid "Demi"
-msgstr ""
-
-#: ../goffice/gtk/go-font-sel.c:415
-msgctxt "FontFace"
-msgid "Demi-Condensed"
-msgstr ""
-
 #: ../goffice/gtk/go-font-sel.c:416
 msgctxt "FontFace"
-msgid "Embossed"
-msgstr ""
+msgid "Demi Bold Italic"
+msgstr "Erdilodi etzana"
 
 #: ../goffice/gtk/go-font-sel.c:417
 msgctxt "FontFace"
-msgid "Expanded Bold Italic"
-msgstr ""
+msgid "Demi Bold"
+msgstr "Erdilodi"
 
 #: ../goffice/gtk/go-font-sel.c:418
 msgctxt "FontFace"
-msgid "Expanded Bold"
-msgstr ""
+msgid "Demi Oblique"
+msgstr "Erdiizeiharra"
 
 #: ../goffice/gtk/go-font-sel.c:419
 msgctxt "FontFace"
-msgid "Expanded Italic"
-msgstr ""
+msgid "Demi"
+msgstr "Erdia"
 
 #: ../goffice/gtk/go-font-sel.c:420
 msgctxt "FontFace"
-msgid "Expanded"
-msgstr "Zabalduta"
+msgid "Demi-Condensed"
+msgstr "Erdikondentsatua"
 
 #: ../goffice/gtk/go-font-sel.c:421
 msgctxt "FontFace"
-msgid "Extra Light"
-msgstr ""
+msgid "Embossed"
+msgstr "Bozeldua"
 
 #: ../goffice/gtk/go-font-sel.c:422
+msgctxt "FontFace"
+msgid "Expanded Bold Italic"
+msgstr "Hedatu lodi etzana"
+
+#: ../goffice/gtk/go-font-sel.c:423
+msgctxt "FontFace"
+msgid "Expanded Bold"
+msgstr "Hedatu lodia"
+
+#: ../goffice/gtk/go-font-sel.c:424
+msgctxt "FontFace"
+msgid "Expanded Italic"
+msgstr "Hedatu etzana"
+
+#: ../goffice/gtk/go-font-sel.c:425
+msgctxt "FontFace"
+msgid "Expanded"
+msgstr "Hedatua"
+
+#: ../goffice/gtk/go-font-sel.c:426
+msgctxt "FontFace"
+msgid "Extra Light"
+msgstr "Estra arina"
+
+#: ../goffice/gtk/go-font-sel.c:427
 msgctxt "FontFace"
 msgid "Heavy"
 msgstr "Astuna"
 
-#: ../goffice/gtk/go-font-sel.c:423
+#: ../goffice/gtk/go-font-sel.c:428
 msgctxt "FontFace"
 msgid "Italic Small Caps"
-msgstr ""
+msgstr "Etzan maiuskula txikiak"
 
-#: ../goffice/gtk/go-font-sel.c:425
+#: ../goffice/gtk/go-font-sel.c:430
 msgctxt "FontFace"
 msgid "Light Italic"
-msgstr ""
+msgstr "Arin etzana"
 
-#: ../goffice/gtk/go-font-sel.c:426
+#: ../goffice/gtk/go-font-sel.c:431
 msgctxt "FontFace"
 msgid "Light Oblique"
-msgstr ""
+msgstr "Arin zeiharra"
 
-#: ../goffice/gtk/go-font-sel.c:427
+#: ../goffice/gtk/go-font-sel.c:432
 msgctxt "FontFace"
 msgid "Light"
-msgstr "Argia"
+msgstr "Arina"
 
-#: ../goffice/gtk/go-font-sel.c:428
+#: ../goffice/gtk/go-font-sel.c:433
 msgctxt "FontFace"
 msgid "Medium Italic"
 msgstr "Etzan tartekoa"
 
-#: ../goffice/gtk/go-font-sel.c:429
+#: ../goffice/gtk/go-font-sel.c:434
 msgctxt "FontFace"
 msgid "Medium"
 msgstr "Tartekoa"
 
-#: ../goffice/gtk/go-font-sel.c:430
+#: ../goffice/gtk/go-font-sel.c:435
 msgctxt "FontFace"
 msgid "Normal"
 msgstr "Arrunta"
 
-#: ../goffice/gtk/go-font-sel.c:431
+#: ../goffice/gtk/go-font-sel.c:436
 msgctxt "FontFace"
 msgid "Oblique"
 msgstr "Zeiharra"
 
-#: ../goffice/gtk/go-font-sel.c:432
+#: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Regular Condensed Italic"
-msgstr ""
+msgstr "Erregular kondentsatu etzana"
 
-#: ../goffice/gtk/go-font-sel.c:433
+#: ../goffice/gtk/go-font-sel.c:438
 msgctxt "FontFace"
 msgid "Regular Condensed"
-msgstr ""
+msgstr "Erregular kondentsatua"
 
-#: ../goffice/gtk/go-font-sel.c:434
+#: ../goffice/gtk/go-font-sel.c:439
 msgctxt "FontFace"
 msgid "Regular Italic"
-msgstr ""
+msgstr "Erregular etzana"
 
-#: ../goffice/gtk/go-font-sel.c:435
+#: ../goffice/gtk/go-font-sel.c:440
 msgctxt "FontFace"
 msgid "Regular Oblique"
-msgstr ""
+msgstr "Erregular zeiharra"
 
-#: ../goffice/gtk/go-font-sel.c:436
+#: ../goffice/gtk/go-font-sel.c:441
 msgctxt "FontFace"
 msgid "Roman Slanted"
-msgstr ""
+msgstr "Erromatar makurtua"
 
-#: ../goffice/gtk/go-font-sel.c:437
+#: ../goffice/gtk/go-font-sel.c:442
 msgctxt "FontFace"
 msgid "Roman"
 msgstr "Erromatarra"
 
-#: ../goffice/gtk/go-font-sel.c:438
+#: ../goffice/gtk/go-font-sel.c:443
 msgctxt "FontFace"
 msgid "Rounded"
-msgstr ""
+msgstr "Biribildua"
 
-#: ../goffice/gtk/go-font-sel.c:439
+#: ../goffice/gtk/go-font-sel.c:444
 msgctxt "FontFace"
 msgid "Sans Bold Italic"
-msgstr ""
+msgstr "Sans lodi etzana"
 
-#: ../goffice/gtk/go-font-sel.c:440
+#: ../goffice/gtk/go-font-sel.c:445
 msgctxt "FontFace"
 msgid "Sans Bold"
-msgstr ""
+msgstr "Sans lodia"
 
-#: ../goffice/gtk/go-font-sel.c:441
+#: ../goffice/gtk/go-font-sel.c:446
 msgctxt "FontFace"
 msgid "Sans Italic"
-msgstr ""
+msgstr "Sans etzana"
 
-#: ../goffice/gtk/go-font-sel.c:442
+#: ../goffice/gtk/go-font-sel.c:447
 msgctxt "FontFace"
 msgid "Sans"
 msgstr "Sans"
 
-#: ../goffice/gtk/go-font-sel.c:443
-msgctxt "FontFace"
-msgid "Semi-Bold Italic Small Caps"
-msgstr ""
-
-#: ../goffice/gtk/go-font-sel.c:444
-msgctxt "FontFace"
-msgid "Semi-Bold Italic"
-msgstr ""
-
-#: ../goffice/gtk/go-font-sel.c:445
-msgctxt "FontFace"
-msgid "Semi-Bold Oblique"
-msgstr ""
-
-#: ../goffice/gtk/go-font-sel.c:446
-msgctxt "FontFace"
-msgid "Semi-Bold Slanted"
-msgstr ""
-
-#: ../goffice/gtk/go-font-sel.c:447
-msgctxt "FontFace"
-msgid "Semi-Bold Small Caps"
-msgstr ""
-
 #: ../goffice/gtk/go-font-sel.c:448
 msgctxt "FontFace"
-msgid "Semi-Bold"
-msgstr ""
+msgid "Semi-Bold Italic Small Caps"
+msgstr "Erdilodi etzan maiuskula txikiak"
 
 #: ../goffice/gtk/go-font-sel.c:449
 msgctxt "FontFace"
-msgid "Semi-Condensed Bold Italic"
-msgstr ""
+msgid "Semi-Bold Italic"
+msgstr "Erdilodi etzana"
 
 #: ../goffice/gtk/go-font-sel.c:450
 msgctxt "FontFace"
-msgid "Semi-Condensed Bold"
-msgstr ""
+msgid "Semi-Bold Oblique"
+msgstr "Erdilodi zeiharra"
 
 #: ../goffice/gtk/go-font-sel.c:451
 msgctxt "FontFace"
-msgid "Semi-Condensed Italic"
-msgstr ""
+msgid "Semi-Bold Slanted"
+msgstr "Erdilodi makurtua"
 
 #: ../goffice/gtk/go-font-sel.c:452
 msgctxt "FontFace"
-msgid "Semi-Condensed Oblique"
-msgstr ""
+msgid "Semi-Bold Small Caps"
+msgstr "Erdilodi maiuskula txikiak"
 
 #: ../goffice/gtk/go-font-sel.c:453
 msgctxt "FontFace"
-msgid "Semi-Condensed"
-msgstr ""
+msgid "Semi-Bold"
+msgstr "Erdilodia"
 
 #: ../goffice/gtk/go-font-sel.c:454
 msgctxt "FontFace"
-msgid "Semi-Expanded Bold Italic"
-msgstr ""
+msgid "Semi-Condensed Bold Italic"
+msgstr "Erdikondentsatu lodi etzana"
 
 #: ../goffice/gtk/go-font-sel.c:455
 msgctxt "FontFace"
-msgid "Semi-Expanded Bold"
-msgstr ""
+msgid "Semi-Condensed Bold"
+msgstr "Erdikondentsatu lodia"
 
 #: ../goffice/gtk/go-font-sel.c:456
 msgctxt "FontFace"
-msgid "Semi-Expanded Italic"
-msgstr ""
+msgid "Semi-Condensed Italic"
+msgstr "Erdikondentsatu etzana"
 
 #: ../goffice/gtk/go-font-sel.c:457
 msgctxt "FontFace"
-msgid "Semi-Expanded"
-msgstr ""
+msgid "Semi-Condensed Oblique"
+msgstr "Erdikondentsatu zeiharra"
 
 #: ../goffice/gtk/go-font-sel.c:458
 msgctxt "FontFace"
-msgid "Slanted"
-msgstr ""
+msgid "Semi-Condensed"
+msgstr "Erdikondentsatua"
 
 #: ../goffice/gtk/go-font-sel.c:459
 msgctxt "FontFace"
-msgid "Small Caps"
-msgstr ""
+msgid "Semi-Expanded Bold Italic"
+msgstr "Erdihedatu lodi etzana"
 
 #: ../goffice/gtk/go-font-sel.c:460
+msgctxt "FontFace"
+msgid "Semi-Expanded Bold"
+msgstr "Erdihedatu lodia"
+
+#: ../goffice/gtk/go-font-sel.c:461
+msgctxt "FontFace"
+msgid "Semi-Expanded Italic"
+msgstr "Erdihedatu etzana"
+
+#: ../goffice/gtk/go-font-sel.c:462
+msgctxt "FontFace"
+msgid "Semi-Expanded"
+msgstr "Erdihedatua"
+
+#: ../goffice/gtk/go-font-sel.c:463
+msgctxt "FontFace"
+msgid "Slanted"
+msgstr "Makurtua"
+
+#: ../goffice/gtk/go-font-sel.c:464
+msgctxt "FontFace"
+msgid "Small Caps"
+msgstr "Maiuskula txikiak"
+
+#: ../goffice/gtk/go-font-sel.c:465
 msgctxt "FontFace"
 msgid "Thin"
 msgstr "Mehea"
 
-#: ../goffice/gtk/go-font-sel.c:461
+#: ../goffice/gtk/go-font-sel.c:466
 msgctxt "FontFace"
 msgid "Upright Italic"
-msgstr ""
+msgstr "Etzan tentea"
 
-#: ../goffice/gtk/go-font-sel.c:529 ../goffice/utils/go-style.c:957
+#: ../goffice/gtk/go-font-sel.c:534 ../goffice/utils/go-style.c:957
 #: ../plugins/lasem/component.c:268 ../plugins/lasem/component.c:492
 msgid "Font"
 msgstr "Letra-tipoa"
 
-#: ../goffice/gtk/go-font-sel.c:605
+#: ../goffice/gtk/go-font-sel.c:610
 msgid "All fonts..."
-msgstr "All fonts…"
+msgstr "Letra-tipo guztiak…"
 
-#: ../goffice/gtk/go-font-sel.c:936
+#: ../goffice/gtk/go-font-sel.c:941
 msgctxt "underline"
 msgid "None"
 msgstr "Bat ere ez"
 
-#: ../goffice/gtk/go-font-sel.c:937
+#: ../goffice/gtk/go-font-sel.c:942
 msgctxt "underline"
 msgid "Single"
 msgstr "Bakarra"
 
-#: ../goffice/gtk/go-font-sel.c:938
+#: ../goffice/gtk/go-font-sel.c:943
 msgctxt "underline"
 msgid "Double"
 msgstr "Bikoitza"
 
-#: ../goffice/gtk/go-font-sel.c:939
+#: ../goffice/gtk/go-font-sel.c:944
 msgctxt "underline"
 msgid "Low"
 msgstr "Baxua"
 
-#: ../goffice/gtk/go-font-sel.c:940
+#: ../goffice/gtk/go-font-sel.c:945
 msgctxt "underline"
 msgid "Error"
 msgstr "Errorea"
 
-#: ../goffice/gtk/go-font-sel.c:961 ../goffice/math/go-distribution.c:77
+#: ../goffice/gtk/go-font-sel.c:966 ../goffice/math/go-distribution.c:77
 msgid "Normal"
 msgstr "Normala"
 
-#: ../goffice/gtk/go-font-sel.c:962
+#: ../goffice/gtk/go-font-sel.c:967
 msgid "Subscript"
 msgstr "Azpiindizea"
 
-#: ../goffice/gtk/go-font-sel.c:963
+#: ../goffice/gtk/go-font-sel.c:968
 msgid "Superscript"
 msgstr "Goi-indizea"
 
-#: ../goffice/gtk/go-font-sel.c:1216
+#: ../goffice/gtk/go-font-sel.c:1251
 msgid "Show Style"
 msgstr "Erakutsi estiloa"
 
-#: ../goffice/gtk/go-font-sel.c:1217
+#: ../goffice/gtk/go-font-sel.c:1252
 msgid "Whether style is part of the font being selected"
 msgstr "Estiloa hautatutako letra-tipoaren parte den ala ez"
 
-#: ../goffice/gtk/go-font-sel.c:1225
+#: ../goffice/gtk/go-font-sel.c:1260
 msgid "Show Color"
 msgstr "Erakutsi kolorea"
 
-#: ../goffice/gtk/go-font-sel.c:1226
+#: ../goffice/gtk/go-font-sel.c:1261
 msgid "Whether color is part of the font being selected"
 msgstr "Kolorea hautatutako letra-tipoaren parte den ala ez"
 
-#: ../goffice/gtk/go-font-sel.c:1234
+#: ../goffice/gtk/go-font-sel.c:1269
 msgid "Show Underline"
 msgstr "Erakutsi azpimarra"
 
-#: ../goffice/gtk/go-font-sel.c:1235
+#: ../goffice/gtk/go-font-sel.c:1270
 msgid "Whether underlining is part of the font being selected"
 msgstr "Azpimarra hautatutako letra-tipoaren parte den ala ez"
 
-#: ../goffice/gtk/go-font-sel.c:1243
+#: ../goffice/gtk/go-font-sel.c:1278
 msgid "Show Script"
-msgstr ""
+msgstr "Erakutsi azpi-indizea/goi-indizea"
 
-#: ../goffice/gtk/go-font-sel.c:1244
+#: ../goffice/gtk/go-font-sel.c:1279
 msgid "Whether subscript/superscript is part of the font being selected"
-msgstr ""
+msgstr "Azpi-indizea/goi-indizea hautatutako letra-tipoaren parte den ala ez"
 
-#: ../goffice/gtk/go-font-sel.c:1252
+#: ../goffice/gtk/go-font-sel.c:1287
 msgid "Show Strikethrough"
-msgstr ""
+msgstr "Erakutsi marratzea"
 
-#: ../goffice/gtk/go-font-sel.c:1253
+#: ../goffice/gtk/go-font-sel.c:1288
 msgid "Whether strikethrough is part of the font being selected"
-msgstr ""
+msgstr "Marratzea hautatutako letra-tipoaren parte den ala ez"
 
-#: ../goffice/gtk/go-font-sel.c:1261
+#: ../goffice/gtk/go-font-sel.c:1296
 msgid "Color unset text"
-msgstr ""
+msgstr "Ezarri gabeko kolorearen testua"
 
-#: ../goffice/gtk/go-font-sel.c:1262
+#: ../goffice/gtk/go-font-sel.c:1297
 msgid "The text to show for selecting no color"
-msgstr ""
+msgstr "Kolorerik eza hautatzeko erakutsiko den testua"
 
-#: ../goffice/gtk/go-font-sel.c:1270
+#: ../goffice/gtk/go-font-sel.c:1305
 msgid "Color Group"
 msgstr "Kolore taldea"
 
-#: ../goffice/gtk/go-font-sel.c:1271
+#: ../goffice/gtk/go-font-sel.c:1306
 msgid "The color group to use for the color picker"
 msgstr "Kolore-hautatzailean erabiliko den kolore taldea"
 
-#: ../goffice/gtk/go-font-sel.c:1279
+#: ../goffice/gtk/go-font-sel.c:1314
 msgid "Color Default"
 msgstr "Kolore lehenetsia"
 
-#: ../goffice/gtk/go-font-sel.c:1280
+#: ../goffice/gtk/go-font-sel.c:1315
 msgid "The color to show for an unset color"
 msgstr "Kolorea ezarri gabe dagoenean erakutsiko den kolorea"
 
-#: ../goffice/gtk/go-font-sel.c:1290
+#: ../goffice/gtk/go-font-sel.c:1325
 msgid "Underline Picker"
-msgstr ""
+msgstr "Azpimarraren aukeratzailea"
 
-#: ../goffice/gtk/go-font-sel.c:1291
+#: ../goffice/gtk/go-font-sel.c:1326
 msgid "The widget to use for picking underline type"
-msgstr ""
+msgstr "Azpimarra mota aukeratzeako erabiliko den trepeta"
 
-#: ../goffice/gtk/go-font-sel-dialog.c:107
+#: ../goffice/gtk/go-font-sel-dialog.c:112
 msgid "Pick a Font"
 msgstr "Hautatu letra-tipoa"
 
@@ -4171,15 +4196,15 @@ msgstr "Kolorea:"
 msgid ""
 "Select whether the font should be modified for use as subscript or "
 "superscript"
-msgstr ""
+msgstr "Hautatu letra-tipoa aldatuko den ala ez azpi-indizeak edo goi-indizeak erabiltzeko"
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
-msgstr ""
+msgstr "Azpi-indizea/goi-indizea:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
 msgid "Select the type of underlining"
-msgstr ""
+msgstr "Hautatu azpimarra mota"
 
 #: ../goffice/gtk/go-font-sel.ui.h:14
 msgid "Underline:"
@@ -4226,164 +4251,164 @@ msgid "Custom"
 msgstr "Pertsonalizatua"
 
 #. See http://en.wikipedia.org/wiki/Ampere
-#: ../goffice/gtk/go-format-sel.c:309
+#: ../goffice/gtk/go-format-sel.c:311
 msgid "A (ampere)"
 msgstr "A (amperea)"
 
 #. See http://en.wikipedia.org/wiki/Becquerel
-#: ../goffice/gtk/go-format-sel.c:311
+#: ../goffice/gtk/go-format-sel.c:313
 msgid "Bq (becquerel)"
-msgstr ""
+msgstr "Bq (becquerela)"
 
 #. See http://en.wikipedia.org/wiki/Candela
-#: ../goffice/gtk/go-format-sel.c:313
+#: ../goffice/gtk/go-format-sel.c:315
 msgid "cd (candela)"
-msgstr ""
+msgstr "cd (kandela)"
 
 #. See http://en.wikipedia.org/wiki/Coulomb
-#: ../goffice/gtk/go-format-sel.c:315
+#: ../goffice/gtk/go-format-sel.c:317
 msgid "C (coulomb)"
-msgstr ""
+msgstr "C (coulomba)"
 
 #. See http://en.wikipedia.org/wiki/Degree_Celsius
-#: ../goffice/gtk/go-format-sel.c:317
+#: ../goffice/gtk/go-format-sel.c:319
 msgid "°C (degree Celsius)"
-msgstr ""
+msgstr "°C (Celsius gradua)"
 
 #. See http://en.wikipedia.org/wiki/Farad
-#: ../goffice/gtk/go-format-sel.c:319
+#: ../goffice/gtk/go-format-sel.c:321
 msgid "F (farad)"
-msgstr ""
+msgstr "F (farada)"
 
 #. See http://en.wikipedia.org/wiki/Gray_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:321
+#: ../goffice/gtk/go-format-sel.c:323
 msgid "Gy (gray)"
-msgstr ""
+msgstr "Gy (graya)"
 
 #. See http://en.wikipedia.org/wiki/Henry_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:323
+#: ../goffice/gtk/go-format-sel.c:325
 msgid "H (henry)"
-msgstr ""
+msgstr "H (henrya)"
 
 #. See http://en.wikipedia.org/wiki/Hertz
-#: ../goffice/gtk/go-format-sel.c:325
+#: ../goffice/gtk/go-format-sel.c:327
 msgid "Hz (hertz)"
-msgstr ""
+msgstr "Hz (hertza)"
 
 #. See http://en.wikipedia.org/wiki/Joule
-#: ../goffice/gtk/go-format-sel.c:327
+#: ../goffice/gtk/go-format-sel.c:329
 msgid "J (joule)"
-msgstr ""
+msgstr "J (joulea)"
 
 #. See http://en.wikipedia.org/wiki/Kelvin
-#: ../goffice/gtk/go-format-sel.c:329
+#: ../goffice/gtk/go-format-sel.c:331
 msgid "K (kelvin)"
-msgstr ""
+msgstr "K (kelvina)"
 
 #. See http://en.wikipedia.org/wiki/Kilogram
-#: ../goffice/gtk/go-format-sel.c:331
+#: ../goffice/gtk/go-format-sel.c:333
 msgid "kg (kilogram)"
-msgstr ""
+msgstr "kg (kilogramoa)"
 
 #. See http://en.wikipedia.org/wiki/Lumen_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:333
+#: ../goffice/gtk/go-format-sel.c:335
 msgid "lm (lumen)"
-msgstr ""
+msgstr "lm (lumena)"
 
 #. See http://en.wikipedia.org/wiki/Lux
-#: ../goffice/gtk/go-format-sel.c:335
+#: ../goffice/gtk/go-format-sel.c:337
 msgid "lx (lux)"
-msgstr ""
+msgstr "lx (luxa)"
 
 #. See http://en.wikipedia.org/wiki/Metre
-#: ../goffice/gtk/go-format-sel.c:337
+#: ../goffice/gtk/go-format-sel.c:339
 msgid "m (meter)"
-msgstr ""
+msgstr "m (metroa)"
 
 #. See http://en.wikipedia.org/wiki/Mole_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:339
+#: ../goffice/gtk/go-format-sel.c:341
 msgid "mol (mole)"
-msgstr ""
+msgstr "mol (mola)"
 
 #. See http://en.wikipedia.org/wiki/Newton_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:341
+#: ../goffice/gtk/go-format-sel.c:343
 msgid "N (newton)"
-msgstr ""
+msgstr "N (newtona)"
 
 #. See http://en.wikipedia.org/wiki/Ohm_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:343
+#: ../goffice/gtk/go-format-sel.c:345
 msgid "Ω (ohm)"
-msgstr ""
+msgstr "Ω (ohma)"
 
 #. See http://en.wikipedia.org/wiki/Pascal_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:345
+#: ../goffice/gtk/go-format-sel.c:347
 msgid "Pa (pascal)"
-msgstr ""
+msgstr "Pa (pascala)"
 
 #. See http://en.wikipedia.org/wiki/Radian
-#: ../goffice/gtk/go-format-sel.c:347
+#: ../goffice/gtk/go-format-sel.c:349
 msgid "rad (radian)"
-msgstr ""
+msgstr "rad (radiana)"
 
 #. See http://en.wikipedia.org/wiki/Second
-#: ../goffice/gtk/go-format-sel.c:349
+#: ../goffice/gtk/go-format-sel.c:351
 msgid "s (second)"
-msgstr ""
+msgstr "s (segundoa)"
 
 #. See http://en.wikipedia.org/wiki/Siemens_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:351
+#: ../goffice/gtk/go-format-sel.c:353
 msgid "S (siemens)"
-msgstr ""
+msgstr "S (siemensa)"
 
 #. See http://en.wikipedia.org/wiki/Steradian
-#: ../goffice/gtk/go-format-sel.c:353
+#: ../goffice/gtk/go-format-sel.c:355
 msgid "sr (steradian)"
-msgstr ""
+msgstr "sr (estereorradiana)"
 
 #. See http://en.wikipedia.org/wiki/Sievert
-#: ../goffice/gtk/go-format-sel.c:355
+#: ../goffice/gtk/go-format-sel.c:357
 msgid "Sv (sievert)"
-msgstr ""
+msgstr "Sv (sieverta)"
 
 #. See http://en.wikipedia.org/wiki/Tesla_%28unit%29
-#: ../goffice/gtk/go-format-sel.c:357
+#: ../goffice/gtk/go-format-sel.c:359
 msgid "T (tesla)"
-msgstr ""
+msgstr "T (tesla)"
 
 #. See http://en.wikipedia.org/wiki/Katal
-#: ../goffice/gtk/go-format-sel.c:359
+#: ../goffice/gtk/go-format-sel.c:361
 msgid "kat (katal)"
-msgstr ""
+msgstr "kat (katala)"
 
 #. See http://en.wikipedia.org/wiki/Volt
-#: ../goffice/gtk/go-format-sel.c:361
+#: ../goffice/gtk/go-format-sel.c:363
 msgid "V (volt)"
-msgstr ""
+msgstr "V (volta)"
 
 #. See http://en.wikipedia.org/wiki/Watt
-#: ../goffice/gtk/go-format-sel.c:363
+#: ../goffice/gtk/go-format-sel.c:365
 msgid "W (watt)"
-msgstr ""
+msgstr "W (watta)"
 
 #. See http://en.wikipedia.org/wiki/Weber_%28Wb%29
-#: ../goffice/gtk/go-format-sel.c:365
+#: ../goffice/gtk/go-format-sel.c:367
 msgid "Wb (weber)"
-msgstr ""
+msgstr "Wb (weberra)"
 
-#: ../goffice/gtk/go-format-sel.c:1030 ../goffice/gtk/go-format-sel.ui.h:41
+#: ../goffice/gtk/go-format-sel.c:1032 ../goffice/gtk/go-format-sel.ui.h:41
 msgid "Append no further unit."
 msgstr "Ez erantsi unitaterik."
 
-#: ../goffice/gtk/go-format-sel.c:1037
+#: ../goffice/gtk/go-format-sel.c:1039
 #, c-format
 msgid "Append '%s'."
 msgstr "Erantsi '%s'."
 
-#: ../goffice/gtk/go-format-sel.c:1580
+#: ../goffice/gtk/go-format-sel.c:1579
 msgid "Negative Number Format"
 msgstr "Zenbaki-formatu negatiboa"
 
-#: ../goffice/gtk/go-format-sel.c:1640
+#: ../goffice/gtk/go-format-sel.c:1639
 msgid "Number Formats"
 msgstr "Zenbaki-formatuak"
 
@@ -4465,17 +4490,17 @@ msgstr "Formatu-k_odea:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:20
 msgid "Show _separate integer part"
-msgstr ""
+msgstr "Erakutsi osoko zati _bereizia"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
 msgid ""
 "Split fractions with absolute value larger than 1 into an integer part and a "
 "fractional part (e.g. 4 5/6)"
-msgstr ""
+msgstr "Zatitu balio absolutua 1 baino handiagoa duten zatikiak osoko atal batean eta zatiki formako atal batean (adibidez 4 5/6)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
 msgid "Minimum number of integer digits:"
-msgstr ""
+msgstr "Osoko digituen gutxieneko kopurua:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:23
 msgid "Minimum number of _numerator digits:"
@@ -4487,23 +4512,23 @@ msgstr ""
 
 #: ../goffice/gtk/go-format-sel.ui.h:25
 msgid "As multiple of 𝜋"
-msgstr ""
+msgstr "𝜋 zenbakiaren anizkoitz gisa"
 
 #: ../goffice/gtk/go-format-sel.ui.h:26
 msgid "Write the fractions as multiples of 𝜋 (e.g. 9 𝜋/4 or 2 𝜋 + 𝜋/4)"
-msgstr ""
+msgstr "Idatzi zatikiak 𝜋 zenbakiaren anizkoitz gisa (adibidez 9 𝜋/4 edo 2 𝜋 + 𝜋/4)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:27
 msgid "Minimum number of denominator digits:"
-msgstr ""
+msgstr "Izendatzaileko digituen gutxieneko kopurua:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:28
 msgid "Maximum number of denominator digits:"
-msgstr ""
+msgstr "Izendatzaileko digituen gehieneko kopurua:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:29
 msgid "Automatic denominator"
-msgstr ""
+msgstr "Izendatzaile automatikoa"
 
 #: ../goffice/gtk/go-format-sel.ui.h:30
 msgid "Denominator:"
@@ -4511,7 +4536,7 @@ msgstr "Izendatzailea:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:31
 msgid "Specified denominator:"
-msgstr ""
+msgstr "Zehaztutako izendatzailea:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
 msgid "Always show exponent si_gn"
@@ -4804,15 +4829,15 @@ msgstr "Bielorrusia (be_BY)"
 
 #: ../goffice/gtk/go-locale-sel.c:133
 msgid "Zambia/Bemba (bem_ZM)"
-msgstr ""
+msgstr "Zambia/Bembera (bem_ZM)"
 
 #: ../goffice/gtk/go-locale-sel.c:134
 msgid "Algeria/Amazigh (ber_DZ)"
-msgstr ""
+msgstr "Algeria/Amazigha (ber_DZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:135
 msgid "Morocco/Amazigh (ber_MA)"
-msgstr ""
+msgstr "Maroko/Amazigha (ber_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:136
 msgid "Bulgaria (bg_BG)"
@@ -4828,11 +4853,11 @@ msgstr "India/Bengalera (bn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:139
 msgid "China/Tibetan (bo_CN)"
-msgstr ""
+msgstr "Txina/Tibetera (bo_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:140
 msgid "India/Tibetan (bo_IN)"
-msgstr ""
+msgstr "India/Tibetera (bo_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:141
 msgid "France/Breton (br_FR)"
@@ -4844,11 +4869,11 @@ msgstr "Bosnia Herzegovina (bs_BA)"
 
 #: ../goffice/gtk/go-locale-sel.c:143
 msgid "Eritrea/Blin (byn_ER)"
-msgstr ""
+msgstr "Eritrea/Bilenera (byn_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:144
 msgid "Andorra/Catalan (ca_AD)"
-msgstr ""
+msgstr "Andorra/Katalana (ca_AD)"
 
 #: ../goffice/gtk/go-locale-sel.c:145
 msgid "Spain/Catalan (ca_ES)"
@@ -4856,15 +4881,15 @@ msgstr "Espainia/Katalana (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:146
 msgid "France/Catalan (ca_FR)"
-msgstr ""
+msgstr "Frantzia/Katalana (ca_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:147
 msgid "Italy/Catalan (ca_IT)"
-msgstr ""
+msgstr "Italia/Katalana (ca_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:148
 msgid "Ukraine/Crimean Tatar (crh_UA)"
-msgstr ""
+msgstr "Ukraina/Krimeako tatarera (crh_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:149
 msgid "Czech Republic (cs_CZ)"
@@ -4872,11 +4897,11 @@ msgstr "Txekiar Errepublika (cs_CZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:150
 msgid "Poland/Kashubian (csb_PL)"
-msgstr ""
+msgstr "Polonia/Kaxubiera (csb_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:151
 msgid "Russia/Chuvash (cv_RU)"
-msgstr ""
+msgstr "Errusia/Txuvaxera (cv_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:152
 msgid "Great Britain/Welsh (cy_GB)"
@@ -4908,15 +4933,15 @@ msgstr "Luxenburgo/Alemana (de_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:159
 msgid "Maldives (dv_MV)"
-msgstr ""
+msgstr "Maldivak (dv_MV)"
 
 #: ../goffice/gtk/go-locale-sel.c:160
 msgid "Bhutan (dz_BT)"
-msgstr ""
+msgstr "Bhutan (dz_BT)"
 
 #: ../goffice/gtk/go-locale-sel.c:161
 msgid "Cyprus/Greek (el_CY)"
-msgstr ""
+msgstr "Zipre/Greziera (el_CY)"
 
 #: ../goffice/gtk/go-locale-sel.c:162
 msgid "Greece (el_GR)"
@@ -4924,7 +4949,7 @@ msgstr "Grezia (el_GR)"
 
 #: ../goffice/gtk/go-locale-sel.c:163
 msgid "Antigua and Barbuda/English (en_AG)"
-msgstr ""
+msgstr "Antigua eta Barbuda/Ingelesa (en_AG)"
 
 #: ../goffice/gtk/go-locale-sel.c:164
 msgid "Australia (en_AU)"
@@ -5076,7 +5101,7 @@ msgstr "Iran (fa_IR)"
 
 #: ../goffice/gtk/go-locale-sel.c:201
 msgid "Senegal/Fulah (ff_SN)"
-msgstr ""
+msgstr "Senegal/Fula (ff_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:202
 msgid "Finland/Finnish (fi_FI)"
@@ -5084,7 +5109,7 @@ msgstr "Finlandia/Finlandiera (fi_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
 msgid "Philippines/Filipino (fil_PH)"
-msgstr ""
+msgstr "Filipinak/Filipinera (fil_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:204
 msgid "Faroe Islands (fo_FO)"
@@ -5108,19 +5133,19 @@ msgstr "Frantzia (fr_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:209
 msgid "Luxembourg/French (fr_LU)"
-msgstr ""
+msgstr "Luxenburgo/Frantsesa (fr_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:210
 msgid "Italy/Furlan (fur_IT)"
-msgstr ""
+msgstr "Italia/Friuliera (fur_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:211
 msgid "Germany/Frisian (fy_DE)"
-msgstr ""
+msgstr "Alemania/Frisiera (fy_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:212
 msgid "Netherlands/Frisian (fy_NL)"
-msgstr ""
+msgstr "Herbehereak/Frisiera (fy_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:213
 msgid "Ireland/Gaelic (ga_IE)"
@@ -5132,11 +5157,11 @@ msgstr "Britainia Handia/Eskoziako gaelikoa (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
 msgid "Eritrea/Ge'ez (gez_ER)"
-msgstr ""
+msgstr "Eritrea/Ge'eza (gez_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
 msgid "Ethiopia/Ge'ez (gez_ET)"
-msgstr ""
+msgstr "Etiopia/Ge'eza (gez_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:217
 msgid "Spain/Galician (gl_ES)"
@@ -5144,7 +5169,7 @@ msgstr "Espainia/Galegoa (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:218
 msgid "India/Gujarati (gu_IN)"
-msgstr ""
+msgstr "India/Gujaratera (gu_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:219
 msgid "Great Britain/Manx Gaelic (gv_GB)"
@@ -5152,11 +5177,11 @@ msgstr "Britainia Handia/Manx-eko gaelikoa (gv_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:220
 msgid "Nigeria/Hausa (ha_NG)"
-msgstr ""
+msgstr "Nigeria/Hausa (ha_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:221
 msgid "Israel/Hebrew (he_IL)"
-msgstr ""
+msgstr "Israel/Hebreera (he_IL)"
 
 #: ../goffice/gtk/go-locale-sel.c:222
 msgid "India/Hindu (hi_IN)"
@@ -5164,7 +5189,7 @@ msgstr "India/Hindua (hi_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:223
 msgid "India/Chhattisgarhi (hne_IN)"
-msgstr ""
+msgstr "India/Chhattisgarhera (hne_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:224
 msgid "Croatia (hr_HR)"
@@ -5172,11 +5197,11 @@ msgstr "Kroazia (hr_HR)"
 
 #: ../goffice/gtk/go-locale-sel.c:225
 msgid "Germany/Upper Sorbian (hsb_DE)"
-msgstr ""
+msgstr "Alemania/Goi-sorabiera (hsb_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:226
 msgid "Haiti/Kreyol (ht_HT)"
-msgstr ""
+msgstr "Haiti/Kreolera (ht_HT)"
 
 #: ../goffice/gtk/go-locale-sel.c:227
 msgid "Hungary (hu_HU)"
@@ -5196,11 +5221,11 @@ msgstr "Indonesia (id_ID)"
 
 #: ../goffice/gtk/go-locale-sel.c:231
 msgid "Nigeria/Igbo (ig_NG)"
-msgstr ""
+msgstr "Nigeria/Igboera (ig_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:232
 msgid "Canada/Inupiaq (ik_CA)"
-msgstr ""
+msgstr "Kanada/Iñupiaka (ik_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:233
 msgid "Iceland (is_IS)"
@@ -5220,7 +5245,7 @@ msgstr "Italia (it_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:237
 msgid "Canada/Inuktitut (iu_CA)"
-msgstr ""
+msgstr "Kanada/Inuktituta (iu_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:238
 msgid "Japan (ja_JP)"
@@ -5260,7 +5285,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:247
 msgid "Turkey/Kurdish (ku_TR)"
-msgstr ""
+msgstr "Turkia/Kurduera (ku_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:248
 msgid "Great Britain/Cornish (kw_GB)"
@@ -5288,11 +5313,11 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:254
 msgid "Italy/Ligurian (lij_IT)"
-msgstr ""
+msgstr "Italia/Liguriera (lij_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:255
 msgid "Laos (lo_LA)"
-msgstr ""
+msgstr "Laos (lo_LA)"
 
 #: ../goffice/gtk/go-locale-sel.c:256
 msgid "Lithuania (lt_LT)"
@@ -5324,11 +5349,11 @@ msgstr "Mazedonia (mk_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:263
 msgid "India/Malayalam (ml_IN)"
-msgstr ""
+msgstr "India/Malayalama (ml_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:264
 msgid "Mongolia (mn_MN)"
-msgstr ""
+msgstr "Mongolia (mn_MN)"
 
 #: ../goffice/gtk/go-locale-sel.c:265
 msgid "India/Marathi (mr_IN)"
@@ -5364,11 +5389,11 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:273
 msgid "Nepal/Nepali (ne_NP)"
-msgstr ""
+msgstr "Nepal/Nepalera (ne_NP)"
 
 #: ../goffice/gtk/go-locale-sel.c:274
 msgid "Aruba/Dutch (nl_AW)"
-msgstr ""
+msgstr "Aruba/Nederlandera (nl_AW)"
 
 #: ../goffice/gtk/go-locale-sel.c:275
 msgid "Belgium/Flemish (nl_BE)"
@@ -5408,15 +5433,15 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:284
 msgid "Russia/Ossetian (os_RU)"
-msgstr ""
+msgstr "Errusia/Osetiera (os_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:285
 msgid "India/Punjabi (Gurmukhi) (pa_IN)"
-msgstr ""
+msgstr "India/Punjabera (Gurmukhia) (pa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:286
 msgid "Pakistan/Punjabi (Shamukhi) (pa_PK)"
-msgstr ""
+msgstr "Pakistan/Punjabera (Shamukhia) (pa_PK)"
 
 #: ../goffice/gtk/go-locale-sel.c:287
 msgid "Netherland Antilles/Papiamento (pap_AN)"
@@ -5456,11 +5481,11 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:296
 msgid "India/Sanskrit (sa_IN)"
-msgstr ""
+msgstr "India/Sanskritoa (sa_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:297
 msgid "Italy/Sardinian (sc_IT)"
-msgstr ""
+msgstr "Italia/Sardiniera (sc_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:298
 msgid "India/Sindhi (sd_IN)"
@@ -5492,19 +5517,19 @@ msgstr "Eslovenia (sl_SI)"
 
 #: ../goffice/gtk/go-locale-sel.c:305
 msgid "Djibouti/Somali (so_DJ)"
-msgstr ""
+msgstr "Djibouti/Somaliera (so_DJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:306
 msgid "Ethiopia/Somali (so_ET)"
-msgstr ""
+msgstr "Etiopia/Somaliera (so_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:307
 msgid "Kenya/Somali (so_KE)"
-msgstr ""
+msgstr "Kenya/Somaliera (so_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:308
 msgid "Somalia/Somali (so_SO)"
-msgstr ""
+msgstr "Somalia/Somaliera (so_SO)"
 
 #: ../goffice/gtk/go-locale-sel.c:309
 msgid "Albania (sq_AL)"
@@ -5512,15 +5537,15 @@ msgstr "Albania (sq_AL)"
 
 #: ../goffice/gtk/go-locale-sel.c:310
 msgid "Macedonia/Albanian (sq_MK)"
-msgstr ""
+msgstr "Mazedonia/Albaniera (sq_MK)"
 
 #: ../goffice/gtk/go-locale-sel.c:311
 msgid "Montenegro/Serbian (sr_ME)"
-msgstr ""
+msgstr "Montenegro/Serbiera (sr_ME)"
 
 #: ../goffice/gtk/go-locale-sel.c:312
 msgid "Yugoslavia (sr_RS)"
-msgstr ""
+msgstr "Jugoslavia (sr_RS)"
 
 #: ../goffice/gtk/go-locale-sel.c:313
 msgid "South Africa/Swati (ss_ZA)"
@@ -5588,7 +5613,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:329
 msgid "Cyprus/Turkish (tr_CY)"
-msgstr ""
+msgstr "Zipre/Turkiera (tr_CY)"
 
 #: ../goffice/gtk/go-locale-sel.c:330
 msgid "Turkey (tr_TR)"
@@ -5782,7 +5807,7 @@ msgstr "Zirkulu txikiak"
 msgid "Semi-circles"
 msgstr "Zirkulu-erdiak"
 
-#: ../goffice/gtk/go-pattern-selector.c:87 ../goffice/utils/go-pattern.c:212
+#: ../goffice/gtk/go-pattern-selector.c:87 ../goffice/utils/go-pattern.c:211
 msgid "Thatch"
 msgstr "Lastoa"
 
@@ -5790,7 +5815,7 @@ msgstr "Lastoa"
 msgid "Large circles"
 msgstr "Zirkulu handiak"
 
-#: ../goffice/gtk/go-pattern-selector.c:89 ../goffice/utils/go-pattern.c:224
+#: ../goffice/gtk/go-pattern-selector.c:89 ../goffice/utils/go-pattern.c:223
 msgid "Bricks"
 msgstr "Adreiluak"
 
@@ -5853,7 +5878,7 @@ msgstr "Armenia, Drama"
 
 #: ../goffice/utils/formats.c:390
 msgid "Netherlands antilles, Guilders"
-msgstr ""
+msgstr "Antilla herbeheretarrak, Guilders"
 
 #: ../goffice/utils/formats.c:391
 msgid "Angola, Kwanza"
@@ -5945,7 +5970,7 @@ msgstr "Kanada, Dolarra"
 
 #: ../goffice/utils/formats.c:413
 msgid "Congo, the democratic republic of, Congolese Francs"
-msgstr ""
+msgstr "Kongoko Errepublika Demokratikoa, Kongoko frankoa"
 
 #: ../goffice/utils/formats.c:414
 msgid "Switzerland, WIR Euros"
@@ -5981,7 +6006,7 @@ msgstr "Kolonbia, Balio errealeko unitatea"
 
 #: ../goffice/utils/formats.c:422
 msgid "Costa rica, Colones"
-msgstr ""
+msgstr "Costa Rica, Kolona"
 
 #: ../goffice/utils/formats.c:423
 msgid "Cuba, Pesos Convertibles"
@@ -5997,7 +6022,7 @@ msgstr "Cabo Verde, Eskudoak"
 
 #: ../goffice/utils/formats.c:426
 msgid "Czech republic, Koruny"
-msgstr ""
+msgstr "Txekiar Errepublika, Koroa"
 
 #: ../goffice/utils/formats.c:427
 msgid "Djibouti, Francs"
@@ -6009,11 +6034,11 @@ msgstr "Danimarka, Koroa"
 
 #: ../goffice/utils/formats.c:429
 msgid "Dominican republic, Pesos"
-msgstr ""
+msgstr "Dominikar Errepublika, Pesoa"
 
 #: ../goffice/utils/formats.c:430
 msgid "Algeria, Algerian Dinars"
-msgstr ""
+msgstr "Aljeria, Aljeriar dinarra"
 
 #: ../goffice/utils/formats.c:431
 msgid "Egypt, Pounds"
@@ -6157,7 +6182,7 @@ msgstr "Kuwait, Dinarra"
 
 #: ../goffice/utils/formats.c:466
 msgid "Cayman islands, Dollars"
-msgstr ""
+msgstr "Kaiman uharteak, Dolarra"
 
 #: ../goffice/utils/formats.c:467
 msgid "Kazakhstan, Tenge"
@@ -6265,7 +6290,7 @@ msgstr "Norvegia, Koroa norvegiarra"
 
 #: ../goffice/utils/formats.c:493
 msgid "Nepal, Nepalese Rupees"
-msgstr ""
+msgstr "Nepal, Errupia nepaldarra"
 
 #: ../goffice/utils/formats.c:494
 msgid "New zealand, Dollars"
@@ -6325,7 +6350,7 @@ msgstr "Ruanda, Franko ruandarra"
 
 #: ../goffice/utils/formats.c:508
 msgid "Saudi arabia, Riyals"
-msgstr ""
+msgstr "Saudi Arabia, Riala"
 
 #: ../goffice/utils/formats.c:509
 msgid "Solomon Islands, Dollars"
@@ -6365,7 +6390,7 @@ msgstr "Somalia, Txelina"
 
 #: ../goffice/utils/formats.c:518
 msgid "Suriname, Dollars"
-msgstr ""
+msgstr "Surinam, Dolarra"
 
 #: ../goffice/utils/formats.c:519
 msgid "São Tome and Principe, Dobras"
@@ -6453,7 +6478,7 @@ msgstr "Uzbekistan, Suma"
 
 #: ../goffice/utils/formats.c:540
 msgid "Venezuela, Bolivares Fuertes"
-msgstr ""
+msgstr "Venezuela, Bolivar indartsua"
 
 #: ../goffice/utils/formats.c:541
 msgid "Viet Nam, Dong"
@@ -6533,23 +6558,23 @@ msgstr "Namibia, Dolarra"
 
 #: ../goffice/utils/formats.c:560
 msgid "Zambia, Zambian Kwacha"
-msgstr ""
+msgstr "Zambia, Kwacha zambiarra"
 
 #: ../goffice/utils/formats.c:561
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, Zimbabweko dolarra"
 
-#: ../goffice/utils/go-emf.c:230
+#: ../goffice/utils/go-emf.c:233
 #, c-format
 msgid "Could not load the image data\n"
 msgstr "Ezin izan dira irudi-datuak kargatu\n"
 
-#: ../goffice/utils/go-emf.c:269
+#: ../goffice/utils/go-emf.c:272
 #, c-format
 msgid "Could not input the image data\n"
 msgstr "Ezin izan dira irudi-datuak sartu\n"
 
-#: ../goffice/utils/go-emf.c:4885 ../goffice/utils/go-emf.c:4891
+#: ../goffice/utils/go-emf.c:4916 ../goffice/utils/go-emf.c:4922
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Irudi-datu baliogabeak\n"
@@ -6652,20 +6677,20 @@ msgstr "eskuinera"
 msgid "left"
 msgstr "ezkerrera"
 
-#: ../goffice/utils/go-glib-extras.c:919
+#: ../goffice/utils/go-glib-extras.c:960
 msgid "yes"
 msgstr "bai"
 
-#: ../goffice/utils/go-glib-extras.c:925
+#: ../goffice/utils/go-glib-extras.c:966
 msgid "no"
 msgstr "ez"
 
-#: ../goffice/utils/go-glib-extras.c:1144
+#: ../goffice/utils/go-glib-extras.c:1185
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Komatxo arteko katea amaitu gabe"
 
-#: ../goffice/utils/go-glib-extras.c:1151
+#: ../goffice/utils/go-glib-extras.c:1192
 #, c-format
 msgid "Syntax error"
 msgstr "Sintaxi-errorea"
@@ -6710,7 +6735,7 @@ msgstr "Irudiaren zabalera pixeletan"
 msgid "Image height in pixels"
 msgstr "Irudiaren altuera pixeletan"
 
-#: ../goffice/utils/go-line.c:129 ../goffice/utils/go-pattern.c:82
+#: ../goffice/utils/go-line.c:129 ../goffice/utils/go-pattern.c:81
 msgid "Solid"
 msgstr "Solidoa"
 
@@ -6764,7 +6789,7 @@ msgstr "Bezier-en spline kubiko itxia"
 
 #: ../goffice/utils/go-line.c:167
 msgid "ODF compatible Bezier cubic spline"
-msgstr ""
+msgstr "ODFrekin bateragarria den Bezier spline kubikoa"
 
 #: ../goffice/utils/go-line.c:169
 msgid "Natural cubic spline"
@@ -6797,14 +6822,6 @@ msgstr "Urratsa erdian"
 #: ../goffice/utils/go-line.c:183
 msgid "Step to mean"
 msgstr "Urratsak hau esan nahi du:"
-
-#: ../goffice/utils/go-locale.c:547
-msgid "TRUE"
-msgstr "EGIAZKOA"
-
-#: ../goffice/utils/go-locale.c:548
-msgid "FALSE"
-msgstr "FALTSUA"
 
 #: ../goffice/utils/go-marker.c:97
 msgid "square"
@@ -6862,98 +6879,98 @@ msgstr "harea-erlojua"
 msgid "left half bar"
 msgstr "ezkerreko barra-erdia"
 
-#: ../goffice/utils/go-pattern.c:89
+#: ../goffice/utils/go-pattern.c:88
 #, no-c-format
 msgid "75% Grey"
 msgstr "% 75 grisa"
 
-#: ../goffice/utils/go-pattern.c:96
+#: ../goffice/utils/go-pattern.c:95
 #, no-c-format
 msgid "50% Grey"
 msgstr "% 50 grisa"
 
-#: ../goffice/utils/go-pattern.c:103
+#: ../goffice/utils/go-pattern.c:102
 #, no-c-format
 msgid "25% Grey"
 msgstr "% 25 grisa"
 
-#: ../goffice/utils/go-pattern.c:110
+#: ../goffice/utils/go-pattern.c:109
 #, no-c-format
 msgid "12.5% Grey"
 msgstr "% 12,5 grisa"
 
-#: ../goffice/utils/go-pattern.c:117
+#: ../goffice/utils/go-pattern.c:116
 #, no-c-format
 msgid "6.25% Grey"
 msgstr "% 6,25 grisa"
 
-#: ../goffice/utils/go-pattern.c:123
+#: ../goffice/utils/go-pattern.c:122
 msgid "Horizontal Stripe"
 msgstr "Marra horizontala"
 
-#: ../goffice/utils/go-pattern.c:129
+#: ../goffice/utils/go-pattern.c:128
 msgid "Vertical Stripe"
 msgstr "Marra bertikala"
 
-#: ../goffice/utils/go-pattern.c:135
+#: ../goffice/utils/go-pattern.c:134
 msgid "Reverse Diagonal Stripe"
 msgstr "Alderantzizko marra diagonala"
 
-#: ../goffice/utils/go-pattern.c:141
+#: ../goffice/utils/go-pattern.c:140
 msgid "Diagonal Stripe"
 msgstr "Marra diagonala"
 
-#: ../goffice/utils/go-pattern.c:147
+#: ../goffice/utils/go-pattern.c:146
 msgid "Diagonal Crosshatch"
 msgstr "Gurutzatu diagonala"
 
-#: ../goffice/utils/go-pattern.c:153
+#: ../goffice/utils/go-pattern.c:152
 msgid "Thick Diagonal Crosshatch"
 msgstr "Gurutzatu diagonal lodia"
 
-#: ../goffice/utils/go-pattern.c:159
+#: ../goffice/utils/go-pattern.c:158
 msgid "Thin Horizontal Stripe"
 msgstr "Marra horizontal mehea"
 
-#: ../goffice/utils/go-pattern.c:165
+#: ../goffice/utils/go-pattern.c:164
 msgid "Thin Vertical Stripe"
 msgstr "Marra bertikal mehea"
 
-#: ../goffice/utils/go-pattern.c:171
+#: ../goffice/utils/go-pattern.c:170
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Alderantzizko marra diagonal mehea"
 
-#: ../goffice/utils/go-pattern.c:177
+#: ../goffice/utils/go-pattern.c:176
 msgid "Thin Diagonal Stripe"
 msgstr "Marra diagonal mehea"
 
-#: ../goffice/utils/go-pattern.c:183
+#: ../goffice/utils/go-pattern.c:182
 msgid "Thin Horizontal Crosshatch"
 msgstr "Gurutzatu horizontal mehea"
 
-#: ../goffice/utils/go-pattern.c:189
+#: ../goffice/utils/go-pattern.c:188
 msgid "Thin Diagonal Crosshatch"
 msgstr "Gurutzatu diagonal mehea"
 
-#: ../goffice/utils/go-pattern.c:195
+#: ../goffice/utils/go-pattern.c:194
 msgid "Foreground Solid"
 msgstr "Aurreko plano solidoa"
 
-#: ../goffice/utils/go-pattern.c:201
+#: ../goffice/utils/go-pattern.c:200
 msgid "Small Circles"
 msgstr "Zirkulu txikiak"
 
-#: ../goffice/utils/go-pattern.c:206
+#: ../goffice/utils/go-pattern.c:205
 msgid "Semi Circles"
 msgstr "Zirkulu-erdiak"
 
-#: ../goffice/utils/go-pattern.c:218
+#: ../goffice/utils/go-pattern.c:217
 msgid "Large Circles"
 msgstr "Zirkulu handiak"
 
 #: ../goffice/utils/go-pixbuf.c:367
 msgid "GdkPixbuf object from which the GOPixbuf is built"
-msgstr ""
+msgstr "GOPixbuf eraikitzeko erabili den GdkPixbuf objektua"
 
 #: ../goffice/utils/go-pixbuf.c:371
 msgid "Image type"
@@ -7223,11 +7240,11 @@ msgstr "Edukia"
 
 #: ../plugins/lasem/component.c:480
 msgid "Itex markup"
-msgstr ""
+msgstr "Itex markaketa"
 
 #: ../plugins/lasem/component.c:481
 msgid "Itex markup string"
-msgstr ""
+msgstr "Itex markaketaren katea"
 
 #: ../plugins/lasem/component.c:487
 msgid "Default font color"
@@ -7249,43 +7266,43 @@ msgstr "Math ekuazioen euskarria"
 msgid "Math equation component engine"
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-1.5d.c:353
+#: ../plugins/plot_barcol/gog-1.5d.c:356
 msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr "Serieak nola taldekatu behar diren zehazten du: normal, pilatuta, ehuneko_gisa"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:358 ../plugins/plot_pie/gog-pie.c:323
+#: ../plugins/plot_barcol/gog-1.5d.c:361 ../plugins/plot_pie/gog-pie.c:323
 #: ../plugins/plot_xy/gog-xy.c:565
 msgid "In 3D"
 msgstr "3Dn"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:359
+#: ../plugins/plot_barcol/gog-1.5d.c:362
 msgid "Placeholder to allow us to round trip pseudo 3D state"
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-1.5d.c:367
+#: ../plugins/plot_barcol/gog-1.5d.c:370
 #: ../plugins/plot_barcol/gog-dropbar.c:141
 #: ../plugins/plot_barcol/gog-minmax.c:246 ../plugins/plot_pie/gog-pie.c:342
 #: ../plugins/plot_radar/gog-radar.c:322
 msgid "Labels"
 msgstr "Etiketak"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:631 ../plugins/plot_barcol/gog-1.5d.c:694
+#: ../plugins/plot_barcol/gog-1.5d.c:634 ../plugins/plot_barcol/gog-1.5d.c:697
 msgid "Error bars"
 msgstr "Errore-barrak"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:658
+#: ../plugins/plot_barcol/gog-1.5d.c:661
 #: ../plugins/plot_distrib/gog-histogram.c:1119
 msgid "Drop lines"
 msgstr "Lotura-marrak"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:666
+#: ../plugins/plot_barcol/gog-1.5d.c:669
 #: ../plugins/plot_barcol/plot-types.xml.in.h:13
 msgid "Lines"
 msgstr "Marrak"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:695 ../plugins/plot_radar/gog-radar.c:1354
-#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2182
-#: ../plugins/plot_xy/gog-xy.c:2188
+#: ../plugins/plot_barcol/gog-1.5d.c:698 ../plugins/plot_radar/gog-radar.c:1354
+#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2187
+#: ../plugins/plot_xy/gog-xy.c:2193
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -7371,21 +7388,21 @@ msgstr "T_eilakatu:"
 msgid "PlotDropBar"
 msgstr "PlotDropBar"
 
-#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2199
+#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2204
 msgid "Clamp at start"
 msgstr "Finkatu hasieran"
 
-#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2200
+#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2205
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr "Malda kurba interpolatuaren hasieran spline interpolazio finkatua erabiltzean"
 
-#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2205
+#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2210
 msgid "Clamp at end"
 msgstr "Finkatu amaieran"
 
-#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2206
+#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2211
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -8347,27 +8364,27 @@ msgstr "Diagrama erradial mota lehenetsiak"
 #.
 #: ../plugins/plot_surface/gog-contour.c:136
 msgid "PlotContour"
-msgstr "Ingerada-diagrama"
+msgstr "DiagramaIngerada"
 
 #. xgettext : the base for how to name matrix objects
 #.
 #: ../plugins/plot_surface/gog-matrix.c:70
 msgid "PlotMatrix"
-msgstr ""
+msgstr "DiagramaMatrizea"
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-surface.c:68
 msgid "PlotSurface"
-msgstr "Gainazal-diagrama"
+msgstr "DiagramaGainazala"
 
 #: ../plugins/plot_surface/gog-xyz.c:391
 msgid "Transposed"
-msgstr "Lekualdatua"
+msgstr "Trukatua"
 
 #: ../plugins/plot_surface/gog-xyz.c:392
 msgid "Transpose the plot"
-msgstr "Lekualdatu diagrama"
+msgstr "Trukatu diagrama"
 
 #: ../plugins/plot_surface/gog-xyz.c:404
 #: ../plugins/plot_surface/gog-xyz-surface.c:754
@@ -8388,7 +8405,7 @@ msgstr "Y"
 
 #: ../plugins/plot_surface/gog-xyz-prefs.ui.h:1
 msgid "Transpose"
-msgstr "Lekualdatu"
+msgstr "Trukatu"
 
 #: ../plugins/plot_surface/gog-xyz-prefs.ui.h:2
 msgid "Show colors in legend"
@@ -8734,27 +8751,27 @@ msgstr "Burbuila"
 msgid "XYColor"
 msgstr "XYColor"
 
-#: ../plugins/plot_xy/gog-xy.c:2110 ../plugins/plot_xy/gog-xy.c:2181
+#: ../plugins/plot_xy/gog-xy.c:2115 ../plugins/plot_xy/gog-xy.c:2186
 msgid "X error bars"
 msgstr "X errore-barrak"
 
-#: ../plugins/plot_xy/gog-xy.c:2113 ../plugins/plot_xy/gog-xy.c:2187
+#: ../plugins/plot_xy/gog-xy.c:2118 ../plugins/plot_xy/gog-xy.c:2192
 msgid "Y error bars"
 msgstr "Y errore-barrak"
 
-#: ../plugins/plot_xy/gog-xy.c:2122
+#: ../plugins/plot_xy/gog-xy.c:2127
 msgid "Horizontal drop lines"
 msgstr "Lotura-marra horizontalak"
 
-#: ../plugins/plot_xy/gog-xy.c:2130
+#: ../plugins/plot_xy/gog-xy.c:2135
 msgid "Vertical drop lines"
 msgstr "Lotura-marra bertikalak"
 
-#: ../plugins/plot_xy/gog-xy.c:2193
+#: ../plugins/plot_xy/gog-xy.c:2198
 msgid "Invalid as zero"
 msgstr "Baliogabeak zero gisa"
 
-#: ../plugins/plot_xy/gog-xy.c:2194
+#: ../plugins/plot_xy/gog-xy.c:2199
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr "Balio okerren ordez 0 jartzen du markatzaileak edo burbuilak marraztean"
 
@@ -8975,31 +8992,35 @@ msgstr ""
 msgid "Exponential regression"
 msgstr "Erregresio esponentziala"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:158
-#: ../plugins/reg_linear/gog-lin-reg.c:271
+#: ../plugins/reg_linear/gog-lin-reg.c:114
+msgid "#days"
+msgstr "#egun"
+
+#: ../plugins/reg_linear/gog-lin-reg.c:185
+#: ../plugins/reg_linear/gog-lin-reg.c:298
 msgid "Affine"
 msgstr "Afina"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:159
+#: ../plugins/reg_linear/gog-lin-reg.c:186
 msgid "Uncheck to force zero intercept"
 msgstr "Desautatu hau zeron ebakitzea behartzeko"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
-#: ../plugins/reg_linear/gog-lin-reg.c:173
+#: ../plugins/reg_linear/gog-lin-reg.c:200
 msgid "Linear regression"
 msgstr "Erregresio lineala"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:272
+#: ../plugins/reg_linear/gog-lin-reg.c:299
 msgid "If true, a non-zero constant is allowed"
 msgstr "Egia bada, zero ez den konstante bat onartzen da"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:277
+#: ../plugins/reg_linear/gog-lin-reg.c:304
 msgid "Dims"
 msgstr "Dimentsioak"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:278
+#: ../plugins/reg_linear/gog-lin-reg.c:305
 msgid "Number of x-vectors"
 msgstr "x bektoreen kopurua"
 
@@ -9099,7 +9120,7 @@ msgstr "Erregresio-kurba logaritmikoa"
 #. xgettext : the base for how to name logarithmic fits
 #. * eg The 2nd fit for a series will be called
 #. * 	Log fit2
-#: ../plugins/reg_logfit/gog-logfit.c:146
+#: ../plugins/reg_logfit/gog-logfit.c:147
 msgid "Log fit"
 msgstr "Doitze logaritmikoa"
 
