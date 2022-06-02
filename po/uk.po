@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2022-03-12 07:15+0000\n"
-"PO-Revision-Date: 2022-03-13 09:13+0200\n"
+"POT-Creation-Date: 2022-05-02 11:41+0000\n"
+"PO-Revision-Date: 2022-06-02 21:00+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 20.12.0\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -439,7 +440,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Функція очищення у додатку повернула помилку."
 
 #: ../goffice/app/go-plugin-service.c:229 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5515
+#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5521
 msgid "General"
 msgstr "Загальний"
 
@@ -7615,6 +7616,8 @@ msgstr "Сусідні стовпчики"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Adjacent horizontal bars grouped by major and minor categories."
 msgstr ""
+"Сусідні горизонтальні стовпці, згруповані за основними та допоміжними"
+" категоріями."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:27
 msgid "Stacked Bars"
@@ -7623,10 +7626,12 @@ msgstr "Кумулятивні стовпчики"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
+"Допоміжні категорії у стосах за горизонтальними панелями, згрупованими за"
+" основною категорією."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:29
 msgid "Percentage Bars"
-msgstr ""
+msgstr "Стовпчики часток"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:30
 msgid ""
@@ -7701,6 +7706,8 @@ msgstr "Сусідні стовпчики"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:92
 msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
+"Сусідні вертикальні стовпчики, згруповані за основними та допоміжними"
+" категоріями."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:93
 msgid "Stacked Columns"
@@ -7709,6 +7716,8 @@ msgstr "Стосовані стовпчики"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:94
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
+"Допоміжні категорії у стосах за вертикальними стовпцями, згрупованими за"
+" основною категорією."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:95
 msgid "Percentage Columns"
@@ -7719,6 +7728,8 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
+"Допоміжні категорії у стосах, як часток від загальної суми допоміжних"
+" категорій, за вертикальними стовпцями, згрупованими за основною категорією."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:97
 msgid "Vertical Drop Bars"
@@ -7733,14 +7744,14 @@ msgstr ""
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:102
 msgid "Horizontal Drop Bars"
-msgstr ""
+msgstr "Горизонтальні смуги спадання"
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:106
 msgid "Horizontal drop bars."
-msgstr ""
+msgstr "Горизонтальні смуги спадання."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical Min Max Lines"
@@ -7874,8 +7885,7 @@ msgstr "Гістограма"
 
 #: ../plugins/plot_distrib/gog-histogram.c:373
 msgid "Draw the histogram vertically or horizontally"
-msgstr ""
-"Малювати гістограму вертикально чи горизонтально"
+msgstr "Малювати гістограму вертикально чи горизонтально"
 
 #: ../plugins/plot_distrib/gog-histogram.c:378
 msgid "Cumulative"
@@ -7928,8 +7938,7 @@ msgstr "_Накопичувальний"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:70
 msgid "Use data as Y-values"
-msgstr ""
-"Використатися дані як значення Y"
+msgstr "Використатися дані як значення Y"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:77
 #: ../plugins/plot_distrib/gog-probability-plot.c:288
@@ -7959,8 +7968,7 @@ msgstr ""
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:289
 msgid "A pointer to the GODistribution used by this plot"
-msgstr ""
-"Вказівник на GODistribution, який використано цим кресленням"
+msgstr "Вказівник на GODistribution, який використано цим кресленням"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:294
 msgid "Shape parameter"
@@ -7984,8 +7992,7 @@ msgstr "Дані як значення Y"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:307
 msgid "whether the data should be mapped to the Y axis."
-msgstr ""
-"чи слід відображати дані на вісь Y."
+msgstr "чи слід відображати дані на вісь Y."
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:642
 msgid "Regression line"
@@ -8001,8 +8008,7 @@ msgstr "HBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:3
 msgid "Horizontal Box-Plot."
-msgstr ""
-"Горизонтальний коробковий графік."
+msgstr "Горизонтальний коробковий графік."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:4
 msgid "VBoxPlots"
@@ -8010,8 +8016,7 @@ msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:5
 msgid "Vertical Box-Plot."
-msgstr ""
-"Вертикальний коробковий графік."
+msgstr "Вертикальний коробковий графік."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
 msgid "HBoxPlotOutliers"
@@ -8060,8 +8065,7 @@ msgstr "Креслення ймовірності."
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:1
 msgid "Charting : distribution related plots"
-msgstr ""
-"Діаграма : креслення, які пов'язано із розподілами"
+msgstr "Діаграма : креслення, які пов'язано із розподілами"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:2
 msgid "box-plots, histograms, and other distribution related plots"
@@ -8070,8 +8074,7 @@ msgstr ""
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:3
 msgid "Box-plot plotting engine"
-msgstr ""
-"Рушія креслення коробкового графіка"
+msgstr "Рушія креслення коробкового графіка"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:4
 msgid "Histograms plotting engine"
@@ -8103,8 +8106,7 @@ msgstr "Початковий кут"
 
 #: ../plugins/plot_pie/gog-pie.c:312
 msgid "Degrees clockwise from 12 O'Clock."
-msgstr ""
-"Градусів за годинниковою стрілкою від 12-ої"
+msgstr "Градусів за годинниковою стрілкою від 12-ої"
 
 #: ../plugins/plot_pie/gog-pie.c:317
 msgid "Default separation"
