@@ -84,6 +84,11 @@ id (void)								\
 MAKE_BOXED_TYPE(go_complexl_get_type, "GOComplexl")
 #else
 MAKE_BOXED_TYPE(go_complex_get_type, "GOComplex")
+#ifndef GOFFICE_WITH_LONG_DOUBLE
+// Hack for introspection
+GType go_complexl_get_type (void);
+GType go_complexl_get_type (void) { return 0; }
+#endif
 #endif
 
 /* ------------------------------------------------------------------------- */
