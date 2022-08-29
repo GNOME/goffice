@@ -1,3 +1,8 @@
+2022-08-29  Morten Welinder  <terra@gnome.org>
+
+	* plugins/plot_xy/gog-xy-dropbar.c (gog_xy_dropbar_view_render):
+	Fix typo.  Fixes crash in Gnumeric #667.
+
 2022-04-18  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

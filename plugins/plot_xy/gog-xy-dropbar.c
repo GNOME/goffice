@@ -444,7 +444,7 @@ gog_xy_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		neg_style->fill.pattern.back ^= 0xffffff00;
 		neg_style->fill.pattern.fore ^= 0xffffff00;
 		pos_vals = go_data_get_values (series->values[0].data);
-		n = go_data_get_vector_size (series->values[1].data);
+		n = go_data_get_vector_size (series->values[0].data);
 		start_vals = go_data_get_values (series->values[1].data);
 		tmp = go_data_get_vector_size (series->values[1].data);
 		if (n > tmp)

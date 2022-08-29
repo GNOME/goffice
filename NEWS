@@ -3,6 +3,7 @@ goffice 0.10.53:
 Morten:
 	* Fix problem rendering "...E-xx" numbers.  [#60]
 	* Hack around introspection issue.  [Part of #59]
+	* Fix crash in plot [Gnumeric #667]
 
 --------------------------------------------------------------------------
 goffice 0.10.52:
