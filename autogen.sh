@@ -24,7 +24,7 @@ intltoolize --force --copy --automake || exit 1
 autoreconf --verbose --force --install || exit 1
 
 # Work around intltool bug
-perl -pi -e 's/( \.intltool-merge-cache\b)/\1 .intltool-merge-cache.lock/ if /^\trm\b/;' po/Makefile.in.in
+perl -pi -e 's/( \.intltool-merge-cache\b)/\1 .intltool-merge-cache.lock/ if /^\trm\b/;' $srcdir/po/Makefile.in.in
 
 cd $olddir
 
