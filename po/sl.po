@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2022-08-29 23:25+0000\n"
-"PO-Revision-Date: 2022-09-21 17:56+0200\n"
+"POT-Creation-Date: 2022-09-21 15:58+0000\n"
+"PO-Revision-Date: 2022-09-26 23:22+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -97,15 +97,13 @@ msgid "How much of a document is saved"
 msgstr "Kolikšen delež dokumenta je shranjen"
 
 #: ../goffice/app/file.c:716
-#, fuzzy
 msgid "Sheet Selection"
-msgstr "Izbira delovnega lista"
+msgstr "Izbor delovnega lista"
 
 #: ../goffice/app/file.c:717
-#, fuzzy
 msgid "TRUE if this saver supports saving a subset of all sheet"
 msgstr ""
-"TRUE, če ta shranjevalnik podpira shranjevanje podskupine vseh delovnih "
+"PRAV, če ta shranjevalnik podpira shranjevanje podskupine vseh delovnih "
 "listov"
 
 #: ../goffice/app/file.c:918
@@ -1333,12 +1331,11 @@ msgid "Metrics ratio"
 msgstr "Metrično razmerje"
 
 #: ../goffice/graph/gog-axis.c:3479
-#, fuzzy
 msgid ""
 "If an axis is used as reference, gives the ratio of the ticks distance, and "
 "if the metrix is absolute, the ticks distance. Defaults to 1.0"
 msgstr ""
-"Če se os uporablja kot referenca, daje razmerje razdalj med oznakami; če je "
+"Če se os uporablja kot referenca, vrne razmerje razdalj med oznakami; če je "
 "metrika absolutna, razdaljo med oznakami. Privzeta vrednost je 1,0"
 
 #: ../goffice/graph/gog-axis.c:3483
@@ -1354,12 +1351,10 @@ msgstr ""
 "centimetrih ali v colah."
 
 #: ../goffice/graph/gog-axis.c:3489
-#, fuzzy
 msgid "Display factor"
 msgstr "Faktor prikaza"
 
 #: ../goffice/graph/gog-axis.c:3490
-#, fuzzy
 msgid "Real values are the displayed ones multipled by the display factor."
 msgstr "Prikazane so realne vrednosti, pomnožene s faktorjem prikaza."
 
@@ -1655,7 +1650,6 @@ msgid "Saves the color map to the local disk."
 msgstr "Shrani barvno preslikavo na krajevni disk."
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:29
-#, fuzzy
 msgid "Custom ticks"
 msgstr "Oznake po meri"
 
@@ -3056,7 +3050,6 @@ msgid "0"
 msgstr "0"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:6
-#, fuzzy
 msgid "Kite"
 msgstr "Zmaj"
 
@@ -5179,9 +5172,8 @@ msgid "Finland/Finnish (fi_FI)"
 msgstr "Finska/Finsko (fi_Fl)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
-#, fuzzy
 msgid "Philippines/Filipino (fil_PH)"
-msgstr "Filipini/Filipino (fil_PH)"
+msgstr "Filipini/Filipinsko (fil_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:204
 msgid "Faroe Islands (fo_FO)"
@@ -5836,12 +5828,10 @@ msgid "Diagonal stripes"
 msgstr "Diagonalne proge"
 
 #: ../goffice/gtk/go-pattern-selector.c:76
-#, fuzzy
 msgid "Diagonal crosshatch"
 msgstr "Diagonalno križno"
 
 #: ../goffice/gtk/go-pattern-selector.c:77
-#, fuzzy
 msgid "Thick diagonal crosshatch"
 msgstr "Debelo diagonalno križno"
 
@@ -5862,12 +5852,10 @@ msgid "Thin diagonal stripes"
 msgstr "Tanke diagonalne proge"
 
 #: ../goffice/gtk/go-pattern-selector.c:82
-#, fuzzy
 msgid "Thin horizontal crosshatch"
 msgstr "Tanko vodoravno križno"
 
 #: ../goffice/gtk/go-pattern-selector.c:83
-#, fuzzy
 msgid "Thin diagonal crosshatch"
 msgstr "Tanko diagonalno križno"
 
@@ -6583,7 +6571,6 @@ msgid "Gold, Ounces"
 msgstr "Zlato, unče"
 
 #: ../goffice/utils/formats.c:547
-#, fuzzy
 msgid "Bond Markets Units, European Composite Units (EURCO)"
 msgstr "Enote za trge obveznic, evropske sestavljene enote (EURCO)"
 
@@ -9126,7 +9113,6 @@ msgid "Exponential regression"
 msgstr "Potenčna regresija"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:114
-#, fuzzy
 msgid "#days"
 msgstr "#dni"
 
