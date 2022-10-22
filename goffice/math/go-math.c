@@ -354,6 +354,9 @@ go_pow2 (int n)
 	return ldexp (1.0, n);
 }
 
+#define TEN(n) ONE(n ## 0),ONE(n ## 1),ONE(n ## 2),ONE(n ## 3),ONE(n ## 4),ONE(n ## 5),ONE(n ## 6),ONE(n ## 7),ONE(n ## 8),ONE(n ## 9)
+#define HUNDRED(n) TEN(n ## 0),TEN(n ## 1),TEN(n ## 2),TEN(n ## 3),TEN(n ## 4),TEN(n ## 5),TEN(n ## 6),TEN(n ## 7),TEN(n ## 8),TEN(n ## 9)
+
 double
 go_pow10 (int n)
 {
@@ -362,26 +365,24 @@ go_pow10 (int n)
 	// range.  We do not want to depend on the accuracy of pow(10,n)
 	// because it is known not to be what it should be.
 
-#define TEN(n) ONE(n ## 0),ONE(n ## 1),ONE(n ## 2),ONE(n ## 3),ONE(n ## 4),ONE(n ## 5),ONE(n ## 6),ONE(n ## 7),ONE(n ## 8),ONE(n ## 9)
 	static const double pos[] = {
 #define ONE(n) 1e+0 ## n
-		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
-		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
-		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
+		HUNDRED(0), HUNDRED(1), HUNDRED(2),
+		1e+300, 1e+301, 1e+302, 1e+303, 1e+304, 1e+305,
+		1e+306, 1e+307, 1e+308
 #undef ONE
 	};
 	static const double neg[] = {
 #define ONE(n) 1e-0 ## n
-		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
-		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
-		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
+		HUNDRED(0), HUNDRED(1), HUNDRED(2),
+		TEN(30), TEN(31),
+		1e-320, 1e-321, 1e-322, 1e-323
 #undef ONE
 	};
-#undef TEN
 
 	if (n >= 0 && n < (int)G_N_ELEMENTS(pos))
 		return pos[n];
-	if (n < 0 && -n < (int)G_N_ELEMENTS(neg))
+	if (n < 0 && (size_t)-n < G_N_ELEMENTS(neg))
 		return neg[-n];
 
 	return pow (10.0, n);
@@ -609,36 +610,54 @@ go_pow2l (int n)
 long double
 go_pow10l (int n)
 {
-	// On the assumption that the compiler's handling of long double constants
-	// is correct, make a large table covering more or less the whole
-	// range of double (not long double -- that's much bigger).
+	// On the assumption that the compiler's handling of long double
+	// constants is correct, make a large table covering more or less
+	// the whole range of long double.
 	// We do not want to depend on the accuracy of powl(10,n)
 	// because it is known not to be what it should be.
 
-#define TEN(n) ONE(n ## 0),ONE(n ## 1),ONE(n ## 2),ONE(n ## 3),ONE(n ## 4),ONE(n ## 5),ONE(n ## 6),ONE(n ## 7),ONE(n ## 8),ONE(n ## 9)
 	static const long double pos[] = {
-#define ONE(n) 1e+0 ## n ## L
-		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
-		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
-		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
+#define ONE(n) 1E+0 ## n ## L
+		HUNDRED(0), HUNDRED(1), HUNDRED(2), HUNDRED(3), HUNDRED(4),
+		HUNDRED(5), HUNDRED(6), HUNDRED(7), HUNDRED(8), HUNDRED(9),
+		HUNDRED(10), HUNDRED(11), HUNDRED(12), HUNDRED(13), HUNDRED(14),
+		HUNDRED(15), HUNDRED(16), HUNDRED(17), HUNDRED(18), HUNDRED(19),
+		HUNDRED(20), HUNDRED(21), HUNDRED(22), HUNDRED(23), HUNDRED(24),
+		HUNDRED(25), HUNDRED(26), HUNDRED(27), HUNDRED(28), HUNDRED(29),
+		HUNDRED(30), HUNDRED(31), HUNDRED(32), HUNDRED(33), HUNDRED(34),
+		HUNDRED(35), HUNDRED(36), HUNDRED(37), HUNDRED(38), HUNDRED(39),
+		HUNDRED(40), HUNDRED(41), HUNDRED(42), HUNDRED(43), HUNDRED(44),
+		HUNDRED(45), HUNDRED(46), HUNDRED(47), HUNDRED(48),
+		TEN(490), TEN(491), TEN(492),
+		1E+4930L, 1E+4931L, 1E+4932L
 #undef ONE
 	};
 	static const long double neg[] = {
-#define ONE(n) 1e-0 ## n ## L
-		TEN(00), TEN(01), TEN(02), TEN(03), TEN(04), TEN(05), TEN(06), TEN(07), TEN(08), TEN(09),
-		TEN(10), TEN(11), TEN(12), TEN(13), TEN(14), TEN(15), TEN(16), TEN(17), TEN(18), TEN(19),
-		TEN(20), TEN(21), TEN(22), TEN(23), TEN(24), TEN(25), TEN(26), TEN(27), TEN(28), TEN(29)
+#define ONE(n) 1E-0 ## n ## L
+		HUNDRED(0), HUNDRED(1), HUNDRED(2), HUNDRED(3), HUNDRED(4),
+		HUNDRED(5), HUNDRED(6), HUNDRED(7), HUNDRED(8), HUNDRED(9),
+		HUNDRED(10), HUNDRED(11), HUNDRED(12), HUNDRED(13), HUNDRED(14),
+		HUNDRED(15), HUNDRED(16), HUNDRED(17), HUNDRED(18), HUNDRED(19),
+		HUNDRED(20), HUNDRED(21), HUNDRED(22), HUNDRED(23), HUNDRED(24),
+		HUNDRED(25), HUNDRED(26), HUNDRED(27), HUNDRED(28), HUNDRED(29),
+		HUNDRED(30), HUNDRED(31), HUNDRED(32), HUNDRED(33), HUNDRED(34),
+		HUNDRED(35), HUNDRED(36), HUNDRED(37), HUNDRED(38), HUNDRED(39),
+		HUNDRED(40), HUNDRED(41), HUNDRED(42), HUNDRED(43), HUNDRED(44),
+		HUNDRED(45), HUNDRED(46), HUNDRED(47), HUNDRED(48),
+		TEN(490), TEN(491), TEN(492), TEN(493), TEN(494),
+		1E-4950L
 #undef ONE
 	};
-#undef TEN
 
 	if (n >= 0 && n < (int)G_N_ELEMENTS(pos))
 		return pos[n];
-	if (n < 0 && -n < (int)G_N_ELEMENTS(neg))
+	if (n < 0 && (size_t)-n < G_N_ELEMENTS(neg))
 		return neg[-n];
 
 	return powl (10.0L, n);
 }
+#undef TEN
+#undef HUNDRED
 
 long double
 go_powl (long double x, long double y)
