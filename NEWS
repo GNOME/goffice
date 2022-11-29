@@ -1,5 +1,9 @@
 goffice 0.10.54:
 
+John Denker:
+	* Allow multiple data labels for series.  [#64]
+
+
 --------------------------------------------------------------------------
 goffice 0.10.53:
 

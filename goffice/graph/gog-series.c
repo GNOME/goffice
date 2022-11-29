@@ -376,7 +376,7 @@ role_series_labels_can_add (GogObject const *parent)
 {
 	GogSeries *series = GOG_SERIES (parent);
 
-	return (series->allowed_pos != 0 && gog_object_get_child_by_name (parent, "Data labels") == NULL);
+	return (series->allowed_pos != 0);
 }
 
 static void
