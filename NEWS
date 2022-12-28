@@ -3,6 +3,8 @@ goffice 0.10.54:
 John Denker:
 	* Allow multiple data labels for series.  [#64]
 
+Morten:
+	* Fix accumulator problem with infinites.  [Gnumeric #683]
 
 --------------------------------------------------------------------------
 goffice 0.10.53:

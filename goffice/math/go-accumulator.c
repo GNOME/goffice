@@ -149,6 +149,11 @@ SUFFIX(go_accumulator_add) (ACC *acc, DOUBLE x)
 			y = t;
 		}
 		hi = x + y;
+		if (!SUFFIX(go_finite)(hi)) {
+			x = hi;
+			ui = 0;
+			break;
+		}
 		lo = y - (hi - x);
 		if (lo != 0) {
 			g_array_index (acc->partials, DOUBLE, ui) = lo;
