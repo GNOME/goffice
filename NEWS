@@ -5,6 +5,7 @@ John Denker:
 
 Morten:
 	* Fix accumulator problem with infinites.  [Gnumeric #683]
+	* Fix fraction-formatting overflow problem.  [Part of Gnumeric #637]
 
 --------------------------------------------------------------------------
 goffice 0.10.53:

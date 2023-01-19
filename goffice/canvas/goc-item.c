@@ -598,6 +598,7 @@ goc_item_bounds_changed (GocItem *item)
 			cur->cached_bounds = FALSE;
 			cur = GOC_ITEM (cur->parent);
 		} while (cur);
+		return;
 	}
 	goc_item_invalidate (item);
 }

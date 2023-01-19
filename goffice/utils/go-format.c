@@ -4530,9 +4530,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				fraction.digits = cnt_digits (fraction.d);
 				fraction.n = SUFFIX(floor) (0.5 + aval * fraction.d);
 			} else {
-				int ni, di;
+				int ni, di, max_denom;
+				DOUBLE p10;
+
 				fraction.digits = *prg++;
-				go_continued_fraction (aval, SUFFIX(go_pow10) (fraction.digits) - 1, &ni, &di);
+				p10 = SUFFIX(go_pow10) (fraction.digits);
+				max_denom = MIN (INT_MAX, p10 - 1);
+				go_continued_fraction (aval, max_denom, &ni, &di);
 				fraction.n = ni;
 				fraction.d = di;
 			}
