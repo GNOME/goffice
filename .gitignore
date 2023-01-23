@@ -11,6 +11,7 @@ compile
 config.cache
 config.guess
 config.log
+config.rpath
 config.status
 config.sub
 configure
@@ -39,3 +40,4 @@ xltmain.sh
 xmldocs.make
 ylwrap
 *.def
+*~

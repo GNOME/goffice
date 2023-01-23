@@ -1,7 +1,7 @@
 >-*- mode: m4 -*-
 dnl We require Automake 1.7.2, which requires Autoconf 2.54.
 dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
-AC_PREREQ(2.54)
+AC_PREREQ([2.54])
 AC_CONFIG_MACRO_DIR([m4])
 AX_IS_RELEASE([git-directory])
 
@@ -16,8 +16,7 @@ dnl Emphasize some of the checks.
 m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
 ======== $1])])
 
-AC_INIT([goffice], [goffice_full_version],
-	[https://gitlab.gnome.org/GNOME/goffice/issues])
+AC_INIT([goffice],[goffice_full_version],[https://gitlab.gnome.org/GNOME/goffice/issues])
 
 AC_CONFIG_SRCDIR(goffice/goffice.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -84,14 +83,13 @@ IT_PROG_INTLTOOL([0.35.0])
 dnl We use $host_os:
 AC_CANONICAL_HOST
 
-AC_ISC_POSIX
-AC_PROG_CC
 AC_PROG_CC_C99
+AC_PROG_CC
 if test "$ac_cv_prog_cc_c99" = no; then
 	AC_MSG_ERROR([*** c99 is required])
 fi
 AC_PROG_LN_S
-AC_HEADER_STDC
+
 AC_SYS_LARGEFILE
 
 LT_PREREQ([2.2.6])
@@ -400,7 +398,8 @@ dnl below.
 AC_SUBST(GETTEXT_PACKAGE, goffice-${VERSION})
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext])
-AM_GLIB_GNU_GETTEXT
+AM_GNU_GETTEXT_VERSION([0.13])
+AM_GNU_GETTEXT([external])
 
 dnl ****************************
 dnl prep the pixmap generator
@@ -776,7 +775,7 @@ dnl These are changed in goffice.c for WIN32 packages
 AC_SUBST(goffice_datadir, '${datadir}/goffice/${VERSION}')
 AC_SUBST(goffice_libdir, '${libdir}/goffice/${VERSION}')
 AC_SUBST(goffice_icondir, '${datadir}/pixmaps/goffice/${VERSION}')
-AC_SUBST(goffice_localedir, '${prefix}/${DATADIRNAME}/locale')
+AC_SUBST(goffice_localedir, '${localedir}')
 dnl
 AC_SUBST(goffice_plugindir, '${goffice_libdir}/plugins')
 AC_SUBST(goffice_externplugindir, '${libdir}/goffice/${GOFFICE_API_VER}/plugins')
