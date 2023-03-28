@@ -4,6 +4,9 @@ B.S.:
 	* Make go_fake_floorl and go_fake_ceil consistent with their
 	non-l versions.  [#65]
 
+Morten:
+	* Fix histogram crash.  [#66]
+
 --------------------------------------------------------------------------
 goffice 0.10.55:
 

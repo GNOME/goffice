@@ -84,12 +84,13 @@ static void
 gog_histogram_plot_update (GogObject *obj)
 {
 	GogHistogramPlot *model = GOG_HISTOGRAM_PLOT (obj);
-	GogHistogramPlotSeries *series = GOG_HISTOGRAM_PLOT_SERIES (
-		model->base.series->data);
+	GogHistogramPlotSeries *series = model->base.series
+		? GOG_HISTOGRAM_PLOT_SERIES (model->base.series->data)
+		: NULL;
 	double x_min, x_max, y_min = DBL_MAX, y_max = -DBL_MAX, *x_vals = NULL, *y_vals = NULL, val;
 	unsigned i, y_len = 0;
 
-	if (!gog_series_is_valid (GOG_SERIES (series)) || series->base.num_elements == 0)
+	if (!series || !gog_series_is_valid (GOG_SERIES (series)) || series->base.num_elements == 0)
 			return;
 
 	g_free (series->x);
