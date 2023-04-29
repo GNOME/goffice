@@ -15,6 +15,7 @@ shapes-demo
 test-format
 test-math
 test-quad
+test-dtoa
 constants
 *.log
 *.trs
