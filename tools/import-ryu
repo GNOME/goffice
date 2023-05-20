@@ -1,0 +1,45 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+my $ryu = $ARGV[0];
+
+my @files = ("ryu.h",
+	     "common.h",
+	     "digit_table.h",
+	     "d2s_intrinsics.h",
+	     "d2s_small_table.h",
+	     'd2s.c',
+	     'ryu_generic_128.h',
+	     'generic_128.h',
+	     'generic_128.c');
+
+print "#define RYU_OPTIMIZE_SIZE 1\n\n";
+print "#define bool int\n\n";
+
+foreach my $f (@files) {
+    my $fn = "$ryu/ryu/$f";
+
+    print STDERR "Importing $f...\n";
+    open my $fh, "<", $fn or die "$0: cannot read $fn:$!\n";
+
+    print "// File $f imported from ryu\n";
+    while (<$fh>) {
+	next if /^\s*#\s*include\s*"ryu.*"/;
+
+	s/\b((float|double|long_double)_to_fd128|generic_binary_to_decimal|generic_to_chars|d2s(|_buffered_n|_buffered))\b/go_ryu_$1/g;
+	
+	if ($f =~ /128/) {
+	    s/\b(pow5bits|pow5Factor|multipleOfPowerOf[25]|log10Pow[25]|copy_special_str|POW5_TABLE_SIZE)\b/$1l/g;
+	}	
+
+	print;
+    }
+    print "// End of file $f imported from ryu\n";
+    print "\n";
+}
+
+print "#include \"go-ryu.h\"\n";
+print "int go_ryu_ld2s_buffered_n (long double d, char *dst) {\n";
+print "  struct floating_decimal_128 fd128 = go_ryu_long_double_to_fd128(d);\n";
+print "  return go_ryu_generic_to_chars(fd128, dst);\n";
+print "}\n";

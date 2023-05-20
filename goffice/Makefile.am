@@ -352,6 +352,7 @@ math_SOURCES =					\
 	math/go-matrix3x3.c			\
 	math/go-quad.c				\
 	math/go-R.c				\
+	math/go-ryu.c				\
 	math/go-distribution.c
 
 mathdir = $(goffice_include_dir)/math
@@ -369,6 +370,7 @@ math_HEADERS =					\
 	math/go-matrix3x3.h			\
 	math/go-quad.h				\
 	math/go-R.h				\
+	math/go-ryu.h				\
 	math/go-distribution.h
 
 #####################################
