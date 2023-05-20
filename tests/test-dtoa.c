@@ -56,6 +56,11 @@ test1d_shortest (double d)
 
 		candidate = g_strdup_printf ("%.*g", dig, d);
 		epos = strchr (candidate, 'e');
+		if (epos && fabs (d) > 1e-4 && fabs (d) < 1e17) {
+			// Reject candidate -- we don't want e-notation
+			g_free (candidate);
+			continue;
+		}
 
 		// Get rid of extra 0 in exponent
 		if (epos && (epos[1] == '-' || epos[1] == '+') &&

@@ -19,7 +19,8 @@ INTROSPECTION_COMPILER_ARGS = \
 #app directory files
 
 noinst_HEADERS = \
-	app/file-priv.h \
+	app/file-priv.h				\
+	math/go-ryu.h				\
 	goffice-debug.h
 
 app_SOURCES =					\
@@ -370,7 +371,6 @@ math_HEADERS =					\
 	math/go-matrix3x3.h			\
 	math/go-quad.h				\
 	math/go-R.h				\
-	math/go-ryu.h				\
 	math/go-distribution.h
 
 #####################################

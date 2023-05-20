@@ -2,6 +2,7 @@
 
 #define bool int
 
+#include "go-ryu.h"
 // File ryu.h imported from ryu
 // Copyright 2018 Ulf Adams
 //
@@ -32,17 +33,17 @@ int go_ryu_d2s_buffered_n(double f, char* result);
 void go_ryu_d2s_buffered(double f, char* result);
 char* go_ryu_d2s(double f);
 
-int f2s_buffered_n(float f, char* result);
-void f2s_buffered(float f, char* result);
-char* f2s(float f);
+int go_ryu_f2s_buffered_n(float f, char* result);
+void go_ryu_f2s_buffered(float f, char* result);
+char* go_ryu_f2s(float f);
 
-int d2fixed_buffered_n(double d, uint32_t precision, char* result);
-void d2fixed_buffered(double d, uint32_t precision, char* result);
-char* d2fixed(double d, uint32_t precision);
+int go_ryu_d2fixed_buffered_n(double d, uint32_t precision, char* result);
+void go_ryu_d2fixed_buffered(double d, uint32_t precision, char* result);
+char* go_ryu_d2fixed(double d, uint32_t precision);
 
-int d2exp_buffered_n(double d, uint32_t precision, char* result);
-void d2exp_buffered(double d, uint32_t precision, char* result);
-char* d2exp(double d, uint32_t precision);
+int go_ryu_d2exp_buffered_n(double d, uint32_t precision, char* result);
+void go_ryu_d2exp_buffered(double d, uint32_t precision, char* result);
+char* go_ryu_d2exp(double d, uint32_t precision);
 
 #ifdef __cplusplus
 }
@@ -82,8 +83,8 @@ char* d2exp(double d, uint32_t precision);
 // Returns the number of decimal digits in v, which must not contain more than 9 digits.
 static inline uint32_t decimalLength9(const uint32_t v) {
   // Function precondition: v is not a 10-digit number.
-  // (f2s: 9 digits are sufficient for round-tripping.)
-  // (d2fixed: We print 9-digit blocks.)
+  // (go_ryu_f2s: 9 digits are sufficient for round-tripping.)
+  // (go_ryu_d2fixed: We print 9-digit blocks.)
   assert(v < 1000000000);
   if (v >= 100000000) { return 9; }
   if (v >= 10000000) { return 8; }
@@ -2200,7 +2201,7 @@ int go_ryu_generic_to_chars(const struct floating_decimal_128 v, char* const res
 }
 // End of file generic_128.c imported from ryu
 
-#include "go-ryu.h"
+
 int go_ryu_ld2s_buffered_n (long double d, char *dst) {
   struct floating_decimal_128 fd128 = go_ryu_long_double_to_fd128(d);
   return go_ryu_generic_to_chars(fd128, dst);
