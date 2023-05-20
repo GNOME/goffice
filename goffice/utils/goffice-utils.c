@@ -69,7 +69,7 @@ go_uuid (void)
 		guint32 node_low;
 	} uuid;
 
-	/* Fill with random. Every new GRand are seede with 128 bit read from
+	/* Fill with random. Every new GRand are seeded with 128 bit read from
 	* /dev/urandom (or the current time on non-unix systems). This makes the
 	* random source good enough for our usage, but may not be suitable for all
 	* situation outside Gabble. */
