@@ -51,7 +51,7 @@ test1d_shortest (double d)
 	char *candidate;
 	GString *res;
 
-	for (int dig = 0; dig <= 17; dig++) {
+	for (int dig = 2; dig <= 17; dig++) {
 		char *epos;
 
 		candidate = g_strdup_printf ("%.*g", dig, d);
@@ -99,8 +99,16 @@ test1d_shortest (double d)
 		fail++;
 		g_printerr ("Round-trip failure for shortest %a (got \"%s\", expected \"%s\")\n",
 			    d, res->str, candidate);
+	} else if (g_str_equal (res->str, candidate)) {
+		// Got the candidate
 	} else if (res->len == strlen (candidate)) {
 		// No worse than candidate
+		if (!strchr (res->str, 'e') && strchr (candidate, 'e')) {
+			// Good, we got a non-e version
+		} else {
+			g_printerr ("Candidate \"%s\" differs from result \"%s\".\n",
+				    candidate, res->str);
+		}
 	} else if (res->len < strlen (candidate)) {
 		// This is a failure of the test, not of go_dtoa
 		g_printerr ("Candidate \"%s\" is sub-optimal vs. \"%s\".\n",
@@ -121,6 +129,8 @@ test1d_shortest (double d)
 int
 main (void)
 {
+	GRand *grand;
+
 	libgoffice_init ();
 	(void)test1d_fail;
 
@@ -135,7 +145,7 @@ main (void)
 		test1d_shortest (nextafter (p2, go_ninf));
 	}
 
-	for (int i = -999; i <= 999; i++)
+	for (int i = -99999; i <= 99999; i++)
 		test1d_shortest (i);
 
 	test1d_shortest (1e1);
@@ -149,14 +159,26 @@ main (void)
 	test1d_shortest (1e9);
 	test1d_shortest (1e10);
 
-	{
-		GRand *grand = g_rand_new ();
-		for (int i = 0; i < 100000; i++) {
-			double d = g_rand_double (grand) * 1e10;
-			test1d_shortest (d);
+	for (int n = -9999; n <= 9999; n++) {
+		for (int ld = 0; ld <= 10; ld++) {
+			test1d_shortest (n / go_pow10 (ld));
 		}
-		g_rand_free (grand);
 	}
+
+	grand = g_rand_new ();
+
+	for (int i = 0; i < 100000; i++) {
+		double n = g_rand_int_range (grand, -9999, +9999);
+		double d = go_pow10 (g_rand_int_range (grand, 0, 10));
+		test1d_shortest (n / d);
+	}
+
+	for (int i = 0; i < 100000; i++) {
+		double d = g_rand_double (grand) * 1e10;
+		test1d_shortest (d);
+	}
+
+	g_rand_free (grand);
 
 	return fail;
 }

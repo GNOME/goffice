@@ -33,6 +33,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/math/go-math.h>
 #include "go-dtoa.h"
+#include "go-ryu.h"
 #include <string.h>
 #include <inttypes.h>
 #include <stdarg.h>
@@ -155,10 +156,6 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 	const char *prefix="-0X+0X 0X-0x+0x 0x";
 	int pl;
 	char ebuf0[3*sizeof(int)], *ebuf=&ebuf0[3*sizeof(int)], *estr;
-
-#ifndef MUSL_ORIGINAL
-	if (fl & FLAG_TRUNCATE) g_string_truncate (f, 0);
-#endif
 
 	pl=1;
 	if (signbit(y)) {
@@ -457,27 +454,84 @@ parse_fmt (const char *fmt, va_list args, gboolean *is_long,
 		*d = va_arg (args, double);
 }
 
-static long double
-strto (const char *str, gboolean is_long, gboolean is_ascii)
+static void
+fmt_shortest (GString *dst, long double d, int fl, int t, gboolean is_long)
 {
-	if (is_long) {
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-		/*
-		 * FIXME: ignore ascii flag for now.  Given the limited
-		 * and checked usage of this function this should still
-		 * be safe, if suboptimal.
-		 */
-		return go_strtold (str, NULL);
-#else
-		return go_nan;
-#endif
-	} else {
-		return is_ascii
-			? g_ascii_strtod (str, NULL)
-			: go_strtod (str, NULL);
-	}
-}
+	size_t oldlen = dst->len;
+	int n, elen, e, ndec;
+	char *epos, *dpos;
+	GString const *dec = go_locale_get_decimal();
+	int dlen = (fl & FLAG_ASCII) ? 1 : dec->len;
+	const char *dstr = (fl & FLAG_ASCII) ? "." : dec->str;
 
+	g_string_set_size (dst, 53 + oldlen + dec->len);
+	if (is_long)
+		n = go_ryu_ld2s_buffered_n (d, dst->str + oldlen);
+	else
+		n = go_ryu_d2s_buffered_n ((double)d, dst->str + oldlen);
+	g_string_set_size (dst, oldlen + n);
+	dpos = strchr (dst->str + oldlen, '.');
+	epos = strchr (dst->str + oldlen, 'E');
+	ndec = dpos
+		? (epos
+		   ? epos - (dpos + 1)
+		   : (int)(dst->len - (dpos + 1 - dst->str)))
+		: 0;
+	if (!epos)
+		return; // NaN etc.
+
+	if (dpos && !(fl & FLAG_ASCII)) {
+		*dpos = dstr[0];
+		if (dlen > 1) {
+			g_string_insert_len (dst, dpos - dst->str + 1,
+					     dstr + 1, dlen - 1);
+			// We allocated enough that dpos/epos are still good
+		}
+	}
+
+	elen = dst->len - (epos - dst->str);
+	e = atoi (epos + 1);
+
+	// Sometimes moving the decimal point to the right can eliminate the
+	// exponent and maybe the decimal point itself.
+	if (e >= 0 && ndec > 0 && e <= ndec) {
+		memmove (dpos, dpos + dlen, e);
+		memcpy (dpos + e, dstr, dlen);
+		g_string_set_size (dst, epos - dst->str - (e == ndec ? dlen : 0));
+		return;
+	}
+
+	// Sometimes the exponent can be eliminated by adding 0s
+	if (ndec == 0 && e >= 0 && e <= elen) {
+		memset (epos, '0', e);
+		g_string_set_size (dst, dst->len - elen + e);
+		return;
+	}
+
+	// Sometimes the exponent can be eliminated by moving the decimal
+	// point to the left.
+	if (e < 0 && dpos && -e <= elen) {
+		char d1 = dpos[-1];
+		g_string_set_size (dst, epos - dst->str);
+		dpos[-1] = '0';
+		g_string_insert_len (dst, dpos - dst->str + dlen, "0000000", -e);
+		dpos[dlen - e - 1] = d1;
+		return;
+	}
+
+	// Sometimes the exponent can be eliminated by adding a decimal
+	// point to the left with suitable number of 0s.
+	if (e < 0 && !dpos && -e + 1 <= elen) {
+		int eix = epos - dst->str;
+		g_string_set_size (dst, eix);
+		g_string_insert_len (dst, eix - 1, "0000000", -e);
+		g_string_insert_len (dst, eix, dstr, dlen);
+		return;
+	}
+
+	// Lower-case 'E', if needed
+	if (t & 32) *epos = 'e';
+}
 
 void
 go_dtoa (GString *dst, const char *fmt, ...)
@@ -487,80 +541,39 @@ go_dtoa (GString *dst, const char *fmt, ...)
 	long double d;
 	gboolean is_long;
 	gboolean debug = FALSE;
-	size_t oldlen;
-#ifdef ENSURE_FPU_STATE
-	fpu_control_t oldstate;
-	const fpu_control_t mask = _FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE;
-#endif
 
 	va_start (args, fmt);
 	parse_fmt (fmt, args, &is_long, &w, &p, &fl, &t, &d);
 	va_end (args);
 
-	if (fl & FLAG_SHORTEST) p = is_long ? 21 : 17;
-	oldlen = (fl & FLAG_TRUNCATE) ? 0 : dst->len;
-
-#ifdef ENSURE_FPU_STATE
-	// fmt_fp depends on "long double" behaving right.  That means that the
-	// fpu must not be in round-to-double mode.
-	// This code ought to do nothing on Linux, but Windows and FreeBSD seem
-	// to have round-to-double as default.
-	_FPU_GETCW (oldstate);
-	if ((oldstate & mask) != _FPU_EXTENDED) {
-		fpu_control_t newstate = (oldstate & ~mask) | _FPU_EXTENDED;
-		_FPU_SETCW (newstate);
-	}
-#endif
+	if (fl & FLAG_TRUNCATE) g_string_truncate (dst, 0);
 
 	if (debug) g_printerr ("%Lg [%s] t=%c  p=%d\n", d, fmt, t, p);
-	fmt_fp (dst, d, w, p, fl, t);
-	if (debug) g_printerr ("  --> %s\n", dst->str);
 
-	if (fl & FLAG_SHORTEST) {
-		GString *alt = g_string_new (NULL);
-		const char *dec = (fl & FLAG_ASCII)
-			? "."
-			: go_locale_get_decimal()->str;
-		while (p > 0) {
-			ssize_t len_dif;
-			const char *dot = strstr (dst->str + oldlen, dec);
-			long double dalt;
-			if (!dot)
-				break;
-
-			/*
-			 * This is crude.  We have a dot, so try to render
-			 * the same number with less precision and check
-			 * that the result round-trips.
-			 */
-
-			fmt_fp (alt, d, w, p - 1, fl | FLAG_TRUNCATE, t);
-			len_dif = dst->len - oldlen - alt->len;
-
-			if (len_dif == 0) {
-				/* Same string so we've already removed 0s. */
-				break;
-			}
-
-			dalt = strto (alt->str, is_long, (fl & FLAG_ASCII));
-			if (dalt != d)
-				break;
-
-			g_string_truncate (dst, oldlen);
-			go_string_append_gstring (dst, alt);
-			if (debug) g_printerr ("  --> %s\n", dst->str);
-
-			p--;
-
-			if (len_dif > 1)
-				break;
-		}
-		g_string_free (alt, TRUE);
-	}
-
+	if (fl & FLAG_SHORTEST)
+		fmt_shortest (dst, d, fl, t, is_long);
+	else {
 #ifdef ENSURE_FPU_STATE
-	if ((oldstate & mask) != _FPU_EXTENDED) {
-		_FPU_SETCW (oldstate);
+		fpu_control_t oldstate;
+		const fpu_control_t mask = _FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE;
+		// fmt_fp depends on "long double" behaving right.  That means that the
+		// fpu must not be in round-to-double mode.
+		// This code ought to do nothing on Linux, but Windows and FreeBSD seem
+		// to have round-to-double as default.
+		_FPU_GETCW (oldstate);
+		if ((oldstate & mask) != _FPU_EXTENDED) {
+			fpu_control_t newstate = (oldstate & ~mask) | _FPU_EXTENDED;
+			_FPU_SETCW (newstate);
+		}
+#endif
+
+		fmt_fp (dst, d, w, p, fl, t);
+#ifdef ENSURE_FPU_STATE
+		if ((oldstate & mask) != _FPU_EXTENDED) {
+			_FPU_SETCW (oldstate);
 	}
 #endif
+	}
+
+	if (debug) g_printerr ("  --> %s\n", dst->str);
 }
