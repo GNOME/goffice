@@ -5,6 +5,7 @@ xml
 Makefile
 Makefile.in
 *.stamp
+goffice-*.actions
 goffice-*-unused.txt
 goffice-*-undocumented.txt
 goffice-*-decl-list.txt
