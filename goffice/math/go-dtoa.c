@@ -494,10 +494,17 @@ fmt_shortest (GString *dst, long double d, int fl, int t, gboolean is_long)
 	e = atoi (epos + 1);
 	use_e_notation =
 		(t | 32) == 'e' ||
-		((t | 32) == 'g' && (e < -4 || e > (is_long ? 21 : 17)));
+		((t | 32) == 'g' && (e < -4 || e >= (is_long ? 21 : 17)));
 	if (use_e_notation) {
 		// Downcase 'E', if needed
 		if (t & 32) *epos = 'e';
+		// Use printf rules for exponents
+		if (e >= 0 && e <= 9)
+			g_string_insert (dst, epos - dst->str + 1, "+0");
+		else if (e >= 10)
+			g_string_insert_c (dst, epos - dst->str + 1, '+');
+		else if (e >= -9 && e < 0)
+			g_string_insert_c (dst, epos - dst->str + 2, '0');
 		return;
 	} else {
 		// Else f-notation.  Redo.

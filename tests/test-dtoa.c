@@ -62,15 +62,17 @@ test1d_shortest (double d)
 			continue;
 		}
 
-		// Get rid of extra 0 in exponent
-		if (epos && (epos[1] == '-' || epos[1] == '+') &&
-		    epos[2] == '0' && epos[3]) {
-			memmove (epos + 2, epos + 3, strlen (epos + 2));
-		}
+		if (0) {
+			// Get rid of extra 0 in exponent
+			if (epos && (epos[1] == '-' || epos[1] == '+') &&
+			    epos[2] == '0' && epos[3]) {
+				memmove (epos + 2, epos + 3, strlen (epos + 2));
+			}
 
-		// Get rid of '+' in exponent
-		if (epos && epos[1] == '+')
-			memmove (epos + 1, epos + 2, strlen (epos + 1));
+			// Get rid of '+' in exponent
+			if (epos && epos[1] == '+')
+				memmove (epos + 1, epos + 2, strlen (epos + 1));
+		}
 
 		if (go_strtod (candidate, NULL) == d)
 			break;
@@ -108,7 +110,7 @@ test1d_shortest (double d)
 		// Got the candidate
 	} else if (res->len == strlen (candidate)) {
 		// No worse than candidate
-		if (!strchr (res->str, 'e') && strchr (candidate, 'e')) {
+		if (0 && !strchr (res->str, 'e') && strchr (candidate, 'e')) {
 			// Good, we got a non-e version
 		} else {
 			g_printerr ("Candidate \"%s\" differs from result \"%s\".\n",
@@ -153,16 +155,10 @@ main (void)
 	for (int i = -99999; i <= 99999; i++)
 		test1d_shortest (i);
 
-	test1d_shortest (1e1);
-	test1d_shortest (1e2);
-	test1d_shortest (1e3);
-	test1d_shortest (1e4);
-	test1d_shortest (1e5);
-	test1d_shortest (1e6);
-	test1d_shortest (1e7);
-	test1d_shortest (1e8);
-	test1d_shortest (1e9);
-	test1d_shortest (1e10);
+	for (int i = 1; i <= 50; i++) {
+		test1d_shortest (go_pow10 (i));
+		test1d_shortest (-go_pow10 (i));
+	}
 
 	for (int n = -9999; n <= 9999; n++) {
 		for (int ld = 0; ld <= 10; ld++) {
