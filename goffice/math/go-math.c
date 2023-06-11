@@ -1179,7 +1179,7 @@ double
 go_cotpi (double x)
 {
 	/*
-	 * IEEE 754 2008 doesn't have tanpi.  Neither does crlibm.  Mirror
+	 * IEEE 754 2008 doesn't have cotpi.  Neither does crlibm.  Mirror
 	 * tanpi here.
 	 */
 
@@ -1332,7 +1332,7 @@ long double
 go_cotpil (long double x)
 {
 	/*
-	 * IEEE 754 2008 doesn't have tanpi.  Neither does crlibm.  Mirror
+	 * IEEE 754 2008 doesn't have cotpi.  Neither does crlibm.  Mirror
 	 * tanpi here.
 	 */
 
