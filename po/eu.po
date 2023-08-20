@@ -3,13 +3,13 @@
 # Copyright (C) 2010 goffice's COPYRIGHT HOLDER
 # This file is distributed under the same license as the goffice package.
 # Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2011.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2020, 2022.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2020, 2022, 2023.
 #
 msgid ""
 msgstr "Project-Id-Version: goffice_eu\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2022-05-02 11:41+0000\n"
-"PO-Revision-Date: 2022-05-02 10:00+0100\n"
+"POT-Creation-Date: 2022-08-29 23:25+0000\n"
+"PO-Revision-Date: 2026-08-20 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -318,7 +318,7 @@ msgid ""
 "The following plugins are no longer on disk but are still active:\n"
 "%s.\n"
 "You should restart this program now."
-msgstr "Plugin hauek jada ez daude diskoan, baina oraindik aktibo daude:\n"
+msgstr "Honako pluginak jada ez daude diskoan, baina oraindik aktibo daude:\n"
 "%s.\n"
 "Programa hau orain berrabiarazi beharko zenuke."
 
@@ -1262,7 +1262,7 @@ msgstr "Ardatzaren hasierako posizioa"
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
-msgstr "Ardatzaren area efektiboa hasten deneko diagrama-arearen posizioa, erabilgarri dagoen posizioaren ehunko gisa adierazia. Balio lehenetsia 0.0 da."
+msgstr "Ardatzaren area efektiboa hasten deneko trazu-arearen posizioa, erabilgarri dagoen posizioaren ehunko gisa adierazia. Balio lehenetsia 0.0 da."
 
 #: ../goffice/graph/gog-axis.c:3457
 msgid "Axis end position"
@@ -1272,7 +1272,7 @@ msgstr "Ardatzaren amaierako posizioa"
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
-msgstr "Ardatzaren area efektiboa amaitzen deneko diagrama-arearen posizioa, erabilgarri dagoen posizioaren ehunko gisa adierazia. Balio lehenetsia a.0 da."
+msgstr "Ardatzaren area efektiboa amaitzen deneko trazu-arearen posizioa, erabilgarri dagoen posizioaren ehunko gisa adierazia. Balio lehenetsia 1.0 da."
 
 #: ../goffice/graph/gog-axis.c:3462
 msgid "ColorMapName"
@@ -1472,7 +1472,7 @@ msgstr "Ardatzaren betegarria"
 
 #: ../goffice/graph/gog-axis-line.c:848
 msgid "Distance from axis line to plot area, in points"
-msgstr "Ardatzaren marratik marrazte-areara dagoen distantzia, puntutan"
+msgstr "Ardatzaren marratik trazu-areara dagoen distantzia, puntutan"
 
 #: ../goffice/graph/gog-axis-line.c:942
 msgid "Select axis"
@@ -1640,7 +1640,7 @@ msgstr "Amaitu:"
 
 #: ../goffice/graph/gog-chart.c:374 ../goffice/graph/gog-chart.c:756
 msgid "Plot area"
-msgstr "Marrazte-area"
+msgstr "Trazu-area"
 
 #: ../goffice/graph/gog-chart.c:646 ../goffice/graph/gog-theme.c:588
 msgid "Backplane"
@@ -1692,7 +1692,7 @@ msgstr "Kolorezko ardatza"
 
 #: ../goffice/graph/gog-chart.c:693
 msgid "Plot"
-msgstr "Marraztu"
+msgstr "Trazatu"
 
 #: ../goffice/graph/gog-chart.c:696 ../goffice/graph/gog-graph.c:432
 #: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
@@ -1727,15 +1727,15 @@ msgstr "Diagramen kardinalitatea une honetan baliozkoa den"
 
 #: ../goffice/graph/gog-chart.c:757
 msgid "Position and size of plot area, in percentage of chart size"
-msgstr "Marrazte-arearen posizioa eta tamaina, diagramaren tamainaren ehunekoan"
+msgstr "Trazu-arearen posizioa eta tamaina, diagramaren tamainaren ehunekoan"
 
 #: ../goffice/graph/gog-chart.c:762
 msgid "Manual plot area"
-msgstr "Eskuzko marrazte-area"
+msgstr "Eskuzko trazu-area"
 
 #: ../goffice/graph/gog-chart.c:763
 msgid "Is plot area manual"
-msgstr "Marrazki-area eskuzkoa den"
+msgstr "Trazu-area eskuzkoa den"
 
 #: ../goffice/graph/gog-chart.c:767
 msgid "xpos"
@@ -2028,7 +2028,7 @@ msgstr "_Txertatu"
 #: ../goffice/graph/gog-guru.c:1218
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
-msgstr "_Marrazki mota"
+msgstr "T_razu mota"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
 msgid "Sample"
@@ -2448,11 +2448,11 @@ msgstr "Burbuila-ardatzaren erreferentzia"
 
 #: ../goffice/graph/gog-plot.c:514
 msgid "Plot group"
-msgstr "Marrazki taldea"
+msgstr "Trazu taldea"
 
 #: ../goffice/graph/gog-plot.c:515
 msgid "Name of plot group if any"
-msgstr "Marrazki taldearen izena, baldin badago"
+msgstr "Trazu taldearen izena, baldin badago"
 
 #: ../goffice/graph/gog-plot.c:520
 msgid "Guru hints"
@@ -2474,19 +2474,19 @@ msgstr "Serieen marra-interpolazio lehenetsia"
 
 #: ../goffice/graph/gog-plot.c:1176
 msgid "Move plot area"
-msgstr "Aldatu lekuz marrazte-area"
+msgstr "Aldatu lekuz trazu-area"
 
 #: ../goffice/graph/gog-plot.c:1228
 msgid "Resize plot area"
-msgstr "Aldatu tamainaz marrazte-area"
+msgstr "Aldatu tamainaz trazu-area"
 
 #: ../goffice/graph/gog-plot-engine.c:81
 msgid "Plot Engine"
-msgstr "Marrazkien motorra"
+msgstr "Trazuen motorra"
 
 #: ../goffice/graph/gog-plot-engine.c:336
 msgid "Plot Type"
-msgstr "Marrazki mota"
+msgstr "Trazu mota"
 
 #: ../goffice/graph/gog-plot-engine.c:420
 msgid "Regression Curve Engine"
@@ -2546,7 +2546,9 @@ msgid ""
 "Absolute: the line will be displayed between the given limits.\n"
 "Relative: the line will be displayed between the data range expanded "
 "according to the values given below."
-msgstr ""
+msgstr "Bat ere ez: marra barruti ikusgai osoan bistaratuko da.\n"
+"Absolutua: marra emandako mugen artean bistaratuko da.\n"
+"Erlatiboa: marra datu-barrutiaren artean bistaratuko da, behean emandako balioen arabera hedatua."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:10
 msgid ""
@@ -2555,7 +2557,9 @@ msgid ""
 "Relative: the line will be displayed between the data range expanded "
 "according to the values given below, with positive values enlarging the "
 "range."
-msgstr ""
+msgstr "Bat ere ez: marra barruti ikusgai osoan bistaratuko da.\n"
+"Absolutua: marra emandako mugen artean bistaratuko da.\n"
+"Erlatiboa: marra datu-barrutiaren artean bistaratuko da, behean emandako balioen arabera hedatua, balio positiboek barrutia luzatzen dutela."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:16
 msgid "Low limit:"
@@ -3641,7 +3645,7 @@ msgstr "Automatikoa luzapenaren arabera"
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
-msgstr "Adierazitako fitxategi-luzapena ez dator bat hautatutako fitxategi motarekin. Hala ere izen hori erabili nahi duzu?"
+msgstr "Fitxategi-luzapen hau ez dator bat hautatutako fitxategi motarekin. Izen hau erabili nahi duzu hala ere?"
 
 #: ../goffice/gtk/goffice-gtk.c:1345
 #, c-format
@@ -4504,11 +4508,11 @@ msgstr "Osoko digituen gutxieneko kopurua:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:23
 msgid "Minimum number of _numerator digits:"
-msgstr ""
+msgstr "_Zenbakitzaileko digituen gutxieneko kopurua:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:24
 msgid "Minimum number of e_xponent digits:"
-msgstr ""
+msgstr "_Berretzaileko digituen gutxieneko kopurua:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:25
 msgid "As multiple of 𝜋"
@@ -4540,7 +4544,7 @@ msgstr "Zehaztutako izendatzailea:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:32
 msgid "Always show exponent si_gn"
-msgstr ""
+msgstr "Beti erakutsi b_erretzailearen ikurra"
 
 #: ../goffice/gtk/go-format-sel.ui.h:33
 msgid "_Engineering notation"
@@ -4556,27 +4560,27 @@ msgstr "Erabili _goi-indizea"
 
 #: ../goffice/gtk/go-format-sel.ui.h:36
 msgid "Use superscript for exponent (e.g. 4×10²)"
-msgstr ""
+msgstr "Erabili goi-indizea berretzailerako (adib. 4×10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:37
 msgid "_Don't show 1×s"
-msgstr ""
+msgstr "E_z erakutsi 1×s"
 
 #: ../goffice/gtk/go-format-sel.ui.h:38
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
-msgstr ""
+msgstr "Mantisa 1 bada, erakutsi berretzailea soilik (adibidez 10²)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:39
 msgid "Append SI _prefix"
-msgstr ""
+msgstr "Erantsi SI _aurrizkia"
 
 #: ../goffice/gtk/go-format-sel.ui.h:40
 msgid "Append an SI prefix (e.g. instead of 4×10⁶ show 4M)"
-msgstr ""
+msgstr "Erantsi SI aurrizkia (adibidez, 4×10⁶ ordez, erakutsi 4M)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:42
 msgid "Append the SI unit:"
-msgstr ""
+msgstr "Erantsi SI unitatea:"
 
 #: ../goffice/gtk/go-gradient-selector.c:93
 msgid "Up"
@@ -4729,7 +4733,7 @@ msgstr "Etiopia/Afarera (aa_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:108
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Hego Afrikako afrikaansa (af_ZA)"
+msgstr "Hegoafrikako afrikaansa (af_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:109
 msgid "Ethiopia/Amharic (am_ET)"
@@ -4997,7 +5001,7 @@ msgstr "Estatu Batuak/Ingelesa (en_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:175
 msgid "South Africa/English (en_ZA)"
-msgstr "Hego Afrika/Ingelesa (en_ZA)"
+msgstr "Hegoafrika/Ingelesa (en_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:176
 msgid "Zimbabwe (en_ZW)"
@@ -5257,7 +5261,7 @@ msgstr "Georgia (ka_GE)"
 
 #: ../goffice/gtk/go-locale-sel.c:240
 msgid "Kazakhstan/Kazakh (kk_KZ)"
-msgstr ""
+msgstr "Kazakhstan/Kazakhera (kk_KZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:241
 msgid "Greenland (kl_GL)"
@@ -5265,11 +5269,11 @@ msgstr "Groenlandia (kl_GL)"
 
 #: ../goffice/gtk/go-locale-sel.c:242
 msgid "Cambodia/Khmer (km_KH)"
-msgstr ""
+msgstr "Kanbodia/Khmerera (km_KH)"
 
 #: ../goffice/gtk/go-locale-sel.c:243
 msgid "India/Kannada (kn_IN)"
-msgstr ""
+msgstr "India/Kannada (kn_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:244
 msgid "Korea (ko_KR)"
@@ -5277,11 +5281,11 @@ msgstr "Korea (ko_KR)"
 
 #: ../goffice/gtk/go-locale-sel.c:245
 msgid "India/Konkani (kok_IN)"
-msgstr ""
+msgstr "India/Konkanera (kok_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:246
 msgid "India/Kashmiri (ks_IN)"
-msgstr ""
+msgstr "India/Kaxmirera (ks_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:247
 msgid "Turkey/Kurdish (ku_TR)"
@@ -5293,23 +5297,23 @@ msgstr "Britainia Handia/Korniera (kw_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:249
 msgid "Kyrgyzstan/Kyrgyz (ky_KG)"
-msgstr ""
+msgstr "Kirgizistan/Kirgizera (ky_KG)"
 
 #: ../goffice/gtk/go-locale-sel.c:250
 msgid "Luxembourg/Luxembourgish (lb_LU)"
-msgstr ""
+msgstr "Luxenburgo/Luxenburgera (lb_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:251
 msgid "Uganda/Luganda (lg_UG)"
-msgstr ""
+msgstr "Uganda/Luganda (lg_UG)"
 
 #: ../goffice/gtk/go-locale-sel.c:252
 msgid "Belgium/Limburgish (li_BE)"
-msgstr ""
+msgstr "Belgika/Linburgera (li_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:253
 msgid "Netherlands/Limburgish (li_NL)"
-msgstr ""
+msgstr "Herbehereak/Linburgera (li_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:254
 msgid "Italy/Ligurian (lij_IT)"
@@ -5329,15 +5333,15 @@ msgstr "Letonia (lv_LV)"
 
 #: ../goffice/gtk/go-locale-sel.c:258
 msgid "India/Maithili (mai_IN)"
-msgstr ""
+msgstr "India/Maithiliera (mai_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:259
 msgid "Madagascar/Malagasy (mg_MG)"
-msgstr ""
+msgstr "Madagaskar/Malgaxea (mg_MG)"
 
 #: ../goffice/gtk/go-locale-sel.c:260
 msgid "Russia/Mari (mhr_RU)"
-msgstr ""
+msgstr "Errusia/Mariera (mhr_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:261
 msgid "New Zealand/Maori (mi_NZ)"
@@ -5369,23 +5373,23 @@ msgstr "Malta (mt_MT)"
 
 #: ../goffice/gtk/go-locale-sel.c:268
 msgid "Myanmar/Burmese (my_MM)"
-msgstr ""
+msgstr "Myanmar/Birmaniera (my_MM)"
 
 #: ../goffice/gtk/go-locale-sel.c:269
 msgid "Taiwan/Minnan (nan_TW@latin)"
-msgstr ""
+msgstr "Taiwan/Hegoaldeko mina (nan_TW@latin)"
 
 #: ../goffice/gtk/go-locale-sel.c:270
 msgid "Norway/Bokmal (nb_NO)"
-msgstr ""
+msgstr "Norvegia/Bokmal (nb_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:271
 msgid "Germany/Low Saxon (nds_DE)"
-msgstr ""
+msgstr "Alemania/Behe-saxoiera (nds_DE)"
 
 #: ../goffice/gtk/go-locale-sel.c:272
 msgid "Netherlands/Low Saxon (nds_NL)"
-msgstr ""
+msgstr "Herbehereak/Behe-saxoiera (nds_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:273
 msgid "Nepal/Nepali (ne_NP)"
@@ -5409,11 +5413,11 @@ msgstr "Norvegia/Nynorsk (nn_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:278
 msgid "South Africa/Southern Ndebele (nr_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Hegoaldeko ndebelera (nr_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:279
 msgid "South Africa/Northern Sotho (nso_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Iparraldeko sothoera (nso_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:280
 msgid "France/Occitan (oc_FR)"
@@ -5421,15 +5425,15 @@ msgstr "Frantzia/Okzitaniera (oc_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:281
 msgid "Ethiopia/Oromo (om_ET)"
-msgstr ""
+msgstr "Etiopia/Oromoera (om_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:282
 msgid "Kenya/Oromo (om_KE)"
-msgstr ""
+msgstr "Kenya/Oromoera (om_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:283
 msgid "India/Oriya (or_IN)"
-msgstr ""
+msgstr "India/Odia (or_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:284
 msgid "Russia/Ossetian (os_RU)"
@@ -5445,7 +5449,7 @@ msgstr "Pakistan/Punjabera (Shamukhia) (pa_PK)"
 
 #: ../goffice/gtk/go-locale-sel.c:287
 msgid "Netherland Antilles/Papiamento (pap_AN)"
-msgstr ""
+msgstr "Holandarren Antillak/Papiamentoa (pap_AN)"
 
 #: ../goffice/gtk/go-locale-sel.c:288
 msgid "Poland (pl_PL)"
@@ -5453,7 +5457,7 @@ msgstr "Polonia (pl_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:289
 msgid "Afghanistan/Pashto (ps_AF)"
-msgstr ""
+msgstr "Afganistan/Paxtunera (ps_AF)"
 
 #: ../goffice/gtk/go-locale-sel.c:290
 msgid "Brazil (pt_BR)"
@@ -5477,7 +5481,7 @@ msgstr "Ukraina/Errusiera (ru_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:295
 msgid "Rwanda/Kinyarwanda (rw_RW)"
-msgstr ""
+msgstr "Ruanda/Kinyaruanda (rw_RW)"
 
 #: ../goffice/gtk/go-locale-sel.c:296
 msgid "India/Sanskrit (sa_IN)"
@@ -5489,7 +5493,7 @@ msgstr "Italia/Sardiniera (sc_IT)"
 
 #: ../goffice/gtk/go-locale-sel.c:298
 msgid "India/Sindhi (sd_IN)"
-msgstr ""
+msgstr "India/Sindhia (sd_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:299
 msgid "Norway/Saami (se_NO)"
@@ -5497,15 +5501,15 @@ msgstr "Norvegia/Saami (se_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:300
 msgid "Canada/Secwepemctsin (Shuswap) (shs_CA)"
-msgstr ""
+msgstr "Kanada/Shuswapera (shs_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:301
 msgid "Sri Lanka/Sinhala (si_LK)"
-msgstr ""
+msgstr "Sri Lanka/Sinhala (si_LK)"
 
 #: ../goffice/gtk/go-locale-sel.c:302
 msgid "Ethiopia/Sidama (sid_ET)"
-msgstr ""
+msgstr "Etiopia/Sidamoera (sid_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:303
 msgid "Slovakia (sk_SK)"
@@ -5549,11 +5553,11 @@ msgstr "Jugoslavia (sr_RS)"
 
 #: ../goffice/gtk/go-locale-sel.c:313
 msgid "South Africa/Swati (ss_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Swaziera (ss_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:314
 msgid "South Africa/Sotho (st_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Sothoera (st_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:315
 msgid "Finland/Swedish (sv_FI)"
@@ -5565,11 +5569,11 @@ msgstr "Suedia (sv_SE)"
 
 #: ../goffice/gtk/go-locale-sel.c:317
 msgid "Kenya/Swahili (sw_KE)"
-msgstr ""
+msgstr "Kenya/Swahilia (sw_KE)"
 
 #: ../goffice/gtk/go-locale-sel.c:318
 msgid "Tanzania/Swahili (sw_TZ)"
-msgstr ""
+msgstr "Tanzania/Swahilia (sw_TZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:319
 msgid "India/Tamil (ta_IN)"
@@ -5589,7 +5593,7 @@ msgstr "Tailandia (th_TH)"
 
 #: ../goffice/gtk/go-locale-sel.c:323
 msgid "Eritrea/Tigrinya (ti_ER)"
-msgstr ""
+msgstr "Eritrea/Tigrinyera (ti_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:324
 msgid "Ethiopia/Tigrinya (ti_ET)"
@@ -5597,11 +5601,11 @@ msgstr "Etiopia/Tigrinyera (ti_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:325
 msgid "Eritrea/Tigre (tig_ER)"
-msgstr ""
+msgstr "Eritrea/Tigreera (tig_ER)"
 
 #: ../goffice/gtk/go-locale-sel.c:326
 msgid "Turkmenistan /Turkmen (tk_TM)"
-msgstr ""
+msgstr "Turkmenistan /Turkmenera (tk_TM)"
 
 #: ../goffice/gtk/go-locale-sel.c:327
 msgid "Philippines/Tagalog (tl_PH)"
@@ -5609,7 +5613,7 @@ msgstr "Filipinak/Tagaloa (tl_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:328
 msgid "South Africa/Tswana (tn_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Tswanera (tn_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:329
 msgid "Cyprus/Turkish (tr_CY)"
@@ -5621,7 +5625,7 @@ msgstr "Turkia (tr_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:331
 msgid "South Africa/Tsonga (ts_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Tsongera (ts_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:332
 msgid "Russia/Tatar (tt_RU)"
@@ -5629,7 +5633,7 @@ msgstr "Errusia/Tatariera (tt_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:333
 msgid "China/Uyghur (ug_CN)"
-msgstr ""
+msgstr "Txina/Uigurrera (ug_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:334
 msgid "Ukraine (uk_UA)"
@@ -5637,7 +5641,7 @@ msgstr "Ukraina (uk_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:335
 msgid "India/Urdu (ur_IN)"
-msgstr ""
+msgstr "India/Urdua (ur_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:336
 msgid "Pakistan (ur_PK)"
@@ -5649,7 +5653,7 @@ msgstr "Uzbekistan (uz_UZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:338
 msgid "South Africa/Venda (ve_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Vendera (ve_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:339
 msgid "Vietnam (vi_VN)"
@@ -5661,19 +5665,19 @@ msgstr "Belgika/Waloiera (wa_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:341
 msgid "Switzerland/Walser (wae_CH)"
-msgstr ""
+msgstr "Suitza/Valaisera (wae_CH)"
 
 #: ../goffice/gtk/go-locale-sel.c:342
 msgid "Ethiopia/Wollayta (wal_ET)"
-msgstr ""
+msgstr "Etiopia/Wollaita (wal_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:343
 msgid "Senegal/Wolof (wo_SN)"
-msgstr ""
+msgstr "Senegal/Wolofera (wo_SN)"
 
 #: ../goffice/gtk/go-locale-sel.c:344
 msgid "South Africa/Xhosa (xh_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Xhosera (xh_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:345
 msgid "United States/Yiddish (yi_US)"
@@ -5681,11 +5685,11 @@ msgstr "Estatu Batuak/Yiddish (yi_US)"
 
 #: ../goffice/gtk/go-locale-sel.c:346
 msgid "Nigeria/Yoruba (yo_NG)"
-msgstr ""
+msgstr "Nigeria/Jorubera (yo_NG)"
 
 #: ../goffice/gtk/go-locale-sel.c:347
 msgid "Hong Kong/Cantonese (Yue) (yue_HK)"
-msgstr ""
+msgstr "Hong Kong/Kantonera (Yue) (yue_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:348
 msgid "China (zh_CN)"
@@ -5705,7 +5709,7 @@ msgstr "Taiwan (zh_TW)"
 
 #: ../goffice/gtk/go-locale-sel.c:352
 msgid "South Africa/Zulu (zu_ZA)"
-msgstr ""
+msgstr "Hegoafrika/Zuluera (zu_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:571
 msgid "Current Locale: "
@@ -6226,7 +6230,7 @@ msgstr "Modavia, Leia"
 
 #: ../goffice/utils/formats.c:477
 msgid "Madagascar, Malagasy Ariary"
-msgstr ""
+msgstr "Madagaskar, Ariarya"
 
 #: ../goffice/utils/formats.c:478
 msgid "Macedonia, Denars"
@@ -6254,7 +6258,7 @@ msgstr "Maurizio, Errupia"
 
 #: ../goffice/utils/formats.c:484
 msgid "Maldives (Maldive Islands), Rufiyaas"
-msgstr ""
+msgstr "Maldivak, Errupia"
 
 #: ../goffice/utils/formats.c:485
 msgid "Malawi, Kwachas"
@@ -6382,7 +6386,7 @@ msgstr "Santa Helena, Ascension eta Tristan da Cunha, Libera"
 
 #: ../goffice/utils/formats.c:516
 msgid "Sierra leone, Leones"
-msgstr ""
+msgstr "Sierra Leona, Leonea"
 
 #: ../goffice/utils/formats.c:517
 msgid "Somalia, Shillings"
@@ -6506,7 +6510,7 @@ msgstr "Urrea, Ontza"
 
 #: ../goffice/utils/formats.c:547
 msgid "Bond Markets Units, European Composite Units (EURCO)"
-msgstr ""
+msgstr "Europear Unitate Konposatua (EURCO)"
 
 #: ../goffice/utils/formats.c:548
 msgid "European Monetary Units (E.M.U.-6)"
@@ -7264,7 +7268,7 @@ msgstr "Math ekuazioen euskarria"
 
 #: ../plugins/lasem/plugin.xml.in.h:3
 msgid "Math equation component engine"
-msgstr ""
+msgstr "Math ekuazioen osagai-motorra"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:356
 msgid "How to group multiple series, normal, stacked, as_percentage"
@@ -7277,7 +7281,7 @@ msgstr "3Dn"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:362
 msgid "Placeholder to allow us to round trip pseudo 3D state"
-msgstr ""
+msgstr "3D sasiegoera biribiltzea ahalbidetzen duen leku-marka"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:370
 #: ../plugins/plot_barcol/gog-dropbar.c:141
@@ -7314,7 +7318,7 @@ msgstr "GogErrorBar *"
 #: ../plugins/plot_xy/gog-xy-dropbar-prefs.ui.h:3
 #: ../plugins/plot_xy/gog-xy-prefs.ui.h:1
 msgid "_Display the grids above the plot"
-msgstr ""
+msgstr "_Bistaratu saretak trazuaren gainean"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
@@ -7359,7 +7363,7 @@ msgstr "barra horizontalak edo zutabe bertikalak"
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:522
 #: ../plugins/plot_xy/gog-xy.c:398 ../plugins/plot_xy/gog-xy-dropbar.c:296
 msgid "Displayed under the grids"
-msgstr ""
+msgstr "Sareten azpian bistaratua"
 
 #: ../plugins/plot_barcol/gog-barcol.c:279
 #: ../plugins/plot_barcol/gog-dropbar.c:131
@@ -7369,7 +7373,7 @@ msgstr ""
 #: ../plugins/plot_radar/gog-radar.c:448 ../plugins/plot_radar/gog-radar.c:523
 #: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:297
 msgid "Should the plot be displayed before the grids"
-msgstr ""
+msgstr "Trazua sareten aurretik bistaratuko den ala ez"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:1
 #: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:1
@@ -7390,23 +7394,23 @@ msgstr "PlotDropBar"
 
 #: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2204
 msgid "Clamp at start"
-msgstr "Finkatu hasieran"
+msgstr "Bridatu hasieran"
 
 #: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2205
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
-msgstr "Malda kurba interpolatuaren hasieran spline interpolazio finkatua erabiltzean"
+msgstr "Malda kurba interpolatuaren hasieran spline interpolazio bridatua erabiltzean"
 
 #: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2210
 msgid "Clamp at end"
-msgstr "Finkatu amaieran"
+msgstr "Bridatu amaieran"
 
 #: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2211
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
-msgstr "Malda kurba interpolatuaren amaieran spline interpolazio finkatua erabiltzean"
+msgstr "Malda kurba interpolatuaren amaieran spline interpolazio bridatua erabiltzean"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -7487,7 +7491,7 @@ msgstr "Markatu gabeko marrak"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:8
 msgid "Unmarked line plot."
-msgstr "Markatu gabeko marra-diagrama."
+msgstr "Markatu gabeko marra-trazua."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Unmarked Stacked Lines"
@@ -7495,7 +7499,7 @@ msgstr "Markatu gabeko marra pilatuak"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:10
 msgid "Unmarked stacked line plot."
-msgstr "Markatu gabeko marra-diagrama pilatua."
+msgstr "Markatu gabeko marra-trazu pilatua."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Unmarked Percentage Lines"
@@ -7503,11 +7507,11 @@ msgstr "Markatu gabeko ehunekoen marrak"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Unmarked percentage line plot."
-msgstr "Markatu gabeko ehunekoen marra-diagrama."
+msgstr "Markatu gabeko ehunekoen marra-trazua."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Line plot with markers."
-msgstr "Marra-diagrama markatzaileekin."
+msgstr "Marra-trazua markatzaileekin."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:15
 msgid "Stacked Lines"
@@ -7515,7 +7519,7 @@ msgstr "Pilatutako marrak"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Stacked line plot with markers."
-msgstr "Pilatutako marra-diagrama markatzaileekin."
+msgstr "Pilatutako marra-trazua markatzaileekin."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:17
 msgid "Percentage Lines"
@@ -7523,7 +7527,7 @@ msgstr "Ehunekoen marrak"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:18
 msgid "Percentage line plot with markers."
-msgstr "Ehunekoen marra-diagrama markatzaileekin."
+msgstr "Ehunekoen marra-trazua markatzaileekin."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:19
 msgid "Areas"
@@ -7531,7 +7535,7 @@ msgstr "Areak"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:20
 msgid "Area plot."
-msgstr "Area-diagrama."
+msgstr "Area-trazua."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:21
 msgid "Stacked Areas"
@@ -7539,7 +7543,7 @@ msgstr "Pilatutako areak"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:22
 msgid "Stacked area plot."
-msgstr "Pilatutako area-diagrama."
+msgstr "Pilatutako area-trazua."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:23
 msgid "Percentage Areas"
@@ -7547,7 +7551,7 @@ msgstr "Ehunekoen areak"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:24
 msgid "Percentage area plot."
-msgstr "Ehunekoen area-diagrama."
+msgstr "Ehunekoen area-trazua."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:25
 msgid "Adjacent Bars"
@@ -7721,31 +7725,31 @@ msgstr "Diagramak : Barrak/Zutabeak/Marrak/Area"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Line, Area, Bar and Column plots"
-msgstr "Marra-, area-, barra- eta zutabe-diagramak"
+msgstr "Marra-, area-, barra- eta zutabe-trazuak"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Line plotting engine"
-msgstr "Marrak marrazteko motorra"
+msgstr "Marrak trazatzeko motorra"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Area plotting engine"
-msgstr "Areak marrazteko motorra"
+msgstr "Areak trazatzeko motorra"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Bar/Col plotting engine"
-msgstr "Barrak/Zutabeak marrazteko motorra"
+msgstr "Barrak/Zutabeak trazatzeko motorra"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Drop Bar/Col plotting engine"
-msgstr "Lotura-barrak/Zutabeak marrazteko motorra"
+msgstr "Lotura-barrak/Zutabeak trazatzeko motorra"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:7
 msgid "Min Max plotting engine"
-msgstr "Min max marrazteko motorra"
+msgstr "Min max trazatzeko motorra"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:8
 msgid "Default 1.5d plot types"
-msgstr "1.5d diagrama mota lehenetsiak"
+msgstr "1.5d trazu mota lehenetsiak"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:61
 #: ../plugins/plot_distrib/go-distribution-prefs.c:139
@@ -7761,11 +7765,11 @@ msgstr "Banaketa:"
 #. * 	BoxPlot2
 #: ../plugins/plot_distrib/gog-boxplot.c:208
 msgid "Box-Plot"
-msgstr "Kaxa-diagrama"
+msgstr "Kaxa-trazua"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
-msgstr "Kaxa-diagramak bertikala izan behar duen horizontala izan beharrean"
+msgstr "Kaxa-trazuak bertikala izan behar duen horizontala izan beharrean"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:401
 msgid "Outliers"
@@ -7834,13 +7838,13 @@ msgstr "Mugak"
 msgid ""
 "Label for the first Y category. If not set or empty, \"First values\" will "
 "be used."
-msgstr "Lehen Y kategoriaren etiketa. Ezarri gabe edo hutsik badago, \"Lehen balioak\" erabiliko dira."
+msgstr "Lehen Y kategoriaren etiketa. Ezartzen ez bada edo hutsik badago, 'Lehen balioak' erabiliko da."
 
 #: ../plugins/plot_distrib/gog-histogram.c:452
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
-msgstr "Bigarren Y kategoriaren etiketa. Ezarri gabe edo hutsik badago, \"Bigarren balioak\" erabiliko dira."
+msgstr "Bigarren Y kategoriaren etiketa. Ezarri gabe edo hutsik badago, 'Bigarren balioak' erabiliko da."
 
 #: ../plugins/plot_distrib/gog-histogram.c:458
 msgid "Categories labels"
@@ -7894,11 +7898,11 @@ msgstr "Banaketa"
 #: ../plugins/plot_distrib/gog-probability-plot.c:158
 #: ../plugins/plot_distrib/plot-types.xml.in.h:27
 msgid "ProbabilityPlot"
-msgstr "Probabilitate-diagrama"
+msgstr "ProbabilityPlot"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:289
 msgid "A pointer to the GODistribution used by this plot"
-msgstr "Diagrama honek erabiltzen duen GODistribution-erako erakuslea"
+msgstr "Trazu honek erabiltzen duen GODistribution-erako erakuslea"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:294
 msgid "Shape parameter"
@@ -7938,7 +7942,7 @@ msgstr "HBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:3
 msgid "Horizontal Box-Plot."
-msgstr "Kaxa eta beso diagrama horizontala"
+msgstr "Kaxa-trazu horizontala"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:4
 msgid "VBoxPlots"
@@ -7946,7 +7950,7 @@ msgstr "VBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:5
 msgid "Vertical Box-Plot."
-msgstr "Kaxa eta beso diagrama bertikala."
+msgstr "Kaxa-trazu bertikala."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
 msgid "HBoxPlotOutliers"
@@ -7954,7 +7958,7 @@ msgstr "HBoxPlotOutliers"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:7
 msgid "Horizontal Box-Plot showing outliers."
-msgstr "Balio atipikoak erakusten dituen kaxa eta beso diagrama horizontala."
+msgstr "Balio atipikoak erakusten dituen kaxa-trazu horizontala."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:8
 msgid "VBoxPlotOutliers"
@@ -7962,7 +7966,7 @@ msgstr "VBoxPlotOutliers"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:9
 msgid "Vertical Box-Plot showing outliers."
-msgstr "Balio atipikoak erakusten dituen kaxa eta beso diagrama bertikala."
+msgstr "Balio atipikoak erakusten dituen kaxa-trazu bertikala."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:11
 msgid "Histogram."
@@ -7991,31 +7995,31 @@ msgstr "Histograma metakorra."
 #. </Type>
 #: ../plugins/plot_distrib/plot-types.xml.in.h:41
 msgid "Probability plot."
-msgstr "Probabilitate-diagrama."
+msgstr "Probabilitate-trazua."
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:1
 msgid "Charting : distribution related plots"
-msgstr "Diagramak : banaketari loturiko diagramak"
+msgstr "Diagramak : banaketari loturiko trazuak"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:2
 msgid "box-plots, histograms, and other distribution related plots"
-msgstr "kaxa eta beso diagramak, histogramak eta banaketari loturiko bestelako diagramak"
+msgstr "kaxa-trazuak, histogramak eta banaketari loturiko bestelako trazuak"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:3
 msgid "Box-plot plotting engine"
-msgstr "Kaxa eta beso diagramak marrazteko motorra"
+msgstr "Kaxa-trazuak trazatzeko motorra"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:4
 msgid "Histograms plotting engine"
-msgstr "Histogramak marrazteko motorra"
+msgstr "Histogramak trazatzeko motorra"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:5
 msgid "Probability plots engine"
-msgstr "Probabilitate-diagramen motorra"
+msgstr "Probabilitate-trazuen motorra"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:6
 msgid "Statistics plot types"
-msgstr "Estatistika-diagrama motak"
+msgstr "Estatistikako trazu motak"
 
 #: ../plugins/plot_pie/gog-pie.c:112 ../plugins/plot_pie/gog-pie.c:1304
 msgid "Separation"
@@ -8027,7 +8031,7 @@ msgstr "Zati bat zenbateraino hedatzen den erradioaren ehuneko gisa"
 
 #: ../plugins/plot_pie/gog-pie.c:265
 msgid "PlotPie"
-msgstr "DiagramaZirkularra"
+msgstr "PlotPie"
 
 #: ../plugins/plot_pie/gog-pie.c:311
 msgid "Initial angle"
@@ -8063,7 +8067,7 @@ msgstr "Balio negatiboak nola bistaratzen diren"
 
 #: ../plugins/plot_pie/gog-pie.c:428
 msgid "PlotRing"
-msgstr "Eraztun-diagrama"
+msgstr "PlotRing"
 
 #: ../plugins/plot_pie/gog-pie.c:465
 msgid "Center-size"
@@ -8198,15 +8202,15 @@ msgstr "Diagramak : Zirkularra/Eraztuna"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:2
 msgid "Pie and Ring plots"
-msgstr "Diagrama zirkularra eta eraztun-diagrama"
+msgstr "Trazu zirkularra eta eraztun-trazua"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:3
 msgid "Ring plotting engine"
-msgstr "Eraztun-diagramak marrazteko motorra"
+msgstr "Eraztun-trazuak trazatzeko motorra"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
-msgstr "Diagrama zirkularrak marrazteko motorra"
+msgstr "Trazu zirkularrak trazatzeko motorra"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:5
 msgid "Default pie types"
@@ -8231,7 +8235,7 @@ msgstr "Serie baten estilo lehenetsiak betegarria eduki behar duen edo ez"
 #. * 	PlotRT2
 #: ../plugins/plot_radar/gog-radar.c:275
 msgid "PlotRadar"
-msgstr "Radar-diagrama"
+msgstr "PlotRadar"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -8246,7 +8250,7 @@ msgstr "PlotRadarArea"
 #. * 	PlotPolar2
 #: ../plugins/plot_radar/gog-radar.c:479
 msgid "PlotPolar"
-msgstr "Diagrama polarra"
+msgstr "PlotPolar"
 
 #: ../plugins/plot_radar/gog-radar.c:533 ../plugins/plot_radar/gog-radar.c:735
 msgid "Angle"
@@ -8302,7 +8306,7 @@ msgstr "Polarra"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:3
 msgid "Radar plot."
-msgstr "Diagrama erradiala."
+msgstr "Trazu erradiala."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Dotted Radar"
@@ -8310,7 +8314,7 @@ msgstr "Erradial puntukatua"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Radar plot with dots."
-msgstr "Diagrama erradial puntuduna."
+msgstr "Trazu erradial puntuduna."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:6
 msgid "Area Radar"
@@ -8318,11 +8322,11 @@ msgstr "Area erradiala"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:7
 msgid "Area radar plot."
-msgstr "Area-diagrama erradiala."
+msgstr "Area-trazu erradiala."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:8
 msgid "Polar plot."
-msgstr "Diagrama polarra."
+msgstr "Trazu polarra."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:9
 msgid "Colored Polar"
@@ -8330,7 +8334,7 @@ msgstr "Polar koloreztatua"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:10
 msgid "Polar plot with colored marks."
-msgstr "Diagrama polarra marka koloredunekin."
+msgstr "Trazu polarra marka koloredunekin."
 
 #: ../plugins/plot_radar/plugin.xml.in.h:1
 msgid "Charting : Polar/Radar"
@@ -8338,45 +8342,45 @@ msgstr "Diagramak : Polarra/Erradiala"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:2
 msgid "Polar and Radar plots"
-msgstr "Diagrama polar eta erradialak"
+msgstr "Trazu polar eta erradialak"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:3
 msgid "Radar plotting engine"
-msgstr "Erradialak marrazteko motorra"
+msgstr "Erradialak trazatzeko motorra"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:4
 msgid "Radar Area plotting engine"
-msgstr "Area-diagrama erradialak marrazteko motorra"
+msgstr "Area-trazu erradialak trazatzeko motorra"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:5
 msgid "Polar plotting engine"
-msgstr "Polarrak marrazteko motorra"
+msgstr "Polarrak trazatzeko motorra"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:6
 msgid "Polar plotting engine with colored marks"
-msgstr "Diagrama polarrak marrazteko motorra marka koloredunekin."
+msgstr "Diagrama polarrak trazatzeko motorra marka koloredunekin."
 
 #: ../plugins/plot_radar/plugin.xml.in.h:7
 msgid "Default radar plot types"
-msgstr "Diagrama erradial mota lehenetsiak"
+msgstr "Trazu erradialen mota lehenetsiak"
 
 #. xgettext : the base for how to name contour plot objects
 #.
 #: ../plugins/plot_surface/gog-contour.c:136
 msgid "PlotContour"
-msgstr "DiagramaIngerada"
+msgstr "PlotContour"
 
 #. xgettext : the base for how to name matrix objects
 #.
 #: ../plugins/plot_surface/gog-matrix.c:70
 msgid "PlotMatrix"
-msgstr "DiagramaMatrizea"
+msgstr "PlotMatrix"
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-surface.c:68
 msgid "PlotSurface"
-msgstr "DiagramaGainazala"
+msgstr "PlotSurface"
 
 #: ../plugins/plot_surface/gog-xyz.c:391
 msgid "Transposed"
@@ -8384,7 +8388,7 @@ msgstr "Trukatua"
 
 #: ../plugins/plot_surface/gog-xyz.c:392
 msgid "Transpose the plot"
-msgstr "Trukatu diagrama"
+msgstr "Trukatu trazua"
 
 #: ../plugins/plot_surface/gog-xyz.c:404
 #: ../plugins/plot_surface/gog-xyz-surface.c:754
@@ -8463,7 +8467,7 @@ msgstr "Zutabeen mugak ebaluatuko diren ala ez"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:748
 msgid "Missing as"
-msgstr ""
+msgstr "Honela falta da:"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:749
 msgid "How to deal with missing data"
@@ -8538,7 +8542,7 @@ msgstr "Matrizea"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:4
 msgid "Contour plot."
-msgstr "Ingerada-diagrama."
+msgstr "Ingerada-trazua."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:5
 msgid "XYZContour"
@@ -8554,11 +8558,11 @@ msgstr "XYContour"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:8
 msgid "Builds a contour from the number of (X,Y) values around each vertex"
-msgstr ""
+msgstr "Ingerada bat eraikitzen du erpin bakoitzaren inguruko (X, Y) balio kopurutik"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:9
 msgid "Surface plot."
-msgstr "Gainazal-diagrama."
+msgstr "Gainazal-trazua."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:10
 msgid "XYZSurface"
@@ -8574,27 +8578,27 @@ msgstr "XYSurface"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:13
 msgid "Builds a surface from the number of (X,Y) values around each vertex"
-msgstr ""
+msgstr "Gainazal bat eraikitzen du erpin bakoitzaren inguruko (X, Y) balio kopurutik"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:14
 msgid "Matrix plot. Displays as colors the values given as a matrix."
-msgstr ""
+msgstr "Matrize-trazua. Matrize gisa emandako balioak kolore gisa bistaratzen ditu."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:15
 msgid "XYZMatrix"
-msgstr ""
+msgstr "XYZMatrix"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:16
 msgid "Displays as colors the mean Z values of the (X,Y,Z) data in each cell."
-msgstr ""
+msgstr "Gelaxka bakoitzeko (X, Y, Z) datuen batez besteko Z balioak kolore gisa bistaratzen ditu."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:17
 msgid "XYMatrix"
-msgstr ""
+msgstr "XYMatrix"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:18
 msgid "Displays as colors the number of (X,Y) values in each cell."
-msgstr ""
+msgstr "Gelaxka bakoitzeko (X, Y) balioen kopurua kolore gisa bistaratzen ditu."
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
 msgid "Charting : Surfaces"
@@ -8602,47 +8606,47 @@ msgstr "Diagramak : Gainazalak"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:2
 msgid "Surface charts"
-msgstr "Gainazal-diagramak"
+msgstr "Gainazal-trazuak"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:3
 msgid "Contour plotting engine"
-msgstr "Ingeradak marrazteko motorra"
+msgstr "Ingeradak trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "XYZ contour plotting engine"
-msgstr "XYZ ingerada marrazteko motorra"
+msgstr "XYZ ingerada trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
 msgid "XY contour plotting engine"
-msgstr ""
+msgstr "XY ingerada trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:6
 msgid "Surface plotting engine"
-msgstr "Gainazalak marrazteko motorra"
+msgstr "Gainazalak trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:7
 msgid "XYZ surface plotting engine"
-msgstr "XYZ gainazala marrazteko motorra"
+msgstr "XYZ gainazala trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:8
 msgid "XY surface plotting engine"
-msgstr ""
+msgstr "XY gainazala trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:9
 msgid "Matrix plotting engine"
-msgstr ""
+msgstr "Matrizea trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:10
 msgid "XY matrix plotting engine"
-msgstr ""
+msgstr "XY matrizea trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:11
 msgid "XYZ matrix plotting engine"
-msgstr ""
+msgstr "XYZ matrizea trazatzeko motorra"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:12
 msgid "Default surface plot types"
-msgstr "Gainazal-diagrama mota lehenetsiak"
+msgstr "Gainazal-trazuen mota lehenetsiak"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:1
 msgid "_Size represented by:"
@@ -8706,11 +8710,11 @@ msgstr "Erabili spline-ak"
 
 #: ../plugins/plot_xy/gog-xy.c:393
 msgid "Should the plot use splines instead of linear interpolation"
-msgstr "Diagramak spline-ak erabili behar dituen interpolazio linealaren ordez"
+msgstr "Trazuak spline-ak erabili behar dituen interpolazio linealaren ordez"
 
 #: ../plugins/plot_xy/gog-xy.c:453
 msgid "PlotBubble"
-msgstr "Burbuila-diagrama"
+msgstr "PlotBubble"
 
 #: ../plugins/plot_xy/gog-xy.c:553
 msgid "Size as area"
@@ -8788,7 +8792,7 @@ msgstr "Barra horizontalak erabiliko diren ala ez"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:309
 msgid "Bars width as a percentage of the plot width"
-msgstr ""
+msgstr "Barren zabalera trazuaren zabaleraren ehuneko gisa"
 
 #: ../plugins/plot_xy/gog-xy-dropbar.c:320
 #: ../plugins/plot_xy/gog-xy-minmax.c:316
@@ -8911,7 +8915,7 @@ msgstr "Lotura-barra bertikal sakabanatuak"
 #. than the initial position; they may be used in stock plots.
 #: ../plugins/plot_xy/plot-types.xml.in.h:33
 msgid "Vertical drop bars with continuous X-axis."
-msgstr ""
+msgstr "Lotura-barra bertikalak X ardatz jarraituarekin."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:34
 msgid "Scattered Horizontal Drop Bars"
@@ -8919,39 +8923,39 @@ msgstr "Lotura-barra horizontal sakabanatuak"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:35
 msgid "Horizontal drop bars with continuous Y-axis."
-msgstr ""
+msgstr "Lotura-barra horizontalak Y ardatz jarraituarekin."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:36
 msgid "Scattered Vertical Min Max Lines"
-msgstr ""
+msgstr "Sakabanatutako marra minimo maximo bertikalak"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:37
 msgid "Vertical Min Max lines with continuous X-axis."
-msgstr ""
+msgstr "Marra minimo maximo bertikalak X ardatz jarraituarekin."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:38
 msgid "Scattered Horizontal Min Max Lines"
-msgstr ""
+msgstr "Sakabanatutako marra minimo maximo horizontalak"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:39
 msgid "Horizontal Min Max lines with continuous Y-axis."
-msgstr ""
+msgstr "Marra minimo maximo horizontalak Y ardatz jarraituarekin."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:40
 msgid "Scattered Marked Vertical Min Max Lines"
-msgstr ""
+msgstr "Sakabanatutako marra minimo maximo bertikal markatuak"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:41
 msgid "Vertical Min Max lines with markers and a continuous X-axis."
-msgstr ""
+msgstr "Marra minimo maximo bertikalak markatzaileekin eta X ardatz jarraituarekin."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:42
 msgid "Scattered Marked Horizontal Min Max Lines"
-msgstr ""
+msgstr "Sakabanatutako marra minimo maximo horizontal markatuak"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:43
 msgid "Horizontal Min Max lines with markers and a continuous Y-axis."
-msgstr ""
+msgstr "Marra minimo maximo horizontalak markatzaileekin eta Y ardatz jarraituarekin."
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
 msgid "Charting : XY/Scatter/Bubble"
@@ -8959,31 +8963,31 @@ msgstr "Diagramak : XY/Barreiadura/Burbuila"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
-msgstr "2D diagramak"
+msgstr "2D trazuak"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:3
 msgid "2D scatter plotting engine"
-msgstr "2D barreiadura-diagramak marrazteko motorra"
+msgstr "2D barreiadura-trazuak trazatzeko motorra"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:4
 msgid "Bubble plotting engine"
-msgstr "Burbuilak marrazteko motorra"
+msgstr "Burbuilak trazatzeko motorra"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:5
 msgid "2D colored scatter plotting engine"
-msgstr "2D koloretako barreiadura-diagramak marrazteko motorra"
+msgstr "2D koloretako barreiadura-trazuak trazatzeko motorra"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
 msgid "Stock Scatter plot types"
-msgstr "Kotizazioen barreiadura-diagrama motak"
+msgstr "Kotizazioen barreiadura-trazuen motak"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:7
 msgid "Scattered dropbar plotting engine"
-msgstr ""
+msgstr "Sakabanatutako lotura-barra trazatzeko motorra"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:8
 msgid "Scattered Min Max plotting engine"
-msgstr ""
+msgstr "Sakabanatutako minimo maximoak trazatzeko motorra"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -9158,7 +9162,8 @@ msgid ""
 "Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
 "If no value or a negative (or null) value is provided, the default will be "
 "used"
-msgstr ""
+msgstr "Tarte lehenetsia 10 * (xmax - xmin)/(nvalues - 1) da\n"
+"Baliorik ez badago edo balio negatiboa (edo nulua) ematen bada, balio lehenetsia erabiliko da"
 
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
