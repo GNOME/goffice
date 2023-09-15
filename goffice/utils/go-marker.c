@@ -296,12 +296,13 @@ go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, doubl
 	    (fill_path_raw == NULL))
 		return;
 
+	cairo_save (cr);
+
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_SQUARE);
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
 
 	half_size = 0.5 *  scale * go_marker_get_size (marker);
 
-	cairo_save (cr);
 	cairo_translate (cr, x, y);
 	cairo_scale (cr, half_size, half_size);
 
@@ -314,6 +315,7 @@ go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, doubl
 	cairo_set_dash (cr, NULL, 0, 0.);
 	go_cairo_emit_svg_path (cr, outline_path_raw);
 	cairo_stroke (cr);
+
 	cairo_restore (cr);
 }
 
