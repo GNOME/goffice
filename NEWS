@@ -4,6 +4,9 @@ B.S.:
 	* Make go_fake_floorl and go_fake_ceil consistent with their
 	non-l versions.  [#65]
 
+Emmanuel Pacaud:
+	* Fix svg export problem.  [Gnumeric #726]
+
 Morten:
 	* Fix histogram crash.  [#66]
 
