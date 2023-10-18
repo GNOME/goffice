@@ -57,7 +57,7 @@ enum {
 
 static void
 goc_arc_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+		      GValue const *value, GParamSpec *pspec)
 {
 	GocArc *arc = GOC_ARC (gobject);
 
@@ -110,7 +110,7 @@ goc_arc_set_property (GObject *gobject, guint param_id,
 
 static void
 goc_arc_get_property (GObject *gobject, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+		      GValue *value, GParamSpec *pspec)
 {
 	GocArc *arc = GOC_ARC (gobject);
 
