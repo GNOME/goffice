@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n-lib.h>
 #include <math.h>
 
 typedef struct {
@@ -46,6 +47,12 @@ typedef struct {
  **/
 
 static GObjectClass *parent_klass;
+
+enum {
+	GOC_PROP_0 = 0,
+	GOC_PROP_WIDTH,
+	GOC_PROP_HEIGHT
+};
 
 #ifdef GOFFICE_WITH_GTK
 
@@ -271,8 +278,14 @@ leave_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 static void
 size_changed_cb (GocCanvas *canvas, GtkAllocation *alloc, G_GNUC_UNUSED gpointer data)
 {
-	canvas->width = alloc->width;
-	canvas->height = alloc->height;
+	if (alloc->width != canvas->width) {
+		canvas->width = alloc->width;
+		g_object_notify (G_OBJECT (canvas), "width");
+	}
+	if (alloc->height != canvas->height) {
+		canvas->height = alloc->height;
+		g_object_notify (G_OBJECT (canvas), "height");
+	}
 }
 
 static void
@@ -316,6 +329,26 @@ goc_canvas_dispose (GObject *obj)
 }
 
 static void
+goc_canvas_get_property (GObject *obj, guint param_id,
+			 GValue *value, GParamSpec *pspec)
+{
+	GocCanvas *canvas = GOC_CANVAS (obj);
+
+	switch (param_id) {
+	case GOC_PROP_WIDTH:
+		g_value_set_int (value, canvas->width);
+		break;
+
+	case GOC_PROP_HEIGHT:
+		g_value_set_int (value, canvas->height);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+}
+
+static void
 goc_canvas_class_init (GObjectClass *klass)
 {
 #ifdef GOFFICE_WITH_GTK
@@ -325,6 +358,20 @@ goc_canvas_class_init (GObjectClass *klass)
 	parent_klass = g_type_class_peek_parent (klass);
 	klass->finalize = goc_canvas_finalize;
 	klass->dispose = goc_canvas_dispose;
+	klass->get_property = goc_canvas_get_property;
+
+	g_object_class_install_property
+		(klass, GOC_PROP_WIDTH,
+		 g_param_spec_int ("width", _("Width"),
+				   _("The width of the canvas"),
+				   G_MININT, G_MAXINT, 0,
+				   GSF_PARAM_STATIC | G_PARAM_READABLE));
+	g_object_class_install_property
+		(klass, GOC_PROP_HEIGHT,
+		 g_param_spec_int ("height", _("Height"),
+				   _("The height of the canvas"),
+				   G_MININT, G_MAXINT, 0,
+				   GSF_PARAM_STATIC | G_PARAM_READABLE));
 
 #ifdef GOFFICE_WITH_GTK
 #ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
