@@ -9,6 +9,7 @@ Emmanuel Pacaud:
 
 Morten:
 	* Fix histogram crash.  [#66]
+	* Fix canvas widget problem.  [#68]
 
 --------------------------------------------------------------------------
 goffice 0.10.55:

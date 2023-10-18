@@ -507,27 +507,27 @@ static void
 goc_widget_connect_signals (GtkWidget *widget, GocWidget *item,
 			    gboolean do_connect)
 {
-		if (GTK_IS_CONTAINER (widget)) {
-			GList *children = gtk_container_get_children (GTK_CONTAINER (widget));
-			GList *ptr;
-			for (ptr = children; ptr; ptr = ptr->next) {
-				GtkWidget *child = ptr->data;
-				goc_widget_connect_signals (child, item, do_connect);
-			}
-			g_list_free (children);
+	if (GTK_IS_CONTAINER (widget)) {
+		GList *children = gtk_container_get_children (GTK_CONTAINER (widget));
+		GList *ptr;
+		for (ptr = children; ptr; ptr = ptr->next) {
+			GtkWidget *child = ptr->data;
+			goc_widget_connect_signals (child, item, do_connect);
 		}
+		g_list_free (children);
+	}
 
-		if (do_connect) {
-			g_signal_connect (widget, "enter-notify-event",
-					  G_CALLBACK (enter_notify_cb), item);
-			g_signal_connect (widget, "button-press-event",
-					  G_CALLBACK (button_press_cb), item);
-		} else {
-			g_signal_handlers_disconnect_by_func
-				(widget, G_CALLBACK (enter_notify_cb), item);
-			g_signal_handlers_disconnect_by_func
-				(widget, G_CALLBACK (button_press_cb), item);
-		}
+	if (do_connect) {
+		g_signal_connect (widget, "enter-notify-event",
+				  G_CALLBACK (enter_notify_cb), item);
+		g_signal_connect (widget, "button-press-event",
+				  G_CALLBACK (button_press_cb), item);
+	} else {
+		g_signal_handlers_disconnect_by_func
+			(widget, G_CALLBACK (enter_notify_cb), item);
+		g_signal_handlers_disconnect_by_func
+			(widget, G_CALLBACK (button_press_cb), item);
+	}
 }
 
 // Get rid of the off-screen box, but keep the reference to the widget, if
@@ -628,6 +628,12 @@ goc_widget_notify_scrolled (GocItem *item)
 }
 
 static void
+goc_widget_realize (GocItem *item)
+{
+	goc_widget_notify_scrolled (item);
+}
+
+static void
 cb_canvas_changed (GocWidget *item, G_GNUC_UNUSED GParamSpec *pspec,
 		   G_GNUC_UNUSED gpointer user)
 {
@@ -699,7 +705,6 @@ goc_widget_set_property (GObject *obj, guint param_id,
 		goc_item_bounds_changed (GOC_ITEM (item));
 		goc_widget_notify_scrolled (GOC_ITEM (item));
 	}
-
 }
 
 static void
@@ -763,6 +768,7 @@ goc_widget_draw (GocItem const *item, cairo_t *cr)
 	GocWidget *widget = GOC_WIDGET (item);
 	GocOffscreenBox *ofbox = GOC_OFFSCREEN_BOX (widget->ofbox);
 	int x, y;
+
 	if (!widget->ofbox)
 		return; /* the widget has no allocation */
 	gtk_container_child_get (GTK_CONTAINER (item->canvas), widget->ofbox,
@@ -846,6 +852,7 @@ goc_widget_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_widget_update_bounds;
 	item_klass->notify_scrolled = goc_widget_notify_scrolled;
 	item_klass->get_window = goc_widget_get_window;
+	item_klass->realize = goc_widget_realize;
 }
 
 GSF_CLASS (GocWidget, goc_widget,
