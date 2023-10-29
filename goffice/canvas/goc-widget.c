@@ -631,6 +631,7 @@ static void
 goc_widget_realize (GocItem *item)
 {
 	goc_widget_notify_scrolled (item);
+	widget_parent_class->realize (item);
 }
 
 static void
