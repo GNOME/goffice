@@ -831,24 +831,21 @@ cb_canvas_select_item (GocCanvas *canvas, GdkEvent *event,
 {
 	double item_x, item_y;
 
+	g_return_val_if_fail (GOC_IS_CANVAS (canvas), FALSE);
+
 	switch (event->type) {
-		case GDK_BUTTON_PRESS:
-		case GDK_2BUTTON_PRESS:
-		case GDK_MOTION_NOTIFY:
-		case GDK_BUTTON_RELEASE:
-
-			g_return_val_if_fail (GOC_IS_CANVAS (canvas), FALSE);
-
-			g_object_get (G_OBJECT(s->sample_graph_item), "x", &item_x, "y", &item_y, NULL);
-			gog_graph_view_handle_event (s->graph_view, (GdkEvent *) event,
-						     item_x * canvas->pixels_per_unit,
-						     item_y * canvas->pixels_per_unit);
-			return TRUE;
-			break;
-
-		default:
-			return FALSE;
-			break;
+	case GDK_BUTTON_PRESS:
+	case GDK_2BUTTON_PRESS:
+	case GDK_MOTION_NOTIFY:
+	case GDK_BUTTON_RELEASE:
+		g_object_get (G_OBJECT(s->sample_graph_item), "x", &item_x, "y", &item_y, NULL);
+		gog_graph_view_handle_event (s->graph_view, (GdkEvent *) event,
+					     item_x * canvas->pixels_per_unit,
+					     item_y * canvas->pixels_per_unit);
+		return TRUE;
+	default:
+		return FALSE;
+		break;
 	}
 }
 
