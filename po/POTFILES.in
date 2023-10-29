@@ -15,6 +15,7 @@ goffice/app/go-plugin-service.c
 goffice/app/go-service.c
 goffice/app/io-context.c
 goffice/canvas/goc-arc.c
+goffice/canvas/goc-canvas.c
 goffice/canvas/goc-circle.c
 goffice/canvas/goc-component.c
 goffice/canvas/goc-ellipse.c
