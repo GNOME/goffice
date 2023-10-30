@@ -228,13 +228,17 @@ static void
 goc_graph_update_bounds (GocItem *item)
 {
 	GocGraph *graph = GOC_GRAPH (item);
+	int scale = 1;
 	item->x0 = graph->x;
 	item->y0 = graph->y;
 	item->x1 = graph->x + graph->w;
 	item->y1 = graph->y + graph->h;
+#if GTK_CHECK_VERSION(3,10,0)
+	scale = gtk_widget_get_scale_factor (GTK_WIDGET (item->canvas));
+#endif
 	gog_renderer_update (graph->renderer,
-				      (int) (graph->w * item->canvas->pixels_per_unit),
-				      (int) (graph->h * item->canvas->pixels_per_unit));
+			     (int) (graph->w * item->canvas->pixels_per_unit * scale),
+			     (int) (graph->h * item->canvas->pixels_per_unit * scale));
 }
 
 #ifdef GOFFICE_WITH_GTK
