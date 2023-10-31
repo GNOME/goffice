@@ -1034,13 +1034,14 @@ static void
 gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	Gog2DPlot const *model = GOG_2D_PLOT (view->model);
-	unsigned num_series;
+	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GogChart *chart = GOG_CHART (view->model->parent);
+	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model);
+	double const scale = gog_renderer_get_scale (view->renderer);
+	unsigned num_series;
 	GogChartMap *chart_map;
 	GogAxisMap *x_map, *y_map, *z_map = NULL;
-	GogXYSeries const *series = NULL;
-	unsigned i ,j ,k ,n;
-	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
+	unsigned i, j, k, n;
 	GOStyle *neg_style = NULL;
 	GOStyle *style = NULL;
 	GogViewAllocation const *area;
@@ -1049,17 +1050,10 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double const *y_vals, *x_vals, *z_vals =  NULL;
 	double x = 0., y = 0., z = 0., x_canvas = 0., y_canvas = 0.;
 	double zmax, rmax = 0., x_left, y_bottom, x_right, y_top;
-	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
-	double xerrmin, xerrmax, yerrmin, yerrmax;
-	gboolean show_marks, show_lines, show_fill, show_negatives, size_as_area = TRUE;
-	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model), hide_outliers = TRUE;
+	gboolean size_as_area = TRUE, hide_outliers = TRUE;
 	GogObjectRole const *lbl_role = NULL;
 	GogAxisColorMap const *color_map = NULL;
 	double max = 0.;
-
-	MarkerData **markers;
-	unsigned *num_markers;
-
 	GogSeriesElement *gse;
 	GList const *overrides;
 
@@ -1102,11 +1096,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_clip_rectangle (view->renderer, view->allocation.x, view->allocation.y,
 					  view->allocation.w, view->allocation.h);
 
-	markers = g_alloca (num_series * sizeof (MarkerData *));
-	num_markers = g_alloca (num_series * sizeof (unsigned));
+	MarkerData **markers = g_alloca (num_series * sizeof (MarkerData *));
+	unsigned *num_markers = g_alloca (num_series * sizeof (unsigned));
 
 	for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
-		series = ptr->data;
+		GogXYSeries const *series = ptr->data;
 		markers[j] = NULL;
 
 		if (!gog_series_is_valid (GOG_SERIES (series)))
@@ -1121,9 +1115,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 
-		show_marks = go_style_is_marker_visible (style);
-		show_lines = go_style_is_line_visible (style);
-		show_fill = go_style_is_fill_visible (style);
+		gboolean show_marks = go_style_is_marker_visible (style);
+		gboolean show_lines = go_style_is_line_visible (style);
+		gboolean show_fill = go_style_is_fill_visible (style);
 
 		if (model->base.vary_style_by_element)
 			style = go_style_dup (style);
@@ -1279,8 +1273,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (GOG_IS_BUBBLE_PLOT (model)) {
 			double zmin;
+			gboolean show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
 			go_data_get_bounds (series->base.values[2].data, &zmin, &zmax);
-			show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
 			if ((! go_finite (zmax)) || (!show_negatives && (zmax <= 0))) continue;
 			rmax = MIN (view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO
 						* GOG_BUBBLE_PLOT (view->model)->bubble_scale;
@@ -1299,11 +1293,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (show_marks && !GOG_IS_BUBBLE_PLOT (model))
 			markers[j] = g_new0 (MarkerData, n);
 
-		margin = gog_renderer_line_size (view->renderer, 1);
-		x_margin_min = view->allocation.x - margin;
-		x_margin_max = view->allocation.x + view->allocation.w + margin;
-		y_margin_min = view->allocation.y - margin;
-		y_margin_max = view->allocation.y + view->allocation.h + margin;
+		double margin = gog_renderer_line_size (view->renderer, 1);
+		double x_margin_min = view->allocation.x - margin;
+		double x_margin_max = view->allocation.x + view->allocation.w + margin;
+		double y_margin_min = view->allocation.y - margin;
+		double y_margin_max = view->allocation.y + view->allocation.h + margin;
 
 		overrides = gog_series_get_overrides (GOG_SERIES (series));
 		k = 0;
@@ -1317,9 +1311,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 			if (isnan (y) || isnan (x))
 				continue;
-			/* We are checking with go_finite here because isinf
-			   if not available everywhere.  Note, that NANs
-			   have been ruled out.  */
 			if (!gog_axis_map_finite (y_map, y))
 				y = (series->invalid_as_zero)? 0: go_nan; /* excel is just sooooo consistent */
 			if (!gog_axis_map_finite (x_map, x))
@@ -1361,7 +1352,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 			/* draw error bars after line */
 			if (gog_error_bar_is_visible (series->x_errors)) {
-					GogErrorBar const *bar = series->x_errors;
+				GogErrorBar const *bar = series->x_errors;
+				double xerrmin, xerrmax;
 				 if (gog_error_bar_get_bounds (bar, i - 1, &xerrmin, &xerrmax)) {
 					 gog_error_bar_render (bar, view->renderer,
 								   chart_map,
@@ -1373,6 +1365,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 			if (gog_error_bar_is_visible (series->y_errors)) {
 				GogErrorBar const *bar = series->y_errors;
+				double yerrmin, yerrmax;
 				 if (gog_error_bar_get_bounds (bar, i - 1, &yerrmin, &yerrmax)) {
 					 gog_error_bar_render (bar, view->renderer,
 								   chart_map, x, y,
@@ -1417,10 +1410,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 	gog_renderer_pop_clip (view->renderer);
 
+	if (!GOG_IS_BUBBLE_PLOT (model)) {
+		int j;
 
-	if (!GOG_IS_BUBBLE_PLOT (model))
 		for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
-			series = ptr->data;
+			GogXYSeries const *series = ptr->data;
 			overrides = gog_series_get_overrides (GOG_SERIES (series));
 			if (markers[j] != NULL) {
 				style = GOG_STYLED_OBJECT (series)->style;
@@ -1481,19 +1475,20 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				}
 			}
 		}
+	}
 
 	/* render series labels */
 	// first clip again to avoid labels outside of allocation (#47)
 	gog_renderer_push_clip_rectangle (view->renderer, view->allocation.x, view->allocation.y,
 			  view->allocation.w, view->allocation.h);
 	for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
+		GogXYSeries const *series = ptr->data;
 		GSList *labels, *cur;
 		double const *cur_x, *cur_y, *cur_z;
 		GogViewAllocation alloc;
 		GOAnchorType anchor;
 		double msize;
 
-		series = ptr->data;
 		markers[j] = NULL;
 		z_vals = NULL;
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
@@ -1515,7 +1510,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (GOG_IS_BUBBLE_PLOT (model)) {
 			double zmin;
 			go_data_get_bounds (series->base.values[2].data, &zmin, &zmax);
-			show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
+			gboolean show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
 			if ((! go_finite (zmax)) || (!show_negatives && (zmax <= 0))) continue;
 			rmax = MIN (view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO
 						* GOG_BUBBLE_PLOT (view->model)->bubble_scale;
@@ -1557,9 +1552,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				}
 				if (isnan (y) || isnan (x))
 					continue;
-				/* We are checking with go_finite here because isinf
-				   if not available everywhere.  Note, that NANs
-				   have been ruled out.  */
 				if (!gog_axis_map_finite (y_map, y))
 					y = (series->invalid_as_zero)? 0: go_nan; /* excel is just sooooo consistent */
 				if (!gog_axis_map_finite (x_map, x))
@@ -1575,9 +1567,10 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					cur_position = position;
 				}
 				if (GOG_IS_BUBBLE_PLOT (model)) {
-					cur_offset += msize + ((size_as_area) ?
-							    sqrt (z / zmax) :
-							    z / zmax) * rmax;
+					cur_offset += msize +
+						(size_as_area
+						 ? sqrt (z / zmax)
+						 : z / zmax) * rmax;
 				} else if (overrides &&
 					   GOG_SERIES_ELEMENT (overrides->data)->index == i) {
 					GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (overrides->data));
@@ -1592,19 +1585,19 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					anchor = GO_ANCHOR_CENTER;
 					break;
 				case GOG_SERIES_LABELS_TOP:
-					alloc.y -= cur_offset * gog_renderer_get_scale (view->renderer);
+					alloc.y -= cur_offset * scale;
 					anchor = GO_ANCHOR_SOUTH;
 					break;
 				case GOG_SERIES_LABELS_BOTTOM:
-					alloc.y += cur_offset * gog_renderer_get_scale (view->renderer);
+					alloc.y += cur_offset * scale;
 					anchor = GO_ANCHOR_NORTH;
 					break;
 				case GOG_SERIES_LABELS_LEFT:
-					alloc.x -= cur_offset * gog_renderer_get_scale (view->renderer);;
+					alloc.x -= cur_offset * scale;
 					anchor = GO_ANCHOR_EAST;
 					break;
 				case GOG_SERIES_LABELS_RIGHT:
-					alloc.x += cur_offset * gog_renderer_get_scale (view->renderer);;
+					alloc.x += cur_offset * scale;
 					anchor = GO_ANCHOR_WEST;
 					break;
 				}
