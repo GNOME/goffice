@@ -1498,8 +1498,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		z_vals = NULL;
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 		if (style->interesting_fields & GO_STYLE_MARKER)
-			msize = (double) go_marker_get_size (style->marker.mark)
-				/ 2. * gog_renderer_get_scale (view->renderer);
+			msize = (double) go_marker_get_size (style->marker.mark) / 2.;
 		else
 			msize = style->line.width / .7;
 
@@ -1582,10 +1581,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				} else if (overrides &&
 					   GOG_SERIES_ELEMENT (overrides->data)->index == i) {
 					GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (overrides->data));
-					cur_offset += (style->interesting_fields & GO_STYLE_MARKER)?
-						      go_marker_get_size (style->marker.mark)
-						      / 2. * gog_renderer_get_scale (view->renderer):
-					              msize;
+					cur_offset += (style->interesting_fields & GO_STYLE_MARKER)
+						? go_marker_get_size (style->marker.mark) / 2.
+						: msize;
 				} else
 					cur_offset += msize;
 				switch (cur_position) {

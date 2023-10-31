@@ -11,6 +11,7 @@ Morten:
 	* Fix histogram crash.  [#66]
 	* Fix canvas widget problem.  [#68]
 	* Fix scaled-UI problem.  [#54]
+	* Fix double-scaling problem.  [#69]
 
 --------------------------------------------------------------------------
 goffice 0.10.55:
