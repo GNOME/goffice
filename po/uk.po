@@ -2,21 +2,21 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 #
 # Yuri Syrota <rasta@renome.rovno.ua>, 1999.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2022-05-02 11:41+0000\n"
-"PO-Revision-Date: 2022-06-02 21:00+0300\n"
+"POT-Creation-Date: 2023-10-29 10:42+0000\n"
+"PO-Revision-Date: 2023-10-31 21:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 20.12.0\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -103,7 +103,8 @@ msgstr ""
 
 #: ../goffice/app/file.c:918
 msgid "Saving over old files of this type is disabled for safety."
-msgstr "Збереження застарілих файлів цього типу вимкнено із міркувань безпеки."
+msgstr ""
+"Збереження застарілих файлів цього типу вимкнено із міркувань безпеки."
 
 #: ../goffice/app/file.c:928
 msgid ""
@@ -440,7 +441,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Функція очищення у додатку повернула помилку."
 
 #: ../goffice/app/go-plugin-service.c:229 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5521
+#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5525
 msgid "General"
 msgstr "Загальний"
 
@@ -604,12 +605,43 @@ msgstr "Кінець-стрілка"
 msgid "Arrow for line's end"
 msgstr "Стрілка для кінця лінії"
 
+#: ../goffice/canvas/goc-canvas.c:365 ../goffice/canvas/goc-component.c:309
+#: ../goffice/canvas/goc-component.c:310 ../goffice/canvas/goc-ellipse.c:291
+#: ../goffice/canvas/goc-graph.c:472 ../goffice/canvas/goc-graph.c:473
+#: ../goffice/canvas/goc-image.c:300 ../goffice/canvas/goc-pixbuf.c:247
+#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:839
+#: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-graph.c:499
+#: ../goffice/graph/gog-object.c:207 ../goffice/utils/go-image.c:510
+#: ../plugins/plot_xy/gog-xy-dropbar.c:308
+msgid "Width"
+msgstr "Ширина"
+
+#: ../goffice/canvas/goc-canvas.c:366
+#| msgid "The identifier of the saver."
+msgid "The width of the canvas"
+msgstr "Ширина полотна"
+
+#: ../goffice/canvas/goc-canvas.c:371 ../goffice/canvas/goc-component.c:303
+#: ../goffice/canvas/goc-component.c:304 ../goffice/canvas/goc-ellipse.c:297
+#: ../goffice/canvas/goc-graph.c:466 ../goffice/canvas/goc-graph.c:467
+#: ../goffice/canvas/goc-image.c:306 ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:845
+#: ../goffice/graph/gog-graph.c:505 ../goffice/graph/gog-object.c:209
+#: ../goffice/utils/go-image.c:514
+msgid "Height"
+msgstr "Висота"
+
+#: ../goffice/canvas/goc-canvas.c:372
+#| msgid "The description of the saver."
+msgid "The height of the canvas"
+msgstr "Висота полотна"
+
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
 #: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:454
 #: ../goffice/canvas/goc-group.c:294 ../goffice/canvas/goc-image.c:288
 #: ../goffice/canvas/goc-path.c:294 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:468
-#: ../goffice/canvas/goc-widget.c:820 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-widget.c:826 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -622,7 +654,7 @@ msgstr "Позиція центра кола за горизонталлю"
 #: ../goffice/canvas/goc-group.c:300 ../goffice/canvas/goc-image.c:294
 #: ../goffice/canvas/goc-path.c:300 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:474
-#: ../goffice/canvas/goc-widget.c:826
+#: ../goffice/canvas/goc-widget.c:832
 msgid "y"
 msgstr "y"
 
@@ -645,25 +677,6 @@ msgstr "Позиція об'єкта від лівого краю"
 #: ../goffice/canvas/goc-component.c:298
 msgid "The object top position"
 msgstr "Позиція об'єкта від верхнього краю"
-
-#: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:466
-#: ../goffice/canvas/goc-graph.c:467 ../goffice/canvas/goc-image.c:306
-#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:356
-#: ../goffice/canvas/goc-widget.c:839 ../goffice/graph/gog-graph.c:505
-#: ../goffice/graph/gog-object.c:209 ../goffice/utils/go-image.c:514
-msgid "Height"
-msgstr "Висота"
-
-#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:472
-#: ../goffice/canvas/goc-graph.c:473 ../goffice/canvas/goc-image.c:300
-#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:350
-#: ../goffice/canvas/goc-widget.c:833 ../goffice/graph/gog-color-scale.c:340
-#: ../goffice/graph/gog-graph.c:499 ../goffice/graph/gog-object.c:207
-#: ../goffice/utils/go-image.c:510 ../plugins/plot_xy/gog-xy-dropbar.c:308
-msgid "Width"
-msgstr "Ширина"
 
 #: ../goffice/canvas/goc-component.c:316
 msgid "The rotation around center"
@@ -1055,27 +1068,27 @@ msgstr "Ширина переносу"
 msgid "Wrap width for the text"
 msgstr "Ширина перенесення тексту"
 
-#: ../goffice/canvas/goc-widget.c:814
+#: ../goffice/canvas/goc-widget.c:820
 msgid "Widget"
 msgstr "Віджет"
 
-#: ../goffice/canvas/goc-widget.c:815
+#: ../goffice/canvas/goc-widget.c:821
 msgid "A pointer to the embedded widget"
 msgstr "Вказівник на вбудований віджет"
 
-#: ../goffice/canvas/goc-widget.c:821
+#: ../goffice/canvas/goc-widget.c:827
 msgid "The widget left position"
 msgstr "Позиція віджета від лівого краю"
 
-#: ../goffice/canvas/goc-widget.c:827
+#: ../goffice/canvas/goc-widget.c:833
 msgid "The widget top position"
 msgstr "Позиція віджета від верхнього краю"
 
-#: ../goffice/canvas/goc-widget.c:834
+#: ../goffice/canvas/goc-widget.c:840
 msgid "The widget width"
 msgstr "Ширина віджета"
 
-#: ../goffice/canvas/goc-widget.c:840
+#: ../goffice/canvas/goc-widget.c:846
 msgid "The widget height"
 msgstr "Висота віджета"
 
@@ -1343,8 +1356,8 @@ msgstr "Одиниця метрики"
 
 #: ../goffice/graph/gog-axis.c:3484
 msgid ""
-"The unit symbol for the absolute distance unit between ticks. Might be \"cm"
-"\" or \"in\""
+"The unit symbol for the absolute distance unit between ticks. Might be "
+"\"cm\" or \"in\""
 msgstr ""
 "Позначення одиниць для абсолютної відстані між поділками. Може дорівнювати "
 "«cm» (сантиметри) або «in» (дюйми)"
@@ -1891,7 +1904,7 @@ msgstr "Напрямок:"
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:4
 #: ../plugins/plot_distrib/gog-boxplot.c:395
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
-#: ../plugins/plot_distrib/gog-histogram.c:372
+#: ../plugins/plot_distrib/gog-histogram.c:373
 msgid "Vertical"
 msgstr "Вертикально"
 
@@ -1960,7 +1973,7 @@ msgstr "(-)"
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:9
 #: ../plugins/plot_barcol/gog-1.5d.c:372
 #: ../plugins/plot_distrib/gog-boxplot.c:428
-#: ../plugins/plot_distrib/gog-histogram.c:400
+#: ../plugins/plot_distrib/gog-histogram.c:401
 #: ../plugins/plot_distrib/gog-probability-plot.c:317
 #: ../plugins/plot_pie/gog-pie.c:344 ../plugins/plot_radar/gog-radar.c:324
 msgid "Values"
@@ -2963,7 +2976,7 @@ msgstr "Знімок"
 #: ../plugins/plot_barcol/gog-line.c:612
 #: ../plugins/plot_barcol/gog-minmax.c:195
 #: ../plugins/plot_distrib/gog-boxplot.c:172
-#: ../plugins/plot_distrib/gog-histogram.c:343
+#: ../plugins/plot_distrib/gog-histogram.c:344
 #: ../plugins/plot_pie/gog-pie.c:279 ../plugins/plot_pie/gog-pie.c:442
 #: ../plugins/plot_radar/gog-radar.c:409 ../plugins/plot_radar/gog-radar.c:600
 #: ../plugins/plot_surface/gog-xyz.c:103
@@ -6562,7 +6575,7 @@ msgstr "Золото, унції"
 
 #: ../goffice/utils/formats.c:547
 msgid "Bond Markets Units, European Composite Units (EURCO)"
-msgstr ""
+msgstr "Європейська складена одиниця ринку облігацій (EURCO)"
 
 #: ../goffice/utils/formats.c:548
 msgid "European Monetary Units (E.M.U.-6)"
@@ -7324,7 +7337,7 @@ msgstr "Рушій роботи із математичними формулам
 
 #: ../plugins/plot_barcol/gog-1.5d.c:356
 msgid "How to group multiple series, normal, stacked, as_percentage"
-msgstr ""
+msgstr "Спосіб групування послідовностей, звичайний, стосом, як частку"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:361 ../plugins/plot_pie/gog-pie.c:323
 #: ../plugins/plot_xy/gog-xy.c:565
@@ -7347,7 +7360,7 @@ msgid "Error bars"
 msgstr "Позначки похибок"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:661
-#: ../plugins/plot_distrib/gog-histogram.c:1119
+#: ../plugins/plot_distrib/gog-histogram.c:1120
 msgid "Drop lines"
 msgstr "Тіні ліній"
 
@@ -7411,7 +7424,7 @@ msgstr "горизонтальні смуги або вертикальні ст
 #: ../plugins/plot_barcol/gog-dropbar.c:130
 #: ../plugins/plot_barcol/gog-line.c:641
 #: ../plugins/plot_distrib/gog-boxplot.c:413
-#: ../plugins/plot_distrib/gog-histogram.c:384
+#: ../plugins/plot_distrib/gog-histogram.c:385
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:522
 #: ../plugins/plot_xy/gog-xy.c:398 ../plugins/plot_xy/gog-xy-dropbar.c:296
 msgid "Displayed under the grids"
@@ -7421,7 +7434,7 @@ msgstr "Показано під сітками"
 #: ../plugins/plot_barcol/gog-dropbar.c:131
 #: ../plugins/plot_barcol/gog-line.c:642
 #: ../plugins/plot_distrib/gog-boxplot.c:414
-#: ../plugins/plot_distrib/gog-histogram.c:385
+#: ../plugins/plot_distrib/gog-histogram.c:386
 #: ../plugins/plot_radar/gog-radar.c:448 ../plugins/plot_radar/gog-radar.c:523
 #: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:297
 msgid "Should the plot be displayed before the grids"
@@ -7551,7 +7564,7 @@ msgstr "Креслення без позначення ліній."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Unmarked Stacked Lines"
-msgstr ""
+msgstr "Непозначені лінії у стосі"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:10
 msgid "Unmarked stacked line plot."
@@ -7616,8 +7629,8 @@ msgstr "Сусідні стовпчики"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Adjacent horizontal bars grouped by major and minor categories."
 msgstr ""
-"Сусідні горизонтальні стовпці, згруповані за основними та допоміжними"
-" категоріями."
+"Сусідні горизонтальні стовпці, згруповані за основними та допоміжними "
+"категоріями."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:27
 msgid "Stacked Bars"
@@ -7626,8 +7639,8 @@ msgstr "Кумулятивні стовпчики"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
-"Допоміжні категорії у стосах за горизонтальними панелями, згрупованими за"
-" основною категорією."
+"Допоміжні категорії у стосах за горизонтальними панелями, згрупованими за "
+"основною категорією."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:29
 msgid "Percentage Bars"
@@ -7706,18 +7719,19 @@ msgstr "Сусідні стовпчики"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:92
 msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
-"Сусідні вертикальні стовпчики, згруповані за основними та допоміжними"
-" категоріями."
+"Сусідні вертикальні стовпчики, згруповані за основними та допоміжними "
+"категоріями."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:93
 msgid "Stacked Columns"
 msgstr "Стосовані стовпчики"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:94
-msgid "Minor categories stacked in vertical columns grouped by major category."
+msgid ""
+"Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
-"Допоміжні категорії у стосах за вертикальними стовпцями, згрупованими за"
-" основною категорією."
+"Допоміжні категорії у стосах за вертикальними стовпцями, згрупованими за "
+"основною категорією."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:95
 msgid "Percentage Columns"
@@ -7728,8 +7742,8 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
-"Допоміжні категорії у стосах, як часток від загальної суми допоміжних"
-" категорій, за вертикальними стовпцями, згрупованими за основною категорією."
+"Допоміжні категорії у стосах, як часток від загальної суми допоміжних "
+"категорій, за вертикальними стовпцями, згрупованими за основною категорією."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:97
 msgid "Vertical Drop Bars"
@@ -7883,48 +7897,48 @@ msgstr ""
 msgid "Histogram"
 msgstr "Гістограма"
 
-#: ../plugins/plot_distrib/gog-histogram.c:373
+#: ../plugins/plot_distrib/gog-histogram.c:374
 msgid "Draw the histogram vertically or horizontally"
 msgstr "Малювати гістограму вертикально чи горизонтально"
 
-#: ../plugins/plot_distrib/gog-histogram.c:378
+#: ../plugins/plot_distrib/gog-histogram.c:379
 msgid "Cumulative"
 msgstr "Накопичення"
 
-#: ../plugins/plot_distrib/gog-histogram.c:379
+#: ../plugins/plot_distrib/gog-histogram.c:380
 msgid "Use cumulated data"
 msgstr "Використовувати накопичені дані"
 
-#: ../plugins/plot_distrib/gog-histogram.c:398
-#: ../plugins/plot_distrib/gog-histogram.c:488
+#: ../plugins/plot_distrib/gog-histogram.c:399
+#: ../plugins/plot_distrib/gog-histogram.c:489
 msgid "Limits"
 msgstr "Обмеження"
 
-#: ../plugins/plot_distrib/gog-histogram.c:447
+#: ../plugins/plot_distrib/gog-histogram.c:448
 msgid ""
 "Label for the first Y category. If not set or empty, \"First values\" will "
 "be used."
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-histogram.c:452
+#: ../plugins/plot_distrib/gog-histogram.c:453
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-histogram.c:458
+#: ../plugins/plot_distrib/gog-histogram.c:459
 msgid "Categories labels"
 msgstr "Мітки категорій"
 
-#: ../plugins/plot_distrib/gog-histogram.c:490
-#: ../plugins/plot_distrib/gog-histogram.c:766
+#: ../plugins/plot_distrib/gog-histogram.c:491
+#: ../plugins/plot_distrib/gog-histogram.c:767
 msgid "First values"
 msgstr "Перші значення"
 
-#: ../plugins/plot_distrib/gog-histogram.c:492
-#: ../plugins/plot_distrib/gog-histogram.c:774
-#: ../plugins/plot_distrib/gog-histogram.c:785
-#: ../plugins/plot_distrib/gog-histogram.c:797
+#: ../plugins/plot_distrib/gog-histogram.c:493
+#: ../plugins/plot_distrib/gog-histogram.c:775
+#: ../plugins/plot_distrib/gog-histogram.c:786
+#: ../plugins/plot_distrib/gog-histogram.c:798
 msgid "Second values"
 msgstr "Другі значення"
 
