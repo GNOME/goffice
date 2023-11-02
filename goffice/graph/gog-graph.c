@@ -1111,9 +1111,9 @@ update_cursor (GogGraphView *view, GogTool *tool, GdkWindow *window)
 
 	cursor_type = tool != NULL ? tool->cursor_type : GDK_LEFT_PTR;
 	if (cursor_type != view->cursor_type) {
+		GdkDisplay *display = gdk_window_get_display (window);
 		view->cursor_type = cursor_type;
-		/* FIXME: gdk_display_get_default is probably not a good idea */
-		cursor = gdk_cursor_new_for_display (gdk_display_get_default (), cursor_type);
+		cursor = gdk_cursor_new_for_display (display, cursor_type);
 		gdk_window_set_cursor (window, cursor);
 		g_object_unref (cursor);
 	}
