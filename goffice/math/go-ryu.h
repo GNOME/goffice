@@ -9,7 +9,9 @@ G_BEGIN_DECLS
 /* ------------------------------------------------------------------------- */
 
 int go_ryu_d2s_buffered_n (double d, char *dst);
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 int go_ryu_ld2s_buffered_n (long double d, char *dst);
+#endif
 
 /* ------------------------------------------------------------------------- */
 

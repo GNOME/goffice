@@ -464,9 +464,14 @@ fmt_shortest (GString *dst, long double d, int fl, int t, gboolean is_long)
 	GString const *dec = go_locale_get_decimal();
 
 	g_string_set_size (dst, 53 + oldlen + dec->len);
-	if (is_long)
+	if (is_long) {
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 		n = go_ryu_ld2s_buffered_n (d, dst->str + oldlen);
-	else
+#else
+		g_critical ("Compiled with long-double, then asked to use it");
+		return;
+#endif
+	} else
 		n = go_ryu_d2s_buffered_n ((double)d, dst->str + oldlen);
 	g_string_set_size (dst, oldlen + n);
 	dpos = strchr (dst->str + oldlen, '.');

@@ -1,5 +1,7 @@
 goffice 0.10.57:
 
+	* Excise long double parts of ryu unless --with-long-double.
+
 --------------------------------------------------------------------------
 goffice 0.10.56:
 
