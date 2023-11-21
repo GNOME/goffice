@@ -373,6 +373,11 @@ math_HEADERS =					\
 	math/go-R.h				\
 	math/go-distribution.h
 
+if GOFFICE_WITH_DECIMAL64
+math_SOURCES += math/go-decimal.c
+math_HEADERS += math/go-decimal.h
+endif
+
 #####################################
 # utils directory files
 utils_SOURCES =					\
