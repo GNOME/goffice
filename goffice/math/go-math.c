@@ -1024,7 +1024,7 @@ go_log10D (_Decimal64 x)
 
 
 /**
- * go_strtoDd: A sane strtoDd.
+ * go_strtoDd:
  * @s: string to convert
  * @end: (out) (transfer none) (optional): pointer to end of string.
  *
@@ -1063,11 +1063,12 @@ go_strtoDd (const char *s, char **end)
 }
 
 /**
- * go_ascii_strtoDd: A sane strtoDd pretending to be in "C" locale.
+ * go_ascii_strtoDd:
  * @s: string to convert
  * @end: optional pointer to end of string.
  *
- * Like strtoDd, but without hex notation and MS extensions.
+ * Like strtoDd, but applying "C" locale and without hex notation and
+ * MS extensions.
  * Unlike strtoDd, there is no need to reset errno before calling this.
  */
 _Decimal64
@@ -1113,7 +1114,7 @@ go_ascii_strtoDd (const char *s, char **end)
 _Decimal64
 go_add_epsilonD (_Decimal64 x)
 {
-	return x == 0 ? x : nextafterD (x, go_pinfl);
+	return x == 0 ? x : nextafterD (x, go_pinfD);
 }
 
 /**
@@ -1126,7 +1127,7 @@ go_add_epsilonD (_Decimal64 x)
 _Decimal64
 go_sub_epsilonD (_Decimal64 x)
 {
-	return x == 0 ? x : nextafterD (x, go_ninfl);
+	return x == 0 ? x : nextafterD (x, go_ninfD);
 }
 
 _Decimal64

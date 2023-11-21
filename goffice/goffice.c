@@ -202,7 +202,9 @@ libgoffice_init (void)
 	_go_string_init ();
 	_go_conf_init ();
 	_go_fonts_init ();
+#ifdef GOFFICE_WITH_DECIMAL64
 	_go_decimal_init ();
+#endif
 	_go_math_init ();
 	_go_rsm_init ();
 	go_register_ui_files ();

@@ -55,15 +55,21 @@
 	  return (_Decimal64) (FUNC ((double)x, (double) y));		\
   }
 
+STUB1(acos)
 STUB1(acosh)
+STUB1(asin)
 STUB1(asinh)
+STUB1(atan)
 STUB1(atanh)
 STUB1(ceil)
 STUB1(cos)
 STUB1(cosh)
+STUB1(erf)
 STUB1(exp)
 STUB1(expm1)
 STUB1(floor)
+STUB1(lgamma)
+STUB2(fmod)
 STUB1(log)
 STUB1(log10)
 STUB1(log1p)
@@ -73,6 +79,10 @@ STUB1(sinh)
 STUB1(sqrt)
 STUB1(tan)
 STUB1(tanh)
+
+_Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
+_Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
+_Decimal64 lgamma_rD (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
 
 #if 0
 	;
@@ -521,6 +531,18 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	// FIXME
 
 	abort ();
+}
+
+_Decimal64
+ldexpD (_Decimal64 x, int e)
+{
+	return x * (_Decimal64)(ldexp(1, e));
+}
+
+_Decimal64
+frexpD (_Decimal64 x, int *e)
+{
+	return frexp (x, e);
 }
 
 _Decimal64

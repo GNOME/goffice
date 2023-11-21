@@ -14,24 +14,36 @@ G_BEGIN_DECLS
 #define GO_DECIMAL64_MODIFIER "W"
 #define GO_DECIMAL128_MODIFIER "WL"
 
-#define DECIMAL64_MIN     1e-383dd
-#define DECIMAL64_MAX     9.999999999999999e384dd
-#define DECIMAL64_EPSILON 1e-15dd
+#define DECIMAL64_MIN      1e-383dd
+#define DECIMAL64_MAX      9.999999999999999e384dd
+#define DECIMAL64_EPSILON  1e-15dd
+#define DECIMAL64_DIG      16
+#define DECIMAL64_MANT_DIG 16
 
 #define M_PID 3.141592653589793dd
 
 
 
+_Decimal64 acosD (_Decimal64 x);
 _Decimal64 acoshD (_Decimal64 x);
+_Decimal64 asinD (_Decimal64 x);
 _Decimal64 asinhD (_Decimal64 x);
+_Decimal64 atanD (_Decimal64 x);
 _Decimal64 atanhD (_Decimal64 x);
 _Decimal64 ceilD (_Decimal64 x);
 _Decimal64 cosD (_Decimal64 x);
 _Decimal64 coshD (_Decimal64 x);
+_Decimal64 erfD (_Decimal64 x);
 _Decimal64 expD (_Decimal64 x);
 _Decimal64 expm1D (_Decimal64 x);
 _Decimal64 fabsD (_Decimal64 x);
 _Decimal64 floorD (_Decimal64 x);
+_Decimal64 frexpD (_Decimal64 x, int *e);
+_Decimal64 fmodD (_Decimal64 x, _Decimal64 y);
+_Decimal64 jnD (int n, _Decimal64 x);
+_Decimal64 ldexpD (_Decimal64 x, int e);
+_Decimal64 lgammaD (_Decimal64 x);
+_Decimal64 lgamma_rD (_Decimal64 x, int *signp);
 _Decimal64 log10D (_Decimal64 x);
 _Decimal64 log1pD (_Decimal64 x);
 _Decimal64 logD (_Decimal64 x);
@@ -42,6 +54,7 @@ _Decimal64 sinhD (_Decimal64 x);
 _Decimal64 sqrtD (_Decimal64 x);
 _Decimal64 tanD (_Decimal64 x);
 _Decimal64 tanhD (_Decimal64 x);
+_Decimal64 ynD (int n, _Decimal64 x);
 int finiteD (_Decimal64 x);
 int isnanD (_Decimal64 x);
 int signbitD (_Decimal64 x);

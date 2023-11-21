@@ -9,6 +9,9 @@
 /* Define if G Office supports long double. */
 #undef GOFFICE_WITH_LONG_DOUBLE
 
+/* Define if G Office supports Decimal64. */
+#undef GOFFICE_WITH_DECIMAL64
+
 /* Define if G Office supplies acosh. */
 #undef GOFFICE_SUPPLIED_ACOSH
 

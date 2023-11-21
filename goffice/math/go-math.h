@@ -119,6 +119,9 @@ long double modfl (long double x, long double *iptr);
 
 #ifdef GOFFICE_WITH_DECIMAL64
 
+#ifndef __GI_SCANNER__
+// Introspection doens't understand this part due to _Decimal64
+
 GO_VAR_DECL _Decimal64 go_nanD;
 GO_VAR_DECL _Decimal64 go_pinfD;
 GO_VAR_DECL _Decimal64 go_ninfD;
@@ -145,6 +148,8 @@ _Decimal64 go_tanpiD (_Decimal64 x);
 _Decimal64 go_cotpiD (_Decimal64 x);
 _Decimal64 go_atan2piD (_Decimal64 y, _Decimal64 x);
 _Decimal64 go_atanpiD (_Decimal64 x);
+
+#endif
 
 #endif
 
