@@ -660,6 +660,26 @@ if test "x$with_long_double" = "xyes"; then
     unset have_mandatory_funcs
   fi
 fi
+
+decimal_msg=no
+goffice_with_decimal64=false
+AC_ARG_WITH(decimal64,
+        [  --without-decimal64   disable support for decimal64],
+        , [ with_decimal64=no])
+AC_MSG_CHECKING([if Decimal64 support is requested])
+if test "x$with_decimal64" = "xyes"; then
+  AC_MSG_RESULT(yes)
+  AC_CHECK_TYPES([_Decimal64], [], [AC_MSG_ERROR([_Decimal64 type required])], [])
+  AC_CHECK_TYPES([struct printf_info], [], [AC_MSG_ERROR([printf hook support is required])], [[#include <printf.h>]])
+  goffice_with_decimal64=true
+  decimal_msg="yes (Decimal64)"
+  AC_DEFINE([GOFFICE_WITH_DECIMAL64], 1,
+	    [Define if GOffice supports Decimal64.])
+else
+  AC_MSG_RESULT(no)
+fi
+AM_CONDITIONAL(GOFFICE_WITH_DECIMAL64, $goffice_with_decimal64)
+
 AC_SUBST(EXTRA_LIBS)
 AC_SUBST(EXTRA_INCLUDES)
 AC_SUBST(EXTRA_DEPS)
@@ -840,6 +860,7 @@ Configuration:
 	Compiler:		${CC}
 	Compiler flags:		${CFLAGS}
 	Long double support:	${float_msg}
+	Decimal support:	${decimal_msg}
 	Equation support in graphs: ${found_lasem}
 
 	UI:			${ui_msg}

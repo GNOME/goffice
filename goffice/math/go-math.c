@@ -177,6 +177,12 @@ _go_math_init (void)
 	}
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+	go_nanD = go_nan;
+	go_pinfD = go_pinf;
+	go_ninfD = go_ninf;
+#endif
+
 	{
 		double x = g_ascii_strtod ("24985672148.49707", NULL);
 		double sx = sin (x);
@@ -974,6 +980,198 @@ modfl (long double x, long double *iptr)
 	}
 }
 #endif
+
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef GOFFICE_WITH_DECIMAL64
+
+_Decimal64 go_nanD;
+_Decimal64 go_pinfD;
+_Decimal64 go_ninfD;
+
+int
+go_finiteD (_Decimal64 x)
+{
+	return finiteD (x);
+}
+
+_Decimal64
+go_pow2D (int n)
+{
+	return powD (2.dd, n);
+}
+
+_Decimal64
+go_pow10D (int n)
+{
+	return powD (10.dd, n);
+}
+
+_Decimal64
+go_powD (_Decimal64 x, _Decimal64 y)
+{
+	return powD (x, y);
+}
+
+_Decimal64
+go_log10D (_Decimal64 x)
+{
+	return log10D (x);
+}
+
+
+/**
+ * go_strtoDd: A sane strtoDd.
+ * @s: string to convert
+ * @end: (out) (transfer none) (optional): pointer to end of string.
+ *
+ * Returns: the numeric value of the given string.
+ * Like strtold, but without hex notation and MS extensions.
+ * Unlike strtold, there is no need to reset errno before calling this.
+ */
+_Decimal64
+go_strtoDd (const char *s, char **end)
+{
+	int maxlen = strtod_helper (s);
+	int save_errno;
+	char *tmp;
+	_Decimal64 res;
+
+	if (maxlen == INT_MAX) {
+		errno = 0;
+		return strtoDd (s, end);
+	} else if (maxlen < 0) {
+		errno = 0;
+		if (end)
+			*end = (char *)s - maxlen;
+		return 0;
+	}
+
+	tmp = g_strndup (s, maxlen);
+	errno = 0;
+	res = strtoDd (tmp, end);
+	save_errno = errno;
+	if (end)
+		*end = (char *)s + (*end - tmp);
+	g_free (tmp);
+	errno = save_errno;
+
+	return res;
+}
+
+/**
+ * go_ascii_strtoDd: A sane strtoDd pretending to be in "C" locale.
+ * @s: string to convert
+ * @end: optional pointer to end of string.
+ *
+ * Like strtoDd, but without hex notation and MS extensions.
+ * Unlike strtoDd, there is no need to reset errno before calling this.
+ */
+_Decimal64
+go_ascii_strtoDd (const char *s, char **end)
+{
+	GString *tmp;
+	const GString *decimal;
+	int save_errno;
+	char *the_end;
+	/* Use the "double" version for parsing.  */
+	_Decimal64 res = go_ascii_strtod (s, &the_end);
+	if (end)
+		*end = the_end;
+	if (the_end == s)
+		return res;
+
+	decimal = go_locale_get_decimal ();
+	tmp = g_string_sized_new (the_end - s + 10);
+	while (s < the_end) {
+		if (*s == '.') {
+			g_string_append_len (tmp, decimal->str, decimal->len);
+			g_string_append (tmp, ++s);
+			break;
+		}
+		g_string_append_c (tmp, *s++);
+	}
+	errno = 0;
+	res = strtoDd (tmp->str, NULL);
+	save_errno = errno;
+	g_string_free (tmp, TRUE);
+	errno = save_errno;
+
+	return res;
+}
+
+/**
+ * go_add_epsilonD:
+ * @x: a number
+ *
+ * Returns the next-larger representable value, except that zero and
+ * infinites are returned unchanged.
+ */
+_Decimal64
+go_add_epsilonD (_Decimal64 x)
+{
+	return x == 0 ? x : nextafterD (x, go_pinfl);
+}
+
+/**
+ * go_sub_epsilonD:
+ * @x: a number
+ *
+ * Returns the next-smaller representable value, except that zero and
+ * infinites are returned unchanged.
+ */
+_Decimal64
+go_sub_epsilonD (_Decimal64 x)
+{
+	return x == 0 ? x : nextafterD (x, go_ninfl);
+}
+
+_Decimal64
+go_fake_floorD (_Decimal64 x)
+{
+	if (x == floorD (x))
+		return x;
+
+	return floorD (go_add_epsilonD (x));
+}
+
+_Decimal64
+go_fake_ceilD (_Decimal64 x)
+{
+	if (x == floorD (x))
+		return x;
+
+	return ceilD (go_sub_epsilonD (x));
+}
+
+_Decimal64
+go_fake_roundD (_Decimal64 x)
+{
+	_Decimal64 y;
+
+	if (x == floorD (x))
+		return x;
+
+	/*
+	 * Adding a half here is ok.  The only problematic non-integer
+	 * case is nextafter(0.5,-1) for which we want to produce 1 here.
+	 */
+	y = go_fake_floorD (fabsD (x) + 0.5dd);
+	return (x < 0) ? 0 - y : y;
+}
+
+_Decimal64
+go_fake_truncD (_Decimal64 x)
+{
+	if (x == floorD (x))
+		return x;
+
+	return (x >= 0)
+		? floorD (go_add_epsilonD (x))
+		: 0 - floorD (go_add_epsilonD (-x));
+}
 
 #endif
 

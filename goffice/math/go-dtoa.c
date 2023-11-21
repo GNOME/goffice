@@ -400,15 +400,29 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 
 /* musl code ends here */
 
+typedef enum {
+	FP_DOUBLE,
+	FP_LONG_DOUBLE,
+	FP_DECIMAL64
+} FloatType;
+
+typedef union {
+	long double ld;
+#ifdef GOFFICE_WITH_DECIMAL64
+	_Decimal64 d64;
+#endif
+} FloatValueType;
+
+
 static void
-parse_fmt (const char *fmt, va_list args, gboolean *is_long,
-	   int *w, int *p, int *fl, int *t, long double *d)
+parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
+	   int *w, int *p, int *fl, int *t, FloatValueType *d)
 {
-	*is_long = FALSE;
+	*fltyp = FP_DOUBLE;
+	d->ld = 0;
 	*w = 1;
 	*p = -1;
 	*fl = 0;
-	*d = 0;
 	*t = 'g';
 
 	while (1) {
@@ -440,7 +454,7 @@ parse_fmt (const char *fmt, va_list args, gboolean *is_long,
 	}
 
 	if (*fmt == 'L') {
-		*is_long = TRUE;
+		*fltyp = FP_LONG_DOUBLE;
 		fmt++;
 	}
 
@@ -448,14 +462,28 @@ parse_fmt (const char *fmt, va_list args, gboolean *is_long,
 		return;
 	*t = *fmt;
 
-	if (*is_long)
-		*d = va_arg (args, long double);
-	else
-		*d = va_arg (args, double);
+	switch (*fltyp) {
+	case FP_DOUBLE:
+		d->ld = va_arg (args, double);
+		break;
+	case FP_LONG_DOUBLE:
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+		d->ld = va_arg (args, long double);
+#else
+		g_critical ("Compiled without long-double, then asked to use it");
+#endif
+	case FP_DECIMAL64:
+#ifdef GOFFICE_WITH_DECIMAL64
+		d->d64 = va_arg (args, _Decimal64);
+#else
+		g_critical ("Compiled without Decimal64, then asked to use it");
+#endif
+		break;
+	}
 }
 
 static void
-fmt_shortest (GString *dst, long double d, int fl, int t, gboolean is_long)
+fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 {
 	size_t oldlen = dst->len;
 	int n, e, ndec;
@@ -464,15 +492,29 @@ fmt_shortest (GString *dst, long double d, int fl, int t, gboolean is_long)
 	GString const *dec = go_locale_get_decimal();
 
 	g_string_set_size (dst, 53 + oldlen + dec->len);
-	if (is_long) {
+	switch (fltyp) {
+	case FP_DOUBLE:
+		n = go_ryu_d2s_buffered_n ((double)(d->ld), dst->str + oldlen);
+		break;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
-		n = go_ryu_ld2s_buffered_n (d, dst->str + oldlen);
-#else
-		g_critical ("Compiled with long-double, then asked to use it");
-		return;
+	case FP_LONG_DOUBLE:
+		n = go_ryu_ld2s_buffered_n (d->ld, dst->str + oldlen);
+		break;
 #endif
-	} else
-		n = go_ryu_d2s_buffered_n ((double)d, dst->str + oldlen);
+#ifdef GOFFICE_WITH_DECIMAL64
+	case FP_DECIMAL64: {
+		const char *sfmt = (t & 32)
+			? "%.16" GO_DECIMAL64_MODIFIER "g"
+			: "%.16" GO_DECIMAL64_MODIFIER "G";
+		n = sprintf (dst->str, sfmt, d->d64);
+		// FIXME: if sprintf gains intl support, fix needed here
+		break;
+	}
+#endif
+	default:
+		g_assert_not_reached ();
+	}
+
 	g_string_set_size (dst, oldlen + n);
 	dpos = strchr (dst->str + oldlen, '.');
 	epos = strchr (dst->str + oldlen, 'E');
@@ -499,7 +541,7 @@ fmt_shortest (GString *dst, long double d, int fl, int t, gboolean is_long)
 	e = atoi (epos + 1);
 	use_e_notation =
 		(t | 32) == 'e' ||
-		((t | 32) == 'g' && (e < -4 || e >= (is_long ? 21 : 17)));
+		((t | 32) == 'g' && (e < -4 || e >= (fltyp == FP_LONG_DOUBLE ? 21 : 17)));
 	if (use_e_notation) {
 		// Downcase 'E', if needed
 		if (t & 32) *epos = 'e';
@@ -516,7 +558,7 @@ fmt_shortest (GString *dst, long double d, int fl, int t, gboolean is_long)
 		int precision = MAX (0, ndec - e);
 		t = (t & 32) | 'F';
 		g_string_set_size (dst, oldlen);
-		fmt_fp (dst, d, 1, precision, fl, t);
+		fmt_fp (dst, d->ld, 1, precision, fl, t);
 	}
 }
 
@@ -525,8 +567,8 @@ go_dtoa (GString *dst, const char *fmt, ...)
 {
 	int w, p, fl, t;
 	va_list args;
-	long double d;
-	gboolean is_long;
+	FloatValueType d;
+	FloatType fltyp;
 	gboolean debug = FALSE;
 #ifdef ENSURE_FPU_STATE
 	fpu_control_t oldstate;
@@ -534,12 +576,10 @@ go_dtoa (GString *dst, const char *fmt, ...)
 #endif
 
 	va_start (args, fmt);
-	parse_fmt (fmt, args, &is_long, &w, &p, &fl, &t, &d);
+	parse_fmt (fmt, args, &fltyp, &w, &p, &fl, &t, &d);
 	va_end (args);
 
 	if (fl & FLAG_TRUNCATE) g_string_truncate (dst, 0);
-
-	if (debug) g_printerr ("%Lg [%s] t=%c  p=%d\n", d, fmt, t, p);
 
 #ifdef ENSURE_FPU_STATE
 	// fmt_fp depends on "long double" behaving right.  That means that the
@@ -554,9 +594,9 @@ go_dtoa (GString *dst, const char *fmt, ...)
 #endif
 
 	if (fl & FLAG_SHORTEST)
-		fmt_shortest (dst, d, fl, t, is_long);
+		fmt_shortest (dst, &d, fl, t, fltyp);
 	else
-		fmt_fp (dst, d, w, p, fl, t);
+		fmt_fp (dst, d.ld, w, p, fl, t);
 
 #ifdef ENSURE_FPU_STATE
 	if ((oldstate & mask) != _FPU_EXTENDED) {
