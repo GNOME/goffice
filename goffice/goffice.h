@@ -26,6 +26,13 @@
 #include <gsf/gsf.h>
 #include <goffice/goffice-features.h>
 
+#ifdef GOFFICE_WITH_DECIMAL64
+#ifdef __GI_SCANNER__
+// Wrong, of course, but the introspection scanner does not know _Decimal64
+typedef double _Decimal64;
+#endif
+#endif
+
 #ifdef GOFFICE_WITH_GTK
 #include <gtk/gtk.h>
 #endif

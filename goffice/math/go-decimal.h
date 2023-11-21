@@ -1,13 +1,10 @@
 #ifndef GO_DECIMAL_H__
 #define GO_DECIMAL_H__
 
-#include <goffice/goffice-features.h>
+#include <goffice/goffice.h>
 #include <glib.h>
 
 G_BEGIN_DECLS
-
-#ifndef __GI_SCANNER__
-// Introspection doens't understand this file due to _Decimal64
 
 /* ------------------------------------------------------------------------- */
 
@@ -22,13 +19,16 @@ G_BEGIN_DECLS
 
 #define M_PID 3.141592653589793dd
 
-
+#ifndef __GI_SCANNER__
+// Disable introspection for this.  The names clash with many go_foo
+// functions.
 
 _Decimal64 acosD (_Decimal64 x);
 _Decimal64 acoshD (_Decimal64 x);
 _Decimal64 asinD (_Decimal64 x);
 _Decimal64 asinhD (_Decimal64 x);
 _Decimal64 atanD (_Decimal64 x);
+_Decimal64 atan2D (_Decimal64 x, _Decimal64 y);
 _Decimal64 atanhD (_Decimal64 x);
 _Decimal64 ceilD (_Decimal64 x);
 _Decimal64 cosD (_Decimal64 x);
@@ -40,6 +40,7 @@ _Decimal64 fabsD (_Decimal64 x);
 _Decimal64 floorD (_Decimal64 x);
 _Decimal64 frexpD (_Decimal64 x, int *e);
 _Decimal64 fmodD (_Decimal64 x, _Decimal64 y);
+_Decimal64 hypotD (_Decimal64 x, _Decimal64 y);
 _Decimal64 jnD (int n, _Decimal64 x);
 _Decimal64 ldexpD (_Decimal64 x, int e);
 _Decimal64 lgammaD (_Decimal64 x);
@@ -49,6 +50,7 @@ _Decimal64 log1pD (_Decimal64 x);
 _Decimal64 logD (_Decimal64 x);
 _Decimal64 nextafterD (_Decimal64 x, _Decimal64 y);
 _Decimal64 powD (_Decimal64 x, _Decimal64 y);
+_Decimal64 roundD (_Decimal64 x);
 _Decimal64 sinD (_Decimal64 x);
 _Decimal64 sinhD (_Decimal64 x);
 _Decimal64 sqrtD (_Decimal64 x);
@@ -59,15 +61,14 @@ int finiteD (_Decimal64 x);
 int isnanD (_Decimal64 x);
 int signbitD (_Decimal64 x);
 
-
 _Decimal64 strtoDd (const char *s, char **end);
+
+#endif
 
 /* private */
 void _go_decimal_init (void);
 
 /* ------------------------------------------------------------------------- */
-
-#endif
 
 G_END_DECLS
 

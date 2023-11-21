@@ -152,15 +152,15 @@
 #define FORMAT_E "E"
 #define FORMAT_G "G"
 #define STRTO go_strtod
+#define DOUBLE_CST(_n) _n
 
-#ifdef GOFFICE_WITH_LONG_DOUBLE
+#ifndef __GI_SCANNER__
+#if defined(GOFFICE_WITH_LONG_DOUBLE) || defined(GOFFICE_WITH_DECIMAL64)
 /*
  * We need two versions.  Include ourself in order to get regular
  * definition first.
  */
 #include "go-format.c"
-
-/* Now change definitions of macros for the long double version.  */
 #undef DEFINE_COMMON
 #undef DOUBLE
 #undef SUFFIX
@@ -170,7 +170,10 @@
 #undef FORMAT_E
 #undef FORMAT_G
 #undef STRTO
+#endif
 
+
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 #ifdef HAVE_SUNMATH_H
 #include <sunmath.h>
 #endif
@@ -182,9 +185,25 @@
 #define FORMAT_E "LE"
 #define FORMAT_G "LG"
 #define STRTO go_strtold
+#define DOUBLE_CST(_n) _n ## l
+#endif
+
+#ifdef GOFFICE_WITH_DECIMAL64
+#define DOUBLE _Decimal64
+#define SUFFIX(_n) _n ## D
+#define PREFIX(_n) DECIMAL64_ ## _n
+#define FORMAT_e "We"
+#define FORMAT_f "Wf"
+#define FORMAT_E "WE"
+#define FORMAT_G "WG"
+#define STRTO go_strtoDd
+#define DOUBLE_CST(_n) _n ## dd
 #endif
 
 #endif
+#endif
+
+#define DOUBLE_PI DOUBLE_CST(3.14159265358979323846264338327950288)
 
 /* ------------------------------------------------------------------------- */
 
@@ -500,6 +519,9 @@ typedef struct {
 static int go_format_roundtrip_digits;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 static int go_format_roundtrip_digitsl;
+#endif
+#ifdef GOFFICE_WITH_DECIMAL64
+static const int go_format_roundtrip_digitsD = 16;
 #endif
 #endif
 
@@ -3946,7 +3968,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			gboolean isneg = FALSE;
 #endif
 
-			valsecs = SUFFIX(floor)(SUFFIX(go_add_epsilon)(SUFFIX(fabs)(val)) * (unit * 86400) + 0.5);
+			valsecs = SUFFIX(round)(SUFFIX(go_add_epsilon)(SUFFIX(fabs)(val)) * (unit * 86400));
 			if (date_decimals) {
 				DOUBLE vs = (seen_elapsed || !isneg) ? valsecs : 0 - valsecs;
 				DOUBLE f = SUFFIX(fmod) (vs, unit);
@@ -4528,7 +4550,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 				fraction.d = plaind;
 				fraction.digits = cnt_digits (fraction.d);
-				fraction.n = SUFFIX(floor) (0.5 + aval * fraction.d);
+				fraction.n = SUFFIX(round) (aval * fraction.d);
 			} else {
 				int ni, di, max_denom;
 				DOUBLE p10;
@@ -4554,7 +4576,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SCALE_PI:
 			/* FIXME: not long-double safe.  */
-			val /= G_PI;
+			val /= DOUBLE_PI;
 			break;
 #endif
 
@@ -4923,7 +4945,24 @@ SUFFIX(ilog10) (DOUBLE x)
  * @layout: Optional #PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
  * @measure: (scope call): Function to measure width of string/layout.
- * @metrics: Font metrics corresponding to @mesaure.
+ * @metrics: Font metrics corresponding to @measure.
+ * @val: floating-point value.  Must be finite.
+ * @col_width: intended max width of layout in the units that @measure uses.
+ * A width of -1 means no restriction.
+ * @unicode_minus: Use unicode minuses, not hyphens.
+ * @numeral_shape: numeral shape identifier.
+ * @custom_shape_flags: flags for using @numeral_shape.
+ *
+ * Render a floating-point value into @layout in such a way that the
+ * layouting width does not needlessly exceed @col_width.  Optionally
+ * use unicode minus instead of hyphen.
+ **/
+/**
+ * go_render_generalD:
+ * @layout: Optional #PangoLayout, probably preseeded with font attribute.
+ * @str: a GString to store (not append!) the resulting string in.
+ * @measure: (scope call): Function to measure width of string/layout.
+ * @metrics: Font metrics corresponding to @measure.
  * @val: floating-point value.  Must be finite.
  * @col_width: intended max width of layout in the units that @measure uses.
  * A width of -1 means no restriction.
@@ -4968,7 +5007,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	} else {
 		int w;
 
-		w = (col_width - (val <= -0.5 ? sign_width : 0)) / min_digit_width;
+		w = (col_width - (val <= DOUBLE_CST(-0.5) ? sign_width : 0)) / min_digit_width;
 		if (w <= maxdigits) {
 			/* We're limited by width.  */
 			maxdigits = w;
@@ -4999,11 +5038,11 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 		goto zero;
 
 	aval = SUFFIX(fabs) (val);
-	if (aval >= SUFFIX(1e15) || aval < SUFFIX(1e-4))
+	if (aval >= DOUBLE_CST(1e15) || aval < DOUBLE_CST(1e-4))
 		goto e_notation;
 
 	/* Number of digits in round(aval).  */
-	digs_as_int = (aval >= 9.5 ? 1 + SUFFIX(ilog10) (aval + 0.5) : 1);
+	digs_as_int = (aval >= (DOUBLE)9.5 ? 1 + SUFFIX(ilog10) (aval + DOUBLE_CST(0.5)) : 1);
 
 	/* Check if there is room for the whole part, including sign.  */
 	safety = metrics->avg_digit_width / 2;
@@ -5104,7 +5143,7 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 #ifdef DEBUG_GENERAL
 	g_printerr ("Trying E-notation\n");
 #endif
-	rounds_to_0 = (aval < 0.5);
+	rounds_to_0 = (aval < DOUBLE_CST(0.5));
 	prec = (col_width -
 		(val >= 0 ? 0 : sign_width) -
 		(aval < 1 ? sign_width : metrics->plus_width) -
@@ -5195,12 +5234,12 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
  * @layout: Optional PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
  * @measure: (scope call): Function to measure width of string/layout.
- * @metrics: Font metrics corresponding to @mesaure.
+ * @metrics: Font metrics corresponding to @measure.
  * @fmt: #GOFormat
  * @val: floating-point value.  Must be finite.
  * @type: a format character
  * @sval: a string to append to @str after @val
- * @go_color: a color to rende
+ * @go_color: a color to render
  * @col_width: intended max width of layout in pango units.  -1 means
  *             no restriction.
  * @date_conv: #GODateConventions
@@ -5216,12 +5255,33 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
  * @layout: Optional PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
  * @measure: (scope call): Function to measure width of string/layout.
- * @metrics: Font metrics corresponding to @mesaure.
+ * @metrics: Font metrics corresponding to @measure.
  * @fmt: #GOFormat
  * @val: floating-point value.  Must be finite.
  * @type: a format character
  * @sval: a string to append to @str after @val
- * @go_color: a color to rende
+ * @go_color: a color to render
+ * @col_width: intended max width of layout in pango units.  -1 means
+ *             no restriction.
+ * @date_conv: #GODateConventions
+ * @unicode_minus: Use unicode minuses, not hyphens.
+ *
+ * Render a floating-point value into @layout in such a way that the
+ * layouting width does not needlessly exceed @col_width.  Optionally
+ * use unicode minus instead of hyphen.
+ * Returns: a #GOFormatNumberError
+ **/
+/**
+ * go_format_value_gstringD:
+ * @layout: Optional PangoLayout, probably preseeded with font attribute.
+ * @str: a GString to store (not append!) the resulting string in.
+ * @measure: (scope call): Function to measure width of string/layout.
+ * @metrics: Font metrics corresponding to @measure.
+ * @fmt: #GOFormat
+ * @val: floating-point value.  Must be finite.
+ * @type: a format character
+ * @sval: a string to append to @str after @val
+ * @go_color: a color to render
  * @col_width: intended max width of layout in pango units.  -1 means
  *             no restriction.
  * @date_conv: #GODateConventions
@@ -6805,22 +6865,22 @@ SUFFIX(go_format_specialize) (GOFormat const *fmt, DOUBLE val, char type,
 
 		switch (c->op) {
 		case GO_FMT_COND_EQ:
-			cond = (is_number && val == c->val);
+			cond = (is_number && val == (DOUBLE)c->val);
 			break;
 		case GO_FMT_COND_NE:
-			cond = (is_number && val != c->val);
+			cond = (is_number && val != (DOUBLE)c->val);
 			break;
 		case GO_FMT_COND_LT:
-			cond = (is_number && val <  c->val);
+			cond = (is_number && val <  (DOUBLE)c->val);
 			break;
 		case GO_FMT_COND_LE:
-			cond = (is_number && val <= c->val);
+			cond = (is_number && val <= (DOUBLE)c->val);
 			break;
 		case GO_FMT_COND_GT:
-			cond = (is_number && val >  c->val);
+			cond = (is_number && val >  (DOUBLE)c->val);
 			break;
 		case GO_FMT_COND_GE:
-			cond = (is_number && val >= c->val);
+			cond = (is_number && val >= (DOUBLE)c->val);
 			break;
 		case GO_FMT_COND_TEXT:
 			cond = (type == 'S' || type == 'B');
