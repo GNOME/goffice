@@ -203,12 +203,12 @@ _go_math_init (void)
 double
 go_add_epsilon (double x)
 {
-#ifdef HAVE_NEXTAFTER
-	return x == 0 ? x : nextafter (x, go_pinf);
-#else
 	if (!go_finite (x) || x == 0)
 		return x;
-	else if (x < 0)
+#ifdef HAVE_NEXTAFTER
+	return nextafter (x, go_pinf);
+#else
+	if (x < 0)
 		return 0 - go_sub_epsilon(-x);
 	else {
 		int e;
@@ -229,12 +229,12 @@ go_add_epsilon (double x)
 double
 go_sub_epsilon (double x)
 {
-#ifdef HAVE_NEXTAFTER
-	return x == 0 ? x : nextafter (x, go_ninf);
-#else
 	if (!go_finite (x) || x == 0)
 		return x;
-	else if (x < 0)
+#ifdef HAVE_NEXTAFTER
+	return nextafter (x, go_ninf);
+#else
+	if (x < 0)
 		return 0 - go_add_epsilon(-x);
 	else {
 		int e;
@@ -424,8 +424,8 @@ strtod_helper (const char *s)
 }
 
 
-/*
- * go_strtod: A sane strtod.
+/**
+ * go_strtod:
  * @s: string to convert
  * @end: (out) (transfer none) (optional): pointer to end of string.
  *
@@ -686,8 +686,8 @@ go_log10l (long double x)
 }
 
 
-/*
- * go_strtold: A sane strtold.
+/**
+ * go_strtold:
  * @s: string to convert
  * @end: (out) (transfer none) (optional): pointer to end of string.
  *
@@ -757,6 +757,7 @@ go_ascii_strtold (const char *s, char **end)
 		}
 		g_string_append_c (tmp, *s++);
 	}
+	errno = 0;
 	res = strtold (tmp->str, NULL);
 	save_errno = errno;
 	g_string_free (tmp, TRUE);
@@ -775,12 +776,12 @@ go_ascii_strtold (const char *s, char **end)
 long double
 go_add_epsilonl (long double x)
 {
-#ifdef HAVE_NEXTAFTERL
-	return x == 0 ? x : nextafterl (x, go_pinfl);
-#else
 	if (!go_finitel (x) || x == 0)
 		return x;
-	else if (x < 0)
+#ifdef HAVE_NEXTAFTERL
+	return nextafterl (x, go_pinfl);
+#else
+	if (x < 0)
 		return 0 - go_sub_epsilonl(-x);
 	else {
 		int e;
@@ -801,12 +802,12 @@ go_add_epsilonl (long double x)
 long double
 go_sub_epsilonl (long double x)
 {
+	if (!go_finitel (x) || x == 0)
+		return x;
 #ifdef HAVE_NEXTAFTERL
 	return x == 0 ? x : nextafterl (x, go_ninfl);
 #else
-	if (!go_finitel (x) || x == 0)
-		return x;
-	else if (x < 0)
+	if (x < 0)
 		return 0 - go_add_epsilonl(-x);
 	else {
 		int e;
