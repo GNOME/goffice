@@ -146,7 +146,7 @@ enum {
 
 
 // Decode a _Decimal64 assuming binary integer significant encoding
-static int
+static inline int
 decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *pp10, int *sign)
 {
 	const int exp_bias = -398;
@@ -529,19 +529,19 @@ init_decimal_printf_support (void)
 
 // ---------------------------------------------------------------------------
 
-int
+inline int
 isnanD (_Decimal64 x)
 {
 	return decode64_bis (&x, NULL, NULL, NULL) == CLS_NAN;
 }
 
-int
+inline int
 finiteD (_Decimal64 x)
 {
 	return decode64_bis (&x, NULL, NULL, NULL) < CLS_NAN;
 }
 
-int
+inline int
 signbitD (_Decimal64 x)
 {
 	int sign;
