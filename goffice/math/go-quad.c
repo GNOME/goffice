@@ -65,23 +65,39 @@ typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
 #endif
 
 #define QUAD SUFFIX(GOQuad)
+#define HALF (DOUBLE)0.5
 
 #define DOUBLE double
+#define DOUBLE_IS_double 1
 #define SUFFIX(_n) _n
 #define DOUBLE_MANT_DIG DBL_MANT_DIG
 #define DOUBLE_EPSILON DBL_EPSILON
 
-#ifdef GOFFICE_WITH_LONG_DOUBLE
+#if defined(GOFFICE_WITH_LONG_DOUBLE) || defined(GOFFICE_WITH_DECIMAL64)
+// We need two versions.  Include ourself in order to get regular
+// definition first.
 #include "go-quad.c"
 #undef DEFINE_COMMON
 #undef DOUBLE
 #undef SUFFIX
 #undef DOUBLE_MANT_DIG
 #undef DOUBLE_EPSILON
+#undef DOUBLE_IS_double
+#define DOUBLE_IS_double 0
+#endif
+
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
 #define DOUBLE_MANT_DIG LDBL_MANT_DIG
 #define DOUBLE_EPSILON LDBL_EPSILON
+#endif
+
+#ifdef GOFFICE_WITH_DECIMAL64
+#define DOUBLE _Decimal64
+#define SUFFIX(_n) _n ## D
+#define DOUBLE_MANT_DIG DECIMAL64_MANT_DIG
+#define DOUBLE_EPSILON DECIMAL64_EPSILON
 #endif
 
 #endif
@@ -93,7 +109,7 @@ SUFFIX(go_quad_functional) (void)
 		return FALSE;
 
 #ifdef i386
-	if (sizeof (DOUBLE) != sizeof (double))
+	if (DOUBLE_IS_double)
 		return TRUE;
 
 #ifdef USE_FPU_CONTROL
@@ -195,7 +211,7 @@ SUFFIX(go_quad_start) (void)
 		g_warning ("quad precision math may not be completely accurate.");
 
 #ifdef i386
-	if (sizeof (DOUBLE) == sizeof (double)) {
+	if (DOUBLE_IS_double) {
 #ifdef USE_FPU_CONTROL
 		fpu_control_t state, newstate;
 		fpu_control_t mask =
@@ -521,7 +537,7 @@ SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 		QUAD c, u;
 		c.h = SUFFIX(sqrt) (a->h);
 		SUFFIX(go_quad_mul12) (&u, c.h, c.h);
-		c.l = (a->h - u.h - u.l + a->l) * 0.5 / c.h;
+		c.l = (a->h - u.h - u.l + a->l) * HALF / c.h;
 		res->h = c.h + c.l;
 		res->l = c.h - res->h + c.l;
 	} else
@@ -716,7 +732,7 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 	/*
 	 * "1m" mode refers to keeping 1-v instead of just v.
 	 */
-	x1m = SUFFIX(fabs) (SUFFIX(go_quad_value) (x)) >= 0.5;
+	x1m = SUFFIX(fabs) (SUFFIX(go_quad_value) (x)) >= HALF;
 	if (x1m) {
 		SUFFIX(go_quad_sub) (&qx, x, &SUFFIX(go_quad_one));
 	} else {
@@ -731,12 +747,12 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 			SUFFIX(go_quad_sqrt1pm1) (&qx, &qx);
 		else {
 			SUFFIX(go_quad_sqrt) (&qx, &qx);
-			if (SUFFIX(go_quad_value) (&qx) >= 0.5) {
+			if (SUFFIX(go_quad_value) (&qx) >= HALF) {
 				x1m = TRUE;
 				SUFFIX(go_quad_sub) (&qx, &qx, &SUFFIX(go_quad_one));
 			}
 		}
-		if (dy >= 0.5) {
+		if (dy >= HALF) {
 			QUAD qp;
 			SUFFIX(go_quad_sub) (&qy, &qy, &SUFFIX(go_quad_one));
 			SUFFIX(go_quad_mul) (&qp, &qx, &qr);
@@ -915,7 +931,7 @@ SUFFIX(go_quad_expm1) (QUAD *res, const QUAD *a)
 
 	if (!SUFFIX(go_finite) (da))
 		*res = *a;
-	else if (SUFFIX (fabs) (da) > 0.5) {
+	else if (SUFFIX (fabs) (da) > HALF) {
 		SUFFIX(go_quad_exp) (res, NULL, a);
 		SUFFIX(go_quad_sub) (res, res, &SUFFIX(go_quad_one));
 	} else if (da >= 0) {
@@ -1085,7 +1101,7 @@ SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
 
 	for (n = 1; n < (int)G_N_ELEMENTS(dk); n++) {
 		SUFFIX(go_quad_add) (&dk[0], &dpk[0], &gp);
-		dk[0].h *= 0.5; dk[0].l *= 0.5;
+		dk[0].h *= HALF; dk[0].l *= HALF;
 
 		SUFFIX(go_quad_mul) (&g, &dk[0], &gp);
 		SUFFIX(go_quad_sqrt) (&g, &g);
@@ -1132,11 +1148,11 @@ SUFFIX(go_quad_atan2_special) (const QUAD *y, const QUAD *x, DOUBLE *f)
 	}
 
 	if (dx == 0) {
-		*f = (dy >= 0 ? 0.5 : -0.5);
+		*f = (dy >= 0 ? HALF : -HALF);
 		return TRUE;
 	}
 
-	if (SUFFIX(fabs) (SUFFIX(fabs)(dx) - SUFFIX(fabs)(dy)) < 1e-10) {
+	if (SUFFIX(fabs) (SUFFIX(fabs)(dx) - SUFFIX(fabs)(dy)) < (DOUBLE)1e-10) {
 		QUAD d;
 		SUFFIX(go_quad_sub) (&d, x, y);
 		if (d.h == 0) {
@@ -1195,7 +1211,7 @@ SUFFIX(go_quad_atan2) (QUAD *res, const QUAD *y, const QUAD *x)
 		SUFFIX(go_quad_div) (&qr, x, y);
 		SUFFIX(go_quad_agm_internal) (res, AGM_ARCTAN, &qr);
 
-		f = (qr.h >= 0) ? 0.5 : -0.5;
+		f = (qr.h >= 0) ? HALF : -HALF;
 		qa.h = f * SUFFIX(go_quad_pi).h;
 		qa.l = f * SUFFIX(go_quad_pi).l;
 		SUFFIX(go_quad_sub) (res, &qa, res);
@@ -1272,12 +1288,12 @@ SUFFIX(reduce_pi_half) (QUAD *res, const QUAD *a, int *pk)
 	}
 
 	if (pi_half.h == 0) {
-		pi_half.h = SUFFIX(go_quad_pi).h * 0.5;
-		pi_half.l = SUFFIX(go_quad_pi).l * 0.5;
+		pi_half.h = SUFFIX(go_quad_pi).h * HALF;
+		pi_half.l = SUFFIX(go_quad_pi).l * HALF;
 	}
 
 	SUFFIX(go_quad_div) (&qk, a, &pi_half);
-	qh.h = 0.5; qh.l = 0;
+	qh.h = HALF; qh.l = 0;
 	SUFFIX(go_quad_add) (&qk, &qk, &qh);
 	SUFFIX(go_quad_floor) (&qk, &qk);
 	k = SUFFIX(go_quad_value) (&qk);
@@ -1297,7 +1313,7 @@ SUFFIX(reduce_pi_half) (QUAD *res, const QUAD *a, int *pk)
 static void
 SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
 {
-	static const QUAD half = { 0.5, 0 };
+	static const QUAD half = { HALF, 0 };
 	int k = 0;
 	QUAD qxr = *a;
 
@@ -1307,7 +1323,7 @@ SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
 		SUFFIX(reduce_half) (&qxr, &aa, &k);
 		qxr.h = -qxr.h; qxr.l = -qxr.l;
 		k = 4 - k;
-		if (qxr.h <= -0.25 && qxr.l == 0) {
+		if (qxr.h <= (DOUBLE)-0.25 && qxr.l == 0) {
 			SUFFIX(go_quad_add) (&qxr, &qxr, &half);
 			k += 3;
 		}
@@ -1326,11 +1342,11 @@ SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
 			SUFFIX(go_quad_sub) (&qxr, &qxr, &SUFFIX(go_quad_one));
 			k += 2;
 		}
-		if (qxr.h >= 0.5) {
+		if (qxr.h >= HALF) {
 			SUFFIX(go_quad_sub) (&qxr, &qxr, &half);
 			k++;
 		}
-		if (qxr.h > 0.25) {
+		if (qxr.h > (DOUBLE)0.25) {
 			SUFFIX(go_quad_sub) (&qxr, &qxr, &half);
 			k++;
 		}
@@ -1385,7 +1401,7 @@ SUFFIX(do_sinpi) (QUAD *res, const QUAD *a, int k)
 
 	if (a->h == 0)
 		SUFFIX(go_quad_init) (&qr, k & 1);
-	else if (a->h == 0.25 && a->l == 0)
+	else if (a->h == (DOUBLE)0.25 && a->l == 0)
 		SUFFIX(go_quad_div) (&qr,
 				     &SUFFIX(go_quad_one),
 				     &SUFFIX(go_quad_sqrt2));

@@ -31,6 +31,20 @@ void go_accumulator_add_quadl (GOAccumulatorl *acc, const GOQuadl *x);
 long double go_accumulator_valuel (GOAccumulatorl *acc);
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+
+gboolean go_accumulator_functionalD (void);
+void *go_accumulator_startD (void);
+void go_accumulator_endD (void *state);
+
+GOAccumulatorD *go_accumulator_newD (void);
+void go_accumulator_freeD (GOAccumulatorD *acc);
+void go_accumulator_clearD (GOAccumulatorD *acc);
+void go_accumulator_addD (GOAccumulatorD *acc, _Decimal64 x);
+void go_accumulator_add_quadD (GOAccumulatorD *acc, const GOQuadD *x);
+_Decimal64 go_accumulator_valueD (GOAccumulatorD *acc);
+#endif
+
 G_END_DECLS
 
 #endif

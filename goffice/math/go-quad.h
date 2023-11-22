@@ -109,6 +109,57 @@ GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_eulerl;
 
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+struct GOQuadD_ {
+	_Decimal64 h;
+	_Decimal64 l;
+};
+
+gboolean go_quad_functionalD (void);
+void *go_quad_startD (void);
+void go_quad_endD (void *state);
+
+void go_quad_initD (GOQuadD *res, _Decimal64 h);
+
+_Decimal64 go_quad_valueD (const GOQuadD *a);
+void go_quad_addD (GOQuadD *res, const GOQuadD *a, const GOQuadD *b);
+void go_quad_subD (GOQuadD *res, const GOQuadD *a, const GOQuadD *b);
+void go_quad_mulD (GOQuadD *res, const GOQuadD *a, const GOQuadD *b);
+void go_quad_divD (GOQuadD *res, const GOQuadD *a, const GOQuadD *b);
+void go_quad_sqrtD (GOQuadD *res, const GOQuadD *a);
+void go_quad_floorD (GOQuadD *res, const GOQuadD *a);
+void go_quad_powD (GOQuadD *res, _Decimal64 *exp2, const GOQuadD *x, const GOQuadD *y);
+void go_quad_expD (GOQuadD *res, _Decimal64 *exp2, const GOQuadD *a);
+void go_quad_expm1D (GOQuadD *res, const GOQuadD *a);
+void go_quad_logD (GOQuadD *res, const GOQuadD *a);
+void go_quad_hypotD (GOQuadD *res, const GOQuadD *a, const GOQuadD *b);
+
+void go_quad_sinD (GOQuadD *res, const GOQuadD *a);
+void go_quad_sinpiD (GOQuadD *res, const GOQuadD *a);
+void go_quad_asinD (GOQuadD *res, const GOQuadD *a);
+void go_quad_cosD (GOQuadD *res, const GOQuadD *a);
+void go_quad_cospiD (GOQuadD *res, const GOQuadD *a);
+void go_quad_acosD (GOQuadD *res, const GOQuadD *a);
+void go_quad_atan2D (GOQuadD *res, const GOQuadD *y, const GOQuadD *x);
+void go_quad_atan2piD (GOQuadD *res, const GOQuadD *y, const GOQuadD *x);
+
+void go_quad_mul12D (GOQuadD *res, _Decimal64 x, _Decimal64 y);
+
+void go_quad_dot_productD (GOQuadD *res,
+			   const GOQuadD *a, const GOQuadD *b, int n);
+
+void go_quad_constant8D (GOQuadD *res, const guint8 *data, gsize n, _Decimal64 base, _Decimal64 scale);
+
+GO_VAR_DECL const GOQuadD go_quad_zeroD;
+GO_VAR_DECL const GOQuadD go_quad_oneD;
+GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_piD;
+GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_2piD;
+GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_eD;
+GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_ln2D;
+GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_sqrt2D;
+GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_eulerD;
+#endif
+
 G_END_DECLS
 
 #endif

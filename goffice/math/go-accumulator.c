@@ -44,18 +44,33 @@ struct GOAccumulator_ {
 };
 #define ACC SUFFIX(GOAccumulator)
 
-#ifdef GOFFICE_WITH_LONG_DOUBLE
+#if defined(GOFFICE_WITH_LONG_DOUBLE) || defined(GOFFICE_WITH_DECIMAL64)
+// We need two versions.  Include ourself in order to get regular
+// definition first.
 #include "go-accumulator.c"
 #undef DOUBLE
 #undef SUFFIX
+#endif
+
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
 
 struct GOAccumulatorl_ {
 	GArray *partials;
 };
-
 #endif
+
+#ifdef GOFFICE_WITH_DECIMAL64
+#define DOUBLE _Decimal64
+#define SUFFIX(_n) _n ## D
+
+struct GOAccumulatorD_ {
+	GArray *partials;
+};
+#endif
+
+
 #endif
 
 
@@ -72,6 +87,9 @@ SUFFIX(go_accumulator_functional) (void)
  **/
 /**
  * go_accumulator_startl: (skip)
+ **/
+/**
+ * go_accumulator_startD: (skip)
  **/
 void *
 SUFFIX(go_accumulator_start) (void)
@@ -91,6 +109,9 @@ SUFFIX(go_accumulator_end) (void *state)
 /**
  * go_accumulator_newl: (skip)
  **/
+/**
+ * go_accumulator_newD: (skip)
+ **/
 ACC *
 SUFFIX(go_accumulator_new) (void)
 {
@@ -104,6 +125,9 @@ SUFFIX(go_accumulator_new) (void)
  **/
 /**
  * go_accumulator_freel: (skip)
+ **/
+/**
+ * go_accumulator_freeD: (skip)
  **/
 void
 SUFFIX(go_accumulator_free) (ACC *acc)
@@ -120,6 +144,9 @@ SUFFIX(go_accumulator_free) (ACC *acc)
 /**
  * go_accumulator_clearl: (skip)
  **/
+/**
+ * go_accumulator_clearD: (skip)
+ **/
 void
 SUFFIX(go_accumulator_clear) (ACC *acc)
 {
@@ -132,6 +159,9 @@ SUFFIX(go_accumulator_clear) (ACC *acc)
  **/
 /**
  * go_accumulator_addl: (skip)
+ **/
+/**
+ * go_accumulator_addD: (skip)
  **/
 void
 SUFFIX(go_accumulator_add) (ACC *acc, DOUBLE x)
@@ -171,6 +201,9 @@ SUFFIX(go_accumulator_add) (ACC *acc, DOUBLE x)
 /**
  * go_accumulator_add_quadl: (skip)
  **/
+/**
+ * go_accumulator_add_quadD: (skip)
+ **/
 void
 SUFFIX(go_accumulator_add_quad) (ACC *acc, const SUFFIX(GOQuad) *x)
 {
@@ -186,6 +219,9 @@ SUFFIX(go_accumulator_add_quad) (ACC *acc, const SUFFIX(GOQuad) *x)
  **/
 /**
  * go_accumulator_valuel: (skip)
+ **/
+/**
+ * go_accumulator_valueD: (skip)
  **/
 DOUBLE
 SUFFIX(go_accumulator_value) (ACC *acc)
