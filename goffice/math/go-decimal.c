@@ -62,20 +62,17 @@ STUB1(asinh)
 STUB1(atan)
 STUB2(atan2)
 STUB1(atanh)
-STUB1(ceil)
 STUB1(cos)
 STUB1(cosh)
 STUB1(erf)
 STUB1(exp)
 STUB1(expm1)
-STUB1(floor)
 STUB1(lgamma)
 STUB2(fmod)
 STUB2(hypot)
 STUB1(log)
 STUB1(log10)
 STUB1(log1p)
-STUB1(round)
 STUB2(pow)
 STUB1(sin)
 STUB1(sinh)
@@ -557,6 +554,49 @@ strtoDd (const char *s, char **end)
 {
 	// FIXME
 	return strtold (s, end);
+}
+
+_Decimal64
+floorD (_Decimal64 x)
+{
+	if (x < 0)
+		return -ceilD (-x);
+	if (x >= 0) {
+		if (x < 1e15dd) {
+			_Decimal64 y = x - 0.5dd;
+			_Decimal64 C = 1e16dd - x;
+			_Decimal64 s = C + y;
+			return s - C;
+		} else
+			return x;
+	} else
+		return x;
+}
+
+_Decimal64
+ceilD (_Decimal64 x)
+{
+	if (x < 0)
+		return -floorD (-x);
+	if (x >= 0) {
+		_Decimal64 f = floorD (x);
+		return x == f ? f : f + 1;
+	} else
+		return x;
+}
+
+_Decimal64
+roundD (_Decimal64 x)
+{
+	_Decimal64 const C = 1e15dd;
+	if (x < 0)
+		return -roundD (-x);
+	if (x >= 0 && x < C) {
+		_Decimal64 s = C + x;
+		_Decimal64 r = s - C;
+		return r;
+	} else
+		return x;
 }
 
 // ---------------------------------------------------------------------------
