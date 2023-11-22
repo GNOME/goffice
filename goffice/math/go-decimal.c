@@ -1,4 +1,4 @@
- /*
+/*
  * go-decimal.c:  Support for Decimal64 numbers
  *
  * Authors
@@ -32,6 +32,52 @@
 //   - THIS IS INCOMPATIBLE WITH THE "quadmath" LIBRARY due to glibc
 //     deficiency.
 
+// Implementation status
+//
+// FUNCTION        RANGE     ACCURACY  TESTING
+// -------------------------------------------
+// acosD           *         *         *
+// acoshD          *         *         *
+// asinD           *         *         *
+// asinhD          *         *         *
+// atanD           *         *         *
+// atan2D          *         *         *
+// atanhD          *         *         *
+// ceilD           A         A         A
+// copysignD       A         A         A
+// cosD            *         *         *
+// coshD           *         *         *
+// erfD            *         *         *
+// expD            *         *         *
+// expm1D          *         *         *
+// fabsD           A         A         *
+// floorD          A         A         A
+// frexpD          B         B         -
+// fmodD           *         *         *
+// hypotD          *         *         *
+// jnD             *         *         -
+// ldexpD          B         B         -
+// lgammaD         B         B         *
+// lgamma_rD       *         *         -
+// log10D          *         *         *
+// log1pD          *         *         *
+// logD            *         *         *
+// nextafterD      F         F         -
+// powD            *         *         -
+// roundD          A         A         A
+// sinD            *         *         *
+// sinhD           *         *         *
+// sqrtD           *         *         *
+// tanD            *         *         *
+// tanhD           *         *         *
+// ynD             *         *         -
+// finiteD         A         A         A
+// isnanD          A         A         A
+// signbitD        A         A         A
+// strtoDd         *         *         *
+// (printf)        A         A         -
+//
+// * Stub via double.  Range:B, Accuracy:B
 
 #include <math/go-decimal.h>
 #include <math.h>
@@ -67,7 +113,6 @@ STUB1(cosh)
 STUB1(erf)
 STUB1(exp)
 STUB1(expm1)
-STUB1(lgamma)
 STUB2(fmod)
 STUB2(hypot)
 STUB1(log)
@@ -81,7 +126,9 @@ STUB1(tan)
 STUB1(tanh)
 
 _Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
+
 _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
+
 _Decimal64 lgamma_rD (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
 
 #if 0
@@ -503,6 +550,15 @@ signbitD (_Decimal64 x)
 }
 
 _Decimal64
+copysignD (_Decimal64 x, _Decimal64 y)
+{
+	if (signbitD (x) == signbitD (y))
+		return x;
+	else
+		return -x;
+}
+
+_Decimal64
 fabsD (_Decimal64 x)
 {
 	return signbitD (x) ? -x : x;
@@ -539,16 +595,55 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	abort ();
 }
 
+// NOTE: THIS IS NOT A LOSSLESS OPERATION
 _Decimal64
 ldexpD (_Decimal64 x, int e)
 {
-	return x * (_Decimal64)(ldexp(1, e));
+	if (x == 0 || !finiteD (x))
+		return x;
+
+	if (e > 1023) {
+		// Note: log2(DECIMAL64_MAX / DBL_MAX) =~ 252
+		return x * (_Decimal64)ldexp(1, 300) *
+			(_Decimal64)ldexp(1, e - 300);
+	} else if (e < -1023) {
+		return x * (_Decimal64)ldexp(1, -300) *
+			(_Decimal64)ldexp(1, e + 300);
+	} else
+		return x * (_Decimal64)(ldexp(1, e));
 }
 
+// NOTE: THIS IS NOT A LOSSLESS OPERATION
 _Decimal64
 frexpD (_Decimal64 x, int *e)
 {
-	return frexp (x, e);
+	int sign;
+	_Decimal64 m;
+
+	if (x == 0 || !finiteD (x)) {
+		*e = 0;
+		return x;
+	}
+
+	if (x < 0) {
+		sign = 1;
+		x = -x;
+	}
+
+	if (x >= (_Decimal64)DBL_MAX) {
+		_Decimal64 p_2_300 = ldexp (1, 300);
+		m = frexpD (x / p_2_300, e);
+		*e += 300;
+	} else if (x <= (_Decimal64)DBL_MIN) {
+		_Decimal64 p_2_300 = ldexp (1, 300);
+		m = frexpD (x * p_2_300, e);
+		*e -= 300;
+	} else
+		m = frexp (x, e);
+
+	if (sign)
+		m = -m;
+	return m;
 }
 
 _Decimal64
@@ -603,11 +698,33 @@ roundD (_Decimal64 x)
 		return x;
 }
 
+_Decimal64
+lgammaD (_Decimal64 x)
+{
+	int sign;
+	return lgamma_rD(x, &sign);
+}
+
 // ---------------------------------------------------------------------------
 
 void
 _go_decimal_init (void)
 {
+	// Test number big enough to have only one representation (but still
+	// subject to two different encodings)
+	_Decimal64 const x = 1234567890123456.dd;
+	uint64_t expected = 0x31c462d53c8abac0ull;
+	uint64_t u64;
+
+	memcpy (&u64, &x, sizeof (u64));
+	if (sizeof (u64) != 8 || u64 != expected) {
+		// Is this fails, Decimal64 is probably dpd encoded.
+		// (or we have really weird endianess going on)
+		g_printerr ("Decimal64 numbers are not bis encoded.\n");
+		g_printerr ("(Got x%lx, expected 0x%lx)\n", u64, expected);
+		abort ();
+	}
+
 	init_decimal_printf_support ();
 }
 

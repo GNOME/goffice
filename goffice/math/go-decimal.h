@@ -31,6 +31,7 @@ _Decimal64 atanD (_Decimal64 x);
 _Decimal64 atan2D (_Decimal64 x, _Decimal64 y);
 _Decimal64 atanhD (_Decimal64 x);
 _Decimal64 ceilD (_Decimal64 x);
+_Decimal64 copysignD (_Decimal64 x, _Decimal64 y);
 _Decimal64 cosD (_Decimal64 x);
 _Decimal64 coshD (_Decimal64 x);
 _Decimal64 erfD (_Decimal64 x);
