@@ -95,77 +95,77 @@ _Decimal64 lgamma_rD (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
 
 // Decode a _Decimal64 assuming binary integer significant encoding
 static int
-decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *p10, int *sign)
+decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *pp10, int *sign)
 {
 	const int exp_bias = -398;
 	uint64_t d64, mant;
+	int special = 0, p10 = 0;
 
 	memcpy (&d64, args0, sizeof(d64));
 
 	if (sign) *sign = (d64 >> 63);
-	if (p10) *p10 = 0;
 
 	if (((d64 >> 59) & 15) == 15) {
-		return ((d64 >> 58) & 1)
+		special = ((d64 >> 58) & 1)
 			? 1  // NAN
 			: 2; // INF
-	} else if (((d64 >> 61) & 3) == 3) {
-		if (p10) *p10 = exp_bias + ((d64 >> 51) & 0x3ff);
-		mant = (d64 & ((1ul << 51) - 1)) | (4ul << 51);
 	} else {
-		if (p10) *p10 = exp_bias + ((d64 >> 53) & 0x3ff);
-		mant = d64 & ((1ul << 53) - 1);
+		if (((d64 >> 61) & 3) == 3) {
+			p10 = exp_bias + ((d64 >> 51) & 0x3ff);
+			mant = (d64 & ((1ul << 51) - 1)) | (4ul << 51);
+		} else {
+			p10 = exp_bias + ((d64 >> 53) & 0x3ff);
+			mant = d64 & ((1ul << 53) - 1);
+		}
+		if (mant > 9999999999999999ull)
+			special = 3; // Invalid (>= 10^17)
 	}
 
-	if (mant > 9999999999999999ull) {
-		if (pmant) *pmant = 0;
-		return 3; // Invalid (>= 10^17)
-	}
+	if (pp10) *pp10 = (special ? 0 : p10);
+	if (pmant) *pmant = (special ? 0 : mant);
 
-	if (pmant) *pmant = mant;
-
-	return 0;
+	return special;
 }
 
 // Decode a _Decimal128 assuming binary integer significant encoding
 static int
 decode128_bis (_Decimal128 const *args0, uint64_t *pmantu, uint64_t *pmantl,
-	       int *p10, int *sign)
+	       int *pp10, int *sign)
 {
 	const int exp_bias = -6176;
 	uint64_t l64, u64, mantl, mantu;
+	int special = 0, p10 = 0;
 
 	// Hmm...  Little endian, I hope
 	memcpy (&l64, (uint64_t const *)args0, sizeof(l64));
 	memcpy (&u64, (uint64_t const *)args0 + 1, sizeof(u64));
 
 	if (sign) *sign = (u64 >> 63);
-	if (p10) *p10 = 0;
 
 	if (((u64 >> 59) & 15) == 15) {
-		return ((u64 >> 58) & 1)
+		special = ((u64 >> 58) & 1)
 			? 1  // NAN
 			: 2; // INF
-	} else if (((u64 >> 61) & 3) == 3) {
-		if (p10) *p10 = exp_bias + ((u64 >> 47) & 0x3fff);
-		mantu = (u64 & ((1ul << 47) - 1)) | (4ul << 47);
 	} else {
-		if (p10) *p10 = exp_bias + ((u64 >> 49) & 0x3fff);
-		mantu = u64 & ((1ul << 49) - 1);
+		if (((u64 >> 61) & 3) == 3) {
+			p10 = exp_bias + ((u64 >> 47) & 0x3fff);
+			mantu = (u64 & ((1ul << 47) - 1)) | (4ul << 47);
+		} else {
+			p10 = exp_bias + ((u64 >> 49) & 0x3fff);
+			mantu = u64 & ((1ul << 49) - 1);
+		}
+		mantl = l64;
+		if (mantu > 0x1ed09bead87c0ull ||
+		    (mantu == 0x1ed09bead87c0ull &&
+		     mantl > 0x378d8e63ffffffffull))
+			special = 3; // Invalid (>= 10^34)
 	}
-	mantl = l64;
 
-	if (mantu > 0x1ed09bead87c0ull ||
-	    (mantu == 0x1ed09bead87c0ull && mantl > 0x378d8e63ffffffffull)) {
-		if (pmantu) *pmantu = 0;
-		if (pmantl) *pmantl = 0;
-		return 3; // Invalid (>= 10^34)
-	}
+	if (pp10) *pp10 = special ? 0 : p10;
+	if (pmantu) *pmantu = special ? 0 : mantu;
+	if (pmantl) *pmantl = special ? 0 : mantl;
 
-	if (pmantu) *pmantu = mantu;
-	if (pmantl) *pmantl = mantl;
-
-	return 0;
+	return special;
 }
 
 static void
@@ -311,6 +311,10 @@ decimal_format(FILE *stream, const struct printf_info *info,
 		int estyle, fstyle, gstyle, prec;
 
 		len = strlen (buffer);
+
+		// We don't want a zero with scaling
+		if (len == 1 && buffer[0] == '0')
+			p10 = 0;
 
 		// Default is 6.  Avoid buffer overflow.
 		prec = info->prec;
