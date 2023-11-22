@@ -90,22 +90,28 @@ _Decimal64 lgamma_rD (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
 
 // ---------------------------------------------------------------------------
 
+enum {
+	CLS_NORMAL,
+	CLS_INVALID,  // Treat as zero
+	CLS_NAN,
+	CLS_INF
+};
+
+
 // Decode a _Decimal64 assuming binary integer significant encoding
 static int
 decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *pp10, int *sign)
 {
 	const int exp_bias = -398;
 	uint64_t d64, mant;
-	int special = 0, p10 = 0;
+	int special = CLS_NORMAL, p10 = 0;
 
 	memcpy (&d64, args0, sizeof(d64));
 
 	if (sign) *sign = (d64 >> 63);
 
 	if (((d64 >> 59) & 15) == 15) {
-		special = ((d64 >> 58) & 1)
-			? 1  // NAN
-			: 2; // INF
+		special = ((d64 >> 58) & 1) ? CLS_NAN : CLS_INF;
 	} else {
 		if (((d64 >> 61) & 3) == 3) {
 			p10 = exp_bias + ((d64 >> 51) & 0x3ff);
@@ -115,7 +121,7 @@ decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *pp10, int *sign)
 			mant = d64 & ((1ul << 53) - 1);
 		}
 		if (mant > 9999999999999999ull)
-			special = 3; // Invalid (>= 10^17)
+			special = CLS_INVALID; // Invalid (>= 10^17)
 	}
 
 	if (pp10) *pp10 = (special ? 0 : p10);
@@ -131,7 +137,7 @@ decode128_bis (_Decimal128 const *args0, uint64_t *pmantu, uint64_t *pmantl,
 {
 	const int exp_bias = -6176;
 	uint64_t l64, u64, mantl, mantu;
-	int special = 0, p10 = 0;
+	int special = CLS_NORMAL, p10 = 0;
 
 	// Hmm...  Little endian, I hope
 	memcpy (&l64, (uint64_t const *)args0, sizeof(l64));
@@ -140,9 +146,7 @@ decode128_bis (_Decimal128 const *args0, uint64_t *pmantu, uint64_t *pmantl,
 	if (sign) *sign = (u64 >> 63);
 
 	if (((u64 >> 59) & 15) == 15) {
-		special = ((u64 >> 58) & 1)
-			? 1  // NAN
-			: 2; // INF
+		special = ((u64 >> 58) & 1) ? CLS_NAN : CLS_INF;
 	} else {
 		if (((u64 >> 61) & 3) == 3) {
 			p10 = exp_bias + ((u64 >> 47) & 0x3fff);
@@ -155,7 +159,7 @@ decode128_bis (_Decimal128 const *args0, uint64_t *pmantu, uint64_t *pmantl,
 		if (mantu > 0x1ed09bead87c0ull ||
 		    (mantu == 0x1ed09bead87c0ull &&
 		     mantl > 0x378d8e63ffffffffull))
-			special = 3; // Invalid (>= 10^34)
+			special = CLS_INVALID; // Invalid (>= 10^34)
 	}
 
 	if (pp10) *pp10 = special ? 0 : p10;
@@ -282,12 +286,12 @@ decimal_format(FILE *stream, const struct printf_info *info,
 		_Decimal64 const *args0 = *(_Decimal64 **)(args[0]);
 		uint64_t mant;
 		special = decode64_bis (args0, &mant, &p10, &sign);
-		if (special == 0) render128 (buffer, 0, mant);
+		if (special == CLS_NORMAL) render128 (buffer, 0, mant);
 	} else if (info->user & decimal128_modifier) {
 		_Decimal128 const *args0 = *(_Decimal128 **)(args[0]);
 		uint64_t mantu, mantl;
 		special = decode128_bis (args0, &mantu, &mantl, &p10, &sign);
-		if (special == 0) render128 (buffer, mantu, mantl);
+		if (special == CLS_NORMAL) render128 (buffer, mantu, mantl);
 	} else {
 		// Not sure why this gets called on a regular "%f".  The special
 		// return value of -2 to use default handler is not documented.
@@ -304,7 +308,7 @@ decimal_format(FILE *stream, const struct printf_info *info,
 		signchar = 0;
 
 	switch (special) {
-	case 0: {
+	case CLS_NORMAL: {
 		int estyle, fstyle, gstyle, prec;
 
 		len = strlen (buffer);
@@ -424,16 +428,15 @@ decimal_format(FILE *stream, const struct printf_info *info,
 		}
 		break;
 	}
-	case 1:
+	case CLS_NAN:
 		strcpy (buffer, (qupper ? "NAN" : "nan"));
 		len = 3;
 		break;
-	case 2:
+	case CLS_INF:
 		strcpy (buffer, (qupper ? "INF" : "inf"));
 		len = 3;
 		break;
-	case 3:
-		// Invalid
+	case CLS_INVALID:
 		buffer[0] = '0';
 		len = 1;
 		p10 = 0;
@@ -482,13 +485,13 @@ init_decimal_printf_support (void)
 int
 isnanD (_Decimal64 x)
 {
-	return decode64_bis (&x, NULL, NULL, NULL) == 1;
+	return decode64_bis (&x, NULL, NULL, NULL) == CLS_NAN;
 }
 
 int
 finiteD (_Decimal64 x)
 {
-	return (decode64_bis (&x, NULL, NULL, NULL) ^ 2) < 2;
+	return decode64_bis (&x, NULL, NULL, NULL) < CLS_NAN;
 }
 
 int
@@ -512,8 +515,8 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	uint64_t mant;
 
 	special = decode64_bis (&x, &mant, &p10, &sign);
-	if (special == 1)
-		return x;  // NAN
+	if (special == CLS_NAN)
+		return x;
 
 	if (x < y)
 		qadd = 1;
@@ -522,8 +525,7 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	else
 		return y; // Either equal or y is NAN
 
-	if (special == 2) {
-		// Inf
+	if (special == CLS_INF) {
 		return sign ? -DECIMAL64_MAX : DECIMAL64_MAX;
 	}
 
@@ -561,7 +563,7 @@ floorD (_Decimal64 x)
 {
 	if (x < 0)
 		return -ceilD (-x);
-	if (x >= 0) {
+	if (x > 0) {
 		if (x < 1e15dd) {
 			_Decimal64 y = x - 0.5dd;
 			_Decimal64 C = 1e16dd - x;
@@ -578,7 +580,7 @@ ceilD (_Decimal64 x)
 {
 	if (x < 0)
 		return -floorD (-x);
-	if (x >= 0) {
+	if (x > 0) {
 		_Decimal64 f = floorD (x);
 		return x == f ? f : f + 1;
 	} else
@@ -591,9 +593,11 @@ roundD (_Decimal64 x)
 	_Decimal64 const C = 1e15dd;
 	if (x < 0)
 		return -roundD (-x);
-	if (x >= 0 && x < C) {
+	if (x > 0 && x < C) {
 		_Decimal64 s = C + x;
 		_Decimal64 r = s - C;
+		if (r - x == -0.5dd)
+			r += 1; // We don't want round-ties-to-even
 		return r;
 	} else
 		return x;
