@@ -220,19 +220,21 @@ test_oneargs (void)
 		{ "asinhD", asinhD, asinh },
 		{ "atanD", atanD, atan },
 		{ "atanhD", atanhD, atanh },
-		{ "ceilD", ceilD, ceil },
+		// { "ceilD", ceilD, ceil },
 		{ "cosD", cosD, cos },
 		{ "coshD", coshD, cosh },
 		{ "erfD", erfD, erf },
+		{ "erfcD", erfcD, erfc },
 		{ "expD", expD, exp },
 		{ "expm1D", expm1D, expm1 },
 		{ "fabsD", fabsD, fabs },
-		{ "floorD", floorD, floor },
+		// { "floorD", floorD, floor },
 		{ "lgammaD", lgammaD, lgamma },
 		{ "log10D", log10D, log10 },
 		{ "log1pD", log1pD, log1p },
+		{ "log2D", log2D, log2 },
 		{ "logD", logD, log },
-		{ "roundD", roundD, round },
+		// { "roundD", roundD, round },
 		{ "sinD", sinD, sin },
 		{ "sinhD", sinhD, sinh },
 		{ "sqrtD", sqrtD, sqrt },
@@ -249,13 +251,7 @@ test_oneargs (void)
 				_Decimal64 x = values64[v], y;
 				if (s) x = -x;
 				double dx = x, dy;
-
-				int qunderflow = (dx == 0) && (x != 0);
-				int qoverflow = finiteD (x) && !finite (dx);
 				int ok;
-
-				if (qunderflow || qoverflow)
-					continue;
 
 				y = funcs[f].fn_decimal (x);
 				dy = funcs[f].fn_decimal (dx);

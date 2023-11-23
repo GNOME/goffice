@@ -37,7 +37,7 @@
 // FUNCTION        RANGE     ACCURACY  TESTING
 // -------------------------------------------
 // acosD           *         *         *
-// acoshD          *         *         *
+// acoshD          A         *         *
 // asinD           *         *         *
 // asinhD          *         *         *
 // atanD           *         *         *
@@ -47,8 +47,9 @@
 // copysignD       A         A         A
 // cosD            *         *         *
 // coshD           *         *         *
-// erfD            *         *         *
-// expD            *         *         *
+// erfD            A         *         *
+// erfcD           A         *         *
+// expD            A         *         *
 // expm1D          *         *         *
 // fabsD           A         A         *
 // floorD          A         A         A
@@ -60,16 +61,17 @@
 // lgammaD         B         B         *
 // lgamma_rD       *         *         -
 // log10D          *         *         *
+// log2D           *         *         *
 // log1pD          *         *         *
 // logD            *         *         *
 // nextafterD      F         F         -
 // powD            *         *         -
 // roundD          A         A         A
 // sinD            *         *         *
-// sinhD           *         *         *
+// sinhD           A         *         *
 // sqrtD           *         *         *
 // tanD            *         *         *
-// tanhD           *         *         *
+// tanhD           A         *         *
 // ynD             *         *         -
 // finiteD         A         A         A
 // isnanD          A         A         A
@@ -110,7 +112,6 @@ STUB2(atan2)
 STUB1(atanh)
 STUB1(cos)
 STUB1(cosh)
-STUB1(erf)
 STUB1(exp)
 STUB1(expm1)
 STUB2(fmod)
@@ -118,12 +119,11 @@ STUB2(hypot)
 STUB1(log)
 STUB1(log10)
 STUB1(log1p)
+STUB1(log2)
 STUB2(pow)
 STUB1(sin)
-STUB1(sinh)
 STUB1(sqrt)
 STUB1(tan)
-STUB1(tanh)
 
 _Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
 
@@ -703,6 +703,41 @@ lgammaD (_Decimal64 x)
 {
 	int sign;
 	return lgamma_rD(x, &sign);
+}
+
+_Decimal64
+erfD (_Decimal64 x)
+{
+	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
+		_Decimal64 f = 1.1283791670955125738961589dd;
+		return x * f;
+	} else
+		return erf (x);
+}
+
+_Decimal64
+erfcD (_Decimal64 x)
+{
+	// Should be ok even when underflow or overflow occurs
+	return erfc (x);
+}
+
+_Decimal64
+sinhD (_Decimal64 x)
+{
+	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
+		return x;
+	} else
+		return sinh (x);
+}
+
+_Decimal64
+tanhD (_Decimal64 x)
+{
+	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
+		return x;
+	} else
+		return tanh (x);
 }
 
 // ---------------------------------------------------------------------------
