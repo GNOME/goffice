@@ -44,6 +44,27 @@ int go_range_vary_uniformlyl (long double const *xs, int n);
 long double *go_range_sortl (long double const *xs, int n);
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+int go_range_sumD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_sumsqD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_averageD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_minD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_maxD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_maxabsD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_devsqD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_fractile_interD (_Decimal64 const *xs, int n, _Decimal64 *res, _Decimal64 f);
+int go_range_fractile_inter_nonconstD (_Decimal64 *xs, int n, _Decimal64 *res, _Decimal64 f);
+int go_range_fractile_inter_sortedD (_Decimal64 const *xs, int n, _Decimal64 *res, _Decimal64 f);
+int go_range_median_interD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_median_inter_nonconstD (_Decimal64 *xs, int n, _Decimal64 *res);
+int go_range_median_inter_sortedD (_Decimal64 const *xs, int n, _Decimal64 *res);
+int go_range_constantD (_Decimal64 const *xs, int n);
+int go_range_increasingD (_Decimal64 const *xs, int n);
+int go_range_decreasingD (_Decimal64 const *xs, int n);
+int go_range_vary_uniformlyD (_Decimal64 const *xs, int n);
+_Decimal64 *go_range_sortD (_Decimal64 const *xs, int n);
+#endif
+
 G_END_DECLS
 
 #endif	/* GO_RANGEFUNC_H */
