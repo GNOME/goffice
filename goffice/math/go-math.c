@@ -1565,4 +1565,154 @@ go_atanpil (long double x)
 
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+
+static _Decimal64
+reduce_halfD (_Decimal64 x, int *pk)
+{
+	int k = 0;
+
+	if (x < 0) {
+		x = -reduce_halfD (-x, &k);
+		k = 4 - k;
+		if (x == -0.25dd)
+			x += 0.5dd, k += 3;
+	} else {
+		x = fmod (x, 2);
+		if (x >= 1)
+			x -= 1, k += 2;
+		if (x >= 0.5dd)
+			x -= 0.5dd, k++;
+		if (x > 0.25dd)
+			x -= 0.5dd, k++;
+	}
+
+	*pk = (k & 3);
+	return x;
+}
+
+static _Decimal64
+do_sinpiD (_Decimal64 x, int k)
+{
+	_Decimal64 y;
+
+	if (x == 0)
+		y = k & 1;
+	else if (x == 0.25dd)
+		y = 0.707106781186547524400844362104849039284835937688474036588339dd;
+	else
+		y = (k & 1) ? cos (M_PID * x) : sin (M_PID * x);
+
+	return (k & 2) ? 0 - y : y;
+}
+
+
+/**
+ * go_sinpiD:
+ * @x: a number
+ *
+ * Returns: the sine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+_Decimal64
+go_sinpiD (_Decimal64 x)
+{
+	int k;
+	_Decimal64 x0 = x;
+	x = reduce_halfD (x, &k);
+
+	/*
+	 * Per IEEE 754 2008:
+	 * sinpi(n) == 0 with sign of n.
+	 */
+	if (x == 0 && (k & 1) == 0)
+		return copysignD (0, x0);
+
+	return do_sinpiD (x, k);
+}
+
+/**
+ * go_cospiD:
+ * @x: a number
+ *
+ * Returns: the cosine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+_Decimal64
+go_cospiD (_Decimal64 x)
+{
+	int k;
+	x = reduce_halfD (x, &k);
+
+	/*
+	 * Per IEEE 754 2008:
+	 * cospi(n+0.5) == +0 for any integer n.
+	 */
+	if (x == 0 && (k & 1) == 1)
+		return +0.0;
+
+	return do_sinpiD (x, k + 1);
+}
+
+/**
+ * go_tanpiD:
+ * @x: a number
+ *
+ * Returns: the tangent of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+_Decimal64
+go_tanpiD (_Decimal64 x)
+{
+	/*
+	 * IEEE 754 2008 doesn't have tanpi and thus doesn't define the
+	 * behaviour for -0 argument or result.  crlibm has tanpi, but
+	 * doesn't seem to be fully clear on these cases.
+	 */
+
+	/* inf -> nan; -n -> -0; +n -> +0 */
+	x = fmodD (x, 1.0dd);
+
+	if (x == 0)
+		return copysignD (0.0dd, x);
+	if (fabsD (x) == 0.5dd)
+		return copysignD (go_nanD, x);
+	else
+		return go_sinpiD (x) / go_cospiD (x);
+}
+
+_Decimal64
+go_cotpiD (_Decimal64 x)
+{
+	/*
+	 * IEEE 754 2008 doesn't have cotpi.  Neither does crlibm.  Mirror
+	 * tanpi here.
+	 */
+
+	/* inf -> nan; -n -> -0; +n -> +0 */
+	x = fmodD (x, 1.0dd);
+
+	if (x == 0)
+		return copysign (go_nanD, x);
+	if (fabsD (x) == 0.5dd)
+		return copysignD (0.0dd, x);
+	else
+		return go_cospiD (x) / go_sinpiD (x);
+}
+
+_Decimal64
+go_atan2piD (_Decimal64 y, _Decimal64 x)
+{
+	return atan2D (y, x) / M_PID;
+}
+
+_Decimal64
+go_atanpiD (_Decimal64 x)
+{
+	return x < 0 ? -go_atan2piD (-x, 1) : go_atan2piD (x, 1);
+}
+
+#endif
+
+
 /* ------------------------------------------------------------------------- */
