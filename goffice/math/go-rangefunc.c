@@ -28,32 +28,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef DOUBLE
-
-#define DOUBLE double
-#ifdef HAVE_LONG_DOUBLE
-#define LDOUBLE long double
-#endif
-#define SUFFIX(_n) _n
-
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#include "go-rangefunc.c"
-#undef DOUBLE
-#undef LDOUBLE
-#undef SUFFIX
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-#endif
-
-#endif
-
-#ifndef LDOUBLE
-#define LDOUBLE DOUBLE
-#endif
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
 
 /* ------------------------------------------------------------------------- */
 
@@ -310,14 +288,14 @@ SUFFIX(go_range_fractile_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res, DO
 	DOUBLE fpos, residual;
 	int pos;
 
-	if (n <= 0 || f < 0.0 || f > 1.0)
+	if (n <= 0 || f < 0 || f > 1)
 		return 1;
 
 	fpos = (n - 1) * f;
 	pos = (int)fpos;
 	residual = fpos - pos;
 
-	if (residual == 0.0 || pos + 1 >= n)
+	if (residual == 0 || pos + 1 >= n)
 		*res = xs[pos];
 	else
 		*res = (1 - residual) * xs[pos] + residual * xs[pos + 1];
@@ -472,3 +450,11 @@ SUFFIX(go_range_vary_uniformly) (DOUBLE const *xs, int n)
 {
 	return SUFFIX(go_range_increasing) (xs, n) || SUFFIX(go_range_decreasing) (xs, n);
 }
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

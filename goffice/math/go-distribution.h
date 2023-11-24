@@ -59,6 +59,8 @@ double go_distribution_get_cumulative_hazard (GODistribution *dist, double x);
 double go_distribution_get_survival (GODistribution *dist, double x);
 double go_distribution_get_inverse_survival (GODistribution *dist, double x);
 
+// ----------------------------------------------------------------------------
+
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 long double go_distribution_get_densityl (GODistribution *dist, long double x);
 long double go_distribution_get_cumulativel (GODistribution *dist, long double x);
@@ -68,6 +70,20 @@ long double go_distribution_get_cumulative_hazardl (GODistribution *dist, long d
 long double go_distribution_get_survivall (GODistribution *dist, long double x);
 long double go_distribution_get_inverse_survivall (GODistribution *dist, long double x);
 #endif
+
+// ----------------------------------------------------------------------------
+
+#ifdef GOFFICE_WITH_DECIMAL64
+_Decimal64 go_distribution_get_densityD (GODistribution *dist, _Decimal64 x);
+_Decimal64 go_distribution_get_cumulativeD (GODistribution *dist, _Decimal64 x);
+_Decimal64 go_distribution_get_ppfD (GODistribution *dist, _Decimal64 x);
+_Decimal64 go_distribution_get_hazardD (GODistribution *dist, _Decimal64 x);
+_Decimal64 go_distribution_get_cumulative_hazardD (GODistribution *dist, _Decimal64 x);
+_Decimal64 go_distribution_get_survivalD (GODistribution *dist, _Decimal64 x);
+_Decimal64 go_distribution_get_inverse_survivalD (GODistribution *dist, _Decimal64 x);
+#endif
+
+// ----------------------------------------------------------------------------
 
 void go_distribution_scale (GODistribution *dist, double location, double scale);
 

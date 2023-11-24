@@ -28,29 +28,16 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-#ifndef DOUBLE
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
 
-#define DOUBLE double
-#define SUFFIX(_n) _n
+#ifdef DEFINE_COMMON
 
-#define DISTRIBUTION_FIRST_PATH
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#include "go-distribution.c"
-#undef DISTRIBUTION_FIRST_PATH
-#undef DOUBLE
-#undef SUFFIX
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-#endif
-#define DISTRIBUTION_LAST_PATH
-
-#endif
-
-#ifdef DISTRIBUTION_FIRST_PATH
+// The scale and location are always double.  Maybe reconsider that.
+#define DIST_SCALE ((DOUBLE)(dist->scale))
+#define DIST_LOCATION ((DOUBLE)(dist->location))
 
 enum {
 	DIST_PROP_0,
@@ -117,6 +104,11 @@ typedef struct {
 	long double (*get_ppfl) (GODistribution *dist, long double x);
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+	_Decimal64 (*get_densityD) (GODistribution *dist, _Decimal64 x);
+	_Decimal64 (*get_cumulativeD) (GODistribution *dist, _Decimal64 x);
+	_Decimal64 (*get_ppfD) (GODistribution *dist, _Decimal64 x);
+#endif
 } GODistributionClass;
 
 static void
@@ -308,7 +300,7 @@ go_distribution_scale (GODistribution *dist, double location, double scale)
 	dist->scale = scale;
 }
 
-#endif /* DISTRIBUTION_LAST_PATH */
+#endif /* DEFINE_COMMON */
 
 DOUBLE
 SUFFIX (go_distribution_get_density) (GODistribution *dist, DOUBLE x)
@@ -360,7 +352,7 @@ SUFFIX (go_distribution_get_hazard) (GODistribution *dist, DOUBLE x)
 	if (go_dist_klass->SUFFIX (get_density) != NULL &&
 	    go_dist_klass->SUFFIX (get_cumulative) != NULL)
 		return go_dist_klass->SUFFIX (get_density) (dist, x) /
-			(1. - go_dist_klass->SUFFIX (get_cumulative) (dist, x));
+			(1 - go_dist_klass->SUFFIX (get_cumulative) (dist, x));
 	return SUFFIX (go_nan);
 }
 
@@ -373,7 +365,7 @@ SUFFIX (go_distribution_get_cumulative_hazard) (GODistribution *dist, DOUBLE x)
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
 	if (go_dist_klass->SUFFIX (get_cumulative) != NULL)
-		return SUFFIX (log) (1. - go_dist_klass->SUFFIX (get_cumulative) (dist, x));
+		return SUFFIX (log) (1 - go_dist_klass->SUFFIX (get_cumulative) (dist, x));
 	return SUFFIX (go_nan);
 }
 
@@ -386,7 +378,7 @@ SUFFIX (go_distribution_get_survival) (GODistribution *dist, DOUBLE x)
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
 	if (go_dist_klass->SUFFIX (get_cumulative) != NULL)
-		return 1. - go_dist_klass->SUFFIX (get_cumulative) (dist, x);
+		return 1 - go_dist_klass->SUFFIX (get_cumulative) (dist, x);
 	return SUFFIX (go_nan);
 }
 
@@ -399,18 +391,18 @@ SUFFIX (go_distribution_get_inverse_survival) (GODistribution *dist, DOUBLE x)
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
 	if (go_dist_klass->SUFFIX (get_ppf) != NULL)
-		return 1. - go_dist_klass->SUFFIX (get_ppf) (dist, x);
+		return 1 - go_dist_klass->SUFFIX (get_ppf) (dist, x);
 	return SUFFIX (go_nan);
 }
 
 /*****************************************************************************/
 /*                        Normal distribution                              */
 /*****************************************************************************/
-#ifdef DISTRIBUTION_FIRST_PATH
+
+#ifdef DEFINE_COMMON
 
 typedef struct {
 	GODistribution base;
-
 } GODistNormal;
 
 #define GO_TYPE_DIST_NORMAL	  	(go_dist_normal_get_type ())
@@ -421,27 +413,32 @@ GType go_dist_normal_get_type (void);
 
 typedef GODistributionClass GODistNormalClass;
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DEFINE_COMMON */
 
 static DOUBLE
 SUFFIX (go_normal_get_density) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_dnorm) (x, dist->location, dist->scale, FALSE);
+	return SUFFIX (go_dnorm) (x, DIST_LOCATION, DIST_SCALE, FALSE);
 }
 
 static DOUBLE
 SUFFIX (go_normal_get_cumulative) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_pnorm) (x, dist->location, dist->scale, TRUE, FALSE);
+	return SUFFIX (go_pnorm) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
 }
 
 static DOUBLE
 SUFFIX (go_normal_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_qnorm) (x, dist->location, dist->scale, TRUE, FALSE);
+	return SUFFIX (go_qnorm) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
 }
 
-#ifdef DISTRIBUTION_LAST_PATH
+#if LAST_INCLUDE_PASS
+
+static void
+go_dist_normal_init (GODistribution *dist)
+{
+}
 
 static void
 go_dist_normal_class_init (GObjectClass *klass)
@@ -456,23 +453,23 @@ go_dist_normal_class_init (GObjectClass *klass)
 	dist_klass->get_cumulativel = go_normal_get_cumulativel;
 	dist_klass->get_ppfl = go_normal_get_ppfl;
 #endif
-}
-
-static void
-go_dist_normal_init (GODistribution *dist)
-{
+#ifdef GOFFICE_WITH_DECIMAL64
+	dist_klass->get_densityD = go_normal_get_densityD;
+	dist_klass->get_cumulativeD = go_normal_get_cumulativeD;
+	dist_klass->get_ppfD = go_normal_get_ppfD;
+#endif
 }
 
 GSF_CLASS (GODistNormal, go_dist_normal,
 	   go_dist_normal_class_init, go_dist_normal_init,
 	   GO_TYPE_DISTRIBUTION)
 
-#endif /* DISTRIBUTION_LAST_PATH */
+#endif /* LAST_INCLUDE_PASS */
 
 /*****************************************************************************/
 /*                        Uniform distribution                              */
 /*****************************************************************************/
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DEFINE_COMMON
 
 typedef struct {
 	GODistribution base;
@@ -487,23 +484,25 @@ GType go_dist_uniform_get_type (void);
 
 typedef GODistributionClass GODistUniformClass;
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DEFINE_COMMON */
 
 static DOUBLE
 SUFFIX (go_uniform_get_density) (GODistribution *dist, DOUBLE x)
 {
-	x = (x - dist->location) / dist->scale;
-	return (x >= 0. && x < 1.)? SUFFIX (1.) / dist->scale: SUFFIX (0.);
+	x = (x - DIST_LOCATION) / DIST_SCALE;
+	return (x >= 0 && x < 1)
+		? CONST (1.) / DIST_SCALE
+		: CONST (0.);
 }
 
 static DOUBLE
 SUFFIX (go_uniform_get_cumulative) (GODistribution *dist, DOUBLE x)
 {
-	x = (x - dist->location) / dist->scale;
-	if (x < 0.)
-		return SUFFIX (0.);
-	else if (x >= 1.)
-		return SUFFIX (1.);
+	x = (x - DIST_LOCATION) / DIST_SCALE;
+	if (x < 0)
+		return CONST (0.);
+	else if (x >= 1)
+		return CONST (1.);
 	else
 		return x;
 }
@@ -511,10 +510,10 @@ SUFFIX (go_uniform_get_cumulative) (GODistribution *dist, DOUBLE x)
 static DOUBLE
 SUFFIX (go_uniform_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return x * dist->scale + dist->location;
+	return x * DIST_SCALE + DIST_LOCATION;
 }
 
-#ifdef DISTRIBUTION_LAST_PATH
+#if LAST_INCLUDE_PASS
 
 static void
 go_dist_uniform_class_init (GObjectClass *klass)
@@ -529,6 +528,11 @@ go_dist_uniform_class_init (GObjectClass *klass)
 	dist_klass->get_cumulativel = go_uniform_get_cumulativel;
 	dist_klass->get_ppfl = go_uniform_get_ppfl;
 #endif
+#ifdef GOFFICE_WITH_DECIMAL64
+	dist_klass->get_densityD = go_uniform_get_densityD;
+	dist_klass->get_cumulativeD = go_uniform_get_cumulativeD;
+	dist_klass->get_ppfD = go_uniform_get_ppfD;
+#endif
 }
 
 static void
@@ -540,12 +544,12 @@ GSF_CLASS (GODistUniform, go_dist_uniform,
 	   go_dist_uniform_class_init, go_dist_uniform_init,
 	   GO_TYPE_DISTRIBUTION)
 
-#endif /* DISTRIBUTION_LAST_PATH */
+#endif /* LAST_INCLUDE_PASS */
 
 /*****************************************************************************/
 /*                        Cauchy distribution                              */
 /*****************************************************************************/
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DEFINE_COMMON
 
 typedef struct {
 	GODistribution base;
@@ -560,27 +564,27 @@ GType go_dist_cauchy_get_type (void);
 
 typedef GODistributionClass GODistCauchyClass;
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DEFINE_COMMON */
 
 static DOUBLE
 SUFFIX (go_cauchy_get_density) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_dcauchy) (x, dist->location, dist->scale, FALSE);
+	return SUFFIX (go_dcauchy) (x, DIST_LOCATION, DIST_SCALE, FALSE);
 }
 
 static DOUBLE
 SUFFIX (go_cauchy_get_cumulative) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_pcauchy) (x, dist->location, dist->scale, TRUE, FALSE);
+	return SUFFIX (go_pcauchy) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
 }
 
 static DOUBLE
 SUFFIX (go_cauchy_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_qcauchy) (x, dist->location, dist->scale, TRUE, FALSE);
+	return SUFFIX (go_qcauchy) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
 }
 
-#ifdef DISTRIBUTION_LAST_PATH
+#if LAST_INCLUDE_PASS
 
 static void
 go_dist_cauchy_class_init (GObjectClass *klass)
@@ -595,6 +599,11 @@ go_dist_cauchy_class_init (GObjectClass *klass)
 	dist_klass->get_cumulativel = go_cauchy_get_cumulativel;
 	dist_klass->get_ppfl = go_cauchy_get_ppfl;
 #endif
+#ifdef GOFFICE_WITH_DECIMAL64
+	dist_klass->get_densityD = go_cauchy_get_densityD;
+	dist_klass->get_cumulativeD = go_cauchy_get_cumulativeD;
+	dist_klass->get_ppfD = go_cauchy_get_ppfD;
+#endif
 }
 
 static void
@@ -606,12 +615,12 @@ GSF_CLASS (GODistCauchy, go_dist_cauchy,
 	   go_dist_cauchy_class_init, go_dist_cauchy_init,
 	   GO_TYPE_DISTRIBUTION)
 
-#endif /* DISTRIBUTION_LAST_PATH */
+#endif /* LAST_INCLUDE_PASS */
 
 /*****************************************************************************/
 /*                        Weibull distribution                              */
 /*****************************************************************************/
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DEFINE_COMMON
 
 typedef struct {
 	GODistribution base;
@@ -631,27 +640,27 @@ enum {
 	WEIBULL_PROP_SHAPE
 };
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DEFINE_COMMON */
 
 static DOUBLE
 SUFFIX (go_weibull_get_density) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_dweibull) (x - dist->location, GO_DIST_WEIBULL (dist)->shape, dist->scale, FALSE) ;
+	return SUFFIX (go_dweibull) (x - DIST_LOCATION, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE, FALSE) ;
 }
 
 static DOUBLE
 SUFFIX (go_weibull_get_cumulative) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_pweibull) (x - dist->location, GO_DIST_WEIBULL (dist)->shape, dist->scale, TRUE, FALSE) ;
+	return SUFFIX (go_pweibull) (x - DIST_LOCATION, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE, TRUE, FALSE) ;
 }
 
 static DOUBLE
 SUFFIX (go_weibull_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_qweibull) (x, GO_DIST_WEIBULL (dist)->shape, dist->scale, TRUE, FALSE) + dist->location;
+	return SUFFIX (go_qweibull) (x, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE, TRUE, FALSE) + DIST_LOCATION;
 }
 
-#ifdef DISTRIBUTION_LAST_PATH
+#if LAST_INCLUDE_PASS
 
 static void
 go_dist_weibull_set_property (GObject *obj, guint param_id,
@@ -696,6 +705,11 @@ go_dist_weibull_class_init (GObjectClass *klass)
 	dist_klass->get_cumulativel = go_weibull_get_cumulativel;
 	dist_klass->get_ppfl = go_weibull_get_ppfl;
 #endif
+#ifdef GOFFICE_WITH_DECIMAL64
+	dist_klass->get_densityD = go_weibull_get_densityD;
+	dist_klass->get_cumulativeD = go_weibull_get_cumulativeD;
+	dist_klass->get_ppfD = go_weibull_get_ppfD;
+#endif
 	klass->set_property = go_dist_weibull_set_property;
 	klass->get_property = go_dist_weibull_get_property;
 	g_object_class_install_property (klass, WEIBULL_PROP_SHAPE,
@@ -718,12 +732,12 @@ GSF_CLASS (GODistWeibull, go_dist_weibull,
 	   go_dist_weibull_class_init, go_dist_weibull_init,
 	   GO_TYPE_DISTRIBUTION)
 
-#endif /* DISTRIBUTION_LAST_PATH */
+#endif /* LAST_INCLUDE_PASS */
 
 /*****************************************************************************/
 /*                        Lognormal distribution                              */
 /*****************************************************************************/
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DEFINE_COMMON
 
 typedef struct {
 	GODistribution base;
@@ -743,31 +757,31 @@ enum {
 	LNORM_PROP_SHAPE
 };
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DEFINE_COMMON */
 
 static DOUBLE
 SUFFIX (go_log_normal_get_density) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_dlnorm) ((x - dist->location) / dist->scale, 0., GO_DIST_LOG_NORMAL (dist)->shape, FALSE);
+	return SUFFIX (go_dlnorm) ((x - DIST_LOCATION) / DIST_SCALE, 0., GO_DIST_LOG_NORMAL (dist)->shape, FALSE);
 }
 
 static DOUBLE
 SUFFIX (go_log_normal_get_cumulative) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_plnorm) ((x - dist->location) / dist->scale, 0., GO_DIST_LOG_NORMAL (dist)->shape, TRUE, FALSE);
+	return SUFFIX (go_plnorm) ((x - DIST_LOCATION) / DIST_SCALE, 0., GO_DIST_LOG_NORMAL (dist)->shape, TRUE, FALSE);
 }
 
 static DOUBLE
 SUFFIX (go_log_normal_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_qlnorm) (x, 0., GO_DIST_LOG_NORMAL (dist)->shape, TRUE, FALSE) * dist->scale + dist->location;
+	return SUFFIX (go_qlnorm) (x, 0., GO_DIST_LOG_NORMAL (dist)->shape, TRUE, FALSE) * DIST_SCALE + DIST_LOCATION;
 }
 
-#ifdef DISTRIBUTION_LAST_PATH
+#if LAST_INCLUDE_PASS
 
 static void
 go_dist_log_normal_set_property (GObject *obj, guint param_id,
-			      GValue const *value, GParamSpec *pspec)
+				 GValue const *value, GParamSpec *pspec)
 {
 	GODistLogNormal *dist = GO_DIST_LOG_NORMAL (obj);
 
@@ -808,6 +822,11 @@ go_dist_log_normal_class_init (GObjectClass *klass)
 	dist_klass->get_cumulativel = go_log_normal_get_cumulativel;
 	dist_klass->get_ppfl = go_log_normal_get_ppfl;
 #endif
+#ifdef GOFFICE_WITH_DECIMAL64
+	dist_klass->get_densityD = go_log_normal_get_densityD;
+	dist_klass->get_cumulativeD = go_log_normal_get_cumulativeD;
+	dist_klass->get_ppfD = go_log_normal_get_ppfD;
+#endif
 	klass->set_property = go_dist_log_normal_set_property;
 	klass->get_property = go_dist_log_normal_get_property;
 	g_object_class_install_property (klass, LNORM_PROP_SHAPE,
@@ -830,13 +849,13 @@ GSF_CLASS (GODistLogNormal, go_dist_log_normal,
 	   go_dist_log_normal_class_init, go_dist_log_normal_init,
 	   GO_TYPE_DISTRIBUTION)
 
-#endif /* DISTRIBUTION_LAST_PATH */
+#endif /* LAST_INCLUDE_PASS */
 
 /*****************************************************************************/
 /*                        Global functions                                   */
 /*****************************************************************************/
 
-#ifdef DISTRIBUTION_LAST_PATH
+#if LAST_INCLUDE_PASS
 
 GODistribution*
 go_distribution_new (GODistributionType type)
@@ -879,4 +898,12 @@ _go_distributions_init (void)
 	go_dist_log_normal_get_type ();
 }
 
-#endif /* DISTRIBUTION_LAST_PATH */
+#endif /* LAST_INCLUDE_PASS */
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

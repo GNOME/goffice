@@ -25,39 +25,20 @@
 #include <goffice/goffice.h>
 #include <math.h>
 
-
-#ifndef DOUBLE
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
 
 #define QUAD SUFFIX(GOQuad)
 #define QQR SUFFIX(GOQuadQR)
 #define QMATRIX SUFFIX(GOQuadMatrix)
 
-#define DOUBLE double
-#define SUFFIX(_n) _n
-
-struct GOQuadQR_ {
+struct INFIX(GOQuadQR,_) {
 	QMATRIX *V;
 	QMATRIX *R;
 	int qdet;
 };
-
-
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#include "go-matrix.c"
-#undef DOUBLE
-#undef SUFFIX
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-
-struct GOQuadQRl_ {
-	QMATRIX *V;
-	QMATRIX *R;
-	int qdet;
-};
-
-#endif
-
-#endif
 
 
 /**
@@ -69,6 +50,13 @@ struct GOQuadQRl_ {
  **/
 /**
  * go_quad_matrix_newl: (skip)
+ * @m: number of rows
+ * @n: number of columns
+ *
+ * Returns: a new zero matrix.
+ **/
+/**
+ * go_quad_matrix_newD: (skip)
  * @m: number of rows
  * @n: number of columns
  *
@@ -118,6 +106,12 @@ SUFFIX(go_quad_matrix_free) (QMATRIX *A)
  *
  * Returns: a new matrix.
  **/
+/**
+ * go_quad_matrix_dupD: (skip)
+ * @A: Matrix to duplicate
+ *
+ * Returns: a new matrix.
+ **/
 QMATRIX *
 SUFFIX(go_quad_matrix_dup) (const QMATRIX *A)
 {
@@ -138,6 +132,13 @@ SUFFIX(go_quad_matrix_dup) (const QMATRIX *A)
  **/
 /**
  * go_quad_matrix_copyl:
+ * @A: (out): Destination matrix.
+ * @B: (transfer none): Source matrix.
+ *
+ * Copies B to A.
+ **/
+/**
+ * go_quad_matrix_copyD:
  * @A: (out): Destination matrix.
  * @B: (transfer none): Source matrix.
  *
@@ -174,6 +175,13 @@ SUFFIX(go_quad_matrix_copy) (QMATRIX *A, const QMATRIX *B)
  *
  * Transposes B into A.
  **/
+/**
+ * go_quad_matrix_transposeD:
+ * @A: (out): Destination matrix.
+ * @B: (transfer none): Source matrix.
+ *
+ * Transposes B into A.
+ **/
 void
 SUFFIX(go_quad_matrix_transpose) (QMATRIX *A, const QMATRIX *B)
 {
@@ -202,6 +210,14 @@ SUFFIX(go_quad_matrix_transpose) (QMATRIX *A, const QMATRIX *B)
  **/
 /**
  * go_quad_matrix_multiplyl:
+ * @C: (out): Destination matrix.
+ * @A: Source matrix.
+ * @B: Source matrix.
+ *
+ * Multiplies A*B and stores the result in C.
+ **/
+/**
+ * go_quad_matrix_multiplyD:
  * @C: (out): Destination matrix.
  * @A: Source matrix.
  * @B: Source matrix.
@@ -248,6 +264,17 @@ SUFFIX(go_quad_matrix_multiply) (QMATRIX *C,
 
 /**
  * go_quad_matrix_inversel: (skip)
+ * @A: Source matrix.
+ * @threshold: condition number threshold.
+ *
+ * Returns: The inverse matrix of A.  If any eigenvalues divided by the largest
+ * eigenvalue is less than or equal to the given threshold, %NULL is returned
+ * indicating a matrix that cannot be inverted.  (Note: this doesn't actually
+ * use the eigenvalues of A, but of A after an orthogonal transformation.)
+ **/
+
+/**
+ * go_quad_matrix_inverseD: (skip)
  * @A: Source matrix.
  * @threshold: condition number threshold.
  *
@@ -355,6 +382,14 @@ SUFFIX(go_quad_matrix_determinant) (const QMATRIX *A, QUAD *res)
 
 /**
  * go_quad_matrix_pseudo_inversel: (skip)
+ * @A: An arbitrary matrix.
+ * @threshold: condition number threshold.
+ *
+ * Returns: @A's pseudo-inverse.
+ **/
+
+/**
+ * go_quad_matrix_pseudo_inverseD: (skip)
  * @A: An arbitrary matrix.
  * @threshold: condition number threshold.
  *
@@ -700,6 +735,13 @@ SUFFIX(go_quad_matrix_dump) (const QMATRIX *A, const char *fmt)
  *
  * Returns: (transfer full): qr decomposition.
  **/
+
+/**
+ * go_quad_qr_newD: (skip)
+ * @A: input matrix
+ *
+ * Returns: (transfer full): qr decomposition.
+ **/
 QQR *
 SUFFIX(go_quad_qr_new) (const QMATRIX *A)
 {
@@ -897,3 +939,11 @@ SUFFIX(go_quad_qr_mark_degenerate) (QQR *qr, int i)
 
 	qr->R->data[i][i] = SUFFIX(go_quad_zero);
 }
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

@@ -18,28 +18,10 @@
 #include <goffice-config.h>
 #include <goffice/math/go-fft.h>
 
-#ifndef DOUBLE
-
-#define DOUBLE double
-#define SUFFIX(_n) _n
-#define M_PIgo    3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117
-
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#include "go-fft.c"
-#undef DOUBLE
-#undef SUFFIX
-#undef M_PIgo
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-#define M_PIgo    3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117L
-#endif
-
-#endif
-
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
 
 void
 SUFFIX(go_fourier_fft) (SUFFIX(go_complex) const *in, int n, int skip, SUFFIX(go_complex) **fourier, gboolean inverse)
@@ -59,7 +41,7 @@ SUFFIX(go_fourier_fft) (SUFFIX(go_complex) const *in, int n, int skip, SUFFIX(go
 	SUFFIX(go_fourier_fft) (in, nhalf, skip * 2, &fourier_1, inverse);
 	SUFFIX(go_fourier_fft) (in + skip, nhalf, skip * 2, &fourier_2, inverse);
 
-	argstep = (inverse ? M_PIgo : -M_PIgo) / nhalf;
+	argstep = (inverse ? DOUBLE_PI : -DOUBLE_PI) / nhalf;
 	for (i = 0; i < nhalf; i++) {
 		SUFFIX(go_complex) dir, tmp;
 
@@ -76,3 +58,11 @@ SUFFIX(go_fourier_fft) (SUFFIX(go_complex) const *in, int n, int skip, SUFFIX(go
 	g_free (fourier_1);
 	g_free (fourier_2);
 }
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

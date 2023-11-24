@@ -21,7 +21,8 @@ INTROSPECTION_COMPILER_ARGS = \
 noinst_HEADERS = \
 	app/file-priv.h				\
 	math/go-ryu.h				\
-	goffice-debug.h
+	goffice-debug.h				\
+	goffice-multipass.h
 
 app_SOURCES =					\
 	app/go-doc.c				\

@@ -37,88 +37,31 @@
 #include <goffice/goffice.h>
 #include <math.h>
 
-/* Normalize cpu id.  */
-#if !defined(i386) && (defined(__i386__) || defined(__i386))
-#define i386 1
-#endif
-
-#ifndef DOUBLE
-
-#define DEFINE_COMMON
-
-#ifdef i386
 #ifdef HAVE_FPU_CONTROL_H
 #include <fpu_control.h>
 #define USE_FPU_CONTROL
-#elif defined(__GNUC__)
-/* The next few lines from glibc licensed under lpgl 2.1 */
-/* FPU control word bits.  i387 version.
-   Copyright (C) 1993,1995-1998,2000,2001,2003 Free Software Foundation, Inc. */
-#define _FPU_EXTENDED 0x300	/* libm requires double extended precision.  */
-#define _FPU_DOUBLE   0x200
-#define _FPU_SINGLE   0x0
-typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
-#define _FPU_GETCW(cw) __asm__ __volatile__ ("fnstcw %0" : "=m" (*&cw))
-#define _FPU_SETCW(cw) __asm__ __volatile__ ("fldcw %0" : : "m" (*&cw))
-#define USE_FPU_CONTROL
-#endif
 #endif
 
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
+
+#define DOUBLE_IS_double (INCLUDE_PASS == INCLUDE_PASS_DOUBLE)
 #define QUAD SUFFIX(GOQuad)
 #define HALF (DOUBLE)0.5
-
-#define DOUBLE double
-#define DOUBLE_IS_double 1
-#define SUFFIX(_n) _n
-#define DOUBLE_MANT_DIG DBL_MANT_DIG
-#define DOUBLE_EPSILON DBL_EPSILON
-
-#if defined(GOFFICE_WITH_LONG_DOUBLE) || defined(GOFFICE_WITH_DECIMAL64)
-// We need two versions.  Include ourself in order to get regular
-// definition first.
-#include "go-quad.c"
-#undef DEFINE_COMMON
-#undef DOUBLE
-#undef SUFFIX
-#undef DOUBLE_MANT_DIG
-#undef DOUBLE_EPSILON
-#undef DOUBLE_IS_double
-#define DOUBLE_IS_double 0
-#endif
-
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-#define DOUBLE_MANT_DIG LDBL_MANT_DIG
-#define DOUBLE_EPSILON LDBL_EPSILON
-#endif
-
-#ifdef GOFFICE_WITH_DECIMAL64
-#define DOUBLE _Decimal64
-#define SUFFIX(_n) _n ## D
-#define DOUBLE_MANT_DIG DECIMAL64_MANT_DIG
-#define DOUBLE_EPSILON DECIMAL64_EPSILON
-#endif
-
-#endif
 
 gboolean
 SUFFIX(go_quad_functional) (void)
 {
-	if (FLT_RADIX != 2)
-		return FALSE;
-
-#ifdef i386
-	if (DOUBLE_IS_double)
-		return TRUE;
+#if DOUBLE_IS_double
+	return TRUE;
+#endif
 
 #ifdef USE_FPU_CONTROL
 	return TRUE;
 #else
 	return FALSE;
-#endif
-#else
-	return TRUE;
 #endif
 }
 
@@ -210,9 +153,8 @@ SUFFIX(go_quad_start) (void)
 	if (!SUFFIX(go_quad_functional) () && first)
 		g_warning ("quad precision math may not be completely accurate.");
 
-#ifdef i386
-	if (DOUBLE_IS_double) {
-#ifdef USE_FPU_CONTROL
+#if defined(USE_FPU_CONTROL) && DOUBLE_IS_double
+	{
 		fpu_control_t state, newstate;
 		fpu_control_t mask =
 			_FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE;
@@ -222,10 +164,9 @@ SUFFIX(go_quad_start) (void)
 
 		newstate = (state & ~mask) | _FPU_DOUBLE;
 		_FPU_SETCW (newstate);
-#else
-		/* Hope for the best.  */
-#endif
 	}
+#else
+	/* Hope for the best.  */
 #endif
 
 	if (first) {
@@ -290,10 +231,8 @@ SUFFIX(go_quad_end) (void *state)
 	if (!state)
 		return;
 
-#ifdef i386
 #ifdef USE_FPU_CONTROL
 	_FPU_SETCW (*(fpu_control_t*)state);
-#endif
 #endif
 
 	g_free (state);
@@ -1584,3 +1523,11 @@ SUFFIX(go_quad_acos) (QUAD *res, const QUAD *a)
 	if (a->h < 0)
 		SUFFIX(go_quad_sub) (res, &SUFFIX(go_quad_pi), res);
 }
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

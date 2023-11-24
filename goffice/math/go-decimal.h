@@ -53,6 +53,7 @@ _Decimal64 log10D (_Decimal64 x);
 _Decimal64 log1pD (_Decimal64 x);
 _Decimal64 log2D (_Decimal64 x);
 _Decimal64 logD (_Decimal64 x);
+_Decimal64 modfD (_Decimal64 x, _Decimal64 *y);
 _Decimal64 nextafterD (_Decimal64 x, _Decimal64 y);
 _Decimal64 powD (_Decimal64 x, _Decimal64 y);
 _Decimal64 roundD (_Decimal64 x);

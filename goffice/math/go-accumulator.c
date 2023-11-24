@@ -34,47 +34,16 @@
 #include <math.h>
 #include <float.h>
 
-#ifndef DOUBLE
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
 
-#define DOUBLE double
-#define SUFFIX(_n) _n
-
-struct GOAccumulator_ {
+struct INFIX(GOAccumulator,_) {
 	GArray *partials;
 };
+
 #define ACC SUFFIX(GOAccumulator)
-
-#if defined(GOFFICE_WITH_LONG_DOUBLE) || defined(GOFFICE_WITH_DECIMAL64)
-// We need two versions.  Include ourself in order to get regular
-// definition first.
-#include "go-accumulator.c"
-#undef DOUBLE
-#undef SUFFIX
-#endif
-
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-
-struct GOAccumulatorl_ {
-	GArray *partials;
-};
-#endif
-
-#ifdef GOFFICE_WITH_DECIMAL64
-#define DOUBLE _Decimal64
-#define SUFFIX(_n) _n ## D
-
-struct GOAccumulatorD_ {
-	GArray *partials;
-};
-#endif
-
-
-#endif
-
-
-
 
 gboolean
 SUFFIX(go_accumulator_functional) (void)
@@ -236,3 +205,11 @@ SUFFIX(go_accumulator_value) (ACC *acc)
 
 	return sum;
 }
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

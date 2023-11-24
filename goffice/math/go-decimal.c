@@ -64,6 +64,7 @@
 // log2D           *         *         *
 // log1pD          *         *         *
 // logD            *         *         *
+// modfD           *         *         -
 // nextafterD      F         F         -
 // powD            *         *         -
 // roundD          A         A         A
@@ -128,6 +129,14 @@ _Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
 _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
 
 _Decimal64 lgamma_rD (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
+
+_Decimal64 modfD (_Decimal64 x, _Decimal64 *y)
+{
+	double dy, dz;
+	dz = modf (x, &dy);
+	*y = dy;
+	return dz;
+}
 
 #if 0
 	;
