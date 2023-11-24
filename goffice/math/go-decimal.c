@@ -36,9 +36,9 @@
 //
 // FUNCTION        RANGE     ACCURACY  TESTING
 // -------------------------------------------
-// acosD           *         *         *
+// acosD           A         *         *
 // acoshD          A         *         *
-// asinD           *         *         *
+// asinD           A         *         *
 // asinhD          *         *         *
 // atanD           *         *         *
 // atan2D          *         *         *
@@ -60,7 +60,7 @@
 // ldexpD          B         B         -
 // lgammaD         B         B         *
 // lgamma_rD       *         *         -
-// log10D          *         *         *
+// log10D          A         A-        *
 // log2D           *         *         *
 // log1pD          *         *         *
 // logD            *         *         *
@@ -86,6 +86,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <printf.h>
+#include <assert.h>
 
 // ---------------------------------------------------------------------------
 
@@ -103,9 +104,7 @@
 	  return (_Decimal64) (FUNC ((double)x, (double) y));		\
   }
 
-STUB1(acos)
 STUB1(acosh)
-STUB1(asin)
 STUB1(asinh)
 STUB1(atan)
 STUB2(atan2)
@@ -117,7 +116,6 @@ STUB1(expm1)
 STUB2(fmod)
 STUB2(hypot)
 STUB1(log)
-STUB1(log10)
 STUB1(log1p)
 STUB1(log2)
 STUB2(pow)
@@ -250,6 +248,76 @@ render128 (char *buffer, uint64_t u, uint64_t l)
 	memcpy (buffer, p, len);
 	buffer[len] = 0;
 }
+
+static const uint64_t
+u64_pow10_table[20] = {
+	1ull,
+	10ull,
+	100ull,
+	1000ull,
+	10000ull,
+	100000ull,
+	1000000ull,
+	10000000ull,
+	100000000ull,
+	1000000000ull,
+	10000000000ull,
+	100000000000ull,
+	1000000000000ull,
+	10000000000000ull,
+	100000000000000ull,
+	1000000000000000ull,
+	10000000000000000ull,
+	100000000000000000ull,
+	1000000000000000000ull,
+	10000000000000000000ull,
+};
+
+// Last entry is bigger than any mantissa in _Decimal64
+static const _Decimal64
+d64_pow10_table[20] = {
+	1.dd,
+	10.dd,
+	100.dd,
+	1000.dd,
+	10000.dd,
+	100000.dd,
+	1000000.dd,
+	10000000.dd,
+	100000000.dd,
+	1000000000.dd,
+	10000000000.dd,
+	100000000000.dd,
+	1000000000000.dd,
+	10000000000000.dd,
+	100000000000000.dd,
+	1000000000000000.dd,
+	10000000000000000.dd,
+	100000000000000000.dd,
+	1000000000000000000.dd,
+	10000000000000000000.dd,
+};
+
+
+static int
+u64_digits (uint64_t x)
+{
+	int l2, l10;
+
+	if (x == 0)
+		return 1;
+
+	assert (sizeof (long) == sizeof (uint64_t));
+	l2 = 63 - __builtin_clzl (x);
+	// log_10(2) is a hair bigger than 77/256
+	l10 = l2 * 77 / 256;
+
+	if (x >= u64_pow10_table[l10])
+		l10++;
+
+	return l10 + 1;
+}
+
 
 static int decimal64_modifier, decimal128_modifier;
 static int decimal64_type, decimal128_type;
@@ -708,6 +776,7 @@ lgammaD (_Decimal64 x)
 _Decimal64
 erfD (_Decimal64 x)
 {
+	// No need to handle overflow because of horizontal tangents
 	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
 		_Decimal64 f = 1.1283791670955125738961589dd;
 		return x * f;
@@ -718,13 +787,15 @@ erfD (_Decimal64 x)
 _Decimal64
 erfcD (_Decimal64 x)
 {
-	// Should be ok even when underflow or overflow occurs
+	// No need to handle overflow because of horizontal tangents
+	// No need to handle underflow because erfc(0)=1
 	return erfc (x);
 }
 
 _Decimal64
 sinhD (_Decimal64 x)
 {
+	// No need to handle overflow result will overflow anyway
 	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
 		return x;
 	} else
@@ -734,10 +805,88 @@ sinhD (_Decimal64 x)
 _Decimal64
 tanhD (_Decimal64 x)
 {
+	// No need to handle overflow because of horizontal tangents
 	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
 		return x;
 	} else
 		return tanh (x);
+}
+
+_Decimal64
+asinD (_Decimal64 x)
+{
+	// No need to handle overflow because domain is [1,1]
+	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
+		return x;
+	} else
+		return asin (x);
+}
+
+_Decimal64
+acosD (_Decimal64 x)
+{
+	// No need to handle overflow because domain is [1,1]
+	// No need to handle underflow because acos(0)=Pi/2
+	return acos (x);
+}
+
+// Like frexp, but for base 10 and with extra control flag.
+// Split x into m and integer e such that x = m * 10^e.
+//
+// NaN, infinity, and zeroes get passed right though with *e = 0
+//
+// Otherwise, m is chosen as follows:
+// * If qint is false, 0.1 <= m < 1
+// * If qint is true, m will be an integer not divisible by 10
+_Decimal64
+frexp10D (_Decimal64 x, int qint, int *e)
+{
+	int special, sign, p10;
+	uint64_t mant;
+
+	special = decode64_bis (&x, &mant, &p10, &sign);
+	switch (special) {
+	case CLS_NORMAL:
+		if (mant == 0)
+			*e = 0;
+		else if (qint) {
+			while (mant % 10 == 0) {
+				mant /= 10;
+				p10++;
+			}
+			x = sign ? -(_Decimal64)mant : (_Decimal64)mant;
+			*e = p10;
+		} else {
+			int m10 = u64_digits (mant);
+			if (m10) {
+				p10 += m10;
+				x /= d64_pow10_table[m10];
+			}
+			*e = p10;
+		}
+		return x;
+	case CLS_INVALID:
+		x = sign ? -0.dd : 0.dd;
+		// Fall-through
+	case CLS_INF:
+	case CLS_NAN:
+	default:
+		*e = 0;
+		return x;
+	}
+}
+
+_Decimal64
+log10D (_Decimal64 x)
+{
+	_Decimal64 xm1 = x - 1;
+	if (fabsD (xm1) < 0.5dd)
+		return log10 (x);
+	else {
+		int e;
+		_Decimal64 m = frexp10D (x, 1, &e);
+		return e + (_Decimal64)log10 (m);
+	}
 }
 
 // ---------------------------------------------------------------------------

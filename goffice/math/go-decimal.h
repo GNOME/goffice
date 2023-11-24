@@ -13,6 +13,8 @@ G_BEGIN_DECLS
 
 #define DECIMAL64_MIN      1e-383dd
 #define DECIMAL64_MAX      9.999999999999999e384dd
+#define DECIMAL64_MAX_EXP  384
+#define DECIMAL64_MIN_EXP  -383
 #define DECIMAL64_EPSILON  1e-15dd
 #define DECIMAL64_DIG      16
 #define DECIMAL64_MANT_DIG 16
@@ -65,6 +67,8 @@ int isnanD (_Decimal64 x);
 int signbitD (_Decimal64 x);
 
 _Decimal64 strtoDd (const char *s, char **end);
+
+_Decimal64 frexp10D (_Decimal64 x, int qint, int *e);
 
 #endif
 

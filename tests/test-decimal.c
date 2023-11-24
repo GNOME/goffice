@@ -19,7 +19,7 @@ double_eq (double x, double y)
 }
 
 static int
-decimal_eq (double x, double y)
+decimal_eq (_Decimal64 x, _Decimal64 y)
 {
 	if (signbitD (x) != signbitD (y))
 		return FALSE;
@@ -70,6 +70,7 @@ test_eq (_Decimal64 a, _Decimal64 b)
 		good ();
 		return 1;
 	} else {
+		g_printerr ("%.16Wg vs %.16Wg\n", a, b);
 		bad ();
 		return 0;
 	}
@@ -196,8 +197,14 @@ test_copysign (void)
 					_Decimal64 x2 = values64[v2];
 					if (s2) x2 = -x2;
 
-					test_eq (copysignD (x1, x2),
-						 copysign (x1, x2));
+					_Decimal64 y = copysignD (x1, x2);
+					if (decimal_eq (fabsD (y), fabsD (x1)) &&
+					    signbitD (y) == signbitD (x2))
+						good ();
+					else {
+						g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
+						bad ();
+					}
 				}
 			}
 		}
@@ -252,24 +259,34 @@ test_oneargs (void)
 				if (s) x = -x;
 				double dx = x, dy;
 				int ok;
+				int qunderflow = (dx == 0) && (x != 0);
+				int qoverflow = finiteD (x) && !finite (dx);
+
+				if (qunderflow || qoverflow)
+					continue;
 
 				y = funcs[f].fn_decimal (x);
-				dy = funcs[f].fn_decimal (dx);
+				dy = funcs[f].fn_double (dx);
+
+				//g_printerr ("%.16Wg  %.16Wg\n", x, y);
+				//g_printerr ("%.16g  %.16g\n", dx, dy);
 
 				ok = (!!finiteD (y) == !!finite (dy) &&
 				      !!isnanD (y) == !!isnan (dy) &&
 				      !!signbitD (y) == !!signbit (dy) &&
 				      (y == 0) == (dy == 0));
 
-				if (ok && y) {
+				if (ok && finite (dy) && y != 0) {
 					_Decimal64 d = y - (_Decimal64)dy;
 					ok = fabsD (d / y) < 1e-10dd;
 				}
 
 				if (ok)
 					good ();
-				else
+				else {
+					g_printerr ("Failed for %.16Wg\n", x);
 					test_eq (y, dy);
+				}
 			}
 		}
 	}
@@ -292,6 +309,11 @@ main (int argc, char **argv)
 	test_properties ();
 	test_copysign ();
 	test_oneargs ();
+
+	if (n_bad)
+		g_printerr ("A total of %d failures.\n", n_bad);
+	else
+		g_printerr ("Pass.\n");
 #else
 	g_printerr ("Not compiled with Decimal64 support, so no testing.\n");
 #endif
