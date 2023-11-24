@@ -470,12 +470,15 @@ parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 		d->ld = va_arg (args, long double);
 #else
+		memset (d, 0, sizeof (*d));
 		g_critical ("Compiled without long-double, then asked to use it");
 #endif
+		break;
 	case FP_DECIMAL64:
 #ifdef GOFFICE_WITH_DECIMAL64
 		d->d64 = va_arg (args, _Decimal64);
 #else
+		memset (d, 0, sizeof (*d));
 		g_critical ("Compiled without Decimal64, then asked to use it");
 #endif
 		break;
