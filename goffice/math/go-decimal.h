@@ -48,7 +48,7 @@ _Decimal64 hypotD (_Decimal64 x, _Decimal64 y);
 _Decimal64 jnD (int n, _Decimal64 x);
 _Decimal64 ldexpD (_Decimal64 x, int e);
 _Decimal64 lgammaD (_Decimal64 x);
-_Decimal64 lgamma_rD (_Decimal64 x, int *signp);
+_Decimal64 lgammaD_r (_Decimal64 x, int *signp);
 _Decimal64 log10D (_Decimal64 x);
 _Decimal64 log1pD (_Decimal64 x);
 _Decimal64 log2D (_Decimal64 x);

@@ -59,7 +59,7 @@
 // jnD             *         *         -
 // ldexpD          B         B         -
 // lgammaD         B         B         *
-// lgamma_rD       *         *         -
+// lgammaD_r       *         *         -
 // log10D          A         A-        *
 // log2D           *         *         *
 // log1pD          *         *         *
@@ -128,7 +128,7 @@ _Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
 
 _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
 
-_Decimal64 lgamma_rD (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
+_Decimal64 lgammaD_r (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
 
 _Decimal64 modfD (_Decimal64 x, _Decimal64 *y)
 {
@@ -779,7 +779,7 @@ _Decimal64
 lgammaD (_Decimal64 x)
 {
 	int sign;
-	return lgamma_rD(x, &sign);
+	return lgammaD_r (x, &sign);
 }
 
 _Decimal64
