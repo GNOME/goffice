@@ -111,6 +111,31 @@ typedef struct {
 #endif
 } GODistributionClass;
 
+#define SET_HANDLERS_D(K,PRE)				\
+	(K)->get_density = PRE ## _get_density;		\
+	(K)->get_cumulative = PRE ## _get_cumulative;	\
+	(K)->get_ppf = PRE ## _get_ppf;
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+#define SET_HANDLERS_LD(K,PRE)				\
+	(K)->get_densityl = PRE ## _get_densityl;	\
+	(K)->get_cumulativel = PRE ## _get_cumulativel;	\
+	(K)->get_ppfl = PRE ## _get_ppfl;
+#else
+#define SET_HANDLERS_LD(K,PRE) (void)0
+#endif
+#ifdef GOFFICE_WITH_DECIMAL64
+#define SET_HANDLERS_D64(K,PRE)				\
+	(K)->get_densityD = PRE ## _get_densityD;	\
+	(K)->get_cumulativeD = PRE ## _get_cumulativeD;	\
+	(K)->get_ppfD = PRE ## _get_ppfD;
+#else
+#define SET_HANDLERS_D64(K,PRE) (void)0
+#endif
+
+
+#define SET_HANDLERS(K,PRE) do { SET_HANDLERS_D(K,PRE); SET_HANDLERS_LD(K,PRE); SET_HANDLERS_D64(K,PRE); } while (0)
+
+
 static void
 go_distribution_set_property (GObject *obj, guint param_id,
 			      GValue const *value, GParamSpec *pspec)
@@ -445,19 +470,7 @@ go_dist_normal_class_init (GObjectClass *klass)
 {
 	GODistributionClass *dist_klass = (GODistributionClass *) klass;
 	dist_klass->dist_type = GO_DISTRIBUTION_NORMAL;
-	dist_klass->get_density = go_normal_get_density;
-	dist_klass->get_cumulative = go_normal_get_cumulative;
-	dist_klass->get_ppf = go_normal_get_ppf;
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-	dist_klass->get_densityl = go_normal_get_densityl;
-	dist_klass->get_cumulativel = go_normal_get_cumulativel;
-	dist_klass->get_ppfl = go_normal_get_ppfl;
-#endif
-#ifdef GOFFICE_WITH_DECIMAL64
-	dist_klass->get_densityD = go_normal_get_densityD;
-	dist_klass->get_cumulativeD = go_normal_get_cumulativeD;
-	dist_klass->get_ppfD = go_normal_get_ppfD;
-#endif
+	SET_HANDLERS(dist_klass, go_normal);
 }
 
 GSF_CLASS (GODistNormal, go_dist_normal,
@@ -520,19 +533,7 @@ go_dist_uniform_class_init (GObjectClass *klass)
 {
 	GODistributionClass *dist_klass = (GODistributionClass *) klass;
 	dist_klass->dist_type = GO_DISTRIBUTION_UNIFORM;
-	dist_klass->get_density = go_uniform_get_density;
-	dist_klass->get_cumulative = go_uniform_get_cumulative;
-	dist_klass->get_ppf = go_uniform_get_ppf;
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-	dist_klass->get_densityl = go_uniform_get_densityl;
-	dist_klass->get_cumulativel = go_uniform_get_cumulativel;
-	dist_klass->get_ppfl = go_uniform_get_ppfl;
-#endif
-#ifdef GOFFICE_WITH_DECIMAL64
-	dist_klass->get_densityD = go_uniform_get_densityD;
-	dist_klass->get_cumulativeD = go_uniform_get_cumulativeD;
-	dist_klass->get_ppfD = go_uniform_get_ppfD;
-#endif
+	SET_HANDLERS(dist_klass, go_uniform);
 }
 
 static void
@@ -591,19 +592,7 @@ go_dist_cauchy_class_init (GObjectClass *klass)
 {
 	GODistributionClass *dist_klass = (GODistributionClass *) klass;
 	dist_klass->dist_type = GO_DISTRIBUTION_CAUCHY;
-	dist_klass->get_density = go_cauchy_get_density;
-	dist_klass->get_cumulative = go_cauchy_get_cumulative;
-	dist_klass->get_ppf = go_cauchy_get_ppf;
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-	dist_klass->get_densityl = go_cauchy_get_densityl;
-	dist_klass->get_cumulativel = go_cauchy_get_cumulativel;
-	dist_klass->get_ppfl = go_cauchy_get_ppfl;
-#endif
-#ifdef GOFFICE_WITH_DECIMAL64
-	dist_klass->get_densityD = go_cauchy_get_densityD;
-	dist_klass->get_cumulativeD = go_cauchy_get_cumulativeD;
-	dist_klass->get_ppfD = go_cauchy_get_ppfD;
-#endif
+	SET_HANDLERS(dist_klass, go_cauchy);
 }
 
 static void
@@ -697,19 +686,7 @@ go_dist_weibull_class_init (GObjectClass *klass)
 {
 	GODistributionClass *dist_klass = (GODistributionClass *) klass;
 	dist_klass->dist_type = GO_DISTRIBUTION_WEIBULL;
-	dist_klass->get_density = go_weibull_get_density;
-	dist_klass->get_cumulative = go_weibull_get_cumulative;
-	dist_klass->get_ppf = go_weibull_get_ppf;
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-	dist_klass->get_densityl = go_weibull_get_densityl;
-	dist_klass->get_cumulativel = go_weibull_get_cumulativel;
-	dist_klass->get_ppfl = go_weibull_get_ppfl;
-#endif
-#ifdef GOFFICE_WITH_DECIMAL64
-	dist_klass->get_densityD = go_weibull_get_densityD;
-	dist_klass->get_cumulativeD = go_weibull_get_cumulativeD;
-	dist_klass->get_ppfD = go_weibull_get_ppfD;
-#endif
+	SET_HANDLERS(dist_klass, go_weibull);
 	klass->set_property = go_dist_weibull_set_property;
 	klass->get_property = go_dist_weibull_get_property;
 	g_object_class_install_property (klass, WEIBULL_PROP_SHAPE,
@@ -814,19 +791,7 @@ go_dist_log_normal_class_init (GObjectClass *klass)
 {
 	GODistributionClass *dist_klass = (GODistributionClass *) klass;
 	dist_klass->dist_type = GO_DISTRIBUTION_LOGNORMAL;
-	dist_klass->get_density = go_log_normal_get_density;
-	dist_klass->get_cumulative = go_log_normal_get_cumulative;
-	dist_klass->get_ppf = go_log_normal_get_ppf;
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-	dist_klass->get_densityl = go_log_normal_get_densityl;
-	dist_klass->get_cumulativel = go_log_normal_get_cumulativel;
-	dist_klass->get_ppfl = go_log_normal_get_ppfl;
-#endif
-#ifdef GOFFICE_WITH_DECIMAL64
-	dist_klass->get_densityD = go_log_normal_get_densityD;
-	dist_klass->get_cumulativeD = go_log_normal_get_cumulativeD;
-	dist_klass->get_ppfD = go_log_normal_get_ppfD;
-#endif
+	SET_HANDLERS(dist_klass, go_log_normal);
 	klass->set_property = go_dist_log_normal_set_property;
 	klass->get_property = go_dist_log_normal_get_property;
 	g_object_class_install_property (klass, LNORM_PROP_SHAPE,
