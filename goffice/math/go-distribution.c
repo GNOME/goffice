@@ -56,7 +56,7 @@ enum {
  * @GO_DISTRIBUTION_INVALID: (skip)
  **/
 
-static struct
+static const struct
 {
 	GODistributionType type;
 	char const *name;
@@ -68,12 +68,26 @@ static struct
 	{GO_DISTRIBUTION_LOGNORMAL, N_("Lognormal")}
 };
 
-char const *go_distribution_type_to_string (GODistributionType type)
+/**
+ * go_distribution_type_to_string:
+ * @type: distribution type to query
+ *
+ * Returns: an untranslated name of the distribution.
+ */
+char const *
+go_distribution_type_to_string (GODistributionType type)
 {
 	return DistributionTypes[type].name;
 }
 
-GODistributionType go_distribution_type_from_string (char const *name)
+/**
+ * go_distribution_type_from_string:
+ * @name: untranslated name of distribution
+ *
+ * Returns: type of distribution
+ */
+GODistributionType
+go_distribution_type_from_string (char const *name)
 {
 	int i = -1;
 	while (++i < GO_DISTRIBUTION_MAX)
@@ -486,7 +500,6 @@ GSF_CLASS (GODistNormal, go_dist_normal,
 
 typedef struct {
 	GODistribution base;
-
 } GODistUniform;
 
 #define GO_TYPE_DIST_UNIFORM	  	(go_dist_uniform_get_type ())
@@ -554,7 +567,6 @@ GSF_CLASS (GODistUniform, go_dist_uniform,
 
 typedef struct {
 	GODistribution base;
-
 } GODistCauchy;
 
 #define GO_TYPE_DIST_CAUCHY	  	(go_dist_cauchy_get_type ())
