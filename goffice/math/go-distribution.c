@@ -109,18 +109,18 @@ typedef struct {
 	GODistributionType dist_type;
 
 	double (*get_density) (GODistribution *dist, double x);
-	double (*get_cumulative) (GODistribution *dist, double x);
+	double (*get_cumulative) (GODistribution *dist, gboolean lower_tail, double x);
 	double (*get_ppf) (GODistribution *dist, double x);
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 	long double (*get_densityl) (GODistribution *dist, long double x);
-	long double (*get_cumulativel) (GODistribution *dist, long double x);
+	long double (*get_cumulativel) (GODistribution *dist, gboolean lower_tail, long double x);
 	long double (*get_ppfl) (GODistribution *dist, long double x);
 #endif
 
 #ifdef GOFFICE_WITH_DECIMAL64
 	_Decimal64 (*get_densityD) (GODistribution *dist, _Decimal64 x);
-	_Decimal64 (*get_cumulativeD) (GODistribution *dist, _Decimal64 x);
+	_Decimal64 (*get_cumulativeD) (GODistribution *dist, gboolean lower_tail, _Decimal64 x);
 	_Decimal64 (*get_ppfD) (GODistribution *dist, _Decimal64 x);
 #endif
 } GODistributionClass;
@@ -240,7 +240,7 @@ go_distribution_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 			GValue	 value = { 0 };
 
 			g_value_init (&value, prop_type);
-			g_object_get_property  (G_OBJECT (dist), props[n]->name, &value);
+			g_object_get_property (G_OBJECT (dist), props[n]->name, &value);
 
 			/* No need to save default values */
 			if (g_param_value_defaults (props[n], &value)) {
@@ -256,6 +256,8 @@ go_distribution_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 			case G_TYPE_UINT:
 			case G_TYPE_LONG:
 			case G_TYPE_ULONG:
+			case G_TYPE_INT64:
+			case G_TYPE_UINT64:
 			case G_TYPE_FLOAT:
 			case G_TYPE_DOUBLE:
 			case G_TYPE_ENUM:
@@ -289,13 +291,16 @@ go_distribution_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **
 {
 	GODistribution *dist = GO_DISTRIBUTION (gp);
 	while (*attrs) {
-		if (!strcmp ((char const*) *attrs, "name") || !strcmp ((char const*) *attrs, "type"));
-		else if (!strcmp ((char const*) *attrs, "location"))
-			dist->location = g_strtod (attrs[1], NULL);
-		else if (!strcmp ((char const*) *attrs, "scale"))
-			dist->scale = g_strtod (attrs[1], NULL);
+		const char *attr = (const char *)(attrs[0]);
+		const char *val = (const char *)(attrs[1]);
+		if (!strcmp (attr, "name") || !strcmp (attr, "type"))
+			; // Nothing
+		else if (!strcmp (attr, "location"))
+			dist->location = g_ascii_strtod (val, NULL);
+		else if (!strcmp (attr, "scale"))
+			dist->scale = g_ascii_strtod (val, NULL);
 		else {
-			GParamSpec *spec = g_object_class_find_property (G_OBJECT_GET_CLASS (dist), *attrs);
+			GParamSpec *spec = g_object_class_find_property (G_OBJECT_GET_CLASS (dist), attr);
 			if (spec == NULL)
 				g_warning ("unknown property `%s' for class `%s'",
 					   *attrs, G_OBJECT_TYPE_NAME (gp));
@@ -305,8 +310,8 @@ go_distribution_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **
 				case G_TYPE_DOUBLE: {
 					GValue value = {0};
 					g_value_init (&value, G_TYPE_DOUBLE);
-					g_value_set_double (&value, g_strtod (attrs[1], NULL));
-					g_object_set_property (G_OBJECT (dist), *attrs, &value);
+					g_value_set_double (&value, g_ascii_strtod (val, NULL));
+					g_object_set_property (G_OBJECT (dist), attr, &value);
 					g_value_unset (&value);
 					break;
 				}
@@ -342,96 +347,85 @@ go_distribution_scale (GODistribution *dist, double location, double scale)
 #endif /* DEFINE_COMMON */
 
 DOUBLE
-SUFFIX (go_distribution_get_density) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_distribution_get_density) (GODistribution *dist, DOUBLE x)
 {
 	GODistributionClass *go_dist_klass;
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX (go_nan));
+	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
-	if (go_dist_klass->SUFFIX (get_density) != NULL)
-		return go_dist_klass->SUFFIX (get_density) (dist, x);
-	return SUFFIX (go_nan);
+	if (go_dist_klass->SUFFIX(get_density) != NULL)
+		return go_dist_klass->SUFFIX(get_density) (dist, x);
+
+	return SUFFIX(go_nan);
 }
 
 DOUBLE
-SUFFIX (go_distribution_get_cumulative) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_distribution_get_cumulative) (GODistribution *dist, DOUBLE x)
 {
 	GODistributionClass *go_dist_klass;
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX (go_nan));
+	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
-	if (go_dist_klass->SUFFIX (get_cumulative) != NULL)
-		return go_dist_klass->SUFFIX (get_cumulative) (dist, x);
-	return SUFFIX (go_nan);
+	if (go_dist_klass->SUFFIX(get_cumulative) != NULL)
+		return go_dist_klass->SUFFIX(get_cumulative) (dist, TRUE, x);
+
+	return SUFFIX(go_nan);
 }
 
 DOUBLE
-SUFFIX (go_distribution_get_ppf) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_distribution_get_ppf) (GODistribution *dist, DOUBLE x)
 {
 	GODistributionClass *go_dist_klass;
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX (go_nan));
+	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
-	if (go_dist_klass->SUFFIX (get_ppf) != NULL)
-		return go_dist_klass->SUFFIX (get_ppf) (dist, x);
-	return SUFFIX (go_nan);
+	if (go_dist_klass->SUFFIX(get_ppf) != NULL)
+		return go_dist_klass->SUFFIX(get_ppf) (dist, x);
+
+	return SUFFIX(go_nan);
 }
 
 DOUBLE
-SUFFIX (go_distribution_get_hazard) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_distribution_get_hazard) (GODistribution *dist, DOUBLE x)
 {
-	GODistributionClass *go_dist_klass;
+	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX (go_nan));
-
-	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
-	if (go_dist_klass->SUFFIX (get_density) != NULL &&
-	    go_dist_klass->SUFFIX (get_cumulative) != NULL)
-		return go_dist_klass->SUFFIX (get_density) (dist, x) /
-			(1 - go_dist_klass->SUFFIX (get_cumulative) (dist, x));
-	return SUFFIX (go_nan);
+	return SUFFIX(go_distribution_get_density) (dist, x) /
+		SUFFIX(go_distribution_get_survival) (dist, x);
 }
 
 DOUBLE
-SUFFIX (go_distribution_get_cumulative_hazard) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_distribution_get_cumulative_hazard) (GODistribution *dist, DOUBLE x)
 {
-	GODistributionClass *go_dist_klass;
+	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX (go_nan));
-
-	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
-	if (go_dist_klass->SUFFIX (get_cumulative) != NULL)
-		return SUFFIX (log) (1 - go_dist_klass->SUFFIX (get_cumulative) (dist, x));
-	return SUFFIX (go_nan);
+	return -SUFFIX(log) (SUFFIX(go_distribution_get_survival) (dist, x));
 }
 
 DOUBLE
-SUFFIX (go_distribution_get_survival) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_distribution_get_survival) (GODistribution *dist, DOUBLE x)
 {
 	GODistributionClass *go_dist_klass;
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX (go_nan));
+	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
-	if (go_dist_klass->SUFFIX (get_cumulative) != NULL)
-		return 1 - go_dist_klass->SUFFIX (get_cumulative) (dist, x);
-	return SUFFIX (go_nan);
+	if (go_dist_klass->SUFFIX(get_cumulative) != NULL)
+		return go_dist_klass->SUFFIX(get_cumulative) (dist, FALSE, x);
+
+	return SUFFIX(go_nan);
 }
 
 DOUBLE
-SUFFIX (go_distribution_get_inverse_survival) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_distribution_get_inverse_survival) (GODistribution *dist, DOUBLE x)
 {
-	GODistributionClass *go_dist_klass;
+	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
+	g_return_val_if_fail (x >= 0 && x <= 1, SUFFIX(go_nan));
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX (go_nan));
-
-	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
-	if (go_dist_klass->SUFFIX (get_ppf) != NULL)
-		return 1 - go_dist_klass->SUFFIX (get_ppf) (dist, x);
-	return SUFFIX (go_nan);
+	return SUFFIX(go_distribution_get_ppf) (dist, 1 - x);
 }
 
 /*****************************************************************************/
@@ -455,21 +449,21 @@ typedef GODistributionClass GODistNormalClass;
 #endif /* DEFINE_COMMON */
 
 static DOUBLE
-SUFFIX (go_normal_get_density) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_normal_get_density) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_dnorm) (x, DIST_LOCATION, DIST_SCALE, FALSE);
+	return SUFFIX(go_dnorm) (x, DIST_LOCATION, DIST_SCALE, FALSE);
 }
 
 static DOUBLE
-SUFFIX (go_normal_get_cumulative) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_normal_get_cumulative) (GODistribution *dist, gboolean lower_tail, DOUBLE x)
 {
-	return SUFFIX (go_pnorm) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
+	return SUFFIX(go_pnorm) (x, DIST_LOCATION, DIST_SCALE, lower_tail, FALSE);
 }
 
 static DOUBLE
-SUFFIX (go_normal_get_ppf) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_normal_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_qnorm) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
+	return SUFFIX(go_qnorm) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
 }
 
 #if LAST_INCLUDE_PASS
@@ -513,7 +507,7 @@ typedef GODistributionClass GODistUniformClass;
 #endif /* DEFINE_COMMON */
 
 static DOUBLE
-SUFFIX (go_uniform_get_density) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_uniform_get_density) (GODistribution *dist, DOUBLE x)
 {
 	x = (x - DIST_LOCATION) / DIST_SCALE;
 	return (x >= 0 && x < 1)
@@ -522,19 +516,19 @@ SUFFIX (go_uniform_get_density) (GODistribution *dist, DOUBLE x)
 }
 
 static DOUBLE
-SUFFIX (go_uniform_get_cumulative) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_uniform_get_cumulative) (GODistribution *dist, gboolean lower_tail, DOUBLE x)
 {
 	x = (x - DIST_LOCATION) / DIST_SCALE;
 	if (x < 0)
-		return CONST (0.);
+		return lower_tail ? 0 : 1;
 	else if (x >= 1)
-		return CONST (1.);
+		return lower_tail ? 1 : 0;
 	else
-		return x;
+		return lower_tail ? x : 1 - x;
 }
 
 static DOUBLE
-SUFFIX (go_uniform_get_ppf) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_uniform_get_ppf) (GODistribution *dist, DOUBLE x)
 {
 	return x * DIST_SCALE + DIST_LOCATION;
 }
@@ -580,21 +574,21 @@ typedef GODistributionClass GODistCauchyClass;
 #endif /* DEFINE_COMMON */
 
 static DOUBLE
-SUFFIX (go_cauchy_get_density) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_cauchy_get_density) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_dcauchy) (x, DIST_LOCATION, DIST_SCALE, FALSE);
+	return SUFFIX(go_dcauchy) (x, DIST_LOCATION, DIST_SCALE, FALSE);
 }
 
 static DOUBLE
-SUFFIX (go_cauchy_get_cumulative) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_cauchy_get_cumulative) (GODistribution *dist, gboolean lower_tail, DOUBLE x)
 {
-	return SUFFIX (go_pcauchy) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
+	return SUFFIX(go_pcauchy) (x, DIST_LOCATION, DIST_SCALE, lower_tail, FALSE);
 }
 
 static DOUBLE
-SUFFIX (go_cauchy_get_ppf) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_cauchy_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_qcauchy) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
+	return SUFFIX(go_qcauchy) (x, DIST_LOCATION, DIST_SCALE, TRUE, FALSE);
 }
 
 #if LAST_INCLUDE_PASS
@@ -644,21 +638,22 @@ enum {
 #endif /* DEFINE_COMMON */
 
 static DOUBLE
-SUFFIX (go_weibull_get_density) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_weibull_get_density) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_dweibull) (x - DIST_LOCATION, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE, FALSE) ;
+	return SUFFIX(go_dweibull) (x - DIST_LOCATION, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE, FALSE) ;
 }
 
 static DOUBLE
-SUFFIX (go_weibull_get_cumulative) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_weibull_get_cumulative) (GODistribution *dist, gboolean lower_tail, DOUBLE x)
 {
-	return SUFFIX (go_pweibull) (x - DIST_LOCATION, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE, TRUE, FALSE) ;
+	return SUFFIX(go_pweibull) (x - DIST_LOCATION, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE,
+				    lower_tail, FALSE) ;
 }
 
 static DOUBLE
-SUFFIX (go_weibull_get_ppf) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_weibull_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_qweibull) (x, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE, TRUE, FALSE) + DIST_LOCATION;
+	return SUFFIX(go_qweibull) (x, GO_DIST_WEIBULL (dist)->shape, DIST_SCALE, TRUE, FALSE) + DIST_LOCATION;
 }
 
 #if LAST_INCLUDE_PASS
@@ -749,21 +744,22 @@ enum {
 #endif /* DEFINE_COMMON */
 
 static DOUBLE
-SUFFIX (go_log_normal_get_density) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_log_normal_get_density) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_dlnorm) ((x - DIST_LOCATION) / DIST_SCALE, 0., GO_DIST_LOG_NORMAL (dist)->shape, FALSE);
+	return SUFFIX(go_dlnorm) ((x - DIST_LOCATION) / DIST_SCALE, 0., GO_DIST_LOG_NORMAL (dist)->shape, FALSE);
 }
 
 static DOUBLE
-SUFFIX (go_log_normal_get_cumulative) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_log_normal_get_cumulative) (GODistribution *dist, gboolean lower_tail, DOUBLE x)
 {
-	return SUFFIX (go_plnorm) ((x - DIST_LOCATION) / DIST_SCALE, 0., GO_DIST_LOG_NORMAL (dist)->shape, TRUE, FALSE);
+	return SUFFIX(go_plnorm) ((x - DIST_LOCATION) / DIST_SCALE, 0., GO_DIST_LOG_NORMAL (dist)->shape,
+				  lower_tail, FALSE);
 }
 
 static DOUBLE
-SUFFIX (go_log_normal_get_ppf) (GODistribution *dist, DOUBLE x)
+SUFFIX(go_log_normal_get_ppf) (GODistribution *dist, DOUBLE x)
 {
-	return SUFFIX (go_qlnorm) (x, 0., GO_DIST_LOG_NORMAL (dist)->shape, TRUE, FALSE) * DIST_SCALE + DIST_LOCATION;
+	return SUFFIX(go_qlnorm) (x, 0., GO_DIST_LOG_NORMAL (dist)->shape, TRUE, FALSE) * DIST_SCALE + DIST_LOCATION;
 }
 
 #if LAST_INCLUDE_PASS
