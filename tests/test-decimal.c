@@ -76,136 +76,130 @@ test_eq (_Decimal64 a, _Decimal64 b)
 	}
 }
 
-// Standard set of (positive) values to test.  Specific function might
-// need more.
-static _Decimal64 values64[] = {
-	0.dd, 3.14dd, 0.123dd, 0.05dd, 1.5dd, 0.567dd, 999999999.5dd,
-	100.dd, 1e20dd, 0.01dd, 1e-20dd, 0.1dd,
-	0.3333333333333333dd, 0.5555555555555555dd, 0.9999999999999999dd,
-	INFINITY, NAN,
-	1e15dd, 999999999999999.9dd, 999999999999999.0dd,
-	1e15dd + 1, 1e22dd,
-	2.5dd, 1.5dd, // make sure we don't round-ties-to-even
-
-	// Out of double range
-	DECIMAL64_MAX,
-	DECIMAL64_MIN,
-};
-static const int nvalues64 = G_N_ELEMENTS (values64);
-
-
-static void
-test1rounding (_Decimal64 x)
+static _Decimal64 *
+basic_corpus (int *n)
 {
-	_Decimal64 f = floorD (x);
-	_Decimal64 c = ceilD (x);
-	_Decimal64 r = roundD (x);
-	double dx = x;
-	int sanity;
-	int qunderflow = (dx == 0) && (x != 0);
-	int qoverflow = finiteD (x) && !finite (dx);
-	int ok;
+	static const _Decimal64 values64[] = {
+		0.dd, 3.14dd, 0.123dd, 0.05dd, 1.5dd, 0.567dd, 999999999.5dd,
+		100.dd, 1e20dd, 0.01dd, 1e-20dd, 0.1dd,
+		0.3333333333333333dd, 0.5555555555555555dd, 0.9999999999999999dd,
+		INFINITY, NAN,
+		1e15dd, 999999999999999.9dd, 999999999999999.0dd,
+		1e15dd + 1, 1e22dd,
+		2.5dd, 1.5dd, // make sure we don't round-ties-to-even
 
-	sanity = isnanD (x)
-		? 1
-		: (f <= x && x <= c &&
-		   (c == f || c == f + 1) &&
-		   (r == f || r == c) &&
-		   r <= x + 0.5dd &&
-		   r >= x - 0.5dd);
-	if (qunderflow)
-		ok = (r == 0 && (f == 0 || c == 0));
-	else if (qoverflow)
-		ok = (f == x && f == x);
-	else
-		ok = (double_eq (f, floor (dx)) &&
-		      double_eq (r, round (dx)) &&
-		      double_eq (c, ceil (dx)));
+		// Out of double range
+		DECIMAL64_MAX,
+		DECIMAL64_MIN,
+	};
+	_Decimal64 *res, *p;
+	size_t i;
 
-	if (ok && sanity) {
-		good ();
-	} else {
-		uint64_t d64;
-		memcpy (&d64, &x, sizeof (d64));
+	*n = 2 * G_N_ELEMENTS (values64);
+	res = g_new (_Decimal64, *n);
 
-		g_printerr ("Error: 0x%08lx: %.16Wg -> (%.16Wg , %.16Wg , %.16Wg)\n", d64, x, f, r, c);
-		bad ();
+	for (i = 0, p = res; i < G_N_ELEMENTS (values64); i++) {
+		*p++ = values64[i];
+		*p++ = -values64[i];
 	}
+
+	return res;
 }
 
 static void
-test_rounding (void)
+test_rounding (_Decimal64 const *corpus, int ncorpus)
 {
 	start_section ("rounding operations (floor, ceil, round)");
 
-	for (int v = 0; v < nvalues64; v++) {
-		_Decimal64 x = values64[v];
-		test1rounding (x);
-		test1rounding (-x);
+	for (int v = 0; v < ncorpus; v++) {
+		_Decimal64 x = corpus[v];
+
+		_Decimal64 f = floorD (x);
+		_Decimal64 c = ceilD (x);
+		_Decimal64 r = roundD (x);
+		double dx = x;
+		int sanity;
+		int qunderflow = (dx == 0) && (x != 0);
+		int qoverflow = finiteD (x) && !finite (dx);
+		int ok;
+
+		sanity = isnanD (x)
+			? 1
+			: (f <= x && x <= c &&
+			   (c == f || c == f + 1) &&
+			   (r == f || r == c) &&
+			   r <= x + 0.5dd &&
+			   r >= x - 0.5dd);
+		if (qunderflow)
+			ok = (r == 0 && (f == 0 || c == 0));
+		else if (qoverflow)
+			ok = (f == x && f == x);
+		else
+			ok = (double_eq (f, floor (dx)) &&
+			      double_eq (r, round (dx)) &&
+			      double_eq (c, ceil (dx)));
+
+		if (ok && sanity) {
+			good ();
+		} else {
+			uint64_t d64;
+			memcpy (&d64, &x, sizeof (d64));
+
+			g_printerr ("Error: 0x%08lx: %.16Wg -> (%.16Wg , %.16Wg , %.16Wg)\n", d64, x, f, r, c);
+			bad ();
+		}
 	}
 
 	end_section ();
 }
 
 static void
-test1prop (_Decimal64 x)
-{
-	int qnan = isnanD (x);
-	int qfinite = finiteD (x);
-	int qsign = signbit (x);
-	double dx = x;
-
-	if (!!qnan == (x != x) &&
-	    !!qfinite == (fabsD (x) <= DECIMAL64_MAX) &&
-	    !!qsign == !!signbit (dx)) {
-		good ();
-	} else {
-		uint64_t d64;
-		memcpy (&d64, &x, sizeof (d64));
-
-		g_printerr ("Error: 0x%08lx: %.16Wg -> %d %d %d\n",
-			    d64, x, qnan, qfinite, qsign);
-		bad ();
-	}
-}
-
-static void
-test_properties (void)
+test_properties (_Decimal64 const *corpus, int ncorpus)
 {
 	start_section ("properties (isnan, finite, signbit)");
 
-	for (int v = 0; v < nvalues64; v++) {
-		_Decimal64 x = values64[v];
-		test1prop (x);
-		test1prop (-x);
+	for (int v = 0; v < ncorpus; v++) {
+		_Decimal64 x = corpus[v];
+
+		int qnan = isnanD (x);
+		int qfinite = finiteD (x);
+		int qsign = signbit (x);
+		double dx = x;
+
+		if (!!qnan == (x != x) &&
+		    !!qfinite == (fabsD (x) <= DECIMAL64_MAX) &&
+		    !!qsign == !!signbit (dx)) {
+			good ();
+		} else {
+			uint64_t d64;
+			memcpy (&d64, &x, sizeof (d64));
+
+			g_printerr ("Error: 0x%08lx: %.16Wg -> %d %d %d\n",
+				    d64, x, qnan, qfinite, qsign);
+			bad ();
+		}
 	}
 
 	end_section ();
 }
 
 static void
-test_copysign (void)
+test_copysign (_Decimal64 const *corpus, int ncorpus)
 {
 	start_section ("copysign");
 
-	for (int v1 = 0; v1 < nvalues64; v1++) {
-		for (int s1 = 0; s1 <= 1; s1++) {
-			_Decimal64 x1 = values64[v1];
-			if (s1) x1 = -x1;
-			for (int v2 = 0; v2 < nvalues64; v2++) {
-				for (int s2 = 0; s2 <= 1; s2++) {
-					_Decimal64 x2 = values64[v2];
-					if (s2) x2 = -x2;
+	for (int v1 = 0; v1 < ncorpus; v1++) {
+		_Decimal64 x1 = corpus[v1];
+		for (int v2 = 0; v2 < ncorpus; v2++) {
+			_Decimal64 x2 = corpus[v2];
 
-					_Decimal64 y = copysignD (x1, x2);
-					if (decimal_eq (fabsD (y), fabsD (x1)) &&
-					    signbitD (y) == signbitD (x2))
-						good ();
-					else {
-						g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
-						bad ();
-					}
-				}
+			_Decimal64 y = copysignD (x1, x2);
+			if (decimal_eq (fabsD (y), fabsD (x1)) &&
+			    signbitD (y) == signbitD (x2))
+				good ();
+			else {
+				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
+				bad ();
 			}
 		}
 	}
@@ -214,7 +208,7 @@ test_copysign (void)
 }
 
 static void
-test_oneargs (void)
+test_oneargs (_Decimal64 const *corpus, int ncorpus)
 {
 	static const struct {
 		const char *name;
@@ -253,40 +247,37 @@ test_oneargs (void)
 
 	for (int f = 0; f < (int)G_N_ELEMENTS (funcs); f++) {
 		g_printerr ("  testing %s\n", funcs[f].name);
-		for (int v = 0; v < nvalues64; v++) {
-			for (int s = 0; s <= 1; s++) {
-				_Decimal64 x = values64[v], y;
-				if (s) x = -x;
-				double dx = x, dy;
-				int ok;
-				int qunderflow = (dx == 0) && (x != 0);
-				int qoverflow = finiteD (x) && !finite (dx);
+		for (int v = 0; v < ncorpus; v++) {
+			_Decimal64 x = corpus[v], y;
+			double dx = x, dy;
+			int ok;
+			int qunderflow = (dx == 0) && (x != 0);
+			int qoverflow = finiteD (x) && !finite (dx);
 
-				if (qunderflow || qoverflow)
-					continue;
+			if (qunderflow || qoverflow)
+				continue;
 
-				y = funcs[f].fn_decimal (x);
-				dy = funcs[f].fn_double (dx);
+			y = funcs[f].fn_decimal (x);
+			dy = funcs[f].fn_double (dx);
 
-				//g_printerr ("%.16Wg  %.16Wg\n", x, y);
-				//g_printerr ("%.16g  %.16g\n", dx, dy);
+			//g_printerr ("%.16Wg  %.16Wg\n", x, y);
+			//g_printerr ("%.16g  %.16g\n", dx, dy);
 
-				ok = (!!finiteD (y) == !!finite (dy) &&
-				      !!isnanD (y) == !!isnan (dy) &&
-				      !!signbitD (y) == !!signbit (dy) &&
-				      (y == 0) == (dy == 0));
+			ok = (!!finiteD (y) == !!finite (dy) &&
+			      !!isnanD (y) == !!isnan (dy) &&
+			      !!signbitD (y) == !!signbit (dy) &&
+			      (y == 0) == (dy == 0));
 
-				if (ok && finite (dy) && y != 0) {
-					_Decimal64 d = y - (_Decimal64)dy;
-					ok = fabsD (d / y) < 1e-10dd;
-				}
+			if (ok && finite (dy) && y != 0) {
+				_Decimal64 d = y - (_Decimal64)dy;
+				ok = fabsD (d / y) < 1e-10dd;
+			}
 
-				if (ok)
-					good ();
-				else {
-					g_printerr ("Failed for %.16Wg\n", x);
-					test_eq (y, dy);
-				}
+			if (ok)
+				good ();
+			else {
+				g_printerr ("Failed for %.16Wg\n", x);
+				test_eq (y, dy);
 			}
 		}
 	}
@@ -302,23 +293,31 @@ test_oneargs (void)
 int
 main (int argc, char **argv)
 {
+#ifdef GOFFICE_WITH_DECIMAL64
+	_Decimal64 *corpus;
+	int ncorpus;
+
 	libgoffice_init ();
 
-#ifdef GOFFICE_WITH_DECIMAL64
-	test_rounding ();
-	test_properties ();
-	test_copysign ();
-	test_oneargs ();
+	corpus = basic_corpus (&ncorpus);
+
+	test_rounding (corpus, ncorpus);
+	test_properties (corpus, ncorpus);
+	test_copysign (corpus, ncorpus);
+	test_oneargs (corpus, ncorpus);
 
 	if (n_bad)
 		g_printerr ("A total of %d failures.\n", n_bad);
 	else
 		g_printerr ("Pass.\n");
+
+	g_free (corpus);
+
+	libgoffice_shutdown ();
+
 #else
 	g_printerr ("Not compiled with Decimal64 support, so no testing.\n");
 #endif
-
-	libgoffice_shutdown ();
 
 	return n_bad ? 1 : 0;
 }
