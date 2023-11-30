@@ -65,7 +65,7 @@
 // log1pD          *         *         *
 // logD            *         *         *
 // modfD           *         *         -
-// nextafterD      F         F         -
+// nextafterD      A         A         A
 // powD            *         *         -
 // roundD          A         A         A
 // sinD            *         *         *
@@ -321,7 +321,7 @@ u64_digits (uint64_t x)
 	// log_10(2) is a hair bigger than 77/256
 	l10 = l2 * 77 / 256;
 
-	if (x >= u64_pow10_table[l10])
+	if (x > u64_pow10_table[l10])
 		l10++;
 
 	return l10 + 1;
@@ -644,32 +644,38 @@ fabsD (_Decimal64 x)
 _Decimal64
 nextafterD (_Decimal64 x, _Decimal64 y)
 {
-	int special, qadd, sign, p10;
-	uint64_t mant;
+	int qadd, qeffadd, e, lm64;
+	uint64_t m64;
+	_Decimal64 ax;
 
-	special = decode64_bis (&x, &mant, &p10, &sign);
-	if (special == CLS_NAN)
+	if (isnanD (x))
 		return x;
-
-	if (x < y)
+	else if (x < y)
 		qadd = 1;
 	else if (x > y)
 		qadd = 0;
 	else
 		return y; // Either equal or y is NAN
 
-	if (special == CLS_INF) {
-		return sign ? -DECIMAL64_MAX : DECIMAL64_MAX;
+	if (!finiteD (x))
+		return copysignD (DECIMAL64_MAX, x);
+
+	if (x == 0) {
+		_Decimal64 eps = DECIMAL64_MIN;
+		return qadd ? eps : -eps;
 	}
 
-	if (mant == 0) {
-		// Denormal
-		return qadd ? 1e-398dd : -1e-398dd;
-	}
+	ax = fabsD (x);
+	qeffadd = (x < 0) ? !qadd : qadd;
+	if (ax == DECIMAL64_MIN && !qeffadd)
+		return copysignD (0, x);
 
-	// FIXME
-
-	abort ();
+	m64 = frexp10D (ax, 1, &e);
+	lm64 = u64_digits (m64);
+	if (qeffadd)
+		return copysignD (ax + powD (10, e - (16 - lm64)), x);
+	else
+		return copysignD (ax - powD (10, e - (16 - lm64)), x);
 }
 
 // NOTE: THIS IS NOT A LOSSLESS OPERATION

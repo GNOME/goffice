@@ -207,6 +207,33 @@ test_copysign (_Decimal64 const *corpus, int ncorpus)
 	end_section ();
 }
 
+
+static void
+test_nextafter (void)
+{
+	start_section ("nextafter");
+
+	test_eq (nextafterD (0, 4), DECIMAL64_MIN);
+	test_eq (nextafterD (nextafterD (0, +4), -4), 0.dd);
+	test_eq (nextafterD (nextafterD (0, -4), +4), -0.dd);
+	test_eq (nextafterD (1111111111111111.dd, INFINITY), 1111111111111112.dd);
+	test_eq (nextafterD (-1111111111111111.dd, INFINITY), -1111111111111110.dd);
+	test_eq (nextafterD (1000000000000000.dd, INFINITY), 1000000000000001.dd);
+	test_eq (nextafterD (1000000000000000.dd, -INFINITY), 999999999999999.dd);
+	test_eq (nextafterD (1000000000000000e-10dd, INFINITY), 1000000000000001e-10dd);
+	test_eq (nextafterD (1000000000000000e-10dd, -INFINITY), 999999999999999e-10dd);
+	test_eq (nextafterD (1000000000000000e+99dd, INFINITY), 1000000000000001e+99dd);
+	test_eq (nextafterD (1000000000000000e+99dd, -INFINITY), 999999999999999e+99dd);
+	test_eq (nextafterD (1000000000000001.dd, INFINITY), 1000000000000002.dd);
+	test_eq (nextafterD (999999999999999.dd, +INFINITY), 1000000000000000.dd);
+	test_eq (nextafterD (INFINITY, INFINITY), INFINITY);
+	test_eq (nextafterD (-INFINITY, -INFINITY), -INFINITY);
+	test_eq (nextafterD (INFINITY, NAN), NAN);
+
+	end_section ();
+}
+
+
 static void
 test_oneargs (_Decimal64 const *corpus, int ncorpus)
 {
@@ -304,6 +331,7 @@ main (int argc, char **argv)
 	test_rounding (corpus, ncorpus);
 	test_properties (corpus, ncorpus);
 	test_copysign (corpus, ncorpus);
+	test_nextafter ();
 	test_oneargs (corpus, ncorpus);
 
 	if (n_bad)
