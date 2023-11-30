@@ -321,7 +321,7 @@ u64_digits (uint64_t x)
 	// log_10(2) is a hair bigger than 77/256
 	l10 = l2 * 77 / 256;
 
-	if (x > u64_pow10_table[l10])
+	if (x >= u64_pow10_table[l10 + 1])
 		l10++;
 
 	return l10 + 1;
@@ -674,8 +674,11 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	lm64 = u64_digits (m64);
 	if (qeffadd)
 		return copysignD (ax + powD (10, e - (16 - lm64)), x);
-	else
+	else {
+		if (lm64 == 1)
+			e--;
 		return copysignD (ax - powD (10, e - (16 - lm64)), x);
+	}
 }
 
 // NOTE: THIS IS NOT A LOSSLESS OPERATION
