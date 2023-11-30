@@ -63,7 +63,7 @@
 // log10D          A         A-        *
 // log2D           A         A-        *
 // log1pD          *         *         *
-// logD            *         *         *
+// logD            A         A-        *
 // modfD           *         *         -
 // nextafterD      A         A         A
 // powD            *         *         -
@@ -116,7 +116,6 @@ STUB1(exp)
 STUB1(expm1)
 STUB2(fmod)
 STUB2(hypot)
-STUB1(log)
 STUB1(log1p)
 STUB2(pow)
 STUB1(sin)
@@ -893,11 +892,16 @@ frexp10D (_Decimal64 x, int qint, int *e)
 	}
 }
 
+// Note: logD(-42) = +NaN            <-- inconsistent
 _Decimal64
 log10D (_Decimal64 x)
 {
-	if (fabsD (x - 1) < 0.5dd)
+	if (x <= 0)
+		return x == 0 ? (_Decimal64)-INFINITY : (_Decimal64)NAN;
+	else if (fabsD (x - 1) < 0.5dd)
 		return log10 (x);
+	else if (!finiteD (x))
+		return x;
 	else {
 		int e;
 		_Decimal64 m = frexp10D (x, 1, &e);
@@ -905,11 +909,22 @@ log10D (_Decimal64 x)
 	}
 }
 
+// Note: logD(-42) = -NaN
+_Decimal64
+logD (_Decimal64 x)
+{
+	if (x < 0)
+		return -(_Decimal64)NAN;
+	else
+		return log10D (x) * 2.3025850929940456840179914546843642076dd;
+}
+
+// Note: log2D(-42) = -NaN
 _Decimal64
 log2D (_Decimal64 x)
 {
 	if (x <= 0)
-		return x == 0 ? (_Decimal64)-INFINITY : copysignD(NAN, x);
+		return x == 0 ? (_Decimal64)-INFINITY : -(_Decimal64)NAN;
 	else if (fabsD (x - 1) < 0.5dd)
 		return log2 (x);
 	else if (!finiteD (x))
