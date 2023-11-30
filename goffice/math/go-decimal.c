@@ -61,7 +61,7 @@
 // lgammaD         B         B         *
 // lgammaD_r       *         *         -
 // log10D          A         A-        *
-// log2D           *         *         *
+// log2D           A         A-        *
 // log1pD          *         *         *
 // logD            *         *         *
 // modfD           *         *         -
@@ -118,7 +118,6 @@ STUB2(fmod)
 STUB2(hypot)
 STUB1(log)
 STUB1(log1p)
-STUB1(log2)
 STUB2(pow)
 STUB1(sin)
 STUB1(sqrt)
@@ -813,7 +812,7 @@ erfcD (_Decimal64 x)
 _Decimal64
 sinhD (_Decimal64 x)
 {
-	// No need to handle overflow result will overflow anyway
+	// No need to handle overflow because result will overflow anyway
 	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
 		return x;
 	} else
@@ -897,13 +896,35 @@ frexp10D (_Decimal64 x, int qint, int *e)
 _Decimal64
 log10D (_Decimal64 x)
 {
-	_Decimal64 xm1 = x - 1;
-	if (fabsD (xm1) < 0.5dd)
+	if (fabsD (x - 1) < 0.5dd)
 		return log10 (x);
 	else {
 		int e;
 		_Decimal64 m = frexp10D (x, 1, &e);
 		return e + (_Decimal64)log10 (m);
+	}
+}
+
+_Decimal64
+log2D (_Decimal64 x)
+{
+	if (x <= 0)
+		return x == 0 ? (_Decimal64)-INFINITY : copysignD(NAN, x);
+	else if (fabsD (x - 1) < 0.5dd)
+		return log2 (x);
+	else if (!finiteD (x))
+		return x;
+	else {
+		int e10, e2 = 0;
+		uint64_t m = frexp10D (x, 1, &e10);
+		static const _Decimal64 log2_10_m3 = .32192809488736234787031942948939dd;
+
+		while ((m & 1) == 0)
+			e2++, m >>= 1;
+		while (e10 < 0 && m % 5 == 0)
+			e10++, m /= 5, e2--;
+
+		return (e2 + 3 * e10) + (_Decimal64)(log2 (m)) + e10 * log2_10_m3;
 	}
 }
 
