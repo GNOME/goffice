@@ -70,7 +70,7 @@
 // roundD          A         A         A
 // sinD            *         *         *
 // sinhD           A         A-        *
-// sqrtD           *         *         *
+// sqrtD           A         A-        *
 // tanD            *         *         *
 // tanhD           A         A-        *
 // truncD          A         A         A
@@ -118,7 +118,6 @@ STUB2(fmod)
 STUB2(hypot)
 STUB2(pow)
 STUB1(sin)
-STUB1(sqrt)
 STUB1(tan)
 
 _Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
@@ -947,7 +946,7 @@ log1pD (_Decimal64 x)
 {
 	if (x > -1 && x < 1) {
 		// x - x^x/2 + ... so this is fine:
-		if (fabsD (x) <= DECIMAL64_MIN * 1e100dd)
+		if (fabsD (x) <= (_Decimal64)(DBL_MIN * 1e100))
 			return x;
 		return log1p (x);
 	} else
@@ -988,6 +987,20 @@ modfD (_Decimal64 x, _Decimal64 *y)
 
 	*y = truncD (x);
 	return copysignD (x - *y, x);
+}
+
+_Decimal64
+sqrtD (_Decimal64 x)
+{
+	if (x <= 0 || !finiteD (x))
+		return sqrt (x);
+
+	if (x <= (_Decimal64)DBL_MIN)
+		return (_Decimal64)(sqrt (x * 1e+100dd)) * 1e-50dd;
+	else if (x >= (_Decimal64)DBL_MAX)
+		return (_Decimal64)(sqrt (x * 1e-100dd)) * 1e+50dd;
+	else
+		return sqrt (x);
 }
 
 // ---------------------------------------------------------------------------
