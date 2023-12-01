@@ -62,6 +62,7 @@ _Decimal64 sinhD (_Decimal64 x);
 _Decimal64 sqrtD (_Decimal64 x);
 _Decimal64 tanD (_Decimal64 x);
 _Decimal64 tanhD (_Decimal64 x);
+_Decimal64 truncD (_Decimal64 x);
 _Decimal64 ynD (int n, _Decimal64 x);
 int finiteD (_Decimal64 x);
 int isnanD (_Decimal64 x);

@@ -64,7 +64,7 @@
 // log2D           A         A-        *
 // log1pD          *         *         *
 // logD            A         A-        *
-// modfD           *         *         -
+// modfD           A         A         A
 // nextafterD      A         A         A
 // powD            *         *         -
 // roundD          A         A         A
@@ -73,6 +73,7 @@
 // sqrtD           *         *         *
 // tanD            *         *         *
 // tanhD           A         *         *
+// truncD          A         A         A
 // ynD             *         *         -
 // finiteD         A         A         A
 // isnanD          A         A         A
@@ -127,14 +128,6 @@ _Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
 _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
 
 _Decimal64 lgammaD_r (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
-
-_Decimal64 modfD (_Decimal64 x, _Decimal64 *y)
-{
-	double dy, dz;
-	dz = modf (x, &dy);
-	*y = dy;
-	return dz;
-}
 
 #if 0
 	;
@@ -737,6 +730,8 @@ strtoDd (const char *s, char **end)
 	return strtold (s, end);
 }
 
+// ---------------------------------------------------------------------------
+
 _Decimal64
 floorD (_Decimal64 x)
 {
@@ -783,6 +778,14 @@ roundD (_Decimal64 x)
 }
 
 _Decimal64
+truncD (_Decimal64 x)
+{
+	return x < 0 ? ceilD (x) : floorD (x);
+}
+
+// ---------------------------------------------------------------------------
+
+_Decimal64
 lgammaD (_Decimal64 x)
 {
 	int sign;
@@ -807,6 +810,8 @@ erfcD (_Decimal64 x)
 	// No need to handle underflow because erfc(0)=1
 	return erfc (x);
 }
+
+// ---------------------------------------------------------------------------
 
 _Decimal64
 sinhD (_Decimal64 x)
@@ -845,6 +850,8 @@ acosD (_Decimal64 x)
 	// No need to handle underflow because acos(0)=Pi/2
 	return acos (x);
 }
+
+// ---------------------------------------------------------------------------
 
 // Like frexp, but for base 10 and with extra control flag.
 // Split x into m and integer e such that x = m * 10^e.
@@ -941,6 +948,18 @@ log2D (_Decimal64 x)
 
 		return (e2 + 3 * e10) + (_Decimal64)(log2 (m)) + e10 * log2_10_m3;
 	}
+}
+
+_Decimal64
+modfD (_Decimal64 x, _Decimal64 *y)
+{
+	if (!finiteD (x)) {
+		*y = x;
+		return isnanD (x) ? x : copysignD (0, x);
+	}
+
+	*y = truncD (x);
+	return copysignD (x - *y, x);
 }
 
 // ---------------------------------------------------------------------------

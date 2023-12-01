@@ -109,7 +109,7 @@ basic_corpus (int *n)
 static void
 test_rounding (_Decimal64 const *corpus, int ncorpus)
 {
-	start_section ("rounding operations (floor, ceil, round)");
+	start_section ("rounding operations (floor, ceil, round, trunc)");
 
 	for (int v = 0; v < ncorpus; v++) {
 		_Decimal64 x = corpus[v];
@@ -117,6 +117,7 @@ test_rounding (_Decimal64 const *corpus, int ncorpus)
 		_Decimal64 f = floorD (x);
 		_Decimal64 c = ceilD (x);
 		_Decimal64 r = roundD (x);
+		_Decimal64 t = truncD (x);
 		double dx = x;
 		int sanity;
 		int qunderflow = (dx == 0) && (x != 0);
@@ -128,6 +129,7 @@ test_rounding (_Decimal64 const *corpus, int ncorpus)
 			: (f <= x && x <= c &&
 			   (c == f || c == f + 1) &&
 			   (r == f || r == c) &&
+			   (x < 0 ? t == c : t == f) &&
 			   r <= x + 0.5dd &&
 			   r >= x - 0.5dd);
 		if (qunderflow)
@@ -145,7 +147,8 @@ test_rounding (_Decimal64 const *corpus, int ncorpus)
 			uint64_t d64;
 			memcpy (&d64, &x, sizeof (d64));
 
-			g_printerr ("Error: 0x%08lx: %.16Wg -> (%.16Wg , %.16Wg , %.16Wg)\n", d64, x, f, r, c);
+			g_printerr ("Error: 0x%08lx: %.16Wg -> (%.16Wg , %.16Wg , %.16Wg , %.16Wg)\n",
+				    d64, x, f, r, c, t);
 			bad ();
 		}
 	}
@@ -234,6 +237,24 @@ test_nextafter (void)
 	end_section ();
 }
 
+static void
+test_modf (_Decimal64 const *corpus, int ncorpus)
+{
+	start_section ("modf");
+
+	for (int v = 0; v < ncorpus; v++) {
+		_Decimal64 x = corpus[v];
+		_Decimal64 y, z;
+
+		z = modfD (x, &y);
+
+		test_eq (y, copysignD (truncD (x), x));
+		test_eq (z, copysignD (fabsD (x) == go_pinfD ? 0 : x - truncD (x), x));
+	}
+
+	end_section ();
+}
+
 
 static void
 test_oneargs (_Decimal64 const *corpus, int ncorpus)
@@ -269,6 +290,7 @@ test_oneargs (_Decimal64 const *corpus, int ncorpus)
 		{ "sqrtD", sqrtD, sqrt },
 		{ "tanD", tanD, tan },
 		{ "tanhD", tanhD, tanh },
+		// { "truncD", truncD, trunc },
 	};
 
 	start_section ("one-arg functions");
@@ -334,6 +356,7 @@ main (int argc, char **argv)
 	test_copysign (corpus, ncorpus);
 	test_nextafter ();
 	test_oneargs (corpus, ncorpus);
+	test_modf (corpus, ncorpus);
 
 	if (n_bad)
 		g_printerr ("A total of %d failures.\n", n_bad);
