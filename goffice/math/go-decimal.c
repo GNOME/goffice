@@ -46,7 +46,7 @@
 // ceilD           A         A         A
 // copysignD       A         A         A
 // cosD            *         *         *
-// coshD           *         *         *
+// coshD           A         A-        *
 // erfD            A         *         *
 // erfcD           A         *         *
 // expD            A         *         *
@@ -58,21 +58,21 @@
 // hypotD          *         *         *
 // jnD             *         *         -
 // ldexpD          B         B         -
-// lgammaD         B         B         *
-// lgammaD_r       *         *         -
+// lgammaD         A         A-        *
+// lgammaD_r       A         A-        -
 // log10D          A         A-        *
 // log2D           A         A-        *
-// log1pD          *         *         *
+// log1pD          A         A-        *
 // logD            A         A-        *
 // modfD           A         A         A
 // nextafterD      A         A         A
 // powD            *         *         -
 // roundD          A         A         A
 // sinD            *         *         *
-// sinhD           A         *         *
+// sinhD           A         A-        *
 // sqrtD           *         *         *
 // tanD            *         *         *
-// tanhD           A         *         *
+// tanhD           A         A-        *
 // truncD          A         A         A
 // ynD             *         *         -
 // finiteD         A         A         A
@@ -112,12 +112,10 @@ STUB1(atan)
 STUB2(atan2)
 STUB1(atanh)
 STUB1(cos)
-STUB1(cosh)
 STUB1(exp)
 STUB1(expm1)
 STUB2(fmod)
 STUB2(hypot)
-STUB1(log1p)
 STUB2(pow)
 STUB1(sin)
 STUB1(sqrt)
@@ -126,8 +124,6 @@ STUB1(tan)
 _Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
 
 _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
-
-_Decimal64 lgammaD_r (_Decimal64 x, int *signp) { return lgamma_r(x, signp); }
 
 #if 0
 	;
@@ -793,6 +789,17 @@ lgammaD (_Decimal64 x)
 }
 
 _Decimal64
+lgammaD_r (_Decimal64 x, int *signp)
+{
+	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
+		*signp = x >= 0 ? +1 : -1;
+		return -logD (x);
+	}
+	return lgamma_r (x, signp);
+}
+
+
+_Decimal64
 erfD (_Decimal64 x)
 {
 	// No need to handle overflow because of horizontal tangents
@@ -821,6 +828,14 @@ sinhD (_Decimal64 x)
 		return x;
 	} else
 		return sinh (x);
+}
+
+_Decimal64
+coshD (_Decimal64 x)
+{
+	// No need to handle overflow because result will overflow anyway
+	// No need to handle underflow because cosh(0)=1
+	return cosh (x);
 }
 
 _Decimal64
@@ -924,6 +939,19 @@ logD (_Decimal64 x)
 		return -(_Decimal64)NAN;
 	else
 		return log10D (x) * 2.3025850929940456840179914546843642076dd;
+}
+
+// Note: log1pD(-43) = -NaN
+_Decimal64
+log1pD (_Decimal64 x)
+{
+	if (x > -1 && x < 1) {
+		// x - x^x/2 + ... so this is fine:
+		if (fabsD (x) <= DECIMAL64_MIN * 1e100dd)
+			return x;
+		return log1p (x);
+	} else
+		return logD (x + 1);
 }
 
 // Note: log2D(-42) = -NaN
