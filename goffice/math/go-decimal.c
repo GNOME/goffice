@@ -992,15 +992,26 @@ modfD (_Decimal64 x, _Decimal64 *y)
 _Decimal64
 sqrtD (_Decimal64 x)
 {
-	if (x <= 0 || !finiteD (x))
-		return sqrt (x);
+	_Decimal64 s;
 
-	if (x <= (_Decimal64)DBL_MIN)
-		return (_Decimal64)(sqrt (x * 1e+100dd)) * 1e-50dd;
-	else if (x >= (_Decimal64)DBL_MAX)
-		return (_Decimal64)(sqrt (x * 1e-100dd)) * 1e+50dd;
-	else
-		return sqrt (x);
+	if (x < 0)
+		return -(_Decimal64)NAN;
+	if (x == 0 || !finiteD (x))
+		return x;
+
+	if (x <= (_Decimal64)DBL_MIN) {
+		x *= 1e+300dd;
+		s = 1e-150dd;
+	} else if (x >= (_Decimal64)DBL_MAX) {
+		x *= 1e-300dd;
+		s = 1e+150dd;
+	} else
+		s = 1;
+
+	x = sqrt (x);
+	// We could do a newton step here.
+
+	return x * s;
 }
 
 // ---------------------------------------------------------------------------
