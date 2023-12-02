@@ -43,6 +43,7 @@
 // atanD           *         *         *
 // atan2D          *         *         *
 // atanhD          *         *         *
+// cbrtD           A         A-        *
 // ceilD           A         A         A
 // copysignD       A         A         A
 // cosD            *         *         *
@@ -1009,6 +1010,30 @@ sqrtD (_Decimal64 x)
 		s = 1;
 
 	x = sqrt (x);
+	// We could do a newton step here.
+
+	return x * s;
+}
+
+_Decimal64
+cbrtD (_Decimal64 x)
+{
+	_Decimal64 s, ax;
+
+	if (x == 0 || !finiteD (x))
+		return x;
+
+	ax = fabsD (x);
+	if (ax <= (_Decimal64)DBL_MIN) {
+		x *= 1e+300dd;
+		s = 1e-100dd;
+	} else if (ax >= (_Decimal64)DBL_MAX) {
+		x *= 1e-300dd;
+		s = 1e+100dd;
+	} else
+		s = 1;
+
+	x = cbrt (x);
 	// We could do a newton step here.
 
 	return x * s;

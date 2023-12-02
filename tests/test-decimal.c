@@ -270,6 +270,7 @@ test_oneargs (_Decimal64 const *corpus, int ncorpus)
 		{ "asinhD", asinhD, asinh },
 		{ "atanD", atanD, atan },
 		{ "atanhD", atanhD, atanh },
+		{ "cbrtD", cbrtD, cbrt },
 		// { "ceilD", ceilD, ceil },
 		{ "cosD", cosD, cos },
 		{ "coshD", coshD, cosh },
