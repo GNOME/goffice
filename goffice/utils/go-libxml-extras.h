@@ -50,6 +50,9 @@ void       go_xml_out_add_double (GsfXMLOut *output, char const *id, double d);
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 void       go_xml_out_add_long_double (GsfXMLOut *output, char const *id, long double ld);
 #endif
+#ifdef GOFFICE_WITH_DECIMAL64
+void       go_xml_out_add_decimal64 (GsfXMLOut *output, char const *id, _Decimal64 d);
+#endif
 void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
 
 void       go_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc);

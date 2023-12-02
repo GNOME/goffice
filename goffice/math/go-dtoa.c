@@ -456,6 +456,9 @@ parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
 	if (*fmt == 'L') {
 		*fltyp = FP_LONG_DOUBLE;
 		fmt++;
+	} else if (*fmt == *GO_DECIMAL64_MODIFIER) {
+		*fltyp = FP_DECIMAL64;
+		fmt++;
 	}
 
 	if (!strchr ("efgaEFGA", *fmt))
