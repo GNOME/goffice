@@ -682,9 +682,11 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 
 	while ((dy = SUFFIX(go_quad_value) (&qy)) > 0) {
 		SUFFIX(go_quad_add) (&qy, &qy, &qy);
-		if (x1m)
+		if (x1m) {
 			SUFFIX(go_quad_sqrt1pm1) (&qx, &qx);
-		else {
+			if (SUFFIX(go_quad_value) (&qx) == 0)
+				break;
+		} else {
 			SUFFIX(go_quad_sqrt) (&qx, &qx);
 			if (SUFFIX(go_quad_value) (&qx) >= HALF) {
 				x1m = TRUE;
@@ -767,6 +769,9 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
 	DOUBLE dy, exp2ew;
 	QUAD qw, qf, qew, qef, qxm1;
 
+#if DOUBLE_RADIX != 2
+#warning "this is a base-2 algorithm"
+#endif
 	dy = SUFFIX(go_quad_value) (y);
 
 	SUFFIX(go_quad_sub) (&qxm1, x, &SUFFIX(go_quad_one));

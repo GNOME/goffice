@@ -131,6 +131,17 @@ _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
 
 // ---------------------------------------------------------------------------
 
+#define DECIMAL64_BIAS -398
+#define DECIMAL128_BIAS -6176
+
+#define DECIMAL64_MIN_DEN 1e-398dd
+
+// We assume bis format (and check for it during init)
+#define decode64 decode64_bis
+#define make64 make64_bis
+#define decode128 decode128_bis
+
+
 enum {
 	CLS_NORMAL,
 	CLS_INVALID,  // Treat as zero
@@ -143,7 +154,6 @@ enum {
 static inline int
 decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *pp10, int *sign)
 {
-	const int exp_bias = -398;
 	uint64_t d64, mant;
 	int special = CLS_NORMAL, p10 = 0;
 
@@ -155,10 +165,10 @@ decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *pp10, int *sign)
 		special = ((d64 >> 58) & 1) ? CLS_NAN : CLS_INF;
 	} else {
 		if (((d64 >> 61) & 3) == 3) {
-			p10 = exp_bias + ((d64 >> 51) & 0x3ff);
+			p10 = DECIMAL64_BIAS + ((d64 >> 51) & 0x3ff);
 			mant = (d64 & ((1ul << 51) - 1)) | (4ul << 51);
 		} else {
-			p10 = exp_bias + ((d64 >> 53) & 0x3ff);
+			p10 = DECIMAL64_BIAS + ((d64 >> 53) & 0x3ff);
 			mant = d64 & ((1ul << 53) - 1);
 		}
 		if (mant > 9999999999999999ull)
@@ -171,12 +181,35 @@ decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *pp10, int *sign)
 	return special;
 }
 
+// Encode a (finite) _Decimal64 assuming binary integer significant encoding
+static _Decimal64
+make64_bis (uint64_t mant, int e, int sign)
+{
+	uint64_t ue, u64;
+	_Decimal64 res;
+
+	assert (mant <= 9999999999999999ull);
+	assert (e >= DECIMAL64_BIAS && e <= 369);
+
+	ue = e - DECIMAL64_BIAS;
+	if (mant & ((uint64_t)1 << 53)) {
+		u64 = (mant ^ ((uint64_t)1 << 53)) |
+			(ue << 51) |
+			((uint64_t)3 << 61) |
+			((uint64_t)sign << 63);
+	} else {
+		u64 = mant | (ue << 53) | ((uint64_t)sign << 63);
+	}
+
+	memcpy (&res, &u64, sizeof (res));
+	return res;
+}
+
 // Decode a _Decimal128 assuming binary integer significant encoding
 static int
 decode128_bis (_Decimal128 const *args0, uint64_t *pmantu, uint64_t *pmantl,
 	       int *pp10, int *sign)
 {
-	const int exp_bias = -6176;
 	uint64_t l64, u64, mantl, mantu;
 	int special = CLS_NORMAL, p10 = 0;
 
@@ -190,10 +223,10 @@ decode128_bis (_Decimal128 const *args0, uint64_t *pmantu, uint64_t *pmantl,
 		special = ((u64 >> 58) & 1) ? CLS_NAN : CLS_INF;
 	} else {
 		if (((u64 >> 61) & 3) == 3) {
-			p10 = exp_bias + ((u64 >> 47) & 0x3fff);
+			p10 = DECIMAL128_BIAS + ((u64 >> 47) & 0x3fff);
 			mantu = (u64 & ((1ul << 47) - 1)) | (4ul << 47);
 		} else {
-			p10 = exp_bias + ((u64 >> 49) & 0x3fff);
+			p10 = DECIMAL128_BIAS + ((u64 >> 49) & 0x3fff);
 			mantu = u64 & ((1ul << 49) - 1);
 		}
 		mantl = l64;
@@ -359,8 +392,9 @@ decimal_arginfo(const struct printf_info *info, size_t n,
 // * When ix is <= 0: 1 is returned, buffer is "0"
 // * when rounding 9999|5 up getting 10000.
 static int
-do_round (char *buf, int ix)
+do_round (char *buf, int ix, int *qoverflow)
 {
+	*qoverflow = 0;
 	if (ix < 0) {
 		ix = 0;
 	} else {
@@ -368,12 +402,14 @@ do_round (char *buf, int ix)
 
 		if (rc >= '5') {
 			int i = ix - 1;
-			while (i >= 0 && (buf[i])++ == '9')
+			while (i >= 0 && (buf[i])++ == '9') {
+				buf[i] = '0';
 				i--;
+			}
 			if (i == -1) {
+				buf[ix++] = '0';
 				buf[0] = '1';
-				memset (buf + 1, '0', ix);
-				ix++;
+				*qoverflow = 1;
 			}
 		}
 	}
@@ -396,12 +432,12 @@ decimal_format(FILE *stream, const struct printf_info *info,
 	if (info->user & decimal64_modifier) {
 		_Decimal64 const *args0 = *(_Decimal64 **)(args[0]);
 		uint64_t mant;
-		special = decode64_bis (args0, &mant, &p10, &sign);
+		special = decode64 (args0, &mant, &p10, &sign);
 		if (special == CLS_NORMAL) render128 (buffer, 0, mant);
 	} else if (info->user & decimal128_modifier) {
 		_Decimal128 const *args0 = *(_Decimal128 **)(args[0]);
 		uint64_t mantu, mantl;
-		special = decode128_bis (args0, &mantu, &mantl, &p10, &sign);
+		special = decode128 (args0, &mantu, &mantl, &p10, &sign);
 		if (special == CLS_NORMAL) render128 (buffer, mantu, mantl);
 	} else {
 		// Not sure why this gets called on a regular "%f".  The special
@@ -440,28 +476,25 @@ decimal_format(FILE *stream, const struct printf_info *info,
 		if (gstyle) {
 			int effp10 = p10 + (len - 1);
 			if (prec == 0) prec = 1;
-			if (effp10 < -4 || effp10 > prec) {
+			if (effp10 < -4 || effp10 >= prec) {
 				estyle = 1;
 				prec--;
 			} else {
 				fstyle = 1;
-				if (effp10 >= 0) {
-					prec -= effp10;
-				} else {
-					prec -= effp10 + 1;
-				}
+				prec -= effp10 + 1;
 			}
 		}
 
+		overflow_to_estyle:
 		if (estyle) {
 			int decimals = len - 1, ap10;
 			p10 += decimals;
 
 			if (decimals > prec) {
 				int cut = decimals - prec;
-				int ix = len - cut;
-				len = do_round (buffer, ix);
-				if (ix >= 0 && len != ix) {
+				int qoverflow;
+				len = do_round (buffer, len - cut, &qoverflow);
+				if (qoverflow) {
 					// We overflowed 9999 into 10000
 					len--;
 					p10++;
@@ -498,8 +531,18 @@ decimal_format(FILE *stream, const struct printf_info *info,
 			if (p10 < 0) decimals = -p10;
 			if (decimals > prec) {
 				int cut = decimals - prec;
-				len = do_round (buffer, len - cut);
+				int qoverflow;
+				len = do_round (buffer, len - cut, &qoverflow);
 				decimals = prec;
+				p10 += cut;
+				if (qoverflow) {
+					//p10++;
+					if (gstyle && decimals == 0) {
+						estyle = 1;
+						fstyle = 0;
+						goto overflow_to_estyle;
+					}
+				}
 			}
 			// For gstyle we should not have 0 at the end of the fractional part
 			while (gstyle && len > 1 && p10 < 0 && buffer[len - 1] == '0')
@@ -522,7 +565,7 @@ decimal_format(FILE *stream, const struct printf_info *info,
 				memset (buffer, '0', diff + 2);
 				buffer[1] = '.';
 				len += diff + 2;
-			} else if (decimals || info->alt) {
+			} else if (decimals > 0 || info->alt) {
 				int need0 = (decimals == len);
 				memmove (buffer + len - decimals + 1 + need0,
 					 buffer + len - decimals,
@@ -558,7 +601,7 @@ decimal_format(FILE *stream, const struct printf_info *info,
 
 	while (!info->left && len < info->width) {
 		len++;
-		putc (' ', stream);
+		putc (info->pad, stream);
 	}
 	if (signchar) putc (signchar, stream);
 	fputs (buffer, stream);
@@ -596,20 +639,20 @@ init_decimal_printf_support (void)
 inline int
 isnanD (_Decimal64 x)
 {
-	return decode64_bis (&x, NULL, NULL, NULL) == CLS_NAN;
+	return decode64 (&x, NULL, NULL, NULL) == CLS_NAN;
 }
 
 inline int
 finiteD (_Decimal64 x)
 {
-	return decode64_bis (&x, NULL, NULL, NULL) < CLS_NAN;
+	return decode64 (&x, NULL, NULL, NULL) < CLS_NAN;
 }
 
 inline int
 signbitD (_Decimal64 x)
 {
 	int sign;
-	(void)decode64_bis (&x, NULL, NULL, &sign);
+	(void)decode64 (&x, NULL, NULL, &sign);
 	return sign;
 }
 
@@ -648,23 +691,25 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 		return copysignD (DECIMAL64_MAX, x);
 
 	if (x == 0) {
-		_Decimal64 eps = DECIMAL64_MIN;
+		_Decimal64 eps = DECIMAL64_MIN_DEN;
 		return qadd ? eps : -eps;
 	}
 
 	ax = fabsD (x);
 	qeffadd = (x < 0) ? !qadd : qadd;
-	if (ax == DECIMAL64_MIN && !qeffadd)
+	if (ax == DECIMAL64_MIN_DEN && !qeffadd)
 		return copysignD (0, x);
 
 	m64 = frexp10D (ax, 1, &e);
 	lm64 = u64_digits (m64);
-	if (qeffadd)
-		return copysignD (ax + powD (10, e - (16 - lm64)), x);
-	else {
-		if (lm64 == 1)
-			e--;
-		return copysignD (ax - powD (10, e - (16 - lm64)), x);
+	if (qeffadd) {
+		int de = e - (16 - lm64);
+		de = MAX (de, DECIMAL64_BIAS);
+		return copysignD (ax + make64 (1, de, 0), x);
+	} else {
+		int de = e - (lm64 == 1 ? 16 : 16 - lm64);
+		de = MAX (de, DECIMAL64_BIAS);
+		return copysignD (ax - make64 (1, de, 0), x);
 	}
 }
 
@@ -690,33 +735,27 @@ ldexpD (_Decimal64 x, int e)
 _Decimal64
 frexpD (_Decimal64 x, int *e)
 {
-	int sign;
-	_Decimal64 m;
+	_Decimal64 m, ax;
 
 	if (x == 0 || !finiteD (x)) {
 		*e = 0;
 		return x;
 	}
 
-	if (x < 0) {
-		sign = 1;
-		x = -x;
-	}
+	ax = fabsD (x);
 
-	if (x >= (_Decimal64)DBL_MAX) {
+	if (ax >= (_Decimal64)DBL_MAX) {
 		_Decimal64 p_2_300 = ldexp (1, 300);
-		m = frexpD (x / p_2_300, e);
+		m = frexpD (ax / p_2_300, e);
 		*e += 300;
-	} else if (x <= (_Decimal64)DBL_MIN) {
+	} else if (ax <= (_Decimal64)DBL_MIN) {
 		_Decimal64 p_2_300 = ldexp (1, 300);
-		m = frexpD (x * p_2_300, e);
+		m = frexpD (ax * p_2_300, e);
 		*e -= 300;
 	} else
-		m = frexp (x, e);
+		m = frexp (ax, e);
 
-	if (sign)
-		m = -m;
-	return m;
+	return copysignD (m, x);
 }
 
 _Decimal64
@@ -882,7 +921,7 @@ frexp10D (_Decimal64 x, int qint, int *e)
 	int special, sign, p10;
 	uint64_t mant;
 
-	special = decode64_bis (&x, &mant, &p10, &sign);
+	special = decode64 (&x, &mant, &p10, &sign);
 	switch (special) {
 	case CLS_NORMAL:
 		if (mant == 0)
@@ -896,10 +935,8 @@ frexp10D (_Decimal64 x, int qint, int *e)
 			*e = p10;
 		} else {
 			int m10 = u64_digits (mant);
-			if (m10) {
-				p10 += m10;
-				x /= d64_pow10_table[m10];
-			}
+			p10 += m10;
+			x /= d64_pow10_table[m10];
 			*e = p10;
 		}
 		return x;

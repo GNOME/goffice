@@ -459,10 +459,13 @@ parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
 	if (*fmt == 'L') {
 		*fltyp = FP_LONG_DOUBLE;
 		fmt++;
-	} else if (*fmt == *GO_DECIMAL64_MODIFIER) {
+	}
+#ifdef GOFFICE_WITH_DECIMAL64
+	else if (*fmt == *GO_DECIMAL64_MODIFIER) {
 		*fltyp = FP_DECIMAL64;
 		fmt++;
 	}
+#endif
 
 	if (!strchr ("efgaEFGA", *fmt))
 		return;
@@ -499,15 +502,18 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 	char *epos, *dpos;
 	gboolean use_e_notation;
 	GString const *dec = go_locale_get_decimal();
+	gboolean used_ryu;
 
 	g_string_set_size (dst, 53 + oldlen + dec->len);
 	switch (fltyp) {
 	case FP_DOUBLE:
 		n = go_ryu_d2s_buffered_n ((double)(d->ld), dst->str + oldlen);
+		used_ryu = TRUE;
 		break;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 	case FP_LONG_DOUBLE:
 		n = go_ryu_ld2s_buffered_n (d->ld, dst->str + oldlen);
+		used_ryu = TRUE;
 		break;
 #endif
 #ifdef GOFFICE_WITH_DECIMAL64
@@ -515,8 +521,9 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 		const char *sfmt = (t & 32)
 			? "%.16" GO_DECIMAL64_MODIFIER "g"
 			: "%.16" GO_DECIMAL64_MODIFIER "G";
-		n = sprintf (dst->str, sfmt, d->d64);
+		n = sprintf (dst->str + oldlen, sfmt, d->d64);
 		// FIXME: if sprintf gains intl support, fix needed here
+		used_ryu = FALSE;
 		break;
 	}
 #endif
@@ -555,7 +562,9 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 		// Downcase 'E', if needed
 		if (t & 32) *epos = 'e';
 		// Use printf rules for exponents
-		if (e >= 0 && e <= 9)
+		if (!used_ryu) {
+			; // Nothing
+		} else if (e >= 0 && e <= 9)
 			g_string_insert (dst, epos - dst->str + 1, "+0");
 		else if (e >= 10)
 			g_string_insert_c (dst, epos - dst->str + 1, '+');
@@ -644,10 +653,11 @@ go_dtoa (GString *dst, const char *fmt, ...)
 		fmt_shortest (dst, &d, fl, t, fltyp);
 #ifdef GOFFICE_WITH_DECIMAL64
 	else if (fltyp == FP_DECIMAL64)
-		fmt_d64 (dst, fmt, d.d64, p, w);
+		fmt_d64 (dst, fmt, d.d64, w, p);
 #endif
-	else
+	else {
 		fmt_fp (dst, d.ld, w, p, fl, t);
+	}
 
 #ifdef ENSURE_FPU_STATE
 	if ((oldstate & mask) != _FPU_EXTENDED) {

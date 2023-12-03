@@ -8,9 +8,12 @@ static int n_bad;
 // "W" modifier than we have hooked into libc's printf.
 #pragma GCC diagnostic ignored "-Wformat"
 #pragma GCC diagnostic ignored "-Wformat-extra-args"
+
 /* ------------------------------------------------------------------------- */
 
 static int n_section_good, n_section_bad;
+static char *subsection;
+static gboolean subsection_printed;
 
 static int
 double_eq (double x, double y)
@@ -42,12 +45,21 @@ start_section (const char *header)
 }
 
 static void
+set_subsection (const char *sub)
+{
+	g_free (subsection);
+	subsection = g_strdup (sub);
+	subsection_printed = FALSE;
+}
+
+static void
 end_section (void)
 {
 	if (n_section_bad)
 		g_printerr ("\n");
 	g_printerr ("For this section: good: %d, bad: %d\n\n",
 		    n_section_good, n_section_bad);
+	set_subsection (NULL);
 }
 
 static void
@@ -59,6 +71,10 @@ good (void)
 static void
 bad (void)
 {
+	if (subsection && !subsection_printed) {
+		g_printerr ("Trouble with %s\n", subsection);
+		subsection_printed = TRUE;
+	}
 	n_section_bad++;
 	n_bad++;
 }
@@ -76,8 +92,46 @@ test_eq (_Decimal64 a, _Decimal64 b)
 	}
 }
 
-static _Decimal64 *
-basic_corpus (int *n)
+/* ------------------------------------------------------------------------- */
+
+typedef struct {
+	_Decimal64 *vals;
+	int nvals;
+} Corpus;
+
+static Corpus *
+corpus_new (int count)
+{
+	Corpus *res = g_new (Corpus, 1);
+	res->nvals = count;
+	res->vals = g_new (_Decimal64, res->nvals);
+	return res;
+}
+
+static void
+corpus_free (Corpus *corpus)
+{
+	g_free (corpus->vals);
+	g_free (corpus);
+}
+
+static Corpus *
+corpus_concat (Corpus *first, gboolean free_first,
+	       Corpus *second, gboolean free_second)
+{
+	Corpus *res = corpus_new (first->nvals + second->nvals);
+
+	memcpy (res->vals, first->vals, first->nvals * sizeof(_Decimal64));
+	memcpy (res->vals + first->nvals, second->vals, second->nvals * sizeof(_Decimal64));
+
+	if (free_first) corpus_free (first);
+	if (free_second) corpus_free (second);
+
+	return res;
+}
+
+static Corpus *
+basic_corpus (void)
 {
 	static const _Decimal64 values64[] = {
 		0.dd, 3.14dd, 0.123dd, 0.05dd, 1.5dd, 0.567dd, 999999999.5dd,
@@ -92,13 +146,11 @@ basic_corpus (int *n)
 		DECIMAL64_MAX,
 		DECIMAL64_MIN,
 	};
-	_Decimal64 *res, *p;
+	Corpus *res = corpus_new (2 * G_N_ELEMENTS (values64));
+	_Decimal64 *p;
 	size_t i;
 
-	*n = 2 * G_N_ELEMENTS (values64);
-	res = g_new (_Decimal64, *n);
-
-	for (i = 0, p = res; i < G_N_ELEMENTS (values64); i++) {
+	for (i = 0, p = res->vals; i < G_N_ELEMENTS (values64); i++) {
 		*p++ = values64[i];
 		*p++ = -values64[i];
 	}
@@ -106,13 +158,27 @@ basic_corpus (int *n)
 	return res;
 }
 
+static Corpus *
+linear_corpus (int count, _Decimal64 slope, _Decimal64 offset)
+{
+	Corpus *res = corpus_new (count);
+	int i;
+
+	for (i = 0; i < count; i++)
+		res->vals[i] = i * slope + offset;
+
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+
 static void
-test_rounding (_Decimal64 const *corpus, int ncorpus)
+test_rounding (Corpus *corpus)
 {
 	start_section ("rounding operations (floor, ceil, round, trunc)");
 
-	for (int v = 0; v < ncorpus; v++) {
-		_Decimal64 x = corpus[v];
+	for (int v = 0; v < corpus->nvals; v++) {
+		_Decimal64 x = corpus->vals[v];
 
 		_Decimal64 f = floorD (x);
 		_Decimal64 c = ceilD (x);
@@ -157,12 +223,12 @@ test_rounding (_Decimal64 const *corpus, int ncorpus)
 }
 
 static void
-test_properties (_Decimal64 const *corpus, int ncorpus)
+test_properties (Corpus *corpus)
 {
 	start_section ("properties (isnan, finite, signbit)");
 
-	for (int v = 0; v < ncorpus; v++) {
-		_Decimal64 x = corpus[v];
+	for (int v = 0; v < corpus->nvals; v++) {
+		_Decimal64 x = corpus->vals[v];
 
 		int qnan = isnanD (x);
 		int qfinite = finiteD (x);
@@ -187,14 +253,14 @@ test_properties (_Decimal64 const *corpus, int ncorpus)
 }
 
 static void
-test_copysign (_Decimal64 const *corpus, int ncorpus)
+test_copysign (Corpus *corpus)
 {
 	start_section ("copysign");
 
-	for (int v1 = 0; v1 < ncorpus; v1++) {
-		_Decimal64 x1 = corpus[v1];
-		for (int v2 = 0; v2 < ncorpus; v2++) {
-			_Decimal64 x2 = corpus[v2];
+	for (int v1 = 0; v1 < corpus->nvals; v1++) {
+		_Decimal64 x1 = corpus->vals[v1];
+		for (int v2 = 0; v2 < corpus->nvals; v2++) {
+			_Decimal64 x2 = corpus->vals[v2];
 
 			_Decimal64 y = copysignD (x1, x2);
 			if (decimal_eq (fabsD (y), fabsD (x1)) &&
@@ -214,9 +280,12 @@ test_copysign (_Decimal64 const *corpus, int ncorpus)
 static void
 test_nextafter (void)
 {
+	_Decimal64 m;
 	start_section ("nextafter");
 
-	test_eq (nextafterD (0, 4), DECIMAL64_MIN);
+	m = nextafterD (0, 4);
+	test_eq (m, 1e-398dd);
+	test_eq (nextafterD (0, -4), -1e-398dd);
 	test_eq (nextafterD (nextafterD (0, +4), -4), 0.dd);
 	test_eq (nextafterD (nextafterD (0, -4), +4), -0.dd);
 	test_eq (nextafterD (1111111111111111.dd, INFINITY), 1111111111111112.dd);
@@ -233,17 +302,21 @@ test_nextafter (void)
 	test_eq (nextafterD (INFINITY, INFINITY), INFINITY);
 	test_eq (nextafterD (-INFINITY, -INFINITY), -INFINITY);
 	test_eq (nextafterD (INFINITY, NAN), NAN);
+	test_eq (nextafterD (m, 1), 2 * m);
+	test_eq (nextafterD (2 * m, 0), m);
+	test_eq (nextafterD (9 * m, 1), 10 * m);
+	test_eq (nextafterD (10 * m, 1), 11 * m);
 
 	end_section ();
 }
 
 static void
-test_modf (_Decimal64 const *corpus, int ncorpus)
+test_modf (Corpus *corpus)
 {
 	start_section ("modf");
 
-	for (int v = 0; v < ncorpus; v++) {
-		_Decimal64 x = corpus[v];
+	for (int v = 0; v < corpus->nvals; v++) {
+		_Decimal64 x = corpus->vals[v];
 		_Decimal64 y, z;
 
 		z = modfD (x, &y);
@@ -257,7 +330,7 @@ test_modf (_Decimal64 const *corpus, int ncorpus)
 
 
 static void
-test_oneargs (_Decimal64 const *corpus, int ncorpus)
+test_oneargs (Corpus *corpus)
 {
 	static const struct {
 		const char *name;
@@ -271,7 +344,7 @@ test_oneargs (_Decimal64 const *corpus, int ncorpus)
 		{ "atanD", atanD, atan },
 		{ "atanhD", atanhD, atanh },
 		{ "cbrtD", cbrtD, cbrt },
-		// { "ceilD", ceilD, ceil },
+		{ "ceilD", ceilD, ceil },
 		{ "cosD", cosD, cos },
 		{ "coshD", coshD, cosh },
 		{ "erfD", erfD, erf },
@@ -279,27 +352,27 @@ test_oneargs (_Decimal64 const *corpus, int ncorpus)
 		{ "expD", expD, exp },
 		{ "expm1D", expm1D, expm1 },
 		{ "fabsD", fabsD, fabs },
-		// { "floorD", floorD, floor },
+		{ "floorD", floorD, floor },
 		{ "lgammaD", lgammaD, lgamma },
 		{ "log10D", log10D, log10 },
 		{ "log1pD", log1pD, log1p },
 		{ "log2D", log2D, log2 },
 		{ "logD", logD, log },
-		// { "roundD", roundD, round },
+		{ "roundD", roundD, round },
 		{ "sinD", sinD, sin },
 		{ "sinhD", sinhD, sinh },
 		{ "sqrtD", sqrtD, sqrt },
 		{ "tanD", tanD, tan },
 		{ "tanhD", tanhD, tanh },
-		// { "truncD", truncD, trunc },
+		{ "truncD", truncD, trunc },
 	};
 
 	start_section ("one-arg functions");
 
 	for (int f = 0; f < (int)G_N_ELEMENTS (funcs); f++) {
-		g_printerr ("  testing %s\n", funcs[f].name);
-		for (int v = 0; v < ncorpus; v++) {
-			_Decimal64 x = corpus[v], y;
+		set_subsection (funcs[f].name);
+		for (int v = 0; v < corpus->nvals; v++) {
+			_Decimal64 x = corpus->vals[v], y;
 			double dx = x, dy;
 			int ok;
 			int qunderflow = (dx == 0) && (x != 0);
@@ -337,6 +410,75 @@ test_oneargs (_Decimal64 const *corpus, int ncorpus)
 }
 
 
+static void
+test_dtoa (Corpus *corpus)
+{
+	static const char *fmts[] = {
+		"=^.0f", "=^.1f", "=^.2f", "=^.3f", "=^.4f",
+		"=^.5f", "=^.6f", "=^.7f", "=^.8f", "=^.9f",
+		"=^.0e", "=^.1e", "=^.2e", "=^.3e", "=^.4e",
+		"=^.5e", "=^.6e", "=^.7e", "=^.8e", "=^.9e",
+		"=^.0g", "=^.1g", "=^.2g", "=^.3g", "=^.4g",
+		"=^.5g", "=^.6g", "=^.7g", "=^.8g", "=^.9g",
+	};
+	const int nfmts = G_N_ELEMENTS (fmts);
+	GString *s1, *s2;
+
+	start_section ("go_dtoa");
+
+	s1 = g_string_new (NULL);
+	s2 = g_string_new (NULL);
+
+	if (0) {
+		_Decimal64 d = .567dd;
+		g_printerr ("[%.0f]\n", (double)d);
+		go_dtoa (s1, "=^.0Wf", d);
+		g_printerr ("[%s]\n", s1->str);
+		return;
+	}
+
+	for (int f = 0; f < nfmts; f++) {
+		const char *fmt = fmts[f];
+		int lfmt = strlen (fmt);
+		gboolean fstyle = g_ascii_toupper (fmt[lfmt - 1]) == 'F';
+		char fmt2[100];
+		strcpy (fmt2, fmt);
+		fmt2[lfmt + 1] = 0;
+		fmt2[lfmt + 0] = fmt2[lfmt - 1];
+		fmt2[lfmt - 1] = 'W';
+
+		set_subsection (fmt);
+
+		for (int v = 0; v < corpus->nvals; v++) {
+			_Decimal64 x = corpus->vals[v];
+			double dx = x;
+			int qunderflow = (dx == 0) && (x != 0);
+			int qoverflow = finiteD (x) && !finite (dx);
+
+			if (qunderflow || qoverflow)
+				continue;
+
+			if (fstyle && fabsD (x) > 0 && finiteD (x) &&
+			    log10D (fabsD (x)) > 8)
+				continue;
+
+			go_dtoa (s1, fmt, dx);
+			go_dtoa (s2, fmt2, x);
+			if (g_string_equal (s1, s2)) {
+				good ();
+			} else {
+				bad ();
+				g_printerr ("Got [%s], expected [%s] [%.20g]\n",
+					    s2->str, s1->str, dx);
+			}
+		}
+	}
+	g_string_free (s1, TRUE);
+	g_string_free (s2, TRUE);
+
+	end_section ();
+}
+
 /* ------------------------------------------------------------------------- */
 
 #endif
@@ -345,26 +487,35 @@ int
 main (int argc, char **argv)
 {
 #ifdef GOFFICE_WITH_DECIMAL64
-	_Decimal64 *corpus;
-	int ncorpus;
+	Corpus *corpus, *corpus2;
 
 	libgoffice_init ();
 
-	corpus = basic_corpus (&ncorpus);
+	corpus = basic_corpus ();
 
-	test_rounding (corpus, ncorpus);
-	test_properties (corpus, ncorpus);
-	test_copysign (corpus, ncorpus);
+	test_rounding (corpus);
+	test_properties (corpus);
+	test_copysign (corpus);
 	test_nextafter ();
-	test_oneargs (corpus, ncorpus);
-	test_modf (corpus, ncorpus);
+	test_oneargs (corpus);
+	test_modf (corpus);
+
+	// The offset here is partly for the benefit of going through
+	// double for the reference string and partly to test something
+	// else
+	corpus2 = corpus_concat
+		(corpus, 0,
+		 corpus_concat (linear_corpus (10001, 1e-3dd, 1e-14dd), 1,
+				linear_corpus (10001, 1e-3dd, -1e-14dd), 1), 1);
+	test_dtoa (corpus2);
+	corpus_free (corpus2);
 
 	if (n_bad)
 		g_printerr ("A total of %d failures.\n", n_bad);
 	else
 		g_printerr ("Pass.\n");
 
-	g_free (corpus);
+	corpus_free (corpus);
 
 	libgoffice_shutdown ();
 

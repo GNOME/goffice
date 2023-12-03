@@ -23,6 +23,7 @@
 #undef DOUBLE_EPSILON
 #undef DOUBLE_DIG
 #undef DOUBLE_MIN
+#undef DOUBLE_RADIX
 #undef STRTO
 #undef CONST
 #undef FORMAT_e
@@ -44,6 +45,7 @@
   #define DOUBLE_EPSILON DBL_EPSILON
   #define DOUBLE_DIG DBL_DIG
   #define DOUBLE_MIN DBL_MIN
+  #define DOUBLE_RADIX FLT_RADIX
   #define STRTO go_strtod
   #define CONST(c) c
   #define FORMAT_e "e"
@@ -66,6 +68,7 @@
   #define DOUBLE_EPSILON LDBL_EPSILON
   #define DOUBLE_DIG LDBL_DIG
   #define DOUBLE_MIN LDBL_MIN
+  #define DOUBLE_RADIX FLT_RADIX
   #define STRTO go_strtold
   #define CONST(_c) _c ## l
   #define FORMAT_e "Le"
@@ -88,6 +91,7 @@
   #define DOUBLE_EPSILON DECIMAL64_EPSILON
   #define DOUBLE_DIG 16
   #define DOUBLE_MIN DECIMAL64_MIN
+  #define DOUBLE_RADIX 10
   #define STRTO go_strtoDd
   #define CONST(_c) _c ## dd
   #define FORMAT_e "We"
