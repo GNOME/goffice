@@ -1,6 +1,6 @@
 #define RYU_OPTIMIZE_SIZE 1
 
-#define bool int
+#define bool _Bool
 
 #include "go-ryu.h"
 #include <inttypes.h>
@@ -93,15 +93,15 @@ static inline uint32_t log10Pow5(const int32_t e) {
 
 static inline int copy_special_str(char * const result, const bool sign, const bool exponent, const bool mantissa) {
   if (mantissa) {
-    memcpy(result, "NaN", 3);
+    memcpy(result, "nan", 3); // String changed to match musl's fmt_fp
     return 3;
   }
   if (sign) {
     result[0] = '-';
   }
   if (exponent) {
-    memcpy(result + sign, "Infinity", 8);
-    return sign + 8;
+    memcpy(result + sign, "inf", 3); // String changed to match musl's fmt_fp
+    return sign + 3;
   }
   memcpy(result + sign, "0E0", 3);
   return sign + 3;
@@ -2107,14 +2107,14 @@ static struct floating_decimal_128 go_ryu_generic_binary_to_decimal(
 
 static inline int copy_special_strl(char * const result, const struct floating_decimal_128 fd) {
   if (fd.mantissa) {
-    memcpy(result, "NaN", 3);
+    memcpy(result, "nan", 3); // String changed to match musl's fmt_fp
     return 3;
   }
   if (fd.sign) {
     result[0] = '-';
   }
-  memcpy(result + fd.sign, "Infinity", 8);
-  return fd.sign + 8;
+  memcpy(result + fd.sign, "inf", 3); // String changed to match musl's fmt_fp
+  return fd.sign + 3;
 }
 
 static int go_ryu_generic_to_chars(const struct floating_decimal_128 v, char* const result) {
