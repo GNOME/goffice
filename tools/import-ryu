@@ -57,11 +57,22 @@ foreach my $f (@files) {
 	    $_ = "static $_";
 	}
 
-	if (s/"NaN"/"nan"/ || s/"Infinity", 8/"inf", 3/) {
-	    s{$}{ // String changed to match musl's fmt_fp};
-	}
-	s/sign \+ 8;/sign + 3;/;
+	if (/static inline int copy_special_str/ .. /^}/) {
+	    $fd = $1 if /\((fd\.|)mantissa\)/;
+	    my $comment = "String changed to match musl's fmt_fp";
+	    if (/^(\s+)memcpy\(result, "NaN", 3\);/) {
+		print "$1if (${fd}sign) result[0] = '-';\n";
+		s/result/result + ${fd}sign/;
+		s/"NaN"/"nan"/;
+		s{$}{ // $comment};
+	    }
+	    s/return 3/return ${fd}sign + 3/;
 
+	    if (s/"Infinity", 8/"inf", 3/) {
+		s{$}{ // $comment};
+	    }
+	    s/sign \+ 8;/sign + 3;/;
+	}
 
 	if ($f =~ /128/) {
 	    s/\b(pow5bits|pow5Factor|multipleOfPowerOf[25]|log10Pow[25]|copy_special_str|POW5_TABLE_SIZE)\b/$1l/g;

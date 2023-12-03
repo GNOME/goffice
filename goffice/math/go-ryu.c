@@ -93,8 +93,9 @@ static inline uint32_t log10Pow5(const int32_t e) {
 
 static inline int copy_special_str(char * const result, const bool sign, const bool exponent, const bool mantissa) {
   if (mantissa) {
-    memcpy(result, "nan", 3); // String changed to match musl's fmt_fp
-    return 3;
+    if (sign) result[0] = '-';
+    memcpy(result + sign, "nan", 3); // String changed to match musl's fmt_fp
+    return sign + 3;
   }
   if (sign) {
     result[0] = '-';
@@ -2107,8 +2108,9 @@ static struct floating_decimal_128 go_ryu_generic_binary_to_decimal(
 
 static inline int copy_special_strl(char * const result, const struct floating_decimal_128 fd) {
   if (fd.mantissa) {
-    memcpy(result, "nan", 3); // String changed to match musl's fmt_fp
-    return 3;
+    if (fd.sign) result[0] = '-';
+    memcpy(result + fd.sign, "nan", 3); // String changed to match musl's fmt_fp
+    return fd.sign + 3;
   }
   if (fd.sign) {
     result[0] = '-';
