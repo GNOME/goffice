@@ -168,7 +168,7 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 
 	if (!go_finitel(y)) {
 		const char *s = (t&32)?"inf":"INF";
-		if (y!=y) s=(t&32)?"nan":"NAN", pl=0;
+		if (y!=y) s=(t&32)?"nan":"NAN";
 		pad(f, ' ', w, 3+pl, fl&~ZERO_PAD);
 		out(f, prefix, pl);
 		out(f, s, 3);
@@ -568,6 +568,44 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 	}
 }
 
+#ifdef GOFFICE_WITH_DECIMAL64
+static void
+fmt_d64 (GString *dst, const char *fmt, _Decimal64 d, int w, int p)
+{
+	// We're in here because we want ascii and round-away-from-zero handling
+	// For now we're punting.
+	GString *fmt2 = g_string_sized_new (100);
+	gboolean seen_dot = FALSE;
+
+	g_string_append_c (fmt2, '%');
+	while (*fmt) {
+		char c = *fmt++;
+		if (strchr ("0123456789+-aAeEfFgG" GO_DECIMAL64_MODIFIER, c))
+			g_string_append_c (fmt2, c);
+		else if (c == '.') {
+			g_string_append_c (fmt2, c);
+			seen_dot = TRUE;
+		} else if (c == '*') {
+			g_string_append_printf (fmt2, "%d", (seen_dot ? p : w));
+		} else if (strchr ("!=", c)) {
+			// Ignore, not relevant
+		} else if (c == '^') {
+			// FIXME: if sprintf starts rounding to even, fix needed here
+			// Ignore for now
+		} else if (c == ',') {
+			// FIXME: if sprintf gains intl support, fix needed here
+			// Ignore for now
+		} else {
+			g_printerr ("Ignoring unexpected char '%c'\n", c);
+		}
+	}
+
+	g_string_append_printf (dst, fmt2->str, d);
+	g_string_free (fmt2, TRUE);
+}
+#endif
+
+
 void
 go_dtoa (GString *dst, const char *fmt, ...)
 {
@@ -601,6 +639,10 @@ go_dtoa (GString *dst, const char *fmt, ...)
 
 	if (fl & FLAG_SHORTEST)
 		fmt_shortest (dst, &d, fl, t, fltyp);
+#ifdef GOFFICE_WITH_DECIMAL64
+	else if (fltyp == FP_DECIMAL64)
+		fmt_d64 (dst, fmt, d.d64, p, w);
+#endif
 	else
 		fmt_fp (dst, d.ld, w, p, fl, t);
 
