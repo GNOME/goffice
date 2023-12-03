@@ -1,3 +1,8 @@
+2023-12-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-dtoa.c (parse_fmt): Fix width parsing (which we
+	evidently aren't using that much).
+
 2023-11-02  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

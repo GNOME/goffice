@@ -424,8 +424,11 @@ parse_fmt (const char *fmt, va_list args, gboolean *is_long,
 		break;
 	}
 
-	while (g_ascii_isdigit (*fmt))
-		*w = *w * 10 + (*fmt++ - '0');
+	if (g_ascii_isdigit (*fmt)) {
+		*w = 0;
+		while (g_ascii_isdigit (*fmt))
+			*w = *w * 10 + (*fmt++ - '0');
+	}
 
 	if (*fmt == '.') {
 		if (fmt[1] == '*') {
