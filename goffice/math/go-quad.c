@@ -23,6 +23,9 @@
  * Precision" by T. J. Dekker in _Numerische Mathematik_ 18.
  * Springer Verlag 1971.
  *
+ * See also "On various ways to split a floating-point number" by
+ * Claude-Pierre Jeannerod, Jean-Michel Muller, and Paul Zimmermann.
+ *
  * Note: for this to work, the processor must evaluate with the right
  * precision.  For ix86 that means trouble as the default is to evaluate
  * with long-double precision internally.  We solve this by setting the
@@ -171,7 +174,11 @@ SUFFIX(go_quad_start) (void)
 
 	if (first) {
 		first = FALSE;
+#if DOUBLE_RADIX == 2
 		SUFFIX(CST) = 1 + SUFFIX(ldexp) (1.0, (DOUBLE_MANT_DIG + 1) / 2);
+#else
+		SUFFIX(CST) = 1 + SUFFIX(pow) (DOUBLE_RADIX, (DOUBLE_MANT_DIG + 1) / 2);
+#endif
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_pi),
 					   pi_hex_digits,
 					   G_N_ELEMENTS (pi_hex_digits),
@@ -936,7 +943,7 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
  * @a: quad-precision value
  * @b: quad-precision value
  *
- * This function computes the square root of @a^2 plugs @b^2, storing the
+ * This function computes the square root of @a^2 plus @b^2, storing the
  * result in @res.
  **/
 /**
@@ -945,7 +952,7 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
  * @a: quad-precision value
  * @b: quad-precision value
  *
- * This function computes the square root of @a^2 plugs @b^2, storing the
+ * This function computes the square root of @a^2 plus @b^2, storing the
  * result in @res.
  **/
 void

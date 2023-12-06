@@ -117,7 +117,6 @@ STUB1(exp)
 STUB1(expm1)
 STUB2(fmod)
 STUB2(hypot)
-STUB2(pow)
 STUB1(sin)
 STUB1(tan)
 
@@ -134,6 +133,7 @@ _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
 #define DECIMAL64_BIAS -398
 #define DECIMAL128_BIAS -6176
 
+#define DECIMAL64_MAX_BIASED_EXP 369
 #define DECIMAL64_MIN_DEN 1e-398dd
 
 // We assume bis format (and check for it during init)
@@ -189,7 +189,7 @@ make64_bis (uint64_t mant, int e, int sign)
 	_Decimal64 res;
 
 	assert (mant <= 9999999999999999ull);
-	assert (e >= DECIMAL64_BIAS && e <= 369);
+	assert (e >= DECIMAL64_BIAS && e <= DECIMAL64_MAX_BIASED_EXP);
 
 	ue = e - DECIMAL64_BIAS;
 	if (mant & ((uint64_t)1 << 53)) {
@@ -671,6 +671,20 @@ fabsD (_Decimal64 x)
 	return signbitD (x) ? -x : x;
 }
 
+static _Decimal64
+pow10D (int e)
+{
+	if (e < DECIMAL64_BIAS)
+		return 0;
+	if (e <= DECIMAL64_MAX_BIASED_EXP)
+		return make64 (1, e, 0);
+	if (e <= DECIMAL64_MAX_EXP)
+		return make64 (u64_pow10_table[e - DECIMAL64_MAX_BIASED_EXP],
+			       DECIMAL64_MAX_BIASED_EXP, 0);
+	return (_Decimal64)INFINITY;
+}
+
+
 _Decimal64
 nextafterD (_Decimal64 x, _Decimal64 y)
 {
@@ -705,11 +719,11 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	if (qeffadd) {
 		int de = e - (16 - lm64);
 		de = MAX (de, DECIMAL64_BIAS);
-		return copysignD (ax + make64 (1, de, 0), x);
+		return copysignD (ax + pow10D (de), x);
 	} else {
 		int de = e - (lm64 == 1 ? 16 : 16 - lm64);
 		de = MAX (de, DECIMAL64_BIAS);
-		return copysignD (ax - make64 (1, de, 0), x);
+		return copysignD (ax - pow10D (de), x);
 	}
 }
 
@@ -757,6 +771,39 @@ frexpD (_Decimal64 x, int *e)
 
 	return copysignD (m, x);
 }
+
+_Decimal64
+scalbnD (_Decimal64 x, int e)
+{
+	uint64_t mant;
+	int p10, sign;
+	int too_far = (DECIMAL64_MAX_EXP - DECIMAL64_MIN_EXP) + DECIMAL64_DIG;
+
+	if (decode64 (&x, &mant, &p10, &sign) || mant == 0)
+		return x;
+
+	p10 += CLAMP (e, -too_far, +too_far);
+	if (p10 > DECIMAL64_MAX_BIASED_EXP) {
+		int excess = p10 - DECIMAL64_MAX_BIASED_EXP;
+		int lmant = excess >= DECIMAL64_DIG ? DECIMAL64_DIG : u64_digits (mant);
+		if (lmant + excess > DECIMAL64_DIG)
+			return sign ? -(_Decimal64)INFINITY : (_Decimal64)INFINITY;
+		p10 = DECIMAL64_MAX_BIASED_EXP;
+		mant *= u64_pow10_table[excess];
+	} else if (p10 < DECIMAL64_BIAS) {
+		int deficit = DECIMAL64_BIAS - p10;
+		if (deficit >= DECIMAL64_DIG)
+			mant = 0;
+		else {
+			uint64_t f = u64_pow10_table[deficit];
+			mant = (mant + f / 2) / f;
+		}
+		p10 = mant ? DECIMAL64_BIAS : 0;
+	}
+
+	return make64 (mant, p10, sign);
+}
+
 
 _Decimal64
 strtoDd (const char *s, char **end)
@@ -1013,6 +1060,71 @@ log2D (_Decimal64 x)
 
 		return (e2 + 3 * e10) + (_Decimal64)(log2 (m)) + e10 * log2_10_m3;
 	}
+}
+
+_Decimal64
+powD (_Decimal64 x, _Decimal64 y)
+{
+	int qneg = 0;
+	_Decimal64 z;
+
+	if (x == 1 || y == 0)
+		return 1;
+
+	if (isnanD (x))
+		return x;
+	if (isnanD (y))
+		return y;
+
+	if (x == 0) {
+		int yoddint = (y == floorD (y) && finiteD (y) && fmodD (y, 2.d) == 1);
+		if (y > 0)
+			return yoddint ? x : 0;
+		else
+			return yoddint ? copysignD (INFINITY, x) : (_Decimal64)INFINITY;
+	}
+
+	if (!finiteD (y)) {
+		if (x == -1)
+			return 1;
+		if (fabsD (x) < 1)
+			return y < 0 ? (_Decimal64)INFINITY : 0.dd;
+		else
+			return y < 0 ? 0.dd : (_Decimal64)INFINITY;
+	}
+
+	if (x == -(_Decimal64)INFINITY) {
+		if (y < 0) {
+			if (y == floorD (y) && finiteD (y) && fmodD (-y, 2.d) == 1)
+				return -0.dd;
+			else
+				return +0.dd;
+		} else {
+			if (y == floorD (y) && finiteD (y) && fmodD (y, 2.d) == 1)
+				return -(_Decimal64)INFINITY;
+			else
+				return +(_Decimal64)INFINITY;
+		}
+	}
+
+	if (x == (_Decimal64)INFINITY) {
+		return (y < 0 ? 0.dd : (_Decimal64)INFINITY);
+	}
+
+	if (x < 0) {
+		if (y != floorD (y))
+			return NAN;
+		qneg = (fmodD (y, 2.dd) != 0);
+		x = -x;
+	}
+
+	if (x == 10 && y == floorD (y) && fabsD (y) < INT_MAX) {
+		_Decimal64 z = pow10D ((int)y);
+		return qneg ? -z : z;
+	}
+
+	z = pow (x, y);
+	return qneg ? -z : z;
 }
 
 _Decimal64

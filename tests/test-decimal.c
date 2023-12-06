@@ -5,7 +5,7 @@ static int n_bad;
 #ifdef GOFFICE_WITH_DECIMAL64
 
 // There does not seem to be a way to teach these warnings about the
-// "W" modifier than we have hooked into libc's printf.
+// "W" modifier that we have hooked into libc's printf.
 #pragma GCC diagnostic ignored "-Wformat"
 #pragma GCC diagnostic ignored "-Wformat-extra-args"
 
@@ -173,7 +173,7 @@ linear_corpus (int count, _Decimal64 slope, _Decimal64 offset)
 /* ------------------------------------------------------------------------- */
 
 static void
-test_rounding (Corpus *corpus)
+test_rounding (const Corpus *corpus)
 {
 	start_section ("rounding operations (floor, ceil, round, trunc)");
 
@@ -223,7 +223,7 @@ test_rounding (Corpus *corpus)
 }
 
 static void
-test_properties (Corpus *corpus)
+test_properties (const Corpus *corpus)
 {
 	start_section ("properties (isnan, finite, signbit)");
 
@@ -253,7 +253,7 @@ test_properties (Corpus *corpus)
 }
 
 static void
-test_copysign (Corpus *corpus)
+test_copysign (const Corpus *corpus)
 {
 	start_section ("copysign");
 
@@ -311,7 +311,7 @@ test_nextafter (void)
 }
 
 static void
-test_modf (Corpus *corpus)
+test_modf (const Corpus *corpus)
 {
 	start_section ("modf");
 
@@ -328,9 +328,45 @@ test_modf (Corpus *corpus)
 	end_section ();
 }
 
+static void
+test_scalbn (void)
+{
+	start_section ("scalbn");
+
+	test_eq (scalbnD (0.1234567890123456dd, 10), 1234567890.123456dd);
+
+	test_eq (scalbnD (0.0dd, G_MAXINT), 0.0dd);
+	test_eq (scalbnD (0.0dd, G_MININT), 0.0dd);
+	test_eq (scalbnD (0.0dd, 0), 0.0dd);
+	test_eq (scalbnD (-0.0dd, G_MAXINT), -0.0dd);
+	test_eq (scalbnD (-0.0dd, G_MININT), -0.0dd);
+
+	test_eq (scalbnD ((_Decimal64)INFINITY, G_MAXINT), (_Decimal64)INFINITY);
+	test_eq (scalbnD ((_Decimal64)INFINITY, G_MININT), (_Decimal64)INFINITY);
+	test_eq (scalbnD ((_Decimal64)INFINITY, 0), (_Decimal64)INFINITY);
+	test_eq (scalbnD (-(_Decimal64)INFINITY, G_MAXINT), -(_Decimal64)INFINITY);
+	test_eq (scalbnD (-(_Decimal64)INFINITY, G_MININT), -(_Decimal64)INFINITY);
+
+	test_eq (scalbnD ((_Decimal64)NAN, G_MAXINT), (_Decimal64)NAN);
+	test_eq (scalbnD ((_Decimal64)NAN, G_MININT), (_Decimal64)NAN);
+	test_eq (scalbnD ((_Decimal64)NAN, 0), (_Decimal64)NAN);
+	test_eq (scalbnD (-(_Decimal64)NAN, G_MAXINT), -(_Decimal64)NAN);
+	test_eq (scalbnD (-(_Decimal64)NAN, G_MININT), -(_Decimal64)NAN);
+
+	test_eq (scalbnD (1e-398dd, 398 + 369), 1e369dd);
+	test_eq (scalbnD (1e-398dd, 398 + 384), 1e384dd);
+	test_eq (scalbnD (1e-398dd, 398 + 384 + 1), (_Decimal64)INFINITY);
+	test_eq (scalbnD (1e384dd, -398 - 384), 1e-398dd);
+	test_eq (scalbnD (9999999999999999e369dd, -369 - 383), 9999999999999999e-383dd);
+	test_eq (scalbnD (1e384dd, -398 - 384 - 1), 0.dd);
+
+	end_section ();
+}
+
+
 
 static void
-test_oneargs (Corpus *corpus)
+test_oneargs (const Corpus *corpus)
 {
 	static const struct {
 		const char *name;
@@ -411,7 +447,7 @@ test_oneargs (Corpus *corpus)
 
 
 static void
-test_dtoa (Corpus *corpus)
+test_dtoa (const Corpus *corpus)
 {
 	static const char *fmts[] = {
 		"=^.0f", "=^.1f", "=^.2f", "=^.3f", "=^.4f",
@@ -479,6 +515,61 @@ test_dtoa (Corpus *corpus)
 	end_section ();
 }
 
+static void
+test_pow (const Corpus *corpus1, const Corpus *corpus2)
+{
+	start_section ("pow");
+
+	for (int v1 = 0; v1 < corpus1->nvals; v1++) {
+		_Decimal64 x1 = corpus1->vals[v1];
+		double dx1 = x1;
+		int qunderflow1 = (dx1 == 0) && (x1 != 0);
+		int qoverflow1 = finiteD (x1) && !finite (dx1);
+
+		if (qunderflow1 || qoverflow1)
+			continue;
+
+		for (int v2 = 0; v2 < corpus2->nvals; v2++) {
+			_Decimal64 x2 = corpus2->vals[v2];
+			double dx2 = x2;
+			int qunderflow2 = (dx2 == 0) && (x2 != 0);
+			int qoverflow2 = finiteD (x2) && !finite (dx2);
+			gboolean ok;
+
+			if (qunderflow2 || qoverflow2)
+				continue;
+
+			if (x1 < 0 && x2 < 0 &&
+			    finiteD (x1) &&
+			    finiteD (x2) && x2 == floorD (x2) &&
+			    fmodD (x2, 2.d) != fmodD (dx2, 2.d))
+				continue;
+
+			double dy = pow (dx1, dx2);
+			_Decimal64 y = powD (x1, x2);
+
+			if (!signbitD (y) != !signbit (dy))
+				ok = FALSE;
+			if (isnanD (y) || isnan (y))
+				ok = isnanD (y) && isnan (y);
+			else if (!finiteD (y) || !finite (dy))
+				ok = (!finiteD (y) && !finite (dy));
+			else
+				ok = decimal_eq (y, dy);
+
+			if (ok) {
+				good ();
+			} else {
+				bad ();
+				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
+				g_printerr ("Got %.16Wg vs %.16g\n", y, dy);
+			}
+		}
+	}
+
+	end_section ();
+}
+
 /* ------------------------------------------------------------------------- */
 
 #endif
@@ -499,6 +590,7 @@ main (int argc, char **argv)
 	test_nextafter ();
 	test_oneargs (corpus);
 	test_modf (corpus);
+	test_scalbn ();
 
 	// The offset here is partly for the benefit of going through
 	// double for the reference string and partly to test something
@@ -509,6 +601,9 @@ main (int argc, char **argv)
 				linear_corpus (10001, 1e-3dd, -1e-14dd), 1), 1);
 	test_dtoa (corpus2);
 	corpus_free (corpus2);
+
+	// Very preliminary
+	test_pow (corpus, corpus);
 
 	if (n_bad)
 		g_printerr ("A total of %d failures.\n", n_bad);

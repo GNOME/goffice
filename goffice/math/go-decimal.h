@@ -60,6 +60,7 @@ _Decimal64 powD (_Decimal64 x, _Decimal64 y);
 _Decimal64 roundD (_Decimal64 x);
 _Decimal64 sinD (_Decimal64 x);
 _Decimal64 sinhD (_Decimal64 x);
+_Decimal64 scalbnD (_Decimal64 x, int e);
 _Decimal64 sqrtD (_Decimal64 x);
 _Decimal64 tanD (_Decimal64 x);
 _Decimal64 tanhD (_Decimal64 x);
