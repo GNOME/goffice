@@ -174,11 +174,7 @@ SUFFIX(go_quad_start) (void)
 
 	if (first) {
 		first = FALSE;
-#if DOUBLE_RADIX == 2
-		SUFFIX(CST) = 1 + SUFFIX(ldexp) (1.0, (DOUBLE_MANT_DIG + 1) / 2);
-#else
-		SUFFIX(CST) = 1 + SUFFIX(pow) (DOUBLE_RADIX, (DOUBLE_MANT_DIG + 1) / 2);
-#endif
+		SUFFIX(CST) = 1 + SUFFIX(scalbn) (1, (DOUBLE_MANT_DIG + 1) / 2);
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_pi),
 					   pi_hex_digits,
 					   G_N_ELEMENTS (pi_hex_digits),
@@ -961,16 +957,10 @@ SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 	int e;
 	QUAD qa2, qb2, qn;
 
-	if (a->h == 0) {
-		res->h = SUFFIX(fabs)(b->h);
-		res->l = SUFFIX(fabs)(b->l);
-		return;
-	}
-	if (b->h == 0) {
-		res->h = SUFFIX(fabs)(a->h);
-		res->l = SUFFIX(fabs)(a->l);
-		return;
-	}
+	if (a->h == 0)
+		return SUFFIX(go_quad_abs)(res, b);
+	if (b->h == 0)
+		return SUFFIX(go_quad_abs)(res, a);
 
 	/* Scale by power of 2 to protect against over- and underflow */
 	(void)SUFFIX(frexp) (MAX (SUFFIX(fabs) (a->h), SUFFIX(fabs) (b->h)), &e);
@@ -988,6 +978,28 @@ SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->h = SUFFIX(ldexp) (qn.h, e);
 	res->l = SUFFIX(ldexp) (qn.l, e);
 }
+
+/**
+ * go_quad_abs:
+ * @res: (out): result location
+ * @a: quad-precision value
+ *
+ * This function computes the absolute value of @a, storing the result in @res.
+ **/
+/**
+ * go_quad_absl:
+ * @res: (out): result location
+ * @a: quad-precision value
+ *
+ * This function computes the absolute value of @a, storing the result in @res.
+ **/
+void
+SUFFIX(go_quad_abs) (QUAD *res, const QUAD *a)
+{
+	res->h = SUFFIX(fabs)(a->h);
+	res->l = SUFFIX(fabs)(a->l);
+}
+
 
 /* sqrt(1-a*a) helper */
 static void
@@ -1315,8 +1327,7 @@ SUFFIX(do_sin) (QUAD *res, const QUAD *a, int k)
 	if (k & 1) {
 		QUAD qn, qd, qq, aa;
 
-		aa.h = SUFFIX(fabs)(a->h);
-		aa.l = SUFFIX(fabs)(a->l);
+		SUFFIX(go_quad_abs) (&aa, a);
 		SUFFIX(go_quad_init) (&qr, SUFFIX(cos) (aa.h));
 
 		/* Newton step */
@@ -1441,8 +1452,7 @@ SUFFIX(go_quad_asin) (QUAD *res, const QUAD *a)
 {
 	QUAD aa, aam1;
 
-	aa.h = SUFFIX(fabs) (a->h);
-	aa.l = SUFFIX(fabs) (a->l);
+	SUFFIX(go_quad_abs) (&aa, a);
 	SUFFIX(go_quad_sub) (&aam1, &aa, &SUFFIX(go_quad_one));
 	if (aam1.h > 0) {
 		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
@@ -1523,8 +1533,7 @@ SUFFIX(go_quad_acos) (QUAD *res, const QUAD *a)
 {
 	QUAD aa, aam1;
 
-	aa.h = SUFFIX(fabs) (a->h);
-	aa.l = SUFFIX(fabs) (a->l);
+	SUFFIX(go_quad_abs) (&aa, a);
 	SUFFIX(go_quad_sub) (&aam1, &aa, &SUFFIX(go_quad_one));
 	if (aam1.h > 0) {
 		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));

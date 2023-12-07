@@ -181,6 +181,23 @@ _go_math_init (void)
 	go_nanD = go_nan;
 	go_pinfD = go_pinf;
 	go_ninfD = go_ninf;
+	if (!(isnanD (go_nanD) &&
+	      go_pinfD > 0 && !finiteD (go_pinfD) &&
+	      go_ninfD < 0 && !finiteD (go_ninfD))) {
+		g_error ("Failed to generate _Decimal64 NaN/+Inf/-Inf.");
+	}
+
+	{
+		// There's a chance that some fool used FLT_RADIX here,
+		// but that would be really unhelpful.  The whole point
+		// is to have a fast, loss-free scaling function
+		_Decimal64 y = scalbnD (1, 1);
+		if (y != 10) {
+			// Don't try to print _Decimal64 at this stage
+			g_error ("We expected scalbnD(1,1) to be 10, but got %g",
+				 (double)y);
+		}
+	}
 #endif
 
 	{

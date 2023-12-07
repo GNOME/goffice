@@ -141,6 +141,7 @@ basic_corpus (void)
 		1e15dd, 999999999999999.9dd, 999999999999999.0dd,
 		1e15dd + 1, 1e22dd,
 		2.5dd, 1.5dd, // make sure we don't round-ties-to-even
+		1.000000001dd,
 
 		// Out of double range
 		DECIMAL64_MAX,
@@ -331,6 +332,9 @@ test_modf (const Corpus *corpus)
 static void
 test_scalbn (void)
 {
+	_Decimal64 x;
+	int i;
+
 	start_section ("scalbn");
 
 	test_eq (scalbnD (0.1234567890123456dd, 10), 1234567890.123456dd);
@@ -359,6 +363,18 @@ test_scalbn (void)
 	test_eq (scalbnD (1e384dd, -398 - 384), 1e-398dd);
 	test_eq (scalbnD (9999999999999999e369dd, -369 - 383), 9999999999999999e-383dd);
 	test_eq (scalbnD (1e384dd, -398 - 384 - 1), 0.dd);
+	test_eq (scalbnD (-1e384dd, -398 - 384 - 1), -0.dd);
+	test_eq (scalbnD (5e384dd, -398 - 384 - 1), 1e-398dd);
+
+	test_eq (scalbnD (5e-398dd, -1), 1e-398dd);
+	test_eq (scalbnD (5000000000000000e-398dd, -16), 1e-398dd);
+
+	x = 1.dd;
+	for (i = 0; i <= 384; i++) {
+		test_eq (scalbnD (1.dd, i), x);
+		test_eq (powD (10.dd, i), x);
+		x *= 10;
+	}
 
 	end_section ();
 }
@@ -606,7 +622,7 @@ main (int argc, char **argv)
 	test_pow (corpus, corpus);
 
 	if (n_bad)
-		g_printerr ("A total of %d failures.\n", n_bad);
+		g_printerr ("FAIL: A total of %d failures.\n", n_bad);
 	else
 		g_printerr ("Pass.\n");
 

@@ -71,6 +71,8 @@
 // roundD          A         A         A
 // sinD            *         *         *
 // sinhD           A         A-        *
+// scalbln         A         A         A
+// scalbn          A         A         A
 // sqrtD           A         A-        *
 // tanD            *         *         *
 // tanhD           A         A-        *
@@ -772,8 +774,9 @@ frexpD (_Decimal64 x, int *e)
 	return copysignD (m, x);
 }
 
+// This is lossless (expect when going denormal or underflowing).
 _Decimal64
-scalbnD (_Decimal64 x, int e)
+scalblnD (_Decimal64 x, long e)
 {
 	uint64_t mant;
 	int p10, sign;
@@ -792,18 +795,24 @@ scalbnD (_Decimal64 x, int e)
 		mant *= u64_pow10_table[excess];
 	} else if (p10 < DECIMAL64_BIAS) {
 		int deficit = DECIMAL64_BIAS - p10;
-		if (deficit >= DECIMAL64_DIG)
-			mant = 0;
+		if (deficit > DECIMAL64_DIG) // Strict ">" since to rounding can bring back 1
+			return sign ? -0.dd : 0.dd;
 		else {
 			uint64_t f = u64_pow10_table[deficit];
+			// Note: rounding ties away from zero
 			mant = (mant + f / 2) / f;
+			p10 = mant ? DECIMAL64_BIAS : 0;
 		}
-		p10 = mant ? DECIMAL64_BIAS : 0;
 	}
 
 	return make64 (mant, p10, sign);
 }
 
+_Decimal64
+scalbnD (_Decimal64 x, int e)
+{
+	return scalblnD (x, e);
+}
 
 _Decimal64
 strtoDd (const char *s, char **end)
@@ -998,21 +1007,117 @@ frexp10D (_Decimal64 x, int qint, int *e)
 	}
 }
 
-// Note: logD(-42) = +NaN            <-- inconsistent
+// Note: log10D(-42) = +NaN            <-- inconsistent
 _Decimal64
 log10D (_Decimal64 x)
 {
-	if (x <= 0)
-		return x == 0 ? (_Decimal64)-INFINITY : (_Decimal64)NAN;
-	else if (fabsD (x - 1) < 0.5dd)
-		return log10 (x);
-	else if (!finiteD (x))
-		return x;
-	else {
-		int e;
-		_Decimal64 m = frexp10D (x, 1, &e);
-		return e + (_Decimal64)log10 (m);
+	int special, sign, p10, p2, e;
+	uint64_t mant;
+	double dx;
+	_Decimal64 xm1;
+	static const _Decimal64 res[64] = {
+		0.dd,
+		0.3010299956639812dd,
+		-0.3979400086720376dd,
+		-0.09691001300805641dd,
+		0.2041199826559248dd,
+		-0.4948500216800940dd,
+		-0.1938200260161128dd,
+		0.1072099696478684dd,
+		0.4082399653118496dd,
+		-0.2907300390241692dd,
+		0.01029995663981195dd,
+		0.3113299523037931dd,
+		-0.3876400520322257dd,
+		-0.08661005636824446dd,
+		0.2144199392957367dd,
+		-0.4845500650402821dd,
+		-0.1835200693763009dd,
+		0.1175099262876803dd,
+		0.4185399219516615dd,
+		-0.2804300823843573dd,
+		0.02059991327962390dd,
+		0.3216299089436051dd,
+		-0.3773400953924137dd,
+		-0.07631009972843251dd,
+		0.2247198959355487dd,
+		-0.4742501084004701dd,
+		-0.1732201127364889dd,
+		0.1278098829274923dd,
+		0.4288398785914735dd,
+		-0.2701301257445453dd,
+		0.03089986991943586dd,
+		0.3319298655834171dd,
+		-0.3670401387526018dd,
+		-0.06601014308862056dd,
+		0.2350198525753606dd,
+		-0.4639501517606582dd,
+		-0.1629201560966770dd,
+		0.1381098395673042dd,
+		0.4391398352312854dd,
+		-0.2598301691047334dd,
+		0.04119982655924781dd,
+		0.3422298222232290dd,
+		-0.3567401821127898dd,
+		-0.05571018644880861dd,
+		0.2453198092151726dd,
+		-0.4536501951208462dd,
+		-0.1526201994568650dd,
+		0.1484097962071162dd,
+		0.4494397918710974dd,
+		-0.2495302124649214dd,
+		0.05149978319905976dd,
+		0.3525297788630410dd,
+		-0.3464402254729778dd,
+		-0.04541022980899665dd,
+		0.2556197658549845dd,
+		-0.4433502384810343dd,
+		-0.1423202428170531dd,
+		0.1587097528469281dd,
+		0.4597397485109093dd,
+		-0.2392302558251095dd,
+		0.06179973983887171dd,
+		0.3628297355028529dd,
+		-0.3361402688331659dd,
+		-0.03511027316918470dd,
+	};
+
+	special = decode64 (&x, &mant, &p10, &sign);
+	switch (special) {
+	case CLS_NAN: return x;
+	case CLS_INF: return sign ? (_Decimal64)NAN : x;
+	default: break;
 	}
+
+	if (mant == 0)
+		return (_Decimal64)-INFINITY;
+	else if (sign)
+		return (_Decimal64)NAN;
+
+	xm1 = x - 1;
+	if (fabsD (xm1) < 0.25dd) {
+		// x - 1 was exact and has smaller magnitude than x, so use log1p
+		// This reduces _Decimal64-to-double rounding error greatly which
+		// is significant for x very near 1.
+		return (_Decimal64)(log1p (xm1)) * 0.434294481903251827651dd;
+	}
+
+	while (mant % 10 == 0) {
+		mant /= 10;
+		p10++;
+	}
+	if (mant == 1)
+		return p10;
+
+	p2 = 63 - __builtin_clzl (mant);
+	dx = ldexp (mant, -p2);
+	if (dx > 1.41) {
+		dx /= 2;
+		p2++;
+	}
+
+	e = p10 + (p2 * 77 + 128) / 256;
+	return e + ((_Decimal64)(log10 (dx)) + res[p2]);
 }
 
 // Note: logD(-42) = -NaN
@@ -1029,9 +1134,11 @@ logD (_Decimal64 x)
 _Decimal64
 log1pD (_Decimal64 x)
 {
-	if (x > -1 && x < 1) {
-		// x - x^x/2 + ... so this is fine:
-		if (fabsD (x) <= (_Decimal64)(DBL_MIN * 1e100))
+	_Decimal64 ax = fabsD (x);
+
+	if (ax < 1) {
+		// x - x^2/2 + ... so this is fine:
+		if (ax <= 0.01dd * (DECIMAL64_EPSILON * DECIMAL64_EPSILON))
 			return x;
 		return log1p (x);
 	} else
@@ -1042,25 +1149,14 @@ log1pD (_Decimal64 x)
 _Decimal64
 log2D (_Decimal64 x)
 {
-	if (x <= 0)
-		return x == 0 ? (_Decimal64)-INFINITY : -(_Decimal64)NAN;
-	else if (fabsD (x - 1) < 0.5dd)
-		return log2 (x);
-	else if (!finiteD (x))
-		return x;
-	else {
-		int e10, e2 = 0;
-		uint64_t m = frexp10D (x, 1, &e10);
-		static const _Decimal64 log2_10_m3 = .32192809488736234787031942948939dd;
+	// FIXME: need to worry about exact powers of 2.
 
-		while ((m & 1) == 0)
-			e2++, m >>= 1;
-		while (e10 < 0 && m % 5 == 0)
-			e10++, m /= 5, e2--;
-
-		return (e2 + 3 * e10) + (_Decimal64)(log2 (m)) + e10 * log2_10_m3;
-	}
+	if (x < 0)
+		return -(_Decimal64)NAN;
+	else
+		return log10D (x) * 3.32192809488736235dd;
 }
+
 
 _Decimal64
 powD (_Decimal64 x, _Decimal64 y)

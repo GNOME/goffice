@@ -28,6 +28,7 @@ void go_quad_exp (GOQuad *res, double *exp2, const GOQuad *a);
 void go_quad_expm1 (GOQuad *res, const GOQuad *a);
 void go_quad_log (GOQuad *res, const GOQuad *a);
 void go_quad_hypot (GOQuad *res, const GOQuad *a, const GOQuad *b);
+void go_quad_abs (GOQuad *res, const GOQuad *a);
 
 void go_quad_sin (GOQuad *res, const GOQuad *a);
 void go_quad_sinpi (GOQuad *res, const GOQuad *a);
@@ -81,6 +82,7 @@ void go_quad_expl (GOQuadl *res, long double *exp2, const GOQuadl *a);
 void go_quad_expm1l (GOQuadl *res, const GOQuadl *a);
 void go_quad_logl (GOQuadl *res, const GOQuadl *a);
 void go_quad_hypotl (GOQuadl *res, const GOQuadl *a, const GOQuadl *b);
+void go_quad_absl (GOQuadl *res, const GOQuadl *a);
 
 void go_quad_sinl (GOQuadl *res, const GOQuadl *a);
 void go_quad_sinpil (GOQuadl *res, const GOQuadl *a);
@@ -133,6 +135,7 @@ void go_quad_expD (GOQuadD *res, _Decimal64 *exp2, const GOQuadD *a);
 void go_quad_expm1D (GOQuadD *res, const GOQuadD *a);
 void go_quad_logD (GOQuadD *res, const GOQuadD *a);
 void go_quad_hypotD (GOQuadD *res, const GOQuadD *a, const GOQuadD *b);
+void go_quad_absD (GOQuadD *res, const GOQuadD *a);
 
 void go_quad_sinD (GOQuadD *res, const GOQuadD *a);
 void go_quad_sinpiD (GOQuadD *res, const GOQuadD *a);
