@@ -138,6 +138,9 @@ _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
 #define DECIMAL64_MAX_BIASED_EXP 369
 #define DECIMAL64_MIN_DEN 1e-398dd
 
+#define M_LN10D 2.3025850929940456840179914546843642076dd // log(10)
+#define M_LG10D 3.32192809488736235dd                     // log_2(10)
+
 // We assume bis format (and check for it during init)
 #define decode64 decode64_bis
 #define make64 make64_bis
@@ -899,7 +902,7 @@ erfD (_Decimal64 x)
 {
 	// No need to handle overflow because of horizontal tangents
 	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
-		_Decimal64 f = 1.1283791670955125738961589dd;
+		_Decimal64 f = 1.1283791670955125738961589dd; // 2/sqrt(Pi)
 		return x * f;
 	} else
 		return erf (x);
@@ -1007,127 +1010,149 @@ frexp10D (_Decimal64 x, int qint, int *e)
 	}
 }
 
-// Note: log10D(-42) = +NaN            <-- inconsistent
-_Decimal64
-log10D (_Decimal64 x)
+// negneg: return -NAN on negatives.
+static _Decimal64
+log_helper (_Decimal64 x, int negneg)
 {
-	int special, sign, p10, p2, e;
+	int special, sign, p10, e;
 	uint64_t mant;
-	double dx;
 	_Decimal64 xm1;
+	_Decimal64 residual;
 	static const _Decimal64 res[64] = {
-		0.dd,
-		0.3010299956639812dd,
+		+0.dd,
+		+0.3010299956639812dd,
 		-0.3979400086720376dd,
 		-0.09691001300805641dd,
-		0.2041199826559248dd,
+		+0.2041199826559248dd,
 		-0.4948500216800940dd,
 		-0.1938200260161128dd,
-		0.1072099696478684dd,
-		0.4082399653118496dd,
+		+0.1072099696478684dd,
+		+0.4082399653118496dd,
 		-0.2907300390241692dd,
-		0.01029995663981195dd,
-		0.3113299523037931dd,
+		+0.01029995663981195dd,
+		+0.3113299523037931dd,
 		-0.3876400520322257dd,
 		-0.08661005636824446dd,
-		0.2144199392957367dd,
+		+0.2144199392957367dd,
 		-0.4845500650402821dd,
 		-0.1835200693763009dd,
-		0.1175099262876803dd,
-		0.4185399219516615dd,
+		+0.1175099262876803dd,
+		+0.4185399219516615dd,
 		-0.2804300823843573dd,
-		0.02059991327962390dd,
-		0.3216299089436051dd,
+		+0.02059991327962390dd,
+		+0.3216299089436051dd,
 		-0.3773400953924137dd,
 		-0.07631009972843251dd,
-		0.2247198959355487dd,
+		+0.2247198959355487dd,
 		-0.4742501084004701dd,
 		-0.1732201127364889dd,
-		0.1278098829274923dd,
-		0.4288398785914735dd,
+		+0.1278098829274923dd,
+		+0.4288398785914735dd,
 		-0.2701301257445453dd,
-		0.03089986991943586dd,
-		0.3319298655834171dd,
+		+0.03089986991943586dd,
+		+0.3319298655834171dd,
 		-0.3670401387526018dd,
 		-0.06601014308862056dd,
-		0.2350198525753606dd,
+		+0.2350198525753606dd,
 		-0.4639501517606582dd,
 		-0.1629201560966770dd,
-		0.1381098395673042dd,
-		0.4391398352312854dd,
+		+0.1381098395673042dd,
+		+0.4391398352312854dd,
 		-0.2598301691047334dd,
-		0.04119982655924781dd,
-		0.3422298222232290dd,
+		+0.04119982655924781dd,
+		+0.3422298222232290dd,
 		-0.3567401821127898dd,
 		-0.05571018644880861dd,
-		0.2453198092151726dd,
+		+0.2453198092151726dd,
 		-0.4536501951208462dd,
 		-0.1526201994568650dd,
-		0.1484097962071162dd,
-		0.4494397918710974dd,
+		+0.1484097962071162dd,
+		+0.4494397918710974dd,
 		-0.2495302124649214dd,
-		0.05149978319905976dd,
-		0.3525297788630410dd,
+		+0.05149978319905976dd,
+		+0.3525297788630410dd,
 		-0.3464402254729778dd,
 		-0.04541022980899665dd,
-		0.2556197658549845dd,
+		+0.2556197658549845dd,
 		-0.4433502384810343dd,
 		-0.1423202428170531dd,
-		0.1587097528469281dd,
-		0.4597397485109093dd,
+		+0.1587097528469281dd,
+		+0.4597397485109093dd,
 		-0.2392302558251095dd,
-		0.06179973983887171dd,
-		0.3628297355028529dd,
+		+0.06179973983887171dd,
+		+0.3628297355028529dd,
 		-0.3361402688331659dd,
 		-0.03511027316918470dd,
 	};
 
 	special = decode64 (&x, &mant, &p10, &sign);
 	switch (special) {
-	case CLS_NAN: return x;
-	case CLS_INF: return sign ? (_Decimal64)NAN : x;
-	default: break;
+	case CLS_NAN:
+		return x;
+	case CLS_INF:
+		if (!sign)
+			return x;
+		break;
+	default:
+		if (mant == 0)
+			return (_Decimal64)-INFINITY;
+		break;
 	}
 
-	if (mant == 0)
-		return (_Decimal64)-INFINITY;
-	else if (sign)
-		return (_Decimal64)NAN;
+	if (sign)
+		return negneg ? -(_Decimal64)NAN : (_Decimal64)NAN;
 
 	xm1 = x - 1;
 	if (fabsD (xm1) < 0.25dd) {
 		// x - 1 was exact and has smaller magnitude than x, so use log1p
 		// This reduces _Decimal64-to-double rounding error greatly which
 		// is significant for x very near 1.
-		return (_Decimal64)(log1p (xm1)) * 0.434294481903251827651dd;
+		return (_Decimal64)(log1p (xm1)) * 0.434294481903251827651dd;  // 1/log(10)
 	}
 
 	while (mant % 10 == 0) {
 		mant /= 10;
 		p10++;
 	}
-	if (mant == 1)
-		return p10;
 
-	p2 = 63 - __builtin_clzl (mant);
-	dx = ldexp (mant, -p2);
-	if (dx > 1.41) {
-		dx /= 2;
-		p2++;
+	e = p10;
+	if (mant == 1) {
+		residual = 0;
+	} else {
+		int p2 = 63 - __builtin_clzl (mant);
+		double dx = ldexp (mant, -p2);
+		if (dx > 1.41) {
+			dx /= 2;
+			p2++;
+		}
+
+		e += (p2 * 77 + 128) / 256;
+		residual = ((_Decimal64)(log10 (dx)) + res[p2]);
 	}
-
-	e = p10 + (p2 * 77 + 128) / 256;
-	return e + ((_Decimal64)(log10 (dx)) + res[p2]);
+	return e + residual;
 }
+
+// Note: log10D(-42) = +NaN            <-- inconsistent
+_Decimal64
+log10D (_Decimal64 x)
+{
+	return log_helper (x, 0);
+}
+
+// Note: log2D(-42) = -NaN
+_Decimal64
+log2D (_Decimal64 x)
+{
+	// FIXME: need to worry about exact powers of 2.
+	return log_helper (x, 1) * M_LG10D;
+}
+
 
 // Note: logD(-42) = -NaN
 _Decimal64
 logD (_Decimal64 x)
 {
-	if (x < 0)
-		return -(_Decimal64)NAN;
-	else
-		return log10D (x) * 2.3025850929940456840179914546843642076dd;
+	return log_helper (x, 1) * M_LN10D;
 }
 
 // Note: log1pD(-43) = -NaN
@@ -1145,23 +1170,40 @@ log1pD (_Decimal64 x)
 		return logD (x + 1);
 }
 
-// Note: log2D(-42) = -NaN
-_Decimal64
-log2D (_Decimal64 x)
+// 1: even integer, 0: non-integer (including inf, nan), -1 odd integer
+static int
+isint (_Decimal64 x)
 {
-	// FIXME: need to worry about exact powers of 2.
+	int special, p10;
+	uint64_t mant;
 
-	if (x < 0)
-		return -(_Decimal64)NAN;
-	else
-		return log10D (x) * 3.32192809488736235dd;
+	special = decode64 (&x, &mant, &p10, NULL);
+	switch (special) {
+	case CLS_NAN:
+	case CLS_INF:
+		return 0;
+	case CLS_INVALID:
+		return +1;
+	default:
+		break;
+	}
+
+	if (mant == 0 || p10 > 0)
+		return 1;
+	if (p10) {
+		if (p10 <= -DECIMAL64_DIG || mant % u64_pow10_table[-p10])
+			return 0;
+		mant /= u64_pow10_table[-p10];
+	}
+	return 1 - ((mant & 1) << 1);
 }
+
 
 
 _Decimal64
 powD (_Decimal64 x, _Decimal64 y)
 {
-	int qneg = 0;
+	int qneg = 0, ysign;
 	_Decimal64 z;
 
 	if (x == 1 || y == 0)
@@ -1172,51 +1214,46 @@ powD (_Decimal64 x, _Decimal64 y)
 	if (isnanD (y))
 		return y;
 
+	ysign = signbitD (y);
 	if (x == 0) {
-		int yoddint = (y == floorD (y) && finiteD (y) && fmodD (y, 2.d) == 1);
-		if (y > 0)
-			return yoddint ? x : 0;
-		else
+		int yoddint = isint (y) < 0;
+		if (ysign)
 			return yoddint ? copysignD (INFINITY, x) : (_Decimal64)INFINITY;
+		else
+			return yoddint ? x : 0;
 	}
 
 	if (!finiteD (y)) {
 		if (x == -1)
 			return 1;
 		if (fabsD (x) < 1)
-			return y < 0 ? (_Decimal64)INFINITY : 0.dd;
+			return ysign ? (_Decimal64)INFINITY : 0.dd;
 		else
-			return y < 0 ? 0.dd : (_Decimal64)INFINITY;
+			return ysign ? 0.dd : (_Decimal64)INFINITY;
 	}
 
 	if (x == -(_Decimal64)INFINITY) {
-		if (y < 0) {
-			if (y == floorD (y) && finiteD (y) && fmodD (-y, 2.d) == 1)
-				return -0.dd;
-			else
-				return +0.dd;
+		int yoddint = isint (y) < 0;
+		if (ysign) {
+			return yoddint ? -0.dd : +0.dd;
 		} else {
-			if (y == floorD (y) && finiteD (y) && fmodD (y, 2.d) == 1)
-				return -(_Decimal64)INFINITY;
-			else
-				return +(_Decimal64)INFINITY;
+			return yoddint ? -(_Decimal64)INFINITY : +(_Decimal64)INFINITY;
 		}
 	}
 
 	if (x == (_Decimal64)INFINITY) {
-		return (y < 0 ? 0.dd : (_Decimal64)INFINITY);
+		return (ysign ? 0.dd : (_Decimal64)INFINITY);
 	}
+
+	if (x == 10 && isint (y) && fabsD (y) < INT_MAX)
+		return pow10D ((int)y);
 
 	if (x < 0) {
-		if (y != floorD (y))
+		int qint = isint (y);
+		if (!qint)
 			return NAN;
-		qneg = (fmodD (y, 2.dd) != 0);
+		qneg = qint < 0;
 		x = -x;
-	}
-
-	if (x == 10 && y == floorD (y) && fabsD (y) < INT_MAX) {
-		_Decimal64 z = pow10D ((int)y);
-		return qneg ? -z : z;
 	}
 
 	z = pow (x, y);
