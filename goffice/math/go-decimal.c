@@ -23,7 +23,7 @@
 
 // This file contains
 // * libm functions for the _Decimal64 type using a "D" suffix
-//   - some have proper implement
+//   - some have proper implementation
 //   - some have stubs that just defer to "double" versions
 // * printf hooks for _Decimal64 and _Decimal128
 //   - no intl support yet
@@ -39,10 +39,10 @@
 // acosD           A         *         *
 // acoshD          A         *         *
 // asinD           A         *         *
-// asinhD          *         *         *
-// atanD           *         *         *
+// asinhD          A         *         *
+// atanD           A         *         *
 // atan2D          *         *         *
-// atanhD          *         *         *
+// atanhD          D         *         *
 // cbrtD           A         A-        *
 // ceilD           A         A         A
 // copysignD       A         A         A
@@ -51,7 +51,7 @@
 // erfD            A         *         *
 // erfcD           A         *         *
 // expD            A         *         *
-// expm1D          *         *         *
+// expm1D          A         *         *
 // fabsD           A         A         *
 // floorD          A         A         A
 // frexpD          B         B         -
@@ -109,14 +109,8 @@
 	  return (_Decimal64) (FUNC ((double)x, (double) y));		\
   }
 
-STUB1(acosh)
-STUB1(asinh)
-STUB1(atan)
 STUB2(atan2)
-STUB1(atanh)
 STUB1(cos)
-STUB1(exp)
-STUB1(expm1)
 STUB2(fmod)
 STUB2(hypot)
 STUB1(sin)
@@ -133,13 +127,15 @@ _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
 // ---------------------------------------------------------------------------
 
 #define DECIMAL64_BIAS -398
-#define DECIMAL128_BIAS -6176
-
 #define DECIMAL64_MAX_BIASED_EXP 369
 #define DECIMAL64_MIN_DEN 1e-398dd
+#define DECIMAL64_MAX_MANT 9999999999999999ull
+
+#define DECIMAL128_BIAS -6176
 
 #define M_LN10D 2.3025850929940456840179914546843642076dd // log(10)
 #define M_LG10D 3.32192809488736235dd                     // log_2(10)
+#define M_LN2D  0.6931471805599453094dd                   // log(2)
 
 // We assume bis format (and check for it during init)
 #define decode64 decode64_bis
@@ -176,8 +172,8 @@ decode64_bis (_Decimal64 const *args0, uint64_t *pmant, int *pp10, int *sign)
 			p10 = DECIMAL64_BIAS + ((d64 >> 53) & 0x3ff);
 			mant = d64 & ((1ul << 53) - 1);
 		}
-		if (mant > 9999999999999999ull)
-			special = CLS_INVALID; // Invalid (>= 10^17)
+		if (mant > DECIMAL64_MAX_MANT)
+			special = CLS_INVALID; // Invalid (>= 10^16)
 	}
 
 	if (pp10) *pp10 = (special ? 0 : p10);
@@ -193,7 +189,7 @@ make64_bis (uint64_t mant, int e, int sign)
 	uint64_t ue, u64;
 	_Decimal64 res;
 
-	assert (mant <= 9999999999999999ull);
+	assert (mant <= DECIMAL64_MAX_MANT);
 	assert (e >= DECIMAL64_BIAS && e <= DECIMAL64_MAX_BIASED_EXP);
 
 	ue = e - DECIMAL64_BIAS;
@@ -699,14 +695,14 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	qeffadd = sign != qadd;
 	if (qeffadd) {
 		m64++;
-		if (m64 == 10000000000000000ull) {  // 16 zeros
+		if (m64 == DECIMAL64_MAX_MANT + 1) {
 			m64 = 1;
 			e += 16;
 		}
 	} else {
 		m64--;
-		if (m64 == 999999999999999ull && e != DECIMAL64_BIAS) {  // 15 nines
-			m64 = 9999999999999999ull; // 16 nines
+		if (m64 == DECIMAL64_MAX_MANT / 10 && e != DECIMAL64_BIAS) {
+			m64 = DECIMAL64_MAX_MANT;
 			e--;
 		}
 	}
@@ -931,10 +927,21 @@ _Decimal64
 sinhD (_Decimal64 x)
 {
 	// No need to handle overflow because result will overflow anyway
-	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
+	if (fabsD (x) <= (_Decimal64)DBL_MIN)
 		return x;
-	} else
+	else
 		return sinh (x);
+}
+
+_Decimal64
+asinhD (_Decimal64 x)
+{
+	_Decimal64 ax = fabsD (x);
+	if (ax <= (_Decimal64)DBL_MIN)
+		return x;
+	if (ax >= (_Decimal64)DBL_MAX)
+		return copysignD (logD (ax) + M_LN2D, x);
+	return asinh (x);
 }
 
 _Decimal64
@@ -946,22 +953,43 @@ coshD (_Decimal64 x)
 }
 
 _Decimal64
+acoshD (_Decimal64 x)
+{
+	// No need to handle underflow because the domain is [1,inf[
+	if (x >= (_Decimal64)DBL_MAX)
+		return logD (x) + M_LN2D;
+	return acosh (x);
+}
+
+_Decimal64
 tanhD (_Decimal64 x)
 {
 	// No need to handle overflow because of horizontal tangents
-	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
+	if (fabsD (x) <= (_Decimal64)DBL_MIN)
 		return x;
-	} else
+	else
 		return tanh (x);
 }
+
+_Decimal64
+atanhD (_Decimal64 x)
+{
+	// No need to handle overflow because the domain is ]-1;+1[
+	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+		return x;
+	else
+		return atanh (x);
+}
+
+// ---------------------------------------------------------------------------
 
 _Decimal64
 asinD (_Decimal64 x)
 {
 	// No need to handle overflow because domain is [1,1]
-	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
+	if (fabsD (x) <= (_Decimal64)DBL_MIN)
 		return x;
-	} else
+	else
 		return asin (x);
 }
 
@@ -971,6 +999,16 @@ acosD (_Decimal64 x)
 	// No need to handle overflow because domain is [1,1]
 	// No need to handle underflow because acos(0)=Pi/2
 	return acos (x);
+}
+
+_Decimal64
+atanD (_Decimal64 x)
+{
+	// No need to handle overflow because of horizontal tangents
+	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+		return x;
+	else
+		return atan (x);
 }
 
 // ---------------------------------------------------------------------------
@@ -1151,6 +1189,24 @@ log1pD (_Decimal64 x)
 		return log1p (x);
 	} else
 		return logD (x + 1);
+}
+
+_Decimal64
+expD (_Decimal64 x)
+{
+	// No need to handle overflow because horizontal tangent (left) and overflow (right)
+	// No need to handle underflow because exp(0)=1
+	return exp (x);
+}
+
+_Decimal64
+expm1D (_Decimal64 x)
+{
+	// No need to handle overflow because horizontal tangent (left) and overflow (right)
+	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+		return x;
+	else
+		return expm1 (x);
 }
 
 // 1: even integer, 0: non-integer (including inf, nan), -1 odd integer
