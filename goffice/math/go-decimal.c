@@ -307,31 +307,6 @@ u64_pow10_table[20] = {
 	10000000000000000000ull,
 };
 
-// Last entry is bigger than any mantissa in _Decimal64
-static const _Decimal64
-d64_pow10_table[20] = {
-	1.dd,
-	10.dd,
-	100.dd,
-	1000.dd,
-	10000.dd,
-	100000.dd,
-	1000000.dd,
-	10000000.dd,
-	100000000.dd,
-	1000000000.dd,
-	10000000000.dd,
-	100000000000.dd,
-	1000000000000.dd,
-	10000000000000.dd,
-	100000000000000.dd,
-	1000000000000000.dd,
-	10000000000000000.dd,
-	100000000000000000.dd,
-	1000000000000000000.dd,
-	10000000000000000000.dd,
-};
-
 
 static int
 u64_digits (uint64_t x)
@@ -689,47 +664,54 @@ pow10D (int e)
 	return (_Decimal64)INFINITY;
 }
 
-
 _Decimal64
 nextafterD (_Decimal64 x, _Decimal64 y)
 {
-	int qadd, qeffadd, e, lm64;
+	int qadd, qeffadd, e, lm64, sign, special, sn;
 	uint64_t m64;
-	_Decimal64 ax;
 
-	if (isnanD (x))
+	special = decode64 (&x, &m64, &e, &sign);
+	if (special == CLS_NAN)
 		return x;
-	else if (x < y)
+
+	if (x < y)
 		qadd = 1;
 	else if (x > y)
 		qadd = 0;
 	else
 		return y; // Either equal or y is NAN
 
-	if (!finiteD (x))
+	if (special == CLS_INF)
 		return copysignD (DECIMAL64_MAX, x);
 
-	if (x == 0) {
+	if (m64 == 0) {
 		_Decimal64 eps = DECIMAL64_MIN_DEN;
 		return qadd ? eps : -eps;
 	}
 
-	ax = fabsD (x);
-	qeffadd = (x < 0) ? !qadd : qadd;
-	if (ax == DECIMAL64_MIN_DEN && !qeffadd)
-		return copysignD (0, x);
-
-	m64 = frexp10D (ax, 1, &e);
+	// Scale mantissa as far up as we can, ie., to 16 digits unless that
+	// would cause the exponent to become too small.
 	lm64 = u64_digits (m64);
+	sn = MIN (DECIMAL64_DIG - lm64, e - DECIMAL64_BIAS);
+	m64 *= u64_pow10_table[sn];
+	e -= sn;
+
+	qeffadd = sign != qadd;
 	if (qeffadd) {
-		int de = e - (16 - lm64);
-		de = MAX (de, DECIMAL64_BIAS);
-		return copysignD (ax + pow10D (de), x);
+		m64++;
+		if (m64 == 10000000000000000ull) {  // 16 zeros
+			m64 = 1;
+			e += 16;
+		}
 	} else {
-		int de = e - (lm64 == 1 ? 16 : 16 - lm64);
-		de = MAX (de, DECIMAL64_BIAS);
-		return copysignD (ax - pow10D (de), x);
+		m64--;
+		if (m64 == 999999999999999ull && e != DECIMAL64_BIAS) {  // 15 nines
+			m64 = 9999999999999999ull; // 16 nines
+			e--;
+		}
 	}
+
+	return make64 (m64, e, sign);
 }
 
 // NOTE: THIS IS NOT A LOSSLESS OPERATION
@@ -815,6 +797,33 @@ _Decimal64
 scalbnD (_Decimal64 x, int e)
 {
 	return scalblnD (x, e);
+}
+
+_Decimal64
+unscalbnD (_Decimal64 x, int *e)
+{
+	int special, sign, p10, m10;
+	uint64_t mant;
+
+	special = decode64 (&x, &mant, &p10, &sign);
+	switch (special) {
+	case CLS_INF:
+	case CLS_NAN:
+		*e = 0;
+		return x;
+	default:
+		break;
+	}
+
+	if (mant == 0) {
+		*e = 0;
+		return sign ? -0.dd : 0.dd;
+	}
+
+	m10 = u64_digits (mant);
+	p10 += m10;
+	*e = p10;
+	return make64 (mant, -m10, sign);
 }
 
 _Decimal64
@@ -966,58 +975,14 @@ acosD (_Decimal64 x)
 
 // ---------------------------------------------------------------------------
 
-// Like frexp, but for base 10 and with extra control flag.
-// Split x into m and integer e such that x = m * 10^e.
-//
-// NaN, infinity, and zeroes get passed right though with *e = 0
-//
-// Otherwise, m is chosen as follows:
-// * If qint is false, 0.1 <= m < 1
-// * If qint is true, m will be an integer not divisible by 10
-_Decimal64
-frexp10D (_Decimal64 x, int qint, int *e)
-{
-	int special, sign, p10;
-	uint64_t mant;
-
-	special = decode64 (&x, &mant, &p10, &sign);
-	switch (special) {
-	case CLS_NORMAL:
-		if (mant == 0)
-			*e = 0;
-		else if (qint) {
-			while (mant % 10 == 0) {
-				mant /= 10;
-				p10++;
-			}
-			x = sign ? -(_Decimal64)mant : (_Decimal64)mant;
-			*e = p10;
-		} else {
-			int m10 = u64_digits (mant);
-			p10 += m10;
-			x /= d64_pow10_table[m10];
-			*e = p10;
-		}
-		return x;
-	case CLS_INVALID:
-		x = sign ? -0.dd : 0.dd;
-		// Fall-through
-	case CLS_INF:
-	case CLS_NAN:
-	default:
-		*e = 0;
-		return x;
-	}
-}
-
 // negneg: return -NAN on negatives.
 static _Decimal64
-log_helper (_Decimal64 x, int negneg)
+log_helper (_Decimal64 x, int base)
 {
-	int special, sign, p10, e;
+	int special, sign, p2, p10, bits;
 	uint64_t mant;
 	_Decimal64 xm1;
-	_Decimal64 residual;
+	double dx;
 	static const _Decimal64 res[64] = {
 		+0.dd,
 		+0.3010299956639812dd,
@@ -1100,14 +1065,20 @@ log_helper (_Decimal64 x, int negneg)
 	}
 
 	if (sign)
-		return negneg ? -(_Decimal64)NAN : (_Decimal64)NAN;
+		return base == 10 ? (_Decimal64)NAN : -(_Decimal64)NAN;
 
 	xm1 = x - 1;
 	if (fabsD (xm1) < 0.25dd) {
 		// x - 1 was exact and has smaller magnitude than x, so use log1p
 		// This reduces _Decimal64-to-double rounding error greatly which
 		// is significant for x very near 1.
-		return (_Decimal64)(log1p (xm1)) * 0.434294481903251827651dd;  // 1/log(10)
+		_Decimal64 lxm1 = log1p (xm1);
+		switch (base) {
+		default:
+		case  2: return lxm1 * 1.4426950408889634073599dd;  // 1/log(2)
+		case  3: return lxm1;
+		case 10: return lxm1 * 0.434294481903251827651dd;   // 1/log(10)
+		}
 	}
 
 	while (mant % 10 == 0) {
@@ -1115,36 +1086,48 @@ log_helper (_Decimal64 x, int negneg)
 		p10++;
 	}
 
-	e = p10;
-	if (mant == 1) {
-		residual = 0;
-	} else {
-		int p2 = 63 - __builtin_clzl (mant);
-		double dx = ldexp (mant, -p2);
-		if (dx > 1.41) {
-			dx /= 2;
-			p2++;
-		}
-
-		e += (p2 * 77 + 128) / 256;
-		residual = ((_Decimal64)(log10 (dx)) + res[p2]);
+	p2 = 0;
+	while ((mant & 1) == 0) {
+		mant >>= 1;
+		p2++;
 	}
-	return e + residual;
+
+	while (base == 2 && p10 != 0 && mant % 5 == 0) {
+		mant /= 5;
+		p10++;
+		p2--;
+	}
+
+	bits = 63 - __builtin_clzl (mant);
+	dx = ldexp (mant, -bits);
+	p2 += bits;
+	if (dx > 1.41) {
+		dx /= 2;
+		p2++;
+	}
+
+	if (base == 2) {
+		return p2 + M_LG10D * p10 + (_Decimal64)(log2 (dx));
+	} else {
+		p10 += (p2 * 77 + 128) / 256;
+		_Decimal64 residual = ((_Decimal64)(log10 (dx)) + res[p2]);
+		_Decimal64 l10 = p10 + residual;
+		return base == 10 ? l10 : l10 * M_LN10D;
+	}
 }
 
 // Note: log10D(-42) = +NaN            <-- inconsistent
 _Decimal64
 log10D (_Decimal64 x)
 {
-	return log_helper (x, 0);
+	return log_helper (x, 10);
 }
 
 // Note: log2D(-42) = -NaN
 _Decimal64
 log2D (_Decimal64 x)
 {
-	// FIXME: need to worry about exact powers of 2.
-	return log_helper (x, 1) * M_LG10D;
+	return log_helper (x, 2);
 }
 
 
@@ -1152,7 +1135,7 @@ log2D (_Decimal64 x)
 _Decimal64
 logD (_Decimal64 x)
 {
-	return log_helper (x, 1) * M_LN10D;
+	return log_helper (x, 3);
 }
 
 // Note: log1pD(-43) = -NaN

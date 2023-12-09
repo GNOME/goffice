@@ -171,6 +171,20 @@ linear_corpus (int count, _Decimal64 slope, _Decimal64 offset)
 	return res;
 }
 
+static Corpus *
+power_corpus (int count, _Decimal64 low, _Decimal64 f)
+{
+	Corpus *res = corpus_new (count);
+	int i;
+
+	for (i = 0; i < count; i++) {
+		res->vals[i] = low;
+		low *= f;
+	}
+
+	return res;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static void
@@ -330,6 +344,64 @@ test_modf (const Corpus *corpus)
 }
 
 static void
+test_log (const char *name, int base, const Corpus *corpus)
+{
+	double (*fn_double) (double);
+	_Decimal64 (*fn_decimal) (_Decimal64);
+
+	start_section (name);
+
+	switch (base) {
+	default:
+	case 2: fn_decimal = log2D; fn_double = log2; break;
+	case 3: fn_decimal = logD; fn_double = log; break;
+	case 10: fn_decimal = log10D; fn_double = log10; break;
+	}
+
+	for (int v = 0; v < corpus->nvals; v++) {
+		_Decimal64 x = corpus->vals[v], y = fn_decimal (x);
+		double dx = x, dy = fn_double (dx);
+		gboolean ok;
+		int qunderflow = (dx == 0) && (x != 0);
+		int qoverflow = finiteD (x) && !finite (dx);
+
+		if (fabsD (x - 1) < 0.01dd)
+			continue;
+
+		if (x < 0)
+			ok = isnanD (y);
+		else if (qunderflow)
+			ok = finiteD (y) && y <= (_Decimal64)(fn_double (DBL_MIN));
+		else if (qoverflow)
+			ok = finiteD (y) && y >= (_Decimal64)(fn_double (DBL_MAX));
+		else {
+			ok = (!!finiteD (y) == !!finite (dy) &&
+			      !!isnanD (y) == !!isnan (dy) &&
+			      !!signbitD (y) == !!signbit (dy) &&
+			      (y == 0) == (dy == 0));
+
+			if (ok && finite (dy)) {
+				ok = ((y == floorD (y)) == (dy == floor (dy)));
+
+				if (ok && y != 0) {
+					_Decimal64 d = y - (_Decimal64)dy;
+					ok = fabsD (d / y) < 1e-10dd;
+				}
+			}
+		}
+
+		if (ok)
+			good ();
+		else {
+			bad ();
+			g_printerr ("Failed for %.16Wg -- got %.16Wg vs %.16g\n", x, y, dy);
+		}
+	}
+
+	end_section ();
+}
+
+static void
 test_scalbn (void)
 {
 	_Decimal64 x;
@@ -406,10 +478,10 @@ test_oneargs (const Corpus *corpus)
 		{ "fabsD", fabsD, fabs },
 		{ "floorD", floorD, floor },
 		{ "lgammaD", lgammaD, lgamma },
-		{ "log10D", log10D, log10 },
+		// { "log10D", log10D, log10 },
 		{ "log1pD", log1pD, log1p },
-		{ "log2D", log2D, log2 },
-		{ "logD", logD, log },
+		// { "log2D", log2D, log2 },
+		// { "logD", logD, log },
 		{ "roundD", roundD, round },
 		{ "sinD", sinD, sin },
 		{ "sinhD", sinhD, sinh },
@@ -607,6 +679,21 @@ main (int argc, char **argv)
 	test_oneargs (corpus);
 	test_modf (corpus);
 	test_scalbn ();
+
+	corpus2 = corpus_concat
+		(corpus, 0,
+		 corpus_concat (power_corpus (50, 1.dd, 2), 1,
+				power_corpus (16, 1.dd, 0.5dd), 1), 1);
+	test_log ("log2", 2, corpus2);
+	corpus_free (corpus2);
+
+	test_log ("log", 3, corpus);
+
+	corpus2 = corpus_concat
+		(corpus, 0,
+		 power_corpus (300, 1.dd, 10), 1);
+	test_log ("log10", 10, corpus2);
+	corpus_free (corpus2);
 
 	// The offset here is partly for the benefit of going through
 	// double for the reference string and partly to test something

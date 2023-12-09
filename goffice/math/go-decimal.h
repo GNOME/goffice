@@ -66,14 +66,13 @@ _Decimal64 sqrtD (_Decimal64 x);
 _Decimal64 tanD (_Decimal64 x);
 _Decimal64 tanhD (_Decimal64 x);
 _Decimal64 truncD (_Decimal64 x);
+_Decimal64 unscalbnD (_Decimal64 x, int *e);
 _Decimal64 ynD (int n, _Decimal64 x);
 int finiteD (_Decimal64 x);
 int isnanD (_Decimal64 x);
 int signbitD (_Decimal64 x);
 
 _Decimal64 strtoDd (const char *s, char **end);
-
-_Decimal64 frexp10D (_Decimal64 x, int qint, int *e);
 
 #endif
 
