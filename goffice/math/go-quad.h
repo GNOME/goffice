@@ -106,6 +106,7 @@ void go_quad_constant8l (GOQuadl *res, const guint8 *data, gsize n, long double 
 
 GO_VAR_DECL const GOQuadl go_quad_zerol;
 GO_VAR_DECL const GOQuadl go_quad_onel;
+GO_VAR_DECL const GOQuadl go_quad_halfl;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_pil;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_2pil;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_el;
