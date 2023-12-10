@@ -88,7 +88,7 @@ struct _GOCSplineD {
 
 GType go_csplineD_get_type (void);
 GOCSplineD *go_cspline_initD (_Decimal64 const *x, _Decimal64 const *y, int n,
-			      unsigned limits, _Decimal64 a0, _Decimal64 a1);
+			      unsigned limits, _Decimal64 c0, _Decimal64 cn);
 void go_cspline_destroyD (GOCSplineD *sp);
 _Decimal64 go_cspline_get_valueD (GOCSplineD const *sp, _Decimal64 x);
 _Decimal64 go_cspline_get_derivD (GOCSplineD const *sp, _Decimal64 x);
