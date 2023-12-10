@@ -24,7 +24,7 @@ typedef struct {
 GType go_complex_get_type (void);
 
 char *go_complex_to_string (GOComplex const *src, char const *reformat,
-			 char const *imformat, char imunit);
+			    char const *imformat, char imunit);
 
 int go_complex_from_string (GOComplex *dst, char const *src, char *imunit);
 
@@ -64,7 +64,7 @@ void go_complex_tan (GOComplex *dst, GOComplex const *src);
 GType go_complexl_get_type (void);
 
 char *go_complex_to_stringl (GOComplexl const *src, char const *reformat,
-			 char const *imformat, char imunit);
+			     char const *imformat, char imunit);
 
 int go_complex_from_stringl (GOComplexl *dst, char const *src, char *imunit);
 

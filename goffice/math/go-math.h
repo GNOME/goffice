@@ -1,7 +1,7 @@
 #ifndef __GO_MATH_H
 #define __GO_MATH_H
 
-#include <goffice/goffice-features.h>
+#include <goffice/goffice.h>
 #include <math.h>
 #include <glib.h>
 #include <goffice/goffice.h>

@@ -160,7 +160,7 @@ go_xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 
 void
 go_xml_node_set_double (xmlNodePtr node, char const *name, double val,
-		     int precision)
+			int precision)
 {
 	char str[101 + DBL_DIG];
 

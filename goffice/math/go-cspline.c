@@ -61,7 +61,7 @@ GType go_csplinel_get_type (void) { return G_TYPE_NONE; }
 #endif
 
 /**
- * go_cspline_init:
+ * go_cspline_init: (skip)
  * @x: the x values
  * @y: the y values
  * @n: the number of x and y values
@@ -90,7 +90,7 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 {
 	DOUBLE *d1, *d2, *d3, *d4, h;
 	SUFFIX(GOCSpline) *sp;
-	double dx1 = 0., dy1 = 0., dx2 = 0., dy2 = 0., dxn1 = 0., dxn2 = 0.;
+	DOUBLE dx1 = 0., dy1 = 0., dx2 = 0., dy2 = 0., dxn1 = 0., dxn2 = 0.;
 	int nm1, nm2, i, j, first, last;
 
 	/* What is the minimum number of knots? Taking 3 at the moment */

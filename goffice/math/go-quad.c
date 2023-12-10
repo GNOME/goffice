@@ -1,4 +1,4 @@
- /*
+/*
  * go-quad.c:  Extended precision routines.
  *
  * Authors
@@ -22,6 +22,9 @@
  * This follows "A Floating-Point Technique for Extending the Available
  * Precision" by T. J. Dekker in _Numerische Mathematik_ 18.
  * Springer Verlag 1971.
+ *
+ * See also "On various ways to split a floating-point number" by
+ * Claude-Pierre Jeannerod, Jean-Michel Muller, and Paul Zimmermann.
  *
  * Note: for this to work, the processor must evaluate with the right
  * precision.  For ix86 that means trouble as the default is to evaluate
@@ -285,9 +288,10 @@ SUFFIX(go_quad_end) (void *state)
 
 const QUAD SUFFIX(go_quad_zero) = { 0, 0 };
 const QUAD SUFFIX(go_quad_one) = { 1, 0 };
+const QUAD SUFFIX(go_quad_half) = { 0.5, 0 };
 /*
  * The following are non-const so we can initialize them.  However,
- * from other compilation units there are const.  My reading of C99
+ * from other compilation units they are const.  My reading of C99
  * Section 6.2.7 says that is allowed.
  */
 QUAD SUFFIX(go_quad_pi);
@@ -500,6 +504,14 @@ SUFFIX(go_quad_div) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->l = c.h - res->h + c.l;
 }
 
+void
+SUFFIX(go_quad_scalbn) (QUAD *res, const QUAD *a, int n)
+{
+	res->h = SUFFIX(scalbn) (a->h, n);
+	res->l = SUFFIX(scalbn) (a->l, n);
+}
+
+
 /**
  * go_quad_sqrt:
  * @res: (out): result location
@@ -616,15 +628,15 @@ void
 SUFFIX(go_quad_constant8) (QUAD *res, const guint8 *data, gsize n,
 			   DOUBLE base, DOUBLE scale)
 {
-	QUAD qbase, q;
+	QUAD qbaseinv, q;
 
 	*res = SUFFIX(go_quad_zero);
-	SUFFIX(go_quad_init) (&qbase, base);
+	SUFFIX(go_quad_init) (&qbaseinv, 1 / base);
 
 	while (n-- > 0) {
 		SUFFIX(go_quad_init) (&q, data[n]);
 		SUFFIX(go_quad_add) (res, res, &q);
-		SUFFIX(go_quad_div) (res, res, &qbase);
+		SUFFIX(go_quad_mul) (res, res, &qbaseinv);
 	}
 
 	SUFFIX(go_quad_init) (&q, scale);
@@ -784,24 +796,24 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 /**
  * go_quad_pow:
  * @res: (out): result location
- * @exp2: (out): (allow-none): power-of-2 result scaling location
+ * @expb: (out): (allow-none): power-of-base result scaling location
  * @x: quad-precision value
  * @y: quad-precision value
  *
  * This function computes @x to the power of @y, storing the result in @res.
- * If the optional @exp2 is supplied, it is used to return a power of 2 by
+ * If the optional @expb is supplied, it is used to return a power of 2 by
  * which the result should be scaled.  This is useful to represent results
  * much, much bigger than double precision can handle.
  **/
 /**
  * go_quad_powl:
  * @res: (out): result location
- * @exp2: (out): (allow-none): power-of-2 result scaling location
+ * @expb: (out): (allow-none): power-of-base result scaling location
  * @x: quad-precision value
  * @y: quad-precision value
  *
  * This function computes @x to the power of @y, storing the result in @res.
- * If the optional @exp2 is supplied, it is used to return a power of 2 by
+ * If the optional @expb is supplied, it is used to return a power of 2 by
  * which the result should be scaled.  This is useful to represent results
  * much, much bigger than double precision can handle.
  **/
@@ -867,22 +879,22 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
 /**
  * go_quad_exp:
  * @res: (out): result location
- * @exp2: (out): (allow-none): power-of-2 result scaling location
+ * @expb: (out): (allow-none): power-of-base result scaling location
  * @a: quad-precision value
  *
  * This function computes the exponential function at @a, storing the result
- * in @res.  If the optional @exp2 is supplied, it is used to return a
+ * in @res.  If the optional @expb is supplied, it is used to return a
  * power of 2 by which the result should be scaled.  This is useful to
  * represent results much, much bigger than double precision can handle.
  **/
 /**
  * go_quad_expl:
  * @res: (out): result location
- * @exp2: (out): (allow-none): power-of-2 result scaling location
+ * @expb: (out): (allow-none): power-of-base result scaling location
  * @a: quad-precision value
  *
  * This function computes the exponential function at @a, storing the result
- * in @res.  If the optional @exp2 is supplied, it is used to return a
+ * in @res.  If the optional @expb is supplied, it is used to return a
  * power of 2 by which the result should be scaled.  This is useful to
  * represent results much, much bigger than double precision can handle.
  **/
@@ -976,7 +988,7 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
  * @a: quad-precision value
  * @b: quad-precision value
  *
- * This function computes the square root of @a^2 plugs @b^2, storing the
+ * This function computes the square root of @a^2 plus @b^2, storing the
  * result in @res.
  **/
 /**
@@ -985,7 +997,7 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
  * @a: quad-precision value
  * @b: quad-precision value
  *
- * This function computes the square root of @a^2 plugs @b^2, storing the
+ * This function computes the square root of @a^2 plus @b^2, storing the
  * result in @res.
  **/
 void
@@ -1021,6 +1033,28 @@ SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->h = SUFFIX(ldexp) (qn.h, e);
 	res->l = SUFFIX(ldexp) (qn.l, e);
 }
+
+/**
+ * go_quad_abs:
+ * @res: (out): result location
+ * @a: quad-precision value
+ *
+ * This function computes the absolute value of @a, storing the result in @res.
+ **/
+/**
+ * go_quad_absl:
+ * @res: (out): result location
+ * @a: quad-precision value
+ *
+ * This function computes the absolute value of @a, storing the result in @res.
+ **/
+void
+SUFFIX(go_quad_abs) (QUAD *res, const QUAD *a)
+{
+	res->h = SUFFIX(fabs)(a->h);
+	res->l = SUFFIX(fabs)(a->l);
+}
+
 
 /* sqrt(1-a*a) helper */
 static void
@@ -1266,7 +1300,7 @@ SUFFIX(reduce_pi_half) (QUAD *res, const QUAD *a, int *pk)
 	if (!SUFFIX(go_finite) (a->h))
 		return TRUE;
 
-	if (SUFFIX(fabs) (a->h) > SUFFIX(ldexp) (1.0, DOUBLE_MANT_DIG)) {
+	if (SUFFIX(fabs) (a->h) > 1 / DOUBLE_EPSILON) {
 		g_warning ("Reduced accuracy for very large trigonometric arguments");
 		return TRUE;
 	}
@@ -1297,7 +1331,6 @@ SUFFIX(reduce_pi_half) (QUAD *res, const QUAD *a, int *pk)
 static void
 SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
 {
-	static const QUAD half = { 0.5, 0 };
 	int k = 0;
 	QUAD qxr = *a;
 
@@ -1308,7 +1341,7 @@ SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
 		qxr.h = -qxr.h; qxr.l = -qxr.l;
 		k = 4 - k;
 		if (qxr.h <= -0.25 && qxr.l == 0) {
-			SUFFIX(go_quad_add) (&qxr, &qxr, &half);
+			SUFFIX(go_quad_add) (&qxr, &qxr, &SUFFIX(go_quad_half));
 			k += 3;
 		}
 	} else {
@@ -1327,11 +1360,11 @@ SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
 			k += 2;
 		}
 		if (qxr.h >= 0.5) {
-			SUFFIX(go_quad_sub) (&qxr, &qxr, &half);
+			SUFFIX(go_quad_sub) (&qxr, &qxr, &SUFFIX(go_quad_half));
 			k++;
 		}
 		if (qxr.h > 0.25) {
-			SUFFIX(go_quad_sub) (&qxr, &qxr, &half);
+			SUFFIX(go_quad_sub) (&qxr, &qxr, &SUFFIX(go_quad_half));
 			k++;
 		}
 	}
@@ -1348,8 +1381,7 @@ SUFFIX(do_sin) (QUAD *res, const QUAD *a, int k)
 	if (k & 1) {
 		QUAD qn, qd, qq, aa;
 
-		aa.h = SUFFIX(fabs)(a->h);
-		aa.l = SUFFIX(fabs)(a->l);
+		SUFFIX(go_quad_abs) (&aa, a);
 		SUFFIX(go_quad_init) (&qr, SUFFIX(cos) (aa.h));
 
 		/* Newton step */
@@ -1474,8 +1506,7 @@ SUFFIX(go_quad_asin) (QUAD *res, const QUAD *a)
 {
 	QUAD aa, aam1;
 
-	aa.h = SUFFIX(fabs) (a->h);
-	aa.l = SUFFIX(fabs) (a->l);
+	SUFFIX(go_quad_abs) (&aa, a);
 	SUFFIX(go_quad_sub) (&aam1, &aa, &SUFFIX(go_quad_one));
 	if (aam1.h > 0) {
 		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
@@ -1556,8 +1587,7 @@ SUFFIX(go_quad_acos) (QUAD *res, const QUAD *a)
 {
 	QUAD aa, aam1;
 
-	aa.h = SUFFIX(fabs) (a->h);
-	aa.l = SUFFIX(fabs) (a->l);
+	SUFFIX(go_quad_abs) (&aa, a);
 	SUFFIX(go_quad_sub) (&aam1, &aa, &SUFFIX(go_quad_one));
 	if (aam1.h > 0) {
 		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));

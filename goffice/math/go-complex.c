@@ -95,7 +95,7 @@ GType go_complexl_get_type (void) { return 0; }
 
 char *
 SUFFIX(go_complex_to_string) (COMPLEX const *src, char const *reformat,
-		   char const *imformat, char imunit)
+			      char const *imformat, char imunit)
 {
 	char *re_buffer = NULL;
 	char *im_buffer = NULL;
