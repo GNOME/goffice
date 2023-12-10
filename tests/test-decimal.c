@@ -86,8 +86,30 @@ test_eq (_Decimal64 a, _Decimal64 b)
 		good ();
 		return 1;
 	} else {
-		g_printerr ("%.16Wg vs %.16Wg\n", a, b);
 		bad ();
+		g_printerr ("%.16Wg vs %.16Wg\n", a, b);
+		return 0;
+	}
+}
+
+static int
+test_quad_eq (GOQuadD const *a, GOQuadD const *b, _Decimal64 maxerr)
+{
+	GOQuadD qd, qc;
+
+	go_quad_subD (&qd, a, b);
+	go_quad_absD (&qd, &qd);
+
+	go_quad_initD (&qc, maxerr);
+	go_quad_subD (&qd, &qd, &qc);
+
+	if (go_quad_valueD (&qd) <= 0) {
+		good ();
+		return 1;
+	} else {
+		bad ();
+		g_printerr ("Quad %.16Wg + %.16Wg\n", a->h, a->l);
+		g_printerr ("  vs %.16Wg + %.16Wg\n", b->h, b->l);
 		return 0;
 	}
 }
@@ -228,9 +250,9 @@ test_rounding (const Corpus *corpus)
 			uint64_t d64;
 			memcpy (&d64, &x, sizeof (d64));
 
+			bad ();
 			g_printerr ("Error: 0x%08lx: %.16Wg -> (%.16Wg , %.16Wg , %.16Wg , %.16Wg)\n",
 				    d64, x, f, r, c, t);
-			bad ();
 		}
 	}
 
@@ -258,9 +280,9 @@ test_properties (const Corpus *corpus)
 			uint64_t d64;
 			memcpy (&d64, &x, sizeof (d64));
 
+			bad ();
 			g_printerr ("Error: 0x%08lx: %.16Wg -> %d %d %d\n",
 				    d64, x, qnan, qfinite, qsign);
-			bad ();
 		}
 	}
 
@@ -282,8 +304,8 @@ test_copysign (const Corpus *corpus)
 			    signbitD (y) == signbitD (x2))
 				good ();
 			else {
-				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
 				bad ();
+				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
 			}
 		}
 	}
@@ -658,6 +680,43 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 	end_section ();
 }
 
+static void
+test_quad_exp_pow (void)
+{
+	GOQuadD qa, qb, qc, qsqrt1000, qe;
+	_Decimal64 p10;
+	void *state;
+
+	start_section ("quad exp, pow");
+
+	state = go_quad_startD ();
+
+	go_quad_initD (&qa, 1000);
+	go_quad_sqrtD (&qb, &qa);
+	qsqrt1000.h = 31.62277660168379dd;
+	qsqrt1000.l =                 .3319988935444327e-14dd;  // observe ...329
+	test_quad_eq (&qb, &qsqrt1000, 2e-30dd);
+
+	qb = qsqrt1000;
+	qb.h *= 1000;
+	qb.l *= 1000;
+	go_quad_expD (&qc, &p10, &qb);
+
+	qe.h = 3.957132301185386dd;
+	qe.l =                -.3807734103472098e-15dd;
+	// * 10^13733
+	test_eq (p10, 13733);
+	test_quad_eq (&qc, &qe, 1e-27dd);
+
+	// g_printerr ("c = %.16Wg + %.16Wg   (%.16Wg)\n", qc.h, qc.l, p10);
+	// c = 3.957132301185386 + -3.807734103479432e-16   (13733)
+
+	go_quad_end (state);
+
+	end_section ();
+}
+
+
 /* ------------------------------------------------------------------------- */
 
 #endif
@@ -707,6 +766,9 @@ main (int argc, char **argv)
 
 	// Very preliminary
 	test_pow (corpus, corpus);
+
+	test_quad_exp_pow ();
+
 
 	if (n_bad)
 		g_printerr ("FAIL: A total of %d failures.\n", n_bad);
