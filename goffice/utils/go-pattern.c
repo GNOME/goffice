@@ -1,5 +1,5 @@
 /*
- * go-pattern.c :
+ * go-pattern.c:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -249,7 +249,7 @@ go_pattern_as_str (GOPatternType pattern)
 }
 
 /**
- * go_pattern_is_solid :
+ * go_pattern_is_solid:
  * @pat: #GOPattern
  * @color: #GOColor
  *
@@ -290,7 +290,7 @@ go_pattern_is_solid (GOPattern const *pat, GOColor *color)
 }
 
 /**
- * go_pattern_set_solid :
+ * go_pattern_set_solid:
  * @pat: a #GOPattern
  * @fore: a #GOColor
  *

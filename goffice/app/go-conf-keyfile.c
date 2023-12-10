@@ -281,7 +281,7 @@ go_conf_get_double (GOConfNode *node, gchar const *key)
 }
 
 /**
- * go_conf_get_string :
+ * go_conf_get_string:
  * @node: #GOConfNode
  * @key: non-%NULL string.
  *

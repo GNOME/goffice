@@ -1,0 +1,176 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+my $dir = 'goffice';
+die "$0: cannot find $dir\n" unless -d $dir && -d "$dir/math";
+
+my %names;
+
+my @cfiles = ('math/go-accumulator.c',
+	      'math/go-complex.c',
+	      'math/go-cspline.c',
+	      'math/go-distribution.c',
+	      'math/go-fft.c',	   
+	      'math/go-quad.c',
+	      'math/go-matrix.c',
+	      'math/go-rangefunc.c',
+	      'math/go-regression.c',
+	      'math/go-R.c',
+	      'utils/go-format.c');
+my @hfiles = map { my $s = $_; $s =~ s/c$/h/; $s; } @cfiles;
+
+
+my $docfile = "$dir/outoflinedocs.c";
+my ($prefix,$postfix) = &read_source_file ($docfile);
+
+for my $h (@hfiles) {
+    &scan_header ("$dir/$h");
+}
+for my $c (@cfiles) {
+    &scan_source ("$dir/$c");
+}
+
+for my $id (sort keys %names) {
+    my $h = $names{$id};
+
+    next unless $h->{'suffix'};
+
+    my $baseid = &unsuffix ($id, $h->{'suffix'});
+    next unless $baseid;
+    my $hb = $names{$baseid};
+    next unless $hb;
+    my $docs =  $hb->{'docs'};
+    next unless $docs;
+
+    if ($h->{'docs'}) {
+	print STDERR "Not overwriting docs for $id\n";
+	next;
+    }
+    
+    $docs =~ s/\b$baseid\b/$id/g;
+    $h->{'docs'} = $docs;
+    $h->{'docs-generated'} = 1;
+}
+
+&create_ool_file ($docfile, $prefix, $postfix);
+
+# -----------------------------------------------------------------------------
+
+sub scan_header {
+    my ($fn) = @_;
+    my $suffix = '';
+
+    open (my $file, '<', $fn) or
+	die "$0: cannot read $dir: $!\n";
+    while (<$file>) {
+	if (/^\s*([a-zA-Z][a-zA-Z_0-9]*\s+|\*\s*)*([a-zA-Z][a-zA-Z_0-9]*+)\s*\(/) {
+	    $names{$2} //= {
+		'type' => 'function',
+		'suffix' => $suffix
+	    };
+	}
+	if (/GOFFICE_WITH_LONG_DOUBLE/) {
+	    $suffix = 'l';
+	}
+    }
+    close ($file);
+}
+
+# -----------------------------------------------------------------------------
+
+sub scan_source {
+    my ($fn) = @_;
+
+    my ($doc,$func);
+
+    open (my $file, '<', $fn) or
+	die "$0: cannot read $dir: $!\n";
+    while (<$file>) {
+	if (m{^/\*\*\s*$} ... m{^\s*\*+/\s*$}) {
+	    if (m{^/\*\*\s*$}) {
+		$doc = '';
+		$func = undef;
+	    }
+	    if (!$func && m{^\s*\*\s*([a-zA-Z][a-zA-Z_0-9]*+)\s*:}) {
+		$func = $1;
+	    }	    
+	    
+	    $doc .= $_;
+
+	    if ($func && m{^\s*\*+/\s*$}) {
+		if (exists $names{$func}) {
+		    $names{$func}{'docs'} = $doc;
+		}
+	    }
+	}
+    }
+    close ($file);
+}
+
+# -----------------------------------------------------------------------------
+
+sub unsuffix {
+    my ($id, $suffix) = @_;
+
+    my $l = length ($suffix);
+    if (substr ($id, -$l, $l) eq $suffix) {
+	return substr ($id, 0, -$l);
+    }
+
+    return undef;
+}
+
+# -----------------------------------------------------------------------------
+
+sub read_source_file {
+    my ($filename) = @_;
+
+    my $prefix = '';
+    my $postfix = '';
+
+    open (my $src, '<', $filename) or
+	die "$0: Cannot read $filename: $!\n";
+    my $state = 'pre';
+    while (<$src>) {
+	if ($state eq 'pre') {
+	    $prefix .= $_;
+	    $state = 'mid' if m"--- BEGIN AUTO-GENERATED DOCUMENTATION MARKER ---";
+	}
+	if ($state eq 'mid') {
+	    $state = 'post' if m"--- END AUTO-GENERATED DOCUMENTATION MARKER ---";
+	}
+	if ($state eq 'post') {
+	    $postfix .= $_;
+	}
+    }
+    close ($src);
+
+    die "$0: wrong set of magic markers in $filename.\n" if $state ne 'post';
+
+    return ($prefix,$postfix);
+}
+
+# -----------------------------------------------------------------------------
+
+sub create_ool_file {
+    my ($fn, $prefix, $postfix) = @_;
+
+    my $outfile = "$fn.tmp";
+    open (my $dst, '>', $outfile) or
+	die "$0: cannot write $outfile: $!\n";
+    print $dst $prefix;
+    print $dst "\n";
+
+    for my $id (sort keys %names) {
+	my $h = $names{$id};
+	next unless $h->{'docs-generated'};
+	print $dst $h->{'docs'};
+	print $dst "\n";
+    }
+
+    print $dst $postfix;
+    close ($dst);
+
+    rename $outfile, $fn;
+}

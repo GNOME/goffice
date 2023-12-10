@@ -252,7 +252,7 @@ go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
 }
 
 /**
- * go_combo_color_set_color_gdk :
+ * go_combo_color_set_color_gdk:
  * @cc:    The combo
  * @color: The color
  *
@@ -272,7 +272,7 @@ go_combo_color_set_color_gdk (GOComboColor *cc, GdkRGBA *color)
 }
 
 /**
- * go_combo_color_set_color :
+ * go_combo_color_set_color:
  * @cc:  #GOComboColor
  * @color: a #GOColor
  **/
@@ -283,7 +283,7 @@ go_combo_color_set_color (GOComboColor *cc, GOColor c)
 }
 
 /**
- * go_combo_color_set_instant_apply :
+ * go_combo_color_set_instant_apply:
  * @cc:  #GOComboColor
  * @active: Whether instant apply should be active or not
  *
@@ -300,7 +300,7 @@ go_combo_color_set_instant_apply (GOComboColor *cc, gboolean active)
 }
 
 /**
- * go_combo_color_set_allow_alpha :
+ * go_combo_color_set_allow_alpha:
  * @cc: #GOComboColor
  * @allow_alpha: Support alpha layer
  *
@@ -313,7 +313,7 @@ go_combo_color_set_allow_alpha (GOComboColor *cc, gboolean allow_alpha)
 }
 
 /**
- * go_combo_color_set_color_to_default :
+ * go_combo_color_set_color_to_default:
  * @cc:  #GOComboColor
  *
  * Set the color of the combo to the default color. Causes the color_changed
@@ -358,7 +358,7 @@ go_combo_color_set_icon (GOComboColor *cc, GdkPixbuf *icon)
 }
 
 /**
- * go_combo_color_new :
+ * go_combo_color_new:
  * @icon: optionally %NULL.
  * @no_color_label: FIXME
  * @default_color: The colour to use as the default

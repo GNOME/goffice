@@ -1,5 +1,5 @@
 /*
- * goc-styled-item.c :
+ * goc-styled-item.c:
  *
  * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -34,7 +34,7 @@
  **/
 
 /**
- * GocStyledItemClass :
+ * GocStyledItemClass:
  * @init_style: style initialization handler.
  * @reserved1: reserved for future expansion
  * @reserved2: reserved for future expansion
@@ -65,12 +65,12 @@ goc_styled_item_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 
-	case STYLED_ITEM_PROP_STYLE :
+	case STYLED_ITEM_PROP_STYLE:
 		resize = go_styled_object_set_style (GO_STYLED_OBJECT (gsi),
 	      			g_value_get_object (value));
 		break;
 
-	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH :
+	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH:
 		gsi->scale_line_width =  g_value_get_boolean (value);
 		break;
 
@@ -89,11 +89,11 @@ goc_styled_item_get_property (GObject *obj, guint param_id,
 	GocStyledItem *gsi = GOC_STYLED_ITEM (obj);
 
 	switch (param_id) {
-	case STYLED_ITEM_PROP_STYLE :
+	case STYLED_ITEM_PROP_STYLE:
 		g_value_set_object (value, gsi->style);
 		break;
 
-	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH :
+	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH:
 		g_value_set_boolean (value, gsi->scale_line_width);
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);

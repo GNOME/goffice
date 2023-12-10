@@ -1,5 +1,5 @@
 /*
- * go-graph-widget.c :
+ * go-graph-widget.c:
  *
  * Copyright (C) 2003-2005 Jean Brefort (jean.brefort@normalesup.org)
  *  This program is free software; you can redistribute it and/or modify
@@ -280,10 +280,10 @@ go_graph_widget_set_property (GObject *obj, guint param_id,
 	GOGraphWidget *w = GO_GRAPH_WIDGET (obj);
 
 	switch (param_id) {
-	case GRAPH_WIDGET_PROP_ASPECT_RATIO :
+	case GRAPH_WIDGET_PROP_ASPECT_RATIO:
 		w->aspect_ratio = g_value_get_double (value);
 		break;
-	case GRAPH_WIDGET_PROP_GRAPH :
+	case GRAPH_WIDGET_PROP_GRAPH:
 		w->graph = (GogGraph *) g_value_dup_object (value);
 		w->renderer = gog_renderer_new (w->graph);
 		g_signal_connect_swapped (w->renderer, "request_update",
@@ -309,10 +309,10 @@ go_graph_widget_get_property (GObject *obj, guint param_id,
 	GOGraphWidget *w = GO_GRAPH_WIDGET (obj);
 
 	switch (param_id) {
-	case GRAPH_WIDGET_PROP_ASPECT_RATIO :
+	case GRAPH_WIDGET_PROP_ASPECT_RATIO:
 		g_value_set_double (value, w->aspect_ratio);
 		break;
-	case GRAPH_WIDGET_PROP_GRAPH :
+	case GRAPH_WIDGET_PROP_GRAPH:
 		g_value_set_object (value, w->graph);
 		break;
 	case GRAPH_WIDGET_PROP_HRES:
@@ -376,7 +376,7 @@ go_graph_widget_init (GOGraphWidget *w)
 }
 
 /**
- * go_graph_widget_set_size_mode :
+ * go_graph_widget_set_size_mode:
  * @widget: #GOGraphWidget
  * @size_mode: #GOGraphWidgetSizeMode
  * @width: in pixels
@@ -434,7 +434,7 @@ go_graph_widget_set_size_mode (GOGraphWidget         *widget,
 }
 
 /**
- * go_graph_widget_new :
+ * go_graph_widget_new:
  * @graph: #GogGraph
  *
  * Creates a new #GOGraphWidget with an embedded #GogGraph.

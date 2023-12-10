@@ -198,13 +198,6 @@ static const guint8 SUFFIX(euler_digits)[] = {
  * to go_quad_start() and go_quad_end().
  * Returns: (transfer full): a pointer to pass to go_quad_end() when done.
  **/
-/**
- * go_quad_startl:
- *
- * Initializes #GOQuadl arithmetic. Any use of #GOQuadl must occur between calls
- * to go_quad_startl() and go_quad_endl().
- * Returns: (transfer full): a pointer to pass to go_quad_endl() when done.
- **/
 void *
 SUFFIX(go_quad_start) (void)
 {
@@ -291,12 +284,6 @@ SUFFIX(go_quad_start) (void)
  *
  * This ends a section of quad precision arithmetic.
  **/
-/**
- * go_quad_endl:
- * @state: state pointer from go_quad_startl.
- *
- * This ends a section of quad precision arithmetic.
- **/
 void
 SUFFIX(go_quad_end) (void *state)
 {
@@ -340,14 +327,6 @@ QUAD SUFFIX(go_quad_euler);
  * This stores the value @h in @res.  As an exception, this may be called
  * outside go_quad_start and go_quad_end sections.
  **/
-/**
- * go_quad_initl:
- * @res: (out): result location
- * @h: a double precision value
- *
- * This stores the value @h in @res.  As an exception, this may be called
- * outside go_quad_startl and go_quad_endl sections.
- **/
 void
 SUFFIX(go_quad_init) (QUAD *res, DOUBLE h)
 {
@@ -362,13 +341,6 @@ SUFFIX(go_quad_init) (QUAD *res, DOUBLE h)
  * Returns: closest double precision value to @a.  As an exception,
  * this may be called outside go_quad_start and go_quad_end sections.
  **/
-/**
- * go_quad_valuel:
- * @a: quad-precision value
- *
- * Returns: closest double precision value to @a.  As an exception,
- * this may be called outside go_quad_startl and go_quad_endl sections.
- **/
 DOUBLE
 SUFFIX(go_quad_value) (const QUAD *a)
 {
@@ -377,14 +349,6 @@ SUFFIX(go_quad_value) (const QUAD *a)
 
 /**
  * go_quad_add:
- * @res: (out): result location
- * @a: quad-precision value
- * @b: quad-precision value
- *
- * This function adds @a and @b, storing the result in @res.
- **/
-/**
- * go_quad_addl:
  * @res: (out): result location
  * @a: quad-precision value
  * @b: quad-precision value
@@ -408,14 +372,6 @@ SUFFIX(go_quad_add) (QUAD *res, const QUAD *a, const QUAD *b)
 
 /**
  * go_quad_sub:
- * @res: (out): result location
- * @a: quad-precision value
- * @b: quad-precision value
- *
- * This function subtracts @a and @b, storing the result in @res.
- **/
-/**
- * go_quad_subl:
  * @res: (out): result location
  * @a: quad-precision value
  * @b: quad-precision value
@@ -458,15 +414,6 @@ SUFFIX(go_quad_sub) (QUAD *res, const QUAD *a, const QUAD *b)
  * This function multiplies @x and @y, storing the result in @res with full
  * quad precision.
  **/
-/**
- * go_quad_mul12l:
- * @res: (out): result location
- * @x: double precision value
- * @y: double precision value
- *
- * This function multiplies @x and @y, storing the result in @res with full
- * quad precision.
- **/
 void
 SUFFIX(go_quad_mul12) (QUAD *res, DOUBLE x, DOUBLE y)
 {
@@ -492,14 +439,6 @@ SUFFIX(go_quad_mul12) (QUAD *res, DOUBLE x, DOUBLE y)
  *
  * This function multiplies @a and @b, storing the result in @res.
  **/
-/**
- * go_quad_mull:
- * @res: (out): result location
- * @a: quad-precision value
- * @b: quad-precision value
- *
- * This function multiplies @a and @b, storing the result in @res.
- **/
 void
 SUFFIX(go_quad_mul) (QUAD *res, const QUAD *a, const QUAD *b)
 {
@@ -512,14 +451,6 @@ SUFFIX(go_quad_mul) (QUAD *res, const QUAD *a, const QUAD *b)
 
 /**
  * go_quad_div:
- * @res: (out): result location
- * @a: quad-precision value
- * @b: quad-precision value
- *
- * This function divides @a and @b, storing the result in @res.
- **/
-/**
- * go_quad_divl:
  * @res: (out): result location
  * @a: quad-precision value
  * @b: quad-precision value
@@ -552,13 +483,6 @@ SUFFIX(go_quad_scalbn) (QUAD *res, const QUAD *a, int n)
  *
  * This function takes the square root of @a, storing the result in @res.
  **/
-/**
- * go_quad_sqrtl:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function takes the square root of @a, storing the result in @res.
- **/
 void
 SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 {
@@ -575,13 +499,6 @@ SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 
 /**
  * go_quad_floor:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function takes the floor of @a, storing the result in @res.
- **/
-/**
- * go_quad_floorl:
  * @res: (out): result location
  * @a: quad-precision value
  *
@@ -616,13 +533,6 @@ SUFFIX(go_quad_floor) (QUAD *res, const QUAD *a)
  * @b: (array length=n): vector of quad-precision values
  * @n: length of vectors.
  **/
-/**
- * go_quad_dot_productl:
- * @res: (out): result location
- * @a: (array length=n): vector of quad-precision values
- * @b: (array length=n): vector of quad-precision values
- * @n: length of vectors.
- **/
 void
 SUFFIX(go_quad_dot_product) (QUAD *res, const QUAD *a, const QUAD *b, int n)
 {
@@ -637,17 +547,6 @@ SUFFIX(go_quad_dot_product) (QUAD *res, const QUAD *a, const QUAD *b, int n)
 
 /**
  * go_quad_constant8:
- * @res: (out): result location
- * @data: (array length=n): vector of digits
- * @base: base of vector's elements
- * @n: length of digit vector.
- * @scale: scaling value after interpreting digits
- *
- * This function interprets a vector of digits in a given base as a
- * quad-precision value.  It is mostly meant for internal use.
- **/
-/**
- * go_quad_constant8l:
  * @res: (out): result location
  * @data: (array length=n): vector of digits
  * @base: base of vector's elements
@@ -840,18 +739,6 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
  * which the result should be scaled.  This is useful to represent results
  * much, much bigger than double precision can handle.
  **/
-/**
- * go_quad_powl:
- * @res: (out): result location
- * @expb: (out): (allow-none): power-of-base result scaling location
- * @x: quad-precision value
- * @y: quad-precision value
- *
- * This function computes @x to the power of @y, storing the result in @res.
- * If the optional @expb is supplied, it is used to return a power of 2 by
- * which the result should be scaled.  This is useful to represent results
- * much, much bigger than double precision can handle.
- **/
 void
 SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
 		     const QUAD *x, const QUAD *y)
@@ -957,17 +844,6 @@ SUFFIX(go_quad_exp_taylor) (QUAD *res, QUAD const *x)
  * power of 2 by which the result should be scaled.  This is useful to
  * represent results much, much bigger than double precision can handle.
  **/
-/**
- * go_quad_expl:
- * @res: (out): result location
- * @expb: (out): (allow-none): power-of-base result scaling location
- * @a: quad-precision value
- *
- * This function computes the exponential function at @a, storing the result
- * in @res.  If the optional @expb is supplied, it is used to return a
- * power of 2 by which the result should be scaled.  This is useful to
- * represent results much, much bigger than double precision can handle.
- **/
 void
 SUFFIX(go_quad_exp) (QUAD *res, DOUBLE *expb, const QUAD *a)
 {
@@ -1059,14 +935,6 @@ SUFFIX(go_quad_exp) (QUAD *res, DOUBLE *expb, const QUAD *a)
  * This function computes the exponential function at @a with 1 subtracted,
  * storing the difference in @res.
  **/
-/**
- * go_quad_expm1l:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the exponential function at @a with 1 subtracted,
- * storing the difference in @res.
- **/
 void
 SUFFIX(go_quad_expm1) (QUAD *res, const QUAD *a)
 {
@@ -1090,14 +958,6 @@ SUFFIX(go_quad_expm1) (QUAD *res, const QUAD *a)
 
 /**
  * go_quad_log:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the natural logarithm at @a, storing the result
- * in @res.
- **/
-/**
- * go_quad_logl:
  * @res: (out): result location
  * @a: quad-precision value
  *
@@ -1131,15 +991,6 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
 
 /**
  * go_quad_hypot:
- * @res: (out): result location
- * @a: quad-precision value
- * @b: quad-precision value
- *
- * This function computes the square root of @a^2 plus @b^2, storing the
- * result in @res.
- **/
-/**
- * go_quad_hypotl:
  * @res: (out): result location
  * @a: quad-precision value
  * @b: quad-precision value
@@ -1183,13 +1034,6 @@ SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 
 /**
  * go_quad_abs:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the absolute value of @a, storing the result in @res.
- **/
-/**
- * go_quad_absl:
  * @res: (out): result location
  * @a: quad-precision value
  *
@@ -1343,15 +1187,6 @@ SUFFIX(go_quad_atan2_special) (const QUAD *y, const QUAD *x, DOUBLE *f)
  * This function computes polar angle coordinate of the point (@x,@y), storing
  * the result in @res.
  **/
-/**
- * go_quad_atan2l:
- * @res: (out): result location
- * @y: quad-precision value
- * @x: quad-precision value
- *
- * This function computes polar angle coordinate of the point (@x,@y), storing
- * the result in @res.
- **/
 void
 SUFFIX(go_quad_atan2) (QUAD *res, const QUAD *y, const QUAD *x)
 {
@@ -1394,15 +1229,6 @@ SUFFIX(go_quad_atan2) (QUAD *res, const QUAD *y, const QUAD *x)
 
 /**
  * go_quad_atan2pi:
- * @res: (out): result location
- * @y: quad-precision value
- * @x: quad-precision value
- *
- * This function computes polar angle coordinate of the point (@x,@y) divided
- * by pi, storing the result in @res.
- **/
-/**
- * go_quad_atan2pil:
  * @res: (out): result location
  * @y: quad-precision value
  * @x: quad-precision value
@@ -1601,13 +1427,6 @@ SUFFIX(do_sinpi) (QUAD *res, const QUAD *a, int k)
  *
  * This function computes the sine of @a, storing the result in @res.
  **/
-/**
- * go_quad_sinl:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the sine of @a, storing the result in @res.
- **/
 void
 SUFFIX(go_quad_sin) (QUAD *res, const QUAD *a)
 {
@@ -1628,14 +1447,6 @@ SUFFIX(go_quad_sin) (QUAD *res, const QUAD *a)
  * This function computes the sine of @a times pi, storing the result in @res.
  * This is more accurate than actually doing the multiplication.
  **/
-/**
- * go_quad_sinpil:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the sine of @a times pi, storing the result in @res.
- * This is more accurate than actually doing the multiplication.
- **/
 void
 SUFFIX(go_quad_sinpi) (QUAD *res, const QUAD *a)
 {
@@ -1648,13 +1459,6 @@ SUFFIX(go_quad_sinpi) (QUAD *res, const QUAD *a)
 
 /**
  * go_quad_asin:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the arc sine of @a, storing the result in @res.
- **/
-/**
- * go_quad_asinl:
  * @res: (out): result location
  * @a: quad-precision value
  *
@@ -1682,13 +1486,6 @@ SUFFIX(go_quad_asin) (QUAD *res, const QUAD *a)
  *
  * This function computes the cosine of @a, storing the result in @res.
  **/
-/**
- * go_quad_cosl:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the cosine of @a, storing the result in @res.
- **/
 void
 SUFFIX(go_quad_cos) (QUAD *res, const QUAD *a)
 {
@@ -1709,14 +1506,6 @@ SUFFIX(go_quad_cos) (QUAD *res, const QUAD *a)
  * This function computes the cosine of @a times pi, storing the result in @res.
  * This is more accurate than actually doing the multiplication.
  **/
-/**
- * go_quad_cospil:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the cosine of @a times pi, storing the result in @res.
- * This is more accurate than actually doing the multiplication.
- **/
 void
 SUFFIX(go_quad_cospi) (QUAD *res, const QUAD *a)
 {
@@ -1729,13 +1518,6 @@ SUFFIX(go_quad_cospi) (QUAD *res, const QUAD *a)
 
 /**
  * go_quad_acos:
- * @res: (out): result location
- * @a: quad-precision value
- *
- * This function computes the arc cosine of @a, storing the result in @res.
- **/
-/**
- * go_quad_acosl:
  * @res: (out): result location
  * @a: quad-precision value
  *

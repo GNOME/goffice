@@ -256,7 +256,7 @@ go_action_combo_text_get_entry (GOActionComboText const *a)
 }
 
 /**
- * go_action_combo_text_set_entry :
+ * go_action_combo_text_set_entry:
  * @taction: @GOActionComboText
  * @text: the new text
  * @dir: #GOActionComboTextSearchDir
