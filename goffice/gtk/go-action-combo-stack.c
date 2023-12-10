@@ -209,7 +209,7 @@ check_sensitivity (GOActionComboStack *saction, unsigned old_count)
 }
 
 /**
- * go_action_combo_stack_push :
+ * go_action_combo_stack_push:
  * @act: #GOActionComboStack
  * @str: The label to push
  * @key: a key value to id the pushed item
@@ -233,7 +233,7 @@ go_action_combo_stack_push (GOActionComboStack *act,
 }
 
 /**
- * go_action_combo_stack_pop :
+ * go_action_combo_stack_pop:
  * @act: #GOActionComboStack
  * @n: count
  *
@@ -257,7 +257,7 @@ go_action_combo_stack_pop (GOActionComboStack *act, unsigned n)
 }
 
 /**
- * go_action_combo_stack_truncate :
+ * go_action_combo_stack_truncate:
  * @act: #GOActionComboStack
  * @n: maximum length
  *
@@ -290,7 +290,7 @@ go_action_combo_stack_truncate (GOActionComboStack *act, unsigned n)
  * 	Yes this interface is terrible, but we can't return the key in the
  * 	activate signal.
  *
- * NOTE : see writeup in cb_combo_changed.
+ * NOTE: see writeup in cb_combo_changed.
  **/
 gpointer
 go_action_combo_stack_selection (GOActionComboStack const *a)

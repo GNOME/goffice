@@ -45,7 +45,7 @@ typedef enum {
 
 GType go_cspline_get_type (void);
 GOCSpline *go_cspline_init (double const *x, double const *y, int n,
-				   unsigned limits, double c0, double cn);
+			    unsigned limits, double c0, double cn);
 void go_cspline_destroy (GOCSpline *sp);
 double go_cspline_get_value (GOCSpline const *sp, double x);
 double go_cspline_get_deriv (GOCSpline const *sp, double x);
@@ -64,7 +64,7 @@ struct _GOCSplinel {
 
 GType go_csplinel_get_type (void);
 GOCSplinel *go_cspline_initl (long double const *x, long double const *y, int n,
-			      unsigned limits, long double a0, long double a1);
+			      unsigned limits, long double c0, long double cn);
 void go_cspline_destroyl (GOCSplinel *sp);
 long double go_cspline_get_valuel (GOCSplinel const *sp, long double x);
 long double go_cspline_get_derivl (GOCSplinel const *sp, long double x);

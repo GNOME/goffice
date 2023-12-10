@@ -1,5 +1,5 @@
 /*
- * gog-error-bar.c :
+ * gog-error-bar.c:
  *
  * Copyright (C) 2004 Jean Brefort (jean.brefort@ac-dijon.fr)
  *
@@ -29,7 +29,7 @@
 #define CC2XML(s) ((const xmlChar *)(s))
 
 /**
- * GogErrorBarType :
+ * GogErrorBarType:
  * @GOG_ERROR_BAR_TYPE_NONE: No error bars.
  * @GOG_ERROR_BAR_TYPE_ABSOLUTE: Absolute errors.
  * @GOG_ERROR_BAR_TYPE_RELATIVE: Relative errors.
@@ -482,7 +482,7 @@ GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
 
 
 /**
- * gog_error_bar_get_bounds :
+ * gog_error_bar_get_bounds:
  * @bar: A GogErrorBar
  * @index: the index corresponding to the value which error limits are
  * @min: where the minimum value will be stored
@@ -617,7 +617,7 @@ gog_error_bar_dup		(GogErrorBar const *bar)
 }
 
 /**
- * gog_error_bar_render :
+ * gog_error_bar_render:
  * @bar: A GogErrorBar
  * @rend: A GogRenderer
  * @map:  A GogChartMap for the chart

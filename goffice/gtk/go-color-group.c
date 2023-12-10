@@ -195,7 +195,7 @@ go_color_group_fetch (char const *name, gpointer context)
 }
 
 /**
- * go_color_group_add_color :
+ * go_color_group_add_color:
  * @cg: #GOColorGroup
  * @c: the color
  *

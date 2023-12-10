@@ -1,5 +1,5 @@
 /*
- * go-data.c :
+ * go-data.c:
  *
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
@@ -174,7 +174,7 @@ go_data_dup (GOData const *src)
 }
 
 /**
- * go_data_eq :
+ * go_data_eq:
  * @a: #GOData
  * @b: #GOData
  *
@@ -200,7 +200,7 @@ go_data_eq (GOData const *a, GOData const *b)
 }
 
 /**
- * go_data_preferred_fmt :
+ * go_data_preferred_fmt:
  * @dat: #GOData
  *
  * Caller is responsible for unrefing the result.
@@ -218,7 +218,7 @@ go_data_preferred_fmt (GOData const *dat)
 }
 
 /**
- * go_data_date_conv :
+ * go_data_date_conv:
  * @dat: #GOData
  *
  * Returns: the date conventions used by the data, or %NULL if not determined.
@@ -235,11 +235,11 @@ go_data_date_conv (GOData const *dat)
 
 
 /**
- * go_data_serialize :
+ * go_data_serialize:
  * @dat: #GOData
  * @user: a gpointer describing the context.
  *
- * NOTE : This is the _source_ not the content.  (I.e., this refers to the
+ * NOTE: This is the _source_ not the content.  (I.e., this refers to the
  * expression, not its current value.)
  *
  * Returns: a string representation of the data source that the caller is
@@ -254,7 +254,7 @@ go_data_serialize (GOData const *dat, gpointer user)
 }
 
 /**
- * go_data_unserialize :
+ * go_data_unserialize:
  * @dat: #GOData
  * @str: string to parse
  * @user: a gpointer describing the context.
@@ -282,7 +282,7 @@ go_data_is_valid (GOData const *data)
 }
 
 /**
- * go_data_emit_changed :
+ * go_data_emit_changed:
  * @dat: #GOData
  *
  * protected utility to emit a 'changed' signal
@@ -705,7 +705,7 @@ double
 go_data_scalar_get_value (GODataScalar *scalar)
 {
 	GODataScalarClass const *klass = GO_DATA_SCALAR_GET_CLASS (scalar);
-	g_return_val_if_fail (klass != NULL, 0.); /* TODO : make this a nan */
+	g_return_val_if_fail (klass != NULL, 0.); /* TODO: make this a nan */
 	scalar->value = (*klass->get_value) (scalar);
 
 	return scalar->value;

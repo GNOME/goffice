@@ -1,5 +1,5 @@
 /*
- * go-geometry.c : A collection of geometry related functions.
+ * go-geometry.c: A collection of geometry related functions.
  *
  * Copyright (C) 2005 Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
  *
@@ -269,7 +269,7 @@ go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset
 }
 
 /**
- * go_direction_is_horizontal :
+ * go_direction_is_horizontal:
  * @d: #GODirection
  *
  * Returns: TRUE for GO_DIRECTION_LEFT and GO_DIRECTION_RIGHT.
@@ -281,7 +281,7 @@ go_direction_is_horizontal (GODirection d)
 }
 
 /**
- * go_direction_is_forward :
+ * go_direction_is_forward:
  * @d: #GODirection
  *
  * Returns: TRUE for GO_DIRECTION_DOWN or GO_DIRECTION_RIGHT.

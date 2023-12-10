@@ -490,6 +490,7 @@ CLEANFILES = $(BUILT_SOURCES)		\
 
 libgoffice_@GOFFICE_API_VER@_la_SOURCES = 	\
 	goffice.c		\
+	outoflinedocs.c		\
 	goffice-priv.h \
 	$(app_SOURCES) \
 	$(canvas_SOURCES) \

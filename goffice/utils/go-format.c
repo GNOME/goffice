@@ -4918,23 +4918,6 @@ SUFFIX(ilog10) (DOUBLE x)
  * layouting width does not needlessly exceed @col_width.  Optionally
  * use unicode minus instead of hyphen.
  **/
-/**
- * go_render_generall:
- * @layout: Optional #PangoLayout, probably preseeded with font attribute.
- * @str: a GString to store (not append!) the resulting string in.
- * @measure: (scope call): Function to measure width of string/layout.
- * @metrics: Font metrics corresponding to @measure.
- * @val: floating-point value.  Must be finite.
- * @col_width: intended max width of layout in the units that @measure uses.
- * A width of -1 means no restriction.
- * @unicode_minus: Use unicode minuses, not hyphens.
- * @numeral_shape: numeral shape identifier.
- * @custom_shape_flags: flags for using @numeral_shape.
- *
- * Render a floating-point value into @layout in such a way that the
- * layouting width does not needlessly exceed @col_width.  Optionally
- * use unicode minus instead of hyphen.
- **/
 void
 SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 			   GOFormatMeasure measure,
@@ -5211,27 +5194,6 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
  * use unicode minus instead of hyphen.
  * Returns: a #GOFormatNumberError
  **/
-/**
- * go_format_value_gstringl:
- * @layout: Optional PangoLayout, probably preseeded with font attribute.
- * @str: a GString to store (not append!) the resulting string in.
- * @measure: (scope call): Function to measure width of string/layout.
- * @metrics: Font metrics corresponding to @measure.
- * @fmt: #GOFormat
- * @val: floating-point value.  Must be finite.
- * @type: a format character
- * @sval: a string to append to @str after @val
- * @go_color: a color to render
- * @col_width: intended max width of layout in pango units.  -1 means
- *             no restriction.
- * @date_conv: #GODateConventions
- * @unicode_minus: Use unicode minuses, not hyphens.
- *
- * Render a floating-point value into @layout in such a way that the
- * layouting width does not needlessly exceed @col_width.  Optionally
- * use unicode minus instead of hyphen.
- * Returns: a #GOFormatNumberError
- **/
 GOFormatNumberError
 SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 				 const GOFormatMeasure measure,
@@ -5375,7 +5337,6 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
  *
  * returns: a newly allocated string containing formated value.
  **/
-
 char *
 SUFFIX(go_format_value) (GOFormat const *fmt, DOUBLE val)
 {
@@ -5746,7 +5707,7 @@ make_frobbed_format (char *str, const GOFormat *fmt)
 }
 
 /**
- * go_format_inc_precision :
+ * go_format_inc_precision:
  * @fmt: #GOFormat
  *
  * Increases the displayed precision for @fmt by one digit.
@@ -5854,7 +5815,7 @@ go_format_inc_precision (GOFormat const *fmt)
 }
 
 /**
- * go_format_dec_precision :
+ * go_format_dec_precision:
  * @fmt: #GOFormat
  *
  * Decreases the displayed precision for @fmt by one digit.
@@ -6205,7 +6166,7 @@ go_format_parse_markup (char *str)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_new_from_XL :
+ * go_format_new_from_XL:
  * @str: XL descriptor in UTF-8 encoding.
  *
  * Returns: Looks up and potentially creates a GOFormat from the supplied
@@ -6252,7 +6213,7 @@ go_format_new_from_XL (char const *str)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_new_markup :
+ * go_format_new_markup:
  * @markup: #PangoAttrList
  * @add_ref: boolean
  *
@@ -6310,7 +6271,7 @@ go_format_eq (GOFormat const *a, GOFormat const *b)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_ref :
+ * go_format_ref:
  * @fmt: a #GOFormat
  *
  * Adds a reference to a GOFormat.
@@ -6338,7 +6299,7 @@ go_format_ref (GOFormat const *gf_)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_unref :
+ * go_format_unref:
  * @fmt: (transfer full) (nullable): a #GOFormat
  *
  * Removes a reference to @fmt, freeing when it goes to zero.
@@ -6744,18 +6705,6 @@ go_format_new_magic (GOFormatMagic m)
 
 /**
  * go_format_specialize:
- * @fmt: the format to specialize
- * @val: the value to use
- * @type: the type of value; 'F' for numeric, 'B' for boolean, 'S' for string.
- * @inhibit_minus: (out): set to %TRUE if the format dictates that a minus
- * should be inhibited when rendering negative values.
- *
- * Returns: (transfer none): @fmt format, presumably a conditional format,
- * specialized to @value of @type.
- */
-
-/**
- * go_format_specializel:
  * @fmt: the format to specialize
  * @val: the value to use
  * @type: the type of value; 'F' for numeric, 'B' for boolean, 'S' for string.

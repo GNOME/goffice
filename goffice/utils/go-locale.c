@@ -1,5 +1,5 @@
 /*
- * go-locale.c :
+ * go-locale.c:
  *
  * Copyright (C) 1998 Chris Lahey, Miguel de Icaza
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
@@ -185,7 +185,7 @@ go_locale_get_thousand (void)
 }
 
 /**
- * go_locale_get_currency :
+ * go_locale_get_currency:
  * @precedes: a pointer to a boolean which is set to TRUE if the currency
  * 		should precede
  * @space_sep: a pointer to a boolean which is set to TRUE if the currency
@@ -418,7 +418,7 @@ go_locale_get_time_format (void)
 }
 
 /*
- * go_locale_month_before_day :
+ * go_locale_month_before_day:
  *
  * A quick utility routine to guess whether the default date format
  * uses day/month or month/day.  Returns a value of the same meaning
@@ -485,7 +485,7 @@ go_locale_month_before_day (void)
 }
 
 /**
- * go_locale_24h :
+ * go_locale_24h:
  *
  * Returns: %TRUE if the locale uses a 24h clock, %FALSE otherwise.
  */

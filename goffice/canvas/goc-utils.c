@@ -1,5 +1,5 @@
 /*
- * goc-utils.c :
+ * goc-utils.c:
  *
  * Copyright (C) 2008 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -62,7 +62,7 @@ goc_points_new (unsigned n)
 }
 
 /**
- * goc_points_ref :
+ * goc_points_ref:
  * @points: #GocPoints
  *
  * Increases the reference count of @points by 1.
@@ -144,7 +144,7 @@ goc_int_array_new (unsigned n)
 }
 
 /**
- * goc_int_array_ref :
+ * goc_int_array_ref:
  * @array: #GocIntArray
  *
  * Increases the reference count of @array by 1.

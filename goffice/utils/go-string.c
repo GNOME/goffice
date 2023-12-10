@@ -1,5 +1,5 @@
 /*
- * go-string.c : ref counted shared strings with richtext and phonetic support
+ * go-string.c: ref counted shared strings with richtext and phonetic support
  *
  * Copyright (C) 2008 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2007-2008 Morten Welinder (terra@gnome.org)
@@ -111,7 +111,7 @@ replace_rich_base_with_plain (GOStringRichImpl *rich)
 }
 
 /**
- * go_string_new_len :
+ * go_string_new_len:
  * @str: string (optionally %NULL)
  * @len: guint32
  *
@@ -180,7 +180,7 @@ go_string_new_nocopy_len (char *str, guint32 len)
 }
 
 /**
- * go_string_new :
+ * go_string_new:
  * @str: string (optionally %NULL)
  *
  * GOString duplicates @str if no string already exists.
@@ -223,7 +223,7 @@ go_string_new_rich_impl (char *str,
 		return NULL;
 	}
 
-	/* TODO : when we use a better representation for attributes (eg array
+	/* TODO: when we use a better representation for attributes (eg array
 	 * of GOFont indicies) look into sharing rich strings */
 
 	if (byte_len <= 0)

@@ -1587,28 +1587,6 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
  * values.
  * The resulting parameters are placed back into @par.
  **/
-/**
- * go_non_linear_regressionl:
- * @f: (scope call): the model function
- * @xvals: independent values.
- * @par: model parameters.
- * @yvals: dependent values.
- * @sigmas: stahdard deviations for the dependent values.
- * @x_dim: Number of data points.
- * @p_dim: Number of parameters.
- * @chi: Chi Squared of the final result.  This value is not very
- * meaningful without the sigmas.
- * @errors: MUST ALREADY BE ALLOCATED.  These are the approximated standard
- * deviation for each parameter.
- *
- * SYNOPSIS:
- *   result = non_linear_regression (f, xvals, par, yvals, sigmas,
- *                                   x_dim, p_dim, &chi, errors)
- * Non linear regression.
- * Returns: the results of the non-linear regression from the given initial
- * values.
- * The resulting parameters are placed back into @par.
- **/
 GORegressionResult
 SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 				  MATRIX xvals, /* The entire data set. */

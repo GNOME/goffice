@@ -1,5 +1,5 @@
 /*
- * go-styled-object.c :
+ * go-styled-object.c:
  *
  * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -31,7 +31,7 @@
 
 
 /**
- * GOStyledObjectClass :
+ * GOStyledObjectClass:
  * @base: base class
  * @set_style: sets the object style.
  * @get_style: returns the object current style.
@@ -203,7 +203,7 @@ go_styled_object_get_document (GOStyledObject *gso)
 }
 
 /**
- * go_styled_object_set_cairo_line :
+ * go_styled_object_set_cairo_line:
  * @so: #GOStyledObject
  * @cr: #cairo_t
  *
@@ -223,7 +223,7 @@ go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
 }
 
 /**
- * go_styled_object_fill :
+ * go_styled_object_fill:
  * @so: #GOStyledObject
  * @cr: #cairo_t
  * @preserve: whether the current path should be preserved

@@ -70,9 +70,6 @@ SUFFIX(go_accumulator_functional) (void)
 /**
  * go_accumulator_start: (skip)
  **/
-/**
- * go_accumulator_startl: (skip)
- **/
 void *
 SUFFIX(go_accumulator_start) (void)
 {
@@ -88,9 +85,6 @@ SUFFIX(go_accumulator_end) (void *state)
 /**
  * go_accumulator_new: (skip)
  **/
-/**
- * go_accumulator_newl: (skip)
- **/
 ACC *
 SUFFIX(go_accumulator_new) (void)
 {
@@ -101,9 +95,6 @@ SUFFIX(go_accumulator_new) (void)
 
 /**
  * go_accumulator_free: (skip)
- **/
-/**
- * go_accumulator_freel: (skip)
  **/
 void
 SUFFIX(go_accumulator_free) (ACC *acc)
@@ -117,9 +108,6 @@ SUFFIX(go_accumulator_free) (ACC *acc)
 /**
  * go_accumulator_clear: (skip)
  **/
-/**
- * go_accumulator_clearl: (skip)
- **/
 void
 SUFFIX(go_accumulator_clear) (ACC *acc)
 {
@@ -129,9 +117,6 @@ SUFFIX(go_accumulator_clear) (ACC *acc)
 
 /**
  * go_accumulator_add: (skip)
- **/
-/**
- * go_accumulator_addl: (skip)
  **/
 void
 SUFFIX(go_accumulator_add) (ACC *acc, DOUBLE x)
@@ -168,9 +153,6 @@ SUFFIX(go_accumulator_add) (ACC *acc, DOUBLE x)
 /**
  * go_accumulator_add_quad: (skip)
  **/
-/**
- * go_accumulator_add_quadl: (skip)
- **/
 void
 SUFFIX(go_accumulator_add_quad) (ACC *acc, const SUFFIX(GOQuad) *x)
 {
@@ -183,9 +165,6 @@ SUFFIX(go_accumulator_add_quad) (ACC *acc, const SUFFIX(GOQuad) *x)
 
 /**
  * go_accumulator_value: (skip)
- **/
-/**
- * go_accumulator_valuel: (skip)
  **/
 DOUBLE
 SUFFIX(go_accumulator_value) (ACC *acc)
