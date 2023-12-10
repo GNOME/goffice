@@ -25,6 +25,7 @@
 #undef DOUBLE_MIN
 #undef DOUBLE_RADIX
 #undef STRTO
+#undef UNSCALBN
 #undef CONST
 #undef FORMAT_e
 #undef FORMAT_f
@@ -47,6 +48,7 @@
   #define DOUBLE_MIN DBL_MIN
   #define DOUBLE_RADIX FLT_RADIX
   #define STRTO go_strtod
+  #define UNSCALBN frexp
   #define CONST(c) c
   #define FORMAT_e "e"
   #define FORMAT_f "f"
@@ -70,6 +72,7 @@
   #define DOUBLE_MIN LDBL_MIN
   #define DOUBLE_RADIX FLT_RADIX
   #define STRTO go_strtold
+  #define UNSCALBN frexpl
   #define CONST(_c) _c ## l
   #define FORMAT_e "Le"
   #define FORMAT_f "Lf"
@@ -93,6 +96,7 @@
   #define DOUBLE_MIN DECIMAL64_MIN
   #define DOUBLE_RADIX 10
   #define STRTO go_strtoDd
+  #define UNSCALBN unscalbnD
   #define CONST(_c) _c ## dd
   #define FORMAT_e "We"
   #define FORMAT_f "Wf"
