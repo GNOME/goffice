@@ -42,7 +42,7 @@
 // asinhD          A         *         *
 // atanD           A         *         *
 // atan2D          *         *         *
-// atanhD          D         *         *
+// atanhD          A         A-        *
 // cbrtD           A         A-        *
 // ceilD           A         A         A
 // copysignD       A         A         A
@@ -974,10 +974,14 @@ tanhD (_Decimal64 x)
 _Decimal64
 atanhD (_Decimal64 x)
 {
+	_Decimal64 ax = fabsD (x);
 	// No need to handle overflow because the domain is ]-1;+1[
-	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+	if (ax <= DECIMAL64_EPSILON) {
+		// x - x^3/3 + ...
 		return x;
-	else
+	} else if (ax > 0.9dd && ax < 1) {
+		return log1pD (2 * x / (1 - x)) / 2;
+	} else
 		return atanh (x);
 }
 
