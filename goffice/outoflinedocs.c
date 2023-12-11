@@ -778,7 +778,7 @@
  *
  * This function computes the exponential function at @a, storing the result
  * in @res.  If the optional @expb is supplied, it is used to return a
- * power of 2 by which the result should be scaled.  This is useful to
+ * power of radix by which the result should be scaled.  This is useful to
  * represent results much, much bigger than double precision can handle.
  **/
 
@@ -790,7 +790,7 @@
  *
  * This function computes the exponential function at @a, storing the result
  * in @res.  If the optional @expb is supplied, it is used to return a
- * power of 2 by which the result should be scaled.  This is useful to
+ * power of radix by which the result should be scaled.  This is useful to
  * represent results much, much bigger than double precision can handle.
  **/
 
@@ -1134,9 +1134,11 @@
  * @y: quad-precision value
  *
  * This function computes @x to the power of @y, storing the result in @res.
- * If the optional @expb is supplied, it is used to return a power of 2 by
- * which the result should be scaled.  This is useful to represent results
- * much, much bigger than double precision can handle.
+ * If the optional @expb is supplied, it is used to return a power of radix
+ * by which the result should be scaled.  Such scaling can be done with the
+ * scalbn function, typically after combining multiple such terms.  This is
+ * useful to represent results much, much bigger than double precision can
+ * handle.
  **/
 
 /**
@@ -1147,9 +1149,11 @@
  * @y: quad-precision value
  *
  * This function computes @x to the power of @y, storing the result in @res.
- * If the optional @expb is supplied, it is used to return a power of 2 by
- * which the result should be scaled.  This is useful to represent results
- * much, much bigger than double precision can handle.
+ * If the optional @expb is supplied, it is used to return a power of radix
+ * by which the result should be scaled.  Such scaling can be done with the
+ * scalbn function, typically after combining multiple such terms.  This is
+ * useful to represent results much, much bigger than double precision can
+ * handle.
  **/
 
 /**

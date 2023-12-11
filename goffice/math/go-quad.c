@@ -475,6 +475,27 @@ SUFFIX(go_quad_div) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->l = c.h - res->h + c.l;
 }
 
+static int
+SUFFIX(go_quad_compare) (const QUAD *a, const QUAD *b)
+{
+	QUAD d;
+	int sa = a->h < 0;
+	int sb = b->h < 0;
+
+	if (sa != sb)
+		return sa ? -1 : +1;
+
+	// Same sign, so no overflow on subtraction.
+	SUFFIX(go_quad_sub) (&d, a, b);
+	if (d.h > 0)
+		return +1;
+	else if (d.h == 0)
+		return 0;
+	else
+		return -1;
+}
+
+
 void
 SUFFIX(go_quad_scalbn) (QUAD *res, const QUAD *a, int n)
 {
@@ -582,6 +603,7 @@ SUFFIX(go_quad_constant8) (QUAD *res, const guint8 *data, gsize n,
 	SUFFIX(go_quad_mul) (res, res, &q);
 }
 
+#if DOUBLE_RADIX == 2
 static void
 SUFFIX(rescale2) (QUAD *x, DOUBLE *e)
 {
@@ -595,8 +617,9 @@ SUFFIX(rescale2) (QUAD *x, DOUBLE *e)
 		*e += xe;
 	}
 }
+#endif
 
-
+#if DOUBLE_RADIX == 2
 static void
 SUFFIX(go_quad_pow_int) (QUAD *res, DOUBLE *exp2, const QUAD *x, const QUAD *y)
 {
@@ -628,6 +651,7 @@ SUFFIX(go_quad_pow_int) (QUAD *res, DOUBLE *exp2, const QUAD *x, const QUAD *y)
 		SUFFIX(rescale2) (&xn, &xe);
 	}
 }
+#endif
 
 static void
 SUFFIX(go_quad_sqrt1pm1) (QUAD *res, const QUAD *a)
@@ -742,28 +766,39 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
  * @y: quad-precision value
  *
  * This function computes @x to the power of @y, storing the result in @res.
- * If the optional @expb is supplied, it is used to return a power of 2 by
- * which the result should be scaled.  This is useful to represent results
- * much, much bigger than double precision can handle.
+ * If the optional @expb is supplied, it is used to return a power of radix
+ * by which the result should be scaled.  Such scaling can be done with the
+ * scalbn function, typically after combining multiple such terms.  This is
+ * useful to represent results much, much bigger than double precision can
+ * handle.
  **/
 void
-SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
+SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 		     const QUAD *x, const QUAD *y)
 {
+	if (expb) *expb = 0;
+
+	if (y->h == 0 || SUFFIX(go_quad_compare) (x, &SUFFIX(go_quad_one)) == 0)
+		return (void)(*res = SUFFIX(go_quad_one));
+	if (x->h == 0 && y->h > 0)
+		return (void)(*res = SUFFIX(go_quad_zero));
+	if (SUFFIX(isnan) (x->h))
+		return (void)(*res = *x);
+	if (SUFFIX(isnan) (y->h))
+		return (void)(*res = *y);
+	if (SUFFIX(go_quad_compare) (y, &SUFFIX(go_quad_one)) == 0)
+		return (void)(*res = *x);
+	if (x->h > 0 && SUFFIX(go_quad_compare) (y, &SUFFIX(go_quad_half)) == 0)
+		return SUFFIX(go_quad_sqrt) (res, x);
+
+#if DOUBLE_RADIX == 2
+	// "this is a base-2 algorithm"
 	DOUBLE dy, exp2ew;
 	QUAD qw, qf, qew, qef, qxm1;
 
-#if DOUBLE_RADIX != 2
-#warning "this is a base-2 algorithm"
-#endif
 	dy = SUFFIX(go_quad_value) (y);
 
 	SUFFIX(go_quad_sub) (&qxm1, x, &SUFFIX(go_quad_one));
-	if (SUFFIX(go_quad_value) (&qxm1) == 0 || dy == 0) {
-		*res = SUFFIX(go_quad_one);
-		if (exp2) *exp2 = 0;
-		return;
-	}
 
 	SUFFIX(go_quad_floor) (&qw, y);
 	SUFFIX(go_quad_sub) (&qf, y, &qw);
@@ -778,7 +813,6 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
 			/* 0 ^ y, y positive, but not odd integer */
 			*res = SUFFIX(go_quad_zero);
 		}
-		if (exp2) *exp2 = 0;
 		return;
 	}
 
@@ -787,9 +821,9 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
 	if (dy < 0) {
 		QUAD my;
 		SUFFIX(go_quad_sub) (&my, &SUFFIX(go_quad_zero), y);
-		SUFFIX(go_quad_pow) (res, exp2, x, &my);
+		SUFFIX(go_quad_pow) (res, expb, x, &my);
 		SUFFIX(go_quad_div) (res, &SUFFIX(go_quad_one), res);
-		if (exp2) *exp2 = 0 - *exp2;
+		if (expb) *expb = 0 - *expb;
 		return;
 	}
 
@@ -797,14 +831,19 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *exp2,
 	SUFFIX(go_quad_pow_frac) (&qef, x, &qf, FALSE);
 
 	SUFFIX(go_quad_mul) (res, &qew, &qef);
-	if (exp2)
-		*exp2 = exp2ew;
+	if (expb)
+		*expb = exp2ew;
 	else {
-		QUAD qs;
 		int e = CLAMP (exp2ew, G_MININT, G_MAXINT);
-		SUFFIX(go_quad_init) (&qs, SUFFIX(ldexp)(1.0, e));
-		SUFFIX(go_quad_mul) (res, res, &qs);
+		SUFFIX(go_quad_scalbn) (res, res, e);
 	}
+#else
+	QUAD lx;
+
+	SUFFIX(go_quad_log) (&lx, x);
+	SUFFIX(go_quad_mul) (&lx, &lx, y);
+	SUFFIX(go_quad_exp) (res, expb, &lx);
+#endif
 }
 
 #if DOUBLE_RADIX == 10
@@ -848,7 +887,7 @@ SUFFIX(go_quad_exp_taylor) (QUAD *res, QUAD const *x)
  *
  * This function computes the exponential function at @a, storing the result
  * in @res.  If the optional @expb is supplied, it is used to return a
- * power of 2 by which the result should be scaled.  This is useful to
+ * power of radix by which the result should be scaled.  This is useful to
  * represent results much, much bigger than double precision can handle.
  **/
 void
