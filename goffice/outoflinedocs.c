@@ -1111,6 +1111,22 @@
  **/
 
 /**
+ * go_quad_negateD:
+ * @res: (out): result location
+ * @a: quad-precision value
+ *
+ * This function negates @a and stores the result in @res.
+ **/
+
+/**
+ * go_quad_negatel:
+ * @res: (out): result location
+ * @a: quad-precision value
+ *
+ * This function negates @a and stores the result in @res.
+ **/
+
+/**
  * go_quad_powD:
  * @res: (out): result location
  * @expb: (out): (allow-none): power-of-base result scaling location

@@ -244,6 +244,12 @@ SUFFIX(go_quad_start) (void)
 					   base,
 					   2 * base);
 
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_pihalf),
+					   SUFFIX(pi_digits),
+					   G_N_ELEMENTS (SUFFIX(pi_digits)),
+					   base,
+					   base / 2);
+
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_e),
 					   SUFFIX(e_digits),
 					   G_N_ELEMENTS (SUFFIX(e_digits)),
@@ -313,6 +319,7 @@ const QUAD SUFFIX(go_quad_half) = { 0.5, 0 };
  */
 QUAD SUFFIX(go_quad_pi);
 QUAD SUFFIX(go_quad_2pi);
+QUAD SUFFIX(go_quad_pihalf);
 QUAD SUFFIX(go_quad_e);
 QUAD SUFFIX(go_quad_ln2);
 QUAD SUFFIX(go_quad_ln10);
@@ -1047,6 +1054,21 @@ SUFFIX(go_quad_abs) (QUAD *res, const QUAD *a)
 }
 
 
+/**
+ * go_quad_negate:
+ * @res: (out): result location
+ * @a: quad-precision value
+ *
+ * This function negates @a and stores the result in @res.
+ **/
+void
+SUFFIX(go_quad_negate) (QUAD *res, const QUAD *a)
+{
+	res->h = -a->h;
+	res->l = -a->l;
+}
+
+
 /* sqrt(1-a*a) helper */
 static void
 SUFFIX(go_quad_ihypot) (QUAD *res, const QUAD *a)
@@ -1110,7 +1132,7 @@ SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
 
 	for (n = 1; n < (int)G_N_ELEMENTS(dk); n++) {
 		SUFFIX(go_quad_add) (&dk[0], &dpk[0], &gp);
-		dk[0].h *= HALF; dk[0].l *= HALF;
+		SUFFIX(go_quad_mul) (&dk[0], &dk[0], &SUFFIX(go_quad_half));
 
 		SUFFIX(go_quad_mul) (&g, &dk[0], &gp);
 		SUFFIX(go_quad_sqrt) (&g, &g);
@@ -1206,15 +1228,14 @@ SUFFIX(go_quad_atan2) (QUAD *res, const QUAD *y, const QUAD *x)
 		SUFFIX(go_quad_div) (&qr, y, x);
 		SUFFIX(go_quad_agm_internal) (res, AGM_ARCTAN, &qr);
 	} else {
-		DOUBLE f;
 		QUAD qa;
 
 		SUFFIX(go_quad_div) (&qr, x, y);
 		SUFFIX(go_quad_agm_internal) (res, AGM_ARCTAN, &qr);
 
-		f = (qr.h >= 0) ? HALF : -HALF;
-		qa.h = f * SUFFIX(go_quad_pi).h;
-		qa.l = f * SUFFIX(go_quad_pi).l;
+		qa = SUFFIX(go_quad_pihalf);
+		if (qr.h < 0)
+			SUFFIX(go_quad_negate) (&qa, &qa);
 		SUFFIX(go_quad_sub) (res, &qa, res);
 	}
 
@@ -1254,8 +1275,7 @@ SUFFIX(go_quad_atan2pi) (QUAD *res, const QUAD *y, const QUAD *x)
 static gboolean
 SUFFIX(reduce_pi_half) (QUAD *res, const QUAD *a, int *pk)
 {
-	static QUAD pi_half;
-	QUAD qa, qk, qh, qb;
+	QUAD qa, qk, qb;
 	DOUBLE k;
 	unsigned ui;
 	static const DOUBLE pi_half_parts[] = {
@@ -1292,12 +1312,8 @@ SUFFIX(reduce_pi_half) (QUAD *res, const QUAD *a, int *pk)
 		return TRUE;
 	}
 
-	if (pi_half.h == 0)
-		SUFFIX(go_quad_mul) (&pi_half, &SUFFIX(go_quad_pi), &SUFFIX(go_quad_half));
-
-	SUFFIX(go_quad_div) (&qk, a, &pi_half);
-	qh.h = HALF; qh.l = 0;
-	SUFFIX(go_quad_add) (&qk, &qk, &qh);
+	SUFFIX(go_quad_div) (&qk, a, &SUFFIX(go_quad_pihalf));
+	SUFFIX(go_quad_add) (&qk, &qk, &SUFFIX(go_quad_half));
 	SUFFIX(go_quad_floor) (&qk, &qk);
 	k = SUFFIX(go_quad_value) (&qk);
 	*pk = (int)(SUFFIX(fmod) (k, 4));
@@ -1321,9 +1337,9 @@ SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
 
 	if (a->h < 0) {
 		QUAD aa;
-		aa.h = -a->h; aa.l = -a->l;
+		SUFFIX(go_quad_negate) (&aa, a);
 		SUFFIX(reduce_half) (&qxr, &aa, &k);
-		qxr.h = -qxr.h; qxr.l = -qxr.l;
+		SUFFIX(go_quad_negate) (&qxr, &qxr);
 		k = 4 - k;
 		if (qxr.h <= (DOUBLE)-0.25 && qxr.l == 0) {
 			SUFFIX(go_quad_add) (&qxr, &qxr, &SUFFIX(go_quad_half));
