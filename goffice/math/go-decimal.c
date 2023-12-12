@@ -980,7 +980,8 @@ atanhD (_Decimal64 x)
 		// x - x^3/3 + ...
 		return x;
 	} else if (ax > 0.9dd && ax < 1) {
-		return log1pD (2 * x / (1 - x)) / 2;
+		_Decimal64 y = log1pD (2 * ax / (1 - ax)) / 2;
+		return copysignD (y, x);
 	} else
 		return atanh (x);
 }
