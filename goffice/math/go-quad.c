@@ -120,7 +120,7 @@ static DOUBLE SUFFIX(CST);
  * for sunos' long double.
  */
 
-static const guint8 pi_hex_digits[] = {
+static const guint8 pi_digits[] = {
 	0x03, 0x24, 0x3f, 0x6a, 0x88, 0x85, 0xa3, 0x08,
 	0xd3, 0x13, 0x19, 0x8a, 0x2e, 0x03, 0x70, 0x73,
 	0x44, 0xa4, 0x09, 0x38, 0x22, 0x29, 0x9f, 0x31,
@@ -130,7 +130,7 @@ static const guint8 pi_hex_digits[] = {
 	0x6c, 0xc0, 0xac
 };
 
-static const guint8 e_hex_digits[] = {
+static const guint8 e_digits[] = {
 	0x02, 0xb7, 0xe1, 0x51, 0x62, 0x8a, 0xed, 0x2a,
 	0x6a, 0xbf, 0x71, 0x58, 0x80, 0x9c, 0xf4, 0xf3,
 	0xc7, 0x62, 0xe7, 0x16, 0x0f, 0x38, 0xb4, 0xda,
@@ -140,7 +140,7 @@ static const guint8 e_hex_digits[] = {
 	0x63, 0xda, 0x06
 };
 
-static const guint8 ln2_hex_digits[] = {
+static const guint8 ln2_digits[] = {
 	0xb1, 0x72, 0x17, 0xf7, 0xd1, 0xcf, 0x79, 0xab,
 	0xc9, 0xe3, 0xb3, 0x98, 0x03, 0xf2, 0xf6, 0xaf,
 	0x40, 0xf3, 0x43, 0x26, 0x72, 0x98, 0xb6, 0x2d,
@@ -150,7 +150,14 @@ static const guint8 ln2_hex_digits[] = {
 	0xed, 0x2e
 };
 
-static const guint8 sqrt2_hex_digits[] = {
+static const guint8 ln10_digits[] = {
+	0x02, 0x4d, 0x76, 0x37, 0x76, 0xaa, 0xa2, 0xb0,
+	0x5b, 0xa9, 0x5b, 0x58, 0xae, 0x0b, 0x4c, 0x28,
+	0xa3, 0x8a, 0x3f, 0xb3, 0xe7, 0x69, 0x77, 0xe4,
+	0x3a, 0x0f, 0x18, 0x7a, 0x08, 0x07, 0xc0, 0xb6
+ };
+
+static const guint8 sqrt2_digits[] = {
 	0x01, 0x6a, 0x09, 0xe6, 0x67, 0xf3, 0xbc, 0xc9,
 	0x08, 0xb2, 0xfb, 0x13, 0x66, 0xea, 0x95, 0x7d,
 	0x3e, 0x3a, 0xde, 0xc1, 0x75, 0x12, 0x77, 0x50,
@@ -160,7 +167,7 @@ static const guint8 sqrt2_hex_digits[] = {
 	0x72, 0x1e, 0xe9
 };
 
-static const guint8 euler_hex_digits[] = {
+static const guint8 euler_digits[] = {
 	0x93, 0xc4, 0x67, 0xe3, 0x7d, 0xb0, 0xc7, 0xa4,
 	0xd1, 0xbe, 0x3f, 0x81, 0x01, 0x52, 0xcb, 0x56,
 	0xa1, 0xce, 0xcc, 0x3a, 0xf6, 0x5c, 0xc0, 0x19,
@@ -209,42 +216,55 @@ SUFFIX(go_quad_start) (void)
 #endif
 
 	if (first) {
+		DOUBLE base = 256;
 		first = FALSE;
 		SUFFIX(CST) = 1 + SUFFIX(ldexp) (1.0, (DOUBLE_MANT_DIG + 1) / 2);
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_pi),
-					   pi_hex_digits,
-					   G_N_ELEMENTS (pi_hex_digits),
-					   256.0,
-					   256.0);
+					   pi_digits,
+					   G_N_ELEMENTS (pi_digits),
+					   base,
+					   base);
 
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_2pi),
-					   pi_hex_digits,
-					   G_N_ELEMENTS (pi_hex_digits),
-					   256.0,
-					   512.0);
+					   pi_digits,
+					   G_N_ELEMENTS (pi_digits),
+					   base,
+					   2 * base);
+
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_pihalf),
+					   pi_digits,
+					   G_N_ELEMENTS (pi_digits),
+					   base,
+					   base / 2);
 
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_e),
-					   e_hex_digits,
-					   G_N_ELEMENTS (e_hex_digits),
-					   256.0,
-					   256.0);
+					   e_digits,
+					   G_N_ELEMENTS (e_digits),
+					   base,
+					   base);
 
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_ln2),
-					   ln2_hex_digits,
-					   G_N_ELEMENTS (ln2_hex_digits),
-					   256.0,
+					   ln2_digits,
+					   G_N_ELEMENTS (ln2_digits),
+					   base,
+					   1);
+
+		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_ln10),
+					   ln2_digits,
+					   G_N_ELEMENTS (ln10_digits),
+					   base,
 					   1);
 
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_sqrt2),
-					   sqrt2_hex_digits,
-					   G_N_ELEMENTS (sqrt2_hex_digits),
-					   256.0,
-					   256.0);
+					   sqrt2_digits,
+					   G_N_ELEMENTS (sqrt2_digits),
+					   base,
+					   base);
 
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_euler),
-					   euler_hex_digits,
-					   G_N_ELEMENTS (euler_hex_digits),
-					   256.0,
+					   euler_digits,
+					   G_N_ELEMENTS (euler_digits),
+					   base,
 					   1);
 	}
 
@@ -283,8 +303,10 @@ const QUAD SUFFIX(go_quad_half) = { 0.5, 0 };
  */
 QUAD SUFFIX(go_quad_pi);
 QUAD SUFFIX(go_quad_2pi);
+QUAD SUFFIX(go_quad_pihalf);
 QUAD SUFFIX(go_quad_e);
 QUAD SUFFIX(go_quad_ln2);
+QUAD SUFFIX(go_quad_ln10);
 QUAD SUFFIX(go_quad_sqrt2);
 QUAD SUFFIX(go_quad_euler);
 
@@ -855,34 +877,32 @@ void
 SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 {
 	int e;
-	QUAD qa2, qb2, qn;
+	QUAD qa, qb, qn;
 
-	if (a->h == 0) {
-		res->h = SUFFIX(fabs)(b->h);
-		res->l = SUFFIX(fabs)(b->l);
-		return;
-	}
-	if (b->h == 0) {
-		res->h = SUFFIX(fabs)(a->h);
-		res->l = SUFFIX(fabs)(a->l);
-		return;
-	}
+	SUFFIX(go_quad_abs)(&qa, a);
+	SUFFIX(go_quad_abs)(&qb, b);
+
+	if (qa.h == 0)
+		return (void)(*res = qb);
+	if (qb.h == 0)
+		return (void)(*res = qa);
+	if (qa.h == (DOUBLE)INFINITY || qb.h == (DOUBLE)INFINITY)
+		return SUFFIX(go_quad_init) (res, INFINITY);
+	if (SUFFIX(isnan) (qa.h) || SUFFIX(isnan) (qb.h))
+		return SUFFIX(go_quad_init) (res, NAN);
 
 	/* Scale by power of 2 to protect against over- and underflow */
 	(void)SUFFIX(frexp) (MAX (SUFFIX(fabs) (a->h), SUFFIX(fabs) (b->h)), &e);
 
-	qa2.h = SUFFIX(ldexp) (a->h, -e);
-	qa2.l = SUFFIX(ldexp) (a->l, -e);
-	SUFFIX(go_quad_mul) (&qa2, &qa2, &qa2);
+	SUFFIX(go_quad_scalbn) (&qa, a, -e);
+	SUFFIX(go_quad_mul) (&qa, &qa, &qa);
 
-	qb2.h = SUFFIX(ldexp) (b->h, -e);
-	qb2.l = SUFFIX(ldexp) (b->l, -e);
-	SUFFIX(go_quad_mul) (&qb2, &qb2, &qb2);
+	SUFFIX(go_quad_scalbn) (&qb, b, -e);
+	SUFFIX(go_quad_mul) (&qb, &qb, &qb);
 
-	SUFFIX(go_quad_add) (&qn, &qa2, &qb2);
+	SUFFIX(go_quad_add) (&qn, &qa, &qb);
 	SUFFIX(go_quad_sqrt) (&qn, &qn);
-	res->h = SUFFIX(ldexp) (qn.h, e);
-	res->l = SUFFIX(ldexp) (qn.l, e);
+	SUFFIX(go_quad_scalbn) (res, &qn, e);
 }
 
 /**
@@ -897,6 +917,21 @@ SUFFIX(go_quad_abs) (QUAD *res, const QUAD *a)
 {
 	res->h = SUFFIX(fabs)(a->h);
 	res->l = SUFFIX(fabs)(a->l);
+}
+
+
+/**
+ * go_quad_negate:
+ * @res: (out): result location
+ * @a: quad-precision value
+ *
+ * This function negates @a and stores the result in @res.
+ **/
+void
+SUFFIX(go_quad_negate) (QUAD *res, const QUAD *a)
+{
+	res->h = -a->h;
+	res->l = -a->l;
 }
 
 
@@ -1162,9 +1197,9 @@ SUFFIX(reduce_half) (QUAD *res, const QUAD *a, int *pk)
 
 	if (a->h < 0) {
 		QUAD aa;
-		aa.h = -a->h; aa.l = -a->l;
+		SUFFIX(go_quad_negate) (&aa, a);
 		SUFFIX(reduce_half) (&qxr, &aa, &k);
-		qxr.h = -qxr.h; qxr.l = -qxr.l;
+		SUFFIX(go_quad_negate) (&qxr, &qxr);
 		k = 4 - k;
 		if (qxr.h <= -0.25 && qxr.l == 0) {
 			SUFFIX(go_quad_add) (&qxr, &qxr, &SUFFIX(go_quad_half));

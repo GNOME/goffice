@@ -30,6 +30,7 @@ void go_quad_expm1 (GOQuad *res, const GOQuad *a);
 void go_quad_log (GOQuad *res, const GOQuad *a);
 void go_quad_hypot (GOQuad *res, const GOQuad *a, const GOQuad *b);
 void go_quad_abs (GOQuad *res, const GOQuad *a);
+void go_quad_negate (GOQuad *res, const GOQuad *a);
 
 void go_quad_sin (GOQuad *res, const GOQuad *a);
 void go_quad_sinpi (GOQuad *res, const GOQuad *a);
@@ -55,8 +56,10 @@ GO_VAR_DECL const GOQuad go_quad_one;
 GO_VAR_DECL const GOQuad go_quad_half;
 GO_VAR_DECL GO_QUAD_IMPL GOQuad go_quad_pi;
 GO_VAR_DECL GO_QUAD_IMPL GOQuad go_quad_2pi;
+GO_VAR_DECL GO_QUAD_IMPL GOQuad go_quad_pihalf;
 GO_VAR_DECL GO_QUAD_IMPL GOQuad go_quad_e;
 GO_VAR_DECL GO_QUAD_IMPL GOQuad go_quad_ln2;
+GO_VAR_DECL GO_QUAD_IMPL GOQuad go_quad_ln10;
 GO_VAR_DECL GO_QUAD_IMPL GOQuad go_quad_sqrt2;
 GO_VAR_DECL GO_QUAD_IMPL GOQuad go_quad_euler;
 
@@ -86,6 +89,7 @@ void go_quad_expm1l (GOQuadl *res, const GOQuadl *a);
 void go_quad_logl (GOQuadl *res, const GOQuadl *a);
 void go_quad_hypotl (GOQuadl *res, const GOQuadl *a, const GOQuadl *b);
 void go_quad_absl (GOQuadl *res, const GOQuadl *a);
+void go_quad_negatel (GOQuadl *res, const GOQuadl *a);
 
 void go_quad_sinl (GOQuadl *res, const GOQuadl *a);
 void go_quad_sinpil (GOQuadl *res, const GOQuadl *a);
@@ -108,8 +112,10 @@ GO_VAR_DECL const GOQuadl go_quad_onel;
 GO_VAR_DECL const GOQuadl go_quad_halfl;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_pil;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_2pil;
+GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_pihalfl;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_el;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_ln2l;
+GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_ln10l;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_sqrt2l;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadl go_quad_eulerl;
 
