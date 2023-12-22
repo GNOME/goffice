@@ -42,16 +42,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2022-08-29 23:25+0000\n"
-"PO-Revision-Date: 2023-09-13 11:20+0200\n"
-"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
-"Language-Team: Deutsch <gnome-de@gnome.org>\n"
+"POT-Creation-Date: 2023-12-10 21:25+0000\n"
+"PO-Revision-Date: 2023-12-22 14:22+0100\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
+"Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.4.1\n"
 "X-Project-Style: gnome\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -480,7 +480,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Die Aufräumfunktion im Plugin gab einen Fehler zurück."
 
 #: ../goffice/app/go-plugin-service.c:229 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5521
+#: ../goffice/utils/go-format.c:1040 ../goffice/utils/go-format.c:5486
 msgid "General"
 msgstr "Allgemein"
 
@@ -644,12 +644,41 @@ msgstr "Endpfeil"
 msgid "Arrow for line's end"
 msgstr "Pfeil für Linienende"
 
+#: ../goffice/canvas/goc-canvas.c:365 ../goffice/canvas/goc-component.c:309
+#: ../goffice/canvas/goc-component.c:310 ../goffice/canvas/goc-ellipse.c:291
+#: ../goffice/canvas/goc-graph.c:476 ../goffice/canvas/goc-graph.c:477
+#: ../goffice/canvas/goc-image.c:300 ../goffice/canvas/goc-pixbuf.c:247
+#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:840
+#: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-graph.c:499
+#: ../goffice/graph/gog-object.c:207 ../goffice/utils/go-image.c:510
+#: ../plugins/plot_xy/gog-xy-dropbar.c:308
+msgid "Width"
+msgstr "Breite"
+
+#: ../goffice/canvas/goc-canvas.c:366
+msgid "The width of the canvas"
+msgstr "Die Breite der Zeichenfläche"
+
+#: ../goffice/canvas/goc-canvas.c:371 ../goffice/canvas/goc-component.c:303
+#: ../goffice/canvas/goc-component.c:304 ../goffice/canvas/goc-ellipse.c:297
+#: ../goffice/canvas/goc-graph.c:470 ../goffice/canvas/goc-graph.c:471
+#: ../goffice/canvas/goc-image.c:306 ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:846
+#: ../goffice/graph/gog-graph.c:505 ../goffice/graph/gog-object.c:209
+#: ../goffice/utils/go-image.c:514
+msgid "Height"
+msgstr "Höhe"
+
+#: ../goffice/canvas/goc-canvas.c:372
+msgid "The height of the canvas"
+msgstr "Die Höhe der Zeichenfläche"
+
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:454
+#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:458
 #: ../goffice/canvas/goc-group.c:294 ../goffice/canvas/goc-image.c:288
 #: ../goffice/canvas/goc-path.c:294 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:468
-#: ../goffice/canvas/goc-widget.c:820 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-widget.c:827 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -658,11 +687,11 @@ msgid "The circle center horizontal position"
 msgstr "Die horizontale Position des Kreismittelpunkts"
 
 #: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:460
+#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:464
 #: ../goffice/canvas/goc-group.c:300 ../goffice/canvas/goc-image.c:294
 #: ../goffice/canvas/goc-path.c:300 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:474
-#: ../goffice/canvas/goc-widget.c:826
+#: ../goffice/canvas/goc-widget.c:833
 msgid "y"
 msgstr "y"
 
@@ -685,25 +714,6 @@ msgstr "Die linke Position des Elements"
 #: ../goffice/canvas/goc-component.c:298
 msgid "The object top position"
 msgstr "Die obere Position des Elements"
-
-#: ../goffice/canvas/goc-component.c:303 ../goffice/canvas/goc-component.c:304
-#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:466
-#: ../goffice/canvas/goc-graph.c:467 ../goffice/canvas/goc-image.c:306
-#: ../goffice/canvas/goc-pixbuf.c:253 ../goffice/canvas/goc-rectangle.c:356
-#: ../goffice/canvas/goc-widget.c:839 ../goffice/graph/gog-graph.c:505
-#: ../goffice/graph/gog-object.c:209 ../goffice/utils/go-image.c:514
-msgid "Height"
-msgstr "Höhe"
-
-#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-component.c:310
-#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:472
-#: ../goffice/canvas/goc-graph.c:473 ../goffice/canvas/goc-image.c:300
-#: ../goffice/canvas/goc-pixbuf.c:247 ../goffice/canvas/goc-rectangle.c:350
-#: ../goffice/canvas/goc-widget.c:833 ../goffice/graph/gog-color-scale.c:340
-#: ../goffice/graph/gog-graph.c:499 ../goffice/graph/gog-object.c:207
-#: ../goffice/utils/go-image.c:510 ../plugins/plot_xy/gog-xy-dropbar.c:308
-msgid "Width"
-msgstr "Breite"
 
 #: ../goffice/canvas/goc-component.c:316
 msgid "The rotation around center"
@@ -739,36 +749,36 @@ msgid "The rotation around top left position"
 msgstr "Die Drehung um die linke obere Position"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
-#: ../goffice/canvas/goc-graph.c:386
+#: ../goffice/canvas/goc-graph.c:390
 #, c-format
 msgid "(%s,%s)"
 msgstr "(%s;%s)"
 
-#: ../goffice/canvas/goc-graph.c:455
+#: ../goffice/canvas/goc-graph.c:459
 msgid "The graph left position"
 msgstr "Die linke Position des Diagramms"
 
-#: ../goffice/canvas/goc-graph.c:461
+#: ../goffice/canvas/goc-graph.c:465
 msgid "The graph top position"
 msgstr "Die obere Position des Diagramms"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:478 ../goffice/graph/gog-graph.c:258
+#: ../goffice/canvas/goc-graph.c:482 ../goffice/graph/gog-graph.c:258
 #: ../goffice/graph/gog-graph.c:531 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Ausgabe"
 
-#: ../goffice/canvas/goc-graph.c:479
+#: ../goffice/canvas/goc-graph.c:483
 msgid "The GogGraph this object displays"
 msgstr "Das von diesem Objekt dargestellte GogGraph"
 
-#: ../goffice/canvas/goc-graph.c:484 ../goffice/graph/gog-graph.c:1075
+#: ../goffice/canvas/goc-graph.c:488 ../goffice/graph/gog-graph.c:1075
 msgid "Renderer"
 msgstr "Darsteller"
 
-#: ../goffice/canvas/goc-graph.c:485
+#: ../goffice/canvas/goc-graph.c:489
 msgid "The GogRenderer being displayed"
 msgstr "Der dargestellte GogRenderer"
 
@@ -1096,27 +1106,27 @@ msgstr "Umbruchbreite"
 msgid "Wrap width for the text"
 msgstr "Umbruchbreite für den Text"
 
-#: ../goffice/canvas/goc-widget.c:814
+#: ../goffice/canvas/goc-widget.c:821
 msgid "Widget"
 msgstr "Element"
 
-#: ../goffice/canvas/goc-widget.c:815
+#: ../goffice/canvas/goc-widget.c:822
 msgid "A pointer to the embedded widget"
 msgstr "Ein Verweis auf das eingebettete Element"
 
-#: ../goffice/canvas/goc-widget.c:821
+#: ../goffice/canvas/goc-widget.c:828
 msgid "The widget left position"
 msgstr "Die linke Position des Elements"
 
-#: ../goffice/canvas/goc-widget.c:827
+#: ../goffice/canvas/goc-widget.c:834
 msgid "The widget top position"
 msgstr "Die obere Position des Elements"
 
-#: ../goffice/canvas/goc-widget.c:834
+#: ../goffice/canvas/goc-widget.c:841
 msgid "The widget width"
 msgstr "Die Breite des Elements"
 
-#: ../goffice/canvas/goc-widget.c:840
+#: ../goffice/canvas/goc-widget.c:847
 msgid "The widget height"
 msgstr "Die Höhe des Elements"
 
@@ -1430,7 +1440,7 @@ msgid "Color"
 msgstr "Farbe"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#: ../goffice/graph/gog-guru.c:1032 ../goffice/graph/gog-series.c:595
+#: ../goffice/graph/gog-guru.c:1029 ../goffice/graph/gog-series.c:595
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "Name"
@@ -1887,7 +1897,7 @@ msgstr "Rechts"
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2110
+#: ../plugins/plot_xy/gog-xy.c:2101
 msgid "Details"
 msgstr "Details"
 
@@ -1935,7 +1945,7 @@ msgstr "Richtung:"
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:4
 #: ../plugins/plot_distrib/gog-boxplot.c:395
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:9
-#: ../plugins/plot_distrib/gog-histogram.c:372
+#: ../plugins/plot_distrib/gog-histogram.c:373
 msgid "Vertical"
 msgstr "Vertikal"
 
@@ -2004,7 +2014,7 @@ msgstr "(-)"
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:9
 #: ../plugins/plot_barcol/gog-1.5d.c:372
 #: ../plugins/plot_distrib/gog-boxplot.c:428
-#: ../plugins/plot_distrib/gog-histogram.c:400
+#: ../plugins/plot_distrib/gog-histogram.c:401
 #: ../plugins/plot_distrib/gog-probability-plot.c:317
 #: ../plugins/plot_pie/gog-pie.c:344 ../plugins/plot_radar/gog-radar.c:324
 msgid "Values"
@@ -2091,23 +2101,23 @@ msgstr "Sind Nebengitterlinien"
 msgid "Are these minor grid lines"
 msgstr "Gibt an, ob es Nebengitterlinien sind"
 
-#: ../goffice/graph/gog-guru.c:1059
+#: ../goffice/graph/gog-guru.c:1056
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Schritt 1 von 2: Diagrammtyp wählen"
 
-#: ../goffice/graph/gog-guru.c:1067
+#: ../goffice/graph/gog-guru.c:1064
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Schritt 2 von 2: Diagramm anpassen"
 
-#: ../goffice/graph/gog-guru.c:1072
+#: ../goffice/graph/gog-guru.c:1069
 msgid "Customize Chart"
 msgstr "Diagramm anpassen"
 
-#: ../goffice/graph/gog-guru.c:1147
+#: ../goffice/graph/gog-guru.c:1144
 msgid "_Insert"
 msgstr "_Einfügen"
 
-#: ../goffice/graph/gog-guru.c:1218
+#: ../goffice/graph/gog-guru.c:1215
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "_Graphtyp"
@@ -3023,7 +3033,7 @@ msgstr "Sicherungsabbild"
 #: ../plugins/plot_barcol/gog-line.c:612
 #: ../plugins/plot_barcol/gog-minmax.c:195
 #: ../plugins/plot_distrib/gog-boxplot.c:172
-#: ../plugins/plot_distrib/gog-histogram.c:343
+#: ../plugins/plot_distrib/gog-histogram.c:344
 #: ../plugins/plot_pie/gog-pie.c:279 ../plugins/plot_pie/gog-pie.c:442
 #: ../plugins/plot_radar/gog-radar.c:409 ../plugins/plot_radar/gog-radar.c:600
 #: ../plugins/plot_surface/gog-xyz.c:103
@@ -7414,7 +7424,7 @@ msgid "Error bars"
 msgstr "Fehlerbalken"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:661
-#: ../plugins/plot_distrib/gog-histogram.c:1119
+#: ../plugins/plot_distrib/gog-histogram.c:1120
 msgid "Drop lines"
 msgstr "Bezugslinien"
 
@@ -7424,8 +7434,8 @@ msgid "Lines"
 msgstr "Linien"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:698 ../plugins/plot_radar/gog-radar.c:1354
-#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2187
-#: ../plugins/plot_xy/gog-xy.c:2193
+#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2178
+#: ../plugins/plot_xy/gog-xy.c:2184
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -7478,7 +7488,7 @@ msgstr "Horizontale Balken oder vertikale Säulen"
 #: ../plugins/plot_barcol/gog-dropbar.c:130
 #: ../plugins/plot_barcol/gog-line.c:641
 #: ../plugins/plot_distrib/gog-boxplot.c:413
-#: ../plugins/plot_distrib/gog-histogram.c:384
+#: ../plugins/plot_distrib/gog-histogram.c:385
 #: ../plugins/plot_radar/gog-radar.c:447 ../plugins/plot_radar/gog-radar.c:522
 #: ../plugins/plot_xy/gog-xy.c:398 ../plugins/plot_xy/gog-xy-dropbar.c:296
 msgid "Displayed under the grids"
@@ -7488,7 +7498,7 @@ msgstr "Unter den Gittern anzeigen"
 #: ../plugins/plot_barcol/gog-dropbar.c:131
 #: ../plugins/plot_barcol/gog-line.c:642
 #: ../plugins/plot_distrib/gog-boxplot.c:414
-#: ../plugins/plot_distrib/gog-histogram.c:385
+#: ../plugins/plot_distrib/gog-histogram.c:386
 #: ../plugins/plot_radar/gog-radar.c:448 ../plugins/plot_radar/gog-radar.c:523
 #: ../plugins/plot_xy/gog-xy.c:399 ../plugins/plot_xy/gog-xy-dropbar.c:297
 msgid "Should the plot be displayed before the grids"
@@ -7511,11 +7521,11 @@ msgstr "Ü_berlappung:"
 msgid "PlotDropBar"
 msgstr "PlotDropBar"
 
-#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2204
+#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2195
 msgid "Clamp at start"
 msgstr "Am Anfang abschneiden"
 
-#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2205
+#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2196
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7523,11 +7533,11 @@ msgstr ""
 "Steigung am Anfang der interpolierten Kurve bei Verwendung von Interpolation "
 "mit abgeschnittenen Splines"
 
-#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2210
+#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2201
 msgid "Clamp at end"
 msgstr "Am Ende abschneiden"
 
-#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2211
+#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2202
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7946,24 +7956,24 @@ msgstr "Beschriftung der zweiten Y-Kategorie:"
 msgid "Histogram"
 msgstr "Histogramm"
 
-#: ../plugins/plot_distrib/gog-histogram.c:373
+#: ../plugins/plot_distrib/gog-histogram.c:374
 msgid "Draw the histogram vertically or horizontally"
 msgstr "Das Histogramm horizontal oder vertikal darstellen"
 
-#: ../plugins/plot_distrib/gog-histogram.c:378
+#: ../plugins/plot_distrib/gog-histogram.c:379
 msgid "Cumulative"
 msgstr "Kumulativ"
 
-#: ../plugins/plot_distrib/gog-histogram.c:379
+#: ../plugins/plot_distrib/gog-histogram.c:380
 msgid "Use cumulated data"
 msgstr "Kumulierte Daten verwenden"
 
-#: ../plugins/plot_distrib/gog-histogram.c:398
-#: ../plugins/plot_distrib/gog-histogram.c:488
+#: ../plugins/plot_distrib/gog-histogram.c:399
+#: ../plugins/plot_distrib/gog-histogram.c:489
 msgid "Limits"
 msgstr "Limits"
 
-#: ../plugins/plot_distrib/gog-histogram.c:447
+#: ../plugins/plot_distrib/gog-histogram.c:448
 msgid ""
 "Label for the first Y category. If not set or empty, \"First values\" will "
 "be used."
@@ -7971,7 +7981,7 @@ msgstr ""
 "Beschriftung der ersten Y-Kategorie. Falls leer oder nicht gesetzt, wird "
 "»Erste Werte« verwendet."
 
-#: ../plugins/plot_distrib/gog-histogram.c:452
+#: ../plugins/plot_distrib/gog-histogram.c:453
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
@@ -7979,19 +7989,19 @@ msgstr ""
 "Beschriftung der zweiten Y-Kategorie. Falls leer oder nicht gesetzt, wird "
 "»Zweite Werte« verwendet."
 
-#: ../plugins/plot_distrib/gog-histogram.c:458
+#: ../plugins/plot_distrib/gog-histogram.c:459
 msgid "Categories labels"
 msgstr "Kategoriebeschriftungen"
 
-#: ../plugins/plot_distrib/gog-histogram.c:490
-#: ../plugins/plot_distrib/gog-histogram.c:766
+#: ../plugins/plot_distrib/gog-histogram.c:491
+#: ../plugins/plot_distrib/gog-histogram.c:767
 msgid "First values"
 msgstr "Erste Werte"
 
-#: ../plugins/plot_distrib/gog-histogram.c:492
-#: ../plugins/plot_distrib/gog-histogram.c:774
-#: ../plugins/plot_distrib/gog-histogram.c:785
-#: ../plugins/plot_distrib/gog-histogram.c:797
+#: ../plugins/plot_distrib/gog-histogram.c:493
+#: ../plugins/plot_distrib/gog-histogram.c:775
+#: ../plugins/plot_distrib/gog-histogram.c:786
+#: ../plugins/plot_distrib/gog-histogram.c:798
 msgid "Second values"
 msgstr "Zweite Werte"
 
@@ -8903,27 +8913,27 @@ msgstr "Blase"
 msgid "XYColor"
 msgstr "XYColor"
 
-#: ../plugins/plot_xy/gog-xy.c:2115 ../plugins/plot_xy/gog-xy.c:2186
+#: ../plugins/plot_xy/gog-xy.c:2106 ../plugins/plot_xy/gog-xy.c:2177
 msgid "X error bars"
 msgstr "X-Fehlerbalken"
 
-#: ../plugins/plot_xy/gog-xy.c:2118 ../plugins/plot_xy/gog-xy.c:2192
+#: ../plugins/plot_xy/gog-xy.c:2109 ../plugins/plot_xy/gog-xy.c:2183
 msgid "Y error bars"
 msgstr "Y-Fehlerbalken"
 
-#: ../plugins/plot_xy/gog-xy.c:2127
+#: ../plugins/plot_xy/gog-xy.c:2118
 msgid "Horizontal drop lines"
 msgstr "Horizontale Bezugslinien"
 
-#: ../plugins/plot_xy/gog-xy.c:2135
+#: ../plugins/plot_xy/gog-xy.c:2126
 msgid "Vertical drop lines"
 msgstr "Vertikale Bezugslinien"
 
-#: ../plugins/plot_xy/gog-xy.c:2198
+#: ../plugins/plot_xy/gog-xy.c:2189
 msgid "Invalid as zero"
 msgstr "Als Null ungültig"
 
-#: ../plugins/plot_xy/gog-xy.c:2199
+#: ../plugins/plot_xy/gog-xy.c:2190
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Beim Zeichnen von Markierungen oder Blasen ungültige Werte durch 0 ersetzen"

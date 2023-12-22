@@ -368,11 +368,15 @@ const_tests (void)
 {
 	g_assert (fabs (go_quad_value (&go_quad_pi) - M_PI) < 1e-14);
 	g_assert (fabs (go_quad_value (&go_quad_2pi) - 2 * M_PI) < 1e-14);
+	g_assert (fabs (go_quad_value (&go_quad_pihalf) - M_PI / 2) < 1e-14);
 	g_assert (fabs (go_quad_value (&go_quad_e) - exp(1)) < 1e-14);
 	g_assert (fabs (go_quad_value (&go_quad_ln2) - log(2)) < 1e-14);
+	g_assert (fabs (go_quad_value (&go_quad_ln10) - log(10)) < 1e-13);
 	g_assert (fabs (go_quad_value (&go_quad_sqrt2) - sqrt(2)) < 1e-14);
+	g_assert (fabs (go_quad_value (&go_quad_euler) - 0.57721566490153286060) < 1e-14);
 	g_assert (go_quad_value (&go_quad_zero) == 0);
 	g_assert (go_quad_value (&go_quad_one) == 1);
+	g_assert (go_quad_value (&go_quad_half) == 0.5);
 }
 
 static void
