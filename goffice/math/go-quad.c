@@ -250,10 +250,10 @@ SUFFIX(go_quad_start) (void)
 					   1);
 
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_ln10),
-					   ln2_digits,
+					   ln10_digits,
 					   G_N_ELEMENTS (ln10_digits),
 					   base,
-					   1);
+					   base);
 
 		SUFFIX(go_quad_constant8) (&SUFFIX(go_quad_sqrt2),
 					   sqrt2_digits,
