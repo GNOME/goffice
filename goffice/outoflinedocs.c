@@ -57,8 +57,20 @@
  **/
 
 /**
+ * go_accumulator_valueD: (skip)
+ **/
+
+/**
  * go_accumulator_valuel: (skip)
  **/
+
+/**
+ * go_add_epsilonD:
+ * @x: a number
+ *
+ * Returns the next-larger representable value, except that zero and
+ * infinites are returned unchanged.
+ */
 
 /**
  * go_add_epsilonl:
@@ -66,6 +78,15 @@
  *
  * Returns the next-larger representable value, except that zero and
  * infinites are returned unchanged.
+ */
+
+/**
+ * go_atan2piD:
+ * @y: a number
+ * @x: a number
+ *
+ * Returns: the polar angle of the point (@x,@y) in radians divided by Pi.
+ * The result is a number between -1 and +1.
  */
 
 /**
@@ -78,6 +99,14 @@
  */
 
 /**
+ * go_atanpiD:
+ * @x: a number
+ *
+ * Returns: the arc tangent of @x in radians divided by Pi.  The result is a
+ * number between -1 and +1.
+ */
+
+/**
  * go_atanpil:
  * @x: a number
  *
@@ -86,10 +115,26 @@
  */
 
 /**
+ * go_cospiD:
+ * @x: a number
+ *
+ * Returns: the cosine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+
+/**
  * go_cospil:
  * @x: a number
  *
  * Returns: the cosine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+
+/**
+ * go_cotpiD:
+ * @x: a number
+ *
+ * Returns: the cotangent of Pi times @x, but with less error than doing the
  * multiplication outright.
  */
 
@@ -116,6 +161,16 @@
  */
 
 /**
+ * go_cspline_get_derivD:
+ * @sp: a spline structure returned by go_cspline_init.
+ * @x: the value
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ *
+ * Returns: the interpolated derivative at x, or 0 if an error occurred.
+ */
+
+/**
  * go_cspline_get_derivl:
  * @sp: a spline structure returned by go_cspline_init.
  * @x: the value
@@ -123,6 +178,20 @@
  * sp must be a valid spline structure as returned by go_cspline_init.
  *
  * Returns: the interpolated derivative at x, or 0 if an error occurred.
+ */
+
+/**
+ * go_cspline_get_derivsD:
+ * @sp: a spline structure returned by go_cspline_init.
+ * @x: a vector a values at which interpolation is requested.
+ * @n: the number of interpolation requested.
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ * The x values must be sorted in increasing order.
+ *
+ * Returns: a newly allocated array of the n interpolated derivatives which
+ * should be destroyed by a call to g_free when not anymore needed, or %NULL if
+ * an error occurred.
  */
 
 /**
@@ -140,6 +209,20 @@
  */
 
 /**
+ * go_cspline_get_integralsD:
+ * @sp: a spline structure returned by go_cspline_init.
+ * @x: a vector a values at which interpolation is requested.
+ * @n: the number of interpolation requested.
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ * The x values must be sorted in increasing order.
+ *
+ * Returns: a newly allocated array of the n-1 integrals on the intervals
+ * between two consecutive values stored in x. which should be destroyed by
+ * a call to g_free when not anymore needed, or %NULL if  an error occurred.
+ */
+
+/**
  * go_cspline_get_integralsl:
  * @sp: a spline structure returned by go_cspline_init.
  * @x: a vector a values at which interpolation is requested.
@@ -154,6 +237,16 @@
  */
 
 /**
+ * go_cspline_get_valueD:
+ * @sp: a spline structure returned by go_cspline_init.
+ * @x: The value
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ *
+ * Returns: the interpolated value for x, or 0 if an error occurred.
+ */
+
+/**
  * go_cspline_get_valuel:
  * @sp: a spline structure returned by go_cspline_init.
  * @x: The value
@@ -161,6 +254,20 @@
  * sp must be a valid spline structure as returned by go_cspline_init.
  *
  * Returns: the interpolated value for x, or 0 if an error occurred.
+ */
+
+/**
+ * go_cspline_get_valuesD:
+ * @sp: a spline structure returned by go_cspline_init.
+ * @x: a vector a values at which interpolation is requested.
+ * @n: the number of interpolation requested.
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ * The x values must be sorted in increasing order.
+ *
+ * Returns: a newly allocated array of interpolated values which should
+ * be destroyed by a call to g_free when not anymore needed, or %NULL if
+ * an error occurred.
  */
 
 /**
@@ -300,19 +407,39 @@
  **/
 
 /**
- * go_fake_ceill: a variant of ceil with a 1ulp grace interval
+ * go_fake_ceilD:
  * @x: value to ceil
  *
- * This works like ceil, i.e., rounds to integer in the direction of positive
- * infinity, except that a value of 1ulp more than an integer will round down.
+ * Returns: the ceiling of @x, ie., the smallest integer that is not smaller
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair larger than an integer.
  */
 
 /**
- * go_fake_floorl: a variant of floor with a 1ulp grace interval
+ * go_fake_ceill:
+ * @x: value to ceil
+ *
+ * Returns: the ceiling of @x, ie., the smallest integer that is not smaller
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair larger than an integer.
+ */
+
+/**
+ * go_fake_floorD:
  * @x: value to floor
  *
- * This works like floor, i.e., rounds to integer in the direction of negative
- * infinity, except that a value of 1ulp less than an integer will round up.
+ * Returns: the floor of @x, ie., the largest integer that is not larger
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair less than an integer.
+ */
+
+/**
+ * go_fake_floorl:
+ * @x: value to floor
+ *
+ * Returns: the floor of @x, ie., the largest integer that is not larger
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair less than an integer.
  */
 
 /**
@@ -582,11 +709,26 @@
  **/
 
 /**
+ * go_pow10D:
+ * @n: exponent
+ *
+ * Computes 10 to the power of @n.  This is fast and accurate (under the
+ * reasonable assumption that the compiler is accurate).
+ */
+
+/**
  * go_pow10l:
  * @n: exponent
  *
  * Computes 10 to the power of @n.  This is fast and accurate (under the
  * reasonable assumption that the compiler is accurate).
+ */
+
+/**
+ * go_pow2D:
+ * @n: exponent
+ *
+ * Computes 2 to the power of @n.  This is fast and accurate.
  */
 
 /**
@@ -1401,6 +1543,14 @@
  **/
 
 /**
+ * go_quad_valueD:
+ * @a: quad-precision value
+ *
+ * Returns: closest double precision value to @a.  As an exception,
+ * this may be called outside go_quad_start and go_quad_end sections.
+ **/
+
+/**
  * go_quad_valuel:
  * @a: quad-precision value
  *
@@ -1733,6 +1883,14 @@
  **/
 
 /**
+ * go_sinpiD:
+ * @x: a number
+ *
+ * Returns: the sine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+
+/**
  * go_sinpil:
  * @x: a number
  *
@@ -1741,11 +1899,27 @@
  */
 
 /**
+ * go_sub_epsilonD:
+ * @x: a number
+ *
+ * Returns the next-smaller representable value, except that zero and
+ * infinites are returned unchanged.
+ */
+
+/**
  * go_sub_epsilonl:
  * @x: a number
  *
  * Returns the next-smaller representable value, except that zero and
  * infinites are returned unchanged.
+ */
+
+/**
+ * go_tanpiD:
+ * @x: a number
+ *
+ * Returns: the tangent of Pi times @x, but with less error than doing the
+ * multiplication outright.
  */
 
 /**

@@ -277,11 +277,12 @@ go_d2d (double x)
 }
 
 /**
- * go_fake_floor: a variant of floor with a 1ulp grace interval
+ * go_fake_floor:
  * @x: value to floor
  *
- * This works like floor, i.e., rounds to integer in the direction of negative
- * infinity, except that a value of 1ulp less than an integer will round up.
+ * Returns: the floor of @x, ie., the largest integer that is not larger
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair less than an integer.
  */
 double
 go_fake_floor (double x)
@@ -295,11 +296,12 @@ go_fake_floor (double x)
 }
 
 /**
- * go_fake_ceil: a variant of ceil with a 1ulp grace interval
+ * go_fake_ceil:
  * @x: value to ceil
  *
- * This works like ceil, i.e., rounds to integer in the direction of positive
- * infinity, except that a value of 1ulp more than an integer will round down.
+ * Returns: the ceiling of @x, ie., the smallest integer that is not smaller
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair larger than an integer.
  */
 double
 go_fake_ceil (double x)
@@ -500,7 +502,7 @@ go_strtod (const char *s, char **end)
 }
 
 /**
- * go_ascii_strtod: A sane g_ascii_strtod.
+ * go_ascii_strtod:
  * @s: string to convert
  * @end: optional pointer to end of string.
  *
@@ -760,11 +762,12 @@ go_strtold (const char *s, char **end)
 }
 
 /**
- * go_ascii_strtold: A sane strtold pretending to be in "C" locale.
+ * go_ascii_strtold:
  * @s: string to convert
  * @end: optional pointer to end of string.
  *
- * Like strtold, but without hex notation and MS extensions.
+ * Like strtold, but without hex notation and MS extensions and also
+ * assuming "C" locale.
  * Unlike strtold, there is no need to reset errno before calling this.
  */
 long double
@@ -1122,26 +1125,12 @@ go_ascii_strtoDd (const char *s, char **end)
 	return res;
 }
 
-/**
- * go_add_epsilonD:
- * @x: a number
- *
- * Returns the next-larger representable value, except that zero and
- * infinites are returned unchanged.
- */
 _Decimal64
 go_add_epsilonD (_Decimal64 x)
 {
 	return x == 0 ? x : nextafterD (x, go_pinfD);
 }
 
-/**
- * go_sub_epsilonD:
- * @x: a number
- *
- * Returns the next-smaller representable value, except that zero and
- * infinites are returned unchanged.
- */
 _Decimal64
 go_sub_epsilonD (_Decimal64 x)
 {
@@ -1624,14 +1613,6 @@ do_sinpiD (_Decimal64 x, int k)
 	return (k & 2) ? 0 - y : y;
 }
 
-
-/**
- * go_sinpiD:
- * @x: a number
- *
- * Returns: the sine of Pi times @x, but with less error than doing the
- * multiplication outright.
- */
 _Decimal64
 go_sinpiD (_Decimal64 x)
 {
@@ -1649,13 +1630,6 @@ go_sinpiD (_Decimal64 x)
 	return do_sinpiD (x, k);
 }
 
-/**
- * go_cospiD:
- * @x: a number
- *
- * Returns: the cosine of Pi times @x, but with less error than doing the
- * multiplication outright.
- */
 _Decimal64
 go_cospiD (_Decimal64 x)
 {
@@ -1672,13 +1646,6 @@ go_cospiD (_Decimal64 x)
 	return do_sinpiD (x, k + 1);
 }
 
-/**
- * go_tanpiD:
- * @x: a number
- *
- * Returns: the tangent of Pi times @x, but with less error than doing the
- * multiplication outright.
- */
 _Decimal64
 go_tanpiD (_Decimal64 x)
 {
