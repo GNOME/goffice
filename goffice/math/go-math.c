@@ -197,7 +197,7 @@ _go_math_init (void)
  * go_add_epsilon:
  * @x: a number
  *
- * Returns the next-smaller representable value, except that zero and
+ * Returns the next-larger representable value, except that zero and
  * infinites are returned unchanged.
  */
 double
@@ -253,7 +253,7 @@ go_d2d (double x)
 	return *px;
 }
 
-/*
+/**
  * go_fake_floor: a variant of floor with a 1ulp grace interval
  * @x: value to floor
  *
@@ -271,7 +271,7 @@ go_fake_floor (double x)
 	return floor (go_add_epsilon (x));
 }
 
-/*
+/**
  * go_fake_ceil: a variant of ceil with a 1ulp grace interval
  * @x: value to ceil
  *
@@ -347,6 +347,12 @@ go_finite (double x)
 #endif
 }
 
+/**
+ * go_pow2:
+ * @n: exponent
+ *
+ * Computes 2 to the power of @n.  This is fast and accurate.
+ */
 double
 go_pow2 (int n)
 {
@@ -357,6 +363,13 @@ go_pow2 (int n)
 #define TEN(n) ONE(n ## 0),ONE(n ## 1),ONE(n ## 2),ONE(n ## 3),ONE(n ## 4),ONE(n ## 5),ONE(n ## 6),ONE(n ## 7),ONE(n ## 8),ONE(n ## 9)
 #define HUNDRED(n) TEN(n ## 0),TEN(n ## 1),TEN(n ## 2),TEN(n ## 3),TEN(n ## 4),TEN(n ## 5),TEN(n ## 6),TEN(n ## 7),TEN(n ## 8),TEN(n ## 9)
 
+/**
+ * go_pow10:
+ * @n: exponent
+ *
+ * Computes 10 to the power of @n.  This is fast and accurate (under the
+ * reasonable assumption that the compiler is accurate).
+ */
 double
 go_pow10 (int n)
 {
@@ -464,7 +477,7 @@ go_strtod (const char *s, char **end)
 	return res;
 }
 
-/*
+/**
  * go_ascii_strtod: A sane g_ascii_strtod.
  * @s: string to convert
  * @end: optional pointer to end of string.
@@ -725,7 +738,7 @@ go_strtold (const char *s, char **end)
 	return res;
 }
 
-/*
+/**
  * go_ascii_strtold: A sane strtold pretending to be in "C" locale.
  * @s: string to convert
  * @end: optional pointer to end of string.
@@ -766,13 +779,6 @@ go_ascii_strtold (const char *s, char **end)
 	return res;
 }
 
-/**
- * go_add_epsilonl:
- * @x: a number
- *
- * Returns the next-larger representable value, except that zero and
- * infinites are returned unchanged.
- */
 long double
 go_add_epsilonl (long double x)
 {
@@ -792,13 +798,6 @@ go_add_epsilonl (long double x)
 #endif
 }
 
-/**
- * go_sub_epsilonl:
- * @x: a number
- *
- * Returns the next-smaller representable value, except that zero and
- * infinites are returned unchanged.
- */
 long double
 go_sub_epsilonl (long double x)
 {
@@ -1176,6 +1175,13 @@ go_tanpi (double x)
 		return go_sinpi (x) / go_cospi (x);
 }
 
+/**
+ * go_cotpi:
+ * @x: a number
+ *
+ * Returns: the cotangent of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
 double
 go_cotpi (double x)
 {
@@ -1195,6 +1201,14 @@ go_cotpi (double x)
 		return go_cospi (x) / go_sinpi (x);
 }
 
+/**
+ * go_atan2pi:
+ * @y: a number
+ * @x: a number
+ *
+ * Returns: the polar angle of the point (@x,@y) in radians divided by Pi.
+ * The result is a number between -1 and +1.
+ */
 double
 go_atan2pi (double y, double x)
 {
@@ -1205,6 +1219,13 @@ go_atan2pi (double y, double x)
 	return atan2 (y, x) / M_PI;
 }
 
+/**
+ * go_atanpi:
+ * @x: a number
+ *
+ * Returns: the arc tangent of @x in radians divided by Pi.  The result is a
+ * number between -1 and +1.
+ */
 double
 go_atanpi (double x)
 {
@@ -1254,14 +1275,6 @@ do_sinpil (long double x, int k)
 	return (k & 2) ? 0 - y : y;
 }
 
-
-/**
- * go_sinpil:
- * @x: a number
- *
- * Returns: the sine of Pi times @x, but with less error than doing the
- * multiplication outright.
- */
 long double
 go_sinpil (long double x)
 {
@@ -1279,13 +1292,6 @@ go_sinpil (long double x)
 	return do_sinpil (x, k);
 }
 
-/**
- * go_cospil:
- * @x: a number
- *
- * Returns: the cosine of Pi times @x, but with less error than doing the
- * multiplication outright.
- */
 long double
 go_cospil (long double x)
 {
@@ -1302,13 +1308,6 @@ go_cospil (long double x)
 	return do_sinpil (x, k + 1);
 }
 
-/**
- * go_tanpil:
- * @x: a number
- *
- * Returns: the tangent of Pi times @x, but with less error than doing the
- * multiplication outright.
- */
 long double
 go_tanpil (long double x)
 {
