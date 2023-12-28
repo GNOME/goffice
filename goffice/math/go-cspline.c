@@ -67,7 +67,7 @@ GType go_csplinel_get_type (void) { return G_TYPE_NONE; }
  * @n: the number of x and y values
  * @limits: how the limits must be treated, four values are allowed:
  *	GO_CSPLINE_NATURAL: first and least second derivatives are 0.
- *	GO_CSPLINE_PARABOLIC: the curve will be a parabole arc outside of the limits.
+ *	GO_CSPLINE_PARABOLIC: the curve will be a parabolic arc outside of the limits.
  *	GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits.
  *	GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
  * @c0: the first derivative when using clamped splines, not used in the
@@ -76,7 +76,7 @@ GType go_csplinel_get_type (void) { return G_TYPE_NONE; }
  *      other limit types.
  *
  * Creates a spline structure, and computes the coefficients associated with the
- * polynoms. The ith polynome (between x[i-1] and x[i] is:
+ * polynomials. The ith polynomial (between x[i-1] and x[i] is:
  * y(x) = y[i-1] + (c[i-1] + (b[i-1] + a[i] * (x - x[i-1])) * (x - x[i-1])) * (x - x[i-1])
  * where a[i-1], b[i-1], c[i-1], x[i-1] and y[i-1] are the corresponding
  * members of the new structure.

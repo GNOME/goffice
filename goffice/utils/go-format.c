@@ -5335,7 +5335,7 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
  *
  * Converts @val into a string using format specified by @fmt.
  *
- * returns: a newly allocated string containing formated value.
+ * returns: a newly allocated string containing formatted value.
  **/
 char *
 SUFFIX(go_format_value) (GOFormat const *fmt, DOUBLE val)
