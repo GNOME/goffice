@@ -17,6 +17,7 @@ my @cfiles = ('math/go-accumulator.c',
 	      'math/go-rangefunc.c',
 	      'math/go-regression.c',
 	      'math/go-R.c',
+	      'math/go-math.c',
 	      'utils/go-format.c');
 my @hfiles = map { my $s = $_; $s =~ s/c$/h/; $s; } @cfiles;
 

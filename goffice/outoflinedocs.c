@@ -61,6 +61,47 @@
  **/
 
 /**
+ * go_add_epsilonl:
+ * @x: a number
+ *
+ * Returns the next-larger representable value, except that zero and
+ * infinites are returned unchanged.
+ */
+
+/**
+ * go_atan2pil:
+ * @y: a number
+ * @x: a number
+ *
+ * Returns: the polar angle of the point (@x,@y) in radians divided by Pi.
+ * The result is a number between -1 and +1.
+ */
+
+/**
+ * go_atanpil:
+ * @x: a number
+ *
+ * Returns: the arc tangent of @x in radians divided by Pi.  The result is a
+ * number between -1 and +1.
+ */
+
+/**
+ * go_cospil:
+ * @x: a number
+ *
+ * Returns: the cosine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+
+/**
+ * go_cotpil:
+ * @x: a number
+ *
+ * Returns: the cotangent of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+
+/**
  * go_cspline_destroyD:
  * @sp: a spline structure returned by go_cspline_init.
  *
@@ -257,6 +298,22 @@
  *
  * Returns: #GORegressionResult as above.
  **/
+
+/**
+ * go_fake_ceill: a variant of ceil with a 1ulp grace interval
+ * @x: value to ceil
+ *
+ * This works like ceil, i.e., rounds to integer in the direction of positive
+ * infinity, except that a value of 1ulp more than an integer will round down.
+ */
+
+/**
+ * go_fake_floorl: a variant of floor with a 1ulp grace interval
+ * @x: value to floor
+ *
+ * This works like floor, i.e., rounds to integer in the direction of negative
+ * infinity, except that a value of 1ulp less than an integer will round up.
+ */
 
 /**
  * go_format_specializeD:
@@ -523,6 +580,21 @@
  * values.
  * The resulting parameters are placed back into @par.
  **/
+
+/**
+ * go_pow10l:
+ * @n: exponent
+ *
+ * Computes 10 to the power of @n.  This is fast and accurate (under the
+ * reasonable assumption that the compiler is accurate).
+ */
+
+/**
+ * go_pow2l:
+ * @n: exponent
+ *
+ * Computes 2 to the power of @n.  This is fast and accurate.
+ */
 
 /**
  * go_power_regressionD:
@@ -1659,5 +1731,29 @@
  * layouting width does not needlessly exceed @col_width.  Optionally
  * use unicode minus instead of hyphen.
  **/
+
+/**
+ * go_sinpil:
+ * @x: a number
+ *
+ * Returns: the sine of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
+
+/**
+ * go_sub_epsilonl:
+ * @x: a number
+ *
+ * Returns the next-smaller representable value, except that zero and
+ * infinites are returned unchanged.
+ */
+
+/**
+ * go_tanpil:
+ * @x: a number
+ *
+ * Returns: the tangent of Pi times @x, but with less error than doing the
+ * multiplication outright.
+ */
 
 // --- END AUTO-GENERATED DOCUMENTATION MARKER ---
