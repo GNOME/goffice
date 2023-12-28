@@ -373,7 +373,6 @@ go_finite (double x)
 double
 go_pow2 (int n)
 {
-	g_assert (FLT_RADIX == 2);
 	return ldexp (1.0, n);
 }
 
@@ -625,7 +624,6 @@ go_pow2l (int n)
 #ifdef GOFFICE_SUPPLIED_LDEXPL
 	return powl (2.0L, n);
 #else
-	g_assert (FLT_RADIX == 2);
 	return ldexpl (1.0L, n);
 #endif
 }
@@ -1018,13 +1016,16 @@ go_finiteD (_Decimal64 x)
 _Decimal64
 go_pow2D (int n)
 {
-	return powD (2.dd, n);
+	if (n >= -1022 && n <= 1023)
+		return (_Decimal64)(go_pow2 (n));
+	else
+		return powD (2.dd, n);
 }
 
 _Decimal64
 go_pow10D (int n)
 {
-	return powD (10.dd, n);
+	return scalbnD (1.dd, n);
 }
 
 _Decimal64
@@ -1046,7 +1047,8 @@ go_log10D (_Decimal64 x)
  * @end: (out) (transfer none) (optional): pointer to end of string.
  *
  * Returns: the numeric value of the given string.
- * Like strtold, but without hex notation and MS extensions.
+ * Like strtod, but for type _Decimal64 and without hex notation and
+ * MS extensions.
  * Unlike strtold, there is no need to reset errno before calling this.
  */
 _Decimal64
@@ -1086,7 +1088,7 @@ go_strtoDd (const char *s, char **end)
  *
  * Like strtoDd, but applying "C" locale and without hex notation and
  * MS extensions.
- * Unlike strtoDd, there is no need to reset errno before calling this.
+ * Unlike strtod, there is no need to reset errno before calling this.
  */
 _Decimal64
 go_ascii_strtoDd (const char *s, char **end)
