@@ -495,6 +495,21 @@ SUFFIX(go_quad_compare) (const QUAD *a, const QUAD *b)
 		return -1;
 }
 
+// 1: even integer, 0: non-integer (including inf, nan), -1 odd integer
+static int
+SUFFIX(go_quad_isint) (QUAD const *x)
+{
+	QUAD fx, rx;
+
+	SUFFIX(go_quad_floor) (&fx, x);
+	SUFFIX(go_quad_sub) (&rx, x, &fx);
+
+	if (!(rx.h == 0))
+		return 0;
+
+	// If we have a lower part at this point then the upper is even.
+	return SUFFIX(fmod) (fx.l ? fx.l : fx.h, 2) == 0 ? 1 : -1;
+}
 
 void
 SUFFIX(go_quad_scalbn) (QUAD *res, const QUAD *a, int n)
@@ -803,10 +818,8 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 	SUFFIX(go_quad_floor) (&qw, y);
 	SUFFIX(go_quad_sub) (&qf, y, &qw);
 	if (SUFFIX(go_quad_value) (&qxm1) == 0 && dy > 0) {
-		gboolean wodd =
-			(SUFFIX(fmod)(SUFFIX(fabs)(qw.h),2) +
-			 SUFFIX(fmod)(SUFFIX(fabs)(qw.l),2)) == 1;
-		if (SUFFIX(go_quad_value) (&qf) == 0 && wodd) {
+		int wint = SUFFIX(go_quad_isint) (&qw);
+		if (SUFFIX(go_quad_value) (&qf) == 0 && wint < 0) {
 			/* 0 ^ (odd positive integer) */
 			*res = *x;
 		} else {
@@ -1088,8 +1101,10 @@ SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 void
 SUFFIX(go_quad_abs) (QUAD *res, const QUAD *a)
 {
-	res->h = SUFFIX(fabs)(a->h);
-	res->l = SUFFIX(fabs)(a->l);
+	if (a->h < 0)
+		SUFFIX(go_quad_negate) (res, a);
+	else
+		*res = *a;
 }
 
 
