@@ -208,19 +208,21 @@
  **/
 
 /**
- * go_fake_ceill: a variant of ceil with a 1ulp grace interval
+ * go_fake_ceill:
  * @x: value to ceil
  *
- * This works like ceil, i.e., rounds to integer in the direction of positive
- * infinity, except that a value of 1ulp more than an integer will round down.
+ * Returns: the ceiling of @x, ie., the smallest integer that is not smaller
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair larger than an integer.
  */
 
 /**
- * go_fake_floorl: a variant of floor with a 1ulp grace interval
+ * go_fake_floorl:
  * @x: value to floor
  *
- * This works like floor, i.e., rounds to integer in the direction of negative
- * infinity, except that a value of 1ulp less than an integer will round up.
+ * Returns: the floor of @x, ie., the largest integer that is not larger
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair less than an integer.
  */
 
 /**

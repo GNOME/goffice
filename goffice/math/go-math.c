@@ -254,11 +254,12 @@ go_d2d (double x)
 }
 
 /**
- * go_fake_floor: a variant of floor with a 1ulp grace interval
+ * go_fake_floor:
  * @x: value to floor
  *
- * This works like floor, i.e., rounds to integer in the direction of negative
- * infinity, except that a value of 1ulp less than an integer will round up.
+ * Returns: the floor of @x, ie., the largest integer that is not larger
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair less than an integer.
  */
 double
 go_fake_floor (double x)
@@ -272,11 +273,12 @@ go_fake_floor (double x)
 }
 
 /**
- * go_fake_ceil: a variant of ceil with a 1ulp grace interval
+ * go_fake_ceil:
  * @x: value to ceil
  *
- * This works like ceil, i.e., rounds to integer in the direction of positive
- * infinity, except that a value of 1ulp more than an integer will round down.
+ * Returns: the ceiling of @x, ie., the smallest integer that is not smaller
+ * than @x.  However, this variant applies a 1 ulp grace interval for
+ * values that are just a hair larger than an integer.
  */
 double
 go_fake_ceil (double x)
@@ -478,7 +480,7 @@ go_strtod (const char *s, char **end)
 }
 
 /**
- * go_ascii_strtod: A sane g_ascii_strtod.
+ * go_ascii_strtod:
  * @s: string to convert
  * @end: optional pointer to end of string.
  *
@@ -739,11 +741,12 @@ go_strtold (const char *s, char **end)
 }
 
 /**
- * go_ascii_strtold: A sane strtold pretending to be in "C" locale.
+ * go_ascii_strtold:
  * @s: string to convert
  * @end: optional pointer to end of string.
  *
- * Like strtold, but without hex notation and MS extensions.
+ * Like strtold, but without hex notation and MS extensions and also
+ * assuming "C" locale.
  * Unlike strtold, there is no need to reset errno before calling this.
  */
 long double
