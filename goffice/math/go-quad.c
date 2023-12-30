@@ -1105,14 +1105,27 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
 	else if (!SUFFIX(go_finite) (da))
 		*res = *a;
 	else {
-		QUAD xi, yi, dx;
-		SUFFIX(go_quad_init) (&xi, SUFFIX(log) (da));
+		QUAD as, xi, yi, dx, dl;
+		int e;
 
-		/* Newton step. */
+		// Scale down to near 1.
+		da = SUFFIX(frexp) (da, &e);
+		if (da < 1 / SUFFIX(sqrt) (FLT_RADIX)) e--;
+		SUFFIX(go_quad_scalbn) (&as, a, -e);
+
+		// Initial approximation
+		SUFFIX(go_quad_init) (&xi, SUFFIX(log) (as.h));
+
+		// Newton step.
 		SUFFIX(go_quad_exp) (&yi, NULL, &xi);
-		SUFFIX(go_quad_sub) (&dx, a, &yi);
+		SUFFIX(go_quad_sub) (&dx, &as, &yi);
 		SUFFIX(go_quad_div) (&dx, &dx, &yi);
 		SUFFIX(go_quad_add) (&xi, &xi, &dx);
+
+		// Adjust for scaling
+		SUFFIX(go_quad_init) (&dl, e);
+		SUFFIX(go_quad_mul) (&dl, &LNBASE, &dl);
+		SUFFIX(go_quad_add) (&xi, &xi, &dl);
 
 		*res = xi;
 	}
