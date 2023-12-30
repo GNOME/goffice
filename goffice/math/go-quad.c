@@ -326,6 +326,15 @@ QUAD SUFFIX(go_quad_ln10);
 QUAD SUFFIX(go_quad_sqrt2);
 QUAD SUFFIX(go_quad_euler);
 
+#undef LNBASE
+#if DOUBLE_RADIX == 2
+#define LNBASE SUFFIX(go_quad_ln2)
+#elif DOUBLE_RADIX == 10
+#define LNBASE SUFFIX(go_quad_ln10)
+#else
+#error "Code needs fixing"
+#endif
+
 /**
  * go_quad_init:
  * @res: (out): result location
@@ -851,11 +860,63 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 		SUFFIX(go_quad_scalbn) (res, res, e);
 	}
 #else
-	QUAD lx;
+	QUAD lx, ax, f10;
+	gboolean qneg = FALSE;
+	int e;
+	DOUBLE er;
 
-	SUFFIX(go_quad_log) (&lx, x);
+	SUFFIX(go_quad_abs) (&ax, x);
+
+	if (x->h < 0) {
+		int yint = SUFFIX(go_quad_isint) (y);
+		if (!yint)
+			return SUFFIX(go_quad_init) (res, go_nan);
+		qneg = yint < 0;
+	}
+
+	// x = z * 10^k
+	// x^y = z^y * 10^(ky)
+
+	ax.h = UNSCALBN (ax.h, &e);
+	if (ax.h < 1 / SUFFIX(sqrt) (DOUBLE_RADIX)) {
+		ax.h *= DOUBLE_RADIX;
+		e--;
+	}
+	ax.l = SUFFIX(scalbn) (ax.l, -e);
+
+	if (e == 0) {
+		er = 0;
+		f10 = SUFFIX(go_quad_one);
+	} else {
+		QUAD fy, qe, qer1, qer2, qr;
+
+		SUFFIX(go_quad_floor) (&fy, y);
+		SUFFIX(go_quad_init) (&qe, e);
+		SUFFIX(go_quad_mul) (&qer1, &fy, &qe);
+		SUFFIX(go_quad_sub) (&fy, y, &fy);
+		SUFFIX(go_quad_mul) (&qr, &fy, &qe);
+		SUFFIX(go_quad_floor) (&qer2, &qr);
+		SUFFIX(go_quad_sub) (&qr, &qr, &qer2);
+
+		SUFFIX(go_quad_add) (&qer1, &qer1, &qer2);
+		er = SUFFIX(go_quad_value) (&qer1);
+
+		SUFFIX(go_quad_mul) (&f10, &qr, &LNBASE);
+		SUFFIX(go_quad_exp) (&f10, NULL, &f10);
+	}
+
+	SUFFIX(go_quad_log) (&lx, &ax);
 	SUFFIX(go_quad_mul) (&lx, &lx, y);
 	SUFFIX(go_quad_exp) (res, expb, &lx);
+	if (expb) {
+		*expb += er;
+	} else {
+		er = CLAMP (er, G_MININT, G_MAXINT);
+		SUFFIX(go_quad_scalbn) (res, res, er);
+	}
+	SUFFIX(go_quad_mul) (res, res, &f10);
+	if (qneg)
+		SUFFIX(go_quad_negate) (res, res);
 #endif
 }
 
@@ -909,11 +970,10 @@ SUFFIX(go_quad_exp) (QUAD *res, DOUBLE *expb, const QUAD *a)
 #if DOUBLE_RADIX == 2
 	SUFFIX(go_quad_pow) (res, expb, &SUFFIX(go_quad_e), a);
 #else
-	DOUBLE pbase;
+	DOUBLE pbase, da;
 	int parts;
 	QUAD qpbase, qparts, qares, qres;
 #if DOUBLE_RADIX == 10
-	QUAD qlnbase = SUFFIX(go_quad_ln10);
 	static const DOUBLE lnbaseparts[] = {
 		CONST(2.302585092994045),
 		CONST(.6840179914546843e-15),
@@ -939,8 +999,18 @@ SUFFIX(go_quad_exp) (QUAD *res, DOUBLE *expb, const QUAD *a)
 	}
 #endif
 
+	da = SUFFIX(go_quad_value) (a);
+	if (!SUFFIX(go_finite) (da)) {
+		if (da < 0)
+			*res = SUFFIX(go_quad_zero);
+		else
+			*res = *a;
+		if (expb) *expb = 0;
+		return;
+	}
+
 	// Extract powers of base
-	SUFFIX(go_quad_div) (&qpbase, a, &qlnbase);
+	SUFFIX(go_quad_div) (&qpbase, a, &LNBASE);
 	SUFFIX(go_quad_add) (&qpbase, &qpbase, &SUFFIX(go_quad_half));
 	SUFFIX(go_quad_floor) (&qpbase, &qpbase);
 	pbase = SUFFIX(go_quad_value) (&qpbase);

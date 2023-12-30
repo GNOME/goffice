@@ -167,6 +167,7 @@ void go_quad_constant8D (GOQuadD *res, const guint8 *data, gsize n, _Decimal64 b
 
 GO_VAR_DECL const GOQuadD go_quad_zeroD;
 GO_VAR_DECL const GOQuadD go_quad_oneD;
+GO_VAR_DECL const GOQuadD go_quad_halfD;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_piD;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_2piD;
 GO_VAR_DECL GO_QUAD_IMPL GOQuadD go_quad_pihalfD;
