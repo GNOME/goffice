@@ -1109,8 +1109,8 @@ SUFFIX(go_quad_log) (QUAD *res, const QUAD *a)
 		int e;
 
 		// Scale down to near 1.
-		da = SUFFIX(frexp) (da, &e);
-		if (da < 1 / SUFFIX(sqrt) (FLT_RADIX)) e--;
+		da = UNSCALBN (da, &e);
+		if (da < 1 / SUFFIX(sqrt) (DOUBLE_RADIX)) e--;
 		SUFFIX(go_quad_scalbn) (&as, a, -e);
 
 		// Initial approximation
