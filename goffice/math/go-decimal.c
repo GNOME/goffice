@@ -81,7 +81,7 @@
 // finiteD         A         A         A
 // isnanD          A         A         A
 // signbitD        A         A         A
-// strtoDd         *         *         *
+// strtoDd         A         A         B
 // (printf)        A         A         -
 //
 // * Stub via double.  Range:B, Accuracy:B
@@ -92,6 +92,7 @@
 #include <stdio.h>
 #include <printf.h>
 #include <assert.h>
+#include <ctype.h>
 
 // ---------------------------------------------------------------------------
 
@@ -822,11 +823,99 @@ unscalbnD (_Decimal64 x, int *e)
 	return make64 (mant, -m10, sign);
 }
 
+static int
+caseprefix (const unsigned char *us, const char *p)
+{
+	while (*p) {
+		if (*p != *us)
+			return 0;
+		p++;
+		us++;
+	}
+	return 1;
+}
+
 _Decimal64
 strtoDd (const char *s, char **end)
 {
-	// FIXME
-	return strtold (s, end);
+	uint64_t m = 0;
+	int sign = 0;
+	const unsigned char *us = (const unsigned char *)s;
+	int digits = 0;
+	int period = 0;
+	int scale = 0;
+	_Decimal64 res;
+
+	while (isspace (*us))
+		us++;
+
+	if (*us == '-')
+		sign++, us++;
+	else if (*us == '+')
+		us++;
+
+	if (!isdigit (*us) && !(*us == '.' && isdigit (us[1]))) {
+		if (caseprefix (us, "infinity"))
+			res = INFINITY, us += 8;
+		else if (caseprefix (us, "inf"))
+			res = INFINITY, us += 3;
+		else if (caseprefix (us, "nan"))
+			res = NAN, us += 3;
+		else {
+			if (end) *end = (char *)s;
+			return 0;
+		}
+
+		if (end) *end = (char *)us;
+		return sign ? -res : res;
+	}
+
+	while (isdigit (*us) || *us == '.') {
+		if (*us == '.') {
+			if (period)
+				break;
+			period = 1;
+		} else {
+			if (digits < DECIMAL64_DIG) {
+				m = 10 * m + (*us - '0');
+				if (m) digits++;
+				if (period) scale--;
+			} else if (digits == DECIMAL64_DIG) {
+				if (*us >= '5')
+					m++; // Always round away from 0
+				if (!period) scale++;
+				digits++;
+			} else {
+				if (!period) scale++;
+			}
+		}
+		us++;
+	}
+
+	if (*us == 'e' || *us == 'E') {
+		int esign = 0;
+		int p10 = 0;
+
+		if (us[1] == '-' && isdigit(us[2]))
+			us += 2, esign = 1;
+		else if (us[1] == '+' && isdigit(us[2]))
+			us += 2;
+		else if (isdigit (us[1]))
+			us++;
+
+		while (isdigit (*us)) {
+			if (p10 < INT_MAX / 10 - 10)
+				p10 = p10 * 10 + (*us - '0');
+			us++;
+		}
+
+		scale += esign ? -p10 : p10;
+	}
+
+	if (end) *end = (char *)us;
+	res = scalbnD (m, scale);
+	if (sign) res = -res;
+	return res;
 }
 
 // ---------------------------------------------------------------------------
@@ -1319,7 +1408,7 @@ modfD (_Decimal64 x, _Decimal64 *y)
 _Decimal64
 sqrtD (_Decimal64 x)
 {
-	_Decimal64 s;
+	int s = 0;
 
 	if (x < 0)
 		return -(_Decimal64)NAN;
@@ -1327,18 +1416,18 @@ sqrtD (_Decimal64 x)
 		return x;
 
 	if (x <= (_Decimal64)DBL_MIN) {
-		x *= 1e+300dd;
-		s = 1e-150dd;
+		x = scalbnD (x, 300);
+		s = -150;
 	} else if (x >= (_Decimal64)DBL_MAX) {
-		x *= 1e-300dd;
-		s = 1e+150dd;
-	} else
-		s = 1;
+		x = scalbnD (x, -300);
+		s = +150;
+	}
 
 	x = sqrt (x);
 	// We could do a newton step here.
 
-	return x * s;
+	x = scalbnD (x, s);
+	return x;
 }
 
 _Decimal64

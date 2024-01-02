@@ -717,6 +717,49 @@ test_quad_exp_pow (void)
 }
 
 
+static void
+test_strto (void)
+{
+	start_section ("strto");
+
+	test_eq (strtoDd ("123", NULL), 123.dd);
+	test_eq (strtoDd ("123.", NULL), 123.dd);
+	test_eq (strtoDd ("+123.", NULL), 123.dd);
+	test_eq (strtoDd ("-123.0", NULL), -123.dd);
+	test_eq (strtoDd (".123", NULL), .123dd);
+	test_eq (strtoDd ("0.0000000000000000000000000123", NULL), 0.0000000000000000000000000123dd);
+	test_eq (strtoDd ("0.0000000000000000000000000123", NULL), 0.0000000000000000000000000123dd);
+	test_eq (strtoDd ("9999999999999999", NULL), 9999999999999999.dd);
+	test_eq (strtoDd ("99999999999999999", NULL), 1e17dd);
+	test_eq (strtoDd ("10000000000000000", NULL), 1e16dd);
+
+	test_eq (strtoDd ("1e10", NULL), 1e10dd);
+	test_eq (strtoDd ("-1e10", NULL), -1e10dd);
+	test_eq (strtoDd ("+1e10", NULL), +1e10dd);
+	test_eq (strtoDd ("1e-10", NULL), 1e-10dd);
+	test_eq (strtoDd ("1e+10", NULL), 1e+10dd);
+
+	test_eq (strtoDd ("1E10", NULL), 1e10dd);
+	test_eq (strtoDd ("-1E10", NULL), -1e10dd);
+	test_eq (strtoDd ("+1E10", NULL), +1e10dd);
+	test_eq (strtoDd ("1E-10", NULL), 1e-10dd);
+	test_eq (strtoDd ("1E+10", NULL), 1e+10dd);
+
+	test_eq (strtoDd ("123e+f", NULL), 123.dd);
+
+	test_eq (strtoDd ("infinity", NULL), INFINITY);
+	test_eq (strtoDd ("-infinity", NULL), -(_Decimal64)INFINITY);
+	test_eq (strtoDd ("+infinity", NULL), INFINITY);
+	test_eq (strtoDd ("inf", NULL), INFINITY);
+	test_eq (strtoDd ("-inf", NULL), -(_Decimal64)INFINITY);
+	test_eq (strtoDd ("+inf", NULL), INFINITY);
+
+
+	end_section ();
+}
+
+
+
 /* ------------------------------------------------------------------------- */
 
 #endif
@@ -769,6 +812,9 @@ main (int argc, char **argv)
 
 	test_quad_exp_pow ();
 
+	test_strto ();
+
+	g_printerr ("-----------------------------------------------------------------------------\n");
 
 	if (n_bad)
 		g_printerr ("FAIL: A total of %d failures.\n", n_bad);
