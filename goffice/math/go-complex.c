@@ -270,13 +270,13 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 		// to sane sizes without any rounding errors.
 		int ea, eb;
 
-		(void)SUFFIX(frexp) (asize, &ea);
-		a_re = SUFFIX(ldexp) (a_re, -ea);
-		a_im = SUFFIX(ldexp) (a_im, -ea);
+		(void)UNSCALBN (asize, &ea);
+		a_re = SUFFIX(scalbn) (a_re, -ea);
+		a_im = SUFFIX(scalbn) (a_im, -ea);
 
-		(void)SUFFIX(frexp) (bsize, &eb);
-		b_re = SUFFIX(ldexp) (b_re, -eb);
-		b_im = SUFFIX(ldexp) (b_im, -eb);
+		(void)UNSCALBN (bsize, &eb);
+		b_re = SUFFIX(scalbn) (b_re, -eb);
+		b_im = SUFFIX(scalbn) (b_im, -eb);
 
 		e = ea - eb;
 	}
@@ -286,8 +286,8 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 	q_im = (a_im * b_re - a_re * b_im) / bmodsqr;
 
 	if (e) {
-		q_re = SUFFIX(ldexp) (q_re, e);
-		q_im = SUFFIX(ldexp) (q_im, e);
+		q_re = SUFFIX(scalbn) (q_re, e);
+		q_im = SUFFIX(scalbn) (q_im, e);
 	}
 
 	SUFFIX(go_complex_init) (dst, q_re, q_im);
@@ -354,8 +354,8 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 	DOUBLE wb, wa;
 	int ea, eb, de;
 
-	(void)SUFFIX(frexp) (SUFFIX(go_quad_value) (&qa), &ea);
-	(void)SUFFIX(frexp) (b, &eb);
+	(void)UNSCALBN (SUFFIX(go_quad_value) (&qa), &ea);
+	(void)UNSCALBN (b, &eb);
 	if (ea + eb <= 0) {
 		/* |ab| <= 2 */
 		SUFFIX(go_quad_init) (&qfb, b);
@@ -365,7 +365,7 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 
 	de = (ea - eb) / 2;
 	if (de) {
-		DOUBLE f = SUFFIX(ldexp) (1, de);
+		DOUBLE f = SUFFIX(scalbn) (1, de);
 		b *= f;
 		qa.h /= f;
 		qa.l /= f;
@@ -454,8 +454,7 @@ SUFFIX(go_complex_powx) (COMPLEX *dst, DOUBLE *e,
 			*e = er;
 		else {
 			er = CLAMP (er, G_MININT, G_MAXINT);
-			qrr.h = SUFFIX(ldexp) (qrr.h, er);
-			qrr.l = SUFFIX(ldexp) (qrr.l, er);
+			SUFFIX(go_quad_scalbn) (&qrr, &qrr, er);
 		}
 
 		/* Compute result angle.  */
