@@ -985,7 +985,11 @@ lgammaD_r (_Decimal64 x, int *signp)
 	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
 		*signp = x >= 0 ? +1 : -1;
 		return -logD (x);
+	} else if (finiteD (x) && x >= (_Decimal64)DBL_MAX) {
+		*signp = +1;
+		return x * logD (x);
 	}
+
 	return lgamma_r (x, signp);
 }
 
