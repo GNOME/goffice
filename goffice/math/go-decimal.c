@@ -1467,25 +1467,25 @@ sqrtD (_Decimal64 x)
 _Decimal64
 cbrtD (_Decimal64 x)
 {
-	_Decimal64 s, ax;
+	_Decimal64 ax;
+	int s = 0;
 
 	if (x == 0 || !finiteD (x))
 		return x;
 
 	ax = fabsD (x);
 	if (ax <= (_Decimal64)DBL_MIN) {
-		x *= 1e+300dd;
-		s = 1e-100dd;
+		x = scalbnD (x, 300);
+		s = -100;
 	} else if (ax >= (_Decimal64)DBL_MAX) {
-		x *= 1e-300dd;
-		s = 1e+100dd;
-	} else
-		s = 1;
+		x = scalbnD (x, -300);
+		s = 100;
+	}
 
 	x = cbrt (x);
 	// We could do a newton step here.
 
-	return x * s;
+	return scalbnD (x, s);
 }
 
 // ---------------------------------------------------------------------------
