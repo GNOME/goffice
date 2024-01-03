@@ -826,7 +826,7 @@ static int
 caseprefix (const unsigned char *us, const char *p)
 {
 	while (*p) {
-		if (*p != *us)
+		if (*p != toupper (*us))
 			return 0;
 		p++;
 		us++;
@@ -854,11 +854,11 @@ strtoDd (const char *s, char **end)
 		us++;
 
 	if (!isdigit (*us) && !(*us == '.' && isdigit (us[1]))) {
-		if (caseprefix (us, "infinity"))
+		if (caseprefix (us, "INFINITY"))
 			res = INFINITY, us += 8;
-		else if (caseprefix (us, "inf"))
+		else if (caseprefix (us, "INF"))
 			res = INFINITY, us += 3;
-		else if (caseprefix (us, "nan"))
+		else if (caseprefix (us, "NAN"))
 			res = NAN, us += 3;
 		else {
 			if (end) *end = (char *)s;

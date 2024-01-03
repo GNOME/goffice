@@ -800,6 +800,12 @@ test_strto (void)
 	test_eq (strtoDd ("inf", NULL), INFINITY);
 	test_eq (strtoDd ("-inf", NULL), -(_Decimal64)INFINITY);
 	test_eq (strtoDd ("+inf", NULL), INFINITY);
+	test_eq (strtoDd ("INFInity", NULL), INFINITY);
+	test_eq (strtoDd ("-INFInity", NULL), -(_Decimal64)INFINITY);
+	test_eq (strtoDd ("+INFInity", NULL), INFINITY);
+	test_eq (strtoDd ("INF", NULL), INFINITY);
+	test_eq (strtoDd ("-INF", NULL), -(_Decimal64)INFINITY);
+	test_eq (strtoDd ("+INF", NULL), INFINITY);
 
 
 	end_section ();
