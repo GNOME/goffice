@@ -681,6 +681,53 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 }
 
 static void
+test_atan2 (const Corpus *corpus1, const Corpus *corpus2)
+{
+	start_section ("atan2");
+
+	for (int v1 = 0; v1 < corpus1->nvals; v1++) {
+		_Decimal64 x1 = corpus1->vals[v1];
+		double dx1 = x1;
+
+		for (int v2 = 0; v2 < corpus2->nvals; v2++) {
+			_Decimal64 x2 = corpus2->vals[v2];
+			double dx2 = x2;
+			gboolean ok;
+
+			double dy = (x1 / x2 == 0)
+				? copysign (x2 > 0 ? 0 : M_PI, dx1)
+				: (x2 == 0 && x1 != 0
+				   ? atan2 (x1 > 0 ? 1 : -1, dx2)
+				   : (!finiteD (x1)
+				      ? atan2 (dx1, x2 / 1e100dd)
+				      : (dx1 == 0 && dx2 == 0
+					 ? atan2 (x1 * 1e100dd, x2 * 1e100dd)
+					 : atan2 (dx1, dx2))));
+			_Decimal64 y = atan2D (x1, x2);
+
+			if (!signbitD (y) != !signbit (dy))
+				ok = FALSE;
+			if (isnanD (y) || isnan (y))
+				ok = isnanD (y) && isnan (y);
+			else if (!finiteD (y) || !finite (dy))
+				ok = (!finiteD (y) && !finite (dy));
+			else
+				ok = decimal_eq (y, dy);
+
+			if (ok) {
+				good ();
+			} else {
+				bad ();
+				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
+				g_printerr ("Got %.16Wg vs %.16g\n", y, dy);
+			}
+		}
+	}
+
+	end_section ();
+}
+
+static void
 test_quad_exp_pow (void)
 {
 	GOQuadD qa, qb, qc, qsqrt1000, qe;
@@ -809,6 +856,8 @@ main (int argc, char **argv)
 
 	// Very preliminary
 	test_pow (corpus, corpus);
+
+	test_atan2 (corpus, corpus);
 
 	test_quad_exp_pow ();
 

@@ -41,7 +41,7 @@
 // asinD           A         *         *
 // asinhD          A         *         *
 // atanD           A         *         *
-// atan2D          *         *         *
+// atan2D          A         *         B
 // atanhD          A         A-        *
 // cbrtD           A         A-        *
 // ceilD           A         A         A
@@ -54,9 +54,9 @@
 // expm1D          A         *         *
 // fabsD           A         A         *
 // floorD          A         A         A
-// frexpD          B         B         -
+// frexpD          A         B         -
 // fmodD           *         *         *
-// hypotD          *         *         *
+// hypotD          *         *         -
 // jnD             *         *         -
 // ldexpD          B         B         -
 // lgammaD         A         A-        *
@@ -67,7 +67,7 @@
 // logD            A         A-        *
 // modfD           A         A         A
 // nextafterD      A         A         A
-// powD            *         *         -
+// powD            B         *         B
 // roundD          A         A         A
 // sinD            *         *         *
 // sinhD           A         A-        *
@@ -110,7 +110,6 @@
 	  return (_Decimal64) (FUNC ((double)x, (double) y));		\
   }
 
-STUB2(atan2)
 STUB1(cos)
 STUB2(fmod)
 STUB2(hypot)
@@ -1103,6 +1102,41 @@ atanD (_Decimal64 x)
 		return x;
 	else
 		return atan (x);
+}
+
+_Decimal64
+atan2D (_Decimal64 y, _Decimal64 x)
+{
+	const _Decimal64 PI_1_4 = 0.7853981633974483dd;
+	const _Decimal64 PI_1_2 = 1.570796326794897dd;
+	const _Decimal64 PI_3_4 = 2.356194490192345dd;
+	int signx, signy, specialx, specialy;
+	uint64_t mantx, manty;
+
+	specialy = decode64 (&y, &manty, NULL, &signy);
+	specialx = decode64 (&x, &mantx, NULL, &signx);
+
+	if (specialy == CLS_NAN) return y;
+	if (specialx == CLS_NAN) return x;
+
+	if (specialy == CLS_INF && specialx == CLS_INF)
+		return copysignD (signx ? PI_3_4 : PI_1_4, y);
+	else if (specialy == CLS_INF)
+		return copysignD (PI_1_2, y);
+	else if (manty == 0 || specialx == CLS_INF)
+		return copysignD (signx ? M_PID : 0.dd, y);
+	else if (mantx == 0)
+		return copysignD (PI_1_2, y);
+
+	if (fabsD (y) >= 1e100dd || fabsD (x) >= 1e100dd) {
+		y = scalbnD (y, -100);
+		x = scalbnD (x, -100);
+	} else if (fabsD (y) <= 1e-100dd || fabsD (x) <= 1e-100dd) {
+		y = scalbnD (y, +100);
+		x = scalbnD (x, +100);
+	}
+
+	return atan2 (y, x);
 }
 
 // ---------------------------------------------------------------------------
