@@ -784,6 +784,52 @@ test_hypot (const Corpus *corpus1, const Corpus *corpus2)
 }
 
 static void
+test_fmod (const Corpus *corpus1, const Corpus *corpus2)
+{
+	start_section ("fmodD");
+
+	for (int v1 = 0; v1 < corpus1->nvals; v1++) {
+		_Decimal64 x1 = corpus1->vals[v1];
+
+		for (int v2 = 0; v2 < corpus2->nvals; v2++) {
+			_Decimal64 x2 = corpus2->vals[v2];
+			gboolean ok;
+			_Decimal64 y = fmodD (x1, x2);
+
+			ok = !signbitD (y) == !signbitD (x1);
+
+			if (isnanD (x1) || isnanD (x2) || x2 == 0)
+				ok = ok && isnanD (y);
+
+			if ((x1 == 0 && fabsD (x2) > 0) ||
+			    (finiteD (x1) && x2 == (_Decimal64)INFINITY))
+				ok = ok && decimal_eq (y, x1);
+
+			// This is a poor test.  We need something curated specially
+			// for fmod.
+			if (ok && finiteD (y) && finiteD (x2)) {
+				_Decimal64 q = x1 / x2;
+				_Decimal64 r = x1 - truncD (q) * x2;
+				ok = (fabsD (y) < fabsD (x2));
+				if (y != r) {
+					//g_printerr ("   %.16Wg  %.16Wg\n", y, r);
+				}
+			}
+
+			if (ok) {
+				good ();
+			} else {
+				bad ();
+				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
+				g_printerr ("Got %.16Wg vs %.16g\n", y, fmod (x1, x2));
+			}
+		}
+	}
+
+	end_section ();
+}
+
+static void
 test_quad_exp_pow (void)
 {
 	GOQuadD qa, qb, qc, qsqrt1000, qe;
@@ -916,13 +962,14 @@ main (int argc, char **argv)
 	test_dtoa (corpus2);
 	corpus_free (corpus2);
 
-	// Very preliminary
-	test_pow (corpus, corpus);
-
 	test_atan2 (corpus, corpus);
 
 	test_hypot (corpus, corpus);
 
+	test_fmod (corpus, corpus);
+
+	// Very preliminary
+	test_pow (corpus, corpus);
 	test_quad_exp_pow ();
 
 	test_strto ();

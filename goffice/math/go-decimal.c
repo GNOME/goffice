@@ -55,9 +55,9 @@
 // fabsD           A         A         *
 // floorD          A         A         A
 // frexpD          A         B         -
-// fmodD           *         *         *
-// hypotD          *         *         -
-// jnD             *         *         -
+// fmodD           A         A         *
+// hypotD          A         A         -
+// jnD             B         C*        -
 // ldexpD          B         B         -
 // lgammaD         A         A-        *
 // lgammaD_r       A         A-        -
@@ -77,7 +77,7 @@
 // tanD            B         C*        *
 // tanhD           A         A-        *
 // truncD          A         A         A
-// ynD             *         *         -
+// ynD             *         C*        -
 // finiteD         A         A         A
 // isnanD          A         A         A
 // signbitD        A         A         A
@@ -93,32 +93,6 @@
 #include <printf.h>
 #include <assert.h>
 #include <ctype.h>
-
-// ---------------------------------------------------------------------------
-
-// To implement _Decimal64 versions of the usual suspects we simply
-// go to double and back.  If something stands out as not accurate
-// enough we'll have to come up with something better.
-
-#define STUB1(FUNC)							\
-  _Decimal64 FUNC ## D (_Decimal64 x) {					\
-	  return (_Decimal64) (FUNC ((double)x));			\
-  }
-
-#define STUB2(FUNC)							\
-  _Decimal64 FUNC ## D (_Decimal64 x, _Decimal64 y) {			\
-	  return (_Decimal64) (FUNC ((double)x, (double) y));		\
-  }
-
-STUB2(fmod)
-
-_Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
-
-_Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
-
-#if 0
-	;
-#endif
 
 // ---------------------------------------------------------------------------
 
@@ -1470,6 +1444,58 @@ modfD (_Decimal64 x, _Decimal64 *y)
 }
 
 _Decimal64
+fmodD (_Decimal64 x, _Decimal64 y)
+{
+	int specialx, specialy, signx, signy, p10x, p10y;
+	uint64_t mantx, manty;
+
+	specialx = decode64 (&x, &mantx, &p10x, &signx);
+	specialy = decode64 (&y, &manty, &p10y, &signy);
+
+	if (specialx >= CLS_NAN || specialy == CLS_NAN || (manty == 0 && specialy != CLS_INF))
+		return copysignD (NAN, x);
+	if (mantx == 0 || specialy == CLS_INF)
+		return x;
+
+	// At this point both x and y are finite and non-zero
+
+	while (mantx < 1000000000000000ull) {
+		mantx *= 10;
+		p10x--;
+	}
+	while (manty < 1000000000000000ull) {
+		manty *= 10;
+		p10y--;
+	}
+
+	while (p10x >= p10y) {
+		uint8_t q;
+		uint64_t qy;
+
+		if (manty > mantx) {
+			if (p10x == p10y)
+				break;
+			mantx *= 10;
+			p10x--;
+		}
+
+		q = mantx / manty;
+		qy = q * manty;
+		mantx -= qy;
+		if (mantx == 0)
+			return signx ? -0.dd : 0.dd;
+		while (mantx < 1000000000000000ull) {
+			mantx *= 10;
+			p10x--;
+		}
+	}
+
+	if (p10x < DECIMAL64_BIAS)
+		return copysignD (scalbnD (mantx, p10x), x);
+	return make64 (mantx, p10x, signx);
+}
+
+_Decimal64
 sqrtD (_Decimal64 x)
 {
 	int s = 0;
@@ -1561,6 +1587,26 @@ hypotD (_Decimal64 x, _Decimal64 y)
 	return (y / r) + x;
 }
 
+// ---------------------------------------------------------------------------
+
+_Decimal64
+jnD (int n, _Decimal64 x)
+{
+	if ((n == 1 || n == -1) && fabsD (x) <= (_Decimal64)DBL_MIN)
+		return x / (2 * n);
+	// No need to handle other underflows
+
+	// FIXME: need to handle large values.  Going via "double" is no good.
+
+	return jn (n, x);
+}
+
+_Decimal64
+ynD (int n, _Decimal64 x)
+{
+	// FIXME: need to handle small and large numbers.
+	return yn (n, x);
+}
 
 // ---------------------------------------------------------------------------
 
