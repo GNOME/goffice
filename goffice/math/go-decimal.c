@@ -46,7 +46,7 @@
 // cbrtD           A         A-        *
 // ceilD           A         A         A
 // copysignD       A         A         A
-// cosD            *         *         *
+// cosD            B         C*        *
 // coshD           A         A-        *
 // erfD            A         *         *
 // erfcD           A         *         *
@@ -69,12 +69,12 @@
 // nextafterD      A         A         A
 // powD            B         *         B
 // roundD          A         A         A
-// sinD            *         *         *
+// sinD            B         C*        *
 // sinhD           A         A-        *
 // scalbln         A         A         A
 // scalbn          A         A         A
 // sqrtD           A         A-        *
-// tanD            *         *         *
+// tanD            B         C*        *
 // tanhD           A         A-        *
 // truncD          A         A         A
 // ynD             *         *         -
@@ -110,11 +110,7 @@
 	  return (_Decimal64) (FUNC ((double)x, (double) y));		\
   }
 
-STUB1(cos)
 STUB2(fmod)
-STUB2(hypot)
-STUB1(sin)
-STUB1(tan)
 
 _Decimal64 jnD (int n, _Decimal64 x) { return jn (n, x); }
 
@@ -133,9 +129,10 @@ _Decimal64 ynD (int n, _Decimal64 x) { return yn (n, x); }
 
 #define DECIMAL128_BIAS -6176
 
-#define M_LN10D 2.3025850929940456840179914546843642076dd // log(10)
-#define M_LG10D 3.32192809488736235dd                     // log_2(10)
-#define M_LN2D  0.6931471805599453094dd                   // log(2)
+#define M_LN10D  2.3025850929940456840179914546843642076dd // log(10)
+#define M_LG10D  3.32192809488736235dd                     // log_2(10)
+#define M_LN2D   0.6931471805599453094dd                   // log(2)
+#define M_SQRT2D 1.414213562373095dd                       // sqrt(2)
 
 // We assume bis format (and check for it during init)
 #define decode64 decode64_bis
@@ -989,6 +986,8 @@ lgammaD_r (_Decimal64 x, int *signp)
 		*signp = +1;
 		return x * logD (x);
 	}
+	// No need to handle overflow on the left as all large numbers
+	// are integers.
 
 	return lgamma_r (x, signp);
 }
@@ -997,7 +996,7 @@ lgammaD_r (_Decimal64 x, int *signp)
 _Decimal64
 erfD (_Decimal64 x)
 {
-	// No need to handle overflow because of horizontal tangents
+	// No need to handle overflow because of |y|=1 horizontal tangents
 	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
 		_Decimal64 f = 1.1283791670955125738961589dd; // 2/sqrt(Pi)
 		return x * f;
@@ -1008,7 +1007,8 @@ erfD (_Decimal64 x)
 _Decimal64
 erfcD (_Decimal64 x)
 {
-	// No need to handle overflow because of horizontal tangents
+	// No need to handle overflow on the left because of y=2 horizontal tangent
+	// No need to handle overflow to the right because underflow already happened
 	// No need to handle underflow because erfc(0)=1
 	return erfc (x);
 }
@@ -1079,6 +1079,32 @@ atanhD (_Decimal64 x)
 }
 
 // ---------------------------------------------------------------------------
+
+_Decimal64
+sinD (_Decimal64 x)
+{
+	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+		return x;
+	// FIXME: need to handle large values.  Going via "double" is no good.
+	return sin (x);
+}
+
+_Decimal64
+cosD (_Decimal64 x)
+{
+	// No need to handle underflow as cos(0)=1.
+	// FIXME: need to handle large values.  Going via "double" is no good.
+	return cos (x);
+}
+
+_Decimal64
+tanD (_Decimal64 x)
+{
+	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+		return x;
+	// FIXME: need to handle large values.  Going via "double" is no good.
+	return tan (x);
+}
 
 _Decimal64
 asinD (_Decimal64 x)
@@ -1491,6 +1517,50 @@ cbrtD (_Decimal64 x)
 
 	return scalbnD (x, s);
 }
+
+_Decimal64
+hypotD (_Decimal64 x, _Decimal64 y)
+{
+	int specialx, specialy;
+	uint64_t mantx, manty;
+	_Decimal64 r, s;
+	const _Decimal64 SQRT2P1_HI = 2.414213562373095dd;
+	const _Decimal64 SQRT2P1_LO = 4.880168872420970e-17dd;  // Extra "0" between the two
+
+	specialx = decode64 (&x, &mantx, NULL, NULL);
+	specialy = decode64 (&y, &manty, NULL, NULL);
+
+	if (specialx == CLS_INF || specialy == CLS_INF)
+		return (_Decimal64)INFINITY;
+	if (specialx == CLS_NAN || specialy == CLS_NAN)
+		return (_Decimal64)NAN; // Always +nan
+
+	x = fabsD (x);
+	y = fabsD (y);
+	if (mantx == 0)
+		return y;
+	if (manty == 0)
+		return x;
+
+	if (y > x) {
+		_Decimal64 z = x;
+		x = y;
+		y = z;
+	}
+
+	r = x - y;
+	if (r <= y) {
+		r = r / y;
+		s = r * (r + 2);
+		r = ((s / (M_SQRT2D + sqrtD (2 + s)) + r) + SQRT2P1_LO) + SQRT2P1_HI;
+	} else {
+		r = x / y;
+		r = r + sqrtD (r * r + 1);
+	}
+
+	return (y / r) + x;
+}
+
 
 // ---------------------------------------------------------------------------
 

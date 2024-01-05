@@ -728,6 +728,62 @@ test_atan2 (const Corpus *corpus1, const Corpus *corpus2)
 }
 
 static void
+test_hypot (const Corpus *corpus1, const Corpus *corpus2)
+{
+	start_section ("hypot");
+
+	for (int v1 = 0; v1 < corpus1->nvals; v1++) {
+		_Decimal64 x1 = corpus1->vals[v1];
+		double dx1 = x1;
+
+		int qunderflow1 = (dx1 == 0) && (x1 != 0);
+		int qoverflow1 = finiteD (x1) && !finite (dx1);
+
+		if (qunderflow1 || qoverflow1)
+			continue;
+
+		for (int v2 = 0; v2 < corpus2->nvals; v2++) {
+			_Decimal64 x2 = corpus2->vals[v2];
+			double dx2 = x2;
+			int qunderflow2 = (dx2 == 0) && (x2 != 0);
+			int qoverflow2 = finiteD (x2) && !finite (dx2);
+			gboolean ok;
+
+			if (qunderflow2 || qoverflow2)
+				continue;
+
+			double dy = hypot (dx1, dx2);
+			_Decimal64 y = hypotD (x1, x2);
+
+			if (!signbitD (y) != !signbit (dy))
+				ok = FALSE;
+			if (isnanD (y) || isnan (y))
+				ok = isnanD (y) && isnan (y);
+			else if (!finiteD (y) || !finite (dy))
+				ok = (!finiteD (y) && !finite (dy));
+			else {
+				_Decimal64 y2 = dy;
+				_Decimal64 diff = y - y2;
+				if (fabsD (diff) <= y * 1e-15dd)
+					ok = TRUE;
+				else
+					ok = decimal_eq (y, dy);
+			}
+
+			if (ok) {
+				good ();
+			} else {
+				bad ();
+				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
+				g_printerr ("Got %.16Wg vs %.16g\n", y, dy);
+			}
+		}
+	}
+
+	end_section ();
+}
+
+static void
 test_quad_exp_pow (void)
 {
 	GOQuadD qa, qb, qc, qsqrt1000, qe;
@@ -864,6 +920,8 @@ main (int argc, char **argv)
 	test_pow (corpus, corpus);
 
 	test_atan2 (corpus, corpus);
+
+	test_hypot (corpus, corpus);
 
 	test_quad_exp_pow ();
 
