@@ -629,14 +629,14 @@ SUFFIX(go_quad_constant8) (QUAD *res, const guint8 *data, gsize n,
 
 #if DOUBLE_RADIX == 2
 static void
-SUFFIX(rescale2) (QUAD *x, DOUBLE *e)
+SUFFIX(rescale_base) (QUAD *x, DOUBLE *e)
 {
 	int xe;
 
-	(void)SUFFIX(frexp) (SUFFIX(go_quad_value) (x), &xe);
+	(void)UNSCALBN (SUFFIX(go_quad_value) (x), &xe);
 	if (xe != 0) {
 		QUAD qs;
-		SUFFIX(go_quad_init) (&qs, SUFFIX(ldexp) (1.0, -xe));
+		SUFFIX(go_quad_init) (&qs, SUFFIX(scalbn) (1.0, -xe));
 		SUFFIX(go_quad_mul) (x, x, &qs);
 		*e += xe;
 	}
@@ -658,13 +658,13 @@ SUFFIX(go_quad_pow_int) (QUAD *res, DOUBLE *exp2, const QUAD *x, const QUAD *y)
 	g_return_if_fail (dy >= 0);
 
 	*res = SUFFIX(go_quad_one);
-	SUFFIX(rescale2) (&xn, &xe);
+	SUFFIX(rescale_base) (&xn, &xe);
 
 	while (dy > 0) {
 		if (SUFFIX(fmod) (dy, 2) > 0) {
 			SUFFIX(go_quad_mul) (res, res, &xn);
 			*exp2 += xe;
-			SUFFIX(rescale2) (res, exp2);
+			SUFFIX(rescale_base) (res, exp2);
 			dy--;
 			if (dy == 0)
 				break;
@@ -672,7 +672,7 @@ SUFFIX(go_quad_pow_int) (QUAD *res, DOUBLE *exp2, const QUAD *x, const QUAD *y)
 		dy /= 2;
 		SUFFIX(go_quad_mul) (&xn, &xn, &xn);
 		xe *= 2;
-		SUFFIX(rescale2) (&xn, &xe);
+		SUFFIX(rescale_base) (&xn, &xe);
 	}
 }
 #endif
@@ -1277,7 +1277,7 @@ SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
 		for (k = 1; k <= n; k++) {
 			QUAD f;
 
-			SUFFIX(go_quad_init) (&f, SUFFIX(ldexp) (1, -(2 * k)));
+			SUFFIX(go_quad_init) (&f, go_pow2 (-2 * k));
 			SUFFIX(go_quad_mul) (&dk[k], &f, &dpk[k-1]);
 			SUFFIX(go_quad_sub) (&dk[k], &dk[k-1], &dk[k]);
 			SUFFIX(go_quad_sub) (&f, &SUFFIX(go_quad_one), &f);

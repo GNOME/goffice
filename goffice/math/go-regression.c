@@ -453,11 +453,11 @@ SUFFIX(calc_scale) (const DOUBLE *xs, int m)
 
 	/*
 	 * Pick a scale such that the largest value will be in the
-	 * range [1;2[.  The scale will be a power of 2 so scaling
-	 * doesn't introduce rounding errors of it own.
+	 * range [1;RADIX[.  The scale will be a power of radix so
+	 * scaling doesn't introduce rounding errors of it own.
 	 */
-	(void) SUFFIX(frexp) (M, &e);
-	return SUFFIX(ldexp) (1.0, e - 1);
+	(void)UNSCALBN (M, &e);
+	return SUFFIX(scalbn) (1.0, e - 1);
 }
 
 /* ------------------------------------------------------------------------- */

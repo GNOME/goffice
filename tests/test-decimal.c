@@ -523,9 +523,15 @@ test_oneargs (const Corpus *corpus)
 			int ok;
 			int qunderflow = (dx == 0) && (x != 0);
 			int qoverflow = finiteD (x) && !finite (dx);
+			_Decimal64 tol = 1e-10dd;
 
 			if (qunderflow || qoverflow)
 				continue;
+
+			// Going through double doesn't work well here
+			if (funcs[f].fn_decimal == atanhD &&
+			    fabsD (fabsD (x) - 1) <= 1e-15dd)
+				tol = 1e-2dd;
 
 			y = funcs[f].fn_decimal (x);
 			dy = funcs[f].fn_double (dx);
@@ -540,7 +546,7 @@ test_oneargs (const Corpus *corpus)
 
 			if (ok && finite (dy) && y != 0) {
 				_Decimal64 d = y - (_Decimal64)dy;
-				ok = fabsD (d / y) < 1e-10dd;
+				ok = fabsD (d / y) < tol;
 			}
 
 			if (ok)
