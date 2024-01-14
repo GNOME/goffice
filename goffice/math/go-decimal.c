@@ -93,6 +93,7 @@
 #include <printf.h>
 #include <assert.h>
 #include <ctype.h>
+#include <locale.h>
 
 // ---------------------------------------------------------------------------
 
@@ -113,7 +114,6 @@
 #define make64 make64_bis
 #define decode128 decode128_bis
 
-
 enum {
 	CLS_NORMAL,
 	CLS_INVALID,  // Treat as zero
@@ -121,6 +121,29 @@ enum {
 	CLS_INF
 };
 
+// ---------------------------------------------------------------------------
+
+static char *decimal_point_str;
+
+static const char *
+decimal_point (void)
+{
+	struct lconv *lc = localeconv ();
+
+	if (lc->decimal_point == NULL || lc->decimal_point[0] == 0)
+		return ".";
+
+	g_free (decimal_point_str);
+	decimal_point_str = g_locale_to_utf8 (lc->decimal_point, -1,
+					      NULL, NULL, NULL);
+	if (decimal_point_str == NULL || decimal_point_str[0] == 0)
+		return ".";
+
+	return decimal_point_str;
+}
+
+
+// ---------------------------------------------------------------------------
 
 // Decode a _Decimal64 assuming binary integer significant encoding
 static inline int
@@ -375,6 +398,8 @@ decimal_format(FILE *stream, const struct printf_info *info,
 	int len = 0;
 	int qupper = (info->spec <= 'Z');
 	char signchar;
+	const char *dot = decimal_point ();
+	int dotlen = strlen (dot);
 
 	if (info->user & decimal64_modifier) {
 		_Decimal64 const *args0 = *(_Decimal64 **)(args[0]);
@@ -457,9 +482,10 @@ decimal_format(FILE *stream, const struct printf_info *info,
 				len--;
 
 			if (prec && (len > 1 || info->alt)) {
-				memmove (buffer + 2, buffer + 1, len - 1);
-				buffer[1] = '.';
-				len++;
+				memmove (buffer + 1 + dotlen,
+					 buffer + 1, len - 1);
+				memcpy (buffer + 1, dot, dotlen);
+				len += dotlen;
 			}
 
 			buffer[len++] = (qupper ? 'E' : 'e');
@@ -508,18 +534,20 @@ decimal_format(FILE *stream, const struct printf_info *info,
 
 			if (decimals > len) {
 				int diff = decimals - len;
-				memmove (buffer + diff + 2, buffer, len);
-				memset (buffer, '0', diff + 2);
-				buffer[1] = '.';
-				len += diff + 2;
+				memmove (buffer + diff + 1 + dotlen,
+					 buffer, len);
+				memset (buffer, '0', diff + 1 + dotlen);
+				memcpy (buffer + 1, dot, dotlen);
+				len += diff + 1 + dotlen;
 			} else if (decimals > 0 || info->alt) {
 				int need0 = (decimals == len);
-				memmove (buffer + len - decimals + 1 + need0,
+				memmove (buffer + len - decimals + dotlen + need0,
 					 buffer + len - decimals,
 					 decimals);
 				if (need0) buffer[0] = '0';
-				buffer[len + need0 - decimals] = '.';
-				len += 1 + need0;
+				memcpy (buffer + len + need0 - decimals,
+					dot, dotlen);
+				len += dotlen + need0;
 			}
 			buffer[len] = 0;
 		} else {
@@ -815,6 +843,7 @@ strtoDd (const char *s, char **end)
 	int period = 0;
 	int scale = 0;
 	_Decimal64 res;
+	const char *dot = decimal_point ();
 
 	while (isspace (*us))
 		us++;
@@ -824,7 +853,7 @@ strtoDd (const char *s, char **end)
 	else if (*us == '+')
 		us++;
 
-	if (!isdigit (*us) && !(*us == '.' && isdigit (us[1]))) {
+	if (!isdigit (*us) && !(g_str_has_prefix (us, dot) && isdigit (us[1]))) {
 		if (caseprefix (us, "INFINITY"))
 			res = INFINITY, us += 8;
 		else if (caseprefix (us, "INF"))
@@ -840,8 +869,8 @@ strtoDd (const char *s, char **end)
 		return sign ? -res : res;
 	}
 
-	while (isdigit (*us) || *us == '.') {
-		if (*us == '.') {
+	while (isdigit (*us) || g_str_has_prefix (us, dot)) {
+		if (g_str_has_prefix (us, dot)) {
 			if (period)
 				break;
 			period = 1;

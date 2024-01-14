@@ -588,6 +588,8 @@ fmt_d64 (GString *dst, const char *fmt, _Decimal64 d, int w, int p)
 	// For now we're punting.
 	GString *fmt2 = g_string_sized_new (100);
 	gboolean seen_dot = FALSE;
+	gboolean ascii = FALSE;
+	size_t oldlen = dst->len;
 
 	g_string_append_c (fmt2, '%');
 	while (*fmt) {
@@ -605,8 +607,7 @@ fmt_d64 (GString *dst, const char *fmt, _Decimal64 d, int w, int p)
 			// FIXME: if sprintf starts rounding to even, fix needed here
 			// Ignore for now
 		} else if (c == ',') {
-			// FIXME: if sprintf gains intl support, fix needed here
-			// Ignore for now
+			ascii = TRUE;
 		} else {
 			g_printerr ("Ignoring unexpected char '%c'\n", c);
 		}
@@ -614,6 +615,16 @@ fmt_d64 (GString *dst, const char *fmt, _Decimal64 d, int w, int p)
 
 	g_string_append_printf (dst, fmt2->str, d);
 	g_string_free (fmt2, TRUE);
+
+	if (ascii) {
+		GString const *decimal = go_locale_get_decimal ();
+		char *dpos = strstr (dst->str + oldlen, decimal->str);
+		if (dpos && decimal->len) {
+			size_t pos = dpos - dst->str;
+			g_string_erase (dst, pos + 1, decimal->len - 1);
+			dst->str[pos] = '.';
+		}
+	}
 }
 #endif
 
