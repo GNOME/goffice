@@ -658,7 +658,7 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 			if (x1 < 0 && x2 < 0 &&
 			    finiteD (x1) &&
 			    finiteD (x2) && x2 == floorD (x2) &&
-			    fmodD (x2, 2.d) != fmodD (dx2, 2.d))
+			    fmodD (x2, 2.dd) != fmodD (dx2, 2.dd))
 				continue;
 
 			double dy = pow (dx1, dx2);
