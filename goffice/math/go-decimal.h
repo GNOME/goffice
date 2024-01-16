@@ -94,6 +94,7 @@ _Decimal64 strtoDd (const char *s, char **end);
 
 /* private */
 void _go_decimal_init (void);
+void _go_decimal_shutdown (void);
 
 /* ------------------------------------------------------------------------- */
 

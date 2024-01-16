@@ -266,6 +266,9 @@ libgoffice_shutdown (void)
 	_gog_themes_shutdown ();
 	_go_glib_extras_shutdown ();
 	_go_fonts_shutdown ();
+#ifdef GOFFICE_WITH_DECIMAL64
+	_go_decimal_shutdown ();
+#endif
 	_go_conf_shutdown ();
 #ifdef GOFFICE_WITH_GTK
 	_go_gtk_shutdown ();

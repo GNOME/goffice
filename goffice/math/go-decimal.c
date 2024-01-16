@@ -1660,4 +1660,11 @@ _go_decimal_init (void)
 	init_decimal_printf_support ();
 }
 
+void
+_go_decimal_shutdown (void)
+{
+	g_free (decimal_point_str);
+	decimal_point_str = NULL;
+}
+
 // ---------------------------------------------------------------------------
