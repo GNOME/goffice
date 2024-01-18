@@ -99,7 +99,7 @@ static struct {
 	{ GOG_AXIS_POLAR_UNIT_GRADS,   N_("Grads"),   400.0,	"General",  0.0, 400.0,     50.0,      10.0}
 };
 
-#define GOG_AXIS_CIRCULAR_ROTATION_MIN -180.0
+#define GOG_AXIS_CIRCULAR_ROTATION_MIN (-180.0)
 #define GOG_AXIS_CIRCULAR_ROTATION_MAX  180.0
 
 typedef struct _GogAxisMapDesc GogAxisMapDesc;
