@@ -97,12 +97,12 @@
 
 // ---------------------------------------------------------------------------
 
-#define DECIMAL64_BIAS -398
+#define DECIMAL64_BIAS (-398)
 #define DECIMAL64_MAX_BIASED_EXP 369
 #define DECIMAL64_MIN_DEN 1e-398dd
 #define DECIMAL64_MAX_MANT 9999999999999999ull
 
-#define DECIMAL128_BIAS -6176
+#define DECIMAL128_BIAS (-6176)
 
 #define M_LN10D  2.3025850929940456840179914546843642076dd // log(10)
 #define M_LG10D  3.32192809488736235dd                     // log_2(10)
@@ -336,8 +336,8 @@ decimal128_va_arg (void *mem, va_list *ap)
 }
 
 static int
-decimal_arginfo(const struct printf_info *info, size_t n,
-		int *argtypes, int *size)
+decimal_arginfo (const struct printf_info *info, size_t n,
+		 int *argtypes, int *size)
 {
 	if (n > 0) {
 		if (info->user & decimal64_modifier) {
@@ -390,8 +390,8 @@ do_round (char *buf, int ix, int *qoverflow)
 }
 
 static int
-decimal_format(FILE *stream, const struct printf_info *info,
-	       const void *const *args)
+decimal_format (FILE *stream, const struct printf_info *info,
+		const void *const *args)
 {
 	char buffer[1024];
 	int special, p10, sign;
@@ -1477,6 +1477,7 @@ fmodD (_Decimal64 x, _Decimal64 y)
 {
 	int specialx, specialy, signx, signy, p10x, p10y;
 	uint64_t mantx, manty;
+	const uint64_t min_normal_mant = (DECIMAL64_MAX_MANT + 1) / 10;
 
 	specialx = decode64 (&x, &mantx, &p10x, &signx);
 	specialy = decode64 (&y, &manty, &p10y, &signy);
@@ -1488,11 +1489,11 @@ fmodD (_Decimal64 x, _Decimal64 y)
 
 	// At this point both x and y are finite and non-zero
 
-	while (mantx < 1000000000000000ull) {
+	while (mantx < min_normal_mant) {
 		mantx *= 10;
 		p10x--;
 	}
-	while (manty < 1000000000000000ull) {
+	while (manty < min_normal_mant) {
 		manty *= 10;
 		p10y--;
 	}
@@ -1513,7 +1514,7 @@ fmodD (_Decimal64 x, _Decimal64 y)
 		mantx -= qy;
 		if (mantx == 0)
 			return signx ? -0.dd : 0.dd;
-		while (mantx < 1000000000000000ull) {
+		while (mantx < min_normal_mant) {
 			mantx *= 10;
 			p10x--;
 		}
@@ -1645,7 +1646,7 @@ _go_decimal_init (void)
 	// Test number big enough to have only one representation (but still
 	// subject to two different encodings)
 	_Decimal64 const x = 1234567890123456.dd;
-	uint64_t expected = 0x31c462d53c8abac0ull;
+	uint64_t const expected = 0x31c462d53c8abac0ull;
 	uint64_t u64;
 
 	memcpy (&u64, &x, sizeof (u64));
