@@ -1878,7 +1878,7 @@ gog_object_get_position_flags (GogObject const *obj, GogObjectPosition mask)
  *
  * Attempts to set the position flags of @obj to @flags.
  *
- * Returns: TRUE the new flags are permitted.
+ * Returns: %TRUE if the new flags are permitted.
  **/
 gboolean
 gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjectPosition mask)

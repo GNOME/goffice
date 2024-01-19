@@ -76,9 +76,8 @@ static void go_image_build_pixbuf_format_infos (void);
  * go_mime_to_image_format:
  * @mime_type: a mime type string
  *
- * returns: file extension for the given mime type.
+ * Returns: (transfer full): file extension for the given mime type.
  **/
-
 char *
 go_mime_to_image_format (char const *mime_type)
 {
@@ -109,9 +108,8 @@ go_mime_to_image_format (char const *mime_type)
  * go_image_format_to_mime:
  * @format: a file extension string
  *
- * returns: corresponding mime type.
+ * Returns: (transfer full) (nullable): corresponding mime type.
  **/
-
 char *
 go_image_format_to_mime (char const *format)
 {
@@ -256,9 +254,8 @@ go_image_build_pixbuf_format_infos (void)
  *
  * Retrieves information associated to @format.
  *
- * Returns: a #GOImageFormatInfo struct.
+ * Returns: (transfer none): a #GOImageFormatInfo struct.
  **/
-
 GOImageFormatInfo const *
 go_image_get_format_info (GOImageFormat format)
 {
@@ -281,7 +278,6 @@ go_image_get_format_info (GOImageFormat format)
  *
  * returns: corresponding #GOImageFormat.
  **/
-
 GOImageFormat
 go_image_get_format_from_name (char const *name)
 {
@@ -312,7 +308,6 @@ go_image_get_format_from_name (char const *name)
  * Returns: (element-type GOImageFormat) (transfer container): a list of #GOImageFormat that can be created
  * from a pixbuf.
  **/
-
 GSList *
 go_image_get_formats_with_pixbuf_saver (void)
 {

@@ -1040,7 +1040,7 @@ gog_series_check_validity (GogSeries *series)
  * gog_series_has_legend:
  * @series: #GogSeries
  *
- * Returns: TRUE if the series has a visible legend entry
+ * Returns: %TRUE if the series has a visible legend entry
  **/
 gboolean
 gog_series_has_legend (GogSeries const *series)

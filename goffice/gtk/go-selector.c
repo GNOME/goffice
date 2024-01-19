@@ -361,7 +361,7 @@ go_selector_set_active_internal (GOSelector *selector, int index, gboolean is_au
  * Sets current selection index, and emits "activate" signal if
  * selection is actually changed.
  *
- * Returns: TRUE if selection is actually changed.
+ * Returns: %TRUE if selection is actually changed.
  **/
 gboolean
 go_selector_set_active (GOSelector *selector, int index)
@@ -386,7 +386,7 @@ go_selector_set_active (GOSelector *selector, int index)
  * @selector: a #GOSelector
  * @is_auto: boolean
  *
- * Retrieves current selection index, and set @is_auto to TRUE if
+ * Retrieves current selection index, and set @is_auto to %TRUE if
  * current selection was set by clicking on automatic palette item.
  *
  * Returns: current index.

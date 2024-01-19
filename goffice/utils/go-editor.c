@@ -77,7 +77,7 @@ page_free (GOEditorPage *page)
 
 /**
  * go_editor_free:
- * @editor: a #GOEditor
+ * @editor: (nullable): a #GOEditor
  *
  * Frees a GOEditor object.
  **/
@@ -168,7 +168,6 @@ go_editor_set_store_page (GOEditor *editor, unsigned *store_page)
  * Sets whether each page of the editor should be displayed inside a scrolled
  * window.
  **/
-
 void
 go_editor_set_use_scrolled_window (GOEditor *editor, gboolean use_scrolled)
 {
@@ -268,7 +267,7 @@ go_editor_get_notebook (GOEditor *editor)
  * @editor: #GOEditor
  * @name: page name
  *
- * Returns: (transfer none): the page with @name as name if any
+ * Returns: (transfer none) (nullable): the page with @name as name if any
  **/
 GtkWidget *
 go_editor_get_page (GOEditor *editor, char const *name)

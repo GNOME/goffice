@@ -51,8 +51,7 @@
  *
  * RFC4122 version 4 compliant random UUIDs generator.
  *
- * Returns: (transfer full): A string with RFC41122 version 4 random UUID,
- * must be freed with _free().
+ * Returns: (transfer full): A string with RFC4122 version 4 random UUID
  **/
 char *
 go_uuid (void)

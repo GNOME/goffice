@@ -854,7 +854,7 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
  * @n: number of data points.
  * @affine: if true, a non-zero constant is allowed.
  * @res: (out): place for constant[0] and slope1[1], slope2[2],... There will be dim+1 results.
- * @stat_: (out): non-NULL storage for additional results.
+ * @stat_: (out): storage for additional results.
  *
  * Performs multi-dimensional linear regressions on the input points.
  * Fits to "y = b + a1 * x1 + ... ad * xd".
@@ -905,7 +905,7 @@ SUFFIX(go_linear_regression) (MATRIX xss, int dim,
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
  * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
- * @stat_: non-NULL storage for additional results.
+ * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
  * Fits to "y = b * m1^x1 * ... * md^xd " or equivalently to
@@ -938,7 +938,7 @@ SUFFIX(go_exponential_regression) (MATRIX xss, int dim,
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
  * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
- * @stat_: non-NULL storage for additional results.
+ * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points as
  * go_exponential_regression, but returns the logarithm of the coefficients instead
@@ -1006,7 +1006,7 @@ SUFFIX(go_exponential_regression_as_log) (MATRIX xss, int dim,
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
  * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
- * @stat_: non-NULL storage for additional results.
+ * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
  * Fits to "y = b * x1^m1 * ... * xd^md " or equivalently to
@@ -1085,7 +1085,7 @@ SUFFIX(go_power_regression) (MATRIX xss, int dim,
  * @n: number of data points
  * @affine: if %TRUE, a non-zero constant is allowed
  * @res: output place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
- * @stat_: non-NULL storage for additional results.
+ * @stat_: (out) (optional): storage for additional results.
  *
  * This is almost a copy of linear_regression and produces multi-dimensional
  * linear regressions on the input points after transforming xss to ln(xss).

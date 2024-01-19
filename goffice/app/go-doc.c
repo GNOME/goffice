@@ -255,7 +255,7 @@ GSF_CLASS (GODoc, go_doc,
  * @doc: the document to modify
  * @uri: the uri for this worksheet.
  *
- * Returns: TRUE if the name was set succesfully.
+ * Returns: %TRUE if the name was set succesfully.
  **/
 gboolean
 go_doc_set_uri (GODoc *doc, char const *uri)
@@ -314,7 +314,7 @@ go_doc_set_dirty (GODoc *doc, gboolean is_dirty)
  * go_doc_is_dirty:
  * @doc: #GODoc
  *
- * Returns: TRUE if @doc has been modified.
+ * Returns: %TRUE if @doc has been modified.
  **/
 gboolean
 go_doc_is_dirty (GODoc const *doc)

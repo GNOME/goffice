@@ -67,7 +67,7 @@ go_font_free (GOFont *font)
  * go_font_new_by_desc:
  * @desc: (transfer full): #PangoFontDescription
  *
- * Returns: a ref to a font that matches @desc.
+ * Returns: (transfer full): a font that matches @desc.
  **/
 GOFont const *
 go_font_new_by_desc (PangoFontDescription *desc)
@@ -187,7 +187,7 @@ go_font_cache_unregister (GClosure *watcher)
  * go_fonts_list_families:
  * @context: #PangoContext
  *
- * Returns: (element-type utf8) (transfer full):  a sorted list of strings of
+ * Returns: (element-type utf8) (transfer full): a sorted list of strings of
  * font family names.
  **/
 GSList *
@@ -213,7 +213,7 @@ go_fonts_list_families (PangoContext *context)
  * go_fonts_list_sizes:
  *
  * Returns: (element-type guint) (transfer container):  a sorted list of font
- * sizes in Pango units.  The list must be freed.
+ * sizes in Pango units.
  **/
 GSList *
 go_fonts_list_sizes (void)

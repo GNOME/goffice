@@ -427,7 +427,7 @@ go_plugin_get_textdomain (GOPlugin *plugin)
  * go_plugin_is_active:
  * @plugin: #GOPlugin
  *
- * Returns: TRUE if @plugin is active and FALSE otherwise.
+ * Returns: %TRUE if @plugin is active and %FALSE otherwise.
  **/
 gboolean
 go_plugin_is_active (GOPlugin *plugin)
@@ -549,7 +549,7 @@ go_plugin_get_description (GOPlugin *plugin)
  * go_plugin_is_loaded:
  * @plugin: #GOPlugin
  *
- * Returns: TRUE if @plugin is loaded and FALSE otherwise.
+ * Returns: %TRUE if @plugin is loaded and %FALSE otherwise.
  **/
 gboolean
 go_plugin_is_loaded (GOPlugin *plugin)
@@ -1110,7 +1110,7 @@ go_plugin_deactivate (GOPlugin *plugin, GOErrorInfo **ret_error)
  *
  * Tells if the plugin can be deactivated using go_plugin_deactivate.
  *
- * Returns: TRUE if @plugin can be deactivated and FALSE otherwise.
+ * Returns: %TRUE if @plugin can be deactivated and %FALSE otherwise.
  */
 gboolean
 go_plugin_can_deactivate (GOPlugin *plugin)

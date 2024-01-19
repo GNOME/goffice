@@ -494,7 +494,7 @@ go_shell_arg_to_uri (char const *arg)
  * Decode the final path component.  Returns as UTF-8 encoded suitable
  * for display.
  *
- * Returns: a string that the caller is responsible for freeing.
+ * Returns: (transfer full): UTF-8 encoded basename.
  **/
 char *
 go_basename_from_uri (char const *uri)
@@ -508,12 +508,12 @@ go_basename_from_uri (char const *uri)
 /**
  * go_dirname_from_uri:
  * @uri: target
- * @brief: if TRUE, hide "file://" if present.
+ * @brief: if %TRUE, hide "file://" if present.
  *
  * Decode the all but the final path component.  Returns as UTF-8 encoded
  * suitable for display.
  *
- * Returns: dirname which the caller is responsible for freeing.
+ * Returns: (transfer full): UTF-8 encoded directory part.
  **/
 char *
 go_dirname_from_uri (char const *uri, gboolean brief)
@@ -1016,7 +1016,7 @@ go_file_get_modtime (char const *uri)
  *
  * url-encode a string according to RFC 2368.
  *
- * Returns: an encoded string which the caller is responsible for freeing.
+ * Returns: (transfer full): encoded string.
  **/
 gchar*
 go_url_encode (gchar const *uri_fragment, int type)
@@ -1085,10 +1085,8 @@ go_url_check_extension (gchar const *uri,
  * go_get_mime_type:
  * @uri: the uri.
  *
- * returns: the mime type for the file as a newly allocated string. Needs to
- * be freed with g_free().
+ * Returns: (transfer full): the mime type for the file.
 **/
-
 gchar *
 go_get_mime_type (gchar const *uri)
 {
@@ -1146,8 +1144,7 @@ go_get_mime_type (gchar const *uri)
  * @data: the data.
  * @data_size: the data size
  *
- * returns: the mime type for the data as a newly allocated string. Needs to
- * be freed with g_free().
+ * Returns: (transfer full): the mime type for the data.
 **/
 gchar *
 go_get_mime_type_for_data (gconstpointer data, int data_size)
@@ -1185,11 +1182,10 @@ go_get_mime_type_for_data (gconstpointer data, int data_size)
  * go_mime_type_get_description:
  * @mime_type: the mime type to describe.
  *
- * returns: the description for the mime type as a newly allocated string.
- * Needs to be freed with g_free(). If the description is not found, the
- * mime type itself will be returned.
+ * Returns: (transfer full): the description for the mime type. If the
+ * description is not found, a copy of the mime type itself will be
+ * returned.
 **/
-
 gchar *
 go_mime_type_get_description (gchar const *mime_type)
 {
