@@ -271,7 +271,6 @@ go_path_clear (GOPath *path)
  * Decrements references count and frees all memory allocated for @path if
  * references count reaches 0.
  **/
-
 void
 go_path_free (GOPath *path)
 {
@@ -298,7 +297,6 @@ go_path_free (GOPath *path)
  * Increments references count to @path.
  * Returns: the path with an incremented references count.
  **/
-
 GOPath *
 go_path_ref (GOPath *path)
 {
@@ -876,12 +874,12 @@ go_path_append_close (GOPath *path)
 
 /**
  * go_path_copy:
- * @path: #GOPath
+ * @path: (nullable): #GOPath
  *
- * Returns: a new #GOPath identical to @path.
+ * Returns: (transfer full) (nullable): a new #GOPath identical to @path.
  **/
-
-GOPath *go_path_copy (GOPath const *path)
+GOPath *
+go_path_copy (GOPath const *path)
 {
 	GOPath *new_path;
 
@@ -905,12 +903,13 @@ GOPath *go_path_copy (GOPath const *path)
  * @end: the second action to copy
  *
  * Copies actions between start and end will be copied inside a new #GOPath.
- * Returns: a new #GOPath. If start or end is
- * negative, it is not taken into account.
+ * If start or end is negative, it is not taken into account.
+ *
  * Since: 0.10.5
+ * Returns: (transfer full): a new #GOPath.
  **/
-
-GOPath *go_path_copy_restricted (GOPath const *path, gssize start, gssize end)
+GOPath *
+go_path_copy_restricted (GOPath const *path, gssize start, gssize end)
 {
 	GOPath *new_path;
 	if (path == NULL)
@@ -924,15 +923,17 @@ GOPath *go_path_copy_restricted (GOPath const *path, gssize start, gssize end)
 			   (GOPathClosePathFunc) go_path_append_close, new_path);
 	return new_path;
 }
+
 /**
- * go_path_append:
+ * go_path_append: (skip)
  * @path1: #GOPath
  * @path2: #GOPath
  *
  * Appends @path2 at the end of @path1.
  * Returns: @path1
  */
-GOPath *go_path_append (GOPath *path1, GOPath const *path2)
+GOPath *
+go_path_append (GOPath *path1, GOPath const *path2)
 {
 	if (path2 == NULL)
 		return path1;
@@ -1454,9 +1455,9 @@ go_path_quadrant (PathParseState *state)
 
 /**
  * go_path_new_from_svg:
- * @src: an SVG path.
+ * @src: (nullable): an SVG path.
  *
- * Returns: (transfer full): the newly allocated #GOPath.
+ * Returns: (transfer full) (nullable): the newly allocated #GOPath.
  **/
 GOPath *
 go_path_new_from_svg (char const *src)
@@ -1571,10 +1572,11 @@ go_path_new_from_svg (char const *src)
 
 /**
  * go_path_new_from_odf_enhanced_path:
- * @src: an ODF enhanced path.
+ * @src: (nullable): an ODF enhanced path.
  * @variables: environment
  *
- * Returns: (transfer full): the newly allocated #GOPath or %NULL on error.
+ * Returns: (transfer full) (nullable): the newly allocated #GOPath
+ * or %NULL on error.
  **/
 GOPath *
 go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables)

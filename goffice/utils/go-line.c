@@ -210,8 +210,8 @@ go_line_dash_from_str (char const *name)
  * go_line_dash_as_str:
  * @type: a #GOLineDashType
  *
- * Returns: a pointer to the nickname of the dash type, or "none" if
- * 	type is invalid. The returning string should not be freed.
+ * Returns: (transfer none): nickname of the dash type, or "none" if
+ * type is invalid.
  **/
 char const *
 go_line_dash_as_str (GOLineDashType type)
@@ -232,9 +232,8 @@ go_line_dash_as_str (GOLineDashType type)
  * go_line_dash_as_label:
  * @type: a #GOLineDashType
  *
- * Returns: a pointer to the user readable name of the dash type,
- * 	or the name of %GO_LINE_NONE if type is invalid. The returned
- * 	string should not be freed.
+ * Returns: (transfer none): user readable name of the dash type,
+ * 	or the name of %GO_LINE_NONE if type is invalid.
  **/
 char const *
 go_line_dash_as_label (GOLineDashType type)
@@ -274,9 +273,9 @@ go_line_dash_get_length (GOLineDashType type)
  * @type: a #GOLineDashType
  * @scale: dash scale
  *
- * Returns: a struct containing the dash sequence corresponding to @type,
- * 	or %NULL if type is invalid or equal to %GO_LINE_NONE.
- * 	The lengths are scaled according to @scale.
+ * Returns: (transfer full) (nullable): a struct containing the dash
+ * sequence corresponding to @type, or %NULL if type is invalid or
+ * equal to %GO_LINE_NONE.  The lengths are scaled according to @scale.
  **/
 GOLineDashSequence *
 go_line_dash_get_sequence (GOLineDashType type, double scale)
@@ -343,8 +342,8 @@ go_line_interpolation_from_str (char const *name)
  * go_line_interpolation_as_str:
  * @type: an interpolation type
  *
- * Returns: a pointer to the nickname of @type, or "linear" if type
- * 	is invalid. The returned string should not be freed.
+ * Returns: (transfer none): nickname of @type, or "linear" if type
+ * is invalid.
  **/
 char const *
 go_line_interpolation_as_str (GOLineInterpolation type)
@@ -365,9 +364,8 @@ go_line_interpolation_as_str (GOLineInterpolation type)
  * go_line_interpolation_as_label:
  * @type: an interpolation type
  *
- * Returns: a pointer to the label of @type, or the name of
+ * Returns: (transfer none): label of @type, or the name of
  * %GO_LINE_INTERPOLATION_LINEAR if type is invalid.
- * The returned string should not be freed.
  **/
 char const *
 go_line_interpolation_as_label (GOLineInterpolation type)
@@ -388,8 +386,8 @@ go_line_interpolation_as_label (GOLineInterpolation type)
  * go_line_interpolation_supports_radial:
  * @type: an interpolation type
  *
- * Returns: TRUE if the line interpolation type can be used with radial
- * axes set, FALSE if it can't.
+ * Returns: %TRUE if the line interpolation type can be used with radial
+ * axes set, %FALSE if it cannot.
  **/
 gboolean
 go_line_interpolation_supports_radial (GOLineInterpolation type)
@@ -408,8 +406,8 @@ go_line_interpolation_supports_radial (GOLineInterpolation type)
  * go_line_interpolation_auto_skip:
  * @type: an interpolation type
  *
- * Returns: TRUE if the line interpolation type forces skipping invalid
- * data, FALSE if it is only optional.
+ * Returns: %TRUE if the line interpolation type forces skipping invalid
+ * data, %FALSE if it is only optional.
  **/
 gboolean
 go_line_interpolation_auto_skip	(GOLineInterpolation type)

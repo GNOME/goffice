@@ -112,12 +112,13 @@ replace_rich_base_with_plain (GOStringRichImpl *rich)
 
 /**
  * go_string_new_len:
- * @str: string (optionally %NULL)
+ * @str: (nullable): string
  * @len: guint32
  *
  * GOString duplicates @str if no string already exists.
  *
- * Returns: a reference to a #GOString containing @str, or %NULL if @str is %NULL
+ * Returns: (transfer full) (nullable): a #GOString containing @str, or
+ * %NULL if @str is %NULL
  **/
 GOString *
 go_string_new_len (char const *str, guint32 len)
@@ -145,12 +146,12 @@ go_string_new_len (char const *str, guint32 len)
 
 /**
  * go_string_new_nocopy_len:
- * @str: string (optionally %NULL)
+ * @str: (transfer full) (nullable): string
  * @len: guint32
  *
  * GOString takes ownership of @str
  *
- * Returns: a reference to a #GOString containing @str
+ * Returns: (transfer full) (nullable): a #GOString containing @str
  **/
 GOString *
 go_string_new_nocopy_len (char *str, guint32 len)
@@ -181,11 +182,12 @@ go_string_new_nocopy_len (char *str, guint32 len)
 
 /**
  * go_string_new:
- * @str: string (optionally %NULL)
+ * @str (nullable): string
  *
  * GOString duplicates @str if no string already exists.
  *
- * Returns: a reference to a #GOString containing @str, or %NULL if @str is %NULL
+ * Returns: (transfer full) (nullable): a #GOString containing @str, or
+ * %NULL if @str is %NULL
  **/
 GOString *
 go_string_new (char const *str)
@@ -195,11 +197,12 @@ go_string_new (char const *str)
 
 /**
  * go_string_new_nocopy:
- * @str: string
+ * @str: (nullable): string
  *
  * GOString takes ownership of @str
  *
- * Returns: a reference to a #GOString containing @str
+ * Returns: (transfer full) (nullable): a #GOString containing @str, or
+ * %NULL if @str is %NULL
  **/
 GOString *
 go_string_new_nocopy (char *str)
@@ -262,12 +265,12 @@ go_string_new_rich_impl (char *str,
 
 /**
  * go_string_new_rich:
- * @str: string.
+ * @str (nullable): string.
  * @byte_len: < 0 will call strlen.
- * @markup: optionally %NULL list, GOString steals the ref.
- * @phonetic: optionally %NULL list of phonetic extensions, GOString steals the ref.
+ * @markup: (transfer full) (nullable): optional markup.
+ * @phonetic: (transfer full) (nullable): optional list of phonetic extensions.
  *
- * Returns: a string.
+ * Returns: (transfer full): a string.
  **/
 GOString *
 go_string_new_rich (char const *str,
@@ -281,12 +284,12 @@ go_string_new_rich (char const *str,
 
 /**
  * go_string_new_rich_nocopy:
- * @str: string; GOString takes ownership
+ * @str (transfer full) (nullable): string
  * @byte_len: < 0 will call strlen.
- * @markup: optionally %NULL list, GOString steals the ref.
- * @phonetic: optionally %NULL list of phonetic extensions, GOString steals the ref.
+ * @markup: (transfer full) (nullable): optional markup.
+ * @phonetic: (transfer full) (nullable): optional list of phonetic extensions.
  *
- * Returns: a string.
+ * Returns: (transfer full): a string.
  **/
 GOString *
 go_string_new_rich_nocopy (char *str,
@@ -479,7 +482,7 @@ static GOString *go_string_ERROR_val = NULL;
  * A convenience for g_return_val to share one error string without adding a
  * reference to functions that do not add references to the result
  *
- * Returns: A string saying 'ERROR' but does not add a ref to it.
+ * Returns: (transfer none): A string saying 'ERROR'
  **/
 GOString *
 go_string_ERROR (void)
@@ -654,6 +657,8 @@ go_string_get_len (GOString const *gstr)
 /**
  * go_string_get_markup:
  * @gstr: string.
+ *
+ * Returns: (transfer none) (nullable): markup from @gstr.
  **/
 PangoAttrList *
 go_string_get_markup (GOString const *gstr)
@@ -671,8 +676,7 @@ go_string_get_markup (GOString const *gstr)
  * go_string_get_phonetic: (skip)
  * @gstr: #GOString.
  *
- * Warning: Not implemented, always returns NULL.
- * Returns: (transfer none): the phonetic data.
+ * Returns: (transfer none) (nullable): the phonetic data.
  **/
 GOStringPhonetic *
 go_string_get_phonetic (GOString const *gstr)
@@ -692,7 +696,7 @@ go_string_get_phonetic (GOString const *gstr)
  * @gstr_a: string.
  * @gstr_b: string.
  *
- * Returns: TRUE if the two strings are equal when ignoring letter case.
+ * Returns: %TRUE if the two strings are equal when ignoring letter case.
  **/
 gboolean
 go_string_equal_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
@@ -725,7 +729,7 @@ find_shape_attr (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
  * @gstr: string.
  * @internal: Trim multiple consequtive internal spaces.
  *
- * Returns: @gstr
+ * Returns: (transfer none): @gstr
  **/
 GOString *
 go_string_trim (GOString *gstr, gboolean internal)

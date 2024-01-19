@@ -569,7 +569,7 @@ axis_pre_remove (GogObject *parent, GogObject *child)
 static gboolean
 color_scale_can_add (GogObject const *parent)
 {
-	/* TRUE if there are more color or pseudo-3d axes than there are color scales */
+	/* %TRUE if there are more color or pseudo-3d axes than there are color scales */
 	GogChart *chart = GOG_CHART (parent);
 	GSList *ptr;
 	GogAxis *axis;
@@ -820,7 +820,7 @@ GSF_CLASS (GogChart, gog_chart,
  * @cols:
  * @rows:
  *
- * Returns: TRUE if the chart has been positioned.
+ * Returns: %TRUE if the chart has been positioned.
  **/
 gboolean
 gog_chart_get_position (GogChart const *chart,

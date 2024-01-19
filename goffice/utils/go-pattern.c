@@ -295,7 +295,6 @@ go_pattern_is_solid (GOPattern const *pat, GOColor *color)
  * @fore: a #GOColor
  *
  * Makes @pat a solid pattern with colour @fore.
- *
  **/
 void
 go_pattern_set_solid (GOPattern *pat, GOColor fore)

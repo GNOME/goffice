@@ -175,10 +175,10 @@ go_data_dup (GOData const *src)
 
 /**
  * go_data_eq:
- * @a: #GOData
- * @b: #GOData
+ * @a: (nullable): #GOData
+ * @b: (nullable): #GOData
  *
- * Returns: TRUE if @a and @b are the same
+ * Returns: %TRUE if @a and @b are the same
  **/
 gboolean
 go_data_eq (GOData const *a, GOData const *b)

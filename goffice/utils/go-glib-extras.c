@@ -814,7 +814,7 @@ static char *go_real_name = NULL;
 /**
  * go_get_real_name:
  *
- * Returns: (transfer none): a utf8 encoded string with the current user name.
+ * Returns: (transfer none): a UTF-8 encoded string with the current user name.
  **/
 char const *
 go_get_real_name (void)
@@ -840,7 +840,7 @@ go_get_real_name (void)
 
 /**
  * go_destroy_password:
- * @passwd: The buffer to clear
+ * @passwd: (transfer none): The buffer to clear
  *
  * Overwrite a string holding a password.  This is a separate routine to
  * ensure that the compiler does not try to outsmart us.
@@ -1081,7 +1081,7 @@ go_object_properties_apply (GObject *obj, GSList *props, gboolean changed_only)
  * @props: (element-type void): the list of properties and their values to
  * unset
  *
- * Unsezts the values in the list which needs to be a list of alternating
+ * Unsets the values in the list which needs to be a list of alternating
  * #GParamSpec and #GValue.
  **/
 void

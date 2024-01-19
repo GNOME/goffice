@@ -194,8 +194,8 @@ struct _GogTheme {
 	GOStyle	*default_style;
 	GPtrArray	*palette;
 	GogAxisColorMap *cm, *dcm; /* cm: color map for color axis, dcm stands for discrete color map */
-	gboolean built_color_map; /* TRUE if color map is built from the palette */
-	gboolean writeable; /* TRUE if theme can be edited */
+	gboolean built_color_map; /* %TRUE if color map is built from the palette */
+	gboolean writeable; /* %TRUE if theme can be edited */
 	char		*path; /* file path if any */
 };
 

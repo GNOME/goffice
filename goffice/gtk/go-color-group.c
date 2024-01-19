@@ -105,9 +105,8 @@ GSF_CLASS (GOColorGroup, go_color_group,
  * @name: target name
  * @context: an arbitrary id to identify what context to search in
  *
- * No reference is added if it is found.
- * Returns: (transfer none): Look up the name/context specific color-group.
- * 		%NULL if it is not found.
+ * Returns: (transfer none) (nullable): Look up the name/context specific
+ * color-group.  %NULL if it is not found.
  **/
 GOColorGroup *
 go_color_group_find (char const *name, gpointer context)
@@ -142,10 +141,10 @@ cg_equal (GOColorGroup const *a, GOColorGroup const *b)
 
 /**
  * go_color_group_fetch:
- * @name: target name
+ * @name: (nullable): target name
  * @context: identifying context
  *
- * if name is NULL or a name not currently in use by another group
+ * if name is %NULL or a name not currently in use by another group
  * then a new group is created and returned. If name was NULL
  * then the new group is given a unique name prefixed by "__cg_autogen_name__"
  * (thereby insuring namespace separation).

@@ -3585,7 +3585,7 @@ GSF_CLASS_FULL (GogAxis, gog_axis,
  * gog_axis_is_center_on_ticks:
  * @axis: #GogAxis
  *
- * Returns: TRUE if labels are centered on ticks when @axis is discrete
+ * Returns: %TRUE if labels are centered on ticks when @axis is discrete
  **/
 gboolean
 gog_axis_is_center_on_ticks (GogAxis const *axis)
@@ -3598,7 +3598,7 @@ gog_axis_is_center_on_ticks (GogAxis const *axis)
  * gog_axis_is_discrete:
  * @axis: #GogAxis
  *
- * Returns: TRUE if @axis enumerates a set of discrete items, rather than a
+ * Returns: %TRUE if @axis enumerates a set of discrete items, rather than a
  * 	continuous value
  **/
 gboolean
@@ -3612,7 +3612,7 @@ gog_axis_is_discrete (GogAxis const *axis)
  * gog_axis_is_inverted:
  * @axis: #GogAxis
  *
- * Returns: TRUE if @axis is inverted.
+ * Returns: %TRUE if @axis is inverted.
  **/
 gboolean
 gog_axis_is_inverted (GogAxis const *axis)
@@ -3624,8 +3624,8 @@ gog_axis_is_inverted (GogAxis const *axis)
 /**
  * gog_axis_get_bounds:
  * @axis: #GogAxis
- * @minima: non-NULL storage for result
- * @maxima: non-NULL storage for result
+ * @minima: (out): storage for result
+ * @maxima: (out): storage for result
  *
  * Returns: %TRUE if the bounds stored in @minima and @maxima are sane
  **/

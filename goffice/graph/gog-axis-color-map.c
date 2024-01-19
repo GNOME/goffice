@@ -670,7 +670,7 @@ gog_axis_color_map_registry_add (GogAxisColorMap *map)
 /**
  * gog_axis_color_map_compare:
  *
- * Returns: TRUE if the maps are different.
+ * Returns: %TRUE if the maps are different.
  **/
 static gboolean
 gog_axis_color_map_compare (GogAxisColorMap const *map1, GogAxisColorMap const *map2)

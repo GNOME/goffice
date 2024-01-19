@@ -141,7 +141,7 @@ go_gdk_pixbuf_new_from_file (char const *filename)
  * Retrieves a pixbuf from the image cache, loading it from the file
  * @filename located in goffice_icon_dir if not cached yet.
  *
- * returns: (transfer none): a GdkPixbuf, NULL on error.
+ * Returns: (transfer none) (nullable): a GdkPixbuf, %NULL on error.
  **/
 GdkPixbuf *
 go_gdk_pixbuf_get_from_cache (char const *filename)

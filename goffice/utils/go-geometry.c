@@ -32,11 +32,10 @@
  * go_geometry_cartesian_to_polar:
  * @x: cartesian coordinate
  * @y: cartesian coordinate
- * @rho: polar coordinate
- * @theta: polar coordinate
+ * @rho: (out): polar coordinate
+ * @theta: (out): polar coordinate
  *
  * Converts cartesion coordinates to polar coordinates.
- *
  **/
 void
 go_geometry_cartesian_to_polar (double x, double y, double *rho, double *theta)
@@ -75,12 +74,11 @@ go_geometry_point_to_segment (double xp, double yp, double xs, double ys, double
 
 /**
  * go_geometry_AABR_add:
- * @aabr0: a #GOGeometryAABR
+ * @aabr0: (inout): a #GOGeometryAABR
  * @aabr1: a #GOGeometryAABR
  *
  * Computes the Axis Aligned Bounding Rectangle of aabr0 and aabr1,
  * and stores result in aabr0.
- *
  **/
 void
 go_geometry_AABR_add (GOGeometryAABR *aabr0, GOGeometryAABR const *aabr1)
@@ -101,10 +99,9 @@ go_geometry_AABR_add (GOGeometryAABR *aabr0, GOGeometryAABR const *aabr1)
 /**
  * go_geometry_OBR_to_AABR:
  * @obr: a #GOGeometryOBR
- * @aabr: a #GOGeometryAABR
+ * @aabr: (out): a #GOGeometryAABR
  *
  * Stores Axis Aligned Bounding Rectangle of @obr in @aabr.
- *
  **/
 void
 go_geometry_OBR_to_AABR (GOGeometryOBR const *obr, GOGeometryAABR *aabr)
@@ -125,7 +122,7 @@ go_geometry_OBR_to_AABR (GOGeometryOBR const *obr, GOGeometryAABR *aabr)
  *
  * Overlap test of Oriented Bounding Rectangles by the separating axis method.
  *
- * return value: %TRUE if OOBRs overlap
+ * Return value: %TRUE if OOBRs overlap
  **/
 gboolean
 go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *obr1)
@@ -272,7 +269,7 @@ go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset
  * go_direction_is_horizontal:
  * @d: #GODirection
  *
- * Returns: TRUE for GO_DIRECTION_LEFT and GO_DIRECTION_RIGHT.
+ * Returns: %TRUE for GO_DIRECTION_LEFT and GO_DIRECTION_RIGHT.
  **/
 gboolean
 go_direction_is_horizontal (GODirection d)
@@ -284,7 +281,7 @@ go_direction_is_horizontal (GODirection d)
  * go_direction_is_forward:
  * @d: #GODirection
  *
- * Returns: TRUE for GO_DIRECTION_DOWN or GO_DIRECTION_RIGHT.
+ * Returns: %TRUE for GO_DIRECTION_DOWN or GO_DIRECTION_RIGHT.
  **/
 gboolean
 go_direction_is_forward (GODirection d)

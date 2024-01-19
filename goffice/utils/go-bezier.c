@@ -43,8 +43,8 @@
  * incoming data. the n and closed fields are just copies of the corresponding
  * arguments.
  *
- * Returns: a newly created struct GOBezierSpline instance which should be
- * destroyed by a call to go_bezier_spline_destroy.
+ * Returns: (transfer full): a newly created struct GOBezierSpline instance
+ * which should be destroyed by a call to go_bezier_spline_destroy.
  **/
 GOBezierSpline *
 go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
@@ -306,7 +306,7 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 
 /**
  * go_bezier_spline_destroy:
- * @sp: a struct GOBezierSpline instance
+ * @sp: (transfer full): a struct GOBezierSpline instance
  *
  * Destroys the given structures after cleaning all allocated fields.
  **/
@@ -348,8 +348,7 @@ go_bezier_spline_get_type (void)
  *
  * Builds a GOPath using the control points evaluated in go_bezier_spline_init.
  *
- * Returns: a newly created GOPath which should be destroyed by a call to
- * go_path_free.
+ * Returns: (transfer full): GOPath matching spline
  **/
 GOPath *
 go_bezier_spline_to_path (GOBezierSpline *sp)
