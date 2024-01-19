@@ -4,6 +4,7 @@ Morten:
 	* Excise long double parts of ryu unless --with-long-double.
 	* Fix various go_dtoa issues.
 	* Introspection fixes.
+	* New experimental --with-decimal64 for base-10 math.
 
 --------------------------------------------------------------------------
 goffice 0.10.56:

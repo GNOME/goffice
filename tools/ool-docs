@@ -73,6 +73,8 @@ sub scan_header {
 	}
 	if (/GOFFICE_WITH_LONG_DOUBLE/) {
 	    $suffix = 'l';
+	} elsif (/GOFFICE_WITH_DECIMAL64/) {
+	    $suffix = 'D';
 	}
     }
     close ($file);

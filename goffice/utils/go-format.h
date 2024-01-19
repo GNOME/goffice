@@ -32,7 +32,6 @@ G_BEGIN_DECLS
 #define GO_SUPERSCRIPT_RISE 5000
 #define GO_SUBSCRIPT_RISE (-5000)
 
-
 /* Keep these sequential.  */
 typedef enum {
 	GO_FORMAT_UNKNOWN	= -1,
@@ -156,6 +155,16 @@ void go_render_generall (PangoLayout *layout, GString *str,
 			 guint numeral_shape,
 			 guint custom_shape_flags);
 #endif
+#ifdef GOFFICE_WITH_DECIMAL64
+void go_render_generalD (PangoLayout *layout, GString *str,
+			 GOFormatMeasure measure,
+			 const GOFontMetrics *metrics,
+			 _Decimal64 val,
+			 int col_width,
+			 gboolean unicode_minus,
+			 guint numeral_shape,
+			 guint custom_shape_flags);
+#endif
 
 /*************************************************************************/
 
@@ -223,6 +232,11 @@ const GOFormat *go_format_specializel         (GOFormat const *fmt,
 					       long double val, char type,
 					       gboolean *inhibit_minus);
 #endif
+#ifdef GOFFICE_WITH_DECIMAL64
+const GOFormat *go_format_specializeD         (GOFormat const *fmt,
+					       _Decimal64 val, char type,
+					       gboolean *inhibit_minus);
+#endif
 
 GOFormatFamily         go_format_get_family (GOFormat const *fmt);
 
@@ -257,6 +271,19 @@ go_format_value_gstringl (PangoLayout *layout, GString *str,
 			  GODateConventions const *date_conv,
 			  gboolean unicode_minus);
 char	*go_format_valuel (GOFormat const *fmt, long double val);
+#endif
+#ifdef GOFFICE_WITH_DECIMAL64
+GOFormatNumberError
+go_format_value_gstringD (PangoLayout *layout, GString *str,
+			  const GOFormatMeasure measure,
+			  const GOFontMetrics *metrics,
+			  GOFormat const *fmt,
+			  _Decimal64 val, char type, const char *sval,
+			  GOColor *go_color,
+			  int col_width,
+			  GODateConventions const *date_conv,
+			  gboolean unicode_minus);
+char	*go_format_valueD (GOFormat const *fmt, _Decimal64 val);
 #endif
 
 gboolean go_format_eq			(GOFormat const *a, GOFormat const *b);

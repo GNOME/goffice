@@ -39,6 +39,8 @@ double go_dcauchy (double x, double location, double scale, gboolean give_log);
 double go_pcauchy (double x, double location, double scale, gboolean lower_tail, gboolean log_p);
 double go_qcauchy (double p, double location, double scale, gboolean lower_tail, gboolean log_p);
 
+// ----------------------------------------------------------------------------
+
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 
 long double go_truncl (long double x);
@@ -57,6 +59,29 @@ long double go_pcauchyl (long double x, long double location, long double scale,
 long double go_qcauchyl (long double p, long double location, long double scale, gboolean lower_tail, gboolean log_p);
 
 #endif
+
+// ----------------------------------------------------------------------------
+
+#ifdef GOFFICE_WITH_DECIMAL64
+
+_Decimal64 go_truncD (_Decimal64 x);
+_Decimal64 go_dnormD (_Decimal64 x, _Decimal64 mu, _Decimal64 sigma, gboolean give_log);
+_Decimal64 go_pnormD (_Decimal64 x, _Decimal64 mu, _Decimal64 sigma, gboolean lower_tail, gboolean log_p);
+void go_pnorm_bothD (_Decimal64 x, _Decimal64 *cum, _Decimal64 *ccum, int i_tail, gboolean log_p);
+_Decimal64 go_qnormD (_Decimal64 p, _Decimal64 mu, _Decimal64 sigma, gboolean lower_tail, gboolean log_p);
+_Decimal64 go_dlnormD (_Decimal64 x, _Decimal64 meanlog, _Decimal64 sdlog, gboolean give_log);
+_Decimal64 go_plnormD (_Decimal64 x, _Decimal64 logmean, _Decimal64 logsd, gboolean lower_tail, gboolean log_p);
+_Decimal64 go_qlnormD (_Decimal64 p, _Decimal64 logmean, _Decimal64 logsd, gboolean lower_tail, gboolean log_p);
+_Decimal64 go_dweibullD (_Decimal64 x, _Decimal64 shape, _Decimal64 scale, gboolean give_log);
+_Decimal64 go_pweibullD (_Decimal64 x, _Decimal64 shape, _Decimal64 scale, gboolean lower_tail, gboolean log_p);
+_Decimal64 go_qweibullD (_Decimal64 p, _Decimal64 shape, _Decimal64 scale, gboolean lower_tail, gboolean log_p);
+_Decimal64 go_dcauchyD (_Decimal64 x, _Decimal64 location, _Decimal64 scale, gboolean give_log);
+_Decimal64 go_pcauchyD (_Decimal64 x, _Decimal64 location, _Decimal64 scale, gboolean lower_tail, gboolean log_p);
+_Decimal64 go_qcauchyD (_Decimal64 p, _Decimal64 location, _Decimal64 scale, gboolean lower_tail, gboolean log_p);
+
+#endif
+
+// ----------------------------------------------------------------------------
 
 G_END_DECLS
 

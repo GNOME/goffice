@@ -177,6 +177,29 @@ _go_math_init (void)
 	}
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+	go_nanD = go_nan;
+	go_pinfD = go_pinf;
+	go_ninfD = go_ninf;
+	if (!(isnanD (go_nanD) &&
+	      go_pinfD > 0 && !finiteD (go_pinfD) &&
+	      go_ninfD < 0 && !finiteD (go_ninfD))) {
+		g_error ("Failed to generate _Decimal64 NaN/+Inf/-Inf.");
+	}
+
+	{
+		// There's a chance that some fool used FLT_RADIX here,
+		// but that would be really unhelpful.  The whole point
+		// is to have a fast, loss-free scaling function
+		_Decimal64 y = scalbnD (1, 1);
+		if (y != 10) {
+			// Don't try to print _Decimal64 at this stage
+			g_error ("We expected scalbnD(1,1) to be 10, but got %g",
+				 (double)y);
+		}
+	}
+#endif
+
 	{
 		double x = g_ascii_strtod ("24985672148.49707", NULL);
 		double sx = sin (x);
@@ -358,7 +381,6 @@ go_finite (double x)
 double
 go_pow2 (int n)
 {
-	g_assert (FLT_RADIX == 2);
 	return ldexp (1.0, n);
 }
 
@@ -617,7 +639,6 @@ go_pow2l (int n)
 #ifdef GOFFICE_SUPPLIED_LDEXPL
 	return powl (2.0L, n);
 #else
-	g_assert (FLT_RADIX == 2);
 	return ldexpl (1.0L, n);
 #endif
 }
@@ -977,6 +998,189 @@ modfl (long double x, long double *iptr)
 	}
 }
 #endif
+
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef GOFFICE_WITH_DECIMAL64
+
+_Decimal64 go_nanD;
+_Decimal64 go_pinfD;
+_Decimal64 go_ninfD;
+
+int
+go_finiteD (_Decimal64 x)
+{
+	return finiteD (x);
+}
+
+_Decimal64
+go_pow2D (int n)
+{
+	if (n >= -1022 && n <= 1023)
+		return (_Decimal64)(go_pow2 (n));
+	else
+		return powD (2.dd, n);
+}
+
+_Decimal64
+go_pow10D (int n)
+{
+	return scalbnD (1.dd, n);
+}
+
+_Decimal64
+go_powD (_Decimal64 x, _Decimal64 y)
+{
+	return powD (x, y);
+}
+
+_Decimal64
+go_log10D (_Decimal64 x)
+{
+	return log10D (x);
+}
+
+
+/**
+ * go_strtoDd:
+ * @s: string to convert
+ * @end: (out) (transfer none) (optional): pointer to end of string.
+ *
+ * Returns: the numeric value of the given string.
+ * Like strtod, but for type _Decimal64 and without hex notation and
+ * MS extensions.
+ * Unlike strtold, there is no need to reset errno before calling this.
+ */
+_Decimal64
+go_strtoDd (const char *s, char **end)
+{
+	int maxlen = strtod_helper (s);
+	int save_errno;
+	char *tmp;
+	_Decimal64 res;
+
+	if (maxlen == INT_MAX) {
+		errno = 0;
+		return strtoDd (s, end);
+	} else if (maxlen < 0) {
+		errno = 0;
+		if (end)
+			*end = (char *)s - maxlen;
+		return 0;
+	}
+
+	tmp = g_strndup (s, maxlen);
+	errno = 0;
+	res = strtoDd (tmp, end);
+	save_errno = errno;
+	if (end)
+		*end = (char *)s + (*end - tmp);
+	g_free (tmp);
+	errno = save_errno;
+
+	return res;
+}
+
+/**
+ * go_ascii_strtoDd:
+ * @s: string to convert
+ * @end: optional pointer to end of string.
+ *
+ * Like strtoDd, but applying "C" locale and without hex notation and
+ * MS extensions.
+ * Unlike strtod, there is no need to reset errno before calling this.
+ */
+_Decimal64
+go_ascii_strtoDd (const char *s, char **end)
+{
+	GString *tmp;
+	const GString *decimal;
+	int save_errno;
+	char *the_end;
+	/* Use the "double" version for parsing.  */
+	_Decimal64 res = go_ascii_strtod (s, &the_end);
+	if (end)
+		*end = the_end;
+	if (the_end == s)
+		return res;
+
+	decimal = go_locale_get_decimal ();
+	tmp = g_string_sized_new (the_end - s + 10);
+	while (s < the_end) {
+		if (*s == '.') {
+			g_string_append_len (tmp, decimal->str, decimal->len);
+			g_string_append (tmp, ++s);
+			break;
+		}
+		g_string_append_c (tmp, *s++);
+	}
+	errno = 0;
+	res = strtoDd (tmp->str, NULL);
+	save_errno = errno;
+	g_string_free (tmp, TRUE);
+	errno = save_errno;
+
+	return res;
+}
+
+_Decimal64
+go_add_epsilonD (_Decimal64 x)
+{
+	return x == 0 ? x : nextafterD (x, go_pinfD);
+}
+
+_Decimal64
+go_sub_epsilonD (_Decimal64 x)
+{
+	return x == 0 ? x : nextafterD (x, go_ninfD);
+}
+
+_Decimal64
+go_fake_floorD (_Decimal64 x)
+{
+	if (x == floorD (x))
+		return x;
+
+	return floorD (go_add_epsilonD (x));
+}
+
+_Decimal64
+go_fake_ceilD (_Decimal64 x)
+{
+	if (x == floorD (x))
+		return x;
+
+	return ceilD (go_sub_epsilonD (x));
+}
+
+_Decimal64
+go_fake_roundD (_Decimal64 x)
+{
+	_Decimal64 y;
+
+	if (x == floorD (x))
+		return x;
+
+	/*
+	 * Adding a half here is ok.  The only problematic non-integer
+	 * case is nextafter(0.5,-1) for which we want to produce 1 here.
+	 */
+	y = go_fake_floorD (fabsD (x) + 0.5dd);
+	return (x < 0) ? 0 - y : y;
+}
+
+_Decimal64
+go_fake_truncD (_Decimal64 x)
+{
+	if (x == floorD (x))
+		return x;
+
+	return (x >= 0)
+		? floorD (go_add_epsilonD (x))
+		: 0 - floorD (go_add_epsilonD (-x));
+}
 
 #endif
 
@@ -1367,5 +1571,133 @@ go_atanpil (long double x)
 }
 
 #endif
+
+#ifdef GOFFICE_WITH_DECIMAL64
+
+static _Decimal64
+reduce_halfD (_Decimal64 x, int *pk)
+{
+	int k = 0;
+
+	if (x < 0) {
+		x = -reduce_halfD (-x, &k);
+		k = 4 - k;
+		if (x == -0.25dd)
+			x += 0.5dd, k += 3;
+	} else {
+		x = fmod (x, 2);
+		if (x >= 1)
+			x -= 1, k += 2;
+		if (x >= 0.5dd)
+			x -= 0.5dd, k++;
+		if (x > 0.25dd)
+			x -= 0.5dd, k++;
+	}
+
+	*pk = (k & 3);
+	return x;
+}
+
+static _Decimal64
+do_sinpiD (_Decimal64 x, int k)
+{
+	_Decimal64 y;
+
+	if (x == 0)
+		y = k & 1;
+	else if (x == 0.25dd)
+		y = 0.707106781186547524400844362104849039284835937688474036588339dd;
+	else
+		y = (k & 1) ? cos (M_PID * x) : sin (M_PID * x);
+
+	return (k & 2) ? 0 - y : y;
+}
+
+_Decimal64
+go_sinpiD (_Decimal64 x)
+{
+	int k;
+	_Decimal64 x0 = x;
+	x = reduce_halfD (x, &k);
+
+	/*
+	 * Per IEEE 754 2008:
+	 * sinpi(n) == 0 with sign of n.
+	 */
+	if (x == 0 && (k & 1) == 0)
+		return copysignD (0, x0);
+
+	return do_sinpiD (x, k);
+}
+
+_Decimal64
+go_cospiD (_Decimal64 x)
+{
+	int k;
+	x = reduce_halfD (x, &k);
+
+	/*
+	 * Per IEEE 754 2008:
+	 * cospi(n+0.5) == +0 for any integer n.
+	 */
+	if (x == 0 && (k & 1) == 1)
+		return +0.0;
+
+	return do_sinpiD (x, k + 1);
+}
+
+_Decimal64
+go_tanpiD (_Decimal64 x)
+{
+	/*
+	 * IEEE 754 2008 doesn't have tanpi and thus doesn't define the
+	 * behaviour for -0 argument or result.  crlibm has tanpi, but
+	 * doesn't seem to be fully clear on these cases.
+	 */
+
+	/* inf -> nan; -n -> -0; +n -> +0 */
+	x = fmodD (x, 1.0dd);
+
+	if (x == 0)
+		return copysignD (0.0dd, x);
+	if (fabsD (x) == 0.5dd)
+		return copysignD (go_nanD, x);
+	else
+		return go_sinpiD (x) / go_cospiD (x);
+}
+
+_Decimal64
+go_cotpiD (_Decimal64 x)
+{
+	/*
+	 * IEEE 754 2008 doesn't have cotpi.  Neither does crlibm.  Mirror
+	 * tanpi here.
+	 */
+
+	/* inf -> nan; -n -> -0; +n -> +0 */
+	x = fmodD (x, 1.0dd);
+
+	if (x == 0)
+		return copysign (go_nanD, x);
+	if (fabsD (x) == 0.5dd)
+		return copysignD (0.0dd, x);
+	else
+		return go_cospiD (x) / go_sinpiD (x);
+}
+
+_Decimal64
+go_atan2piD (_Decimal64 y, _Decimal64 x)
+{
+	return atan2D (y, x) / M_PID;
+}
+
+_Decimal64
+go_atanpiD (_Decimal64 x)
+{
+	return x < 0 ? -go_atan2piD (-x, 1) : go_atan2piD (x, 1);
+}
+
+#endif
+
 
 /* ------------------------------------------------------------------------- */

@@ -17,6 +17,13 @@ typedef struct {
 #define go_complexl GOComplexl
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+typedef struct {
+	_Decimal64 re, im;
+} GOComplexD;
+#define go_complexD GOComplexD
+#endif
+
 #include "go-math.h"
 
 /* ------------------------------------------------------------------------- */
@@ -98,6 +105,49 @@ void go_complex_tanl (GOComplexl *dst, GOComplexl const *src);
 
 
 #endif	/* GOFFICE_WITH_LONG_DOUBLE */
+
+/* ------------------------------------------------------------------------- */
+/* _Decimal64 version                                                        */
+
+#ifdef GOFFICE_WITH_DECIMAL64
+
+GType go_complexD_get_type (void);
+
+char *go_complex_to_stringD (GOComplexD const *src, char const *reformat,
+			     char const *imformat, char imunit);
+
+int go_complex_from_stringD (GOComplexD *dst, char const *src, char *imunit);
+
+void go_complex_to_polarD (_Decimal64 *mod, _Decimal64 *angle, GOComplexD const *src);
+void go_complex_from_polarD (GOComplexD *dst, _Decimal64 mod, _Decimal64 angle);
+void go_complex_from_polar_piD (GOComplexD *dst, _Decimal64 mod, _Decimal64 angle);
+void go_complex_mulD (GOComplexD *dst, GOComplexD const *a, GOComplexD const *b);
+void go_complex_divD (GOComplexD *dst, GOComplexD const *a, GOComplexD const *b);
+void go_complex_powD (GOComplexD *dst, GOComplexD const *a, GOComplexD const *b);
+void go_complex_powxD (GOComplexD *dst, _Decimal64 *e,
+		       GOComplexD const *a, GOComplexD const *b);
+void go_complex_sqrtD (GOComplexD *dst, GOComplexD const *src);
+void go_complex_initD (GOComplexD *dst, _Decimal64 re, _Decimal64 im);
+void go_complex_invalidD (GOComplexD *dst);
+void go_complex_realD (GOComplexD *dst, _Decimal64 re);
+int go_complex_real_pD (GOComplexD const *src);
+int go_complex_zero_pD (GOComplexD const *src);
+int go_complex_invalid_pD (GOComplexD const *src);
+_Decimal64 go_complex_modD (GOComplexD const *src);
+_Decimal64 go_complex_angleD (GOComplexD const *src);
+_Decimal64 go_complex_angle_piD (GOComplexD const *src);
+void go_complex_conjD (GOComplexD *dst, GOComplexD const *src);
+void go_complex_scale_realD (GOComplexD *dst, _Decimal64 f);
+void go_complex_addD (GOComplexD *dst, GOComplexD const *a, GOComplexD const *b);
+void go_complex_subD (GOComplexD *dst, GOComplexD const *a, GOComplexD const *b);
+void go_complex_expD (GOComplexD *dst, GOComplexD const *src);
+void go_complex_lnD (GOComplexD *dst, GOComplexD const *src);
+void go_complex_sinD (GOComplexD *dst, GOComplexD const *src);
+void go_complex_cosD (GOComplexD *dst, GOComplexD const *src);
+void go_complex_tanD (GOComplexD *dst, GOComplexD const *src);
+
+
+#endif	/* GOFFICE_WITH_DECIMAL64 */
 
 /* ------------------------------------------------------------------------- */
 

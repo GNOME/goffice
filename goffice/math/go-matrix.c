@@ -25,39 +25,20 @@
 #include <goffice/goffice.h>
 #include <math.h>
 
-
-#ifndef DOUBLE
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
 
 #define QUAD SUFFIX(GOQuad)
 #define QQR SUFFIX(GOQuadQR)
 #define QMATRIX SUFFIX(GOQuadMatrix)
 
-#define DOUBLE double
-#define SUFFIX(_n) _n
-
-struct GOQuadQR_ {
+struct INFIX(GOQuadQR,_) {
 	QMATRIX *V;
 	QMATRIX *R;
 	int qdet;
 };
-
-
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#include "go-matrix.c"
-#undef DOUBLE
-#undef SUFFIX
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-
-struct GOQuadQRl_ {
-	QMATRIX *V;
-	QMATRIX *R;
-	int qdet;
-};
-
-#endif
-
-#endif
 
 
 /**
@@ -782,3 +763,11 @@ SUFFIX(go_quad_qr_mark_degenerate) (QQR *qr, int i)
 
 	qr->R->data[i][i] = SUFFIX(go_quad_zero);
 }
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

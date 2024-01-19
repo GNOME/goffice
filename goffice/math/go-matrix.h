@@ -50,7 +50,7 @@ const GOQuadMatrix *go_quad_qr_r (const GOQuadQR *qr);
 void go_quad_qr_multiply_qt (const GOQuadQR *qr, GOQuad *x);
 void go_quad_qr_mark_degenerate (GOQuadQR *qr, int i);
 
-/* ---------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 struct GOQuadMatrixl_ {
@@ -99,6 +99,58 @@ void go_quad_qr_multiply_qtl (const GOQuadQRl *qr, GOQuadl *x);
 void go_quad_qr_mark_degeneratel (GOQuadQRl *qr, int i);
 
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef GOFFICE_WITH_DECIMAL64
+struct GOQuadMatrixD_ {
+	GOQuadD **data;   /* [m][n] */
+	int m; /* down */
+	int n; /* right */
+};
+
+GOQuadMatrixD *go_quad_matrix_newD (int m, int n);
+GOQuadMatrixD *go_quad_matrix_dupD (const GOQuadMatrixD *A);
+void go_quad_matrix_freeD (GOQuadMatrixD *A);
+
+void go_quad_matrix_copyD (GOQuadMatrixD *A, const GOQuadMatrixD *B);
+void go_quad_matrix_transposeD (GOQuadMatrixD *A, const GOQuadMatrixD *B);
+
+void go_quad_matrix_multiplyD (GOQuadMatrixD *C,
+			       const GOQuadMatrixD *A,
+			       const GOQuadMatrixD *B);
+
+GOQuadMatrixD *go_quad_matrix_inverseD (const GOQuadMatrixD *A, _Decimal64 threshold);
+
+void go_quad_matrix_determinantD (const GOQuadMatrixD *A, GOQuadD *res);
+
+GOQuadMatrixD *go_quad_matrix_pseudo_inverseD (const GOQuadMatrixD *A,
+					       _Decimal64 threshold);
+
+gboolean go_quad_matrix_back_solveD (const GOQuadMatrixD *R, GOQuadD *x,
+				     const GOQuadD *b,
+				     gboolean allow_degenerate);
+gboolean go_quad_matrix_fwd_solveD (const GOQuadMatrixD *R, GOQuadD *x,
+				    const GOQuadD *b,
+				    gboolean allow_degenerate);
+
+void go_quad_matrix_eigen_rangeD (const GOQuadMatrixD *A,
+				  _Decimal64 *emin, _Decimal64 *emax);
+
+void go_quad_matrix_dumpD (const GOQuadMatrixD *A, const char *fmt);
+
+/* ---------------------------------------- */
+
+GOQuadQRD *go_quad_qr_newD (const GOQuadMatrixD *A);
+void go_quad_qr_freeD (GOQuadQRD *qr);
+void go_quad_qr_determinantD (const GOQuadQRD *qr, GOQuadD *det);
+const GOQuadMatrixD *go_quad_qr_rD (const GOQuadQRD *qr);
+void go_quad_qr_multiply_qtD (const GOQuadQRD *qr, GOQuadD *x);
+void go_quad_qr_mark_degenerateD (GOQuadQRD *qr, int i);
+
+#endif
+
+/* ------------------------------------------------------------------------- */
 
 G_END_DECLS
 

@@ -28,32 +28,10 @@
 #include <stdlib.h>
 #include <errno.h>
 
-
-#ifndef DOUBLE
-
-#define DOUBLE double
-#define SUFFIX(_n) _n
-#define go_strto go_strtod
-#define GO_const(_n) _n
-
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#include "go-complex.c"
-#undef DOUBLE
-#undef SUFFIX
-#undef go_strto
-#undef GO_const
-#define LONG_DOUBLE_VERSION
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-#define go_strto go_strtold
-#define GO_const(_n) _n ## L
-#endif
-
-#endif
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
 
 #define COMPLEX SUFFIX(GOComplex)
 
@@ -80,14 +58,21 @@ id (void)								\
 }
 
 
-#ifdef LONG_DOUBLE_VERSION
+#if INCLUDE_PASS == INCLUDE_PASS_LONG_DOUBLE
 MAKE_BOXED_TYPE(go_complexl_get_type, "GOComplexl")
+#elif INCLUDE_PASS == INCLUDE_PASS_DECIMAL64
+MAKE_BOXED_TYPE(go_complexD_get_type, "GOComplexD")
 #else
 MAKE_BOXED_TYPE(go_complex_get_type, "GOComplex")
 #ifndef GOFFICE_WITH_LONG_DOUBLE
 // Hack for introspection
 GType go_complexl_get_type (void);
 GType go_complexl_get_type (void) { return 0; }
+#endif
+#ifndef GOFFICE_WITH_DECIMAL64
+// Hack for introspection
+GType go_complexD_get_type (void);
+GType go_complexD_get_type (void) { return 0; }
 #endif
 #endif
 
@@ -170,7 +155,7 @@ SUFFIX(go_complex_from_string) (COMPLEX *dst, char const *src, char *imunit)
 		return 0;
 	}
 
-	x = go_strto (src, &end);
+	x = STRTO (src, &end);
 	if (src == end || errno == ERANGE)
 		return -1;
 	src = end;
@@ -195,7 +180,7 @@ SUFFIX(go_complex_from_string) (COMPLEX *dst, char const *src, char *imunit)
 		return 0;
 	}
 
-	y = go_strto (src, &end);
+	y = STRTO (src, &end);
 	if (src == end || errno == ERANGE)
 		return -1;
 	src = end;
@@ -278,18 +263,20 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 		return;
 	}
 
-	if (asize + bsize > 1e100 || asize < 1e-100 || bsize < 1e-100) {
+	if (asize + bsize > CONST(1e100) ||
+	    asize < CONST(1e-100) ||
+	    bsize < CONST(1e-100)) {
 		// Avoid overflows and underflows by scaling both arguments
 		// to sane sizes without any rounding errors.
 		int ea, eb;
 
-		(void)SUFFIX(frexp) (asize, &ea);
-		a_re = SUFFIX(ldexp) (a_re, -ea);
-		a_im = SUFFIX(ldexp) (a_im, -ea);
+		(void)UNSCALBN (asize, &ea);
+		a_re = SUFFIX(scalbn) (a_re, -ea);
+		a_im = SUFFIX(scalbn) (a_im, -ea);
 
-		(void)SUFFIX(frexp) (bsize, &eb);
-		b_re = SUFFIX(ldexp) (b_re, -eb);
-		b_im = SUFFIX(ldexp) (b_im, -eb);
+		(void)UNSCALBN (bsize, &eb);
+		b_re = SUFFIX(scalbn) (b_re, -eb);
+		b_im = SUFFIX(scalbn) (b_im, -eb);
 
 		e = ea - eb;
 	}
@@ -299,8 +286,8 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 	q_im = (a_im * b_re - a_re * b_im) / bmodsqr;
 
 	if (e) {
-		q_re = SUFFIX(ldexp) (q_re, e);
-		q_im = SUFFIX(ldexp) (q_im, e);
+		q_re = SUFFIX(scalbn) (q_re, e);
+		q_im = SUFFIX(scalbn) (q_im, e);
 	}
 
 	SUFFIX(go_complex_init) (dst, q_re, q_im);
@@ -353,10 +340,10 @@ SUFFIX(reduce1) (SUFFIX(GOQuad) *z)
 {
 	SUFFIX(GOQuad) d;
 
-	if (SUFFIX (fabs) (z->h) <= 0.5)
+	if (SUFFIX (fabs) (z->h) <= CONST(0.5))
 		return;
 
-	SUFFIX(go_quad_init) (&d, SUFFIX(floor) (z->h + 0.5));
+	SUFFIX(go_quad_init) (&d, SUFFIX(round) (z->h));
 	SUFFIX(go_quad_sub) (z, z, &d);
 }
 
@@ -367,8 +354,8 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 	DOUBLE wb, wa;
 	int ea, eb, de;
 
-	(void)SUFFIX(frexp) (SUFFIX(go_quad_value) (&qa), &ea);
-	(void)SUFFIX(frexp) (b, &eb);
+	(void)UNSCALBN (SUFFIX(go_quad_value) (&qa), &ea);
+	(void)UNSCALBN (b, &eb);
 	if (ea + eb <= 0) {
 		/* |ab| <= 2 */
 		SUFFIX(go_quad_init) (&qfb, b);
@@ -378,17 +365,17 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 
 	de = (ea - eb) / 2;
 	if (de) {
-		DOUBLE f = SUFFIX(ldexp) (1, de);
+		DOUBLE f = SUFFIX(scalbn) (1, de);
 		b *= f;
 		qa.h /= f;
 		qa.l /= f;
 	}
 
-	wb = SUFFIX(floor) (b + 0.5);
+	wb = SUFFIX(round) (b);
 	b -= wb;
 	SUFFIX(go_quad_init) (&qfb, b);
 
-	wa = SUFFIX (floor) (SUFFIX(go_quad_value) (&qa) + 0.5);
+	wa = SUFFIX (round) (SUFFIX(go_quad_value) (&qa));
 	SUFFIX(go_quad_init) (&qfa, wa);
 	SUFFIX(go_quad_sub) (&qfa, &qa, &qfa);
 
@@ -467,8 +454,7 @@ SUFFIX(go_complex_powx) (COMPLEX *dst, DOUBLE *e,
 			*e = er;
 		else {
 			er = CLAMP (er, G_MININT, G_MAXINT);
-			qrr.h = SUFFIX(ldexp) (qrr.h, er);
-			qrr.l = SUFFIX(ldexp) (qrr.l, er);
+			SUFFIX(go_quad_scalbn) (&qrr, &qrr, er);
 		}
 
 		/* Compute result angle.  */
@@ -610,8 +596,8 @@ void SUFFIX(go_complex_ln) (COMPLEX *dst, COMPLEX const *src)
 	DOUBLE x = SUFFIX(fabs) (src->re);
 	DOUBLE y = SUFFIX(fabs) (src->im);
 	DOUBLE lm = x > y
-		? SUFFIX(log) (x) + 0.5 * SUFFIX(log1p) ((y / x) * (y / x))
-		: SUFFIX(log) (y) + 0.5 * SUFFIX(log1p) ((x / y) * (x / y));
+		? SUFFIX(log) (x) + CONST(0.5) * SUFFIX(log1p) ((y / x) * (y / x))
+		: SUFFIX(log) (y) + CONST(0.5) * SUFFIX(log1p) ((x / y) * (x / y));
 	DOUBLE a = SUFFIX(go_complex_angle) (src);
 
 	SUFFIX(go_complex_init) (dst, lm, a);
@@ -651,13 +637,13 @@ void SUFFIX(go_complex_tan) (COMPLEX *dst, COMPLEX const *src)
 
 		SUFFIX(go_complex_init) (dst,
 					 sr * cr / D,
-					 0.5 * SUFFIX(sinh) (2 * I) / D);
+					 CONST(0.5) * SUFFIX(sinh) (2 * I) / D);
 	} else {
 		DOUBLE u = SUFFIX(exp) (-SUFFIX(fabs)(I));
 		DOUBLE C = 2 * u / (1 - u * u);
 		DOUBLE S = C * C;
 		DOUBLE D = 1 + cr * cr * S;
-		DOUBLE T = 1.0 / SUFFIX(tanh) (SUFFIX(fabs) (I));
+		DOUBLE T = 1 / SUFFIX(tanh) (SUFFIX(fabs) (I));
 		SUFFIX(go_complex_init) (dst,
 					 sr * cr * S / D,
 					 (I < 0 ? -T : T) / D);
@@ -665,3 +651,9 @@ void SUFFIX(go_complex_tan) (COMPLEX *dst, COMPLEX const *src)
 }
 
 /* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

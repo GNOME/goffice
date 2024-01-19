@@ -26,6 +26,17 @@
 #include "go-rangefunc.h"
 #include "go-cspline.h"
 
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifdef SKIP_THIS_PASS
+
+// Stub for the benefit of gtk-doc
+GType INFIX(go_cspline,_get_type) (void);
+GType INFIX(go_cspline,_get_type) (void) { return 0; }
+
+#else
+
 /**
  * GOCSplineType:
  * @GO_CSPLINE_NATURAL: natural.
@@ -33,32 +44,6 @@
  * @GO_CSPLINE_CUBIC: cubic.
  * @GO_CSPLINE_CLAMPED: clamped.
  **/
-
-#ifndef DOUBLE
-
-#define DOUBLE double
-#define SUFFIX(_n) _n
-
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#include "go-cspline.c"
-#undef DOUBLE
-#undef SUFFIX
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-#define LONG_DOUBLE
-
-#else
-/* It appears that gtk-doc is too dumb to handle this file.  Provide
-   a dummy type getter to make things work.  */
-GType go_csplinel_get_type (void);
-GType go_csplinel_get_type (void) { return G_TYPE_NONE; }
-#endif
-
-#endif
 
 /**
  * go_cspline_init: (skip)
@@ -113,12 +98,12 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
   /* --- COMPUTE FOR N-2 ROWS --- */
 	nm2 = n - 2;
 	dx1 = x[1] - x[0];
-	dy1 = (y[1] - y[0]) / dx1 * 3.0;
+	dy1 = (y[1] - y[0]) / dx1 * 3;
 	for ( i = 1; i <= nm2; ++i ) {
 		dx2 = x[i + 1] - x[i];
-		dy2 = (y[i + 1] - y[i]) / dx2 * 3.0;
+		dy2 = (y[i + 1] - y[i]) / dx2 * 3;
 		d1[i] = dx1;
-		d2[i] = 2.0 * (dx1 + dx2);
+		d2[i] = 2 * (dx1 + dx2);
 		d3[i] = dx2;
 		d4[i] = dy2 - dy1;
 		dx1 = dx2;
@@ -138,26 +123,26 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	case GO_CSPLINE_CUBIC : /* cubic ends--s[1], s[n] are extrapolated */
 		dx1 = x[1] - x[0];
 		dx2 = x[2] - x[1];
-		d2[1] = (dx1 + dx2) * (dx1 + 2.0 * dx2) / dx2;
+		d2[1] = (dx1 + dx2) * (dx1 + 2 * dx2) / dx2;
 		d3[1] = (dx2 * dx2 - dx1 * dx1) / dx2;
 		dxn2 = x[nm2] - x[nm2 - 1];
 		dxn1 = x[nm1] - x[nm2];
 		d1[nm2] = (dxn2 * dxn2 - dxn1 * dxn1) / dxn2;
-		d2[nm2] = (dxn1 + dxn2) * (dxn1 + 2.0 * dxn2) / dxn2;
+		d2[nm2] = (dxn1 + dxn2) * (dxn1 + 2 * dxn2) / dxn2;
 		break;
 	case GO_CSPLINE_CLAMPED : /* Derivative end conditions */
 		dx1 = x[1] - x[0];
 		dy1 = (y[1] - y[0]) / dx1;
 		d1[0] = 0.0;
-		d2[0] = 2.0 * dx1;
+		d2[0] = 2 * dx1;
 		d3[0] = dx1;
-		d4[0] = (dy1 - c0) * 3.0;
+		d4[0] = (dy1 - c0) * 3;
 		dx1 = x[nm1] - x[nm2];
 		dy1 = (y[nm1] - y[nm2]) / dx1;
 		d1[nm1] = dx1;
-		d2[nm1] = 2.0 * dx1;
+		d2[nm1] = 2 * dx1;
 		d3[nm1] = 0.0;
-		d4[nm1] = (cn - dy1) * 3.0;
+		d4[nm1] = (cn - dy1) * 3;
 		first = 1; last = n-1;
 		break;
 }
@@ -195,10 +180,10 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	/* --- GENERATE THE COEFFICIENTS OF THE POLYNOMIALS --- */
 	for ( i = 0; i < nm1; ++i ) {
 		h = x[i+1] - x[i];
-		sp->a[i] = (d4[i + 1] - d4[i]) / (3.0 * h);
+		sp->a[i] = (d4[i + 1] - d4[i]) / (3 * h);
 		sp->b[i] = d4[i];
 		sp->c[i] = ((y[i + 1] - y[i]) / h) -
-					((2.0 * d4[i] + d4[i + 1]) * h / 3.0);
+					((2 * d4[i] + d4[i + 1]) * h / 3);
 	}
 
 	g_free (d1);
@@ -234,23 +219,15 @@ SUFFIX(go_cspline_ref) (GOCSpline *sp)
 }
 
 GType
-#ifdef LONG_DOUBLE
-go_csplinel_get_type (void)
-#else
-go_cspline_get_type (void)
-#endif
+INFIX(go_cspline,_get_type) (void)
 {
 	static GType t = 0;
 
 	if (t == 0) {
 		t = g_boxed_type_register_static (
-#ifdef LONG_DOUBLE
-		     "GOCSplinel",
-#else
-		     "GOCSpline",
-#endif
-			 (GBoxedCopyFunc)SUFFIX(go_cspline_ref),
-			 (GBoxedFreeFunc)SUFFIX(go_cspline_destroy));
+		     "GOCSpline" SUFFIX_STR,
+		     (GBoxedCopyFunc)SUFFIX(go_cspline_ref),
+		     (GBoxedFreeFunc)SUFFIX(go_cspline_destroy));
 	}
 	return t;
 }
@@ -430,18 +407,26 @@ DOUBLE *SUFFIX(go_cspline_get_integrals) (SUFFIX(GOCSpline) const *sp, DOUBLE co
 			j++;
 		k = (j > 1)? j - 1: 0;
 		start -= sp->x[k];
-		sum = -start * (sp->y[k] + start * (sp->c[k] / 2. + start * (sp->b[k] / 3. + start * sp->a[k] / 4.)));
+		sum = -start * (sp->y[k] + start * (sp->c[k] / 2 + start * (sp->b[k] / 3 + start * sp->a[k] / 4)));
 		while (j < jmax && end > sp->x[j]) {
 			start = sp->x[j] - sp->x[k];
-			sum += start * (sp->y[k] + start * (sp->c[k] / 2. + start * (sp->b[k] / 3. + start * sp->a[k] / 4.)));
+			sum += start * (sp->y[k] + start * (sp->c[k] / 2 + start * (sp->b[k] / 3 + start * sp->a[k] / 4)));
 			start = sp->x[j];
 			j++;
 			k = j - 1;
 		}
 		start = end - sp->x[k];
-		sum += start * (sp->y[k] + start * (sp->c[k] / 2. + start * (sp->b[k] / 3. + start * sp->a[k] / 4.)));
+		sum += start * (sp->y[k] + start * (sp->c[k] / 2 + start * (sp->b[k] / 3 + start * sp->a[k] / 4)));
 		res[i - 1] = sum;
 		start = end;
 	}
 	return res;
 }
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

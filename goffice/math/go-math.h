@@ -115,11 +115,44 @@ long double modfl (long double x, long double *iptr);
 
 #endif
 
-#ifdef _MSC_VER
-#define isnan _isnan
+/* ------------------------------------------------------------------------- */
+
+#ifdef GOFFICE_WITH_DECIMAL64
+
+GO_VAR_DECL _Decimal64 go_nanD;
+GO_VAR_DECL _Decimal64 go_pinfD;
+GO_VAR_DECL _Decimal64 go_ninfD;
+
+_Decimal64 go_add_epsilonD (_Decimal64 x);
+_Decimal64 go_sub_epsilonD (_Decimal64 x);
+_Decimal64 go_fake_floorD (_Decimal64 x);
+_Decimal64 go_fake_ceilD (_Decimal64 x);
+_Decimal64 go_fake_roundD (_Decimal64 x);
+_Decimal64 go_fake_truncD (_Decimal64 x);
+
+int go_finiteD (_Decimal64 x);
+_Decimal64 go_pow2D (int n);
+_Decimal64 go_pow10D (int n);
+_Decimal64 go_powD (_Decimal64 x, _Decimal64 y);
+_Decimal64 go_log10D (_Decimal64 x);
+
+_Decimal64 go_strtoDd (const char *s, char **end);
+_Decimal64 go_ascii_strtoDd (const char *s, char **end);
+
+_Decimal64 go_sinpiD (_Decimal64 x);
+_Decimal64 go_cospiD (_Decimal64 x);
+_Decimal64 go_tanpiD (_Decimal64 x);
+_Decimal64 go_cotpiD (_Decimal64 x);
+_Decimal64 go_atan2piD (_Decimal64 y, _Decimal64 x);
+_Decimal64 go_atanpiD (_Decimal64 x);
+
 #endif
 
 /* ------------------------------------------------------------------------- */
+
+#ifdef _MSC_VER
+#define isnan _isnan
+#endif
 
 G_END_DECLS
 

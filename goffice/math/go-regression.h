@@ -74,7 +74,7 @@ GORegressionResult 	 go_logarithmic_regression 	(double **xss, int dim,
 /* Final accuracy of c is: width of x-range rounded to the next smaller
  * (10^integer), the result times GO_LOGFIT_C_ACCURACY.
  * If you change it, remember to change the help-text for LOGFIT.
- * FIXME: Is there a way to stringify this macros value for the help-text? */
+ * FIXME: Is there a way to stringify this macro's value for the help-text? */
 #define GO_LOGFIT_C_ACCURACY 0.000001
 
 /* Stepwidth for testing for sign is: width of x-range
@@ -117,6 +117,7 @@ GORegressionResult go_linear_solve (double *const *const A,
 GORegressionResult go_linear_solve_multiple (double *const *const A,
 					     double **B,
 					     int n, int bn);
+// ----------------------------------------------------------------------------
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 typedef struct {
@@ -207,6 +208,100 @@ GORegressionResult go_linear_solve_multiplel (long double *const *const A,
 					      int n, int bn);
 
 #endif
+
+// ----------------------------------------------------------------------------
+
+#ifdef GOFFICE_WITH_DECIMAL64
+typedef struct {
+        _Decimal64 *se; /*SE for each parameter estimator*/
+        _Decimal64 *t;  /*t values for each parameter estimator*/
+        _Decimal64 sqr_r;
+	_Decimal64 adj_sqr_r;
+        _Decimal64 se_y; /* The Standard Error of Y */
+        _Decimal64 F;
+        int        df_reg;
+        int        df_resid;
+        int        df_total;
+        _Decimal64 ss_reg;
+        _Decimal64 ss_resid;
+        _Decimal64 ss_total;
+        _Decimal64 ms_reg;
+        _Decimal64 ms_resid;
+	_Decimal64 ybar;
+	_Decimal64 *xbar;
+	_Decimal64 var; /* The variance of the entire regression:
+			sum(errors^2)/(n-xdim) */
+	/*<private>*/
+	unsigned int ref_count;
+} go_regression_stat_tD;
+#define GORegressionStatD go_regression_stat_tD
+
+GType            go_regression_statD_get_type      (void);
+go_regression_stat_tD *go_regression_stat_newD	(void);
+void 		    go_regression_stat_destroyD	(go_regression_stat_tD *stat_);
+
+GORegressionResult    go_linear_regressionD   	(_Decimal64 **xss, int dim,
+						 const _Decimal64 *ys, int n,
+						 gboolean affine,
+						 _Decimal64 *res,
+						 go_regression_stat_tD *stat_);
+GORegressionResult    go_linear_regression_leverageD (_Decimal64 **A,
+						      _Decimal64 *d,
+						      int m, int n);
+GORegressionResult    go_exponential_regressionD	(_Decimal64 **xss, int dim,
+						 const _Decimal64 *ys, int n,
+						 gboolean affine,
+						 _Decimal64 *res,
+						 go_regression_stat_tD *stat_);
+GORegressionResult    go_exponential_regression_as_logD	(_Decimal64 **xss, int dim,
+						 const _Decimal64 *ys, int n,
+						 gboolean affine,
+						 _Decimal64 *res,
+						 go_regression_stat_tD *stat_);
+GORegressionResult    go_power_regressionD 	(_Decimal64 **xss, int dim,
+						 const _Decimal64 *ys, int n,
+						 gboolean affine,
+						 _Decimal64 *res,
+						 go_regression_stat_tD *stat_);
+GORegressionResult    go_logarithmic_regressionD(_Decimal64 **xss, int dim,
+						 const _Decimal64 *ys, int n,
+						 gboolean affine,
+						 _Decimal64 *res,
+						 go_regression_stat_tD *stat_);
+GORegressionResult    go_logarithmic_fitD 	(_Decimal64 *xs,
+						 const _Decimal64 *ys, int n,
+						 _Decimal64 *res);
+
+typedef GORegressionResult (*GORegressionFunctionD) (_Decimal64 * x, _Decimal64 * params, _Decimal64 *f);
+
+GORegressionResult    go_non_linear_regressionD	(GORegressionFunctionD f,
+						 _Decimal64 **xvals,
+						 _Decimal64 *par,
+						 _Decimal64 *yvals,
+						 _Decimal64 *sigmas,
+						 int x_dim,
+						 int p_dim,
+						 _Decimal64 *chi,
+						 _Decimal64 *errors);
+
+gboolean    go_matrix_invertD 		(_Decimal64 **A, int n);
+_Decimal64 go_matrix_determinantD 	(_Decimal64 *const * const A, int n);
+
+void     go_matrix_pseudo_inverseD (_Decimal64 *const * const A, int m, int n,
+				    _Decimal64 threshold,
+				    _Decimal64 **B);
+
+GORegressionResult go_linear_solveD (_Decimal64 *const *const A,
+				     const _Decimal64 *b,
+				     int n,
+				     _Decimal64 *res);
+GORegressionResult go_linear_solve_multipleD (_Decimal64 *const *const A,
+					      _Decimal64 **B,
+					      int n, int bn);
+
+#endif
+
+// ----------------------------------------------------------------------------
 
 G_END_DECLS
 

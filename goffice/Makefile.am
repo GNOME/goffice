@@ -21,7 +21,8 @@ INTROSPECTION_COMPILER_ARGS = \
 noinst_HEADERS = \
 	app/file-priv.h				\
 	math/go-ryu.h				\
-	goffice-debug.h
+	goffice-debug.h				\
+	goffice-multipass.h
 
 app_SOURCES =					\
 	app/go-doc.c				\
@@ -372,6 +373,11 @@ math_HEADERS =					\
 	math/go-quad.h				\
 	math/go-R.h				\
 	math/go-distribution.h
+
+if GOFFICE_WITH_DECIMAL64
+math_SOURCES += math/go-decimal.c
+math_HEADERS += math/go-decimal.h
+endif
 
 #####################################
 # utils directory files

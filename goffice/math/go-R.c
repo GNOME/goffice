@@ -23,22 +23,117 @@
 #include "go-math.h"
 #include "go-R.h"
 
-#ifndef DOUBLE
+// We need multiple versions of this code.  We're going to include ourself
+// with different settings of various macros.  gdb will hate us.
+#include <goffice/goffice-multipass.h>
+#ifndef SKIP_THIS_PASS
 
-#define DOUBLE double
-#define SUFFIX(_n) _n
-#define GO_const(_c)	_c
-#define GO_MIN	DBL_MIN
-#define GO_EPSILON	DBL_EPSILON
-#define GO_FORMAT_f	"f"
-#define GO_FORMAT_g	"g"
+// Let's not pretend this code has been audited for _Decimal64
+#if INCLUDE_PASS == INCLUDE_PASS_DECIMAL64
+#define SKIP_THIS_PASS
 
-#define M_LN_SQRT_2PI   GO_const(0.918938533204672741780329736406)  /* log(sqrt(2*pi)) */
-#define M_SQRT_32       GO_const(5.656854249492380195206754896838)  /* sqrt(32) */
-#define M_1_SQRT_2PI    GO_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
-#define M_LN2goffice	GO_const(0.693147180559945309417232121458176568075500134360255254120680009493393621969694715605863326996419)
-#define M_PIgoffice	GO_const(3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117)
-#define ML_ERR_return_NAN { return go_nan; }
+_Decimal64
+go_truncD (_Decimal64 x)
+{
+	return go_trunc (x);
+}
+
+_Decimal64
+go_dnormD (_Decimal64 x, _Decimal64 mu, _Decimal64 sigma, gboolean give_log)
+{
+	return go_dnorm (x, mu, sigma, give_log);
+}
+
+_Decimal64
+go_pnormD (_Decimal64 x, _Decimal64 mu, _Decimal64 sigma, gboolean lower_tail, gboolean log_p)
+{
+	return go_pnorm (x, mu, sigma, lower_tail, log_p);
+}
+
+void
+go_pnorm_bothD (_Decimal64 x, _Decimal64 *cum, _Decimal64 *ccum, int i_tail, gboolean log_p)
+{
+	double dcum, dccum;
+	go_pnorm_both (x, &dcum, &dccum, i_tail, log_p);
+	*cum = dcum;
+	*ccum = dccum;
+}
+
+_Decimal64
+go_qnormD (_Decimal64 p, _Decimal64 mu, _Decimal64 sigma, gboolean lower_tail, gboolean log_p)
+{
+	return go_qnorm (p, mu, sigma, lower_tail, log_p);
+}
+
+_Decimal64
+go_dlnormD (_Decimal64 x, _Decimal64 meanlog, _Decimal64 sdlog, gboolean give_log)
+{
+	return go_dlnorm (x, meanlog, sdlog, give_log);
+}
+
+_Decimal64
+go_plnormD (_Decimal64 x, _Decimal64 logmean, _Decimal64 logsd, gboolean lower_tail, gboolean log_p)
+{
+	return go_plnorm (x, logmean, logsd, lower_tail, log_p);
+}
+
+_Decimal64
+go_qlnormD (_Decimal64 p, _Decimal64 logmean, _Decimal64 logsd, gboolean lower_tail, gboolean log_p)
+{
+	return go_qlnorm (p, logmean, logsd, lower_tail, log_p);
+}
+
+_Decimal64
+go_dweibullD (_Decimal64 x, _Decimal64 shape, _Decimal64 scale, gboolean give_log)
+{
+	return go_dweibull (x, shape, scale, give_log);
+}
+
+_Decimal64
+go_pweibullD (_Decimal64 x, _Decimal64 shape, _Decimal64 scale, gboolean lower_tail, gboolean log_p)
+{
+	return go_pweibull (x, shape, scale, lower_tail, log_p);
+}
+
+_Decimal64
+go_qweibullD (_Decimal64 p, _Decimal64 shape, _Decimal64 scale, gboolean lower_tail, gboolean log_p)
+{
+	return go_qweibull (p, shape, scale, lower_tail, log_p);
+}
+
+_Decimal64
+go_dcauchyD (_Decimal64 x, _Decimal64 location, _Decimal64 scale, gboolean give_log)
+{
+	return go_dcauchy (x, location, scale, give_log);
+}
+
+_Decimal64
+go_pcauchyD (_Decimal64 x, _Decimal64 location, _Decimal64 scale, gboolean lower_tail, gboolean log_p)
+{
+	return go_pcauchy (x, location, scale, lower_tail, log_p);
+}
+
+_Decimal64
+go_qcauchyD (_Decimal64 p, _Decimal64 location, _Decimal64 scale, gboolean lower_tail, gboolean log_p)
+{
+	return go_qcauchy (p, location, scale, lower_tail, log_p);
+}
+
+
+#endif
+
+#endif
+
+
+#ifndef SKIP_THIS_PASS
+
+
+#define M_LN_SQRT_2PI   CONST(0.918938533204672741780329736406)  /* log(sqrt(2*pi)) */
+#define M_SQRT_32       CONST(5.656854249492380195206754896838)  /* sqrt(32) */
+#define M_1_SQRT_2PI    CONST(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
+#define M_LN2goffice	CONST(0.693147180559945309417232121458176568075500134360255254120680009493393621969694715605863326996419)
+#define M_PIgoffice	CONST(3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117)
+#define ML_ERR_return_NAN { return SUFFIX(go_nan); }
 
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R HEADER 1 MARKER --- */
@@ -167,41 +262,11 @@
 
 #define R_D_nonint_check(x) 				\
    if(R_D_nonint(x)) {					\
-	MATHLIB_WARNING("non-integer x = %" GO_FORMAT_f "", x);	\
+	MATHLIB_WARNING("non-integer x = %" FORMAT_f "", x);	\
 	return R_D__0;					\
    }
 /* --- END MAGIC R HEADER 1 MARKER --- */
 
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-#include "go-R.c"
-#undef DOUBLE
-#undef SUFFIX
-#undef GO_const
-#undef GO_MIN
-#undef GO_EPSILON
-#undef GO_FORMAT_f
-#undef GO_FORMAT_g
-
-#undef M_LN_SQRT_2PI
-#undef M_SQRT_32
-#undef M_1_SQRT_2PI
-#undef ML_ERR_return_NAN
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-#define DOUBLE long double
-#define SUFFIX(_n) _n ## l
-#define GO_const(_c)	_c ## L
-#define GO_MIN	LDBL_MIN
-#define GO_EPSILON	LDBL_EPSILON
-#define GO_FORMAT_f	"Lf"
-#define GO_FORMAT_g	"Lg"
-
-#define M_LN_SQRT_2PI   GO_const(0.918938533204672741780329736406)  /* log(sqrt(2*pi)) */
-#define M_SQRT_32       GO_const(5.656854249492380195206754896838)  /* sqrt(32) */
-#define M_1_SQRT_2PI    GO_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
-#define ML_ERR_return_NAN { return go_nanl; }
 
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R HEADER 2 MARKER --- */
@@ -363,13 +428,14 @@
 
 #define R_D_nonint_check(x) 				\
    if(R_D_nonint(x)) {					\
-	MATHLIB_WARNING("non-integer x = %" GO_FORMAT_f "", x);	\
+	MATHLIB_WARNING("non-integer x = %" FORMAT_f "", x);	\
 	return R_D__0;					\
    }
 /* --- END MAGIC R HEADER 2 MARKER --- */
-#endif /* GOFFICE_WITH_LONG_DOUBLE */
 
-#endif /* DOUBLE */
+
+// ???
+
 
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
@@ -565,58 +631,58 @@ void SUFFIX (go_pnorm_both) (DOUBLE x, DOUBLE *cum, DOUBLE *ccum, int i_tail, gb
    if(upper) return *ccum := P[X >  x] = 1 - P[X <= x]
 */
     const static DOUBLE a[5] = {
-	GO_const (2.2352520354606839287),
-	GO_const (161.02823106855587881),
-	GO_const (1067.6894854603709582),
-	GO_const (18154.981253343561249),
-	GO_const (0.065682337918207449113)
+	CONST (2.2352520354606839287),
+	CONST (161.02823106855587881),
+	CONST (1067.6894854603709582),
+	CONST (18154.981253343561249),
+	CONST (0.065682337918207449113)
     };
     const static DOUBLE b[4] = {
-	GO_const (47.20258190468824187),
-	GO_const (976.09855173777669322),
-	GO_const (10260.932208618978205),
-	GO_const (45507.789335026729956)
+	CONST (47.20258190468824187),
+	CONST (976.09855173777669322),
+	CONST (10260.932208618978205),
+	CONST (45507.789335026729956)
     };
     const static DOUBLE c[9] = {
-	GO_const (0.39894151208813466764),
-	GO_const (8.8831497943883759412),
-	GO_const (93.506656132177855979),
-	GO_const (597.27027639480026226),
-	GO_const (2494.5375852903726711),
-	GO_const (6848.1904505362823326),
-	GO_const (11602.651437647350124),
-	GO_const (9842.7148383839780218),
-	GO_const (1.0765576773720192317e-8)
+	CONST (0.39894151208813466764),
+	CONST (8.8831497943883759412),
+	CONST (93.506656132177855979),
+	CONST (597.27027639480026226),
+	CONST (2494.5375852903726711),
+	CONST (6848.1904505362823326),
+	CONST (11602.651437647350124),
+	CONST (9842.7148383839780218),
+	CONST (1.0765576773720192317e-8)
     };
     const static DOUBLE d[8] = {
-	GO_const (22.266688044328115691),
-	GO_const (235.38790178262499861),
-	GO_const (1519.377599407554805),
-	GO_const (6485.558298266760755),
-	GO_const (18615.571640885098091),
-	GO_const (34900.952721145977266),
-	GO_const (38912.003286093271411),
-	GO_const (19685.429676859990727)
+	CONST (22.266688044328115691),
+	CONST (235.38790178262499861),
+	CONST (1519.377599407554805),
+	CONST (6485.558298266760755),
+	CONST (18615.571640885098091),
+	CONST (34900.952721145977266),
+	CONST (38912.003286093271411),
+	CONST (19685.429676859990727)
     };
     const static DOUBLE p[6] = {
-	GO_const (0.21589853405795699),
-	GO_const (0.1274011611602473639),
-	GO_const (0.022235277870649807),
-	GO_const (0.001421619193227893466),
-	GO_const (2.9112874951168792e-5),
-	GO_const (0.02307344176494017303)
+	CONST (0.21589853405795699),
+	CONST (0.1274011611602473639),
+	CONST (0.022235277870649807),
+	CONST (0.001421619193227893466),
+	CONST (2.9112874951168792e-5),
+	CONST (0.02307344176494017303)
     };
     const static DOUBLE q[5] = {
-	GO_const (1.28426009614491121),
-	GO_const (0.468238212480865118),
-	GO_const (0.0659881378689285515),
-	GO_const (0.00378239633202758244),
-	GO_const (7.29751555083966205e-5)
+	CONST (1.28426009614491121),
+	CONST (0.468238212480865118),
+	CONST (0.0659881378689285515),
+	CONST (0.00378239633202758244),
+	CONST (7.29751555083966205e-5)
     };
 
     DOUBLE xden, xnum, temp, del, eps, xsq, y;
 #ifdef NO_DENORMS
-    DOUBLE min = GO_MIN;
+    DOUBLE min = DOUBLE_MIN;
 #endif
     int i, lower, upper;
 
@@ -625,14 +691,14 @@ void SUFFIX (go_pnorm_both) (DOUBLE x, DOUBLE *cum, DOUBLE *ccum, int i_tail, gb
 #endif
 
     /* Consider changing these : */
-    eps = GO_EPSILON * 0.5;
+    eps = DOUBLE_EPSILON * 0.5;
 
     /* i_tail in {0,1,2} =^= {lower, upper, both} */
     lower = i_tail != 1;
     upper = i_tail != 0;
 
     y = SUFFIX (fabs) (x);
-    if (y <= GO_const (0.67448975)) { /* SUFFIX (go_qnorm) (3/4) = .6744.... -- earlier had GO_const (0.66291) */
+    if (y <= CONST (0.67448975)) { /* SUFFIX (go_qnorm) (3/4) = .6744.... -- earlier had CONST (0.66291) */
 	if (y > eps) {
 	    xsq = x * x;
 	    xnum = a[4] * xsq;
@@ -700,7 +766,7 @@ void SUFFIX (go_pnorm_both) (DOUBLE x, DOUBLE *cum, DOUBLE *ccum, int i_tail, gb
 
 	 xsq = x*x;
 
-	 if(xsq * GO_EPSILON < 1.)
+	 if(xsq * DOUBLE_EPSILON < 1.)
 	    del = (1. - (1. - 5./(xsq+6.)) / (xsq+4.)) / (xsq+2.);
 	 else
 	    del = 0.;
@@ -820,7 +886,7 @@ DOUBLE SUFFIX (go_qnorm) (DOUBLE p, DOUBLE mu, DOUBLE sigma, gboolean lower_tail
     q = p_ - 0.5;
 
 #ifdef DEBUG_qnorm
-    REprintf("SUFFIX (go_qnorm) (p=%10.7" GO_FORMAT_g ", m=%" GO_FORMAT_g ", s=%" GO_FORMAT_g ", l.t.= %d, log= %d): q = %" GO_FORMAT_g "\n",
+    REprintf("SUFFIX (go_qnorm) (p=%10.7" FORMAT_g ", m=%" FORMAT_g ", s=%" FORMAT_g ", l.t.= %d, log= %d): q = %" FORMAT_g "\n",
 	     p,mu,sigma, lower_tail, log_p, q);
 #endif
 
@@ -836,17 +902,17 @@ DOUBLE SUFFIX (go_qnorm) (DOUBLE p, DOUBLE mu, DOUBLE sigma, gboolean lower_tail
          and provided hash codes for checking them...)
 */
     if (SUFFIX (fabs) (q) <= .425) {/* 0.075 <= p <= 0.925 */
-        r = GO_const (.180625) - q * q;
+        r = CONST (.180625) - q * q;
 	val =
-            q * (((((((r * GO_const (2509.0809287301226727) +
-                       GO_const (33430.575583588128105)) * r + GO_const (67265.770927008700853)) * r +
-                     GO_const (45921.953931549871457)) * r + GO_const (13731.693765509461125)) * r +
-                   GO_const (1971.5909503065514427)) * r + GO_const (133.14166789178437745)) * r +
-                 GO_const (3.387132872796366608))
-            / (((((((r * GO_const (5226.495278852854561) +
-                     GO_const (28729.085735721942674)) * r + GO_const (39307.89580009271061)) * r +
-                   GO_const (21213.794301586595867)) * r + GO_const (5394.1960214247511077)) * r +
-                 GO_const (687.1870074920579083)) * r + GO_const (42.313330701600911252)) * r + 1.);
+            q * (((((((r * CONST (2509.0809287301226727) +
+                       CONST (33430.575583588128105)) * r + CONST (67265.770927008700853)) * r +
+                     CONST (45921.953931549871457)) * r + CONST (13731.693765509461125)) * r +
+                   CONST (1971.5909503065514427)) * r + CONST (133.14166789178437745)) * r +
+                 CONST (3.387132872796366608))
+            / (((((((r * CONST (5226.495278852854561) +
+                     CONST (28729.085735721942674)) * r + CONST (39307.89580009271061)) * r +
+                   CONST (21213.794301586595867)) * r + CONST (5394.1960214247511077)) * r +
+                 CONST (687.1870074920579083)) * r + CONST (42.313330701600911252)) * r + 1.);
     }
     else { /* closer than 0.075 from {0,1} boundary */
 
@@ -861,38 +927,38 @@ DOUBLE SUFFIX (go_qnorm) (DOUBLE p, DOUBLE mu, DOUBLE sigma, gboolean lower_tail
 		    p : /* else */ SUFFIX (log) (r)));
         /* r = SUFFIX (sqrt) (-SUFFIX (log) (r))  <==>  min(p, 1-p) = SUFFIX (exp) ( - r^2 ) */
 #ifdef DEBUG_qnorm
-	REprintf("\t close to 0 or 1: r = %7" GO_FORMAT_g "\n", r);
+	REprintf("\t close to 0 or 1: r = %7" FORMAT_g "\n", r);
 #endif
 
         if (r <= 5.) { /* <==> min(p,1-p) >= SUFFIX (exp) (-25) ~= 1.3888e-11 */
             r += -1.6;
-            val = (((((((r * GO_const (7.7454501427834140764e-4) +
-                       GO_const (.0227238449892691845833)) * r + GO_const (.24178072517745061177)) *
-                     r + GO_const (1.27045825245236838258)) * r +
-                    GO_const (3.64784832476320460504)) * r + GO_const (5.7694972214606914055)) *
-                  r + GO_const (4.6303378461565452959)) * r +
-                 GO_const (1.42343711074968357734))
+            val = (((((((r * CONST (7.7454501427834140764e-4) +
+                       CONST (.0227238449892691845833)) * r + CONST (.24178072517745061177)) *
+                     r + CONST (1.27045825245236838258)) * r +
+                    CONST (3.64784832476320460504)) * r + CONST (5.7694972214606914055)) *
+                  r + CONST (4.6303378461565452959)) * r +
+                 CONST (1.42343711074968357734))
                 / (((((((r *
-                         GO_const (1.05075007164441684324e-9) + GO_const (5.475938084995344946e-4)) *
-                        r + GO_const (.0151986665636164571966)) * r +
-                       GO_const (.14810397642748007459)) * r + GO_const (.68976733498510000455)) *
-                     r + GO_const (1.6763848301838038494)) * r +
-                    GO_const (2.05319162663775882187)) * r + 1.);
+                         CONST (1.05075007164441684324e-9) + CONST (5.475938084995344946e-4)) *
+                        r + CONST (.0151986665636164571966)) * r +
+                       CONST (.14810397642748007459)) * r + CONST (.68976733498510000455)) *
+                     r + CONST (1.6763848301838038494)) * r +
+                    CONST (2.05319162663775882187)) * r + 1.);
         }
         else { /* very close to  0 or 1 */
             r += -5.;
-            val = (((((((r * GO_const (2.01033439929228813265e-7) +
-                       GO_const (2.71155556874348757815e-5)) * r +
-                      GO_const (.0012426609473880784386)) * r + GO_const (.026532189526576123093)) *
-                    r + GO_const (.29656057182850489123)) * r +
-                   GO_const (1.7848265399172913358)) * r + GO_const (5.4637849111641143699)) *
-                 r + GO_const (6.6579046435011037772))
+            val = (((((((r * CONST (2.01033439929228813265e-7) +
+                       CONST (2.71155556874348757815e-5)) * r +
+                      CONST (.0012426609473880784386)) * r + CONST (.026532189526576123093)) *
+                    r + CONST (.29656057182850489123)) * r +
+                   CONST (1.7848265399172913358)) * r + CONST (5.4637849111641143699)) *
+                 r + CONST (6.6579046435011037772))
                 / (((((((r *
-                         GO_const (2.04426310338993978564e-15) + GO_const (1.4215117583164458887e-7))*
-                        r + GO_const (1.8463183175100546818e-5)) * r +
-                       GO_const (7.868691311456132591e-4)) * r + GO_const (.0148753612908506148525))
-                     * r + GO_const (.13692988092273580531)) * r +
-                    GO_const (.59983220655588793769)) * r + 1.);
+                         CONST (2.04426310338993978564e-15) + CONST (1.4215117583164458887e-7))*
+                        r + CONST (1.8463183175100546818e-5)) * r +
+                       CONST (7.868691311456132591e-4)) * r + CONST (.0148753612908506148525))
+                     * r + CONST (.13692988092273580531)) * r +
+                    CONST (.59983220655588793769)) * r + 1.);
         }
 
 	if(q < 0.0)
@@ -1333,3 +1399,11 @@ DOUBLE SUFFIX (go_qcauchy) (DOUBLE p, DOUBLE location, DOUBLE scale,
 
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
+
+/* ------------------------------------------------------------------------- */
+
+// See comments at top
+#endif // SKIP_THIS_PASS
+#if INCLUDE_PASS < INCLUDE_PASS_LAST
+#include __FILE__
+#endif

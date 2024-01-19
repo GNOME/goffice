@@ -1,4 +1,4 @@
-check_PROGRAMS=test-quad test-math test-format test-dtoa constants
+check_PROGRAMS=test-quad test-math test-format test-dtoa test-decimal constants
 if WITH_GTK
 check_PROGRAMS += pie-demo go-demo mf-demo
 endif
@@ -7,7 +7,7 @@ include $(top_srcdir)/goffice.mk
 
 AM_CFLAGS = $(GOFFICE_CFLAGS)
 
-TESTS = test-quad test-math test-format test-dtoa
+TESTS = test-quad test-math test-format test-dtoa test-decimal
 
 constants_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 constants_SOURCES = constants.c
@@ -29,6 +29,9 @@ test_quad_SOURCES = test-quad.c
 
 test_math_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_math_SOURCES = test-math.c
+
+test_decimal_LDADD = $(GOFFICE_PLUGIN_LIBADD)
+test_decimal_SOURCES = test-decimal.c
 
 test_format_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_format_SOURCES = test-format.c

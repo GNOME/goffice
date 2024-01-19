@@ -14,6 +14,13 @@ typedef struct GOQuadMatrixl_ GOQuadMatrixl;
 typedef struct GOQuadQRl_ GOQuadQRl;
 #endif
 
+#ifdef GOFFICE_WITH_DECIMAL64
+typedef struct GOAccumulatorD_ GOAccumulatorD;
+typedef struct GOQuadD_ GOQuadD;
+typedef struct GOQuadMatrixD_ GOQuadMatrixD;
+typedef struct GOQuadQRD_ GOQuadQRD;
+#endif
+
 #include <goffice/math/go-accumulator.h>
 #include <goffice/math/go-complex.h>
 #include <goffice/math/go-cspline.h>
@@ -27,5 +34,8 @@ typedef struct GOQuadQRl_ GOQuadQRl;
 #include <goffice/math/go-R.h>
 #include <goffice/math/go-rangefunc.h>
 #include <goffice/math/go-regression.h>
+#if GOFFICE_WITH_DECIMAL64
+#include <goffice/math/go-decimal.h>
+#endif
 
 #endif
