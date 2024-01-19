@@ -527,7 +527,7 @@
  *
  * Converts @val into a string using format specified by @fmt.
  *
- * returns: a newly allocated string containing formatted value.
+ * Returns: (transfer full): formatted value.
  **/
 
 /**

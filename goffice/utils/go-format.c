@@ -50,7 +50,7 @@
 
 /**
  * GOFormatFamily:
- * @GO_FORMAT_UNKNOWN: unknown ,should not occur.
+ * @GO_FORMAT_UNKNOWN: unknown, should not occur.
  * @GO_FORMAT_GENERAL: general.
  * @GO_FORMAT_NUMBER: number.
  * @GO_FORMAT_CURRENCY: currency.
@@ -812,7 +812,7 @@ go_format_palette_index_from_color (GOColor c)
  *
  * Return: TRUE, if ok.  Then @color will be filled in, and @n will be
  * 	a number 0-7 for standard colors.
- *	Returns FALSE otherwise and @color will be zeroed.
+ *	Returns %FALSE otherwise and @color will be zeroed.
  **/
 static gboolean
 go_format_parse_color (char const *str, GOColor *color,
@@ -5284,7 +5284,7 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
  *
  * Converts @val into a string using format specified by @fmt.
  *
- * returns: a newly allocated string containing formatted value.
+ * Returns: (transfer full): formatted value.
  **/
 char *
 SUFFIX(go_format_value) (GOFormat const *fmt, DOUBLE val)
@@ -5389,7 +5389,8 @@ _go_number_format_shutdown (void)
  * Localizes the given format string, i.e., changes decimal dots to the
  * locale's notion of that and performs other such transformations.
  *
- * Returns: a localized format string, or %NULL if the format was not valid.
+ * Returns: (transfer full) (nullable): a localized format string, or
+ * %NULL if the format was not valid.
  **/
 char *
 go_format_str_localize (char const *str)
@@ -5505,7 +5506,8 @@ go_format_str_localize (char const *str)
  * De-localizes the given format string, i.e., changes locale's decimal
  * separators to dots and performs other such transformations.
  *
- * Returns: a non-local format string, or %NULL if the format was not valid.
+ * Returns: (transfer full) (nullable): a non-local format string, or
+ * %NULL if the format was not valid.
  **/
 char *
 go_format_str_delocalize (char const *str)
@@ -5661,7 +5663,8 @@ make_frobbed_format (char *str, const GOFormat *fmt)
  *
  * Increases the displayed precision for @fmt by one digit.
  *
- * Returns: NULL if the new format would not change things
+ * Returns: (transfer full) (nullable): New format, or %NULL if the format
+ * would not change.
  **/
 GOFormat *
 go_format_inc_precision (GOFormat const *fmt)
@@ -5769,7 +5772,8 @@ go_format_inc_precision (GOFormat const *fmt)
  *
  * Decreases the displayed precision for @fmt by one digit.
  *
- * Returns: NULL if the new format would not change things
+ * Returns: (transfer full) (nullable): New format, or %NULL if the format
+ * would not change.
  **/
 GOFormat *
 go_format_dec_precision (GOFormat const *fmt)
@@ -6118,8 +6122,7 @@ go_format_parse_markup (char *str)
  * go_format_new_from_XL:
  * @str: XL descriptor in UTF-8 encoding.
  *
- * Returns: Looks up and potentially creates a GOFormat from the supplied
- * 	string in XL format.
+ * Returns: (transfer full): A GOFormat matching @str.
  **/
 GOFormat *
 go_format_new_from_XL (char const *str)
@@ -6166,10 +6169,10 @@ go_format_new_from_XL (char const *str)
  * @markup: #PangoAttrList
  * @add_ref: boolean
  *
- * If @add_ref is FALSE absorb the reference to @markup, otherwise add a
+ * If @add_ref is %FALSE absorb the reference to @markup, otherwise add a
  * reference.
  *
- * Returns: A new format.
+ * Returns: (transfer full): A new format.
  **/
 GOFormat *
 go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
@@ -6195,7 +6198,7 @@ go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
  * go_format_as_XL:
  * @fmt: a #GOFormat
  *
- * Returns: the XL style format strint.
+ * Returns: (transfer none): the XL style format strint.
  */
 const char *
 go_format_as_XL (GOFormat const *fmt)
@@ -6327,7 +6330,7 @@ go_format_get_type (void)
  * go_format_is_invalid:
  * @fmt: Format to query
  *
- * Returns: TRUE if, and if only, the format is invalid
+ * Returns: %TRUE if, and if only, the format is invalid
  **/
 gboolean
 go_format_is_invalid (GOFormat const *fmt)
@@ -6492,8 +6495,8 @@ go_format_month_before_day (GOFormat const *fmt)
  * go_format_has_year:
  * @fmt: Format to query
  *
- * Returns: TRUE if format is a number format with a year specifier
- * 	    FALSE otherwise.
+ * Returns: %TRUE if format is a number format with a year specifier
+ * 	    %FALSE otherwise.
  **/
 gboolean
 go_format_has_year (GOFormat const *fmt)
@@ -6510,8 +6513,8 @@ go_format_has_year (GOFormat const *fmt)
  * go_format_has_month:
  * @fmt: Format to query
  *
- * Returns: TRUE if format is a number format with a year specifier
- * 	    FALSE otherwise.
+ * Returns: %TRUE if format is a number format with a year specifier
+ * 	    %FALSE otherwise.
  **/
 gboolean
 go_format_has_month (GOFormat const *fmt)
@@ -6528,8 +6531,8 @@ go_format_has_month (GOFormat const *fmt)
  * go_format_has_day:
  * @fmt: Format to query
  *
- * Returns: TRUE if format is a number format with a day-of-month specifier
- * 	    FALSE otherwise.
+ * Returns: %TRUE if format is a number format with a day-of-month specifier
+ * 	    %FALSE otherwise.
  **/
 gboolean
 go_format_has_day (GOFormat const *fmt)
@@ -6546,8 +6549,8 @@ go_format_has_day (GOFormat const *fmt)
  * go_format_has_hour:
  * @fmt: Format to query
  *
- * Returns: TRUE if format is a number format with an hour specifier
- * 	    FALSE otherwise.
+ * Returns: %TRUE if format is a number format with an hour specifier
+ * 	    %FALSE otherwise.
  **/
 gboolean
 go_format_has_hour (GOFormat const *fmt)
@@ -6566,8 +6569,8 @@ go_format_has_hour (GOFormat const *fmt)
  * go_format_has_minute:
  * @fmt: Format to query
  *
- * Returns: TRUE if format is a number format with a minute specifier
- * 	    FALSE otherwise.
+ * Returns: %TRUE if format is a number format with a minute specifier
+ * 	    %FALSE otherwise.
  **/
 gboolean
 go_format_has_minute (GOFormat const *fmt)
