@@ -695,8 +695,8 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	if (qeffadd) {
 		m64++;
 		if (m64 == DECIMAL64_MAX_MANT + 1) {
-			m64 = 1;
-			e += 16;
+			_Decimal64 r = pow10D (e + 16);
+			return sign ? -r : r;
 		}
 	} else {
 		m64--;

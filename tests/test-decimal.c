@@ -343,6 +343,10 @@ test_nextafter (void)
 	test_eq (nextafterD (2 * m, 0), m);
 	test_eq (nextafterD (9 * m, 1), 10 * m);
 	test_eq (nextafterD (10 * m, 1), 11 * m);
+	test_eq (nextafterD (DECIMAL64_MAX / 10, INFINITY),
+		 DECIMAL64_MAX / 10 + DECIMAL64_MAX / 1e17dd);
+	test_eq (nextafterD (DECIMAL64_MAX, INFINITY), INFINITY);
+	test_eq (nextafterD (-DECIMAL64_MAX, -INFINITY), -INFINITY);
 
 	end_section ();
 }

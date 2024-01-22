@@ -503,17 +503,20 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 	gboolean use_e_notation;
 	GString const *dec = go_locale_get_decimal();
 	gboolean used_ryu;
+	int prec;
 
 	g_string_set_size (dst, 53 + oldlen + dec->len);
 	switch (fltyp) {
 	case FP_DOUBLE:
 		n = go_ryu_d2s_buffered_n ((double)(d->ld), dst->str + oldlen);
 		used_ryu = TRUE;
+		prec = 17;
 		break;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 	case FP_LONG_DOUBLE:
 		n = go_ryu_ld2s_buffered_n (d->ld, dst->str + oldlen);
 		used_ryu = TRUE;
+		prec = 21;
 		break;
 #endif
 #ifdef GOFFICE_WITH_DECIMAL64
@@ -524,6 +527,7 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 		n = sprintf (dst->str + oldlen, sfmt, d->d64);
 		// FIXME: if sprintf gains intl support, fix needed here
 		used_ryu = FALSE;
+		prec = 16;
 		break;
 	}
 #endif
@@ -557,7 +561,7 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 	e = atoi (epos + 1);
 	use_e_notation =
 		(t | 32) == 'e' ||
-		((t | 32) == 'g' && (e < -4 || e >= (fltyp == FP_LONG_DOUBLE ? 21 : 17)));
+		((t | 32) == 'g' && (e < -4 || e >= prec));
 	if (use_e_notation) {
 		// Downcase 'E', if needed
 		if (t & 32) *epos = 'e';
@@ -572,6 +576,7 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 			g_string_insert_c (dst, epos - dst->str + 2, '0');
 		return;
 	} else {
+		g_assert (used_ryu);
 		// Else f-notation.  Redo.
 		int precision = MAX (0, ndec - e);
 		t = (t & 32) | 'F';
