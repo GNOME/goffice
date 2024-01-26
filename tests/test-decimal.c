@@ -347,6 +347,7 @@ test_nextafter (void)
 		 DECIMAL64_MAX / 10 + DECIMAL64_MAX / 1e17dd);
 	test_eq (nextafterD (DECIMAL64_MAX, INFINITY), INFINITY);
 	test_eq (nextafterD (-DECIMAL64_MAX, -INFINITY), -INFINITY);
+	test_eq (nextafterD (INFINITY, 0), DECIMAL64_MAX);
 
 	end_section ();
 }
