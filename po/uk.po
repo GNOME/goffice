@@ -2,13 +2,13 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 #
 # Yuri Syrota <rasta@renome.rovno.ua>, 1999.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2023-10-29 10:42+0000\n"
-"PO-Revision-Date: 2023-10-31 21:34+0200\n"
+"POT-Creation-Date: 2023-10-31 19:35+0000\n"
+"PO-Revision-Date: 2024-02-16 21:09+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
 msgid "ID"
@@ -607,9 +607,9 @@ msgstr "Стрілка для кінця лінії"
 
 #: ../goffice/canvas/goc-canvas.c:365 ../goffice/canvas/goc-component.c:309
 #: ../goffice/canvas/goc-component.c:310 ../goffice/canvas/goc-ellipse.c:291
-#: ../goffice/canvas/goc-graph.c:472 ../goffice/canvas/goc-graph.c:473
+#: ../goffice/canvas/goc-graph.c:476 ../goffice/canvas/goc-graph.c:477
 #: ../goffice/canvas/goc-image.c:300 ../goffice/canvas/goc-pixbuf.c:247
-#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:839
+#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:840
 #: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-graph.c:499
 #: ../goffice/graph/gog-object.c:207 ../goffice/utils/go-image.c:510
 #: ../plugins/plot_xy/gog-xy-dropbar.c:308
@@ -617,31 +617,29 @@ msgid "Width"
 msgstr "Ширина"
 
 #: ../goffice/canvas/goc-canvas.c:366
-#| msgid "The identifier of the saver."
 msgid "The width of the canvas"
 msgstr "Ширина полотна"
 
 #: ../goffice/canvas/goc-canvas.c:371 ../goffice/canvas/goc-component.c:303
 #: ../goffice/canvas/goc-component.c:304 ../goffice/canvas/goc-ellipse.c:297
-#: ../goffice/canvas/goc-graph.c:466 ../goffice/canvas/goc-graph.c:467
+#: ../goffice/canvas/goc-graph.c:470 ../goffice/canvas/goc-graph.c:471
 #: ../goffice/canvas/goc-image.c:306 ../goffice/canvas/goc-pixbuf.c:253
-#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:845
+#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:846
 #: ../goffice/graph/gog-graph.c:505 ../goffice/graph/gog-object.c:209
 #: ../goffice/utils/go-image.c:514
 msgid "Height"
 msgstr "Висота"
 
 #: ../goffice/canvas/goc-canvas.c:372
-#| msgid "The description of the saver."
 msgid "The height of the canvas"
 msgstr "Висота полотна"
 
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:454
+#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:458
 #: ../goffice/canvas/goc-group.c:294 ../goffice/canvas/goc-image.c:288
 #: ../goffice/canvas/goc-path.c:294 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:468
-#: ../goffice/canvas/goc-widget.c:826 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-widget.c:827 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -650,11 +648,11 @@ msgid "The circle center horizontal position"
 msgstr "Позиція центра кола за горизонталлю"
 
 #: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:460
+#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:464
 #: ../goffice/canvas/goc-group.c:300 ../goffice/canvas/goc-image.c:294
 #: ../goffice/canvas/goc-path.c:300 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:474
-#: ../goffice/canvas/goc-widget.c:832
+#: ../goffice/canvas/goc-widget.c:833
 msgid "y"
 msgstr "y"
 
@@ -711,36 +709,36 @@ msgid "The rotation around top left position"
 msgstr "Обертання навколо позиції від верхнього і лівого країв"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
-#: ../goffice/canvas/goc-graph.c:386
+#: ../goffice/canvas/goc-graph.c:390
 #, c-format
 msgid "(%s,%s)"
 msgstr "(%s;%s)"
 
-#: ../goffice/canvas/goc-graph.c:455
+#: ../goffice/canvas/goc-graph.c:459
 msgid "The graph left position"
 msgstr "Позиція графіка від лівого краю"
 
-#: ../goffice/canvas/goc-graph.c:461
+#: ../goffice/canvas/goc-graph.c:465
 msgid "The graph top position"
 msgstr "Позиція графіка від верхнього краю"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:478 ../goffice/graph/gog-graph.c:258
+#: ../goffice/canvas/goc-graph.c:482 ../goffice/graph/gog-graph.c:258
 #: ../goffice/graph/gog-graph.c:531 ../goffice/graph/gog-theme.c:581
 msgid "Graph"
 msgstr "Графік"
 
-#: ../goffice/canvas/goc-graph.c:479
+#: ../goffice/canvas/goc-graph.c:483
 msgid "The GogGraph this object displays"
 msgstr "GogGraph, який показує цей об'єкт"
 
-#: ../goffice/canvas/goc-graph.c:484 ../goffice/graph/gog-graph.c:1075
+#: ../goffice/canvas/goc-graph.c:488 ../goffice/graph/gog-graph.c:1075
 msgid "Renderer"
 msgstr "Відтворювач"
 
-#: ../goffice/canvas/goc-graph.c:485
+#: ../goffice/canvas/goc-graph.c:489
 msgid "The GogRenderer being displayed"
 msgstr "Показаний GogRenderer"
 
@@ -1068,27 +1066,27 @@ msgstr "Ширина переносу"
 msgid "Wrap width for the text"
 msgstr "Ширина перенесення тексту"
 
-#: ../goffice/canvas/goc-widget.c:820
+#: ../goffice/canvas/goc-widget.c:821
 msgid "Widget"
 msgstr "Віджет"
 
-#: ../goffice/canvas/goc-widget.c:821
+#: ../goffice/canvas/goc-widget.c:822
 msgid "A pointer to the embedded widget"
 msgstr "Вказівник на вбудований віджет"
 
-#: ../goffice/canvas/goc-widget.c:827
+#: ../goffice/canvas/goc-widget.c:828
 msgid "The widget left position"
 msgstr "Позиція віджета від лівого краю"
 
-#: ../goffice/canvas/goc-widget.c:833
+#: ../goffice/canvas/goc-widget.c:834
 msgid "The widget top position"
 msgstr "Позиція віджета від верхнього краю"
 
-#: ../goffice/canvas/goc-widget.c:840
+#: ../goffice/canvas/goc-widget.c:841
 msgid "The widget width"
 msgstr "Ширина віджета"
 
-#: ../goffice/canvas/goc-widget.c:846
+#: ../goffice/canvas/goc-widget.c:847
 msgid "The widget height"
 msgstr "Висота віджета"
 
@@ -1401,7 +1399,7 @@ msgid "Color"
 msgstr "Колір"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#: ../goffice/graph/gog-guru.c:1032 ../goffice/graph/gog-series.c:595
+#: ../goffice/graph/gog-guru.c:1029 ../goffice/graph/gog-series.c:595
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "Назва"
@@ -1856,7 +1854,7 @@ msgstr "Праворуч"
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
 #: ../plugins/plot_distrib/gog-probability-plot.c:75
-#: ../plugins/plot_xy/gog-xy.c:2110
+#: ../plugins/plot_xy/gog-xy.c:2101
 msgid "Details"
 msgstr "Подробиці"
 
@@ -2058,23 +2056,23 @@ msgstr "Чи допоміжні"
 msgid "Are these minor grid lines"
 msgstr "Чи ці лінії є лініями допоміжної сітки"
 
-#: ../goffice/graph/gog-guru.c:1059
+#: ../goffice/graph/gog-guru.c:1056
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Крок 1 з 2: виберіть тип діаграми"
 
-#: ../goffice/graph/gog-guru.c:1067
+#: ../goffice/graph/gog-guru.c:1064
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Крок 2 з 2: налаштувати діаграму"
 
-#: ../goffice/graph/gog-guru.c:1072
+#: ../goffice/graph/gog-guru.c:1069
 msgid "Customize Chart"
 msgstr "Налаштувати діаграму"
 
-#: ../goffice/graph/gog-guru.c:1147
+#: ../goffice/graph/gog-guru.c:1144
 msgid "_Insert"
 msgstr "Вс_тавка"
 
-#: ../goffice/graph/gog-guru.c:1218
+#: ../goffice/graph/gog-guru.c:1215
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "Тип _креслення"
@@ -7370,8 +7368,8 @@ msgid "Lines"
 msgstr "Лінії"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:698 ../plugins/plot_radar/gog-radar.c:1354
-#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2187
-#: ../plugins/plot_xy/gog-xy.c:2193
+#: ../plugins/plot_radar/gog-radar.c:1480 ../plugins/plot_xy/gog-xy.c:2178
+#: ../plugins/plot_xy/gog-xy.c:2184
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -7457,11 +7455,11 @@ msgstr "_Перекриття:"
 msgid "PlotDropBar"
 msgstr "PlotDropBar"
 
-#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2204
+#: ../plugins/plot_barcol/gog-line.c:342 ../plugins/plot_xy/gog-xy.c:2195
 msgid "Clamp at start"
 msgstr "Затискання на початку"
 
-#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2205
+#: ../plugins/plot_barcol/gog-line.c:343 ../plugins/plot_xy/gog-xy.c:2196
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7469,11 +7467,11 @@ msgstr ""
 "Нахил на початку інтерпольованої кривої при використанні інтерполяції із "
 "затиснутим сплайном"
 
-#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2210
+#: ../plugins/plot_barcol/gog-line.c:348 ../plugins/plot_xy/gog-xy.c:2201
 msgid "Clamp at end"
 msgstr "Затискання у кінці"
 
-#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2211
+#: ../plugins/plot_barcol/gog-line.c:349 ../plugins/plot_xy/gog-xy.c:2202
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -7651,6 +7649,8 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Допоміжні категорії у стосах, як часток від загальної суми допоміжних "
+"категорій, за горизонтальними смугами, згрупованими за основною категорією."
 
 #. No 3d yet
 #. <Type _name="3D Adjacent Bars" row="2" col="1"
@@ -7747,11 +7747,11 @@ msgstr ""
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:97
 msgid "Vertical Drop Bars"
-msgstr ""
+msgstr "Вертикальні смуги спадання"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:98
 msgid "Vertical drop bars."
-msgstr ""
+msgstr "Вертикальні смуги спадання."
 
 #. Drop bars are bars goint from an initial position
 #. to a final position; the fill color is inverted when final position is lower
@@ -7777,7 +7777,7 @@ msgstr "Вертикальні лінії мінімаксу."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:109
 msgid "Marked Vertical Min Max Lines"
-msgstr ""
+msgstr "Позначені вертикальні лінії мінімуму-максимуму"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:110
 msgid "Vertical min max lines with markers."
@@ -7813,19 +7813,19 @@ msgstr "Рушій креслення ліній"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Area plotting engine"
-msgstr ""
+msgstr "Рушій креслення області"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Bar/Col plotting engine"
-msgstr ""
+msgstr "Рушій креслення смуг/стовпчиків"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Drop Bar/Col plotting engine"
-msgstr ""
+msgstr "Рушій креслення спадних смуг/стовпчиків"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:7
 msgid "Min Max plotting engine"
-msgstr ""
+msgstr "Рушій креслення мінімуму-максимуму"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:8
 msgid "Default 1.5d plot types"
@@ -7834,7 +7834,7 @@ msgstr ""
 #: ../plugins/plot_distrib/go-distribution-prefs.c:61
 #: ../plugins/plot_distrib/go-distribution-prefs.c:139
 msgid ":"
-msgstr ""
+msgstr ":"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:100
 msgid "Distribution:"
@@ -7845,7 +7845,7 @@ msgstr "Розподіл:"
 #. * 	BoxPlot2
 #: ../plugins/plot_distrib/gog-boxplot.c:208
 msgid "Box-Plot"
-msgstr ""
+msgstr "Коробковий графік"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
@@ -7861,13 +7861,15 @@ msgstr ""
 
 #: ../plugins/plot_distrib/gog-boxplot.c:407
 msgid "Radius ratio"
-msgstr ""
+msgstr "Співвідношення радіусів"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:408
 msgid ""
 "The ratio between the radius of the circles representing outliers and the "
 "rectangle width"
 msgstr ""
+"Співвідношення між радіусом кола, що відповідає викидам, та шириною"
+" прямокутника"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
 msgid "_Layout"
@@ -7875,7 +7877,7 @@ msgstr "_Компонування"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
 msgid "_Exclude and show outliers"
-msgstr ""
+msgstr "Ви_ключити і показати викиди"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
 msgid "_Diameter/width:"
@@ -8836,27 +8838,27 @@ msgstr "Бульбашка"
 msgid "XYColor"
 msgstr "XYColor"
 
-#: ../plugins/plot_xy/gog-xy.c:2115 ../plugins/plot_xy/gog-xy.c:2186
+#: ../plugins/plot_xy/gog-xy.c:2106 ../plugins/plot_xy/gog-xy.c:2177
 msgid "X error bars"
 msgstr "Смужки похибок X"
 
-#: ../plugins/plot_xy/gog-xy.c:2118 ../plugins/plot_xy/gog-xy.c:2192
+#: ../plugins/plot_xy/gog-xy.c:2109 ../plugins/plot_xy/gog-xy.c:2183
 msgid "Y error bars"
 msgstr "Смужки похибок Y"
 
-#: ../plugins/plot_xy/gog-xy.c:2127
+#: ../plugins/plot_xy/gog-xy.c:2118
 msgid "Horizontal drop lines"
 msgstr "Горизонтальні лінії спадання"
 
-#: ../plugins/plot_xy/gog-xy.c:2135
+#: ../plugins/plot_xy/gog-xy.c:2126
 msgid "Vertical drop lines"
 msgstr "Вертикальні лінії спадання"
 
-#: ../plugins/plot_xy/gog-xy.c:2198
+#: ../plugins/plot_xy/gog-xy.c:2189
 msgid "Invalid as zero"
 msgstr "Некоректні як нульові"
 
-#: ../plugins/plot_xy/gog-xy.c:2199
+#: ../plugins/plot_xy/gog-xy.c:2190
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr "Замінити некоректні значення 0 при малюванні позначок або бульбашок"
 
