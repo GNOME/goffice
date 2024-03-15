@@ -7,7 +7,7 @@ conceptually simple, but complex to implement fully.
     - load/save documents
     - undo/redo
 
-To report goffice bugs, please visit bugzilla.gnome.org.
+To report goffice bugs, visit https://gitlab.gnome.org/GNOME/goffice/
 
 goffice is licensed under the terms of the GNU GPL included in the
 file COPYING.
