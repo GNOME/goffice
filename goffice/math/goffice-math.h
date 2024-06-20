@@ -34,7 +34,7 @@ typedef struct GOQuadQRD_ GOQuadQRD;
 #include <goffice/math/go-R.h>
 #include <goffice/math/go-rangefunc.h>
 #include <goffice/math/go-regression.h>
-#if GOFFICE_WITH_DECIMAL64
+#ifdef GOFFICE_WITH_DECIMAL64
 #include <goffice/math/go-decimal.h>
 #endif
 
