@@ -21,6 +21,7 @@
 
 #ifndef GO_SVG_H
 #define GO_SVG_H
+#ifdef GOFFICE_WITH_LIBRSVG
 
 #include <goffice/goffice.h>
 
@@ -37,4 +38,5 @@ GOImage *go_svg_new_from_data (char const *data, size_t length, GError **error);
 
 G_END_DECLS
 
+#endif /* GOFFICE_WITH_LIBRSVG */
 #endif /* GO_SVG_H */

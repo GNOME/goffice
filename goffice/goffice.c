@@ -243,7 +243,9 @@ libgoffice_init (void)
 	g_type_ensure (GO_TYPE_EMF);
 	g_type_ensure (GO_TYPE_PIXBUF);
 	g_type_ensure (GO_TYPE_SPECTRE);
+#ifdef GOFFICE_WITH_SVG
 	g_type_ensure (GO_TYPE_SVG);
+#endif /* GOFFICE_WITH_SVG */
 
 	_gog_themes_init ();
 	_go_number_format_init ();
