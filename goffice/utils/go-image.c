@@ -25,7 +25,6 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-#include <librsvg/rsvg.h>
 
 /**
  * GOImageFormat:
@@ -611,7 +610,10 @@ go_image_new_from_file (char const *filename, GError **error)
 	g_free (name);
 	switch (format) {
 	case GO_IMAGE_FORMAT_SVG:
+#ifdef GOFFICE_WITH_LIBRSVG
 		return go_svg_new_from_file (filename, error);
+#endif /* GOFFICE_WITH_LIBRSVG */
+		break;
 	case GO_IMAGE_FORMAT_EMF:
 	case GO_IMAGE_FORMAT_WMF:
 		return go_emf_new_from_file (filename, error);
@@ -651,8 +653,10 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 	if (data == NULL || length == 0) {
 		image = NULL;
 		type = "unknown";
+#ifdef GOFFICE_WITH_LIBRSVG
 	} else if (!strcmp (type, "svg")) {
 		image = go_svg_new_from_data (data, length, error);
+#endif /* GOFFICE_WITH_LIBRSVG */
 	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {
 		image = go_emf_new_from_data (data, length, error);
 	} else if (!strcmp (type, "eps")) {
@@ -703,8 +707,10 @@ GType
 go_image_type_for_format (char const *format)
 {
 	g_return_val_if_fail (format && *format, 0);
+#ifdef GOFFICE_WITH_LIBRSVG
 	if (!strcmp (format, "svg"))
 		return GO_TYPE_SVG;
+#endif /* GOFFICE_WITH_LIBRSVG */
 	if (!strcmp (format, "emf") || !strcmp (format, "wmf"))
 		return GO_TYPE_EMF;
 	if (!strcmp (format, "eps"))
@@ -839,8 +845,10 @@ go_image_get_info (GOImage *image)
 	/* Dubious */
 	if (GO_IS_EMF (image))
 		return go_image_get_format_info (GO_IMAGE_FORMAT_EMF);
+#ifdef GOFFICE_WITH_LIBRSVG
 	if (GO_IS_SVG (image))
 		return go_image_get_format_info (GO_IMAGE_FORMAT_SVG);
+#endif /* GOFFICE_WITH_LIBRSVG */
 	if (GO_IS_SPECTRE (image))
 		return go_image_get_format_info (GO_IMAGE_FORMAT_EPS);
 	return NULL;

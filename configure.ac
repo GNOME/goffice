@@ -124,7 +124,6 @@ goffice_reqs="
 	pango			>= 1.24.0
 	pangocairo		>= 1.24.0
 	cairo			>= 1.10.0
-	librsvg-2.0		>= 2.22.0
 	gdk-pixbuf-2.0	>= 2.22.0
 	libxslt
 "
@@ -348,6 +347,19 @@ case $with_config_backend in
 		fi
 		;;
 esac
+
+dnl ***********************
+dnl Should we use librsvg ?
+dnl ***********************
+AC_ARG_WITH(librsvg,
+	AS_HELP_STRING([--without-librsvg],[Build without SVG support]))
+if ! test "x$with_librsvg" = xno; then
+	goffice_reqs="$goffice_reqs librsvg-2.0 >= 2.22.0"
+	EXTRA_DEPS="$EXTRA_DEPS librsvg-2.0"
+	AC_DEFINE(GOFFICE_WITH_LIBRSVG, 1, [Define if librsvg is used])
+fi
+AM_CONDITIONAL(WITH_LIBRSVG, [! test "x$with_librsvg" = xno])
+
 
 dnl *******************
 dnl Should we use gtk ?

@@ -393,7 +393,6 @@ utils_SOURCES =					\
 	utils/go-gradient.c			\
 	utils/go-image.c			\
 	utils/go-pixbuf.c			\
-	utils/go-svg.c				\
 	utils/go-emf.c				\
 	utils/go-spectre.c			\
 	utils/go-line.c				\
@@ -421,6 +420,10 @@ utils_SOURCES =					\
 	utils/go-editor.c			\
 	utils/go-style.c			\
 	utils/go-styled-object.c
+
+if WITH_LIBRSVG
+utils_SOURCES += utils/go-svg.c
+endif
 
 utilsdir = $(goffice_include_dir)/utils
 utils_HEADERS =					\

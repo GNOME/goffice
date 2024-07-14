@@ -30,6 +30,7 @@
 #include <cairo-svg.h>
 #include <string.h>
 
+#ifdef GOFFICE_WITH_LIBRSVG
 #include <librsvg/rsvg.h>
 #ifdef LIBRSVG_CHECK_VERSION
 #define NEEDS_LIBRSVG_CAIRO_H !LIBRSVG_CHECK_VERSION(2,36,2)
@@ -39,6 +40,7 @@
 #if NEEDS_LIBRSVG_CAIRO_H
 #include <librsvg/rsvg-cairo.h>
 #endif
+#endif /* GOFFICE_WITH_LIBRSVG */
 
 struct _GOComponentPrivate {
 	gboolean is_inline; /* if set, the object will be displayed in compact mode
@@ -285,6 +287,7 @@ go_component_snapshot_render (GOComponent *component, cairo_t *cr,
 {
 	GOComponentSnapshot *snapshot = (GOComponentSnapshot *) component;
 	switch (component->snapshot_type) {
+#ifdef GOFFICE_WITH_LIBRSVG
 	case GO_SNAPSHOT_SVG:
 		/* NOTE: we might use lasem here, and also use a GOSvg image */
 		if (snapshot->image == NULL) {
@@ -312,6 +315,7 @@ go_component_snapshot_render (GOComponent *component, cairo_t *cr,
 			cairo_restore (cr);
 		}
 		break;
+#endif /* GOFFICE_WITH_LIBRSVG */
 	case GO_SNAPSHOT_PNG: {
 		if (snapshot->image == NULL) {
 			GInputStream *in = g_memory_input_stream_new_from_data (
