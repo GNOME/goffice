@@ -2541,6 +2541,18 @@ gog_axis_line_update_ticks (GogAxisLine *line)
 		char *lbl;
 		line->ticks = g_new0 (GogAxisTick, len);
 		labels_nb = (labels)? go_data_vector_get_len (labels): 0;
+		if (labels_nb) {
+			// Hack.
+			// Gnumeric's gnm_go_data_vector_load_values changes
+			// the length when the value is first accessed.
+			// That seems like a breach on an (unwritten)
+			// contract, but I am worried about the consequences
+			// of taking that out.  Querying the first value
+			// here is harmless, so for now we go with that.
+			// See Gnumeric #774.
+			(void)go_data_vector_get_value (labels, 0);
+			labels_nb = go_data_vector_get_len (labels);
+		}
 		for (cur = i = 0; i < len; i++) {
 			val = go_data_vector_get_value (pos, i);
 			if (!go_finite (val))
