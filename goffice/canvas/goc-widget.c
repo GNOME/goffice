@@ -281,6 +281,8 @@ goc_offscreen_box_size_request (GtkWidget      *widget,
 {
 	GocOffscreenBox *offscreen_box = GOC_OFFSCREEN_BOX (widget);
 
+	requisition->width = requisition->height = 0;
+
 	if (offscreen_box->child
 	    && gtk_widget_get_visible (offscreen_box->child)) {
 		GtkRequisition child_requisition;

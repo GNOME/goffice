@@ -494,8 +494,7 @@ calculate_replacement (GOSearchReplace *sr, const char *src, const GORegmatch *p
 			}
 		}
 
-		res = gres->str;
-		g_string_free (gres, FALSE);
+		res = g_string_free (gres, FALSE);
 	}
 
 	/*
