@@ -1632,7 +1632,7 @@ go_menu_position_below (GtkMenu  *menu,
  *
  * This function is a simple convenience wrapper for #gtk_show_uri.
  *
- * Returns: %NULL on sucess, or a newly allocated #GError if something
+ * Returns: %NULL on success, or a newly allocated #GError if something
  * went wrong.
  **/
 GError *
