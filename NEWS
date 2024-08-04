@@ -2,6 +2,7 @@ goffice 0.10.58:
 
 Morten:
 	* Work around axis bug.  (Gnumeric #774).
+	* Fix axis problem with really big numbers.  (Gnumeric #777).
 
 --------------------------------------------------------------------------
 goffice 0.10.57:
