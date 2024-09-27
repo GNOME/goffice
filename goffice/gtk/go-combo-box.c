@@ -542,7 +542,7 @@ go_combo_box_popup_display (GOComboBox *combo_box)
 		 * backing pixmap.
 		 */
 		go_combo_popup_reparent (combo_box->priv->popup,
-					  combo_box->priv->toplevel, TRUE);
+					 combo_box->priv->toplevel, TRUE);
 	}
 
 	go_combo_box_get_pos (combo_box, &x, &y);
@@ -605,6 +605,15 @@ cb_state_flags_change (GtkWidget *widget,
 	}
 }
 
+// Called if the window manager somehow sends a delete_event to
+// combo->priv->toplevel
+static gboolean
+cb_toplevel_delete_event (GOComboBox *combo)
+{
+	go_combo_box_popup_hide_unconditional (combo);
+	return TRUE;  // Tell gtk to ignore
+}
+
 static void
 go_combo_box_init (GOComboBox *combo_box)
 {
@@ -643,6 +652,9 @@ go_combo_box_init (GOComboBox *combo_box)
 	g_object_set (G_OBJECT (combo_box->priv->toplevel),
 		      "type-hint", GDK_WINDOW_TYPE_HINT_COMBO,
 		      NULL);
+	g_signal_connect_data (combo_box->priv->toplevel, "delete_event",
+		G_CALLBACK (cb_toplevel_delete_event), combo_box, NULL,
+		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 
 	combo_box->priv->popup = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->toplevel),
