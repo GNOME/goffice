@@ -64,10 +64,15 @@ go_pattern_tooltip_func (int index, gpointer data)
 {
 	switch ((GOPatternType)index) {
 	case GO_PATTERN_SOLID: return _("Solid background");
+        // xgettext:no-c-format
 	case GO_PATTERN_GREY75: return _("75% background");
+        // xgettext:no-c-format
 	case GO_PATTERN_GREY50: return _("50% background");
+        // xgettext:no-c-format
 	case GO_PATTERN_GREY25: return _("25% background");
+        // xgettext:no-c-format
 	case GO_PATTERN_GREY125: return _("12.5% background");
+        // xgettext:no-c-format
 	case GO_PATTERN_GREY625: return _("6.25% background");
 	case GO_PATTERN_HORIZ: return _("Horizontal stripes");
 	case GO_PATTERN_VERT: return _("Vertical stripes");
