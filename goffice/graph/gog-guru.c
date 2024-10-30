@@ -1241,6 +1241,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	g_object_connect (typesel->sample_canvas,
 		"signal::size_allocate", G_CALLBACK (cb_typesel_sample_plot_resize), typesel,
 		NULL);
+	gtk_widget_set_size_request (typesel->sample_canvas, -1, 120);
 	typesel->graph_group = goc_canvas_get_root (GOC_CANVAS (typesel->sample_canvas));
 	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gui, "sample-container")), typesel->sample_canvas);
 
