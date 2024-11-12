@@ -205,6 +205,7 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 	if (canvas) {
 		cairo_translate (cr, x0,
 			             (int) (y0 - canvas->scroll_y1) * canvas->pixels_per_unit);
+#ifdef GOFFICE_WITH_GTK
 #if GTK_CHECK_VERSION(3,10,0)
 		scale = gtk_widget_get_scale_factor (GTK_WIDGET (canvas));
 		cairo_scale (cr, 1. / scale, 1. / scale);
@@ -212,6 +213,7 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 		gog_renderer_update (graph->renderer,
 						  go_fake_round (graph->w * canvas->pixels_per_unit * scale),
 						  go_fake_round (graph->h * canvas->pixels_per_unit * scale));
+#endif
 #endif
 	} else {
 		cairo_translate (cr, x0, y0);
@@ -233,8 +235,10 @@ goc_graph_update_bounds (GocItem *item)
 	item->y0 = graph->y;
 	item->x1 = graph->x + graph->w;
 	item->y1 = graph->y + graph->h;
+#ifdef GOFFICE_WITH_GTK
 #if GTK_CHECK_VERSION(3,10,0)
 	scale = gtk_widget_get_scale_factor (GTK_WIDGET (item->canvas));
+#endif
 #endif
 	gog_renderer_update (graph->renderer,
 			     (int) (graph->w * item->canvas->pixels_per_unit * scale),

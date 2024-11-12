@@ -219,7 +219,9 @@ static void
 goc_item_dispose (GObject *object)
 {
 	GocItem *item = GOC_ITEM (object);
+#ifdef GOFFICE_WITH_GTK
 	GtkStyleContext *context;
+#endif
 
 	if (item->canvas) {
 		item->cached_bounds = TRUE; /* avoids a call to update_bounds */

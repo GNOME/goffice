@@ -620,7 +620,9 @@ goc_canvas_invalidate_region (GocCanvas *canvas, GocItem *item, cairo_region_t *
 	priv->invalidated_item = item;
 	priv->invalid_region = cairo_region_reference (region);
 	priv->done = FALSE;
+#ifdef GOFFICE_WITH_GTK
 	gtk_widget_queue_draw_region (GTK_WIDGET (canvas), region);
+#endif
 }
 
 /**
