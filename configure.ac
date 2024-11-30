@@ -150,7 +150,7 @@ goffice_with_lasem=false
 lasem=
 for ver in 0.6 0.4 ; do
   if test "x$lasem" = x; then
-    if pkg-config --exists lasem-$ver; then
+    if $PKG_CONFIG --exists lasem-$ver; then
       lasem=lasem-$ver
     fi
   fi
