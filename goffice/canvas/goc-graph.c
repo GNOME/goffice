@@ -285,17 +285,23 @@ goc_graph_do_tooltip (GocGraph *graph)
 	GocItem *item = (GocItem *)graph;
 	double x = graph->coords.x;
 	double y = graph->coords.y;
+	double scale = 1;
 
-	/* translate x and y tovalues relative to the graph */
+#if GTK_CHECK_VERSION(3,10,0)
+	scale = gdk_window_get_scale_factor (gtk_layout_get_bin_window (GTK_LAYOUT (item->canvas)));
+#endif
+
+	/* translate x and y to values relative to the graph */
 	xpos = graph->x;
 	ypos = graph->y;
 	goc_group_adjust_coords (item->parent, &xpos, &ypos);
 	x -= xpos;
 	y -= ypos;
-	/* multiply by the zoom level, because the graph has been adjusted,
-	 * fixes #657694 */
-	x *= item->canvas->pixels_per_unit;
-	y *= item->canvas->pixels_per_unit;
+	// multiply by the zoom level, because the graph has been adjusted,
+	// fixes #657694
+	// and by scale for #78
+	x *= scale * item->canvas->pixels_per_unit;
+	y *= scale * item->canvas->pixels_per_unit;
 
 	/* get the GogView at the cursor position */
 	g_object_get (G_OBJECT (graph->renderer), "view", &base_view, NULL);

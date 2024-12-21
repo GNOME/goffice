@@ -4,6 +4,7 @@ Morten:
 	* Work around axis bug.  [Gnumeric #774]
 	* Fix axis problem with really big numbers.  [Gnumeric #777]
 	* Fix combo box problem when wm closes window.  [Gnumeric #784]
+	* Fix graph tooltip problem.  [#78]
 
 --------------------------------------------------------------------------
 goffice 0.10.57:
