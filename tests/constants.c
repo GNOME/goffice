@@ -55,7 +55,7 @@ print_bits (GOQuad const *qc)
 	int e;
 	double s;
 	int b;
-	int N = 53 + 7;
+	int N = 53 + 12;
 
 	g_return_if_fail (go_finite (qx.h) && qx.h != 0);
 
@@ -126,13 +126,12 @@ print_decimal (GOQuad const *qc)
 	go_quad_add (&qd, &qd, &qr);
 
 	for (d = 0; d < N; d++) {
-		GOQuad qw;
-		// Specifically use the high part; rounding implied by
-		// go_quad_value could otherwise make w bigger than qd.
-		int w = floor (qd.h);
+		GOQuad qw, qd1;
+		go_quad_floor (&qw, &qd);
+		int w = go_quad_value (&qw);
+		go_quad_sub (&qd1, &qd, &qw);
 
 		g_printerr ("%c", '0' + w);
-		go_quad_init (&qw, w);
 		go_quad_sub (&qd, &qd, &qw);
 
 		go_quad_init (&qw, 10);
@@ -233,7 +232,7 @@ int
 main (int argc, char **argv)
 {
 	void *state;
-	GOQuad qc;
+	GOQuad qc, qten;
 
 	g_printerr ("Determine for certain constants, c, whether its representation\n");
 	g_printerr ("as a double is more accurate than its inverse's representation.\n\n");
@@ -277,6 +276,15 @@ main (int argc, char **argv)
 	examine_constant ("180/pi", &qc);
 	check_computable ("180/pi", 180 / M_PI, TRUE);
 	check_computable ("pi/180", M_PI / 180, FALSE);
+
+	go_quad_init (&qten, 10);
+	for (int i = 23; i <= 308; i++) {
+		char *txt = g_strdup_printf ("10^%d", i);
+		go_quad_init (&qc, i);
+		go_quad_pow (&qc, NULL, &qten, &qc);
+		examine_constant (txt, &qc);
+		g_free (txt);
+	}
 
 	go_quad_end (state);
 
