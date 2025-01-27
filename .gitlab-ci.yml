@@ -1,33 +1,28 @@
-# use the official ubuntu image
-# see https://hub.docker.com/_/ubuntu/
+include:
+  - component: gitlab.gnome.org/GNOME/citemplates/release-service@release-service-sandbox # <-- instead of @master
+  # - component: "gitlab.gnome.org/GNOME/citemplates/release-service@master"
+    inputs:
+      job-stage: "release"
+      dist-job-name: "build-release-tarball"
+      tarball-artifact-path: "${TARBALL_ARTIFACT_PATH}"
 
-image: ubuntu
+stages:
+  - "build"
+  - "release"
 
-build:
-  stage: build
-  # instead of calling g++ directly you can also use some build toolkit like make
-  # install the necessary build tools when needed
-  # before_script:
-  #   - apt update && apt -y install make autoconf
-  before_script:
-    - DEBIAN_FRONTEND=noninteractive apt update 
-    - DEBIAN_FRONTEND=noninteractive apt -y install autoconf automake zlib1g-dev libglib2.0-dev libxml2-dev gtk-doc-tools autopoint libtool libbz2-dev libgdk-pixbuf2.0-dev make libgtk-3-dev libgsf-1-dev libpango1.0-dev libcairo2-dev intltool librsvg2-dev libxslt1-dev
+variables:
+  TARBALL_ARTIFACT_PATH: "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.xz"
+
+build-release-tarball:
+  stage: "build"
   script:
     - ./autogen.sh --disable-dependency-tracking
     - make
-    
+    - make dist
+    - gunzip <"${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz" | xz > "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.xz"
+    - rm -f "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz" "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.bz2"
   artifacts:
+    name: "${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
+    when: "always"
     paths:
-      - goffice/.libs/libgoffice-*.la
-      - goffice/.libs/libgoffice-*.so
-      - goffice/.libs/libgoffice-*.so.*
-      # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
-      # cache:
-      #   paths:
-      #     - "*.o"
-
-# run tests using the binary built before
-test:
-  stage: test
-  script:
-    - echo "Run Tests Here"
+      - "${TARBALL_ARTIFACT_PATH}"
