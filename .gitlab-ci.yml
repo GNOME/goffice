@@ -6,6 +6,8 @@ include:
       dist-job-name: "build-release-tarball"
       tarball-artifact-path: "${TARBALL_ARTIFACT_PATH}"
 
+image: ubuntu
+
 stages:
   - "build"
   - "release"
