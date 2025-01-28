@@ -13,7 +13,8 @@ stages:
   - "release"
 
 variables:
-  TAG_VERSION: ${{ replace(${{ replace($(CI_COMMIT_TAG),'GOFFICE_','') }}, '_', '.') }}
+  COMMIT_TAG_NOPREFIX: replace($(CI_COMMIT_TAG),'GOFFICE_','')
+  TAG_VERSION: ${{ replace($(COMMIT_TAG_NOPREFIX), '_', '.') }}
   TARBALL_ARTIFACT_PATH: "${CI_PROJECT_NAME}-${TAG_VERSION}.tar.xz"
 
 build-release-tarball:
