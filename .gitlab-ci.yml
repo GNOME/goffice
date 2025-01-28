@@ -13,7 +13,8 @@ stages:
   - "release"
 
 variables:
-  TARBALL_ARTIFACT_PATH: "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.xz"
+  TAG_VERSION: ${{ replace(${{ replace($(CI_COMMIT_TAG),'GOFFICE_','') }}, '_', '.') }}
+  TARBALL_ARTIFACT_PATH: "${CI_PROJECT_NAME}-${TAG_VERSION}.tar.xz"
 
 build-release-tarball:
   stage: "build"
@@ -25,7 +26,7 @@ build-release-tarball:
     - ./autogen.sh --disable-dependency-tracking
     - make
     - make dist
-    - gunzip <"${CI_PROJECT_NAME}-${ACVER}.tar.gz" | xz > "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.xz"
+    - gunzip <"${CI_PROJECT_NAME}-${ACVER}.tar.gz" | xz > "${TARBALL_ARTIFACT_PATH}"
     - rm -f "${CI_PROJECT_NAME}-${ACVER}.tar.gz" "${CI_PROJECT_NAME}-${ACVER}.tar.bz2"
   artifacts:
     name: "${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
