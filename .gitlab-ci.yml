@@ -13,8 +13,7 @@ stages:
   - "release"
 
 variables:
-  TAG_VERSION: $(echo $CI_COMMIT_TAG | sed -e s/^GOFFICE_// -e s/_/./g)
-  TARBALL_ARTIFACT_PATH: ${CI_PROJECT_NAME}-${TAG_VERSION}.tar.xz
+  TARBALL_ARTIFACT_PATH: ${CI_PROJECT_NAME}-${CI_COMMIT_TAG_MESSAGE}.tar.xz
 
 build-release-tarball:
   stage: "build"
@@ -24,7 +23,7 @@ build-release-tarball:
   script:
     - ACVER=`perl -ne '$ep=$1 if /^m4_define.*goffice_version_epoch.*\[(\d+)\]/; $ma=$1 if /^m4_define.*goffice_version_major.*\[(\d+)\]/; $mi=$1 if /^m4_define.*goffice_version_minor.*\[(\S+)\]/; END { print "$ep.$ma.$mi\n"; }' configure.ac`
     - echo ${ACVER}
-    - echo ${TAG_VERSION}
+    - echo ${TARBALL_ARTIFACT_PATH}
     - ./autogen.sh --disable-dependency-tracking
     - make
     - make dist
