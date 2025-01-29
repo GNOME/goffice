@@ -25,7 +25,7 @@ build-release-tarball:
     - echo ${ACVER}
     - echo ${TARBALL_ARTIFACT_PATH}
     - ./autogen.sh --disable-dependency-tracking
-    - make
+    - make -j4
     - make dist
     - gunzip <"${CI_PROJECT_NAME}-${ACVER}.tar.gz" | xz > ${TARBALL_ARTIFACT_PATH}
     - rm -f "${CI_PROJECT_NAME}-${ACVER}.tar.gz" "${CI_PROJECT_NAME}-${ACVER}.tar.bz2"
