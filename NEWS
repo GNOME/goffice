@@ -1,5 +1,8 @@
 goffice 0.10.60:
 
+Morten:
+	* Fix fraction format problem.  [Gnumeric #803]
+
 --------------------------------------------------------------------------
 goffice 0.10.59:
 

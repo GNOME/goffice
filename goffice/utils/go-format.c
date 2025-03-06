@@ -4464,7 +4464,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_NUM_FRACTION: {
 			gboolean wp = *prg++;
 			gboolean explicit_denom = *prg++;
-			DOUBLE aval = SUFFIX(go_add_epsilon) (SUFFIX(fabs)(val));
+			DOUBLE aval = SUFFIX(fabs)(val);
+
+			if (aval != SUFFIX(floor)(aval))
+				aval = SUFFIX(go_add_epsilon) (aval);
 
 			fraction.val = val;
 			fraction.w = SUFFIX(floor) (aval);
