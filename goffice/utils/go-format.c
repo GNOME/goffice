@@ -4465,32 +4465,46 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			gboolean wp = *prg++;
 			gboolean explicit_denom = *prg++;
 			DOUBLE aval = SUFFIX(fabs)(val);
+			DOUBLE aval0 = aval;
+			DOUBLE delta;
+
+			// Parse the program argument here, not after "retry:"
+			if (explicit_denom) {
+				double plaind = 1; /* Plain double */
+				memcpy (&plaind, prg, sizeof (plaind));
+				prg += sizeof (plaind);
+				fraction.d = plaind;
+				fraction.digits = cnt_digits (fraction.d);
+			} else {
+				fraction.digits = *prg++;
+			}
+
+			fraction.val = val;
 
 			if (aval != SUFFIX(floor)(aval))
 				aval = SUFFIX(go_add_epsilon) (aval);
 
-			fraction.val = val;
+			retry:
+			delta = aval - aval0;
 			fraction.w = SUFFIX(floor) (aval);
 			aval -= fraction.w;
 
 			if (explicit_denom) {
-				double plaind; /* Plain double */
-				memcpy (&plaind, prg, sizeof (plaind));
-				prg += sizeof (plaind);
-
-				fraction.d = plaind;
-				fraction.digits = cnt_digits (fraction.d);
 				fraction.n = SUFFIX(round) (aval * fraction.d);
 			} else {
-				int ni, di, max_denom;
-				DOUBLE p10;
+				int ni, di;
+				DOUBLE p10 = SUFFIX(go_pow10) (fraction.digits);
+				int max_denom = MIN (INT_MAX, p10 - 1);
 
-				fraction.digits = *prg++;
-				p10 = SUFFIX(go_pow10) (fraction.digits);
-				max_denom = MIN (INT_MAX, p10 - 1);
 				go_continued_fraction (aval, max_denom, &ni, &di);
 				fraction.n = ni;
 				fraction.d = di;
+			}
+
+			if (delta >= 1 / fraction.d) {
+				// Don't allow the add-epsilon to exceed 1/d
+				aval = aval0;
+				goto retry;
 			}
 
 			if (wp && fraction.n == fraction.d) {
