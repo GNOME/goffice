@@ -592,7 +592,7 @@ if test "x$with_long_double" = "xyes"; then
     have_mandatory_funcs=yes
     need_sunmath=0
     ss_ccprog=`echo $CC | sed -e 's/ .*//'`
-    ss_cc=`which $ss_ccprog`
+    ss_cc=`command -v $ss_ccprog`
     ss_dir=`dirname "$ss_cc"`"/.."
     if test ! -f "$ss_dir/lib/libsunmath.so"; then
         ss_dir="/opt/SUNWspro"
