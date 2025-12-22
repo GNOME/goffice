@@ -13,16 +13,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2025-04-10 00:43+0000\n"
-"PO-Revision-Date: 2025-04-13 23:24+0300\n"
+"POT-Creation-Date: 2025-12-10 19:17+0000\n"
+"PO-Revision-Date: 2025-12-22 03:37+0300\n"
 "Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
-"Language-Team: Turkish <gnome-turk@gnome.org>\n"
+"Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 47.1\n"
+"X-Generator: Gtranslator 49.0\n"
 "X-POOTLE-MTIME: 1424010018.000000\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
@@ -2137,8 +2137,8 @@ msgstr "Metni işaret biçimi olarak yorumla"
 
 #: ../goffice/graph/gog-label.c:315
 msgid ""
-"Interpret the text as an HTML like markup as described at http://developer."
-"gnome.org/pango/stable/PangoMarkupFormat.html"
+"Interpret the text as an HTML like markup as described at http://"
+"developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 msgstr ""
 "Metni http://developer.gnome.org/pango/stable/PangoMarkupFormat.html de "
 "açıklandığı gibi HTML benzeri işaretler ile yorumla"
@@ -8260,20 +8260,17 @@ msgid "Split Half Pie"
 msgstr "Ayrık Yarım Pasta"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:9
-#, fuzzy
 msgid ""
 "Percentage of each contributor in a half circle with wedges split apart."
-msgstr ""
-"Her katılımcının prizma ile ikiye ayrılmış her yarım dairedeki yüzdesi."
+msgstr "Dilimleri ayrılmış yarım daire içinde, her bir katkıcının yüzdesi."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:10
-#, fuzzy
 msgid ""
 "Percentage of each contributor displayed as a segment of a ring with one "
 "ring for each series."
 msgstr ""
-"Her katılımcının, her katılımcının bir halka parçası olarak gösterildiği, "
-"yüzdesi."
+"Her seri için bir halka olacak şekilde bir halkanın dilimi olarak "
+"gösterilen, her bir katkıcının yüzdesi."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:11
 msgid "Split Ring"
