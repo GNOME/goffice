@@ -1002,7 +1002,6 @@ go_component_set_inline (GOComponent *component, gboolean is_inline)
  * go_component_get_inline:
  * @component: a #GOComponent
  *
- * Returns the in-line or not nature of the component.
  * Returns: whether the component is displayed in-line
  **/
 gboolean
@@ -1031,8 +1030,6 @@ go_component_set_use_font_from_app (GOComponent *component, gboolean use_font_fr
  * go_component_get_use_font_from_app:
  * @component: a #GOComponent
  *
- * Returns whether the component should use the font from the calling
- * application or use its own font.
  * Returns: whether the component should use the font from the calling
  * application
  **/

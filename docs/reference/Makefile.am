@@ -31,7 +31,10 @@ IGNORE_HFILES=	\
 		go-app.h       				\
 		go-object.h       			\
 		go-service.h       			\
-		go-service-impl.h
+		go-service-impl.h			\
+		go-decimal.h				\
+		goffice-multipass.h			\
+		go-ryu.h
 
 if GOFFICE_WITH_LASEM
 else

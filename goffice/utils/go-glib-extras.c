@@ -632,7 +632,7 @@ go_mem_chunk_alloc0 (GOMemChunk *chunk)
  * @chunk: #GOMemChunk
  * @mem: (transfer full): item to release
  *
- * Returns the given item to the pool.
+ * Frees, ie., returns the given item to the pool.
  **/
 void
 go_mem_chunk_free (GOMemChunk *chunk, gpointer mem)

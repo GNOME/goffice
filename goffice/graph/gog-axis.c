@@ -3873,7 +3873,7 @@ gog_axis_data_get_bounds (GogAxis *axis, GOData *data,
  * gog_axis_is_zero_important:
  * @axis: the axis to check
  *
- * Returns %TRUE if the axis is of a type in which zero is important and
+ * Returns: %TRUE if the axis is of a type in which zero is important and
  * preferentially should be included in the range.
  *
  * This generally means a linear axis, i.e., not a log axis and not a

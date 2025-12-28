@@ -2,6 +2,7 @@ goffice 0.10.60:
 
 Morten:
 	* Fix fraction format problem.  [Gnumeric #803]
+	* Doc fixes
 
 --------------------------------------------------------------------------
 goffice 0.10.59:

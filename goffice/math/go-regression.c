@@ -99,6 +99,27 @@ GType INFIX(go_regression_stat,_get_type) (void) { return 0; }
  * @var: the variance of the entire regression: sum(errors^2)/(n-xdim).
  **/
 
+/**
+ * go_regression_stat_tD:
+ * @se: SE for each parameter estimator.
+ * @t: t values for each parameter estimator.
+ * @sqr_r: squared R.
+ * @adj_sqr_r:
+ * @se_y: the Standard Error of Y.
+ * @F:
+ * @df_reg:
+ * @df_resid:
+ * @df_total:
+ * @ss_reg:
+ * @ss_resid:
+ * @ss_total:
+ * @ms_reg:
+ * @ms_resid:
+ * @ybar:
+ * @xbar:
+ * @var: the variance of the entire regression: sum(errors^2)/(n-xdim).
+ **/
+
 #define DEFAULT_THRESHOLD (256 * DOUBLE_EPSILON)
 
 // Boxed types code

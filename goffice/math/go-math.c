@@ -220,7 +220,7 @@ _go_math_init (void)
  * go_add_epsilon:
  * @x: a number
  *
- * Returns the next-larger representable value, except that zero and
+ * Returns: the next-larger representable value, except that zero and
  * infinites are returned unchanged.
  */
 double
@@ -246,7 +246,7 @@ go_add_epsilon (double x)
  * go_sub_epsilon:
  * @x: a number
  *
- * Returns the next-smaller representable value, except that zero and
+ * Returns: the next-smaller representable value, except that zero and
  * infinites are returned unchanged.
  */
 double

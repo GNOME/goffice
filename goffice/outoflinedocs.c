@@ -82,7 +82,7 @@
  * go_add_epsilonD:
  * @x: a number
  *
- * Returns the next-larger representable value, except that zero and
+ * Returns: the next-larger representable value, except that zero and
  * infinites are returned unchanged.
  */
 
@@ -90,7 +90,7 @@
  * go_add_epsilonl:
  * @x: a number
  *
- * Returns the next-larger representable value, except that zero and
+ * Returns: the next-larger representable value, except that zero and
  * infinites are returned unchanged.
  */
 
@@ -1916,7 +1916,7 @@
  * go_sub_epsilonD:
  * @x: a number
  *
- * Returns the next-smaller representable value, except that zero and
+ * Returns: the next-smaller representable value, except that zero and
  * infinites are returned unchanged.
  */
 
@@ -1924,7 +1924,7 @@
  * go_sub_epsilonl:
  * @x: a number
  *
- * Returns the next-smaller representable value, except that zero and
+ * Returns: the next-smaller representable value, except that zero and
  * infinites are returned unchanged.
  */
 
