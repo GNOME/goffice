@@ -557,7 +557,7 @@ open_plain_file (char const *path, GError **err)
 /**
  * go_file_open:
  * @uri: target uri
- * @err: #GError
+ * @err: (out) (optional) (nullable): #GError
  *
  * Try all available methods to open a file or return an error
  * Returns: (transfer full): non-%NULL on success
@@ -606,11 +606,12 @@ go_file_open (char const *uri, GError **err)
 /**
  * go_file_create:
  * @uri: target uri
- * @err: #GError
+ * @err: (out) (optional) (nullable): #GError
  *
  * Creates a file or return an error. If the file already exists, it is
  * replaced.
- * Returns: (transfer full): non-%NULL on success
+ *
+ * Returns: (transfer full): #GsfOutput for new file.
  **/
 GsfOutput *
 go_file_create (char const *uri, GError **err)

@@ -79,6 +79,7 @@ SUFFIX(go_accumulator_new) (void)
 
 /**
  * go_accumulator_free: (skip)
+ * @acc: accumulator
  **/
 void
 SUFFIX(go_accumulator_free) (ACC *acc)
@@ -91,6 +92,7 @@ SUFFIX(go_accumulator_free) (ACC *acc)
 
 /**
  * go_accumulator_clear: (skip)
+ * @acc: accumulator
  **/
 void
 SUFFIX(go_accumulator_clear) (ACC *acc)
@@ -101,6 +103,8 @@ SUFFIX(go_accumulator_clear) (ACC *acc)
 
 /**
  * go_accumulator_add: (skip)
+ * @acc: accumulator
+ * @x: value to add
  **/
 void
 SUFFIX(go_accumulator_add) (ACC *acc, DOUBLE x)
@@ -136,6 +140,8 @@ SUFFIX(go_accumulator_add) (ACC *acc, DOUBLE x)
 
 /**
  * go_accumulator_add_quad: (skip)
+ * @acc: accumulator
+ * @x: value to add
  **/
 void
 SUFFIX(go_accumulator_add_quad) (ACC *acc, const SUFFIX(GOQuad) *x)
@@ -149,6 +155,7 @@ SUFFIX(go_accumulator_add_quad) (ACC *acc, const SUFFIX(GOQuad) *x)
 
 /**
  * go_accumulator_value: (skip)
+ * @acc: accumulator
  **/
 DOUBLE
 SUFFIX(go_accumulator_value) (ACC *acc)

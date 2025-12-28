@@ -182,7 +182,7 @@ go_string_new_nocopy_len (char *str, guint32 len)
 
 /**
  * go_string_new:
- * @str (nullable): string
+ * @str: (nullable): string
  *
  * GOString duplicates @str if no string already exists.
  *
@@ -265,7 +265,7 @@ go_string_new_rich_impl (char *str,
 
 /**
  * go_string_new_rich:
- * @str (nullable): string.
+ * @str: (nullable): string.
  * @byte_len: < 0 will call strlen.
  * @markup: (transfer full) (nullable): optional markup.
  * @phonetic: (transfer full) (nullable): optional list of phonetic extensions.
@@ -284,7 +284,7 @@ go_string_new_rich (char const *str,
 
 /**
  * go_string_new_rich_nocopy:
- * @str (transfer full) (nullable): string
+ * @str: (transfer full) (nullable): string
  * @byte_len: < 0 will call strlen.
  * @markup: (transfer full) (nullable): optional markup.
  * @phonetic: (transfer full) (nullable): optional list of phonetic extensions.

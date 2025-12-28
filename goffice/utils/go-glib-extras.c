@@ -1102,7 +1102,7 @@ go_object_properties_free (GSList *props)
 /**
  * go_parse_key_value:
  * @options: Options string.
- * @err: Reference to store GError if parsing fails.
+ * @err: (out) (optional) (nullable): Error return if parsing fails
  * @handler: (scope call): Handler to call for each key-value pair.
  * @user: user pointer.
  */

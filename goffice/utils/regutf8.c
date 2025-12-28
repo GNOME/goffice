@@ -260,9 +260,9 @@ go_search_replace_compile (GOSearchReplace *sr)
  * go_search_replace_verify:
  * @sr: Search-and-Replace info to be checked
  * @repl: Check replacement part too.
- * @err: Location to store error message.
+ * @err: (out) (optional) (nullable): #GError
  *
- * Returns: %TRUE if  search-and-replace data is valid.
+ * Returns: %TRUE if search-and-replace data is valid.
  **/
 gboolean
 go_search_replace_verify (GOSearchReplace *sr, gboolean repl, GError **err)

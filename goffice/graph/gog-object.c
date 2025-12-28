@@ -1238,7 +1238,7 @@ gog_object_get_name (GogObject const *obj)
  * gog_object_set_name:
  * @obj: #GogObject
  * @name: (transfer full): The new name for @obj
- * @err: #GError
+ * @err: (out) (optional) (nullable): #GError
  *
  * Assign the new name and signals that it has changed.
  * NOTE : it _absorbs_ @name rather than copying it, and generates a new name

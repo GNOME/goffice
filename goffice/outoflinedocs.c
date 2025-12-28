@@ -10,34 +10,46 @@
 
 /**
  * go_accumulator_addD: (skip)
+ * @acc: accumulator
+ * @x: value to add
  **/
 
 /**
  * go_accumulator_add_quadD: (skip)
+ * @acc: accumulator
+ * @x: value to add
  **/
 
 /**
  * go_accumulator_add_quadl: (skip)
+ * @acc: accumulator
+ * @x: value to add
  **/
 
 /**
  * go_accumulator_addl: (skip)
+ * @acc: accumulator
+ * @x: value to add
  **/
 
 /**
  * go_accumulator_clearD: (skip)
+ * @acc: accumulator
  **/
 
 /**
  * go_accumulator_clearl: (skip)
+ * @acc: accumulator
  **/
 
 /**
  * go_accumulator_freeD: (skip)
+ * @acc: accumulator
  **/
 
 /**
  * go_accumulator_freel: (skip)
+ * @acc: accumulator
  **/
 
 /**
@@ -58,10 +70,12 @@
 
 /**
  * go_accumulator_valueD: (skip)
+ * @acc: accumulator
  **/
 
 /**
  * go_accumulator_valuel: (skip)
+ * @acc: accumulator
  **/
 
 /**
