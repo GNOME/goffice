@@ -348,7 +348,7 @@ go_palette_show_automatic (GOPalette *palette,
  * @label: if not %NULL, replaces custom button label
  *
  * Adds a custom button to bottom of @palette. An activation
- * of custom button will cause an emition of "custom_activate" signal.
+ * of custom button will cause an emission of "custom_activate" signal.
  **/
 void
 go_palette_show_custom (GOPalette *palette,
