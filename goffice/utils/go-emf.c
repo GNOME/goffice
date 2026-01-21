@@ -484,13 +484,13 @@ go_dib_create_pixbuf_from_data (GODibHeader const *header, guint8 const *data)
 #ifdef DEBUG_EMF_SUPPORT
 #       define d_(x)     g_print x
 
-char const *go_emf_dib_colors[] = {
+static char const * const go_emf_dib_colors[] = {
 	"DIB_RGB_COLORS",
 	"DIB_PAL_COLORS",
 	"DIB_PAL_INDICES"
 };
 
-char const *go_emf_ternary_raster_operation[] = {
+static char const * const go_emf_ternary_raster_operation[] = {
 	"BLACKNESS",
 	"DPSOON",
 	"DPSONA",
@@ -2910,7 +2910,7 @@ static gboolean
 go_emf_setmapmode (GOEmfState *state)
 {
 #ifdef DEBUG_EMF_SUPPORT
-char const *map_modes[] = {
+static char const * const map_modes[] = {
 	"MM_TEXT",
 "MM_LOMETRIC",
 "MM_HIMETRIC",
@@ -4630,7 +4630,7 @@ go_emf_deletecolorspace (GOEmfState *state)
 
 typedef gboolean (*GOEmfHandler) (GOEmfState* state);
 
-static  GOEmfHandler go_emf_handlers[] = {
+static const GOEmfHandler go_emf_handlers[] = {
 	NULL,
 	go_emf_header,			/* 0x0001 ok */
 	go_emf_polybezier,		/* 0x0002 untested */

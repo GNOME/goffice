@@ -70,7 +70,7 @@ go_unit_get_type (void)
 
 static int last_unit = GO_UNIT_MAX;
 
-static GoUnit units[GO_UNIT_MAX] = {
+static const GoUnit units[GO_UNIT_MAX] = {
 	{(char *) "m", (char *) "L", 1., GO_UNIT_METER},
 	{(char *) "cm", (char *) "L", 0.01, GO_UNIT_CENTIMETER},
 	{(char *) "in", (char *) "L", 0.0254, GO_UNIT_INCH},
@@ -170,21 +170,21 @@ go_unit_destroy (GoUnit *unit)
  * _go_unit_init: (skip)
  */
 void
-_go_unit_init ()
+_go_unit_init (void)
 {
 	GoUnitId Id;
 	if (units_hash != NULL)
 		return;
 	g_hash_table_new_full (g_str_hash, g_str_equal, NULL, (GDestroyNotify) go_unit_destroy);
 	for (Id = GO_UNIT_METER; Id < GO_UNIT_MAX; Id++)
-		g_hash_table_insert (units_hash, units[Id].symbol, units + Id);
+		g_hash_table_insert (units_hash, units[Id].symbol, (gpointer)(units + Id));
 }
 
 /**
  * _go_unit_shutdown: (skip)
  */
 void
-_go_unit_shutdown ()
+_go_unit_shutdown (void)
 {
 	if (units_hash == NULL)
 		return;

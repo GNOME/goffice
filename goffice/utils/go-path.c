@@ -130,7 +130,7 @@ typedef enum _GOPathAction {
 	GO_PATH_ACTION_CHANGE_STATE
 } GOPathAction;
 
-static int action_n_args[4] = { 1, 1, 3, 0};
+static const int action_n_args[4] = { 1, 1, 3, 0 };
 
 struct _GOPathDataBuffer {
 	int n_points;
