@@ -3,6 +3,7 @@ goffice 0.10.60:
 Morten:
 	* Fix fraction format problem.  [Gnumeric #803]
 	* Doc fixes
+	* Remove workaround for ancient gtk+ bug.  [#81]
 
 --------------------------------------------------------------------------
 goffice 0.10.59:

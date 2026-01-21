@@ -236,12 +236,6 @@ cb_menu_item_activate (GtkWidget *item, GOPalette *palette)
 	g_signal_emit (palette, go_palette_signals[GO_PALETTE_ACTIVATE], 0, index);
 }
 
-static void
-cb_menu_item_toggle_size_request (GtkWidget *item, gint *requitision)
-{
-	*requitision = 1;
-}
-
 static GtkWidget *
 go_palette_menu_item_new (GOPalette *palette, int index)
 {
@@ -261,9 +255,6 @@ go_palette_menu_item_new (GOPalette *palette, int index)
 	}
 
 	g_signal_connect (item, "activate", G_CALLBACK (cb_menu_item_activate), palette);
-
-	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
-	g_signal_connect (item, "toggle-size-request", G_CALLBACK (cb_menu_item_toggle_size_request), NULL);
 
 	return item;
 }
