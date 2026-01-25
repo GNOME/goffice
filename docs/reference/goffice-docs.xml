@@ -45,6 +45,7 @@
 		</chapter>
 		<chapter>
 			<title>Utilities</title>
+			<xi:include href="xml/gog-object-xml.xml"/>
 			<xi:include href="xml/gog-renderer.xml"/>
 			<xi:include href="xml/gog-guru.xml"/>
 			<xi:include href="xml/gog-tool.xml"/>
@@ -71,6 +72,7 @@
 			<xi:include href="xml/goc-circle.xml"/>
 			<xi:include href="xml/goc-ellipse.xml"/>
 			<xi:include href="xml/goc-graph.xml"/>
+			<xi:include href="xml/goc-image.xml"/>
 			<xi:include href="xml/goc-line.xml"/>
 			<xi:include href="xml/goc-pixbuf.xml"/>
 			<xi:include href="xml/goc-polygon.xml"/>
@@ -81,6 +83,7 @@
 		</chapter>
 		<chapter>
 			<title>Utilities</title>
+			<xi:include href="xml/goc-path.xml"/>
 			<xi:include href="xml/goc-structs.xml"/>
 			<xi:include href="xml/goc-utils.xml"/>
 		</chapter>
@@ -98,13 +101,20 @@
 		</chapter>
 		<chapter>
 			<title>Selectors</title>
+			<xi:include href="xml/go-3d-rotation-sel.xml"/>
 			<xi:include href="xml/go-calendar-button.xml"/>
 			<xi:include href="xml/go-color-group.xml"/>
+			<xi:include href="xml/go-color-selector.xml"/>
 			<xi:include href="xml/go-combo-color.xml"/>
 			<xi:include href="xml/go-charmap-sel.xml"/>
 			<xi:include href="xml/go-font-sel.xml"/>
 			<xi:include href="xml/go-format-sel.xml"/>
+			<xi:include href="xml/go-gradient-selector.xml"/>
+			<xi:include href="xml/go-image-sel.xml"/>
+			<xi:include href="xml/go-line-selector.xml"/>
 			<xi:include href="xml/go-locale-sel.xml"/>
+			<xi:include href="xml/go-marker-selector.xml"/>
+			<xi:include href="xml/go-pattern-selector.xml"/>
 			<xi:include href="xml/go-rotation-sel.xml"/>
 		</chapter>
 	</part>
@@ -120,6 +130,7 @@
 			<xi:include href="xml/go-line.xml"/>
 			<xi:include href="xml/go-marker.xml"/>
 			<xi:include href="xml/go-pattern.xml"/>
+			<xi:include href="xml/go-rsm.xml"/>
 			<xi:include href="xml/go-style.xml"/>
 			<xi:include href="xml/go-styled-object.xml"/>
 			<xi:include href="xml/goffice-utils.xml"/>
@@ -154,10 +165,13 @@
 			<xi:include href="xml/go-cspline.xml"/>
 			<xi:include href="xml/go-distribution.xml"/>
 			<xi:include href="xml/go-fft.xml"/>
+			<xi:include href="xml/go-matrix3x3.xml"/>
 			<xi:include href="xml/go-rangefunc.xml"/>
 			<xi:include href="xml/go-regression.xml"/>
 			<xi:include href="xml/go-units.xml"/>
 			<xi:include href="xml/go-quad.xml"/>
+			<xi:include href="xml/go-quad-matrix.xml"/>
+			<xi:include href="xml/go-quad-qr.xml"/>
 			<xi:include href="xml/go-accumulator.xml"/>
 		</chapter>
 		<chapter>
@@ -172,6 +186,7 @@
 			<title>Application</title>
 <!--		<xi:include href="xml/go-app.xml"/>	-->
 			<xi:include href="xml/go-cmd-context.xml"/>
+			<xi:include href="xml/go-conf.xml"/>
 			<xi:include href="xml/go-doc-control.xml"/>
 			<xi:include href="xml/go-doc.xml"/>
 			<xi:include href="xml/go-error-info.xml"/>
@@ -194,10 +209,14 @@
 			<xi:include href="xml/go-reg.xml"/>
 			<xi:include href="xml/go-search-replace.xml"/>
 			<xi:include href="xml/go-format.xml"/>
+			<xi:include href="xml/go-gdk-pixbuf.xml"/>
 			<xi:include href="xml/go-glib-extras.xml"/>
 			<xi:include href="xml/go-libxml-extras.xml"/>
+			<xi:include href="xml/go-locale.xml"/>
+			<xi:include href="xml/go-pango-extras.xml"/>
 			<xi:include href="xml/go-persist.xml"/>
 			<xi:include href="xml/go-undo.xml"/>
+			<xi:include href="xml/go-unit.xml"/>
 			<xi:include href="xml/go-string.xml"/>
 		</chapter>
 	</part>

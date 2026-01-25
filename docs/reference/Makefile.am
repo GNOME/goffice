@@ -29,12 +29,14 @@ IGNORE_HFILES=	\
 		goffice-debug.h				\
 		io-context-priv.h       		\
 		go-app.h       				\
+		go-doc-impl.h				\
 		go-object.h       			\
 		go-service.h       			\
 		go-service-impl.h			\
 		go-decimal.h				\
 		goffice-multipass.h			\
 		go-ryu.h
+
 
 if GOFFICE_WITH_LASEM
 else

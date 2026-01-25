@@ -84,7 +84,7 @@ new_from_data (gconstpointer data, size_t length)
  * @filename: pixbuf filename
  *
  * Utility routine to create pixbufs from file @name in the goffice_icon_dir.
- * As a special case, @filename may have the form "res:<resource name>" in
+ * As a special case, @filename may have the form "res:resource name" in
  * which case the resource manager is queried instead of loading a file.
  *
  * Since: 0.9.6
@@ -122,7 +122,7 @@ go_gdk_pixbuf_load_from_file (char const *filename)
  * @filename: pixbuf filename
  *
  * Utility routine to create pixbufs from file @name in the goffice_icon_dir.
- * As a special case, @filename may have the form "res:<resource name>" in
+ * As a special case, @filename may have the form "res:resource name" in
  * which case the resource manager is queried instead of loading a file.
  *
  * Deprecated: 0.9.6 use go_gdk_pixbuf_load_from_file() instead

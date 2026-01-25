@@ -318,6 +318,7 @@ go_charmap_sel_get_type
 <SECTION>
 <FILE>go-cmd-context</FILE>
 <TITLE>GOCmdContext</TITLE>
+GOCmdContextClass
 go_cmd_context_error
 go_cmd_context_error_export
 go_cmd_context_error_import
@@ -337,17 +338,11 @@ go_error_system
 GO_CMD_CONTEXT
 GO_IS_CMD_CONTEXT
 GO_TYPE_CMD_CONTEXT
+GO_CMD_CONTEXT_CLASS
+GO_IS_CMD_CONTEXT_CLASS
 go_cmd_context_get_type
 </SECTION>
 
-<SECTION>
-<FILE>go-cmd-context-impl</FILE>
-<TITLE>GOCmdContext</TITLE>
-GOCmdContextClass
-<SUBSECTION Standard>
-GO_CMD_CONTEXT_CLASS
-GO_IS_CMD_CONTEXT_CLASS
-</SECTION>
 
 <SECTION>
 <FILE>go-color</FILE>
@@ -822,6 +817,10 @@ go_data_vector_get_type
 <SECTION>
 <FILE>go-data-matrix</FILE>
 <TITLE>GODataMatrix</TITLE>
+GODataFlags
+GODataMatrixClass
+GODataScalarClass
+GODataVectorClass
 GODataMatrix
 go_data_matrix_get_columns
 go_data_matrix_get_markup
@@ -835,18 +834,9 @@ go_data_matrix_get_values
 GO_DATA_MATRIX
 GO_IS_DATA_MATRIX
 GO_TYPE_DATA_MATRIX
-go_data_matrix_get_type
-</SECTION>
-
-<SECTION>
-<FILE>go-data-impl</FILE>
-<TITLE>Data support</TITLE>
-GODataFlags
-GODataMatrixClass
-GODataScalarClass
-GODataVectorClass
 GO_DATA_MATRIX_SIZE_CACHED
 GO_DATA_VECTOR_LEN_CACHED
+go_data_matrix_get_type
 </SECTION>
 
 <SECTION>
@@ -987,12 +977,6 @@ go_doc_control_get_type
 GO_DOC_CONTROL_CLASS
 GO_DOC_CONTROL_GET_CLASS
 GO_IS_DOC_CONTROL_CLASS
-</SECTION>
-
-<SECTION>
-<FILE>go-doc-impl</FILE>
-<TITLE>GODoc</TITLE>
-<SUBSECTION Standard>
 GO_DOC_CLASS
 GO_DOC_GET_CLASS
 GO_IS_DOC_CLASS
@@ -3153,37 +3137,31 @@ GogAxisBase
 GogAxisLine
 GogAxisPosition
 GogAxisTickTypes
-gog_axis_base_get_cross_location
-gog_axis_base_get_crossed_axis
-gog_axis_base_get_crossed_axis_for_plot
-gog_axis_base_get_crossed_axis_type
-gog_axis_line_get_ticks
-<SUBSECTION Standard>
-GOG_AXIS_BASE
-GOG_AXIS_LINE
-GOG_IS_AXIS_BASE
-GOG_IS_AXIS_LINE
-GOG_TYPE_AXIS_BASE
-GOG_TYPE_AXIS_LINE
-gog_axis_base_get_type
-gog_axis_line_get_type
-</SECTION>
-
-<SECTION>
-<FILE>gog-axis-line-impl</FILE>
-GogAxisBase
 GogAxisBaseClass
 GogAxisBaseView
 GogAxisBaseViewClass
 GogAxisTickProperties
+gog_axis_base_get_cross_location
+gog_axis_base_get_crossed_axis
+gog_axis_base_get_crossed_axis_for_plot
+gog_axis_base_get_crossed_axis_type
 gog_axis_base_get_clamped_position
 gog_axis_base_get_position
 gog_axis_base_set_position
 gog_axis_base_view_label_position_request
+gog_axis_line_get_ticks
 <SUBSECTION Standard>
+GOG_AXIS_BASE
 GOG_AXIS_BASE_VIEW
+GOG_AXIS_LINE
+GOG_IS_AXIS_BASE
 GOG_IS_AXIS_BASE_VIEW
+GOG_IS_AXIS_LINE
+GOG_TYPE_AXIS_BASE
 GOG_TYPE_AXIS_BASE_VIEW
+GOG_TYPE_AXIS_LINE
+gog_axis_base_get_type
+gog_axis_line_get_type
 gog_axis_base_view_get_type
 </SECTION>
 
