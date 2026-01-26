@@ -1520,6 +1520,7 @@ go_selector_new_line_dash
 
 <SECTION>
 <FILE>go-locale</FILE>
+<TITLE>Locale Support</TITLE>
 go_locale_24h
 go_locale_boolean_name
 go_locale_get_arg_sep
@@ -1727,6 +1728,7 @@ go_palette_get_type
 
 <SECTION>
 <FILE>go-pango-extras</FILE>
+<TITLE>Pango Extras</TITLE>
 go_create_std_tags_for_buffer
 go_load_pango_attributes_into_buffer
 go_pango_attr_list_erase
@@ -2507,9 +2509,6 @@ go_styled_object_get_type
 <SECTION>
 <FILE>go-undo</FILE>
 <TITLE>GOUndo</TITLE>
-<TITLE>GOUndoBinary</TITLE>
-<TITLE>GOUndoGroup</TITLE>
-<TITLE>GOUndoUnary</TITLE>
 GOUndo
 GOUndoBinary
 GOUndoBinaryClass

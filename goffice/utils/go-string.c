@@ -26,6 +26,13 @@
 #include <string.h>
 
 /**
+ * SECTION: go-string
+ * @short_description: Reference-Counted String Support
+ *
+ * GOString implements a reference-counted string object.
+ */
+
+/**
  * GOString:
  * @str: the embeded UTF-8 string
  *

@@ -25,6 +25,19 @@
 #include <gsf/gsf-impl-utils.h>
 
 /**
+ * SECTION: go-undo
+ * @short_description: Generic Undo support
+ *
+ * GOUndo objects are closures that allow for implementing generic
+ * undo support in a application.
+ *
+ * The undo operation can either be a single operations or a compound
+ * operations.  Easy support is available for undo operations that
+ * need one ("unary") or two ("binary") data pointers.  The undo object
+ * handles the life cycle of the data pointers.
+ */
+
+/**
  * GOUndoClass:
  * @base: base class.
  * @undo: undo.
@@ -88,9 +101,8 @@ go_undo_undo (GOUndo *u)
  * @a: (transfer full) (nullable): first undo operation
  * @b: (transfer full) (nullable): last undo operation
  *
- * This function takes ownership of the argument references and gives ownership
- * of the result to the caller.  Either argument may be %NULL in which case the
- * other is returned.
+ * This function combines two undo operations into one.  For convenience,
+ * either argument may be %NULL in which case the other is returned.
  *
  * Returns: (transfer full) (nullable): the combination of two undo operations.
  **/

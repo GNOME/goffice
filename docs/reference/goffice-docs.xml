@@ -220,7 +220,7 @@
 			<xi:include href="xml/go-string.xml"/>
 		</chapter>
 	</part>
-	<index id="gsf-index">
+	<index id="goffice-index">
 		<title id="index-all">Index</title>
 		<xi:include href="xml/tree_index.sgml"/>
 	</index>
