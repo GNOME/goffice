@@ -612,7 +612,7 @@ void SUFFIX(go_complex_real) (COMPLEX *dst, DOUBLE re)
  *
  * Returns: %TRUE if the complex number has no complex component.
  */
-int SUFFIX(go_complex_real_p) (COMPLEX const *src)
+gboolean SUFFIX(go_complex_real_p) (COMPLEX const *src)
 {
 	return src->im == 0;
 }
@@ -625,7 +625,7 @@ int SUFFIX(go_complex_real_p) (COMPLEX const *src)
  *
  * Returns: %TRUE if the complex number is zero.
  */
-int SUFFIX(go_complex_zero_p) (COMPLEX const *src)
+gboolean SUFFIX(go_complex_zero_p) (COMPLEX const *src)
 {
 	return src->re == 0 && src->im == 0;
 }
@@ -639,7 +639,7 @@ int SUFFIX(go_complex_zero_p) (COMPLEX const *src)
  * Returns: %TRUE if the complex number is invalid, i.e., either the
  * real or the complex component is NaN.
  */
-int SUFFIX(go_complex_invalid_p) (COMPLEX const *src)
+gboolean SUFFIX(go_complex_invalid_p) (COMPLEX const *src)
 {
 	return !(SUFFIX(go_finite) (src->re) && SUFFIX(go_finite) (src->im));
 }

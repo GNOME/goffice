@@ -1601,7 +1601,6 @@ go__VOID__INT_BOOLEAN_BOOLEAN_BOOLEAN
 <SECTION>
 <FILE>go-math</FILE>
 <TITLE>Mathematics</TITLE>
-M_PI
 acosh
 asinh
 atanh
@@ -1661,7 +1660,6 @@ go_strtoDd
 go_sub_epsilon
 go_sub_epsilonl
 go_sub_epsilonD
-isnan
 ldexpl
 log1p
 modfl

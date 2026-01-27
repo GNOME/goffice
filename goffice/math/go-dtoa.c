@@ -634,6 +634,29 @@ fmt_d64 (GString *dst, const char *fmt, _Decimal64 d, int w, int p)
 #endif
 
 
+/**
+ * go_dtoa:
+ * @dst: destination
+ * @fmt: format
+ * @...: single value to format (but see below)
+ *
+ * Formats a single floating-point value.  @format should be a printf-style
+ * format fragment for a single floating-point item without the initial '%'.
+ *
+ * If goffice has been compiled with support for type "long double", an "L"
+ * modifier can be used.  If goffice has been compiled with support for
+ * type "decimal64", a "D" modifier can be used.
+ *
+ * '*' for width and/or precision are allowed and consume an extra int
+ * argument
+ *
+ * Certain extra flags are supported:
+ * flag '!' means to use the shortest possible representation of the
+ * number;
+ * flag '=' means to clear the @dst before formatting (as opposed to
+ * appending);
+ * flag ',' means to format as in C locale
+ */
 void
 go_dtoa (GString *dst, const char *fmt, ...)
 {
