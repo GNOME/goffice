@@ -78,6 +78,15 @@ GType go_complexD_get_type (void) { return 0; }
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_to_string:
+ * @src: complex value
+ * @reformat: printf format for real component
+ * @imformat: printf format for real component
+ * @imunit: character unit for imaginary unit, typically 'i'
+ *
+ * Returns: (transfer full): formats a complex number
+ */
 char *
 SUFFIX(go_complex_to_string) (COMPLEX const *src, char const *reformat,
 			      char const *imformat, char imunit)
@@ -143,11 +152,21 @@ SUFFIX(is_unit_imaginary) (char const *src, DOUBLE *im, char *imunit)
 		return 0;
 }
 
+/**
+ * go_complex_from_string:
+ * @dst: (out): destination
+ * @src: text to parse as a complex number
+ * @imunit: character unit used for imaginary unit, typically 'i'
+ *
+ * Returns: zero if successful, non-zero otherwise
+ */
 int
 SUFFIX(go_complex_from_string) (COMPLEX *dst, char const *src, char *imunit)
 {
 	DOUBLE x, y;
 	char *end;
+
+	*imunit = 'i';
 
 	/* Case: "i", "+i", "-i", ...  */
 	if (SUFFIX(is_unit_imaginary) (src, &dst->im, imunit)) {
@@ -197,6 +216,14 @@ SUFFIX(go_complex_from_string) (COMPLEX *dst, char const *src, char *imunit)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_to_polar:
+ * @mod: (out): modulus
+ * @angle: (out): argument.
+ * @src: complex value
+ *
+ * Computes the polar coordinates of @src.
+ */
 void
 SUFFIX(go_complex_to_polar) (DOUBLE *mod, DOUBLE *angle, COMPLEX const *src)
 {
@@ -206,6 +233,14 @@ SUFFIX(go_complex_to_polar) (DOUBLE *mod, DOUBLE *angle, COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_from_polar:
+ * @dst: (out): destination
+ * @mod: modulus
+ * @angle: argument.
+ *
+ * Initializes a complex number from polar coordinates.
+ */
 void
 SUFFIX(go_complex_from_polar) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 {
@@ -214,6 +249,16 @@ SUFFIX(go_complex_from_polar) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 				 mod * SUFFIX(sin) (angle));
 }
 
+/**
+ * go_complex_from_polar_pi:
+ * @dst: (out): destination
+ * @mod: modulus
+ * @angle: argument divided by pi
+ *
+ * Initializes a complex number from polar coordinates, except that the
+ * argument is divided by pi to ensure that important values can be
+ * represented without rounding errors.
+ */
 void
 SUFFIX(go_complex_from_polar_pi) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 {
@@ -224,6 +269,14 @@ SUFFIX(go_complex_from_polar_pi) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_mul:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a multiplied by @b.
+ */
 void
 SUFFIX(go_complex_mul) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
@@ -234,6 +287,14 @@ SUFFIX(go_complex_mul) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_div:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a divided by @b.
+ */
 void
 SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
@@ -295,6 +356,13 @@ SUFFIX(go_complex_div) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_sqrt:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex square root.
+ */
 void
 SUFFIX(go_complex_sqrt) (COMPLEX *dst, COMPLEX const *src)
 {
@@ -479,6 +547,14 @@ SUFFIX(go_complex_powx) (COMPLEX *dst, DOUBLE *e,
 	}
 }
 
+/**
+ * go_complex_pow:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: second argument
+ *
+ * Computes the complex power @a to the power of @b.
+ */
 void
 SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
@@ -487,6 +563,14 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_init:
+ * @dst: (out): destination
+ * @re: real value
+ * @im: imaginary value
+ *
+ * Initializes a complex number from real and complex parts.
+ */
 void SUFFIX(go_complex_init) (COMPLEX *dst, DOUBLE re, DOUBLE im)
 {
 	dst->re = re;
@@ -495,12 +579,25 @@ void SUFFIX(go_complex_init) (COMPLEX *dst, DOUBLE re, DOUBLE im)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_invalid:
+ * @dst: (out): destination
+ *
+ * Initializes a complex number with real and complex parts both NaN.
+ */
 void SUFFIX(go_complex_invalid) (COMPLEX *dst)
 {
 	dst->re = SUFFIX(go_nan);
 	dst->im = SUFFIX(go_nan);
 }
 
+/**
+ * go_complex_real:
+ * @dst: (out): destination
+ * @re: real value
+ *
+ * Initializes a complex number from a real value.
+ */
 void SUFFIX(go_complex_real) (COMPLEX *dst, DOUBLE re)
 {
 	dst->re = re;
@@ -509,6 +606,12 @@ void SUFFIX(go_complex_real) (COMPLEX *dst, DOUBLE re)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_real_p:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number has no complex component.
+ */
 int SUFFIX(go_complex_real_p) (COMPLEX const *src)
 {
 	return src->im == 0;
@@ -516,6 +619,12 @@ int SUFFIX(go_complex_real_p) (COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_zero_p:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number is zero.
+ */
 int SUFFIX(go_complex_zero_p) (COMPLEX const *src)
 {
 	return src->re == 0 && src->im == 0;
@@ -523,6 +632,13 @@ int SUFFIX(go_complex_zero_p) (COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_invalid_p:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number is invalid, i.e., either the
+ * real or the complex component is NaN.
+ */
 int SUFFIX(go_complex_invalid_p) (COMPLEX const *src)
 {
 	return !(SUFFIX(go_finite) (src->re) && SUFFIX(go_finite) (src->im));
@@ -530,6 +646,12 @@ int SUFFIX(go_complex_invalid_p) (COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_mod:
+ * @src: argument
+ *
+ * Returns: the complex modulus.
+ */
 DOUBLE SUFFIX(go_complex_mod) (COMPLEX const *src)
 {
 	return SUFFIX(hypot) (src->re, src->im);
@@ -537,17 +659,25 @@ DOUBLE SUFFIX(go_complex_mod) (COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_angle:
+ * @src: argument
+ *
+ * Returns: the complex argument
+ */
 DOUBLE SUFFIX(go_complex_angle) (COMPLEX const *src)
 {
 	return SUFFIX(atan2) (src->im, src->re);
 }
 
 /* ------------------------------------------------------------------------- */
-/*
- * Same as go_complex_angle, but divided by pi (which occasionally produces
- * nice round numbers not suffering from rounding errors).
- */
 
+/**
+ * go_complex_angle_pi:
+ * @src: argument
+ *
+ * Returns: the complex argument divided by pi
+ */
 DOUBLE SUFFIX(go_complex_angle_pi) (COMPLEX const *src)
 {
 	return SUFFIX(go_atan2pi) (src->im, src->re);
@@ -555,6 +685,13 @@ DOUBLE SUFFIX(go_complex_angle_pi) (COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_conj:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex conjugate.
+ */
 void SUFFIX(go_complex_conj) (COMPLEX *dst, COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst, src->re, -src->im);
@@ -562,6 +699,13 @@ void SUFFIX(go_complex_conj) (COMPLEX *dst, COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_scale_real:
+ * @dst: (inout): complex value
+ * @f: scale
+ *
+ * Scales a complex number by a real scale.
+ */
 void SUFFIX(go_complex_scale_real) (COMPLEX *dst, DOUBLE f)
 {
 	dst->re *= f;
@@ -570,6 +714,14 @@ void SUFFIX(go_complex_scale_real) (COMPLEX *dst, DOUBLE f)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_add:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a plus @b.
+ */
 void SUFFIX(go_complex_add) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	SUFFIX(go_complex_init) (dst, a->re + b->re, a->im + b->im);
@@ -577,6 +729,14 @@ void SUFFIX(go_complex_add) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_sub:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a minus @b.
+ */
 void SUFFIX(go_complex_sub) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 {
 	SUFFIX(go_complex_init) (dst, a->re - b->re, a->im - b->im);
@@ -584,6 +744,13 @@ void SUFFIX(go_complex_sub) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_exp:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex exponential function.
+ */
 void SUFFIX(go_complex_exp) (COMPLEX *dst, COMPLEX const *src)
 {
 	SUFFIX(go_complex_from_polar) (dst, SUFFIX(exp) (src->re), src->im);
@@ -591,6 +758,13 @@ void SUFFIX(go_complex_exp) (COMPLEX *dst, COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_ln:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex logarithm function's principal branch.
+ */
 void SUFFIX(go_complex_ln) (COMPLEX *dst, COMPLEX const *src)
 {
 	DOUBLE x = SUFFIX(fabs) (src->re);
@@ -605,6 +779,13 @@ void SUFFIX(go_complex_ln) (COMPLEX *dst, COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_sin:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex sine function.
+ */
 void SUFFIX(go_complex_sin) (COMPLEX *dst, COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst,
@@ -614,6 +795,13 @@ void SUFFIX(go_complex_sin) (COMPLEX *dst, COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_cos:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex cosine function.
+ */
 void SUFFIX(go_complex_cos) (COMPLEX *dst, COMPLEX const *src)
 {
 	SUFFIX(go_complex_init) (dst,
@@ -623,6 +811,13 @@ void SUFFIX(go_complex_cos) (COMPLEX *dst, COMPLEX const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_complex_tan:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex tangent function.
+ */
 void SUFFIX(go_complex_tan) (COMPLEX *dst, COMPLEX const *src)
 {
 	DOUBLE R = src->re, I = src->im;

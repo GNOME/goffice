@@ -129,6 +129,454 @@
  */
 
 /**
+ * go_complex_addD:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a plus @b.
+ */
+
+/**
+ * go_complex_addl:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a plus @b.
+ */
+
+/**
+ * go_complex_angleD:
+ * @src: argument
+ *
+ * Returns: the complex argument
+ */
+
+/**
+ * go_complex_angle_piD:
+ * @src: argument
+ *
+ * Returns: the complex argument divided by pi
+ */
+
+/**
+ * go_complex_angle_pil:
+ * @src: argument
+ *
+ * Returns: the complex argument divided by pi
+ */
+
+/**
+ * go_complex_anglel:
+ * @src: argument
+ *
+ * Returns: the complex argument
+ */
+
+/**
+ * go_complex_conjD:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex conjugate.
+ */
+
+/**
+ * go_complex_conjl:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex conjugate.
+ */
+
+/**
+ * go_complex_cosD:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex cosine function.
+ */
+
+/**
+ * go_complex_cosl:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex cosine function.
+ */
+
+/**
+ * go_complex_divD:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a divided by @b.
+ */
+
+/**
+ * go_complex_divl:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a divided by @b.
+ */
+
+/**
+ * go_complex_expD:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex exponentiation function.
+ */
+
+/**
+ * go_complex_expl:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex exponentiation function.
+ */
+
+/**
+ * go_complex_from_polarD:
+ * @dst: (out): destination
+ * @mod: modulus
+ * @angle: argument.
+ *
+ * Initializes a complex number from polar coordinates.
+ */
+
+/**
+ * go_complex_from_polar_piD:
+ * @dst: (out): destination
+ * @mod: modulus
+ * @angle: argument divided by pi
+ *
+ * Initializes a complex number from polar coordinates, except that the
+ * argument is divided by pi to ensure that important values can be
+ * represented without rounding errors.
+ */
+
+/**
+ * go_complex_from_polar_pil:
+ * @dst: (out): destination
+ * @mod: modulus
+ * @angle: argument divided by pi
+ *
+ * Initializes a complex number from polar coordinates, except that the
+ * argument is divided by pi to ensure that important values can be
+ * represented without rounding errors.
+ */
+
+/**
+ * go_complex_from_polarl:
+ * @dst: (out): destination
+ * @mod: modulus
+ * @angle: argument.
+ *
+ * Initializes a complex number from polar coordinates.
+ */
+
+/**
+ * go_complex_from_stringD:
+ * @dst: (out): destination
+ * @src: text to parse as a complex number
+ * @imunit: character unit used for imaginary unit, typically 'i'
+ *
+ * Returns: zero if successful, non-zero otherwise
+ */
+
+/**
+ * go_complex_from_stringl:
+ * @dst: (out): destination
+ * @src: text to parse as a complex number
+ * @imunit: character unit used for imaginary unit, typically 'i'
+ *
+ * Returns: zero if successful, non-zero otherwise
+ */
+
+/**
+ * go_complex_initD:
+ * @dst: (out): destination
+ * @re: real value
+ * @im: imaginary value
+ *
+ * Initializes a complex number from real and complex parts.
+ */
+
+/**
+ * go_complex_initl:
+ * @dst: (out): destination
+ * @re: real value
+ * @im: imaginary value
+ *
+ * Initializes a complex number from real and complex parts.
+ */
+
+/**
+ * go_complex_invalidD:
+ * @dst: (out): destination
+ *
+ * Initializes a complex number with real and complex parts both NaN.
+ */
+
+/**
+ * go_complex_invalid_pD:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number is invalid, i.e., either the
+ * real or the complex component is NaN.
+ */
+
+/**
+ * go_complex_invalid_pl:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number is invalid, i.e., either the
+ * real or the complex component is NaN.
+ */
+
+/**
+ * go_complex_invalidl:
+ * @dst: (out): destination
+ *
+ * Initializes a complex number with real and complex parts both NaN.
+ */
+
+/**
+ * go_complex_lnD:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex logarithm function's principal branch.
+ */
+
+/**
+ * go_complex_lnl:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex logarithm function's principal branch.
+ */
+
+/**
+ * go_complex_modD:
+ * @src: argument
+ *
+ * Returns: the complex modulus.
+ */
+
+/**
+ * go_complex_modl:
+ * @src: argument
+ *
+ * Returns: the complex modulus.
+ */
+
+/**
+ * go_complex_mulD:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a multiplied by @b.
+ */
+
+/**
+ * go_complex_mull:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a multiplied by @b.
+ */
+
+/**
+ * go_complex_powD:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: second argument
+ *
+ * Computes the complex power @a to the power of @b.
+ */
+
+/**
+ * go_complex_powl:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: second argument
+ *
+ * Computes the complex power @a to the power of @b.
+ */
+
+/**
+ * go_complex_realD:
+ * @dst: (out): destination
+ * @re: real value
+ *
+ * Initializes a complex number from a real value.
+ */
+
+/**
+ * go_complex_real_pD:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number has no complex component.
+ */
+
+/**
+ * go_complex_real_pl:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number has no complex component.
+ */
+
+/**
+ * go_complex_reall:
+ * @dst: (out): destination
+ * @re: real value
+ *
+ * Initializes a complex number from a real value.
+ */
+
+/**
+ * go_complex_scale_realD:
+ * @dst: (inout): complex value
+ * @f: scale
+ *
+ * Scales a complex number by a real scale.
+ */
+
+/**
+ * go_complex_scale_reall:
+ * @dst: (inout): complex value
+ * @f: scale
+ *
+ * Scales a complex number by a real scale.
+ */
+
+/**
+ * go_complex_sinD:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex sine function.
+ */
+
+/**
+ * go_complex_sinl:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex sine function.
+ */
+
+/**
+ * go_complex_sqrtD:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex square root.
+ */
+
+/**
+ * go_complex_sqrtl:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex square root.
+ */
+
+/**
+ * go_complex_subD:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a minus @b.
+ */
+
+/**
+ * go_complex_subl:
+ * @dst: (out): destination
+ * @a: first argument
+ * @b: first argument
+ *
+ * Computes @a minus @b.
+ */
+
+/**
+ * go_complex_tanD:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex tangent function.
+ */
+
+/**
+ * go_complex_tanl:
+ * @dst: (out): destination
+ * @src: argument
+ *
+ * Computes the complex tangent function.
+ */
+
+/**
+ * go_complex_to_polarD:
+ * @mod: (out): modulus
+ * @angle: (out): argument.
+ * @src: complex value
+ *
+ * Computes the polar coordinates of @src.
+ */
+
+/**
+ * go_complex_to_polarl:
+ * @mod: (out): modulus
+ * @angle: (out): argument.
+ * @src: complex value
+ *
+ * Computes the polar coordinates of @src.
+ */
+
+/**
+ * go_complex_to_stringD:
+ * @src: complex value
+ * @reformat: printf format for real component
+ * @imformat: printf format for real component
+ * @imunit: character unit for imaginary unit, typically 'i'
+ *
+ * Returns: (transfer full): formats a complex number
+ */
+
+/**
+ * go_complex_to_stringl:
+ * @src: complex value
+ * @reformat: printf format for real component
+ * @imformat: printf format for real component
+ * @imunit: character unit for imaginary unit, typically 'i'
+ *
+ * Returns: (transfer full): formats a complex number
+ */
+
+/**
+ * go_complex_zero_pD:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number is zero.
+ */
+
+/**
+ * go_complex_zero_pl:
+ * @src: complex value
+ *
+ * Returns: %TRUE if the complex number is zero.
+ */
+
+/**
  * go_cospiD:
  * @x: a number
  *
