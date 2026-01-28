@@ -985,17 +985,13 @@ strtold (char const *str, char **end)
 long double
 modfl (long double x, long double *iptr)
 {
-	if (isnanl (x))
-		return *iptr = x;
-	else if (go_finitel (x)) {
-		if (x >= 0)
-			return x - (*iptr = floorl (x));
-		else
-			return x - (*iptr = -floorl (-x));
-	} else {
-		*iptr = x;
-		return 0;
-	}
+	*iptr = copysignl (floorl (fabsl (x)), x);
+	if (go_finitel (x))
+		return copysignl (x - *iptr, x);
+	else if (isnanl (x))
+		return *iptr;
+	else
+		return copysignl (0.0L, x);
 }
 #endif
 
