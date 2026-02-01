@@ -247,11 +247,9 @@
 <xi:include href="xml/go-action-combo-stack.xml"/>
 <xi:include href="xml/go-action-combo-text.xml"/>
 <xi:include href="xml/go-color-palette.xml"/>
-<xi:include href="xml/go-marshal.xml"/>
 <xi:include href="xml/goffice-gtk.xml"/>
 <xi:include href="xml/go-ms-parser.xml"/>
 <xi:include href="xml/format-impl.xml"/>
 <xi:include href="xml/go-file.xml"/>
-<xi:include href="xml/go-marshalers.xml"/>
 <xi:include href="xml/win32-stub.xml"/>
 -->

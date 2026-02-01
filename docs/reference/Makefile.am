@@ -35,7 +35,8 @@ IGNORE_HFILES=	\
 		go-service-impl.h			\
 		go-decimal.h				\
 		goffice-multipass.h			\
-		go-ryu.h
+		go-ryu.h				\
+		go-marshalers.h
 
 
 if GOFFICE_WITH_LASEM

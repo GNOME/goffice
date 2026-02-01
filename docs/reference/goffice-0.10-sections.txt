@@ -1590,15 +1590,6 @@ go_marker_selector_set_shape
 </SECTION>
 
 <SECTION>
-<FILE>go-marshalers</FILE>
-go__BOOLEAN__OBJECT
-go__BOOLEAN__OBJECT_STRING_POINTER
-go__BOOLEAN__POINTER
-go__STRING__POINTER
-go__VOID__INT_BOOLEAN_BOOLEAN_BOOLEAN
-</SECTION>
-
-<SECTION>
 <FILE>go-math</FILE>
 <TITLE>Mathematics</TITLE>
 acosh
