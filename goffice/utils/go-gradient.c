@@ -52,7 +52,7 @@
 } ;
  **/
 
-static char const *grad_dir_names[] = {
+static char const * const grad_dir_names[] = {
 	"n-s",
 	"s-n",
 	"n-s-mirrored",

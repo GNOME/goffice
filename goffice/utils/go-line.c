@@ -118,7 +118,7 @@ static GOLineDashDesc const line_dash_dot_dot_desc =    	{6, 24,	{ 9, 3, 3, 3, 3
 static GOLineDashDesc const line_dash_desc =			{2, 16,	{ 12, 4 } };
 static GOLineDashDesc const line_long_dash_desc =		{2, 22,	{ 18, 4 } };
 
-static struct {
+static const struct {
 	GOLineDashType type;
 	char const *label;
 	char const *name;
@@ -150,7 +150,7 @@ static struct {
 		"dash-dot-dot",		&line_dash_dot_dot_desc }
 };
 
-static struct {
+static const struct {
 	GOLineInterpolation type;
 	char const *label;
 	char const *name;
@@ -424,7 +424,7 @@ go_line_interpolation_auto_skip	(GOLineInterpolation type)
 
 /* ------------------------------------------------------------------------- */
 
-static struct {
+static const struct {
 	GOArrowType typ;
 	char const *name;
 } arrow_types[] = {

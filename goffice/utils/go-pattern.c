@@ -87,7 +87,7 @@ static GOPatternSpec const go_patterns [] = {
 		/* xgettext:no-c-format */
 		N_("75% Grey"),
 		"grey75",
-	1,  PT_NA,
+		1,  PT_NA,
 		{ 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee }
 	},
 	{
