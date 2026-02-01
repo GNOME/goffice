@@ -55,6 +55,12 @@ go_color_from_str (gchar const *str, GOColor *res)
 	return FALSE;
 }
 
+/**
+ * go_color_as_str:
+ * @color: #GOColor
+ *
+ * Returns: (transfer full): string representation of color.
+ **/
 gchar *
 go_color_as_str (GOColor color)
 {
