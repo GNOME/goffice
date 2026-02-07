@@ -4,6 +4,7 @@ Morten:
 	* Fix fraction format problem.  [Gnumeric #803]
 	* Doc fixes
 	* Remove workaround for ancient gtk+ bug.  [#81]
+	* I18N fix for format selector.
 
 --------------------------------------------------------------------------
 goffice 0.10.59:

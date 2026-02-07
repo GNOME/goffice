@@ -1392,7 +1392,7 @@ populate_menu (GOFormatSel *gfs)
 		gtk_list_store_append
 			(GTK_LIST_STORE (gfs->format.menu_model), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (gfs->format.menu_model),
-				    &iter, 0, name, 1, (int)fam, -1);
+				    &iter, 0, _(name), 1, (int)fam, -1);
 	}
 
 	renderer = gtk_cell_renderer_text_new ();
