@@ -4414,7 +4414,7 @@ msgstr "Vælg om skriften skal ændres til brug som hævet eller sænket skrift"
 
 #: ../goffice/gtk/go-font-sel.ui.h:12
 msgid "Script:"
-msgstr "Skript:"
+msgstr "Hævet/sænket:"
 
 #: ../goffice/gtk/go-font-sel.ui.h:13
 msgid "Select the type of underlining"
@@ -4826,11 +4826,11 @@ msgstr "Vandret til midten"
 
 #: ../goffice/gtk/go-gradient-selector.c:109
 msgid "Up and left"
-msgstr "Op og venstre"
+msgstr "Op og til venstre"
 
 #: ../goffice/gtk/go-gradient-selector.c:111
 msgid "Down and right"
-msgstr "Ned og højre"
+msgstr "Ned og til højre"
 
 #: ../goffice/gtk/go-gradient-selector.c:113
 msgid "Diagonal from middle"
@@ -4842,11 +4842,11 @@ msgstr "Diagonal til midten"
 
 #: ../goffice/gtk/go-gradient-selector.c:117
 msgid "Up and right"
-msgstr "Op og højre"
+msgstr "Op og til højre"
 
 #: ../goffice/gtk/go-gradient-selector.c:119
 msgid "Down and left"
-msgstr "Ned og venstre"
+msgstr "Ned og til venstre"
 
 #: ../goffice/gtk/go-gradient-selector.c:121
 msgid "Reverse diagonal from middle"
@@ -5954,27 +5954,27 @@ msgstr "Ensfarvet baggrund"
 #: ../goffice/gtk/go-pattern-selector.c:68
 #, no-c-format
 msgid "75% background"
-msgstr "75 % baggrund"
+msgstr "75% baggrund"
 
 #: ../goffice/gtk/go-pattern-selector.c:70
 #, no-c-format
 msgid "50% background"
-msgstr "50 % baggrund"
+msgstr "50% baggrund"
 
 #: ../goffice/gtk/go-pattern-selector.c:72
 #, no-c-format
 msgid "25% background"
-msgstr "25 % baggrund"
+msgstr "25% baggrund"
 
 #: ../goffice/gtk/go-pattern-selector.c:74
 #, no-c-format
 msgid "12.5% background"
-msgstr "12,5 % baggrund"
+msgstr "12,5% baggrund"
 
 #: ../goffice/gtk/go-pattern-selector.c:76
 #, no-c-format
 msgid "6.25% background"
-msgstr "6,25 % baggrund"
+msgstr "6,25% baggrund"
 
 #: ../goffice/gtk/go-pattern-selector.c:77
 msgid "Horizontal stripes"
@@ -7120,27 +7120,27 @@ msgstr "venstre halvbjælke"
 #: ../goffice/utils/go-pattern.c:88
 #, no-c-format
 msgid "75% Grey"
-msgstr "75 % grå"
+msgstr "75% grå"
 
 #: ../goffice/utils/go-pattern.c:95
 #, no-c-format
 msgid "50% Grey"
-msgstr "50 % grå"
+msgstr "50% grå"
 
 #: ../goffice/utils/go-pattern.c:102
 #, no-c-format
 msgid "25% Grey"
-msgstr "25 % grå"
+msgstr "25% grå"
 
 #: ../goffice/utils/go-pattern.c:109
 #, no-c-format
 msgid "12.5% Grey"
-msgstr "12,5 % grå"
+msgstr "12,5% grå"
 
 #: ../goffice/utils/go-pattern.c:116
 #, no-c-format
 msgid "6.25% Grey"
-msgstr "6,25 % grå"
+msgstr "6,25% grå"
 
 #: ../goffice/utils/go-pattern.c:122
 msgid "Horizontal Stripe"
