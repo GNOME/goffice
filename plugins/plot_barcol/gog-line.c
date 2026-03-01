@@ -716,11 +716,11 @@ gog_line_view_get_data_at_point (GogPlotView *view, double x, double y, GogSerie
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 	y_zero = gog_axis_map_get_baseline (y_map);
 
-	vals    = g_alloca (num_series * sizeof (double *));
-	yvals   = g_alloca (num_series * sizeof (double *));
-	lengths = g_alloca (num_series * sizeof (gssize));
-	pseries = g_alloca (num_series * sizeof (GogSeries *));
-	interpolations	= g_alloca (num_series * sizeof (GOLineInterpolation));
+	vals    = g_new0 (double *, num_series);
+	yvals   = g_new0 (double *, num_series);
+	lengths = g_new0 (gssize, num_series);
+	pseries = g_new0 (GogSeries *, num_series);
+	interpolations	= g_new0 (GOLineInterpolation, num_series);
 	xvals = g_new (double, num_elements);
 	j = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -873,9 +873,16 @@ gog_line_view_get_data_at_point (GogPlotView *view, double x, double y, GogSerie
 			if (i >= 0)
 				break;
 		}
-		for (j = 0; j < num_series; j++)
-			g_free (yvals[j]);
 	}
+
+	for (j = 0; j < num_series; j++)
+		g_free (yvals[j]);
+	g_free (vals);
+	g_free (yvals);
+	g_free (lengths);
+	g_free (pseries);
+	g_free (interpolations);
+	g_free (xvals);
 
 	gog_chart_map_free (chart_map);
 	return i;
@@ -946,18 +953,18 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	y_top = gog_axis_map_to_view (y_map, y_top);
 	y_zero = gog_axis_map_get_baseline (y_map);
 
-	vals    = g_alloca (num_series * sizeof (double *));
-	yvals   = g_alloca (num_series * sizeof (double *));
-	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
-	lengths = g_alloca (num_series * sizeof (unsigned));
-	styles  = g_alloca (num_series * sizeof (GOStyle *));
-	series  = g_alloca (num_series * sizeof (GogSeries *));
-	interpolations	= g_alloca (num_series * sizeof (GOLineInterpolation));
+	vals    = g_new0 (double *, num_series);
+	yvals   = g_new0 (double *, num_series);
+	error_data = g_new0 (ErrorBarData *, num_series);
+	lengths = g_new0 (unsigned, num_series);
+	styles  = g_new0 (GOStyle *, num_series);
+	series  = g_new0 (GogSeries1_5d const *, num_series);
+	interpolations	= g_new0 (GOLineInterpolation, num_series);
 	if (!is_area_plot)
-		points  = g_alloca (num_series * sizeof (Point *));
-	errors	= g_alloca (num_series * sizeof (GogErrorBar *));
-	lines	= g_alloca (num_series * sizeof (GogSeriesLines *));
-	drop_paths = g_alloca (num_series * sizeof (GOPath *));
+		points  = g_new0 (Point *, num_series);
+	errors	= g_new0 (GogErrorBar *, num_series);
+	lines	= g_new0 (GogSeriesLines *, num_series);
+	drop_paths = g_new0 (GOPath *, num_series);
 
 	i = 0;
 	for (ptr = model->base.series ; ptr != NULL && i < num_series ; ptr = ptr->next) {
@@ -1118,7 +1125,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					  view->allocation.w, view->allocation.h);
 
 	if (is_area_plot && type != GOG_1_5D_NORMAL) {
-		GOPath **paths = g_alloca (num_series * sizeof (GOPath *)), *close_path, *seg;
+		GOPath **paths = g_new0 (GOPath *, num_series), *close_path, *seg;
 		unsigned step;
 		unsigned k, m;
 		for (i = 0; i < num_series; i++) {
@@ -1184,6 +1191,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				continue;
 			go_path_free (paths[i]);
 		}
+		g_free (paths);
 	} else {
 		GOPath *path;
 		for (i = 0; i < num_series; i++) {
@@ -1210,11 +1218,11 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 			gog_renderer_pop_style (view->renderer);
 		}
-}
+	}
 
 	/*Now draw drop lines */
 	for (i = 0; i < num_series; i++)
-		if (lines[i] != NULL) {
+		if (drop_paths[i] != NULL) {
 			gog_renderer_push_style (view->renderer,
 				go_styled_object_get_style (GO_STYLED_OBJECT (lines[i])));
 			gog_series_lines_stroke (lines[i], view->renderer, bbox, drop_paths[i], FALSE);
@@ -1286,6 +1294,19 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		g_free (error_data[i]);
 		g_free (yvals[i]);
 	}
+
+	g_free (vals);
+	g_free (yvals);
+	g_free (error_data);
+	g_free (lengths);
+	g_free (styles);
+	g_free (series);
+	g_free (interpolations);
+	if (points)
+		g_free (points);
+	g_free (errors);
+	g_free (lines);
+	g_free (drop_paths);
 
 	/* Now render children */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
