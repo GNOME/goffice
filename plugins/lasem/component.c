@@ -322,10 +322,12 @@ go_lasem_component_set_data (GOComponent *component)
 	if (equation->mathml == NULL)
 		return;
 	if (equation->itex == NULL) {
-		char buf[component->length + 1];
-		memcpy (buf, component->data, component->length);
-		buf[component->length] = 0;
+		char *buf;
+		if (component->length < 0)
+			return;
+		buf = g_strndup (component->data, component->length);
 		go_mathml_to_itex (buf, &equation->itex, NULL, &equation->compact, NULL);
+		g_free (buf);
 	}
 	equation->math_element = LSM_DOM_NODE (lsm_dom_document_get_document_element (equation->mathml));
 	list = lsm_dom_node_get_child_nodes (equation->math_element);
