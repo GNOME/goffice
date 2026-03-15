@@ -1171,6 +1171,11 @@ go_style_get_editor (GOStyle *style,
 
 /*****************************************************************************/
 
+/**
+ * go_style_new:
+ *
+ * Returns: (transfer full): a new #GOStyle.
+ **/
 GOStyle *
 go_style_new (void)
 {
@@ -1198,6 +1203,13 @@ go_style_dup (GOStyle const *src)
 	return dst;
 }
 
+/**
+ * go_style_assign:
+ * @dst: the destination #GOStyle
+ * @src: the source #GOStyle
+ *
+ * Assigns @src properties to @dst.
+ **/
 void
 go_style_assign (GOStyle *dst, GOStyle const *src)
 {
@@ -1858,11 +1870,23 @@ go_style_persist_init (GOPersistClass *iface)
 	iface->sax_save = go_style_persist_sax_save;
 }
 
+/**
+ * go_style_get_type:
+ *
+ * Returns: the #GType for #GOStyle.
+ **/
 GSF_CLASS_FULL (GOStyle, go_style,
 		NULL, NULL, go_style_class_init, NULL,
 		go_style_init, G_TYPE_OBJECT, 0,
 		GSF_INTERFACE (go_style_persist_init, GO_TYPE_PERSIST))
 
+/**
+ * go_style_is_different_size:
+ * @a: a #GOStyle
+ * @b: a #GOStyle
+ *
+ * Returns: %TRUE if @a and @b have different sizes.
+ **/
 gboolean
 go_style_is_different_size (GOStyle const *a, GOStyle const *b)
 {
@@ -1875,6 +1899,12 @@ go_style_is_different_size (GOStyle const *a, GOStyle const *b)
 		!go_font_eq (a->font.font, b->font.font);
 }
 
+/**
+ * go_style_is_marker_visible:
+ * @style: a #GOStyle
+ *
+ * Returns: %TRUE if @style has a visible marker.
+ **/
 gboolean
 go_style_is_marker_visible (GOStyle const *style)
 {
@@ -1885,6 +1915,12 @@ go_style_is_marker_visible (GOStyle const *style)
 		go_marker_get_shape (style->marker.mark) != GO_MARKER_NONE;
 }
 
+/**
+ * go_style_is_outline_visible:
+ * @style: a #GOStyle
+ *
+ * Returns: %TRUE if @style has a visible outline.
+ **/
 gboolean
 go_style_is_outline_visible (GOStyle const *style)
 {
@@ -1895,6 +1931,12 @@ go_style_is_outline_visible (GOStyle const *style)
 		style->line.dash_type != GO_LINE_NONE;
 }
 
+/**
+ * go_style_is_line_visible:
+ * @style: a #GOStyle
+ *
+ * Returns: %TRUE if @style has a visible line.
+ **/
 gboolean
 go_style_is_line_visible (GOStyle const *style)
 {
@@ -1905,6 +1947,12 @@ go_style_is_line_visible (GOStyle const *style)
 		style->line.dash_type != GO_LINE_NONE;
 }
 
+/**
+ * go_style_is_fill_visible:
+ * @style: a #GOStyle
+ *
+ * Returns: %TRUE if @style has a visible fill.
+ **/
 gboolean
 go_style_is_fill_visible (const GOStyle *style)
 {
@@ -1979,6 +2027,12 @@ go_style_clear_auto (GOStyle *style)
 	style->text_layout.auto_angle = FALSE;
 }
 
+/**
+ * go_style_is_auto:
+ * @style: a #GOStyle
+ *
+ * Returns: %TRUE if all fields in @style are set to auto.
+ **/
 gboolean
 go_style_is_auto (GOStyle *style)
 {
@@ -2016,11 +2070,9 @@ go_style_set_marker (GOStyle *style, GOMarker *marker)
 
 /**
  * go_style_get_marker:
- * @style: #GOStyle
+ * @style: a #GOStyle
  *
- * Accessor for @style::marker, without referencing it.
- *
- * Returns: (transfer none): the style #GOMarker.
+ * Returns: (transfer none): the #GOMarker of @style.
  **/
 GOMarker const *
 go_style_get_marker (GOStyle const *style)
@@ -2029,6 +2081,7 @@ go_style_get_marker (GOStyle const *style)
 
 	return style->marker.mark;
 }
+
 
 /**
  * go_style_set_font_desc:

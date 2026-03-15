@@ -88,6 +88,11 @@ go_line_dash_sequence_ref (GOLineDashSequence * sequence)
 	return sequence;
 }
 
+/**
+ * go_line_dash_sequence_get_type:
+ *
+ * Returns: the #GType for #GOLineDashSequence.
+ **/
 GType
 go_line_dash_sequence_get_type (void)
 {
@@ -433,6 +438,12 @@ static const struct {
 	{ GO_ARROW_OVAL, "oval" }
 };
 
+/**
+ * go_arrow_type_as_str:
+ * @typ: #GOArrowType
+ *
+ * Returns: (transfer none): nickname of @typ.
+ **/
 char const *
 go_arrow_type_as_str (GOArrowType typ)
 {
@@ -445,6 +456,12 @@ go_arrow_type_as_str (GOArrowType typ)
 	return NULL;
 }
 
+/**
+ * go_arrow_type_from_str:
+ * @name: an arrow type nickname
+ *
+ * Returns: the #GOArrowType corresponding to @name.
+ **/
 GOArrowType
 go_arrow_type_from_str (const char *name)
 {
@@ -461,6 +478,11 @@ go_arrow_type_from_str (const char *name)
 	return ret;
 }
 
+/**
+ * go_arrow_get_type:
+ *
+ * Returns: the #GType for #GOArrow.
+ **/
 GType
 go_arrow_get_type (void)
 {
@@ -474,6 +496,16 @@ go_arrow_get_type (void)
 	return t;
 }
 
+/**
+ * go_arrow_init:
+ * @res: #GOArrow
+ * @typ: #GOArrowType
+ * @a: first arrow head size parameter
+ * @b: second arrow head size parameter
+ * @c: third arrow head size parameter
+ *
+ * Initializes @res with the given parameters.
+ **/
 void
 go_arrow_init (GOArrow *res, GOArrowType typ,
 	       double a, double b, double c)
@@ -484,30 +516,66 @@ go_arrow_init (GOArrow *res, GOArrowType typ,
 	res->c = c;
 }
 
+/**
+ * go_arrow_clear:
+ * @dst: #GOArrow
+ *
+ * Clears @dst.
+ **/
 void
 go_arrow_clear (GOArrow *dst)
 {
 	go_arrow_init (dst, GO_ARROW_NONE, 0, 0, 0);
 }
 
+/**
+ * go_arrow_init_kite:
+ * @dst: #GOArrow
+ * @a: distance from the point to the back of the arrow head
+ * @b: distance from the point to the widest part of the arrow head
+ * @c: half width of the arrow head
+ *
+ * Initializes @dst as a kite arrow head.
+ **/
 void
 go_arrow_init_kite (GOArrow *dst, double a, double b, double c)
 {
 	go_arrow_init (dst, GO_ARROW_KITE, a, b, c);
 }
 
+/**
+ * go_arrow_init_oval:
+ * @dst: #GOArrow
+ * @ra: horizontal radius
+ * @rb: vertical radius
+ *
+ * Initializes @dst as an oval arrow head.
+ **/
 void
 go_arrow_init_oval (GOArrow *dst, double ra, double rb)
 {
 	go_arrow_init (dst, GO_ARROW_OVAL, ra, rb, 0);
 }
 
+/**
+ * go_arrow_dup:
+ * @src: #GOArrow
+ *
+ * Returns: (transfer full): a copy of @src.
+ **/
 GOArrow *
 go_arrow_dup (GOArrow *src)
 {
 	return go_memdup (src, sizeof (*src));
 }
 
+/**
+ * go_arrow_equal:
+ * @a: #GOArrow
+ * @b: #GOArrow
+ *
+ * Returns: %TRUE if @a and @b are equal.
+ **/
 gboolean
 go_arrow_equal (const GOArrow *a, const GOArrow *b)
 {

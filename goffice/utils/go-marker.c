@@ -128,16 +128,28 @@ go_marker_class_init (GObjectClass *gobject_klass)
 	marker_parent_klass = g_type_class_peek_parent (gobject_klass);
 }
 
+/**
+ * go_marker_shape_from_str:
+ * @name: a string representation of a #GOMarkerShape
+ *
+ * Returns: the #GOMarkerShape corresponding to @str.
+ **/
 GOMarkerShape
-go_marker_shape_from_str (char const *str)
+go_marker_shape_from_str (char const *name)
 {
 	unsigned i;
 	for (i = 0; i < GO_MARKER_MAX; i++)
-		if (g_ascii_strcasecmp (marker_shapes[i].str, str) == 0)
+		if (g_ascii_strcasecmp (marker_shapes[i].str, name) == 0)
 			return (GOMarkerShape)i;
 	return GO_MARKER_NONE;
 }
 
+/**
+ * go_marker_shape_as_str:
+ * @shape: a #GOMarkerShape
+ *
+ * Returns: (transfer none): the string representation of @shape.
+ **/
 char const *
 go_marker_shape_as_str (GOMarkerShape shape)
 {
@@ -155,12 +167,25 @@ go_marker_get_paths (GOMarker const *marker,
 	*fill_path = marker_shapes[marker->shape].fill_path;
 }
 
+/**
+ * go_marker_get_shape:
+ * @marker: a #GOMarker
+ *
+ * Returns: the #GOMarkerShape of @marker.
+ **/
 GOMarkerShape
 go_marker_get_shape (GOMarker const *marker)
 {
 	return marker->shape;
 }
 
+/**
+ * go_marker_set_shape:
+ * @marker: a #GOMarker
+ * @shape: a #GOMarkerShape
+ *
+ * Sets the #GOMarkerShape of @marker.
+ **/
 void
 go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 {
@@ -171,11 +196,17 @@ go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 	marker->shape = shape;
 }
 
+/**
+ * go_marker_is_closed_shape:
+ * @marker: a #GOMarker
+ *
+ * Returns: %TRUE if @marker has a closed shape.
+ **/
 gboolean
-go_marker_is_closed_shape (GOMarker const *m)
+go_marker_is_closed_shape (GOMarker const *marker)
 {
-	g_return_val_if_fail (GO_IS_MARKER (m), FALSE);
-	switch (m->shape) {
+	g_return_val_if_fail (GO_IS_MARKER (marker), FALSE);
+	switch (marker->shape) {
 	case GO_MARKER_X:
 	case GO_MARKER_CROSS:
 	case GO_MARKER_ASTERISK:
@@ -185,12 +216,25 @@ go_marker_is_closed_shape (GOMarker const *m)
 	}
 }
 
+/**
+ * go_marker_get_outline_color:
+ * @marker: a #GOMarker
+ *
+ * Returns: the outline color of @marker.
+ **/
 GOColor
 go_marker_get_outline_color (GOMarker const *marker)
 {
 	return marker->outline_color;
 }
 
+/**
+ * go_marker_set_outline_color:
+ * @marker: a #GOMarker
+ * @color: a #GOColor
+ *
+ * Sets the outline color of @marker.
+ **/
 void
 go_marker_set_outline_color (GOMarker *marker, GOColor color)
 {
@@ -200,12 +244,25 @@ go_marker_set_outline_color (GOMarker *marker, GOColor color)
 	marker->outline_color = color;
 }
 
+/**
+ * go_marker_get_fill_color:
+ * @marker: a #GOMarker
+ *
+ * Returns: the fill color of @marker.
+ **/
 GOColor
 go_marker_get_fill_color (GOMarker const *marker)
 {
 	return marker->fill_color;
 }
 
+/**
+ * go_marker_set_fill_color:
+ * @marker: a #GOMarker
+ * @color: a #GOColor
+ *
+ * Sets the fill color of @marker.
+ **/
 void
 go_marker_set_fill_color (GOMarker *marker, GOColor color)
 {
@@ -215,18 +272,37 @@ go_marker_set_fill_color (GOMarker *marker, GOColor color)
 	marker->fill_color = color;
 }
 
+/**
+ * go_marker_get_size:
+ * @marker: a #GOMarker
+ *
+ * Returns: the size of @marker.
+ **/
 int
 go_marker_get_size (GOMarker const *marker)
 {
 	return marker->size;
 }
 
+/**
+ * go_marker_get_outline_width:
+ * @marker: a #GOMarker
+ *
+ * Returns: the outline width of @marker.
+ **/
 double
 go_marker_get_outline_width (GOMarker const *marker)
 {
 	return (double)marker->size * MARKER_OUTLINE_WIDTH;
 }
 
+/**
+ * go_marker_set_size:
+ * @marker: a #GOMarker
+ * @size: the size of the marker
+ *
+ * Sets the size of @marker.
+ **/
 void
 go_marker_set_size (GOMarker *marker, int size)
 {
@@ -237,6 +313,13 @@ go_marker_set_size (GOMarker *marker, int size)
 	marker->size = size;
 }
 
+/**
+ * go_marker_assign:
+ * @dst: the destination #GOMarker
+ * @src: the source #GOMarker
+ *
+ * Assigns @src properties to @dst.
+ **/
 void
 go_marker_assign (GOMarker *dst, GOMarker const *src)
 {
@@ -268,6 +351,11 @@ go_marker_dup (GOMarker const *src)
 	return dst;
 }
 
+/**
+ * go_marker_new:
+ *
+ * Returns: (transfer full): a new #GOMarker.
+ **/
 GOMarker *
 go_marker_new (void)
 {
@@ -330,8 +418,7 @@ go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, doubl
  * Creates a new cairo surface similar to the current target of @cr, and render
  * @marker on it. @center will contain the coordinate of the center of the surface.
  *
- * Returns:  a newly created #cairo_surface_t. This surface should be destroyed
- * 	using cairo_surface_destroy after use.
+ * Returns: (transfer full): a newly created #cairo_surface_t.
  **/
 cairo_surface_t *
 go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scale,
@@ -374,6 +461,11 @@ go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scal
 	return cr_surface;
 }
 
+/**
+ * go_marker_get_type:
+ *
+ * Returns: the #GType for #GOMarker.
+ **/
 GSF_CLASS (GOMarker, go_marker,
 	   go_marker_class_init, go_marker_init,
 	   G_TYPE_OBJECT)

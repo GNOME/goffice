@@ -100,18 +100,28 @@ find_mime_from_data (void)
 #endif
 /* ------------------------------------------------------------------------- */
 
-/*
+/**
+ * go_filename_from_uri:
+ * @uri: an escaped URI
+ *
  * Convert an escaped URI into a filename.
- */
+ *
+ * Returns: (transfer full): the filename.
+ **/
 char *
 go_filename_from_uri (char const *uri)
 {
 	return g_filename_from_uri (uri, NULL, NULL);
 }
 
-/*
+/**
+ * go_filename_to_uri:
+ * @filename: a filename
+ *
  * Convert a filename into an escaped URI.
- */
+ *
+ * Returns: (transfer full): the escaped URI.
+ **/
 char *
 go_filename_to_uri (char const *filename)
 {
@@ -126,6 +136,16 @@ go_filename_to_uri (char const *filename)
 	return uri;
 }
 
+/**
+ * go_filename_simplify:
+ * @filename: a filename
+ * @dotdot: how to handle ".."
+ * @make_absolute: whether to make the path absolute
+ *
+ * Simplifies a filename.
+ *
+ * Returns: (transfer full): the simplified filename.
+ **/
 char *
 go_filename_simplify (char const *filename, GODotDot dotdot,
 		      gboolean make_absolute)
@@ -289,6 +309,14 @@ simplify_host_path (char const *uri, size_t hstart)
 	return simp;
 }
 
+/**
+ * go_url_simplify:
+ * @uri: a URI
+ *
+ * Simplifies a URI.
+ *
+ * Returns: (transfer full): the simplified URI.
+ **/
 char *
 go_url_simplify (char const *uri)
 {
@@ -320,9 +348,16 @@ go_url_simplify (char const *uri)
 }
 
 
-/*
- * More or less the same as gnome_vfs_uri_make_full_from_relative.
- */
+/**
+ * go_url_resolve_relative:
+ * @ref_uri: reference URI
+ * @rel_uri: relative URI
+ *
+ * Resolves a relative URI against a reference URI.
+ * This is more or less the same as gnome_vfs_uri_make_full_from_relative.
+ *
+ * Returns: (transfer full): the resolved URI.
+ **/
 char *
 go_url_resolve_relative (char const *ref_uri, char const *rel_uri)
 {
@@ -396,6 +431,16 @@ make_rel (char const *uri, char const *ref_uri,
 	return g_string_free (res, FALSE);
 }
 
+/**
+ * go_url_make_relative:
+ * @uri: a URI
+ * @ref_uri: reference URI
+ *
+ * Creates a relative URI from @uri relative to @ref_uri.
+ *
+ * Returns: (transfer full) (nullable): the relative URI, or %NULL if they
+ * are on different hosts or use different protocols.
+ **/
 char *
 go_url_make_relative (char const *uri, char const *ref_uri)
 {
@@ -463,10 +508,15 @@ is_fd_uri (char const *uri, int *fd)
 
 /* ------------------------------------------------------------------------- */
 
-/*
+/**
+ * go_shell_arg_to_uri:
+ * @arg: a shell argument in filename encoding
+ *
  * Convert a shell argv entry (assumed already translated into filename
  * encoding) to an escaped URI.
- */
+ *
+ * Returns: (transfer full): the escaped URI.
+ **/
 char *
 go_shell_arg_to_uri (char const *arg)
 {
@@ -699,10 +749,14 @@ go_file_split_urls (char const *data)
   return uris;
 }
 
-/*
- * Return the real name of the owner of a URI.  The result will be in
- * UTF-8 and the caller must free the result.
- */
+/**
+ * go_file_get_owner_name:
+ * @uri: a URI
+ *
+ * Returns the real name of the owner of a URI.
+ *
+ * Returns: (transfer full) (nullable): the owner name in UTF-8, or %NULL on error.
+ **/
 gchar *
 go_file_get_owner_name (char const *uri)
 {
@@ -726,10 +780,14 @@ go_file_get_owner_name (char const *uri)
 	return (nameutf8 ? g_string_free (nameutf8, FALSE) : NULL);
 }
 
-/*
- * Return the group name of the owner of a URI.  The result will be in
- * UTF-8 and the caller must free the result.
- */
+/**
+ * go_file_get_group_name:
+ * @uri: a URI
+ *
+ * Returns the group name of the owner of a URI.
+ *
+ * Returns: (transfer full) (nullable): the group name in UTF-8, or %NULL on error.
+ **/
 gchar *
 go_file_get_group_name (char const *uri)
 {
@@ -761,6 +819,11 @@ go_file_permissions_copy (GOFilePermissions *file_permissions)
 	return res;
 }
 
+/**
+ * go_file_permissions_get_type:
+ *
+ * Returns: the #GType for #GOFilePermissions.
+ **/
 GType
 go_file_permissions_get_type (void)
 {
@@ -774,6 +837,14 @@ go_file_permissions_get_type (void)
 	return t;
 }
 
+/**
+ * go_get_file_permissions:
+ * @uri: a URI
+ *
+ * Returns the file permissions for @uri.
+ *
+ * Returns: (transfer full) (nullable): the file permissions, or %NULL on error.
+ **/
 GOFilePermissions *
 go_get_file_permissions (char const *uri)
 {
@@ -839,6 +910,13 @@ go_get_file_permissions (char const *uri)
 	return file_permissions;
 }
 
+/**
+ * go_set_file_permissions:
+ * @uri: a URI
+ * @file_permissions: the file permissions
+ *
+ * Sets the file permissions for @uri.
+ **/
 void
 go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions)
 {
@@ -954,18 +1032,42 @@ go_file_get_date (char const *uri, GOFileDateType type)
 	return tm;
 }
 
+/**
+ * go_file_get_date_accessed:
+ * @uri: a URI
+ *
+ * Returns the last access time of @uri.
+ *
+ * Returns: the last access time, or -1 on error.
+ **/
 time_t
 go_file_get_date_accessed (char const *uri)
 {
 	return go_file_get_date (uri, GO_FILE_DATE_TYPE_ACCESSED);
 }
 
+/**
+ * go_file_get_date_modified:
+ * @uri: a URI
+ *
+ * Returns the last modification time of @uri.
+ *
+ * Returns: the last modification time, or -1 on error.
+ **/
 time_t
 go_file_get_date_modified (char const *uri)
 {
 	return go_file_get_date (uri, GO_FILE_DATE_TYPE_MODIFIED);
 }
 
+/**
+ * go_file_get_date_changed:
+ * @uri: a URI
+ *
+ * Returns the last status change time of @uri.
+ *
+ * Returns: the last status change time, or -1 on error.
+ **/
 time_t
 go_file_get_date_changed (char const *uri)
 {
@@ -1251,6 +1353,11 @@ go_shell_argv_to_glib_encoding (gint argc, gchar const **argv)
 #endif
 }
 
+/**
+ * go_shell_argv_to_glib_encoding_free:
+ *
+ * Frees the memory allocated by go_shell_argv_to_glib_encoding().
+ **/
 void
 go_shell_argv_to_glib_encoding_free (void)
 {
@@ -1261,6 +1368,15 @@ go_shell_argv_to_glib_encoding_free (void)
 #endif
 }
 
+/**
+ * go_file_access:
+ * @uri: a URI
+ * @mode: access mode (e.g., GO_R_OK)
+ *
+ * Checks access for @uri.
+ *
+ * Returns: 0 on success, or -1 on error.
+ **/
 gint
 go_file_access (char const *uri, gint mode)
 {

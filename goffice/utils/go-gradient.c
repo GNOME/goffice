@@ -46,10 +46,9 @@
  * @GO_GRADIENT_SE_TO_NW_MIRRORED: bottom right to top left, mirrored.
  * @GO_GRADIENT_NE_TO_SW: top right to bottom left.
  * @GO_GRADIENT_SW_TO_NE: bottom left to top right.
- * @GO_GRADIENT_SW_TO_NE_MIRRORED: top right to bottom left, mirrored.
- * @GO_GRADIENT_NE_TO_SW_MIRRORED: bottom left to top right, mirrored.
+ * @GO_GRADIENT_SW_TO_NE_MIRRORED: bottom left to top right, mirrored.
+ * @GO_GRADIENT_NE_TO_SW_MIRRORED: top right to bottom left, mirrored.
  * @GO_GRADIENT_MAX: maximum value, should not occur.
-} ;
  **/
 
 static char const * const grad_dir_names[] = {
@@ -71,6 +70,12 @@ static char const * const grad_dir_names[] = {
 	"ne-sw-mirrored"
 };
 
+/**
+ * go_gradient_dir_from_str:
+ * @name: string representation of the gradient direction.
+ *
+ * Returns: the #GOGradientDirection corresponding to @name.
+ **/
 GOGradientDirection
 go_gradient_dir_from_str (char const *name)
 {
@@ -81,6 +86,12 @@ go_gradient_dir_from_str (char const *name)
 	return GO_GRADIENT_N_TO_S;
 }
 
+/**
+ * go_gradient_dir_as_str:
+ * @dir: #GOGradientDirection
+ *
+ * Returns: the string representation of @dir.
+ **/
 char const *
 go_gradient_dir_as_str (GOGradientDirection dir)
 {

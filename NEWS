@@ -2,6 +2,7 @@ goffice 0.10.61:
 
 Morten:
 	* Fix regression error reporting problems.
+	* Introspection fixes.
 
 --------------------------------------------------------------------------
 goffice 0.10.60:

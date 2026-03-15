@@ -374,17 +374,37 @@ go_pixbuf_class_init (GObjectClass *klass)
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
+/**
+ * go_pixbuf_get_type:
+ *
+ * Returns: the #GType for #GOPixbuf.
+ **/
 GSF_CLASS (GOPixbuf, go_pixbuf,
 	   go_pixbuf_class_init, NULL,
 	   GO_TYPE_IMAGE)
 
 
+/**
+ * go_pixbuf_new_from_pixbuf:
+ * @pixbuf: a #GdkPixbuf
+ *
+ * Returns: (transfer full): a new #GOImage.
+ **/
 GOImage *
 go_pixbuf_new_from_pixbuf (GdkPixbuf *pixbuf)
 {
 	return g_object_new (GO_TYPE_PIXBUF, "pixbuf", pixbuf, NULL);
 }
 
+/**
+ * go_pixbuf_new_from_data:
+ * @type: the image type
+ * @data: the image data
+ * @length: the length of @data
+ * @error: (out) (optional): a #GError
+ *
+ * Returns: (transfer full): a new #GOImage.
+ **/
 GOImage *
 go_pixbuf_new_from_data (char const *type, guint8 const *data, gsize length, GError **error)
 {
@@ -409,6 +429,12 @@ go_pixbuf_new_from_data (char const *type, guint8 const *data, gsize length, GEr
 	return image;
 }
 
+/**
+ * go_pixbuf_get_rowstride:
+ * @pixbuf: a #GOPixbuf
+ *
+ * Returns: the rowstride of @pixbuf.
+ **/
 int
 go_pixbuf_get_rowstride (GOPixbuf *pixbuf)
 {

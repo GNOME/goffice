@@ -54,16 +54,16 @@ GType go_marker_get_type (void);
 
 GOMarkerShape    go_marker_shape_from_str       (char const *name);
 char const      *go_marker_shape_as_str         (GOMarkerShape shape);
-GOMarkerShape 	 go_marker_get_shape		(GOMarker const *m);
-void 		 go_marker_set_shape 		(GOMarker *m, GOMarkerShape shape);
-gboolean	 go_marker_is_closed_shape		(GOMarker const *m);
-GOColor 	 go_marker_get_outline_color	(GOMarker const *m);
-void		 go_marker_set_outline_color	(GOMarker *m, GOColor color);
-GOColor		 go_marker_get_fill_color	(GOMarker const *m);
-void		 go_marker_set_fill_color	(GOMarker *m, GOColor color);
-int		 go_marker_get_size		(GOMarker const *m);
-void		 go_marker_set_size		(GOMarker *m, int size);
-double		 go_marker_get_outline_width	(GOMarker const *m);
+GOMarkerShape 	 go_marker_get_shape		(GOMarker const *marker);
+void 		 go_marker_set_shape 		(GOMarker *marker, GOMarkerShape shape);
+gboolean	 go_marker_is_closed_shape	(GOMarker const *marker);
+GOColor 	 go_marker_get_outline_color	(GOMarker const *marker);
+void		 go_marker_set_outline_color	(GOMarker *marker, GOColor color);
+GOColor		 go_marker_get_fill_color	(GOMarker const *marker);
+void		 go_marker_set_fill_color	(GOMarker *marker, GOColor color);
+int		 go_marker_get_size		(GOMarker const *marker);
+void		 go_marker_set_size		(GOMarker *marker, int size);
+double		 go_marker_get_outline_width	(GOMarker const *marker);
 
 void		 go_marker_assign 		(GOMarker *dst, GOMarker const *src);
 GOMarker *	 go_marker_dup 			(GOMarker const *src);

@@ -41,6 +41,11 @@ static GOFont const	*font_default;
 #define ref_debug(x)	do { } while (0)
 #endif
 
+/**
+ * go_font_get_type:
+ *
+ * Returns: the #GType for #GOFont.
+ **/
 GType
 go_font_get_type (void)
 {
@@ -97,12 +102,24 @@ go_font_new_by_desc (PangoFontDescription *desc)
 	return go_font_ref (font); /* and another ref for the result */
 }
 
+/**
+ * go_font_new_by_name:
+ * @str: a font name
+ *
+ * Returns: (transfer full): a font that matches @str.
+ **/
 GOFont const *
 go_font_new_by_name  (char const *str)
 {
 	return go_font_new_by_desc (pango_font_description_from_string (str));
 }
 
+/**
+ * go_font_new_by_index:
+ * @i: an index
+ *
+ * Returns: (transfer full) (nullable): the font at index @i.
+ **/
 GOFont const *
 go_font_new_by_index (unsigned i)
 {
@@ -113,6 +130,12 @@ go_font_new_by_index (unsigned i)
 	return font ? go_font_ref (font): NULL;
 }
 
+/**
+ * go_font_as_str:
+ * @font: #GOFont
+ *
+ * Returns: (transfer full): a string representation of @font.
+ **/
 char *
 go_font_as_str (GOFont const *font)
 {
@@ -120,6 +143,14 @@ go_font_as_str (GOFont const *font)
 	return pango_font_description_to_string (font->desc);
 }
 
+/**
+ * go_font_ref:
+ * @font: #GOFont
+ *
+ * Increments the reference count of @font.
+ *
+ * Returns: (transfer full): @font.
+ **/
 GOFont const *
 go_font_ref (GOFont const *font)
 {
@@ -129,6 +160,12 @@ go_font_ref (GOFont const *font)
 	return font;
 }
 
+/**
+ * go_font_unref:
+ * @font: #GOFont
+ *
+ * Decrements the reference count of @font.
+ **/
 void
 go_font_unref (GOFont const *font)
 {
@@ -161,26 +198,45 @@ go_font_unref (GOFont const *font)
 		ref_debug (g_warning ("unref removed %p = %d", font, font->ref_count););
 }
 
+/**
+ * go_font_eq:
+ * @a: #GOFont
+ * @b: #GOFont
+ *
+ * Returns: %TRUE if @a and @b are equal.
+ **/
 gboolean
 go_font_eq (GOFont const *a, GOFont const *b)
 {
 	return pango_font_description_equal (a->desc, b->desc);
 }
 
+/**
+ * go_font_cache_register:
+ * @callback: #GClosure
+ *
+ * Registers a callback for font cache changes.
+ **/
 void
-go_font_cache_register (GClosure *watcher)
+go_font_cache_register (GClosure *callback)
 {
-	g_return_if_fail (watcher != NULL);
+	g_return_if_fail (callback != NULL);
 
-	font_watchers = g_slist_prepend (font_watchers, watcher);
-	g_closure_set_marshal (watcher,
+	font_watchers = g_slist_prepend (font_watchers, callback);
+	g_closure_set_marshal (callback,
 		g_cclosure_marshal_VOID__POINTER);
 }
 
+/**
+ * go_font_cache_unregister:
+ * @callback: #GClosure
+ *
+ * Unregisters a callback for font cache changes.
+ **/
 void
-go_font_cache_unregister (GClosure *watcher)
+go_font_cache_unregister (GClosure *callback)
 {
-	font_watchers = g_slist_remove (font_watchers, watcher);
+	font_watchers = g_slist_remove (font_watchers, callback);
 }
 
 /**
@@ -241,6 +297,13 @@ go_fonts_list_sizes (void)
 
 
 
+/**
+ * go_font_metrics_new:
+ * @context: #PangoContext
+ * @font: #GOFont
+ *
+ * Returns: (transfer full): a new #GOFontMetrics for @font.
+ **/
 GOFontMetrics *
 go_font_metrics_new (PangoContext *context, GOFont const *font)
 {
@@ -322,6 +385,12 @@ go_font_metrics_new (PangoContext *context, GOFont const *font)
 }
 
 
+/**
+ * go_font_metrics_free:
+ * @metrics: #GOFontMetrics
+ *
+ * Frees @metrics.
+ **/
 void
 go_font_metrics_free (GOFontMetrics *metrics)
 {
@@ -336,6 +405,11 @@ go_font_metrics_copy (GOFontMetrics *file_permissions)
 	return res;
 }
 
+/**
+ * go_font_metrics_get_type:
+ *
+ * Returns: the #GType for #GOFontMetrics.
+ **/
 GType
 go_font_metrics_get_type (void)
 {
@@ -402,7 +476,7 @@ _go_fonts_shutdown (void)
 
 	if (font_watchers != NULL) {
 		g_warning ("Missing calls to go_font_cache_unregister");
-		/* be careful and _leak_ the closured in case they are already freed */
+		/* be careful and _leak_ the closures in case they are already freed */
 		g_slist_free (font_watchers);
 		font_watchers = NULL;
 	}

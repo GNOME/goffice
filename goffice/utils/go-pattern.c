@@ -228,18 +228,30 @@ static GOPatternSpec const go_patterns [] = {
 };
 
 
+/**
+ * go_pattern_from_str:
+ * @name: a string representation of a #GOPatternType
+ *
+ * Returns: the #GOPatternType corresponding to @name.
+ **/
 GOPatternType
-go_pattern_from_str (char const *str)
+go_pattern_from_str (char const *name)
 {
 	unsigned i;
 
 	for (i = 0; i < GO_PATTERN_MAX; i++)
-		if (strcmp (go_patterns[i].str, str) == 0)
+		if (strcmp (go_patterns[i].str, name) == 0)
 			return i;
 
 	return GO_PATTERN_SOLID;
 }
 
+/**
+ * go_pattern_as_str:
+ * @pattern: a #GOPatternType
+ *
+ * Returns: (transfer none): the string representation of @pattern.
+ **/
 char const *
 go_pattern_as_str (GOPatternType pattern)
 {
@@ -305,6 +317,12 @@ go_pattern_set_solid (GOPattern *pat, GOColor fore)
 	pat->back = fore;
 }
 
+/**
+ * go_pattern_get_pattern:
+ * @pat: a #GOPattern
+ *
+ * Returns: (transfer none): a pointer to the pattern data.
+ **/
 guint8 const *
 go_pattern_get_pattern (GOPattern const *pat)
 {

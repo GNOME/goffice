@@ -45,8 +45,8 @@ typedef enum {
 	GO_GRADIENT_MAX
 } GOGradientDirection;
 
-GOGradientDirection go_gradient_dir_from_str (const gchar *name);
-const gchar *go_gradient_dir_as_str (GOGradientDirection dir);
+GOGradientDirection go_gradient_dir_from_str (char const *name);
+char const *go_gradient_dir_as_str (GOGradientDirection dir);
 
 G_END_DECLS
 

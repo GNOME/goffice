@@ -46,8 +46,8 @@
  *
  * Collects an unordered list of the keys in @hash.
  *
- * Returns: (element-type void) (transfer container): a list which the
- * caller needs to free. The content has not additional references added
+ * Returns: (element-type void) (transfer container): a list of all keys
+ * in the hash.
  *
  * Note: consider using g_hash_table_get_keys instead.
  **/
@@ -91,6 +91,7 @@ go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
  *
  * Creates a GList from NULL-terminated list of arguments.
  * As the arguments are just copied to the list, the caller owns them.
+ *
  * Returns: (element-type void) (transfer container): created list.
  **/
 GSList *
@@ -158,9 +159,7 @@ go_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
  *
  * Splits up string into tokens at delim and returns a string list.
  *
- * Returns: (element-type utf8) (transfer full): string list which you should
- * free after use using function g_slist_free_full(), using g_free as second
- * argument.
+ * Returns: (element-type utf8) (transfer full): string list.
  **/
 GSList *
 go_strsplit_to_slist (gchar const *string, gchar delimiter)
@@ -183,6 +182,15 @@ go_strsplit_to_slist (gchar const *string, gchar delimiter)
 	return string_list;
 }
 
+/**
+ * go_utf8_collate_casefold:
+ * @a: a UTF-8 string
+ * @b: a UTF-8 string
+ *
+ * Compares two UTF-8 strings for collation, ignoring case.
+ *
+ * Returns: < 0 if @a < @b, 0 if @a == @b, > 0 if @a > @b.
+ **/
 gint
 go_utf8_collate_casefold (const char *a, const char *b)
 {
@@ -194,13 +202,29 @@ go_utf8_collate_casefold (const char *a, const char *b)
 	return res;
 }
 
+/**
+ * go_ascii_strcase_equal:
+ * @v1: (type utf8): first string
+ * @v2: (type utf8): second string
+ *
+ * Compares two ASCII strings for equality, ignoring case.
+ *
+ * Returns: %TRUE if the strings are equal.
+ **/
 gint
 go_ascii_strcase_equal (gconstpointer v1, gconstpointer v2)
 {
 	return g_ascii_strcasecmp ((char const *) v1, (char const *)v2) == 0;
 }
 
-/* a char* hash function from ASU */
+/**
+ * go_ascii_strcase_hash:
+ * @v: (type utf8): the string to hash
+ *
+ * a char* hash function from ASU.
+ *
+ * Returns: the hash value.
+ **/
 guint
 go_ascii_strcase_hash (gconstpointer v)
 {
@@ -221,12 +245,16 @@ go_ascii_strcase_hash (gconstpointer v)
 
 /* ------------------------------------------------------------------------- */
 
-/*
+/**
+ * go_strescape:
+ * @target: (inout): #GString
+ * @str: a string to escape
+ *
  * Escapes all backslashes and quotes in a string. It is based on glib's
  * g_strescape.
  *
  * Also adds quotes around the result.
- */
+ **/
 void
 go_strescape (GString *target, char const *string)
 {
@@ -244,13 +272,19 @@ go_strescape (GString *target, char const *string)
 	g_string_append_c (target, '"');
 }
 
-/*
+/**
+ * go_strunescape:
+ * @target: (inout): #GString
+ * @str: the string to unescape
+ *
  * The reverse operation of go_strescape.  Returns a pointer to the
  * first char after the string on success or %NULL on failure.
  *
  * First character of the string should be an ASCII character used
  * for quoting.
- */
+ *
+ * Returns: (transfer none) (nullable): a pointer to the first char after the string.
+ **/
 const char *
 go_strunescape (GString *target, const char *string)
 {
@@ -278,12 +312,27 @@ go_strunescape (GString *target, const char *string)
 	return NULL;
 }
 
+/**
+ * go_string_append_gstring:
+ * @target: (inout): #GString
+ * @src: (in): #GString
+ *
+ * Appends @source to @target.
+ **/
 void
 go_string_append_gstring (GString *target, const GString *source)
 {
 	g_string_append_len (target, source->str, source->len);
 }
 
+/**
+ * go_string_append_c_n:
+ * @target: (inout): #GString
+ * @c: the character to append
+ * @n: number of times to append @c
+ *
+ * Appends @c to @target @n times.
+ **/
 void
 go_string_append_c_n (GString *target, char c, gsize n)
 {
@@ -292,6 +341,16 @@ go_string_append_c_n (GString *target, char c, gsize n)
 	memset (target->str + len, c, n);
 }
 
+/**
+ * go_string_replace:
+ * @target: (inout): #GString
+ * @pos: position
+ * @oldlen: length of text to be replaced
+ * @txt: text to insert
+ * @newlen: length of @txt
+ *
+ * Replaces @oldlen characters at @pos with @newlen characters from @txt.
+ **/
 void
 go_string_replace (GString *target,
 		   gsize pos, gssize oldlen,
@@ -328,6 +387,12 @@ go_string_replace (GString *target,
 		g_string_insert_len (target, pos, txt, newlen);
 }
 
+/**
+ * go_unichar_issign:
+ * @uc: #gunichar
+ *
+ * Returns: +1 if @uc is a plus sign, -1 if @uc is a minus sign, 0 otherwise.
+ **/
 int
 go_unichar_issign (gunichar uc)
 {
@@ -360,13 +425,13 @@ go_unichar_issign (gunichar uc)
 
 /**
  * go_utf8_strcapital:
- * @p: pointer to UTF-8 string
+ * @p: string
  * @len: length in bytes, or -1.
  *
  * Similar to g_utf8_strup and g_utf8_strup, except that this function
  * creates a string "Very Much Like: This, One".
  *
- * Return value: newly allocated string.
+ * Return value: (transfer full): capitalized string.
  **/
 char *
 go_utf8_strcapital (const char *p, gssize len)
@@ -442,6 +507,14 @@ struct _GOMemChunk {
 };
 
 
+/**
+ * go_mem_chunk_new:
+ * @name: name of the chunk
+ * @user_atom_size: size of each atom
+ * @chunk_size: size of each chunk
+ *
+ * Returns: (transfer full): a new #GOMemChunk.
+ **/
 GOMemChunk *
 go_mem_chunk_new (char const *name, gsize user_atom_size, gsize chunk_size)
 {
@@ -491,6 +564,13 @@ go_mem_chunk_new (char const *name, gsize user_atom_size, gsize chunk_size)
 	return res;
 }
 
+/**
+ * go_mem_chunk_destroy:
+ * @chunk: (transfer full): #GOMemChunk
+ * @expect_leaks: whether to expect leaks
+ *
+ * Destroys @chunk.
+ **/
 void
 go_mem_chunk_destroy (GOMemChunk *chunk, gboolean expect_leaks)
 {
@@ -540,6 +620,11 @@ go_mem_chunk_ref (GOMemChunk *chunk)
 	return chunk;
 }
 
+/**
+ * go_mem_chunk_get_type:
+ *
+ * Returns: the #GType for #GOMemChunk.
+ **/
 GType
 go_mem_chunk_get_type (void)
 {
@@ -718,6 +803,13 @@ go_mem_chunk_foreach_leak (GOMemChunk *chunk, GFunc cb, gpointer user)
 	g_slist_free (leaks);
 }
 
+/**
+ * go_str_compare:
+ * @x: (nullable): first string
+ * @y: (nullable): second string
+ *
+ * Returns: < 0 if @x < @y, 0 if @x == @y, > 0 if @x > @y.
+ **/
 int
 go_str_compare (void const *x, void const *y)
 {
@@ -731,6 +823,18 @@ go_str_compare (void const *x, void const *y)
 }
 
 
+/**
+ * go_guess_encoding:
+ * @raw: raw data
+ * @len: length of @raw
+ * @user_guess: (nullable): encoding to try first
+ * @utf8_str: (out) (optional) (nullable): location to store the UTF-8 string
+ * @truncated: (out) (optional) (nullable): location to store the number of bytes that could not be converted
+ *
+ * Guesses the encoding of @raw and converts it to UTF-8.
+ *
+ * Returns: (transfer none) (nullable): the name of the guessed encoding.
+ **/
 const char *
 go_guess_encoding (const char *raw, gsize len, const char *user_guess,
 		   GString **utf8_str, guint *truncated)
@@ -929,6 +1033,19 @@ go_object_toggle (gpointer object, const gchar *property_name)
 }
 
 
+/**
+ * go_object_set_property:
+ * @obj: #GObject
+ * @property_name: property name to set
+ * @user_prop_name: name of the property to show in error message
+ * @value: value to set
+ * @err: (out) (optional) (nullable): location to store a #GError
+ * @error_template: error message template
+ *
+ * Sets a property of an object from a string.
+ *
+ * Returns: %TRUE on failure.
+ **/
 gboolean
 go_object_set_property (GObject *obj, const char *property_name,
 			const char *user_prop_name, const char *value,
@@ -1194,6 +1311,12 @@ syntax:
 	goto done;
 }
 
+/**
+ * go_debug_flag:
+ * @flag: the flag to check
+ *
+ * Returns: %TRUE if the GO_DEBUG environment variable contains @flag.
+ **/
 gboolean
 go_debug_flag (const char *flag)
 {
@@ -1212,6 +1335,13 @@ cb_finalized (gpointer data, GObject *victim)
 	g_hash_table_remove (finalize_hash, victim);
 }
 
+/**
+ * go_debug_check_finalized:
+ * @obj: #GObject
+ * @id: identifier for @obj
+ *
+ * Registers @obj to be checked for finalization at shutdown.
+ **/
 void
 go_debug_check_finalized (gpointer obj, const char *id)
 {

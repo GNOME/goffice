@@ -482,7 +482,12 @@ go_format_allow_pi_slash (void)
 #endif
 }
 
-
+/**
+ * go_format_get_family:
+ * @fmt: format
+ *
+ * Returns: the family of the format
+ */
 GOFormatFamily
 go_format_get_family (GOFormat const *fmt)
 {
@@ -532,6 +537,12 @@ go_format_get_family (GOFormat const *fmt)
 	}
 }
 
+/**
+ * go_format_get_markup:
+ * @fmt: a markup format
+ *
+ * Returns: (transfer none): the attributes associated with the format
+ */
 const PangoAttrList *
 go_format_get_markup (GOFormat const *fmt)
 {
@@ -540,6 +551,12 @@ go_format_get_markup (GOFormat const *fmt)
 	return fmt->u.markup;
 }
 
+/**
+ * go_format_is_simple:
+ * @fmt: format
+ *
+ * Returns: %TRUE if the format is simple, i.e., not conditional.
+ */
 gboolean
 go_format_is_simple (GOFormat const *fmt)
 {
@@ -806,9 +823,9 @@ go_format_palette_index_from_color (GOColor c)
 /*
  * go_format_parse_color :
  * @str:
- * @color:
- * @n:
- * @named:
+ * @color: (out):
+ * @n: (out) (optional):
+ * @named: (out) (optional):
  *
  * Return: TRUE, if ok.  Then @color will be filled in, and @n will be
  * 	a number 0-7 for standard colors.
@@ -4736,6 +4753,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 /*********************************************************************/
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_measure_zero:
+ * @str: string to measure
+ * @layout: PangoLayout to measure
+ *
+ * Returns: 0.  Ignores all arguments.
+ */
 int
 go_format_measure_zero (G_GNUC_UNUSED const GString *str,
 			G_GNUC_UNUSED PangoLayout *layout)
@@ -4745,6 +4769,13 @@ go_format_measure_zero (G_GNUC_UNUSED const GString *str,
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_measure_pango:
+ * @str: string to measure
+ * @layout: PangoLayout to measure
+ *
+ * Returns: the width of @layout.  Ignores @str.
+ */
 int
 go_format_measure_pango (G_GNUC_UNUSED const GString *str,
 			 PangoLayout *layout)
@@ -4759,6 +4790,13 @@ go_format_measure_pango (G_GNUC_UNUSED const GString *str,
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_measure_strlen:
+ * @str: string to measure
+ * @layout: PangoLayout to measure
+ *
+ * Returns: the length of @str in characters.  Ignores @layout.
+ */
 int
 go_format_measure_strlen (const GString *str,
 			  G_GNUC_UNUSED PangoLayout *layout)
@@ -5523,7 +5561,7 @@ go_format_str_localize (char const *str)
  * De-localizes the given format string, i.e., changes locale's decimal
  * separators to dots and performs other such transformations.
  *
- * Returns: (transfer full) (nullable): a non-local format string, or
+ * Returns: (transfer full) (nullable): a non-local format string.
  * %NULL if the format was not valid.
  **/
 char *
@@ -5851,6 +5889,15 @@ go_format_dec_precision (GOFormat const *fmt)
 	}
 }
 
+/**
+ * go_format_toggle_1000sep:
+ * @fmt: #GOFormat
+ *
+ * Toggles the display of thousands separator in @fmt
+ *
+ * Returns: (transfer full) (nullable): New format, or %NULL if the format
+ * would not change.
+ **/
 GOFormat *
 go_format_toggle_1000sep (GOFormat const *fmt)
 {
@@ -6227,6 +6274,13 @@ go_format_as_XL (GOFormat const *fmt)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_eq:
+ * @a: (nullable): first format
+ * @b: (nullable): second format
+ *
+ * Returns: %TRUE if the formats are identical.
+ **/
 gboolean
 go_format_eq (GOFormat const *a, GOFormat const *b)
 {
@@ -6245,7 +6299,7 @@ go_format_eq (GOFormat const *a, GOFormat const *b)
  *
  * Adds a reference to a GOFormat.
  *
- * Returns: @gf
+ * Returns: (transfer full): @gf
  **/
 GOFormat *
 go_format_ref (GOFormat const *gf_)
@@ -6619,6 +6673,12 @@ go_format_get_magic (GOFormat const *fmt)
 
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_new_magic:
+ * @m: magic specifier
+ *
+ * Returns: (transfer full): a magic-style format
+ **/
 GOFormat *
 go_format_new_magic (GOFormatMagic m)
 {
