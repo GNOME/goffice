@@ -137,8 +137,7 @@ typedef struct {
         long double ms_resid;
 	long double ybar;
 	long double *xbar;
-	long double var; /* The variance of the entire regression:
-			sum(errors^2)/(n-xdim) */
+	long double var; /* The variance of the entire regression: sum(errors^2)/(n-xdim) */
 	/*<private>*/
 	unsigned int ref_count;
 } go_regression_stat_tl;
@@ -229,8 +228,7 @@ typedef struct {
         _Decimal64 ms_resid;
 	_Decimal64 ybar;
 	_Decimal64 *xbar;
-	_Decimal64 var; /* The variance of the entire regression:
-			sum(errors^2)/(n-xdim) */
+	_Decimal64 var; /* The variance of the entire regression: sum(errors^2)/(n-xdim) */
 	/*<private>*/
 	unsigned int ref_count;
 } go_regression_stat_tD;

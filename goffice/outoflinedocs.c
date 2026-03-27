@@ -229,7 +229,7 @@
  * @dst: (out): destination
  * @src: argument
  *
- * Computes the complex exponentiation function.
+ * Computes the complex exponential function.
  */
 
 /**
@@ -237,7 +237,7 @@
  * @dst: (out): destination
  * @src: argument
  *
- * Computes the complex exponentiation function.
+ * Computes the complex exponential function.
  */
 
 /**
@@ -905,6 +905,42 @@
  */
 
 /**
+ * go_fake_roundD:
+ * @x: value to round
+ *
+ * Returns: @x rounded of to nearest integer.  However, this variant applies
+ * a 1 ulp grace interval for values that are just a hair less than a
+ * helf-integer.
+ */
+
+/**
+ * go_fake_roundl:
+ * @x: value to round
+ *
+ * Returns: @x rounded of to nearest integer.  However, this variant applies
+ * a 1 ulp grace interval for values that are just a hair less than a
+ * helf-integer.
+ */
+
+/**
+ * go_fake_truncD:
+ * @x: value to truncate
+ *
+ * Returns: @x rounded of to nearest integer in the direction of zero.
+ * However, this variant applies a 1 ulp grace interval for values that
+ * are just a hair less than away from an integer.
+ */
+
+/**
+ * go_fake_truncl:
+ * @x: value to truncate
+ *
+ * Returns: @x rounded of to nearest integer in the direction of zero.
+ * However, this variant applies a 1 ulp grace interval for values that
+ * are just a hair less than away from an integer.
+ */
+
+/**
  * go_format_specializeD:
  * @fmt: the format to specialize
  * @val: the value to use
@@ -1201,6 +1237,16 @@
  */
 
 /**
+ * go_powD:
+ * @x: base
+ * @y: exponent
+ *
+ * Like pow, but with extra effort for @x==10.
+ *
+ * Returns: @x^@y.
+ */
+
+/**
  * go_power_regressionD:
  * @xss: x-vectors (i.e. independent data)
  * @dim: number of x-vectors
@@ -1233,6 +1279,16 @@
  *
  * Returns: #GORegressionResult as above.
  **/
+
+/**
+ * go_powl:
+ * @x: base
+ * @y: exponent
+ *
+ * Like pow, but with extra effort for @x==10.
+ *
+ * Returns: @x^@y.
+ */
 
 /**
  * go_quad_absD:

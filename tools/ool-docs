@@ -65,15 +65,21 @@ sub scan_header {
     open (my $file, '<', $fn) or
 	die "$0: cannot read $dir: $!\n";
     while (<$file>) {
-	if (/^\s*([a-zA-Z_][a-zA-Z_0-9]*\s+|\*\s*)*([a-zA-Z_][a-zA-Z_0-9]*+)\s*\(/) {
+	next if /Copyright/;
+	next if /^typedef/;
+
+	my $line = $_;
+	$line =~ s{/\*.*\*/}{};
+	if ($line =~ /^\s*([a-zA-Z_][a-zA-Z_0-9]*\s+|\*\s*)*([a-zA-Z_][a-zA-Z_0-9]*+)\s*\(/) {
 	    $names{$2} //= {
 		'type' => 'function',
 		'suffix' => $suffix
 	    };
+	    # print STDERR "$2\n";
 	}
-	if (/GOFFICE_WITH_LONG_DOUBLE/) {
+	if ($line =~ /GOFFICE_WITH_LONG_DOUBLE/) {
 	    $suffix = 'l';
-	} elsif (/GOFFICE_WITH_DECIMAL64/) {
+	} elsif ($line =~ /GOFFICE_WITH_DECIMAL64/) {
 	    $suffix = 'D';
 	}
     }

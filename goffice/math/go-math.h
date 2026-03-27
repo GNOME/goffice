@@ -80,6 +80,7 @@ long double go_fake_floorl (long double x);
 long double go_fake_ceill (long double x);
 long double go_fake_roundl (long double x);
 long double go_fake_truncl (long double x);
+long double go_rintl (long double x);
 
 int go_finitel (long double x);
 long double go_pow2l (int n);
@@ -129,6 +130,7 @@ _Decimal64 go_fake_floorD (_Decimal64 x);
 _Decimal64 go_fake_ceilD (_Decimal64 x);
 _Decimal64 go_fake_roundD (_Decimal64 x);
 _Decimal64 go_fake_truncD (_Decimal64 x);
+_Decimal64 go_rintD (_Decimal64 x);
 
 int go_finiteD (_Decimal64 x);
 _Decimal64 go_pow2D (int n);
