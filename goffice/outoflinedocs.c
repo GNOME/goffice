@@ -2365,6 +2365,32 @@
  */
 
 /**
+  * go_reduce_piD:
+  * @x: number of reduce
+  * @e: scale between -1 and 8, inclusive.
+  * @k: (out): location to return lower @e+1 bits of reduction count
+  *
+  * This function performs range reduction for trigonometric functions.
+  *
+  * Returns: a value, xr, such that x = xr + j * Pi/2^@e for some integer
+  * number j and |xr| <=  Pi/2^(@e+1).  The lower @e+1 bits of j will be
+  * returned in @k.
+  */
+
+/**
+  * go_reduce_pil:
+  * @x: number of reduce
+  * @e: scale between -1 and 8, inclusive.
+  * @k: (out): location to return lower @e+1 bits of reduction count
+  *
+  * This function performs range reduction for trigonometric functions.
+  *
+  * Returns: a value, xr, such that x = xr + j * Pi/2^@e for some integer
+  * number j and |xr| <=  Pi/2^(@e+1).  The lower @e+1 bits of j will be
+  * returned in @k.
+  */
+
+/**
  * go_render_generalD:
  * @layout: Optional #PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.

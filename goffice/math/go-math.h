@@ -66,6 +66,8 @@ double log1p (double x);
 double expm1 (double x);
 #endif
 
+double go_reduce_pi (double x, int e, int *k);
+
 /* ------------------------------------------------------------------------- */
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
@@ -114,6 +116,8 @@ long double strtold (const char *, char **);
 long double modfl (long double x, long double *iptr);
 #endif
 
+long double go_reduce_pil (long double x, int e, int *k);
+
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -147,6 +151,8 @@ _Decimal64 go_tanpiD (_Decimal64 x);
 _Decimal64 go_cotpiD (_Decimal64 x);
 _Decimal64 go_atan2piD (_Decimal64 y, _Decimal64 x);
 _Decimal64 go_atanpiD (_Decimal64 x);
+
+_Decimal64 go_reduce_piD (_Decimal64 x, int e, int *k);
 
 #endif
 
