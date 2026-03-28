@@ -1086,27 +1086,56 @@ atanhD (_Decimal64 x)
 _Decimal64
 sinD (_Decimal64 x)
 {
-	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+	// sin x = x - x^3/6 + ...
+	if (fabsD (x) <= DECIMAL64_EPSILON)
 		return x;
-	// FIXME: need to handle large values.  Going via "double" is no good.
-	return sin (x);
+
+	int km4;
+	_Decimal64 xr = go_reduce_piD (x, 1, &km4);
+	if (!finiteD (xr)) xr = x;  // Unimplemented
+
+	switch (km4) {
+	default:
+	case 0: return +sin (xr);
+	case 1: return +cos (xr);
+	case 2: return -sin (xr);
+	case 3: return -cos (xr);
+	}
 }
 
 _Decimal64
 cosD (_Decimal64 x)
 {
 	// No need to handle underflow as cos(0)=1.
-	// FIXME: need to handle large values.  Going via "double" is no good.
-	return cos (x);
+	int km4;
+	_Decimal64 xr = go_reduce_piD (x, 1, &km4);
+	if (!finiteD (xr)) xr = x;  // Unimplemented
+
+	switch (km4) {
+	default:
+	case 0: return +cos (xr);
+	case 1: return -sin (xr);
+	case 2: return -cos (xr);
+	case 3: return +sin (xr);
+	}
 }
 
 _Decimal64
 tanD (_Decimal64 x)
 {
-	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+	// sin x = x - x^3/3 + ...
+	if (fabsD (x) <= DECIMAL64_EPSILON)
 		return x;
-	// FIXME: need to handle large values.  Going via "double" is no good.
-	return tan (x);
+
+	int km4;
+	_Decimal64 xr = go_reduce_piD (x, 1, &km4);
+	if (!finiteD (xr)) xr = x;  // Unimplemented
+
+	switch (km4) {
+	default:
+	case 0: case 2: return +tan (xr);
+	case 1: case 3: return -1 / tan (xr);
+	}
 }
 
 _Decimal64
