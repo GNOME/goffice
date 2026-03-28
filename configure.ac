@@ -129,7 +129,7 @@ goffice_reqs="
 "
 
 goffice_gtk_reqs="
-	gtk+-3.0		>= 3.8.7
+	gtk+-3.0		>= 3.20.0
 "
 
 surfaces_reqs="

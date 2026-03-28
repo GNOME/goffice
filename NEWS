@@ -1,6 +1,7 @@
 goffice 0.10.61:
 
 Morten:
+	* Up gtk+ requirement to 3.20.  Still ancient.
 	* Fix regression error reporting problems.
 	* Introspection fixes.
 	* Import go_reduce_pi from Gnumeric.
