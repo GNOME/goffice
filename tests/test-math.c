@@ -164,12 +164,112 @@ trig_tests (void)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+test_strto1 (const char *txt, double value, gboolean ascii, int n)
+{
+	{
+		char *end = NULL;
+		const char *func = ascii ? "go_ascii_strtod" : "go_strtod";
+		double v = ascii
+			? go_ascii_strtod (txt, &end)
+			: go_strtod (txt, &end);
+		int nactual = end ? end - txt : -1;
+		g_printerr ("%s(\"%s\") = %g using %d chars\n", func, txt, v, nactual);
+		if (nactual != n) {
+			g_printerr ("Expected %d characters\n", n);
+			abort ();
+		}
+
+		gboolean good = isnan (value) == isnan (v) && signbit (value) == signbit (v);
+		if (good && !isnan (value) && value != v)
+			good = fabs (v - value) / (fabs (value) + fabs (v)) < 1e-10;
+		if (!good) {
+			g_printerr ("Expected value %g\n", value);
+			abort ();
+		}
+	}
+
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+	{
+		char *end = NULL;
+		const char *func = ascii ? "go_ascii_strtold" : "go_strtold";
+		long double v = ascii
+			? go_ascii_strtold (txt, &end)
+			: go_strtold (txt, &end);
+		int nactual = end ? end - txt : -1;
+		g_printerr ("%s(\"%s\") = %Lg using %d chars\n", func, txt, v, nactual);
+		if (nactual != n) {
+			g_printerr ("Expected %d characters\n", n);
+			abort ();
+		}
+
+		gboolean good = isnanl (value) == isnanl (v) && signbit (value) == signbit (v);
+		if (good && !isnanl (value) && (long double)value != v)
+			good = fabsl (v - value) / (fabsl (value) + fabsl (v)) < 1e-10L;
+		if (!good) {
+			g_printerr ("Expected value %g\n", value);
+			abort ();
+		}
+	}
+#endif
+
+#ifdef GOFFICE_WITH_DECIMAL64
+	{
+		_Decimal64 valueD = (_Decimal64)value;
+		char *end = NULL;
+		const char *func = ascii ? "go_ascii_strtoDd" : "go_strtoDd";
+		_Decimal64 v = ascii
+			? go_ascii_strtoDd (txt, &end)
+			: go_strtoDd (txt, &end);
+		int nactual = end ? end - txt : -1;
+		g_printerr ("%s(\"%s\") = %Wg using %d chars\n", func, txt, v, nactual);
+		if (nactual != n) {
+			g_printerr ("Expected %d characters\n", n);
+			abort ();
+		}
+
+		gboolean good = isnanD (valueD) == isnanD (v) && signbit (valueD) == signbit (v);
+		if (good && !isnan (valueD) && valueD != v)
+			good = fabsD (v - valueD) / (fabsD (valueD) + fabsD (v)) < 1e-10dd;
+		if (!good) {
+			g_printerr ("Expected value %g\n", value);
+			abort ();
+		}
+	}
+#endif
+}
+
+static void
+strto_tests (void)
+{
+	const GString *decimal = go_locale_get_decimal ();
+	gboolean qdot = strcmp (decimal->str, ".") == 0;
+
+	for (int ascii = 0; ascii <= (qdot ? 1 : 0); ascii++) {
+		test_strto1 ("123.45", 123.45, ascii, 6);
+		test_strto1 ("123.45e", 123.45, ascii, 6);
+		test_strto1 ("123.45e+", 123.45, ascii, 6);
+		test_strto1 ("123.45e+1", 1234.5, ascii, 9);
+		test_strto1 ("1", 1, ascii, 1);
+		test_strto1 ("1e", 1, ascii, 1);
+		test_strto1 ("1e-", 1, ascii, 1);
+		test_strto1 ("1e-0", 1, ascii, 4);
+		test_strto1 ("1e-01", 0.1, ascii, 5);
+		test_strto1 ("1d1", 1, ascii, 1);
+		test_strto1 ("0x1p+0", 0, ascii, 1);
+	}
+}
+
+
+/* ------------------------------------------------------------------------- */
+
 int
 main (int argc, char **argv)
 {
 	libgoffice_init ();
 
 	trig_tests ();
+	strto_tests ();
 
 	libgoffice_shutdown ();
 

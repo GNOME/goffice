@@ -441,8 +441,10 @@ go_pow2D (int n)
 {
 	if (n >= -1022 && n <= 1023)
 		return (_Decimal64)(go_pow2 (n));
+	else if (n > 0)
+		return (_Decimal64)(go_pow2 (n - 1023)) * go_pow2D (1023);
 	else
-		return powD (2.dd, n);
+		return (_Decimal64)(go_pow2 (n + 1022)) * go_pow2D (-1022);
 }
 
 #endif
@@ -747,7 +749,7 @@ ASCIISTRTO (const char *s, char **end)
 	char *the_end;
 
 	// Fast-track
-	if (strcmp (decimal->str, ".") == 0)
+	if (FALSE && strcmp (decimal->str, ".") == 0)
 		return STRTO (s, end);
 
 	/* Use the "double" version for parsing.  */

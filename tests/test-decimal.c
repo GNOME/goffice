@@ -692,6 +692,42 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 }
 
 static void
+test_pow2 (void)
+{
+	start_section ("pow2");
+
+	for (int i = -1400; i < 1300; i++) {
+		_Decimal64 tti = go_pow2D (i);
+		gboolean ok;
+		if (i >= -1022 && i <= 1023)
+			ok = decimal_eq (tti, (_Decimal64)go_pow2 (i));
+		else if (i >= 1024 && i <= 1278)
+			ok = fabsD (log2D (tti) - i) < 0.01dd;  // thus not inf
+		else if (i >= 1279)
+			ok = (tti == go_pinfD);
+		else if (i >= -1317 && i <= -1023)
+			ok = fabsD (log2D (tti) - i) < 0.01dd;  // thus not zero
+		else if (i >= -1322 && i <= -1018)
+			// Way into denormal land
+			ok = fabsD (log2D (tti) - i) < 0.49dd;  // thus not zero
+		else if (i == -1323)
+			// 2^-1323 == 2^-1322, strangely enough
+			ok = tti > 0.0dd;
+		else
+			ok = decimal_eq (tti, 0.0dd);
+
+		if (ok) {
+			good ();
+		} else {
+			bad ();
+			g_printerr ("Failed for %d; got %.16Wg\n", i, tti);
+		}
+	}
+
+	end_section ();
+}
+
+static void
 test_atan2 (const Corpus *corpus1, const Corpus *corpus2)
 {
 	start_section ("atan2");
@@ -981,6 +1017,7 @@ main (int argc, char **argv)
 
 	// Very preliminary
 	test_pow (corpus, corpus);
+	test_pow2 ();
 	test_quad_exp_pow ();
 
 	test_strto ();
