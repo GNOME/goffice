@@ -39,12 +39,12 @@ gboolean   go_xml_node_get_double	(xmlNodePtr node, char const *name, double *re
 void       go_xml_node_set_double	(xmlNodePtr node, char const *name, double  val, int precision);
 gboolean   go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *result);
 void	   go_xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor  val);
-gboolean   go_xml_node_get_enum    (xmlNodePtr node, char const *name, GType etype, gint *val);
+gboolean   go_xml_node_get_enum    (xmlNodePtr node, char const *name, GType etype, gint *result);
 void       go_xml_node_set_enum    (xmlNodePtr node, char const *name, GType etype, gint val);
 
-xmlNode *go_xml_get_child_by_name	 (xmlNode const *tree, char const *name);
-xmlNode *go_xml_get_child_by_name_no_lang (xmlNode const *tree, char const *name);
-xmlNode *go_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name);
+xmlNode *go_xml_get_child_by_name	 (xmlNode const *parent, char const *child_name);
+xmlNode *go_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *child_name);
+xmlNode *go_xml_get_child_by_name_by_lang (xmlNode const *parent, char const *child_name);
 
 void       go_xml_out_add_double (GsfXMLOut *output, char const *id, double d);
 #ifdef GOFFICE_WITH_LONG_DOUBLE
@@ -53,7 +53,7 @@ void       go_xml_out_add_long_double (GsfXMLOut *output, char const *id, long d
 #ifdef GOFFICE_WITH_DECIMAL64
 void       go_xml_out_add_decimal64 (GsfXMLOut *output, char const *id, _Decimal64 d);
 #endif
-void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
+void	   go_xml_out_add_color (GsfXMLOut *output, char const *id, GOColor c);
 
 void       go_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc);
 

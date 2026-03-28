@@ -256,6 +256,14 @@ cb_empty (G_GNUC_UNUSED PangoAttribute *attr, gpointer data)
 	return FALSE;
 }
 
+/**
+ * go_pango_attr_list_is_empty:
+ * @attrs: (nullable): #PangoAttrList
+ *
+ * Checks if @attrs is %NULL or contains no attributes.
+ *
+ * Returns: %TRUE if @attrs is empty.
+ */
 gboolean
 go_pango_attr_list_is_empty (const PangoAttrList *attrs)
 {
@@ -269,7 +277,7 @@ go_pango_attr_list_is_empty (const PangoAttrList *attrs)
 #ifdef GOFFICE_WITH_GTK
 static gboolean
 go_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
-					  G_GNUC_UNUSED gpointer data)
+					     G_GNUC_UNUSED gpointer data)
 {
 	return ((PANGO_ATTR_FOREGROUND == attribute->klass->type) ||
 		(PANGO_ATTR_RISE == attribute->klass->type));
@@ -277,7 +285,7 @@ go_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
 
 static gboolean
 go_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute,
-						    G_GNUC_UNUSED gpointer data)
+						   G_GNUC_UNUSED gpointer data)
 {
 	return ((PANGO_ATTR_STYLE == attribute->klass->type) ||
 		(PANGO_ATTR_WEIGHT == attribute->klass->type) ||
@@ -285,6 +293,12 @@ go_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute,
 		(PANGO_ATTR_STRIKETHROUGH == attribute->klass->type));
 }
 
+/**
+ * go_create_std_tags_for_buffer:
+ * @buffer: #GtkTextBuffer
+ *
+ * Creates standard tags for @buffer based on Pango attributes.
+ */
 void
 go_create_std_tags_for_buffer (GtkTextBuffer *buffer)
 {
@@ -338,6 +352,14 @@ go_load_pango_byte_to_char (gchar const *str, gint byte)
 	return g_utf8_pointer_to_offset (str, g_utf8_prev_char (str + byte + 1));
 }
 
+/**
+ * go_load_pango_attributes_into_buffer:
+ * @markup: #PangoAttrList
+ * @buffer: #GtkTextBuffer
+ * @str: text corresponding to @markup
+ *
+ * Applies attributes from @markup to @buffer.
+ */
 void
 go_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer, gchar const *str)
 {
@@ -599,6 +621,15 @@ go_pango_translate_here (PangoAttrIterator *state_iter,
 }
 
 
+/**
+ * go_pango_translate_attributes:
+ * @attrs: (nullable): #PangoAttrList
+ *
+ * Translates superscript and subscript attributes into scale and rise
+ * attributes that Pango can handle.
+ *
+ * Returns: (transfer full) (nullable): a new #PangoAttrList or @attrs.
+ */
 PangoAttrList *
 go_pango_translate_attributes (PangoAttrList *attrs)
 {
@@ -641,6 +672,13 @@ go_pango_translate_attributes (PangoAttrList *attrs)
 	return n_attrs;
 }
 
+/**
+ * go_pango_translate_layout:
+ * @layout: #PangoLayout
+ *
+ * Translates superscript and subscript attributes in @layout into scale
+ * and rise attributes.
+ */
 void
 go_pango_translate_layout (PangoLayout *layout)
 {
@@ -657,6 +695,11 @@ go_pango_translate_layout (PangoLayout *layout)
 
 }
 
+/**
+ * go_pango_attr_subscript_get_attr_type:
+ *
+ * Returns: the #PangoAttrType for subscript attributes.
+ */
 PangoAttrType
 go_pango_attr_subscript_get_attr_type (void)
 {
@@ -669,12 +712,22 @@ go_pango_attr_subscript_get_attr_type (void)
 	return go_pango_attr_subscript_type;
 }
 
+/**
+ * go_pango_attr_subscript_get_type:
+ *
+ * Returns: the #PangoAttrType for subscript attributes.
+ */
 PangoAttrType
 go_pango_attr_subscript_get_type (void)
 {
 	return go_pango_attr_subscript_get_attr_type ();
 }
 
+/**
+ * go_pango_attr_superscript_get_attr_type:
+ *
+ * Returns: the #PangoAttrType for superscript attributes.
+ */
 PangoAttrType
 go_pango_attr_superscript_get_attr_type (void)
 {
@@ -687,6 +740,11 @@ go_pango_attr_superscript_get_attr_type (void)
 	return go_pango_attr_superscript_type;
 }
 
+/**
+ * go_pango_attr_superscript_get_type:
+ *
+ * Returns: the #PangoAttrType for superscript attributes.
+ */
 PangoAttrType
 go_pango_attr_superscript_get_type (void)
 {

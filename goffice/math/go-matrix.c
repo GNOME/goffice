@@ -68,6 +68,12 @@ SUFFIX(go_quad_matrix_new) (int m, int n)
 	return res;
 }
 
+/**
+ * go_quad_matrix_free: (skip)
+ * @A: (transfer full): #GOQuadMatrix to free
+ *
+ * Frees @A and its associated data.
+ **/
 void
 SUFFIX(go_quad_matrix_free) (QMATRIX *A)
 {
@@ -247,6 +253,13 @@ SUFFIX(go_quad_matrix_inverse) (const QMATRIX *A, DOUBLE threshold)
 	return Z;
 }
 
+/**
+ * go_quad_matrix_determinant:
+ * @A: #GOQuadMatrix
+ * @res: (out): determinant
+ *
+ * Computes the determinant of @A and stores it in @res.
+ **/
 void
 SUFFIX(go_quad_matrix_determinant) (const QMATRIX *A, QUAD *res)
 {
@@ -554,6 +567,13 @@ SUFFIX(go_quad_matrix_eigen_range) (const QMATRIX *A,
 }
 
 
+/**
+ * go_quad_matrix_dump: (skip)
+ * @A: #GOQuadMatrix
+ * @fmt: format string for elements
+ *
+ * Dumps @A to stderr using @fmt.
+ **/
 void
 SUFFIX(go_quad_matrix_dump) (const QMATRIX *A, const char *fmt)
 {
@@ -680,6 +700,12 @@ SUFFIX(go_quad_qr_new) (const QMATRIX *A)
 	return qr;
 }
 
+/**
+ * go_quad_qr_free: (skip)
+ * @qr: (transfer full): #GOQuadQR to free
+ *
+ * Frees @qr and its associated data.
+ **/
 void
 SUFFIX(go_quad_qr_free) (QQR *qr)
 {
@@ -690,6 +716,14 @@ SUFFIX(go_quad_qr_free) (QQR *qr)
 	g_free (qr);
 }
 
+/**
+ * go_quad_qr_determinant:
+ * @qr: #GOQuadQR
+ * @det: (out): determinant
+ *
+ * Computes the determinant of the original matrix from its QR
+ * decomposition @qr and stores it in @det.
+ **/
 void
 SUFFIX(go_quad_qr_determinant) (const QQR *qr, QUAD *det)
 {

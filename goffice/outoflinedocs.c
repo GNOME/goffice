@@ -1490,14 +1490,14 @@
 
 /**
  * go_quad_endD:
- * @state: state pointer from go_quad_start.
+ * @state: (transfer full): state pointer from go_quad_start.
  *
  * This ends a section of quad precision arithmetic.
  **/
 
 /**
  * go_quad_endl:
- * @state: state pointer from go_quad_start.
+ * @state: (transfer full): state pointer from go_quad_start.
  *
  * This ends a section of quad precision arithmetic.
  **/
@@ -1558,6 +1558,18 @@
  * @a: quad-precision value
  *
  * This function takes the floor of @a, storing the result in @res.
+ **/
+
+/**
+ * go_quad_functionalD:
+ *
+ * Returns: %TRUE if #GOQuad arithmetic is supported and functional.
+ **/
+
+/**
+ * go_quad_functionall:
+ *
+ * Returns: %TRUE if #GOQuad arithmetic is supported and functional.
  **/
 
 /**
@@ -1661,6 +1673,38 @@
  **/
 
 /**
+ * go_quad_matrix_determinantD:
+ * @A: #GOQuadMatrix
+ * @res: (out): determinant
+ *
+ * Computes the determinant of @A and stores it in @res.
+ **/
+
+/**
+ * go_quad_matrix_determinantl:
+ * @A: #GOQuadMatrix
+ * @res: (out): determinant
+ *
+ * Computes the determinant of @A and stores it in @res.
+ **/
+
+/**
+ * go_quad_matrix_dumpD: (skip)
+ * @A: #GOQuadMatrix
+ * @fmt: format string for elements
+ *
+ * Dumps @A to stderr using @fmt.
+ **/
+
+/**
+ * go_quad_matrix_dumpl: (skip)
+ * @A: #GOQuadMatrix
+ * @fmt: format string for elements
+ *
+ * Dumps @A to stderr using @fmt.
+ **/
+
+/**
  * go_quad_matrix_dupD: (skip)
  * @A: Matrix to duplicate
  *
@@ -1686,6 +1730,20 @@
  * @A: Triangular matrix.
  * @emin: (out): Smallest absolute eigen value.
  * @emax: (out): Largest absolute eigen value.
+ **/
+
+/**
+ * go_quad_matrix_freeD: (skip)
+ * @A: (transfer full): #GOQuadMatrix to free
+ *
+ * Frees @A and its associated data.
+ **/
+
+/**
+ * go_quad_matrix_freel: (skip)
+ * @A: (transfer full): #GOQuadMatrix to free
+ *
+ * Frees @A and its associated data.
  **/
 
 /**
@@ -1889,6 +1947,38 @@
  **/
 
 /**
+ * go_quad_qr_determinantD:
+ * @qr: #GOQuadQR
+ * @det: (out): determinant
+ *
+ * Computes the determinant of the original matrix from its QR
+ * decomposition @qr and stores it in @det.
+ **/
+
+/**
+ * go_quad_qr_determinantl:
+ * @qr: #GOQuadQR
+ * @det: (out): determinant
+ *
+ * Computes the determinant of the original matrix from its QR
+ * decomposition @qr and stores it in @det.
+ **/
+
+/**
+ * go_quad_qr_freeD: (skip)
+ * @qr: (transfer full): #GOQuadQR to free
+ *
+ * Frees @qr and its associated data.
+ **/
+
+/**
+ * go_quad_qr_freel: (skip)
+ * @qr: (transfer full): #GOQuadQR to free
+ *
+ * Frees @qr and its associated data.
+ **/
+
+/**
  * go_quad_qr_mark_degenerateD: (skip)
  * @qr: A QR decomposition.
  * @i: a dimension
@@ -1977,6 +2067,24 @@
  **/
 
 /**
+ * go_quad_scalbnD:
+ * @res: (out): result location
+ * @a: quad-precision value
+ * @n: exponent
+ *
+ * This function scales @a by radix to the power of @n, storing the result in @res.
+ **/
+
+/**
+ * go_quad_scalbnl:
+ * @res: (out): result location
+ * @a: quad-precision value
+ * @n: exponent
+ *
+ * This function scales @a by radix to the power of @n, storing the result in @res.
+ **/
+
+/**
  * go_quad_sinD:
  * @res: (out): result location
  * @a: quad-precision value
@@ -2031,6 +2139,7 @@
  *
  * Initializes #GOQuad arithmetic. Any use of #GOQuad must occur between calls
  * to go_quad_startD() and go_quad_end().
+ *
  * Returns: (transfer full): a pointer to pass to go_quad_end() when done.
  **/
 
@@ -2039,6 +2148,7 @@
  *
  * Initializes #GOQuad arithmetic. Any use of #GOQuad must occur between calls
  * to go_quad_startl() and go_quad_end().
+ *
  * Returns: (transfer full): a pointer to pass to go_quad_end() when done.
  **/
 
@@ -2082,8 +2192,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The average of
- * the input values will be stored in @res.
+ * The average of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2092,8 +2203,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The average of
- * the input values will be stored in @res.
+ * The average of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2134,8 +2246,10 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The sum of the input
- * values deviation from the mean will be stored in @res.
+ * The sum of the input values deviation from the mean will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2144,8 +2258,10 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The sum of the input
- * values deviation from the mean will be stored in @res.
+ * The sum of the input values deviation from the mean will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2155,8 +2271,40 @@
  * @res: (out): result.
  * @f: fractile
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated fractile given by @f and stores it in @res.
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
+ */
+
+/**
+ * go_range_fractile_inter_nonconstD:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ * @f: fractile
+ *
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ * Unlike go_range_fractile_inter, this function may reorder the
+ * elements of @xs.
+ *
+ * Returns: 0 unless an error occurred.
+ */
+
+/**
+ * go_range_fractile_inter_nonconstl:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ * @f: fractile
+ *
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ * Unlike go_range_fractile_inter, this function may reorder the
+ * elements of @xs.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2166,8 +2314,10 @@
  * @res: (out): result.
  * @f: fractile
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated fractile given by @f and stores it in @res.
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2177,8 +2327,10 @@
  * @res: (out): result.
  * @f: fractile
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated fractile given by @f and stores it in @res.
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2188,8 +2340,10 @@
  * @res: (out): result.
  * @f: fractile
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated fractile given by @f and stores it in @res.
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2214,8 +2368,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The maximum of
- * the input values will be stored in @res.
+ * The maximum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2224,8 +2379,10 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The maximum of the absolute
- * values of the input values will be stored in @res.
+ * The maximum of the absolute values of the input values will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2234,8 +2391,10 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The maximum of the absolute
- * values of the input values will be stored in @res.
+ * The maximum of the absolute values of the input values will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2244,8 +2403,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The maximum of
- * the input values will be stored in @res.
+ * The maximum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2254,8 +2414,35 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated median and stores it in @res.
+ * This function computes the interpolated median and stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
+ */
+
+/**
+ * go_range_median_inter_nonconstD:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * This function computes the interpolated median and stores it in @res.
+ * Unlike go_range_median_inter, this function may reorder the
+ * elements of @xs.
+ *
+ * Returns: 0 unless an error occurred.
+ */
+
+/**
+ * go_range_median_inter_nonconstl:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * This function computes the interpolated median and stores it in @res.
+ * Unlike go_range_median_inter, this function may reorder the
+ * elements of @xs.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2264,8 +2451,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated median and stores it in @res.
+ * This function computes the interpolated median and stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2274,8 +2462,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated median and stores it in @res.
+ * This function computes the interpolated median and stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2284,8 +2473,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated median and stores it in @res.
+ * This function computes the interpolated median and stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2294,8 +2484,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The minimum of
- * the input values will be stored in @res.
+ * The minimum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2304,8 +2495,29 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The minimum of
- * the input values will be stored in @res.
+ * The minimum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
+ */
+
+/**
+ * go_range_sortD:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ *
+ * This function creates a sorted copy of @xs.
+ *
+ * Returns: (array length=n) (transfer full): a sorted copy of @xs.
+ */
+
+/**
+ * go_range_sortl:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ *
+ * This function creates a sorted copy of @xs.
+ *
+ * Returns: (array length=n) (transfer full): a sorted copy of @xs.
  */
 
 /**
@@ -2314,8 +2526,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The arithmetic sum of the input
- * values will be stored in @res.
+ * The arithmetic sum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2324,8 +2537,9 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The arithmetic sum of the input
- * values will be stored in @res.
+ * The arithmetic sum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2334,8 +2548,10 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The arithmetic sum of the squares
- * of the input values will be stored in @res.
+ * The arithmetic sum of the squares of the input values will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**
@@ -2344,8 +2560,10 @@
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The arithmetic sum of the squares
- * of the input values will be stored in @res.
+ * The arithmetic sum of the squares of the input values will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 
 /**

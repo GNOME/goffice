@@ -52,8 +52,9 @@ SUFFIX(sum_helper) (DOUBLE const *xs, int n)
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The arithmetic sum of the input
- * values will be stored in @res.
+ * The arithmetic sum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -72,8 +73,10 @@ SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The arithmetic sum of the squares
- * of the input values will be stored in @res.
+ * The arithmetic sum of the squares of the input values will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -98,8 +101,9 @@ SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The average of
- * the input values will be stored in @res.
+ * The average of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_average) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -123,8 +127,9 @@ SUFFIX(go_range_average) (DOUBLE const *xs, int n, DOUBLE *res)
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The minimum of
- * the input values will be stored in @res.
+ * The minimum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_min) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -148,8 +153,9 @@ SUFFIX(go_range_min) (DOUBLE const *xs, int n, DOUBLE *res)
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The maximum of
- * the input values will be stored in @res.
+ * The maximum of the input values will be stored in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_max) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -173,8 +179,10 @@ SUFFIX(go_range_max) (DOUBLE const *xs, int n, DOUBLE *res)
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The maximum of the absolute
- * values of the input values will be stored in @res.
+ * The maximum of the absolute values of the input values will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -200,8 +208,10 @@ SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  The sum of the input
- * values deviation from the mean will be stored in @res.
+ * The sum of the input values deviation from the mean will be stored
+ * in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -259,6 +269,15 @@ SUFFIX(float_compare) (DOUBLE const *a, DOUBLE const *b)
 		return 1;
 }
 
+/**
+ * go_range_sort:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ *
+ * This function creates a sorted copy of @xs.
+ *
+ * Returns: (array length=n) (transfer full): a sorted copy of @xs.
+ */
 DOUBLE *
 SUFFIX(go_range_sort) (DOUBLE const *xs, int n)
 {
@@ -279,8 +298,10 @@ SUFFIX(go_range_sort) (DOUBLE const *xs, int n)
  * @res: (out): result.
  * @f: fractile
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated fractile given by @f and stores it in @res.
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_fractile_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
@@ -310,8 +331,10 @@ SUFFIX(go_range_fractile_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res, DO
  * @res: (out): result.
  * @f: fractile
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated fractile given by @f and stores it in @res.
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_fractile_inter) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
@@ -322,6 +345,20 @@ SUFFIX(go_range_fractile_inter) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
 	return error;
 }
 
+/**
+ * go_range_fractile_inter_nonconst:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ * @f: fractile
+ *
+ * This function computes the interpolated fractile given by @f and
+ * stores it in @res.
+ * Unlike go_range_fractile_inter, this function may reorder the
+ * elements of @xs.
+ *
+ * Returns: 0 unless an error occurred.
+ */
 int
 SUFFIX(go_range_fractile_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res, DOUBLE f)
 {
@@ -335,8 +372,9 @@ SUFFIX(go_range_fractile_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res, DOUBLE
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated median and stores it in @res.
+ * This function computes the interpolated median and stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_median_inter) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -350,8 +388,9 @@ SUFFIX(go_range_median_inter) (DOUBLE const *xs, int n, DOUBLE *res)
  * @n: number of values
  * @res: (out): result.
  *
- * Returns: 0 unless an error occurred.  This function computes
- * the interpolated median and stores it in @res.
+ * This function computes the interpolated median and stores it in @res.
+ *
+ * Returns: 0 unless an error occurred.
  */
 int
 SUFFIX(go_range_median_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res)
@@ -359,6 +398,18 @@ SUFFIX(go_range_median_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res)
 	return SUFFIX(go_range_fractile_inter_sorted) (xs, n, res, 0.5);
 }
 
+/**
+ * go_range_median_inter_nonconst:
+ * @xs: (array length=n): values.
+ * @n: number of values
+ * @res: (out): result.
+ *
+ * This function computes the interpolated median and stores it in @res.
+ * Unlike go_range_median_inter, this function may reorder the
+ * elements of @xs.
+ *
+ * Returns: 0 unless an error occurred.
+ */
 int
 SUFFIX(go_range_median_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res)
 {

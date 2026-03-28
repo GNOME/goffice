@@ -162,7 +162,7 @@ go_font_ref (GOFont const *font)
 
 /**
  * go_font_unref:
- * @font: #GOFont
+ * @font: (transfer full): #GOFont
  *
  * Decrements the reference count of @font.
  **/
@@ -387,7 +387,7 @@ go_font_metrics_new (PangoContext *context, GOFont const *font)
 
 /**
  * go_font_metrics_free:
- * @metrics: #GOFontMetrics
+ * @metrics: (transfer full): #GOFontMetrics
  *
  * Frees @metrics.
  **/

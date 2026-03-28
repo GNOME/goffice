@@ -65,11 +65,12 @@ go_xml_parse_file (char const *filename)
 /**
  * go_xml_node_get_cstr: (skip)
  * @node: #xmlNodePtr
- * @name: attribute name
- * Get an xmlChar * value for a node carried as an attibute
- * result must be xmlFree
+ * @name: (nullable): attribute name
  *
- * Returns: (transfer full) (nullable): the attribute value
+ * Get an xmlChar * value for a node carried as an attribute.
+ * result must be xmlFree.
+ *
+ * Returns: (transfer full) (nullable): the attribute value.
  */
 xmlChar *
 go_xml_node_get_cstr (xmlNodePtr node, char const *name)
@@ -83,6 +84,15 @@ go_xml_node_get_cstr (xmlNodePtr node, char const *name)
 		return xmlNodeGetContent (node);
 	return NULL;
 }
+/**
+ * go_xml_node_set_cstr: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @val: (nullable): value
+ *
+ * Sets the attribute @name of @node to @val. If @name is %NULL, sets the
+ * content of @node to @val.
+ */
 void
 go_xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 {
@@ -92,27 +102,58 @@ go_xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 		xmlNodeSetContent (node, CC2XML (val));
 }
 
+/**
+ * go_xml_node_get_bool: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @result: (out): boolean result
+ *
+ * Reads a boolean value from the attribute @name of @node, or from the
+ * content of @node if @name is %NULL.
+ *
+ * Returns: %TRUE if a value was found.
+ */
 gboolean
-go_xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
+go_xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *result)
 {
 	xmlChar *buf = go_xml_node_get_cstr (node, name);
 	if (buf == NULL)
 		return FALSE;
 
-	*val = (!strcmp (CXML2C (buf), "1")
+	*result = (!strcmp (CXML2C (buf), "1")
 		|| 0 == g_ascii_strcasecmp (CXML2C (buf), "true"));
 	xmlFree (buf);
 	return TRUE;
 }
 
+/**
+ * go_xml_node_set_bool: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @val: boolean value
+ *
+ * Sets the attribute @name of @node to @val as a boolean. If @name is %NULL,
+ * sets the content of @node to @val.
+ */
 void
 go_xml_node_set_bool (xmlNodePtr node, char const *name, gboolean val)
 {
 	go_xml_node_set_cstr (node, name, val ? "true" : "false");
 }
 
+/**
+ * go_xml_node_get_int: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @result: (out): integer result
+ *
+ * Reads an integer value from the attribute @name of @node, or from the
+ * content of @node if @name is %NULL.
+ *
+ * Returns: %TRUE if a value was found.
+ */
 gboolean
-go_xml_node_get_int (xmlNodePtr node, char const *name, int *val)
+go_xml_node_get_int (xmlNodePtr node, char const *name, int *result)
 {
 	xmlChar *buf;
 	char *end;
@@ -124,13 +165,22 @@ go_xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 		return FALSE;
 
 	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
-	*val = l = strtol (CXML2C (buf), &end, 10);
-	ok = (CXML2C (buf) != end) && *end == 0 && errno != ERANGE && (*val == l);
+	*result = l = strtol (CXML2C (buf), &end, 10);
+	ok = (CXML2C (buf) != end) && *end == 0 && errno != ERANGE && (*result == l);
 	xmlFree (buf);
 
 	return ok;
 }
 
+/**
+ * go_xml_node_set_int: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @val: integer value
+ *
+ * Sets the attribute @name of @node to @val as an integer. If @name is %NULL,
+ * sets the content of @node to @val.
+ */
 void
 go_xml_node_set_int (xmlNodePtr node, char const *name, int val)
 {
@@ -139,8 +189,19 @@ go_xml_node_set_int (xmlNodePtr node, char const *name, int val)
 	go_xml_node_set_cstr (node, name, str);
 }
 
+/**
+ * go_xml_node_get_double: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @result: (out): double result
+ *
+ * Reads a double value from the attribute @name of @node, or from the
+ * content of @node if @name is %NULL.
+ *
+ * Returns: %TRUE if a value was found.
+ */
 gboolean
-go_xml_node_get_double (xmlNodePtr node, char const *name, double *val)
+go_xml_node_get_double (xmlNodePtr node, char const *name, double *result)
 {
 	xmlChar *buf;
 	char *end;
@@ -151,13 +212,23 @@ go_xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 		return FALSE;
 
 	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
-	*val = strtod (CXML2C (buf), &end);
+	*result = strtod (CXML2C (buf), &end);
 	ok = (CXML2C (buf) != end) && *end == 0 && errno != ERANGE;
 	xmlFree (buf);
 
 	return ok;
 }
 
+/**
+ * go_xml_node_set_double: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @val: double value
+ * @precision: precision
+ *
+ * Sets the attribute @name of @node to @val as a double. If @name is %NULL,
+ * sets the content of @node to @val.
+ */
 void
 go_xml_node_set_double (xmlNodePtr node, char const *name, double val,
 			int precision)
@@ -176,8 +247,19 @@ go_xml_node_set_double (xmlNodePtr node, char const *name, double val,
 }
 
 
+/**
+ * go_xml_node_get_gocolor: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @result: (out): color result
+ *
+ * Reads a color value from the attribute @name of @node, or from the
+ * content of @node if @name is %NULL.
+ *
+ * Returns: %TRUE if a value was found.
+ */
 gboolean
-go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
+go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *result)
 {
 	xmlChar *color;
 	int r, g, b;
@@ -189,7 +271,7 @@ go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
 		r >>= 8;
 		g >>= 8;
 		b >>= 8;
-		*res = GO_COLOR_FROM_RGBA (r,g,b,0xff);
+		*result = GO_COLOR_FROM_RGBA (r,g,b,0xff);
 		xmlFree (color);
 		return TRUE;
 	}
@@ -197,6 +279,15 @@ go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
 	return FALSE;
 }
 
+/**
+ * go_xml_node_set_gocolor: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @val: color value
+ *
+ * Sets the attribute @name of @node to @val as a color. If @name is %NULL,
+ * sets the content of @node to @val.
+ */
 void
 go_xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
 {
@@ -208,8 +299,20 @@ go_xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
 	go_xml_node_set_cstr (node, name, str);
 }
 
+/**
+ * go_xml_node_get_enum: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @etype: #GType
+ * @result: (out): enum result
+ *
+ * Reads an enum value from the attribute @name of @node, or from the
+ * content of @node if @name is %NULL.
+ *
+ * Returns: %TRUE if a value was found.
+ */
 gboolean
-go_xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *val)
+go_xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *result)
 {
 	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
 	GEnumValue *ev;
@@ -228,10 +331,20 @@ go_xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *val)
 	xmlFree (s);
 	if (!ev) return FALSE;
 
-	*val = ev->value;
+	*result = ev->value;
 	return TRUE;
 }
 
+/**
+ * go_xml_node_set_enum: (skip)
+ * @node: #xmlNodePtr
+ * @name: (nullable): attribute name
+ * @etype: #GType
+ * @val: enum value
+ *
+ * Sets the attribute @name of @node to @val as an enum. If @name is %NULL,
+ * sets the content of @node to @val.
+ */
 void
 go_xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
 {
@@ -249,10 +362,12 @@ go_xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
 
 /**
  * go_xml_get_child_by_name: (skip)
- * @tree: #xmlNode
- * @name: child name
+ * @parent: #xmlNode
+ * @child_name: child name
  *
- * Returns: (transfer none) (nullable): the child with @name as name if any.
+ * Find the child with @child_name as name.
+ *
+ * Returns: (transfer none) (nullable): the child with @child_name as name if any.
  **/
 xmlNode *
 go_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
@@ -272,24 +387,26 @@ go_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
 
 /**
  * go_xml_get_child_by_name_no_lang: (skip)
- * @tree: #xmlNode
- * @name: child name
+ * @parent: #xmlNode
+ * @child_name: child name
  *
- * Returns: (transfer none) (nullable): the child with @name as name and
+ * Find the child with @child_name as name and without "xml:lang" attribute.
+ *
+ * Returns: (transfer none) (nullable): the child with @child_name as name and
  * without "xml:lang" attribute if any.
  **/
 xmlNode *
-go_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
+go_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *child_name)
 {
 	xmlNodePtr node;
 
 	g_return_val_if_fail (parent != NULL, NULL);
-	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (child_name != NULL, NULL);
 
 	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
 		xmlChar *lang;
 
-		if (node->name == NULL || strcmp (CXML2C (node->name), name) != 0) {
+		if (node->name == NULL || strcmp (CXML2C (node->name), child_name) != 0) {
 			continue;
 		}
 		lang = xmlGetProp (node, CC2XML ("xml:lang"));
@@ -304,26 +421,29 @@ go_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
 
 /**
  * go_xml_get_child_by_name_by_lang: (skip)
- * @tree: #xmlNode
- * @name: child name
+ * @parent: #xmlNode
+ * @child_name: child name
  *
- * Returns: (transfer none) (nullable): the child with @name as name and
+ * Find the child with @child_name as name and with "xml:lang" attribute
+ * corresponding to the preferred language.
+ *
+ * Returns: (transfer none) (nullable): the child with @child_name as name and
  * with "xml:lang" attribute corresponding to the preferred language.
  **/
 xmlNode *
-go_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
+go_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *child_name)
 {
 	xmlNodePtr   best_node = NULL, node;
 	gint         best_lang_score = INT_MAX;
 	char const * const *langs = g_get_language_names ();
 
 	g_return_val_if_fail (parent != NULL, NULL);
-	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (child_name != NULL, NULL);
 
 	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
 		xmlChar *lang;
 
-		if (node->name == NULL || strcmp (CXML2C (node->name), name) != 0)
+		if (node->name == NULL || strcmp (CXML2C (node->name), child_name) != 0)
 			continue;
 
 		lang = xmlGetProp (node, CC2XML ("lang"));
@@ -405,6 +525,14 @@ go_xml_out_add_decimal64 (GsfXMLOut *output, char const *id, _Decimal64 d)
 }
 #endif
 
+/**
+ * go_xml_out_add_color:
+ * @output: destination
+ * @id: (allow-none): attribute name
+ * @c: color
+ *
+ * Output a representation of @c.
+ */
 void
 go_xml_out_add_color (GsfXMLOut *output, char const *id, GOColor c)
 {
@@ -432,6 +560,12 @@ _go_libxml_extras_shutdown (void)
 	xml_in_docs = NULL;
 }
 
+/**
+ * go_xml_in_doc_dispose_on_exit: (skip)
+ * @pdoc: location of #GsfXMLInDoc pointer
+ *
+ * Registers @pdoc to be freed on exit.
+ */
 void
 go_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc)
 {

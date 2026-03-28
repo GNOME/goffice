@@ -65,6 +65,11 @@
 #undef MIGHT_NEED_FPU_SETUP
 #endif
 
+/**
+ * go_quad_functional:
+ *
+ * Returns: %TRUE if #GOQuad arithmetic is supported and functional.
+ **/
 gboolean
 SUFFIX(go_quad_functional) (void)
 {
@@ -196,6 +201,7 @@ static const guint8 SUFFIX(euler_digits)[] = {
  *
  * Initializes #GOQuad arithmetic. Any use of #GOQuad must occur between calls
  * to go_quad_start() and go_quad_end().
+ *
  * Returns: (transfer full): a pointer to pass to go_quad_end() when done.
  **/
 void *
@@ -286,7 +292,7 @@ SUFFIX(go_quad_start) (void)
 
 /**
  * go_quad_end:
- * @state: state pointer from go_quad_start.
+ * @state: (transfer full): state pointer from go_quad_start.
  *
  * This ends a section of quad precision arithmetic.
  **/
@@ -520,6 +526,14 @@ SUFFIX(go_quad_isint) (QUAD const *x)
 	return SUFFIX(fmod) (fx.l ? fx.l : fx.h, 2) == 0 ? 1 : -1;
 }
 
+/**
+ * go_quad_scalbn:
+ * @res: (out): result location
+ * @a: quad-precision value
+ * @n: exponent
+ *
+ * This function scales @a by radix to the power of @n, storing the result in @res.
+ **/
 void
 SUFFIX(go_quad_scalbn) (QUAD *res, const QUAD *a, int n)
 {

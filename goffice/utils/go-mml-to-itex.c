@@ -28,44 +28,56 @@
 #include <libxslt/xsltutils.h>
 #include <string.h>
 
+/**
+ * go_mathml_to_itex:
+ * @mml: (nullable): MathML string to convert
+ * @buf: (out) (transfer full) (optional): location for the result string
+ * @length: (out) (optional): location for the length of the result string
+ * @compact: (out) (optional): location for a boolean indicating if the result is compact
+ * @gcc: (nullable): #GOCmdContext
+ *
+ * Converts a MathML string to iTeX using an XSLT stylesheet.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 go_mathml_to_itex (char const *mml, char **buf, int *length, gboolean *compact, GOCmdContext *gcc)
 {
-    static xsltStylesheet *sheet = NULL;
-    xmlDocPtr doc, res;
+	static xsltStylesheet *sheet = NULL;
+	xmlDocPtr doc, res;
  	int ret, len, start, end;
 	char *itex;
 
 	if (mml == NULL || *mml == 0)
-        /* Nothing has failed, but we have nothing to do anyway */
+		/* Nothing has failed, but we have nothing to do anyway */
 		return FALSE;
-    if (sheet == NULL) {
+	if (sheet == NULL) {
 		char *path = g_build_filename (go_sys_data_dir (), "mmlitex/mmlitex.xsl", NULL);
 			
 		sheet = xsltParseStylesheetFile (path);
 		if (!sheet) {
 			if (gcc)
-		        go_cmd_context_error_import (gcc, "MathML to ITeX: parsing stylesheet failed");
+				go_cmd_context_error_import (gcc, "MathML to ITeX: parsing stylesheet failed");
 			return FALSE;
 		}
-    }
+	}
 	
-    doc = xmlParseDoc((xmlChar const *) mml);
-    if (!doc) {
+	doc = xmlParseDoc((xmlChar const *) mml);
+	if (!doc) {
 		if (gcc)
-    		go_cmd_context_error_import (gcc, "MathML toI TeX: parsing MathML document failed");
+			go_cmd_context_error_import (gcc, "MathML toI TeX: parsing MathML document failed");
 		return FALSE;
-    }	
+	}	
 	
-    res = xsltApplyStylesheet(sheet, doc, NULL);
-    if (!res) {
+	res = xsltApplyStylesheet(sheet, doc, NULL);
+	if (!res) {
 		if (gcc)
-    		go_cmd_context_error_import (gcc, "MathML to ITeX: applying stylesheet failed");
+			go_cmd_context_error_import (gcc, "MathML to ITeX: applying stylesheet failed");
 		xmlFreeDoc(doc);
 		return FALSE;
-    }
+	}
 
-    ret = xsltSaveResultToString ((xmlChar **) &itex, &len, res, sheet) != 0;
+	ret = xsltSaveResultToString ((xmlChar **) &itex, &len, res, sheet) != 0;
 	/* Remove the extra charaters are start or end */
 	if (compact)
 		*compact = FALSE; /* the default */

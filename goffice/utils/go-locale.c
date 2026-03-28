@@ -56,6 +56,17 @@ static gboolean boolean_cached = FALSE;
 static char const *lc_TRUE = NULL;
 static char const *lc_FALSE = NULL;
 
+/**
+ * go_setlocale:
+ * @category: locale category (like LC_ALL)
+ * @val: (nullable): locale name
+ *
+ * This is a wrapper around setlocale that also invalidates any cached
+ * locale information.
+ *
+ * Returns: (transfer none) (nullable): a string representation of the
+ * locale set.  This may or may not be identical to @val.
+ */
 char const *
 go_setlocale (int category, char const *val)
 {
@@ -70,6 +81,8 @@ go_setlocale (int category, char const *val)
 
 /**
  * _go_locale_shutdown: (skip)
+ *
+ * Shuts down the locale management system.
  */
 void
 _go_locale_shutdown (void)
@@ -158,7 +171,9 @@ update_lc (void)
 /**
  * go_locale_get_decimal:
  *
- * Returns: (transfer none): Current locale's decimal separator.
+ * Current locale's decimal separator.
+ *
+ * Returns: (transfer none): the decimal separator.
  */
 GString const *
 go_locale_get_decimal (void)
@@ -172,8 +187,9 @@ go_locale_get_decimal (void)
 /**
  * go_locale_get_thousand:
  *
- * Returns: (transfer none): Current locale's thousands separator.  This may
- * be an empty string.
+ * Current locale's thousands separator.  This may be an empty string.
+ *
+ * Returns: (transfer none): the thousands separator.
  */
 GString const *
 go_locale_get_thousand (void)
@@ -186,15 +202,12 @@ go_locale_get_thousand (void)
 
 /**
  * go_locale_get_currency:
- * @precedes: a pointer to a boolean which is set to %TRUE if the currency
- * 		should precede
- * @space_sep: a pointer to a boolean which is set to %TRUE if the currency
- * 		should have a space separating it from the value
+ * @precedes: (out): (allow-none): %TRUE if the currency symbol precedes the value.
+ * @space_sep: (out): (allow-none): %TRUE if the currency symbol is separated by a space.
  *
- * Play with the default logic so that things come out nicely for the default
- * case.
+ * Current locale's currency symbol.
  *
- * Returns: (transfer none): A string with the default currency
+ * Returns: (transfer none): the currency symbol.
  **/
 GString const *
 go_locale_get_currency (gboolean *precedes, gboolean *space_sep)
@@ -234,7 +247,9 @@ go_locale_win32_get_user_default (GString *res, unsigned int id)
 /**
  * go_locale_get_date_format:
  *
- * Returns: (transfer none): Current locale's date format as a string.
+ * Current locale's date format as a string.
+ *
+ * Returns: (transfer none): the date format.
  */
 GString const *
 go_locale_get_date_format (void)
@@ -320,7 +335,9 @@ go_locale_get_date_format (void)
 /**
  * go_locale_get_time_format:
  *
- * Returns: (transfer none): Current locale's time format as a string.
+ * Current locale's time format as a string.
+ *
+ * Returns: (transfer none): the time format.
  */
 GString const *
 go_locale_get_time_format (void)
@@ -417,16 +434,14 @@ go_locale_get_time_format (void)
 	return lc_time_format;
 }
 
-/*
+/**
  * go_locale_month_before_day:
  *
  * A quick utility routine to guess whether the default date format
- * uses day/month or month/day.  Returns a value of the same meaning
- * as go_format_month_before_day, i.e.,
+ * uses day/month or month/day.
  *
- * 0, if locale uses day before month
- * 1, if locale uses month before day, unless the following applies
- * 2, if locale uses year before month (before day)
+ * Returns: 0 if locale uses day before month, 1 if locale uses month
+ * before day, or 2 if locale uses year before month.
  */
 int
 go_locale_month_before_day (void)
@@ -487,6 +502,8 @@ go_locale_month_before_day (void)
 /**
  * go_locale_24h:
  *
+ * Checks if the current locale uses a 24h clock.
+ *
  * Returns: %TRUE if the locale uses a 24h clock, %FALSE otherwise.
  */
 gboolean
@@ -509,8 +526,10 @@ go_locale_24h (void)
 }
 
 
-/* Use comma as the arg separator unless the decimal point is a
- * comma, in which case use a semi-colon
+/**
+ * go_locale_get_arg_sep:
+ *
+ * Returns: the argument separator for the current locale.
  */
 char
 go_locale_get_arg_sep (void)
@@ -520,6 +539,11 @@ go_locale_get_arg_sep (void)
 	return ',';
 }
 
+/**
+ * go_locale_get_col_sep:
+ *
+ * Returns: the column separator for the current locale.
+ */
 char
 go_locale_get_col_sep (void)
 {
@@ -528,6 +552,11 @@ go_locale_get_col_sep (void)
 	return ',';
 }
 
+/**
+ * go_locale_get_row_sep:
+ *
+ * Returns: the row separator for the current locale.
+ */
 char
 go_locale_get_row_sep (void)
 {
@@ -538,7 +567,9 @@ go_locale_get_row_sep (void)
  * go_locale_boolean_name:
  * @b: a boolean value
  *
- * Returns: (transfer none): Current locale's rendering of @b.
+ * Current locale's rendering of @b.
+ *
+ * Returns: (transfer none): the rendering of @b.
  */
 char const *
 go_locale_boolean_name (gboolean b)
@@ -555,7 +586,7 @@ go_locale_boolean_name (gboolean b)
  * go_locale_untranslated_booleans:
  *
  * Short circuit the current locale so that we can import files
- * and still produce error messages in the current LC_MESSAGE
+ * and still produce error messages in the current LC_MESSAGE.
  **/
 void
 go_locale_untranslated_booleans (void)

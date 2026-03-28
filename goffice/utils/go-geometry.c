@@ -122,7 +122,7 @@ go_geometry_OBR_to_AABR (GOGeometryOBR const *obr, GOGeometryAABR *aabr)
  *
  * Overlap test of Oriented Bounding Rectangles by the separating axis method.
  *
- * Return value: %TRUE if OOBRs overlap
+ * Returns: %TRUE if OOBRs overlap
  **/
 gboolean
 go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *obr1)
@@ -298,6 +298,11 @@ static GEnumValue const directions[] = {
 	{ 0, NULL, NULL }
 };
 
+/**
+ * go_direction_get_type:
+ *
+ * Returns: the #GType for #GODirection.
+ **/
 GType
 go_direction_get_type (void)
 {
@@ -308,6 +313,12 @@ go_direction_get_type (void)
 	return etype;
 }
 
+/**
+ * go_direction_get_name:
+ * @d: #GODirection
+ *
+ * Returns: the translated name of @d.
+ **/
 char const *
 go_direction_get_name (GODirection d)
 {

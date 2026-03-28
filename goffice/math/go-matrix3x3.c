@@ -23,19 +23,40 @@
 #include <goffice/math/go-matrix3x3.h>
 #include <math.h>
 
+/**
+ * go_matrix3x3_transform:
+ * @mat: #GOMatrix3x3
+ * @xo: x coordinate
+ * @yo: y coordinate
+ * @zo: z coordinate
+ * @x: (out): transformed x coordinate
+ * @y: (out): transformed y coordinate
+ * @z: (out): transformed z coordinate
+ *
+ * Transforms a 3D point (@xo, @yo, @zo) using the matrix @mat.
+ **/
 void
 go_matrix3x3_transform (GOMatrix3x3 *mat,
-				gdouble xo, gdouble yo, gdouble zo,
-				gdouble *x, gdouble *y, gdouble *z)
+			gdouble xo, gdouble yo, gdouble zo,
+			gdouble *x, gdouble *y, gdouble *z)
 {
 	*x = xo * mat->a11 + yo * mat->a12 + zo * mat->a13;
 	*y = xo * mat->a21 + yo * mat->a22 + zo * mat->a23;
 	*z = xo * mat->a31 + yo * mat->a32 + zo * mat->a33;
 }
 
+/**
+ * go_matrix3x3_from_euler:
+ * @mat: (out): #GOMatrix3x3
+ * @Psi: first Euler angle
+ * @Theta: second Euler angle
+ * @Phi: third Euler angle
+ *
+ * Initializes @mat from Euler angles (ZXZ convention).
+ **/
 void
 go_matrix3x3_from_euler (GOMatrix3x3 *mat,
-				gdouble Psi, gdouble Theta, gdouble Phi)
+			 gdouble Psi, gdouble Theta, gdouble Phi)
 {
 	gdouble sp = sin(Psi);
 	gdouble cp = cos(Psi);
@@ -54,9 +75,18 @@ go_matrix3x3_from_euler (GOMatrix3x3 *mat,
 	mat->a33 = ct;
 }
 
+/**
+ * go_matrix3x3_from_euler_transposed:
+ * @mat: (out): #GOMatrix3x3
+ * @Psi: first Euler angle
+ * @Theta: second Euler angle
+ * @Phi: third Euler angle
+ *
+ * Initializes @mat from Euler angles (ZXZ convention) and transposes it.
+ **/
 void
 go_matrix3x3_from_euler_transposed (GOMatrix3x3 *mat,
-				double Psi, double Theta, double Phi)
+				    double Psi, double Theta, double Phi)
 {
 	gdouble sp = sin(Psi);
 	gdouble cp = cos(Psi);
@@ -76,9 +106,18 @@ go_matrix3x3_from_euler_transposed (GOMatrix3x3 *mat,
 }
 
 #define MATRIX_THRESHOLD .999999999
+/**
+ * go_matrix3x3_to_euler:
+ * @mat: #GOMatrix3x3
+ * @Psi: (out): first Euler angle
+ * @Theta: (out): second Euler angle
+ * @Phi: (out): third Euler angle
+ *
+ * Extracts Euler angles (ZXZ convention) from @mat.
+ **/
 void
 go_matrix3x3_to_euler (GOMatrix3x3 const *mat,
-				double *Psi, double *Theta, double *Phi)
+		       double *Psi, double *Theta, double *Phi)
 {
 	if (fabs(mat->a33) > MATRIX_THRESHOLD) {
 		*Theta = (mat->a33 > 0.) ? 0. : 2 * M_PI;
@@ -106,9 +145,18 @@ go_matrix3x3_to_euler (GOMatrix3x3 const *mat,
 	}
 }
 
+/**
+ * go_matrix3x3_multiply:
+ * @dest: (out): #GOMatrix3x3
+ * @src1: #GOMatrix3x3
+ * @src2: #GOMatrix3x3
+ *
+ * Multiplies @src1 by @src2 and stores the result in @dest.
+ * @dest can be either @src1 or @src2.
+ **/
 void
 go_matrix3x3_multiply (GOMatrix3x3 *dest,
-				GOMatrix3x3 const *src1, GOMatrix3x3 const *src2)
+		       GOMatrix3x3 const *src1, GOMatrix3x3 const *src2)
 {
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;
 
