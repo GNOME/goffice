@@ -251,9 +251,9 @@ GSF_CLASS (GOUndoBinary, go_undo_binary,
  * go_undo_binary_new:
  * @a: first argument for undo operation
  * @b: second argument for undo operation
- * @undo: (scope async): function to call with arguments @a and @b for undo.
- * @fa: (scope async): optional function to free @a.
- * @fb: (scope async): optional function to free @b.
+ * @undo: (scope async) (not nullable): function to call with arguments @a and @b for undo.
+ * @fa: (scope async) (nullable): function to free @a.
+ * @fb: (scope async) (nullable): function to free @b.
  *
  * This function creates a new undo object for undo operations of two
  * arguments.  (In addition, an undo-time argument is added for context.)
@@ -314,8 +314,8 @@ GSF_CLASS (GOUndoUnary, go_undo_unary,
 /**
  * go_undo_unary_new:
  * @a: argument for undo operation
- * @undo: (scope async): function to call with argument @a for undo.
- * @fa: (scope async): optional function to free @a.
+ * @undo: (scope async) (not nullable): function to call with argument @a for undo.
+ * @fa: (scope async) (nullable): function to free @a.
  *
  * This function creates a new undo object for undo operations of one
  * argument.  (In addition, an undo-time argument is added for context.)

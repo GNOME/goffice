@@ -426,6 +426,11 @@ goc_canvas_init (GocCanvas *canvas)
 #endif
 
 
+/**
+ * goc_canvas_get_type:
+ *
+ * Returns: the #GType for #GocCanvas.
+ **/
 GSF_CLASS (GocCanvas, goc_canvas,
 	   goc_canvas_class_init, goc_canvas_init,
 	   CANVAS_BASE_TYPE)
@@ -436,6 +441,8 @@ GSF_CLASS (GocCanvas, goc_canvas,
 /**
  * goc_canvas_get_root:
  * @canvas: #GocCanvas
+ *
+ * Gets the root item of @canvas.
  *
  * Returns: (transfer none): the top level item of @canvas, always a #GocGroup.
  **/
@@ -450,6 +457,8 @@ goc_canvas_get_root (GocCanvas *canvas)
  * goc_canvas_get_width:
  * @canvas: #GocCanvas
  *
+ * Gets the width of the canvas.
+ *
  * Returns: the width of the widget visible region.
  **/
 int
@@ -462,6 +471,8 @@ goc_canvas_get_width (GocCanvas *canvas)
 /**
  * goc_canvas_get_height:
  * @canvas: #GocCanvas
+ *
+ * Gets the height of the canvas.
  *
  * Returns: the height of the widget visible region.
  **/
@@ -501,8 +512,8 @@ goc_canvas_scroll_to (GocCanvas *canvas, double x, double y)
 /**
  * goc_canvas_get_scroll_position:
  * @canvas: #GocCanvas
- * @x: where to store the horizontal position
- * @y: where to store the vertical position
+ * @x: (out) (optional): where to store the horizontal position
+ * @y: (out) (optional): where to store the vertical position
  *
  * Retrieves the origin of the visible region of the canvas.
  **/
@@ -543,6 +554,8 @@ goc_canvas_set_pixels_per_unit (GocCanvas *canvas, double pixels_per_unit)
 /**
  * goc_canvas_get_pixels_per_unit:
  * @canvas: #GocCanvas
+ *
+ * Gets the current scale of the canvas.
  *
  * Returns: how many pixels are used for each unit when displaying the canvas.
  **/
@@ -629,6 +642,8 @@ goc_canvas_invalidate_region (GocCanvas *canvas, GocItem *item, cairo_region_t *
  * goc_canvas_get_realized:
  * @canvas: #GocCanvas
  *
+ * Checks if the canvas is realized.
+ *
  * Returns: %TRUE if the canvas has been realized as a #GtkWidget.
  **/
 gboolean
@@ -650,7 +665,7 @@ goc_canvas_get_realized (GocCanvas *canvas)
  *
  * Returns: (transfer none): the #GocItem displayed at (@x,@y) if any.
  **/
-GocItem*
+GocItem *
 goc_canvas_get_item_at (GocCanvas *canvas, double x, double y)
 {
 	GocItem *result = NULL;
@@ -691,6 +706,8 @@ goc_canvas_ungrab_item (GocCanvas *canvas)
  * goc_canvas_get_grabbed_item:
  * @canvas: #GocCanvas
  *
+ * Gets the currently grabbed item.
+ *
  * Returns: (transfer none): The currently grabbed #GocItem.
  **/
 GocItem *
@@ -719,6 +736,8 @@ goc_canvas_set_document (GocCanvas *canvas, GODoc *document)
  * goc_canvas_get_document:
  * @canvas: #GocCanvas
  *
+ * Gets the document associated with @canvas.
+ *
  * Returns: (transfer none): The #GODoc associated with the #GocCanvas.
  **/
 GODoc*
@@ -732,6 +751,8 @@ goc_canvas_get_document (GocCanvas *canvas)
 /**
  * goc_canvas_get_cur_event:
  * @canvas: #GocCanvas
+ *
+ * Gets the current event.
  *
  * Returns: (transfer none): The #GdkEvent being processed.
  **/
@@ -762,6 +783,8 @@ goc_canvas_set_direction (GocCanvas *canvas, GocDirection direction)
  * goc_canvas_get_direction:
  * @canvas: #GocCanvas
  *
+ * Gets the canvas direction.
+ *
  * Returns: the current canvas direction.
  **/
 GocDirection
@@ -776,8 +799,8 @@ goc_canvas_get_direction (GocCanvas *canvas)
  * @canvas: #GocCanvas
  * @x: the horizontal position as a widget coordinate.
  * @y: the vertical position as a widget coordinate.
- * @x_: where to store the horizontal position as a canvas coordinate.
- * @y_: where to store the vertical position as a canvas coordinate.
+ * @x_: (out) (optional): where to store the horizontal position as a canvas coordinate.
+ * @y_: (out) (optional): where to store the vertical position as a canvas coordinate.
  *
  * Retrieves the canvas coordinates given the position in the widget.
  **/
@@ -799,8 +822,8 @@ goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_)
  * @canvas: #GocCanvas
  * @x: the horizontal position as a canvas coordinate.
  * @y: the vertical position as a canvas coordinate.
- * @x_: where to store the horizontal position as a widget coordinate.
- * @y_: where to store the vertical position as a widget coordinate.
+ * @x_: (out) (optional): where to store the horizontal position as a widget coordinate.
+ * @y_: (out) (optional): where to store the vertical position as a widget coordinate.
  *
  * Retrieves the position in the widget given the canvas coordinates.
  **/
@@ -817,21 +840,47 @@ goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_)
 		*y_ = go_fake_round ((y - canvas->scroll_y1) * canvas->pixels_per_unit);
 }
 
+/**
+ * goc_canvas_render:
+ * @canvas: #GocCanvas
+ * @cr: #cairo_t
+ * @x0: left coordinate
+ * @y0: top coordinate
+ * @x1: right coordinate
+ * @y1: bottom coordinate
+ *
+ * Renders the canvas to @cr.
+ **/
 void
 goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double x1, double y1)
 {
 	goc_item_draw_region (GOC_ITEM (canvas->root), cr, x0, y0, x1, y1);
 }
 
+/**
+ * goc_canvas_get_bounds:
+ * @canvas: #GocCanvas
+ * @x0: (out) (optional): location for left coordinate
+ * @y0: (out) (optional): location for top coordinate
+ * @x1: (out) (optional): location for right coordinate
+ * @y1: (out) (optional): location for bottom coordinate
+ *
+ * Retrieves the bounds of the canvas.
+ **/
 void
 goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, double *x1, double *y1)
 {
 	goc_item_get_bounds (GOC_ITEM (canvas->root), x0, y0, x1, y1);
 }
 
-/*
- * Item is leaving this canvas.  Get rid of direct pointers.
- */
+/**
+ * _goc_canvas_remove_item: (skip)
+ * @canvas: #GocCanvas
+ * @item: #GocItem
+ *
+ * Internal function to remove an item from the canvas and clear any
+ * related cached state.
+ **/
 void
 _goc_canvas_remove_item (GocCanvas *canvas, GocItem *item)
 {

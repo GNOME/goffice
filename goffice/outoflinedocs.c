@@ -2501,16 +2501,6 @@
  */
 
 /**
- * go_range_sortD:
- * @xs: (array length=n): values.
- * @n: number of values
- *
- * This function creates a sorted copy of @xs.
- *
- * Returns: (array length=n) (transfer full): a sorted copy of @xs.
- */
-
-/**
  * go_range_sortl:
  * @xs: (array length=n): values.
  * @n: number of values

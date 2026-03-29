@@ -858,10 +858,25 @@ goc_widget_class_init (GocItemClass *item_klass)
 	item_klass->realize = goc_widget_realize;
 }
 
+/**
+ * goc_widget_get_type:
+ *
+ * Returns: the #GType for #GocWidget.
+ **/
 GSF_CLASS (GocWidget, goc_widget,
 	   goc_widget_class_init, goc_widget_init,
 	   GOC_TYPE_ITEM)
 
+/**
+ * goc_widget_set_bounds:
+ * @widget: #GocWidget
+ * @left: left coordinate
+ * @top: top coordinate
+ * @width: widget width
+ * @height: widget height
+ *
+ * Sets the bounds of the widget.
+ **/
 void
 goc_widget_set_bounds (GocWidget *widget, double left, double top, double width, double height)
 {

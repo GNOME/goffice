@@ -52,6 +52,7 @@ enum {
  * of the canvas are stored as a tree where #GocGroup items are branches and
  * other items are leafs.
  **/
+
 static void
 goc_group_set_property (GObject *gobject, guint param_id,
 			GValue const *value, GParamSpec *pspec)
@@ -537,10 +538,10 @@ goc_group_find_child (GocGroup *group, GocItem *item)
 /**
  * goc_group_adjust_bounds:
  * @group: #GocGroup
- * @x0: first horizontal coordinate
- * @y0: first vertical coordinate
- * @x1: last horizontal coordinate
- * @y1: last vertical coordinate
+ * @x0: (out): first horizontal coordinate
+ * @y0: (out): first vertical coordinate
+ * @x1: (out): last horizontal coordinate
+ * @y1: (out): last vertical coordinate
  *
  * Adds @group horizontal offset to @x0 and @x1, and vertical offset to @y0
  * and @y1. This function is called recursively so that when returning @x0,
@@ -563,8 +564,8 @@ goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *
 /**
  * goc_group_adjust_coords:
  * @group: #GocGroup
- * @x: horizontal coordinate
- * @y: vertical coordinate
+ * @x: (out): horizontal coordinate
+ * @y: (out): vertical coordinate
  *
  * Adds @group horizontal offset to @x0, and vertical offset to @y0.
  * This function is called recursively so that when returning @x0 and

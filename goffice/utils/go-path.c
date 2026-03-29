@@ -172,26 +172,8 @@ go_path_data_buffer_new (void)
 	GOPathDataBuffer *buffer;
 
 	buffer = g_new (GOPathDataBuffer, 1);
-	if (buffer == NULL) {
-		g_warning ("[GOPathDataBuffer::new] can't create data buffer");
-		return NULL;
-	}
-
 	buffer->points = g_new (GOPathPoint, GO_PATH_DEFAULT_BUFFER_SIZE);
-	if (buffer->points == NULL) {
-		g_warning ("[GOPathDataBuffer::new] can't create data buffer");
-		g_free (buffer);
-		return NULL;
-	}
-
 	buffer->actions = g_new (GOPathAction, GO_PATH_DEFAULT_BUFFER_SIZE);
-	if (buffer->actions == NULL) {
-		g_warning ("[GOPathDataBuffer::new] can't create data buffer");
-		g_free (buffer->points);
-		g_free (buffer);
-		return NULL;
-	}
-
 	buffer->n_points = 0;
 	buffer->n_actions  =0;
 	buffer->next = NULL;
@@ -266,7 +248,7 @@ go_path_clear (GOPath *path)
 
 /**
  * go_path_free:
- * @path: a #GOPath
+ * @path: (transfer full): a #GOPath
  *
  * Decrements references count and frees all memory allocated for @path if
  * references count reaches 0.
@@ -295,7 +277,8 @@ go_path_free (GOPath *path)
  * @path: a #GOPath
  *
  * Increments references count to @path.
- * Returns: the path with an incremented references count.
+ *
+ * Returns: (transfer full): the path with an incremented references count.
  **/
 GOPath *
 go_path_ref (GOPath *path)

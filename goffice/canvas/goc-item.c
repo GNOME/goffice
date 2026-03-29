@@ -336,9 +336,10 @@ _goc_item_update_bounds (GocItem *item)
  *
  * Creates a new item of type @type in group @group. Properties can be
  * set just the same way they are in #g_object_new.
+ *
  * Returns: (transfer none): the newly created #GocItem.
  **/
-GocItem*
+GocItem *
 goc_item_new (GocGroup *parent, GType type, const gchar *first_arg_name, ...)
 {
 	GocItem *item;
@@ -405,6 +406,7 @@ goc_item_set (GocItem *item, const gchar *first_arg_name, ...)
  * Evaluates the distance between the point with canvas coordinates @x,@y
  * and the nearest point of @item. @near_item is set with either @item or
  * its appropriate child.
+ *
  * Returns: the evaluated distance.
  **/
 double
@@ -448,6 +450,7 @@ goc_item_draw (GocItem const *item, cairo_t *cr)
  * @x0, @y0, @x1, and @y1. If this function returns %FALSE, #goc_item_draw
  * should be called. There is no need to call this function directly.
  * Invalidating the item is the way to go.
+ *
  * Returns: %TRUE if successful.
  **/
 gboolean
@@ -914,10 +917,10 @@ goc_item_get_style_context (const GocItem *item)
 /**
  * goc_item_duplicate:
  * @item: #GocItem
- * @parent: #GocGroup
+ * @parent: (nullable): #GocGroup
  *
  * Creates a new GocItem identical to @item inside the parent GocGroup if not
- * NULL.
+ * %NULL.
  *
  * Returns: (transfer none): The duplicated item or NULL if the duplication was
  * not possible.

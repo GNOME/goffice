@@ -292,6 +292,17 @@ SUFFIX(go_range_sort) (DOUBLE const *xs, int n)
 }
 
 /**
+ * go_range_sortD: (skip)
+ * @xs: (array length=n): values.
+ * @n: number of values
+ *
+ * This function creates a sorted copy of @xs.
+ *
+ * Returns: (type void): introspection cannot handle this one
+ */
+
+
+/**
  * go_range_fractile_inter_sorted:
  * @xs: (array length=n): values, which must be sorted.
  * @n: number of values

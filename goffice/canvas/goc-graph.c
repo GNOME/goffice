@@ -509,6 +509,11 @@ goc_graph_class_init (GocItemClass *item_klass)
 #endif
 }
 
+/**
+ * goc_graph_get_type:
+ *
+ * Returns: the #GType for #GocGraph.
+ **/
 GSF_CLASS (GocGraph, goc_graph,
 	   goc_graph_class_init, NULL,
 	   GOC_TYPE_ITEM)

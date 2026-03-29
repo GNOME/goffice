@@ -55,6 +55,11 @@ go_unit_free (GoUnit *unit)
 	/* nothing to do */
 }
 
+/**
+ * go_unit_get_type:
+ *
+ * Returns: the #GType for #GoUnit.
+ */
 GType
 go_unit_get_type (void)
 {
@@ -77,6 +82,12 @@ static const GoUnit units[GO_UNIT_MAX] = {
 	{(char *) "pt", (char *) "L", 0.0254/72, GO_UNIT_POINT}
 };
 
+/**
+ * go_unit_get_symbol:
+ * @unit: #GoUnit
+ *
+ * Returns: (transfer none): the symbol name for @unit.
+ */
 char const *
 go_unit_get_symbol (GoUnit const *unit)
 {
@@ -84,6 +95,12 @@ go_unit_get_symbol (GoUnit const *unit)
 	return unit->symbol;
 }
 
+/**
+ * go_unit_get_id:
+ * @unit: #GoUnit
+ *
+ * Returns: the #GoUnitId for @unit.
+ */
 GoUnitId
 go_unit_get_id (GoUnit const *unit)
 {
@@ -91,6 +108,16 @@ go_unit_get_id (GoUnit const *unit)
 	return unit->Id;
 }
 
+/**
+ * go_unit_convert:
+ * @from: source #GoUnit
+ * @to: target #GoUnit
+ * @value: value to convert
+ *
+ * Converts @value from @from units to @to units.
+ *
+ * Returns: the converted value or NAN if the units are not compatible.
+ */
 double
 go_unit_convert (GoUnit const *from, GoUnit const *to, double value)
 {
@@ -100,7 +127,14 @@ go_unit_convert (GoUnit const *from, GoUnit const *to, double value)
 	return value * from->factor_to_SI / to->factor_to_SI;
 }
 
-GoUnit const *go_unit_get_from_symbol (char const *symbol)
+/**
+ * go_unit_get_from_symbol:
+ * @symbol: symbol name
+ *
+ * Returns: (transfer none) (nullable): the #GoUnit corresponding to @symbol.
+ */
+GoUnit const *
+go_unit_get_from_symbol (char const *symbol)
 {
 	if (units_hash == NULL)
 		_go_unit_init ();
@@ -110,6 +144,8 @@ GoUnit const *go_unit_get_from_symbol (char const *symbol)
 /**
  * go_unit_get:
  * @id: #GoUnitId for unit to query
+ *
+ * Gets the unit corresponding to @id.
  *
  * Returns: (transfer none) (nullable): the #GoUnit corresponding to @id.
  */
@@ -131,9 +167,10 @@ go_unit_get (GoUnitId id)
  * @dim: dimension measured by unit.
  * @factor_to_SI: factor to convert to SI unit.
  *
- * Returns: (transfer none): the named #GoUnit.  If a #GoUnit of that name
- * already exists, the existing is returned.  Otherwise a new one is
- * created.
+ * Defines a new unit. If a #GoUnit of that name already exists, the existing
+ * is returned.  Otherwise a new one is created.
+ *
+ * Returns: (transfer none): the named #GoUnit.
  */
 GoUnit const *
 go_unit_define (char const *symbol, char const *dim, double factor_to_SI)
@@ -168,6 +205,8 @@ go_unit_destroy (GoUnit *unit)
 
 /**
  * _go_unit_init: (skip)
+ *
+ * Initializes the unit management system.
  */
 void
 _go_unit_init (void)
@@ -182,6 +221,8 @@ _go_unit_init (void)
 
 /**
  * _go_unit_shutdown: (skip)
+ *
+ * Shuts down the unit management system.
  */
 void
 _go_unit_shutdown (void)

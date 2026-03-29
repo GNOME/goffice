@@ -48,7 +48,8 @@
  *      points->points[0].y = my_y;
  * </programlisting>
  *
- * Returns: the newly created #GocPoints with an initial reference count of 1.
+ * Returns: (transfer full): the newly created #GocPoints with an initial
+ * reference count of 1.
  **/
 
 GocPoints *
@@ -66,7 +67,8 @@ goc_points_new (unsigned n)
  * @points: #GocPoints
  *
  * Increases the reference count of @points by 1.
- * Returns: the referenced #GocPoints.
+ *
+ * Returns: (transfer full): the referenced #GocPoints.
  **/
 GocPoints *
 goc_points_ref (GocPoints *points)
@@ -77,7 +79,7 @@ goc_points_ref (GocPoints *points)
 
 /**
  * goc_points_unref:
- * @points: #GocPoints
+ * @points: (transfer full): #GocPoints
  *
  * Decreases the reference count of @points by 1, and destroys it if the
  * reference count becomes 0.
@@ -129,7 +131,9 @@ goc_points_get_type (void)
  *      array->vals[1] = my_second_int;
  * </programlisting>
  *
- * Returns: the newly created #GocIntArray with an initial reference count of 1.
+ * Returns: (transfer full): the newly created #GocIntArray with an initial
+ * reference count of 1.
+ *
  * Since: 0.8.2
  **/
 
@@ -148,7 +152,8 @@ goc_int_array_new (unsigned n)
  * @array: #GocIntArray
  *
  * Increases the reference count of @array by 1.
- * Returns: the referenced #GocIntArray.
+ *
+ * Returns: (transfer full): the referenced #GocIntArray.
  * Since: 0.8.2
  **/
 GocIntArray *
@@ -160,10 +165,11 @@ goc_int_array_ref (GocIntArray *array)
 
 /**
  * goc_int_array_unref:
- * @array: #GocIntArray
+ * @array: (transfer full): #GocIntArray
  *
  * Decreases the reference count of @array by 1, and destroys it if the
  * reference count becomes 0.
+ *
  * Since: 0.8.2
  **/
 void

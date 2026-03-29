@@ -54,7 +54,6 @@
  * @text: button label
  * @stock_id: icon name (or stock id)
  *
- * FROM : gedit
  * Creates a new GtkButton with custom label and stock image.
  *
  * Since: 0.9.9
@@ -79,7 +78,6 @@ go_gtk_button_build_with_stock (char const *text, char const* stock_id)
  * @text: button label
  * @stock_id: id for stock icon
  *
- * FROM : gedit
  * Creates a new GtkButton with custom label and stock image.
  *
  * Deprecated: 0.9.6., use go_gtk_button_build_with_stock().
@@ -98,7 +96,6 @@ go_gtk_button_new_with_stock (char const *text, char const* stock_id)
  * @stock_id: stock icon id
  * @response_id: respond id when button clicked
  *
- * FROM : gedit
  * Creates and adds a button with stock image to the action area of an existing dialog.
  *
  * Returns: (transfer none): newly created button
@@ -160,22 +157,20 @@ apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
 /**
  * go_gtk_builder_load:
  * @uifile: the name of the file load
- * @domain: the translation domain
- * @gcc: #GOCmdContext
+ * @domain: (nullable): the translation domain
+ * @gcc: (nullable): #GOCmdContext
  *
- * Simple utility to open ui files
- *
- * Since 0.9.6
- * Returns: (transfer full): a new #GtkBuilder or %NULL
- *
- * @uifile should be one of these:
+ * Simple utility to open ui files. @uifile should be one of these:
  *
  * res:NAME  -- data from resource manager
  * data:DATA -- data right here
  * filename  -- data from local file
  *
  * Data may be compressed, regardless of source.
-**/
+ *
+ * Since 0.9.6
+ * Returns: (transfer full): a new #GtkBuilder or %NULL
+ **/
 GtkBuilder *
 go_gtk_builder_load (char const *uifile,
 		     char const *domain, GOCmdContext *gcc)
@@ -262,22 +257,14 @@ go_gtk_builder_load (char const *uifile,
 /**
  * go_gtk_builder_new:
  * @uifile: the name of the file load
- * @domain: the translation domain
- * @gcc: #GOCmdContext
+ * @domain: (nullable): the translation domain
+ * @gcc: (nullable): #GOCmdContext
  *
- * Simple utility to open ui files
+ * Simple utility to open ui files.
  *
  * Deprecated: 0.9.6, use go_gtk_builder_load().
  * Returns: (transfer full): a new #GtkBuilder or %NULL
- *
- * @uifile should be one of these:
- *
- * res:NAME  -- data from resource manager
- * data:DATA -- data right here
- * filename  -- data from local file
- *
- * Data may be compressed, regardless of source.
-**/
+ **/
 GtkBuilder *
 go_gtk_builder_new (char const *uifile,
 		    char const *domain, GOCmdContext *gcc)
@@ -288,24 +275,21 @@ go_gtk_builder_new (char const *uifile,
 /**
  * go_gtk_builder_load_internal:
  * @uifile: the name of the file load
- * @domain: the translation domain
- * @gcc: #GOCmdContext
+ * @domain: (nullable): the translation domain
+ * @gcc: (nullable): #GOCmdContext
  *
- * Simple utility to open ui files
- *
- * Since: 0.9.6
- * Returns: (transfer full): a new #GtkBuilder or %NULL
- *
- * Variant of go_gtk_builder_new that searchs goffice directories
- * for files.
- * @uifile should be one of these:
+ * Variant of go_gtk_builder_load() that searches goffice directories
+ * for files. @uifile should be one of these:
  *
  * res:NAME  -- data from resource manager
  * data:DATA -- data right here
  * filename  -- data from local file
  *
  * Data may be compressed, regardless of source.
-**/
+ *
+ * Since: 0.9.6
+ * Returns: (transfer full): a new #GtkBuilder or %NULL
+ **/
 GtkBuilder *
 go_gtk_builder_load_internal (char const *uifile,
 			      char const *domain, GOCmdContext *gcc)
@@ -331,11 +315,11 @@ go_gtk_builder_load_internal (char const *uifile,
  * @instance_name: widget name
  * @detailed_signal: signal name
  * @c_handler: (scope async): #GCallback
- * @data: arbitrary
+ * @data: (nullable): arbitrary data
  *
- * Convenience wrapper around g_signal_connect for GtkBuilder.
+ * Convenience wrapper around g_signal_connect() for GtkBuilder.
  *
- * Returns: The signal id
+ * Returns: the signal id.
  **/
 gulong
 go_gtk_builder_signal_connect	(GtkBuilder	*gui,
@@ -357,11 +341,11 @@ go_gtk_builder_signal_connect	(GtkBuilder	*gui,
  * @instance_name: widget name
  * @detailed_signal: signal name
  * @c_handler: (scope async): #GCallback
- * @data: arbitary
+ * @data: (nullable): arbitrary data
  *
- * Convenience wrapper around g_signal_connect_swapped for GtkBuilder.
+ * Convenience wrapper around g_signal_connect_swapped() for GtkBuilder.
  *
- * Returns: The signal id
+ * Returns: the signal id.
  **/
 gulong
 go_gtk_builder_signal_connect_swapped (GtkBuilder	*gui,
@@ -380,12 +364,12 @@ go_gtk_builder_signal_connect_swapped (GtkBuilder	*gui,
 /**
  * go_gtk_builder_get_widget:
  * @gui: the #GtkBuilder
- * @widget_name: the name of the combo box in the ui file.
+ * @widget_name: the name of the widget
  *
- * Simple wrapper to #gtk_builder_get_object which returns the object
- * as a GtkWidget.
+ * Simple wrapper around gtk_builder_get_object() which returns the object
+ * as a #GtkWidget.
  *
- * Returns: (transfer none): a new #GtkWidget or %NULL
+ * Returns: (transfer none): the widget or %NULL.
  **/
 GtkWidget *
 go_gtk_builder_get_widget (GtkBuilder *gui, char const *widget_name)
@@ -398,10 +382,10 @@ go_gtk_builder_get_widget (GtkBuilder *gui, char const *widget_name)
  * @gui: the #GtkBuilder
  * @widget_name: the name of the combo box in the ui file.
  *
- * searches the #GtkComboBox in @gui and ensures it has a model and a
+ * Searches the #GtkComboBox in @gui and ensures it has a model and a
  * renderer appropriate for using with #gtk_combo_box_append_text and friends.
  *
- * Returns: (transfer none): the #GtkComboBox or %NULL
+ * Returns: (transfer none): the #GtkComboBox or %NULL.
  **/
 GtkComboBox *
 go_gtk_builder_combo_box_init_text (GtkBuilder *gui, char const *widget_name)
@@ -429,6 +413,13 @@ go_gtk_builder_combo_box_init_text (GtkBuilder *gui, char const *widget_name)
 	return box;
 }
 
+/**
+ * go_gtk_combo_box_append_text:
+ * @combo: #GtkComboBox
+ * @str: text to append
+ *
+ * Appends @str to @combo.
+ **/
 void
 go_gtk_combo_box_append_text (GtkComboBox *combo, char const *str)
 {
@@ -443,6 +434,13 @@ go_gtk_combo_box_append_text (GtkComboBox *combo, char const *str)
 	gtk_list_store_set (model, &iter, 0, str, -1);
 }
 
+/**
+ * go_gtk_combo_box_remove_text:
+ * @combo: #GtkComboBox
+ * @position: index of text to remove
+ *
+ * Removes text at @position from @combo.
+ **/
 void
 go_gtk_combo_box_remove_text (GtkComboBox *combo, int position)
 {
@@ -1552,9 +1550,9 @@ go_dialog_guess_alternative_button_order (GtkDialog *dialog)
 /**
  * go_menu_position_below:
  * @menu: a #GtkMenu
- * @x: non-NULL storage for the X coordinate of the menu
- * @y: non-NULL storage for the Y coordinate of the menu
- * @push_in: non-NULL storage for the push-in distance
+ * @x: (out) (not optional): storage for the X coordinate of the menu
+ * @y: (out) (not optional): storage for the Y coordinate of the menu
+ * @push_in: (out) (not optional): storage for the push-in distance
  * @user_data: arbitrary
  *
  * Implementation of a GtkMenuPositionFunc that positions
@@ -1867,7 +1865,7 @@ create_context_for_path (GtkWidgetPath   *path,
 
 /**
  * go_style_context_from_selector:
- * @parent: (allow-none): style context for container
+ * @parent: (nullable): style context for container
  * @selector: a css selector
  *
  * Returns: (transfer full): a new style context.

@@ -162,6 +162,15 @@ GSF_CLASS (GOSvg, go_svg,
 	   GO_TYPE_IMAGE)
 
 
+/**
+ * go_svg_new_from_file:
+ * @filename: path to an SVG file
+ * @error: (out) (optional): location to store error
+ *
+ * Creates a new SVG image from a file.
+ *
+ * Returns: (transfer full) (nullable): a new #GOImage or %NULL on error.
+ **/
 GOImage *
 go_svg_new_from_file (char const *filename, GError **error)
 {
@@ -197,6 +206,16 @@ go_svg_new_from_file (char const *filename, GError **error)
 	return image;
 }
 
+/**
+ * go_svg_new_from_data:
+ * @data: SVG data
+ * @length: length of @data in bytes
+ * @error: (out) (optional): location to store error
+ *
+ * Creates a new SVG image from data in memory.
+ *
+ * Returns: (transfer full) (nullable): a new #GOImage or %NULL on error.
+ **/
 GOImage *
 go_svg_new_from_data (char const *data, size_t length, GError **error)
 {

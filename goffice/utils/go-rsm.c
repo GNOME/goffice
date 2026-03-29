@@ -52,6 +52,14 @@ _go_rsm_shutdown (void)
   rsm = NULL;
 }
 
+/**
+ * go_rsm_register_file:
+ * @id: resource name
+ * @data: resource data
+ * @len: resource size in bytes
+ *
+ * Registers a resource with the resource manager.
+ **/
 void
 go_rsm_register_file (const char *id, gconstpointer data, size_t len)
 {
@@ -68,6 +76,12 @@ go_rsm_register_file (const char *id, gconstpointer data, size_t len)
   g_hash_table_insert (rsm, g_strdup (id), r);
 }
 
+/**
+ * go_rsm_unregister_file:
+ * @id: resource name
+ *
+ * Unregisters a resource from the resource manager.
+ **/
 void
 go_rsm_unregister_file (const char *id)
 {
@@ -83,9 +97,11 @@ go_rsm_unregister_file (const char *id)
 /**
  * go_rsm_lookup:
  * @id: resource name
- * @len: where to store the resource size in bytes
+ * @len: (out) (optional): where to store the resource size in bytes
  *
- * Returns: (transfer none) (nullable): the resource or %NULL if not found
+ * Looks up a resource in the resource manager.
+ *
+ * Returns: (transfer none) (nullable): the resource data or %NULL if not found.
  **/
 gconstpointer
 go_rsm_lookup (const char *id, size_t *len)

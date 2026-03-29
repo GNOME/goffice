@@ -1070,6 +1070,17 @@ cb_style_changed (GOStyledObject *obj, GOStyle *style, StylePrefState *state)
 
 }
 
+/**
+ * go_style_populate_editor:
+ * @style: #GOStyle
+ * @editor: #GOEditor
+ * @default_style: the style used as default
+ * @cc: #GOCmdContext
+ * @object_with_style: the object owning the style
+ * @watch_for_external_change: if %TRUE, the editor will be updated if @object_with_style style changes
+ *
+ * Populates @editor with widgets used to edit the style.
+ **/
 void
 go_style_populate_editor (GOStyle *style,
 			   GOEditor *editor,
@@ -1148,7 +1159,8 @@ go_style_populate_editor (GOStyle *style,
  * @object_with_style: the object owning the style
  *
  * Builds the widget used to edit the style.
- * Returns: (transfer full): the style editor
+ *
+ * Returns: (transfer full): the style editor.
  **/
 gpointer
 go_style_get_editor (GOStyle *style,
@@ -1174,6 +1186,8 @@ go_style_get_editor (GOStyle *style,
 /**
  * go_style_new:
  *
+ * Creates a new #GOStyle.
+ *
  * Returns: (transfer full): a new #GOStyle.
  **/
 GOStyle *
@@ -1186,9 +1200,9 @@ go_style_new (void)
  * go_style_dup:
  * @style: a source #GOStyle
  *
- * Duplicates @style.
+ * Duplicates @src.
  *
- * Returns: (transfer full): a new #GOStyle
+ * Returns: (transfer full): a new #GOStyle.
  **/
 GOStyle *
 go_style_dup (GOStyle const *src)
@@ -1252,7 +1266,7 @@ go_style_assign (GOStyle *dst, GOStyle const *src)
  * @fields: the fields to which the copy should be limited
  *
  * Merge the attributes from @src onto the elements of @dst that were not user
- * assigned (is_auto)
+ * assigned (is_auto).
  **/
 void
 go_style_apply_theme (GOStyle *dst, GOStyle const *src, GOStyleFlag fields)
@@ -1885,6 +1899,8 @@ GSF_CLASS_FULL (GOStyle, go_style,
  * @a: a #GOStyle
  * @b: a #GOStyle
  *
+ * Checks if @a and @b have different sizes.
+ *
  * Returns: %TRUE if @a and @b have different sizes.
  **/
 gboolean
@@ -1903,6 +1919,8 @@ go_style_is_different_size (GOStyle const *a, GOStyle const *b)
  * go_style_is_marker_visible:
  * @style: a #GOStyle
  *
+ * Checks if @style has a visible marker.
+ *
  * Returns: %TRUE if @style has a visible marker.
  **/
 gboolean
@@ -1918,6 +1936,8 @@ go_style_is_marker_visible (GOStyle const *style)
 /**
  * go_style_is_outline_visible:
  * @style: a #GOStyle
+ *
+ * Checks if @style has a visible outline.
  *
  * Returns: %TRUE if @style has a visible outline.
  **/
@@ -1935,6 +1955,8 @@ go_style_is_outline_visible (GOStyle const *style)
  * go_style_is_line_visible:
  * @style: a #GOStyle
  *
+ * Checks if @style has a visible line.
+ *
  * Returns: %TRUE if @style has a visible line.
  **/
 gboolean
@@ -1950,6 +1972,8 @@ go_style_is_line_visible (GOStyle const *style)
 /**
  * go_style_is_fill_visible:
  * @style: a #GOStyle
+ *
+ * Checks if @style has a visible fill.
  *
  * Returns: %TRUE if @style has a visible fill.
  **/
@@ -2031,6 +2055,8 @@ go_style_clear_auto (GOStyle *style)
  * go_style_is_auto:
  * @style: a #GOStyle
  *
+ * Checks if all fields in @style are set to auto.
+ *
  * Returns: %TRUE if all fields in @style are set to auto.
  **/
 gboolean
@@ -2053,7 +2079,7 @@ go_style_is_auto (GOStyle *style)
  * @style: #GOStyle
  * @marker: (transfer full): #GOMarker
  *
- * Absorb a reference to @marker and assign it to @style.
+ * Assigns @marker to @style.
  **/
 void
 go_style_set_marker (GOStyle *style, GOMarker *marker)
@@ -2071,6 +2097,8 @@ go_style_set_marker (GOStyle *style, GOMarker *marker)
 /**
  * go_style_get_marker:
  * @style: a #GOStyle
+ *
+ * Gets the marker used by @style.
  *
  * Returns: (transfer none): the #GOMarker of @style.
  **/
@@ -2116,6 +2144,13 @@ go_style_set_font (GOStyle *style, GOFont const *font)
 	}
 }
 
+/**
+ * go_style_set_fill_brightness:
+ * @style: #GOStyle
+ * @brightness: brightness
+ *
+ * Sets the fill brightness.
+ **/
 void
 go_style_set_fill_brightness (GOStyle *style, double brightness)
 {
@@ -2149,6 +2184,14 @@ go_style_set_text_angle (GOStyle *style, double angle)
 	style->text_layout.auto_angle = FALSE;
 }
 
+/**
+ * go_style_fill:
+ * @style: #GOStyle
+ * @cr: #cairo_t
+ * @preserve: whether to preserve the path
+ *
+ * Fills the current path in @cr using @style.
+ **/
 void
 go_style_fill (GOStyle const *style, cairo_t *cr, gboolean preserve)
 {
@@ -2269,6 +2312,15 @@ go_style_fill (GOStyle const *style, cairo_t *cr, gboolean preserve)
 	}
 }
 
+/**
+ * go_style_set_cairo_line:
+ * @style: #GOStyle
+ * @cr: #cairo_t
+ *
+ * Sets the line properties in @cr according to @style.
+ *
+ * Returns: %TRUE if the line is visible.
+ **/
 gboolean
 go_style_set_cairo_line (GOStyle const *style, cairo_t *cr)
 {
