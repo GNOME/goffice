@@ -7,7 +7,8 @@ include $(top_srcdir)/goffice.mk
 
 AM_CFLAGS = $(GOFFICE_CFLAGS)
 
-TESTS = test-quad test-math test-format test-dtoa test-decimal
+TESTS = test-quad test-math test-format test-dtoa test-decimal	\
+	t8000-multipass.pl
 
 constants_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 constants_SOURCES = constants.c
