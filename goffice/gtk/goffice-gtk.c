@@ -315,7 +315,7 @@ go_gtk_builder_load_internal (char const *uifile,
  * @instance_name: widget name
  * @detailed_signal: signal name
  * @c_handler: (scope async): #GCallback
- * @data: (nullable): arbitrary data
+ * @data: arbitrary data
  *
  * Convenience wrapper around g_signal_connect() for GtkBuilder.
  *
@@ -323,10 +323,10 @@ go_gtk_builder_load_internal (char const *uifile,
  **/
 gulong
 go_gtk_builder_signal_connect	(GtkBuilder	*gui,
-			 gchar const	*instance_name,
-			 gchar const	*detailed_signal,
-			 GCallback	 c_handler,
-			 gpointer	 data)
+				 gchar const	*instance_name,
+				 gchar const	*detailed_signal,
+				 GCallback	 c_handler,
+				 gpointer	 data)
 {
 	GObject *obj;
 	g_return_val_if_fail (gui != NULL, 0);
@@ -341,7 +341,7 @@ go_gtk_builder_signal_connect	(GtkBuilder	*gui,
  * @instance_name: widget name
  * @detailed_signal: signal name
  * @c_handler: (scope async): #GCallback
- * @data: (nullable): arbitrary data
+ * @data: arbitrary data
  *
  * Convenience wrapper around g_signal_connect_swapped() for GtkBuilder.
  *
@@ -349,10 +349,10 @@ go_gtk_builder_signal_connect	(GtkBuilder	*gui,
  **/
 gulong
 go_gtk_builder_signal_connect_swapped (GtkBuilder	*gui,
-				 gchar const	*instance_name,
-				 gchar const	*detailed_signal,
-				 GCallback	 c_handler,
-				 gpointer	 data)
+				       gchar const	*instance_name,
+				       gchar const	*detailed_signal,
+				       GCallback	 c_handler,
+				       gpointer	 data)
 {
 	GObject *obj;
 	g_return_val_if_fail (gui != NULL, 0);
@@ -416,7 +416,7 @@ go_gtk_builder_combo_box_init_text (GtkBuilder *gui, char const *widget_name)
 /**
  * go_gtk_combo_box_append_text:
  * @combo: #GtkComboBox
- * @str: text to append
+ * @str: text item to append
  *
  * Appends @str to @combo.
  **/
@@ -439,7 +439,7 @@ go_gtk_combo_box_append_text (GtkComboBox *combo, char const *str)
  * @combo: #GtkComboBox
  * @position: index of text to remove
  *
- * Removes text at @position from @combo.
+ * Removes text item at @position from @combo.
  **/
 void
 go_gtk_combo_box_remove_text (GtkComboBox *combo, int position)
@@ -459,6 +459,13 @@ go_gtk_combo_box_remove_text (GtkComboBox *combo, int position)
 		gtk_list_store_remove (store, &iter);
 }
 
+/**
+ * go_gtk_builder_group_value:
+ * @gui: #GtkBuilder
+ * @group: (array zero-terminated=1): names of radio buttons
+ *
+ * Returns: the index of the active radio button in @group, or -1.
+ **/
 int
 go_gtk_builder_group_value (GtkBuilder *gui, char const * const group[])
 {
@@ -503,6 +510,13 @@ go_gtk_editable_enters (GtkWindow *window, GtkWidget *w)
 		G_CALLBACK (cb_activate_default), window);
 }
 
+/**
+ * go_gtk_widget_replace:
+ * @victim: #GtkWidget to be replaced
+ * @replacement: #GtkWidget to replace @victim
+ *
+ * Replaces @victim by @replacement in @victim's parent container.
+ **/
 void
 go_gtk_widget_replace (GtkWidget *victim, GtkWidget *replacement)
 {
@@ -580,6 +594,13 @@ by_row (struct go_gtk_grid_data *a, struct go_gtk_grid_data *b)
 }
 
 
+/**
+ * go_gtk_grid_remove_row:
+ * @grid: #GtkGrid
+ * @row: row index
+ *
+ * Removes a row from @grid and shifts subsequent rows up.
+ **/
 void
 go_gtk_grid_remove_row (GtkGrid *grid, int row)
 {
@@ -614,7 +635,8 @@ go_gtk_grid_remove_row (GtkGrid *grid, int row)
  * go_gtk_widget_disable_focus:
  * @w: #GtkWidget
  *
- * Convenience wrapper to disable focus on a container and it's children.
+ * Convenience wrapper to disable focus on a widgets and, if it is
+ * a container, of its children.
  **/
 void
 go_gtk_widget_disable_focus (GtkWidget *w)
@@ -698,9 +720,7 @@ go_gtk_nonmodal_dialog (GtkWindow *toplevel, GtkWindow *dialog)
 }
 
 static void
-fsel_response_cb (GtkFileChooser *dialog,
-		  gint response_id,
-		  gboolean *result)
+fsel_response_cb (GtkFileChooser *dialog, gint response_id, gboolean *result)
 {
 	if (response_id == GTK_RESPONSE_OK) {
 		char *uri = gtk_file_chooser_get_uri (dialog);
@@ -912,12 +932,27 @@ gui_image_chooser_new (gboolean is_save)
 	return fsel;
 }
 
+/**
+ * go_gtk_select_image:
+ * @toplevel: #GtkWindow
+ * @initial: (nullable): initial image URI
+ *
+ * Returns: (transfer full) (nullable): the selected image URI or %NULL.
+ **/
 char *
 go_gtk_select_image (GtkWindow *toplevel, char const *initial)
 {
 	return go_gtk_select_image_with_extra_widget (toplevel, initial, NULL);
 }
 
+/**
+ * go_gtk_select_image_with_extra_widget:
+ * @toplevel: #GtkWindow
+ * @initial: (nullable): initial image URI
+ * @extra: (nullable): extra widget for the file chooser
+ *
+ * Returns: (transfer full) (nullable): the selected image URI or %NULL.
+ **/
 char *
 go_gtk_select_image_with_extra_widget (GtkWindow *toplevel, char const *initial, GtkWidget *extra)
 {
@@ -991,14 +1026,13 @@ cb_format_combo_changed (GtkComboBox *combo, SaveInfoState *state)
  * go_gui_get_image_save_info:
  * @toplevel: a #GtkWindow
  * @supported_formats: (element-type void): a #GSList of supported file formats
- * @ret_format: default file format
- * @resolution: export resolution
+ * @ret_format: (out) (optional): default file format
+ * @resolution: (out) (optional): export resolution
  *
  * Opens a file chooser and lets user choose file URI and format in a list of
  * supported ones.
  *
- * Returns: file URI string, file #GOImageFormat stored in @ret_format, and
- * 	export resolution in @resolution.
+ * Returns: file URI string
  **/
 char *
 go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
@@ -1175,7 +1209,7 @@ add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
  * @target: #GtkWidget
  *
  * A convenience routine to setup label-for/labeled-by relationship between a
- * pair of widgets
+ * pair of widgets.
  **/
 void
 go_atk_setup_label (GtkWidget *label, GtkWidget *target)
@@ -1288,6 +1322,15 @@ cb_help (GtkWidget *w, CBHelpPaths const *paths)
 	go_help_display (paths, gtk_widget_get_screen (w));
 }
 
+/**
+ * go_gtk_help_button_init:
+ * @w: #GtkWidget
+ * @data_dir: directory for help files
+ * @app: application name
+ * @link: help link
+ *
+ * Initializes a help button.
+ **/
 void
 go_gtk_help_button_init (GtkWidget *w, char const *data_dir, char const *app, char const *link)
 {
@@ -1412,6 +1455,15 @@ go_gtk_dialog_run (GtkDialog *dialog, GtkWindow *parent)
  * TODO:
  * Get rid of trailing newlines /whitespace.
  */
+/**
+ * go_gtk_notice_dialog:
+ * @parent: (nullable): #GtkWindow
+ * @type: #GtkMessageType
+ * @format: printf-style format string
+ * @...: arguments for @format
+ *
+ * Displays a modal notice dialog.
+ **/
 void
 go_gtk_notice_dialog (GtkWindow *parent, GtkMessageType type,
 		      char const *format, ...)
@@ -1427,6 +1479,17 @@ go_gtk_notice_dialog (GtkWindow *parent, GtkMessageType type,
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
+/**
+ * go_gtk_notice_nonmodal_dialog:
+ * @parent: (nullable): #GtkWindow
+ * @ref: (inout): pointer to a #GtkWidget
+ * @type: #GtkMessageType
+ * @format: printf-style format string
+ * @...: arguments for @format
+ *
+ * Displays a non-modal notice dialog. If @ref already points to a widget,
+ * it is destroyed first.
+ **/
 void
 go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
 			       GtkMessageType type, char const *format, ...)
@@ -1453,6 +1516,17 @@ go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
 	gtk_widget_show (dialog);
 }
 
+/**
+ * go_gtk_query_yes_no:
+ * @parent: (nullable): #GtkWindow
+ * @default_answer: default result
+ * @format: printf-style format string
+ * @...: arguments for @format
+ *
+ * Displays a modal yes/no query dialog.
+ *
+ * Returns: %TRUE if the user chooses "Yes".
+ **/
 gboolean
 go_gtk_query_yes_no (GtkWindow *parent, gboolean default_answer,
 		     char const *format, ...)
@@ -1553,10 +1627,10 @@ go_dialog_guess_alternative_button_order (GtkDialog *dialog)
  * @x: (out) (not optional): storage for the X coordinate of the menu
  * @y: (out) (not optional): storage for the Y coordinate of the menu
  * @push_in: (out) (not optional): storage for the push-in distance
- * @user_data: arbitrary
+ * @user_data: #GtkWidget to position below
  *
  * Implementation of a GtkMenuPositionFunc that positions
- * the child window under the parent one, for use with gtk_menu_popup.
+ * the child window under the parent one, for use with gtk_menu_popup().
  **/
 void
 go_menu_position_below (GtkMenu  *menu,
@@ -1626,9 +1700,9 @@ go_menu_position_below (GtkMenu  *menu,
 /**
  * go_gtk_url_show:
  * @url: the url to show
- * @screen: screen to show the uri on or %NULL for the default screen
+ * @screen: (nullable): screen to show the uri on or %NULL for the default screen
  *
- * This function is a simple convenience wrapper for #gtk_show_uri.
+ * This function is a simple convenience wrapper for gtk_show_uri().
  *
  * Returns: %NULL on success, or a newly allocated #GError if something
  * went wrong.
@@ -1647,7 +1721,7 @@ go_gtk_url_show (gchar const *url, GdkScreen *screen)
  * @icon_name: the name of the icon to render
  * @size: the symbolic size desired.
  *
- * This function works as gtk_widget_render_icon_pixbuf except that it takes
+ * This function works as gtk_widget_render_icon_pixbuf() except that it takes
  * an icon name, not a stock id.
  *
  * Returns: (transfer full): A #GdkPixbuf.
@@ -1711,6 +1785,12 @@ cb_screen_changed (GtkWidget *widget)
 }
 
 
+/**
+ * _go_gtk_widget_add_css_provider: (skip)
+ * @w: #GtkWidget
+ *
+ * Internal function to add goffice-specific css provider to @w.
+ **/
 void
 _go_gtk_widget_add_css_provider (GtkWidget *w)
 {
@@ -1729,6 +1809,11 @@ _go_gtk_widget_add_css_provider (GtkWidget *w)
 	cb_screen_changed (w);
 }
 
+/**
+ * _go_gtk_new_theming: (skip)
+ *
+ * Returns: %TRUE if new theming should be used.
+ **/
 gboolean
 _go_gtk_new_theming (void)
 {
@@ -1896,6 +1981,11 @@ go_style_context_from_selector (GtkStyleContext *parent,
 
 // ---------------------------------------------------------------------------
 
+/**
+ * _go_gtk_shutdown: (skip)
+ *
+ * Shuts down goffice-gtk.
+ **/
 void
 _go_gtk_shutdown (void)
 {

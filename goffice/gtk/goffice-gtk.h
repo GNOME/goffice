@@ -106,7 +106,7 @@ void       go_gtk_notice_dialog		(GtkWindow *parent, GtkMessageType type,
 void       go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
 					  GtkMessageType type,
 					  const gchar *format, ...) G_GNUC_PRINTF (4, 5);
-gboolean   go_gtk_query_yes_no		(GtkWindow *toplevel, gboolean default_answer,
+gboolean   go_gtk_query_yes_no		(GtkWindow *parent, gboolean default_answer,
 					 const gchar *format, ...) G_GNUC_PRINTF (3, 4);
 
 GtkWidget *go_gtk_button_build_with_stock (char const *text,

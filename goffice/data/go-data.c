@@ -152,6 +152,11 @@ go_data_class_init (GODataClass *klass)
 #endif
 }
 
+/**
+ * go_data_get_type:
+ *
+ * Returns: the #GType for #GOData.
+ **/
 GSF_CLASS_ABSTRACT (GOData, go_data,
 		    go_data_class_init, go_data_init,
 		    G_TYPE_OBJECT)
@@ -201,7 +206,7 @@ go_data_eq (GOData const *a, GOData const *b)
 
 /**
  * go_data_preferred_fmt:
- * @dat: #GOData
+ * @data: #GOData
  *
  * Caller is responsible for unrefing the result.
  *
@@ -219,7 +224,7 @@ go_data_preferred_fmt (GOData const *dat)
 
 /**
  * go_data_date_conv:
- * @dat: #GOData
+ * @data: #GOData
  *
  * Returns: the date conventions used by the data, or %NULL if not determined.
  **/
@@ -236,7 +241,7 @@ go_data_date_conv (GOData const *dat)
 
 /**
  * go_data_serialize:
- * @dat: #GOData
+ * @data: #GOData
  * @user: a gpointer describing the context.
  *
  * NOTE: This is the _source_ not the content.  (I.e., this refers to the
@@ -255,7 +260,7 @@ go_data_serialize (GOData const *dat, gpointer user)
 
 /**
  * go_data_unserialize:
- * @dat: #GOData
+ * @data: #GOData
  * @str: string to parse
  * @user: a gpointer describing the context.
  *
@@ -273,19 +278,25 @@ go_data_unserialize (GOData *dat, char const *str, gpointer user)
 	return (*klass->unserialize) (dat, str, user);
 }
 
+/**
+ * go_data_is_valid:
+ * @data: #GOData
+ *
+ * Returns: %TRUE if the data is valid.
+ **/
 gboolean
-go_data_is_valid (GOData const *data)
+go_data_is_valid (GOData const *dat)
 {
-	GODataClass const *klass = GO_DATA_GET_CLASS (data);
+	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
 	g_return_val_if_fail (klass != NULL, FALSE);
-	return (klass->is_valid != NULL)? (*klass->is_valid) (data): FALSE;
+	return (klass->is_valid != NULL)? (*klass->is_valid) (dat): FALSE;
 }
 
 /**
  * go_data_emit_changed:
- * @dat: #GOData
+ * @data: #GOData
  *
- * protected utility to emit a 'changed' signal
+ * protected utility to emit a 'changed' signal.
  **/
 void
 go_data_emit_changed (GOData *dat)
@@ -332,24 +343,48 @@ go_data_check_variation (GOData *data, GODataVariationCheck check)
 	}
 }
 
+/**
+ * go_data_is_increasing:
+ * @data: #GOData
+ *
+ * Returns: %TRUE if the data values are increasing.
+ **/
 gboolean
 go_data_is_increasing (GOData *data)
 {
 	return go_data_check_variation (data, GO_DATA_VARIATION_CHECK_INCREASING);
 }
 
+/**
+ * go_data_is_decreasing:
+ * @data: #GOData
+ *
+ * Returns: %TRUE if the data values are decreasing.
+ **/
 gboolean
 go_data_is_decreasing (GOData *data)
 {
 	return go_data_check_variation (data, GO_DATA_VARIATION_CHECK_DECREASING);
 }
 
+/**
+ * go_data_is_varying_uniformly:
+ * @data: #GOData
+ *
+ * Returns: %TRUE if the data values vary uniformly (either increasing or decreasing).
+ **/
 gboolean
 go_data_is_varying_uniformly (GOData *data)
 {
 	return go_data_check_variation (data, GO_DATA_VARIATION_CHECK_UNIFORMLY);
 }
 
+/**
+ * go_data_has_value:
+ * @data: #GOData
+ *
+ * Returns: %TRUE if @data contains at least one value.
+ **/
 gboolean
 go_data_has_value (GOData const *data)
 {
@@ -359,6 +394,12 @@ go_data_has_value (GOData const *data)
 	return data->flags & GO_DATA_HAS_VALUE;
 }
 
+/**
+ * go_data_get_n_dimensions:
+ * @data: #GOData
+ *
+ * Returns: the number of dimensions.
+ **/
 unsigned int
 go_data_get_n_dimensions (GOData *data)
 {
@@ -372,6 +413,12 @@ go_data_get_n_dimensions (GOData *data)
 	return data_class->get_n_dimensions (data);
 }
 
+/**
+ * go_data_get_n_values:
+ * @data: #GOData
+ *
+ * Returns: the total number of values.
+ **/
 unsigned int
 go_data_get_n_values (GOData *data)
 {
@@ -432,6 +479,12 @@ go_data_get_sizes (GOData *data, unsigned int n_dimensions, unsigned int *sizes)
 	data_class->get_sizes (data, sizes);
 }
 
+/**
+ * go_data_get_vector_size:
+ * @data: #GOData
+ *
+ * Returns: the size of the vector.
+ **/
 unsigned int
 go_data_get_vector_size (GOData *data)
 {
@@ -444,6 +497,14 @@ go_data_get_vector_size (GOData *data)
 	return size;
 }
 
+/**
+ * go_data_get_matrix_size:
+ * @data: #GOData
+ * @n_rows: (out) (optional): number of rows.
+ * @n_columns: (out) (optional): number of columns.
+ *
+ * Retrieves the dimensions of the matrix.
+ **/
 void
 go_data_get_matrix_size (GOData *data, unsigned int *n_rows, unsigned int *n_columns)
 {
@@ -468,6 +529,12 @@ go_data_get_matrix_size (GOData *data, unsigned int *n_rows, unsigned int *n_col
 		*n_rows = sizes[1];
 }
 
+/**
+ * go_data_get_values:
+ * @data: #GOData
+ *
+ * Returns: (array): the data values.
+ **/
 double *
 go_data_get_values (GOData *data)
 {
@@ -482,6 +549,14 @@ go_data_get_values (GOData *data)
 	return data_class->get_values (data);
 }
 
+/**
+ * go_data_get_bounds:
+ * @data: #GOData
+ * @minimum: (out): minimum value
+ * @maximum: (out): maximum value
+ *
+ * Retrieves the minimum and maximum values in @data.
+ **/
 void
 go_data_get_bounds (GOData *data, double *minimum, double *maximum)
 {
@@ -524,18 +599,39 @@ go_data_get_value (GOData *data, unsigned int n_coordinates, unsigned int *coord
 	return data_class->get_value (data, coordinates);
 }
 
+/**
+ * go_data_get_scalar_value:
+ * @data: #GOData
+ *
+ * Returns: the scalar value.
+ **/
 double
 go_data_get_scalar_value (GOData *data)
 {
 	return go_data_get_value (data, 0, NULL);
 }
 
+/**
+ * go_data_get_vector_value:
+ * @data: #GOData
+ * @column: column index
+ *
+ * Returns: the vector value at @column.
+ **/
 double
 go_data_get_vector_value (GOData *data, unsigned int column)
 {
 	return go_data_get_value (data, 1, &column);
 }
 
+/**
+ * go_data_get_matrix_value:
+ * @data: #GOData
+ * @row: row index
+ * @column: column index
+ *
+ * Returns: the matrix value at (@row, @column).
+ **/
 double
 go_data_get_matrix_value (GOData *data, unsigned int row, unsigned int column)
 {
@@ -568,18 +664,39 @@ go_data_get_string (GOData *data, unsigned int n_coordinates, unsigned int *coor
 	return data_class->get_string (data, coordinates);
 }
 
+/**
+ * go_data_get_scalar_string:
+ * @data: #GOData
+ *
+ * Returns: (transfer full): the scalar string.
+ **/
 char *
 go_data_get_scalar_string (GOData *data)
 {
 	return go_data_get_string (data, 0, NULL);
 }
 
+/**
+ * go_data_get_vector_string:
+ * @data: #GOData
+ * @column: column index
+ *
+ * Returns: (transfer full): the vector string at @column.
+ **/
 char *
 go_data_get_vector_string (GOData *data, unsigned int column)
 {
 	return go_data_get_string (data, 1, &column);
 }
 
+/**
+ * go_data_get_matrix_string:
+ * @data: #GOData
+ * @row: row index
+ * @column: column index
+ *
+ * Returns: (transfer full): the matrix string at (@row, @column).
+ **/
 char *
 go_data_get_matrix_string (GOData *data, unsigned int row, unsigned int column)
 {
@@ -612,18 +729,39 @@ go_data_get_markup (GOData *data, unsigned int n_coordinates, unsigned int *coor
 	return (data_class->get_markup)? data_class->get_markup (data, coordinates): NULL;
 }
 
+/**
+ * go_data_get_scalar_markup:
+ * @data: #GOData
+ *
+ * Returns: (transfer full) (nullable): the scalar markup.
+ **/
 PangoAttrList *
 go_data_get_scalar_markup (GOData *data)
 {
 	return go_data_get_markup (data, 0, NULL);
 }
 
+/**
+ * go_data_get_vector_markup:
+ * @data: #GOData
+ * @column: column index
+ *
+ * Returns: (transfer full) (nullable): the vector markup at @column.
+ **/
 PangoAttrList *
 go_data_get_vector_markup (GOData *data, unsigned int column)
 {
 	return go_data_get_markup (data, 1, &column);
 }
 
+/**
+ * go_data_get_matrix_markup:
+ * @data: #GOData
+ * @row: row index
+ * @column: column index
+ *
+ * Returns: (transfer full) (nullable): the matrix markup at (@row, @column).
+ **/
 PangoAttrList *
 go_data_get_matrix_markup (GOData *data, unsigned int row, unsigned int column)
 {
@@ -697,10 +835,21 @@ go_data_scalar_class_init (GODataClass *data_class)
 	data_class->get_markup =	_data_scalar_get_markup;
 }
 
+/**
+ * go_data_scalar_get_type:
+ *
+ * Returns: the #GType for #GODataScalar.
+ **/
 GSF_CLASS_ABSTRACT (GODataScalar, go_data_scalar,
 		    go_data_scalar_class_init, NULL,
 		    GO_TYPE_DATA)
 
+/**
+ * go_data_scalar_get_value:
+ * @scalar: #GODataScalar
+ *
+ * Returns: the value.
+ **/
 double
 go_data_scalar_get_value (GODataScalar *scalar)
 {
@@ -711,6 +860,12 @@ go_data_scalar_get_value (GODataScalar *scalar)
 	return scalar->value;
 }
 
+/**
+ * go_data_scalar_get_str:
+ * @scalar: #GODataScalar
+ *
+ * Returns: (transfer none): the string representation.
+ **/
 char const *
 go_data_scalar_get_str (GODataScalar *scalar)
 {
@@ -719,6 +874,12 @@ go_data_scalar_get_str (GODataScalar *scalar)
 	return (*klass->get_str) (scalar);
 }
 
+/**
+ * go_data_scalar_get_markup:
+ * @scalar: #GODataScalar
+ *
+ * Returns: (transfer none) (nullable): the markup.
+ **/
 PangoAttrList const *
 go_data_scalar_get_markup (GODataScalar *scalar)
 {
@@ -796,10 +957,21 @@ go_data_vector_class_init (GODataClass *data_class)
 	data_class->get_markup =	_data_vector_get_markup;
 }
 
+/**
+ * go_data_vector_get_type:
+ *
+ * Returns: the #GType for #GODataVector.
+ **/
 GSF_CLASS_ABSTRACT (GODataVector, go_data_vector,
 		    go_data_vector_class_init, NULL,
 		    GO_TYPE_DATA)
 
+/**
+ * go_data_vector_get_len:
+ * @vec: #GODataVector
+ *
+ * Returns: the vector length.
+ **/
 int
 go_data_vector_get_len (GODataVector *vec)
 {
@@ -818,6 +990,12 @@ go_data_vector_get_len (GODataVector *vec)
 	return vec->len;
 }
 
+/**
+ * go_data_vector_get_values:
+ * @vec: #GODataVector
+ *
+ * Returns: (array): the data values.
+ **/
 double *
 go_data_vector_get_values (GODataVector *vec)
 {
@@ -842,6 +1020,13 @@ go_data_vector_get_values (GODataVector *vec)
 	return vec->values;
 }
 
+/**
+ * go_data_vector_get_value:
+ * @vec: #GODataVector
+ * @i: index
+ *
+ * Returns: the value at @i.
+ **/
 double
 go_data_vector_get_value (GODataVector *vec, unsigned i)
 {
@@ -855,6 +1040,13 @@ go_data_vector_get_value (GODataVector *vec, unsigned i)
 	return vec->values [i];
 }
 
+/**
+ * go_data_vector_get_str:
+ * @vec: #GODataVector
+ * @i: index
+ *
+ * Returns: (transfer full): the string at @i.
+ **/
 char *
 go_data_vector_get_str (GODataVector *vec, unsigned i)
 {
@@ -874,6 +1066,13 @@ go_data_vector_get_str (GODataVector *vec, unsigned i)
 	return res;
 }
 
+/**
+ * go_data_vector_get_markup:
+ * @vec: #GODataVector
+ * @i: index
+ *
+ * Returns: (transfer full) (nullable): the markup at @i.
+ **/
 PangoAttrList *
 go_data_vector_get_markup (GODataVector *vec, unsigned i)
 {
@@ -889,6 +1088,14 @@ go_data_vector_get_markup (GODataVector *vec, unsigned i)
 	return (klass->get_markup)? (*klass->get_markup) (vec, i): NULL;
 }
 
+/**
+ * go_data_vector_get_minmax:
+ * @vec: #GODataVector
+ * @min: (out) (optional): location for minimum value
+ * @max: (out) (optional): location for maximum value
+ *
+ * Retrieves the minimum and maximum values in @vec.
+ **/
 void
 go_data_vector_get_minmax (GODataVector *vec, double *min, double *max)
 {
@@ -908,6 +1115,12 @@ go_data_vector_get_minmax (GODataVector *vec, double *min, double *max)
 		*max = vec->maximum;
 }
 
+/**
+ * go_data_vector_increasing:
+ * @vec: #GODataVector
+ *
+ * Returns: %TRUE if the vector values are increasing.
+ **/
 gboolean
 go_data_vector_increasing (GODataVector *vec)
 {
@@ -916,6 +1129,12 @@ go_data_vector_increasing (GODataVector *vec)
 	return go_range_increasing (data, length);
 }
 
+/**
+ * go_data_vector_decreasing:
+ * @vec: #GODataVector
+ *
+ * Returns: %TRUE if the vector values are decreasing.
+ **/
 gboolean
 go_data_vector_decreasing (GODataVector *vec)
 {
@@ -924,6 +1143,12 @@ go_data_vector_decreasing (GODataVector *vec)
 	return go_range_decreasing (data, length);
 }
 
+/**
+ * go_data_vector_vary_uniformly:
+ * @vec: #GODataVector
+ *
+ * Returns: %TRUE if the vector values vary uniformly.
+ **/
 gboolean
 go_data_vector_vary_uniformly (GODataVector *vec)
 {
@@ -1005,6 +1230,11 @@ go_data_matrix_class_init (GODataClass *data_class)
 	data_class->get_markup =	_data_matrix_get_markup;
 }
 
+/**
+ * go_data_matrix_get_type:
+ *
+ * Returns: the #GType for #GODataMatrix.
+ **/
 GSF_CLASS_ABSTRACT (GODataMatrix, go_data_matrix,
 		    go_data_matrix_class_init, NULL,
 		    GO_TYPE_DATA)
@@ -1034,6 +1264,12 @@ go_data_matrix_get_size (GODataMatrix *mat)
 	return mat->size;
 }
 
+/**
+ * go_data_matrix_get_rows:
+ * @mat: #GODataMatrix
+ *
+ * Returns: the number of rows.
+ **/
 int
 go_data_matrix_get_rows (GODataMatrix *mat)
 {
@@ -1052,6 +1288,12 @@ go_data_matrix_get_rows (GODataMatrix *mat)
 	return mat->size.rows;
 }
 
+/**
+ * go_data_matrix_get_columns:
+ * @mat: #GODataMatrix
+ *
+ * Returns: the number of columns.
+ **/
 int
 go_data_matrix_get_columns (GODataMatrix *mat)
 {
@@ -1070,6 +1312,12 @@ go_data_matrix_get_columns (GODataMatrix *mat)
 	return mat->size.columns;
 }
 
+/**
+ * go_data_matrix_get_values:
+ * @mat: #GODataMatrix
+ *
+ * Returns: (array): the data values.
+ **/
 double *
 go_data_matrix_get_values (GODataMatrix *mat)
 {
@@ -1093,6 +1341,14 @@ go_data_matrix_get_values (GODataMatrix *mat)
 	return mat->values;
 }
 
+/**
+ * go_data_matrix_get_value:
+ * @mat: #GODataMatrix
+ * @i: row index
+ * @j: column index
+ *
+ * Returns: the value at (@i, @j).
+ **/
 double
 go_data_matrix_get_value (GODataMatrix *mat, unsigned i, unsigned j)
 {
@@ -1106,6 +1362,14 @@ go_data_matrix_get_value (GODataMatrix *mat, unsigned i, unsigned j)
 	return mat->values[i * mat->size.columns + j];
 }
 
+/**
+ * go_data_matrix_get_str:
+ * @mat: #GODataMatrix
+ * @i: row index
+ * @j: column index
+ *
+ * Returns: (transfer full): the string at (@i, @j).
+ **/
 char *
 go_data_matrix_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 {
@@ -1125,6 +1389,14 @@ go_data_matrix_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 	return res;
 }
 
+/**
+ * go_data_matrix_get_markup:
+ * @mat: #GODataMatrix
+ * @i: row index
+ * @j: column index
+ *
+ * Returns: (transfer full) (nullable): the markup at (@i, @j).
+ **/
 PangoAttrList *
 go_data_matrix_get_markup (GODataMatrix *mat, unsigned i, unsigned j)
 {
@@ -1140,6 +1412,14 @@ go_data_matrix_get_markup (GODataMatrix *mat, unsigned i, unsigned j)
 	return (klass->get_markup)? (*klass->get_markup) (mat, i, j): NULL;
 }
 
+/**
+ * go_data_matrix_get_minmax:
+ * @mat: #GODataMatrix
+ * @min: (out) (optional): location for minimum value
+ * @max: (out) (optional): location for maximum value
+ *
+ * Retrieves the minimum and maximum values in @mat.
+ **/
 void
 go_data_matrix_get_minmax (GODataMatrix *mat, double *min, double *max)
 {

@@ -45,12 +45,12 @@ typedef struct {
 
 	GOData *	(*dup)	    		(GOData const *src);
 	gboolean 	(*eq)	    		(GOData const *a, GOData const *b);
-	GOFormat *	(*preferred_fmt) 	(GOData const *dat);
-	GODateConventions const *(*date_conv) 	(GOData const *dat);
+	GOFormat *	(*preferred_fmt) 	(GOData const *data);
+	GODateConventions const *(*date_conv) 	(GOData const *data);
 
-	char *		(*serialize)	    	(GOData const *dat, gpointer user);
-	gboolean   	(*unserialize)	    	(GOData *dat, char const *str, gpointer user);
-	void	   	(*emit_changed)  	(GOData *dat);
+	char *		(*serialize)	    	(GOData const *data, gpointer user);
+	gboolean   	(*unserialize)	    	(GOData *data, char const *str, gpointer user);
+	void	   	(*emit_changed)  	(GOData *data);
 
 	unsigned int	(*get_n_dimensions)	(GOData *data);
 	void		(*get_sizes)		(GOData *data, unsigned int *sizes);
@@ -62,7 +62,7 @@ typedef struct {
 	gboolean	(*is_valid)		(GOData const *data);
 
 	/* signals */
-	void (*changed)	(GOData *dat);
+	void (*changed)	(GOData *data);
 } GODataClass;
 
 struct _GODataScalar {
@@ -75,7 +75,7 @@ typedef struct {
 	GODataClass base;
 	double       (*get_value)  (GODataScalar *scalar);
 	char const  *(*get_str)	   (GODataScalar *scalar);
-	PangoAttrList const *(*get_markup) (GODataScalar *data);
+	PangoAttrList const *(*get_markup) (GODataScalar *scalar);
 } GODataScalarClass;
 
 #define GO_DATA_VECTOR_LEN_CACHED GO_DATA_SIZE_CACHED
@@ -94,7 +94,7 @@ typedef struct {
 	void	 (*load_values) (GODataVector *vec);
 	double	 (*get_value)   (GODataVector *vec, unsigned i);
 	char	*(*get_str)	(GODataVector *vec, unsigned i);
-	PangoAttrList *(*get_markup) (GODataVector *data, unsigned i);
+	PangoAttrList *(*get_markup) (GODataVector *vec, unsigned i);
 } GODataVectorClass;
 
 #define	GO_DATA_MATRIX_SIZE_CACHED GO_DATA_SIZE_CACHED

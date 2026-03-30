@@ -35,20 +35,20 @@ G_BEGIN_DECLS
 GType 		go_data_get_type 		(void);
 GOData *	go_data_dup			(GOData const *src);
 gboolean  	go_data_eq			(GOData const *a, GOData const *b);
-GOFormat const *go_data_preferred_fmt 		(GOData const *dat);
-GODateConventions const *go_data_date_conv	(GOData const *dat);
-gboolean	go_data_is_valid		(GOData const *dat);
+GOFormat const *go_data_preferred_fmt 		(GOData const *data);
+GODateConventions const *go_data_date_conv	(GOData const *data);
+gboolean	go_data_is_valid		(GOData const *data);
 
-char *		go_data_serialize		(GOData const *dat, gpointer user);
-gboolean  	go_data_unserialize		(GOData *dat, char const *str, gpointer user);
-void	  	go_data_emit_changed  		(GOData *dat);
+char *		go_data_serialize		(GOData const *data, gpointer user);
+gboolean  	go_data_unserialize		(GOData *data, char const *str, gpointer user);
+void	  	go_data_emit_changed  		(GOData *data);
 
 double *	go_data_get_values		(GOData *data);
 void		go_data_get_bounds		(GOData *data, double *minimum, double *maximum);
 gboolean	go_data_is_increasing		(GOData *data);
 gboolean	go_data_is_decreasing		(GOData *data);
 gboolean	go_data_is_varying_uniformly	(GOData *data);
-gboolean	go_data_has_value	    (GOData const *data);
+gboolean	go_data_has_value	        (GOData const *data);
 
 unsigned int 	go_data_get_n_dimensions 	(GOData *data);
 unsigned int	go_data_get_n_values		(GOData *data);
@@ -76,9 +76,9 @@ PangoAttrList *	go_data_get_matrix_markup	(GOData *data, unsigned int row, unsig
 
 GType go_data_scalar_get_type (void);
 
-double      go_data_scalar_get_value  (GODataScalar *val);
-char const *go_data_scalar_get_str    (GODataScalar *val);
-PangoAttrList const *go_data_scalar_get_markup    (GODataScalar *val);
+double      go_data_scalar_get_value  (GODataScalar *scalar);
+char const *go_data_scalar_get_str    (GODataScalar *scalar);
+PangoAttrList const *go_data_scalar_get_markup    (GODataScalar *scalar);
 
 /*************************************************************************/
 
