@@ -1,0 +1,111 @@
+#! /usr/bin/perl -w
+
+use strict;
+
+my %expected = ('printf_engineering:floor' => 1,
+		'go_format_execute:double' => 1,
+		'go_quad_agm_internal:double' => 1);
+
+my @libc_functions = qw(fabs sqrt hypot fmod modf erf erfc crbt
+			sin cos tan sinh cosh tanh
+			acos acosh asin asinh atan atan2 atanh
+			log exp log2 log10 log1p expm1 pow lgamma lgamma_r
+			isnan finite signbit nextafter copysign
+			floor round ceil trunc fmin fmax
+			ldexp frexp scalbn scalbln unscalbn
+			atof strtod);
+my @libc_constants = qw(M_PI DBL_MIN DBL_MAX DBL_EPSILON DBL_DIG);
+
+my $dir = shift @ARGV;
+for my $c ('goffice', '../goffice', '../../goffice') {
+    if (!defined $dir && -d "$c/math") {
+	$dir = $c;
+	last;
+    }
+}
+die "$0: cannot find math directory\n" unless defined $dir;
+
+my @cfiles = sort ("$dir/utils/go-format.c", glob("$dir/math/*.c"));
+
+
+my %symbols;
+for my $s (@libc_functions, @libc_constants,
+	   'double',
+	   'GOQuad', 'GOComplex', 'GOAccumulator', 'GOCSpline',
+	   'GOQuadMatrix', 'go_regression_stat_t',
+	   qw(go_nan go_pinf go_ninf),
+	   qw(go_strtod go_ascii_strtod ) ) {
+    $symbols{$s} = 1;
+}
+
+my $rc = 0;
+
+for my $cfile (@cfiles) {
+    &find_functions ($cfile);
+}
+
+for my $cfile (@cfiles) {
+    &check_functions ($cfile);
+}
+
+exit $rc;
+
+# -----------------------------------------------------------------------------
+
+sub find_functions {
+    my ($fn) = @_;
+
+    open (my $src, '<', $fn) or die "$0: cannot read $fn: $!\n";
+    while (<$src>) {
+	if (/^SUFFIX\s*\((\w+)\)\s*\(/) {
+	    my $s = $1;
+	    # We get dupes for statics
+	    # print STDERR "$s\n" if exists $symbols{$s};
+	    $symbols{$s}  = 1;
+	}
+    }
+    undef $src;
+}
+
+# -----------------------------------------------------------------------------
+
+sub check_functions {
+    my ($fn) = @_;
+
+    open (my $src, '<', $fn) or die "$0: cannot read $fn: $!\n";
+    my $func = undef;
+    while (<$src>) {
+	if (/^SUFFIX\s*\((\w+)\)\s*\(/) {
+	    my $s = $1;
+	    $func = $s;
+	    next;
+	} elsif (/^\}\s*$/) {
+	    $func = undef;
+	    next;
+	}
+	next unless defined $func;
+
+	my $line = $_;
+
+	# Remove comments
+	s{//.*}{};
+	s{/\*[^*]*\*/}{}g;
+	s{^\s*\*\s.*}{};  # probably
+
+	s/^([^""]*)"[^""]+"/$1""/g;
+	s/\bSUFFIX\s*\(\w+\)//g;
+
+	while (s/\b(\w+)\b/ /) {
+	    my $s = $1;
+	    # print STDERR "Checking $s\n";
+	    if (exists $symbols{$s} && !exists $expected{"$func:$s"}) {
+		print STDERR "$fn: $s called directly by $func\n";
+		print "$line";
+		$rc = 1;
+	    }
+	}	
+    }
+    undef $src;
+}
+
+# -----------------------------------------------------------------------------
