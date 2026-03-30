@@ -4384,7 +4384,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		}
 
 		case OP_NUM_VAL_EXPONENT:
-			val = SUFFIX (fabs) (exponent + 0.0);
+			val = SUFFIX(fabs) (exponent + 0.0);
 			break;
 
 		case OP_NUM_STORE_POS:
@@ -4896,7 +4896,7 @@ static int
 SUFFIX(ilog10) (DOUBLE x)
 {
 	if (x >= 1000)
-		return (int)log10 (x);
+		return (int)SUFFIX(log10) (x);
 	if (x >= 100)
 		return 2;
 	if (x >= 10)

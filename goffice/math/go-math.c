@@ -351,7 +351,7 @@ SUFFIX(go_fake_round) (DOUBLE x)
 
 	/*
 	 * Adding a half here is ok.  The only problematic non-integer
-	 * case is nextafter(0.5,-1) for which we want to produce 1 here.
+	 * case is SUFFIX(nextafter)(0.5,-1) for which we want to produce 1 here.
 	 */
 	y = SUFFIX(go_fake_floor) (SUFFIX(fabs) (x) + CONST(0.5));
 	return (x < 0) ? -y : y;
@@ -1040,12 +1040,12 @@ SUFFIX(reduce_half) (DOUBLE x, int *pk)
 	DOUBLE HALF = CONST(0.5);
 
 	if (x < 0) {
-		x = -reduce_half (-x, &k);
+		x = -SUFFIX(reduce_half) (-x, &k);
 		k = 4 - k;
 		if (x == CONST(-0.25))
 			x += HALF, k += 3;
 	} else {
-		x = fmod (x, 2);
+		x = SUFFIX(fmod) (x, 2);
 		if (x >= 1)
 			x -= 1, k += 2;
 		if (x >= HALF)

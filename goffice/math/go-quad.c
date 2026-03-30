@@ -884,7 +884,7 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 	if (x->h < 0) {
 		int yint = SUFFIX(go_quad_isint) (y);
 		if (!yint)
-			return SUFFIX(go_quad_init) (res, go_nan);
+			return SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
 		qneg = yint < 0;
 	}
 
@@ -1291,7 +1291,7 @@ SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
 		for (k = 1; k <= n; k++) {
 			QUAD f;
 
-			SUFFIX(go_quad_init) (&f, go_pow2 (-2 * k));
+			SUFFIX(go_quad_init) (&f, SUFFIX(go_pow2) (-2 * k));
 			SUFFIX(go_quad_mul) (&dk[k], &f, &dpk[k-1]);
 			SUFFIX(go_quad_sub) (&dk[k], &dk[k-1], &dk[k]);
 			SUFFIX(go_quad_sub) (&f, &SUFFIX(go_quad_one), &f);
