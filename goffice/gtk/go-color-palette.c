@@ -406,13 +406,6 @@ go_color_palette_button_new (GOColorPalette *pal, GtkGrid *grid,
 		"signal::key_press_event", G_CALLBACK (cb_swatch_key_press), pal,
 		NULL);
 
-	if (!_go_gtk_new_theming ()) {
-		gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
-		gtk_widget_set_halign (swatch, GTK_ALIGN_FILL);
-		gtk_widget_set_valign (swatch, GTK_ALIGN_FILL);
-		gtk_container_set_border_width (GTK_CONTAINER (box), 2);
-	}
-
 	return swatch;
 }
 

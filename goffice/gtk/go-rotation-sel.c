@@ -63,15 +63,12 @@ static void
 grs_reload_style (GORotationSel *grs)
 {
 	int i;
-#if GTK_CHECK_VERSION(3,20,0)
 	GtkStyleContext *ctxt_canvas =
 		gtk_widget_get_style_context (GTK_WIDGET (grs->rotate_canvas));
-#endif
 
 	for (i = 0; i < 4; i++) {
 		gboolean qSelected = (i & 1);
 		gboolean qMajor = ((i >> 1) & 1);
-#if GTK_CHECK_VERSION(3,20,0)
 		GtkStyleContext *ctxt = go_style_context_from_selector
 			(ctxt_canvas, qSelected ? "ticks:selected" : "ticks");
 		GdkRGBA *c, *oc;
@@ -94,15 +91,8 @@ grs_reload_style (GORotationSel *grs)
 		gdk_rgba_free (c);
 		gdk_rgba_free (oc);
 		g_object_unref (ctxt);
-#else
-		grs->tick_color[qSelected][qMajor] = GO_COLOR_BLACK;
-		grs->tick_outline_color[qSelected][qMajor] = GO_COLOR_BLACK;
-		grs->tick_outline_width[qSelected][qMajor] = 1;
-		grs->tick_size[qSelected][qMajor] = (qMajor ? 4 : 3);
-#endif
 	}
 
-#if GTK_CHECK_VERSION(3,20,0)
 	{
 		GtkStyleContext *ctxt = go_style_context_from_selector
 			(ctxt_canvas, "line");
@@ -118,10 +108,6 @@ grs_reload_style (GORotationSel *grs)
 		gdk_rgba_free (c);
 		g_object_unref (ctxt);
 	}
-#else
-	grs->line_color = GO_COLOR_BLACK;
-	grs->line_width = 2;
-#endif
 }
 
 

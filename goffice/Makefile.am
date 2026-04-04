@@ -638,7 +638,6 @@ embedded_stuff_compress = \
 	utils/go-style-prefs.ui
 
 embedded_stuff_raw = \
-	gtk/goffice-old.css			\
 	gtk/goffice.css				\
 	utils/svg-patterns.xml			\
 	utils/unknown_image.png			\

@@ -1797,9 +1797,7 @@ _go_gtk_widget_add_css_provider (GtkWidget *w)
 	g_return_if_fail (GTK_IS_WIDGET (w));
 
 	if (!css_provider) {
-		const char *data = _go_gtk_new_theming ()
-			? go_rsm_lookup ("go:gtk/goffice.css", NULL)
-			: go_rsm_lookup ("go:gtk/goffice-old.css", NULL);
+		const char *data = go_rsm_lookup ("go:gtk/goffice.css", NULL);
 		css_provider = gtk_css_provider_new ();
 		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
 	}
@@ -1809,30 +1807,9 @@ _go_gtk_widget_add_css_provider (GtkWidget *w)
 	cb_screen_changed (w);
 }
 
-/**
- * _go_gtk_new_theming: (skip)
- *
- * Returns: %TRUE if new theming should be used.
- **/
-gboolean
-_go_gtk_new_theming (void)
-{
-#if GTK_CHECK_VERSION(3,20,0)
-	return TRUE;
-#else
-	static int new_theming = -1;
-	if (new_theming == -1)
-		new_theming = (gtk_get_major_version() > 3 ||
-			       gtk_get_minor_version() >= 20);
-
-	return new_theming;
-#endif
-}
-
 // ---------------------------------------------------------------------------
 // Foreign drawing style code copied from foreigndrawing.c
 
-#if GTK_CHECK_VERSION(3,20,0)
 static void
 append_element (GtkWidgetPath *path,
                 const char    *selector)
@@ -1946,7 +1923,6 @@ create_context_for_path (GtkWidgetPath   *path,
 
 	return context;
 }
-#endif
 
 /**
  * go_style_context_from_selector:
@@ -1959,7 +1935,6 @@ GtkStyleContext *
 go_style_context_from_selector (GtkStyleContext *parent,
 				const char      *selector)
 {
-#if GTK_CHECK_VERSION(3,20,0)
 	GtkWidgetPath *path;
 
 	g_return_val_if_fail (selector != NULL, NULL);
@@ -1971,12 +1946,6 @@ go_style_context_from_selector (GtkStyleContext *parent,
 	append_element (path, selector);
 
 	return create_context_for_path (path, parent);
-#else
-	(void)parent;
-	g_return_val_if_fail (selector != NULL, NULL);
-	g_assert_not_reached ();
-	return NULL;
-#endif
 }
 
 // ---------------------------------------------------------------------------

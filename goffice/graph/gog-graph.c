@@ -1157,9 +1157,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 	x = event->button.x - x_offset;
 	y = event->button.y - y_offset;
 
-#if GTK_CHECK_VERSION(3,10,0)
 	scale = gdk_window_get_scale_factor (window);
-#endif
 	x *= scale;
 	y *= scale;
 
