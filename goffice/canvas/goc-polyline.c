@@ -69,13 +69,15 @@ goc_polyline_set_property (GObject *gobject, guint param_id,
 	if (polyline->use_spline && polyline->nb_points) {
 		double *x, *y;
 		unsigned i;
-		x = g_alloca (polyline->nb_points * sizeof (double));
-		y = g_alloca (polyline->nb_points * sizeof (double));
+		x = g_new (double, polyline->nb_points);
+		y = g_new (double, polyline->nb_points);
 		for (i = 0; i < polyline->nb_points; i++) {
 			x[i] = polyline->points[i].x - polyline->points[0].x;
 			y[i] = polyline->points[i].y - polyline->points[0].y;
 		}
 		g_object_set_data_full (G_OBJECT (polyline), "spline", go_bezier_spline_init (x, y, polyline->nb_points, FALSE), (GDestroyNotify) go_bezier_spline_destroy);
+		g_free (x);
+		g_free (y);
 	}
 	goc_item_bounds_changed (GOC_ITEM (gobject));
 }

@@ -284,9 +284,9 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	/* lines, if any will be rendered after the bars, so we build the paths
 	and render them at the end */
-	path1    = g_alloca (num_series * sizeof (GOPath *));
-	path2    = g_alloca (num_series * sizeof (GOPath *));
-	lines    = g_alloca (num_series * sizeof (GogSeriesLines *));
+	path1    = g_new0 (GOPath *, num_series);
+	path2    = g_new0 (GOPath *, num_series);
+	lines    = g_new0 (GogSeriesLines *, num_series);
 	j = 0;
 	step = 1. - model->overlap_percentage / 100.;
 	group_step = model->gap_percentage / 100.;
@@ -393,6 +393,9 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 			go_path_free (path1[j]);
 		}
 
+	g_free (path1);
+	g_free (path2);
+	g_free (lines);
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);
 }

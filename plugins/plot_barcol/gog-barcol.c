@@ -424,8 +424,8 @@ gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSer
 
 	map = is_vertical ? y_map : x_map;
 
-	vals = g_alloca (num_series * sizeof (double *));
-	lengths = g_alloca (num_series * sizeof (unsigned));
+	vals = g_new0 (double *, num_series);
+	lengths = g_new0 (unsigned, num_series);
 
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -536,12 +536,16 @@ gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSer
 			if (x >= x0 && x <= x1 && y >= y0 && y <= y1) {
 				*series = GOG_SERIES (g_slist_nth_data (gog_1_5d_model->base.series, j));
 				gog_chart_map_free (chart_map);
+				g_free (vals);
+				g_free (lengths);
 				return i;
 			}
 		}
 	}
 
 	gog_chart_map_free (chart_map);
+	g_free (vals);
+	g_free (lengths);
 	return -1;
 }
 
@@ -601,16 +605,16 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	                                 GOG_PLOT (model)->axis[GOG_AXIS_Y]:
 		                         GOG_PLOT (model)->axis[GOG_AXIS_X]);
 
-	vals = g_alloca (num_series * sizeof (double *));
-	lengths = g_alloca (num_series * sizeof (unsigned));
-	styles = g_alloca (num_series * sizeof (GOStyle *));
-	errors = g_alloca (num_series * sizeof (GogErrorBar *));
-	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
-	lines = g_alloca (num_series * sizeof (GogSeriesLines *));
-	paths = g_alloca (num_series * sizeof (GOPath *));
-	overrides = g_alloca (num_series * sizeof (GSList *));
-	labels = g_alloca (num_series * sizeof (GogSeriesLabels *));
-	label_pos = g_alloca (num_series * sizeof (gpointer));
+	vals = g_new0 (double *, num_series);
+	lengths = g_new0 (unsigned, num_series);
+	styles = g_new0 (GOStyle *, num_series);
+	errors = g_new0 (GogErrorBar *, num_series);
+	error_data = g_new0 (ErrorBarData *, num_series);
+	lines = g_new0 (GogSeriesLines *, num_series);
+	paths = g_new0 (GOPath *, num_series);
+	overrides = g_new0 (GList const *, num_series);
+	labels = g_new0 (GogSeriesLabels *, num_series);
+	label_pos = g_new0 (LabelData *, num_series);
 
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL && i < num_series ; ptr = ptr->next, i++) {
@@ -887,8 +891,19 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				                              styles[i]);
 			}
 			gog_renderer_pop_style (view->renderer);
+			g_free (label_pos[i]);
 		}
 
+	g_free (vals);
+	g_free (lengths);
+	g_free (styles);
+	g_free (errors);
+	g_free (error_data);
+	g_free (lines);
+	g_free (paths);
+	g_free (overrides);
+	g_free (labels);
+	g_free (label_pos);
 	gog_chart_map_free (chart_map);
 }
 

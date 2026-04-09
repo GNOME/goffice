@@ -1096,8 +1096,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_clip_rectangle (view->renderer, view->allocation.x, view->allocation.y,
 					  view->allocation.w, view->allocation.h);
 
-	MarkerData **markers = g_alloca (num_series * sizeof (MarkerData *));
-	unsigned *num_markers = g_alloca (num_series * sizeof (unsigned));
+	MarkerData **markers = g_new0 (MarkerData *, num_series);
+	unsigned *num_markers = g_new0 (unsigned, num_series);
 
 	for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
 		GogXYSeries const *series = ptr->data;
@@ -1618,6 +1618,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
 
+	g_free (markers);
+	g_free (num_markers);
 	gog_chart_map_free (chart_map);
 	if (is_map)
 		gog_axis_map_free (z_map);

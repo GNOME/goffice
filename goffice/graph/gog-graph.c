@@ -379,15 +379,15 @@ role_chart_post_add (GogObject *parent, GogObject *chart)
 	unsigned ypos = 0;
 	if (graph->charts != NULL) {
 		/* find the first row with an unoccupied first column */
-		gboolean *occ = g_alloca (graph->num_rows * sizeof (gboolean));
+		gboolean *occ = g_new0 (gboolean, graph->num_rows);
 		GSList *ptr;
 		int col, row;
-		memset (occ, 0, graph->num_rows * sizeof (gboolean));
 		for (ptr = graph->charts; ptr != NULL; ptr = ptr->next)
 			if (gog_chart_get_position (GOG_CHART (ptr->data), &col, &row, NULL, NULL) && col == 0 && row < (int) graph->num_rows)
 				occ[row] = TRUE;
 		while (ypos < graph->num_rows && occ[ypos])
 			ypos++;
+		g_free (occ);
 	}
 	graph->charts = g_slist_prepend (graph->charts, chart);
 	if (!gog_chart_get_position (GOG_CHART (chart), NULL, NULL, NULL, NULL))
