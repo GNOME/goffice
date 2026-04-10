@@ -6,6 +6,7 @@ Morten:
 	* Introspection fixes.
 	* Import go_reduce_pi from Gnumeric.
 	* Test improvements.
+	* Plug leak.
 
 --------------------------------------------------------------------------
 goffice 0.10.60:

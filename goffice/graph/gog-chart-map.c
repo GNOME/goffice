@@ -273,24 +273,22 @@ make_path_spline (GogChartMap *map,
 		  double const *x, double const *y, int n_points,
 		  gboolean is_polar, gboolean closed, gboolean skip_invalid)
 {
-	GOPath *path;
+	GOPath *path = NULL;
 	int i, n_valid_points = 0;
-	double *uu, *vv, *tt;
+	double *uu, *vv;
 	double u, v;
 	double yy, yy_min, yy_max;
 	gboolean is_inverted;
 	GOBezierSpline *spline;
 
-	path = go_path_new ();
 	if (n_points < 1)
-		return path;
+		return go_path_new ();
 
 	gog_axis_map_get_bounds (map->axis_map[1], &yy_min, &yy_max);
 	is_inverted = gog_axis_map_is_inverted (map->axis_map[1]);
 
 	uu = g_new (double, n_points);
 	vv = g_new (double, n_points);
-	tt = g_new (double, n_points);
 	n_valid_points = 0;
 	for (i = 0; i < n_points; i++) {
 		yy = y != NULL ? y[i] : i + 1;
@@ -309,36 +307,49 @@ make_path_spline (GogChartMap *map,
 		    && fabs (v) != DBL_MAX) {
 			uu[n_valid_points] = u;
 			vv[n_valid_points] = v;
-			tt[n_valid_points] = n_valid_points;
 			n_valid_points++;
 		} else {
 			if (closed || skip_invalid)
 				continue;
 			if (n_valid_points == 2) {
+				if (path == NULL) path = go_path_new ();
 				go_path_move_to (path, uu[0], vv[0]);
 				go_path_line_to (path, uu[1], vv[1]);
 			} else if (n_valid_points > 2) {
 				/* evaluate the spline */
 				spline = go_bezier_spline_init (uu, vv, n_valid_points, closed);
-				path = go_bezier_spline_to_path (spline);
+				if (path == NULL)
+					path = go_bezier_spline_to_path (spline);
+				else {
+					GOPath *tmp_path = go_bezier_spline_to_path (spline);
+					path = go_path_append (path, tmp_path);
+					go_path_free (tmp_path);
+				}
 				go_bezier_spline_destroy (spline);
 			}
 			n_valid_points = 0;
 		}
 	}
 	if (n_valid_points == 2) {
+		if (path == NULL) path = go_path_new ();
 		go_path_move_to (path, uu[0], vv[0]);
 		go_path_line_to (path, uu[1], vv[1]);
 	} else if (n_valid_points > 2) {
 		/* evaluate the spline */
 		spline = go_bezier_spline_init (uu, vv, n_valid_points, closed);
-		path = go_bezier_spline_to_path (spline);
+		if (path == NULL)
+			path = go_bezier_spline_to_path (spline);
+		else {
+			GOPath *tmp_path = go_bezier_spline_to_path (spline);
+			path = go_path_append (path, tmp_path);
+			go_path_free (tmp_path);
+		}
 		go_bezier_spline_destroy (spline);
 	}
 
+	if (path == NULL) path = go_path_new ();
 	g_free (uu);
 	g_free (vv);
-	g_free (tt);
 	return path;
 }
 
