@@ -1170,7 +1170,10 @@ typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (typesel->selector));
 	style->fill.pattern.back = select_color;
 	goc_item_invalidate (typesel->selector);
+
+	g_object_ref_sink (w);
 	gtk_widget_destroy (w);
+	g_object_unref (w);
 }
 
 static GtkWidget *

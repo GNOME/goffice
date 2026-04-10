@@ -1022,8 +1022,11 @@ gog_histogram_plot_series_update (GogObject *obj)
 					m = y_[y__0];
 					M = y_[y__len-1];
 				}
-				if (!go_finite (m) || !go_finite (M))
+				if (!go_finite (m) || !go_finite (M)) {
+					g_free (y);
+					g_free (y_);
 					return;
+				}
 				/* round m */
 				nm = floor ((m - origin)/ width) * width + origin;
 				/* we need to include all data so we must ensure that the
@@ -1038,21 +1041,23 @@ gog_histogram_plot_series_update (GogObject *obj)
 			}
 		} else
 			series->real_x = go_range_sort (x_vals, x_len);
+
 		if (x_len > 1) {
 			series->real_y = g_new0 (double, x_len - 1);
 			for (i = 0; i < y_len && y[i] <= series->real_x[0]; i++);
-			for (max = 1; i < y_len; i++)
+			for (max = 1; i < y_len; i++) {
 				if (go_finite (y[i])) {
 					while (max < x_len - 1 && y[i] > series->real_x[max])
 						max++;
-					if (y[i] >  series->real_x[max])
+					if (y[i] > series->real_x[max])
 						break;
 					series->real_y[max-1]++;
+				}
 			}
 			if (y__len > 0) {
 				series->real_y_ = g_new0 (double, x_len - 1);
 				for (i = 0; i < y__len && y_[i] <= series->real_x[0]; i++);
-				for (max = 1;  i < y__len; i++)
+				for (max = 1;  i < y__len; i++) {
 					if (go_finite (y_[i])) {
 						while (y_[i] > series->real_x[max]) {
 							max++;
@@ -1060,9 +1065,12 @@ gog_histogram_plot_series_update (GogObject *obj)
 								break;
 						}
 						series->real_y_[max-1]++;
-			}
+					}
+				}
 			}
 		}
+		g_free (y);
+		g_free (y_);
 	}
 	series->base.num_elements = (x_len > 0 ? MIN (x_len - 1, nb) : 0);
 

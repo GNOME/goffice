@@ -246,6 +246,7 @@ plot_area_pref_state_free (PlotAreaPrefState *state)
 {
 	g_object_unref (state->chart);
 	g_object_unref (state->gui);
+	g_free (state);
 }
 
 static void

@@ -126,8 +126,7 @@ gog_child_button_weak_notify (GogChildButton *child_button, GogObject *object)
 {
 	gtk_widget_set_sensitive (GTK_WIDGET (child_button), FALSE);
 
-	g_slist_free (child_button->additions);
-	child_button->additions = NULL;
+	gog_child_button_free_additions (child_button);
 	child_button->object = NULL;
 	if (child_button->menu) {
 		g_object_unref (child_button->menu);
@@ -206,8 +205,7 @@ gog_child_button_build_additions (GogChildButton *child_button)
 	BuildAdditionData closure;
 	GogObject *start_object;
 
-	if (child_button->additions != NULL)
-		gog_child_button_free_additions (child_button);
+	gog_child_button_free_additions (child_button);
 	if (child_button->object == NULL)
 		return;
 
@@ -235,12 +233,7 @@ gog_child_button_build_additions (GogChildButton *child_button)
 static void
 gog_child_button_free_additions (GogChildButton *child_button)
 {
-	GSList *iter;
-
-	for (iter = child_button->additions; iter != NULL; iter = iter->next)
-		g_free (iter->data);
-
-	g_slist_free (child_button->additions);
+	g_slist_free_full (child_button->additions, g_free);
 	child_button->additions = NULL;
 }
 
