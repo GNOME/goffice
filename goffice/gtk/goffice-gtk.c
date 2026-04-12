@@ -871,9 +871,9 @@ update_preview_cb (GtkFileChooser *chooser)
 
 			g_object_unref (buf);
 		}
-
-		g_free (filename);
 	}
+
+	g_free (filename);
 }
 
 static GtkFileChooser *
