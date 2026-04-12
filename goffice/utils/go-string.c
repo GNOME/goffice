@@ -39,82 +39,54 @@
  * GOString is a structure containing a string.
  **/
 typedef struct {
-	GOString	base;
-	guint32		hash;
-	guint32		flags;		/* len in bytes (not characters) */
-	guint32		ref_count;
+	GOString base;
+	PangoAttrList *markup;
+	// something, something, phonetic
+
+	// On-demand filled:
+	const char *collate_str;
+	const char *casefold_str;
+	const char *collate_casefold_str;
+
+	guint32 hash, ref_count, length;
 } GOStringImpl;
-typedef struct _GOStringRichImpl {
-	GOStringImpl		  base;
-	PangoAttrList		 *markup;
-	GOStringPhonetic	 *phonetic;
-} GOStringRichImpl;
 
-#define GO_STRING_HAS_CASEFOLD	(1u << 31)
-#define GO_STRING_HAS_COLLATE	(1u << 30)
-#define GO_STRING_IS_RICH	(1u << 29)
-#define GO_STRING_IS_SHARED	(1u << 28) /* rich strings share this base */
-#define GO_STRING_IS_DEPENDENT	(1u << 27) /* a rich string that shares an underlying */
 
-/* mask off just the len */
-#define GO_STRING_LEN(s)	(((GOStringImpl const *)(s))->flags & ((1u << 27) - 1u))
+#define GO_STRING_LEN(s)	(((GOStringImpl const *)(s))->length)
 
 /* Collection of unique strings
  * : GOStringImpl.base.hash -> GOStringImpl * */
 static GHashTable *go_strings_base;
 
-/* Collection of gslist keyed the basic string
- * : str (directly on the pointer) -> GSList of GOStringRichImpl */
-static GHashTable *go_strings_shared;
 
 static inline GOStringImpl *
-go_string_impl_new (char const *str, guint32 hash, guint32 flags, guint32 ref_count)
+go_string_impl_new (char const *str, guint32 hash, guint32 length)
 {
 	GOStringImpl *res = g_slice_new (GOStringImpl);
-	res->base.str	= str;
-	res->hash	= hash;
-	res->flags	= flags;
-	res->ref_count	= ref_count;
+	res->base.str = str;
+	res->collate_str = NULL;
+	res->casefold_str = NULL;
+	res->collate_casefold_str = NULL;
+	res->markup = NULL;
+	res->hash = hash;
+	res->length = length;
+	res->ref_count = 1;
 	g_hash_table_replace (go_strings_base, res, res);
 	return res;
 }
 
-static void
-go_string_phonetic_unref (GOStringPhonetic *phonetic)
+// Length-limited hash function
+static guint32
+go_str_hash_n (const char *str, size_t n)
 {
-	/* TODO */
-}
+	// Same spirit as g_str_hash
+	const unsigned char *p = (const unsigned char *)str;
+	guint32 h = 5381;
 
-static GOString *
-replace_rich_base_with_plain (GOStringRichImpl *rich)
-{
-	GOStringImpl *res = go_string_impl_new (rich->base.base.str, rich->base.hash,
-		(rich->base.flags & (~GO_STRING_IS_RICH)) | GO_STRING_IS_SHARED, 2);
+	for (; n > 0 && *p != '\0'; p++, n--)
+		h = (h << 5) + h + *p;
 
-	rich->base.flags |= GO_STRING_IS_DEPENDENT;
-	if ((rich->base.flags & GO_STRING_IS_SHARED)) {
-		GSList *shares = g_hash_table_lookup (go_strings_shared, res->base.str);
-		unsigned n = g_slist_length (shares);
-		g_assert (rich->base.ref_count >= n);
-		rich->base.flags &= ~GO_STRING_IS_SHARED;
-		rich->base.ref_count -= n;
-		res->ref_count += n;
-		if (rich->base.ref_count == 0) {
-			rich->base.ref_count = 1;
-			go_string_unref ((GOString *) rich);
-		} else {
-			shares = g_slist_prepend (shares, rich);
-			g_hash_table_replace (go_strings_shared,
-			                      (gpointer) res->base.str, shares);
-			n++;
-		}
-		if (n == 0)
-			res->flags &= ~GO_STRING_IS_SHARED;
-	} else
-		g_hash_table_insert (go_strings_shared, (gpointer) res->base.str,
-			g_slist_prepend (NULL, rich));
-
-	return &res->base;
+	return h;
 }
 
 /**
@@ -136,18 +108,14 @@ go_string_new_len (char const *str, guint32 len)
 		return NULL;
 
 	key.base.str = str;
-	key.flags    = len;
-	key.hash     = g_str_hash (str);
+	key.length   = len;
+	key.hash     = go_str_hash_n (str, len);
 	res = g_hash_table_lookup (go_strings_base, &key);
 	if (NULL == res) {
-		 /* Copy str */
-		res = go_string_impl_new (g_strndup (str, len),
-					  key.hash, key.flags, 1);
+		GOStringImpl *res = go_string_impl_new (g_strndup (str, len),
+							key.hash, key.length);
 		return &res->base;
-	} else if (G_UNLIKELY (res->flags & GO_STRING_IS_RICH))
-		/* if rich was there first move it to the shared */
-		return replace_rich_base_with_plain ((GOStringRichImpl *)res);
-	else
+	} else
 		return go_string_ref (&res->base);
 }
 
@@ -156,7 +124,9 @@ go_string_new_len (char const *str, guint32 len)
  * @str: (transfer full) (nullable): string
  * @len: guint32
  *
- * GOString takes ownership of @str
+ * Create a #GOString from @str with a length on @len bytes.  This function
+ * takes ownership of @str which must be allocated to be at least @len + 1
+ * bytes.
  *
  * Returns: (transfer full) (nullable): a #GOString containing @str
  **/
@@ -169,20 +139,18 @@ go_string_new_nocopy_len (char *str, guint32 len)
 		return NULL;
 
 	key.base.str = str;
-	key.flags    = len;
-	key.hash     = g_str_hash (str);
+	key.length   = len;
+	key.hash     = go_str_hash_n (str, len);
 	res = g_hash_table_lookup (go_strings_base, &key);
 	if (NULL == res) {
-		 /* NO copy str */
-		res = go_string_impl_new (str, key.hash, key.flags, 1);
+		// Taking ownership of str.
+		str[len] = 0;  // We need to terminate.
+		res = go_string_impl_new (str, key.hash, key.length);
 		return &res->base;
 	}
 
-	if (str != res->base.str) g_free (str); /* Be extra careful */
-
-	/* if rich was there first move it to the shared */
-	if (G_UNLIKELY (res->flags & GO_STRING_IS_RICH))
-		return replace_rich_base_with_plain ((GOStringRichImpl *)res);
+	g_return_val_if_fail (str != res->base.str, NULL);
+	g_free (str);
 
 	return go_string_ref (&res->base);
 }
@@ -217,63 +185,26 @@ go_string_new_nocopy (char *str)
 	return str ? go_string_new_nocopy_len (str, strlen (str)) : NULL;
 }
 
-static GOString *
-go_string_new_rich_impl (char *str,
-			 int byte_len,
-			 gboolean take_ownership,
-			 PangoAttrList *markup,
-			 GOStringPhonetic *phonetic)
+static void
+do_rich_setup (GOString *gstr_,
+	       PangoAttrList *markup,
+	       GOStringPhonetic *phonetic)
 {
-	GOStringImpl *base;
-	GOStringRichImpl *rich;
+	GOStringImpl *gstr = (GOStringImpl *)gstr_;
 
-	if (NULL == str) {
+	(void)phonetic;
+
+	if (gstr == NULL) {
 		if (NULL != markup) pango_attr_list_unref (markup);
-		if (NULL != phonetic) go_string_phonetic_unref (phonetic);
-		return NULL;
-	}
-
-	/* TODO: when we use a better representation for attributes (eg array
-	 * of GOFont indicies) look into sharing rich strings */
-
-	if (byte_len <= 0)
-		byte_len = strlen (str);
-	rich = g_slice_new (GOStringRichImpl);
-	rich->base.base.str	= str;
-	rich->base.hash		= g_str_hash (str);
-	rich->base.flags	=  ((guint32) byte_len) | GO_STRING_IS_RICH;
-	rich->base.ref_count	= 1;
-	rich->markup		= markup;
-	rich->phonetic		= phonetic;
-	base = g_hash_table_lookup (go_strings_base, rich);
-	if (NULL == base) {
-		if (!take_ownership)
-			rich->base.base.str = g_strndup (str, byte_len);
-		g_hash_table_insert (go_strings_base, rich, rich);
 	} else {
-		go_string_ref (&base->base);
-		if (take_ownership)
-			g_free (str);
-		rich->base.base.str = base->base.str;
-		rich->base.flags |= GO_STRING_IS_DEPENDENT;
-		if ((base->flags & GO_STRING_IS_SHARED)) {
-			GSList *shares = g_hash_table_lookup (go_strings_shared, rich->base.base.str);
-			/* ignore result, assignment is just to make the compiler shutup */
-			shares = g_slist_insert (shares, rich, 1);
-		} else {
-			base->flags |= GO_STRING_IS_SHARED;
-			g_hash_table_insert (go_strings_shared, (gpointer) rich->base.base.str,
-				g_slist_prepend (NULL, rich));
-		}
+		gstr->markup = markup;
 	}
-
-	return &rich->base.base;
 }
 
 /**
  * go_string_new_rich:
  * @str: (nullable): string.
- * @byte_len: < 0 will call strlen.
+ * @byte_len: byte length; -1 means to call strlen.
  * @markup: (transfer full) (nullable): optional markup.
  * @phonetic: (transfer full) (nullable): optional list of phonetic extensions.
  *
@@ -285,14 +216,16 @@ go_string_new_rich (char const *str,
 		    PangoAttrList *markup,
 		    GOStringPhonetic *phonetic)
 {
-	return go_string_new_rich_impl ((char *)str, byte_len, FALSE,
-					markup, phonetic);
+	size_t len = byte_len < 0 ? strlen (str) : (size_t)byte_len;
+	GOString *res = go_string_new_len (str, len);
+	do_rich_setup (res, markup, phonetic);
+	return res;
 }
 
 /**
  * go_string_new_rich_nocopy:
  * @str: (transfer full) (nullable): string
- * @byte_len: < 0 will call strlen.
+ * @byte_len: byte length; -1 means to call strlen.
  * @markup: (transfer full) (nullable): optional markup.
  * @phonetic: (transfer full) (nullable): optional list of phonetic extensions.
  *
@@ -304,7 +237,10 @@ go_string_new_rich_nocopy (char *str,
 			   PangoAttrList *markup,
 			   GOStringPhonetic *phonetic)
 {
-	return go_string_new_rich_impl (str, byte_len, TRUE, markup, phonetic);
+	size_t len = byte_len < 0 ? strlen (str) : (size_t)byte_len;
+	GOString *res = go_string_new_nocopy_len (str, len);
+	do_rich_setup (res, markup, phonetic);
+	return res;
 }
 
 GOString *
@@ -324,35 +260,17 @@ go_string_unref (GOString *gstr)
 
 	g_return_if_fail (impl->ref_count > 0);
 
-	if ((--(impl->ref_count)) == 0) {
-		/* polite assertion failure */
-		g_return_if_fail (!(impl->flags & GO_STRING_IS_SHARED));
+	if ((--(impl->ref_count)) > 0)
+		return;
 
-		if ((impl->flags & GO_STRING_IS_RICH)) {
-			GOStringRichImpl *rich = (GOStringRichImpl *)gstr;
-			if (NULL != rich->markup) pango_attr_list_unref (rich->markup);
-			if (NULL != rich->phonetic) go_string_phonetic_unref (rich->phonetic);
-		}
+	g_hash_table_remove (go_strings_base, gstr);
+	g_free ((gpointer)(gstr->str));
+	g_free ((gpointer)(impl->collate_str));
+	g_free ((gpointer)(impl->casefold_str));
+	g_free ((gpointer)(impl->collate_casefold_str));
+	if (impl->markup) pango_attr_list_unref (impl->markup);
 
-		if (G_UNLIKELY (impl->flags & GO_STRING_IS_DEPENDENT)) {
-			GOStringImpl *base = g_hash_table_lookup (go_strings_base, gstr);
-			GSList *shares = g_hash_table_lookup (go_strings_shared, gstr->str);
-			GSList *new_shares = g_slist_remove (shares, gstr);
-			if (new_shares != shares) {
-				if (new_shares == NULL) {
-					base->flags &= ~GO_STRING_IS_SHARED;
-					g_hash_table_remove (go_strings_shared, gstr->str);
-				} else
-					g_hash_table_replace (go_strings_shared, (gpointer)gstr->str, new_shares);
-			}
-			go_string_unref (&base->base);
-		} else {
-			g_hash_table_remove (go_strings_base, gstr);
-			g_free ((gpointer)gstr->str);
-		}
-		g_slice_free1 ((impl->flags & GO_STRING_IS_RICH?
-		        		sizeof (GOStringRichImpl): sizeof (GOStringImpl)), gstr);
-	}
+	g_slice_free1 (sizeof (GOStringImpl), gstr);
 }
 
 unsigned int
@@ -393,92 +311,47 @@ go_string_equal (gconstpointer gstr_a, gconstpointer gstr_b)
 	return a == b || (NULL != a && NULL != b && a->str == b->str);
 }
 
-static void
-go_string_impl_append_extra (GOStringImpl *gstri, char *extra, unsigned int offset)
-{
-	guint32 len = strlen (extra);
-	gchar *res = g_realloc ((gpointer)gstri->base.str, offset + 4 + len + 1);
-	GSF_LE_SET_GUINT32(res + offset, len);
-	memcpy ((gpointer)(res + offset + 4), extra, len + 1);
-	g_free (extra);
-
-	if (res != gstri->base.str) {
-		/* update any shared strings */
-		if ((gstri->flags & GO_STRING_IS_SHARED)) {
-			GSList *shares = g_hash_table_lookup (go_strings_shared, gstri->base.str);
-			g_hash_table_remove (go_strings_shared, gstri->base.str);
-			g_hash_table_insert (go_strings_shared, res, shares);
-			for (; shares != NULL ; shares = shares->next)
-				((GOStringImpl *)(shares->data))->base.str = res;
-		}
-		((GOStringImpl *)gstri)->base.str = res;
-	}
-}
-
 char const *
-go_string_get_collation  (GOString const *gstr)
+go_string_get_collation (GOString const *gstr)
 {
 	GOStringImpl *gstri = (GOStringImpl *)gstr;
-	unsigned int len;
 
 	if (NULL == gstr)
 		return "";
 
-	len = GO_STRING_LEN (gstri);
-	if (0 == (gstri->flags & GO_STRING_HAS_COLLATE)) {
-		gchar *collate = g_utf8_collate_key (gstri->base.str, len);
-		/* Keep it simple, drop the casefold to avoid issues with overlapping */
-		gstri->flags &= ~GO_STRING_HAS_CASEFOLD;
-		gstri->flags |=  GO_STRING_HAS_COLLATE;
-		go_string_impl_append_extra (gstri, collate, len + 1);
-	}
-	return gstri->base.str + len + 1 + 4;
+	if (gstri->collate_str == NULL)
+		gstri->collate_str = g_utf8_collate_key (gstr->str, GO_STRING_LEN (gstr));
+
+	return gstri->collate_str;
 }
 
 char const *
 go_string_get_casefold (GOString const *gstr)
 {
 	GOStringImpl *gstri = (GOStringImpl *)gstr;
-	unsigned int offset;
 
 	if (NULL == gstr)
 		return "";
 
-	offset = GO_STRING_LEN (gstri) + 1;
-	if (0 != (gstri->flags & GO_STRING_HAS_COLLATE))
-		offset += GSF_LE_GET_GUINT32(gstri->base.str + offset) + 4 + 1;
+	if (gstri->casefold_str == NULL)
+		gstri->casefold_str = g_utf8_casefold (gstr->str, GO_STRING_LEN (gstr));
 
-	if (0 == (gstri->flags & GO_STRING_HAS_CASEFOLD))
-		go_string_get_casefolded_collate (gstr);
-	return gstri->base.str + offset + 4;
+	return gstri->casefold_str;
 }
 
 char const *
 go_string_get_casefolded_collate (GOString const *gstr)
 {
 	GOStringImpl *gstri = (GOStringImpl *)gstr;
-	unsigned int offset;
 
 	if (NULL == gstr)
 		return "";
 
-	offset = GO_STRING_LEN (gstri) + 1;
-	if (0 != (gstri->flags & GO_STRING_HAS_COLLATE))
-		offset += GSF_LE_GET_GUINT32(gstri->base.str + offset) + 4 + 1;
+	if (gstri->collate_casefold_str == NULL)
+		gstri->collate_casefold_str =
+			g_utf8_collate_key (go_string_get_casefold (gstr), -1);
 
-	if (0 == (gstri->flags & GO_STRING_HAS_CASEFOLD)) {
-		char *collate;
-		int len;
-		gchar *casefold = g_utf8_casefold (gstri->base.str, GO_STRING_LEN (gstri));
-		go_string_impl_append_extra (gstri, casefold, offset);
-		len = GSF_LE_GET_GUINT32(gstri->base.str + offset);
-		collate = g_utf8_collate_key (gstri->base.str + offset + 4, len);
-		offset += len + 4 + 1;
-		gstri->flags |= GO_STRING_HAS_CASEFOLD;
-		go_string_impl_append_extra (gstri, collate, offset);
-	} else
-		offset += GSF_LE_GET_GUINT32(gstri->base.str + offset) + 4 + 1;
-	return gstri->base.str + offset + 4;
+	return gstri->collate_casefold_str;
 }
 
 static GOString *go_string_ERROR_val = NULL;
@@ -509,7 +382,7 @@ go_string_equal_internal (gconstpointer gstr_a, gconstpointer gstr_b)
 	return a == b ||
 		((a->hash == b->hash) &&
 		 (GO_STRING_LEN (a) == GO_STRING_LEN (b)) &&
-		 0 == strcmp (a->base.str, b->base.str));
+		 0 == memcmp (a->base.str, b->base.str, GO_STRING_LEN (a)));
 }
 
 /**
@@ -519,7 +392,6 @@ void
 _go_string_init (void)
 {
 	go_strings_base   = g_hash_table_new (go_string_hash, go_string_equal_internal);
-	go_strings_shared = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	/* Do it here, so we always have it.  */
 	go_string_ERROR_val = go_string_new ("<ERROR>");
@@ -544,9 +416,6 @@ _go_string_shutdown (void)
 {
 	go_string_unref (go_string_ERROR_val);
 	go_string_ERROR_val = NULL;
-
-	g_hash_table_destroy (go_strings_shared);
-	go_strings_shared = NULL;
 
 	g_hash_table_foreach_remove (go_strings_base,
 				     cb_string_pool_leak,
@@ -657,7 +526,7 @@ go_string_get_type (void)
 guint32
 go_string_get_len (GOString const *gstr)
 {
-	return GO_STRING_LEN(gstr);
+	return GO_STRING_LEN (gstr);
 }
 
 
@@ -671,12 +540,7 @@ PangoAttrList *
 go_string_get_markup (GOString const *gstr)
 {
 	GOStringImpl *impl = (GOStringImpl *)gstr;
-
-	if ((impl->flags & GO_STRING_IS_RICH) != 0) {
-		GOStringRichImpl *rich = (GOStringRichImpl *) gstr;
-		return rich->markup;
-	} else
-		return NULL;
+	return impl->markup;
 }
 
 /**
@@ -688,13 +552,7 @@ go_string_get_markup (GOString const *gstr)
 GOStringPhonetic *
 go_string_get_phonetic (GOString const *gstr)
 {
-	GOStringImpl *impl = (GOStringImpl *)gstr;
-
-	if ((impl->flags & GO_STRING_IS_RICH) != 0) {
-		GOStringRichImpl *rich = (GOStringRichImpl *) gstr;
-		return rich->phonetic;
-	} else
-		return NULL;
+	return NULL;
 }
 
 
@@ -733,10 +591,10 @@ find_shape_attr (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
 
 /**
  * go_string_trim:
- * @gstr: string.
+ * @gstr: (transfer full): string.
  * @internal: Trim multiple consequtive internal spaces.
  *
- * Returns: (transfer none): @gstr
+ * Returns: (transfer full): @gstr
  **/
 GOString *
 go_string_trim (GOString *gstr, gboolean internal)
@@ -749,7 +607,7 @@ go_string_trim (GOString *gstr, gboolean internal)
 	char const *t;
 	int cnt, len;
 
-	if ((impl->flags & GO_STRING_IS_RICH) == 0)
+	if (!impl->markup)
 		return gstr;
 
 	attrs = go_string_get_markup (gstr);

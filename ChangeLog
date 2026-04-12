@@ -1,3 +1,10 @@
+2026-04-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-string.c: Redo implementation.  The new
+	implementation guarantees that a GOString's ->str does not change.
+	Also fixes problems with go_string_new_len which could compute the
+	wrong hash value with lots of weirdness downstream from that.
+
 2026-03-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (go_pow2D): Avoid a
