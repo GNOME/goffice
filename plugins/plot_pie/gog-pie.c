@@ -81,7 +81,6 @@ gog_pie_series_element_get_property (GObject *obj, guint param_id,
 }
 
 #ifdef GOFFICE_WITH_GTK
-extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc);
 static gpointer
 gog_pie_series_element_populate_editor (GogObject *gobj,
 					GOEditor *editor,
@@ -266,7 +265,6 @@ gog_pie_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 #ifdef GOFFICE_WITH_GTK
-extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc);
 static void
 gog_pie_plot_populate_editor (GogObject *item,
 			      GOEditor *editor,
@@ -429,7 +427,6 @@ gog_ring_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 #ifdef GOFFICE_WITH_GTK
-extern gpointer gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc);
 static void
 gog_ring_plot_populate_editor (GogObject *item,
 			       GOEditor *editor,

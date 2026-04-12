@@ -27,7 +27,6 @@
 
 #include <string.h>
 
-GtkWidget *gog_xyz_plot_pref   (GogXYZPlot *plot, GOCmdContext *cc);
 
 static void
 cb_transpose (GtkToggleButton *btn, GObject *plot)

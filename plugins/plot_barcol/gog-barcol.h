@@ -45,6 +45,9 @@ void  gog_barcol_plot_register_type (GTypeModule *module);
 void  gog_barcol_view_register_type (GTypeModule *module);
 void  gog_barcol_series_register_type (GTypeModule *module);
 void  gog_barcol_series_element_register_type (GTypeModule *module);
+#ifdef GOFFICE_WITH_GTK
+GtkWidget *gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc);
+#endif
 
 G_END_DECLS
 

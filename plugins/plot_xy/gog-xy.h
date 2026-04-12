@@ -68,25 +68,25 @@ typedef struct {
 #define GOG_2D_PLOT_TYPE	(gog_2d_plot_get_type ())
 #define GOG_2D_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_2D_PLOT_TYPE, Gog2DPlot))
 #define GOG_IS_2D_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_2D_PLOT_TYPE))
-
 GType gog_2d_plot_get_type (void);
 
 #define GOG_TYPE_XY_PLOT	(gog_xy_plot_get_type ())
 #define GOG_XY_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_PLOT, GogXYPlot))
 #define GOG_IS_XY_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_PLOT))
-
 GType gog_xy_plot_get_type (void);
+
 
 #define GOG_TYPE_BUBBLE_PLOT	(gog_bubble_plot_get_type ())
 #define GOG_BUBBLE_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_BUBBLE_PLOT, GogBubblePlot))
 #define GOG_IS_BUBBLE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_BUBBLE_PLOT))
-
 GType gog_bubble_plot_get_type (void);
+#ifdef GOFFICE_WITH_GTK
+GtkWidget *gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
+#endif
 
 #define GOG_TYPE_XY_COLOR_PLOT	(gog_xy_color_plot_get_type ())
 #define GOG_XY_COLOR_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_COLOR_PLOT, GogXYColorPlot))
 #define GOG_IS_XY_COLOR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_COLOR_PLOT))
-
 GType gog_xy_color_plot_get_type (void);
 
 typedef struct {

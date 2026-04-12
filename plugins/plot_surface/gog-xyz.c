@@ -91,7 +91,6 @@ gog_xyz_plot_update_3d (GogPlot *plot)
 }
 
 #ifdef GOFFICE_WITH_GTK
-extern gpointer gog_xyz_plot_pref (GogXYZPlot *plot, GOCmdContext *cc);
 static void
 gog_xyz_plot_populate_editor (GogObject *item,
 				  GOEditor *editor,

@@ -25,7 +25,6 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
-GtkWidget *gog_pie_series_element_pref   (GogPieSeriesElement *element, GOCmdContext *cc);
 
 static void
 cb_element_separation_changed (GtkAdjustment *adj, GObject *element)
@@ -56,7 +55,6 @@ gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc)
 }
 
 /****************************************************************************/
-GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, GOCmdContext *cc);
 
 typedef struct {
 	GtkWidget	*separation_spinner;
@@ -177,8 +175,6 @@ gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 }
 
 /****************************************************************************/
-
-GtkWidget *gog_ring_plot_pref   (GogRingPlot *ring, GOCmdContext *cc);
 
 static void
 cb_center_size_changed (GtkAdjustment *adj, GObject *ring)

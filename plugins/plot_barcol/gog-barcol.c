@@ -155,7 +155,6 @@ gog_barcol_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 #ifdef GOFFICE_WITH_GTK
-extern gpointer gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc);
 static void
 gog_barcol_plot_populate_editor (GogObject *item,
 				 GOEditor *editor,

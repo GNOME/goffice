@@ -511,7 +511,6 @@ gog_xyz_surface_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 #ifdef GOFFICE_WITH_GTK
-extern gpointer gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdContext *cc);
 static void
 gog_xyz_surface_plot_populate_editor (GogObject *item,
 				  GOEditor *editor,

@@ -70,6 +70,9 @@ typedef struct {
 double *gog_xyz_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_changed);
 GOData *gog_xyz_plot_get_x_vals (GogXYZPlot *plot);
 GOData *gog_xyz_plot_get_y_vals (GogXYZPlot *plot);
+#ifdef GOFFICE_WITH_GTK
+GtkWidget *gog_xyz_plot_pref (GogXYZPlot *plot, GOCmdContext *cc);
+#endif
 
 typedef struct {
 	GogSeries base;

@@ -26,7 +26,6 @@
 
 #include <string.h>
 
-GtkWidget *gog_bubble_plot_pref   (GogBubblePlot *bubble, GOCmdContext *cc);
 
 static void
 cb_type_changed (GtkToggleButton* button, GObject *bubble)

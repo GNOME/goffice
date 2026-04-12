@@ -27,8 +27,6 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-GtkWidget *gog_xyz_surface_plot_pref   (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdContext *cc);
-
 typedef struct {
 	GogXYZPlot *plot;
 	GtkWidget *x_spin, *y_spin, *x_label, *y_label, *x_entry, *y_entry;
@@ -95,6 +93,7 @@ cb_as_density_toggled (GtkToggleButton *btn, XYZSurfPrefsState *state)
 	              NULL);
 
 }
+
 GtkWidget *
 gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdContext *cc)
 {
@@ -178,4 +177,3 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 
 	return w;
 }
-

@@ -454,7 +454,6 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 #ifdef GOFFICE_WITH_GTK
-extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
 static void
 gog_bubble_plot_populate_editor (GogObject *obj,
 				 GOEditor *editor,
