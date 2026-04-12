@@ -60,7 +60,7 @@ gog_text_set_property (GObject *obj, guint param_id,
 	GogText *text = GOG_TEXT (obj);
 
 	switch (param_id) {
-	case TEXT_PROP_ALLOW_MARKUP :
+	case TEXT_PROP_ALLOW_MARKUP:
 		text->allow_markup = g_value_get_boolean (value);
 		break;
 	case TEXT_PROP_ROTATE_FRAME:
@@ -86,7 +86,7 @@ gog_text_get_property (GObject *obj, guint param_id,
 	GogText *text = GOG_TEXT (obj);
 
 	switch (param_id) {
-	case TEXT_PROP_ALLOW_MARKUP :
+	case TEXT_PROP_ALLOW_MARKUP:
 		g_value_set_boolean (value, text->allow_markup);
 		break;
 	case TEXT_PROP_ROTATE_FRAME:

@@ -886,7 +886,7 @@ stays:
 				fhash = g_hash_table_new (g_str_hash, g_str_equal);
 
 			switch (page) {
-			default :
+			default:
 				;
 			case GO_FORMAT_DATE:
 			case GO_FORMAT_TIME:

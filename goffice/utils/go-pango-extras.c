@@ -851,7 +851,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 	int spans = 0;
 
 	switch (a->klass->type) {
-	case PANGO_ATTR_FONT_DESC :
+	case PANGO_ATTR_FONT_DESC:
 		{
 			char *str = pango_font_description_to_string
 				(((PangoAttrFontDesc *)a)->desc);
@@ -860,13 +860,13 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 			g_free (str);
 		}
 		break;
-	case PANGO_ATTR_FAMILY :
+	case PANGO_ATTR_FAMILY:
 		spans += 1;
 		g_string_append_printf (gstr, "<span font_family=\"%s\">",
 					((PangoAttrString *)a)->value);
 		break;
-	case PANGO_ATTR_ABSOLUTE_SIZE :
-	case PANGO_ATTR_SIZE :
+	case PANGO_ATTR_ABSOLUTE_SIZE:
+	case PANGO_ATTR_SIZE:
 		spans += 1;
 		g_string_append_printf (gstr, "<span font_size=\"%i\">",
 					((PangoAttrSize *)a)->size);
@@ -876,7 +876,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		g_string_append_printf (gstr, "<span rise=\"%i\">",
 					((PangoAttrInt *)a)->value);
 		break;
-	case PANGO_ATTR_STYLE :
+	case PANGO_ATTR_STYLE:
 		spans += 1;
 		switch (((PangoAttrInt *)a)->value) {
 		case PANGO_STYLE_ITALIC:
@@ -891,19 +891,19 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 			break;
 		}
 		break;
-	case PANGO_ATTR_WEIGHT :
+	case PANGO_ATTR_WEIGHT:
 		spans += 1;
 		g_string_append_printf (gstr, "<span font_weight=\"%i\">",
 					((PangoAttrInt *)a)->value);
 	break;
-	case PANGO_ATTR_STRIKETHROUGH :
+	case PANGO_ATTR_STRIKETHROUGH:
 		spans += 1;
 		if (((PangoAttrInt *)a)->value)
 			g_string_append (gstr, "<span strikethrough=\"true\">");
 		else
 			g_string_append (gstr, "<span strikethrough=\"false\">");
 		break;
-	case PANGO_ATTR_UNDERLINE :
+	case PANGO_ATTR_UNDERLINE:
 		spans += 1;
 		switch (((PangoAttrInt *)a)->value) {
 		case PANGO_UNDERLINE_SINGLE:
@@ -924,31 +924,31 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 			break;
 		}
 		break;
-	case PANGO_ATTR_LANGUAGE :
+	case PANGO_ATTR_LANGUAGE:
 		spans += 1;
 		g_string_append_printf (gstr, "<span lang=\"%s\">",
 					pango_language_to_string (((PangoAttrLanguage *)a)->value));
 		break;
-	case PANGO_ATTR_VARIANT :
+	case PANGO_ATTR_VARIANT:
 		spans += 1;
 		if (((PangoAttrInt *)a)->value == PANGO_VARIANT_NORMAL)
 			g_string_append (gstr, "<span font_variant=\"normal\">");
 		else
 			g_string_append (gstr, "<span font_variant=\"smallcaps\">");
 		break;
-	case PANGO_ATTR_LETTER_SPACING :
+	case PANGO_ATTR_LETTER_SPACING:
 		spans += 1;
 		g_string_append_printf (gstr, "<span letter_spacing=\"%i\">",
 					((PangoAttrInt *)a)->value);
 		break;
-	case PANGO_ATTR_FALLBACK :
+	case PANGO_ATTR_FALLBACK:
 		spans += 1;
 		if (((PangoAttrInt *)a)->value)
 			g_string_append (gstr, "<span fallback=\"true\">");
 		else
 			g_string_append (gstr, "<span fallback=\"false\">");
 		break;
-	case PANGO_ATTR_STRETCH :
+	case PANGO_ATTR_STRETCH:
 		spans += 1;
 		switch (((PangoAttrInt *)a)->value) {
 		case PANGO_STRETCH_ULTRA_CONDENSED:
@@ -981,7 +981,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 			break;
 		}
 		break;
-	case PANGO_ATTR_GRAVITY :
+	case PANGO_ATTR_GRAVITY:
 		spans += 1;
 		switch (((PangoAttrInt *)a)->value) {
 		case PANGO_GRAVITY_SOUTH:
@@ -1002,7 +1002,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 			break;
 		}
 		break;
-	case PANGO_ATTR_GRAVITY_HINT :
+	case PANGO_ATTR_GRAVITY_HINT:
 		spans += 1;
 		switch (((PangoAttrInt *)a)->value) {
 		case PANGO_GRAVITY_HINT_LINE:
@@ -1018,7 +1018,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		}
 		break;
 
-	case PANGO_ATTR_FOREGROUND :
+	case PANGO_ATTR_FOREGROUND:
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;
 			spans += 1;
@@ -1026,7 +1026,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 						color->red, color->green, color->blue);
 		}
 		break;
-	case PANGO_ATTR_BACKGROUND :
+	case PANGO_ATTR_BACKGROUND:
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;
 			spans += 1;
@@ -1034,7 +1034,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 						color->red, color->green, color->blue);
 		}
 		break;
-	case PANGO_ATTR_UNDERLINE_COLOR :
+	case PANGO_ATTR_UNDERLINE_COLOR:
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;
 			spans += 1;
@@ -1042,7 +1042,7 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 						color->red, color->green, color->blue);
 		}
 		break;
-	case PANGO_ATTR_STRIKETHROUGH_COLOR :
+	case PANGO_ATTR_STRIKETHROUGH_COLOR:
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;
 			spans += 1;
@@ -1051,9 +1051,9 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		}
 		break;
 
-	case PANGO_ATTR_SCALE :
-	case PANGO_ATTR_SHAPE :
-	default :
+	case PANGO_ATTR_SCALE:
+	case PANGO_ATTR_SHAPE:
+	default:
 		break; /* ignored */
 	}
 

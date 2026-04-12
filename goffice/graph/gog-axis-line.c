@@ -127,10 +127,10 @@ gog_axis_base_set_property (GObject *obj, guint param_id,
 				resized = TRUE;
 			}
 			break;
-		case AXIS_BASE_PROP_MAJOR_TICK_IN :
+		case AXIS_BASE_PROP_MAJOR_TICK_IN:
 			axis_base->major.tick_in = g_value_get_boolean (value);
 			break;
-		case AXIS_BASE_PROP_MAJOR_TICK_OUT :
+		case AXIS_BASE_PROP_MAJOR_TICK_OUT:
 			itmp = g_value_get_boolean (value);
 			if (axis_base->major.tick_out != itmp) {
 				axis_base->major.tick_out = itmp;
@@ -145,10 +145,10 @@ gog_axis_base_set_property (GObject *obj, guint param_id,
 			}
 			break;
 
-		case AXIS_BASE_PROP_MINOR_TICK_IN :
+		case AXIS_BASE_PROP_MINOR_TICK_IN:
 			axis_base->minor.tick_in = g_value_get_boolean (value);
 			break;
-		case AXIS_BASE_PROP_MINOR_TICK_OUT :
+		case AXIS_BASE_PROP_MINOR_TICK_OUT:
 			itmp = g_value_get_boolean (value);
 			if (axis_base->minor.tick_out != itmp) {
 				axis_base->minor.tick_out = itmp;
@@ -1724,13 +1724,13 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	gog_axis_map_get_bounds (a_map, &minimum, &maximum);
 	side = GO_SIDE_RIGHT;
 	switch (gog_axis_base_get_clamped_position (axis_base)) {
-		case GOG_AXIS_CROSS :
+		case GOG_AXIS_CROSS:
 			position = gog_axis_base_get_cross_location (axis_base);
 			break;
-		case GOG_AXIS_AT_LOW :
+		case GOG_AXIS_AT_LOW:
 			position = start;
 			break;
-		case GOG_AXIS_AT_HIGH :
+		case GOG_AXIS_AT_HIGH:
 			position = stop;
 			side     = GO_SIDE_LEFT;
 			break;
@@ -2645,7 +2645,7 @@ gog_axis_line_set_property (GObject *obj, guint param_id,
 	GogAxisLine *line = GOG_AXIS_LINE (obj);
 
 	switch (param_id) {
-	case AXIS_LINE_PROP_ASSIGNED_FORMAT_STR_XL : {
+	case AXIS_LINE_PROP_ASSIGNED_FORMAT_STR_XL: {
 		char const *str = g_value_get_string (value);
 		GOFormat *newfmt = str ? go_format_new_from_XL (str) : NULL;
 		if (go_format_eq (newfmt, line->assigned_format))
@@ -2671,7 +2671,7 @@ gog_axis_line_get_property (GObject *obj, guint param_id,
 	GogAxisLine const *line = GOG_AXIS_LINE (obj);
 
 	switch (param_id) {
-	case AXIS_LINE_PROP_ASSIGNED_FORMAT_STR_XL :
+	case AXIS_LINE_PROP_ASSIGNED_FORMAT_STR_XL:
 		if (line->assigned_format != NULL)
 			g_value_set_string (value,
 				go_format_as_XL	(line->assigned_format));

@@ -922,7 +922,7 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 		case GO_ANCHOR_NW: case GO_ANCHOR_W: case GO_ANCHOR_SW:
 			obr.x += aabr.w / 2.0;
 			break;
-		case GO_ANCHOR_NE : case GO_ANCHOR_SE : case GO_ANCHOR_E :
+		case GO_ANCHOR_NE: case GO_ANCHOR_SE: case GO_ANCHOR_E:
 			obr.x -= aabr.w / 2.0;
 			break;
 		default : break;
@@ -932,7 +932,7 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
 		case GO_ANCHOR_NW: case GO_ANCHOR_N: case GO_ANCHOR_NE:
 			obr.y += aabr.h / 2.0;
 			break;
-		case GO_ANCHOR_SE : case GO_ANCHOR_S : case GO_ANCHOR_SW :
+		case GO_ANCHOR_SE: case GO_ANCHOR_S: case GO_ANCHOR_SW:
 			obr.y -= aabr.h / 2.0;
 			break;
 		default : break;
@@ -1193,7 +1193,7 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 		case GO_ANCHOR_NW: case GO_ANCHOR_W: case GO_ANCHOR_SW:
 			obr.x += aabr.w / 2.0 + w;
 			break;
-		case GO_ANCHOR_NE : case GO_ANCHOR_SE : case GO_ANCHOR_E :
+		case GO_ANCHOR_NE: case GO_ANCHOR_SE: case GO_ANCHOR_E:
 			obr.x -= aabr.w / 2.0 + w;
 			break;
 		default : break;
@@ -1203,7 +1203,7 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 		case GO_ANCHOR_NW: case GO_ANCHOR_N: case GO_ANCHOR_NE:
 			obr.y += aabr.h / 2.0 + w;
 			break;
-		case GO_ANCHOR_SE : case GO_ANCHOR_S : case GO_ANCHOR_SW :
+		case GO_ANCHOR_SE: case GO_ANCHOR_S: case GO_ANCHOR_SW:
 			obr.y -= aabr.h / 2.0 + w;
 			break;
 		default : break;

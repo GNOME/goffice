@@ -38,7 +38,7 @@ gog_trend_line_set_property (GObject *obj, guint param_id,
 	gboolean b_tmp;
 
 	switch (param_id) {
-	case TREND_LINE_PROP_HAS_LEGEND :
+	case TREND_LINE_PROP_HAS_LEGEND:
 		b_tmp = g_value_get_boolean (value);
 		if (GPOINTER_TO_INT (g_object_get_data (obj, "has-legend")) ^ b_tmp) {
 			GogSeries *series = GOG_SERIES (gog_object_get_parent (GOG_OBJECT (obj)));
@@ -60,7 +60,7 @@ gog_trend_line_get_property (GObject *obj, guint param_id,
 			 GValue *value, GParamSpec *pspec)
 {
 	switch (param_id) {
-	case TREND_LINE_PROP_HAS_LEGEND :
+	case TREND_LINE_PROP_HAS_LEGEND:
 		g_value_set_boolean (value, GPOINTER_TO_INT (g_object_get_data (obj, "has-legend")));
 		break;
 

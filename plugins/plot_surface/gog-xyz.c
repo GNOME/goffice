@@ -334,7 +334,7 @@ gog_xyz_plot_set_property (GObject *obj, guint param_id,
 	GogXYZPlot *plot = GOG_XYZ_PLOT (obj);
 
 	switch (param_id) {
-	case XYZ_PROP_TRANSPOSED :
+	case XYZ_PROP_TRANSPOSED:
 		/* Transposed property have no meaning when data set is XYZ */
 		if (plot->data_xyz)
 			return;
@@ -362,7 +362,7 @@ gog_xyz_plot_get_property (GObject *obj, guint param_id,
 	GogXYZPlot *plot = GOG_XYZ_PLOT (obj);
 
 	switch (param_id) {
-	case XYZ_PROP_TRANSPOSED :
+	case XYZ_PROP_TRANSPOSED:
 		g_value_set_boolean (value, plot->transposed);
 		break;
 

@@ -36,7 +36,7 @@ enum {
 	XYZ_SURFACE_MISSING_MAX
 };
 
-static struct {unsigned n; char const *name;} missing_as_strings[] =
+static const struct {unsigned n; char const *name;} missing_as_strings[] =
 {
 	{XYZ_SURFACE_MISSING_AS_NAN, "invalid"},
 	{XYZ_SURFACE_MISSING_AS_ZERO, "0"}
@@ -139,13 +139,13 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 	if (plot->rows < 2 || plot->columns < 2) {
 		/* we store the default value to avoid warnings about invalid values */
 		if (plot->rows < 2)
-			((GogXYZPlot *) plot)->rows = 10;
+			plot->rows = 10;
 		if (plot->columns < 2)
-			((GogXYZPlot *) plot)->columns = 10;
+			plot->columns = 10;
 		return NULL;
 	}
-	x_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_x_vals ((GogXYZPlot *) plot)), plot->columns + 1);
-	y_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_y_vals ((GogXYZPlot *) plot)), plot->rows + 1);
+	x_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_x_vals (plot)), plot->columns + 1);
+	y_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_y_vals (plot)), plot->rows + 1);
 	if (GOG_IS_XY_MATRIX_PLOT (plot)) {
 		kmax = gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
 	} else
@@ -219,8 +219,8 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 			if (zmax < data[k])
 				zmax = data[k];
 		}
-	((GogXYZPlot *) plot)->z.minima = zmin;
-	((GogXYZPlot *) plot)->z.maxima = zmax;
+	plot->z.minima = zmin;
+	plot->z.maxima = zmax;
 	return data;
 }
 
@@ -301,19 +301,19 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 	if (plot->rows < 2 || plot->columns < 2) {
 		/* we store the default value to avoid warnings about invalid values */
 		if (plot->rows < 2)
-			((GogXYZPlot *) plot)->rows = 10;
+			plot->rows = 10;
 		if (plot->columns < 2)
-			((GogXYZPlot *) plot)->columns = 10;
+			plot->columns = 10;
 		return NULL;
 	}
-	x_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_x_vals ((GogXYZPlot *) plot)), plot->columns);
+	x_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_x_vals (plot)), plot->columns);
 	/* we now take a symetric interval around first bin */
 	xmin = (3. * x_limits[0] - x_limits[1]) / 2.;
 	for (i = 0; i < plot->columns - 1; i++)
 		x_limits[i] = (x_limits[i] + x_limits[i+1]) / 2.;
 	/* we now take a symetric interval around last bin */
 	x_limits[i] = 2 * x_limits[i] - x_limits[i - 1];
-	y_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_y_vals ((GogXYZPlot *) plot)), plot->rows);
+	y_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_y_vals (plot)), plot->rows);
 	/* another symetric interval */
 	ymin = (3. * y_limits[0] - y_limits[1]) / 2.;
 	for (i = 0; i < plot->rows - 1; i++)
@@ -407,8 +407,8 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 			if (zmax < data[k])
 				zmax = data[k];
 		}
-	((GogXYZPlot *) plot)->z.minima = zmin;
-	((GogXYZPlot *) plot)->z.maxima = zmax;
+	plot->z.minima = zmin;
+	plot->z.maxima = zmax;
 
 	if (GOG_IS_CONTOUR_PLOT (plot)) {
 		GogAxisMap *map;
@@ -594,7 +594,7 @@ gog_xyz_surface_plot_set_property (GObject *obj, guint param_id,
 	GogXYZPlot *plot = GOG_XYZ_PLOT (obj);
 
 	switch (param_id) {
-	case XYZ_SURFACE_PROP_ROWS :
+	case XYZ_SURFACE_PROP_ROWS:
 		if (plot->rows == g_value_get_uint (value))
 			return;
 		plot->rows = g_value_get_uint (value);
@@ -605,7 +605,7 @@ gog_xyz_surface_plot_set_property (GObject *obj, guint param_id,
 			plot->y_vals = NULL;
 		}
 		break;
-	case XYZ_SURFACE_PROP_COLUMNS :
+	case XYZ_SURFACE_PROP_COLUMNS:
 		if (plot->columns == g_value_get_uint (value))
 			return;
 		plot->columns = g_value_get_uint (value);
@@ -616,7 +616,7 @@ gog_xyz_surface_plot_set_property (GObject *obj, guint param_id,
 			plot->x_vals = NULL;
 		}
 		break;
-	case XYZ_SURFACE_PROP_AUTO_ROWS :
+	case XYZ_SURFACE_PROP_AUTO_ROWS:
 		if (plot->auto_y == g_value_get_boolean (value))
 			return;
 		plot->auto_y = g_value_get_boolean (value);
@@ -627,7 +627,7 @@ gog_xyz_surface_plot_set_property (GObject *obj, guint param_id,
 			plot->y_vals = NULL;
 		}
 		break;
-	case XYZ_SURFACE_PROP_AUTO_COLUMNS :
+	case XYZ_SURFACE_PROP_AUTO_COLUMNS:
 		if (plot->auto_x == g_value_get_boolean (value))
 			return;
 		plot->auto_x = g_value_get_boolean (value);
@@ -668,19 +668,19 @@ gog_xyz_surface_plot_get_property (GObject *obj, guint param_id,
 	GogXYZPlot *plot = GOG_XYZ_PLOT (obj);
 
 	switch (param_id) {
-	case XYZ_SURFACE_PROP_ROWS :
+	case XYZ_SURFACE_PROP_ROWS:
 		g_value_set_uint (value, plot->rows);
 		break;
-	case XYZ_SURFACE_PROP_COLUMNS :
+	case XYZ_SURFACE_PROP_COLUMNS:
 		g_value_set_uint (value, plot->columns);
 		break;
-	case XYZ_SURFACE_PROP_AUTO_ROWS :
+	case XYZ_SURFACE_PROP_AUTO_ROWS:
 		g_value_set_boolean (value, plot->auto_y);
 		break;
-	case XYZ_SURFACE_PROP_AUTO_COLUMNS :
+	case XYZ_SURFACE_PROP_AUTO_COLUMNS:
 		g_value_set_boolean (value, plot->auto_x);
 		break;
-	case XYZ_SURFACE_PROP_EXTRA1 :
+	case XYZ_SURFACE_PROP_EXTRA1:
 		if (GOG_PLOT (plot)->desc.series.num_dim == 2) {
 			if (GOG_IS_CONTOUR_PLOT (plot))
 				g_value_set_boolean (value, GOG_XY_CONTOUR_PLOT (plot)->as_density);
@@ -753,7 +753,7 @@ common_init_class (GogXYZPlotClass *klass, gboolean is_3d)
 				"invalid",
 				GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 		{
-			static GogSeriesDimDesc dimensions[] = {
+			static const GogSeriesDimDesc dimensions[] = {
 				{ N_("X"), GOG_SERIES_REQUIRED, FALSE,
 				  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
 				{ N_("Y"), GOG_SERIES_REQUIRED, FALSE,
@@ -772,7 +772,7 @@ common_init_class (GogXYZPlotClass *klass, gboolean is_3d)
 				TRUE,
 				GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 		{
-			static GogSeriesDimDesc dimensions[] = {
+			static const GogSeriesDimDesc dimensions[] = {
 				{ N_("X"), GOG_SERIES_REQUIRED, FALSE,
 				  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
 				{ N_("Y"), GOG_SERIES_REQUIRED, FALSE,

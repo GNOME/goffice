@@ -114,13 +114,13 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 
 	/* --- ADJUST FIRST AND LAST ROWS ACCORDING TO IEND CONDITIONS --- */
 	switch (limits) {
-	case GO_CSPLINE_NATURAL : /* natural end conditions */       ; /* no change needed */
+	case GO_CSPLINE_NATURAL: /* natural end conditions */       ; /* no change needed */
 		break;
-	case GO_CSPLINE_PARABOLIC : /* parabolic end conditions: s(1)=s(2) and s(n)=s(n-1) */
+	case GO_CSPLINE_PARABOLIC: /* parabolic end conditions: s(1)=s(2) and s(n)=s(n-1) */
 		d2[1] = d2[1] + x[1] - x[0];
 		d2[nm2] = d2[nm2] + x[nm1] - x[nm2];
 		break;
-	case GO_CSPLINE_CUBIC : /* cubic ends--s[1], s[n] are extrapolated */
+	case GO_CSPLINE_CUBIC: /* cubic ends--s[1], s[n] are extrapolated */
 		dx1 = x[1] - x[0];
 		dx2 = x[2] - x[1];
 		d2[1] = (dx1 + dx2) * (dx1 + 2 * dx2) / dx2;
@@ -130,7 +130,7 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 		d1[nm2] = (dxn2 * dxn2 - dxn1 * dxn1) / dxn2;
 		d2[nm2] = (dxn1 + dxn2) * (dxn1 + 2 * dxn2) / dxn2;
 		break;
-	case GO_CSPLINE_CLAMPED : /* Derivative end conditions */
+	case GO_CSPLINE_CLAMPED: /* Derivative end conditions */
 		dx1 = x[1] - x[0];
 		dy1 = (y[1] - y[0]) / dx1;
 		d1[0] = 0.0;
@@ -161,19 +161,19 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 
 	/* --- TAKE CARE OF SPECIAL END CONDITIONS  FOR S VECTOR --- */
 	switch (limits) {
-	case GO_CSPLINE_NATURAL :
+	case GO_CSPLINE_NATURAL:
 		d4[0] = 0.0;
 		d4[nm1] = 0.0;
 		break;
-	case GO_CSPLINE_PARABOLIC :
+	case GO_CSPLINE_PARABOLIC:
 		d4[0] = d4[1];
 		d4[nm1] = d4[nm2];
 		break;
-	case GO_CSPLINE_CUBIC :
+	case GO_CSPLINE_CUBIC:
 		d4[0] = ((dx1 + dx2) * d4[1] - dx1 * d4[2]) / dx2;
 		d4[nm1] = ((dxn2 + dxn1) * d4[nm2] - dxn1 * d4[nm2 - 1]) / dxn2;
 		break;
-	case GO_CSPLINE_CLAMPED :  /* already taken care of */;
+	case GO_CSPLINE_CLAMPED:  /* already taken care of */;
 		break;
 	}
 

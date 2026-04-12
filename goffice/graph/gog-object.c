@@ -343,7 +343,7 @@ gog_object_set_property (GObject *obj, guint param_id,
 						       position_anchor[id].flags,
 						       GOG_POSITION_ANCHOR);
 		break;
-	case OBJECT_PROP_INVISIBLE :
+	case OBJECT_PROP_INVISIBLE:
 		gog_object_set_invisible (gobj, g_value_get_boolean (value));
 		break;
 	case OBJECT_PROP_MANUAL_SIZE_MODE:
@@ -417,7 +417,7 @@ gog_object_get_property (GObject *obj, guint param_id,
 				break;
 			}
 		break;
-	case OBJECT_PROP_INVISIBLE :
+	case OBJECT_PROP_INVISIBLE:
 		g_value_set_boolean (value, gobj->invisible != 0);
 		break;
 	case OBJECT_PROP_MANUAL_SIZE_MODE:
@@ -992,17 +992,17 @@ gog_object_generate_name (GogObject *obj)
 	g_return_if_fail (obj->role != NULL);
 
 	switch (obj->role->naming_conv) {
-	default :
-	case GOG_OBJECT_NAME_MANUALLY :
+	default:
+	case GOG_OBJECT_NAME_MANUALLY:
 		g_warning ("Role %s should not be autogenerating names",
 			   obj->role->id);
 
-	case GOG_OBJECT_NAME_BY_ROLE :
+	case GOG_OBJECT_NAME_BY_ROLE:
 		g_return_if_fail (obj->role != NULL);
 		type_name = _(obj->role->id);
 		break;
 
-	case GOG_OBJECT_NAME_BY_TYPE :
+	case GOG_OBJECT_NAME_BY_TYPE:
 		g_return_if_fail (klass->type_name != NULL);
 		type_name = _((*klass->type_name) (obj));
 		break;

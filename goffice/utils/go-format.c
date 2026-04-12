@@ -6031,19 +6031,19 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 		break;
 	case PANGO_ATTR_UNDERLINE:
 		switch (((PangoAttrInt *)a)->value) {
-		case PANGO_UNDERLINE_NONE :
+		case PANGO_UNDERLINE_NONE:
 			g_string_append (accum, "[underline=none");
 			break;
-		case PANGO_UNDERLINE_SINGLE :
+		case PANGO_UNDERLINE_SINGLE:
 			g_string_append (accum, "[underline=single");
 			break;
-		case PANGO_UNDERLINE_DOUBLE :
+		case PANGO_UNDERLINE_DOUBLE:
 			g_string_append (accum, "[underline=double");
 			break;
-		case PANGO_UNDERLINE_LOW :
+		case PANGO_UNDERLINE_LOW:
 			g_string_append (accum, "[underline=low");
 			break;
-		case PANGO_UNDERLINE_ERROR :
+		case PANGO_UNDERLINE_ERROR:
 			g_string_append (accum, "[underline=error");
 			break;
 		}

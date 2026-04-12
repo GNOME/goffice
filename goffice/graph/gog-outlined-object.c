@@ -37,7 +37,7 @@ gog_outlined_object_set_property (GObject *obj, guint param_id,
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (obj);
 
 	switch (param_id) {
-	case OUTLINED_OBJECT_PROP_PADDING_PTS :
+	case OUTLINED_OBJECT_PROP_PADDING_PTS:
 		goo->padding_pts = g_value_get_double (value);
 		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 		break;

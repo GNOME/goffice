@@ -484,16 +484,16 @@ gog_bubble_plot_set_property (GObject *obj, guint param_id,
 	GogBubblePlot *bubble = GOG_BUBBLE_PLOT (obj);
 
 	switch (param_id) {
-	case GOG_BUBBLE_PROP_AS_AREA :
+	case GOG_BUBBLE_PROP_AS_AREA:
 		bubble->size_as_area = g_value_get_boolean (value);
 		break;
-	case GOG_BUBBLE_PROP_SHOW_NEGATIVES :
+	case GOG_BUBBLE_PROP_SHOW_NEGATIVES:
 		bubble->show_negatives = g_value_get_boolean (value);
 		break;
-	case GOG_BUBBLE_PROP_IN_3D :
+	case GOG_BUBBLE_PROP_IN_3D:
 		bubble->in_3d = g_value_get_boolean (value);
 		break;
-	case GOG_BUBBLE_PROP_SCALE :
+	case GOG_BUBBLE_PROP_SCALE:
 		bubble->bubble_scale = g_value_get_double (value);
 		break;
 
@@ -513,16 +513,16 @@ gog_bubble_plot_get_property (GObject *obj, guint param_id,
 	GogBubblePlot *bubble = GOG_BUBBLE_PLOT (obj);
 
 	switch (param_id) {
-	case GOG_BUBBLE_PROP_AS_AREA :
+	case GOG_BUBBLE_PROP_AS_AREA:
 		g_value_set_boolean (value, bubble->size_as_area);
 		break;
-	case GOG_BUBBLE_PROP_SHOW_NEGATIVES :
+	case GOG_BUBBLE_PROP_SHOW_NEGATIVES:
 		g_value_set_boolean (value, bubble->show_negatives);
 		break;
-	case GOG_BUBBLE_PROP_IN_3D :
+	case GOG_BUBBLE_PROP_IN_3D:
 		g_value_set_boolean (value, bubble->in_3d);
 		break;
-	case GOG_BUBBLE_PROP_SCALE :
+	case GOG_BUBBLE_PROP_SCALE:
 		g_value_set_double (value, bubble->bubble_scale);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -1990,7 +1990,7 @@ gog_xy_series_set_property (GObject *obj, guint param_id,
 	GogErrorBar* bar;
 
 	switch (param_id) {
-	case SERIES_PROP_XERRORS :
+	case SERIES_PROP_XERRORS:
 		bar = g_value_get_object (value);
 		if (series->x_errors == bar)
 			return;
@@ -2008,7 +2008,7 @@ gog_xy_series_set_property (GObject *obj, guint param_id,
 			g_object_unref (series->x_errors);
 		series->x_errors = bar;
 		break;
-	case SERIES_PROP_YERRORS :
+	case SERIES_PROP_YERRORS:
 		bar = g_value_get_object (value);
 		if (series->y_errors == bar)
 			return;
@@ -2050,10 +2050,10 @@ gog_xy_series_get_property (GObject *obj, guint param_id,
 	GogXYSeries *series=  GOG_XY_SERIES (obj);
 
 	switch (param_id) {
-	case SERIES_PROP_XERRORS :
+	case SERIES_PROP_XERRORS:
 		g_value_set_object (value, series->x_errors);
 		break;
-	case SERIES_PROP_YERRORS :
+	case SERIES_PROP_YERRORS:
 		g_value_set_object (value, series->y_errors);
 		break;
 	case SERIES_PROP_INVALID_AS_ZERO:

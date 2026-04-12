@@ -2351,7 +2351,7 @@ gog_axis_set_property (GObject *obj, guint param_id,
 		}
 		break;
 	}
-	case AXIS_PROP_ASSIGNED_FORMAT_STR_XL : {
+	case AXIS_PROP_ASSIGNED_FORMAT_STR_XL: {
 		char const *str = g_value_get_string (value);
 		GOFormat *newfmt = str ? go_format_new_from_XL (str) : NULL;
 		resized = calc_ticks = gog_axis_set_format (axis, newfmt);
@@ -2460,7 +2460,7 @@ gog_axis_get_property (GObject *obj, guint param_id,
 	case AXIS_PROP_MAP:
 		g_value_set_string (value, axis->map_desc->name);
 		break;
-	case AXIS_PROP_ASSIGNED_FORMAT_STR_XL :
+	case AXIS_PROP_ASSIGNED_FORMAT_STR_XL:
 		if (axis->assigned_format != NULL)
 			g_value_set_string (value,
 				go_format_as_XL	(axis->assigned_format));

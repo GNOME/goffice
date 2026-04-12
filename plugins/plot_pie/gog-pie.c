@@ -212,7 +212,7 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 	case PLOT_PROP_SPAN:
 		pie->span = g_value_get_double (value);
 		break;
-	case PLOT_PROP_SHOW_NEGS : {
+	case PLOT_PROP_SHOW_NEGS: {
 		GSList *ptr = GOG_PLOT (obj)->series;
 		pie->show_negatives = gog_show_neg_mode_from_str (g_value_get_string (value));
 		/* we need to update all the series */

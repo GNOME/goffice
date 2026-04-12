@@ -1254,7 +1254,7 @@ gog_rt_series_set_property (GObject *obj, guint param_id,
 	GogErrorBar* bar;
 
 	switch (param_id) {
-	case RT_SERIES_PROP_RERRORS :
+	case RT_SERIES_PROP_RERRORS:
 		bar = g_value_get_object (value);
 		if (series->r_errors == bar)
 			return;
@@ -1284,7 +1284,7 @@ gog_rt_series_get_property (GObject *obj, guint param_id,
 	GogRTSeries *series=  GOG_RT_SERIES (obj);
 
 	switch (param_id) {
-	case RT_SERIES_PROP_RERRORS :
+	case RT_SERIES_PROP_RERRORS:
 		g_value_set_object (value, series->r_errors);
 		break;
 		break;
@@ -1384,7 +1384,7 @@ gog_polar_series_set_property (GObject *obj, guint param_id,
 	GogErrorBar* bar;
 
 	switch (param_id) {
-	case POLAR_SERIES_PROP_AERRORS :
+	case POLAR_SERIES_PROP_AERRORS:
 		bar = g_value_get_object (value);
 		if (series->a_errors == bar)
 			return;
@@ -1414,7 +1414,7 @@ gog_polar_series_get_property (GObject *obj, guint param_id,
 	GogPolarSeries *series=  GOG_POLAR_SERIES (obj);
 
 	switch (param_id) {
-	case POLAR_SERIES_PROP_AERRORS :
+	case POLAR_SERIES_PROP_AERRORS:
 		g_value_set_object (value, series->a_errors);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);

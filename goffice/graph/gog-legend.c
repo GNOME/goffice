@@ -78,10 +78,10 @@ gog_legend_set_property (GObject *obj, guint param_id,
 	GogLegend *legend = GOG_LEGEND (obj);
 
 	switch (param_id) {
-	case LEGEND_SWATCH_SIZE_PTS :
+	case LEGEND_SWATCH_SIZE_PTS:
 		legend->swatch_size_pts = g_value_get_double (value);
 		break;
-	case LEGEND_SWATCH_PADDING_PTS :
+	case LEGEND_SWATCH_PADDING_PTS:
 		legend->swatch_padding_pts = g_value_get_double (value);
 		break;
 
@@ -97,10 +97,10 @@ gog_legend_get_property (GObject *obj, guint param_id,
 	GogLegend *legend = GOG_LEGEND (obj);
 
 	switch (param_id) {
-	case LEGEND_SWATCH_SIZE_PTS :
+	case LEGEND_SWATCH_SIZE_PTS:
 		g_value_set_double (value, legend->swatch_size_pts);
 		break;
-	case LEGEND_SWATCH_PADDING_PTS :
+	case LEGEND_SWATCH_PADDING_PTS:
 		g_value_set_double (value, legend->swatch_padding_pts);
 		break;
 

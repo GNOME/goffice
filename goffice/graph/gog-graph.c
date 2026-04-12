@@ -166,10 +166,10 @@ gog_graph_set_property (GObject *obj, guint param_id,
 	GogGraph *graph = GOG_GRAPH (obj);
 
 	switch (param_id) {
-	case GRAPH_PROP_THEME :
+	case GRAPH_PROP_THEME:
 		gog_graph_set_theme (graph, g_value_get_object (value));
 		break;
-	case GRAPH_PROP_THEME_NAME :
+	case GRAPH_PROP_THEME_NAME:
 		gog_graph_set_theme (graph,
 			gog_theme_registry_lookup (g_value_get_string (value)));
 		break;
@@ -204,10 +204,10 @@ gog_graph_get_property (GObject *obj, guint param_id,
 	GogGraph *graph = GOG_GRAPH (obj);
 
 	switch (param_id) {
-	case GRAPH_PROP_THEME :
+	case GRAPH_PROP_THEME:
 		g_value_set_object (value, graph->theme);
 		break;
-	case GRAPH_PROP_THEME_NAME :
+	case GRAPH_PROP_THEME_NAME:
 		g_value_set_string (value, gog_theme_get_id (graph->theme));
 		break;
 	case GRAPH_PROP_WIDTH:

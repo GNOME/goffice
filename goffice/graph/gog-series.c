@@ -157,7 +157,7 @@ gog_series_element_set_property (GObject *obj, guint param_id,
 	GogObject *gobj = GOG_OBJECT (obj);
 
 	switch (param_id) {
-	case ELEMENT_INDEX :
+	case ELEMENT_INDEX:
 		gog_series_element_set_index (gse, g_value_get_int (value));
 		if (gobj->parent != NULL) {
 			GogSeries *series = GOG_SERIES (gobj->parent);
@@ -180,7 +180,7 @@ gog_series_element_get_property (GObject *obj, guint param_id,
 	GogSeriesElement *gse = GOG_SERIES_ELEMENT (obj);
 
 	switch (param_id) {
-	case ELEMENT_INDEX :
+	case ELEMENT_INDEX:
 		g_value_set_int (value, gse->index);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -427,7 +427,7 @@ gog_series_set_property (GObject *obj, guint param_id,
 	unsigned int i;
 
 	switch (param_id) {
-	case SERIES_PROP_HAS_LEGEND :
+	case SERIES_PROP_HAS_LEGEND:
 		b_tmp = g_value_get_boolean (value);
 		if (series->has_legend ^ b_tmp) {
 			series->has_legend = b_tmp;
@@ -472,7 +472,7 @@ gog_series_get_property (GObject *obj, guint param_id,
 	GogSeries *series = GOG_SERIES (obj);
 
 	switch (param_id) {
-	case SERIES_PROP_HAS_LEGEND :
+	case SERIES_PROP_HAS_LEGEND:
 		g_value_set_boolean (value, series->has_legend);
 		break;
 	case SERIES_PROP_INTERPOLATION:

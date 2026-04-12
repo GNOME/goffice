@@ -1045,7 +1045,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				error_data[i][j].x = j + 1;
 
 			switch (type) {
-				case GOG_1_5D_NORMAL :
+				case GOG_1_5D_NORMAL:
 					y = gog_axis_map_finite (y_map, value) ?
 						gog_axis_map_to_view (y_map, value) :
 					((is_area_plot)? y_zero: go_nan);
@@ -1057,7 +1057,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					yvals[i][j] = isnan (y)? go_nan: value;
 					break;
 
-				case GOG_1_5D_STACKED :
+				case GOG_1_5D_STACKED:
 					y = gog_axis_map_finite (y_map, sum) ?
 						gog_axis_map_to_view (y_map, sum) :
 						y_zero;
@@ -1069,7 +1069,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					yvals[i][j] = sum;
 					break;
 
-				case GOG_1_5D_AS_PERCENTAGE :
+				case GOG_1_5D_AS_PERCENTAGE:
 					y = is_null ?
 						y_zero :
 						(gog_axis_map_finite (y_map, sum) ?

@@ -430,7 +430,7 @@ go_lasem_component_get_property (GObject *obj, guint param_id,
 	GoLasemComponent *equation = GO_LASEM_COMPONENT (obj);
 
 	switch (param_id) {
-		case LASEM_PROP_ITEX :
+		case LASEM_PROP_ITEX:
 			g_value_set_string (value, equation->itex);
 			break;
 		case LASEM_PROP_COLOR: {

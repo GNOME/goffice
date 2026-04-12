@@ -89,7 +89,7 @@ gog_plot1_5d_set_property (GObject *obj, guint param_id,
 		else
 			return;
 		break;
-	case GOG_1_5D_PROP_IN_3D :
+	case GOG_1_5D_PROP_IN_3D:
 		tmp = g_value_get_boolean (value);
 		if ((gog_1_5d->in_3d != 0) == (tmp != 0))
 			return;
@@ -123,7 +123,7 @@ gog_plot1_5d_get_property (GObject *obj, guint param_id,
 			break;
 		}
 		break;
-	case GOG_1_5D_PROP_IN_3D :
+	case GOG_1_5D_PROP_IN_3D:
 		g_value_set_boolean (value, gog_1_5d->in_3d);
 		break;
 
@@ -575,7 +575,7 @@ gog_series1_5d_set_property (GObject *obj, guint param_id,
 	GogErrorBar* bar;
 
 	switch (param_id) {
-	case SERIES_PROP_ERRORS :
+	case SERIES_PROP_ERRORS:
 		bar = g_value_get_object (value);
 		if (series->errors == bar)
 			return;
@@ -603,7 +603,7 @@ gog_series1_5d_get_property (GObject *obj, guint param_id,
 	GogSeries1_5d *series=  GOG_SERIES1_5D (obj);
 
 	switch (param_id) {
-	case SERIES_PROP_ERRORS :
+	case SERIES_PROP_ERRORS:
 		g_value_set_object (value, series->errors);
 		break;
 	}

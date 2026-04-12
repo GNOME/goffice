@@ -103,7 +103,7 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 
-	case STYLED_OBJECT_PROP_STYLE :
+	case STYLED_OBJECT_PROP_STYLE:
 		resize = go_styled_object_set_style (GO_STYLED_OBJECT (gso),
 	      			g_value_get_object (value));
 		break;
@@ -121,7 +121,7 @@ gog_styled_object_get_property (GObject *obj, guint param_id,
 	GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
 
 	switch (param_id) {
-	case STYLED_OBJECT_PROP_STYLE :
+	case STYLED_OBJECT_PROP_STYLE:
 		g_value_set_object (value, gso->style);
 		break;
 

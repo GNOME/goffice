@@ -218,7 +218,7 @@ gog_equation_get_property (GObject *obj, guint param_id,
 	GogEquation *equation = GOG_EQUATION (obj);
 
 	switch (param_id) {
-		case EQUATION_PROP_ITEX :
+		case EQUATION_PROP_ITEX:
 			g_value_set_string (value, equation->itex);
 			break;
 		case EQUATION_PROP_INLINE_MODE:
