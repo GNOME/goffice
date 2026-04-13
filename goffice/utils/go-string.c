@@ -32,6 +32,11 @@
  * GOString implements a reference-counted string object.
  */
 
+// We use a 32-bit length.  Limit the length of strings a bit more than
+// that to reduce the chance of problems.
+#define GO_STRING_MAXLEN 0x7ffffffe
+
+
 /**
  * GOString:
  * @str: the embeded UTF-8 string
@@ -40,8 +45,6 @@
  **/
 typedef struct {
 	GOString base;
-	PangoAttrList *markup;
-	// something, something, phonetic
 
 	// On-demand filled:
 	const char *collate_str;
@@ -49,7 +52,20 @@ typedef struct {
 	const char *collate_casefold_str;
 
 	guint32 hash, ref_count, length;
+	guint qrich : 1;
 } GOStringImpl;
+
+
+typedef struct {
+	GOStringImpl base;
+	// Note: the base has collate_str etc. that we stictly
+	// speaking don't need.
+
+	GOStringImpl *baseptr;
+
+	PangoAttrList *markup;
+	// something, something, phonetic
+} GOStringRichImpl;
 
 
 #define GO_STRING_LEN(s)	(((GOStringImpl const *)(s))->length)
@@ -58,16 +74,14 @@ typedef struct {
  * : GOStringImpl.base.hash -> GOStringImpl * */
 static GHashTable *go_strings_base;
 
+static GHashTable *go_strings_rich;
+
 
 static inline GOStringImpl *
 go_string_impl_new (char const *str, guint32 hash, guint32 length)
 {
-	GOStringImpl *res = g_slice_new (GOStringImpl);
+	GOStringImpl *res = g_slice_new0 (GOStringImpl);
 	res->base.str = str;
-	res->collate_str = NULL;
-	res->casefold_str = NULL;
-	res->collate_casefold_str = NULL;
-	res->markup = NULL;
 	res->hash = hash;
 	res->length = length;
 	res->ref_count = 1;
@@ -107,13 +121,18 @@ go_string_new_len (char const *str, guint32 len)
 	if (NULL == str)
 		return NULL;
 
+	// Brutally truncate
+	len = MIN (len, GO_STRING_MAXLEN);
+
 	key.base.str = str;
-	key.length   = len;
-	key.hash     = go_str_hash_n (str, len);
+	key.length = len;
+	key.hash = go_str_hash_n (str, len);
 	res = g_hash_table_lookup (go_strings_base, &key);
 	if (NULL == res) {
-		GOStringImpl *res = go_string_impl_new (g_strndup (str, len),
-							key.hash, key.length);
+		char *s = g_malloc (len + 1);
+		memcpy (s, str, len);
+		s[len] = 0;
+		GOStringImpl *res = go_string_impl_new (s, key.hash, key.length);
 		return &res->base;
 	} else
 		return go_string_ref (&res->base);
@@ -137,6 +156,9 @@ go_string_new_nocopy_len (char *str, guint32 len)
 
 	if (NULL == str)
 		return NULL;
+
+	// Brutally truncate
+	len = MIN (len, GO_STRING_MAXLEN);
 
 	key.base.str = str;
 	key.length   = len;
@@ -185,20 +207,27 @@ go_string_new_nocopy (char *str)
 	return str ? go_string_new_nocopy_len (str, strlen (str)) : NULL;
 }
 
-static void
-do_rich_setup (GOString *gstr_,
+static GOString *
+do_rich_setup (GOString *gstr,
 	       PangoAttrList *markup,
 	       GOStringPhonetic *phonetic)
 {
-	GOStringImpl *gstr = (GOStringImpl *)gstr_;
-
-	(void)phonetic;
-
-	if (gstr == NULL) {
+	if (!gstr) {
 		if (NULL != markup) pango_attr_list_unref (markup);
-	} else {
-		gstr->markup = markup;
+		return NULL;
 	}
+
+	GOStringImpl *gstri = (GOStringImpl *)gstr;
+	GOStringRichImpl *res = g_slice_new0 (GOStringRichImpl);
+	g_hash_table_insert (go_strings_rich, res, gstr);
+	res->base.base.str = gstr->str;  // We don't own this string
+	res->base.hash = gstri->hash;
+	res->base.length = gstri->length;
+	res->base.ref_count = 1;
+	res->base.qrich = 1;
+	res->baseptr = gstri;
+	res->markup = markup;
+	return &res->base.base;
 }
 
 /**
@@ -217,9 +246,8 @@ go_string_new_rich (char const *str,
 		    GOStringPhonetic *phonetic)
 {
 	size_t len = byte_len < 0 ? strlen (str) : (size_t)byte_len;
-	GOString *res = go_string_new_len (str, len);
-	do_rich_setup (res, markup, phonetic);
-	return res;
+	GOString *base = go_string_new_len (str, len);
+	return do_rich_setup (base, markup, phonetic);
 }
 
 /**
@@ -238,9 +266,8 @@ go_string_new_rich_nocopy (char *str,
 			   GOStringPhonetic *phonetic)
 {
 	size_t len = byte_len < 0 ? strlen (str) : (size_t)byte_len;
-	GOString *res = go_string_new_nocopy_len (str, len);
-	do_rich_setup (res, markup, phonetic);
-	return res;
+	GOString *base = go_string_new_nocopy_len (str, len);
+	return do_rich_setup (base, markup, phonetic);
 }
 
 GOString *
@@ -263,14 +290,21 @@ go_string_unref (GOString *gstr)
 	if ((--(impl->ref_count)) > 0)
 		return;
 
-	g_hash_table_remove (go_strings_base, gstr);
-	g_free ((gpointer)(gstr->str));
 	g_free ((gpointer)(impl->collate_str));
 	g_free ((gpointer)(impl->casefold_str));
 	g_free ((gpointer)(impl->collate_casefold_str));
-	if (impl->markup) pango_attr_list_unref (impl->markup);
 
-	g_slice_free1 (sizeof (GOStringImpl), gstr);
+	if (impl->qrich) {
+		GOStringRichImpl *rich = (GOStringRichImpl *)impl;
+		go_string_unref (&rich->baseptr->base);
+		pango_attr_list_unref (rich->markup);
+		g_hash_table_remove (go_strings_rich, rich);
+		g_slice_free (GOStringRichImpl, rich);
+	} else {
+		g_hash_table_remove (go_strings_base, gstr);
+		g_free ((gpointer)(gstr->str));
+		g_slice_free (GOStringImpl, impl);
+	}
 }
 
 unsigned int
@@ -319,6 +353,9 @@ go_string_get_collation (GOString const *gstr)
 	if (NULL == gstr)
 		return "";
 
+	if (gstri->qrich)
+		gstri = ((GOStringRichImpl *)gstri)->baseptr;
+
 	if (gstri->collate_str == NULL)
 		gstri->collate_str = g_utf8_collate_key (gstr->str, GO_STRING_LEN (gstr));
 
@@ -332,6 +369,9 @@ go_string_get_casefold (GOString const *gstr)
 
 	if (NULL == gstr)
 		return "";
+
+	if (gstri->qrich)
+		gstri = ((GOStringRichImpl *)gstri)->baseptr;
 
 	if (gstri->casefold_str == NULL)
 		gstri->casefold_str = g_utf8_casefold (gstr->str, GO_STRING_LEN (gstr));
@@ -347,6 +387,9 @@ go_string_get_casefolded_collate (GOString const *gstr)
 	if (NULL == gstr)
 		return "";
 
+	if (gstri->qrich)
+		gstri = ((GOStringRichImpl *)gstri)->baseptr;
+
 	if (gstri->collate_casefold_str == NULL)
 		gstri->collate_casefold_str =
 			g_utf8_collate_key (go_string_get_casefold (gstr), -1);
@@ -359,7 +402,7 @@ static GOString *go_string_ERROR_val = NULL;
 /**
  * go_string_ERROR:
  *
- * A convenience for g_return_val to share one error string without adding a
+ * A convenience for g_return_val_if_fail to share one error string without adding a
  * reference to functions that do not add references to the result
  *
  * Returns: (transfer none): A string saying 'ERROR'
@@ -391,7 +434,8 @@ go_string_equal_internal (gconstpointer gstr_a, gconstpointer gstr_b)
 void
 _go_string_init (void)
 {
-	go_strings_base   = g_hash_table_new (go_string_hash, go_string_equal_internal);
+	go_strings_base = g_hash_table_new (go_string_hash, go_string_equal_internal);
+	go_strings_rich = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	/* Do it here, so we always have it.  */
 	go_string_ERROR_val = go_string_new ("<ERROR>");
@@ -422,6 +466,12 @@ _go_string_shutdown (void)
 				     NULL);
 	g_hash_table_destroy (go_strings_base);
 	go_strings_base = NULL;
+
+	int nrich = g_hash_table_size (go_strings_rich);
+	if (nrich)
+		g_printerr ("Leaking %d rich strings\n", nrich);
+	g_hash_table_destroy (go_strings_rich);
+	go_strings_rich = NULL;
 }
 
 static void
@@ -446,15 +496,17 @@ cb_by_refcount_str (gconstpointer a_, gconstpointer b_)
 /**
  * _go_string_dump:
  *
- * Internal debugging utility to
+ * Internal debugging utility to dump summary information about the
+ * string table.
  **/
 void
 _go_string_dump (void)
 {
 	GSList *strs = NULL;
 	GSList *l;
-	int refs = 0, len = 0;
+	int refs = 0;
 	int count;
+	size_t len = 0;
 
 	g_hash_table_foreach (go_strings_base, cb_collect_strings, &strs);
 	strs = g_slist_sort (strs, cb_by_refcount_str);
@@ -470,7 +522,7 @@ _go_string_dump (void)
 		g_print ("%8d \"%s\"\n", s->ref_count, s->base.str);
 	}
 	g_print ("String table contains %d different strings.\n", count);
-	g_print ("String table contains a total of %d characters.\n", len);
+	g_print ("String table contains a total of %zd characters.\n", len);
 	g_print ("String table contains a total of %d refs.\n", refs);
 	g_slist_free (strs);
 }
@@ -540,7 +592,9 @@ PangoAttrList *
 go_string_get_markup (GOString const *gstr)
 {
 	GOStringImpl *impl = (GOStringImpl *)gstr;
-	return impl->markup;
+	return impl->qrich
+		? ((GOStringRichImpl *)impl)->markup
+		: NULL;
 }
 
 /**
@@ -607,7 +661,7 @@ go_string_trim (GOString *gstr, gboolean internal)
 	char const *t;
 	int cnt, len;
 
-	if (!impl->markup)
+	if (!impl->qrich)
 		return gstr;
 
 	attrs = go_string_get_markup (gstr);
