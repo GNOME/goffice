@@ -237,7 +237,7 @@ do_rich_setup (GOString *gstr,
  * @markup: (transfer full) (nullable): optional markup.
  * @phonetic: (transfer full) (nullable): optional list of phonetic extensions.
  *
- * Returns: (transfer full): a string.
+ * Returns: (transfer full) (nullable): a string.
  **/
 GOString *
 go_string_new_rich (char const *str,
@@ -257,7 +257,7 @@ go_string_new_rich (char const *str,
  * @markup: (transfer full) (nullable): optional markup.
  * @phonetic: (transfer full) (nullable): optional list of phonetic extensions.
  *
- * Returns: (transfer full): a string.
+ * Returns: (transfer full) (nullable): a string.
  **/
 GOString *
 go_string_new_rich_nocopy (char *str,
@@ -415,8 +415,8 @@ go_string_ERROR (void)
 
 /*******************************************************************************/
 
-/* Internal comparison routine that actually does a strcmp, rather than
- * assuming that only str == str are equal  */
+// Internal comparison routine that actually does a string compare,
+// rather than assuming that only str == str are equal
 static gboolean
 go_string_equal_internal (gconstpointer gstr_a, gconstpointer gstr_b)
 {
@@ -474,14 +474,6 @@ _go_string_shutdown (void)
 	go_strings_rich = NULL;
 }
 
-static void
-cb_collect_strings (G_GNUC_UNUSED gpointer key, gpointer str,
-		    gpointer user_data)
-{
-	GSList **pstrs = user_data;
-	*pstrs = g_slist_prepend (*pstrs, str);
-}
-
 static gint
 cb_by_refcount_str (gconstpointer a_, gconstpointer b_)
 {
@@ -502,29 +494,31 @@ cb_by_refcount_str (gconstpointer a_, gconstpointer b_)
 void
 _go_string_dump (void)
 {
-	GSList *strs = NULL;
-	GSList *l;
+	GList *strs = NULL;
+	GList *l;
 	int refs = 0;
-	int count;
+	int count = 0;
 	size_t len = 0;
 
-	g_hash_table_foreach (go_strings_base, cb_collect_strings, &strs);
-	strs = g_slist_sort (strs, cb_by_refcount_str);
-	count = g_slist_length (strs);
+	strs = g_hash_table_get_keys (go_strings_base);
+	strs = g_list_sort (strs, cb_by_refcount_str);
+
 	for (l = strs; l; l = l->next) {
 		GOStringImpl const *s = l->data;
 		refs += s->ref_count;
 		len  += GO_STRING_LEN (s);
+		count++;
 	}
 
-	for (l = g_slist_nth (strs, MAX (0, count - 100)); l; l = l->next) {
+	for (l = g_list_nth (strs, MAX (0, count - 100)); l; l = l->next) {
 		GOStringImpl const *s = l->data;
 		g_print ("%8d \"%s\"\n", s->ref_count, s->base.str);
 	}
+
 	g_print ("String table contains %d different strings.\n", count);
 	g_print ("String table contains a total of %zd characters.\n", len);
 	g_print ("String table contains a total of %d refs.\n", refs);
-	g_slist_free (strs);
+	g_list_free (strs);
 }
 
 /**
