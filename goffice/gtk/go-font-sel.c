@@ -638,18 +638,11 @@ by_integer (gconstpointer a_, gconstpointer b_)
 static void
 gfs_screen_changed (GtkWidget *w, GdkScreen *previous_screen)
 {
-	int width;
-	PangoFontDescription *desc;
-	GdkScreen *screen;
 	GOFontSel *gfs = GO_FONT_SEL (w);
-	PangoContext *pctxt = gtk_widget_get_pango_context (w);
-	PangoLayout *layout = gtk_widget_create_pango_layout (w, NULL);
 	GHashTableIter iter;
 	gpointer key;
-	GArray *widths;
-	GtkWidget *label = go_option_menu_get_label (GO_OPTION_MENU (gfs->family_picker));
 
-	screen = gtk_widget_get_screen (w);
+	GdkScreen *screen = gtk_widget_get_screen (w);
 	if (!previous_screen)
 		previous_screen = gdk_screen_get_default ();
 	if (screen == previous_screen &&
@@ -658,9 +651,12 @@ gfs_screen_changed (GtkWidget *w, GdkScreen *previous_screen)
 
 	reload_families (gfs);
 
-	desc = pango_font_description_from_string ("Sans 72");
+	PangoContext *pctxt = gtk_widget_get_pango_context (w);
+	PangoLayout *layout = gtk_widget_create_pango_layout (w, NULL);
+	GtkWidget *label = go_option_menu_get_label (GO_OPTION_MENU (gfs->family_picker));
+	PangoFontDescription *desc = pango_font_description_from_string ("Sans 72");
 	g_object_set (w, "font-desc", desc, NULL);
-	width = go_pango_measure_string (pctxt, desc, "M");
+	int width = go_pango_measure_string (pctxt, desc, "M");
 	pango_font_description_free (desc);
 	/* Let's hope pixels are roughly square.  */
 	gtk_widget_set_size_request (GTK_WIDGET (gfs->preview_label),
@@ -668,7 +664,7 @@ gfs_screen_changed (GtkWidget *w, GdkScreen *previous_screen)
 
 	// Compute the 95% percentile of family name widths.  This is in the
 	// hope that less than 5% are crazy.
-	widths = g_array_new (FALSE, FALSE, sizeof (int));
+	GArray *widths = g_array_new (FALSE, FALSE, sizeof (int));
 	g_hash_table_iter_init (&iter, gfs->family_by_name);
 	while (g_hash_table_iter_next (&iter, &key, NULL)) {
 		const char *name = key;
