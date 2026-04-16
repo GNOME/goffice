@@ -592,6 +592,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 			gtk_list_store_set (state->avail_list, &iter, 0, _("Values as percent"), 1, -4, -1);
 		}
 		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->avail_list), 1, GTK_SORT_ASCENDING);
+		g_slist_free (dims);
 	}
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0,
 	                                           GOG_IS_DATA_LABEL (gobj)? GOG_DATA_SCALAR: GOG_DATA_VECTOR));

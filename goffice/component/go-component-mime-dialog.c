@@ -28,6 +28,7 @@ struct _GOComponentMimeDialog {
 	GtkDialog base;
 	GtkTreeSelection *sel;
 	GtkTreeModel *list;
+	char *selected_mime_type;
 };
 typedef GtkDialogClass GOComponentMimeDialogClass;
 
@@ -80,9 +81,23 @@ go_component_mime_dialog_init (GOComponentMimeDialog *dlg)
 	gtk_widget_show_all (gtk_dialog_get_content_area (&dlg->base));
 }
 
+static void
+go_component_mime_dialog_finalize (GObject *obj)
+{
+	GOComponentMimeDialog *dlg = GO_COMPONENT_MIME_DIALOG (obj);
+	g_free (dlg->selected_mime_type);
+	G_OBJECT_CLASS (g_type_class_peek (GTK_TYPE_DIALOG))->finalize (obj);
+}
+
+static void
+go_component_mime_dialog_class_init (GObjectClass *klass)
+{
+	klass->finalize = go_component_mime_dialog_finalize;
+}
+
 GSF_CLASS (GOComponentMimeDialog, go_component_mime_dialog,
-	NULL, go_component_mime_dialog_init,
-	GTK_TYPE_DIALOG)
+	   go_component_mime_dialog_class_init, go_component_mime_dialog_init,
+	   GTK_TYPE_DIALOG)
 
 GtkWidget  *
 go_component_mime_dialog_new ()
@@ -94,9 +109,10 @@ char const *
 go_component_mime_dialog_get_mime_type (GOComponentMimeDialog *dlg)
 {
 	GtkTreeIter iter;
-	char const *mime_type = NULL;
+	g_free (dlg->selected_mime_type);
+	dlg->selected_mime_type = NULL;
 	if (gtk_tree_selection_get_selected (dlg->sel, NULL, &iter))
-		gtk_tree_model_get (dlg->list, &iter, 1, &mime_type, -1);
-	return mime_type;
+		gtk_tree_model_get (dlg->list, &iter, 1, &dlg->selected_mime_type, -1);
+	return dlg->selected_mime_type;
 }
 

@@ -218,6 +218,7 @@ cb_axis_changed (GtkComboBox *combo, GogPlot *plot)
 	gog_plot_set_axis_by_id (plot,
 				 GPOINTER_TO_UINT (g_object_get_data (G_OBJECT(combo), "axis-type")),
 				 g_value_get_uint (&value));
+	g_value_unset (&value);
 }
 
 static void

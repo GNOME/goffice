@@ -2928,6 +2928,8 @@ color_map_changed_cb (GtkComboBox *combo, GogAxisPrefState *state)
 	gtk_combo_box_get_active_iter (combo, &iter);
 	gtk_tree_model_get (model, &iter, 2, &map, -1);
 	state->axis->color_map = map;
+	if (map != NULL)
+		g_object_unref (map);
 	state->axis->auto_color_map = map == gog_theme_get_color_map (theme, state->axis->type == GOG_AXIS_PSEUDO_3D);
 	gog_object_emit_changed (GOG_OBJECT (state->axis), FALSE);
 	gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "save-btn"),
