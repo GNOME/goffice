@@ -1110,15 +1110,19 @@ go_style_populate_editor (GOStyle *style,
 	state->object_with_style = object_with_style;
 	state->enable_edit = FALSE;
 
-	if (GO_IS_STYLED_OBJECT (object_with_style))
+	if (GO_IS_STYLED_OBJECT (object_with_style)) {
 		state->doc = go_styled_object_get_document (GO_STYLED_OBJECT (object_with_style));
-	else {
+		if (state->doc != NULL)
+			g_object_ref (state->doc);
+	} else {
 		GObjectClass *klass = G_OBJECT_GET_CLASS (object_with_style);
 		if (g_object_class_find_property (klass, "document") != NULL)
 			g_object_get (object_with_style, "document", &(state->doc), NULL);
 	}
-	if (state->doc && !GO_IS_DOC (state->doc))
+	if (state->doc && !GO_IS_DOC (state->doc)) {
+		g_object_unref (state->doc);
 		state->doc = NULL;
+	}
 
 	if ((enable & (GO_STYLE_OUTLINE | GO_STYLE_LINE | GO_STYLE_FILL)) != 0) {
 		gui = go_gtk_builder_load_internal ("res:go:utils/go-style-prefs.ui", GETTEXT_PACKAGE, cc);
