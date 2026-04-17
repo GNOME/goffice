@@ -294,10 +294,8 @@ gog_styled_object_style_changed (GOStyledObject *gso)
 static GODoc*
 gog_styled_object_get_document (GOStyledObject *gso)
 {
-	GODoc *doc = NULL;
 	GogGraph *graph = gog_object_get_graph (GOG_OBJECT (gso));
-	g_object_get (graph, "document", &doc, NULL);
-	return doc;
+	return (graph != NULL)? gog_graph_get_document (graph): NULL;
 }
 
 static void
