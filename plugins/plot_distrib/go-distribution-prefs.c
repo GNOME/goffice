@@ -107,6 +107,7 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), NULL);
 
 	dist_type = go_distribution_get_distribution_type (dist);
+	g_object_unref (dist);
 	g_object_set (res, "border-width", 12, "row-spacing", 12, "column-spacing", 24, NULL);
 	g_object_set (w, "xalign", 0., NULL);
 	gtk_grid_attach (prefs->grid, w, 0, 0, 1, 1);
