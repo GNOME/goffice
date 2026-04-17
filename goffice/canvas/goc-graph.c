@@ -266,7 +266,7 @@ format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 static void
 goc_graph_do_tooltip (GocGraph *graph)
 {
-	GogView *view, *base_view;
+	GogView *view, *base_view = NULL;
 	char *buf = NULL, *s1 = NULL, *s2 = NULL;
 	GogObject *obj;
 	GogChart *chart;
@@ -299,7 +299,6 @@ goc_graph_do_tooltip (GocGraph *graph)
 
 	/* get the GogView at the cursor position */
 	g_object_get (G_OBJECT (graph->renderer), "view", &base_view, NULL);
-	g_object_unref (base_view); /* we don't need a reference */
 	gog_view_get_view_at_point (base_view, x, y, &obj, NULL);
 	if (!obj)
 		goto tooltip;
@@ -310,7 +309,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 	/* get the plot allocation */
 	l = gog_object_get_children (GOG_OBJECT (chart), gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
 	if (l == NULL)
-		return;
+		goto tooltip;
 	ptr = l;
 	while (ptr) {
 		view = gog_view_find_child_view (base_view, GOG_OBJECT (ptr->data));
@@ -360,7 +359,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 	g_slist_free (l);
 	if (view == NULL) {
 		gtk_widget_set_tooltip_markup (GTK_WIDGET (item->canvas), NULL);
-		return;
+		goto tooltip;
 	}
 	if (gog_chart_map_is_valid (map) &&
 				x >= alloc.x && x < alloc.x + alloc.w &&
@@ -399,6 +398,8 @@ goc_graph_do_tooltip (GocGraph *graph)
 tooltip:
 	gtk_widget_set_tooltip_markup (GTK_WIDGET (item->canvas), buf);
 	g_free (buf);
+	if (base_view)
+		g_object_unref (base_view);
 }
 
 static gboolean
