@@ -1,3 +1,16 @@
+2026-04-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-view.c (gog_tool_action_new)
+	(gog_tool_action_free): Break reference cycle by not keeping a
+	view ref.
+	(cb_child_added): Unref the newly created view.
+	(cb_remove_child): Remove from parent list and clear parent pointer
+	before unreffing.
+	(cb_model_reordered): Refactor to handle order changes safely and
+	unref views no longer in use.
+	(gog_view_set_property): Ref the view when adding to parent; unref
+	views returned by gog_object_new_view.
+
 2026-04-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-string.c: Redo implementation.  The new

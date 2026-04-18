@@ -295,7 +295,6 @@ gog_tool_action_new (GogView *view, GogTool *tool, double x, double y)
 
 	action = g_new0 (GogToolAction, 1);
 
-	g_object_ref (view);
 	action->tool = tool;
 	action->view = view;
 	action->data = NULL;
@@ -338,7 +337,6 @@ gog_tool_action_free (GogToolAction *action)
 	if (action->tool->destroy != NULL)
 		(action->tool->destroy) (action);
 
-	g_object_unref (action->view);
 	g_free (action->data);
 	g_free (action);
 }
@@ -360,9 +358,13 @@ static void
 cb_child_added (GogObject *parent, GogObject *child,
 		GogView *view)
 {
+	GogView *child_view;
+
 	g_return_if_fail (view->model == parent);
 
-	gog_object_new_view (child, view);
+	child_view = gog_object_new_view (child, view);
+	if (child_view)
+		g_object_unref (child_view);
 	gog_view_queue_resize (view);
 }
 
@@ -383,6 +385,8 @@ cb_remove_child (GogObject *parent, GogObject *child,
 		g_return_if_fail (tmp != NULL);
 
 		if (tmp->model == child) {
+			view->children = g_slist_remove (view->children, tmp);
+			tmp->parent = NULL;
 			g_object_unref (tmp);
 			return;
 		}
@@ -413,18 +417,32 @@ cb_model_changed (GogObject *model, gboolean resized, GogView *view)
 static void
 cb_model_reordered (GogView *view)
 {
-	GSList *tmp, *new_order = NULL;
-	GSList *ptr = view->model->children;
+	GSList *ptr, *tmp, *new_order = NULL;
+	GSList *old_children = view->children;
+	GSList *available = g_slist_copy (old_children);
 
-	for (; ptr != NULL ; ptr = ptr->next) {
-		tmp = view->children;
-		/* not all the views may be created yet check for NULL */
-		while (tmp != NULL && GOG_VIEW (tmp->data)->model != ptr->data)
-			tmp = tmp->next;
-		if (tmp != NULL)
-			new_order = g_slist_prepend (new_order, tmp->data);
+	for (ptr = view->model->children; ptr != NULL ; ptr = ptr->next) {
+		GSList *found = NULL;
+		for (tmp = available; tmp != NULL; tmp = tmp->next) {
+			if (GOG_VIEW (tmp->data)->model == ptr->data) {
+				found = tmp;
+				break;
+			}
+		}
+		if (found != NULL) {
+			new_order = g_slist_prepend (new_order, found->data);
+			available = g_slist_delete_link (available, found);
+		}
 	}
-	g_slist_free (view->children);
+
+	for (tmp = available; tmp != NULL; tmp = tmp->next) {
+		GogView *child = GOG_VIEW (tmp->data);
+		child->parent = NULL;
+		g_object_unref (child);
+	}
+	g_slist_free (available);
+
+	g_slist_free (old_children);
 	view->children = g_slist_reverse (new_order);
 }
 
@@ -442,6 +460,7 @@ gog_view_set_property (GObject *gobject, guint param_id,
 		view->parent = GOG_VIEW (g_value_get_object (value));
 		if (view->parent != NULL) {
 			view->renderer = view->parent->renderer;
+			g_object_ref (view);
 			view->parent->children = g_slist_prepend (view->parent->children, view);
 			cb_model_reordered (view->parent);
 		}
@@ -462,8 +481,11 @@ gog_view_set_property (GObject *gobject, guint param_id,
 		GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
 		GSList *ptr = view->model->children;
 
-		for ( ;ptr != NULL ; ptr = ptr->next)
-			gog_object_new_view (ptr->data, view);
+		for ( ;ptr != NULL ; ptr = ptr->next) {
+			GogView *child_view = gog_object_new_view (ptr->data, view);
+			if (child_view)
+				g_object_unref (child_view);
+		}
 
 		g_signal_connect_object (G_OBJECT (view->model),
 			"child_added",
