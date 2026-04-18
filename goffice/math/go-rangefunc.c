@@ -284,8 +284,7 @@ SUFFIX(go_range_sort) (DOUBLE const *xs, int n)
 	if (n <= 0)
 		return NULL;
 	else {
-		DOUBLE *ys = g_new (DOUBLE, n);
-		memcpy (ys, xs, n * sizeof (DOUBLE));
+		DOUBLE *ys = go_memdup_n (xs, n, sizeof (DOUBLE));
 		qsort (ys, n, sizeof (ys[0]), (int (*) (const void *, const void *))&SUFFIX(float_compare));
 		return ys;
 	}

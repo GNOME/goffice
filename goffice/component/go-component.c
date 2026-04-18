@@ -841,8 +841,7 @@ go_component_build_snapshot (GOComponent *component)
 	cairo_destroy (cr);
 	if (status == CAIRO_STATUS_SUCCESS && state.length > 0) {
 		component->snapshot_length = state.length;
-		component->snapshot_data = g_new (char, state.length);
-		memcpy(component->snapshot_data, gsf_output_memory_get_bytes ((GsfOutputMemory *) state.output), state.length);
+		component->snapshot_data = go_memdup (gsf_output_memory_get_bytes ((GsfOutputMemory *) state.output), state.length);
 	}
 	g_object_unref (state.output);
 	return res;

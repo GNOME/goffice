@@ -63,11 +63,9 @@
  **/
 
 static GogViewAllocation *
-gog_view_allocation_copy (GogViewAllocation *alloc)
+gog_view_allocation_copy (GogViewAllocation const *alloc)
 {
-	GogViewAllocation *res = g_new (GogViewAllocation, 1);
-	memcpy (res, alloc, sizeof (GogViewAllocation));
-	return res;
+	return go_memdup (alloc, sizeof (GogViewAllocation));
 }
 
 GType

@@ -37,9 +37,7 @@
 static GODateConventions *
 go_date_conventions_copy (GODateConventions const *dc)
 {
-	GODateConventions *res = g_new (GODateConventions, 1);
-	memcpy (res, dc, sizeof(GODateConventions));
-	return res;
+	return go_memdup (dc, sizeof (GODateConventions));
 }
 
 GType

@@ -3122,8 +3122,7 @@ go_emf_savedc (GOEmfState *state)
 {
 	d_(("savedc\n"));
 	state->dc_stack = g_slist_prepend (state->dc_stack, state->curDC);
-	state->curDC = g_new (GOEmfDC, 1);
-	memcpy (state->curDC, state->dc_stack->data, sizeof (GOEmfDC));
+	state->curDC = go_memdup (state->dc_stack->data, sizeof (GOEmfDC));
 	state->curDC->style = go_style_new ();
 	state->curDC->font = NULL;
 	return TRUE;

@@ -812,11 +812,9 @@ go_file_get_group_name (char const *uri)
 }
 
 static GOFilePermissions *
-go_file_permissions_copy (GOFilePermissions *file_permissions)
+go_file_permissions_copy (GOFilePermissions const *permissions)
 {
-	GOFilePermissions *res = g_new (GOFilePermissions, 1);
-	memcpy (res, file_permissions, sizeof(GOFilePermissions));
-	return res;
+	return go_memdup (permissions, sizeof (GOFilePermissions));
 }
 
 /**

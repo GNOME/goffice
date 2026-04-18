@@ -335,8 +335,7 @@ go_data_vector_val_dup (GOData const *src)
 	GODataVectorVal *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	GODataVectorVal const *src_val = (GODataVectorVal const *)src;
 	if (src_val->notify) {
-		dst->val = g_new (double, src_val->n);
-		memcpy (dst->val, src_val->val, src_val->n * sizeof (double));
+		dst->val = go_memdup_n (src_val->val, src_val->n, sizeof (double));
 		dst->notify = g_free;
 	} else
 		dst->val = src_val->val;
@@ -924,8 +923,7 @@ go_data_matrix_val_dup (GOData const *src)
 	GODataMatrixVal *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	GODataMatrixVal const *src_val = (GODataMatrixVal const *)src;
 	if (src_val->notify) {
-		dst->val = g_new (double, src_val->size.rows * src_val->size.columns);
-		memcpy (dst->val, src_val->val, src_val->size.rows * src_val->size.columns * sizeof (double));
+		dst->val = go_memdup_n (src_val->val, (size_t)src_val->size.rows * src_val->size.columns, sizeof (double));
 		dst->notify = g_free;
 	} else
 		dst->val = src_val->val;

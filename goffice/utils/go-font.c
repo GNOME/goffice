@@ -398,11 +398,9 @@ go_font_metrics_free (GOFontMetrics *metrics)
 }
 
 static GOFontMetrics *
-go_font_metrics_copy (GOFontMetrics *file_permissions)
+go_font_metrics_copy (GOFontMetrics const *metrics)
 {
-	GOFontMetrics *res = g_new (GOFontMetrics, 1);
-	memcpy (res, file_permissions, sizeof(GOFontMetrics));
-	return res;
+	return go_memdup (metrics, sizeof (GOFontMetrics));
 }
 
 /**
