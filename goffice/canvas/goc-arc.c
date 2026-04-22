@@ -422,6 +422,7 @@ goc_arc_copy (GocItem *dest, GocItem *source)
 	dst->yr = src->yr;
 	dst->ang1 = src->ang1;
 	dst->ang2 = src->ang2;
+	dst->rotation = src->rotation;
 	dst->type = src->type;
 	dst->start_arrow = src->start_arrow;
 	dst->end_arrow = src->end_arrow;
