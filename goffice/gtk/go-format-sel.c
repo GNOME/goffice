@@ -1157,7 +1157,7 @@ stays:
 
 /*
  * Callback routine to manage the relationship between the number
- * formating radio buttons and the widgets required for each mode.
+ * formatting radio buttons and the widgets required for each mode.
  */
 
 static void

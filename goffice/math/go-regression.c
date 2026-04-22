@@ -1297,7 +1297,7 @@ SUFFIX(go_regression_stat_destroy) (SUFFIX(go_regression_stat_t) *stat_)
  *      result = derivative( f, &df, x, par, i)
  *
  * Approximates the partial derivative of a given function, at (x;params)
- * with respect to the parameter indicated by ith parameter.  The resulst
+ * with respect to the parameter indicated by ith parameter.  The result
  * is stored in 'df'.
  *
  * See the header file for more information.
@@ -1439,7 +1439,7 @@ SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
  * RETURNS:
  *   The coefficient matrix of the LM method.
  *
- * DETAIS:
+ * DETAILS:
  *   The coefficient matrix is defined by
  *
  *            N        1      df  df

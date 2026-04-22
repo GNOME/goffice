@@ -78,7 +78,7 @@ go_mathml_to_itex (char const *mml, char **buf, int *length, gboolean *compact, 
 	}
 
 	ret = xsltSaveResultToString ((xmlChar **) &itex, &len, res, sheet) != 0;
-	/* Remove the extra charaters are start or end */
+	/* Remove the extra characters are start or end */
 	if (compact)
 		*compact = FALSE; /* the default */
 	if (!strncmp (itex + 1, "\\[", 2) && !strcmp (itex + len - 2, "\\]")) {

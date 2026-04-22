@@ -659,7 +659,7 @@ go_data_vector_str_unserialize (GOData *dat, char const *str, gpointer user)
 			end = strchr (cur, sep);
 			if (end == NULL) {
 				if (strchr (cur, '\"')) {
-					/* string containg quotes are not allowed */
+					/* string containing quotes are not allowed */
 					g_array_free (values, TRUE);
 					return FALSE;
 				}
@@ -670,7 +670,7 @@ go_data_vector_str_unserialize (GOData *dat, char const *str, gpointer user)
 			val = g_strndup (cur, end - cur);
 			g_array_append_val (values, val);
 			if (strchr (val, '\"')) {
-				/* string containg quotes are not allowed */
+				/* string containing quotes are not allowed */
 				g_array_free (values, TRUE);
 				return FALSE;
 			}

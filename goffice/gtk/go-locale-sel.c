@@ -436,7 +436,7 @@ get_locale_name (GOLocaleSel *ls)
 
 	/*
 	 * We cannot use LC_ALL here because a composite locale may have
-	 * a string that is a mile wide (and not be intented for humans
+	 * a string that is a mile wide (and not be intended for humans
 	 * anyway).  Why use LC_MESSAGES?  Good question, but in actuality
 	 * I doubt it will matter.  It's an arbitrary choice.
 	 */

@@ -1681,7 +1681,7 @@ _go_decimal_init (void)
 	memcpy (&u64, &x, sizeof (u64));
 	if (sizeof (u64) != 8 || u64 != expected) {
 		// Is this fails, Decimal64 is probably dpd encoded.
-		// (or we have really weird endianess going on)
+		// (or we have really weird endianness going on)
 		g_printerr ("Decimal64 numbers are not bis encoded.\n");
 		g_printerr ("(Got x%lx, expected 0x%lx)\n", u64, expected);
 		abort ();

@@ -90,7 +90,7 @@
  * @fmt: #GOFormat to use.
  * @date_conv: the used #GODateConventions.
  *
- * Used by plots to give formating informations to each axis.
+ * Used by plots to give formating information to each axis.
  * GogPlotBoundInfo::val are the values limits, GogPlotBoundInfo::logical are
  * the actual needed display limits.
  **/

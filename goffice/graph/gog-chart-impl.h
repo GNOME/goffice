@@ -35,7 +35,7 @@ struct _GogChart {
 
 	/* use a simple grid layout to position charts within graph */
 	unsigned int x_pos, y_pos;
-	unsigned int cols, rows; 		/* if == 0, chart is not positionned */
+	unsigned int cols, rows; 		/* if == 0, chart is not positioned */
 	/* actual chart position in graph grid after layout validation */
 	unsigned int x_pos_actual, y_pos_actual;
 

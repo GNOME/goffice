@@ -420,7 +420,7 @@ go_selector_update_swatch (GOSelector *selector)
  * go_selector_activate:
  * @selector: a #GOSelector
  *
- * Updates slector swatch and emits an "activate" signal.
+ * Updates selector swatch and emits an "activate" signal.
  **/
 void
 go_selector_activate (GOSelector *selector)
@@ -515,7 +515,7 @@ go_selector_drag_data_get (GtkWidget        *button,
  * go_selector_setup_dnd:
  * @selector: a #GOSelector
  * @dnd_target: drag and drop target type
- * @dnd_length: length of data transfered on drop
+ * @dnd_length: length of data transferred on drop
  * @data_get: (scope notified): a user provided data_get method
  * @data_received: (scope notified): a user provided data_received method
  * @fill_icon: (scope notified): a user function for dnd icon creation

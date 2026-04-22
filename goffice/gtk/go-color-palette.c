@@ -57,7 +57,7 @@ struct _GOColorPalette {
 typedef struct {
 	GtkBoxClass base;
 
-	/* Signals emited by this widget */
+	/* Signals emitted by this widget */
 	void (*color_changed) (GOColorPalette *pal, GOColor color,
 			       gboolean is_custom, gboolean by_user, gboolean is_default);
 	void (*display_custom_dialog) (GOColorPalette *pal, GtkWidget *dialog);

@@ -496,7 +496,7 @@ go_plugin_get_dir_name (GOPlugin *plugin)
  * go_plugin_get_id:
  * @plugin: #GOPlugin
  *
- * Returns: the ID of @plugin (unique string used for idenfification of
+ * Returns: the ID of @plugin (unique string used for identification of
  * 	plugin).  Returned string is != NULL and stays valid during @plugin's
  * 	lifetime.
  **/

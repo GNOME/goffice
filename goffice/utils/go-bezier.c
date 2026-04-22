@@ -226,7 +226,7 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 
 		/* Now evaluate the b values. Each b[i] can be evaluated against
 		 b[i+1] in the form b[i]=c[i]*b[i+1]+d[i], except the last one
-		 which will be directy evaluated.
+		 which will be directly evaluated.
 
 		 We have b[0]=1.5*a[0]-.5*b[1], so that c[0]=-.5 and d[0]=1.5*a[0].
 

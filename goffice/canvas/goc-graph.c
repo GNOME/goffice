@@ -193,7 +193,7 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 	if (graph->renderer == NULL)
 		return;
 	// Note that we can't have RTL when the scene has no widget, maybe we can
-	// add a direction mamber to the group (in its private member) if needed
+	// add a direction member to the group (in its private member) if needed
 	if (canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		x0 = item->x1;
 		goc_group_adjust_coords (item->parent, &x0, &y0);

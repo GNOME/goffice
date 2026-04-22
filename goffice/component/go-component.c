@@ -885,7 +885,7 @@ go_component_new_from_uri (char const *uri)
  * @length: where to store the data length
  *
  * Returns a snapshot is either svg or png format for the component.
- * Returns: (transfer none): the snapshot as an arry of bytes.
+ * Returns: (transfer none): the snapshot as an array of bytes.
  */
 void const *
 go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t *length)

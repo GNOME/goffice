@@ -85,7 +85,7 @@ static char const *libgoffice_extern_plugin_dir = GOFFICE_EXTERNPLUGINDIR;
  * </programlisting>
  * </informalexample>
  *
- * API and ABI compatability is maintained per minor release series, e.g:
+ * API and ABI compatibility is maintained per minor release series, e.g:
  * all 0.8.x releases are ABI/API compatible with previous 0.8.x releases.
  *
  * Bindings for other languages than C and C++ are available through GObject

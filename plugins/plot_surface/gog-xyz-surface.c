@@ -307,18 +307,18 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 		return NULL;
 	}
 	x_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_x_vals (plot)), plot->columns);
-	/* we now take a symetric interval around first bin */
+	/* we now take a symmetric interval around first bin */
 	xmin = (3. * x_limits[0] - x_limits[1]) / 2.;
 	for (i = 0; i < plot->columns - 1; i++)
 		x_limits[i] = (x_limits[i] + x_limits[i+1]) / 2.;
-	/* we now take a symetric interval around last bin */
+	/* we now take a symmetric interval around last bin */
 	x_limits[i] = 2 * x_limits[i] - x_limits[i - 1];
 	y_limits = go_range_sort (go_data_get_values (gog_xyz_plot_get_y_vals (plot)), plot->rows);
-	/* another symetric interval */
+	/* another symmetric interval */
 	ymin = (3. * y_limits[0] - y_limits[1]) / 2.;
 	for (i = 0; i < plot->rows - 1; i++)
 		y_limits[i] = (y_limits[i] + y_limits[i+1]) / 2.;
-	/* still another symetric interval */
+	/* still another symmetric interval */
 	y_limits[i] = 2 * y_limits[i] - y_limits[i - 1];
 	if (GOG_PLOT (plot)->desc.series.num_dim == 3)
 		kmax = gog_series_get_xyz_data (GOG_SERIES (series),

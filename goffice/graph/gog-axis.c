@@ -2606,7 +2606,7 @@ gog_axis_update (GogObject *obj)
 			axis->date_conv = bounds.date_conv;
 
 		/* value dimensions have more information than index dimensions.
-		 * At least thats what I am guessing today*/
+		 * At least that's what I am guessing today*/
 		if (!bounds.is_discrete)
 			axis->is_discrete = FALSE;
 		else if (axis->labels == NULL && labels != NULL) {
@@ -3491,7 +3491,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, AXIS_PROP_DISPLAY_FACTOR,
 		g_param_spec_double ("display-factor",
 			_("Display factor"),
-			_("Real values are the displayed ones multipled by the display factor."),
+			_("Real values are the displayed ones multiplied by the display factor."),
 		    G_MINDOUBLE, G_MAXDOUBLE, 1.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 

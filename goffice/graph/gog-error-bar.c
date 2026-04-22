@@ -225,7 +225,7 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 /**
  * gog_error_bar_prefs:
  * @series: #GogSeries
- * @property: the name of the @series property correspondig to the #GogErrorBar.
+ * @property: the name of the @series property corresponding to the #GogErrorBar.
  * @direction: #GogErrorBarDirection
  * @dalloc: #GogDataAllocator
  * @cc: #GOCmdContext
@@ -488,7 +488,7 @@ GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
  * @min: where the minimum value will be stored
  * @max: where the maximum value will be stored
  *
- * If the value correponding to @index is valid, fills min and max with the error values:
+ * If the value corresponding to @index is valid, fills min and max with the error values:
  * -> positive_error in @max.
  * -> negative_error in @min.
  * If one of the errors is not valid or not defined, its value is set to -1.0.

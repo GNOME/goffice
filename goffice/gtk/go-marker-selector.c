@@ -61,7 +61,7 @@ go_marker_palette_render_func (cairo_t *cr,
 
 /**
  * go_marker_selector_new:
- * @initial_shape: marker shape intially selected
+ * @initial_shape: marker shape initially selected
  * @default_shape: automatic marker shape
  *
  * Creates a new marker selector.

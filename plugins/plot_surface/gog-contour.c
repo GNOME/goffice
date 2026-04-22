@@ -322,7 +322,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
-	/* Set cw to ensure that polygons will allways be drawn clockwise */
+	/* Set cw to ensure that polygons will always be drawn clockwise */
 	xdiscrete = gog_axis_is_discrete (plot->base.axis[0]) ||
 			series->values[(plot->transposed)? 1: 0].data == NULL;
 	if (xdiscrete) {

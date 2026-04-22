@@ -437,7 +437,7 @@ gog_series_set_property (GObject *obj, guint param_id,
 		break;
 	case SERIES_PROP_INTERPOLATION:
 		series->interpolation = go_line_interpolation_from_str (g_value_get_string (value));
-		/* check if the interpolation mode is compatible with the plot type ans
+		/* check if the interpolation mode is compatible with the plot type and
 		 * replace if not */
 		if (gog_plot_axis_set_pref (gog_series_get_plot (series)) & 1 << GOG_AXIS_RADIAL &&
 		    !go_line_interpolation_supports_radial (series->interpolation))
@@ -942,7 +942,7 @@ gog_series_dataset_dim_changed (GogDataset *set, int dim_i)
 	if (dim_i >= 0) {
 		GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (set);
 		GogPlot *plot = GOG_PLOT (GOG_OBJECT (set)->parent);
-		/* FIXME: we probaly need a signal which will be connected
+		/* FIXME: we probably need a signal which will be connected
 		 * to axis and legend objects and let them check if resize
 		 * is really needed (similar to child-name-changed
 		 * connected to legend). For now, let resize for every label
@@ -1055,8 +1055,8 @@ gog_series_has_legend (GogSeries const *series)
  * @ind: >= 0 assigns a new index, < 0 resets to auto
  * @is_manual: gboolean
  *
- * If @ind >= 0 attempt to assign the new index.  Auto
- * indicies (@is_manual == FALSE) will not override the current
+ * If @ind >= 0 attempt to assign the new index. Auto
+ * indices (@is_manual == FALSE) will not override the current
  * index if it is manual.  An @index < 0, will reset the index to
  * automatic and potentially queue a revaluation of the parent
  * chart's cardinality.

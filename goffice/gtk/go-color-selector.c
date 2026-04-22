@@ -165,7 +165,7 @@ cb_color_dialog_response (GtkDialog *color_dialog,
 
 		color = GO_COLOR_FROM_GDK_RGBA (gdk_color);
 		if (!go_color_selector_set_color (selector, color))
-			/* Index is not necessarly changed, but swatch may change */
+			/* Index is not necessarily changed, but swatch may change */
 			go_selector_activate (selector);
 	}
 

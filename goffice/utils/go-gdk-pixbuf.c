@@ -177,7 +177,7 @@ go_gdk_pixbuf_get_from_cache (char const *filename)
  * Returns: (transfer full): a new pixbuf consisting of the source pixbuf tiled
  * enough times to fill out the space needed.
  *
- * The fractional tiles are spead evenly left-right and top-bottom.
+ * The fractional tiles are spread evenly left-right and top-bottom.
  */
 GdkPixbuf *
 go_gdk_pixbuf_tile (GdkPixbuf const *src, guint w, guint h)

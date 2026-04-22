@@ -86,7 +86,7 @@ grs_reload_style (GORotationSel *grs)
 		grs->tick_color[qSelected][qMajor] = GO_COLOR_FROM_GDK_RGBA (*c);
 		grs->tick_outline_color[qSelected][qMajor] = GO_COLOR_FROM_GDK_RGBA (*oc);
 		grs->tick_outline_width[qSelected][qMajor] = ow;
-		// We highjack min-width to mean 2*radius
+		// We hijack min-width to mean 2*radius
 		grs->tick_size[qSelected][qMajor] = mw / 2.0;
 		gdk_rgba_free (c);
 		gdk_rgba_free (oc);

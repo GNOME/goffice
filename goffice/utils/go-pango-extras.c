@@ -650,7 +650,7 @@ go_pango_translate_attributes (PangoAttrList *attrs)
 		do {
 			gint f_range_start, f_range_end;
 			gint range_start, range_end;
-			/* We need to restart everytime since we are changing n_attrs */
+			/* We need to restart every time since we are changing n_attrs */
 			iter = pango_attr_list_get_iterator (n_attrs);
 			pango_attr_iterator_range (f_iter, &f_range_start,
 						   &f_range_end);

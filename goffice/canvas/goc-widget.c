@@ -595,7 +595,7 @@ goc_widget_notify_scrolled (GocItem *item)
 	}
 	y0 = (y0 - item->canvas->scroll_y1) * item->canvas->pixels_per_unit;
 	y1 = (y1 - item->canvas->scroll_y1) * item->canvas->pixels_per_unit;
-	/* ensure we don't wrap throught he infinite */
+	/* ensure we don't wrap through the infinite */
 	if (x0 < G_MININT)
 		x0 = G_MININT;
 	else if (x1 > G_MAXINT)

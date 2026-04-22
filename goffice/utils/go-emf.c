@@ -3340,7 +3340,7 @@ go_emf_selectobject (GOEmfState *state)
 			if (rotation < 0.)
 				rotation += 360.;
 			state->curDC->text_rotation = (360. - rotation) / 180. * M_PI;
-			/* we actually igonore the glyphs orientation which we suppose to
+			/* we actually ignore the glyphs orientation which we suppose to
 			 be the same than the text rotation, if not we should display the
 			 text glyph per glyph, not using a global layout */
 			d_(("\tselected font #%u\n", index));

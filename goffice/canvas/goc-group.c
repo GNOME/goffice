@@ -165,9 +165,9 @@ goc_group_draw_region (GocItem const *item, cairo_t *cr,
 	return TRUE;
 }
 
-/* we just need the distance method to know if an event occured on an item
+/* we just need the distance method to know if an event occurred on an item
  so we don't need to know exact distances when they are large enough, to avoid
- recalculate a lot of complex distnaces and to optimize, everything more than
+ recalculate a lot of complex distances and to optimize, everything more than
  some thershold (in pixels) will be considered at infinite */
 
 #define GOC_THRESHOLD   10 /* 10 pixels should be enough */

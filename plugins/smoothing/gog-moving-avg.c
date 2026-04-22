@@ -169,7 +169,7 @@ gog_moving_avg_update (GogObject *obj)
 static char const *
 gog_moving_avg_type_name (G_GNUC_UNUSED GogObject const *item)
 {
-	/* xgettext : the base for how to name moving averge smoothed curves objects
+	/* xgettext : the base for how to name moving average smoothed curves objects
 	 * eg The 2nd one for a series will be called
 	 * 	Moving average2 */
 	return N_("Moving average");

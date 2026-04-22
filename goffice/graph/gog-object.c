@@ -1160,7 +1160,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
  * @obj: a #GogObject
  *
  * Returns: (transfer none): @obj's parent, potentially %NULL if it has not been added to a
- * 	heirarchy yet.  does not change ref-count in any way.
+ * 	hierarchy yet.  does not change ref-count in any way.
  **/
 GogObject *
 gog_object_get_parent (GogObject const *obj)

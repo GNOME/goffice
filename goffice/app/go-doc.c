@@ -255,7 +255,7 @@ GSF_CLASS (GODoc, go_doc,
  * @doc: the document to modify
  * @uri: the uri for this worksheet.
  *
- * Returns: %TRUE if the name was set succesfully.
+ * Returns: %TRUE if the name was set successfully.
  **/
 gboolean
 go_doc_set_uri (GODoc *doc, char const *uri)

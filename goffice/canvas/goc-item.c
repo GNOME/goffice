@@ -97,7 +97,7 @@ enum {
  * relevant, so an approximate value or even G_MAXDOUBLE might be returned.
  * @draw: draws the item to the cairo context.
  * @draw_region: draws the item in the region defined by @x0, @y0, @x1 and @y1.
- * Should return TRUE when successfull. If FALSE is returned, @draw will be
+ * Should return TRUE when successful. If FALSE is returned, @draw will be
  * called. There is no need to implement both methods for an item. Large items
  * should implement @draw_region.
  * @update_bounds: updates the bounds stored in #GocItem as fields #x0, #y0,

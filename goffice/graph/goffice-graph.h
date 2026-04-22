@@ -64,7 +64,7 @@ typedef struct _GogDataLabel    GogDataLabel;
 typedef struct _GogSmoothedCurve	GogSmoothedCurve;
 typedef struct _Gog3DBox	Gog3DBox;
 
-/* formating */
+/* formatting */
 typedef struct _GogTheme	GogTheme;
 typedef GSList 			GogSeriesElementStyleList;
 

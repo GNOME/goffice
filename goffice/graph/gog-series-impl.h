@@ -86,7 +86,7 @@ struct _GogSeries {
 	gboolean interpolation_skip_invalid;
 	/* data related to data labels */
 	GogSeriesLabelsPos default_pos;
-	unsigned int allowed_pos; /* if 0, no data labels can be addded */
+	unsigned int allowed_pos; /* if 0, no data labels can be added */
 };
 
 typedef struct {

@@ -958,7 +958,7 @@ gog_renderer_draw_gostring (GogRenderer *rend, GOString *str,
  * @text: the string to draw
  * @pos: #GogViewAllocation
  * @anchor: #GOAnchorType how to draw relative to @pos
- * @use_markup: wether to use pango markup
+ * @use_markup: whether to use pango markup
  * @justification: #GoJustification for multiline text.
  * @width: if positive, the maximum width to get a multiline text if needed.
  *
@@ -1058,7 +1058,7 @@ gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str,
  * gog_renderer_get_text_OBR:
  * @rend: #GogRenderer
  * @text: the string to draw
- * @use_markup: wether to use pango markup
+ * @use_markup: whether to use pango markup
  * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
  * @max_width: maximum width or -1 for unrestricted
  **/

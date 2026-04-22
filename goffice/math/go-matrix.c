@@ -599,7 +599,7 @@ SUFFIX(go_quad_matrix_dump) (const QMATRIX *A, const char *fmt)
  * A (input) is an m-times-n matrix.  A[0...m-1][0..n-1]
  * If qAT is TRUE, this parameter is transposed.
  *
- * V is a pre-allocated output m-times-n matrix.  V will contrain
+ * V is a pre-allocated output m-times-n matrix.  V will contain
  * n vectors of different lengths: n, n-1, ..., 1.  These are the
  * Householder vectors (or null for the degenerate case).  The
  * matrix Q of size m-times-m is implied from V.

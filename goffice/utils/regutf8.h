@@ -20,7 +20,7 @@ enum {
 	/* POSIX regcomp return error codes.  (In the order listed in the
 	   standard.)  */
 	GO_REG_BADPAT,		/* Invalid pattern.  */
-	GO_REG_ECOLLATE,		/* Inalid collating element.  */
+	GO_REG_ECOLLATE,	/* Invalid collating element.  */
 	GO_REG_ECTYPE,		/* Invalid character class name.  */
 	GO_REG_EESCAPE,		/* Trailing backslash.  */
 	GO_REG_ESUBREG,		/* Invalid back reference.  */

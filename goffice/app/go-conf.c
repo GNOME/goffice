@@ -69,7 +69,7 @@ go_conf_closure_free (GOConfClosure *cls)
  * @node: #GOConfNode
  * @key: configuration key
  *
- * Returns: (element-type utf8) (transfer full): a list of strings asociated
+ * Returns: (element-type utf8) (transfer full): a list of strings associated
  * with @key.
  **/
 /**
@@ -77,7 +77,7 @@ go_conf_closure_free (GOConfClosure *cls)
  * @node: #GOConfNode
  * @key: configuration key
  *
- * Returns: (element-type utf8) (transfer full): a list of strings asociated
+ * Returns: (element-type utf8) (transfer full): a list of strings associated
  * with @key.
  **/
 /**

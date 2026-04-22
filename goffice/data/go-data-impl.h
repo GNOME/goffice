@@ -84,7 +84,7 @@ struct _GODataVector {
 	GOData base;
 
 	int len;	/* negative if dirty, includes missing values */
-	double *values;	/* NULL = inititialized/unsupported, nan = missing */
+	double *values;	/* NULL = initialized/unsupported, nan = missing */
 	double minimum, maximum;
 };
 typedef struct {

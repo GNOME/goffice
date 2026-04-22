@@ -53,7 +53,7 @@ GSF_CLASS (GogStyle, gog_style,
 /**
  * GogStyledObjectClass:
  * @base: base class
- * @init_style: intiializes the style.
+ * @init_style: initiializes the style.
  * @style_changed: implemens the style-changed signal
  **/
 

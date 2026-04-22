@@ -53,7 +53,7 @@ typedef struct _GOIOContext		GOIOContext;
  * "reccomened" behaviour.
  * Before opening any file we detect its type by calling probe for
  * every registered file opener (in order of priority) and passing
- * GO_FILE_PROBE_FILE_NAME as probe level. If none of them recogizes the file,
+ * GO_FILE_PROBE_FILE_NAME as probe level. If none of them recognizes the file,
  * we increase probe level and try again...
  */
 typedef enum {

@@ -39,7 +39,7 @@
 
 /**
  * GOString:
- * @str: the embeded UTF-8 string
+ * @str: the embedded UTF-8 string
  *
  * GOString is a structure containing a string.
  **/
@@ -640,7 +640,7 @@ find_shape_attr (PangoAttribute *attribute, G_GNUC_UNUSED gpointer data)
 /**
  * go_string_trim:
  * @gstr: (transfer full): string.
- * @internal: Trim multiple consequtive internal spaces.
+ * @internal: Trim multiple consecutive internal spaces.
  *
  * Returns: (transfer full): @gstr
  **/

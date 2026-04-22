@@ -1301,7 +1301,7 @@ axis_line_render (GogAxisBase *axis_base,
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &zero_obr, -1.);
 	label_padding = zero_obr.h * .15;
 
-	/* add some epsilon toerance to avoid roundin errors */
+	/* add some epsilon toerance to avoid rounding errors */
 	epsilon = (max - min) * GO_EPSILON;
 	min -= epsilon;
 	max += epsilon;

@@ -82,7 +82,7 @@ struct _GogView {
 typedef struct {
 	GObjectClass	base;
 
-	unsigned int clip; 	/* Automaticaly clip to object bounding box */
+	unsigned int clip; 	/* Automatically clip to object bounding box */
 
 	/* Virtuals */
 	void	 (*state_init)    (GogView *view);

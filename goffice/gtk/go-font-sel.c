@@ -202,7 +202,7 @@ update_preview_after_face_change (GOFontSel *gfs, gboolean signal_change)
 		pango_font_face_describe (gfs->current_face);
 	/*
 	 * This isn't 100% right: we are ignoring other attributes.
-	 * We could fix that but unsetting extra atttributes might
+	 * We could fix that but unsetting extra attributes might
 	 * not be so easy.
 	 */
 	PangoWeight weight = pango_font_description_get_weight (desc);

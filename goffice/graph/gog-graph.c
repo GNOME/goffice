@@ -123,10 +123,10 @@
  * @GOG_MS_DIM_CATEGORIES: categories.
  * @GOG_MS_DIM_BUBBLES: bubble values.
  * @GOG_MS_DIM_TYPES: maximum value known by MS, should not occur.
- * @GOG_MS_DIM_ERR_plus1: positive erros on first dimension, we made it up.
- * @GOG_MS_DIM_ERR_minus1: negative erros on first dimension, we made it up.
- * @GOG_MS_DIM_ERR_plus2: positive erros on second dimension, we made it up.
- * @GOG_MS_DIM_ERR_minus2: negative erros on second dimension, we made it up
+ * @GOG_MS_DIM_ERR_plus1: positive errors on first dimension, we made it up.
+ * @GOG_MS_DIM_ERR_minus1: negative errors on first dimension, we made it up.
+ * @GOG_MS_DIM_ERR_plus2: positive errors on second dimension, we made it up.
+ * @GOG_MS_DIM_ERR_minus2: negative errors on second dimension, we made it up
  * @GOG_MS_DIM_START: start value, we made it up for dropbars.
  * @GOG_MS_DIM_END: end value, we made it up for dropbars.
  * @GOG_MS_DIM_LOW: low value, we made it up for hi-lo.

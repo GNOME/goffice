@@ -897,7 +897,7 @@ gog_theme_find_element (GogTheme const *theme, GogObject const *obj)
  *
  * Fill in the auto aspects of @style based on @theme 's element for objects of
  * type/role similar to @obj with index @ind.  If @relevant_fields is GO_STYLE_ALL,
- * fillin the entire style, not just the auto portions included in @relevant_fields.
+ * fill in the entire style, not just the auto portions included in @relevant_fields.
  **/
 void
 gog_theme_fillin_style (GogTheme const *theme,
@@ -1166,7 +1166,7 @@ gog_theme_registry_lookup (char const *name)
 				return theme;
 		}
 		if (strlen (name) != 36 || name[8] != '-' || name[13] != '-' || name[18] !='-' || name[23] != '-') {
-			/* name does not seem to be an uuid, migth be the theme name (needed for compatibility) */
+			/* name does not seem to be an uuid, might be the theme name (needed for compatibility) */
 			char const *found_name;
 			for (ptr = themes ; ptr != NULL ; ptr = ptr->next) {
 				theme = ptr->data;

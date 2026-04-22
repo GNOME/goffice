@@ -56,7 +56,7 @@
  * @GO_FORMAT_CURRENCY: currency.
  * @GO_FORMAT_ACCOUNTING: accounting.
  * @GO_FORMAT_DATE: date.
- * @GO_FORMAT_TIME: tipe.
+ * @GO_FORMAT_TIME: time.
  * @GO_FORMAT_PERCENTAGE: percentage.
  * @GO_FORMAT_FRACTION: fraction.
  * @GO_FORMAT_SCIENTIFIC: scientific.

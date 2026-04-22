@@ -30,7 +30,7 @@
  * GogViewClass:
  * @base: base class.
  * @clip: If %TRUE,  clip drawings to the view allocation.
- * @state_init: state intialization.
+ * @state_init: state initialization.
  * @padding_request: padding request.
  * @size_request: size request.
  * @size_allocate: size allocate.
@@ -90,7 +90,7 @@ gog_view_allocation_get_type (void)
  * @cursor_type: pointer cursor type for the tool.
  * @point: points an object.
  * @render: displays the tool.
- * @init: initalizes an action.
+ * @init: initializes an action.
  * @move: callback for pointer move.
  * @double_click: callback on double click.
  * @destroy: destroys the action.
@@ -920,7 +920,7 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
  * gog_view_size_child_request:
  * @view: a #GogView
  * @available: the amount of space available in total
- * @req: additionnal requisition
+ * @req: additional requisition
  * @min_req: minimum size for displaying all children
  *
  * Computes additional requision in @req which must be added to parent requisition,
