@@ -1302,8 +1302,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	g_free (styles);
 	g_free (series);
 	g_free (interpolations);
-	if (points)
-		g_free (points);
+	g_free (points);
 	g_free (errors);
 	g_free (lines);
 	g_free (drop_paths);
