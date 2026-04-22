@@ -641,21 +641,25 @@ goc_item_reordered (GocItem *item, int n)
 {
 #ifdef GOFFICE_WITH_GTK
 	GocGroup *group = item->parent;
-	int cur = goc_group_find_child (group, item);
-	while (TRUE) {
-		GocItem *child = goc_group_get_child (group, cur);
-		GdkWindow *window;
-		if (!child)
-			break;
-		window = goc_item_get_window (child);
-		if (window) {
-			if (n > 0)
+	GPtrArray *children = goc_group_get_children (group);
+	int i, cur = goc_group_find_child (group, item);
+
+	if (n > 0) {
+		for (i = cur; i < (int) children->len; i++) {
+			GocItem *child = g_ptr_array_index (children, i);
+			GdkWindow *window = goc_item_get_window (child);
+			if (window)
 				gdk_window_raise (window);
-			else
+		}
+	} else {
+		for (i = cur; i >= 0; i--) {
+			GocItem *child = g_ptr_array_index (children, i);
+			GdkWindow *window = goc_item_get_window (child);
+			if (window)
 				gdk_window_lower (window);
 		}
-		cur += (n > 0 ? +1 : -1);
 	}
+	g_ptr_array_unref (children);
 #endif
 }
 
@@ -816,13 +820,12 @@ goc_item_get_operator  (GocItem *item)
 void
 goc_item_set_transform (GocItem *item, cairo_matrix_t *m)
 {
-	item->transformed = fabs (m->xx - 1.) > matrix_epsilon
-						|| fabs (m->xy) > matrix_epsilon
-						|| fabs (m->xy) > matrix_epsilon
-						|| fabs (m->yx) > matrix_epsilon
-						|| fabs (m->yy - 1.) > matrix_epsilon
-						|| fabs (m->x0) > matrix_epsilon
-						|| fabs (m->y0) > matrix_epsilon;
+	item->transformed = (fabs (m->xx - 1.) > matrix_epsilon ||
+			     fabs (m->xy) > matrix_epsilon ||
+			     fabs (m->yx) > matrix_epsilon ||
+			     fabs (m->yy - 1.) > matrix_epsilon ||
+			     fabs (m->x0) > matrix_epsilon ||
+			     fabs (m->y0) > matrix_epsilon);
 	if (item->transformed)
 		item->transform = *m;
 	else
@@ -938,7 +941,8 @@ goc_item_duplicate (GocItem *item, GocGroup *parent)
 	ret = GOC_ITEM ((parent)? goc_item_new (parent, G_OBJECT_TYPE (item), NULL):
 							  g_object_new (G_OBJECT_TYPE (item), NULL));
 	
-	klass->copy (ret, item);
+	if (ret)
+		klass->copy (ret, item);
 	return ret;
 }
 

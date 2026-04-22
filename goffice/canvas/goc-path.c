@@ -71,11 +71,15 @@ goc_path_set_property (GObject *gobject, guint param_id,
 		path->fill_rule = g_value_get_boolean (value);
 		break;
 
-	case PATH_PROP_PATH:
-		if (path->path)
-			go_path_free (path->path);
-		path->path = go_path_ref (g_value_get_boxed (value));
+	case PATH_PROP_PATH: {
+		GOPath *new_path = g_value_get_boxed (value);
+		if (path->path != new_path) {
+			if (path->path)
+				go_path_free (path->path);
+			path->path = go_path_ref (new_path);
+		}
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -151,6 +155,7 @@ goc_path_update_bounds (GocItem *item)
 	cairo_save (cr);
 	if (goc_path_prepare_draw (item, cr, 0)) {
 		goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
+		// Should this be moved one line down?
 		cairo_restore (cr);
 		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 	}

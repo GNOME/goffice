@@ -44,7 +44,7 @@ enum {
 
 static void
 goc_circle_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+			 GValue const *value, GParamSpec *pspec)
 {
 	GocCircle *circle = GOC_CIRCLE (gobject);
 
@@ -69,7 +69,7 @@ goc_circle_set_property (GObject *gobject, guint param_id,
 
 static void
 goc_circle_get_property (GObject *gobject, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+			 GValue *value, GParamSpec *pspec)
 {
 	GocCircle *circle = GOC_CIRCLE (gobject);
 
@@ -111,7 +111,7 @@ goc_circle_distance (GocItem *item, double x, double y, GocItem **near_item)
 	*near_item = item;
 	x -= circle->x;
 	y -= circle->y;
-	d = sqrt (x * x + y * y);
+	d = hypot (x, y);
 	return MAX (d - circle->radius - extra_dist, 0);
 }
 

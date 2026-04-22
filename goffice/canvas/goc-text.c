@@ -106,7 +106,7 @@ goc_text_set_property (GObject *gobject, guint param_id,
 		break;
 
 	case TEXT_PROP_ANCHOR:
-		text->anchor =  (GOAnchorType) g_value_get_enum (value);
+		text->anchor = (GOAnchorType)g_value_get_enum (value);
 		break;
 
 	case TEXT_PROP_TEXT:
@@ -118,7 +118,7 @@ goc_text_set_property (GObject *gobject, guint param_id,
 		PangoAttrList *attrs = (PangoAttrList *) g_value_get_boxed (value);
 		if (text->attributes)
 			pango_attr_list_unref (text->attributes);
-		text->attributes = (attrs)? pango_attr_list_copy (attrs): pango_attr_list_new ();
+		text->attributes = attrs ? pango_attr_list_copy (attrs): pango_attr_list_new ();
 		break;
 	}
 
@@ -182,8 +182,8 @@ goc_text_get_property (GObject *gobject, guint param_id,
 		break;
 
 	case TEXT_PROP_CLIP_WIDTH:
-		break;
 		g_value_set_double (value, text->clip_width);
+		break;
 
 	case TEXT_PROP_CLIP_HEIGHT:
 		g_value_set_double (value, text->clip_height);
@@ -209,19 +209,18 @@ goc_text_finalize (GObject *gobject)
 	((GObjectClass *) parent_class)->finalize (gobject);
 }
 
-static void
-goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
+static PangoLayout *
+goc_text_setup_layout (GocItem const *item, cairo_t *cr,
+                       double *dx, double *dy, double *w, double *h,
+                       gboolean update_size)
 {
 	GocText *text = GOC_TEXT (item);
-	PangoRectangle rect;
-	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-	double w, h, dx, dy;
 	PangoLayout *pl;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+
 	if (!text->text)
-		return;
-	w = (text->clip_width > 0.)? MIN (text->clip_width, text->w): text->w;
-	h = (text->clip_height > 0.)? MIN (text->clip_height, text->h): text->h;
+		return NULL;
+
 	pl = pango_cairo_create_layout (cr);
 	pango_layout_set_font_description (pl, style->font.font->desc);
 	pango_layout_set_text (pl, text->text, -1);
@@ -232,21 +231,24 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	if (text->attributes)
 		pango_layout_set_attributes (pl, text->attributes);
 
-	pango_layout_get_extents (pl, NULL, &rect);
-	text->w = (double) rect.width / PANGO_SCALE;
-	text->h = (double) rect.height / PANGO_SCALE;
-	item->x0 = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x;
-	item->y0 = text->y;
-	dx = dy = 0;
-	w = (text->clip_width > 0.)? MIN (text->clip_width, text->w): text->w;
-	h = (text->clip_height > 0.)? MIN (text->clip_height, text->h): text->h;
+	if (update_size) {
+		PangoRectangle rect;
+		pango_layout_get_extents (pl, NULL, &rect);
+		text->w = (double) rect.width / PANGO_SCALE;
+		text->h = (double) rect.height / PANGO_SCALE;
+	}
+
+	*w = (text->clip_width > 0.) ? MIN (text->clip_width, text->w) : text->w;
+	*h = (text->clip_height > 0.) ? MIN (text->clip_height, text->h) : text->h;
+
+	*dx = *dy = 0;
 	/* adjust horizontally */
 	switch (text->anchor) {
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_NORTH:
 	case GO_ANCHOR_SOUTH:
 	case GO_ANCHOR_BASELINE_CENTER:
-		dx = -w / 2.;
+		*dx = -*w / 2.;
 		break;
 	case GO_ANCHOR_NORTH_WEST:
 	case GO_ANCHOR_SOUTH_WEST:
@@ -257,7 +259,7 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	case GO_ANCHOR_SOUTH_EAST:
 	case GO_ANCHOR_EAST:
 	case GO_ANCHOR_BASELINE_EAST:
-		dx = -w;
+		*dx = -*w;
 		break;
 	default: /* should not occur */
 		break;
@@ -271,24 +273,42 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	case GO_ANCHOR_CENTER:
 	case GO_ANCHOR_WEST:
 	case GO_ANCHOR_EAST:
-		dy = -h / 2.;
+		*dy = -*h / 2.;
 		break;
 	case GO_ANCHOR_SOUTH:
 	case GO_ANCHOR_SOUTH_WEST:
 	case GO_ANCHOR_SOUTH_EAST:
-		dy = -h;
+		*dy = -*h;
 		break;
 	case GO_ANCHOR_BASELINE_CENTER:
 	case GO_ANCHOR_BASELINE_WEST:
 	case GO_ANCHOR_BASELINE_EAST: {
 		PangoLayoutIter* iter = pango_layout_get_iter (pl);
-		dy -= (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		*dy -= (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
 		break;
 	}
 	default: /* should not occur */
 		break;
 	}
+
+	return pl;
+}
+
+static void
+goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
+{
+	GocText *text = GOC_TEXT (item);
+	double dx, dy, w, h;
+	PangoLayout *pl = goc_text_setup_layout (item, cr, &dx, &dy, &w, &h, TRUE);
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? -1. : 1.;
+
+	if (!pl)
+		return;
+
+	item->x0 = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? text->x + text->w : text->x;
+	item->y0 = text->y;
+
 	cairo_save (cr);
 	_goc_item_transform (item, cr, flag);
 	cairo_translate (cr, item->x0, item->y0);
@@ -336,78 +356,21 @@ static void
 goc_text_draw (GocItem const *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
-	double x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x,
-	       y = text->y, dx = 0., dy = 0., h, w;
-	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-
-	PangoLayout *pl;
+	double dx, dy, w, h;
+	PangoLayout *pl = goc_text_setup_layout (item, cr, &dx, &dy, &w, &h, FALSE);
+	double x, y;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? -1. : 1.;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	if (!text->text)
+
+	if (!pl)
 		return;
-	w = (text->clip_width > 0.)? MIN (text->clip_width, text->w): text->w;
-	h = (text->clip_height > 0.)? MIN (text->clip_height, text->h): text->h;
-	pl = pango_cairo_create_layout (cr);
-	pango_layout_set_font_description (pl, style->font.font->desc);
-	pango_layout_set_text (pl, text->text, -1);
-	if (text->wrap_width > 0) {
-		pango_layout_set_width (pl, text->wrap_width * PANGO_SCALE);
-		pango_layout_set_wrap (pl, PANGO_WRAP_WORD_CHAR);
-	}
-	if (text->attributes)
-		pango_layout_set_attributes (pl, text->attributes);
-	/* adjust horizontally */
-	switch (text->anchor) {
-	case GO_ANCHOR_CENTER:
-	case GO_ANCHOR_NORTH:
-	case GO_ANCHOR_SOUTH:
-	case GO_ANCHOR_BASELINE_CENTER:
-		dx = -w / 2.;
-		break;
-	case GO_ANCHOR_NORTH_WEST:
-	case GO_ANCHOR_SOUTH_WEST:
-	case GO_ANCHOR_WEST:
-	case GO_ANCHOR_BASELINE_WEST:
-		break;
-	case GO_ANCHOR_NORTH_EAST:
-	case GO_ANCHOR_SOUTH_EAST:
-	case GO_ANCHOR_EAST:
-	case GO_ANCHOR_BASELINE_EAST:
-		dx = -w;
-		break;
-	default: /* should not occur */
-		break;
-	}
-	/* adjust vertically */
-	switch (text->anchor) {
-	case GO_ANCHOR_NORTH:
-	case GO_ANCHOR_NORTH_WEST:
-	case GO_ANCHOR_NORTH_EAST:
-		break;
-	case GO_ANCHOR_CENTER:
-	case GO_ANCHOR_WEST:
-	case GO_ANCHOR_EAST:
-		dy = -h / 2.;
-		break;
-	case GO_ANCHOR_SOUTH:
-	case GO_ANCHOR_SOUTH_WEST:
-	case GO_ANCHOR_SOUTH_EAST:
-		dy = -h;
-		break;
-	case GO_ANCHOR_BASELINE_CENTER:
-	case GO_ANCHOR_BASELINE_WEST:
-	case GO_ANCHOR_BASELINE_EAST: {
-		PangoLayoutIter* iter = pango_layout_get_iter (pl);
-		dy -= (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
-		pango_layout_iter_free (iter);
-		break;
-	}
-	default: /* should not occur */
-		break;
-	}
+
+	x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? text->x + text->w : text->x;
+	y = text->y;
+
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
-//	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->font.color));
-	cairo_set_source_rgb (cr, 0.,0.,0.);
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->font.color));
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_rotate (cr, text->rotation * sign);
 	cairo_translate (cr, dx, dy);
@@ -435,7 +398,7 @@ goc_text_copy (GocItem *dest, GocItem *source)
 	dst->wrap_width = src->wrap_width;
 	dst->text = g_strdup (src->text);
 	dst->anchor = src->anchor;
-	dst->attributes = pango_attr_list_copy (src->attributes);
+	dst->attributes = src->attributes ? pango_attr_list_copy (src->attributes) : NULL;
 	parent_class->copy (dest, source);
 }
 
@@ -443,6 +406,8 @@ static void
 goc_text_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_FONT;
+	if (style->font.auto_color)
+		style->font.color = GO_COLOR_BLACK;
 	/* we might add more to display some extra decoration
 	  without using a separate rectangle item */
 }

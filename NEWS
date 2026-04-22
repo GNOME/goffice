@@ -9,6 +9,7 @@ Morten:
 	* Plug leaks.
 	* Fix problems with go_string_new_len.
 	* Fix problem with arc canvas item.
+	* Fix various issued with text canvas item.
 
 --------------------------------------------------------------------------
 goffice 0.10.60:

@@ -46,7 +46,7 @@ enum {
 
 static void
 goc_line_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+		       GValue const *value, GParamSpec *pspec)
 {
 	GocLine *line = GOC_LINE (gobject);
 
@@ -83,7 +83,7 @@ goc_line_set_property (GObject *gobject, guint param_id,
 
 static void
 goc_line_get_property (GObject *gobject, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+		       GValue *value, GParamSpec *pspec)
 {
 	GocLine *line = GOC_LINE (gobject);
 
@@ -242,7 +242,7 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 	hoffs = ((int) voffs & 1)? .5: 0.;
 	voffs = (line->starty == line->endy)? hoffs: 0.;
 	if (line->startx != line->endx)
-	                hoffs = 0.;
+		hoffs = 0.;
 
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
@@ -250,8 +250,8 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 				   hoffs + floor (line->startx),
 				   voffs + floor (line->starty));
 
-	endx = (endx > 0.)? ceil (endx): floor (endx);
-	endy = (endy > 0.)? ceil (endy): floor (endy);
+	endx = endx > 0 ? ceil (endx) : floor (endx);
+	endy = endy > 0 ? ceil (endy) : floor (endy);
 
 	phi = atan2 (endy, endx);
 	draw_arrow (&line->start_arrow, cr, style,
@@ -259,7 +259,7 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 	draw_arrow (&line->end_arrow, cr, style,
 		    &endx, &endy, phi);
 
-        if ((endx != 0. || endy!= 0.) &&
+	if ((endx != 0. || endy != 0.) &&
 	    go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
 		/* try to avoid horizontal and vertical lines between two pixels */
 		cairo_move_to (cr, startx, starty);
@@ -352,5 +352,3 @@ goc_line_class_init (GocItemClass *item_klass)
 GSF_CLASS (GocLine, goc_line,
 	   goc_line_class_init, NULL,
 	   GOC_TYPE_STYLED_ITEM)
-
-G_END_DECLS

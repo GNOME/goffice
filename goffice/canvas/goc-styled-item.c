@@ -245,10 +245,11 @@ goc_styled_item_style_changed (GOStyledObject *gsi)
 	goc_item_invalidate (item);
 }
 
-static GODoc*
+static GODoc *
 goc_styled_item_get_document (GOStyledObject *gsi)
 {
-	return (GOC_ITEM (gsi)->canvas)? goc_canvas_get_document (GOC_ITEM (gsi)->canvas): NULL;
+	GocCanvas *canvas = GOC_ITEM (gsi)->canvas;
+	return canvas ? goc_canvas_get_document (canvas) : NULL;
 }
 
 static void

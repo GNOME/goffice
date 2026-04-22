@@ -49,7 +49,7 @@ static GocItemClass *parent_class;
 
 static void
 goc_image_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+			GValue const *value, GParamSpec *pspec)
 {
 	GocImage *image = GOC_IMAGE (gobject);
 
@@ -102,7 +102,7 @@ goc_image_set_property (GObject *gobject, guint param_id,
 
 static void
 goc_image_get_property (GObject *gobject, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+			GValue *value, GParamSpec *pspec)
 {
 	GocImage *image = GOC_IMAGE (gobject);
 
@@ -215,10 +215,13 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 {
 	GocImage *image = GOC_IMAGE (item);
 	double height, width, iw, ih;
-	double scalex = 1., scaley = 1.;
+	double scalex, scaley;
 	int x;
 
 	if (image->image == NULL || image->width == 0. || image->height == 0.)
+		return;
+	double uncrop_fraction = (1 - image->crop_left - image->crop_right);
+	if (uncrop_fraction <= 0)
 		return;
 
 	iw = go_image_get_width (image->image);
@@ -226,17 +229,20 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 	if (iw == 0. || ih == 0.)
 	    return;
 
-	if (image->width < 0.)
-		width = iw * (1 - image->crop_left -image->crop_right);
-	else {
+	if (image->width < 0.) {
+		width = iw * uncrop_fraction;
+		scalex = 1;
+	} else {
 		width = image->width;
-		scalex = width / iw / (1 - image->crop_left -image->crop_right);
+		scalex = width / iw / uncrop_fraction;
 	}
-	if (image->height < 0.)
-		height = ih * (1 - image->crop_top -image->crop_bottom);
-	else {
+
+	if (image->height < 0.) {
+		height = ih * uncrop_fraction;
+		scaley = 1;
+	} else {
 		height = image->height;
-		scaley = height / ih / (1 - image->crop_top -image->crop_bottom);
+		scaley = height / ih / uncrop_fraction;
 	}
 
 	cairo_save (cr);
@@ -271,7 +277,8 @@ goc_image_copy (GocItem *dest, GocItem *source)
 	dst->crop_top = src->crop_top;
 	dst->crop_bottom = src->crop_bottom;
 	/* just add a reference to the GOImage, it should never be modified */
-	dst->image = g_object_ref (src->image);
+	dst->image = src->image ? g_object_ref (src->image) : NULL;
+	parent_class->copy (dest, source);
 }
 
 static void

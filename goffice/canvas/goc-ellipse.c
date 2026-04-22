@@ -45,7 +45,7 @@ enum {
 
 static void
 goc_ellipse_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+			  GValue const *value, GParamSpec *pspec)
 {
 	GocEllipse *ellipse = GOC_ELLIPSE (gobject);
 
@@ -78,7 +78,7 @@ goc_ellipse_set_property (GObject *gobject, guint param_id,
 
 static void
 goc_ellipse_get_property (GObject *gobject, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+			  GValue *value, GParamSpec *pspec)
 {
 	GocEllipse *ellipse = GOC_ELLIPSE (gobject);
 

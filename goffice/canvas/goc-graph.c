@@ -31,7 +31,7 @@
  * SECTION:goc-graph
  * @short_description: Graph.
  *
- * #GocLine implements #GogGraph embedding in the canvas.
+ * #GocGraph implements #GogGraph embedding in the canvas.
 **/
 
 static GObjectClass *parent_klass;
@@ -52,6 +52,7 @@ goc_graph_set_property (GObject *obj, guint param_id,
 {
 	GocGraph *graph = GOC_GRAPH (obj);
 	gboolean setup_renderer = FALSE;
+	GogRenderer *old_renderer = NULL;
 
 	switch (param_id) {
 	case GRAPH_PROP_X: {
@@ -83,15 +84,13 @@ goc_graph_set_property (GObject *obj, guint param_id,
 		break;
 	}
 	case GRAPH_PROP_GRAPH:
-		if (graph->renderer != NULL)
-			g_object_unref (graph->renderer);
+		old_renderer = graph->renderer;
 		graph->renderer = gog_renderer_new (g_value_get_object (value));
 		setup_renderer = graph->renderer != NULL;
 		break;
 
 	case GRAPH_PROP_RENDERER:
-		if (graph->renderer != NULL)
-			g_object_unref (graph->renderer);
+		old_renderer = graph->renderer;
 		graph->renderer = GOG_RENDERER (g_value_get_object (value));
 		if (graph->renderer != NULL) {
 			g_object_ref (graph->renderer);
@@ -103,6 +102,10 @@ goc_graph_set_property (GObject *obj, guint param_id,
 		return; /* NOTE : RETURN */
 	}
 
+	if (old_renderer) {
+		g_signal_handlers_disconnect_by_func (old_renderer, G_CALLBACK (goc_item_invalidate), graph);
+		g_object_unref (old_renderer);
+	}
 	if (setup_renderer)
 		g_signal_connect_object (G_OBJECT (graph->renderer),
 			"request-update",
@@ -189,12 +192,12 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 	double x0, y0 = item->y0, scale = 1.;
 	if (graph->renderer == NULL)
 		return;
-	// Note that we can't have RTL when the scene has no widget, may be we can
+	// Note that we can't have RTL when the scene has no widget, maybe we can
 	// add a direction mamber to the group (in its private member) if needed
 	if (canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		x0 = item->x1;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
-		x0 = canvas->width - (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
+		x0 = go_fake_round (canvas->width - (x0 - canvas->scroll_x1) * canvas->pixels_per_unit);
 	} else {
 		x0 = item->x0;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
@@ -237,8 +240,8 @@ goc_graph_update_bounds (GocItem *item)
 	scale = gtk_widget_get_scale_factor (GTK_WIDGET (item->canvas));
 #endif
 	gog_renderer_update (graph->renderer,
-			     (int) (graph->w * item->canvas->pixels_per_unit * scale),
-			     (int) (graph->h * item->canvas->pixels_per_unit * scale));
+			     go_fake_round (graph->w * item->canvas->pixels_per_unit * scale),
+			     go_fake_round (graph->h * item->canvas->pixels_per_unit * scale));
 }
 
 #ifdef GOFFICE_WITH_GTK
