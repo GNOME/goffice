@@ -72,7 +72,7 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 		/* evaluate the cairo clipped region and compare with the saved one */
 		cairo_region_t *region;
 		cairo_rectangle_int_t rect[l->num_rectangles];
-	    for (i= 0; i  < l->num_rectangles; i++) {
+		for (i = 0; i  < l->num_rectangles; i++) {
 			rect[i].x = l->rectangles[i].x;
 			rect[i].y = l->rectangles[i].y;
 			rect[i].width = l->rectangles[i].width;
@@ -139,10 +139,7 @@ button_press_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointe
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = (canvas->direction == GOC_DIRECTION_RTL)?
-		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
-		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	goc_canvas_w2c (canvas, event->x, event->y, &x, &y);
 	item = goc_canvas_get_item_at (canvas, x, y);
 	if (item) {
 		gboolean result;
@@ -164,10 +161,7 @@ button_release_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpoin
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = (canvas->direction == GOC_DIRECTION_RTL)?
-		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
-		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	goc_canvas_w2c (canvas, event->x, event->y, &x, &y);
 	item = (canvas->grabbed_item != NULL)?
 		canvas->grabbed_item:
 		goc_canvas_get_item_at (canvas, x, y);
@@ -191,10 +185,7 @@ motion_cb (GocCanvas *canvas, GdkEventMotion *event, G_GNUC_UNUSED gpointer data
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
 
-	x = (canvas->direction == GOC_DIRECTION_RTL)?
-		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
-		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	goc_canvas_w2c (canvas, event->x, event->y, &x, &y);
 	if (canvas->grabbed_item != NULL)
 		item = canvas->grabbed_item;
 	else
@@ -239,10 +230,7 @@ enter_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = (canvas->direction == GOC_DIRECTION_RTL)?
-		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
-		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	goc_canvas_w2c (canvas, event->x, event->y, &x, &y);
 	item = goc_canvas_get_item_at (canvas, x, y);
 	if (item) {
 		canvas->cur_event = (GdkEvent *) event;
@@ -261,10 +249,7 @@ leave_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = (canvas->direction == GOC_DIRECTION_RTL)?
-		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
-		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	goc_canvas_w2c (canvas, event->x, event->y, &x, &y);
 	if (canvas->last_item) {
 		canvas->cur_event = (GdkEvent *) event;
 		result = GOC_ITEM_GET_CLASS (canvas->last_item)->leave_notify (canvas->last_item, x, y);
@@ -316,6 +301,8 @@ goc_canvas_finalize (GObject *obj)
 	GocCanvas *canvas = GOC_CANVAS (obj);
 	GocCanvasPrivate *priv = (GocCanvasPrivate *) canvas->priv;
 	g_object_unref (canvas->root);
+	if (priv->invalid_region != NULL)
+		cairo_region_destroy (priv->invalid_region);
 	g_free (priv);
 	parent_klass->finalize (obj);
 }
