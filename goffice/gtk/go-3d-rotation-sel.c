@@ -418,9 +418,7 @@ g3d_class_init (GObjectClass *klass)
 		g_cclosure_marshal_VOID__INT,
 		G_TYPE_NONE, 1, G_TYPE_INT);
 
-#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
 	gtk_widget_class_set_css_name ((GtkWidgetClass *)klass, "rotation3dselector");
-#endif
 }
 
 GSF_CLASS (GO3DRotationSel, go_3d_rotation_sel,

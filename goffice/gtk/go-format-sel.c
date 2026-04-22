@@ -1766,9 +1766,7 @@ nfs_class_init (GObjectClass *klass)
 			      go__STRING__POINTER,
 			      G_TYPE_STRING, 1, G_TYPE_POINTER);
 
-#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
 	gtk_widget_class_set_css_name ((GtkWidgetClass *)klass, "formatselector");
-#endif
 }
 
 GSF_CLASS (GOFormatSel, go_format_sel,

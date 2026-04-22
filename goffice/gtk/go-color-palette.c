@@ -257,9 +257,7 @@ go_color_palette_class_init (GObjectClass *gobject_class)
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
 
-#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
 	gtk_widget_class_set_css_name ((GtkWidgetClass *)gobject_class, "colorpalette");
-#endif
 }
 
 static void

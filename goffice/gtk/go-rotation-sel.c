@@ -350,9 +350,7 @@ grs_class_init (GObjectClass *klass)
 		g_cclosure_marshal_VOID__INT,
 		G_TYPE_NONE, 1, G_TYPE_INT);
 
-#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
 	gtk_widget_class_set_css_name ((GtkWidgetClass *)klass, "rotationselector");
-#endif
 }
 
 GSF_CLASS (GORotationSel, go_rotation_sel,

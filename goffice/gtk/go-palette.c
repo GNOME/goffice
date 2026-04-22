@@ -185,9 +185,7 @@ go_palette_class_init (GOPaletteClass *class)
 
 	g_type_class_add_private (object_class, sizeof (GOPalettePrivate));
 
-#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
 	gtk_widget_class_set_css_name (widget_class, "palette");
-#endif
 }
 
 static void

@@ -1358,9 +1358,7 @@ gfs_class_init (GObjectClass *klass)
 			g_cclosure_marshal_VOID__POINTER,
 			G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
 	gtk_widget_class_set_css_name (widget_klass, "fontselector");
-#endif
 }
 
 static void

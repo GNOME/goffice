@@ -336,9 +336,7 @@ go_combo_box_class_init (GObjectClass *object_class)
 				       G_PARAM_READABLE));
 	widget_class->style_set = go_combo_box_style_set;
 
-#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
 	gtk_widget_class_set_css_name (widget_class, "gocombobox");
-#endif
 
 	go_combo_box_signals [POP_DOWN_DONE] = g_signal_new (
 		"pop_down_done",
