@@ -74,11 +74,17 @@ goc_image_set_property (GObject *gobject, guint param_id,
 		image->rotation = g_value_get_double (value);
 		break;
 
-	case IMAGE_PROP_IMAGE:
-		if (image->image)
-			g_object_unref (image);
-		image->image = GO_IMAGE (g_object_ref (g_value_get_object (value)));
+	case IMAGE_PROP_IMAGE: {
+		GOImage *new_image = GO_IMAGE (g_value_get_object (value));
+		if (image->image != new_image) {
+			if (image->image)
+				g_object_unref (image->image);
+			image->image = new_image;
+			if (image->image)
+				g_object_ref (image->image);
+		}
 		break;
+	}
 
 	case IMAGE_PROP_CROP_BOTTOM:
 		image->crop_bottom = g_value_get_double (value);
@@ -171,17 +177,18 @@ goc_image_update_bounds (GocItem *item)
 	if (!image->image)
 		return;
 	/* FIXME: take rotation into account */
-	w = go_image_get_width (image->image) - image->crop_left - image->crop_right;
-	h = go_image_get_height (image->image) - image->crop_top - image->crop_bottom;
+	w = go_image_get_width (image->image) * (1 - image->crop_left - image->crop_right);
+	h = go_image_get_height (image->image) * (1 - image->crop_top - image->crop_bottom);
 	if (w <= 0 || h <= 0) {
 		/* nothing visible, put it at origin */
 		item->x0 = item->x1 = image->x;
 		item->y0 = item->y1 = image->y;
+	} else {
+		item->x0 = image->x;
+		item->y0 = image->y;
+		item->x1 = image->x + (image->width > 0 ? image->width : w);
+		item->y1 = image->y + (image->height > 0 ? image->height : h);
 	}
-	item->x0 = floor (image->x);
-	item->y0 = floor (image->y);
-	item->x1 = ceil (image->x + ((image->width > 0.)? image->width: w));
-	item->y1 = ceil (image->y + ((image->height > 0.)? image->height: h));
 }
 
 static double
@@ -220,8 +227,10 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 
 	if (image->image == NULL || image->width == 0. || image->height == 0.)
 		return;
-	double uncrop_fraction = (1 - image->crop_left - image->crop_right);
-	if (uncrop_fraction <= 0)
+
+	double h_uncrop_fraction = (1 - image->crop_left - image->crop_right);
+	double v_uncrop_fraction = (1 - image->crop_top - image->crop_bottom);
+	if (h_uncrop_fraction <= 0 || v_uncrop_fraction <= 0)
 		return;
 
 	iw = go_image_get_width (image->image);
@@ -230,19 +239,19 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 	    return;
 
 	if (image->width < 0.) {
-		width = iw * uncrop_fraction;
+		width = iw * h_uncrop_fraction;
 		scalex = 1;
 	} else {
 		width = image->width;
-		scalex = width / iw / uncrop_fraction;
+		scalex = width / iw / h_uncrop_fraction;
 	}
 
 	if (image->height < 0.) {
-		height = ih * uncrop_fraction;
+		height = ih * v_uncrop_fraction;
 		scaley = 1;
 	} else {
 		height = image->height;
-		scaley = height / ih / uncrop_fraction;
+		scaley = height / ih / v_uncrop_fraction;
 	}
 
 	cairo_save (cr);
