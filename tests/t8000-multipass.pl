@@ -7,7 +7,7 @@ use GofficeTest;
 
 &message ("Check that SUFFIX is being used where it needs to be.");
 
-my $res = system("$topsrc/tools/check-multipass");
+my $res = system("$topsrc/tools/check-multipass $topsrc/goffice");
 die "Fail\n" if $res;
 
 print STDERR "Pass\n";

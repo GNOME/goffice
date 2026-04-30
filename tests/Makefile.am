@@ -7,8 +7,10 @@ include $(top_srcdir)/goffice.mk
 
 AM_CFLAGS = $(GOFFICE_CFLAGS)
 
+TSCRIPTS = t8000-multipass.pl
+
 TESTS = test-quad test-math test-format test-dtoa test-decimal	\
-	t8000-multipass.pl
+	$(TSCRIPTS)
 
 constants_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 constants_SOURCES = constants.c
@@ -40,4 +42,4 @@ test_format_SOURCES = test-format.c
 test_dtoa_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_dtoa_SOURCES = test-dtoa.c
 
-EXTRA_DIST = go-demo.ui
+EXTRA_DIST = go-demo.ui GofficeTest.pm $(TSCRIPTS)
