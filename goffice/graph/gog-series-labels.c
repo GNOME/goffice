@@ -793,10 +793,10 @@ gog_data_label_update (GogObject *obj)
 	unsigned index;
 	PangoAttrList *markup = pango_attr_list_new (), *l;
 	char const *format = lbl->format;
-	char *next;
 	lbl->element.legend_pos = -1;
 	go_string_unref (lbl->element.str);
 	while (*format) {
+		char *next;
 		if (*format == '%') {
 			format++;
 			switch (*format) {
@@ -874,7 +874,7 @@ gog_data_label_update (GogObject *obj)
 			}
 			format++;
 		} else {
-			next = g_utf8_next_char (format);
+			const char *next = g_utf8_next_char (format);
 			g_string_append_len (str, format, next - format);
 			format = next;
 		}
@@ -1234,9 +1234,9 @@ gog_series_labels_update (GogObject *obj)
 				unsigned index;
 				PangoAttrList *markup = pango_attr_list_new (), *l;
 				char const *format = labels->format;
-				char *next;
 				labels->elements[i].legend_pos = -1;
 				while (*format) {
+					char *next;
 					if (*format == '%') {
 						format++;
 						switch (*format) {
@@ -1315,7 +1315,7 @@ gog_series_labels_update (GogObject *obj)
 						}
 						format++;
 					} else {
-						next = g_utf8_next_char (format);
+						const char *next = g_utf8_next_char (format);
 						g_string_append_len (str, format, next - format);
 						format = next;
 					}
