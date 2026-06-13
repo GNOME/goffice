@@ -1,3 +1,14 @@
+2026-06-12  Morten Welinder <terra@gnome.org>
+
+	* goffice/utils/go-emf.c (go_wmf_mtextra_to_utf)
+	(go_wmf_symbol_to_utf): Free the temporary UTF-16 buffer.
+
+	* goffice/utils/go-spectre.c (go_spectre_new_from_file): Don't leak
+	the input object.  Also avoid leaking the GOSpectre object if
+	opening the input fails.
+	(go_spectre_load_data): Don't leak the temporary file name and
+	unlink it even on failure to load.
+
 2026-04-29  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

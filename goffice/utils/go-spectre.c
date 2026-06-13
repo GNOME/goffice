@@ -116,11 +116,11 @@ go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 	if (!tmpname)
 		return;
 	spectre_document_load (spectre->doc, tmpname);
-	if (spectre_document_status (spectre->doc) != SPECTRE_STATUS_SUCCESS)
-		return;
-	spectre_document_get_page_size (spectre->doc, &width, &height);
-	image->width = width;
-	image->height = height;
+	if (spectre_document_status (spectre->doc) == SPECTRE_STATUS_SUCCESS) {
+		spectre_document_get_page_size (spectre->doc, &width, &height);
+		image->width = width;
+		image->height = height;
+	}
 	unlink (tmpname);
 	g_free (tmpname);
 #endif
@@ -269,7 +269,7 @@ GSF_CLASS (GOSpectre, go_spectre,
 GOImage *
 go_spectre_new_from_file (char const *filename, GError **error)
 {
-	GOSpectre *spectre = g_object_new (GO_TYPE_SPECTRE, NULL);
+	GOSpectre *spectre;
 	guint8 *data;
 	GsfInput *input = gsf_input_stdio_new (filename, error);
 #ifdef GOFFICE_WITH_EPS
@@ -279,14 +279,18 @@ go_spectre_new_from_file (char const *filename, GError **error)
 
 	if (!input)
 		return NULL;
+
+	spectre = g_object_new (GO_TYPE_SPECTRE, NULL);
 	image = GO_IMAGE (spectre);
 	image->data_length = gsf_input_size (input);
 	data = g_try_malloc (image->data_length);
 	if (!data || !gsf_input_read (input, image->data_length, data)) {
 		g_object_unref (spectre);
 		g_free (data);
+		g_object_unref (input);
 		return NULL;
 	}
+	g_object_unref (input);
 	image->data = data;
 #ifdef GOFFICE_WITH_EPS
 	spectre->doc = spectre_document_new ();

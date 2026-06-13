@@ -1016,6 +1016,7 @@ go_wmf_mtextra_to_utf (char *txt)
 	for (i = 0; i < strlen (txt); i++)
 		data[i] = mte[(guint8) txt[i]];
 	utxt =  g_utf16_to_utf8 (data, strlen (txt), NULL, NULL, NULL);
+	free (data);
 	return utxt;
 }
 
@@ -1056,6 +1057,7 @@ go_wmf_symbol_to_utf (char* txt)
 	for (i = 0; i < strlen (txt); i++)
 		data[i] = utf[(guint8) txt[i]];
 	utxt =  g_utf16_to_utf8 (data, strlen (txt), NULL, NULL, NULL);
+	free (data);
 	return utxt;
 }
 
