@@ -743,10 +743,10 @@ test_atan2 (const Corpus *corpus1, const Corpus *corpus2)
 
 			double dy = (x1 / x2 == 0)
 				? copysign (x2 > 0 ? 0 : M_PI, dx1)
-				: (x2 == 0 && x1 != 0
-				   ? atan2 (x1 > 0 ? 1 : -1, dx2)
-				   : (!finiteD (x1)
-				      ? atan2 (dx1, x2 / 1e100dd)
+				: (!finiteD (x1)
+				   ? atan2 (dx1, x2 / 1e100dd)
+				   : (x2 == 0 && x1 != 0
+				      ? atan2 (x1 > 0 ? 1 : -1, dx2)
 				      : (dx1 == 0 && dx2 == 0
 					 ? atan2 (x1 * 1e100dd, x2 * 1e100dd)
 					 : atan2 (dx1, dx2))));
