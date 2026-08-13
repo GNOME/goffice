@@ -17,6 +17,7 @@ test-math
 test-quad
 test-dtoa
 test-decimal
+test-classify
 constants
 *.log
 *.trs
