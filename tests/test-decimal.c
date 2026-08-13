@@ -669,12 +669,15 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 			double dy = pow (dx1, dx2);
 			_Decimal64 y = powD (x1, x2);
 
-			if (!signbitD (y) != !signbit (dy))
-				ok = FALSE;
-			if (isnanD (y) || isnan (y))
-				ok = isnanD (y) && isnan (y);
+			// Both sides must agree on NaN.  The sign is not
+			// compared there, a NaN's sign being meaningless;
+			// the other two branches do compare it, explicitly
+			// and inside decimal_eq() respectively.
+			if (isnanD (y) || isnan (dy))
+				ok = isnanD (y) && isnan (dy);
 			else if (!finiteD (y) || !finite (dy))
-				ok = (!finiteD (y) && !finite (dy));
+				ok = (!finiteD (y) && !finite (dy) &&
+				      !!signbitD (y) == !!signbit (dy));
 			else
 				ok = decimal_eq (y, dy);
 
@@ -752,12 +755,12 @@ test_atan2 (const Corpus *corpus1, const Corpus *corpus2)
 					 : atan2 (dx1, dx2))));
 			_Decimal64 y = atan2D (x1, x2);
 
-			if (!signbitD (y) != !signbit (dy))
-				ok = FALSE;
-			if (isnanD (y) || isnan (y))
-				ok = isnanD (y) && isnan (y);
+			// Same three branches as test_pow.
+			if (isnanD (y) || isnan (dy))
+				ok = isnanD (y) && isnan (dy);
 			else if (!finiteD (y) || !finite (dy))
-				ok = (!finiteD (y) && !finite (dy));
+				ok = (!finiteD (y) && !finite (dy) &&
+				      !!signbitD (y) == !!signbit (dy));
 			else
 				ok = decimal_eq (y, dy);
 
@@ -802,12 +805,14 @@ test_hypot (const Corpus *corpus1, const Corpus *corpus2)
 			double dy = hypot (dx1, dx2);
 			_Decimal64 y = hypotD (x1, x2);
 
-			if (!signbitD (y) != !signbit (dy))
-				ok = FALSE;
-			if (isnanD (y) || isnan (y))
-				ok = isnanD (y) && isnan (y);
+			// Same three branches as test_pow, but hypot() is
+			// never negative, so the finite branch needs no
+			// sign check of its own.
+			if (isnanD (y) || isnan (dy))
+				ok = isnanD (y) && isnan (dy);
 			else if (!finiteD (y) || !finite (dy))
-				ok = (!finiteD (y) && !finite (dy));
+				ok = (!finiteD (y) && !finite (dy) &&
+				      !!signbitD (y) == !!signbit (dy));
 			else {
 				_Decimal64 y2 = dy;
 				_Decimal64 diff = y - y2;
