@@ -1,5 +1,15 @@
 #include <goffice/goffice.h>
 
+#ifdef GOFFICE_WITH_DECIMAL64
+/*
+ * The "W" modifier for _Decimal64 is hooked into printf at runtime, so the
+ * compiler's format checker cannot know it, and trips over the remaining
+ * arguments too.  test-decimal.c disables the same two warnings.
+ */
+#pragma GCC diagnostic ignored "-Wformat"
+#pragma GCC diagnostic ignored "-Wformat-extra-args"
+#endif
+
 #define REFTEST(a_,f_,r_, txt_)						\
 	do {								\
 		double a = (a_);					\
