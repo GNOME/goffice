@@ -90,4 +90,4 @@ G_END_DECLS
 #include <goffice/app/io-context.h>
 #include <goffice/app/io-context-priv.h>
 
-#endif /* GOFFICE_GRAPH_H */
+#endif /* GOFFICE_APP_H */
