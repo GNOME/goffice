@@ -1,5 +1,11 @@
 goffice 0.10.62:
 
+Ismael Luceno:
+	* Use C99 isfinite()/isnan() instead of BSD legacy ones.
+	* Reject -ffast-math and -ffinite-math-only.
+	* Fix build on musl, which lacks isnanl().
+	* Rename finiteD() to isfiniteD().  [--with-decimal64]
+
 Morten:
 	* Plug leaks.
 	* Fix pango markup issues.
