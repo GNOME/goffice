@@ -42,11 +42,12 @@ DOUBLE SUFFIX(go_nan);
 DOUBLE SUFFIX(go_pinf);
 DOUBLE SUFFIX(go_ninf);
 
-#ifdef DEFINE_COMMON
+/* Only used from the long double branch of _go_math_init(); guard it the
+ * same way, or a --without-long-double build warns about it being unused.  */
+#if defined(DEFINE_COMMON) && defined(GOFFICE_WITH_LONG_DOUBLE)
 static gboolean
 running_under_buggy_valgrind (void)
 {
-#ifdef HAVE_LONG_DOUBLE
 	volatile long double one = atof ("1");
 	if (one * LDBL_MIN > (long double)0)
 		return FALSE;
@@ -56,11 +57,10 @@ running_under_buggy_valgrind (void)
 	 * C99, namely that LDBL_MIN is positive.  That is probably
 	 * valgrind mapping long doubles to doubles.
 	 *
-	 * Chances are that go_pinfl/go_ninf/go_nanl are fine, but that
+	 * Chances are that go_pinfl/go_ninfl/go_nanl are fine, but that
 	 * finitel fails.  Perform alternate tests.
 	 */
 
-#ifdef GOFFICE_WITH_LONG_DOUBLE
 	if (!(go_pinfl > DBL_MAX && !isnanl (go_pinfl) && isnanl (go_pinfl - go_pinfl)))
 		return FALSE;
 
@@ -69,16 +69,13 @@ running_under_buggy_valgrind (void)
 
 	if (!isnanl (go_nanl) && !(go_nanl >= 0) && !(go_nanl <= 0))
 		return FALSE;
-#endif
 
 	/* finitel must be hosed.  Blame valgrind.  */
 	return TRUE;
-#else
-	// No long double, so no issue
-	return FALSE;
-#endif
 }
+#endif
 
+#ifdef DEFINE_COMMON
 void
 _go_math_init (void)
 {
