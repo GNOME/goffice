@@ -219,7 +219,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 		}
 		break;
 	case 8: /* PPOLYG num_of_poly num_size1 num_size2 ... num_sizeN-1 points  */
-		if (g_strv_length(v) > 2)
+		if (g_strv_length(v) > 2) {
 			if (atoi(v[1]) < 2)
 				break;
 			array = goc_int_array_new (atoi(v[1]));
@@ -232,6 +232,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 				points->points[i].y = atoi (v[i * 2 + 2 + j + 1]);
 			}
 			item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON, "points", points, "sizes", array, NULL);
+		}
 		break;
 	case 9: /* RRECT */
 			if (g_strv_length (v) > 8) {
@@ -242,7 +243,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			break;
 	case 20: /* STROKE */
 		group = (GocGroup*) goc_canvas_get_root (canvas);
-		item = g_list_nth_data (group->children, atoi (v[1]));
+		item = goc_group_get_child (group, atoi (v[1]));
 		if (item != NULL && g_strv_length (v) > 2) {
 			style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 			style->line.width = atoi (v[2]);
@@ -261,7 +262,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 		break;
 	case 21: /* FILL */
 		group = (GocGroup*) goc_canvas_get_root (canvas);
-		item = g_list_nth_data (group->children, atoi (v[1]));
+		item = goc_group_get_child (group, atoi (v[1]));
 		if (item != NULL && g_strv_length (v) > 2) {
 			style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 			if (g_ascii_strcasecmp (v[2], "NONE") == 0) {
@@ -279,7 +280,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 		break;
 	case 22: /* ARROW */
 		group = (GocGroup*) goc_canvas_get_root (canvas);
-		item = g_list_nth_data (group->children, atoi (v[1]));
+		item = goc_group_get_child (group, atoi (v[1]));
 		if (item != NULL) {
 			if(g_strv_length (v) > 6) {
 				arr = g_new0 (GOArrow, 1);
@@ -307,7 +308,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 	case 102: /* DELETE */
 		if (v[1] != NULL && atoi (v[1]) > 0) { /* crash with 0, why? */
 			group = (GocGroup*) goc_canvas_get_root (canvas);
-			item = g_list_nth_data (group->children, atoi (v[1]));
+			item = goc_group_get_child (group, atoi (v[1]));
 			if (item != NULL)
 				g_object_unref (item);
 		}
