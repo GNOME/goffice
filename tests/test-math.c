@@ -228,8 +228,8 @@ test_strto1 (const char *txt, double value, gboolean ascii, int n)
 			abort ();
 		}
 
-		gboolean good = isnanD (valueD) == isnanD (v) && signbit (valueD) == signbit (v);
-		if (good && !isnan (valueD) && valueD != v)
+		gboolean good = isnanD (valueD) == isnanD (v) && signbitD (valueD) == signbitD (v);
+		if (good && !isnanD (valueD) && valueD != v)
 			good = fabsD (v - valueD) / (fabsD (valueD) + fabsD (v)) < 1e-10dd;
 		if (!good) {
 			g_printerr ("Expected value %g\n", value);
