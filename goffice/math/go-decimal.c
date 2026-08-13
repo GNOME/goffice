@@ -78,7 +78,7 @@
 // tanhD           A         A-        *
 // truncD          A         A         A
 // ynD             *         C*        -
-// finiteD         A         A         A
+// isfiniteD       A         A         A
 // isnanD          A         A         A
 // signbitD        A         A         A
 // strtoDd         A         A         B
@@ -611,6 +611,10 @@ init_decimal_printf_support (void)
 
 // ---------------------------------------------------------------------------
 
+// Classification.  Deliberately not the C99 type-generic macros: they have
+// no decimal branch, so a _Decimal64 would be converted to long double,
+// which is slow and lossy.  Decoding the encoding is exact and cheap.
+
 inline int
 isnanD (_Decimal64 x)
 {
@@ -618,7 +622,7 @@ isnanD (_Decimal64 x)
 }
 
 inline int
-finiteD (_Decimal64 x)
+isfiniteD (_Decimal64 x)
 {
 	return decode64 (&x, NULL, NULL, NULL) < CLS_NAN;
 }
@@ -713,7 +717,7 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 _Decimal64
 ldexpD (_Decimal64 x, int e)
 {
-	if (x == 0 || !finiteD (x))
+	if (x == 0 || !isfiniteD (x))
 		return x;
 
 	if (e > 1023) {
@@ -733,7 +737,7 @@ frexpD (_Decimal64 x, int *e)
 {
 	_Decimal64 m, ax;
 
-	if (x == 0 || !finiteD (x)) {
+	if (x == 0 || !isfiniteD (x)) {
 		*e = 0;
 		return x;
 	}
@@ -985,7 +989,7 @@ lgammaD_r (_Decimal64 x, int *signp)
 	if (fabsD (x) <= (_Decimal64)DBL_MIN) {
 		*signp = x >= 0 ? +1 : -1;
 		return -logD (x);
-	} else if (finiteD (x) && x >= (_Decimal64)DBL_MAX) {
+	} else if (isfiniteD (x) && x >= (_Decimal64)DBL_MAX) {
 		*signp = +1;
 		return x * logD (x);
 	}
@@ -1092,7 +1096,7 @@ sinD (_Decimal64 x)
 
 	int km4;
 	_Decimal64 xr = go_reduce_piD (x, 1, &km4);
-	if (!finiteD (xr)) xr = x;  // Unimplemented
+	if (!isfiniteD (xr)) xr = x;  // Unimplemented
 
 	switch (km4) {
 	default:
@@ -1109,7 +1113,7 @@ cosD (_Decimal64 x)
 	// No need to handle underflow as cos(0)=1.
 	int km4;
 	_Decimal64 xr = go_reduce_piD (x, 1, &km4);
-	if (!finiteD (xr)) xr = x;  // Unimplemented
+	if (!isfiniteD (xr)) xr = x;  // Unimplemented
 
 	switch (km4) {
 	default:
@@ -1129,7 +1133,7 @@ tanD (_Decimal64 x)
 
 	int km4;
 	_Decimal64 xr = go_reduce_piD (x, 1, &km4);
-	if (!finiteD (xr)) xr = x;  // Unimplemented
+	if (!isfiniteD (xr)) xr = x;  // Unimplemented
 
 	switch (km4) {
 	default:
@@ -1452,7 +1456,7 @@ powD (_Decimal64 x, _Decimal64 y)
 			return yoddint ? x : 0;
 	}
 
-	if (!finiteD (y)) {
+	if (!isfiniteD (y)) {
 		if (x == -1)
 			return 1;
 		if (fabsD (x) < 1)
@@ -1492,7 +1496,7 @@ powD (_Decimal64 x, _Decimal64 y)
 _Decimal64
 modfD (_Decimal64 x, _Decimal64 *y)
 {
-	if (!finiteD (x)) {
+	if (!isfiniteD (x)) {
 		*y = x;
 		return isnanD (x) ? x : copysignD (0, x);
 	}
@@ -1561,7 +1565,7 @@ sqrtD (_Decimal64 x)
 
 	if (x < 0)
 		return -(_Decimal64)NAN;
-	if (x == 0 || !finiteD (x))
+	if (x == 0 || !isfiniteD (x))
 		return x;
 
 	if (x <= (_Decimal64)DBL_MIN) {
@@ -1585,7 +1589,7 @@ cbrtD (_Decimal64 x)
 	_Decimal64 ax;
 	int s = 0;
 
-	if (x == 0 || !finiteD (x))
+	if (x == 0 || !isfiniteD (x))
 		return x;
 
 	ax = fabsD (x);

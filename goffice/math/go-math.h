@@ -2,9 +2,14 @@
 #define __GO_MATH_H
 
 #include <goffice/goffice.h>
-#include <math.h>
 #include <glib.h>
-#include <goffice/goffice.h>
+
+/*
+ * Must precede any use of the classification macros.  We rely on the
+ * C99/POSIX type-generic isfinite(), isnan(), isinf() and signbit() rather
+ * than the BSD finite(), finitel() and isnanl() functions.
+ */
+#include <math.h>
 
 G_BEGIN_DECLS
 
@@ -157,10 +162,6 @@ _Decimal64 go_reduce_piD (_Decimal64 x, int e, int *k);
 #endif
 
 /* ------------------------------------------------------------------------- */
-
-#ifdef _MSC_VER
-#define isnan _isnan
-#endif
 
 G_END_DECLS
 

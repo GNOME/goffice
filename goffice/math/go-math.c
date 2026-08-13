@@ -58,19 +58,19 @@ running_under_buggy_valgrind (void)
 	 * valgrind mapping long doubles to doubles.
 	 *
 	 * Chances are that go_pinfl/go_ninfl/go_nanl are fine, but that
-	 * finitel fails.  Perform alternate tests.
+	 * isfinite() on a long double fails.  Perform alternate tests.
 	 */
 
-	if (!(go_pinfl > DBL_MAX && !isnanl (go_pinfl) && isnanl (go_pinfl - go_pinfl)))
+	if (!(go_pinfl > DBL_MAX && !isnan (go_pinfl) && isnan (go_pinfl - go_pinfl)))
 		return FALSE;
 
-	if (!(-go_ninfl > DBL_MAX && !isnanl (go_ninfl) && isnanl (go_ninfl - go_ninfl)))
+	if (!(-go_ninfl > DBL_MAX && !isnan (go_ninfl) && isnan (go_ninfl - go_ninfl)))
 		return FALSE;
 
-	if (!isnanl (go_nanl) && !(go_nanl >= 0) && !(go_nanl <= 0))
+	if (!isnan (go_nanl) && !(go_nanl >= 0) && !(go_nanl <= 0))
 		return FALSE;
 
-	/* finitel must be hosed.  Blame valgrind.  */
+	/* isfinite must be hosed.  Blame valgrind.  */
 	return TRUE;
 }
 #endif
@@ -169,7 +169,7 @@ _go_math_init (void)
 	go_nanl = go_nan;
 	go_pinfl = go_pinf;
 	go_ninfl = go_ninf;
-	if (!(isnanl (go_nanl) &&
+	if (!(isnan (go_nanl) &&
 	      go_pinfl > 0 && !go_finitel (go_pinfl) &&
 	      go_ninfl < 0 && !go_finitel (go_ninfl))) {
 		if (running_under_buggy_valgrind ()) {
@@ -192,8 +192,8 @@ _go_math_init (void)
 	go_pinfD = go_pinf;
 	go_ninfD = go_ninf;
 	if (!(isnanD (go_nanD) &&
-	      go_pinfD > 0 && !finiteD (go_pinfD) &&
-	      go_ninfD < 0 && !finiteD (go_ninfD))) {
+	      go_pinfD > 0 && !go_finiteD (go_pinfD) &&
+	      go_ninfD < 0 && !go_finiteD (go_ninfD))) {
 		g_error ("Failed to generate _Decimal64 NaN/+Inf/-Inf.");
 	}
 
@@ -391,16 +391,15 @@ SUFFIX(go_rint) (DOUBLE x)
 int
 SUFFIX(go_finite) (DOUBLE x)
 {
-	/* What a circus!  */
-#ifdef HAVE_FINITE
-	return SUFFIX(finite) (x);
-#elif defined(HAVE_ISFINITE)
-	return SUFFIX(isfinite) (x);
-#elif defined(FINITE)
-	return FINITE (x);
+	/*
+	 * C99's isfinite() covers float, double and long double alike.
+	 * _Decimal64 is the exception: no decimal branch there, so an
+	 * argument would be converted to long double; use isfiniteD().
+	 */
+#if INCLUDE_PASS == INCLUDE_PASS_DECIMAL64
+	return isfiniteD (x);
 #else
-	x = SUFFIX(fabs) (x);
-	return x < SUFFIX(go_pinf);
+	return isfinite (x);
 #endif
 }
 
@@ -937,7 +936,7 @@ modfl (long double x, long double *iptr)
 	*iptr = copysignl (floorl (fabsl (x)), x);
 	if (go_finitel (x))
 		return copysignl (x - *iptr, x);
-	else if (isnanl (x))
+	else if (isnan (x))
 		return *iptr;
 	else
 		return copysignl (0.0L, x);

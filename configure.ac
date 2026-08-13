@@ -514,29 +514,34 @@ AC_CHECK_HEADERS(pwd.h grp.h)
 AC_CHECK_HEADERS(fpu_control.h)
 
 dnl Check for some functions
-AC_CHECK_FUNCS(random drand48 finite memmove mkdtemp uname times sysconf)
+AC_CHECK_FUNCS(random drand48 memmove mkdtemp uname times sysconf)
 
 dnl FIXME: Does this really belong here?
 AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codeset)])
 
-dnl isfinite is a macro on HPUX
+dnl
+dnl We rely on the C99/POSIX type-generic classification macros rather than
+dnl the BSD finite(), finitel() and isnanl() functions.  They are a hard
+dnl requirement, so abort instead of defining a HAVE_... that nothing could
+dnl usefully guard.
+dnl
+AC_MSG_CHECKING([for the C99 isfinite() macro])
 AC_COMPILE_IFELSE(
-	[AC_LANG_PROGRAM([#include <math.h>], [int a = isfinite(0.0)])],
-	[AC_DEFINE(HAVE_ISFINITE, 1,
-		[Define if the isfinite() macro is available]
-	 )
-	], [])
+	[AC_LANG_PROGRAM([[#include <math.h>]],
+			 [[double d = 0.0; return isfinite (d) ? 0 : 1;]])],
+	[AC_MSG_RESULT(yes)],
+	[AC_MSG_RESULT(no)
+	 AC_MSG_ERROR([*** the C99/POSIX isfinite() macro is required])])
+
+AC_MSG_CHECKING([for the C99 isnan() macro])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM([[#include <math.h>]],
+			 [[double d = 0.0; return isnan (d) ? 1 : 0;]])],
+	[AC_MSG_RESULT(yes)],
+	[AC_MSG_RESULT(no)
+	 AC_MSG_ERROR([*** the C99/POSIX isnan() macro is required])])
 
 dnl
-dnl On BSD, we seem to need -lm for finite
-dnl
-if test $ac_cv_func_finite = no; then
-  AC_CHECK_LIB(m, finite,
-        [AC_DEFINE(HAVE_FINITE, 1,
-		[Define if the finite function is available]
-	 )
-         LIBS="$LIBS -lm"])
-fi
 
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
@@ -592,7 +597,8 @@ if test "x$with_long_double" = "xyes"; then
         ss_dir="/opt/SUNWspro"
     fi
     sunmathlinkstuff="-L$ss_dir/lib -R$ss_dir/lib -lsunmath"
-    for ldfunc in fabsl logl log10l ceill floorl powl isnanl; do
+    dnl No isnanl/finitel: the type-generic macros cover long double.
+    for ldfunc in fabsl logl log10l ceill floorl powl; do
 	    AC_CHECK_FUNC($ldfunc,
 		  ,
 		  [AC_CHECK_LIB(m,
@@ -627,7 +633,6 @@ if test "x$with_long_double" = "xyes"; then
     GOFFICE_CHECK_FUNC(modfl)
     GOFFICE_CHECK_FUNC(ldexpl)
     GOFFICE_CHECK_FUNC(frexpl)
-    AC_CHECK_FUNCS(finitel)
 
     AC_CHECK_FUNCS(strtold)
     if test "$ac_cv_func_strtold" = yes; then

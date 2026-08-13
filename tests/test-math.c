@@ -43,6 +43,9 @@
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 
+/* isnan() below is the C99 type-generic macro, which handles long double;
+ * isnanl() is a glibc extension.  */
+
 #define REFTESTl(a_,f_,r_, txt_)					\
 	do {								\
 		long double a = (a_);					\
@@ -51,8 +54,8 @@
 		g_printerr ("%s(%Lg) = %Lg  [%Lg]\n",			\
 			    txt_, a, fa, r);				\
 		g_assert (copysignl (1,r) == copysignl (1,fa));		\
-		if (isnanl (r))						\
-			g_assert (isnanl (fa));				\
+		if (isnan (r))						\
+			g_assert (isnan (fa));				\
 		else if (r == floorl (r))				\
 			g_assert (r == fa);				\
 		else							\
@@ -213,8 +216,10 @@ test_strto1 (const char *txt, double value, gboolean ascii, int n)
 			abort ();
 		}
 
-		gboolean good = isnanl (value) == isnanl (v) && signbit (value) == signbit (v);
-		if (good && !isnanl (value) && (long double)value != v)
+		/* Type-generic isnan() copes with the double "value" and
+		 * the long double "v" alike.  */
+		gboolean good = isnan (value) == isnan (v) && signbit (value) == signbit (v);
+		if (good && !isnan (value) && (long double)value != v)
 			good = fabsl (v - value) / (fabsl (value) + fabsl (v)) < 1e-10L;
 		if (!good) {
 			g_printerr ("Expected value %g\n", value);

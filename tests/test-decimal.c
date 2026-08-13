@@ -9,6 +9,10 @@ static int n_bad;
 #pragma GCC diagnostic ignored "-Wformat"
 #pragma GCC diagnostic ignored "-Wformat-extra-args"
 
+// Classify _Decimal64 values with isfiniteD(), isnanD() and signbitD();
+// the type-generic macros have no decimal branch.  The "double" reference
+// values use plain isfinite() and isnan().
+
 /* ------------------------------------------------------------------------- */
 
 static int n_section_good, n_section_bad;
@@ -224,7 +228,7 @@ test_rounding (const Corpus *corpus)
 		double dx = x;
 		int sanity;
 		int qunderflow = (dx == 0) && (x != 0);
-		int qoverflow = finiteD (x) && !finite (dx);
+		int qoverflow = isfiniteD (x) && !isfinite (dx);
 		int ok;
 
 		sanity = isnanD (x)
@@ -262,14 +266,14 @@ test_rounding (const Corpus *corpus)
 static void
 test_properties (const Corpus *corpus)
 {
-	start_section ("properties (isnan, finite, signbit)");
+	start_section ("properties (isnanD, isfiniteD, signbitD)");
 
 	for (int v = 0; v < corpus->nvals; v++) {
 		_Decimal64 x = corpus->vals[v];
 
 		int qnan = isnanD (x);
-		int qfinite = finiteD (x);
-		int qsign = signbit (x);
+		int qfinite = isfiniteD (x);
+		int qsign = signbitD (x);
 		double dx = x;
 
 		if (!!qnan == (x != x) &&
@@ -390,7 +394,7 @@ test_log (const char *name, int base, const Corpus *corpus)
 		double dx = x, dy = fn_double (dx);
 		gboolean ok;
 		int qunderflow = (dx == 0) && (x != 0);
-		int qoverflow = finiteD (x) && !finite (dx);
+		int qoverflow = isfiniteD (x) && !isfinite (dx);
 
 		if (fabsD (x - 1) < 0.01dd)
 			continue;
@@ -398,16 +402,16 @@ test_log (const char *name, int base, const Corpus *corpus)
 		if (x < 0)
 			ok = isnanD (y);
 		else if (qunderflow)
-			ok = finiteD (y) && y <= (_Decimal64)(fn_double (DBL_MIN));
+			ok = isfiniteD (y) && y <= (_Decimal64)(fn_double (DBL_MIN));
 		else if (qoverflow)
-			ok = finiteD (y) && y >= (_Decimal64)(fn_double (DBL_MAX));
+			ok = isfiniteD (y) && y >= (_Decimal64)(fn_double (DBL_MAX));
 		else {
-			ok = (!!finiteD (y) == !!finite (dy) &&
+			ok = (!!isfiniteD (y) == !!isfinite (dy) &&
 			      !!isnanD (y) == !!isnan (dy) &&
 			      !!signbitD (y) == !!signbit (dy) &&
 			      (y == 0) == (dy == 0));
 
-			if (ok && finite (dy)) {
+			if (ok && isfinite (dy)) {
 				ok = ((y == floorD (y)) == (dy == floor (dy)));
 
 				if (ok && y != 0) {
@@ -527,7 +531,7 @@ test_oneargs (const Corpus *corpus)
 			double dx = x, dy;
 			int ok;
 			int qunderflow = (dx == 0) && (x != 0);
-			int qoverflow = finiteD (x) && !finite (dx);
+			int qoverflow = isfiniteD (x) && !isfinite (dx);
 			_Decimal64 tol = 1e-10dd;
 
 			if (qunderflow || qoverflow)
@@ -544,12 +548,12 @@ test_oneargs (const Corpus *corpus)
 			//g_printerr ("%.16Wg  %.16Wg\n", x, y);
 			//g_printerr ("%.16g  %.16g\n", dx, dy);
 
-			ok = (!!finiteD (y) == !!finite (dy) &&
+			ok = (!!isfiniteD (y) == !!isfinite (dy) &&
 			      !!isnanD (y) == !!isnan (dy) &&
 			      !!signbitD (y) == !!signbit (dy) &&
 			      (y == 0) == (dy == 0));
 
-			if (ok && finite (dy) && y != 0) {
+			if (ok && isfinite (dy) && y != 0) {
 				_Decimal64 d = y - (_Decimal64)dy;
 				ok = fabsD (d / y) < tol;
 			}
@@ -610,12 +614,12 @@ test_dtoa (const Corpus *corpus)
 			_Decimal64 x = corpus->vals[v];
 			double dx = x;
 			int qunderflow = (dx == 0) && (x != 0);
-			int qoverflow = finiteD (x) && !finite (dx);
+			int qoverflow = isfiniteD (x) && !isfinite (dx);
 
 			if (qunderflow || qoverflow)
 				continue;
 
-			if (fstyle && fabsD (x) > 0 && finiteD (x) &&
+			if (fstyle && fabsD (x) > 0 && isfiniteD (x) &&
 			    log10D (fabsD (x)) > 8)
 				continue;
 
@@ -645,7 +649,7 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 		_Decimal64 x1 = corpus1->vals[v1];
 		double dx1 = x1;
 		int qunderflow1 = (dx1 == 0) && (x1 != 0);
-		int qoverflow1 = finiteD (x1) && !finite (dx1);
+		int qoverflow1 = isfiniteD (x1) && !isfinite (dx1);
 
 		if (qunderflow1 || qoverflow1)
 			continue;
@@ -654,15 +658,15 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 			_Decimal64 x2 = corpus2->vals[v2];
 			double dx2 = x2;
 			int qunderflow2 = (dx2 == 0) && (x2 != 0);
-			int qoverflow2 = finiteD (x2) && !finite (dx2);
+			int qoverflow2 = isfiniteD (x2) && !isfinite (dx2);
 			gboolean ok;
 
 			if (qunderflow2 || qoverflow2)
 				continue;
 
 			if (x1 < 0 && x2 < 0 &&
-			    finiteD (x1) &&
-			    finiteD (x2) && x2 == floorD (x2) &&
+			    isfiniteD (x1) &&
+			    isfiniteD (x2) && x2 == floorD (x2) &&
 			    fmodD (x2, 2.dd) != fmodD (dx2, 2.dd))
 				continue;
 
@@ -675,8 +679,8 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 			// and inside decimal_eq() respectively.
 			if (isnanD (y) || isnan (dy))
 				ok = isnanD (y) && isnan (dy);
-			else if (!finiteD (y) || !finite (dy))
-				ok = (!finiteD (y) && !finite (dy) &&
+			else if (!isfiniteD (y) || !isfinite (dy))
+				ok = (!isfiniteD (y) && !isfinite (dy) &&
 				      !!signbitD (y) == !!signbit (dy));
 			else
 				ok = decimal_eq (y, dy);
@@ -746,7 +750,7 @@ test_atan2 (const Corpus *corpus1, const Corpus *corpus2)
 
 			double dy = (x1 / x2 == 0)
 				? copysign (x2 > 0 ? 0 : M_PI, dx1)
-				: (!finiteD (x1)
+				: (!isfiniteD (x1)
 				   ? atan2 (dx1, x2 / 1e100dd)
 				   : (x2 == 0 && x1 != 0
 				      ? atan2 (x1 > 0 ? 1 : -1, dx2)
@@ -758,8 +762,8 @@ test_atan2 (const Corpus *corpus1, const Corpus *corpus2)
 			// Same three branches as test_pow.
 			if (isnanD (y) || isnan (dy))
 				ok = isnanD (y) && isnan (dy);
-			else if (!finiteD (y) || !finite (dy))
-				ok = (!finiteD (y) && !finite (dy) &&
+			else if (!isfiniteD (y) || !isfinite (dy))
+				ok = (!isfiniteD (y) && !isfinite (dy) &&
 				      !!signbitD (y) == !!signbit (dy));
 			else
 				ok = decimal_eq (y, dy);
@@ -787,7 +791,7 @@ test_hypot (const Corpus *corpus1, const Corpus *corpus2)
 		double dx1 = x1;
 
 		int qunderflow1 = (dx1 == 0) && (x1 != 0);
-		int qoverflow1 = finiteD (x1) && !finite (dx1);
+		int qoverflow1 = isfiniteD (x1) && !isfinite (dx1);
 
 		if (qunderflow1 || qoverflow1)
 			continue;
@@ -796,7 +800,7 @@ test_hypot (const Corpus *corpus1, const Corpus *corpus2)
 			_Decimal64 x2 = corpus2->vals[v2];
 			double dx2 = x2;
 			int qunderflow2 = (dx2 == 0) && (x2 != 0);
-			int qoverflow2 = finiteD (x2) && !finite (dx2);
+			int qoverflow2 = isfiniteD (x2) && !isfinite (dx2);
 			gboolean ok;
 
 			if (qunderflow2 || qoverflow2)
@@ -810,8 +814,8 @@ test_hypot (const Corpus *corpus1, const Corpus *corpus2)
 			// sign check of its own.
 			if (isnanD (y) || isnan (dy))
 				ok = isnanD (y) && isnan (dy);
-			else if (!finiteD (y) || !finite (dy))
-				ok = (!finiteD (y) && !finite (dy) &&
+			else if (!isfiniteD (y) || !isfinite (dy))
+				ok = (!isfiniteD (y) && !isfinite (dy) &&
 				      !!signbitD (y) == !!signbit (dy));
 			else {
 				_Decimal64 y2 = dy;
@@ -854,12 +858,12 @@ test_fmod (const Corpus *corpus1, const Corpus *corpus2)
 				ok = ok && isnanD (y);
 
 			if ((x1 == 0 && fabsD (x2) > 0) ||
-			    (finiteD (x1) && x2 == (_Decimal64)INFINITY))
+			    (isfiniteD (x1) && x2 == (_Decimal64)INFINITY))
 				ok = ok && decimal_eq (y, x1);
 
 			// This is a poor test.  We need something curated specially
 			// for fmod.
-			if (ok && finiteD (y) && finiteD (x2)) {
+			if (ok && isfiniteD (y) && isfiniteD (x2)) {
 				_Decimal64 q = x1 / x2;
 				_Decimal64 r = x1 - truncD (q) * x2;
 				ok = (fabsD (y) < fabsD (x2));

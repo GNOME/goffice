@@ -84,7 +84,10 @@ _Decimal64 tanhD (_Decimal64 x);
 _Decimal64 truncD (_Decimal64 x);
 _Decimal64 unscalbnD (_Decimal64 x, int *e);
 _Decimal64 ynD (int n, _Decimal64 x);
-int finiteD (_Decimal64 x);
+
+// Classification.  C99 spellings, but our own functions, not the
+// type-generic macros; see their definitions in go-decimal.c.
+int isfiniteD (_Decimal64 x);
 int isnanD (_Decimal64 x);
 int signbitD (_Decimal64 x);
 
