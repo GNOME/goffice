@@ -508,12 +508,6 @@ if test $works_without_bsd_source = no ; then
 	fi
 fi
 
-dnl
-dnl On Solaris finite() needs ieeefp.h
-dnl Either of these seem to signal IEEE754 math, see goffice/math/go-math.c
-dnl
-AC_CHECK_HEADERS(ieeefp.h ieee754.h)
-
 dnl Check for implementations of passwd/group file entry functions
 AC_CHECK_HEADERS(pwd.h grp.h)
 
