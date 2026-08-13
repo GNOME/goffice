@@ -55,6 +55,18 @@
 #include <goffice/goffice-multipass.h>
 #ifndef SKIP_THIS_PASS
 
+/*
+ * Not SUFFIX(isnan): that pastes to isnanl, a glibc extension.  C99's
+ * isnan() covers float, double and long double alike, but has no decimal
+ * branch, so _Decimal64 needs isnanD().
+ */
+#undef GO_ISNAN
+#if INCLUDE_PASS == INCLUDE_PASS_DECIMAL64
+#define GO_ISNAN(x) isnanD (x)
+#else
+#define GO_ISNAN(x) isnan (x)
+#endif
+
 #define DOUBLE_IS_double (INCLUDE_PASS == INCLUDE_PASS_DOUBLE)
 #define QUAD SUFFIX(GOQuad)
 #define HALF (DOUBLE)0.5
@@ -820,9 +832,9 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 		return (void)(*res = SUFFIX(go_quad_one));
 	if (x->h == 0 && y->h > 0)
 		return (void)(*res = SUFFIX(go_quad_zero));
-	if (SUFFIX(isnan) (x->h))
+	if (GO_ISNAN (x->h))
 		return (void)(*res = *x);
-	if (SUFFIX(isnan) (y->h))
+	if (GO_ISNAN (y->h))
 		return (void)(*res = *y);
 	if (SUFFIX(go_quad_compare) (y, &SUFFIX(go_quad_one)) == 0)
 		return (void)(*res = *x);
@@ -1170,7 +1182,7 @@ SUFFIX(go_quad_hypot) (QUAD *res, const QUAD *a, const QUAD *b)
 		return (void)(*res = qa);
 	if (qa.h == (DOUBLE)INFINITY || qb.h == (DOUBLE)INFINITY)
 		return SUFFIX(go_quad_init) (res, INFINITY);
-	if (SUFFIX(isnan) (qa.h) || SUFFIX(isnan) (qb.h))
+	if (GO_ISNAN (qa.h) || GO_ISNAN (qb.h))
 		return SUFFIX(go_quad_init) (res, NAN);
 
 	/* Scale by power of radix to protect against over- and underflow */

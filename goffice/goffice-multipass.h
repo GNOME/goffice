@@ -24,6 +24,7 @@
 #undef DOUBLE_DIG
 #undef DOUBLE_MIN
 #undef DOUBLE_RADIX
+#undef DOUBLE_ISNAN
 #undef STRTO
 #undef ASCIISTRTO
 #undef PLAINSTRTO
@@ -49,6 +50,10 @@
   #define DOUBLE_DIG DBL_DIG
   #define DOUBLE_MIN DBL_MIN
   #define DOUBLE_RADIX FLT_RADIX
+  // Not SUFFIX(isnan): that pastes to isnanl, a glibc extension.  C99's
+  // isnan() covers float, double and long double alike; only _Decimal64
+  // needs its own, the type-generic macros having no decimal branch.
+  #define DOUBLE_ISNAN(_x) isnan (_x)
   #define STRTO go_strtod
   #define ASCIISTRTO go_ascii_strtod
   #define PLAINSTRTO strtod
@@ -75,6 +80,7 @@
   #define DOUBLE_DIG LDBL_DIG
   #define DOUBLE_MIN LDBL_MIN
   #define DOUBLE_RADIX FLT_RADIX
+  #define DOUBLE_ISNAN(_x) isnan (_x)
   #define STRTO go_strtold
   #define ASCIISTRTO go_ascii_strtold
   #define PLAINSTRTO strtold
@@ -101,6 +107,7 @@
   #define DOUBLE_DIG 16
   #define DOUBLE_MIN DECIMAL64_MIN
   #define DOUBLE_RADIX 10
+  #define DOUBLE_ISNAN(_x) isnanD (_x)
   #define STRTO go_strtoDd
   #define ASCIISTRTO go_ascii_strtoDd
   #define PLAINSTRTO strtoDd

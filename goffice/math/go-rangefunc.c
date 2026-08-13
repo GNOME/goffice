@@ -456,13 +456,13 @@ SUFFIX(go_range_increasing) (DOUBLE const *xs, int n)
 	int i = 0;
 	DOUBLE last;
 	g_return_val_if_fail (n == 0 || xs != NULL, 0);
-	while ( i < n && SUFFIX(isnan) (xs[i]))
+	while ( i < n && DOUBLE_ISNAN (xs[i]))
 		i++;
 	if (i == n)
 		return 0;
 	last = xs[i];
 	for (i = i + 1; i < n; i++) {
-		if (SUFFIX(isnan) (xs[i]))
+		if (DOUBLE_ISNAN (xs[i]))
 		    continue;
 		if (last >= xs[i])
 			return 0;
@@ -484,13 +484,13 @@ SUFFIX(go_range_decreasing) (DOUBLE const *xs, int n)
 	int i = 0;
 	DOUBLE last;
 	g_return_val_if_fail (n == 0 || xs != NULL, 0);
-	while ( i < n &&  SUFFIX(isnan) (xs[i]))
+	while ( i < n &&  DOUBLE_ISNAN (xs[i]))
 		i++;
 	if (i == n)
 		return 0;
 	last = xs[i];
 	for (i = i + 1; i < n; i++) {
-		if (SUFFIX(isnan) (xs[i]))
+		if (DOUBLE_ISNAN (xs[i]))
 		    continue;
 		if (last <= xs[i])
 			return 0;

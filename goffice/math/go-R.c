@@ -515,7 +515,7 @@ DOUBLE SUFFIX (go_trunc) (DOUBLE x)
 DOUBLE SUFFIX (go_dnorm) (DOUBLE x, DOUBLE mu, DOUBLE sigma, gboolean give_log)
 {
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (x) || SUFFIX (isnan) (mu) || SUFFIX (isnan) (sigma))
+    if (DOUBLE_ISNAN (x) || DOUBLE_ISNAN (mu) || DOUBLE_ISNAN (sigma))
 	return x + mu + sigma;
 #endif
     if(!SUFFIX (go_finite)(sigma)) return R_D__0;
@@ -603,7 +603,7 @@ DOUBLE SUFFIX (go_pnorm) (DOUBLE x, DOUBLE mu, DOUBLE sigma, gboolean lower_tail
      * For example, if x == mu and sigma == 0, we get the correct answer 1.
      */
 #ifdef IEEE_754
-    if(SUFFIX (isnan) (x) || SUFFIX (isnan) (mu) || SUFFIX (isnan) (sigma))
+    if(DOUBLE_ISNAN (x) || DOUBLE_ISNAN (mu) || DOUBLE_ISNAN (sigma))
 	return x + mu + sigma;
 #endif
     if(!SUFFIX (go_finite)(x) && mu == x) return SUFFIX (go_nan);/* x-mu is NaN */
@@ -687,7 +687,7 @@ void SUFFIX (go_pnorm_both) (DOUBLE x, DOUBLE *cum, DOUBLE *ccum, int i_tail, gb
     int i, lower, upper;
 
 #ifdef IEEE_754
-    if(SUFFIX (isnan) (x)) { *cum = *ccum = x; return; }
+    if(DOUBLE_ISNAN (x)) { *cum = *ccum = x; return; }
 #endif
 
     /* Consider changing these : */
@@ -874,7 +874,7 @@ DOUBLE SUFFIX (go_qnorm) (DOUBLE p, DOUBLE mu, DOUBLE sigma, gboolean lower_tail
     DOUBLE p_, q, r, val;
 
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (p) || SUFFIX (isnan) (mu) || SUFFIX (isnan) (sigma))
+    if (DOUBLE_ISNAN (p) || DOUBLE_ISNAN (mu) || DOUBLE_ISNAN (sigma))
 	return p + mu + sigma;
 #endif
     R_Q_P01_boundaries(p, SUFFIX (go_ninf), SUFFIX (go_pinf));
@@ -1003,7 +1003,7 @@ DOUBLE SUFFIX (go_dlnorm) (DOUBLE x, DOUBLE meanlog, DOUBLE sdlog, gboolean give
     DOUBLE y;
 
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (x) || SUFFIX (isnan) (meanlog) || SUFFIX (isnan) (sdlog))
+    if (DOUBLE_ISNAN (x) || DOUBLE_ISNAN (meanlog) || DOUBLE_ISNAN (sdlog))
 	return x + meanlog + sdlog;
 #endif
     if(sdlog <= 0) ML_ERR_return_NAN;
@@ -1048,7 +1048,7 @@ DOUBLE SUFFIX (go_dlnorm) (DOUBLE x, DOUBLE meanlog, DOUBLE sdlog, gboolean give
 DOUBLE SUFFIX (go_plnorm) (DOUBLE x, DOUBLE meanlog, DOUBLE sdlog, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (x) || SUFFIX (isnan) (meanlog) || SUFFIX (isnan) (sdlog))
+    if (DOUBLE_ISNAN (x) || DOUBLE_ISNAN (meanlog) || DOUBLE_ISNAN (sdlog))
 	return x + meanlog + sdlog;
 #endif
     if (sdlog <= 0) ML_ERR_return_NAN;
@@ -1089,7 +1089,7 @@ DOUBLE SUFFIX (go_plnorm) (DOUBLE x, DOUBLE meanlog, DOUBLE sdlog, gboolean lowe
 DOUBLE SUFFIX (go_qlnorm) (DOUBLE p, DOUBLE meanlog, DOUBLE sdlog, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (p) || SUFFIX (isnan) (meanlog) || SUFFIX (isnan) (sdlog))
+    if (DOUBLE_ISNAN (p) || DOUBLE_ISNAN (meanlog) || DOUBLE_ISNAN (sdlog))
 	return p + meanlog + sdlog;
 #endif
     R_Q_P01_boundaries(p, 0, SUFFIX (go_pinf));
@@ -1128,7 +1128,7 @@ DOUBLE SUFFIX (go_dweibull) (DOUBLE x, DOUBLE shape, DOUBLE scale, gboolean give
 {
     DOUBLE tmp1, tmp2;
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (x) || SUFFIX (isnan) (shape) || SUFFIX (isnan) (scale))
+    if (DOUBLE_ISNAN (x) || DOUBLE_ISNAN (shape) || DOUBLE_ISNAN (scale))
 	return x + shape + scale;
 #endif
     if (shape <= 0 || scale <= 0) ML_ERR_return_NAN;
@@ -1175,7 +1175,7 @@ DOUBLE SUFFIX (go_dweibull) (DOUBLE x, DOUBLE shape, DOUBLE scale, gboolean give
 DOUBLE SUFFIX (go_pweibull) (DOUBLE x, DOUBLE shape, DOUBLE scale, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (x) || SUFFIX (isnan) (shape) || SUFFIX (isnan) (scale))
+    if (DOUBLE_ISNAN (x) || DOUBLE_ISNAN (shape) || DOUBLE_ISNAN (scale))
 	return x + shape + scale;
 #endif
     if(shape <= 0 || scale <= 0) ML_ERR_return_NAN;
@@ -1223,7 +1223,7 @@ DOUBLE SUFFIX (go_pweibull) (DOUBLE x, DOUBLE shape, DOUBLE scale, gboolean lowe
 DOUBLE SUFFIX (go_qweibull) (DOUBLE p, DOUBLE shape, DOUBLE scale, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (p) || SUFFIX (isnan) (shape) || SUFFIX (isnan) (scale))
+    if (DOUBLE_ISNAN (p) || DOUBLE_ISNAN (shape) || DOUBLE_ISNAN (scale))
 	return p + shape + scale;
 #endif
     if (shape <= 0 || scale <= 0) ML_ERR_return_NAN;
@@ -1265,7 +1265,7 @@ DOUBLE SUFFIX (go_dcauchy) (DOUBLE x, DOUBLE location, DOUBLE scale, gboolean gi
     DOUBLE y;
 #ifdef IEEE_754
     /* NaNs propagated correctly */
-    if (SUFFIX (isnan) (x) || SUFFIX (isnan) (location) || SUFFIX (isnan) (scale))
+    if (DOUBLE_ISNAN (x) || DOUBLE_ISNAN (location) || DOUBLE_ISNAN (scale))
 	return x + location + scale;
 #endif
     if (scale <= 0) ML_ERR_return_NAN;
@@ -1308,13 +1308,13 @@ DOUBLE SUFFIX (go_pcauchy) (DOUBLE x, DOUBLE location, DOUBLE scale,
 	       gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (x) || SUFFIX (isnan) (location) || SUFFIX (isnan) (scale))
+    if (DOUBLE_ISNAN (x) || DOUBLE_ISNAN (location) || DOUBLE_ISNAN (scale))
 	return x + location + scale;
 #endif
     if (scale <= 0) ML_ERR_return_NAN;
 
     x = (x - location) / scale;
-    if (SUFFIX (isnan) (x)) ML_ERR_return_NAN;
+    if (DOUBLE_ISNAN (x)) ML_ERR_return_NAN;
 #ifdef IEEE_754
     if(!SUFFIX (go_finite)(x)) {
 	if(x < 0) return R_DT_0;
@@ -1365,7 +1365,7 @@ DOUBLE SUFFIX (go_qcauchy) (DOUBLE p, DOUBLE location, DOUBLE scale,
 	       gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
-    if (SUFFIX (isnan) (p) || SUFFIX (isnan) (location) || SUFFIX (isnan) (scale))
+    if (DOUBLE_ISNAN (p) || DOUBLE_ISNAN (location) || DOUBLE_ISNAN (scale))
 	return p + location + scale;
 #endif
     R_Q_P01_check(p);
