@@ -643,7 +643,7 @@ go_pango_translate_attributes (PangoAttrList *attrs)
 
 	if (filtered == NULL) {
 		pango_attr_list_unref (n_attrs);
-		return attrs;
+		return pango_attr_list_ref (attrs);
 	} else {
 		PangoAttrIterator *iter, *f_iter;
 		f_iter = pango_attr_list_get_iterator (filtered);
@@ -688,11 +688,10 @@ go_pango_translate_layout (PangoLayout *layout)
 
 	attrs = pango_layout_get_attributes (layout);
 	n_attrs = go_pango_translate_attributes (attrs);
-	if (attrs != n_attrs) {
+	if (attrs != n_attrs)
 		pango_layout_set_attributes (layout, n_attrs);
+	if (n_attrs)
 		pango_attr_list_unref (n_attrs);
-	}
-
 }
 
 /**
@@ -855,15 +854,20 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		{
 			char *str = pango_font_description_to_string
 				(((PangoAttrFontDesc *)a)->desc);
+			char *escaped = g_markup_escape_text (str, -1);
 			spans += 1;
-			g_string_append_printf (gstr, "<span font_desc=\"%s\">", str);
+			g_string_append_printf (gstr, "<span font_desc=\"%s\">", escaped);
+			g_free (escaped);
 			g_free (str);
 		}
 		break;
 	case PANGO_ATTR_FAMILY:
-		spans += 1;
-		g_string_append_printf (gstr, "<span font_family=\"%s\">",
-					((PangoAttrString *)a)->value);
+		{
+			char *escaped = g_markup_escape_text (((PangoAttrString *)a)->value, -1);
+			spans += 1;
+			g_string_append_printf (gstr, "<span font_family=\"%s\">", escaped);
+			g_free (escaped);
+		}
 		break;
 	case PANGO_ATTR_ABSOLUTE_SIZE:
 	case PANGO_ATTR_SIZE:
@@ -925,9 +929,12 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		}
 		break;
 	case PANGO_ATTR_LANGUAGE:
-		spans += 1;
-		g_string_append_printf (gstr, "<span lang=\"%s\">",
-					pango_language_to_string (((PangoAttrLanguage *)a)->value));
+		{
+			char *escaped = g_markup_escape_text (pango_language_to_string (((PangoAttrLanguage *)a)->value), -1);
+			spans += 1;
+			g_string_append_printf (gstr, "<span lang=\"%s\">", escaped);
+			g_free (escaped);
+		}
 		break;
 	case PANGO_ATTR_VARIANT:
 		spans += 1;
@@ -1021,33 +1028,37 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 	case PANGO_ATTR_FOREGROUND:
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;
+			char *color_str = pango_color_to_string (color);
 			spans += 1;
-			g_string_append_printf (gstr, "<span foreground=\"#%02X%02X%02X\">",
-						color->red, color->green, color->blue);
+			g_string_append_printf (gstr, "<span foreground=\"%s\">", color_str);
+			g_free (color_str);
 		}
 		break;
 	case PANGO_ATTR_BACKGROUND:
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;
+			char *color_str = pango_color_to_string (color);
 			spans += 1;
-			g_string_append_printf (gstr, "<span background=\"#%02X%02X%02X\">",
-						color->red, color->green, color->blue);
+			g_string_append_printf (gstr, "<span background=\"%s\">", color_str);
+			g_free (color_str);
 		}
 		break;
 	case PANGO_ATTR_UNDERLINE_COLOR:
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;
+			char *color_str = pango_color_to_string (color);
 			spans += 1;
-			g_string_append_printf (gstr, "<span underline_color=\"#%02X%02X%02X\">",
-						color->red, color->green, color->blue);
+			g_string_append_printf (gstr, "<span underline_color=\"%s\">", color_str);
+			g_free (color_str);
 		}
 		break;
 	case PANGO_ATTR_STRIKETHROUGH_COLOR:
 		{
 			PangoColor *color = &((PangoAttrColor *)a)->color;
+			char *color_str = pango_color_to_string (color);
 			spans += 1;
-			g_string_append_printf (gstr, "<span strikethrough_color=\"#%02X%02X%02X\">",
-						color->red, color->green, color->blue);
+			g_string_append_printf (gstr, "<span strikethrough_color=\"%s\">", color_str);
+			g_free (color_str);
 		}
 		break;
 
@@ -1072,7 +1083,7 @@ go_pango_attrs_to_markup (PangoAttrList *attrs, char const *text)
 	if (text == NULL)
 		return NULL;
 	if (attrs == NULL || go_pango_attr_list_is_empty (attrs))
-		return g_strdup (text);
+		return g_markup_escape_text (text, -1);
 
 	len = strlen (text);
 	gstr = g_string_sized_new (len + 1);
@@ -1085,14 +1096,20 @@ go_pango_attrs_to_markup (PangoAttrList *attrs, char const *text)
 		pango_attr_iterator_range (iter, &from, &to);
 		to = (to > len) ? len : to;       /* Since "to" can be really big! */
 		from = (from > len) ? len : from; /* Since "from" can also be really big! */
-		if (from > handled)
-			g_string_append_len (gstr, text + handled, from - handled);
+		if (from > handled) {
+			char *escaped = g_markup_escape_text (text + handled, from - handled);
+			g_string_append (gstr, escaped);
+			g_free (escaped);
+		}
 		list = pango_attr_iterator_get_attrs (iter);
 		for (l = list; l != NULL; l = l->next)
 			spans += go_pango_attr_as_markup_string (l->data, gstr);
 		g_slist_free (list);
-		if (to > from)
-			g_string_append_len (gstr, text + from, to - from);
+		if (to > from) {
+			char *escaped = g_markup_escape_text (text + from, to - from);
+			g_string_append (gstr, escaped);
+			g_free (escaped);
+		}
 		while (spans-- > 0)
 			g_string_append (gstr, "</span>");
 		handled = to;

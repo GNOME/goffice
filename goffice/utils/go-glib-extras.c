@@ -265,6 +265,7 @@ go_strescape (GString *target, char const *string)
 		case '"':
 		case '\\':
 			g_string_append_c (target, '\\');
+			// fall-through
 		default:
 			g_string_append_c (target, *string);
 		}
@@ -453,9 +454,10 @@ go_utf8_strcapital (const char *p, gssize len)
 				/* Correct case -- keep the char.  */
 				g_string_append_unichar (res, c);
 			else {
+				gssize char_len = g_utf8_next_char (p) - p;
 				char *tmp = up
-					? g_utf8_strup (p, 1)
-					: g_utf8_strdown (p, 1);
+					? g_utf8_strup (p, char_len)
+					: g_utf8_strdown (p, char_len);
 				g_string_append (res, tmp);
 				g_free (tmp);
 			}
@@ -739,10 +741,11 @@ go_mem_chunk_free (GOMemChunk *chunk, gpointer mem)
 	block->freecount++;
 
 	if (block->freecount == 1 && block->nonalloccount == 0) {
-		/* Block turned non-full.  */
+		// Block turned non-full.
 		chunk->freeblocks = g_list_prepend (chunk->freeblocks, block);
-	} else if (block->freecount == chunk->atoms_per_block) {
-		/* Block turned all-free.  */
+	}
+	if (block->freecount == chunk->atoms_per_block) {
+		// Block turned all-free.
 
 #ifdef DEBUG_CHUNK_ALLOCATOR
 		g_print ("Releasing chunk %d for %s.\n", block->id, chunk->name);

@@ -123,6 +123,19 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
 }
 
 
+/**
+ * apply_ui_from_file:
+ * @gui: #GtkBuilder
+ * @src: (transfer full): #GsfInput source
+ * @uifile: (nullable): filename of the UI file
+ * @error: (nullable): location to store error
+ *
+ * A helper function to load UI data from a #GsfInput. Handles uncompression
+ * and optionally loads from file if uncompressed to support relative paths.
+ * This function takes ownership of @src.
+ *
+ * Returns: %TRUE on success.
+ **/
 static gboolean
 apply_ui_from_file (GtkBuilder *gui, GsfInput *src, const char *uifile,
 		    GError **error)
@@ -1295,7 +1308,7 @@ go_help_display (CBHelpPaths const *paths, GdkScreen *screen)
 		g_free (path);
 	}
 
-	if (!(id = (guint) g_hash_table_lookup (context_help_map, paths->link)))
+	if (!context_help_map || !(id = (guint) g_hash_table_lookup (context_help_map, paths->link)))
 		go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR, "Topic '%s' not found.",
 				      paths->link);
 	else {
@@ -1961,4 +1974,7 @@ _go_gtk_shutdown (void)
 	g_clear_object (&css_provider);
 	g_slist_free (css_provider_screens);
 	css_provider_screens = NULL;
+	g_slist_free_full (pixbufexts, g_free);
+	pixbufexts = NULL;
+	have_pixbufexts = FALSE;
 }

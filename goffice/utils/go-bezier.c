@@ -53,6 +53,21 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 	GOBezierSpline *sp;
 	double *a, *b, *c, *d, t;
 
+	if (n <= 0)
+		return NULL;
+
+	if (n == 1) {
+		sp = g_new0 (GOBezierSpline, 1);
+		sp->x = g_new (double, 1);
+		sp->y = g_new (double, 1);
+		sp->x[0] = x[0];
+		sp->y[0] = y[0];
+		sp->n = 1;
+		sp->closed = FALSE;
+		sp->ref_count = 1;
+		return sp;
+	}
+
 	/* The equation to solve in the open case is
 
 	|2 1 ...              0||b[0]  |     |y[1]-y[0]    |
@@ -82,7 +97,8 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 	sp->x = g_new (double, i);
 	sp->y = g_new (double, i);
 	sp->n = n;
-	sp->closed = closed;sp->ref_count = 1;
+	sp->closed = closed;
+	sp->ref_count = 1;
 
 	/* Initialize vectors for intermediate data */
 	a = g_new (double, n);

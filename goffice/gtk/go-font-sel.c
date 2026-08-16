@@ -156,10 +156,9 @@ update_preview (GOFontSel *gfs)
 	gtk_label_set_text (GTK_LABEL (gfs->preview_label), gfs->preview_text);
 
 	attrs = go_pango_translate_attributes (gfs->modifications);
-	if (attrs == gfs->modifications)
-		attrs = pango_attr_list_copy (attrs);
 	gtk_label_set_attributes (GTK_LABEL (gfs->preview_label), attrs);
-	pango_attr_list_unref (attrs);
+	if (attrs)
+		pango_attr_list_unref (attrs);
 }
 
 static void

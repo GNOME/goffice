@@ -74,11 +74,11 @@ go_uuid (void)
 	* situation outside Gabble. */
 	grand = g_rand_new ();
 	uuid.time_low = g_rand_int (grand);
-	uuid.time_mid = (guint16) g_rand_int_range (grand, 0, G_MAXUINT16);
-	uuid.time_hi_and_version = (guint16) g_rand_int_range (grand, 0, G_MAXUINT16);
-	uuid.clock_seq_hi_and_rsv = (guint8) g_rand_int_range (grand, 0, G_MAXUINT8);
-	uuid.clock_seq_low = (guint8) g_rand_int_range (grand, 0, G_MAXUINT8);
-	uuid.node_hi = (guint16) g_rand_int_range (grand, 0, G_MAXUINT16);
+	uuid.time_mid = (guint16) g_rand_int (grand);
+	uuid.time_hi_and_version = (guint16) g_rand_int (grand);
+	uuid.clock_seq_hi_and_rsv = (guint8) g_rand_int (grand);
+	uuid.clock_seq_low = (guint8) g_rand_int (grand);
+	uuid.node_hi = (guint16) g_rand_int (grand);
 	uuid.node_low = g_rand_int (grand);
 	g_rand_free (grand);
 
@@ -119,10 +119,11 @@ go_resource_type_get_type (void)
 	if (etype == 0) {
 		static GEnumValue const values[] = {
 			{ GO_RESOURCE_NATIVE,	"GO_RESOURCE_NATIVE",	"native" },
-			{ GO_RESOURCE_RW,	"GO_RESOURCE_RW",	"rw" },
 			{ GO_RESOURCE_RO,	"GO_RESOURCE_RO",	"ro" },
+			{ GO_RESOURCE_RW,	"GO_RESOURCE_RW",	"rw" },
 			{ GO_RESOURCE_CHILD,	"GO_RESOURCE_CHILD",	"child" },
 			{ GO_RESOURCE_EXTERNAL,	"GO_RESOURCE_EXTERNAL",	"external" },
+			{ GO_RESOURCE_GENERATED, "GO_RESOURCE_GENERATED", "generated" },
 			{ GO_RESOURCE_INVALID,	"GO_RESOURCE_INVALID",	"invalid" },
 			{ 0, NULL, NULL }
 		};
