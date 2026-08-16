@@ -1,4 +1,38 @@
+2026-08-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-pixbuf.c (go_pixbuf_restore_data): Close loader
+	before trying to get the resulting pixbuf.  This might fix
+	Gnumeric #892 and #886.
+
 2026-06-12  Morten Welinder <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_help_display): Avoid crash on
+	Windows if help map is missing.
+	(_go_gtk_shutdown): Free image extension cache.
+	(apply_ui_from_file): Add contract.
+
+	* goffice/utils/go-pango-extras.c (go_pango_attrs_to_markup): Escape
+	text segments.
+	(go_pango_attr_as_markup_string): Escape attribute values.  Also
+	fix color formatting.
+	(go_pango_translate_attributes): Ensure we always return a new
+	reference to be consistent with documentation.
+	(go_pango_translate_layout): Update for above.
+
+	* goffice/gtk/go-font-sel.c (go_font_sel_update_preview): Update
+	for above.
+
+	* goffice/utils/go-glib-extras.c (go_utf8_strcapital): Fix
+	multi-byte character handling.
+	(go_strescape): Add fall-through comment.
+	(go_mem_chunk_free): Fix leak for atoms_per_block == 1.
+
+	* goffice/utils/goffice-utils.c (go_uuid): Fix entropy loss due to
+	incorrect exclusive upper bound in g_rand_int_range.
+	(go_resource_type_get_type): Add missing GO_RESOURCE_GENERATED.
+
+	* goffice/utils/go-bezier.c (go_bezier_spline_init): Handle n < 2
+	cases without crashing.
 
 	* goffice/utils/go-emf.c (go_wmf_mtextra_to_utf)
 	(go_wmf_symbol_to_utf): Free the temporary UTF-16 buffer.

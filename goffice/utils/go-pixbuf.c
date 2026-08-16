@@ -120,11 +120,13 @@ go_pixbuf_create_pixbuf (GOPixbuf *pixbuf, GError **error)
 	GOImage *image = GO_IMAGE (pixbuf);
 	GdkPixbufLoader *loader = gdk_pixbuf_loader_new_with_type (pixbuf->type, NULL);
 	if (loader) {
-		if (gdk_pixbuf_loader_write (loader, image->data, image->data_length, error))
-			g_object_set (pixbuf,
-			              "pixbuf", gdk_pixbuf_loader_get_pixbuf (loader),
-			              NULL);
-		gdk_pixbuf_loader_close (loader, error && !*error ? error : NULL);
+		if (gdk_pixbuf_loader_write (loader, image->data, image->data_length, error)) {
+			if (gdk_pixbuf_loader_close (loader, error && !*error ? error : NULL)) {
+				g_object_set (pixbuf,
+					      "pixbuf", gdk_pixbuf_loader_get_pixbuf (loader),
+					      NULL);
+			}
+		}
 		g_object_unref (loader);
 	}
 }
@@ -194,7 +196,7 @@ go_pixbuf_draw (GOImage *image, cairo_t *cr)
 			/* image built from a pixbuf */
 			pixbuf->cairo_pixels = g_try_new0 (guint8, image->height * pixbuf->rowstride);
 			if (pixbuf->cairo_pixels == NULL) {
-				g_critical ("go_pixbuf_load_data: assertion `image->data != NULL' failed");
+				g_critical ("go_pixbuf_draw: assertion `image->data != NULL' failed");
 				return;
 			}
 			pixbuf_to_cairo (pixbuf);
