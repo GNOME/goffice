@@ -542,6 +542,36 @@ AC_COMPILE_IFELSE(
 	 AC_MSG_ERROR([*** the C99/POSIX isnan() macro is required])])
 
 dnl
+dnl -ffast-math implies -ffinite-math-only, which folds isfinite() to true
+dnl and isnan() to false, silently breaking the whole of the math code.
+dnl
+AC_MSG_CHECKING([that the compiler is not in fast-math mode])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM([[
+#include <math.h>
+#if defined(__FAST_MATH__)
+#error GOffice cannot be built with -ffast-math
+#endif
+#if defined(__FINITE_MATH_ONLY__) && __FINITE_MATH_ONLY__
+#error GOffice cannot be built with -ffinite-math-only
+#endif
+	]], [[]])],
+	[AC_MSG_RESULT(ok)],
+	[AC_MSG_RESULT(no)
+	 AC_MSG_ERROR([*** GOffice cannot be compiled with -ffast-math or
+*** -ffinite-math-only; they break isfinite() and isnan(), on which the
+*** whole of the math code relies.  Please remove those flags from CFLAGS.])])
+
+dnl
+dnl On BSD, we seem to need -lm for finite
+dnl
+if test $ac_cv_func_finite = no; then
+  AC_CHECK_LIB(m, finite,
+        [AC_DEFINE(HAVE_FINITE, 1,
+		[Define if the finite function is available]
+	 )
+         LIBS="$LIBS -lm"])
+fi
 
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
