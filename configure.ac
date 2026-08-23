@@ -562,17 +562,6 @@ AC_COMPILE_IFELSE(
 *** -ffinite-math-only; they break isfinite() and isnan(), on which the
 *** whole of the math code relies.  Please remove those flags from CFLAGS.])])
 
-dnl
-dnl On BSD, we seem to need -lm for finite
-dnl
-if test $ac_cv_func_finite = no; then
-  AC_CHECK_LIB(m, finite,
-        [AC_DEFINE(HAVE_FINITE, 1,
-		[Define if the finite function is available]
-	 )
-         LIBS="$LIBS -lm"])
-fi
-
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
