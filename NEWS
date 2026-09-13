@@ -10,6 +10,7 @@ Morten:
 	* Plug leaks.
 	* Fix pango markup issues.
 	* Fix pixbuf problem.  [Gnumeric #892] [Gnumeric #886]
+	* Tentative fix for [Gnumeric #896] (via claude.ai)
 
 --------------------------------------------------------------------------
 goffice 0.10.61:

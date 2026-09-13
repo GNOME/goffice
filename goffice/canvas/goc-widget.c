@@ -181,6 +181,21 @@ pick_offscreen_child (GdkWindow *offscreen_window,
 	return NULL;
 }
 
+
+static gboolean
+is_wayland (GdkScreen *screen)
+{
+	static GType wayland_display_type = (GType)-1;
+	if (wayland_display_type == (GType)-1)
+		wayland_display_type = g_type_from_name ("GdkWaylandDisplay");
+	if (wayland_display_type == 0)
+		return FALSE;
+
+	GdkDisplay *display = gdk_screen_get_display (screen);
+	return G_TYPE_CHECK_INSTANCE_TYPE (display, wayland_display_type);
+}
+
+
 static void
 goc_offscreen_box_realize (GtkWidget *widget)
 {
@@ -217,7 +232,15 @@ goc_offscreen_box_realize (GtkWidget *widget)
 	window = gdk_window_new (gtk_widget_get_parent_window (widget),
 	                         &attributes, attributes_mask);
 	gtk_widget_set_window (widget, window);
-	if (gdk_screen_is_composited (gdk_window_get_screen (window)))
+
+	GdkScreen *screen = gdk_window_get_screen (window);
+	// Avoid gdk_window_set_composited() under the Wayland GDK backend:
+	// that backend does not support composited child windows the way
+	// X11 does, and forcing it here causes this offscreen render
+	// target to be promoted to a real, WM-visible native surface
+	// (observed as one extra top-level window per GocWidget, e.g.
+	// one per autofilter dropdown arrow).
+	if (!is_wayland (screen) && gdk_screen_is_composited (screen))
 		gdk_window_set_composited (window, TRUE);
 	gdk_window_set_user_data (window, widget);
 
