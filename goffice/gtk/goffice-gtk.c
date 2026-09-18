@@ -1644,8 +1644,11 @@ go_dialog_guess_alternative_button_order (GtkDialog *dialog)
  *
  * Implementation of a GtkMenuPositionFunc that positions
  * the child window under the parent one, for use with gtk_menu_popup().
+ *
+ * Deprecated: use gtk_menu_popup_at_widget() with GDK_GRAVITY_SOUTH_WEST
+ * and GDK_GRAVITY_NORTH_WEST instead.
  **/
-void
+G_DEPRECATED void
 go_menu_position_below (GtkMenu  *menu,
 			gint     *x,
 			gint     *y,

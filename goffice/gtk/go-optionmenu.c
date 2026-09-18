@@ -147,66 +147,6 @@ go_option_menu_select_item (GOOptionMenu *option_menu, GtkMenuItem *item)
 }
 
 
-static void
-go_option_menu_position (GtkMenu  *menu,
-			 gint     *x,
-			 gint     *y,
-			 gboolean *push_in,
-			 gpointer  user_data)
-{
-	GOOptionMenu *option_menu = user_data;
-	GtkWidget *widget;
-	GtkRequisition requisition;
-	GList *children, *l;
-	gint screen_width;
-	gint menu_xpos;
-	gint menu_ypos;
-	gint menu_width;
-	GtkAllocation allocation;
-
-	widget = GTK_WIDGET (option_menu);
-
-	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &requisition, NULL);
-	menu_width = requisition.width;
-
-	gdk_window_get_origin (gtk_widget_get_window (widget), &menu_xpos, &menu_ypos);
-
-	gtk_widget_get_allocation (widget, &allocation);
-	menu_xpos += allocation.x;
-	menu_ypos += allocation.y + allocation.height / 2 - 2;
-
-	children = gtk_container_get_children (GTK_CONTAINER (option_menu->menu));
-	for (l = children; l; l = l->next) {
-		GtkWidget *child = l->data;
-
-		if (child == (GtkWidget*)option_menu->selected) {
-			gtk_widget_get_preferred_size (child, &requisition, NULL);
-			menu_ypos -= requisition.height / 2;
-			break;
-		}
-
-		if (gtk_widget_get_visible (child)) {
-			gtk_widget_get_preferred_size (child, &requisition, NULL);
-			menu_ypos -= requisition.height;
-		}
-
-		children = children->next;
-	}
-	g_list_free (children);
-
-	screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
-
-	if (menu_xpos + menu_width > screen_width)
-		menu_xpos -= (menu_xpos + menu_width) - screen_width;
-	if (menu_xpos < 0)
-		menu_xpos = 0;
-
-	*x = menu_xpos;
-	*y = menu_ypos;
-	*push_in = TRUE;
-}
-
-
 static gint
 go_option_menu_button_press (GtkWidget      *widget,
 			     GdkEventButton *event)
@@ -222,9 +162,11 @@ go_option_menu_button_press (GtkWidget      *widget,
 		if (!gtk_widget_has_focus (widget) &&
 		    gtk_widget_get_focus_on_click (widget))
 			gtk_widget_grab_focus (widget);
-		gtk_menu_popup (GTK_MENU (option_menu->menu), NULL, NULL,
-				go_option_menu_position, option_menu,
-				event->button, event->time);
+		gtk_menu_popup_at_widget (GTK_MENU (option_menu->menu),
+					  widget,
+					  GDK_GRAVITY_NORTH_WEST,
+					  GDK_GRAVITY_NORTH_WEST,
+					  (GdkEvent *)event);
 
 		return TRUE;
 	}
@@ -241,9 +183,11 @@ go_option_menu_key_press (GtkWidget   *widget,
 	switch (event->keyval) {
 	case GDK_KEY_KP_Space:
 	case GDK_KEY_space:
-		gtk_menu_popup (GTK_MENU (option_menu->menu), NULL, NULL,
-				go_option_menu_position, option_menu,
-				0, event->time);
+		gtk_menu_popup_at_widget (GTK_MENU (option_menu->menu),
+					  widget,
+					  GDK_GRAVITY_NORTH_WEST,
+					  GDK_GRAVITY_NORTH_WEST,
+					  (GdkEvent *)event);
 		return TRUE;
 	}
 

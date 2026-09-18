@@ -232,10 +232,11 @@ go_selector_popup (GOSelector *selector)
 		return;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), TRUE);
-	gtk_menu_popup (GTK_MENU (priv->palette),
-			NULL, NULL,
-			go_menu_position_below, selector,
-			0, 0);
+	gtk_menu_popup_at_widget (GTK_MENU (priv->palette),
+				  GTK_WIDGET (selector),
+				  GDK_GRAVITY_SOUTH_WEST,
+				  GDK_GRAVITY_NORTH_WEST,
+				  NULL);
 }
 
 static void

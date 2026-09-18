@@ -137,6 +137,7 @@ void	   go_atk_setup_label	 	(GtkWidget *label, GtkWidget *target);
 
 void       go_dialog_guess_alternative_button_order (GtkDialog *dialog);
 
+G_DEPRECATED
 void 	   go_menu_position_below (GtkMenu *menu, gint *x, gint *y,
 				   gint *push_in, gpointer user_data);
 

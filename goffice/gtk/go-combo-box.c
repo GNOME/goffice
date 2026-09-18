@@ -232,8 +232,7 @@ go_combo_box_popup_hide_unconditional (GOComboBox *combo_box)
 
 	do_focus_change (combo_box->priv->toplevel, FALSE);
 	gtk_grab_remove (combo_box->priv->toplevel);
-	gdk_device_ungrab (gtk_get_current_event_device (),
-	                   GDK_CURRENT_TIME);
+	gdk_seat_ungrab (gdk_device_get_seat (gtk_get_current_event_device ()));
 
 	pdc = (GObject *)g_object_ref (combo_box->priv->popdown_container);
 	g_signal_emit (combo_box,
@@ -409,8 +408,7 @@ go_combo_popup_tear_off (GOComboBox *combo, gboolean set_position)
 		gtk_widget_hide (combo->priv->toplevel);
 
 		gtk_grab_remove (combo->priv->toplevel);
-			gdk_device_ungrab (gtk_get_current_event_device (),
-					   GDK_CURRENT_TIME);
+		gdk_seat_ungrab (gdk_device_get_seat (gtk_get_current_event_device ()));
 	}
 
 	go_combo_popup_reparent (combo->priv->popup,
@@ -545,23 +543,22 @@ go_combo_box_popup_display (GOComboBox *combo_box)
 
 	go_combo_box_get_pos (combo_box, &x, &y);
 
+	// Set the transient parent before realize so that the Wayland backend
+	// can assign this popup a proper surface role rather than mapping it
+	// as a parentless temporary window.
+	GtkWidget *parent = gtk_widget_get_toplevel (GTK_WIDGET (combo_box));
+	if (GTK_IS_WINDOW (parent))
+		gtk_window_set_transient_for (GTK_WINDOW (combo_box->priv->toplevel),
+					      GTK_WINDOW (parent));
+
 	gtk_window_move (GTK_WINDOW (combo_box->priv->toplevel), x, y);
-	gtk_widget_realize (combo_box->priv->popup);
 	gtk_widget_show (combo_box->priv->popup);
-	gtk_widget_realize (combo_box->priv->toplevel);
 	gtk_widget_show (combo_box->priv->toplevel);
 
 	gtk_widget_grab_focus (combo_box->priv->toplevel);
 	do_focus_change (combo_box->priv->toplevel, TRUE);
 
 	gtk_grab_add (combo_box->priv->toplevel);
-	gdk_device_grab (gtk_get_current_event_device (),
-	                 gtk_widget_get_window (combo_box->priv->toplevel),
-	                 GDK_OWNERSHIP_APPLICATION, TRUE,
-			 GDK_BUTTON_PRESS_MASK |
-			 GDK_BUTTON_RELEASE_MASK |
-			 GDK_POINTER_MOTION_MASK,
-			 NULL, GDK_CURRENT_TIME);
 	set_arrow_state (combo_box, TRUE);
 }
 

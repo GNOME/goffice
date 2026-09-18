@@ -284,10 +284,11 @@ gog_child_button_popup (GogChildButton *child_button, guint button, guint32 even
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child_button->toggle_button), TRUE);
 	child_button->button_handling_in_progress = FALSE;
 
-	gtk_menu_popup (GTK_MENU (child_button->menu),
-			NULL, NULL,
-			go_menu_position_below, child_button,
-			button, event_time);
+	gtk_menu_popup_at_widget (GTK_MENU (child_button->menu),
+				  GTK_WIDGET (child_button),
+				  GDK_GRAVITY_SOUTH_WEST,
+				  GDK_GRAVITY_NORTH_WEST,
+				  NULL);
 }
 static void
 gog_child_button_popdown (GogChildButton *child_button)
