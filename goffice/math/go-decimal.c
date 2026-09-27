@@ -932,7 +932,7 @@ strtoDd (const char *s, char **end)
 	const unsigned char *us = (const unsigned char *)s;
 	int digits = 0;
 	int period = 0;
-	int scale = 0;
+	int64_t scale = 0;
 	_Decimal64 res;
 	const char *dot = decimal_point ();
 	gboolean ru = FALSE;
@@ -1005,7 +1005,7 @@ strtoDd (const char *s, char **end)
 	if (ru && (scale >= DECIMAL64_BIAS))
 		// Check if we need to round up.  Don't for subnormals.
 		m++;
-        res = scalbnD (m, scale);
+        res = scalbnD (m, CLAMP (scale, G_MININT, G_MAXINT));
 	if (sign) res = -res;
 	return res;
 }

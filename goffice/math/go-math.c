@@ -1516,7 +1516,7 @@ SUFFIX(reduce_pi_full) (DOUBLE x, int *pk, int kbits)
 
 /**
   * go_reduce_pi:
-  * @x: number of reduce
+  * @x: number to reduce
   * @e: scale between -1 and 8, inclusive.
   * @k: (out): location to return lower @e+1 bits of reduction count
   *

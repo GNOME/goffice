@@ -2218,6 +2218,148 @@ test_lgamma (void)
 }
 
 static void
+test_bessel (void)
+{
+	start_section ("Bessel functions jnD, ynD");
+
+	// ----------------------------------------------------------------
+	// Moderate arguments.  jnD/ynD are thin wrappers around libm's
+	// jn()/yn() here (see the FIXME in go-decimal.c), so this mostly
+	// guards against a broken wrapper (wrong argument order, sign
+	// slip, off-by-one in n, etc.) rather than testing new math -- but
+	// unlike every other one-arg function in go-decimal.c, jnD/ynD had
+	// *no* coverage at all for this, their normal operating range;
+	// the only existing tests exercised the tiny-x power-series branch
+	// of jnD.  Reference values via mpmath.besselj/bessely.
+	set_subsection ("moderate x, n=0..3");
+	CLOSE (jnD (0, 0.5dd), 0.9384698072408129dd, 20);
+	CLOSE (jnD (0, 1.dd), 0.7651976865579666dd, 20);
+	CLOSE (jnD (0, 2.dd), 0.2238907791412357dd, 20);
+	CLOSE (jnD (0, 5.dd), -0.1775967713143383dd, 20);
+	CLOSE (jnD (0, 10.dd), -0.2459357644513483dd, 20);
+	CLOSE (jnD (0, 100.dd), 0.01998585030422312dd, 20);
+	CLOSE (jnD (1, 0.5dd), 0.2422684576748739dd, 20);
+	CLOSE (jnD (1, 1.dd), 0.4400505857449335dd, 20);
+	CLOSE (jnD (1, 2.dd), 0.5767248077568734dd, 20);
+	CLOSE (jnD (1, 5.dd), -0.3275791375914652dd, 20);
+	CLOSE (jnD (1, 10.dd), 0.04347274616886144dd, 20);
+	CLOSE (jnD (1, 100.dd), -0.07714535201411216dd, 20);
+	CLOSE (jnD (2, 0.5dd), 0.03060402345868264dd, 20);
+	CLOSE (jnD (2, 1.dd), 0.1149034849319005dd, 20);
+	CLOSE (jnD (2, 2.dd), 0.3528340286156377dd, 20);
+	CLOSE (jnD (2, 5.dd), 0.04656511627775222dd, 20);
+	CLOSE (jnD (2, 10.dd), 0.2546303136851206dd, 20);
+	CLOSE (jnD (2, 100.dd), -0.02152875734450537dd, 20);
+	CLOSE (jnD (3, 0.5dd), 0.002563729994587244dd, 20);
+	CLOSE (jnD (3, 1.dd), 0.01956335398266841dd, 20);
+	CLOSE (jnD (3, 2.dd), 0.1289432494744020dd, 20);
+	CLOSE (jnD (3, 5.dd), 0.3648312306136670dd, 20);
+	CLOSE (jnD (3, 10.dd), 0.05837937930518681dd, 20);
+	CLOSE (jnD (3, 100.dd), 0.07628420172033194dd, 20);
+
+	CLOSE (ynD (0, 0.5dd), -0.4445187335067066dd, 20);
+	CLOSE (ynD (0, 1.dd), 0.08825696421567696dd, 20);
+	CLOSE (ynD (0, 2.dd), 0.5103756726497451dd, 20);
+	CLOSE (ynD (0, 5.dd), -0.3085176252490338dd, 20);
+	CLOSE (ynD (0, 10.dd), 0.05567116728359939dd, 20);
+	CLOSE (ynD (0, 100.dd), -0.07724431336508315dd, 20);
+	CLOSE (ynD (1, 0.5dd), -1.471472392670243dd, 20);
+	CLOSE (ynD (1, 1.dd), -0.7812128213002887dd, 20);
+	CLOSE (ynD (1, 2.dd), -0.1070324315409376dd, 20);
+	CLOSE (ynD (1, 5.dd), 0.1478631433912268dd, 20);
+	CLOSE (ynD (1, 10.dd), 0.2490154242069539dd, 20);
+	CLOSE (ynD (1, 100.dd), -0.02037231200275979dd, 20);
+	CLOSE (ynD (2, 0.5dd), -5.441370837174266dd, 20);
+	CLOSE (ynD (2, 1.dd), -1.650682606816254dd, 20);
+	CLOSE (ynD (2, 2.dd), -0.6174081041906827dd, 20);
+	CLOSE (ynD (2, 5.dd), 0.3676628826055245dd, 20);
+	CLOSE (ynD (2, 10.dd), -0.005868082442208615dd, 20);
+	CLOSE (ynD (2, 100.dd), 0.07683686712502796dd, 20);
+	CLOSE (ynD (3, 0.5dd), -42.05949430472388dd, 20);
+	CLOSE (ynD (3, 1.dd), -5.821517605964729dd, 20);
+	CLOSE (ynD (3, 2.dd), -1.127783776840428dd, 20);
+	CLOSE (ynD (3, 5.dd), 0.1462671626931928dd, 20);
+	CLOSE (ynD (3, 10.dd), -0.2513626571838373dd, 20);
+	CLOSE (ynD (3, 100.dd), 0.02344578668776091dd, 20);
+
+	// ----------------------------------------------------------------
+	// Special values.  J_n(0) = 1 for n=0, else 0; Y_n(0) = -inf for
+	// every n >= 0 (it is an infinite discontinuity at x=0, not a
+	// signed pole the way the negative-order identity might suggest);
+	// both are NaN for negative or NaN x, and go to (signed) zero as
+	// x -> +-inf.
+	set_subsection ("special values at x=0, +-inf, nan, and x<0");
+	EQ (jnD (0, 0.dd), 1.dd);
+	EQ (jnD (1, 0.dd), 0.dd);
+	EQ (jnD (2, 0.dd), 0.dd);
+	EQ (jnD (0, -0.dd), 1.dd);
+	EQ (ynD (0, 0.dd), NINF);
+	EQ (ynD (1, 0.dd), NINF);
+	EQ (ynD (2, 0.dd), NINF);
+	EQ (ynD (3, 0.dd), NINF);
+
+	// Unlike ynD, jnD *is* defined for negative x at integer order,
+	// via J_n(-x) = (-1)^n J_n(x); it must not turn that into NaN.
+	EQ (jnD (0, -1.dd), jnD (0, 1.dd));
+	EQ (jnD (1, -1.dd), -jnD (1, 1.dd));
+	NAN_ (ynD (0, -1.dd));
+	NAN_ (ynD (1, -1.dd));
+	NAN_ (jnD (0, QNAN));
+	NAN_ (ynD (0, QNAN));
+
+	EQ (jnD (0, PINF), 0.dd);
+	EQ (jnD (1, PINF), 0.dd);
+	EQ (ynD (0, PINF), 0.dd);
+	EQ (ynD (1, PINF), 0.dd);
+
+	// ----------------------------------------------------------------
+	// Order-negation identities: J_{-n}(x) = (-1)^n J_n(x) and
+	// Y_{-n}(x) = (-1)^n Y_n(x), for x > 0.
+	set_subsection ("negative order identities");
+	for (int n = 0; n <= 4; n++) {
+		_Decimal64 x = 3.5dd;
+		_Decimal64 sign = (n & 1) ? -1.dd : 1.dd;
+		CLOSE (jnD (-n, x), sign * jnD (n, x), 4);
+		CLOSE (ynD (-n, x), sign * ynD (n, x), 4);
+	}
+
+	// ----------------------------------------------------------------
+	// Known limitation (see the FIXME comments on jnD/ynD in
+	// go-decimal.c): both functions fall back to libm's jn()/yn() on
+	// a plain "double" cast of x for anything outside jnD's tiny-x
+	// series branch, with no large-argument handling of their own.
+	// _Decimal64 can represent huge values like 1e30 *exactly*, but
+	// the nearest "double" to 1e30 is off by a relative ~1e-16, i.e.
+	// by tens of units at that magnitude -- and since these are
+	// oscillatory functions with period 2*pi, an absolute error that
+	// large in the argument leaves the phase (and so the sign and
+	// magnitude of the result) effectively unrelated to the true
+	// answer.  This first becomes visible somewhere around x=1e23;
+	// by x=1e30 it is already unambiguous.  We first confirm the
+	// still-good regime below that threshold, then mark the broken
+	// one as xfail with the true reference value (via mpmath,
+	// evaluated at the *exact* decimal argument, which is how a fix
+	// would need to do it -- not at the double-rounded argument).
+	set_subsection ("large x: below the phase-loss threshold (should be fine)");
+	CLOSE (jnD (0, 1e15dd), 6.156638646885022e-09dd, 20);
+	CLOSE (ynD (0, 1e15dd), 2.446866512377132e-08dd, 20);
+	CLOSE (jnD (0, 1e20dd), 6.698009040703426e-12dd, 20);
+	CLOSE (ynD (0, 1e20dd), -7.95068198242545e-11dd, 20);
+
+	set_subsection ("large x: known phase-loss bug above the threshold (xfail)");
+	CLOSE_XF (jnD (0, 1e30dd), -6.127370231742229e-16dd, 1000);
+	CLOSE_XF (ynD (0, 1e30dd), 5.110509884533765e-16dd, 1000);
+	CLOSE_XF (jnD (0, 1e50dd), -7.916714451809859e-26dd, 1000);
+	CLOSE_XF (ynD (0, 1e50dd), -9.93785452330156e-27dd, 1000);
+	CLOSE_XF (jnD (0, 1e100dd), 5.444250503374563e-51dd, 1000);
+	CLOSE_XF (ynD (0, 1e100dd), -5.832847820170174e-51dd, 1000);
+	CLOSE_XF (jnD (0, 1e200dd), -7.804001009113744e-101dd, 1000);
+	CLOSE_XF (jnD (0, 1e300dd), -4.316312013000372e-151dd, 1000);
+
+	end_section ();
+}
+
+static void
 test_log_accuracy (void)
 {
 	static const struct {
@@ -2769,6 +2911,19 @@ test_regressions (void)
 		   "strtoDd on 300 digits + a huge exponent must not misbehave "
 		   "on integer overflow of the internal exponent accumulator");
 
+	// Beyond just "must not crash": now that the scale accumulator
+	// cannot silently overflow, this specific input must also produce
+	// the mathematically correct answer.  Its true magnitude is far
+	// beyond Decimal64's range, so it must saturate to +Infinity --
+	// not, as the unpatched overflow used to silently produce, 0.
+	{
+		GString *s = g_string_new (NULL);
+		for (int i = 0; i < 300; i++)
+			g_string_append_c (s, '1');
+		g_string_append (s, "e2147483400");
+		EQ (strtoDd (s->str, NULL), PINF);
+		g_string_free (s, TRUE);
+	}
 	end_section ();
 }
 
@@ -2798,6 +2953,7 @@ main (int argc, char **argv)
 	test_scalbn_frexp ();
 	test_range ();
 	test_lgamma ();
+	test_bessel ();
 	test_log_accuracy ();
 	test_trig_accuracy ();
 	test_roots_hypot ();
