@@ -41,7 +41,7 @@
 // asinD           A         *         *
 // asinhD          A         *         *
 // atanD           A         *         *
-// atan2D          A         *         B
+// atan2D          A         *         A
 // atanhD          A         A-        *
 // cbrtD           A         A-        *
 // ceilD           A         A         A
@@ -49,7 +49,7 @@
 // cosD            B         C*        *
 // coshD           A         A-        *
 // erfD            A         *         *
-// erfcD           A         *         *
+// erfcD           A         A-        B
 // expD            A         *         *
 // expm1D          A         *         *
 // fabsD           A         A         *
@@ -57,17 +57,17 @@
 // frexpD          A         B         -
 // fmodD           A         A         *
 // hypotD          A         A         -
-// jnD             B         C*        -
+// jnD             B         C*        B
 // ldexpD          B         B         -
-// lgammaD         A         A-        *
-// lgammaD_r       A         A-        -
+// lgammaD         A         A-        A
+// lgammaD_r       A         A-        B
 // log10D          A         A-        *
-// log2D           A         A-        *
+// log2D           A         A-        A
 // log1pD          A         A-        *
 // logD            A         A-        *
 // modfD           A         A         A
 // nextafterD      A         A         A
-// powD            B         *         B
+// powD            A         A-        A
 // roundD          A         A         A
 // sinD            B         C*        *
 // sinhD           A         A-        *
@@ -935,7 +935,7 @@ strtoDd (const char *s, char **end)
 	int scale = 0;
 	_Decimal64 res;
 	const char *dot = decimal_point ();
-        gboolean ru = FALSE;
+	gboolean ru = FALSE;
 	while (isspace (*us))
 		us++;
 
@@ -971,7 +971,7 @@ strtoDd (const char *s, char **end)
 				if (m) digits++;
 				if (period) scale--;
 			} else if (digits == DECIMAL64_DIG) {
-                                ru = (*us >= '5');  // Delayed round-up.  Apply only for normals
+				ru = (*us >= '5');  // Delayed round-up.  Apply only for normals
 				if (!period) scale++;
 				digits++;
 			} else {
@@ -1004,7 +1004,7 @@ strtoDd (const char *s, char **end)
 	if (end) *end = (char *)us;
 	if (ru && (scale >= DECIMAL64_BIAS))
 		// Check if we need to round up.  Don't for subnormals.
-                m++;
+		m++;
         res = scalbnD (m, scale);
 	if (sign) res = -res;
 	return res;
@@ -1184,11 +1184,6 @@ erfcD (_Decimal64 x)
 			sum += term;
 		}
 		return neg_square_exp (x) / (sqrt_pi * x) * sum;
-	} else if (x >= 40) {
-		// True for finite x as small as ~31, and for +Inf.  NaN
-		// compares false against everything, so it falls through to
-		// erfc(x) below as before.
-		return 0.dd;
 	}
 	// No need to handle underflow because erfc(0)=1
 	return erfc (x);
