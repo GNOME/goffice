@@ -121,7 +121,10 @@
 #define M_LN2D   0.6931471805599453094dd                   // log(2)
 #define M_2_PID  0.6366197723675813431dd                   // 2/pi
 #define M_1_PID  0.3183098861837906715dd                   // 1/pi
-#define M_EULERD 0.5772156649015328606dd                   // Euler-Mascheroni
+// Euler-Mascheroni minus log(2), combined ahead of time (rather than as
+// two separate Decimal64 constants added/subtracted at run time) so that
+// ynD's n==0 case only rounds its "logD(x) + ..." once instead of twice.
+#define M_EULER_LN2D (-0.11593151565841244881dd)
 #define M_SQRT2D 1.414213562373095dd                       // sqrt(2)
 
 // We assume bis format (and check for it during init)
@@ -1608,7 +1611,7 @@ atanhD (_Decimal64 x)
 {
 	_Decimal64 ax = fabsD (x);
 	if (ax > 1)
-		return (_Decimal64)NAN;
+		return -(_Decimal64)NAN;  // To match glibc's atanh
 	else if (ax <= DECIMAL64_EPSILON) {
 		// x - x^3/3 + ...
 		return x;
@@ -2159,6 +2162,22 @@ qrepdbl (uint64_t mant, int p10)
 	}
 }
 
+static uint64_t
+ipow_u64 (uint64_t x, unsigned e)
+{
+	uint64_t r = 1;
+	uint64_t f = x;
+	while (e > 1) {
+		if (e & 1)
+			r *= f;
+		f *= f;
+		e >>= 1;
+	}
+	if (e & 1)
+		r *= f;
+	return r;
+}
+
 
 /**
  * powD:
@@ -2179,7 +2198,7 @@ qrepdbl (uint64_t mant, int p10)
 _Decimal64
 powD (_Decimal64 x, _Decimal64 y)
 {
-	int qneg = 0, ysign;
+	int ysign;
 	_Decimal64 z;
 
 	if (x == 1 || y == 0)
@@ -2221,9 +2240,16 @@ powD (_Decimal64 x, _Decimal64 y)
 		return (ysign ? 0.dd : (_Decimal64)INFINITY);
 	}
 
+	int qinty = isint (y);
+
+	int p10x, signx;
+	uint64_t mantx;
+	(void)decode64_norm (&x, &mantx, &p10x, &signx);
+	if (signx && !qinty)
+		return NAN;
+
 	// End of mandated special cases
 
-	int qinty = isint (y);
 	if (qinty) {
 		// A few special cases where we can do a lot better than
 		// going via plain pow.
@@ -2231,14 +2257,17 @@ powD (_Decimal64 x, _Decimal64 y)
 		if (y == 1) return x;
 		if (y == 2) return x * x;
 
-		int p10x, signx;
-		uint64_t mantx;
-		(void)decode64_norm (&x, &mantx, &p10x, &signx);
-
 		_Decimal64 ay = fabsD (y);
 		int iy = (ay < 1000 ? (int)y : 1000);
 		int iay = (iy < 0 ? -iy : iy);
 		int digits_needed = iay * u64_digits (mantx);
+		if (digits_needed <= 19 && iy > 0) {
+			// We could do a 128-bit version of this but conversion
+			// from uint128_t (or whatever it's called) requires
+			// gcc 15 or higher so we'd have to test for it.
+			z = scalbnD (ipow_u64 (mantx, iay), p10x * iy);
+			goto do_sign;
+		}
 		if (!qrepdbl (mantx, p10x) &&
 		    qrepdbl (mantx, 0) &&
 		    digits_needed < DBL_MAX_10_EXP - 10) {
@@ -2246,19 +2275,12 @@ powD (_Decimal64 x, _Decimal64 y)
 			// y is a smallish integer
 			// mantx is representable as a double
 			// mantx^y will not overflow
-			_Decimal64 z = scalbnD (pow (mantx, y), p10x * iy);
-			if (signx && qinty < 0)
-				z = -z;
-			return z;
+			z = scalbnD (pow (mantx, y), p10x * iy);
+			goto do_sign;
 		}
 	}
 
-	if (x < 0) {
-		if (!qinty)
-			return NAN;
-		qneg = qinty < 0;
-		x = -x;
-	}
+	if (signx) x = -x;
 
 	if (x == 10 && fabsD (y) <= G_MAXINT) {
 		// This could be extended to x being any integer power of 10
@@ -2277,7 +2299,8 @@ powD (_Decimal64 x, _Decimal64 y)
 		}
 	}
 
-	return qneg ? -z : z;
+do_sign:
+	return (signx && qinty < 0) ? -z : z;
 }
 
 /**
@@ -2583,7 +2606,8 @@ ynD (int n, _Decimal64 x)
 
 		if (an == 0) {
 			// Y0(x) ~ 2/pi * (ln(x/2) + gamma)
-			r = M_2_PID * (logD (x) - M_LN2D + M_EULERD);
+			//       = 2/pi * (ln(x) + (gamma - ln(2)))
+			r = M_2_PID * (logD (x) + M_EULER_LN2D);
 		} else {
 			// Yn(x) ~ -(n-1)!/pi * (2/x)^n
 			//
