@@ -2313,6 +2313,51 @@ test_bessel (void)
 	EQ (ynD (1, PINF), 0.dd);
 
 	// ----------------------------------------------------------------
+	// Tiny arguments.  Casting these to double flushes anything below
+	// ~4.9e-324 to zero, for which yn() returns -infinity, although the
+	// true value is finite: ~(2/pi)(ln(x/2)+gamma) for n=0, and
+	// ~-(n-1)!/pi*(2/x)^n otherwise.  Reference values via mpmath.
+	set_subsection ("ynD: tiny x, including x that underflow in double");
+	CLOSE (ynD (0, 1e-15dd), -22.06187226149152dd, 4);
+	CLOSE (ynD (0, 1e-20dd), -29.3912282502858dd, 4);
+	CLOSE (ynD (0, 1e-100dd), -146.6609240709942dd, 4);
+	CLOSE (ynD (0, 1e-300dd), -439.8351636227653dd, 4);
+	CLOSE (ynD (0, 1e-320dd), -469.1525875779424dd, 4);
+	CLOSE (ynD (0, 1e-330dd), -483.811299555531dd, 4);
+	CLOSE (ynD (0, 1e-398dd), -583.4905410031332dd, 4);
+	CLOSE (ynD (1, 1e-15dd), -636619772367581.3dd, 4);
+	CLOSE (ynD (1, 1e-100dd), -6.366197723675813e99dd, 4);
+	CLOSE (ynD (1, 1e-300dd), -6.366197723675813e299dd, 4);
+	CLOSE (ynD (1, 1e-320dd), -6.366197723675813e319dd, 4);
+	CLOSE (ynD (1, 1e-330dd), -6.366197723675813e329dd, 4);
+	CLOSE (ynD (1, 1e-380dd), -6.366197723675813e379dd, 4);
+	// Result fits even though 2/x does not
+	CLOSE (ynD (1, 1e-385dd), -6.366197723675813e384dd, 4);
+	EQ (ynD (1, 1e-386dd), NINF);
+	CLOSE (ynD (2, 1e-15dd), -1.273239544735163e30dd, 4);
+	CLOSE (ynD (2, 1e-100dd), -1.273239544735163e200dd, 4);
+	CLOSE (ynD (2, 1e-120dd), -1.273239544735163e240dd, 4);
+	CLOSE (ynD (3, 1e-15dd), -5.092958178940651e45dd, 4);
+	CLOSE (ynD (3, 1e-100dd), -5.092958178940651e300dd, 4);
+	CLOSE (ynD (4, 1e-50dd), -3.05577490736439e201dd, 4);
+	// True result beyond the range of Decimal64
+	EQ (ynD (2, 1e-320dd), NINF);
+	EQ (ynD (3, 1e-300dd), NINF);
+	EQ (ynD (200, 1e-15dd), NINF);
+	EQ (ynD (G_MAXINT, 1e-300dd), NINF);
+	// Negative orders: Y_{-n} = (-1)^n Y_n
+	CLOSE (ynD (-1, 1e-20dd), 6.366197723675813e19dd, 4);
+	CLOSE (ynD (-2, 1e-20dd), -1.273239544735163e40dd, 4);
+	CLOSE (ynD (-3, 1e-20dd), 5.092958178940651e60dd, 4);
+	CLOSE (ynD (-1, 1e-320dd), 6.366197723675813e319dd, 4);
+	test_true (ynD (-1, 1e-320dd) > 0, "ynD (-1, tiny) is positive");
+	EQ (ynD (-3, 1e-300dd), PINF);
+	// Still consistent with the unspecial-cased poles
+	EQ (ynD (0, 0.dd), NINF);
+	NAN_ (ynD (0, -1e-320dd));
+	NAN_ (ynD (1, -1e-20dd));
+
+	// ----------------------------------------------------------------
 	// Order-negation identities: J_{-n}(x) = (-1)^n J_n(x) and
 	// Y_{-n}(x) = (-1)^n Y_n(x), for x > 0.
 	set_subsection ("negative order identities");

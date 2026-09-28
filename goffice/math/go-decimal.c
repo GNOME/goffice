@@ -37,9 +37,9 @@
 // FUNCTION        RANGE     ACCURACY  TESTING
 // -------------------------------------------
 // acosD           A         *         *
-// acoshD          A         *         *
+// acoshD          A         A-        B
 // asinD           A         *         *
-// asinhD          A         *         *
+// asinhD          A         A-        B
 // atanD           A         *         *
 // atan2D          A         *         A
 // atanhD          A         A-        *
@@ -77,7 +77,7 @@
 // tanD            B         C*        *
 // tanhD           A         A-        B
 // truncD          A         A         A
-// ynD             *         C*        -
+// ynD             B         C*        B
 // isfiniteD       A         A         A
 // isnanD          A         A         A
 // signbitD        A         A         A
@@ -119,6 +119,9 @@
 
 #define M_LN10D  2.3025850929940456840179914546843642076dd // log(10)
 #define M_LN2D   0.6931471805599453094dd                   // log(2)
+#define M_2_PID  0.6366197723675813431dd                   // 2/pi
+#define M_1_PID  0.3183098861837906715dd                   // 1/pi
+#define M_EULERD 0.5772156649015328606dd                   // Euler-Mascheroni
 #define M_SQRT2D 1.414213562373095dd                       // sqrt(2)
 
 // We assume bis format (and check for it during init)
@@ -692,18 +695,54 @@ init_decimal_printf_support (void)
 // no decimal branch, so a _Decimal64 would be converted to long double,
 // which is slow and lossy.  Decoding the encoding is exact and cheap.
 
+/**
+ * isnanD:
+ * @x: value to test
+ *
+ * Tests for NaN.
+ *
+ * Decodes the encoding directly, so it is exact and never converts @x to a
+ * wider type.  Both quiet and signalling NaNs of either sign are
+ * recognised.
+ *
+ * Returns: Non-zero if @x is a NaN, otherwise 0.
+ */
 inline int
 isnanD (_Decimal64 x)
 {
 	return decode64 (&x, NULL, NULL, NULL) == CLS_NAN;
 }
 
+/**
+ * isfiniteD:
+ * @x: value to test
+ *
+ * Tests for a finite value.
+ *
+ * Zero, subnormals and normal numbers are finite; infinities and NaNs are
+ * not.  An encoding that does not represent a valid value is treated as
+ * zero and so counts as finite.
+ *
+ * Returns: Non-zero if @x is neither infinite nor a NaN, otherwise 0.
+ */
 inline int
 isfiniteD (_Decimal64 x)
 {
 	return decode64 (&x, NULL, NULL, NULL) < CLS_NAN;
 }
 
+/**
+ * signbitD:
+ * @x: value to test
+ *
+ * Extracts the sign bit.
+ *
+ * Unlike a comparison against zero this distinguishes -0 from +0, and it
+ * also reports the sign of infinities and NaNs.
+ *
+ * Returns: Non-zero if the sign bit of @x is set, otherwise 0.  The value
+ *     is not necessarily 1.
+ */
 inline int
 signbitD (_Decimal64 x)
 {
@@ -712,6 +751,18 @@ signbitD (_Decimal64 x)
 	return sign;
 }
 
+/**
+ * copysignD:
+ * @x: magnitude source
+ * @y: sign source
+ *
+ * Copies a sign.
+ *
+ * The magnitude comes from @x and the sign bit from @y.  Works for zeros
+ * and infinities.  If @x is a NaN the result is a NaN.
+ *
+ * Returns: @x with the sign of @y.
+ */
 _Decimal64
 copysignD (_Decimal64 x, _Decimal64 y)
 {
@@ -721,6 +772,17 @@ copysignD (_Decimal64 x, _Decimal64 y)
 		return -x;
 }
 
+/**
+ * fabsD:
+ * @x: argument
+ *
+ * Absolute value.
+ *
+ * Exact.  fabsD(-0) is +0 and the absolute value of an infinity is
+ * +infinity.  A NaN stays a NaN.
+ *
+ * Returns: |@x|.
+ */
 _Decimal64
 fabsD (_Decimal64 x)
 {
@@ -740,6 +802,22 @@ pow10D (int e)
 	return (_Decimal64)INFINITY;
 }
 
+/**
+ * nextafterD:
+ * @x: starting value
+ * @y: direction
+ *
+ * Steps to the adjacent representable value.
+ *
+ * Moves @x by one unit in the last place, on the 16 digit grid appropriate
+ * to its magnitude, towards @y.  If the two are equal @y is returned.  From
+ * zero the smallest subnormal (1e-398) of the appropriate sign is returned.
+ * From an infinity the largest finite value with the same sign is returned.
+ * Stepping past #DECIMAL64_MAX gives infinity.  If either argument is a
+ * NaN, the result is a NaN.
+ *
+ * Returns: The next representable value after @x in the direction of @y.
+ */
 _Decimal64
 nextafterD (_Decimal64 x, _Decimal64 y)
 {
@@ -790,6 +868,21 @@ nextafterD (_Decimal64 x, _Decimal64 y)
 	return make64 (m64, e, sign);
 }
 
+/**
+ * ldexpD:
+ * @x: significand
+ * @e: binary exponent
+ *
+ * Multiplies by a power of two.
+ *
+ * Computes @x * 2^@e.  <emphasis>This operation is not lossless</emphasis>:
+ * powers of two are not exact in decimal, so the result is subject to an
+ * ordinary Decimal64 rounding, and repeated use can accumulate error.
+ * Zero, infinities and NaNs are returned as-is.  Overflow and underflow
+ * follow normal Decimal64 arithmetic.
+ *
+ * Returns: @x * 2^@e.
+ */
 // NOTE: THIS IS NOT A LOSSLESS OPERATION
 _Decimal64
 ldexpD (_Decimal64 x, int e)
@@ -807,6 +900,21 @@ ldexpD (_Decimal64 x, int e)
 		return x * (_Decimal64)(ldexp(1, e));
 }
 
+/**
+ * frexpD:
+ * @x: value to split
+ * @e: (out): binary exponent
+ *
+ * Splits into a binary significand and exponent.
+ *
+ * Returns @m and stores @e such that @x = @m * 2^@e with 0.5 <= |@m| < 1.
+ * <emphasis>This operation is not lossless</emphasis>: it is computed via
+ * double (with scaling to cope with values outside the range of double), so
+ * @m is only accurate to roughly double precision.  For zero, infinities
+ * and NaNs, @x is returned and *@e is set to 0.
+ *
+ * Returns: The significand @m, carrying the sign of @x.
+ */
 // NOTE: THIS IS NOT A LOSSLESS OPERATION
 _Decimal64
 frexpD (_Decimal64 x, int *e)
@@ -834,7 +942,25 @@ frexpD (_Decimal64 x, int *e)
 	return copysignD (m, x);
 }
 
-// This is lossless (expect when going denormal or underflowing).
+/**
+ * scalblnD:
+ * @x: value to scale
+ * @e: decimal exponent adjustment
+ *
+ * Multiplies by a power of ten.
+ *
+ * Computes @x * 10^@e by adjusting the encoded exponent, so it is exact
+ * except when the result becomes subnormal (digits are then rounded, ties
+ * away from zero) or underflows to zero.  Overflow gives an infinity of the
+ * same sign as @x.  Any @e of large magnitude is safe: it is clamped
+ * internally to a range that already saturates.
+ *
+ * Zero, infinities and NaNs are returned as-is.
+ *
+ * This is a lossless operation (expect when going denormal or underflowing).
+ *
+ * Returns: @x * 10^@e.
+ */
 _Decimal64
 scalblnD (_Decimal64 x, long e)
 {
@@ -878,12 +1004,39 @@ scalblnD (_Decimal64 x, long e)
 	return make64 (mant, p10, sign);
 }
 
+/**
+ * scalbnD:
+ * @x: value to scale
+ * @e: decimal exponent adjustment
+ *
+ * Multiplies by a power of ten.
+ *
+ * Same as scalblnD() but with an @e of type int.  Note that this scales by
+ * a power of <emphasis>ten</emphasis>, which is the radix of Decimal64,
+ * unlike the double-precision function of the same name whose radix is two.
+ *
+ * Returns: @x * 10^@e.
+ */
 _Decimal64
 scalbnD (_Decimal64 x, int e)
 {
 	return scalblnD (x, e);
 }
 
+/**
+ * unscalbnD:
+ * @x: value to split
+ * @e: (out): decimal exponent
+ *
+ * Splits into a decimal significand and exponent.
+ *
+ * Returns @m and stores @e such that @x = @m * 10^@e with 0.1 <= |@m| < 1.
+ * This is exact, being the decimal counterpart of frexpD().  For zero, @m
+ * is a zero with the sign of @x and *@e is 0.  For infinities and NaNs, @x
+ * is returned and *@e is set to 0.
+ *
+ * Returns: The significand @m, carrying the sign of @x.
+ */
 _Decimal64
 unscalbnD (_Decimal64 x, int *e)
 {
@@ -924,6 +1077,25 @@ caseprefix (const unsigned char *us, const char *p)
 	return TRUE;
 }
 
+/**
+ * strtoDd:
+ * @s: string to parse
+ * @end: (out) (optional): location to receive the end of the parsed text
+ *
+ * Converts a string to Decimal64.
+ *
+ * Accepts optional leading white space, an optional sign, then either
+ * decimal digits with an optional decimal point (in the current locale) and
+ * optional exponent, or INF, INFINITY or NAN in any case.  The result is
+ * correctly rounded (ties rounding up in magnitude) for inputs of any
+ * length: digits beyond the 16th only affect rounding.  Exponents of
+ * arbitrary magnitude are handled without integer overflow; values too
+ * large give an infinity and values too small give a zero, both with the
+ * sign of the input.  If no number can be parsed, 0 is returned and *@end
+ * (if given) is set to @s.
+ *
+ * Returns: The converted value.
+ */
 _Decimal64
 strtoDd (const char *s, char **end)
 {
@@ -1012,6 +1184,16 @@ strtoDd (const char *s, char **end)
 
 // ---------------------------------------------------------------------------
 
+/**
+ * floorD:
+ * @x: argument
+ *
+ * Rounds down (towards minus infinity) to nearest integer.
+ *
+ * The sign of zero is preserved and infinities and NaNs are returned as-is.
+ *
+ * Returns: The largest integer not greater than @x.
+ */
 _Decimal64
 floorD (_Decimal64 x)
 {
@@ -1029,6 +1211,16 @@ floorD (_Decimal64 x)
 		return x;
 }
 
+/**
+ * ceilD:
+ * @x: argument
+ *
+ * Rounds up (towards minus infinity) to nearest integer.
+ *
+ * The sign of zero is preserved and infinities and NaNs are returned as-is.
+ *
+ * Returns: The smallest integer not less than @x.
+ */
 _Decimal64
 ceilD (_Decimal64 x)
 {
@@ -1041,6 +1233,17 @@ ceilD (_Decimal64 x)
 		return x;
 }
 
+/**
+ * roundD:
+ * @x: argument
+ *
+ * Rounds to nearest integer, halves away from zero.
+ *
+ * Unlike the default Decimal64 rounding mode this does not round
+ * ties to even.  Zeros, infinities and NaNs are returned as-is.
+ *
+ * Returns: @x rounded to an integer.
+ */
 _Decimal64
 roundD (_Decimal64 x)
 {
@@ -1057,6 +1260,16 @@ roundD (_Decimal64 x)
 		return x;
 }
 
+/**
+ * truncD:
+ * @x: argument
+ *
+ * Rounds towards zero to nearest integer.
+ *
+ * Zeros, infinities and NaNs are returned as-is.
+ *
+ * Returns: The integer part of @x.
+ */
 _Decimal64
 truncD (_Decimal64 x)
 {
@@ -1065,6 +1278,17 @@ truncD (_Decimal64 x)
 
 // ---------------------------------------------------------------------------
 
+/**
+ * lgammaD:
+ * @x: argument
+ *
+ * Logarithm of the absolute value of the gamma function.
+ *
+ * Poles at zero and the negative integers give +infinity.  Use lgammaD_r()
+ * if the sign of gamma is needed.
+ *
+ * Returns: log(|gamma(@x)|).
+ */
 _Decimal64
 lgammaD (_Decimal64 x)
 {
@@ -1072,6 +1296,17 @@ lgammaD (_Decimal64 x)
 	return lgammaD_r (x, &sign);
 }
 
+/**
+ * lgammaD_r:
+ * @x: argument
+ * @signp: (out): sign of gamma(@x), +1 or -1
+ *
+ * Logarithm of the absolute value of the gamma function, and its sign.
+ *
+ * As lgammaD(), but also stores in *@signp the sign of gamma(@x).
+ *
+ * Returns: log(|gamma(@x)|).
+ */
 _Decimal64
 lgammaD_r (_Decimal64 x, int *signp)
 {
@@ -1106,6 +1341,16 @@ lgammaD_r (_Decimal64 x, int *signp)
 }
 
 
+/**
+ * erfD:
+ * @x: argument
+ *
+ * Error function.
+ *
+ * This produces a value in the range -1 to 1.
+ *
+ * Returns: erf(@x).
+ */
 _Decimal64
 erfD (_Decimal64 x)
 {
@@ -1151,6 +1396,17 @@ neg_square_exp (_Decimal64 x)
 	return scalblnD ((_Decimal64)exp (yr), k);
 }
 
+/**
+ * erfcD:
+ * @x: argument
+ *
+ * Complementary error function.
+ *
+ * Computes 1 - erf(@x) without cancellation.  This produces a value in the
+ * range -2 to 0.
+ *
+ * Returns: erfc(@x).
+ */
 _Decimal64
 erfcD (_Decimal64 x)
 {
@@ -1219,6 +1475,14 @@ exp_helper (_Decimal64 x, _Decimal64 f)
 }
 
 
+/**
+ * sinhD:
+ * @x: argument
+ *
+ * Hyperbolic sine.
+ *
+ * Returns: sinh(@x).
+ */
 _Decimal64
 sinhD (_Decimal64 x)
 {
@@ -1240,6 +1504,14 @@ sinhD (_Decimal64 x)
 	}
 }
 
+/**
+ * asinhD:
+ * @x: argument
+ *
+ * Inverse hyperbolic sine.
+ *
+ * Returns: asinh(@x).
+ */
 _Decimal64
 asinhD (_Decimal64 x)
 {
@@ -1251,6 +1523,14 @@ asinhD (_Decimal64 x)
 	return asinh (x);
 }
 
+/**
+ * coshD:
+ * @x: argument
+ *
+ * Hyperbolic cosine.
+ *
+ * Returns: cosh(@x).
+ */
 _Decimal64
 coshD (_Decimal64 x)
 {
@@ -1268,6 +1548,16 @@ coshD (_Decimal64 x)
 	}
 }
 
+/**
+ * acoshD:
+ * @x: argument
+ *
+ * Inverse hyperbolic cosine.
+ *
+ * The domain is [1, +infinity].  An argument less than 1 gives a NaN.
+ *
+ * Returns: The non-negative value whose hyperbolic cosine is @x.
+ */
 _Decimal64
 acoshD (_Decimal64 x)
 {
@@ -1282,6 +1572,16 @@ acoshD (_Decimal64 x)
 	return acosh (x);
 }
 
+/**
+ * tanhD:
+ * @x: argument
+ *
+ * Hyperbolic tangent.
+ *
+ * This produces a value in the range -1 to 1.
+ *
+ * Returns: tanh(@x).
+ */
 _Decimal64
 tanhD (_Decimal64 x)
 {
@@ -1292,12 +1592,24 @@ tanhD (_Decimal64 x)
 		return tanh (x);
 }
 
+/**
+ * atanhD:
+ * @x: argument
+ *
+ * Inverse hyperbolic tangent.
+ *
+ * The domain is [-1, +1]: atanhD(+-1) is +-infinity and a larger magnitude
+ * gives a NaN.
+ *
+ * Returns: atanh(@x).
+ */
 _Decimal64
 atanhD (_Decimal64 x)
 {
 	_Decimal64 ax = fabsD (x);
-	// No need to handle overflow because the domain is ]-1;+1[
-	if (ax <= DECIMAL64_EPSILON) {
+	if (ax > 1)
+		return (_Decimal64)NAN;
+	else if (ax <= DECIMAL64_EPSILON) {
 		// x - x^3/3 + ...
 		return x;
 	} else if (ax > 0.9dd && ax < 1) {
@@ -1309,6 +1621,17 @@ atanhD (_Decimal64 x)
 
 // ---------------------------------------------------------------------------
 
+/**
+ * sinD:
+ * @x: angle in radians
+ *
+ * Sine.
+ *
+ * NOTE: Accuracy is good for modest arguments but deteriorates as |@x| grows.
+ * Beyond 10^10 the result starts approaching noise.
+ *
+ * Returns: sin(@x).
+ */
 _Decimal64
 sinD (_Decimal64 x)
 {
@@ -1329,6 +1652,16 @@ sinD (_Decimal64 x)
 	}
 }
 
+/**
+ * cosD:
+ * @x: angle in radians
+ *
+ * Cosine.
+ *
+ * The accuracy limitations for large |@x| described for sinD() apply.
+ *
+ * Returns: cos(@x).
+ */
 _Decimal64
 cosD (_Decimal64 x)
 {
@@ -1346,6 +1679,16 @@ cosD (_Decimal64 x)
 	}
 }
 
+/**
+ * tanD:
+ * @x: angle in radians
+ *
+ * Tangent.
+ *
+ * The accuracy limitations for large |@x| described for sinD() apply.
+ *
+ * Returns: tan(@x).
+ */
 _Decimal64
 tanD (_Decimal64 x)
 {
@@ -1364,24 +1707,55 @@ tanD (_Decimal64 x)
 	}
 }
 
+/**
+ * asinD:
+ * @x: argument
+ *
+ * Inverse sine.
+ *
+ * The domain is [-1, +1]; a larger magnitude gives a NaN.
+ *
+ * Returns: The value in [-pi/2, pi/2] whose sine is @x.
+ */
 _Decimal64
 asinD (_Decimal64 x)
 {
-	// No need to handle overflow because domain is [1,1]
-	if (fabsD (x) <= (_Decimal64)DBL_MIN)
+	if (fabsD (x) > 1)
+		return (_Decimal64)NAN;
+	else if (fabsD (x) <= (_Decimal64)DBL_MIN)
 		return x;
 	else
 		return asin (x);
 }
 
+/**
+ * acosD:
+ * @x: argument
+ *
+ * Inverse cosine.
+ *
+ * The domain is [-1, +1]; a larger magnitude gives a NaN.
+ *
+ * Returns: The value in [0, pi] whose cosine is @x.
+ */
 _Decimal64
 acosD (_Decimal64 x)
 {
-	// No need to handle overflow because domain is [1,1]
+	if (fabsD (x) > 1)
+		return (_Decimal64)NAN;
+
 	// No need to handle underflow because acos(0)=Pi/2
 	return acos (x);
 }
 
+/**
+ * atanD:
+ * @x: argument
+ *
+ * Inverse tangent.
+ *
+ * Returns: The value in [-pi/2, pi/2] whose tangent is @x.
+ */
 _Decimal64
 atanD (_Decimal64 x)
 {
@@ -1392,6 +1766,20 @@ atanD (_Decimal64 x)
 		return atan (x);
 }
 
+/**
+ * atan2D:
+ * @y: ordinate
+ * @x: abscissa
+ *
+ * Two-argument inverse tangent.
+ *
+ * Computes the angle of the point (@x,@y) in the range [-pi, pi], using the
+ * signs of both arguments to select the quadrant.  Follows the special
+ * cases of C99 Annex F for zeros and infinities, including the sign of
+ * zero.
+ *
+ * Returns: The angle in radians.
+ */
 _Decimal64
 atan2D (_Decimal64 y, _Decimal64 x)
 {
@@ -1601,6 +1989,14 @@ log_helper (_Decimal64 x, int base)
 	}
 }
 
+/**
+ * log10D:
+ * @x: argument
+ *
+ * Base-10 logarithm.
+ *
+ * Returns: The base-10 logarithm of @x.
+ */
 // Note: log10D(-42) = +NaN            <-- inconsistent
 _Decimal64
 log10D (_Decimal64 x)
@@ -1608,6 +2004,14 @@ log10D (_Decimal64 x)
 	return log_helper (x, 10);
 }
 
+/**
+ * log2D:
+ * @x: argument
+ *
+ * Base-2 logarithm.
+ *
+ * Returns: The base-2 logarithm of @x.
+ */
 // Note: log2D(-42) = -NaN
 _Decimal64
 log2D (_Decimal64 x)
@@ -1616,6 +2020,14 @@ log2D (_Decimal64 x)
 }
 
 
+/**
+ * logD:
+ * @x: argument
+ *
+ * Natural logarithm.
+ *
+ * Returns: The natural logarithm of @x.
+ */
 // Note: logD(-42) = -NaN
 _Decimal64
 logD (_Decimal64 x)
@@ -1623,6 +2035,16 @@ logD (_Decimal64 x)
 	return log_helper (x, 3);
 }
 
+/**
+ * log1pD:
+ * @x: argument
+ *
+ * log(1 + x).
+ *
+ * More accurate than logD(1+@x) for small @x.
+ *
+ * Returns: The natural logarithm of 1+@x.
+ */
 // Note: log1pD(-43) = -NaN
 _Decimal64
 log1pD (_Decimal64 x)
@@ -1637,12 +2059,30 @@ log1pD (_Decimal64 x)
 		return logD (x + 1);
 }
 
+/**
+ * expD:
+ * @x: argument
+ *
+ * Exponential function.
+ *
+ * Returns: e raised to @x.
+ */
 _Decimal64
 expD (_Decimal64 x)
 {
 	return exp_helper (x, 1);
 }
 
+/**
+ * expm1D:
+ * @x: argument
+ *
+ * exp(x) - 1.
+ *
+ * More accurate than expD(@x)-1 for small @x.
+ *
+ * Returns: e^@x - 1.
+ */
 _Decimal64
 expm1D (_Decimal64 x)
 {
@@ -1720,6 +2160,22 @@ qrepdbl (uint64_t mant, int p10)
 }
 
 
+/**
+ * powD:
+ * @x: base
+ * @y: exponent
+ *
+ * Raises to a power.
+ *
+ * Follows the special cases of C99 Annex F: powD(x,0) and powD(1,y) are 1
+ * even for NaN arguments, a negative finite @x with a non-integer @y gives
+ * a NaN, and the signs and infinities for zero and infinite operands follow
+ * the usual odd-integer rules.  Integer exponents of moderate size are
+ * handled with extra care so that exact results, such as powers of ten,
+ * come out exactly.  Overflow gives an infinity and underflow gives zero.
+ *
+ * Returns: @x raised to the power @y.
+ */
 _Decimal64
 powD (_Decimal64 x, _Decimal64 y)
 {
@@ -1824,6 +2280,20 @@ powD (_Decimal64 x, _Decimal64 y)
 	return qneg ? -z : z;
 }
 
+/**
+ * modfD:
+ * @x: value to split
+ * @y: (out): integer part
+ *
+ * Splits into integer and fractional parts.
+ *
+ * Stores the integer part (as truncD()) in *@y and returns the fractional
+ * part, both carrying the sign of @x.  For an infinity, *@y is the infinity
+ * and the return value is a zero of the same sign.  For a NaN, both are
+ * that NaN.
+ *
+ * Returns: The fractional part of @x.
+ */
 _Decimal64
 modfD (_Decimal64 x, _Decimal64 *y)
 {
@@ -1836,6 +2306,22 @@ modfD (_Decimal64 x, _Decimal64 *y)
 	return copysignD (x - *y, x);
 }
 
+/**
+ * fmodD:
+ * @x: dividend
+ * @y: divisor
+ *
+ * Floating-point remainder.
+ *
+ * Computes @x - n*@y where n is the integer obtained by truncating @x/@y,
+ * and where the result has the sign of @x and magnitude less than |@y|.
+ * The computation is exact: no rounding error occurs (except that a
+ * subnormal result is rounded to the subnormal grid).  If @x is infinite or
+ * a NaN, or if @y is zero or a NaN, the result is a NaN.  If @y is infinite
+ * the result is @x.  If @x is zero the result is @x.
+ *
+ * Returns: The remainder of @x divided by @y.
+ */
 _Decimal64
 fmodD (_Decimal64 x, _Decimal64 y)
 {
@@ -1889,6 +2375,17 @@ fmodD (_Decimal64 x, _Decimal64 y)
 	return make64 (mantx, p10x, signx);
 }
 
+/**
+ * sqrtD:
+ * @x: argument
+ *
+ * Square root.
+ *
+ * Compute the square root of @x.  Note that by convention, a nagative
+ * zero is passed through unchanged.
+ *
+ * Returns: The non-negative square root of @x.
+ */
 _Decimal64
 sqrtD (_Decimal64 x)
 {
@@ -1915,6 +2412,14 @@ sqrtD (_Decimal64 x)
 	return r;
 }
 
+/**
+ * cbrtD:
+ * @x: argument
+ *
+ * Cube root.
+ *
+ * Returns: The real cube root of @x, with the sign of @x.
+ */
 _Decimal64
 cbrtD (_Decimal64 x)
 {
@@ -1940,6 +2445,21 @@ cbrtD (_Decimal64 x)
 	return scalbnD (r, s);
 }
 
+/**
+ * hypotD:
+ * @x: first leg
+ * @y: second leg
+ *
+ * Euclidean distance.
+ *
+ * Computes sqrt(@x^2+@y^2) without undue overflow or underflow, so the
+ * result is correct for every pair whose true result is representable.
+ * Signs are ignored.  If either argument is an infinity the result is
+ * +infinity, even if the other is a NaN.  Otherwise, if either is a NaN the
+ * result is a NaN.
+ *
+ * Returns: The length of the hypotenuse.
+ */
 _Decimal64
 hypotD (_Decimal64 x, _Decimal64 y)
 {
@@ -1985,6 +2505,23 @@ hypotD (_Decimal64 x, _Decimal64 y)
 
 // ---------------------------------------------------------------------------
 
+/**
+ * jnD:
+ * @n: order
+ * @x: argument
+ *
+ * Bessel function of the first kind, integer order.
+ *
+ * Defined for negative @x by J_n(-x) = (-1)^n J_n(x) and for negative @n by
+ * J_-n = (-1)^n J_n.  Tiny arguments are handled by the leading term of the
+ * series, so no underflow of @x occurs.  Otherwise the computation goes via
+ * double, so the argument is rounded to double: the result is accurate for
+ * |@x| up to about 1e22, beyond which it has effectively lost its phase
+ * (and is unreliable; see the FIXME in the source).  The limit for large
+ * |@x| is 0.
+ *
+ * Returns: J_@n(@x).
+ */
 _Decimal64
 jnD (int n, _Decimal64 x)
 {
@@ -2006,10 +2543,66 @@ jnD (int n, _Decimal64 x)
 	return jn (n, x);
 }
 
+/**
+ * ynD:
+ * @n: order
+ * @x: argument
+ *
+ * Bessel function of the second kind, integer order.
+ *
+ * Defined for @x >= 0 only: a negative @x gives a NaN and ynD(n,0) is
+ * -infinity for @n >= 0.  For negative @n, Y_-n = (-1)^n Y_n.  Tiny
+ * positive arguments (up to #DECIMAL64_EPSILON) use the leading term of the
+ * expansion about zero, so, unlike a cast to double, arguments below the
+ * range of double still give correct, finite results; a result too large
+ * for Decimal64 gives an infinity.  Otherwise the computation goes via
+ * double, so the argument is rounded to double: the result is accurate for
+ * @x up to about 1e22, beyond which it has effectively lost its phase (and
+ * is unreliable; see the FIXME in the source).  The limit for large @x is
+ * 0.
+ *
+ * Returns: Y_@n(@x).
+ */
 _Decimal64
 ynD (int n, _Decimal64 x)
 {
-	// FIXME: need to handle small and large numbers.
+	// Small positive arguments.  Casting to double flushes anything
+	// below ~4.9e-324 to zero, where yn gives -infinity, but the true
+	// value is (for n=0) only a moderate number of order ln(x) and (for
+	// n!=0) a huge but usually finite one that Decimal64 can represent.
+	// We use the leading terms of the expansion about 0 instead, which
+	// is accurate to full precision this close to zero (the neglected
+	// relative terms are O(x^2 log x)).  Like jnD, this covers far more
+	// than just the range that would underflow in double.
+	//
+	// x == 0 and x < 0 are left to yn: it already gives -inf/+inf
+	// (following the parity rule for negative n) and NaN respectively.
+	if (x > 0 && x <= DECIMAL64_EPSILON && n != G_MININT) {
+		int an = n > 0 ? n : -n;
+		_Decimal64 r;
+
+		if (an == 0) {
+			// Y0(x) ~ 2/pi * (ln(x/2) + gamma)
+			r = M_2_PID * (logD (x) - M_LN2D + M_EULERD);
+		} else {
+			// Yn(x) ~ -(n-1)!/pi * (2/x)^n
+			//
+			// Divide by x one factor at a time rather than
+			// forming (2/x)^n, so that we do not overflow
+			// spuriously for results just below the maximum.
+			// For n>=172 tgamma overflows, but then so does
+			// the result for any x in this range.
+			_Decimal64 k = M_1_PID *
+				(_Decimal64)(ldexp (tgamma (an), an));
+			r = -((k / x) / powD (x, an - 1));
+		}
+
+		if (n < 0 && (an & 1))
+			r = -r;
+		return r;
+	}
+
+	// FIXME: need to handle large values.  Going via "double" is no good.
 	return yn (n, x);
 }
 
