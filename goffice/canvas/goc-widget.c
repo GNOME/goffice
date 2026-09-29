@@ -240,8 +240,20 @@ goc_offscreen_box_realize (GtkWidget *widget)
 	// target to be promoted to a real, WM-visible native surface
 	// (observed as one extra top-level window per GocWidget, e.g.
 	// one per autofilter dropdown arrow).
-	if (!is_wayland (screen) && gdk_screen_is_composited (screen))
+	// Also require that the display actually supports compositing.
+	// gdk_window_set_composited() calls gdk_window_ensure_native() *before*
+	// it checks for support, so on backends without compositing (macOS
+	// quartz, for one) it only warns -- but leaves the window converted to a
+	// native one.  The quartz backend connects frame-clock handlers for
+	// native windows and never disconnects them when the window is
+	// destroyed, which leads to a use-after-free (segfault) once the widget
+	// scrolls out of view and its offscreen box is destroyed.
+	G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+	if (!is_wayland (screen) &&
+	    gdk_display_supports_composite (gdk_screen_get_display (screen)) &&
+	    gdk_screen_is_composited (screen))
 		gdk_window_set_composited (window, TRUE);
+	G_GNUC_END_IGNORE_DEPRECATIONS
 	gdk_window_set_user_data (window, widget);
 
 	g_signal_connect (window, "pick-embedded-child",

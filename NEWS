@@ -6,6 +6,7 @@ B.S.:
 Morten:
 	* Decimal64 fixes.
 	* Switch to using C23's D modifier for printf as in "%Dg".
+	* Possibly fix for macos crash.  [Gnumeric #813]
 
 --------------------------------------------------------------------------
 goffice 0.10.62:
