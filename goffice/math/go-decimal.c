@@ -662,9 +662,23 @@ decimal_format (FILE *stream, const struct printf_info *info,
 	return len;
 }
 
+static gboolean
+decimal_printf_already_supported (void)
+{
+	char const testfmt[] = "%" GO_DECIMAL64_MODIFIER "g";
+	char *test = g_strdup_printf (testfmt, 123.45dd);
+	gboolean good = g_str_equal (test, "123.45");
+	g_free (test);
+
+	return good;
+}
+
 static void
 init_decimal_printf_support (void)
 {
+	if (decimal_printf_already_supported ())
+		return;
+
 	decimal64_type = register_printf_type (decimal64_va_arg);
 	decimal128_type = register_printf_type (decimal128_va_arg);
 	if (decimal64_type == -1 || decimal128_type == -1) {
