@@ -24,8 +24,8 @@ G_BEGIN_DECLS
 
 /* ------------------------------------------------------------------------- */
 
-#define GO_DECIMAL64_MODIFIER "W"
-#define GO_DECIMAL128_MODIFIER "WL"
+#define GO_DECIMAL64_MODIFIER "D"
+#define GO_DECIMAL128_MODIFIER "DD"
 
 #define DECIMAL64_MIN      1e-383dd
 #define DECIMAL64_MAX      9.999999999999999e384dd

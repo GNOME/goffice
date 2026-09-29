@@ -1,15 +1,5 @@
 #include <goffice/goffice.h>
 
-#ifdef GOFFICE_WITH_DECIMAL64
-/*
- * The "W" modifier for _Decimal64 is hooked into printf at runtime, so the
- * compiler's format checker cannot know it, and trips over the remaining
- * arguments too.  test-decimal.c disables the same two warnings.
- */
-#pragma GCC diagnostic ignored "-Wformat"
-#pragma GCC diagnostic ignored "-Wformat-extra-args"
-#endif
-
 #define REFTEST(a_,f_,r_, txt_)						\
 	do {								\
 		double a = (a_);					\
@@ -237,7 +227,7 @@ test_strto1 (const char *txt, double value, gboolean ascii, int n)
 			? go_ascii_strtoDd (txt, &end)
 			: go_strtoDd (txt, &end);
 		int nactual = end ? end - txt : -1;
-		g_printerr ("%s(\"%s\") = %Wg using %d chars\n", func, txt, v, nactual);
+		g_printerr ("%s(\"%s\") = %Dg using %d chars\n", func, txt, v, nactual);
 		if (nactual != n) {
 			g_printerr ("Expected %d characters\n", n);
 			abort ();

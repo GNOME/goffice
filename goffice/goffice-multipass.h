@@ -113,18 +113,12 @@
   #define PLAINSTRTO strtoDd
   #define UNSCALBN unscalbnD
   #define CONST(_c) _c ## dd
-  #define FORMAT_e "We"
-  #define FORMAT_f "Wf"
-  #define FORMAT_g "Wg"
-  #define FORMAT_E "WE"
-  #define FORMAT_F "WF"
-  #define FORMAT_G "WG"
-
-  // There does not seem to be a way to teach these warnings about the
-  // "W" modifier than we have hooked into libc's printf.  (Note: nothing
-  // turns these off again.)
-  #pragma GCC diagnostic ignored "-Wformat"
-  #pragma GCC diagnostic ignored "-Wformat-extra-args"
+  #define FORMAT_e "De"
+  #define FORMAT_f "Df"
+  #define FORMAT_g "Dg"
+  #define FORMAT_E "DE"
+  #define FORMAT_F "DF"
+  #define FORMAT_G "DG"
 #endif
 
 #if defined(GOFFICE_WITH_DECIMAL64)

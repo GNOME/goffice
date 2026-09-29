@@ -9,11 +9,6 @@ static int n_bad;
 
 #ifdef GOFFICE_WITH_DECIMAL64
 
-// There does not seem to be a way to teach these warnings about the
-// "W" modifier that we have hooked into libc's printf.
-#pragma GCC diagnostic ignored "-Wformat"
-#pragma GCC diagnostic ignored "-Wformat-extra-args"
-
 // Classify _Decimal64 values with isfiniteD(), isnanD() and signbitD();
 // the type-generic macros have no decimal branch.  The "double" reference
 // values use plain isfinite() and isnan().
@@ -205,7 +200,7 @@ static void
 expect_eq (const char *what, _Decimal64 got, _Decimal64 want, gboolean xfail)
 {
 	test_expect (xfail, decimal_eq (got, want),
-		     "%s = %.16Wg, expected %.16Wg", what, got, want);
+		     "%s = %.16Dg, expected %.16Dg", what, got, want);
 }
 
 static void
@@ -214,7 +209,7 @@ expect_close (const char *what, _Decimal64 got, _Decimal64 want,
 {
 	_Decimal64 u = ulp_err (got, want);
 	test_expect (xfail, u <= max_ulps,
-		     "%s = %.16Wg, expected %.16Wg (%.1Wg ulp off, max %d)",
+		     "%s = %.16Dg, expected %.16Dg (%.1Dg ulp off, max %d)",
 		     what, got, want, u, max_ulps);
 }
 
@@ -222,7 +217,7 @@ static void
 expect_nan (const char *what, _Decimal64 got, gboolean xfail)
 {
 	test_expect (xfail, isnanD (got),
-		     "%s = %.16Wg, expected NaN", what, got);
+		     "%s = %.16Dg, expected NaN", what, got);
 }
 
 #define EQ(expr, want) expect_eq (#expr, (expr), (want), FALSE)
@@ -321,7 +316,7 @@ test_eq (_Decimal64 a, _Decimal64 b)
 		return 1;
 	} else {
 		bad ();
-		g_printerr ("%.16Wg vs %.16Wg\n", a, b);
+		g_printerr ("%.16Dg vs %.16Dg\n", a, b);
 		return 0;
 	}
 }
@@ -342,8 +337,8 @@ test_quad_eq (GOQuadD const *a, GOQuadD const *b, _Decimal64 maxerr)
 		return 1;
 	} else {
 		bad ();
-		g_printerr ("Quad %.16Wg + %.16Wg\n", a->h, a->l);
-		g_printerr ("  vs %.16Wg + %.16Wg\n", b->h, b->l);
+		g_printerr ("Quad %.16Dg + %.16Dg\n", a->h, a->l);
+		g_printerr ("  vs %.16Dg + %.16Dg\n", b->h, b->l);
 		return 0;
 	}
 }
@@ -485,7 +480,7 @@ test_rounding (const Corpus *corpus)
 			memcpy (&d64, &x, sizeof (d64));
 
 			bad ();
-			g_printerr ("Error: 0x%08lx: %.16Wg -> (%.16Wg , %.16Wg , %.16Wg , %.16Wg)\n",
+			g_printerr ("Error: 0x%08lx: %.16Dg -> (%.16Dg , %.16Dg , %.16Dg , %.16Dg)\n",
 				    d64, x, f, r, c, t);
 		}
 	}
@@ -515,7 +510,7 @@ test_properties (const Corpus *corpus)
 			memcpy (&d64, &x, sizeof (d64));
 
 			bad ();
-			g_printerr ("Error: 0x%08lx: %.16Wg -> %d %d %d\n",
+			g_printerr ("Error: 0x%08lx: %.16Dg -> %d %d %d\n",
 				    d64, x, qnan, qfinite, qsign);
 		}
 	}
@@ -539,7 +534,7 @@ test_copysign (const Corpus *corpus)
 				good ();
 			else {
 				bad ();
-				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
+				g_printerr ("Failed for %.16Dg  %.16Dg\n", x1, x2);
 			}
 		}
 	}
@@ -655,7 +650,7 @@ test_log (const char *name, int base, const Corpus *corpus)
 			good ();
 		else {
 			bad ();
-			g_printerr ("Failed for %.16Wg -- got %.16Wg vs %.16g\n", x, y, dy);
+			g_printerr ("Failed for %.16Dg -- got %.16Dg vs %.16g\n", x, y, dy);
 		}
 	}
 
@@ -775,7 +770,7 @@ test_oneargs (const Corpus *corpus)
 			y = funcs[f].fn_decimal (x);
 			dy = funcs[f].fn_double (dx);
 
-			//g_printerr ("%.16Wg  %.16Wg\n", x, y);
+			//g_printerr ("%.16Dg  %.16Dg\n", x, y);
 			//g_printerr ("%.16g  %.16g\n", dx, dy);
 
 			ok = (!!isfiniteD (y) == !!isfinite (dy) &&
@@ -791,7 +786,7 @@ test_oneargs (const Corpus *corpus)
 			if (ok)
 				good ();
 			else {
-				g_printerr ("Failed for %.16Wg\n", x);
+				g_printerr ("Failed for %.16Dg\n", x);
 				test_eq (y, dy);
 			}
 		}
@@ -820,10 +815,12 @@ test_dtoa (const Corpus *corpus)
 	s1 = g_string_new (NULL);
 	s2 = g_string_new (NULL);
 
+	g_assert (strlen (GO_DECIMAL64_MODIFIER) == 1);
+
 	if (0) {
 		_Decimal64 d = .567dd;
 		g_printerr ("[%.0f]\n", (double)d);
-		go_dtoa (s1, "=^.0Wf", d);
+		go_dtoa (s1, "=^.0Df", d);
 		g_printerr ("[%s]\n", s1->str);
 		return;
 	}
@@ -836,7 +833,7 @@ test_dtoa (const Corpus *corpus)
 		strcpy (fmt2, fmt);
 		fmt2[lfmt + 1] = 0;
 		fmt2[lfmt + 0] = fmt2[lfmt - 1];
-		fmt2[lfmt - 1] = 'W';
+		fmt2[lfmt - 1] = GO_DECIMAL64_MODIFIER[0];
 
 		set_subsection (fmt);
 
@@ -919,8 +916,8 @@ test_pow (const Corpus *corpus1, const Corpus *corpus2)
 				good ();
 			} else {
 				bad ();
-				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
-				g_printerr ("Got %.16Wg vs %.16g (%.1Wg ulp off)\n", y, dy, ulp_err (y, dy));
+				g_printerr ("Failed for %.16Dg  %.16Dg\n", x1, x2);
+				g_printerr ("Got %.16Dg vs %.16g (%.1Dg ulp off)\n", y, dy, ulp_err (y, dy));
 			}
 		}
 	}
@@ -957,7 +954,7 @@ test_pow2 (void)
 			good ();
 		} else {
 			bad ();
-			g_printerr ("Failed for %d; got %.16Wg\n", i, tti);
+			g_printerr ("Failed for %d; got %.16Dg\n", i, tti);
 		}
 	}
 
@@ -1005,8 +1002,8 @@ test_atan2 (const Corpus *corpus1, const Corpus *corpus2)
 				good ();
 			} else {
 				bad ();
-				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
-				g_printerr ("Got %.16Wg vs %.16g\n", y, dy);
+				g_printerr ("Failed for %.16Dg  %.16Dg\n", x1, x2);
+				g_printerr ("Got %.16Dg vs %.16g\n", y, dy);
 			}
 		}
 	}
@@ -1063,8 +1060,8 @@ test_hypot (const Corpus *corpus1, const Corpus *corpus2)
 				good ();
 			} else {
 				bad ();
-				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
-				g_printerr ("Got %.16Wg vs %.16g\n", y, dy);
+				g_printerr ("Failed for %.16Dg  %.16Dg\n", x1, x2);
+				g_printerr ("Got %.16Dg vs %.16g\n", y, dy);
 			}
 		}
 	}
@@ -1101,7 +1098,7 @@ test_fmod (const Corpus *corpus1, const Corpus *corpus2)
 				_Decimal64 r = x1 - truncD (q) * x2;
 				ok = (fabsD (y) < fabsD (x2));
 				if (y != r) {
-					//g_printerr ("   %.16Wg  %.16Wg\n", y, r);
+					//g_printerr ("   %.16Dg  %.16Dg\n", y, r);
 				}
 			}
 
@@ -1109,8 +1106,8 @@ test_fmod (const Corpus *corpus1, const Corpus *corpus2)
 				good ();
 			} else {
 				bad ();
-				g_printerr ("Failed for %.16Wg  %.16Wg\n", x1, x2);
-				g_printerr ("Got %.16Wg vs %.16g\n", y, fmod (x1, x2));
+				g_printerr ("Failed for %.16Dg  %.16Dg\n", x1, x2);
+				g_printerr ("Got %.16Dg vs %.16g\n", y, fmod (x1, x2));
 			}
 		}
 	}
@@ -1146,7 +1143,7 @@ test_quad_exp_pow (void)
 	test_eq (p10, 13733);
 	test_quad_eq (&qc, &qe, 1e-27dd);
 
-	// g_printerr ("c = %.16Wg + %.16Wg   (%.16Wg)\n", qc.h, qc.l, p10);
+	// g_printerr ("c = %.16Dg + %.16Dg   (%.16Dg)\n", qc.h, qc.l, p10);
 	// c = 3.957132301185386 + -3.807734103479432e-16   (13733)
 
 	go_quad_end (state);
@@ -1258,7 +1255,7 @@ test_encoding (void)
 			_Decimal64 x = sgn ? -vals[i] : vals[i];
 			_Decimal64 y = scalbnD (x, 0);
 			test_true (d64_bits (x) == d64_bits (y),
-				   "scalbnD (%.16Wg, 0): bits 0x%016lx -> 0x%016lx",
+				   "scalbnD (%.16Dg, 0): bits 0x%016lx -> 0x%016lx",
 				   x, d64_bits (x), d64_bits (y));
 		}
 	}
@@ -1268,7 +1265,7 @@ test_encoding (void)
 		_Decimal64 x = mk (rng_mant (), rng_range (-40, 40), rng () & 1);
 		_Decimal64 y = scalbnD (x, 0);
 		test_true (d64_bits (x) == d64_bits (y),
-			   "scalbnD (%.16Wg, 0): bits 0x%016lx -> 0x%016lx",
+			   "scalbnD (%.16Dg, 0): bits 0x%016lx -> 0x%016lx",
 			   x, d64_bits (x), d64_bits (y));
 	}
 
@@ -1294,7 +1291,7 @@ test_encoding (void)
 			_Decimal64 inv = invs[i];
 			test_true (!isnanD (inv) && isfiniteD (inv),
 				   "non-canonical %d is finite and not NaN", i);
-			s = g_strdup_printf ("%Wg", inv);
+			s = g_strdup_printf ("%Dg", inv);
 			test_true (strcmp (s, "0") == 0,
 				   "non-canonical %d prints as [%s]", i, s);
 			g_free (s);
@@ -1302,11 +1299,11 @@ test_encoding (void)
 			EQ (hypotD (3.dd, inv), 3.dd);
 			EQ (nextafterD (inv, INFINITY), 1e-398dd);
 			EQ (nextafterD (inv, -INFINITY), -1e-398dd);
-			s = g_strdup_printf ("%Wg", fmodD (inv, 3.dd));
+			s = g_strdup_printf ("%Dg", fmodD (inv, 3.dd));
 			test_true (strcmp (s, "0") == 0,
 				   "fmodD (non-canonical %d, 3) = [%s]", i, s);
 			g_free (s);
-			s = g_strdup_printf ("%Wg", scalbnD (inv, 5));
+			s = g_strdup_printf ("%Dg", scalbnD (inv, 5));
 			test_true (strcmp (s, "0") == 0,
 				   "scalbnD (non-canonical %d, 5) = [%s]", i, s);
 			g_free (s);
@@ -1411,11 +1408,11 @@ test_special_values (void)
 			}
 		}
 		test_true (worst <= 10,
-			   "log2D (2^i) is up to %.1Wg ulp off for i in [%d,%d]",
+			   "log2D (2^i) is up to %.1Dg ulp off for i in [%d,%d]",
 			   worst, firstbad, lastbad);
 		test_true (bad == 0,
 			   "log2D (2^i) is not exact for %d of %d values of i "
-			   "in [%d,%d] (worst %.1Wg ulp)", bad, total,
+			   "in [%d,%d] (worst %.1Dg ulp)", bad, total,
 			   firstbad, lastbad, worst);
 	}
 
@@ -1657,7 +1654,7 @@ static void
 expect_rounding (const char *fn, _Decimal64 x, _Decimal64 got, _Decimal64 want)
 {
 	test_true (decimal_eq (got, want),
-		   "%s (%.16Wg) = %.16Wg, expected %.16Wg", fn, x, got, want);
+		   "%s (%.16Dg) = %.16Dg, expected %.16Dg", fn, x, got, want);
 }
 
 static void
@@ -1858,7 +1855,7 @@ test_nextafter_exact (void)
 
 		got = nextafterD (x, up ? PINF : NINF);
 		test_true (decimal_eq (got, want),
-			   "nextafterD (%.16Wg, %cinf) = %.16Wg, expected %.16Wg",
+			   "nextafterD (%.16Dg, %cinf) = %.16Dg, expected %.16Dg",
 			   x, up ? '+' : '-', got, want);
 	}
 
@@ -1897,9 +1894,9 @@ test_nextafter_exact (void)
 		_Decimal64 x = 9999999999999990.dd;
 		for (int i = 0; i < 20; i++) {
 			_Decimal64 y = nextafterD (x, PINF);
-			test_true (y > x, "nextafterD (%.16Wg) must increase", x);
+			test_true (y > x, "nextafterD (%.16Dg) must increase", x);
 			test_true (nextafterD (y, NINF) == x,
-				   "nextafterD steps down from %.16Wg to %.16Wg",
+				   "nextafterD steps down from %.16Dg to %.16Dg",
 				   y, x);
 			x = y;
 		}
@@ -1940,7 +1937,7 @@ test_fmod_exact (void)
 		want = mk (r, er, negx);
 		got = fmodD (x, y);
 		test_true (decimal_eq (got, want),
-			   "fmodD (%.16Wg, %.16Wg) = %.16Wg, expected %.16Wg",
+			   "fmodD (%.16Dg, %.16Dg) = %.16Dg, expected %.16Dg",
 			   x, y, got, want);
 	}
 #endif
@@ -2031,7 +2028,7 @@ test_scalbn_frexp (void)
 			continue;
 		test_true (fabsD (m) >= 0.1dd && fabsD (m) < 1.dd &&
 			   scalbnD (m, e) == x,
-			   "unscalbnD (%.16Wg) = %.16Wg * 10^%d", x, m, e);
+			   "unscalbnD (%.16Dg) = %.16Dg * 10^%d", x, m, e);
 	}
 
 	m = frexpD (8.dd, &e);
@@ -2062,7 +2059,7 @@ test_scalbn_frexp (void)
 		_Decimal64 x = scalbnD (7.dd / 3, i);
 		m = frexpD (x, &e);
 		test_true (fabsD (m) >= 0.5dd && fabsD (m) <= 1.dd,
-			   "frexpD (%.16Wg) mantissa %.16Wg out of range", x, m);
+			   "frexpD (%.16Dg) mantissa %.16Dg out of range", x, m);
 		CLOSE (ldexpD (m, e), x, 4);
 	}
 
@@ -2429,13 +2426,13 @@ test_log_accuracy (void)
 
 		// log2D suffers cancellation (see log2D (2^i) above) and can be
 		// off by tens of ulp even for an ordinary 16-digit argument.
-		what = g_strdup_printf ("log2D (%.16Wg)", x);
+		what = g_strdup_printf ("log2D (%.16Dg)", x);
 		expect_close (what, log2D (x), tab[i].log2, 100, FALSE);
 		g_free (what);
-		what = g_strdup_printf ("logD (%.16Wg)", x);
+		what = g_strdup_printf ("logD (%.16Dg)", x);
 		expect_close (what, logD (x), tab[i].ln, 5, FALSE);
 		g_free (what);
-		what = g_strdup_printf ("log10D (%.16Wg)", x);
+		what = g_strdup_printf ("log10D (%.16Dg)", x);
 		expect_close (what, log10D (x), tab[i].log10, 2, FALSE);
 		g_free (what);
 	}
@@ -2521,9 +2518,9 @@ test_roots_hypot (void)
 		}
 	}
 	test_true (sqrt_scaled_worst <= 2,
-		   "sqrtD (k^2 / 1e4) is up to %.1Wg ulp off", sqrt_scaled_worst);
+		   "sqrtD (k^2 / 1e4) is up to %.1Dg ulp off", sqrt_scaled_worst);
 	test_true (sqrt_scaled_bad == 0,
-		   "sqrtD (k^2 / 1e4) is not exact in %d of %d cases (worst %.1Wg ulp)",
+		   "sqrtD (k^2 / 1e4) is not exact in %d of %d cases (worst %.1Dg ulp)",
 		   sqrt_scaled_bad, sqrt_scaled_total, sqrt_scaled_worst);
 
 	// cbrtD (k^3) for integer k: often but not always exact.
@@ -2542,9 +2539,9 @@ test_roots_hypot (void)
 		}
 	}
 	test_true (cbrt_worst <= 5,
-		   "cbrtD (k^3) is up to %.1Wg ulp off", cbrt_worst);
+		   "cbrtD (k^3) is up to %.1Dg ulp off", cbrt_worst);
 	test_true (cbrt_bad == 0,
-		   "cbrtD (k^3) is not exact in %d of %d cases (worst %.1Wg ulp)",
+		   "cbrtD (k^3) is not exact in %d of %d cases (worst %.1Dg ulp)",
 		   cbrt_bad, cbrt_total, cbrt_worst);
 
 	EQ (sqrtD (0.01dd), 0.1dd);
@@ -2651,9 +2648,9 @@ test_pow_exact (void)
 	// Doing this through double is not correctly rounded.  Being off in
 	// the last digit or two is unfortunate but tolerable; being off by
 	// 10 or more is not.
-	test_true (worst <= 10, "powD (x, n) is up to %.1Wg ulp off", worst);
+	test_true (worst <= 10, "powD (x, n) is up to %.1Dg ulp off", worst);
 	test_xfail (wrong == 0,
-		    "powD (x, n) for 4-digit x is not correctly rounded in %d of %d cases (worst %.1Wg ulp)",
+		    "powD (x, n) for 4-digit x is not correctly rounded in %d of %d cases (worst %.1Dg ulp)",
 		    wrong, total, worst);
 #endif
 
@@ -2778,7 +2775,7 @@ test_printf_extra (void)
 	do { \
 		char *got = g_strdup_printf (fmt, (_Decimal64)(val)); \
 		test_true (strcmp (got, (want)) == 0, \
-			   "printf (\"%s\", %.16Wg) = [%s], expected [%s]", \
+			   "printf (\"%s\", %.16Dg) = [%s], expected [%s]", \
 			   fmt, (_Decimal64)(val), got, want); \
 		g_free (got); \
 	} while (0)
@@ -2789,92 +2786,92 @@ test_printf_extra (void)
 	do { \
 		char *got = g_strdup_printf (fmt, (_Decimal64)(val)); \
 		test_xfail (strcmp (got, (want)) == 0, \
-			    "printf (\"%s\", %.16Wg) = [%s], expected [%s]", \
+			    "printf (\"%s\", %.16Dg) = [%s], expected [%s]", \
 			    fmt, (_Decimal64)(val), got, want); \
 		g_free (got); \
 	} while (0)
 
 	start_section ("printf: additional coverage");
 
-	PF ("%.2Wf", 3.14159dd, "3.14");
-	PF ("%.0Wf", 3.14159dd, "3");
-	PF ("%.5Wf", 1.dd, "1.00000");
-	PF ("%Wf", 1.dd, "1.000000");
-	PF ("%.2Wf", -1.5dd, "-1.50");
-	PF ("%08.2Wf", 1.5dd, "00001.50");
-	PF ("%+.2Wf", 1.5dd, "+1.50");
-	PF ("% .2Wf", 1.5dd, " 1.50");
-	PF ("%-8.2Wf|", 1.5dd, "1.50    |");
-	PF ("%.2We", 12345.dd, "1.23e+04");
-	PF ("%.2WE", 12345.dd, "1.23E+04");
-	PF ("%.0We", 9.dd, "9e+00");
-	PF ("%.3Wg", 0.0001234dd, "0.000123");
-	PF ("%.3Wg", 123400.dd, "1.23e+05");
-	PF ("%Wg", 100.dd, "100");
-	PF ("%Wg", 0.dd, "0");
-	PF ("%Wg", -0.dd, "-0");
-	PF ("%Wf", 0.dd, "0.000000");
-	PF ("%Wf", -0.dd, "-0.000000");
-	PF ("%We", PINF, "inf");
-	PF ("%WE", PINF, "INF");
-	PF ("%We", NINF, "-inf");
-	PF ("%Wf", QNAN, "nan");
-	PF ("%WF", QNAN, "NAN");
-	PF ("%Wg", PINF, "inf");
-	PF ("%5We", PINF, "  inf");
-	PF ("%-5We|", PINF, "inf  |");
+	PF ("%.2Df", 3.14159dd, "3.14");
+	PF ("%.0Df", 3.14159dd, "3");
+	PF ("%.5Df", 1.dd, "1.00000");
+	PF ("%Df", 1.dd, "1.000000");
+	PF ("%.2Df", -1.5dd, "-1.50");
+	PF ("%08.2Df", 1.5dd, "00001.50");
+	PF ("%+.2Df", 1.5dd, "+1.50");
+	PF ("% .2Df", 1.5dd, " 1.50");
+	PF ("%-8.2Df|", 1.5dd, "1.50    |");
+	PF ("%.2De", 12345.dd, "1.23e+04");
+	PF ("%.2DE", 12345.dd, "1.23E+04");
+	PF ("%.0De", 9.dd, "9e+00");
+	PF ("%.3Dg", 0.0001234dd, "0.000123");
+	PF ("%.3Dg", 123400.dd, "1.23e+05");
+	PF ("%Dg", 100.dd, "100");
+	PF ("%Dg", 0.dd, "0");
+	PF ("%Dg", -0.dd, "-0");
+	PF ("%Df", 0.dd, "0.000000");
+	PF ("%Df", -0.dd, "-0.000000");
+	PF ("%De", PINF, "inf");
+	PF ("%DE", PINF, "INF");
+	PF ("%De", NINF, "-inf");
+	PF ("%Df", QNAN, "nan");
+	PF ("%DF", QNAN, "NAN");
+	PF ("%Dg", PINF, "inf");
+	PF ("%5De", PINF, "  inf");
+	PF ("%-5De|", PINF, "inf  |");
 
 	// The zero-fill flag has no effect on nonfinite values (C99 7.19.6.1p8)
-	PF ("%05We", PINF, "  inf");
-	PF ("%05We", QNAN, "  nan");
+	PF ("%05De", PINF, "  inf");
+	PF ("%05De", QNAN, "  nan");
 
 	// %#: keep the decimal point / trailing zeros for %f, %e, %g
-	PF ("%#.0Wf", 3.dd, "3.");
-	PF_XF ("%#.0We", 3.dd, "3.e+00");
-	PF_XF ("%#.3Wg", 1.dd, "1.00");
-	PF_XF ("%#.0Wg", 100.dd, "1.e+02");
+	PF ("%#.0Df", 3.dd, "3.");
+	PF_XF ("%#.0De", 3.dd, "3.e+00");
+	PF_XF ("%#.3Dg", 1.dd, "1.00");
+	PF_XF ("%#.0Dg", 100.dd, "1.e+02");
 
 	// precision 0 for %g means precision 1
-	PF ("%.0Wg", 123.dd, "1e+02");
-	PF ("%.0Wg", 0.dd, "0");
+	PF ("%.0Dg", 123.dd, "1e+02");
+	PF ("%.0Dg", 0.dd, "0");
 
 	// Sign handling combined with zero-padding: the sign must stay to
 	// the left of the padding, matching plain double printf.
-	PF_XF ("%06.1Wf", -1.dd, "-001.0");
-	PF_XF ("%+06.1Wf", 1.dd, "+001.0");
+	PF_XF ("%06.1Df", -1.dd, "-001.0");
+	PF_XF ("%+06.1Df", 1.dd, "+001.0");
 
 	// %g boundary: exponent >= -4 and < precision uses %f style, and
 	// the decision must use the *rounded* exponent, not the pre-round one.
-	PF ("%.1Wg", 0.99dd, "1");
-	PF ("%.1Wg", 9.99dd, "1e+01");
-	PF_XF ("%.0Wg", 0.000099999dd, "0.0001");
-	PF_XF ("%.3Wg", 0.000099999dd, "0.0001");
-	PF_XF ("%.1Wg", 0.000095dd, "0.0001");
-	PF_XF ("%.6Wg", 99999.95dd, "1e+05");
+	PF ("%.1Dg", 0.99dd, "1");
+	PF ("%.1Dg", 9.99dd, "1e+01");
+	PF_XF ("%.0Dg", 0.000099999dd, "0.0001");
+	PF_XF ("%.3Dg", 0.000099999dd, "0.0001");
+	PF_XF ("%.1Dg", 0.000095dd, "0.0001");
+	PF_XF ("%.6Dg", 99999.95dd, "1e+05");
 
 	// Very high precision: exercise the buffer sizing, especially
 	// around Decimal64's ~385-digit integer part.
-	// Ideally "%.120Wf" would print 120 digits after the point, but the
+	// Ideally "%.120Df" would print 120 digits after the point, but the
 	// precision is silently clamped to 100.
-	s = g_strdup_printf ("%.120Wf", 1.dd);
+	s = g_strdup_printf ("%.120Df", 1.dd);
 	test_xfail (strlen (s) == 122 && g_str_has_prefix (s, "1.") &&
 		    strspn (s + 2, "0") == 120,
-		    "printf (\"%%.120Wf\", 1) has the right shape: got %d chars, wanted 122",
+		    "printf (\"%%.120Df\", 1) has the right shape: got %d chars, wanted 122",
 		    (int)strlen (s));
 	test_true (strlen (s) == 102 && g_str_has_prefix (s, "1.") &&
 		   strspn (s + 2, "0") == 100,
-		   "printf (\"%%.120Wf\", 1) is clamped to 100 digits: [%d chars]",
+		   "printf (\"%%.120Df\", 1) is clamped to 100 digits: [%d chars]",
 		   (int)strlen (s));
 	g_free (s);
-	s = g_strdup_printf ("%.2Wf", 1e384dd);
+	s = g_strdup_printf ("%.2Df", 1e384dd);
 	test_true (s[0] == '1' && strlen (s) == 388,
-		   "printf (\"%%.2Wf\", 1e384) has the right length: %d",
+		   "printf (\"%%.2Df\", 1e384) has the right length: %d",
 		   (int)strlen (s));
 	g_free (s);
 
 	// A width larger than the formatted text must still be honored.
-	s = g_strdup_printf ("%400.2Wf", 1.dd);
-	test_true (strlen (s) == 400, "printf (\"%%400.2Wf\", 1) has length %d",
+	s = g_strdup_printf ("%400.2Df", 1.dd);
+	test_true (strlen (s) == 400, "printf (\"%%400.2Df\", 1) has length %d",
 		   (int)strlen (s));
 	g_free (s);
 
@@ -2924,7 +2921,7 @@ child_decimal128_wide_printf (void)
 	// A Decimal128 value whose decimal exponent is far larger than
 	// Decimal64's ~385-digit range.  decimal_format's fixed-size
 	// on-stack buffer for the integer part is sized for Decimal64.
-	snprintf (buf, sizeof (buf), "%.2WLf", 1e3000dl);
+	snprintf (buf, sizeof (buf), "%.2DDf", 1e3000dl);
 }
 
 static void

@@ -970,8 +970,8 @@ SUFFIX(go_quad_exp_taylor) (QUAD *res, QUAD const *x)
 	}
 
 	while (i-- > 0) {
-		// g_printerr ("%d: x^n %.16Wg\n", i, qxn[i].h);
-		// g_printerr ("%d: term %.16Wg\n", i, term[i].h);
+		// g_printerr ("%d: x^n %.16Dg\n", i, qxn[i].h);
+		// g_printerr ("%d: term %.16Dg\n", i, term[i].h);
 		SUFFIX(go_quad_add) (&sum, &sum, term + i);
 	}
 
@@ -1059,10 +1059,10 @@ SUFFIX(go_quad_exp) (QUAD *res, DOUBLE *expb, const QUAD *a)
 	if (parts >= (int)G_N_ELEMENTS(e_parts) || parts <= -(int)G_N_ELEMENTS(e_parts))
 		g_printerr("Something is funky in quad exp.\n");
 	else if (parts > 0) {
-		// g_printerr ("%.16Wg + %.16Wg\n", e_parts[parts].h, e_parts[parts].l);
+		// g_printerr ("%.16Dg + %.16Dg\n", e_parts[parts].h, e_parts[parts].l);
 		SUFFIX(go_quad_mul) (&qres, &qres, &e_parts[parts]);
 	} else if (parts < 0) {
-		// g_printerr ("%.16Wg + %.16Wg\n", e_parts[-parts].h, e_parts[-parts].l);
+		// g_printerr ("%.16Dg + %.16Dg\n", e_parts[-parts].h, e_parts[-parts].l);
 		SUFFIX(go_quad_div) (&qres, &qres, &e_parts[-parts]);
 	}
 
