@@ -37,6 +37,9 @@
 #include <string.h>
 #include <inttypes.h>
 #include <stdarg.h>
+#ifdef GOFFICE_WITH_DECIMAL64
+#include <printf.h>
+#endif
 
 #if (defined(i386) || defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64)) && HAVE_FPU_CONTROL_H
 #define ENSURE_FPU_STATE
@@ -461,9 +464,10 @@ parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
 		fmt++;
 	}
 #ifdef GOFFICE_WITH_DECIMAL64
-	else if (*fmt == *GO_DECIMAL64_MODIFIER) {
+	else if (*fmt == *GO_DECIMAL64_MODIFIER &&
+		 (GO_DECIMAL64_MODIFIER[1] == 0 || g_str_has_prefix (fmt + 1, GO_DECIMAL64_MODIFIER + 1))) {
 		*fltyp = FP_DECIMAL64;
-		fmt++;
+		fmt += strlen (GO_DECIMAL64_MODIFIER);
 	}
 #endif
 
@@ -494,6 +498,40 @@ parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
 	}
 }
 
+#ifdef GOFFICE_WITH_DECIMAL64
+static void
+fmt_d64 (GString *dst, _Decimal64 y, int w, int p, int fl, int t)
+{
+	// We're in here because we want ascii and round-away-from-zero handling
+
+	size_t oldlen = dst->len;
+	struct printf_info info;
+
+	memset (&info, 0, sizeof (info));
+	info.width = w;
+	info.prec = p;
+	info.spec = t;
+	info.alt = (fl & ALT_FORM) != 0;
+	info.left = (fl & LEFT_ADJ) != 0;
+	info.showsign = (fl & MARK_POS) != 0;
+	info.space = (fl & PAD_POS) != 0;
+	info.pad = (fl & ZERO_PAD) ? '0' : ' ';
+	info.i18n = (fl & GROUPED) != 0;
+
+	_go_decimal_format (dst, y, &info);
+
+	if (fl & FLAG_ASCII) {
+		GString const *decimal = go_locale_get_decimal ();
+		char *dpos = strstr (dst->str + oldlen, decimal->str);
+		if (dpos && decimal->len) {
+			size_t pos = dpos - dst->str;
+			g_string_erase (dst, pos + 1, decimal->len - 1);
+			dst->str[pos] = '.';
+		}
+	}
+}
+#endif
+
 static void
 fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 {
@@ -505,15 +543,16 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 	gboolean used_ryu;
 	int prec;
 
-	g_string_set_size (dst, 53 + oldlen + dec->len);
 	switch (fltyp) {
 	case FP_DOUBLE:
+		g_string_set_size (dst, 53 + oldlen + dec->len);
 		n = go_ryu_d2s_buffered_n ((double)(d->ld), dst->str + oldlen);
 		used_ryu = TRUE;
 		prec = 17;
 		break;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 	case FP_LONG_DOUBLE:
+		g_string_set_size (dst, 64 + oldlen + dec->len);
 		n = go_ryu_ld2s_buffered_n (d->ld, dst->str + oldlen);
 		used_ryu = TRUE;
 		prec = 21;
@@ -521,10 +560,8 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 #endif
 #ifdef GOFFICE_WITH_DECIMAL64
 	case FP_DECIMAL64: {
-		const char *sfmt = (t & 32)
-			? "%.16" GO_DECIMAL64_MODIFIER "g"
-			: "%.16" GO_DECIMAL64_MODIFIER "G";
-		n = sprintf (dst->str + oldlen, sfmt, d->d64);
+		fmt_d64 (dst, d->d64, 0, 16, 0, 'G' | (t & 32));
+		n = dst->len - oldlen;
 		// FIXME: if sprintf gains intl support, fix needed here
 		used_ryu = FALSE;
 		prec = 16;
@@ -585,55 +622,6 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 	}
 }
 
-#ifdef GOFFICE_WITH_DECIMAL64
-static void
-fmt_d64 (GString *dst, const char *fmt, _Decimal64 d, int w, int p)
-{
-	// We're in here because we want ascii and round-away-from-zero handling
-	// For now we're punting.
-	GString *fmt2 = g_string_sized_new (100);
-	gboolean seen_dot = FALSE;
-	gboolean ascii = FALSE;
-	size_t oldlen = dst->len;
-
-	g_string_append_c (fmt2, '%');
-	while (*fmt) {
-		char c = *fmt++;
-		if (strchr ("0123456789+-aAeEfFgG" GO_DECIMAL64_MODIFIER, c))
-			g_string_append_c (fmt2, c);
-		else if (c == '.') {
-			g_string_append_c (fmt2, c);
-			seen_dot = TRUE;
-		} else if (c == '*') {
-			g_string_append_printf (fmt2, "%d", (seen_dot ? p : w));
-		} else if (strchr ("!=", c)) {
-			// Ignore, not relevant
-		} else if (c == '^') {
-			// FIXME: if sprintf starts rounding to even, fix needed here
-			// Ignore for now
-		} else if (c == ',') {
-			ascii = TRUE;
-		} else {
-			g_printerr ("Ignoring unexpected char '%c'\n", c);
-		}
-	}
-
-	g_string_append_printf (dst, fmt2->str, d);
-	g_string_free (fmt2, TRUE);
-
-	if (ascii) {
-		GString const *decimal = go_locale_get_decimal ();
-		char *dpos = strstr (dst->str + oldlen, decimal->str);
-		if (dpos && decimal->len) {
-			size_t pos = dpos - dst->str;
-			g_string_erase (dst, pos + 1, decimal->len - 1);
-			dst->str[pos] = '.';
-		}
-	}
-}
-#endif
-
-
 /**
  * go_dtoa:
  * @dst: destination
@@ -692,7 +680,7 @@ go_dtoa (GString *dst, const char *fmt, ...)
 		fmt_shortest (dst, &d, fl, t, fltyp);
 #ifdef GOFFICE_WITH_DECIMAL64
 	else if (fltyp == FP_DECIMAL64)
-		fmt_d64 (dst, fmt, d.d64, w, p);
+		fmt_d64 (dst, d.d64, w, p, fl, t);
 #endif
 	else {
 		fmt_fp (dst, d.ld, w, p, fl, t);

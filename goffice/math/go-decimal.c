@@ -455,28 +455,24 @@ do_round (char *buf, int ix, int *qoverflow)
 }
 
 static int
-decimal_format (FILE *stream, const struct printf_info *info,
-		const void *const *args)
+_go_decimal_format_full (FILE *stream, GString *dst, int size, const void *val, const struct printf_info *info)
 {
 	char buffer[8192];
 	int special, p10, sign;
 	int len = 0;
-	int qupper = (info->spec <= 'Z');
 
-	if (info->user & decimal64_modifier) {
-		_Decimal64 const *args0 = *(_Decimal64 **)(args[0]);
+	if (size == 64) {
+		_Decimal64 const *args0 = val;
 		uint64_t mant;
 		special = decode64 (args0, &mant, &p10, &sign);
 		if (special == CLS_NORMAL) render128 (buffer, 0, mant);
-	} else if (info->user & decimal128_modifier) {
-		_Decimal128 const *args0 = *(_Decimal128 **)(args[0]);
+	} else if (size == 128) {
+		_Decimal128 const *args0 = val;
 		uint64_t mantu, mantl;
 		special = decode128 (args0, &mantu, &mantl, &p10, &sign);
 		if (special == CLS_NORMAL) render128 (buffer, mantu, mantl);
 	} else {
-		// Not sure why this gets called on a regular "%f".  The special
-		// return value of -2 to use default handler is not documented.
-		return -2;
+		g_assert_not_reached ();
 	}
 
 	// This isn't thread-safe and adds a measurable amount of overhead
@@ -484,6 +480,8 @@ decimal_format (FILE *stream, const struct printf_info *info,
 	// that it's a format we want to handle.
 	const char *dot = decimal_point ();
 	int dotlen = strlen (dot);
+
+	int qupper = (info->spec <= 'Z');
 
 	char signchar;
 	if (sign)
@@ -649,18 +647,48 @@ decimal_format (FILE *stream, const struct printf_info *info,
 
 	if (signchar) len++;
 
+#define MY_PUTC(c) do { if (stream) putc ((c), stream); else g_string_append_c (dst, (c)); } while (0)
+
 	while (!info->left && len < info->width) {
 		len++;
-		putc (padchar, stream);
+		MY_PUTC (padchar);
 	}
-	if (signchar) putc (signchar, stream);
-	fputs (buffer, stream);
+	if (signchar) MY_PUTC (signchar);
+	if (stream)
+		fputs (buffer, stream);
+	else
+		g_string_append (dst, buffer);
 	while (len < info->width) {
 		len++;
-		putc (' ', stream);
+		MY_PUTC (' ');
 	}
 	return len;
+#undef MY_PUTC
 }
+
+static int
+decimal_format (FILE *stream, const struct printf_info *info,
+		const void *const *args)
+{
+	if (info->user & decimal64_modifier) {
+		_Decimal64 const *args0 = *(_Decimal64 **)(args[0]);
+		return _go_decimal_format_full (stream, NULL, 64, args0, info);
+	} else if (info->user & decimal128_modifier) {
+		_Decimal128 const *args0 = *(_Decimal128 **)(args[0]);
+		return _go_decimal_format_full (stream, NULL, 128, args0, info);
+	} else {
+		// Not sure why this gets called on a regular "%f".  The special
+		// return value of -2 to use default handler is not documented.
+		return -2;
+	}
+}
+
+int
+_go_decimal_format (GString *dst, _Decimal64 y, const struct printf_info *info)
+{
+	return _go_decimal_format_full (NULL, dst, 64, &y, info);
+}
+
 
 static gboolean
 decimal_printf_already_supported (void)
