@@ -25,24 +25,32 @@ struct _GOConfNode {
 	unsigned ref_count;
 };
 
-static GHashTable *installed_schemas, *closures;
+static GHashTable *closures;
+
+static gboolean
+go_conf_schema_installed (char const *id)
+{
+	GSettingsSchemaSource *src = g_settings_schema_source_get_default ();
+	GSettingsSchema *schema;
+
+	if (!src)
+		return FALSE;
+	schema = g_settings_schema_source_lookup (src, id, TRUE);
+	if (!schema)
+		return FALSE;
+	g_settings_schema_unref (schema);
+	return TRUE;
+}
+
 void
 _go_conf_init (void)
 {
-	char const * const *schemas = g_settings_list_schemas ();
-	char const * const *cur = schemas;
-	installed_schemas = g_hash_table_new (g_str_hash, g_str_equal);
-	while (*cur) {
-		g_hash_table_insert (installed_schemas, (gpointer) *cur, GUINT_TO_POINTER (TRUE));
-		cur++;
-	}
 	closures = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) go_conf_closure_free);
 }
 
 void
 _go_conf_shutdown (void)
 {
-	g_hash_table_destroy (installed_schemas);
 	g_hash_table_destroy (closures);
 }
 
@@ -87,7 +95,7 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 		} else {
 			node->path = g_strdup (parent->path);
 			node->id = g_strdup (parent->id);
-			node->key = g_strdup (key? key: parent->key);
+			node->key = g_strdup (key ? key: parent->key);
 		}
 	} else {
 		if (key[0] == '/') {
@@ -98,12 +106,12 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 			node->id = g_strconcat ("org.gnome.", formatted, NULL);
 		}
 	}
-	node->settings = g_hash_table_lookup (installed_schemas, node->id)? g_settings_new (node->id): NULL;
+	node->settings = go_conf_schema_installed (node->id) ? g_settings_new (node->id) : NULL;
 	g_free (formatted);
 	if (!node->settings) {
 		char *last_dot = strrchr (node->id, '.');
 		*last_dot = 0;
-		node->settings = g_hash_table_lookup (installed_schemas, node->id)? g_settings_new (node->id): NULL;
+		node->settings = go_conf_schema_installed (node->id) ? g_settings_new (node->id) : NULL;
 		if (node->settings) {
 			g_free (node->key);
 			node->key = g_strdup (last_dot + 1);
@@ -247,7 +255,7 @@ go_conf_load_bool (GOConfNode *node, gchar const *key, gboolean default_val)
 	}
 	if (val == NULL) {
 		GOConfNode *real_node = go_conf_get_node (node, key);
-		val = real_node? go_conf_get (real_node, real_node->key, G_VARIANT_TYPE_BOOLEAN): NULL;
+		val = real_node? go_conf_get (real_node, real_node->key, G_VARIANT_TYPE_BOOLEAN) : NULL;
 		go_conf_free_node (real_node);
 	}
 
@@ -274,7 +282,7 @@ go_conf_load_int (GOConfNode *node, gchar const *key, gint minima, gint maxima, 
 	}
 	if (val == NULL) {
 		GOConfNode *real_node = go_conf_get_node (node, key);
-		val = real_node? go_conf_get (real_node, real_node->key, G_VARIANT_TYPE_INT32): NULL;
+		val = real_node? go_conf_get (real_node, real_node->key, G_VARIANT_TYPE_INT32) : NULL;
 		go_conf_free_node (real_node);
 	}
 	if (val != NULL) {
@@ -306,7 +314,7 @@ go_conf_load_double (GOConfNode *node, gchar const *key,
 	}
 	if (val == NULL) {
 		GOConfNode *real_node = go_conf_get_node (node, key);
-		val = real_node? go_conf_get (real_node, real_node->key, G_VARIANT_TYPE_DOUBLE): NULL;
+		val = real_node? go_conf_get (real_node, real_node->key, G_VARIANT_TYPE_DOUBLE) : NULL;
 		go_conf_free_node (real_node);
 	}
 	if (val != NULL) {
@@ -336,7 +344,7 @@ go_conf_load_string (GOConfNode *node, gchar const *key)
 	}
 	if (res == NULL) {
 		GOConfNode *real_node = go_conf_get_node (node, key);
-		res = (real_node)? g_settings_get_string (real_node->settings, real_node->key): NULL;
+		res = real_node ? g_settings_get_string (real_node->settings, real_node->key) : NULL;
 		go_conf_free_node (real_node);
 	}
 	return res;
@@ -356,7 +364,7 @@ go_conf_load_str_list (GOConfNode *node, gchar const *key)
 	}
 	if (strs == NULL) {
 		GOConfNode *real_node = go_conf_get_node (node, key);
-		strs = real_node? g_settings_get_strv (node->settings, real_node->key): NULL;
+		strs = real_node? g_settings_get_strv (node->settings, real_node->key) : NULL;
 		go_conf_free_node (real_node);
 	}
 	if (strs) {
@@ -383,7 +391,7 @@ go_conf_get_bool (GOConfNode *node, gchar const *key)
 	}
 	if (failed) {
 		GOConfNode *real_node = go_conf_get_node (node, key);
-		res = (real_node)? g_settings_get_boolean (real_node->settings, real_node->key): FALSE;
+		res = real_node ? g_settings_get_boolean (real_node->settings, real_node->key) : FALSE;
 		go_conf_free_node (real_node);
 	}
 	return res;
@@ -393,7 +401,7 @@ gint
 go_conf_get_int	(GOConfNode *node, gchar const *key)
 {
 	GOConfNode *real_node = go_conf_get_node (node, key);
-	gint res = (real_node)? g_settings_get_int (real_node->settings, real_node->key): 0;
+	gint res = real_node ? g_settings_get_int (real_node->settings, real_node->key) : 0;
 	go_conf_free_node (real_node);
 	return res;
 }
@@ -402,7 +410,7 @@ gdouble
 go_conf_get_double (GOConfNode *node, gchar const *key)
 {
 	GOConfNode *real_node = go_conf_get_node (node, key);
-	gdouble res = (real_node)? g_settings_get_double (real_node->settings, real_node->key): 0.;
+	gdouble res = real_node ? g_settings_get_double (real_node->settings, real_node->key) : 0.;
 	go_conf_free_node (real_node);
 	return res;
 }
@@ -411,7 +419,7 @@ gchar *
 go_conf_get_string (GOConfNode *node, gchar const *key)
 {
 	GOConfNode *real_node = go_conf_get_node (node, key);
-	gchar *res = (real_node)? g_settings_get_string (real_node->settings, real_node->key): NULL;
+	gchar *res = real_node ? g_settings_get_string (real_node->settings, real_node->key) : NULL;
 	go_conf_free_node (real_node);
 	return res;
 }
@@ -463,8 +471,8 @@ go_conf_add_monitor (GOConfNode *node, G_GNUC_UNUSED gchar const *key,
 	cls->monitor = monitor;
 	cls->node = node;
 	cls->data = data;
-	cls->key = g_strdup (key? key: node->key);
-	cls->real_key = (key)? g_strconcat (node->path, '/', key, NULL): g_strdup (node->path);
+	cls->key = g_strdup (key ? key: node->key);
+	cls->real_key = (key) ? g_strconcat (node->path, '/', key, NULL) : g_strdup (node->path);
 	ret = g_signal_connect
 		(node->settings,
 		 "changed", G_CALLBACK (cb_key_changed),
