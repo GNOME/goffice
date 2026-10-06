@@ -290,11 +290,11 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event,
 		x -= g3d->bank_dial_x;
 		y -= g3d->bank_dial_y;
 		r = g3d->bank_dial_r;
-		gdk_device_grab (gdk_event_get_device ((GdkEvent *) event),
-		                 gtk_layout_get_bin_window (&canvas->base),
-		                 GDK_OWNERSHIP_APPLICATION, FALSE,
-				 GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-				 NULL, event->time);
+		gdk_seat_grab (gdk_device_get_seat
+			       (gdk_event_get_device ((GdkEvent *) event)),
+			       gtk_layout_get_bin_window (&canvas->base),
+			       GDK_SEAT_CAPABILITY_ALL_POINTING, FALSE,
+			       NULL, (GdkEvent *) event, NULL, NULL);
 
 		if (x * x + y * y <= r * r) {
 			g3d->motion_handle = g_signal_connect (G_OBJECT (canvas),
@@ -309,8 +309,8 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event,
 	} else if (event->type == GDK_BUTTON_RELEASE) {
 		if (g3d->motion_handle == 0)
 			return TRUE;
-		gdk_device_ungrab (gdk_event_get_device ((GdkEvent *) event),
-		                   event->time);
+		gdk_seat_ungrab (gdk_device_get_seat
+				 (gdk_event_get_device ((GdkEvent *) event)));
 		g_signal_handler_disconnect (canvas, g3d->motion_handle);
 		g3d->motion_handle = 0;
 		g_signal_emit (G_OBJECT (g3d),

@@ -260,11 +260,12 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event, GORotationSel
 	if (event->type == GDK_BUTTON_PRESS) {
 		set_rot_from_point (grs, event->x, event->y);
 		if (grs->motion_handle == 0) {
-			gdk_device_grab (gdk_event_get_device ((GdkEvent *) event),
-			                 gtk_layout_get_bin_window (&canvas->base),
-			                 GDK_OWNERSHIP_APPLICATION, FALSE,
-					 GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-					 NULL, event->time);
+			GdkSeat *seat = gdk_device_get_seat
+				(gdk_event_get_device ((GdkEvent *) event));
+			gdk_seat_grab (seat,
+				       gtk_layout_get_bin_window (&canvas->base),
+				       GDK_SEAT_CAPABILITY_ALL_POINTING, FALSE,
+				       NULL, (GdkEvent *) event, NULL, NULL);
 
 			grs->motion_handle = g_signal_connect (G_OBJECT (canvas), "motion_notify_event",
 				G_CALLBACK (cb_rotate_motion_notify_event), grs);
@@ -272,8 +273,8 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event, GORotationSel
 		return TRUE;
 	} else if (event->type == GDK_BUTTON_RELEASE) {
 		if (grs->motion_handle != 0) {
-			gdk_device_ungrab (gdk_event_get_device ((GdkEvent *) event),
-			                   event->time);
+			gdk_seat_ungrab (gdk_device_get_seat
+					 (gdk_event_get_device ((GdkEvent *) event)));
 			g_signal_handler_disconnect (canvas, grs->motion_handle);
 			grs->motion_handle = 0;
 		}
