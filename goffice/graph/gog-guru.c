@@ -1238,7 +1238,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*4);
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (gtk_builder_get_object (gui, "canvas-container")),
+	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gui, "canvas-container")),
 			   typesel->canvas);
 	typesel->sample_canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	g_object_connect (typesel->sample_canvas,

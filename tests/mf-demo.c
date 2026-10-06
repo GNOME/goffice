@@ -75,7 +75,7 @@ open_file (char const *filename, GtkWidget *nbook)
 
 	window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (window), GTK_WIDGET (canvas));
+	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (canvas));
 	if (g_strrstr (filename, "/") != NULL)
 		label = gtk_label_new (g_strrstr (filename, "/") + 1);
 	else
