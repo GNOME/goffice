@@ -32,14 +32,7 @@
 
 #ifdef GOFFICE_WITH_LIBRSVG
 #include <librsvg/rsvg.h>
-#ifdef LIBRSVG_CHECK_VERSION
-#define NEEDS_LIBRSVG_CAIRO_H !LIBRSVG_CHECK_VERSION(2,36,2)
-#else
-#define NEEDS_LIBRSVG_CAIRO_H 1
-#endif
-#if NEEDS_LIBRSVG_CAIRO_H
-#include <librsvg/rsvg-cairo.h>
-#endif
+#include <goffice/utils/go-svg.h>
 #endif /* GOFFICE_WITH_LIBRSVG */
 
 struct _GOComponentPrivate {
@@ -302,16 +295,24 @@ go_component_snapshot_render (GOComponent *component, cairo_t *cr,
 					g_object_unref (snapshot->image);
 				snapshot->image = NULL;
 			}
+			if (snapshot->image != NULL) {
+				double dpi_x, dpi_y;
+				go_image_get_default_dpi (&dpi_x, &dpi_y);
+				rsvg_handle_set_dpi_x_y (RSVG_HANDLE (snapshot->image),
+							 dpi_x, dpi_y);
+			}
 		}
 		if (snapshot->image != NULL) {
-			RsvgDimensionData dim;
+			RsvgRectangle viewport = { 0., 0., 0., 0. };
 			double scalex = 1., scaley = 1.;
 			cairo_save (cr);
-			rsvg_handle_get_dimensions (RSVG_HANDLE (snapshot->image), &dim);
+			_go_svg_get_size (RSVG_HANDLE (snapshot->image),
+					  &viewport.width, &viewport.height);
 			cairo_user_to_device_distance (cr, &scalex, &scaley);
-			cairo_scale (cr, width * scalex / dim.width,
-						 height * scaley / dim.height);
-			rsvg_handle_render_cairo (RSVG_HANDLE (snapshot->image), cr);
+			cairo_scale (cr, width * scalex / viewport.width,
+						 height * scaley / viewport.height);
+			rsvg_handle_render_document (RSVG_HANDLE (snapshot->image),
+						     cr, &viewport, NULL);
 			cairo_restore (cr);
 		}
 		break;

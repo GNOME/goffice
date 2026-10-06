@@ -28,6 +28,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-stdio.h>
 #include <string.h>
+#include <math.h>
 
 struct _GOSvg {
 	GOImage parent;
@@ -37,6 +38,42 @@ struct _GOSvg {
 typedef GOImageClass GOSvgClass;
 
 static GObjectClass *parent_klass;
+
+/*
+ * _go_svg_get_size:
+ * @handle: an #RsvgHandle
+ * @width: (out): location for the width, in pixels
+ * @height: (out): location for the height, in pixels
+ *
+ * Gets the intrinsic size of @handle, rounded up to whole pixels.  If the
+ * document has no usable width and height the viewBox is used, and failing
+ * that the size is 0 by 0.  The DPI of @handle should be set beforehand.
+ */
+void
+_go_svg_get_size (RsvgHandle *handle, double *width, double *height)
+{
+	gboolean has_width, has_height, has_viewbox;
+	RsvgLength w, h;
+	RsvgRectangle viewbox;
+
+	if (rsvg_handle_get_intrinsic_size_in_pixels (handle, width, height)) {
+		*width = ceil (*width);
+		*height = ceil (*height);
+		return;
+	}
+
+	/* Width and/or height are missing or relative; use the viewBox. */
+	rsvg_handle_get_intrinsic_dimensions (handle,
+					      &has_width, &w,
+					      &has_height, &h,
+					      &has_viewbox, &viewbox);
+	if (has_viewbox) {
+		*width = ceil (viewbox.width);
+		*height = ceil (viewbox.height);
+	} else {
+		*width = *height = 0.;
+	}
+}
 
 /* Render @handle at its intrinsic size, @width by @height. */
 static void
@@ -177,7 +214,6 @@ go_svg_new_from_file (char const *filename, GError **error)
 	GOSvg *svg;
 	guint8 *data;
 	GsfInput *input = gsf_input_stdio_new (filename, error);
-	RsvgDimensionData dim;
 	GOImage *image;
 	double dpi_x, dpi_y;
 
@@ -200,9 +236,7 @@ go_svg_new_from_file (char const *filename, GError **error)
 	}
 	go_image_get_default_dpi (&dpi_x, &dpi_y);
 	rsvg_handle_set_dpi_x_y (svg->handle, dpi_x, dpi_y);
-	rsvg_handle_get_dimensions (svg->handle, &dim);
-	image->width = dim.width;
-	image->height = dim.height;
+	_go_svg_get_size (svg->handle, &image->width, &image->height);
 	return image;
 }
 
@@ -221,7 +255,6 @@ go_svg_new_from_data (char const *data, size_t length, GError **error)
 {
 	GOSvg *svg;
 	GOImage *image;
-	RsvgDimensionData dim;
 	double dpi_x, dpi_y;
 
 	g_return_val_if_fail (data != NULL && length != 0, NULL);
@@ -241,8 +274,6 @@ go_svg_new_from_data (char const *data, size_t length, GError **error)
 	}
 	go_image_get_default_dpi (&dpi_x, &dpi_y);
 	rsvg_handle_set_dpi_x_y (svg->handle, dpi_x, dpi_y);
-	rsvg_handle_get_dimensions (svg->handle, &dim);
-	image->width = dim.width;
-	image->height = dim.height;
+	_go_svg_get_size (svg->handle, &image->width, &image->height);
 	return image;
 }

@@ -24,6 +24,7 @@
 #ifdef GOFFICE_WITH_LIBRSVG
 
 #include <goffice/goffice.h>
+#include <librsvg/rsvg.h>
 
 G_BEGIN_DECLS
 
@@ -35,6 +36,8 @@ GType go_svg_get_type (void);
 
 GOImage *go_svg_new_from_file (char const *filename, GError **error);
 GOImage *go_svg_new_from_data (char const *data, size_t length, GError **error);
+
+void _go_svg_get_size (RsvgHandle *handle, double *width, double *height);
 
 G_END_DECLS
 
