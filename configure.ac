@@ -354,7 +354,7 @@ dnl ***********************
 AC_ARG_WITH(librsvg,
 	AS_HELP_STRING([--without-librsvg],[Build without SVG support]))
 if ! test "x$with_librsvg" = xno; then
-	goffice_reqs="$goffice_reqs librsvg-2.0 >= 2.22.0"
+	goffice_reqs="$goffice_reqs librsvg-2.0 >= 2.46.0"
 	EXTRA_DEPS="$EXTRA_DEPS librsvg-2.0"
 	AC_DEFINE(GOFFICE_WITH_LIBRSVG, 1, [Define if librsvg is used])
 fi

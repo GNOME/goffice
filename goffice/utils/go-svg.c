@@ -23,14 +23,6 @@
 #include "go-svg.h"
 
 #include <librsvg/rsvg.h>
-#ifdef LIBRSVG_CHECK_VERSION
-#define NEEDS_LIBRSVG_CAIRO_H !LIBRSVG_CHECK_VERSION(2,36,2)
-#else
-#define NEEDS_LIBRSVG_CAIRO_H 1
-#endif
-#if NEEDS_LIBRSVG_CAIRO_H
-#include <librsvg/rsvg-cairo.h>
-#endif
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-impl-utils.h>
@@ -45,6 +37,14 @@ struct _GOSvg {
 typedef GOImageClass GOSvgClass;
 
 static GObjectClass *parent_klass;
+
+/* Render @handle at its intrinsic size, @width by @height. */
+static void
+go_svg_render (RsvgHandle *handle, cairo_t *cr, double width, double height)
+{
+	RsvgRectangle viewport = { 0., 0., width, height };
+	rsvg_handle_render_document (handle, cr, &viewport, NULL);
+}
 
 static void
 go_svg_save (GOImage *image, GsfXMLOut *output)
@@ -77,7 +77,7 @@ static void
 go_svg_draw (GOImage *image, cairo_t *cr)
 {
 	GOSvg *svg = GO_SVG (image);
-	rsvg_handle_render_cairo (svg->handle, cr);
+	go_svg_render (svg->handle, cr, image->width, image->height);
 }
 
 static GdkPixbuf *
@@ -90,7 +90,7 @@ go_svg_get_pixbuf (GOImage *image)
 	g_return_val_if_fail (svg != NULL, NULL);
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, image->width, image->height);
 	cr = cairo_create (surface);
-	rsvg_handle_render_cairo (svg->handle, cr);
+	go_svg_render (svg->handle, cr, image->width, image->height);
 	cairo_destroy (cr);
 	res = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, image->width, image->height);
 	go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (res),
@@ -112,7 +112,7 @@ go_svg_get_scaled_pixbuf (GOImage *image, int width, int height)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	cr = cairo_create (surface);
 	cairo_scale (cr, width / image->width, height / image->height);
-	rsvg_handle_render_cairo (svg->handle, cr);
+	go_svg_render (svg->handle, cr, image->width, image->height);
 	cairo_destroy (cr);
 	res = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 	go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (res),
