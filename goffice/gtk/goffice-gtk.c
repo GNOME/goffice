@@ -1718,7 +1718,8 @@ go_menu_position_below (GtkMenu  *menu,
  * @url: the url to show
  * @screen: (nullable): screen to show the uri on or %NULL for the default screen
  *
- * This function is a simple convenience wrapper for gtk_show_uri().
+ * This function is a simple convenience wrapper for
+ * g_app_info_launch_default_for_uri().
  *
  * Returns: %NULL on success, or a newly allocated #GError if something
  * went wrong.
@@ -1727,7 +1728,21 @@ GError *
 go_gtk_url_show (gchar const *url, GdkScreen *screen)
 {
 	GError *error = NULL;
-	gtk_show_uri (screen, url, GDK_CURRENT_TIME, &error);
+	GdkDisplay *display = screen
+		? gdk_screen_get_display (screen)
+		: gdk_display_get_default ();
+	GdkAppLaunchContext *context = display
+		? gdk_display_get_app_launch_context (display)
+		: NULL;
+
+	if (context) {
+		if (screen)
+			gdk_app_launch_context_set_screen (context, screen);
+		gdk_app_launch_context_set_timestamp (context, GDK_CURRENT_TIME);
+	}
+	g_app_info_launch_default_for_uri (url, G_APP_LAUNCH_CONTEXT (context), &error);
+	if (context)
+		g_object_unref (context);
 	return error;
 }
 
