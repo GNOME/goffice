@@ -66,7 +66,7 @@ struct _GOPalettePrivate {
 	char		*custom_label;
 };
 
-G_DEFINE_TYPE (GOPalette, go_palette, GTK_TYPE_MENU)
+G_DEFINE_TYPE_WITH_PRIVATE (GOPalette, go_palette, GTK_TYPE_MENU)
 
 static void
 go_palette_init (GOPalette *palette)
@@ -75,7 +75,7 @@ go_palette_init (GOPalette *palette)
 	PangoLayout *layout;
 	PangoRectangle rect;
 
-	priv = G_TYPE_INSTANCE_GET_PRIVATE (palette, GO_TYPE_PALETTE, GOPalettePrivate);
+	priv = go_palette_get_instance_private (palette);
 
 	palette->priv = priv;
 
@@ -182,8 +182,6 @@ go_palette_class_init (GOPaletteClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-
-	g_type_class_add_private (object_class, sizeof (GOPalettePrivate));
 
 	gtk_widget_class_set_css_name (widget_class, "palette");
 }

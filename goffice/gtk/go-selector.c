@@ -75,14 +75,14 @@ struct _GOSelectorPrivate {
 	gboolean			dnd_initialized;
 };
 
-G_DEFINE_TYPE (GOSelector, go_selector, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (GOSelector, go_selector, GTK_TYPE_BOX)
 
 static void
 go_selector_init (GOSelector *selector)
 {
 	GOSelectorPrivate *priv;
 
-	priv = G_TYPE_INSTANCE_GET_PRIVATE (selector, GO_TYPE_SELECTOR, GOSelectorPrivate);
+	priv = go_selector_get_instance_private (selector);
 
 	selector->priv = priv;
 
@@ -145,8 +145,6 @@ go_selector_class_init (GOSelectorClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-
-	g_type_class_add_private (object_class, sizeof (GOSelectorPrivate));
 }
 
 static void
