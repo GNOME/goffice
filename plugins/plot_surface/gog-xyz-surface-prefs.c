@@ -120,7 +120,7 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 	grid = go_gtk_builder_get_widget (gui, "gog-xyz-surface-prefs");
 	state->x_entry = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_VECTOR));
 	gtk_widget_show_all (state->x_entry);
-	gtk_widget_set_margin_left (state->x_entry, 12);
+	gtk_widget_set_margin_start (state->x_entry, 12);
 	gtk_grid_attach (GTK_GRID (grid), state->x_entry, 0, 2, 3, 1);
 	w = go_gtk_builder_get_widget (gui, "preset-cols-btn");
 	if (!state->plot->auto_x) {
@@ -141,7 +141,7 @@ gog_xyz_surface_plot_pref (GogXYZPlot *plot, GogDataAllocator *dalloc, GOCmdCont
 
 	state->y_entry = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_VECTOR));
 	gtk_widget_show_all (state->y_entry);
-	gtk_widget_set_margin_left (state->y_entry, 12);
+	gtk_widget_set_margin_start (state->y_entry, 12);
 	gtk_grid_attach (GTK_GRID (grid), state->y_entry, 0, 5, 3, 1);
 	w = go_gtk_builder_get_widget (gui, "preset-rows-btn");
 	if (!state->plot->auto_y) {
