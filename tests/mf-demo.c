@@ -49,7 +49,7 @@ open_file (char const *filename, GtkWidget *nbook)
 	char *display_name;
 	GocCanvas *canvas;
 	GOImage *image;
-	GtkWidget *window, *label;
+	GtkWidget *window, *label, *viewport;
 
 	g_print ("%s\n", filename);
 
@@ -75,7 +75,10 @@ open_file (char const *filename, GtkWidget *nbook)
 
 	window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (canvas));
+	viewport = gtk_viewport_new (NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (window), viewport);
+	gtk_container_add (GTK_CONTAINER (viewport), GTK_WIDGET (canvas));
+	gtk_widget_show (viewport);
 	if (g_strrstr (filename, "/") != NULL)
 		label = gtk_label_new (g_strrstr (filename, "/") + 1);
 	else

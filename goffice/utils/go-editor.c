@@ -133,8 +133,16 @@ go_editor_add_page (GOEditor *editor, gpointer widget, char const *label)
 	page->widget = widget;
 #ifdef GOFFICE_WITH_GTK
 	if (editor->use_scrolled) {
+		GtkWidget *viewport;
 		page->scrolled = g_object_ref (gtk_scrolled_window_new (NULL, NULL));
-		gtk_container_add (page->scrolled, widget);
+		// Add the viewport explicitly.  The viewport that
+		// gtk_container_add would create on its own is removed
+		// rather than destroyed along with the scrolled window,
+		// which leaves @widget alive after the editor is gone.
+		viewport = gtk_viewport_new (NULL, NULL);
+		gtk_container_add (GTK_CONTAINER (page->scrolled), viewport);
+		gtk_container_add (GTK_CONTAINER (viewport), widget);
+		gtk_widget_show (viewport);
 	} else
 #endif
 		page->scrolled = g_object_ref (widget);

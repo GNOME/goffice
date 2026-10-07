@@ -1181,7 +1181,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 {
 	GtkTreeSelection *selection;
 	GraphGuruTypeSelector *typesel;
-	GtkWidget *selector;
+	GtkWidget *selector, *viewport;
 	GtkBuilder *gui;
 	GOStyle *style;
 
@@ -1238,8 +1238,11 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*4);
+	viewport = gtk_viewport_new (NULL, NULL);
 	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gui, "canvas-container")),
-			   typesel->canvas);
+			   viewport);
+	gtk_container_add (GTK_CONTAINER (viewport), typesel->canvas);
+	gtk_widget_show (viewport);
 	typesel->sample_canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	g_object_connect (typesel->sample_canvas,
 		"signal::size_allocate", G_CALLBACK (cb_typesel_sample_plot_resize), typesel,
