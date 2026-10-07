@@ -88,7 +88,7 @@
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
+                <property name="margin_start">12</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Value</property>
               </object>
@@ -131,7 +131,7 @@
               <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
+                <property name="margin_start">12</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Name</property>
               </object>
@@ -159,7 +159,7 @@
               <object class="GtkLabel" id="label6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
+                <property name="margin_start">12</property>
                 <property name="vexpand">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Gradient</property>
@@ -175,7 +175,7 @@
               <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
+                <property name="margin_start">12</property>
                 <property name="vexpand">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Discrete</property>
@@ -210,7 +210,7 @@
               <object class="GtkButtonBox" id="buttonbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_right">12</property>
+                <property name="margin_end">12</property>
                 <property name="spacing">12</property>
                 <property name="homogeneous">True</property>
                 <property name="layout_style">end</property>

@@ -79,7 +79,7 @@
       <object class="GtkLabel" id="marker_size_label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">18</property>
+        <property name="margin_start">18</property>
         <property name="xalign">0</property>
         <property name="label" translatable="yes">Si_ze:</property>
         <property name="use_underline">True</property>
@@ -96,7 +96,7 @@
       <object class="GtkLabel" id="marker_outline_label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">18</property>
+        <property name="margin_start">18</property>
         <property name="xalign">0</property>
         <property name="label" translatable="yes">O_utline:</property>
         <property name="use_underline">True</property>
@@ -112,7 +112,7 @@
       <object class="GtkLabel" id="marker_fill_label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">18</property>
+        <property name="margin_start">18</property>
         <property name="xalign">0</property>
         <property name="label" translatable="yes">_Fill:</property>
         <property name="use_underline">True</property>
@@ -128,7 +128,7 @@
       <object class="GtkLabel" id="marker_shape_label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">18</property>
+        <property name="margin_start">18</property>
         <property name="xalign">0</property>
         <property name="label" translatable="yes">Sha_pe:</property>
         <property name="use_underline">True</property>
@@ -220,7 +220,7 @@
         <property name="can_focus">False</property>
         <property name="halign">start</property>
         <property name="valign">start</property>
-        <property name="margin_left">18</property>
+        <property name="margin_start">18</property>
         <property name="row_spacing">6</property>
         <property name="column_spacing">12</property>
         <child>
@@ -334,7 +334,7 @@
           <object class="GtkLabel" id="label36">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">18</property>
+            <property name="margin_start">18</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">St_yle:</property>
             <property name="use_underline">True</property>
@@ -350,7 +350,7 @@
           <object class="GtkLabel" id="line_color_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">18</property>
+            <property name="margin_start">18</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Co_lor:</property>
             <property name="use_underline">True</property>
@@ -366,7 +366,7 @@
           <object class="GtkLabel" id="line_size_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">18</property>
+            <property name="margin_start">18</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">_Size:</property>
             <property name="use_underline">True</property>
@@ -437,7 +437,7 @@
         <property name="can_focus">False</property>
         <property name="halign">start</property>
         <property name="valign">start</property>
-        <property name="margin_left">18</property>
+        <property name="margin_start">18</property>
         <property name="row_spacing">6</property>
         <property name="column_spacing">12</property>
         <child>

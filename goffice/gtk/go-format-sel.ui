@@ -655,7 +655,7 @@
               <object class="GtkLabel" id="format_minimum_integer_digits_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">18</property>
+                <property name="margin_start">18</property>
                 <property name="hexpand">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Minimum number of integer digits:</property>
@@ -808,7 +808,7 @@
               <object class="GtkLabel" id="format_min_denominator_digits_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">18</property>
+                <property name="margin_start">18</property>
                 <property name="hexpand">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Minimum number of denominator digits:</property>
@@ -845,7 +845,7 @@
               <object class="GtkLabel" id="format_max_denominator_digits_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">18</property>
+                <property name="margin_start">18</property>
                 <property name="hexpand">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Maximum number of denominator digits:</property>
@@ -901,7 +901,7 @@
               <object class="GtkLabel" id="format_denominator_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">18</property>
+                <property name="margin_start">18</property>
                 <property name="hexpand">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Denominator:</property>
@@ -1044,7 +1044,7 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_markup" translatable="yes">When mantissa is equal to 1, only show exponent part (e.g. 10²)</property>
                 <property name="tooltip_text" translatable="yes">When mantissa is equal to 1, only show exponent part (e.g. 10²)</property>
-                <property name="margin_left">18</property>
+                <property name="margin_start">18</property>
                 <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="xalign">0</property>
@@ -1086,7 +1086,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="margin_left">18</property>
+                <property name="margin_start">18</property>
                 <property name="use_action_appearance">False</property>
                 <property name="xalign">0</property>
                 <property name="image_position">top</property>
@@ -1107,7 +1107,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="margin_left">18</property>
+                <property name="margin_start">18</property>
                 <property name="use_action_appearance">False</property>
                 <property name="xalign">0</property>
                 <property name="yalign">0.52999997138977051</property>
@@ -1125,7 +1125,7 @@
               <object class="GtkComboBox" id="format_SI_unit_combo">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">18</property>
+                <property name="margin_start">18</property>
                 <property name="hexpand">True</property>
                 <property name="model">liststore1</property>
               </object>
