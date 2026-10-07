@@ -82,6 +82,8 @@ static void
 update_image_rect (GOGraphWidget *gw,
 		   GtkAllocation allocation)
 {
+	int scale;
+
 	gw->width = gw->height = -1;
 
 	switch (gw->size_mode) {
@@ -122,8 +124,9 @@ update_image_rect (GOGraphWidget *gw,
 	gw->yoffset = MAX (0, (int) (allocation.height - gw->height) / 2);
 	gw->xoffset = MAX (0, (int) (allocation.width - gw->width) / 2);
 
+	scale = gtk_widget_get_scale_factor (GTK_WIDGET (gw));
 	gog_graph_set_size (gw->graph, gw->width * 72. / gw->hres, gw->height * 72. / gw->vres);
-	gog_renderer_update (gw->renderer, gw->width, gw->height);
+	gog_renderer_update (gw->renderer, gw->width * scale, gw->height * scale);
 }
 
 
@@ -149,9 +152,13 @@ go_graph_widget_draw (GtkWidget *widget, cairo_t *cairo)
 
 	surface = gog_renderer_get_cairo_surface (w->renderer);
 	if (surface != NULL) {
+		int scale = gtk_widget_get_scale_factor (widget);
+
 		cairo_rectangle (cairo, w->xoffset, w->yoffset, w->width, w->height);
 		cairo_clip (cairo);
-		cairo_set_source_surface (cairo, surface, w->xoffset, w->yoffset);
+		cairo_translate (cairo, w->xoffset, w->yoffset);
+		cairo_scale (cairo, 1. / scale, 1. / scale);
+		cairo_set_source_surface (cairo, surface, 0, 0);
 		cairo_paint (cairo);
 	}
 
@@ -367,12 +374,20 @@ go_graph_widget_class_init (GOGraphWidgetClass *klass)
 }
 
 static void
+cb_scale_factor_changed (GOGraphWidget *w)
+{
+	go_graph_widget_request_update (w);
+}
+
+static void
 go_graph_widget_init (GOGraphWidget *w)
 {
 	gtk_widget_add_events (GTK_WIDGET (w), GDK_POINTER_MOTION_MASK |
 					       GDK_BUTTON_PRESS_MASK |
 					       GDK_BUTTON_RELEASE_MASK);
 	w->hres = w->vres = 96.;
+	g_signal_connect_swapped (w, "notify::scale-factor",
+				  G_CALLBACK (cb_scale_factor_changed), w);
 }
 
 /**
