@@ -447,6 +447,24 @@ go_combo_box_popup_hide (GOComboBox *combo_box)
 	}
 }
 
+static gboolean
+go_combo_box_get_monitor_geometry (GtkWidget *widget, GdkRectangle *monitor)
+{
+	GdkWindow *window = gtk_widget_get_window (widget);
+#ifdef HAVE_GDK_DISPLAY_GET_MONITOR_AT_WINDOW
+	GdkMonitor *m = gdk_display_get_monitor_at_window
+		(gtk_widget_get_display (widget), window);
+	if (!m)
+		return FALSE;
+	gdk_monitor_get_geometry (m, monitor);
+#else
+	GdkScreen *screen = gtk_widget_get_screen (widget);
+	gint n = gdk_screen_get_monitor_at_window (screen, window);
+	gdk_screen_get_monitor_geometry (screen, n, monitor);
+#endif
+	return TRUE;
+}
+
 /*
  * Find best location for displaying
  */
@@ -454,7 +472,7 @@ go_combo_box_popup_hide (GOComboBox *combo_box)
 go_combo_box_get_pos (GOComboBox *combo_box, int *x, int *y)
 {
 	GtkWidget *wcombo = GTK_WIDGET (combo_box);
-	GdkScreen *screen = gtk_widget_get_screen (wcombo);
+	GdkRectangle monitor;
 	int ph, pw;
 	GtkAllocation allocation;
 
@@ -467,11 +485,14 @@ go_combo_box_get_pos (GOComboBox *combo_box, int *x, int *y)
 	ph = allocation.height;
 	pw = allocation.width;
 
-	if ((*y + ph) > gdk_screen_get_height (screen))
-		*y = gdk_screen_get_height (screen) - ph;
+	if (!go_combo_box_get_monitor_geometry (wcombo, &monitor))
+		return;
 
-	if ((*x + pw) > gdk_screen_get_width (screen))
-		*x = gdk_screen_get_width (screen) - pw;
+	if ((*y + ph) > monitor.y + monitor.height)
+		*y = monitor.y + monitor.height - ph;
+
+	if ((*x + pw) > monitor.x + monitor.width)
+		*x = monitor.x + monitor.width - pw;
 }
 
 /**
