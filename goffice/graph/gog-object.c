@@ -996,6 +996,7 @@ gog_object_generate_name (GogObject *obj)
 	case GOG_OBJECT_NAME_MANUALLY:
 		g_warning ("Role %s should not be autogenerating names",
 			   obj->role->id);
+		/* fall through */
 
 	case GOG_OBJECT_NAME_BY_ROLE:
 		g_return_if_fail (obj->role != NULL);

@@ -630,20 +630,20 @@ void SUFFIX (go_pnorm_both) (DOUBLE x, DOUBLE *cum, DOUBLE *ccum, int i_tail, gb
    if(lower) return  *cum := P[X <= x]
    if(upper) return *ccum := P[X >  x] = 1 - P[X <= x]
 */
-    const static DOUBLE a[5] = {
+    static const DOUBLE a[5] = {
 	CONST (2.2352520354606839287),
 	CONST (161.02823106855587881),
 	CONST (1067.6894854603709582),
 	CONST (18154.981253343561249),
 	CONST (0.065682337918207449113)
     };
-    const static DOUBLE b[4] = {
+    static const DOUBLE b[4] = {
 	CONST (47.20258190468824187),
 	CONST (976.09855173777669322),
 	CONST (10260.932208618978205),
 	CONST (45507.789335026729956)
     };
-    const static DOUBLE c[9] = {
+    static const DOUBLE c[9] = {
 	CONST (0.39894151208813466764),
 	CONST (8.8831497943883759412),
 	CONST (93.506656132177855979),
@@ -654,7 +654,7 @@ void SUFFIX (go_pnorm_both) (DOUBLE x, DOUBLE *cum, DOUBLE *ccum, int i_tail, gb
 	CONST (9842.7148383839780218),
 	CONST (1.0765576773720192317e-8)
     };
-    const static DOUBLE d[8] = {
+    static const DOUBLE d[8] = {
 	CONST (22.266688044328115691),
 	CONST (235.38790178262499861),
 	CONST (1519.377599407554805),
@@ -664,7 +664,7 @@ void SUFFIX (go_pnorm_both) (DOUBLE x, DOUBLE *cum, DOUBLE *ccum, int i_tail, gb
 	CONST (38912.003286093271411),
 	CONST (19685.429676859990727)
     };
-    const static DOUBLE p[6] = {
+    static const DOUBLE p[6] = {
 	CONST (0.21589853405795699),
 	CONST (0.1274011611602473639),
 	CONST (0.022235277870649807),
@@ -672,7 +672,7 @@ void SUFFIX (go_pnorm_both) (DOUBLE x, DOUBLE *cum, DOUBLE *ccum, int i_tail, gb
 	CONST (2.9112874951168792e-5),
 	CONST (0.02307344176494017303)
     };
-    const static DOUBLE q[5] = {
+    static const DOUBLE q[5] = {
 	CONST (1.28426009614491121),
 	CONST (0.468238212480865118),
 	CONST (0.0659881378689285515),

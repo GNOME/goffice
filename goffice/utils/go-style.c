@@ -721,6 +721,7 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 				break;
 			} else
 				state->style->fill.type = GO_STYLE_FILL_NONE;
+			/* fall through */
 		case GO_STYLE_FILL_NONE:
 		default:
 			type = FILL_TYPE_NONE;
@@ -1628,7 +1629,7 @@ go_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (attr_eq (attrs[0], "color"))
 			go_color_from_str (attrs[1], &line->color);
 		else if (bool_sax_prop ("auto-color", attrs[0], attrs[1], &line->auto_color))
-			;
+			{ /* nothing */ }
 	}
 
 	if (seen_width && !seen_auto_width) {
@@ -1653,7 +1654,7 @@ go_style_sax_load_fill_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_eq (attrs[0], "back"))
 			go_color_from_str (attrs[1], &style->fill.pattern.back);
 		else if (bool_sax_prop ("auto-pattern", attrs[0], attrs[1], &style->fill.auto_pattern))
-			;
+			{ /* nothing */ }
 }
 
 static void
@@ -1673,7 +1674,7 @@ go_style_sax_load_fill_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (bool_sax_prop ("auto-direction", attrs[0], attrs[1], &style->fill.gradient.auto_dir))
 			;
 		else if (bool_sax_prop ("auto-brightness", attrs[0], attrs[1], &style->fill.gradient.auto_brightness))
-			;
+			{ /* nothing */ }
 }
 
 static void
@@ -1715,7 +1716,7 @@ go_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (bool_sax_prop ("is-auto", attrs[0], attrs[1], &style->fill.auto_back))
 			;
 		else if (bool_sax_prop ("auto-fore", attrs[0], attrs[1], &style->fill.auto_fore))
-			;
+			{ /* nothing */ }
 }
 static void
 go_style_sax_load_marker (GsfXMLIn *xin, xmlChar const **attrs)
@@ -1769,7 +1770,7 @@ go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 			seen_font = TRUE;
 		} else if (bool_sax_prop ("auto-scale", attrs[0], attrs[1], &style->font.auto_scale))
-			;
+			{ /* nothing */ }
 	}
 
 	if (seen_color && !seen_auto_color) {
@@ -2279,6 +2280,7 @@ go_style_fill (GOStyle const *style, cairo_t *cr, gboolean preserve)
 						n = go_fake_floor ((y[1] - y[0]) / h);
 						y[0] -= h - (y[1] - y[0] - n * h) / 2.;
 					}
+					/* fall through */
 					case GO_IMAGE_WALLPAPER: {
 						double cx = x[0], cy;
 						while (cx < x[1]) {
@@ -2298,6 +2300,7 @@ go_style_fill (GOStyle const *style, cairo_t *cr, gboolean preserve)
 				cairo_restore (cr);
 				return;
 			}
+			/* fall through */
 
 		case GO_STYLE_FILL_NONE:
 			if (!preserve)

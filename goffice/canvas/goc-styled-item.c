@@ -95,6 +95,7 @@ goc_styled_item_get_property (GObject *obj, guint param_id,
 
 	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH:
 		g_value_set_boolean (value, gsi->scale_line_width);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;

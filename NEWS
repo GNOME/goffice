@@ -8,6 +8,7 @@ Morten:
 	* Switch to using C23's D modifier for printf as in "%Dg".
 	* Possibly fix for macos crash.  [Gnumeric #813]
 	* Fix blurry graph issue (in spe).  [Gnumeric #775]
+	* Fix compiler warnings.
 
 --------------------------------------------------------------------------
 goffice 0.10.62:

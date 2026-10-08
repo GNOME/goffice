@@ -1046,6 +1046,7 @@ go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 	switch (t) {
 	case 0:
 		len = 0; /* Note: str not advanced.  */
+		/* fall through */
 	case ';':
 		tt = TT_TERMINATES_SINGLE;
 		break;
@@ -1877,7 +1878,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 
 		case '0':
 			inhibit_b = TRUE;
-			/* no break */
+			/* fall through */
 		case '?': case '#':
 			if (first_digit_pos == -1)
 				first_digit_pos = i;
@@ -5662,7 +5663,7 @@ go_format_str_delocalize (char const *str)
 					g_string_append_c (res, ' ');
 					break;
 				}
-				/* no break */
+				/* fall through */
 			default:
 				if (*tstr == '.' &&
 				    (state.is_number || (state.is_date && *str == '0')))
@@ -8116,6 +8117,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "false");
 			gsf_xml_out_end_element (xout); /* </number:minutes> */
 			element_written = TRUE;
+			break;
 
 		case TOK_ELAPSED_S:
 			if (seen_elapsed || seen_ampm || seen_second) break;
@@ -8412,7 +8414,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				xl++;
 				break;
 			}
-			/* no break */
+			/* fall through */
 		default:
 			if (t <= 0x7f) {
 				ODF_OPEN_STRING;
