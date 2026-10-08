@@ -614,6 +614,12 @@ go_mem_chunk_destroy (GOMemChunk *chunk, gboolean expect_leaks)
 	g_free (chunk);
 }
 
+static void
+go_mem_chunk_destroy1 (GOMemChunk *chunk)
+{
+	go_mem_chunk_destroy (chunk, FALSE);
+}
+
 static GOMemChunk *
 go_mem_chunk_ref (GOMemChunk *chunk)
 {
@@ -634,7 +640,7 @@ go_mem_chunk_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static ("GOMemChunk",
 			 (GBoxedCopyFunc)go_mem_chunk_ref,
-			 (GBoxedFreeFunc)go_mem_chunk_destroy);
+			 (GBoxedFreeFunc)go_mem_chunk_destroy1);
 	}
 	return t;
 }
