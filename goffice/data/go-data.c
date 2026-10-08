@@ -780,7 +780,7 @@ go_data_get_matrix_markup (GOData *data, unsigned int row, unsigned int column)
 #define GO_DATA_SCALAR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA_SCALAR, GODataScalarClass))
 
 static unsigned int
-_data_scalar_get_n_dimensions (GOData *data)
+_data_scalar_get_n_dimensions (G_GNUC_UNUSED GOData *data)
 {
 	return 0;
 }
@@ -807,19 +807,19 @@ _data_scalar_get_bounds (GOData *data, double *minimum, double *maximum)
 }
 
 static double
-_data_scalar_get_value (GOData *data, unsigned int *coordinates)
+_data_scalar_get_value (GOData *data, G_GNUC_UNUSED unsigned int *coordinates)
 {
 	return go_data_scalar_get_value ((GODataScalar *) data);
 }
 
 static char *
-_data_scalar_get_string (GOData *data, unsigned int *coordinates)
+_data_scalar_get_string (GOData *data, G_GNUC_UNUSED unsigned int *coordinates)
 {
 	return g_strdup (go_data_scalar_get_str ((GODataScalar *) data));
 }
 
 static PangoAttrList *
-_data_scalar_get_markup (GOData *data, unsigned int *coordinates)
+_data_scalar_get_markup (GOData *data, G_GNUC_UNUSED unsigned int *coordinates)
 {
 	return pango_attr_list_copy ((PangoAttrList *) go_data_scalar_get_markup ((GODataScalar *) data));
 }
@@ -901,7 +901,7 @@ _data_vector_emit_changed (GOData *data)
 }
 
 static unsigned int
-_data_vector_get_n_dimensions (GOData *data)
+_data_vector_get_n_dimensions (G_GNUC_UNUSED GOData *data)
 {
 	return 1;
 }
@@ -1170,7 +1170,7 @@ _data_matrix_emit_changed (GOData *data)
 }
 
 static unsigned int
-_data_matrix_get_n_dimensions (GOData *data)
+_data_matrix_get_n_dimensions (G_GNUC_UNUSED GOData *data)
 {
 	return 2;
 }

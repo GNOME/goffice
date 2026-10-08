@@ -137,7 +137,7 @@ to_parent (GocOffscreenBox *offscreen_box,
 }
 
 static void
-offscreen_window_to_parent (GdkWindow       *offscreen_window,
+offscreen_window_to_parent (G_GNUC_UNUSED GdkWindow       *offscreen_window,
 			    double           offscreen_x,
 			    double           offscreen_y,
 			    double          *parent_x,
@@ -148,7 +148,7 @@ offscreen_window_to_parent (GdkWindow       *offscreen_window,
 }
 
 static void
-offscreen_window_from_parent (GdkWindow       *window,
+offscreen_window_from_parent (G_GNUC_UNUSED GdkWindow       *window,
 			      double           parent_x,
 			      double           parent_y,
 			      double          *offscreen_x,
@@ -159,7 +159,7 @@ offscreen_window_from_parent (GdkWindow       *window,
 }
 
 static GdkWindow *
-pick_offscreen_child (GdkWindow *offscreen_window,
+pick_offscreen_child (G_GNUC_UNUSED GdkWindow *offscreen_window,
 		      double widget_x, double widget_y,
 		      GocOffscreenBox *offscreen_box)
 {
@@ -401,7 +401,7 @@ goc_offscreen_box_size_allocate (GtkWidget     *widget,
 
 static gboolean
 goc_offscreen_box_damage (GtkWidget      *widget,
-                          GdkEventExpose *event)
+                          G_GNUC_UNUSED GdkEventExpose *event)
 {
 	gdk_window_invalidate_rect (gtk_widget_get_window (widget),
 	                            NULL, FALSE);

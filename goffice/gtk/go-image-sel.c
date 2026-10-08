@@ -124,7 +124,7 @@ static gint
 sort_func (GtkTreeModel *model,
 	   GtkTreeIter  *a,
 	   GtkTreeIter  *b,
-	   gpointer      user_data)
+	   G_GNUC_UNUSED gpointer      user_data)
 {
 	gchar *name_a, *name_b;
 	int ret;
@@ -140,7 +140,7 @@ sort_func (GtkTreeModel *model,
 }
 
 static gboolean
-delete_event_cb (GtkWidget *cc, GdkEvent *event, GOImageSelState *state)
+delete_event_cb (G_GNUC_UNUSED GtkWidget *cc, G_GNUC_UNUSED GdkEvent *event, GOImageSelState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	g_free (state->name);
@@ -150,7 +150,7 @@ delete_event_cb (GtkWidget *cc, GdkEvent *event, GOImageSelState *state)
 }
 
 static void
-ok_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
+ok_button_clicked_cb (G_GNUC_UNUSED GtkWidget *cc, GOImageSelState *state)
 {
 	GList *l = gtk_icon_view_get_selected_items (state->icon_view);
 	if (*(state->result))
@@ -177,7 +177,7 @@ ok_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
 }
 
 static void
-cancel_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
+cancel_button_clicked_cb (G_GNUC_UNUSED GtkWidget *cc, GOImageSelState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	g_free (state->name);
@@ -186,7 +186,7 @@ cancel_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
 }
 
 static void
-add_image_cb (char const *key, GOImage *image, GOImageSelState *state)
+add_image_cb (G_GNUC_UNUSED char const *key, GOImage *image, GOImageSelState *state)
 {
 	GtkTreeIter iter;
 	GtkTreePath *path;

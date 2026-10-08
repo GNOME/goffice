@@ -457,7 +457,7 @@ series_lines_post_add (GogObject *parent, GogObject *child)
 }
 
 static void
-series_lines_pre_remove (GogObject *parent, GogObject *child)
+series_lines_pre_remove (GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
 	series->has_series_lines = FALSE;
@@ -482,7 +482,7 @@ drop_lines_post_add (GogObject *parent, GogObject *child)
 }
 
 static void
-drop_lines_pre_remove (GogObject *parent, GogObject *child)
+drop_lines_pre_remove (GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
 	series->has_drop_lines = FALSE;
@@ -509,7 +509,7 @@ lines_post_add (GogObject *parent, GogObject *child)
 }
 
 static void
-lines_pre_remove (GogObject *parent, GogObject *child)
+lines_pre_remove (GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
 	series->has_lines = FALSE;
@@ -569,7 +569,7 @@ gog_series1_5d_update (GogObject *obj)
 
 static void
 gog_series1_5d_set_property (GObject *obj, guint param_id,
-				GValue const *value, GParamSpec *pspec)
+				GValue const *value, G_GNUC_UNUSED GParamSpec *pspec)
 {
 	GogSeries1_5d *series=  GOG_SERIES1_5D (obj);
 	GogErrorBar* bar;
@@ -598,7 +598,7 @@ gog_series1_5d_set_property (GObject *obj, guint param_id,
 
 static void
 gog_series1_5d_get_property (GObject *obj, guint param_id,
-			  GValue *value, GParamSpec *pspec)
+			  GValue *value, G_GNUC_UNUSED GParamSpec *pspec)
 {
 	GogSeries1_5d *series=  GOG_SERIES1_5D (obj);
 
@@ -719,7 +719,7 @@ GSF_DYNAMIC_CLASS (GogSeries1_5d, gog_series1_5d,
 /* Plugin initialization */
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	gog_plot1_5d_register_type (module);
@@ -745,7 +745,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	unregister_embedded_stuff ();
 }

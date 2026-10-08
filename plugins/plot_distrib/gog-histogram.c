@@ -506,7 +506,7 @@ gog_double_histogram_plot_init (GogDoubleHistogramPlot *plot)
 }
 
 static void
-gog_double_histogram_plot_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_double_histogram_plot_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
 	*last = 1;
@@ -522,7 +522,7 @@ gog_double_histogram_plot_dataset_get_elem (GogDataset const *set, int dim_i)
 }
 
 static void
-gog_double_histogram_plot_dataset_dim_changed (GogDataset *set, int dim_i)
+gog_double_histogram_plot_dataset_dim_changed (GogDataset *set, G_GNUC_UNUSED int dim_i)
 {
 	gog_object_request_update (GOG_OBJECT (set));
 }
@@ -903,7 +903,7 @@ drop_lines_post_add (GogObject *parent, GogObject *child)
 }
 
 static void
-drop_lines_pre_remove (GogObject *parent, GogObject *child)
+drop_lines_pre_remove (GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 	GogHistogramPlotSeries *series = GOG_HISTOGRAM_PLOT_SERIES (parent);
 	series->droplines = NULL;

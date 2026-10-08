@@ -794,7 +794,7 @@ get_map_color (double z, gboolean hide_outliers)
 }
 
 static void
-gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_rt_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogRTPlot const *model = GOG_RT_PLOT (view->model);
 	GogAxis *r_axis, *c_axis;
@@ -1134,7 +1134,7 @@ radial_drop_lines_post_add (GogObject *parent, GogObject *child)
 }
 
 static void
-radial_drop_lines_pre_remove (GogObject *parent, GogObject *child)
+radial_drop_lines_pre_remove (GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 	GogRTSeries *series = GOG_RT_SERIES (parent);
 	series->radial_drop_lines = NULL;
@@ -1530,7 +1530,7 @@ GSF_DYNAMIC_CLASS (GogColorPolarSeries, gog_color_polar_series,
 	GOG_TYPE_POLAR_SERIES)
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	gog_rt_plot_register_type (module);
@@ -1548,7 +1548,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	unregister_embedded_stuff ();
 }

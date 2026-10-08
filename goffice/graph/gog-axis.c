@@ -416,7 +416,7 @@ map_discrete_to_view (GogAxisMap *map, double value)
 }
 
 static double
-map_discrete_derivative_to_view (GogAxisMap *map, double value)
+map_discrete_derivative_to_view (GogAxisMap *map, G_GNUC_UNUSED double value)
 {
 	/* WARNING: does this make sense? */
 	const MapData *data = map->data;
@@ -436,7 +436,7 @@ map_discrete_from_view (GogAxisMap *map, double value)
 }
 
 static void
-map_discrete_auto_bound (GogAxis *axis,
+map_discrete_auto_bound (G_GNUC_UNUSED GogAxis *axis,
 			 double minimum,
 			 double maximum,
 			 double *bound)
@@ -577,7 +577,7 @@ map_linear_to_view (GogAxisMap *map, double value)
 }
 
 static double
-map_linear_derivative_to_view (GogAxisMap *map, double value)
+map_linear_derivative_to_view (GogAxisMap *map, G_GNUC_UNUSED double value)
 {
 	const MapData *data = map->data;
 
@@ -617,7 +617,7 @@ map_bounds (GogAxisMap *map, double *minimum, double *maximum)
 }
 
 static void
-map_polar_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
+map_polar_auto_bound (GogAxis *axis, G_GNUC_UNUSED double minimum, G_GNUC_UNUSED double maximum, double *bound)
 {
 	bound[GOG_AXIS_ELEM_MIN] = polar_units[axis->polar_unit].auto_minimum;
 	bound[GOG_AXIS_ELEM_MAX] = polar_units[axis->polar_unit].auto_maximum;
@@ -792,7 +792,7 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 }
 
 static void
-map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
+map_linear_auto_bound (G_GNUC_UNUSED GogAxis *axis, double minimum, double maximum, double *bound)
 {
 	double step, range, mant;
 	int expon;
@@ -1232,7 +1232,7 @@ map_date_calc_ticks (GogAxis *axis)
 }
 
 static GOFormat *
-map_time_get_dim_format (GogAxis *axis, unsigned dim)
+map_time_get_dim_format (G_GNUC_UNUSED GogAxis *axis, unsigned dim)
 {
 	switch (dim) {
 	case GOG_AXIS_ELEM_MIN:
@@ -1438,7 +1438,7 @@ map_log_bounds (GogAxisMap *map, double *minimum, double *maximum)
 }
 
 static void
-map_log_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
+map_log_auto_bound (G_GNUC_UNUSED GogAxis *axis, double minimum, double maximum, double *bound)
 {
 	double step;
 
@@ -2190,7 +2190,7 @@ role_axis_line_can_add (GogObject const *parent)
 }
 
 static void
-role_axis_line_post_add (GogObject *parent, GogObject *child)
+role_axis_line_post_add (G_GNUC_UNUSED GogObject *parent, GogObject *child)
 {
 	gog_axis_base_set_position (GOG_AXIS_BASE (child), GOG_AXIS_AUTO);
 }
@@ -2261,13 +2261,13 @@ gog_axis_get_atype (GogAxis const *axis)
 }
 
 static void
-gog_axis_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+gog_axis_prep_sax (G_GNUC_UNUSED GOPersist *gp, G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	/* Nothing to do */
 }
 
 static void
-gog_axis_sax_save (GOPersist const *gp, GsfXMLOut *output)
+gog_axis_sax_save (GOPersist const *gp, G_GNUC_UNUSED GsfXMLOut *output)
 {
 	GogAxis const *axis;
 	GoResourceType type;
@@ -2728,7 +2728,7 @@ cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 }
 
 static void
-cb_update_dim_editor (GogObject *gobj, ElemToggleData *closure)
+cb_update_dim_editor (G_GNUC_UNUSED GogObject *gobj, ElemToggleData *closure)
 {
 	gboolean is_auto;
 
@@ -3538,7 +3538,7 @@ gog_axis_init (GogAxis *axis)
 }
 
 static void
-gog_axis_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_axis_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = GOG_AXIS_ELEM_MIN;
 	*last  = GOG_AXIS_ELEM_CROSS_POINT;
@@ -3557,7 +3557,7 @@ gog_axis_dataset_get_elem (GogDataset const *set, int dim_i)
 }
 
 static void
-gog_axis_dim_changed (GogDataset *set, int dim_i)
+gog_axis_dim_changed (GogDataset *set, G_GNUC_UNUSED int dim_i)
 {
 	gog_axis_update (GOG_OBJECT (set));
 	gog_object_emit_changed (GOG_OBJECT (set), TRUE);
@@ -3834,7 +3834,7 @@ gog_axis_contributors (GogAxis *axis)
  * @contrib: #GogObject
 **/
 void
-gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
+gog_axis_bound_changed (GogAxis *axis, G_GNUC_UNUSED GogObject *contrib)
 {
 	g_return_if_fail (GOG_IS_AXIS (axis));
 

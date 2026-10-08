@@ -445,20 +445,20 @@ gog_label_init (GogLabel *label)
 }
 
 static void
-gog_label_dims (GogDataset const *set, int *first, int *last)
+gog_label_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = *last = 0;
 }
 
 static GogDatasetElement *
-gog_label_get_elem (GogDataset const *set, int dim_i)
+gog_label_get_elem (GogDataset const *set, G_GNUC_UNUSED int dim_i)
 {
 	GogLabel *label = GOG_LABEL (set);
 	return &label->text;
 }
 
 static void
-gog_label_dim_changed (GogDataset *set, int dim_i)
+gog_label_dim_changed (GogDataset *set, G_GNUC_UNUSED int dim_i)
 {
 	gog_object_emit_changed (GOG_OBJECT (set), TRUE);
 }
@@ -583,7 +583,7 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 #endif
 
 static char const *
-gog_reg_eqn_type_name (GogObject const *gobj)
+gog_reg_eqn_type_name (G_GNUC_UNUSED GogObject const *gobj)
 {
 	return N_("Regression Equation");
 }
@@ -740,7 +740,7 @@ gog_text_view_size_request (GogView *v,
 }
 
 static void
-gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_text_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogText *text = GOG_TEXT (view->model);
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (text);

@@ -517,7 +517,7 @@ set_menu_to_default (GOLocaleSel *ls, gint item)
 }
 
 static gboolean
-ls_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
+ls_mnemonic_activate (GtkWidget *w, G_GNUC_UNUSED gboolean group_cycling)
 {
 	GOLocaleSel *ls = GO_LOCALE_SEL (w);
 	gtk_widget_grab_focus (GTK_WIDGET (ls->locales));
@@ -785,7 +785,7 @@ go_locale_sel_set_sensitive (GOLocaleSel *ls, gboolean sensitive)
 static void
 ls_set_property (GObject      *object,
 		 guint         prop_id,
-		 const GValue *value,
+		 G_GNUC_UNUSED const GValue *value,
 		 GParamSpec   *pspec)
 {
 #if 0
@@ -804,7 +804,7 @@ ls_set_property (GObject      *object,
 static void
 ls_get_property (GObject     *object,
 		 guint        prop_id,
-		 GValue      *value,
+		 G_GNUC_UNUSED GValue      *value,
 		 GParamSpec  *pspec)
 {
 #if 0

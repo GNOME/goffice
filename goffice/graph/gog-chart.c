@@ -521,11 +521,11 @@ grid_3d_post_add (GogObject *child, GogGridType t)
 	g_object_set (G_OBJECT (child), "type", (int)t, NULL);
 }
 
-static void xy_grid_3d_post_add    (GogObject *parent, GogObject *child)
+static void xy_grid_3d_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)
 { grid_3d_post_add (child, GOG_GRID_XY); }
-static void yz_grid_3d_post_add    (GogObject *parent, GogObject *child)
+static void yz_grid_3d_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)
 { grid_3d_post_add (child, GOG_GRID_YZ); }
-static void zx_grid_3d_post_add    (GogObject *parent, GogObject *child)
+static void zx_grid_3d_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)
 { grid_3d_post_add (child, GOG_GRID_ZX); }
 
 static gboolean
@@ -625,23 +625,23 @@ color_scale_pre_remove (GogObject *parent, GogObject *scale)
 
 
 static gboolean x_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_X); }
-static void x_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_X); }
+static void x_axis_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_X); }
 static gboolean y_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Y); }
-static void y_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Y); }
+static void y_axis_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Y); }
 static gboolean z_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Z); }
-static void z_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Z); }
+static void z_axis_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Z); }
 static gboolean circular_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_CIRCULAR); }
-static void circular_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_CIRCULAR); }
+static void circular_axis_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_CIRCULAR); }
 static gboolean radial_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_RADIAL); }
-static void radial_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_RADIAL); }
+static void radial_axis_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_RADIAL); }
 static gboolean pseudo_3d_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_PSEUDO_3D); }
-static void pseudo_3d_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_PSEUDO_3D); }
+static void pseudo_3d_axis_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_PSEUDO_3D); }
 static gboolean bubble_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_BUBBLE); }
-static void bubble_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_BUBBLE); }
+static void bubble_axis_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_BUBBLE); }
 static gboolean color_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_COLOR); }
-static void color_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_COLOR); }
-static gboolean role_3d_box_can_add	(GogObject const *parent) {return FALSE;}
-static gboolean role_3d_box_can_remove	(GogObject const *parent) {return FALSE;}
+static void color_axis_post_add    (G_GNUC_UNUSED GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_COLOR); }
+static gboolean role_3d_box_can_add	(G_GNUC_UNUSED GogObject const *parent) {return FALSE;}
+static gboolean role_3d_box_can_remove	(G_GNUC_UNUSED GogObject const *parent) {return FALSE;}
 
 static GogObjectRole const roles[] = {
 	{ N_("Backplane"), "GogGrid",	1,
@@ -723,7 +723,7 @@ static GogObjectRole const roles[] = {
 };
 
 static GogManualSizeMode
-gog_chart_get_manual_size_mode (GogObject *gobj)
+gog_chart_get_manual_size_mode (G_GNUC_UNUSED GogObject *gobj)
 {
 	return GOG_MANUAL_SIZE_FULL;
 }
@@ -1458,12 +1458,12 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 }
 
 static void
-gog_chart_view_init (GogChartView *cview)
+gog_chart_view_init (G_GNUC_UNUSED GogChartView *cview)
 {
 }
 
 static void
-grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
+grid_line_render (GSList *start_ptr, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GSList *ptr, *child_ptr;
 	GSList *minor_grid_lines = NULL;

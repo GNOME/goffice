@@ -306,13 +306,13 @@ regression_curve_can_add (GogObject const *parent)
 }
 
 static void
-regression_curve_post_add (GogObject *parent, GogObject *child)
+regression_curve_post_add (G_GNUC_UNUSED GogObject *parent, GogObject *child)
 {
 	gog_object_request_update (child);
 }
 
 static void
-regression_curve_pre_remove (GogObject *parent, GogObject *child)
+regression_curve_pre_remove (G_GNUC_UNUSED GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 }
 
@@ -493,7 +493,7 @@ gog_series_get_property (GObject *obj, guint param_id,
 #ifdef GOFFICE_WITH_GTK
 static unsigned
 make_dim_editor (GtkGrid *grid, unsigned row, GogDataEditor *deditor,
-		 char const *name, GogSeriesPriority priority, gboolean is_shared)
+		 char const *name, GogSeriesPriority priority, G_GNUC_UNUSED gboolean is_shared)
 {
 	GtkWidget *editor = GTK_WIDGET (deditor);
 	char *txt = g_strdup_printf (

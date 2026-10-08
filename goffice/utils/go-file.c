@@ -1314,7 +1314,7 @@ static gchar **saved_args;
  * Returns: (transfer none): the arguments in UTF-8 locale.
  **/
 gchar const **
-go_shell_argv_to_glib_encoding (gint argc, gchar const **argv)
+go_shell_argv_to_glib_encoding (G_GNUC_UNUSED gint argc, gchar const **argv)
 {
 #ifdef G_OS_WIN32
 	gchar **args;

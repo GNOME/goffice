@@ -60,7 +60,7 @@ go_pattern_palette_render_func (cairo_t *cr,
 }
 
 static const char *
-go_pattern_tooltip_func (int index, gpointer data)
+go_pattern_tooltip_func (int index, G_GNUC_UNUSED gpointer data)
 {
 	switch ((GOPatternType)index) {
 	case GO_PATTERN_SOLID: return _("Solid background");

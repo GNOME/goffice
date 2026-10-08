@@ -343,7 +343,7 @@ fill_path_curve_to (void *closure,
 }
 
 static void
-fill_path_close_path (void *closure)
+fill_path_close_path (G_GNUC_UNUSED void *closure)
 {
 }
 

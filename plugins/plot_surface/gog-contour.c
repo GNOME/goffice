@@ -137,7 +137,7 @@ gog_contour_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 static void
-gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
+gog_contour_plot_foreach_elem  (GogPlot *plot, G_GNUC_UNUSED gboolean only_visible,
 				    GogEnumFunc func, gpointer data)
 {
 	unsigned i, j, nticks;
@@ -265,7 +265,7 @@ typedef GogPlotViewClass	GogContourViewClass;
 #define CONTOUR_EPSILON 1e-10
 
 static void
-gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_contour_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogXYZPlot const *plot = GOG_XYZ_PLOT (view->model);
 	GogSeries const *series;

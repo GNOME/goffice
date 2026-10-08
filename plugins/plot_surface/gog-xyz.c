@@ -517,7 +517,7 @@ GSF_DYNAMIC_CLASS (GogXYZSeries, gog_xyz_series,
 /*****************************************************************************/
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	gog_xyz_plot_register_type (module);
@@ -542,7 +542,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	unregister_embedded_stuff ();
 }

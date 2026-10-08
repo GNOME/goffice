@@ -935,7 +935,7 @@ gog_data_label_init (GogDataLabel *lbl)
 }
 
 static void
-gog_data_label_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_data_label_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
 	*last = 1;
@@ -1461,7 +1461,7 @@ gog_series_labels_init (GogSeriesLabels *lbls)
 }
 
 static void
-gog_series_labels_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_series_labels_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
 	*last = 1;

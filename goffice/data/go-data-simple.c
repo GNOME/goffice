@@ -85,7 +85,7 @@ go_data_scalar_val_eq (GOData const *a, GOData const *b)
 }
 
 static char *
-go_data_scalar_val_serialize (GOData const *dat, gpointer user)
+go_data_scalar_val_serialize (GOData const *dat, G_GNUC_UNUSED gpointer user)
 {
 	GODataScalarVal *sval = (GODataScalarVal *)dat;
 	GOFormat const *fmt = NULL;
@@ -93,7 +93,7 @@ go_data_scalar_val_serialize (GOData const *dat, gpointer user)
 }
 
 static gboolean
-go_data_scalar_val_unserialize (GOData *dat, char const *str, gpointer user)
+go_data_scalar_val_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpointer user)
 {
 	GODataScalarVal *sval = (GODataScalarVal *)dat;
 	double tmp;
@@ -201,14 +201,14 @@ go_data_scalar_str_eq (GOData const *a, GOData const *b)
 }
 
 static char *
-go_data_scalar_str_serialize (GOData const *dat, gpointer user)
+go_data_scalar_str_serialize (GOData const *dat, G_GNUC_UNUSED gpointer user)
 {
 	GODataScalarStr const *str = (GODataScalarStr const *)dat;
 	return g_strdup (str->str);
 }
 
 static gboolean
-go_data_scalar_str_unserialize (GOData *dat, char const *string, gpointer user)
+go_data_scalar_str_unserialize (GOData *dat, char const *string, G_GNUC_UNUSED gpointer user)
 {
 	GODataScalarStr *str = (GODataScalarStr *)dat;
 
@@ -222,7 +222,7 @@ go_data_scalar_str_unserialize (GOData *dat, char const *string, gpointer user)
 }
 
 static double
-go_data_scalar_str_get_value (GODataScalar *dat)
+go_data_scalar_str_get_value (G_GNUC_UNUSED GODataScalar *dat)
 {
 	return go_nan;
 }
@@ -403,7 +403,7 @@ go_data_vector_val_get_str (GODataVector *vec, unsigned i)
 }
 
 static char *
-go_data_vector_val_serialize (GOData const *dat, gpointer user)
+go_data_vector_val_serialize (GOData const *dat, G_GNUC_UNUSED gpointer user)
 {
 	GODataVectorVal *vec = GO_DATA_VECTOR_VAL (dat);
 	GOFormat const *fmt = NULL;
@@ -424,7 +424,7 @@ go_data_vector_val_serialize (GOData const *dat, gpointer user)
 }
 
 static gboolean
-go_data_vector_val_unserialize (GOData *dat, char const *str, gpointer user)
+go_data_vector_val_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpointer user)
 {
 	GODataVectorVal *vec = GO_DATA_VECTOR_VAL (dat);
 	char sep, *end = (char*) str;
@@ -597,7 +597,7 @@ go_data_vector_str_eq (GOData const *a, GOData const *b)
 }
 
 static char *
-go_data_vector_str_serialize (GOData const *dat, gpointer user)
+go_data_vector_str_serialize (GOData const *dat, G_GNUC_UNUSED gpointer user)
 {
 	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
 	GString *str= g_string_new (NULL);
@@ -613,7 +613,7 @@ go_data_vector_str_serialize (GOData const *dat, gpointer user)
 }
 
 static gboolean
-go_data_vector_str_unserialize (GOData *dat, char const *str, gpointer user)
+go_data_vector_str_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpointer user)
 {
 	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
 	char sep, *cur = (char*) str, *end, *val;
@@ -989,7 +989,7 @@ go_data_matrix_val_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 }
 
 static char *
-go_data_matrix_val_serialize (GOData const *dat, gpointer user)
+go_data_matrix_val_serialize (GOData const *dat, G_GNUC_UNUSED gpointer user)
 {
 	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
 	GOFormat const *fmt = NULL;
@@ -1014,7 +1014,7 @@ go_data_matrix_val_serialize (GOData const *dat, gpointer user)
 }
 
 static gboolean
-go_data_matrix_val_unserialize (GOData *dat, char const *str, gpointer user)
+go_data_matrix_val_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpointer user)
 {
 	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
 	char row_sep, col_sep, *end = (char*) str;

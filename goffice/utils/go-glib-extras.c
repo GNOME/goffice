@@ -1333,7 +1333,7 @@ go_debug_flag (const char *flag)
 static GHashTable *finalize_hash;
 
 static void
-cb_finalized (gpointer data, GObject *victim)
+cb_finalized (G_GNUC_UNUSED gpointer data, GObject *victim)
 {
 	g_hash_table_remove (finalize_hash, victim);
 }

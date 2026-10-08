@@ -162,7 +162,7 @@ calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *dat
 }
 
 static void
-null_map_2D (GogChartMap *map, double x, double y, double *u, double *v)
+null_map_2D (G_GNUC_UNUSED GogChartMap *map, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, double *u, double *v)
 {
 	g_warning ("[GogChartMap::map_2D] not implemented");
 	*u = *v = 0;
@@ -356,7 +356,7 @@ make_path_spline (GogChartMap *map,
 static GOPath *
 make_path_cspline (GogChartMap *map,
 		  double const *x, double const *y, int n_points,
-		  gboolean is_polar, GOCSplineType type, gboolean skip_invalid,
+		  G_GNUC_UNUSED gboolean is_polar, GOCSplineType type, gboolean skip_invalid,
 		  gpointer data)
 {
 	GOPath *path;
@@ -775,7 +775,7 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 
 static GOPath *
 polar_make_path (GogChartMap *map, double const *x, double const *y,
-		 int n_points, GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data)
+		 int n_points, GOLineInterpolation interpolation, gboolean skip_invalid, G_GNUC_UNUSED gpointer data)
 {
 	GOPath *path = NULL;
 
@@ -884,7 +884,7 @@ gog_chart_map_get_polar_parms (GogChartMap *map)
 
 GogChartMap *
 gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
-		   GogAxis *axis0, GogAxis *axis1, GogAxis *axis2,
+		   GogAxis *axis0, GogAxis *axis1, G_GNUC_UNUSED GogAxis *axis2,
 		   gboolean fill_area)
 {
 	GogChartMap *map;

@@ -315,7 +315,7 @@ cb_history_changed (GOColorPalette *pal)
 }
 
 static gboolean
-cb_default_release_event (GtkWidget *button, GdkEventButton *event, GOColorPalette *pal)
+cb_default_release_event (G_GNUC_UNUSED GtkWidget *button, G_GNUC_UNUSED GdkEventButton *event, GOColorPalette *pal)
 {
 	set_color (pal, pal->default_color, FALSE, TRUE, TRUE);
 	return TRUE;
@@ -338,7 +338,7 @@ swatch_activated (GOColorPalette *pal, GtkBin *button)
 }
 
 static gboolean
-cb_swatch_release_event (GtkBin *button, GdkEventButton *event, GOColorPalette *pal)
+cb_swatch_release_event (GtkBin *button, G_GNUC_UNUSED GdkEventButton *event, GOColorPalette *pal)
 {
 /* FIXME FIXME FIXME TODO do I want to check for which button ? */
 	swatch_activated (pal, button);
@@ -358,7 +358,7 @@ cb_swatch_key_press (GtkBin *button, GdkEventKey *event, GOColorPalette *pal)
 }
 
 static gboolean
-draw_color_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
+draw_color_cb (GtkWidget *widget, cairo_t *cr, G_GNUC_UNUSED gpointer data)
 {
 	GtkAllocation allocation;
 	GOColor color = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (widget),
@@ -652,7 +652,7 @@ make_colored_menu_item (char const *label, GOColor c)
 }
 
 static void
-cb_menu_default_activate (GtkWidget *button, GOMenuColor *menu)
+cb_menu_default_activate (G_GNUC_UNUSED GtkWidget *button, GOMenuColor *menu)
 {
 	menu->selection = menu->default_color;
 	g_signal_emit (menu, go_menu_color_signals [COLOR_CHANGED], 0,

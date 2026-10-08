@@ -210,7 +210,7 @@ go_string_new_nocopy (char *str)
 static GOString *
 do_rich_setup (GOString *gstr,
 	       PangoAttrList *markup,
-	       GOStringPhonetic *phonetic)
+	       G_GNUC_UNUSED GOStringPhonetic *phonetic)
 {
 	if (!gstr) {
 		if (NULL != markup) pango_attr_list_unref (markup);
@@ -598,7 +598,7 @@ go_string_get_markup (GOString const *gstr)
  * Returns: (transfer none) (nullable): the phonetic data.
  **/
 GOStringPhonetic *
-go_string_get_phonetic (GOString const *gstr)
+go_string_get_phonetic (G_GNUC_UNUSED GOString const *gstr)
 {
 	return NULL;
 }

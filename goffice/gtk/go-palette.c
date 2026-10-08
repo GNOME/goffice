@@ -256,14 +256,14 @@ go_palette_menu_item_new (GOPalette *palette, int index)
 }
 
 static void
-cb_automatic_activate (GtkWidget *item, GOPalette *palette)
+cb_automatic_activate (G_GNUC_UNUSED GtkWidget *item, GOPalette *palette)
 {
 	g_signal_emit (palette, go_palette_signals[GO_PALETTE_AUTOMATIC_ACTIVATE], 0,
 		       palette->priv->automatic_index);
 }
 
 static void
-cb_custom_activate (GtkWidget *item, GOPalette *palette)
+cb_custom_activate (G_GNUC_UNUSED GtkWidget *item, GOPalette *palette)
 {
 	g_signal_emit (palette, go_palette_signals[GO_PALETTE_CUSTOM_ACTIVATE], 0);
 }

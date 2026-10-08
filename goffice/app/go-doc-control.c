@@ -39,12 +39,12 @@
  **/
 
 static void
-go_doc_control_class_init (GObjectClass *klass)
+go_doc_control_class_init (G_GNUC_UNUSED GObjectClass *klass)
 {
 }
 
 static void
-go_doc_control_init (GODocControl *obj)
+go_doc_control_init (G_GNUC_UNUSED GODocControl *obj)
 {
 }
 

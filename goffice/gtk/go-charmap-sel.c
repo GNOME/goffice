@@ -337,7 +337,7 @@ set_menu_to_default (GOCharmapSel *cs, gint item)
 }
 
 static gboolean
-cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
+cs_mnemonic_activate (GtkWidget *w, G_GNUC_UNUSED gboolean group_cycling)
 {
 	GOCharmapSel *cs = GO_CHARMAP_SEL (w);
 	gtk_widget_grab_focus (GTK_WIDGET (cs->encodings));

@@ -735,7 +735,7 @@ clamp_and_round_size (double size)
 }
 
 static void
-cb_size_picker_changed (GtkButton *button, GOFontSel *gfs)
+cb_size_picker_changed (G_GNUC_UNUSED GtkButton *button, GOFontSel *gfs)
 {
 	GtkEntry *entry = GTK_ENTRY (gfs->size_entry);
 	const char *text = gtk_entry_get_text (entry);
@@ -763,8 +763,8 @@ cb_strikethrough_changed (GtkToggleButton *but, GOFontSel *gfs)
 }
 
 static void
-cb_color_changed (GOComboColor *color_picker, GOColor color,
-		  gboolean is_custom, gboolean by_user, gboolean is_default,
+cb_color_changed (G_GNUC_UNUSED GOComboColor *color_picker, GOColor color,
+		  G_GNUC_UNUSED gboolean is_custom, G_GNUC_UNUSED gboolean by_user, gboolean is_default,
 		  GOFontSel *gfs)
 {
 	if (is_default)
@@ -1607,7 +1607,7 @@ go_font_sel_set_script (GOFontSel *fs, GOFontScript script)
 }
 
 static void
-go_font_sel_set_uline (GOFontSel *gfs, int uline)
+go_font_sel_set_uline (G_GNUC_UNUSED GOFontSel *gfs, G_GNUC_UNUSED int uline)
 {
 }
 

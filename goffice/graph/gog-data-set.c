@@ -160,7 +160,7 @@ gog_dataset_get_elem (GogDataset const *set, int dim_i)
 }
 
 static void
-cb_dataset_dim_changed (GOData *data, GogDatasetElement *elem)
+cb_dataset_dim_changed (G_GNUC_UNUSED GOData *data, GogDatasetElement *elem)
 {
 	GogDatasetClass *klass = GOG_DATASET_GET_CLASS (elem->set);
 

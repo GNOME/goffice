@@ -122,7 +122,7 @@ gog_child_button_new (void)
 }
 
 static void
-gog_child_button_weak_notify (GogChildButton *child_button, GogObject *object)
+gog_child_button_weak_notify (GogChildButton *child_button, G_GNUC_UNUSED GogObject *object)
 {
 	gtk_widget_set_sensitive (GTK_WIDGET (child_button), FALSE);
 
@@ -182,7 +182,7 @@ build_addition_process_children (GogObject *object, BuildAdditionData *closure)
 }
 
 static void
-build_addition_foreach (char *key, Addition *addition, GSList **additions)
+build_addition_foreach (G_GNUC_UNUSED char *key, Addition *addition, GSList **additions)
 {
 	if (addition->parent != NULL)
 		*additions = g_slist_append (*additions, addition);
@@ -272,7 +272,7 @@ gog_child_button_set_object (GogChildButton *child_button, GogObject *gog_object
 }
 
 static void
-gog_child_button_popup (GogChildButton *child_button, guint button, guint32 event_time)
+gog_child_button_popup (GogChildButton *child_button, G_GNUC_UNUSED guint button, G_GNUC_UNUSED guint32 event_time)
 {
 	if (!gtk_widget_get_realized (GTK_WIDGET (child_button)))
 		return;
@@ -320,7 +320,7 @@ cb_cmp_plot_type (GogPlotType const *a, GogPlotType const *b)
 }
 
 static void
-cb_plot_type_list (char const *id, GogPlotType *type, GSList **list)
+cb_plot_type_list (G_GNUC_UNUSED char const *id, GogPlotType *type, GSList **list)
 {
 	*list = g_slist_insert_sorted (*list, type,
 		(GCompareFunc) cb_cmp_plot_type);
@@ -343,7 +343,7 @@ cb_graph_guru_add_plot (GtkWidget *widget, GogChildButton *child_button)
 }
 
 static void
-cb_plot_family_menu_create (char const *id,
+cb_plot_family_menu_create (G_GNUC_UNUSED char const *id,
 			    GogPlotFamily *family,
 			    TypeMenuCreateData *closure)
 {
@@ -423,7 +423,7 @@ cb_graph_guru_add_trend_line (GtkWidget *widget, GogChildButton *child_button)
 }
 
 static void
-cb_trend_line_type_menu_create (char const *id,
+cb_trend_line_type_menu_create (G_GNUC_UNUSED char const *id,
 				GogTrendLineType *type,
 				TypeMenuCreateData *closure)
 {
@@ -468,7 +468,7 @@ cb_graph_guru_add_item (GtkWidget *widget, GogChildButton *child_button)
 }
 
 static void
-cb_menu_deactivate (GtkMenu *menu, GogChildButton *child_button)
+cb_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu, GogChildButton *child_button)
 {
 	gog_child_button_popdown (child_button);
 }
@@ -540,7 +540,7 @@ gog_child_button_toggled_cb (GtkToggleButton *toggle_button,
 }
 
 static gboolean
-gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
+gog_child_button_press_event_cb (G_GNUC_UNUSED GtkToggleButton *toggle_button,
 				 GdkEventButton *event,
 				 GogChildButton *child_button)
 {

@@ -339,7 +339,7 @@ gog_probability_plot_init (GogProbabilityPlot *plot)
 };
 
 static void
-gog_probability_plot_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_probability_plot_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
 	*last = 1;
@@ -497,13 +497,13 @@ regression_curve_can_add (GogObject const *parent)
 }
 
 static void
-regression_curve_post_add (GogObject *parent, GogObject *child)
+regression_curve_post_add (G_GNUC_UNUSED GogObject *parent, GogObject *child)
 {
 	gog_object_request_update (child);
 }
 
 static void
-regression_curve_pre_remove (GogObject *parent, GogObject *child)
+regression_curve_pre_remove (G_GNUC_UNUSED GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 }
 

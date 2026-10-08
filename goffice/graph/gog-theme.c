@@ -774,7 +774,7 @@ theme_loaded (struct theme_load_state *state)
 }
 
 static void
-parse_done_cb (GsfXMLIn *xin, struct theme_load_state *state)
+parse_done_cb (G_GNUC_UNUSED GsfXMLIn *xin, struct theme_load_state *state)
 {
 	if (state->theme->name == NULL)
 		theme_loaded (state);

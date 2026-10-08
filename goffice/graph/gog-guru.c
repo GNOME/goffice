@@ -138,7 +138,7 @@ get_pos (int col, int row, double *x, double *y)
 }
 
 static void
-cb_typesel_sample_plot_resize (GocCanvas *canvas,
+cb_typesel_sample_plot_resize (G_GNUC_UNUSED GocCanvas *canvas,
 			       GtkAllocation *alloc, GraphGuruTypeSelector *typesel)
 {
 	if (typesel->sample_graph_item != NULL)
@@ -314,7 +314,7 @@ cb_key_press_event (G_GNUC_UNUSED GtkWidget *wrapper,
 }
 
 static gint
-cb_button_press_event (GtkWidget *widget, GdkEventButton *event,
+cb_button_press_event (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event,
 		       GraphGuruTypeSelector *typesel)
 {
 	if (event->button == 1)
@@ -369,7 +369,7 @@ typedef GocPixbufClass GogGuruPixbufClass;
 static GType gog_guru_pixbuf_get_type (void);
 
 static gboolean
-gog_guru_item_enter_notify (GocItem *item, double x, double y)
+gog_guru_item_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	GogPlotType *type = (GogPlotType *) g_object_get_data (G_OBJECT (item), PLOT_TYPE_KEY);
 	if (type && type->description)
@@ -378,7 +378,7 @@ gog_guru_item_enter_notify (GocItem *item, double x, double y)
 }
 
 static gboolean
-gog_guru_item_leave_notify (GocItem *item, double x, double y)
+gog_guru_item_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), NULL);
 	return TRUE;
@@ -405,7 +405,7 @@ GSF_CLASS (GogGuruSelector, gog_guru_selector,
 		  GOC_TYPE_RECTANGLE)
 
 static void
-cb_plot_types_init (char const *id, GogPlotType *type,
+cb_plot_types_init (G_GNUC_UNUSED char const *id, GogPlotType *type,
 		    type_list_closure *closure)
 {
 	double x1, y1;
@@ -439,7 +439,7 @@ cb_plot_types_init (char const *id, GogPlotType *type,
 }
 
 static void
-cb_plot_families_init (char const *id, GogPlotFamily *family,
+cb_plot_families_init (G_GNUC_UNUSED char const *id, GogPlotFamily *family,
 		       GraphGuruTypeSelector *typesel)
 {
 	GocGroup		*group;
@@ -565,7 +565,7 @@ update_prec_menu (GraphGuruState *s, gboolean inc_ok, gboolean dec_ok)
 }
 
 static gboolean
-cb_reordered_find (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+cb_reordered_find (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, GtkTreeIter *iter,
 		   GraphGuruState *s)
 {
 	GogObject *obj;
@@ -678,7 +678,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 }
 
 static gboolean
-cb_find_renamed_item (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+cb_find_renamed_item (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, GtkTreeIter *iter,
 		      GraphGuruState *s)
 {
 	GogObject *obj;
@@ -704,7 +704,7 @@ cb_obj_name_changed (GogObject *obj, GraphGuruState *s)
 }
 
 static gboolean
-cb_find_child_added (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+cb_find_child_added (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, GtkTreeIter *iter,
 		     GraphGuruState *s)
 {
 	GogObject *obj;
@@ -730,7 +730,7 @@ cb_obj_child_added (GogObject *parent, GogObject *child, GraphGuruState *s)
 }
 
 static gboolean
-cb_find_child_removed (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+cb_find_child_removed (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, GtkTreeIter *iter,
 		       GraphGuruState *s)
 {
 	GogObject *obj;
@@ -750,7 +750,7 @@ cb_find_child_removed (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter
 	return FALSE;
 }
 static void
-cb_obj_child_removed (GogObject *parent, GogObject *child, GraphGuruState *s)
+cb_obj_child_removed (G_GNUC_UNUSED GogObject *parent, GogObject *child, GraphGuruState *s)
 {
 	s->search_target = child;
 	gtk_tree_model_foreach (GTK_TREE_MODEL (s->prop_model),
@@ -850,7 +850,7 @@ cb_canvas_select_item (GocCanvas *canvas, GdkEvent *event,
 }
 
 static void
-cb_sample_plot_resize (GocCanvas *canvas,
+cb_sample_plot_resize (G_GNUC_UNUSED GocCanvas *canvas,
 		       GtkAllocation *alloc, GraphGuruState *state)
 {
 	double aspect_ratio;
@@ -908,7 +908,7 @@ cb_sample_plot_resize (GocCanvas *canvas,
 }
 
 static gboolean
-cb_find_item (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+cb_find_item (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, GtkTreeIter *iter,
 	      GraphGuruState *s)
 {
 	GogObject *obj;
@@ -924,7 +924,7 @@ cb_find_item (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 }
 
 static void
-cb_graph_selection_changed (GogGraphView *view, GogObject *gobj,
+cb_graph_selection_changed (G_GNUC_UNUSED GogGraphView *view, GogObject *gobj,
 			    GraphGuruState *state)
 {
 	state->search_target = gobj;

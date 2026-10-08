@@ -88,7 +88,7 @@ cb_combo_changed (GtkComboBoxText *combo, GOActionComboStack *action)
 }
 
 static void
-cb_button_clicked (GtkButton *button, GOActionComboStack *action)
+cb_button_clicked (G_GNUC_UNUSED GtkButton *button, GOActionComboStack *action)
 {
 	int n = goacs_count (action);
 	if (n > 0) {

@@ -85,7 +85,7 @@ delegate_notify (GObject *gfs, GParamSpec *pspec, gpointer gfsd)
 }
 
 static void
-delegate_font_activated (GtkFontChooser *gfs,
+delegate_font_activated (G_GNUC_UNUSED GtkFontChooser *gfs,
                          const gchar    *fontname,
                          GtkFontChooser *gfsd)
 {

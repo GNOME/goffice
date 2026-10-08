@@ -86,7 +86,7 @@ go_gradient_swatch_render_func (cairo_t *cr,
 }
 
 static const char *
-go_gradient_tooltip_func (int index, gpointer data)
+go_gradient_tooltip_func (int index, G_GNUC_UNUSED gpointer data)
 {
 	switch ((GOGradientDirection)index) {
 	case GO_GRADIENT_N_TO_S:

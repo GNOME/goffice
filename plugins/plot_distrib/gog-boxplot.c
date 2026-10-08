@@ -108,7 +108,7 @@ display_before_grid_cb (GtkToggleButton *btn, GObject *obj)
 
 static gpointer
 gog_box_plot_pref (GogObject *obj,
-		   GogDataAllocator *dalloc, GOCmdContext *cc)
+		   G_GNUC_UNUSED GogDataAllocator *dalloc, GOCmdContext *cc)
 {
 	GogBoxPlot *boxplot = GOG_BOX_PLOT (obj);
 	GtkBuilder *gui =
@@ -454,7 +454,7 @@ typedef GogPlotView		GogBoxPlotView;
 typedef GogPlotViewClass	GogBoxPlotViewClass;
 
 static void
-gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_box_plot_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogBoxPlot const *model = GOG_BOX_PLOT (view->model);
 	GogChart *chart = GOG_CHART (view->model->parent);

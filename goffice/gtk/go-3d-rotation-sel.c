@@ -177,7 +177,7 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 }
 
 static gboolean
-cb_fov_changed (GtkRange *range, GdkEventButton *event, GO3DRotationSel *g3d)
+cb_fov_changed (GtkRange *range, G_GNUC_UNUSED GdkEventButton *event, GO3DRotationSel *g3d)
 {
 	int angle = gtk_range_get_value (GTK_RANGE (range));
 	g3d->fov = angle * M_PI / 180;
@@ -227,7 +227,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 
 
 static gboolean
-cb_bank_dial_motion_notify_event (GocCanvas *canvas, GdkEventMotion *event,
+cb_bank_dial_motion_notify_event (G_GNUC_UNUSED GocCanvas *canvas, GdkEventMotion *event,
 			          GO3DRotationSel *g3d)
 {
 	GOMatrix3x3 m1, m2;
@@ -252,7 +252,7 @@ cb_bank_dial_motion_notify_event (GocCanvas *canvas, GdkEventMotion *event,
 }
 
 static gboolean
-cb_rotate_motion_notify_event (GocCanvas *canvas, GdkEventMotion *event,
+cb_rotate_motion_notify_event (G_GNUC_UNUSED GocCanvas *canvas, GdkEventMotion *event,
 			       GO3DRotationSel *g3d)
 {
 	GOMatrix3x3 m1, m2, m3;

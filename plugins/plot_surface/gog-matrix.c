@@ -111,7 +111,7 @@ typedef GogPlotView		GogMatrixView;
 typedef GogPlotViewClass	GogMatrixViewClass;
 
 static void
-gog_matrix_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_matrix_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogXYZPlot const *plot = GOG_XYZ_PLOT (view->model);
 	GogSeries const *series;

@@ -73,7 +73,7 @@ enum {
 static guint go_action_combo_pixmaps_signals [LAST_SIGNAL] = { 0, };
 
 static GdkPixbuf *
-make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
+make_icon (G_GNUC_UNUSED GtkAction *a, const char *stock_id, GtkWidget *tool)
 {
 	GtkIconSize size;
 	GdkPixbuf *res;
@@ -115,7 +115,7 @@ go_action_combo_pixmaps_connect_proxy (GtkAction *a, GtkWidget *proxy)
 }
 
 static void
-cb_selection_changed (GOComboPixmaps *combo, int id, GOActionComboPixmaps *paction)
+cb_selection_changed (G_GNUC_UNUSED GOComboPixmaps *combo, int id, GOActionComboPixmaps *paction)
 {
 	GSList *ptr;
 	if (paction->updating_proxies)
@@ -269,7 +269,7 @@ go_action_combo_pixmaps_new (char const *name,
 }
 
 int
-go_action_combo_pixmaps_get_selected (GOActionComboPixmaps *paction, int *indx)
+go_action_combo_pixmaps_get_selected (GOActionComboPixmaps *paction, G_GNUC_UNUSED int *indx)
 {
 	g_return_val_if_fail (GO_IS_ACTION_COMBO_PIXMAPS (paction), 0);
 

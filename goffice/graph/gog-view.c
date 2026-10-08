@@ -98,7 +98,7 @@ gog_view_allocation_get_type (void)
 
 #ifdef GOFFICE_WITH_GTK
 static gboolean
-gog_tool_select_object_point (GogView *view, double x, double y, GogObject **gobj)
+gog_tool_select_object_point (GogView *view, double x, double y, G_GNUC_UNUSED GogObject **gobj)
 {
 	return (x >= view->allocation.x &&
 		x <= (view->allocation.x + view->allocation.w) &&
@@ -138,7 +138,7 @@ typedef struct {
 } MoveObjectData;
 
 static gboolean
-gog_tool_move_object_point (GogView *view, double x, double y, GogObject **gobj)
+gog_tool_move_object_point (GogView *view, double x, double y, G_GNUC_UNUSED GogObject **gobj)
 {
 	if (view->model->role == NULL)
 		return FALSE;
@@ -204,7 +204,7 @@ static GogTool gog_tool_move_object = {
 };
 
 static gboolean
-gog_tool_resize_object_point (GogView *view, double x, double y, GogObject **gobj)
+gog_tool_resize_object_point (GogView *view, double x, double y, G_GNUC_UNUSED GogObject **gobj)
 {
 	if (GOG_MANUAL_SIZE_AUTO == gog_object_get_manual_size_mode (view->model))
 		return FALSE;
@@ -550,8 +550,8 @@ gog_view_padding_request_real (GogView *view, GogViewAllocation const *bbox, Gog
 }
 
 static void
-gog_view_size_request_real (GogView *view,
-			    GogViewRequisition const *available,
+gog_view_size_request_real (G_GNUC_UNUSED GogView *view,
+			    G_GNUC_UNUSED GogViewRequisition const *available,
 			    GogViewRequisition *req)
 {
 	req->w = req->h = 1.;
@@ -1162,7 +1162,7 @@ gog_view_get_tip_at_point (GogView *view, double x, double y)
 }
 
 void
-gog_view_get_natural_size (GogView *view, GogViewRequisition *requisition)
+gog_view_get_natural_size (G_GNUC_UNUSED GogView *view, GogViewRequisition *requisition)
 {
 	requisition->w = requisition->h = 0.; /*FIXME!!!*/
 }

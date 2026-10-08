@@ -749,8 +749,8 @@ fsel_response_cb (GtkFileChooser *dialog, gint response_id, gboolean *result)
 
 static gint
 gu_delete_handler (GtkDialog *dialog,
-		   GdkEventAny *event,
-		   gpointer data)
+		   G_GNUC_UNUSED GdkEventAny *event,
+		   G_GNUC_UNUSED gpointer data)
 {
 	gtk_dialog_response (dialog, GTK_RESPONSE_CANCEL);
 	return TRUE; /* Do not destroy */
@@ -795,7 +795,7 @@ static gboolean have_pixbufexts = FALSE;
 static GSList *pixbufexts = NULL;  /* FIXME: we leak this.  */
 
 static gboolean
-filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
+filter_images (const GtkFileFilterInfo *filter_info, G_GNUC_UNUSED gpointer data)
 {
 	if (filter_info->mime_type)
 		return strncmp (filter_info->mime_type, "image/", 6) == 0;

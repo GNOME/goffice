@@ -271,7 +271,7 @@ typedef GogOutlinedViewClass	GogLegendViewClass;
 static GogViewClass *lview_parent_klass;
 
 static void
-cb_size_elements (unsigned i, GOStyle const *style,
+cb_size_elements (G_GNUC_UNUSED unsigned i, GOStyle const *style,
 		  char const *name, PangoAttrList *l, GogLegendView *glv)
 {
 	GogView *view = GOG_VIEW (glv);
@@ -387,7 +387,7 @@ typedef struct {
 } SwatchScaleClosure;
 
 static void
-cb_swatch_scale (unsigned i, GOStyle const *style, char const *name,
+cb_swatch_scale (G_GNUC_UNUSED unsigned i, GOStyle const *style, G_GNUC_UNUSED char const *name,
 		 PangoAttrList *l, SwatchScaleClosure *data)
 {
 	GOStyleLine const *line = NULL;
@@ -439,7 +439,7 @@ typedef struct {
 } RenderClosure;
 
 static void
-cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
+cb_render_elements (G_GNUC_UNUSED unsigned index, GOStyle const *base_style, char const *name,
 		    PangoAttrList *l, RenderClosure *data)
 {
 	GogView const *view = data->view;

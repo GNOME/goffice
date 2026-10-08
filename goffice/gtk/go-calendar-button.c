@@ -40,7 +40,7 @@ enum {
 static guint go_calendar_button_signals[LAST_SIGNAL] = { 0, };
 
 static void
-cb_calendar_changed (GtkCalendar *cal, GOCalendarButton *calb)
+cb_calendar_changed (G_GNUC_UNUSED GtkCalendar *cal, GOCalendarButton *calb)
 {
 	g_signal_emit (G_OBJECT (calb), go_calendar_button_signals[CHANGED], 0);
 }

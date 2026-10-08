@@ -266,7 +266,7 @@ go_action_combo_text_get_entry (GOActionComboText const *a)
  **/
 void
 go_action_combo_text_set_entry (GOActionComboText *taction, char const *text,
-				GOActionComboTextSearchDir dir)
+				G_GNUC_UNUSED GOActionComboTextSearchDir dir)
 {
 	GSList *ptr = gtk_action_get_proxies (GTK_ACTION (taction));
 

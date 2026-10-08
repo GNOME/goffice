@@ -447,7 +447,7 @@ axis_base_pref_free (AxisBasePrefs *state)
 }
 
 static void
-cb_cross_location_changed (GtkWidget *editor, AxisBasePrefs *state)
+cb_cross_location_changed (G_GNUC_UNUSED GtkWidget *editor, AxisBasePrefs *state)
 {
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (gtk_builder_get_object (state->gui, "axis-cross")),
@@ -734,13 +734,13 @@ role_grid_line_minor_can_add (GogObject const *parent)
 }
 
 static void
-role_grid_line_major_post_add (GogObject *parent, GogObject *child)
+role_grid_line_major_post_add (G_GNUC_UNUSED GogObject *parent, GogObject *child)
 {
 	g_object_set (G_OBJECT (child), "is-minor", (gboolean)FALSE, NULL);
 }
 
 static void
-role_grid_line_minor_post_add (GogObject *parent, GogObject *child)
+role_grid_line_minor_post_add (G_GNUC_UNUSED GogObject *parent, GogObject *child)
 {
 	g_object_set (G_OBJECT (child), "is-minor", (gboolean)TRUE, NULL);
 }
@@ -925,7 +925,7 @@ gog_tool_bound_is_valid_axis (GogView *view)
 }
 
 static gboolean
-gog_tool_select_axis_point (GogView *view, double x, double y, GogObject **gobj)
+gog_tool_select_axis_point (GogView *view, double x, double y, G_GNUC_UNUSED GogObject **gobj)
 {
 	return (gog_tool_bound_is_valid_axis (view) &&
 		gog_axis_base_view_point (view, x, y));
@@ -958,7 +958,7 @@ typedef struct {
 } MoveBoundData;
 
 static gboolean
-gog_tool_move_start_bound_point (GogView *view, double x, double y, GogObject **gobj)
+gog_tool_move_start_bound_point (GogView *view, double x, double y, G_GNUC_UNUSED GogObject **gobj)
 {
 	return gog_tool_bound_is_valid_axis (view) &&
 		gog_renderer_in_grip (x, y,
@@ -976,7 +976,7 @@ gog_tool_move_start_bound_render (GogView *view)
 }
 
 static gboolean
-gog_tool_move_stop_bound_point (GogView *view, double x, double y, GogObject **gobj)
+gog_tool_move_stop_bound_point (GogView *view, double x, double y, G_GNUC_UNUSED GogObject **gobj)
 {
 	return (gog_tool_bound_is_valid_axis (view) &&
 		gog_renderer_in_grip (x, y,
@@ -1107,7 +1107,7 @@ axis_line_point (GogAxisBase *axis_base, GogRenderer *renderer,
 static GogViewAllocation
 axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		    double x, double y, double w, double h,
-		    GOGeometrySide side, double start_at, gboolean draw_labels)
+		    GOGeometrySide side, G_GNUC_UNUSED double start_at, gboolean draw_labels)
 {
 	GogAxisMap *map = NULL;
 	GogAxisTick *ticks;
@@ -1919,7 +1919,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 
 static gboolean
 xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
-	    GogViewAllocation const *plot_area, double x, double y)
+	    GogViewAllocation const *plot_area, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
 	GogAxisBaseView *axis_base_view = GOG_AXIS_BASE_VIEW (view);
@@ -2323,7 +2323,7 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 }
 
 static void
-gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_axis_base_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogAxisSet axis_set;
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
@@ -2719,7 +2719,7 @@ gog_axis_line_class_init (GObjectClass *gobject_klass)
 }
 
 static void
-gog_axis_line_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_axis_line_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = GOG_AXIS_ELEM_CROSS_POINT;
 	*last  = GOG_AXIS_ELEM_CROSS_POINT + 2;

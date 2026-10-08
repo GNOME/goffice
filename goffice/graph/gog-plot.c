@@ -1110,7 +1110,7 @@ typedef struct {
 } MovePlotAreaData;
 
 static gboolean
-gog_tool_move_plot_area_point (GogView *view, double x, double y, GogObject **gobj)
+gog_tool_move_plot_area_point (GogView *view, double x, double y, G_GNUC_UNUSED GogObject **gobj)
 {
 	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
 
@@ -1185,7 +1185,7 @@ static GogTool gog_tool_move_plot_area = {
 };
 
 static gboolean
-gog_tool_resize_plot_area_point (GogView *view, double x, double y, GogObject **gobj)
+gog_tool_resize_plot_area_point (GogView *view, double x, double y, G_GNUC_UNUSED GogObject **gobj)
 {
 	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
 

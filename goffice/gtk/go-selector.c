@@ -163,19 +163,19 @@ go_selector_finalize (GObject *object)
 }
 
 static void
-cb_palette_activate (GOPalette *palette, int index, GOSelector *selector)
+cb_palette_activate (G_GNUC_UNUSED GOPalette *palette, int index, GOSelector *selector)
 {
 	go_selector_set_active_internal (selector, index, FALSE);
 }
 
 static void
-cb_palette_automatic_activate (GOPalette *palette, int index, GOSelector *selector)
+cb_palette_automatic_activate (G_GNUC_UNUSED GOPalette *palette, int index, GOSelector *selector)
 {
 	go_selector_set_active_internal (selector, index, TRUE);
 }
 
 static void
-cb_palette_deactivate (GOPalette *palette, GOSelector *selector)
+cb_palette_deactivate (G_GNUC_UNUSED GOPalette *palette, GOSelector *selector)
 {
 	go_selector_popdown (selector);
 }
@@ -265,7 +265,7 @@ go_selector_button_toggled (GtkWidget *button,
 }
 
 static gboolean
-go_selector_key_press (GtkWidget   *widget,
+go_selector_key_press (G_GNUC_UNUSED GtkWidget   *widget,
 		       GdkEventKey *event,
 		       gpointer     data)
 {
@@ -448,13 +448,13 @@ go_selector_get_user_data (GOSelector *selector)
 }
 
 static void
-go_selector_drag_data_received (GtkWidget        *button,
-				GdkDragContext   *context,
-				gint              x,
-				gint              y,
+go_selector_drag_data_received (G_GNUC_UNUSED GtkWidget        *button,
+				G_GNUC_UNUSED GdkDragContext   *context,
+				G_GNUC_UNUSED gint              x,
+				G_GNUC_UNUSED gint              y,
 				GtkSelectionData *selection_data,
-				guint             info,
-				guint32           time,
+				G_GNUC_UNUSED guint             info,
+				G_GNUC_UNUSED guint32           time,
 				GOSelector       *selector)
 {
 	GOSelectorPrivate *priv = selector->priv;
@@ -467,7 +467,7 @@ go_selector_drag_data_received (GtkWidget        *button,
 }
 
 static void
-go_selector_drag_begin (GtkWidget      *button,
+go_selector_drag_begin (G_GNUC_UNUSED GtkWidget      *button,
 			GdkDragContext *context,
 			GOSelector     *selector)
 {
@@ -487,11 +487,11 @@ go_selector_drag_begin (GtkWidget      *button,
 }
 
 static void
-go_selector_drag_data_get (GtkWidget        *button,
-			   GdkDragContext   *context,
+go_selector_drag_data_get (G_GNUC_UNUSED GtkWidget        *button,
+			   G_GNUC_UNUSED GdkDragContext   *context,
 			   GtkSelectionData *selection_data,
-			   guint             info,
-			   guint             time,
+			   G_GNUC_UNUSED guint             info,
+			   G_GNUC_UNUSED guint             time,
 			   GOSelector       *selector)
 {
 	GOSelectorPrivate *priv = selector->priv;

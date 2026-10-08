@@ -146,7 +146,7 @@ gog_2d_plot_update (GogObject *obj)
 }
 
 static void
-gog_2d_plot_real_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max)
+gog_2d_plot_real_adjust_bounds (G_GNUC_UNUSED Gog2DPlot *model, G_GNUC_UNUSED double *x_min, G_GNUC_UNUSED double *x_max, G_GNUC_UNUSED double *y_min, G_GNUC_UNUSED double *y_max)
 {
 }
 
@@ -1707,7 +1707,7 @@ horiz_drop_lines_post_add (GogObject *parent, GogObject *child)
 }
 
 static void
-horiz_drop_lines_pre_remove (GogObject *parent, GogObject *child)
+horiz_drop_lines_pre_remove (GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 	GogXYSeries *series = GOG_XY_SERIES (parent);
 	series->hdroplines = NULL;
@@ -1731,7 +1731,7 @@ vert_drop_lines_post_add (GogObject *parent, GogObject *child)
 }
 
 static void
-vert_drop_lines_pre_remove (GogObject *parent, GogObject *child)
+vert_drop_lines_pre_remove (GogObject *parent, G_GNUC_UNUSED GogObject *child)
 {
 	GogXYSeries *series = GOG_XY_SERIES (parent);
 	series->vdroplines = NULL;
@@ -1792,7 +1792,7 @@ GType gog_xy_interpolation_clamps_get_type (void);
 static GObjectClass *interp_parent_klass;
 
 static void
-gog_xy_interpolation_clamps_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_xy_interpolation_clamps_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
 	*last = 1;
@@ -2212,7 +2212,7 @@ GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,
 	GOG_TYPE_SERIES)
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	gog_2d_plot_register_type (module);
@@ -2234,7 +2234,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	unregister_embedded_stuff ();
 }

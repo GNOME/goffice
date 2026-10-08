@@ -266,7 +266,7 @@ gog_reg_curve_finalize (GObject *obj)
 }
 
 static char const *
-gog_reg_curve_type_name (GogObject const *gobj)
+gog_reg_curve_type_name (G_GNUC_UNUSED GogObject const *gobj)
 {
 	return N_("Regression Curve");
 }
@@ -323,7 +323,7 @@ gog_reg_curve_init (GogRegCurve *reg_curve)
 }
 
 static void
-gog_reg_curve_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_reg_curve_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = -1;
 	*last = 3;

@@ -35,7 +35,7 @@ struct _GogChartMap3D {
 };
 
 static void
-null_map_3D (GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w)
+null_map_3D (G_GNUC_UNUSED GogChartMap3D *map, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED double z, G_GNUC_UNUSED double *u, G_GNUC_UNUSED double *v, G_GNUC_UNUSED double *w)
 {
 	g_warning ("[GogChartMap::map_3D] not implemented");
 }

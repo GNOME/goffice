@@ -177,13 +177,13 @@ GSF_DYNAMIC_CLASS (GogLogFitCurve, gog_log_fit_curve,
 /* Plugin initialization */
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	gog_log_fit_curve_register_type (module);
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 }

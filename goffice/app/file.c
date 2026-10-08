@@ -128,7 +128,7 @@ go_file_opener_get_property (GObject     *object,
 }
 
 static gboolean
-go_file_opener_can_probe_real (GOFileOpener const *fo, GOFileProbeLevel pl)
+go_file_opener_can_probe_real (GOFileOpener const *fo, G_GNUC_UNUSED GOFileProbeLevel pl)
 {
 	return fo->probe_func != NULL;
 }

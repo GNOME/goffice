@@ -4742,7 +4742,7 @@ static const GOEmfHandler go_emf_handlers[] = {
  *****************************************************************************/
 
 static gboolean
-go_emf_parse (GOEmf *emf, GsfInput *input, GError **error)
+go_emf_parse (GOEmf *emf, GsfInput *input, G_GNUC_UNUSED GError **error)
 {
 	const guint8  *data = {0};
 	guint32 offset = 0;

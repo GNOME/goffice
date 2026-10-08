@@ -127,7 +127,7 @@ gog_trend_line_init_style (GogStyledObject *gso, GOStyle *style)
 }
 
 static char const *
-gog_trend_line_type_name (GogObject const *gobj)
+gog_trend_line_type_name (G_GNUC_UNUSED GogObject const *gobj)
 {
 	return N_("Trend Line");
 }

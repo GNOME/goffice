@@ -173,7 +173,7 @@ cb_color_dialog_response (GtkDialog *color_dialog,
 }
 
 static void
-cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
+cb_combo_custom_activate (G_GNUC_UNUSED GOPalette *palette, GOSelector *selector)
 {
 	GtkWidget *color_dialog;
 	GtkWidget *ccw, *dca;

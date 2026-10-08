@@ -224,7 +224,7 @@ go_plugin_service_general_deactivate (GOPluginService *service, GOErrorInfo **re
 }
 
 static char *
-go_plugin_service_general_get_description (GOPluginService *service)
+go_plugin_service_general_get_description (G_GNUC_UNUSED GOPluginService *service)
 {
 	return g_strdup (_("General"));
 }
@@ -262,7 +262,7 @@ struct _GOPluginServiceResource {
 static GObjectClass *go_plugin_service_resource_parent_class;
 
 static void
-go_plugin_service_resource_init (GObject *obj)
+go_plugin_service_resource_init (G_GNUC_UNUSED GObject *obj)
 {
 }
 
@@ -283,7 +283,7 @@ go_plugin_service_resource_finalize (GObject *obj)
 }
 
 static void
-go_plugin_service_resource_activate (GOPluginService *service, GOErrorInfo **ret_error)
+go_plugin_service_resource_activate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	GOPluginServiceResource *sr = GO_PLUGIN_SERVICE_RESOURCE (service);
 	if (sr->value) {
@@ -294,7 +294,7 @@ go_plugin_service_resource_activate (GOPluginService *service, GOErrorInfo **ret
 
 
 static void
-go_plugin_service_resource_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
+go_plugin_service_resource_deactivate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	GOPluginServiceResource *sr = GO_PLUGIN_SERVICE_RESOURCE (service);
 	if (sr->value) {
@@ -304,7 +304,7 @@ go_plugin_service_resource_deactivate (GOPluginService *service, GOErrorInfo **r
 }
 
 static char *
-go_plugin_service_resource_get_description (GOPluginService *service)
+go_plugin_service_resource_get_description (G_GNUC_UNUSED GOPluginService *service)
 {
 	return g_strdup (_("Resource"));
 }
@@ -1074,7 +1074,7 @@ go_plugin_service_plugin_loader_deactivate (GOPluginService *service,
 }
 
 static char *
-go_plugin_service_plugin_loader_get_description (GOPluginService *service)
+go_plugin_service_plugin_loader_get_description (G_GNUC_UNUSED GOPluginService *service)
 {
 	return g_strdup (_("Plugin loader"));
 }
@@ -1099,7 +1099,7 @@ GSF_CLASS (GOPluginServicePluginLoader, go_plugin_service_plugin_loader,
  */
 
 static char *
-go_plugin_service_gobject_loader_get_description (GOPluginService *service)
+go_plugin_service_gobject_loader_get_description (G_GNUC_UNUSED GOPluginService *service)
 {
 	return g_strdup (_("GObject loader"));
 }
@@ -1133,13 +1133,13 @@ GSF_CLASS (GOPluginServiceGObjectLoader, go_plugin_service_gobject_loader,
  */
 
 static void
-go_plugin_service_simple_activate (GOPluginService *service, GOErrorInfo **ret_error)
+go_plugin_service_simple_activate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	service->is_active = TRUE;
 }
 
 static void
-go_plugin_service_simple_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
+go_plugin_service_simple_deactivate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	service->is_active = FALSE;
 }

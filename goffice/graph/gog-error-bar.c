@@ -436,7 +436,7 @@ gog_error_bar_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 }
 
 static void
-gog_error_bar_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+gog_error_bar_persist_prep_sax (G_GNUC_UNUSED GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogErrorBar *bar = GOG_ERROR_BAR (gog_xml_read_state_get_obj (xin));
 

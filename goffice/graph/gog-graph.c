@@ -253,7 +253,7 @@ gog_graph_finalize (GObject *obj)
 }
 
 static char const *
-gog_graph_type_name (GogObject const *gobj)
+gog_graph_type_name (G_GNUC_UNUSED GogObject const *gobj)
 {
 	return N_("Graph");
 }
@@ -279,7 +279,7 @@ cb_theme_changed (GtkComboBox *combo, GogGraph *graph)
 }
 
 static void
-cb_force_theme (GtkButton *button, GogGraph *graph)
+cb_force_theme (G_GNUC_UNUSED GtkButton *button, GogGraph *graph)
 {
 	apply_theme (GOG_OBJECT (graph), graph->theme, TRUE);
 }
@@ -537,7 +537,7 @@ gog_graph_init (GogGraph *graph)
 }
 
 static void
-gog_graph_sax_save (GOPersist const *gp, GsfXMLOut *output)
+gog_graph_sax_save (GOPersist const *gp, G_GNUC_UNUSED GsfXMLOut *output)
 {
 	GogGraph *graph = GOG_GRAPH (gp);
 	if (gog_theme_get_resource_type (graph->theme) != GO_RESOURCE_NATIVE)
@@ -545,7 +545,7 @@ gog_graph_sax_save (GOPersist const *gp, GsfXMLOut *output)
 }
 
 static void
-gog_graph_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+gog_graph_prep_sax (G_GNUC_UNUSED GOPersist *gp, G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	/* nothing to do */
 }

@@ -76,7 +76,7 @@ typedef GOPluginServiceGObjectLoaderClass GogPlotEngineServiceClass;
 static GHashTable *pending_engines = NULL;
 
 static char *
-gog_plot_engine_service_get_description (GOPluginService *service)
+gog_plot_engine_service_get_description (G_GNUC_UNUSED GOPluginService *service)
 {
 	return g_strdup (_("Plot Engine"));
 }
@@ -263,7 +263,7 @@ pending_plot_types_load (void)
 }
 
 static void
-gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
+gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	char    *path, *tmp;
 	xmlNode *ptr;
@@ -286,7 +286,7 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, GOError
 }
 
 static void
-gog_plot_type_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
+gog_plot_type_service_activate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	GSList *l = GOG_PLOT_TYPE_SERVICE (service)->paths;
 	if (l && pending_plot_type_files == NULL)
@@ -301,7 +301,7 @@ gog_plot_type_service_activate (GOPluginService *service, GOErrorInfo **ret_erro
 }
 
 static void
-gog_plot_type_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
+gog_plot_type_service_deactivate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	GogPlotTypeService *plot_service = GOG_PLOT_TYPE_SERVICE (service);
 	GSList *l = plot_service->families;
@@ -331,7 +331,7 @@ gog_plot_type_service_deactivate (GOPluginService *service, GOErrorInfo **ret_er
 }
 
 static char *
-gog_plot_type_service_get_description (GOPluginService *service)
+gog_plot_type_service_get_description (G_GNUC_UNUSED GOPluginService *service)
 {
 	return g_strdup (_("Plot Type"));
 }
@@ -415,7 +415,7 @@ typedef GOPluginServiceGObjectLoaderClass GogTrendLineEngineServiceClass;
 static GHashTable *pending_trend_lines_engines = NULL;
 
 static char *
-gog_trend_line_engine_service_get_description (GOPluginService *service)
+gog_trend_line_engine_service_get_description (G_GNUC_UNUSED GOPluginService *service)
 {
 	return g_strdup (_("Regression Curve Engine"));
 }
@@ -551,7 +551,7 @@ pending_trend_line_types_load (void)
 }
 
 static void
-gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
+gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	char    *path, *tmp;
 	xmlNode *ptr;
@@ -574,7 +574,7 @@ gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, GOErro
 }
 
 static void
-gog_trend_line_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
+gog_trend_line_service_activate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	GSList *l = GOG_TREND_LINE_SERVICE (service)->paths;
 	if (l && pending_trend_line_type_files == NULL)
@@ -589,7 +589,7 @@ gog_trend_line_service_activate (GOPluginService *service, GOErrorInfo **ret_err
 }
 
 static void
-gog_trend_line_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
+gog_trend_line_service_deactivate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	GogTrendLineService *line_service = GOG_TREND_LINE_SERVICE (service);
 	GSList *l = line_service->types;
@@ -615,7 +615,7 @@ gog_trend_line_service_deactivate (GOPluginService *service, GOErrorInfo **ret_e
 }
 
 static char *
-gog_trend_line_service_get_description (GOPluginService *service)
+gog_trend_line_service_get_description (G_GNUC_UNUSED GOPluginService *service)
 {
 	return g_strdup (_("Regression Curve Type"));
 }

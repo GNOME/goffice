@@ -144,7 +144,7 @@ go_conf_free_node (GOConfNode *node)
 }
 
 void
-go_conf_sync (GOConfNode *node)
+go_conf_sync (G_GNUC_UNUSED GOConfNode *node)
 {
 	g_settings_sync ();
 }
@@ -442,7 +442,7 @@ go_conf_remove_monitor (guint monitor_id)
 }
 
 static void
-cb_key_changed (GSettings *settings,
+cb_key_changed (G_GNUC_UNUSED GSettings *settings,
 		char *key,
 		GOConfClosure *cls)
 {

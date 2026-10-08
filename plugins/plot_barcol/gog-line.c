@@ -150,7 +150,7 @@ GType gog_line_interpolation_clamps_get_type (void);
 static GObjectClass *interp_parent_klass;
 
 static void
-gog_line_interpolation_clamps_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_line_interpolation_clamps_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
 	*last = 1;

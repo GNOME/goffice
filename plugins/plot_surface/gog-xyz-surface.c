@@ -824,7 +824,7 @@ gog_xyz_surface_plot_init (GogXYZPlot *xyz)
 }
 
 static void
-gog_xyz_surface_plot_dataset_dims (GogDataset const *set, int *first, int *last)
+gog_xyz_surface_plot_dataset_dims (G_GNUC_UNUSED GogDataset const *set, int *first, int *last)
 {
 	*first = 0;
 	*last = 1;
@@ -858,7 +858,7 @@ gog_xyz_surface_plot_dataset_get_elem (GogDataset const *set, int dim_i)
 }
 
 static void
-gog_xyz_surface_plot_dataset_dim_changed (GogDataset *set, int dim_i)
+gog_xyz_surface_plot_dataset_dim_changed (GogDataset *set, G_GNUC_UNUSED int dim_i)
 {
 	/* we need to update cardinality for contour plots */
 	gog_plot_request_cardinality_update (GOG_PLOT (set));

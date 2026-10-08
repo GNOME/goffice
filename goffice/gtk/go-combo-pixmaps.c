@@ -183,7 +183,7 @@ swatch_activated (GOComboPixmaps *combo, GtkWidget *button)
 }
 
 static gboolean
-cb_swatch_release_event (GtkWidget *button, GdkEventButton *event, GOComboPixmaps *combo)
+cb_swatch_release_event (GtkWidget *button, G_GNUC_UNUSED GdkEventButton *event, GOComboPixmaps *combo)
 {
 /* FIXME FIXME FIXME TODO do I want to check for which button ? */
 	return swatch_activated (combo, button);

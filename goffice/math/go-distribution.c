@@ -287,7 +287,7 @@ go_distribution_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 }
 
 static void
-go_distribution_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+go_distribution_persist_prep_sax (GOPersist *gp, G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GODistribution *dist = GO_DISTRIBUTION (gp);
 	while (*attrs) {
@@ -469,7 +469,7 @@ SUFFIX(go_normal_get_ppf) (GODistribution *dist, DOUBLE x)
 #if LAST_INCLUDE_PASS
 
 static void
-go_dist_normal_init (GODistribution *dist)
+go_dist_normal_init (G_GNUC_UNUSED GODistribution *dist)
 {
 }
 
@@ -544,7 +544,7 @@ go_dist_uniform_class_init (GObjectClass *klass)
 }
 
 static void
-go_dist_uniform_init (GODistribution *dist)
+go_dist_uniform_init (G_GNUC_UNUSED GODistribution *dist)
 {
 }
 
@@ -602,7 +602,7 @@ go_dist_cauchy_class_init (GObjectClass *klass)
 }
 
 static void
-go_dist_cauchy_init (GODistribution *dist)
+go_dist_cauchy_init (G_GNUC_UNUSED GODistribution *dist)
 {
 }
 

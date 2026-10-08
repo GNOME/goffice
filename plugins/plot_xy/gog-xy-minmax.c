@@ -353,20 +353,20 @@ path_move_to (void *closure, GOPathPoint const *point)
 
 static void
 path_curve_to (void *closure,
-	       GOPathPoint const *point0,
-	       GOPathPoint const *point1,
+	       G_GNUC_UNUSED GOPathPoint const *point0,
+	       G_GNUC_UNUSED GOPathPoint const *point1,
 	       GOPathPoint const *point2)
 {
 	gog_renderer_draw_marker (GOG_RENDERER (closure), point2->x, point2->y);
 }
 
 static void
-path_close_path (void *closure)
+path_close_path (G_GNUC_UNUSED void *closure)
 {
 }
 
 static void
-gog_xy_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_xy_minmax_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogXYMinMaxPlot const *model = GOG_XY_MINMAX_PLOT (view->model);
 	GogPlot *plot = GOG_PLOT (model);

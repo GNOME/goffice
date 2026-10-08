@@ -1246,7 +1246,7 @@ gog_object_get_name (GogObject const *obj)
  * if @name == %NULL
  **/
 void
-gog_object_set_name (GogObject *obj, char *name, GError **err)
+gog_object_set_name (GogObject *obj, char *name, G_GNUC_UNUSED GError **err)
 {
 	GogObject *tmp;
 
@@ -1354,7 +1354,7 @@ struct possible_add_closure {
 };
 
 static void
-cb_collect_possible_additions (char const *name, GogObjectRole const *role,
+cb_collect_possible_additions (G_GNUC_UNUSED char const *name, GogObjectRole const *role,
 			       struct possible_add_closure *data)
 {
 	if (role->can_add == NULL || (role->can_add) (data->parent))

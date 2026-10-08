@@ -158,7 +158,7 @@ static void go_plugin_message (gint level, gchar const *format, ...)
 	G_GNUC_PRINTF (2, 3);
 
 static void
-go_plugin_message (gint level, gchar const *format, ...)
+go_plugin_message (G_GNUC_UNUSED gint level, G_GNUC_UNUSED gchar const *format, ...)
 {
 #ifdef PLUGIN_DEBUG
 	va_list args;
@@ -443,8 +443,8 @@ go_plugin_is_active (GOPlugin *plugin)
 /**********************************************************/
 typedef GTypeModule		GOPluginTypeModule;
 typedef GTypeModuleClass	GOPluginTypeModuleClass;
-static gboolean go_plugin_type_module_load   (GTypeModule *module) { return TRUE; }
-static void	go_plugin_type_module_unload (GTypeModule *module) { }
+static gboolean go_plugin_type_module_load   (G_GNUC_UNUSED GTypeModule *module) { return TRUE; }
+static void	go_plugin_type_module_unload (G_GNUC_UNUSED GTypeModule *module) { }
 static void
 go_plugin_type_module_class_init (GTypeModuleClass *gtm_class)
 {
@@ -1647,7 +1647,7 @@ go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *plugin)
 }
 
 static void
-ghf_set_state_old_unused (gpointer key, gpointer value, gpointer unused)
+ghf_set_state_old_unused (G_GNUC_UNUSED gpointer key, gpointer value, G_GNUC_UNUSED gpointer unused)
 {
 	PluginFileState *state = value;
 
@@ -1757,7 +1757,7 @@ go_plugins_rescan (GOErrorInfo **ret_error, GSList **ret_new_plugins)
 }
 
 static void
-ghf_collect_new_plugins (gpointer ignored,
+ghf_collect_new_plugins (G_GNUC_UNUSED gpointer ignored,
 			 PluginFileState *s, GSList **plugin_list)
 {
 	if (s->age == PLUGIN_NEW) {
@@ -1886,7 +1886,7 @@ go_plugins_init (GOCmdContext *context,
 }
 
 static void
-ghf_collect_used_plugin_state_strings (gpointer key, gpointer value, gpointer user_data)
+ghf_collect_used_plugin_state_strings (G_GNUC_UNUSED gpointer key, gpointer value, gpointer user_data)
 {
 	PluginFileState *state = value;
 	GSList **strings = user_data;

@@ -86,7 +86,7 @@ gog_smoothed_curve_finalize (GObject *obj)
 }
 
 static char const *
-gog_smoothed_curve_type_name (GogObject const *gobj)
+gog_smoothed_curve_type_name (G_GNUC_UNUSED GogObject const *gobj)
 {
 	return N_("Smoothed Curve");
 }
@@ -191,7 +191,7 @@ typedef GogViewClass	GogSmoothedCurveViewClass;
 /*static GogViewClass *smoothed_curve_view_parent_klass; */
 
 static void
-gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_smoothed_curve_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogSmoothedCurve *curve = GOG_SMOOTHED_CURVE (view->model);
 	GogSeries *series = GOG_SERIES ((GOG_OBJECT (curve))->parent);

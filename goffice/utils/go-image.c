@@ -179,7 +179,7 @@ go_image_format_info_ref (GOImageFormatInfo *info)
 }
 
 static void
-go_image_format_info_unref (GOImageFormatInfo const *info)
+go_image_format_info_unref (G_GNUC_UNUSED GOImageFormatInfo const *info)
 {
 }
 
@@ -770,7 +770,7 @@ go_image_save (GOImage *image, GsfXMLOut *output)
 }
 
 void
-go_image_load_attrs (GOImage *image, GsfXMLIn *xin, xmlChar const **attrs)
+go_image_load_attrs (GOImage *image, G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs)
 {
 	xmlChar const **attr;
 	g_return_if_fail (image != NULL);

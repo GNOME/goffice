@@ -740,7 +740,7 @@ _go_component_load_snapshot (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 }
 
 static void
-_go_component_sax_parser_done (GsfXMLIn *xin, GOCompXMLReadState *state)
+_go_component_sax_parser_done (G_GNUC_UNUSED GsfXMLIn *xin, GOCompXMLReadState *state)
 {
 	(*state->handler) (state->component, state->user_data);
 	g_free (state);
@@ -934,8 +934,8 @@ gboolean go_component_set_font (GOComponent *component, PangoFontDescription con
  **/
 
 gboolean
-go_component_export_image (GOComponent *component, GOImageFormat format, GsfOutput *output,
-			double x_dpi, double y_dpi)
+go_component_export_image (G_GNUC_UNUSED GOComponent *component, G_GNUC_UNUSED GOImageFormat format, G_GNUC_UNUSED GsfOutput *output,
+			G_GNUC_UNUSED double x_dpi, G_GNUC_UNUSED double y_dpi)
 {
 	return FALSE;
 }

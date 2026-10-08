@@ -29,7 +29,7 @@ static void
 go_line_dash_palette_render_func (cairo_t *cr,
 				  GdkRectangle const *area,
 				  int index,
-				  gpointer data)
+				  G_GNUC_UNUSED gpointer data)
 {
 	GOLineDashSequence *sequence;
 	double y;
@@ -62,7 +62,7 @@ go_line_dash_palette_render_func (cairo_t *cr,
 }
 
 static char const *
-go_line_dash_palette_get_tooltip_func (int index, void *data)
+go_line_dash_palette_get_tooltip_func (int index, G_GNUC_UNUSED void *data)
 {
 	return go_line_dash_as_label (index);
 }

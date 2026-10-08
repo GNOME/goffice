@@ -105,8 +105,8 @@ go_action_combo_color_connect_proxy (GtkAction *a, GtkWidget *proxy)
 }
 
 static void
-cb_color_changed (GtkWidget *cc, GOColor color,
-		  gboolean is_custom, gboolean by_user, gboolean is_default,
+cb_color_changed (G_GNUC_UNUSED GtkWidget *cc, GOColor color,
+		  G_GNUC_UNUSED gboolean is_custom, gboolean by_user, gboolean is_default,
 		  GOActionComboColor *caction)
 {
 	if (!by_user)
@@ -276,7 +276,7 @@ go_action_combo_color_new (char const  *action_name,
 }
 
 void
-go_action_combo_color_set_group (GOActionComboColor *action, gpointer group_key)
+go_action_combo_color_set_group (G_GNUC_UNUSED GOActionComboColor *action, G_GNUC_UNUSED gpointer group_key)
 {
 /* FIXME FIXME FIXME TODO */
 }

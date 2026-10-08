@@ -405,7 +405,7 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 }
 
 static void
-gog_xy_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_xy_dropbar_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogXYDropBarPlot const *model = GOG_XY_DROPBAR_PLOT (view->model);
 	GogPlot *plot = GOG_PLOT (model);

@@ -119,7 +119,7 @@ tile_cmp (GogSurfaceTile *t1, GogSurfaceTile *t2)
 }
 
 static void
-gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_surface_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogSurfacePlot *plot = GOG_SURFACE_PLOT (view->model);
 	GogSeries const *series;

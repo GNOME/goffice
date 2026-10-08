@@ -123,7 +123,7 @@ goc_styled_item_parent_changed (GocItem *item)
 }
 
 static void
-goc_styled_item_init_style (GocStyledItem *gsi, GOStyle *style)
+goc_styled_item_init_style (G_GNUC_UNUSED GocStyledItem *gsi, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL; /* default */
 }

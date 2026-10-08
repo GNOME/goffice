@@ -519,7 +519,7 @@ gogo_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 }
 
 static void
-go_sax_parser_done (GsfXMLIn *xin, GogXMLReadState *state)
+go_sax_parser_done (G_GNUC_UNUSED GsfXMLIn *xin, GogXMLReadState *state)
 {
 	(*state->handler) (state->obj, state->user_data);
 	g_free (state);

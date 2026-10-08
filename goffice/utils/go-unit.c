@@ -50,7 +50,7 @@ go_unit_copy (GoUnit const *unit)
 }
 
 static void
-go_unit_free (GoUnit *unit)
+go_unit_free (G_GNUC_UNUSED GoUnit *unit)
 {
 	/* nothing to do */
 }

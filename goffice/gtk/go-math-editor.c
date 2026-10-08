@@ -159,7 +159,7 @@ go_math_editor_set_itex (GoMathEditor *gme, char const *text)
 }
 
 void
-go_math_editor_set_mathml (GoMathEditor *gme, char const *text)
+go_math_editor_set_mathml (GoMathEditor *gme, G_GNUC_UNUSED char const *text)
 {
 	g_return_if_fail (GO_IS_MATH_EDITOR (gme));
 }

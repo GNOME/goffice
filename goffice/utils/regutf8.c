@@ -49,7 +49,7 @@ go_regfree (GORegexp *gor)
 }
 
 size_t
-go_regerror (int errcode, const GORegexp *gor, char *dst, size_t dstsize)
+go_regerror (int errcode, G_GNUC_UNUSED const GORegexp *gor, char *dst, size_t dstsize)
 {
 	const char *err;
 	size_t errlen;
@@ -687,7 +687,7 @@ go_search_replace_string (GOSearchReplace *sr, const char *src)
 /* ------------------------------------------------------------------------- */
 
 static void
-go_search_replace_init (GObject *obj)
+go_search_replace_init (G_GNUC_UNUSED GObject *obj)
 {
 }
 

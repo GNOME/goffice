@@ -1464,7 +1464,7 @@ SUFFIX(coefficient_matrix) (MATRIX A, /* Output matrix. */
 			    SUFFIX(GORegressionFunction) f,
 			    MATRIX xvals, /* The entire data set. */
 			    DOUBLE *par,
-			    DOUBLE *yvals,  /* Ditto. */
+			    G_GNUC_UNUSED DOUBLE *yvals,  /* Ditto. */
 			    DOUBLE *sigmas, /* Ditto. */
 			    int x_dim,      /* Number of data points. */
 			    int p_dim,      /* Number of parameters.  */

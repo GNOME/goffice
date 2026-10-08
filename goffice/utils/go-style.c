@@ -892,7 +892,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 /************************************************************************/
 
 static void
-cb_font_changed (GOFontSel *fs, PangoAttrList *list,
+cb_font_changed (G_GNUC_UNUSED GOFontSel *fs, PangoAttrList *list,
 		 StylePrefState *state)
 {
 	PangoAttrIterator *iter = pango_attr_list_get_iterator (list);
@@ -961,7 +961,7 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 /************************************************************************/
 
 static void
-cb_angle_changed (GORotationSel *grs, int angle, StylePrefState *state)
+cb_angle_changed (G_GNUC_UNUSED GORotationSel *grs, int angle, StylePrefState *state)
 {
 	go_style_set_text_angle (state->style, angle);
 	state->style->text_layout.auto_angle = state->style->text_layout.angle == state->default_style->text_layout.angle;
@@ -969,7 +969,7 @@ cb_angle_changed (GORotationSel *grs, int angle, StylePrefState *state)
 }
 
 static void
-text_layout_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext *cc)
+text_layout_init (StylePrefState *state, guint32 enable, GOEditor *editor, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GOStyle *style = state->style;
 	GtkWidget *w, *box;
@@ -992,7 +992,7 @@ text_layout_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmd
 /************************************************************************/
 
 static void
-cb_parent_is_gone (StylePrefState *state, GObject *where_the_object_was)
+cb_parent_is_gone (StylePrefState *state, G_GNUC_UNUSED GObject *where_the_object_was)
 {
 	state->style_changed_handler = 0;
 	state->object_with_style = NULL;
@@ -1021,7 +1021,7 @@ go_style_pref_state_free (StylePrefState *state)
 }
 
 static void
-cb_style_changed (GOStyledObject *obj, GOStyle *style, StylePrefState *state)
+cb_style_changed (G_GNUC_UNUSED GOStyledObject *obj, GOStyle *style, StylePrefState *state)
 {
 	if (style->interesting_fields & GO_STYLE_FILL)
 		fill_update_selectors (state);

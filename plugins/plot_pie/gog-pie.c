@@ -878,7 +878,7 @@ gog_pie_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries
 #define MAX_ARC_SEGMENTS 64
 
 static void
-gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_pie_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
 	GogPiePlot const *model = GOG_PIE_PLOT (view->model);
 	GogPieSeries const *series = NULL;
@@ -1309,7 +1309,7 @@ GSF_DYNAMIC_CLASS (GogPieSeries, gog_pie_series,
 	   GOG_TYPE_SERIES)
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	gog_pie_series_element_register_type (module);
@@ -1322,7 +1322,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	unregister_embedded_stuff ();
 }

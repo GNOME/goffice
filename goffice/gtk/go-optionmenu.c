@@ -97,7 +97,7 @@ go_option_menu_build (const char *first_entry, ...)
 }
 
 static void
-go_option_menu_detacher (GtkWidget *widget, GtkMenu *menu)
+go_option_menu_detacher (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GtkMenu *menu)
 {
 #if 0
 	GOOptionMenu *option_menu = GO_OPTION_MENU (widget);

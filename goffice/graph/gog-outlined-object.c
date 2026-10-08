@@ -107,7 +107,7 @@ static GogViewClass *oview_parent_klass;
 
 static void
 gog_outlined_view_size_request (GogView *v,
-				GogViewRequisition const *available,
+				G_GNUC_UNUSED GogViewRequisition const *available,
 				GogViewRequisition *req)
 {
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);

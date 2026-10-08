@@ -74,7 +74,7 @@ static GHashTable *suffixes = NULL;
 static GSList *mime_types_names = NULL;
 
 static char *
-go_component_engine_service_get_description (GOPluginService * service)
+go_component_engine_service_get_description (G_GNUC_UNUSED GOPluginService * service)
 {
 	return g_strdup (_("Component Engine"));
 }
@@ -129,7 +129,7 @@ go_mime_type_free (GOMimeType * mime_type)
 
 static void
 go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
-				    GOErrorInfo ** ret_error)
+				    G_GNUC_UNUSED GOErrorInfo ** ret_error)
 {
 	GOComponentTypeService *comp_service = GO_COMPONENT_TYPE_SERVICE (service);
 	xmlNode *ptr;
@@ -187,7 +187,7 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 }
 
 static void
-go_component_type_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
+go_component_type_service_activate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	GOComponentTypeService *comp_service = GO_COMPONENT_TYPE_SERVICE (service);
 	GSList *l = comp_service->mime_types;
@@ -199,7 +199,7 @@ go_component_type_service_activate (GOPluginService *service, GOErrorInfo **ret_
 }
 
 static void
-go_component_type_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
+go_component_type_service_deactivate (GOPluginService *service, G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	GOComponentTypeService *comp_service = GO_COMPONENT_TYPE_SERVICE (service);
 	GSList *l = comp_service->mime_types;
@@ -213,7 +213,7 @@ go_component_type_service_deactivate (GOPluginService *service, GOErrorInfo **re
 }
 
 static char *
-go_component_type_service_get_description (GOPluginService * service)
+go_component_type_service_get_description (G_GNUC_UNUSED GOPluginService * service)
 {
 	return g_strdup (_("Component Type"));
 }
