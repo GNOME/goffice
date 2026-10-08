@@ -229,7 +229,7 @@ check_computable (const char *fmla, double x, gboolean direct)
 }
 
 int
-main (int argc, char **argv)
+main (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 {
 	void *state;
 	GOQuad qc, qten;

@@ -78,14 +78,14 @@ static double matrix[20] = {10., 20., 30., 40., 50., 60., 70., 80., 90., 100.,
 static void generate_all_charts (GtkNotebook *notebook);
 
 static void
-on_quit (GtkMenuItem *menuitem, gpointer user_data)
+on_quit (G_GNUC_UNUSED GtkMenuItem *menuitem, gpointer user_data)
 {
 	gtk_widget_destroy (user_data);
 	gtk_main_quit ();
 }
 
 static void
-btn_regen_clicked (GtkButton *button, gpointer user_data)
+btn_regen_clicked (G_GNUC_UNUSED GtkButton *button, gpointer user_data)
 {
 	GODemoPrivate *priv = (GODemoPrivate *)user_data;
 	int i;

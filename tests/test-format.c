@@ -127,7 +127,7 @@ test_general_format (void)
 /* ------------------------------------------------------------------------- */
 
 int
-main (int argc, char **argv)
+main (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 {
 	libgoffice_init ();
 

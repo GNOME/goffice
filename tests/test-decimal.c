@@ -2974,7 +2974,7 @@ test_regressions (void)
 #endif
 
 int
-main (int argc, char **argv)
+main (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 {
 #ifdef GOFFICE_WITH_DECIMAL64
 	Corpus *corpus, *corpus2;

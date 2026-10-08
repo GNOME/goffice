@@ -21,7 +21,7 @@
 #include <goffice/goffice.h>
 
 static void
-on_quit (GtkMenuItem *menuitem, gpointer user_data)
+on_quit (G_GNUC_UNUSED GtkMenuItem *menuitem, gpointer user_data)
 {
 	gtk_widget_destroy (user_data);
 	gtk_main_quit ();
@@ -88,13 +88,13 @@ open_file (char const *filename, GtkWidget *nbook)
 }
 
 static void
-on_close (GtkMenuItem *menuitem, GtkWidget *nbook)
+on_close (G_GNUC_UNUSED GtkMenuItem *menuitem, GtkWidget *nbook)
 {
 	gtk_widget_destroy (gtk_notebook_get_nth_page (GTK_NOTEBOOK (nbook), gtk_notebook_get_current_page (GTK_NOTEBOOK (nbook))));
 }
 
 static void
-on_open (GtkMenuItem *menuitem, GtkWidget *nbook)
+on_open (G_GNUC_UNUSED GtkMenuItem *menuitem, GtkWidget *nbook)
 {
 	GtkWidget *dialog;
 

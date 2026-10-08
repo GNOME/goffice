@@ -404,7 +404,7 @@ init_tests (void)
 /* ------------------------------------------------------------------------- */
 
 int
-main (int argc, char **argv)
+main (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 {
 	init_tests ();
 	const_tests ();
