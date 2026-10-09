@@ -3001,6 +3001,7 @@ go_gtk_widget_render_icon_pixbuf
 go_gtk_widget_replace
 go_gtk_window_set_transient
 go_gui_get_image_save_info
+go_image_menu_new
 go_menu_position_below
 go_pango_measure_string
 go_style_context_from_selector

@@ -412,7 +412,7 @@ go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
  * @selector: #GOColorSelector
  * @allow_alpha: If %TRUE, the selector will have an alpha channel.
  *
- * Seta whether the custom colour selector should allow the use of opacity.
+ * Sets whether the custom colour selector should allow the use of opacity.
  **/
 void
 go_color_selector_set_allow_alpha (GOSelector *selector, gboolean allow_alpha)

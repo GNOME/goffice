@@ -64,20 +64,25 @@ struct _GOPalettePrivate {
 	GtkWidget	*custom;
 	GtkWidget	*custom_separator;
 	char		*custom_label;
+
+	gboolean	 populated;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (GOPalette, go_palette, GTK_TYPE_MENU)
+
+/* Keep in sync with the colour swatch sizes in goffice.css and go-color-palette.c */
+#define GO_PALETTE_SWATCH_SIZE 20
 
 static void
 go_palette_init (GOPalette *palette)
 {
 	GOPalettePrivate *priv;
-	PangoLayout *layout;
-	PangoRectangle rect;
 
 	priv = go_palette_get_instance_private (palette);
 
 	palette->priv = priv;
+
+	_go_gtk_widget_add_css_provider (GTK_WIDGET (palette));
 
 	priv->n_swatches = 0;
 	priv->n_columns = 1;
@@ -97,21 +102,25 @@ go_palette_init (GOPalette *palette)
 
 	priv->automatic_index = 0;
 
-	layout = gtk_widget_create_pango_layout (GTK_WIDGET (palette), "A");
-	pango_layout_get_pixel_extents (layout, NULL, &rect);
-	g_object_unref (layout);
-
-	priv->swatch_height = rect.height + 2;
+	priv->swatch_height = GO_PALETTE_SWATCH_SIZE;
 	priv->swatch_width = priv->swatch_height;
 }
 
+/*
+ * Create the menu items.  This has to happen before the menu is first
+ * measured, which for a popup is before it is realized; otherwise the popup
+ * is sized for an empty menu and the items come up squeezed.
+ */
 static void
-go_palette_realize (GtkWidget *widget)
+go_palette_populate (GOPalette *palette)
 {
-	GOPalette *palette = GO_PALETTE (widget);
 	GOPalettePrivate *priv = palette->priv;
 	GtkWidget *item;
 	int i, row;
+
+	if (priv->populated)
+		return;
+	priv->populated = TRUE;
 
 	for (i = 0; i < priv->n_swatches; i++) {
 		item = go_palette_menu_item_new (GO_PALETTE (palette), i);
@@ -143,8 +152,27 @@ go_palette_realize (GtkWidget *widget)
 		gtk_widget_show (GTK_WIDGET (palette->priv->custom));
 		gtk_widget_show (GTK_WIDGET (palette->priv->custom_separator));
 	}
+}
 
+static void
+go_palette_realize (GtkWidget *widget)
+{
+	go_palette_populate (GO_PALETTE (widget));
 	GTK_WIDGET_CLASS (go_palette_parent_class)->realize (widget);
+}
+
+static void
+go_palette_get_preferred_width (GtkWidget *widget, gint *minimum, gint *natural)
+{
+	go_palette_populate (GO_PALETTE (widget));
+	GTK_WIDGET_CLASS (go_palette_parent_class)->get_preferred_width (widget, minimum, natural);
+}
+
+static void
+go_palette_get_preferred_height (GtkWidget *widget, gint *minimum, gint *natural)
+{
+	go_palette_populate (GO_PALETTE (widget));
+	GTK_WIDGET_CLASS (go_palette_parent_class)->get_preferred_height (widget, minimum, natural);
 }
 
 static void
@@ -155,6 +183,8 @@ go_palette_class_init (GOPaletteClass *class)
 
 	object_class->finalize = go_palette_finalize;
 	widget_class->realize = go_palette_realize;
+	widget_class->get_preferred_width = go_palette_get_preferred_width;
+	widget_class->get_preferred_height = go_palette_get_preferred_height;
 
 	go_palette_signals[GO_PALETTE_ACTIVATE] =
 		g_signal_new ("activate",
@@ -240,6 +270,8 @@ go_palette_menu_item_new (GOPalette *palette, int index)
 	GOPalettePrivate *priv = palette->priv;
 
 	item = gtk_menu_item_new ();
+	gtk_style_context_add_class (gtk_widget_get_style_context (item),
+				     "go-palette-swatch");
 	swatch = go_palette_swatch_new (palette, index);
 	gtk_container_add (GTK_CONTAINER (item), swatch);
 

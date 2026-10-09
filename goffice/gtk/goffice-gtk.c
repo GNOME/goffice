@@ -660,6 +660,44 @@ go_gtk_widget_disable_focus (GtkWidget *w)
 	gtk_widget_set_can_focus (w, FALSE);
 }
 
+/**
+ * go_image_menu_new:
+ * @label: (nullable): text for the menu item
+ * @image: (nullable): image to show before the label
+ *
+ * Replacement for the deprecated #GtkImageMenuItem.  The returned item is an
+ * ordinary #GtkMenuItem containing a horizontal box with @image followed by
+ * @label.  Either can be %NULL.
+ *
+ * The children are shown, but, like gtk_menu_item_new(), the item itself is
+ * not.
+ *
+ * Returns: (transfer none): the new #GtkMenuItem.
+ **/
+GtkWidget *
+go_image_menu_new (char const *label, GtkWidget *image)
+{
+	GtkWidget *item = gtk_menu_item_new ();
+	GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+
+	if (image) {
+		gtk_widget_show (image);
+		gtk_box_pack_start (GTK_BOX (box), image, FALSE, FALSE, 0);
+	}
+
+	if (label) {
+		GtkWidget *l = gtk_accel_label_new (label);
+		gtk_widget_set_halign (l, GTK_ALIGN_START);
+		gtk_accel_label_set_accel_widget (GTK_ACCEL_LABEL (l), item);
+		gtk_widget_show (l);
+		gtk_box_pack_start (GTK_BOX (box), l, TRUE, TRUE, 0);
+	}
+
+	gtk_widget_show (box);
+	gtk_container_add (GTK_CONTAINER (item), box);
+	return item;
+}
+
 static void
 cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
 {

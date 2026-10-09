@@ -65,6 +65,8 @@ typedef struct {
 
 #define COLOR_PREVIEW_WIDTH 12
 #define COLOR_PREVIEW_HEIGHT 12
+/* Size of the colour squares in the menu; keep in sync with go-palette.c */
+#define COLOR_SWATCH_SIZE 20
 
 #define CCW_KEY "GOColorPalette::ccw"
 
@@ -629,18 +631,22 @@ static GtkWidget *
 make_colored_menu_item (char const *label, GOColor c)
 {
 	GtkWidget *button;
+	/* color buttons are created with a label of " " */
+	gboolean is_swatch = (label && 0 == strcmp (label, " "));
 	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-		COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
+		is_swatch ? COLOR_SWATCH_SIZE : COLOR_PREVIEW_WIDTH,
+		is_swatch ? COLOR_SWATCH_SIZE : COLOR_PREVIEW_HEIGHT);
 	gdk_pixbuf_fill (pixbuf, c);
 
-	if (label && 0 == strcmp (label, " ")) {
-		/* color buttons are created with a label of " " */
+	if (is_swatch) {
 		button = gtk_menu_item_new ();
 		gtk_container_add (GTK_CONTAINER (button),
 			gtk_image_new_from_pixbuf (pixbuf));
+		/* Lets goffice.css drop the theme's text-sized item padding */
+		gtk_style_context_add_class (gtk_widget_get_style_context (button),
+					     "go-color-swatch");
 	} else {
-		button = gtk_image_menu_item_new_with_label (label);
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (button),
+		button = go_image_menu_new (label,
 			gtk_image_new_from_pixbuf (pixbuf));
 	}
 	g_object_unref (pixbuf);
@@ -718,6 +724,7 @@ go_color_palette_make_menu (char const *no_color_label,
         GtkWidget *w, *submenu;
 
 	submenu = g_object_new (go_menu_color_get_type (), NULL);
+	_go_gtk_widget_add_css_provider (submenu);
 
 	if (no_color_label != NULL) {
 		w = make_colored_menu_item (no_color_label, default_color);
@@ -754,12 +761,8 @@ custom_colors :
 			"activate",
 			G_CALLBACK (cb_menu_color_activate), submenu);
 	}
-	w = gtk_image_menu_item_new_with_label (_("Custom color..."));
-	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
-	/* We can't have an image in one of the gtk_menu_item, it would lead to an
-	   ugly item spacing. */
-	/* gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (w),*/
-	/* 	gtk_image_new_from_stock (GTK_STOCK_SELECT_COLOR, GTK_ICON_SIZE_MENU));*/
+	w = gtk_menu_item_new_with_label (_("Custom color..."));
+	// bugzilla 585421: we can't use an image menu due to ugly spacing
 	gtk_widget_show_all (w);
 	gtk_menu_attach (GTK_MENU (submenu), w, 0, cols, row + 2, row + 3);
 	g_signal_connect (G_OBJECT (w),

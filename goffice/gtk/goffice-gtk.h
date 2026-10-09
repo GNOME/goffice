@@ -118,6 +118,7 @@ void	   go_gtk_widget_replace	(GtkWidget *victim,
 					 GtkWidget *replacement);
 void       go_gtk_grid_remove_row       (GtkGrid *grid, int row);
 void	   go_gtk_widget_disable_focus	(GtkWidget *w);
+GtkWidget *go_image_menu_new		(char const *label, GtkWidget *image);
 void       go_gtk_window_set_transient  (GtkWindow *toplevel, GtkWindow *window);
 void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,
 					 char const *app, char const *link);

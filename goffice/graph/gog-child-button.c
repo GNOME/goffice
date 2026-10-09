@@ -362,8 +362,7 @@ cb_plot_family_menu_create (G_GNUC_UNUSED char const *id,
 	    (family->axis_set & GOG_AXIS_SET_FUNDAMENTAL) != axis_set)
 		return;
 
-	menu = gtk_image_menu_item_new_with_label (_(family->name));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu),
+	menu = go_image_menu_new (_(family->name),
 		gtk_image_new_from_pixbuf (
 			go_gdk_pixbuf_get_from_cache (family->sample_image_file)));
 	gtk_menu_shell_append (GTK_MENU_SHELL (closure->menu), menu);
@@ -377,8 +376,7 @@ cb_plot_family_menu_create (G_GNUC_UNUSED char const *id,
 
 	for (ptr = types ; ptr != NULL ; ptr = ptr->next) {
 		type = ptr->data;
-		w = gtk_image_menu_item_new_with_label (_(type->name));
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (w),
+		w = go_image_menu_new (_(type->name),
 			gtk_image_new_from_pixbuf (
 				go_gdk_pixbuf_get_from_cache (type->sample_image_file)));
 		g_object_set_data (G_OBJECT (w), ADDITION_KEY, closure->addition);

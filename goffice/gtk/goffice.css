@@ -38,9 +38,10 @@ rotation3dselector canvas {
 
 /* ---------------------------------------- */
 
+/* Keep the 20px in sync with GO_PALETTE_SWATCH_SIZE in go-palette.c */
 colorpalette button box {
-  min-height: 1.5em;
-  min-width: 1.5em;
+  min-height: 20px;
+  min-width: 20px;
 
   border-width: 3px;
   padding: 0;
@@ -56,4 +57,27 @@ colorpalette grid {
   padding: 0.2em;
 }
 
+/* Colour swatches in the overflow-menu palette.  Menu items are padded and
+   given a minimum width for text, which would put a 12px swatch in a 52px
+   cell.  */
+menuitem.go-color-swatch {
+  min-width: 0;
+  min-height: 0;
+  padding: 4px;
+}
+
 /* ---------------------------------------- */
+
+/* Swatches in GOPalette menus (colour, marker, pattern, ... selectors).  The
+   menu node is called "palette", so the theme's "menu menuitem" padding does
+   not apply to them.  Keep in line with menuitem.go-color-swatch above.  */
+palette menuitem.go-palette-swatch {
+  padding: 4px;
+}
+
+/* The theme paints menu backgrounds and borders on the "menu" node, which
+   does not match "palette", leaving the popup transparent.  */
+palette {
+  background-color: @theme_base_color;
+  border: 1px solid @borders;
+}
