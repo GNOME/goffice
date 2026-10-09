@@ -52,6 +52,17 @@ colorpalette button {
   padding: 0;
 }
 
+/* Highlight for the button under the pointer: same blue as the menu
+   highlights below.  The theme's own hover (a thin, pale border) is easy to
+   miss.  As with the menus, it is the background around the swatch that
+   changes, never the swatch itself.  */
+colorpalette button:hover {
+  background-image: none;
+  box-shadow: none;
+  background-color: @theme_selected_bg_color;
+  border-color: @theme_selected_bg_color;
+}
+
 colorpalette grid {
   margin: 0;
   padding: 0.2em;
@@ -80,4 +91,13 @@ palette menuitem.go-palette-swatch {
 palette {
   background-color: @theme_base_color;
   border: 1px solid @borders;
+}
+
+/* Highlight for the item under the pointer (or selected from the keyboard),
+   as the theme does for "menu menuitem".  It is the item's background, i.e.
+   the padding around a swatch, that changes: the colour of the swatch itself
+   is never touched.  */
+palette menuitem:hover {
+  background-color: @theme_selected_bg_color;
+  color: @theme_selected_fg_color;
 }
