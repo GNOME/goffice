@@ -79,18 +79,38 @@ set_actives (GOArrowSel *as)
 }
 
 
+// Sets @spin to @value, but only if it differs.  GtkSpinButton emits "output"
+// even when the value is unchanged, which we don't want.
 static void
-cb_changed (GOArrowSel *as)
+set_spin_if_changed (GtkSpinButton *spin, double value)
+{
+	if (gtk_spin_button_get_value (spin) != value)
+		gtk_spin_button_set_value (spin, value);
+}
+
+
+// Handler for the type combo and the spin buttons.  Only the field belonging
+// to @w is taken from the widgets; the rest come from as->arrow.  That way a
+// handler triggered while go_arrow_sel_set_arrow is still updating the other
+// widgets cannot write their stale values back.
+static void
+cb_changed (GtkWidget *w, GOArrowSel *as)
 {
 	GOArrow arr = as->arrow;
-	int idx;
 
-	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (as->type_selector));
-	if (idx >= 0 && arrow_type_is_valid ((GOArrowType)idx))
+	if (w == as->type_selector) {
+		int idx = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
+		if (idx < 0 || !arrow_type_is_valid ((GOArrowType)idx))
+			return;
 		arr.typ = idx;
-	arr.a = gtk_spin_button_get_value (as->spin_a);
-	arr.b = gtk_spin_button_get_value (as->spin_b);
-	arr.c = gtk_spin_button_get_value (as->spin_c);
+	} else if (w == GTK_WIDGET (as->spin_a))
+		arr.a = gtk_spin_button_get_value (as->spin_a);
+	else if (w == GTK_WIDGET (as->spin_b))
+		arr.b = gtk_spin_button_get_value (as->spin_b);
+	else if (w == GTK_WIDGET (as->spin_c))
+		arr.c = gtk_spin_button_get_value (as->spin_c);
+	else
+		g_assert_not_reached ();
 
 	go_arrow_sel_set_arrow (as, &arr);
 }
@@ -146,16 +166,16 @@ go_arrow_sel_constructor (GType type,
 		return (GObject *)as;
 	}
 	as->spin_a = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (as->gui, "spin_a"));
-	g_signal_connect_swapped (as->spin_a, "value-changed", G_CALLBACK (cb_changed), as);
+	g_signal_connect (as->spin_a, "value-changed", G_CALLBACK (cb_changed), as);
 	as->spin_b = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (as->gui, "spin_b"));
-	g_signal_connect_swapped (as->spin_b, "value-changed", G_CALLBACK (cb_changed), as);
+	g_signal_connect (as->spin_b, "value-changed", G_CALLBACK (cb_changed), as);
 	as->spin_c = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (as->gui, "spin_c"));
-	g_signal_connect_swapped (as->spin_c, "value-changed", G_CALLBACK (cb_changed), as);
+	g_signal_connect (as->spin_c, "value-changed", G_CALLBACK (cb_changed), as);
 
 	as->type_selector = go_gtk_builder_get_widget (as->gui, "type-selector");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (as->type_selector), GO_ARROW_NONE);
 	set_actives (as);
-	g_signal_connect_swapped (as->type_selector, "changed", G_CALLBACK (cb_changed), as);
+	g_signal_connect (as->type_selector, "changed", G_CALLBACK (cb_changed), as);
 
 	as->preview = go_gtk_builder_get_widget (as->gui, "preview");
 	g_signal_connect (G_OBJECT (as->preview), "draw",
@@ -318,9 +338,9 @@ go_arrow_sel_set_arrow (GOArrowSel *as, GOArrow const *arrow)
 	}
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (as->type_selector), arrow->typ);
-	gtk_spin_button_set_value (as->spin_a, arrow->a);
-	gtk_spin_button_set_value (as->spin_b, arrow->b);
-	gtk_spin_button_set_value (as->spin_c, arrow->c);
+	set_spin_if_changed (as->spin_a, arrow->a);
+	set_spin_if_changed (as->spin_b, arrow->b);
+	set_spin_if_changed (as->spin_c, arrow->c);
 	set_actives (as);
 	g_object_thaw_notify (G_OBJECT (as));
 
