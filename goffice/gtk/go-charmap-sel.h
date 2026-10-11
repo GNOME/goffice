@@ -34,6 +34,11 @@ G_BEGIN_DECLS
 
 typedef struct _GOCharmapSel GOCharmapSel;
 
+/**
+ * GOCharmapSelTestDirection:
+ * @GO_CHARMAP_SEL_TO_UTF8: to UTF-8.
+ * @GO_CHARMAP_SEL_FROM_UTF8: from UTF-8.
+ **/
 typedef enum {
 	GO_CHARMAP_SEL_TO_UTF8 = 0,
 	GO_CHARMAP_SEL_FROM_UTF8

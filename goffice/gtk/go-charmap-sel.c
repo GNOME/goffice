@@ -31,14 +31,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-/**
- * GOCharmapSelTestDirection:
- * @GO_CHARMAP_SEL_TO_UTF8: to UTF-8.
- * @GO_CHARMAP_SEL_FROM_UTF8: from UTF-8.
- **/
-
-#define CS(x) GO_CHARMAP_SEL (x)
-
 #define CHARMAP_NAME_KEY "Name of Character Encoding"
 
 /* ------------------------------------------------------------------------- */
@@ -247,12 +239,9 @@ struct _GOCharmapSel {
 typedef struct {
 	GtkBoxClass parent_class;
 
-	gboolean (* charmap_changed) (GOCharmapSel *cs, char const *new_charmap);
+	void (* charmap_changed) (GOCharmapSel *cs, char const *new_charmap);
 } GOCharmapSelClass;
 
-
-typedef GOCharmapSel Cs;
-typedef GOCharmapSelClass CsClass;
 
 /* Signals we emit */
 enum {
@@ -291,6 +280,24 @@ iconv_supported (const char *to, const char *from)
 	return TRUE;
 }
 
+// The iconv name of @ci for the given conversion direction, or NULL if iconv
+// does not support it.
+static const char *
+charset_iconv_name (CharsetInfo const *ci, GOCharmapSelTestDirection test)
+{
+	return (test == GO_CHARMAP_SEL_TO_UTF8)
+		? ci->to_utf8_iconv_name
+		: ci->from_utf8_iconv_name;
+}
+
+/**
+ * go_charmap_sel_get_encoding_name:
+ * @cs: unused, may be %NULL
+ * @encoding: an encoding name or alias (case-insensitive)
+ *
+ * Returns: (transfer none) (nullable): the translated display title for
+ * @encoding, or %NULL if @encoding is unknown.
+ **/
 const char *
 go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
 				  const char *encoding)
@@ -298,6 +305,9 @@ go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
 	CharsetInfo const *ci;
 
 	g_return_val_if_fail (encoding != NULL, NULL);
+
+	/* Make sure the class, and thus encoding_hash, has been initialized. */
+	g_type_class_unref (g_type_class_ref (GO_TYPE_CHARMAP_SEL));
 
 	ci = g_hash_table_lookup (encoding_hash, encoding);
 	return ci ? _(ci->charset_title) : NULL;
@@ -387,9 +397,7 @@ cs_build_menu (GOCharmapSel *cs)
 		while (charset_trans->lgroup != LG_LAST) {
 			GtkWidget *subitem;
 			if (charset_trans->lgroup == lgroup->lgroup) {
-				const char *name = (cs->test == GO_CHARMAP_SEL_TO_UTF8)
-					? charset_trans->to_utf8_iconv_name
-					: charset_trans->from_utf8_iconv_name;
+				const char *name = charset_iconv_name (charset_trans, cs->test);
 				if (name) {
 					if (!submenu)
 						submenu = GTK_MENU (gtk_menu_new ());
@@ -402,19 +410,17 @@ cs_build_menu (GOCharmapSel *cs)
 						cs_emphasize_label (GTK_LABEL (gtk_bin_get_child (GTK_BIN (subitem))));
 					g_object_set_data (G_OBJECT (subitem), CHARMAP_NAME_KEY,
 							   (gpointer)name);
-				} else if (0) {
-					g_print ("Unsupported: %s\n", charset_trans->aliases);
 				}
 			}
 			charset_trans++;
 		}
 		if (submenu) {
-			GtkWidget *item =
+			GtkWidget *group_item =
 				gtk_menu_item_new_with_label (_(lgroup->group_name));
 
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
-			gtk_widget_show (item);
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (group_item), GTK_WIDGET (submenu));
+			gtk_widget_show (group_item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  group_item);
 			lg_cnt++;
 		}
                 lgroup++;
@@ -471,7 +477,7 @@ cs_class_init (GtkWidgetClass *widget_klass)
 							    (guint)GO_CHARMAP_SEL_TO_UTF8,
 							    (guint)GO_CHARMAP_SEL_FROM_UTF8,
 							    (guint)GO_CHARMAP_SEL_TO_UTF8,
-							    G_PARAM_READWRITE));
+							    G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
 	/* ---------------------------------------- */
 	/* Sort the groups by translated name.  */
@@ -574,16 +580,29 @@ cs_class_init (GtkWidgetClass *widget_klass)
 GSF_CLASS (GOCharmapSel, go_charmap_sel,
 	   cs_class_init, cs_init, GTK_TYPE_BOX)
 
+/**
+ * go_charmap_sel_new:
+ * @test: whether to offer encodings convertible to or from UTF-8
+ *
+ * Returns: (transfer floating): a new #GOCharmapSel.
+ **/
 GtkWidget *
 go_charmap_sel_new (GOCharmapSelTestDirection test)
 {
 	return g_object_new (GO_TYPE_CHARMAP_SEL, "TestDirection", test, NULL);
 }
 
+/**
+ * go_charmap_sel_get_encoding:
+ * @cs: #GOCharmapSel
+ *
+ * Returns: (transfer none): the iconv name of the selected encoding, or the
+ * locale's charset if the "Locale" entry is selected or nothing is selected.
+ **/
 gchar const *
 go_charmap_sel_get_encoding (GOCharmapSel *cs)
 {
-	GtkMenuItem *selection;
+	GtkWidget *selection;
 	char const *locale_encoding;
 	char const *encoding;
 
@@ -591,7 +610,10 @@ go_charmap_sel_get_encoding (GOCharmapSel *cs)
 
  	g_return_val_if_fail (GO_IS_CHARMAP_SEL (cs), locale_encoding);
 
- 	selection = GTK_MENU_ITEM (go_option_menu_get_history (cs->encodings));
+	selection = go_option_menu_get_history (cs->encodings);
+	if (!selection)
+		return locale_encoding;
+
 	encoding = (char const *) g_object_get_data (G_OBJECT (selection),
 						     CHARMAP_NAME_KEY);
 	return encoding ? encoding : locale_encoding;
@@ -637,6 +659,16 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 	cl->i++;
 }
 
+/**
+ * go_charmap_sel_set_encoding:
+ * @cs: #GOCharmapSel
+ * @enc: an encoding name or alias (case-insensitive)
+ *
+ * Selects @enc.  Does not emit "charmap_changed".
+ *
+ * Returns: %TRUE if @enc was selected, %FALSE if it is unknown or not
+ * supported by iconv in the selector's direction.
+ **/
 gboolean
 go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 {
@@ -650,7 +682,7 @@ go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 	if (!ci)
 		return FALSE;
 
-	enc = ci->to_utf8_iconv_name;
+	enc = charset_iconv_name (ci, cs->test);
 	if (!enc)
 		return FALSE;
 
