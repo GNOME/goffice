@@ -1,5 +1,5 @@
 /*
- * go-calendar-button.h: A custom GtkAction to chose among a set of images
+ * go-calendar-button.h: a calendar selector button.
  *
  * Copyright (C) 2009 Morten Welinder (terra@gnome.org)
  *
