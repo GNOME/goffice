@@ -104,7 +104,7 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 		{-50, -50, -50},
 		{-50,  50, -50},
 	};
-	const int cf[] = {
+	static const int cf[] = {
 		0, 1, 2, 3,
 		4, 5, 6, 7,
 		0, 1, 5, 4,
