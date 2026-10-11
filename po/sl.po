@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2026-04-22 23:58+0000\n"
-"PO-Revision-Date: 2026-04-23 08:36+0200\n"
+"POT-Creation-Date: 2026-10-11 21:08+0000\n"
+"PO-Revision-Date: 2026-10-11 23:29+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -179,7 +179,7 @@ msgstr "Shranjeno stanje"
 msgid "State of document when last saved"
 msgstr "Stanje dokumenta, ko je bil nazadnje shranjen"
 
-#: ../goffice/app/go-doc.c:624 ../goffice/canvas/goc-image.c:324
+#: ../goffice/app/go-doc.c:624 ../goffice/canvas/goc-image.c:333
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Slika"
@@ -447,7 +447,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Funkcija čiščenja znotraj vstavka je vrnila napako."
 
 #: ../goffice/app/go-plugin-service.c:229 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:1006 ../goffice/utils/go-format.c:5491
+#: ../goffice/utils/go-format.c:1006 ../goffice/utils/go-format.c:5492
 msgid "General"
 msgstr "Splošno"
 
@@ -614,8 +614,8 @@ msgstr "Puščica za konec črte"
 #: ../goffice/canvas/goc-canvas.c:352 ../goffice/canvas/goc-component.c:309
 #: ../goffice/canvas/goc-component.c:310 ../goffice/canvas/goc-ellipse.c:291
 #: ../goffice/canvas/goc-graph.c:484 ../goffice/canvas/goc-graph.c:485
-#: ../goffice/canvas/goc-image.c:307 ../goffice/canvas/goc-pixbuf.c:247
-#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:842
+#: ../goffice/canvas/goc-image.c:316 ../goffice/canvas/goc-pixbuf.c:247
+#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:877
 #: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-graph.c:499
 #: ../goffice/graph/gog-object.c:207 ../goffice/utils/go-image.c:504
 #: ../plugins/plot_xy/gog-xy-dropbar.c:308
@@ -629,8 +629,8 @@ msgstr "Širina platna"
 #: ../goffice/canvas/goc-canvas.c:358 ../goffice/canvas/goc-component.c:303
 #: ../goffice/canvas/goc-component.c:304 ../goffice/canvas/goc-ellipse.c:297
 #: ../goffice/canvas/goc-graph.c:478 ../goffice/canvas/goc-graph.c:479
-#: ../goffice/canvas/goc-image.c:313 ../goffice/canvas/goc-pixbuf.c:253
-#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:848
+#: ../goffice/canvas/goc-image.c:322 ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:883
 #: ../goffice/graph/gog-graph.c:505 ../goffice/graph/gog-object.c:209
 #: ../goffice/utils/go-image.c:508
 msgid "Height"
@@ -642,10 +642,10 @@ msgstr "Višina platna"
 
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
 #: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:466
-#: ../goffice/canvas/goc-group.c:295 ../goffice/canvas/goc-image.c:295
+#: ../goffice/canvas/goc-group.c:295 ../goffice/canvas/goc-image.c:304
 #: ../goffice/canvas/goc-path.c:299 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:433
-#: ../goffice/canvas/goc-widget.c:829 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-widget.c:864 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -655,10 +655,10 @@ msgstr "Vodoravni položaj središča kroga"
 
 #: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:297
 #: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:472
-#: ../goffice/canvas/goc-group.c:301 ../goffice/canvas/goc-image.c:301
+#: ../goffice/canvas/goc-group.c:301 ../goffice/canvas/goc-image.c:310
 #: ../goffice/canvas/goc-path.c:305 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:439
-#: ../goffice/canvas/goc-widget.c:835
+#: ../goffice/canvas/goc-widget.c:870
 msgid "y"
 msgstr "y"
 
@@ -756,55 +756,55 @@ msgstr "Vodoravni odmik skupine predmetov"
 msgid "The group vertical offset"
 msgstr "Navpični odmik skupine predmetov"
 
-#: ../goffice/canvas/goc-image.c:296 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:305 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "Položaj leve točke slike"
 
-#: ../goffice/canvas/goc-image.c:302 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:311 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "Položaj zgornje točke slike"
 
-#: ../goffice/canvas/goc-image.c:308 ../goffice/canvas/goc-pixbuf.c:248
+#: ../goffice/canvas/goc-image.c:317 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr "Določena širina slike ali pa -1 za uporabo izvorne vrednosti"
 
-#: ../goffice/canvas/goc-image.c:314 ../goffice/canvas/goc-pixbuf.c:254
+#: ../goffice/canvas/goc-image.c:323 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr "Določena višina slike ali pa -1 za uporabo izvorne vrednosti"
 
-#: ../goffice/canvas/goc-image.c:325
+#: ../goffice/canvas/goc-image.c:334
 msgid "The GOImage to display"
 msgstr "Predmet GOImage za prikaz"
 
-#: ../goffice/canvas/goc-image.c:329
+#: ../goffice/canvas/goc-image.c:338
 msgid "Cropped bottom"
 msgstr "Obrezan spodnji del"
 
-#: ../goffice/canvas/goc-image.c:330
+#: ../goffice/canvas/goc-image.c:339
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr "Obrezan spodnji del slike kot delež višine slike"
 
-#: ../goffice/canvas/goc-image.c:334
+#: ../goffice/canvas/goc-image.c:343
 msgid "Cropped left"
 msgstr "Obrezan levi del"
 
-#: ../goffice/canvas/goc-image.c:335
+#: ../goffice/canvas/goc-image.c:344
 msgid "The cropped area at the image left of the image width"
 msgstr "Obrezan levi del slike kot del širine slike"
 
-#: ../goffice/canvas/goc-image.c:339
+#: ../goffice/canvas/goc-image.c:348
 msgid "Cropped right"
 msgstr "Obrezan desni del"
 
-#: ../goffice/canvas/goc-image.c:340
+#: ../goffice/canvas/goc-image.c:349
 msgid "The cropped area at the image right of the image width"
 msgstr "Obrezan desni del slike kot del širine slike"
 
-#: ../goffice/canvas/goc-image.c:344
+#: ../goffice/canvas/goc-image.c:353
 msgid "Cropped top"
 msgstr "Obrezan zgornji del"
 
-#: ../goffice/canvas/goc-image.c:345
+#: ../goffice/canvas/goc-image.c:354
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr "Obrezan zgornji del slike kot delež višine slike"
 
@@ -892,7 +892,7 @@ msgstr "Pot"
 msgid "The path points"
 msgstr "Točke poti"
 
-#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:366
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:368
 msgid "Pixbuf"
 msgstr "Sličica"
 
@@ -981,22 +981,22 @@ msgstr "ry"
 msgid "The round rectangle ry"
 msgstr "Vrednost točke ry za zaobljeni pravokotnik"
 
-#: ../goffice/canvas/goc-styled-item.c:171
+#: ../goffice/canvas/goc-styled-item.c:172
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-#: ../goffice/graph/gog-styled-object.c:225 ../goffice/utils/go-style.c:1137
+#: ../goffice/graph/gog-styled-object.c:225 ../goffice/utils/go-style.c:1138
 msgid "Style"
 msgstr "Slog"
 
-#: ../goffice/canvas/goc-styled-item.c:172
+#: ../goffice/canvas/goc-styled-item.c:173
 #: ../goffice/graph/gog-styled-object.c:226
 msgid "A pointer to the GOStyle object"
 msgstr "Kazalnik za predmet GOStyle"
 
-#: ../goffice/canvas/goc-styled-item.c:177
+#: ../goffice/canvas/goc-styled-item.c:178
 msgid "Scale line width"
 msgstr "Širina črte merila"
 
-#: ../goffice/canvas/goc-styled-item.c:178
+#: ../goffice/canvas/goc-styled-item.c:179
 msgid "Whether to scale the line width when zooming"
 msgstr "Ali naj se med približevanjem spremeni merilo širine črte"
 
@@ -1021,7 +1021,7 @@ msgid "The anchor point for the text"
 msgstr "Sidrna točka za besedilo"
 
 #: ../goffice/canvas/goc-text.c:457 ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/gtk/go-rotation-sel.c:216 ../goffice/utils/go-style.c:988
+#: ../goffice/gtk/go-rotation-sel.c:216 ../goffice/utils/go-style.c:989
 msgid "Text"
 msgstr "Besedilo"
 
@@ -1069,27 +1069,27 @@ msgstr "Prelomi širino"
 msgid "Wrap width for the text"
 msgstr "Prelomi širino besedila"
 
-#: ../goffice/canvas/goc-widget.c:823
+#: ../goffice/canvas/goc-widget.c:858
 msgid "Widget"
 msgstr "Gradnik"
 
-#: ../goffice/canvas/goc-widget.c:824
+#: ../goffice/canvas/goc-widget.c:859
 msgid "A pointer to the embedded widget"
 msgstr "Kazalec vstavljenega gradnika"
 
-#: ../goffice/canvas/goc-widget.c:830
+#: ../goffice/canvas/goc-widget.c:865
 msgid "The widget left position"
 msgstr "Levi položaj gradnika"
 
-#: ../goffice/canvas/goc-widget.c:836
+#: ../goffice/canvas/goc-widget.c:871
 msgid "The widget top position"
 msgstr "Zgornji položaj gradnika"
 
-#: ../goffice/canvas/goc-widget.c:843
+#: ../goffice/canvas/goc-widget.c:878
 msgid "The widget width"
 msgstr "Širina gradnika"
 
-#: ../goffice/canvas/goc-widget.c:849
+#: ../goffice/canvas/goc-widget.c:884
 msgid "The widget height"
 msgstr "Višina gradnika"
 
@@ -1542,7 +1542,7 @@ msgstr "Vezi"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:2
 #: ../goffice/graph/gog-object-prefs.ui.h:15
-#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:338
+#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:368
 msgid "Automatic"
 msgstr "Samodejno"
 
@@ -1741,7 +1741,7 @@ msgid "Plot"
 msgstr "Diagram"
 
 #: ../goffice/graph/gog-chart.c:697 ../goffice/graph/gog-graph.c:432
-#: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
+#: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:313
 msgid "Title"
 msgstr "Naslov"
 
@@ -1816,7 +1816,7 @@ msgid "Number of rows in graph grid"
 msgstr "Število vrstic na mreži diagrama"
 
 #. Note for translators: first string represent the new child object and second string is the parent object
-#: ../goffice/graph/gog-child-button.c:491
+#: ../goffice/graph/gog-child-button.c:490
 #, c-format
 msgid "%s to %s"
 msgstr "%s za %s"
@@ -3034,13 +3034,13 @@ msgstr "Razlikovanje malih/velikih črk"
 msgid "Should the text comparison be case sensitive"
 msgstr "Ali naj bo primerjava besedila občutljiva na velikost črk"
 
-#: ../goffice/gtk/go-arrow-sel.c:209
+#: ../goffice/gtk/go-arrow-sel.c:270
 msgid "Arrow"
 msgstr "Puščica"
 
-#: ../goffice/gtk/go-arrow-sel.c:210
-msgid "The currently selected arrow"
-msgstr "Trenutno izbrana puščica"
+#: ../goffice/gtk/go-arrow-sel.c:271
+msgid "The currently selected arrow; setting NULL is ignored"
+msgstr "Trenutno izbrana puščica; nastavitev NULL se ne upošteva"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:1
 msgid "Dimension A"
@@ -3067,641 +3067,641 @@ msgstr "Zmaj"
 msgid "Oval"
 msgstr "Oval"
 
-#: ../goffice/gtk/go-charmap-sel.c:73
+#: ../goffice/gtk/go-charmap-sel.c:68
 msgid "Arabic"
 msgstr "Arabsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:74
+#: ../goffice/gtk/go-charmap-sel.c:69
 msgid "Baltic"
 msgstr "Baltsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:75
+#: ../goffice/gtk/go-charmap-sel.c:70
 msgid "Central European"
 msgstr "Srednjeevropsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:76
+#: ../goffice/gtk/go-charmap-sel.c:71
 msgid "Chinese"
 msgstr "Kitajsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:77
+#: ../goffice/gtk/go-charmap-sel.c:72
 msgid "Cyrillic"
 msgstr "Cirilica"
 
-#: ../goffice/gtk/go-charmap-sel.c:78
+#: ../goffice/gtk/go-charmap-sel.c:73
 msgid "Greek"
 msgstr "Grško"
 
-#: ../goffice/gtk/go-charmap-sel.c:79
+#: ../goffice/gtk/go-charmap-sel.c:74
 msgid "Hebrew"
 msgstr "Hebrejsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:80
+#: ../goffice/gtk/go-charmap-sel.c:75
 msgid "Indian"
 msgstr "Indijsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:81
+#: ../goffice/gtk/go-charmap-sel.c:76
 msgid "Japanese"
 msgstr "Japonsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:82
+#: ../goffice/gtk/go-charmap-sel.c:77
 msgid "Korean"
 msgstr "Korejsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:83
+#: ../goffice/gtk/go-charmap-sel.c:78
 msgid "Turkish"
 msgstr "Turško"
 
-#: ../goffice/gtk/go-charmap-sel.c:84
+#: ../goffice/gtk/go-charmap-sel.c:79
 msgid "Unicode"
 msgstr "Unicode"
 
-#: ../goffice/gtk/go-charmap-sel.c:85
+#: ../goffice/gtk/go-charmap-sel.c:80
 msgid "Vietnamese"
 msgstr "Vietnamsko"
 
-#: ../goffice/gtk/go-charmap-sel.c:86
+#: ../goffice/gtk/go-charmap-sel.c:81
 msgid "Western"
 msgstr "Zahodno"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:609
+#: ../goffice/gtk/go-charmap-sel.c:82 ../goffice/gtk/go-font-sel.c:608
 #: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "Ostalo"
 
-#: ../goffice/gtk/go-charmap-sel.c:118
+#: ../goffice/gtk/go-charmap-sel.c:120
 msgid "Arabic (IBM-864)"
 msgstr "Arabsko (IBM-864)"
 
-#: ../goffice/gtk/go-charmap-sel.c:119
+#: ../goffice/gtk/go-charmap-sel.c:121
 msgid "Arabic (IBM-864-I)"
 msgstr "Arabsko (IBM-864-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:120
+#: ../goffice/gtk/go-charmap-sel.c:122
 msgid "Arabic (ISO-8859-6)"
 msgstr "Arabsko (ISO-8859-6)"
 
-#: ../goffice/gtk/go-charmap-sel.c:121
+#: ../goffice/gtk/go-charmap-sel.c:123
 msgid "Arabic (ISO-8859-6-E)"
 msgstr "Arabsko (ISO-8859-6-E)"
 
-#: ../goffice/gtk/go-charmap-sel.c:123
+#: ../goffice/gtk/go-charmap-sel.c:125
 msgid "Arabic (ISO-8859-6-I)"
 msgstr "Arabsko (ISO-8859-6-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:124
+#: ../goffice/gtk/go-charmap-sel.c:126
 msgid "Arabic (MacArabic)"
 msgstr "Arabsko (MacArabic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:125
+#: ../goffice/gtk/go-charmap-sel.c:127
 msgid "Arabic (Windows-1256)"
 msgstr "Arabsko (windows-1256)"
 
-#: ../goffice/gtk/go-charmap-sel.c:126
+#: ../goffice/gtk/go-charmap-sel.c:128
 msgid "Armenian (ARMSCII-8)"
 msgstr "Armensko (ARMSCII-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:127
+#: ../goffice/gtk/go-charmap-sel.c:129
 msgid "Baltic (ISO-8859-13)"
 msgstr "Baltsko (ISO-8859-13)"
 
-#: ../goffice/gtk/go-charmap-sel.c:128
+#: ../goffice/gtk/go-charmap-sel.c:130
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltsko (ISO-8859-4)"
 
-#: ../goffice/gtk/go-charmap-sel.c:129
+#: ../goffice/gtk/go-charmap-sel.c:131
 msgid "Baltic (Windows-1257)"
 msgstr "Baltsko (windows-1257)"
 
-#: ../goffice/gtk/go-charmap-sel.c:130
+#: ../goffice/gtk/go-charmap-sel.c:132
 msgid "Celtic (ISO-8859-14)"
 msgstr "Keltsko (ISO-8859-14)"
 
-#: ../goffice/gtk/go-charmap-sel.c:131
+#: ../goffice/gtk/go-charmap-sel.c:133
 msgid "Central European (IBM-852)"
 msgstr "Srednjeevropsko (IBM-852)"
 
-#: ../goffice/gtk/go-charmap-sel.c:132
+#: ../goffice/gtk/go-charmap-sel.c:134
 msgid "Central European (ISO-8859-2)"
 msgstr "Srednjeevropsko (ISO-8859-2)"
 
-#: ../goffice/gtk/go-charmap-sel.c:133
+#: ../goffice/gtk/go-charmap-sel.c:135
 msgid "Central European (MacCE)"
 msgstr "Srednjeevropsko (MacCE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:134
+#: ../goffice/gtk/go-charmap-sel.c:136
 msgid "Central European (Windows-1250)"
 msgstr "Srednjeevropsko (Windows-1250)"
 
-#: ../goffice/gtk/go-charmap-sel.c:135
+#: ../goffice/gtk/go-charmap-sel.c:137
 msgid "Chinese Simplified (GB18030)"
 msgstr "Poenostavljeno kitajsko (GB18030)"
 
-#: ../goffice/gtk/go-charmap-sel.c:136
+#: ../goffice/gtk/go-charmap-sel.c:138
 msgid "Chinese Simplified (GB2312)"
 msgstr "Poenostavljeno kitajsko (GB2312)"
 
-#: ../goffice/gtk/go-charmap-sel.c:137
+#: ../goffice/gtk/go-charmap-sel.c:139
 msgid "Chinese Simplified (GBK)"
 msgstr "Poenostavljeno kitajsko (GBK)"
 
-#: ../goffice/gtk/go-charmap-sel.c:138
+#: ../goffice/gtk/go-charmap-sel.c:140
 msgid "Chinese Simplified (HZ)"
 msgstr "Poenostavljeno kitajsko (HZ)"
 
-#: ../goffice/gtk/go-charmap-sel.c:139
+#: ../goffice/gtk/go-charmap-sel.c:141
 msgid "Chinese Simplified (Windows-936)"
 msgstr "Poenostavljeno kitajsko (Windows-936)"
 
-#: ../goffice/gtk/go-charmap-sel.c:140
+#: ../goffice/gtk/go-charmap-sel.c:142
 msgid "Chinese Traditional (Big5)"
 msgstr "Tradicionalno kitajsko (Big5)"
 
-#: ../goffice/gtk/go-charmap-sel.c:141
+#: ../goffice/gtk/go-charmap-sel.c:143
 msgid "Chinese Traditional (Big5-HKSCS)"
 msgstr "Tradicionalno kitajsko (Big5-HKSCS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:142
+#: ../goffice/gtk/go-charmap-sel.c:144
 msgid "Chinese Traditional (EUC-TW)"
 msgstr "Tradicionalno kitajsko (EUC-TW)"
 
-#: ../goffice/gtk/go-charmap-sel.c:143
+#: ../goffice/gtk/go-charmap-sel.c:145
 msgid "Croatian (MacCroatian)"
 msgstr "Hrvaško (MacCroatian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:144
+#: ../goffice/gtk/go-charmap-sel.c:146
 msgid "Cyrillic (IBM-855)"
 msgstr "Cirilica (IBM-855)"
 
-#: ../goffice/gtk/go-charmap-sel.c:145
+#: ../goffice/gtk/go-charmap-sel.c:147
 msgid "Cyrillic (ISO-8859-5)"
 msgstr "Cirilica (ISO-8859-5)"
 
-#: ../goffice/gtk/go-charmap-sel.c:146
+#: ../goffice/gtk/go-charmap-sel.c:148
 msgid "Cyrillic (ISO-IR-111)"
 msgstr "Cirilica (ISO-IR-111)"
 
-#: ../goffice/gtk/go-charmap-sel.c:147
+#: ../goffice/gtk/go-charmap-sel.c:149
 msgid "Cyrillic (KOI8-R)"
 msgstr "Cirilica (KOI8-R)"
 
-#: ../goffice/gtk/go-charmap-sel.c:148
+#: ../goffice/gtk/go-charmap-sel.c:150
 msgid "Cyrillic (MacCyrillic)"
 msgstr "Cirilica (MacCyrillic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:149
+#: ../goffice/gtk/go-charmap-sel.c:151
 msgid "Cyrillic (Windows-1251)"
 msgstr "Cirilica (Windows-1251)"
 
-#: ../goffice/gtk/go-charmap-sel.c:150
+#: ../goffice/gtk/go-charmap-sel.c:152
 msgid "Russian (CP-866)"
 msgstr "Rusko (CP-866)"
 
-#: ../goffice/gtk/go-charmap-sel.c:151
+#: ../goffice/gtk/go-charmap-sel.c:153
 msgid "Ukrainian (KOI8-U)"
 msgstr "Ukrajinsko (KOI8-U)"
 
-#: ../goffice/gtk/go-charmap-sel.c:152
+#: ../goffice/gtk/go-charmap-sel.c:154
 msgid "Ukrainian (MacUkrainian)"
 msgstr "Ukrajinsko (MacUkrainian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:153
+#: ../goffice/gtk/go-charmap-sel.c:155
 msgid "English (ASCII)"
 msgstr "Angleško (ASCII)"
 
-#: ../goffice/gtk/go-charmap-sel.c:154
+#: ../goffice/gtk/go-charmap-sel.c:156
 msgid "Farsi (MacFarsi)"
 msgstr "Farški (MacFarsi)"
 
-#: ../goffice/gtk/go-charmap-sel.c:155
+#: ../goffice/gtk/go-charmap-sel.c:157
 msgid "Georgian (GEOSTD8)"
 msgstr "Gruzijsko (GEOSTD8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:156
+#: ../goffice/gtk/go-charmap-sel.c:158
 msgid "Greek (ISO-8859-7)"
 msgstr "Grško (ISO-8859-7)"
 
-#: ../goffice/gtk/go-charmap-sel.c:157
+#: ../goffice/gtk/go-charmap-sel.c:159
 msgid "Greek (MacGreek)"
 msgstr "Grško (MacGreek)"
 
-#: ../goffice/gtk/go-charmap-sel.c:158
+#: ../goffice/gtk/go-charmap-sel.c:160
 msgid "Greek (Windows-1253)"
 msgstr "Grško (Windows-1253)"
 
-#: ../goffice/gtk/go-charmap-sel.c:159
+#: ../goffice/gtk/go-charmap-sel.c:161
 msgid "Gujarati (MacGujarati)"
 msgstr "Gujaratsko (MacGujarati)"
 
-#: ../goffice/gtk/go-charmap-sel.c:160
+#: ../goffice/gtk/go-charmap-sel.c:162
 msgid "Gurmukhi (MacGurmukhi)"
 msgstr "Gurmukhijsko (MacGurmukhi)"
 
-#: ../goffice/gtk/go-charmap-sel.c:161
+#: ../goffice/gtk/go-charmap-sel.c:163
 msgid "Hebrew (IBM-862)"
 msgstr "Hebrejsko (IBM-862)"
 
-#: ../goffice/gtk/go-charmap-sel.c:162
+#: ../goffice/gtk/go-charmap-sel.c:164
 msgid "Hebrew (ISO-8859-8-E)"
 msgstr "Hebrejsko (ISO-8859-8-E)"
 
-#: ../goffice/gtk/go-charmap-sel.c:163
+#: ../goffice/gtk/go-charmap-sel.c:165
 msgid "Hebrew (ISO-8859-8-I)"
 msgstr "Hebrejsko (ISO-8859-8-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:164
+#: ../goffice/gtk/go-charmap-sel.c:166
 msgid "Hebrew (MacHebrew)"
 msgstr "Hebrejsko (MacHebrew)"
 
-#: ../goffice/gtk/go-charmap-sel.c:165
+#: ../goffice/gtk/go-charmap-sel.c:167
 msgid "Hebrew (Windows-1255)"
 msgstr "Hebrejsko (Windows-1255)"
 
-#: ../goffice/gtk/go-charmap-sel.c:166
+#: ../goffice/gtk/go-charmap-sel.c:168
 msgid "Hindi (MacDevanagari)"
 msgstr "Hindujsko (MacDevanagari)"
 
-#: ../goffice/gtk/go-charmap-sel.c:167
+#: ../goffice/gtk/go-charmap-sel.c:169
 msgid "Icelandic (MacIcelandic)"
 msgstr "Islandsko (MacIcelandic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:168
+#: ../goffice/gtk/go-charmap-sel.c:170
 msgid "Japanese (EUC-JP)"
 msgstr "Japonsko (EUC-JP)"
 
-#: ../goffice/gtk/go-charmap-sel.c:169
+#: ../goffice/gtk/go-charmap-sel.c:171
 msgid "Japanese (ISO-2022-JP)"
 msgstr "Japonsko (ISO-2022-JP)"
 
-#: ../goffice/gtk/go-charmap-sel.c:170
+#: ../goffice/gtk/go-charmap-sel.c:172
 msgid "Japanese (Shift_JIS)"
 msgstr "Japonsko (Shift_JIS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:171
+#: ../goffice/gtk/go-charmap-sel.c:173
 msgid "Korean (EUC-KR)"
 msgstr "Korejsko (EUC-KR)"
 
-#: ../goffice/gtk/go-charmap-sel.c:172
+#: ../goffice/gtk/go-charmap-sel.c:174
 msgid "Korean (ISO-2022-KR)"
 msgstr "Korejsko (ISO-2022-KR)"
 
-#: ../goffice/gtk/go-charmap-sel.c:173
+#: ../goffice/gtk/go-charmap-sel.c:175
 msgid "Korean (JOHAB)"
 msgstr "Korejsko (JOHAB)"
 
-#: ../goffice/gtk/go-charmap-sel.c:174
+#: ../goffice/gtk/go-charmap-sel.c:176
 msgid "Korean (UHC)"
 msgstr "Korejsko (UHC)"
 
-#: ../goffice/gtk/go-charmap-sel.c:175
+#: ../goffice/gtk/go-charmap-sel.c:177
 msgid "Nordic (ISO-8859-10)"
 msgstr "Nordijsko (ISO-8859-10)"
 
-#: ../goffice/gtk/go-charmap-sel.c:176
+#: ../goffice/gtk/go-charmap-sel.c:178
 msgid "Romanian (MacRomanian)"
 msgstr "Romunsko (MacRomanian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:177
+#: ../goffice/gtk/go-charmap-sel.c:179
 msgid "Romanian (ISO-8859-16)"
 msgstr "Romunsko (ISO-8859-16)"
 
-#: ../goffice/gtk/go-charmap-sel.c:178
+#: ../goffice/gtk/go-charmap-sel.c:180
 msgid "South European (ISO-8859-3)"
 msgstr "Južno evropsko (ISO-8859-3)"
 
-#: ../goffice/gtk/go-charmap-sel.c:179
+#: ../goffice/gtk/go-charmap-sel.c:181
 msgid "Thai (TIS-620)"
 msgstr "Tajsko (TIS-620)"
 
-#: ../goffice/gtk/go-charmap-sel.c:180
+#: ../goffice/gtk/go-charmap-sel.c:182
 msgid "Turkish (IBM-857)"
 msgstr "Turško (IBM-857)"
 
-#: ../goffice/gtk/go-charmap-sel.c:181
+#: ../goffice/gtk/go-charmap-sel.c:183
 msgid "Turkish (ISO-8859-9)"
 msgstr "Turško (ISO-8859-9)"
 
-#: ../goffice/gtk/go-charmap-sel.c:182
+#: ../goffice/gtk/go-charmap-sel.c:184
 msgid "Turkish (MacTurkish)"
 msgstr "Turško (MacTurkish)"
 
-#: ../goffice/gtk/go-charmap-sel.c:183
+#: ../goffice/gtk/go-charmap-sel.c:185
 msgid "Turkish (Windows-1254)"
 msgstr "Turško (Windows-1254)"
 
-#: ../goffice/gtk/go-charmap-sel.c:184
+#: ../goffice/gtk/go-charmap-sel.c:186
 msgid "Unicode (UTF-7)"
 msgstr "Unicode (UTF-7)"
 
-#: ../goffice/gtk/go-charmap-sel.c:185
+#: ../goffice/gtk/go-charmap-sel.c:187
 msgid "Unicode (UTF-8)"
 msgstr "Unicode (UTF-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:186
+#: ../goffice/gtk/go-charmap-sel.c:188
 msgid "Unicode (UTF-16BE)"
 msgstr "Unicode (UTF-16BE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:187
+#: ../goffice/gtk/go-charmap-sel.c:189
 msgid "Unicode (UTF-16LE)"
 msgstr "Unicode (UTF-16LE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:188
+#: ../goffice/gtk/go-charmap-sel.c:190
 msgid "Unicode (UTF-32BE)"
 msgstr "Unicode (UTF-32BE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:189
+#: ../goffice/gtk/go-charmap-sel.c:191
 msgid "Unicode (UTF-32LE)"
 msgstr "Unicode (UTF-32LE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:190
+#: ../goffice/gtk/go-charmap-sel.c:192
 msgid "User Defined"
 msgstr "Uporabniško določeno"
 
-#: ../goffice/gtk/go-charmap-sel.c:191
+#: ../goffice/gtk/go-charmap-sel.c:193
 msgid "Vietnamese (TCVN)"
 msgstr "Vietnamsko (TCVN)"
 
-#: ../goffice/gtk/go-charmap-sel.c:192
+#: ../goffice/gtk/go-charmap-sel.c:194
 msgid "Vietnamese (VISCII)"
 msgstr "Vietnamsko (VISCII)"
 
-#: ../goffice/gtk/go-charmap-sel.c:193
+#: ../goffice/gtk/go-charmap-sel.c:195
 msgid "Vietnamese (VPS)"
 msgstr "Vietnamsko (VPS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:194
+#: ../goffice/gtk/go-charmap-sel.c:196
 msgid "Vietnamese (Windows-1258)"
 msgstr "Vietnamsko (Windows-1258)"
 
-#: ../goffice/gtk/go-charmap-sel.c:195
+#: ../goffice/gtk/go-charmap-sel.c:197
 msgid "Visual Hebrew (ISO-8859-8)"
 msgstr "Hebrejsko predočeno (ISO-8859-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:196
+#: ../goffice/gtk/go-charmap-sel.c:198
 msgid "Western (IBM-850)"
 msgstr "Zahodno (IBM-850)"
 
-#: ../goffice/gtk/go-charmap-sel.c:197
+#: ../goffice/gtk/go-charmap-sel.c:199
 msgid "Western (ISO-8859-1)"
 msgstr "Zahodno (ISO-8859-1)"
 
-#: ../goffice/gtk/go-charmap-sel.c:198
+#: ../goffice/gtk/go-charmap-sel.c:200
 msgid "Western (ISO-8859-15)"
 msgstr "Zahodno (ISO-8859-15)"
 
-#: ../goffice/gtk/go-charmap-sel.c:199
+#: ../goffice/gtk/go-charmap-sel.c:201
 msgid "Western (MacRoman)"
 msgstr "Zahodno (MacRoman)"
 
-#: ../goffice/gtk/go-charmap-sel.c:200
+#: ../goffice/gtk/go-charmap-sel.c:202
 msgid "Western (Windows-1252)"
 msgstr "Zahodno (Windows-1252)"
 
-#: ../goffice/gtk/go-charmap-sel.c:416
+#: ../goffice/gtk/go-charmap-sel.c:434
 msgid "Locale: "
 msgstr "Krajevno določilo: "
 
-#: ../goffice/gtk/go-charmap-sel.c:457
+#: ../goffice/gtk/go-charmap-sel.c:475
 msgid "Conversion Direction"
 msgstr "Smer pretvorbe"
 
-#: ../goffice/gtk/go-charmap-sel.c:458
+#: ../goffice/gtk/go-charmap-sel.c:476
 msgid "This value determines which iconv test to perform."
 msgstr "Vrednost določa izvajanje posameznega preizkusa iconv."
 
 #. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
-#: ../goffice/gtk/go-color-palette.c:79
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "black"
 msgstr "črna"
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:82
 msgid "light brown"
 msgstr "svetlo rjava"
 
-#: ../goffice/gtk/go-color-palette.c:81
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "brown gold"
 msgstr "zlato rjava"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:84
 msgid "dark green #2"
 msgstr "temno zelena 2"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:85
 msgid "navy"
 msgstr "mornarsko modra"
 
-#: ../goffice/gtk/go-color-palette.c:84 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:138
 msgid "dark blue"
 msgstr "temno modra"
 
-#: ../goffice/gtk/go-color-palette.c:85
+#: ../goffice/gtk/go-color-palette.c:87
 msgid "purple #2"
 msgstr "vijolična 2"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:88
 msgid "very dark gray"
 msgstr "zelo temno siva"
 
-#: ../goffice/gtk/go-color-palette.c:88 ../goffice/gtk/go-color-palette.c:141
+#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:143
 msgid "dark red"
 msgstr "temno rdeča"
 
-#: ../goffice/gtk/go-color-palette.c:89
+#: ../goffice/gtk/go-color-palette.c:91
 msgid "red-orange"
 msgstr "rdeče-oranžna"
 
-#: ../goffice/gtk/go-color-palette.c:90
+#: ../goffice/gtk/go-color-palette.c:92
 msgid "gold"
 msgstr "zlata"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:93
 msgid "dark green"
 msgstr "temno zelena"
 
-#: ../goffice/gtk/go-color-palette.c:92 ../goffice/gtk/go-color-palette.c:142
+#: ../goffice/gtk/go-color-palette.c:94 ../goffice/gtk/go-color-palette.c:144
 msgid "dull blue"
 msgstr "mračno modra"
 
-#: ../goffice/gtk/go-color-palette.c:93 ../goffice/gtk/go-color-palette.c:143
+#: ../goffice/gtk/go-color-palette.c:95 ../goffice/gtk/go-color-palette.c:145
 msgid "blue"
 msgstr "modra"
 
-#: ../goffice/gtk/go-color-palette.c:94
+#: ../goffice/gtk/go-color-palette.c:96
 msgid "dull purple"
 msgstr "mračno vijolična"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:97
 msgid "dark gray"
 msgstr "temno siva"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "red"
 msgstr "rdeča"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "orange"
 msgstr "oranžna"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:101
 msgid "lime"
 msgstr "rumeno-zelena"
 
-#: ../goffice/gtk/go-color-palette.c:100
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "dull green"
 msgstr "mračno modra"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:103
 msgid "dull blue #2"
 msgstr "mračno modra 2"
 
-#: ../goffice/gtk/go-color-palette.c:102
+#: ../goffice/gtk/go-color-palette.c:104
 msgid "sky blue #2"
 msgstr "nebesno modra 2"
 
-#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:105 ../goffice/gtk/go-color-palette.c:142
 msgid "purple"
 msgstr "vijolična"
 
-#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:106
 msgid "gray"
 msgstr "siva"
 
-#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:139
 msgid "magenta"
 msgstr "škrlatna"
 
-#: ../goffice/gtk/go-color-palette.c:107
+#: ../goffice/gtk/go-color-palette.c:109
 msgid "bright orange"
 msgstr "bistro oranžna"
 
-#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:140
 msgid "yellow"
 msgstr "rumena"
 
-#: ../goffice/gtk/go-color-palette.c:109
+#: ../goffice/gtk/go-color-palette.c:111
 msgid "green"
 msgstr "zelena"
 
-#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:141
 msgid "cyan"
 msgstr "sinja"
 
-#: ../goffice/gtk/go-color-palette.c:111
+#: ../goffice/gtk/go-color-palette.c:113
 msgid "bright blue"
 msgstr "bistro modra"
 
-#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:114 ../goffice/gtk/go-color-palette.c:130
 msgid "red purple"
 msgstr "rdeče vijolična"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:115
 msgid "light gray"
 msgstr "svetlo siva"
 
-#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:132
+#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:134
 msgid "pink"
 msgstr "roza"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:118
 msgid "light orange"
 msgstr "svetlo oranžna"
 
-#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:131
 msgid "light yellow"
 msgstr "svetlo rumena"
 
-#: ../goffice/gtk/go-color-palette.c:118
+#: ../goffice/gtk/go-color-palette.c:120
 msgid "light green"
 msgstr "svetlo zelena"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:121
 msgid "light cyan"
 msgstr "svetlo sinja"
 
-#: ../goffice/gtk/go-color-palette.c:120 ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:122 ../goffice/gtk/go-color-palette.c:132
 msgid "light blue"
 msgstr "svetlo modra"
 
-#: ../goffice/gtk/go-color-palette.c:121 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:123 ../goffice/gtk/go-color-palette.c:136
 msgid "light purple"
 msgstr "svetlo vijolična"
 
-#: ../goffice/gtk/go-color-palette.c:122
+#: ../goffice/gtk/go-color-palette.c:124
 msgid "white"
 msgstr "bela"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:129
 msgid "purplish blue"
 msgstr "vijolično modra"
 
-#: ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:133
 msgid "dark purple"
 msgstr "temno vijolična"
 
-#: ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:135
 msgid "sky blue"
 msgstr "nebesno modra"
 
-#: ../goffice/gtk/go-color-palette.c:501
+#: ../goffice/gtk/go-color-palette.c:503
 msgid "custom"
 msgstr "po meri"
 
-#: ../goffice/gtk/go-color-palette.c:508 ../goffice/gtk/go-color-palette.c:757
+#: ../goffice/gtk/go-color-palette.c:510 ../goffice/gtk/go-color-palette.c:764
 #: ../goffice/gtk/go-color-selector.c:197
 msgid "Custom color..."
 msgstr "Barva po meri ..."
 
-#: ../goffice/gtk/go-combo-box.c:315
+#: ../goffice/gtk/go-combo-box.c:314
 msgid "The combo box's title"
 msgstr "Naziv spustnega okna"
 
-#: ../goffice/gtk/go-combo-box.c:321
+#: ../goffice/gtk/go-combo-box.c:320
 msgid "Show Arrow"
 msgstr "Pokaži puščico"
 
-#: ../goffice/gtk/go-combo-box.c:322
+#: ../goffice/gtk/go-combo-box.c:321
 msgid "Whether to show an arrow for the combo"
 msgstr "Ali naj bo pokazana puščica spustnega polja"
 
-#: ../goffice/gtk/go-combo-box.c:332
+#: ../goffice/gtk/go-combo-box.c:331
 msgid "Add tearoffs to menus"
 msgstr "Dodaj menijem odpenjalnike"
 
-#: ../goffice/gtk/go-combo-box.c:333
+#: ../goffice/gtk/go-combo-box.c:332
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Ali naj imajo spustni meniji odpenjalnike"
 
-#: ../goffice/gtk/goffice-gtk.c:235
+#: ../goffice/gtk/goffice-gtk.c:248
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Ni mogoče odpreti datoteke '%s'"
 
-#: ../goffice/gtk/goffice-gtk.c:866 ../goffice/utils/go-style.c:224
+#: ../goffice/gtk/goffice-gtk.c:917 ../goffice/utils/go-style.c:224
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:901
+#: ../goffice/gtk/goffice-gtk.c:952
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: ../goffice/gtk/goffice-gtk.c:906
+#: ../goffice/gtk/goffice-gtk.c:957
 msgid "Images"
 msgstr "Slike"
 
-#: ../goffice/gtk/goffice-gtk.c:973
+#: ../goffice/gtk/goffice-gtk.c:1024
 msgid "Select an Image"
 msgstr "Izbor slike"
 
-#: ../goffice/gtk/goffice-gtk.c:1067
+#: ../goffice/gtk/goffice-gtk.c:1118
 msgid "Save as"
 msgstr "Shrani kot"
 
-#: ../goffice/gtk/goffice-gtk.c:1083
+#: ../goffice/gtk/goffice-gtk.c:1134
 msgid "Auto by extension"
 msgstr "Samodejno po priponi"
 
-#: ../goffice/gtk/goffice-gtk.c:1159
+#: ../goffice/gtk/goffice-gtk.c:1210
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3709,7 +3709,7 @@ msgstr ""
 "Podana pripona datoteke se ne ujema z izbrano vrsto datoteke. Ali želite "
 "vseeno uporabiti to ime?"
 
-#: ../goffice/gtk/goffice-gtk.c:1386
+#: ../goffice/gtk/goffice-gtk.c:1437
 #, c-format
 msgid ""
 "%s\n"
@@ -3718,7 +3718,7 @@ msgstr ""
 "%s\n"
 "je ime mape"
 
-#: ../goffice/gtk/goffice-gtk.c:1390
+#: ../goffice/gtk/goffice-gtk.c:1441
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3727,7 +3727,7 @@ msgstr ""
 "Ni ustreznih dolvoljenj za shranjevanje v\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1400
+#: ../goffice/gtk/goffice-gtk.c:1451
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3738,7 +3738,7 @@ msgstr ""
 "\n"
 "Ali jo želite prepisati?"
 
-#: ../goffice/gtk/go-font-sel.c:353
+#: ../goffice/gtk/go-font-sel.c:352
 msgid "Faces"
 msgstr "Oblike pisav"
 
@@ -3748,473 +3748,473 @@ msgstr "Oblike pisav"
 #. * and whether it is an italic or regular face.  The four
 #. * first here are the important ones.
 #.
-#: ../goffice/gtk/go-font-sel.c:394
+#: ../goffice/gtk/go-font-sel.c:393
 msgctxt "FontFace"
 msgid "Regular"
 msgstr "Navadna"
 
-#: ../goffice/gtk/go-font-sel.c:395 ../goffice/gtk/go-font-sel.c:429
+#: ../goffice/gtk/go-font-sel.c:394 ../goffice/gtk/go-font-sel.c:428
 msgctxt "FontFace"
 msgid "Italic"
 msgstr "Ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:396
+#: ../goffice/gtk/go-font-sel.c:395
 msgctxt "FontFace"
 msgid "Bold"
 msgstr "Krepka"
 
-#: ../goffice/gtk/go-font-sel.c:397
+#: ../goffice/gtk/go-font-sel.c:396
 msgctxt "FontFace"
 msgid "Bold Italic"
 msgstr "Krepka ležeča"
 
 #. These are fairly rare.
-#: ../goffice/gtk/go-font-sel.c:400
+#: ../goffice/gtk/go-font-sel.c:399
 msgctxt "FontFace"
 msgid "Black"
 msgstr "Skrajno krepka"
 
-#: ../goffice/gtk/go-font-sel.c:401
+#: ../goffice/gtk/go-font-sel.c:400
 msgctxt "FontFace"
 msgid "Bold Condensed Italic"
 msgstr "Krepka zožena ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:402
+#: ../goffice/gtk/go-font-sel.c:401
 msgctxt "FontFace"
 msgid "Bold Condensed"
 msgstr "Krepka zožena"
 
-#: ../goffice/gtk/go-font-sel.c:403
+#: ../goffice/gtk/go-font-sel.c:402
 msgctxt "FontFace"
 msgid "Bold Italic Small Caps"
 msgstr "Krepke ležeče kapitalke"
 
-#: ../goffice/gtk/go-font-sel.c:404
+#: ../goffice/gtk/go-font-sel.c:403
 msgctxt "FontFace"
 msgid "Bold Nonextended"
 msgstr "Krepka nerazširjena"
 
-#: ../goffice/gtk/go-font-sel.c:405
+#: ../goffice/gtk/go-font-sel.c:404
 msgctxt "FontFace"
 msgid "Bold Oblique"
 msgstr "Krepka nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:406
+#: ../goffice/gtk/go-font-sel.c:405
 msgctxt "FontFace"
 msgid "Bold Slanted"
 msgstr "Krepka nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:407
+#: ../goffice/gtk/go-font-sel.c:406
 msgctxt "FontFace"
 msgid "Bold Small Caps"
 msgstr "Krepke kapitalke"
 
-#: ../goffice/gtk/go-font-sel.c:408
+#: ../goffice/gtk/go-font-sel.c:407
 msgctxt "FontFace"
 msgid "Book Oblique"
 msgstr "Navadno nagnjeno"
 
-#: ../goffice/gtk/go-font-sel.c:409
+#: ../goffice/gtk/go-font-sel.c:408
 msgctxt "FontFace"
 msgid "Book"
 msgstr "Navadno"
 
-#: ../goffice/gtk/go-font-sel.c:410
+#: ../goffice/gtk/go-font-sel.c:409
 msgctxt "FontFace"
 msgid "Condensed Bold Italic"
 msgstr "Zožena krepka ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:411
+#: ../goffice/gtk/go-font-sel.c:410
 msgctxt "FontFace"
 msgid "Condensed Bold Oblique"
 msgstr "Zožena krepka nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:412
+#: ../goffice/gtk/go-font-sel.c:411
 msgctxt "FontFace"
 msgid "Condensed Bold"
 msgstr "Zožena krepka"
 
-#: ../goffice/gtk/go-font-sel.c:413
+#: ../goffice/gtk/go-font-sel.c:412
 msgctxt "FontFace"
 msgid "Condensed Italic"
 msgstr "Zožena ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:414
+#: ../goffice/gtk/go-font-sel.c:413
 msgctxt "FontFace"
 msgid "Condensed Oblique"
 msgstr "Zožena nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:415
+#: ../goffice/gtk/go-font-sel.c:414
 msgctxt "FontFace"
 msgid "Condensed"
 msgstr "Zožena"
 
-#: ../goffice/gtk/go-font-sel.c:416
+#: ../goffice/gtk/go-font-sel.c:415
 msgctxt "FontFace"
 msgid "Demi Bold Italic"
 msgstr "Močno krepka ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:417
+#: ../goffice/gtk/go-font-sel.c:416
 msgctxt "FontFace"
 msgid "Demi Bold"
 msgstr "Močno krepka"
 
-#: ../goffice/gtk/go-font-sel.c:418
+#: ../goffice/gtk/go-font-sel.c:417
 msgctxt "FontFace"
 msgid "Demi Oblique"
 msgstr "Močno nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:419
+#: ../goffice/gtk/go-font-sel.c:418
 msgctxt "FontFace"
 msgid "Demi"
 msgstr "Močno krepka"
 
-#: ../goffice/gtk/go-font-sel.c:420
+#: ../goffice/gtk/go-font-sel.c:419
 msgctxt "FontFace"
 msgid "Demi-Condensed"
 msgstr "Močno krepka zožena"
 
-#: ../goffice/gtk/go-font-sel.c:421
+#: ../goffice/gtk/go-font-sel.c:420
 msgctxt "FontFace"
 msgid "Embossed"
 msgstr "Vdolbena"
 
-#: ../goffice/gtk/go-font-sel.c:422
+#: ../goffice/gtk/go-font-sel.c:421
 msgctxt "FontFace"
 msgid "Expanded Bold Italic"
 msgstr "Razširjena krepka ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:423
+#: ../goffice/gtk/go-font-sel.c:422
 msgctxt "FontFace"
 msgid "Expanded Bold"
 msgstr "Razširjena krepka"
 
-#: ../goffice/gtk/go-font-sel.c:424
+#: ../goffice/gtk/go-font-sel.c:423
 msgctxt "FontFace"
 msgid "Expanded Italic"
 msgstr "Razširjena ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:425
+#: ../goffice/gtk/go-font-sel.c:424
 msgctxt "FontFace"
 msgid "Expanded"
 msgstr "Razširjena"
 
-#: ../goffice/gtk/go-font-sel.c:426
+#: ../goffice/gtk/go-font-sel.c:425
 msgctxt "FontFace"
 msgid "Extra Light"
 msgstr "Skrajno stanjšana"
 
-#: ../goffice/gtk/go-font-sel.c:427
+#: ../goffice/gtk/go-font-sel.c:426
 msgctxt "FontFace"
 msgid "Heavy"
 msgstr "Skrajno krepka"
 
-#: ../goffice/gtk/go-font-sel.c:428
+#: ../goffice/gtk/go-font-sel.c:427
 msgctxt "FontFace"
 msgid "Italic Small Caps"
 msgstr "Ležeče kapitalke"
 
-#: ../goffice/gtk/go-font-sel.c:430
+#: ../goffice/gtk/go-font-sel.c:429
 msgctxt "FontFace"
 msgid "Light Italic"
 msgstr "Stanjšano ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:431
+#: ../goffice/gtk/go-font-sel.c:430
 msgctxt "FontFace"
 msgid "Light Oblique"
 msgstr "Stanjšano nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:432
+#: ../goffice/gtk/go-font-sel.c:431
 msgctxt "FontFace"
 msgid "Light"
 msgstr "Stanjšana"
 
-#: ../goffice/gtk/go-font-sel.c:433
+#: ../goffice/gtk/go-font-sel.c:432
 msgctxt "FontFace"
 msgid "Medium Italic"
 msgstr "Srednja ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:434
+#: ../goffice/gtk/go-font-sel.c:433
 msgctxt "FontFace"
 msgid "Medium"
 msgstr "Srednja"
 
-#: ../goffice/gtk/go-font-sel.c:435
+#: ../goffice/gtk/go-font-sel.c:434
 msgctxt "FontFace"
 msgid "Normal"
 msgstr "Navadna"
 
-#: ../goffice/gtk/go-font-sel.c:436
+#: ../goffice/gtk/go-font-sel.c:435
 msgctxt "FontFace"
 msgid "Oblique"
 msgstr "Nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:437
+#: ../goffice/gtk/go-font-sel.c:436
 msgctxt "FontFace"
 msgid "Regular Condensed Italic"
 msgstr "Navadna zožena ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:438
+#: ../goffice/gtk/go-font-sel.c:437
 msgctxt "FontFace"
 msgid "Regular Condensed"
 msgstr "Navadna zožena"
 
-#: ../goffice/gtk/go-font-sel.c:439
+#: ../goffice/gtk/go-font-sel.c:438
 msgctxt "FontFace"
 msgid "Regular Italic"
 msgstr "Navadna ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:440
+#: ../goffice/gtk/go-font-sel.c:439
 msgctxt "FontFace"
 msgid "Regular Oblique"
 msgstr "Navadna nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:441
+#: ../goffice/gtk/go-font-sel.c:440
 msgctxt "FontFace"
 msgid "Roman Slanted"
 msgstr "Navadna nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:442
+#: ../goffice/gtk/go-font-sel.c:441
 msgctxt "FontFace"
 msgid "Roman"
 msgstr "Navadna"
 
-#: ../goffice/gtk/go-font-sel.c:443
+#: ../goffice/gtk/go-font-sel.c:442
 msgctxt "FontFace"
 msgid "Rounded"
 msgstr "Zaobljena"
 
-#: ../goffice/gtk/go-font-sel.c:444
+#: ../goffice/gtk/go-font-sel.c:443
 msgctxt "FontFace"
 msgid "Sans Bold Italic"
 msgstr "Navadna krepka ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:445
+#: ../goffice/gtk/go-font-sel.c:444
 msgctxt "FontFace"
 msgid "Sans Bold"
 msgstr "Navadna krepka"
 
-#: ../goffice/gtk/go-font-sel.c:446
+#: ../goffice/gtk/go-font-sel.c:445
 msgctxt "FontFace"
 msgid "Sans Italic"
 msgstr "Navadna ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:447
+#: ../goffice/gtk/go-font-sel.c:446
 msgctxt "FontFace"
 msgid "Sans"
 msgstr "Navadna"
 
-#: ../goffice/gtk/go-font-sel.c:448
+#: ../goffice/gtk/go-font-sel.c:447
 msgctxt "FontFace"
 msgid "Semi-Bold Italic Small Caps"
 msgstr "Polkrepke ležeče kapitalke"
 
-#: ../goffice/gtk/go-font-sel.c:449
+#: ../goffice/gtk/go-font-sel.c:448
 msgctxt "FontFace"
 msgid "Semi-Bold Italic"
 msgstr "Polkrepka ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:450
+#: ../goffice/gtk/go-font-sel.c:449
 msgctxt "FontFace"
 msgid "Semi-Bold Oblique"
 msgstr "Polkrepka nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:451
+#: ../goffice/gtk/go-font-sel.c:450
 msgctxt "FontFace"
 msgid "Semi-Bold Slanted"
 msgstr "Polkrepka nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:452
+#: ../goffice/gtk/go-font-sel.c:451
 msgctxt "FontFace"
 msgid "Semi-Bold Small Caps"
 msgstr "Polkrepke kapitalke"
 
-#: ../goffice/gtk/go-font-sel.c:453
+#: ../goffice/gtk/go-font-sel.c:452
 msgctxt "FontFace"
 msgid "Semi-Bold"
 msgstr "Polkrepka"
 
-#: ../goffice/gtk/go-font-sel.c:454
+#: ../goffice/gtk/go-font-sel.c:453
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold Italic"
 msgstr "Pol-zožena krepka ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:455
+#: ../goffice/gtk/go-font-sel.c:454
 msgctxt "FontFace"
 msgid "Semi-Condensed Bold"
 msgstr "Pol-zožena krepka"
 
-#: ../goffice/gtk/go-font-sel.c:456
+#: ../goffice/gtk/go-font-sel.c:455
 msgctxt "FontFace"
 msgid "Semi-Condensed Italic"
 msgstr "Pol-zožena ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:457
+#: ../goffice/gtk/go-font-sel.c:456
 msgctxt "FontFace"
 msgid "Semi-Condensed Oblique"
 msgstr "Pol-zožena nagnjena"
 
-#: ../goffice/gtk/go-font-sel.c:458
+#: ../goffice/gtk/go-font-sel.c:457
 msgctxt "FontFace"
 msgid "Semi-Condensed"
 msgstr "Pol-zožena"
 
-#: ../goffice/gtk/go-font-sel.c:459
+#: ../goffice/gtk/go-font-sel.c:458
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold Italic"
 msgstr "Pol-razširjena krepka ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:460
+#: ../goffice/gtk/go-font-sel.c:459
 msgctxt "FontFace"
 msgid "Semi-Expanded Bold"
 msgstr "Pol-razširjena krepka"
 
-#: ../goffice/gtk/go-font-sel.c:461
+#: ../goffice/gtk/go-font-sel.c:460
 msgctxt "FontFace"
 msgid "Semi-Expanded Italic"
 msgstr "Pol-razširjena ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:462
+#: ../goffice/gtk/go-font-sel.c:461
 msgctxt "FontFace"
 msgid "Semi-Expanded"
 msgstr "Pol-razširjena"
 
-#: ../goffice/gtk/go-font-sel.c:463
+#: ../goffice/gtk/go-font-sel.c:462
 msgctxt "FontFace"
 msgid "Slanted"
 msgstr "Nagnjena"
 
 # vzorci diagramov in grafov
-#: ../goffice/gtk/go-font-sel.c:464
+#: ../goffice/gtk/go-font-sel.c:463
 msgctxt "FontFace"
 msgid "Small Caps"
 msgstr "Kapitalke"
 
-#: ../goffice/gtk/go-font-sel.c:465
+#: ../goffice/gtk/go-font-sel.c:464
 msgctxt "FontFace"
 msgid "Thin"
 msgstr "ZoženaZožana"
 
-#: ../goffice/gtk/go-font-sel.c:466
+#: ../goffice/gtk/go-font-sel.c:465
 msgctxt "FontFace"
 msgid "Upright Italic"
 msgstr "Pokončna ležeča"
 
-#: ../goffice/gtk/go-font-sel.c:534 ../goffice/utils/go-style.c:957
+#: ../goffice/gtk/go-font-sel.c:533 ../goffice/utils/go-style.c:958
 #: ../plugins/lasem/component.c:268 ../plugins/lasem/component.c:494
 msgid "Font"
 msgstr "Pisava"
 
-#: ../goffice/gtk/go-font-sel.c:610
+#: ../goffice/gtk/go-font-sel.c:609
 msgid "All fonts..."
 msgstr "Vse pisave ..."
 
-#: ../goffice/gtk/go-font-sel.c:937
+#: ../goffice/gtk/go-font-sel.c:936
 msgctxt "underline"
 msgid "None"
 msgstr "Brez"
 
-#: ../goffice/gtk/go-font-sel.c:938
+#: ../goffice/gtk/go-font-sel.c:937
 msgctxt "underline"
 msgid "Single"
 msgstr "Enojno"
 
-#: ../goffice/gtk/go-font-sel.c:939
+#: ../goffice/gtk/go-font-sel.c:938
 msgctxt "underline"
 msgid "Double"
 msgstr "Dvojno"
 
-#: ../goffice/gtk/go-font-sel.c:940
+#: ../goffice/gtk/go-font-sel.c:939
 msgctxt "underline"
 msgid "Low"
 msgstr "Nizko"
 
-#: ../goffice/gtk/go-font-sel.c:941
+#: ../goffice/gtk/go-font-sel.c:940
 msgctxt "underline"
 msgid "Error"
 msgstr "Napaka"
 
-#: ../goffice/gtk/go-font-sel.c:962 ../goffice/math/go-distribution.c:64
+#: ../goffice/gtk/go-font-sel.c:961 ../goffice/math/go-distribution.c:64
 msgid "Normal"
 msgstr "Običajna"
 
-#: ../goffice/gtk/go-font-sel.c:963
+#: ../goffice/gtk/go-font-sel.c:962
 msgid "Subscript"
 msgstr "Podpisano"
 
-#: ../goffice/gtk/go-font-sel.c:964
+#: ../goffice/gtk/go-font-sel.c:963
 msgid "Superscript"
 msgstr "Nadpisano"
 
-#: ../goffice/gtk/go-font-sel.c:1247
+#: ../goffice/gtk/go-font-sel.c:1246
 msgid "Show Style"
 msgstr "Pokaži slog"
 
-#: ../goffice/gtk/go-font-sel.c:1248
+#: ../goffice/gtk/go-font-sel.c:1247
 msgid "Whether style is part of the font being selected"
 msgstr "Ali je slog del izbrane pisave"
 
-#: ../goffice/gtk/go-font-sel.c:1256
+#: ../goffice/gtk/go-font-sel.c:1255
 msgid "Show Color"
 msgstr "Pokaži barvo"
 
-#: ../goffice/gtk/go-font-sel.c:1257
+#: ../goffice/gtk/go-font-sel.c:1256
 msgid "Whether color is part of the font being selected"
 msgstr "Ali je barva del izbrane pisave"
 
-#: ../goffice/gtk/go-font-sel.c:1265
+#: ../goffice/gtk/go-font-sel.c:1264
 msgid "Show Underline"
 msgstr "Prikaži podčrtano"
 
-#: ../goffice/gtk/go-font-sel.c:1266
+#: ../goffice/gtk/go-font-sel.c:1265
 msgid "Whether underlining is part of the font being selected"
 msgstr "Ali je slog podčrtanosti del izbrane pisave"
 
-#: ../goffice/gtk/go-font-sel.c:1274
+#: ../goffice/gtk/go-font-sel.c:1273
 msgid "Show Script"
 msgstr "Pokaži podpis in nadpis"
 
-#: ../goffice/gtk/go-font-sel.c:1275
+#: ../goffice/gtk/go-font-sel.c:1274
 msgid "Whether subscript/superscript is part of the font being selected"
 msgstr "Ali je slog nadpisane in podpisane pisave del izbrane pisave"
 
-#: ../goffice/gtk/go-font-sel.c:1283
+#: ../goffice/gtk/go-font-sel.c:1282
 msgid "Show Strikethrough"
 msgstr "Pokaži prečrtano"
 
-#: ../goffice/gtk/go-font-sel.c:1284
+#: ../goffice/gtk/go-font-sel.c:1283
 msgid "Whether strikethrough is part of the font being selected"
 msgstr "Ali je slog prečrtanega besedila del izbrane pisave"
 
-#: ../goffice/gtk/go-font-sel.c:1292
+#: ../goffice/gtk/go-font-sel.c:1291
 msgid "Color unset text"
 msgstr "Besedilo nenastavljene barve"
 
-#: ../goffice/gtk/go-font-sel.c:1293
+#: ../goffice/gtk/go-font-sel.c:1292
 msgid "The text to show for selecting no color"
 msgstr "Besedilo, ki ga želite pokazati, če ni izbrana nobena barva"
 
-#: ../goffice/gtk/go-font-sel.c:1301
+#: ../goffice/gtk/go-font-sel.c:1300
 msgid "Color Group"
 msgstr "Barvna skupina"
 
-#: ../goffice/gtk/go-font-sel.c:1302
+#: ../goffice/gtk/go-font-sel.c:1301
 msgid "The color group to use for the color picker"
 msgstr "Barvna skupina za izbirnik barv"
 
-#: ../goffice/gtk/go-font-sel.c:1310
+#: ../goffice/gtk/go-font-sel.c:1309
 msgid "Color Default"
 msgstr "Privzeta barva"
 
-#: ../goffice/gtk/go-font-sel.c:1311
+#: ../goffice/gtk/go-font-sel.c:1310
 msgid "The color to show for an unset color"
 msgstr "Barva, ki določa besedilo brez nastavljene barve"
 
-#: ../goffice/gtk/go-font-sel.c:1321
+#: ../goffice/gtk/go-font-sel.c:1320
 msgid "Underline Picker"
 msgstr "Izbirnik podčrtanosti"
 
-#: ../goffice/gtk/go-font-sel.c:1322
+#: ../goffice/gtk/go-font-sel.c:1321
 msgid "The widget to use for picking underline type"
 msgstr "Gradnik za uporabo vrste podčrtanosti"
 
@@ -4785,1015 +4785,1015 @@ msgstr "Karibsko"
 #. * Note: lots of people get very emotional over this.  Please
 #. * err on the safe side, if any.
 #.
-#: ../goffice/gtk/go-locale-sel.c:104
+#: ../goffice/gtk/go-locale-sel.c:108
 msgid "United States/English (C)"
 msgstr "Združene Države/Angleščina (C)"
 
-#: ../goffice/gtk/go-locale-sel.c:105
+#: ../goffice/gtk/go-locale-sel.c:109
 msgid "Djibouti/Afar (aa_DJ)"
 msgstr "Džibuti/Afarsko (aa_DJ)"
 
-#: ../goffice/gtk/go-locale-sel.c:106
+#: ../goffice/gtk/go-locale-sel.c:110
 msgid "Eritrea/Afar (aa_ER)"
 msgstr "Eritreja/Afarsko (aa_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:107
+#: ../goffice/gtk/go-locale-sel.c:111
 msgid "Ethiopia/Afar (aa_ET)"
 msgstr "Etiopija/Afarsko (aa_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:108
+#: ../goffice/gtk/go-locale-sel.c:112
 msgid "South Africa Afrikaans (af_ZA)"
 msgstr "Južnoafriška republika/Afrikanščina (af_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:109
+#: ../goffice/gtk/go-locale-sel.c:113
 msgid "Ethiopia/Amharic (am_ET)"
 msgstr "Etiopija/Amharsko (am_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:110
+#: ../goffice/gtk/go-locale-sel.c:114
 msgid "Spain/Aragonese (an_ES)"
 msgstr "Španija/Aragonsko (an_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:111
+#: ../goffice/gtk/go-locale-sel.c:115
 msgid "United Arab Emirates (ar_AE)"
 msgstr "Združeni Arabski Emirati (ar_AE)"
 
-#: ../goffice/gtk/go-locale-sel.c:112
+#: ../goffice/gtk/go-locale-sel.c:116
 msgid "Bahrain (ar_BH)"
 msgstr "Bahrajn (ar_BH)"
 
-#: ../goffice/gtk/go-locale-sel.c:113
+#: ../goffice/gtk/go-locale-sel.c:117
 msgid "Algeria (ar_DZ)"
 msgstr "Alžirija (ar_DZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:114
+#: ../goffice/gtk/go-locale-sel.c:118
 msgid "Egypt (ar_EG)"
 msgstr "Egipt (ar_EG)"
 
-#: ../goffice/gtk/go-locale-sel.c:115
+#: ../goffice/gtk/go-locale-sel.c:119
 msgid "India/Arabic (ar_IN)"
 msgstr "Indija/Arabsko (ar_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:116
+#: ../goffice/gtk/go-locale-sel.c:120
 msgid "Iraq (ar_IQ)"
 msgstr "Iraq (ar_IQ)"
 
-#: ../goffice/gtk/go-locale-sel.c:117
+#: ../goffice/gtk/go-locale-sel.c:121
 msgid "Jordan (ar_JO)"
 msgstr "Jordan (ar_JO)"
 
-#: ../goffice/gtk/go-locale-sel.c:118
+#: ../goffice/gtk/go-locale-sel.c:122
 msgid "Kuwait (ar_KW)"
 msgstr "Kuvajt (ar_KW)"
 
-#: ../goffice/gtk/go-locale-sel.c:119
+#: ../goffice/gtk/go-locale-sel.c:123
 msgid "Lebanon (ar_LB)"
 msgstr "Libanon (ar_LB)"
 
-#: ../goffice/gtk/go-locale-sel.c:120
+#: ../goffice/gtk/go-locale-sel.c:124
 msgid "Libya (ar_LY)"
 msgstr "Libija (ar_LY)"
 
-#: ../goffice/gtk/go-locale-sel.c:121
+#: ../goffice/gtk/go-locale-sel.c:125
 msgid "Morocco (ar_MA)"
 msgstr "Maroko (ar_MA)"
 
-#: ../goffice/gtk/go-locale-sel.c:122
+#: ../goffice/gtk/go-locale-sel.c:126
 msgid "Oman (ar_OM)"
 msgstr "Oman (ar_OM)"
 
-#: ../goffice/gtk/go-locale-sel.c:123
+#: ../goffice/gtk/go-locale-sel.c:127
 msgid "Qatar (ar_QA)"
 msgstr "Katar (ar_QA)"
 
-#: ../goffice/gtk/go-locale-sel.c:124
+#: ../goffice/gtk/go-locale-sel.c:128
 msgid "Saudi Arabia (ar_SA)"
 msgstr "Savdova Arabija (ar_SA)"
 
-#: ../goffice/gtk/go-locale-sel.c:125
+#: ../goffice/gtk/go-locale-sel.c:129
 msgid "Sudan (ar_SD)"
 msgstr "Sudan (ar_SD)"
 
-#: ../goffice/gtk/go-locale-sel.c:126
+#: ../goffice/gtk/go-locale-sel.c:130
 msgid "Syria (ar_SY)"
 msgstr "Sirija (ar_SY)"
 
-#: ../goffice/gtk/go-locale-sel.c:127
+#: ../goffice/gtk/go-locale-sel.c:131
 msgid "Tunisia (ar_TN)"
 msgstr "Tunizija (ar_TN)"
 
-#: ../goffice/gtk/go-locale-sel.c:128
+#: ../goffice/gtk/go-locale-sel.c:132
 msgid "Yemen (ar_YE)"
 msgstr "Jemen (ar_YE)"
 
-#: ../goffice/gtk/go-locale-sel.c:129
+#: ../goffice/gtk/go-locale-sel.c:133
 msgid "India/Assamese (as_IN)"
 msgstr "Indija/Asamsko (as_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:130
+#: ../goffice/gtk/go-locale-sel.c:134
 msgid "Spain/Asturian (ast_ES)"
 msgstr "Španija/Astursko (ast_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:131
+#: ../goffice/gtk/go-locale-sel.c:135
 msgid "Azerbaijan (az_AZ)"
 msgstr "Azerbajdžan (az_AZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:132
+#: ../goffice/gtk/go-locale-sel.c:136
 msgid "Belarus (be_BY)"
 msgstr "Belorusija (be_BY)"
 
-#: ../goffice/gtk/go-locale-sel.c:133
+#: ../goffice/gtk/go-locale-sel.c:137
 msgid "Zambia/Bemba (bem_ZM)"
 msgstr "Zambija/Bemba (bem_ZM)"
 
-#: ../goffice/gtk/go-locale-sel.c:134
+#: ../goffice/gtk/go-locale-sel.c:138
 msgid "Algeria/Amazigh (ber_DZ)"
 msgstr "Alžirija/Berbersko (ber_DZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:135
+#: ../goffice/gtk/go-locale-sel.c:139
 msgid "Morocco/Amazigh (ber_MA)"
 msgstr "Maroko/Berbersko (ber_MA)"
 
-#: ../goffice/gtk/go-locale-sel.c:136
+#: ../goffice/gtk/go-locale-sel.c:140
 msgid "Bulgaria (bg_BG)"
 msgstr "Bolgarija (bg_BG)"
 
-#: ../goffice/gtk/go-locale-sel.c:137
+#: ../goffice/gtk/go-locale-sel.c:141
 msgid "Bangladesh (bn_BD)"
 msgstr "Bangladeš (bn_BD)"
 
-#: ../goffice/gtk/go-locale-sel.c:138
+#: ../goffice/gtk/go-locale-sel.c:142
 msgid "India/Bengali (bn_IN)"
 msgstr "Indija/Bengali (bn_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:139
+#: ../goffice/gtk/go-locale-sel.c:143
 msgid "China/Tibetan (bo_CN)"
 msgstr "Kitajska/Tibetansko (bo_CN)"
 
-#: ../goffice/gtk/go-locale-sel.c:140
+#: ../goffice/gtk/go-locale-sel.c:144
 msgid "India/Tibetan (bo_IN)"
 msgstr "Indija/Tibetansko (bo_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:141
+#: ../goffice/gtk/go-locale-sel.c:145
 msgid "France/Breton (br_FR)"
 msgstr "Francija/Bretonsko (br_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:142
+#: ../goffice/gtk/go-locale-sel.c:146
 msgid "Bosnia and Herzegowina (bs_BA)"
 msgstr "Bosna in Hercegovina (bs_BA)"
 
-#: ../goffice/gtk/go-locale-sel.c:143
+#: ../goffice/gtk/go-locale-sel.c:147
 msgid "Eritrea/Blin (byn_ER)"
 msgstr "Eritreja/Blinsko (byn_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:144
+#: ../goffice/gtk/go-locale-sel.c:148
 msgid "Andorra/Catalan (ca_AD)"
 msgstr "Andora/Katalonsko (ca_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:145
+#: ../goffice/gtk/go-locale-sel.c:149
 msgid "Spain/Catalan (ca_ES)"
 msgstr "Španija/Katalonsko (ca_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:146
+#: ../goffice/gtk/go-locale-sel.c:150
 msgid "France/Catalan (ca_FR)"
 msgstr "Francija/Katalonsko (ca_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:147
+#: ../goffice/gtk/go-locale-sel.c:151
 msgid "Italy/Catalan (ca_IT)"
 msgstr "Italija/Katalonsko (ca_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:148
+#: ../goffice/gtk/go-locale-sel.c:152
 msgid "Ukraine/Crimean Tatar (crh_UA)"
 msgstr "Ukrajina/Krimska tatarščina (crh_UA)"
 
-#: ../goffice/gtk/go-locale-sel.c:149
+#: ../goffice/gtk/go-locale-sel.c:153
 msgid "Czech Republic (cs_CZ)"
 msgstr "Češka Republika (cs_CZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:150
+#: ../goffice/gtk/go-locale-sel.c:154
 msgid "Poland/Kashubian (csb_PL)"
 msgstr "Poljska/Kašubsko (csb_PL)"
 
-#: ../goffice/gtk/go-locale-sel.c:151
+#: ../goffice/gtk/go-locale-sel.c:155
 msgid "Russia/Chuvash (cv_RU)"
 msgstr "Rusija/Čuvaško (cv_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:152
+#: ../goffice/gtk/go-locale-sel.c:156
 msgid "Great Britain/Welsh (cy_GB)"
 msgstr "Velika Britanija/Valižansko (cy_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:153
+#: ../goffice/gtk/go-locale-sel.c:157
 msgid "Denmark (da_DK)"
 msgstr "Danska (da_DK)"
 
-#: ../goffice/gtk/go-locale-sel.c:154
+#: ../goffice/gtk/go-locale-sel.c:158
 msgid "Austria (de_AT)"
 msgstr "Avstrija (de_AT)"
 
-#: ../goffice/gtk/go-locale-sel.c:155
+#: ../goffice/gtk/go-locale-sel.c:159
 msgid "Belgium/German (de_BE)"
 msgstr "Belgija/Nemško (de_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:156
+#: ../goffice/gtk/go-locale-sel.c:160
 msgid "Switzerland/German (de_CH)"
 msgstr "Švica/Nemško (de_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:157
+#: ../goffice/gtk/go-locale-sel.c:161
 msgid "Germany (de_DE)"
 msgstr "Nemčija (de_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:158
+#: ../goffice/gtk/go-locale-sel.c:162
 msgid "Luxembourg/German (de_LU)"
 msgstr "Luksemburg/Nemško (de_LU)"
 
-#: ../goffice/gtk/go-locale-sel.c:159
+#: ../goffice/gtk/go-locale-sel.c:163
 msgid "Maldives (dv_MV)"
 msgstr "Maldivi (dv_MV)"
 
-#: ../goffice/gtk/go-locale-sel.c:160
+#: ../goffice/gtk/go-locale-sel.c:164
 msgid "Bhutan (dz_BT)"
 msgstr "Butansko (dz_BT)"
 
-#: ../goffice/gtk/go-locale-sel.c:161
+#: ../goffice/gtk/go-locale-sel.c:165
 msgid "Cyprus/Greek (el_CY)"
 msgstr "Ciper/Grško (el_CY)"
 
-#: ../goffice/gtk/go-locale-sel.c:162
+#: ../goffice/gtk/go-locale-sel.c:166
 msgid "Greece (el_GR)"
 msgstr "Grčija (el_GR)"
 
-#: ../goffice/gtk/go-locale-sel.c:163
+#: ../goffice/gtk/go-locale-sel.c:167
 msgid "Antigua and Barbuda/English (en_AG)"
 msgstr "Antigva in Barbuda/Angleško (en_AG)"
 
-#: ../goffice/gtk/go-locale-sel.c:164
+#: ../goffice/gtk/go-locale-sel.c:168
 msgid "Australia (en_AU)"
 msgstr "Avstralija (en_AU)"
 
-#: ../goffice/gtk/go-locale-sel.c:165
+#: ../goffice/gtk/go-locale-sel.c:169
 msgid "Botswana (en_BW)"
 msgstr "Botsvana (en_BW)"
 
-#: ../goffice/gtk/go-locale-sel.c:166
+#: ../goffice/gtk/go-locale-sel.c:170
 msgid "Canada/English (en_CA)"
 msgstr "Kanada/Angleško (en_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:167
+#: ../goffice/gtk/go-locale-sel.c:171
 msgid "Great Britain (en_GB)"
 msgstr "Velika Britanija (en_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:168
+#: ../goffice/gtk/go-locale-sel.c:172
 msgid "Hong Kong/English (en_HK)"
 msgstr "Hong Kong/Angleško (en_HK)"
 
-#: ../goffice/gtk/go-locale-sel.c:169
+#: ../goffice/gtk/go-locale-sel.c:173
 msgid "Ireland (en_IE)"
 msgstr "Irska (en_IE)"
 
-#: ../goffice/gtk/go-locale-sel.c:170
+#: ../goffice/gtk/go-locale-sel.c:174
 msgid "India/English (en_IN)"
 msgstr "Indija/Angleško (en_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:171
+#: ../goffice/gtk/go-locale-sel.c:175
 msgid "New Zealand (en_NZ)"
 msgstr "Nova Zelandija (en_NZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:172
+#: ../goffice/gtk/go-locale-sel.c:176
 msgid "Philippines (en_PH)"
 msgstr "Filipini (en_PH)"
 
-#: ../goffice/gtk/go-locale-sel.c:173
+#: ../goffice/gtk/go-locale-sel.c:177
 msgid "Singapore/English (en_SG)"
 msgstr "Singapur/Angleško (en_SG)"
 
-#: ../goffice/gtk/go-locale-sel.c:174
+#: ../goffice/gtk/go-locale-sel.c:178
 msgid "United States/English (en_US)"
 msgstr "Združene Države/Angleško (en_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:175
+#: ../goffice/gtk/go-locale-sel.c:179
 msgid "South Africa/English (en_ZA)"
 msgstr "Južnoafriška republika/Angleško (en_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:176
+#: ../goffice/gtk/go-locale-sel.c:180
 msgid "Zimbabwe (en_ZW)"
 msgstr "Zimbabve (en_ZW)"
 
-#: ../goffice/gtk/go-locale-sel.c:177
+#: ../goffice/gtk/go-locale-sel.c:181
 msgid "Esperanto (eo_EO)"
 msgstr "Esperanto (eo_EO)"
 
-#: ../goffice/gtk/go-locale-sel.c:178
+#: ../goffice/gtk/go-locale-sel.c:182
 msgid "Argentina (es_AR)"
 msgstr "Argentina (es_AR)"
 
-#: ../goffice/gtk/go-locale-sel.c:179
+#: ../goffice/gtk/go-locale-sel.c:183
 msgid "Bolivia (es_BO)"
 msgstr "Bolivija (es_BO)"
 
-#: ../goffice/gtk/go-locale-sel.c:180
+#: ../goffice/gtk/go-locale-sel.c:184
 msgid "Chile (es_CL)"
 msgstr "Čile (es_CL)"
 
-#: ../goffice/gtk/go-locale-sel.c:181
+#: ../goffice/gtk/go-locale-sel.c:185
 msgid "Colombia (es_CO)"
 msgstr "Kolumbija (es_CO)"
 
-#: ../goffice/gtk/go-locale-sel.c:182
+#: ../goffice/gtk/go-locale-sel.c:186
 msgid "Costa Rica (es_CR)"
 msgstr "Kostarika (es_CR)"
 
-#: ../goffice/gtk/go-locale-sel.c:183
+#: ../goffice/gtk/go-locale-sel.c:187
 msgid "Dominican Republic (es_DO)"
 msgstr "Dominikanska Republika (es_DO)"
 
-#: ../goffice/gtk/go-locale-sel.c:184
+#: ../goffice/gtk/go-locale-sel.c:188
 msgid "Ecuador (es_EC)"
 msgstr "Ekvador (es_EC)"
 
-#: ../goffice/gtk/go-locale-sel.c:185
+#: ../goffice/gtk/go-locale-sel.c:189
 msgid "Spain (es_ES)"
 msgstr "Španija (es_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:186
+#: ../goffice/gtk/go-locale-sel.c:190
 msgid "Guatemala (es_GT)"
 msgstr "Gvatemala (es_GT)"
 
-#: ../goffice/gtk/go-locale-sel.c:187
+#: ../goffice/gtk/go-locale-sel.c:191
 msgid "Honduras (es_HN)"
 msgstr "Honduras (es_HN)"
 
-#: ../goffice/gtk/go-locale-sel.c:188
+#: ../goffice/gtk/go-locale-sel.c:192
 msgid "Mexico (es_MX)"
 msgstr "Mehika (es_MX)"
 
-#: ../goffice/gtk/go-locale-sel.c:189
+#: ../goffice/gtk/go-locale-sel.c:193
 msgid "Nicaragua (es_NI)"
 msgstr "Nikaragva (es_NI)"
 
-#: ../goffice/gtk/go-locale-sel.c:190
+#: ../goffice/gtk/go-locale-sel.c:194
 msgid "Panama (es_PA)"
 msgstr "Panama (es_PA)"
 
-#: ../goffice/gtk/go-locale-sel.c:191
+#: ../goffice/gtk/go-locale-sel.c:195
 msgid "Peru (es_PE)"
 msgstr "Peru (es_PE)"
 
-#: ../goffice/gtk/go-locale-sel.c:192
+#: ../goffice/gtk/go-locale-sel.c:196
 msgid "Puerto Rico (es_PR)"
 msgstr "Portoriko (es_PR)"
 
-#: ../goffice/gtk/go-locale-sel.c:193
+#: ../goffice/gtk/go-locale-sel.c:197
 msgid "Paraguay (es_PY)"
 msgstr "Paragvaj (es_PY)"
 
-#: ../goffice/gtk/go-locale-sel.c:194
+#: ../goffice/gtk/go-locale-sel.c:198
 msgid "El Salvador (es_SV)"
 msgstr "El Salvador (es_SV)"
 
-#: ../goffice/gtk/go-locale-sel.c:195
+#: ../goffice/gtk/go-locale-sel.c:199
 msgid "United States/Spanish (es_US)"
 msgstr "Združene Države/Špansko (es_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:196
+#: ../goffice/gtk/go-locale-sel.c:200
 msgid "Uruguay (es_UY)"
 msgstr "Urugvaj (es_UY)"
 
-#: ../goffice/gtk/go-locale-sel.c:197
+#: ../goffice/gtk/go-locale-sel.c:201
 msgid "Venezuela (es_VE)"
 msgstr "Venezuela (es_VE)"
 
-#: ../goffice/gtk/go-locale-sel.c:198
+#: ../goffice/gtk/go-locale-sel.c:202
 msgid "Estonia (et_EE)"
 msgstr "Estonija (et_EE)"
 
-#: ../goffice/gtk/go-locale-sel.c:199
+#: ../goffice/gtk/go-locale-sel.c:203
 msgid "Spain/Basque (eu_ES)"
 msgstr "Španija/Baskovsko (eu_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:200
+#: ../goffice/gtk/go-locale-sel.c:204
 msgid "Iran (fa_IR)"
 msgstr "Iran (fa_IR)"
 
-#: ../goffice/gtk/go-locale-sel.c:201
+#: ../goffice/gtk/go-locale-sel.c:205
 msgid "Senegal/Fulah (ff_SN)"
 msgstr "Senegal/Fulah (ff_SN)"
 
-#: ../goffice/gtk/go-locale-sel.c:202
+#: ../goffice/gtk/go-locale-sel.c:206
 msgid "Finland/Finnish (fi_FI)"
 msgstr "Finska/Finsko (fi_Fl)"
 
-#: ../goffice/gtk/go-locale-sel.c:203
+#: ../goffice/gtk/go-locale-sel.c:207
 msgid "Philippines/Filipino (fil_PH)"
 msgstr "Filipini/Filipinsko (fil_PH)"
 
-#: ../goffice/gtk/go-locale-sel.c:204
+#: ../goffice/gtk/go-locale-sel.c:208
 msgid "Faroe Islands (fo_FO)"
 msgstr "Ferski otoki (fo_FO)"
 
-#: ../goffice/gtk/go-locale-sel.c:205
+#: ../goffice/gtk/go-locale-sel.c:209
 msgid "Belgium/French (fr_BE)"
 msgstr "Belgija/Francosko (fr_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:206
+#: ../goffice/gtk/go-locale-sel.c:210
 msgid "Canada/French (fr_CA)"
 msgstr "Kanada/Francoska (fr_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:207
+#: ../goffice/gtk/go-locale-sel.c:211
 msgid "Switzerland/French (fr_CH)"
 msgstr "Švica/Francosko (fr_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:208
+#: ../goffice/gtk/go-locale-sel.c:212
 msgid "France (fr_FR)"
 msgstr "Francija (fr_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:209
+#: ../goffice/gtk/go-locale-sel.c:213
 msgid "Luxembourg/French (fr_LU)"
 msgstr "Luksemburg/Francosko (fr_LU)"
 
-#: ../goffice/gtk/go-locale-sel.c:210
+#: ../goffice/gtk/go-locale-sel.c:214
 msgid "Italy/Furlan (fur_IT)"
 msgstr "Italija/Furlansko (fur_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:211
+#: ../goffice/gtk/go-locale-sel.c:215
 msgid "Germany/Frisian (fy_DE)"
 msgstr "Nemško/Frizijsko (fy_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:212
+#: ../goffice/gtk/go-locale-sel.c:216
 msgid "Netherlands/Frisian (fy_NL)"
 msgstr "Nizozemska/Frizijsko (fy_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:213
+#: ../goffice/gtk/go-locale-sel.c:217
 msgid "Ireland/Gaelic (ga_IE)"
 msgstr "Irska/Galsko (ga_IE)"
 
-#: ../goffice/gtk/go-locale-sel.c:214
+#: ../goffice/gtk/go-locale-sel.c:218
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Velika Britanija/Škotsko-galsko (gd_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:215
+#: ../goffice/gtk/go-locale-sel.c:219
 msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr "Eritreja/Giško (gez_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:216
+#: ../goffice/gtk/go-locale-sel.c:220
 msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr "Etiopija/Giško (gez_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:217
+#: ../goffice/gtk/go-locale-sel.c:221
 msgid "Spain/Galician (gl_ES)"
 msgstr "Španija/Galicijsko (gl_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:218
+#: ../goffice/gtk/go-locale-sel.c:222
 msgid "India/Gujarati (gu_IN)"
 msgstr "Indija/Gujaraško (gu_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:219
+#: ../goffice/gtk/go-locale-sel.c:223
 msgid "Great Britain/Manx Gaelic (gv_GB)"
 msgstr "Velika Britanija/Galsko (gv_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:220
+#: ../goffice/gtk/go-locale-sel.c:224
 msgid "Nigeria/Hausa (ha_NG)"
 msgstr "Nigerija/Havško (ha_NG)"
 
-#: ../goffice/gtk/go-locale-sel.c:221
+#: ../goffice/gtk/go-locale-sel.c:225
 msgid "Israel/Hebrew (he_IL)"
 msgstr "Izrael/Hebrejsko (he_IL)"
 
-#: ../goffice/gtk/go-locale-sel.c:222
+#: ../goffice/gtk/go-locale-sel.c:226
 msgid "India/Hindu (hi_IN)"
 msgstr "Indija/Hindujsko (hi_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:223
+#: ../goffice/gtk/go-locale-sel.c:227
 msgid "India/Chhattisgarhi (hne_IN)"
 msgstr "Indija/Čatisgarhsko (ar_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:224
+#: ../goffice/gtk/go-locale-sel.c:228
 msgid "Croatia (hr_HR)"
 msgstr "Hrvaška (hr_HR)"
 
-#: ../goffice/gtk/go-locale-sel.c:225
+#: ../goffice/gtk/go-locale-sel.c:229
 msgid "Germany/Upper Sorbian (hsb_DE)"
 msgstr "Nemčija/Gornje-lužiška srbščina (hsb_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:226
+#: ../goffice/gtk/go-locale-sel.c:230
 msgid "Haiti/Kreyol (ht_HT)"
 msgstr "Haiti/Kreolščina (ht_HT)"
 
-#: ../goffice/gtk/go-locale-sel.c:227
+#: ../goffice/gtk/go-locale-sel.c:231
 msgid "Hungary (hu_HU)"
 msgstr "Madžarska (hu_HU)"
 
-#: ../goffice/gtk/go-locale-sel.c:228
+#: ../goffice/gtk/go-locale-sel.c:232
 msgid "Armenia (hy_AM)"
 msgstr "Armenija (hy_AM)"
 
-#: ../goffice/gtk/go-locale-sel.c:229
+#: ../goffice/gtk/go-locale-sel.c:233
 msgid "(i18n)"
 msgstr "(i18n)"
 
-#: ../goffice/gtk/go-locale-sel.c:230
+#: ../goffice/gtk/go-locale-sel.c:234
 msgid "Indonesia (id_ID)"
 msgstr "Indonezija (id_ID)"
 
-#: ../goffice/gtk/go-locale-sel.c:231
+#: ../goffice/gtk/go-locale-sel.c:235
 msgid "Nigeria/Igbo (ig_NG)"
 msgstr "Nigerija/Igboško (ig_NG)"
 
-#: ../goffice/gtk/go-locale-sel.c:232
+#: ../goffice/gtk/go-locale-sel.c:236
 msgid "Canada/Inupiaq (ik_CA)"
 msgstr "Kanada/Inupiaško (ik_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:233
+#: ../goffice/gtk/go-locale-sel.c:237
 msgid "Iceland (is_IS)"
 msgstr "Islandija (is_IS)"
 
-#: ../goffice/gtk/go-locale-sel.c:234
+#: ../goffice/gtk/go-locale-sel.c:238
 msgid "(iso14651_t1)"
 msgstr "(iso14651_t1)"
 
-#: ../goffice/gtk/go-locale-sel.c:235
+#: ../goffice/gtk/go-locale-sel.c:239
 msgid "Switzerland/Italian (it_CH)"
 msgstr "Švica/Italijansko (it_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:236
+#: ../goffice/gtk/go-locale-sel.c:240
 msgid "Italy (it_IT)"
 msgstr "Italija (it_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:237
+#: ../goffice/gtk/go-locale-sel.c:241
 msgid "Canada/Inuktitut (iu_CA)"
 msgstr "Kanada/Inuktitutsko (iu_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:238
+#: ../goffice/gtk/go-locale-sel.c:242
 msgid "Japan (ja_JP)"
 msgstr "Japonska (ja_JP)"
 
-#: ../goffice/gtk/go-locale-sel.c:239
+#: ../goffice/gtk/go-locale-sel.c:243
 msgid "Georgia (ka_GE)"
 msgstr "Gruzija (ka_GE)"
 
-#: ../goffice/gtk/go-locale-sel.c:240
+#: ../goffice/gtk/go-locale-sel.c:244
 msgid "Kazakhstan/Kazakh (kk_KZ)"
 msgstr "Kazahstan/Kazaško (kk_KZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:241
+#: ../goffice/gtk/go-locale-sel.c:245
 msgid "Greenland (kl_GL)"
 msgstr "Grenlandija (kl_GL)"
 
-#: ../goffice/gtk/go-locale-sel.c:242
+#: ../goffice/gtk/go-locale-sel.c:246
 msgid "Cambodia/Khmer (km_KH)"
 msgstr "Kambodža/Kmersko (km_KH)"
 
-#: ../goffice/gtk/go-locale-sel.c:243
+#: ../goffice/gtk/go-locale-sel.c:247
 msgid "India/Kannada (kn_IN)"
 msgstr "Indija/Kanadsko (kn_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:244
+#: ../goffice/gtk/go-locale-sel.c:248
 msgid "Korea (ko_KR)"
 msgstr "Koreja (ko_KR)"
 
-#: ../goffice/gtk/go-locale-sel.c:245
+#: ../goffice/gtk/go-locale-sel.c:249
 msgid "India/Konkani (kok_IN)"
 msgstr "Indija/Konkansko (kok_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:246
+#: ../goffice/gtk/go-locale-sel.c:250
 msgid "India/Kashmiri (ks_IN)"
 msgstr "Indija/Kašmirsko (ks_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:247
+#: ../goffice/gtk/go-locale-sel.c:251
 msgid "Turkey/Kurdish (ku_TR)"
 msgstr "Turčija/Kurdsko (ku_TR)"
 
-#: ../goffice/gtk/go-locale-sel.c:248
+#: ../goffice/gtk/go-locale-sel.c:252
 msgid "Great Britain/Cornish (kw_GB)"
 msgstr "Velika Britanija/Kornijško (kw_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:249
+#: ../goffice/gtk/go-locale-sel.c:253
 msgid "Kyrgyzstan/Kyrgyz (ky_KG)"
 msgstr "Kirgizistan/Kirgiščina (ky_KG)"
 
-#: ../goffice/gtk/go-locale-sel.c:250
+#: ../goffice/gtk/go-locale-sel.c:254
 msgid "Luxembourg/Luxembourgish (lb_LU)"
 msgstr "Luksemburg/Luksemburško (lb_LU)"
 
-#: ../goffice/gtk/go-locale-sel.c:251
+#: ../goffice/gtk/go-locale-sel.c:255
 msgid "Uganda/Luganda (lg_UG)"
 msgstr "Uganda/Lugandsko (lg_UG)"
 
-#: ../goffice/gtk/go-locale-sel.c:252
+#: ../goffice/gtk/go-locale-sel.c:256
 msgid "Belgium/Limburgish (li_BE)"
 msgstr "Belgija/Limburško (li_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:253
+#: ../goffice/gtk/go-locale-sel.c:257
 msgid "Netherlands/Limburgish (li_NL)"
 msgstr "Nizozemska/Limburško (li_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:254
+#: ../goffice/gtk/go-locale-sel.c:258
 msgid "Italy/Ligurian (lij_IT)"
 msgstr "Italija/Ligursko (lij_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:255
+#: ../goffice/gtk/go-locale-sel.c:259
 msgid "Laos (lo_LA)"
 msgstr "Laos (lo_LA)"
 
-#: ../goffice/gtk/go-locale-sel.c:256
+#: ../goffice/gtk/go-locale-sel.c:260
 msgid "Lithuania (lt_LT)"
 msgstr "Litva (lt_LT)"
 
-#: ../goffice/gtk/go-locale-sel.c:257
+#: ../goffice/gtk/go-locale-sel.c:261
 msgid "Latvia (lv_LV)"
 msgstr "Latvija (lv_LV)"
 
-#: ../goffice/gtk/go-locale-sel.c:258
+#: ../goffice/gtk/go-locale-sel.c:262
 msgid "India/Maithili (mai_IN)"
 msgstr "Indija/Maitilsko (mai_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:259
+#: ../goffice/gtk/go-locale-sel.c:263
 msgid "Madagascar/Malagasy (mg_MG)"
 msgstr "Madagaskar/Malagaško (mg_MG)"
 
-#: ../goffice/gtk/go-locale-sel.c:260
+#: ../goffice/gtk/go-locale-sel.c:264
 msgid "Russia/Mari (mhr_RU)"
 msgstr "Rusija/Marijsko (mhr_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:261
+#: ../goffice/gtk/go-locale-sel.c:265
 msgid "New Zealand/Maori (mi_NZ)"
 msgstr "Nova Zelandija/Maorsko (mi_NZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:262
+#: ../goffice/gtk/go-locale-sel.c:266
 msgid "Macedonia (mk_MK)"
 msgstr "Makedonija (mk_MK)"
 
-#: ../goffice/gtk/go-locale-sel.c:263
+#: ../goffice/gtk/go-locale-sel.c:267
 msgid "India/Malayalam (ml_IN)"
 msgstr "Indija/Malajalamsko (ml_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:264
+#: ../goffice/gtk/go-locale-sel.c:268
 msgid "Mongolia (mn_MN)"
 msgstr "Mongolija (mn_MN)"
 
-#: ../goffice/gtk/go-locale-sel.c:265
+#: ../goffice/gtk/go-locale-sel.c:269
 msgid "India/Marathi (mr_IN)"
 msgstr "Indija/Maratsko (mr_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:266
+#: ../goffice/gtk/go-locale-sel.c:270
 msgid "Malaysia (ms_MY)"
 msgstr "Malezija (ms_MY)"
 
-#: ../goffice/gtk/go-locale-sel.c:267
+#: ../goffice/gtk/go-locale-sel.c:271
 msgid "Malta (mt_MT)"
 msgstr "Malta (mt_MT)"
 
-#: ../goffice/gtk/go-locale-sel.c:268
+#: ../goffice/gtk/go-locale-sel.c:272
 msgid "Myanmar/Burmese (my_MM)"
 msgstr "Mjanmar/Burmansko (my_MM)"
 
-#: ../goffice/gtk/go-locale-sel.c:269
+#: ../goffice/gtk/go-locale-sel.c:273
 msgid "Taiwan/Minnan (nan_TW@latin)"
 msgstr "Tajvan/Minsko (nan_TW@latin)"
 
-#: ../goffice/gtk/go-locale-sel.c:270
+#: ../goffice/gtk/go-locale-sel.c:274
 msgid "Norway/Bokmal (nb_NO)"
 msgstr "Norveška/Knjižno-norveško (nb_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:271
+#: ../goffice/gtk/go-locale-sel.c:275
 msgid "Germany/Low Saxon (nds_DE)"
 msgstr "Nemčija/Spodnjesaško (nds_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:272
+#: ../goffice/gtk/go-locale-sel.c:276
 msgid "Netherlands/Low Saxon (nds_NL)"
 msgstr "Nizozemska/Spodnjesaško (nds_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:273
+#: ../goffice/gtk/go-locale-sel.c:277
 msgid "Nepal/Nepali (ne_NP)"
 msgstr "Nepal/Nepalsko (ne_NP)"
 
-#: ../goffice/gtk/go-locale-sel.c:274
+#: ../goffice/gtk/go-locale-sel.c:278
 msgid "Aruba/Dutch (nl_AW)"
 msgstr "Aruba/Nizozemsko (nl_AW)"
 
-#: ../goffice/gtk/go-locale-sel.c:275
+#: ../goffice/gtk/go-locale-sel.c:279
 msgid "Belgium/Flemish (nl_BE)"
 msgstr "Belgija/Flamsko (nl_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:276
+#: ../goffice/gtk/go-locale-sel.c:280
 msgid "The Netherlands (nl_NL)"
 msgstr "Nizozemska (nl_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:277
+#: ../goffice/gtk/go-locale-sel.c:281
 msgid "Norway/Nynorsk (nn_NO)"
 msgstr "Norveška/Novonorveščina (nn_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:278
+#: ../goffice/gtk/go-locale-sel.c:282
 msgid "South Africa/Southern Ndebele (nr_ZA)"
 msgstr "Južna Afrika/Južno-ndebelsko (nr_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:279
+#: ../goffice/gtk/go-locale-sel.c:283
 msgid "South Africa/Northern Sotho (nso_ZA)"
 msgstr "Južna Afrika/Južno-sotoško (nso_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:280
+#: ../goffice/gtk/go-locale-sel.c:284
 msgid "France/Occitan (oc_FR)"
 msgstr "Francija/Okcitansko (oc_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:281
+#: ../goffice/gtk/go-locale-sel.c:285
 msgid "Ethiopia/Oromo (om_ET)"
 msgstr "Etiopija/Oromsko (om_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:282
+#: ../goffice/gtk/go-locale-sel.c:286
 msgid "Kenya/Oromo (om_KE)"
 msgstr "Kenija/Oromsko (om_KE)"
 
-#: ../goffice/gtk/go-locale-sel.c:283
+#: ../goffice/gtk/go-locale-sel.c:287
 msgid "India/Oriya (or_IN)"
 msgstr "Indija/Orijsko (or_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:284
+#: ../goffice/gtk/go-locale-sel.c:288
 msgid "Russia/Ossetian (os_RU)"
 msgstr "Rusija/Osetinsko (os_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:285
+#: ../goffice/gtk/go-locale-sel.c:289
 msgid "India/Punjabi (Gurmukhi) (pa_IN)"
 msgstr "Indija/Pandžabsko (Pa_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:286
+#: ../goffice/gtk/go-locale-sel.c:290
 msgid "Pakistan/Punjabi (Shamukhi) (pa_PK)"
 msgstr "Pakistan/Pandžabsko (pa_PK)"
 
-#: ../goffice/gtk/go-locale-sel.c:287
+#: ../goffice/gtk/go-locale-sel.c:291
 msgid "Netherland Antilles/Papiamento (pap_AN)"
 msgstr "Nizozemski Antili/Papiamentujsko (pap_AN)"
 
-#: ../goffice/gtk/go-locale-sel.c:288
+#: ../goffice/gtk/go-locale-sel.c:292
 msgid "Poland (pl_PL)"
 msgstr "Poljska (pl_PL)"
 
-#: ../goffice/gtk/go-locale-sel.c:289
+#: ../goffice/gtk/go-locale-sel.c:293
 msgid "Afghanistan/Pashto (ps_AF)"
 msgstr "Afganistan/Paštusko (ps_AF)"
 
-#: ../goffice/gtk/go-locale-sel.c:290
+#: ../goffice/gtk/go-locale-sel.c:294
 msgid "Brazil (pt_BR)"
 msgstr "Brazilija (pt_BR)"
 
-#: ../goffice/gtk/go-locale-sel.c:291
+#: ../goffice/gtk/go-locale-sel.c:295
 msgid "Portugal (pt_PT)"
 msgstr "Portugalska (pt_PT)"
 
-#: ../goffice/gtk/go-locale-sel.c:292
+#: ../goffice/gtk/go-locale-sel.c:296
 msgid "Romania (ro_RO)"
 msgstr "Romunija (ro_RO)"
 
-#: ../goffice/gtk/go-locale-sel.c:293
+#: ../goffice/gtk/go-locale-sel.c:297
 msgid "Russia (ru_RU)"
 msgstr "Rusija (ru_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:294
+#: ../goffice/gtk/go-locale-sel.c:298
 msgid "Ukraine/Russian (ru_UA)"
 msgstr "Ukarajina/Rusko (ru_UA)"
 
-#: ../goffice/gtk/go-locale-sel.c:295
+#: ../goffice/gtk/go-locale-sel.c:299
 msgid "Rwanda/Kinyarwanda (rw_RW)"
 msgstr "Ruanda/Ruandsko (rw_RW)"
 
-#: ../goffice/gtk/go-locale-sel.c:296
+#: ../goffice/gtk/go-locale-sel.c:300
 msgid "India/Sanskrit (sa_IN)"
 msgstr "Indija/Sanskrtsko (sa_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:297
+#: ../goffice/gtk/go-locale-sel.c:301
 msgid "Italy/Sardinian (sc_IT)"
 msgstr "Italija/Sardinsko (sc_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:298
+#: ../goffice/gtk/go-locale-sel.c:302
 msgid "India/Sindhi (sd_IN)"
 msgstr "Indija/Sindško (sg_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:299
+#: ../goffice/gtk/go-locale-sel.c:303
 msgid "Norway/Saami (se_NO)"
 msgstr "Norveška/Samijsko (se_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:300
+#: ../goffice/gtk/go-locale-sel.c:304
 msgid "Canada/Secwepemctsin (Shuswap) (shs_CA)"
 msgstr "Kanada/Šusvapso (shs_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:301
+#: ../goffice/gtk/go-locale-sel.c:305
 msgid "Sri Lanka/Sinhala (si_LK)"
 msgstr "Šrilanka/Singalsko (si_LK)"
 
-#: ../goffice/gtk/go-locale-sel.c:302
+#: ../goffice/gtk/go-locale-sel.c:306
 msgid "Ethiopia/Sidama (sid_ET)"
 msgstr "Etiopija/Sidamsko (sid_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:303
+#: ../goffice/gtk/go-locale-sel.c:307
 msgid "Slovakia (sk_SK)"
 msgstr "Slovaška (sk_SK)"
 
-#: ../goffice/gtk/go-locale-sel.c:304
+#: ../goffice/gtk/go-locale-sel.c:308
 msgid "Slovenia (sl_SI)"
 msgstr "Slovenija (sl_SI)"
 
-#: ../goffice/gtk/go-locale-sel.c:305
+#: ../goffice/gtk/go-locale-sel.c:309
 msgid "Djibouti/Somali (so_DJ)"
 msgstr "Džibuti/Somalsko (so_DJ)"
 
-#: ../goffice/gtk/go-locale-sel.c:306
+#: ../goffice/gtk/go-locale-sel.c:310
 msgid "Ethiopia/Somali (so_ET)"
 msgstr "Etiopija/Somalsko (so_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:307
+#: ../goffice/gtk/go-locale-sel.c:311
 msgid "Kenya/Somali (so_KE)"
 msgstr "Kenija/Somalsko (so_KE)"
 
-#: ../goffice/gtk/go-locale-sel.c:308
+#: ../goffice/gtk/go-locale-sel.c:312
 msgid "Somalia/Somali (so_SO)"
 msgstr "Somalija/Somalsko (so_SO)"
 
-#: ../goffice/gtk/go-locale-sel.c:309
+#: ../goffice/gtk/go-locale-sel.c:313
 msgid "Albania (sq_AL)"
 msgstr "Albanija (sq_AL)"
 
-#: ../goffice/gtk/go-locale-sel.c:310
+#: ../goffice/gtk/go-locale-sel.c:314
 msgid "Macedonia/Albanian (sq_MK)"
 msgstr "Makedonija/Albansko (sq_MK)"
 
-#: ../goffice/gtk/go-locale-sel.c:311
+#: ../goffice/gtk/go-locale-sel.c:315
 msgid "Montenegro/Serbian (sr_ME)"
 msgstr "Črna GOra/Srbsko (sr_ME)"
 
-#: ../goffice/gtk/go-locale-sel.c:312
+#: ../goffice/gtk/go-locale-sel.c:316
 msgid "Yugoslavia (sr_RS)"
 msgstr "Jugoslavija (sr_RS)"
 
-#: ../goffice/gtk/go-locale-sel.c:313
+#: ../goffice/gtk/go-locale-sel.c:317
 msgid "South Africa/Swati (ss_ZA)"
 msgstr "Južna Afrika/Svazijsko (ss_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:314
+#: ../goffice/gtk/go-locale-sel.c:318
 msgid "South Africa/Sotho (st_ZA)"
 msgstr "Južno Afrika/Sotoško (st_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:315
+#: ../goffice/gtk/go-locale-sel.c:319
 msgid "Finland/Swedish (sv_FI)"
 msgstr "Finska/Švedsko (sv_FI)"
 
-#: ../goffice/gtk/go-locale-sel.c:316
+#: ../goffice/gtk/go-locale-sel.c:320
 msgid "Sweden (sv_SE)"
 msgstr "Švedska (sv_SE)"
 
-#: ../goffice/gtk/go-locale-sel.c:317
+#: ../goffice/gtk/go-locale-sel.c:321
 msgid "Kenya/Swahili (sw_KE)"
 msgstr "Kenija/Svahilisko (sw_KE)"
 
-#: ../goffice/gtk/go-locale-sel.c:318
+#: ../goffice/gtk/go-locale-sel.c:322
 msgid "Tanzania/Swahili (sw_TZ)"
 msgstr "Tanzanija/Svahilisko (sw_TZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:319
+#: ../goffice/gtk/go-locale-sel.c:323
 msgid "India/Tamil (ta_IN)"
 msgstr "Indija/Tamilsko (ta_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:320
+#: ../goffice/gtk/go-locale-sel.c:324
 msgid "India/Telugu (te_IN)"
 msgstr "Indija/Telugijsko (te_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:321
+#: ../goffice/gtk/go-locale-sel.c:325
 msgid "Tajikistan (tg_TJ)"
 msgstr "Tadžikistan (tg_TJ)"
 
-#: ../goffice/gtk/go-locale-sel.c:322
+#: ../goffice/gtk/go-locale-sel.c:326
 msgid "Thailand (th_TH)"
 msgstr "Tajska (th_TH)"
 
-#: ../goffice/gtk/go-locale-sel.c:323
+#: ../goffice/gtk/go-locale-sel.c:327
 msgid "Eritrea/Tigrinya (ti_ER)"
 msgstr "Eritreja/Tigrajško (ti_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:324
+#: ../goffice/gtk/go-locale-sel.c:328
 msgid "Ethiopia/Tigrinya (ti_ET)"
 msgstr "Etiopija/Tigrajsko (ti_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:325
+#: ../goffice/gtk/go-locale-sel.c:329
 msgid "Eritrea/Tigre (tig_ER)"
 msgstr "Eritreja/Tigrejsko (tig_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:326
+#: ../goffice/gtk/go-locale-sel.c:330
 msgid "Turkmenistan /Turkmen (tk_TM)"
 msgstr "Turkmenistan/Turkmensko (tk_TM)"
 
-#: ../goffice/gtk/go-locale-sel.c:327
+#: ../goffice/gtk/go-locale-sel.c:331
 msgid "Philippines/Tagalog (tl_PH)"
 msgstr "Filipini/Tagalogško (tl_PH)"
 
-#: ../goffice/gtk/go-locale-sel.c:328
+#: ../goffice/gtk/go-locale-sel.c:332
 msgid "South Africa/Tswana (tn_ZA)"
 msgstr "Južna Afrika/Cvansko (tn_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:329
+#: ../goffice/gtk/go-locale-sel.c:333
 msgid "Cyprus/Turkish (tr_CY)"
 msgstr "Ciper/Turško (tr_CY)"
 
-#: ../goffice/gtk/go-locale-sel.c:330
+#: ../goffice/gtk/go-locale-sel.c:334
 msgid "Turkey (tr_TR)"
 msgstr "Turčija (tr_TR)"
 
-#: ../goffice/gtk/go-locale-sel.c:331
+#: ../goffice/gtk/go-locale-sel.c:335
 msgid "South Africa/Tsonga (ts_ZA)"
 msgstr "Južna Afrika/Tsonško (ts_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:332
+#: ../goffice/gtk/go-locale-sel.c:336
 msgid "Russia/Tatar (tt_RU)"
 msgstr "Rusija/Tatarsko (tt_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:333
+#: ../goffice/gtk/go-locale-sel.c:337
 msgid "China/Uyghur (ug_CN)"
 msgstr "Kitajska/Ujgursko (ug_CN)"
 
-#: ../goffice/gtk/go-locale-sel.c:334
+#: ../goffice/gtk/go-locale-sel.c:338
 msgid "Ukraine (uk_UA)"
 msgstr "Ukrajina (uk_UA)"
 
-#: ../goffice/gtk/go-locale-sel.c:335
+#: ../goffice/gtk/go-locale-sel.c:339
 msgid "India/Urdu (ur_IN)"
 msgstr "Indija/Urdujsko (ur_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:336
+#: ../goffice/gtk/go-locale-sel.c:340
 msgid "Pakistan (ur_PK)"
 msgstr "Pakistan (ur_PK)"
 
-#: ../goffice/gtk/go-locale-sel.c:337
+#: ../goffice/gtk/go-locale-sel.c:341
 msgid "Uzbekistan (uz_UZ)"
 msgstr "Uzbekistan (uz_UZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:338
+#: ../goffice/gtk/go-locale-sel.c:342
 msgid "South Africa/Venda (ve_ZA)"
 msgstr "Južna Afrika/Vendsko (ve_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:339
+#: ../goffice/gtk/go-locale-sel.c:343
 msgid "Vietnam (vi_VN)"
 msgstr "Vietnam (vi_VN)"
 
-#: ../goffice/gtk/go-locale-sel.c:340
+#: ../goffice/gtk/go-locale-sel.c:344
 msgid "Belgium/Walloon (wa_BE)"
 msgstr "Belgija/Valonsko (wa_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:341
+#: ../goffice/gtk/go-locale-sel.c:345
 msgid "Switzerland/Walser (wae_CH)"
 msgstr "Švica/Valsko (wae_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:342
+#: ../goffice/gtk/go-locale-sel.c:346
 msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr "Etiopija/Valaitsko (wal_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:343
+#: ../goffice/gtk/go-locale-sel.c:347
 msgid "Senegal/Wolof (wo_SN)"
 msgstr "Senegal/Volofsko (wo_SN)"
 
-#: ../goffice/gtk/go-locale-sel.c:344
+#: ../goffice/gtk/go-locale-sel.c:348
 msgid "South Africa/Xhosa (xh_ZA)"
 msgstr "Južna Afrika/Ksosa (xh_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:345
+#: ../goffice/gtk/go-locale-sel.c:349
 msgid "United States/Yiddish (yi_US)"
 msgstr "Združene Države/Jidiško (yi_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:346
+#: ../goffice/gtk/go-locale-sel.c:350
 msgid "Nigeria/Yoruba (yo_NG)"
 msgstr "Nigerija/Jorubsko (yo_NG)"
 
-#: ../goffice/gtk/go-locale-sel.c:347
+#: ../goffice/gtk/go-locale-sel.c:351
 msgid "Hong Kong/Cantonese (Yue) (yue_HK)"
 msgstr "Hong Kong/Kantonsko (Yue)(yue_HK)"
 
-#: ../goffice/gtk/go-locale-sel.c:348
+#: ../goffice/gtk/go-locale-sel.c:352
 msgid "China (zh_CN)"
 msgstr "Kitajska (zh_CN)"
 
-#: ../goffice/gtk/go-locale-sel.c:349
+#: ../goffice/gtk/go-locale-sel.c:353
 msgid "Hong Kong/Chinese (zh_HK)"
 msgstr "Hong Kong/Kitajsko (zh_HK)"
 
-#: ../goffice/gtk/go-locale-sel.c:350
+#: ../goffice/gtk/go-locale-sel.c:354
 msgid "Singapore/Chinese (zh_SG)"
 msgstr "Singapur/Kitajsko (zh_SG)"
 
-#: ../goffice/gtk/go-locale-sel.c:351
+#: ../goffice/gtk/go-locale-sel.c:355
 msgid "Taiwan (zh_TW)"
 msgstr "Tajvan (zh_TW)"
 
-#: ../goffice/gtk/go-locale-sel.c:352
+#: ../goffice/gtk/go-locale-sel.c:356
 msgid "South Africa/Zulu (zu_ZA)"
 msgstr "Južna Afrika/Zulujsko (zu_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:571
+#: ../goffice/gtk/go-locale-sel.c:577
 msgid "Current Locale: "
 msgstr "Trenutno jezikovno določilo: "
 
-#: ../goffice/gtk/go-optionmenu.c:493
+#: ../goffice/gtk/go-optionmenu.c:437
 msgid "Menu"
 msgstr "Meni"
 
-#: ../goffice/gtk/go-optionmenu.c:494
+#: ../goffice/gtk/go-optionmenu.c:438
 msgid "The menu of options"
 msgstr "Meni možnosti"
 
-#: ../goffice/gtk/go-palette.c:362
+#: ../goffice/gtk/go-palette.c:392
 msgid "Custom..."
 msgstr "Po meri ..."
 
@@ -6655,7 +6655,7 @@ msgstr "Ni mogoče naložiti podatkov slike\n"
 msgid "Could not input the image data\n"
 msgstr "Ni mogoče vnesti podatkov slike\n"
 
-#: ../goffice/utils/go-emf.c:4915 ../goffice/utils/go-emf.c:4921
+#: ../goffice/utils/go-emf.c:4917 ../goffice/utils/go-emf.c:4923
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Neveljavni podatki slike\n"
@@ -6758,20 +6758,20 @@ msgstr "desno"
 msgid "left"
 msgstr "levo"
 
-#: ../goffice/utils/go-glib-extras.c:1077
+#: ../goffice/utils/go-glib-extras.c:1085
 msgid "yes"
 msgstr "da"
 
-#: ../goffice/utils/go-glib-extras.c:1083
+#: ../goffice/utils/go-glib-extras.c:1091
 msgid "no"
 msgstr "ne"
 
-#: ../goffice/utils/go-glib-extras.c:1302
+#: ../goffice/utils/go-glib-extras.c:1310
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Navedena nit ni končana"
 
-#: ../goffice/utils/go-glib-extras.c:1309
+#: ../goffice/utils/go-glib-extras.c:1317
 #, c-format
 msgid "Syntax error"
 msgstr "Napaka skladnje"
@@ -7070,15 +7070,15 @@ msgstr "polkrožci"
 msgid "Large Circles"
 msgstr "veliki krožci"
 
-#: ../goffice/utils/go-pixbuf.c:367
+#: ../goffice/utils/go-pixbuf.c:369
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr "Predmet GdkPixbuf iz katerega je izgrajen GOPixbuf"
 
-#: ../goffice/utils/go-pixbuf.c:371
+#: ../goffice/utils/go-pixbuf.c:373
 msgid "Image type"
 msgstr "Vrsta slike"
 
-#: ../goffice/utils/go-pixbuf.c:372
+#: ../goffice/utils/go-pixbuf.c:374
 msgid "Type of image"
 msgstr "Vrsta slike"
 
@@ -7094,7 +7094,7 @@ msgstr "Ospredje:"
 msgid "Background:"
 msgstr "Ozadje:"
 
-#: ../goffice/utils/go-style.c:883
+#: ../goffice/utils/go-style.c:884
 msgid "Markers"
 msgstr "Oznake"
 
