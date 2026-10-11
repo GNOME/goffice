@@ -29,11 +29,11 @@ G_BEGIN_DECLS
 
 typedef struct _GOArrowSel GOArrowSel;
 
-GType         go_arrow_sel_get_type (void);
-GtkWidget    *go_arrow_sel_new      (void);
+GType           go_arrow_sel_get_type (void) G_GNUC_CONST;
+GtkWidget      *go_arrow_sel_new      (void);
 
-void	      go_arrow_sel_set_arrow (GOArrowSel *as, GOArrow const *arrow);
-GOArrow const *go_arrow_sel_get_arrow (GOArrowSel const *as);
+void            go_arrow_sel_set_arrow (GOArrowSel *as, GOArrow const *arrow);
+GOArrow const  *go_arrow_sel_get_arrow (GOArrowSel const *as);
 
 G_END_DECLS
 
