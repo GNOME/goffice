@@ -2,22 +2,22 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 #
 # Yuri Syrota <rasta@renome.rovno.ua>, 1999.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024, 2025, 2026.
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025, 2026 Yuri Chornoivan <yurchor@ukr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2026-04-23 07:12+0000\n"
-"PO-Revision-Date: 2026-04-23 13:26+0300\n"
+"POT-Creation-Date: 2026-10-12 01:59+0000\n"
+"PO-Revision-Date: 2026-10-12 17:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.04.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #: ../goffice/app/file.c:177 ../goffice/app/file.c:632
 msgid "ID"
@@ -174,7 +174,7 @@ msgstr "Збережений стан"
 msgid "State of document when last saved"
 msgstr "Стан документа у момент останнього збереження"
 
-#: ../goffice/app/go-doc.c:624 ../goffice/canvas/goc-image.c:324
+#: ../goffice/app/go-doc.c:624 ../goffice/canvas/goc-image.c:333
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Зображення"
@@ -441,7 +441,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "Функція очищення у додатку повернула помилку."
 
 #: ../goffice/app/go-plugin-service.c:229 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:1006 ../goffice/utils/go-format.c:5491
+#: ../goffice/utils/go-format.c:1006 ../goffice/utils/go-format.c:5492
 msgid "General"
 msgstr "Загальний"
 
@@ -608,8 +608,8 @@ msgstr "Стрілка для кінця лінії"
 #: ../goffice/canvas/goc-canvas.c:352 ../goffice/canvas/goc-component.c:309
 #: ../goffice/canvas/goc-component.c:310 ../goffice/canvas/goc-ellipse.c:291
 #: ../goffice/canvas/goc-graph.c:484 ../goffice/canvas/goc-graph.c:485
-#: ../goffice/canvas/goc-image.c:307 ../goffice/canvas/goc-pixbuf.c:247
-#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:842
+#: ../goffice/canvas/goc-image.c:316 ../goffice/canvas/goc-pixbuf.c:247
+#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:877
 #: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-graph.c:499
 #: ../goffice/graph/gog-object.c:207 ../goffice/utils/go-image.c:504
 #: ../plugins/plot_xy/gog-xy-dropbar.c:308
@@ -623,8 +623,8 @@ msgstr "Ширина полотна"
 #: ../goffice/canvas/goc-canvas.c:358 ../goffice/canvas/goc-component.c:303
 #: ../goffice/canvas/goc-component.c:304 ../goffice/canvas/goc-ellipse.c:297
 #: ../goffice/canvas/goc-graph.c:478 ../goffice/canvas/goc-graph.c:479
-#: ../goffice/canvas/goc-image.c:313 ../goffice/canvas/goc-pixbuf.c:253
-#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:848
+#: ../goffice/canvas/goc-image.c:322 ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:883
 #: ../goffice/graph/gog-graph.c:505 ../goffice/graph/gog-object.c:209
 #: ../goffice/utils/go-image.c:508
 msgid "Height"
@@ -636,10 +636,10 @@ msgstr "Висота полотна"
 
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
 #: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:466
-#: ../goffice/canvas/goc-group.c:295 ../goffice/canvas/goc-image.c:295
+#: ../goffice/canvas/goc-group.c:295 ../goffice/canvas/goc-image.c:304
 #: ../goffice/canvas/goc-path.c:299 ../goffice/canvas/goc-pixbuf.c:235
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:433
-#: ../goffice/canvas/goc-widget.c:829 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-widget.c:864 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -649,10 +649,10 @@ msgstr "Позиція центра кола за горизонталлю"
 
 #: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:297
 #: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:472
-#: ../goffice/canvas/goc-group.c:301 ../goffice/canvas/goc-image.c:301
+#: ../goffice/canvas/goc-group.c:301 ../goffice/canvas/goc-image.c:310
 #: ../goffice/canvas/goc-path.c:305 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:439
-#: ../goffice/canvas/goc-widget.c:835
+#: ../goffice/canvas/goc-widget.c:870
 msgid "y"
 msgstr "y"
 
@@ -750,55 +750,55 @@ msgstr "Горизонтальний зсув групи"
 msgid "The group vertical offset"
 msgstr "Вертикальний зсув групи"
 
-#: ../goffice/canvas/goc-image.c:296 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:305 ../goffice/canvas/goc-pixbuf.c:236
 msgid "The image left position"
 msgstr "Позиція зображення від лівого краю"
 
-#: ../goffice/canvas/goc-image.c:302 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:311 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image top position"
 msgstr "Позиція зображення від верхнього краю"
 
-#: ../goffice/canvas/goc-image.c:308 ../goffice/canvas/goc-pixbuf.c:248
+#: ../goffice/canvas/goc-image.c:317 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image width or -1 to use the image width"
 msgstr "Ширина зображення або -1, якщо слід використати природну ширину"
 
-#: ../goffice/canvas/goc-image.c:314 ../goffice/canvas/goc-pixbuf.c:254
+#: ../goffice/canvas/goc-image.c:323 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image height or -1 to use the image height"
 msgstr "Висота зображення або -1, якщо слід використатися природну висоту"
 
-#: ../goffice/canvas/goc-image.c:325
+#: ../goffice/canvas/goc-image.c:334
 msgid "The GOImage to display"
 msgstr "GOImage для показу"
 
-#: ../goffice/canvas/goc-image.c:329
+#: ../goffice/canvas/goc-image.c:338
 msgid "Cropped bottom"
 msgstr "Обрізаний низ"
 
-#: ../goffice/canvas/goc-image.c:330
+#: ../goffice/canvas/goc-image.c:339
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr "Обрізана область від низу зображення як частка висоти зображення"
 
-#: ../goffice/canvas/goc-image.c:334
+#: ../goffice/canvas/goc-image.c:343
 msgid "Cropped left"
 msgstr "Обрізане ліворуч"
 
-#: ../goffice/canvas/goc-image.c:335
+#: ../goffice/canvas/goc-image.c:344
 msgid "The cropped area at the image left of the image width"
 msgstr "Обрізана область у зображенні ліворуч за шириною зображення"
 
-#: ../goffice/canvas/goc-image.c:339
+#: ../goffice/canvas/goc-image.c:348
 msgid "Cropped right"
 msgstr "Обрізане праворуч"
 
-#: ../goffice/canvas/goc-image.c:340
+#: ../goffice/canvas/goc-image.c:349
 msgid "The cropped area at the image right of the image width"
 msgstr "Обрізана область у зображенні праворуч за шириною зображення"
 
-#: ../goffice/canvas/goc-image.c:344
+#: ../goffice/canvas/goc-image.c:353
 msgid "Cropped top"
 msgstr "Обрізаний верх"
 
-#: ../goffice/canvas/goc-image.c:345
+#: ../goffice/canvas/goc-image.c:354
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr "Обрізана область від верху зображення як частка висоти зображення"
 
@@ -888,7 +888,7 @@ msgstr "Контур"
 msgid "The path points"
 msgstr "Точки контуру"
 
-#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:366
+#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:368
 msgid "Pixbuf"
 msgstr "Буфер зображення"
 
@@ -978,22 +978,22 @@ msgstr "ry"
 msgid "The round rectangle ry"
 msgstr "ry скруглення прямокутника"
 
-#: ../goffice/canvas/goc-styled-item.c:171
+#: ../goffice/canvas/goc-styled-item.c:172
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-#: ../goffice/graph/gog-styled-object.c:225 ../goffice/utils/go-style.c:1137
+#: ../goffice/graph/gog-styled-object.c:225 ../goffice/utils/go-style.c:1138
 msgid "Style"
 msgstr "Стиль"
 
-#: ../goffice/canvas/goc-styled-item.c:172
+#: ../goffice/canvas/goc-styled-item.c:173
 #: ../goffice/graph/gog-styled-object.c:226
 msgid "A pointer to the GOStyle object"
 msgstr "Вказівник об'єкта GOStyle"
 
-#: ../goffice/canvas/goc-styled-item.c:177
+#: ../goffice/canvas/goc-styled-item.c:178
 msgid "Scale line width"
 msgstr "Масштабувати товщину лінії"
 
-#: ../goffice/canvas/goc-styled-item.c:178
+#: ../goffice/canvas/goc-styled-item.c:179
 msgid "Whether to scale the line width when zooming"
 msgstr "Визначає, чи слід масштабувати товщину лінії при зміні масштабу"
 
@@ -1018,7 +1018,7 @@ msgid "The anchor point for the text"
 msgstr "Точка прив'язки тексту"
 
 #: ../goffice/canvas/goc-text.c:457 ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/gtk/go-rotation-sel.c:216 ../goffice/utils/go-style.c:988
+#: ../goffice/gtk/go-rotation-sel.c:216 ../goffice/utils/go-style.c:989
 msgid "Text"
 msgstr "Текст"
 
@@ -1066,27 +1066,27 @@ msgstr "Ширина переносу"
 msgid "Wrap width for the text"
 msgstr "Ширина перенесення тексту"
 
-#: ../goffice/canvas/goc-widget.c:823
+#: ../goffice/canvas/goc-widget.c:858
 msgid "Widget"
 msgstr "Віджет"
 
-#: ../goffice/canvas/goc-widget.c:824
+#: ../goffice/canvas/goc-widget.c:859
 msgid "A pointer to the embedded widget"
 msgstr "Вказівник на вбудований віджет"
 
-#: ../goffice/canvas/goc-widget.c:830
+#: ../goffice/canvas/goc-widget.c:865
 msgid "The widget left position"
 msgstr "Позиція віджета від лівого краю"
 
-#: ../goffice/canvas/goc-widget.c:836
+#: ../goffice/canvas/goc-widget.c:871
 msgid "The widget top position"
 msgstr "Позиція віджета від верхнього краю"
 
-#: ../goffice/canvas/goc-widget.c:843
+#: ../goffice/canvas/goc-widget.c:878
 msgid "The widget width"
 msgstr "Ширина віджета"
 
-#: ../goffice/canvas/goc-widget.c:849
+#: ../goffice/canvas/goc-widget.c:884
 msgid "The widget height"
 msgstr "Висота віджета"
 
@@ -1365,7 +1365,6 @@ msgid "Display factor"
 msgstr "Коефіцієнт показу"
 
 #: ../goffice/graph/gog-axis.c:3494
-#| msgid "Real values are the displayed ones multipled by the display factor."
 msgid "Real values are the displayed ones multiplied by the display factor."
 msgstr ""
 "Справжні значення є показаними значеннями із множенням на коефіцієнт показу."
@@ -1544,7 +1543,7 @@ msgstr "Межі"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:2
 #: ../goffice/graph/gog-object-prefs.ui.h:15
-#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:338
+#: ../goffice/graph/gog-plot-prefs.ui.h:8 ../goffice/gtk/go-palette.c:368
 msgid "Automatic"
 msgstr "Автоматично"
 
@@ -1743,7 +1742,7 @@ msgid "Plot"
 msgstr "Креслення"
 
 #: ../goffice/graph/gog-chart.c:697 ../goffice/graph/gog-graph.c:432
-#: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:314
+#: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:313
 msgid "Title"
 msgstr "Заголовок"
 
@@ -1818,7 +1817,7 @@ msgid "Number of rows in graph grid"
 msgstr "Кількість рядків у сітці графіка"
 
 #. Note for translators: first string represent the new child object and second string is the parent object
-#: ../goffice/graph/gog-child-button.c:491
+#: ../goffice/graph/gog-child-button.c:490
 #, c-format
 msgid "%s to %s"
 msgstr "%s у %s"
@@ -2606,8 +2605,8 @@ msgid ""
 msgstr ""
 "Немає: лінію буде показано для всього видимого діапазону.\n"
 "Абсолютні: лінію буде показано між заданими межами.\n"
-"Відносні: лінію буде показано у діапазоні даних, розширеному відповідно до"
-" значень, наведених нижче."
+"Відносні: лінію буде показано у діапазоні даних, розширеному відповідно до "
+"значень, наведених нижче."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:10
 msgid ""
@@ -2619,8 +2618,8 @@ msgid ""
 msgstr ""
 "Немає: лінію буде показано для всього видимого діапазону.\n"
 "Абсолютні: лінію буде показано між заданими межами.\n"
-"Відносні: лінію буде показано у діапазоні даних, розширеному відповідно до"
-" значень, наведених нижче; додатні значення збільшують діапазон."
+"Відносні: лінію буде показано у діапазоні даних, розширеному відповідно до "
+"значень, наведених нижче; додатні значення збільшують діапазон."
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:16
 msgid "Low limit:"
@@ -3035,13 +3034,15 @@ msgstr "Враховувати регістр"
 msgid "Should the text comparison be case sensitive"
 msgstr "Чи має бути враховано регістр при порівнянні тексту"
 
-#: ../goffice/gtk/go-arrow-sel.c:209
+#: ../goffice/gtk/go-arrow-sel.c:270
 msgid "Arrow"
 msgstr "Стрілка"
 
-#: ../goffice/gtk/go-arrow-sel.c:210
-msgid "The currently selected arrow"
-msgstr "Поточна вибрана стрілка"
+#: ../goffice/gtk/go-arrow-sel.c:271
+#| msgid "The currently selected arrow"
+msgid "The currently selected arrow; setting NULL is ignored"
+msgstr ""
+"Поточна вибрана стрілка; встановлення значення NULL буде проігноровано"
 
 #: ../goffice/gtk/go-arrow-sel.ui.h:1
 msgid "Dimension A"
@@ -3068,641 +3069,641 @@ msgstr "Паперовий змій"
 msgid "Oval"
 msgstr "Овал"
 
-#: ../goffice/gtk/go-charmap-sel.c:73
+#: ../goffice/gtk/go-charmap-sel.c:68
 msgid "Arabic"
 msgstr "Арабське"
 
-#: ../goffice/gtk/go-charmap-sel.c:74
+#: ../goffice/gtk/go-charmap-sel.c:69
 msgid "Baltic"
 msgstr "Балтійське"
 
-#: ../goffice/gtk/go-charmap-sel.c:75
+#: ../goffice/gtk/go-charmap-sel.c:70
 msgid "Central European"
 msgstr "Центральноєвропейське"
 
-#: ../goffice/gtk/go-charmap-sel.c:76
+#: ../goffice/gtk/go-charmap-sel.c:71
 msgid "Chinese"
 msgstr "Китайське"
 
-#: ../goffice/gtk/go-charmap-sel.c:77
+#: ../goffice/gtk/go-charmap-sel.c:72
 msgid "Cyrillic"
 msgstr "Кирилиця"
 
-#: ../goffice/gtk/go-charmap-sel.c:78
+#: ../goffice/gtk/go-charmap-sel.c:73
 msgid "Greek"
 msgstr "Грецьке"
 
-#: ../goffice/gtk/go-charmap-sel.c:79
+#: ../goffice/gtk/go-charmap-sel.c:74
 msgid "Hebrew"
 msgstr "Іврит"
 
-#: ../goffice/gtk/go-charmap-sel.c:80
+#: ../goffice/gtk/go-charmap-sel.c:75
 msgid "Indian"
 msgstr "Індійська"
 
-#: ../goffice/gtk/go-charmap-sel.c:81
+#: ../goffice/gtk/go-charmap-sel.c:76
 msgid "Japanese"
 msgstr "Японське"
 
-#: ../goffice/gtk/go-charmap-sel.c:82
+#: ../goffice/gtk/go-charmap-sel.c:77
 msgid "Korean"
 msgstr "Корейське"
 
-#: ../goffice/gtk/go-charmap-sel.c:83
+#: ../goffice/gtk/go-charmap-sel.c:78
 msgid "Turkish"
 msgstr "Турецьке"
 
-#: ../goffice/gtk/go-charmap-sel.c:84
+#: ../goffice/gtk/go-charmap-sel.c:79
 msgid "Unicode"
 msgstr "Юнікод"
 
-#: ../goffice/gtk/go-charmap-sel.c:85
+#: ../goffice/gtk/go-charmap-sel.c:80
 msgid "Vietnamese"
 msgstr "В'єтнамське"
 
-#: ../goffice/gtk/go-charmap-sel.c:86
+#: ../goffice/gtk/go-charmap-sel.c:81
 msgid "Western"
 msgstr "Західне"
 
-#: ../goffice/gtk/go-charmap-sel.c:87 ../goffice/gtk/go-font-sel.c:609
+#: ../goffice/gtk/go-charmap-sel.c:82 ../goffice/gtk/go-font-sel.c:609
 #: ../goffice/gtk/go-locale-sel.c:72
 msgid "Other"
 msgstr "Інше"
 
-#: ../goffice/gtk/go-charmap-sel.c:118
+#: ../goffice/gtk/go-charmap-sel.c:120
 msgid "Arabic (IBM-864)"
 msgstr "Арабське (IBM-864)"
 
-#: ../goffice/gtk/go-charmap-sel.c:119
+#: ../goffice/gtk/go-charmap-sel.c:121
 msgid "Arabic (IBM-864-I)"
 msgstr "Арабське (IBM-864-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:120
+#: ../goffice/gtk/go-charmap-sel.c:122
 msgid "Arabic (ISO-8859-6)"
 msgstr "Арабське (ISO-8859-6)"
 
-#: ../goffice/gtk/go-charmap-sel.c:121
+#: ../goffice/gtk/go-charmap-sel.c:123
 msgid "Arabic (ISO-8859-6-E)"
 msgstr "Арабське (ISO-8859-6-E)"
 
-#: ../goffice/gtk/go-charmap-sel.c:123
+#: ../goffice/gtk/go-charmap-sel.c:125
 msgid "Arabic (ISO-8859-6-I)"
 msgstr "Арабське (ISO-8859-6-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:124
+#: ../goffice/gtk/go-charmap-sel.c:126
 msgid "Arabic (MacArabic)"
 msgstr "Арабське (MacArabic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:125
+#: ../goffice/gtk/go-charmap-sel.c:127
 msgid "Arabic (Windows-1256)"
 msgstr "Арабське (Windows-1256)"
 
-#: ../goffice/gtk/go-charmap-sel.c:126
+#: ../goffice/gtk/go-charmap-sel.c:128
 msgid "Armenian (ARMSCII-8)"
 msgstr "Вірменське (ARMSCII-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:127
+#: ../goffice/gtk/go-charmap-sel.c:129
 msgid "Baltic (ISO-8859-13)"
 msgstr "Балтійське (ISO-8859-13)"
 
-#: ../goffice/gtk/go-charmap-sel.c:128
+#: ../goffice/gtk/go-charmap-sel.c:130
 msgid "Baltic (ISO-8859-4)"
 msgstr "Балтійське (ISO-8859-4)"
 
-#: ../goffice/gtk/go-charmap-sel.c:129
+#: ../goffice/gtk/go-charmap-sel.c:131
 msgid "Baltic (Windows-1257)"
 msgstr "Балтійське (Windows-1257)"
 
-#: ../goffice/gtk/go-charmap-sel.c:130
+#: ../goffice/gtk/go-charmap-sel.c:132
 msgid "Celtic (ISO-8859-14)"
 msgstr "Кельтське (ISO-8859-14)"
 
-#: ../goffice/gtk/go-charmap-sel.c:131
+#: ../goffice/gtk/go-charmap-sel.c:133
 msgid "Central European (IBM-852)"
 msgstr "Центральноєвропейське (IBM-852)"
 
-#: ../goffice/gtk/go-charmap-sel.c:132
+#: ../goffice/gtk/go-charmap-sel.c:134
 msgid "Central European (ISO-8859-2)"
 msgstr "Центральноєвропейське (ISO-8859-2)"
 
-#: ../goffice/gtk/go-charmap-sel.c:133
+#: ../goffice/gtk/go-charmap-sel.c:135
 msgid "Central European (MacCE)"
 msgstr "Центральноєвропейське (MacCE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:134
+#: ../goffice/gtk/go-charmap-sel.c:136
 msgid "Central European (Windows-1250)"
 msgstr "Центральноєвропейське (Windows-1250)"
 
-#: ../goffice/gtk/go-charmap-sel.c:135
+#: ../goffice/gtk/go-charmap-sel.c:137
 msgid "Chinese Simplified (GB18030)"
 msgstr "Китайське (спрощене) (GB18030)"
 
-#: ../goffice/gtk/go-charmap-sel.c:136
+#: ../goffice/gtk/go-charmap-sel.c:138
 msgid "Chinese Simplified (GB2312)"
 msgstr "Китайське (спрощене) (GB2312)"
 
-#: ../goffice/gtk/go-charmap-sel.c:137
+#: ../goffice/gtk/go-charmap-sel.c:139
 msgid "Chinese Simplified (GBK)"
 msgstr "Китайське (спрощене) (GBK)"
 
-#: ../goffice/gtk/go-charmap-sel.c:138
+#: ../goffice/gtk/go-charmap-sel.c:140
 msgid "Chinese Simplified (HZ)"
 msgstr "Китайське (спрощене) (HZ)"
 
-#: ../goffice/gtk/go-charmap-sel.c:139
+#: ../goffice/gtk/go-charmap-sel.c:141
 msgid "Chinese Simplified (Windows-936)"
 msgstr "Китайське (спрощене) (Windows-936)"
 
-#: ../goffice/gtk/go-charmap-sel.c:140
+#: ../goffice/gtk/go-charmap-sel.c:142
 msgid "Chinese Traditional (Big5)"
 msgstr "Китайське (традиційне) (Big5)"
 
-#: ../goffice/gtk/go-charmap-sel.c:141
+#: ../goffice/gtk/go-charmap-sel.c:143
 msgid "Chinese Traditional (Big5-HKSCS)"
 msgstr "Китайське (традиційне) (Big5-HKSCS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:142
+#: ../goffice/gtk/go-charmap-sel.c:144
 msgid "Chinese Traditional (EUC-TW)"
 msgstr "Китайське (традиційне) (EUC-TW)"
 
-#: ../goffice/gtk/go-charmap-sel.c:143
+#: ../goffice/gtk/go-charmap-sel.c:145
 msgid "Croatian (MacCroatian)"
 msgstr "Хорватське (MacCroatian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:144
+#: ../goffice/gtk/go-charmap-sel.c:146
 msgid "Cyrillic (IBM-855)"
 msgstr "Кирилиця (IBM-855)"
 
-#: ../goffice/gtk/go-charmap-sel.c:145
+#: ../goffice/gtk/go-charmap-sel.c:147
 msgid "Cyrillic (ISO-8859-5)"
 msgstr "Кирилиця (ISO-8859-5)"
 
-#: ../goffice/gtk/go-charmap-sel.c:146
+#: ../goffice/gtk/go-charmap-sel.c:148
 msgid "Cyrillic (ISO-IR-111)"
 msgstr "Кирилиця (ISO-IR-111)"
 
-#: ../goffice/gtk/go-charmap-sel.c:147
+#: ../goffice/gtk/go-charmap-sel.c:149
 msgid "Cyrillic (KOI8-R)"
 msgstr "Кирилиця (KOI8-R)"
 
-#: ../goffice/gtk/go-charmap-sel.c:148
+#: ../goffice/gtk/go-charmap-sel.c:150
 msgid "Cyrillic (MacCyrillic)"
 msgstr "Кирилиця (MacCyrillic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:149
+#: ../goffice/gtk/go-charmap-sel.c:151
 msgid "Cyrillic (Windows-1251)"
 msgstr "Кирилиця (Windows-1251)"
 
-#: ../goffice/gtk/go-charmap-sel.c:150
+#: ../goffice/gtk/go-charmap-sel.c:152
 msgid "Russian (CP-866)"
 msgstr "Російське (CP-866)"
 
-#: ../goffice/gtk/go-charmap-sel.c:151
+#: ../goffice/gtk/go-charmap-sel.c:153
 msgid "Ukrainian (KOI8-U)"
 msgstr "Українське (KOI8-U)"
 
-#: ../goffice/gtk/go-charmap-sel.c:152
+#: ../goffice/gtk/go-charmap-sel.c:154
 msgid "Ukrainian (MacUkrainian)"
 msgstr "Українське (MacUkrainian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:153
+#: ../goffice/gtk/go-charmap-sel.c:155
 msgid "English (ASCII)"
 msgstr "Англійське (ASCII)"
 
-#: ../goffice/gtk/go-charmap-sel.c:154
+#: ../goffice/gtk/go-charmap-sel.c:156
 msgid "Farsi (MacFarsi)"
 msgstr "Фарсі (MacFarsi)"
 
-#: ../goffice/gtk/go-charmap-sel.c:155
+#: ../goffice/gtk/go-charmap-sel.c:157
 msgid "Georgian (GEOSTD8)"
 msgstr "Грузинське (GEOSTD8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:156
+#: ../goffice/gtk/go-charmap-sel.c:158
 msgid "Greek (ISO-8859-7)"
 msgstr "Грецьке (ISO 8859-7)"
 
-#: ../goffice/gtk/go-charmap-sel.c:157
+#: ../goffice/gtk/go-charmap-sel.c:159
 msgid "Greek (MacGreek)"
 msgstr "Грецьке (MacGreek)"
 
-#: ../goffice/gtk/go-charmap-sel.c:158
+#: ../goffice/gtk/go-charmap-sel.c:160
 msgid "Greek (Windows-1253)"
 msgstr "Грецьке (Windows-1253)"
 
-#: ../goffice/gtk/go-charmap-sel.c:159
+#: ../goffice/gtk/go-charmap-sel.c:161
 msgid "Gujarati (MacGujarati)"
 msgstr "Гуджараті (MacGujarati)"
 
-#: ../goffice/gtk/go-charmap-sel.c:160
+#: ../goffice/gtk/go-charmap-sel.c:162
 msgid "Gurmukhi (MacGurmukhi)"
 msgstr "Гурмухі (MacGurmukhi)"
 
-#: ../goffice/gtk/go-charmap-sel.c:161
+#: ../goffice/gtk/go-charmap-sel.c:163
 msgid "Hebrew (IBM-862)"
 msgstr "Іврит (IBM-862)"
 
-#: ../goffice/gtk/go-charmap-sel.c:162
+#: ../goffice/gtk/go-charmap-sel.c:164
 msgid "Hebrew (ISO-8859-8-E)"
 msgstr "Іврит (ISO-8859-8-E)"
 
-#: ../goffice/gtk/go-charmap-sel.c:163
+#: ../goffice/gtk/go-charmap-sel.c:165
 msgid "Hebrew (ISO-8859-8-I)"
 msgstr "Іврит (ISO-8859-8-I)"
 
-#: ../goffice/gtk/go-charmap-sel.c:164
+#: ../goffice/gtk/go-charmap-sel.c:166
 msgid "Hebrew (MacHebrew)"
 msgstr "Іврит (MacHebrew)"
 
-#: ../goffice/gtk/go-charmap-sel.c:165
+#: ../goffice/gtk/go-charmap-sel.c:167
 msgid "Hebrew (Windows-1255)"
 msgstr "Іврит (Windows-1255)"
 
-#: ../goffice/gtk/go-charmap-sel.c:166
+#: ../goffice/gtk/go-charmap-sel.c:168
 msgid "Hindi (MacDevanagari)"
 msgstr "Хінді (MacDevanagari)"
 
-#: ../goffice/gtk/go-charmap-sel.c:167
+#: ../goffice/gtk/go-charmap-sel.c:169
 msgid "Icelandic (MacIcelandic)"
 msgstr "Ісландське (MacIcelandic)"
 
-#: ../goffice/gtk/go-charmap-sel.c:168
+#: ../goffice/gtk/go-charmap-sel.c:170
 msgid "Japanese (EUC-JP)"
 msgstr "Японське (EUC-JP)"
 
-#: ../goffice/gtk/go-charmap-sel.c:169
+#: ../goffice/gtk/go-charmap-sel.c:171
 msgid "Japanese (ISO-2022-JP)"
 msgstr "Японське (ISO-2022-JP)"
 
-#: ../goffice/gtk/go-charmap-sel.c:170
+#: ../goffice/gtk/go-charmap-sel.c:172
 msgid "Japanese (Shift_JIS)"
 msgstr "Японське (Shift_JIS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:171
+#: ../goffice/gtk/go-charmap-sel.c:173
 msgid "Korean (EUC-KR)"
 msgstr "Корейське (EUC-KR)"
 
-#: ../goffice/gtk/go-charmap-sel.c:172
+#: ../goffice/gtk/go-charmap-sel.c:174
 msgid "Korean (ISO-2022-KR)"
 msgstr "Корейське (ISO-2022-KR)"
 
-#: ../goffice/gtk/go-charmap-sel.c:173
+#: ../goffice/gtk/go-charmap-sel.c:175
 msgid "Korean (JOHAB)"
 msgstr "Корейське (JOHAB)"
 
-#: ../goffice/gtk/go-charmap-sel.c:174
+#: ../goffice/gtk/go-charmap-sel.c:176
 msgid "Korean (UHC)"
 msgstr "Корейське (UHC)"
 
-#: ../goffice/gtk/go-charmap-sel.c:175
+#: ../goffice/gtk/go-charmap-sel.c:177
 msgid "Nordic (ISO-8859-10)"
 msgstr "Скандинавське (ISO-8859-10)"
 
-#: ../goffice/gtk/go-charmap-sel.c:176
+#: ../goffice/gtk/go-charmap-sel.c:178
 msgid "Romanian (MacRomanian)"
 msgstr "Румунське (MacRomanian)"
 
-#: ../goffice/gtk/go-charmap-sel.c:177
+#: ../goffice/gtk/go-charmap-sel.c:179
 msgid "Romanian (ISO-8859-16)"
 msgstr "Румунське (ISO-8859-16)"
 
-#: ../goffice/gtk/go-charmap-sel.c:178
+#: ../goffice/gtk/go-charmap-sel.c:180
 msgid "South European (ISO-8859-3)"
 msgstr "Південноєвропейське (ISO 8859-3)"
 
-#: ../goffice/gtk/go-charmap-sel.c:179
+#: ../goffice/gtk/go-charmap-sel.c:181
 msgid "Thai (TIS-620)"
 msgstr "Тайське (TIS-820.2538)"
 
-#: ../goffice/gtk/go-charmap-sel.c:180
+#: ../goffice/gtk/go-charmap-sel.c:182
 msgid "Turkish (IBM-857)"
 msgstr "Турецьке (IBM-857)"
 
-#: ../goffice/gtk/go-charmap-sel.c:181
+#: ../goffice/gtk/go-charmap-sel.c:183
 msgid "Turkish (ISO-8859-9)"
 msgstr "Турецьке (ISO 8859-9)"
 
-#: ../goffice/gtk/go-charmap-sel.c:182
+#: ../goffice/gtk/go-charmap-sel.c:184
 msgid "Turkish (MacTurkish)"
 msgstr "Турецьке (MacTurkish)"
 
-#: ../goffice/gtk/go-charmap-sel.c:183
+#: ../goffice/gtk/go-charmap-sel.c:185
 msgid "Turkish (Windows-1254)"
 msgstr "Турецьке (Windows-1254)"
 
-#: ../goffice/gtk/go-charmap-sel.c:184
+#: ../goffice/gtk/go-charmap-sel.c:186
 msgid "Unicode (UTF-7)"
 msgstr "Unicode (UTF-7)"
 
-#: ../goffice/gtk/go-charmap-sel.c:185
+#: ../goffice/gtk/go-charmap-sel.c:187
 msgid "Unicode (UTF-8)"
 msgstr "Unicode (UTF-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:186
+#: ../goffice/gtk/go-charmap-sel.c:188
 msgid "Unicode (UTF-16BE)"
 msgstr "Unicode (UTF-16BE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:187
+#: ../goffice/gtk/go-charmap-sel.c:189
 msgid "Unicode (UTF-16LE)"
 msgstr "Unicode (UTF-16LE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:188
+#: ../goffice/gtk/go-charmap-sel.c:190
 msgid "Unicode (UTF-32BE)"
 msgstr "Unicode (UTF-32BE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:189
+#: ../goffice/gtk/go-charmap-sel.c:191
 msgid "Unicode (UTF-32LE)"
 msgstr "Unicode (UTF-32LE)"
 
-#: ../goffice/gtk/go-charmap-sel.c:190
+#: ../goffice/gtk/go-charmap-sel.c:192
 msgid "User Defined"
 msgstr "Визначений користувачем"
 
-#: ../goffice/gtk/go-charmap-sel.c:191
+#: ../goffice/gtk/go-charmap-sel.c:193
 msgid "Vietnamese (TCVN)"
 msgstr "В'єтнамське (TCVN)"
 
-#: ../goffice/gtk/go-charmap-sel.c:192
+#: ../goffice/gtk/go-charmap-sel.c:194
 msgid "Vietnamese (VISCII)"
 msgstr "В'єтнамське (VISCII)"
 
-#: ../goffice/gtk/go-charmap-sel.c:193
+#: ../goffice/gtk/go-charmap-sel.c:195
 msgid "Vietnamese (VPS)"
 msgstr "В'єтнамське (VPS)"
 
-#: ../goffice/gtk/go-charmap-sel.c:194
+#: ../goffice/gtk/go-charmap-sel.c:196
 msgid "Vietnamese (Windows-1258)"
 msgstr "В'єтнамське (Windows-1258)"
 
-#: ../goffice/gtk/go-charmap-sel.c:195
+#: ../goffice/gtk/go-charmap-sel.c:197
 msgid "Visual Hebrew (ISO-8859-8)"
 msgstr "Візуальний іврит (ISO-8859-8)"
 
-#: ../goffice/gtk/go-charmap-sel.c:196
+#: ../goffice/gtk/go-charmap-sel.c:198
 msgid "Western (IBM-850)"
 msgstr "Західне (IBM-850)"
 
-#: ../goffice/gtk/go-charmap-sel.c:197
+#: ../goffice/gtk/go-charmap-sel.c:199
 msgid "Western (ISO-8859-1)"
 msgstr "Західне (ISO-8859-1)"
 
-#: ../goffice/gtk/go-charmap-sel.c:198
+#: ../goffice/gtk/go-charmap-sel.c:200
 msgid "Western (ISO-8859-15)"
 msgstr "Західне (ISO-8859-15)"
 
-#: ../goffice/gtk/go-charmap-sel.c:199
+#: ../goffice/gtk/go-charmap-sel.c:201
 msgid "Western (MacRoman)"
 msgstr "Західне (MacRoman)"
 
-#: ../goffice/gtk/go-charmap-sel.c:200
+#: ../goffice/gtk/go-charmap-sel.c:202
 msgid "Western (Windows-1252)"
 msgstr "Західне (Windows-1252)"
 
-#: ../goffice/gtk/go-charmap-sel.c:416
+#: ../goffice/gtk/go-charmap-sel.c:434
 msgid "Locale: "
 msgstr "Локаль: "
 
-#: ../goffice/gtk/go-charmap-sel.c:457
+#: ../goffice/gtk/go-charmap-sel.c:475
 msgid "Conversion Direction"
 msgstr "Напрямок перетворення"
 
-#: ../goffice/gtk/go-charmap-sel.c:458
+#: ../goffice/gtk/go-charmap-sel.c:476
 msgid "This value determines which iconv test to perform."
 msgstr "Це значення визначає, яку з перевірок iconv слід виконати."
 
 #. xgettext: See https://bugzilla.gnome.org/attachment.cgi?id=222905
-#: ../goffice/gtk/go-color-palette.c:79
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "black"
 msgstr "чорний"
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:82
 msgid "light brown"
 msgstr "світло-коричневий"
 
-#: ../goffice/gtk/go-color-palette.c:81
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "brown gold"
 msgstr "жовто-коричневий"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:84
 msgid "dark green #2"
 msgstr "темно-зелений #2"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:85
 msgid "navy"
 msgstr "морський"
 
-#: ../goffice/gtk/go-color-palette.c:84 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:138
 msgid "dark blue"
 msgstr "темно-синій"
 
-#: ../goffice/gtk/go-color-palette.c:85
+#: ../goffice/gtk/go-color-palette.c:87
 msgid "purple #2"
 msgstr "пурпуровий #2"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:88
 msgid "very dark gray"
 msgstr "дуже темно-сірий"
 
-#: ../goffice/gtk/go-color-palette.c:88 ../goffice/gtk/go-color-palette.c:141
+#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:143
 msgid "dark red"
 msgstr "темно-червоний"
 
-#: ../goffice/gtk/go-color-palette.c:89
+#: ../goffice/gtk/go-color-palette.c:91
 msgid "red-orange"
 msgstr "помаранчево-червоний"
 
-#: ../goffice/gtk/go-color-palette.c:90
+#: ../goffice/gtk/go-color-palette.c:92
 msgid "gold"
 msgstr "золотий"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:93
 msgid "dark green"
 msgstr "темно-зелений"
 
-#: ../goffice/gtk/go-color-palette.c:92 ../goffice/gtk/go-color-palette.c:142
+#: ../goffice/gtk/go-color-palette.c:94 ../goffice/gtk/go-color-palette.c:144
 msgid "dull blue"
 msgstr "тьмяно-синій"
 
-#: ../goffice/gtk/go-color-palette.c:93 ../goffice/gtk/go-color-palette.c:143
+#: ../goffice/gtk/go-color-palette.c:95 ../goffice/gtk/go-color-palette.c:145
 msgid "blue"
 msgstr "синій"
 
-#: ../goffice/gtk/go-color-palette.c:94
+#: ../goffice/gtk/go-color-palette.c:96
 msgid "dull purple"
 msgstr "тьмяно-пурпуровий"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:97
 msgid "dark gray"
 msgstr "темно-сірий"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "red"
 msgstr "червоний"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "orange"
 msgstr "помаранчевий"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:101
 msgid "lime"
 msgstr "яскравий світло-зелений"
 
-#: ../goffice/gtk/go-color-palette.c:100
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "dull green"
 msgstr "тьмяно-зелений"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:103
 msgid "dull blue #2"
 msgstr "тьмяно-синій #2"
 
-#: ../goffice/gtk/go-color-palette.c:102
+#: ../goffice/gtk/go-color-palette.c:104
 msgid "sky blue #2"
 msgstr "небесно-блакитний #2"
 
-#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:105 ../goffice/gtk/go-color-palette.c:142
 msgid "purple"
 msgstr "пурпуровий"
 
-#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:106
 msgid "gray"
 msgstr "сірий"
 
-#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:139
 msgid "magenta"
 msgstr "бузковий"
 
-#: ../goffice/gtk/go-color-palette.c:107
+#: ../goffice/gtk/go-color-palette.c:109
 msgid "bright orange"
 msgstr "яскраво-помаранчевий"
 
-#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:140
 msgid "yellow"
 msgstr "жовтий"
 
-#: ../goffice/gtk/go-color-palette.c:109
+#: ../goffice/gtk/go-color-palette.c:111
 msgid "green"
 msgstr "зелений"
 
-#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:141
 msgid "cyan"
 msgstr "блакитний"
 
-#: ../goffice/gtk/go-color-palette.c:111
+#: ../goffice/gtk/go-color-palette.c:113
 msgid "bright blue"
 msgstr "яскраво-синій"
 
-#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:114 ../goffice/gtk/go-color-palette.c:130
 msgid "red purple"
 msgstr "червоно-пурпуровий"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:115
 msgid "light gray"
 msgstr "світло-сірий"
 
-#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:132
+#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:134
 msgid "pink"
 msgstr "рожевий"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:118
 msgid "light orange"
 msgstr "світло-жовтогарячий"
 
-#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:131
 msgid "light yellow"
 msgstr "світло-жовтий"
 
-#: ../goffice/gtk/go-color-palette.c:118
+#: ../goffice/gtk/go-color-palette.c:120
 msgid "light green"
 msgstr "світло-зелений"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:121
 msgid "light cyan"
 msgstr "світло-блакитний"
 
-#: ../goffice/gtk/go-color-palette.c:120 ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:122 ../goffice/gtk/go-color-palette.c:132
 msgid "light blue"
 msgstr "світло-синій"
 
-#: ../goffice/gtk/go-color-palette.c:121 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:123 ../goffice/gtk/go-color-palette.c:136
 msgid "light purple"
 msgstr "світло-пурпуровий"
 
-#: ../goffice/gtk/go-color-palette.c:122
+#: ../goffice/gtk/go-color-palette.c:124
 msgid "white"
 msgstr "білий"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:129
 msgid "purplish blue"
 msgstr "пурпурово-синій"
 
-#: ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:133
 msgid "dark purple"
 msgstr "темно-пурпуровий"
 
-#: ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:135
 msgid "sky blue"
 msgstr "небесно-блакитний"
 
-#: ../goffice/gtk/go-color-palette.c:501
+#: ../goffice/gtk/go-color-palette.c:503
 msgid "custom"
 msgstr "нетиповий"
 
-#: ../goffice/gtk/go-color-palette.c:508 ../goffice/gtk/go-color-palette.c:757
+#: ../goffice/gtk/go-color-palette.c:510 ../goffice/gtk/go-color-palette.c:764
 #: ../goffice/gtk/go-color-selector.c:197
 msgid "Custom color..."
 msgstr "Нетиповий колір…"
 
-#: ../goffice/gtk/go-combo-box.c:315
+#: ../goffice/gtk/go-combo-box.c:314
 msgid "The combo box's title"
 msgstr "Заголовок спадного списку"
 
-#: ../goffice/gtk/go-combo-box.c:321
+#: ../goffice/gtk/go-combo-box.c:320
 msgid "Show Arrow"
 msgstr "Показується стрілка"
 
-#: ../goffice/gtk/go-combo-box.c:322
+#: ../goffice/gtk/go-combo-box.c:321
 msgid "Whether to show an arrow for the combo"
 msgstr "Чи слід показувати стрілочку для цього спадного списку"
 
-#: ../goffice/gtk/go-combo-box.c:332
+#: ../goffice/gtk/go-combo-box.c:331
 msgid "Add tearoffs to menus"
 msgstr "Додати елементи відривання до меню"
 
-#: ../goffice/gtk/go-combo-box.c:333
+#: ../goffice/gtk/go-combo-box.c:332
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Чи повинні розкривні елементи мати лінію відриву"
 
-#: ../goffice/gtk/goffice-gtk.c:235
+#: ../goffice/gtk/goffice-gtk.c:248
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Не вдалось відкрити файл «%s»"
 
-#: ../goffice/gtk/goffice-gtk.c:866 ../goffice/utils/go-style.c:224
+#: ../goffice/gtk/goffice-gtk.c:917 ../goffice/utils/go-style.c:224
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:901
+#: ../goffice/gtk/goffice-gtk.c:952
 msgid "All Files"
 msgstr "усі файли"
 
-#: ../goffice/gtk/goffice-gtk.c:906
+#: ../goffice/gtk/goffice-gtk.c:957
 msgid "Images"
 msgstr "зображення"
 
-#: ../goffice/gtk/goffice-gtk.c:973
+#: ../goffice/gtk/goffice-gtk.c:1024
 msgid "Select an Image"
 msgstr "Виберіть зображення"
 
-#: ../goffice/gtk/goffice-gtk.c:1067
+#: ../goffice/gtk/goffice-gtk.c:1118
 msgid "Save as"
 msgstr "Зберегти як"
 
-#: ../goffice/gtk/goffice-gtk.c:1083
+#: ../goffice/gtk/goffice-gtk.c:1134
 msgid "Auto by extension"
 msgstr "Автоматично за суфіксом"
 
-#: ../goffice/gtk/goffice-gtk.c:1159
+#: ../goffice/gtk/goffice-gtk.c:1210
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3710,7 +3711,7 @@ msgstr ""
 "Вказаний суфікс назви файла не відповідає вбираному типу фалів. Хочете "
 "скористатися ним попри це?"
 
-#: ../goffice/gtk/goffice-gtk.c:1386
+#: ../goffice/gtk/goffice-gtk.c:1437
 #, c-format
 msgid ""
 "%s\n"
@@ -3719,7 +3720,7 @@ msgstr ""
 "%s\n"
 "є назвою каталогу"
 
-#: ../goffice/gtk/goffice-gtk.c:1390
+#: ../goffice/gtk/goffice-gtk.c:1441
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3728,7 +3729,7 @@ msgstr ""
 "Ви не маєте права на запис у\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1400
+#: ../goffice/gtk/goffice-gtk.c:1451
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -4100,7 +4101,7 @@ msgctxt "FontFace"
 msgid "Upright Italic"
 msgstr "Вертикальний курсив"
 
-#: ../goffice/gtk/go-font-sel.c:534 ../goffice/utils/go-style.c:957
+#: ../goffice/gtk/go-font-sel.c:534 ../goffice/utils/go-style.c:958
 #: ../plugins/lasem/component.c:268 ../plugins/lasem/component.c:494
 msgid "Font"
 msgstr "Шрифт"
@@ -4109,112 +4110,112 @@ msgstr "Шрифт"
 msgid "All fonts..."
 msgstr "Усі шрифти"
 
-#: ../goffice/gtk/go-font-sel.c:937
+#: ../goffice/gtk/go-font-sel.c:943
 msgctxt "underline"
 msgid "None"
 msgstr "Немає"
 
-#: ../goffice/gtk/go-font-sel.c:938
+#: ../goffice/gtk/go-font-sel.c:944
 msgctxt "underline"
 msgid "Single"
 msgstr "Одинарне"
 
-#: ../goffice/gtk/go-font-sel.c:939
+#: ../goffice/gtk/go-font-sel.c:945
 msgctxt "underline"
 msgid "Double"
 msgstr "Подвійне"
 
-#: ../goffice/gtk/go-font-sel.c:940
+#: ../goffice/gtk/go-font-sel.c:946
 msgctxt "underline"
 msgid "Low"
 msgstr "Низький"
 
-#: ../goffice/gtk/go-font-sel.c:941
+#: ../goffice/gtk/go-font-sel.c:947
 msgctxt "underline"
 msgid "Error"
 msgstr "Помилка"
 
-#: ../goffice/gtk/go-font-sel.c:962 ../goffice/math/go-distribution.c:64
+#: ../goffice/gtk/go-font-sel.c:973 ../goffice/math/go-distribution.c:64
 msgid "Normal"
 msgstr "Нормальне"
 
-#: ../goffice/gtk/go-font-sel.c:963
+#: ../goffice/gtk/go-font-sel.c:974
 msgid "Subscript"
 msgstr "Нижній індекс"
 
-#: ../goffice/gtk/go-font-sel.c:964
+#: ../goffice/gtk/go-font-sel.c:975
 msgid "Superscript"
 msgstr "Верхній індекс"
 
-#: ../goffice/gtk/go-font-sel.c:1247
+#: ../goffice/gtk/go-font-sel.c:1258
 msgid "Show Style"
 msgstr "Показати стиль"
 
-#: ../goffice/gtk/go-font-sel.c:1248
+#: ../goffice/gtk/go-font-sel.c:1259
 msgid "Whether style is part of the font being selected"
 msgstr "Чи є стиль частиною шрифту, який вибирають"
 
-#: ../goffice/gtk/go-font-sel.c:1256
+#: ../goffice/gtk/go-font-sel.c:1267
 msgid "Show Color"
 msgstr "Показати колір"
 
-#: ../goffice/gtk/go-font-sel.c:1257
+#: ../goffice/gtk/go-font-sel.c:1268
 msgid "Whether color is part of the font being selected"
 msgstr "Чи є колір частиною шрифту, який вибирають"
 
-#: ../goffice/gtk/go-font-sel.c:1265
+#: ../goffice/gtk/go-font-sel.c:1276
 msgid "Show Underline"
 msgstr "Показати підкреслювання"
 
-#: ../goffice/gtk/go-font-sel.c:1266
+#: ../goffice/gtk/go-font-sel.c:1277
 msgid "Whether underlining is part of the font being selected"
 msgstr "Чи є підкреслювання частиною шрифту, який вибирають"
 
-#: ../goffice/gtk/go-font-sel.c:1274
+#: ../goffice/gtk/go-font-sel.c:1285
 msgid "Show Script"
 msgstr "Показати писемність"
 
-#: ../goffice/gtk/go-font-sel.c:1275
+#: ../goffice/gtk/go-font-sel.c:1286
 msgid "Whether subscript/superscript is part of the font being selected"
 msgstr "Чи є колір нижній/верхній індекс частиною шрифту, який вибирають"
 
-#: ../goffice/gtk/go-font-sel.c:1283
+#: ../goffice/gtk/go-font-sel.c:1294
 msgid "Show Strikethrough"
 msgstr "Показати перекреслювання"
 
-#: ../goffice/gtk/go-font-sel.c:1284
+#: ../goffice/gtk/go-font-sel.c:1295
 msgid "Whether strikethrough is part of the font being selected"
 msgstr "Чи є перекреслювання частиною шрифту, який вибирають"
 
-#: ../goffice/gtk/go-font-sel.c:1292
+#: ../goffice/gtk/go-font-sel.c:1303
 msgid "Color unset text"
 msgstr "Текст для невизначеного кольору"
 
-#: ../goffice/gtk/go-font-sel.c:1293
+#: ../goffice/gtk/go-font-sel.c:1304
 msgid "The text to show for selecting no color"
 msgstr "Текст, який слід показати, якщо не вибрано кольору"
 
-#: ../goffice/gtk/go-font-sel.c:1301
+#: ../goffice/gtk/go-font-sel.c:1312
 msgid "Color Group"
 msgstr "Група кольорів"
 
-#: ../goffice/gtk/go-font-sel.c:1302
+#: ../goffice/gtk/go-font-sel.c:1313
 msgid "The color group to use for the color picker"
 msgstr "Група кольорів, яку слід використатися, для засобу вибору кольору"
 
-#: ../goffice/gtk/go-font-sel.c:1310
+#: ../goffice/gtk/go-font-sel.c:1321
 msgid "Color Default"
 msgstr "Типовий колір"
 
-#: ../goffice/gtk/go-font-sel.c:1311
+#: ../goffice/gtk/go-font-sel.c:1322
 msgid "The color to show for an unset color"
 msgstr "Колір, який слід показати, якщо колін не встановлено"
 
-#: ../goffice/gtk/go-font-sel.c:1321
+#: ../goffice/gtk/go-font-sel.c:1332
 msgid "Underline Picker"
 msgstr "Вибір підкреслювання"
 
-#: ../goffice/gtk/go-font-sel.c:1322
+#: ../goffice/gtk/go-font-sel.c:1333
 msgid "The widget to use for picking underline type"
 msgstr "Віджет, яким слід скористатися для вибору типу підкреслювання"
 
@@ -4786,1015 +4787,1015 @@ msgstr "Карибські острови"
 #. * Note: lots of people get very emotional over this.  Please
 #. * err on the safe side, if any.
 #.
-#: ../goffice/gtk/go-locale-sel.c:104
+#: ../goffice/gtk/go-locale-sel.c:108
 msgid "United States/English (C)"
 msgstr "Сполучені Штати/англійська (C)"
 
-#: ../goffice/gtk/go-locale-sel.c:105
+#: ../goffice/gtk/go-locale-sel.c:109
 msgid "Djibouti/Afar (aa_DJ)"
 msgstr "Джибуті/афарська (aa_DJ)"
 
-#: ../goffice/gtk/go-locale-sel.c:106
+#: ../goffice/gtk/go-locale-sel.c:110
 msgid "Eritrea/Afar (aa_ER)"
 msgstr "Еритрея/афарська (aa_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:107
+#: ../goffice/gtk/go-locale-sel.c:111
 msgid "Ethiopia/Afar (aa_ET)"
 msgstr "Ефіопія/афарська (aa_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:108
+#: ../goffice/gtk/go-locale-sel.c:112
 msgid "South Africa Afrikaans (af_ZA)"
 msgstr "Південна Африка, африкаас (af_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:109
+#: ../goffice/gtk/go-locale-sel.c:113
 msgid "Ethiopia/Amharic (am_ET)"
 msgstr "Ефіопія/амхарська (am_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:110
+#: ../goffice/gtk/go-locale-sel.c:114
 msgid "Spain/Aragonese (an_ES)"
 msgstr "Іспанія/арагонська (an_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:111
+#: ../goffice/gtk/go-locale-sel.c:115
 msgid "United Arab Emirates (ar_AE)"
 msgstr "Об'єднані Арабські Емірати (ar_AE)"
 
-#: ../goffice/gtk/go-locale-sel.c:112
+#: ../goffice/gtk/go-locale-sel.c:116
 msgid "Bahrain (ar_BH)"
 msgstr "Бахрейн (ar_BH)"
 
-#: ../goffice/gtk/go-locale-sel.c:113
+#: ../goffice/gtk/go-locale-sel.c:117
 msgid "Algeria (ar_DZ)"
 msgstr "Алжир (ar_DZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:114
+#: ../goffice/gtk/go-locale-sel.c:118
 msgid "Egypt (ar_EG)"
 msgstr "Єгипет (ar_EG)"
 
-#: ../goffice/gtk/go-locale-sel.c:115
+#: ../goffice/gtk/go-locale-sel.c:119
 msgid "India/Arabic (ar_IN)"
 msgstr "Індія/арабська (ar_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:116
+#: ../goffice/gtk/go-locale-sel.c:120
 msgid "Iraq (ar_IQ)"
 msgstr "Ірак (ar_IQ)"
 
-#: ../goffice/gtk/go-locale-sel.c:117
+#: ../goffice/gtk/go-locale-sel.c:121
 msgid "Jordan (ar_JO)"
 msgstr "Йорданія (ar_JO)"
 
-#: ../goffice/gtk/go-locale-sel.c:118
+#: ../goffice/gtk/go-locale-sel.c:122
 msgid "Kuwait (ar_KW)"
 msgstr "Кувейт (ar_KW)"
 
-#: ../goffice/gtk/go-locale-sel.c:119
+#: ../goffice/gtk/go-locale-sel.c:123
 msgid "Lebanon (ar_LB)"
 msgstr "Ліван (ar_LB)"
 
-#: ../goffice/gtk/go-locale-sel.c:120
+#: ../goffice/gtk/go-locale-sel.c:124
 msgid "Libya (ar_LY)"
 msgstr "Лівія (ar_LY)"
 
-#: ../goffice/gtk/go-locale-sel.c:121
+#: ../goffice/gtk/go-locale-sel.c:125
 msgid "Morocco (ar_MA)"
 msgstr "Марокко (ar_MA)"
 
-#: ../goffice/gtk/go-locale-sel.c:122
+#: ../goffice/gtk/go-locale-sel.c:126
 msgid "Oman (ar_OM)"
 msgstr "Оман (ar_OM)"
 
-#: ../goffice/gtk/go-locale-sel.c:123
+#: ../goffice/gtk/go-locale-sel.c:127
 msgid "Qatar (ar_QA)"
 msgstr "Катар (ar_QA)"
 
-#: ../goffice/gtk/go-locale-sel.c:124
+#: ../goffice/gtk/go-locale-sel.c:128
 msgid "Saudi Arabia (ar_SA)"
 msgstr "Саудівська Аравія (ar_SA)"
 
-#: ../goffice/gtk/go-locale-sel.c:125
+#: ../goffice/gtk/go-locale-sel.c:129
 msgid "Sudan (ar_SD)"
 msgstr "Судан (ar_SD)"
 
-#: ../goffice/gtk/go-locale-sel.c:126
+#: ../goffice/gtk/go-locale-sel.c:130
 msgid "Syria (ar_SY)"
 msgstr "Сирія (ar_SY)"
 
-#: ../goffice/gtk/go-locale-sel.c:127
+#: ../goffice/gtk/go-locale-sel.c:131
 msgid "Tunisia (ar_TN)"
 msgstr "Туніс (ar_TN)"
 
-#: ../goffice/gtk/go-locale-sel.c:128
+#: ../goffice/gtk/go-locale-sel.c:132
 msgid "Yemen (ar_YE)"
 msgstr "Ємен (ar_YE)"
 
-#: ../goffice/gtk/go-locale-sel.c:129
+#: ../goffice/gtk/go-locale-sel.c:133
 msgid "India/Assamese (as_IN)"
 msgstr "Індія/асамська (as_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:130
+#: ../goffice/gtk/go-locale-sel.c:134
 msgid "Spain/Asturian (ast_ES)"
 msgstr "Іспанія/астурійська (ast_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:131
+#: ../goffice/gtk/go-locale-sel.c:135
 msgid "Azerbaijan (az_AZ)"
 msgstr "Азербайджан (az_AZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:132
+#: ../goffice/gtk/go-locale-sel.c:136
 msgid "Belarus (be_BY)"
 msgstr "Білорусь (be_BY)"
 
-#: ../goffice/gtk/go-locale-sel.c:133
+#: ../goffice/gtk/go-locale-sel.c:137
 msgid "Zambia/Bemba (bem_ZM)"
 msgstr "Замбія/бемба (bem_ZM)"
 
-#: ../goffice/gtk/go-locale-sel.c:134
+#: ../goffice/gtk/go-locale-sel.c:138
 msgid "Algeria/Amazigh (ber_DZ)"
 msgstr "Алжир/берберська (ber_DZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:135
+#: ../goffice/gtk/go-locale-sel.c:139
 msgid "Morocco/Amazigh (ber_MA)"
 msgstr "Марокко/берберська (ber_MA)"
 
-#: ../goffice/gtk/go-locale-sel.c:136
+#: ../goffice/gtk/go-locale-sel.c:140
 msgid "Bulgaria (bg_BG)"
 msgstr "Болгарія (bg_BG)"
 
-#: ../goffice/gtk/go-locale-sel.c:137
+#: ../goffice/gtk/go-locale-sel.c:141
 msgid "Bangladesh (bn_BD)"
 msgstr "Бангладеш (bn_BD)"
 
-#: ../goffice/gtk/go-locale-sel.c:138
+#: ../goffice/gtk/go-locale-sel.c:142
 msgid "India/Bengali (bn_IN)"
 msgstr "Індія/бенгальська (bn_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:139
+#: ../goffice/gtk/go-locale-sel.c:143
 msgid "China/Tibetan (bo_CN)"
 msgstr "Китай/тибетська (bo_CN)"
 
-#: ../goffice/gtk/go-locale-sel.c:140
+#: ../goffice/gtk/go-locale-sel.c:144
 msgid "India/Tibetan (bo_IN)"
 msgstr "Індія/тибетська (bo_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:141
+#: ../goffice/gtk/go-locale-sel.c:145
 msgid "France/Breton (br_FR)"
 msgstr "Французька/бретонська (br_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:142
+#: ../goffice/gtk/go-locale-sel.c:146
 msgid "Bosnia and Herzegowina (bs_BA)"
 msgstr "Боснія та Герцеговина (bs_BA)"
 
-#: ../goffice/gtk/go-locale-sel.c:143
+#: ../goffice/gtk/go-locale-sel.c:147
 msgid "Eritrea/Blin (byn_ER)"
 msgstr "Еритрея/блін (byn_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:144
+#: ../goffice/gtk/go-locale-sel.c:148
 msgid "Andorra/Catalan (ca_AD)"
 msgstr "Андорра/каталонська (ca_AD)"
 
-#: ../goffice/gtk/go-locale-sel.c:145
+#: ../goffice/gtk/go-locale-sel.c:149
 msgid "Spain/Catalan (ca_ES)"
 msgstr "Іспанія/каталонська (ca_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:146
+#: ../goffice/gtk/go-locale-sel.c:150
 msgid "France/Catalan (ca_FR)"
 msgstr "Франція/каталонська (ca_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:147
+#: ../goffice/gtk/go-locale-sel.c:151
 msgid "Italy/Catalan (ca_IT)"
 msgstr "Італія/каталонська (ca_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:148
+#: ../goffice/gtk/go-locale-sel.c:152
 msgid "Ukraine/Crimean Tatar (crh_UA)"
 msgstr "Україна/кримськотатарська (crh_UA)"
 
-#: ../goffice/gtk/go-locale-sel.c:149
+#: ../goffice/gtk/go-locale-sel.c:153
 msgid "Czech Republic (cs_CZ)"
 msgstr "Чеська республіка (cs_CZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:150
+#: ../goffice/gtk/go-locale-sel.c:154
 msgid "Poland/Kashubian (csb_PL)"
 msgstr "Польща/кашубська (csb_PL)"
 
-#: ../goffice/gtk/go-locale-sel.c:151
+#: ../goffice/gtk/go-locale-sel.c:155
 msgid "Russia/Chuvash (cv_RU)"
 msgstr "Росія/чуваська (cv_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:152
+#: ../goffice/gtk/go-locale-sel.c:156
 msgid "Great Britain/Welsh (cy_GB)"
 msgstr "Велика Британія/валійська (cy_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:153
+#: ../goffice/gtk/go-locale-sel.c:157
 msgid "Denmark (da_DK)"
 msgstr "Данія (da_DK)"
 
-#: ../goffice/gtk/go-locale-sel.c:154
+#: ../goffice/gtk/go-locale-sel.c:158
 msgid "Austria (de_AT)"
 msgstr "Австрія (de_AT)"
 
-#: ../goffice/gtk/go-locale-sel.c:155
+#: ../goffice/gtk/go-locale-sel.c:159
 msgid "Belgium/German (de_BE)"
 msgstr "Бельгія/німецька (de_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:156
+#: ../goffice/gtk/go-locale-sel.c:160
 msgid "Switzerland/German (de_CH)"
 msgstr "Швейцарія/німецька (de_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:157
+#: ../goffice/gtk/go-locale-sel.c:161
 msgid "Germany (de_DE)"
 msgstr "Німеччина (de_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:158
+#: ../goffice/gtk/go-locale-sel.c:162
 msgid "Luxembourg/German (de_LU)"
 msgstr "Люксембург/німецька (de_LU)"
 
-#: ../goffice/gtk/go-locale-sel.c:159
+#: ../goffice/gtk/go-locale-sel.c:163
 msgid "Maldives (dv_MV)"
 msgstr "Мальдівські острови (dv_MV)"
 
-#: ../goffice/gtk/go-locale-sel.c:160
+#: ../goffice/gtk/go-locale-sel.c:164
 msgid "Bhutan (dz_BT)"
 msgstr "Бутан (dz_BT)"
 
-#: ../goffice/gtk/go-locale-sel.c:161
+#: ../goffice/gtk/go-locale-sel.c:165
 msgid "Cyprus/Greek (el_CY)"
 msgstr "Кіпр/грецька (el_CY)"
 
-#: ../goffice/gtk/go-locale-sel.c:162
+#: ../goffice/gtk/go-locale-sel.c:166
 msgid "Greece (el_GR)"
 msgstr "Греція (el_GR)"
 
-#: ../goffice/gtk/go-locale-sel.c:163
+#: ../goffice/gtk/go-locale-sel.c:167
 msgid "Antigua and Barbuda/English (en_AG)"
 msgstr "Антигуа і Барбуда/англійська (en_AG)"
 
-#: ../goffice/gtk/go-locale-sel.c:164
+#: ../goffice/gtk/go-locale-sel.c:168
 msgid "Australia (en_AU)"
 msgstr "Австралія (en_AU)"
 
-#: ../goffice/gtk/go-locale-sel.c:165
+#: ../goffice/gtk/go-locale-sel.c:169
 msgid "Botswana (en_BW)"
 msgstr "Ботсвана (en_BW)"
 
-#: ../goffice/gtk/go-locale-sel.c:166
+#: ../goffice/gtk/go-locale-sel.c:170
 msgid "Canada/English (en_CA)"
 msgstr "Канада/англійська (en_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:167
+#: ../goffice/gtk/go-locale-sel.c:171
 msgid "Great Britain (en_GB)"
 msgstr "Велика Британія (en_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:168
+#: ../goffice/gtk/go-locale-sel.c:172
 msgid "Hong Kong/English (en_HK)"
 msgstr "Гонконг/англійська (en_HK)"
 
-#: ../goffice/gtk/go-locale-sel.c:169
+#: ../goffice/gtk/go-locale-sel.c:173
 msgid "Ireland (en_IE)"
 msgstr "Ірландія (en_IE)"
 
-#: ../goffice/gtk/go-locale-sel.c:170
+#: ../goffice/gtk/go-locale-sel.c:174
 msgid "India/English (en_IN)"
 msgstr "Індія/англійська (en_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:171
+#: ../goffice/gtk/go-locale-sel.c:175
 msgid "New Zealand (en_NZ)"
 msgstr "Нова Зеландія (en_NZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:172
+#: ../goffice/gtk/go-locale-sel.c:176
 msgid "Philippines (en_PH)"
 msgstr "Філіппіни (en_PH)"
 
-#: ../goffice/gtk/go-locale-sel.c:173
+#: ../goffice/gtk/go-locale-sel.c:177
 msgid "Singapore/English (en_SG)"
 msgstr "Сінгапур/англійська (en_SG)"
 
-#: ../goffice/gtk/go-locale-sel.c:174
+#: ../goffice/gtk/go-locale-sel.c:178
 msgid "United States/English (en_US)"
 msgstr "Сполучені Штати/англійська (en_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:175
+#: ../goffice/gtk/go-locale-sel.c:179
 msgid "South Africa/English (en_ZA)"
 msgstr "Південна Африка/англійська (en_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:176
+#: ../goffice/gtk/go-locale-sel.c:180
 msgid "Zimbabwe (en_ZW)"
 msgstr "Зімбабве (en_ZW)"
 
-#: ../goffice/gtk/go-locale-sel.c:177
+#: ../goffice/gtk/go-locale-sel.c:181
 msgid "Esperanto (eo_EO)"
 msgstr "Есперанто (eo_EO)"
 
-#: ../goffice/gtk/go-locale-sel.c:178
+#: ../goffice/gtk/go-locale-sel.c:182
 msgid "Argentina (es_AR)"
 msgstr "Аргентина (es_AR)"
 
-#: ../goffice/gtk/go-locale-sel.c:179
+#: ../goffice/gtk/go-locale-sel.c:183
 msgid "Bolivia (es_BO)"
 msgstr "Болівія (es_BO)"
 
-#: ../goffice/gtk/go-locale-sel.c:180
+#: ../goffice/gtk/go-locale-sel.c:184
 msgid "Chile (es_CL)"
 msgstr "Чилі (es_CL)"
 
-#: ../goffice/gtk/go-locale-sel.c:181
+#: ../goffice/gtk/go-locale-sel.c:185
 msgid "Colombia (es_CO)"
 msgstr "Колумбія (es_CO)"
 
-#: ../goffice/gtk/go-locale-sel.c:182
+#: ../goffice/gtk/go-locale-sel.c:186
 msgid "Costa Rica (es_CR)"
 msgstr "Коста-Рика (es_CR)"
 
-#: ../goffice/gtk/go-locale-sel.c:183
+#: ../goffice/gtk/go-locale-sel.c:187
 msgid "Dominican Republic (es_DO)"
 msgstr "Домініканська республіка (es_DO)"
 
-#: ../goffice/gtk/go-locale-sel.c:184
+#: ../goffice/gtk/go-locale-sel.c:188
 msgid "Ecuador (es_EC)"
 msgstr "Еквадор (es_EC)"
 
-#: ../goffice/gtk/go-locale-sel.c:185
+#: ../goffice/gtk/go-locale-sel.c:189
 msgid "Spain (es_ES)"
 msgstr "Іспанія (es_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:186
+#: ../goffice/gtk/go-locale-sel.c:190
 msgid "Guatemala (es_GT)"
 msgstr "Гватемала (es_GT)"
 
-#: ../goffice/gtk/go-locale-sel.c:187
+#: ../goffice/gtk/go-locale-sel.c:191
 msgid "Honduras (es_HN)"
 msgstr "Гондурас (es_HN)"
 
-#: ../goffice/gtk/go-locale-sel.c:188
+#: ../goffice/gtk/go-locale-sel.c:192
 msgid "Mexico (es_MX)"
 msgstr "Мексика (es_MX)"
 
-#: ../goffice/gtk/go-locale-sel.c:189
+#: ../goffice/gtk/go-locale-sel.c:193
 msgid "Nicaragua (es_NI)"
 msgstr "Нікарагуа (es_NI)"
 
-#: ../goffice/gtk/go-locale-sel.c:190
+#: ../goffice/gtk/go-locale-sel.c:194
 msgid "Panama (es_PA)"
 msgstr "Панама (es_PA)"
 
-#: ../goffice/gtk/go-locale-sel.c:191
+#: ../goffice/gtk/go-locale-sel.c:195
 msgid "Peru (es_PE)"
 msgstr "Перу (es_PE)"
 
-#: ../goffice/gtk/go-locale-sel.c:192
+#: ../goffice/gtk/go-locale-sel.c:196
 msgid "Puerto Rico (es_PR)"
 msgstr "Пуерто-Рико (es_PR)"
 
-#: ../goffice/gtk/go-locale-sel.c:193
+#: ../goffice/gtk/go-locale-sel.c:197
 msgid "Paraguay (es_PY)"
 msgstr "Парагвай (es_PY)"
 
-#: ../goffice/gtk/go-locale-sel.c:194
+#: ../goffice/gtk/go-locale-sel.c:198
 msgid "El Salvador (es_SV)"
 msgstr "Сальвадор (es_SV)"
 
-#: ../goffice/gtk/go-locale-sel.c:195
+#: ../goffice/gtk/go-locale-sel.c:199
 msgid "United States/Spanish (es_US)"
 msgstr "Сполучені Штати/іспанська (es_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:196
+#: ../goffice/gtk/go-locale-sel.c:200
 msgid "Uruguay (es_UY)"
 msgstr "Уругвай (es_UY)"
 
-#: ../goffice/gtk/go-locale-sel.c:197
+#: ../goffice/gtk/go-locale-sel.c:201
 msgid "Venezuela (es_VE)"
 msgstr "Венесуела (es_VE)"
 
-#: ../goffice/gtk/go-locale-sel.c:198
+#: ../goffice/gtk/go-locale-sel.c:202
 msgid "Estonia (et_EE)"
 msgstr "Естонія (et_EE)"
 
-#: ../goffice/gtk/go-locale-sel.c:199
+#: ../goffice/gtk/go-locale-sel.c:203
 msgid "Spain/Basque (eu_ES)"
 msgstr "Іспанія/баскська (eu_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:200
+#: ../goffice/gtk/go-locale-sel.c:204
 msgid "Iran (fa_IR)"
 msgstr "Іран (fa_IR)"
 
-#: ../goffice/gtk/go-locale-sel.c:201
+#: ../goffice/gtk/go-locale-sel.c:205
 msgid "Senegal/Fulah (ff_SN)"
 msgstr "Сенегал/фула (ff_SN)"
 
-#: ../goffice/gtk/go-locale-sel.c:202
+#: ../goffice/gtk/go-locale-sel.c:206
 msgid "Finland/Finnish (fi_FI)"
 msgstr "Фінляндія/фінська (fi_FI)"
 
-#: ../goffice/gtk/go-locale-sel.c:203
+#: ../goffice/gtk/go-locale-sel.c:207
 msgid "Philippines/Filipino (fil_PH)"
 msgstr "Філіппіни/філіппінська (fil_PH)"
 
-#: ../goffice/gtk/go-locale-sel.c:204
+#: ../goffice/gtk/go-locale-sel.c:208
 msgid "Faroe Islands (fo_FO)"
 msgstr "Фарерські острови (fo_FO)"
 
-#: ../goffice/gtk/go-locale-sel.c:205
+#: ../goffice/gtk/go-locale-sel.c:209
 msgid "Belgium/French (fr_BE)"
 msgstr "Бельгія/французька (fr_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:206
+#: ../goffice/gtk/go-locale-sel.c:210
 msgid "Canada/French (fr_CA)"
 msgstr "Канада/французька (fr_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:207
+#: ../goffice/gtk/go-locale-sel.c:211
 msgid "Switzerland/French (fr_CH)"
 msgstr "Швейцарія/французька (fr_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:208
+#: ../goffice/gtk/go-locale-sel.c:212
 msgid "France (fr_FR)"
 msgstr "Франція (fr_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:209
+#: ../goffice/gtk/go-locale-sel.c:213
 msgid "Luxembourg/French (fr_LU)"
 msgstr "Люксембург/французька (fr_LU)"
 
-#: ../goffice/gtk/go-locale-sel.c:210
+#: ../goffice/gtk/go-locale-sel.c:214
 msgid "Italy/Furlan (fur_IT)"
 msgstr "Італія/фріульська (fur_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:211
+#: ../goffice/gtk/go-locale-sel.c:215
 msgid "Germany/Frisian (fy_DE)"
 msgstr "Німеччина/фризька (fy_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:212
+#: ../goffice/gtk/go-locale-sel.c:216
 msgid "Netherlands/Frisian (fy_NL)"
 msgstr "Нідерланди/фризька (fy_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:213
+#: ../goffice/gtk/go-locale-sel.c:217
 msgid "Ireland/Gaelic (ga_IE)"
 msgstr "Ірландія/гельська (ga_IE)"
 
-#: ../goffice/gtk/go-locale-sel.c:214
+#: ../goffice/gtk/go-locale-sel.c:218
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Велика Британія/шотландська гельська (gd_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:215
+#: ../goffice/gtk/go-locale-sel.c:219
 msgid "Eritrea/Ge'ez (gez_ER)"
 msgstr "Еритрея/ґеез (gez_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:216
+#: ../goffice/gtk/go-locale-sel.c:220
 msgid "Ethiopia/Ge'ez (gez_ET)"
 msgstr "Ефіопія/ґеез (gez_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:217
+#: ../goffice/gtk/go-locale-sel.c:221
 msgid "Spain/Galician (gl_ES)"
 msgstr "Іспанія/галісійська (gl_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:218
+#: ../goffice/gtk/go-locale-sel.c:222
 msgid "India/Gujarati (gu_IN)"
 msgstr "Індія/гуджараті (gu_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:219
+#: ../goffice/gtk/go-locale-sel.c:223
 msgid "Great Britain/Manx Gaelic (gv_GB)"
 msgstr "Велика Британія/маншська гельська (gv_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:220
+#: ../goffice/gtk/go-locale-sel.c:224
 msgid "Nigeria/Hausa (ha_NG)"
 msgstr "Нігерія/хауса (ha_NG)"
 
-#: ../goffice/gtk/go-locale-sel.c:221
+#: ../goffice/gtk/go-locale-sel.c:225
 msgid "Israel/Hebrew (he_IL)"
 msgstr "Ізраїль/іврит (he_IL)"
 
-#: ../goffice/gtk/go-locale-sel.c:222
+#: ../goffice/gtk/go-locale-sel.c:226
 msgid "India/Hindu (hi_IN)"
 msgstr "Індія/хінді (hi_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:223
+#: ../goffice/gtk/go-locale-sel.c:227
 msgid "India/Chhattisgarhi (hne_IN)"
 msgstr "Індія/чхатісгарі (hne_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:224
+#: ../goffice/gtk/go-locale-sel.c:228
 msgid "Croatia (hr_HR)"
 msgstr "Хорватія (hr_HR)"
 
-#: ../goffice/gtk/go-locale-sel.c:225
+#: ../goffice/gtk/go-locale-sel.c:229
 msgid "Germany/Upper Sorbian (hsb_DE)"
 msgstr "Німеччина/верхньолужицька (hsb_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:226
+#: ../goffice/gtk/go-locale-sel.c:230
 msgid "Haiti/Kreyol (ht_HT)"
 msgstr "Гаїті/креольська (ht_HT)"
 
-#: ../goffice/gtk/go-locale-sel.c:227
+#: ../goffice/gtk/go-locale-sel.c:231
 msgid "Hungary (hu_HU)"
 msgstr "Угорщина (hu_HU)"
 
-#: ../goffice/gtk/go-locale-sel.c:228
+#: ../goffice/gtk/go-locale-sel.c:232
 msgid "Armenia (hy_AM)"
 msgstr "Вірменія (hy_AM)"
 
-#: ../goffice/gtk/go-locale-sel.c:229
+#: ../goffice/gtk/go-locale-sel.c:233
 msgid "(i18n)"
 msgstr "(i18n)"
 
-#: ../goffice/gtk/go-locale-sel.c:230
+#: ../goffice/gtk/go-locale-sel.c:234
 msgid "Indonesia (id_ID)"
 msgstr "Індонезія (id_ID)"
 
-#: ../goffice/gtk/go-locale-sel.c:231
+#: ../goffice/gtk/go-locale-sel.c:235
 msgid "Nigeria/Igbo (ig_NG)"
 msgstr "Нігерія/іґбо (ig_NG)"
 
-#: ../goffice/gtk/go-locale-sel.c:232
+#: ../goffice/gtk/go-locale-sel.c:236
 msgid "Canada/Inupiaq (ik_CA)"
 msgstr "Канада/інупіак (ik_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:233
+#: ../goffice/gtk/go-locale-sel.c:237
 msgid "Iceland (is_IS)"
 msgstr "Ісландія (is_IS)"
 
-#: ../goffice/gtk/go-locale-sel.c:234
+#: ../goffice/gtk/go-locale-sel.c:238
 msgid "(iso14651_t1)"
 msgstr "(iso14651_t1)"
 
-#: ../goffice/gtk/go-locale-sel.c:235
+#: ../goffice/gtk/go-locale-sel.c:239
 msgid "Switzerland/Italian (it_CH)"
 msgstr "Швейцарія/італійська (it_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:236
+#: ../goffice/gtk/go-locale-sel.c:240
 msgid "Italy (it_IT)"
 msgstr "Італія (it_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:237
+#: ../goffice/gtk/go-locale-sel.c:241
 msgid "Canada/Inuktitut (iu_CA)"
 msgstr "Канада/інуктикут (iu_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:238
+#: ../goffice/gtk/go-locale-sel.c:242
 msgid "Japan (ja_JP)"
 msgstr "Японія (ja_JP)"
 
-#: ../goffice/gtk/go-locale-sel.c:239
+#: ../goffice/gtk/go-locale-sel.c:243
 msgid "Georgia (ka_GE)"
 msgstr "Грузія (ka_GE)"
 
-#: ../goffice/gtk/go-locale-sel.c:240
+#: ../goffice/gtk/go-locale-sel.c:244
 msgid "Kazakhstan/Kazakh (kk_KZ)"
 msgstr "Казахстан/казахська (kk_KZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:241
+#: ../goffice/gtk/go-locale-sel.c:245
 msgid "Greenland (kl_GL)"
 msgstr "Гренландія (kl_GL)"
 
-#: ../goffice/gtk/go-locale-sel.c:242
+#: ../goffice/gtk/go-locale-sel.c:246
 msgid "Cambodia/Khmer (km_KH)"
 msgstr "Камбоджа/кхмерська (km_KH)"
 
-#: ../goffice/gtk/go-locale-sel.c:243
+#: ../goffice/gtk/go-locale-sel.c:247
 msgid "India/Kannada (kn_IN)"
 msgstr "Індія/каннада (kn_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:244
+#: ../goffice/gtk/go-locale-sel.c:248
 msgid "Korea (ko_KR)"
 msgstr "Корея (ko_KR)"
 
-#: ../goffice/gtk/go-locale-sel.c:245
+#: ../goffice/gtk/go-locale-sel.c:249
 msgid "India/Konkani (kok_IN)"
 msgstr "Індія/конкані (kok_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:246
+#: ../goffice/gtk/go-locale-sel.c:250
 msgid "India/Kashmiri (ks_IN)"
 msgstr "Індія/кашмірська (ks_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:247
+#: ../goffice/gtk/go-locale-sel.c:251
 msgid "Turkey/Kurdish (ku_TR)"
 msgstr "Туреччина/курдська (ku_TR)"
 
-#: ../goffice/gtk/go-locale-sel.c:248
+#: ../goffice/gtk/go-locale-sel.c:252
 msgid "Great Britain/Cornish (kw_GB)"
 msgstr "Велика Британія/корнуольська (kw_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:249
+#: ../goffice/gtk/go-locale-sel.c:253
 msgid "Kyrgyzstan/Kyrgyz (ky_KG)"
 msgstr "Киргизстан/киргизька (ky_KG)"
 
-#: ../goffice/gtk/go-locale-sel.c:250
+#: ../goffice/gtk/go-locale-sel.c:254
 msgid "Luxembourg/Luxembourgish (lb_LU)"
 msgstr "Люксембург/люксембурзька (lb_LU)"
 
-#: ../goffice/gtk/go-locale-sel.c:251
+#: ../goffice/gtk/go-locale-sel.c:255
 msgid "Uganda/Luganda (lg_UG)"
 msgstr "Уганда/луганда (lg_UG)"
 
-#: ../goffice/gtk/go-locale-sel.c:252
+#: ../goffice/gtk/go-locale-sel.c:256
 msgid "Belgium/Limburgish (li_BE)"
 msgstr "Бельгія/лімбурзька (li_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:253
+#: ../goffice/gtk/go-locale-sel.c:257
 msgid "Netherlands/Limburgish (li_NL)"
 msgstr "Нідерланди/лімбурзька (li_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:254
+#: ../goffice/gtk/go-locale-sel.c:258
 msgid "Italy/Ligurian (lij_IT)"
 msgstr "Італія/лігурійська (lij_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:255
+#: ../goffice/gtk/go-locale-sel.c:259
 msgid "Laos (lo_LA)"
 msgstr "Лаос (lo_LA)"
 
-#: ../goffice/gtk/go-locale-sel.c:256
+#: ../goffice/gtk/go-locale-sel.c:260
 msgid "Lithuania (lt_LT)"
 msgstr "Литва (lt_LT)"
 
-#: ../goffice/gtk/go-locale-sel.c:257
+#: ../goffice/gtk/go-locale-sel.c:261
 msgid "Latvia (lv_LV)"
 msgstr "Латвія (lv_LV)"
 
-#: ../goffice/gtk/go-locale-sel.c:258
+#: ../goffice/gtk/go-locale-sel.c:262
 msgid "India/Maithili (mai_IN)"
 msgstr "Індія/майтхілі (mai_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:259
+#: ../goffice/gtk/go-locale-sel.c:263
 msgid "Madagascar/Malagasy (mg_MG)"
 msgstr "Мадагаскар/малагасійська (mg_MG)"
 
-#: ../goffice/gtk/go-locale-sel.c:260
+#: ../goffice/gtk/go-locale-sel.c:264
 msgid "Russia/Mari (mhr_RU)"
 msgstr "Росія/марійська (mhr_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:261
+#: ../goffice/gtk/go-locale-sel.c:265
 msgid "New Zealand/Maori (mi_NZ)"
 msgstr "Нова Зеландія/маорійська (mi_NZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:262
+#: ../goffice/gtk/go-locale-sel.c:266
 msgid "Macedonia (mk_MK)"
 msgstr "Македонія (mk_MK)"
 
-#: ../goffice/gtk/go-locale-sel.c:263
+#: ../goffice/gtk/go-locale-sel.c:267
 msgid "India/Malayalam (ml_IN)"
 msgstr "Індія/малаялам (ml_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:264
+#: ../goffice/gtk/go-locale-sel.c:268
 msgid "Mongolia (mn_MN)"
 msgstr "Монголія (mn_MN)"
 
-#: ../goffice/gtk/go-locale-sel.c:265
+#: ../goffice/gtk/go-locale-sel.c:269
 msgid "India/Marathi (mr_IN)"
 msgstr "Індія/мараті (mr_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:266
+#: ../goffice/gtk/go-locale-sel.c:270
 msgid "Malaysia (ms_MY)"
 msgstr "Малайзія (ms_MY)"
 
-#: ../goffice/gtk/go-locale-sel.c:267
+#: ../goffice/gtk/go-locale-sel.c:271
 msgid "Malta (mt_MT)"
 msgstr "Мальта (mt_MT)"
 
-#: ../goffice/gtk/go-locale-sel.c:268
+#: ../goffice/gtk/go-locale-sel.c:272
 msgid "Myanmar/Burmese (my_MM)"
 msgstr "М'янма/м'янманська (my_MM)"
 
-#: ../goffice/gtk/go-locale-sel.c:269
+#: ../goffice/gtk/go-locale-sel.c:273
 msgid "Taiwan/Minnan (nan_TW@latin)"
 msgstr "Тайвань/міннан (nan_TW@latin)"
 
-#: ../goffice/gtk/go-locale-sel.c:270
+#: ../goffice/gtk/go-locale-sel.c:274
 msgid "Norway/Bokmal (nb_NO)"
 msgstr "Норвегія/букмол (nb_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:271
+#: ../goffice/gtk/go-locale-sel.c:275
 msgid "Germany/Low Saxon (nds_DE)"
 msgstr "Німеччина/нижньосаксонська (nds_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:272
+#: ../goffice/gtk/go-locale-sel.c:276
 msgid "Netherlands/Low Saxon (nds_NL)"
 msgstr "Нідерланди/нижньосаксонська (nds_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:273
+#: ../goffice/gtk/go-locale-sel.c:277
 msgid "Nepal/Nepali (ne_NP)"
 msgstr "Непал/непальська (ne_NP)"
 
-#: ../goffice/gtk/go-locale-sel.c:274
+#: ../goffice/gtk/go-locale-sel.c:278
 msgid "Aruba/Dutch (nl_AW)"
 msgstr "Аруба/голландська (nl_AW)"
 
-#: ../goffice/gtk/go-locale-sel.c:275
+#: ../goffice/gtk/go-locale-sel.c:279
 msgid "Belgium/Flemish (nl_BE)"
 msgstr "Бельгія/фламандська (nl_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:276
+#: ../goffice/gtk/go-locale-sel.c:280
 msgid "The Netherlands (nl_NL)"
 msgstr "Нідерланди (nl_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:277
+#: ../goffice/gtk/go-locale-sel.c:281
 msgid "Norway/Nynorsk (nn_NO)"
 msgstr "Норвегія/нюноршк (nn_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:278
+#: ../goffice/gtk/go-locale-sel.c:282
 msgid "South Africa/Southern Ndebele (nr_ZA)"
 msgstr "Південна Африка/південна ндебеле (nr_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:279
+#: ../goffice/gtk/go-locale-sel.c:283
 msgid "South Africa/Northern Sotho (nso_ZA)"
 msgstr "Південна Африка/північна сото (nso_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:280
+#: ../goffice/gtk/go-locale-sel.c:284
 msgid "France/Occitan (oc_FR)"
 msgstr "Франція/окситанська (oc_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:281
+#: ../goffice/gtk/go-locale-sel.c:285
 msgid "Ethiopia/Oromo (om_ET)"
 msgstr "Ефіопія/оромо (om_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:282
+#: ../goffice/gtk/go-locale-sel.c:286
 msgid "Kenya/Oromo (om_KE)"
 msgstr "Кенія/оромо (om_KE)"
 
-#: ../goffice/gtk/go-locale-sel.c:283
+#: ../goffice/gtk/go-locale-sel.c:287
 msgid "India/Oriya (or_IN)"
 msgstr "Індія/орія (or_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:284
+#: ../goffice/gtk/go-locale-sel.c:288
 msgid "Russia/Ossetian (os_RU)"
 msgstr "Росія/осетинська (os_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:285
+#: ../goffice/gtk/go-locale-sel.c:289
 msgid "India/Punjabi (Gurmukhi) (pa_IN)"
 msgstr "Індія/пенджабська (гурмухі) (pa_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:286
+#: ../goffice/gtk/go-locale-sel.c:290
 msgid "Pakistan/Punjabi (Shamukhi) (pa_PK)"
 msgstr "Пакистан/пенджабі (шамухі) (pa_PK)"
 
-#: ../goffice/gtk/go-locale-sel.c:287
+#: ../goffice/gtk/go-locale-sel.c:291
 msgid "Netherland Antilles/Papiamento (pap_AN)"
 msgstr "Нідерландські Антильські острови/папіаменто (pap_AN)"
 
-#: ../goffice/gtk/go-locale-sel.c:288
+#: ../goffice/gtk/go-locale-sel.c:292
 msgid "Poland (pl_PL)"
 msgstr "Польща (pl_PL)"
 
-#: ../goffice/gtk/go-locale-sel.c:289
+#: ../goffice/gtk/go-locale-sel.c:293
 msgid "Afghanistan/Pashto (ps_AF)"
 msgstr "Афганістан/пуштунська (ps_AF)"
 
-#: ../goffice/gtk/go-locale-sel.c:290
+#: ../goffice/gtk/go-locale-sel.c:294
 msgid "Brazil (pt_BR)"
 msgstr "Бразилія (pt_BR)"
 
-#: ../goffice/gtk/go-locale-sel.c:291
+#: ../goffice/gtk/go-locale-sel.c:295
 msgid "Portugal (pt_PT)"
 msgstr "Португалія (pt_PT)"
 
-#: ../goffice/gtk/go-locale-sel.c:292
+#: ../goffice/gtk/go-locale-sel.c:296
 msgid "Romania (ro_RO)"
 msgstr "Румунія (ro_RO)"
 
-#: ../goffice/gtk/go-locale-sel.c:293
+#: ../goffice/gtk/go-locale-sel.c:297
 msgid "Russia (ru_RU)"
 msgstr "Росія (ru_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:294
+#: ../goffice/gtk/go-locale-sel.c:298
 msgid "Ukraine/Russian (ru_UA)"
 msgstr "Україна/російська (ru_UA)"
 
-#: ../goffice/gtk/go-locale-sel.c:295
+#: ../goffice/gtk/go-locale-sel.c:299
 msgid "Rwanda/Kinyarwanda (rw_RW)"
 msgstr "Руанда/кіньяруанда (rw_RW)"
 
-#: ../goffice/gtk/go-locale-sel.c:296
+#: ../goffice/gtk/go-locale-sel.c:300
 msgid "India/Sanskrit (sa_IN)"
 msgstr "Індія/санскрит (sa_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:297
+#: ../goffice/gtk/go-locale-sel.c:301
 msgid "Italy/Sardinian (sc_IT)"
 msgstr "Італія/сардинська (sc_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:298
+#: ../goffice/gtk/go-locale-sel.c:302
 msgid "India/Sindhi (sd_IN)"
 msgstr "Індія/синдхі (sd_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:299
+#: ../goffice/gtk/go-locale-sel.c:303
 msgid "Norway/Saami (se_NO)"
 msgstr "Норвегія/саамська (se_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:300
+#: ../goffice/gtk/go-locale-sel.c:304
 msgid "Canada/Secwepemctsin (Shuswap) (shs_CA)"
 msgstr "Канада/секвепемктсін (шусвап) (shs_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:301
+#: ../goffice/gtk/go-locale-sel.c:305
 msgid "Sri Lanka/Sinhala (si_LK)"
 msgstr "Шрі-Ланка/сингальська (si_LK)"
 
-#: ../goffice/gtk/go-locale-sel.c:302
+#: ../goffice/gtk/go-locale-sel.c:306
 msgid "Ethiopia/Sidama (sid_ET)"
 msgstr "Ефіопія/сидама (sid_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:303
+#: ../goffice/gtk/go-locale-sel.c:307
 msgid "Slovakia (sk_SK)"
 msgstr "Словаччина (sk_SK)"
 
-#: ../goffice/gtk/go-locale-sel.c:304
+#: ../goffice/gtk/go-locale-sel.c:308
 msgid "Slovenia (sl_SI)"
 msgstr "Словенія (sl_SI)"
 
-#: ../goffice/gtk/go-locale-sel.c:305
+#: ../goffice/gtk/go-locale-sel.c:309
 msgid "Djibouti/Somali (so_DJ)"
 msgstr "Джибуті/сомалійська (so_DJ)"
 
-#: ../goffice/gtk/go-locale-sel.c:306
+#: ../goffice/gtk/go-locale-sel.c:310
 msgid "Ethiopia/Somali (so_ET)"
 msgstr "Ефіопія/сомалійська (so_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:307
+#: ../goffice/gtk/go-locale-sel.c:311
 msgid "Kenya/Somali (so_KE)"
 msgstr "Кенія/сомалійська (so_KE)"
 
-#: ../goffice/gtk/go-locale-sel.c:308
+#: ../goffice/gtk/go-locale-sel.c:312
 msgid "Somalia/Somali (so_SO)"
 msgstr "Сомалі/сомалійська (so_SO)"
 
-#: ../goffice/gtk/go-locale-sel.c:309
+#: ../goffice/gtk/go-locale-sel.c:313
 msgid "Albania (sq_AL)"
 msgstr "Албанія (sq_AL)"
 
-#: ../goffice/gtk/go-locale-sel.c:310
+#: ../goffice/gtk/go-locale-sel.c:314
 msgid "Macedonia/Albanian (sq_MK)"
 msgstr "Македонія/албанська (sq_MK)"
 
-#: ../goffice/gtk/go-locale-sel.c:311
+#: ../goffice/gtk/go-locale-sel.c:315
 msgid "Montenegro/Serbian (sr_ME)"
 msgstr "Чорногорія/сербська (sr_ME)"
 
-#: ../goffice/gtk/go-locale-sel.c:312
+#: ../goffice/gtk/go-locale-sel.c:316
 msgid "Yugoslavia (sr_RS)"
 msgstr "Югославія (sr_RS)"
 
-#: ../goffice/gtk/go-locale-sel.c:313
+#: ../goffice/gtk/go-locale-sel.c:317
 msgid "South Africa/Swati (ss_ZA)"
 msgstr "Південна Африка/сваті (ss_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:314
+#: ../goffice/gtk/go-locale-sel.c:318
 msgid "South Africa/Sotho (st_ZA)"
 msgstr "Південна Африка/сото (st_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:315
+#: ../goffice/gtk/go-locale-sel.c:319
 msgid "Finland/Swedish (sv_FI)"
 msgstr "Фінляндія/шведська (sv_FI)"
 
-#: ../goffice/gtk/go-locale-sel.c:316
+#: ../goffice/gtk/go-locale-sel.c:320
 msgid "Sweden (sv_SE)"
 msgstr "Швеція (sv_SE)"
 
-#: ../goffice/gtk/go-locale-sel.c:317
+#: ../goffice/gtk/go-locale-sel.c:321
 msgid "Kenya/Swahili (sw_KE)"
 msgstr "Кенія/суахілі (sw_KE)"
 
-#: ../goffice/gtk/go-locale-sel.c:318
+#: ../goffice/gtk/go-locale-sel.c:322
 msgid "Tanzania/Swahili (sw_TZ)"
 msgstr "Танзанія/суахілі (sw_TZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:319
+#: ../goffice/gtk/go-locale-sel.c:323
 msgid "India/Tamil (ta_IN)"
 msgstr "Індія/тамільська (ta_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:320
+#: ../goffice/gtk/go-locale-sel.c:324
 msgid "India/Telugu (te_IN)"
 msgstr "Індія/телугу (te_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:321
+#: ../goffice/gtk/go-locale-sel.c:325
 msgid "Tajikistan (tg_TJ)"
 msgstr "Таджикистан (tg_TJ)"
 
-#: ../goffice/gtk/go-locale-sel.c:322
+#: ../goffice/gtk/go-locale-sel.c:326
 msgid "Thailand (th_TH)"
 msgstr "Таїланд (th_TH)"
 
-#: ../goffice/gtk/go-locale-sel.c:323
+#: ../goffice/gtk/go-locale-sel.c:327
 msgid "Eritrea/Tigrinya (ti_ER)"
 msgstr "Еритрея/тигринійська (ti_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:324
+#: ../goffice/gtk/go-locale-sel.c:328
 msgid "Ethiopia/Tigrinya (ti_ET)"
 msgstr "Ефіопія/тигринійська (ti_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:325
+#: ../goffice/gtk/go-locale-sel.c:329
 msgid "Eritrea/Tigre (tig_ER)"
 msgstr "Еритрея/тигре (tig_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:326
+#: ../goffice/gtk/go-locale-sel.c:330
 msgid "Turkmenistan /Turkmen (tk_TM)"
 msgstr "Туркменістан/туркменська (tk_TM)"
 
-#: ../goffice/gtk/go-locale-sel.c:327
+#: ../goffice/gtk/go-locale-sel.c:331
 msgid "Philippines/Tagalog (tl_PH)"
 msgstr "Філіппіни/тагалог (tl_PH)"
 
-#: ../goffice/gtk/go-locale-sel.c:328
+#: ../goffice/gtk/go-locale-sel.c:332
 msgid "South Africa/Tswana (tn_ZA)"
 msgstr "Південна Африка/тсвана (tn_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:329
+#: ../goffice/gtk/go-locale-sel.c:333
 msgid "Cyprus/Turkish (tr_CY)"
 msgstr "Кіпр/турецька (tr_CY)"
 
-#: ../goffice/gtk/go-locale-sel.c:330
+#: ../goffice/gtk/go-locale-sel.c:334
 msgid "Turkey (tr_TR)"
 msgstr "Туреччина (tr_TR)"
 
-#: ../goffice/gtk/go-locale-sel.c:331
+#: ../goffice/gtk/go-locale-sel.c:335
 msgid "South Africa/Tsonga (ts_ZA)"
 msgstr "Південна Африка/тсонга (ts_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:332
+#: ../goffice/gtk/go-locale-sel.c:336
 msgid "Russia/Tatar (tt_RU)"
 msgstr "Росія/татарська (tt_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:333
+#: ../goffice/gtk/go-locale-sel.c:337
 msgid "China/Uyghur (ug_CN)"
 msgstr "Китай/уйгурська (ug_CN)"
 
-#: ../goffice/gtk/go-locale-sel.c:334
+#: ../goffice/gtk/go-locale-sel.c:338
 msgid "Ukraine (uk_UA)"
 msgstr "Україна (uk_UA)"
 
-#: ../goffice/gtk/go-locale-sel.c:335
+#: ../goffice/gtk/go-locale-sel.c:339
 msgid "India/Urdu (ur_IN)"
 msgstr "Індія/урду (ur_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:336
+#: ../goffice/gtk/go-locale-sel.c:340
 msgid "Pakistan (ur_PK)"
 msgstr "Пакистан (ur_PK)"
 
-#: ../goffice/gtk/go-locale-sel.c:337
+#: ../goffice/gtk/go-locale-sel.c:341
 msgid "Uzbekistan (uz_UZ)"
 msgstr "Узбекистан (uz_UZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:338
+#: ../goffice/gtk/go-locale-sel.c:342
 msgid "South Africa/Venda (ve_ZA)"
 msgstr "Південна Африка/венда (ve_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:339
+#: ../goffice/gtk/go-locale-sel.c:343
 msgid "Vietnam (vi_VN)"
 msgstr "В'єтнам (vi_VN)"
 
-#: ../goffice/gtk/go-locale-sel.c:340
+#: ../goffice/gtk/go-locale-sel.c:344
 msgid "Belgium/Walloon (wa_BE)"
 msgstr "Бельгія/валлонська (wa_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:341
+#: ../goffice/gtk/go-locale-sel.c:345
 msgid "Switzerland/Walser (wae_CH)"
 msgstr "Швейцарія/вальзерська (wae_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:342
+#: ../goffice/gtk/go-locale-sel.c:346
 msgid "Ethiopia/Wollayta (wal_ET)"
 msgstr "Ефіопія/волайта (wal_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:343
+#: ../goffice/gtk/go-locale-sel.c:347
 msgid "Senegal/Wolof (wo_SN)"
 msgstr "Сенегал/волоф (wo_SN)"
 
-#: ../goffice/gtk/go-locale-sel.c:344
+#: ../goffice/gtk/go-locale-sel.c:348
 msgid "South Africa/Xhosa (xh_ZA)"
 msgstr "Південна Африка/кхоса (xh_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:345
+#: ../goffice/gtk/go-locale-sel.c:349
 msgid "United States/Yiddish (yi_US)"
 msgstr "Сполучені Штати/ідиш (yi_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:346
+#: ../goffice/gtk/go-locale-sel.c:350
 msgid "Nigeria/Yoruba (yo_NG)"
 msgstr "Нігерія/йоруба (yo_NG)"
 
-#: ../goffice/gtk/go-locale-sel.c:347
+#: ../goffice/gtk/go-locale-sel.c:351
 msgid "Hong Kong/Cantonese (Yue) (yue_HK)"
 msgstr "Гонконг/кантонська (ю) (yue_HK)"
 
-#: ../goffice/gtk/go-locale-sel.c:348
+#: ../goffice/gtk/go-locale-sel.c:352
 msgid "China (zh_CN)"
 msgstr "Китай (zh_CN)"
 
-#: ../goffice/gtk/go-locale-sel.c:349
+#: ../goffice/gtk/go-locale-sel.c:353
 msgid "Hong Kong/Chinese (zh_HK)"
 msgstr "Гонконг/китайська (zh_HK)"
 
-#: ../goffice/gtk/go-locale-sel.c:350
+#: ../goffice/gtk/go-locale-sel.c:354
 msgid "Singapore/Chinese (zh_SG)"
 msgstr "Сінгапур/китайська (zh_SG)"
 
-#: ../goffice/gtk/go-locale-sel.c:351
+#: ../goffice/gtk/go-locale-sel.c:355
 msgid "Taiwan (zh_TW)"
 msgstr "Тайвань (zh_TW)"
 
-#: ../goffice/gtk/go-locale-sel.c:352
+#: ../goffice/gtk/go-locale-sel.c:356
 msgid "South Africa/Zulu (zu_ZA)"
 msgstr "Південна Африка/зулуська (zu_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:571
+#: ../goffice/gtk/go-locale-sel.c:577
 msgid "Current Locale: "
 msgstr "Поточна локаль:"
 
-#: ../goffice/gtk/go-optionmenu.c:493
+#: ../goffice/gtk/go-optionmenu.c:437
 msgid "Menu"
 msgstr "Меню"
 
-#: ../goffice/gtk/go-optionmenu.c:494
+#: ../goffice/gtk/go-optionmenu.c:438
 msgid "The menu of options"
 msgstr "Меню параметрів"
 
-#: ../goffice/gtk/go-palette.c:362
+#: ../goffice/gtk/go-palette.c:392
 msgid "Custom..."
 msgstr "Нетиповий…"
 
@@ -6655,7 +6656,7 @@ msgstr "Не вдалося завантажити дані зображення
 msgid "Could not input the image data\n"
 msgstr "Не вдалося ввести дані зображення\n"
 
-#: ../goffice/utils/go-emf.c:4915 ../goffice/utils/go-emf.c:4921
+#: ../goffice/utils/go-emf.c:4917 ../goffice/utils/go-emf.c:4923
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Некоректні дані зображення\n"
@@ -6758,20 +6759,20 @@ msgstr "праворуч"
 msgid "left"
 msgstr "ліворуч"
 
-#: ../goffice/utils/go-glib-extras.c:1077
+#: ../goffice/utils/go-glib-extras.c:1085
 msgid "yes"
 msgstr "так"
 
-#: ../goffice/utils/go-glib-extras.c:1083
+#: ../goffice/utils/go-glib-extras.c:1091
 msgid "no"
 msgstr "ні"
 
-#: ../goffice/utils/go-glib-extras.c:1302
+#: ../goffice/utils/go-glib-extras.c:1310
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Рядок у лапках не завершено"
 
-#: ../goffice/utils/go-glib-extras.c:1309
+#: ../goffice/utils/go-glib-extras.c:1317
 #, c-format
 msgid "Syntax error"
 msgstr "Синтаксична помилка"
@@ -7049,15 +7050,15 @@ msgstr "Напівкола"
 msgid "Large Circles"
 msgstr "Великі кола"
 
-#: ../goffice/utils/go-pixbuf.c:367
+#: ../goffice/utils/go-pixbuf.c:369
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr "Об'єкт GdkPixbuf, на основі якого зібрано GOPixbuf"
 
-#: ../goffice/utils/go-pixbuf.c:371
+#: ../goffice/utils/go-pixbuf.c:373
 msgid "Image type"
 msgstr "Тип зображення"
 
-#: ../goffice/utils/go-pixbuf.c:372
+#: ../goffice/utils/go-pixbuf.c:374
 msgid "Type of image"
 msgstr "Тип зображення"
 
@@ -7073,7 +7074,7 @@ msgstr "Текст:"
 msgid "Background:"
 msgstr "Тло:"
 
-#: ../goffice/utils/go-style.c:883
+#: ../goffice/utils/go-style.c:884
 msgid "Markers"
 msgstr "Позначки"
 
@@ -7843,7 +7844,7 @@ msgstr "Рушій креслення мінімуму-максимуму"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:8
 msgid "Default 1.5d plot types"
-msgstr ""
+msgstr "Стандартні типи креслень 1.5d"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:61
 #: ../plugins/plot_distrib/go-distribution-prefs.c:140
@@ -7864,6 +7865,8 @@ msgstr "Коробковий графік"
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
 msgstr ""
+"Визначає, чи варто робити діаграму «ящик з вусами» вертикальною, а не горизон"
+"тальною"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:401
 msgid "Outliers"
@@ -7871,7 +7874,7 @@ msgstr "Викиди"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:402
 msgid "Whether outliers should be taken into account and displayed"
-msgstr ""
+msgstr "Визначає, чи слід враховувати і показувати викиди"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:407
 msgid "Radius ratio"
@@ -7899,7 +7902,7 @@ msgstr "_Діаметр/ширина:"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
 msgid "First Y category label:"
-msgstr ""
+msgstr "Перша мітка категорії за Y:"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
 msgid "Second Y category label:"
