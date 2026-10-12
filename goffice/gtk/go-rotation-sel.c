@@ -343,9 +343,9 @@ grs_class_init (GObjectClass *klass)
 {
 	klass->finalize = grs_finalize;
 
-	grs_parent_class = g_type_class_peek (gtk_box_get_type ());
+	grs_parent_class = g_type_class_peek (GTK_TYPE_GRID);
 	grs_signals [ROTATION_CHANGED] = g_signal_new ("rotation-changed",
-		G_OBJECT_CLASS_TYPE (klass),	G_SIGNAL_RUN_LAST,
+		G_OBJECT_CLASS_TYPE (klass), G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GORotationSelClass, rotation_changed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__INT,

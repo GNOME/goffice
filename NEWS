@@ -10,6 +10,7 @@ Morten:
 	* Fix blurry graph issue (in spe).  [Gnumeric #775]
 	* Fix compiler warnings.
 	* Colour selector improvements.
+	* Fix GORotationSel's derivation.
 
 --------------------------------------------------------------------------
 goffice 0.10.62:
