@@ -50,7 +50,7 @@ void go_font_sel_set_color         (GOFontSel *gfs, GOColor c,
 GOColor go_font_sel_get_color	   (GOFontSel *gfs);
 void go_font_sel_set_script        (GOFontSel *fs, GOFontScript script);
 
-void go_font_sel_set_font_desc     (GOFontSel *fs, PangoFontDescription *desc);
+void go_font_sel_set_font_desc     (GOFontSel *fs, PangoFontDescription const *desc);
 PangoFontDescription *go_font_sel_get_font_desc (GOFontSel *fs);
 
 G_END_DECLS

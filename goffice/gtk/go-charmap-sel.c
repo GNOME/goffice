@@ -293,10 +293,10 @@ charset_iconv_name (CharsetInfo const *ci, GOCharmapSelTestDirection test)
 /**
  * go_charmap_sel_get_encoding_name:
  * @cs: unused, may be %NULL
- * @encoding: an encoding name or alias (case-insensitive)
+ * @enc: an encoding name or alias (case-insensitive)
  *
  * Returns: (transfer none) (nullable): the translated display title for
- * @encoding, or %NULL if @encoding is unknown.
+ * @enc, or %NULL if @enc is unknown.
  **/
 const char *
 go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,

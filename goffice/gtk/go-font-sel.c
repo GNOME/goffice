@@ -170,7 +170,7 @@ go_font_sel_emit_changed (GOFontSel *gfs)
 		       gfs_signals[FONT_CHANGED], 0, gfs->modifications);
 
 	g_object_get (gfs, "font", &fontname, NULL);
-	g_signal_emit_by_name (gfs, "font-activated", 0, fontname);
+	g_signal_emit_by_name (gfs, "font-activated", fontname);
 	g_free (fontname);
 
 	update_preview (gfs);
@@ -341,6 +341,7 @@ reload_faces (GOFontSel *gfs)
 			pango_font_face_describe (gfs->current_face);
 		current_weight = pango_font_description_get_weight (desc);
 		current_style = pango_font_description_get_style (desc);
+		pango_font_description_free (desc);
 		/* This isn't 100% right: we may lose other attributes.  */
 	}
 
@@ -355,7 +356,7 @@ reload_faces (GOFontSel *gfs)
 	     faces = faces->next) {
 		PangoFontFace *face = faces->data;
 		const char *name = my_get_face_name (gfs, face);
-		const char *lname = g_dpgettext2 (NULL, "FontFace", name);
+		const char *lname = g_dpgettext2 (GETTEXT_PACKAGE, "FontFace", name);
 		add_item_to_menu (m, lname, "face", face, gfs->item_by_face);
 	}
 
@@ -735,7 +736,7 @@ clamp_and_round_size (double size)
 }
 
 static void
-cb_size_picker_changed (G_GNUC_UNUSED GtkButton *button, GOFontSel *gfs)
+cb_size_picker_changed (G_GNUC_UNUSED GtkComboBox *combo, GOFontSel *gfs)
 {
 	GtkEntry *entry = GTK_ENTRY (gfs->size_entry);
 	const char *text = gtk_entry_get_text (entry);
@@ -789,23 +790,29 @@ cb_underline_changed (GOOptionMenu *om, GOFontSel *gfs)
 	go_font_sel_emit_changed (gfs);
 }
 
+// Records @script in the attribute list.
+static void
+apply_script (GOFontSel *gfs, GOFontScript script)
+{
+	go_font_sel_add_attr (gfs, go_pango_attr_subscript_new
+			      (script == GO_FONT_SCRIPT_SUB));
+	go_font_sel_add_attr (gfs, go_pango_attr_superscript_new
+			      (script == GO_FONT_SCRIPT_SUPER));
+}
+
 static void
 cb_script_changed (GOOptionMenu *om, GOFontSel *gfs)
 {
 	GtkWidget *selected = go_option_menu_get_history (om);
 	GOFontScript script;
-	gboolean is_sub, is_super;
 
 	if (!selected)
 		return;
 
 	script = GPOINTER_TO_INT
 		(g_object_get_data (G_OBJECT (selected), "value"));
-	is_super = (script == GO_FONT_SCRIPT_SUPER);
-	is_sub = (script == GO_FONT_SCRIPT_SUB);
 
-	go_font_sel_add_attr (gfs, go_pango_attr_subscript_new (is_sub));
-	go_font_sel_add_attr (gfs, go_pango_attr_superscript_new (is_super));
+	apply_script (gfs, script);
 	go_font_sel_emit_changed (gfs);
 }
 
@@ -823,7 +830,7 @@ gfs_init (GOFontSel *gfs)
 		 NULL, (GDestroyNotify)g_slist_free);
 	gfs->face_renames = g_hash_table_new_full
 		(g_str_hash, g_str_equal,
-		 (GDestroyNotify)g_free, (GDestroyNotify)free);
+		 (GDestroyNotify)g_free, (GDestroyNotify)g_free);
 
 	gfs->show_preview_entry = TRUE;
 	gfs->preview_text = g_strdup (pango_language_get_sample_string (NULL));
@@ -945,6 +952,11 @@ gfs_constructor (GType type,
 					  G_CALLBACK (cb_underline_changed),
 					  gfs);
 	}
+	/*
+	 * We own a ref to the picker.  For one passed in via the property this
+	 * also takes over the caller's floating reference: callers (Gnumeric)
+	 * unref the picker after constructing us.
+	 */
 	g_object_ref_sink (gfs->underline_picker);
 	gtk_widget_show_all (gfs->underline_picker);
 	go_gtk_widget_replace (placeholder, gfs->underline_picker);
@@ -1116,9 +1128,9 @@ gfs_get_property (GObject         *object,
 
 #if GTK_CHECK_VERSION(3,24,0)
 	case GFS_GTK_FONT_CHOOSER_PROP_LEVEL:
-		g_value_set_int (value, GTK_FONT_CHOOSER_LEVEL_FAMILY |
-				              GTK_FONT_CHOOSER_LEVEL_STYLE |
-				              GTK_FONT_CHOOSER_LEVEL_SIZE);
+		g_value_set_flags (value, GTK_FONT_CHOOSER_LEVEL_FAMILY |
+				                GTK_FONT_CHOOSER_LEVEL_STYLE |
+				                GTK_FONT_CHOOSER_LEVEL_SIZE);
 		break;
 
 	case GFS_GTK_FONT_CHOOSER_PROP_LANGUAGE:
@@ -1422,19 +1434,37 @@ GSF_CLASS_FULL (GOFontSel, go_font_sel,
 #endif
 
 
+/**
+ * go_font_sel_new:
+ *
+ * Returns: (transfer floating): a new #GOFontSel.
+ **/
 GtkWidget *
 go_font_sel_new (void)
 {
 	return g_object_new (GO_TYPE_FONT_SEL, NULL);
 }
 
+/**
+ * go_font_sel_editable_enters:
+ * @fs: #GOFontSel
+ * @dialog: the window to activate when Enter is pressed in the size entry
+ **/
 void
 go_font_sel_editable_enters (GOFontSel *gfs, GtkWindow *dialog)
 {
+	g_return_if_fail (GO_IS_FONT_SEL (gfs));
 	go_gtk_editable_enters (dialog,
 				GTK_WIDGET (gfs->size_entry));
 }
 
+/**
+ * go_font_sel_set_sample_text:
+ * @fs: #GOFontSel
+ * @text: (nullable): text for the preview; %NULL means the empty string
+ *
+ * Notifies "preview-text" if the text changed.
+ **/
 void
 go_font_sel_set_sample_text (GOFontSel *gfs, char const *text)
 {
@@ -1449,16 +1479,35 @@ go_font_sel_set_sample_text (GOFontSel *gfs, char const *text)
 	}
 }
 
+/**
+ * go_font_sel_get_sample_attributes:
+ * @fs: #GOFontSel
+ *
+ * Returns: (transfer none): the attributes resulting from the user's choices.
+ * Owned by @fs; do not modify.
+ **/
 PangoAttrList *
 go_font_sel_get_sample_attributes (GOFontSel *fs)
 {
+	g_return_val_if_fail (GO_IS_FONT_SEL (fs), NULL);
 	return fs->modifications;
 }
 
+/**
+ * go_font_sel_set_sample_attributes:
+ * @fs: #GOFontSel
+ * @attrs: (transfer none): attributes to use; copied, must not be %NULL
+ *
+ * Replaces the attribute list and updates the preview.  The pickers are not
+ * updated to match.
+ **/
 void
 go_font_sel_set_sample_attributes (GOFontSel *fs, PangoAttrList *attrs)
 {
 	PangoAttrList *acopy;
+
+	g_return_if_fail (GO_IS_FONT_SEL (fs));
+	g_return_if_fail (attrs != NULL);
 #if 0
 	PangoAttrIterator *aiter = pango_attr_list_get_iterator (attrs);
 	const PangoAttribute *attr;
@@ -1488,6 +1537,14 @@ go_font_sel_set_sample_attributes (GOFontSel *fs, PangoAttrList *attrs)
 
 
 
+/**
+ * go_font_sel_get_font:
+ * @fs: #GOFontSel
+ *
+ * This has not worked for a long time.  Use go_font_sel_get_font_desc().
+ *
+ * Returns: (transfer none): always %NULL.
+ **/
 GOFont const *
 go_font_sel_get_font (GOFontSel const *gfs)
 {
@@ -1498,12 +1555,24 @@ go_font_sel_get_font (GOFontSel const *gfs)
 	return NULL;
 }
 
+/**
+ * go_font_sel_set_family:
+ * @fs: #GOFontSel
+ * @family: a font family name (case-sensitive)
+ *
+ * Selects the family.  Does nothing if it is unknown or filtered out.
+ **/
 void
 go_font_sel_set_family (GOFontSel *fs, char const *font_name)
 {
-	PangoFontFamily *family =
-		g_hash_table_lookup (fs->family_by_name, font_name);
-	GtkMenuItem *item = g_hash_table_lookup (fs->item_by_family, family);
+	PangoFontFamily *family;
+	GtkMenuItem *item;
+
+	g_return_if_fail (GO_IS_FONT_SEL (fs));
+	g_return_if_fail (font_name != NULL);
+
+	family = g_hash_table_lookup (fs->family_by_name, font_name);
+	item = g_hash_table_lookup (fs->item_by_family, family);
 	if (item && family != fs->current_family) {
 		go_option_menu_select_item (GO_OPTION_MENU (fs->family_picker),
 					    item);
@@ -1514,6 +1583,14 @@ go_font_sel_set_family (GOFontSel *fs, char const *font_name)
 	}
 }
 
+/**
+ * go_font_sel_set_style:
+ * @fs: #GOFontSel
+ * @weight: desired weight
+ * @style: desired style
+ *
+ * Selects the face of the current family that is closest to @weight and @style.
+ **/
 void
 go_font_sel_set_style (GOFontSel *fs, PangoWeight weight, PangoStyle style)
 {
@@ -1565,18 +1642,40 @@ go_font_sel_set_points (GOFontSel *gfs,	double size)
 	g_free (new_text);
 }
 
+/**
+ * go_font_sel_set_size:
+ * @fs: #GOFontSel
+ * @size: size in Pango units (1/%PANGO_SCALE points); clamped to 1-1000 pt
+ * and rounded to 0.1 pt
+ **/
 void
 go_font_sel_set_size (GOFontSel *fs, int size)
 {
+	g_return_if_fail (GO_IS_FONT_SEL (fs));
 	go_font_sel_set_points (fs, size / (double)PANGO_SCALE);
 }
 
 
+/**
+ * go_font_sel_set_strikethrough:
+ * @fs: #GOFontSel
+ * @strikethrough: whether the font is struck through
+ *
+ * Ignored unless @fs was created with "show-strikethrough".
+ **/
 void
 go_font_sel_set_strikethrough (GOFontSel *fs, gboolean strikethrough)
 {
-	GtkToggleButton *but = GTK_TOGGLE_BUTTON (fs->strikethrough_button);
-	gboolean b = gtk_toggle_button_get_active (but);
+	GtkToggleButton *but;
+	gboolean b;
+
+	g_return_if_fail (GO_IS_FONT_SEL (fs));
+
+	if (!fs->show_strikethrough)
+		return;
+
+	but = GTK_TOGGLE_BUTTON (fs->strikethrough_button);
+	b = gtk_toggle_button_get_active (but);
 
 	strikethrough = !!strikethrough;
 	if (b == strikethrough)
@@ -1587,20 +1686,39 @@ go_font_sel_set_strikethrough (GOFontSel *fs, gboolean strikethrough)
 	update_preview (fs);
 }
 
+/**
+ * go_font_sel_set_script:
+ * @fs: #GOFontSel
+ * @script: normal, subscript or superscript
+ *
+ * Ignored unless @fs was created with "show-script".
+ **/
 void
 go_font_sel_set_script (GOFontSel *fs, GOFontScript script)
 {
-	GOOptionMenu *om = GO_OPTION_MENU (fs->script_picker);
-	GtkMenuShell *ms = GTK_MENU_SHELL (go_option_menu_get_menu (om));
-	GList *children = gtk_container_get_children (GTK_CONTAINER (ms));
-	GList *l;
+	GOOptionMenu *om;
+	GtkMenuShell *ms;
+	GList *children, *l;
+
+	g_return_if_fail (GO_IS_FONT_SEL (fs));
+
+	if (!fs->show_script)
+		return;
+
+	om = GO_OPTION_MENU (fs->script_picker);
+	ms = GTK_MENU_SHELL (go_option_menu_get_menu (om));
+	children = gtk_container_get_children (GTK_CONTAINER (ms));
 
 	for (l = children; l; l = l->next) {
 		GtkMenuItem *item = GTK_MENU_ITEM (l->data);
 		GOFontScript s = GPOINTER_TO_INT
 			(g_object_get_data (G_OBJECT (item), "value"));
-		if (s == script)
+		if (s == script) {
+			/* Selecting an item does not emit "changed".  */
 			go_option_menu_select_item (om, item);
+			apply_script (fs, script);
+			update_preview (fs);
+		}
 	}
 
 	g_list_free (children);
@@ -1611,12 +1729,28 @@ go_font_sel_set_uline (G_GNUC_UNUSED GOFontSel *gfs, G_GNUC_UNUSED int uline)
 {
 }
 
+/**
+ * go_font_sel_set_color:
+ * @gfs: #GOFontSel
+ * @c: the color; ignored if @is_default
+ * @is_default: whether to select the "unset" entry
+ *
+ * Ignored unless @gfs was created with "show-color".
+ **/
 void
 go_font_sel_set_color (GOFontSel *gfs, GOColor c, gboolean is_default)
 {
-	GOComboColor *cc = GO_COMBO_COLOR (gfs->color_picker);
+	GOComboColor *cc;
 	gboolean old_is_default;
-	GOColor old_color = go_combo_color_get_color (cc, &old_is_default);
+	GOColor old_color;
+
+	g_return_if_fail (GO_IS_FONT_SEL (gfs));
+
+	if (!gfs->show_color)
+		return;
+
+	cc = GO_COMBO_COLOR (gfs->color_picker);
+	old_color = go_combo_color_get_color (cc, &old_is_default);
 
 	if (old_is_default == is_default && (is_default || old_color == c))
 		return;
@@ -1627,17 +1761,31 @@ go_font_sel_set_color (GOFontSel *gfs, GOColor c, gboolean is_default)
 		go_combo_color_set_color (cc, c);
 }
 
+/**
+ * go_font_sel_get_color:
+ * @gfs: #GOFontSel
+ *
+ * Returns: the selected color, also when the "unset" entry is selected.
+ * Without "show-color" this is always the default color.
+ **/
 GOColor
 go_font_sel_get_color (GOFontSel *gfs) {
 	g_return_val_if_fail (GO_IS_FONT_SEL (gfs), 0);
 	return go_combo_color_get_color (GO_COMBO_COLOR (gfs->color_picker), NULL);
 }
 
+/**
+ * go_font_sel_set_font_desc:
+ * @fs: #GOFontSel
+ * @desc: font description; only the fields that are set (family, weight and
+ * style, size) are applied
+ **/
 void
-go_font_sel_set_font_desc (GOFontSel *fs, PangoFontDescription *desc)
+go_font_sel_set_font_desc (GOFontSel *fs, PangoFontDescription const *desc)
 {
 	PangoFontMask fields;
 	g_return_if_fail (GO_IS_FONT_SEL (fs));
+	g_return_if_fail (desc != NULL);
 
 	fields = pango_font_description_get_set_fields (desc);
 
@@ -1655,10 +1803,19 @@ go_font_sel_set_font_desc (GOFontSel *fs, PangoFontDescription *desc)
 }
 
 
+/**
+ * go_font_sel_set_font:
+ * @fs: #GOFontSel
+ * @font: (transfer none): the font to select
+ *
+ * Selects family, style, size, strikethrough and color of @font.  Underline
+ * is currently ignored.
+ **/
 void
 go_font_sel_set_font (GOFontSel *fs, GOFont const *font)
 {
 	g_return_if_fail (GO_IS_FONT_SEL (fs));
+	g_return_if_fail (font != NULL);
 
 	go_font_sel_set_font_desc (fs, font->desc);
 	go_font_sel_set_strikethrough (fs, font->strikethrough);

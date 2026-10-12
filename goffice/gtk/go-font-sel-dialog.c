@@ -89,7 +89,7 @@ delegate_font_activated (G_GNUC_UNUSED GtkFontChooser *gfs,
                          const gchar    *fontname,
                          GtkFontChooser *gfsd)
 {
-	g_signal_emit_by_name (gfsd, "font-activated", 0, fontname);
+	g_signal_emit_by_name (gfsd, "font-activated", fontname);
 }
 
 static void
