@@ -142,7 +142,7 @@ go_combo_pixmaps_class_init (GObjectClass *gobject_class)
 {
 	GtkWidgetClass *wclass = (GtkWidgetClass *)gobject_class;
 
-	go_combo_pixmaps_parent_class = g_type_class_ref (GO_TYPE_COMBO_BOX);
+	go_combo_pixmaps_parent_class = g_type_class_peek_parent (gobject_class);
 	gobject_class->finalize = go_combo_pixmaps_finalize;
 
 	wclass->screen_changed = go_combo_pixmaps_screen_changed;

@@ -176,7 +176,7 @@ go_combo_color_set_title (GOComboBox *combo, char const *title)
 static void
 go_combo_color_class_init (GObjectClass *gobject_class)
 {
-	go_combo_color_parent_class = g_type_class_ref (GO_TYPE_COMBO_BOX);
+	go_combo_color_parent_class = g_type_class_peek_parent (gobject_class);
 
 	GO_COMBO_BOX_CLASS (gobject_class)->set_title = go_combo_color_set_title;
 
