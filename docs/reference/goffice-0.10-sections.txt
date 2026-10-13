@@ -281,6 +281,7 @@ GO_CAIRO_CLAMP_SNAP
 go_cairo_convert_data_from_pixbuf
 go_cairo_convert_data_to_pixbuf
 go_cairo_emit_svg_path
+go_cairo_rotate_deg
 go_cairo_surface_is_vector
 </SECTION>
 

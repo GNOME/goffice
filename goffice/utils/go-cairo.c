@@ -58,6 +58,34 @@ go_cairo_surface_is_vector (cairo_surface_t const *surface)
 }
 
 /**
+ * go_cairo_rotate_deg:
+ * @cr: a cairo context
+ * @degrees: rotation angle in degrees
+ *
+ * Like cairo_rotate(), but with the angle given in degrees.  Positive angles
+ * rotate the user-space axes from the positive X axis towards the positive Y
+ * axis, exactly as for cairo_rotate().
+ *
+ * The rotation matrix is built with go_cospi() and go_sinpi(), so rotations
+ * by multiples of 90 degrees are exact: the matrix entries are precisely 0 and
+ * +-1, whereas cairo_rotate (cr, M_PI / 2) leaves 6e-17 in them.
+ **/
+void
+go_cairo_rotate_deg (cairo_t *cr, double degrees)
+{
+	double rotpi = degrees / 180;
+	double c = go_cospi (rotpi);
+	double s = go_sinpi (rotpi);
+	cairo_matrix_t m;
+
+	g_return_if_fail (cr != NULL);
+
+	/* Same matrix as cairo_matrix_init_rotate. */
+	cairo_matrix_init (&m, c, s, -s, c, 0, 0);
+	cairo_transform (cr, &m);
+}
+
+/**
  * go_cairo_convert_data_from_pixbuf:
  * @src: a pointer to pixel data in pixbuf format
  * @dst: a pointer to pixel data in cairo format

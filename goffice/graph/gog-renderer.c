@@ -481,7 +481,7 @@ _draw_rotated_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, g
 					 line_options & GO_PATH_OPTIONS_SNAP_WIDTH) : 0;
 
 	cairo_save (renderer->cairo);
-	cairo_rotate (renderer->cairo, -renderer->cur_style->text_layout.angle *M_PI / 180.);
+	go_cairo_rotate_deg (renderer->cairo, -renderer->cur_style->text_layout.angle);
 	path_interpret (renderer, path, width);
 
 	if (fill) {
@@ -1713,7 +1713,7 @@ void
 gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, double x, double y)
 {
 	cairo_t *cairo;
-	double w, h, alpha, alphapi;
+	double w, h, alpha_deg, alphapi;
 
 	g_return_if_fail (GOG_IS_RENDERER (renderer));
 	g_return_if_fail (LSM_IS_DOM_VIEW (mathml_view));
@@ -1721,8 +1721,8 @@ gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, doub
 
 	cairo = renderer->cairo;
 
-	alphapi = -renderer->cur_style->text_layout.angle / 180.0;
-	alpha = alphapi * M_PI;
+	alpha_deg = -renderer->cur_style->text_layout.angle;
+	alphapi = alpha_deg / 180.0;
 	lsm_dom_view_get_size (LSM_DOM_VIEW (mathml_view), &w, &h, NULL);
 	w *= renderer->scale;
 	h *= renderer->scale;
@@ -1732,7 +1732,7 @@ gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, doub
 	cairo_save (cairo);
 
 	cairo_translate (cairo, x, y);
-	cairo_rotate (cairo, alpha);
+	go_cairo_rotate_deg (cairo, alpha_deg);
 	cairo_scale (cairo, renderer->scale_x, renderer->scale_y);
 
 	lsm_dom_view_render (LSM_DOM_VIEW (mathml_view), cairo, 0., 0.);
