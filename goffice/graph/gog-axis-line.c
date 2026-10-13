@@ -1079,13 +1079,32 @@ typedef enum {
 	GOG_AXIS_BASE_LABEL_POSITION_REQUEST,
 } GogAxisBaseAction;
 
+/*
+ * Direction cosines of the vector (@w,@h), i.e., cos(atan2(h,w)) and
+ * sin(atan2(h,w)) without the round trip through an angle.  This is exact
+ * for axis-aligned vectors, where cos(M_PI/2) would give 6e-17 instead of 0.
+ * A zero vector gives the same answer as atan2(0,0)==0.
+ */
+static void
+axis_direction (double w, double h, double *c, double *s)
+{
+	double len = hypot (w, h);
+	if (len > 0.) {
+		*c = w / len;
+		*s = h / len;
+	} else {
+		*c = 1.;
+		*s = 0.;
+	}
+}
+
 static gboolean
 axis_line_point (GogAxisBase *axis_base, GogRenderer *renderer,
 		 double x, double y,
 		 double xa, double ya, double wa, double ha,
 		 GOGeometrySide side)
 {
-	double axis_length, axis_angle;
+	double axis_cos, axis_sin;
 	double padding = gog_axis_base_get_padding (axis_base);
 	double cos_alpha, sin_alpha;
 
@@ -1096,9 +1115,9 @@ axis_line_point (GogAxisBase *axis_base, GogRenderer *renderer,
 	ya += ha * cos_alpha;
 	wa *= (sin_alpha - cos_alpha);
 	ha *= (sin_alpha - cos_alpha);
-	go_geometry_cartesian_to_polar (wa, ha, &axis_length, &axis_angle);
-	cos_alpha = side == GO_SIDE_LEFT ? - sin (axis_angle) : + sin (axis_angle);
-	sin_alpha = side == GO_SIDE_LEFT ? + cos (axis_angle) : - cos (axis_angle);
+	axis_direction (wa, ha, &axis_cos, &axis_sin);
+	cos_alpha = side == GO_SIDE_LEFT ? - axis_sin : + axis_sin;
+	sin_alpha = side == GO_SIDE_LEFT ? + axis_cos : - axis_cos;
 	xa -= gog_renderer_pt2r_x (renderer, padding * cos_alpha);
 	ya -= gog_renderer_pt2r_y (renderer, padding * sin_alpha);
 	return go_geometry_point_to_segment (x, y, xa, ya, wa, ha) <= POINT_MIN_DISTANCE;
@@ -1142,7 +1161,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	GOGeometryOBR *obrs = NULL;
 	GOGeometrySide label_anchor = GO_SIDE_AUTO;
 	double line_width;
-	double axis_length, axis_angle, label_padding;
+	double axis_length, axis_angle, axis_cos, axis_sin, label_padding;
 	double cos_alpha, sin_alpha;
 	double pos;
 	double minor_tick_len, major_tick_len, tick_len;
@@ -1153,8 +1172,9 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	gboolean is_line_visible;
 
 	go_geometry_cartesian_to_polar (w, h, &axis_length, &axis_angle);
-	cos_alpha = side == GO_SIDE_LEFT ? - sin (axis_angle) : + sin (axis_angle);
-	sin_alpha = side == GO_SIDE_LEFT ? + cos (axis_angle) : - cos (axis_angle);
+	axis_direction (w, h, &axis_cos, &axis_sin);
+	cos_alpha = side == GO_SIDE_LEFT ? - axis_sin : + axis_sin;
+	sin_alpha = side == GO_SIDE_LEFT ? + axis_cos : - axis_cos;
 
 	is_line_visible = go_style_is_line_visible (style);
 	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
@@ -1233,8 +1253,8 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 			pos = gog_axis_map_to_view (map, ticks[i].position);
 			go_geometry_calc_label_position (obr, axis_angle, tick_len + label_padding,
 							 side, label_anchor);
-			obr->x += x + pos * cos (axis_angle);
-			obr->y += y + pos * sin (axis_angle);
+			obr->x += x + pos * axis_cos;
+			obr->y += y + pos * axis_sin;
 			go_geometry_OBR_to_AABR (obr, &txt_aabr);
 			go_geometry_AABR_add (&total_bbox, &txt_aabr);
 		}
@@ -1265,7 +1285,7 @@ axis_line_render (GogAxisBase *axis_base,
 	GOGeometrySide label_anchor = GO_SIDE_AUTO;
 	GOPath *path = NULL;
 	double line_width;
-	double axis_length, axis_angle, label_padding;
+	double axis_length, axis_angle, axis_cos, axis_sin, label_padding;
 	double major_tick_len, minor_tick_len, tick_len;
 	double major_out_x = 0., major_out_y= 0., major_in_x = 0., major_in_y = 0.;
 	double minor_out_x = 0., minor_out_y= 0., minor_in_x = 0., minor_in_y = 0.;
@@ -1280,8 +1300,9 @@ axis_line_render (GogAxisBase *axis_base,
 	gboolean is_line_visible;
 
 	go_geometry_cartesian_to_polar (w, h, &axis_length, &axis_angle);
-	cos_alpha = side == GO_SIDE_LEFT ? - sin (axis_angle) : + sin (axis_angle);
-	sin_alpha = side == GO_SIDE_LEFT ? + cos (axis_angle) : - cos (axis_angle);
+	axis_direction (w, h, &axis_cos, &axis_sin);
+	cos_alpha = side == GO_SIDE_LEFT ? - axis_sin : + axis_sin;
+	sin_alpha = side == GO_SIDE_LEFT ? + axis_cos : - axis_cos;
 
 	x -= gog_renderer_pt2r_x (renderer, padding * cos_alpha);
 	y -= gog_renderer_pt2r_y (renderer, padding * sin_alpha);
@@ -1359,8 +1380,8 @@ axis_line_render (GogAxisBase *axis_base,
 			pos_y = ticks_pos[2 * i + 1];
 		} else {
 			pos = gog_axis_map_to_view (map, ticks[i].position);
-			pos_x = x + pos * cos (axis_angle);
-			pos_y = y + pos * sin (axis_angle);
+			pos_x = x + pos * axis_cos;
+			pos_y = y + pos * axis_sin;
 		}
 
 		if (is_line_visible) {
@@ -1397,8 +1418,8 @@ axis_line_render (GogAxisBase *axis_base,
 				obr->y += ticks_pos[2 * i + 1];
 			} else {
 				pos = gog_axis_map_to_view (map, ticks[i].position);
-				obr->x += x + pos * cos (axis_angle);
-				obr->y += y + pos * sin (axis_angle);
+				obr->x += x + pos * axis_cos;
+				obr->y += y + pos * axis_sin;
 			}
 
 			indexmap[nobr] = i;

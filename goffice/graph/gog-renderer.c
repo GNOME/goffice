@@ -1713,7 +1713,7 @@ void
 gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, double x, double y)
 {
 	cairo_t *cairo;
-	double w, h, alpha;
+	double w, h, alpha, alphapi;
 
 	g_return_if_fail (GOG_IS_RENDERER (renderer));
 	g_return_if_fail (LSM_IS_DOM_VIEW (mathml_view));
@@ -1721,12 +1721,13 @@ gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, doub
 
 	cairo = renderer->cairo;
 
-	alpha = -renderer->cur_style->text_layout.angle * M_PI / 180.0;
+	alphapi = -renderer->cur_style->text_layout.angle / 180.0;
+	alpha = alphapi * M_PI;
 	lsm_dom_view_get_size (LSM_DOM_VIEW (mathml_view), &w, &h, NULL);
 	w *= renderer->scale;
 	h *= renderer->scale;
-	x = x - (w / 2.0) * cos (alpha) + (h / 2.0) * sin (alpha);
-	y = y - (w / 2.0) * sin (alpha) - (h / 2.0) * cos (alpha);
+	x = x - (w / 2.0) * go_cospi (alphapi) + (h / 2.0) * go_sinpi (alphapi);
+	y = y - (w / 2.0) * go_sinpi (alphapi) - (h / 2.0) * go_cospi (alphapi);
 
 	cairo_save (cairo);
 

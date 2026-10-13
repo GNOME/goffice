@@ -4123,7 +4123,7 @@ gog_axis_view_padding_request_3d (GogView *view, GogView *child,
 
 	gog_axis_base_view_label_position_request (view, plot_area, &label_pos);
 	if (style->text_layout.auto_angle) {
-		angle = atan2 (label_pos.w, label_pos.h) * 180. / M_PI;
+		angle = go_atan2pi (label_pos.w, label_pos.h) * 180.;
 		if (angle < 0.)
 			angle += 180.;
 		style->text_layout.angle = (angle > 45. && angle < 135.)? 90. : 0.;

@@ -91,8 +91,8 @@ static void
 calc_polygon_parameters (GogViewAllocation const *area, GogChartMapPolarData *data, gboolean fill_area)
 {
 	double edges = data->th1 - data->th0 + 1.0;
-	double width = 2.0 * sin (2.0 * M_PI * go_rint (edges / 4.0) / edges);
-	double height = 1.0 - cos (2.0 * M_PI * go_rint (edges / 2.0) / edges);
+	double width = 2.0 * go_sinpi (2.0 * go_rint (edges / 4.0) / edges);
+	double height = 1.0 - go_cospi (2.0 * go_rint (edges / 2.0) / edges);
 
 	data->rx = area->w / width;
 	data->ry = area->h / height;

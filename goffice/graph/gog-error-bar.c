@@ -751,12 +751,13 @@ void gog_error_bar_render (const GogErrorBar *bar,
 		go_path_arc (path, cx, cy, rr, rr, a1, a0);
 		if ((2. * width) > line_width) {
 			double dx, dy;
-			dx = width * cos (a0);
-			dy = width * sin (a0);
+			/* Unit radial vectors; both ends are on the circle of radius rr. */
+			dx = width * (x0 - cx) / rr;
+			dy = width * (y0 - cy) / rr;
 			go_path_move_to (path, x0 - dx, y0 - dy);
 			go_path_line_to (path, x0 + dx, y0 + dy);
-			dx = width * cos (a1);
-			dy = width * sin (a1);
+			dx = width * (x1 - cx) / rr;
+			dy = width * (y1 - cy) / rr;
 			go_path_move_to (path, x1 - dx, y1 - dy);
 			go_path_line_to (path, x1 + dx, y1 + dy);
 		}

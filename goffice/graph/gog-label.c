@@ -672,9 +672,9 @@ gog_text_view_natural_size (GogView *view, GogViewRequisition *req)
 			? go_string_new_rich (str, -1, pl, NULL)
 			: NULL;
 		GOStyle *style = go_style_dup (text->base.base.style);
-		double rot = fabs (style->text_layout.angle / 180 * M_PI);
-		if (rot > M_PI / 2.)
-			rot = M_PI - rot;
+		double rotpi = fabs (style->text_layout.angle / 180);
+		if (rotpi > 0.5)
+			rotpi = 1 - rotpi;
 		if (text->rotate_frame)
 			style->text_layout.angle = 0.;
 		gog_renderer_push_style (view->renderer, style);
@@ -687,8 +687,8 @@ gog_text_view_natural_size (GogView *view, GogViewRequisition *req)
 		gog_renderer_pop_style (view->renderer);
 		g_object_unref (style);
 		if (text->rotate_frame) {
-			req->w = aabr.w * cos (rot) + aabr.h * sin (rot);
-			req->h = aabr.w * sin (rot) + aabr.h * cos (rot);
+			req->w = aabr.w * go_cospi (rotpi) + aabr.h * go_sinpi (rotpi);
+			req->h = aabr.w * go_sinpi (rotpi) + aabr.h * go_cospi (rotpi);
 		} else {
 			req->w = aabr.w;
 			req->h = aabr.h;
@@ -714,9 +714,9 @@ gog_text_view_size_request (GogView *v,
 			? go_string_new_rich (str, -1, pl, NULL)
 			: NULL;
 		GOStyle *style = go_style_dup (text->base.base.style);
-		double rot = fabs (style->text_layout.angle / 180 * M_PI);
-		if (rot > M_PI / 2.)
-			rot = M_PI - rot;
+		double rotpi = fabs (style->text_layout.angle / 180);
+		if (rotpi > 0.5)
+			rotpi = 1 - rotpi;
 		if (text->rotate_frame)
 			style->text_layout.angle = 0.;
 		gog_renderer_push_style (v->renderer, style);
@@ -728,8 +728,8 @@ gog_text_view_size_request (GogView *v,
 		gog_renderer_pop_style (v->renderer);
 		g_object_unref (style);
 		if (text->rotate_frame) {
-			req->w = aabr.w * cos (rot) + aabr.h * sin (rot);
-			req->h = aabr.w * sin (rot) + aabr.h * cos (rot);
+			req->w = aabr.w * go_cospi (rotpi) + aabr.h * go_sinpi (rotpi);
+			req->h = aabr.w * go_sinpi (rotpi) + aabr.h * go_cospi (rotpi);
 		} else {
 			req->w = aabr.w;
 			req->h = aabr.h;
