@@ -261,7 +261,7 @@ cb_rotate_motion_notify_event (G_GNUC_UNUSED GocCanvas *canvas, GdkEventMotion *
 	dx = event->x - g3d->old_x;
 	dy = event->y - g3d->old_y;
 	theta = atan2 (dy, dx);
-	phi = sqrt (dx * dx + dy * dy) * M_PI / 180;
+	phi = hypot (dx, dy) * M_PI / 180;
 	g3d->old_x = event->x;
 	g3d->old_y = event->y;
 

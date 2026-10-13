@@ -169,7 +169,7 @@ goc_arc_start (GocItem const *item, double *x, double *y, double *phi)
 
 	x1 = arc->xr * cos (atan2 (arc->xr / arc->yr * sin (arc->ang1), cos (arc->ang1)));
 	y1 = arc->yr * sin (atan2 (arc->xr / arc->yr * sin (arc->ang1), cos (arc->ang1)));
-	s = sqrt (x1 * x1 + y1 * y1);
+	s = hypot (x1, y1);
 
 	(*x) = arc->xc + s * cos (arc->ang1 - arc->rotation) * sign;
 	(*y) = arc->yc - s * sin (arc->ang1 - arc->rotation);
@@ -188,7 +188,7 @@ goc_arc_end (GocItem const *item, double *x, double *y, double *phi)
 
 	x1 = arc->xr * cos (atan2 (arc->xr / arc->yr * sin (arc->ang2), cos (arc->ang2)));
 	y1 = arc->yr * sin (atan2 (arc->xr / arc->yr * sin (arc->ang2), cos (arc->ang2)));
-	s = sqrt (x1 * x1 + y1 * y1);
+	s = hypot (x1, y1);
 
 	(*x) = arc->xc + s * cos (arc->ang2 - arc->rotation) * sign;
 	(*y) = arc->yc - s * sin (arc->ang2 - arc->rotation);

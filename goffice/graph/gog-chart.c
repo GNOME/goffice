@@ -1295,14 +1295,14 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	/* if the fov is positive, calculate the position of the viewpoint */
 	if (box->fov > 0.) {
 		tg = tan (box->fov / 2.);
-		box_view->r = -sqrt (o[0] * o[0] + o[2] * o[2]) / tg + o[1];
-		d = -sqrt (x[0] * x[0] + x[2] * x[2]) / tg + x[1];
+		box_view->r = -hypot (o[0], o[2]) / tg + o[1];
+		d = -hypot (x[0], x[2]) / tg + x[1];
 		if (d < box_view->r)
 			box_view->r = d;
-		d = -sqrt (y[0] * y[0] + y[2] * y[2]) / tg + y[1];
+		d = -hypot (y[0], y[2]) / tg + y[1];
 		if (d < box_view->r)
 			box_view->r = d;
-		d = -sqrt (z[0] *z[0] + z[2] * z[2]) / tg + z[1];
+		d = -hypot (z[0], z[2]) / tg + z[1];
 		if (d < box_view->r)
 			box_view->r = d;
 		/* also calculate the reduction factor we need to make things fit in the bbox */

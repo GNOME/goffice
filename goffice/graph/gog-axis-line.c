@@ -2208,7 +2208,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				ox = by - ay;
 				oy = -(bx - ax);
 			}
-			tmp = sqrt (ox * ox + oy * oy);
+			tmp = hypot (ox, oy);
 			if (tmp > 0.) {
 				ox /= tmp;
 				oy /= tmp;
