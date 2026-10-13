@@ -386,7 +386,7 @@ g3d_class_init (GObjectClass *klass)
 {
 	klass->finalize = g3d_finalize;
 
-	g3d_parent_class = g_type_class_peek (gtk_box_get_type ());
+	g3d_parent_class = g_type_class_peek_parent (klass);
 	g3d_signals [MATRIX_CHANGED] = g_signal_new ("matrix-changed",
 		G_OBJECT_CLASS_TYPE (klass), G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GO3DRotationSelClass, psi_changed),

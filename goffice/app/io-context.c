@@ -62,6 +62,8 @@ go_io_context_init (GOIOContext *ioc)
 	ioc->exec_main_loop = TRUE;
 }
 
+static GObjectClass *ioc_parent_class;
+
 static void
 ioc_finalize (GObject *obj)
 {
@@ -80,7 +82,7 @@ ioc_finalize (GObject *obj)
 	g_list_free_full (ioc->progress_ranges, (GFreeFunc)g_free);
 	ioc->progress_ranges = NULL;
 
-	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
+	ioc_parent_class->finalize (obj);
 }
 
 static void
@@ -164,6 +166,7 @@ go_io_context_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 static void
 go_io_context_class_init (GObjectClass *klass)
 {
+	ioc_parent_class = g_type_class_peek_parent (klass);
 	klass->finalize = ioc_finalize;
 	klass->set_property = io_context_set_property;
 	klass->get_property = io_context_get_property;

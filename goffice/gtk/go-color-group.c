@@ -74,7 +74,7 @@ go_color_group_class_init (GOColorGroupClass *klass)
 	object_class = (GObjectClass*) klass;
 
 	object_class->finalize = &go_color_group_finalize;
-	go_color_group_parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	go_color_group_parent_class = g_type_class_peek_parent (klass);
 	go_color_group_signals [HISTORY_CHANGED] =
 		g_signal_new ("history-changed",
 			GO_TYPE_COLOR_GROUP,

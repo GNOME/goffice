@@ -199,18 +199,21 @@ go_plugin_loader_module_init (GOPluginLoaderModule *loader_module)
 	loader_module->handle = NULL;
 }
 
+static GObjectClass *go_plugin_loader_module_parent_class;
+
 static void
 go_plugin_loader_module_finalize (GObject *obj)
 {
 	GOPluginLoaderModule *loader_module = GO_PLUGIN_LOADER_MODULE (obj);
 	g_free (loader_module->module_file_name);
 	loader_module->module_file_name = NULL;
-	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
+	go_plugin_loader_module_parent_class->finalize (obj);
 }
 
 static void
 go_plugin_loader_module_class_init (GObjectClass *gobject_class)
 {
+	go_plugin_loader_module_parent_class = g_type_class_peek_parent (gobject_class);
 	gobject_class->finalize = go_plugin_loader_module_finalize;
 	go_plugin_loader_module_register_version ("goffice", GOFFICE_API_VERSION);
 }

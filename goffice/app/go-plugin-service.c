@@ -75,7 +75,7 @@
 
 /**
  * GOPluginServiceGObjectLoaderClass:
- * @plugin_service_class: parent class.
+ * @simple_class: parent class.
  * @pending: has service instances by type names.
  **/
 
@@ -122,19 +122,19 @@ go_plugin_service_init (GObject *obj)
 	service->saved_description = NULL;
 }
 
+static GObjectClass *go_plugin_service_parent_class;
+
 static void
 go_plugin_service_finalize (GObject *obj)
 {
 	GOPluginService *service = GO_PLUGIN_SERVICE (obj);
-	GObjectClass *parent_class;
 
 	g_free (service->id);
 	service->id = NULL;
 	g_free (service->saved_description);
 	service->saved_description = NULL;
 
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-	parent_class->finalize (obj);
+	go_plugin_service_parent_class->finalize (obj);
 }
 
 static void
@@ -142,6 +142,7 @@ go_plugin_service_class_init (GObjectClass *gobject_class)
 {
 	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
+	go_plugin_service_parent_class = g_type_class_peek_parent (gobject_class);
 	gobject_class->finalize = go_plugin_service_finalize;
 	plugin_service_class->read_xml = NULL;
 	plugin_service_class->activate = NULL;
@@ -428,11 +429,12 @@ go_plugin_service_file_opener_init (GObject *obj)
 	service_file_opener->cbs.plugin_func_file_open = NULL;
 }
 
+static GObjectClass *go_plugin_service_file_opener_parent_class;
+
 static void
 go_plugin_service_file_opener_finalize (GObject *obj)
 {
 	GOPluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (obj);
-	GObjectClass *parent_class;
 
 	g_free (service_file_opener->description);
 	service_file_opener->description = NULL;
@@ -445,8 +447,7 @@ go_plugin_service_file_opener_finalize (GObject *obj)
 		service_file_opener->opener = NULL;
 	}
 
-	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
-	parent_class->finalize (obj);
+	go_plugin_service_file_opener_parent_class->finalize (obj);
 }
 
 static void
@@ -565,6 +566,7 @@ go_plugin_service_file_opener_class_init (GObjectClass *gobject_class)
 {
 	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
+	go_plugin_service_file_opener_parent_class = g_type_class_peek_parent (gobject_class);
 	gobject_class->finalize = go_plugin_service_file_opener_finalize;
 	plugin_service_class->read_xml = go_plugin_service_file_opener_read_xml;
 	plugin_service_class->activate = go_plugin_service_file_opener_activate;
@@ -776,11 +778,12 @@ go_plugin_service_file_saver_init (GObject *obj)
 	service_file_saver->saver = NULL;
 }
 
+static GObjectClass *go_plugin_service_file_saver_parent_class;
+
 static void
 go_plugin_service_file_saver_finalize (GObject *obj)
 {
 	GOPluginServiceFileSaver *service_file_saver = GO_PLUGIN_SERVICE_FILE_SAVER (obj);
-	GObjectClass *parent_class;
 
 	g_free (service_file_saver->file_extension);
 	g_free (service_file_saver->mime_type);
@@ -788,8 +791,7 @@ go_plugin_service_file_saver_finalize (GObject *obj)
 	if (service_file_saver->saver != NULL)
 		g_object_unref (service_file_saver->saver);
 
-	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
-	parent_class->finalize (obj);
+	go_plugin_service_file_saver_parent_class->finalize (obj);
 }
 
 static void
@@ -895,6 +897,7 @@ go_plugin_service_file_saver_class_init (GObjectClass *gobject_class)
 {
 	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
+	go_plugin_service_file_saver_parent_class = g_type_class_peek_parent (gobject_class);
 	gobject_class->finalize = go_plugin_service_file_saver_finalize;
 	plugin_service_class->read_xml = go_plugin_service_file_saver_read_xml;
 	plugin_service_class->activate = go_plugin_service_file_saver_activate;

@@ -485,7 +485,7 @@ enum {
 };
 
 struct  _GogRegEqn {
-	GogLabel base;
+	GogText base;
 	gboolean show_eq, show_r2;
 };
 

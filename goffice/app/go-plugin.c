@@ -136,7 +136,7 @@ struct _GOPlugin {
 
 typedef struct _GOPluginClass GOPluginClass;
 struct _GOPluginClass {
-	GTypeModuleClass parent_class;
+	GObjectClass parent_class;
 
 	/* signals */
 	void (*state_changed)		(GOPluginClass *gpc);

@@ -81,17 +81,20 @@ go_component_mime_dialog_init (GOComponentMimeDialog *dlg)
 	gtk_widget_show_all (gtk_dialog_get_content_area (&dlg->base));
 }
 
+static GObjectClass *go_component_mime_dialog_parent_class;
+
 static void
 go_component_mime_dialog_finalize (GObject *obj)
 {
 	GOComponentMimeDialog *dlg = GO_COMPONENT_MIME_DIALOG (obj);
 	g_free (dlg->selected_mime_type);
-	G_OBJECT_CLASS (g_type_class_peek (GTK_TYPE_DIALOG))->finalize (obj);
+	go_component_mime_dialog_parent_class->finalize (obj);
 }
 
 static void
 go_component_mime_dialog_class_init (GObjectClass *klass)
 {
+	go_component_mime_dialog_parent_class = g_type_class_peek_parent (klass);
 	klass->finalize = go_component_mime_dialog_finalize;
 }
 

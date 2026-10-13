@@ -57,6 +57,8 @@ go_file_opener_init (GOFileOpener *fo)
 	fo->interactive_only = FALSE;
 }
 
+static GObjectClass *go_file_opener_parent_class;
+
 static void
 go_file_opener_finalize (GObject *obj)
 {
@@ -72,7 +74,7 @@ go_file_opener_finalize (GObject *obj)
 	g_slist_foreach (fo->mimes, (GFunc)g_free, NULL);
 	g_slist_free (fo->mimes);
 
-	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
+	go_file_opener_parent_class->finalize (obj);
 }
 
 static void
@@ -166,6 +168,7 @@ go_file_opener_class_init (GOFileOpenerClass *klass)
 {
 	GObjectClass *goc = G_OBJECT_CLASS (klass);
 
+	go_file_opener_parent_class = g_type_class_peek_parent (klass);
 	goc->finalize = go_file_opener_finalize;
 	goc->set_property = go_file_opener_set_property;
 	goc->get_property = go_file_opener_get_property;
@@ -476,6 +479,8 @@ go_file_saver_init (GOFileSaver *fs)
 	fs->save_func = NULL;
 }
 
+static GObjectClass *go_file_saver_parent_class;
+
 static void
 go_file_saver_finalize (GObject *obj)
 {
@@ -489,7 +494,7 @@ go_file_saver_finalize (GObject *obj)
 	g_free (fs->description);
 	g_free (fs->mime_type);
 
-	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
+	go_file_saver_parent_class->finalize (obj);
 }
 
 enum {
@@ -621,6 +626,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 {
 	GObjectClass *goc = G_OBJECT_CLASS (klass);
 
+	go_file_saver_parent_class = g_type_class_peek_parent (klass);
 	goc->finalize = go_file_saver_finalize;
 	goc->set_property = go_file_saver_set_property;
 	goc->get_property = go_file_saver_get_property;

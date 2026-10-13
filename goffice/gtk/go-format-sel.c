@@ -1700,6 +1700,8 @@ nfs_init (GOFormatSel *gfs)
 	gfs->enable_edit = TRUE;
 }
 
+static GObjectClass *nfs_parent_class;
+
 static void
 go_format_sel_finalize (GObject *obj)
 {
@@ -1726,7 +1728,7 @@ go_format_sel_finalize (GObject *obj)
 
 	go_format_details_finalize (&gfs->format.details);
 
-	G_OBJECT_CLASS (g_type_class_peek (GTK_TYPE_BOX))->finalize (obj);
+	nfs_parent_class->finalize (obj);
 }
 
 static gboolean
@@ -1746,6 +1748,7 @@ accumulate_first_string (G_GNUC_UNUSED GSignalInvocationHint *ihint,
 static void
 nfs_class_init (GObjectClass *klass)
 {
+	nfs_parent_class = g_type_class_peek_parent (klass);
 	klass->finalize = go_format_sel_finalize;
 
 	go_format_sel_signals [FORMAT_CHANGED] =
