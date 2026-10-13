@@ -358,7 +358,7 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 	GSList *lines, *axes = NULL, *lptr, *aptr;
 	gboolean can_at_low = TRUE, can_at_high = TRUE;
 
-	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
+	g_return_if_fail (GOG_IS_AXIS_BASE (axis_base));
 
 	if (position == GOG_AXIS_AUTO) {
 		if (GOG_IS_AXIS (axis_base))
@@ -462,7 +462,8 @@ cb_cross_axis_changed (GtkComboBox *combo, AxisBasePrefs *state)
 	GtkTreeModel *model = gtk_combo_box_get_model (combo);
 
 	memset (&value, 0, sizeof (GValue));
-	gtk_combo_box_get_active_iter (combo, &iter);
+	if (!gtk_combo_box_get_active_iter (combo, &iter))
+		return;
 	gtk_tree_model_get_value (model, &iter, 1, &value);
 	state->axis_base->crossed_axis_id = g_value_get_uint (&value);
 
@@ -536,7 +537,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 	gboolean hide_position_box = TRUE;
 
 	axis_base = GOG_AXIS_BASE (gobj);
-	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
+	g_return_if_fail (GOG_IS_AXIS_BASE (axis_base));
 	if (!gog_object_is_visible (axis_base->axis))
 		return;
 
@@ -642,7 +643,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 	    axis_type == GOG_AXIS_RADIAL) {
 		w = go_gtk_builder_get_widget (gui, "padding-spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis_base->padding);
-		g_signal_connect (G_CALLBACK (w), "value-changed",
+		g_signal_connect (G_OBJECT (w), "value-changed",
 				  G_CALLBACK (cb_padding_changed), axis_base);
 		gtk_widget_set_sensitive (w, axis_base->position != GOG_AXIS_CROSS);
 		hide_position_box = FALSE;
@@ -879,7 +880,7 @@ gog_axis_base_get_cross_location (GogAxisBase *axis_base)
 {
 	GOData *data;
 
-	g_return_val_if_fail (GOG_AXIS_BASE (axis_base) != NULL, 0.);
+	g_return_val_if_fail (GOG_IS_AXIS_BASE (axis_base), 0.);
 
 	data = axis_base->cross_location.data;
 	if (GO_IS_DATA (data))
@@ -891,7 +892,7 @@ gog_axis_base_get_cross_location (GogAxisBase *axis_base)
 GogAxisPosition
 gog_axis_base_get_position (GogAxisBase *axis_base)
 {
-	g_return_val_if_fail (GOG_AXIS_BASE (axis_base) != NULL, GOG_AXIS_AT_LOW);
+	g_return_val_if_fail (GOG_IS_AXIS_BASE (axis_base), GOG_AXIS_AT_LOW);
 
 	return axis_base->position;
 }
@@ -1103,6 +1104,29 @@ axis_line_point (GogAxisBase *axis_base, GogRenderer *renderer,
 	return go_geometry_point_to_segment (x, y, xa, ya, wa, ha) <= POINT_MIN_DISTANCE;
 }
 
+/* go_geometry_AABR_add() assumes non-negative w and h, but axis vectors and
+ * tick rectangles routinely have negative extents depending on orientation. */
+static void
+aabr_normalize (GOGeometryAABR *r)
+{
+	if (r->w < 0.) {
+		r->x += r->w;
+		r->w = -r->w;
+	}
+	if (r->h < 0.) {
+		r->y += r->h;
+		r->h = -r->h;
+	}
+}
+
+static void
+aabr_add_normalized (GOGeometryAABR *total, GOGeometryAABR const *r)
+{
+	GOGeometryAABR n = *r;
+	aabr_normalize (&n);
+	go_geometry_AABR_add (total, &n);
+}
+
 #define GO_EPSILON 1e-10
 static GogViewAllocation
 axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
@@ -1144,11 +1168,12 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	total_bbox.x = x; total_bbox.y = y;
 	total_bbox.w = w; total_bbox.h = h;
+	aabr_normalize (&total_bbox);
 	bbox.x = x -= gog_renderer_pt2r_x (renderer, padding * cos_alpha);
 	bbox.y = y -= gog_renderer_pt2r_y (renderer, padding * sin_alpha);
 	bbox.w = w;
 	bbox.h = h;
-	go_geometry_AABR_add (&total_bbox, &bbox);
+	aabr_add_normalized (&total_bbox, &bbox);
 
 	if (is_line_visible) {
 		double out_len, in_len;
@@ -1168,10 +1193,10 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		bbox.y = y - out_len * sin_alpha;
 		bbox.w = (out_len + in_len) * cos_alpha;
 		bbox.h = (out_len + in_len) * sin_alpha;
-		go_geometry_AABR_add (&total_bbox, &bbox);
+		aabr_add_normalized (&total_bbox, &bbox);
 		bbox.x += w;
 		bbox.y += h;
-		go_geometry_AABR_add (&total_bbox, &bbox);
+		aabr_add_normalized (&total_bbox, &bbox);
 	}
 
 	tick_nbr = gog_axis_base_get_ticks (axis_base, &ticks);
@@ -1425,28 +1450,31 @@ axis_line_render (GogAxisBase *axis_base,
 }
 
 static gboolean
-axis_circle_point (double x, double y, double center_x, double center_y, double radius, int num_radii)
+axis_circle_point (double x, double y, GogChartMap *c_map, gboolean is_discrete)
 {
+	GogChartMapPolarData *parms = gog_chart_map_get_polar_parms (c_map);
 
-	if (num_radii > 0.0) {
-		int i;
-		double x0 = center_x;
-		double y0 = center_y;
-		double x1, y1;
-		double angle_rad = 0;
+	if (is_discrete) {
+		/* The axis is a polygon; test against the same vertices that
+		 * axis_circle_render() draws. */
+		GogAxisMap *map = gog_chart_map_get_axis_map (c_map, 1);
+		double offset, position;
+		double x0 = 0., y0 = 0., x1, y1;
+		unsigned i, step_nbr = go_rint (parms->th1 - parms->th0) + 1;
 
-		for (i = 1; i <= num_radii; i++) {
-			x1 = x0;
-			y1 = y0;
-			angle_rad = 2.0 * M_PI * (double) i / (double) num_radii;
-			x0 = center_x + radius * sin (angle_rad);
-			y0 = center_y - radius * cos (angle_rad);
-			if (go_geometry_point_to_segment (x, y, x0, y0, x1 - x0, y1 - y0) < POINT_MIN_DISTANCE)
+		gog_axis_map_get_extents (map, &offset, &position);
+		for (i = 0; i <= step_nbr; i++) {
+			gog_chart_map_2D_to_view (c_map, i + parms->th0, position, &x1, &y1);
+			if (i > 0 &&
+			    go_geometry_point_to_segment (x, y, x0, y0, x1 - x0, y1 - y0) < POINT_MIN_DISTANCE)
 				return TRUE;
+			x0 = x1;
+			y0 = y1;
 		}
+		return FALSE;
 	}
 
-	return (radius - sqrt ((x - center_x) * (x - center_x) + (y - center_y) * (y - center_y))) < POINT_MIN_DISTANCE;
+	return fabs (parms->rx - hypot (x - parms->cx, y - parms->cy)) < POINT_MIN_DISTANCE;
 }
 
 static GogViewAllocation
@@ -1649,6 +1677,8 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	double start, stop;
 
 	g_return_val_if_fail (axis_type == GOG_AXIS_X, FALSE);
+	if (!gog_object_is_visible (axis_base->axis))
+		return FALSE;
 
 	c_map = gog_chart_map_new (axis_base->chart, plot_area, axis_base->axis, NULL, NULL, TRUE);
 	a_map = gog_chart_map_get_axis_map (c_map, 0);
@@ -1809,6 +1839,8 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		return FALSE;
 
 	cross_axis = gog_axis_base_get_crossed_axis (axis_base);
+	if (cross_axis == NULL)
+		return FALSE;
 
 	if (axis_type == GOG_AXIS_RADIAL) {
 		c_map = gog_chart_map_new (axis_base->chart, area, cross_axis, axis_base->axis, NULL,
@@ -1907,7 +1939,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				padding->hb = MAX (0., bbox.y + bbox.h - area->y - area->h);
 				break;
 			case GOG_AXIS_BASE_POINT:
-				point = axis_circle_point (x, y, parms->cx, parms->cy, parms->rx, parms->th1);
+				point = axis_circle_point (x, y, c_map, gog_axis_is_discrete (axis_base->axis));
 				break;
 			default:
 				break;
@@ -2177,8 +2209,10 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				oy = -(bx - ax);
 			}
 			tmp = sqrt (ox * ox + oy * oy);
-			ox *= 1. / tmp;
-			oy *= 1. / tmp;
+			if (tmp > 0.) {
+				ox /= tmp;
+				oy /= tmp;
+			}
 
 			/* Axis centre; we'll return it along with offset
 			 * int the GogViewPadding structure */
@@ -2570,10 +2604,13 @@ gog_axis_line_update_ticks (GogAxisLine *line)
 						line->ticks[cur].type = GOG_AXIS_TICK_MAJOR;
 					} else
 						line->ticks[cur].type = GOG_AXIS_TICK_MINOR;
+					g_free (lbl);
 				}
 			} else if (labels_nb == 0) {
-					line->ticks[cur].str = go_string_new (go_data_vector_get_str (pos, i));
+					lbl = go_data_vector_get_str (pos, i);
+					line->ticks[cur].str = go_string_new (lbl);
 					line->ticks[cur].type = GOG_AXIS_TICK_MAJOR;
+					g_free (lbl);
 			} else
 				line->ticks[cur].type = GOG_AXIS_TICK_MINOR;
 			cur++;
@@ -2635,6 +2672,8 @@ gog_axis_line_populate_editor (GogObject *gobj,
 	    g_signal_connect (G_OBJECT (w),
 		    "format_changed", G_CALLBACK (cb_axis_line_fmt_changed), line);
     }
+
+	g_object_unref (gui);
 }
 #endif
 
