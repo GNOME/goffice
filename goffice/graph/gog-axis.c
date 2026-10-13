@@ -2283,6 +2283,25 @@ gog_axis_sax_save (GOPersist const *gp, G_GNUC_UNUSED GsfXMLOut *output)
 	                      GO_PERSIST (axis->color_map));
 }
 
+/*
+ * Make @axis refer to @ref (which can be %NULL), keeping the ref_axis /
+ * refering_axes bookkeeping of both axes consistent.  Neither is a counted
+ * reference; gog_axis_dispose unlinks them.
+ */
+static void
+gog_axis_set_ref_axis (GogAxis *axis, GogAxis *ref)
+{
+	if (axis->ref_axis == ref)
+		return;
+
+	if (axis->ref_axis != NULL)
+		axis->ref_axis->refering_axes =
+			g_slist_remove (axis->ref_axis->refering_axes, axis);
+	axis->ref_axis = ref;
+	if (ref != NULL)
+		ref->refering_axes = g_slist_prepend (ref->refering_axes, axis);
+}
+
 struct axis_ref_struct {
 	GogAxis *axis;
 	char *ref;
@@ -2297,7 +2316,7 @@ axis_ref_load_cb (struct axis_ref_struct *s)
 
 		g_object_remove_weak_pointer (G_OBJECT (s->axis),
 					      (gpointer *) &s->axis);
-		s->axis->ref_axis = NULL;
+		gog_axis_set_ref_axis (s->axis, NULL);
 		if (s->axis->refering_axes != NULL) {
 			s->axis->metrics = GOG_AXIS_METRICS_DEFAULT;
 			s->axis->metrics_ratio = 1.;
@@ -2317,8 +2336,7 @@ axis_ref_load_cb (struct axis_ref_struct *s)
 				if (axis->metrics > GOG_AXIS_METRICS_ABSOLUTE || axis == s->axis)
 					continue;
 				if (!strcmp (gog_object_get_name (ptr->data), s->ref)) {
-					s->axis->ref_axis = axis;
-					axis->refering_axes = g_slist_prepend (axis->refering_axes, s->axis);
+					gog_axis_set_ref_axis (s->axis, axis);
 				}
 			}
 			g_slist_free (l);
@@ -2430,7 +2448,7 @@ gog_axis_set_property (GObject *obj, guint param_id,
 			g_idle_add ((GSourceFunc) axis_ref_load_cb, s);
 			return;
 		}
-		axis->ref_axis = NULL;
+		gog_axis_set_ref_axis (axis, NULL);
 		break;
 	}
 	case AXIS_PROP_METRICS_RATIO:
@@ -2516,6 +2534,22 @@ gog_axis_get_property (GObject *obj, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
+}
+
+static void
+gog_axis_dispose (GObject *obj)
+{
+	GogAxis *axis = GOG_AXIS (obj);
+	GSList *l;
+
+	/* ref_axis and refering_axes are uncounted references in both directions */
+	gog_axis_set_ref_axis (axis, NULL);
+	for (l = axis->refering_axes; l != NULL; l = l->next)
+		((GogAxis *) l->data)->ref_axis = NULL;
+	g_slist_free (axis->refering_axes);
+	axis->refering_axes = NULL;
+
+	(parent_klass->dispose) (obj);
 }
 
 static void
@@ -2997,13 +3031,11 @@ metrics_axis_changed_cb (GtkComboBox *box, struct MetricsState *state)
 	GogAxis *ref_axis;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
-	if (state->axis->ref_axis != NULL)
-		state->axis->ref_axis->refering_axes = g_slist_remove (state->axis->ref_axis->refering_axes, state->axis);
 	model = gtk_combo_box_get_model (box);
-	gtk_combo_box_get_active_iter (box, &iter);
+	if (!gtk_combo_box_get_active_iter (box, &iter))
+		return;
 	gtk_tree_model_get (model, &iter, 1, &ref_axis, -1);
-	ref_axis->refering_axes = g_slist_prepend (ref_axis->refering_axes, state->axis);
-	state->axis->ref_axis = ref_axis;
+	gog_axis_set_ref_axis (state->axis, ref_axis);
 	gog_object_request_update ((GogObject *) state->axis);
 }
 
@@ -3021,13 +3053,13 @@ metrics_changed_cb (GtkComboBox *box, struct MetricsState *state)
 		gtk_widget_hide (state->label);
 		gtk_widget_hide (state->ratio);
 		gtk_widget_hide (state->unit);
-		state->axis->ref_axis = NULL;
+		gog_axis_set_ref_axis (state->axis, NULL);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->ratio), 1.);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (state->unit), 0);
 		break;
 	case GOG_AXIS_METRICS_ABSOLUTE:
 		gtk_widget_hide (state->axes);
-		state->axis->ref_axis = NULL;
+		gog_axis_set_ref_axis (state->axis, NULL);
 		gtk_label_set_text (GTK_LABEL (state->label), _("Distance:"));
 		gtk_widget_show (state->label);
 		gtk_widget_show (state->ratio);
@@ -3424,6 +3456,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->set_property = gog_axis_set_property;
 	gobject_klass->get_property = gog_axis_get_property;
+	gobject_klass->dispose	    = gog_axis_dispose;
 	gobject_klass->finalize	    = gog_axis_finalize;
 
 	/* no need to persist, the role handles that */
