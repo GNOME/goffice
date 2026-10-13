@@ -2291,31 +2291,41 @@ struct axis_ref_struct {
 static gboolean
 axis_ref_load_cb (struct axis_ref_struct *s)
 {
-	GogObject *parent = gog_object_get_parent ((GogObject *) s->axis);
-	GogAxis *axis;
-	GSList *ptr, *l;
-	l = gog_object_get_children (parent, NULL);
-	s->axis->ref_axis = NULL;
-	if (s->axis->refering_axes != NULL) {
-		s->axis->metrics = GOG_AXIS_METRICS_DEFAULT;
-		s->axis->metrics_ratio = 1.;
-		s->axis->unit = GO_UNIT_CENTIMETER;
-		goto clean;
-	}
-	for (ptr = l; (ptr != NULL) && (s->axis->ref_axis == NULL); ptr = ptr->next) {
-		if (!GOG_IS_AXIS (ptr->data))
-			continue;
-		axis = ptr->data;
-		if (axis->metrics > GOG_AXIS_METRICS_ABSOLUTE || axis == s->axis)
-			continue;
-		if (!strcmp (gog_object_get_name (ptr->data), s->ref)) {
-			s->axis->ref_axis = axis;
-			axis->refering_axes = g_slist_prepend (axis->refering_axes, s->axis);
+	/* If the axis went away before we got to run, s->axis is NULL. */
+	if (s->axis != NULL) {
+		GogObject *parent = gog_object_get_parent ((GogObject *) s->axis);
+
+		g_object_remove_weak_pointer (G_OBJECT (s->axis),
+					      (gpointer *) &s->axis);
+		s->axis->ref_axis = NULL;
+		if (s->axis->refering_axes != NULL) {
+			s->axis->metrics = GOG_AXIS_METRICS_DEFAULT;
+			s->axis->metrics_ratio = 1.;
+			s->axis->unit = GO_UNIT_CENTIMETER;
+		} else {
+			GSList *l = parent
+				? gog_object_get_children (parent, NULL)
+				: NULL;
+			GSList *ptr;
+
+			for (ptr = l; (ptr != NULL) && (s->axis->ref_axis == NULL); ptr = ptr->next) {
+				GogAxis *axis;
+
+				if (!GOG_IS_AXIS (ptr->data))
+					continue;
+				axis = ptr->data;
+				if (axis->metrics > GOG_AXIS_METRICS_ABSOLUTE || axis == s->axis)
+					continue;
+				if (!strcmp (gog_object_get_name (ptr->data), s->ref)) {
+					s->axis->ref_axis = axis;
+					axis->refering_axes = g_slist_prepend (axis->refering_axes, s->axis);
+				}
+			}
+			g_slist_free (l);
 		}
+		gog_object_request_update ((GogObject *) s->axis);
 	}
-	g_slist_free (l);
-clean:
-	gog_object_request_update ((GogObject *) s->axis);
+
 	g_free (s->ref);
 	g_free (s);
 	return FALSE;
@@ -2415,6 +2425,8 @@ gog_axis_set_property (GObject *obj, guint param_id,
 			struct axis_ref_struct *s = g_new (struct axis_ref_struct, 1);
 			s->ref = g_strdup (str);
 			s->axis = axis;
+			/* The axis might go away before the idle runs. */
+			g_object_add_weak_pointer (G_OBJECT (axis), (gpointer *) &s->axis);
 			g_idle_add ((GSourceFunc) axis_ref_load_cb, s);
 			return;
 		}

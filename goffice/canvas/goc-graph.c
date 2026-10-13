@@ -143,6 +143,19 @@ goc_graph_get_property (GObject *obj, guint param_id,
 }
 
 static void
+goc_graph_dispose (GObject *obj)
+{
+	GocGraph *graph = GOC_GRAPH (obj);
+
+	/* The timer callback uses the canvas, so it must not outlive dispose. */
+	if (graph->coords.timer_id) {
+		g_source_remove (graph->coords.timer_id);
+		graph->coords.timer_id = 0;
+	}
+	(*parent_klass->dispose) (obj);
+}
+
+static void
 goc_graph_finalize (GObject *obj)
 {
 	GocGraph *graph = GOC_GRAPH (obj);
@@ -459,6 +472,7 @@ goc_graph_class_init (GocItemClass *item_klass)
 
 	obj_klass->set_property = goc_graph_set_property;
 	obj_klass->get_property = goc_graph_get_property;
+	obj_klass->dispose	    = goc_graph_dispose;
 	obj_klass->finalize	    = goc_graph_finalize;
 
 	g_object_class_install_property (obj_klass, GRAPH_PROP_X,
