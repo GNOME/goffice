@@ -145,7 +145,7 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 			g_object_set (w, "xalign", 0., NULL);
 			gtk_grid_attach (prefs->grid, w, 0, i, 1, 1);
 			prefs->labels[i-1] = w;
-			prefs->props[i-1] = props[n];
+			prefs->props[i-1] = props[j];
 			w = GTK_WIDGET (gog_data_allocator_editor (dalloc, GOG_DATASET (obj), i - 1, GOG_DATA_SCALAR));
 			gtk_grid_attach (prefs->grid, w, 1, i, 1, 1);
 			prefs->data[i] = w;
