@@ -816,10 +816,10 @@ GSF_CLASS (GogChart, gog_chart,
 /**
  * gog_chart_get_position:
  * @chart: const #GogChart
- * @x:
- * @y:
- * @cols:
- * @rows:
+ * @x: (out) (optional):
+ * @y: (out) (optional):
+ * @cols: (out) (optional):
+ * @rows: (out) (optional):
  *
  * Returns: %TRUE if the chart has been positioned.
  **/
@@ -910,8 +910,8 @@ gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area)
 /**
  * gog_chart_get_cardinality:
  * @chart: a #GogChart
- * @full: placeholder for full cardinality
- * @visible: placeholder for visible cardinality
+ * @full: (out) (optional): full cardinality
+ * @visible: (out) (optional): visible cardinality
  *
  * Update and cache cardinality values if required, and returns
  * full and visible cardinality. Full cardinality is the number of
@@ -1118,10 +1118,10 @@ gog_chart_get_axes (GogChart const *chart, GogAxisType target)
  * gog_chart_get_grid:
  * @chart: #GogChart
  *
- * Returns: (transfer none): the grid associated with @chart if one exists
- * otherwise NULL.
+ * Returns: (transfer none) (nullable): the grid associated with @chart, if
+ * one exists otherwise %NULL.
  **/
-GogGrid  *
+GogGrid *
 gog_chart_get_grid (GogChart const *chart)
 {
 	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
