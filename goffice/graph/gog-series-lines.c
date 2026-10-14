@@ -88,7 +88,8 @@ path_close_path (G_GNUC_UNUSED void *closure)
 }
 
 void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend,
-		G_GNUC_UNUSED GogViewAllocation const *bbox, GOPath *path, gboolean invert)
+			      G_GNUC_UNUSED GogViewAllocation const *bbox,
+			      GOPath *path, gboolean invert)
 {
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (lines));
 

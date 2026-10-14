@@ -57,7 +57,7 @@ gog_trend_line_set_property (GObject *obj, guint param_id,
 
 static void
 gog_trend_line_get_property (GObject *obj, guint param_id,
-			 GValue *value, GParamSpec *pspec)
+			     GValue *value, GParamSpec *pspec)
 {
 	switch (param_id) {
 	case TREND_LINE_PROP_HAS_LEGEND:

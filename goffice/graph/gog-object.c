@@ -366,7 +366,7 @@ gog_object_set_property (GObject *obj, guint param_id,
 
 static void
 gog_object_get_property (GObject *obj, guint param_id,
-		       GValue *value, GParamSpec *pspec)
+			 GValue *value, GParamSpec *pspec)
 {
 	GogObject *gobj = GOG_OBJECT (obj);
 	GogObjectPosition flags;
@@ -478,7 +478,7 @@ cb_position_changed (GtkWidget *spin, ObjectPrefState *state)
 	GogViewAllocation pos;
 	double value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)) / 100.0;
 
-    gog_object_get_manual_position (state->gobj, &pos);
+	gog_object_get_manual_position (state->gobj, &pos);
 	if (spin == state->x_spin)
 		pos.x = value;
 	else if (spin == state->y_spin)
@@ -1160,8 +1160,8 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
  * gog_object_get_parent:
  * @obj: a #GogObject
  *
- * Returns: (transfer none): @obj's parent, potentially %NULL if it has not been added to a
- * 	hierarchy yet.  does not change ref-count in any way.
+ * Returns: (transfer none) (nullable): @obj's parent, potentially %NULL if
+ * it has not been added to a hierarchy yet.
  **/
 GogObject *
 gog_object_get_parent (GogObject const *obj)
@@ -1175,8 +1175,9 @@ gog_object_get_parent (GogObject const *obj)
  * @obj: a #GogObject
  * @t: a #GType
  *
- * Returns: (transfer none): @obj's parent of type @type, potentially %NULL if it has not been
- * added to a hierarchy yet or none of the parents are of type @type.
+ * Returns: (transfer none) (nullable): @obj's parent of type @type, potentially
+ * %NULL if it has not been added to a hierarchy yet or none of the parents are
+ * of type @type.
  **/
 GogObject *
 gog_object_get_parent_typed (GogObject const *obj, GType t)
@@ -1193,7 +1194,7 @@ gog_object_get_parent_typed (GogObject const *obj, GType t)
  * gog_object_get_graph:
  * @obj: const * #GogObject
  *
- * Returns: (transfer none): the parent graph.
+ * Returns: (transfer none) (nullable): the parent graph.
  **/
 GogGraph *
 gog_object_get_graph (GogObject const *obj)
@@ -1210,7 +1211,7 @@ gog_object_get_graph (GogObject const *obj)
  * gog_object_get_theme:
  * @obj: const * #GogObject
  *
- * Returns: (transfer none): the parent graph theme.
+ * Returns: (transfer none) (nullable): the parent graph theme.
  **/
 GogTheme *
 gog_object_get_theme (GogObject const *obj)
@@ -1296,7 +1297,7 @@ gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
  *
  * A convenience routine to find a unique child with @role.
  *
- * Returns: (transfer none): %NULL and spews an error if there is more than one.
+ * Returns: (transfer none) (nullable): %NULL and spews an error if there is more than one.
  **/
 GogObject *
 gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)

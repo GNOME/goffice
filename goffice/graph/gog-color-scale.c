@@ -287,7 +287,7 @@ gog_color_scale_set_property (GObject *obj, guint param_id,
 
 static void
 gog_color_scale_get_property (GObject *obj, guint param_id,
-		       GValue *value, GParamSpec *pspec)
+			      GValue *value, GParamSpec *pspec)
 {
 	GogColorScale *scale = GOG_COLOR_SCALE (obj);
 

@@ -49,7 +49,7 @@ gog_outlined_object_set_property (GObject *obj, guint param_id,
 
 static void
 gog_outlined_object_get_property (GObject *obj, guint param_id,
-			     GValue *value, GParamSpec *pspec)
+				  GValue *value, GParamSpec *pspec)
 {
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (obj);
 

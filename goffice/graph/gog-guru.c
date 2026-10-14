@@ -857,7 +857,7 @@ cb_sample_plot_resize (G_GNUC_UNUSED GocCanvas *canvas,
 	double width, height, x, y;
 
 	gog_graph_get_size (state->graph, &width, &height);
-    aspect_ratio = width / height;
+	aspect_ratio = width / height;
 
 	if (alloc->width > alloc->height * aspect_ratio) {
 		height = alloc->height;

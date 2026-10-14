@@ -485,8 +485,8 @@ GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
  * gog_error_bar_get_bounds:
  * @bar: A GogErrorBar
  * @index: the index corresponding to the value which error limits are
- * @min: where the minimum value will be stored
- * @max: where the maximum value will be stored
+ * @min: (out): the minimum value
+ * @max: (out): the maximum value
  *
  * If the value corresponding to @index is valid, fills min and max with the error values:
  * -> positive_error in @max.
@@ -558,6 +558,13 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 	return TRUE;
 }
 
+/**
+ * gog_error_bar_get_minmax:
+ * @bar: A GogErrorBar
+ * @min: (out): the minimum value
+ * @max: (out): the maximum value
+ *
+ **/
 void
 gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 {
@@ -598,7 +605,7 @@ gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
  * Returns: (transfer full): the duplicated error bar.
  **/
 GogErrorBar  *
-gog_error_bar_dup		(GogErrorBar const *bar)
+gog_error_bar_dup (GogErrorBar const *bar)
 {
 	GogErrorBar* dbar;
 

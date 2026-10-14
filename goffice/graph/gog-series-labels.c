@@ -695,7 +695,7 @@ gog_data_label_set_property (GObject *obj, guint param_id,
 
 static void
 gog_data_label_get_property (GObject *obj, guint param_id,
-			 GValue *value, GParamSpec *pspec)
+			     GValue *value, GParamSpec *pspec)
 {
 	GogDataLabel *label = GOG_DATA_LABEL (obj);
 
@@ -1116,7 +1116,7 @@ gog_series_labels_set_property (GObject *obj, guint param_id,
 
 static void
 gog_series_labels_get_property (GObject *obj, guint param_id,
-			 GValue *value, GParamSpec *pspec)
+				GValue *value, GParamSpec *pspec)
 {
 	GogSeriesLabels *labels = GOG_SERIES_LABELS (obj);
 

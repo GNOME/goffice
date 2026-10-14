@@ -195,7 +195,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 
 static void
 gog_reg_curve_get_property (GObject *obj, guint param_id,
-		       GValue *value, GParamSpec *pspec)
+			    GValue *value, GParamSpec *pspec)
 {
 	GogRegCurve *rc = GOG_REG_CURVE (obj);
 	switch (param_id) {

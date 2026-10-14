@@ -892,8 +892,8 @@ gog_graph_force_update (GogGraph *graph)
 /**
  * gog_graph_get_size:
  * @graph: #GogGraph
- * @width: logical width in pts
- * @height: logical height in pts
+ * @width: (out) (optional): logical width in pts
+ * @height: (out) (optional): logical height in pts
  *
  * FIXME Returns the logical size of graph, in points.
  **/

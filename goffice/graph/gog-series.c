@@ -211,8 +211,8 @@ cb_index_changed (GtkSpinButton *spin_button, GogSeriesElement *element)
 static void
 gog_series_element_populate_editor (GogObject *gobj,
 				    GOEditor *editor,
-			   GogDataAllocator *dalloc,
-			   GOCmdContext *cc)
+				    GogDataAllocator *dalloc,
+				    GOCmdContext *cc)
 {
 	static guint series_element_pref_page = 1;
 	GtkWidget *w, *gse_grid = NULL, *grid;

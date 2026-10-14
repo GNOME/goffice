@@ -674,13 +674,11 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 /**
  * gog_plot_get_cardinality:
  * @plot: #GogPlot
- * @full: placeholder for full cardinality
- * @visible: placeholder for visible cardinality
+ * @full: (out) (optional): placeholder for full cardinality
+ * @visible: (out) (optional): placeholder for visible cardinality
  *
  * Return the number of logical elements in the plot.
  * See @gog_chart_get_cardinality.
- *
- * @full and @visible may be %NULL.
  **/
 void
 gog_plot_get_cardinality (GogPlot *plot, unsigned *full, unsigned *visible)
@@ -825,7 +823,7 @@ gog_plot_get_series (GogPlot const *plot)
  * gog_plot_get_axis_bounds:
  * @plot: #GogPlot
  * @axis: #GogAxisType
- * @bounds: #GogPlotBoundInfo
+ * @bounds: (out): #GogPlotBoundInfo
  *
  * Queries @plot for its axis preferences for @axis and stores the results in
  * @bounds.  All elements of @bounds are initialized to sane values before the
@@ -1270,7 +1268,7 @@ GSF_CLASS_ABSTRACT (GogPlotView, gog_plot_view,
  * @view: #GogPlotView
  * @x: x position
  * @y: y position
- * @series: where to store the series
+ * @series: (out): where to store the series
  *
  * Search a data represented at (@x,@y) in @view and set @series on success.
  *

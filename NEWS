@@ -12,6 +12,7 @@ Morten:
 	* Colour selector improvements.
 	* Fix GORotationSel's derivation.
 	* Fix 3d axes being drawn multiple times.
+	* Introspection fixes.
 
 --------------------------------------------------------------------------
 goffice 0.10.62:
