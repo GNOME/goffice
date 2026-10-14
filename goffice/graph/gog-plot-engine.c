@@ -34,6 +34,10 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
+#define CXML2C(s) ((char const *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
+#define XML2C(s) ((char *)(s))
+
 /**
  * GogPlotFamily:
  * @name: family name.
@@ -169,8 +173,8 @@ cb_pending_plot_types_load (char const *path,
 	GogPlotFamily *family = NULL;
 	GogPlotType *type;
 	int col, row, priority;
-	xmlChar *name, *image_file, *description, *engine;
-	xmlChar *axis_set_str;
+	char *name, *image_file, *description, *engine;
+	char *axis_set_str;
 	GogAxisSet axis_set;
 
 	if (debug)
@@ -180,14 +184,14 @@ cb_pending_plot_types_load (char const *path,
 
 	/* do the families before the types so that they are available */
 	for (ptr = doc->xmlRootNode->xmlChildrenNode; ptr ; ptr = ptr->next)
-		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (ptr->name, "Family")) {
-			name	    = xmlGetProp (ptr, "_name");
+		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (CXML2C (ptr->name), "Family")) {
+			name	    = XML2C (go_xml_node_get_cstr (ptr, "_name"));
 			if (name) {
 				if (NULL == gog_plot_family_by_name  (name)) {
-					image_file  = xmlGetProp (ptr, "sample_image_file");
+					image_file  = XML2C (go_xml_node_get_cstr (ptr, "sample_image_file"));
 					if (!go_xml_node_get_int (ptr, "priority", &priority))
 						priority = 0;
-					axis_set_str = xmlGetProp (ptr, "axis_set");
+					axis_set_str = XML2C (go_xml_node_get_cstr (ptr, "axis_set"));
 					axis_set = gog_axis_set_from_str (axis_set_str);
 					if (axis_set_str != NULL)
 						xmlFree (axis_set_str);
@@ -203,8 +207,8 @@ cb_pending_plot_types_load (char const *path,
 		}
 
 	for (ptr = doc->xmlRootNode->xmlChildrenNode; ptr ; ptr = ptr->next)
-		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (ptr->name, "Type")) {
-			name   = xmlGetProp (ptr, "family");
+		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (CXML2C (ptr->name), "Type")) {
+			name   = XML2C (go_xml_node_get_cstr (ptr, "family"));
 			if (name != NULL) {
 				family = gog_plot_family_by_name  (name);
 				xmlFree (name);
@@ -212,10 +216,10 @@ cb_pending_plot_types_load (char const *path,
 					continue;
 			}
 
-			name	    = xmlGetProp (ptr, "_name");
-			image_file  = xmlGetProp (ptr, "sample_image_file");
-			description = xmlGetProp (ptr, "_description");
-			engine	    = xmlGetProp (ptr, "engine");
+			name	    = XML2C (go_xml_node_get_cstr (ptr, "_name"));
+			image_file  = XML2C (go_xml_node_get_cstr (ptr, "sample_image_file"));
+			description = XML2C (go_xml_node_get_cstr (ptr, "_description"));
+			engine	    = XML2C (go_xml_node_get_cstr (ptr, "engine"));
 			if (go_xml_node_get_int (ptr, "col", &col) &&
 			    go_xml_node_get_int (ptr, "row", &row)) {
 				type = gog_plot_type_register (family, col, row,
@@ -224,8 +228,8 @@ cb_pending_plot_types_load (char const *path,
 					service->types = g_slist_prepend (service->types, type);
 					for (prop = ptr->xmlChildrenNode ; prop != NULL ; prop = prop->next)
 						if (!xmlIsBlankNode (prop) &&
-						    prop->name && !strcmp (prop->name, "property")) {
-							xmlChar *prop_name = xmlGetProp (prop, "name");
+						    prop->name && !strcmp (CXML2C (prop->name), "property")) {
+							xmlChar *prop_name = go_xml_node_get_cstr (prop, "name");
 
 							if (prop_name == NULL) {
 								g_warning ("missing name for property entry");
@@ -270,8 +274,8 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, G_GNUC_
 	GSList *paths = NULL;
 
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
-		if (0 == xmlStrcmp (ptr->name, "file") &&
-		    NULL != (path = xmlNodeGetContent (ptr))) {
+		if (0 == xmlStrcmp (ptr->name, CC2XML ("file")) &&
+		    NULL != (path = XML2C (xmlNodeGetContent (ptr)))) {
 			if (!g_path_is_absolute (path)) {
 				char const *dir = go_plugin_get_dir_name (
 					go_plugin_service_get_plugin (service));
@@ -510,17 +514,17 @@ cb_pending_trend_line_types_load (char const *path,
 	g_return_if_fail (doc != NULL && doc->xmlRootNode != NULL);
 
 	for (ptr = doc->xmlRootNode->xmlChildrenNode; ptr ; ptr = ptr->next)
-		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (ptr->name, "Type")) {
+		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (CXML2C (ptr->name), "Type")) {
 			type = g_new0 (GogTrendLineType, 1);
-			type->name = xmlGetProp (ptr, "_name");
-			type->description = xmlGetProp (ptr, "_description");
-			type->engine = xmlGetProp (ptr, "engine");
+			type->name = XML2C (go_xml_node_get_cstr (ptr, "_name"));
+			type->description = XML2C (go_xml_node_get_cstr (ptr, "_description"));
+			type->engine = XML2C (go_xml_node_get_cstr (ptr, "engine"));
 			service->types = g_slist_prepend (service->types, type);
 			g_hash_table_insert (trend_line_types, type->name, type);
 			for (prop = ptr->xmlChildrenNode ; prop != NULL ; prop = prop->next)
 				if (!xmlIsBlankNode (prop) &&
-					prop->name && !strcmp (prop->name, "property")) {
-					xmlChar *prop_name = xmlGetProp (prop, "name");
+					prop->name && !strcmp (CXML2C (prop->name), "property")) {
+					xmlChar *prop_name = go_xml_node_get_cstr (prop, "name");
 
 					if (prop_name == NULL) {
 						g_warning ("missing name for property entry");
@@ -558,8 +562,8 @@ gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, G_GNUC
 	GSList *paths = NULL;
 
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
-		if (0 == xmlStrcmp (ptr->name, "file") &&
-		    NULL != (path = xmlNodeGetContent (ptr))) {
+		if (0 == xmlStrcmp (ptr->name, CC2XML ("file")) &&
+		    NULL != (path = XML2C (xmlNodeGetContent (ptr)))) {
 			if (!g_path_is_absolute (path)) {
 				char const *dir = go_plugin_get_dir_name (
 					go_plugin_service_get_plugin (service));

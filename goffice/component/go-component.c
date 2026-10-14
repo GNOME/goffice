@@ -35,6 +35,8 @@
 #include <goffice/utils/go-svg.h>
 #endif /* GOFFICE_WITH_LIBRSVG */
 
+#define CXML2C(s) ((char const *)(s))
+
 struct _GOComponentPrivate {
 	gboolean is_inline; /* if set, the object will be displayed in compact mode
 	 					if meaningful for the component (e.g. equations) */
@@ -670,12 +672,12 @@ _go_component_start (GsfXMLIn *xin, xmlChar const **attrs)
 	double width = 1., height = 1.;
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "mime-type"))
-			mime_type = (char const *) attrs[i+1];
-		else if (0 == strcmp (attrs[i], "width"))
-			width = go_ascii_strtod ((char const *) attrs[i+1], NULL);
-		else if (0 == strcmp (attrs[i], "height"))
-			height = go_ascii_strtod ((char const *) attrs[i+1], NULL);
+		if (0 == strcmp (CXML2C (attrs[i]), "mime-type"))
+			mime_type = CXML2C (attrs[i+1]);
+		else if (0 == strcmp (CXML2C (attrs[i]), "width"))
+			width = go_ascii_strtod (CXML2C (attrs[i+1]), NULL);
+		else if (0 == strcmp (CXML2C (attrs[i]), "height"))
+			height = go_ascii_strtod (CXML2C (attrs[i+1]), NULL);
 
 	g_return_if_fail (mime_type);
 	state->component = go_component_new_by_mime_type (mime_type);
@@ -689,12 +691,12 @@ _go_component_start (GsfXMLIn *xin, xmlChar const **attrs)
 		GValue res;
 		memset (&res, 0, sizeof (res));
 		prop_spec = g_object_class_find_property (
-				G_OBJECT_GET_CLASS (state->component), attrs[i]);
+				G_OBJECT_GET_CLASS (state->component), CXML2C (attrs[i]));
 		if (prop_spec && (prop_spec->flags & GO_PARAM_PERSISTENT) &&
 			gsf_xml_gvalue_from_str (&res,
 				G_TYPE_FUNDAMENTAL (G_PARAM_SPEC_VALUE_TYPE (prop_spec)),
-				attrs[i+1])) {
-			g_object_set_property (G_OBJECT (state->component), attrs[i], &res);
+				CXML2C (attrs[i+1]))) {
+			g_object_set_property (G_OBJECT (state->component), CXML2C (attrs[i]), &res);
 			g_value_unset (&res);
 		}
 	}
@@ -726,8 +728,8 @@ _go_component_start_snapshot (GsfXMLIn *xin, xmlChar const **attrs)
 	int i;
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "type"))
-			state->component->snapshot_type = go_snapshot_type_from_string ((char const *) attrs[i+1]);
+		if (0 == strcmp (CXML2C (attrs[i]), "type"))
+			state->component->snapshot_type = go_snapshot_type_from_string (CXML2C (attrs[i+1]));
 }
 
 static void

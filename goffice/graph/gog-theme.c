@@ -30,6 +30,8 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 /**
  * SECTION:gog-theme
  * @short_description: a list of default styles to apply to appropriate graph elements.
@@ -502,8 +504,8 @@ name_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->theme->name) /* the theme has already been loaded from elsewhere */
 		return;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "xml:lang"))
-			state->lang = g_strdup (attrs[i+1]);
+		if (0 == strcmp (CXML2C (attrs[i]), "xml:lang"))
+			state->lang = g_strdup (CXML2C (attrs[i+1]));
 }
 
 static void
@@ -674,10 +676,10 @@ elem_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		return;
 	}
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "class"))
-			class_name = g_strdup (attrs[i+1]);
-		else if (0 == strcmp (attrs[i], "role"))
-			role = g_strdup (attrs[i+1]);
+		if (0 == strcmp (CXML2C (attrs[i]), "class"))
+			class_name = g_strdup (CXML2C (attrs[i+1]));
+		else if (0 == strcmp (CXML2C (attrs[i]), "role"))
+			role = g_strdup (CXML2C (attrs[i+1]));
 	style = go_style_new ();
 	go_style_clear_auto (style);
 	go_persist_prep_sax (GO_PERSIST (style), xin, attrs);

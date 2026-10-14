@@ -26,6 +26,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 /**
  * GOImageFormat:
  * @GO_IMAGE_FORMAT_SVG: SVG.
@@ -775,10 +777,10 @@ go_image_load_attrs (GOImage *image, G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const 
 	xmlChar const **attr;
 	g_return_if_fail (image != NULL);
 	for (attr = attrs; attr != NULL && attr[0] && attr[1] ; attr += 2)
-		if (0 == strcmp (attr[0], "width"))
-			image->width = strtol (attr[1], NULL, 10);
-		else if (0 == strcmp (attr[0], "height"))
-			image->height= strtol (attr[1], NULL, 10);
+		if (0 == strcmp (CXML2C (attr[0]), "width"))
+			image->width = strtol (CXML2C (attr[1]), NULL, 10);
+		else if (0 == strcmp (CXML2C (attr[0]), "height"))
+			image->height= strtol (CXML2C (attr[1]), NULL, 10);
 		else
 			((GOImageClass *) G_OBJECT_GET_CLASS (image))->load_attr (image, attr[0], attr[1]);
 }

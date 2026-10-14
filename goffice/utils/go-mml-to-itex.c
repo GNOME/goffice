@@ -28,6 +28,8 @@
 #include <libxslt/xsltutils.h>
 #include <string.h>
 
+#define CC2XML(s) ((xmlChar const *)(s))
+
 /**
  * go_mathml_to_itex:
  * @mml: (nullable): MathML string to convert
@@ -54,7 +56,7 @@ go_mathml_to_itex (char const *mml, char **buf, int *length, gboolean *compact, 
 	if (sheet == NULL) {
 		char *path = g_build_filename (go_sys_data_dir (), "mmlitex/mmlitex.xsl", NULL);
 			
-		sheet = xsltParseStylesheetFile (path);
+		sheet = xsltParseStylesheetFile (CC2XML (path));
 		if (!sheet) {
 			if (gcc)
 				go_cmd_context_error_import (gcc, "MathML to ITeX: parsing stylesheet failed");

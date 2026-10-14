@@ -27,6 +27,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 /* GOPixbuf implementation */
 
 struct _GOPixbuf {
@@ -104,13 +106,13 @@ go_pixbuf_load_attr (GOImage *image, xmlChar const *attr_name, xmlChar const *at
 {
 	GOPixbuf *pixbuf = GO_PIXBUF (image);
 	g_return_if_fail (pixbuf);
-	if (!strcmp (attr_name, "rowstride")) {
-		long l = strtol (attr_value, NULL, 10);
+	if (!strcmp (CXML2C (attr_name), "rowstride")) {
+		long l = strtol (CXML2C (attr_value), NULL, 10);
 		g_return_if_fail (l > 0 && l < G_MAXINT);
 		pixbuf->rowstride = l;
-	} else if (!strcmp (attr_name, "image-type")) {
+	} else if (!strcmp (CXML2C (attr_name), "image-type")) {
 		g_free (pixbuf->type);
-		pixbuf->type = g_strdup (attr_value);
+		pixbuf->type = g_strdup (CXML2C (attr_value));
 	}
 }
 

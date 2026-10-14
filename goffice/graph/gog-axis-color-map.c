@@ -34,6 +34,8 @@
 #endif
 #include <sys/stat.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 /**
  * SECTION: gog-axis-color-map
  * @short_description: map values to colors.
@@ -218,12 +220,12 @@ color_stop_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->map->name)
 		return;
 	for (; attrs != NULL && *attrs ; attrs += 2)
-		if (0 == strcmp (*attrs, "bin")) {
-			bin = strtoul (attrs[1], &end, 10);
+		if (0 == strcmp (CXML2C (*attrs), "bin")) {
+			bin = strtoul (CXML2C (attrs[1]), &end, 10);
 			if (*end == 0)
 				bin_found = TRUE;
-		} else if (0 == strcmp (*attrs, "color"))
-			color_found = go_color_from_str (attrs[1], &color);
+		} else if (0 == strcmp (CXML2C (*attrs), "color"))
+			color_found = go_color_from_str (CXML2C (attrs[1]), &color);
 	if (color_found && bin_found) {
 		struct _color_stop* stop = g_new (struct _color_stop, 1);
 		stop->bin = bin;
@@ -255,8 +257,8 @@ name_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->map->name)
 		return;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "xml:lang"))
-			state->lang = g_strdup (attrs[i+1]);
+		if (0 == strcmp (CXML2C (attrs[i]), "xml:lang"))
+			state->lang = g_strdup (CXML2C (attrs[i+1]));
 }
 
 static void

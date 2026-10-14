@@ -143,16 +143,16 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 					       (GDestroyNotify)
 					       go_mime_type_free);
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
-		if (0 == xmlStrcmp (ptr->name, "mime_type")) {
-			char *name = xml2c (xmlGetProp (ptr, "name"));
-			xmlChar *priority = xmlGetProp (ptr, "priority");
-			xmlChar *support_clipboard = xmlGetProp (ptr, "clipboard");
+		if (0 == xmlStrcmp (ptr->name, CC2XML ("mime_type"))) {
+			char *name = xml2c (xmlGetProp (ptr, CC2XML ("name")));
+			xmlChar *priority = xmlGetProp (ptr, CC2XML ("priority"));
+			xmlChar *support_clipboard = xmlGetProp (ptr, CC2XML ("clipboard"));
 			GOMimeType *mime_type =
 				g_hash_table_lookup (mime_types, name);
 			int i;
 
 			for (i = 4; i >= 0; i--)
-				if (!strcmp (priority, GOPriorityName[i]))
+				if (!strcmp (CXML2C (priority), GOPriorityName[i]))
 					break;
 			xmlFree (priority);
 
@@ -163,7 +163,7 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 				mime_type->component_type_name =
 					g_strdup (service->id);
 				mime_type->support_clipboard = (support_clipboard &&
-					!strcmp (support_clipboard, "yes"))? TRUE: FALSE;
+					!strcmp (CXML2C (support_clipboard), "yes"))? TRUE: FALSE;
 				g_hash_table_replace (mime_types, name,
 						      mime_type);
 				comp_service->mime_types = g_slist_append (comp_service->mime_types, g_strdup (name));

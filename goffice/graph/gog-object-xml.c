@@ -26,6 +26,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 /* GogGrid object was used with "Grid" role name by GogChart. We've changed the role
  * name to "Backplane", since that's what the user see in the UI, and that's what GogGrid
  * really is. We do the substitution on save/load for backward compatibility. */
@@ -255,7 +257,7 @@ static void
 gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
-	xmlChar const *dim_str = NULL, *type_str = NULL;
+	char const *dim_str = NULL, *type_str = NULL;
 	GType type;
 	int first, last;
 
@@ -265,10 +267,10 @@ gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (GOG_IS_DATASET (state->obj));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "id"))
-			dim_str = attrs[1];
-		else if (0 == strcmp (attrs[0], "type"))
-			type_str = attrs[1];
+		if (0 == strcmp (CXML2C (attrs[0]), "id"))
+			dim_str = CXML2C (attrs[1]);
+		else if (0 == strcmp (CXML2C (attrs[0]), "type"))
+			type_str = CXML2C (attrs[1]);
 
 	if (NULL == dim_str) {
 		g_warning ("missing dimension id for class `%s'",
@@ -330,7 +332,7 @@ static void
 gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
-	xmlChar const *prop_str = NULL, *type_str = NULL;
+	char const *prop_str = NULL, *type_str = NULL;
 	GType prop_type;
 	int i;
 
@@ -340,10 +342,10 @@ gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "name"))
-			prop_str = attrs[i+1];
-		else if (0 == strcmp (attrs[i], "type"))
-			type_str = attrs[i+1];
+		if (0 == strcmp (CXML2C (attrs[i]), "name"))
+			prop_str = CXML2C (attrs[i+1]);
+		else if (0 == strcmp (CXML2C (attrs[i]), "type"))
+			type_str = CXML2C (attrs[i+1]);
 
 	if (prop_str == NULL) {
 		g_warning ("missing name for property of class `%s'",
@@ -458,15 +460,15 @@ static void
 gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
-	xmlChar const *type = NULL, *role = NULL;
+	char const *type = NULL, *role = NULL;
 	GogObject *res;
 	unsigned i;
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "type"))
-			type = attrs[i+1];
-		else if (0 == strcmp (attrs[i], "role"))
-			role = attrs[i+1];
+		if (0 == strcmp (CXML2C (attrs[i]), "type"))
+			type = CXML2C (attrs[i+1]);
+		else if (0 == strcmp (CXML2C (attrs[i]), "role"))
+			role = CXML2C (attrs[i+1]);
 
 	if (NULL != type) {
 		GType t = g_type_from_name (type);

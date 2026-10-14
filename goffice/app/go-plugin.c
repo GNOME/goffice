@@ -651,10 +651,10 @@ go_plugin_read_dependency_list (xmlNode *tree)
 	xmlNode *node;
 
 	g_return_val_if_fail (tree != NULL, NULL);
-	g_return_val_if_fail (strcmp (tree->name, "dependencies") == 0, NULL);
+	g_return_val_if_fail (strcmp (CXML2C (tree->name), "dependencies") == 0, NULL);
 
 	for (node = tree->xmlChildrenNode; node != NULL; node = node->next) {
-		if (strcmp (node->name, "dep_plugin") == 0) {
+		if (strcmp (CXML2C (node->name), "dep_plugin") == 0) {
 			gchar *plugin_id;
 
 			plugin_id = xml2c (xmlGetProp (node, CC2XML ("id")));
@@ -685,12 +685,12 @@ go_plugin_read_service_list (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_
 	g_return_val_if_fail (tree != NULL, NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	node = go_xml_get_child_by_name (tree, CC2XML ("services"));
+	node = go_xml_get_child_by_name (tree, "services");
 	if (node == NULL)
 		return NULL;
 	node = node->xmlChildrenNode;
 	for (i = 0; node != NULL; i++, node = node->next) {
-		if (strcmp (node->name, "service") == 0) {
+		if (strcmp (CXML2C (node->name), "service") == 0) {
 			GOPluginService *service;
 			GOErrorInfo *service_error;
 
@@ -727,11 +727,11 @@ go_plugin_read_loader_attrs (xmlNode *tree)
 	GHashTable *hash;
 
 	g_return_val_if_fail (tree != NULL, NULL);
-	g_return_val_if_fail (strcmp (tree->name, "loader") == 0, NULL);
+	g_return_val_if_fail (strcmp (CXML2C (tree->name), "loader") == 0, NULL);
 
 	hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	for (node = tree->xmlChildrenNode; node != NULL; node = node->next) {
-		if (strcmp (node->name, "attribute") == 0) {
+		if (strcmp (CXML2C (node->name), "attribute") == 0) {
 			gchar *name, *value;
 
 			name = xml2c (xmlGetProp (node, CC2XML ("name")));
@@ -780,7 +780,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	file_name = g_build_filename (dir_name, PLUGIN_INFO_FILE_NAME, NULL);
 	doc = go_xml_parse_file (file_name);
-	if (doc == NULL || doc->xmlRootNode == NULL || strcmp (doc->xmlRootNode->name, "plugin") != 0) {
+	if (doc == NULL || doc->xmlRootNode == NULL || strcmp (CXML2C (doc->xmlRootNode->name), "plugin") != 0) {
 		char *uri = go_filename_to_uri (file_name);
 		if (go_file_access (uri, GO_R_OK) != 0) {
 			*ret_error = go_error_info_new_printf (
@@ -799,7 +799,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 	tree = doc->xmlRootNode;
 	id = xml2c (xmlGetProp (tree, CC2XML ("id")));
 
-	information_node = go_xml_get_child_by_name (tree, CC2XML ("information"));
+	information_node = go_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
 		xmlNode *node;
 
@@ -809,24 +809,24 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 		node = go_xml_get_child_by_name_by_lang (information_node, "description");
 		description = node ? xml2c (xmlNodeGetContent (node)) : NULL;
 
-		if (go_xml_get_child_by_name (information_node, CC2XML ("require_explicit_enabling")))
+		if (go_xml_get_child_by_name (information_node, "require_explicit_enabling"))
 			require_explicit_enabling = TRUE;
 
-		if (go_xml_get_child_by_name (information_node, CC2XML ("autoload")))
+		if (go_xml_get_child_by_name (information_node, "autoload"))
 			autoload = TRUE;
 	} else {
 		name = NULL;
 		description = NULL;
 	}
 
-	dependencies_node = go_xml_get_child_by_name (tree, CC2XML ("dependencies"));
+	dependencies_node = go_xml_get_child_by_name (tree, "dependencies");
 	if (dependencies_node != NULL) {
 		dependency_list = go_plugin_read_dependency_list (dependencies_node);
 	} else {
 		dependency_list = NULL;
 	}
 
-	loader_node = go_xml_get_child_by_name (tree, CC2XML ("loader"));
+	loader_node = go_xml_get_child_by_name (tree, "loader");
 	if (loader_node != NULL) {
 		char *p;
 

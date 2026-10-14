@@ -1408,7 +1408,7 @@ bool_sax_prop (char const *name, xmlChar const *id, xmlChar const *val, gboolean
 	if (attr_eq (id, name)) {
 		*res = g_ascii_tolower (*val) == 't' ||
 			g_ascii_tolower (*val) == 'y' ||
-			strtol (val, NULL, 0);
+			strtol (CXML2C (val), NULL, 0);
 		return TRUE;
 	}
 	return FALSE;
@@ -1612,12 +1612,12 @@ go_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "dash"))
-			line->dash_type = go_line_dash_from_str (attrs[1]);
+			line->dash_type = go_line_dash_from_str (CXML2C (attrs[1]));
 		else if (bool_sax_prop ("auto-dash", attrs[0], attrs[1], &line->auto_dash))
 			;
 		else if (attr_eq (attrs[0], "width")) {
 			seen_width = TRUE;
-			line->width = g_strtod (attrs[1], NULL);
+			line->width = g_strtod (CXML2C (attrs[1]), NULL);
 			/* For compatibility with older graphs, when dash_type
 			 * didn't exist */
 			if (line->width < 0.) {
@@ -1627,7 +1627,7 @@ go_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (bool_sax_prop ("auto-width", attrs[0], attrs[1], &line->auto_width)) {
 			seen_auto_width = TRUE;
 		} else if (attr_eq (attrs[0], "color"))
-			go_color_from_str (attrs[1], &line->color);
+			go_color_from_str (CXML2C (attrs[1]), &line->color);
 		else if (bool_sax_prop ("auto-color", attrs[0], attrs[1], &line->auto_color))
 			{ /* nothing */ }
 	}
@@ -1648,11 +1648,11 @@ go_style_sax_load_fill_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (style->fill.type == GO_STYLE_FILL_PATTERN);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "type"))
-			style->fill.pattern.pattern = go_pattern_from_str (attrs[1]);
+			style->fill.pattern.pattern = go_pattern_from_str (CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "fore"))
-			go_color_from_str (attrs[1], &style->fill.pattern.fore);
+			go_color_from_str (CXML2C (attrs[1]), &style->fill.pattern.fore);
 		else if (attr_eq (attrs[0], "back"))
-			go_color_from_str (attrs[1], &style->fill.pattern.back);
+			go_color_from_str (CXML2C (attrs[1]), &style->fill.pattern.back);
 		else if (bool_sax_prop ("auto-pattern", attrs[0], attrs[1], &style->fill.auto_pattern))
 			{ /* nothing */ }
 }
@@ -1664,13 +1664,13 @@ go_style_sax_load_fill_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (style->fill.type == GO_STYLE_FILL_GRADIENT);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "direction"))
-			style->fill.gradient.dir = go_gradient_dir_from_str (attrs[1]);
+			style->fill.gradient.dir = go_gradient_dir_from_str (CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "start-color"))
-			go_color_from_str (attrs[1], &style->fill.pattern.back);
+			go_color_from_str (CXML2C (attrs[1]), &style->fill.pattern.back);
 		else if (attr_eq (attrs[0], "end-color"))
-			go_color_from_str (attrs[1], &style->fill.pattern.fore);
+			go_color_from_str (CXML2C (attrs[1]), &style->fill.pattern.fore);
 		else if (attr_eq (attrs[0], "brightness"))
-			go_style_set_fill_brightness (style, g_strtod (attrs[1], NULL));
+			go_style_set_fill_brightness (style, g_strtod (CXML2C (attrs[1]), NULL));
 		else if (bool_sax_prop ("auto-direction", attrs[0], attrs[1], &style->fill.gradient.auto_dir))
 			;
 		else if (bool_sax_prop ("auto-brightness", attrs[0], attrs[1], &style->fill.gradient.auto_brightness))
@@ -1682,17 +1682,17 @@ go_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GOStyle *style = GO_STYLE (xin->user_state);
 	GODoc *doc = (GODoc *) g_object_get_data (G_OBJECT (gsf_xml_in_get_input (xin)), "document");
-	xmlChar const *name = NULL, *type_name = NULL;
+	char const *name = NULL, *type_name = NULL;
 	GType type;
 	g_return_if_fail (style->fill.type == GO_STYLE_FILL_NONE);
 	g_return_if_fail (GO_IS_DOC (doc));
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "type"))
-			style->fill.image.type = str_as_image_tiling (attrs[1]);
+			style->fill.image.type = str_as_image_tiling (CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "name"))
-			name = attrs[1];
+			name = CXML2C (attrs[1]);
 		else if (attr_eq (attrs[0], "type-name"))
-			type_name = attrs[1];
+			type_name = CXML2C (attrs[1]);
 	type = type_name? g_type_from_name (type_name): GO_TYPE_PIXBUF;
 	if (name && type)
 		style->fill.image.image = g_object_ref (go_doc_image_fetch (doc, name, type));
@@ -1707,7 +1707,7 @@ go_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 	style->fill.auto_type = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "type")) {
-			style->fill.type = str_as_fill_style (attrs[1]);
+			style->fill.type = str_as_fill_style (CXML2C (attrs[1]));
 			/* image fill can't be accepted until we have an image */
 			if (style->fill.type == GO_STYLE_FILL_IMAGE)
 				style->fill.type = GO_STYLE_FILL_NONE;
@@ -1729,19 +1729,19 @@ go_style_sax_load_marker (GsfXMLIn *xin, xmlChar const **attrs)
 		if (bool_sax_prop ("auto-shape", attrs[0], attrs[1], &style->marker.auto_shape))
 			;
 		else if (attr_eq (attrs[0], "shape"))
-			go_marker_set_shape (marker, go_marker_shape_from_str (attrs[1]));
+			go_marker_set_shape (marker, go_marker_shape_from_str (CXML2C (attrs[1])));
 		else if (bool_sax_prop ("auto-outline", attrs[0], attrs[1], &style->marker.auto_outline_color))
 			;
 		else if (attr_eq (attrs[0], "outline-color")) {
-			if (go_color_from_str (attrs[1], &c))
+			if (go_color_from_str (CXML2C (attrs[1]), &c))
 				go_marker_set_outline_color (marker, c);
 		} else if (bool_sax_prop ("auto-fill", attrs[0], attrs[1], &style->marker.auto_fill_color))
 			;
 		else if (attr_eq (attrs[0], "fill-color")) {
-			if (go_color_from_str (attrs[1], &c))
+			if (go_color_from_str (CXML2C (attrs[1]), &c))
 				go_marker_set_fill_color (marker, c);
 		} else if (attr_eq (attrs[0], "size"))
-			go_marker_set_size (marker, g_strtod (attrs[1], NULL));
+			go_marker_set_size (marker, g_strtod (CXML2C (attrs[1]), NULL));
 
 	go_style_set_marker (style, marker);
 }
@@ -1756,13 +1756,13 @@ go_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "color")) {
 			seen_color = TRUE;
-			go_color_from_str (attrs[1], &style->font.color);
+			go_color_from_str (CXML2C (attrs[1]), &style->font.color);
 		} else if (bool_sax_prop ("auto-color", attrs[0], attrs[1], &style->font.auto_color)) {
 			seen_auto_color = TRUE;
 		} else if (bool_sax_prop ("auto-font", attrs[0], attrs[1], &style->font.auto_font)) {
 			seen_auto_font = TRUE;
 		} else if (attr_eq (attrs[0], "font")) {
-			PangoFontDescription *desc = pango_font_description_from_string (attrs[1]);
+			PangoFontDescription *desc = pango_font_description_from_string (CXML2C (attrs[1]));
 			if (desc != NULL) {
 				if (pango_font_description_get_family (desc) == NULL)
 					pango_font_description_set_family_static (desc, "Sans");
@@ -1800,7 +1800,7 @@ go_style_sax_load_text_layout (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "angle")) {
 			/* Note, that this sets auto-angle to FALSE.  */
-			go_style_set_text_angle (style, g_strtod (attrs[1], NULL));
+			go_style_set_text_angle (style, g_strtod (CXML2C (attrs[1]), NULL));
 		}
 	}
 }

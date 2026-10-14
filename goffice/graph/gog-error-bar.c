@@ -59,6 +59,8 @@ static GObjectClass *error_bar_parent_klass;
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-color-selector.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 typedef struct {
 	GogSeries 	   *series;
 	GogErrorBar 	   *bar;
@@ -441,26 +443,26 @@ gog_error_bar_persist_prep_sax (G_GNUC_UNUSED GOPersist *gp, GsfXMLIn *xin, xmlC
 	GogErrorBar *bar = GOG_ERROR_BAR (gog_xml_read_state_get_obj (xin));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "error_type")) {
-			if (!strcmp (attrs[1], "absolute"))
+		if (0 == strcmp (CXML2C (attrs[0]), "error_type")) {
+			if (!strcmp (CXML2C (attrs[1]), "absolute"))
 				bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
-			else if (!strcmp (attrs[1], "relative"))
+			else if (!strcmp (CXML2C (attrs[1]), "relative"))
 				bar->type = GOG_ERROR_BAR_TYPE_RELATIVE;
-			else if (!strcmp (attrs[1], "percent"))
+			else if (!strcmp (CXML2C (attrs[1]), "percent"))
 				bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
-		} else if (0 == strcmp (attrs[0], "display")) {
-			if (!strcmp (attrs[1], "none"))
+		} else if (0 == strcmp (CXML2C (attrs[0]), "display")) {
+			if (!strcmp (CXML2C (attrs[1]), "none"))
 				bar->display = GOG_ERROR_BAR_DISPLAY_NONE;
-			else if (!strcmp (attrs[1], "positive"))
+			else if (!strcmp (CXML2C (attrs[1]), "positive"))
 				bar->display = GOG_ERROR_BAR_DISPLAY_POSITIVE;
-			else if (!strcmp (attrs[1], "negative"))
+			else if (!strcmp (CXML2C (attrs[1]), "negative"))
 				bar->display = GOG_ERROR_BAR_DISPLAY_NEGATIVE;
-		} else if (0 == strcmp (attrs[0], "width"))
-			bar->width = g_strtod (attrs[1], NULL);
-		else if (0 == strcmp (attrs[0], "line_width"))
-			bar->style->line.width = g_strtod (attrs[1], NULL);
-		else if (0 == strcmp (attrs[0], "color"))
-			go_color_from_str (attrs[1], &bar->style->line.color);
+		} else if (0 == strcmp (CXML2C (attrs[0]), "width"))
+			bar->width = g_strtod (CXML2C (attrs[1]), NULL);
+		else if (0 == strcmp (CXML2C (attrs[0]), "line_width"))
+			bar->style->line.width = g_strtod (CXML2C (attrs[1]), NULL);
+		else if (0 == strcmp (CXML2C (attrs[0]), "color"))
+			go_color_from_str (CXML2C (attrs[1]), &bar->style->line.color);
 #if 0
 		else
 			/* ignore unknown attrs.  they are from the surrounding

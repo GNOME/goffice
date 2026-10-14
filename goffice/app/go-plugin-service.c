@@ -488,7 +488,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 			for (node = list->xmlChildrenNode; node != NULL; node = node->next) {
 				char *tmp;
 
-				if (strcmp (node->name, "suffix"))
+				if (strcmp (CXML2C (node->name), "suffix"))
 					continue;
 
 				tmp = xml2c (xmlNodeGetContent (node));
@@ -505,7 +505,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 			for (node = list->xmlChildrenNode; node != NULL; node = node->next) {
 				char *tmp;
 
-				if (strcmp (node->name, "mime-type"))
+				if (strcmp (CXML2C (node->name), "mime-type"))
 					continue;
 
 				tmp = xml2c (xmlNodeGetContent (node));
@@ -1206,10 +1206,10 @@ go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 
 	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 	g_return_val_if_fail (tree != NULL, NULL);
-	g_return_val_if_fail (strcmp (tree->name, "service") == 0, NULL);
+	g_return_val_if_fail (strcmp (CXML2C (tree->name), "service") == 0, NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	type_str = go_xml_node_get_cstr (tree, "type");
+	type_str = xml2c (go_xml_node_get_cstr (tree, "type"));
 	if (type_str == NULL) {
 		*ret_error = go_error_info_new_str (_("No \"type\" attribute on \"service\" element."));
 		return NULL;
@@ -1218,16 +1218,16 @@ go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 	ctor = g_hash_table_lookup (services, type_str);
 	if (ctor == NULL) {
 		*ret_error = go_error_info_new_printf (_("Unknown service type: %s."), type_str);
-		xmlFree (type_str);
+		g_free (type_str);
 		return NULL;
 	}
-	xmlFree (type_str);
+	g_free (type_str);
 
 	service = g_object_new (ctor(), NULL);
 	service->plugin = plugin;
 	service->id = xml2c (go_xml_node_get_cstr (tree, "id"));
 	if (service->id == NULL)
-		service->id = xmlStrdup ("default");
+		service->id = g_strdup ("default");
 
 	if (GO_PLUGIN_SERVICE_GET_CLASS (service)->read_xml != NULL) {
 		GO_PLUGIN_SERVICE_GET_CLASS (service)->read_xml (service, tree, &service_error);

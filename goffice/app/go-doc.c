@@ -31,6 +31,8 @@
 
 #include <string.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 struct _GODocPrivate {
 	GHashTable	*imagebuf; /* used when loading/saving images */
 
@@ -732,10 +734,10 @@ load_image (GsfXMLIn *xin, xmlChar const **attrs)
 	if (!attrs || !*attrs)
 		return;
 	for (attr = attrs; *attr; attr += 2)
-		if (!strcmp (*attr, "name"))
+		if (!strcmp (CXML2C (*attr), "name"))
 			image = (GOImage *) g_hash_table_lookup (doc->priv->imagebuf, attr[1]);
-		else if (!strcmp (*attr, "type"))
-			type = g_type_from_name (attr[1]);
+		else if (!strcmp (CXML2C (*attr), "type"))
+			type = g_type_from_name (CXML2C (attr[1]));
 	if (!image) /* this should not occur, but if it does, we might want to load the image? */
 		return;
 	g_return_if_fail (type == 0 || G_OBJECT_TYPE (image) == type);
