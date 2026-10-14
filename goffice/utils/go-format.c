@@ -48,6 +48,18 @@
 
 #undef DEBUG_GENERAL
 
+#ifdef DEFINE_COMMON
+#define U2C(s) ((char const *)(s))
+#define C2U(s) ((guchar *)(s))
+
+/* Programs are bytecode (guchar) but embed UTF-8, so walk them as char. */
+static inline guchar const *
+program_next_char (guchar const *prg)
+{
+	return C2U (g_utf8_next_char (U2C (prg)));
+}
+#endif
+
 /**
  * GOFormatFamily:
  * @GO_FORMAT_UNKNOWN: unknown, should not occur.
@@ -1014,7 +1026,7 @@ go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 	if (str == NULL)
 		goto error;
 
-	t = *(guchar *)str;
+	t = *C2U (str);
 
 	/* "Ascii" is probably wrong for localized, but it is not clear what to do.  */
 	if (g_ascii_strncasecmp (str, general, general_len) == 0) {
@@ -1167,21 +1179,21 @@ go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 		t = TOK_ESCAPED_CHAR;
 		if (str[1] == 0)
 			goto error;
-		len += g_utf8_skip[((guchar *)str)[1]];
+		len += g_utf8_skip[(C2U (str))[1]];
 		break;
 
 	case '_':
 		t = TOK_INVISIBLE_CHAR;
 		if (str[1] == 0)
 			goto error;
-		len += g_utf8_skip[((guchar *)str)[1]];
+		len += g_utf8_skip[(C2U (str))[1]];
 		break;
 
 	case '*':
 		t = TOK_REPEATED_CHAR;
 		if (str[1] == 0)
 			goto error;
-		len += g_utf8_skip[((guchar *)str)[1]];
+		len += g_utf8_skip[(C2U (str))[1]];
 		break;
 
 	case '"':
@@ -1197,7 +1209,7 @@ go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 	default:
 		if (t >= 0x80) {
 			t = TOK_CHAR;
-			len = g_utf8_skip[((guchar *)str)[0]];
+			len = g_utf8_skip[(C2U (str))[0]];
 		}
 		break;
 	}
@@ -1761,7 +1773,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 	if (pstate->typ == GO_FMT_TEXT) {
 		GOFormat *fmt = go_format_create (GO_FMT_TEXT, NULL);
 		handle_fill (prg, pstate);
-		fmt->u.text.program = g_string_free (prg, FALSE);
+		fmt->u.text.program = C2U (g_string_free (prg, FALSE));
 		return fmt;
 	} else {
 		GOFormat *fmt = go_format_create (GO_FMT_NUMBER, NULL);
@@ -1803,8 +1815,8 @@ go_format_parse_sequential (const char *str, GString *prg,
 			fmt->u.number.is_general = pstate->is_general;
 		}
 		handle_fill (prg, pstate);
-		g_string_insert_len (prg, 0, splits, p - splits);
-		fmt->u.number.program = g_string_free (prg, FALSE);
+		g_string_insert_len (prg, 0, U2C (splits), p - splits);
+		fmt->u.number.program = C2U (g_string_free (prg, FALSE));
 		return fmt;
 	}
 
@@ -2053,7 +2065,7 @@ go_format_parse_number_plain (GOFormatParseState *pstate)
 	handle_fill (prg, pstate);
 
 	fmt = go_format_create (GO_FMT_NUMBER, NULL);
-	fmt->u.number.program = g_string_free (prg, FALSE);
+	fmt->u.number.program = C2U (g_string_free (prg, FALSE));
 	fmt->u.number.scale_is_2 = (pstate->scale == 2);
 	return fmt;
 }
@@ -2175,7 +2187,7 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 	handle_fill (prg, pstate);
 
 	fmt = go_format_create (GO_FMT_NUMBER, NULL);
-	fmt->u.number.program = g_string_free (prg, FALSE);
+	fmt->u.number.program = C2U (g_string_free (prg, FALSE));
 	fmt->u.number.E_format = TRUE;
 	fmt->u.number.use_markup = use_markup;
 	fmt->u.number.use_SI = append_SI;
@@ -2396,13 +2408,13 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 
 	if (scale) {
 		guchar scaling[2] = { OP_NUM_SCALE, scale };
-		g_string_insert_len (prg, 0, scaling, 2);
+		g_string_insert_len (prg, 0, U2C (scaling), 2);
 	}
 
 	handle_fill (prg, pstate);
 
 	fmt = go_format_create (GO_FMT_NUMBER, NULL);
-	fmt->u.number.program = g_string_free (prg, FALSE);
+	fmt->u.number.program = C2U (g_string_free (prg, FALSE));
 	fmt->u.number.fraction = TRUE;
 	fmt->u.number.scale_is_2 = (pstate->scale == 2);
 	return fmt;
@@ -2584,26 +2596,26 @@ go_format_dump_program (const guchar *prg)
 			g_printerr ("OP_END\n");
 			return;
 		case OP_CHAR:
-			next = g_utf8_next_char (prg);
+			next = program_next_char (prg);
 			len = next - prg;
 			g_printerr ("OP_CHAR '%-.*s'\n",
 				    (int)len, prg);
 			prg = next;
 			break;
 		case OP_CHAR_INVISIBLE:
-			next = g_utf8_next_char (prg);
+			next = program_next_char (prg);
 			len = next - prg;
 			g_printerr ("OP_CHAR_INVISIBLE '%-.*s'\n",
 				    (int)len, prg);
 			prg = next;
 			break;
 		case OP_STRING:
-			len = strlen (prg);
+			len = strlen (U2C (prg));
 			g_printerr ("OP_STRING \"%s\"\n", prg);
 			prg += len + 1;
 			break;
 		case OP_FILL:
-			next = g_utf8_next_char (prg);
+			next = program_next_char (prg);
 			len = next - prg;
 			g_printerr ("OP_FILL '%-.*s'\n", (int)len, prg);
 			prg = next;
@@ -3828,14 +3840,14 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			return res;
 
 		case OP_CHAR: {
-			const guchar *next = g_utf8_next_char (prg);
-			g_string_insert_len (dst, numpos, prg, next - prg);
+			const guchar *next = program_next_char (prg);
+			g_string_insert_len (dst, numpos, U2C (prg), next - prg);
 			prg = next;
 			break;
 		}
 
 		case OP_CHAR_INVISIBLE: {
-			const guchar *next = g_utf8_next_char (prg);
+			const guchar *next = program_next_char (prg);
 			/* This ignores actual width for now.  */
 			g_string_insert_c (dst, numpos, ' ');
 			prg = next;
@@ -3848,8 +3860,8 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		}
 
 		case OP_STRING: {
-			size_t len = strlen (prg);
-			g_string_insert_len (dst, numpos, prg, len);
+			size_t len = strlen (U2C (prg));
+			g_string_insert_len (dst, numpos, U2C (prg), len);
 			prg += len + 1;
 			break;
 		}
@@ -3857,9 +3869,9 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_FILL: {
 			gssize fill_pos = -1;
 			gsize i = 0;
-			gunichar fill_char = g_utf8_get_char (prg);
+			gunichar fill_char = g_utf8_get_char (U2C (prg));
 
-			prg = g_utf8_next_char (prg);
+			prg = program_next_char (prg);
 
 			while (i < dst->len) {
 				if (dst->str[i] == REPEAT_CHAR_MARKER) {
