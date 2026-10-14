@@ -5,7 +5,7 @@ use strict;
 
 my @files =
     ("ftrunc.c",
-	 "dnorm.c",
+     "dnorm.c",
      "pnorm.c",
      "qnorm.c",
      "dlnorm.c",
@@ -110,7 +110,7 @@ sub import_file {
 
 	    s/\bISNAN\b/SUFFIX (isnan) /g;
 	    s/\bR_(finite|FINITE)\b/SUFFIX (go_finite)/g;
-	    s/\b(sqrt|exp|log|pow|log1p|expm1|fabs|floor|ceil|sin|sinh|tan)(\s|$|\()/SUFFIX ($1) $2/g;
+	    s/\b(sqrt|exp|log|pow|log1p|expm1|fabs|floor|ceil|sin|sinh|tan|atan)(\s|$|\()/SUFFIX ($1) $2/g;
 
 	    s/\bSUFFIX (floor) \s*\(\s*([a-z]+)\s*\+\s*1e-7\s*\)/SUFFIX (go_fake_floor) ($1)/;
 

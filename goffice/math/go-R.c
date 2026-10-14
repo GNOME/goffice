@@ -1326,10 +1326,10 @@ DOUBLE SUFFIX (go_pcauchy) (DOUBLE x, DOUBLE location, DOUBLE scale,
     /* for large x, the standard formula suffers from cancellation.
      * This is from Morten Welinder thanks to  Ian Smith's  atan(1/x) : */
     if (SUFFIX (fabs) (x) > 1) {
-	DOUBLE y = atan(1/x) / M_PIgoffice;
+	DOUBLE y = SUFFIX(atan)(1/x) / M_PIgoffice;
 	return (x > 0) ? R_D_Clog(y) : R_D_val(-y);
     } else
-	return R_D_val(0.5 + atan(x) / M_PIgoffice);
+	return R_D_val(0.5 + SUFFIX(atan)(x) / M_PIgoffice);
 }
 
 /* ------------------------------------------------------------------------ */
