@@ -1116,14 +1116,14 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 	if (src == NULL)
 		return NULL;
 
-	g_return_val_if_fail (GOG_OBJECT (src) != NULL, NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (src), NULL);
 
 	if (src->role == NULL || src->explicitly_typed_role)
 		dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	if (new_parent)
 		dst = gog_object_add_by_role (new_parent, src->role, dst);
 
-	g_return_val_if_fail (GOG_OBJECT (dst) != NULL, NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (dst), NULL);
 
 	dst->position = src->position;
 	/* properties */
@@ -1633,7 +1633,7 @@ gboolean
 gog_object_request_update (GogObject *obj)
 {
 	GogGraph *graph;
-	g_return_val_if_fail (GOG_OBJECT (obj), FALSE);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), FALSE);
 	g_return_val_if_fail (!obj->being_updated, FALSE);
 
 	if (obj->needs_update)
@@ -1654,7 +1654,7 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 {
 	GogObjectClass *gog_klass;
 
-	g_return_if_fail (GOG_OBJECT (obj));
+	g_return_if_fail (GOG_IS_OBJECT (obj));
 
 	gog_klass = GOG_OBJECT_GET_CLASS (obj);
 
@@ -1701,7 +1701,7 @@ gog_object_clear_parent (GogObject *obj)
 	GogObjectClass *klass;
 	GogObject *parent;
 
-	g_return_val_if_fail (GOG_OBJECT (obj), FALSE);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), FALSE);
 	g_return_val_if_fail (obj->parent != NULL, FALSE);
 	g_return_val_if_fail (gog_object_is_deletable (obj), FALSE);
 
@@ -1744,7 +1744,7 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 	GogObjectClass *klass;
 	GSList **step;
 
-	g_return_val_if_fail (GOG_OBJECT (child), FALSE);
+	g_return_val_if_fail (GOG_IS_OBJECT (child), FALSE);
 	g_return_val_if_fail (child->parent == NULL, FALSE);
 	g_return_val_if_fail (role != NULL, FALSE);
 
@@ -1791,7 +1791,7 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 	gboolean explicitly_typed_role;
 
 	g_return_val_if_fail (role != NULL, NULL);
-	g_return_val_if_fail (GOG_OBJECT (parent) != NULL, NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (parent), NULL);
 
 	is_a = g_type_from_name (role->is_a_typename);
 
@@ -1917,7 +1917,7 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
 void
 gog_object_get_manual_position (GogObject *gobj, GogViewAllocation *pos)
 {
-	g_return_if_fail (GOG_OBJECT (gobj) != NULL);
+	g_return_if_fail (GOG_IS_OBJECT (gobj));
 
 	if (pos != NULL)
 		*pos = gobj->manual_position;
@@ -1933,7 +1933,7 @@ gog_object_get_manual_position (GogObject *gobj, GogViewAllocation *pos)
 void
 gog_object_set_manual_position (GogObject *gobj, GogViewAllocation const *pos)
 {
-	g_return_if_fail (GOG_OBJECT (gobj) != NULL);
+	g_return_if_fail (GOG_IS_OBJECT (gobj));
 
 	if (gobj->manual_position.x == pos->x &&
 	    gobj->manual_position.y == pos->y &&

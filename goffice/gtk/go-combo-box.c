@@ -545,7 +545,7 @@ go_combo_box_popup_display (GOComboBox *combo_box)
 {
 	int x, y;
 
-	g_return_if_fail (GO_COMBO_BOX (combo_box) != NULL);
+	g_return_if_fail (GO_IS_COMBO_BOX (combo_box));
 	g_return_if_fail (combo_box->priv->popdown_container != NULL);
 
 	if (combo_box->priv->torn_off) {

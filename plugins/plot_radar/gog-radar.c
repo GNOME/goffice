@@ -204,7 +204,7 @@ gog_rt_plot_guru_helper (GogPlot *plot, char const *hint)
 		GogAxis *axis = gog_plot_get_axis (plot, GOG_AXIS_CIRCULAR);
 		GOStyle *style;
 
-		g_return_if_fail (GOG_AXIS (axis) != NULL);
+		g_return_if_fail (GOG_IS_AXIS (axis));
 
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (axis));
 		style->line.dash_type = GO_LINE_NONE;

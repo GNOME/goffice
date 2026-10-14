@@ -326,8 +326,8 @@ go_marker_assign (GOMarker *dst, GOMarker const *src)
 	if (src == dst)
 		return;
 
-	g_return_if_fail (GO_MARKER (src) != NULL);
-	g_return_if_fail (GO_MARKER (dst) != NULL);
+	g_return_if_fail (GO_IS_MARKER (src));
+	g_return_if_fail (GO_IS_MARKER (dst));
 
 	dst->size		= src->size;
 	dst->shape		= src->shape;

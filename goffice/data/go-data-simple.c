@@ -854,7 +854,7 @@ go_data_vector_str_set_translate_func (GODataVectorStr	*vec,
 				       gpointer		 data,
 				       GDestroyNotify	 notify)
 {
-	g_return_if_fail (GO_DATA_VECTOR_STR (vec) != NULL);
+	g_return_if_fail (GO_IS_DATA_VECTOR_STR (vec));
 
 	if (vec->translate_notify != NULL)
 		(*vec->translate_notify) (vec->translate_data);
@@ -889,7 +889,7 @@ void
 go_data_vector_str_set_translation_domain (GODataVectorStr *vec,
 					   char const      *domain)
 {
-	g_return_if_fail (GO_DATA_VECTOR_STR (vec) != NULL);
+	g_return_if_fail (GO_IS_DATA_VECTOR_STR (vec));
 
 	go_data_vector_str_set_translate_func (vec,
 		(GOTranslateFunc)dgettext_swapped, g_strdup (domain), g_free);

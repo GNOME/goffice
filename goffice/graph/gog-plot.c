@@ -930,7 +930,7 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 	g_return_val_if_fail (GOG_OBJECT (plot)->parent != NULL, FALSE);
 
 	chart = gog_plot_get_chart (plot);
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
+	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
 
 	axes = gog_chart_get_axes (chart, type);
 	g_return_val_if_fail (axes != NULL, FALSE);

@@ -351,7 +351,7 @@ SUFFIX(go_distribution_get_density) (GODistribution *dist, DOUBLE x)
 {
 	GODistributionClass *go_dist_klass;
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
+	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
 	if (go_dist_klass->SUFFIX(get_density) != NULL)
@@ -365,7 +365,7 @@ SUFFIX(go_distribution_get_cumulative) (GODistribution *dist, DOUBLE x)
 {
 	GODistributionClass *go_dist_klass;
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
+	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
 	if (go_dist_klass->SUFFIX(get_cumulative) != NULL)
@@ -379,7 +379,7 @@ SUFFIX(go_distribution_get_ppf) (GODistribution *dist, DOUBLE x)
 {
 	GODistributionClass *go_dist_klass;
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
+	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
 	if (go_dist_klass->SUFFIX(get_ppf) != NULL)
@@ -391,7 +391,7 @@ SUFFIX(go_distribution_get_ppf) (GODistribution *dist, DOUBLE x)
 DOUBLE
 SUFFIX(go_distribution_get_hazard) (GODistribution *dist, DOUBLE x)
 {
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
+	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	return SUFFIX(go_distribution_get_density) (dist, x) /
 		SUFFIX(go_distribution_get_survival) (dist, x);
@@ -400,7 +400,7 @@ SUFFIX(go_distribution_get_hazard) (GODistribution *dist, DOUBLE x)
 DOUBLE
 SUFFIX(go_distribution_get_cumulative_hazard) (GODistribution *dist, DOUBLE x)
 {
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
+	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	return -SUFFIX(log) (SUFFIX(go_distribution_get_survival) (dist, x));
 }
@@ -410,7 +410,7 @@ SUFFIX(go_distribution_get_survival) (GODistribution *dist, DOUBLE x)
 {
 	GODistributionClass *go_dist_klass;
 
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
+	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), SUFFIX(go_nan));
 
 	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
 	if (go_dist_klass->SUFFIX(get_cumulative) != NULL)
@@ -422,7 +422,7 @@ SUFFIX(go_distribution_get_survival) (GODistribution *dist, DOUBLE x)
 DOUBLE
 SUFFIX(go_distribution_get_inverse_survival) (GODistribution *dist, DOUBLE x)
 {
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), SUFFIX(go_nan));
+	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), SUFFIX(go_nan));
 	g_return_val_if_fail (x >= 0 && x <= 1, SUFFIX(go_nan));
 
 	return SUFFIX(go_distribution_get_ppf) (dist, 1 - x);
