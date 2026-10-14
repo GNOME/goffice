@@ -28,6 +28,8 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+#define C2U(s) ((guint8 *)(s))
+
 struct _GOEmf {
 	GOImage parent;
 	GocGroup *group;
@@ -83,7 +85,7 @@ go_emf_load_data (GOImage *image, GsfXMLIn *xin)
 	GError *error = NULL;
 	GsfInput *input;
 #endif
-	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
+	image->data_length = gsf_base64_decode_simple (C2U (xin->content->str), strlen (xin->content->str));
 	image->data = go_memdup (xin->content->str, image->data_length);
 #ifdef GOFFICE_EMF_SUPPORT
 	input = gsf_input_memory_new (image->data, image->data_length, FALSE);
@@ -258,7 +260,7 @@ go_emf_new_from_file (char const *filename, GError **error)
 }
 
 GOImage *
-go_emf_new_from_data (char const *data, size_t length, GError **error)
+go_emf_new_from_data (guint8 const *data, size_t length, GError **error)
 {
 	GOEmf *emf = NULL;
 	GsfInput *input;

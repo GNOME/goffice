@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 GType go_svg_get_type (void);
 
 GOImage *go_svg_new_from_file (char const *filename, GError **error);
-GOImage *go_svg_new_from_data (char const *data, size_t length, GError **error);
+GOImage *go_svg_new_from_data (guint8 const *data, size_t length, GError **error);
 
 void _go_svg_get_size (RsvgHandle *handle, double *width, double *height);
 

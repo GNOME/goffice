@@ -34,6 +34,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#define C2U(s) ((guint8 *)(s))
+#define U2C(s) ((char const *)(s))
+
 struct _GOSpectre {
 	GOImage parent;
 #ifdef GOFFICE_WITH_EPS
@@ -104,7 +107,7 @@ go_spectre_load_data (GOImage *image, GsfXMLIn *xin)
 	char *tmpname;
 #endif
 
-	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
+	image->data_length = gsf_base64_decode_simple (C2U (xin->content->str), strlen (xin->content->str));
 	image->data = go_memdup (xin->content->str, image->data_length);
 #ifdef GOFFICE_WITH_EPS
 	spectre->doc = spectre_document_new ();
@@ -312,9 +315,9 @@ go_spectre_new_from_file (char const *filename, GError **error)
 		GsfInputTextline *text = GSF_INPUT_TEXTLINE (gsf_input_textline_new (input));
 		guint8 *line;
 		while ((line = gsf_input_textline_ascii_gets (text)))
-			if (!strncmp (line, "%%BoundingBox: ", 15)) {
+			if (!strncmp (U2C (line), "%%BoundingBox: ", 15)) {
 				unsigned x0, x1, y0, y1;
-				if (sscanf (line + 15, "%u %u %u %u", &x0, &y0, &x1, &y1) == 4) {
+				if (sscanf (U2C (line + 15), "%u %u %u %u", &x0, &y0, &x1, &y1) == 4) {
 					image->width = x1 - x0;
 					image->height = y1 - y0;
 				} else {
@@ -341,7 +344,7 @@ go_spectre_new_from_file (char const *filename, GError **error)
  * Returns: (transfer full) (nullable): a new #GOImage or %NULL on error.
  **/
 GOImage *
-go_spectre_new_from_data (char const *data, size_t length, GError **error)
+go_spectre_new_from_data (guint8 const *data, size_t length, GError **error)
 {
 	GOImage *image;
 	char *tmpname;

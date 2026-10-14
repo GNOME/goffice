@@ -42,6 +42,8 @@
 
 #include <math.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
 /**
  * SECTION: gog-renderer
  * @short_description: Rendering
@@ -1510,7 +1512,7 @@ _gsf_gdk_pixbuf_save (const gchar *buf,
 		      gpointer data)
 {
 	GsfOutput *output = GSF_OUTPUT (data);
-	gboolean ok = gsf_output_write (output, count, buf);
+	gboolean ok = gsf_output_write (output, count, CC2U (buf));
 
 	if (!ok && error)
 		*error = g_error_copy (gsf_output_error (output));

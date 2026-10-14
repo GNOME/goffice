@@ -27,6 +27,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+#define C2U(s) ((guint8 *)(s))
+
 #define CXML2C(s) ((char const *)(s))
 
 /* GOPixbuf implementation */
@@ -158,7 +160,7 @@ go_pixbuf_load_data (GOImage *image, GsfXMLIn *xin)
 	GOPixbuf *pixbuf = GO_PIXBUF (image);
 
 	stride = go_pixbuf_get_rowstride (GO_PIXBUF (image));
-	length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
+	length = gsf_base64_decode_simple (C2U (xin->content->str), strlen (xin->content->str));
 	if (stride > 0) {
 		/* load raw pixels */
 		expected = image->height * (size_t)stride;

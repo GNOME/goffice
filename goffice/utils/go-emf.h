@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 GType go_emf_get_type (void);
 
 GOImage *go_emf_new_from_file (char const *filename, GError **error);
-GOImage *go_emf_new_from_data (char const *data, size_t length, GError **error);
+GOImage *go_emf_new_from_data (guint8 const *data, size_t length, GError **error);
 
 GObject *go_emf_get_canvas (GOEmf *emf);
 

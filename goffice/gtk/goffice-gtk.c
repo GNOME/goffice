@@ -39,6 +39,8 @@
 #endif
 #include <errno.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
 #define PREVIEW_HSIZE 150
 #define PREVIEW_VSIZE 150
 
@@ -226,7 +228,7 @@ go_gtk_builder_load (char const *uifile,
 			g_bytes_unref (bytes);
 	} else if (strncmp (uifile, "data:", 5) == 0) {
 		const char *data = uifile + 5;
-		GsfInput *src = gsf_input_memory_new (data, strlen (data), FALSE);
+		GsfInput *src = gsf_input_memory_new (CC2U (data), strlen (data), FALSE);
 		ok = apply_ui_from_file (gui, src, NULL, &error);
 	} else {
 		/* we need to set the current directory so that the builder can find pixbufs */

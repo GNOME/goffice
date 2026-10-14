@@ -30,6 +30,8 @@
 #include <string.h>
 #include <math.h>
 
+#define C2U(s) ((guint8 *)(s))
+
 struct _GOSvg {
 	GOImage parent;
 	RsvgHandle *handle;
@@ -103,7 +105,7 @@ go_svg_load_data (GOImage *image, GsfXMLIn *xin)
 {
 	GOSvg *svg = GO_SVG (image);
 	double dpi_x, dpi_y;
-	image->data_length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
+	image->data_length = gsf_base64_decode_simple (C2U (xin->content->str), strlen (xin->content->str));
 	image->data = go_memdup (xin->content->str, image->data_length);
 	svg->handle = rsvg_handle_new_from_data (image->data, image->data_length, NULL);
 	go_image_get_default_dpi (&dpi_x, &dpi_y);
@@ -251,7 +253,7 @@ go_svg_new_from_file (char const *filename, GError **error)
  * Returns: (transfer full) (nullable): a new #GOImage or %NULL on error.
  **/
 GOImage *
-go_svg_new_from_data (char const *data, size_t length, GError **error)
+go_svg_new_from_data (guint8 const *data, size_t length, GError **error)
 {
 	GOSvg *svg;
 	GOImage *image;

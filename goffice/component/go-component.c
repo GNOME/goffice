@@ -35,6 +35,9 @@
 #include <goffice/utils/go-svg.h>
 #endif /* GOFFICE_WITH_LIBRSVG */
 
+#define C2U(s) ((guint8 *)(s))
+#define CC2U(s) ((guint8 const *)(s))
+
 #define CXML2C(s) ((char const *)(s))
 
 struct _GOComponentPrivate {
@@ -642,7 +645,7 @@ go_component_write_xml_sax (GOComponent *component, GsfXMLOut *output)
 	if (component->length == 0)
 		go_component_get_data (component, (void **) &component->data, &component->length,
 		                       &component->destroy_notify, &component->destroy_data);
-	gsf_xml_out_add_base64 (output, NULL, component->data, component->length);
+	gsf_xml_out_add_base64 (output, NULL, CC2U (component->data), component->length);
 	gsf_xml_out_end_element (output);
 	if (component->snapshot_type != GO_SNAPSHOT_NONE && component->snapshot_data == NULL)
 		go_component_build_snapshot (component);
@@ -873,8 +876,8 @@ go_component_new_from_uri (char const *uri)
 		return NULL;
 	}
 	length = gsf_input_size (input);
-	data = g_new (guint8, length);
-	gsf_input_read (input, length, data);
+	data = g_new (char, length);
+	gsf_input_read (input, length, C2U (data));
 	go_component_set_data (component, data, length);
 	component->destroy_notify = g_free;
 	component->destroy_data = data;
