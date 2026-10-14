@@ -1549,6 +1549,9 @@ gog_chart_view_init (G_GNUC_UNUSED GogChartView *cview)
 {
 }
 
+/* Renders the grid lines (stripes first, then lines; minor before major) of
+ * all the axis views found in the list starting at @start_ptr.  Views which
+ * are not axes are ignored. */
 static void
 grid_line_render (GSList *start_ptr, G_GNUC_UNUSED GogViewAllocation const *bbox)
 {
@@ -1643,11 +1646,18 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		/* now render plot and axes */
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+			GSList this_axis;
 			child_view = ptr->data;
 			if (!GOG_IS_AXIS (child_view->model))
 				continue;
 			gog_view_render (ptr->data, bbox);
-			grid_line_render (ptr, bbox);
+			/* Only the grid lines of this axis: grid_line_render
+			 * handles all the axes in the list it is given, so
+			 * passing the rest of the children would draw the
+			 * lines of the later axes once more for each axis. */
+			this_axis.data = ptr->data;
+			this_axis.next = NULL;
+			grid_line_render (&this_axis, bbox);
 		}
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
