@@ -72,6 +72,17 @@ static const struct {
 	{ "xy-color",	GOG_AXIS_SET_XY_COLOR}
 };
 
+/**
+ * gog_axis_set_from_str:
+ * @str: (nullable): the name of an axis set
+ *
+ * Converts the name of an axis set, as used in the persistent form of a chart,
+ * to the corresponding #GogAxisSet.  The known names are "none", "x", "xy",
+ * "xyz", "radar", "pseudo-3d" and "xy-color".
+ *
+ * Returns: the matching axis set.  If @str is %NULL, or is not a known name
+ * (in which case a warning is emitted), %GOG_AXIS_SET_NONE is returned.
+ **/
 GogAxisSet
 gog_axis_set_from_str (char const *str)
 {
@@ -146,6 +157,8 @@ gog_chart_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case CHART_PROP_PLOT_AREA:
 		str = g_value_get_string (value);
+		if (str == NULL)
+			break;
 		str_doubles = g_strsplit (str, " ", 4);
 		if (g_strv_length (str_doubles) != 4) {
 			g_strfreev (str_doubles);
@@ -274,7 +287,7 @@ cb_plot_area_changed (GtkWidget *spin, PlotAreaPrefState *state)
 		g_signal_handler_block (state->h_spin, state->h_spin_signal);
 		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 0.0, max * 100.0);
 		if (pos.h > max) pos.h = max;
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), pos.w * 100.0);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), pos.h * 100.0);
 		g_signal_handler_unblock (state->h_spin, state->h_spin_signal);
 	}
 	else if (spin == state->w_spin) {
@@ -318,7 +331,7 @@ gog_chart_populate_editor (GogObject *gobj,
 	GtkWidget *w;
 	GogChart *chart = GOG_CHART (gobj);
 
-	g_return_if_fail (chart != NULL);
+	g_return_if_fail (GOG_IS_CHART (gobj));
 
 	gui = go_gtk_builder_load_internal ("res:go:graph/gog-plot-prefs.ui", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
@@ -616,7 +629,9 @@ static void
 color_scale_pre_remove (GogObject *parent, GogObject *scale)
 {
 	/* Unlink the color scale */
-	GSList const *l = gog_axis_contributors (gog_color_scale_get_axis (GOG_COLOR_SCALE (scale)));
+	/* The axis is NULL if it was removed before the scale */
+	GogAxis *axis = gog_color_scale_get_axis (GOG_COLOR_SCALE (scale));
+	GSList const *l = axis ? gog_axis_contributors (axis) : NULL;
 	gog_color_scale_set_axis (GOG_COLOR_SCALE (scale), NULL);
 	for (; l; l = l->next)
 		gog_object_request_update (GOG_OBJECT (l->data));
@@ -815,21 +830,26 @@ GSF_CLASS (GogChart, gog_chart,
 
 /**
  * gog_chart_get_position:
- * @chart: const #GogChart
- * @x: (out) (optional):
- * @y: (out) (optional):
- * @cols: (out) (optional):
- * @rows: (out) (optional):
+ * @chart: a #GogChart
+ * @x: (out) (optional): the column of the chart's top-left cell
+ * @y: (out) (optional): the row of the chart's top-left cell
+ * @cols: (out) (optional): the number of columns the chart spans
+ * @rows: (out) (optional): the number of rows the chart spans
  *
- * Returns: %TRUE if the chart has been positioned.
+ * Retrieves the position of @chart in the grid of charts of its graph.  Any
+ * of the output arguments may be %NULL.
+ *
+ * Returns: %TRUE if the chart has been positioned, that is, if both its
+ * number of columns and its number of rows are non-zero.  Otherwise %FALSE is
+ * returned and the output arguments are left untouched.
  **/
 gboolean
 gog_chart_get_position (GogChart const *chart,
 			unsigned *x, unsigned *y, unsigned *cols, unsigned *rows)
 {
-	g_return_val_if_fail (GOG_CHART (chart), FALSE);
+	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
 
-	if (chart->cols <= 0 || chart->rows <= 0)
+	if (chart->cols == 0 || chart->rows == 0)
 		return FALSE;
 
 	if (x != NULL)	  *x	= chart->x_pos;
@@ -842,12 +862,18 @@ gog_chart_get_position (GogChart const *chart,
 
 /**
  * gog_chart_set_position:
- * @chart: #GogChart
- * @x:
- * @y:
- * @cols:
- * @rows:
+ * @chart: a #GogChart
+ * @x: the column of the chart's top-left cell
+ * @y: the row of the chart's top-left cell
+ * @cols: the number of columns the chart spans
+ * @rows: the number of rows the chart spans
  *
+ * Sets the position of @chart in the grid of charts of its graph.  A @cols
+ * or @rows of 0 marks the chart as not positioned.
+ *
+ * If the position changes, the chart layout of the graph is revalidated and
+ * @chart emits its "changed" signal.  @chart should already have been added
+ * to a graph.
  **/
 void
 gog_chart_set_position (GogChart *chart,
@@ -870,16 +896,21 @@ gog_chart_set_position (GogChart *chart,
 
 /**
  * gog_chart_get_plot_area:
- * @chart: #GogChart
- * @plot_area: #GogViewAllocation
+ * @chart: a #GogChart
+ * @plot_area: (out) (optional): where to store the plot area
  *
- * Stores plot area in plot_area, in fraction of chart size.
+ * Stores the plot area of @chart in @plot_area, as fractions of the chart
+ * size.  The stored plot area is returned whether or not it is in use, see
+ * the return value.
  *
- * Returns: %TRUE if plot area position is manual.
+ * Returns: %TRUE if the plot area is manual, that is, if it is the stored
+ * plot area that is used rather than one computed automatically.
  **/
 gboolean
 gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area)
 {
+	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
+
 	if (plot_area != NULL)
 		*plot_area = chart->plot_area;
 
@@ -888,16 +919,21 @@ gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area)
 
 /**
  * gog_chart_set_plot_area:
- * @chart: #GogChart
- * @plot_area: #GogViewAllocation
+ * @chart: a #GogChart
+ * @plot_area: (nullable): the new plot area, or %NULL
  *
- * If plot_area != NULL, sets plot area size and location, in fraction
- * of chart size, and sets GogChart::is_plot_area_manual flag to TRUE.
- * If plot_area == NULL, sets GogChart::is_plot_area_manual to FALSE.
+ * If @plot_area is not %NULL, sets the size and location of the plot area,
+ * as fractions of the chart size, and sets the "is-plot-area-manual" property
+ * to %TRUE.  If @plot_area is %NULL, sets "is-plot-area-manual" to %FALSE and
+ * keeps the previously stored plot area.
+ *
+ * In both cases @chart emits its "changed" signal.
  **/
 void
 gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area)
 {
+	g_return_if_fail (GOG_IS_CHART (chart));
+
 	if (plot_area == NULL) {
 		chart->is_plot_area_manual = FALSE;
 	} else {
@@ -945,6 +981,14 @@ gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 		*visible = chart->visible_cardinality;
 }
 
+/**
+ * gog_chart_request_cardinality_update:
+ * @chart: a #GogChart
+ *
+ * Marks the cached cardinality of @chart as out of date and queues an update
+ * of @chart, during which it is recomputed, see gog_chart_get_cardinality().
+ * Nothing is done if the cardinality is already marked as out of date.
+ **/
 void
 gog_chart_request_cardinality_update (GogChart *chart)
 {
@@ -958,12 +1002,16 @@ gog_chart_request_cardinality_update (GogChart *chart)
 
 /**
  * gog_chart_foreach_elem:
- * @chart: #GogChart
- * @only_visible: whether to only apply to visible children
- * @handler: (scope call): callback
- * @data: user data
+ * @chart: a #GogChart
+ * @only_visible: whether to restrict to visible elements
+ * @handler: (scope call): the function to call for each element
+ * @data: (closure): user data to pass to @handler
  *
- * Applies @handler to children
+ * Calls @handler for each element of each plot of @chart, in plot order, see
+ * gog_plot_foreach_elem().  This is used to build legends.
+ *
+ * The cardinality of @chart must be valid.  Call gog_chart_get_cardinality()
+ * first if it may have been invalidated.
  **/
 void
 gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
@@ -993,6 +1041,13 @@ gog_chart_get_plots (GogChart const *chart)
 	return chart->plots;
 }
 
+/**
+ * gog_chart_get_axis_set:
+ * @chart: a #GogChart
+ *
+ * Returns: the #GogAxisSet currently used by @chart, which is
+ * %GOG_AXIS_SET_UNKNOWN if @chart has no plot.
+ **/
 GogAxisSet
 gog_chart_get_axis_set (GogChart const *chart)
 {
@@ -1000,15 +1055,23 @@ gog_chart_get_axis_set (GogChart const *chart)
 	return chart->axis_set;
 }
 
+/**
+ * gog_chart_axis_set_is_valid:
+ * @chart: a #GogChart
+ * @axis_set: a #GogAxisSet
+ *
+ * Returns: %TRUE if every plot of @chart can be used with the axis set @axis_set.
+ * This includes the case where @chart has no plot.
+ **/
 gboolean
-gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type)
+gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet axis_set)
 {
 	GSList *ptr;
 
 	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
-		if (!gog_plot_axis_set_is_valid (ptr->data, type))
+		if (!gog_plot_axis_set_is_valid (ptr->data, axis_set))
 			return FALSE;
 	return TRUE;
 }
@@ -1025,6 +1088,23 @@ gog_chart_add_axis (GogChart *chart, GogAxisType type)
 	g_warning ("unknown axis type %d", type);
 }
 
+/**
+ * gog_chart_axis_set_assign:
+ * @chart: a #GogChart
+ * @axis_set: the #GogAxisSet to use
+ *
+ * Makes @chart use @axis_set.  At least one axis is created for each type of
+ * axis required by @axis_set and not yet present, and the plots of @chart are
+ * linked to the axes.  Existing axes that are not part of @axis_set are kept,
+ * and their types are added to the axis set of @chart.
+ *
+ * If @axis_set is %GOG_AXIS_SET_UNKNOWN, the axis set is only forgotten, and
+ * no axis is created or changed.
+ *
+ * Returns: %TRUE on success, %FALSE if one of the plots could not be linked
+ * to @axis_set.  The axis set of @chart has already been changed when %FALSE
+ * is returned.
+ **/
 gboolean
 gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 {
@@ -1081,12 +1161,12 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 
 /**
  * gog_chart_get_axes:
- * @chart: #GogChart
- * @target: #GogAxisType
+ * @chart: a #GogChart
+ * @target: the #GogAxisType to look for
  *
- * Returns: (element-type GogAxis) (transfer container): a list which the
- * caller must free of all axis of type @target
- * associated with @chart.
+ * Returns: (element-type GogAxis) (transfer container) (nullable): a list
+ * which the caller must free of all axes of type @target associated with
+ * @chart.  The list is %NULL if @chart has no such axis.
  **/
 GSList *
 gog_chart_get_axes (GogChart const *chart, GogAxisType target)
@@ -1128,9 +1208,18 @@ gog_chart_get_grid (GogChart const *chart)
 	return GOG_GRID (chart->grid);
 }
 
+/**
+ * gog_chart_is_3d:
+ * @chart: a #GogChart
+ *
+ * Returns: %TRUE if @chart uses the %GOG_AXIS_SET_XYZ axis set, that is, if it
+ * is a three dimensional chart.
+ **/
 gboolean
 gog_chart_is_3d (GogChart const *chart)
 {
+	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
+
 	return chart->axis_set == GOG_AXIS_SET_XYZ;
 }
 
@@ -1195,9 +1284,7 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 			box_view->dy = (ymax - ymin) / (xmax - xmin) * tmp.w;
 		}
 	} else {
-		double ref_length, ref_tick_dist, xspan, yspan, zspan;
-		gog_axis_get_bounds (ref, &ref_length, &xspan);
-		ref_length -= xspan;
+		double ref_tick_dist, xspan, yspan, zspan;
 		ref_tick_dist = gog_axis_get_major_ticks_distance (ref);
 		xspan = xmax - xmin;
 		if (xm == GOG_AXIS_METRICS_RELATIVE_TICKS) {
@@ -1611,6 +1698,15 @@ static GSF_CLASS (GogChartView, gog_chart_view,
 		  gog_chart_view_class_init, gog_chart_view_init,
 		  GOG_TYPE_OUTLINED_VIEW)
 
+/**
+ * gog_chart_view_get_plot_area:
+ * @view: a #GogView, which must be the view of a #GogChart
+ *
+ * Returns: (transfer none) (nullable): the plot area of @view, in view
+ * coordinates, as computed by its last size allocation.  The area is owned by
+ * @view.  %NULL is returned, with a critical warning, if @view is not a chart
+ * view.
+ **/
 GogViewAllocation const *
 gog_chart_view_get_plot_area (GogView const *view)
 {
