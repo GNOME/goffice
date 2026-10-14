@@ -179,7 +179,8 @@ gog_probability_plot_set_property (GObject *obj, guint param_id,
 		GSList *series;
 		if (dist) {
 			GParamSpec **props;
-			int i, j, n;
+			int i;
+			guint j, n;
 			if (plot->dist)
 				g_object_unref (plot->dist);
 			plot->dist = g_object_ref (dist);

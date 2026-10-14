@@ -102,7 +102,7 @@ gboolean
 go_calendar_button_get_date (GOCalendarButton *calb, GDate *date)
 {
 	GtkCalendar *cal;
-	int d, m, y;
+	guint d, m, y;
 
 	g_return_val_if_fail (GO_IS_CALENDAR_BUTTON (calb), FALSE);
 	g_return_val_if_fail (date != NULL, FALSE);

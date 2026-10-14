@@ -460,7 +460,10 @@ gog_xyz_series_update (GogObject *obj)
 		if (series->base.values[2].data != NULL) {
 			mat = series->base.values[2].data;
 			go_data_get_values (mat);
-			go_data_get_matrix_size (mat, &size.rows, &size.columns);
+			unsigned n_rows, n_columns;
+			go_data_get_matrix_size (mat, &n_rows, &n_columns);
+			size.rows = n_rows;
+			size.columns = n_columns;
 		}
 		if (series->base.values[0].data != NULL) {
 			vec = series->base.values[0].data;

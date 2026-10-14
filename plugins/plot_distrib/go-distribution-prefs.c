@@ -46,7 +46,8 @@ static void
 distribution_changed_cb (GtkComboBox *box, DistPrefs *prefs)
 {
 	GODistribution *dist = NULL;
-	int i, j, n;
+	int i;
+	guint j, n;
 	GtkTreeIter iter;
 	GODistributionType dist_type;
 	GParamSpec **props;
@@ -94,7 +95,8 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 	GtkCellRenderer *renderer;
 	GtkTreeIter iter;
 	GParamSpec **props;
-	int n, i, j;
+	int i;
+	guint n, j;
 	DistPrefs *prefs = g_new0 (DistPrefs, 1);
 	GtkWidget *res = gtk_grid_new ();
 	GtkWidget *w = gtk_label_new (_("Distribution:"));

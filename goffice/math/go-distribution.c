@@ -221,7 +221,7 @@ go_distribution_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 {
 	GODistribution const *dist = GO_DISTRIBUTION (gp);
 	GParamSpec **props;
-	int n;
+	guint n;
 
 	g_return_if_fail (dist);
 	gsf_xml_out_add_cstr_unchecked (output, "type",

@@ -322,12 +322,12 @@ gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 			case 2:
 				{
 					/* only values are supported so don't care */
-					GODataMatrixSize size;
+					unsigned rows, columns;
 
-					go_data_get_matrix_size (src_dat, &size.rows, &size.columns);
+					go_data_get_matrix_size (src_dat, &rows, &columns);
 
 					dst_dat = go_data_matrix_val_new (go_data_get_values (src_dat),
-									  size.rows, size.columns, NULL);
+									  rows, columns, NULL);
 				}
 				break;
 			default:
