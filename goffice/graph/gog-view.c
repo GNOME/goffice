@@ -190,6 +190,7 @@ static GogTool gog_tool_select_object = {
 typedef struct {
 	GogViewAllocation 	parent_allocation;
 	GogViewAllocation	start_position;
+	gboolean		valid; /* FALSE if the parent allocation can't be used as a scale */
 } MoveObjectData;
 
 static gboolean
@@ -212,9 +213,19 @@ static void
 gog_tool_move_object_init (GogToolAction *action)
 {
 	MoveObjectData *data = g_new0 (MoveObjectData, 1);
+	GogView *parent = action->view->parent;
 
 	action->data = data;
-	data->parent_allocation = action->view->parent->allocation;
+
+	/* Positions are relative to the size of the parent.  Without a parent,
+	 * or with one that has no (or an undefined, i.e. NaN) size, there is
+	 * nothing to divide by: leave the object alone. */
+	data->valid = parent != NULL &&
+		parent->allocation.w > 0 && parent->allocation.h > 0;
+	if (!data->valid)
+		return;
+
+	data->parent_allocation = parent->allocation;
 	gog_object_get_manual_position (action->view->model, &data->start_position);
 
 	if ((gog_object_get_position_flags (action->view->model, GOG_POSITION_MANUAL) &
@@ -231,6 +242,9 @@ gog_tool_move_object_move (GogToolAction *action, double x, double y)
 {
 	GogViewAllocation position;
 	MoveObjectData *data = action->data;
+
+	if (!data->valid)
+		return;
 
 	position.x = data->start_position.x + (x - action->start_x) / data->parent_allocation.w;
 	position.y = data->start_position.y + (y - action->start_y) / data->parent_allocation.h;
@@ -285,6 +299,9 @@ gog_tool_resize_object_move (GogToolAction *action, double x, double y)
 {
 	GogViewAllocation position;
 	MoveObjectData *data = action->data;
+
+	if (!data->valid)
+		return;
 
 	position.x = data->start_position.x;
 	position.y = data->start_position.y;
@@ -847,6 +864,8 @@ GSF_CLASS_ABSTRACT (GogView, gog_view,
 GogObject *
 gog_view_get_model (GogView const *view)
 {
+	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
+
 	return view->model;
 }
 
@@ -902,11 +921,13 @@ gog_view_queue_resize (GogView *view)
 void
 gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewPadding *padding)
 {
-	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+	GogViewClass *klass;
 
-	g_return_if_fail (klass != NULL);
+	g_return_if_fail (GOG_IS_VIEW (view));
 	g_return_if_fail (padding != NULL);
 	g_return_if_fail (bbox != NULL);
+
+	klass = GOG_VIEW_GET_CLASS (view);
 
 	padding->wl = padding->wr = padding->ht = padding->hb = 0.;
 
@@ -935,11 +956,13 @@ gog_view_size_request (GogView *view,
 		       GogViewRequisition const *available,
 		       GogViewRequisition *requisition)
 {
-	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+	GogViewClass *klass;
 
-	g_return_if_fail (klass != NULL);
+	g_return_if_fail (GOG_IS_VIEW (view));
 	g_return_if_fail (requisition != NULL);
 	g_return_if_fail (available != NULL);
+
+	klass = GOG_VIEW_GET_CLASS (view);
 
 	if (klass->size_request) {
 		requisition->w = requisition->h = 0;
@@ -963,10 +986,12 @@ gog_view_size_request (GogView *view,
 void
 gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 {
-	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+	GogViewClass *klass;
 
+	g_return_if_fail (GOG_IS_VIEW (view));
 	g_return_if_fail (allocation != NULL);
-	g_return_if_fail (klass != NULL);
+
+	klass = GOG_VIEW_GET_CLASS (view);
 	g_return_if_fail (klass->size_allocate != NULL);
 	g_return_if_fail (!view->being_updated);
 
@@ -1029,9 +1054,12 @@ gog_view_update_sizes (GogView *view)
 void
 gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 {
-	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+	GogViewClass *klass;
 
+	g_return_if_fail (GOG_IS_VIEW (view));
 	g_return_if_fail (view->renderer != NULL);
+
+	klass = GOG_VIEW_GET_CLASS (view);
 
 	/* In particular this is true for NaNs.  */
 	if (view->model->invisible ||
@@ -1072,8 +1100,15 @@ gog_view_size_child_request (GogView *view,
 	GogView *child;
 	GogObjectPosition pos;
 	GogViewRequisition child_req;
-	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
-	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
+	double pad_h, pad_w;
+
+	g_return_if_fail (GOG_IS_VIEW (view));
+	g_return_if_fail (available != NULL);
+	g_return_if_fail (req != NULL);
+	g_return_if_fail (min_req != NULL);
+
+	pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
+	pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
 	req->w = req->h = min_req->w = min_req->h = 0.;
 
@@ -1228,6 +1263,8 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
 	GogTool *current_tool;
 	GSList const *ptr;
 
+	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
+
 	for (ptr = gog_view_get_toolkit (view); ptr != NULL; ptr = ptr->next) {
 		current_tool = ptr->data;
 		if (current_tool->point != NULL &&
@@ -1307,7 +1344,11 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 char *
 gog_view_get_tip_at_point (GogView *view, double x, double y)
 {
-	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+	GogViewClass *klass;
+
+	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
+
+	klass = GOG_VIEW_GET_CLASS (view);
 	return klass->get_tip_at_point ? klass->get_tip_at_point (view, x, y) : NULL;
 }
 
@@ -1323,7 +1364,10 @@ gog_view_get_tip_at_point (GogView *view, double x, double y)
  * consulted and @requisition is always set to zero.
  **/
 void
-gog_view_get_natural_size (G_GNUC_UNUSED GogView *view, GogViewRequisition *requisition)
+gog_view_get_natural_size (GogView *view, GogViewRequisition *requisition)
 {
+	g_return_if_fail (GOG_IS_VIEW (view));
+	g_return_if_fail (requisition != NULL);
+
 	requisition->w = requisition->h = 0.; /*FIXME!!!*/
 }
