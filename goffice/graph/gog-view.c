@@ -27,17 +27,45 @@
 #include <glib/gi18n-lib.h>
 
 /**
+ * SECTION: gog-view
+ * @short_description: Visual representation of a #GogObject.
+ *
+ * A #GogView displays a #GogObject using a #GogRenderer. The views of a graph
+ * form a tree that mirrors the tree of the #GogObject models: when a child is
+ * added to or removed from a model, the matching child view is created or
+ * destroyed, and the order of the child views follows the order of the
+ * model's children.
+ *
+ * The layout is done in two steps. A view tells its parent how much room it
+ * wants with gog_view_size_request() (and gog_view_padding_request()), then
+ * the parent gives it a position and a size with gog_view_size_allocate().
+ * Allocations are expressed in renderer units. Once the layout is up to date
+ * (see gog_view_update_sizes()), gog_view_render() draws a view and its
+ * children.
+ *
+ * Each view also has a toolkit, a list of #GogTool that the user interface
+ * can use to select, move or resize the object displayed by the view.
+ **/
+
+/**
  * GogViewClass:
- * @base: base class.
- * @clip: If %TRUE,  clip drawings to the view allocation.
- * @state_init: state initialization.
- * @padding_request: padding request.
- * @size_request: size request.
- * @size_allocate: size allocate.
- * @render: render to cairo.
- * @build_toolkit: builds the associated toolkit.
- * @get_tip_at_point: gets tip at pointer position.
- * @natural_size: gets natural size.
+ * @base: base class.
+ * @clip: If %TRUE, clip drawings to the view allocation.
+ * @state_init: called once the view has both a model and a renderer, after
+ * the views of the model's children have been created.
+ * @padding_request: computes the padding needed around the area in which the
+ * view is laid out, see gog_view_padding_request().
+ * @size_request: computes the size the view would like to have, see
+ * gog_view_size_request().
+ * @size_allocate: assigns a position and a size to the view and lays out its
+ * children, see gog_view_size_allocate().
+ * @render: draws the view and its children, see gog_view_render(). The
+ * default implementation renders the children.
+ * @build_toolkit: fills the view's toolkit with #GogTool, called by
+ * gog_view_get_toolkit() the first time the toolkit is needed.
+ * @get_tip_at_point: returns a newly allocated tip string for a position, or
+ * %NULL, see gog_view_get_tip_at_point().
+ * @natural_size: computes the natural size of the view.
  **/
 
 /**
@@ -46,13 +74,15 @@
  * @h: height.
  * @x: horizontal position.
  * @y: vertical position.
+ *
+ * A rectangle, in renderer units.
  **/
 
 /**
  * GogViewPadding:
  * @wr: right padding.
  * @hb: bottom padding.
- * @wl: left pdding.
+ * @wl: left padding.
  * @ht: top padding.
  **/
 
@@ -68,32 +98,57 @@ gog_view_allocation_copy (GogViewAllocation const *alloc)
 	return go_memdup (alloc, sizeof (GogViewAllocation));
 }
 
+/**
+ * gog_view_allocation_get_type:
+ *
+ * Returns: the #GType of #GogViewAllocation.
+ **/
 GType
 gog_view_allocation_get_type (void)
 {
-    static GType type = 0;
+	static GType type = 0;
 
-    if (type == 0)
-	type = g_boxed_type_register_static
-	    ("GogViewAllocation",
-	     (GBoxedCopyFunc) gog_view_allocation_copy,
-	     (GBoxedFreeFunc) g_free);
+	if (type == 0)
+		type = g_boxed_type_register_static
+			("GogViewAllocation",
+			 (GBoxedCopyFunc)gog_view_allocation_copy,
+			 (GBoxedFreeFunc)g_free);
 
-    return type;
+	return type;
 }
 
 /*****************************************************************************/
 
 /**
+ * SECTION: gog-tool
+ * @short_description: Interactive tools for #GogView.
+ *
+ * A #GogTool describes an interaction that the user can have with a
+ * #GogView, such as selecting, moving or resizing the object the view
+ * displays. The tools that apply to a view are listed in its toolkit, see
+ * gog_view_get_toolkit().
+ *
+ * When the user starts using a tool, a #GogToolAction is created with
+ * gog_tool_action_new() to keep track of the interaction. It is then told
+ * about the pointer movements with gog_tool_action_move() and about double
+ * clicks with gog_tool_action_double_click(), and released with
+ * gog_tool_action_free() when the interaction is over.
+ **/
+
+/**
  * GogTool:
- * @name: tool name.
+ * @name: tool name, marked for translation.
  * @cursor_type: pointer cursor type for the tool.
- * @point: points an object.
- * @render: displays the tool.
- * @init: initializes an action.
- * @move: callback for pointer move.
+ * @point: tests whether the tool applies to a view at a given position. It
+ * can store in its last argument the object the tool applies to; when it does
+ * not, the model of the view is used.
+ * @render: displays the tool for a view, for example a selection rectangle or
+ * a resizing grip.
+ * @init: initializes an action, called when the action is created.
+ * @move: callback for pointer move, receives the new pointer position.
  * @double_click: callback on double click.
- * @destroy: destroys the action.
+ * @destroy: destroys what @init allocated for an action. The @data member of
+ * the action is released with g_free() afterwards.
  **/
 
 #ifdef GOFFICE_WITH_GTK
@@ -255,11 +310,13 @@ static GogTool gog_tool_resize_object = {
 
 /**
  * GogToolAction:
- * @start_x: initial pointer horizontal position.
- * @start_y: initial pointer vertical position.
- * @view: #GogView
- * @tool: #GogTool
- * @data: user data.
+ * @start_x: initial pointer horizontal position, in renderer units.
+ * @start_y: initial pointer vertical position, in renderer units.
+ * @view: the #GogView the tool is used on. The action does not hold a
+ * reference on it.
+ * @tool: the #GogTool being used.
+ * @data: private data of the tool, set by its @init method and released with
+ * g_free() when the action is destroyed.
  * @ref_count: internal.
  **/
 
@@ -270,6 +327,11 @@ gog_tool_action_ref (GogToolAction *action)
 	return action;
 }
 
+/**
+ * gog_tool_action_get_type:
+ *
+ * Returns: the #GType of #GogToolAction.
+ **/
 GType
 gog_tool_action_get_type (void)
 {
@@ -283,6 +345,21 @@ gog_tool_action_get_type (void)
 	return t;
 }
 
+/**
+ * gog_tool_action_new:
+ * @view: the #GogView on which @tool is used
+ * @tool: the #GogTool being used
+ * @x: horizontal position of the pointer, in renderer units
+ * @y: vertical position of the pointer, in renderer units
+ *
+ * Starts an interaction with @tool on @view and calls the init method of
+ * @tool, if any. The initial pointer position is kept so that later moves can
+ * be interpreted relatively to it. The action does not hold a reference on
+ * @view, so it must not outlive it.
+ *
+ * Returns: (transfer full) (nullable): a new #GogToolAction, to be released
+ * with gog_tool_action_free(), or %NULL if the arguments are invalid.
+ **/
 GogToolAction *
 gog_tool_action_new (GogView *view, GogTool *tool, double x, double y)
 {
@@ -306,6 +383,15 @@ gog_tool_action_new (GogView *view, GogTool *tool, double x, double y)
 	return action;
 }
 
+/**
+ * gog_tool_action_move:
+ * @action: a #GogToolAction
+ * @x: new horizontal position of the pointer, in renderer units
+ * @y: new vertical position of the pointer, in renderer units
+ *
+ * Tells @action that the pointer has moved, by calling the move method of its
+ * tool, if any.
+ **/
 void
 gog_tool_action_move (GogToolAction *action, double x, double y)
 {
@@ -315,6 +401,13 @@ gog_tool_action_move (GogToolAction *action, double x, double y)
 		(action->tool->move) (action, x, y);
 }
 
+/**
+ * gog_tool_action_double_click:
+ * @action: a #GogToolAction
+ *
+ * Tells @action that a double click happened, by calling the double_click
+ * method of its tool, if any.
+ **/
 void
 gog_tool_action_double_click (GogToolAction *action)
 {
@@ -324,6 +417,14 @@ gog_tool_action_double_click (GogToolAction *action)
 		(action->tool->double_click) (action);
 }
 
+/**
+ * gog_tool_action_free:
+ * @action: a #GogToolAction
+ *
+ * Drops a reference on @action. When the last reference is dropped, the
+ * destroy method of the tool is called, if any, then the data of @action and
+ * @action itself are freed.
+ **/
 void
 gog_tool_action_free (GogToolAction *action)
 {
@@ -785,6 +886,19 @@ gog_view_queue_resize (GogView *view)
 	} while (NULL != (view = view->parent) && view->allocation_valid);
 }
 
+/**
+ * gog_view_padding_request:
+ * @view: a #GogView
+ * @bbox: the area in which @view is going to be laid out
+ * @padding: (out): where to store the padding
+ *
+ * Determines how much room the children of @view that are positioned as
+ * padding (for example the axes of a chart) need around the main area of
+ * @view. @padding is zeroed before the padding_request method of the class is
+ * called, so implementations only have to increase it. The default
+ * implementation keeps, for each side, the largest padding requested by the
+ * children.
+ **/
 void
 gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewPadding *padding)
 {
@@ -805,7 +919,7 @@ gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewP
  * gog_view_size_request:
  * @view: a #GogView
  * @available: available space.
- * @requisition: a #GogViewRequisition.
+ * @requisition: (out): where to store the #GogViewRequisition.
  *
  * Determines the desired size of a view.
  *
@@ -839,7 +953,12 @@ gog_view_size_request (GogView *view,
  * @view: a #GogView
  * @allocation: position and size to be allocated to @view
  *
- * Assign a size and position to a GogView.  Primarilly used by containers.
+ * Assign a size and position to a GogView.  Primarily used by containers.
+ *
+ * The size_allocate method of the class is called, which is expected to lay
+ * out the children of @view, then @allocation is stored as the allocation of
+ * @view and the layout of @view is considered valid. It is an error to call
+ * this function while @view is already being updated.
  **/
 void
 gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
@@ -868,6 +987,10 @@ gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
  * gog_view_update_sizes:
  * @view: #GogView
  *
+ * Makes sure that the layout of @view and of its children is up to date. A
+ * view whose allocation was invalidated, see gog_view_queue_resize(), is
+ * allocated again using its current allocation.
+ *
  * Returns: %TRUE if a redraw is necessary.
  **/
 gboolean
@@ -892,6 +1015,17 @@ gog_view_update_sizes (GogView *view)
 	return TRUE;
 }
 
+/**
+ * gog_view_render:
+ * @view: a #GogView
+ * @bbox: (nullable): the area to render, or %NULL, passed to the render
+ * method of the class
+ *
+ * Renders @view and its children using the renderer of @view. Nothing is drawn
+ * if the model of @view is invisible or if its allocation has a negative or
+ * undefined size. If the class asks for it, the drawing is clipped to the
+ * allocation of @view.
+ **/
 void
 gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 {
@@ -920,12 +1054,12 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
  * gog_view_size_child_request:
  * @view: a #GogView
  * @available: the amount of space available in total
- * @req: additional requisition
- * @min_req: minimum size for displaying all children
+ * @req: (out): additional requisition
+ * @min_req: (out): minimum size for displaying all children
  *
- * Computes additional requision in @req which must be added to parent requisition,
+ * Computes additional requisition in @req which must be added to parent requisition,
  * and minimum requisition in @min_req which is minimum space for displaying all
- * children.
+ * children.  Children with a manual position are not supported yet.
  *
  **/
 void
@@ -983,9 +1117,12 @@ gog_view_size_child_request (GogView *view,
  * @container: #GogView
  * @target_model: #GogObject
  *
- * Find the GogView contained in @container that corresponds to @model.
+ * Find the #GogView, @container or one of its descendants, that corresponds
+ * to @target_model. The model of @container must be @target_model or one of
+ * its ancestors.
  *
- * Returns: (transfer none): NULL on error or if @target_model has no view.
+ * Returns: (transfer none) (nullable): the view of @target_model, or %NULL on
+ * error or if @target_model has no view.
  **/
 GogView *
 gog_view_find_child_view  (GogView const *container, GogObject const *target_model)
@@ -1028,7 +1165,8 @@ gog_view_find_child_view  (GogView const *container, GogObject const *target_mod
  * gog_view_render_toolkit:
  * @view: #GogView
  *
- * Render toolkit elements.
+ * Render toolkit elements, by calling the render method of each tool of the
+ * toolkit of @view that has one.
  **/
 void
 gog_view_render_toolkit (GogView *view)
@@ -1043,12 +1181,14 @@ gog_view_render_toolkit (GogView *view)
 		if (tool->render != NULL)
 			(tool->render) (view);
 	}
-
 }
 
 /**
  * gog_view_get_toolkit:
  * @view: #GogView
+ *
+ * The toolkit is built the first time it is needed, using the build_toolkit
+ * method of the class.
  *
  * Returns: (element-type GogTool) (transfer none): toolkit associated with given view.
  **/
@@ -1069,11 +1209,17 @@ gog_view_get_toolkit (GogView *view)
 /**
  * gog_view_get_tool_at_point:
  * @view: #GogView
- * @x: in coords
- * @y: in coords
- * @gobj: pointed object or %NULL
+ * @x: pointer horizontal position, in renderer units
+ * @y: pointer vertical position, in renderer units
+ * @gobj: (out) (optional) (nullable): location for the pointed object, set to
+ * %NULL if there is no tool at that position
  *
- * Returns: (transfer none): tool under cursor for a given view, or %NULL
+ * Looks, in the order of the toolkit of @view, for the first tool that applies
+ * at the given position. If that tool does not designate a particular object,
+ * the model of @view is stored in @gobj.
+ *
+ * Returns: (transfer none) (nullable): tool under cursor for a given view, or
+ * %NULL
  **/
 GogTool *
 gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
@@ -1100,16 +1246,20 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
 /**
  * gog_view_get_view_at_point:
  * @view: #GogView
- * @x: cursor x position
- * @y: cursor y position
- * @obj: pointed object or %NULL
- * @tool: pointed tool or %NULL
+ * @x: cursor x position, in renderer units
+ * @y: cursor y position, in renderer units
+ * @obj: (out) (optional) (nullable): location for the pointed object, set to
+ * %NULL if there is none
+ * @tool: (out) (optional) (nullable): location for the pointed tool, left
+ * unchanged if there is none
  *
- * Gets view under cursor, searching recursively from @view. Corresponding object
- * is stored in @obj. This object may or may not be @view->model of pointed view.
- * This function also stores tool under cursor, for the pointed view.
+ * Gets view under cursor, searching recursively from @view. The children are
+ * tried from the last one to the first one, before @view itself. Corresponding
+ * object is stored in @obj. This object may or may not be @view->model of
+ * pointed view. This function also stores tool under cursor, for the pointed
+ * view.
  *
- * Returns: (transfer none): the #GogView at x,y position
+ * Returns: (transfer none) (nullable): the #GogView at x,y position, or %NULL
  **/
 GogView *
 gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, GogTool **tool)
@@ -1146,21 +1296,32 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 /**
  * gog_view_get_tip_at_point:
  * @view: #GogView
- * @x: x position
- * @y: y position
+ * @x: x position, in renderer units
+ * @y: y position, in renderer units
  *
  * Gets a tip string related to the position as defined by (@x,@y) in @view.
  *
- * return value: the newly allocated tip string if the view class supports
- * that or %NULL.
+ * Returns: (transfer full) (nullable): the newly allocated tip string if the
+ * view class supports that or %NULL.
  **/
-char*
+char *
 gog_view_get_tip_at_point (GogView *view, double x, double y)
 {
 	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
-	return (klass->get_tip_at_point != NULL)? (klass->get_tip_at_point) (view, x, y): NULL;
+	return klass->get_tip_at_point ? klass->get_tip_at_point (view, x, y) : NULL;
 }
 
+/**
+ * gog_view_get_natural_size:
+ * @view: a #GogView
+ * @requisition: (out): where to store the natural size
+ *
+ * Gets the natural size of @view, that is the size it would take without any
+ * constraint from its parent.
+ *
+ * This is not implemented yet: the natural_size method of #GogViewClass is not
+ * consulted and @requisition is always set to zero.
+ **/
 void
 gog_view_get_natural_size (G_GNUC_UNUSED GogView *view, GogViewRequisition *requisition)
 {
