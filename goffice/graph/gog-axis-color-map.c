@@ -106,18 +106,27 @@ static void
 gog_axis_color_map_finalize (GObject *obj)
 {
 	GogAxisColorMap *map = GOG_AXIS_COLOR_MAP (obj);
+
 	g_free (map->id);
 	map->id = NULL;
+
 	g_free (map->name);
 	map->name = NULL;
+
 	g_free (map->uri);
+	map->uri = NULL;
+
 	g_free (map->limits);
 	map->limits = NULL;
+
 	g_free (map->colors);
 	map->colors = NULL;
-	if (map->names)
+
+	if (map->names) {
 		g_hash_table_destroy (map->names);
-	map->names = NULL;
+		map->names = NULL;
+	}
+
 	parent_klass->finalize (obj);
 }
 
@@ -239,8 +248,11 @@ static void
 map_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	struct color_map_load_state	*state = (struct color_map_load_state *) xin->user_state;
-	if (state->map ==  NULL) {
+	if (state->map ==  NULL)
 		state->map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
+	/* the map might already exist when loading through prep_sax(), but
+	 * its id still has to be read from the file */
+	if (state->map->id == NULL) {
 		for (; attrs && *attrs; attrs +=2)
 			if (!strcmp ((char const *) *attrs, "id")) {
 				state->map->id = g_strdup ((char const *) attrs[1]);
@@ -335,7 +347,7 @@ color_map_loaded (struct color_map_load_state *state, char const *uri, gboolean 
 	/* populates the colors */
 	/* first sort the color list according to bins */
 	ptr = state->color_stops = g_slist_sort (state->color_stops, (GCompareFunc) color_stops_cmp);
-	if (((struct _color_stop *) ptr->data)->bin != 0) {
+	if (ptr == NULL || ((struct _color_stop *) ptr->data)->bin != 0) {
 		g_warning ("[GogAxisColorMap]: Invalid color map in %s", uri);
 		if (delete_invalid) {
 			g_object_unref (state->map);
@@ -1069,7 +1081,13 @@ void
 _gog_axis_color_maps_shutdown (void)
 {
 	g_object_unref (color_map);
+	color_map = NULL;
+
 	g_slist_free_full (color_maps, g_object_unref);
-	if (xml)
+	color_maps = NULL;
+
+	if (xml) {
 		gsf_xml_in_doc_free (xml);
+		xml = NULL;
+	}
 }
