@@ -88,20 +88,19 @@
  * <tr><td>GogTrendLine</td><td></td><td>line</td></tr>
  * <tr><td>GogRegEqn</td><td></td><td>outline, fill, font, text_layout</td></tr>
  * <tr><td>GogSeriesLabels</td><td></td><td>outline, fill, font, text_layout</td></tr>
- * <tr><td>GogRegEqn</td><td></td><td>outline, fill, font, text_layout</td></tr>
  * <tr><td>GogSeriesLabel</td><td></td><td>outline, fill, font, text_layout</td></tr>
  * <tr><td>GogDataLabel</td><td></td><td>outline, fill, font, text_layout</td></tr>
  * <tr><td>GogEquation</td><td></td><td>outline, fill, font, text_layout</td></tr>
  * </table>
  *
  * The line and outline nodes are actually the same so using line in place of outline is
- * not an issue. A color is specified either using the format RR:GG::BB:AA or a string as defined
+ * not an issue. A color is specified either using the format RR:GG:BB:AA or a string as defined
  * in rgb.txt, so black can be specified as "black" or "00:00:00:FF".
  *
  * "line" or "outline" node:
  *
  * <table style="border-spacing:1cm 2mm">
- * <thead><tr><td>attribute</td><td>value</td></tr><td>comments</td></thead>
+ * <thead><tr><td>attribute</td><td>value</td><td>comments</td></tr></thead>
  * <tr><td>dash</td><td>one of "none", "solid", "s-dot", "s-dash-dot", "s-dash-dot-dot", "dash-dot-dot-dot", "dot",
  * "s-dash", "dash", "l-dash", "dash-dot", or "dash-dot-dot"</td></tr>
  * <tr><td>color</td><td>any color as described above</td></tr>
@@ -167,6 +166,17 @@
  * <thead><tr><td>attribute</td><td>value</td><td>comments</td></tr></thead>
  * <tr><td>angle</td><td>float</td><td>expressed in degrees</td></tr>
  * </table>
+ *
+ * "GogAxisColorMap" node
+ *
+ * Optional. At most one map can be given for continuous axes and one for
+ * discrete axes. The spelling "GogAxisColormap" is accepted as well.
+ * <table style="border-spacing:1cm 2mm">
+ * <thead><tr><td>attribute</td><td>value</td><td>comments</td></tr></thead>
+ * <tr><td>type</td><td>one of "gradient", "discrete", or "both"</td><td>"both" uses the same map for continuous and discrete axes</td></tr>
+ * </table>
+ * The contents are described in #GogAxisColorMap: an id attribute, name nodes
+ * and color-stop nodes.
  **/
 
 typedef void (*GogThemeStyleMap) (GOStyle *style, unsigned ind, GogTheme const *theme);
@@ -216,7 +226,7 @@ enum {
 
 static void
 gog_theme_set_property (GObject *gobject, guint param_id,
-                                 GValue const *value, GParamSpec *pspec)
+			GValue const *value, GParamSpec *pspec)
 {
 	GogTheme *theme = GOG_THEME (gobject);
 
@@ -306,6 +316,9 @@ gog_theme_finalize (GObject *obj)
 		g_object_unref (theme->cm);
 	if (theme->dcm)
 		g_object_unref (theme->dcm);
+	if (theme->default_style)
+		g_object_unref (theme->default_style);
+	g_free (theme->path);
 
 	(parent_klass->finalize) (obj);
 }
@@ -519,7 +532,7 @@ name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		return;
 	name = g_strdup (xin->content->str);
 	if (state->lang == NULL)
-	state->lang = g_strdup ("C");
+		state->lang = g_strdup ("C");
 	if (state->name_lang_score > 0 && state->langs[0] != NULL) {
 		unsigned i;
 		for (i = 0; i < state->name_lang_score && state->langs[i] != NULL; i++) {
@@ -545,7 +558,7 @@ desc_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		return;
 	desc = g_strdup (xin->content->str);
 	if (state->lang == NULL)
-	state->lang = g_strdup ("C");
+		state->lang = g_strdup ("C");
 	if (state->desc_lang_score > 0 && state->langs[0] != NULL) {
 		unsigned i;
 		for (i = 0; i < state->desc_lang_score && state->langs[i] != NULL; i++) {
@@ -619,7 +632,7 @@ gog_theme_add_element (GogTheme *theme, GOStyle *style,
 	elem->style = style;
 	elem->map   = map;
 
-	/* sets the needed insteresting_fields in style */
+	/* sets the needed interesting_fields in style */
 	for (i = 0; i < G_N_ELEMENTS (roles); i++) {
 		if ((klass_name && roles[i].klass_name && strcmp (klass_name, roles[i].klass_name))
 		    || (klass_name != NULL && roles[i].klass_name == NULL))
@@ -639,16 +652,16 @@ gog_theme_add_element (GogTheme *theme, GOStyle *style,
 			g_hash_table_insert (theme->elem_hash_by_role,
 				(gpointer)elem, elem);
 		else {
-			g_object_unref (style);
-			g_free (elem);
+			/* the element owns its strings and its style */
+			gog_theme_element_free (elem);
 		}
 	} else if (klass_name != NULL) {
 		if (g_hash_table_lookup (theme->elem_hash_by_class, (gpointer)klass_name) == NULL)
 			g_hash_table_insert (theme->elem_hash_by_class,
 				(gpointer)klass_name, elem);
 		else {
-			g_object_unref (style);
-			g_free (elem);
+			/* the element owns its strings and its style */
+			gog_theme_element_free (elem);
 		}
 
 	} else {
@@ -689,40 +702,57 @@ elem_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 			state->theme->palette = g_ptr_array_new ();
 		g_ptr_array_add (state->theme->palette, style);
 		g_free (class_name);
+		g_free (role);
 	} else
 		gog_theme_add_element (state->theme, style, NULL, class_name, role);
 }
 
 static void
-color_map_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+color_map_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	struct theme_load_state	*state = (struct theme_load_state *) xin->user_state;
 	GogAxisColorMap *map;
+	char const *type = NULL;
+	gboolean want_cm, want_dcm, keep = FALSE;
+	unsigned i;
+
 	if (state->theme == NULL)
 		return;
-	if (state->theme->name) /* the theme has already been loaded from elsewhere */
-		return;
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1]; i += 2)
+		if (0 == strcmp (CXML2C (attrs[i]), "type"))
+			type = CXML2C (attrs[i+1]);
+
+	/* "gradient": the continuous map, "discrete": the discrete one,
+	 * "both": the same map is used for both. */
+	want_dcm = type != NULL && (0 == strcmp (type, "discrete") || 0 == strcmp (type, "both"));
+	want_cm = type != NULL && 0 != strcmp (type, "discrete");
+
+	if (state->theme->name) {
+		/* the theme has already been loaded from elsewhere */
+	} else if (type == NULL)
+		g_warning ("[GogTheme]: GogAxisColorMap without a type.");
+	else if ((want_cm && state->theme->cm != NULL) ||
+		 (want_dcm && state->theme->dcm != NULL))
+		g_warning ("[GogTheme]: extra GogAxisColorMap found.");
+	else
+		keep = TRUE;
+
 	map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, "resource-type", GO_RESOURCE_CHILD, NULL);
-	for (; attrs && *attrs; attrs += 2)
-		if (!strcmp ((char const *) *attrs, "type")) {
-			if (strcmp ((char const *) attrs[1], "discrete")) {
-				if (state->theme->cm != NULL) {
-					g_warning ("[GogTheme]: extra GogAxisColorMap found.");
-					g_object_unref (map);
-					return;
-				}
-				state->theme->cm =  map;
-				if (strcmp ((char const *) attrs[1], "both"))
-					return;
-				g_object_ref (map);
-			}
-			if (state->theme->dcm != NULL) {
-				g_warning ("[GogTheme]: extra GogAxisColorMap found.");
-				g_object_unref (map);
-				return;
-			}
+	if (keep) {
+		if (want_cm)
+			state->theme->cm = map;
+		if (want_dcm)
 			state->theme->dcm = map;
-		}
+		if (want_cm && want_dcm)
+			g_object_ref (map);
+	} else
+		/* still parse the contents to avoid warnings about unexpected
+		 * child nodes, and throw the result away */
+		state->garbage = g_slist_prepend (state->garbage, map);
+
+	/* let the color map read its own contents (id, names, color stops) */
+	go_persist_prep_sax (GO_PERSIST (map), xin, attrs);
 }
 
 static GsfXMLInNode const theme_dtd[] = {
@@ -732,7 +762,9 @@ static GsfXMLInNode const theme_dtd[] = {
 		GSF_XML_IN_NODE (THEME, DESCRIPTION, -1, "description", GSF_XML_CONTENT, name_start, desc_end),
 		GSF_XML_IN_NODE (THEME, UDESCRIPTION, -1, "_description", GSF_XML_CONTENT, name_start, desc_end),
 		GSF_XML_IN_NODE (THEME, STYLE, -1, "GOStyle", GSF_XML_NO_CONTENT, elem_start, NULL),
-		GSF_XML_IN_NODE (THEME, COLORMAP, -1, "GogAxisColormap", GSF_XML_NO_CONTENT, color_map_start, NULL),
+		GSF_XML_IN_NODE (THEME, COLORMAP, -1, "GogAxisColorMap", GSF_XML_NO_CONTENT, color_map_start, NULL),
+		/* older spelling, accepted for compatibility */
+		GSF_XML_IN_NODE (THEME, COLORMAP2, -1, "GogAxisColormap", GSF_XML_NO_CONTENT, color_map_start, NULL),
 	GSF_XML_IN_NODE_END
 };
 static GsfXMLInDoc *xml = NULL;
@@ -984,7 +1016,7 @@ gog_theme_get_name (GogTheme const *theme)
 }
 
 /**
- * gog_theme_get_descrition:
+ * gog_theme_get_description:
  * @theme: a #GogTheme
  *
  * Returns: the localized GogTheme description.
@@ -998,7 +1030,7 @@ gog_theme_get_description (GogTheme const *theme)
 }
 
 /**
- * gog_themep_get_resource_type:
+ * gog_theme_get_resource_type:
  * @theme: a #GogTheme
  *
  * Retrieves the resource type for @theme.
@@ -1595,12 +1627,14 @@ theme_load_from_uri (char const *uri)
 	}
 	state.theme = NULL;
 	state.desc = state.lang = state.name = NULL;
+	state.garbage = NULL;
 	state.langs = g_get_language_names ();
 	state.name_lang_score = state.desc_lang_score = G_MAXINT;
 	if (!xml)
 		xml = gsf_xml_in_doc_new (theme_dtd, NULL);
 	if (!gsf_xml_in_doc_parse (xml, input, &state))
 		g_warning ("[GogTheme]: Could not parse %s", uri);
+	g_slist_free_full (state.garbage, g_object_unref);
 	if (state.theme != NULL) {
 		if (!go_file_access (uri, GO_W_OK)) {
 			state.theme->uri = g_strdup (uri);
@@ -1679,11 +1713,17 @@ _gog_themes_shutdown (void)
 
 	g_slist_free_full (g_slist_copy (themes), g_object_unref);
 	g_slist_free (themes);
-	g_hash_table_destroy (global_class_aliases);
-	_gog_axis_color_maps_shutdown ();
 	themes = NULL;
-	if (xml)
+
+	g_hash_table_destroy (global_class_aliases);
+	global_class_aliases = NULL;
+
+	_gog_axis_color_maps_shutdown ();
+
+	if (xml) {
 		gsf_xml_in_doc_free (xml);
+		xml = NULL;
+	}
 }
 
 /**
@@ -1710,7 +1750,7 @@ gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
  * gog_theme_delete:
  * @theme: a #GogTheme
  *
- * Destroys the theme and remove it from the user directory and from the
+ * Destroys the theme and removes it from the user directory and from the
  * database.
  * Returns: %TRUE on success.
  **/
@@ -1764,6 +1804,13 @@ gog_theme_set_description (GogTheme *theme, char const *desc)
 	g_hash_table_insert (theme->descs, g_strdup ("C"), g_strdup (desc));
 }
 
+static void
+dup_elem_cb (G_GNUC_UNUSED gpointer key, GogThemeElement *elem, GogTheme *new_theme)
+{
+	gog_theme_add_element (new_theme, go_style_dup (elem->style), elem->map,
+			       g_strdup (elem->klass_name), g_strdup (elem->role_id));
+}
+
 /**
  * gog_theme_dup:
  * @theme: a #GogTheme
@@ -1775,7 +1822,8 @@ GogTheme*
 gog_theme_dup (GogTheme *theme)
 {
 	GogTheme *new_theme;
-	char *desc, *name;
+	char *desc;
+	char const *name;
 
 	g_return_val_if_fail (GOG_IS_THEME (theme), NULL);
 	new_theme = g_object_new (GOG_TYPE_THEME,
@@ -1784,11 +1832,28 @@ gog_theme_dup (GogTheme *theme)
 	new_theme->id = go_uuid ();
 	gog_theme_build_uri (new_theme);
 	gog_theme_set_name (new_theme, "New theme");
+	/* built-in themes keep their name in theme->name, not in the table */
 	name = g_hash_table_lookup (theme->names, "C");
-	desc = g_strdup_printf ("New theme base on %s", name);
+	if (name == NULL)
+		name = theme->name;
+	if (name != NULL)
+		desc = g_strdup_printf ("New theme based on %s", name);
+	else
+		desc = g_strdup ("New theme");
 	gog_theme_set_description (new_theme, desc);
 	g_free (desc);
 	/* duplicate the styles */
+	g_hash_table_foreach (theme->elem_hash_by_class, (GHFunc) dup_elem_cb, new_theme);
+	g_hash_table_foreach (theme->elem_hash_by_role, (GHFunc) dup_elem_cb, new_theme);
+	if (theme->default_style)
+		new_theme->default_style = go_style_dup (theme->default_style);
+	if (theme->palette) {
+		unsigned i;
+		new_theme->palette = g_ptr_array_sized_new (theme->palette->len);
+		for (i = 0; i < theme->palette->len; i++)
+			g_ptr_array_add (new_theme->palette,
+				go_style_dup (g_ptr_array_index (theme->palette, i)));
+	}
 	/* duplicate the color maps */
 	if (theme->cm) {
 		new_theme->cm = gog_axis_color_map_dup (theme->cm);
@@ -1796,13 +1861,17 @@ gog_theme_dup (GogTheme *theme)
 			          "resource-type", GO_RESOURCE_CHILD,
 			          NULL);
 	}
-	if (theme->dcm &&
-	    gog_axis_color_map_get_resource_type (theme->dcm) == GO_RESOURCE_CHILD) {
+	if (theme->dcm) {
+		if (gog_axis_color_map_get_resource_type (theme->dcm) == GO_RESOURCE_CHILD) {
 			new_theme->dcm = gog_axis_color_map_dup (theme->dcm);
 			g_object_set (G_OBJECT (new_theme->dcm),
-					      "resource-type", GO_RESOURCE_CHILD,
-					      NULL);
-		}
+				      "resource-type", GO_RESOURCE_CHILD,
+				      NULL);
+		} else
+			/* not owned by the theme: share it, so that the new
+			 * theme still has a discrete color map */
+			new_theme->dcm = g_object_ref (theme->dcm);
+	}
 	return new_theme;
 }
 
@@ -1889,4 +1958,3 @@ gog_theme_edit (GogTheme *theme, GOCmdContext *cc)
 }
 
 #endif
-

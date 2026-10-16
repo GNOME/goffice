@@ -1,5 +1,5 @@
 /*
- * go-graph.c :
+ * gog-graph.c :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -48,9 +48,9 @@
  * SECTION: gog-graph
  * @short_description: The graph object.
  *
- * A graph (in the abstract sense) in GOffice is an hierarical object model,
+ * A graph (in the abstract sense) in GOffice is a hierarchical object model,
  * with a #GogGraph object as the top-level object.
- * Objects that can be part of a graph is a subclass of #GogObject. Those, and
+ * Objects that can be part of a graph are subclasses of #GogObject. Those, and
  * related objects have the prefix "Gog" in the class name.
  * See #GogObject for how to manipulate the object model, and the individual
  * classes for specifics.
@@ -67,7 +67,7 @@
 
 /**
  * GogAxisSet:
- * @GOG_AXIS_SET_UNKNOWN: unkown, should not occur.
+ * @GOG_AXIS_SET_UNKNOWN: unknown, should not occur.
  * @GOG_AXIS_SET_NONE: no axis.
  * @GOG_AXIS_SET_X: only an X axis.
  * @GOG_AXIS_SET_XY: both X and Y axes.
@@ -88,7 +88,7 @@
  * @GOG_AXIS_X: X axis.
  * @GOG_AXIS_Y: Y axis.
  * @GOG_AXIS_Z: Z axis.
- * @GOG_AXIS_CIRCULAR: circular axis/
+ * @GOG_AXIS_CIRCULAR: circular axis.
  * @GOG_AXIS_RADIAL: radial axis.
  * @GOG_AXIS_VIRTUAL: start of virtual axes.
  * @GOG_AXIS_PSEUDO_3D: pseudo-3d axis.
@@ -126,7 +126,7 @@
  * @GOG_MS_DIM_ERR_plus1: positive errors on first dimension, we made it up.
  * @GOG_MS_DIM_ERR_minus1: negative errors on first dimension, we made it up.
  * @GOG_MS_DIM_ERR_plus2: positive errors on second dimension, we made it up.
- * @GOG_MS_DIM_ERR_minus2: negative errors on second dimension, we made it up
+ * @GOG_MS_DIM_ERR_minus2: negative errors on second dimension, we made it up.
  * @GOG_MS_DIM_START: start value, we made it up for dropbars.
  * @GOG_MS_DIM_END: end value, we made it up for dropbars.
  * @GOG_MS_DIM_LOW: low value, we made it up for hi-lo.
@@ -391,7 +391,7 @@ role_chart_post_add (GogObject *parent, GogObject *chart)
 	}
 	graph->charts = g_slist_prepend (graph->charts, chart);
 	if (!gog_chart_get_position (GOG_CHART (chart), NULL, NULL, NULL, NULL))
-		/* search the first row with column 0 unocupied */
+		/* search the first row with column 0 unoccupied */
 		gog_chart_set_position (GOG_CHART (chart),
 			0, ypos, 1, 1);
 }
@@ -469,7 +469,7 @@ gog_graph_class_init (GogGraphClass *klass)
 	/**
 	 * GogGraph::remove-data:
 	 * @graph: the object on which the signal is emitted
-	 * @data: The new #GOData being removed to @graph
+	 * @data: The #GOData being removed from @graph
 	 *
 	 * The ::remove-data signal is emitted BEFORE @data has been removed.
 	 **/
@@ -540,7 +540,10 @@ static void
 gog_graph_sax_save (GOPersist const *gp, G_GNUC_UNUSED GsfXMLOut *output)
 {
 	GogGraph *graph = GOG_GRAPH (gp);
-	if (gog_theme_get_resource_type (graph->theme) != GO_RESOURCE_NATIVE)
+	/* go_doc_save_resource() does not tolerate a NULL document, and a
+	 * graph only has a document once the "document" property was set. */
+	if (graph->doc != NULL &&
+	    gog_theme_get_resource_type (graph->theme) != GO_RESOURCE_NATIVE)
 		go_doc_save_resource (graph->doc, GO_PERSIST (graph->theme));
 }
 
@@ -648,6 +651,15 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 	return changed;
 }
 
+/**
+ * gog_graph_num_cols:
+ * @graph: #GogGraph
+ *
+ * Gets the number of columns in the grid in which the charts of @graph are
+ * laid out.  The value is updated by gog_graph_validate_chart_layout().
+ *
+ * Returns: the number of columns, or 1 if @graph is not a #GogGraph.
+ **/
 unsigned
 gog_graph_num_cols (GogGraph const *graph)
 {
@@ -655,6 +667,15 @@ gog_graph_num_cols (GogGraph const *graph)
 	return graph->num_cols;
 }
 
+/**
+ * gog_graph_num_rows:
+ * @graph: #GogGraph
+ *
+ * Gets the number of rows in the grid in which the charts of @graph are
+ * laid out.  The value is updated by gog_graph_validate_chart_layout().
+ *
+ * Returns: the number of rows, or 1 if @graph is not a #GogGraph.
+ **/
 unsigned
 gog_graph_num_rows (GogGraph const *graph)
 {
@@ -671,6 +692,8 @@ gog_graph_num_rows (GogGraph const *graph)
 GogGraph *
 gog_graph_dup (GogGraph const *graph)
 {
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), NULL);
+
 	return GOG_GRAPH (gog_object_dup (GOG_OBJECT (graph), NULL, NULL));
 }
 
@@ -719,6 +742,15 @@ theme_loaded_cb (GogGraph *graph)
 	return FALSE;
 }
 
+/**
+ * gog_graph_set_theme:
+ * @graph: #GogGraph
+ * @theme: (transfer none): the new #GogTheme
+ *
+ * Sets @theme as the theme of @graph and applies it to @graph and all of its
+ * descendants.  If @theme has not been loaded yet, applying it is deferred
+ * until it has been.
+ **/
 void
 gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 {
@@ -856,7 +888,7 @@ cb_graph_idle (GogGraph *graph)
  * gog_graph_request_update:
  * @graph: #GogGraph
  *
- * queue an update if one had not already be queued.
+ * queue an update if one had not already been queued.
  *
  * Returns: %TRUE if a handler has been added.
  **/
@@ -963,6 +995,62 @@ enum {
 	GRAPH_VIEW_PROP_RENDERER
 };
 
+/*
+ * The selected view and object are not owned by the graph view: they can be
+ * destroyed at any time (e.g. when the selected chart is removed or the view
+ * tree is rebuilt).  We therefore only hold weak references to them, and
+ * clear our pointers when they go away.
+ */
+
+static void
+cb_selected_view_gone (gpointer data, G_GNUC_UNUSED GObject *where_the_object_was)
+{
+	GogGraphView *gview = data;
+
+	gview->selected_view = NULL;
+	/* the action refers to the view that is going away */
+	if (gview->action != NULL) {
+		gog_tool_action_free (gview->action);
+		gview->action = NULL;
+	}
+}
+
+static void
+cb_selected_object_gone (gpointer data, G_GNUC_UNUSED GObject *where_the_object_was)
+{
+	GogGraphView *gview = data;
+
+	gview->selected_object = NULL;
+}
+
+static void
+set_selected_view (GogGraphView *gview, GogView *view)
+{
+	if (gview->selected_view == view)
+		return;
+	if (gview->selected_view != NULL)
+		g_object_weak_unref (G_OBJECT (gview->selected_view),
+				     cb_selected_view_gone, gview);
+	gview->selected_view = view;
+	if (view != NULL)
+		g_object_weak_ref (G_OBJECT (view),
+				   cb_selected_view_gone, gview);
+}
+
+static void
+set_selected_object (GogGraphView *gview, GogObject *object)
+{
+	if (gview->selected_object == object)
+		return;
+	if (gview->selected_object != NULL)
+		g_object_weak_unref (G_OBJECT (gview->selected_object),
+				     cb_selected_object_gone, gview);
+	gview->selected_object = object;
+	if (object != NULL)
+		g_object_weak_ref (G_OBJECT (object),
+				   cb_selected_object_gone, gview);
+}
+
 static void
 gog_graph_view_set_property (GObject *gobject, guint param_id,
 			     GValue const *value, GParamSpec *pspec)
@@ -1050,6 +1138,8 @@ gog_graph_view_finalize (GObject *obj)
 		gog_tool_action_free (gview->action);
 		gview->action = NULL;
 	}
+	set_selected_view (gview, NULL);
+	set_selected_object (gview, NULL);
 
 	(G_OBJECT_CLASS (gview_parent_klass)->finalize) (obj);
 }
@@ -1137,7 +1227,7 @@ update_action (GogGraphView *view, GogTool *tool, double x, double y)
 
 /**
  * gog_graph_view_handle_event:
- * @gview: #GogGraphView
+ * @view: #GogGraphView
  * @event: #GdkEvent
  * @x_offset: in pixels
  * @y_offset: in pixels
@@ -1148,11 +1238,18 @@ void
 gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 			     double x_offset, double y_offset)
 {
-	GogObject *old_object = view->selected_object;
+	GogObject *old_object;
 	GogTool *tool = NULL;
-	GdkWindow *window = event->any.window;
+	GdkWindow *window;
 	double x, y, scale = 1;
 	int x_int, y_int;
+
+	g_return_if_fail (GOG_IS_GRAPH_VIEW (view));
+	g_return_if_fail (event != NULL);
+	g_return_if_fail (event->any.window != NULL);
+
+	old_object = view->selected_object;
+	window = event->any.window;
 
 	x = event->button.x - x_offset;
 	y = event->button.y - y_offset;
@@ -1166,14 +1263,19 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 			if (view->action != NULL)
 				gog_tool_action_double_click (view->action);
 			break;
-		case GDK_BUTTON_PRESS:
-			if (view->selected_view != NULL)
-				tool = gog_view_get_tool_at_point (view->selected_view, x, y,
-								   &view->selected_object);
+		case GDK_BUTTON_PRESS: {
+			GogView *new_view = view->selected_view;
+			GogObject *new_object = NULL;
+
+			if (new_view != NULL)
+				tool = gog_view_get_tool_at_point (new_view, x, y,
+								   &new_object);
 			if (tool == NULL)
-				view->selected_view = gog_view_get_view_at_point (GOG_VIEW (view), x, y,
-										  &view->selected_object,
-										  &tool);
+				new_view = gog_view_get_view_at_point (GOG_VIEW (view), x, y,
+								       &new_object,
+								       &tool);
+			set_selected_view (view, new_view);
+			set_selected_object (view, new_object);
 			if (old_object != view->selected_object) {
 				g_signal_emit (G_OBJECT (view),
 					       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED],
@@ -1183,6 +1285,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 			update_action (view, tool, x, y);
 			update_cursor (view, tool, window);
 			break;
+		}
 		case GDK_MOTION_NOTIFY:
 			if (event->motion.is_hint) {
 				gdk_window_get_device_position (window,
@@ -1247,11 +1350,11 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
 	if (gview->selected_object == gobj)
 		return;
 
-	gview->selected_object = gobj;
+	set_selected_object (gview, gobj);
 	view = gog_view_find_child_view (GOG_VIEW (gview), gobj);
 
 	if (gview->selected_view != view) {
-		gview->selected_view = view;
+		set_selected_view (gview, view);
 		update_action (gview, NULL, 0, 0);
 	}
 
@@ -1269,7 +1372,6 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
  * returns: (element-type GOImageFormat) (transfer container): a #GSList
  * of #GOImageFormat.
  **/
-
 GSList *
 gog_graph_get_supported_image_formats (void)
 {
@@ -1304,7 +1406,6 @@ gog_graph_get_supported_image_formats (void)
  *
  * returns: %TRUE if export succeed.
  **/
-
 gboolean
 gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output,
 			double x_dpi, double y_dpi)
@@ -1314,6 +1415,7 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
 
 	g_return_val_if_fail (GOG_IS_GRAPH (graph), FALSE);
 	g_return_val_if_fail (format != GO_IMAGE_FORMAT_UNKNOWN, FALSE);
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
 
 	renderer = gog_renderer_new (graph);
 	result = gog_renderer_export_image (renderer, format, output, x_dpi, y_dpi);
@@ -1329,14 +1431,19 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
  * @w: width
  * @h: height
  *
- * Renders a graph using @cairo. @w and @h are the requested width an height of the rendered graph, in the current @cairo coordinate space. This function is not suited for multiple rendering of the same graph. gog_renderer_render_to cairo or gog_renderer_update/gog_renderer_get_cairo_surface should be used instead.
+ * Renders a graph using @cairo. @w and @h are the requested width and
+ * height of the rendered graph, in the current @cairo coordinate space.
+ * This function is not suited for multiple rendering of the same graph.
+ * gog_renderer_render_to cairo or gog_renderer_update/
+ * gog_renderer_get_cairo_surface should be used instead.
  **/
-
-void gog_graph_render_to_cairo (GogGraph *graph, cairo_t *cairo, double w, double h)
+void
+gog_graph_render_to_cairo (GogGraph *graph, cairo_t *cairo, double w, double h)
 {
 	GogRenderer *renderer;
 
 	g_return_if_fail (GOG_IS_GRAPH (graph));
+	g_return_if_fail (cairo != NULL);
 
 	renderer = gog_renderer_new (graph);
 	gog_renderer_render_to_cairo (renderer, cairo, w, h);

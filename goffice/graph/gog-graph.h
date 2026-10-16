@@ -66,7 +66,7 @@ gboolean  gog_graph_export_image 		(GogGraph *graph, GOImageFormat format,
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-void  	 gog_graph_view_handle_event 	(GogGraphView *gview, GdkEvent *event, double x_offset, double y_offset);
+void  	 gog_graph_view_handle_event 	(GogGraphView *view, GdkEvent *event, double x_offset, double y_offset);
 #endif
 
 void 	 gog_graph_render_to_cairo 	(GogGraph *graph, cairo_t *cairo, double w, double h);
