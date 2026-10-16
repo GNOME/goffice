@@ -711,18 +711,23 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 				req.w = res.w;
 			tmp = res;
 
+			/* A child never takes more than what is left, so that the
+			 * residual can't become negative: when it needs all of
+			 * it, the padding is squeezed out. */
 			if (pos & GOG_POSITION_N) {
 				if (req.h > 0) {
-					res.y += req.h + pad_h;
-					res.h -= req.h + pad_h;
+					double step = MIN (req.h + pad_h, res.h);
+					res.y += step;
+					res.h -= step;
 				} else
 					req.h = 0;
 				tmp.h  = req.h;
 				vertical = FALSE;
 			} else if (pos & GOG_POSITION_S) {
 				if (req.h > 0) {
-					res.h -= req.h + pad_h;
-					tmp.y  = res.y + res.h + pad_h;
+					double step = MIN (req.h + pad_h, res.h);
+					tmp.y  = res.y + res.h - req.h;
+					res.h -= step;
 				} else
 					req.h = 0;
 				tmp.h  = req.h;
@@ -732,8 +737,9 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 
 				if (pos & GOG_POSITION_E) {
 					if (req.w > 0) {
-						res.w -= req.w + pad_w;
-						tmp.x  = res.x + res.w + pad_w;
+						double step = MIN (req.w + pad_w, res.w);
+						tmp.x  = res.x + res.w - req.w;
+						res.w -= step;
 					} else
 						req.w = 0;
 					tmp.w  = req.w;
@@ -742,8 +748,9 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 						pos = GOG_POSITION_ALIGN_FILL;
 				} else if (pos & GOG_POSITION_W) {
 					if (req.w > 0) {
-						res.x += req.w + pad_w;
-						res.w -= req.w + pad_w;
+						double step = MIN (req.w + pad_w, res.w);
+						res.x += step;
+						res.w -= step;
 					} else
 						req.w = 0;
 					tmp.w  = req.w;
@@ -1251,7 +1258,8 @@ gog_view_get_toolkit (GogView *view)
  *
  * Looks, in the order of the toolkit of @view, for the first tool that applies
  * at the given position. If that tool does not designate a particular object,
- * the model of @view is stored in @gobj.
+ * the model of @view is stored in @gobj. There is no tool for a view whose
+ * model is invisible.
  *
  * Returns: (transfer none) (nullable): tool under cursor for a given view, or
  * %NULL
@@ -1264,6 +1272,13 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
 	GSList const *ptr;
 
 	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
+
+	/* invisible objects are not drawn, so they have no tool either */
+	if (view->model->invisible) {
+		if (gobj != NULL)
+			*gobj = NULL;
+		return NULL;
+	}
 
 	for (ptr = gog_view_get_toolkit (view); ptr != NULL; ptr = ptr->next) {
 		current_tool = ptr->data;
@@ -1291,7 +1306,8 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
  * unchanged if there is none
  *
  * Gets view under cursor, searching recursively from @view. The children are
- * tried from the last one to the first one, before @view itself. Corresponding
+ * tried from the last one to the first one, before @view itself. Views whose
+ * model is invisible, and their children, are never returned. Corresponding
  * object is stored in @obj. This object may or may not be @view->model of
  * pointed view. This function also stores tool under cursor, for the pointed
  * view.
@@ -1307,6 +1323,14 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 	GogTool *current_tool;
 
 	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
+
+	/* An invisible object is not drawn, nor are its children: none of them
+	 * can be picked. */
+	if (view->model->invisible) {
+		if (obj != NULL)
+			*obj = NULL;
+		return NULL;
+	}
 
 	/* walk the list in reverse */
 	list = g_slist_reverse (g_slist_copy (view->children));
