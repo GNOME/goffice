@@ -13,6 +13,7 @@ Morten:
 	* Fix GORotationSel's derivation.
 	* Fix 3d axes being drawn multiple times.
 	* Introspection fixes.
+	* Fix empty-legend graph problem.
 
 --------------------------------------------------------------------------
 goffice 0.10.62:

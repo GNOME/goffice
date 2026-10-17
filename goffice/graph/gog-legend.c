@@ -318,6 +318,14 @@ gog_legend_view_size_request (GogView *v,
 
 	gog_chart_get_cardinality (chart, NULL, &num_elements);
 
+	/* gog_legend_update() decides whether the legend has to be laid out
+	 * again by comparing the current number of elements with this one.  So
+	 * it has to be the number this layout is made for, and not whatever
+	 * the last update saw: the legend might never have been updated since
+	 * it was shown (e.g. when added to a chart whose cardinality was
+	 * already valid), in which case the last update value is stale. */
+	l->cached_count = num_elements;
+
 	if (num_elements < 1) {
 		glv->element_per_blocks = 0; /* nothing to render */
 		/* If there's no child requisition and no element, there's no
