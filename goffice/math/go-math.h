@@ -1,5 +1,5 @@
-#ifndef __GO_MATH_H
-#define __GO_MATH_H
+#ifndef GO_MATH_H
+#define GO_MATH_H
 
 #include <goffice/goffice.h>
 #include <glib.h>
@@ -165,4 +165,4 @@ _Decimal64 go_reduce_piD (_Decimal64 x, int e, int *k);
 
 G_END_DECLS
 
-#endif	/* __GO_MATH_H */
+#endif	/* GO_MATH_H */

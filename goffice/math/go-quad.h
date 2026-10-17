@@ -1,5 +1,5 @@
-#ifndef __GO_QUAD_H
-#define __GO_QUAD_H
+#ifndef GO_QUAD_H
+#define GO_QUAD_H
 
 #include <glib.h>
 

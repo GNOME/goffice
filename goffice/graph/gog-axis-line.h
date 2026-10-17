@@ -19,8 +19,8 @@
  * USA
  */
 
-#ifndef GOG_AXIS_BASE_H
-#define GOG_AXIS_BASE_H
+#ifndef GOG_AXIS_LINE_H
+#define GOG_AXIS_LINE_H
 
 #include <goffice/goffice.h>
 
@@ -70,5 +70,4 @@ unsigned	 gog_axis_line_get_ticks (GogAxisLine *axis_line, GogAxisTick **ticks);
 
 G_END_DECLS
 
-#endif /*GOG_AXIS_BASE_H*/
-
+#endif /*GOG_AXIS_LINE_H*/

@@ -19,8 +19,8 @@
  * USA
  */
 
-#ifndef GO_SERIES_IMPL_H
-#define GO_SERIES_IMPL_H
+#ifndef GOG_SERIES_IMPL_H
+#define GOG_SERIES_IMPL_H
 
 #include <goffice/goffice.h>
 
@@ -117,4 +117,4 @@ GogSeriesElement *gog_series_get_element (GogSeries const *series, int index);
 
 G_END_DECLS
 
-#endif /* GO_SERIES_IMPL_H */
+#endif /* GOG_SERIES_IMPL_H */

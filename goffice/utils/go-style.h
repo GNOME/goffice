@@ -1,5 +1,5 @@
 /*
- * go-style.h :
+ * go-style.h:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-#ifndef GO_UTILS_STYLE_H
-#define GO_UTILS_STYLE_H
+#ifndef GO_STYLE_H
+#define GO_STYLE_H
 
 #include <goffice/goffice.h>
 #include <goffice/utils/go-editor.h>
@@ -168,4 +168,4 @@ gboolean go_style_set_cairo_line (GOStyle const *style, cairo_t *cr);
 
 G_END_DECLS
 
-#endif /* GO_UTILS_STYLE_H */
+#endif /* GO_STYLE_H */
