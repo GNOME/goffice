@@ -1321,10 +1321,6 @@ gog_guru_get_help_button (GtkWidget *guru)
  * @cc: Where to report errors
  * @closure: #GClosure
  *
- * CHANGED 0.5.3
- * 	: drop the @toplevel window argument and have the callers handle
- * 	  widget_show and set_transient
- *
  * Returns: (transfer full): the dialog, and shows new graph guru.
  **/
 GtkWidget *

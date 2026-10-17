@@ -42,11 +42,24 @@
 #endif
 
 /**
+ * SECTION: gog-grid
+ * @short_description: The backplane of a chart.
+ *
+ * A #GogGrid is the backplane of a #GogChart.  In a two dimensional chart it
+ * fills the plot area, as a rectangle or, in radar charts, as a polygon or a
+ * disk.  In a three dimensional chart there are three of them, one for each
+ * plane of the 3d box (see #GogGridType), and each one draws the faces of the
+ * box that belong to its plane, depending on the point of view.
+ *
+ * The style of a #GogGrid is its fill and its outline.
+ **/
+
+/**
  * GogGridType:
  * @GOG_GRID_UNKNOWN: unknown, should not occur.
  * @GOG_GRID_XY: XY plane.
  * @GOG_GRID_YZ: YZ plane.
- * @GOG_GRID_ZX: ZY plane.
+ * @GOG_GRID_ZX: ZX plane.
  * @GOG_GRID_TYPES: last defined, should not occur.
  *
  * Used for base planes in 3d plots.
@@ -75,6 +88,15 @@ gog_grid_init_style (GogStyledObject *gso, GOStyle *style)
 				style, GOG_OBJECT (gso), 0, GO_STYLE_FILL | GO_STYLE_OUTLINE);
 }
 
+/**
+ * gog_grid_get_gtype:
+ * @grid: a #GogGrid
+ *
+ * Gets the plane of the 3d box that @grid is the backplane of.  This is only
+ * meaningful for three dimensional charts.
+ *
+ * Returns: the #GogGridType of @grid, or %GOG_GRID_UNKNOWN if it is not set.
+ **/
 GogGridType
 gog_grid_get_gtype (GogGrid const *grid)
 {
@@ -82,12 +104,21 @@ gog_grid_get_gtype (GogGrid const *grid)
 	return grid->type;
 }
 
+/**
+ * gog_grid_set_gtype:
+ * @grid: a #GogGrid
+ * @type: the new #GogGridType
+ *
+ * Sets the plane of the 3d box that @grid is the backplane of.  This is only
+ * meaningful for three dimensional charts.
+ **/
 void
 gog_grid_set_gtype (GogGrid *grid, GogGridType type)
 {
 	g_return_if_fail (GOG_IS_GRID (grid));
 	if (grid->type != type) {
 		grid->type = type;
+		gog_object_emit_changed (GOG_OBJECT (grid), FALSE);
 		g_object_notify (G_OBJECT (grid), "type");
 	}
 }
@@ -98,10 +129,14 @@ gog_grid_set_property (GObject *obj, guint param_id,
 {
 	GogGrid *grid = GOG_GRID (obj);
 
-	if (param_id == GRID_PROP_TYPE)
-		grid->type = g_value_get_int (value);
-	else
+	switch (param_id) {
+	case GRID_PROP_TYPE:
+		gog_grid_set_gtype (grid, g_value_get_int (value));
+		break;
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
 }
 
 static void
@@ -110,10 +145,14 @@ gog_grid_get_property (GObject *obj, guint param_id,
 {
 	GogGrid const *grid = GOG_GRID (obj);
 
-	if (param_id == GRID_PROP_TYPE)
+	switch (param_id) {
+	case GRID_PROP_TYPE:
 		g_value_set_int (value, grid->type);
-	else
+		break;
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
 }
 
 static void
@@ -157,6 +196,17 @@ typedef GogViewClass	GogGridViewClass;
 #define GOG_IS_GRID_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRID_VIEW))
 
 
+/* Returns the first axis of the given type, or %NULL if the chart has none. */
+static GogAxis *
+gog_grid_get_chart_axis (GogChart *chart, GogAxisType type)
+{
+	GSList *axes = gog_chart_get_axes (chart, type);
+	GogAxis *axis = axes != NULL ? GOG_AXIS (axes->data) : NULL;
+
+	g_slist_free (axes);
+	return axis;
+}
+
 static void
 gog_grid_view_xyz_render (GogGrid *grid, GogView *view,
 			  GogChart *chart, GogViewAllocation const *plot_area)
@@ -165,7 +215,6 @@ gog_grid_view_xyz_render (GogGrid *grid, GogView *view,
 	GOPath *path;
 	unsigned int i;
 	GogAxis *xaxis, *yaxis, *zaxis;
-	GSList *axes;
 	GogChartMap3D *c_map;
 	double ax, ay, az, bx, by, bz;
 	const double *px[8] = {&ax, &ax, &bx, &bx, &ax, &ax, &bx, &bx};
@@ -186,17 +235,21 @@ gog_grid_view_xyz_render (GogGrid *grid, GogView *view,
 	int bp_faces[] = {0, 0};
 	int fv[] = {0, 0, 0, 0, 0, 0};
 
-	axes  = gog_chart_get_axes (chart, GOG_AXIS_X);
-	xaxis = GOG_AXIS (axes->data);
-	g_slist_free (axes);
-	axes  = gog_chart_get_axes (chart, GOG_AXIS_Y);
-	yaxis = GOG_AXIS (axes->data);
-	g_slist_free (axes);
-	axes  = gog_chart_get_axes (chart, GOG_AXIS_Z);
-	zaxis = GOG_AXIS (axes->data);
-	g_slist_free (axes);
+	xaxis = gog_grid_get_chart_axis (chart, GOG_AXIS_X);
+	yaxis = gog_grid_get_chart_axis (chart, GOG_AXIS_Y);
+	zaxis = gog_grid_get_chart_axis (chart, GOG_AXIS_Z);
+	if (xaxis == NULL || yaxis == NULL || zaxis == NULL)
+		return;
+
 	c_map = gog_chart_map_3d_new (view, plot_area,
 				      xaxis, yaxis, zaxis);
+	if (c_map == NULL)
+		return;
+	/* the axes can't be mapped, e.g. a log scale with invalid bounds */
+	if (!gog_chart_map_3d_is_valid (c_map)) {
+		gog_chart_map_3d_free (c_map);
+		return;
+	}
 
 	a_map = gog_chart_map_3d_get_axis_map (c_map, 0);
 	gog_axis_map_get_bounds (a_map, &ax, &bx);
@@ -306,6 +359,12 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 		g_slist_free (axis_list);
 
 		c_map = gog_chart_map_new (chart, area, c_axis, r_axis, NULL, FALSE);
+		if (c_map == NULL)
+			break;
+		if (!gog_chart_map_is_valid (c_map)) {
+			gog_chart_map_free (c_map);
+			break;
+		}
 		parms = gog_chart_map_get_polar_parms (c_map);
 		map = gog_chart_map_get_axis_map (c_map, 1);
 		gog_axis_map_get_extents (map, &start, &position);
