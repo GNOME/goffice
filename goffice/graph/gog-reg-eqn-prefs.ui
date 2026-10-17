@@ -24,7 +24,7 @@
     </child>
     <child>
       <object class="GtkCheckButton" id="show_r2">
-        <property name="label" translatable="yes">Display _regression coefficient R&#xB2;</property>
+        <property name="label" translatable="yes">Display _coefficient of determination R&#xB2;</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>

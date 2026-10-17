@@ -32,6 +32,14 @@
  *
  * A text label for use in a graph.
  * Can for instance be used as a title of a #GogChart or #GogGraph.
+ *
+ * #GogText is the abstract base class of the objects displaying a text.  It
+ * has two implementations: #GogLabel, whose text comes from a data, and
+ * #GogRegEqn, which displays the equation and the coefficient of
+ * determination (R²) of the regression curve it belongs to.  The text can be
+ * drawn inside a frame, the frame and its background can be rotated with the
+ * text, the text can be wrapped on several lines, and it can be interpreted
+ * as Pango markup.
  */
 
 /**
@@ -115,7 +123,7 @@ gog_text_init_style (GogStyledObject *gso, GOStyle *style)
 		style, GOG_OBJECT (gso), 0, GO_STYLE_OUTLINE | GO_STYLE_FILL |
 	        GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT);
 
-	/* Kludge for default Y axis title orientation. This should have be done
+	/* Kludge for default Y axis title orientation. This should have been done
 	 * in GogTheme, but it's not possible without breaking graph persistence
 	 * compatibility */
 
@@ -126,8 +134,11 @@ gog_text_init_style (GogStyledObject *gso, GOStyle *style)
 	 */
 	parent = gog_object_get_parent (GOG_OBJECT (gso));
 	if (GOG_IS_AXIS (parent)) {
-		GogChart *chart = GOG_CHART (gog_object_get_parent (parent));
-		if (!gog_chart_is_3d (chart)
+		/* the axis might not be in a chart yet, consider it as 2d then */
+		GogObject *chart = gog_object_get_parent (parent);
+		gboolean is_3d = GOG_IS_CHART (chart) &&
+			gog_chart_is_3d (GOG_CHART (chart));
+		if (!is_3d
 		    && gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y
 		    && style->text_layout.auto_angle)
 			style->text_layout.angle = 90.0;
@@ -192,6 +203,15 @@ gog_text_init (GogText *text)
 	text->allow_markup = FALSE;
 }
 
+/**
+ * gog_text_get_str:
+ * @text: a #GogText
+ *
+ * Gets the text displayed by @text.  The markup of the text, if any, is
+ * available with gog_text_get_markup().
+ *
+ * Returns: (transfer full) (nullable): the newly allocated text.
+ **/
 char *
 gog_text_get_str (GogText *text)
 {
@@ -207,6 +227,14 @@ gog_text_get_str (GogText *text)
 	return NULL;
 }
 
+/**
+ * gog_text_get_markup:
+ * @text: a #GogText
+ *
+ * Gets the attributes (font, color, etc.) of the text displayed by @text.
+ *
+ * Returns: (transfer full) (nullable): the attributes of the text.
+ **/
 PangoAttrList *
 gog_text_get_markup (GogText *text)
 {
@@ -282,7 +310,7 @@ gog_label_populate_editor (GogObject *gobj,
 		GTK_WIDGET
 		(gog_data_allocator_editor (dalloc, GOG_DATASET (gobj),
 					    0, GOG_DATA_SCALAR));
-	GtkWidget *w;
+	GtkWidget *w, *text_label;
 
 	g_object_set (G_OBJECT (grid),
 		      "margin", 12,
@@ -292,8 +320,9 @@ gog_label_populate_editor (GogObject *gobj,
 
 	g_object_set (G_OBJECT (editor_widget), "hexpand", TRUE, NULL);
 
-	gtk_grid_attach (GTK_GRID (grid),
-		gtk_label_new_with_mnemonic (_("_Text:")), 0, 0, 1, 1);
+	text_label = gtk_label_new_with_mnemonic (_("_Text:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (text_label), editor_widget);
+	gtk_grid_attach (GTK_GRID (grid), text_label, 0, 0, 1, 1);
 	gtk_grid_attach (GTK_GRID (grid), editor_widget, 1, 0, 1, 1);
 
 	w = gtk_check_button_new_with_label (_("Rotate frame with text"));
@@ -357,25 +386,33 @@ gog_label_set_property (GObject *obj, guint param_id,
                         GValue const *value, GParamSpec *pspec)
 {
 	GogLabel *label = GOG_LABEL (obj);
+	gboolean changed = FALSE;
 
 	switch (param_id) {
 	case LABEL_PROP_JUSTIFICATION: {
 		char const *str = g_value_get_string (value);
-		if (!strcmp (str, "left"))
-			label->justification = GO_JUSTIFY_LEFT;
+		GoJustification justification;
+		if (str == NULL)
+			justification = GO_JUSTIFY_CENTER;
+		else if (!strcmp (str, "left"))
+			justification = GO_JUSTIFY_LEFT;
 		else if (!strcmp (str, "right"))
-			label->justification = GO_JUSTIFY_RIGHT;
+			justification = GO_JUSTIFY_RIGHT;
 		else if (!strcmp (str, "fill"))
-			label->justification = GO_JUSTIFY_FILL;
+			justification = GO_JUSTIFY_FILL;
 		else
-			label->justification = GO_JUSTIFY_CENTER;
+			justification = GO_JUSTIFY_CENTER;
+		changed = (label->justification != justification);
+		label->justification = justification;
 		break;
 	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+
+	if (changed)
+		gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 
 static void
@@ -498,18 +535,28 @@ gog_reg_eqn_set_property (GObject *obj, guint param_id,
 			GValue const *value, GParamSpec *pspec)
 {
 	GogRegEqn *reg_eqn = GOG_REG_EQN (obj);
+	gboolean changed = FALSE;
 
 	switch (param_id) {
-	case REG_EQN_SHOW_EQ:
-		reg_eqn->show_eq = g_value_get_boolean (value);
+	case REG_EQN_SHOW_EQ: {
+		gboolean b = g_value_get_boolean (value);
+		changed = (b != reg_eqn->show_eq);
+		reg_eqn->show_eq = b;
 		break;
-	case REG_EQN_SHOW_R2:
-		reg_eqn->show_r2 = g_value_get_boolean (value);
+	}
+	case REG_EQN_SHOW_R2: {
+		gboolean b = g_value_get_boolean (value);
+		changed = (b != reg_eqn->show_r2);
+		reg_eqn->show_r2 = b;
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return;
 	}
+	/* the size of the text changes */
+	if (changed)
+		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
 static void
@@ -537,7 +584,6 @@ cb_text_visibility_changed (GtkToggleButton *button, GogObject *gobj)
 {
 	char const* property = (char const*) g_object_get_data (G_OBJECT (button), "prop");
 	g_object_set (G_OBJECT (gobj), property, gtk_toggle_button_get_active (button), NULL);
-	gog_object_emit_changed (gobj, TRUE);
 }
 
 static void
@@ -630,8 +676,8 @@ gog_reg_eqn_class_init (GogObjectClass *gog_klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, REG_EQN_SHOW_R2,
 		g_param_spec_boolean ("show-r2",
-			_("Show coefficient"),
-			_("Show the correlation coefficient on the graph"),
+			_("Show R²"),
+			_("Show the coefficient of determination (R²) on the graph"),
 			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
@@ -658,16 +704,22 @@ typedef GogOutlinedViewClass	GogTextViewClass;
 
 static GogViewClass *text_view_parent_klass;
 
+/* Computes the size of the text displayed by @view.  @wrap_width is the
+ * maximum width of a line, or a negative value if the text must not be
+ * wrapped. */
 static void
-gog_text_view_natural_size (GogView *view, GogViewRequisition *req)
+gog_text_view_get_text_size (GogView *view, double wrap_width,
+			     GogViewRequisition *req)
 {
 	GogText *text = GOG_TEXT (view->model);
 	char *str = gog_text_get_str (text);
-	PangoAttrList *pl = gog_text_get_markup (text);
 	GOGeometryAABR aabr;
 
 	req->w = req->h = 0.;
 	if (str != NULL) {
+		/* only get the markup when it is going to be used, it has to
+		 * be released */
+		PangoAttrList *pl = gog_text_get_markup (text);
 		GOString *gostr = pl
 			? go_string_new_rich (str, -1, pl, NULL)
 			: NULL;
@@ -678,12 +730,11 @@ gog_text_view_natural_size (GogView *view, GogViewRequisition *req)
 		if (text->rotate_frame)
 			style->text_layout.angle = 0.;
 		gog_renderer_push_style (view->renderer, style);
-		/* for natural size, we never force wrapping so use -1 as max width */
 		if (gostr) {
-			gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr, -1);
+			gog_renderer_get_gostring_AABR (view->renderer, gostr, &aabr, wrap_width);
 			go_string_unref (gostr);
 		} else
-			gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr, -1);
+			gog_renderer_get_text_AABR (view->renderer, str, text->allow_markup, &aabr, wrap_width);
 		gog_renderer_pop_style (view->renderer);
 		g_object_unref (style);
 		if (text->rotate_frame) {
@@ -698,44 +749,20 @@ gog_text_view_natural_size (GogView *view, GogViewRequisition *req)
 }
 
 static void
+gog_text_view_natural_size (GogView *view, GogViewRequisition *req)
+{
+	gog_text_view_get_text_size (view, -1, req);
+}
+
+static void
 gog_text_view_size_request (GogView *v,
 			    GogViewRequisition const *available,
 			    GogViewRequisition *req)
 {
 	GogText *text = GOG_TEXT (v->model);
-	char *str = gog_text_get_str (text);
-	PangoAttrList *pl = gog_text_get_markup (text);
-	GOGeometryAABR aabr;
-	double w = text->allow_wrap? available->w: -1.;
+	double width = text->allow_wrap ? available->w : -1;
 
-	req->w = req->h = 0.;
-	if (str != NULL) {
-		GOString *gostr = pl
-			? go_string_new_rich (str, -1, pl, NULL)
-			: NULL;
-		GOStyle *style = go_style_dup (text->base.base.style);
-		double rotpi = fabs (style->text_layout.angle / 180);
-		if (rotpi > 0.5)
-			rotpi = 1 - rotpi;
-		if (text->rotate_frame)
-			style->text_layout.angle = 0.;
-		gog_renderer_push_style (v->renderer, style);
-		if (gostr) {
-			gog_renderer_get_gostring_AABR (v->renderer, gostr, &aabr, w);
-			go_string_unref (gostr);
-		} else
-			gog_renderer_get_text_AABR (v->renderer, str, text->allow_markup, &aabr, w);
-		gog_renderer_pop_style (v->renderer);
-		g_object_unref (style);
-		if (text->rotate_frame) {
-			req->w = aabr.w * go_cospi (rotpi) + aabr.h * go_sinpi (rotpi);
-			req->h = aabr.w * go_sinpi (rotpi) + aabr.h * go_cospi (rotpi);
-		} else {
-			req->w = aabr.w;
-			req->h = aabr.h;
-		}
-		g_free (str);
-	}
+	gog_text_view_get_text_size (v, width, req);
 	text_view_parent_klass->size_request (v, available, req);
 }
 
@@ -746,7 +773,6 @@ gog_text_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (text);
 	GOStyle *style = text->base.base.style;
 	char *str = gog_text_get_str (text);
-	PangoAttrList *pl = gog_text_get_markup (text);
 	double w = -1;
 	double rotpi = style->text_layout.angle / 180;
 
@@ -770,6 +796,9 @@ gog_text_view_render (GogView *view, G_GNUC_UNUSED GogViewAllocation const *bbox
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
+		/* only get the markup when it is going to be used, it has to
+		 * be released */
+		PangoAttrList *pl = gog_text_get_markup (text);
 		GOString *gostr = pl
 			? go_string_new_rich (str, -1, pl, NULL)
 			: NULL;
