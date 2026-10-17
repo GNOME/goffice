@@ -1,5 +1,5 @@
 /*
- * gog-equation.h :
+ * gog-equation.h:
  *
  * Copyright (C) 2008 Emmanuel Pacaud <emmanuel@gnome.org>
  *

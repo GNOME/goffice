@@ -1,5 +1,5 @@
 /*
- * go-graph-guru.c:  The Graph guru
+ * gog-guru.c: The Graph guru
  *
  * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *

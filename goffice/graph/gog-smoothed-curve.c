@@ -1,5 +1,5 @@
 /*
- * gog-smoothed-curve.c :
+ * gog-smoothed-curve.c:
  *
  * Copyright (C) 2006 Jean Brefort (jean.brefort@normalesup.org)
  *

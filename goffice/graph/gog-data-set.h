@@ -1,5 +1,5 @@
 /*
- * gog-data-set.h :
+ * gog-data-set.h:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

@@ -1,5 +1,5 @@
 /*
- * gog-series-lines.c :
+ * gog-series-lines.c:
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *

@@ -1,5 +1,5 @@
 /*
- * gog-child-button.c :
+ * gog-child-button.c:
  *
  * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2007 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)

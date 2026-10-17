@@ -1,5 +1,5 @@
 /*
- * gog-chart-map.h :
+ * gog-chart-map.h:
  *
  * Copyright (C) 2006-2007 Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
  *

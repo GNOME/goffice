@@ -1,5 +1,5 @@
 /*
- * gog-view.h : A sized render engine for an item.
+ * gog-view.h: A sized render engine for an item.
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

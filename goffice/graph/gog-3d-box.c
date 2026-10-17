@@ -1,5 +1,5 @@
 /*
- * gog-3d-box.h :
+ * gog-3d-box.c:
  *
  * Copyright (C) 2007 Jean Brefort (jean.brefort@normalesup.org)
  *

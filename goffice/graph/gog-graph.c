@@ -1,5 +1,5 @@
 /*
- * gog-graph.c :
+ * gog-graph.c:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

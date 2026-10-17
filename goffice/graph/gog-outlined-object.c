@@ -1,5 +1,5 @@
 /*
- * gog-outlined-object.c : some utility classes for objects with outlines.
+ * gog-outlined-object.c: some utility classes for objects with outlines.
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

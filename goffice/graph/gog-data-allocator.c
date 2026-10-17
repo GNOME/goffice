@@ -1,5 +1,5 @@
 /*
- * gog-data-allocator.c :
+ * gog-data-allocator.c:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

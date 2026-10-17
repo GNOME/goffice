@@ -1,5 +1,5 @@
 /*
- * gog-color-scale.h
+ * gog-color-scale.c:
  *
  * Copyright (C) 2012 Jean Brefort (jean.brefort@normalesup.org)
  *

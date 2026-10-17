@@ -1,5 +1,5 @@
 /*
- * gog-chart-impl.h : implementation details for charts
+ * gog-chart-impl.h: implementation details for charts
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

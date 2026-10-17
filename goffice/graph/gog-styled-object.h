@@ -1,5 +1,5 @@
 /*
- * gog-styled-object.h :
+ * gog-styled-object.h:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

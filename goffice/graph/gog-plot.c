@@ -1,5 +1,5 @@
 /*
- * gog-plot.c :
+ * gog-plot.c:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

@@ -1,5 +1,5 @@
 /*
- * gog-axis-line-impl.h :
+ * gog-axis-line-impl.h:
  *
  * Copyright (C) 2005 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *

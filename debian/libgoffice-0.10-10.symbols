@@ -1465,7 +1465,6 @@ libgoffice-0.10.so.10 libgoffice-0.10-10 #MINVER#
  gog_series_get_overrides@Base 0.9.0
  gog_series_get_plot@Base 0.9.0
  gog_series_get_type@Base 0.9.0
- gog_series_get_valid_element_index@Base 0.9.0
  gog_series_get_xy_data@Base 0.9.0
  gog_series_get_xyz_data@Base 0.9.0
  gog_series_has_legend@Base 0.9.0

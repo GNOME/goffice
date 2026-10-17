@@ -1,5 +1,5 @@
 /*
- * gog-object.c :
+ * gog-object.c:
  *
  * Copyright (C) 2003-2007 Jody Goldberg (jody@gnome.org)
  *

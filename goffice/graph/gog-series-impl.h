@@ -1,5 +1,5 @@
 /*
- * gog-series-impl.h :
+ * gog-series-impl.h:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

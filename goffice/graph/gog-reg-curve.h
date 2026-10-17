@@ -1,5 +1,5 @@
 /*
- * gog-reg-curve.h :
+ * gog-reg-curve.h:
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *

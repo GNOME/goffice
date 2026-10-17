@@ -1,5 +1,5 @@
 /*
- * gog-renderer.h : An abstract interface for rendering engines
+ * gog-renderer.h: An abstract interface for rendering engines
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

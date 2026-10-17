@@ -1,5 +1,5 @@
 /*
- * gog-axis.h :
+ * gog-axis.h:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

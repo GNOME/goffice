@@ -1,5 +1,5 @@
 /*
- * gog-chart.h :
+ * gog-chart.h:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

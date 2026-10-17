@@ -1,5 +1,5 @@
 /*
- * gog-series-labels.c
+ * gog-series-labels.c:
  *
  * Copyright (C) 2011 Jean Brefort (jean.brefort@normalesup.org)
  *

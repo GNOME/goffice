@@ -1,5 +1,5 @@
 /*
- * gog-graph-impl.h : the top level container for charts
+ * gog-graph-impl.h: the top level container for charts
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

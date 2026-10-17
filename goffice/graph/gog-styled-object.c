@@ -1,5 +1,5 @@
 /*
- * gog-styled-object.c : A base class for objects that have associated styles
+ * gog-styled-object.c: A base class for objects that have associated styles
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

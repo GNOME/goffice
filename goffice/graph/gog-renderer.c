@@ -1,5 +1,5 @@
 /*
- * gog-renderer.c :
+ * gog-renderer.c:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

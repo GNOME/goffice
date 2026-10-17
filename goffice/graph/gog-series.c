@@ -1,5 +1,5 @@
 /*
- * go-graph-data.c :
+ * gog-series.c:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -100,7 +100,7 @@
  **/
 
 /* Keep in sync with GogSeriesFillType enum */
-static struct {
+static const struct {
 	GogSeriesFillType  type;
 	char const 	  *name;
 	char const 	  *label;
@@ -123,10 +123,7 @@ static struct {
 	{GOG_SERIES_FILL_TYPE_INVALID,	"invalid",	""}
 };
 
-#ifdef GOFFICE_WITH_GTK
-#endif
-
-int gog_series_get_valid_element_index (GogSeries const *series, int old_index, int desired_index);
+static int gog_series_get_valid_element_index (GogSeries const *series, int old_index, int desired_index);
 
 /*****************************************************************************/
 static GObjectClass *gse_parent_klass;
@@ -1183,7 +1180,7 @@ gog_series_get_overrides (GogSeries const *series)
 	return series->overrides;
 }
 
-int
+static int
 gog_series_get_valid_element_index (GogSeries const *series, int old_index, int desired_index)
 {
 	int index;

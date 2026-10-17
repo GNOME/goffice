@@ -1,5 +1,5 @@
 /*
- * gog-plot-impl.h : implementation details for the abstract 'plot' interface
+ * gog-plot-impl.h: implementation details for the abstract 'plot' interface
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

@@ -1,5 +1,5 @@
 /*
- * gog-chart-map-3d.h :
+ * gog-chart-map-3d.h:
  *
  * Copyright (C) 2007 Jean Brefort (jean.brefort@normalesup.org)
  *

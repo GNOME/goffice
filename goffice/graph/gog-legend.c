@@ -1,5 +1,5 @@
 /*
- * gog-legend.c :
+ * gog-legend.c:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -319,6 +319,7 @@ gog_legend_view_size_request (GogView *v,
 	gog_chart_get_cardinality (chart, NULL, &num_elements);
 
 	if (num_elements < 1) {
+		glv->element_per_blocks = 0; /* nothing to render */
 		/* If there's no child requisition and no element, there's no
 		 * point in displaying a legend box. */
 		if (go_sub_epsilon (child_req.w) <= 0.0 &&
@@ -334,7 +335,7 @@ gog_legend_view_size_request (GogView *v,
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (l));
 	gog_renderer_push_style (v->renderer, style);
 
-	glv->font_size = pango_font_description_get_size (style->font.font->desc) / PANGO_SCALE;
+	glv->font_size = pango_font_description_get_size (style->font.font->desc) / (double) PANGO_SCALE;
 	glv->swatch_w = gog_renderer_pt2r_x (v->renderer, glv->font_size);
 	glv->swatch_h = gog_renderer_pt2r_y (v->renderer, glv->font_size);
 
@@ -355,7 +356,9 @@ gog_legend_view_size_request (GogView *v,
 	available_space = glv->is_vertical ? residual.h : residual.w;
 	element_size = glv->is_vertical ? glv->element_height : glv->element_width;
 
-	glv->element_per_blocks = available_space > 0. ? floor (available_space / element_size) : 0;
+	glv->element_per_blocks = (available_space > 0. && element_size > 0.)
+		? floor (available_space / element_size)
+		: 0;
 
 	if (glv->element_per_blocks < 1) {
 	       	req->w = req->h = -1;
@@ -394,6 +397,10 @@ cb_swatch_scale (G_GNUC_UNUSED unsigned i, GOStyle const *style, G_GNUC_UNUSED c
 	double size;
 	double maximum, scale;
 
+	/* We own @l (see gog_plot_foreach_elem()) but don't need it. */
+	if (l)
+		pango_attr_list_unref (l);
+
 	size = go_marker_get_size (style->marker.mark);
 	if (data->size_max < size)
 		data->size_max = size;
@@ -422,8 +429,6 @@ cb_swatch_scale (G_GNUC_UNUSED unsigned i, GOStyle const *style, G_GNUC_UNUSED c
 		scale = 0;
 	if (data->line_scale > scale)
 		data->line_scale = scale;
-	if (l)
-		pango_attr_list_unref (l);
 }
 
 typedef struct {
@@ -438,9 +443,10 @@ typedef struct {
 	double hairline_width;
 } RenderClosure;
 
+/* Renders one element.  @l is only borrowed. */
 static void
-cb_render_elements (G_GNUC_UNUSED unsigned index, GOStyle const *base_style, char const *name,
-		    PangoAttrList *l, RenderClosure *data)
+render_element (GOStyle const *base_style, char const *name,
+		PangoAttrList *l, RenderClosure *data)
 {
 	GogView const *view = data->view;
 	GogLegendView *glv = GOG_LEGEND_VIEW (view);
@@ -522,7 +528,8 @@ cb_render_elements (G_GNUC_UNUSED unsigned index, GOStyle const *base_style, cha
 	pos.y = data->y + glv->element_height / 2.0;
 	pos.w = pos.h = -1;
 	if (l) {
-		GOString *str = go_string_new_rich (name, -1, l, NULL);
+		/* go_string_new_rich() takes ownership of its markup */
+		GOString *str = go_string_new_rich (name, -1, pango_attr_list_ref (l), NULL);
 		gog_renderer_draw_gostring (view->renderer, str, &pos,
 		                            GO_ANCHOR_W, GO_JUSTIFY_LEFT, -1.);
 		go_string_unref (str);
@@ -532,6 +539,18 @@ cb_render_elements (G_GNUC_UNUSED unsigned index, GOStyle const *base_style, cha
 
 	if (style != base_style && style != NULL)
 		g_object_unref (style);
+}
+
+static void
+cb_render_elements (G_GNUC_UNUSED unsigned index, GOStyle const *base_style, char const *name,
+		    PangoAttrList *l, RenderClosure *data)
+{
+	render_element (base_style, name, l, data);
+
+	/* We own @l (see gog_plot_foreach_elem()), whichever way
+	 * render_element() left. */
+	if (l)
+		pango_attr_list_unref (l);
 }
 
 static void

@@ -1,5 +1,5 @@
 /*
- * gog-axis-color-map.c
+ * gog-axis-color-map.c:
  *
  * Copyright (C) 2012 Jean Brefort (jean.brefort@normalesup.org)
  *

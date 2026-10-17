@@ -1,5 +1,5 @@
 /*
- * gog-trend-line.h :
+ * gog-trend-line.h:
  *
  * Copyright (C) 2006 Jean Brefort (jean.brefort@normalesup.org)
  *

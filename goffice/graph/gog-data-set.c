@@ -1,5 +1,5 @@
 /*
- * gog-data-set.c : A Utility interface for managing GOData as attributes
+ * gog-data-set.c: A Utility interface for managing GOData as attributes
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
