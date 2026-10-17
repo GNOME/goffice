@@ -341,22 +341,14 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 		GogAxisMap *map;
 		GogChartMapPolarData *parms;
 		GOPath *path;
-		GSList *axis_list;
-		double position, start, stop;
+		double position, start;
 		double x, y;
 		unsigned step_nbr, i;
 
-		axis_list = gog_chart_get_axes (chart, GOG_AXIS_CIRCULAR);
-		if (axis_list == NULL)
+		c_axis = gog_grid_get_chart_axis (chart, GOG_AXIS_CIRCULAR);
+		r_axis = gog_grid_get_chart_axis (chart, GOG_AXIS_RADIAL);
+		if (c_axis == NULL || r_axis == NULL)
 			break;
-		c_axis = GOG_AXIS (axis_list->data);
-		g_slist_free (axis_list);
-
-		axis_list = gog_chart_get_axes (chart, GOG_AXIS_RADIAL);
-		if (axis_list == NULL)
-			break;
-		r_axis = GOG_AXIS (axis_list->data);
-		g_slist_free (axis_list);
 
 		c_map = gog_chart_map_new (chart, area, c_axis, r_axis, NULL, FALSE);
 		if (c_map == NULL)
@@ -373,7 +365,6 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (gog_axis_is_discrete (c_axis)) {
 			map = gog_chart_map_get_axis_map (c_map, 0);
-			gog_axis_map_get_extents (map, &start, &stop);
 			step_nbr = go_rint (parms->th1 - parms->th0) + 1;
 			for (i = 0; i <= step_nbr; i++) {
 				gog_chart_map_2D_to_view (c_map, i + parms->th0, position, &x, &y);

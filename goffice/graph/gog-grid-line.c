@@ -651,7 +651,6 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 	GogAxisMap *map = NULL;
 	GogChartMap *c_map;
 	GogChartMapPolarData *parms;
-	GSList *axis_list;
 	GOPath *path;
 	double x, y;
 	unsigned int i, j;
@@ -660,11 +659,9 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_UNKNOWN)
 		return;
 
-	axis_list = gog_chart_get_axes (chart, GOG_AXIS_CIRCULAR);
-	if (axis_list == NULL)
+	circular_axis = gog_grid_line_get_chart_axis (chart, GOG_AXIS_CIRCULAR);
+	if (circular_axis == NULL)
 		return;
-	circular_axis = GOG_AXIS (axis_list->data);
-	g_slist_free (axis_list);
 
 	c_map = gog_chart_map_new (GOG_CHART (chart), plot_area,
 				   circular_axis, axis, NULL, FALSE);
@@ -685,11 +682,9 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 
 	if (gog_axis_is_discrete (circular_axis)) {
 		unsigned step_nbr;
-		double start, stop;
 		double maximum, minimum;
 
 		map = gog_chart_map_get_axis_map (c_map, 0);
-		gog_axis_map_get_extents (map, &start, &stop);
 		step_nbr = go_rint (parms->th1 - parms->th0) + 1;
 		if (stripes) {
 			for (i = 0; i < tick_nbr; i++) {
@@ -816,7 +811,6 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 	GogAxisMap *map = NULL;
 	GogChartMap *c_map;
 	GogChartMapPolarData *parms;
-	GSList *axis_list;
 	GOPath *path;
 	double start, stop;
 	double x0, y0, x1, y1;
@@ -826,12 +820,9 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_UNKNOWN)
 		return;
 
-	axis_list = gog_chart_get_axes (chart, GOG_AXIS_RADIAL);
-	if (axis_list == NULL)
+	radial_axis = gog_grid_line_get_chart_axis (chart, GOG_AXIS_RADIAL);
+	if (radial_axis == NULL)
 		return;
-
-	radial_axis = GOG_AXIS (axis_list->data);
-	g_slist_free (axis_list);
 
 	c_map = gog_chart_map_new (GOG_CHART (chart), plot_area,
 				   axis, radial_axis, NULL, FALSE);
