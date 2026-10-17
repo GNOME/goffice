@@ -65,6 +65,7 @@ gog_data_allocator_get_type (void)
  * @dalloc: a #GogDataAllocator
  * @plot:  a #GogPlot
  *
+ * Asks @dalloc to provide data for @plot.
  **/
 
 void

@@ -112,7 +112,7 @@ gog_child_button_finalize (GObject *object)
  *
  * Creates an add button that provides a popup menu for child creation.
  *
- * Returns: a new #GtkWidget.
+ * Returns: (transfer full): a new #GtkWidget.
  **/
 
 GtkWidget *

@@ -1432,8 +1432,8 @@ gog_object_possible_additions (GogObject const *parent)
 /**
  * gog_object_can_reorder:
  * @obj: #GogObject
- * @inc_ok: optionally %NULL pointer for result.
- * @dec_ok: optionally %NULL pointer for result.
+ * @inc_ok: (out) (optional): optionally %NULL pointer for result.
+ * @dec_ok: (out) (optional): optionally %NULL pointer for result.
  *
  * If @obj can move forward or backward in its parents child list
  **/
@@ -1911,7 +1911,7 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
 /**
  * gog_object_get_manual_position:
  * @obj: #GogObject
- * @pos: #GogViewAllocation
+ * @pos: (out) (optional): #GogViewAllocation
  *
  * FIXME
  **/
@@ -2120,6 +2120,7 @@ gog_object_allocate_roles (GogObjectClass *klass)
  * @roles: #GogObjectRole
  * @n_roles: number of roles
  *
+ * Registers the roles of a #GogObjectClass.
  **/
 
 void

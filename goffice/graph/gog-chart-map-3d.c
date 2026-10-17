@@ -136,9 +136,9 @@ gog_chart_map_3d_new (GogView *view, GogViewAllocation const *area,
  * @x: data x value
  * @y: data y value
  * @z: data y value
- * @u: placeholder for x converted value
- * @v: placeholder for y converted value
- * @w: placeholder for z converted value
+ * @u: (out): x converted value
+ * @v: (out): y converted value
+ * @w: (out): z converted value
  *
  * Converts a 3D coordinate from data space to canvas space.
  **/
@@ -187,7 +187,7 @@ gog_chart_map_3d_is_valid (GogChartMap3D *map)
 
 /**
  * gog_chart_map_3d_free:
- * @map: a #GogChartMap3D
+ * @map: (transfer full): a #GogChartMap3D
  *
  * Frees @map object.
  **/

@@ -247,7 +247,7 @@ color_stop_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 map_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	struct color_map_load_state	*state = (struct color_map_load_state *) xin->user_state;
+	struct color_map_load_state *state = (struct color_map_load_state *) xin->user_state;
 	if (state->map ==  NULL)
 		state->map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, NULL);
 	/* the map might already exist when loading through prep_sax(), but
@@ -354,15 +354,23 @@ color_map_loaded (struct color_map_load_state *state, char const *uri, gboolean 
 			state->map = NULL;
 		}
 	} else {
-		unsigned cur_bin, n = 0;
+		unsigned n = 0;
 		state->map->allocated = g_slist_length (state->color_stops);
 		state->map->limits = g_new (unsigned, state->map->allocated);
 		state->map->colors = g_new (GOColor, state->map->allocated);
 		while (ptr) {
-			cur_bin = state->map->limits[n] = ((struct _color_stop *) ptr->data)->bin;
-			state->map->colors[n++] = ((struct _color_stop *) ptr->data)->color;
-			do (ptr = ptr->next);
-			while (ptr && ((struct _color_stop *) ptr->data)->bin == cur_bin);
+			struct _color_stop *stop = ptr->data;
+			unsigned cur_bin = state->map->limits[n] = stop->bin;
+			state->map->colors[n++] = stop->color;
+			while (TRUE) {
+				ptr = ptr->next;
+				if (!ptr)
+					break;
+
+				struct _color_stop *stop = ptr->data;
+				if (stop->bin != cur_bin)
+					break;
+			}
 		}
 		state->map->size = n; /* we drop duplicate bins */
 		if (state->map->id == NULL) {
@@ -423,7 +431,7 @@ GSF_CLASS_FULL (GogAxisColorMap, gog_axis_color_map,
 /**
  * gog_axis_color_map_get_color:
  * @map: a #GogAxisMap
-	 * @x: the value to map
+ * @x: the value to map
  *
  * Maps @x to a color.
  * Returns: the found color.
@@ -997,38 +1005,47 @@ void
 gog_axis_color_map_foreach (GogAxisColorMapHandler handler, gpointer user_data)
 {
 	GSList *ptr;
-	for (ptr = color_maps; ptr; ptr = ptr->next)
-		handler ((GogAxisColorMap *) (ptr->data), user_data);
+	for (ptr = color_maps; ptr; ptr = ptr->next) {
+		GogAxisColorMap *map = ptr->data;
+		handler (map, user_data);
+	}
 }
 
 /**
  * gog_axis_color_map_get_from_id:
  * @id: the color map identifier to search for
  *
- * Retrieves the color map whose identifier is @id.
- * Returns: (transfer none): the found color map.
+ * Retrieves the color map whose identifier is @id or creates a new empty one.
+ * Returns: (transfer none): the color map.
  **/
 GogAxisColorMap const *
 gog_axis_color_map_get_from_id (char const *id)
 {
 	GSList *ptr;
-	GogAxisColorMap *map;
-	for (ptr = color_maps; ptr; ptr = ptr->next)
-		if (!strcmp (((GogAxisColorMap *) (ptr->data))->id, id))
-		    return (GogAxisColorMap *) ptr->data;
+
+	for (ptr = color_maps; ptr; ptr = ptr->next) {
+		GogAxisColorMap *map = ptr->data;
+		if (!strcmp (map->id, id))
+			return map;
+	}
+
 	/* create an empty new one */
-	map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, "resource-type", GO_RESOURCE_EXTERNAL, NULL);
+	GogAxisColorMap *map = g_object_new (GOG_TYPE_AXIS_COLOR_MAP, "resource-type", GO_RESOURCE_EXTERNAL, NULL);
 	map->id = g_strdup (id);
 	gog_axis_color_map_registry_add (map);
 	return map;
 }
 
 /**
- * gog_axis_color_map_delete:
+ * gog_axis_color_map_delete: (skip)
  * @map: a #GogAxisColorMap
  *
  * Destroys the color map and remove it from the user directory and from the
  * database.
+ *
+ * NOTE: this takes ownership of @map if and only if the deletion
+ * succeeds.
+ *
  * Returns: %TRUE on success.
  **/
 gboolean

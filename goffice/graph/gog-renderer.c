@@ -998,7 +998,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
  * gog_renderer_get_gostring_OBR:
  * @rend: #GogRenderer
  * @str: the string to draw
- * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
+ * @obr: (out): #GOGeometryOBR to store the Object Bounding Rectangle of @text.
  * @max_width: maximum width or -1 for unrestricted
  **/
 void
@@ -1061,7 +1061,7 @@ gog_renderer_get_gostring_OBR (GogRenderer *rend, GOString *str,
  * @rend: #GogRenderer
  * @text: the string to draw
  * @use_markup: whether to use pango markup
- * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
+ * @obr: (out): #GOGeometryOBR to store the Object Bounding Rectangle of @text.
  * @max_width: maximum width or -1 for unrestricted
  **/
 void
@@ -1092,7 +1092,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
  * @rend: #GogRenderer
  * @text: the string to draw
  * @use_markup: whether to use pango markup
- * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
+ * @aabr: (out): #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
  * @max_width: maximum width or -1 for unrestricted
  **/
 void
@@ -1110,7 +1110,7 @@ gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
  * gog_renderer_get_gostring_AABR:
  * @rend: #GogRenderer
  * @str: the string to draw
- * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
+ * @aabr: (out): #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
  * @max_width: maximum width or -1 for unrestricted
  **/
 void
@@ -1748,7 +1748,7 @@ gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, doub
  * gog_renderer_new:
  * @graph: graph model
  *
- * Returns:  a new #GogRenderer which can render into a pixbuf, and sets @graph
+ * Returns: (transfer full): a new #GogRenderer which can render into a pixbuf, and sets @graph
  * 	as its model.
  **/
 GogRenderer*

@@ -832,8 +832,9 @@ gog_graph_ref_data (GogGraph *graph, GOData *dat)
 /**
  * gog_graph_unref_data:
  * @graph: #GogGraph
- * @dat: #GOData
+ * @dat: (transfer full): #GOData
  *
+ * Removes a reference to @dat previously added with gog_graph_ref_data().
  **/
 void
 gog_graph_unref_data (GogGraph *graph, GOData *dat)

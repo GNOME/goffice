@@ -1000,8 +1000,8 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
  * @map: a #GogChartMap
  * @x: data x value
  * @y: data y value
- * @u: placeholder for x converted value
- * @v: placeholder for y converted value
+ * @u: (out): x converted value
+ * @v: (out): y converted value
  *
  * Converts a 2D coordinate from data space to canvas space.
  **/
@@ -1036,8 +1036,8 @@ gog_chart_map_2D_derivative_to_view (GogChartMap *map, double deriv, double x, d
  * @map: a #GogChartMap
  * @x: data x value
  * @y: data y value
- * @u: placeholder for x converted value
- * @v: placeholder for y converted value
+ * @u: (out): x converted value
+ * @v: (out): y converted value
  *
  * Converts a 2D coordinate from canvas space to data space.
  **/
@@ -1091,7 +1091,7 @@ gog_chart_map_is_valid (GogChartMap *map)
 
 /**
  * gog_chart_map_free:
- * @map: a #GogChartMap
+ * @map: (transfer full): a #GogChartMap
  *
  * Frees @map object.
  **/
@@ -1143,7 +1143,7 @@ gog_chart_map_get_type (void)
  * @skip_invalid: whether to ignore invalid data or interrupt the interpolation
  * @data: a user pointer
  *
- * Returns: a new GOPath using @x and @y data, each valid point being connected with respect to @interpolation.
+ * Returns: (transfer full): a new GOPath using @x and @y data, each valid point being connected with respect to @interpolation.
  **/
 GOPath *
 gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y,
@@ -1164,7 +1164,7 @@ gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y,
  * @n_points: number of points
  * @fill_type: fill type
  *
- * Returns: a new GOPath using @x and @y data, with respect to @fill_type.
+ * Returns: (transfer full): a new GOPath using @x and @y data, with respect to @fill_type.
  **/
 GOPath *
 gog_chart_map_make_close_path (GogChartMap *map, double const *x, double const *y,

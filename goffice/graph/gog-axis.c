@@ -2579,7 +2579,7 @@ gog_axis_finalize (GObject *obj)
  * gog_axis_get_entry:
  * @axis: #GogAxis
  * @i:
- * @user_defined: an optionally %NULL pointr to gboolean
+ * @user_defined: (out) (optional): an optionally %NULL pointer to gboolean
  *
  * Returns: the value of axis element @i and sets @user_defined or
  * 	NaN on error
@@ -3757,7 +3757,7 @@ gog_axis_set_extents (GogAxis *axis, double start, double stop)
 /**
  * gog_axis_get_ticks:
  * @axis: #GogAxis
- * @ticks: an array of #GogAxisTick
+ * @ticks: (out): an array of #GogAxisTick
  *
  * An accessor to @axis->ticks.
  *
@@ -3776,7 +3776,7 @@ gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
 /**
  * gog_axis_get_labels:
  * @axis: a #GogAxis
- * @plot_that_labeled_axis: a #GogPlot
+ * @plot_that_labeled_axis: (out) (optional) (nullable): a #GogPlot
  *
  * Returns: (transfer none): the possibly NULL #GOData used as a label for this axis
  * along with the plot that it was associated with

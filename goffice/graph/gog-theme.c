@@ -1747,11 +1747,15 @@ gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
 }
 
 /**
- * gog_theme_delete:
+ * gog_theme_delete: (skip)
  * @theme: a #GogTheme
  *
  * Destroys the theme and removes it from the user directory and from the
  * database.
+ *
+ * NOTE: this takes ownership of @theme if and only if the deletion
+ * succeeds.
+ *
  * Returns: %TRUE on success.
  **/
 gboolean

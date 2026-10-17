@@ -436,7 +436,7 @@ gog_tool_action_double_click (GogToolAction *action)
 
 /**
  * gog_tool_action_free:
- * @action: a #GogToolAction
+ * @action: (transfer full): a #GogToolAction
  *
  * Drops a reference on @action. When the last reference is dropped, the
  * destroy method of the tool is called, if any, then the data of @action and
