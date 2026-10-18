@@ -4280,6 +4280,8 @@ gog_axis_view_size_allocate_3d (GogView *view, GogView *child,
 	GogViewAllocation label_pos;
 	GogViewRequisition req, available;
 
+	available.w = plot_area->w;
+	available.h = plot_area->h;
 	gog_view_size_request (child, &available, &req);
 	gog_axis_base_view_label_position_request (view, plot_area, &label_pos);
 
