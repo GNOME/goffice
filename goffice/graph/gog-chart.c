@@ -1124,11 +1124,8 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	/* Add at least 1 instance of any required axis */
 	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
 		if ((axis_set & (1 << type))) {
-			GSList *tmp = gog_chart_get_axes (chart, type);
-			if (tmp == NULL)
+			if (gog_chart_get_axis (chart, type) == NULL)
 				gog_chart_add_axis (chart, type);
-			else
-				g_slist_free (tmp);
 		}
 
 	/* link the plots */
@@ -1141,9 +1138,8 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 		axis = ptr->data;
 		ptr = ptr->next; /* list may change under us */
 		if (GOG_IS_AXIS (axis)) {
-			type = -1;
-			g_object_get (G_OBJECT (axis), "type", &type, NULL);
-			if (type < 0 || type >= GOG_AXIS_TYPES) {
+			type = gog_axis_get_atype (axis);
+			if ((int)type < 0 || type >= GOG_AXIS_TYPES) {
 				g_warning ("Invalid axis");
 				continue;
 			}
