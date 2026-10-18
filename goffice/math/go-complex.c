@@ -82,7 +82,7 @@ GType go_complexD_get_type (void) { return 0; }
  * go_complex_to_string:
  * @src: complex value
  * @reformat: printf format for real component
- * @imformat: printf format for real component
+ * @imformat: printf format for imaginary component
  * @imunit: character unit for imaginary unit, typically 'i'
  *
  * Returns: (transfer full): formats a complex number
@@ -116,7 +116,7 @@ SUFFIX(go_complex_to_string) (COMPLEX const *src, char const *reformat,
 		} else {
 			im_buffer = g_strdup_printf (imformat, src->im);
 			if (re_buffer && *im_buffer != '-' && *im_buffer != '+')
-				sign = (src->im >= 0) ? "+" : "-";
+				sign = (src->im < 0) ? "-" : "+";
 		}
 	}
 
@@ -273,7 +273,7 @@ SUFFIX(go_complex_from_polar_pi) (COMPLEX *dst, DOUBLE mod, DOUBLE angle)
  * go_complex_mul:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a multiplied by @b.
  */
@@ -291,7 +291,7 @@ SUFFIX(go_complex_mul) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
  * go_complex_div:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a divided by @b.
  */
@@ -469,6 +469,18 @@ SUFFIX(mulmod1) (SUFFIX(GOQuad) *dst, SUFFIX(GOQuad) const *qa_, DOUBLE b)
 	*dst = res;
 }
 
+/**
+ * go_complex_powx:
+ * @dst: (out): destination
+ * @e: (out) (optional): binary exponent of the result, or %NULL
+ * @a: first argument
+ * @b: second argument
+ *
+ * Computes the complex power @a to the power of @b.  If @e is not %NULL,
+ * the result is @dst multiplied by 2 to the power @e, which allows results
+ * that would overflow or underflow to be represented.  If @e is %NULL, the
+ * result is stored in @dst directly, as for go_complex_pow().
+ */
 void
 SUFFIX(go_complex_powx) (COMPLEX *dst, DOUBLE *e,
 			 COMPLEX const *a, COMPLEX const *b)
@@ -569,7 +581,7 @@ SUFFIX(go_complex_pow) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
  * @re: real value
  * @im: imaginary value
  *
- * Initializes a complex number from real and complex parts.
+ * Initializes a complex number from real and imaginary parts.
  */
 void SUFFIX(go_complex_init) (COMPLEX *dst, DOUBLE re, DOUBLE im)
 {
@@ -583,7 +595,7 @@ void SUFFIX(go_complex_init) (COMPLEX *dst, DOUBLE re, DOUBLE im)
  * go_complex_invalid:
  * @dst: (out): destination
  *
- * Initializes a complex number with real and complex parts both NaN.
+ * Initializes a complex number with real and imaginary parts both NaN.
  */
 void SUFFIX(go_complex_invalid) (COMPLEX *dst)
 {
@@ -610,7 +622,7 @@ void SUFFIX(go_complex_real) (COMPLEX *dst, DOUBLE re)
  * go_complex_real_p:
  * @src: complex value
  *
- * Returns: %TRUE if the complex number has no complex component.
+ * Returns: %TRUE if the complex number has no imaginary component.
  */
 gboolean SUFFIX(go_complex_real_p) (COMPLEX const *src)
 {
@@ -636,8 +648,8 @@ gboolean SUFFIX(go_complex_zero_p) (COMPLEX const *src)
  * go_complex_invalid_p:
  * @src: complex value
  *
- * Returns: %TRUE if the complex number is invalid, i.e., either the
- * real or the complex component is NaN.
+ * Returns: %TRUE if the complex number is invalid, i.e., if either the
+ * real or the imaginary component is not finite (NaN or infinite).
  */
 gboolean SUFFIX(go_complex_invalid_p) (COMPLEX const *src)
 {
@@ -718,7 +730,7 @@ void SUFFIX(go_complex_scale_real) (COMPLEX *dst, DOUBLE f)
  * go_complex_add:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a plus @b.
  */
@@ -733,7 +745,7 @@ void SUFFIX(go_complex_add) (COMPLEX *dst, COMPLEX const *a, COMPLEX const *b)
  * go_complex_sub:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a minus @b.
  */

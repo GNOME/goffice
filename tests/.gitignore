@@ -18,6 +18,7 @@ test-quad
 test-dtoa
 test-decimal
 test-classify
+test-complex
 constants
 *.log
 *.trs

@@ -132,7 +132,7 @@
  * go_complex_addD:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a plus @b.
  */
@@ -141,7 +141,7 @@
  * go_complex_addl:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a plus @b.
  */
@@ -210,7 +210,7 @@
  * go_complex_divD:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a divided by @b.
  */
@@ -219,7 +219,7 @@
  * go_complex_divl:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a divided by @b.
  */
@@ -304,7 +304,7 @@
  * @re: real value
  * @im: imaginary value
  *
- * Initializes a complex number from real and complex parts.
+ * Initializes a complex number from real and imaginary parts.
  */
 
 /**
@@ -313,37 +313,37 @@
  * @re: real value
  * @im: imaginary value
  *
- * Initializes a complex number from real and complex parts.
+ * Initializes a complex number from real and imaginary parts.
  */
 
 /**
  * go_complex_invalidD:
  * @dst: (out): destination
  *
- * Initializes a complex number with real and complex parts both NaN.
+ * Initializes a complex number with real and imaginary parts both NaN.
  */
 
 /**
  * go_complex_invalid_pD:
  * @src: complex value
  *
- * Returns: %TRUE if the complex number is invalid, i.e., either the
- * real or the complex component is NaN.
+ * Returns: %TRUE if the complex number is invalid, i.e., if either the
+ * real or the imaginary component is not finite (NaN or infinite).
  */
 
 /**
  * go_complex_invalid_pl:
  * @src: complex value
  *
- * Returns: %TRUE if the complex number is invalid, i.e., either the
- * real or the complex component is NaN.
+ * Returns: %TRUE if the complex number is invalid, i.e., if either the
+ * real or the imaginary component is not finite (NaN or infinite).
  */
 
 /**
  * go_complex_invalidl:
  * @dst: (out): destination
  *
- * Initializes a complex number with real and complex parts both NaN.
+ * Initializes a complex number with real and imaginary parts both NaN.
  */
 
 /**
@@ -380,7 +380,7 @@
  * go_complex_mulD:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a multiplied by @b.
  */
@@ -389,7 +389,7 @@
  * go_complex_mull:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a multiplied by @b.
  */
@@ -413,6 +413,32 @@
  */
 
 /**
+ * go_complex_powxD:
+ * @dst: (out): destination
+ * @e: (out) (optional): binary exponent of the result, or %NULL
+ * @a: first argument
+ * @b: second argument
+ *
+ * Computes the complex power @a to the power of @b.  If @e is not %NULL,
+ * the result is @dst multiplied by 2 to the power @e, which allows results
+ * that would overflow or underflow to be represented.  If @e is %NULL, the
+ * result is stored in @dst directly, as for go_complex_pow().
+ */
+
+/**
+ * go_complex_powxl:
+ * @dst: (out): destination
+ * @e: (out) (optional): binary exponent of the result, or %NULL
+ * @a: first argument
+ * @b: second argument
+ *
+ * Computes the complex power @a to the power of @b.  If @e is not %NULL,
+ * the result is @dst multiplied by 2 to the power @e, which allows results
+ * that would overflow or underflow to be represented.  If @e is %NULL, the
+ * result is stored in @dst directly, as for go_complex_pow().
+ */
+
+/**
  * go_complex_realD:
  * @dst: (out): destination
  * @re: real value
@@ -424,14 +450,14 @@
  * go_complex_real_pD:
  * @src: complex value
  *
- * Returns: %TRUE if the complex number has no complex component.
+ * Returns: %TRUE if the complex number has no imaginary component.
  */
 
 /**
  * go_complex_real_pl:
  * @src: complex value
  *
- * Returns: %TRUE if the complex number has no complex component.
+ * Returns: %TRUE if the complex number has no imaginary component.
  */
 
 /**
@@ -494,7 +520,7 @@
  * go_complex_subD:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a minus @b.
  */
@@ -503,7 +529,7 @@
  * go_complex_subl:
  * @dst: (out): destination
  * @a: first argument
- * @b: first argument
+ * @b: second argument
  *
  * Computes @a minus @b.
  */
@@ -546,7 +572,7 @@
  * go_complex_to_stringD:
  * @src: complex value
  * @reformat: printf format for real component
- * @imformat: printf format for real component
+ * @imformat: printf format for imaginary component
  * @imunit: character unit for imaginary unit, typically 'i'
  *
  * Returns: (transfer full): formats a complex number
@@ -556,7 +582,7 @@
  * go_complex_to_stringl:
  * @src: complex value
  * @reformat: printf format for real component
- * @imformat: printf format for real component
+ * @imformat: printf format for imaginary component
  * @imunit: character unit for imaginary unit, typically 'i'
  *
  * Returns: (transfer full): formats a complex number
@@ -2040,7 +2066,7 @@
  * A (input) is an m-times-n matrix.  A[0...m-1][0..n-1]
  * If qAT is TRUE, this parameter is transposed.
  *
- * V is a pre-allocated output m-times-n matrix.  V will contrain
+ * V is a pre-allocated output m-times-n matrix.  V will contain
  * n vectors of different lengths: n, n-1, ..., 1.  These are the
  * Householder vectors (or null for the degenerate case).  The
  * matrix Q of size m-times-m is implied from V.
@@ -2574,7 +2600,7 @@
 
 /**
   * go_reduce_piD:
-  * @x: number of reduce
+  * @x: number to reduce
   * @e: scale between -1 and 8, inclusive.
   * @k: (out): location to return lower @e+1 bits of reduction count
   *
@@ -2587,7 +2613,7 @@
 
 /**
   * go_reduce_pil:
-  * @x: number of reduce
+  * @x: number to reduce
   * @e: scale between -1 and 8, inclusive.
   * @k: (out): location to return lower @e+1 bits of reduction count
   *

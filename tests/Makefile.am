@@ -1,5 +1,5 @@
 check_PROGRAMS=test-quad test-math test-format test-dtoa test-decimal	\
-	test-classify constants
+	test-classify test-complex constants
 if WITH_GTK
 check_PROGRAMS += pie-demo go-demo shapes-demo mf-demo
 endif
@@ -11,7 +11,7 @@ AM_CFLAGS = $(GOFFICE_CFLAGS)
 TSCRIPTS = t8000-multipass.pl
 
 TESTS = test-quad test-math test-format test-dtoa test-decimal	\
-	test-classify						\
+	test-classify test-complex					\
 	$(TSCRIPTS)
 
 constants_LDADD = $(GOFFICE_PLUGIN_LIBADD)
@@ -40,6 +40,9 @@ test_decimal_SOURCES = test-decimal.c
 
 test_classify_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_classify_SOURCES = test-classify.c
+
+test_complex_LDADD = $(GOFFICE_PLUGIN_LIBADD)
+test_complex_SOURCES = test-complex.c
 
 test_format_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_format_SOURCES = test-format.c
