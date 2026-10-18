@@ -327,25 +327,17 @@ gog_axis_base_get_crossed_axis_for_plot (GogAxisBase *axis_base, GogPlot *plot)
 GogAxis *
 gog_axis_base_get_crossed_axis (GogAxisBase *axis_base)
 {
-	GogAxis *crossed_axis = NULL;
-	GSList *axes, *ptr;
-	gboolean found = FALSE;
+	GogAxis *crossed_axis;
 	GogAxisType cross_axis_type = gog_axis_base_get_crossed_axis_type (axis_base);
 
 	if (cross_axis_type == GOG_AXIS_UNKNOWN)
 		return NULL;
-	axes = gog_chart_get_axes (axis_base->chart, cross_axis_type);
-	g_return_val_if_fail (axes != NULL, NULL);
+	crossed_axis = gog_chart_get_axis_by_id (axis_base->chart, cross_axis_type,
+						 axis_base->crossed_axis_id);
+	if (crossed_axis == NULL)
+		crossed_axis = gog_chart_get_axis (axis_base->chart, cross_axis_type);
+	g_return_val_if_fail (crossed_axis != NULL, NULL);
 
-	for (ptr = axes; !found && ptr; ptr = ptr->next) {
-		crossed_axis = GOG_AXIS (ptr->data);
-		found = (gog_object_get_id (GOG_OBJECT (crossed_axis)) == axis_base->crossed_axis_id);
-	}
-
-	if (!found)
-		crossed_axis = GOG_AXIS (axes->data);
-
-	g_slist_free (axes);
 	return crossed_axis;
 }
 

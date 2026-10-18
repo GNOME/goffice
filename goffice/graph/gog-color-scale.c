@@ -239,11 +239,10 @@ gog_color_scale_set_property (GObject *obj, guint param_id,
 		break;
 	case COLOR_SCALE_PROP_AXIS: {
 		GogChart *chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (obj)));
-		GSList *ptr;
 		char const *buf = g_value_get_string (value);
 		GogAxisType	 type;
 		int id;
-		GogAxis *axis = NULL;
+		GogAxis *axis;
 		if (!strncmp (buf, "color", 5)) {
 			type = GOG_AXIS_COLOR;
 			buf += 5;
@@ -265,12 +264,7 @@ gog_color_scale_set_property (GObject *obj, guint param_id,
 		id = atoi (buf);
 		if (id < 1) /* this should not happen */
 				id = 1;
-		for (ptr = gog_chart_get_axes (chart, type); ptr && ptr->data; ptr = ptr->next) {
-			if ((unsigned ) id == gog_object_get_id (GOG_OBJECT (ptr->data))) {
-			    axis = GOG_AXIS (ptr->data);
-				break;
-			}
-		}
+		axis = gog_chart_get_axis_by_id (chart, type, id);
 		gog_color_scale_set_axis (scale, axis);
 		break;
 	}

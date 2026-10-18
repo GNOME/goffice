@@ -1216,6 +1216,34 @@ gog_chart_get_axis (GogChart const *chart, GogAxisType target)
 }
 
 /**
+ * gog_chart_get_axis_by_id:
+ * @chart: a #GogChart
+ * @target: the #GogAxisType to look for
+ * @id: the object id of the axis, see gog_object_get_id()
+ *
+ * Returns: (transfer none) (nullable): the axis of type @target associated
+ * with @chart that has object id @id, or %NULL if there is no such axis.
+ **/
+GogAxis *
+gog_chart_get_axis_by_id (GogChart const *chart, GogAxisType target,
+			  unsigned id)
+{
+	GSList *ptr;
+
+	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
+
+	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next) {
+		GogObject *obj = ptr->data;
+		if (GOG_IS_AXIS (obj) &&
+		    gog_axis_get_atype (GOG_AXIS (obj)) == target &&
+		    gog_object_get_id (obj) == id)
+			return GOG_AXIS (obj);
+	}
+
+	return NULL;
+}
+
+/**
  * gog_chart_get_grid:
  * @chart: #GogChart
  *

@@ -918,8 +918,6 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 {
 	GogChart const *chart;
 	GogAxis *axis;
-	GSList *axes, *ptr;
-	gboolean found = FALSE;
 
 	if (id == 0)
 		return FALSE;
@@ -930,18 +928,12 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 	chart = gog_plot_get_chart (plot);
 	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
 
-	axes = gog_chart_get_axes (chart, type);
-	g_return_val_if_fail (axes != NULL, FALSE);
+	axis = gog_chart_get_axis_by_id (chart, type, id);
+	if (axis == NULL)
+		return FALSE;
 
-	for (ptr = axes; ptr != NULL && !found; ptr = ptr->next) {
-		axis = GOG_AXIS (ptr->data);
-		if (gog_object_get_id (GOG_OBJECT (axis)) == id) {
-			gog_plot_set_axis (plot, axis);
-			found = TRUE;
-		}
-	}
-	g_slist_free (axes);
-	return found;
+	gog_plot_set_axis (plot, axis);
+	return TRUE;
 }
 
 gboolean
