@@ -196,17 +196,6 @@ typedef GogViewClass	GogGridViewClass;
 #define GOG_IS_GRID_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRID_VIEW))
 
 
-/* Returns the first axis of the given type, or %NULL if the chart has none. */
-static GogAxis *
-gog_grid_get_chart_axis (GogChart *chart, GogAxisType type)
-{
-	GSList *axes = gog_chart_get_axes (chart, type);
-	GogAxis *axis = axes != NULL ? GOG_AXIS (axes->data) : NULL;
-
-	g_slist_free (axes);
-	return axis;
-}
-
 static void
 gog_grid_view_xyz_render (GogGrid *grid, GogView *view,
 			  GogChart *chart, GogViewAllocation const *plot_area)
@@ -235,9 +224,9 @@ gog_grid_view_xyz_render (GogGrid *grid, GogView *view,
 	int bp_faces[] = {0, 0};
 	int fv[] = {0, 0, 0, 0, 0, 0};
 
-	xaxis = gog_grid_get_chart_axis (chart, GOG_AXIS_X);
-	yaxis = gog_grid_get_chart_axis (chart, GOG_AXIS_Y);
-	zaxis = gog_grid_get_chart_axis (chart, GOG_AXIS_Z);
+	xaxis = gog_chart_get_axis (chart, GOG_AXIS_X);
+	yaxis = gog_chart_get_axis (chart, GOG_AXIS_Y);
+	zaxis = gog_chart_get_axis (chart, GOG_AXIS_Z);
 	if (xaxis == NULL || yaxis == NULL || zaxis == NULL)
 		return;
 
@@ -345,8 +334,8 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 		double x, y;
 		unsigned step_nbr, i;
 
-		c_axis = gog_grid_get_chart_axis (chart, GOG_AXIS_CIRCULAR);
-		r_axis = gog_grid_get_chart_axis (chart, GOG_AXIS_RADIAL);
+		c_axis = gog_chart_get_axis (chart, GOG_AXIS_CIRCULAR);
+		r_axis = gog_chart_get_axis (chart, GOG_AXIS_RADIAL);
 		if (c_axis == NULL || r_axis == NULL)
 			break;
 

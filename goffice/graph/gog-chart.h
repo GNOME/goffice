@@ -52,6 +52,7 @@ GogAxisSet gog_chart_get_axis_set    (GogChart const *chart);
 gboolean gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet axis_set);
 gboolean gog_chart_axis_set_assign   (GogChart *chart, GogAxisSet axis_set);
 GSList	*gog_chart_get_axes	     (GogChart const *chart, GogAxisType target);
+GogAxis	*gog_chart_get_axis	     (GogChart const *chart, GogAxisType target);
 
 GogGrid *gog_chart_get_grid	     (GogChart const *chart);
 

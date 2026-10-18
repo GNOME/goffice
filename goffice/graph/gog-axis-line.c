@@ -1980,7 +1980,6 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogChartMap3D *c_map;
 	GogAxisMap *a_map;
 	GogViewAllocation axis_line_bbox;
-	GSList *axes;
 	GogAxisType perp_axis;
 	GOGeometryOBR obr;
 	GogAxisTick *ticks;
@@ -2016,30 +2015,18 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		return FALSE;
 
 	if (axis_type == GOG_AXIS_X) {
-		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Y);
-		axis1 = GOG_AXIS (axes->data);
-		g_slist_free (axes);
-		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Z);
-		axis2 = GOG_AXIS (axes->data);
-		g_slist_free (axes);
+		axis1 = gog_chart_get_axis (axis_base->chart, GOG_AXIS_Y);
+		axis2 = gog_chart_get_axis (axis_base->chart, GOG_AXIS_Z);
 		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis_base->axis, axis1, axis2);
 	} else if (axis_type == GOG_AXIS_Y) {
-		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Z);
-		axis1 = GOG_AXIS (axes->data);
-		g_slist_free (axes);
-		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_X);
-		axis2 = GOG_AXIS (axes->data);
-		g_slist_free (axes);
+		axis1 = gog_chart_get_axis (axis_base->chart, GOG_AXIS_Z);
+		axis2 = gog_chart_get_axis (axis_base->chart, GOG_AXIS_X);
 		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis2, axis_base->axis, axis1);
 	} else {
-		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_X);
-		axis1 = GOG_AXIS (axes->data);
-		g_slist_free (axes);
-		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Y);
-		axis2 = GOG_AXIS (axes->data);
-		g_slist_free (axes);
+		axis1 = gog_chart_get_axis (axis_base->chart, GOG_AXIS_X);
+		axis2 = gog_chart_get_axis (axis_base->chart, GOG_AXIS_Y);
 		c_map = gog_chart_map_3d_new (view, plot_area,
 			axis1, axis2, axis_base->axis);
 	}

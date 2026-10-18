@@ -961,11 +961,10 @@ gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 				plot->axis[type] = NULL;
 			}
 		} else if (axis_set & (1 << type)) {
-			GSList *axes = gog_chart_get_axes (chart, type);
-			if (axes != NULL) {
-				gog_axis_add_contributor (axes->data, GOG_OBJECT (plot));
-				plot->axis[type] = axes->data;
-				g_slist_free (axes);
+			GogAxis *axis = gog_chart_get_axis (chart, type);
+			if (axis != NULL) {
+				gog_axis_add_contributor (axis, GOG_OBJECT (plot));
+				plot->axis[type] = axis;
 			}
 		}
 	}

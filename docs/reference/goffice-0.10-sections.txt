@@ -3188,6 +3188,7 @@ gog_chart_axis_set_assign
 gog_chart_axis_set_is_valid
 gog_chart_foreach_elem
 gog_chart_get_axes
+gog_chart_get_axis
 gog_chart_get_axis_set
 gog_chart_get_cardinality
 gog_chart_get_grid

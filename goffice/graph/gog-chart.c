@@ -1172,26 +1172,47 @@ GSList *
 gog_chart_get_axes (GogChart const *chart, GogAxisType target)
 {
 	GSList *ptr, *res = NULL;
-	GogAxis *axis;
-	int type;
 
 	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
 
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next) {
-		axis = ptr->data;
-		if (GOG_IS_AXIS (axis)) {
-			type = -1;
-			g_object_get (G_OBJECT (axis), "type", &type, NULL);
-			if (type < 0 || type >= GOG_AXIS_TYPES) {
-				g_warning ("Invalid axis");
-				continue;
-			}
-			if (type == target)
+		GogObject *obj = ptr->data;
+		if (GOG_IS_AXIS (obj)) {
+			GogAxis *axis = GOG_AXIS (obj);
+			if (gog_axis_get_atype (axis) == target)
 				res = g_slist_prepend (res, axis);
 		}
 	}
 
 	return res;
+}
+
+/**
+ * gog_chart_get_axis:
+ * @chart: a #GogChart
+ * @target: the #GogAxisType to look for
+ *
+ * Returns: (transfer none) (nullable): the first axis of type @target
+ * associated with @chart, or %NULL if @chart has no such axis.
+ **/
+GogAxis *
+gog_chart_get_axis (GogChart const *chart, GogAxisType target)
+{
+	GSList *ptr;
+	GogAxis *first = NULL;
+
+	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
+
+	/* gog_chart_get_axes prepends, so its first element is the last
+	 * matching child; keep that behaviour. */
+	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next) {
+		GogObject *obj = ptr->data;
+		if (GOG_IS_AXIS (obj) &&
+		    gog_axis_get_atype (GOG_AXIS (obj)) == target)
+			first = GOG_AXIS (obj);
+	}
+
+	return first;
 }
 
 /**
@@ -1232,7 +1253,6 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	other are added, we'll need to change this code */
 	GogViewAllocation tmp = *bbox;
 	GogAxis *axisX, *axisY, *axisZ, *ref = NULL;
-	GSList *axes;
 	double xmin, xmax, ymin, ymax, zmin, zmax;
 	double o[3], x[3], y[3], z[3], tg, d;
 	Gog3DBox *box;
@@ -1252,26 +1272,20 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	box_view = GOG_3D_BOX_VIEW (gog_view_find_child_view (view, obj));
 
 	/* Only use the first of the axes. */
-	axes = gog_chart_get_axes (chart, GOG_AXIS_X);
-	axisX = GOG_AXIS (axes->data);
+	axisX = gog_chart_get_axis (chart, GOG_AXIS_X);
 	xm = gog_axis_get_metrics (axisX);
 	if (xm != GOG_AXIS_METRICS_DEFAULT)
 		ref = gog_axis_get_ref_axis (axisX);
-	g_slist_free (axes);
 	gog_axis_get_bounds (axisX, &xmin, &xmax);
-	axes = gog_chart_get_axes (chart, GOG_AXIS_Y);
-	axisY = GOG_AXIS (axes->data);
+	axisY = gog_chart_get_axis (chart, GOG_AXIS_Y);
 	ym = gog_axis_get_metrics (axisY);
 	if (ym != GOG_AXIS_METRICS_DEFAULT && ref == NULL)
 		ref = gog_axis_get_ref_axis (axisY);
-	g_slist_free (axes);
 	gog_axis_get_bounds (axisY, &ymin, &ymax);
-	axes = gog_chart_get_axes (chart, GOG_AXIS_Z);
-	axisZ = GOG_AXIS (axes->data);
+	axisZ = gog_chart_get_axis (chart, GOG_AXIS_Z);
 	zm = gog_axis_get_metrics (axisZ);
 	if (zm != GOG_AXIS_METRICS_DEFAULT && ref == NULL)
 		ref = gog_axis_get_ref_axis (axisZ);
-	g_slist_free (axes);
 	gog_axis_get_bounds (axisZ, &zmin, &zmax);
 	/* define the 3d box */
 	if (ref == NULL) {

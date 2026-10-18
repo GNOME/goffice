@@ -277,17 +277,6 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 	gog_axis_map_free (map);
 }
 
-/* Returns the first axis of the given type, or %NULL if the chart has none. */
-static GogAxis *
-gog_grid_line_get_chart_axis (GogChart *chart, GogAxisType type)
-{
-	GSList *axes = gog_chart_get_axes (chart, type);
-	GogAxis *axis = axes != NULL ? GOG_AXIS (axes->data) : NULL;
-
-	g_slist_free (axes);
-	return axis;
-}
-
 /* Projects a point of the 3d box: the vertex @vertex of the box, but with its
  * coordinate number @dim (0 for X, 1 for Y, 2 for Z) replaced by @value. */
 static void
@@ -356,7 +345,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 	for (k = 0; k < 3; k++) {
 		dim_axes[k] = (k == dim)
 			? axis
-			: gog_grid_line_get_chart_axis (chart, dim_types[k]);
+			: gog_chart_get_axis (chart, dim_types[k]);
 		if (dim_axes[k] == NULL)
 			return;
 	}
@@ -494,7 +483,7 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_UNKNOWN)
 		return;
 
-	circular_axis = gog_grid_line_get_chart_axis (chart, GOG_AXIS_CIRCULAR);
+	circular_axis = gog_chart_get_axis (chart, GOG_AXIS_CIRCULAR);
 	if (circular_axis == NULL)
 		return;
 
@@ -655,7 +644,7 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_UNKNOWN)
 		return;
 
-	radial_axis = gog_grid_line_get_chart_axis (chart, GOG_AXIS_RADIAL);
+	radial_axis = gog_chart_get_axis (chart, GOG_AXIS_RADIAL);
 	if (radial_axis == NULL)
 		return;
 
