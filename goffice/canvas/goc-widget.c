@@ -596,7 +596,7 @@ goc_widget_notify_scrolled (GocItem *item)
 	int w, h;
 
 	parent = item->parent;
-	if (!parent)
+	if (!parent || !widget->widget)
 		return;
 
 	gtk_widget_set_size_request (widget->widget, 1, 1);
@@ -822,7 +822,8 @@ goc_widget_draw (GocItem const *item, cairo_t *cr)
 static GdkWindow *
 goc_widget_get_window (GocItem *item)
 {
-	return gtk_widget_get_window (GOC_WIDGET (item)->ofbox);
+	GtkWidget *ofbox = GOC_WIDGET (item)->ofbox;
+	return ofbox ? gtk_widget_get_window (ofbox) : NULL;
 }
 
 static void

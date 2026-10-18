@@ -63,7 +63,8 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 	double ax0, ay0, ax1, ay1;
 	double clip_x1, clip_y1, clip_x2, clip_y2;
 	GocCanvas *canvas = GOC_CANVAS (widget);
-	GdkEventExpose *event = (GdkEventExpose *) gtk_get_current_event ();
+	GdkEvent *ev = gtk_get_current_event ();
+	GdkEventExpose *event = (GdkEventExpose *)ev;
 	GocCanvasPrivate *priv = (GocCanvasPrivate *) canvas->priv;
 	cairo_rectangle_list_t *l = cairo_copy_clip_rectangle_list (cr);
 	int i, x, y;
@@ -124,10 +125,12 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 		if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0) {
 			canvas->cur_event = (GdkEvent *) event;
 			goc_item_draw_region (GOC_ITEM (canvas->root), cr, ax0, ay0, ax1, ay1);
+			canvas->cur_event = NULL;
 		}
 		cairo_restore (cr);
 	}
 	cairo_rectangle_list_destroy (l);
+	gdk_event_free (ev);
 	return TRUE;
 }
 
@@ -145,8 +148,9 @@ button_press_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointe
 		gboolean result;
 		canvas->cur_event = (GdkEvent *) event;
 		if (event->type == GDK_2BUTTON_PRESS)
-			return GOC_ITEM_GET_CLASS (item)->button2_pressed (item, event->button, x, y);
-		result = GOC_ITEM_GET_CLASS (item)->button_pressed (item, event->button, x, y);
+			result = GOC_ITEM_GET_CLASS (item)->button2_pressed (item, event->button, x, y);
+		else
+			result = GOC_ITEM_GET_CLASS (item)->button_pressed (item, event->button, x, y);
 		canvas->cur_event = NULL;
 		return result;
 	}
@@ -384,7 +388,6 @@ goc_canvas_init (GocCanvas *canvas)
 	                       GDK_POINTER_MOTION_MASK |
 	                       GDK_BUTTON_MOTION_MASK |
 	                       GDK_BUTTON_PRESS_MASK |
-	                       GDK_2BUTTON_PRESS |
 	                       GDK_BUTTON_RELEASE_MASK |
 	                       GDK_KEY_PRESS_MASK |
 	                       GDK_KEY_RELEASE_MASK |

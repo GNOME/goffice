@@ -257,10 +257,10 @@ goc_image_draw (GocItem const *item, cairo_t *cr)
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
 	x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
-		image->x + image->width: image->x;
+		image->x + width: image->x;
 	goc_group_cairo_transform (item->parent, cr, x, (int) image->y);
 	cairo_rotate (cr, image->rotation);
-	cairo_rectangle (cr, 0, 0, image->width, image->height);
+	cairo_rectangle (cr, 0, 0, width, height);
 	cairo_clip (cr);
 	if (scalex != 1. || scaley != 1.)
 		cairo_scale (cr, scalex, scaley);
@@ -286,7 +286,11 @@ goc_image_copy (GocItem *dest, GocItem *source)
 	dst->crop_top = src->crop_top;
 	dst->crop_bottom = src->crop_bottom;
 	/* just add a reference to the GOImage, it should never be modified */
-	dst->image = src->image ? g_object_ref (src->image) : NULL;
+	if (src->image)
+		g_object_ref (src->image);
+	if (dst->image)
+		g_object_unref (dst->image);
+	dst->image = src->image;
 	parent_class->copy (dest, source);
 }
 

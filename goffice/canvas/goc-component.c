@@ -56,7 +56,7 @@ enum {
 
 static void
 goc_component_set_property (GObject *obj, guint param_id,
-			GValue const *value, GParamSpec *pspec)
+			    GValue const *value, GParamSpec *pspec)
 {
 	GocComponent *component = GOC_COMPONENT (obj);
 
@@ -66,7 +66,7 @@ goc_component_set_property (GObject *obj, guint param_id,
 		if (x == component->x)
 			return;
 		component->x = x;
-		return;
+		break;
 	}
 	case COMPONENT_PROP_Y: {
 		double y = g_value_get_double (value);
@@ -101,12 +101,16 @@ goc_component_set_property (GObject *obj, guint param_id,
 		break;
 	}
 
-	case COMPONENT_PROP_OBJECT:
+	case COMPONENT_PROP_OBJECT: {
+		GOComponent *new_component = GO_COMPONENT (g_value_get_object (value));
+		if (new_component == component->component)
+			return;
+
 		if (component->component != NULL)
 			g_object_unref (component->component);
-		component->component = GO_COMPONENT (g_value_get_object (value));
-		if (component->component != NULL) {
-			g_object_ref (component->component);
+		component->component = new_component;
+		if (new_component != NULL) {
+			g_object_ref (new_component);
 			/* set default or fixed size */
 			if (component->w == 0 || component->h == 0 || !go_component_is_resizable (component->component)) {
 				go_component_get_size (component->component, &component->w, &component->h);
@@ -115,6 +119,7 @@ goc_component_set_property (GObject *obj, guint param_id,
 			}
 		}
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -125,7 +130,7 @@ goc_component_set_property (GObject *obj, guint param_id,
 
 static void
 goc_component_get_property (GObject *obj, guint param_id,
-			GValue *value, GParamSpec *pspec)
+			    GValue *value, GParamSpec *pspec)
 {
 	GocComponent *component = GOC_COMPONENT (obj);
 
@@ -155,7 +160,7 @@ goc_component_get_property (GObject *obj, guint param_id,
 }
 
 static void
-goc_component_finalize (GObject *obj)
+goc_component_dispose (GObject *obj)
 {
 	GocComponent *component = GOC_COMPONENT (obj);
 
@@ -163,7 +168,7 @@ goc_component_finalize (GObject *obj)
 		g_object_unref (component->component);
 		component->component = NULL;
 	}
-	(*parent_klass->finalize) (obj);
+	parent_klass->dispose (obj);
 }
 
 static double
@@ -284,7 +289,7 @@ goc_component_class_init (GocItemClass *item_klass)
 
 	obj_klass->set_property = goc_component_set_property;
 	obj_klass->get_property = goc_component_get_property;
-	obj_klass->finalize	= goc_component_finalize;
+	obj_klass->dispose	= goc_component_dispose;
 
 	g_object_class_install_property (obj_klass, COMPONENT_PROP_X,
 		g_param_spec_double ("x",

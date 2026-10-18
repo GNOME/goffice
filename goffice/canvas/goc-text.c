@@ -199,14 +199,19 @@ goc_text_get_property (GObject *gobject, guint param_id,
 }
 
 static void
-goc_text_finalize (GObject *gobject)
+goc_text_dispose (GObject *gobject)
 {
 	GocText *text = GOC_TEXT (gobject);
 
 	g_free (text->text);
-	if (text->attributes)
+	text->text = NULL;
+
+	if (text->attributes) {
 		pango_attr_list_unref (text->attributes);
-	((GObjectClass *) parent_class)->finalize (gobject);
+		text->attributes = NULL;
+	}
+
+	((GObjectClass *) parent_class)->dispose (gobject);
 }
 
 static PangoLayout *
@@ -302,16 +307,19 @@ goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 	double dx, dy, w, h;
 	PangoLayout *pl = goc_text_setup_layout (item, cr, &dx, &dy, &w, &h, TRUE);
 	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? -1. : 1.;
+	double x, y;
 
 	if (!pl)
 		return;
 
-	item->x0 = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? text->x + text->w : text->x;
-	item->y0 = text->y;
+	/* use locals: this is also called from distance(), which must not
+	   overwrite the item bounds */
+	x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? text->x + text->w : text->x;
+	y = text->y;
 
 	cairo_save (cr);
 	_goc_item_transform (item, cr, flag);
-	cairo_translate (cr, item->x0, item->y0);
+	cairo_translate (cr, x, y);
 	cairo_rotate (cr, text->rotation * sign);
 	cairo_rectangle (cr, dx, dy, w, h);
 	cairo_restore (cr);
@@ -396,8 +404,11 @@ goc_text_copy (GocItem *dest, GocItem *source)
 	dst->clip_width = src->clip_width;
 	dst->clip_height = src->clip_height;
 	dst->wrap_width = src->wrap_width;
+	g_free (dst->text);
 	dst->text = g_strdup (src->text);
 	dst->anchor = src->anchor;
+	if (dst->attributes)
+		pango_attr_list_unref (dst->attributes);
 	dst->attributes = src->attributes ? pango_attr_list_copy (src->attributes) : NULL;
 	parent_class->copy (dest, source);
 }
@@ -425,7 +436,7 @@ goc_text_class_init (GocItemClass *item_klass)
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
 	parent_class = g_type_class_peek_parent (item_klass);
 
-	obj_klass->finalize = goc_text_finalize;
+	obj_klass->dispose = goc_text_dispose;
 	obj_klass->get_property = goc_text_get_property;
 	obj_klass->set_property = goc_text_set_property;
 	g_object_class_install_property (obj_klass, TEXT_PROP_X,

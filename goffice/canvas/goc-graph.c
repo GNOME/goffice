@@ -152,7 +152,7 @@ goc_graph_dispose (GObject *obj)
 		g_source_remove (graph->coords.timer_id);
 		graph->coords.timer_id = 0;
 	}
-	(*parent_klass->dispose) (obj);
+	parent_klass->dispose (obj);
 }
 
 static void
@@ -164,11 +164,7 @@ goc_graph_finalize (GObject *obj)
 		g_object_unref (graph->renderer);
 		graph->renderer = NULL;
 	}
-	if (graph->coords.timer_id) {
-		g_source_remove (graph->coords.timer_id);
-		graph->coords.timer_id = 0;
-	}
-	(*parent_klass->finalize) (obj);
+	parent_klass->finalize (obj);
 }
 
 static double
@@ -383,8 +379,9 @@ goc_graph_do_tooltip (GocGraph *graph)
 		gog_chart_map_view_to_2D (map, x, y, &x, &y);
 		if (gog_axis_is_discrete (x_axis)) {
 			GODataVector *labels = GO_DATA_VECTOR (gog_axis_get_labels (x_axis, NULL));
-			if (labels && x <= go_data_vector_get_len (labels))
-				s1 = go_data_vector_get_str (labels, x - 1);
+			int idx = x > 0 ? (int)round (MIN (x, G_MAXINT)) - 1 : 0;
+			if (labels && idx >= 0 && idx < go_data_vector_get_len (labels))
+				s1 = go_data_vector_get_str (labels, idx);
 			if (!s1 || *s1 == 0) {
 				g_free (s1);
 				s1 = format_coordinate (x_axis, NULL, x);
@@ -395,8 +392,9 @@ goc_graph_do_tooltip (GocGraph *graph)
 		}
 		if (gog_axis_is_discrete (y_axis)) {
 			GOData *labels = gog_axis_get_labels (y_axis, NULL);
-			if (labels)
-				s2 = go_data_vector_get_str (GO_DATA_VECTOR (labels), y - 1);
+			int idx = y > 0 ? (int)round (MIN (y, G_MAXINT)) - 1 : 0;
+			if (labels && idx >= 0 && idx < go_data_vector_get_len (GO_DATA_VECTOR (labels)))
+				s2 = go_data_vector_get_str (GO_DATA_VECTOR (labels), idx);
 			if (!s2 || *s2 == 0) {
 				g_free (s2);
 				s2 = format_coordinate (y_axis, NULL, y);

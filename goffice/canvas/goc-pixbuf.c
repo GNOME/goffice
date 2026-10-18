@@ -70,11 +70,15 @@ goc_pixbuf_set_property (GObject *gobject, guint param_id,
 		pixbuf->rotation = g_value_get_double (value);
 		break;
 
-	case PIXBUF_PROP_PIXBUF:
+	case PIXBUF_PROP_PIXBUF: {
+		GdkPixbuf *new_pixbuf = GDK_PIXBUF (g_value_get_object (value));
+		if (new_pixbuf)
+			g_object_ref (new_pixbuf);
 		if (pixbuf->pixbuf)
-			g_object_unref (pixbuf);
-		pixbuf->pixbuf = GDK_PIXBUF (g_object_ref (g_value_get_object (value)));
+			g_object_unref (pixbuf->pixbuf);
+		pixbuf->pixbuf = new_pixbuf;
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -121,13 +125,15 @@ goc_pixbuf_get_property (GObject *gobject, guint param_id,
 }
 
 static void
-goc_pixbuf_finalize (GObject *gobject)
+goc_pixbuf_dispose (GObject *gobject)
 {
 	GocPixbuf *pixbuf = GOC_PIXBUF (gobject);
 
-	if (pixbuf->pixbuf)
+	if (pixbuf->pixbuf) {
 		g_object_unref (pixbuf->pixbuf);
-	((GObjectClass *) parent_class)->finalize (gobject);
+		pixbuf->pixbuf = NULL;
+	}
+	((GObjectClass *) parent_class)->dispose (gobject);
 }
 
 static void
@@ -227,7 +233,7 @@ goc_pixbuf_class_init (GocItemClass *item_klass)
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	parent_class = g_type_class_peek_parent (item_klass);
 
-	obj_klass->finalize = goc_pixbuf_finalize;
+	obj_klass->dispose = goc_pixbuf_dispose;
 	obj_klass->get_property = goc_pixbuf_get_property;
 	obj_klass->set_property = goc_pixbuf_set_property;
 	g_object_class_install_property (obj_klass, PIXBUF_PROP_X,

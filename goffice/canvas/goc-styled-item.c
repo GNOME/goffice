@@ -103,7 +103,7 @@ goc_styled_item_get_property (GObject *obj, guint param_id,
 }
 
 static void
-goc_styled_item_finalize (GObject *obj)
+goc_styled_item_dispose (GObject *obj)
 {
 	GocStyledItem *gsi = GOC_STYLED_ITEM (obj);
 
@@ -112,14 +112,15 @@ goc_styled_item_finalize (GObject *obj)
 		gsi->style = NULL;
 	}
 
-	parent_klass->finalize (obj);
+	parent_klass->dispose (obj);
 }
 
 static void
 goc_styled_item_parent_changed (GocItem *item)
 {
 	GocStyledItem *gsi = GOC_STYLED_ITEM (item);
-	go_styled_object_apply_theme (GO_STYLED_OBJECT (gsi), gsi->style);
+	if (gsi->style)
+		go_styled_object_apply_theme (GO_STYLED_OBJECT (gsi), gsi->style);
 }
 
 static void
@@ -163,7 +164,7 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
 
 	gobject_klass->set_property = goc_styled_item_set_property;
 	gobject_klass->get_property = goc_styled_item_get_property;
-	gobject_klass->finalize	    = goc_styled_item_finalize;
+	gobject_klass->dispose	    = goc_styled_item_dispose;
 	style_klass->init_style	    = goc_styled_item_init_style;
 	goc_klass->copy	    		= goc_styled_item_copy;
 

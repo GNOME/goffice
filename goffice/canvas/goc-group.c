@@ -379,7 +379,7 @@ goc_group_clear (GocGroup *group)
 		}
 	}
 
-	goc_group_freeze (group, TRUE);
+	goc_group_freeze (group, FALSE);
 }
 
 // Provide just enough of the old ->children fields that it can be used

@@ -39,6 +39,27 @@ enum {
 
 static GObjectClass *parent_class;
 
+/* Rebuilds the "spline" data from the points.  Needed whenever the points
+ * or use_spline change, and after copying. */
+static void
+goc_polyline_update_spline (GocPolyline *polyline)
+{
+	double *x, *y;
+	unsigned i;
+
+	if (!polyline->use_spline || polyline->nb_points == 0)
+		return;
+	x = g_new (double, polyline->nb_points);
+	y = g_new (double, polyline->nb_points);
+	for (i = 0; i < polyline->nb_points; i++) {
+		x[i] = polyline->points[i].x - polyline->points[0].x;
+		y[i] = polyline->points[i].y - polyline->points[0].y;
+	}
+	g_object_set_data_full (G_OBJECT (polyline), "spline", go_bezier_spline_init (x, y, polyline->nb_points, FALSE), (GDestroyNotify) go_bezier_spline_destroy);
+	g_free (x);
+	g_free (y);
+}
+
 static void
 goc_polyline_set_property (GObject *gobject, guint param_id,
 				    GValue const *value, GParamSpec *pspec)
@@ -47,16 +68,10 @@ goc_polyline_set_property (GObject *gobject, guint param_id,
 
 	switch (param_id) {
 	case POLYLINE_PROP_POINTS: {
-		unsigned i;
 		GocPoints *points = (GocPoints *) g_value_get_boxed (value);
 		polyline->nb_points = points->n;
 		g_free (polyline->points);
-		if (points->n > 0) {
-			polyline->points = g_new (GocPoint, points->n);
-			for (i = 0; i < points->n; i++)
-				polyline->points[i] = points->points[i];
-		} else
-			polyline->points = NULL;
+		polyline->points = go_memdup_n (points->points, points->n, sizeof (GocPoint));
 		break;
 	}
 	case POLYLINE_PROP_SPLINE:
@@ -66,19 +81,7 @@ goc_polyline_set_property (GObject *gobject, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
-	if (polyline->use_spline && polyline->nb_points) {
-		double *x, *y;
-		unsigned i;
-		x = g_new (double, polyline->nb_points);
-		y = g_new (double, polyline->nb_points);
-		for (i = 0; i < polyline->nb_points; i++) {
-			x[i] = polyline->points[i].x - polyline->points[0].x;
-			y[i] = polyline->points[i].y - polyline->points[0].y;
-		}
-		g_object_set_data_full (G_OBJECT (polyline), "spline", go_bezier_spline_init (x, y, polyline->nb_points, FALSE), (GDestroyNotify) go_bezier_spline_destroy);
-		g_free (x);
-		g_free (y);
-	}
+	goc_polyline_update_spline (polyline);
 	goc_item_bounds_changed (GOC_ITEM (gobject));
 }
 
@@ -119,8 +122,10 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	needs_restore = TRUE;
 
 	_goc_item_transform (item, cr, flag);
-	if (polyline->nb_points == 0)
+	if (polyline->nb_points == 0) {
+		cairo_restore (cr);
 		return FALSE;
+	}
 
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, polyline->points[0].x, polyline->points[0].y);
@@ -192,7 +197,7 @@ static double
 goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocPolyline *polyline = GOC_POLYLINE (item);
-	GOStyle *style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
+	GOStyle *style;
 	double res = 20;
 	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
 	cairo_surface_t *surface;
@@ -201,6 +206,7 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 	if (polyline->nb_points == 0)
 		return res;
 
+	style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 	*near_item = item;
 	if (style->line.width * ppu < 5)
 		style->line.width = 5. / (ppu * ppu);
@@ -232,16 +238,13 @@ static void
 goc_polyline_copy (GocItem *dest, GocItem *source)
 {
 	GocPolyline *src = GOC_POLYLINE (source), *dst = GOC_POLYLINE (dest);
-	
+
+	g_free (dst->points);
 	dst->nb_points = src->nb_points;
 	dst->use_spline = src->use_spline;
-	if (src->nb_points > 0) {
-		unsigned ui;
-		dst->points = g_new (GocPoint, src->nb_points);
-		for (ui = 0; ui < src->nb_points; ui++)
-			dst->points[ui] = src->points[ui];
-	} else
-		dst->points = NULL;
+	dst->points = go_memdup_n (src->points, src->nb_points, sizeof (GocPoint));
+	/* the spline is not part of the copied fields, rebuild it */
+	goc_polyline_update_spline (dst);
 	((GocItemClass *) parent_class)->copy (dest, source);
 }
 

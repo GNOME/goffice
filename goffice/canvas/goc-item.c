@@ -617,9 +617,9 @@ goc_item_bounds_changed (GocItem *item)
 void
 goc_item_grab (GocItem *item)
 {
+	g_return_if_fail (GOC_IS_ITEM (item));
 	if (item == goc_canvas_get_grabbed_item (item->canvas))
 		return;
-	g_return_if_fail (GOC_IS_ITEM (item));
 	goc_canvas_grab_item (item->canvas, item);
 }
 
@@ -632,6 +632,7 @@ goc_item_grab (GocItem *item)
 void
 goc_item_ungrab	(GocItem *item)
 {
+	g_return_if_fail (GOC_IS_ITEM (item));
 	g_return_if_fail (item == goc_canvas_get_grabbed_item (item->canvas));
 	goc_canvas_ungrab_item (item->canvas);
 }
@@ -942,7 +943,7 @@ goc_item_duplicate (GocItem *item, GocGroup *parent)
 							  g_object_new (G_OBJECT_TYPE (item), NULL));
 	
 	if (ret)
-		klass->copy (ret, item);
+		goc_item_copy (ret, item); /* also copies the base fields */
 	return ret;
 }
 

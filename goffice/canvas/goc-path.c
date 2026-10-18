@@ -274,12 +274,14 @@ goc_path_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 }
 
 static void
-goc_path_finalize (GObject *obj)
+goc_path_dispose (GObject *obj)
 {
 	GocPath *path = GOC_PATH (obj);
-	if (path->path)
+	if (path->path) {
 		go_path_free (path->path);
-	parent_class->finalize (obj);
+		path->path = NULL;
+	}
+	parent_class->dispose (obj);
 }
 
 static void
@@ -291,7 +293,7 @@ goc_path_class_init (GocItemClass *item_klass)
 
 	gsi_klass->init_style = goc_path_init_style;
 
-	obj_klass->finalize = goc_path_finalize;
+	obj_klass->dispose = goc_path_dispose;
 	obj_klass->get_property = goc_path_get_property;
 	obj_klass->set_property = goc_path_set_property;
 	g_object_class_install_property (obj_klass, PATH_PROP_X,

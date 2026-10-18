@@ -41,6 +41,27 @@ enum {
 
 static GocStyledItemClass *parent_class;
 
+/* Rebuilds the "spline" data from the points.  Needed whenever the points
+ * or use_spline change, and after copying. */
+static void
+goc_polygon_update_spline (GocPolygon *polygon)
+{
+	double *x, *y;
+	unsigned i;
+
+	if (!polygon->use_spline || polygon->nb_points == 0)
+		return;
+	x = g_new (double, polygon->nb_points);
+	y = g_new (double, polygon->nb_points);
+	for (i = 0; i < polygon->nb_points; i++) {
+		x[i] = polygon->points[i].x - polygon->points[0].x;
+		y[i] = polygon->points[i].y - polygon->points[0].y;
+	}
+	g_object_set_data_full (G_OBJECT (polygon), "spline", go_bezier_spline_init (x, y, polygon->nb_points, TRUE), (GDestroyNotify) go_bezier_spline_destroy);
+	g_free (x);
+	g_free (y);
+}
+
 static void
 goc_polygon_finalize (GObject *obj)
 {
@@ -58,16 +79,10 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 
 	switch (param_id) {
 	case POLYGON_PROP_POINTS: {
-		unsigned i;
 		GocPoints *points = (GocPoints *) g_value_get_boxed (value);
 		polygon->nb_points = points->n;
 		g_free (polygon->points);
-		if (points->n > 0) {
-			polygon->points = g_new (GocPoint, points->n);
-			for (i = 0; i < points->n; i++)
-				polygon->points[i] = points->points[i];
-		} else
-			polygon->points = NULL;
+		polygon->points = go_memdup_n (points->points, points->n, sizeof (GocPoint));
 		/* reset sizes */
 		g_free (polygon->sizes);
 		polygon->sizes = NULL;
@@ -103,19 +118,7 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
-	if (polygon->use_spline && polygon->nb_points) {
-		double *x, *y;
-		unsigned i;
-		x = g_new (double, polygon->nb_points);
-		y = g_new (double, polygon->nb_points);
-		for (i = 0; i < polygon->nb_points; i++) {
-			x[i] = polygon->points[i].x - polygon->points[0].x;
-			y[i] = polygon->points[i].y - polygon->points[0].y;
-		}
-		g_object_set_data_full (G_OBJECT (polygon), "spline", go_bezier_spline_init (x, y, polygon->nb_points, TRUE), (GDestroyNotify) go_bezier_spline_destroy);
-		g_free (x);
-		g_free (y);
-	}
+	goc_polygon_update_spline (polygon);
 	goc_item_bounds_changed (GOC_ITEM (gobject));
 }
 
@@ -246,16 +249,18 @@ static double
 goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
-	GOStyle *style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
+	GOStyle *style;
 	double res = G_MAXDOUBLE;
 	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
-	GOLineDashType tmp_dash_type = style->line.dash_type;
+	GOLineDashType tmp_dash_type;
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
 	if (polygon->nb_points == 0)
 		return res;
 
+	style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
+	tmp_dash_type = style->line.dash_type;
 	*near_item = item;
 	if (style->line.width * ppu < 5)
 		style->line.width = 5. / (ppu * ppu);
@@ -315,23 +320,17 @@ static void
 goc_polygon_copy (GocItem *dest, GocItem *source)
 {
 	GocPolygon *src = GOC_POLYGON (source), *dst = GOC_POLYGON (dest);
-	unsigned ui;
-	
+
+	g_free (dst->points);
+	g_free (dst->sizes);
 	dst->nb_points = src->nb_points;
 	dst->use_spline = src->use_spline;
 	dst->fill_rule = src->fill_rule;
-	if (src->nb_points > 0) {
-		dst->points = g_new (GocPoint, src->nb_points);
-		for (ui = 0; ui < src->nb_points; ui++)
-			dst->points[ui] = src->points[ui];
-	} else
-		dst->points = NULL;
-	if (src->nb_sizes > 0) {
-		dst->sizes = g_new (int, src->nb_sizes);
-		for (ui = 0; ui < src->nb_sizes; ui++)
-			dst->sizes[ui] = src->sizes[ui];
-	} else
-		dst->sizes = NULL;
+	dst->points = go_memdup_n (src->points, src->nb_points, sizeof (GocPoint));
+	dst->sizes = go_memdup_n (src->sizes, src->nb_sizes, sizeof (int));
+	dst->nb_sizes = src->nb_sizes;
+	/* the spline is not part of the copied fields, rebuild it */
+	goc_polygon_update_spline (dst);
 	((GocItemClass *) parent_class)->copy (dest, source);
 }
 

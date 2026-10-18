@@ -190,6 +190,11 @@ goc_line_distance (GocItem *item, double x, double y, GocItem **near_item)
 	l = hypot (dx, dy);
 	x -= line->startx;
 	y -= line->starty;
+	if (l == 0.) {
+		/* degenerate line: just a point, avoid dividing by zero */
+		*near_item = item;
+		return hypot (x, y);
+	}
 	t = (x * dx + y * dy) / l;
 	y = (-x * dy + y * dx) / l;
 	*near_item = item;
