@@ -252,6 +252,11 @@ goc_group_dispose (GObject *obj)
 {
 	GocGroup *group = GOC_GROUP (obj);
 	goc_group_clear (group);
+	/* the group owns its clip path */
+	if (group->clip_path) {
+		go_path_free (group->clip_path);
+		group->clip_path = NULL;
+	}
 	((GObjectClass*)parent_klass)->dispose (obj);
 }
 
@@ -272,6 +277,8 @@ goc_group_copy (GocItem *dest, GocItem *source)
 
 	dst->x = src->x;
 	dst->y = src->y;
+	if (dst->clip_path)
+		go_path_free (dst->clip_path);
 	dst->clip_path = go_path_copy (src->clip_path);
 	dst->clip_rule = src->clip_rule;
 	goc_group_freeze (dst, TRUE);
@@ -621,16 +628,20 @@ goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double 
 /**
  * goc_group_set_clip_path: (skip)
  * @group: #GocGroup
- * @clip_path: #GOPath
+ * @clip_path: (transfer none) (nullable): #GOPath
  * @clip_rule: #cairo_fill_rule_t
  *
- * Clips the drawing inside @path.
+ * Clips the drawing inside @clip_path.
  */
 void
 goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t clip_rule)
 {
 	g_return_if_fail (GOC_IS_GROUP (group));
-	group->clip_path = clip_path;
+	if (group->clip_path != clip_path) {
+		if (group->clip_path)
+			go_path_free (group->clip_path);
+		group->clip_path = clip_path ? go_path_copy (clip_path) : NULL;
+	}
 	group->clip_rule = clip_rule;
 	goc_item_bounds_changed (GOC_ITEM (group));
 }
