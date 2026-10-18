@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2026-10-12 01:59+0000\n"
-"PO-Revision-Date: 2026-10-12 17:57+0300\n"
+"POT-Creation-Date: 2026-10-18 16:25+0000\n"
+"PO-Revision-Date: 2026-10-18 22:36+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -19,94 +19,94 @@ msgstr ""
 "=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 25.12.1\n"
 
-#: ../goffice/app/file.c:177 ../goffice/app/file.c:632
+#: ../goffice/app/file.c:180 ../goffice/app/file.c:638
 msgid "ID"
 msgstr "Ід."
 
-#: ../goffice/app/file.c:178
+#: ../goffice/app/file.c:181
 msgid "The identifier of the opener"
 msgstr "Ідентифікатор засобу відкриття"
 
-#: ../goffice/app/file.c:187 ../goffice/app/file.c:663
+#: ../goffice/app/file.c:190 ../goffice/app/file.c:669
 msgid "Description"
 msgstr "Опис"
 
-#: ../goffice/app/file.c:188
+#: ../goffice/app/file.c:191
 msgid "The description of the opener"
 msgstr "Опис засобу відкриття"
 
-#: ../goffice/app/file.c:197 ../goffice/app/file.c:683
+#: ../goffice/app/file.c:200 ../goffice/app/file.c:689
 msgid "Interactive only"
 msgstr "Лише інтерактивно"
 
-#: ../goffice/app/file.c:198
+#: ../goffice/app/file.c:201
 msgid "TRUE if this opener requires interaction"
 msgstr "TRUE, якщо цей засіб відкриття потребує взаємодії"
 
-#: ../goffice/app/file.c:633
+#: ../goffice/app/file.c:639
 msgid "The identifier of the saver."
 msgstr "Ідентифікатор засобу збереження"
 
-#: ../goffice/app/file.c:643
+#: ../goffice/app/file.c:649
 msgid "MIME type"
 msgstr "Тип MIME"
 
-#: ../goffice/app/file.c:644
+#: ../goffice/app/file.c:650
 msgid "The MIME type of the saver."
 msgstr "Тип MIME засобу збереження."
 
-#: ../goffice/app/file.c:653
+#: ../goffice/app/file.c:659
 msgid "Extension"
 msgstr "Суфікс назви"
 
-#: ../goffice/app/file.c:654
+#: ../goffice/app/file.c:660
 msgid "The standard file name extension of the saver."
 msgstr "Стандартний суфікс назви засобу збереження"
 
-#: ../goffice/app/file.c:664
+#: ../goffice/app/file.c:670
 msgid "The description of the saver."
 msgstr "Опис засобу збереження."
 
-#: ../goffice/app/file.c:673
+#: ../goffice/app/file.c:679
 msgid "Overwrite"
 msgstr "Перезапис"
 
-#: ../goffice/app/file.c:674
+#: ../goffice/app/file.c:680
 msgid "Whether the saver will overwrite files."
 msgstr "Визначає, чи засіб збереження перезаписуватиме файли."
 
-#: ../goffice/app/file.c:684
+#: ../goffice/app/file.c:690
 msgid "TRUE if this saver requires interaction"
 msgstr "TRUE, якщо цей засіб збереження потребує взаємодії"
 
-#: ../goffice/app/file.c:694
+#: ../goffice/app/file.c:700
 msgid "Format Level"
 msgstr "Рівень форматування"
 
-#: ../goffice/app/file.c:705
+#: ../goffice/app/file.c:711
 msgid "Scope"
 msgstr "Область"
 
-#: ../goffice/app/file.c:706
+#: ../goffice/app/file.c:712
 msgid "How much of a document is saved"
 msgstr "Частка документа, яку було збережено"
 
-#: ../goffice/app/file.c:716
+#: ../goffice/app/file.c:722
 msgid "Sheet Selection"
 msgstr "Вибір аркуша"
 
-#: ../goffice/app/file.c:717
+#: ../goffice/app/file.c:723
 msgid "TRUE if this saver supports saving a subset of all sheets"
 msgstr ""
 "TRUE, якщо у цьому засобі збереження передбачено підтримку збереження "
 "підмножини усіх аркушів"
 
-#: ../goffice/app/file.c:918
+#: ../goffice/app/file.c:924
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Збереження застарілих файлів цього типу вимкнено із міркувань безпеки."
 
-#: ../goffice/app/file.c:928
+#: ../goffice/app/file.c:934
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -118,63 +118,63 @@ msgstr ""
 msgid "Invalid %s: '%s'"
 msgstr "Некоректний %s: «%s»"
 
-#: ../goffice/app/go-doc.c:197
+#: ../goffice/app/go-doc.c:199
 msgid "URI"
 msgstr "URI"
 
-#: ../goffice/app/go-doc.c:198
+#: ../goffice/app/go-doc.c:200
 msgid "The URI associated with this document."
 msgstr "Адреса, яку пов'язано із цим документом."
 
-#: ../goffice/app/go-doc.c:202
+#: ../goffice/app/go-doc.c:204
 msgid "Dirty"
 msgstr "Змінено"
 
-#: ../goffice/app/go-doc.c:203
+#: ../goffice/app/go-doc.c:205
 msgid "Whether the document has been changed."
 msgstr "Чи було змінено документ."
 
-#: ../goffice/app/go-doc.c:207
+#: ../goffice/app/go-doc.c:209
 msgid "Dirty Time"
 msgstr "Час зміни"
 
-#: ../goffice/app/go-doc.c:208
+#: ../goffice/app/go-doc.c:210
 msgid "When the document was first changed."
 msgstr "Коли документ було вперше було змінено."
 
-#: ../goffice/app/go-doc.c:213
+#: ../goffice/app/go-doc.c:215
 msgid "Pristine"
 msgstr "Первинний"
 
-#: ../goffice/app/go-doc.c:214
+#: ../goffice/app/go-doc.c:216
 msgid "Whether the document is unchanged since it was created."
 msgstr "Чи перебуває документ у незмінному стані з моменту створення."
 
-#: ../goffice/app/go-doc.c:218
+#: ../goffice/app/go-doc.c:220
 msgid "Modification time"
 msgstr "Час внесення змін"
 
-#: ../goffice/app/go-doc.c:219
+#: ../goffice/app/go-doc.c:221
 msgid "The known file system modification time"
 msgstr "Відомий час внесення змін з файлової системи"
 
-#: ../goffice/app/go-doc.c:224
+#: ../goffice/app/go-doc.c:226
 msgid "State"
 msgstr "Стан"
 
-#: ../goffice/app/go-doc.c:225
+#: ../goffice/app/go-doc.c:227
 msgid "Current state of document"
 msgstr "Поточний стан документа"
 
-#: ../goffice/app/go-doc.c:229
+#: ../goffice/app/go-doc.c:231
 msgid "Saved state"
 msgstr "Збережений стан"
 
-#: ../goffice/app/go-doc.c:230
+#: ../goffice/app/go-doc.c:232
 msgid "State of document when last saved"
 msgstr "Стан документа у момент останнього збереження"
 
-#: ../goffice/app/go-doc.c:624 ../goffice/canvas/goc-image.c:333
+#: ../goffice/app/go-doc.c:626 ../goffice/canvas/goc-image.c:337
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Зображення"
@@ -410,101 +410,101 @@ msgstr "У модуля «%s» некоректна контрольна сум�
 msgid "Unable to close module file \"%s\"."
 msgstr "Неможливо закрити файл модуля «%s»."
 
-#: ../goffice/app/go-plugin-loader-module.c:334
-#: ../goffice/app/go-plugin-loader-module.c:396
+#: ../goffice/app/go-plugin-loader-module.c:337
+#: ../goffice/app/go-plugin-loader-module.c:399
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Файл модуля «%s» має неправильний формат."
 
-#: ../goffice/app/go-plugin-loader-module.c:337
-#: ../goffice/app/go-plugin-loader-module.c:399
+#: ../goffice/app/go-plugin-loader-module.c:340
+#: ../goffice/app/go-plugin-loader-module.c:402
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Файл не містить функцію «%s»."
 
-#: ../goffice/app/go-plugin-loader-module.c:463
+#: ../goffice/app/go-plugin-loader-module.c:466
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Модуль не містить функції «%s»."
 
-#: ../goffice/app/go-plugin-service.c:193
-#: ../goffice/app/go-plugin-service.c:1042
+#: ../goffice/app/go-plugin-service.c:194
+#: ../goffice/app/go-plugin-service.c:1045
 msgid "Error while loading plugin service."
 msgstr "Помилка під час завантаження служби додатків."
 
-#: ../goffice/app/go-plugin-service.c:201
+#: ../goffice/app/go-plugin-service.c:202
 msgid "Initializing function inside plugin returned error."
 msgstr "Функція ініціалізації у додатку повернула помилку."
 
-#: ../goffice/app/go-plugin-service.c:219
+#: ../goffice/app/go-plugin-service.c:220
 msgid "Cleanup function inside plugin returned error."
 msgstr "Функція очищення у додатку повернула помилку."
 
-#: ../goffice/app/go-plugin-service.c:229 ../goffice/gtk/go-format-sel.c:59
-#: ../goffice/utils/go-format.c:1006 ../goffice/utils/go-format.c:5492
+#: ../goffice/app/go-plugin-service.c:230 ../goffice/gtk/go-format-sel.c:59
+#: ../goffice/utils/go-format.c:1018 ../goffice/utils/go-format.c:5504
 msgid "General"
 msgstr "Загальний"
 
-#: ../goffice/app/go-plugin-service.c:309
+#: ../goffice/app/go-plugin-service.c:310
 msgid "Resource"
 msgstr "Ресурс"
 
-#: ../goffice/app/go-plugin-service.c:357
+#: ../goffice/app/go-plugin-service.c:358
 msgid "Invalid resource service"
 msgstr "Некоректна служба ресурсів"
 
-#: ../goffice/app/go-plugin-service.c:526
+#: ../goffice/app/go-plugin-service.c:527
 msgid "File opener has no description"
 msgstr "У засобу відкриття файлів немає опису"
 
-#: ../goffice/app/go-plugin-service.c:560
+#: ../goffice/app/go-plugin-service.c:561
 #, c-format
 msgid "File opener - %s"
 msgstr "Засіб відкриття файлів — %s"
 
-#: ../goffice/app/go-plugin-service.c:681
+#: ../goffice/app/go-plugin-service.c:683
 msgid "Error while reading file."
 msgstr "Помилка під час зчитування файлу."
 
-#: ../goffice/app/go-plugin-service.c:847
+#: ../goffice/app/go-plugin-service.c:849
 msgid "File saver has no description"
 msgstr "У засобу збереження файлів немає опису"
 
-#: ../goffice/app/go-plugin-service.c:890
+#: ../goffice/app/go-plugin-service.c:892
 #, c-format
 msgid "File saver - %s"
 msgstr "Засіб збереження файлів — %s"
 
-#: ../goffice/app/go-plugin-service.c:950
+#: ../goffice/app/go-plugin-service.c:953
 msgid "Error while loading plugin for saving."
 msgstr "Помилка під час завантаження додатка для збереження."
 
-#: ../goffice/app/go-plugin-service.c:952
+#: ../goffice/app/go-plugin-service.c:955
 msgid "Failed to load plugin for saving"
 msgstr "Не вдалося завантажити додаток для збереження"
 
-#: ../goffice/app/go-plugin-service.c:1079
+#: ../goffice/app/go-plugin-service.c:1082
 msgid "Plugin loader"
 msgstr "Завантажувач додатків"
 
-#: ../goffice/app/go-plugin-service.c:1104
+#: ../goffice/app/go-plugin-service.c:1107
 msgid "GObject loader"
 msgstr "Завантажувач GObject"
 
-#: ../goffice/app/go-plugin-service.c:1211
+#: ../goffice/app/go-plugin-service.c:1214
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Немає атрибута «type» у елементі «service»."
 
-#: ../goffice/app/go-plugin-service.c:1217
+#: ../goffice/app/go-plugin-service.c:1220
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Невідомий тип служби: %s."
 
-#: ../goffice/app/go-plugin-service.c:1233
+#: ../goffice/app/go-plugin-service.c:1236
 msgid "Error reading service information."
 msgstr "Помилка під час спроби читання відомостей щодо служби."
 
-#: ../goffice/app/go-plugin-service.c:1307
+#: ../goffice/app/go-plugin-service.c:1310
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -512,11 +512,11 @@ msgstr ""
 "Перш ніж активувати службу (встановлено PLUGIN_ALWAYS_LOAD), слід її "
 "завантажити, але спроба завантаження зазнала невдачі."
 
-#: ../goffice/app/io-context.c:171
+#: ../goffice/app/io-context.c:174
 msgid "exec-main-loop"
 msgstr "exec-main-loop"
 
-#: ../goffice/app/io-context.c:172
+#: ../goffice/app/io-context.c:175
 msgid "Execute main loop iteration"
 msgstr "Виконати ітерацію основного циклу"
 
@@ -568,9 +568,9 @@ msgstr "кут2"
 msgid "The arc end angle"
 msgstr "Кінцевий кут дуги"
 
-#: ../goffice/canvas/goc-arc.c:503 ../goffice/canvas/goc-component.c:315
-#: ../goffice/canvas/goc-ellipse.c:303 ../goffice/canvas/goc-path.c:311
-#: ../goffice/canvas/goc-rectangle.c:362 ../goffice/canvas/goc-text.c:445
+#: ../goffice/canvas/goc-arc.c:503 ../goffice/canvas/goc-component.c:320
+#: ../goffice/canvas/goc-ellipse.c:303 ../goffice/canvas/goc-path.c:313
+#: ../goffice/canvas/goc-rectangle.c:362 ../goffice/canvas/goc-text.c:456
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Обертання"
@@ -580,7 +580,7 @@ msgid "The rotation around center position"
 msgstr "Обертання навколо позиції центра"
 
 #: ../goffice/canvas/goc-arc.c:509 ../goffice/canvas/goc-rectangle.c:368
-#: ../goffice/graph/gog-axis.c:3419 ../goffice/graph/gog-grid.c:127
+#: ../goffice/graph/gog-axis.c:3464 ../goffice/graph/gog-grid.c:169
 #: ../plugins/plot_barcol/gog-1.5d.c:355
 msgid "Type"
 msgstr "Тип"
@@ -589,57 +589,57 @@ msgstr "Тип"
 msgid "The type of arc: arc, chord or pie"
 msgstr "Тип дуги: arc (дуга), chord (хорда) або pie (сектор)"
 
-#: ../goffice/canvas/goc-arc.c:516 ../goffice/canvas/goc-line.c:335
+#: ../goffice/canvas/goc-arc.c:516 ../goffice/canvas/goc-line.c:340
 msgid "Start Arrow"
 msgstr "Початок-стрілка"
 
-#: ../goffice/canvas/goc-arc.c:517 ../goffice/canvas/goc-line.c:336
+#: ../goffice/canvas/goc-arc.c:517 ../goffice/canvas/goc-line.c:341
 msgid "Arrow for line's start"
 msgstr "Стрілка для початку лінії"
 
-#: ../goffice/canvas/goc-arc.c:522 ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-arc.c:522 ../goffice/canvas/goc-line.c:346
 msgid "End Arrow"
 msgstr "Кінець-стрілка"
 
-#: ../goffice/canvas/goc-arc.c:523 ../goffice/canvas/goc-line.c:342
+#: ../goffice/canvas/goc-arc.c:523 ../goffice/canvas/goc-line.c:347
 msgid "Arrow for line's end"
 msgstr "Стрілка для кінця лінії"
 
-#: ../goffice/canvas/goc-canvas.c:352 ../goffice/canvas/goc-component.c:309
-#: ../goffice/canvas/goc-component.c:310 ../goffice/canvas/goc-ellipse.c:291
-#: ../goffice/canvas/goc-graph.c:484 ../goffice/canvas/goc-graph.c:485
-#: ../goffice/canvas/goc-image.c:316 ../goffice/canvas/goc-pixbuf.c:247
-#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:877
-#: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-graph.c:499
-#: ../goffice/graph/gog-object.c:207 ../goffice/utils/go-image.c:504
+#: ../goffice/canvas/goc-canvas.c:356 ../goffice/canvas/goc-component.c:314
+#: ../goffice/canvas/goc-component.c:315 ../goffice/canvas/goc-ellipse.c:291
+#: ../goffice/canvas/goc-graph.c:496 ../goffice/canvas/goc-graph.c:497
+#: ../goffice/canvas/goc-image.c:320 ../goffice/canvas/goc-pixbuf.c:253
+#: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:878
+#: ../goffice/graph/gog-color-scale.c:334 ../goffice/graph/gog-graph.c:499
+#: ../goffice/graph/gog-object.c:207 ../goffice/utils/go-image.c:506
 #: ../plugins/plot_xy/gog-xy-dropbar.c:308
 msgid "Width"
 msgstr "Ширина"
 
-#: ../goffice/canvas/goc-canvas.c:353
+#: ../goffice/canvas/goc-canvas.c:357
 msgid "The width of the canvas"
 msgstr "Ширина полотна"
 
-#: ../goffice/canvas/goc-canvas.c:358 ../goffice/canvas/goc-component.c:303
-#: ../goffice/canvas/goc-component.c:304 ../goffice/canvas/goc-ellipse.c:297
-#: ../goffice/canvas/goc-graph.c:478 ../goffice/canvas/goc-graph.c:479
-#: ../goffice/canvas/goc-image.c:322 ../goffice/canvas/goc-pixbuf.c:253
-#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:883
+#: ../goffice/canvas/goc-canvas.c:362 ../goffice/canvas/goc-component.c:308
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-ellipse.c:297
+#: ../goffice/canvas/goc-graph.c:490 ../goffice/canvas/goc-graph.c:491
+#: ../goffice/canvas/goc-image.c:326 ../goffice/canvas/goc-pixbuf.c:259
+#: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:884
 #: ../goffice/graph/gog-graph.c:505 ../goffice/graph/gog-object.c:209
-#: ../goffice/utils/go-image.c:508
+#: ../goffice/utils/go-image.c:510
 msgid "Height"
 msgstr "Висота"
 
-#: ../goffice/canvas/goc-canvas.c:359
+#: ../goffice/canvas/goc-canvas.c:363
 msgid "The height of the canvas"
 msgstr "Висота полотна"
 
-#: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:291
-#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:466
-#: ../goffice/canvas/goc-group.c:295 ../goffice/canvas/goc-image.c:304
-#: ../goffice/canvas/goc-path.c:299 ../goffice/canvas/goc-pixbuf.c:235
-#: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:433
-#: ../goffice/canvas/goc-widget.c:864 ../goffice/utils/go-marker.c:104
+#: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:296
+#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:478
+#: ../goffice/canvas/goc-group.c:302 ../goffice/canvas/goc-image.c:308
+#: ../goffice/canvas/goc-path.c:301 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:444
+#: ../goffice/canvas/goc-widget.c:865 ../goffice/utils/go-marker.c:104
 msgid "x"
 msgstr "x"
 
@@ -647,12 +647,12 @@ msgstr "x"
 msgid "The circle center horizontal position"
 msgstr "Позиція центра кола за горизонталлю"
 
-#: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:297
-#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:472
-#: ../goffice/canvas/goc-group.c:301 ../goffice/canvas/goc-image.c:310
-#: ../goffice/canvas/goc-path.c:305 ../goffice/canvas/goc-pixbuf.c:241
-#: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:439
-#: ../goffice/canvas/goc-widget.c:870
+#: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:302
+#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:484
+#: ../goffice/canvas/goc-group.c:308 ../goffice/canvas/goc-image.c:314
+#: ../goffice/canvas/goc-path.c:307 ../goffice/canvas/goc-pixbuf.c:247
+#: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:450
+#: ../goffice/canvas/goc-widget.c:871
 msgid "y"
 msgstr "y"
 
@@ -668,23 +668,23 @@ msgstr "Радіус"
 msgid "The circle radius"
 msgstr "Радіус кола"
 
-#: ../goffice/canvas/goc-component.c:292
+#: ../goffice/canvas/goc-component.c:297
 msgid "The object left position"
 msgstr "Позиція об'єкта від лівого краю"
 
-#: ../goffice/canvas/goc-component.c:298
+#: ../goffice/canvas/goc-component.c:303
 msgid "The object top position"
 msgstr "Позиція об'єкта від верхнього краю"
 
-#: ../goffice/canvas/goc-component.c:316
+#: ../goffice/canvas/goc-component.c:321
 msgid "The rotation around center"
 msgstr "Обертання навколо центра"
 
-#: ../goffice/canvas/goc-component.c:321
+#: ../goffice/canvas/goc-component.c:326
 msgid "Object"
 msgstr "Об'єкт"
 
-#: ../goffice/canvas/goc-component.c:322
+#: ../goffice/canvas/goc-component.c:327
 msgid "The embedded GOComponent object"
 msgstr "Вбудований об'єкт GOComponent"
 
@@ -709,96 +709,96 @@ msgid "The rotation around top left position"
 msgstr "Обертання навколо позиції від верхнього і лівого країв"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
-#: ../goffice/canvas/goc-graph.c:396
+#: ../goffice/canvas/goc-graph.c:407
 #, c-format
 msgid "(%s,%s)"
 msgstr "(%s;%s)"
 
-#: ../goffice/canvas/goc-graph.c:467
+#: ../goffice/canvas/goc-graph.c:479
 msgid "The graph left position"
 msgstr "Позиція графіка від лівого краю"
 
-#: ../goffice/canvas/goc-graph.c:473
+#: ../goffice/canvas/goc-graph.c:485
 msgid "The graph top position"
 msgstr "Позиція графіка від верхнього краю"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:490 ../goffice/graph/gog-graph.c:258
-#: ../goffice/graph/gog-graph.c:531 ../goffice/graph/gog-theme.c:581
+#: ../goffice/canvas/goc-graph.c:502 ../goffice/graph/gog-graph.c:258
+#: ../goffice/graph/gog-graph.c:531 ../goffice/graph/gog-theme.c:596
 msgid "Graph"
 msgstr "Графік"
 
-#: ../goffice/canvas/goc-graph.c:491
+#: ../goffice/canvas/goc-graph.c:503
 msgid "The GogGraph this object displays"
 msgstr "GogGraph, який показує цей об'єкт"
 
-#: ../goffice/canvas/goc-graph.c:496 ../goffice/graph/gog-graph.c:1075
+#: ../goffice/canvas/goc-graph.c:508 ../goffice/graph/gog-graph.c:1166
 msgid "Renderer"
 msgstr "Відтворювач"
 
-#: ../goffice/canvas/goc-graph.c:497
+#: ../goffice/canvas/goc-graph.c:509
 msgid "The GogRenderer being displayed"
 msgstr "Показаний GogRenderer"
 
-#: ../goffice/canvas/goc-group.c:296
+#: ../goffice/canvas/goc-group.c:303
 msgid "The group horizontal offset"
 msgstr "Горизонтальний зсув групи"
 
-#: ../goffice/canvas/goc-group.c:302
+#: ../goffice/canvas/goc-group.c:309
 msgid "The group vertical offset"
 msgstr "Вертикальний зсув групи"
 
-#: ../goffice/canvas/goc-image.c:305 ../goffice/canvas/goc-pixbuf.c:236
+#: ../goffice/canvas/goc-image.c:309 ../goffice/canvas/goc-pixbuf.c:242
 msgid "The image left position"
 msgstr "Позиція зображення від лівого краю"
 
-#: ../goffice/canvas/goc-image.c:311 ../goffice/canvas/goc-pixbuf.c:242
+#: ../goffice/canvas/goc-image.c:315 ../goffice/canvas/goc-pixbuf.c:248
 msgid "The image top position"
 msgstr "Позиція зображення від верхнього краю"
 
-#: ../goffice/canvas/goc-image.c:317 ../goffice/canvas/goc-pixbuf.c:248
+#: ../goffice/canvas/goc-image.c:321 ../goffice/canvas/goc-pixbuf.c:254
 msgid "The image width or -1 to use the image width"
 msgstr "Ширина зображення або -1, якщо слід використати природну ширину"
 
-#: ../goffice/canvas/goc-image.c:323 ../goffice/canvas/goc-pixbuf.c:254
+#: ../goffice/canvas/goc-image.c:327 ../goffice/canvas/goc-pixbuf.c:260
 msgid "The image height or -1 to use the image height"
 msgstr "Висота зображення або -1, якщо слід використатися природну висоту"
 
-#: ../goffice/canvas/goc-image.c:334
+#: ../goffice/canvas/goc-image.c:338
 msgid "The GOImage to display"
 msgstr "GOImage для показу"
 
-#: ../goffice/canvas/goc-image.c:338
+#: ../goffice/canvas/goc-image.c:342
 msgid "Cropped bottom"
 msgstr "Обрізаний низ"
 
-#: ../goffice/canvas/goc-image.c:339
+#: ../goffice/canvas/goc-image.c:343
 msgid "The cropped area at the image bottom as a fraction of the image height"
 msgstr "Обрізана область від низу зображення як частка висоти зображення"
 
-#: ../goffice/canvas/goc-image.c:343
+#: ../goffice/canvas/goc-image.c:347
 msgid "Cropped left"
 msgstr "Обрізане ліворуч"
 
-#: ../goffice/canvas/goc-image.c:344
+#: ../goffice/canvas/goc-image.c:348
 msgid "The cropped area at the image left of the image width"
 msgstr "Обрізана область у зображенні ліворуч за шириною зображення"
 
-#: ../goffice/canvas/goc-image.c:348
+#: ../goffice/canvas/goc-image.c:352
 msgid "Cropped right"
 msgstr "Обрізане праворуч"
 
-#: ../goffice/canvas/goc-image.c:349
+#: ../goffice/canvas/goc-image.c:353
 msgid "The cropped area at the image right of the image width"
 msgstr "Обрізана область у зображенні праворуч за шириною зображення"
 
-#: ../goffice/canvas/goc-image.c:353
+#: ../goffice/canvas/goc-image.c:357
 msgid "Cropped top"
 msgstr "Обрізаний верх"
 
-#: ../goffice/canvas/goc-image.c:354
+#: ../goffice/canvas/goc-image.c:358
 msgid "The cropped area at the image top as a fraction of the image height"
 msgstr "Обрізана область від верху зображення як частка висоти зображення"
 
@@ -810,7 +810,7 @@ msgstr "Полотно"
 msgid "The canvas object on which the item resides"
 msgstr "Об'єкт полотна, на якому розташовано запису"
 
-#: ../goffice/canvas/goc-item.c:284 ../goffice/graph/gog-view.c:712
+#: ../goffice/canvas/goc-item.c:284 ../goffice/graph/gog-view.c:837
 msgid "Parent"
 msgstr "Батьківський елемент"
 
@@ -818,105 +818,105 @@ msgstr "Батьківський елемент"
 msgid "The group in which the item resides"
 msgstr "Група, до якої належить запис"
 
-#: ../goffice/canvas/goc-line.c:311
+#: ../goffice/canvas/goc-line.c:316
 msgid "x0"
 msgstr "x0"
 
-#: ../goffice/canvas/goc-line.c:312
+#: ../goffice/canvas/goc-line.c:317
 msgid "The line start x coordinate"
 msgstr "Початкова координата лінії за x"
 
-#: ../goffice/canvas/goc-line.c:317
+#: ../goffice/canvas/goc-line.c:322
 msgid "y0"
 msgstr "y0"
 
-#: ../goffice/canvas/goc-line.c:318
+#: ../goffice/canvas/goc-line.c:323
 msgid "The line start y coordinate"
 msgstr "Початкова координата лінії за y"
 
-#: ../goffice/canvas/goc-line.c:323
+#: ../goffice/canvas/goc-line.c:328
 msgid "x1"
 msgstr "x1"
 
-#: ../goffice/canvas/goc-line.c:324
+#: ../goffice/canvas/goc-line.c:329
 msgid "The line end x coordinate"
 msgstr "Кінцева координата лінії за x"
 
-#: ../goffice/canvas/goc-line.c:329
+#: ../goffice/canvas/goc-line.c:334
 msgid "y1"
 msgstr "y1"
 
-#: ../goffice/canvas/goc-line.c:330
+#: ../goffice/canvas/goc-line.c:335
 msgid "The line end y coordinate"
 msgstr "Кінцева координата лінії за y"
 
-#: ../goffice/canvas/goc-path.c:300
+#: ../goffice/canvas/goc-path.c:302
 msgid "The path first point x coordinate"
 msgstr "Координата за x першої точки контуру"
 
-#: ../goffice/canvas/goc-path.c:306
+#: ../goffice/canvas/goc-path.c:308
 msgid "The path first point y coordinate"
 msgstr "Координата за y першої точки контуру"
 
-#: ../goffice/canvas/goc-path.c:312
+#: ../goffice/canvas/goc-path.c:314
 msgid "The rotation around first point position"
 msgstr "Обертання навколо позиції першої точки"
 
-#: ../goffice/canvas/goc-path.c:317
+#: ../goffice/canvas/goc-path.c:319
 msgid "Closed"
 msgstr "Замкнений"
 
-#: ../goffice/canvas/goc-path.c:318
+#: ../goffice/canvas/goc-path.c:320
 msgid "The flag for closed path"
 msgstr "Прапорець для замкнених контурів"
 
-#: ../goffice/canvas/goc-path.c:323 ../goffice/canvas/goc-polygon.c:380
+#: ../goffice/canvas/goc-path.c:325 ../goffice/canvas/goc-polygon.c:379
 msgid "Fill rule"
 msgstr "Правило заповнення"
 
-#: ../goffice/canvas/goc-path.c:324 ../goffice/canvas/goc-polygon.c:381
+#: ../goffice/canvas/goc-path.c:326 ../goffice/canvas/goc-polygon.c:380
 msgid "Set fill rule to winding or even/odd"
 msgstr ""
 "Встановити правило заповнення у значення winding (віконне) або even/odd "
 "(шахівниця)"
 
-#: ../goffice/canvas/goc-path.c:329
+#: ../goffice/canvas/goc-path.c:331
 msgid "Path"
 msgstr "Контур"
 
-#: ../goffice/canvas/goc-path.c:330
+#: ../goffice/canvas/goc-path.c:332
 msgid "The path points"
 msgstr "Точки контуру"
 
-#: ../goffice/canvas/goc-pixbuf.c:264 ../goffice/utils/go-pixbuf.c:368
+#: ../goffice/canvas/goc-pixbuf.c:270 ../goffice/utils/go-pixbuf.c:372
 msgid "Pixbuf"
 msgstr "Буфер зображення"
 
-#: ../goffice/canvas/goc-pixbuf.c:265
+#: ../goffice/canvas/goc-pixbuf.c:271
 msgid "The GdkPixbuf to display"
 msgstr "GdkPixbuf для показу"
 
-#: ../goffice/canvas/goc-polygon.c:369 ../goffice/canvas/goc-polyline.c:279
+#: ../goffice/canvas/goc-polygon.c:368 ../goffice/canvas/goc-polyline.c:282
 msgid "points"
 msgstr "точки"
 
-#: ../goffice/canvas/goc-polygon.c:369
+#: ../goffice/canvas/goc-polygon.c:368
 msgid "The polygon vertices"
 msgstr "Вершини багатокутника"
 
-#: ../goffice/canvas/goc-polygon.c:374 ../goffice/canvas/goc-polyline.c:284
+#: ../goffice/canvas/goc-polygon.c:373 ../goffice/canvas/goc-polyline.c:287
 msgid "Use spline"
 msgstr "Використати сплайн"
 
-#: ../goffice/canvas/goc-polygon.c:375
+#: ../goffice/canvas/goc-polygon.c:374
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Використати замкнений кубічний сплайн Безьє як контур"
 
-#: ../goffice/canvas/goc-polygon.c:385
+#: ../goffice/canvas/goc-polygon.c:384
 msgid "sizes"
 msgstr "розміри"
 
-#: ../goffice/canvas/goc-polygon.c:386
+#: ../goffice/canvas/goc-polygon.c:385
 msgid ""
 "If set, the polygon will be split as several polygons according to the given "
 "sizes. Each size must be at least 3. Values following an invalid value will "
@@ -928,11 +928,11 @@ msgstr ""
 "Встановлення властивості «point» призведе до відновлення початкових значень "
 "розмірів."
 
-#: ../goffice/canvas/goc-polyline.c:279
+#: ../goffice/canvas/goc-polyline.c:282
 msgid "The polyline vertices"
 msgstr "Вершини ламаної"
 
-#: ../goffice/canvas/goc-polyline.c:285
+#: ../goffice/canvas/goc-polyline.c:288
 msgid "Use a Bezier cubic spline as line"
 msgstr "Використати кубічний сплайн Безьє як лінію"
 
@@ -978,115 +978,115 @@ msgstr "ry"
 msgid "The round rectangle ry"
 msgstr "ry скруглення прямокутника"
 
-#: ../goffice/canvas/goc-styled-item.c:172
+#: ../goffice/canvas/goc-styled-item.c:173
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
 #: ../goffice/graph/gog-styled-object.c:225 ../goffice/utils/go-style.c:1138
 msgid "Style"
 msgstr "Стиль"
 
-#: ../goffice/canvas/goc-styled-item.c:173
+#: ../goffice/canvas/goc-styled-item.c:174
 #: ../goffice/graph/gog-styled-object.c:226
 msgid "A pointer to the GOStyle object"
 msgstr "Вказівник об'єкта GOStyle"
 
-#: ../goffice/canvas/goc-styled-item.c:178
+#: ../goffice/canvas/goc-styled-item.c:179
 msgid "Scale line width"
 msgstr "Масштабувати товщину лінії"
 
-#: ../goffice/canvas/goc-styled-item.c:179
+#: ../goffice/canvas/goc-styled-item.c:180
 msgid "Whether to scale the line width when zooming"
 msgstr "Визначає, чи слід масштабувати товщину лінії при зміні масштабу"
 
-#: ../goffice/canvas/goc-text.c:434
+#: ../goffice/canvas/goc-text.c:445
 msgid "The text horizontal position"
 msgstr "Позиція тексту за горизонталлю"
 
-#: ../goffice/canvas/goc-text.c:440
+#: ../goffice/canvas/goc-text.c:451
 msgid "The text position"
 msgstr "Позиція тексту"
 
-#: ../goffice/canvas/goc-text.c:446
+#: ../goffice/canvas/goc-text.c:457
 msgid "The rotation around the anchor"
 msgstr "Обертання навколо прив'язки"
 
-#: ../goffice/canvas/goc-text.c:451 ../goffice/graph/gog-object.c:861
+#: ../goffice/canvas/goc-text.c:462 ../goffice/graph/gog-object.c:861
 msgid "Anchor"
 msgstr "Прив'язка"
 
-#: ../goffice/canvas/goc-text.c:452
+#: ../goffice/canvas/goc-text.c:463
 msgid "The anchor point for the text"
 msgstr "Точка прив'язки тексту"
 
-#: ../goffice/canvas/goc-text.c:457 ../goffice/gtk/go-format-sel.c:68
+#: ../goffice/canvas/goc-text.c:468 ../goffice/gtk/go-format-sel.c:68
 #: ../goffice/gtk/go-rotation-sel.c:216 ../goffice/utils/go-style.c:989
 msgid "Text"
 msgstr "Текст"
 
-#: ../goffice/canvas/goc-text.c:458
+#: ../goffice/canvas/goc-text.c:469
 msgid "The text to display"
 msgstr "Текст, який слід показати"
 
-#: ../goffice/canvas/goc-text.c:461
+#: ../goffice/canvas/goc-text.c:472
 msgid "Attributes"
 msgstr "Атрибути"
 
-#: ../goffice/canvas/goc-text.c:461
+#: ../goffice/canvas/goc-text.c:472
 msgid "The attributes list as a PangoAttrList"
 msgstr "Список атрибутів як PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:466
+#: ../goffice/canvas/goc-text.c:477
 msgid "Clip"
 msgstr "Обрізати"
 
-#: ../goffice/canvas/goc-text.c:467
+#: ../goffice/canvas/goc-text.c:478
 msgid "Whether to clip or not"
 msgstr "Визначає, чи слід обрізати"
 
-#: ../goffice/canvas/goc-text.c:472
+#: ../goffice/canvas/goc-text.c:483
 msgid "Clip width"
 msgstr "Ширина обрізання"
 
-#: ../goffice/canvas/goc-text.c:473
+#: ../goffice/canvas/goc-text.c:484
 msgid "Clip width for the text"
 msgstr "Ширина обрізання тексту"
 
-#: ../goffice/canvas/goc-text.c:478
+#: ../goffice/canvas/goc-text.c:489
 msgid "Clip height"
 msgstr "Висота обрізання"
 
-#: ../goffice/canvas/goc-text.c:479
+#: ../goffice/canvas/goc-text.c:490
 msgid "Clip height for the text"
 msgstr "Висота обрізання тексту"
 
-#: ../goffice/canvas/goc-text.c:484
+#: ../goffice/canvas/goc-text.c:495
 msgid "Wrap width"
 msgstr "Ширина переносу"
 
-#: ../goffice/canvas/goc-text.c:485
+#: ../goffice/canvas/goc-text.c:496
 msgid "Wrap width for the text"
 msgstr "Ширина перенесення тексту"
 
-#: ../goffice/canvas/goc-widget.c:858
+#: ../goffice/canvas/goc-widget.c:859
 msgid "Widget"
 msgstr "Віджет"
 
-#: ../goffice/canvas/goc-widget.c:859
+#: ../goffice/canvas/goc-widget.c:860
 msgid "A pointer to the embedded widget"
 msgstr "Вказівник на вбудований віджет"
 
-#: ../goffice/canvas/goc-widget.c:865
+#: ../goffice/canvas/goc-widget.c:866
 msgid "The widget left position"
 msgstr "Позиція віджета від лівого краю"
 
-#: ../goffice/canvas/goc-widget.c:871
+#: ../goffice/canvas/goc-widget.c:872
 msgid "The widget top position"
 msgstr "Позиція віджета від верхнього краю"
 
-#: ../goffice/canvas/goc-widget.c:878
+#: ../goffice/canvas/goc-widget.c:879
 msgid "The widget width"
 msgstr "Ширина віджета"
 
-#: ../goffice/canvas/goc-widget.c:884
+#: ../goffice/canvas/goc-widget.c:885
 msgid "The widget height"
 msgstr "Висота віджета"
 
@@ -1172,129 +1172,129 @@ msgstr "Логарифмічне"
 msgid "Logarithm mapping"
 msgstr "Логарифмічне відображення"
 
-#: ../goffice/graph/gog-axis.c:3019
+#: ../goffice/graph/gog-axis.c:3063
 msgid "Distance:"
 msgstr "Відстань:"
 
-#: ../goffice/graph/gog-axis.c:3026 ../goffice/graph/gog-axis.c:3038
+#: ../goffice/graph/gog-axis.c:3070 ../goffice/graph/gog-axis.c:3082
 msgid "Ratio:"
 msgstr "Пропорції:"
 
-#: ../goffice/graph/gog-axis.c:3086 ../goffice/graph/gog-axis.c:3096
+#: ../goffice/graph/gog-axis.c:3130 ../goffice/graph/gog-axis.c:3140
 msgid "M_inimum"
 msgstr "_Мінімум"
 
-#: ../goffice/graph/gog-axis.c:3087 ../goffice/graph/gog-axis.c:3097
+#: ../goffice/graph/gog-axis.c:3131 ../goffice/graph/gog-axis.c:3141
 msgid "M_aximum"
 msgstr "М_аксимум"
 
-#: ../goffice/graph/gog-axis.c:3088
+#: ../goffice/graph/gog-axis.c:3132
 msgid "Categories between _ticks"
 msgstr "Категорії між поз_начками"
 
-#: ../goffice/graph/gog-axis.c:3089
+#: ../goffice/graph/gog-axis.c:3133
 msgid "Categories between _labels"
 msgstr "Категорії між _мітками"
 
-#: ../goffice/graph/gog-axis.c:3098
+#: ../goffice/graph/gog-axis.c:3142
 msgid "Ma_jor ticks"
 msgstr "Ос_новні позначки"
 
-#: ../goffice/graph/gog-axis.c:3099
+#: ../goffice/graph/gog-axis.c:3143
 msgid "Mi_nor ticks"
 msgstr "Допомі_жні позначки"
 
-#: ../goffice/graph/gog-axis.c:3158 ../goffice/math/go-distribution.c:204
+#: ../goffice/graph/gog-axis.c:3202 ../goffice/math/go-distribution.c:204
 #: ../goffice/math/go-distribution.c:205
 msgid "Scale"
 msgstr "Шкала"
 
-#: ../goffice/graph/gog-axis.c:3180 ../plugins/plot_pie/gog-pie.c:327
+#: ../goffice/graph/gog-axis.c:3224 ../plugins/plot_pie/gog-pie.c:327
 #: ../plugins/smoothing/gog-moving-avg.c:195
 msgid "Span"
 msgstr "Інтервал"
 
-#: ../goffice/graph/gog-axis.c:3237
+#: ../goffice/graph/gog-axis.c:3281
 msgid "Colors"
 msgstr "Кольори"
 
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-axis.c:3268 ../goffice/graph/gog-axis-color-map.c:1041
-#: ../goffice/graph/gog-theme.c:1232
+#: ../goffice/graph/gog-axis.c:3312 ../goffice/graph/gog-axis-color-map.c:1072
+#: ../goffice/graph/gog-theme.c:1266
 msgid "Default"
 msgstr "Початковий"
 
-#: ../goffice/graph/gog-axis.c:3273
+#: ../goffice/graph/gog-axis.c:3317
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:12
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:14
 msgid "Absolute"
 msgstr "Абсолютна"
 
-#: ../goffice/graph/gog-axis.c:3279
+#: ../goffice/graph/gog-axis.c:3323
 msgid "Relative length"
 msgstr "Відносна довжина"
 
-#: ../goffice/graph/gog-axis.c:3283
+#: ../goffice/graph/gog-axis.c:3327
 msgid "Relative ticks distance"
 msgstr "Відносна відстань між позначками"
 
-#: ../goffice/graph/gog-axis.c:3348 ../goffice/graph/gog-axis.c:3471
+#: ../goffice/graph/gog-axis.c:3392 ../goffice/graph/gog-axis.c:3516
 msgid "Metrics"
 msgstr "Метрика"
 
-#: ../goffice/graph/gog-axis.c:3366 ../goffice/graph/gog-axis-line.c:2633
+#: ../goffice/graph/gog-axis.c:3410 ../goffice/graph/gog-axis-line.c:2669
 #: ../goffice/graph/gog-series-labels.c:912
 #: ../goffice/graph/gog-series-labels.c:1443
 msgid "Format"
 msgstr "Формат"
 
-#: ../goffice/graph/gog-axis.c:3404
+#: ../goffice/graph/gog-axis.c:3448
 msgid "AxisLine"
 msgstr "Лінія вісі"
 
-#: ../goffice/graph/gog-axis.c:3420
+#: ../goffice/graph/gog-axis.c:3465
 msgid "Numerical type of this axis"
 msgstr "Числовий тип для цієї вісі"
 
-#: ../goffice/graph/gog-axis.c:3424
+#: ../goffice/graph/gog-axis.c:3469
 msgid "Invert axis"
 msgstr "Інвертувати вісь"
 
-#: ../goffice/graph/gog-axis.c:3425
+#: ../goffice/graph/gog-axis.c:3470
 msgid "Scale from high to low rather than low to high"
 msgstr "Шкала від більшого до меншого, а не від меншого до більшого"
 
-#: ../goffice/graph/gog-axis.c:3429
+#: ../goffice/graph/gog-axis.c:3474
 msgid "MapName"
 msgstr "MapName"
 
-#: ../goffice/graph/gog-axis.c:3430
+#: ../goffice/graph/gog-axis.c:3475
 msgid "The name of the map for scaling"
 msgstr "Назва мапи для масштабування"
 
-#: ../goffice/graph/gog-axis.c:3435 ../goffice/graph/gog-axis-line.c:2715
+#: ../goffice/graph/gog-axis.c:3480 ../goffice/graph/gog-axis-line.c:2753
 msgid "Assigned XL format"
 msgstr "Пов'язаний формат XL"
 
-#: ../goffice/graph/gog-axis.c:3436 ../goffice/graph/gog-axis-line.c:2716
+#: ../goffice/graph/gog-axis.c:3481 ../goffice/graph/gog-axis-line.c:2754
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "Призначений користувачем формат для недискретних міток на вісті (формат XL)"
 
-#: ../goffice/graph/gog-axis.c:3441 ../goffice/graph/gog-axis.c:3442
+#: ../goffice/graph/gog-axis.c:3486 ../goffice/graph/gog-axis.c:3487
 msgid "Rotation of circular axis"
 msgstr "Обертання осьового кола"
 
-#: ../goffice/graph/gog-axis.c:3449 ../goffice/graph/gog-axis.c:3450
+#: ../goffice/graph/gog-axis.c:3494 ../goffice/graph/gog-axis.c:3495
 msgid "Polar axis set unit"
 msgstr "Одиниця виміру набору полярної вісі"
 
-#: ../goffice/graph/gog-axis.c:3455
+#: ../goffice/graph/gog-axis.c:3500
 msgid "Axis start position"
 msgstr "Початкова позиції вісі"
 
-#: ../goffice/graph/gog-axis.c:3456
+#: ../goffice/graph/gog-axis.c:3501
 msgid ""
 "Position of the plot area at which the axis effective area starts, expressed "
 "as a percentage of the available position. Defaults to 0.0"
@@ -1302,11 +1302,11 @@ msgstr ""
 "Позиція у області графіка, де починається ефективна область вісі, виражена у "
 "частці доступної позиції. Типовим значенням є 0.0"
 
-#: ../goffice/graph/gog-axis.c:3461
+#: ../goffice/graph/gog-axis.c:3506
 msgid "Axis end position"
 msgstr "Кінцева позиція вісі"
 
-#: ../goffice/graph/gog-axis.c:3462
+#: ../goffice/graph/gog-axis.c:3507
 msgid ""
 "Position of the plot area at which the axis effective area ends, expressed "
 "as a percentage of the available position. Defaults to 1.0"
@@ -1314,32 +1314,32 @@ msgstr ""
 "Позиція у області графіка, де завершується ефективна область вісі, виражена "
 "у частці доступної позиції. Типовим значенням є 1.0"
 
-#: ../goffice/graph/gog-axis.c:3466
+#: ../goffice/graph/gog-axis.c:3511
 msgid "ColorMapName"
 msgstr "ColorMapName"
 
-#: ../goffice/graph/gog-axis.c:3467
+#: ../goffice/graph/gog-axis.c:3512
 msgid "The name of the color map"
 msgstr "Назва карти кольорів"
 
-#: ../goffice/graph/gog-axis.c:3472
+#: ../goffice/graph/gog-axis.c:3517
 msgid "The way the axis ticks distance is evaluated"
 msgstr "Спосіб обчислення відстані між позначками на вісі"
 
-#: ../goffice/graph/gog-axis.c:3476
+#: ../goffice/graph/gog-axis.c:3521
 msgid "AxisRef"
 msgstr "AxisRef"
 
-#: ../goffice/graph/gog-axis.c:3477
+#: ../goffice/graph/gog-axis.c:3522
 msgid "The name of the axis used as reference for ticks distance"
 msgstr ""
 "Назва вісі, яка використовується як еталонна для відстані між позначками"
 
-#: ../goffice/graph/gog-axis.c:3482
+#: ../goffice/graph/gog-axis.c:3527
 msgid "Metrics ratio"
 msgstr "Коефіцієнт метрики"
 
-#: ../goffice/graph/gog-axis.c:3483
+#: ../goffice/graph/gog-axis.c:3528
 msgid ""
 "If an axis is used as reference, gives the ratio of the ticks distance, and "
 "if the metrix is absolute, the ticks distance. Defaults to 1.0"
@@ -1348,11 +1348,11 @@ msgstr ""
 "і, якщо метрика є абсолютною, задає відстань між поділками. Типовим "
 "значенням є 1.0."
 
-#: ../goffice/graph/gog-axis.c:3487
+#: ../goffice/graph/gog-axis.c:3532
 msgid "Metrics Unit"
 msgstr "Одиниця метрики"
 
-#: ../goffice/graph/gog-axis.c:3488
+#: ../goffice/graph/gog-axis.c:3533
 msgid ""
 "The unit symbol for the absolute distance unit between ticks. Might be "
 "\"cm\" or \"in\""
@@ -1360,24 +1360,24 @@ msgstr ""
 "Позначення одиниць для абсолютної відстані між поділками. Може дорівнювати "
 "«cm» (сантиметри) або «in» (дюйми)"
 
-#: ../goffice/graph/gog-axis.c:3493
+#: ../goffice/graph/gog-axis.c:3538
 msgid "Display factor"
 msgstr "Коефіцієнт показу"
 
-#: ../goffice/graph/gog-axis.c:3494
+#: ../goffice/graph/gog-axis.c:3539
 msgid "Real values are the displayed ones multiplied by the display factor."
 msgstr ""
 "Справжні значення є показаними значеннями із множенням на коефіцієнт показу."
 
-#: ../goffice/graph/gog-axis-color-map.c:132 ../goffice/graph/gog-theme.c:322
+#: ../goffice/graph/gog-axis-color-map.c:143 ../goffice/graph/gog-theme.c:337
 msgid "Resource type"
 msgstr "Тип ресурсу"
 
-#: ../goffice/graph/gog-axis-color-map.c:133
+#: ../goffice/graph/gog-axis-color-map.c:144
 msgid "The resource type for the color map"
 msgstr "Тип ресурсу для карти кольорів"
 
-#: ../goffice/graph/gog-axis-color-map.c:635
+#: ../goffice/graph/gog-axis-color-map.c:657
 msgid "New map"
 msgstr "Нова карта"
 
@@ -1399,7 +1399,7 @@ msgid "Color"
 msgstr "Колір"
 
 #: ../goffice/graph/gog-axis-color-map-prefs.ui.h:5
-#: ../goffice/graph/gog-guru.c:1029 ../goffice/graph/gog-series.c:595
+#: ../goffice/graph/gog-guru.c:1029 ../goffice/graph/gog-series.c:592
 #: ../goffice/graph/gog-theme-editor.ui.h:2
 msgid "Name"
 msgstr "Назва"
@@ -1420,120 +1420,120 @@ msgstr "Визначити"
 msgid "Erase"
 msgstr "Стерти"
 
-#: ../goffice/graph/gog-axis-line.c:678
+#: ../goffice/graph/gog-axis-line.c:670
 msgid "Layout"
 msgstr "Компонування"
 
-#: ../goffice/graph/gog-axis-line.c:762
+#: ../goffice/graph/gog-axis-line.c:754
 msgid "MajorGrid"
 msgstr "Основна сітка"
 
-#: ../goffice/graph/gog-axis-line.c:765
+#: ../goffice/graph/gog-axis-line.c:757
 msgid "MinorGrid"
 msgstr "Допоміжна сітка"
 
-#: ../goffice/graph/gog-axis-line.c:768 ../goffice/graph/gog-color-scale.c:325
-#: ../goffice/graph/gog-theme.c:591
+#: ../goffice/graph/gog-axis-line.c:760 ../goffice/graph/gog-color-scale.c:319
+#: ../goffice/graph/gog-theme.c:606
 msgid "Label"
 msgstr "Позначка"
 
-#: ../goffice/graph/gog-axis-line.c:783
+#: ../goffice/graph/gog-axis-line.c:775
 msgid "Axis position"
 msgstr "Позиція вісі"
 
-#: ../goffice/graph/gog-axis-line.c:784 ../goffice/graph/gog-axis-line.c:790
+#: ../goffice/graph/gog-axis-line.c:776 ../goffice/graph/gog-axis-line.c:782
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Де розташувати вісь — знизу, згори або на перехресті"
 
-#: ../goffice/graph/gog-axis-line.c:789
+#: ../goffice/graph/gog-axis-line.c:781
 msgid "Axis position (as a string)"
 msgstr "Позиція вісі (як рядок)"
 
-#: ../goffice/graph/gog-axis-line.c:796
+#: ../goffice/graph/gog-axis-line.c:788
 msgid "Major labels"
 msgstr "Основні мітки"
 
-#: ../goffice/graph/gog-axis-line.c:797
+#: ../goffice/graph/gog-axis-line.c:789
 msgid "Show labels for major ticks"
 msgstr "Показувати мітки для основних позначок"
 
-#: ../goffice/graph/gog-axis-line.c:802
+#: ../goffice/graph/gog-axis-line.c:794
 msgid "Inside major ticks"
 msgstr "Внутрішні основні позначки"
 
-#: ../goffice/graph/gog-axis-line.c:803
+#: ../goffice/graph/gog-axis-line.c:795
 msgid "Major tick marks inside the chart area"
 msgstr "Основні позначки всередині області діаграми"
 
-#: ../goffice/graph/gog-axis-line.c:808
+#: ../goffice/graph/gog-axis-line.c:800
 msgid "Outside major ticks"
 msgstr "Зовнішні основні позначки"
 
-#: ../goffice/graph/gog-axis-line.c:809
+#: ../goffice/graph/gog-axis-line.c:801
 msgid "Major tick marks outside the chart area"
 msgstr "Основні позначки поза областю діаграми"
 
-#: ../goffice/graph/gog-axis-line.c:814
+#: ../goffice/graph/gog-axis-line.c:806
 msgid "Major tick size"
 msgstr "Розмір основної позначки"
 
-#: ../goffice/graph/gog-axis-line.c:815
+#: ../goffice/graph/gog-axis-line.c:807
 msgid "Size of the major tick marks, in points"
 msgstr "Розмір основних позначок у точках"
 
-#: ../goffice/graph/gog-axis-line.c:821
+#: ../goffice/graph/gog-axis-line.c:813
 msgid "Inside minor ticks"
 msgstr "Внутрішні допоміжні позначки"
 
-#: ../goffice/graph/gog-axis-line.c:822
+#: ../goffice/graph/gog-axis-line.c:814
 msgid "Minor tick marks inside the chart area"
 msgstr "Допоміжні позначки всередині області діаграми"
 
-#: ../goffice/graph/gog-axis-line.c:827
+#: ../goffice/graph/gog-axis-line.c:819
 msgid "Outside minor ticks"
 msgstr "Зовнішні допоміжні позначки"
 
-#: ../goffice/graph/gog-axis-line.c:828
+#: ../goffice/graph/gog-axis-line.c:820
 msgid "Minor tick marks outside the axis"
 msgstr "Допоміжні позначки ззовні вісі"
 
-#: ../goffice/graph/gog-axis-line.c:833
+#: ../goffice/graph/gog-axis-line.c:825
 msgid "Minor tick size"
 msgstr "Розмір допоміжної позначки"
 
-#: ../goffice/graph/gog-axis-line.c:834
+#: ../goffice/graph/gog-axis-line.c:826
 msgid "Size of the minor tick marks, in points"
 msgstr "Розмір допоміжних позначок у точках"
 
-#: ../goffice/graph/gog-axis-line.c:840
+#: ../goffice/graph/gog-axis-line.c:832
 msgid "Cross axis ID"
 msgstr "Ід. вісі перетину"
 
-#: ../goffice/graph/gog-axis-line.c:841
+#: ../goffice/graph/gog-axis-line.c:833
 msgid "Which axis to cross"
 msgstr "Яку вісь перетинати"
 
-#: ../goffice/graph/gog-axis-line.c:847
+#: ../goffice/graph/gog-axis-line.c:839
 msgid "Axis padding"
 msgstr "Фаска вісі"
 
-#: ../goffice/graph/gog-axis-line.c:848
+#: ../goffice/graph/gog-axis-line.c:840
 msgid "Distance from axis line to plot area, in points"
 msgstr "Відстань від лінії вісі до області графіка, у точках"
 
-#: ../goffice/graph/gog-axis-line.c:942
+#: ../goffice/graph/gog-axis-line.c:934
 msgid "Select axis"
 msgstr "Вибрати вісь"
 
-#: ../goffice/graph/gog-axis-line.c:1048
+#: ../goffice/graph/gog-axis-line.c:1040
 msgid "Set start bound"
 msgstr "Встановити прив'язку початку"
 
-#: ../goffice/graph/gog-axis-line.c:1059
+#: ../goffice/graph/gog-axis-line.c:1051
 msgid "Set stop bound"
 msgstr "Встановити прив'язку кінця"
 
-#: ../goffice/graph/gog-axis-line.c:2621
+#: ../goffice/graph/gog-axis-line.c:2657
 msgid "Ticks"
 msgstr "Позначки"
 
@@ -1685,134 +1685,134 @@ msgstr "Початок:"
 msgid "End:"
 msgstr "Кінець:"
 
-#: ../goffice/graph/gog-chart.c:375 ../goffice/graph/gog-chart.c:757
+#: ../goffice/graph/gog-chart.c:388 ../goffice/graph/gog-chart.c:772
 msgid "Plot area"
 msgstr "Область креслення"
 
-#: ../goffice/graph/gog-chart.c:647 ../goffice/graph/gog-theme.c:588
+#: ../goffice/graph/gog-chart.c:662 ../goffice/graph/gog-theme.c:603
 msgid "Backplane"
 msgstr "Задня площина"
 
-#: ../goffice/graph/gog-chart.c:650
+#: ../goffice/graph/gog-chart.c:665
 msgid "XY-Backplane"
 msgstr "Задня площина XY"
 
-#: ../goffice/graph/gog-chart.c:654
+#: ../goffice/graph/gog-chart.c:669
 msgid "YZ-Backplane"
 msgstr "Задня площина YZ"
 
-#: ../goffice/graph/gog-chart.c:658
+#: ../goffice/graph/gog-chart.c:673
 msgid "ZX-Backplane"
 msgstr "Задня площина ZX"
 
-#: ../goffice/graph/gog-chart.c:662
+#: ../goffice/graph/gog-chart.c:677
 msgid "X-Axis"
 msgstr "Вісь X"
 
-#: ../goffice/graph/gog-chart.c:666
+#: ../goffice/graph/gog-chart.c:681
 msgid "Y-Axis"
 msgstr "Вісь Y"
 
-#: ../goffice/graph/gog-chart.c:670
+#: ../goffice/graph/gog-chart.c:685
 msgid "Z-Axis"
 msgstr "Вісь Z"
 
-#: ../goffice/graph/gog-chart.c:674
+#: ../goffice/graph/gog-chart.c:689
 msgid "Circular-Axis"
 msgstr "Тангенціальна вісь"
 
-#: ../goffice/graph/gog-chart.c:678
+#: ../goffice/graph/gog-chart.c:693
 msgid "Radial-Axis"
 msgstr "Радіальна вісь"
 
-#: ../goffice/graph/gog-chart.c:682
+#: ../goffice/graph/gog-chart.c:697
 msgid "Pseudo-3D-Axis"
 msgstr "Псевдопросторова вісь"
 
-#: ../goffice/graph/gog-chart.c:686
+#: ../goffice/graph/gog-chart.c:701
 msgid "Bubble-Axis"
 msgstr "Бульбашкова вісь"
 
-#: ../goffice/graph/gog-chart.c:690
+#: ../goffice/graph/gog-chart.c:705
 msgid "Color-Axis"
 msgstr "Кольорова вісь"
 
-#: ../goffice/graph/gog-chart.c:694
+#: ../goffice/graph/gog-chart.c:709
 msgid "Plot"
 msgstr "Креслення"
 
-#: ../goffice/graph/gog-chart.c:697 ../goffice/graph/gog-graph.c:432
+#: ../goffice/graph/gog-chart.c:712 ../goffice/graph/gog-graph.c:432
 #: ../goffice/graph/gog-legend.c:195 ../goffice/gtk/go-combo-box.c:313
 msgid "Title"
 msgstr "Заголовок"
 
-#: ../goffice/graph/gog-chart.c:702 ../goffice/graph/gog-theme.c:585
+#: ../goffice/graph/gog-chart.c:717 ../goffice/graph/gog-theme.c:600
 #: ../goffice/graph/gog-trend-line.c:97
 msgid "Legend"
 msgstr "Умовні позначення"
 
-#: ../goffice/graph/gog-chart.c:708 ../goffice/graph/gog-reg-curve.c:278
-#: ../goffice/graph/gog-theme.c:595 ../plugins/lasem/plugin.xml.in.h:4
+#: ../goffice/graph/gog-chart.c:723 ../goffice/graph/gog-reg-curve.c:278
+#: ../goffice/graph/gog-theme.c:610 ../plugins/lasem/plugin.xml.in.h:4
 msgid "Equation"
 msgstr "Рівняння"
 
-#: ../goffice/graph/gog-chart.c:714
+#: ../goffice/graph/gog-chart.c:729
 msgid "3D-Box"
 msgstr "Просторовий об'єкт"
 
-#: ../goffice/graph/gog-chart.c:717
+#: ../goffice/graph/gog-chart.c:732
 msgid "Color-Scale"
 msgstr "Шкала кольорів"
 
-#: ../goffice/graph/gog-chart.c:751
+#: ../goffice/graph/gog-chart.c:766
 msgid "Valid cardinality"
 msgstr "Коректна кількість елементів"
 
-#: ../goffice/graph/gog-chart.c:752
+#: ../goffice/graph/gog-chart.c:767
 msgid "Is the charts cardinality currently valid"
 msgstr "Чи є поточна кількість елементів у діаграмі коректною"
 
-#: ../goffice/graph/gog-chart.c:758
+#: ../goffice/graph/gog-chart.c:773
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr "Позиція і розмір області креслення як частка розміру діаграми"
 
-#: ../goffice/graph/gog-chart.c:763
+#: ../goffice/graph/gog-chart.c:778
 msgid "Manual plot area"
 msgstr "Область креслення вручну"
 
-#: ../goffice/graph/gog-chart.c:764
+#: ../goffice/graph/gog-chart.c:779
 msgid "Is plot area manual"
 msgstr "Чи задано область креслення вручну"
 
-#: ../goffice/graph/gog-chart.c:768
+#: ../goffice/graph/gog-chart.c:783
 msgid "xpos"
 msgstr "xpos"
 
-#: ../goffice/graph/gog-chart.c:769
+#: ../goffice/graph/gog-chart.c:784
 msgid "Horizontal chart position in graph grid"
 msgstr "Горизонтальна позиція діаграми у сітці графіка"
 
-#: ../goffice/graph/gog-chart.c:773
+#: ../goffice/graph/gog-chart.c:788
 msgid "ypos"
 msgstr "ypos"
 
-#: ../goffice/graph/gog-chart.c:774
+#: ../goffice/graph/gog-chart.c:789
 msgid "Vertical chart position in graph grid"
 msgstr "Вертикальна позиція діаграми у сітці графіка"
 
-#: ../goffice/graph/gog-chart.c:777
+#: ../goffice/graph/gog-chart.c:792
 msgid "columns"
 msgstr "стовпчики"
 
-#: ../goffice/graph/gog-chart.c:778
+#: ../goffice/graph/gog-chart.c:793
 msgid "Number of columns in graph grid"
 msgstr "Кількість стовпчиків у сітці графіка"
 
-#: ../goffice/graph/gog-chart.c:781
+#: ../goffice/graph/gog-chart.c:796
 msgid "rows"
 msgstr "рядків"
 
-#: ../goffice/graph/gog-chart.c:782
+#: ../goffice/graph/gog-chart.c:797
 msgid "Number of rows in graph grid"
 msgstr "Кількість рядків у сітці графіка"
 
@@ -1848,8 +1848,8 @@ msgstr "Ліворуч"
 msgid "Right"
 msgstr "Праворуч"
 
-#: ../goffice/graph/gog-color-scale.c:207 ../goffice/graph/gog-label.c:322
-#: ../goffice/graph/gog-label.c:558 ../goffice/graph/gog-reg-curve.c:134
+#: ../goffice/graph/gog-color-scale.c:207 ../goffice/graph/gog-label.c:351
+#: ../goffice/graph/gog-label.c:604 ../goffice/graph/gog-reg-curve.c:134
 #: ../goffice/graph/gog-series-labels.c:608
 #: ../goffice/graph/gog-smoothed-curve.c:60
 #: ../goffice/graph/gog-trend-line.c:92
@@ -1858,7 +1858,7 @@ msgstr "Праворуч"
 msgid "Details"
 msgstr "Подробиці"
 
-#: ../goffice/graph/gog-color-scale.c:335
+#: ../goffice/graph/gog-color-scale.c:329
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:3
 #: ../plugins/plot_barcol/gog-minmax.c:227
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
@@ -1867,27 +1867,27 @@ msgstr "Подробиці"
 msgid "Horizontal"
 msgstr "Горизонтально"
 
-#: ../goffice/graph/gog-color-scale.c:336
+#: ../goffice/graph/gog-color-scale.c:330
 msgid "Whether to display the scale horizontally"
 msgstr "Чи слід показувати шкалу горизонтально"
 
-#: ../goffice/graph/gog-color-scale.c:341
+#: ../goffice/graph/gog-color-scale.c:335
 msgid "Color scale thickness."
 msgstr "Товщина шкали кольорів."
 
-#: ../goffice/graph/gog-color-scale.c:346 ../goffice/graph/gog-theme.c:586
+#: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-theme.c:601
 msgid "Axis"
 msgstr "Вісь"
 
-#: ../goffice/graph/gog-color-scale.c:347
+#: ../goffice/graph/gog-color-scale.c:341
 msgid "Reference to the color or pseudo-3d axis"
 msgstr "Посилання на вісь кольорів або псевдопросторову вісь"
 
-#: ../goffice/graph/gog-color-scale.c:352
+#: ../goffice/graph/gog-color-scale.c:346
 msgid "Tick size"
 msgstr "Розмір позначки"
 
-#: ../goffice/graph/gog-color-scale.c:353
+#: ../goffice/graph/gog-color-scale.c:347
 msgid "Size of the tick marks, in points"
 msgstr "Розмір позначок у точках"
 
@@ -1915,30 +1915,30 @@ msgstr "Ширина:"
 msgid "_Compact mode"
 msgstr "_Компактний режим"
 
-#: ../goffice/graph/gog-error-bar.c:79
+#: ../goffice/graph/gog-error-bar.c:81
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 #: ../goffice/graph/gog-object.c:206
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:13
 #: ../goffice/gtk/go-arrow-sel.ui.h:5 ../goffice/gtk/go-format-sel.c:1671
-#: ../goffice/gtk/go-format-sel.c:1849 ../goffice/utils/formats.c:370
+#: ../goffice/gtk/go-format-sel.c:1852 ../goffice/utils/formats.c:370
 #: ../goffice/utils/go-line.c:132 ../goffice/utils/go-style-prefs.ui.h:10
 msgid "None"
 msgstr "Немає"
 
-#: ../goffice/graph/gog-error-bar.c:84
+#: ../goffice/graph/gog-error-bar.c:86
 msgid "Positive"
 msgstr "Додатний"
 
-#: ../goffice/graph/gog-error-bar.c:89
+#: ../goffice/graph/gog-error-bar.c:91
 msgid "Negative"
 msgstr "Від'ємний"
 
-#: ../goffice/graph/gog-error-bar.c:94
+#: ../goffice/graph/gog-error-bar.c:96
 msgid "Both"
 msgstr "Обидва"
 
 #. Note for translator: the angle unit
-#: ../goffice/graph/gog-error-bar.c:336
+#: ../goffice/graph/gog-error-bar.c:338
 msgid "°"
 msgstr "°"
 
@@ -1972,7 +1972,7 @@ msgstr "(-)"
 #: ../plugins/plot_barcol/gog-1.5d.c:372
 #: ../plugins/plot_distrib/gog-boxplot.c:428
 #: ../plugins/plot_distrib/gog-histogram.c:401
-#: ../plugins/plot_distrib/gog-probability-plot.c:317
+#: ../plugins/plot_distrib/gog-probability-plot.c:318
 #: ../plugins/plot_pie/gog-pie.c:342 ../plugins/plot_radar/gog-radar.c:324
 msgid "Values"
 msgstr "Значення"
@@ -1992,11 +1992,11 @@ msgstr "Відсоток"
 
 #. builds the default discrete color map
 #: ../goffice/graph/gog-graph.c:365 ../goffice/graph/gog-graph.c:487
-#: ../goffice/graph/gog-theme.c:1406 ../goffice/graph/gog-theme.c:1579
+#: ../goffice/graph/gog-theme.c:1440 ../goffice/graph/gog-theme.c:1613
 msgid "Theme"
 msgstr "Тема"
 
-#: ../goffice/graph/gog-graph.c:426 ../goffice/graph/gog-theme.c:583
+#: ../goffice/graph/gog-graph.c:426 ../goffice/graph/gog-theme.c:598
 msgid "Chart"
 msgstr "Діаграма"
 
@@ -2028,7 +2028,7 @@ msgstr "Документ"
 msgid "the document for this graph"
 msgstr "документ для цього графіка"
 
-#: ../goffice/graph/gog-graph.c:1076
+#: ../goffice/graph/gog-graph.c:1167
 msgid "the renderer for this view"
 msgstr "обробник для цієї панелі перегляду"
 
@@ -2044,15 +2044,15 @@ msgstr "Забути стилі користувача"
 msgid "Save the theme as a standalone file in the user home directory."
 msgstr "Зберегти тему як окремий файл у домашньому каталозі користувача."
 
-#: ../goffice/graph/gog-grid.c:128
+#: ../goffice/graph/gog-grid.c:170
 msgid "Numerical type of this backplane"
 msgstr "Числовий тип цією задньої площини"
 
-#: ../goffice/graph/gog-grid-line.c:113
+#: ../goffice/graph/gog-grid-line.c:140
 msgid "Is-minor"
 msgstr "Чи допоміжні"
 
-#: ../goffice/graph/gog-grid-line.c:114
+#: ../goffice/graph/gog-grid-line.c:141
 msgid "Are these minor grid lines"
 msgstr "Чи ці лінії є лініями допоміжної сітки"
 
@@ -2085,59 +2085,59 @@ msgstr "Вибірка"
 msgid "_Subtype"
 msgstr "Пі_дтип"
 
-#: ../goffice/graph/gog-label.c:160
+#: ../goffice/graph/gog-label.c:171
 msgid "Allow markup"
 msgstr "Дозволити розмітку"
 
-#: ../goffice/graph/gog-label.c:161
+#: ../goffice/graph/gog-label.c:172
 msgid "Support basic HTML-ish markup"
 msgstr "Підтримка базової розмітки у стилі HTML"
 
-#: ../goffice/graph/gog-label.c:167
+#: ../goffice/graph/gog-label.c:178
 msgid "Rotate the frame with the text"
 msgstr "Обертати рамку разом із текстом"
 
-#: ../goffice/graph/gog-label.c:168
+#: ../goffice/graph/gog-label.c:179
 msgid "Whether the frame should be rotated with the text"
 msgstr "Чи слід обертати рамку разом із текстом"
 
-#: ../goffice/graph/gog-label.c:173
+#: ../goffice/graph/gog-label.c:184
 msgid "Rotate the background with the text"
 msgstr "Обертати тло разом із текстом"
 
-#: ../goffice/graph/gog-label.c:174
+#: ../goffice/graph/gog-label.c:185
 msgid "Whether the background should be rotated with the text"
 msgstr "Чи слід обертати тло разом із текстом"
 
-#: ../goffice/graph/gog-label.c:179
+#: ../goffice/graph/gog-label.c:190
 msgid "Wrap the text"
 msgstr "Перенести рядки тексту"
 
-#: ../goffice/graph/gog-label.c:180
+#: ../goffice/graph/gog-label.c:191
 msgid "Whether the text might be displayed using several lines"
 msgstr "Чи може бути текст показано у декілька рядків"
 
-#: ../goffice/graph/gog-label.c:296
+#: ../goffice/graph/gog-label.c:323
 msgid "_Text:"
 msgstr "_Текст:"
 
-#: ../goffice/graph/gog-label.c:299 ../goffice/graph/gog-label.c:569
+#: ../goffice/graph/gog-label.c:328 ../goffice/graph/gog-label.c:615
 msgid "Rotate frame with text"
 msgstr "Обертати рамку разом із текстом"
 
-#: ../goffice/graph/gog-label.c:304
+#: ../goffice/graph/gog-label.c:333
 msgid "Display the text on several lines if needed"
 msgstr "Показувати текст у декілька рядків, якщо потрібно"
 
-#: ../goffice/graph/gog-label.c:309 ../goffice/graph/gog-label.c:573
+#: ../goffice/graph/gog-label.c:338 ../goffice/graph/gog-label.c:619
 msgid "Rotate background with text"
 msgstr "Обертати тло разом із текстом"
 
-#: ../goffice/graph/gog-label.c:314
+#: ../goffice/graph/gog-label.c:343
 msgid "Interpret text as markup"
 msgstr "Обробляти текст як розмітку"
 
-#: ../goffice/graph/gog-label.c:315
+#: ../goffice/graph/gog-label.c:344
 msgid ""
 "Interpret the text as an HTML like markup as described at http://"
 "developer.gnome.org/pango/stable/PangoMarkupFormat.html"
@@ -2145,11 +2145,11 @@ msgstr ""
 "Обробляти текст як текст із розміткою HTML, як описано у http://"
 "developer.gnome.org/pango/stable/PangoMarkupFormat.html"
 
-#: ../goffice/graph/gog-label.c:432
+#: ../goffice/graph/gog-label.c:469
 msgid "Text justification"
 msgstr "Вирівнювання тексту"
 
-#: ../goffice/graph/gog-label.c:433
+#: ../goffice/graph/gog-label.c:470
 msgid ""
 "Text justification as a string. Possible values are \"center\" (default "
 "value), \"left\", \"right\", or \"fill\"."
@@ -2158,25 +2158,26 @@ msgstr ""
 "значення), «left» («ліворуч»), «right» («праворуч») або «fill» («розподілити "
 "за шириною»)."
 
-#: ../goffice/graph/gog-label.c:588
+#: ../goffice/graph/gog-label.c:634
 msgid "Regression Equation"
 msgstr "Рівняння регресії"
 
-#: ../goffice/graph/gog-label.c:627
+#: ../goffice/graph/gog-label.c:673
 msgid "Show equation"
 msgstr "Показати рівняння"
 
-#: ../goffice/graph/gog-label.c:628
+#: ../goffice/graph/gog-label.c:674
 msgid "Show the equation on the graph"
 msgstr "Показати рівняння на графіку"
 
-#: ../goffice/graph/gog-label.c:633
-msgid "Show coefficient"
-msgstr "Показати коефіцієнт"
+#: ../goffice/graph/gog-label.c:679
+msgid "Show R²"
+msgstr ""
 
-#: ../goffice/graph/gog-label.c:634
-msgid "Show the correlation coefficient on the graph"
-msgstr "Показати коефіцієнт кореляції на графіку"
+#: ../goffice/graph/gog-label.c:680
+#| msgid "Show the correlation coefficient on the graph"
+msgid "Show the coefficient of determination (R²) on the graph"
+msgstr "Показати коефіцієнт визначеності (R²) на графіку"
 
 #: ../goffice/graph/gog-legend.c:218
 msgid "Swatch Size pts"
@@ -2369,11 +2370,11 @@ msgstr "_Висота:"
 
 #. We've managed to save some files with translated
 #. booleans.  Try to recover.
-#: ../goffice/graph/gog-object-xml.c:431 ../goffice/utils/go-locale.c:578
+#: ../goffice/graph/gog-object-xml.c:433 ../goffice/utils/go-locale.c:578
 msgid "TRUE"
 msgstr "ІСТИНА"
 
-#: ../goffice/graph/gog-object-xml.c:435 ../goffice/utils/go-locale.c:579
+#: ../goffice/graph/gog-object-xml.c:437 ../goffice/utils/go-locale.c:579
 msgid "FALSE"
 msgstr "ХИБНІСТЬ"
 
@@ -2421,7 +2422,7 @@ msgstr "Бульбашкова вісь:"
 msgid "Axes"
 msgstr "Осі"
 
-#: ../goffice/graph/gog-plot.c:440 ../goffice/graph/gog-theme.c:598
+#: ../goffice/graph/gog-plot.c:440 ../goffice/graph/gog-theme.c:613
 #: ../goffice/graph/gog-theme-editor.ui.h:4
 msgid "Series"
 msgstr "Послідовність"
@@ -2526,27 +2527,27 @@ msgstr "Типова інтерполяція"
 msgid "Default type of series line interpolation"
 msgstr "Стандартний тип для лінії інтерполяції послідовності"
 
-#: ../goffice/graph/gog-plot.c:1177
+#: ../goffice/graph/gog-plot.c:1166
 msgid "Move plot area"
 msgstr "Пересунути область креслення"
 
-#: ../goffice/graph/gog-plot.c:1229
+#: ../goffice/graph/gog-plot.c:1218
 msgid "Resize plot area"
 msgstr "Змінити розмір області креслення"
 
-#: ../goffice/graph/gog-plot-engine.c:81
+#: ../goffice/graph/gog-plot-engine.c:85
 msgid "Plot Engine"
 msgstr "Рушій креслення"
 
-#: ../goffice/graph/gog-plot-engine.c:336
+#: ../goffice/graph/gog-plot-engine.c:340
 msgid "Plot Type"
 msgstr "Тип графіка"
 
-#: ../goffice/graph/gog-plot-engine.c:420
+#: ../goffice/graph/gog-plot-engine.c:424
 msgid "Regression Curve Engine"
 msgstr "Рушій кривої регресії"
 
-#: ../goffice/graph/gog-plot-engine.c:620
+#: ../goffice/graph/gog-plot-engine.c:624
 msgid "Regression Curve Type"
 msgstr "Тип кривої регресії"
 
@@ -2642,22 +2643,23 @@ msgid "Display _equation"
 msgstr "Показувати _рівняння"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:2
-msgid "Display _regression coefficient R&#xB2;"
-msgstr "Показувати к_оефіцієнт регресії R&#xB2;"
+#| msgid "Display _regression coefficient R&#xB2;"
+msgid "Display _coefficient of determination R&#xB2;"
+msgstr "Показувати к_оефіцієнт визначеності R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1897 ../goffice/graph/gog-view.c:718
+#: ../goffice/graph/gog-renderer.c:1900 ../goffice/graph/gog-view.c:843
 msgid "Model"
 msgstr "Модель"
 
-#: ../goffice/graph/gog-renderer.c:1898
+#: ../goffice/graph/gog-renderer.c:1901
 msgid "The GogGraph this renderer displays"
 msgstr "GogGraph, який показує цей обробник"
 
-#: ../goffice/graph/gog-renderer.c:1903
+#: ../goffice/graph/gog-renderer.c:1906
 msgid "View"
 msgstr "Перегляд"
 
-#: ../goffice/graph/gog-renderer.c:1904
+#: ../goffice/graph/gog-renderer.c:1907
 msgid "the GogView this renderer is displaying"
 msgstr "GogView, який показує цей обробник"
 
@@ -2701,83 +2703,83 @@ msgstr "Мінімум на вісі Y"
 msgid "Y axis maximum"
 msgstr "Максимум на вісі Y"
 
-#: ../goffice/graph/gog-series.c:235 ../goffice/graph/gog-series-labels.c:414
+#: ../goffice/graph/gog-series.c:232 ../goffice/graph/gog-series-labels.c:414
 msgid "Index:"
 msgstr "Індекс:"
 
-#: ../goffice/graph/gog-series.c:248 ../plugins/plot_pie/gog-pie.c:90
+#: ../goffice/graph/gog-series.c:245 ../plugins/plot_pie/gog-pie.c:90
 msgid "Settings"
 msgstr "Параметри"
 
-#: ../goffice/graph/gog-series.c:289 ../goffice/graph/gog-series-labels.c:918
+#: ../goffice/graph/gog-series.c:286 ../goffice/graph/gog-series-labels.c:918
 msgid "Index"
 msgstr "Індекс"
 
-#: ../goffice/graph/gog-series.c:290 ../goffice/graph/gog-series-labels.c:919
+#: ../goffice/graph/gog-series.c:287 ../goffice/graph/gog-series-labels.c:919
 msgid "Index of the corresponding data element"
 msgstr "Індекс відповідного елемента даних"
 
-#: ../goffice/graph/gog-series.c:626 ../goffice/graph/gog-trend-line.c:99
+#: ../goffice/graph/gog-series.c:623 ../goffice/graph/gog-trend-line.c:99
 msgid "_Show in Legend"
 msgstr "По_казати в умовних позначеннях"
 
-#: ../goffice/graph/gog-series.c:636
+#: ../goffice/graph/gog-series.c:633
 msgid "Data"
 msgstr "Дані"
 
-#: ../goffice/graph/gog-series.c:698
+#: ../goffice/graph/gog-series.c:695
 msgid "Derivative at first point of the clamped cubic spline."
 msgstr "Похідна у першій точці защемленого кубічного сплайна."
 
-#: ../goffice/graph/gog-series.c:703
+#: ../goffice/graph/gog-series.c:700
 msgid "Derivative at last point of the clamped cubic spline."
 msgstr "Похідна в останній точці защемленого кубічного сплайна."
 
-#: ../goffice/graph/gog-series.c:776 ../goffice/graph/gog-series-labels.c:1408
+#: ../goffice/graph/gog-series.c:773 ../goffice/graph/gog-series-labels.c:1408
 msgid "Point"
 msgstr "Точка"
 
-#: ../goffice/graph/gog-series.c:782
+#: ../goffice/graph/gog-series.c:779
 msgid "Regression curve"
 msgstr "Крива регресії"
 
-#: ../goffice/graph/gog-series.c:790 ../goffice/graph/gog-theme.c:592
+#: ../goffice/graph/gog-series.c:787 ../goffice/graph/gog-theme.c:607
 msgid "Trend line"
 msgstr "Лінія тенденції"
 
-#: ../goffice/graph/gog-series.c:798
+#: ../goffice/graph/gog-series.c:795
 msgid "Data labels"
 msgstr "Мітки даних"
 
-#: ../goffice/graph/gog-series.c:833 ../goffice/graph/gog-trend-line.c:151
+#: ../goffice/graph/gog-series.c:830 ../goffice/graph/gog-trend-line.c:151
 msgid "Has-legend"
 msgstr "Має умовні позначення"
 
-#: ../goffice/graph/gog-series.c:834
+#: ../goffice/graph/gog-series.c:831
 msgid "Should the series show up in legends"
 msgstr "Чи має бути показано послідовність в умовних позначеннях"
 
-#: ../goffice/graph/gog-series.c:839 ../goffice/graph/gog-series-prefs.ui.h:2
+#: ../goffice/graph/gog-series.c:836 ../goffice/graph/gog-series-prefs.ui.h:2
 msgid "Interpolation"
 msgstr "Інтерполяція"
 
-#: ../goffice/graph/gog-series.c:840
+#: ../goffice/graph/gog-series.c:837
 msgid "Type of line interpolation"
 msgstr "Тип лінії інтерполяції"
 
-#: ../goffice/graph/gog-series.c:845
+#: ../goffice/graph/gog-series.c:842
 msgid "Interpolation skip invalid"
 msgstr "Пропускання некоректних даних при інтерполяції"
 
-#: ../goffice/graph/gog-series.c:846
+#: ../goffice/graph/gog-series.c:843
 msgid "Should the series interpolation ignore the invalid data"
 msgstr "Чи слід при інтерполяції послідовності ігнорувати некоректні дані"
 
-#: ../goffice/graph/gog-series.c:851
+#: ../goffice/graph/gog-series.c:848
 msgid "Fill type"
 msgstr "Тип заповнення"
 
-#: ../goffice/graph/gog-series.c:852
+#: ../goffice/graph/gog-series.c:849
 msgid "How to fill the area"
 msgstr "Як заповнювати область"
 
@@ -2896,72 +2898,72 @@ msgstr "(Назва):"
 msgid "Smoothed Curve"
 msgstr "Згладжена крива"
 
-#: ../goffice/graph/gog-theme.c:323
+#: ../goffice/graph/gog-theme.c:338
 msgid "The resource type for the theme"
 msgstr "Тип ресурсу для теми"
 
-#: ../goffice/graph/gog-theme.c:582
+#: ../goffice/graph/gog-theme.c:597
 msgid "Graph title"
 msgstr "Заголовок графіка"
 
-#: ../goffice/graph/gog-theme.c:584
+#: ../goffice/graph/gog-theme.c:599
 msgid "Chart title"
 msgstr "Заголовок діаграми"
 
-#: ../goffice/graph/gog-theme.c:587
+#: ../goffice/graph/gog-theme.c:602
 msgid "Axis line"
 msgstr "Лінія вісі"
 
-#: ../goffice/graph/gog-theme.c:589
+#: ../goffice/graph/gog-theme.c:604
 msgid "Major grid"
 msgstr "Основна сітка"
 
-#: ../goffice/graph/gog-theme.c:590
+#: ../goffice/graph/gog-theme.c:605
 msgid "Minor grid"
 msgstr "Допоміжна сітка"
 
-#: ../goffice/graph/gog-theme.c:593
+#: ../goffice/graph/gog-theme.c:608
 msgid "Regression equation"
 msgstr "Рівняння регресії"
 
-#: ../goffice/graph/gog-theme.c:597 ../plugins/plot_barcol/gog-1.5d.c:654
+#: ../goffice/graph/gog-theme.c:612 ../plugins/plot_barcol/gog-1.5d.c:654
 msgid "Series lines"
 msgstr "Лінія послідовності"
 
-#: ../goffice/graph/gog-theme.c:599
+#: ../goffice/graph/gog-theme.c:614
 msgid "Series labels"
 msgstr "Мітки послідовності"
 
-#: ../goffice/graph/gog-theme.c:600
+#: ../goffice/graph/gog-theme.c:615
 msgid "Data label"
 msgstr "Мітка даних"
 
-#: ../goffice/graph/gog-theme.c:601
+#: ../goffice/graph/gog-theme.c:616
 msgid "Color scale"
 msgstr "Шкала кольорів"
 
-#: ../goffice/graph/gog-theme.c:1233
+#: ../goffice/graph/gog-theme.c:1267
 msgid "An MS Excel like theme"
 msgstr "Подібна до MS Excel тема"
 
 #. Guppi
-#: ../goffice/graph/gog-theme.c:1411
+#: ../goffice/graph/gog-theme.c:1445
 msgid "Guppi"
 msgstr "Гупі"
 
-#: ../goffice/graph/gog-theme.c:1412
+#: ../goffice/graph/gog-theme.c:1446
 msgid "Guppi theme"
 msgstr "Тема «Гупі»"
 
-#: ../goffice/graph/gog-theme.c:1853
+#: ../goffice/graph/gog-theme.c:1928
 msgid "Class"
 msgstr "Клас"
 
-#: ../goffice/graph/gog-theme.c:1856
+#: ../goffice/graph/gog-theme.c:1931
 msgid "Create"
 msgstr "Створити"
 
-#: ../goffice/graph/gog-theme.c:1871 ../goffice/graph/new-theme-prefs.ui.h:1
+#: ../goffice/graph/gog-theme.c:1946 ../goffice/graph/new-theme-prefs.ui.h:1
 msgid "New theme"
 msgstr "Нова тема"
 
@@ -3002,23 +3004,23 @@ msgstr "Лінія тенденції"
 msgid "Should the trend line show up in legends"
 msgstr "Чи має бути показано лінію тенденції в умовних позначеннях"
 
-#: ../goffice/graph/gog-view.c:125
+#: ../goffice/graph/gog-view.c:180
 msgid "Select object"
 msgstr "Позначити об’єкт"
 
-#: ../goffice/graph/gog-view.c:196
+#: ../goffice/graph/gog-view.c:265
 msgid "Move"
 msgstr "Пересунути"
 
-#: ../goffice/graph/gog-view.c:243
+#: ../goffice/graph/gog-view.c:315
 msgid "Resize object"
 msgstr "Змінити розміри об'єкта"
 
-#: ../goffice/graph/gog-view.c:713
+#: ../goffice/graph/gog-view.c:838
 msgid "the GogView parent"
 msgstr "Батьківський об'єкт GogView"
 
-#: ../goffice/graph/gog-view.c:719
+#: ../goffice/graph/gog-view.c:844
 msgid "The GogObject this view displays"
 msgstr "GogObject, на якому показано цю панель перегляду"
 
@@ -3039,7 +3041,6 @@ msgid "Arrow"
 msgstr "Стрілка"
 
 #: ../goffice/gtk/go-arrow-sel.c:271
-#| msgid "The currently selected arrow"
 msgid "The currently selected arrow; setting NULL is ignored"
 msgstr ""
 "Поточна вибрана стрілка; встановлення значення NULL буде проігноровано"
@@ -3673,37 +3674,37 @@ msgstr "Додати елементи відривання до меню"
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Чи повинні розкривні елементи мати лінію відриву"
 
-#: ../goffice/gtk/goffice-gtk.c:248
+#: ../goffice/gtk/goffice-gtk.c:250
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Не вдалось відкрити файл «%s»"
 
-#: ../goffice/gtk/goffice-gtk.c:917 ../goffice/utils/go-style.c:224
+#: ../goffice/gtk/goffice-gtk.c:919 ../goffice/utils/go-style.c:224
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:952
+#: ../goffice/gtk/goffice-gtk.c:954
 msgid "All Files"
 msgstr "усі файли"
 
-#: ../goffice/gtk/goffice-gtk.c:957
+#: ../goffice/gtk/goffice-gtk.c:959
 msgid "Images"
 msgstr "зображення"
 
-#: ../goffice/gtk/goffice-gtk.c:1024
+#: ../goffice/gtk/goffice-gtk.c:1026
 msgid "Select an Image"
 msgstr "Виберіть зображення"
 
-#: ../goffice/gtk/goffice-gtk.c:1118
+#: ../goffice/gtk/goffice-gtk.c:1120
 msgid "Save as"
 msgstr "Зберегти як"
 
-#: ../goffice/gtk/goffice-gtk.c:1134
+#: ../goffice/gtk/goffice-gtk.c:1136
 msgid "Auto by extension"
 msgstr "Автоматично за суфіксом"
 
-#: ../goffice/gtk/goffice-gtk.c:1210
+#: ../goffice/gtk/goffice-gtk.c:1212
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3711,7 +3712,7 @@ msgstr ""
 "Вказаний суфікс назви файла не відповідає вбираному типу фалів. Хочете "
 "скористатися ним попри це?"
 
-#: ../goffice/gtk/goffice-gtk.c:1437
+#: ../goffice/gtk/goffice-gtk.c:1439
 #, c-format
 msgid ""
 "%s\n"
@@ -3720,7 +3721,7 @@ msgstr ""
 "%s\n"
 "є назвою каталогу"
 
-#: ../goffice/gtk/goffice-gtk.c:1441
+#: ../goffice/gtk/goffice-gtk.c:1443
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3729,7 +3730,7 @@ msgstr ""
 "Ви не маєте права на запис у\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1451
+#: ../goffice/gtk/goffice-gtk.c:1453
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -6646,96 +6647,96 @@ msgstr "Замбія, замбійські квачі"
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Зімбабве, зімбабвійський долари"
 
-#: ../goffice/utils/go-emf.c:233
+#: ../goffice/utils/go-emf.c:235
 #, c-format
 msgid "Could not load the image data\n"
 msgstr "Не вдалося завантажити дані зображення\n"
 
-#: ../goffice/utils/go-emf.c:272
+#: ../goffice/utils/go-emf.c:274
 #, c-format
 msgid "Could not input the image data\n"
 msgstr "Не вдалося ввести дані зображення\n"
 
-#: ../goffice/utils/go-emf.c:4917 ../goffice/utils/go-emf.c:4923
+#: ../goffice/utils/go-emf.c:4919 ../goffice/utils/go-emf.c:4925
 #, c-format
 msgid "Invalid image data\n"
 msgstr "Некоректні дані зображення\n"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:579
+#: ../goffice/utils/go-format.c:591
 msgid "*Long Date Format"
 msgstr "*Довгий формат дати"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:587
+#: ../goffice/utils/go-format.c:599
 msgid "*Medium Date Format"
 msgstr "*Середній формат дати"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:595
+#: ../goffice/utils/go-format.c:607
 msgid "*Short Date Format"
 msgstr "*Скорочений формат дати"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:608
+#: ../goffice/utils/go-format.c:620
 msgid "*Short Date/Time Format"
 msgstr "*Короткий формат дати і часу"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:623
+#: ../goffice/utils/go-format.c:635
 msgid "*Long Time Format"
 msgstr "*Довгий формат часу"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:635
+#: ../goffice/utils/go-format.c:647
 msgid "*Medium Time Format"
 msgstr "*Середній формат часу"
 
 #. xgettext: See http://www.gnumeric.org/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:647
+#: ../goffice/utils/go-format.c:659
 msgid "*Short Time Format"
 msgstr "*Короткий формат часу"
 
-#: ../goffice/utils/go-format.c:690
+#: ../goffice/utils/go-format.c:702
 msgid "Black"
 msgstr "Чорний"
 
 #. Color 1
-#: ../goffice/utils/go-format.c:691
+#: ../goffice/utils/go-format.c:703
 msgid "White"
 msgstr "Білий"
 
 #. Color 2
-#: ../goffice/utils/go-format.c:692
+#: ../goffice/utils/go-format.c:704
 msgid "Red"
 msgstr "Червоний"
 
 #. Color 3
-#: ../goffice/utils/go-format.c:693
+#: ../goffice/utils/go-format.c:705
 msgid "Green"
 msgstr "Зелений"
 
 #. Color 4
-#: ../goffice/utils/go-format.c:694
+#: ../goffice/utils/go-format.c:706
 msgid "Blue"
 msgstr "Синій"
 
 #. Color 5
-#: ../goffice/utils/go-format.c:695
+#: ../goffice/utils/go-format.c:707
 msgid "Yellow"
 msgstr "Жовтий"
 
 #. Color 6
-#: ../goffice/utils/go-format.c:696
+#: ../goffice/utils/go-format.c:708
 msgid "Magenta"
 msgstr "Бузковий"
 
 #. Color 7
-#: ../goffice/utils/go-format.c:697
+#: ../goffice/utils/go-format.c:709
 msgid "Cyan"
 msgstr "Блакитний"
 
-#: ../goffice/utils/go-format.c:840
+#: ../goffice/utils/go-format.c:852
 msgid "color"
 msgstr "колір"
 
@@ -6777,43 +6778,43 @@ msgstr "Рядок у лапках не завершено"
 msgid "Syntax error"
 msgstr "Синтаксична помилка"
 
-#: ../goffice/utils/go-image.c:155
+#: ../goffice/utils/go-image.c:157
 msgid "SVG (vector graphics)"
 msgstr "SVG (векторна графіка)"
 
-#: ../goffice/utils/go-image.c:157
+#: ../goffice/utils/go-image.c:159
 msgid "PNG (raster graphics)"
 msgstr "PNG (растрова графіка)"
 
-#: ../goffice/utils/go-image.c:159
+#: ../goffice/utils/go-image.c:161
 msgid "JPEG (photograph)"
 msgstr "JPEG (фотографія)"
 
-#: ../goffice/utils/go-image.c:161
+#: ../goffice/utils/go-image.c:163
 msgid "PDF (portable document format)"
 msgstr "PDF (портативний формат документів)"
 
-#: ../goffice/utils/go-image.c:163
+#: ../goffice/utils/go-image.c:165
 msgid "PS (postscript)"
 msgstr "PS (postscript)"
 
-#: ../goffice/utils/go-image.c:165
+#: ../goffice/utils/go-image.c:167
 msgid "EMF (extended metafile)"
 msgstr "EMF (розширений метафайл)"
 
-#: ../goffice/utils/go-image.c:167
+#: ../goffice/utils/go-image.c:169
 msgid "WMF (windows metafile)"
 msgstr "WMF (метафайл windows)"
 
-#: ../goffice/utils/go-image.c:169
+#: ../goffice/utils/go-image.c:171
 msgid "EPS (encapsulated postscript)"
 msgstr "EPS (інкапсульований postscript)"
 
-#: ../goffice/utils/go-image.c:505
+#: ../goffice/utils/go-image.c:507
 msgid "Image width in pixels"
 msgstr "Ширина зображення у пікселях"
 
-#: ../goffice/utils/go-image.c:509
+#: ../goffice/utils/go-image.c:511
 msgid "Image height in pixels"
 msgstr "Висота зображення у пікселях"
 
@@ -7050,15 +7051,15 @@ msgstr "Напівкола"
 msgid "Large Circles"
 msgstr "Великі кола"
 
-#: ../goffice/utils/go-pixbuf.c:369
+#: ../goffice/utils/go-pixbuf.c:373
 msgid "GdkPixbuf object from which the GOPixbuf is built"
 msgstr "Об'єкт GdkPixbuf, на основі якого зібрано GOPixbuf"
 
-#: ../goffice/utils/go-pixbuf.c:373
+#: ../goffice/utils/go-pixbuf.c:377
 msgid "Image type"
 msgstr "Тип зображення"
 
-#: ../goffice/utils/go-pixbuf.c:374
+#: ../goffice/utils/go-pixbuf.c:378
 msgid "Type of image"
 msgstr "Тип зображення"
 
@@ -7846,12 +7847,12 @@ msgstr "Рушій креслення мінімуму-максимуму"
 msgid "Default 1.5d plot types"
 msgstr "Стандартні типи креслень 1.5d"
 
-#: ../plugins/plot_distrib/go-distribution-prefs.c:61
-#: ../plugins/plot_distrib/go-distribution-prefs.c:140
+#: ../plugins/plot_distrib/go-distribution-prefs.c:62
+#: ../plugins/plot_distrib/go-distribution-prefs.c:142
 msgid ":"
 msgstr ":"
 
-#: ../plugins/plot_distrib/go-distribution-prefs.c:100
+#: ../plugins/plot_distrib/go-distribution-prefs.c:102
 msgid "Distribution:"
 msgstr "Розподіл:"
 
@@ -7865,8 +7866,8 @@ msgstr "Коробковий графік"
 #: ../plugins/plot_distrib/gog-boxplot.c:396
 msgid "Whether the box-plot should be vertical instead of horizontal"
 msgstr ""
-"Визначає, чи варто робити діаграму «ящик з вусами» вертикальною, а не горизон"
-"тальною"
+"Визначає, чи варто робити діаграму «ящик з вусами» вертикальною, а не "
+"горизонтальною"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:401
 msgid "Outliers"
@@ -7906,7 +7907,7 @@ msgstr "Перша мітка категорії за Y:"
 
 #: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
 msgid "Second Y category label:"
-msgstr ""
+msgstr "Друга мітка категорії за Y:"
 
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
@@ -7974,7 +7975,7 @@ msgid "Use data as Y-values"
 msgstr "Використатися дані як значення Y"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:77
-#: ../plugins/plot_distrib/gog-probability-plot.c:288
+#: ../plugins/plot_distrib/gog-probability-plot.c:289
 msgid "Distribution"
 msgstr "Розподіл"
 
@@ -7999,35 +8000,35 @@ msgstr "Розподіл"
 msgid "ProbabilityPlot"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:289
+#: ../plugins/plot_distrib/gog-probability-plot.c:290
 msgid "A pointer to the GODistribution used by this plot"
 msgstr "Вказівник на GODistribution, який використано цим кресленням"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:294
+#: ../plugins/plot_distrib/gog-probability-plot.c:295
 msgid "Shape parameter"
 msgstr "Параметр форми"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:295
+#: ../plugins/plot_distrib/gog-probability-plot.c:296
 msgid "Name of the first shape parameter if any"
 msgstr "Назва першого параметра форми, якщо такий є"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:300
+#: ../plugins/plot_distrib/gog-probability-plot.c:301
 msgid "Second shape parameter"
 msgstr "Другий параметр форми"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:301
+#: ../plugins/plot_distrib/gog-probability-plot.c:302
 msgid "Name of the second shape parameter if any"
 msgstr "Назва другого параметра форми, якщо такий є"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:306
+#: ../plugins/plot_distrib/gog-probability-plot.c:307
 msgid "Data as Y values"
 msgstr "Дані як значення Y"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:307
+#: ../plugins/plot_distrib/gog-probability-plot.c:308
 msgid "whether the data should be mapped to the Y axis."
 msgstr "чи слід відображати дані на вісь Y."
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:642
+#: ../plugins/plot_distrib/gog-probability-plot.c:643
 msgid "Regression line"
 msgstr "Лінія регресії"
 
@@ -9347,3 +9348,6 @@ msgstr "Типи згладжених кривих"
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average smoothed curve"
 msgstr "Згладжена крива рухомого середнього"
+
+#~ msgid "Show coefficient"
+#~ msgstr "Показати коефіцієнт"
