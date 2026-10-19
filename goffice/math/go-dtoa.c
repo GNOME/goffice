@@ -183,17 +183,13 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 	if (y) e2--;
 
 	if ((t|32)=='a') {
-		long double round = 8.0;
-		int re;
-
 		if (t&32) prefix += 9;
 		pl += 2;
 
-		if (p<0 || p>=LDBL_MANT_DIG/4-1) re=0;
-		else re=LDBL_MANT_DIG/4-1-p;
-
-		if (re) {
-			while (re--) round*=16;
+		// From from musl commit 24ebbbde ("printf: fix edge case where
+		// hex float precision was not honored"), included.
+		if (p>=0 && p<(LDBL_MANT_DIG-1+3)/4) {
+			double round = scalbn(1, LDBL_MANT_DIG-1-(p*4));
 			if (*prefix=='-') {
 				y=-y;
 				y-=round;
@@ -299,8 +295,14 @@ static int fmt_fp(FAKE_FILE *f, long double y, int w, int p, int fl, int t)
 			/*
 			 * For ties-away-from-zero, just pretend we have
 			 * an odd digit.
+			 *
+			 * Fix from musl commit 51ab6db4 ("fix float formatting
+			 * of some exact halfway cases"), included.
 			 */
-			if ((fl & FLAG_TIES_AWAY_0) || (*d/i & 1)) round += 2;
+			if ((fl & FLAG_TIES_AWAY_0) ||
+			    (*d/i & 1) ||
+			    (i == 1000000000 && d > a && (d[-1] & 1)))
+				round += 2;
 #endif
 			if (x<i/2) small=0x0.8p0;
 			else if (x==i/2 && d+1==z) small=0x1.0p0;
@@ -417,7 +419,32 @@ typedef union {
 } FloatValueType;
 
 
-static void
+// Largest width or precision we accept.  That keeps the arithmetic in fmt_fp
+// and friends away from integer overflow.
+#define MAX_WIDTH_OR_PRECISION 999999999
+
+// Parse a non-negative decimal number.  Returns FALSE on overflow.
+static gboolean
+parse_number (const char **pfmt, int *res)
+{
+	const char *fmt = *pfmt;
+	int n = 0;
+
+	while (g_ascii_isdigit (*fmt)) {
+		int dgt = *fmt++ - '0';
+		if (n > (MAX_WIDTH_OR_PRECISION - dgt) / 10)
+			return FALSE;
+		n = n * 10 + dgt;
+	}
+
+	*pfmt = fmt;
+	*res = n;
+	return TRUE;
+}
+
+// Returns NULL on success, otherwise a description of what is wrong with
+// the format.  Nothing is consumed from args unless that is the case.
+static const char *
 parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
 	   int *w, int *p, int *fl, int *t, FloatValueType *d)
 {
@@ -441,27 +468,45 @@ parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
 		break;
 	}
 
-	if (g_ascii_isdigit (*fmt)) {
-		*w = 0;
-		while (g_ascii_isdigit (*fmt))
-			*w = *w * 10 + (*fmt++ - '0');
+	if (*fmt == '*') {
+		fmt++;
+		*w = va_arg (args, int);
+		if (*w < 0) {
+			// As in printf, a negative width means '-' and a
+			// positive width.
+			*fl |= LEFT_ADJ;
+			*w = (*w == G_MININT) ? G_MAXINT : -*w;
+		}
+		if (*w > MAX_WIDTH_OR_PRECISION)
+			return "width is too large";
+	} else if (g_ascii_isdigit (*fmt)) {
+		if (!parse_number (&fmt, w))
+			return "width is too large";
 	}
 
 	if (*fmt == '.') {
-		if (fmt[1] == '*') {
-			fmt += 2;
-			*p = va_arg (args, int);
-		} else {
-			*p = 0;
+		fmt++;
+		if (*fmt == '*') {
 			fmt++;
-			while (g_ascii_isdigit (*fmt))
-				*p = *p * 10 + (*fmt++ - '0');
+			*p = va_arg (args, int);
+			// As in printf, a negative precision is no precision
+			if (*p < 0)
+				*p = -1;
+			else if (*p > MAX_WIDTH_OR_PRECISION)
+				return "precision is too large";
+		} else {
+			if (!parse_number (&fmt, p))
+				return "precision is too large";
 		}
 	}
 
 	if (*fmt == 'L') {
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 		*fltyp = FP_LONG_DOUBLE;
 		fmt++;
+#else
+		return "long double is not supported by this build of goffice";
+#endif
 	}
 #ifdef GOFFICE_WITH_DECIMAL64
 	else if (*fmt == *GO_DECIMAL64_MODIFIER &&
@@ -471,31 +516,28 @@ parse_fmt (const char *fmt, va_list args, FloatType *fltyp,
 	}
 #endif
 
+	// Note, the terminating NUL is not a conversion even though strchr
+	// will find it.
+	if (*fmt == 0)
+		return "the conversion is missing";
 	if (!strchr ("efgaEFGA", *fmt))
-		return;
+		return "unsupported flag, modifier, or conversion";
 	*t = *fmt;
 
-	switch (*fltyp) {
-	case FP_DOUBLE:
+	if (*fltyp == FP_DOUBLE)
 		d->ld = va_arg (args, double);
-		break;
-	case FP_LONG_DOUBLE:
 #ifdef GOFFICE_WITH_LONG_DOUBLE
+	else if (*fltyp == FP_LONG_DOUBLE)
 		d->ld = va_arg (args, long double);
-#else
-		memset (d, 0, sizeof (*d));
-		g_critical ("Compiled without long-double, then asked to use it");
 #endif
-		break;
-	case FP_DECIMAL64:
 #ifdef GOFFICE_WITH_DECIMAL64
+	else if (*fltyp == FP_DECIMAL64)
 		d->d64 = va_arg (args, _Decimal64);
-#else
-		memset (d, 0, sizeof (*d));
-		g_critical ("Compiled without Decimal64, then asked to use it");
 #endif
-		break;
-	}
+	else
+		g_assert_not_reached ();
+
+	return NULL;
 }
 
 #ifdef GOFFICE_WITH_DECIMAL64
@@ -533,37 +575,75 @@ fmt_d64 (GString *dst, _Decimal64 y, int w, int p, int fl, int t)
 #endif
 
 static void
-fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
+fmt_shortest_unpadded (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 {
 	size_t oldlen = dst->len;
 	int n, e, ndec;
 	char *epos, *dpos;
 	gboolean use_e_notation;
 	GString const *dec = go_locale_get_decimal();
-	gboolean used_ryu;
 	int prec;
 
 	switch (fltyp) {
 	case FP_DOUBLE:
 		g_string_set_size (dst, 53 + oldlen + dec->len);
 		n = go_ryu_d2s_buffered_n ((double)(d->ld), dst->str + oldlen);
-		used_ryu = TRUE;
 		prec = 17;
 		break;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 	case FP_LONG_DOUBLE:
 		g_string_set_size (dst, 64 + oldlen + dec->len);
 		n = go_ryu_ld2s_buffered_n (d->ld, dst->str + oldlen);
-		used_ryu = TRUE;
 		prec = 21;
 		break;
 #endif
 #ifdef GOFFICE_WITH_DECIMAL64
 	case FP_DECIMAL64: {
-		fmt_d64 (dst, d->d64, 0, 16, 0, 'G' | (t & 32));
+		/*
+		 * Decimal64 needs no shortest-digits algorithm: the value
+		 * already is a decimal number with at most 16 digits.  Get
+		 * those digits in e-notation and the C locale, drop trailing
+		 * zeros from the mantissa and the sign and padding from the
+		 * exponent.  That gives the same form as ryu produces,
+		 * "[-]D[.DDD]E<exp>", and the code below takes it from there.
+		 */
+		char *epos0;
+		char mant[32];
+		size_t mlen;
+		int exp10;
+		char *dpos0;
+
+		fmt_d64 (dst, d->d64, 0, 15, FLAG_ASCII, 'E');
+		epos0 = strchr (dst->str + oldlen, 'E');
+		if (!epos0) {
+			// Infinity or NaN.  Redo as printf would do it.
+			g_string_set_size (dst, oldlen);
+			fmt_d64 (dst, d->d64, 0, -1, fl, t);
+			return;
+		}
+
+		exp10 = atoi (epos0 + 1);
+		mlen = epos0 - (dst->str + oldlen);
+		g_assert (mlen < sizeof (mant));
+		memcpy (mant, dst->str + oldlen, mlen);
+		dpos0 = memchr (mant, '.', mlen);
+		if (dpos0) {
+			while (mlen > (size_t)(dpos0 - mant) + 1 && mant[mlen - 1] == '0')
+				mlen--;
+			if (mlen == (size_t)(dpos0 - mant) + 1)
+				mlen--;  // Drop the decimal point too
+		}
+
+		g_string_set_size (dst, oldlen);
+		g_string_append_len (dst, mant, mlen);
+		g_string_append_printf (dst, "E%d", exp10);
 		n = dst->len - oldlen;
-		// FIXME: if sprintf gains intl support, fix needed here
-		used_ryu = FALSE;
+
+		/*
+		 * Make sure we have room for the locale's decimal below so the
+		 * dpos and epos pointers stay valid.
+		 */
+		g_string_set_size (dst, 53 + oldlen + dec->len);
 		prec = 16;
 		break;
 	}
@@ -603,9 +683,7 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 		// Downcase 'E', if needed
 		if (t & 32) *epos = 'e';
 		// Use printf rules for exponents
-		if (!used_ryu) {
-			; // Nothing
-		} else if (e >= 0 && e <= 9)
+		if (e >= 0 && e <= 9)
 			g_string_insert (dst, epos - dst->str + 1, "+0");
 		else if (e >= 10)
 			g_string_insert_c (dst, epos - dst->str + 1, '+');
@@ -613,14 +691,56 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
 			g_string_insert_c (dst, epos - dst->str + 2, '0');
 		return;
 	} else {
-		g_assert (used_ryu);
 		// Else f-notation.  Redo.
 		int precision = MAX (0, ndec - e);
 		t = (t & 32) | 'F';
 		g_string_set_size (dst, oldlen);
-		fmt_fp (dst, d->ld, 1, precision, fl, t);
+#ifdef GOFFICE_WITH_DECIMAL64
+		if (fltyp == FP_DECIMAL64)
+			fmt_d64 (dst, d->d64, 1, precision, fl, t);
+		else
+#endif
+			fmt_fp (dst, d->ld, 1, precision, fl, t);
 	}
 }
+
+// Insert n copies of c at position pos.
+static void
+insert_repeated (GString *dst, size_t pos, char c, size_t n)
+{
+	char *fill = g_strnfill (n, c);
+	g_string_insert_len (dst, pos, fill, n);
+	g_free (fill);
+}
+
+// Format the shortest representation and then apply the '+', '-' and '0'
+// flags and the width the same way printf would.  The width counts
+// characters, not bytes, as the locale's decimal separator can be anything.
+static void
+fmt_shortest (GString *dst, FloatValueType *d, int w, int fl, int t, FloatType fltyp)
+{
+	size_t start = dst->len;
+	size_t sign_len, len;
+
+	fmt_shortest_unpadded (dst, d, fl, t, fltyp);
+
+	// The f-notation code adds the sign for us.  Others do not.
+	if ((fl & MARK_POS) && dst->str[start] != '-' && dst->str[start] != '+')
+		g_string_insert_c (dst, start, '+');
+
+	sign_len = (dst->str[start] == '-' || dst->str[start] == '+');
+	len = g_utf8_strlen (dst->str + start, -1);
+	if (w <= 0 || len >= (size_t)w)
+		return;
+
+	if (fl & LEFT_ADJ)
+		insert_repeated (dst, dst->len, ' ', w - len);
+	else if ((fl & ZERO_PAD) && g_ascii_isdigit (dst->str[start + sign_len]))
+		insert_repeated (dst, start + sign_len, '0', w - len);
+	else
+		insert_repeated (dst, start, ' ', w - len);
+}
+
 
 /**
  * go_dtoa:
@@ -628,28 +748,44 @@ fmt_shortest (GString *dst, FloatValueType *d, int fl, int t, FloatType fltyp)
  * @fmt: format
  * @...: single value to format (but see below)
  *
- * Formats a single floating-point value.  @format should be a printf-style
- * format fragment for a single floating-point item without the initial '%'.
+ * Formats a single floating-point value.  @fmt should be a printf-style
+ * format fragment for a single floating-point item without the initial '%':
+ * flags, an optional width, an optional precision, an optional modifier, and
+ * a conversion, in that order.
+ *
+ * The flags '+', '-', and '0' work as in printf.  The flags ' ', '#', and
+ * "'" are not supported.  The conversions are 'e', 'f', 'g', 'a', and the
+ * upper case versions of those.
  *
  * If goffice has been compiled with support for type "long double", an "L"
  * modifier can be used.  If goffice has been compiled with support for
  * type "decimal64", a "D" modifier can be used.
  *
  * '*' for width and/or precision are allowed and consume an extra int
- * argument
+ * argument each, as in printf.
  *
  * Certain extra flags are supported:
+ * flag '^' means to round exact ties away from zero (as opposed to
+ * to even);
  * flag '!' means to use the shortest possible representation of the
- * number;
+ * number that reads back as the same value.  The conversion decides the
+ * notation: 'e' always uses an exponent, 'f' never does, and 'g' uses one
+ * for large and small numbers.  The precision is ignored, but the width
+ * and the flags '+', '-', and '0' are honoured.  The conversions 'a' and
+ * 'A' are not supported with '!' and are treated as 'f' and 'F';
  * flag '=' means to clear the @dst before formatting (as opposed to
  * appending);
- * flag ',' means to format as in C locale
+ * flag ',' means to format as in C locale.
+ *
+ * If @fmt is not valid, a critical warning is issued and @dst is left
+ * unchanged.
  */
 void
 go_dtoa (GString *dst, const char *fmt, ...)
 {
 	int w, p, fl, t;
 	va_list args;
+	const char *error;
 	FloatValueType d;
 	FloatType fltyp;
 	gboolean debug = FALSE;
@@ -659,8 +795,13 @@ go_dtoa (GString *dst, const char *fmt, ...)
 #endif
 
 	va_start (args, fmt);
-	parse_fmt (fmt, args, &fltyp, &w, &p, &fl, &t, &d);
+	error = parse_fmt (fmt, args, &fltyp, &w, &p, &fl, &t, &d);
 	va_end (args);
+
+	if (error) {
+		g_critical ("go_dtoa: bad format \"%s\": %s", fmt, error);
+		return;
+	}
 
 	if (fl & FLAG_TRUNCATE) g_string_truncate (dst, 0);
 
@@ -677,7 +818,7 @@ go_dtoa (GString *dst, const char *fmt, ...)
 #endif
 
 	if (fl & FLAG_SHORTEST)
-		fmt_shortest (dst, &d, fl, t, fltyp);
+		fmt_shortest (dst, &d, w, fl, t, fltyp);
 #ifdef GOFFICE_WITH_DECIMAL64
 	else if (fltyp == FP_DECIMAL64)
 		fmt_d64 (dst, d.d64, w, p, fl, t);

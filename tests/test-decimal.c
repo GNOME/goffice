@@ -1208,6 +1208,19 @@ test_strto (void)
 	test_eq (strtoDd ("-INF", NULL), -(_Decimal64)INFINITY);
 	test_eq (strtoDd ("+INF", NULL), INFINITY);
 
+	// Many leading digits plus a huge exponent.  Its true magnitude is far
+	// beyond Decimal64's range, so it must saturate to +Infinity -- not, as
+	// an overflow of the internal scale accumulator used to silently
+	// produce, 0.  (That the accumulator does not misbehave is tested in
+	// test_regressions, in a child process.)
+	{
+		GString *s = g_string_new (NULL);
+		for (int i = 0; i < 300; i++)
+			g_string_append_c (s, '1');
+		g_string_append (s, "e2147483400");
+		EQ (strtoDd (s->str, NULL), PINF);
+		g_string_free (s, TRUE);
+	}
 
 	end_section ();
 }
@@ -2880,10 +2893,12 @@ test_printf_extra (void)
 
 /* ------------------------------------------------------------------------- */
 
-// A handful of regressions that are severe enough (crashes, hangs, memory
-// corruption) that we do not want a single bad case to take the whole test
-// binary down with it.  Each one is run in a forked child so a crash is
-// reported as a failure instead of losing every later test too.
+// Things that may crash, hang or corrupt memory when they are broken, and
+// that we do not want to take the whole test binary down with them.  Each
+// is run in a forked child so a crash is reported as a failure instead of
+// losing every later test too.  Only put things here that can actually
+// crash; checks of results belong in the regular tests, which can use
+// run_in_child to find out whether it is safe to run them.
 
 typedef void (*ChildFunc) (void);
 
@@ -2938,6 +2953,190 @@ child_huge_exponent_strtoDd (void)
 }
 
 static void
+child_dtoa_shortest_F (void)
+{
+	// "!DF" of Decimal64 values that need an exponent when printed with
+	// %G.  fmt_shortest has to switch to f-notation for those, and used
+	// to hit g_assert (used_ryu) and abort the process instead.  What it
+	// returns is tested elsewhere; this is only about not crashing.
+	static const _Decimal64 cases[] = {
+		1e20dd, -1e16dd, 1.5e-10dd, 1e-5dd, 1.5dd, 1e-398dd, 1e384dd
+	};
+	GString *s = g_string_new (NULL);
+
+	for (unsigned i = 0; i < G_N_ELEMENTS (cases); i++)
+		go_dtoa (s, "!DF", cases[i]);
+}
+
+/* ------------------------------------------------------------------------- */
+
+// go_dtoa's "!" (shortest) flag with Decimal64.  There is no ryu for
+// Decimal64: the value already is a decimal number with at most 16 digits,
+// so fmt_shortest takes the digits from an e-notation formatting and then
+// lays them out the same way as for binary types.
+//
+// Regression tests for several problems in that: with an upper-case
+// conversion ("!DF") and a large value it hit g_assert (used_ryu); with a
+// lower-case one ("!Df", "!De") the requested notation was ignored.
+
+static void
+check_dtoa_shortest (const char *fmt, _Decimal64 d, const char *expected)
+{
+	GString *s = g_string_new (NULL);
+
+	go_dtoa (s, fmt, d);
+	test_true (g_str_equal (s->str, expected),
+		   "go_dtoa (\"%s\") = \"%s\", expected \"%s\"",
+		   fmt, s->str, expected);
+	g_string_free (s, TRUE);
+}
+
+// What "!D<conv>" should produce for a finite x, using printf as the
+// reference for layout: the number of significant digits is that of the
+// shortest representation (all that is left after dropping trailing zeros)
+// and the choice between e- and f-notation follows %g's rule for P=16.
+static char *
+dtoa_shortest_expected (_Decimal64 x, char conv)
+{
+	char *s = g_strdup_printf ("%.15De", x);
+	const char *epos = strchr (s, 'e');
+	const char *dot = strchr (s, '.');
+	const char *end = epos;
+	int e = atoi (epos + 1);
+	int k = 0;
+	gboolean use_e;
+	char *res;
+
+	while (end > dot + 1 && end[-1] == '0')
+		end--;
+	for (const char *p = s; p < end; p++)
+		k += g_ascii_isdigit (*p);
+
+	switch (g_ascii_tolower (conv)) {
+	case 'e': use_e = TRUE; break;
+	case 'f': use_e = FALSE; break;
+	default: use_e = (e < -4 || e >= 16); break;
+	}
+
+	if (use_e)
+		res = g_strdup_printf (g_ascii_isupper (conv) ? "%.*DE" : "%.*De",
+				       k - 1, x);
+	else
+		res = g_strdup_printf ("%.*Df", MAX (0, k - 1 - e), x);
+
+	g_free (s);
+	return res;
+}
+
+static void
+test_dtoa_shortest_corpus (const Corpus *corpus, const char *convs)
+{
+	start_section ("go_dtoa, shortest representation of Decimal64, corpus");
+
+	for (int c = 0; convs[c]; c++) {
+		char fmt[4] = { '!', 'D', convs[c], 0 };
+		set_subsection (fmt);
+
+		for (int v = 0; v < corpus->nvals; v++) {
+			_Decimal64 x = corpus->vals[v];
+			GString *s;
+			char *want;
+
+			if (!isfiniteD (x))
+				continue;
+
+			s = g_string_new (NULL);
+			go_dtoa (s, fmt, x);
+			want = dtoa_shortest_expected (x, convs[c]);
+			if (g_str_equal (s->str, want)) {
+				good ();
+			} else {
+				char *xs = g_strdup_printf ("%.15De", x);
+				bad ();
+				g_printerr ("go_dtoa (\"%s\", %s) = \"%s\", "
+					    "expected \"%s\"\n",
+					    fmt, xs, s->str, want);
+				g_free (xs);
+			}
+			g_free (want);
+			g_string_free (s, TRUE);
+		}
+	}
+
+	end_section ();
+}
+
+static void
+test_dtoa_shortest (const Corpus *corpus)
+{
+	// "!DF" used to abort for some values.  If it still does, only
+	// run_in_child can tell us without taking the whole test down, and
+	// test_regressions will report it.
+	gboolean f_ok = run_in_child (child_dtoa_shortest_F);
+
+	start_section ("go_dtoa, shortest representation of Decimal64");
+
+	check_dtoa_shortest ("!Dg", 1.5dd, "1.5");
+	check_dtoa_shortest ("!Dg", 1e20dd, "1e+20");
+	check_dtoa_shortest ("!DG", 1e20dd, "1E+20");
+	check_dtoa_shortest ("!DG", 1e-10dd, "1E-10");
+	check_dtoa_shortest ("!Dg", 0.1dd, "0.1");
+	check_dtoa_shortest ("!Dg", -123.456dd, "-123.456");
+	check_dtoa_shortest ("!Dg", 0.dd, "0");
+
+	check_dtoa_shortest ("!Df", 1.5dd, "1.5");
+	check_dtoa_shortest ("!Df", 123456.789dd, "123456.789");
+	check_dtoa_shortest ("!Df", 1e20dd, "100000000000000000000");
+	check_dtoa_shortest ("!Df", -1e20dd, "-100000000000000000000");
+	check_dtoa_shortest ("!Df", 1e-10dd, "0.0000000001");
+	check_dtoa_shortest ("!Df", 1.dd, "1");
+	check_dtoa_shortest ("!Df", 0.dd, "0");
+
+	check_dtoa_shortest ("!De", 1.5dd, "1.5e+00");
+	check_dtoa_shortest ("!DE", 1.5dd, "1.5E+00");
+	check_dtoa_shortest ("!De", 1e20dd, "1e+20");
+	check_dtoa_shortest ("!De", 1e-5dd, "1e-05");
+	check_dtoa_shortest ("!De", 1234.5dd, "1.2345e+03");
+	check_dtoa_shortest ("!De", -1e100dd, "-1e+100");
+	check_dtoa_shortest ("!De", 0.dd, "0e+00");
+
+	// Sign and width, as for binary types
+	check_dtoa_shortest ("+!Dg", 1.5dd, "+1.5");
+	check_dtoa_shortest ("+!Dg", 1e20dd, "+1e+20");
+	check_dtoa_shortest ("+!De", 1.5dd, "+1.5e+00");
+	check_dtoa_shortest ("+!Df", 1.5dd, "+1.5");
+	check_dtoa_shortest ("+!Dg", -1.5dd, "-1.5");
+	check_dtoa_shortest ("!10Dg", 1.5dd, "       1.5");
+	check_dtoa_shortest ("!10De", 1.5dd, "   1.5e+00");
+	check_dtoa_shortest ("-!10Dg", 1.5dd, "1.5       ");
+	check_dtoa_shortest ("!010Dg", -1.5dd, "-0000001.5");
+	check_dtoa_shortest ("+!010Dg", 1.5dd, "+0000001.5");
+	check_dtoa_shortest ("!5Dg", 1e20dd, "1e+20");
+	check_dtoa_shortest ("!3Dg", 1e20dd, "1e+20");
+
+	// Not finite: formatted like the corresponding printf conversion
+	check_dtoa_shortest ("!Dg", PINF, "inf");
+	check_dtoa_shortest ("!DG", -PINF, "-INF");
+	check_dtoa_shortest ("!10Dg", PINF, "       inf");
+	check_dtoa_shortest ("!010Dg", PINF, "       inf");
+
+	if (f_ok) {
+		check_dtoa_shortest ("!DF", 1.5dd, "1.5");
+		check_dtoa_shortest ("!DF", 1e20dd, "100000000000000000000");
+		check_dtoa_shortest ("!DF", -1e16dd, "-10000000000000000");
+		check_dtoa_shortest ("!DF", 1.5e-10dd, "0.00000000015");
+		check_dtoa_shortest ("!DF", 1e-5dd, "0.00001");
+		check_dtoa_shortest ("+!DF", 1e20dd, "+100000000000000000000");
+	} else {
+		g_printerr ("Skipping \"!DF\" tests because that crashes.\n");
+	}
+
+	end_section ();
+
+	test_dtoa_shortest_corpus (corpus, f_ok ? "eEfFgG" : "eEfgG");
+}
+
+static void
 test_regressions (void)
 {
 	start_section ("regressions: things that must not crash, corrupt, or race "
@@ -2953,19 +3152,9 @@ test_regressions (void)
 		   "strtoDd on 300 digits + a huge exponent must not misbehave "
 		   "on integer overflow of the internal exponent accumulator");
 
-	// Beyond just "must not crash": now that the scale accumulator
-	// cannot silently overflow, this specific input must also produce
-	// the mathematically correct answer.  Its true magnitude is far
-	// beyond Decimal64's range, so it must saturate to +Infinity --
-	// not, as the unpatched overflow used to silently produce, 0.
-	{
-		GString *s = g_string_new (NULL);
-		for (int i = 0; i < 300; i++)
-			g_string_append_c (s, '1');
-		g_string_append (s, "e2147483400");
-		EQ (strtoDd (s->str, NULL), PINF);
-		g_string_free (s, TRUE);
-	}
+	test_true (run_in_child (child_dtoa_shortest_F),
+		   "go_dtoa (\"!DF\") must not abort "
+		   "(used to hit g_assert (used_ryu) in fmt_shortest)");
 	end_section ();
 }
 
@@ -3043,6 +3232,8 @@ main (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 		end_section ();
 	}
 #endif
+
+	test_dtoa_shortest (corpus);
 
 	test_atan2 (corpus, corpus);
 
