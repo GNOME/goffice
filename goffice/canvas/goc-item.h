@@ -117,6 +117,7 @@ void		 _goc_item_realize      (GocItem *item);
 void		 _goc_item_unrealize    (GocItem *item);
 void		 _goc_item_transform    (GocItem const *item, cairo_t *cr,
 		                             gboolean scaled);
+double		 _goc_item_transform_scale (GocItem const *item);
 
 void		 goc_item_set_operator  (GocItem *item, cairo_operator_t op);
 cairo_operator_t goc_item_get_operator  (GocItem *item);

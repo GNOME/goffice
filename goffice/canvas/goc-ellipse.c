@@ -125,7 +125,9 @@ goc_ellipse_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	}
 	cairo_save (cr);
 	cairo_rotate (cr, ellipse->rotation * sign);
-	cairo_scale (cr, ellipse->width/2. * sign, ellipse->height/2.);
+	/* avoid a singular matrix when only one dimension is 0 */
+	cairo_scale (cr, MAX (ellipse->width/2., 1.e-10) * sign,
+		     MAX (ellipse->height/2., 1.e-10));
 	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
 	cairo_restore (cr);
 	return TRUE;
@@ -136,21 +138,28 @@ goc_ellipse_update_bounds (GocItem *item)
 {
 	cairo_surface_t *surface;
 	cairo_t *cr;
-	gboolean set_line,
-		scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	gboolean set_line, prepared;
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1 , 1);
 	cr = cairo_create (surface);
 
 	cairo_save (cr);
-	if (goc_ellipse_prepare_draw (item, cr, 0)) {
-		if (!scale_line_width)
-			cairo_restore (cr);
+	prepared = goc_ellipse_prepare_draw (item, cr, 0);
+	/* The path is already in device space. Restore before setting the
+	 * line: cairo_restore() also drops the line width. */
+	cairo_restore (cr);
+	if (!prepared) {
+		/* nothing to draw, don't keep stale bounds */
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
+	} else {
 		set_line = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
-		if (scale_line_width)
-			cairo_restore (cr);
-		if (set_line)
+		if (set_line) {
+			/* the line is drawn with the transform of the item */
+			if (goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item)))
+				cairo_set_line_width (cr, cairo_get_line_width (cr) * _goc_item_transform_scale (item));
 			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		}
 		else if (go_style_is_fill_visible (go_styled_object_get_style (GO_STYLED_OBJECT (item))))
 			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 		else {
@@ -170,32 +179,35 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double tmp_width = 0;
 	double res = 20;
-	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
+	double ppu = item->canvas? goc_canvas_get_pixels_per_unit (item->canvas): 1.;
 	cairo_surface_t *surface;
 	cairo_t *cr;
-	gboolean set_line,
-		scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	gboolean set_line, prepared;
+	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	double k = scale_line_width? MAX (_goc_item_transform_scale (item), 1e-6): 1.;
 
 	if (0 == ellipse->width && 0 == ellipse->height)
 		return res;
 
 	*near_item = item;
 	tmp_width = style->line.width;
-	if (style->line.width * ppu < 5)
-		style->line.width = 5. / (ppu * ppu);
+	if (style->line.width * ppu * k < 5)
+		style->line.width = 5. / (ppu * ppu * k);
 	else
 		style->line.width /= ppu;
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
 	cairo_save (cr);
-	if (goc_ellipse_prepare_draw (item, cr, 0)) {
+	prepared = goc_ellipse_prepare_draw (item, cr, 0);
+	/* Restore before setting the line: cairo_restore() also drops the
+	 * line width. */
+	cairo_restore (cr);
+	if (prepared) {
 		/* Filled OR both fill and stroke are none */
-		if (!scale_line_width)
-			cairo_restore (cr);
-		set_line = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
-		if (scale_line_width)
-			cairo_restore (cr);
+		set_line = goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
+		if (set_line && scale_line_width)
+			cairo_set_line_width (cr, cairo_get_line_width (cr) * k);
 		if (style->fill.type != GO_STYLE_FILL_NONE ||
 			(style->fill.type == GO_STYLE_FILL_NONE && !set_line)) {
 			if (cairo_in_fill (cr, x, y))
@@ -301,7 +313,7 @@ goc_ellipse_class_init (GocItemClass *item_klass)
 	g_object_class_install_property (obj_klass, ELLIPSE_PROP_ROTATION,
 		g_param_spec_double ("rotation",
 			_("Rotation"),
-			_("The rotation around top left position"),
+			_("The rotation around the ellipse center"),
 			0., 2 * M_PI, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 

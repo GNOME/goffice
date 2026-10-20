@@ -3742,8 +3742,8 @@ _go_emf_arc (GOEmfState *state, unsigned type)
 	yc = (rect.top + rect.bottom) / 2.;
 	goc_item_set_transform (goc_item_new (state->curDC->group, GOC_TYPE_ARC,
 	                                      "xc", xc, "yc", yc,
-	                                      "xr", rect.right - xc,
-	                                      "yr", rect.bottom - yc,
+	                                      "xr", fabs (rect.right - xc),
+	                                      "yr", fabs (rect.bottom - yc),
 	                                      "ang1", -atan2 (y0 - yc, x0 - xc),
 	                                      "ang2", -atan2 (y1 - yc, x1 - xc),
 	                                      "type", type,

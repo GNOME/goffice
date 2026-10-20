@@ -154,11 +154,16 @@ goc_path_update_bounds (GocItem *item)
 
 	cairo_save (cr);
 	if (goc_path_prepare_draw (item, cr, 0)) {
-		goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
-		// Should this be moved one line down?
+		/* The path is already in device space. Restore before setting
+		 * the line: cairo_restore() also drops the line width. */
 		cairo_restore (cr);
+		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr) &&
+		    goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item)))
+			/* the line is drawn with the transform of the item */
+			cairo_set_line_width (cr, cairo_get_line_width (cr) * _goc_item_transform_scale (item));
 		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
-	}
+	} else
+		cairo_restore (cr);
 
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
@@ -171,16 +176,17 @@ goc_path_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double tmp_width = 0;
 	double res = 20;
-	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
+	double ppu = item->canvas? goc_canvas_get_pixels_per_unit (item->canvas): 1.;
 	cairo_surface_t *surface;
 	cairo_t *cr;
-	gboolean set_line,
-		scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	gboolean set_line;
+	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	double k = scale_line_width? MAX (_goc_item_transform_scale (item), 1e-6): 1.;
 
 	*near_item = item;
 	tmp_width = style->line.width;
-	if (style->line.width * ppu < 5)
-		style->line.width = 5. / (ppu * ppu);
+	if (style->line.width * ppu * k < 5)
+		style->line.width = 5. / (ppu * ppu * k);
 	else
 		style->line.width /= ppu;
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
@@ -189,11 +195,12 @@ goc_path_distance (GocItem *item, double x, double y, GocItem **near_item)
 	cairo_save (cr);
 	if (goc_path_prepare_draw (item, cr, 0)) {
 		/* Filled OR both fill and stroke are none */
-		if (!scale_line_width)
-			cairo_restore (cr);
-		set_line = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
-		if (scale_line_width)
-			cairo_restore (cr);
+		/* Restore before setting the line: cairo_restore() also drops
+		 * the line width. */
+		cairo_restore (cr);
+		set_line = goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
+		if (set_line && scale_line_width)
+			cairo_set_line_width (cr, cairo_get_line_width (cr) * k);
 		if ((path->closed && style->fill.type != GO_STYLE_FILL_NONE) ||
 			(style->fill.type == GO_STYLE_FILL_NONE && !set_line)) {
 			if (cairo_in_fill (cr, x, y))

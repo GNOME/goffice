@@ -833,6 +833,31 @@ goc_item_set_transform (GocItem *item, cairo_matrix_t *m)
 		cairo_matrix_init_identity (&item->transform);
 }
 
+/*
+ * Largest factor by which the transform of @item (including the transforms
+ * of its ancestors, but not the canvas scale) stretches a length.  Items
+ * whose line width follows the transform use it to size their bounds and
+ * hit tests like they are drawn.
+ */
+double
+_goc_item_transform_scale (GocItem const *item)
+{
+	cairo_matrix_t m = item->transform, buf;
+	double a, b, d, tr;
+
+	while ((item = GOC_ITEM (item->parent)))
+		if (item->transformed) {
+			cairo_matrix_multiply (&buf, &m, &item->transform);
+			m = buf;
+		}
+	/* square root of the largest eigenvalue of M^T M */
+	a = m.xx * m.xx + m.yx * m.yx;
+	d = m.xy * m.xy + m.yy * m.yy;
+	b = m.xx * m.xy + m.yx * m.yy;
+	tr = a + d;
+	return sqrt ((tr + sqrt (MAX (0., tr * tr - 4. * (a * d - b * b)))) / 2.);
+}
+
 void
 _goc_item_transform (GocItem const *item, cairo_t *cr, gboolean scaled)
 {

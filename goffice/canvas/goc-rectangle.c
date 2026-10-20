@@ -48,7 +48,7 @@ enum {
 
 static void
 goc_rectangle_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+			    GValue const *value, GParamSpec *pspec)
 {
 	GocRectangle *rect = GOC_RECTANGLE (gobject);
 
@@ -94,7 +94,7 @@ goc_rectangle_set_property (GObject *gobject, guint param_id,
 
 static void
 goc_rectangle_get_property (GObject *gobject, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+			    GValue *value, GParamSpec *pspec)
 {
 	GocRectangle *rect = GOC_RECTANGLE (gobject);
 

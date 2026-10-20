@@ -90,9 +90,18 @@ goc_arc_set_property (GObject *gobject, guint param_id,
 		arc->rotation = g_value_get_double (value);
 		break;
 
-	case ARC_PROP_TYPE:
-		arc->type = g_value_get_int (value);
+	case ARC_PROP_TYPE: {
+		int type = g_value_get_int (value);
+		gboolean fill_changed = (arc->type > 0) != (type > 0);
+		arc->type = type;
+		if (fill_changed) {
+			/* the default fill depends on the type */
+			GOStyledObject *gso = GO_STYLED_OBJECT (arc);
+			go_styled_object_apply_theme (gso, go_styled_object_get_style (gso));
+			go_styled_object_style_changed (gso);
+		}
 		break;
+	}
 
 	case ARC_PROP_START_ARROW:
 		arc->start_arrow = *((GOArrow *) g_value_peek_pointer (value));
@@ -160,6 +169,12 @@ goc_arc_get_property (GObject *gobject, guint param_id,
 	}
 }
 
+static gboolean
+goc_arc_is_degenerate (GocArc const *arc)
+{
+	return 0 == arc->xr || 0 == arc->yr || arc->ang1 == arc->ang2;
+}
+
 static void
 goc_arc_start (GocItem const *item, double *x, double *y, double *phi)
 {
@@ -219,6 +234,7 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 	}
 
 	cairo_save (cr);
+	_goc_item_transform (item, cr, flag);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, arc->xc, arc->yc);
 		sign = 1;
@@ -274,11 +290,11 @@ static gboolean
 goc_arc_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocArc *arc = GOC_ARC (item);
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 	double ecc = 1;
 	double rsign = sign;
 
-	if (0 == arc->xr || 0 == arc->yr || arc->ang1 == arc->ang2)
+	if (goc_arc_is_degenerate (arc))
 		return FALSE;
 
 	cairo_save (cr);
@@ -319,12 +335,24 @@ goc_arc_update_bounds (GocItem *item)
 	cr = cairo_create (surface);
 
 	if (goc_arc_prepare_draw (item, cr, 0)) {
-		if (arc->start_arrow.typ != GO_ARROW_NONE)
-			prepare_draw_arrow (item, cr, 0, 0);
-		if (arc->end_arrow.typ != GO_ARROW_NONE)
-			prepare_draw_arrow (item, cr, 1, 0);
-		goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
-		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+			/* arrows are only drawn along with a visible line */
+			if (arc->start_arrow.typ != GO_ARROW_NONE)
+				prepare_draw_arrow (item, cr, 0, 0);
+			if (arc->end_arrow.typ != GO_ARROW_NONE)
+				prepare_draw_arrow (item, cr, 1, 0);
+			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		} else if (arc->type > 0 &&
+		           go_style_is_fill_visible (go_styled_object_get_style (GO_STYLED_OBJECT (item))))
+			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		else {
+			item->x0 = item->y0 = G_MAXDOUBLE;
+			item->x1 = item->y1 = -G_MAXDOUBLE;
+		}
+	} else {
+		/* nothing to draw, don't keep stale bounds */
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
 	}
 
 	cairo_destroy (cr);
@@ -338,11 +366,11 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double tmp_width = 0;
 	double res = 20;
-	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
+	double ppu = item->canvas? goc_canvas_get_pixels_per_unit (item->canvas): 1.;
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
-	if (0 == arc->xr || 0 == arc->yr || arc->ang1 == arc->ang2)
+	if (goc_arc_is_degenerate (arc))
 		return res;
 
 	*near_item = item;
@@ -365,6 +393,9 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 			}
 	}
 
+	/* Forget the arrow paths, otherwise cairo_arc_negative() would add a
+	 * line from the last arrow to the start of the arc. */
+	cairo_new_path (cr);
 	if (goc_arc_prepare_draw (item, cr, 0)) {
 		/* Filled OR both fill and stroke are none */
 		if ((arc->type > 0 && style->fill.type != GO_STYLE_FILL_NONE) ||
@@ -387,10 +418,12 @@ goc_arc_draw (GocItem const *item, cairo_t *cr)
 {
 	GocArc *arc = GOC_ARC (item);
 
+	if (goc_arc_is_degenerate (arc))
+		return;
 
 	cairo_save(cr);
 
-	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
 		if (arc->start_arrow.typ != GO_ARROW_NONE)
 			prepare_draw_arrow (item, cr, 0, 1);
 		if (arc->end_arrow.typ != GO_ARROW_NONE)
@@ -430,7 +463,7 @@ goc_arc_copy (GocItem *dest, GocItem *source)
 }
 
 static void
-goc_arc_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
+goc_arc_init_style (GocStyledItem *item, GOStyle *style)
 {
 	GocArc *arc = GOC_ARC(item);
 
@@ -478,13 +511,13 @@ goc_arc_class_init (GocItemClass *item_klass)
 		g_param_spec_double ("xr",
 			_("xr"),
 			_("The arc x radius"),
-			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
+			0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, ARC_PROP_YR,
 		g_param_spec_double ("yr",
 			_("yr"),
 			_("The arc y radius"),
-			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
+			0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, ARC_PROP_ANG1,
 		g_param_spec_double ("ang1",
