@@ -275,6 +275,110 @@ format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 	return g_string_free (res, FALSE);
 }
 
+/* Number of decimals needed to tell apart positions one pixel apart when
+ * one pixel corresponds to @resolution data units.  A position can only be
+ * pointed at to within a pixel, so showing more digits is just noise. */
+static int
+decimals_for_resolution (double resolution)
+{
+	if (!(resolution > 0) || !go_finite (resolution))
+		return 1;
+	/* The tolerance keeps exact powers of ten (0.1, 0.01, ...) from
+	 * getting an extra decimal due to log10 being off by an ulp or two. */
+	return CLAMP ((int)ceil (-log10 (resolution) - 1e-9), 0, 15);
+}
+
+/* Format @v, a value on @axis, for display in a tooltip.  For discrete axes
+ * the label is used when there is one.  @resolution is the size of one pixel
+ * in data units, or 0 if unknown (e.g. when @v is a data value rather than a
+ * cursor position); it is only used when the axis has no format of its own.
+ * Returns a newly allocated string. */
+static char *
+format_axis_value (GogAxis *axis, double v, double resolution)
+{
+	GOFormat *fmt;
+
+	if (gog_axis_is_discrete (axis)) {
+		GOData *labels = gog_axis_get_labels (axis, NULL);
+		int idx = v > 0 ? (int)round (MIN (v, G_MAXINT)) - 1 : 0;
+		char *s = NULL;
+
+		if (labels && idx >= 0 &&
+		    idx < go_data_vector_get_len (GO_DATA_VECTOR (labels)))
+			s = go_data_vector_get_str (GO_DATA_VECTOR (labels), idx);
+		if (!s || *s == 0) {
+			g_free (s);
+			s = format_coordinate (axis, NULL, v);
+		}
+		return s;
+	}
+	fmt = gog_axis_get_effective_format (axis);
+	if (resolution > 0 && (fmt == NULL || go_format_is_general (fmt))) {
+		/* No format prescribed: use just enough decimals. */
+		int decimals = decimals_for_resolution (resolution);
+		GString *spec = g_string_new ("0");
+		char *res;
+		GOFormat *nf;
+
+		if (decimals > 0) {
+			g_string_append_c (spec, '.');
+			g_string_append_len (spec, "000000000000000", decimals);
+		}
+		nf = go_format_new_from_XL (spec->str);
+		g_string_free (spec, TRUE);
+		res = format_coordinate (axis, nf, v);
+		go_format_unref (nf);
+		return res;
+	}
+	return format_coordinate (axis, fmt, v);
+}
+
+/* If a data point of @plot is under (@x,@y), return a tooltip showing the
+ * value of that point, expressed on the axes @plot is bound to.  This matters
+ * when a chart has several axes of the same kind (e.g. two Y axes): the value
+ * of a point must be shown on the axis its series actually uses, not on the
+ * axis of whichever plot happens to be examined first.
+ * Returns a newly allocated string, or %NULL if there is no point there. */
+static char *
+goc_graph_get_data_tip (GogView *base_view, GogPlot *plot, double x, double y)
+{
+	GogView *view = gog_view_find_child_view (base_view, GOG_OBJECT (plot));
+	GogSeries *series = NULL;
+	GogAxis *x_axis, *y_axis;
+	double const *x_vals = NULL, *y_vals = NULL;
+	double xv, yv;
+	unsigned n;
+	int idx;
+	char *s1, *s2, *res;
+
+	if (view == NULL || !GOG_IS_PLOT_VIEW (view))
+		return NULL;
+	idx = gog_plot_view_get_data_at_point (GOG_PLOT_VIEW (view), x, y, &series);
+	if (idx < 0 || series == NULL)
+		return NULL;
+
+	x_axis = gog_plot_get_axis (plot, GOG_AXIS_X);
+	y_axis = gog_plot_get_axis (plot, GOG_AXIS_Y);
+	if (x_axis == NULL || y_axis == NULL)
+		return NULL;
+
+	n = gog_series_get_xy_data (series, &x_vals, &y_vals);
+	if (y_vals == NULL || (unsigned) idx >= n)
+		return NULL;
+	xv = x_vals ? x_vals[idx] : idx + 1;
+	yv = y_vals[idx];
+	if (!go_finite (xv) || !go_finite (yv))
+		return NULL;
+
+	s1 = format_axis_value (x_axis, xv, 0.);
+	s2 = format_axis_value (y_axis, yv, 0.);
+	/* Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.  */
+	res = g_strdup_printf (_("(%s,%s)"), s1, s2);
+	g_free (s1);
+	g_free (s2);
+	return res;
+}
+
 static void
 goc_graph_do_tooltip (GocGraph *graph)
 {
@@ -289,7 +393,6 @@ goc_graph_do_tooltip (GocGraph *graph)
 	GogAxisSet set;
 	GogPlot *plot;
 	GSList *l, *ptr;
-	GOFormat *format;
 	GocItem *item = (GocItem *)graph;
 	double x = graph->coords.x;
 	double y = graph->coords.y;
@@ -322,6 +425,18 @@ goc_graph_do_tooltip (GocGraph *graph)
 	l = gog_object_get_children (GOG_OBJECT (chart), gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
 	if (l == NULL)
 		goto tooltip;
+	/* If the cursor is over a data point, report that point using the axes
+	 * of its own plot.  This must be done for every plot before the generic
+	 * cursor-position code below, which stops at the first plot containing
+	 * the cursor and so would always use the first plot's axes. */
+	if (set == GOG_AXIS_SET_XY) {
+		for (ptr = l; ptr != NULL && buf == NULL; ptr = ptr->next)
+			buf = goc_graph_get_data_tip (base_view, GOG_PLOT (ptr->data), x, y);
+		if (buf != NULL) {
+			g_slist_free (l);
+			goto tooltip;
+		}
+	}
 	ptr = l;
 	while (ptr) {
 		view = gog_view_find_child_view (base_view, GOG_OBJECT (ptr->data));
@@ -376,33 +491,15 @@ goc_graph_do_tooltip (GocGraph *graph)
 	if (gog_chart_map_is_valid (map) &&
 				x >= alloc.x && x < alloc.x + alloc.w &&
 				y >= alloc.y && y < alloc.y + alloc.h) {
+		double px = x, py = y, x1, y1, rx, ry;
+
 		gog_chart_map_view_to_2D (map, x, y, &x, &y);
-		if (gog_axis_is_discrete (x_axis)) {
-			GODataVector *labels = GO_DATA_VECTOR (gog_axis_get_labels (x_axis, NULL));
-			int idx = x > 0 ? (int)round (MIN (x, G_MAXINT)) - 1 : 0;
-			if (labels && idx >= 0 && idx < go_data_vector_get_len (labels))
-				s1 = go_data_vector_get_str (labels, idx);
-			if (!s1 || *s1 == 0) {
-				g_free (s1);
-				s1 = format_coordinate (x_axis, NULL, x);
-			}
-		} else {
-			format = gog_axis_get_effective_format (x_axis);
-			s1 = format_coordinate (x_axis, format, x);
-		}
-		if (gog_axis_is_discrete (y_axis)) {
-			GOData *labels = gog_axis_get_labels (y_axis, NULL);
-			int idx = y > 0 ? (int)round (MIN (y, G_MAXINT)) - 1 : 0;
-			if (labels && idx >= 0 && idx < go_data_vector_get_len (GO_DATA_VECTOR (labels)))
-				s2 = go_data_vector_get_str (GO_DATA_VECTOR (labels), idx);
-			if (!s2 || *s2 == 0) {
-				g_free (s2);
-				s2 = format_coordinate (y_axis, NULL, y);
-			}
-		} else {
-			format = gog_axis_get_effective_format (y_axis);
-			s2 = format_coordinate (y_axis, format, y);
-		}
+		/* Size of one pixel in data units, around the cursor. */
+		gog_chart_map_view_to_2D (map, px + 1, py + 1, &x1, &y1);
+		rx = fabs (x1 - x);
+		ry = fabs (y1 - y);
+		s1 = format_axis_value (x_axis, x, rx);
+		s2 = format_axis_value (y_axis, y, ry);
 		/* Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.  */
 		buf = g_strdup_printf (_("(%s,%s)"), s1, s2);
 		g_free (s1);

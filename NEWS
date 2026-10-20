@@ -14,6 +14,7 @@ Morten:
 	* Fix 3d axes being drawn multiple times.
 	* Introspection fixes.
 	* Fix empty-legend graph problem.
+	* Better graph tooltips.  [Gnumeric #851]
 
 --------------------------------------------------------------------------
 goffice 0.10.62:
