@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2026-10-18 03:27+0000\n"
-"PO-Revision-Date: 2026-10-18 09:39+0200\n"
+"POT-Creation-Date: 2026-10-20 02:10+0000\n"
+"PO-Revision-Date: 2026-10-20 10:41+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -526,97 +526,97 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Izvedi ponovitev glavne zanke"
 
-#: ../goffice/canvas/goc-arc.c:467
+#: ../goffice/canvas/goc-arc.c:500
 msgid "xc"
 msgstr "xk"
 
-#: ../goffice/canvas/goc-arc.c:468
+#: ../goffice/canvas/goc-arc.c:501
 msgid "The arc center x coordinate"
 msgstr "Koordinata x središča loka"
 
-#: ../goffice/canvas/goc-arc.c:473
+#: ../goffice/canvas/goc-arc.c:506
 msgid "yc"
 msgstr "yk"
 
-#: ../goffice/canvas/goc-arc.c:474
+#: ../goffice/canvas/goc-arc.c:507
 msgid "The arc center y coordinate"
 msgstr "Koordinata y središča loka"
 
-#: ../goffice/canvas/goc-arc.c:479
+#: ../goffice/canvas/goc-arc.c:512
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:480
+#: ../goffice/canvas/goc-arc.c:513
 msgid "The arc x radius"
 msgstr "Radij x loka"
 
-#: ../goffice/canvas/goc-arc.c:485
+#: ../goffice/canvas/goc-arc.c:518
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:486
+#: ../goffice/canvas/goc-arc.c:519
 msgid "The arc y radius"
 msgstr "Radij y loka"
 
-#: ../goffice/canvas/goc-arc.c:491
+#: ../goffice/canvas/goc-arc.c:524
 msgid "ang1"
 msgstr "kot1"
 
-#: ../goffice/canvas/goc-arc.c:492
+#: ../goffice/canvas/goc-arc.c:525
 msgid "The arc start angle"
 msgstr "Začetni kot loka"
 
-#: ../goffice/canvas/goc-arc.c:497
+#: ../goffice/canvas/goc-arc.c:530
 msgid "ang2"
 msgstr "kot2"
 
-#: ../goffice/canvas/goc-arc.c:498
+#: ../goffice/canvas/goc-arc.c:531
 msgid "The arc end angle"
 msgstr "Končni kot loka"
 
-#: ../goffice/canvas/goc-arc.c:503 ../goffice/canvas/goc-component.c:320
-#: ../goffice/canvas/goc-ellipse.c:303 ../goffice/canvas/goc-path.c:313
+#: ../goffice/canvas/goc-arc.c:536 ../goffice/canvas/goc-component.c:320
+#: ../goffice/canvas/goc-ellipse.c:315 ../goffice/canvas/goc-path.c:320
 #: ../goffice/canvas/goc-rectangle.c:362 ../goffice/canvas/goc-text.c:456
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Vrtenje"
 
-#: ../goffice/canvas/goc-arc.c:504
+#: ../goffice/canvas/goc-arc.c:537
 msgid "The rotation around center position"
 msgstr "Vrtenje okoli središča"
 
-#: ../goffice/canvas/goc-arc.c:509 ../goffice/canvas/goc-rectangle.c:368
+#: ../goffice/canvas/goc-arc.c:542 ../goffice/canvas/goc-rectangle.c:368
 #: ../goffice/graph/gog-axis.c:3464 ../goffice/graph/gog-grid.c:169
 #: ../plugins/plot_barcol/gog-1.5d.c:355
 msgid "Type"
 msgstr "Vrsta"
 
-#: ../goffice/canvas/goc-arc.c:510
+#: ../goffice/canvas/goc-arc.c:543
 msgid "The type of arc: arc, chord or pie"
 msgstr "Vrsta loka: lok, tetiva ali izsek"
 
-#: ../goffice/canvas/goc-arc.c:516 ../goffice/canvas/goc-line.c:340
+#: ../goffice/canvas/goc-arc.c:549 ../goffice/canvas/goc-line.c:340
 msgid "Start Arrow"
 msgstr "Začetek puščice"
 
-#: ../goffice/canvas/goc-arc.c:517 ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-arc.c:550 ../goffice/canvas/goc-line.c:341
 msgid "Arrow for line's start"
 msgstr "Puščica za začetek črte"
 
-#: ../goffice/canvas/goc-arc.c:522 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:555 ../goffice/canvas/goc-line.c:346
 msgid "End Arrow"
 msgstr "Konec puščice"
 
-#: ../goffice/canvas/goc-arc.c:523 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:556 ../goffice/canvas/goc-line.c:347
 msgid "Arrow for line's end"
 msgstr "Puščica za konec črte"
 
 #: ../goffice/canvas/goc-canvas.c:356 ../goffice/canvas/goc-component.c:314
-#: ../goffice/canvas/goc-component.c:315 ../goffice/canvas/goc-ellipse.c:291
+#: ../goffice/canvas/goc-component.c:315 ../goffice/canvas/goc-ellipse.c:303
 #: ../goffice/canvas/goc-graph.c:496 ../goffice/canvas/goc-graph.c:497
 #: ../goffice/canvas/goc-image.c:320 ../goffice/canvas/goc-pixbuf.c:253
 #: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:878
-#: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-graph.c:499
+#: ../goffice/graph/gog-color-scale.c:334 ../goffice/graph/gog-graph.c:499
 #: ../goffice/graph/gog-object.c:207 ../goffice/utils/go-image.c:506
 #: ../plugins/plot_xy/gog-xy-dropbar.c:308
 msgid "Width"
@@ -627,7 +627,7 @@ msgid "The width of the canvas"
 msgstr "Širina platna"
 
 #: ../goffice/canvas/goc-canvas.c:362 ../goffice/canvas/goc-component.c:308
-#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-ellipse.c:297
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-ellipse.c:309
 #: ../goffice/canvas/goc-graph.c:490 ../goffice/canvas/goc-graph.c:491
 #: ../goffice/canvas/goc-image.c:326 ../goffice/canvas/goc-pixbuf.c:259
 #: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:884
@@ -641,9 +641,9 @@ msgid "The height of the canvas"
 msgstr "Višina platna"
 
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:296
-#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:478
-#: ../goffice/canvas/goc-group.c:295 ../goffice/canvas/goc-image.c:308
-#: ../goffice/canvas/goc-path.c:301 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:478
+#: ../goffice/canvas/goc-group.c:302 ../goffice/canvas/goc-image.c:308
+#: ../goffice/canvas/goc-path.c:308 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:444
 #: ../goffice/canvas/goc-widget.c:865 ../goffice/utils/go-marker.c:104
 msgid "x"
@@ -654,9 +654,9 @@ msgid "The circle center horizontal position"
 msgstr "Vodoravni položaj središča kroga"
 
 #: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:302
-#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:484
-#: ../goffice/canvas/goc-group.c:301 ../goffice/canvas/goc-image.c:314
-#: ../goffice/canvas/goc-path.c:307 ../goffice/canvas/goc-pixbuf.c:247
+#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:484
+#: ../goffice/canvas/goc-group.c:308 ../goffice/canvas/goc-image.c:314
+#: ../goffice/canvas/goc-path.c:314 ../goffice/canvas/goc-pixbuf.c:247
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:450
 #: ../goffice/canvas/goc-widget.c:871
 msgid "y"
@@ -694,25 +694,25 @@ msgstr "Predmet"
 msgid "The embedded GOComponent object"
 msgstr "Vdelani predmet GOComponent"
 
-#: ../goffice/canvas/goc-ellipse.c:280
+#: ../goffice/canvas/goc-ellipse.c:292
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Leva točka položaja elipse (ali desna v načinu D-L)"
 
-#: ../goffice/canvas/goc-ellipse.c:286
+#: ../goffice/canvas/goc-ellipse.c:298
 msgid "The ellipse top position"
 msgstr "Zgornja točka položaja elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:292
+#: ../goffice/canvas/goc-ellipse.c:304
 msgid "The ellipse width"
 msgstr "Širina elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:298
+#: ../goffice/canvas/goc-ellipse.c:310
 msgid "The ellipse height"
 msgstr "Višina elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:304 ../goffice/canvas/goc-rectangle.c:363
-msgid "The rotation around top left position"
-msgstr "Vrtenje okoli zgornje leve točke"
+#: ../goffice/canvas/goc-ellipse.c:316
+msgid "The rotation around the ellipse center"
+msgstr "Vrtenje okoli središča elipse"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
 #: ../goffice/canvas/goc-graph.c:407
@@ -748,11 +748,11 @@ msgstr "Izrisovalnik"
 msgid "The GogRenderer being displayed"
 msgstr "Prikazan predmet GogRenderer"
 
-#: ../goffice/canvas/goc-group.c:296
+#: ../goffice/canvas/goc-group.c:303
 msgid "The group horizontal offset"
 msgstr "Vodoravni odmik skupine predmetov"
 
-#: ../goffice/canvas/goc-group.c:302
+#: ../goffice/canvas/goc-group.c:309
 msgid "The group vertical offset"
 msgstr "Navpični odmik skupine predmetov"
 
@@ -856,39 +856,39 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "Koordinata y konca črte"
 
-#: ../goffice/canvas/goc-path.c:302
+#: ../goffice/canvas/goc-path.c:309
 msgid "The path first point x coordinate"
 msgstr "Koordinata x prve točke poti"
 
-#: ../goffice/canvas/goc-path.c:308
+#: ../goffice/canvas/goc-path.c:315
 msgid "The path first point y coordinate"
 msgstr "Koordinata y prve točke poti"
 
-#: ../goffice/canvas/goc-path.c:314
+#: ../goffice/canvas/goc-path.c:321
 msgid "The rotation around first point position"
 msgstr "Vrtenje okoli položaja prve točke"
 
-#: ../goffice/canvas/goc-path.c:319
+#: ../goffice/canvas/goc-path.c:326
 msgid "Closed"
 msgstr "Zaprto"
 
-#: ../goffice/canvas/goc-path.c:320
+#: ../goffice/canvas/goc-path.c:327
 msgid "The flag for closed path"
 msgstr "Zastavica za zaprto pot"
 
-#: ../goffice/canvas/goc-path.c:325 ../goffice/canvas/goc-polygon.c:379
+#: ../goffice/canvas/goc-path.c:332 ../goffice/canvas/goc-polygon.c:379
 msgid "Fill rule"
 msgstr "Pravilo polnjenja"
 
-#: ../goffice/canvas/goc-path.c:326 ../goffice/canvas/goc-polygon.c:380
+#: ../goffice/canvas/goc-path.c:333 ../goffice/canvas/goc-polygon.c:380
 msgid "Set fill rule to winding or even/odd"
 msgstr "Določilo pravila navojnega števila za sode in lihe vrednosti"
 
-#: ../goffice/canvas/goc-path.c:331
+#: ../goffice/canvas/goc-path.c:338
 msgid "Path"
 msgstr "Pot"
 
-#: ../goffice/canvas/goc-path.c:332
+#: ../goffice/canvas/goc-path.c:339
 msgid "The path points"
 msgstr "Točke poti"
 
@@ -954,6 +954,10 @@ msgstr "Širina pravokotnika"
 #: ../goffice/canvas/goc-rectangle.c:357
 msgid "The rectangle height"
 msgstr "Višina pravokotnika"
+
+#: ../goffice/canvas/goc-rectangle.c:363
+msgid "The rotation around top left position"
+msgstr "Vrtenje okoli zgornje leve točke"
 
 #: ../goffice/canvas/goc-rectangle.c:369
 msgid ""
@@ -1245,7 +1249,7 @@ msgstr "Relativna oddaljenost točk osi"
 msgid "Metrics"
 msgstr "Merila"
 
-#: ../goffice/graph/gog-axis.c:3410 ../goffice/graph/gog-axis-line.c:2690
+#: ../goffice/graph/gog-axis.c:3410 ../goffice/graph/gog-axis-line.c:2669
 #: ../goffice/graph/gog-series-labels.c:912
 #: ../goffice/graph/gog-series-labels.c:1443
 msgid "Format"
@@ -1275,11 +1279,11 @@ msgstr "Ime preslikave"
 msgid "The name of the map for scaling"
 msgstr "Ime zemljevida za določanje reda velikosti"
 
-#: ../goffice/graph/gog-axis.c:3480 ../goffice/graph/gog-axis-line.c:2774
+#: ../goffice/graph/gog-axis.c:3480 ../goffice/graph/gog-axis-line.c:2753
 msgid "Assigned XL format"
 msgstr "Določena XL oblika"
 
-#: ../goffice/graph/gog-axis.c:3481 ../goffice/graph/gog-axis-line.c:2775
+#: ../goffice/graph/gog-axis.c:3481 ../goffice/graph/gog-axis-line.c:2754
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr "Uporabniško določeni zapis za ne-diskretne oznake osi (zapis XL)"
@@ -1419,120 +1423,120 @@ msgstr "Določi"
 msgid "Erase"
 msgstr "Izbriši"
 
-#: ../goffice/graph/gog-axis-line.c:678
+#: ../goffice/graph/gog-axis-line.c:670
 msgid "Layout"
 msgstr "Postavitev"
 
-#: ../goffice/graph/gog-axis-line.c:762
+#: ../goffice/graph/gog-axis-line.c:754
 msgid "MajorGrid"
 msgstr "Glavna mreža"
 
-#: ../goffice/graph/gog-axis-line.c:765
+#: ../goffice/graph/gog-axis-line.c:757
 msgid "MinorGrid"
 msgstr "Podrobna mreža"
 
-#: ../goffice/graph/gog-axis-line.c:768 ../goffice/graph/gog-color-scale.c:325
+#: ../goffice/graph/gog-axis-line.c:760 ../goffice/graph/gog-color-scale.c:319
 #: ../goffice/graph/gog-theme.c:606
 msgid "Label"
 msgstr "Oznaka"
 
-#: ../goffice/graph/gog-axis-line.c:783
+#: ../goffice/graph/gog-axis-line.c:775
 msgid "Axis position"
 msgstr "Lega osi"
 
-#: ../goffice/graph/gog-axis-line.c:784 ../goffice/graph/gog-axis-line.c:790
+#: ../goffice/graph/gog-axis-line.c:776 ../goffice/graph/gog-axis-line.c:782
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Kje postaviti najnižjo in najvišjo točko osi oziroma kje se križa"
 
-#: ../goffice/graph/gog-axis-line.c:789
+#: ../goffice/graph/gog-axis-line.c:781
 msgid "Axis position (as a string)"
 msgstr "Lega osi (kot niz)"
 
-#: ../goffice/graph/gog-axis-line.c:796
+#: ../goffice/graph/gog-axis-line.c:788
 msgid "Major labels"
 msgstr "Glavne oznake"
 
-#: ../goffice/graph/gog-axis-line.c:797
+#: ../goffice/graph/gog-axis-line.c:789
 msgid "Show labels for major ticks"
 msgstr "Pokaži označbe glavnih oznak"
 
-#: ../goffice/graph/gog-axis-line.c:802
+#: ../goffice/graph/gog-axis-line.c:794
 msgid "Inside major ticks"
 msgstr "Znotraj glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:803
+#: ../goffice/graph/gog-axis-line.c:795
 msgid "Major tick marks inside the chart area"
 msgstr "Glavne označbe znotraj območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:808
+#: ../goffice/graph/gog-axis-line.c:800
 msgid "Outside major ticks"
 msgstr "Izven glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:809
+#: ../goffice/graph/gog-axis-line.c:801
 msgid "Major tick marks outside the chart area"
 msgstr "Glavne oznake izven območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:814
+#: ../goffice/graph/gog-axis-line.c:806
 msgid "Major tick size"
 msgstr "Velikost glavnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:815
+#: ../goffice/graph/gog-axis-line.c:807
 msgid "Size of the major tick marks, in points"
 msgstr "Velikost oznak glavnih točk osi (v točkah)"
 
-#: ../goffice/graph/gog-axis-line.c:821
+#: ../goffice/graph/gog-axis-line.c:813
 msgid "Inside minor ticks"
 msgstr "Znotraj podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:822
+#: ../goffice/graph/gog-axis-line.c:814
 msgid "Minor tick marks inside the chart area"
 msgstr "Podrobne oznake znotraj območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:827
+#: ../goffice/graph/gog-axis-line.c:819
 msgid "Outside minor ticks"
 msgstr "Izven podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:828
+#: ../goffice/graph/gog-axis-line.c:820
 msgid "Minor tick marks outside the axis"
 msgstr "Podrobne oznake izven območja diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:833
+#: ../goffice/graph/gog-axis-line.c:825
 msgid "Minor tick size"
 msgstr "Velikost podrobnih točk osi"
 
-#: ../goffice/graph/gog-axis-line.c:834
+#: ../goffice/graph/gog-axis-line.c:826
 msgid "Size of the minor tick marks, in points"
 msgstr "Velikost oznak podrobnih točk osi (v točkah)"
 
-#: ../goffice/graph/gog-axis-line.c:840
+#: ../goffice/graph/gog-axis-line.c:832
 msgid "Cross axis ID"
 msgstr "ID izhodišča osi"
 
-#: ../goffice/graph/gog-axis-line.c:841
+#: ../goffice/graph/gog-axis-line.c:833
 msgid "Which axis to cross"
 msgstr "Katero os naj se seka"
 
-#: ../goffice/graph/gog-axis-line.c:847
+#: ../goffice/graph/gog-axis-line.c:839
 msgid "Axis padding"
 msgstr "Blazinjenje osi"
 
-#: ../goffice/graph/gog-axis-line.c:848
+#: ../goffice/graph/gog-axis-line.c:840
 msgid "Distance from axis line to plot area, in points"
 msgstr "Razdalja med osno črto in diagramom površine v točkah"
 
-#: ../goffice/graph/gog-axis-line.c:942
+#: ../goffice/graph/gog-axis-line.c:934
 msgid "Select axis"
 msgstr "Izbor osi"
 
-#: ../goffice/graph/gog-axis-line.c:1048
+#: ../goffice/graph/gog-axis-line.c:1040
 msgid "Set start bound"
 msgstr "Določi začetno mejo"
 
-#: ../goffice/graph/gog-axis-line.c:1059
+#: ../goffice/graph/gog-axis-line.c:1051
 msgid "Set stop bound"
 msgstr "Določi končno mejo"
 
-#: ../goffice/graph/gog-axis-line.c:2678
+#: ../goffice/graph/gog-axis-line.c:2657
 msgid "Ticks"
 msgstr "Deli koraka"
 
@@ -1857,7 +1861,7 @@ msgstr "Desno"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: ../goffice/graph/gog-color-scale.c:335
+#: ../goffice/graph/gog-color-scale.c:329
 #: ../goffice/graph/gog-color-scale-prefs.ui.h:3
 #: ../plugins/plot_barcol/gog-minmax.c:227
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
@@ -1866,27 +1870,27 @@ msgstr "Podrobnosti"
 msgid "Horizontal"
 msgstr "Vodoravni"
 
-#: ../goffice/graph/gog-color-scale.c:336
+#: ../goffice/graph/gog-color-scale.c:330
 msgid "Whether to display the scale horizontally"
 msgstr "Ali naj bo prikazano vodoravno merilo"
 
-#: ../goffice/graph/gog-color-scale.c:341
+#: ../goffice/graph/gog-color-scale.c:335
 msgid "Color scale thickness."
 msgstr "Barva debeline merila."
 
-#: ../goffice/graph/gog-color-scale.c:346 ../goffice/graph/gog-theme.c:601
+#: ../goffice/graph/gog-color-scale.c:340 ../goffice/graph/gog-theme.c:601
 msgid "Axis"
 msgstr "Os"
 
-#: ../goffice/graph/gog-color-scale.c:347
+#: ../goffice/graph/gog-color-scale.c:341
 msgid "Reference to the color or pseudo-3d axis"
 msgstr "Sklic do barve ali navidezne osi 3D"
 
-#: ../goffice/graph/gog-color-scale.c:352
+#: ../goffice/graph/gog-color-scale.c:346
 msgid "Tick size"
 msgstr "Velikost oznak na osi"
 
-#: ../goffice/graph/gog-color-scale.c:353
+#: ../goffice/graph/gog-color-scale.c:347
 msgid "Size of the tick marks, in points"
 msgstr "Velikost oznak glavnih točk na osi (v sl. točkah)"
 
@@ -2525,11 +2529,11 @@ msgstr "Privzeta interpolacija"
 msgid "Default type of series line interpolation"
 msgstr "Privzeta vrsta interpolacije črt niza"
 
-#: ../goffice/graph/gog-plot.c:1175
+#: ../goffice/graph/gog-plot.c:1166
 msgid "Move plot area"
 msgstr "Premakni površino diagrama"
 
-#: ../goffice/graph/gog-plot.c:1227
+#: ../goffice/graph/gog-plot.c:1218
 msgid "Resize plot area"
 msgstr "Spremeni velikost površine diagrama"
 
