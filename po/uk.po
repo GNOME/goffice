@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2026-10-18 16:25+0000\n"
-"PO-Revision-Date: 2026-10-18 22:36+0300\n"
+"POT-Creation-Date: 2026-10-20 08:43+0000\n"
+"PO-Revision-Date: 2026-10-20 13:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -520,93 +520,93 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Виконати ітерацію основного циклу"
 
-#: ../goffice/canvas/goc-arc.c:467
+#: ../goffice/canvas/goc-arc.c:500
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:468
+#: ../goffice/canvas/goc-arc.c:501
 msgid "The arc center x coordinate"
 msgstr "Центр дуги за координатою x"
 
-#: ../goffice/canvas/goc-arc.c:473
+#: ../goffice/canvas/goc-arc.c:506
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:474
+#: ../goffice/canvas/goc-arc.c:507
 msgid "The arc center y coordinate"
 msgstr "Центр дуги за координатою y"
 
-#: ../goffice/canvas/goc-arc.c:479
+#: ../goffice/canvas/goc-arc.c:512
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:480
+#: ../goffice/canvas/goc-arc.c:513
 msgid "The arc x radius"
 msgstr "Радіус дуги за x"
 
-#: ../goffice/canvas/goc-arc.c:485
+#: ../goffice/canvas/goc-arc.c:518
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:486
+#: ../goffice/canvas/goc-arc.c:519
 msgid "The arc y radius"
 msgstr "Радіус дуги за y"
 
-#: ../goffice/canvas/goc-arc.c:491
+#: ../goffice/canvas/goc-arc.c:524
 msgid "ang1"
 msgstr "кут1"
 
-#: ../goffice/canvas/goc-arc.c:492
+#: ../goffice/canvas/goc-arc.c:525
 msgid "The arc start angle"
 msgstr "Початковий кут дуги"
 
-#: ../goffice/canvas/goc-arc.c:497
+#: ../goffice/canvas/goc-arc.c:530
 msgid "ang2"
 msgstr "кут2"
 
-#: ../goffice/canvas/goc-arc.c:498
+#: ../goffice/canvas/goc-arc.c:531
 msgid "The arc end angle"
 msgstr "Кінцевий кут дуги"
 
-#: ../goffice/canvas/goc-arc.c:503 ../goffice/canvas/goc-component.c:320
-#: ../goffice/canvas/goc-ellipse.c:303 ../goffice/canvas/goc-path.c:313
+#: ../goffice/canvas/goc-arc.c:536 ../goffice/canvas/goc-component.c:320
+#: ../goffice/canvas/goc-ellipse.c:315 ../goffice/canvas/goc-path.c:320
 #: ../goffice/canvas/goc-rectangle.c:362 ../goffice/canvas/goc-text.c:456
 #: ../goffice/graph/gog-3d-box.c:166 ../goffice/gtk/go-3d-rotation-sel.ui.h:1
 msgid "Rotation"
 msgstr "Обертання"
 
-#: ../goffice/canvas/goc-arc.c:504
+#: ../goffice/canvas/goc-arc.c:537
 msgid "The rotation around center position"
 msgstr "Обертання навколо позиції центра"
 
-#: ../goffice/canvas/goc-arc.c:509 ../goffice/canvas/goc-rectangle.c:368
+#: ../goffice/canvas/goc-arc.c:542 ../goffice/canvas/goc-rectangle.c:368
 #: ../goffice/graph/gog-axis.c:3464 ../goffice/graph/gog-grid.c:169
 #: ../plugins/plot_barcol/gog-1.5d.c:355
 msgid "Type"
 msgstr "Тип"
 
-#: ../goffice/canvas/goc-arc.c:510
+#: ../goffice/canvas/goc-arc.c:543
 msgid "The type of arc: arc, chord or pie"
 msgstr "Тип дуги: arc (дуга), chord (хорда) або pie (сектор)"
 
-#: ../goffice/canvas/goc-arc.c:516 ../goffice/canvas/goc-line.c:340
+#: ../goffice/canvas/goc-arc.c:549 ../goffice/canvas/goc-line.c:340
 msgid "Start Arrow"
 msgstr "Початок-стрілка"
 
-#: ../goffice/canvas/goc-arc.c:517 ../goffice/canvas/goc-line.c:341
+#: ../goffice/canvas/goc-arc.c:550 ../goffice/canvas/goc-line.c:341
 msgid "Arrow for line's start"
 msgstr "Стрілка для початку лінії"
 
-#: ../goffice/canvas/goc-arc.c:522 ../goffice/canvas/goc-line.c:346
+#: ../goffice/canvas/goc-arc.c:555 ../goffice/canvas/goc-line.c:346
 msgid "End Arrow"
 msgstr "Кінець-стрілка"
 
-#: ../goffice/canvas/goc-arc.c:523 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:556 ../goffice/canvas/goc-line.c:347
 msgid "Arrow for line's end"
 msgstr "Стрілка для кінця лінії"
 
 #: ../goffice/canvas/goc-canvas.c:356 ../goffice/canvas/goc-component.c:314
-#: ../goffice/canvas/goc-component.c:315 ../goffice/canvas/goc-ellipse.c:291
+#: ../goffice/canvas/goc-component.c:315 ../goffice/canvas/goc-ellipse.c:303
 #: ../goffice/canvas/goc-graph.c:496 ../goffice/canvas/goc-graph.c:497
 #: ../goffice/canvas/goc-image.c:320 ../goffice/canvas/goc-pixbuf.c:253
 #: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:878
@@ -621,7 +621,7 @@ msgid "The width of the canvas"
 msgstr "Ширина полотна"
 
 #: ../goffice/canvas/goc-canvas.c:362 ../goffice/canvas/goc-component.c:308
-#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-ellipse.c:297
+#: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-ellipse.c:309
 #: ../goffice/canvas/goc-graph.c:490 ../goffice/canvas/goc-graph.c:491
 #: ../goffice/canvas/goc-image.c:326 ../goffice/canvas/goc-pixbuf.c:259
 #: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:884
@@ -635,9 +635,9 @@ msgid "The height of the canvas"
 msgstr "Висота полотна"
 
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:296
-#: ../goffice/canvas/goc-ellipse.c:279 ../goffice/canvas/goc-graph.c:478
+#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:478
 #: ../goffice/canvas/goc-group.c:302 ../goffice/canvas/goc-image.c:308
-#: ../goffice/canvas/goc-path.c:301 ../goffice/canvas/goc-pixbuf.c:241
+#: ../goffice/canvas/goc-path.c:308 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:444
 #: ../goffice/canvas/goc-widget.c:865 ../goffice/utils/go-marker.c:104
 msgid "x"
@@ -648,9 +648,9 @@ msgid "The circle center horizontal position"
 msgstr "Позиція центра кола за горизонталлю"
 
 #: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:302
-#: ../goffice/canvas/goc-ellipse.c:285 ../goffice/canvas/goc-graph.c:484
+#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:484
 #: ../goffice/canvas/goc-group.c:308 ../goffice/canvas/goc-image.c:314
-#: ../goffice/canvas/goc-path.c:307 ../goffice/canvas/goc-pixbuf.c:247
+#: ../goffice/canvas/goc-path.c:314 ../goffice/canvas/goc-pixbuf.c:247
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:450
 #: ../goffice/canvas/goc-widget.c:871
 msgid "y"
@@ -688,25 +688,26 @@ msgstr "Об'єкт"
 msgid "The embedded GOComponent object"
 msgstr "Вбудований об'єкт GOComponent"
 
-#: ../goffice/canvas/goc-ellipse.c:280
+#: ../goffice/canvas/goc-ellipse.c:292
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Позиція еліпса від лівого краю (або праворуч у режимі лівопису)"
 
-#: ../goffice/canvas/goc-ellipse.c:286
+#: ../goffice/canvas/goc-ellipse.c:298
 msgid "The ellipse top position"
 msgstr "Позиція еліпса від верхнього краю"
 
-#: ../goffice/canvas/goc-ellipse.c:292
+#: ../goffice/canvas/goc-ellipse.c:304
 msgid "The ellipse width"
 msgstr "Ширина еліпса"
 
-#: ../goffice/canvas/goc-ellipse.c:298
+#: ../goffice/canvas/goc-ellipse.c:310
 msgid "The ellipse height"
 msgstr "Висота еліпса"
 
-#: ../goffice/canvas/goc-ellipse.c:304 ../goffice/canvas/goc-rectangle.c:363
-msgid "The rotation around top left position"
-msgstr "Обертання навколо позиції від верхнього і лівого країв"
+#: ../goffice/canvas/goc-ellipse.c:316
+#| msgid "The rotation around center"
+msgid "The rotation around the ellipse center"
+msgstr "Обертання навколо центра еліпса"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
 #: ../goffice/canvas/goc-graph.c:407
@@ -850,41 +851,41 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "Кінцева координата лінії за y"
 
-#: ../goffice/canvas/goc-path.c:302
+#: ../goffice/canvas/goc-path.c:309
 msgid "The path first point x coordinate"
 msgstr "Координата за x першої точки контуру"
 
-#: ../goffice/canvas/goc-path.c:308
+#: ../goffice/canvas/goc-path.c:315
 msgid "The path first point y coordinate"
 msgstr "Координата за y першої точки контуру"
 
-#: ../goffice/canvas/goc-path.c:314
+#: ../goffice/canvas/goc-path.c:321
 msgid "The rotation around first point position"
 msgstr "Обертання навколо позиції першої точки"
 
-#: ../goffice/canvas/goc-path.c:319
+#: ../goffice/canvas/goc-path.c:326
 msgid "Closed"
 msgstr "Замкнений"
 
-#: ../goffice/canvas/goc-path.c:320
+#: ../goffice/canvas/goc-path.c:327
 msgid "The flag for closed path"
 msgstr "Прапорець для замкнених контурів"
 
-#: ../goffice/canvas/goc-path.c:325 ../goffice/canvas/goc-polygon.c:379
+#: ../goffice/canvas/goc-path.c:332 ../goffice/canvas/goc-polygon.c:379
 msgid "Fill rule"
 msgstr "Правило заповнення"
 
-#: ../goffice/canvas/goc-path.c:326 ../goffice/canvas/goc-polygon.c:380
+#: ../goffice/canvas/goc-path.c:333 ../goffice/canvas/goc-polygon.c:380
 msgid "Set fill rule to winding or even/odd"
 msgstr ""
 "Встановити правило заповнення у значення winding (віконне) або even/odd "
 "(шахівниця)"
 
-#: ../goffice/canvas/goc-path.c:331
+#: ../goffice/canvas/goc-path.c:338
 msgid "Path"
 msgstr "Контур"
 
-#: ../goffice/canvas/goc-path.c:332
+#: ../goffice/canvas/goc-path.c:339
 msgid "The path points"
 msgstr "Точки контуру"
 
@@ -951,6 +952,10 @@ msgstr "Ширина прямокутника"
 #: ../goffice/canvas/goc-rectangle.c:357
 msgid "The rectangle height"
 msgstr "Висота прямокутника"
+
+#: ../goffice/canvas/goc-rectangle.c:363
+msgid "The rotation around top left position"
+msgstr "Обертання навколо позиції від верхнього і лівого країв"
 
 #: ../goffice/canvas/goc-rectangle.c:369
 msgid ""
@@ -2175,7 +2180,6 @@ msgid "Show R²"
 msgstr ""
 
 #: ../goffice/graph/gog-label.c:680
-#| msgid "Show the correlation coefficient on the graph"
 msgid "Show the coefficient of determination (R²) on the graph"
 msgstr "Показати коефіцієнт визначеності (R²) на графіку"
 
@@ -2643,7 +2647,6 @@ msgid "Display _equation"
 msgstr "Показувати _рівняння"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:2
-#| msgid "Display _regression coefficient R&#xB2;"
 msgid "Display _coefficient of determination R&#xB2;"
 msgstr "Показувати к_оефіцієнт визначеності R&#xB2;"
 
