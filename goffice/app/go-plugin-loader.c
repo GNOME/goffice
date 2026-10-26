@@ -56,7 +56,7 @@ go_plugin_loader_is_base_loaded (GOPluginLoader *loader)
  * go_plugin_loader_get_plugin:
  * @l: #GOPluginLoader
  *
- * Returns: (transfer full): the plugin
+ * Returns: (transfer none) (nullable): the plugin
  **/
 GOPlugin *
 go_plugin_loader_get_plugin (GOPluginLoader *l)
@@ -64,6 +64,11 @@ go_plugin_loader_get_plugin (GOPluginLoader *l)
 	return g_object_get_data (G_OBJECT (l), "plugin");
 }
 
+/**
+ * go_plugin_loader_set_plugin:
+ * @l: #GOPluginLoader
+ * @p: (transfer none) (nullable): plugin
+ **/
 void
 go_plugin_loader_set_plugin (GOPluginLoader *l, GOPlugin *p)
 {

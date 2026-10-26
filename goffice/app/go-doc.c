@@ -255,41 +255,45 @@ GSF_CLASS (GODoc, go_doc,
 /**
  * go_doc_set_uri:
  * @doc: the document to modify
- * @uri: the uri for this worksheet.
+ * @uri: (nullable): the uri for this document
  *
  * Returns: %TRUE if the name was set successfully.
  **/
 gboolean
 go_doc_set_uri (GODoc *doc, char const *uri)
 {
-	char *new_uri;
-
 	g_return_val_if_fail (doc != NULL, FALSE);
 
 	if (go_str_compare (uri, doc->uri) == 0)
 		return TRUE;
 
-	new_uri = g_strdup (uri);
 	g_free (doc->uri);
-	doc->uri = new_uri;
+	doc->uri = g_strdup (uri);
 
-/* FIXME FIXME FIXME should we allow signal to return FALSE and disable the assignment ? */
+/* FIXME FIXME FIXME should we allow signal to return FALSE and disable the assignment? */
 	g_object_notify (G_OBJECT (doc), "uri");
 
 	return TRUE;
 }
 
+/**
+ * go_doc_get_uri:
+ * @doc: the document to modify
+ *
+ * Returns: (transfer none) (nullable): the URI for the document
+ **/
 char const *
 go_doc_get_uri (GODoc const *doc)
 {
 	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
+
 	return doc->uri;
 }
 
 /**
  * go_doc_set_dirty:
  * @doc: #GODoc
- * @is_dirty:bool
+ * @is_dirty: bool
  *
  * Changes the dirty state of @doc to @is_dirty and clears the pristine state
  * no matter what.
@@ -357,6 +361,7 @@ gint64
 go_doc_get_dirty_time (GODoc const *doc)
 {
 	g_return_val_if_fail (GO_IS_DOC (doc), 0);
+
 	return doc->first_modification_time;
 }
 
@@ -386,8 +391,7 @@ go_doc_set_pristine (GODoc *doc, gboolean pristine)
  * go_doc_is_pristine:
  * @doc: #GODoc
  *
- * This checks to see if the doc has ever been
- * used ( approximately )
+ * This checks to see if the doc has ever been used (approximately)
  *
  * Return value: %TRUE if we can discard this doc.
  **/
@@ -395,6 +399,7 @@ gboolean
 go_doc_is_pristine (GODoc const *doc)
 {
 	g_return_val_if_fail (GO_IS_DOC (doc), FALSE);
+
 	return doc->pristine;
 }
 
@@ -408,6 +413,7 @@ GsfDocMetaData *
 go_doc_get_meta_data (GODoc const *doc)
 {
 	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
+
 	return doc->meta_data;
 }
 
@@ -422,11 +428,14 @@ void
 go_doc_set_meta_data (GODoc *doc, GsfDocMetaData *data)
 {
 	g_return_if_fail (GO_IS_DOC (doc));
+	g_return_if_fail (data != NULL);
 
-	g_object_ref (data);
-	g_object_unref (doc->meta_data);
-	doc->meta_data = data;
-	g_signal_emit (G_OBJECT (doc), signals [METADATA_CHANGED], 0);
+	if (doc->meta_data != data) {
+		g_object_ref (data);
+		g_object_unref (doc->meta_data);
+		doc->meta_data = data;
+		g_signal_emit (G_OBJECT (doc), signals[METADATA_CHANGED], 0);
+	}
 }
 
 /**
@@ -450,7 +459,7 @@ go_doc_update_meta_data (GODoc *doc)
 /**
  * go_doc_set_modtime:
  * @doc: #GODoc
- * @modtime: (allow-none): new file system time stamp
+ * @modtime: (transfer none) (nullable): new file system time stamp
  *
  * Sets the last known file system time stamp for the document, %NULL
  * if unknown.
@@ -476,8 +485,8 @@ go_doc_set_modtime (GODoc *doc, GDateTime *modtime)
  * go_doc_get_modtime:
  * @doc: #GODoc
  *
- * Returns: (transfer none): the last known file system time stamp for
- * the document, or %NULL if unknown.
+ * Returns: (transfer none) (nullable): the last known file system time
+ * stamp for the document, or %NULL if unknown.
  **/
 GDateTime *
 go_doc_get_modtime (GODoc const *doc)
@@ -522,6 +531,7 @@ void
 go_doc_bump_state (GODoc *doc)
 {
 	g_return_if_fail (GO_IS_DOC (doc));
+
 	go_doc_set_state (doc, ++(doc->priv->last_used_state));
 }
 
@@ -581,12 +591,14 @@ go_doc_get_saved_state (GODoc *doc)
  * @doc: a #GODoc
  * @id: the image name
  *
- * Return value: (transfer none): the #GOImage is one exist with name @id. The caller does not own a
- * reference.
+ * Return value: (transfer none) (nullable): the #GOImage is one exist with
+ * name @id.
  **/
 GOImage *
 go_doc_get_image (GODoc *doc, char const *id)
 {
+	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
+
 	return (doc->images != NULL)?
 		(GOImage *) g_hash_table_lookup (doc->images, id):
 		NULL;
@@ -595,11 +607,12 @@ go_doc_get_image (GODoc *doc, char const *id)
 /**
  * go_doc_add_image:
  * @doc: a #GODoc
- * @id: the image name or %NULL
+ * @id: (nullable): image name.
  * @image: a #GOImage
  *
  * Adds @image to the document if no such image already exists. The name of
  * the returned image might be different from @id, even if given.
+ *
  * Returns: (transfer none): either @image, in which case the document adds a reference on it, or
  * an identical image for which the owner does not own a reference.
  **/
@@ -611,6 +624,8 @@ go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
 	char *new_id;
 	GHashTableIter iter;
 	char const *key;
+
+	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
 
 	if (doc->images == NULL)
 		doc->images = g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -647,8 +662,10 @@ go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
  * Returns: (transfer none): the images registered inside the document
  **/
 GHashTable *
-go_doc_get_images (GODoc *doc) {
-	g_return_val_if_fail (doc, NULL);
+go_doc_get_images (GODoc *doc)
+{
+	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
+
 	return doc->images;
 }
 
@@ -685,6 +702,9 @@ void
 go_doc_write (GODoc *doc, GsfXMLOut *output)
 {
 	GSList *ptr;
+
+	g_return_if_fail (GO_IS_DOC (doc));
+
 	if (g_hash_table_size (doc->priv->imagebuf) > 0 ||
 	    doc->priv->resourcesbuf != NULL) {
 		gsf_xml_out_start_element (output, "GODoc");
@@ -831,6 +851,8 @@ go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 void
 go_doc_end_read	(GODoc *doc)
 {
+	g_return_if_fail (GO_IS_DOC (doc));
+
 	g_hash_table_destroy (doc->priv->imagebuf);
 	doc->priv->imagebuf = NULL;
 }
@@ -845,14 +867,18 @@ go_doc_end_read	(GODoc *doc)
  * creates one if needed. The caller does not own a reference on the returned
  * #GOImage.
  * This function must be called after a call to go_doc_init_read(), otherwise
- * it will emit a critical and return NULL.
+ * it will emit a critical and return %NULL.
+ *
  * Returns: (transfer none): the found or created #GOImage.
  **/
 GOImage *
 go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 {
 	GOImage *image;
-	g_return_val_if_fail (doc && doc->priv->imagebuf, NULL);
+
+	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
+	g_return_val_if_fail (doc->priv->imagebuf, NULL);
+
 	image = g_hash_table_lookup (doc->priv->imagebuf, id);
 	if (!image) {
 		g_return_val_if_fail (g_type_is_a (type, GO_TYPE_IMAGE), NULL);
@@ -882,9 +908,9 @@ go_doc_image_fetch (GODoc *doc, char const *id, GType type)
 void
 go_doc_save_resource (GODoc *doc, GOPersist const *gp)
 {
-	GSList *ptr;
-	for (ptr = doc->priv->resourcesbuf; ptr; ptr = ptr->next)
-		if (ptr->data == gp) /* already marked for saving */
-			return;
-	doc->priv->resourcesbuf = g_slist_prepend (doc->priv->resourcesbuf, (void *) gp);
+	g_return_if_fail (GO_IS_DOC (doc));
+
+	if (g_slist_find (doc->priv->resourcesbuf, gp))
+		return;  // already marked for saving
+	doc->priv->resourcesbuf = g_slist_prepend (doc->priv->resourcesbuf, (void *)gp);
 }

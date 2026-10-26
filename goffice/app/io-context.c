@@ -87,7 +87,7 @@ ioc_finalize (GObject *obj)
 
 static void
 io_context_set_property (GObject *obj, guint param_id,
-		       GValue const *value, GParamSpec *pspec)
+			 GValue const *value, GParamSpec *pspec)
 {
 	GOIOContext *ioc = GO_IO_CONTEXT (obj);
 
@@ -102,7 +102,7 @@ io_context_set_property (GObject *obj, guint param_id,
 
 static void
 io_context_get_property (GObject *obj, guint param_id,
-		       GValue *value, GParamSpec *pspec)
+			 GValue *value, GParamSpec *pspec)
 {
 	GOIOContext *ioc = GO_IO_CONTEXT (obj);
 
@@ -136,7 +136,7 @@ ioc_error_error (GOCmdContext *cc, GError *err)
 
 static void
 ioc_error_go_error_info_ (G_GNUC_UNUSED GOCmdContext *ctxt,
-		      GOErrorInfo *error)
+			  GOErrorInfo *error)
 {
 	/* TODO what goes here */
 	go_error_info_print (error);
@@ -147,7 +147,7 @@ go_io_error_string (GOIOContext *context, const gchar *str)
 {
 	GOErrorInfo *error;
 
-	g_return_if_fail (context != NULL);
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 	g_return_if_fail (str != NULL);
 
 	error = go_error_info_new_str (str);
@@ -199,7 +199,7 @@ go_io_context_new (GOCmdContext *cc)
 void
 go_io_error_unknown (GOIOContext *context)
 {
-	g_return_if_fail (context != NULL);
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 
 	context->error_occurred = TRUE;
 }
@@ -207,7 +207,7 @@ go_io_error_unknown (GOIOContext *context)
 void
 go_io_error_info_set (GOIOContext *context, GOErrorInfo *error)
 {
-	g_return_if_fail (context != NULL);
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 	g_return_if_fail (error != NULL);
 
 	context->info = g_slist_prepend (context->info, error);
@@ -221,7 +221,7 @@ go_io_error_info_set (GOIOContext *context, GOErrorInfo *error)
 void
 go_io_error_push (GOIOContext *context, GOErrorInfo *error)
 {
-	g_return_if_fail (context != NULL);
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 	g_return_if_fail (error != NULL);
 
 	if (context->info == NULL)
@@ -236,17 +236,16 @@ go_io_error_push (GOIOContext *context, GOErrorInfo *error)
 void
 go_io_error_display (GOIOContext *context)
 {
-	GOCmdContext *cc;
-
-	g_return_if_fail (context != NULL);
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 
 	if (context->info != NULL) {
+		GOCmdContext *cc;
+
 		if (context->impl)
 			cc = context->impl;
 		else
 			cc = GO_CMD_CONTEXT (context);
-		go_cmd_context_error_info_list
-			(cc, context->info);
+		go_cmd_context_error_info_list (cc, context->info);
 	}
 }
 
@@ -254,7 +253,7 @@ go_io_error_display (GOIOContext *context)
 void
 go_io_error_clear (GOIOContext *context)
 {
-	g_return_if_fail (context != NULL);
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 
 	context->error_occurred = FALSE;
 	context->warning_occurred = FALSE;
@@ -265,12 +264,16 @@ go_io_error_clear (GOIOContext *context)
 gboolean
 go_io_error_occurred (GOIOContext *context)
 {
+	g_return_val_if_fail (GO_IS_IO_CONTEXT (context), FALSE);
+
 	return context->error_occurred;
 }
 
 gboolean
 go_io_warning_occurred (GOIOContext *context)
 {
+	g_return_val_if_fail (GO_IS_IO_CONTEXT (context), FALSE);
+
 	return context->warning_occurred;
 }
 
@@ -456,8 +459,11 @@ go_io_progress_unset (GOIOContext *ioc)
 void
 go_io_context_set_num_files (GOIOContext *ioc, guint count)
 {
-	GOIOContextClass *klass = IOC_CLASS(ioc);
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
+
+	GOIOContextClass *klass = IOC_CLASS (ioc);
 	g_return_if_fail (klass != NULL);
+
 	if (klass->set_num_files != NULL)
 		klass->set_num_files (ioc, count);
 }
@@ -470,21 +476,25 @@ go_io_context_set_num_files (GOIOContext *ioc, guint count)
 void
 go_io_context_processing_file (GOIOContext *ioc, char const *uri)
 {
-	char *basename;
-	GOIOContextClass *klass = IOC_CLASS(ioc);
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 
+	GOIOContextClass *klass = IOC_CLASS (ioc);
 	g_return_if_fail (klass != NULL);
 
-	basename = go_basename_from_uri (uri); /* unescape the uri */
-	if (basename != NULL && klass->processing_file != NULL)
-		klass->processing_file (ioc, basename);
-	g_free (basename);
+	if (klass->processing_file) {
+		char *basename = go_basename_from_uri (uri); /* unescape the uri */
+		if (basename != NULL) {
+			klass->processing_file (ioc, basename);
+			g_free (basename);
+		}
+	}
 }
 
 void
-go_io_warning (G_GNUC_UNUSED GOIOContext *context,
-		char const *fmt, ...)
+go_io_warning (GOIOContext *context, char const *fmt, ...)
 {
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
+
 	va_list args;
 
 	va_start (args, fmt);
@@ -495,6 +505,8 @@ go_io_warning (G_GNUC_UNUSED GOIOContext *context,
 void
 go_io_warning_varargs (GOIOContext *context, char const *fmt, va_list args)
 {
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
+
 	context->info = g_slist_prepend
 		(context->info, go_error_info_new_vprintf
 		 (GO_WARNING, fmt, args));
@@ -503,7 +515,7 @@ go_io_warning_varargs (GOIOContext *context, char const *fmt, va_list args)
 
 void
 go_io_warning_unknown_font (GOIOContext *context,
-			     G_GNUC_UNUSED char const *font_name)
+			    G_GNUC_UNUSED char const *font_name)
 {
 	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 }
@@ -519,5 +531,5 @@ void
 go_io_warning_unsupported_feature (GOIOContext *context, char const *feature)
 {
 	g_return_if_fail (GO_IS_IO_CONTEXT (context));
-	g_warning ("%s : are not supported yet", feature);
+	g_warning ("%s: are not supported yet", feature);
 }
