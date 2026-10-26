@@ -177,7 +177,7 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 }
 
 static gboolean
-cb_fov_changed (GtkRange *range, G_GNUC_UNUSED GdkEventButton *event, GO3DRotationSel *g3d)
+cb_fov_changed (GtkRange *range, G_GNUC_UNUSED GdkEvent *event, GO3DRotationSel *g3d)
 {
 	int angle = gtk_range_get_value (GTK_RANGE (range));
 	g3d->fov = angle * M_PI / 180;

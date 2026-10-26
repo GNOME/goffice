@@ -85,7 +85,7 @@ on_quit (G_GNUC_UNUSED GtkMenuItem *menuitem, gpointer user_data)
 }
 
 static void
-btn_regen_clicked (G_GNUC_UNUSED GtkButton *button, gpointer user_data)
+btn_regen_clicked (G_GNUC_UNUSED GtkWidget *widget, gpointer user_data)
 {
 	GODemoPrivate *priv = (GODemoPrivate *)user_data;
 	int i;

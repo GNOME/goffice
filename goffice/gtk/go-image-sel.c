@@ -44,7 +44,7 @@ struct _GOImageSelState {
 	char *name;
 };
 
-static void
+static gboolean
 cb_entry_focus_out (GtkEntry *entry, G_GNUC_UNUSED GdkEvent *event, GOImageSelState *state)
 {
 	char const *new_name = gtk_entry_get_text (entry);
@@ -52,6 +52,7 @@ cb_entry_focus_out (GtkEntry *entry, G_GNUC_UNUSED GdkEvent *event, GOImageSelSt
 		g_free (state->name);
 		state->name = g_strdup (new_name);
 	}
+	return FALSE;
 }
 
 static void

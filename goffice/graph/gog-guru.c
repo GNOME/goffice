@@ -1149,7 +1149,7 @@ graph_guru_init_ok_button (GraphGuruState *s)
 	return GTK_WIDGET (button);
 }
 
-static void
+static gboolean
 typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 {
 	GtkWidget *w = gtk_entry_new ();
@@ -1174,6 +1174,8 @@ typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 	g_object_ref_sink (w);
 	gtk_widget_destroy (w);
 	g_object_unref (w);
+
+	return FALSE;
 }
 
 static GtkWidget *

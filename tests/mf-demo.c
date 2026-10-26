@@ -27,7 +27,7 @@ on_quit (G_GNUC_UNUSED GtkMenuItem *menuitem, gpointer user_data)
 	gtk_main_quit ();
 }
 
-static void
+static gboolean
 my_test (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 {
 	double ppu=1.;
@@ -40,6 +40,7 @@ my_test (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 		ppu = ppu * 1.5;
 		goc_canvas_set_pixels_per_unit (canvas, ppu);
 	}
+	return FALSE;
 }
 
 static void

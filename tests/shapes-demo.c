@@ -67,7 +67,7 @@ on_open(GocCanvas *canvas)
 
 
 
-static void
+static gboolean
 my_test (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 {
 	GocItem *item;
@@ -78,7 +78,7 @@ my_test (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 	g_print ("# %.0f %.0f Button: %d. ", event->x, event->y, event->button);
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
-		return;
+		return FALSE;
 
 	x = (canvas->direction == GOC_DIRECTION_RTL)?
 		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
@@ -105,6 +105,7 @@ my_test (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 		}
 		g_print ("\n");
 	}
+	return FALSE;
 }
 
 static void

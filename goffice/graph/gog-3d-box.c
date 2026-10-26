@@ -78,7 +78,7 @@ cb_fov_changed (G_GNUC_UNUSED GO3DRotationSel *g3d, int angle, GObject *gobj)
 }
 
 static gboolean
-cb_box_psi_changed (GtkScale *scale_widget, G_GNUC_UNUSED GdkEventButton *event,
+cb_box_psi_changed (GtkScale *scale_widget, G_GNUC_UNUSED GdkEvent *event,
                     GObject *gobj)
 {
 	Gog3DBox *box = GOG_3D_BOX (gobj);
@@ -92,7 +92,7 @@ cb_box_psi_changed (GtkScale *scale_widget, G_GNUC_UNUSED GdkEventButton *event,
 }
 
 static gboolean
-cb_box_theta_changed (GtkScale *scale_widget, G_GNUC_UNUSED GdkEventButton *event,
+cb_box_theta_changed (GtkScale *scale_widget, G_GNUC_UNUSED GdkEvent *event,
                       GObject *gobj)
 {
 	Gog3DBox *box = GOG_3D_BOX (gobj);
@@ -106,7 +106,7 @@ cb_box_theta_changed (GtkScale *scale_widget, G_GNUC_UNUSED GdkEventButton *even
 }
 
 static gboolean
-cb_box_phi_changed (GtkScale *scale_widget, G_GNUC_UNUSED GdkEventButton *event,
+cb_box_phi_changed (GtkScale *scale_widget, G_GNUC_UNUSED GdkEvent *event,
                     GObject *gobj)
 {
 	Gog3DBox *box = GOG_3D_BOX (gobj);
