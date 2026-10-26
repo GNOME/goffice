@@ -32,21 +32,21 @@ G_BEGIN_DECLS
 
 GType  go_cmd_context_get_type (void);
 
-void   go_cmd_context_error	    (GOCmdContext *cc, GError *err);
-char  *go_cmd_context_get_password  (GOCmdContext *cc, char const *fname);
-void   go_cmd_context_set_sensitive (GOCmdContext *cc, gboolean flag);
+void   go_cmd_context_error	    (GOCmdContext *context, GError *err);
+char  *go_cmd_context_get_password  (GOCmdContext *context, char const *filename);
+void   go_cmd_context_set_sensitive (GOCmdContext *context, gboolean sensitive);
 
 /* utility routines for common errors */
-void   go_cmd_context_error_system  (GOCmdContext *cc, char const *msg);
-void   go_cmd_context_error_import  (GOCmdContext *cc, char const *msg);
-void   go_cmd_context_error_export  (GOCmdContext *cc, char const *msg);
-void   go_cmd_context_error_invalid (GOCmdContext *cc,
+void   go_cmd_context_error_system  (GOCmdContext *context, char const *msg);
+void   go_cmd_context_error_import  (GOCmdContext *context, char const *msg);
+void   go_cmd_context_error_export  (GOCmdContext *context, char const *msg);
+void   go_cmd_context_error_invalid (GOCmdContext *context,
 				     char const *msg, char const *val);
-void   go_cmd_context_error_info    (GOCmdContext *cc, GOErrorInfo *stack);
-void   go_cmd_context_error_info_list (GOCmdContext *cc, GSList *stack);
+void   go_cmd_context_error_info    (GOCmdContext *context, GOErrorInfo *stack);
+void   go_cmd_context_error_info_list (GOCmdContext *context, GSList *stack);
 
-void   go_cmd_context_progress_set	   (GOCmdContext *gcc, double f);
-void   go_cmd_context_progress_message_set (GOCmdContext *gcc, char const *msg);
+void   go_cmd_context_progress_set	   (GOCmdContext *context, double f);
+void   go_cmd_context_progress_message_set (GOCmdContext *context, char const *msg);
 
 /* An initial set of std errors */
 GQuark go_error_system  (void);

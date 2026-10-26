@@ -45,6 +45,13 @@ format_message (GQuark id, char const *message)
 	return g_error_new_literal (id, 0, msg);
 }
 
+/**
+ * go_cmd_context_error:
+ * @context: a #GOCmdContext
+ * @err: (transfer full): a #GError
+ *
+ * Report @err to @context.
+ **/
 void
 go_cmd_context_error (GOCmdContext *context, GError *err)
 {
@@ -52,6 +59,13 @@ go_cmd_context_error (GOCmdContext *context, GError *err)
 	GCC_CLASS (context)->error.error (context, err);
 }
 
+/**
+ * go_cmd_context_error_info:
+ * @context: a #GOCmdContext
+ * @stack: (transfer none) (nullable): a #GOErrorInfo
+ *
+ * Report @stack to @context.
+ **/
 void
 go_cmd_context_error_info (GOCmdContext *context, GOErrorInfo *stack)
 {
@@ -61,50 +75,92 @@ go_cmd_context_error_info (GOCmdContext *context, GOErrorInfo *stack)
 
 /**
  * go_cmd_context_error_info_list:
- * @cc: #GOCmdContext
- * @stack: (element-type GOErrorInfo): a list of errors
+ * @context: a #GOCmdContext
+ * @stack: (element-type GOErrorInfo) (transfer none) (nullable): a list of #GOErrorInfo
  *
  * Sends a list of errors to the command context.
  **/
 void
-go_cmd_context_error_info_list (GOCmdContext *cc, GSList *stack)
+go_cmd_context_error_info_list (GOCmdContext *context, GSList *stack)
 {
-	g_return_if_fail (GO_IS_CMD_CONTEXT (cc));
-	GCC_CLASS (cc)->error.error_info_list (cc, stack);
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
+	GCC_CLASS (context)->error.error_info_list (context, stack);
 }
 
+/**
+ * go_cmd_context_error_system:
+ * @context: a #GOCmdContext
+ * @msg: (nullable): an error message
+ *
+ * Report a system error to @context.
+ **/
 void
-go_cmd_context_error_system (GOCmdContext *context, char const *message)
+go_cmd_context_error_system (GOCmdContext *context, char const *msg)
 {
-	GError *err = format_message (go_error_system (), message);
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
+
+	GError *err = format_message (go_error_system (), msg);
 	go_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
+/**
+ * go_cmd_context_error_import:
+ * @context: a #GOCmdContext
+ * @msg: (nullable): an error message
+ *
+ * Report an import error to @context.
+ **/
 void
-go_cmd_context_error_import (GOCmdContext *context, char const *message)
+go_cmd_context_error_import (GOCmdContext *context, char const *msg)
 {
-	GError *err = format_message (go_error_import (), message);
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
+
+	GError *err = format_message (go_error_import (), msg);
 	go_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
+/**
+ * go_cmd_context_error_export:
+ * @context: a #GOCmdContext
+ * @msg: (nullable): an error message
+ *
+ * Report an export error to @context.
+ **/
 void
-go_cmd_context_error_export (GOCmdContext *context, char const *message)
+go_cmd_context_error_export (GOCmdContext *context, char const *msg)
 {
-	GError *err = format_message (go_error_export (), message);
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
+
+	GError *err = format_message (go_error_export (), msg);
 	go_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
+/**
+ * go_cmd_context_error_invalid:
+ * @context: a #GOCmdContext
+ * @msg: the name of the invalid item
+ * @val: the invalid value
+ *
+ * Report an invalid value error to @context.
+ **/
 void
 go_cmd_context_error_invalid (GOCmdContext *context, char const *msg, char const *val)
 {
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
+
 	GError *err = g_error_new (go_error_invalid(), 0, _("Invalid %s: '%s'"), msg, val);
 	go_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
+/**
+ * go_error_system:
+ *
+ * Returns: #GQuark for system errors.
+ **/
 GQuark
 go_error_system (void)
 {
@@ -113,6 +169,12 @@ go_error_system (void)
 		quark = g_quark_from_static_string ("go_error_system");
 	return quark;
 }
+
+/**
+ * go_error_import:
+ *
+ * Returns: #GQuark for import errors.
+ **/
 GQuark
 go_error_import (void)
 {
@@ -121,6 +183,12 @@ go_error_import (void)
 		quark = g_quark_from_static_string ("go_error_import");
 	return quark;
 }
+
+/**
+ * go_error_export:
+ *
+ * Returns: #GQuark for export errors.
+ **/
 GQuark
 go_error_export (void)
 {
@@ -129,6 +197,12 @@ go_error_export (void)
 		quark = g_quark_from_static_string ("go_error_export");
 	return quark;
 }
+
+/**
+ * go_error_invalid:
+ *
+ * Returns: #GQuark for invalid value errors.
+ **/
 GQuark
 go_error_invalid (void)
 {
@@ -138,6 +212,13 @@ go_error_invalid (void)
 	return quark;
 }
 
+/**
+ * go_cmd_context_progress_set:
+ * @context: a #GOCmdContext
+ * @f: progress fraction between 0 and 1
+ *
+ * Update the progress indicator for @context to @f.
+ **/
 void
 go_cmd_context_progress_set (GOCmdContext *context, double f)
 {
@@ -147,6 +228,13 @@ go_cmd_context_progress_set (GOCmdContext *context, double f)
 		GCC_CLASS (context)->progress_set (context, f);
 }
 
+/**
+ * go_cmd_context_progress_message_set:
+ * @context: a #GOCmdContext
+ * @msg: (nullable): progress message
+ *
+ * Set the progress message for @context.
+ **/
 void
 go_cmd_context_progress_message_set (GOCmdContext *context, gchar const *msg)
 {
@@ -159,23 +247,39 @@ go_cmd_context_progress_message_set (GOCmdContext *context, gchar const *msg)
 		GCC_CLASS (context)->progress_message_set (context, msg);
 }
 
+/**
+ * go_cmd_context_get_password:
+ * @context: a #GOCmdContext
+ * @filename: (nullable): the filename for which a password is needed
+ *
+ * Request a password from @context.
+ *
+ * Returns: (transfer full) (nullable): a newly allocated password string, or %NULL
+ **/
 char *
-go_cmd_context_get_password (GOCmdContext *cc, char const *filename)
+go_cmd_context_get_password (GOCmdContext *context, char const *filename)
 {
-	g_return_val_if_fail (GO_IS_CMD_CONTEXT (cc), NULL);
+	g_return_val_if_fail (GO_IS_CMD_CONTEXT (context), NULL);
 
-	return GCC_CLASS (cc)->get_password
-		? GCC_CLASS (cc)->get_password (cc, filename)
+	return GCC_CLASS (context)->get_password
+		? GCC_CLASS (context)->get_password (context, filename)
 		: NULL;
 }
 
+/**
+ * go_cmd_context_set_sensitive:
+ * @context: a #GOCmdContext
+ * @sensitive: whether the context should be sensitive
+ *
+ * Set sensitivity of @context.
+ **/
 void
-go_cmd_context_set_sensitive (GOCmdContext *cc, gboolean sensitive)
+go_cmd_context_set_sensitive (GOCmdContext *context, gboolean sensitive)
 {
-	g_return_if_fail (GO_IS_CMD_CONTEXT (cc));
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 
-	if (GCC_CLASS (cc)->set_sensitive)
-		GCC_CLASS (cc)->set_sensitive (cc, sensitive);
+	if (GCC_CLASS (context)->set_sensitive)
+		GCC_CLASS (context)->set_sensitive (context, sensitive);
 }
 
 
