@@ -39,6 +39,14 @@ struct _GOErrorInfo {
 	unsigned ref_count;
 };
 
+/**
+ * go_error_info_new_str:
+ * @msg: (nullable): error message
+ *
+ * Creates a new #GOErrorInfo with severity %GO_ERROR and no details.
+ *
+ * Returns: (transfer full): the newly created #GOErrorInfo
+ **/
 GOErrorInfo *
 go_error_info_new_str (char const *msg)
 {
@@ -50,6 +58,17 @@ go_error_info_new_str (char const *msg)
 	return error;
 }
 
+/**
+ * go_error_info_new_vprintf:
+ * @severity: severity of the error, either %GO_WARNING or %GO_ERROR
+ * @msg_format: printf-style format string for the error message
+ * @args: arguments for @msg_format
+ *
+ * Creates a new #GOErrorInfo with the given @severity and a message built
+ * from @msg_format and @args.
+ *
+ * Returns: (transfer full): the newly created #GOErrorInfo
+ **/
 GOErrorInfo *
 go_error_info_new_vprintf (GOSeverity severity, char const *msg_format,
 			va_list args)
@@ -68,6 +87,16 @@ go_error_info_new_vprintf (GOSeverity severity, char const *msg_format,
 }
 
 
+/**
+ * go_error_info_new_printf:
+ * @msg_format: printf-style format string for the error message
+ * @...: arguments for @msg_format
+ *
+ * Creates a new #GOErrorInfo with severity %GO_ERROR and a message built
+ * from @msg_format and the provided arguments.
+ *
+ * Returns: (transfer full): the newly created #GOErrorInfo
+ **/
 GOErrorInfo *
 go_error_info_new_printf (char const *msg_format, ...)
 {
@@ -83,11 +112,12 @@ go_error_info_new_printf (char const *msg_format, ...)
 
 /**
  * go_error_info_new_str_with_details:
- * @msg: error message
- * @details: #GOErrorInfo to add
+ * @msg: (nullable): error message
+ * @details: (transfer full) (nullable): #GOErrorInfo to add
  *
- * Creates a new #GOErrorInfo from @message and an existing #GOErrorInfo
+ * Creates a new #GOErrorInfo from @msg and an existing #GOErrorInfo
  * instance to add to the message.
+ *
  * Returns: (transfer full): the newly created #GOErrorInfo
  **/
 GOErrorInfo *
@@ -100,11 +130,13 @@ go_error_info_new_str_with_details (char const *msg, GOErrorInfo *details)
 
 /**
  * go_error_info_new_str_with_details_list:
- * @msg: error message
- * @details: (element-type GOErrorInfo): a list of #GOErrorInfo to add
+ * @msg: (nullable): error message
+ * @details: (element-type GOErrorInfo) (transfer full) (nullable): a list of
+ *           #GOErrorInfo to add
  *
- * Creates a new #GOErrorInfo from @message and a list of existing #GOErrorInfo
+ * Creates a new #GOErrorInfo from @msg and a list of existing #GOErrorInfo
  * instances to add to the message.
+ *
  * Returns: (transfer full): the newly created #GOErrorInfo
  **/
 GOErrorInfo *
@@ -117,11 +149,15 @@ go_error_info_new_str_with_details_list (char const *msg, GSList *details)
 
 /**
  * go_error_info_new_from_error_list:
- * @errors: (element-type GOErrorInfo): a list of #GOErrorInfo to add
+ * @errors: (element-type GOErrorInfo) (transfer full) (nullable): a list of
+ *          #GOErrorInfo
  *
- * Creates a new #GOErrorInfo from a list of existing #GOErrorInfo
- * instances to add to the message.
- * Returns: (transfer full): the newly created #GOErrorInfo
+ * Creates a new #GOErrorInfo from @errors. If @errors contains a single
+ * error, that error is returned directly; otherwise the errors are attached
+ * as details to a new error with no message.
+ *
+ * Returns: (transfer full) (nullable): the new #GOErrorInfo, or %NULL if
+ * @errors is empty
  **/
 GOErrorInfo *
 go_error_info_new_from_error_list (GSList *errors)
@@ -133,7 +169,7 @@ go_error_info_new_from_error_list (GSList *errors)
 		error = NULL;
 		break;
 	case 1:
-		error = (GOErrorInfo *) errors->data;
+		error = errors->data;
 		g_slist_free (errors);
 		break;
 	default:
@@ -144,29 +180,71 @@ go_error_info_new_from_error_list (GSList *errors)
 	return error;
 }
 
+/**
+ * go_error_info_new_from_errno:
+ *
+ * Creates a new #GOErrorInfo with severity %GO_ERROR and a message
+ * describing the current value of `errno` (see g_strerror()).
+ *
+ * Returns: (transfer full): the newly created #GOErrorInfo
+ **/
 GOErrorInfo *
 go_error_info_new_from_errno (void)
 {
 	return go_error_info_new_str (g_strerror (errno));
 }
 
+static GOErrorInfo *
+go_error_info_deep_copy (GOErrorInfo const *error)
+{
+	GOErrorInfo *copy;
+
+	g_return_val_if_fail (error != NULL, NULL);
+
+	copy = go_error_info_new_str (error->msg);
+	copy->severity = error->severity;
+	copy->details = g_slist_copy_deep (error->details,
+					   (GCopyFunc) go_error_info_deep_copy,
+					   NULL);
+
+	return copy;
+}
+
+static GOErrorInfo *
+go_error_info_unshare (GOErrorInfo *error)
+{
+	GOErrorInfo *copy;
+
+	if (error == NULL || error->ref_count == 1)
+		return error;
+
+	copy = go_error_info_deep_copy (error);
+	go_error_info_free (error);
+	return copy;
+}
+
 /**
  * go_error_info_add_details:
  * @error: #GOErrorInfo
- * @details:  #GOErrorInfo to add
+ * @details: (transfer full) (nullable): #GOErrorInfo to add
  *
- * Adds an existing #GOErrorInfo instance to @error.
+ * Takes ownership of @details and adds it to the details of @error. If
+ * @details has no message, its details are merged into @error and the empty
+ * container is released. Does nothing if @details is %NULL.
  **/
 void
 go_error_info_add_details (GOErrorInfo *error, GOErrorInfo *details)
 {
 	g_return_if_fail (error != NULL);
 
+	details = go_error_info_unshare (details);
 	if (details == NULL)
 		;
 	else if (details->msg == NULL) {
-		error->details = g_slist_concat (error->details, details->details);
-		g_free (details);
+		GSList *details_list = details->details;
+		details->details = NULL;
+		error->details = g_slist_concat (error->details, details_list);
+		go_error_info_free (details);
 	} else
 		error->details = g_slist_append (error->details, details);
 }
@@ -174,9 +252,12 @@ go_error_info_add_details (GOErrorInfo *error, GOErrorInfo *details)
 /**
  * go_error_info_add_details_list:
  * @error: #GOErrorInfo
- * @details: (element-type GOErrorInfo): a list of #GOErrorInfo to add
+ * @details: (element-type GOErrorInfo) (transfer full) (nullable): a list of
+ *           #GOErrorInfo to add
  *
- * Adds a list of existing #GOErrorInfo instances to @error.
+ * Takes ownership of @details and all its elements, adding them to the
+ * details of @error. Empty containers in @details are replaced by their own
+ * details. Does nothing if @details is %NULL.
  **/
 void
 go_error_info_add_details_list (GOErrorInfo *error, GSList *details)
@@ -187,11 +268,16 @@ go_error_info_add_details_list (GOErrorInfo *error, GSList *details)
 
 	new_details_list = NULL;
 	for (l = details; l != NULL; l = l->next) {
-		GOErrorInfo *details_error = l->data;
+		GOErrorInfo *details_error = go_error_info_unshare (l->data);
+		if (details_error == NULL)
+			continue;
 		if (details_error->msg == NULL) {
-			for (ll = details_error->details; ll != NULL; ll = ll->next)
-				new_details_list = g_slist_prepend (new_details_list, l->data);
-			g_free (details_error);
+			GSList *details_list = details_error->details;
+			details_error->details = NULL;
+			for (ll = details_list; ll != NULL; ll = ll->next)
+				new_details_list = g_slist_prepend (new_details_list, ll->data);
+			g_slist_free (details_list);
+			go_error_info_free (details_error);
 		} else
 			new_details_list = g_slist_prepend (new_details_list, details_error);
 	}
@@ -200,6 +286,13 @@ go_error_info_add_details_list (GOErrorInfo *error, GSList *details)
 	error->details = g_slist_concat (error->details, new_details_list);
 }
 
+/**
+ * go_error_info_free:
+ * @error: (nullable): #GOErrorInfo to free
+ *
+ * Releases a reference on @error. When the last reference is released, the
+ * message and all attached details are freed. Does nothing if @error is %NULL.
+ **/
 void
 go_error_info_free (GOErrorInfo *error)
 {
@@ -209,10 +302,13 @@ go_error_info_free (GOErrorInfo *error)
 		return;
 
 	g_free (error->msg);
-	for (l = error->details; l != NULL; l = l->next)
-		go_error_info_free ((GOErrorInfo *) l->data);
 
+	for (l = error->details; l != NULL; l = l->next) {
+		GOErrorInfo *ei = l->data;
+		go_error_info_free (ei);
+	}
 	g_slist_free (error->details);
+
 	g_free(error);
 }
 
@@ -231,10 +327,20 @@ go_error_info_print_with_offset (GOErrorInfo *error, gint offset)
 		g_printerr ("%*s%c %s\n", offset, "", c, error->msg);
 		offset += 2;
 	}
-	for (l = error->details; l != NULL; l = l->next)
-		go_error_info_print_with_offset ((GOErrorInfo *) l->data, offset);
+	for (l = error->details; l != NULL; l = l->next) {
+		GOErrorInfo *ei = l->data;
+		go_error_info_print_with_offset (ei, offset);
+	}
 }
 
+/**
+ * go_error_info_print:
+ * @error: #GOErrorInfo to print
+ *
+ * Prints @error and all its details to standard error. Messages are prefixed
+ * with `E` or `W` according to their severity, and details are indented
+ * below their parent.
+ **/
 void
 go_error_info_print (GOErrorInfo *error)
 {
@@ -243,6 +349,13 @@ go_error_info_print (GOErrorInfo *error)
 	go_error_info_print_with_offset (error, 0);
 }
 
+/**
+ * go_error_info_peek_message:
+ * @error: #GOErrorInfo
+ *
+ * Returns: (nullable) (transfer none): the message in @error, or %NULL for an
+ * error that only contains details
+ **/
 char const *
 go_error_info_peek_message (GOErrorInfo *error)
 {
@@ -253,10 +366,10 @@ go_error_info_peek_message (GOErrorInfo *error)
 
 /**
  * go_error_info_peek_details:
- * @error: error message
+ * @error: #GOErrorInfo
  *
- * Returns: (element-type GOErrorInfo) (transfer full): the newly details
- * in @error
+ * Returns: (element-type GOErrorInfo) (transfer none) (nullable): the details
+ * in @error, or %NULL if there are none
  **/
 GSList *
 go_error_info_peek_details (GOErrorInfo *error)
@@ -266,6 +379,12 @@ go_error_info_peek_details (GOErrorInfo *error)
 	return error->details;
 }
 
+/**
+ * go_error_info_peek_severity:
+ * @error: #GOErrorInfo
+ *
+ * Returns: the severity of @error
+ **/
 GOSeverity
 go_error_info_peek_severity (GOErrorInfo *error)
 {
@@ -281,6 +400,11 @@ go_error_info_ref (GOErrorInfo *error)
 	return error;
 }
 
+/**
+ * go_error_info_get_type:
+ *
+ * Returns: the #GType for #GOErrorInfo
+ **/
 GType
 go_error_info_get_type (void)
 {
