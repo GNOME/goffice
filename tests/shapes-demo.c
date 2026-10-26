@@ -332,7 +332,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 
 
 static void
-enter_callback (GocCanvas* canvas, GtkWidget *entry, G_GNUC_UNUSED gpointer data)
+enter_callback (GocCanvas* canvas, GtkWidget *entry)
 {
 	char *entry_text;
 	const gchar *clean = "";
