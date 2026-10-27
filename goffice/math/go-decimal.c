@@ -143,21 +143,29 @@ enum {
 
 // ---------------------------------------------------------------------------
 
-static char *decimal_point_str;
+static char *decimal_point_raw;  // locale encoded
+static char *decimal_point_str;  // UTF-8
 
 static const char *
 decimal_point (void)
 {
 	struct lconv *lc = localeconv ();
+	const char *raw = lc->decimal_point;
 
-	if (lc->decimal_point == NULL || lc->decimal_point[0] == 0)
+	if (raw == NULL || raw[0] == 0)
 		return ".";
 
-	g_free (decimal_point_str);
-	decimal_point_str = g_locale_to_utf8 (lc->decimal_point, -1,
-					      NULL, NULL, NULL);
-	if (decimal_point_str == NULL || decimal_point_str[0] == 0)
-		return ".";
+	if (decimal_point_raw == NULL || strcmp (raw, decimal_point_raw) != 0) {
+		// Cache miss
+		g_free (decimal_point_raw);
+		g_free (decimal_point_str);
+		decimal_point_raw = g_strdup (raw);
+		decimal_point_str = g_locale_to_utf8 (raw, -1, NULL, NULL, NULL);
+		if (decimal_point_str == NULL || decimal_point_str[0] == 0) {
+			g_free (decimal_point_str);
+			decimal_point_str = g_strdup (".");
+		}
+	}
 
 	return decimal_point_str;
 }
