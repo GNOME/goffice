@@ -1,7 +1,9 @@
 check_PROGRAMS=test-quad test-math test-format test-dtoa test-decimal	\
 	test-classify test-complex constants
 if WITH_GTK
+if WITH_GTK_3
 check_PROGRAMS += pie-demo go-demo shapes-demo mf-demo
+endif
 endif
 
 include $(top_srcdir)/goffice.mk

@@ -509,11 +509,21 @@ libgoffice_@GOFFICE_API_VER@_la_SOURCES = 	\
 	$(utils_SOURCES)
 
 if WITH_GTK
+if WITH_GTK_4
+# In Phase 1 of the GTK4 port, GTK3-specific sources are excluded from compilation
+# and will be added back as they are ported in subsequent phases.
+EXTRA_DIST += \
+	$(canvas_gtk_SOURCES) \
+	$(component_SOURCES) \
+	$(graph_gtk_SOURCES) \
+	$(gtk_SOURCES)
+else
 libgoffice_@GOFFICE_API_VER@_la_SOURCES += 	\
 	$(canvas_gtk_SOURCES) \
 	$(component_SOURCES) \
 	$(graph_gtk_SOURCES) \
 	$(gtk_SOURCES)
+endif
 else
 EXTRA_DIST += \
 	$(canvas_gtk_SOURCES) \
@@ -563,11 +573,15 @@ ALL_HDRS = goffice.h $(app_HEADERS) \
 	$(utils_HEADERS)
 
 if WITH_GTK
+if WITH_GTK_4
+# In Phase 1 of the GTK4 port, GTK3-specific headers are not installed
+else
 ALL_HDRS += \
 	$(canvas_gtk_HEADERS) \
 	$(component_HEADERS) \
 	$(graph_gtk_HEADERS) \
 	$(gtk_HEADERS)
+endif
 endif
 
 if GOFFICE_WITH_LASEM

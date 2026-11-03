@@ -1,3 +1,8 @@
+if WITH_GTK_4
+SUBDIRS = \
+	reg_linear \
+	reg_logfit
+else
 SUBDIRS = \
 	plot_pie \
 	plot_barcol \
@@ -12,4 +17,5 @@ SUBDIRS = \
 if GOFFICE_WITH_LASEM
 SUBDIRS += \
 	lasem
+endif
 endif

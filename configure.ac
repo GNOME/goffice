@@ -128,8 +128,11 @@ goffice_reqs="
 	libxslt
 "
 
-goffice_gtk_reqs="
+goffice_gtk3_reqs="
 	gtk+-3.0		>= 3.20.0
+"
+goffice_gtk4_reqs="
+	gtk4			>= 4.10.0
 "
 
 surfaces_reqs="
@@ -364,24 +367,63 @@ AM_CONDITIONAL(WITH_LIBRSVG, [! test "x$with_librsvg" = xno])
 dnl *******************
 dnl Should we use gtk ?
 dnl *******************
+AC_ARG_WITH(gtk,
+	[AS_HELP_STRING([--with-gtk=@<:@3|4|no@:>@], [Which GTK version to build against (default=3)])],
+	[with_gtk_val=$withval], [with_gtk_val=3])
+
 goffice_with_gtk=true
-AC_ARG_WITH(gtk, [  --without-gtk           Build without UI])
-if test "x$with_gtk" = xno; then
-	ui_msg="None (Gtk disabled by request)"
+goffice_gtk_version=3
+GOFFICE_GTK_PC=""
+
+case "$with_gtk_val" in
+    no|none|false)
+	ui_msg="None (GTK disabled by request)"
 	goffice_with_gtk=false
-else
-	dnl We shouldn't silently default to --without-gtk.
-	dnl If the requirements are not met, fail.
-	ui_msg="Gtk"
-	PKG_CHECK_MODULES(GTK, [$goffice_gtk_reqs])
-fi
+	goffice_gtk_version=0
+	;;
+    3|gtk3)
+	ui_msg="GTK+ 3.x"
+	goffice_with_gtk=true
+	goffice_gtk_version=3
+	GOFFICE_GTK_PC="gtk+-3.0"
+	PKG_CHECK_MODULES(GTK, [$goffice_gtk3_reqs])
+	AC_DEFINE(GOFFICE_WITH_GTK3, 1, [Define if GTK 3 is used])
+	;;
+    4|gtk4)
+	ui_msg="GTK 4.x"
+	goffice_with_gtk=true
+	goffice_gtk_version=4
+	GOFFICE_GTK_PC="gtk4"
+	PKG_CHECK_MODULES(GTK, [$goffice_gtk4_reqs])
+	AC_DEFINE(GOFFICE_WITH_GTK4, 1, [Define if GTK 4 is used])
+	;;
+    yes|true)
+	ui_msg="GTK+ 3.x"
+	goffice_with_gtk=true
+	goffice_gtk_version=3
+	GOFFICE_GTK_PC="gtk+-3.0"
+	PKG_CHECK_MODULES(GTK, [$goffice_gtk3_reqs])
+	AC_DEFINE(GOFFICE_WITH_GTK3, 1, [Define if GTK 3 is used])
+	;;
+    *)
+	AC_MSG_ERROR([Invalid GTK version: $with_gtk_val. Valid choices are 3, 4, or no.])
+	;;
+esac
 
 if test "x$goffice_with_gtk" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_GTK, 1, [Define if UI is built])
-	goffice_reqs="$goffice_reqs $goffice_gtk_reqs"
+	if test "x$goffice_gtk_version" = "x3" ; then
+		goffice_reqs="$goffice_reqs $goffice_gtk3_reqs"
+	else
+		goffice_reqs="$goffice_reqs $goffice_gtk4_reqs"
+	fi
 fi
 
-AM_CONDITIONAL(WITH_GTK,   $goffice_with_gtk)
+AM_CONDITIONAL(WITH_GTK,   test "x$goffice_with_gtk" = "xtrue")
+AM_CONDITIONAL(WITH_GTK_3, test "x$goffice_gtk_version" = "x3")
+AM_CONDITIONAL(WITH_GTK_4, test "x$goffice_gtk_version" = "x4")
+AC_SUBST(GOFFICE_GTK_PC)
+AC_SUBST(GOFFICE_GTK_VERSION, $goffice_gtk_version)
 
 AC_DEFINE(GOFFICE_WITH_CAIRO, 1, [Goffice uses Cairo])
 
@@ -853,7 +895,7 @@ AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
 
 dnl AX_REQUIRE_DEFINED([GTK_DOC_CHECK])
 GTK_DOC_CHECK([1.12])
-if test "x$with_gtk" = "xno" -a "x$enable_gtk_doc" = "xyes"; then
+if test "x$goffice_with_gtk" = "xfalse" -a "x$enable_gtk_doc" = "xyes"; then
 	AC_MSG_ERROR([Building documentation is not allowed for a without Gtk+ build])
 fi
 
