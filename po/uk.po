@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/goffice/issues\n"
-"POT-Creation-Date: 2026-10-20 08:43+0000\n"
-"PO-Revision-Date: 2026-10-20 13:23+0300\n"
+"POT-Creation-Date: 2026-11-06 17:18+0000\n"
+"PO-Revision-Date: 2026-11-10 08:05+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -113,7 +113,7 @@ msgstr ""
 "Ви можете вимкнути цю можливість захисту редагуванням відповідного файла "
 "plugin.xml."
 
-#: ../goffice/app/go-cmd-context.c:103
+#: ../goffice/app/go-cmd-context.c:154
 #, c-format
 msgid "Invalid %s: '%s'"
 msgstr "Некоректний %s: «%s»"
@@ -174,7 +174,7 @@ msgstr "Збережений стан"
 msgid "State of document when last saved"
 msgstr "Стан документа у момент останнього збереження"
 
-#: ../goffice/app/go-doc.c:626 ../goffice/canvas/goc-image.c:337
+#: ../goffice/app/go-doc.c:641 ../goffice/canvas/goc-image.c:337
 #: ../goffice/utils/go-style-prefs.ui.h:14
 msgid "Image"
 msgstr "Зображення"
@@ -345,15 +345,15 @@ msgstr "Помилки під час активації додатків."
 msgid "Errors while initializing plugin system."
 msgstr "Помилка під час ініціалізації системи додатків."
 
-#: ../goffice/app/go-plugin-loader.c:83
+#: ../goffice/app/go-plugin-loader.c:88
 msgid "Loader has no set_attributes method.\n"
 msgstr "У завантажувачі немає методу set_attributes.\n"
 
-#: ../goffice/app/go-plugin-loader.c:98
+#: ../goffice/app/go-plugin-loader.c:103
 msgid "Loader has no load_base method.\n"
 msgstr "У завантажувачі немає методу load_base.\n"
 
-#: ../goffice/app/go-plugin-loader.c:143 ../goffice/app/go-plugin-loader.c:181
+#: ../goffice/app/go-plugin-loader.c:148 ../goffice/app/go-plugin-loader.c:186
 #, c-format
 msgid "Service '%s' not supported by loader."
 msgstr "У завантажувачі не передбачено підтримки служби «%s»."
@@ -607,7 +607,7 @@ msgstr "Стрілка для кінця лінії"
 
 #: ../goffice/canvas/goc-canvas.c:356 ../goffice/canvas/goc-component.c:314
 #: ../goffice/canvas/goc-component.c:315 ../goffice/canvas/goc-ellipse.c:303
-#: ../goffice/canvas/goc-graph.c:496 ../goffice/canvas/goc-graph.c:497
+#: ../goffice/canvas/goc-graph.c:593 ../goffice/canvas/goc-graph.c:594
 #: ../goffice/canvas/goc-image.c:320 ../goffice/canvas/goc-pixbuf.c:253
 #: ../goffice/canvas/goc-rectangle.c:350 ../goffice/canvas/goc-widget.c:878
 #: ../goffice/graph/gog-color-scale.c:334 ../goffice/graph/gog-graph.c:499
@@ -622,7 +622,7 @@ msgstr "Ширина полотна"
 
 #: ../goffice/canvas/goc-canvas.c:362 ../goffice/canvas/goc-component.c:308
 #: ../goffice/canvas/goc-component.c:309 ../goffice/canvas/goc-ellipse.c:309
-#: ../goffice/canvas/goc-graph.c:490 ../goffice/canvas/goc-graph.c:491
+#: ../goffice/canvas/goc-graph.c:587 ../goffice/canvas/goc-graph.c:588
 #: ../goffice/canvas/goc-image.c:326 ../goffice/canvas/goc-pixbuf.c:259
 #: ../goffice/canvas/goc-rectangle.c:356 ../goffice/canvas/goc-widget.c:884
 #: ../goffice/graph/gog-graph.c:505 ../goffice/graph/gog-object.c:209
@@ -635,7 +635,7 @@ msgid "The height of the canvas"
 msgstr "Висота полотна"
 
 #: ../goffice/canvas/goc-circle.c:188 ../goffice/canvas/goc-component.c:296
-#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:478
+#: ../goffice/canvas/goc-ellipse.c:291 ../goffice/canvas/goc-graph.c:575
 #: ../goffice/canvas/goc-group.c:302 ../goffice/canvas/goc-image.c:308
 #: ../goffice/canvas/goc-path.c:308 ../goffice/canvas/goc-pixbuf.c:241
 #: ../goffice/canvas/goc-rectangle.c:338 ../goffice/canvas/goc-text.c:444
@@ -648,7 +648,7 @@ msgid "The circle center horizontal position"
 msgstr "Позиція центра кола за горизонталлю"
 
 #: ../goffice/canvas/goc-circle.c:194 ../goffice/canvas/goc-component.c:302
-#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:484
+#: ../goffice/canvas/goc-ellipse.c:297 ../goffice/canvas/goc-graph.c:581
 #: ../goffice/canvas/goc-group.c:308 ../goffice/canvas/goc-image.c:314
 #: ../goffice/canvas/goc-path.c:314 ../goffice/canvas/goc-pixbuf.c:247
 #: ../goffice/canvas/goc-rectangle.c:344 ../goffice/canvas/goc-text.c:450
@@ -705,41 +705,40 @@ msgid "The ellipse height"
 msgstr "Висота еліпса"
 
 #: ../goffice/canvas/goc-ellipse.c:316
-#| msgid "The rotation around center"
 msgid "The rotation around the ellipse center"
 msgstr "Обертання навколо центра еліпса"
 
 #. Note to translators: the following is a format string for a pair of coordinates.  If your locale uses decimal comma then you should probably translate the comma here to a semi-colon.
-#: ../goffice/canvas/goc-graph.c:407
+#: ../goffice/canvas/goc-graph.c:376 ../goffice/canvas/goc-graph.c:504
 #, c-format
 msgid "(%s,%s)"
 msgstr "(%s;%s)"
 
-#: ../goffice/canvas/goc-graph.c:479
+#: ../goffice/canvas/goc-graph.c:576
 msgid "The graph left position"
 msgstr "Позиція графіка від лівого краю"
 
-#: ../goffice/canvas/goc-graph.c:485
+#: ../goffice/canvas/goc-graph.c:582
 msgid "The graph top position"
 msgstr "Позиція графіка від верхнього краю"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:502 ../goffice/graph/gog-graph.c:258
+#: ../goffice/canvas/goc-graph.c:599 ../goffice/graph/gog-graph.c:258
 #: ../goffice/graph/gog-graph.c:531 ../goffice/graph/gog-theme.c:596
 msgid "Graph"
 msgstr "Графік"
 
-#: ../goffice/canvas/goc-graph.c:503
+#: ../goffice/canvas/goc-graph.c:600
 msgid "The GogGraph this object displays"
 msgstr "GogGraph, який показує цей об'єкт"
 
-#: ../goffice/canvas/goc-graph.c:508 ../goffice/graph/gog-graph.c:1166
+#: ../goffice/canvas/goc-graph.c:605 ../goffice/graph/gog-graph.c:1166
 msgid "Renderer"
 msgstr "Відтворювач"
 
-#: ../goffice/canvas/goc-graph.c:509
+#: ../goffice/canvas/goc-graph.c:606
 msgid "The GogRenderer being displayed"
 msgstr "Показаний GogRenderer"
 
@@ -2077,7 +2076,7 @@ msgstr "Налаштувати діаграму"
 msgid "_Insert"
 msgstr "Вс_тавка"
 
-#: ../goffice/graph/gog-guru.c:1218
+#: ../goffice/graph/gog-guru.c:1220
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
 msgid "_Plot Type"
 msgstr "Тип _креслення"
@@ -2177,7 +2176,7 @@ msgstr "Показати рівняння на графіку"
 
 #: ../goffice/graph/gog-label.c:679
 msgid "Show R²"
-msgstr ""
+msgstr "Показати R²"
 
 #: ../goffice/graph/gog-label.c:680
 msgid "Show the coefficient of determination (R²) on the graph"
@@ -4730,11 +4729,11 @@ msgstr "пікселів/дюйм"
 msgid "Export settings"
 msgstr "Параметри експортування"
 
-#: ../goffice/gtk/go-image-sel.c:68
+#: ../goffice/gtk/go-image-sel.c:69
 msgid "New image name"
 msgstr "Назва нового зображення"
 
-#: ../goffice/gtk/go-image-sel.c:72
+#: ../goffice/gtk/go-image-sel.c:73
 #, c-format
 msgid "image%u"
 msgstr "зображення%u"
@@ -7942,12 +7941,16 @@ msgid ""
 "Label for the first Y category. If not set or empty, \"First values\" will "
 "be used."
 msgstr ""
+"Мітка для першої категорії Y. Якщо вона не задана або порожня, буде використа"
+"но значення «Перші значення»."
 
 #: ../plugins/plot_distrib/gog-histogram.c:453
 msgid ""
 "Label for the second Y category. If not set or empty, \"Second values\" will "
 "be used."
 msgstr ""
+"Мітка для другої категорії Y. Якщо вона не задана або порожня, буде використа"
+"но значення «Другі значення»."
 
 #: ../plugins/plot_distrib/gog-histogram.c:459
 msgid "Categories labels"
@@ -8001,7 +8004,7 @@ msgstr "Розподіл"
 #: ../plugins/plot_distrib/gog-probability-plot.c:158
 #: ../plugins/plot_distrib/plot-types.xml.in.h:27
 msgid "ProbabilityPlot"
-msgstr ""
+msgstr "ProbabilityPlot"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:290
 msgid "A pointer to the GODistribution used by this plot"
@@ -8049,7 +8052,7 @@ msgstr "Горизонтальний коробковий графік."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:4
 msgid "VBoxPlots"
-msgstr ""
+msgstr "VBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:5
 msgid "Vertical Box-Plot."
@@ -8057,19 +8060,19 @@ msgstr "Вертикальний коробковий графік."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
 msgid "HBoxPlotOutliers"
-msgstr ""
+msgstr "HBoxPlotOutliers"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:7
 msgid "Horizontal Box-Plot showing outliers."
-msgstr ""
+msgstr "Горизонтальна діаграма «ящик із вусами», де буде показано викиди."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:8
 msgid "VBoxPlotOutliers"
-msgstr ""
+msgstr "VBoxPlotOutliers"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:9
 msgid "Vertical Box-Plot showing outliers."
-msgstr ""
+msgstr "Вертикальна діаграма «ящик із вусами», де буде показано викиди."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:11
 msgid "Histogram."
@@ -8131,7 +8134,7 @@ msgstr "Розділення"
 
 #: ../plugins/plot_pie/gog-pie.c:112
 msgid "Amount a slice is extended as a percentage of the radius"
-msgstr ""
+msgstr "Величина висування сегмента у відсотках від радіуса"
 
 #: ../plugins/plot_pie/gog-pie.c:264
 msgid "PlotPie"
@@ -8151,15 +8154,15 @@ msgstr "Типове розділення"
 
 #: ../plugins/plot_pie/gog-pie.c:316 ../plugins/plot_pie/gog-pie.c:1302
 msgid "Default amount a slice is extended as a percentage of the radius"
-msgstr ""
+msgstr "Типова величина висування сегмента у відсотках від радіуса"
 
 #: ../plugins/plot_pie/gog-pie.c:322
 msgid "Draw 3DS wedges"
-msgstr ""
+msgstr "Малювати просторові клини"
 
 #: ../plugins/plot_pie/gog-pie.c:328
 msgid "Total angle used as a percentage of the full circle"
-msgstr ""
+msgstr "Загальний кут, виражений у відсотках від повного кола"
 
 #: ../plugins/plot_pie/gog-pie.c:333
 msgid "Show negative values"
