@@ -1531,7 +1531,7 @@
 /**
  * go_quad_expD:
  * @res: (out): result location
- * @expb: (out): (allow-none): power-of-base result scaling location
+ * @expb: (out) (optional): power-of-base result scaling location
  * @a: quad-precision value
  *
  * This function computes the exponential function at @a, storing the result
@@ -1543,7 +1543,7 @@
 /**
  * go_quad_expl:
  * @res: (out): result location
- * @expb: (out): (allow-none): power-of-base result scaling location
+ * @expb: (out) (optional): power-of-base result scaling location
  * @a: quad-precision value
  *
  * This function computes the exponential function at @a, storing the result
@@ -1945,7 +1945,7 @@
 /**
  * go_quad_powD:
  * @res: (out): result location
- * @expb: (out): (allow-none): power-of-base result scaling location
+ * @expb: (out) (optional): power-of-base result scaling location
  * @x: quad-precision value
  * @y: quad-precision value
  *
@@ -1960,7 +1960,7 @@
 /**
  * go_quad_powl:
  * @res: (out): result location
- * @expb: (out): (allow-none): power-of-base result scaling location
+ * @expb: (out) (optional): power-of-base result scaling location
  * @x: quad-precision value
  * @y: quad-precision value
  *

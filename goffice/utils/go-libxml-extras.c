@@ -470,7 +470,7 @@ go_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *child_name
 /**
  * go_xml_out_add_double:
  * @output: destination
- * @id: (allow-none): attribute name
+ * @id: (nullable): attribute name
  * @d: value
  *
  * Output a representation of @d that will be read back without loss of
@@ -489,7 +489,7 @@ go_xml_out_add_double (GsfXMLOut *output, char const *id, double d)
 /**
  * go_xml_out_add_long_double:
  * @output: destination
- * @id: (allow-none): attribute name
+ * @id: (nullable): attribute name
  * @ld: value
  *
  * Output a representation of @ld that will be read back without loss of
@@ -509,7 +509,7 @@ go_xml_out_add_long_double (GsfXMLOut *output, char const *id, long double ld)
 /**
  * go_xml_out_add_decimal64:
  * @output: destination
- * @id: (allow-none): attribute name
+ * @id: (nullable): attribute name
  * @d: value
  *
  * Output a representation of @d that will be read back without loss of
@@ -528,7 +528,7 @@ go_xml_out_add_decimal64 (GsfXMLOut *output, char const *id, _Decimal64 d)
 /**
  * go_xml_out_add_color:
  * @output: destination
- * @id: (allow-none): attribute name
+ * @id: (nullable): attribute name
  * @c: color
  *
  * Output a representation of @c.

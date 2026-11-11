@@ -1780,7 +1780,7 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
  * gog_object_add_by_role:
  * @parent: #GogObject
  * @role: #GogObjectRole
- * @child: (transfer full) (allow-none): #GogObject
+ * @child: (transfer full) (nullable): #GogObject
  *
  * Absorb a ref to @child if it is non-NULL.
  * Returns: (transfer none): @child or a newly created object with @role.
@@ -1828,7 +1828,7 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
  * gog_object_add_by_name:
  * @parent: #GogObject
  * @role:
- * @child: (transfer full) (allow-none): optionally null #GogObject
+ * @child: (transfer full) (nullable): optionally null #GogObject
  *
  * Returns: (transfer none):  a newly created child of @parent in @role.  If @child is provided,
  * it is assumed to be an unaffiliated object that will be assigned in @role.

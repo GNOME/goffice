@@ -202,8 +202,8 @@ go_locale_get_thousand (void)
 
 /**
  * go_locale_get_currency:
- * @precedes: (out): (allow-none): %TRUE if the currency symbol precedes the value.
- * @space_sep: (out): (allow-none): %TRUE if the currency symbol is separated by a space.
+ * @precedes: (out) (optional): %TRUE if the currency symbol precedes the value.
+ * @space_sep: (out) (optional): %TRUE if the currency symbol is separated by a space.
  *
  * Current locale's currency symbol.
  *

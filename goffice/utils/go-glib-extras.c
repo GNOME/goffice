@@ -86,7 +86,7 @@ go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 
 /**
  * go_slist_create:
- * @item1: (allow-none) (transfer none): first item
+ * @item1: (nullable) (transfer none): first item
  * @...: (transfer none): %NULL terminated list of additional items
  *
  * Creates a GList from NULL-terminated list of arguments.

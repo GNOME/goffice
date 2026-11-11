@@ -791,7 +791,7 @@ GSF_CLASS (GODataVectorStr, go_data_vector_str,
  * go_data_vector_str_new: (skip)
  * @str: (array length=n) (transfer container): the values.
  * @n: the values number.
- * @notify: (allow-none): callback to destroy the values if needed.
+ * @notify: (nullable): callback to destroy the values if needed.
  *
  * Returns: (transfer full): the newly created #GOData.
  **/

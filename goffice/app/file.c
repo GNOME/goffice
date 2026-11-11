@@ -214,7 +214,7 @@ GSF_CLASS (GOFileOpener, go_file_opener,
 /**
  * go_file_opener_setup:
  * @fo: Newly created GOFileOpener object
- * @id: (allow-none): ID of the opener
+ * @id: (nullable): ID of the opener
  * @description: Description of supported file format
  * @suffixes: (element-type utf8) (transfer full): List of suffixes to
  * associate with the opener

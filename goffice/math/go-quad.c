@@ -811,7 +811,7 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 /**
  * go_quad_pow:
  * @res: (out): result location
- * @expb: (out): (allow-none): power-of-base result scaling location
+ * @expb: (out) (optional): power-of-base result scaling location
  * @x: quad-precision value
  * @y: quad-precision value
  *
@@ -982,7 +982,7 @@ SUFFIX(go_quad_exp_taylor) (QUAD *res, QUAD const *x)
 /**
  * go_quad_exp:
  * @res: (out): result location
- * @expb: (out): (allow-none): power-of-base result scaling location
+ * @expb: (out) (optional): power-of-base result scaling location
  * @a: quad-precision value
  *
  * This function computes the exponential function at @a, storing the result

@@ -3888,7 +3888,7 @@ gog_axis_bound_changed (GogAxis *axis, G_GNUC_UNUSED GogObject *contrib)
 
 /*
  * gog_axis_data_get_bounds:
- * @axis: (allow-none): the axis for which the data applies
+ * @axis: (nullable): the axis for which the data applies
  * @data: the data to get bounds for
  * @minimum: smallest valid data value.
  * @maximum: largest valid data value.

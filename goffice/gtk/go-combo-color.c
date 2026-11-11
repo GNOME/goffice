@@ -330,7 +330,7 @@ go_combo_color_set_color_to_default (GOComboColor *cc)
 /**
  * go_combo_color_set_icon:
  * @cc: a #GOComboColor
- * @icon: (allow-none): new icon for the combo
+ * @icon: (nullable): new icon for the combo
  **/
 void
 go_combo_color_set_icon (GOComboColor *cc, GdkPixbuf *icon)
