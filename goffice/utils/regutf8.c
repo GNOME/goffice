@@ -167,8 +167,7 @@ go_regexec (const GORegexp *gor, const char *txt,
 		pmatch[i].rm_so = start_pos;
 		pmatch[i].rm_eo = end_pos;
 	}
-	if (match_info)
-		g_match_info_free (match_info);
+	g_match_info_free (match_info);
 
 	return matched ? GO_REG_NOERROR : GO_REG_NOMATCH;
 }
