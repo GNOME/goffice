@@ -293,7 +293,7 @@ go_doc_get_uri (GODoc const *doc)
 /**
  * go_doc_set_dirty:
  * @doc: #GODoc
- * @is_dirty: bool
+ * @is_dirty: the new state being set
  *
  * Changes the dirty state of @doc to @is_dirty and clears the pristine state
  * no matter what.

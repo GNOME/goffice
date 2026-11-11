@@ -1158,7 +1158,7 @@ map_area_series_solid_palette (GOStyle *style, unsigned ind, GogTheme const *the
 /**
  * gog_theme_registry_add:
  * @theme: a #GogTheme
- * @is_default: bool
+ * @is_default: whether the theme is the default theme
  *
  * Keep a pointer to @theme in graph theme registry.
  * This function does not add a reference to @theme.
