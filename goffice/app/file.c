@@ -35,7 +35,6 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>

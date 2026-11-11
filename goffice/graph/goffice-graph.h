@@ -254,7 +254,6 @@ G_END_DECLS
 #include <goffice/graph/gog-color-scale.h>
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/graph/gog-child-button.h>
-#include <goffice/graph/gog-color-scale.h>
 #include <goffice/graph/gog-data-allocator.h>
 #endif
 #ifdef GOFFICE_WITH_LASEM
