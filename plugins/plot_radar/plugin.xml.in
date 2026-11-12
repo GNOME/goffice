@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_radar">
 	<information>
-		<_name>Charting : Polar/Radar</_name>
-		<_description>Polar and Radar plots</_description>
+		<name>Charting : Polar/Radar</name>
+		<description>Polar and Radar plots</description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="radar"/>
@@ -17,28 +17,28 @@
 
 		<service type="plot_engine" id="GogRadarPlot">
 			<information>
-				<_description>Radar plotting engine</_description>
+				<description>Radar plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogRadarAreaPlot">
 			<information>
-				<_description>Radar Area plotting engine</_description>
+				<description>Radar Area plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogPolarPlot">
 			<information>
-				<_description>Polar plotting engine</_description>
+				<description>Polar plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogColorPolarPlot">
 			<information>
-				<_description>Polar plotting engine with colored marks</_description>
+				<description>Polar plotting engine with colored marks</description>
 			</information>
 		</service>
 		<service type="plot_type" id="radar">
 			<file>plot-types.xml</file>
 			<information>
-				<_description>Default radar plot types</_description>
+				<description>Default radar plot types</description>
 			</information>
 		</service>
 	</services>

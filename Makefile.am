@@ -1,17 +1,16 @@
 # Makefile.am for goffice
 
-SUBDIRS = goffice tests plugins mmlitex po docs tools
+SUBDIRS = po goffice tests plugins mmlitex docs tools
+
+itsdir = $(datadir)/gettext/its
+its_DATA = its/goffice-plugin.its its/goffice-plugin.loc
 
 EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 	COPYING-gpl2 COPYING-gpl3 \
 	goffice.mk \
 	goffice-plugins.mk \
 	libgoffice.pc.in \
-	intltool-extract.in	\
-	intltool-update.in	\
-	intltool-merge.in
-
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update
+	$(its_DATA)
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc \
 	--enable-introspection=auto \

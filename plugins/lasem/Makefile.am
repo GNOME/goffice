@@ -11,7 +11,8 @@ lasem_la_SOURCES =	\
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
-@INTLTOOL_XML_RULE@
+plugin.xml: plugin.xml.in Makefile
+	$(AM_V_GEN)GETTEXTDATADIR=$(top_srcdir) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 EXTRA_DIST = $(xml_in_files)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)

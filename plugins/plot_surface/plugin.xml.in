@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_surface">
 	<information>
-		<_name>Charting : Surfaces</_name>
-		<_description>Surface charts</_description>
+		<name>Charting : Surfaces</name>
+		<description>Surface charts</description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="surface"/>
@@ -20,7 +20,7 @@
 
 		<service type="plot_engine" id="GogContourPlot">
 			<information>
-				<_description>Contour plotting engine</_description>
+				<description>Contour plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="XLContourPlot">
@@ -30,17 +30,17 @@
 		</service>
 		<service type="plot_engine" id="GogXYZContourPlot">
 			<information>
-				<_description>XYZ contour plotting engine</_description>
+				<description>XYZ contour plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogXYContourPlot">
 			<information>
-				<_description>XY contour plotting engine</_description>
+				<description>XY contour plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogSurfacePlot">
 			<information>
-				<_description>Surface plotting engine</_description>
+				<description>Surface plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="XLSurfacePlot">
@@ -50,33 +50,33 @@
 		</service>
 		<service type="plot_engine" id="GogXYZSurfacePlot">
 			<information>
-				<_description>XYZ surface plotting engine</_description>
+				<description>XYZ surface plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogXYSurfacePlot">
 			<information>
-				<_description>XY surface plotting engine</_description>
+				<description>XY surface plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogMatrixPlot">
 			<information>
-				<_description>Matrix plotting engine</_description>
+				<description>Matrix plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogXYMatrixPlot">
 			<information>
-				<_description>XY matrix plotting engine</_description>
+				<description>XY matrix plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogXYZMatrixPlot">
 			<information>
-				<_description>XYZ matrix plotting engine</_description>
+				<description>XYZ matrix plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_type" id="surface">
 			<file>plot-types.xml</file>
 			<information>
-				<_description>Default surface plot types</_description>
+				<description>Default surface plot types</description>
 			</information>
 		</service>
 	</services>

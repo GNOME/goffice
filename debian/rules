@@ -106,15 +106,14 @@ config-stamp:
 	dh_testdir
 	dh_prep
 
-	# Generate a .pot file
-	cd po && intltool-update -p
-	
 	# Add here commands to configure the package.
 
 	rm -rf build && mkdir build
 	rm -f goffice/goffice-paths.h
 	dh_autotools-dev_updateconfig
 	cd build && env "CC=$(CC) $(LDFLAGS)" ../configure $(confflags)
+	$(MAKE) -C po goffice.pot
+	$(MAKE) -C po update-po
 
 	touch config-stamp
 

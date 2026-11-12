@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_reg_logfit">
 	<information>
-		<_name>Regression curve : logfit</_name>
-		<_description>Logarithmic fitting curves</_description>
+		<name>Regression curve : logfit</name>
+		<description>Logarithmic fitting curves</description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="logfit"/>
@@ -10,13 +10,13 @@
 	<services>
 		<service type="trendline_engine" id="GogLogFitCurve">
 			<information>
-				<_description>Logarithmic fitting curve engine</_description>
+				<description>Logarithmic fitting curve engine</description>
 			</information>
 		</service>
 		<service type="trendline_type" id="logfit">
 			<file>reg-types.xml</file>
 			<information>
-				<_description>Logarithmic fitting curves types</_description>
+				<description>Logarithmic fitting curves types</description>
 			</information>
 		</service>
 	</services>

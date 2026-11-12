@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<locatingRules>
+	<locatingRule name="goffice-plugin" pattern="plugin.xml">
+		<documentRule localname="plugin" target="goffice-plugin.its" />
+	</locatingRule>
+	<locatingRule name="goffice-plugin-types" pattern="*types.xml">
+		<documentRule localname="Types" target="goffice-plugin.its" />
+	</locatingRule>
+</locatingRules>

@@ -17,14 +17,10 @@ olddir=$(pwd)
 }
 
 cd $srcdir
-aclocal --install || exit 1
-glib-gettextize --force --copy || exit 1
+autopoint --force || exit 1
+aclocal --install -I m4 || exit 1
 gtkdocize --copy || exit 1
-intltoolize --force --copy --automake || exit 1
 autoreconf --verbose --force --install || exit 1
-
-# Work around intltool bug
-perl -pi -e 's/( \.intltool-merge-cache\b)/\1 .intltool-merge-cache.lock/ if /^\trm\b/;' $srcdir/po/Makefile.in.in
 
 cd $olddir
 

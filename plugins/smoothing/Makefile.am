@@ -15,7 +15,8 @@ smoothing_la_SOURCES =	\
 xml_in_files = plugin.xml.in types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
-@INTLTOOL_XML_RULE@
+plugin.xml: plugin.xml.in Makefile
+	$(AM_V_GEN)GETTEXTDATADIR=$(top_srcdir) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 # Do not use the intl-tool stuff to merge the text back;
 # it's simpler to just use gettext directly

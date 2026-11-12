@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_reg_linear">
 	<information>
-		<_name>Regression curve : linear</_name>
-		<_description>Linear regression curves</_description>
+		<name>Regression curve : linear</name>
+		<description>Linear regression curves</description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="linreg"/>
@@ -10,33 +10,33 @@
 	<services>
 		<service type="trendline_engine" id="GogLinRegCurve">
 			<information>
-				<_description>Linear regression curve engine</_description>
+				<description>Linear regression curve engine</description>
 			</information>
 		</service>
 		<service type="trendline_engine" id="GogExpRegCurve">
 			<information>
-				<_description>Exponential regression curve engine</_description>
+				<description>Exponential regression curve engine</description>
 			</information>
 		</service>
 		<service type="trendline_engine" id="GogPowerRegCurve">
 			<information>
-				<_description>Power regression curve engine</_description>
+				<description>Power regression curve engine</description>
 			</information>
 		</service>
 		<service type="trendline_engine" id="GogLogRegCurve">
 			<information>
-				<_description>Logarithmic regression curve engine</_description>
+				<description>Logarithmic regression curve engine</description>
 			</information>
 		</service>
 		<service type="trendline_engine" id="GogPolynomRegCurve">
 			<information>
-				<_description>Polynomial regression curve engine</_description>
+				<description>Polynomial regression curve engine</description>
 			</information>
 		</service>
 		<service type="trendline_type" id="linreg">
 			<file>reg-types.xml</file>
 			<information>
-				<_description>Linear regression curves types</_description>
+				<description>Linear regression curves types</description>
 			</information>
 		</service>
 	</services>

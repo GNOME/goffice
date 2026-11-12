@@ -12,13 +12,12 @@ radar_la_SOURCES = \
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
-@INTLTOOL_XML_RULE@
 
 plugin_resources = radar.xpm polar.xpm
 pofiles = $(wildcard $(top_srcdir)/po/*.po)
 
 plugin.xml: plugin.xml.in $(plugin_resources) $(pofiles) $(top_srcdir)/tools/resource-embedder
-	LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
+	GETTEXTDATADIR=$(top_srcdir) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@.tmp
 	@PERL@ $(abs_top_srcdir)/tools/resource-embedder --file-dir $(srcdir) \
 		$@.tmp $@
 	rm -f $@.tmp

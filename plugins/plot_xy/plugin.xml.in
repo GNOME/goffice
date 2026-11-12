@@ -1,7 +1,7 @@
 <plugin id="GOffice_plot_xy">
 	<information>
-		<_name>Charting : XY/Scatter/Bubble</_name>
-		<_description>2D plots</_description>
+		<name>Charting : XY/Scatter/Bubble</name>
+		<description>2D plots</description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="xy"/>
@@ -25,33 +25,33 @@
 
 		<service type="plot_engine" id="GogXYPlot">
 			<information>
-				<_description>2D scatter plotting engine</_description>
+				<description>2D scatter plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogBubblePlot">
 			<information>
-				<_description>Bubble plotting engine</_description>
+				<description>Bubble plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogXYColorPlot">
 			<information>
-				<_description>2D colored scatter plotting engine</_description>
+				<description>2D colored scatter plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_type" id="plot_xy">
 			<file>plot-types.xml</file>
 			<information>
-				<_description>Stock Scatter plot types</_description>
+				<description>Stock Scatter plot types</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogXYDropBarPlot">
 			<information>
-				<_description>Scattered dropbar plotting engine</_description>
+				<description>Scattered dropbar plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogXYMinMaxPlot">
 			<information>
-				<_description>Scattered Min Max plotting engine</_description>
+				<description>Scattered Min Max plotting engine</description>
 			</information>
 		</service>
 	</services>

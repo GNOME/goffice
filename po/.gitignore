@@ -14,6 +14,7 @@ notexist
 .intltool-*cache*
 po2tbl.sed.in
 stamp-it
+stamp-po
 Makevars.template
 Rules-quot
 boldquot.sed
@@ -23,3 +24,4 @@ goffice-plugin.its
 insert-header.sin
 quot.sed
 remove-potcdate.sin
+remove-potcdate.sed

@@ -77,9 +77,6 @@ AM_MAINTAINER_MODE([enable])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-dnl We need intltool >= 0.35.0 to use the LINGUAS file in the po dir
-IT_PROG_INTLTOOL([0.35.0])
-
 dnl We use $host_os:
 AC_CANONICAL_HOST
 
@@ -410,7 +407,7 @@ dnl below.
 AC_SUBST(GETTEXT_PACKAGE, goffice-${VERSION})
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext])
-AM_GNU_GETTEXT_VERSION([0.13])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 AM_GNU_GETTEXT([external])
 
 dnl ****************************

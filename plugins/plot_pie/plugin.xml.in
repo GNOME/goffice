@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_pie">
 	<information>
-		<_name>Charting : Pie/Ring</_name>
-		<_description>Pie and Ring plots</_description>
+		<name>Charting : Pie/Ring</name>
+		<description>Pie and Ring plots</description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="pie"/>
@@ -17,18 +17,18 @@
 
 		<service type="plot_engine" id="GogRingPlot">
 			<information>
-				<_description>Ring plotting engine</_description>
+				<description>Ring plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogPiePlot">
 			<information>
-				<_description>Pie plotting engine</_description>
+				<description>Pie plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_type" id="pie">
 			<file>plot-types.xml</file>
 			<information>
-				<_description>Default pie types</_description>
+				<description>Default pie types</description>
 			</information>
 		</service>
 	</services>

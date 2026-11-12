@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_distrib">
 	<information>
-		<_name>Charting : distribution related plots</_name>
-		<_description>box-plots, histograms, and other distribution related plots</_description>
+		<name>Charting : distribution related plots</name>
+		<description>box-plots, histograms, and other distribution related plots</description>
 	</information>
 	<dependencies>
 		<dep_plugin id="GOffice_reg_linear" force_load="1"/>
@@ -17,28 +17,28 @@
 
 		<service type="plot_engine" id="GogBoxPlot">
 			<information>
-				<_description>Box-plot plotting engine</_description>
+				<description>Box-plot plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_engine" id="GogHistogramPlot">
 			<information>
-				<_description>Histograms plotting engine</_description>
+				<description>Histograms plotting engine</description>
 			</information>
 		</service>
 <!--		<service type="plot_engine" id="GogDoubleHistogramPlot">
 			<information>
-				<_description>Double histograms plotting engine</_description>
+				<description>Double histograms plotting engine</description>
 			</information>
 		</service> -->
 		<service type="plot_engine" id="GogProbabilityPlot">
 			<information>
-				<_description>Probability plots engine</_description>
+				<description>Probability plots engine</description>
 			</information>
 		</service>
 		<service type="plot_type" id="boxplot">
 			<file>plot-types.xml</file>
 			<information>
-				<_description>Statistics plot types</_description>
+				<description>Statistics plot types</description>
 			</information>
 		</service>
 	</services>

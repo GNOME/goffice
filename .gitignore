@@ -1,5 +1,4 @@
 .dirstamp
-.intltool-cache*
 ABOUT-NLS
 ID
 Makefile
@@ -22,10 +21,6 @@ gtk-doc.m4
 gtk-doc.make
 install-sh
 intl
-intltool-extract*
-intltool-merge*
-intltool-modules
-intltool-update*
 libgoffice*.pc
 libtool
 ltconfig
