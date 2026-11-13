@@ -1777,8 +1777,13 @@ go_format_parse_sequential (const char *str, GString *prg,
 		return fmt;
 	} else {
 		GOFormat *fmt = go_format_create (GO_FMT_NUMBER, NULL);
-		guchar splits[5] = { OP_DATE_ROUND, date_decimals, seen_elapsed };
-		guchar *p = splits + 3;
+		guchar splits[5]; // At most 3+1+1
+		guchar *p = splits;
+		if (seen_date || seen_time) {
+			*p++ = OP_DATE_ROUND;
+			*p++ = date_decimals;
+			*p++ = seen_elapsed;
+		}
 		if (seen_date) {
 			*p++ = OP_DATE_SPLIT;
 			fmt->u.number.has_date = TRUE;

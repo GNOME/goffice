@@ -2,6 +2,7 @@ goffice 0.10.63:
 
 B.S.:
 	* Denormal fixes for strtodD
+	* Speed up plain number formatting in GOFormat
 
 Danh Doan:
 	* Switch from intltool to gettext.
