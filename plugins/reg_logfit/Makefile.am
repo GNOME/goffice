@@ -11,8 +11,9 @@ logfit_la_SOURCES =	\
 
 xml_in_files = plugin.xml.in reg-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
+pofiles = $(wildcard $(top_srcdir)/po/*.po)
 
-plugin.xml: plugin.xml.in Makefile
+plugin.xml: plugin.xml.in $(pofiles) Makefile
 	$(AM_V_GEN)GETTEXTDATADIR=$(top_srcdir) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 # Do not use the intl-tool stuff to merge the text back;

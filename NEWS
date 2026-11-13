@@ -3,6 +3,9 @@ goffice 0.10.63:
 B.S.:
 	* Denormal fixes for strtodD
 
+Danh Doan:
+	* Switch from intltool to gettext.
+
 Morten:
 	* Decimal64 fixes.
 	* Switch to using C23's D modifier for printf as in "%Dg".

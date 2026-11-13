@@ -410,6 +410,17 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 AM_GNU_GETTEXT_VERSION([0.19.8])
 AM_GNU_GETTEXT([external])
 
+dnl gettext's po macros fall back to ":" when msgfmt is missing.  We also
+dnl need XML support below to translate plugin XML files, so fail early
+dnl instead of silently producing untranslated files.
+AC_MSG_CHECKING([whether msgfmt supports --xml])
+AS_IF([test "x$MSGFMT" != "x:" && LC_ALL=C $MSGFMT --help 2>&1 | grep -e '--xml' >/dev/null], [
+	AC_MSG_RESULT([yes])
+], [
+	AC_MSG_RESULT([no])
+	AC_MSG_ERROR([msgfmt from GNU gettext 0.19.7 or newer is required])
+])
+
 dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************

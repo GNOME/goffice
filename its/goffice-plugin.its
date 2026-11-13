@@ -4,5 +4,5 @@
   <its:translateRule translate="yes"
     selector="//information/name | //information/description" />
   <its:translateRule translate="yes"
-    selector="//Type/@_name | //Type/@_description"/>
+    selector="//Family/@_name | //Type/@_name | //Type/@_description"/>
 </its:rules>
