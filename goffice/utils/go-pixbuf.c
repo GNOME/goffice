@@ -98,7 +98,7 @@ go_pixbuf_save (GOImage *image, GsfXMLOut *output)
 		                           &image->data_length, pixbuf->type, NULL,
 		                           "compression", 9, NULL);
 	}
-	gsf_xml_out_add_cstr_unchecked (output, "image-type", pixbuf->type);
+	gsf_xml_out_add_cstr (output, "image-type", pixbuf->type);
 	gsf_xml_out_add_base64 (output, NULL,
 	                        image->data, image->data_length);
 }

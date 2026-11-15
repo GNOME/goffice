@@ -367,8 +367,8 @@ save_name_cb (char const *lang, char const *name, GsfXMLOut *output)
 {
 	gsf_xml_out_start_element (output, "name");
 	if (strcmp (lang, "C"))
-		gsf_xml_out_add_cstr_unchecked (output, "xml:lang", lang);
-	gsf_xml_out_add_cstr_unchecked (output, NULL, name);
+		gsf_xml_out_add_cstr (output, "xml:lang", lang);
+	gsf_xml_out_add_cstr (output, NULL, name);
 	gsf_xml_out_end_element (output);
 }
 
@@ -377,8 +377,8 @@ save_desc_cb (char const *lang, char const *name, GsfXMLOut *output)
 {
 	gsf_xml_out_start_element (output, "description");
 	if (strcmp (lang, "C"))
-		gsf_xml_out_add_cstr_unchecked (output, "xml:lang", lang);
-	gsf_xml_out_add_cstr_unchecked (output, NULL, name);
+		gsf_xml_out_add_cstr (output, "xml:lang", lang);
+	gsf_xml_out_add_cstr (output, NULL, name);
 	gsf_xml_out_end_element (output);
 }
 
@@ -389,9 +389,9 @@ save_elem_cb (G_GNUC_UNUSED char const *key, GogThemeElement *elt, GsfXMLOut *ou
 		return;
 	gsf_xml_out_start_element (output, "GOStyle");
 	if (elt->klass_name)
-		gsf_xml_out_add_cstr_unchecked (output, "class", elt->klass_name);
+		gsf_xml_out_add_cstr (output, "class", elt->klass_name);
 	if (elt->role_id)
-		gsf_xml_out_add_cstr_unchecked (output, "role", elt->role_id);
+		gsf_xml_out_add_cstr (output, "role", elt->role_id);
 	go_persist_sax_save (GO_PERSIST (elt->style), output);
 	gsf_xml_out_end_element (output);
 }
@@ -433,7 +433,7 @@ gog_theme_sax_save (GOPersist const *gp, GsfXMLOut *output)
 		gog_theme_save (theme);
 		return;
 	}
-	gsf_xml_out_add_cstr_unchecked (output, "id", theme->id);
+	gsf_xml_out_add_cstr (output, "id", theme->id);
 	g_hash_table_foreach (theme->names, (GHFunc) save_name_cb, output);
 	g_hash_table_foreach (theme->descs, (GHFunc) save_desc_cb, output);
 	g_hash_table_foreach (theme->elem_hash_by_class, (GHFunc) save_elem_cb, output);

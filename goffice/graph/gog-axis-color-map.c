@@ -157,7 +157,7 @@ save_name_cb (char const *lang, char const *name, GsfXMLOut *output)
 {
 	gsf_xml_out_start_element (output, "name");
 	if (strcmp (lang, "C"))
-		gsf_xml_out_add_cstr_unchecked (output, "xml:lang", lang);
+		gsf_xml_out_add_cstr (output, "xml:lang", lang);
 	gsf_xml_out_add_cstr (output, NULL, name);
 	gsf_xml_out_end_element (output);
 }
@@ -191,7 +191,7 @@ gog_axis_color_map_write (GOPersist const *gp, GsfXMLOut *output)
 		gog_axis_color_map_save (map);
 		return;
 	}
-	gsf_xml_out_add_cstr_unchecked (output, "id", map->id);
+	gsf_xml_out_add_cstr (output, "id", map->id);
 	g_hash_table_foreach (map->names, (GHFunc) save_name_cb, output);
 	for (i = 0; i < map->size; i++) {
 		gsf_xml_out_start_element (output, "color-stop");
