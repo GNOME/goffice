@@ -10,6 +10,8 @@ $| = 1;
 @GofficeTest::ISA = qw (Exporter);
 @GofficeTest::EXPORT = qw(message test_valgrind
 			 test_zip
+			 find_program report_skip
+			 dump_indented system_failure
 			 $topsrc $top_builddir
 			 $gsf $PERL);
 @GofficeTest::EXPORT_OK = qw(junkfile);
@@ -164,6 +166,8 @@ sub test_valgrind {
     $ENV{'G_DEBUG'} .= ':gc-friendly:resident-modules';
     $ENV{'G_SLICE'} = 'always-malloc';
     delete $ENV{'VALGRIND_OPTS'};
+    # Keep valgrind from hanging while trying to fetch debug info.
+    $ENV{'DEBUGINFOD_URLS'} = '';
 
     my $outfile = 'valgrind.log';
     unlink $outfile;
@@ -212,9 +216,10 @@ sub test_valgrind {
 
     my $txt = &read_file ($outfile);
     &removejunk ($outfile);
-    my $errors = ($txt =~ /ERROR\s+SUMMARY:\s*(\d+)\s+errors?/i)
-	? $1
-	: -1;
+    # A client that forks makes the child run under valgrind too, sharing
+    # the log file, so use the last summary, not the first.
+    my @errors = ($txt =~ /ERROR\s+SUMMARY:\s*(\d+)\s+errors?/ig);
+    my $errors = @errors ? $errors[-1] : -1;
     if ($errors == 0) {
 	&dump_indented ($txt) if $verbose;
 	print STDERR "Pass\n";

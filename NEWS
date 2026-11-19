@@ -20,6 +20,8 @@ Morten:
 	* Fix empty-legend graph problem.
 	* Better graph tooltips.  [Gnumeric #851]
 	* Plug GOErrorInfo leaks.
+	* Lots of canvas fixes.
+	* Canvas test suite.
 
 --------------------------------------------------------------------------
 goffice 0.10.62:

@@ -64,6 +64,9 @@ void goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, do
 void goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t clip_rule);
 void goc_group_freeze (GocGroup *group, gboolean freeze);
 
+/* <private> */
+void _goc_group_fake_xchildren (GocGroup *group);
+
 GPtrArray *goc_group_get_children (GocGroup *group);
 GocItem *goc_group_get_child (GocGroup *group, unsigned n);
 int goc_group_find_child (GocGroup *group, GocItem *item);

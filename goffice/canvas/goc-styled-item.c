@@ -71,7 +71,9 @@ goc_styled_item_set_property (GObject *obj, guint param_id,
 		break;
 
 	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH:
-		gsi->scale_line_width =  g_value_get_boolean (value);
+		gsi->scale_line_width = g_value_get_boolean (value);
+		/* the scaled stroke width is part of the bounds */
+		resize = TRUE;
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -135,6 +137,8 @@ goc_styled_item_copy (GocItem *dest, GocItem *source)
 	GOStyle *style = go_style_dup (((GocStyledItem *) source)->style);
 	g_object_set (dest, "style", style, NULL);
 	g_object_unref (style);
+	g_object_set (dest, "scale-line-width",
+		      ((GocStyledItem *) source)->scale_line_width, NULL);
 }
 
 static void
@@ -293,9 +297,10 @@ goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
 	g_return_val_if_fail (GOC_IS_STYLED_ITEM (gsi), FALSE);
 
 	/* scale the line width */
-	if (gsi->scale_line_width && GOC_ITEM (gsi)->canvas) {
+	if (gsi->scale_line_width) {
 		width = gsi->style->line.width;
-		gsi->style->line.width *= goc_canvas_get_pixels_per_unit (GOC_ITEM (gsi)->canvas);
+		if (GOC_ITEM (gsi)->canvas)
+			gsi->style->line.width *= goc_canvas_get_pixels_per_unit (GOC_ITEM (gsi)->canvas);
 	}
 	result = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (gsi), cr);
 	/* restore the line width */
@@ -332,5 +337,5 @@ void
 goc_styled_item_set_scale_line_width  (GocStyledItem *gsi, gboolean scale_line_width)
 {
 	g_return_if_fail (GOC_IS_STYLED_ITEM (gsi));
-	gsi->scale_line_width = scale_line_width;
+	g_object_set (gsi, "scale-line-width", scale_line_width, NULL);
 }

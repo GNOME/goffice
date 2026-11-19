@@ -109,16 +109,20 @@ goc_text_set_property (GObject *gobject, guint param_id,
 		text->anchor = (GOAnchorType)g_value_get_enum (value);
 		break;
 
-	case TEXT_PROP_TEXT:
+	case TEXT_PROP_TEXT: {
+		/* Dup before freeing: @value may alias text->text.  */
+		char *new_text = g_value_dup_string (value);
 		g_free (text->text);
-		text->text = g_value_dup_string (value);
+		text->text = new_text;
 		break;
+	}
 
 	case TEXT_PROP_ATTRIBUTES: {
 		PangoAttrList *attrs = (PangoAttrList *) g_value_get_boxed (value);
+		attrs = attrs ? pango_attr_list_copy (attrs) : pango_attr_list_new ();
 		if (text->attributes)
 			pango_attr_list_unref (text->attributes);
-		text->attributes = attrs ? pango_attr_list_copy (attrs): pango_attr_list_new ();
+		text->attributes = attrs;
 		break;
 	}
 
@@ -300,30 +304,27 @@ goc_text_setup_layout (GocItem const *item, cairo_t *cr,
 	return pl;
 }
 
-static void
+static gboolean
 goc_text_prepare_draw (GocItem *item, cairo_t *cr, gboolean flag)
 {
 	GocText *text = GOC_TEXT (item);
 	double dx, dy, w, h;
 	PangoLayout *pl = goc_text_setup_layout (item, cr, &dx, &dy, &w, &h, TRUE);
-	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? -1. : 1.;
-	double x, y;
 
 	if (!pl)
-		return;
+		return FALSE;
 
 	/* use locals: this is also called from distance(), which must not
-	   overwrite the item bounds */
-	x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? text->x + text->w : text->x;
-	y = text->y;
-
+	   overwrite the item bounds.  Bounds and hit testing are direction
+	   independent.  */
 	cairo_save (cr);
 	_goc_item_transform (item, cr, flag);
-	cairo_translate (cr, x, y);
-	cairo_rotate (cr, text->rotation * sign);
+	cairo_translate (cr, text->x, text->y);
+	cairo_rotate (cr, text->rotation);
 	cairo_rectangle (cr, dx, dy, w, h);
 	cairo_restore (cr);
 	g_object_unref (pl);
+	return TRUE;
 }
 
 static void
@@ -334,8 +335,12 @@ goc_text_update_bounds (GocItem *item)
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
-	goc_text_prepare_draw (item, cr, FALSE);
-	cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+	if (goc_text_prepare_draw (item, cr, FALSE))
+		cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+	else {
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
+	}
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
 }
@@ -365,7 +370,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
 	double dx, dy, w, h;
-	PangoLayout *pl = goc_text_setup_layout (item, cr, &dx, &dy, &w, &h, FALSE);
+	PangoLayout *pl = goc_text_setup_layout (item, cr, &dx, &dy, &w, &h, TRUE);
 	double x, y;
 	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? -1. : 1.;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
@@ -373,7 +378,10 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	if (!pl)
 		return;
 
-	x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) ? text->x + text->w : text->x;
+	/* In RTL the anchor is the mirrored right edge and the anchor offset
+	 * is mirrored with it, so the box lands on the mirror of its LTR
+	 * position while the glyphs themselves stay upright.  */
+	x = (sign < 0.) ? text->x + text->w : text->x;
 	y = text->y;
 
 	cairo_save (cr);
@@ -381,9 +389,11 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->font.color));
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_rotate (cr, text->rotation * sign);
-	cairo_translate (cr, dx, dy);
-	cairo_rectangle (cr, 0., 0., w, h);
-	cairo_clip (cr);
+	cairo_translate (cr, dx * sign, dy);
+	if (text->clipped) {
+		cairo_rectangle (cr, 0., 0., w, h);
+		cairo_clip (cr);
+	}
 	pango_cairo_show_layout (cr, pl);
 	cairo_new_path (cr);
 	cairo_restore (cr);

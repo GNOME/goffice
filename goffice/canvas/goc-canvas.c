@@ -64,22 +64,29 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 	double clip_x1, clip_y1, clip_x2, clip_y2;
 	GocCanvas *canvas = GOC_CANVAS (widget);
 	GdkEvent *ev = gtk_get_current_event ();
-	GdkEventExpose *event = (GdkEventExpose *)ev;
+	GdkEventExpose *event = (ev != NULL && ev->type == GDK_EXPOSE)? (GdkEventExpose *) ev: NULL;
 	GocCanvasPrivate *priv = (GocCanvasPrivate *) canvas->priv;
 	cairo_rectangle_list_t *l = cairo_copy_clip_rectangle_list (cr);
 	int i, x, y;
 
+	if (l->status != CAIRO_STATUS_SUCCESS) {
+		cairo_rectangle_list_destroy (l);
+		if (ev != NULL)
+			gdk_event_free (ev);
+		return TRUE;
+	}
+
 	if (GOC_IS_ITEM (priv->invalidated_item) && priv->invalid_region) {
 		/* evaluate the cairo clipped region and compare with the saved one */
-		cairo_region_t *region;
-		cairo_rectangle_int_t rect[l->num_rectangles];
-		for (i = 0; i  < l->num_rectangles; i++) {
-			rect[i].x = l->rectangles[i].x;
-			rect[i].y = l->rectangles[i].y;
-			rect[i].width = l->rectangles[i].width;
-			rect[i].height = l->rectangles[i].height;
+		cairo_region_t *region = cairo_region_create ();
+		for (i = 0; i < l->num_rectangles; i++) {
+			cairo_rectangle_int_t rect;
+			rect.x = l->rectangles[i].x;
+			rect.y = l->rectangles[i].y;
+			rect.width = l->rectangles[i].width;
+			rect.height = l->rectangles[i].height;
+			cairo_region_union_rectangle (region, &rect);
 		}
-		region = cairo_region_create_rectangles (rect, l->num_rectangles);
 		if (cairo_region_equal (priv->invalid_region, region)) {
 			cairo_rectangle_list_destroy (l);
 			cairo_region_destroy (region);
@@ -93,6 +100,8 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 				goc_item_draw (priv->invalidated_item, cr);
 				priv->done = TRUE;
 			}
+			if (ev != NULL)
+				gdk_event_free (ev);
 			return TRUE;
 		}
 
@@ -101,13 +110,15 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 
 	x = gtk_adjustment_get_value (gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas)));
 	y = gtk_adjustment_get_value (gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas)));
-	cairo_translate (cr, -x, -y);
-	goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
-	for (i= 0; i  < l->num_rectangles; i++) {
+	goc_item_get_bounds (GOC_ITEM (canvas->root), &x0, &y0, &x1, &y1);
+	for (i = 0; i < l->num_rectangles; i++) {
 		cairo_save (cr);
+		/* the clip rectangles are in widget coordinates, so clip
+		 * before switching to canvas coordinates */
 		cairo_rectangle (cr, l->rectangles[i].x, l->rectangles[i].y,
 		                 l->rectangles[i].width, l->rectangles[i].height);
 		cairo_clip (cr);
+		cairo_translate (cr, -x, -y);
 		clip_x1 = l->rectangles[i].x;
 		clip_y1 = l->rectangles[i].y;
 		clip_x2 = clip_x1 + l->rectangles[i].width;
@@ -118,7 +129,7 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 			ax0 = (double) (canvas->width - clip_x2) / canvas->pixels_per_unit + canvas->scroll_x1;
 		} else {
 			ax0 = (double) clip_x1 / canvas->pixels_per_unit + canvas->scroll_x1;
-			ax1 = ((double) clip_x1 + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+			ax1 = (double) clip_x2 / canvas->pixels_per_unit + canvas->scroll_x1;
 		}
 		ay0 = (double) clip_y1 / canvas->pixels_per_unit + canvas->scroll_y1;
 		ay1 = (double) clip_y2 / canvas->pixels_per_unit + canvas->scroll_y1;
@@ -130,7 +141,8 @@ goc_canvas_draw (GtkWidget *widget, cairo_t *cr)
 		cairo_restore (cr);
 	}
 	cairo_rectangle_list_destroy (l);
-	gdk_event_free (ev);
+	if (ev != NULL)
+		gdk_event_free (ev);
 	return TRUE;
 }
 
@@ -258,7 +270,6 @@ leave_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 		canvas->cur_event = (GdkEvent *) event;
 		result = GOC_ITEM_GET_CLASS (canvas->last_item)->leave_notify (canvas->last_item, x, y);
 		canvas->last_item = NULL;
-		return result;
 	}
 	canvas->cur_event = NULL;
 	return result;
@@ -528,6 +539,7 @@ goc_canvas_set_pixels_per_unit (GocCanvas *canvas, double pixels_per_unit)
 {
 	GocItemClass *klass;
 	g_return_if_fail (GOC_IS_CANVAS (canvas));
+	g_return_if_fail (isfinite (pixels_per_unit) && pixels_per_unit > 0.);
 	if (pixels_per_unit == canvas->pixels_per_unit)
 		return;
 	klass = GOC_ITEM_GET_CLASS (canvas->root);
@@ -568,6 +580,7 @@ goc_canvas_get_pixels_per_unit (GocCanvas *canvas)
 void
 goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, double y1)
 {
+	g_return_if_fail (GOC_IS_CANVAS (canvas));
 	if (!goc_canvas_get_realized (canvas))
 		return;
 #ifdef GOFFICE_WITH_GTK
@@ -657,7 +670,10 @@ GocItem *
 goc_canvas_get_item_at (GocCanvas *canvas, double x, double y)
 {
 	GocItem *result = NULL;
-	double d = goc_item_distance (GOC_ITEM (canvas->root), x, y, &result);
+	double d;
+
+	g_return_val_if_fail (GOC_IS_CANVAS (canvas), NULL);
+	d = goc_item_distance (GOC_ITEM (canvas->root), x, y, &result);
 	return (d == 0.)? result: NULL;
 }
 
@@ -795,6 +811,7 @@ goc_canvas_get_direction (GocCanvas *canvas)
 void
 goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_)
 {
+	g_return_if_fail (GOC_IS_CANVAS (canvas));
 	if (x_) {
 		if (canvas->direction == GOC_DIRECTION_RTL)
 			*x_ = (double)  (canvas->width - x) / canvas->pixels_per_unit + canvas->scroll_x1;
@@ -818,6 +835,7 @@ goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_)
 void
 goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_)
 {
+	g_return_if_fail (GOC_IS_CANVAS (canvas));
 	if (x_) {
 		if (canvas->direction == GOC_DIRECTION_RTL)
 			*x_ = go_fake_round (canvas->width - (x - canvas->scroll_x1) * canvas->pixels_per_unit);
@@ -842,6 +860,7 @@ goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_)
 void
 goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double x1, double y1)
 {
+	g_return_if_fail (GOC_IS_CANVAS (canvas));
 	goc_item_draw_region (GOC_ITEM (canvas->root), cr, x0, y0, x1, y1);
 }
 
@@ -858,7 +877,18 @@ goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double 
 void
 goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, double *x1, double *y1)
 {
-	goc_item_get_bounds (GOC_ITEM (canvas->root), x0, y0, x1, y1);
+	double bx0, by0, bx1, by1;
+
+	g_return_if_fail (GOC_IS_CANVAS (canvas));
+	goc_item_get_bounds (GOC_ITEM (canvas->root), &bx0, &by0, &bx1, &by1);
+	if (x0)
+		*x0 = bx0;
+	if (y0)
+		*y0 = by0;
+	if (x1)
+		*x1 = bx1;
+	if (y1)
+		*y1 = by1;
 }
 
 /**

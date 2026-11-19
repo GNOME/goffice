@@ -110,22 +110,18 @@ goc_polyline_get_property (GObject *gobject, guint param_id,
 	}
 }
 
+/* Builds the path for @polyline in @cr.  The caller is responsible for
+ * saving and restoring @cr.  With @flag set for drawing, the path ends up
+ * in device space so that the stroke scales along with the item.  */
 static gboolean
 goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocPolyline *polyline = GOC_POLYLINE (item);
 	unsigned i;
-	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
-	gboolean needs_restore;
-
-	cairo_save (cr);
-	needs_restore = TRUE;
 
 	_goc_item_transform (item, cr, flag);
-	if (polyline->nb_points == 0) {
-		cairo_restore (cr);
+	if (polyline->nb_points == 0)
 		return FALSE;
-	}
 
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, polyline->points[0].x, polyline->points[0].y);
@@ -158,19 +154,7 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 		}
 	}
 
-	if (!scale_line_width) {
-		cairo_restore (cr);
-		needs_restore = FALSE;
-	}
-	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
-		if (needs_restore)
-			cairo_restore (cr);
-		return TRUE;
-	}
-
-	if (needs_restore)
-		cairo_restore (cr);
-	return FALSE;
+	return TRUE;
 }
 
 static void
@@ -178,11 +162,20 @@ goc_polyline_update_bounds (GocItem *item)
 {
 	cairo_surface_t *surface;
 	cairo_t *cr;
+	gboolean prepared;
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
-	if (goc_polyline_prepare_draw (item, cr, 0)) {
+	cairo_save (cr);
+	prepared = goc_polyline_prepare_draw (item, cr, 0);
+	/* The path is already in canvas space.  Restore before setting the
+	 * line: cairo_restore() also drops the line width.  */
+	cairo_restore (cr);
+	if (prepared &&
+	    go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+		if (goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item)))
+			cairo_set_line_width (cr, cairo_get_line_width (cr) * _goc_item_transform_scale (item));
 		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 	} else {
 		item->x0 = item->y0 = G_MAXDOUBLE;
@@ -197,17 +190,19 @@ static double
 goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocPolyline *polyline = GOC_POLYLINE (item);
-	GOStyle *style;
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double res = 20;
-	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
+	double ppu, tmp_width;
 	cairo_surface_t *surface;
 	cairo_t *cr;
+	gboolean prepared;
 
 	if (polyline->nb_points == 0)
 		return res;
 
-	style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 	*near_item = item;
+	ppu = item->canvas ? goc_canvas_get_pixels_per_unit (item->canvas) : 1.;
+	tmp_width = style->line.width;
 	if (style->line.width * ppu < 5)
 		style->line.width = 5. / (ppu * ppu);
 	else
@@ -215,23 +210,40 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
-	if (goc_polyline_prepare_draw (item, cr, 0)) {
-		if (cairo_in_stroke (cr, x, y))
-			res = 0;
-	}
+	cairo_save (cr);
+	prepared = goc_polyline_prepare_draw (item, cr, 0);
+	cairo_restore (cr);
+	if (prepared &&
+	    goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr) &&
+	    cairo_in_stroke (cr, x, y))
+		res = 0;
 
-	g_object_unref (style);
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
+	style->line.width = tmp_width;
 	return res;
 }
 
 static void
 goc_polyline_draw (GocItem const *item, cairo_t *cr)
 {
+	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	gboolean needs_restore;
+
+	cairo_save (cr);
+	needs_restore = TRUE;
 	if (goc_polyline_prepare_draw (item, cr, 1)) {
-		cairo_stroke (cr);
+		if (!scale_line_width) {
+			cairo_restore (cr);
+			needs_restore = FALSE;
+		}
+		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
+			cairo_stroke (cr);
+		else
+			cairo_new_path (cr);
 	}
+	if (needs_restore)
+		cairo_restore (cr);
 }
 
 static void

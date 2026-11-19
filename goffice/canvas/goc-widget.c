@@ -509,25 +509,62 @@ enum {
 };
 
 
-static gboolean
-enter_notify_cb (G_GNUC_UNUSED GtkWidget *w, GdkEventCrossing *event, GocWidget *item)
+/* Translates a position in an event on @w to canvas coordinates.  Events
+ * can be received by any widget in the embedded hierarchy.  */
+static void
+goc_widget_event_position (GocWidget *item, GtkWidget *w,
+			   double x, double y, double *cx, double *cy)
 {
-	item->base.canvas->cur_event = (GdkEvent *) event;
-	return GOC_ITEM_GET_CLASS (item->base.parent)->enter_notify (GOC_ITEM (item->base.parent),
-			(event->x + item->x) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_x1,
-			(event->y + item->y) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_y1);
+	GocCanvas *canvas = item->base.canvas;
+	GocOffscreenBox *ofbox;
+	double wx = x, wy = y;
+	int tx = 0, ty = 0;
+	int box_x = 0, box_y = 0;
+
+	if (!item->ofbox || !canvas) {
+		*cx = x;
+		*cy = y;
+		return;
+	}
+
+	if (w != item->widget &&
+	    gtk_widget_translate_coordinates (w, item->widget, (int) x, (int) y, &tx, &ty)) {
+		wx = tx;
+		wy = ty;
+	}
+
+	/* The offscreen box holds the widget on the canvas layout; its scale
+	 * converts child coordinates to layout pixels.  */
+	ofbox = GOC_OFFSCREEN_BOX (item->ofbox);
+	gtk_container_child_get (GTK_CONTAINER (canvas), item->ofbox,
+				 "x", &box_x, "y", &box_y, NULL);
+	goc_canvas_w2c (canvas,
+			box_x + (int) (wx * ofbox->scale),
+			box_y + (int) (wy * ofbox->scale),
+			cx, cy);
 }
 
 static gboolean
-button_press_cb (G_GNUC_UNUSED GtkWidget *w, GdkEventButton *event, GocWidget *item)
+enter_notify_cb (GtkWidget *w, GdkEventCrossing *event, GocWidget *item)
 {
+	double x, y;
+
+	item->base.canvas->cur_event = (GdkEvent *) event;
+	goc_widget_event_position (item, w, event->x, event->y, &x, &y);
+	return GOC_ITEM_GET_CLASS (item->base.parent)->enter_notify (GOC_ITEM (item->base.parent), x, y);
+}
+
+static gboolean
+button_press_cb (GtkWidget *w, GdkEventButton *event, GocWidget *item)
+{
+	double x, y;
+
 	item->base.canvas->cur_event = (GdkEvent *) event;
 	if (event->button != 3)
 		return FALSE;
+	goc_widget_event_position (item, w, event->x, event->y, &x, &y);
 	return GOC_ITEM_GET_CLASS (item->base.parent)->button_pressed (GOC_ITEM (item->base.parent),
-			event->button,
-			(event->x + item->x) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_x1,
-			(event->y + item->y) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_y1);
+			event->button, x, y);
 }
 
 static void

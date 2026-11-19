@@ -83,11 +83,13 @@ goc_graph_set_property (GObject *obj, guint param_id,
 		graph->w = w;
 		break;
 	}
-	case GRAPH_PROP_GRAPH:
+	case GRAPH_PROP_GRAPH: {
+		GogGraph *model = g_value_get_object (value);
 		old_renderer = graph->renderer;
-		graph->renderer = gog_renderer_new (g_value_get_object (value));
+		graph->renderer = model ? gog_renderer_new (model) : NULL;
 		setup_renderer = graph->renderer != NULL;
 		break;
+	}
 
 	case GRAPH_PROP_RENDERER:
 		old_renderer = graph->renderer;
@@ -216,7 +218,7 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 	cairo_save (cr);
 	if (canvas) {
 		cairo_translate (cr, x0,
-			             (int) (y0 - canvas->scroll_y1) * canvas->pixels_per_unit);
+			             go_fake_round ((y0 - canvas->scroll_y1) * canvas->pixels_per_unit));
 #ifdef GOFFICE_WITH_GTK
 		scale = gtk_widget_get_scale_factor (GTK_WIDGET (canvas));
 		cairo_scale (cr, 1. / scale, 1. / scale);
@@ -240,17 +242,24 @@ static void
 goc_graph_update_bounds (GocItem *item)
 {
 	GocGraph *graph = GOC_GRAPH (item);
+	double ppu = item->canvas ? item->canvas->pixels_per_unit : 1.;
 	int scale = 1;
+
 	item->x0 = graph->x;
 	item->y0 = graph->y;
 	item->x1 = graph->x + graph->w;
 	item->y1 = graph->y + graph->h;
+
+	if (graph->renderer == NULL)
+		return;
+
 #ifdef GOFFICE_WITH_GTK
-	scale = gtk_widget_get_scale_factor (GTK_WIDGET (item->canvas));
+	if (item->canvas)
+		scale = gtk_widget_get_scale_factor (GTK_WIDGET (item->canvas));
 #endif
 	gog_renderer_update (graph->renderer,
-			     go_fake_round (graph->w * item->canvas->pixels_per_unit * scale),
-			     go_fake_round (graph->h * item->canvas->pixels_per_unit * scale));
+			     go_fake_round (graph->w * ppu * scale),
+			     go_fake_round (graph->h * ppu * scale));
 }
 
 #ifdef GOFFICE_WITH_GTK
@@ -384,7 +393,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 {
 	GogView *view, *base_view = NULL;
 	char *buf = NULL, *s1 = NULL, *s2 = NULL;
-	GogObject *obj;
+	GogObject *obj = NULL;
 	GogChart *chart;
 	GogViewAllocation alloc;
 	double xpos, ypos;
@@ -413,7 +422,11 @@ goc_graph_do_tooltip (GocGraph *graph)
 	y *= scale * item->canvas->pixels_per_unit;
 
 	/* get the GogView at the cursor position */
+	if (graph->renderer == NULL)
+		goto tooltip;
 	g_object_get (G_OBJECT (graph->renderer), "view", &base_view, NULL);
+	if (base_view == NULL)
+		goto tooltip;
 	gog_view_get_view_at_point (base_view, x, y, &obj, NULL);
 	if (!obj)
 		goto tooltip;
@@ -559,6 +572,38 @@ goc_graph_leave_notify (GocItem *item, double x, double y)
 #endif
 
 static void
+goc_graph_copy (GocItem *dest, GocItem *source)
+{
+	GocGraph *src = GOC_GRAPH (source), *dst = GOC_GRAPH (dest);
+	GogGraph *model = NULL;
+
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->w = src->w;
+	dst->h = src->h;
+
+	if (src->renderer == NULL)
+		return;
+
+	g_object_get (src->renderer, "model", &model, NULL);
+	if (model != NULL) {
+		GogGraph *dup = gog_graph_dup (model);
+		g_object_unref (model);
+		if (dup != NULL) {
+			dst->renderer = gog_renderer_new (dup);
+			/* The renderer only borrows its model, so keep the
+			 * duplicated model alive with the item.  */
+			g_object_set_data_full (G_OBJECT (dst), "goc-graph-model",
+						dup, g_object_unref);
+			g_signal_connect_object (G_OBJECT (dst->renderer),
+						 "request-update",
+						 G_CALLBACK (goc_item_invalidate),
+						 dst, G_CONNECT_SWAPPED);
+		}
+	}
+}
+
+static void
 goc_graph_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
@@ -610,6 +655,7 @@ goc_graph_class_init (GocItemClass *item_klass)
 	item_klass->draw = goc_graph_draw;
 	item_klass->update_bounds = goc_graph_update_bounds;
 	item_klass->distance = goc_graph_distance;
+	item_klass->copy = goc_graph_copy;
 #ifdef GOFFICE_WITH_GTK
 	item_klass->leave_notify = goc_graph_leave_notify;
 	item_klass->motion = goc_graph_motion;

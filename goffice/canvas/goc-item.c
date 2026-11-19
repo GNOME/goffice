@@ -570,7 +570,10 @@ goc_item_is_visible (GocItem *item)
  * @x1: where to store the highest horizontal bound
  * @y1: where to store the highest vertical bound
  *
- * Retrieves the bounds of @item in canvas coordinates.
+ * Retrieves the bounds of @item in the coordinate system of its parent.
+ * For a parentless item (such as the canvas root) that is canvas space;
+ * otherwise apply goc_group_adjust_bounds() to the parent group to get
+ * canvas coordinates.
  **/
 void
 goc_item_get_bounds (GocItem const *item, double *x0, double *y0, double *x1, double *y1)
@@ -677,12 +680,22 @@ void
 goc_item_raise (GocItem *item, int n)
 {
 	GocGroup *group = item->parent;
-	GPtrArray *children = goc_group_get_children (group);
-	int len = children->len;
-	int ix = goc_group_find_child (group, item);
+	GPtrArray *children;
+	int len, ix;
+
+	g_return_if_fail (GOC_IS_GROUP (group));
+
+	children = goc_group_get_children (group);
+	len = children->len;
+	ix = goc_group_find_child (group, item);
+	if (ix < 0) {
+		g_ptr_array_unref (children);
+		return;
+	}
 	if (n > len - 1 - ix) n = len - 1 - ix;
 	g_ptr_array_remove_index (children, ix);
 	g_ptr_array_insert (children, ix + n, item);
+	_goc_group_fake_xchildren (group);
 	goc_item_invalidate (item);
 	goc_item_reordered (item, n);
 	g_ptr_array_unref (children);
@@ -701,12 +714,22 @@ void
 goc_item_lower (GocItem *item, int n)
 {
 	GocGroup *group = item->parent;
-	GPtrArray *children = goc_group_get_children (group);
-	int ix = goc_group_find_child (group, item);
+	GPtrArray *children;
+	int ix;
+
+	g_return_if_fail (GOC_IS_GROUP (group));
+
+	children = goc_group_get_children (group);
+	ix = goc_group_find_child (group, item);
+	if (ix < 0) {
+		g_ptr_array_unref (children);
+		return;
+	}
 	if (n > ix) n = ix;
 
 	g_ptr_array_remove_index (children, ix);
 	g_ptr_array_insert (children, ix - n, item);
+	_goc_group_fake_xchildren (group);
 	goc_item_invalidate (item);
 	goc_item_reordered (item, -n);
 	g_ptr_array_unref (children);
@@ -774,7 +797,7 @@ goc_item_get_parent (GocItem *item)
  * @item: #GocItem
  *
  * Returns: (transfer none): The #GdkWindow associated with the item if any or
- * NULL. Only #GocWidget owns a #GdkWindow.
+ * %NULL. Only #GocWidget owns a #GdkWindow.
  **/
 GdkWindow *
 goc_item_get_window (GocItem *item)
@@ -831,6 +854,11 @@ goc_item_set_transform (GocItem *item, cairo_matrix_t *m)
 		item->transform = *m;
 	else
 		cairo_matrix_init_identity (&item->transform);
+
+	/* The transform changes the item geometry: drop cached bounds and
+	 * invalidate both the old and the new areas.  */
+	goc_item_bounds_changed (item);
+	goc_item_invalidate (item);
 }
 
 /*
@@ -942,18 +970,18 @@ goc_item_get_style_context (const GocItem *item)
 #endif
 
 /**
- * goc_item_duplicate:
+ * goc_item_clone:
  * @item: #GocItem
- * @parent: (nullable): #GocGroup
  *
- * Creates a new GocItem identical to @item inside the parent GocGroup if not
- * %NULL.
+ * Creates a detached copy of @item: the new item has neither parent nor
+ * canvas.  It can later be attached to a group with goc_group_add_child()
+ * or released with g_object_unref().
  *
- * Returns: (transfer none): The duplicated item or NULL if the duplication was
+ * Returns: (transfer full) (nullable): The clone or %NULL if the copy was
  * not possible.
  */
-GocItem*
-goc_item_duplicate (GocItem *item, GocGroup *parent)
+GocItem *
+goc_item_clone (GocItem *item)
 {
 	GocItemClass *klass;
 	GocItem *ret;
@@ -964,9 +992,49 @@ goc_item_duplicate (GocItem *item, GocGroup *parent)
 	if (klass->copy == NULL)
 		return NULL;
 
-	ret = GOC_ITEM ((parent)? goc_item_new (parent, G_OBJECT_TYPE (item), NULL):
-							  g_object_new (G_OBJECT_TYPE (item), NULL));
-	
+	ret = GOC_ITEM (g_object_new (G_OBJECT_TYPE (item), NULL));
+	if (ret)
+		goc_item_copy (ret, item); /* also copies the base fields */
+	return ret;
+}
+
+/**
+ * goc_item_duplicate:
+ * @item: #GocItem
+ * @parent: (nullable): #GocGroup
+ *
+ * Creates a new GocItem identical to @item inside the parent GocGroup if not
+ * %NULL.  Passing %NULL is deprecated: it emits a warning; goc_item_clone()
+ * should be used instead.  In that case the returned item is owned by the
+ * caller and must be released with g_object_unref().
+ *
+ * Returns: (transfer none): The duplicated item or %NULL if the duplication
+ * was not possible.
+ */
+GocItem *
+goc_item_duplicate (GocItem *item, GocGroup *parent)
+{
+	/* The NULL-parent deprecation warning is capped to avoid spam.  */
+	static unsigned dup_null_warnings;
+	GocItemClass *klass;
+	GocItem *ret;
+
+	g_return_val_if_fail (GOC_IS_ITEM (item), NULL);
+
+	if (parent == NULL) {
+		if (dup_null_warnings < 3) {
+			dup_null_warnings++;
+			g_warning ("goc_item_duplicate: parent is NULL; use "
+				   "goc_item_clone() instead.");
+		}
+		return goc_item_clone (item);
+	}
+
+	klass = GOC_ITEM_GET_CLASS (item);
+	if (klass->copy == NULL)
+		return NULL;
+
+	ret = goc_item_new (parent, G_OBJECT_TYPE (item), NULL);
 	if (ret)
 		goc_item_copy (ret, item); /* also copies the base fields */
 	return ret;
@@ -989,9 +1057,16 @@ goc_item_copy (GocItem *dest, GocItem *source)
 	g_return_if_fail (GOC_IS_ITEM (dest));
 	g_return_if_fail (klass == GOC_ITEM_GET_CLASS (dest));
 	g_return_if_fail (klass->copy);
+	if (dest == source)
+		return;
 	dest->visible = source->visible;
 	dest->op = source->op;
 	dest->transform = source->transform;
 	dest->transformed = source->transformed;
 	klass->copy (dest, source);
+
+	/* Cached bounds, if any, belong to the destination's old geometry.
+	 * Drop them and invalidate both the old and the new areas.  */
+	goc_item_bounds_changed (dest);
+	goc_item_invalidate (dest);
 }

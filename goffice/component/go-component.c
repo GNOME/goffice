@@ -336,6 +336,7 @@ go_component_snapshot_render (GOComponent *component, cairo_t *cr,
 				snapshot->image = (void *) go_pixbuf_new_from_pixbuf (pixbuf);
 			if (pixbuf)
 				g_object_unref (pixbuf);
+			g_object_unref (in);
 
 		}
 		if (snapshot->image != NULL) {

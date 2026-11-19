@@ -103,13 +103,23 @@ goc_arc_set_property (GObject *gobject, guint param_id,
 		break;
 	}
 
-	case ARC_PROP_START_ARROW:
-		arc->start_arrow = *((GOArrow *) g_value_peek_pointer (value));
+	case ARC_PROP_START_ARROW: {
+		GOArrow const *arrow = g_value_get_boxed (value);
+		if (arrow != NULL)
+			arc->start_arrow = *arrow;
+		else
+			go_arrow_clear (&arc->start_arrow);
 		break;
+	}
 
-	case ARC_PROP_END_ARROW:
-		arc->end_arrow = *((GOArrow *) g_value_peek_pointer (value));
+	case ARC_PROP_END_ARROW: {
+		GOArrow const *arrow = g_value_get_boxed (value);
+		if (arrow != NULL)
+			arc->end_arrow = *arrow;
+		else
+			go_arrow_clear (&arc->end_arrow);
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -221,7 +231,6 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 	GOArrow const *arrow;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-	double rsign = sign;
 
 	w = style->line.width? style->line.width / 2.0: 0.5;
 
@@ -235,41 +244,38 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 
 	cairo_save (cr);
 	_goc_item_transform (item, cr, flag);
-	if (1 == flag) {
+	if (1 == flag)
 		goc_group_cairo_transform (item->parent, cr, arc->xc, arc->yc);
-		sign = 1;
-	} else {
+	else
 		cairo_translate (cr, arc->xc, arc->yc);
-		rsign = 1;
-	}
 
 #warning "FIXME: this should use go_arrow_draw"
 
 	switch (arrow->typ) {
 	case GO_ARROW_KITE:
 		cairo_save (cr);
-		cairo_translate (cr, (x - arc->xc) * sign, y - arc->yc);
-		cairo_rotate (cr, phi * rsign);
-		cairo_move_to (cr, -arrow->a * sign,  w);
-		cairo_line_to (cr, -arrow->b * sign, w + arrow->c);
+		cairo_translate (cr, x - arc->xc, y - arc->yc);
+		cairo_rotate (cr, phi * sign);
+		cairo_move_to (cr, -arrow->a,  w);
+		cairo_line_to (cr, -arrow->b, w + arrow->c);
 		if (w > 0.5) {
 			cairo_line_to (cr, 0., w);
 			cairo_line_to (cr, 0., -w);
 		} else {
 			cairo_line_to (cr, 0., 0.);
 		}
-		cairo_line_to (cr, -arrow->b * sign, -w - arrow->c);
-		cairo_line_to (cr, -arrow->a * sign, -w);
+		cairo_line_to (cr, -arrow->b, -w - arrow->c);
+		cairo_line_to (cr, -arrow->a, -w);
 		cairo_close_path (cr);
 		cairo_restore (cr);
 		break;
 
 	case GO_ARROW_OVAL:
 		cairo_save (cr);
-		cairo_translate (cr, (x - arc->xc) * sign, y - arc->yc);
-		cairo_rotate (cr, phi * rsign);
+		cairo_translate (cr, x - arc->xc, y - arc->yc);
+		cairo_rotate (cr, phi * sign);
 		if (arrow->a > 0 && arrow->b > 0) {
-			cairo_scale (cr, arrow->a * sign, arrow->b);
+			cairo_scale (cr, arrow->a, arrow->b);
 			cairo_move_to (cr, 0., 0.);
 			cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
 		} else
@@ -336,6 +342,8 @@ goc_arc_update_bounds (GocItem *item)
 
 	if (goc_arc_prepare_draw (item, cr, 0)) {
 		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+			if (goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item)))
+				cairo_set_line_width (cr, cairo_get_line_width (cr) * _goc_item_transform_scale (item));
 			/* arrows are only drawn along with a visible line */
 			if (arc->start_arrow.typ != GO_ARROW_NONE)
 				prepare_draw_arrow (item, cr, 0, 0);
@@ -367,6 +375,8 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 	double tmp_width = 0;
 	double res = 20;
 	double ppu = item->canvas? goc_canvas_get_pixels_per_unit (item->canvas): 1.;
+	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	double k = scale_line_width? MAX (_goc_item_transform_scale (item), 1e-6): 1.;
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
@@ -375,8 +385,8 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 
 	*near_item = item;
 	tmp_width = style->line.width;
-	if (style->line.width * ppu < 5)
-		style->line.width = 5. / (ppu * ppu);
+	if (style->line.width * ppu * k < 5)
+		style->line.width = 5. / (ppu * ppu * k);
 	else
 		style->line.width /= ppu;
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
@@ -403,8 +413,12 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 			if (cairo_in_fill (cr, x, y))
 				res = 0;
 		}
-		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr) && cairo_in_stroke (cr, x, y))
-			res = 0;
+		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
+			if (scale_line_width)
+				cairo_set_line_width (cr, cairo_get_line_width (cr) * k);
+			if (cairo_in_stroke (cr, x, y))
+				res = 0;
+		}
 	}
 
 	cairo_destroy (cr);
@@ -417,6 +431,8 @@ static void
 goc_arc_draw (GocItem const *item, cairo_t *cr)
 {
 	GocArc *arc = GOC_ARC (item);
+	gboolean scale_line_width = goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item));
+	double k = scale_line_width? MAX (_goc_item_transform_scale (item), 1e-6): 1.;
 
 	if (goc_arc_is_degenerate (arc))
 		return;
@@ -424,6 +440,8 @@ goc_arc_draw (GocItem const *item, cairo_t *cr)
 	cairo_save(cr);
 
 	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
+		if (scale_line_width)
+			cairo_set_line_width (cr, cairo_get_line_width (cr) * k);
 		if (arc->start_arrow.typ != GO_ARROW_NONE)
 			prepare_draw_arrow (item, cr, 0, 1);
 		if (arc->end_arrow.typ != GO_ARROW_NONE)
@@ -436,6 +454,8 @@ goc_arc_draw (GocItem const *item, cairo_t *cr)
 		if (arc->type > 0)
 			go_styled_object_fill (GO_STYLED_OBJECT (item), cr, TRUE);
 		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
+			if (scale_line_width)
+				cairo_set_line_width (cr, cairo_get_line_width (cr) * k);
 			cairo_stroke (cr);
 		} else {
 			cairo_new_path (cr);

@@ -2706,6 +2706,7 @@ goc_group_get_type
 GocItem
 GocItemClass
 goc_item_bounds_changed
+goc_item_clone
 goc_item_copy
 goc_item_destroy
 goc_item_distance

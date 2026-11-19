@@ -1,0 +1,38 @@
+# Valgrind suppressions for the canvas test under Xvfb.
+#
+# Gtk and Gio leave one-time allocations and file descriptors behind at
+# exit.  None of it is exercised by the test itself.
+
+# The X connection and the Gdk display manager's fds stay open at exit.
+{
+   gdk-display-fd-eventfd
+   CoreError:FdNotClosed
+   fun:eventfd
+   ...
+}
+{
+   gdk-display-fd-socket
+   CoreError:FdNotClosed
+   fun:socket
+   ...
+}
+
+# One-time Gtk style caches pulled in by creating the canvas widget.
+{
+   gtk-default-style-alloc
+   Memcheck:Leak
+   ...
+   fun:gtk_widget_get_default_style
+   ...
+   fun:new_canvas
+}
+
+# Thread local storage of the Gio worker threads.
+{
+   gio-thread-tls-alloc
+   Memcheck:Leak
+   ...
+   fun:_dl_allocate_tls
+   ...
+   fun:g_bus_get_sync
+}

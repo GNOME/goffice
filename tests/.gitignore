@@ -19,6 +19,7 @@ test-dtoa
 test-decimal
 test-classify
 test-complex
+test-canvas
 constants
 *.log
 *.trs

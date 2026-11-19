@@ -1,0 +1,35 @@
+# Valgrind suppressions shared by the goffice tests.
+#
+# One-time allocations that are not freed at exit show up in every run and
+# are not interesting for the individual tests.
+
+# goc_item_class_init() creates a parameter spec pool that is never freed.
+{
+   goc-item-style-property-pool
+   Memcheck:Leak
+   ...
+   fun:g_malloc
+   fun:g_param_spec_pool_new
+   fun:goc_item_class_init
+}
+
+# Font handling caches (fontconfig, Pango and the Pango FT2 backend) are
+# allocated once and are not freed at exit.
+{
+   fontconfig-exit-cache
+   Memcheck:Leak
+   ...
+   obj:*/libfontconfig.so*
+}
+{
+   pango-language-cache
+   Memcheck:Leak
+   ...
+   fun:pango_language_from_string
+}
+{
+   pangoft2-layout-cache
+   Memcheck:Leak
+   ...
+   obj:*/libpangoft2-1.0.so*
+}

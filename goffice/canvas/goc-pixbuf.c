@@ -142,17 +142,24 @@ goc_pixbuf_update_bounds (GocItem *item)
 	GocPixbuf *pixbuf = GOC_PIXBUF (item);
 	cairo_surface_t *surface;
 	cairo_t *cr;
+	double w, h;
 
-	if (!pixbuf->pixbuf)
+	if (pixbuf->pixbuf == NULL || pixbuf->width == 0. || pixbuf->height == 0.) {
+		/* nothing to draw */
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
 		return;
+	}
+
+	w = (pixbuf->width > 0.)? pixbuf->width: gdk_pixbuf_get_width (pixbuf->pixbuf);
+	h = (pixbuf->height > 0.)? pixbuf->height: gdk_pixbuf_get_height (pixbuf->pixbuf);
+
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
 	cairo_save (cr);
 	_goc_item_transform (item, cr, FALSE);
-	cairo_rectangle (cr, pixbuf->x, pixbuf->y,
-	                 ((pixbuf->width > 0.)? pixbuf->width: gdk_pixbuf_get_width (pixbuf->pixbuf)),
-	                 ((pixbuf->height > 0.)? pixbuf->height: gdk_pixbuf_get_height (pixbuf->pixbuf)));
+	cairo_rectangle (cr, pixbuf->x, pixbuf->y, w, h);
 	cairo_restore (cr);
 	cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 
@@ -164,28 +171,33 @@ static double
 goc_pixbuf_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocPixbuf *pixbuf = GOC_PIXBUF (item);
-	/* FIXME: take rotation into account */
-	double dx, dy, w, h;
-	if (pixbuf->pixbuf == NULL)
-		return G_MAXDOUBLE;
-	w = (pixbuf->width >= 0.)? pixbuf->width: gdk_pixbuf_get_width (pixbuf->pixbuf);
-	h = (pixbuf->height >= 0.)? pixbuf->height: gdk_pixbuf_get_height (pixbuf->pixbuf);
-	if (x < pixbuf->x) {
-		dx = pixbuf->x - x;
-	} else if (x < pixbuf->x + w) {
-		dx = 0;
-	} else {
-		dx = x - pixbuf->x - w;
-	}
-	if (y < pixbuf->y) {
-		dy = pixbuf->y - y;
-	} else if (y < pixbuf->y + h) {
-		dy = 0;
-	} else {
-		dy = y - pixbuf->y - h;
-	}
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	double res = 20;
+	double w, h;
+
+	if (pixbuf->pixbuf == NULL || pixbuf->width == 0. || pixbuf->height == 0.)
+		return res;
+
 	*near_item = item;
-	return hypot (dx, dy);
+	w = (pixbuf->width > 0.)? pixbuf->width: gdk_pixbuf_get_width (pixbuf->pixbuf);
+	h = (pixbuf->height > 0.)? pixbuf->height: gdk_pixbuf_get_height (pixbuf->pixbuf);
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+
+	/* The same geometry as update_bounds(): parent-relative item
+	 * coordinates with the item transform applied.  */
+	cairo_save (cr);
+	_goc_item_transform (item, cr, FALSE);
+	cairo_rectangle (cr, pixbuf->x, pixbuf->y, w, h);
+	cairo_restore (cr);
+	if (cairo_in_fill (cr, x, y))
+		res = 0;
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	return res;
 }
 
 static void
@@ -216,7 +228,7 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
 	x = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
-		pixbuf->x + pixbuf->width: pixbuf->x;
+		pixbuf->x + width: pixbuf->x;
 	goc_group_cairo_transform (item->parent, cr, x, (int) pixbuf->y);
 	cairo_rotate (cr, pixbuf->rotation);
 	if (scalex != 1. || scaley != 1.)
@@ -225,6 +237,24 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 	go_image_draw (image, cr);
 	cairo_restore (cr);
 	g_object_unref (image);
+}
+
+static void
+goc_pixbuf_copy (GocItem *dest, GocItem *source)
+{
+	GocPixbuf *src = GOC_PIXBUF (source), *dst = GOC_PIXBUF (dest);
+
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->width = src->width;
+	dst->height = src->height;
+	dst->rotation = src->rotation;
+	/* just add a reference to the pixbuf, it should never be modified */
+	if (src->pixbuf)
+		g_object_ref (src->pixbuf);
+	if (dst->pixbuf)
+		g_object_unref (dst->pixbuf);
+	dst->pixbuf = src->pixbuf;
 }
 
 static void
@@ -251,13 +281,13 @@ goc_pixbuf_class_init (GocItemClass *item_klass)
 	g_object_class_install_property (obj_klass, PIXBUF_PROP_W,
 		g_param_spec_double ("width",
 			_("Width"),
-			_("The image width or -1 to use the image width"),
+			_("The image width, -1 to use the image width, 0 for nothing"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, PIXBUF_PROP_H,
 		g_param_spec_double ("height",
 			_("Height"),
-			_("The image height or -1 to use the image height"),
+			_("The image height, -1 to use the image height, 0 for nothing"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 /*	g_object_class_install_property (obj_klass, PIXBUF_PROP_ROTATION,
@@ -275,6 +305,7 @@ goc_pixbuf_class_init (GocItemClass *item_klass)
 	item_klass->update_bounds = goc_pixbuf_update_bounds;
 	item_klass->distance = goc_pixbuf_distance;
 	item_klass->draw = goc_pixbuf_draw;
+	item_klass->copy = goc_pixbuf_copy;
 }
 
 GSF_CLASS (GocPixbuf, goc_pixbuf,

@@ -173,48 +173,82 @@ static void
 goc_image_update_bounds (GocItem *item)
 {
 	GocImage *image = GOC_IMAGE (item);
+	cairo_surface_t *surface;
+	cairo_t *cr;
 	double w, h;
-	if (!image->image)
+
+	if (image->image == NULL || image->width == 0. || image->height == 0.) {
+		/* nothing to draw */
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
 		return;
-	/* FIXME: take rotation into account */
-	w = go_image_get_width (image->image) * (1 - image->crop_left - image->crop_right);
-	h = go_image_get_height (image->image) * (1 - image->crop_top - image->crop_bottom);
-	if (w <= 0 || h <= 0) {
-		/* nothing visible, put it at origin */
-		item->x0 = item->x1 = image->x;
-		item->y0 = item->y1 = image->y;
-	} else {
-		item->x0 = image->x;
-		item->y0 = image->y;
-		item->x1 = image->x + (image->width > 0 ? image->width : w);
-		item->y1 = image->y + (image->height > 0 ? image->height : h);
 	}
+
+	w = (image->width > 0.)? image->width:
+		go_image_get_width (image->image) * (1 - image->crop_left - image->crop_right);
+	h = (image->height > 0.)? image->height:
+		go_image_get_height (image->image) * (1 - image->crop_top - image->crop_bottom);
+	if (w <= 0. || h <= 0.) {
+		/* nothing visible */
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
+		return;
+	}
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+
+	cairo_save (cr);
+	_goc_item_transform (item, cr, FALSE);
+	cairo_translate (cr, image->x, image->y);
+	if (image->rotation != 0.)
+		cairo_rotate (cr, image->rotation);
+	cairo_rectangle (cr, 0., 0., w, h);
+	cairo_restore (cr);
+	cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 }
 
 static double
 goc_image_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocImage *image = GOC_IMAGE (item);
-	/* FIXME: take rotation into account */
-	double dx, dy;
-	if (image->image == NULL)
-		return G_MAXDOUBLE;
-	if (x < item->x0) {
-		dx = item->x0 - x;
-	} else if (x < item->x1) {
-		dx = 0;
-	} else {
-		dx = x - item->x1;
-	}
-	if (y < item->y0) {
-		dy = item->y0 - y;
-	} else if (y < item->y1) {
-		dy = 0;
-	} else {
-		dy = y - item->y1;
-	}
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	double res = 20;
+	double w, h;
+
+	if (image->image == NULL || image->width == 0. || image->height == 0.)
+		return res;
+
+	w = (image->width > 0.)? image->width:
+		go_image_get_width (image->image) * (1 - image->crop_left - image->crop_right);
+	h = (image->height > 0.)? image->height:
+		go_image_get_height (image->image) * (1 - image->crop_top - image->crop_bottom);
+	if (w <= 0. || h <= 0.)
+		return res;
+
 	*near_item = item;
-	return hypot (dx, dy);
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+
+	/* The same geometry as update_bounds(): parent-relative item
+	 * coordinates with the item transform and rotation applied.  */
+	cairo_save (cr);
+	_goc_item_transform (item, cr, FALSE);
+	cairo_translate (cr, image->x, image->y);
+	if (image->rotation != 0.)
+		cairo_rotate (cr, image->rotation);
+	cairo_rectangle (cr, 0., 0., w, h);
+	cairo_restore (cr);
+	if (cairo_in_fill (cr, x, y))
+		res = 0;
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	return res;
 }
 
 static void
@@ -291,7 +325,6 @@ goc_image_copy (GocItem *dest, GocItem *source)
 	if (dst->image)
 		g_object_unref (dst->image);
 	dst->image = src->image;
-	parent_class->copy (dest, source);
 }
 
 static void
@@ -318,21 +351,21 @@ goc_image_class_init (GocItemClass *item_klass)
 	g_object_class_install_property (obj_klass, IMAGE_PROP_W,
 		g_param_spec_double ("width",
 			_("Width"),
-			_("The image width or -1 to use the image width"),
-			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+			_("The image width, -1 to use the image width, 0 for nothing"),
+			-G_MAXDOUBLE, G_MAXDOUBLE, -1.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 	g_object_class_install_property (obj_klass, IMAGE_PROP_H,
 		g_param_spec_double ("height",
 			_("Height"),
-			_("The image height or -1 to use the image height"),
-			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-/*	g_object_class_install_property (obj_klass, IMAGE_PROP_ROTATION,
+			_("The image height, -1 to use the image height, 0 for nothing"),
+			-G_MAXDOUBLE, G_MAXDOUBLE, -1.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+	g_object_class_install_property (obj_klass, IMAGE_PROP_ROTATION,
 		g_param_spec_double ("rotation",
 			_("Rotation"),
 			_("The rotation around top left position"),
 			0., 2 * M_PI, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));*/
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, IMAGE_PROP_IMAGE,
 	        g_param_spec_object ("image", _("Image"),
 	                _("The GOImage to display"),

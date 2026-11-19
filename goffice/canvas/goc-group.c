@@ -124,6 +124,29 @@ goc_group_update_bounds (GocItem *item)
 		item->y1 += group->y;
 	}
 	if (group->clip_path) {
+		/* clamp the bounds to the clipping region */
+		cairo_surface_t *surface;
+		cairo_t *cr;
+		double cx0, cy0, cx1, cy1;
+
+		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+		cr = cairo_create (surface);
+		cairo_save (cr);
+		_goc_item_transform (item, cr, FALSE);
+		cairo_translate (cr, group->x, group->y);
+		go_path_to_cairo (group->clip_path, GO_PATH_DIRECTION_FORWARD, cr);
+		cairo_restore (cr);
+		cairo_path_extents (cr, &cx0, &cy0, &cx1, &cy1);
+		cairo_destroy (cr);
+		cairo_surface_destroy (surface);
+		if (item->x0 < cx0)
+			item->x0 = cx0;
+		if (item->y0 < cy0)
+			item->y0 = cy0;
+		if (item->x1 > cx1)
+			item->x1 = cx1;
+		if (item->y1 > cy1)
+			item->y1 = cy1;
 	}
 }
 
@@ -140,10 +163,18 @@ goc_group_draw_region (GocItem const *item, cairo_t *cr,
 
 	cairo_save (cr);
 	if (group->clip_path) {
-		cairo_translate (cr, group->x , group->y);
+		cairo_matrix_t m;
+
+		/* the path is in group coordinates: apply the same transform
+		 * as the children, then restore the matrix; the clip itself
+		 * stays in device space */
+		cairo_get_matrix (cr, &m);
+		_goc_item_transform (item, cr, TRUE);
+		goc_group_cairo_transform (group, cr, 0., 0.);
 		cairo_set_fill_rule (cr, group->clip_rule);
 		go_path_to_cairo (group->clip_path, GO_PATH_DIRECTION_FORWARD, cr);
 		cairo_clip (cr);
+		cairo_set_matrix (cr, &m);
 	}
 	x0 -= group->x;
 	y0 -= group->y;
@@ -178,13 +209,36 @@ goc_group_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GocGroup *group = GOC_GROUP (item);
 	GPtrArray *children = group->priv->children;
 	double result = G_MAXDOUBLE, dist;
+	double ppu = item->canvas? goc_canvas_get_pixels_per_unit (item->canvas): 1.;
+	double th = GOC_THRESHOLD / ppu;
 	unsigned ui;
-	GocItem *cur_item;
-	double th = GOC_THRESHOLD / item->canvas->pixels_per_unit;
+
+	/* check if the click is outside the clipping region */
+	if (group->clip_path) {
+		cairo_surface_t *surface;
+		cairo_t *cr;
+		gboolean inside;
+
+		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+		cr = cairo_create (surface);
+		cairo_save (cr);
+		_goc_item_transform (item, cr, FALSE);
+		cairo_translate (cr, group->x, group->y);
+		cairo_set_fill_rule (cr, group->clip_rule);
+		go_path_to_cairo (group->clip_path, GO_PATH_DIRECTION_FORWARD, cr);
+		cairo_restore (cr);
+		inside = cairo_in_fill (cr, x, y);
+		cairo_destroy (cr);
+		cairo_surface_destroy (surface);
+		if (!inside)
+			return G_MAXDOUBLE;
+	}
+
 	x -= group->x;
 	y -= group->y;
 	for (ui = children->len; ui-- > 0; ) {
 		GocItem *it = g_ptr_array_index (children, ui);
+		GocItem *cur_item = it;
 		if (!it->visible || it->x0 > x + th || it->x1 < x - th
 		    || it->y0 > y + th || it->y1 < y - th)
 			continue;
@@ -195,9 +249,6 @@ goc_group_distance (GocItem *item, double x, double y, GocItem **near_item)
 		}
 		if (result == 0.)
 			break;
-	}
-	/* check if the click is not outside the clipping region */
-	if (group->clip_path) {
 	}
 	return result;
 }
@@ -264,6 +315,7 @@ static void
 goc_group_finalize (GObject *obj)
 {
 	GocGroup *group = GOC_GROUP (obj);
+	g_list_free (group->Xchildren);
 	g_ptr_array_free (group->priv->children, TRUE);
 	g_free (group->priv);
 	((GObjectClass*)parent_klass)->finalize (obj);
@@ -386,13 +438,15 @@ goc_group_clear (GocGroup *group)
 		}
 	}
 
+	_goc_group_fake_xchildren (group);
+
 	goc_group_freeze (group, FALSE);
 }
 
 // Provide just enough of the old ->children fields that it can be used
 // to test for empty and inspection of only child.
-static void
-goc_group_fake_xchildren (GocGroup *group)
+void
+_goc_group_fake_xchildren (GocGroup *group)
 {
 	g_list_free (group->Xchildren);
 	group->Xchildren = group->priv->children->len
@@ -430,7 +484,7 @@ goc_group_add_child (GocGroup *parent, GocItem *item)
 	item->parent = parent;
 	item->canvas = parent->base.canvas;
 
-	goc_group_fake_xchildren (parent);
+	_goc_group_fake_xchildren (parent);
 
 	/* Notify of changes.  */
 	if (old_canvas && item->canvas != old_canvas)
@@ -461,15 +515,19 @@ goc_group_remove_child (GocGroup *parent, GocItem *item)
 	g_return_if_fail (GOC_IS_ITEM (item));
 	g_return_if_fail (item->parent == parent);
 
+	n = goc_group_find_child (parent, item);
+	if (n < 0)
+		/* stale bookkeeping: the item is not in the group */
+		return;
+
 	if (item->canvas)
 		_goc_canvas_remove_item (item->canvas, item);
 	if (GOC_ITEM (parent)->realized)
 		_goc_item_unrealize (item);
-	n = goc_group_find_child (parent, item);
 	g_ptr_array_remove_index (parent->priv->children, n);
 	item->parent = NULL;
 	item->canvas = NULL;
-	goc_group_fake_xchildren (parent);
+	_goc_group_fake_xchildren (parent);
 	g_object_notify (G_OBJECT (item), "parent");
 	g_object_notify (G_OBJECT (item), "canvas");
 	goc_item_bounds_changed (GOC_ITEM (parent));
@@ -654,7 +712,8 @@ goc_group_freeze (GocGroup *group, gboolean freeze)
 	if (freeze) {
 		group->priv->frozen++;
 	} else {
-		group->priv->frozen--;
+		if (group->priv->frozen > 0)
+			group->priv->frozen--;
 		if (!group->priv->frozen)
 			goc_group_update_bounds ((GocItem*) group);
 	}

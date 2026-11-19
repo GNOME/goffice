@@ -67,13 +67,23 @@ goc_line_set_property (GObject *gobject, guint param_id,
 		line->endy = g_value_get_double (value);
 		break;
 
-	case LINE_PROP_START_ARROW:
-		line->start_arrow = *((GOArrow *)g_value_peek_pointer (value));
+	case LINE_PROP_START_ARROW: {
+		GOArrow const *arrow = g_value_get_boxed (value);
+		if (arrow != NULL)
+			line->start_arrow = *arrow;
+		else
+			go_arrow_clear (&line->start_arrow);
 		break;
+	}
 
-	case LINE_PROP_END_ARROW:
-		line->end_arrow = *((GOArrow *)g_value_peek_pointer (value));
+	case LINE_PROP_END_ARROW: {
+		GOArrow const *arrow = g_value_get_boxed (value);
+		if (arrow != NULL)
+			line->end_arrow = *arrow;
+		else
+			go_arrow_clear (&line->end_arrow);
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -117,36 +127,84 @@ goc_line_get_property (GObject *gobject, guint param_id,
 	}
 }
 
-static void
-handle_arrow_bounds (GOArrow const *arrow, GocItem *item)
+/* Half of the drawn stroke width in item coordinates.  The pen is circular
+ * in user space, so an explicit style width is used as is; hairlines are
+ * one device pixel wide.  */
+static double
+goc_line_half_width (GocItem const *item, GOStyle *style)
 {
-	/*
-	 * Do not calculate things precisely, just add enough room
-	 * in all directions.
-	 */
+	double ppu = item->canvas? goc_canvas_get_pixels_per_unit (item->canvas): 1.;
 
+	if (style->line.width > 0.)
+		return style->line.width / 2.;
+	return .5 / (ppu * MAX (_goc_item_transform_scale (item), 1e-6));
+}
+
+/* How far an arrow may stick out of the line box, in item coordinates.
+ * Deliberately generous: the tip extent a is covered as well.  */
+static double
+goc_line_arrow_extra (GOArrow const *arrow)
+{
 	switch (arrow->typ) {
 	case GO_ARROW_NONE:
-		break;
-	case GO_ARROW_KITE: {
-		double d = hypot (arrow->b, arrow->c);
-		item->x0 -= d;
-		item->x1 += d;
-		item->y0 -= d;
-		item->y1 += d;
-		break;
-	}
-	case GO_ARROW_OVAL: {
-		double d = MAX (arrow->a, arrow->b);
-		item->x0 -= d;
-		item->x1 += d;
-		item->y0 -= d;
-		item->y1 += d;
-		break;
-	}
+		return 0.;
+	case GO_ARROW_KITE:
+		return MAX (arrow->a, hypot (arrow->b, arrow->c));
+	case GO_ARROW_OVAL:
+		return MAX (arrow->a, arrow->b);
 	default:
 		g_assert_not_reached ();
 	}
+	return 0.;
+}
+
+/* The arrow silhouette, in the local frame used by go_arrow_draw().  */
+static void
+goc_line_arrow_path (GOArrow const *arrow, cairo_t *cr)
+{
+	switch (arrow->typ) {
+	case GO_ARROW_NONE:
+		break;
+	case GO_ARROW_KITE:
+		cairo_move_to (cr, 0., 0.);
+		cairo_line_to (cr, -arrow->c, -arrow->b);
+		cairo_line_to (cr, 0., -arrow->a);
+		cairo_line_to (cr, arrow->c, -arrow->b);
+		cairo_close_path (cr);
+		break;
+	case GO_ARROW_OVAL:
+		if (arrow->a > 0 && arrow->b > 0) {
+			cairo_save (cr);
+			cairo_scale (cr, arrow->a, arrow->b);
+			cairo_arc (cr, 0., 0., 1., 0., 2. * M_PI);
+			cairo_restore (cr);
+		}
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+/* The pixel snapping of goc_line_draw: returns the snapped start point and
+ * the snapped end offset.  dx is the horizontal delta possibly mirrored by
+ * the RTL direction.  */
+static void
+goc_line_snap (GocLine const *line, GOStyle *style, double dx, double dy,
+	       double *startx, double *starty, double *endx, double *endy)
+{
+	double hoffs, voffs = ceil (style->line.width);
+
+	if (voffs <= 0.)
+		voffs = 1.;
+	hoffs = ((int) voffs & 1)? .5: 0.;
+	voffs = (line->starty == line->endy)? hoffs: 0.;
+	if (line->startx != line->endx)
+		hoffs = 0.;
+
+	*startx = hoffs + floor (line->startx);
+	*starty = voffs + floor (line->starty);
+	*endx = (dx > 0.)? ceil (dx): floor (dx);
+	*endy = (dy > 0.)? ceil (dy): floor (dy);
 }
 
 static void
@@ -154,58 +212,139 @@ goc_line_update_bounds (GocItem *item)
 {
 	GocLine *line = GOC_LINE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	double extra_width = style->line.width /2.;
-	/* FIXME: take transform into account */
-	if (extra_width <= 0.)
-		extra_width = .5;
-	if (style->line.cap == CAIRO_LINE_CAP_SQUARE)
-		extra_width *= 1.5; /* 1.4142 should be enough */
-	if (line->startx < line->endx) {
-		item->x0 = line->startx - extra_width;
-		item->x1 = line->endx + extra_width;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	cairo_matrix_t m;
+	double startx, starty, dx, dy, extra;
+	double bx0, bx1, by0, by1;
+	double px[4], py[4];
+	int i;
+
+	if (line->startx == line->endx && line->starty == line->endy) {
+		/* a zero length line paints nothing; keep a small point */
+		startx = line->startx;
+		starty = line->starty;
+		dx = dy = 0.;
 	} else {
-		item->x0 = line->endx - extra_width;
-		item->x1 = line->startx + extra_width;
-	}
-	if (line->starty < line->endy) {
-		item->y0 = line->starty - extra_width;
-		item->y1 = line->endy + extra_width;
-	} else {
-		item->y0 = line->endy - extra_width;
-		item->y1 = line->starty + extra_width;
+		/* the same pixel snapping as goc_line_draw, so that the
+		 * drawn ink never leaves the bounds */
+		goc_line_snap (line, style, line->endx - line->startx,
+			       line->endy - line->starty,
+			       &startx, &starty, &dx, &dy);
 	}
 
-	handle_arrow_bounds (&line->start_arrow, item);
-	handle_arrow_bounds (&line->end_arrow, item);
+	/* room for the stroke and for the arrows */
+	extra = goc_line_half_width (item, style);
+	extra += MAX (goc_line_arrow_extra (&line->start_arrow),
+		      goc_line_arrow_extra (&line->end_arrow));
+
+	bx0 = MIN (startx, startx + dx) - extra;
+	bx1 = MAX (startx, startx + dx) + extra;
+	by0 = MIN (starty, starty + dy) - extra;
+	by1 = MAX (starty, starty + dy) + extra;
+	px[0] = bx0; py[0] = by0;
+	px[1] = bx1; py[1] = by0;
+	px[2] = bx1; py[2] = by1;
+	px[3] = bx0; py[3] = by1;
+
+	/* the item transform turns the box into the item bounds */
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	_goc_item_transform (item, cr, FALSE);
+	cairo_get_matrix (cr, &m);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+
+	item->x0 = item->y0 = G_MAXDOUBLE;
+	item->x1 = item->y1 = -G_MAXDOUBLE;
+	for (i = 0; i < 4; i++) {
+		double qx = px[i], qy = py[i];
+		cairo_matrix_transform_point (&m, &qx, &qy);
+		item->x0 = MIN (item->x0, qx);
+		item->y0 = MIN (item->y0, qy);
+		item->x1 = MAX (item->x1, qx);
+		item->y1 = MAX (item->y1, qy);
+	}
 }
 
 static double
 goc_line_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocLine *line = GOC_LINE (item);
-	double dx, dy, l, t;
-	GOStyle *style;
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	double ppu = item->canvas? goc_canvas_get_pixels_per_unit (item->canvas): 1.;
+	double k = MAX (_goc_item_transform_scale (item), 1e-6);
+	double tol, dx, dy, l, t;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	cairo_matrix_t m;
+
+	*near_item = item;
+
+	/* Query points come in the parent space: test the geometry in item
+	 * coordinates.  */
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	_goc_item_transform (item, cr, FALSE);
+	cairo_get_matrix (cr, &m);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	if (cairo_matrix_invert (&m) != CAIRO_STATUS_SUCCESS)
+		return 20;
+	cairo_matrix_transform_point (&m, &x, &y);
+
 	dx = line->endx - line->startx;
 	dy = line->endy - line->starty;
 	l = hypot (dx, dy);
-	x -= line->startx;
-	y -= line->starty;
 	if (l == 0.) {
 		/* degenerate line: just a point, avoid dividing by zero */
-		*near_item = item;
-		return hypot (x, y);
+		return hypot (x - line->startx, y - line->starty);
 	}
+
+	/* the hit tolerance is at least 5 device pixels wide */
+	tol = MAX (goc_line_half_width (item, style), 2.5 / (ppu * k));
+
+	/* the arrow heads are filled shapes: hit test them exactly */
+	if (line->start_arrow.typ != GO_ARROW_NONE ||
+	    line->end_arrow.typ != GO_ARROW_NONE) {
+		double phi = atan2 (dy, dx);
+
+		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+		cr = cairo_create (surface);
+		cairo_set_line_width (cr, 2. * tol);
+		if (line->start_arrow.typ != GO_ARROW_NONE) {
+			cairo_save (cr);
+			cairo_translate (cr, line->startx, line->starty);
+			cairo_rotate (cr, phi + M_PI / 2.);
+			goc_line_arrow_path (&line->start_arrow, cr);
+			cairo_restore (cr);
+		}
+		if (line->end_arrow.typ != GO_ARROW_NONE) {
+			cairo_save (cr);
+			cairo_translate (cr, line->endx, line->endy);
+			cairo_rotate (cr, phi - M_PI / 2.);
+			goc_line_arrow_path (&line->end_arrow, cr);
+			cairo_restore (cr);
+		}
+		if (cairo_in_fill (cr, x, y) || cairo_in_stroke (cr, x, y)) {
+			cairo_destroy (cr);
+			cairo_surface_destroy (surface);
+			return 0.;
+		}
+		cairo_destroy (cr);
+		cairo_surface_destroy (surface);
+	}
+
+	x -= line->startx;
+	y -= line->starty;
 	t = (x * dx + y * dy) / l;
 	y = (-x * dy + y * dx) / l;
-	*near_item = item;
 	if (t < 0.)
 		return hypot (t, y); /* that might be not fully exact,
 	 but we don't need a large precision */
 	if (t > l)
 		return hypot (t - l, y);
-	style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	t = fabs (y) - ((style->line.width > 5)?  style->line.width/ 2.: 2.5);
-	/* FIXME: do we need to take the arrow end into account? */
+	t = fabs (y) - tol;
 	return (t > 0.)? t: 0.;
 }
 
@@ -233,31 +372,23 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 	GocLine *line = GOC_LINE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-	double endx = (line->endx - line->startx) * sign, endy = line->endy - line->starty;
-	double hoffs, voffs = ceil (style->line.width);
-	double startx = 0, starty = 0;
+	double endx, endy, startx, starty;
+	double startx_snap, starty_snap;
 	double phi;
 
 	if (line->startx == line->endx && line->starty == line->endy)
 		return;
 
-	if (voffs <= 0.)
-		voffs = 1.;
-
-	hoffs = ((int) voffs & 1)? .5: 0.;
-	voffs = (line->starty == line->endy)? hoffs: 0.;
-	if (line->startx != line->endx)
-		hoffs = 0.;
+	goc_line_snap (line, style, (line->endx - line->startx) * sign,
+		       line->endy - line->starty,
+		       &startx_snap, &starty_snap, &endx, &endy);
 
 	cairo_save (cr);
 	_goc_item_transform (item, cr, TRUE);
-	goc_group_cairo_transform (item->parent, cr,
-				   hoffs + floor (line->startx),
-				   voffs + floor (line->starty));
+	goc_group_cairo_transform (item->parent, cr, startx_snap, starty_snap);
 
-	endx = endx > 0 ? ceil (endx) : floor (endx);
-	endy = endy > 0 ? ceil (endy) : floor (endy);
-
+	startx = 0.;
+	starty = 0.;
 	phi = atan2 (endy, endx);
 	draw_arrow (&line->start_arrow, cr, style,
 		    &startx, &starty, phi + M_PI);

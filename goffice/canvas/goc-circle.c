@@ -93,20 +93,43 @@ static double
 goc_circle_outline_extra_radius (GocItem *item)
 {
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	double ppu = item->canvas? goc_canvas_get_pixels_per_unit (item->canvas): 1.;
 
 	if (style->line.dash_type == GO_LINE_NONE)
 		return 0;
 
-	/* FIXME take transform into account */
-	return style->line.width > 0 ? style->line.width / 2. : .5;
+	/* The circle is stroked after the item transform is restored, so the
+	 * outline does not scale with the transform.  Hairlines are one
+	 * device pixel wide.  */
+	if (style->line.width > 0.)
+		return style->line.width / 2.;
+	return .5 / ppu;
 }
 
 static double
 goc_circle_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocCircle *circle = GOC_CIRCLE (item);
-	double d, extra_dist = goc_circle_outline_extra_radius (item);
+	double k = MAX (_goc_item_transform_scale (item), 1e-6);
+	double d, extra_dist = goc_circle_outline_extra_radius (item) / k;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	cairo_matrix_t m;
+
 	*near_item = item;
+
+	/* Query points come in the parent space: test the geometry in item
+	 * coordinates.  */
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	_goc_item_transform (item, cr, FALSE);
+	cairo_get_matrix (cr, &m);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	if (cairo_matrix_invert (&m) != CAIRO_STATUS_SUCCESS)
+		return 20;
+	cairo_matrix_transform_point (&m, &x, &y);
+
 	x -= circle->x;
 	y -= circle->y;
 	d = hypot (x, y);
@@ -138,11 +161,43 @@ static void
 goc_circle_update_bounds (GocItem *item)
 {
 	GocCircle *circle = GOC_CIRCLE (item);
-	double r = circle->radius + goc_circle_outline_extra_radius (item);
-	item->x0 = circle->x - r;
-	item->y0 = circle->y - r;
-	item->x1 = circle->x + r;
-	item->y1 = circle->y + r;
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	cairo_matrix_t m;
+	double cx, cy, hx, hy, extra;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	_goc_item_transform (item, cr, FALSE);
+	cairo_get_matrix (cr, &m);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+
+	/* The transformed circle is an ellipse; take its axis aligned
+	 * extents.  */
+	cx = circle->x;
+	cy = circle->y;
+	cairo_matrix_transform_point (&m, &cx, &cy);
+	hx = circle->radius * hypot (m.xx, m.xy);
+	hy = circle->radius * hypot (m.yx, m.yy);
+
+	if (style->line.dash_type != GO_LINE_NONE) {
+		extra = goc_circle_outline_extra_radius (item);
+		item->x0 = cx - hx - extra;
+		item->y0 = cy - hy - extra;
+		item->x1 = cx + hx + extra;
+		item->y1 = cy + hy + extra;
+	} else if (go_style_is_fill_visible (style)) {
+		item->x0 = cx - hx;
+		item->y0 = cy - hy;
+		item->x1 = cx + hx;
+		item->y1 = cy + hy;
+	} else {
+		/* nothing to draw, don't keep stale bounds */
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
+	}
 }
 
 static void

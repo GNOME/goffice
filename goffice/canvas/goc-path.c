@@ -76,7 +76,7 @@ goc_path_set_property (GObject *gobject, guint param_id,
 		if (path->path != new_path) {
 			if (path->path)
 				go_path_free (path->path);
-			path->path = go_path_ref (new_path);
+			path->path = new_path? go_path_ref (new_path): NULL;
 		}
 		break;
 	}
@@ -115,7 +115,7 @@ goc_path_get_property (GObject *gobject, guint param_id,
 		break;
 
 	case PATH_PROP_PATH:
-		g_value_set_boxed (value, &path->path);
+		g_value_set_boxed (value, path->path);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -129,13 +129,14 @@ goc_path_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	GocPath *path = GOC_PATH (item);
 	double sign = (item->canvas && goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 
+	if (path->path == NULL)
+		return FALSE;
+
 	_goc_item_transform (item, cr, flag);
-	if (1 == flag) {
+	if (1 == flag)
 		goc_group_cairo_transform (item->parent, cr, path->x , path->y);
-	} else {
+	else
 		cairo_translate (cr, path->x, path->y);
-		sign = 1;
-	}
 	cairo_scale (cr, sign, 1.);
 	cairo_rotate (cr, path->rotation * sign);
 	go_path_to_cairo (path->path, GO_PATH_DIRECTION_FORWARD, cr);
@@ -146,6 +147,7 @@ goc_path_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 static void
 goc_path_update_bounds (GocItem *item)
 {
+	GocPath *path = GOC_PATH (item);
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
@@ -157,13 +159,25 @@ goc_path_update_bounds (GocItem *item)
 		/* The path is already in device space. Restore before setting
 		 * the line: cairo_restore() also drops the line width. */
 		cairo_restore (cr);
-		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr) &&
-		    goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item)))
-			/* the line is drawn with the transform of the item */
-			cairo_set_line_width (cr, cairo_get_line_width (cr) * _goc_item_transform_scale (item));
-		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
-	} else
+		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+			if (goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item)))
+				/* the line is drawn with the transform of the item */
+				cairo_set_line_width (cr, cairo_get_line_width (cr) * _goc_item_transform_scale (item));
+			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		} else if (path->closed &&
+		           go_style_is_fill_visible (go_styled_object_get_style (GO_STYLED_OBJECT (item)))) {
+			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		} else {
+			/* nothing to draw */
+			item->x0 = item->y0 = G_MAXDOUBLE;
+			item->x1 = item->y1 = -G_MAXDOUBLE;
+		}
+	} else {
 		cairo_restore (cr);
+		/* nothing to draw, don't keep stale bounds */
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
+	}
 
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
@@ -198,6 +212,7 @@ goc_path_distance (GocItem *item, double x, double y, GocItem **near_item)
 		/* Restore before setting the line: cairo_restore() also drops
 		 * the line width. */
 		cairo_restore (cr);
+		cairo_set_fill_rule (cr, path->fill_rule? CAIRO_FILL_RULE_EVEN_ODD: CAIRO_FILL_RULE_WINDING);
 		set_line = goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
 		if (set_line && scale_line_width)
 			cairo_set_line_width (cr, cairo_get_line_width (cr) * k);
@@ -254,6 +269,8 @@ goc_path_copy (GocItem *dest, GocItem *source)
 	dst->y = src->y;
 	dst->closed = src->closed;
 	dst->fill_rule = src->fill_rule;
+	if (dst->path)
+		go_path_free (dst->path);
 	dst->path = go_path_copy (src->path);
 	((GocItemClass *) parent_class)->copy (dest, source);
 }

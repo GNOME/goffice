@@ -123,6 +123,7 @@ void		 goc_item_set_operator  (GocItem *item, cairo_operator_t op);
 cairo_operator_t goc_item_get_operator  (GocItem *item);
 void		 goc_item_set_transform (GocItem *item, cairo_matrix_t *m);
 void		 goc_item_copy (GocItem *dest, GocItem *source);
+GocItem		*goc_item_clone (GocItem *item);
 GocItem		*goc_item_duplicate (GocItem *item, GocGroup *parent);
 
 #ifdef GOFFICE_WITH_GTK

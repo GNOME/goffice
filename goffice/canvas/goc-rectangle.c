@@ -154,7 +154,7 @@ goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	}
 	cairo_rotate (cr, rect->rotation * sign);
 	if (0 == rect->type || 0 == rect->rx || 0 == rect->ry) {
-		cairo_rectangle (cr, 0., 0., (int) rect->width, (int) rect->height);
+		cairo_rectangle (cr, 0., 0., rect->width, rect->height);
 	} else {
 
 		if (rect->type & 1) {
@@ -238,14 +238,16 @@ goc_rectangle_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double tmp_width = 0;
 	double res = 20;
-	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
+	double ppu;
 	cairo_surface_t *surface;
 	cairo_t *cr;
+	gboolean prepared;
 
 	if (0 == rect->width && 0 == rect->height)
 		return res;
 
 	*near_item = item;
+	ppu = item->canvas ? goc_canvas_get_pixels_per_unit (item->canvas) : 1.;
 	tmp_width = style->line.width;
 	if (style->line.width * ppu < 5)
 		style->line.width = 5. / (ppu * ppu);
@@ -254,7 +256,13 @@ goc_rectangle_distance (GocItem *item, double x, double y, GocItem **near_item)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
-	if (goc_rectangle_prepare_draw (item, cr, 0)) {
+	/* The path is built in canvas coordinates.  Restore the context
+	 * before the in_fill/in_stroke checks so that the point is
+	 * interpreted in the same space.  */
+	cairo_save (cr);
+	prepared = goc_rectangle_prepare_draw (item, cr, 0);
+	cairo_restore (cr);
+	if (prepared) {
 		/* Filled OR both fill and stroke are none */
 		if (style->fill.type != GO_STYLE_FILL_NONE ||
 			(style->fill.type == GO_STYLE_FILL_NONE && !goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))) {

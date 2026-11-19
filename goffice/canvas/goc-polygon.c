@@ -220,27 +220,34 @@ goc_polygon_update_bounds (GocItem *item)
 {
 	cairo_surface_t *surface;
 	cairo_t *cr;
-	int mode = 0;
+	gboolean prepared, set_line;
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
 	cairo_save (cr);
 	_goc_item_transform (item, cr, FALSE);
-	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
-		mode = 1;
-	else if (go_style_is_fill_visible (go_styled_object_get_style (GO_STYLED_OBJECT (item))))
-		mode = 2;
-	if (mode && goc_polygon_prepare_path (item, cr, 0)) {
-		cairo_restore (cr);
-		if (mode == 1)
-			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
-		else
-			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
-	} else {
+	prepared = goc_polygon_prepare_path (item, cr, 0);
+	/* The path is in device space.  Restore before setting the line:
+	 * cairo_restore() also drops the line width.  */
+	cairo_restore (cr);
+	if (!prepared) {
 		item->x0 = item->y0 = G_MAXDOUBLE;
 		item->x1 = item->y1 = -G_MAXDOUBLE;
+	} else {
+		set_line = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
+		if (set_line) {
+			if (goc_styled_item_get_scale_line_width (GOC_STYLED_ITEM (item)))
+				cairo_set_line_width (cr, cairo_get_line_width (cr) * _goc_item_transform_scale (item));
+			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		} else if (go_style_is_fill_visible (go_styled_object_get_style (GO_STYLED_OBJECT (item))))
+			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		else {
+			item->x0 = item->y0 = G_MAXDOUBLE;
+			item->x1 = item->y1 = -G_MAXDOUBLE;
+		}
 	}
+
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
 }
@@ -249,45 +256,54 @@ static double
 goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
-	GOStyle *style;
-	double res = G_MAXDOUBLE;
-	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	double res = 20;
+	double ppu, tmp_width;
 	GOLineDashType tmp_dash_type;
+	gboolean tmp_auto_dash;
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
 	if (polygon->nb_points == 0)
 		return res;
 
-	style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
-	tmp_dash_type = style->line.dash_type;
 	*near_item = item;
+	ppu = item->canvas ? goc_canvas_get_pixels_per_unit (item->canvas) : 1.;
+	tmp_width = style->line.width;
+	tmp_dash_type = style->line.dash_type;
+	tmp_auto_dash = style->line.auto_dash;
 	if (style->line.width * ppu < 5)
 		style->line.width = 5. / (ppu * ppu);
 	else
 		style->line.width /= ppu;
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
+
 	cairo_save (cr);
+	_goc_item_transform (item, cr, FALSE);
 	goc_polygon_prepare_path (item, cr, 0);
 	cairo_restore (cr);
 	if (go_style_is_fill_visible (style)) {
 		if (cairo_in_fill (cr, x, y))
 			res = 0;
-		else if ((item->x1 - item->x0 < 5 || item->y1 - item->y0 < 5) && style->line.dash_type == tmp_dash_type) {
+		else if ((item->x1 - item->x0 < 5 || item->y1 - item->y0 < 5) &&
+			 style->line.dash_type == tmp_dash_type) {
+			/* A small polygon: use a solid line for hit testing.  */
 			style->line.dash_type = GO_LINE_SOLID;
 			style->line.auto_dash = FALSE;
 		}
 	}
 	if (res > 0 && style->line.dash_type != GO_LINE_NONE) {
-		go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
+		goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
 		if (cairo_in_stroke (cr, x, y))
 			res = 0;
 	}
 
-	g_object_unref (style);
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
+	style->line.width = tmp_width;
+	style->line.dash_type = tmp_dash_type;
+	style->line.auto_dash = tmp_auto_dash;
 	return res;
 }
 

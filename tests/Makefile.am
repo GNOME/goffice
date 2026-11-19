@@ -1,5 +1,5 @@
 check_PROGRAMS=test-quad test-math test-format test-dtoa test-decimal	\
-	test-classify test-complex constants
+	test-classify test-complex test-canvas constants
 if WITH_GTK
 check_PROGRAMS += pie-demo go-demo shapes-demo mf-demo
 endif
@@ -8,7 +8,8 @@ include $(top_srcdir)/goffice.mk
 
 AM_CFLAGS = $(GOFFICE_CFLAGS)
 
-TSCRIPTS = t8000-multipass.pl
+TSCRIPTS = t2000-canvas-headless.pl t2001-canvas-xvfb.pl	\
+	t8000-multipass.pl
 
 TESTS = test-quad test-math test-format test-dtoa test-decimal	\
 	test-classify test-complex					\
@@ -44,10 +45,15 @@ test_classify_SOURCES = test-classify.c
 test_complex_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_complex_SOURCES = test-complex.c
 
+test_canvas_LDADD = $(GOFFICE_PLUGIN_LIBADD)
+test_canvas_SOURCES = test-canvas.c
+
 test_format_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_format_SOURCES = test-format.c
 
 test_dtoa_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_dtoa_SOURCES = test-dtoa.c
 
-EXTRA_DIST = go-demo.ui GofficeTest.pm $(TSCRIPTS)
+EXTRA_DIST = go-demo.ui GofficeTest.pm common.supp			\
+	t2000-canvas-headless.supp t2001-canvas-xvfb.supp	\
+	$(TSCRIPTS)

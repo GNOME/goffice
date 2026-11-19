@@ -1,0 +1,13 @@
+# Valgrind suppressions for the headless canvas test.
+#
+# The test probes for a display with gtk_init_check().  Even when that fails,
+# Gdk leaves an eventfd behind, which --track-fds reports as an error.
+{
+   gtk-init-check-headless-eventfd
+   CoreError:FdNotClosed
+   fun:eventfd
+   ...
+   fun:gdk_display_manager_open_display
+   fun:gtk_init_check
+   fun:main
+}
