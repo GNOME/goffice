@@ -403,7 +403,7 @@ DOUBLE *SUFFIX(go_cspline_get_integrals) (SUFFIX(GOCSpline) const *sp, DOUBLE co
 	for (i = 1; i < n; i++) {
 		sum = 0.;
 		end = x[i];
-		while (start >= sp->x[j])
+		while (start >= sp->x[j] && j < jmax)
 			j++;
 		k = (j > 1)? j - 1: 0;
 		start -= sp->x[k];
