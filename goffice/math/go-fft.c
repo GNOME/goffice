@@ -23,6 +23,22 @@
 #include <goffice/goffice-multipass.h>
 #ifndef SKIP_THIS_PASS
 
+/**
+ * go_fourier_fft: (skip)
+ * @in: the input values
+ * @n: the number of values; must be a power of two
+ * @skip: the distance between consecutive input values
+ * @fourier: location for the newly allocated result, an @n-element
+ * array to be freed with g_free
+ * @inverse: whether to compute the inverse transform
+ *
+ * Performs a fast Fourier transform of @n values read from @in with
+ * stride @skip.  The forward and the inverse transform are both scaled
+ * by 1/@n.
+ *
+ * @n must be a positive power of two.  For any other value a critical is
+ * logged and @fourier is left untouched.
+ **/
 void
 SUFFIX(go_fourier_fft) (SUFFIX(go_complex) const *in, int n, int skip, SUFFIX(go_complex) **fourier, gboolean inverse)
 {
@@ -30,6 +46,8 @@ SUFFIX(go_fourier_fft) (SUFFIX(go_complex) const *in, int n, int skip, SUFFIX(go
 	int        i;
 	int        nhalf = n / 2;
 	DOUBLE argstep;
+
+	g_return_if_fail (n > 0 && (n & (n - 1)) == 0);
 
 	*fourier = g_new (SUFFIX(go_complex), n);
 

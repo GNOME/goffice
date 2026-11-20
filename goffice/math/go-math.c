@@ -673,7 +673,7 @@ STRTO (const char *s, char **end)
 /**
  * go_ascii_strtod:
  * @s: string to convert
- * @end: optional pointer to end of string.
+ * @end: (out) (transfer none) (optional): pointer to end of string.
  *
  * Like g_ascii_strtod, but without hex notation and MS extensions.
  * There is no need to reset errno before calling this.
@@ -688,9 +688,10 @@ go_ascii_strtod (const char *s, char **end)
 	char *tmp;
 	double res;
 
-	if (maxlen == INT_MAX)
+	if (maxlen == INT_MAX) {
+		errno = 0;
 		return g_ascii_strtod (s, end);
-	else if (maxlen < 0) {
+	} else if (maxlen < 0) {
 		/* Hex */
 		errno = 0;
 		if (end)
@@ -715,7 +716,7 @@ go_ascii_strtod (const char *s, char **end)
 /**
  * go_ascii_strtold:
  * @s: string to convert
- * @end: optional pointer to end of string.
+ * @end: (out) (transfer none) (optional): pointer to end of string.
  *
  * Like strtold, but without hex notation and MS extensions and also
  * assuming "C" locale.
@@ -727,7 +728,7 @@ go_ascii_strtod (const char *s, char **end)
 /**
  * go_ascii_strtoDd:
  * @s: string to convert
- * @end: optional pointer to end of string.
+ * @end: (out) (transfer none) (optional): pointer to end of string.
  *
  * Like strtoDd, but without hex notation and MS extensions and also
  * assuming "C" locale.  There is no need to reset errno before

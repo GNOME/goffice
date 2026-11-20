@@ -281,6 +281,12 @@ test_from_string (void)
 	from_string_case ("1.5e2+2.5e-1j", 150, 0.25, 'j');
 	from_string_case ("1e+2-1e-2i", 100, -0.01, 'i');
 
+	/* Subnormal results set errno but are representable.  */
+	from_string_case ("1e-308", 1e-308, 0, 'i');
+	from_string_case ("1e-308i", 0, 1e-308, 'i');
+	from_string_fails ("1e-400");	/* underflows to zero */
+	from_string_fails ("1e999");	/* overflows */
+
 	/* Garbage */
 	from_string_fails ("");
 	from_string_fails ("abc");
@@ -544,6 +550,10 @@ test_exp_ln (void)
 	check_c ("exp -800", &r, 0, 0, 0);
 
 	/* ln */
+	go_complex_init (&z, 0, 0);
+	go_complex_ln (&r, &z);
+	check_c ("ln 0", &r, -INFINITY, 0, 0);
+
 	go_complex_init (&z, 1, 0);
 	go_complex_ln (&r, &z);
 	check_c ("ln 1", &r, 0, 0, 0);
@@ -804,6 +814,202 @@ test_pow (void)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+test_nonfinite (void)
+{
+	GOComplex z, r;
+
+	/* Angle conventions at the origin and in the third quadrant.  */
+	go_complex_init (&z, 0, 0);
+	CHECK (go_complex_mod (&z) == 0);
+	CHECK (go_complex_angle (&z) == 0);
+	CHECK (go_complex_angle_pi (&z) == 0);
+
+	go_complex_init (&z, -1, -1);
+	CHECK (fabs (go_complex_angle (&z) + 3 * M_PI / 4) < 1e-15);
+	CHECK (fabs (go_complex_angle_pi (&z) + 0.75) < 1e-15);
+
+	/* exp saturates at -inf and stays invalid for the other extremes.  */
+	go_complex_init (&z, go_ninf, 0);
+	go_complex_exp (&r, &z);
+	check_c ("exp -inf", &r, 0, 0, 0);
+
+	go_complex_init (&z, go_pinf, 0);
+	go_complex_exp (&r, &z);
+	CHECK (go_complex_invalid_p (&r) && isinf (r.re));
+
+	go_complex_init (&z, go_nan, 1);
+	go_complex_exp (&r, &z);
+	CHECK (go_complex_invalid_p (&r));
+
+	/* ln handles the positive real axis; NaN stays NaN.  */
+	go_complex_init (&z, go_pinf, 0);
+	go_complex_ln (&r, &z);
+	g_printerr ("ln(+inf) = (%g, %g)\n", r.re, r.im);
+	CHECK (r.re == go_pinf && r.im == 0);
+
+	go_complex_init (&z, go_nan, 0);
+	go_complex_ln (&r, &z);
+	CHECK (isnan (r.re) && isnan (r.im));
+
+	/* sqrt takes the modulus to +inf; the trig functions go NaN.  */
+	go_complex_init (&z, go_pinf, 0);
+	go_complex_sqrt (&r, &z);
+	CHECK (r.re == go_pinf);
+
+	go_complex_init (&z, go_nan, 0);
+	go_complex_sin (&r, &z);
+	CHECK (isnan (r.re) && isnan (r.im));
+	go_complex_cos (&r, &z);
+	CHECK (isnan (r.re) && isnan (r.im));
+	go_complex_tan (&r, &z);
+	CHECK (isnan (r.re) && isnan (r.im));
+
+	/* A zero modulus gives the origin for any angle.  */
+	go_complex_from_polar (&z, 0, 1.25);
+	check_c ("from_polar 0", &z, 0, 0, 0);
+	go_complex_from_polar_pi (&z, 0, -0.25);
+	check_c ("from_polar_pi 0", &z, 0, 0, 0);
+}
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+
+static gboolean
+component_okl (long double got, long double want, long double scale,
+	       long double tol)
+{
+	if (isnan (want))
+		return isnan (got);
+	if (isinf (want))
+		return got == want;
+	return fabsl (got - want) <= tol * scale;
+}
+
+static void
+check_cl (const char *what, const GOComplexl *got,
+	  long double re, long double im, long double tol)
+{
+	long double scale = MAX (fabsl (re), fabsl (im));
+	if (!(scale > 0) || isinf (scale))
+		scale = 1;
+
+	if (component_okl (got->re, re, scale, tol) &&
+	    component_okl (got->im, im, scale, tol))
+		return;
+
+	g_printerr ("FAIL: %s\n    got  (%.21Lg, %.21Lg)\n"
+		    "    want (%.21Lg, %.21Lg)\n",
+		    what, got->re, got->im, re, im);
+	failures++;
+}
+
+static void
+test_long_double (void)
+{
+	GOComplexl z, w, r, s, c, q;
+	GType t = go_complexl_get_type ();
+	long double m, a;
+	char unit = '?';
+	char *str;
+
+	CHECK (G_TYPE_IS_BOXED (t));
+	CHECK (t == go_complexl_get_type ());
+
+	go_complex_initl (&z, 3, -4);
+	CHECK (z.re == 3 && z.im == -4);
+
+	go_complex_initl (&w, 3, 4);
+	go_complex_reall (&w, 7);
+	CHECK (w.re == 7 && w.im == 0);
+	CHECK (go_complex_real_pl (&w));
+	go_complex_initl (&w, 7, 1e-30L);
+	CHECK (!go_complex_real_pl (&w));
+	go_complex_initl (&w, 0, 0);
+	CHECK (go_complex_zero_pl (&w));
+	go_complex_initl (&w, 0, 1e-30L);
+	CHECK (!go_complex_zero_pl (&w));
+	go_complex_invalidl (&w);
+	CHECK (go_complex_invalid_pl (&w) && isnan (w.re) && isnan (w.im));
+
+	go_complex_conjl (&r, &z);
+	check_cl ("conjl", &r, 3, 4, 0);
+	CHECK (go_complex_modl (&z) == 5);
+	CHECK (fabsl (go_complex_anglel (&z) - atan2l (-4, 3)) < 1e-18L);
+
+	go_complex_scale_reall (&z, 2);
+	check_cl ("scale_reall", &z, 6, -8, 0);
+
+	go_complex_initl (&z, 3, 4);
+	go_complex_initl (&w, 3, -4);
+	go_complex_addl (&r, &z, &w);
+	check_cl ("addl", &r, 6, 0, 0);
+	go_complex_subl (&r, &z, &w);
+	check_cl ("subl", &r, 0, 8, 0);
+	go_complex_mull (&r, &z, &w);
+	check_cl ("mull", &r, 25, 0, 0);
+	go_complex_divl (&r, &z, &w);
+	check_cl ("divl", &r, -7.0L / 25, 24.0L / 25, 1e-17L);
+	go_complex_sqrtl (&r, &w);
+	check_cl ("sqrtl", &r, 2, -1, 1e-17L);
+	go_complex_expl (&r, &z);
+	check_cl ("expl 3+4i", &r, expl (3) * cosl (4), expl (3) * sinl (4),
+		  1e-16L);
+	go_complex_lnl (&r, &w);
+	check_cl ("lnl 3-4i", &r, logl (5), atan2l (-4, 3), 1e-17L);
+	go_complex_sinl (&s, &z);
+	check_cl ("sinl 3+4i", &s, sinl (3) * coshl (4), cosl (3) * sinhl (4),
+		  1e-16L);
+	go_complex_cosl (&c, &z);
+	check_cl ("cosl 3+4i", &c, cosl (3) * coshl (4), -sinl (3) * sinhl (4),
+		  1e-16L);
+	go_complex_divl (&q, &s, &c);
+	go_complex_tanl (&r, &z);
+	check_cl ("tanl 3+4i", &r, q.re, q.im, 1e-17L);
+
+	/* Integer powers agree with repeated multiplication.  */
+	go_complex_mull (&q, &z, &z);
+	go_complex_mull (&q, &q, &z);
+	go_complex_initl (&w, 3, 0);
+	go_complex_powl (&r, &z, &w);
+	check_cl ("powl 3+4i ^ 3", &r, q.re, q.im, 1e-17L);
+	go_complex_powxl (&r, NULL, &z, &w);
+	check_cl ("powxl 3+4i ^ 3", &r, q.re, q.im, 1e-17L);
+
+	/* Polar conversions.  */
+	go_complex_to_polarl (&m, &a, &z);
+	CHECK (m == 5);
+	CHECK (fabsl (a - atan2l (4, 3)) < 1e-18L);
+	go_complex_from_polarl (&w, 2, (long double) M_PI / 2);
+	check_cl ("from_polarl", &w, 0, 2, 1e-15L);
+	go_complex_from_polar_pil (&w, 2, 0.5L);
+	CHECK (w.re == 0 && w.im == 2);
+	go_complex_from_polar_pil (&w, 1, 1);
+	CHECK (w.re == -1 && w.im == 0);
+
+	/* Strings.  */
+	str = go_complex_to_stringl (&z, "%.12Lg", "%.12Lg", 'i');
+	check_str ("to_stringl", str, "3+4i");
+	str = go_complex_to_stringl (&z, "%.12Lg", "%.12Lg", 'j');
+	check_str ("to_stringl j", str, "3+4j");
+	go_complex_initl (&w, 0, 0);
+	CHECK (go_complex_from_stringl (&w, "3+4j", &unit) == 0);
+	CHECK (w.re == 3 && w.im == 4 && unit == 'j');
+	CHECK (go_complex_from_stringl (&w, "not a number", &unit) != 0);
+
+	/* Boxed type.  */
+	{
+		GOComplexl *boxed = g_boxed_copy (t, &z);
+		CHECK (boxed != NULL && boxed->re == 3 && boxed->im == 4);
+		g_boxed_free (t, boxed);
+	}
+}
+
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 int
 main (int argc, char **argv)
 {
@@ -824,6 +1030,10 @@ main (int argc, char **argv)
 	test_exp_ln ();
 	test_trig ();
 	test_pow ();
+	test_nonfinite ();
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+	test_long_double ();
+#endif
 
 	libgoffice_shutdown ();
 

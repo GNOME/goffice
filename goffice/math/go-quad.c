@@ -393,10 +393,22 @@ void
 SUFFIX(go_quad_add) (QUAD *res, const QUAD *a, const QUAD *b)
 {
 	DOUBLE r = a->h + b->h;
-	DOUBLE s = SUFFIX(fabs) (a->h) > SUFFIX(fabs) (b->h)
+	DOUBLE s;
+
+	if (!SUFFIX (go_finite) (r)) {
+		res->h = r;
+		res->l = 0;
+		return;
+	}
+
+	s = SUFFIX(fabs) (a->h) > SUFFIX(fabs) (b->h)
 		? a->h - r + b->h + b->l + a->l
 		: b->h - r + a->h + a->l + b->l;
 	res->h = r + s;
+	if (!SUFFIX (go_finite) (res->h)) {
+		res->l = 0;
+		return;
+	}
 	res->l = r - res->h + s;
 
 #ifdef MIGHT_NEED_FPU_SETUP
@@ -416,10 +428,22 @@ void
 SUFFIX(go_quad_sub) (QUAD *res, const QUAD *a, const QUAD *b)
 {
 	DOUBLE r = a->h - b->h;
-	DOUBLE s = SUFFIX(fabs) (a->h) > SUFFIX(fabs) (b->h)
+	DOUBLE s;
+
+	if (!SUFFIX (go_finite) (r)) {
+		res->h = r;
+		res->l = 0;
+		return;
+	}
+
+	s = SUFFIX(fabs) (a->h) > SUFFIX(fabs) (b->h)
 		? +a->h - r - b->h - b->l + a->l
 		: -b->h - r + a->h + a->l - b->l;
 	res->h = r + s;
+	if (!SUFFIX (go_finite) (res->h)) {
+		res->l = 0;
+		return;
+	}
 	res->l = r - res->h + s;
 }
 
@@ -453,12 +477,29 @@ SUFFIX(go_quad_mul12) (QUAD *res, DOUBLE x, DOUBLE y)
 {
 	DOUBLE hx, tx, hy, ty, p, q;
 
+	if (!SUFFIX (go_finite) (x) || !SUFFIX (go_finite) (y)) {
+		res->h = x * y;
+		res->l = 0;
+		return;
+	}
+
 	SPLIT1 (x, hx, tx);
 	SPLIT1 (y, hy, ty);
 
 	p = hx * hy;
+	if (!SUFFIX (go_finite) (p)) {
+		/* Overflow; the cross terms would have the opposite
+		   sign and turn p + q into NaN.  */
+		res->h = x * y;
+		res->l = 0;
+		return;
+	}
 	q = hx * ty + tx * hy;
 	res->h = p + q;
+	if (!SUFFIX (go_finite) (res->h)) {
+		res->l = 0;
+		return;
+	}
 	res->l = p - res->h + q + tx * ty;
 }
 
@@ -477,9 +518,25 @@ void
 SUFFIX(go_quad_mul) (QUAD *res, const QUAD *a, const QUAD *b)
 {
 	QUAD c;
+
+	if (!SUFFIX (go_finite) (a->h) || !SUFFIX (go_finite) (b->h)) {
+		res->h = SUFFIX(go_quad_value) (a) * SUFFIX(go_quad_value) (b);
+		res->l = 0;
+		return;
+	}
+
 	SUFFIX(go_quad_mul12) (&c, a->h, b->h);
+	if (!SUFFIX (go_finite) (c.h)) {
+		res->h = c.h;
+		res->l = 0;
+		return;
+	}
 	c.l = a->h * b->l + a->l * b->h + c.l;
 	res->h = c.h + c.l;
+	if (!SUFFIX (go_finite) (res->h)) {
+		res->l = 0;
+		return;
+	}
 	res->l = c.h - res->h + c.l;
 }
 
@@ -495,10 +552,26 @@ void
 SUFFIX(go_quad_div) (QUAD *res, const QUAD *a, const QUAD *b)
 {
 	QUAD c, u;
+
+	if (!SUFFIX (go_finite) (a->h) || !SUFFIX (go_finite) (b->h)) {
+		res->h = SUFFIX(go_quad_value) (a) / SUFFIX(go_quad_value) (b);
+		res->l = 0;
+		return;
+	}
+
 	c.h = a->h / b->h;
+	if (!SUFFIX (go_finite) (c.h)) {
+		res->h = c.h;
+		res->l = 0;
+		return;
+	}
 	SUFFIX(go_quad_mul12) (&u, c.h, b->h);
 	c.l = (a->h - u.h - u.l + a->l - c.h * b->l) / b->h;
 	res->h = c.h + c.l;
+	if (!SUFFIX (go_finite) (res->h)) {
+		res->l = 0;
+		return;
+	}
 	res->l = c.h - res->h + c.l;
 }
 
@@ -553,6 +626,19 @@ SUFFIX(go_quad_scalbn) (QUAD *res, const QUAD *a, int n)
 	res->l = SUFFIX(scalbn) (a->l, n);
 }
 
+/*
+ * Convert a floating exponent to int for scalbn.  Out-of-range values
+ * saturate and NaN becomes 0.  CLAMP alone is not enough: it passes NaN
+ * through, and converting NaN to int is undefined.
+ */
+static int
+SUFFIX(go_quad_scalbn_int) (DOUBLE x)
+{
+	if (!SUFFIX (go_finite) (x))
+		return (x > 0) ? G_MAXINT : (x < 0) ? G_MININT : 0;
+	return CLAMP (x, G_MININT, G_MAXINT);
+}
+
 
 /**
  * go_quad_sqrt:
@@ -564,6 +650,18 @@ SUFFIX(go_quad_scalbn) (QUAD *res, const QUAD *a, int n)
 void
 SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 {
+	if (GO_ISNAN (a->h) || a->h < 0) {
+		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
+		return;
+	}
+
+	if (!SUFFIX (go_finite) (a->h)) {
+		/* +infinity */
+		res->h = a->h;
+		res->l = 0;
+		return;
+	}
+
 	if (a->h > 0) {
 		QUAD c, u;
 		c.h = SUFFIX(sqrt) (a->h);
@@ -571,6 +669,12 @@ SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 		c.l = (a->h - u.h - u.l + a->l) * HALF / c.h;
 		res->h = c.h + c.l;
 		res->l = c.h - res->h + c.l;
+	} else if (a->l > 0) {
+		/* A sub-double value: {0, l}.  */
+		res->h = SUFFIX(sqrt) (a->l);
+		res->l = 0;
+	} else if (a->l < 0) {
+		SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
 	} else
 		res->h = res->l = 0;
 }
@@ -673,29 +777,38 @@ SUFFIX(rescale_base) (QUAD *x, DOUBLE *e)
 static void
 SUFFIX(go_quad_pow_int) (QUAD *res, DOUBLE *exp2, const QUAD *x, const QUAD *y)
 {
-	QUAD xn;
-	DOUBLE dy;
+	QUAD xn, qy = *y;
 	DOUBLE xe = 0;
 
 	xn = *x;
 	*exp2 = 0;
 
-	dy = SUFFIX(go_quad_value) (y);
-	g_return_if_fail (dy >= 0);
+	g_return_if_fail (SUFFIX(go_quad_compare) (&qy, &SUFFIX(go_quad_zero)) >= 0);
 
 	*res = SUFFIX(go_quad_one);
 	SUFFIX(rescale_base) (&xn, &xe);
 
-	while (dy > 0) {
-		if (SUFFIX(fmod) (dy, 2) > 0) {
+	while (SUFFIX(go_quad_compare) (&qy, &SUFFIX(go_quad_zero)) > 0) {
+		QUAD qh, qf;
+
+		/*
+		 * The exponent is an integer and hence odd exactly when
+		 * y/2 is not.  Doing this in quad precision keeps the
+		 * low bits, which a double rounding would lose.
+		 */
+		SUFFIX(go_quad_scalbn) (&qh, &qy, -1);
+		SUFFIX(go_quad_floor) (&qf, &qh);
+
+		if (SUFFIX(go_quad_compare) (&qf, &qh) != 0) {
 			SUFFIX(go_quad_mul) (res, res, &xn);
 			*exp2 += xe;
 			SUFFIX(rescale_base) (res, exp2);
-			dy--;
-			if (dy == 0)
+			SUFFIX(go_quad_sub) (&qy, &qy, &SUFFIX(go_quad_one));
+			if (SUFFIX(go_quad_compare) (&qy, &SUFFIX(go_quad_zero)) == 0)
 				break;
 		}
-		dy /= 2;
+
+		SUFFIX(go_quad_scalbn) (&qy, &qy, -1);
 		SUFFIX(go_quad_mul) (&xn, &xn, &xn);
 		xe *= 2;
 		SUFFIX(rescale_base) (&xn, &xe);
@@ -724,7 +837,7 @@ SUFFIX(go_quad_sqrt1pm1) (QUAD *res, const QUAD *a)
 
 /*
  * Compute pow(x,y) assuming y is in [0;1[.  If r1m is true,
- * compute 1-pow(x,y) instead.
+ * compute pow(x,y)-1 instead.
  */
 
 static void
@@ -732,14 +845,13 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 			  gboolean r1m)
 {
 	QUAD qx, qr, qy = *y;
-	DOUBLE dy;
 	gboolean x1m;
 
 	g_return_if_fail (SUFFIX(go_quad_value) (y) >= 0);
 	g_return_if_fail (SUFFIX(go_quad_value) (y) <= 1); /* =1 might happen */
 
 	/*
-	 * "1m" mode refers to keeping 1-v instead of just v.
+	 * "1m" mode refers to keeping v-1 instead of just v.
 	 */
 	x1m = SUFFIX(fabs) (SUFFIX(go_quad_value) (x)) >= HALF;
 	if (x1m) {
@@ -750,11 +862,11 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 
 	qr = r1m ? SUFFIX(go_quad_zero) : SUFFIX(go_quad_one);
 
-	while ((dy = SUFFIX(go_quad_value) (&qy)) > 0) {
+	while (SUFFIX(go_quad_compare) (&qy, &SUFFIX(go_quad_zero)) > 0) {
 		SUFFIX(go_quad_add) (&qy, &qy, &qy);
 		if (x1m) {
 			SUFFIX(go_quad_sqrt1pm1) (&qx, &qx);
-			if (SUFFIX(go_quad_value) (&qx) == 0)
+			if (SUFFIX(go_quad_compare) (&qx, &SUFFIX(go_quad_zero)) == 0)
 				break;
 		} else {
 			SUFFIX(go_quad_sqrt) (&qx, &qx);
@@ -763,7 +875,7 @@ SUFFIX(go_quad_pow_frac) (QUAD *res, const QUAD *x, const QUAD *y,
 				SUFFIX(go_quad_sub) (&qx, &qx, &SUFFIX(go_quad_one));
 			}
 		}
-		if (dy >= HALF) {
+		if (SUFFIX(go_quad_compare) (&qy, &SUFFIX(go_quad_one)) >= 0) {
 			QUAD qp;
 			SUFFIX(go_quad_sub) (&qy, &qy, &SUFFIX(go_quad_one));
 			SUFFIX(go_quad_mul) (&qp, &qx, &qr);
@@ -836,6 +948,25 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 		return (void)(*res = *x);
 	if (GO_ISNAN (y->h))
 		return (void)(*res = *y);
+	if (!SUFFIX(go_finite) (y->h)) {
+		/*
+		 * y is +/-infinity (NaN was handled above).  The result
+		 * is 1 for |x| == 1, +inf when |x| and y are on the same
+		 * side of 1, and +0 otherwise.
+		 */
+		QUAD ax;
+		int cmp;
+
+		SUFFIX(go_quad_abs) (&ax, x);
+		cmp = SUFFIX(go_quad_compare) (&ax, &SUFFIX(go_quad_one));
+		if (cmp == 0)
+			*res = SUFFIX(go_quad_one);
+		else if ((cmp > 0) == (y->h > 0))
+			SUFFIX(go_quad_init) (res, SUFFIX(go_pinf));
+		else
+			*res = SUFFIX(go_quad_zero);
+		return;
+	}
 	if (SUFFIX(go_quad_compare) (y, &SUFFIX(go_quad_one)) == 0)
 		return (void)(*res = *x);
 	if (x->h > 0 && SUFFIX(go_quad_compare) (y, &SUFFIX(go_quad_half)) == 0)
@@ -864,14 +995,35 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 		return;
 	}
 
+	if (x->h < 0) {
+		/*
+		 * pow_int handles the sign for integer exponents;
+		 * fractional powers of a negative base are undefined.
+		 */
+		if (SUFFIX(go_quad_isint) (y) == 0)
+			return SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
+	}
+
 	/* Lots of infinity/nan cases ignored */
 
 	if (dy < 0) {
 		QUAD my;
+		DOUBLE ep;
+
 		SUFFIX(go_quad_sub) (&my, &SUFFIX(go_quad_zero), y);
-		SUFFIX(go_quad_pow) (res, expb, x, &my);
+		/*
+		 * Compute with a local exponent so that the reciprocal is
+		 * taken at a sane magnitude; applying the scaling before
+		 * the reciprocal would lose subnormal results.
+		 */
+		SUFFIX(go_quad_pow) (res, &ep, x, &my);
 		SUFFIX(go_quad_div) (res, &SUFFIX(go_quad_one), res);
-		if (expb) *expb = 0 - *expb;
+		if (expb)
+			*expb = -ep;
+		else {
+			int e = SUFFIX(go_quad_scalbn_int) (-ep);
+			SUFFIX(go_quad_scalbn) (res, res, e);
+		}
 		return;
 	}
 
@@ -882,7 +1034,7 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 	if (expb)
 		*expb = exp2ew;
 	else {
-		int e = CLAMP (exp2ew, G_MININT, G_MAXINT);
+		int e = SUFFIX(go_quad_scalbn_int) (exp2ew);
 		SUFFIX(go_quad_scalbn) (res, res, e);
 	}
 #else
@@ -937,8 +1089,7 @@ SUFFIX(go_quad_pow) (QUAD *res, DOUBLE *expb,
 	if (expb) {
 		*expb += er;
 	} else {
-		er = CLAMP (er, G_MININT, G_MAXINT);
-		SUFFIX(go_quad_scalbn) (res, res, er);
+		SUFFIX(go_quad_scalbn) (res, res, SUFFIX(go_quad_scalbn_int) (er));
 	}
 	SUFFIX(go_quad_mul) (res, res, &f10);
 	if (qneg)
@@ -1074,8 +1225,7 @@ SUFFIX(go_quad_exp) (QUAD *res, DOUBLE *expb, const QUAD *a)
 		}
 		*expb = pbase;
 	} else {
-		pbase = CLAMP (pbase, G_MININT, G_MAXINT);
-		SUFFIX(go_quad_scalbn) (&qres, &qres, (int)pbase);
+		SUFFIX(go_quad_scalbn) (&qres, &qres, SUFFIX(go_quad_scalbn_int) (pbase));
 	}
 	*res = qres;
 
@@ -1095,9 +1245,12 @@ SUFFIX(go_quad_expm1) (QUAD *res, const QUAD *a)
 {
 	DOUBLE da = SUFFIX(go_quad_value) (a);
 
-	if (!SUFFIX(go_finite) (da))
-		*res = *a;
-	else if (SUFFIX (fabs) (da) > HALF) {
+	if (!SUFFIX(go_finite) (da)) {
+		if (da < 0)
+			SUFFIX(go_quad_negate) (res, &SUFFIX(go_quad_one));
+		else
+			*res = *a;
+	} else if (SUFFIX (fabs) (da) > HALF) {
 		SUFFIX(go_quad_exp) (res, NULL, a);
 		SUFFIX(go_quad_sub) (res, res, &SUFFIX(go_quad_one));
 	} else if (da >= 0) {
@@ -1108,6 +1261,8 @@ SUFFIX(go_quad_expm1) (QUAD *res, const QUAD *a)
 		SUFFIX(go_quad_pow_frac) (&z, &SUFFIX(go_quad_e), &ma, TRUE);
 		SUFFIX(go_quad_add) (&zp1, &z, &SUFFIX(go_quad_one));
 		SUFFIX(go_quad_div) (res, &z, &zp1);
+		/* z/zp1 is 1-e^a, not e^a-1.  */
+		SUFFIX(go_quad_negate) (res, res);
 	}
 }
 
@@ -1272,19 +1427,28 @@ SUFFIX(go_quad_agm_internal) (QUAD *res, AGM_Method method, const QUAD *x)
 
 	switch (method) {
 	case AGM_ARCSIN:
-		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
+		if (!(SUFFIX(fabs) (x->h) <= 1)) {
+			SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
+			return;
+		}
 		SUFFIX(go_quad_ihypot) (&dpk[0], x);
 		gp = SUFFIX(go_quad_one);
 		qnum = *x;
 		break;
 	case AGM_ARCCOS:
-		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
+		if (!(SUFFIX(fabs) (x->h) <= 1)) {
+			SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
+			return;
+		}
 		dpk[0] = *x;
 		gp = SUFFIX(go_quad_one);
 		SUFFIX(go_quad_ihypot) (&qnum, x);
 		break;
 	case AGM_ARCTAN:
-		g_return_if_fail (SUFFIX(fabs) (x->h) <= 1);
+		if (!(SUFFIX(fabs) (x->h) <= 1)) {
+			SUFFIX(go_quad_init) (res, SUFFIX(go_nan));
+			return;
+		}
 		dpk[0] = SUFFIX(go_quad_one);
 		SUFFIX(go_quad_hypot) (&gp, x, &SUFFIX(go_quad_one));
 		qnum = *x;
@@ -1334,6 +1498,28 @@ SUFFIX(go_quad_atan2_special) (const QUAD *y, const QUAD *x, DOUBLE *f)
 {
 	DOUBLE dy = SUFFIX(go_quad_value) (y);
 	DOUBLE dx = SUFFIX(go_quad_value) (x);
+
+	if (GO_ISNAN (dy) || GO_ISNAN (dx)) {
+		*f = SUFFIX(go_nan);
+		return TRUE;
+	}
+
+	if (!SUFFIX(go_finite) (dy) || !SUFFIX(go_finite) (dx)) {
+		gboolean y_inf = !SUFFIX(go_finite) (dy);
+		gboolean x_inf = !SUFFIX(go_finite) (dx);
+
+		if (y_inf && x_inf)
+			*f = (dy > 0)
+				? (dx > 0 ? 0.25 : 0.75)
+				: (dx > 0 ? -0.25 : -0.75);
+		else if (y_inf)
+			*f = (dy > 0 ? HALF : -HALF);
+		else
+			*f = (dx > 0
+			      ? (dy >= 0 ? 0. : -0.)
+			      : (dy >= 0 ? 1. : -1.));
+		return TRUE;
+	}
 
 	if (dy == 0) {
 		/* This assumes all zeros are +0. */

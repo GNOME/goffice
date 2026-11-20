@@ -72,12 +72,15 @@ SUFFIX(go_quad_matrix_new) (int m, int n)
  * go_quad_matrix_free: (skip)
  * @A: (transfer full): #GOQuadMatrix to free
  *
- * Frees @A and its associated data.
+ * Frees @A and its associated data.  %NULL is ignored.
  **/
 void
 SUFFIX(go_quad_matrix_free) (QMATRIX *A)
 {
 	int i;
+
+	if (A == NULL)
+		return;
 
 	for (i = 0; i < A->m; i++)
 		g_free (A->data[i]);
@@ -132,7 +135,8 @@ SUFFIX(go_quad_matrix_copy) (QMATRIX *A, const QMATRIX *B)
  * @A: (out): Destination matrix.
  * @B: (transfer none): Source matrix.
  *
- * Transposes B into A.
+ * Transposes B into A.  If @A and @B are the same square matrix, it is
+ * transposed in place.
  **/
 void
 SUFFIX(go_quad_matrix_transpose) (QMATRIX *A, const QMATRIX *B)
@@ -143,8 +147,16 @@ SUFFIX(go_quad_matrix_transpose) (QMATRIX *A, const QMATRIX *B)
 	g_return_if_fail (B != NULL);
 	g_return_if_fail (A->m == B->n && A->n == B->m);
 
-	if (A == B)
+	if (A == B) {
+		/* In-place transpose; the shape check makes A square.  */
+		for (i = 0; i + 1 < A->m; i++)
+			for (j = i + 1; j < A->m; j++) {
+				QUAD tmp = A->data[i][j];
+				A->data[i][j] = A->data[j][i];
+				A->data[j][i] = tmp;
+			}
 		return;
+	}
 
 	for (i = 0; i < A->m; i++)
 		for (j = 0; j < A->n; j++)
@@ -298,7 +310,7 @@ SUFFIX(go_quad_matrix_determinant) (const QMATRIX *A, QUAD *res)
  * @A: An arbitrary matrix.
  * @threshold: condition number threshold.
  *
- * Returns: @A's pseudo-inverse.
+ * Returns: @A's pseudo-inverse, or %NULL if it cannot be computed.
  **/
 QMATRIX *
 SUFFIX(go_quad_matrix_pseudo_inverse) (const QMATRIX *A, DOUBLE threshold)
@@ -335,10 +347,14 @@ SUFFIX(go_quad_matrix_pseudo_inverse) (const QMATRIX *A, DOUBLE threshold)
 
 		SUFFIX(go_quad_matrix_transpose) (AT, A);
 		BT = SUFFIX(go_quad_matrix_pseudo_inverse) (AT, threshold);
-		SUFFIX(go_quad_matrix_transpose) (B, BT);
-
+		if (BT) {
+			SUFFIX(go_quad_matrix_transpose) (B, BT);
+			SUFFIX (go_quad_matrix_free) (BT);
+		} else {
+			SUFFIX (go_quad_matrix_free) (B);
+			B = NULL;
+		}
 		SUFFIX (go_quad_matrix_free) (AT);
-		SUFFIX (go_quad_matrix_free) (BT);
 		return B;
 	}
 
@@ -361,6 +377,15 @@ SUFFIX(go_quad_matrix_pseudo_inverse) (const QMATRIX *A, DOUBLE threshold)
 	}
 
 	SUFFIX(go_quad_init) (&delta, full_rank ? 0 : emax * threshold);
+	if (!full_rank && threshold == 0) {
+		/*
+		 * The default threshold is 0; a rank-deficient matrix
+		 * would then leave R^T R singular.  Keep the
+		 * regularisation small, but non-zero: the iteration below
+		 * converges to the pseudo-inverse for any positive delta.
+		 */
+		SUFFIX(go_quad_init) (&delta, emax * DOUBLE_EPSILON);
+	}
 
 	/*
 	 * Starting point for the iteration:
@@ -379,6 +404,13 @@ SUFFIX(go_quad_matrix_pseudo_inverse) (const QMATRIX *A, DOUBLE threshold)
 				     &RTR->data[i][i],
 				     &delta);
 	B0 = SUFFIX(go_quad_matrix_inverse) (RTR, 0.0);
+	if (B0 == NULL) {
+		SUFFIX(go_quad_matrix_free) (RTR);
+		SUFFIX(go_quad_matrix_free) (RT);
+		SUFFIX(go_quad_matrix_free) (B);
+		B = NULL;
+		goto out;
+	}
 	Bi = SUFFIX(go_quad_matrix_new) (n, n);
 	SUFFIX(go_quad_matrix_multiply) (Bi, B0, RT);
 	SUFFIX(go_quad_matrix_free) (B0);
@@ -429,7 +461,8 @@ SUFFIX(go_quad_matrix_pseudo_inverse) (const QMATRIX *A, DOUBLE threshold)
 	SUFFIX(go_quad_matrix_free) (Bi);
 
 out:
-	SUFFIX(go_quad_qr_free) (qr);
+	if (qr)
+		SUFFIX(go_quad_qr_free) (qr);
 
 	return B;
 }
@@ -596,16 +629,16 @@ SUFFIX(go_quad_matrix_dump) (const QMATRIX *A, const char *fmt)
  *
  * QR decomposition of a matrix using Householder matrices.
  *
- * A (input) is an m-times-n matrix.  A[0...m-1][0..n-1]
- * If qAT is TRUE, this parameter is transposed.
+ * @A is an m-times-n matrix with m >= n.
  *
- * V is a pre-allocated output m-times-n matrix.  V will contain
- * n vectors of different lengths: n, n-1, ..., 1.  These are the
- * Householder vectors (or null for the degenerate case).  The
- * matrix Q of size m-times-m is implied from V.
+ * The returned structure holds the Householder vectors in an internal
+ * m-times-n matrix: n vectors of different lengths, n, n-1, ..., 1
+ * (or null for the degenerate case).  The matrix Q of size m-times-m
+ * is implied from them.
  *
  * R is a matrix of size n-times-n.  (To get the m-times-n version
  * of R, simply add m-n null rows.)
+ *
  * Returns: (transfer full): a new #GOQuadQR.
  **/
 QQR *

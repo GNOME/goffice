@@ -284,7 +284,7 @@
  * go_complex_from_stringD:
  * @dst: (out): destination
  * @src: text to parse as a complex number
- * @imunit: character unit used for imaginary unit, typically 'i'
+ * @imunit: (out) (type gchar): the imaginary unit used, typically 'i'
  *
  * Returns: zero if successful, non-zero otherwise
  */
@@ -293,7 +293,7 @@
  * go_complex_from_stringl:
  * @dst: (out): destination
  * @src: text to parse as a complex number
- * @imunit: character unit used for imaginary unit, typically 'i'
+ * @imunit: (out) (type gchar): the imaginary unit used, typically 'i'
  *
  * Returns: zero if successful, non-zero otherwise
  */
@@ -677,9 +677,9 @@
  * sp must be a valid spline structure as returned by go_cspline_init.
  * The x values must be sorted in increasing order.
  *
- * Returns: a newly allocated array of the n interpolated derivatives which
- * should be destroyed by a call to g_free when not anymore needed, or %NULL if
- * an error occurred.
+ * Returns: (array length=n) (transfer full): a newly allocated array of
+ * the n interpolated derivatives which should be destroyed by a call to
+ * g_free when not anymore needed, or %NULL if an error occurred.
  */
 
 /**
@@ -691,13 +691,13 @@
  * sp must be a valid spline structure as returned by go_cspline_init.
  * The x values must be sorted in increasing order.
  *
- * Returns: a newly allocated array of the n interpolated derivatives which
- * should be destroyed by a call to g_free when not anymore needed, or %NULL if
- * an error occurred.
+ * Returns: (array length=n) (transfer full): a newly allocated array of
+ * the n interpolated derivatives which should be destroyed by a call to
+ * g_free when not anymore needed, or %NULL if an error occurred.
  */
 
 /**
- * go_cspline_get_integralsD:
+ * go_cspline_get_integralsD: (skip)
  * @sp: a spline structure returned by go_cspline_init.
  * @x: a vector a values at which interpolation is requested.
  * @n: the number of interpolation requested.
@@ -706,12 +706,13 @@
  * The x values must be sorted in increasing order.
  *
  * Returns: a newly allocated array of the n-1 integrals on the intervals
- * between two consecutive values stored in x. which should be destroyed by
- * a call to g_free when not anymore needed, or %NULL if  an error occurred.
+ * between two consecutive values stored in x, which should be destroyed
+ * by a call to g_free when not anymore needed, or %NULL if an error
+ * occurred.
  */
 
 /**
- * go_cspline_get_integralsl:
+ * go_cspline_get_integralsl: (skip)
  * @sp: a spline structure returned by go_cspline_init.
  * @x: a vector a values at which interpolation is requested.
  * @n: the number of interpolation requested.
@@ -720,8 +721,9 @@
  * The x values must be sorted in increasing order.
  *
  * Returns: a newly allocated array of the n-1 integrals on the intervals
- * between two consecutive values stored in x. which should be destroyed by
- * a call to g_free when not anymore needed, or %NULL if  an error occurred.
+ * between two consecutive values stored in x, which should be destroyed
+ * by a call to g_free when not anymore needed, or %NULL if an error
+ * occurred.
  */
 
 /**
@@ -753,9 +755,9 @@
  * sp must be a valid spline structure as returned by go_cspline_init.
  * The x values must be sorted in increasing order.
  *
- * Returns: a newly allocated array of interpolated values which should
- * be destroyed by a call to g_free when not anymore needed, or %NULL if
- * an error occurred.
+ * Returns: (array length=n) (transfer full): a newly allocated array of
+ * interpolated values which should be destroyed by a call to g_free when
+ * not anymore needed, or %NULL if an error occurred.
  */
 
 /**
@@ -767,9 +769,9 @@
  * sp must be a valid spline structure as returned by go_cspline_init.
  * The x values must be sorted in increasing order.
  *
- * Returns: a newly allocated array of interpolated values which should
- * be destroyed by a call to g_free when not anymore needed, or %NULL if
- * an error occurred.
+ * Returns: (array length=n) (transfer full): a newly allocated array of
+ * interpolated values which should be destroyed by a call to g_free when
+ * not anymore needed, or %NULL if an error occurred.
  */
 
 /**
@@ -778,10 +780,12 @@
  * @y: the y values
  * @n: the number of x and y values
  * @limits: how the limits must be treated, four values are allowed:
- *	GO_CSPLINE_NATURAL: first and least second derivatives are 0.
- *	GO_CSPLINE_PARABOLIC: the curve will be a parabolic arc outside of the limits.
- *	GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits.
- *	GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
+ *     GO_CSPLINE_NATURAL: first and last second derivatives are 0.
+ *     GO_CSPLINE_PARABOLIC: the curve will be a parabolic arc outside of the
+ *       limits.
+ *     GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits; with
+ *       fewer than four points this is treated as GO_CSPLINE_PARABOLIC.
+ *     GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
  * @c0: the first derivative when using clamped splines, not used in the
  *      other limit types.
  * @cn: the first derivative when using clamped splines, not used in the
@@ -803,10 +807,12 @@
  * @y: the y values
  * @n: the number of x and y values
  * @limits: how the limits must be treated, four values are allowed:
- *	GO_CSPLINE_NATURAL: first and least second derivatives are 0.
- *	GO_CSPLINE_PARABOLIC: the curve will be a parabolic arc outside of the limits.
- *	GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits.
- *	GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
+ *     GO_CSPLINE_NATURAL: first and last second derivatives are 0.
+ *     GO_CSPLINE_PARABOLIC: the curve will be a parabolic arc outside of the
+ *       limits.
+ *     GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits; with
+ *       fewer than four points this is treated as GO_CSPLINE_PARABOLIC.
+ *     GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
  * @c0: the first derivative when using clamped splines, not used in the
  *      other limit types.
  * @cn: the first derivative when using clamped splines, not used in the
@@ -1055,6 +1061,40 @@
  **/
 
 /**
+ * go_fourier_fftD: (skip)
+ * @in: the input values
+ * @n: the number of values; must be a power of two
+ * @skip: the distance between consecutive input values
+ * @fourier: location for the newly allocated result, an @n-element
+ * array to be freed with g_free
+ * @inverse: whether to compute the inverse transform
+ *
+ * Performs a fast Fourier transform of @n values read from @in with
+ * stride @skip.  The forward and the inverse transform are both scaled
+ * by 1/@n.
+ *
+ * @n must be a positive power of two.  For any other value a critical is
+ * logged and @fourier is left untouched.
+ **/
+
+/**
+ * go_fourier_fftl: (skip)
+ * @in: the input values
+ * @n: the number of values; must be a power of two
+ * @skip: the distance between consecutive input values
+ * @fourier: location for the newly allocated result, an @n-element
+ * array to be freed with g_free
+ * @inverse: whether to compute the inverse transform
+ *
+ * Performs a fast Fourier transform of @n values read from @in with
+ * stride @skip.  The forward and the inverse transform are both scaled
+ * by 1/@n.
+ *
+ * @n must be a positive power of two.  For any other value a critical is
+ * logged and @fourier is left untouched.
+ **/
+
+/**
  * go_linear_regressionD:
  * @xss: x-vectors (i.e. independent data)
  * @dim: number of x-vectors.
@@ -1062,7 +1102,7 @@
  * @n: number of data points.
  * @affine: if true, a non-zero constant is allowed.
  * @res: (out): place for constant[0] and slope1[1], slope2[2],... There will be dim+1 results.
- * @stat_: (out): storage for additional results.
+ * @stat_: (out) (optional): storage for additional results.
  *
  * Performs multi-dimensional linear regressions on the input points.
  * Fits to "y = b + a1 * x1 + ... ad * xd".
@@ -1078,7 +1118,7 @@
  * @n: number of data points.
  * @affine: if true, a non-zero constant is allowed.
  * @res: (out): place for constant[0] and slope1[1], slope2[2],... There will be dim+1 results.
- * @stat_: (out): storage for additional results.
+ * @stat_: (out) (optional): storage for additional results.
  *
  * Performs multi-dimensional linear regressions on the input points.
  * Fits to "y = b + a1 * x1 + ... ad * xd".
@@ -1762,14 +1802,14 @@
  * go_quad_matrix_freeD: (skip)
  * @A: (transfer full): #GOQuadMatrix to free
  *
- * Frees @A and its associated data.
+ * Frees @A and its associated data.  %NULL is ignored.
  **/
 
 /**
  * go_quad_matrix_freel: (skip)
  * @A: (transfer full): #GOQuadMatrix to free
  *
- * Frees @A and its associated data.
+ * Frees @A and its associated data.  %NULL is ignored.
  **/
 
 /**
@@ -1861,7 +1901,7 @@
  * @A: An arbitrary matrix.
  * @threshold: condition number threshold.
  *
- * Returns: @A's pseudo-inverse.
+ * Returns: @A's pseudo-inverse, or %NULL if it cannot be computed.
  **/
 
 /**
@@ -1869,7 +1909,7 @@
  * @A: An arbitrary matrix.
  * @threshold: condition number threshold.
  *
- * Returns: @A's pseudo-inverse.
+ * Returns: @A's pseudo-inverse, or %NULL if it cannot be computed.
  **/
 
 /**
@@ -1877,7 +1917,8 @@
  * @A: (out): Destination matrix.
  * @B: (transfer none): Source matrix.
  *
- * Transposes B into A.
+ * Transposes B into A.  If @A and @B are the same square matrix, it is
+ * transposed in place.
  **/
 
 /**
@@ -1885,7 +1926,8 @@
  * @A: (out): Destination matrix.
  * @B: (transfer none): Source matrix.
  *
- * Transposes B into A.
+ * Transposes B into A.  If @A and @B are the same square matrix, it is
+ * transposed in place.
  **/
 
 /**
@@ -2044,16 +2086,16 @@
  *
  * QR decomposition of a matrix using Householder matrices.
  *
- * A (input) is an m-times-n matrix.  A[0...m-1][0..n-1]
- * If qAT is TRUE, this parameter is transposed.
+ * @A is an m-times-n matrix with m >= n.
  *
- * V is a pre-allocated output m-times-n matrix.  V will contain
- * n vectors of different lengths: n, n-1, ..., 1.  These are the
- * Householder vectors (or null for the degenerate case).  The
- * matrix Q of size m-times-m is implied from V.
+ * The returned structure holds the Householder vectors in an internal
+ * m-times-n matrix: n vectors of different lengths, n, n-1, ..., 1
+ * (or null for the degenerate case).  The matrix Q of size m-times-m
+ * is implied from them.
  *
  * R is a matrix of size n-times-n.  (To get the m-times-n version
  * of R, simply add m-n null rows.)
+ *
  * Returns: (transfer full): a new #GOQuadQR.
  **/
 
@@ -2063,16 +2105,16 @@
  *
  * QR decomposition of a matrix using Householder matrices.
  *
- * A (input) is an m-times-n matrix.  A[0...m-1][0..n-1]
- * If qAT is TRUE, this parameter is transposed.
+ * @A is an m-times-n matrix with m >= n.
  *
- * V is a pre-allocated output m-times-n matrix.  V will contain
- * n vectors of different lengths: n, n-1, ..., 1.  These are the
- * Householder vectors (or null for the degenerate case).  The
- * matrix Q of size m-times-m is implied from V.
+ * The returned structure holds the Householder vectors in an internal
+ * m-times-n matrix: n vectors of different lengths, n, n-1, ..., 1
+ * (or null for the degenerate case).  The matrix Q of size m-times-m
+ * is implied from them.
  *
  * R is a matrix of size n-times-n.  (To get the m-times-n version
  * of R, simply add m-n null rows.)
+ *
  * Returns: (transfer full): a new #GOQuadQR.
  **/
 
@@ -2273,7 +2315,7 @@
  * @res: (out): result.
  *
  * The sum of the input values deviation from the mean will be stored
- * in @res.
+ * in @res.  An empty input is not an error: @res is set to 0.
  *
  * Returns: 0 unless an error occurred.
  */
@@ -2285,7 +2327,7 @@
  * @res: (out): result.
  *
  * The sum of the input values deviation from the mean will be stored
- * in @res.
+ * in @res.  An empty input is not an error: @res is set to 0.
  *
  * Returns: 0 unless an error occurred.
  */

@@ -72,11 +72,15 @@ static const struct
  * go_distribution_type_to_string:
  * @type: distribution type to query
  *
- * Returns: an untranslated name of the distribution.
+ * Returns: (nullable): the untranslated name of @type, or %NULL if @type
+ * is not a valid distribution type.
  */
 char const *
 go_distribution_type_to_string (GODistributionType type)
 {
+	if (type < 0 || type >= GO_DISTRIBUTION_MAX)
+		return NULL;
+
 	return DistributionTypes[type].name;
 }
 

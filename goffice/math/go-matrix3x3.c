@@ -120,12 +120,13 @@ go_matrix3x3_to_euler (GOMatrix3x3 const *mat,
 		       double *Psi, double *Theta, double *Phi)
 {
 	if (fabs(mat->a33) > MATRIX_THRESHOLD) {
-		*Theta = (mat->a33 > 0.) ? 0. : 2 * M_PI;
+		*Theta = (mat->a33 > 0.) ? 0. : M_PI;
 		*Psi = 0.;
 		if (fabs(mat->a11) > MATRIX_THRESHOLD)
-			*Phi = (mat->a11 > 0.) ? 0. : 2 * M_PI;
+			*Phi = (mat->a11 > 0.) ? 0. : M_PI;
 		else
-			*Phi = (mat->a21 > 0.) ? acos(mat->a11) : - acos(mat->a11);
+			*Phi = atan2 (mat->a33 > 0. ? mat->a21 : - mat->a21,
+				      mat->a11);
 	} else {
 		double st, si, co;
 		*Theta = acos(mat->a33);
@@ -133,13 +134,13 @@ go_matrix3x3_to_euler (GOMatrix3x3 const *mat,
 		si = mat->a13 / st;
 		co = - mat->a23 / st;
 		if (fabs(co) > MATRIX_THRESHOLD)
-			*Psi = (co > 0.) ? 0. : 2 * M_PI;
+			*Psi = (co > 0.) ? 0. : M_PI;
 		else
 			*Psi = (si > 0.) ? acos(co) : - acos(co);
 		si = mat->a31 / st;
 		co = mat->a32 / st;
 		if (fabs(co) > MATRIX_THRESHOLD)
-			*Phi = (co > 0.) ? 0. : 2 * M_PI;
+			*Phi = (co > 0.) ? 0. : M_PI;
 		else
 			*Phi = (si > 0.) ? acos(co) : - acos(co);
 	}

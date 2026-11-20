@@ -41,7 +41,7 @@ GType INFIX(go_cspline,_get_type) (void) { return 0; }
  * GOCSplineType:
  * @GO_CSPLINE_NATURAL: natural.
  * @GO_CSPLINE_PARABOLIC: parabolic.
- * @GO_CSPLINE_CUBIC: cubic.
+ * @GO_CSPLINE_CUBIC: cubic, needs at least four points.
  * @GO_CSPLINE_CLAMPED: clamped.
  **/
 
@@ -51,10 +51,12 @@ GType INFIX(go_cspline,_get_type) (void) { return 0; }
  * @y: the y values
  * @n: the number of x and y values
  * @limits: how the limits must be treated, four values are allowed:
- *	GO_CSPLINE_NATURAL: first and least second derivatives are 0.
- *	GO_CSPLINE_PARABOLIC: the curve will be a parabolic arc outside of the limits.
- *	GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits.
- *	GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
+ *     GO_CSPLINE_NATURAL: first and last second derivatives are 0.
+ *     GO_CSPLINE_PARABOLIC: the curve will be a parabolic arc outside of the
+ *       limits.
+ *     GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits; with
+ *       fewer than four points this is treated as GO_CSPLINE_PARABOLIC.
+ *     GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
  * @c0: the first derivative when using clamped splines, not used in the
  *      other limit types.
  * @cn: the first derivative when using clamped splines, not used in the
@@ -81,6 +83,13 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	/* What is the minimum number of knots? Taking 3 at the moment */
 	if (limits >= GO_CSPLINE_MAX || !SUFFIX(go_range_increasing) (x, n) || n < 3)
 		return NULL;
+	/*
+	 * The cubic-end conditions need at least four knots; with three
+	 * they degenerate to a single condition.  Fall back to the
+	 * parabolic condition (constant second derivative).
+	 */
+	if (limits == GO_CSPLINE_CUBIC && n < 4)
+		limits = GO_CSPLINE_PARABOLIC;
 	nm1 = n - 1;
 	sp = g_new0 (SUFFIX(GOCSpline), 1);
 	sp->n = n;
@@ -317,9 +326,9 @@ DOUBLE SUFFIX(go_cspline_get_deriv) (SUFFIX(GOCSpline) const *sp, DOUBLE x)
  * sp must be a valid spline structure as returned by go_cspline_init.
  * The x values must be sorted in increasing order.
  *
- * Returns: a newly allocated array of interpolated values which should
- * be destroyed by a call to g_free when not anymore needed, or %NULL if
- * an error occurred.
+ * Returns: (array length=n) (transfer full): a newly allocated array of
+ * interpolated values which should be destroyed by a call to g_free when
+ * not anymore needed, or %NULL if an error occurred.
  */
 DOUBLE *SUFFIX(go_cspline_get_values) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
 {
@@ -351,9 +360,9 @@ DOUBLE *SUFFIX(go_cspline_get_values) (SUFFIX(GOCSpline) const *sp, DOUBLE const
  * sp must be a valid spline structure as returned by go_cspline_init.
  * The x values must be sorted in increasing order.
  *
- * Returns: a newly allocated array of the n interpolated derivatives which
- * should be destroyed by a call to g_free when not anymore needed, or %NULL if
- * an error occurred.
+ * Returns: (array length=n) (transfer full): a newly allocated array of
+ * the n interpolated derivatives which should be destroyed by a call to
+ * g_free when not anymore needed, or %NULL if an error occurred.
  */
 DOUBLE *SUFFIX(go_cspline_get_derivs) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
 {
@@ -377,7 +386,7 @@ DOUBLE *SUFFIX(go_cspline_get_derivs) (SUFFIX(GOCSpline) const *sp, DOUBLE const
 }
 
 /**
- * go_cspline_get_integrals:
+ * go_cspline_get_integrals: (skip)
  * @sp: a spline structure returned by go_cspline_init.
  * @x: a vector a values at which interpolation is requested.
  * @n: the number of interpolation requested.
@@ -386,8 +395,9 @@ DOUBLE *SUFFIX(go_cspline_get_derivs) (SUFFIX(GOCSpline) const *sp, DOUBLE const
  * The x values must be sorted in increasing order.
  *
  * Returns: a newly allocated array of the n-1 integrals on the intervals
- * between two consecutive values stored in x. which should be destroyed by
- * a call to g_free when not anymore needed, or %NULL if  an error occurred.
+ * between two consecutive values stored in x, which should be destroyed
+ * by a call to g_free when not anymore needed, or %NULL if an error
+ * occurred.
  */
 DOUBLE *SUFFIX(go_cspline_get_integrals) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
 {

@@ -209,7 +209,7 @@ SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
  * @res: (out): result.
  *
  * The sum of the input values deviation from the mean will be stored
- * in @res.
+ * in @res.  An empty input is not an error: @res is set to 0.
  *
  * Returns: 0 unless an error occurred.
  */
@@ -221,7 +221,7 @@ SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
 	else {
 		void *state;
 		SUFFIX(GOAccumulator) *acc;
-		DOUBLE sum, sumh, suml;
+		DOUBLE sumh, suml;
 		SUFFIX(GOQuad) qavg, qtmp, qn;
 
 		state = SUFFIX(go_accumulator_start) ();
@@ -233,7 +233,6 @@ SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
 		SUFFIX(go_quad_init) (&qavg, sumh);
 		SUFFIX(go_quad_init) (&qtmp, suml);
 		SUFFIX(go_quad_add) (&qavg, &qavg, &qtmp);
-		SUFFIX(go_range_sum) (xs, n, &sum);
 		SUFFIX(go_quad_init) (&qn, n);
 		SUFFIX(go_quad_div) (&qavg, &qavg, &qn);
 		/*
@@ -319,7 +318,7 @@ SUFFIX(go_range_fractile_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res, DO
 	DOUBLE fpos, residual;
 	int pos;
 
-	if (n <= 0 || f < 0 || f > 1)
+	if (n <= 0 || DOUBLE_ISNAN (f) || f < 0 || f > 1)
 		return 1;
 
 	fpos = (n - 1) * f;
@@ -372,6 +371,9 @@ SUFFIX(go_range_fractile_inter) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
 int
 SUFFIX(go_range_fractile_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res, DOUBLE f)
 {
+	if (n <= 0)
+		return 1;
+
 	qsort (xs, n, sizeof (xs[0]), (int (*) (const void *, const void *))&SUFFIX(float_compare));
 	return SUFFIX(go_range_fractile_inter_sorted) (xs, n, res, f);
 }

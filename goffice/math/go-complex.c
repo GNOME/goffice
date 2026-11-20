@@ -156,7 +156,7 @@ SUFFIX(is_unit_imaginary) (char const *src, DOUBLE *im, char *imunit)
  * go_complex_from_string:
  * @dst: (out): destination
  * @src: text to parse as a complex number
- * @imunit: character unit used for imaginary unit, typically 'i'
+ * @imunit: (out) (type gchar): the imaginary unit used, typically 'i'
  *
  * Returns: zero if successful, non-zero otherwise
  */
@@ -175,7 +175,10 @@ SUFFIX(go_complex_from_string) (COMPLEX *dst, char const *src, char *imunit)
 	}
 
 	x = STRTO (src, &end);
-	if (src == end || errno == ERANGE)
+	if (src == end)
+		return -1;
+	/* Subnormal results set ERANGE but are perfectly representable.  */
+	if (errno == ERANGE && (x == 0 || !SUFFIX(go_finite) (x)))
 		return -1;
 	src = end;
 
@@ -200,7 +203,10 @@ SUFFIX(go_complex_from_string) (COMPLEX *dst, char const *src, char *imunit)
 	}
 
 	y = STRTO (src, &end);
-	if (src == end || errno == ERANGE)
+	if (src == end)
+		return -1;
+	/* Subnormal results set ERANGE but are perfectly representable.  */
+	if (errno == ERANGE && (y == 0 || !SUFFIX(go_finite) (y)))
 		return -1;
 	src = end;
 
@@ -781,10 +787,19 @@ void SUFFIX(go_complex_ln) (COMPLEX *dst, COMPLEX const *src)
 {
 	DOUBLE x = SUFFIX(fabs) (src->re);
 	DOUBLE y = SUFFIX(fabs) (src->im);
-	DOUBLE lm = x > y
+	DOUBLE lm;
+	DOUBLE a;
+
+	if (x == 0 && y == 0) {
+		/* log(0) is -infinity; the general formula would be 0/0.  */
+		SUFFIX(go_complex_init) (dst, SUFFIX(go_ninf), 0);
+		return;
+	}
+
+	lm = x > y
 		? SUFFIX(log) (x) + CONST(0.5) * SUFFIX(log1p) ((y / x) * (y / x))
 		: SUFFIX(log) (y) + CONST(0.5) * SUFFIX(log1p) ((x / y) * (x / y));
-	DOUBLE a = SUFFIX(go_complex_angle) (src);
+	a = SUFFIX(go_complex_angle) (src);
 
 	SUFFIX(go_complex_init) (dst, lm, a);
 }

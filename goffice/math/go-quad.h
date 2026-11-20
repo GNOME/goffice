@@ -5,6 +5,12 @@
 
 G_BEGIN_DECLS
 
+/*
+ * A "quad" value is an unevaluated sum of a high and a low part.  When
+ * an operation overflows or is given a non-finite operand, the high
+ * part follows the underlying type's IEEE semantics and the low part
+ * is set to zero.
+ */
 struct GOQuad_ {
 	double h;
 	double l;
