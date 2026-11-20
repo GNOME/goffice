@@ -158,7 +158,12 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 	sort = g_new0 (unsigned, kmax);
 	for (i = 0; i < kmax; i++)
 		sort[i] = i;
-	g_qsort_with_data (sort, kmax, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
+#if GLIB_CHECK_VERSION(2, 82, 0)
+	g_sort_array
+#else
+	g_qsort_with_data
+#endif
+		(sort, kmax, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
 	raw_data.cur_series = 0;
 	imax = plot->rows + 1;
 	jmax = plot->columns + 1;
@@ -173,7 +178,12 @@ gog_xyz_matrix_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_change
 	for (i = 1; i < imax; i++) {
 		while (l < kmax && y_vals && y_vals[sort[l]] <= y_limits[i])
 			l++;
-		g_qsort_with_data (sort + k, l - k, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
+#if GLIB_CHECK_VERSION(2, 82, 0)
+		g_sort_array
+#else
+		g_qsort_with_data
+#endif
+			(sort + k, l - k, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
 		while (k < l && x_vals && x_vals[sort[k]] < x_limits[0])
 			k++;
 		for (j = 1; j < jmax && k < l; j++) {
@@ -337,7 +347,12 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 	sort = g_new0 (unsigned, kmax);
 	for (i = 0; i < kmax; i++)
 		sort[i] = i;
-	g_qsort_with_data (sort, kmax, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
+#if GLIB_CHECK_VERSION(2, 82, 0)
+	g_sort_array
+#else
+	g_qsort_with_data
+#endif
+		(sort, kmax, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
 	raw_data.cur_series = 0;
 	imax = plot->rows;
 	jmax = plot->columns;
@@ -352,7 +367,12 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot *plot, gboolean *cardinality_chang
 	for (i = 0; i < imax; i++) {
 		while (l < kmax && y_vals[sort[l]] < y_limits[i])
 			l++;
-		g_qsort_with_data (sort + k, l - k, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
+#if GLIB_CHECK_VERSION(2, 82, 0)
+		g_sort_array
+#else
+		g_qsort_with_data
+#endif
+			(sort + k, l - k, sizeof (unsigned), (GCompareDataFunc) data_compare, &raw_data);
 		while (k < l && x_vals[sort[k]] < xmin)
 			k++;
 		for (j = 0; j < jmax && k < l; j++) {
