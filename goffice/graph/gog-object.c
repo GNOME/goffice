@@ -1016,6 +1016,12 @@ gog_object_generate_name (GogObject *obj)
 	obj->auto_name =  g_strdup_printf ("%s%d", type_name, obj->id);
 }
 
+/**
+ * gog_object_get_id:
+ * @obj: #GogObject
+ *
+ * Returns: the unique id of @obj.
+ **/
 unsigned
 gog_object_get_id (GogObject const *obj)
 {
@@ -1097,10 +1103,11 @@ dataset_dup (GogDataset const *src, GogDataset *dst)
 /**
  * gog_object_dup:
  * @src: #GogObject
- * @new_parent: #GogObject the parent tree for the object (can be %NULL)
- * @datadup: (scope call): a function to duplicate the data (a default one is used if %NULL)
+ * @new_parent: (nullable): #GogObject the parent tree for the object
+ * @datadup: (scope call) (nullable): a function to duplicate the data; a
+ *  default one is used if %NULL
  *
- * Create a deep copy of @obj using @new_parent as its parent.
+ * Creates a deep copy of @src using @new_parent as its parent.
  *
  * Returns: (transfer full): the duplicated object
  **/
@@ -1160,8 +1167,8 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
  * gog_object_get_parent:
  * @obj: a #GogObject
  *
- * Returns: (transfer none) (nullable): @obj's parent, potentially %NULL if
- * it has not been added to a hierarchy yet.
+ * Returns: (transfer none) (nullable): @obj's parent, or %NULL if it has
+ * not been added to a hierarchy yet.
  **/
 GogObject *
 gog_object_get_parent (GogObject const *obj)
@@ -1175,9 +1182,9 @@ gog_object_get_parent (GogObject const *obj)
  * @obj: a #GogObject
  * @t: a #GType
  *
- * Returns: (transfer none) (nullable): @obj's parent of type @type, potentially
- * %NULL if it has not been added to a hierarchy yet or none of the parents are
- * of type @type.
+ * Returns: (transfer none) (nullable): @obj's parent of type @type, or %NULL
+ * if it has not been added to a hierarchy yet or none of the parents are of
+ * type @type.
  **/
 GogObject *
 gog_object_get_parent_typed (GogObject const *obj, GType t)
@@ -1225,9 +1232,7 @@ gog_object_get_theme (GogObject const *obj)
  * gog_object_get_name:
  * @obj: a #GogObject
  *
- * No need to free the result
- *
- * Returns: a name.
+ * Returns: (transfer none) (nullable): a name owned by @obj.
  **/
 char const *
 gog_object_get_name (GogObject const *obj)
@@ -1239,12 +1244,11 @@ gog_object_get_name (GogObject const *obj)
 /**
  * gog_object_set_name:
  * @obj: #GogObject
- * @name: (transfer full): The new name for @obj
+ * @name: (transfer full) (nullable): The new name for @obj
  * @err: (out) (optional) (nullable): #GError
  *
- * Assign the new name and signals that it has changed.
- * NOTE : it _absorbs_ @name rather than copying it, and generates a new name
- * if @name == %NULL
+ * Assigns the new name and signals that it has changed.  If @name is %NULL,
+ * a new name is generated.
  **/
 void
 gog_object_set_name (GogObject *obj, char *name, G_GNUC_UNUSED GError **err)
@@ -1269,7 +1273,7 @@ gog_object_set_name (GogObject *obj, char *name, G_GNUC_UNUSED GError **err)
 /**
  * gog_object_get_children:
  * @obj: a #GogObject
- * @filter: an optional #GogObjectRole to use as a filter
+ * @filter: (nullable): a #GogObjectRole to use as a filter
  *
  * Returns: (element-type GogObject) (transfer container): list of @obj's
  * Children.  Caller must free the list, but not the children.
@@ -1297,7 +1301,8 @@ gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
  *
  * A convenience routine to find a unique child with @role.
  *
- * Returns: (transfer none) (nullable): %NULL and spews an error if there is more than one.
+ * Returns: (transfer none) (nullable): the unique child with @role, or
+ * %NULL if there is no such child or more than one.
  **/
 GogObject *
 gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
@@ -1317,11 +1322,12 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
 /**
  * gog_object_get_child_by_name:
  * @obj: a #GogObject
- * @name: a #char to use as a role name filter
+ * @name: role name to use as a filter
  *
- * A convenience routine to find a unique child with role == @name
+ * A convenience routine to find a unique child with role named @name.
  *
- * Returns: (transfer none): %NULL and spews an error if there is more than one.
+ * Returns: (transfer none) (nullable): the unique child with role @name,
+ * or %NULL if there is no such child or more than one.
  **/
 GogObject *
 gog_object_get_child_by_name (GogObject const *obj, char const *name)
@@ -1606,6 +1612,12 @@ gog_object_new_view (GogObject const *obj, GogView *parent)
 	return NULL;
 }
 
+/**
+ * gog_object_update:
+ * @obj: #GogObject
+ *
+ * Updates @obj and its children recursively.
+ **/
 void
 gog_object_update (GogObject *obj)
 {
@@ -1630,6 +1642,14 @@ gog_object_update (GogObject *obj)
 	}
 }
 
+/**
+ * gog_object_request_update:
+ * @obj: #GogObject
+ *
+ * Requests an update of @obj, propagating the request to the graph.
+ *
+ * Returns: %TRUE if an update was requested.
+ **/
 gboolean
 gog_object_request_update (GogObject *obj)
 {
@@ -1650,8 +1670,15 @@ gog_object_request_update (GogObject *obj)
 	return TRUE;
 }
 
+/**
+ * gog_object_emit_changed:
+ * @obj: #GogObject
+ * @size: whether the change affects the size of @obj
+ *
+ * Emits the "changed" signal on @obj.
+ **/
 void
-gog_object_emit_changed (GogObject *obj, gboolean resize)
+gog_object_emit_changed (GogObject *obj, gboolean size)
 {
 	GogObjectClass *gog_klass;
 
@@ -1663,12 +1690,12 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 		obj = obj->parent;
 		if (obj != NULL) {
 			g_return_if_fail (GOG_IS_OBJECT (obj));
-			gog_object_emit_changed (obj, resize);
+			gog_object_emit_changed (obj, size);
 		}
 		return;
 	}
 	g_signal_emit (G_OBJECT (obj),
-		gog_object_signals [CHANGED], 0, resize);
+		gog_object_signals [CHANGED], 0, size);
 }
 
 /**
@@ -1731,10 +1758,8 @@ gog_object_clear_parent (GogObject *obj)
  * gog_object_set_parent:
  * @child: (transfer full): #GogObject.
  * @parent: #GogObject.
- * @id: optionally %NULL.
+ * @id: the id for @child, or 0 to generate one
  * @role: a static string that can be sent to @parent::add
- *
- * Absorbs a ref to @child
  *
  * Returns: %TRUE on success
  **/
@@ -1782,7 +1807,6 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
  * @role: #GogObjectRole
  * @child: (transfer full) (nullable): #GogObject
  *
- * Absorb a ref to @child if it is non-NULL.
  * Returns: (transfer none): @child or a newly created object with @role.
  **/
 GogObject *
@@ -1828,11 +1852,11 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
  * gog_object_add_by_name:
  * @parent: #GogObject
  * @role:
- * @child: (transfer full) (nullable): optionally null #GogObject
+ * @child: (transfer full) (nullable): #GogObject
  *
- * Returns: (transfer none):  a newly created child of @parent in @role.  If @child is provided,
- * it is assumed to be an unaffiliated object that will be assigned in @role.
- * On failure return NULL.
+ * Returns: (transfer none) (nullable): a newly created child of @parent in
+ * @role.  If @child is provided, it is assumed to be an unaffiliated object
+ * that will be assigned in @role.  Returns %NULL on failure.
  **/
 GogObject *
 gog_object_add_by_name (GogObject *parent,
@@ -2059,7 +2083,7 @@ gog_object_get_manual_allocation (GogObject *gobj,
  * @obj: a #GogObject
  * @name: name of the position property
  *
- * returns: true if the current position flags corresponding to the property @name
+ * Returns: true if the current position flags corresponding to the property @name
  * are the defaults stored in @obj role.
  **/
 gboolean
@@ -2084,6 +2108,14 @@ gog_object_is_default_position_flags (GogObject const *obj, char const *name)
 	return (obj->position & mask) == (obj->role->default_position & mask);
 }
 
+/**
+ * gog_object_find_role_by_name:
+ * @obj: #GogObject
+ * @role: role name
+ *
+ * Returns: (transfer none) (nullable): the #GogObjectRole with id @role,
+ * or %NULL if @obj's class has no such role.
+ **/
 GogObjectRole const *
 gog_object_find_role_by_name (GogObject const *obj, char const *role)
 {
@@ -2140,6 +2172,13 @@ gog_object_register_roles (GogObjectClass *klass,
 	}
 }
 
+/**
+ * gog_object_document_changed:
+ * @obj: #GogObject
+ * @doc: (nullable): the new #GODoc
+ *
+ * Propagates a new document to @obj and its children.
+ **/
 void
 gog_object_document_changed (GogObject *obj, GODoc *doc)
 {
@@ -2151,6 +2190,12 @@ gog_object_document_changed (GogObject *obj, GODoc *doc)
 		gog_object_document_changed (GOG_OBJECT (ptr->data), doc);
 }
 
+/**
+ * gog_object_get_manual_size_mode:
+ * @obj: #GogObject
+ *
+ * Returns: the #GogManualSizeMode of @obj.
+ **/
 GogManualSizeMode
 gog_object_get_manual_size_mode (GogObject *obj)
 {

@@ -822,6 +822,12 @@ void gog_error_bar_render (const GogErrorBar *bar,
 	go_path_free (path);
 }
 
+/**
+ * gog_error_bar_is_visible:
+ * @bar: (nullable): #GogErrorBar
+ *
+ * Returns: %TRUE if @bar has a visible error bar.
+ **/
 gboolean
 gog_error_bar_is_visible (GogErrorBar *bar)
 {

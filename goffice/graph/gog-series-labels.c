@@ -976,6 +976,14 @@ GSF_CLASS_FULL (GogDataLabel, gog_data_label,
 		gog_data_label_init, GOG_TYPE_OUTLINED_OBJECT, 0,
                 GSF_INTERFACE (gog_data_label_dataset_init, GOG_TYPE_DATASET))
 
+/**
+ * gog_data_label_set_allowed_position:
+ * @lbl: #GogDataLabel
+ * @allowed: bit mask of allowed positions
+ *
+ * Sets the allowed positions of @lbl, resetting the current position when
+ * it becomes invalid.
+ **/
 void gog_data_label_set_allowed_position (GogDataLabel *lbl, unsigned allowed)
 {
 	g_return_if_fail (GOG_IS_DATA_LABEL (lbl));
@@ -986,6 +994,13 @@ void gog_data_label_set_allowed_position (GogDataLabel *lbl, unsigned allowed)
 	}
 }
 
+/**
+ * gog_data_label_set_position:
+ * @lbl: #GogDataLabel
+ * @pos: the new position
+ *
+ * Sets the position of @lbl; invalid values are ignored.
+ **/
 void gog_data_label_set_position (GogDataLabel *lbl, GogSeriesLabelsPos pos)
 {
 	g_return_if_fail (GOG_IS_DATA_LABEL (lbl));
@@ -1011,6 +1026,14 @@ void gog_data_label_set_position (GogDataLabel *lbl, GogSeriesLabelsPos pos)
 	}
 }
 
+/**
+ * gog_data_label_set_default_position:
+ * @lbl: #GogDataLabel
+ * @pos: the new default position
+ *
+ * Sets the default position of @lbl; %GOG_SERIES_LABELS_DEFAULT_POS is not
+ * a valid default and is ignored.
+ **/
 void gog_data_label_set_default_position (GogDataLabel *lbl, GogSeriesLabelsPos pos)
 {
 	g_return_if_fail (GOG_IS_DATA_LABEL (lbl));
@@ -1040,6 +1063,12 @@ void gog_data_label_set_default_position (GogDataLabel *lbl, GogSeriesLabelsPos 
 	}
 }
 
+/**
+ * gog_data_label_get_position:
+ * @lbl: #GogDataLabel
+ *
+ * Returns: the effective #GogSeriesLabelsPos of @lbl.
+ **/
 GogSeriesLabelsPos gog_data_label_get_position (GogDataLabel const *lbl)
 {
 	return lbl->position;
@@ -1502,6 +1531,14 @@ GSF_CLASS_FULL (GogSeriesLabels, gog_series_labels,
 		gog_series_labels_init, GOG_TYPE_OUTLINED_OBJECT, 0,
                 GSF_INTERFACE (gog_series_labels_dataset_init, GOG_TYPE_DATASET))
 
+/**
+ * gog_series_labels_set_allowed_position:
+ * @lbls: #GogSeriesLabels
+ * @allowed: bit mask of allowed positions
+ *
+ * Sets the allowed positions of @lbls, resetting the current position
+ * when it becomes invalid.
+ **/
 void
 gog_series_labels_set_allowed_position (GogSeriesLabels *lbls, unsigned allowed)
 {
@@ -1513,6 +1550,13 @@ gog_series_labels_set_allowed_position (GogSeriesLabels *lbls, unsigned allowed)
 	}
 }
 
+/**
+ * gog_series_labels_set_position:
+ * @lbls: #GogSeriesLabels
+ * @pos: the new position
+ *
+ * Sets the position of @lbls; invalid values are ignored.
+ **/
 void
 gog_series_labels_set_position (GogSeriesLabels *lbls, GogSeriesLabelsPos pos)
 {
@@ -1539,6 +1583,14 @@ gog_series_labels_set_position (GogSeriesLabels *lbls, GogSeriesLabelsPos pos)
 	}
 }
 
+/**
+ * gog_series_labels_set_default_position:
+ * @lbls: #GogSeriesLabels
+ * @pos: the new default position
+ *
+ * Sets the default position of @lbls; %GOG_SERIES_LABELS_DEFAULT_POS is
+ * not a valid default and is ignored.
+ **/
 void
 gog_series_labels_set_default_position (GogSeriesLabels *lbls, GogSeriesLabelsPos pos)
 {
@@ -1569,6 +1621,12 @@ gog_series_labels_set_default_position (GogSeriesLabels *lbls, GogSeriesLabelsPo
 	}
 }
 
+/**
+ * gog_series_labels_get_position:
+ * @lbls: #GogSeriesLabels
+ *
+ * Returns: the effective #GogSeriesLabelsPos of @lbls.
+ **/
 GogSeriesLabelsPos
 gog_series_labels_get_position (GogSeriesLabels const *lbls)
 {

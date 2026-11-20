@@ -78,11 +78,13 @@ gog_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 /**
  * gog_data_allocator_editor:
  * @dalloc: a #GogDataAllocator
- * @set:
- * @dim_i:
- * @data_type:
+ * @set: the #GogDataset to edit
+ * @dim_i: dimension index
+ * @data_type: the #GogDataType to edit
  *
- * returns: (transfer full): a #GtkWidget.
+ * Builds an editor for one dimension of @set.
+ *
+ * Returns: (transfer full): the new #GogDataEditor.
  **/
 
 GogDataEditor *
@@ -118,6 +120,13 @@ gog_data_editor_get_type (void)
 	return gog_data_editor_type;
 }
 
+/**
+ * gog_data_editor_set_format:
+ * @editor: #GogDataEditor
+ * @fmt: (nullable): the new #GOFormat
+ *
+ * Sets the format used by @editor through its class handler.
+ **/
 void
 gog_data_editor_set_format (GogDataEditor *editor, GOFormat const *fmt)
 {
@@ -129,6 +138,14 @@ gog_data_editor_set_format (GogDataEditor *editor, GOFormat const *fmt)
 		klass->set_format (editor, fmt);
 }
 
+/**
+ * gog_data_editor_set_value_double:
+ * @editor: #GogDataEditor
+ * @val: the value
+ * @date_conv: (nullable): the #GODateConventions for date values
+ *
+ * Sets a double value on @editor through its class handler.
+ **/
 void
 gog_data_editor_set_value_double (GogDataEditor *editor, double val,
 				  GODateConventions const *date_conv)

@@ -263,7 +263,7 @@ GSF_CLASS (GOSpectre, go_spectre,
 /**
  * go_spectre_new_from_file:
  * @filename: path to a PostScript file
- * @error: (out) (optional): location to store error
+ * @error: (out) (optional) (nullable): location to store error
  *
  * Creates a new PostScript image from a file.
  *
@@ -337,7 +337,7 @@ go_spectre_new_from_file (char const *filename, GError **error)
  * go_spectre_new_from_data:
  * @data: PostScript data
  * @length: length of @data in bytes
- * @error: (out) (optional): location to store error
+ * @error: (out) (optional) (nullable): location to store error
  *
  * Creates a new PostScript image from data in memory.
  *

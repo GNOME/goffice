@@ -373,6 +373,7 @@ GSF_CLASS (GogColorScale, gog_color_scale,
  * @scale: #GogColorScale
  *
  * Gets the axis mapping to the colors and associated with @scale
+ *
  * Returns: (transfer none): the associated axis.
  **/
 GogAxis *

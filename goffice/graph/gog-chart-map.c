@@ -857,7 +857,7 @@ polar_make_close_path (GogChartMap *map, double const *x, double const *y,
  *
  * Convenience function for retrieving data related to polar plot layout.
  *
- * returns: (transfer none): a #GogChartMapPolarData struct.
+ * Returns: (transfer none): a #GogChartMapPolarData struct.
  **/
 
 GogChartMapPolarData *
@@ -878,7 +878,7 @@ gog_chart_map_get_polar_parms (GogChartMap *map)
  * Creates a new #GogChartMap, used for conversion from data space
  * to canvas space.
  *
- * returns: (transfer full): a new #GogChartMap object.
+ * Returns: (transfer full): a new #GogChartMap object.
  **/
 
 GogChartMap *
@@ -1021,6 +1021,7 @@ gog_chart_map_2D_to_view (GogChartMap *map, double x, double y, double *u, doubl
  *
  * Converts a 2D slope from data space to canvas space. It is only implemented
  for xy maps.
+ *
  * Returns: the slope in canvas space or go_nan.
  **/
 
@@ -1057,7 +1058,7 @@ gog_chart_map_view_to_2D (GogChartMap *map, double x, double y, double *u, doubl
  *
  * Valid values are in range [0..2].
  *
- * returns: (transfer none): a #GogAxisMap.
+ * Returns: (transfer none): a #GogAxisMap.
  **/
 
 GogAxisMap *
@@ -1073,12 +1074,10 @@ gog_chart_map_get_axis_map (GogChartMap *map, unsigned int i)
  * gog_chart_map_is_valid:
  * @map: a #GogChartMap
  *
- * Tests if @map was correctly initializied, i.e. if all associated axis_map
- * are valid (see gog_axis_map_is_valid() ).
+ * Tests if @map was correctly initialized, i.e. if all associated axis
+ * maps are valid (see gog_axis_map_is_valid ()).
  *
- * given
- * to gog_chart_map_new.
- * returns: %TRUE if @map is valid.
+ * Returns: %TRUE if @map is valid.
  **/
 
 gboolean

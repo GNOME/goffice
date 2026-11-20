@@ -87,6 +87,12 @@ GSF_CLASS (GogOutlinedObject, gog_outlined_object,
 	   gog_outlined_object_class_init, gog_outlined_object_init,
 	   GOG_TYPE_STYLED_OBJECT)
 
+/**
+ * gog_outlined_object_get_pad:
+ * @goo: #GogOutlinedObject
+ *
+ * Returns: the padding of @goo in points.
+ **/
 double
 gog_outlined_object_get_pad (GogOutlinedObject const *goo)
 {

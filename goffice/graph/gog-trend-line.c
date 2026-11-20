@@ -164,6 +164,12 @@ GSF_CLASS_ABSTRACT (GogTrendLine, gog_trend_line,
 	   gog_trend_line_class_init, gog_trend_line_init,
 	   GOG_TYPE_STYLED_OBJECT)
 
+/**
+ * gog_trend_line_new_by_type:
+ * @type: #GogTrendLineType
+ *
+ * Returns: (transfer full) (nullable): a new trend line of @type.
+ **/
 GogTrendLine *
 gog_trend_line_new_by_type (GogTrendLineType const *type)
 {
@@ -178,6 +184,12 @@ gog_trend_line_new_by_type (GogTrendLineType const *type)
 	return res;
 }
 
+/**
+ * gog_trend_line_has_legend:
+ * @line: #GogTrendLine
+ *
+ * Returns: %TRUE if @line should appear in the legend.
+ **/
 gboolean
 gog_trend_line_has_legend (GogTrendLine const *line)
 {

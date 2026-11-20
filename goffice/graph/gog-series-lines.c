@@ -87,6 +87,16 @@ path_close_path (G_GNUC_UNUSED void *closure)
 {
 }
 
+/**
+ * gog_series_lines_stroke:
+ * @lines: #GogSeriesLines
+ * @rend: #GogRenderer
+ * @bbox: (transfer none): the view allocation (unused)
+ * @path: (transfer none): the series path
+ * @invert: whether to invert the line and marker colours
+ *
+ * Draws the series lines of @lines along @path.
+ **/
 void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend,
 			      G_GNUC_UNUSED GogViewAllocation const *bbox,
 			      GOPath *path, gboolean invert)
@@ -119,6 +129,13 @@ void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend,
 		g_object_unref (style);
 }
 
+/**
+ * gog_series_lines_use_markers:
+ * @lines: #GogSeriesLines
+ * @use_markers: whether markers should be drawn
+ *
+ * Sets whether @lines draws markers.
+ **/
 void
 gog_series_lines_use_markers (GogSeriesLines *lines, gboolean use_markers)
 {

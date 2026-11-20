@@ -100,6 +100,15 @@ GSF_CLASS (GogPlotEngineService, gog_plot_engine_service,
            gog_plot_engine_service_class_init, NULL,
            GO_TYPE_PLUGIN_SERVICE_GOBJECT_LOADER)
 
+/**
+ * gog_plot_new_by_name:
+ * @id: the plot engine name
+ *
+ * Creates a new plot from the engine named @id, loading its plugin if
+ * needed.
+ *
+ * Returns: (transfer full) (nullable): the new #GogPlot.
+ **/
 GogPlot *
 gog_plot_new_by_name (char const *id)
 {
@@ -439,6 +448,15 @@ GSF_CLASS (GogTrendLineEngineService, gog_trend_line_engine_service,
            gog_trend_line_engine_service_class_init, NULL,
            GO_TYPE_PLUGIN_SERVICE_GOBJECT_LOADER)
 
+/**
+ * gog_trend_line_new_by_name:
+ * @id: the trend line engine name
+ *
+ * Creates a new trend line from the engine named @id, loading its plugin
+ * if needed.
+ *
+ * Returns: (transfer full) (nullable): the new #GogTrendLine.
+ **/
 GogTrendLine *
 gog_trend_line_new_by_name (char const *id)
 {
@@ -750,7 +768,8 @@ gog_plot_families (void)
  * gog_plot_family_by_name: (skip)
  * @name: family name
  *
- * Returns: the plot family if it exists.
+ * Returns: (transfer none) (nullable): the plot family, or %NULL if it does
+ * not exist.
  */
 GogPlotFamily *
 gog_plot_family_by_name (char const *name)
@@ -767,7 +786,8 @@ gog_plot_family_by_name (char const *name)
  * @priority:
  * @axis_set: the used axis set.
  *
- * Returns: the new #GogPlotFamily.
+ * Returns: (transfer none) (nullable): the new #GogPlotFamily, owned by the
+ * registry, or %NULL on error (e.g. a duplicate name).
  */
 GogPlotFamily *
 gog_plot_family_register (char const *name, char const *sample_image_file,
@@ -794,6 +814,15 @@ gog_plot_family_register (char const *name, char const *sample_image_file,
 	return res;
 }
 
+/**
+ * gog_plot_family_unregister: (skip)
+ * @family: (transfer none): #GogPlotFamily
+ *
+ * Removes @family from the plot family registry.
+ *
+ * NOTE: when @family is found and removed, it is destroyed; otherwise the
+ * caller still owns it.
+ **/
 void
 gog_plot_family_unregister (GogPlotFamily *family)
 {
@@ -810,7 +839,8 @@ gog_plot_family_unregister (GogPlotFamily *family)
  * @description: the plot type description.
  * @engine: the plot engine name.
  *
- * Returns: the new #GogPlotType.
+ * Returns: (transfer none) (nullable): the new #GogPlotType, owned by the
+ * registry, or %NULL on error.
  */
 GogPlotType *
 gog_plot_type_register (GogPlotFamily *family, int col, int row,

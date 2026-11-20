@@ -35,6 +35,15 @@
 #define GOG_BACKPLANE_OLD_ROLE_NAME	"Grid"
 #define GOG_BACKPLANE_NEW_ROLE_NAME	"Backplane"
 
+/**
+ * gog_object_set_arg:
+ * @name: property name
+ * @val: property value as a string
+ * @obj: #GogObject
+ *
+ * Sets the property @name on @obj from its string representation @val.
+ * Used when loading from XML.
+ **/
 void
 gog_object_set_arg (char const *name, char const *val, GogObject *obj)
 {
@@ -187,6 +196,14 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output, gpointer user)
 
 }
 
+/**
+ * gog_object_write_xml_sax:
+ * @obj: #GogObject
+ * @output: (transfer none): the output
+ * @user: user data for the serialization
+ *
+ * Serializes @obj and its children to @output.
+ **/
 void
 gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output, gpointer user)
 {
@@ -566,6 +583,15 @@ gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 		(GsfXMLInExtDtor) go_sax_parser_done, attrs);
 }
 
+/**
+ * gog_object_new_from_input:
+ * @input: the input to read from
+ * @user_unserialize: user data for deserialization
+ *
+ * Reads a #GogObject from @input.
+ *
+ * Returns: (transfer full) (nullable): the new object, or %NULL on error.
+ **/
 GogObject *
 gog_object_new_from_input (GsfInput *input,
                            gpointer user_unserialize)

@@ -605,8 +605,8 @@ go_arrow_equal (const GOArrow *a, const GOArrow *b)
  * go_arrow_draw:
  * @arrow: arrow to draw
  * @cr: cairo surface to draw on
- * @dx: (out): suggested change of line end-point
- * @dy: (out): suggested change of line end-point
+ * @dx: (out) (optional): suggested change of line end-point
+ * @dy: (out) (optional): suggested change of line end-point
  * @phi: angle to draw at
  *
  **/

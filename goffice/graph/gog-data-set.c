@@ -82,10 +82,10 @@ gog_dataset_dims (GogDataset const *set, int *first, int *last)
 /**
  * gog_dataset_get_dim:
  * @set: #GogDataset
- * @dim_i:
+ * @dim_i: dimension index
  *
- * Returns: (transfer none): the GOData associated with dimension @dim_i.  Does NOT add a
- * 	reference.  or %NULL on failure.
+ * Returns: (transfer none) (nullable): the GOData associated with dimension
+ * @dim_i, or %NULL on failure.  No reference is added.
  **/
 GOData *
 gog_dataset_get_dim (GogDataset const *set, int dim_i)
@@ -104,8 +104,6 @@ gog_dataset_get_dim (GogDataset const *set, int dim_i)
  * @dim_i:  < 0 gets the name
  * @val: (transfer full) (nullable): #GOData
  * @err: (out) (optional) (nullable): #GError
- *
- * Absorbs a ref to @val.
  **/
 void
 gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
@@ -147,9 +145,10 @@ done :
 /**
  * gog_dataset_get_elem: (skip)
  * @set: #GogDataset
- * @dim_i:
+ * @dim_i: dimension index
  *
- * Returns: the GODataset associated with dimension @dim_i.
+ * Returns: (transfer none) (nullable): the #GogDatasetElement associated
+ * with dimension @dim_i.  No reference is added.
  **/
 GogDatasetElement *
 gog_dataset_get_elem (GogDataset const *set, int dim_i)
@@ -213,6 +212,13 @@ gog_dataset_set_dim_internal (GogDataset *set, int dim_i,
 	gog_object_request_update (GOG_OBJECT (set));
 }
 
+/**
+ * gog_dataset_finalize:
+ * @set: #GogDataset
+ *
+ * Clears all dimensions of @set.  Subclasses should call this from their
+ * finalize handler.
+ **/
 void
 gog_dataset_finalize (GogDataset *set)
 {
@@ -224,6 +230,14 @@ gog_dataset_finalize (GogDataset *set)
 		gog_dataset_set_dim_internal (set, first++, NULL, graph);
 }
 
+/**
+ * gog_dataset_parent_changed:
+ * @set: #GogDataset
+ * @was_set: whether the parent was set (%TRUE) or cleared (%FALSE)
+ *
+ * Notifies @set that its parent changed, reattaching or detaching its
+ * data to the graph.
+ **/
 void
 gog_dataset_parent_changed (GogDataset *set, gboolean was_set)
 {
@@ -251,6 +265,14 @@ gog_dataset_parent_changed (GogDataset *set, gboolean was_set)
 		gog_object_request_update (GOG_OBJECT (set));
 }
 
+/**
+ * gog_dataset_dup_to_simple:
+ * @src: source #GogDataset
+ * @dst: destination #GogDataset
+ *
+ * Copies the dimensions of @src into @dst, converting data to simple
+ * values or strings where possible.
+ **/
 void
 gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 {

@@ -1370,7 +1370,7 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
  *
  * Builds a list of supported formats for image export.
  *
- * returns: (element-type GOImageFormat) (transfer container): a #GSList
+ * Returns: (element-type GOImageFormat) (transfer container): a #GSList
  * of #GOImageFormat.
  **/
 GSList *
@@ -1403,9 +1403,9 @@ gog_graph_get_supported_image_formats (void)
  *
  * Exports an image of @graph in given @format, writing results in a #GsfOutput stream.
  * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and
- * @graph size (see @gog_graph_get_size()).
+ * @graph size (see gog_graph_get_size ()).
  *
- * returns: %TRUE if export succeed.
+ * Returns: %TRUE if export succeed.
  **/
 gboolean
 gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output,
@@ -1456,6 +1456,7 @@ gog_graph_render_to_cairo (GogGraph *graph, cairo_t *cairo, double w, double h)
  * @graph: a #GogGraph
  *
  * Retrieves the #GODoc for @graph.
+ *
  * Returns: (transfer none): the document.
  **/
 GODoc *

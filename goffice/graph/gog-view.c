@@ -1050,8 +1050,8 @@ gog_view_update_sizes (GogView *view)
 /**
  * gog_view_render:
  * @view: a #GogView
- * @bbox: (nullable): the area to render, or %NULL, passed to the render
- * method of the class
+ * @bbox: (nullable): the area to render, passed to the render method of
+ * the class
  *
  * Renders @view and its children using the renderer of @view. Nothing is drawn
  * if the model of @view is invisible or if its allocation has a negative or
@@ -1261,8 +1261,7 @@ gog_view_get_toolkit (GogView *view)
  * the model of @view is stored in @gobj. There is no tool for a view whose
  * model is invisible.
  *
- * Returns: (transfer none) (nullable): tool under cursor for a given view, or
- * %NULL
+ * Returns: (transfer none) (nullable): tool under cursor for a given view.
  **/
 GogTool *
 gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
@@ -1312,7 +1311,7 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
  * pointed view. This function also stores tool under cursor, for the pointed
  * view.
  *
- * Returns: (transfer none) (nullable): the #GogView at x,y position, or %NULL
+ * Returns: (transfer none) (nullable): the #GogView at x,y position.
  **/
 GogView *
 gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, GogTool **tool)
@@ -1363,7 +1362,7 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
  * Gets a tip string related to the position as defined by (@x,@y) in @view.
  *
  * Returns: (transfer full) (nullable): the newly allocated tip string if the
- * view class supports that or %NULL.
+ * view class supports that.
  **/
 char *
 gog_view_get_tip_at_point (GogView *view, double x, double y)

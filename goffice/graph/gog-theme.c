@@ -992,7 +992,8 @@ gog_theme_add_alias (GogTheme *theme, char const *from, char const *to)
  * @theme: a #GogTheme
  *
  * Retrieves the theme Id.
- * Returns: the GogTheme Id.
+ *
+ * Returns: (transfer none): the GogTheme Id.
  **/
 char const *
 gog_theme_get_id (GogTheme const *theme)
@@ -1005,7 +1006,7 @@ gog_theme_get_id (GogTheme const *theme)
  * gog_theme_get_name:
  * @theme: a #GogTheme
  *
- * Returns: the GogTheme name.
+ * Returns: (transfer none): the GogTheme name.
  **/
 
 char const *
@@ -1019,7 +1020,7 @@ gog_theme_get_name (GogTheme const *theme)
  * gog_theme_get_description:
  * @theme: a #GogTheme
  *
- * Returns: the localized GogTheme description.
+ * Returns: (transfer none): the localized GogTheme description.
  **/
 
 char const *
@@ -1034,6 +1035,7 @@ gog_theme_get_description (GogTheme const *theme)
  * @theme: a #GogTheme
  *
  * Retrieves the resource type for @theme.
+ *
  * Returns: the resource type.
  **/
 GoResourceType
@@ -1183,9 +1185,9 @@ gog_theme_registry_add (GogTheme *theme, gboolean is_default)
 
 /**
  * gog_theme_registry_lookup:
- * @name: a theme name
+ * @name: (nullable): a theme name; %NULL for the default theme
  *
- * Returns: (transfer none): a #GogTheme from theme registry.
+ * Returns: (transfer none): a #GogTheme from the theme registry.
  **/
 GogTheme *
 gog_theme_registry_lookup (char const *name)
@@ -1733,6 +1735,7 @@ _gog_themes_shutdown (void)
  *
  * Retrieves the themed color map. Each theme has a discrete color map and a
  * continuous one.
+ *
  * Returns: (transfer none): the requested color map.
  **/
 GogAxisColorMap const *
@@ -1748,13 +1751,13 @@ gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
 
 /**
  * gog_theme_delete: (skip)
- * @theme: a #GogTheme
+ * @theme: (transfer none): a #GogTheme
  *
  * Destroys the theme and removes it from the user directory and from the
  * database.
  *
- * NOTE: this takes ownership of @theme if and only if the deletion
- * succeeds.
+ * NOTE: on success the caller's reference is consumed; on failure the
+ * caller keeps it.
  *
  * Returns: %TRUE on success.
  **/
@@ -1820,6 +1823,7 @@ dup_elem_cb (G_GNUC_UNUSED gpointer key, GogThemeElement *elem, GogTheme *new_th
  * @theme: a #GogTheme
  *
  * Duplicates @theme with a new Id.
+ *
  * Returns: (transfer full): the new theme.
  **/
 GogTheme*
@@ -1903,6 +1907,7 @@ create_toggled_cb (GtkListStore *list, char const *path)
  *
  * Displays a dialog box to edit the theme. This can be done only for
  * locally installed themes that are writeable.
+ *
  * Returns: (transfer none): The edited theme or %NULL if the edition has
  * been cancelled.
  **/

@@ -204,7 +204,7 @@ GSF_CLASS (GOSvg, go_svg,
 /**
  * go_svg_new_from_file:
  * @filename: path to an SVG file
- * @error: (out) (optional): location to store error
+ * @error: (out) (optional) (nullable): location to store error
  *
  * Creates a new SVG image from a file.
  *
@@ -246,7 +246,7 @@ go_svg_new_from_file (char const *filename, GError **error)
  * go_svg_new_from_data:
  * @data: SVG data
  * @length: length of @data in bytes
- * @error: (out) (optional): location to store error
+ * @error: (out) (optional) (nullable): location to store error
  *
  * Creates a new SVG image from data in memory.
  *

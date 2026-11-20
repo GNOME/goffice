@@ -1392,6 +1392,14 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	return state->dialog;
 }
 
+/**
+ * gog_guru_add_custom_widget:
+ * @guru: the graph guru #GtkWidget
+ * @custom: (nullable): the widget to add
+ *
+ * Adds @custom below the plot type selector of the graph guru dialog
+ * @guru.
+ **/
 void
 gog_guru_add_custom_widget (GtkWidget *guru, GtkWidget *custom)
 {

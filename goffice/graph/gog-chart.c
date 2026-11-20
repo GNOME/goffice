@@ -920,7 +920,7 @@ gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area)
 /**
  * gog_chart_set_plot_area:
  * @chart: a #GogChart
- * @plot_area: (nullable): the new plot area, or %NULL
+ * @plot_area: (nullable): the new plot area
  *
  * If @plot_area is not %NULL, sets the size and location of the plot area,
  * as fractions of the chart size, and sets the "is-plot-area-manual" property
@@ -1004,8 +1004,8 @@ gog_chart_request_cardinality_update (GogChart *chart)
  * gog_chart_foreach_elem:
  * @chart: a #GogChart
  * @only_visible: whether to restrict to visible elements
- * @handler: (scope call): the function to call for each element
- * @data: (closure): user data to pass to @handler
+ * @handler: (scope call) (closure data): the function to call for each element
+ * @data: user data to pass to @handler
  *
  * Calls @handler for each element of each plot of @chart, in plot order, see
  * gog_plot_foreach_elem().  This is used to build legends.
@@ -1244,7 +1244,7 @@ gog_chart_get_axis_by_id (GogChart const *chart, GogAxisType target,
  * @chart: #GogChart
  *
  * Returns: (transfer none) (nullable): the grid associated with @chart, if
- * one exists otherwise %NULL.
+ * one exists.
  **/
 GogGrid *
 gog_chart_get_grid (GogChart const *chart)

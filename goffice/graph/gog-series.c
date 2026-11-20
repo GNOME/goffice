@@ -983,7 +983,7 @@ GSF_CLASS_FULL (GogSeries, gog_series,
  * gog_series_get_plot:
  * @series: #GogSeries
  *
- * Returns: (transfer none): the possibly NULL plot that contains this series.
+ * Returns: (transfer none) (nullable): the plot that contains this series.
  **/
 GogPlot *
 gog_series_get_plot (GogSeries const *series)
@@ -1087,7 +1087,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
  * Gets the _source_ of the name associated with the series.
  * NOTE : this is _NOT_ the actual name.
  *
- * return value: (transfer none): a #GODataScalar, without added reference.
+ * Returns: (transfer none): a #GODataScalar, without added reference.
  **/
 GOData *
 gog_series_get_name (GogSeries const *series)
@@ -1102,9 +1102,6 @@ gog_series_get_name (GogSeries const *series)
  * @series: a #GogSeries
  * @name_src: (transfer full): a #GODataScalar
  * @err: (out) (optional) (nullable): #GError
- *
- * Absorbs a ref to @name_src.
- *
  **/
 void
 gog_series_set_name (GogSeries *series, GODataScalar *name_src, GError **err)
@@ -1118,8 +1115,6 @@ gog_series_set_name (GogSeries *series, GODataScalar *name_src, GError **err)
  * @dim_i: Which dimension
  * @val: (transfer full): #GOData
  * @err: (out) (optional) (nullable): #GError
- *
- * Absorbs a ref to @val
  **/
 void
 gog_series_set_dim (GogSeries *series, int dim_i, GOData *val, GError **err)
@@ -1171,6 +1166,7 @@ gog_series_num_elements (GogSeries const *series)
  * @series: #GogSeries
  *
  * Overrides are data owning their own style, overriding the series style.
+ *
  * Returns: (element-type GogSeriesElement) (transfer none): the series
  * overrides.
  **/
@@ -1221,8 +1217,8 @@ gog_series_get_valid_element_index (GogSeries const *series, int old_index, int 
  * @series: #GogSeries
  * @index: the element index
  *
- * Returns: (transfer none): the #GogSeriesElement corresponding to @index if
- * any
+ * Returns: (transfer none) (nullable): the #GogSeriesElement corresponding
+ * to @index, or %NULL if there is none.
  **/
 GogSeriesElement *
 gog_series_get_element (GogSeries const *series, int index)
@@ -1273,6 +1269,16 @@ gog_series_get_data (GogSeries const *series, int *indices, double **data, int n
 	return n_points;
 }
 
+/**
+ * gog_series_get_xy_data:
+ * @series: #GogSeries
+ * @x: (out) (array) (transfer none): where to store the x values
+ * @y: (out) (array) (transfer none): where to store the y values
+ *
+ * Fetches the cached data of @series.
+ *
+ * Returns: the number of points, or 0.
+ **/
 unsigned
 gog_series_get_xy_data (GogSeries const  *series,
 			double const 	**x,
@@ -1305,6 +1311,17 @@ gog_series_get_xy_data (GogSeries const  *series,
 	return n_points;
 }
 
+/**
+ * gog_series_get_xyz_data:
+ * @series: #GogSeries
+ * @x: (out) (array) (transfer none): where to store the x values
+ * @y: (out) (array) (transfer none): where to store the y values
+ * @z: (out) (array) (transfer none): where to store the z values
+ *
+ * Fetches the cached 3D data of @series.
+ *
+ * Returns: the number of points, or 0.
+ **/
 unsigned
 gog_series_get_xyz_data (GogSeries const  *series,
 			 double const 	 **x,
@@ -1323,6 +1340,12 @@ gog_series_get_xyz_data (GogSeries const  *series,
 	return n_points;
 }
 
+/**
+ * gog_series_get_fill_type:
+ * @series: #GogSeries
+ *
+ * Returns: the #GogSeriesFillType of @series.
+ **/
 GogSeriesFillType
 gog_series_get_fill_type (GogSeries const *series)
 {
@@ -1331,6 +1354,13 @@ gog_series_get_fill_type (GogSeries const *series)
 	return series->fill_type;
 }
 
+/**
+ * gog_series_set_fill_type:
+ * @series: #GogSeries
+ * @fill_type: the new fill type
+ *
+ * Sets the fill type of @series.
+ **/
 void
 gog_series_set_fill_type (GogSeries *series, GogSeriesFillType fill_type)
 {
@@ -1349,6 +1379,14 @@ gog_series_set_fill_type (GogSeries *series, GogSeriesFillType fill_type)
 }
 
 #ifdef GOFFICE_WITH_GTK
+/**
+ * gog_series_populate_fill_type_combo:
+ * @series: #GogSeries
+ * @combo: (transfer none): a #GtkComboBox
+ *
+ * Fills @combo with the fill types valid for @series and selects the
+ * current one.
+ **/
 void
 gog_series_populate_fill_type_combo (GogSeries const *series, GtkComboBox *combo)
 {
@@ -1371,6 +1409,13 @@ gog_series_populate_fill_type_combo (GogSeries const *series, GtkComboBox *combo
 	}
 }
 
+/**
+ * gog_series_get_fill_type_from_combo:
+ * @series: #GogSeries
+ * @combo: (transfer none): a #GtkComboBox
+ *
+ * Returns: the #GogSeriesFillType selected in @combo.
+ **/
 GogSeriesFillType
 gog_series_get_fill_type_from_combo (GogSeries const *series, GtkComboBox *combo)
 {
@@ -1390,6 +1435,7 @@ gog_series_get_fill_type_from_combo (GogSeries const *series, GtkComboBox *combo
  *
  * Only constrained cubic spline interpolation use parameters (for the
  * slopes at each end).
+ *
  * Returns: (transfer none): the interpolation parameters.
  **/
 GogDataset *

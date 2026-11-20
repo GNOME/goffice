@@ -153,24 +153,56 @@ _update_dash (GogRenderer *rend)
 	rend->line_dash = go_line_dash_get_sequence (rend->cur_style->line.dash_type, size);
 }
 
+/**
+ * gog_renderer_line_size:
+ * @r: #GogRenderer
+ * @width: a line width in points
+ *
+ * Converts a line width in points to the renderer's units.
+ *
+ * Returns: the line size in renderer units.
+ **/
 double
 gog_renderer_line_size (GogRenderer const *rend, double width)
 {
 	return _line_size (rend, width, TRUE);
 }
 
+/**
+ * gog_renderer_pt2r_x:
+ * @r: #GogRenderer
+ * @d: a horizontal distance in points
+ *
+ * Returns: @d in renderer units along x.
+ **/
 double
 gog_renderer_pt2r_x (GogRenderer const *rend, double d)
 {
 	return d * rend->scale_x;
 }
 
+/**
+ * gog_renderer_pt2r_y:
+ * @r: #GogRenderer
+ * @d: a vertical distance in points
+ *
+ * Returns: @d in renderer units along y.
+ **/
 double
 gog_renderer_pt2r_y (GogRenderer const *rend, double d)
 {
 	return d * rend->scale_y;
 }
 
+/**
+ * gog_renderer_pt2r:
+ * @r: #GogRenderer
+ * @d: a distance in points
+ *
+ * Converts points to renderer units using the uniform scale.
+ *
+ * Returns: @d in renderer units.
+ **/
 double
 gog_renderer_pt2r (GogRenderer const *rend, double d)
 {
@@ -377,6 +409,13 @@ fill_path_interpret (GogRenderer  *rend,
 	cairo_close_path (rend->cairo);
 }
 
+/**
+ * gog_renderer_stroke_serie:
+ * @renderer: #GogRenderer
+ * @path: (transfer none): the series path
+ *
+ * Strokes @path as a series line.
+ **/
 void
 gog_renderer_stroke_serie (GogRenderer *renderer,
 			   GOPath const *path)
@@ -401,6 +440,14 @@ gog_renderer_stroke_serie (GogRenderer *renderer,
 	}
 }
 
+/**
+ * gog_renderer_fill_serie:
+ * @renderer: #GogRenderer
+ * @path: (transfer none): the series path
+ * @close_path: (transfer none): path used to close the area
+ *
+ * Fills @path as a series area, closed through @close_path.
+ **/
 void
 gog_renderer_fill_serie (GogRenderer *renderer,
 			 GOPath const *path,
@@ -446,6 +493,13 @@ _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean 
 		emit_line (renderer, FALSE, go_path_get_options (path));
 }
 
+/**
+ * gog_renderer_draw_shape:
+ * @renderer: #GogRenderer
+ * @path: (transfer none): the #GOPath to draw
+ *
+ * Fills and strokes @path with the current style.
+ **/
 void
 gog_renderer_draw_shape (GogRenderer *renderer,
 			 GOPath const *path)
@@ -453,12 +507,26 @@ gog_renderer_draw_shape (GogRenderer *renderer,
 	_draw_shape (renderer, path, TRUE, TRUE);
 }
 
+/**
+ * gog_renderer_stroke_shape:
+ * @renderer: #GogRenderer
+ * @path: (transfer none): the #GOPath to draw
+ *
+ * Strokes @path with the current style.
+ **/
 void
 gog_renderer_stroke_shape (GogRenderer *renderer, GOPath const *path)
 {
 	_draw_shape (renderer, path, FALSE, TRUE);
 }
 
+/**
+ * gog_renderer_fill_shape:
+ * @renderer: #GogRenderer
+ * @path: (transfer none): the #GOPath to draw
+ *
+ * Fills @path with the current style.
+ **/
 void
 gog_renderer_fill_shape (GogRenderer *renderer, GOPath const *path)
 {
@@ -600,33 +668,53 @@ _draw_circle (GogRenderer *rend, double x, double y, double r, gboolean fill, gb
 	go_path_free (path);
 }
 
+/**
+ * gog_renderer_draw_circle:
+ * @rend: #GogRenderer
+ * @x: horizontal center
+ * @y: vertical center
+ * @r: radius
+ *
+ * Fills and strokes a circle.
+ **/
 void
 gog_renderer_draw_circle (GogRenderer *rend, double x, double y, double r)
 {
 	_draw_circle (rend, x, y, r, TRUE, TRUE);
 }
 
+/**
+ * gog_renderer_stroke_circle:
+ * @rend: #GogRenderer
+ * @x: horizontal center
+ * @y: vertical center
+ * @r: radius
+ *
+ * Strokes a circle.
+ **/
 void
 gog_renderer_stroke_circle (GogRenderer *rend, double x, double y, double r)
 {
 	_draw_circle (rend, x, y, r, FALSE, TRUE);
 }
 
+/**
+ * gog_renderer_fill_circle:
+ * @rend: #GogRenderer
+ * @x: horizontal center
+ * @y: vertical center
+ * @r: radius
+ *
+ * Fills a circle.
+ **/
 void
 gog_renderer_fill_circle (GogRenderer *rend, double x, double y, double r)
 {
 	_draw_circle (rend, x, y, r, TRUE, FALSE);
 }
 
-/**
- * gog_renderer_draw_rectangle:
- * @rend: a #GogRenderer
- * @rect: position and extent of rectangle
- *
- * A utility routine to build a closed rectangle vpath.
- *
- **/
-
+/* Builds a closed rectangle path for @rect and draws it with the current
+ * style. */
 static void
 _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill, gboolean stroke)
 {
@@ -657,18 +745,39 @@ _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill
 	go_path_free (path);
 }
 
+/**
+ * gog_renderer_draw_rectangle:
+ * @rend: #GogRenderer
+ * @rect: (transfer none): the rectangle
+ *
+ * Fills and strokes @rect.
+ **/
 void
 gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
 	_draw_rectangle (rend, rect, TRUE, TRUE);
 }
 
+/**
+ * gog_renderer_stroke_rectangle:
+ * @rend: #GogRenderer
+ * @rect: (transfer none): the rectangle
+ *
+ * Strokes @rect.
+ **/
 void
 gog_renderer_stroke_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
 	_draw_rectangle (rend, rect, FALSE, TRUE);
 }
 
+/**
+ * gog_renderer_fill_rectangle:
+ * @rend: #GogRenderer
+ * @rect: (transfer none): the rectangle
+ *
+ * Fills @rect.
+ **/
 void
 gog_renderer_fill_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
@@ -708,6 +817,14 @@ _draw_rotated_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gbool
 	go_path_free (path);
 }
 
+/**
+ * gog_renderer_draw_rotated_rectangle:
+ * @rend: #GogRenderer
+ * @rect: (transfer none): the rectangle
+ * @rotate_bg: whether to also rotate the background
+ *
+ * Fills and strokes @rect, rotated according to the current style.
+ **/
 void
 gog_renderer_draw_rotated_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean rotate_bg)
 {
@@ -754,6 +871,13 @@ gog_renderer_draw_grip (GogRenderer *renderer, double x, double y)
 	gog_renderer_pop_style (renderer);
 }
 
+/**
+ * gog_renderer_draw_selection_rectangle:
+ * @renderer: #GogRenderer
+ * @rectangle: (transfer none): the selection rectangle
+ *
+ * Draws @rectangle using the renderer's selection style.
+ **/
 void
 gog_renderer_draw_selection_rectangle (GogRenderer *renderer, GogViewAllocation const *rectangle)
 {
@@ -1123,6 +1247,16 @@ gog_renderer_get_gostring_AABR (GogRenderer *rend, GOString *str,
 	go_geometry_OBR_to_AABR (&obr, aabr);
 }
 
+/**
+ * gog_renderer_draw_data_label:
+ * @rend: #GogRenderer
+ * @elt: (transfer none): the label element
+ * @pos: (transfer none): the label position
+ * @anchor: the anchor type
+ * @legend_style: (transfer none): style for legend labels
+ *
+ * Draws a data label.
+ **/
 void
 gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
                               GogViewAllocation const *pos, GOAnchorType anchor,
@@ -1307,6 +1441,16 @@ _free_marker_data (GogRenderer *rend)
 	}
 }
 
+/**
+ * gog_renderer_draw_color_map:
+ * @rend: #GogRenderer
+ * @map: (transfer none): the color map
+ * @discrete: number of discrete colors, 0 for a continuous ramp
+ * @horizontal: whether to draw the map horizontally
+ * @rect: (transfer none): the target rectangle
+ *
+ * Draws a snapshot of @map in @rect.
+ **/
 void
 gog_renderer_draw_color_map (GogRenderer *rend, GogAxisColorMap const *map,
                              int discrete, gboolean horizontal,
@@ -1319,6 +1463,14 @@ gog_renderer_draw_color_map (GogRenderer *rend, GogAxisColorMap const *map,
 	cairo_restore (rend->cairo);
 }
 
+/**
+ * gog_renderer_push_style:
+ * @rend: #GogRenderer
+ * @style: (transfer none): the #GOStyle to install
+ *
+ * Pushes @style as the current style of @rend.  Every call must be
+ * matched by gog_renderer_pop_style().
+ **/
 void
 gog_renderer_push_style (GogRenderer *rend, GOStyle const *style)
 {
@@ -1336,6 +1488,12 @@ gog_renderer_push_style (GogRenderer *rend, GOStyle const *style)
 	_update_dash (rend);
 }
 
+/**
+ * gog_renderer_pop_style:
+ * @rend: #GogRenderer
+ *
+ * Pops the current style of @rend.
+ **/
 void
 gog_renderer_pop_style (GogRenderer *rend)
 {
@@ -1355,6 +1513,12 @@ gog_renderer_pop_style (GogRenderer *rend)
 	_update_dash (rend);
 }
 
+/**
+ * gog_renderer_request_update:
+ * @renderer: #GogRenderer
+ *
+ * Requests an update of @renderer ("request-update" signal).
+ **/
 void
 gog_renderer_request_update (GogRenderer *renderer)
 {
@@ -1468,8 +1632,8 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
  * gog_renderer_get_pixbuf:
  * @renderer: #GogRenderer
  *
- * Returns: (transfer none): current pixbuf buffer from a renderer that can render into a pixbuf.
- * 	or %NULL on error.
+ * Returns: (transfer none) (nullable): the current pixbuf buffer of a
+ * 	renderer that can render into a pixbuf, or %NULL on error.
  **/
 GdkPixbuf *
 gog_renderer_get_pixbuf (GogRenderer *rend)
@@ -1497,6 +1661,13 @@ gog_renderer_get_pixbuf (GogRenderer *rend)
 	return rend->pixbuf;
 }
 
+/**
+ * gog_renderer_get_cairo_surface:
+ * @renderer: #GogRenderer
+ *
+ * Returns: (transfer none) (nullable): the cairo surface @renderer draws
+ * into.
+ **/
 cairo_surface_t *
 gog_renderer_get_cairo_surface (GogRenderer *rend)
 {
@@ -1533,6 +1704,17 @@ _cairo_write_func (void *closure,
 	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
 }
 
+/**
+ * gog_renderer_render_to_cairo:
+ * @renderer: #GogRenderer
+ * @cairo: (transfer none): the #cairo_t to render into
+ * @width: width of the target area
+ * @height: height of the target area
+ *
+ * Renders the graph of @renderer into @cairo.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gog_renderer_render_to_cairo (GogRenderer *renderer, cairo_t *cairo, double width, double height)
 {
@@ -1584,7 +1766,7 @@ gog_renderer_render_to_cairo (GogRenderer *renderer, cairo_t *cairo, double widt
  * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and
  * @graph size (see gog_graph_get_size()).
  *
- * returns: %TRUE if export succeed.
+ * Returns: %TRUE if export succeed.
  **/
 
 gboolean
@@ -1711,6 +1893,15 @@ gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
 
 #ifdef GOFFICE_WITH_LASEM
 
+/**
+ * gog_renderer_draw_equation:
+ * @renderer: #GogRenderer
+ * @mathml_view: the equation view
+ * @x: horizontal center
+ * @y: vertical center
+ *
+ * Draws @mathml_view centered at (@x,@y).
+ **/
 void
 gog_renderer_draw_equation (GogRenderer *renderer, LsmDomView *mathml_view, double x, double y)
 {
@@ -1917,6 +2108,12 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 		G_TYPE_NONE, 0);
 }
 
+/**
+ * gog_renderer_get_scale:
+ * @renderer: #GogRenderer
+ *
+ * Returns: the current scale of @renderer.
+ **/
 double
 gog_renderer_get_scale (GogRenderer *renderer)
 {

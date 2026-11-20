@@ -259,6 +259,14 @@ gog_axis_base_finalize (GObject *obj)
 	(gab_parent_klass->finalize) (obj);
 }
 
+/**
+ * gog_axis_base_get_crossed_axis_type:
+ * @axis_base: #GogAxisBase
+ *
+ * Returns the type of the axis crossed by @axis_base.
+ *
+ * Returns: a #GogAxisType, or %GOG_AXIS_UNKNOWN.
+ **/
 GogAxisType
 gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 {
@@ -341,6 +349,13 @@ gog_axis_base_get_crossed_axis (GogAxisBase *axis_base)
 	return crossed_axis;
 }
 
+/**
+ * gog_axis_base_set_position:
+ * @axis_base: #GogAxisBase
+ * @position: the new #GogAxisPosition
+ *
+ * Sets the position of @axis_base within its chart.
+ **/
 void
 gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 {
@@ -390,6 +405,15 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 	axis_base->position = position;
 }
 
+/**
+ * gog_axis_base_get_clamped_position:
+ * @axis_base: #GogAxisBase
+ *
+ * Returns the position of @axis_base clamped to the chart's axis set so
+ * that it can be displayed.
+ *
+ * Returns: the clamped #GogAxisPosition.
+ **/
 GogAxisPosition
 gog_axis_base_get_clamped_position (GogAxisBase *axis_base)
 {
@@ -866,6 +890,14 @@ gog_axis_base_init (GogAxisBase *gab)
 	gab->minor.size_pts = 2;
 }
 
+/**
+ * gog_axis_base_get_cross_location:
+ * @axis_base: #GogAxisBase
+ *
+ * Returns the location where @axis_base crosses the crossed axis.
+ *
+ * Returns: the cross location, or 0. if undefined.
+ **/
 double
 gog_axis_base_get_cross_location (GogAxisBase *axis_base)
 {
@@ -880,6 +912,12 @@ gog_axis_base_get_cross_location (GogAxisBase *axis_base)
 	return 0.;
 }
 
+/**
+ * gog_axis_base_get_position:
+ * @axis_base: #GogAxisBase
+ *
+ * Returns: the requested #GogAxisPosition of @axis_base.
+ **/
 GogAxisPosition
 gog_axis_base_get_position (GogAxisBase *axis_base)
 {
@@ -2409,6 +2447,15 @@ gog_axis_base_build_toolkit (GogView *view)
 #endif
 }
 
+/**
+ * gog_axis_base_view_label_position_request:
+ * @view: the axis view
+ * @bbox: (transfer none): the allocated bounding box
+ * @pos: (out): where to store the label position
+ *
+ * Runs the label geometry handler matching the chart's axis set and
+ * stores the resulting label allocation in @pos.
+ **/
 void
 gog_axis_base_view_label_position_request (GogView *view,
                                            GogViewAllocation const *bbox,
@@ -2796,6 +2843,16 @@ GSF_CLASS_FULL (GogAxisLine, gog_axis_line,
 		NULL /*init*/, GOG_TYPE_AXIS_BASE, 0,
 		GSF_INTERFACE (gog_axis_line_dataset_init, GOG_TYPE_DATASET))
 
+/**
+ * gog_axis_line_get_ticks:
+ * @axis_line: #GogAxisLine
+ * @ticks: (out) (array) (transfer none): where to store the ticks, borrowed
+ *  from @axis_line
+ *
+ * Returns the custom ticks of @axis_line if any, or the computed ones.
+ *
+ * Returns: the number of ticks.
+ **/
 unsigned
 gog_axis_line_get_ticks (GogAxisLine *axis_line, GogAxisTick **ticks)
 {

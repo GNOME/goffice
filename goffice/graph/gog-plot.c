@@ -552,6 +552,12 @@ GSF_CLASS_ABSTRACT (GogPlot, gog_plot,
 		    gog_plot_class_init, gog_plot_init,
 		    GOG_TYPE_OBJECT)
 
+/**
+ * gog_plot_new_by_type:
+ * @type: #GogPlotType
+ *
+ * Returns: (transfer full) (nullable): a new plot of @type.
+ **/
 GogPlot *
 gog_plot_new_by_type (GogPlotType const *type)
 {
@@ -607,6 +613,12 @@ gog_plot_get_chart (GogPlot const *plot)
 }
 
 /* protected */
+/**
+ * gog_plot_request_cardinality_update:
+ * @plot: #GogPlot
+ *
+ * Requests an update of the cardinality of @plot and of its chart.
+ **/
 void
 gog_plot_request_cardinality_update (GogPlot *plot)
 {
@@ -857,6 +869,12 @@ gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 	return (klass->axis_get_bounds) (plot, axis, bounds);
 }
 
+/**
+ * gog_plot_supports_vary_style_by_element:
+ * @plot: #GogPlot
+ *
+ * Returns: %TRUE if @plot can vary styles from element to element.
+ **/
 gboolean
 gog_plot_supports_vary_style_by_element (GogPlot const *plot)
 {
@@ -869,6 +887,12 @@ gog_plot_supports_vary_style_by_element (GogPlot const *plot)
 	return TRUE; /* default */
 }
 
+/**
+ * gog_plot_axis_set_pref:
+ * @plot: #GogPlot
+ *
+ * Returns: the preferred #GogAxisSet of @plot.
+ **/
 GogAxisSet
 gog_plot_axis_set_pref (GogPlot const *plot)
 {
@@ -878,6 +902,13 @@ gog_plot_axis_set_pref (GogPlot const *plot)
 	return klass->axis_set;
 }
 
+/**
+ * gog_plot_axis_set_is_valid:
+ * @plot: #GogPlot
+ * @type: the #GogAxisSet to check
+ *
+ * Returns: %TRUE if @plot can be used with @type.
+ **/
 gboolean
 gog_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet axis_set)
 {
@@ -936,6 +967,15 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 	return TRUE;
 }
 
+/**
+ * gog_plot_axis_set_assign:
+ * @plot: #GogPlot
+ * @type: the #GogAxisSet to use
+ *
+ * Assigns the axes matching @type to @plot.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 {
@@ -998,7 +1038,7 @@ gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type)
  * @plot: #GogPlot
  * @type: #GogAxisType
  *
- * Returns: (transfer none): the axis if any.
+ * Returns: (transfer none) (nullable): the axis, or %NULL if there is none.
  */
 GogAxis	*
 gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
@@ -1009,6 +1049,12 @@ gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
 	return plot->axis[type];
 }
 
+/**
+ * gog_plot_update_3d:
+ * @plot: #GogPlot
+ *
+ * Updates the 3D aspects of @plot.
+ **/
 void
 gog_plot_update_3d (GogPlot *plot)
 {
@@ -1038,6 +1084,12 @@ gog_plot_guru_helper_add_grid_line (GogPlot *plot, gboolean major)
 	}
 }
 
+/**
+ * gog_plot_guru_helper:
+ * @plot: #GogPlot
+ *
+ * Applies the guru hints of @plot to the graph guru.
+ **/
 void
 gog_plot_guru_helper (GogPlot *plot)
 {
@@ -1071,6 +1123,12 @@ gog_plot_guru_helper (GogPlot *plot)
 	g_strfreev (hints);
 }
 
+/**
+ * gog_plot_clear_series:
+ * @plot: #GogPlot
+ *
+ * Destroys all series of @plot.
+ **/
 void gog_plot_clear_series (GogPlot *plot)
 {
 	while (plot->series) {
@@ -1080,6 +1138,15 @@ void gog_plot_clear_series (GogPlot *plot)
 	}
 }
 
+/**
+ * gog_plot_get_percent_value:
+ * @plot: #GogPlot
+ * @series: series index
+ * @index: point index
+ *
+ * Returns: the percentage value of the @index'th point of @series, or
+ * %go_nan.
+ **/
 double
 gog_plot_get_percent_value (GogPlot *plot, unsigned series, unsigned index)
 {
@@ -1263,7 +1330,7 @@ GSF_CLASS_ABSTRACT (GogPlotView, gog_plot_view,
  *
  * Search a data represented at (@x,@y) in @view and set @series on success.
  *
- * return value: index of the found data in @series or -1.
+ * Returns: index of the found data in @series or -1.
  **/
 int
 gog_plot_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)

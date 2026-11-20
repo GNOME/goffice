@@ -370,6 +370,12 @@ gog_reg_curve_get_value_at (GogRegCurve *reg_curve, double x)
 	return (GOG_REG_CURVE_GET_CLASS (reg_curve))->get_value_at (reg_curve, x);
 }
 
+/**
+ * gog_reg_curve_get_equation:
+ * @reg_curve: #GogRegCurve
+ *
+ * Returns: (transfer none): the equation of @reg_curve as a string.
+ **/
 gchar const*
 gog_reg_curve_get_equation (GogRegCurve *reg_curve)
 {
@@ -382,6 +388,15 @@ gog_reg_curve_get_R2 (GogRegCurve *reg_curve)
 	return reg_curve->R2;
 }
 
+/**
+ * gog_reg_curve_get_bounds:
+ * @reg_curve: #GogRegCurve
+ * @xmin: (out): where to store the lower bound
+ * @xmax: (out): where to store the upper bound
+ *
+ * Stores the x range where @reg_curve is defined.  Missing bounds are
+ * reported as -%DBL_MAX and %DBL_MAX.
+ **/
 void
 gog_reg_curve_get_bounds (GogRegCurve *reg_curve, double *xmin, double *xmax)
 {

@@ -74,7 +74,7 @@ xyz_map_3D_to_view (GogChartMap3D *map, double x, double y, double z, double *u,
  * Creates a new #GogChartMap3D, used for conversion from data space
  * to canvas space.
  *
- * returns: (transfer full): a new #GogChartMap3D object.
+ * Returns: (transfer full): a new #GogChartMap3D object.
  **/
 
 GogChartMap3D*
@@ -157,7 +157,7 @@ gog_chart_map_3d_to_view (GogChartMap3D *map, double x, double y, double z, doub
  *
  * Valid values are in range [0..2].
  *
- * returns: (transfer none): a #GogAxisMap.
+ * Returns: (transfer none): a #GogAxisMap.
  **/
 GogAxisMap *
 gog_chart_map_3d_get_axis_map (GogChartMap3D *map, unsigned int i)
@@ -174,7 +174,7 @@ gog_chart_map_3d_get_axis_map (GogChartMap3D *map, unsigned int i)
  *
  * Tests if @map was correctly initialized.
  *
- * returns: %TRUE if @map is valid.
+ * Returns: %TRUE if @map is valid.
  **/
 
 gboolean

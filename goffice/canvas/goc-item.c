@@ -330,7 +330,7 @@ _goc_item_update_bounds (GocItem *item)
  * goc_item_new:
  * @parent: parent #GocGroup for the new item
  * @type: #GType of the new item
- * @first_arg_name: (nullable): property name or %NULL
+ * @first_arg_name: (nullable): property name
  * @...: value for the first property, followed optionally by more
  *  name/value pairs, followed by %NULL
  *
@@ -803,7 +803,7 @@ goc_item_get_parent (GocItem *item)
  * @item: #GocItem
  *
  * Returns: (transfer none) (nullable): The #GdkWindow associated with the
- * item if any or %NULL. Only #GocWidget owns a #GdkWindow.
+ * item. Only #GocWidget owns a #GdkWindow.
  **/
 GdkWindow *
 goc_item_get_window (GocItem *item)

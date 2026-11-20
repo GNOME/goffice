@@ -837,7 +837,7 @@ go_str_compare (void const *x, void const *y)
  * @len: length of @raw
  * @user_guess: (nullable): encoding to try first
  * @utf8_str: (out) (optional) (nullable): location to store the UTF-8 string
- * @truncated: (out) (optional) (nullable): location to store the number of bytes that could not be converted
+ * @truncated: (out) (optional): location to store the number of bytes that could not be converted
  *
  * Guesses the encoding of @raw and converts it to UTF-8.
  *

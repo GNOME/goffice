@@ -235,6 +235,12 @@ create_invalid_axis_ticks (double min, double max)
 	return ticks;
 }
 
+/**
+ * gog_axis_get_date_conv:
+ * @axis: #GogAxis
+ *
+ * Returns: (transfer none): the #GODateConventions used by @axis.
+ **/
 const GODateConventions *
 gog_axis_get_date_conv (GogAxis const *axis)
 {
@@ -1792,7 +1798,7 @@ gog_axis_map (GogAxisMap *map, double value)
  *
  * Converts value from canvas space to data space.
  *
- * return value: value in data coordinates
+ * Returns: value in data coordinates
  **/
 
 double
@@ -1811,7 +1817,7 @@ gog_axis_map_from_view (GogAxisMap *map, double value)
  * Converts value from data space to canvas space, using
  * offset and length parameters given to gog_axis_map_new.
  *
- * return value: a value in canvas coordinates
+ * Returns: a value in canvas coordinates
  **/
 
 double
@@ -1845,7 +1851,7 @@ gog_axis_map_derivative_to_view (GogAxisMap *map, double value)
  *
  * Tests whether @value is valid for the given @map.
  *
- * return value: %TRUE if value means something
+ * Returns: %TRUE if value means something
  **/
 
 gboolean
@@ -2253,6 +2259,12 @@ gog_axis_set_atype (GogAxis *axis, GogAxisType new_type)
 	return TRUE;
 }
 
+/**
+ * gog_axis_get_atype:
+ * @axis: #GogAxis
+ *
+ * Returns: the #GogAxisType of @axis.
+ **/
 GogAxisType
 gog_axis_get_atype (GogAxis const *axis)
 {
@@ -3724,6 +3736,14 @@ gog_axis_set_bounds (GogAxis *axis, double minimum, double maximum)
 	}
 }
 
+/**
+ * gog_axis_get_effective_span:
+ * @axis: #GogAxis
+ * @start: (out): where to store the start of the span
+ * @end: (out): where to store the end of the span
+ *
+ * Stores the effective data span of @axis.
+ **/
 void
 gog_axis_get_effective_span (GogAxis const *axis, double *start, double *end)
 {
@@ -3757,11 +3777,12 @@ gog_axis_set_extents (GogAxis *axis, double start, double stop)
 /**
  * gog_axis_get_ticks:
  * @axis: #GogAxis
- * @ticks: (out): an array of #GogAxisTick
+ * @ticks: (out) (array) (transfer none): an array of #GogAxisTick, owned
+ * by @axis
  *
  * An accessor to @axis->ticks.
  *
- * return value: number of ticks
+ * Returns: number of ticks
  **/
 unsigned
 gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
@@ -3778,8 +3799,8 @@ gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
  * @axis: a #GogAxis
  * @plot_that_labeled_axis: (out) (optional) (nullable): a #GogPlot
  *
- * Returns: (transfer none): the possibly NULL #GOData used as a label for this axis
- * along with the plot that it was associated with
+ * Returns: (transfer none) (nullable): the #GOData used as a label for this
+ * axis, along with the plot that it was associated with
  **/
 GOData *
 gog_axis_get_labels (GogAxis const *axis, GogPlot **plot_that_labeled_axis)
@@ -3843,6 +3864,12 @@ gog_axis_del_contributor (GogAxis *axis, GogObject *contrib)
 		gog_object_request_update (GOG_OBJECT (axis));
 }
 
+/**
+ * gog_axis_clear_contributors:
+ * @axis: #GogAxis
+ *
+ * Removes @axis from the contributor list of every plot using it.
+ **/
 void
 gog_axis_clear_contributors (GogAxis *axis)
 {
@@ -3941,8 +3968,8 @@ gog_axis_is_zero_important (GogAxis *axis)
  * @axis: #GogAxis
  * @major: whether to retrieve major or minor grid line.
  *
- * Returns: (transfer none): a pointer to GridLine object associated to given axis, NULL
- * if it doesn't exists.
+ * Returns: (transfer none) (nullable): the #GogGridLine associated with
+ * @axis, or %NULL if there is none.
  **/
 GogGridLine *
 gog_axis_get_grid_line (GogAxis *axis, gboolean major)
@@ -4030,7 +4057,9 @@ gog_axis_get_circular_rotation (GogAxis *axis)
  * @axis: a #GogAxis
  *
  * Retrieves the #GogAxisColorMap associated to the axis or %NULL.
- * Returns: (transfer none): the color map used by the axis if any.
+ *
+ * Returns: (transfer none) (nullable): the color map used by the axis, or
+ * %NULL if there is none.
  **/
 GogAxisColorMap const *
 gog_axis_get_color_map (GogAxis *axis)
@@ -4046,6 +4075,7 @@ gog_axis_get_color_map (GogAxis *axis)
  * @axis: a #GogAxis
  *
  * Retrieves the #GogColorScale associated to the axis or %NULL.
+ *
  * Returns: (transfer none): the color scale used to display the axis colors
  * for color and pseudo-3d axes.
  **/
@@ -4066,6 +4096,12 @@ _gog_axis_set_color_scale (GogAxis *axis, GogColorScale *scale)
 	axis->color_scale = scale;
 }
 
+/**
+ * gog_axis_get_metrics:
+ * @axis: #GogAxis
+ *
+ * Returns: the #GogAxisMetrics describing the current layout of @axis.
+ **/
 GogAxisMetrics
 gog_axis_get_metrics (GogAxis const *axis)
 {
@@ -4077,9 +4113,10 @@ gog_axis_get_metrics (GogAxis const *axis)
  * gog_axis_get_ref_axis:
  * @axis: a #GogAxis
  *
+ * Returns: (transfer none) (nullable): the axis used to evaluate the length
+ * of @axis.
+ *
  * Since: 0.10.17
- * Returns: (transfer none): the axis used to evaluate the length of @axis or
- * NULL.
  **/
 GogAxis *
 gog_axis_get_ref_axis (GogAxis const *axis)
@@ -4088,6 +4125,13 @@ gog_axis_get_ref_axis (GogAxis const *axis)
 	return axis->ref_axis;
 }
 
+/**
+ * gog_axis_get_major_ticks_distance:
+ * @axis: #GogAxis
+ *
+ * Returns: the distance between major ticks of @axis, or %go_nan if
+ * undefined.
+ **/
 double
 gog_axis_get_major_ticks_distance (GogAxis const *axis)
 {

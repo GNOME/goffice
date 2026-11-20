@@ -407,7 +407,7 @@ go_pixbuf_new_from_pixbuf (GdkPixbuf *pixbuf)
  * @type: the image type
  * @data: the image data
  * @length: the length of @data
- * @error: (out) (optional): a #GError
+ * @error: (out) (optional) (nullable): a #GError
  *
  * Returns: (transfer full): a new #GOImage.
  **/

@@ -434,6 +434,7 @@ GSF_CLASS_FULL (GogAxisColorMap, gog_axis_color_map,
  * @x: the value to map
  *
  * Maps @x to a color.
+ *
  * Returns: the found color.
  **/
 GOColor
@@ -460,6 +461,7 @@ gog_axis_color_map_get_color (GogAxisColorMap const *map, double x)
  *
  * Retrieves the value corresponding to the last color in the map. The first
  * always corresponds to 0.
+ *
  * Returns: the maximum value.
  **/
 unsigned
@@ -474,6 +476,7 @@ gog_axis_color_map_get_max (GogAxisColorMap const *map)
  * @map: a #GogAxisMap
  *
  * Retrieves the color map name.
+ *
  * Returns: (transfer none): the map name.
  **/
 char const *
@@ -488,6 +491,7 @@ gog_axis_color_map_get_id (GogAxisColorMap const *map)
  * @map: a #GogAxisMap
  *
  * Retrieves the color map localized name.
+ *
  * Returns: (transfer none): the map name.
  **/
 char const *
@@ -502,6 +506,7 @@ gog_axis_color_map_get_name (GogAxisColorMap const *map)
  * @map: a #GogAxisMap
  *
  * Retrieves the resource type for @map.
+ *
  * Returns: the resource type.
  **/
 GoResourceType
@@ -520,6 +525,7 @@ gog_axis_color_map_get_resource_type (GogAxisColorMap const *map)
  * @height: the pixbuf height.
  *
  * Builds a snapshot of the color map.
+ *
  * Returns: (transfer full): the new #GdkPixbuf.
  **/
 GdkPixbuf *
@@ -645,6 +651,7 @@ gog_axis_color_map_set_name (GogAxisColorMap *map, char const *name)
  * @map: a #GogAxisColorMap
  *
  * Duplicates the color map.
+ *
  * Returns: (transfer full): the new color map.
  **/
 GogAxisColorMap *
@@ -800,13 +807,18 @@ bin_changed_cb (GtkSpinButton *btn, struct color_map_edit_state *state)
 }
 
 /**
- * gog_axis_color_map_edit:
- * @map: a #GogAxisColorMap or %NULL
- * @cc: a #GOCmdContext or %NULL
+ * gog_axis_color_map_edit: (skip)
+ * @map: (nullable): a #GogAxisColorMap, or %NULL to create a new one
+ * @cc: (nullable): a #GOCmdContext
  *
  * Opens a dialog to edit the color map. If @map is %NULL, creates a new one
  * unless the user cancels the edition.
- * Returns: (transfer none): the edited color map.
+ *
+ * NOTE: if @map is non-NULL and the edition succeeds, @map is registered
+ * and the caller's reference is consumed; on failure the caller keeps it.
+ *
+ * Returns: (transfer none) (nullable): the edited or newly created color
+ * map, or %NULL if the edition was cancelled.
  **/
 GogAxisColorMap *
 gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc)
@@ -898,6 +910,7 @@ gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc)
  * @type: the resource type
  *
  * Creates a color map using @colors.
+ *
  * Returns: (transfer full): the newly created color map.
  **/
 GogAxisColorMap *
@@ -1016,6 +1029,7 @@ gog_axis_color_map_foreach (GogAxisColorMapHandler handler, gpointer user_data)
  * @id: the color map identifier to search for
  *
  * Retrieves the color map whose identifier is @id or creates a new empty one.
+ *
  * Returns: (transfer none): the color map.
  **/
 GogAxisColorMap const *
@@ -1038,13 +1052,13 @@ gog_axis_color_map_get_from_id (char const *id)
 
 /**
  * gog_axis_color_map_delete: (skip)
- * @map: a #GogAxisColorMap
+ * @map: (transfer none): a #GogAxisColorMap
  *
- * Destroys the color map and remove it from the user directory and from the
- * database.
+ * Destroys the color map and removes it from the user directory and from
+ * the database.
  *
- * NOTE: this takes ownership of @map if and only if the deletion
- * succeeds.
+ * NOTE: on success the caller's reference is consumed; on failure the
+ * caller keeps it.
  *
  * Returns: %TRUE on success.
  **/

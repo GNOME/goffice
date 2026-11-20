@@ -1535,7 +1535,7 @@ go_gtk_notice_dialog (GtkWindow *parent, GtkMessageType type,
 /**
  * go_gtk_notice_nonmodal_dialog:
  * @parent: (nullable): #GtkWindow
- * @ref: (inout): pointer to a #GtkWidget
+ * @ref: (inout) (nullable): pointer to a #GtkWidget
  * @type: #GtkMessageType
  * @format: printf-style format string
  * @...: arguments for @format
