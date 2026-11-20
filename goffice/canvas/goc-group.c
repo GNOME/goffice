@@ -386,7 +386,9 @@ GSF_CLASS (GocGroup, goc_group,
  * goc_group_new:
  * @parent: #GocGroup
  *
- * Creates a new #GocGroup as a child of @parent.
+ * Creates a new #GocGroup as a child of @parent.  The group is owned by
+ * @parent; use goc_item_destroy() to destroy it.
+ *
  * Returns: (transfer none): the newly created #GocGroup.
  **/
 GocGroup*
@@ -460,7 +462,8 @@ _goc_group_fake_xchildren (GocGroup *group)
  * @parent: #GocGroup
  * @item: #GocItem
  *
- * Adds @item as a new child to @parent.
+ * Adds @item as a new child of @parent, removing it from its previous
+ * parent first.  @parent owns the item.
  **/
 void
 goc_group_add_child (GocGroup *parent, GocItem *item)
@@ -554,7 +557,7 @@ goc_group_get_children (GocGroup *group)
  * @group: #GocGroup
  * @n: number
  *
- * Returns: (transfer none) (nullable): The @n'th item, zero-bases, in the
+ * Returns: (transfer none) (nullable): The @n'th item, zero-based, in the
  * group or %NULL if @n is too big.
  **/
 GocItem *
@@ -608,9 +611,10 @@ goc_group_find_child (GocGroup *group, GocItem *item)
  * @x1: (out): last horizontal coordinate
  * @y1: (out): last vertical coordinate
  *
- * Adds @group horizontal offset to @x0 and @x1, and vertical offset to @y0
- * and @y1. This function is called recursively so that when returning @x0,
- * @y0, @x1, and @y1 are absolute coordinates in canvas space,
+ * Adds @group's offset to @x0, @y0, @x1 and @y1, then does the same for
+ * the ancestors, so that on return the coordinates are absolute canvas
+ * coordinates.  The input must be in @group's coordinate system, e.g.
+ * the bounds returned by goc_item_get_bounds() for one of its children.
  **/
 void
 goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *x1, double *y1)
@@ -632,9 +636,9 @@ goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *
  * @x: (out): horizontal coordinate
  * @y: (out): vertical coordinate
  *
- * Adds @group horizontal offset to @x0, and vertical offset to @y0.
- * This function is called recursively so that when returning @x0 and
- * @y0 are absolute coordinates in canvas space,
+ * Adds @group's offset to @x and @y, then does the same for the
+ * ancestors, so that on return the coordinates are absolute canvas
+ * coordinates.  The input must be in @group's coordinate system.
  **/
 void
 goc_group_adjust_coords (GocGroup const *group, double *x, double *y)
@@ -689,7 +693,9 @@ goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double 
  * @clip_path: (transfer none) (nullable): #GOPath
  * @clip_rule: #cairo_fill_rule_t
  *
- * Clips the drawing inside @clip_path.
+ * Clips the drawing inside @clip_path, which is copied.  The clip also
+ * limits the bounds and hit testing of the group.  Passing %NULL clears
+ * the clip.
  */
 void
 goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t clip_rule)
@@ -704,6 +710,16 @@ goc_group_set_clip_path (GocGroup *group, GOPath *clip_path, cairo_fill_rule_t c
 	goc_item_bounds_changed (GOC_ITEM (group));
 }
 
+/**
+ * goc_group_freeze:
+ * @group: #GocGroup
+ * @freeze: whether to suspend (%TRUE) or resume (%FALSE) bounds updates
+ *
+ * Suspends or resumes bounds recomputation for @group.  The freeze count
+ * is nested: every %TRUE call should be matched by a %FALSE call, and an
+ * unmatched %FALSE is ignored.  Bounds are recomputed when the count
+ * reaches zero.
+ **/
 void
 goc_group_freeze (GocGroup *group, gboolean freeze)
 {

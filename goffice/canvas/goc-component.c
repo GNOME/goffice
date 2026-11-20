@@ -322,7 +322,7 @@ GSF_CLASS (GocComponent, goc_component,
  * goc_component_get_object:
  * @component: #GocComponent
  *
- * Returns: (transfer none): the embedded object.
+ * Returns: (transfer none) (nullable): the embedded object.
  */
 
 GOComponent * goc_component_get_object (GocComponent *component)

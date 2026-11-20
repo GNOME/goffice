@@ -458,7 +458,7 @@ goc_canvas_get_root (GocCanvas *canvas)
  *
  * Gets the width of the canvas.
  *
- * Returns: the width of the widget visible region.
+ * Returns: the width in pixels of the widget visible region.
  **/
 int
 goc_canvas_get_width (GocCanvas *canvas)
@@ -473,7 +473,7 @@ goc_canvas_get_width (GocCanvas *canvas)
  *
  * Gets the height of the canvas.
  *
- * Returns: the height of the widget visible region.
+ * Returns: the height in pixels of the widget visible region.
  **/
 int
 goc_canvas_get_height (GocCanvas *canvas)
@@ -514,7 +514,8 @@ goc_canvas_scroll_to (GocCanvas *canvas, double x, double y)
  * @x: (out) (optional): where to store the horizontal position
  * @y: (out) (optional): where to store the vertical position
  *
- * Retrieves the origin of the visible region of the canvas.
+ * Retrieves the origin of the visible region of the canvas, in canvas
+ * units.
  **/
 void
 goc_canvas_get_scroll_position (GocCanvas *canvas, double *x, double *y)
@@ -614,11 +615,11 @@ goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, doubl
  * goc_canvas_invalidate_region:
  * @canvas: #GocCanvas
  * @item: the item to redraw
- * @region: the region to redraw
+ * @region: (transfer none): the region to redraw
  *
- * Invalidates a region of the canvas. Only @item will be redrawn if the next
- * draw event is called with a cairo contest clipped to @region. Used in
- * gnumeric for the walking ants cursor.
+ * Invalidates a region of the canvas. Only @item will be redrawn if the
+ * next draw event is called with a cairo context clipped to @region. Used
+ * in gnumeric for the walking ants cursor.
  **/
 void
 goc_canvas_invalidate_region (GocCanvas *canvas, GocItem *item, cairo_region_t *region)
@@ -661,10 +662,11 @@ goc_canvas_get_realized (GocCanvas *canvas)
 /**
  * goc_canvas_get_item_at:
  * @canvas: #GocCanvas
- * @x: horizontal position
- * @y: vertical position
+ * @x: horizontal position in canvas coordinates
+ * @y: vertical position in canvas coordinates
  *
- * Returns: (transfer none): the #GocItem displayed at (@x,@y) if any.
+ * Returns: (transfer none) (nullable): the #GocItem displayed at (@x,@y),
+ * or %NULL if there is none.
  **/
 GocItem *
 goc_canvas_get_item_at (GocCanvas *canvas, double x, double y)
@@ -712,7 +714,8 @@ goc_canvas_ungrab_item (GocCanvas *canvas)
  *
  * Gets the currently grabbed item.
  *
- * Returns: (transfer none): The currently grabbed #GocItem.
+ * Returns: (transfer none) (nullable): The currently grabbed #GocItem,
+ * or %NULL if none is grabbed.
  **/
 GocItem *
 goc_canvas_get_grabbed_item (GocCanvas *canvas)
@@ -724,10 +727,11 @@ goc_canvas_get_grabbed_item (GocCanvas *canvas)
 /**
  * goc_canvas_set_document:
  * @canvas: #GocCanvas
- * @document: #GODoc
+ * @document: (nullable): #GODoc
  *
  * Associates the #GODoc with the #GocCanvas. This is needed to use images
- * when filling styled items (see #GocStyledItem).
+ * when filling styled items (see #GocStyledItem).  Passing %NULL unsets
+ * the document.
  **/
 void
 goc_canvas_set_document (GocCanvas *canvas, GODoc *document)
@@ -742,7 +746,8 @@ goc_canvas_set_document (GocCanvas *canvas, GODoc *document)
  *
  * Gets the document associated with @canvas.
  *
- * Returns: (transfer none): The #GODoc associated with the #GocCanvas.
+ * Returns: (transfer none) (nullable): The #GODoc associated with the
+ * #GocCanvas.
  **/
 GODoc*
 goc_canvas_get_document (GocCanvas *canvas)
@@ -756,9 +761,10 @@ goc_canvas_get_document (GocCanvas *canvas)
  * goc_canvas_get_cur_event:
  * @canvas: #GocCanvas
  *
- * Gets the current event.
+ * Gets the event currently being processed, if any.  The result is only
+ * valid during event dispatch.
  *
- * Returns: (transfer none): The #GdkEvent being processed.
+ * Returns: (transfer none) (nullable): The #GdkEvent being processed.
  **/
 GdkEvent*
 goc_canvas_get_cur_event (GocCanvas *canvas)
@@ -850,12 +856,13 @@ goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_)
  * goc_canvas_render:
  * @canvas: #GocCanvas
  * @cr: #cairo_t
- * @x0: left coordinate
- * @y0: top coordinate
- * @x1: right coordinate
- * @y1: bottom coordinate
+ * @x0: left coordinate, in canvas coordinates
+ * @y0: top coordinate, in canvas coordinates
+ * @x1: right coordinate, in canvas coordinates
+ * @y1: bottom coordinate, in canvas coordinates
  *
- * Renders the canvas to @cr.
+ * Renders the canvas region bounded by @x0, @y0, @x1 and @y1 to @cr.
+ * @cr is in canvas coordinates; the canvas scale is applied by the items.
  **/
 void
 goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double x1, double y1)
@@ -872,7 +879,8 @@ goc_canvas_render (GocCanvas *canvas, cairo_t *cr, double x0, double y0, double 
  * @x1: (out) (optional): location for right coordinate
  * @y1: (out) (optional): location for bottom coordinate
  *
- * Retrieves the bounds of the canvas.
+ * Retrieves the bounds of the canvas, in canvas coordinates.  For an
+ * empty canvas the result is an empty rectangle (@x0 > @x1).
  **/
 void
 goc_canvas_get_bounds (GocCanvas *canvas, double *x0, double *y0, double *x1, double *y1)

@@ -330,14 +330,16 @@ _goc_item_update_bounds (GocItem *item)
  * goc_item_new:
  * @parent: parent #GocGroup for the new item
  * @type: #GType of the new item
- * @first_arg_name: property name or %NULL
+ * @first_arg_name: (nullable): property name or %NULL
  * @...: value for the first property, followed optionally by more
  *  name/value pairs, followed by %NULL
  *
- * Creates a new item of type @type in group @group. Properties can be
- * set just the same way they are in #g_object_new.
+ * Creates a new item of type @type in group @parent. Properties can be
+ * set just the same way they are in #g_object_new.  The new item is
+ * owned by @parent; use goc_item_destroy() to destroy it.
  *
- * Returns: (transfer none): the newly created #GocItem.
+ * Returns: (transfer none) (nullable): the newly created #GocItem or
+ * %NULL if @parent is not a #GocGroup.
  **/
 GocItem *
 goc_item_new (GocGroup *parent, GType type, const gchar *first_arg_name, ...)
@@ -401,11 +403,12 @@ goc_item_set (GocItem *item, const gchar *first_arg_name, ...)
  * @item: #GocItem
  * @x: horizontal position
  * @y: vertical position
- * @near_item: where to store the nearest item
+ * @near_item: (out): where to store the nearest item
  *
- * Evaluates the distance between the point with canvas coordinates @x,@y
- * and the nearest point of @item. @near_item is set with either @item or
- * its appropriate child.
+ * Evaluates the distance between the point (@x,@y) and the nearest point
+ * of @item.  @x and @y are in the coordinate system of @item's parent
+ * (canvas coordinates when @item is the canvas root).  @near_item is set
+ * with either @item or its appropriate child.
  *
  * Returns: the evaluated distance.
  **/
@@ -424,8 +427,9 @@ goc_item_distance (GocItem *item, double x, double y, GocItem **near_item)
  * @item: #GocItem
  * @cr: #cairo_t
  *
- * Renders @item using @cr. There is no need to call this function directly.
- * Invalidating the item is the way to go.
+ * Renders @item using @cr, which is in canvas coordinates; the item
+ * applies its own transform and the canvas scale.  There is no need to
+ * call this function directly.  Invalidating the item is the way to go.
  **/
 void
 goc_item_draw (GocItem const *item, cairo_t *cr)
@@ -447,9 +451,10 @@ goc_item_draw (GocItem const *item, cairo_t *cr)
  * @y1: the highest vertical bound of the region to draw
  *
  * Renders @item using @cr, limiting all drawings to the region limited by
- * @x0, @y0, @x1, and @y1. If this function returns %FALSE, #goc_item_draw
- * should be called. There is no need to call this function directly.
- * Invalidating the item is the way to go.
+ * @x0, @y0, @x1, and @y1, which is in the coordinate system of @item's
+ * parent.  @cr is in canvas coordinates.  If this function returns %FALSE,
+ * goc_item_draw() should be called.  There is no need to call this
+ * function directly.  Invalidating the item is the way to go.
  *
  * Returns: %TRUE if successful.
  **/
@@ -511,7 +516,7 @@ goc_item_invalidate (GocItem *item)
  * @item: #GocItem
  * @visible: whether the item should be visible
  *
- * Either hides or shows @item as appropriate..
+ * Either hides or shows @item as appropriate.
  **/
 void
 goc_item_set_visible (GocItem *item, gboolean visible)
@@ -783,7 +788,8 @@ _goc_item_unrealize (GocItem *item)
  * goc_item_get_parent:
  * @item: #GocItem
  *
- * Returns: (transfer none): The item parent #GocGroup.
+ * Returns: (transfer none) (nullable): The item parent #GocGroup, or
+ * %NULL for the canvas root.
  **/
 GocGroup *
 goc_item_get_parent (GocItem *item)
@@ -796,8 +802,8 @@ goc_item_get_parent (GocItem *item)
  * goc_item_get_window:
  * @item: #GocItem
  *
- * Returns: (transfer none): The #GdkWindow associated with the item if any or
- * %NULL. Only #GocWidget owns a #GdkWindow.
+ * Returns: (transfer none) (nullable): The #GdkWindow associated with the
+ * item if any or %NULL. Only #GocWidget owns a #GdkWindow.
  **/
 GdkWindow *
 goc_item_get_window (GocItem *item)
@@ -1004,12 +1010,13 @@ goc_item_clone (GocItem *item)
  * @parent: (nullable): #GocGroup
  *
  * Creates a new GocItem identical to @item inside the parent GocGroup if not
- * %NULL.  Passing %NULL is deprecated: it emits a warning; goc_item_clone()
- * should be used instead.  In that case the returned item is owned by the
- * caller and must be released with g_object_unref().
+ * %NULL.  The new item is owned by @parent.  Passing %NULL is deprecated: it
+ * emits a warning; goc_item_clone() should be used instead.  In that case the
+ * returned item is owned by the caller and must be released with
+ * g_object_unref().
  *
- * Returns: (transfer none): The duplicated item or %NULL if the duplication
- * was not possible.
+ * Returns: (transfer none) (nullable): The duplicated item or %NULL if the
+ * duplication was not possible.
  */
 GocItem *
 goc_item_duplicate (GocItem *item, GocGroup *parent)
@@ -1045,8 +1052,10 @@ goc_item_duplicate (GocItem *item, GocGroup *parent)
  * @source: #GocItem
  * @dest: #GocItem
  *
- * Copies @source properties to @dest. The two items must be of the same type
- * and their common class needs a @copy member.
+ * Copies @source properties to @dest. The two items must be of the same
+ * type and their common class needs a @copy member; otherwise a critical
+ * is logged and nothing is copied. Copying an item onto itself is a
+ * no-op.
  **/
 void
 goc_item_copy (GocItem *dest, GocItem *source)

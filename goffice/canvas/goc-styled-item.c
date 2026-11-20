@@ -287,6 +287,7 @@ GSF_CLASS_FULL (GocStyledItem, goc_styled_item, NULL, NULL,
  * If the item drawing used goc_group_cairo_transform(),
  * scale-line-width should be %FALSE to avoid scaling twice, or
  * go_styled_object_set_cairo_line() should be called directly instead.
+ *
  * Returns: %TRUE if the line is not invisible
  **/
 gboolean
@@ -315,6 +316,7 @@ goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
  *
  * This function returns %TRUE if the line width needs to be scaled. It will
  * always return %FALSE if the line width is 0.
+ *
  * Returns: whether the line width needs to be scaled.
  **/
 gboolean

@@ -989,7 +989,9 @@ GSF_CLASS (GocWidget, goc_widget,
  * @width: widget width
  * @height: widget height
  *
- * Sets the bounds of the widget.
+ * Sets the bounds of the widget, in the coordinate system of its parent
+ * group.  This invalidates the widget, recomputes its bounds and informs
+ * the embedded widget about scrolling.
  **/
 void
 goc_widget_set_bounds (GocWidget *widget, double left, double top, double width, double height)

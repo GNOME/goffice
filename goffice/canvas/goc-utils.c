@@ -39,11 +39,11 @@
  * goc_points_new:
  * @n: the number of #GocPoint instances.
  *
- * Creates a new #GocPoints instances with @n points with nul initial
+ * Creates a new #GocPoints instance with @n points with zeroed initial
  * coordinates. The coordinates can be changed using direct access:
  *
  * <programlisting>
- *      GocPoints points = goc_points_new (1);
+ *      GocPoints *points = goc_points_new (1);
  *      points->points[0].x = my_x;
  *      points->points[0].y = my_y;
  * </programlisting>
