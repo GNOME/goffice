@@ -499,6 +499,10 @@ goc_offscreen_box_set_scale (GocOffscreenBox  *offscreen_box,
 
 static GocItemClass *widget_parent_class;
 
+typedef struct {
+	guint drawing : 1; /* inside goc_widget_draw () */
+} GocWidgetPrivate;
+
 enum {
 	WIDGET_PROP_0,
 	WIDGET_PROP_WIDGET,
@@ -577,6 +581,25 @@ goc_widget_update_bounds (GocItem *item)
 	item->y1 = widget->y + widget->h;
 }
 
+/* GTK redraws embedded widgets on their own offscreen windows.  The canvas
+ * paints the same widget into its own cairo context in goc_widget_draw(), so
+ * those redraws never reach the canvas.  Propagate any draw that did not
+ * originate from the canvas back to the GocWidget item.  The drawing flag
+ * prevents recursion when the canvas itself calls gtk_widget_draw().  */
+static gboolean
+widget_draw_cb (G_GNUC_UNUSED GtkWidget *widget,
+		G_GNUC_UNUSED cairo_t *cr,
+		gpointer data)
+{
+	GocWidget *item = data;
+	GocWidgetPrivate *priv = (GocWidgetPrivate *) item->priv;
+
+	if (!priv->drawing)
+		goc_item_invalidate (GOC_ITEM (item));
+
+	return FALSE;
+}
+
 static void
 goc_widget_connect_signals (GtkWidget *widget, GocWidget *item,
 			    gboolean do_connect)
@@ -596,11 +619,15 @@ goc_widget_connect_signals (GtkWidget *widget, GocWidget *item,
 				  G_CALLBACK (enter_notify_cb), item);
 		g_signal_connect (widget, "button-press-event",
 				  G_CALLBACK (button_press_cb), item);
+		g_signal_connect (widget, "draw",
+				  G_CALLBACK (widget_draw_cb), item);
 	} else {
 		g_signal_handlers_disconnect_by_func
 			(widget, G_CALLBACK (enter_notify_cb), item);
 		g_signal_handlers_disconnect_by_func
 			(widget, G_CALLBACK (button_press_cb), item);
+		g_signal_handlers_disconnect_by_func
+			(widget, G_CALLBACK (widget_draw_cb), item);
 	}
 }
 
@@ -841,7 +868,9 @@ static void
 goc_widget_draw (GocItem const *item, cairo_t *cr)
 {
 	GocWidget *widget = GOC_WIDGET (item);
+	GocWidgetPrivate *priv = (GocWidgetPrivate *) widget->priv;
 	GocOffscreenBox *ofbox = GOC_OFFSCREEN_BOX (widget->ofbox);
+	gboolean was_drawing;
 	int x, y;
 
 	if (!widget->ofbox)
@@ -851,7 +880,10 @@ goc_widget_draw (GocItem const *item, cairo_t *cr)
 	cairo_save (cr);
 	cairo_translate (cr, x, y);
 	cairo_scale (cr, ofbox->scale, ofbox->scale);
+	was_drawing = priv->drawing;
+	priv->drawing = TRUE;
 	gtk_widget_draw (ofbox->child, cr);
+	priv->drawing = was_drawing;
 	cairo_new_path (cr);
 	cairo_restore (cr);
 }
@@ -872,9 +904,17 @@ goc_widget_dispose (GObject *object)
 }
 
 static void
+goc_widget_finalize (GObject *object)
+{
+	g_free (GOC_WIDGET (object)->priv);
+	((GObjectClass *)widget_parent_class)->finalize (object);
+}
+
+static void
 goc_widget_init (GocWidget *item)
 {
 	item->x = item->y = -G_MAXINT; /* so that it is not visible until the position is set */
+	item->priv = g_new0 (GocWidgetPrivate, 1);
 	g_signal_connect (item, "notify::canvas",
 			  G_CALLBACK (cb_canvas_changed),
 			  NULL);
@@ -890,6 +930,7 @@ goc_widget_class_init (GocItemClass *item_klass)
 	obj_klass->get_property = goc_widget_get_property;
 	obj_klass->set_property = goc_widget_set_property;
 	obj_klass->dispose = goc_widget_dispose;
+	obj_klass->finalize = goc_widget_finalize;
 
 	g_object_class_install_property (obj_klass, WIDGET_PROP_WIDGET,
 		g_param_spec_object ("widget",
