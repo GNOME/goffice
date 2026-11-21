@@ -1001,14 +1001,6 @@ go_editor_get_type
 </SECTION>
 
 <SECTION>
-<FILE>go-error-stack</FILE>
-go_error_stack_add_child
-go_error_stack_dump
-go_error_stack_free
-go_error_stack_new
-</SECTION>
-
-<SECTION>
 <FILE>go-fft</FILE>
 <TITLE>Fast Fourier transform</TITLE>
 go_fourier_fft

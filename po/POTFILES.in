@@ -6,7 +6,6 @@ goffice/app/file.c
 goffice/app/go-cmd-context.c
 goffice/app/go-doc.c
 goffice/app/go-doc-control.c
-goffice/app/go-object.c
 goffice/app/go-plugin.c
 goffice/app/go-plugin-loader.c
 goffice/app/go-plugin-loader-module.c

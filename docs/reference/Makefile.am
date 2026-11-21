@@ -30,7 +30,6 @@ IGNORE_HFILES=	\
 		io-context-priv.h       		\
 		go-app.h       				\
 		go-doc-impl.h				\
-		go-object.h       			\
 		go-service.h       			\
 		go-service-impl.h			\
 		go-decimal.h				\

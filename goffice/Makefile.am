@@ -69,9 +69,6 @@ app_HEADERS = 	\
 # This list should be empty when we reach a stable phase.
 app_UNUSED = \
 	app/go-app.h \
-	app/go-error-stack.h \
-	app/go-object.c \
-	app/go-object.h \
 	app/go-service.c \
 	app/go-service.h \
 	app/go-service-impl.h
