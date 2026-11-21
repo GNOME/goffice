@@ -386,6 +386,15 @@ GSF_CLASS (GOComponentSnapshot, go_component_snapshot,
 
 /******************************************************************************/
 
+/**
+ * go_component_set_default_size:
+ * @component: #GOComponent
+ * @width: default width
+ * @ascent: default ascent
+ * @descent: default descent
+ *
+ * Sets the default size of @component.
+ **/
 void
 go_component_set_default_size (GOComponent *component, double width, double ascent, double descent)
 {
@@ -409,6 +418,16 @@ go_component_set_default_size (GOComponent *component, double width, double asce
 		klass->set_default_size (component);
 }
 
+/**
+ * go_component_set_data:
+ * @component: #GOComponent
+ * @data: (array length=length) (element-type guint8): new data
+ * @length: length of @data in bytes
+ *
+ * Sets the data embedded in @component. The component does not take ownership
+ * of @data, it must remain valid until the data is replaced or @component is
+ * destroyed.
+ **/
 void
 go_component_set_data (GOComponent *component, char const *data, int length)
 {
@@ -429,6 +448,19 @@ go_component_set_data (GOComponent *component, char const *data, int length)
 		klass->set_data (component);
 }
 
+/**
+ * go_component_get_data:
+ * @component: #GOComponent
+ * @data: (out) (transfer full) (array length=length) (element-type guint8): location to store the data
+ * @length: (out): location to store the length of @data in bytes
+ * @clearfunc: (out) (nullable): location to store the function to free @data
+ * @user_data: (out) (nullable): location to store the data to pass to @clearfunc
+ *
+ * Gets the data embedded in @component. If non-%NULL, @clearfunc must be
+ * called with @data and @user_data when the data is no longer needed.
+ *
+ * Returns: %TRUE on success, %FALSE if the component has no data.
+ **/
 gboolean
 go_component_get_data (GOComponent *component, gpointer *data, int *length,
 		       GDestroyNotify *clearfunc, gpointer *user_data)
@@ -453,12 +485,29 @@ go_component_get_data (GOComponent *component, gpointer *data, int *length,
 	return res;
 }
 
+/**
+ * go_component_get_mime_type:
+ * @component: #GOComponent
+ *
+ * Retrieves the MIME type of @component.
+ *
+ * Returns: (transfer none): the MIME type of @component.
+ **/
 char const *
 go_component_get_mime_type (GOComponent *component)
 {
 	return component->mime_type;
 }
 
+/**
+ * go_component_set_size:
+ * @component: #GOComponent
+ * @width: new width
+ * @height: new height
+ *
+ * Sets the width and height of @component. Does nothing if @component is not
+ * resizable.
+ **/
 void
 go_component_set_size (GOComponent *component, double width, double height)
 {
@@ -479,6 +528,15 @@ go_component_set_size (GOComponent *component, double width, double height)
 		klass->set_size (component);
 }
 
+/**
+ * go_component_render:
+ * @component: #GOComponent
+ * @cr: cairo context
+ * @width: width of the rendered component
+ * @height: height of the rendered component
+ *
+ * Renders @component on @cr with the given @width and @height.
+ **/
 void
 go_component_render (GOComponent *component, cairo_t *cr,
 			double width, double height)
@@ -492,6 +550,14 @@ go_component_render (GOComponent *component, cairo_t *cr,
 		klass->render (component, cr, width, height);
 }
 
+/**
+ * go_component_is_resizable:
+ * @component: #GOComponent
+ *
+ * Tests whether @component can be resized.
+ *
+ * Returns: %TRUE if @component is resizable, %FALSE otherwise.
+ **/
 gboolean
 go_component_is_resizable (GOComponent *component)
 {
@@ -499,6 +565,14 @@ go_component_is_resizable (GOComponent *component)
 	return component->resizable;
 }
 
+/**
+ * go_component_is_editable:
+ * @component: #GOComponent
+ *
+ * Tests whether @component can be edited.
+ *
+ * Returns: %TRUE if @component is editable, %FALSE otherwise.
+ **/
 gboolean
 go_component_is_editable (GOComponent *component)
 {
@@ -517,7 +591,7 @@ editor_destroy_cb (GOComponent *component)
  * @component: #GOComponent
  *
  * Opens a top level window editor for the component if it can be edited.
- * Returns: (transfer none): the editor window or %NULL
+ * Returns: (transfer none) (nullable): the editor window
  */
 GtkWindow *
 go_component_edit (GOComponent *component)
@@ -539,6 +613,12 @@ go_component_edit (GOComponent *component)
 	return component->editor;
 }
 
+/**
+ * go_component_stop_editing:
+ * @component: #GOComponent
+ *
+ * Destroys the editor window of @component, if any.
+ **/
 void go_component_stop_editing (GOComponent *component)
 {
 	g_return_if_fail (GO_IS_COMPONENT (component));
@@ -547,6 +627,13 @@ void go_component_stop_editing (GOComponent *component)
 	component->editor = NULL;
 }
 
+/**
+ * go_component_emit_changed:
+ * @component: #GOComponent
+ *
+ * Invalidates the cached data and snapshot of @component and emits the
+ * "changed" signal.
+ **/
 void
 go_component_emit_changed (GOComponent *component)
 {
@@ -572,6 +659,13 @@ go_component_emit_changed (GOComponent *component)
 
 static GOCmdContext *goc_cc = NULL;
 
+/**
+ * go_component_set_command_context:
+ * @component: #GOComponent
+ * @cc: (nullable): command context
+ *
+ * Sets the command context used by @component.
+ **/
 void
 go_component_set_command_context (GOComponent *component, GOCmdContext *cc)
 {
@@ -586,10 +680,10 @@ go_component_set_command_context (GOComponent *component, GOCmdContext *cc)
 
 /**
  * go_component_get_command_context:
- * @component: #GOComponent
+ * @component: (nullable): #GOComponent
  *
- * Returns: (transfer none): the command context used by the component or the
- * default command context if the argument is NULL.
+ * Returns: (transfer none): the command context used by @component, or the
+ * default command context if @component is %NULL.
  */
 GOCmdContext *
 go_component_get_command_context (GOComponent *component)
@@ -597,6 +691,13 @@ go_component_get_command_context (GOComponent *component)
 	return (component && component->cc)? component->cc: goc_cc;
 }
 
+/**
+ * go_component_set_default_command_context:
+ * @cc: (nullable): command context
+ *
+ * Sets the default command context used by components without a specific
+ * command context.
+ **/
 void
 go_component_set_default_command_context (GOCmdContext *cc)
 {
@@ -609,6 +710,14 @@ go_component_set_default_command_context (GOCmdContext *cc)
 		g_object_ref (goc_cc);
 }
 
+/**
+ * go_component_get_size:
+ * @component: #GOComponent
+ * @width: (out): location to store the width
+ * @height: (out): location to store the height
+ *
+ * Retrieves the width and height of @component.
+ **/
 void
 go_component_get_size (GOComponent *component, double *width, double *height)
 {
@@ -618,6 +727,13 @@ go_component_get_size (GOComponent *component, double *width, double *height)
 	*height = component->height;
 }
 
+/**
+ * go_component_write_xml_sax:
+ * @component: #GOComponent
+ * @output: #GsfXMLOut
+ *
+ * Writes @component as XML to @output.
+ **/
 void
 go_component_write_xml_sax (GOComponent *component, GsfXMLOut *output)
 {
@@ -754,10 +870,10 @@ _go_component_sax_parser_done (G_GNUC_UNUSED GsfXMLIn *xin, GOCompXMLReadState *
 
 /**
  * go_component_sax_push_parser:
- * @xin: #GsfInput
- * @attrs: the current node attributes.
+ * @xin: #GsfXMLIn
+ * @attrs: (nullable): the current node attributes.
  * @handler: (scope call): #GOComponentSaxHandler
- * @user_data: data to pass to @handler
+ * @user_data: (closure): data to pass to @handler
  *
  * Loads the component from the xml stream. @handler will be called when done.
  */
@@ -800,6 +916,15 @@ gsf_output_from_cairo (struct write_state *state, unsigned char *data, unsigned 
 		return CAIRO_STATUS_WRITE_ERROR;
 }
 
+/**
+ * go_component_build_snapshot:
+ * @component: #GOComponent
+ *
+ * Builds a snapshot of @component in the format specified by its
+ * "snapshot-type" property.
+ *
+ * Returns: the type of the snapshot built, or %GO_SNAPSHOT_NONE on failure.
+ **/
 GOSnapshotType
 go_component_build_snapshot (GOComponent *component)
 {
@@ -854,6 +979,14 @@ go_component_build_snapshot (GOComponent *component)
 	return res;
 }
 
+/**
+ * go_component_new_from_uri:
+ * @uri: URI of the file to load
+ *
+ * Creates a new #GOComponent from the data contained in the file at @uri.
+ *
+ * Returns: (transfer full) (nullable): a new #GOComponent.
+ **/
 GOComponent  *
 go_component_new_from_uri (char const *uri)
 {
@@ -888,11 +1021,11 @@ go_component_new_from_uri (char const *uri)
 /**
  * go_component_get_snapshot:
  * @component: #GOComponent
- * @type: #GOSnapshotType
- * @length: where to store the data length
+ * @type: (out) (nullable): where to store the snapshot type
+ * @length: (out) (nullable): where to store the data length
  *
- * Returns a snapshot is either svg or png format for the component.
- * Returns: (transfer none): the snapshot as an array of bytes.
+ * Returns a snapshot in either SVG or PNG format for the component.
+ * Returns: (transfer none) (nullable) (array length=length) (element-type guint8): the snapshot as an array of bytes.
  */
 void const *
 go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t *length)
@@ -909,11 +1042,12 @@ go_component_get_snapshot (GOComponent *component, GOSnapshotType *type, size_t 
 /**
  * go_component_set_font:
  * @component: #GOComponent
- * @desc: #PangoFontDescription
+ * @desc: (nullable): #PangoFontDescription
  *
  * Sets the font the component should use. Not all components will actually
- * changed the font they use.
- * Returns: %TRUE if size changed.
+ * change the font they use.
+ *
+ * Returns: %TRUE if the font changed.
  */
 
 gboolean go_component_set_font (GOComponent *component, PangoFontDescription const *desc)
@@ -932,11 +1066,11 @@ gboolean go_component_set_font (GOComponent *component, PangoFontDescription con
  * @x_dpi: x resolution of exported graph
  * @y_dpi: y resolution of exported graph
  *
- * Exports an image of @graph in given @format, writing results in a #GsfOutput stream.
- * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and
- * @graph size (see @gog_graph_get_size()).
+ * Exports an image of @component in the given @format, writing the result to @output.
+ * If the export format is a bitmap one, the image size is computed with @x_dpi,
+ * @y_dpi and the size of @component.
  *
- * returns: %TRUE if export succeed.
+ * Returns: %TRUE if the export succeeded.
  **/
 
 gboolean

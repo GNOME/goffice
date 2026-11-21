@@ -43,6 +43,16 @@
  **/
 
 /**
+ * go_accumulator_endD: (skip)
+ * @state: (transfer full) (nullable): state to restore
+ **/
+
+/**
+ * go_accumulator_endl: (skip)
+ * @state: (transfer full) (nullable): state to restore
+ **/
+
+/**
  * go_accumulator_freeD: (skip)
  * @acc: accumulator
  **/
@@ -50,6 +60,14 @@
 /**
  * go_accumulator_freel: (skip)
  * @acc: accumulator
+ **/
+
+/**
+ * go_accumulator_functionalD: (skip)
+ **/
+
+/**
+ * go_accumulator_functionall: (skip)
  **/
 
 /**
@@ -62,10 +80,14 @@
 
 /**
  * go_accumulator_startD: (skip)
+ *
+ * Returns: (transfer full) (nullable): previous state
  **/
 
 /**
  * go_accumulator_startl: (skip)
+ *
+ * Returns: (transfer full) (nullable): previous state
  **/
 
 /**
@@ -829,13 +851,223 @@
  */
 
 /**
+ * go_dcauchyD:
+ * @x: value at which to evaluate the density
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the Cauchy distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_dcauchyl:
+ * @x: value at which to evaluate the density
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the Cauchy distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_distribution_get_cumulativeD:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the cumulative distribution function
+ *
+ * Returns: the cumulative probability of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_cumulative_hazardD:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the cumulative hazard function
+ *
+ * Returns: the cumulative hazard of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_cumulative_hazardl:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the cumulative hazard function
+ *
+ * Returns: the cumulative hazard of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_cumulativel:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the cumulative distribution function
+ *
+ * Returns: the cumulative probability of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_densityD:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the density
+ *
+ * Returns: the probability density of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_densityl:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the density
+ *
+ * Returns: the probability density of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_hazardD:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the hazard function
+ *
+ * Returns: the hazard function of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_hazardl:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the hazard function
+ *
+ * Returns: the hazard function of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_inverse_survivalD:
+ * @dist: #GODistribution
+ * @x: survival probability, between 0 and 1
+ *
+ * Returns: the value corresponding to survival probability @x in @dist.
+ **/
+
+/**
+ * go_distribution_get_inverse_survivall:
+ * @dist: #GODistribution
+ * @x: survival probability, between 0 and 1
+ *
+ * Returns: the value corresponding to survival probability @x in @dist.
+ **/
+
+/**
+ * go_distribution_get_ppfD:
+ * @dist: #GODistribution
+ * @x: probability
+ *
+ * Returns: the value corresponding to probability @x in @dist.
+ **/
+
+/**
+ * go_distribution_get_ppfl:
+ * @dist: #GODistribution
+ * @x: probability
+ *
+ * Returns: the value corresponding to probability @x in @dist.
+ **/
+
+/**
+ * go_distribution_get_survivalD:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the survival function
+ *
+ * Returns: the survival probability of @dist at @x.
+ **/
+
+/**
+ * go_distribution_get_survivall:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the survival function
+ *
+ * Returns: the survival probability of @dist at @x.
+ **/
+
+/**
+ * go_dlnormD:
+ * @x: value at which to evaluate the density
+ * @meanlog: mean of the logarithm of the variable
+ * @sdlog: standard deviation of the logarithm of the variable
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the lognormal distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_dlnorml:
+ * @x: value at which to evaluate the density
+ * @meanlog: mean of the logarithm of the variable
+ * @sdlog: standard deviation of the logarithm of the variable
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the lognormal distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_dnormD:
+ * @x: value at which to evaluate the density
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the normal distribution with mean @mu and
+ * standard deviation @sigma at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_dnorml:
+ * @x: value at which to evaluate the density
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the normal distribution with mean @mu and
+ * standard deviation @sigma at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_dweibullD:
+ * @x: value at which to evaluate the density
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the Weibull distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_dweibulll:
+ * @x: value at which to evaluate the density
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the Weibull distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
  * go_exponential_regressionD:
  * @xss: x-vectors (i.e. independent data)
  * @dim: number of x-vectors
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
@@ -852,7 +1084,7 @@
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points as
@@ -871,7 +1103,7 @@
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points as
@@ -890,7 +1122,7 @@
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
@@ -970,6 +1202,24 @@
  * Returns: @x rounded of to nearest integer in the direction of zero.
  * However, this variant applies a 1 ulp grace interval for values that
  * are just a hair less than away from an integer.
+ */
+
+/**
+ * go_finiteD:
+ * @x: a number
+ *
+ * Tests whether @x is finite.
+ *
+ * Returns: non-zero if @x is finite, zero otherwise.
+ */
+
+/**
+ * go_finitel:
+ * @x: a number
+ *
+ * Tests whether @x is finite.
+ *
+ * Returns: non-zero if @x is finite, zero otherwise.
  */
 
 /**
@@ -1111,6 +1361,32 @@
  **/
 
 /**
+ * go_linear_regression_leverageD:
+ * @A: regression matrix with @m rows and @n columns
+ * @d: (out): location to store the leverages
+ * @m: number of data points
+ * @n: number of columns in @A
+ *
+ * Computes the diagonal of A * (A^T A)^-1 * A^T for the full-rank
+ * matrix @A.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
+
+/**
+ * go_linear_regression_leveragel:
+ * @A: regression matrix with @m rows and @n columns
+ * @d: (out): location to store the leverages
+ * @m: number of data points
+ * @n: number of columns in @A
+ *
+ * Computes the diagonal of A * (A^T A)^-1 * A^T for the full-rank
+ * matrix @A.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
+
+/**
  * go_linear_regressionl:
  * @xss: x-vectors (i.e. independent data)
  * @dim: number of x-vectors.
@@ -1127,11 +1403,75 @@
  **/
 
 /**
+ * go_linear_solveD:
+ * @A: coefficient matrix
+ * @b: right-hand-side vector
+ * @n: order of @A
+ * @res: (out): location to store the solution
+ *
+ * Solves @A x = @b for a vector of length @n.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
+
+/**
+ * go_linear_solve_multipleD:
+ * @A: coefficient matrix
+ * @B: (inout): right-hand sides, replaced by the solutions
+ * @n: order of @A
+ * @bn: number of right-hand sides
+ *
+ * Solves AX=B for the n-by-@bn matrix @B.  The solutions are stored
+ * back into @B.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
+
+/**
+ * go_linear_solve_multiplel:
+ * @A: coefficient matrix
+ * @B: (inout): right-hand sides, replaced by the solutions
+ * @n: order of @A
+ * @bn: number of right-hand sides
+ *
+ * Solves AX=B for the n-by-@bn matrix @B.  The solutions are stored
+ * back into @B.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
+
+/**
+ * go_linear_solvel:
+ * @A: coefficient matrix
+ * @b: right-hand-side vector
+ * @n: order of @A
+ * @res: (out): location to store the solution
+ *
+ * Solves @A x = @b for a vector of length @n.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
+
+/**
+ * go_log10D:
+ * @x: argument
+ *
+ * Returns: the base-10 logarithm of @x.
+ */
+
+/**
+ * go_log10l:
+ * @x: argument
+ *
+ * Returns: the base-10 logarithm of @x.
+ */
+
+/**
  * go_logarithmic_fitD:
  * @xs: x-vector (i.e. independent data)
  * @ys: y-vector (dependent data)
  * @n: number of data points
- * @res: output place for sign[0], a[1], b[2], c[3], and sum of squared residuals[4].
+ * @res: (out): place for sign[0], a[1], b[2], c[3], and sum of squared residuals[4].
  *
  * Performs a two-dimensional non-linear fitting on the input points.
  * Fits to "y = a + b * ln (sign * (x - c))", with sign in {-1, +1}.
@@ -1160,7 +1500,7 @@
  * @xs: x-vector (i.e. independent data)
  * @ys: y-vector (dependent data)
  * @n: number of data points
- * @res: output place for sign[0], a[1], b[2], c[3], and sum of squared residuals[4].
+ * @res: (out): place for sign[0], a[1], b[2], c[3], and sum of squared residuals[4].
  *
  * Performs a two-dimensional non-linear fitting on the input points.
  * Fits to "y = a + b * ln (sign * (x - c))", with sign in {-1, +1}.
@@ -1191,7 +1531,7 @@
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-zero constant is allowed
- * @res: output place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * This is almost a copy of linear_regression and produces multi-dimensional
@@ -1212,7 +1552,7 @@
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-zero constant is allowed
- * @res: output place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * This is almost a copy of linear_regression and produces multi-dimensional
@@ -1227,18 +1567,98 @@
  **/
 
 /**
+ * go_matrix_determinantD:
+ * @A: square matrix
+ * @n: order of @A
+ *
+ * Returns: the determinant of @A.
+ **/
+
+/**
+ * go_matrix_determinantl:
+ * @A: square matrix
+ * @n: order of @A
+ *
+ * Returns: the determinant of @A.
+ **/
+
+/**
+ * go_matrix_invertD:
+ * @A: (inout): square matrix to invert
+ * @n: order of @A
+ *
+ * Replaces @A with its inverse.  On failure @A is left unchanged.
+ *
+ * Returns: %TRUE if @A was inverted, %FALSE otherwise.
+ **/
+
+/**
+ * go_matrix_invertl:
+ * @A: (inout): square matrix to invert
+ * @n: order of @A
+ *
+ * Replaces @A with its inverse.  On failure @A is left unchanged.
+ *
+ * Returns: %TRUE if @A was inverted, %FALSE otherwise.
+ **/
+
+/**
+ * go_matrix_pseudo_inverseD:
+ * @A: matrix with @m rows and @n columns
+ * @m: number of rows in @A
+ * @n: number of columns in @A
+ * @threshold: threshold for treating singular values as zero
+ * @B: (out): location to store the pseudo-inverse
+ *
+ * Computes the Moore-Penrose pseudo-inverse of @A and stores the
+ * n-by-@m result in @B.  This is defined even when A^T A is not
+ * invertible.  @B must have room for @n rows and @m columns.
+ *
+ * Properties:
+ *
+ *     A  A+ A  = A
+ *     A+ A  A+ = A+
+ *     (A A+)^T = A A+
+ *     (A+ A)^T = A+ A
+ *
+ * assuming @threshold is zero and there are no rounding errors.
+ **/
+
+/**
+ * go_matrix_pseudo_inversel:
+ * @A: matrix with @m rows and @n columns
+ * @m: number of rows in @A
+ * @n: number of columns in @A
+ * @threshold: threshold for treating singular values as zero
+ * @B: (out): location to store the pseudo-inverse
+ *
+ * Computes the Moore-Penrose pseudo-inverse of @A and stores the
+ * n-by-@m result in @B.  This is defined even when A^T A is not
+ * invertible.  @B must have room for @n rows and @m columns.
+ *
+ * Properties:
+ *
+ *     A  A+ A  = A
+ *     A+ A  A+ = A+
+ *     (A A+)^T = A A+
+ *     (A+ A)^T = A+ A
+ *
+ * assuming @threshold is zero and there are no rounding errors.
+ **/
+
+/**
  * go_non_linear_regressionD:
  * @f: (scope call): the model function
  * @xvals: independent values.
- * @par: model parameters.
+ * @par: (inout): initial model parameters, replaced by the fitted values.
  * @yvals: dependent values.
- * @sigmas: stahdard deviations for the dependent values.
- * @x_dim: Number of data points.
- * @p_dim: Number of parameters.
- * @chi: Chi Squared of the final result.  This value is not very
- * meaningful without the sigmas.
- * @errors: MUST ALREADY BE ALLOCATED.  These are the approximated standard
- * deviation for each parameter.
+ * @sigmas: (nullable): standard deviations for the dependent values.
+ * @x_dim: number of data points.
+ * @p_dim: number of parameters.
+ * @chi: (out): location to store the Chi Squared of the final result.
+ * This value is not very meaningful without @sigmas.
+ * @errors: (out): location to store the approximated standard deviation
+ * for each parameter.
  *
  * SYNOPSIS:
  *   result = non_linear_regression (f, xvals, par, yvals, sigmas,
@@ -1253,15 +1673,15 @@
  * go_non_linear_regressionl:
  * @f: (scope call): the model function
  * @xvals: independent values.
- * @par: model parameters.
+ * @par: (inout): initial model parameters, replaced by the fitted values.
  * @yvals: dependent values.
- * @sigmas: stahdard deviations for the dependent values.
- * @x_dim: Number of data points.
- * @p_dim: Number of parameters.
- * @chi: Chi Squared of the final result.  This value is not very
- * meaningful without the sigmas.
- * @errors: MUST ALREADY BE ALLOCATED.  These are the approximated standard
- * deviation for each parameter.
+ * @sigmas: (nullable): standard deviations for the dependent values.
+ * @x_dim: number of data points.
+ * @p_dim: number of parameters.
+ * @chi: (out): location to store the Chi Squared of the final result.
+ * This value is not very meaningful without @sigmas.
+ * @errors: (out): location to store the approximated standard deviation
+ * for each parameter.
  *
  * SYNOPSIS:
  *   result = non_linear_regression (f, xvals, par, yvals, sigmas,
@@ -1270,6 +1690,118 @@
  * Returns: the results of the non-linear regression from the given initial
  * values.
  * The resulting parameters are placed back into @par.
+ **/
+
+/**
+ * go_pcauchyD:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the Cauchy distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_pcauchyl:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the Cauchy distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_plnormD:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @logmean: mean of the logarithm of the variable
+ * @logsd: standard deviation of the logarithm of the variable
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the lognormal distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_plnorml:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @logmean: mean of the logarithm of the variable
+ * @logsd: standard deviation of the logarithm of the variable
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the lognormal distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_pnormD:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the normal distribution with
+ * mean @mu and standard deviation @sigma at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_pnorm_bothD:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @cum: (out): location to store the lower tail probability
+ * @ccum: (out): location to store the upper tail probability
+ * @i_tail: tail to compute: 0 for lower, 1 for upper, 2 for both
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the normal distribution tail probabilities at @x. If @i_tail
+ * is 2, both @cum and @ccum are filled; otherwise only the requested
+ * tail is meaningful.
+ **/
+
+/**
+ * go_pnorm_bothl:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @cum: (out): location to store the lower tail probability
+ * @ccum: (out): location to store the upper tail probability
+ * @i_tail: tail to compute: 0 for lower, 1 for upper, 2 for both
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the normal distribution tail probabilities at @x. If @i_tail
+ * is 2, both @cum and @ccum are filled; otherwise only the requested
+ * tail is meaningful.
+ **/
+
+/**
+ * go_pnorml:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the normal distribution with
+ * mean @mu and standard deviation @sigma at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
  **/
 
 /**
@@ -1319,7 +1851,7 @@
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
@@ -1336,7 +1868,7 @@
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
@@ -1355,6 +1887,114 @@
  *
  * Returns: @x^@y.
  */
+
+/**
+ * go_pweibullD:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the Weibull distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_pweibulll:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the Weibull distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_qcauchyD:
+ * @p: probability
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the Cauchy distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
+/**
+ * go_qcauchyl:
+ * @p: probability
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the Cauchy distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
+/**
+ * go_qlnormD:
+ * @p: probability
+ * @logmean: mean of the logarithm of the variable
+ * @logsd: standard deviation of the logarithm of the variable
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the lognormal distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
+/**
+ * go_qlnorml:
+ * @p: probability
+ * @logmean: mean of the logarithm of the variable
+ * @logsd: standard deviation of the logarithm of the variable
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the lognormal distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
+/**
+ * go_qnormD:
+ * @p: probability
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the normal distribution with mean @mu and
+ * standard deviation @sigma for probability @p.
+ *
+ * Returns: the normal deviate corresponding to @p.
+ **/
+
+/**
+ * go_qnorml:
+ * @p: probability
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the normal distribution with mean @mu and
+ * standard deviation @sigma for probability @p.
+ *
+ * Returns: the normal deviate corresponding to @p.
+ **/
 
 /**
  * go_quad_absD:
@@ -2255,6 +2895,32 @@
  **/
 
 /**
+ * go_qweibullD:
+ * @p: probability
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the Weibull distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
+/**
+ * go_qweibulll:
+ * @p: probability
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the Weibull distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
+/**
  * go_range_averageD:
  * @xs: (array length=n): values.
  * @n: number of values
@@ -2667,6 +3333,38 @@
   */
 
 /**
+ * go_regression_stat_destroyD:
+ * @stat_: (transfer full) (nullable): statistics structure to destroy
+ *
+ * Decrements the reference count of @stat_ and frees it when the count
+ * reaches zero.
+ **/
+
+/**
+ * go_regression_stat_destroyl:
+ * @stat_: (transfer full) (nullable): statistics structure to destroy
+ *
+ * Decrements the reference count of @stat_ and frees it when the count
+ * reaches zero.
+ **/
+
+/**
+ * go_regression_stat_newD:
+ *
+ * Creates a new regression statistics structure.
+ *
+ * Returns: (transfer full): a new #go_regression_stat_t.
+ **/
+
+/**
+ * go_regression_stat_newl:
+ *
+ * Creates a new regression statistics structure.
+ *
+ * Returns: (transfer full): a new #go_regression_stat_t.
+ **/
+
+/**
  * go_render_generalD:
  * @layout: Optional #PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
@@ -2701,6 +3399,20 @@
  * layouting width does not needlessly exceed @col_width.  Optionally
  * use unicode minus instead of hyphen.
  **/
+
+/**
+ * go_rintD:
+ * @x: a number
+ *
+ * Returns: @x rounded to the nearest integer.
+ */
+
+/**
+ * go_rintl:
+ * @x: a number
+ *
+ * Returns: @x rounded to the nearest integer.
+ */
 
 /**
  * go_sinpiD:
@@ -2749,5 +3461,23 @@
  * Returns: the tangent of Pi times @x, but with less error than doing the
  * multiplication outright.
  */
+
+/**
+ * go_truncD:
+ * @x: number to truncate
+ *
+ * Truncates @x toward zero.
+ *
+ * Returns: @x rounded toward zero.
+ **/
+
+/**
+ * go_truncl:
+ * @x: number to truncate
+ *
+ * Truncates @x toward zero.
+ *
+ * Returns: @x rounded toward zero.
+ **/
 
 // --- END AUTO-GENERATED DOCUMENTATION MARKER ---

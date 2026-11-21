@@ -1071,6 +1071,17 @@ go_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 	return spans;
 }
 
+/**
+ * go_pango_attrs_to_markup:
+ * @attrs: (nullable): #PangoAttrList
+ * @text: (nullable): text to convert
+ *
+ * Converts @text and @attrs to Pango markup. Supported attributes are
+ * represented as markup spans and the text is escaped. If @text is %NULL,
+ * %NULL is returned.
+ *
+ * Returns: (transfer full) (nullable): a new markup string.
+ */
 char *
 go_pango_attrs_to_markup (PangoAttrList *attrs, char const *text)
 {

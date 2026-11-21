@@ -50,11 +50,152 @@ go_conf_closure_free (GOConfClosure *cls)
 }
 
 /**
+ * go_conf_node_get_type:
+ *
+ * Returns: the #GType for #GOConfNode.
+ **/
+/**
  * go_conf_get_node:
- * @parent: parent node or %NULL
+ * @parent: (nullable): parent node
  * @key: configuration key
  *
- * Returns: (transfer full): the #GOConfNode associated with @key
+ * Returns: (transfer full): the #GOConfNode associated with @key.
+ **/
+/**
+ * go_conf_free_node:
+ * @node: (nullable): #GOConfNode
+ *
+ * Frees @node.
+ **/
+/**
+ * go_conf_get_bool:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: the boolean value associated with @key.
+ **/
+/**
+ * go_conf_get_int:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: the integer value associated with @key.
+ **/
+/**
+ * go_conf_get_double:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: the double value associated with @key.
+ **/
+/**
+ * go_conf_get_string:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: (transfer full) (nullable): the string value associated with
+ * @key, or %NULL if @key is not set.
+ **/
+/**
+ * go_conf_get_str_list:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: (element-type utf8) (transfer full): a list of strings associated
+ * with @key.
+ **/
+/**
+ * go_conf_get_enum_as_str:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: (transfer full) (nullable): the string value associated with
+ * @key, or %NULL if @key is not set.
+ **/
+/**
+ * go_conf_load_bool:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ * @default_val: value to use if @key is not set
+ *
+ * Returns: the boolean value associated with @key or @default_val.
+ **/
+/**
+ * go_conf_load_int:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ * @minima: minimum allowed value
+ * @maxima: maximum allowed value
+ * @default_val: value to use if @key is not set
+ *
+ * Returns: the integer value associated with @key or @default_val.
+ **/
+/**
+ * go_conf_load_double:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ * @minima: minimum allowed value
+ * @maxima: maximum allowed value
+ * @default_val: value to use if @key is not set
+ *
+ * Returns: the double value associated with @key or @default_val.
+ **/
+/**
+ * go_conf_load_string:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: (transfer full) (nullable): the string value associated with
+ * @key, or %NULL if @key is not set.
+ **/
+/**
+ * go_conf_load_str_list:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ *
+ * Returns: (element-type utf8) (transfer full): a list of strings associated
+ * with @key.
+ **/
+/**
+ * go_conf_load_enum:
+ * @node: (nullable): #GOConfNode
+ * @key: configuration key
+ * @t: #GType of the enumeration
+ * @default_val: value to use if @key is not set
+ *
+ * Returns: the enumeration value associated with @key or @default_val.
+ **/
+/**
+ * go_conf_set_bool:
+ * @node: #GOConfNode
+ * @key: configuration key
+ * @val: value to set
+ *
+ * Sets @val as the value for @key.
+ **/
+/**
+ * go_conf_set_int:
+ * @node: #GOConfNode
+ * @key: configuration key
+ * @val: value to set
+ *
+ * Sets @val as the value for @key.
+ **/
+/**
+ * go_conf_set_double:
+ * @node: #GOConfNode
+ * @key: configuration key
+ * @val: value to set
+ *
+ * Sets @val as the value for @key.
+ **/
+/**
+ * go_conf_set_string:
+ * @node: #GOConfNode
+ * @key: configuration key
+ * @str: value to set
+ *
+ * Sets @str as the value for @key.
  **/
 /**
  * go_conf_set_str_list:
@@ -65,26 +206,31 @@ go_conf_closure_free (GOConfClosure *cls)
  * Sets @list as the value for @key.
  **/
 /**
- * go_conf_get_str_list:
+ * go_conf_set_enum:
  * @node: #GOConfNode
  * @key: configuration key
+ * @t: #GType of the enumeration
+ * @val: value to set
  *
- * Returns: (element-type utf8) (transfer full): a list of strings associated
- * with @key.
+ * Sets @val as the value for @key.
  **/
 /**
- * go_conf_load_str_list:
- * @node: #GOConfNode
- * @key: configuration key
+ * go_conf_sync:
+ * @node: (nullable): #GOConfNode
  *
- * Returns: (element-type utf8) (transfer full): a list of strings associated
- * with @key.
+ * Synchronizes configuration changes to disk.
+ **/
+/**
+ * go_conf_remove_monitor:
+ * @monitor_id: monitor ID
+ *
+ * Removes the monitor associated with @monitor_id.
  **/
 /**
  * go_conf_add_monitor:
- * @node: #GOConfNode
+ * @node: (nullable): #GOConfNode
  * @key: configuration key
- * @monitor: (scope async): #GOMonitorFunc
+ * @monitor: (scope async): #GOConfMonitorFunc
  * @data: user data
  *
  * @monitor will be called whenever the value associated with @key changes.

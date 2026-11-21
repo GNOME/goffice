@@ -329,6 +329,18 @@ SUFFIX(calc_residual) (CONSTMATRIX AT, const DOUBLE *b, int m, int n,
  * X is stored back into B.
  */
 
+/**
+ * go_linear_solve_multiple:
+ * @A: coefficient matrix
+ * @B: (inout): right-hand sides, replaced by the solutions
+ * @n: order of @A
+ * @bn: number of right-hand sides
+ *
+ * Solves AX=B for the n-by-@bn matrix @B.  The solutions are stored
+ * back into @B.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
 GORegressionResult
 SUFFIX(go_linear_solve_multiple) (CONSTMATRIX A, MATRIX B, int n, int bn)
 {
@@ -394,6 +406,17 @@ done:
 	return regres;
 }
 
+/**
+ * go_linear_solve:
+ * @A: coefficient matrix
+ * @b: right-hand-side vector
+ * @n: order of @A
+ * @res: (out): location to store the solution
+ *
+ * Solves @A x = @b for a vector of length @n.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
 GORegressionResult
 SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 {
@@ -419,6 +442,15 @@ SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 }
 
 
+/**
+ * go_matrix_invert:
+ * @A: (inout): square matrix to invert
+ * @n: order of @A
+ *
+ * Replaces @A with its inverse.  On failure @A is left unchanged.
+ *
+ * Returns: %TRUE if @A was inverted, %FALSE otherwise.
+ **/
 gboolean
 SUFFIX(go_matrix_invert) (MATRIX A, int n)
 {
@@ -440,6 +472,13 @@ SUFFIX(go_matrix_invert) (MATRIX A, int n)
 	return ok;
 }
 
+/**
+ * go_matrix_determinant:
+ * @A: square matrix
+ * @n: order of @A
+ *
+ * Returns: the determinant of @A.
+ **/
 DOUBLE
 SUFFIX(go_matrix_determinant) (CONSTMATRIX A, int n)
 {
@@ -925,7 +964,7 @@ SUFFIX(go_linear_regression) (MATRIX xss, int dim,
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
@@ -958,7 +997,7 @@ SUFFIX(go_exponential_regression) (MATRIX xss, int dim,
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points as
@@ -1026,7 +1065,7 @@ SUFFIX(go_exponential_regression_as_log) (MATRIX xss, int dim,
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
- * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
@@ -1105,7 +1144,7 @@ SUFFIX(go_power_regression) (MATRIX xss, int dim,
  * @ys: y-vector (dependent data)
  * @n: number of data points
  * @affine: if %TRUE, a non-zero constant is allowed
- * @res: output place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
+ * @res: (out): place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
  * @stat_: (out) (optional): storage for additional results.
  *
  * This is almost a copy of linear_regression and produces multi-dimensional
@@ -1175,7 +1214,7 @@ SUFFIX(go_logarithmic_regression) (MATRIX xss, int dim,
  * @xs: x-vector (i.e. independent data)
  * @ys: y-vector (dependent data)
  * @n: number of data points
- * @res: output place for sign[0], a[1], b[2], c[3], and sum of squared residuals[4].
+ * @res: (out): place for sign[0], a[1], b[2], c[3], and sum of squared residuals[4].
  *
  * Performs a two-dimensional non-linear fitting on the input points.
  * Fits to "y = a + b * ln (sign * (x - c))", with sign in {-1, +1}.
@@ -1248,6 +1287,13 @@ SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_regression_stat_new:
+ *
+ * Creates a new regression statistics structure.
+ *
+ * Returns: (transfer full): a new #go_regression_stat_t.
+ **/
 SUFFIX(go_regression_stat_t) *
 SUFFIX(go_regression_stat_new) (void)
 {
@@ -1264,6 +1310,13 @@ SUFFIX(go_regression_stat_new) (void)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_regression_stat_destroy:
+ * @stat_: (transfer full) (nullable): statistics structure to destroy
+ *
+ * Decrements the reference count of @stat_ and frees it when the count
+ * reaches zero.
+ **/
 void
 SUFFIX(go_regression_stat_destroy) (SUFFIX(go_regression_stat_t) *stat_)
 {
@@ -1556,15 +1609,15 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
  * go_non_linear_regression:
  * @f: (scope call): the model function
  * @xvals: independent values.
- * @par: model parameters.
+ * @par: (inout): initial model parameters, replaced by the fitted values.
  * @yvals: dependent values.
- * @sigmas: stahdard deviations for the dependent values.
- * @x_dim: Number of data points.
- * @p_dim: Number of parameters.
- * @chi: Chi Squared of the final result.  This value is not very
- * meaningful without the sigmas.
- * @errors: MUST ALREADY BE ALLOCATED.  These are the approximated standard
- * deviation for each parameter.
+ * @sigmas: (nullable): standard deviations for the dependent values.
+ * @x_dim: number of data points.
+ * @p_dim: number of parameters.
+ * @chi: (out): location to store the Chi Squared of the final result.
+ * This value is not very meaningful without @sigmas.
+ * @errors: (out): location to store the approximated standard deviation
+ * for each parameter.
  *
  * SYNOPSIS:
  *   result = non_linear_regression (f, xvals, par, yvals, sigmas,
@@ -1675,13 +1728,18 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 	return result;
 }
 
-/*
- * Compute the diagonal of A (AT A)^-1 AT
+/**
+ * go_linear_regression_leverage:
+ * @A: regression matrix with @m rows and @n columns
+ * @d: (out): location to store the leverages
+ * @m: number of data points
+ * @n: number of columns in @A
  *
- * A is full-rank m-times-n.
- * d is output for m-element diagonal.
- */
-
+ * Computes the diagonal of A * (A^T A)^-1 * A^T for the full-rank
+ * matrix @A.
+ *
+ * Returns: a #GORegressionResult indicating success or the failure mode.
+ **/
 GORegressionResult
 SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
 {
@@ -1761,12 +1819,17 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
 	return regres;
 }
 
-/*
- * Compute the pseudo-inverse of a matrix, see
- *     http://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_pseudoinverse
+/**
+ * go_matrix_pseudo_inverse:
+ * @A: matrix with @m rows and @n columns
+ * @m: number of rows in @A
+ * @n: number of columns in @A
+ * @threshold: threshold for treating singular values as zero
+ * @B: (out): location to store the pseudo-inverse
  *
- * Think of this as A+ = (AT A)^-1 AT, except that the pseudo-inverse
- * is defined even if AT*A isn't invertible.
+ * Computes the Moore-Penrose pseudo-inverse of @A and stores the
+ * n-by-@m result in @B.  This is defined even when A^T A is not
+ * invertible.  @B must have room for @n rows and @m columns.
  *
  * Properties:
  *
@@ -1775,9 +1838,8 @@ SUFFIX(go_linear_regression_leverage) (MATRIX A, DOUBLE *d, int m, int n)
  *     (A A+)^T = A A+
  *     (A+ A)^T = A+ A
  *
- * assuming threshold==0 and no rounding errors.
- */
-
+ * assuming @threshold is zero and there are no rounding errors.
+ **/
 void
 SUFFIX(go_matrix_pseudo_inverse) (CONSTMATRIX A, int m, int n,
 				  DOUBLE threshold,

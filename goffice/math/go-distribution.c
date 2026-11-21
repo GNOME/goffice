@@ -341,6 +341,14 @@ GSF_CLASS_FULL (GODistribution, go_distribution, NULL,
 	G_TYPE_OBJECT, G_TYPE_FLAG_ABSTRACT,
 	GSF_INTERFACE (go_distribution_persist_init, GO_TYPE_PERSIST))
 
+/**
+ * go_distribution_scale:
+ * @dist: #GODistribution
+ * @location: location parameter
+ * @scale: scale parameter
+ *
+ * Sets the location and scale parameters of @dist.
+ **/
 void
 go_distribution_scale (GODistribution *dist, double location, double scale)
 {
@@ -350,6 +358,13 @@ go_distribution_scale (GODistribution *dist, double location, double scale)
 
 #endif /* DEFINE_COMMON */
 
+/**
+ * go_distribution_get_density:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the density
+ *
+ * Returns: the probability density of @dist at @x.
+ **/
 DOUBLE
 SUFFIX(go_distribution_get_density) (GODistribution *dist, DOUBLE x)
 {
@@ -364,6 +379,13 @@ SUFFIX(go_distribution_get_density) (GODistribution *dist, DOUBLE x)
 	return SUFFIX(go_nan);
 }
 
+/**
+ * go_distribution_get_cumulative:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the cumulative distribution function
+ *
+ * Returns: the cumulative probability of @dist at @x.
+ **/
 DOUBLE
 SUFFIX(go_distribution_get_cumulative) (GODistribution *dist, DOUBLE x)
 {
@@ -378,6 +400,13 @@ SUFFIX(go_distribution_get_cumulative) (GODistribution *dist, DOUBLE x)
 	return SUFFIX(go_nan);
 }
 
+/**
+ * go_distribution_get_ppf:
+ * @dist: #GODistribution
+ * @x: probability
+ *
+ * Returns: the value corresponding to probability @x in @dist.
+ **/
 DOUBLE
 SUFFIX(go_distribution_get_ppf) (GODistribution *dist, DOUBLE x)
 {
@@ -392,6 +421,13 @@ SUFFIX(go_distribution_get_ppf) (GODistribution *dist, DOUBLE x)
 	return SUFFIX(go_nan);
 }
 
+/**
+ * go_distribution_get_hazard:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the hazard function
+ *
+ * Returns: the hazard function of @dist at @x.
+ **/
 DOUBLE
 SUFFIX(go_distribution_get_hazard) (GODistribution *dist, DOUBLE x)
 {
@@ -401,6 +437,13 @@ SUFFIX(go_distribution_get_hazard) (GODistribution *dist, DOUBLE x)
 		SUFFIX(go_distribution_get_survival) (dist, x);
 }
 
+/**
+ * go_distribution_get_cumulative_hazard:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the cumulative hazard function
+ *
+ * Returns: the cumulative hazard of @dist at @x.
+ **/
 DOUBLE
 SUFFIX(go_distribution_get_cumulative_hazard) (GODistribution *dist, DOUBLE x)
 {
@@ -409,6 +452,13 @@ SUFFIX(go_distribution_get_cumulative_hazard) (GODistribution *dist, DOUBLE x)
 	return -SUFFIX(log) (SUFFIX(go_distribution_get_survival) (dist, x));
 }
 
+/**
+ * go_distribution_get_survival:
+ * @dist: #GODistribution
+ * @x: value at which to evaluate the survival function
+ *
+ * Returns: the survival probability of @dist at @x.
+ **/
 DOUBLE
 SUFFIX(go_distribution_get_survival) (GODistribution *dist, DOUBLE x)
 {
@@ -423,6 +473,13 @@ SUFFIX(go_distribution_get_survival) (GODistribution *dist, DOUBLE x)
 	return SUFFIX(go_nan);
 }
 
+/**
+ * go_distribution_get_inverse_survival:
+ * @dist: #GODistribution
+ * @x: survival probability, between 0 and 1
+ *
+ * Returns: the value corresponding to survival probability @x in @dist.
+ **/
 DOUBLE
 SUFFIX(go_distribution_get_inverse_survival) (GODistribution *dist, DOUBLE x)
 {
@@ -834,6 +891,13 @@ GSF_CLASS (GODistLogNormal, go_dist_log_normal,
 
 #if LAST_INCLUDE_PASS
 
+/**
+ * go_distribution_new:
+ * @type: distribution type
+ *
+ * Returns: (transfer full) (nullable): a new #GODistribution of type @type,
+ * or %NULL if @type is not valid.
+ **/
 GODistribution*
 go_distribution_new (GODistributionType type)
 {
@@ -853,12 +917,24 @@ go_distribution_new (GODistributionType type)
 	}
 }
 
+/**
+ * go_distribution_get_distribution_type:
+ * @dist: #GODistribution
+ *
+ * Returns: the #GODistributionType of @dist.
+ **/
 GODistributionType
 go_distribution_get_distribution_type (GODistribution *dist)
 {
 	return GO_DISTRIBUTION_GET_CLASS (dist)->dist_type;
 }
 
+/**
+ * go_distribution_get_distribution_name:
+ * @dist: #GODistribution
+ *
+ * Returns: (transfer none): the translated name of @dist's distribution type.
+ **/
 char const *
 go_distribution_get_distribution_name (GODistribution *dist)
 {

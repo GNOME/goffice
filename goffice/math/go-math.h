@@ -41,6 +41,7 @@ int go_finite (double x);
 double go_pow2 (int n);
 double go_pow10 (int n);
 double go_pow (double x, double y);
+double go_log10 (double x);
 
 double go_strtod (const char *s, char **end);
 double go_ascii_strtod (const char *s, char **end);
@@ -115,7 +116,7 @@ long double ldexpl (long double x, int e);
 long double frexpl (long double x, int *e);
 #endif
 #ifdef GOFFICE_SUPPLIED_STRTOLD
-long double strtold (const char *, char **);
+long double strtold (const char *str, char **end);
 #endif
 #ifdef GOFFICE_SUPPLIED_MODFL
 long double modfl (long double x, long double *iptr);

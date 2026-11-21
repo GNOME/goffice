@@ -54,6 +54,13 @@ static GtkButtonClass *parent_class = NULL;
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+/**
+ * go_option_menu_new:
+ *
+ * Creates a new #GOOptionMenu.
+ *
+ * Returns: (transfer full): a new #GOOptionMenu.
+ */
 GtkWidget*
 go_option_menu_new (void)
 {
@@ -63,7 +70,7 @@ go_option_menu_new (void)
 
 /**
  * go_option_menu_build:
- * @first_entry: text for first entry
+ * @first_entry: (nullable): text for first entry
  * @...: further values and text
  *
  * Returns: (transfer full): a new #GOOptionMenu with a filled-in menu.
@@ -125,6 +132,14 @@ go_option_menu_update_contents (GOOptionMenu *option_menu)
 	}
 }
 
+/**
+ * go_option_menu_select_item:
+ * @option_menu: #GOOptionMenu
+ * @item: (transfer none): #GtkMenuItem to select
+ *
+ * Selects @item in @option_menu without emitting the #GOOptionMenu::changed
+ * signal.
+ */
 void
 go_option_menu_select_item (GOOptionMenu *option_menu, GtkMenuItem *item)
 {
@@ -235,7 +250,7 @@ handle_menu_signals (GOOptionMenu *option_menu, gboolean connect)
  * go_option_menu_get_menu:
  * @option_menu: #GOOptionMenu
  *
- * Returns: (transfer none): The currently set menu.
+ * Returns: (transfer none) (nullable): the menu currently used by @option_menu.
  */
 GtkWidget *
 go_option_menu_get_menu (GOOptionMenu *option_menu)
@@ -244,6 +259,13 @@ go_option_menu_get_menu (GOOptionMenu *option_menu)
 	return (GtkWidget*)(option_menu->menu);
 }
 
+/**
+ * go_option_menu_set_menu:
+ * @option_menu: #GOOptionMenu
+ * @menu: (transfer none): #GtkMenuShell containing the options
+ *
+ * Sets the menu used by @option_menu.
+ */
 void
 go_option_menu_set_menu (GOOptionMenu *option_menu,
 			 GtkWidget *menu)
@@ -293,7 +315,7 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 /**
  * go_option_menu_set_history:
  * @option_menu: #GOOptionMenu
- * @selection: (element-type GtkMenuItem): a list of indices giving the menu to select.
+ * @selection: (element-type gint): a list of menu indices
  *
  * Selects an item. The last number in the list is the rank of the item to select
  * in its menu and the previous ones are the ranks of the submenus containing
@@ -330,7 +352,7 @@ go_option_menu_set_history (GOOptionMenu *option_menu, GSList *selection)
  *
  * Retrieves the currently selected menu item.
  *
- * Returns: (transfer none): the selected menu_item
+ * Returns: (transfer none) (nullable): the selected menu item.
  **/
 
 GtkWidget *

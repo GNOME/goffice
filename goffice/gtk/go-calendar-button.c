@@ -79,6 +79,13 @@ GSF_CLASS (GOCalendarButton, go_calendar_button,
 	   go_calendar_button_class_init, go_calendar_button_init,
 	   GO_TYPE_COMBO_BOX)
 
+/**
+ * go_calendar_button_new:
+ *
+ * Creates a new #GOCalendarButton.
+ *
+ * Returns: (transfer full): a new #GtkWidget.
+ **/
 GtkWidget *
 go_calendar_button_new (void)
 {
@@ -98,6 +105,15 @@ go_calendar_button_get_calendar (GOCalendarButton *calb)
 	return calb->calendar;
 }
 
+/**
+ * go_calendar_button_get_date:
+ * @calb: #GOCalendarButton
+ * @date: (out): location to store the selected date
+ *
+ * Retrieves the date selected in @calb.
+ *
+ * Returns: %TRUE if @date contains a valid date, %FALSE otherwise.
+ **/
 gboolean
 go_calendar_button_get_date (GOCalendarButton *calb, GDate *date)
 {
@@ -118,6 +134,13 @@ go_calendar_button_get_date (GOCalendarButton *calb, GDate *date)
 	return g_date_valid (date);
 }
 
+/**
+ * go_calendar_button_set_date:
+ * @calb: #GOCalendarButton
+ * @date: the date to select
+ *
+ * Selects @date in @calb.
+ **/
 void
 go_calendar_button_set_date (GOCalendarButton *calb, GDate const *date)
 {

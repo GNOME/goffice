@@ -142,6 +142,13 @@ ioc_error_go_error_info_ (G_GNUC_UNUSED GOCmdContext *ctxt,
 	go_error_info_print (error);
 }
 
+/**
+ * go_io_error_string:
+ * @ioc: #GOIOContext
+ * @str: error message
+ *
+ * Records @str as an error in @ioc.
+ **/
 void
 go_io_error_string (GOIOContext *context, const gchar *str)
 {
@@ -181,6 +188,12 @@ GSF_CLASS_FULL (GOIOContext, go_io_context,
 		go_io_context_init, G_TYPE_OBJECT, 0,
 		GSF_INTERFACE (go_io_context_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
+/**
+ * go_io_context_new:
+ * @cc: #GOCmdContext
+ *
+ * Returns: (transfer full): a new #GOIOContext.
+ **/
 GOIOContext *
 go_io_context_new (GOCmdContext *cc)
 {
@@ -196,6 +209,12 @@ go_io_context_new (GOCmdContext *cc)
 	return ioc;
 }
 
+/**
+ * go_io_error_unknown:
+ * @ioc: #GOIOContext
+ *
+ * Marks @ioc as having had an unknown error.
+ **/
 void
 go_io_error_unknown (GOIOContext *context)
 {
@@ -204,6 +223,13 @@ go_io_error_unknown (GOIOContext *context)
 	context->error_occurred = TRUE;
 }
 
+/**
+ * go_io_error_info_set:
+ * @ioc: #GOIOContext
+ * @error: (transfer full): #GOErrorInfo to record
+ *
+ * Records @error in @ioc.
+ **/
 void
 go_io_error_info_set (GOIOContext *context, GOErrorInfo *error)
 {
@@ -218,6 +244,14 @@ go_io_error_info_set (GOIOContext *context, GOErrorInfo *error)
 		context->error_occurred = TRUE;
 }
 
+/**
+ * go_io_error_push:
+ * @ioc: #GOIOContext
+ * @error: (transfer full): #GOErrorInfo to push
+ *
+ * Pushes @error onto @ioc.  If there is an existing error, @error becomes
+ * the new error and the old one is added as a detail.
+ **/
 void
 go_io_error_push (GOIOContext *context, GOErrorInfo *error)
 {
@@ -233,6 +267,12 @@ go_io_error_push (GOIOContext *context, GOErrorInfo *error)
 	}
 }
 
+/**
+ * go_io_error_display:
+ * @ioc: #GOIOContext
+ *
+ * Displays any errors and warnings recorded in @ioc.
+ **/
 void
 go_io_error_display (GOIOContext *context)
 {
@@ -249,6 +289,12 @@ go_io_error_display (GOIOContext *context)
 	}
 }
 
+/**
+ * go_io_error_clear:
+ * @ioc: #GOIOContext
+ *
+ * Clears all errors and warnings recorded in @ioc.
+ **/
 /* TODO: Rename to go_io_info_clear */
 void
 go_io_error_clear (GOIOContext *context)
@@ -261,6 +307,12 @@ go_io_error_clear (GOIOContext *context)
 	context->info = NULL;
 }
 
+/**
+ * go_io_error_occurred:
+ * @ioc: #GOIOContext
+ *
+ * Returns: %TRUE if an error has been recorded in @ioc.
+ **/
 gboolean
 go_io_error_occurred (GOIOContext *context)
 {
@@ -269,6 +321,12 @@ go_io_error_occurred (GOIOContext *context)
 	return context->error_occurred;
 }
 
+/**
+ * go_io_warning_occurred:
+ * @ioc: #GOIOContext
+ *
+ * Returns: %TRUE if a warning has been recorded in @ioc.
+ **/
 gboolean
 go_io_warning_occurred (GOIOContext *context)
 {
@@ -277,6 +335,13 @@ go_io_warning_occurred (GOIOContext *context)
 	return context->warning_occurred;
 }
 
+/**
+ * go_io_progress_update:
+ * @io_context: #GOIOContext
+ * @f: progress fraction, between 0 and 1
+ *
+ * Updates the progress reported by @io_context to @f.
+ **/
 void
 go_io_progress_update (GOIOContext *ioc, gdouble f)
 {
@@ -316,6 +381,13 @@ go_io_progress_update (GOIOContext *ioc, gdouble f)
 #endif
 }
 
+/**
+ * go_io_progress_message:
+ * @io_context: #GOIOContext
+ * @msg: message to display
+ *
+ * Sets the progress message of @io_context to @msg.
+ **/
 void
 go_io_progress_message (GOIOContext *ioc, const gchar *msg)
 {
@@ -330,6 +402,15 @@ go_io_progress_message (GOIOContext *ioc, const gchar *msg)
 	go_cmd_context_progress_message_set (cc, msg);
 }
 
+/**
+ * go_io_progress_range_push:
+ * @io_context: #GOIOContext
+ * @min: lower bound of the range
+ * @max: upper bound of the range
+ *
+ * Pushes a new progress range onto @io_context, so that subsequent calls to
+ * go_io_progress_update() are mapped to the given range.
+ **/
 void
 go_io_progress_range_push (GOIOContext *ioc, gdouble min, gdouble max)
 {
@@ -351,6 +432,12 @@ go_io_progress_range_push (GOIOContext *ioc, gdouble min, gdouble max)
 	ioc->progress_max = new_max;
 }
 
+/**
+ * go_io_progress_range_pop:
+ * @io_context: #GOIOContext
+ *
+ * Pops the most recently pushed progress range from @io_context.
+ **/
 void
 go_io_progress_range_pop (GOIOContext *ioc)
 {
@@ -379,6 +466,15 @@ go_io_progress_range_pop (GOIOContext *ioc)
 	}
 }
 
+/**
+ * go_io_value_progress_set:
+ * @io_context: #GOIOContext
+ * @total: total number of steps
+ * @step: minimum increment before updating
+ *
+ * Prepares @io_context to track progress using absolute values, with @total
+ * representing completion.
+ **/
 void
 go_io_value_progress_set (GOIOContext *ioc, gint total, gint step)
 {
@@ -391,6 +487,14 @@ go_io_value_progress_set (GOIOContext *ioc, gint total, gint step)
 	ioc->helper.v.value.step = step;
 }
 
+/**
+ * go_io_value_progress_update:
+ * @io_context: #GOIOContext
+ * @value: current value
+ *
+ * Updates progress in @io_context using absolute @value, as set up by
+ * go_io_value_progress_set().
+ **/
 void
 go_io_value_progress_update (GOIOContext *ioc, gint value)
 {
@@ -413,6 +517,15 @@ go_io_value_progress_update (GOIOContext *ioc, gint value)
 	go_io_progress_update (ioc, complete);
 }
 
+/**
+ * go_io_count_progress_set:
+ * @io_context: #GOIOContext
+ * @total: total number of items
+ * @step: minimum increment before updating
+ *
+ * Prepares @io_context to track progress using a counter, with @total representing
+ * completion.
+ **/
 void
 go_io_count_progress_set (GOIOContext *ioc, gint total, gint step)
 {
@@ -426,6 +539,14 @@ go_io_count_progress_set (GOIOContext *ioc, gint total, gint step)
 	ioc->helper.v.count.step = step;
 }
 
+/**
+ * go_io_count_progress_update:
+ * @io_context: #GOIOContext
+ * @inc: number of items processed since the last update
+ *
+ * Advances progress in @io_context by @inc items, as set up by
+ * go_io_count_progress_set().
+ **/
 void
 go_io_count_progress_update (GOIOContext *ioc, gint inc)
 {
@@ -448,6 +569,12 @@ go_io_count_progress_update (GOIOContext *ioc, gint inc)
 	go_io_progress_update (ioc, complete);
 }
 
+/**
+ * go_io_progress_unset:
+ * @io_context: #GOIOContext
+ *
+ * Disables the progress helper previously set up for @io_context.
+ **/
 void
 go_io_progress_unset (GOIOContext *ioc)
 {
@@ -456,6 +583,13 @@ go_io_progress_unset (GOIOContext *ioc)
 	ioc->helper.helper_type = GO_PROGRESS_HELPER_NONE;
 }
 
+/**
+ * go_io_context_set_num_files:
+ * @ioc: #GOIOContext
+ * @count: number of files to be processed
+ *
+ * Informs @ioc how many files will be processed.
+ **/
 void
 go_io_context_set_num_files (GOIOContext *ioc, guint count)
 {
@@ -490,6 +624,14 @@ go_io_context_processing_file (GOIOContext *ioc, char const *uri)
 	}
 }
 
+/**
+ * go_io_warning:
+ * @ioc: #GOIOContext
+ * @fmt: printf-style format string for the warning
+ * @...: arguments for @fmt
+ *
+ * Records a warning in @ioc.
+ **/
 void
 go_io_warning (GOIOContext *context, char const *fmt, ...)
 {
@@ -502,6 +644,14 @@ go_io_warning (GOIOContext *context, char const *fmt, ...)
 	va_end (args);
 }
 
+/**
+ * go_io_warning_varargs:
+ * @ioc: #GOIOContext
+ * @fmt: printf-style format string for the warning
+ * @args: arguments for @fmt
+ *
+ * Records a warning in @ioc using the given @args.
+ **/
 void
 go_io_warning_varargs (GOIOContext *context, char const *fmt, va_list args)
 {
@@ -513,6 +663,13 @@ go_io_warning_varargs (GOIOContext *context, char const *fmt, va_list args)
 	context->warning_occurred = TRUE;
 }
 
+/**
+ * go_io_warning_unknown_font:
+ * @ioc: #GOIOContext
+ * @font_name: name of the unknown font
+ *
+ * Records a warning that @font_name is not available.
+ **/
 void
 go_io_warning_unknown_font (GOIOContext *context,
 			    G_GNUC_UNUSED char const *font_name)
@@ -520,6 +677,13 @@ go_io_warning_unknown_font (GOIOContext *context,
 	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 }
 
+/**
+ * go_io_warning_unknown_function:
+ * @ioc: #GOIOContext
+ * @funct_name: name of the unknown function
+ *
+ * Records a warning that @funct_name is not available.
+ **/
 void
 go_io_warning_unknown_function	(GOIOContext *context,
 				 G_GNUC_UNUSED char const *funct_name)
@@ -527,6 +691,13 @@ go_io_warning_unknown_function	(GOIOContext *context,
 	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 }
 
+/**
+ * go_io_warning_unsupported_feature:
+ * @ioc: #GOIOContext
+ * @feature: name of the unsupported feature
+ *
+ * Emits a warning that @feature is not supported yet.
+ **/
 void
 go_io_warning_unsupported_feature (GOIOContext *context, char const *feature)
 {

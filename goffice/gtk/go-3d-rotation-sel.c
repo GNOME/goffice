@@ -424,12 +424,26 @@ g3d_class_init (GObjectClass *klass)
 GSF_CLASS (GO3DRotationSel, go_3d_rotation_sel,
 	   g3d_class_init, g3d_init, GTK_TYPE_BOX)
 
+/**
+ * go_3d_rotation_sel_new:
+ *
+ * Creates a new 3D rotation selector.
+ *
+ * Returns: (transfer full): a new #GO3DRotationSel widget.
+ **/
 GtkWidget *
 go_3d_rotation_sel_new (void)
 {
 	return g_object_new (GO_TYPE_3D_ROTATION_SEL, NULL);
 }
 
+/**
+ * go_3d_rotation_sel_get_matrix:
+ * @rs: #GO3DRotationSel
+ * @mat: (out): location to store the rotation matrix
+ *
+ * Retrieves the rotation matrix of @rs.
+ **/
 void
 go_3d_rotation_sel_get_matrix (GO3DRotationSel const *g3d, GOMatrix3x3 *mat)
 {
@@ -444,6 +458,14 @@ go_3d_rotation_sel_get_matrix (GO3DRotationSel const *g3d, GOMatrix3x3 *mat)
 	mat->a33 = g3d->mat.a33;
 }
 
+/**
+ * go_3d_rotation_sel_get_psi:
+ * @rs: #GO3DRotationSel
+ *
+ * Retrieves the psi rotation angle of @rs, in radians.
+ *
+ * Returns: the psi rotation angle.
+ **/
 double
 go_3d_rotation_sel_get_psi (GO3DRotationSel const *g3d)
 {
@@ -451,6 +473,14 @@ go_3d_rotation_sel_get_psi (GO3DRotationSel const *g3d)
 	return g3d->psi;
 }
 
+/**
+ * go_3d_rotation_sel_get_theta:
+ * @rs: #GO3DRotationSel
+ *
+ * Retrieves the theta rotation angle of @rs, in radians.
+ *
+ * Returns: the theta rotation angle.
+ **/
 double
 go_3d_rotation_sel_get_theta (GO3DRotationSel const *g3d)
 {
@@ -458,6 +488,14 @@ go_3d_rotation_sel_get_theta (GO3DRotationSel const *g3d)
 	return g3d->theta;
 }
 
+/**
+ * go_3d_rotation_sel_get_phi:
+ * @rs: #GO3DRotationSel
+ *
+ * Retrieves the phi rotation angle of @rs, in radians.
+ *
+ * Returns: the phi rotation angle.
+ **/
 double
 go_3d_rotation_sel_get_phi (GO3DRotationSel const *g3d)
 {
@@ -465,6 +503,14 @@ go_3d_rotation_sel_get_phi (GO3DRotationSel const *g3d)
 	return g3d->phi;
 }
 
+/**
+ * go_3d_rotation_sel_get_fov:
+ * @rs: #GO3DRotationSel
+ *
+ * Retrieves the field of view of @rs, in radians.
+ *
+ * Returns: the field of view.
+ **/
 double
 go_3d_rotation_sel_get_fov (GO3DRotationSel const *g3d)
 {
@@ -472,6 +518,13 @@ go_3d_rotation_sel_get_fov (GO3DRotationSel const *g3d)
 	return g3d->fov;
 }
 
+/**
+ * go_3d_rotation_sel_set_matrix:
+ * @rs: #GO3DRotationSel
+ * @mat: the new rotation matrix
+ *
+ * Sets the rotation matrix of @rs.
+ **/
 void
 go_3d_rotation_sel_set_matrix (GO3DRotationSel *g3d, GOMatrix3x3 *mat)
 {
@@ -488,6 +541,13 @@ go_3d_rotation_sel_set_matrix (GO3DRotationSel *g3d, GOMatrix3x3 *mat)
 	cb_rotation_changed (g3d);
 }
 
+/**
+ * go_3d_rotation_sel_set_fov:
+ * @rs: #GO3DRotationSel
+ * @fov: the new field of view, in radians
+ *
+ * Sets the field of view of @rs.
+ **/
 void
 go_3d_rotation_sel_set_fov (GO3DRotationSel *g3d, double fov)
 {

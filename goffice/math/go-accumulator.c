@@ -45,6 +45,9 @@ struct INFIX(GOAccumulator,_) {
 
 #define ACC SUFFIX(GOAccumulator)
 
+/**
+ * go_accumulator_functional: (skip)
+ **/
 gboolean
 SUFFIX(go_accumulator_functional) (void)
 {
@@ -53,6 +56,8 @@ SUFFIX(go_accumulator_functional) (void)
 
 /**
  * go_accumulator_start: (skip)
+ *
+ * Returns: (transfer full) (nullable): previous state
  **/
 void *
 SUFFIX(go_accumulator_start) (void)
@@ -60,6 +65,10 @@ SUFFIX(go_accumulator_start) (void)
 	return SUFFIX(go_quad_start) ();
 }
 
+/**
+ * go_accumulator_end: (skip)
+ * @state: (transfer full) (nullable): state to restore
+ **/
 void
 SUFFIX(go_accumulator_end) (void *state)
 {

@@ -375,6 +375,12 @@ SUFFIX(go_fake_trunc) (DOUBLE x)
 		: -SUFFIX(floor) (SUFFIX(go_add_epsilon) (-x));
 }
 
+/**
+ * go_rint:
+ * @x: a number
+ *
+ * Returns: @x rounded to the nearest integer.
+ */
 DOUBLE
 SUFFIX(go_rint) (DOUBLE x)
 {
@@ -388,6 +394,14 @@ SUFFIX(go_rint) (DOUBLE x)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_finite:
+ * @x: a number
+ *
+ * Tests whether @x is finite.
+ *
+ * Returns: non-zero if @x is finite, zero otherwise.
+ */
 int
 SUFFIX(go_finite) (DOUBLE x)
 {
@@ -571,6 +585,19 @@ SUFFIX(go_pow) (DOUBLE x, DOUBLE y)
 	if (x == 10 && y > G_MININT && y < G_MAXINT && y == SUFFIX(floor) (y))
 		return SUFFIX(go_pow10) ((int)y);
 	return SUFFIX(pow) (x, y);
+}
+
+/**
+ * go_log10:
+ * @x: argument
+ *
+ * Returns: the base-10 logarithm of @x.
+ */
+DOUBLE
+SUFFIX(go_log10) (DOUBLE x)
+{
+	// We have nothing to add at the moment
+	return SUFFIX(log10) (x);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -783,6 +810,14 @@ ASCIISTRTO (const char *s, char **end)
 #ifdef DEFINE_COMMON
 
 #ifdef GOFFICE_SUPPLIED_LOG1P
+/**
+ * log1p:
+ * @x: a number greater than -1
+ *
+ * Computes the natural logarithm of 1 + @x, accurately for small @x.
+ *
+ * Returns: the natural logarithm of 1 + @x.
+ */
 double
 log1p (double x)
 {
@@ -806,6 +841,14 @@ log1p (double x)
 #endif
 
 #ifdef GOFFICE_SUPPLIED_EXPM1
+/**
+ * expm1:
+ * @x: a number
+ *
+ * Computes e raised to the power of @x, minus one, accurately for small @x.
+ *
+ * Returns: exp(@x) - 1.
+ */
 double
 expm1 (double x)
 {
@@ -829,6 +872,12 @@ expm1 (double x)
 #endif
 
 #ifdef GOFFICE_SUPPLIED_ASINH
+/**
+ * asinh:
+ * @x: a number
+ *
+ * Returns: the inverse hyperbolic sine of @x.
+ */
 double
 asinh (double x)
 {
@@ -839,6 +888,12 @@ asinh (double x)
 #endif
 
 #ifdef GOFFICE_SUPPLIED_ACOSH
+/**
+ * acosh:
+ * @x: a number greater than or equal to 1
+ *
+ * Returns: the inverse hyperbolic cosine of @x.
+ */
 double
 acosh (double x)
 {
@@ -848,6 +903,12 @@ acosh (double x)
 #endif
 
 #ifdef GOFFICE_SUPPLIED_ATANH
+/**
+ * atanh:
+ * @x: a number between -1 and 1
+ *
+ * Returns: the inverse hyperbolic tangent of @x.
+ */
 double
 atanh (double x)
 {
@@ -858,6 +919,15 @@ atanh (double x)
 #endif
 
 #ifdef GOFFICE_SUPPLIED_LDEXPL
+/**
+ * ldexpl:
+ * @x: a number
+ * @e: exponent
+ *
+ * Multiplies @x by 2 raised to the power of @e.
+ *
+ * Returns: @x multiplied by 2 to the power of @e.
+ */
 long double
 ldexpl (long double x, int e)
 {
@@ -876,6 +946,17 @@ ldexpl (long double x, int e)
 #endif
 
 #ifdef GOFFICE_SUPPLIED_FREXPL
+/**
+ * frexpl:
+ * @x: a number
+ * @e: (out): location to store the exponent
+ *
+ * Decomposes @x into a fraction in the range [0.5,1) and an integer
+ * exponent. For zero, infinite, and NaN inputs, @e is set to zero and
+ * @x is returned unchanged.
+ *
+ * Returns: the fraction.
+ */
 long double
 frexpl (long double x, int *e)
 {
@@ -905,6 +986,16 @@ frexpl (long double x, int *e)
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 #ifndef HAVE_STRTOLD
+/**
+ * strtold:
+ * @str: string to convert
+ * @end: (out) (transfer none) (optional): pointer to end of string.
+ *
+ * Converts the initial portion of @str to a long double. There is no need
+ * to reset errno before calling this.
+ *
+ * Returns: the converted value.
+ */
 long double
 strtold (char const *str, char **end)
 {
@@ -931,6 +1022,16 @@ strtold (char const *str, char **end)
 #endif
 
 #ifdef GOFFICE_SUPPLIED_MODFL
+/**
+ * modfl:
+ * @x: a number
+ * @iptr: (out): location to store the integral part
+ *
+ * Splits @x into an integral part and a fractional part, both with the
+ * same sign as @x.
+ *
+ * Returns: the fractional part of @x.
+ */
 long double
 modfl (long double x, long double *iptr)
 {
@@ -946,6 +1047,16 @@ modfl (long double x, long double *iptr)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_continued_fraction:
+ * @val: value to approximate
+ * @max_denom: maximum denominator
+ * @res_num: (out): location to store the numerator of the approximation
+ * @res_denom: (out): location to store the denominator of the approximation
+ *
+ * Finds a rational approximation to @val using continued fractions, with
+ * a denominator no larger than @max_denom.
+ **/
 void
 go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom)
 {
@@ -993,6 +1104,16 @@ go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom)
 }
 
 
+/**
+ * go_stern_brocot:
+ * @val: value to approximate
+ * @max_denom: maximum denominator
+ * @res_num: (out): location to store the numerator of the approximation
+ * @res_denom: (out): location to store the denominator of the approximation
+ *
+ * Finds a rational approximation to @val using the Stern-Brocot tree, with
+ * a denominator no larger than @max_denom.
+ **/
 void
 go_stern_brocot (double val, int max_denom, int *res_num, int *res_denom)
 {

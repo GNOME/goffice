@@ -52,7 +52,7 @@ go_doc_control_init (G_GNUC_UNUSED GODocControl *obj)
  * go_doc_control_get_doc:
  * @dc: #GODocControl
  *
- * Returns: (transfer none): the #GODoc associated to @dc
+ * Returns: (transfer none) (nullable): the #GODoc associated with @dc
  *
  **/
 GODoc *
@@ -61,6 +61,13 @@ go_doc_control_get_doc (GODocControl *dc)
 	return dc->doc;
 }
 
+/**
+ * go_doc_control_set_doc:
+ * @dc: #GODocControl
+ * @doc: (nullable) (transfer none): #GODoc
+ *
+ * Sets the document associated with @dc.
+ **/
 void
 go_doc_control_set_doc (GODocControl *dc, GODoc *doc)
 {

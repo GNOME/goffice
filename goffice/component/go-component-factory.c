@@ -285,7 +285,9 @@ _goc_plugin_services_shutdown (void)
 /**
  * go_components_get_mime_types:
  *
- * Returns: (element-type utf8) (transfer none): the list of mime types
+ * Retrieves the MIME types supported by registered components.
+ *
+ * Returns: (element-type utf8) (transfer none): the list of MIME types
  * supported by at least one registered component.
  **/
 GSList *
@@ -294,6 +296,15 @@ go_components_get_mime_types (void)
 	return mime_types_names;
 }
 
+/**
+ * go_components_get_priority:
+ * @mime_type: MIME type to query
+ *
+ * Retrieves the level of support for @mime_type.
+ *
+ * Returns: the support priority for @mime_type, or
+ * %GO_MIME_PRIORITY_INVALID if it is not supported.
+ **/
 GOMimePriority
 go_components_get_priority (char const *mime_type)
 {
@@ -301,6 +312,14 @@ go_components_get_priority (char const *mime_type)
 	return (t) ? t->priority : GO_MIME_PRIORITY_INVALID;
 }
 
+/**
+ * go_components_support_clipboard:
+ * @mime_type: MIME type to query
+ *
+ * Tests whether components for @mime_type support the clipboard.
+ *
+ * Returns: %TRUE if @mime_type supports the clipboard, %FALSE otherwise.
+ **/
 gboolean
 go_components_support_clipboard (char const *mime_type)
 {
@@ -308,6 +327,14 @@ go_components_support_clipboard (char const *mime_type)
 	return (t) ? t->support_clipboard : FALSE;
 }
 
+/**
+ * go_components_add_mime_type:
+ * @mime: (transfer full): MIME type to register
+ * @priority: support priority for @mime
+ * @service_id: identifier of the service providing the component
+ *
+ * Registers @mime as a supported MIME type.
+ **/
 void
 go_components_add_mime_type (char *mime, GOMimePriority priority, char const *service_id)
 {
@@ -326,6 +353,13 @@ go_components_add_mime_type (char *mime, GOMimePriority priority, char const *se
 	}
 }
 
+/**
+ * go_components_set_mime_suffix:
+ * @mime: MIME type
+ * @suffix: file name suffix for @mime
+ *
+ * Associates @suffix with @mime.
+ **/
 void
 go_components_set_mime_suffix (char const *mime, char const *suffix)
 {
@@ -336,12 +370,29 @@ go_components_set_mime_suffix (char const *mime, char const *suffix)
 	g_hash_table_insert (suffixes, g_strdup (mime), g_strdup (suffix));
 }
 
+/**
+ * go_components_get_mime_suffix:
+ * @mime: MIME type to query
+ *
+ * Retrieves the file name suffix associated with @mime.
+ *
+ * Returns: (transfer none) (nullable): the suffix for @mime.
+ **/
 char const *
 go_components_get_mime_suffix (char const *mime)
 {
 	return (suffixes)? g_hash_table_lookup (suffixes, mime): NULL;
 }
 
+/**
+ * go_component_new_by_mime_type:
+ * @mime_type: MIME type of the component to create
+ *
+ * Creates a new component that handles @mime_type. The required plugin is
+ * loaded if needed.
+ *
+ * Returns: (transfer full) (nullable): a new #GOComponent.
+ **/
 GOComponent *
 go_component_new_by_mime_type (char const *mime_type)
 {
@@ -387,6 +438,12 @@ go_component_new_by_mime_type (char const *mime_type)
 	return g_object_new (type, "mime-type", mime_type, NULL);
 }
 
+/**
+ * go_components_add_filter:
+ * @chooser: #GtkFileChooser
+ *
+ * Adds a filter for all supported MIME types to @chooser.
+ **/
 void go_components_add_filter (GtkFileChooser *chooser)
 {
 	GtkFileFilter* filter;

@@ -1633,6 +1633,7 @@ go_fake_truncD
 go_finite
 go_finitel
 go_finiteD
+go_log10
 go_log10l
 go_log10D
 go_pow
@@ -1644,7 +1645,12 @@ go_pow10D
 go_pow2
 go_pow2l
 go_pow2D
+go_reduce_pi
+go_reduce_piD
+go_reduce_pil
 go_rint
+go_rintD
+go_rintl
 go_stern_brocot
 go_strtod
 go_strtold

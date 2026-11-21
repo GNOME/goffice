@@ -23,6 +23,193 @@
 #include "go-math.h"
 #include "go-R.h"
 
+/**
+ * go_trunc:
+ * @x: number to truncate
+ *
+ * Truncates @x toward zero.
+ *
+ * Returns: @x rounded toward zero.
+ **/
+
+
+/**
+ * go_dnorm:
+ * @x: value at which to evaluate the density
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the normal distribution with mean @mu and
+ * standard deviation @sigma at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_pnorm:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the normal distribution with
+ * mean @mu and standard deviation @sigma at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_pnorm_both:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @cum: (out): location to store the lower tail probability
+ * @ccum: (out): location to store the upper tail probability
+ * @i_tail: tail to compute: 0 for lower, 1 for upper, 2 for both
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the normal distribution tail probabilities at @x. If @i_tail
+ * is 2, both @cum and @ccum are filled; otherwise only the requested
+ * tail is meaningful.
+ **/
+
+/**
+ * go_qnorm:
+ * @p: probability
+ * @mu: mean of the normal distribution
+ * @sigma: standard deviation of the normal distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the normal distribution with mean @mu and
+ * standard deviation @sigma for probability @p.
+ *
+ * Returns: the normal deviate corresponding to @p.
+ **/
+
+/**
+ * go_dlnorm:
+ * @x: value at which to evaluate the density
+ * @meanlog: mean of the logarithm of the variable
+ * @sdlog: standard deviation of the logarithm of the variable
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the lognormal distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+/**
+ * go_plnorm:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @logmean: mean of the logarithm of the variable
+ * @logsd: standard deviation of the logarithm of the variable
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the lognormal distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_qlnorm:
+ * @p: probability
+ * @logmean: mean of the logarithm of the variable
+ * @logsd: standard deviation of the logarithm of the variable
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the lognormal distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
+
+/**
+ * go_dweibull:
+ * @x: value at which to evaluate the density
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the Weibull distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+
+/**
+ * go_pweibull:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the Weibull distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+
+/**
+ * go_qweibull:
+ * @p: probability
+ * @shape: shape parameter of the Weibull distribution
+ * @scale: scale parameter of the Weibull distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the Weibull distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
+
+/**
+ * go_dcauchy:
+ * @x: value at which to evaluate the density
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @give_log: whether to return the logarithm of the result
+ *
+ * Computes the density of the Cauchy distribution at @x.
+ *
+ * Returns: the density, or its logarithm if @give_log is %TRUE.
+ **/
+
+
+/**
+ * go_pcauchy:
+ * @x: value at which to evaluate the cumulative distribution function
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @lower_tail: whether to return the lower tail probability
+ * @log_p: whether to use logarithmic probabilities
+ *
+ * Computes the cumulative probability of the Cauchy distribution at @x.
+ *
+ * Returns: the lower or upper tail probability, or its logarithm if
+ * @log_p is %TRUE.
+ **/
+
+/**
+ * go_qcauchy:
+ * @p: probability
+ * @location: location parameter of the Cauchy distribution
+ * @scale: scale parameter of the Cauchy distribution
+ * @lower_tail: whether @p is a lower tail probability
+ * @log_p: whether @p is given as a logarithm
+ *
+ * Computes the quantile of the Cauchy distribution for probability @p.
+ *
+ * Returns: the value corresponding to @p.
+ **/
+
 // We need multiple versions of this code.  We're going to include ourself
 // with different settings of various macros.  gdb will hate us.
 #include <goffice/goffice-multipass.h>
