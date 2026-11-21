@@ -248,6 +248,11 @@ go_doc_class_init (GObjectClass *object_class)
 		G_TYPE_NONE, 0, G_TYPE_NONE);
 }
 
+/**
+ * go_doc_get_type:
+ *
+ * Returns: the #GType for #GODoc.
+ **/
 GSF_CLASS (GODoc, go_doc,
 	   go_doc_class_init, go_doc_init,
 	   G_TYPE_OBJECT)
@@ -669,6 +674,14 @@ go_doc_get_images (GODoc *doc)
 	return doc->images;
 }
 
+/**
+ * go_doc_init_write:
+ * @doc: a #GODoc
+ * @output: the XML output
+ *
+ * Prepares @doc for writing to @output.  This must be called before
+ * go_doc_save_image() and go_doc_write().
+ **/
 void
 go_doc_init_write (GODoc *doc, GsfXMLOut *output)
 {
@@ -681,6 +694,14 @@ go_doc_init_write (GODoc *doc, GsfXMLOut *output)
 			   "document", doc);
 }
 
+/**
+ * go_doc_init_read:
+ * @doc: a #GODoc
+ * @input: the input stream
+ *
+ * Prepares @doc for reading from @input.  This must be called before
+ * go_doc_image_fetch(), go_doc_read(), and go_doc_end_read().
+ **/
 void
 go_doc_init_read (GODoc *doc, GsfInput *input)
 {
@@ -698,6 +719,13 @@ save_image_cb (G_GNUC_UNUSED gpointer key, gpointer img_, gpointer user)
 	go_image_save ((GOImage *) img_, (GsfXMLOut *) user);
 }
 
+/**
+ * go_doc_write:
+ * @doc: a #GODoc
+ * @output: the XML output
+ *
+ * Writes the images and resources registered with @doc to @output.
+ **/
 void
 go_doc_write (GODoc *doc, GsfXMLOut *output)
 {
@@ -819,6 +847,14 @@ load_theme (GsfXMLIn *xin, xmlChar const **attrs)
 		go_persist_prep_sax (GO_PERSIST (theme), xin, attrs);
 }
 
+/**
+ * go_doc_read:
+ * @doc: a #GODoc
+ * @xin: the XML input
+ * @attrs: the XML attributes
+ *
+ * Reads a GODoc element from @xin into @doc.
+ **/
 void
 go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -848,6 +884,13 @@ go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 	gsf_xml_in_push_state (xin, xmldoc, doc, NULL, attrs);
 }
 
+/**
+ * go_doc_end_read:
+ * @doc: a #GODoc
+ *
+ * Finishes reading @doc and releases the temporary image buffer created
+ * by go_doc_init_read().
+ **/
 void
 go_doc_end_read	(GODoc *doc)
 {

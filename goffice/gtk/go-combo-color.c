@@ -238,12 +238,13 @@ color_table_setup (GOComboColor *cc,
 	gtk_widget_show_all (GTK_WIDGET (cc->palette));
 }
 
-/* go_combo_color_get_color:
+/**
+ * go_combo_color_get_color:
  * @cc:  #GOComboColor
  * @is_default: non-NULL storage for whether the current colour is the default.
  *
  * Returns: current GOColor
- */
+ **/
 GOColor
 go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
 {

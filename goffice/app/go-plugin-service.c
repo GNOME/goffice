@@ -150,6 +150,11 @@ go_plugin_service_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = NULL;
 }
 
+/**
+ * go_plugin_service_get_type:
+ *
+ * Returns: the #GType for #GOPluginService.
+ **/
 GSF_CLASS (GOPluginService, go_plugin_service,
 	   go_plugin_service_class_init, go_plugin_service_init,
            G_TYPE_OBJECT)
@@ -240,6 +245,11 @@ go_plugin_service_general_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = go_plugin_service_general_get_description;
 }
 
+/**
+ * go_plugin_service_general_get_type:
+ *
+ * Returns: the #GType for #GOPluginServiceGeneral.
+ **/
 GSF_CLASS (GOPluginServiceGeneral, go_plugin_service_general,
            go_plugin_service_general_class_init, go_plugin_service_general_init,
            GO_TYPE_PLUGIN_SERVICE)
@@ -374,6 +384,11 @@ go_plugin_service_resource_class_init (GObjectClass *gobject_class)
 	plugin_service_class->read_xml = go_plugin_service_resource_read_xml;
 }
 
+/**
+ * go_plugin_service_resource_get_type:
+ *
+ * Returns: the #GType for #GOPluginServiceResource.
+ **/
 GSF_CLASS (GOPluginServiceResource, go_plugin_service_resource,
            go_plugin_service_resource_class_init,
 	   go_plugin_service_resource_init,
@@ -574,6 +589,11 @@ go_plugin_service_file_opener_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = go_plugin_service_file_opener_get_description;
 }
 
+/**
+ * go_plugin_service_file_opener_get_type:
+ *
+ * Returns: the #GType for #GOPluginServiceFileOpener.
+ **/
 GSF_CLASS (GOPluginServiceFileOpener, go_plugin_service_file_opener,
            go_plugin_service_file_opener_class_init,
 	   go_plugin_service_file_opener_init,
@@ -905,6 +925,11 @@ go_plugin_service_file_saver_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = go_plugin_service_file_saver_get_description;
 }
 
+/**
+ * go_plugin_service_file_saver_get_type:
+ *
+ * Returns: the #GType for #GOPluginServiceFileSaver.
+ **/
 GSF_CLASS (GOPluginServiceFileSaver, go_plugin_service_file_saver,
            go_plugin_service_file_saver_class_init, go_plugin_service_file_saver_init,
            GO_TYPE_PLUGIN_SERVICE)
@@ -1024,6 +1049,15 @@ go_plugin_service_plugin_loader_init (GObject *obj)
 	GO_PLUGIN_SERVICE (obj)->cbs_ptr = &service_plugin_loader->cbs;
 }
 
+/**
+ * go_plugin_service_plugin_loader_generate_type:
+ * @service: a #GOPluginServicePluginLoader
+ * @ret_error: (out) (nullable): location to store error information
+ *
+ * Loads @service and asks the plugin for the loader #GType.
+ *
+ * Returns: the loader #GType, or %G_TYPE_NONE on error.
+ **/
 GType
 go_plugin_service_plugin_loader_generate_type (GOPluginService *service,
 					       GOErrorInfo **ret_error)
@@ -1092,6 +1126,11 @@ go_plugin_service_plugin_loader_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = go_plugin_service_plugin_loader_get_description;
 }
 
+/**
+ * go_plugin_service_plugin_loader_get_type:
+ *
+ * Returns: the #GType for #GOPluginServicePluginLoader.
+ **/
 GSF_CLASS (GOPluginServicePluginLoader, go_plugin_service_plugin_loader,
            go_plugin_service_plugin_loader_class_init,
 	   go_plugin_service_plugin_loader_init,
@@ -1127,6 +1166,11 @@ go_plugin_service_gobject_loader_class_init (GOPluginServiceGObjectLoaderClass *
 	gobj_loader_class->pending = NULL;
 }
 
+/**
+ * go_plugin_service_gobject_loader_get_type:
+ *
+ * Returns: the #GType for #GOPluginServiceGObjectLoader.
+ **/
 GSF_CLASS (GOPluginServiceGObjectLoader, go_plugin_service_gobject_loader,
            go_plugin_service_gobject_loader_class_init, NULL,
            GO_TYPE_PLUGIN_SERVICE_SIMPLE)
@@ -1156,6 +1200,11 @@ go_plugin_service_simple_class_init (GObjectClass *gobject_class)
 	psc->deactivate		= go_plugin_service_simple_deactivate;
 }
 
+/**
+ * go_plugin_service_simple_get_type:
+ *
+ * Returns: the #GType for #GOPluginServiceSimple.
+ **/
 GSF_CLASS (GOPluginServiceSimple, go_plugin_service_simple,
            go_plugin_service_simple_class_init,
 	   NULL,
@@ -1163,6 +1212,13 @@ GSF_CLASS (GOPluginServiceSimple, go_plugin_service_simple,
 
 /* ---------------------------------------------------------------------- */
 
+/**
+ * go_plugin_service_load:
+ * @service: #GOPluginService
+ * @ret_error: (out) (nullable): location to store error information
+ *
+ * Loads @service if it is not loaded already.
+ **/
 void
 go_plugin_service_load (GOPluginService *service, GOErrorInfo **ret_error)
 {
@@ -1177,6 +1233,13 @@ go_plugin_service_load (GOPluginService *service, GOErrorInfo **ret_error)
 		service->is_loaded = TRUE;
 }
 
+/**
+ * go_plugin_service_unload:
+ * @service: #GOPluginService
+ * @ret_error: (out) (nullable): location to store error information
+ *
+ * Unloads @service if it is loaded.
+ **/
 void
 go_plugin_service_unload (GOPluginService *service, GOErrorInfo **ret_error)
 {
@@ -1196,6 +1259,17 @@ go_plugin_service_unload (GOPluginService *service, GOErrorInfo **ret_error)
 	}
 }
 
+/**
+ * go_plugin_service_new:
+ * @plugin: the #GOPlugin offering the service
+ * @tree: the XML node describing the service
+ * @ret_error: (out) (nullable): location to store error information
+ *
+ * Creates a new service described by @tree.
+ *
+ * Returns: (transfer full) (nullable): the new #GOPluginService, or %NULL
+ * on error.
+ **/
 GOPluginService *
 go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 {
@@ -1242,6 +1316,12 @@ go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 	return service;
 }
 
+/**
+ * go_plugin_service_get_id:
+ * @service: #GOPluginService
+ *
+ * Returns: (transfer none) (nullable): the id of @service.
+ **/
 char const *
 go_plugin_service_get_id (const GOPluginService *service)
 {
@@ -1250,6 +1330,12 @@ go_plugin_service_get_id (const GOPluginService *service)
 	return service->id;
 }
 
+/**
+ * go_plugin_service_get_description:
+ * @service: #GOPluginService
+ *
+ * Returns: (transfer none): the description of @service.
+ **/
 char const *
 go_plugin_service_get_description (GOPluginService *service)
 {
@@ -1291,6 +1377,13 @@ go_plugin_service_get_cbs (GOPluginService *service)
 	return service->cbs_ptr;
 }
 
+/**
+ * go_plugin_service_activate:
+ * @service: #GOPluginService
+ * @ret_error: (out) (nullable): location to store error information
+ *
+ * Activates @service.
+ **/
 void
 go_plugin_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
@@ -1316,6 +1409,13 @@ go_plugin_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
 	GO_PLUGIN_SERVICE_GET_CLASS (service)->activate (service, ret_error);
 }
 
+/**
+ * go_plugin_service_deactivate:
+ * @service: #GOPluginService
+ * @ret_error: (out) (nullable): location to store error information
+ *
+ * Deactivates @service.
+ **/
 void
 go_plugin_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {

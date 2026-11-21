@@ -1772,6 +1772,11 @@ nfs_class_init (GObjectClass *klass)
 	gtk_widget_class_set_css_name ((GtkWidgetClass *)klass, "formatselector");
 }
 
+/**
+ * go_format_sel_get_type:
+ *
+ * Returns: the #GType for #GOFormatSel.
+ **/
 GSF_CLASS (GOFormatSel, go_format_sel,
 	   nfs_class_init, nfs_init, GTK_TYPE_BOX)
 
@@ -1817,6 +1822,12 @@ go_format_sel_new (void)
 	return go_format_sel_new_full (FALSE);
 }
 
+/**
+ * go_format_sel_set_focus:
+ * @gfs: a #GOFormatSel
+ *
+ * Grabs the focus for @gfs.
+ **/
 void
 go_format_sel_set_focus (GOFormatSel *gfs)
 {
@@ -1825,6 +1836,13 @@ go_format_sel_set_focus (GOFormatSel *gfs)
 	gtk_widget_grab_focus (GTK_WIDGET (gfs->format.menu));
 }
 
+/**
+ * go_format_sel_set_style_format:
+ * @gfs: a #GOFormatSel
+ * @style_format: a #GOFormat
+ *
+ * Sets the format shown by @gfs.
+ **/
 void
 go_format_sel_set_style_format (GOFormatSel *gfs,
 				GOFormat const *style_format)
@@ -1857,6 +1875,13 @@ go_format_sel_set_style_format (GOFormatSel *gfs,
 	draw_format_preview (gfs, TRUE);
 }
 
+/**
+ * go_format_sel_set_dateconv:
+ * @gfs: a #GOFormatSel
+ * @date_conv: the #GODateConventions to use
+ *
+ * Sets the date conventions used by @gfs.
+ **/
 void
 go_format_sel_set_dateconv (GOFormatSel *gfs,
 			    GODateConventions const *date_conv)
@@ -1897,6 +1922,12 @@ go_format_sel_get_dateconv (GOFormatSel *gfs)
 	return gfs->date_conv;
 }
 
+/**
+ * go_format_sel_show_preview:
+ * @gfs: a #GOFormatSel
+ *
+ * Shows the format preview of @gfs.
+ **/
 void
 go_format_sel_show_preview (GOFormatSel *gfs)
 {
@@ -1905,6 +1936,12 @@ go_format_sel_show_preview (GOFormatSel *gfs)
 	draw_format_preview (gfs, TRUE);
 }
 
+/**
+ * go_format_sel_hide_preview:
+ * @gfs: a #GOFormatSel
+ *
+ * Hides the format preview of @gfs.
+ **/
 void
 go_format_sel_hide_preview (GOFormatSel *gfs)
 {
@@ -1912,6 +1949,14 @@ go_format_sel_hide_preview (GOFormatSel *gfs)
 	gtk_widget_hide (gfs->format.preview_grid);
 }
 
+/**
+ * go_format_sel_editable_enters:
+ * @gfs: a #GOFormatSel
+ * @window: a #GtkWindow
+ *
+ * Makes the Enter key activate the default button of @window when a
+ * format entry of @gfs has focus.
+ **/
 void
 go_format_sel_editable_enters (GOFormatSel *gfs,
 			       GtkWindow *window)
@@ -1921,6 +1966,13 @@ go_format_sel_editable_enters (GOFormatSel *gfs,
 	go_gtk_editable_enters (window, gfs->format.widget[F_ENTRY]);
 }
 
+/**
+ * go_format_sel_set_locale:
+ * @gfs: a #GOFormatSel
+ * @locale: (nullable): the locale to use
+ *
+ * Sets the locale used by @gfs.
+ **/
 void
 go_format_sel_set_locale (GOFormatSel *gfs,
 			  char const *locale)
@@ -1933,6 +1985,12 @@ go_format_sel_set_locale (GOFormatSel *gfs,
 
 /* The following utility function should possibly be in format.h but we */
 /* access to the array of category names which are better located here. */
+/**
+ * go_format_sel_format_classification:
+ * @style_format: a #GOFormat
+ *
+ * Returns: (transfer none): the translated classification of @style_format.
+ **/
 char const *
 go_format_sel_format_classification (GOFormat const *style_format)
 {

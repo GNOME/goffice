@@ -39,6 +39,13 @@
  * @rm_eo: end offset.
  **/
 
+/**
+ * go_regfree:
+ * @preg: a compiled regular expression
+ *
+ * Frees the storage associated with @preg.  The @preg structure itself
+ * is not freed.
+ **/
 void
 go_regfree (GORegexp *gor)
 {
@@ -48,6 +55,19 @@ go_regfree (GORegexp *gor)
 	}
 }
 
+/**
+ * go_regerror:
+ * @errcode: an error code returned by go_regcomp() or go_regexec()
+ * @preg: the compiled regular expression that produced @errcode
+ * @errbuf: (out caller-allocates) (array length=errbuf_size): buffer for
+ *   the message
+ * @errbuf_size: size of @errbuf
+ *
+ * Writes a localized error message for @errcode into @errbuf, truncated to
+ * fit in @errbuf_size bytes.
+ *
+ * Returns: the length of the error message, not including the trailing nul.
+ **/
 size_t
 go_regerror (int errcode, G_GNUC_UNUSED const GORegexp *gor, char *dst, size_t dstsize)
 {
@@ -85,6 +105,17 @@ go_regerror (int errcode, G_GNUC_UNUSED const GORegexp *gor, char *dst, size_t d
 	return errlen;
 }
 
+/**
+ * go_regcomp:
+ * @preg: (out): the compiled regular expression
+ * @pattern: the regular expression pattern
+ * @cflags: compilation flags
+ *
+ * Compiles @pattern into @preg.  @cflags is a bitwise combination of
+ * %GO_REG_ICASE, %GO_REG_NEWLINE, and %GO_REG_NOSUB.
+ *
+ * Returns: 0 on success, or an error code on failure.
+ **/
 int
 go_regcomp (GORegexp *gor, const char *pat, int cflags)
 {
@@ -139,6 +170,19 @@ go_regcomp (GORegexp *gor, const char *pat, int cflags)
 	return 0;
 }
 
+/**
+ * go_regexec:
+ * @preg: a compiled regular expression
+ * @string: the string to search
+ * @nmatch: maximum number of matches to report
+ * @pmatch: (out) (array length=nmatch): array of matches
+ * @eflags: execution flags
+ *
+ * Searches @string for @preg, storing up to @nmatch matches in @pmatch.
+ * @eflags is a bitwise combination of %GO_REG_NOTBOL and %GO_REG_NOTEOL.
+ *
+ * Returns: %GO_REG_NOERROR if a match was found, %GO_REG_NOMATCH otherwise.
+ **/
 int
 go_regexec (const GORegexp *gor, const char *txt,
 	    size_t nmatch, GORegmatch *pmatch, int eflags)
@@ -188,6 +232,11 @@ enum {
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_search_replace_error_quark:
+ *
+ * Returns: #GQuark for search-and-replace errors.
+ **/
 GQuark
 go_search_replace_error_quark (void)
 {
@@ -343,10 +392,16 @@ go_search_replace_verify (GOSearchReplace *sr, gboolean repl, GError **err)
 }
 
 /* ------------------------------------------------------------------------- */
-/*
- * Quote a single UTF-8 encoded character from s into target and return the
- * location of the next character in s.
- */
+/**
+ * go_regexp_quote1:
+ * @target: the string to append the quoted character to
+ * @s: a UTF-8 string
+ *
+ * Quotes the first character of @s for use in a regular expression and
+ * appends it to @target.
+ *
+ * Returns: a pointer to the next character in @s.
+ **/
 const char *
 go_regexp_quote1 (GString *target, const char *s)
 {
@@ -377,9 +432,14 @@ go_regexp_quote1 (GString *target, const char *s)
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * Regexp quote a UTF-8 string.
- */
+/**
+ * go_regexp_quote:
+ * @target: the string to append the quoted text to
+ * @s: the UTF-8 string to quote
+ *
+ * Quotes all characters of @s for use in a regular expression and
+ * appends the result to @target.
+ **/
 void
 go_regexp_quote (GString *target, const char *s)
 {
@@ -541,6 +601,15 @@ calculate_replacement (GOSearchReplace *sr, const char *src, const GORegmatch *p
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_search_match_string:
+ * @sr: a #GOSearchReplace search-and-replace specification
+ * @src: the source string
+ *
+ * Checks whether @src matches the search criteria in @sr.
+ *
+ * Returns: %TRUE if @src contains a match.
+ **/
 gboolean
 go_search_match_string (GOSearchReplace *sr, const char *src)
 {
@@ -876,5 +945,10 @@ go_search_replace_class_init (GObjectClass *gobject_class)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * go_search_replace_get_type:
+ *
+ * Returns: the #GType for #GOSearchReplace.
+ **/
 GSF_CLASS (GOSearchReplace, go_search_replace,
 	   go_search_replace_class_init, go_search_replace_init, G_TYPE_OBJECT)

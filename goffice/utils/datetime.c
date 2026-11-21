@@ -373,20 +373,17 @@ days_between_GO_BASIS_30Ep_360 (GDate const *from, GDate const *to)
 	return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
 }
 
-/*
- * go_date_days_between_basis
+/**
+ * go_date_days_between_basis:
+ * @from: the first date
+ * @to: the second date
+ * @basis: the day-count basis
  *
- * @from: GDate *
- * @to: GDate *
- * @basis: GOBasisType
- * see datetime.h and doc/fn-financial-basis.txt for details
+ * Computes the number of days between @from and @to using @basis.
+ * Dates are considered in order.
  *
- * @in_order: dates are considered in order
- *
- * Returns: Number of days after the earlier and not after the later date
- *
- */
-
+ * Returns: the number of days after the earlier and not after the later date
+ **/
 gint32
 go_date_days_between_basis (GDate const *from, GDate const *to, GOBasisType basis)
 {
@@ -418,21 +415,17 @@ go_date_days_between_basis (GDate const *from, GDate const *to, GOBasisType basi
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * go_coup_cd
+/**
+ * go_coup_cd:
+ * @res: location to store the coupon date
+ * @settle: the settlement date
+ * @mat: the maturity date; must follow @settle strictly
+ * @freq: number of coupons per year; divides 12 evenly
+ * @eom: whether to do special end-of-month handling
+ * @next: whether to return the next or previous coupon date
  *
- * @res:
- * @settlement: GDate *
- * @maturity: GDate *  must follow settlement strictly
- * @freq: int      divides 12 evenly
- * @eom: gboolean whether to do special end of month
- *                       handling
- * @next: gboolean whether next or previous date
- *
- * Returns: GDate *  next  or previous coupon date
- *
- * this function does not depend on the basis of counting!
- */
+ * This function does not depend on the basis of counting.
+ **/
 void
 go_coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
 	 int freq, gboolean eom, gboolean next)

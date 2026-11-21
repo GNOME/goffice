@@ -147,6 +147,15 @@ static GONamedColor const default_color_set [] = {
 	{ 0, NULL},
 };
 
+/**
+ * go_color_palette_query:
+ * @n: the index of a color in the default palette
+ * @color: (out): location to store the color
+ *
+ * Looks up a color in the default palette.
+ *
+ * Returns: %TRUE if @n was a valid index.
+ **/
 gboolean
 go_color_palette_query (int n, GONamedColor *color)
 {
@@ -269,6 +278,11 @@ go_color_palette_init (GObject *obj)
 	_go_gtk_widget_add_css_provider (GTK_WIDGET (obj));
 }
 
+/**
+ * go_color_palette_get_type:
+ *
+ * Returns: the #GType for #GOColorPalette.
+ **/
 GSF_CLASS (GOColorPalette, go_color_palette,
 	   go_color_palette_class_init, go_color_palette_init,
 	   GTK_TYPE_BOX)
@@ -431,6 +445,13 @@ cb_combo_custom_clicked (GtkWidget *button, GOColorPalette *pal)
 	gtk_widget_show_all (dialog);
 }
 
+/**
+ * go_color_palette_set_title:
+ * @p: a #GOColorPalette
+ * @title: (nullable): the title to use for the custom color dialog
+ *
+ * Sets the title used for the custom color dialog of @p.
+ **/
 void
 go_color_palette_set_title (GOColorPalette *pal, char const *title)
 {
@@ -519,12 +540,25 @@ custom_colors :
 	return grid;
 }
 
+/**
+ * go_color_palette_set_color_to_default:
+ * @p: a #GOColorPalette
+ *
+ * Resets the selected color of @p to its default color.
+ **/
 void
 go_color_palette_set_color_to_default (GOColorPalette *pal)
 {
 	set_color (pal, pal->default_color, FALSE, TRUE, TRUE);
 }
 
+/**
+ * go_color_palette_set_current_color:
+ * @p: a #GOColorPalette
+ * @color: the new color
+ *
+ * Sets the currently selected color of @p.
+ **/
 void
 go_color_palette_set_current_color (GOColorPalette *pal, GOColor color)
 {
@@ -533,6 +567,14 @@ go_color_palette_set_current_color (GOColorPalette *pal, GOColor color)
 		   FALSE, FALSE);
 }
 
+/**
+ * go_color_palette_get_current_color:
+ * @p: a #GOColorPalette
+ * @is_default: (out) (optional): location to store whether the default color is selected
+ * @is_custom: (out) (optional): location to store whether a custom color is selected
+ *
+ * Returns: the currently selected color of @p.
+ **/
 GOColor
 go_color_palette_get_current_color (GOColorPalette *pal,
 				    gboolean *is_default, gboolean *is_custom)
@@ -544,6 +586,13 @@ go_color_palette_get_current_color (GOColorPalette *pal,
 	return pal->selection;
 }
 
+/**
+ * go_color_palette_set_allow_alpha:
+ * @p: a #GOColorPalette
+ * @allow_alpha: whether to allow selecting an alpha value
+ *
+ * Sets whether the custom color dialog of @p allows alpha values.
+ **/
 void
 go_color_palette_set_allow_alpha (GOColorPalette *pal, gboolean allow_alpha)
 {

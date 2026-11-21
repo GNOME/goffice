@@ -354,15 +354,35 @@ grs_class_init (GObjectClass *klass)
 	gtk_widget_class_set_css_name ((GtkWidgetClass *)klass, "rotationselector");
 }
 
+/**
+ * go_rotation_sel_get_type:
+ *
+ * Returns: the #GType for #GORotationSel.
+ **/
 GSF_CLASS (GORotationSel, go_rotation_sel,
 	   grs_class_init, grs_init, GTK_TYPE_GRID)
 
+/**
+ * go_rotation_sel_new:
+ *
+ * Creates a rotation selector widget.  Initially the rotation is 0 degrees.
+ *
+ * Returns: (transfer floating): a new #GORotationSel.
+ **/
 GtkWidget *
 go_rotation_sel_new (void)
 {
 	return g_object_new (GO_TYPE_ROTATION_SEL, NULL);
 }
 
+/**
+ * go_rotation_sel_new_full:
+ *
+ * Creates a rotation selector widget that allows a full range of angles,
+ * from -180 to 180 degrees.
+ *
+ * Returns: (transfer floating): a new #GORotationSel.
+ **/
 GtkWidget *
 go_rotation_sel_new_full (void)
 {
@@ -375,6 +395,12 @@ go_rotation_sel_new_full (void)
 	return (GtkWidget *) grs;
 }
 
+/**
+ * go_rotation_sel_get_rotation:
+ * @rs: #GORotationSel
+ *
+ * Returns: the currently selected rotation, in degrees.
+ **/
 int
 go_rotation_sel_get_rotation (GORotationSel const *grs)
 {
@@ -382,6 +408,13 @@ go_rotation_sel_get_rotation (GORotationSel const *grs)
 	return grs->angle;
 }
 
+/**
+ * go_rotation_sel_set_rotation:
+ * @rs: #GORotationSel
+ * @degrees: the rotation, in degrees
+ *
+ * Sets the currently selected rotation to @degrees.
+ **/
 void
 go_rotation_sel_set_rotation (GORotationSel *grs, int angle)
 {

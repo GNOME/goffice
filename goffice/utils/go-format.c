@@ -464,6 +464,11 @@ static const int go_format_roundtrip_digitsD = 16;
 #endif
 #endif
 
+/**
+ * go_format_allow_ee_markup:
+ *
+ * Returns: %TRUE if formats may contain Pango markup.
+ **/
 gboolean
 go_format_allow_ee_markup (void)
 {
@@ -474,6 +479,11 @@ go_format_allow_ee_markup (void)
 #endif
 }
 
+/**
+ * go_format_allow_si:
+ *
+ * Returns: %TRUE if SI unit suffixes are supported in formats.
+ **/
 gboolean
 go_format_allow_si (void)
 {
@@ -484,6 +494,11 @@ go_format_allow_si (void)
 #endif
 }
 
+/**
+ * go_format_allow_pi_slash:
+ *
+ * Returns: %TRUE if pi-based fraction formats are supported.
+ **/
 gboolean
 go_format_allow_pi_slash (void)
 {
@@ -770,6 +785,13 @@ format_numbered_colors[56 + 1] = {
 	GO_COLOR_FROM_RGB (0x33, 0x33, 0x33)
 };
 
+/**
+ * go_format_palette_color_of_index:
+ * @i: a palette index, starting at 1
+ *
+ * Returns: the color at position @i in the numbered palette, or 0 if
+ * @i is out of range.
+ **/
 GOColor
 go_format_palette_color_of_index (int i)
 {
@@ -780,6 +802,13 @@ go_format_palette_color_of_index (int i)
 		: 0;
 }
 
+/**
+ * go_format_palette_name_of_index:
+ * @i: a palette index, starting at 1
+ *
+ * Returns: (transfer full): the name of the color at position @i in
+ * the numbered palette.
+ **/
 char *
 go_format_palette_name_of_index (int i)
 {
@@ -6400,6 +6429,11 @@ go_format_unref (GOFormat const *gf_)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_get_type:
+ *
+ * Returns: the #GType for #GOFormat.
+ **/
 GType
 go_format_get_type (void)
 {
@@ -7306,6 +7340,13 @@ find_currency (char const *ptr, gsize len, gboolean precedes)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_generate_str:
+ * @dst: the string to append the format to
+ * @details: a #GOFormatDetails
+ *
+ * Appends a format string for @details to @dst.
+ **/
 void
 go_format_generate_str (GString *dst, GOFormatDetails const *details)
 {
@@ -7362,6 +7403,11 @@ go_format_details_ref (GOFormatDetails * details)
 	return details;
 }
 
+/**
+ * go_format_details_get_type:
+ *
+ * Returns: the #GType for #GOFormatDetails.
+ **/
 GType
 go_format_details_get_type (void)
 {
@@ -7375,6 +7421,14 @@ go_format_details_get_type (void)
 	return t;
 }
 
+/**
+ * go_format_details_new:
+ * @family: the #GOFormatFamily
+ *
+ * Creates and initializes a new #GOFormatDetails.
+ *
+ * Returns: (transfer full): a new #GOFormatDetails.
+ **/
 GOFormatDetails *
 go_format_details_new (GOFormatFamily family)
 {
@@ -7387,6 +7441,13 @@ go_format_details_new (GOFormatFamily family)
 
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_details_finalize:
+ * @details: a #GOFormatDetails
+ *
+ * Frees the fields of @details allocated by go_format_details_init(),
+ * but does not free @details itself.
+ **/
 void
 go_format_details_finalize (GOFormatDetails *details)
 {
@@ -7397,6 +7458,13 @@ go_format_details_finalize (GOFormatDetails *details)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_details_free:
+ * @details: (transfer full) (nullable): a #GOFormatDetails
+ *
+ * Decrements the reference count of @details and frees it when the
+ * count reaches zero.
+ **/
 void
 go_format_details_free (GOFormatDetails *details)
 {
@@ -7409,6 +7477,13 @@ go_format_details_free (GOFormatDetails *details)
 
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_details_init:
+ * @details: a #GOFormatDetails
+ * @family: the #GOFormatFamily
+ *
+ * Initializes @details with default values for @family.
+ **/
 void
 go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
 {
@@ -7712,6 +7787,11 @@ go_format_currency_unref (G_GNUC_UNUSED GOFormatCurrency * currency)
 {
 }
 
+/**
+ * go_format_currency_get_type:
+ *
+ * Returns: the #GType for #GOFormatCurrency.
+ **/
 GType
 go_format_currency_get_type (void)
 {
@@ -7765,6 +7845,16 @@ go_format_locale_currency (void)
 
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_odf_style_map:
+ * @fmt: a conditional #GOFormat
+ * @cond_part: index of the condition
+ *
+ * Builds the ODF style:map condition for one part of a conditional format.
+ *
+ * Returns: (transfer full) (nullable): the condition string, or %NULL
+ * if @cond_part is invalid.
+ **/
 char *
 go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 {
@@ -9261,6 +9351,18 @@ go_format_output_conditional_to_odf (GsfXMLOut *xout, gboolean with_extension,
 	gsf_xml_out_end_element (xout); /* </number:text-style> or </number:number-style> */
 }
 
+/**
+ * go_format_output_to_odf:
+ * @xout: the XML output
+ * @fmt: a #GOFormat
+ * @cond_part: unused
+ * @name: the style name
+ * @with_extension: whether to emit Gnumeric extensions
+ *
+ * Writes @fmt as an ODF number style to @xout.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			 G_GNUC_UNUSED int cond_part, char const *name,

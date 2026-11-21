@@ -421,6 +421,14 @@ static void ls_get_property      (GObject          *object,
 				  GValue           *value,
 				  GParamSpec       *pspec);
 
+/**
+ * go_locale_sel_get_locale_name:
+ * @cs: a #GOLocaleSel
+ * @loc: a locale name
+ *
+ * Returns: (transfer none) (nullable): the translated name for @loc,
+ * or %NULL if @loc is not known.
+ **/
 const char *
 go_locale_sel_get_locale_name (G_GNUC_UNUSED GOLocaleSel *ls,
 			       const char *locale)
@@ -660,15 +668,33 @@ ls_class_init (GtkWidgetClass *widget_klass)
 	gtk_widget_class_set_css_name (widget_klass, "localeselector");
 }
 
+/**
+ * go_locale_sel_get_type:
+ *
+ * Returns: the #GType for #GOLocaleSel.
+ **/
 GSF_CLASS (GOLocaleSel, go_locale_sel,
 	   ls_class_init, ls_init, GTK_TYPE_BOX)
 
+/**
+ * go_locale_sel_new:
+ *
+ * Creates a new #GOLocaleSel.
+ *
+ * Returns: (transfer full): a new #GOLocaleSel.
+ **/
 GtkWidget *
 go_locale_sel_new (void)
 {
 	return g_object_new (GO_TYPE_LOCALE_SEL, NULL);
 }
 
+/**
+ * go_locale_sel_get_locale:
+ * @cs: a #GOLocaleSel
+ *
+ * Returns: (transfer full): the currently selected locale.
+ **/
 gchar *
 go_locale_sel_get_locale (GOLocaleSel *ls)
 {
@@ -739,6 +765,15 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 	cl->i++;
 }
 
+/**
+ * go_locale_sel_set_locale:
+ * @cs: a #GOLocaleSel
+ * @loc: the locale to select
+ *
+ * Selects @loc in @cs.
+ *
+ * Returns: %TRUE if @loc was found and selected.
+ **/
 gboolean
 go_locale_sel_set_locale (GOLocaleSel *ls, const char *locale)
 {
@@ -774,6 +809,13 @@ go_locale_sel_set_locale (GOLocaleSel *ls, const char *locale)
 }
 
 
+/**
+ * go_locale_sel_set_sensitive:
+ * @cs: a #GOLocaleSel
+ * @sensitive: whether the selector should be sensitive
+ *
+ * Sets the sensitivity of @cs.
+ **/
 void
 go_locale_sel_set_sensitive (GOLocaleSel *ls, gboolean sensitive)
 {

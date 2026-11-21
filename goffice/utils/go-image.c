@@ -185,6 +185,11 @@ go_image_format_info_unref (G_GNUC_UNUSED GOImageFormatInfo const *info)
 {
 }
 
+/**
+ * go_image_format_info_get_type:
+ *
+ * Returns: the #GType for #GOImageFormatInfo.
+ **/
 GType
 go_image_format_info_get_type (void)
 {
@@ -516,10 +521,22 @@ go_image_class_init (GOImageClass *klass)
 	klass->get_scaled_pixbuf = go_image_get_scaled_pixbuf_fb;
 }
 
+/**
+ * go_image_get_type:
+ *
+ * Returns: the #GType for #GOImage.
+ **/
 GSF_CLASS_ABSTRACT (GOImage, go_image,
 		go_image_class_init, NULL,
 		G_TYPE_OBJECT)
 
+/**
+ * go_image_draw:
+ * @image: a #GOImage
+ * @cr: a cairo context
+ *
+ * Draws @image to @cr.
+ **/
 void
 go_image_draw (GOImage *image, cairo_t *cr)
 {
@@ -590,6 +607,16 @@ go_image_get_scaled_pixbuf (GOImage *image, int width, int height)
 	return ((GOImageClass *) G_OBJECT_GET_CLASS (image))->get_scaled_pixbuf (image, width, height);
 }
 
+/**
+ * go_image_new_from_file:
+ * @filename: path to an image file
+ * @error: (out) (optional) (nullable): location to store error
+ *
+ * Creates a new image from a file.  The file format is detected from
+ * the filename's MIME type.
+ *
+ * Returns: (transfer full) (nullable): a new #GOImage, or %NULL on error.
+ **/
 GOImage *
 go_image_new_from_file (char const *filename, GError **error)
 {
@@ -637,6 +664,18 @@ go_image_new_from_file (char const *filename, GError **error)
 	return NULL;
 }
 
+/**
+ * go_image_new_from_data:
+ * @type: (nullable): image type, or %NULL to detect from @data
+ * @data: (array length=length): image data
+ * @length: length of @data in bytes
+ * @format: (out) (transfer full) (optional) (nullable): location to store the detected format
+ * @error: (out) (optional) (nullable): location to store error
+ *
+ * Creates a new image from data in memory.
+ *
+ * Returns: (transfer full) (nullable): a new #GOImage, or %NULL on error.
+ **/
 GOImage	*
 go_image_new_from_data (char const *type, guint8 const *data, gsize length, char **format, GError **error)
 {
@@ -698,6 +737,15 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 	return image;
 }
 
+/**
+ * go_image_new_for_format:
+ * @format: an image format name
+ *
+ * Creates a new image of the type used for @format.
+ *
+ * Returns: (transfer full) (nullable): a new #GOImage, or %NULL if
+ * @format is not supported.
+ **/
 GOImage *
 go_image_new_for_format (char const *format)
 {
@@ -705,6 +753,13 @@ go_image_new_for_format (char const *format)
 	return (gtype > 0)? g_object_new (gtype, NULL): NULL;
 }
 
+/**
+ * go_image_type_for_format:
+ * @format: an image format name
+ *
+ * Returns: the #GType used to represent @format, or 0 if @format is
+ * not supported.
+ **/
 GType
 go_image_type_for_format (char const *format)
 {
@@ -722,6 +777,13 @@ go_image_type_for_format (char const *format)
 	return 0;
 }
 
+/**
+ * go_image_get_data:
+ * @image: a #GOImage
+ * @length: (out) (optional): location to store the length of the data
+ *
+ * Returns: (transfer none) (nullable): the raw image data.
+ **/
 guint8 const *
 go_image_get_data (GOImage *image, gsize *length)
 {
@@ -731,6 +793,13 @@ go_image_get_data (GOImage *image, gsize *length)
 	return image->data;
 }
 
+/**
+ * go_image_set_name:
+ * @image: a #GOImage
+ * @name: (nullable): the new name, or %NULL to clear it
+ *
+ * Sets the name of @image.
+ **/
 void
 go_image_set_name (GOImage *image, char const *name)
 {
@@ -739,6 +808,12 @@ go_image_set_name (GOImage *image, char const *name)
 	image->name = (name)? g_strdup (name): NULL;
 }
 
+/**
+ * go_image_get_name:
+ * @image: a #GOImage
+ *
+ * Returns: (transfer none) (nullable): the name of @image.
+ **/
 char const *
 go_image_get_name (GOImage const *image)
 {
@@ -746,6 +821,13 @@ go_image_get_name (GOImage const *image)
 	return image->name;
 }
 
+/**
+ * go_image_differ:
+ * @first: a #GOImage
+ * @second: a #GOImage
+ *
+ * Returns: %TRUE if @first and @second are different images.
+ **/
 gboolean
 go_image_differ (GOImage *first, GOImage *second)
 {
@@ -758,6 +840,13 @@ go_image_differ (GOImage *first, GOImage *second)
 	return ((GOImageClass *) G_OBJECT_GET_CLASS (first))->differ (first, second);
 }
 
+/**
+ * go_image_save:
+ * @image: a #GOImage
+ * @output: the XML output
+ *
+ * Saves @image to @output.
+ **/
 void
 go_image_save (GOImage *image, GsfXMLOut *output)
 {
@@ -771,6 +860,14 @@ go_image_save (GOImage *image, GsfXMLOut *output)
 	gsf_xml_out_end_element (output);
 }
 
+/**
+ * go_image_load_attrs:
+ * @image: a #GOImage
+ * @xin: (nullable): the XML input
+ * @attrs: the XML attributes
+ *
+ * Loads the attributes of @image from @attrs.
+ **/
 void
 go_image_load_attrs (GOImage *image, G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -785,6 +882,13 @@ go_image_load_attrs (GOImage *image, G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const 
 			((GOImageClass *) G_OBJECT_GET_CLASS (image))->load_attr (image, attr[0], attr[1]);
 }
 
+/**
+ * go_image_load_data:
+ * @image: a #GOImage
+ * @xin: the XML input
+ *
+ * Loads the data of @image from @xin.
+ **/
 void
 go_image_load_data (GOImage *image, GsfXMLIn *xin)
 {
@@ -802,6 +906,12 @@ _go_image_changed (GOImage *image, double width, double height)
 	}
 }
 
+/**
+ * go_image_get_width:
+ * @image: a #GOImage
+ *
+ * Returns: the width of @image, in pixels.
+ **/
 double
 go_image_get_width (GOImage const *image)
 {
@@ -809,6 +919,12 @@ go_image_get_width (GOImage const *image)
 	return image->width;
 }
 
+/**
+ * go_image_get_height:
+ * @image: a #GOImage
+ *
+ * Returns: the height of @image, in pixels.
+ **/
 double
 go_image_get_height (GOImage const *image)
 {
@@ -818,6 +934,13 @@ go_image_get_height (GOImage const *image)
 
 static double _go_image_dpi_x = 96.,  _go_image_dpi_y = 96.;
 
+/**
+ * go_image_set_default_dpi:
+ * @dpi_x: horizontal DPI
+ * @dpi_y: vertical DPI
+ *
+ * Sets the default resolution used when loading images.
+ **/
 void
 go_image_set_default_dpi (double dpi_x, double dpi_y)
 {
@@ -825,6 +948,13 @@ go_image_set_default_dpi (double dpi_x, double dpi_y)
 	_go_image_dpi_y = dpi_y;
 }
 
+/**
+ * go_image_get_default_dpi:
+ * @dpi_x: (out): location to store the horizontal DPI
+ * @dpi_y: (out): location to store the vertical DPI
+ *
+ * Gets the default resolution used when loading images.
+ **/
 void
 go_image_get_default_dpi (double *dpi_x, double *dpi_y)
 {
@@ -832,6 +962,12 @@ go_image_get_default_dpi (double *dpi_x, double *dpi_y)
 	*dpi_y = _go_image_dpi_y;
 }
 
+/**
+ * go_image_get_info:
+ * @image: a #GOImage
+ *
+ * Returns: (transfer none) (nullable): the format information for @image.
+ **/
 GOImageFormatInfo const *
 go_image_get_info (GOImage *image)
 {

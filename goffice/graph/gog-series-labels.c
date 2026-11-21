@@ -1069,12 +1069,20 @@ void gog_data_label_set_default_position (GogDataLabel *lbl, GogSeriesLabelsPos 
  *
  * Returns: the effective #GogSeriesLabelsPos of @lbl.
  **/
-GogSeriesLabelsPos gog_data_label_get_position (GogDataLabel const *lbl)
+GogSeriesLabelsPos
+gog_data_label_get_position (GogDataLabel const *lbl)
 {
 	return lbl->position;
 }
 
-GogSeriesLabelElt const *gog_data_label_get_element (GogDataLabel const *lbl)
+/**
+ * gog_data_label_get_element:
+ * @lbl: #GogDataLabel
+ *
+ * Returns: (transfer none): the #GogSeriesLabelElt of @lbl.
+ **/
+GogSeriesLabelElt const *
+gog_data_label_get_element (GogDataLabel const *lbl)
 {
 	return &lbl->element;
 }

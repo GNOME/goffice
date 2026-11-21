@@ -270,6 +270,14 @@ go_string_new_rich_nocopy (char *str,
 	return do_rich_setup (base, markup, phonetic);
 }
 
+/**
+ * go_string_ref:
+ * @gstr: (nullable): string
+ *
+ * Increments the reference count of @gstr.
+ *
+ * Returns: (transfer full) (nullable): @gstr.
+ **/
 GOString *
 go_string_ref (GOString *gstr)
 {
@@ -278,6 +286,13 @@ go_string_ref (GOString *gstr)
 	return gstr;
 }
 
+/**
+ * go_string_unref:
+ * @gstr: (transfer full) (nullable): string
+ *
+ * Decrements the reference count of @gstr, freeing it when the count
+ * reaches zero.
+ **/
 void
 go_string_unref (GOString *gstr)
 {
@@ -307,18 +322,40 @@ go_string_unref (GOString *gstr)
 	}
 }
 
+/**
+ * go_string_get_ref_count:
+ * @gstr: (nullable): string
+ *
+ * Returns: the reference count of @gstr, or 0 if @gstr is %NULL.
+ **/
 unsigned int
 go_string_get_ref_count (GOString const *gstr)
 {
 	return gstr ? ((GOStringImpl const *)gstr)->ref_count : 0;
 }
 
+/**
+ * go_string_hash:
+ * @gstr: (nullable): a #GOString
+ *
+ * Returns: a hash value for @gstr, or 0 if @gstr is %NULL.
+ **/
 guint32
 go_string_hash (gconstpointer gstr)
 {
 	return gstr ? ((GOStringImpl const *)gstr)->hash : 0;
 }
 
+/**
+ * go_string_cmp:
+ * @gstr_a: (nullable): first string
+ * @gstr_b: (nullable): second string
+ *
+ * Compares the collation keys of @gstr_a and @gstr_b.
+ *
+ * Returns: < 0 if @gstr_a < @gstr_b, 0 if @gstr_a == @gstr_b,
+ * > 0 if @gstr_a > @gstr_b.
+ **/
 int
 go_string_cmp (gconstpointer gstr_a, gconstpointer gstr_b)
 {
@@ -328,6 +365,16 @@ go_string_cmp (gconstpointer gstr_a, gconstpointer gstr_b)
 			  go_string_get_collation (gstr_b));
 }
 
+/**
+ * go_string_cmp_ignorecase:
+ * @gstr_a: (nullable): first string
+ * @gstr_b: (nullable): second string
+ *
+ * Compares the case-folded collation keys of @gstr_a and @gstr_b.
+ *
+ * Returns: < 0 if @gstr_a < @gstr_b, 0 if @gstr_a == @gstr_b,
+ * > 0 if @gstr_a > @gstr_b.
+ **/
 int
 go_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 {
@@ -337,6 +384,13 @@ go_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 			  go_string_get_casefolded_collate (gstr_b));
 }
 
+/**
+ * go_string_equal:
+ * @gstr_a: (nullable): first string
+ * @gstr_b: (nullable): second string
+ *
+ * Returns: %TRUE if @gstr_a and @gstr_b contain the same string.
+ **/
 gboolean
 go_string_equal (gconstpointer gstr_a, gconstpointer gstr_b)
 {
@@ -345,6 +399,13 @@ go_string_equal (gconstpointer gstr_a, gconstpointer gstr_b)
 	return a == b || (NULL != a && NULL != b && a->str == b->str);
 }
 
+/**
+ * go_string_get_collation:
+ * @gstr: (nullable): string
+ *
+ * Returns: (transfer none): the collation key for @gstr, or an empty
+ * string if @gstr is %NULL.
+ **/
 char const *
 go_string_get_collation (GOString const *gstr)
 {
@@ -362,6 +423,13 @@ go_string_get_collation (GOString const *gstr)
 	return gstri->collate_str;
 }
 
+/**
+ * go_string_get_casefold:
+ * @gstr: (nullable): string
+ *
+ * Returns: (transfer none): the case-folded string for @gstr, or an
+ * empty string if @gstr is %NULL.
+ **/
 char const *
 go_string_get_casefold (GOString const *gstr)
 {
@@ -379,6 +447,13 @@ go_string_get_casefold (GOString const *gstr)
 	return gstri->casefold_str;
 }
 
+/**
+ * go_string_get_casefolded_collate:
+ * @gstr: (nullable): string
+ *
+ * Returns: (transfer none): the collation key for the case-folded
+ * string of @gstr, or an empty string if @gstr is %NULL.
+ **/
 char const *
 go_string_get_casefolded_collate (GOString const *gstr)
 {

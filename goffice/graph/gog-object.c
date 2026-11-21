@@ -2078,7 +2078,7 @@ gog_object_get_manual_allocation (GogObject *gobj,
 	return pos;
 }
 
-/*
+/**
  * gog_object_is_default_position_flags:
  * @obj: a #GogObject
  * @name: name of the position property

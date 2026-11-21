@@ -203,6 +203,13 @@ go_path_add_data_buffer (GOPath *path)
 	return buffer;
 }
 
+/**
+ * go_path_new:
+ *
+ * Creates a new empty #GOPath.
+ *
+ * Returns: (transfer full): a new #GOPath.
+ **/
 GOPath *
 go_path_new (void)
 {
@@ -227,6 +234,12 @@ go_path_new (void)
 	return path;
 }
 
+/**
+ * go_path_clear:
+ * @path: a #GOPath
+ *
+ * Removes all actions from @path.
+ **/
 void
 go_path_clear (GOPath *path)
 {
@@ -289,6 +302,11 @@ go_path_ref (GOPath *path)
 	return path;
 }
 
+/**
+ * go_path_get_type:
+ *
+ * Returns: the #GType for #GOPath.
+ **/
 GType
 go_path_get_type (void)
 {
@@ -321,6 +339,12 @@ go_path_set_options (GOPath *path, GOPathOptions options)
 	path->options = options;
 }
 
+/**
+ * go_path_get_options:
+ * @path: a #GOPath
+ *
+ * Returns: the rendering options for @path.
+ **/
 GOPathOptions
 go_path_get_options (GOPath const *path)
 {
@@ -349,6 +373,14 @@ go_path_add_points (GOPath *path, GOPathAction action,
 		buffer->points[buffer->n_points++] = points[i];
 }
 
+/**
+ * go_path_move_to:
+ * @path: a #GOPath
+ * @x: horizontal position
+ * @y: vertical position
+ *
+ * Starts a new subpath at (@x, @y).
+ **/
 void
 go_path_move_to (GOPath *path, double x, double y)
 {
@@ -359,6 +391,14 @@ go_path_move_to (GOPath *path, double x, double y)
 	go_path_add_points (path, GO_PATH_ACTION_MOVE_TO, &point, 1);
 }
 
+/**
+ * go_path_line_to:
+ * @path: a #GOPath
+ * @x: horizontal position
+ * @y: vertical position
+ *
+ * Adds a line from the current point to (@x, @y).
+ **/
 void
 go_path_line_to (GOPath *path, double x, double y)
 {
@@ -369,6 +409,19 @@ go_path_line_to (GOPath *path, double x, double y)
 	go_path_add_points (path, GO_PATH_ACTION_LINE_TO, &point, 1);
 }
 
+/**
+ * go_path_curve_to:
+ * @path: a #GOPath
+ * @x0: horizontal position of the first control point
+ * @y0: vertical position of the first control point
+ * @x1: horizontal position of the second control point
+ * @y1: vertical position of the second control point
+ * @x2: horizontal position of the end point
+ * @y2: vertical position of the end point
+ *
+ * Adds a cubic Bézier curve from the current point to (@x2, @y2),
+ * using (@x0, @y0) and (@x1, @y1) as control points.
+ **/
 void
 go_path_curve_to (GOPath *path,
 		  double x0, double y0,
@@ -386,6 +439,12 @@ go_path_curve_to (GOPath *path,
 	go_path_add_points (path, GO_PATH_ACTION_CURVE_TO, points, 3);
 }
 
+/**
+ * go_path_close:
+ * @path: a #GOPath
+ *
+ * Closes the current subpath.
+ **/
 void
 go_path_close (GOPath *path)
 {
@@ -495,6 +554,20 @@ _ring_wedge (GOPath *path,
 	go_path_close (path);
 }
 
+/**
+ * go_path_ring_wedge:
+ * @path: a #GOPath
+ * @cx: horizontal position of the center
+ * @cy: vertical position of the center
+ * @rx_out: outer horizontal radius
+ * @ry_out: outer vertical radius
+ * @rx_in: inner horizontal radius
+ * @ry_in: inner vertical radius
+ * @th0: start angle, in radians
+ * @th1: end angle, in radians
+ *
+ * Adds a ring wedge to @path.
+ **/
 void
 go_path_ring_wedge (GOPath *path,
 		    double cx, double cy,
@@ -505,6 +578,18 @@ go_path_ring_wedge (GOPath *path,
 	_ring_wedge (path, cx, cy, rx_out, ry_out, rx_in, ry_in, th0, th1, FALSE);
 }
 
+/**
+ * go_path_pie_wedge:
+ * @path: a #GOPath
+ * @cx: horizontal position of the center
+ * @cy: vertical position of the center
+ * @rx: horizontal radius
+ * @ry: vertical radius
+ * @th0: start angle, in radians
+ * @th1: end angle, in radians
+ *
+ * Adds a pie wedge to @path.
+ **/
 void
 go_path_pie_wedge (GOPath *path,
 		   double cx, double cy,
@@ -514,6 +599,18 @@ go_path_pie_wedge (GOPath *path,
 	_ring_wedge (path, cx, cy, rx, ry, 0.0, 0.0, th0, th1, FALSE);
 }
 
+/**
+ * go_path_arc:
+ * @path: a #GOPath
+ * @cx: horizontal position of the center
+ * @cy: vertical position of the center
+ * @rx: horizontal radius
+ * @ry: vertical radius
+ * @th0: start angle, in radians
+ * @th1: end angle, in radians
+ *
+ * Adds an elliptical arc to @path as a new subpath.
+ **/
 void
 go_path_arc (GOPath *path,
 	     double cx, double cy,
@@ -523,6 +620,18 @@ go_path_arc (GOPath *path,
 	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1, FALSE);
 }
 
+/**
+ * go_path_arc_to:
+ * @path: a #GOPath
+ * @cx: horizontal position of the center
+ * @cy: vertical position of the center
+ * @rx: horizontal radius
+ * @ry: vertical radius
+ * @th0: start angle, in radians
+ * @th1: end angle, in radians
+ *
+ * Adds an elliptical arc to @path connected to the current point.
+ **/
 void
 go_path_arc_to (GOPath *path,
 		double cx, double cy,
@@ -532,6 +641,16 @@ go_path_arc_to (GOPath *path,
 	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1, TRUE);
 }
 
+/**
+ * go_path_rectangle:
+ * @path: a #GOPath
+ * @x: horizontal position of the upper left corner
+ * @y: vertical position of the upper left corner
+ * @width: width
+ * @height: height
+ *
+ * Adds a closed rectangle to @path.
+ **/
 void
 go_path_rectangle (GOPath *path,
 		   double x, double y,

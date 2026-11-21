@@ -3913,13 +3913,13 @@ gog_axis_bound_changed (GogAxis *axis, G_GNUC_UNUSED GogObject *contrib)
 	gog_object_request_update (GOG_OBJECT (axis));
 }
 
-/*
+/**
  * gog_axis_data_get_bounds:
  * @axis: (nullable): the axis for which the data applies
  * @data: the data to get bounds for
  * @minimum: smallest valid data value.
  * @maximum: largest valid data value.
- */
+ **/
 void
 gog_axis_data_get_bounds (GogAxis *axis, GOData *data,
 			  double *minimum, double *maximum)
@@ -3943,7 +3943,7 @@ gog_axis_data_get_bounds (GogAxis *axis, GOData *data,
 		go_data_get_bounds (data, minimum, maximum);
 }
 
-/*
+/**
  * gog_axis_is_zero_important:
  * @axis: the axis to check
  *
@@ -3952,7 +3952,7 @@ gog_axis_data_get_bounds (GogAxis *axis, GOData *data,
  *
  * This generally means a linear axis, i.e., not a log axis and not a
  * date formatted axis.
- */
+ **/
 gboolean
 gog_axis_is_zero_important (GogAxis *axis)
 {
@@ -4022,7 +4022,7 @@ gog_axis_get_polar_unit (GogAxis *axis)
 }
 
 /**
- * gog_axis_get_circular_perimeter:
+ * gog_axis_get_polar_perimeter:
  * @axis: a #GogAxis
  *
  * Returns: perimeter of a circular #GogAxis of a polar axis set.

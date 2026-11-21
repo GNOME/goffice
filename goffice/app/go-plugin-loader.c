@@ -46,6 +46,12 @@
  * @unload_service_plugin_loader: unloads a plugin loader service.
  **/
 
+/**
+ * go_plugin_loader_is_base_loaded:
+ * @l: a #GOPluginLoader
+ *
+ * Returns: %TRUE if the base of @l has been loaded.
+ **/
 gboolean
 go_plugin_loader_is_base_loaded (GOPluginLoader *loader)
 {
@@ -75,6 +81,14 @@ go_plugin_loader_set_plugin (GOPluginLoader *l, GOPlugin *p)
 	g_object_set_data (G_OBJECT (l), "plugin", p);
 }
 
+/**
+ * go_plugin_loader_set_attributes:
+ * @l: a #GOPluginLoader
+ * @attrs: the module attributes
+ * @err: (out) (nullable): location to store error information
+ *
+ * Sets the attributes of the module loaded by @l.
+ **/
 void
 go_plugin_loader_set_attributes (GOPluginLoader *loader, GHashTable *attrs,
 				 GOErrorInfo **err)
@@ -88,6 +102,13 @@ go_plugin_loader_set_attributes (GOPluginLoader *loader, GHashTable *attrs,
 		*err = go_error_info_new_printf (_("Loader has no set_attributes method.\n"));
 }
 
+/**
+ * go_plugin_loader_load_base:
+ * @l: a #GOPluginLoader
+ * @err: (out) (nullable): location to store error information
+ *
+ * Loads the base of @l without activating any service.
+ **/
 void
 go_plugin_loader_load_base (GOPluginLoader *loader, GOErrorInfo **err)
 {
@@ -105,6 +126,13 @@ go_plugin_loader_load_base (GOPluginLoader *loader, GOErrorInfo **err)
 		g_object_set_data (G_OBJECT (loader), "is-base-loaded", GINT_TO_POINTER (1));
 }
 
+/**
+ * go_plugin_loader_unload_base:
+ * @l: a #GOPluginLoader
+ * @err: (out) (nullable): location to store error information
+ *
+ * Unloads the base of @l if possible.
+ **/
 void
 go_plugin_loader_unload_base (GOPluginLoader *loader, GOErrorInfo **err)
 {
@@ -120,6 +148,14 @@ go_plugin_loader_unload_base (GOPluginLoader *loader, GOErrorInfo **err)
 	}
 }
 
+/**
+ * go_plugin_loader_load_service:
+ * @l: a #GOPluginLoader
+ * @s: the #GOPluginService to load
+ * @err: (out) (nullable): location to store error information
+ *
+ * Loads the service @s using @l.
+ **/
 void
 go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
@@ -158,6 +194,14 @@ go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, GOErrorInf
 	}
 }
 
+/**
+ * go_plugin_loader_unload_service:
+ * @l: a #GOPluginLoader
+ * @s: the #GOPluginService to unload
+ * @err: (out) (nullable): location to store error information
+ *
+ * Unloads the service @s using @l, if possible.
+ **/
 void
 go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
@@ -201,6 +245,11 @@ go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, GOErrorI
 		*err = error;
 }
 
+/**
+ * go_plugin_loader_get_type:
+ *
+ * Returns: the #GType for #GOPluginLoader.
+ **/
 GType
 go_plugin_loader_get_type (void)
 {
