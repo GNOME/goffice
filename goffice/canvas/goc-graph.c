@@ -233,8 +233,14 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 		gog_renderer_update (graph->renderer, graph->w, graph->h);
 	}
 	surf = gog_renderer_get_cairo_surface (graph->renderer);
-	cairo_set_source_surface (cr, surf, 0., 0.);
-	cairo_paint (cr);
+	if (surf) {
+		cairo_set_source_surface (cr, surf, 0., 0.);
+		cairo_paint (cr);
+	} else {
+		// Nothing has been rendered yet, which is the case while the
+		// item still has no size (e.g., a graph that is being
+		// inserted and has not been given its bounds yet).
+	}
 	cairo_restore (cr);
 }
 
