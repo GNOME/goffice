@@ -149,7 +149,6 @@ go_graph_widget_draw (GtkWidget *widget, cairo_t *cairo)
 	GOGraphWidget *w = GO_GRAPH_WIDGET (widget);
 	cairo_surface_t *surface;
 
-
 	surface = gog_renderer_get_cairo_surface (w->renderer);
 	if (surface != NULL) {
 		int scale = gtk_widget_get_scale_factor (widget);
@@ -277,7 +276,7 @@ go_graph_widget_request_update (GOGraphWidget *w)
 {
 	if (!w->idle_id)
 		w->idle_id = g_idle_add_full (GDK_PRIORITY_REDRAW - 20,
-						   (GSourceFunc) idle_handler, w, NULL);
+					      (GSourceFunc) idle_handler, w, NULL);
 }
 
 static void
@@ -311,7 +310,7 @@ go_graph_widget_set_property (GObject *obj, guint param_id,
 
 static void
 go_graph_widget_get_property (GObject *obj, guint param_id,
-			     GValue *value, GParamSpec *pspec)
+			      GValue *value, GParamSpec *pspec)
 {
 	GOGraphWidget *w = GO_GRAPH_WIDGET (obj);
 
@@ -517,7 +516,8 @@ go_graph_widget_get_chart (GOGraphWidget *widget)
  *
  * Returns: (transfer none): the #GogRenderer used by the widget.
  **/
-GogRenderer *go_graph_widget_get_renderer (GOGraphWidget *widget)
+GogRenderer *
+go_graph_widget_get_renderer (GOGraphWidget *widget)
 {
 	g_return_val_if_fail (GO_IS_GRAPH_WIDGET (widget), NULL);
 	return widget->renderer;
