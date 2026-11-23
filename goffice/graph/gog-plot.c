@@ -213,7 +213,8 @@ cb_axis_changed (GtkComboBox *combo, GogPlot *plot)
 	GtkTreeModel *model = gtk_combo_box_get_model (combo);
 
 	memset (&value, 0, sizeof (GValue));
-	gtk_combo_box_get_active_iter (combo, &iter);
+	if (!gtk_combo_box_get_active_iter (combo, &iter))
+		return;
 	gtk_tree_model_get_value (model, &iter, 1, &value);
 	gog_plot_set_axis_by_id (plot,
 				 GPOINTER_TO_UINT (g_object_get_data (G_OBJECT(combo), "axis-type")),
@@ -589,7 +590,7 @@ gog_plot_new_series (GogPlot *plot)
 
 	g_return_val_if_fail (GOG_IS_PLOT (plot), NULL);
 
-	res = gog_object_add_by_name (GOG_OBJECT (plot), "Series", NULL);
+	res = gog_object_add_by_name2 (GOG_OBJECT (plot), "Series", NULL);
 	return res ? GOG_SERIES (res) : NULL;
 }
 
@@ -671,7 +672,8 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 		while (children) {
 			if (GOG_IS_TREND_LINE (children->data)) {
 				j++;
-				if (!gog_trend_line_has_legend (GOG_TREND_LINE (children->data)))
+				if (!plot->vary_style_by_element &&
+				    !gog_trend_line_has_legend (GOG_TREND_LINE (children->data)))
 					no_legend++;
 			}
 			children = children->next;
@@ -680,7 +682,8 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 
 	plot->full_cardinality =
 		plot->vary_style_by_element ? size : (j - plot->index_num);
-	plot->visible_cardinality = plot->full_cardinality - no_legend;
+	plot->visible_cardinality = plot->full_cardinality -
+		MIN (no_legend, plot->full_cardinality);
 }
 
 /**
@@ -732,12 +735,14 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	GOData *labels;
 	unsigned i, n, num_labels = 0;
 	char *label = NULL;
-	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
-	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	GogTheme *theme;
+	GogPlotClass *klass;
 	GList *overrides;
 	PangoAttrList *pl;
 
 	g_return_if_fail (GOG_IS_PLOT (plot));
+	theme = gog_object_get_theme (GOG_OBJECT (plot));
+	klass = GOG_PLOT_GET_CLASS (plot);
 	if (!plot->cardinality_valid)
 		gog_plot_get_cardinality (plot, NULL, NULL);
 
@@ -771,7 +776,8 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 			children = GOG_OBJECT (ptr->data)->children;
 			while (children) {
 				if (GOG_IS_TREND_LINE (children->data) &&
-				    gog_trend_line_has_legend (GOG_TREND_LINE (children->data))) {
+				    (!only_visible ||
+				     gog_trend_line_has_legend (GOG_TREND_LINE (children->data)))) {
 					func (i, go_styled_object_get_style (children->data),
 					      gog_object_get_name (children->data), NULL, data);
 					i++;
@@ -851,10 +857,11 @@ GOData *
 gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 			  GogPlotBoundInfo *bounds)
 {
-	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	GogPlotClass *klass;
 
-	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (GOG_IS_PLOT (plot), NULL);
 	g_return_val_if_fail (bounds != NULL, NULL);
+	klass = GOG_PLOT_GET_CLASS (plot);
 
 	bounds->val.minima =  DBL_MAX;
 	bounds->val.maxima = -DBL_MAX;
@@ -979,11 +986,12 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 gboolean
 gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 {
-	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	GogPlotClass *klass;
 	GogChart const *chart;
 	GogAxisType type;
 
-	g_return_val_if_fail (klass != NULL, FALSE);
+	g_return_val_if_fail (GOG_IS_PLOT (plot), FALSE);
+	klass = GOG_PLOT_GET_CLASS (plot);
 
 	chart = gog_plot_get_chart (plot);
 	for (type = 0 ; type < GOG_AXIS_TYPES ; type++) {
@@ -1058,8 +1066,9 @@ gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
 void
 gog_plot_update_3d (GogPlot *plot)
 {
-	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	GogPlotClass *klass;
 	g_return_if_fail (GOG_IS_PLOT (plot));
+	klass = GOG_PLOT_GET_CLASS (plot);
 
 	if (klass->update_3d)
 		klass->update_3d (plot);
@@ -1078,7 +1087,7 @@ gog_plot_guru_helper_add_grid_line (GogPlot *plot, gboolean major)
 		    plot->axis[type] != NULL &&
 		    gog_axis_get_grid_line (plot->axis[type], major) == NULL)
 		{
-			gog_object_add_by_name (GOG_OBJECT (plot->axis[type]),
+			gog_object_add_by_name2 (GOG_OBJECT (plot->axis[type]),
 						major ? "MajorGrid": "MinorGrid", NULL);
 		}
 	}
@@ -1111,7 +1120,7 @@ gog_plot_guru_helper (GogPlot *plot)
 		if (strcmp (hints[i], "backplane") == 0) {
 			GogChart *chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (plot)));
 			if (chart != NULL && gog_chart_get_grid (chart) == NULL)
-				gog_object_add_by_name (GOG_OBJECT (chart), "Backplane", NULL);
+				gog_object_add_by_name2 (GOG_OBJECT (chart), "Backplane", NULL);
 		} else if (strcmp (hints[i], "major-grid") == 0) {
 			gog_plot_guru_helper_add_grid_line (plot, TRUE);
 		} else if (strcmp (hints[i], "minor-grid") == 0) {
@@ -1335,7 +1344,9 @@ GSF_CLASS_ABSTRACT (GogPlotView, gog_plot_view,
 int
 gog_plot_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)
 {
-	GogPlotViewClass *klass = GOG_PLOT_VIEW_GET_CLASS (view);
-	g_return_val_if_fail (klass != NULL, -1);
+	GogPlotViewClass *klass;
+
+	g_return_val_if_fail (GOG_IS_PLOT_VIEW (view), -1);
+	klass = GOG_PLOT_VIEW_GET_CLASS (view);
 	return (klass->get_data_at_point)? klass->get_data_at_point (view, x, y, series): -1;
 }

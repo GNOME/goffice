@@ -230,8 +230,10 @@ gog_tool_move_object_init (GogToolAction *action)
 
 	if ((gog_object_get_position_flags (action->view->model, GOG_POSITION_MANUAL) &
 	     GOG_POSITION_MANUAL) == 0) {
-		data->start_position.x = action->view->allocation.x / data->parent_allocation.w;
-		data->start_position.y = action->view->allocation.y / data->parent_allocation.h;
+		/* gog_object_get_manual_allocation() measures against the
+		 * parent's origin, not the renderer's.  */
+		data->start_position.x = (action->view->allocation.x - data->parent_allocation.x) / data->parent_allocation.w;
+		data->start_position.y = (action->view->allocation.y - data->parent_allocation.y) / data->parent_allocation.h;
 		data->start_position.w = action->view->allocation.w / data->parent_allocation.w;
 		data->start_position.h = action->view->allocation.h / data->parent_allocation.h;
 	}
@@ -305,8 +307,10 @@ gog_tool_resize_object_move (GogToolAction *action, double x, double y)
 
 	position.x = data->start_position.x;
 	position.y = data->start_position.y;
-	position.w = data->start_position.w + (x - action->start_x) / data->parent_allocation.w;
-	position.h = data->start_position.h + (y - action->start_y) / data->parent_allocation.h;
+	position.w = MAX (0., data->start_position.w +
+			       (x - action->start_x) / data->parent_allocation.w);
+	position.h = MAX (0., data->start_position.h +
+			       (y - action->start_y) / data->parent_allocation.h);
 	gog_object_set_manual_position (action->view->model, &position);
 	gog_object_set_position_flags (action->view->model, GOG_POSITION_MANUAL, GOG_POSITION_MANUAL);
 }
@@ -1147,7 +1151,8 @@ gog_view_size_child_request (GogView *view,
 			} else if (min_req->w < child_req.w)
 				min_req->w = child_req.w;
 
-		} else if (!(GOG_POSITION_IS_SPECIAL (pos)))
+		} else if (!(GOG_POSITION_IS_SPECIAL (pos)) &&
+			   !(pos & GOG_POSITION_PADDING))
 			g_warning ("[GogView::size_child_request] unexpected position %x for child %p of %p",
 				   pos, child, view);
 	}
@@ -1281,6 +1286,7 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
 
 	for (ptr = gog_view_get_toolkit (view); ptr != NULL; ptr = ptr->next) {
 		current_tool = ptr->data;
+		current_gobj = NULL;
 		if (current_tool->point != NULL &&
 		    (current_tool->point) (view, x, y, &current_gobj)) {
 			if (gobj != NULL)

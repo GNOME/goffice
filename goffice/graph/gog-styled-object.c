@@ -75,14 +75,14 @@ gog_styled_object_document_changed (GogObject *obj, GODoc *doc)
 		char *id = NULL;
 		/* remove the (nnn) modifier if any */
 		if (cur_id) {
-			int i = strlen (cur_id) - 1;
+			int i = strlen (cur_id);
 			id = g_strdup (cur_id);
-			if (id[i] == ')') {
+			if (i > 0 && id[i - 1] == ')') {
 				i--;
-				while (id[i] >= '0' && id[i] <= '9')
+				while (i > 0 && id[i - 1] >= '0' && id[i - 1] <= '9')
 					i--;
-				if (id[i] == '(')
-					id[i] = 0;
+				if (i > 0 && id[i - 1] == '(')
+					id[i - 1] = 0;
 			}
 		}
 		image = go_doc_add_image (doc, id, style->fill.image.image);

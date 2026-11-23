@@ -333,11 +333,13 @@ cb_graph_guru_add_plot (GtkWidget *widget, GogChildButton *child_button)
 	GogPlot *plot = gog_plot_new_by_type (type);
 	Addition *addition = g_object_get_data (G_OBJECT (widget), ADDITION_KEY);
 
-	gog_object_add_by_name (GOG_OBJECT (addition->parent), "Plot", GOG_OBJECT (plot));
+	if (gog_object_add_by_name2 (GOG_OBJECT (addition->parent), "Plot",
+				     GOG_OBJECT (plot)) == NULL)
+		return;      /* @plot has been consumed */
 	gog_plot_guru_helper (plot);
 
 	/* as a convenience add a series to the newly created plot */
-	gog_object_add_by_name (GOG_OBJECT (plot), "Series", NULL);
+	gog_object_add_by_name2 (GOG_OBJECT (plot), "Series", NULL);
 
 	gog_child_button_popdown (child_button);
 }
@@ -414,7 +416,7 @@ cb_graph_guru_add_trend_line (GtkWidget *widget, GogChildButton *child_button)
 	GogTrendLine *line = gog_trend_line_new_by_type (type);
 	Addition *addition = g_object_get_data (G_OBJECT (widget), ADDITION_KEY);
 
-	gog_object_add_by_name (GOG_OBJECT (addition->parent),
+	gog_object_add_by_name2 (GOG_OBJECT (addition->parent),
 				"Trend line", GOG_OBJECT (line));
 
 	gog_child_button_popdown (child_button);
@@ -460,7 +462,7 @@ cb_graph_guru_add_item (GtkWidget *widget, GogChildButton *child_button)
 {
 	Addition *addition = g_object_get_data (G_OBJECT (widget), ADDITION_KEY);
 
-	gog_object_add_by_role (addition->parent, addition->role, NULL);
+	gog_object_add_by_role2 (addition->parent, addition->role, NULL);
 
 	gog_child_button_popdown (child_button);
 }

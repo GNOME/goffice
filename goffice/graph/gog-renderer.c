@@ -99,7 +99,7 @@ struct _GogRenderer {
 	GOMarker	*marker;
 };
 
-typedef struct {
+typedef struct _GogRendererClass {
 	GObjectClass base;
 
 	/* Signals */
@@ -661,7 +661,7 @@ _draw_circle (GogRenderer *rend, double x, double y, double r, gboolean fill, gb
 	} else
 		o = o_2 = 0.;
 
-	go_path_arc (path, x, y, r, r, 0, 2 * M_PI);
+	go_path_arc (path, x, y, MAX (0., r - o_2), MAX (0., r - o_2), 0, 2 * M_PI);
 
 	_draw_shape (rend, path, fill, stroke && !narrow);
 
@@ -1292,10 +1292,12 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 	pango_layout_set_text (layout, elt->str->str, -1);
 	attrs = pango_attr_list_copy (go_string_get_markup (elt->str));
 	pango_layout_set_font_description (layout, style->font.font->desc);
-	if (attrs)
+	if (attrs) {
 		pango_layout_set_attributes (layout, attrs);
+		go_pango_translate_layout (layout);
+	}
 	pango_cairo_context_set_resolution (context, 72.0);
-	if (elt->legend_pos >= 0) {
+	if (elt->legend_pos >= 0 && legend_style != NULL) {
 		/* we need to add enough room to draw the legend entry */
 		PangoAttribute *attr;
 		rect.x = rect.y = 0;
@@ -1307,6 +1309,7 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 		attr->end_index = elt->legend_pos + 1;
 		pango_attr_list_insert (attrs, attr);
 		pango_layout_set_attributes (layout, attrs);
+		go_pango_translate_layout (layout);
 	}
 	/*now get the real size */
 	pango_layout_get_extents (layout, &ir, &lr);
@@ -1323,7 +1326,7 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 	obr.y = pos->y;
 	go_geometry_OBR_to_AABR (&obr, &aabr);
 
-	w = ((style->interesting_fields | GO_STYLE_LINE) && (style->line.width > 0.))?
+	w = ((style->interesting_fields & GO_STYLE_LINE) && (style->line.width > 0.))?
 			gog_renderer_line_size (rend, style->line.width): 1.; 
 	switch (anchor) {
 		case GO_ANCHOR_NW: case GO_ANCHOR_W: case GO_ANCHOR_SW:
@@ -1359,8 +1362,8 @@ gog_renderer_draw_data_label (GogRenderer *rend, GogSeriesLabelElt const *elt,
 		GOPath *path = go_path_new ();
 		double	dx = ((double) ir.width / PANGO_SCALE + 2.) * rend->scale,
 				dy = ((double) ir.height / PANGO_SCALE + 2.) * rend->scale,
-				x0 = (double) ir.x / PANGO_SCALE - 1.,
-				y0 = (double) ir.y / PANGO_SCALE - 1.;
+				x0 = ((double) ir.x / PANGO_SCALE - 1.) * rend->scale,
+				y0 = ((double) ir.y / PANGO_SCALE - 1.) * rend->scale;
 		go_path_move_to (path, x0 - w / 2., y0 - w / 2.);
 		go_path_line_to (path, x0 + dx + w / 2., y0 - w / 2.);
 		go_path_line_to (path, x0 + dx + w / 2., y0 + dy + w / 2.);
@@ -1553,6 +1556,8 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 	if (w <= 0 || h <= 0)
 		return FALSE;
 	g_return_val_if_fail (GOG_IS_RENDERER (rend), FALSE);
+	if (!GOG_IS_GRAPH (rend->model))
+		return FALSE;
 	g_return_val_if_fail (GOG_IS_VIEW (rend->view), FALSE);
 
 	size_changed = rend->w != w || rend->h != h;
@@ -1841,7 +1846,7 @@ do_export_vectorial:
 			break;
 		default:
 			format_info = go_image_get_format_info (format);
-			if (!format_info->has_pixbuf_saver) {
+			if (format_info == NULL || !format_info->has_pixbuf_saver) {
 				g_warning ("[GogRendererCairo:export_image] unsupported format");
 				return FALSE;
 			}

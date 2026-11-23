@@ -265,6 +265,12 @@ gog_dataset_parent_changed (GogDataset *set, gboolean was_set)
 		gog_object_request_update (GOG_OBJECT (set));
 }
 
+static void
+free_string_array (gpointer data)
+{
+	g_strfreev ((char **) data);
+}
+
 /**
  * gog_dataset_dup_to_simple:
  * @src: source #GogDataset
@@ -337,7 +343,7 @@ gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 							str[i] = go_data_get_vector_string (src_dat, i);
 
 						dst_dat = go_data_vector_str_new ((char const* const*) str,
-										  n, g_free);
+										  n, free_string_array);
 					}
 				}
 				break;

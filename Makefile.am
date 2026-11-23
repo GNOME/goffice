@@ -1,6 +1,7 @@
 # Makefile.am for goffice
 
-SUBDIRS = po goffice tests plugins mmlitex docs tools
+# Keep tests last
+SUBDIRS = po goffice plugins mmlitex docs tools tests
 
 itsdir = $(datadir)/gettext/its
 its_DATA = its/goffice-plugin.its its/goffice-plugin.loc

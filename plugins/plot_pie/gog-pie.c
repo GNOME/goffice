@@ -615,7 +615,7 @@ gog_tool_move_pie_double_click (GogToolAction *action)
 	if (obj == NULL) {
 		obj = g_object_new (gog_pie_series_element_get_type (),
 				    "index", index, NULL);
-		gog_object_add_by_name (GOG_OBJECT (series), "Point", obj);
+		gog_object_add_by_name2 (GOG_OBJECT (series), "Point", obj);
 	}
 }
 

@@ -3492,7 +3492,9 @@ GogObjectNamingConv
 GogObjectRole
 GogObjectPosition
 gog_object_add_by_name
+gog_object_add_by_name2
 gog_object_add_by_role
+gog_object_add_by_role2
 gog_object_can_reorder
 gog_object_clear_parent
 gog_object_document_changed

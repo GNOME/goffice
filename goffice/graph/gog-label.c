@@ -637,8 +637,12 @@ gog_reg_eqn_type_name (G_GNUC_UNUSED GogObject const *gobj)
 static char *
 gog_reg_eqn_get_str (GogText *text)
 {
-	GogRegCurve *reg_curve = GOG_REG_CURVE ((GOG_OBJECT (text))->parent);
+	GogRegCurve *reg_curve;
 	GogRegEqn *reg_eqn = GOG_REG_EQN (text);
+
+	if (!GOG_IS_REG_CURVE ((GOG_OBJECT (text))->parent))
+		return NULL;
+	reg_curve = GOG_REG_CURVE ((GOG_OBJECT (text))->parent);
 
 	if (!reg_eqn->show_r2)
 		return reg_eqn->show_eq ?

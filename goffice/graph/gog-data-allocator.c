@@ -154,5 +154,6 @@ gog_data_editor_set_value_double (GogDataEditor *editor, double val,
 	g_return_if_fail (GOG_IS_DATA_EDITOR (editor));
 
 	klass = GOG_DATA_EDITOR_GET_CLASS (editor);
-	klass->set_value_double (editor, val, date_conv);
+	if (klass->set_value_double != NULL)
+		klass->set_value_double (editor, val, date_conv);
 }

@@ -405,7 +405,7 @@ save_series_style_cb (GOPersist *gp, GsfXMLOut *output)
 	gsf_xml_out_end_element (output);
 }
 
-static void gog_theme_save (GogTheme const *theme);
+static gboolean gog_theme_save (GogTheme const *theme);
 
 static void
 gog_theme_build_uri (GogTheme *theme)
@@ -429,8 +429,8 @@ gog_theme_sax_save (GOPersist const *gp, GsfXMLOut *output)
 	if (output == NULL) {
 		g_return_if_fail (theme->uri == NULL);
 		gog_theme_build_uri (theme);
-		theme->type = GO_RESOURCE_RW;
-		gog_theme_save (theme);
+		if (gog_theme_save (theme))
+			theme->type = GO_RESOURCE_RW;
 		return;
 	}
 	gsf_xml_out_add_cstr (output, "id", theme->id);
@@ -438,6 +438,11 @@ gog_theme_sax_save (GOPersist const *gp, GsfXMLOut *output)
 	g_hash_table_foreach (theme->descs, (GHFunc) save_desc_cb, output);
 	g_hash_table_foreach (theme->elem_hash_by_class, (GHFunc) save_elem_cb, output);
 	g_hash_table_foreach (theme->elem_hash_by_role, (GHFunc) save_elem_cb, output);
+	if (theme->default_style) {
+		gsf_xml_out_start_element (output, "GOStyle");
+		go_persist_sax_save (GO_PERSIST (theme->default_style), output);
+		gsf_xml_out_end_element (output);
+	}
 	if (theme->palette)
 		g_ptr_array_foreach (theme->palette, (GFunc) save_series_style_cb, output);
 	if (theme->cm && gog_axis_color_map_get_resource_type (theme->cm) == GO_RESOURCE_CHILD) {
@@ -454,16 +459,23 @@ gog_theme_sax_save (GOPersist const *gp, GsfXMLOut *output)
 	}
 }
 
-static void
+static gboolean
 gog_theme_save (GogTheme const *theme)
 {
 	GsfOutput *output = gsf_output_gio_new_for_uri (theme->uri, NULL);
-	GsfXMLOut *xml = gsf_xml_out_new (output);
+	GsfXMLOut *xml;
+
+	if (output == NULL) {
+		g_warning ("[GogTheme]: Could not open %s for writing", theme->uri);
+		return FALSE;
+	}
+	xml = gsf_xml_out_new (output);
 	gsf_xml_out_start_element (xml, "GogTheme");
 	gog_theme_sax_save (GO_PERSIST (theme), xml);
 	gsf_xml_out_end_element (xml);
 	g_object_unref (xml);
 	g_object_unref (output);
+	return TRUE;
 }
 
 /**
@@ -478,8 +490,8 @@ gog_theme_save_to_home_dir (GogTheme *theme)
 {
 	g_return_if_fail (GOG_IS_THEME (theme) && theme->type == GO_RESOURCE_EXTERNAL && theme->uri == NULL);
 	gog_theme_build_uri (theme);
-	gog_theme_save (theme);
-	theme->type = GO_RESOURCE_RW;
+	if (gog_theme_save (theme))
+		theme->type = GO_RESOURCE_RW;
 }
 
 /**************
@@ -493,6 +505,7 @@ struct theme_load_state {
 	unsigned desc_lang_score;
 	char const * const *langs;
 	GSList *garbage;
+	gboolean palette_started;
 };
 
 static void
@@ -517,8 +530,10 @@ name_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->theme->name) /* the theme has already been loaded from elsewhere */
 		return;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (CXML2C (attrs[i]), "xml:lang"))
+		if (0 == strcmp (CXML2C (attrs[i]), "xml:lang")) {
+			g_free (state->lang);
 			state->lang = g_strdup (CXML2C (attrs[i+1]));
+		}
 }
 
 static void
@@ -528,8 +543,11 @@ name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	char *name = NULL;
 	if (state->theme->name) /* the theme has already been loaded from elsewhere */
 		return;
-	if (xin->content->str == NULL)
+	if (xin->content->str == NULL) {
+		g_free (state->lang);
+		state->lang = NULL;
 		return;
+	}
 	name = g_strdup (xin->content->str);
 	if (state->lang == NULL)
 		state->lang = g_strdup ("C");
@@ -554,8 +572,11 @@ desc_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	char *desc = NULL;
 	if (state->theme->name) /* the theme has already been loaded from elsewhere */
 		return;
-	if (xin->content->str == NULL)
+	if (xin->content->str == NULL) {
+		g_free (state->lang);
+		state->lang = NULL;
 		return;
+	}
 	desc = g_strdup (xin->content->str);
 	if (state->lang == NULL)
 		state->lang = g_strdup ("C");
@@ -609,7 +630,7 @@ static GogThemeRoles roles[] = {
 #ifdef GOFFICE_WITH_LASEM
 	{"GogEquation", NULL, N_("Equation"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_EQUATION},
 #endif
-	{"GogSeriesLine", NULL, N_("Series lines"), GO_STYLE_LINE, SNAPSHOT_SERIESLINES},
+	{"GogSeriesLines", NULL, N_("Series lines"), GO_STYLE_LINE, SNAPSHOT_SERIESLINES},
 	{"GogSeries", NULL, N_("Series"), GO_STYLE_LINE | GO_STYLE_FILL | GO_STYLE_MARKER, SNAPSHOT_SERIES},
 	{"GogSeriesLabels", NULL, N_("Series labels"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_SERIESLABELS},
 	{"GogDataLabel", NULL, N_("Data label"), GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT, SNAPSHOT_SERIESLABELS},
@@ -698,6 +719,18 @@ elem_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	go_persist_prep_sax (GO_PERSIST (style), xin, attrs);
 
 	if (class_name && !strcmp (class_name, "GogSeries")) {
+		if (!state->palette_started) {
+			/* A re-parse replaces the palette; don't append to
+			 * entries left over from a previous parse.  */
+			state->palette_started = TRUE;
+			if (state->theme->palette != NULL) {
+				unsigned j;
+				for (j = 0; j < state->theme->palette->len; j++)
+					g_object_unref (g_ptr_array_index (state->theme->palette, j));
+				g_ptr_array_free (state->theme->palette, TRUE);
+				state->theme->palette = NULL;
+			}
+		}
 		if (state->theme->palette ==  NULL)
 			state->theme->palette = g_ptr_array_new ();
 		g_ptr_array_add (state->theme->palette, style);
@@ -800,7 +833,8 @@ theme_loaded (struct theme_load_state *state)
 			g_free (colors);
 		} else {
 			GogTheme *theme = gog_theme_registry_lookup ("Default");
-			state->theme->dcm = g_object_ref (theme->dcm);
+			if (theme != NULL && theme->dcm != NULL)
+				state->theme->dcm = g_object_ref (theme->dcm);
 		}
 	}
 	state->theme->name = state->name;
@@ -837,6 +871,7 @@ gog_theme_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 	state->name_lang_score = G_MAXINT;
 	state->desc_lang_score = G_MAXINT;
 	state->garbage = NULL;
+	state->palette_started = FALSE;
 	if (!xml)
 		xml = gsf_xml_in_doc_new (theme_dtd, NULL);
 	gsf_xml_in_push_state (xin, xml, state, (GsfXMLInExtDtor) parse_done_cb, attrs);
@@ -1409,6 +1444,7 @@ build_predefined_themes (void)
 
 	/* data label */
 	style = go_style_new ();
+	go_style_clear_auto (style);
 	style->line.dash_type = GO_LINE_NONE;
 	style->line.width = 0; /* none */
 	style->line.color = GO_COLOR_BLACK;
@@ -1630,6 +1666,7 @@ theme_load_from_uri (char const *uri)
 	state.theme = NULL;
 	state.desc = state.lang = state.name = NULL;
 	state.garbage = NULL;
+	state.palette_started = FALSE;
 	state.langs = g_get_language_names ();
 	state.name_lang_score = state.desc_lang_score = G_MAXINT;
 	if (!xml)
@@ -1651,8 +1688,10 @@ theme_load_from_uri (char const *uri)
 				char *name = g_hash_table_lookup (state.theme->names, "C");
 				if (name)
 					state.theme->id = g_strdup (name);
-				else
+				else {
 					g_warning ("[GogTheme]: Theme with no Id in %s", uri);
+					state.theme->id = go_uuid ();
+				}
 			}
 			state.theme->type = GO_RESOURCE_RO;
 		}
@@ -1743,10 +1782,10 @@ gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
 {
 	g_return_val_if_fail (GOG_IS_THEME (theme), NULL);
 	if (discrete)
-		return theme->dcm;
+		return (theme->dcm)? theme->dcm:
+			(theme->cm? theme->cm: _gog_axis_color_map_get_default ());
 	else
 		return (theme->cm)? theme->cm: _gog_axis_color_map_get_default ();
-	return NULL;
 }
 
 /**
@@ -1764,8 +1803,16 @@ gog_theme_get_color_map (GogTheme const *theme, gboolean discrete)
 gboolean
 gog_theme_delete (GogTheme *theme)
 {
-	GFile *file = g_file_new_for_uri (theme->uri);
+	GFile *file;
 	gboolean res;
+
+	g_return_val_if_fail (GOG_IS_THEME (theme), FALSE);
+
+	/* Only themes stored in the user directory can be deleted.  */
+	if (theme->uri == NULL)
+		return FALSE;
+
+	file = g_file_new_for_uri (theme->uri);
 	if ((res = g_file_delete (file, NULL, NULL))) {
 		themes = g_slist_remove (themes, theme);
 		g_object_unref (theme);
@@ -1895,7 +1942,8 @@ create_toggled_cb (GtkListStore *list, char const *path)
 {
 	GtkTreeIter iter;
 	gboolean set;
-	gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (list), &iter, path);
+	if (!gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (list), &iter, path))
+		return;
 	gtk_tree_model_get (GTK_TREE_MODEL (list), &iter, 1, &set, -1);
 	gtk_list_store_set (list, &iter, 1, !set, -1);
 }
@@ -1916,6 +1964,7 @@ gog_theme_edit (GogTheme *theme, GOCmdContext *cc)
 {
 	struct theme_edit_state state;
 	GtkWidget *w;
+	gboolean created = FALSE;
 
 	if (!GOG_IS_THEME (theme)) {
 		/* display a dialog box to select used roles and series number */
@@ -1949,8 +1998,10 @@ gog_theme_edit (GogTheme *theme, GOCmdContext *cc)
 		g_object_unref (gui);
 		if (response == 1) {
 			theme = gog_theme_new (_("New theme"), FALSE);
+			g_free (theme->id);
 			theme->id = go_uuid ();
 			theme->type = GO_RESOURCE_RW;
+			created = TRUE;
 		} else
 			return NULL;
 	}
@@ -1963,6 +2014,11 @@ gog_theme_edit (GogTheme *theme, GOCmdContext *cc)
 	}
 	gtk_widget_destroy (w);
 	g_object_unref (state.gui);
+
+	/* This currently always returns NULL, so do not leak a theme we
+	 * created in the process.  */
+	if (created)
+		g_object_unref (theme);
 	return NULL;
 }
 

@@ -29,6 +29,8 @@ G_BEGIN_DECLS
 #define GOG_TYPE_EQUATION		(gog_equation_get_type ())
 #define GOG_EQUATION(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_EQUATION, GogEquation))
 #define GOG_IS_EQUATION(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_EQUATION))
+typedef struct _GogEquationClass GogEquationClass;
+
 #define GOG_EQUATION_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_EQUATION, GogEquationClass))
 
 GType gog_equation_get_type (void);

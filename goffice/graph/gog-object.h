@@ -153,9 +153,15 @@ gpointer     gog_object_get_editor	 (GogObject *obj,
 GogView	  *gog_object_new_view		 (GogObject const *obj, GogView *parent);
 gboolean   gog_object_is_deletable	 (GogObject const *obj);
 GSList    *gog_object_possible_additions (GogObject const *parent);
+GOFFICE_DEPRECATED_FOR (gog_object_add_by_role2)
 GogObject *gog_object_add_by_role	 (GogObject *parent,
 					  GogObjectRole const *role, GogObject *child);
+GOFFICE_DEPRECATED_FOR (gog_object_add_by_name2)
 GogObject   *gog_object_add_by_name	 (GogObject *parent,
+					  char const *role, GogObject *child);
+GogObject *gog_object_add_by_role2	 (GogObject *parent,
+					  GogObjectRole const *role, GogObject *child);
+GogObject   *gog_object_add_by_name2	 (GogObject *parent,
 					  char const *role, GogObject *child);
 void		  gog_object_can_reorder (GogObject const *obj,
 					  gboolean *inc_ok, gboolean *dec_ok);

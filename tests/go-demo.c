@@ -127,18 +127,22 @@ setup_page (GtkNotebook *notebook, const gchar *service_id)
 	label = (GogLabel *) g_object_new (GOG_TYPE_LABEL, NULL);
 	data = go_data_scalar_str_new (service_id, FALSE);
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
-	gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
-	/* Change the title font */
-	style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
-	desc = pango_font_description_from_string ("Sans bold 16");
-	go_style_set_font_desc (style, desc);
+	if (gog_object_add_by_name2 (GOG_OBJECT (graph), "Title",
+				     GOG_OBJECT (label)) != NULL) {
+		/* Change the title font */
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
+		desc = pango_font_description_from_string ("Sans bold 16");
+		go_style_set_font_desc (style, desc);
+	}
 	/* Get the chart created by the widget initialization */
 	chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
 	/* Create a plot and add it to the chart */
 	plot = (GogPlot *) gog_plot_new_by_name (service_id);
-	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
+	if (gog_object_add_by_name2 (GOG_OBJECT (chart), "Plot",
+				     GOG_OBJECT (plot)) == NULL)
+		return NULL;
 	/* Add a legend to the chart */
-	gog_object_add_by_name (GOG_OBJECT (chart), "Legend", NULL);
+	gog_object_add_by_name2 (GOG_OBJECT (chart), "Legend", NULL);
 
 	return plot;
 }

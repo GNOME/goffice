@@ -37,6 +37,8 @@ struct _GogGraph {
 	double	  width, height;
 
 	guint	  idle_handler;
+	guint	  theme_loaded_handler;
+	unsigned  theme_poll_count;
 
 	GHashTable *data_refs;
 

@@ -620,6 +620,7 @@ gog_series1_5d_populate_editor (GogObject *obj,
 	GogSeries *series = GOG_SERIES (obj);
 	GtkWidget * error_page;
 	gboolean horizontal;
+	GogErrorBarDirection direction;
 
 	(GOG_OBJECT_CLASS (gog_series1_5d_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 
@@ -630,7 +631,9 @@ gog_series1_5d_populate_editor (GogObject *obj,
 		horizontal = FALSE;
 	else
 		g_object_get (G_OBJECT (series->plot), "horizontal", &horizontal, NULL);
-	error_page = gog_error_bar_prefs (series, "errors", horizontal, dalloc, cc);
+	direction = horizontal ? GOG_ERROR_BAR_DIRECTION_HORIZONTAL :
+				 GOG_ERROR_BAR_DIRECTION_VERTICAL;
+	error_page = gog_error_bar_prefs (series, "errors", direction, dalloc, cc);
 	go_editor_add_page (editor, error_page, _("Error bars"));
 	g_object_unref (error_page);
 }

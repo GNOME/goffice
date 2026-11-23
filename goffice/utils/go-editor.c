@@ -283,7 +283,7 @@ go_editor_get_page (GOEditor *editor, char const *name)
 	GOEditorPage *page;
 	for (ptr = editor->pages; ptr; ptr = ptr->next) {
 		page = (GOEditorPage *) ptr->data;
-		if (strcmp (page->label, name))
+		if (!strcmp (page->label, name))
 			return page->widget;
 	}
 	return NULL;

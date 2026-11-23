@@ -385,7 +385,7 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 		g_param_spec_boolean ("default-style-has-fill",
 			_("Has fill by default"),
 			_("Should the default style of a series include fill"),
-			TRUE,
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_USE_SPLINES,
 		g_param_spec_boolean ("use-splines",
@@ -807,13 +807,13 @@ gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
 		g_param_spec_boolean ("default-style-has-lines",
 			_("Has lines by default"),
 			_("Should the default style of a series include lines"),
-			TRUE,
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_FILL,
 		g_param_spec_boolean ("default-style-has-fill",
 			_("Has fill by default"),
 			_("Should the default style of a series include fill"),
-			TRUE,
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_HIDE_OUTLIERS,
 		g_param_spec_boolean  ("hide-outliers",
@@ -2103,10 +2103,12 @@ gog_xy_series_populate_editor (GogObject *obj,
 		g_object_unref (gui);
 	}
 
-	w = gog_error_bar_prefs (GOG_SERIES (obj), "x-errors", TRUE, dalloc, cc);
+	w = gog_error_bar_prefs (GOG_SERIES (obj), "x-errors",
+				 GOG_ERROR_BAR_DIRECTION_HORIZONTAL, dalloc, cc);
 	go_editor_add_page (editor, w, _("X error bars"));
 	g_object_unref (w);
-	w = gog_error_bar_prefs (GOG_SERIES (obj), "y-errors", FALSE, dalloc, cc);
+	w = gog_error_bar_prefs (GOG_SERIES (obj), "y-errors",
+				 GOG_ERROR_BAR_DIRECTION_VERTICAL, dalloc, cc);
 	go_editor_add_page (editor, w, _("Y error bars"));
 	g_object_unref (w);
 }

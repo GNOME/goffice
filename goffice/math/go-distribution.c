@@ -288,6 +288,7 @@ go_distribution_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 			}
 			g_value_unset (&value);
 		}
+	g_free (props);
 }
 
 static void

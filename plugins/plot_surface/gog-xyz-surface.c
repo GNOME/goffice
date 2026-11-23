@@ -951,9 +951,9 @@ gog_xy_contour_plot_class_init (GogXYZPlotClass *klass)
 }
 
 static void
-gog_xy_contour_plot_init (GogXYMatrixPlot *plot)
+gog_xy_contour_plot_init (GogXYContourPlot *plot)
 {
-	gog_xyz_surface_plot_init (&plot->base);
+	gog_xyz_surface_plot_init (&plot->base.base);
 	plot->as_density = TRUE;
 }
 
@@ -1063,7 +1063,7 @@ gog_xy_surface_plot_class_init (GogXYZPlotClass *klass)
 }
 
 static void
-gog_xy_surface_plot_init (GogXYMatrixPlot *plot)
+gog_xy_surface_plot_init (GogXYSurfacePlot *plot)
 {
 	gog_xyz_surface_plot_init (&plot->base);
 	plot->as_density = TRUE;

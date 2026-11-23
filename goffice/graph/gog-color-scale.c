@@ -238,11 +238,16 @@ gog_color_scale_set_property (GObject *obj, guint param_id,
 		scale->width = g_value_get_double (value);
 		break;
 	case COLOR_SCALE_PROP_AXIS: {
-		GogChart *chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (obj)));
+		GogObject *parent = gog_object_get_parent (GOG_OBJECT (obj));
+		GogChart *chart = GOG_IS_CHART (parent) ? GOG_CHART (parent) : NULL;
 		char const *buf = g_value_get_string (value);
 		GogAxisType	 type;
 		int id;
 		GogAxis *axis;
+		if (buf == NULL)
+			buf = "";
+		if (chart == NULL)
+			break;
 		if (!strncmp (buf, "color", 5)) {
 			type = GOG_AXIS_COLOR;
 			buf += 5;
@@ -250,16 +255,18 @@ gog_color_scale_set_property (GObject *obj, guint param_id,
 			type = GOG_AXIS_PSEUDO_3D;
 			buf += 2;
 		} else {
+			size_t len;
 			unsigned index;
 			/* kludge: old file searching for 3D in all known locales */
 			type = (strstr (buf, "3D") != NULL || strstr (buf , "3d") !=NULL ||
 					strstr (buf, "3Д") != NULL || strstr (buf, "3Δ") != NULL ||
 					strstr (buf, "ترويسات متعلقة بالمحور") != NULL)?
 					GOG_AXIS_PSEUDO_3D: GOG_AXIS_COLOR;
-			index = strlen (buf) - 1;
-			while (index > 0 && buf[index] <= '9' && buf[index] >= '0')
+			len = strlen (buf);
+			index = len;
+			while (index > 0 && buf[index - 1] <= '9' && buf[index - 1] >= '0')
 				index--;
-			buf += index + 1;	
+			buf += index;
 		}
 		id = atoi (buf);
 		if (id < 1) /* this should not happen */
@@ -294,7 +301,9 @@ gog_color_scale_get_property (GObject *obj, guint param_id,
 		break;
 	case COLOR_SCALE_PROP_AXIS: {
 		char buf[16];
-		if (gog_axis_get_atype (scale->color_axis) == GOG_AXIS_COLOR)
+		if (scale->color_axis == NULL)
+			buf[0] = 0;
+		else if (gog_axis_get_atype (scale->color_axis) == GOG_AXIS_COLOR)
 			snprintf (buf, 16, "color%u", gog_object_get_id (GOG_OBJECT (scale->color_axis)));
 		else
 			snprintf (buf, 16, "3d%u", gog_object_get_id (GOG_OBJECT (scale->color_axis)));
@@ -435,12 +444,16 @@ gog_color_scale_view_size_request (GogView *v,
 	GogObjectPosition pos;
 	GogViewRequisition child_req;
 
+	if (scale->color_axis == NULL) {
+		req->w = req->h = 0.;
+		return;
+	}
 	gog_renderer_push_style (v->renderer, style);
 	gog_renderer_get_text_OBR (v->renderer, "0", TRUE, &txt_obr, -1.);
 	label_padding = txt_obr.h * .15;
 	nb_ticks = gog_axis_get_ticks (scale->color_axis, &ticks);
 	for (i = 0; i < nb_ticks; i++)
-		if (ticks[i].type == GOG_AXIS_TICK_MAJOR) {
+		if (ticks[i].type == GOG_AXIS_TICK_MAJOR && ticks[i].str != NULL) {
 			gog_renderer_get_gostring_AABR (v->renderer, ticks[i].str, &txt_aabr, 0.);
 			if (txt_aabr.w > max_width)
 				max_width = txt_aabr.w;
@@ -524,7 +537,7 @@ gog_color_scale_view_size_allocate (GogView *view, GogViewAllocation const *bbox
 			child_alloc.h = req.h;
 		} else {
 			g_warning ("[GogColorScaleView::size_allocate] unexpected position %x for child %p of %p",
-				   pos, child, view);
+				   child_pos, child, view);
 			continue;
 		}
 		gog_view_size_allocate (child, &child_alloc);
@@ -548,8 +561,16 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 	gboolean is_line_visible;
 	double min, max, first, last = 0., hf = 0., hl = 0.;
 	GOAnchorType anchor;
-	gboolean discrete = gog_axis_get_atype (scale->color_axis) == GOG_AXIS_PSEUDO_3D;
-	GogAxisColorMap const *cmap = gog_axis_get_color_map (scale->color_axis);
+	gboolean discrete;
+	GogAxisColorMap const *cmap;
+
+	if (scale->color_axis == NULL)
+		return;
+	discrete = gog_axis_get_atype (scale->color_axis) == GOG_AXIS_PSEUDO_3D;
+	cmap = gog_axis_get_color_map (scale->color_axis);
+	/* If the bounds are invalid the map below would divide by zero.  */
+	if (!gog_axis_get_bounds (scale->color_axis, &min, &max))
+		return;
 
 	gog_renderer_push_style (view->renderer, style);
 	nb_ticks = gog_axis_get_ticks (scale->color_axis, &ticks);
@@ -560,12 +581,12 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 	label_padding = txt_obr.h * .15;
 	width = gog_renderer_pt2r (view->renderer, scale->width);
 	obrs = g_new0 (GOGeometryOBR, nb_maj_ticks);
-	gog_axis_get_bounds (scale->color_axis, &min, &max);
 	first = min - 1.;
 	/* evaluate labels size, and find first and last label */
 	for (i = 0, j = 0; i < nb_ticks; i++)
 		if (ticks[i].type == GOG_AXIS_TICK_MAJOR) {
-			gog_renderer_get_gostring_OBR (view->renderer, ticks[i].str, obrs + j, -1.);
+			if (ticks[i].str != NULL)
+				gog_renderer_get_gostring_OBR (view->renderer, ticks[i].str, obrs + j, -1.);
 			if (first < min) {
 				first = last = ticks[i].position;
 				hf = hl = scale->horizontal? obrs[j].w: obrs[j].h;
@@ -746,9 +767,10 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 				}
 				label_pos.x = pos;
 				label_pos.y = start + ((scale->axis_at_low)? -label_padding: label_padding);
-				obrs[j].x = label_pos.x - obrs[j].w / 2.;
-				obrs[j].y = pos;
-				if (j == 0 || !go_geometry_test_OBR_overlap (obrs + j, obrs + l)) {
+				obrs[j].x = label_pos.x;
+				obrs[j].y = label_pos.y;
+				if (ticks[i].str != NULL &&
+				    (j == 0 || !go_geometry_test_OBR_overlap (obrs + j, obrs + l))) {
 					gog_renderer_draw_gostring (view->renderer, ticks[i].str,
 						                        &label_pos, anchor,
 							                    GO_JUSTIFY_CENTER, -1.);
@@ -785,8 +807,9 @@ gog_color_scale_view_render (GogView *view, GogViewAllocation const *bbox)
 				label_pos.x = start + ((scale->axis_at_low)? -label_padding: label_padding);
 				label_pos.y = pos;
 				obrs[j].x = label_pos.x;
-				obrs[j].y = pos - obrs[j].h / 2.;
-				if (j == 0 || !go_geometry_test_OBR_overlap (obrs + j, obrs + l)) {
+				obrs[j].y = label_pos.y;
+				if (ticks[i].str != NULL &&
+				    (j == 0 || !go_geometry_test_OBR_overlap (obrs + j, obrs + l))) {
 					gog_renderer_draw_gostring (view->renderer, ticks[i].str,
 						                        &label_pos, anchor,
 							                    GO_JUSTIFY_CENTER, -1.);

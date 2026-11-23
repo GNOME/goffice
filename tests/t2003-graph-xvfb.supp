@@ -1,0 +1,116 @@
+# Valgrind suppressions for the graph tests under Xvfb.
+#
+# Gtk and Gio leave one-time allocations and file descriptors behind at
+# exit.  None of it is exercised by the test itself.
+
+# The X connection and the Gdk display manager's fds stay open at exit.
+{
+   gdk-display-fd-eventfd
+   CoreError:FdNotClosed
+   fun:eventfd
+   ...
+}
+{
+   gdk-display-fd-socket
+   CoreError:FdNotClosed
+   fun:socket
+   ...
+}
+
+# One-time Gtk style caches pulled in by creating the widgets.
+{
+   gtk-default-style-alloc
+   Memcheck:Leak
+   ...
+   fun:gtk_widget_get_default_style
+   ...
+}
+
+# Thread local storage of the Gio worker threads.
+{
+   gio-thread-tls-alloc
+   Memcheck:Leak
+   ...
+   fun:_dl_allocate_tls
+   ...
+   fun:g_bus_get_sync
+}
+
+# The same worker threads when the bus frames have dropped off the stack.
+{
+   gio-worker-thread-tls
+   Memcheck:Leak
+   ...
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC*
+   ...
+   obj:*/libglib-2.0.so*
+   ...
+}
+
+# Gio's bus connection creates a worker thread pool that is never torn
+# down at exit.
+{
+   gio-bus-thread-pool
+   Memcheck:Leak
+   ...
+   fun:g_thread_pool_new_full
+   ...
+   fun:g_bus_get_sync
+   ...
+}
+
+# Gdk probes Glx in a short-lived child; the Gl dispatch library
+# allocates at load time.
+{
+   glx-dispatch-init
+   Memcheck:Leak
+   ...
+   obj:*/libGLdispatch.so*
+   ...
+}
+
+# A library constructor allocates through Glib and never frees it.
+{
+   glib-constructor-alloc
+   Memcheck:Leak
+   ...
+   fun:g_malloc
+   obj:*/libglib-2.0.so*
+   ...
+   fun:call_init
+   ...
+}
+
+# One-time Gtk caches from building the editor widgets.
+{
+   gtk-builder-markup-alloc
+   Memcheck:Leak
+   ...
+   fun:gtk_builder_add_from_string
+   ...
+}
+{
+   gtk-style-class-alloc
+   Memcheck:Leak
+   ...
+   fun:gtk_style_context_add_class
+   ...
+}
+{
+   gtk-preferred-size-alloc
+   Memcheck:Leak
+   ...
+   fun:gtk_widget_get_preferred_width
+   ...
+}
+
+# One-time Rsvg allocations from loading a theme icon.  The deepest
+# stacks drop the Gdk-pixbuf loader frames, so match on the library.
+{
+   rsvg-icon-alloc
+   Memcheck:Leak
+   ...
+   obj:*/librsvg-2.so*
+   ...
+}

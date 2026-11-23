@@ -311,8 +311,9 @@ gog_3d_box_class_init (Gog3DBoxClass *klass)
 
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_3d_box_populate_editor;
-	gog_klass->view_type = gog_3d_box_view_get_type ();
 #endif
+	/* The view exists in GTK-free builds too.  */
+	gog_klass->view_type = gog_3d_box_view_get_type ();
 }
 
 static void

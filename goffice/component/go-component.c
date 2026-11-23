@@ -873,7 +873,7 @@ _go_component_sax_parser_done (G_GNUC_UNUSED GsfXMLIn *xin, GOCompXMLReadState *
  * @xin: #GsfXMLIn
  * @attrs: (nullable): the current node attributes.
  * @handler: (scope call): #GOComponentSaxHandler
- * @user_data: (closure): data to pass to @handler
+ * @user_data: data to pass to @handler
  *
  * Loads the component from the xml stream. @handler will be called when done.
  */

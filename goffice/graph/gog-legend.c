@@ -40,6 +40,12 @@
 
 #include <math.h>
 
+/* Default swatch metrics in points.  The pspec defaults and the
+ * instance init must agree or the XML writer elides a value the loader
+ * cannot reproduce; both use these macros.  */
+#define GOG_LEGEND_SWATCH_SIZE_PTS GO_CM_TO_PT ((double).25)
+#define GOG_LEGEND_SWATCH_PADDING_PTS GO_CM_TO_PT ((double).2)
+
 /**
  * SECTION: gog-legend
  * @short_description: A legend.
@@ -217,21 +223,21 @@ gog_legend_class_init (GogLegendClass *klass)
 		g_param_spec_double ("swatch-size-pts",
 			_("Swatch Size pts"),
 			_("size of the swatches in pts."),
-			0, G_MAXDOUBLE, 0,
+			0, G_MAXDOUBLE, GOG_LEGEND_SWATCH_SIZE_PTS,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_PADDING_PTS,
 		g_param_spec_double ("swatch-padding-pts",
 			_("Swatch Padding pts"),
 			_("padding between the swatches in pts."),
-			0, G_MAXDOUBLE, 0,
+			0, G_MAXDOUBLE, GOG_LEGEND_SWATCH_PADDING_PTS,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void
 gog_legend_init (GogLegend *legend)
 {
-	legend->swatch_size_pts = GO_CM_TO_PT ((double).25);
-	legend->swatch_padding_pts = GO_CM_TO_PT ((double).2);
+	legend->swatch_size_pts = GOG_LEGEND_SWATCH_SIZE_PTS;
+	legend->swatch_padding_pts = GOG_LEGEND_SWATCH_PADDING_PTS;
 	legend->cached_count = 0;
 }
 

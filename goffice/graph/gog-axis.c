@@ -135,7 +135,7 @@ gog_axis_metrics_as_str (GogAxisMetrics metrics)
 	unsigned i;
 	char const *ret = "default";
 
-	for (i = 0; i < GO_LINE_MAX; i++) {
+	for (i = 0; i < GOG_AXIS_METRICS_MAX; i++) {
 		if (metrics_desc[i].metrics == metrics) {
 			ret = metrics_desc[i].name;
 			break;
@@ -725,14 +725,9 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 		maximum = minimum;
 	}
 
-	if (minimum == maximum) {
-		if (minimum > 1)
-			while (split_date (axis, --maximum, &max_date))
-				/* Nothing */;
-		else
-			while (split_date (axis, ++maximum, &max_date))
-				/* Nothing */;
-	}
+	if (minimum == maximum)
+		while (split_date (axis, ++maximum, &max_date))
+			/* Nothing */;
 
 	range = maximum - minimum;
 	years = g_date_get_year (&max_date) - g_date_get_year (&min_date);
@@ -893,6 +888,9 @@ map_linear_calc_ticks (GogAxis *axis)
 	int min_i, min_N; /* Ticks for 1,....,(min_N-1) */
 	double display_factor = fabs (axis->display_factor);
 
+	if (!go_finite (display_factor) || display_factor <= 0.)
+		display_factor = 1.;
+
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
 		return;
@@ -900,12 +898,20 @@ map_linear_calc_ticks (GogAxis *axis)
 	maximum /= display_factor;
 	minimum /= display_factor;
 	range = maximum - minimum;
+	if (!go_finite (range) || range <= 0.) {
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
+		return;
+	}
 
 	maj_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
 	if (maj_step <= 0.)
 		maj_step = range;
 	else
 		maj_step /= display_factor;
+	/* The division above can underflow to zero; the adjustment loop
+	 * below would then never terminate.  */
+	if (!go_finite (maj_step) || maj_step <= 0.)
+		maj_step = range;
 	while (1) {
 		double ratio = go_fake_floor (range / maj_step);
 		double Nd = (ratio + 1);  /* Correct if no minor */
@@ -924,6 +930,8 @@ map_linear_calc_ticks (GogAxis *axis)
 		min_step = maj_step;
 	else
 		min_step /= display_factor;
+	if (!go_finite (min_step) || min_step <= 0.)
+		min_step = maj_step;
 	while (1) {
 		/* add 0.9 there because the ratio might not be an integer
 		 * or there might be rounding errors, more than 0.9 would
@@ -1513,7 +1521,7 @@ map_log_calc_ticks (GogAxis *axis)
 	if (min_step < 0) {
 		min_N = 1;
 	} else if (base10) {
-		int ims = (int)maj_step;
+		int ims = (int) MIN (maj_step, (double) (G_MAXINT / 9));
 		/*
 		 * We basically have three choices:
 		 *   9N-1 : minor ticks at {1,2,...,9}*10^n and at 10^n
@@ -1522,7 +1530,7 @@ map_log_calc_ticks (GogAxis *axis)
 		 *
 		 *   1    : no minor ticks.
 		 */
-		do {
+		for (;;) {
 			if (min_step >= 9 * ims - 1)
 				min_step = 9 * ims - 1;
 			else if (min_step >= ims - 1)
@@ -1530,11 +1538,11 @@ map_log_calc_ticks (GogAxis *axis)
 			else
 				min_step = 0;
 
-			if (maj_N * (min_step + 1) > GOG_AXIS_MAX_TICK_NBR) {
-				min_step -= 1;
-				continue;
-			}
-		} while (0);
+			if (maj_N * (min_step + 1) <= GOG_AXIS_MAX_TICK_NBR ||
+			    min_step == 0)
+				break;
+			min_step--;
+		}
 
 		min_N = (int)min_step + 1;
 		base10_unit = (min_N == ims ? 1 : 9);
@@ -2469,9 +2477,12 @@ gog_axis_set_property (GObject *obj, guint param_id,
 	case AXIS_PROP_METRICS_UNIT:
 		axis->unit = (strcmp (g_value_get_string (value), "in"))? GO_UNIT_CENTIMETER: GO_UNIT_INCH;
 		break;
-	case AXIS_PROP_DISPLAY_FACTOR:
-		axis->display_factor = g_value_get_double (value);
+	case AXIS_PROP_DISPLAY_FACTOR: {
+		double factor = g_value_get_double (value);
+		if (go_finite (factor) && factor > 0.)
+			axis->display_factor = factor;
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -2937,13 +2948,15 @@ color_map_new_cb (GogAxisPrefState *state)
 	if (map) {
 		GtkListStore *model = GTK_LIST_STORE (gtk_combo_box_get_model (state->color_map_combo));
 		GtkTreeIter iter;
+		GdkPixbuf *pixbuf = gog_axis_color_map_get_snapshot (
+			map, state->axis->type == GOG_AXIS_PSEUDO_3D, TRUE, 200, 16);
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter,
 		                    0, gog_axis_color_map_get_name (map),
-		                    1, gog_axis_color_map_get_snapshot (map, state->axis->type == GOG_AXIS_PSEUDO_3D,
-		                                                        TRUE, 200, 16),
+		                    1, pixbuf,
 		                    2, map,
 		                    -1);
+		g_object_unref (pixbuf);
 		gtk_combo_box_set_active_iter (state->color_map_combo, &iter);
 		gog_object_emit_changed (GOG_OBJECT (state->axis), FALSE);
 	}
@@ -2956,13 +2969,15 @@ color_map_dup_cb (GogAxisPrefState *state)
 	if (gog_axis_color_map_edit (map, state->cc) != NULL) {
 		GtkListStore *model = GTK_LIST_STORE (gtk_combo_box_get_model (state->color_map_combo));
 		GtkTreeIter iter;
+		GdkPixbuf *pixbuf = gog_axis_color_map_get_snapshot (
+			map, state->axis->type == GOG_AXIS_PSEUDO_3D, TRUE, 200, 16);
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter,
 		                    0, gog_axis_color_map_get_name (map),
-		                    1, gog_axis_color_map_get_snapshot (map, state->axis->type == GOG_AXIS_PSEUDO_3D,
-		                                                        TRUE, 200, 16),
+		                    1, pixbuf,
 		                    2, map,
 		                    -1);
+		g_object_unref (pixbuf);
 		gtk_combo_box_set_active_iter (state->color_map_combo, &iter);
 		gog_object_emit_changed (GOG_OBJECT (state->axis), FALSE);
 	} else
@@ -3032,8 +3047,15 @@ metrics_unit_changed_cb (GtkComboBox *box, struct MetricsState *state)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model = gtk_combo_box_get_model (box);
-	gtk_combo_box_get_active_iter (box, &iter);
-	gtk_tree_model_get (model, &iter, 1, &state->axis->unit, -1);
+	GoUnit const *unit = NULL;
+
+	if (!gtk_combo_box_get_active_iter (box, &iter))
+		return;
+	/* Column 1 is a G_TYPE_POINTER holding a GoUnit const *, not the
+	 * unit id itself.  */
+	gtk_tree_model_get (model, &iter, 1, &unit, -1);
+	if (unit != NULL)
+		state->axis->unit = go_unit_get_id (unit);
 	gog_object_request_update ((GogObject *) state->axis);
 }
 
@@ -3340,6 +3362,7 @@ gog_axis_populate_editor (GogObject *gobj,
 			if (axis->metrics == GOG_AXIS_METRICS_RELATIVE_TICKS)
 				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
 		}
+		g_object_unref (store);
 		gtk_grid_attach (grid, combo, 0, 0, 3, 1);
 		gtk_widget_show ((GtkWidget *) combo);
 		state->axes = gtk_combo_box_new ();
@@ -3361,6 +3384,8 @@ gog_axis_populate_editor (GogObject *gobj,
 			if (axis_ == axis->ref_axis)
 				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->axes), &iter);
 		}
+		g_slist_free (l);
+		g_object_unref (store);
 		/* now add a spin button for the metrix_ratio */
 		gtk_grid_attach (grid, state->axes, 0, 1, 3, 1);
 		g_signal_connect (state->axes, "changed", G_CALLBACK (metrics_axis_changed_cb), state);
@@ -3392,6 +3417,7 @@ gog_axis_populate_editor (GogObject *gobj,
 		gtk_list_store_set (store, &iter, 0, go_unit_get_symbol (unit), 1, unit, -1);
 		if (axis->unit == GO_UNIT_INCH)
 			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->unit), &iter);
+		g_object_unref (store);
 		gtk_grid_attach (grid, state->unit, 2, 2, 1, 1);
 		g_signal_connect (state->unit, "changed", G_CALLBACK (metrics_unit_changed_cb), state);
 		if (axis->metrics >= GOG_AXIS_METRICS_ABSOLUTE) {
@@ -3540,7 +3566,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			_("If an axis is used as reference, gives the ratio of the ticks distance, and if the metrix is absolute, the ticks distance. Defaults to 1.0"),
 		    0.01, 100., 1.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
-	g_object_class_install_property (gobject_klass, AXIS_PROP_REF_AXIS,
+	g_object_class_install_property (gobject_klass, AXIS_PROP_METRICS_UNIT,
 		g_param_spec_string ("metrics-unit", _("Metrics Unit"),
 			_("The unit symbol for the absolute distance unit between ticks. Might be \"cm\" or \"in\""),
 			"cm",
@@ -3878,6 +3904,10 @@ gog_axis_clear_contributors (GogAxis *axis)
 
 	g_return_if_fail (GOG_IS_AXIS (axis));
 
+	/* GOG_AXIS_UNKNOWN (or a corrupted type) must not become `1 << -1`.  */
+	if (axis->type < 0 || axis->type >= GOG_AXIS_TYPES)
+		return;
+
 	filter = 1 << axis->type;
 	list = g_slist_copy (axis->contributors);
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
@@ -4114,15 +4144,16 @@ gog_axis_get_metrics (GogAxis const *axis)
  * @axis: a #GogAxis
  *
  * Returns: (transfer none) (nullable): the axis used to evaluate the length
- * of @axis.
+ * of @axis, or %NULL if @axis does not use relative metrics.
  *
  * Since: 0.10.17
  **/
 GogAxis *
 gog_axis_get_ref_axis (GogAxis const *axis)
 {
-	g_return_val_if_fail (GOG_IS_AXIS (axis) && axis->metrics > GOG_AXIS_METRICS_ABSOLUTE, NULL);
-	return axis->ref_axis;
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
+	return axis->metrics > GOG_AXIS_METRICS_ABSOLUTE ?
+		axis->ref_axis : NULL;
 }
 
 /**

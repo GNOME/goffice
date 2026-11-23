@@ -43,7 +43,7 @@ gog_trend_line_set_property (GObject *obj, guint param_id,
 		if (GPOINTER_TO_INT (g_object_get_data (obj, "has-legend")) ^ b_tmp) {
 			GogSeries *series = GOG_SERIES (gog_object_get_parent (GOG_OBJECT (obj)));
 			g_object_set_data (obj, "has-legend", GINT_TO_POINTER (b_tmp));
-			if (series->plot != NULL)
+			if (series != NULL && series->plot != NULL)
 				gog_plot_request_cardinality_update (series->plot);
 		}
 		break;

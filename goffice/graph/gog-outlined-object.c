@@ -25,6 +25,11 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+/* Default padding in points.  The pspec default and the instance init
+ * must agree or the XML writer elides a value the loader cannot
+ * reproduce; both use this macro.  */
+#define GOG_OUTLINED_DEFAULT_PADDING_PTS GO_CM_TO_PT ((double).25)
+
 enum {
 	OUTLINED_OBJECT_PROP_0,
 	OUTLINED_OBJECT_PROP_PADDING_PTS
@@ -73,14 +78,14 @@ gog_outlined_object_class_init (GObjectClass *gobject_klass)
 		g_param_spec_double ("padding-pts",
 			_("Padding Pts"),
 			_("Number of pts separating charts in the grid"),
-			0, G_MAXDOUBLE, 0,
+			0, G_MAXDOUBLE, GOG_OUTLINED_DEFAULT_PADDING_PTS,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void
 gog_outlined_object_init (GogOutlinedObject *goo)
 {
-	goo->padding_pts = GO_CM_TO_PT ((double).25);
+	goo->padding_pts = GOG_OUTLINED_DEFAULT_PADDING_PTS;
 }
 
 GSF_CLASS (GogOutlinedObject, gog_outlined_object,
@@ -123,7 +128,7 @@ gog_outlined_view_size_request (GogView *v,
 
 	if (goo->base.style->fill.type != GO_STYLE_FILL_NONE || is_outline_visible) {
 		req->w += outline * 2 +
-			gog_renderer_pt2r_y (v->renderer, goo->padding_pts);
+			gog_renderer_pt2r_x (v->renderer, goo->padding_pts);
 		req->h += outline * 2 +
 			gog_renderer_pt2r_y (v->renderer, goo->padding_pts);
 	}

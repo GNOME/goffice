@@ -432,11 +432,13 @@ gog_series_set_property (GObject *obj, guint param_id,
 				gog_plot_request_cardinality_update (series->plot);
 		}
 		break;
-	case SERIES_PROP_INTERPOLATION:
+	case SERIES_PROP_INTERPOLATION: {
+		GogPlot *plot = gog_series_get_plot (series);
 		series->interpolation = go_line_interpolation_from_str (g_value_get_string (value));
 		/* check if the interpolation mode is compatible with the plot type and
 		 * replace if not */
-		if (gog_plot_axis_set_pref (gog_series_get_plot (series)) & 1 << GOG_AXIS_RADIAL &&
+		if (plot != NULL &&
+		    (gog_plot_axis_set_pref (plot) & (1 << GOG_AXIS_RADIAL)) &&
 		    !go_line_interpolation_supports_radial (series->interpolation))
 			series->interpolation = GO_LINE_INTERPOLATION_SPLINE;
 		else if (g_object_get_data (obj, "no-bezier-interpolation") != NULL &&
@@ -445,6 +447,7 @@ gog_series_set_property (GObject *obj, guint param_id,
 		          series->interpolation == GO_LINE_INTERPOLATION_ODF_SPLINE))
 			series->interpolation = GO_LINE_INTERPOLATION_CUBIC_SPLINE;
 		break;
+	}
 	case SERIES_PROP_INTERPOLATION_SKIP_INVALID:
 		series->interpolation_skip_invalid = g_value_get_boolean (value);
 		break;
@@ -519,6 +522,17 @@ cb_show_in_legend (GtkToggleButton *b, GObject *series)
 		NULL);
 }
 
+/* Interpolations that automatically skip invalid points cannot be
+ * filled; keep the fill type combo in step with the current
+ * interpolation however the editor got there.  */
+static void
+update_fill_type_sensitivity (GogSeries *series, GtkWidget *combo)
+{
+	if (combo != NULL)
+		gtk_widget_set_sensitive (combo,
+			!go_line_interpolation_auto_skip (series->interpolation));
+}
+
 static void
 cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
 {
@@ -526,7 +540,8 @@ cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
 	GtkWidget *widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "skip-button"));
 	GtkWidget *grid = go_gtk_builder_get_widget (gui, "clamps-grid");
 	GtkTreeIter iter;
-	gtk_combo_box_get_active_iter (box, &iter);
+	if (!gtk_combo_box_get_active_iter (box, &iter))
+		return;
 	gtk_tree_model_get (gtk_combo_box_get_model (box), &iter, 1, &series->interpolation, -1);
 	gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
 	widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "fill-type"));
@@ -534,8 +549,7 @@ cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
 		gtk_widget_show (grid);
 	else
 		gtk_widget_hide (grid);
-	if (widget)
-		gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
+	update_fill_type_sensitivity (series, widget);
 	gog_object_emit_changed (GOG_OBJECT (series), FALSE);
 }
 
@@ -722,8 +736,7 @@ gog_series_populate_editor (GogObject *gobj,
 					  G_CALLBACK (cb_fill_type_changed), series);
 			if (combo)
 				g_object_set_data (G_OBJECT (combo), "fill-type", widget);
-			if (series->interpolation == GO_LINE_INTERPOLATION_CLOSED_SPLINE)
-				gtk_widget_set_sensitive (widget, FALSE);
+			update_fill_type_sensitivity (series, widget);
 			widget = go_gtk_builder_get_widget (gui, "fill_type_prefs");
 			gtk_grid_attach (grid, widget, 0, 1, 3, 1);
 			g_object_set_data (G_OBJECT (widget), "gui", gui);
@@ -888,7 +901,8 @@ gog_series_dataset_get_elem (GogDataset const *set, int dim_i)
 
 	g_return_val_if_fail (dim_i >= -1, NULL);
 
-	if (dim_i >= (int)series->plot->desc.series.num_dim)
+	if (series->plot == NULL || series->values == NULL ||
+	    dim_i >= (int)series->plot->desc.series.num_dim)
 		return NULL;
 	return series->values + dim_i;
 }
@@ -1094,7 +1108,7 @@ gog_series_get_name (GogSeries const *series)
 {
 	g_return_val_if_fail (GOG_IS_SERIES (series), NULL);
 
-	return series->values[-1].data;
+	return series->values != NULL ? series->values[-1].data : NULL;
 }
 
 /**
@@ -1125,7 +1139,10 @@ gog_series_set_dim (GogSeries *series, int dim_i, GOData *val, GError **err)
 int
 gog_series_map_XL_dim (GogSeries const *series, GogMSDimType ms_type)
 {
-	GogSeriesDesc const *desc = &series->plot->desc.series;
+	GogSeriesDesc const *desc;
+
+	g_return_val_if_fail (series->plot != NULL, -1);
+	desc = &series->plot->desc.series;
 	unsigned i = desc->num_dim;
 
 	if (ms_type == GOG_MS_DIM_LABELS)
@@ -1140,7 +1157,11 @@ void
 gog_series_set_XL_dim (GogSeries *series, GogMSDimType ms_type, GOData *val, GError **err)
 {
 	int dim;
-	g_return_if_fail (series !=NULL);
+	if (series == NULL) {
+		if (val != NULL)
+			g_object_unref (val);
+		g_return_if_fail (series != NULL);
+	}
 	dim = gog_series_map_XL_dim (series, ms_type);
 	if (dim >= -1) {
 		gog_series_set_dim (series, dim, val, err);
@@ -1285,11 +1306,14 @@ gog_series_get_xy_data (GogSeries const  *series,
 			double const 	**y)
 {
 	GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (series);
-	double *data[2];
+	double *data[2] = { NULL, NULL };
 	unsigned int n_points;
 	int first, last;
 
 	g_return_val_if_fail (klass != NULL, 0);
+
+	*x = NULL;
+	*y = NULL;
 
 	if (klass->get_xy_data != NULL) {
 		if (!gog_series_is_valid (GOG_SERIES (series)))
@@ -1328,8 +1352,12 @@ gog_series_get_xyz_data (GogSeries const  *series,
 			 double const 	 **y,
 			 double const 	 **z)
 {
-	double *data[3];
+	double *data[3] = { NULL, NULL, NULL };
 	unsigned int n_points;
+
+	*x = NULL;
+	*y = NULL;
+	*z = NULL;
 
 	n_points = gog_series_get_data (series, NULL, data, 3);
 
@@ -1420,12 +1448,16 @@ GogSeriesFillType
 gog_series_get_fill_type_from_combo (GogSeries const *series, GtkComboBox *combo)
 {
 	GogSeriesClass *series_klass;
+	gint active;
 
 	g_return_val_if_fail (GOG_IS_SERIES (series), GOG_SERIES_FILL_TYPE_INVALID);
 	series_klass = GOG_SERIES_GET_CLASS (series);
 	g_return_val_if_fail (series_klass->valid_fill_type_list != NULL, GOG_SERIES_FILL_TYPE_INVALID);
 
-	return series_klass->valid_fill_type_list[gtk_combo_box_get_active (combo)];
+	active = gtk_combo_box_get_active (combo);
+	if (active < 0)
+		return GOG_SERIES_FILL_TYPE_INVALID;
+	return series_klass->valid_fill_type_list[active];
 }
 #endif
 

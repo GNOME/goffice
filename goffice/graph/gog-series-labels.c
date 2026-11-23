@@ -86,7 +86,7 @@ gog_series_labels_get_valid_element_index (GogSeriesLabels const *lbls, int old_
 				desired_index++;
 		}
 	else
-		for (ptr = g_list_last (series->overrides); ptr != NULL; ptr = ptr->prev) {
+		for (ptr = g_list_last (lbls->overrides); ptr != NULL; ptr = ptr->prev) {
 			index = GOG_DATA_LABEL (ptr->data)->index;
 			if (index < desired_index)
 				break;
@@ -390,7 +390,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 	struct SeriesLabelsState *state = g_new (struct SeriesLabelsState, 1);
 	GogSeriesLabelsPos position, allowed, default_pos;
 	int offset;
-	char *format;
+	char const *format;
 	GogObjectClass *parent_class;
 	char const *custom_lbl;
 	gboolean supports_percent;
@@ -398,6 +398,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 	gui = go_gtk_builder_load_internal ("res:go:graph/gog-series-labels-prefs.ui", GETTEXT_PACKAGE, cc);
 	labels_prefs = go_gtk_builder_get_widget (gui, "series-labels-prefs");
 	state->labels = gobj;
+	state->avail_list = state->used_list = NULL;
 
 	if (GOG_IS_DATA_LABEL (gobj)) {
 		GogDataLabel *lbl = GOG_DATA_LABEL (gobj);
@@ -432,6 +433,9 @@ gog_series_labels_populate_editor (GogObject *gobj,
 		custom_lbl = _("Custom labels");
 	}
 
+	if (format == NULL)
+		format = "";
+
 	box = GTK_COMBO_BOX (go_gtk_builder_get_widget (gui, "position-box"));
 	list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
 	gtk_combo_box_set_model (box, GTK_TREE_MODEL (list));
@@ -449,6 +453,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 				def = i;
 			i++;
 		}
+	g_object_unref (list);
 	gtk_combo_box_set_active (box, (id >= 0)? id: def);
 	g_signal_connect (G_OBJECT (box), "changed", G_CALLBACK (position_changed_cb), state);
 
@@ -491,7 +496,7 @@ gog_series_labels_populate_editor (GogObject *gobj,
 	if (plot != NULL) {
 		/* what should be done if there is no plot, btw is it possible that there is no plot? */
 		GSList *dims = NULL;
-		char *cur;
+		char const *cur;
 		state->avail_list = GTK_LIST_STORE (gtk_builder_get_object (gui, "available-list"));
 		gtk_list_store_clear (state->avail_list); /* GtkBuilder seems to add an empty line */
 		state->used_list = GTK_LIST_STORE (gtk_builder_get_object (gui, "used-list"));
@@ -502,6 +507,8 @@ gog_series_labels_populate_editor (GogObject *gobj,
 			/* go to next % */
 			while (*cur && *cur != '%')
 				cur = g_utf8_next_char (cur);
+			if (*cur == 0)
+				break; /* no more format specifiers */
 			cur++; /* skip the % */
 			switch (*cur) {
 			case 0:
@@ -538,9 +545,11 @@ gog_series_labels_populate_editor (GogObject *gobj,
 			case '7':
 			case '8':
 			case '9': {
-				unsigned dim = strtoul (cur, &cur, 10);
+				char *end;
+				unsigned dim = strtoul (cur, &end, 10);
+				cur = end;
 				if (dim < plot->desc.series.num_dim)
-				switch (plot->desc.series.dim[j].ms_type) {
+				switch (plot->desc.series.dim[dim].ms_type) {
 				case GOG_MS_DIM_ERR_plus1:
 				case GOG_MS_DIM_ERR_minus1:
 				case GOG_MS_DIM_ERR_plus2:
@@ -633,9 +642,9 @@ gog_series_labels_init_style (GogStyledObject *gso, GOStyle *style)
 }
 
 static gint
-element_compare (GogSeriesElement *gse_a, GogSeriesElement *gse_b)
+element_compare (GogDataLabel *lbl_a, GogDataLabel *lbl_b)
 {
-	return gse_a->index - gse_b->index;
+	return (int) lbl_a->index - (int) lbl_b->index;
 }
 
 static void
@@ -671,10 +680,12 @@ gog_data_label_set_property (GObject *obj, guint param_id,
 			return;
 		label->offset = offset;
 		break;
-	case DATA_LABEL_PROP_FORMAT:
+	case DATA_LABEL_PROP_FORMAT: {
+		char const *fmt = g_value_get_string (value);
 		g_free (label->format);
-		label->format = g_value_dup_string (value);
+		label->format = g_strdup (fmt != NULL? fmt: "");
 		break;
+	}
 	}
 	case DATA_LABEL_PROP_INDEX:
 		label->index = g_value_get_int (value);
@@ -792,16 +803,16 @@ gog_data_label_update (GogObject *obj)
 	GString *str = g_string_new ("");
 	unsigned index;
 	PangoAttrList *markup = pango_attr_list_new (), *l;
-	char const *format = lbl->format;
+	char const *format = lbl->format != NULL? lbl->format: "";
 	lbl->element.legend_pos = -1;
 	go_string_unref (lbl->element.str);
 	while (*format) {
 		char *next;
 		if (*format == '%') {
 			format++;
-			switch (*format) {
-			case 0: /* protect from an unexpected string end */
+			if (*format == 0) /* protect from an unexpected string end */
 				break;
+			switch (*format) {
 			case 'c':
 				next = GO_IS_DATA (lbl->custom_label[0].data)?
 					go_data_get_scalar_string (lbl->custom_label[0].data):
@@ -857,10 +868,13 @@ gog_data_label_update (GogObject *obj)
 			case '8':
 			case '9':
 				index = *format - '0';
-				next = go_data_get_vector_string (series->values[index].data, lbl->index);
-				if (next) {
-					g_string_append (str, next);
-					g_free (next);
+				if (index < series->plot->desc.series.num_dim &&
+				    series->values[index].data != NULL) {
+					next = go_data_get_vector_string (series->values[index].data, lbl->index);
+					if (next) {
+						g_string_append (str, next);
+						g_free (next);
+					}
 				}
 				break;
 			case '%':
@@ -907,12 +921,14 @@ gog_data_label_class_init (GObjectClass *obj_klass)
 			_("Offset to add to the label position"),
 			0, 20, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	/* Force saving: "" is valid, but the constructed default is
+	 * plot-dependent (role_series_labels_post_add).  */
         g_object_class_install_property (obj_klass, DATA_LABEL_PROP_FORMAT,
 		 g_param_spec_string ("format",
 			_("Format"),
 			_("Label format"),
 			"",
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 	g_object_class_install_property (obj_klass, DATA_LABEL_PROP_INDEX,
 		g_param_spec_int ("index",
 			_("Index"),
@@ -1072,6 +1088,8 @@ void gog_data_label_set_default_position (GogDataLabel *lbl, GogSeriesLabelsPos 
 GogSeriesLabelsPos
 gog_data_label_get_position (GogDataLabel const *lbl)
 {
+	if (lbl->position == GOG_SERIES_LABELS_DEFAULT_POS)
+		return lbl->default_pos;
 	return lbl->position;
 }
 
@@ -1138,10 +1156,12 @@ gog_series_labels_set_property (GObject *obj, guint param_id,
 			return;
 		labels->offset = offset;
 		break;
-	case SERIES_LABELS_PROP_FORMAT:
+	case SERIES_LABELS_PROP_FORMAT: {
+		char const *fmt = g_value_get_string (value);
 		g_free (labels->format);
-		labels->format = g_value_dup_string (value);
+		labels->format = g_strdup (fmt != NULL? fmt: "");
 		break;
+	}
 	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -1260,25 +1280,33 @@ gog_series_labels_update (GogObject *obj)
 		labels->elements = g_new0 (GogSeriesLabelElt, n);
 		override = labels->overrides;
 		for (i = 0; i < n; i++) {
-			if (override && ((GogDataLabel *) override->data)->index == i) {
+			/* Overrides are sorted by index; skip nodes that
+			 * have gone by (e.g. for a removed element).  */
+			while (override != NULL &&
+			       ((GogDataLabel *) override->data)->index < i)
+				override = override->next;
+			if (override != NULL &&
+			    ((GogDataLabel *) override->data)->index == i) {
 				gog_object_request_update (override->data);
 				gog_object_update (override->data);
 				labels->elements[i].str = go_string_ref (((GogDataLabel *) override->data)->element.str);
 				labels->elements[i].legend_pos = ((GogDataLabel *) override->data)->element.legend_pos;
 				labels->elements[i].point = override->data;
+				override = override->next;
 			} else {
 				GString *str = g_string_new ("");
 				unsigned index;
 				PangoAttrList *markup = pango_attr_list_new (), *l;
-				char const *format = labels->format;
+				char const *format = labels->format != NULL?
+					labels->format: "";
 				labels->elements[i].legend_pos = -1;
 				while (*format) {
 					char *next;
 					if (*format == '%') {
 						format++;
-						switch (*format) {
-						case 0: /* protect from an unexpected string end */
+						if (*format == 0) /* protect from an unexpected string end */
 							break;
+						switch (*format) {
 						case 'c':
 							next = (GO_IS_DATA (labels->custom_labels[0].data) &&
 							        go_data_get_vector_size (labels->custom_labels[0].data) > i)?
@@ -1335,10 +1363,13 @@ gog_series_labels_update (GogObject *obj)
 						case '8':
 						case '9':
 							index = *format - '0';
-							next = go_data_get_vector_string (series->values[index].data, i);
-							if (next) {
-								g_string_append (str, next);
-								g_free (next);
+							if (index < series->plot->desc.series.num_dim &&
+							    series->values[index].data != NULL) {
+								next = go_data_get_vector_string (series->values[index].data, i);
+								if (next) {
+									g_string_append (str, next);
+									g_free (next);
+								}
 							}
 							break;
 						case '%':
@@ -1475,12 +1506,14 @@ gog_series_labels_class_init (GObjectClass *obj_klass)
 			_("Offset to add to the label position"),
 			0, 20, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	/* Force saving: "" is valid, but the constructed default is
+	 * plot-dependent (role_series_labels_post_add).  */
         g_object_class_install_property (obj_klass, SERIES_LABELS_PROP_FORMAT,
 		 g_param_spec_string ("format",
 			_("Format"),
 			_("Label format"),
 			"",
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_series_labels_populate_editor;
@@ -1672,7 +1705,8 @@ gog_series_label_elt_copy (GogSeriesLabelElt *elt)
 	GogSeriesLabelElt *res = g_new (GogSeriesLabelElt, 1);
 	res->str = go_string_ref (elt->str);
 	res->legend_pos = elt->legend_pos;
-	res->point = (GogObject *) g_object_ref (elt->point);
+	res->point = elt->point != NULL ?
+		GOG_OBJECT (g_object_ref (elt->point)) : NULL;
 	return res;
 }
 
@@ -1680,7 +1714,8 @@ static void
 gog_series_label_elt_free (GogSeriesLabelElt *elt)
 {
 	go_string_unref (elt->str);
-	g_object_unref (elt->point);
+	if (elt->point != NULL)
+		g_object_unref (elt->point);
 	g_free (elt);
 }
 

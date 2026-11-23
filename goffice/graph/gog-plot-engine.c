@@ -226,6 +226,10 @@ cb_pending_plot_types_load (char const *path,
 			}
 
 			name	    = XML2C (go_xml_node_get_cstr (ptr, "_name"));
+			if (name == NULL) {
+				g_warning ("[GogPlotTypeService::plot_types_load] missing type name");
+				continue;
+			}
 			image_file  = XML2C (go_xml_node_get_cstr (ptr, "sample_image_file"));
 			description = XML2C (go_xml_node_get_cstr (ptr, "_description"));
 			engine	    = XML2C (go_xml_node_get_cstr (ptr, "engine"));
@@ -359,7 +363,7 @@ gog_plot_type_service_finalize (GObject *obj)
 	GSList *ptr;
 
 	for (ptr = service->families ; ptr != NULL ; ptr = ptr->next)
-		gog_plot_family_free ((GogPlotFamily *) ptr->data);
+		gog_plot_family_unregister ((GogPlotFamily *) ptr->data);
 	g_slist_free (service->families);
 	service->families = NULL;
 
@@ -369,7 +373,8 @@ gog_plot_type_service_finalize (GObject *obj)
 	service->types = NULL;
 
 	for (ptr = service->paths ; ptr != NULL ; ptr = ptr->next) {
-		g_hash_table_remove (pending_engines, ptr->data);
+		if (pending_plot_type_files != NULL)
+			g_hash_table_remove (pending_plot_type_files, ptr->data);
 		g_free (ptr->data);
 	}
 	g_slist_free (service->paths);
@@ -525,6 +530,7 @@ cb_pending_trend_line_types_load (char const *path,
 	xmlNode *ptr, *prop;
 	xmlDoc *doc;
 	GogTrendLineType *type;
+	char *name;
 
 	if (debug)
 		g_printerr ("Loading %s\n", path);
@@ -533,10 +539,22 @@ cb_pending_trend_line_types_load (char const *path,
 
 	for (ptr = doc->xmlRootNode->xmlChildrenNode; ptr ; ptr = ptr->next)
 		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (CXML2C (ptr->name), "Type")) {
+			name = XML2C (go_xml_node_get_cstr (ptr, "_name"));
+			if (name == NULL) {
+				g_warning ("[GogTrendLineService::load] missing type name");
+				continue;
+			}
 			type = g_new0 (GogTrendLineType, 1);
-			type->name = XML2C (go_xml_node_get_cstr (ptr, "_name"));
-			type->description = XML2C (go_xml_node_get_cstr (ptr, "_description"));
-			type->engine = XML2C (go_xml_node_get_cstr (ptr, "engine"));
+			type->name = g_strdup (name);
+			xmlFree (name);
+			name = XML2C (go_xml_node_get_cstr (ptr, "_description"));
+			type->description = g_strdup (name);
+			if (name != NULL)
+				xmlFree (name);
+			name = XML2C (go_xml_node_get_cstr (ptr, "engine"));
+			type->engine = g_strdup (name);
+			if (name != NULL)
+				xmlFree (name);
 			service->types = g_slist_prepend (service->types, type);
 			g_hash_table_insert (trend_line_types, type->name, type);
 			for (prop = ptr->xmlChildrenNode ; prop != NULL ; prop = prop->next)
@@ -604,7 +622,9 @@ gog_trend_line_service_activate (GOPluginService *service, G_GNUC_UNUSED GOError
 			g_str_hash, g_str_equal, g_free, g_object_unref);
 	while (l) {
 		g_object_ref (service);
-		g_hash_table_replace (pending_trend_line_type_files, l->data, service);
+		/* The hash owns its keys; keep service->paths out of it.  */
+		g_hash_table_replace (pending_trend_line_type_files,
+				      g_strdup (l->data), service);
 		l = l->next;
 	}
 	service->is_active = TRUE;
@@ -644,21 +664,30 @@ gog_trend_line_service_get_description (G_GNUC_UNUSED GOPluginService *service)
 
 static void gog_trend_line_type_free (GogTrendLineType *type);
 
+static GObjectClass *trend_line_service_parent_klass;
+
 static void
 gog_trend_line_service_finalize (GObject *obj)
 {
 	GogTrendLineService *service = GOG_TREND_LINE_SERVICE (obj);
 	GSList *ptr;
 
-	for (ptr = service->types ; ptr != NULL ; ptr = ptr->next)
-		gog_trend_line_type_free ((GogTrendLineType *) ptr->data);
+	for (ptr = service->types ; ptr != NULL ; ptr = ptr->next) {
+		GogTrendLineType *type = ptr->data;
+		/* A service that was never deactivated still has its types
+		 * registered; unlink them so the registry does not keep
+		 * dangling pointers.  */
+		if (trend_line_types != NULL)
+			g_hash_table_steal (trend_line_types, type->name);
+		gog_trend_line_type_free (type);
+	}
 	g_slist_free (service->types);
 	service->types = NULL;
 
-	g_slist_free (service->paths);
+	g_slist_free_full (service->paths, g_free);
 	service->paths = NULL;
 
-	(plot_type_parent_klass->finalize) (obj);
+	(trend_line_service_parent_klass->finalize) (obj);
 }
 
 static void
@@ -674,6 +703,7 @@ gog_trend_line_service_class_init (GObjectClass *gobject_klass)
 {
 	GOPluginServiceClass *ps_class = GO_PLUGIN_SERVICE_CLASS (gobject_klass);
 
+	trend_line_service_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize	  = gog_trend_line_service_finalize;
 	ps_class->read_xml	  = gog_trend_line_service_read_xml;
 	ps_class->get_description = gog_trend_line_service_get_description;
@@ -873,11 +903,11 @@ gog_trend_line_type_free (GogTrendLineType *type)
 	g_free (type->name);
 	g_free (type->description);
 	g_free (type->engine);
-	g_free (type);
 	if (type->properties) {
 		g_hash_table_destroy (type->properties);
 		type->properties = NULL;
 	}
+	g_free (type);
 }
 
 static void

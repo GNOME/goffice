@@ -20,6 +20,7 @@ test-decimal
 test-classify
 test-complex
 test-canvas
+test-graph
 constants
 *.log
 *.trs

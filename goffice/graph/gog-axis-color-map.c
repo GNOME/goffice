@@ -230,9 +230,11 @@ color_stop_start (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 	for (; attrs != NULL && *attrs ; attrs += 2)
 		if (0 == strcmp (CXML2C (*attrs), "bin")) {
-			bin = strtoul (CXML2C (attrs[1]), &end, 10);
-			if (*end == 0)
+			unsigned long l = strtoul (CXML2C (attrs[1]), &end, 10);
+			if (*end == 0 && l <= G_MAXUINT) {
+				bin = (unsigned) l;
 				bin_found = TRUE;
+			}
 		} else if (0 == strcmp (CXML2C (*attrs), "color"))
 			color_found = go_color_from_str (CXML2C (attrs[1]), &color);
 	if (color_found && bin_found) {
@@ -269,8 +271,10 @@ name_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->map->name)
 		return;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (CXML2C (attrs[i]), "xml:lang"))
+		if (0 == strcmp (CXML2C (attrs[i]), "xml:lang")) {
+			g_free (state->lang);
 			state->lang = g_strdup (CXML2C (attrs[i+1]));
+		}
 }
 
 static void
@@ -280,8 +284,11 @@ name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	char *name = NULL;
 	if (state->map->name)
 		return;
-	if (xin->content->str == NULL)
+	if (xin->content->str == NULL) {
+		g_free (state->lang);
+		state->lang = NULL;
 		return;
+	}
 	name = g_strdup (xin->content->str);
 	if (state->lang == NULL)
 	state->lang = g_strdup ("C");
@@ -302,7 +309,7 @@ name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static int
 color_stops_cmp (struct _color_stop *first, struct _color_stop *second)
 {
-	return (first->bin < second->bin)? -1: (int) (first->bin - second->bin);
+	return (first->bin < second->bin)? -1: (first->bin > second->bin)? 1: 0;
 }
 
 static GsfXMLInNode const color_map_dtd[] = {
@@ -441,14 +448,24 @@ GOColor
 gog_axis_color_map_get_color (GogAxisColorMap const *map, double x)
 {
 	unsigned n = 1;
-	double t;
+	double t, max;
 	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), (GOColor) 0x00000000);
 	if (x < 0. || map->size == 0)
 		return (GOColor) 0x00000000;
 	if (map->size == 1)
 		return map->colors[0];
-	if (x > map->limits[map->size-1])
-		x -= floor (x / (map->limits[map->size-1] + 1)) * (map->limits[map->size-1] + 1);
+	max = map->limits[map->size - 1];
+	if (x > max) {
+		double period = max + 1.;
+		x -= floor (x / period) * period;
+		if (x > max) {
+			/* In the gap after the last stop: interpolate
+			 * cyclically back to the first colour.  */
+			t = x - max;
+			return GO_COLOR_INTERPOLATE (map->colors[map->size - 1],
+						     map->colors[0], t);
+		}
+	}
 	while (n < map->size && x > map->limits[n] + 1e-10)
 		n++;
 	t = (x - map->limits[n-1]) / (map->limits[n] - map->limits[n-1]);
@@ -533,12 +550,20 @@ gog_axis_color_map_get_snapshot (GogAxisColorMap const *map,
                                  gboolean discrete, gboolean horizontal,
                                  unsigned width, unsigned height)
 {
-	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 16, 16);
-	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
-	cairo_t *cr = cairo_create (surface);
+	cairo_surface_t *surface;
+	GdkPixbuf *pixbuf;
+	cairo_t *cr;
 	cairo_pattern_t *pattern;
 
 	g_return_val_if_fail (GOG_IS_AXIS_COLOR_MAP (map), NULL);
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 16, 16);
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
+	if (pixbuf == NULL) {
+		cairo_surface_destroy (surface);
+		return NULL;
+	}
+	cr = cairo_create (surface);
 	/* first fill with a "transparent" background */
 	cairo_rectangle (cr, 0., 0., 16., 16.);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GO_COLOR_GREY(0x33)));
@@ -596,7 +621,7 @@ gog_axis_color_map_to_cairo (GogAxisColorMap const *map, cairo_t *cr,
 		double t0, maxt, step, start, scale = 1;
 		if (discrete > 1) {
 			if (discrete > max + 1) { /* we need to have at least two colors */
-				scale = (double) gog_axis_color_map_get_max (map) / (discrete - 2);
+				scale = (max > 0)? (double) max / (discrete - 2): 1.;
 				max = discrete - 2;
 			}
 		}
@@ -618,6 +643,14 @@ gog_axis_color_map_to_cairo (GogAxisColorMap const *map, cairo_t *cr,
 			else
 				cairo_rectangle (cr, 0., t0, width, step);
 			cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+			cairo_fill (cr);
+		}
+	} else if (max == 0) {
+		/* At most one stop: there is no range to build a gradient
+		 * from; paint its colour as a flat fill.  */
+		if (map->size > 0) {
+			cairo_rectangle (cr, 0., 0., width, height);
+			cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (map->colors[0]));
 			cairo_fill (cr);
 		}
 	} else {
@@ -688,8 +721,10 @@ gog_axis_color_map_registry_add (GogAxisColorMap *map)
 {
 	g_return_if_fail (GOG_IS_AXIS_COLOR_MAP (map));
 
-	/* TODO: Check for duplicated names and for already
-	 * registered map */
+	/* A map must not be in the list twice: shutdown destroys each
+	 * entry once, and a duplicate would be double-unreffed.  */
+	if (g_slist_find (color_maps, map) != NULL)
+		return;
 
 	color_maps = g_slist_append (color_maps, map);
 }
@@ -705,7 +740,7 @@ static gboolean
 gog_axis_color_map_compare (GogAxisColorMap const *map1, GogAxisColorMap const *map2)
 {
 	unsigned i;
-	if (strcmp (map1->name, map2->name))
+	if (g_strcmp0 (map1->name, map2->name))
 		return TRUE;
 	if (map1->size != map2->size)
 		return TRUE;
@@ -797,7 +832,7 @@ bin_changed_cb (GtkSpinButton *btn, struct color_map_edit_state *state)
 		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
 		                           i > 0 && state->bin == state->map->limits[i]);
 		go_color_selector_set_color (GO_SELECTOR (state->color_selector),
-		                             gog_axis_color_map_get_color (state->map, i));
+		                             state->map->colors[i]);
 	} else {
 		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "erase"),
 		                          FALSE);
@@ -833,13 +868,22 @@ gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc)
 	if (map == NULL) {
 		GOColor color = 0; /* full transparent */
 		state.map = gog_axis_color_map_from_colors ("New map", 1, &color, GO_RESOURCE_RW);
+		g_free (state.map->id);
 		state.map->id = go_uuid ();
 		build_uri (state.map);
 		state.orig = gog_axis_color_map_dup (state.map);
 	} else {
 		state.orig = map;
-		state.map = gog_axis_color_map_from_colors (map->name, map->size,
-		                                            map->colors, map->type);
+		if (map->size == 0) {
+			/* A map id from a document that is not installed:
+			 * start from one transparent stop, like the
+			 * new-map case above.  */
+			GOColor color = 0;
+			state.map = gog_axis_color_map_from_colors (
+				map->name, 1, &color, map->type);
+		} else
+			state.map = gog_axis_color_map_from_colors (map->name, map->size,
+			                                            map->colors, map->type);
 	}
 
 	state.gui = gui;
@@ -857,7 +901,8 @@ gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc)
 	gtk_widget_set_sensitive (w, FALSE);
 	state.color_selector = go_selector_new_color (state.map->colors[0], state.map->colors[0], "fill-color");
 	gtk_grid_attach (grid, state.color_selector, 3, 2, 1, 1);
-	gtk_entry_set_text (GTK_ENTRY (gtk_builder_get_object (gui, "name")), state.map->name);
+	gtk_entry_set_text (GTK_ENTRY (gtk_builder_get_object (gui, "name")),
+			    state.map->name != NULL ? state.map->name : "");
 	gtk_widget_set_sensitive (go_gtk_builder_get_widget (gui, "save"), FALSE);
 	gtk_widget_show_all (GTK_WIDGET (grid));
 
@@ -878,6 +923,8 @@ gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc)
 			unsigned i;
 			map->size = state.map->size;
 			if (map->size > map->allocated) {
+				g_free (map->limits);
+				g_free (map->colors);
 				map->limits = g_new (unsigned, map->size);
 				map->colors = g_new (GOColor, map->size);
 				map->allocated = map->size;
@@ -892,8 +939,8 @@ gog_axis_color_map_edit (GogAxisColorMap *map, GOCmdContext *cc)
 		gog_axis_color_map_save (map);
 		gog_axis_color_map_registry_add (map);
 	} else {
-		if (map == NULL)
-			g_object_unref (state.map);
+		/* state.map is always the throw-away copy here.  */
+		g_object_unref (state.map);
 		map = NULL;
 	}
 	gtk_widget_destroy (top_level);

@@ -84,6 +84,7 @@ gog_chart_map_3d_new (GogView *view, GogViewAllocation const *area,
 	GogChartMap3D *map;
 	GogAxisSet axis_set;
 	Gog3DBox *box;
+	GogView *box_view;
 	GogChart *chart;
 
 	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
@@ -95,18 +96,29 @@ gog_chart_map_3d_new (GogView *view, GogViewAllocation const *area,
 
 	chart = GOG_CHART (view->model);
 
-	map = g_new (GogChartMap3D, 1);
+	map = g_new0 (GogChartMap3D, 1);
 
 	map->area = *area;
 	map->data = NULL;
 	map->is_valid = FALSE;
 	map->ref_count = 1;
 	box = GOG_3D_BOX (gog_object_get_child_by_name (GOG_OBJECT (chart), "3D-Box"));
-	map->view = GOG_3D_BOX_VIEW (g_object_ref (gog_view_find_child_view (view, (GogObject *) box)));
+	box_view = box != NULL
+		? gog_view_find_child_view (view, (GogObject *) box)
+		: NULL;
+	map->view = box_view != NULL
+		? GOG_3D_BOX_VIEW (g_object_ref (box_view))
+		: NULL;
 
 	axis_set = gog_chart_get_axis_set (chart);
 	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 	case GOG_AXIS_SET_XYZ: {
+		if (map->view == NULL) {
+			g_warning ("[Chart3D::map_new] no 3D box view");
+			map->map_3D_to_view = null_map_3D;
+			break;
+		}
+
 		map->axis_map[0] = gog_axis_map_new (axis0, -map->view->dx, 2 * map->view->dx);
 		map->axis_map[1] = gog_axis_map_new (axis1, -map->view->dy, 2 * map->view->dy);
 		map->axis_map[2] = gog_axis_map_new (axis2, -map->view->dz, 2 * map->view->dz);
@@ -206,7 +218,8 @@ gog_chart_map_3d_free (GogChartMap3D *map)
 			gog_axis_map_free (map->axis_map[i]);
 
 	g_free (map->data);
-	g_object_unref (map->view);
+	if (map->view != NULL)
+		g_object_unref (map->view);
 	g_free (map);
 }
 

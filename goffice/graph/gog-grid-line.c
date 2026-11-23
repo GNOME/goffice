@@ -212,7 +212,10 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 					}
 				}
 			if (stripe_started) {
-				rect.w = (plot_area->x + plot_area->w) - rect.x;
+				if (gog_axis_is_inverted (axis))
+					rect.w = plot_area->x - rect.x;
+				else
+					rect.w = (plot_area->x + plot_area->w) - rect.x;
 				go_path_rectangle (path, rect.x, rect.y, rect.w, rect.h);
 			}
 			gog_renderer_fill_shape (view->renderer, path);
@@ -249,7 +252,10 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 					}
 				}
 			if (stripe_started) {
-				rect.h = plot_area->y - rect.y;
+				if (gog_axis_is_inverted (axis))
+					rect.h = (plot_area->y + plot_area->h) - rect.y;
+				else
+					rect.h = plot_area->y - rect.y;
 				go_path_rectangle (path, rect.x, rect.y, rect.w, rect.h);
 			}
 			gog_renderer_fill_shape (view->renderer, path);
@@ -669,7 +675,6 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 
 	if (stripes) {
 		double last_theta = 0, theta, r_in, r_out;
-		double delta_theta = parms->th1 - parms->th0;
 		double maximum, minimum;
 
 		r_in = gog_axis_map (map, start);
@@ -679,39 +684,38 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 			if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 			    grid_line->is_minor) {
 				if (stripe_started) {
-					theta = gog_axis_map (map, ticks[i].position);
+					theta = gog_axis_map_to_view (map, ticks[i].position);
 					go_path_ring_wedge (path,
 							    parms->cx, parms->cy,
 							    r_in * parms->rx,
 							    r_in * parms->ry,
 							    r_out * parms->rx,
 							    r_out * parms->ry,
-							    -parms->th0 - theta * delta_theta,
-							    -parms->th0 - last_theta * delta_theta);
+							    theta, last_theta);
 					stripe_started = FALSE;
 				} else {
-					last_theta = gog_axis_map (map, ticks[i].position);
+					last_theta = gog_axis_map_to_view (map, ticks[i].position);
 					stripe_started = TRUE;
 				}
 			}
 		if (stripe_started) {
 			gog_axis_map_get_bounds (map, &minimum, &maximum);
-			theta = gog_axis_map (map, maximum);
+			theta = gog_axis_map_to_view (map, maximum);
 			go_path_ring_wedge (path,
 					    parms->cx, parms->cy,
 					    r_in * parms->rx,
 					    r_in * parms->ry,
 					    r_out * parms->rx,
 					    r_out * parms->ry,
-					    -parms->th0 - theta * delta_theta,
-					    -parms->th0 - last_theta * delta_theta);
+					    theta, last_theta);
 		}
 		gog_renderer_fill_shape (view->renderer, path);
 	} else {
-		gog_chart_map_2D_to_view (c_map, 0, start, &x0, &y0);
 		for (i = 0; i < tick_nbr; i++)
 			if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 			    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
+				gog_chart_map_2D_to_view (c_map, ticks[i].position, start,
+							  &x0, &y0);
 				gog_chart_map_2D_to_view (c_map, ticks[i].position, stop,
 							  &x1, &y1);
 				go_path_move_to (path, x0, y0);
@@ -759,10 +763,13 @@ gog_grid_line_view_render (GogView *view, gboolean stripes)
 	g_return_if_fail (chart_view != NULL);
 
 	axis_type = gog_axis_get_atype (axis);
-	tick_nbr = (line)? gog_axis_line_get_ticks (line, &ticks):
-		gog_axis_get_ticks (axis, &ticks);
-	if (tick_nbr < 1)
-		return;
+	tick_nbr = (line)? gog_axis_line_get_ticks (line, &ticks): 0;
+	if (tick_nbr < 1) {
+		/* An axis line without custom ticks uses the axis ticks.  */
+		tick_nbr = gog_axis_get_ticks (axis, &ticks);
+		if (tick_nbr < 1)
+			return;
+	}
 
 	plot_area = gog_chart_view_get_plot_area (chart_view);
 	g_return_if_fail (plot_area != NULL);

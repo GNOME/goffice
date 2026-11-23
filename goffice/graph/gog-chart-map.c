@@ -352,6 +352,34 @@ make_path_spline (GogChartMap *map,
 	return path;
 }
 
+static gboolean
+path_points_increasing (double const *uu, int n)
+{
+	int i;
+
+	for (i = 1; i < n; i++)
+		if (uu[i] <= uu[i - 1])
+			return FALSE;
+	return TRUE;
+}
+
+/* go_cspline_init needs increasing x; an inverted axis (or decreasing
+ * data) gives decreasing view x, so reverse the points.  */
+static void
+reverse_path_points (double *uu, double *vv, int n)
+{
+	int i;
+
+	for (i = 0; i < n / 2; i++) {
+		double t = uu[i];
+		uu[i] = uu[n - 1 - i];
+		uu[n - 1 - i] = t;
+		t = vv[i];
+		vv[i] = vv[n - 1 - i];
+		vv[n - 1 - i] = t;
+	}
+}
+
 static GOPath *
 make_path_cspline (GogChartMap *map,
 		  double const *x, double const *y, int n_points,
@@ -362,6 +390,7 @@ make_path_cspline (GogChartMap *map,
 	int i, n_valid_points = 0;
 	double *uu, *vv, u, v;
 	double p0 = 0., p1 = 0.; /* clamped derivatives */
+	double x_start = 0., y_start = 0., x_end = 0., y_end = 0.;
 	GOCSpline *spline;
 
 	path = go_path_new ();
@@ -373,13 +402,20 @@ make_path_cspline (GogChartMap *map,
 	n_valid_points = 0;
 
 	for (i = 0; i < n_points; i++) {
-		gog_chart_map_2D_to_view (map,
-					  x != NULL ? x[i] : i + 1, y != NULL ? y[i] : i + 1,
-					  &u, &v);
+		double xv = x != NULL ? x[i] : i + 1;
+		double yv = y != NULL ? y[i] : i + 1;
+
+		gog_chart_map_2D_to_view (map, xv, yv, &u, &v);
 		if (go_finite (u)
 		    && go_finite (v)
 		    && fabs (u) != DBL_MAX
 		    && fabs (v) != DBL_MAX) {
+			if (n_valid_points == 0) {
+				x_start = xv;
+				y_start = yv;
+			}
+			x_end = xv;
+			y_end = yv;
 			uu[n_valid_points] = u;
 			vv[n_valid_points] = v;
 			n_valid_points++;
@@ -392,6 +428,8 @@ make_path_cspline (GogChartMap *map,
 			} else if (n_valid_points > 2) {
 				int j;
 				/* evaluate the spline */
+				if (!path_points_increasing (uu, n_valid_points))
+					reverse_path_points (uu, vv, n_valid_points);
 				spline = go_cspline_init (uu, vv, n_valid_points, type, p0, p1);
 				if (spline) {
 					double x0, x1, x2, x3, y0, y1, y2, y3;
@@ -420,10 +458,26 @@ make_path_cspline (GogChartMap *map,
 		go_path_move_to (path, uu[0], vv[0]);
 		go_path_line_to (path, uu[1], vv[1]);
 	} else if (n_valid_points > 2) {
+		gboolean reversed = !path_points_increasing (uu, n_valid_points);
+
+		if (reversed)
+			reverse_path_points (uu, vv, n_valid_points);
 		if (type == GO_CSPLINE_CLAMPED && data != NULL) {
-			p0 = gog_chart_map_2D_derivative_to_view (map, ((double*) data)[0], uu[0], vv[0]);
-			p1 = gog_chart_map_2D_derivative_to_view (map, ((double*) data)[1],
-								  uu[n_valid_points - 1], vv[n_valid_points - 1]);
+			/* The clamped derivatives are data space slopes at
+			 * the first and last data points.  The curve is
+			 * built in view space, so convert them using the
+			 * axis mapping derivatives at those points, taking
+			 * the possible reversal into account.  */
+			double const *derivs = data;
+			double d0 = derivs[reversed ? 1 : 0];
+			double d1 = derivs[reversed ? 0 : 1];
+			double xa = reversed ? x_end : x_start;
+			double ya = reversed ? y_end : y_start;
+			double xb = reversed ? x_start : x_end;
+			double yb = reversed ? y_start : y_end;
+
+			p0 = gog_chart_map_2D_derivative_to_view (map, d0, xa, ya);
+			p1 = gog_chart_map_2D_derivative_to_view (map, d1, xb, yb);
 		}
 		spline = go_cspline_init (uu, vv, n_valid_points, type, p0, p1);
 		if (spline) {
@@ -516,6 +570,9 @@ xy_make_path (GogChartMap *map, double const *x, double const *y,
 	      int n_points, GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data)
 {
 	GOPath *path = NULL;
+
+	if (n_points < 1)
+		return go_path_new ();
 
 	switch (interpolation) {
 		case GO_LINE_INTERPOLATION_LINEAR:
@@ -621,15 +678,15 @@ xy_make_close_path (GogChartMap *map, double const *x, double const *y,
 			close_path = go_path_new ();
 			gog_axis_map_get_real_bounds (x_map, &position, NULL);
 			position = gog_axis_map_to_view (x_map, position);
-			go_path_move_to (close_path, gog_axis_map_to_view (y_map, y_start), position);
-			go_path_line_to (close_path, gog_axis_map_to_view (y_map, y_end), position);
+			go_path_move_to (close_path, position, gog_axis_map_to_view (y_map, y_start));
+			go_path_line_to (close_path, position, gog_axis_map_to_view (y_map, y_end));
 			break;
 		case GOG_SERIES_FILL_TYPE_X_AXIS_MAX:
 			close_path = go_path_new ();
 			gog_axis_map_get_real_bounds (x_map, NULL, &position);
 			position = gog_axis_map_to_view (x_map, position);
-			go_path_move_to (close_path, gog_axis_map_to_view (y_map, y_start), position);
-			go_path_line_to (close_path, gog_axis_map_to_view (y_map, y_end), position);
+			go_path_move_to (close_path, position, gog_axis_map_to_view (y_map, y_start));
+			go_path_line_to (close_path, position, gog_axis_map_to_view (y_map, y_end));
 			break;
 		case GOG_SERIES_FILL_TYPE_Y_AXIS_MIN:
 			close_path = go_path_new ();
@@ -738,6 +795,7 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 						go_path_arc_to (path, cx, cy,
 								last_rho * rx, last_rho * ry,
 								last_theta, theta);
+						go_path_line_to (path, xx, yy);
 						break;
 					case GO_LINE_INTERPOLATION_STEP_END:
 						go_path_arc_to (path, cx, cy,
@@ -778,6 +836,9 @@ polar_make_path (GogChartMap *map, double const *x, double const *y,
 {
 	GOPath *path = NULL;
 
+	if (n_points < 1)
+		return go_path_new ();
+
 	switch (interpolation) {
 		case GO_LINE_INTERPOLATION_LINEAR:
 			path = make_path_linear (map, x, y, n_points, TRUE, skip_invalid);
@@ -787,6 +848,12 @@ polar_make_path (GogChartMap *map, double const *x, double const *y,
 			break;
 		case GO_LINE_INTERPOLATION_CLOSED_SPLINE:
 			path = make_path_spline (map, x, y, n_points, TRUE, TRUE, skip_invalid);
+			break;
+		case GO_LINE_INTERPOLATION_ODF_SPLINE:
+			if (x != NULL && y != NULL && x[0] == x[n_points - 1] && y[0] == y[n_points - 1])
+				path = make_path_spline (map, x, y, n_points - 1, TRUE, TRUE, skip_invalid);
+			else
+				path = make_path_spline (map, x, y, n_points, FALSE, FALSE, skip_invalid);
 			break;
 		case GO_LINE_INTERPOLATION_CUBIC_SPLINE:
 		case GO_LINE_INTERPOLATION_PARABOLIC_CUBIC_SPLINE:
@@ -989,6 +1056,8 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 			map->map_2D_to_view = null_map_2D;
 			map->map_2D_derivative_to_view = NULL;
 			map->map_view_to_2D = null_map_2D;
+			map->make_path = NULL;
+			map->make_close_path = NULL;
 			break;
 	}
 

@@ -23,6 +23,27 @@ Morten:
 	* Lots of canvas fixes.
 	* Canvas test suite.
 	* Improved math test suite.
+	* Graph test suite.
+	* Fix crash when duplicating an empty colour map.
+	* Fix graph equation crash on a leading `}`.
+	* Fix abort with ODF spline on radar/polar plots.
+	* Fix bubble-plot legend cardinality underflow.
+	* Fix per-point data labels: only first override used.
+	* Fix data-label super/subscript, background, outline, position.
+	* Fix series and grid rendering with inverted axes.
+	* Fix radar/polar stripes, spokes, and error bars.
+	* Fix 3D charts: radar→XYZ drawn as 2D; axis-map corruption.
+	* Fix plots added after an axis deletion being left without axes.
+	* Fix log-axis tick overcount; single-value date axes.
+	* Fix axis editors: metrics unit, cross-at, 3D selection.
+	* Fix colour maps: stop colour, wrap over-read, single-stop fill.
+	* Fix colour scales: empty axes, NULL tick labels, overlap.
+	* Fix themes: default style, series-line role, palettes, saving.
+	* Fix radar-area and XY line/fill defaults lost on reload.
+	* Fix chart auto placement with row spans (overlap).
+	* Fix chart-type selector thumbnails; guru reordering.
+	* Fix object drag jumping on the first move.
+	* Plug many graph leaks; deprecate leaky gog_object add helpers.
 
 --------------------------------------------------------------------------
 goffice 0.10.62:

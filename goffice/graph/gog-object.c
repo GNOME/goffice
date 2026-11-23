@@ -173,6 +173,7 @@ typedef struct {
 } GogPositionFlagDesc;
 
 static GogPositionFlagDesc const position_compass[] = {
+	{N_("None"),		"none",		GOG_POSITION_AUTO},
 	{N_("Top"), 		"top",		GOG_POSITION_N},
 	{N_("Top right"), 	"top-right",	GOG_POSITION_N|GOG_POSITION_E},
 	{N_("Right"), 		"right",	GOG_POSITION_E},
@@ -291,6 +292,8 @@ gog_object_set_property (GObject *obj, guint param_id,
 		break;
 	case OBJECT_PROP_POSITION:
 		str = g_value_get_string (value);
+		if (str == NULL)
+			break;
 		str_doubles = g_strsplit (str, " ", 4);
 		if (g_strv_length (str_doubles) != 4) {
 			g_strfreev (str_doubles);
@@ -391,6 +394,7 @@ gog_object_get_property (GObject *obj, guint param_id,
 		g_string_free (string, TRUE);
 		break;
 	case OBJECT_PROP_POSITION_COMPASS:
+		g_param_value_set_default (pspec, value);
 		flags = gog_object_get_position_flags (GOG_OBJECT (obj), GOG_POSITION_COMPASS);
 		for (i = 0; i < G_N_ELEMENTS (position_compass); i++)
 			if (position_compass[i].flags == flags) {
@@ -410,6 +414,7 @@ gog_object_get_property (GObject *obj, guint param_id,
 		g_value_set_boolean (value, (gobj->position & GOG_POSITION_MANUAL) != 0);
 		break;
 	case OBJECT_PROP_POSITION_ANCHOR:
+		g_param_value_set_default (pspec, value);
 		flags = gog_object_get_position_flags (GOG_OBJECT (obj), GOG_POSITION_ANCHOR);
 		for (i = 0; i < G_N_ELEMENTS (position_anchor); i++)
 			if (position_anchor[i].flags == flags) {
@@ -547,14 +552,16 @@ cb_update_editor (GogObject *gobj, ObjectPrefState *state)
 	if (state->y_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), gobj->manual_position.y * 100.0);
 	if (state->w_spin != NULL) {
-		gboolean visible = (manual_size & GOG_POSITION_MANUAL_W) != 0;
+		gboolean visible = (manual_size &
+				    (GOG_POSITION_MANUAL_W | GOG_POSITION_MANUAL_W_ABS)) != 0;
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), gobj->manual_position.w * 100.0);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_label"), visible);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width_spin"), visible);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "width-pc-lbl"), visible);
 	}
 	if (state->h_spin != NULL) {
-		gboolean visible = (manual_size & GOG_POSITION_MANUAL_H) != 0;
+		gboolean visible = (manual_size &
+				    (GOG_POSITION_MANUAL_H | GOG_POSITION_MANUAL_H_ABS)) != 0;
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), gobj->manual_position.h * 100.0);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_label"), visible);
 		gtk_widget_set_visible (go_gtk_builder_get_widget (state->gui, "height_spin"), visible);
@@ -1013,7 +1020,7 @@ gog_object_generate_name (GogObject *obj)
 		type_name =  "BROKEN";
 
 	g_free (obj->auto_name);
-	obj->auto_name =  g_strdup_printf ("%s%d", type_name, obj->id);
+	obj->auto_name =  g_strdup_printf ("%s%u", type_name, obj->id);
 }
 
 /**
@@ -1128,7 +1135,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 	if (src->role == NULL || src->explicitly_typed_role)
 		dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	if (new_parent)
-		dst = gog_object_add_by_role (new_parent, src->role, dst);
+		dst = gog_object_add_by_role2 (new_parent, src->role, dst);
 
 	g_return_val_if_fail (GOG_IS_OBJECT (dst), NULL);
 
@@ -1332,9 +1339,11 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
 GogObject *
 gog_object_get_child_by_name (GogObject const *obj, char const *name)
 {
+	GogObjectRole const *role;
+
 	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
-	return gog_object_get_child_by_role (obj,
-		gog_object_find_role_by_name (obj, name));
+	role = gog_object_find_role_by_name (obj, name);
+	return role != NULL ? gog_object_get_child_by_role (obj, role) : NULL;
 }
 
 /**
@@ -1486,10 +1495,21 @@ gog_object_can_reorder (GogObject const *obj, gboolean *inc_ok, gboolean *dec_ok
 /**
  * gog_object_reorder:
  * @obj: #GogObject
- * @inc:
- * @goto_max:
+ * @inc: whether to move @obj towards the first child (%TRUE) or towards
+ *       the last one (%FALSE)
+ * @goto_max: whether to move past every adjacent sibling with the same
+ *            role, rather than only one position
  *
- * Returns: (transfer none): the object just before @obj in the new ordering.
+ * Moves @obj up or down its parent's child list.
+ *
+ * The move is a silent no-op, returning %NULL and emitting no signal,
+ * when @obj is not attached to a graph, when it is not among its
+ * parent's children, or when it is already at the requested end of the
+ * list.
+ *
+ * Returns: (transfer none) (nullable): the sibling that precedes @obj in
+ * its new position, or %NULL if @obj is now the first child or the move
+ * was rejected.
  **/
 GogObject *
 gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
@@ -1503,15 +1523,23 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 		return NULL;
 	parent = obj->parent;
 
+	/* Validate before mutating: an early return must not leave
+	 * parent->children reversed.  */
+	for (tmp = parent->children; tmp != NULL && tmp->data != obj ;)
+		tmp = tmp->next;
+	if (tmp == NULL)
+		return NULL;
+	if (inc ? tmp == parent->children : tmp->next == NULL)
+		return NULL;
+
 	if (inc)
 		parent->children = g_slist_reverse (parent->children);
 
 	for (ptr = &parent->children; *ptr != NULL && (*ptr)->data != obj ;)
 		ptr = &(*ptr)->next;
 
-	g_return_val_if_fail (*ptr != NULL, NULL);
-	g_return_val_if_fail ((*ptr)->next != NULL, NULL);
-
+	/* Validated above, so *ptr is @obj and (*ptr)->next is a sibling
+	 * with the same role.  */
 	tmp = *ptr;
 	*ptr = tmp->next;
 	ptr = &(*ptr)->next;
@@ -1715,11 +1743,16 @@ gog_object_request_editor_update (GogObject *obj)
 /******************************************************************************/
 
 /**
- * gog_object_clear_parent:
+ * gog_object_clear_parent: (skip)
  * @obj: #GogObject
  *
- * Does _not_ unref the child, which in effect adds a ref by freeing up the ref
- * previously associated with the parent.
+ * Removes @obj from its parent without unreffing it.
+ *
+ * The reference handling is conditional: on success the reference the
+ * parent held is transferred to the caller, which must unref @obj when
+ * done, while on failure nothing changes and the caller gains no
+ * reference.  The (skip) marks that this cannot be expressed to language
+ * bindings.
  *
  * Returns: %TRUE on success.
  **/
@@ -1755,11 +1788,18 @@ gog_object_clear_parent (GogObject *obj)
 }
 
 /**
- * gog_object_set_parent:
+ * gog_object_set_parent: (skip)
  * @child: (transfer full): #GogObject.
  * @parent: #GogObject.
+ * @role: the #GogObjectRole @child is to have
  * @id: the id for @child, or 0 to generate one
- * @role: a static string that can be sent to @parent::add
+ *
+ * Inserts @child into @parent's children in @role.
+ *
+ * The ownership of @child is conditional: on success the caller's
+ * reference becomes @parent's and must not be unreffed, while on failure
+ * @child is left untouched and the caller keeps its reference.  This
+ * cannot be expressed to language bindings, hence the (skip).
  *
  * Returns: %TRUE on success
  **/
@@ -1801,16 +1841,9 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 	return TRUE;
 }
 
-/**
- * gog_object_add_by_role:
- * @parent: #GogObject
- * @role: #GogObjectRole
- * @child: (transfer full) (nullable): #GogObject
- *
- * Returns: (transfer none): @child or a newly created object with @role.
- **/
-GogObject *
-gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject *child)
+static GogObject *
+gog_object_add_by_role_full (GogObject *parent, GogObjectRole const *role,
+			     GogObject *child)
 {
 	GType is_a;
 	gboolean explicitly_typed_role;
@@ -1849,22 +1882,141 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 }
 
 /**
- * gog_object_add_by_name:
+ * gog_object_add_by_role: (skip)
  * @parent: #GogObject
- * @role:
+ * @role: #GogObjectRole
  * @child: (transfer full) (nullable): #GogObject
  *
- * Returns: (transfer none) (nullable): a newly created child of @parent in
- * @role.  If @child is provided, it is assumed to be an unaffiliated object
- * that will be assigned in @role.  Returns %NULL on failure.
+ * Adds @child to @parent in @role, creating a new object when @child is
+ * %NULL.
+ *
+ * The ownership of @child is conditional: it is consumed (by @parent or
+ * by an unref) on success and when assigning @child to @parent fails, but
+ * the caller keeps its reference when @role is %NULL, when the role's
+ * object type is unknown, or when @child has the wrong type.  Callers
+ * therefore cannot tell from a %NULL return whether they still own
+ * @child; the function is skipped for bindings for this reason.
+ *
+ * Deprecated: Use gog_object_add_by_role2() instead, which consumes
+ * @child on every failure.
+ *
+ * Returns: (transfer none) (nullable): @child or the newly created object,
+ * or %NULL on failure.
+ **/
+GogObject *
+gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject *child)
+{
+	return gog_object_add_by_role_full (parent, role, child);
+}
+
+/**
+ * gog_object_add_by_role2: (skip)
+ * @parent: #GogObject
+ * @role: #GogObjectRole
+ * @child: (transfer full) (nullable): #GogObject
+ *
+ * Adds @child to @parent in @role, creating a new object when @child is
+ * %NULL.  Unlike gog_object_add_by_role(), the ownership of @child is
+ * unconditional: it is consumed on success and on every failure, so
+ * callers must not use their reference after a %NULL return.
+ *
+ * Returns: (transfer none) (nullable): @child or the newly created object,
+ * or %NULL on failure; @child has been consumed either way.
+ **/
+GogObject *
+gog_object_add_by_role2 (GogObject *parent, GogObjectRole const *role, GogObject *child)
+{
+	GType is_a;
+
+	if (child == NULL)
+		return gog_object_add_by_role_full (parent, role, child);
+
+	/* The legacy implementation keeps the caller's reference when it
+	 * rejects the role or the child's type; detect those cases so that
+	 * the strict contract can consume the reference.  */
+	is_a = (role != NULL)? g_type_from_name (role->is_a_typename): 0;
+	if (role == NULL || !GOG_IS_OBJECT (parent) || is_a == 0 ||
+	    !G_TYPE_CHECK_INSTANCE_TYPE (child, is_a)) {
+		GogObject *res = gog_object_add_by_role_full (parent, role, child);
+
+		/* @res is %NULL here and @child was left untouched.  */
+		if (res == NULL)
+			g_object_unref (child);
+		return res;
+	}
+
+	return gog_object_add_by_role_full (parent, role, child);
+}
+
+static GogObject *
+gog_object_add_by_name_full (GogObject *parent, char const *role_name,
+			     GogObject *child)
+{
+	GogObjectRole const *role;
+
+	g_return_val_if_fail (GOG_IS_OBJECT (parent), NULL);
+	role = gog_object_find_role_by_name (parent, role_name);
+
+	if (role == NULL)
+		return NULL;
+	return gog_object_add_by_role_full (parent, role, child);
+}
+
+/**
+ * gog_object_add_by_name: (skip)
+ * @parent: #GogObject
+ * @role: the name of a role of @parent
+ * @child: (transfer full) (nullable): #GogObject
+ *
+ * Adds @child to @parent in the role named @role, creating a new object
+ * when @child is %NULL.
+ *
+ * The ownership of @child is conditional, exactly as described for
+ * gog_object_add_by_role(): consumed on success and on assignment
+ * failure, but kept by the caller when @role is not a role of @parent or
+ * when @child has the wrong type.  Skipped for bindings.
+ *
+ * Deprecated: Use gog_object_add_by_name2() instead, which consumes
+ * @child on every failure.
+ *
+ * Returns: (transfer none) (nullable): the child, or %NULL on failure.
  **/
 GogObject *
 gog_object_add_by_name (GogObject *parent,
 			char const *role, GogObject *child)
 {
-	g_return_val_if_fail (GOG_IS_OBJECT (parent), NULL);
-	return gog_object_add_by_role (parent,
-		gog_object_find_role_by_name (parent, role), child);
+	return gog_object_add_by_name_full (parent, role, child);
+}
+
+/**
+ * gog_object_add_by_name2:
+ * @parent: #GogObject
+ * @role: the name of a role of @parent
+ * @child: (transfer full) (nullable): #GogObject
+ *
+ * Adds @child to @parent in the role named @role, creating a new object
+ * when @child is %NULL.  Unlike gog_object_add_by_name(), the ownership
+ * of @child is unconditional: it is consumed on success and on every
+ * failure, so callers must not use their reference after a %NULL return.
+ *
+ * Returns: (transfer none) (nullable): the child, or %NULL on failure;
+ * @child has been consumed either way.
+ **/
+GogObject *
+gog_object_add_by_name2 (GogObject *parent,
+			 char const *role, GogObject *child)
+{
+	GogObjectRole const *r;
+
+	if (child == NULL)
+		return gog_object_add_by_name_full (parent, role, child);
+	r = gog_object_find_role_by_name (parent, role);
+	if (r == NULL) {
+		/* No such role: the legacy function keeps the reference.  */
+		g_object_unref (child);
+		return NULL;
+	}
+	return gog_object_add_by_role2 (parent, r, child);
 }
 
 /**
@@ -2125,7 +2277,8 @@ gog_object_find_role_by_name (GogObject const *obj, char const *role)
 
 	klass = GOG_OBJECT_GET_CLASS (obj);
 
-	return g_hash_table_lookup (klass->roles, role);
+	return klass->roles != NULL ?
+		g_hash_table_lookup (klass->roles, role) : NULL;
 }
 
 static void

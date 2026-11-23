@@ -147,7 +147,8 @@ cb_display_changed (GtkComboBox *combo, GogErrorBarEditor *editor)
 
 	memset (&value, 0, sizeof (GValue));
        	model = gtk_combo_box_get_model (combo);
-	gtk_combo_box_get_active_iter (combo, &iter);
+	if (!gtk_combo_box_get_active_iter (combo, &iter))
+		return;
 	gtk_tree_model_get_value (model, &iter, 2, &value);
 
 	editor->display = g_value_get_uint (&value);
@@ -323,7 +324,8 @@ gog_error_bar_prefs (GogSeries *series,
 				    1, _(display_combo_desc[i].label),
 				    2, display_combo_desc[i].display,
 				    -1);
-		g_object_unref (pixbuf);
+		if (pixbuf != NULL)
+			g_object_unref (pixbuf);
 		if (editor->display == display_combo_desc[i].display || i == 0)
 			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
 	}
@@ -356,12 +358,12 @@ gog_error_bar_prefs (GogSeries *series,
 		grid = go_gtk_builder_get_widget (gui, "values-grid");
 		gtk_widget_show (al);
 		gtk_widget_set_hexpand (al, TRUE);
-		gtk_grid_attach (GTK_GRID (bar_prefs), al, 1, 1, 1, 1);
+		gtk_grid_attach (GTK_GRID (grid), al, 1, 1, 1, 1);
 		g_object_set_data (G_OBJECT (w), "plus", al);
 		al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, GOG_DATA_VECTOR));
 		gtk_widget_show (al);
 		gtk_widget_set_hexpand (al, TRUE);
-		gtk_grid_attach (GTK_GRID (bar_prefs), al, 1, 2, 1, 1);
+		gtk_grid_attach (GTK_GRID (grid), al, 1, 2, 1, 1);
 		g_object_set_data (G_OBJECT (w), "minus", al);
 	} else {
 		gtk_widget_hide (go_gtk_builder_get_widget (gui, "values-grid"));
@@ -698,6 +700,8 @@ void gog_error_bar_render (const GogErrorBar *bar,
 		gboolean cap_min, cap_max;
 		/* x = angle, y = radius */
 		polar_parms = gog_chart_map_get_polar_parms (map);
+		if (polar_parms == NULL)
+			return;
 		cx = polar_parms->cx;
 		cy = polar_parms->cy;
 		gog_axis_map_get_bounds (y_map, &y_min, &y_max);
@@ -740,6 +744,8 @@ void gog_error_bar_render (const GogErrorBar *bar,
 		GogChartMapPolarData *polar_parms;
 		double cx, cy, a0, x0, y0, a1, x1, y1, rr, y_min, y_max;
 		polar_parms = gog_chart_map_get_polar_parms (map);
+		if (polar_parms == NULL)
+			return;
 		cx = polar_parms->cx;
 		cy = polar_parms->cy;
 		gog_axis_map_get_bounds (y_map, &y_min, &y_max);
@@ -757,6 +763,12 @@ void gog_error_bar_render (const GogErrorBar *bar,
 		gog_chart_map_2D_to_view (map, (end ? x - minus : x), y,
 							  &x1, &y1);
 		a1 = atan2 (y1 - cy, x1 - cx);
+		/* The endpoints can straddle atan2's ±π seam; keep the
+		 * sweep on the intended (short) side of the circle.  */
+		if (a0 - a1 > M_PI)
+			a1 += 2. * M_PI;
+		else if (a1 - a0 > M_PI)
+			a1 -= 2. * M_PI;
 		go_path_arc (path, cx, cy, rr, rr, a1, a0);
 		if ((2. * width) > line_width) {
 			double dx, dy;

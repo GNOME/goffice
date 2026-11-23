@@ -194,7 +194,8 @@ gog_chart_set_property (GObject *obj, guint param_id,
 	}
 
 	if (changed) {
-		gog_graph_validate_chart_layout (GOG_GRAPH (GOG_OBJECT (chart)->parent));
+		if (GOG_IS_GRAPH (GOG_OBJECT (chart)->parent))
+			gog_graph_validate_chart_layout (GOG_GRAPH (GOG_OBJECT (chart)->parent));
 		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 	}
 }
@@ -424,18 +425,20 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 	if (axis_set) {
 		int i = GOG_AXIS_VIRTUAL, j = 1 << GOG_AXIS_VIRTUAL;
 		for (; i < GOG_AXIS_TYPES; i++, j <<= 1)
-			if ((axis_set & j) != 0 && (chart->axis_set & j) == 0) {
+			if ((axis_set & j) != 0 &&
+			    ((chart->axis_set & j) == 0 ||
+			     gog_chart_get_axis (chart, i) == NULL)) {
 				GogObject *axis = GOG_OBJECT (g_object_new (GOG_TYPE_AXIS, "type", i, NULL));
 				chart->axis_set |= j;
 				switch (i) {
 				case GOG_AXIS_PSEUDO_3D:
-					gog_object_add_by_name (GOG_OBJECT (chart), "Pseudo-3D-Axis", axis);
+					gog_object_add_by_name2 (GOG_OBJECT (chart), "Pseudo-3D-Axis", axis);
 					break;
 				case GOG_AXIS_COLOR:
-					gog_object_add_by_name (GOG_OBJECT (chart), "Color-Axis", axis);
+					gog_object_add_by_name2 (GOG_OBJECT (chart), "Color-Axis", axis);
 					break;
 				case GOG_AXIS_BUBBLE:
-					gog_object_add_by_name (GOG_OBJECT (chart), "Bubble-Axis", axis);
+					gog_object_add_by_name2 (GOG_OBJECT (chart), "Bubble-Axis", axis);
 					break;
 				default:
 					g_warning ("Unknown axis type: %x\n", i);
@@ -447,9 +450,9 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 	gog_chart_request_cardinality_update (chart);
 
 	if (chart->plots->next == NULL)
-		ok = gog_chart_axis_set_assign (chart,
+		ok = !!gog_chart_axis_set_assign (chart,
 			gog_plot_axis_set_pref (GOG_PLOT (plot)));
-	ok |= gog_plot_axis_set_assign (GOG_PLOT (plot),
+	ok &= !!gog_plot_axis_set_assign (GOG_PLOT (plot),
 		chart->axis_set);
 
 	/* a quick post condition to keep us on our toes */
@@ -890,7 +893,8 @@ gog_chart_set_position (GogChart *chart,
 	chart->cols = cols;
 	chart->rows = rows;
 
-	gog_graph_validate_chart_layout (GOG_GRAPH (GOG_OBJECT (chart)->parent));
+	if (GOG_IS_GRAPH (GOG_OBJECT (chart)->parent))
+		gog_graph_validate_chart_layout (GOG_GRAPH (GOG_OBJECT (chart)->parent));
 	gog_object_emit_changed (GOG_OBJECT (chart), TRUE);
 }
 
@@ -1082,7 +1086,7 @@ gog_chart_add_axis (GogChart *chart, GogAxisType type)
 	unsigned i = G_N_ELEMENTS (roles);
 	while (i-- > 0)
 		if (roles[i].user.i == (int)type) {
-			gog_object_add_by_role (GOG_OBJECT (chart), roles + i, NULL);
+			gog_object_add_by_role2 (GOG_OBJECT (chart), roles + i, NULL);
 			return;
 		}
 	g_warning ("unknown axis type %d", type);
@@ -1199,13 +1203,14 @@ gog_chart_get_axis (GogChart const *chart, GogAxisType target)
 
 	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
 
-	/* gog_chart_get_axes prepends, so its first element is the last
-	 * matching child; keep that behaviour. */
+	/* Return the first axis of the requested type, as documented.  */
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next) {
 		GogObject *obj = ptr->data;
 		if (GOG_IS_AXIS (obj) &&
-		    gog_axis_get_atype (GOG_AXIS (obj)) == target)
+		    gog_axis_get_atype (GOG_AXIS (obj)) == target) {
 			first = GOG_AXIS (obj);
+			break;
+		}
 	}
 
 	return first;
@@ -1265,7 +1270,7 @@ gog_chart_is_3d (GogChart const *chart)
 {
 	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
 
-	return chart->axis_set == GOG_AXIS_SET_XYZ;
+	return (chart->axis_set & GOG_AXIS_SET_XYZ) == GOG_AXIS_SET_XYZ;
 }
 
 /*********************************************************************/
@@ -1290,27 +1295,44 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 
 	if (!obj) {
 		obj = g_object_new (GOG_3D_BOX_TYPE, NULL);
-		gog_object_add_by_name (GOG_OBJECT (chart), "3D-Box", obj);
+		obj = gog_object_add_by_name2 (GOG_OBJECT (chart), "3D-Box", obj);
+		if (obj == NULL)
+			return;
 	}
 	box = GOG_3D_BOX (obj);
 	box_view = GOG_3D_BOX_VIEW (gog_view_find_child_view (view, obj));
+	if (box_view == NULL)
+		return;
 
-	/* Only use the first of the axes. */
+	/* Only use the first of the axes.  All three are required: an
+	 * incomplete XYZ chart must not be dereferenced through NULL.  */
 	axisX = gog_chart_get_axis (chart, GOG_AXIS_X);
+	axisY = gog_chart_get_axis (chart, GOG_AXIS_Y);
+	axisZ = gog_chart_get_axis (chart, GOG_AXIS_Z);
+	if (axisX == NULL || axisY == NULL || axisZ == NULL)
+		return;
+
 	xm = gog_axis_get_metrics (axisX);
 	if (xm != GOG_AXIS_METRICS_DEFAULT)
 		ref = gog_axis_get_ref_axis (axisX);
-	gog_axis_get_bounds (axisX, &xmin, &xmax);
-	axisY = gog_chart_get_axis (chart, GOG_AXIS_Y);
+	if (!gog_axis_get_bounds (axisX, &xmin, &xmax)) {
+		xmin = 0.;
+		xmax = 1.;
+	}
 	ym = gog_axis_get_metrics (axisY);
 	if (ym != GOG_AXIS_METRICS_DEFAULT && ref == NULL)
 		ref = gog_axis_get_ref_axis (axisY);
-	gog_axis_get_bounds (axisY, &ymin, &ymax);
-	axisZ = gog_chart_get_axis (chart, GOG_AXIS_Z);
+	if (!gog_axis_get_bounds (axisY, &ymin, &ymax)) {
+		ymin = 0.;
+		ymax = 1.;
+	}
 	zm = gog_axis_get_metrics (axisZ);
 	if (zm != GOG_AXIS_METRICS_DEFAULT && ref == NULL)
 		ref = gog_axis_get_ref_axis (axisZ);
-	gog_axis_get_bounds (axisZ, &zmin, &zmax);
+	if (!gog_axis_get_bounds (axisZ, &zmin, &zmax)) {
+		zmin = 0.;
+		zmax = 1.;
+	}
 	/* define the 3d box */
 	if (ref == NULL) {
 		box_view->dz = tmp.h;

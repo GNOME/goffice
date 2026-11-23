@@ -182,8 +182,10 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output, gpointer user)
 
 		tmp = go_data_serialize (dat, user);
 		/* only save the data if there is some valid content, see #46 */
-		if (tmp == NULL || *tmp == 0)
+		if (tmp == NULL || *tmp == 0) {
+			g_free (tmp);
 			continue;
+		}
 		gsf_xml_out_start_element (output, "dimension");
 		gsf_xml_out_add_int (output, "id", i);
 		gsf_xml_out_add_cstr (output, "type",
@@ -365,6 +367,7 @@ gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 			type_str = CXML2C (attrs[i+1]);
 
 	if (prop_str == NULL) {
+		state->prop_spec = NULL;
 		g_warning ("missing name for property of class `%s'",
 			   G_OBJECT_TYPE_NAME (state->obj));
 		return;
@@ -508,9 +511,9 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (role != NULL) {
 		if (strcmp (role, GOG_BACKPLANE_OLD_ROLE_NAME) == 0)
-			res = gog_object_add_by_name (state->obj, GOG_BACKPLANE_NEW_ROLE_NAME, res);
+			res = gog_object_add_by_name2 (state->obj, GOG_BACKPLANE_NEW_ROLE_NAME, res);
 		else
-			res = gog_object_add_by_name (state->obj, role, res);
+			res = gog_object_add_by_name2 (state->obj, role, res);
 	}
 	if (res != NULL) {
 		res->explicitly_typed_role = (type != NULL);
@@ -540,6 +543,18 @@ gogo_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 static void
 go_sax_parser_done (G_GNUC_UNUSED GsfXMLIn *xin, GogXMLReadState *state)
 {
+	if (state->obj_stack != NULL) {
+		/* Parse aborted; release the partially built tree.  */
+		GSList *last = g_slist_last (state->obj_stack);
+		GogObject *root = last != NULL ? last->data : NULL;
+
+		if (root != NULL)
+			g_object_unref (root);
+		else if (state->obj != NULL)
+			g_object_unref (state->obj);
+		g_slist_free (state->obj_stack);
+		state->obj = NULL;
+	}
 	(*state->handler) (state->obj, state->user_data);
 	g_free (state);
 }
@@ -605,6 +620,16 @@ gog_object_new_from_input (GsfInput *input,
 	state->user_unserialize = user_unserialize;
 	if (gsf_xml_in_doc_parse (gog_sax_doc, input, state)) {
 		res = state->obj;
+	} else {
+		/* Release the partially built object tree.  */
+		GSList *last = g_slist_last (state->obj_stack);
+		GogObject *root = last != NULL ? last->data : NULL;
+
+		if (root != NULL)
+			g_object_unref (root);
+		else if (state->obj != NULL)
+			g_object_unref (state->obj);
+		g_slist_free (state->obj_stack);
 	}
 	g_free (state);
 	return res;

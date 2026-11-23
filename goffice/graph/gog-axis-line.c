@@ -475,18 +475,22 @@ cb_cross_axis_changed (GtkComboBox *combo, AxisBasePrefs *state)
 	GtkTreeIter iter;
 	GValue value;
 	GtkTreeModel *model = gtk_combo_box_get_model (combo);
+	GtkWidget *cross_button;
 
 	memset (&value, 0, sizeof (GValue));
 	if (!gtk_combo_box_get_active_iter (combo, &iter))
 		return;
 	gtk_tree_model_get_value (model, &iter, 1, &value);
 	state->axis_base->crossed_axis_id = g_value_get_uint (&value);
-
-	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (gtk_builder_get_object (state->gui, "axis-cross")),
-		 TRUE);
-
 	g_value_unset (&value);
+
+	/* Toggling an already active button emits nothing, so redraw the
+	 * axis line explicitly when the position is already "Cross".  */
+	cross_button = go_gtk_builder_get_widget (state->gui, "axis-cross");
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cross_button)))
+		gog_object_emit_changed (GOG_OBJECT (state->axis_base), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cross_button), TRUE);
 }
 
 static void
@@ -553,7 +557,8 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 	axis_base = GOG_AXIS_BASE (gobj);
 	g_return_if_fail (GOG_IS_AXIS_BASE (axis_base));
-	if (!gog_object_is_visible (axis_base->axis))
+	if (axis_base->axis == NULL ||
+	    !gog_object_is_visible (axis_base->axis))
 		return;
 
 	go_editor_set_store_page (editor, &axis_base_pref_page);
@@ -628,7 +633,11 @@ gog_axis_base_populate_editor (GogObject *gobj,
 				  G_CALLBACK (cb_cross_axis_changed), state);
 		g_signal_connect (G_OBJECT (deditor), "changed",
 				  G_CALLBACK (cb_cross_location_changed), state);
-		g_signal_connect_swapped (G_OBJECT (combo), "destroy", G_CALLBACK (axis_base_pref_free), state);
+		/* The state is shared by several widgets of the page: keep it
+		 * alive until the page itself is destroyed.  */
+		w = go_gtk_builder_get_widget (gui, "axis-base-pref-grid");
+		g_signal_connect_swapped (G_OBJECT (w), "destroy",
+					  G_CALLBACK (axis_base_pref_free), state);
 
 		w = go_gtk_builder_get_widget (gui, "axis-low");
 		if (axis_base->position == GOG_AXIS_AT_LOW)
@@ -1210,8 +1219,12 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts);
 	major_tick_len = gog_renderer_pt2r (renderer, axis_base->major.size_pts);
-	tick_len = axis_base->major.tick_out ? major_tick_len :
-		(axis_base->minor.tick_out ? minor_tick_len : 0.);
+	/* Labels clear the longest outward tick plus the line itself; this
+	 * matches axis_line_render().  */
+	tick_len = MAX (axis_base->major.tick_out ? major_tick_len : 0.,
+			axis_base->minor.tick_out ? minor_tick_len : 0.);
+	if (tick_len > 0.)
+		tick_len += line_width;
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr, -1.);
 	label_padding = txt_obr.h * .15;
 
@@ -1227,16 +1240,12 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	if (is_line_visible) {
 		double out_len, in_len;
 
-		out_len = line_width;
-		if (axis_base->major.tick_out)
-			out_len += major_tick_len;
-		else if (axis_base->minor.tick_out)
-			out_len += minor_tick_len;
-		in_len  = line_width;
-		if (axis_base->major.tick_in)
-			in_len += major_tick_len;
-		else if (axis_base->minor.tick_in)
-			in_len += minor_tick_len;
+		out_len = line_width +
+			MAX (axis_base->major.tick_out ? major_tick_len : 0.,
+			     axis_base->minor.tick_out ? minor_tick_len : 0.);
+		in_len = line_width +
+			MAX (axis_base->major.tick_in ? major_tick_len : 0.,
+			     axis_base->minor.tick_in ? minor_tick_len : 0.);
 
 		bbox.x = x - out_len * cos_alpha;
 		bbox.y = y - out_len * sin_alpha;
@@ -1371,8 +1380,8 @@ axis_line_render (GogAxisBase *axis_base,
 	major_in_x = axis_base->major.tick_in ? major_tick_len * cos_alpha : 0.;
 	major_in_y = axis_base->major.tick_in ? major_tick_len * sin_alpha : 0.;
 
-	tick_len = axis_base->major.tick_out ? major_tick_len :
-		(axis_base->minor.tick_out ? minor_tick_len : 0.);
+	tick_len = MAX (axis_base->major.tick_out ? major_tick_len : 0.,
+			axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &zero_obr, -1.);
 	label_padding = zero_obr.h * .15;
 
@@ -1524,7 +1533,28 @@ axis_circle_point (double x, double y, GogChartMap *c_map, gboolean is_discrete)
 		return FALSE;
 	}
 
-	return fabs (parms->rx - hypot (x - parms->cx, y - parms->cy)) < POINT_MIN_DISTANCE;
+	{
+		/* The axis may cover only an arc of the circle; the point
+		 * must also lie in its angular range.  axis_circle_render()
+		 * draws the arc between -th1 and -th0.  */
+		double dx = x - parms->cx;
+		double dy = y - parms->cy;
+		double r = hypot (dx, dy);
+		double phi0 = -MAX (parms->th0, parms->th1);
+		double sweep = fabs (parms->th1 - parms->th0);
+		double a, tol;
+
+		if (fabs (parms->rx - r) >= POINT_MIN_DISTANCE)
+			return FALSE;
+		if (go_add_epsilon (sweep) >= 2. * M_PI)
+			return TRUE;
+
+		tol = POINT_MIN_DISTANCE / MAX (r, 1e-9);
+		a = fmod (atan2 (dy, dx) - phi0, 2. * M_PI);
+		if (a < 0.)
+			a += 2. * M_PI;
+		return a <= sweep + tol || a >= 2. * M_PI - tol;
+	}
 }
 
 static GogViewAllocation
@@ -1546,8 +1576,8 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts);
 	major_tick_len = gog_renderer_pt2r (renderer, axis_base->major.size_pts);
-	tick_len = axis_base->major.tick_out ? major_tick_len :
-		(axis_base->minor.tick_out ? minor_tick_len : 0.);
+	tick_len = MAX (axis_base->major.tick_out ? major_tick_len : 0.,
+			axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr, -1.);
 	label_padding = txt_obr.h * .15;
 
@@ -1628,8 +1658,8 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts);
 	major_tick_len = gog_renderer_pt2r (renderer, axis_base->major.size_pts);
-	tick_len = axis_base->major.tick_out ? major_tick_len :
-		(axis_base->minor.tick_out ? minor_tick_len : 0.);
+	tick_len = MAX (axis_base->major.tick_out ? major_tick_len : 0.,
+			axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr, -1.);
 	label_padding = txt_obr.h * .15;
 
@@ -2001,7 +2031,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 
 static gboolean
 xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
-	    GogViewAllocation const *plot_area, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+	    GogViewAllocation const *plot_area, double x, double y)
 {
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
 	GogAxisBaseView *axis_base_view = GOG_AXIS_BASE_VIEW (view);
@@ -2234,7 +2264,9 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			                   - plot_area->y - plot_area->h);
 			break;
 		case GOG_AXIS_BASE_POINT:
-			break;
+			return axis_line_point (axis_base, view->renderer,
+						x, y, ax, ay, bx - ax, by - ay,
+						side);
 		case GOG_AXIS_BASE_LABEL_POSITION_REQUEST:
 			/* Calculating unit vector perpendicular to the
 			 * axis projection */
@@ -2267,8 +2299,8 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				axis_base->minor.size_pts);
 			major_tick_len = gog_renderer_pt2r (view->renderer,
 				axis_base->major.size_pts);
-			tick_len = axis_base->major.tick_out ? major_tick_len :
-				(axis_base->minor.tick_out ? minor_tick_len : 0.);
+			tick_len = MAX (axis_base->major.tick_out ? major_tick_len : 0.,
+					axis_base->minor.tick_out ? minor_tick_len : 0.);
 
 			tick_nbr = gog_axis_base_get_ticks (axis_base, &ticks);
 
@@ -2342,7 +2374,7 @@ gog_axis_base_view_point (GogView *view, double x, double y)
 			pointed = radar_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
 			break;
 		case GOG_AXIS_SET_XYZ:
-			xyz_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
+			pointed = xyz_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
 			break;
 		default:
 			g_warning ("[AxisBaseView::point] not implemented for this axis set (%i)",
@@ -2465,6 +2497,8 @@ gog_axis_base_view_label_position_request (GogView *view,
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
 	GOStyle *style = axis_base->base.style;
 	GogViewPadding padding = {0};
+
+	pos->x = pos->y = pos->w = pos->h = 0.;
 
 	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
 		return;
@@ -2653,10 +2687,9 @@ gog_axis_line_update_ticks (GogAxisLine *line)
 					g_free (lbl);
 				}
 			} else if (labels_nb == 0) {
-					lbl = go_data_vector_get_str (pos, i);
-					line->ticks[cur].str = go_string_new (lbl);
+					axis_line_format_value (line, val,
+								&line->ticks[cur].str);
 					line->ticks[cur].type = GOG_AXIS_TICK_MAJOR;
-					g_free (lbl);
 			} else
 				line->ticks[cur].type = GOG_AXIS_TICK_MINOR;
 			cur++;
@@ -2687,6 +2720,12 @@ gog_axis_line_populate_editor (GogObject *gobj,
 	unsigned i;
 	GtkBuilder *gui;
 	GtkGrid *grid;
+
+	/* The base class leaves the editor empty for an absent or invisible
+	 * axis; don't add pages to an editor it did not set up.  */
+	if (line->base.axis == NULL ||
+	    !gog_object_is_visible (line->base.axis))
+		return;
 
 	(GOG_OBJECT_CLASS(gal_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 

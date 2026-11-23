@@ -224,12 +224,20 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 		GogObject *obj = GOG_OBJECT (s->chart);
 		gog_object_clear_parent (obj);
 		g_object_unref (obj);
-		s->chart = GOG_CHART (gog_object_add_by_name (
+		s->chart = GOG_CHART (gog_object_add_by_name2 (
 				GOG_OBJECT (s->graph), "Chart", NULL));
 	}
 
-	gog_object_add_by_name (GOG_OBJECT (s->chart),
-		"Plot", GOG_OBJECT (s->plot = plot));
+	if (s->chart == NULL) {
+		/* Nothing to attach the plot to; do not leak it.  */
+		g_object_unref (plot);
+		return;
+	}
+
+	if (gog_object_add_by_name2 (GOG_OBJECT (s->chart),
+				     "Plot", GOG_OBJECT (plot)) == NULL)
+		return;      /* @plot has been consumed */
+	s->plot = plot;
 	gog_plot_guru_helper (plot);
 
 	if (s->dalloc != NULL)
@@ -486,10 +494,25 @@ cb_plot_families_init (G_GNUC_UNUSED char const *id, GogPlotFamily *family,
 		GUINT_TO_POINTER (closure.max_row));
 }
 
+static void cb_attr_tree_selection_change (GraphGuruState *s);
+
 static void
 graph_guru_state_destroy (GraphGuruState *state)
 {
 	g_return_if_fail (state != NULL);
+
+	/* The selections may outlive the state, and their "changed"
+	 * handlers use it as user data.  */
+	if (state->graph_view != NULL && state->selection_changed_handler != 0) {
+		g_signal_handler_disconnect (state->graph_view,
+					     state->selection_changed_handler);
+		state->selection_changed_handler = 0;
+	}
+	if (state->prop_selection != NULL) {
+		g_signal_handlers_disconnect_by_func (state->prop_selection,
+			G_CALLBACK (cb_attr_tree_selection_change), state);
+		state->prop_selection = NULL;
+	}
 
 	if (state->graph_view) {
 		g_object_unref (state->graph_view);
@@ -701,6 +724,7 @@ cb_obj_name_changed (GogObject *obj, GraphGuruState *s)
 	s->search_target = obj;
 	gtk_tree_model_foreach (GTK_TREE_MODEL (s->prop_model),
 		(GtkTreeModelForeachFunc) cb_find_renamed_item, s);
+	s->search_target = NULL;
 }
 
 static gboolean
@@ -727,6 +751,7 @@ cb_obj_child_added (GogObject *parent, GogObject *child, GraphGuruState *s)
 	gtk_tree_model_foreach (GTK_TREE_MODEL (s->prop_model),
 		(GtkTreeModelForeachFunc) cb_find_child_added, s);
 	s->new_child = NULL;
+	s->search_target = NULL;
 }
 
 static gboolean
@@ -739,11 +764,14 @@ cb_find_child_removed (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, Gtk
 	gtk_tree_model_get (model, iter, PLOT_ATTR_OBJECT, &obj, -1);
 	if (obj == s->search_target) {
 		s->search_target = NULL;
-		/* remove the tree element and the prop page */
+		/* remove the tree element and, only if displayed, its prop page */
 		gtk_tree_store_remove (s->prop_model, iter);
-		w = gtk_bin_get_child (GTK_BIN (s->prop_container));
-		if (w != NULL)
-			gtk_container_remove (s->prop_container, w);
+		if (s->prop_object == obj) {
+			w = gtk_bin_get_child (GTK_BIN (s->prop_container));
+			if (w != NULL)
+				gtk_container_remove (s->prop_container, w);
+			s->prop_object = NULL;
+		}
 		return TRUE;
 	}
 
@@ -755,6 +783,7 @@ cb_obj_child_removed (G_GNUC_UNUSED GogObject *parent, GogObject *child, GraphGu
 	s->search_target = child;
 	gtk_tree_model_foreach (GTK_TREE_MODEL (s->prop_model),
 		(GtkTreeModelForeachFunc) cb_find_child_removed, s);
+	s->search_target = NULL;
 
 	if (s->chart == (gpointer)child) {
 		s->chart = NULL;
@@ -930,6 +959,7 @@ cb_graph_selection_changed (G_GNUC_UNUSED GogGraphView *view, GogObject *gobj,
 	state->search_target = gobj;
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->prop_model),
 				(GtkTreeModelForeachFunc) cb_find_item, state);
+	state->search_target = NULL;
 }
 
 static void
@@ -1178,6 +1208,20 @@ typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 	return FALSE;
 }
 
+/* Frees @typesel: the family list's selection "changed" handler uses it
+ * as user data, so disconnect it while the widget tree is still up.  */
+static void
+graph_guru_typesel_destroy (GraphGuruTypeSelector *typesel)
+{
+	GtkTreeSelection *selection;
+
+	if (typesel->list_view == NULL)
+		return;
+	selection = gtk_tree_view_get_selection (typesel->list_view);
+	g_signal_handlers_disconnect_by_func (selection,
+		G_CALLBACK (cb_selection_changed), typesel);
+}
+
 static GtkWidget *
 graph_guru_type_selector_new (GraphGuruState *s)
 {
@@ -1188,6 +1232,8 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GOStyle *style;
 
 	gui = go_gtk_builder_load_internal ("res:go:graph/gog-guru-type-selector.ui", GETTEXT_PACKAGE, s->cc);
+	if (gui == NULL)
+		return NULL;
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1257,13 +1303,8 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	g_hash_table_foreach ((GHashTable *)gog_plot_families (),
 		(GHFunc) cb_plot_families_init, typesel);
 
-	selection = gtk_tree_view_get_selection (typesel->list_view);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-	g_signal_connect_swapped (selection,
-		"changed",
-		G_CALLBACK (cb_selection_changed), typesel);
-
-	/* The alpha blended selection box */
+	/* The alpha blended selection box.  Created before the selection
+	 * is activated below, since the selection handler shows it.  */
 	typesel->selector = goc_item_new (
 		goc_canvas_get_root (GOC_CANVAS (typesel->canvas)),
 		gog_guru_selector_get_type (),
@@ -1273,6 +1314,17 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	style->line.color = 0x000000ff;	/* black */
 	typesel_set_selection_color (typesel);
 
+	selection = gtk_tree_view_get_selection (typesel->list_view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	g_signal_connect_swapped (selection,
+		"changed",
+		G_CALLBACK (cb_selection_changed), typesel);
+	/* The preselected family was selected while the model was being
+	 * built, before the handler existed; activate it now.  */
+	cb_selection_changed (typesel);
+
+	g_signal_connect_swapped (selector, "destroy",
+		G_CALLBACK (graph_guru_typesel_destroy), typesel);
 	g_object_set_data_full (G_OBJECT (selector),
 		"state", typesel, (GDestroyNotify) g_free);
 
@@ -1332,6 +1384,9 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	int page = (graph != NULL) ? 1 : 0;
 	GraphGuruState *state;
 
+	if (graph != NULL)
+		g_return_val_if_fail (GOG_IS_GRAPH (graph), NULL);
+
 	state = g_new0 (GraphGuruState, 1);
 	state->valid	= FALSE;
 	state->updating = FALSE;
@@ -1346,15 +1401,13 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	g_closure_ref (closure);
 
 	if (graph != NULL) {
-		g_return_val_if_fail (GOG_IS_GRAPH (graph), NULL);
-
 		state->graph = gog_graph_dup (graph);
 		state->chart = NULL;
 		state->plot  = NULL;
 	} else {
 		state->plot = NULL;
 		state->graph = g_object_new (GOG_TYPE_GRAPH, NULL);
-		state->chart = GOG_CHART (gog_object_add_by_name (
+		state->chart = GOG_CHART (gog_object_add_by_name2 (
 				GOG_OBJECT (state->graph), "Chart", NULL));
 		if (GO_IS_DOC_CONTROL (dalloc))
 			g_object_set (state->graph,
@@ -1377,8 +1430,11 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	state->initial_page = page;
 	if (page == 0) {
 		GtkWidget *w = graph_guru_type_selector_new (state);
-		gtk_notebook_prepend_page (state->steps, w, NULL);
-		gtk_widget_show_all (w);
+		if (w != NULL) {
+			gtk_notebook_prepend_page (state->steps, w, NULL);
+			gtk_widget_show_all (w);
+			g_object_unref (w);
+		}
 	}
 
 	graph_guru_set_page (state, page);
@@ -1404,8 +1460,13 @@ void
 gog_guru_add_custom_widget (GtkWidget *guru, GtkWidget *custom)
 {
 	GraphGuruState *state = g_object_get_data (G_OBJECT (guru), "state");
-	GtkWidget *w = gtk_widget_get_parent (gtk_widget_get_parent (state->type_selector->canvas));
-	GtkGrid *box = GTK_GRID (gtk_widget_get_parent (w));
+	GtkWidget *w;
+	GtkGrid *box;
+
+	if (state == NULL || state->type_selector == NULL)
+		return;
+	w = gtk_widget_get_parent (gtk_widget_get_parent (state->type_selector->canvas));
+	box = GTK_GRID (gtk_widget_get_parent (w));
 	if (custom) {
 		gtk_grid_attach_next_to (GTK_GRID (box), custom, w, GTK_POS_BOTTOM, 1, 1);
 		g_object_set_data (G_OBJECT (custom), "graph", state->graph);

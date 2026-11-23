@@ -467,7 +467,7 @@ go_graph_widget_new (GogGraph *graph)
 		self_owned = TRUE;
 
 		graph = (GogGraph *) g_object_new (GOG_TYPE_GRAPH, NULL);
-		gog_object_add_by_name (GOG_OBJECT (graph), "Chart", NULL);
+		gog_object_add_by_name2 (GOG_OBJECT (graph), "Chart", NULL);
 	}
 
 	ret = GTK_WIDGET (g_object_new (GO_TYPE_GRAPH_WIDGET, "graph", graph, NULL));

@@ -233,13 +233,16 @@ gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 			_("Should the default style of a series include markers"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	/* Radar area plots init this to TRUE (see gog_radar_area_plot_init);
+	 * a subclass cannot change the pspec default, so force-save.  */
 	g_object_class_install_property (gobject_klass,
 		PLOT_PROP_DEFAULT_STYLE_HAS_FILL,
 		g_param_spec_boolean ("default-style-has-fill",
 			_("Default fill"),
 			_("Should the default style of a series include fill"),
 			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT
+			| GOG_PARAM_FORCE_SAVE));
 
 	/* Fill in GogPlotClass methods */
 	gog_plot_klass->desc.num_series_max = G_MAXINT;

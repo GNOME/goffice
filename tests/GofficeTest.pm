@@ -169,7 +169,11 @@ sub test_valgrind {
     # Keep valgrind from hanging while trying to fetch debug info.
     $ENV{'DEBUGINFOD_URLS'} = '';
 
-    my $outfile = 'valgrind.log';
+    # Per-wrapper log so parallel test runs do not clobber each other.
+    my $outfile = $0;
+    $outfile =~ s|.*/||;
+    $outfile =~ s/\.pl$//;
+    $outfile .= '-valgrind.log';
     unlink $outfile;
     die "Cannot remove $outfile.\n" if -f $outfile;
     &junkfile ($outfile);

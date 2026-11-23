@@ -382,9 +382,18 @@ role_chart_post_add (GogObject *parent, GogObject *chart)
 		gboolean *occ = g_new0 (gboolean, graph->num_rows);
 		GSList *ptr;
 		unsigned col, row;
-		for (ptr = graph->charts; ptr != NULL; ptr = ptr->next)
-			if (gog_chart_get_position (GOG_CHART (ptr->data), &col, &row, NULL, NULL) && col == 0 && row < graph->num_rows)
-				occ[row] = TRUE;
+		for (ptr = graph->charts; ptr != NULL; ptr = ptr->next) {
+			unsigned nrows;
+			if (gog_chart_get_position (GOG_CHART (ptr->data),
+						    &col, &row, NULL, &nrows) &&
+			    col == 0) {
+				unsigned r;
+				for (r = row;
+				     r < row + nrows && r < graph->num_rows;
+				     r++)
+					occ[r] = TRUE;
+			}
+		}
 		while (ypos < graph->num_rows && occ[ypos])
 			ypos++;
 		g_free (occ);
@@ -524,6 +533,8 @@ gog_graph_init (GogGraph *graph)
 	graph->width = GOG_GRAPH_DEFAULT_WIDTH;
 	graph->height = GOG_GRAPH_DEFAULT_HEIGHT;
 	graph->idle_handler = 0;
+	graph->theme_loaded_handler = 0;
+	graph->theme_poll_count = 0;
 	graph->theme = gog_theme_registry_lookup (NULL); /* default */
 
 	/* Cheat and assign a name here, graphs will not have parents until we
@@ -736,8 +747,16 @@ apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto)
 static gboolean
 theme_loaded_cb (GogGraph *graph)
 {
-	if (gog_theme_get_name (graph->theme) == NULL)
-		return TRUE;
+	if (gog_theme_get_name (graph->theme) == NULL) {
+		/* Still loading; retry for roughly a second and then give
+		 * up rather than poll forever.  */
+		if (++graph->theme_poll_count < 100)
+			return TRUE;
+		g_warning ("[GogGraph]: theme never finished loading");
+		graph->theme_loaded_handler = 0;
+		return FALSE;
+	}
+	graph->theme_loaded_handler = 0;
 	apply_theme (GOG_OBJECT (graph), graph->theme, FALSE);
 	return FALSE;
 }
@@ -759,8 +778,16 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 
 	graph->theme = theme;
 
+	if (graph->theme_loaded_handler != 0) {
+		g_source_remove (graph->theme_loaded_handler);
+		graph->theme_loaded_handler = 0;
+	}
+	graph->theme_poll_count = 0;
 	if (gog_theme_get_name (theme) == NULL) /* the theme is not loaded yet */
-		g_timeout_add (10, (GSourceFunc) theme_loaded_cb, graph);
+		graph->theme_loaded_handler =
+			g_timeout_add_full (G_PRIORITY_DEFAULT, 10,
+					    (GSourceFunc) theme_loaded_cb,
+					    g_object_ref (graph), g_object_unref);
 	else
 		apply_theme (GOG_OBJECT (graph), graph->theme, FALSE);
 }
@@ -1344,11 +1371,17 @@ void
 gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
 {
 	GogView *view;
+	gboolean changed;
 
 	g_return_if_fail (GOG_IS_GRAPH_VIEW (gview));
 	g_return_if_fail (GOG_IS_OBJECT (gobj));
 
-	if (gview->selected_object == gobj)
+	changed = gview->selected_object != gobj;
+
+	/* A rebuilt view tree leaves the cached selected view NULL (or
+	 * stale).  Re-resolve it even when @gobj is already selected so
+	 * callers can restore the selection.  */
+	if (!changed && gview->selected_view != NULL)
 		return;
 
 	set_selected_object (gview, gobj);
@@ -1360,9 +1393,10 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
 	}
 
 	gog_view_queue_redraw (GOG_VIEW (gview));
-	g_signal_emit (G_OBJECT (gview),
-		       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED],
-		       0, gobj);
+	if (changed)
+		g_signal_emit (G_OBJECT (gview),
+			       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED],
+			       0, gobj);
 }
 
 /**
@@ -1387,6 +1421,10 @@ gog_graph_get_supported_image_formats (void)
 	GSList *list = NULL;
 	unsigned i;
 
+	/* GO_IMAGE_FORMAT_SVG is 0, so its list element is NULL.  This is
+	 * load-bearing: consumers (e.g. Gnumeric) read the elements back
+	 * with GPOINTER_TO_UINT() and get the 0 they expect.  Do not change
+	 * this encoding, or the enum, without coordinating with them.  */
 	for (i = 0; i < G_N_ELEMENTS (supported_formats); i++)
 		list = g_slist_prepend (list, GUINT_TO_POINTER (supported_formats[i]));
 

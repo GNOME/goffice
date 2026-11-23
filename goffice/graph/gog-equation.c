@@ -46,9 +46,9 @@ struct _GogEquation {
 	LsmDomNode *itex_string;
 };
 
-typedef struct {
+struct _GogEquationClass {
 	GogOutlinedObjectClass base;
-} GogEquationClass;
+};
 
 static GObjectClass *equation_parent_klass;
 
@@ -132,7 +132,7 @@ _update_equation_style (GogEquation *equation, const GOStyle *style)
 	}
 }
 
-char *itex2MML_parse(char const*str, unsigned longlength);
+char *itex2MML_parse(char const*str, unsigned long length);
 
 static void
 gog_equation_update (GogObject *obj)
@@ -140,7 +140,7 @@ gog_equation_update (GogObject *obj)
 	GogEquation *equation = GOG_EQUATION (obj);
 	GString *itex;
 	char *itex_iter;
-	char *prev_char = '\0';
+	char *prev_char = NULL;
 	size_t size_utf8;
 	unsigned int i;
 	int n_unclosed_braces = 0;
@@ -162,7 +162,7 @@ gog_equation_update (GogObject *obj)
 				if (*itex_iter != ' ') {
 					if (*itex_iter == '{' && (prev_char == NULL || *prev_char != '\\'))
 						n_unclosed_braces++;
-					else if (*itex_iter == '}' && (prev_char != NULL || *prev_char != '\\'))
+					else if (*itex_iter == '}' && (prev_char == NULL || *prev_char != '\\'))
 						n_unclosed_braces--;
 				}
 
@@ -356,6 +356,8 @@ gog_equation_view_size_request (GogView *view,
 
 	lsm_dom_view_get_size (equation_view->mathml_view, &width, &height, NULL);
 
+	obr.x = 0.;
+	obr.y = 0.;
 	obr.w = gog_renderer_pt2r_x (view->renderer, width);
 	obr.h = gog_renderer_pt2r_y (view->renderer, height);
 	obr.alpha = -go_styled_object_get_style (GO_STYLED_OBJECT(equation))->text_layout.angle * M_PI / 180.0;

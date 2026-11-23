@@ -31,6 +31,11 @@
 #include <cairo.h>
 
 G_BEGIN_DECLS
+
+/* The class struct is private; the typedef is needed for the GET_CLASS
+ * macros.  */
+typedef struct _GogRendererClass GogRendererClass;
+
 /* We need to define an hair line width for the svg and gnome_print renderer.
  * 0.5 pt is approx. the dot size of a 150 dpi printer, if the plot is
  * printed at scale 1:1 */

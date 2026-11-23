@@ -219,7 +219,6 @@ gog_reg_curve_get_property (GObject *obj, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
-	gog_object_emit_changed (GOG_OBJECT (rc), FALSE);
 }
 
 static void
@@ -461,11 +460,6 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	case GOG_REG_CURVE_DRAWING_BOUNDS_NONE:
 		min = gog_axis_map_from_view (x_map, view->residual.x);
 		max = gog_axis_map_from_view (x_map, view->residual.x + view->residual.w);
-		delta_x = view->residual.w / rc->ninterp;
-		for (i = 0; i <= rc->ninterp; i++) {
-			x[i] = gog_axis_map_from_view (x_map, i * delta_x + view->residual.x);
-			y[i] = gog_reg_curve_get_value_at (rc, x[i]);
-		}
 		break;
 	case GOG_REG_CURVE_DRAWING_BOUNDS_ABSOLUTE: {
 		if (rc->bounds[2].data) {
