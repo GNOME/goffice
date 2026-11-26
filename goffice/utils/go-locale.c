@@ -87,10 +87,8 @@ go_setlocale (int category, char const *val)
 void
 _go_locale_shutdown (void)
 {
-	if (locale_info_cached) {
-		/* Mark everything as uncached.  */
-		(void)go_setlocale (LC_ALL, NULL);
-	}
+	/* Mark everything as uncached, as the strings are about to go.  */
+	(void)go_setlocale (LC_ALL, NULL);
 #define FREE1(var) if (var) { g_string_free (var, TRUE); var = NULL; }
 	FREE1 (lc_decimal);
 	FREE1 (lc_thousand);

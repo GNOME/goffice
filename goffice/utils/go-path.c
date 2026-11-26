@@ -1432,8 +1432,9 @@ emit_quadratic (PathParseState *state)
 		                  (2 * values[0] + values[2]) / 3.,
 		                  (2 * values[1] + values[3]) / 3.,
 		                  values[2], values[3]);
-		state->lastx += values[2];
-		state->lasty += values[3];
+		/* values[2], values[3] are absolute at this point */
+		state->lastx = values[2];
+		state->lasty = values[3];
 	}
 }
 
@@ -1474,7 +1475,7 @@ _path_arc (PathParseState *state,
 				  x, y);
 		th += th_delta;
 	}
-	state->lastx = cx + rx * sin (th1);
+	state->lastx = cx + rx * cos (th1);
 	state->lasty = cy + ry * sin (th1);
 }
 
@@ -1573,6 +1574,7 @@ go_path_new_from_svg (char const *src)
 	state.src = (char *) src;
 	state.lastx = state.lasty = 0.;
 	state.variables = NULL;
+	state.relative = state.clockwise = state.line_to = state.horiz = FALSE;
 
 	skip_spaces (&state);
 
@@ -1692,7 +1694,7 @@ go_path_new_from_odf_enhanced_path (char const *src, GHashTable const *variables
 	state.src = (char *) src;
 	state.lastx = state.lasty = 0.;
 	state.variables = variables;
-	state.relative = FALSE;
+	state.relative = state.clockwise = state.line_to = state.horiz = FALSE;
 
 	skip_spaces (&state);
 

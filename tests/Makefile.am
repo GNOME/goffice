@@ -1,5 +1,5 @@
 check_PROGRAMS=test-quad test-math test-format test-dtoa test-decimal	\
-	test-classify test-complex test-canvas test-graph constants
+	test-classify test-complex test-util test-canvas test-graph constants
 if WITH_GTK
 check_PROGRAMS += pie-demo go-demo shapes-demo mf-demo
 endif
@@ -18,7 +18,7 @@ TSCRIPTS = t2000-canvas-headless.pl t2001-canvas-xvfb.pl	\
 	t2002-graph-headless.pl t2003-graph-xvfb.pl t8000-multipass.pl
 
 TESTS = test-quad test-math test-format test-dtoa test-decimal	\
-	test-classify test-complex					\
+	test-classify test-complex test-util				\
 	$(TSCRIPTS)
 
 constants_LDADD = $(GOFFICE_PLUGIN_LIBADD)
@@ -59,6 +59,9 @@ test_graph_SOURCES = test-graph.c
 
 test_format_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_format_SOURCES = test-format.c
+
+test_util_LDADD = $(GOFFICE_PLUGIN_LIBADD)
+test_util_SOURCES = test-util.c
 
 test_dtoa_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 test_dtoa_SOURCES = test-dtoa.c

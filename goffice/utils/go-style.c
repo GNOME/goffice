@@ -2253,9 +2253,11 @@ go_style_fill (GOStyle const *style, cairo_t *cr, gboolean preserve)
 			break;
 
 		case GO_STYLE_FILL_IMAGE:
-			if (!GO_IS_IMAGE (style->fill.image.image))
+			if (!GO_IS_IMAGE (style->fill.image.image)) {
+				/* No image: white */
 				cr_pattern = cairo_pattern_create_rgba (1, 1, 1, 1);
-			else {
+				break;
+			} else {
 				cairo_save (cr);
 				if (preserve)
 					cairo_clip_preserve (cr);
@@ -2342,8 +2344,9 @@ go_style_set_cairo_line (GOStyle const *style, cairo_t *cr)
 	else {
 		cairo_matrix_t m;
 		cairo_get_matrix (cr, &m);
-		width = m.xx * m.yy - m.xy * m.yx;
-		width = (width > 0.)? 1. / sqrt (m.xx * m.yy - m.xy * m.yx): 1.;
+		/* The determinant is negative if the axes are mirrored. */
+		width = fabs (m.xx * m.yy - m.xy * m.yx);
+		width = (width > 0.)? 1. / sqrt (width): 1.;
 	}
 	cairo_set_line_width (cr, width);
 	cairo_set_line_cap (cr, style->line.cap);

@@ -128,8 +128,11 @@ go_regcomp (GORegexp *gor, const char *pat, int cflags)
 	gor->ppcre = r = g_regex_new (pat, coptions, 0, &error);
 
 	if (r == NULL) {
+		int code = error->code;
+
+		g_error_free (error);
 		/* 10, 19, 22 and 37 are not handled by GRegex. */
-		switch (error->code) {
+		switch (code) {
 		case G_REGEX_ERROR_STRAY_BACKSLASH:
 		case G_REGEX_ERROR_MISSING_CONTROL_CHAR:
 		case G_REGEX_ERROR_UNRECOGNIZED_ESCAPE:
@@ -631,7 +634,7 @@ go_search_match_string (GOSearchReplace *sr, const char *src)
 			if (!sr->match_words)
 				return TRUE;
 
-			if (match_is_word (src, &match, (flags & GO_REG_NOTBOL) != 0))
+			if (match_is_word (src, &match, (flags & GO_REG_NOTBOL) == 0))
 				return TRUE;
 
 			/*
@@ -639,6 +642,8 @@ go_search_match_string (GOSearchReplace *sr, const char *src)
 			 * a one-character match and continue after that.
 			 */
 			flags |= GO_REG_NOTBOL;
+			if (src[match.rm_so] == 0)
+				return FALSE;
 			src = g_utf8_next_char (src + match.rm_so);
 			break;
 
@@ -670,6 +675,7 @@ go_search_replace_string (GOSearchReplace *sr, const char *src)
 	GString *res = NULL;
 	int ret;
 	int flags = 0;
+	gboolean changed = FALSE;
 
 	g_return_val_if_fail (sr, NULL);
 	g_return_val_if_fail (sr->replace_text, NULL);
@@ -695,7 +701,7 @@ go_search_replace_string (GOSearchReplace *sr, const char *src)
 		}
 
 		if (sr->match_words && !match_is_word (src, pmatch,
-						       (flags & GO_REG_NOTBOL) != 0)) {
+						       (flags & GO_REG_NOTBOL) == 0)) {
 			/*  We saw a fake match.  */
 			if (pmatch[0].rm_so < pmatch[0].rm_eo) {
 				const char *p = src + pmatch[0].rm_so;
@@ -712,6 +718,7 @@ go_search_replace_string (GOSearchReplace *sr, const char *src)
 				calculate_replacement (sr, src, pmatch);
 			g_string_append (res, replacement);
 			g_free (replacement);
+			changed = TRUE;
 
 			if (src[pmatch[0].rm_eo] == 0) {
 				/*
@@ -743,11 +750,14 @@ go_search_replace_string (GOSearchReplace *sr, const char *src)
 
 	g_free (pmatch);
 
-	if (res) {
+	if (res && changed) {
 		if (*src)
 			g_string_append (res, src);
 		return g_string_free (res, FALSE);
 	} else {
+		/* Either nothing matched or all matches were rejected */
+		if (res)
+			g_string_free (res, TRUE);
 		return NULL;
 	}
 }

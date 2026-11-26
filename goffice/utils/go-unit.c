@@ -214,7 +214,7 @@ _go_unit_init (void)
 	GoUnitId Id;
 	if (units_hash != NULL)
 		return;
-	g_hash_table_new_full (g_str_hash, g_str_equal, NULL, (GDestroyNotify) go_unit_destroy);
+	units_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, (GDestroyNotify) go_unit_destroy);
 	for (Id = GO_UNIT_METER; Id < GO_UNIT_MAX; Id++)
 		g_hash_table_insert (units_hash, units[Id].symbol, (gpointer)(units + Id));
 }

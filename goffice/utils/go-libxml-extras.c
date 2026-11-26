@@ -98,8 +98,14 @@ go_xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 {
 	if (name)
 		xmlSetProp (node, CC2XML (name), CC2XML (val));
-	else
-		xmlNodeSetContent (node, CC2XML (val));
+	else if (val) {
+		/* xmlNodeSetContent parses entity references, so special
+		   characters need to be escaped first. */
+		xmlChar *encoded = xmlEncodeSpecialChars (node->doc, CC2XML (val));
+		xmlNodeSetContent (node, encoded);
+		xmlFree (encoded);
+	} else
+		xmlNodeSetContent (node, NULL);
 }
 
 /**
@@ -227,23 +233,25 @@ go_xml_node_get_double (xmlNodePtr node, char const *name, double *result)
  * @precision: precision
  *
  * Sets the attribute @name of @node to @val as a double. If @name is %NULL,
- * sets the content of @node to @val.
+ * sets the content of @node to @val.  If @precision is negative, sufficient
+ * precision for correct roundtrip is used.
  */
 void
 go_xml_node_set_double (xmlNodePtr node, char const *name, double val,
 			int precision)
 {
-	char str[101 + DBL_DIG];
+	if (precision < 0) {
+		GString *str = g_string_sized_new (20);
+		go_dtoa (str, "!g", val);
+		go_xml_node_set_cstr (node, name, str->str);
+		g_string_free (str, TRUE);
+	} else {
+		char str[101 + DBL_DIG];
 
-	if (precision < 0 || precision > DBL_DIG)
-		precision = DBL_DIG;
-
-	if (fabs (val) < 1e9 && fabs (val) > 1e-5)
-		g_snprintf (str, 100 + DBL_DIG, "%.*g", precision, val);
-	else
-		g_snprintf (str, 100 + DBL_DIG, "%f", val);
-
-	go_xml_node_set_cstr (node, name, str);
+		precision = MIN (DBL_DIG, precision);
+		g_snprintf (str, sizeof (str), "%.*g", precision, val);
+		go_xml_node_set_cstr (node, name, str);
+	}
 }
 
 
@@ -264,7 +272,7 @@ go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *result)
 	xmlChar *color;
 	int r, g, b;
 
-	color = xmlGetProp (node, CC2XML (name));
+	color = go_xml_node_get_cstr (node, name);
 	if (color == NULL)
 		return FALSE;
 	if (sscanf (CXML2C (color), "%X:%X:%X", &r, &g, &b) == 3) {
@@ -295,7 +303,8 @@ go_xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
 	char str[4 * sizeof (val)];
 
 	GO_COLOR_TO_RGB (val, &r, &g, &b);
-	sprintf (str, "%X:%X:%X", r, g, b);
+	/* Same 16 bits per channel that go_xml_node_get_gocolor reads. */
+	sprintf (str, "%X:%X:%X", r * 0x101, g * 0x101, b * 0x101);
 	go_xml_node_set_cstr (node, name, str);
 }
 
@@ -314,14 +323,17 @@ go_xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
 gboolean
 go_xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *result)
 {
-	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
+	GEnumClass *eclass;
 	GEnumValue *ev;
 	xmlChar *s;
 	int i;
 
-	s = xmlGetProp (node, CC2XML (name));
+	s = go_xml_node_get_cstr (node, name);
 	if (s == NULL)
 		return FALSE;
+
+	/* Make sure the class exists while we use it. */
+	eclass = g_type_class_ref (etype);
 
 	ev = g_enum_get_value_by_name (eclass, CXML2C (s));
 	if (!ev) ev = g_enum_get_value_by_nick (eclass, CXML2C (s));
@@ -329,9 +341,13 @@ go_xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *resu
 		/* Check that the value is valid.  */
 		ev = g_enum_get_value (eclass, i);
 	xmlFree (s);
-	if (!ev) return FALSE;
+	if (!ev) {
+		g_type_class_unref (eclass);
+		return FALSE;
+	}
 
 	*result = ev->value;
+	g_type_class_unref (eclass);
 	return TRUE;
 }
 
@@ -348,7 +364,7 @@ go_xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *resu
 void
 go_xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
 {
-	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
+	GEnumClass *eclass = g_type_class_ref (etype);
 	GEnumValue *ev = g_enum_get_value (eclass, val);
 
 	if (ev)
@@ -356,6 +372,7 @@ go_xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
 	else
 		g_warning ("Invalid value %d for type %s",
 			   val, g_type_name (etype));
+	g_type_class_unref (eclass);
 }
 
 /*************************************************************************/
@@ -409,7 +426,8 @@ go_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *child_name)
 		if (node->name == NULL || strcmp (CXML2C (node->name), child_name) != 0) {
 			continue;
 		}
-		lang = xmlGetProp (node, CC2XML ("xml:lang"));
+		/* xmlGetProp ignores namespaces, so this finds xml:lang */
+		lang = xmlGetProp (node, CC2XML ("lang"));
 		if (lang == NULL) {
 			return node;
 		}

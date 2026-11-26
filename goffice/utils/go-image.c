@@ -90,7 +90,9 @@ go_mime_to_image_format (char const *mime_type)
 		"image/vnd.adobe.svg+xml", "svg",
 		"text/xml-svg", "svg",
 		"image/wmf", "wmf",
+		"image/x-wmf", "wmf",
 		"image/emf", "emf",
+		"image/x-emf", "emf",
 		"application/pdf", "pdf",
 		"application/postscript", "ps",
 		"image/x-eps", "eps",
@@ -602,6 +604,12 @@ go_image_get_scaled_pixbuf (GOImage *image, int width, int height)
 		} else {
 			width = height * image->width / image->height;
 		}
+		/* Very wide or very tall images would otherwise end up with
+		   no pixels at all in one direction. */
+		if (width < 1)
+			width = 1;
+		if (height < 1)
+			height = 1;
 	} else
 		return ((GOImageClass *) G_OBJECT_GET_CLASS (image))->get_pixbuf (image);
 	return ((GOImageClass *) G_OBJECT_GET_CLASS (image))->get_scaled_pixbuf (image, width, height);
@@ -803,9 +811,13 @@ go_image_get_data (GOImage *image, gsize *length)
 void
 go_image_set_name (GOImage *image, char const *name)
 {
+	char *copy;
+
 	g_return_if_fail (GO_IS_IMAGE (image));
+	/* Copy first: @name may be the current name. */
+	copy = g_strdup (name);
 	g_free (image->name);
-	image->name = (name)? g_strdup (name): NULL;
+	image->name = copy;
 }
 
 /**

@@ -289,8 +289,17 @@ go_strescape (GString *target, char const *string)
 const char *
 go_strunescape (GString *target, const char *string)
 {
-	char quote = *string++;
-	size_t oldlen = target->len;
+	char quote;
+	size_t oldlen;
+
+	g_return_val_if_fail (target != NULL, NULL);
+	g_return_val_if_fail (string != NULL, NULL);
+
+	if (*string == 0)
+		return string;
+
+	quote = *string++;
+	oldlen = target->len;
 
 	/* This should be UTF-8 safe as long as quote is ASCII.  */
 	while (*string != quote) {
@@ -1264,8 +1273,9 @@ go_parse_key_value (const char *options,
 				goto open_string;
 		} else {
 			p = options;
-			while (strchr ("-!_.,:;|/$%#@~", *options) ||
-			       g_unichar_isalnum (g_utf8_get_char (options)))
+			while (*options &&
+			       (strchr ("-!_.,:;|/$%#@~", *options) ||
+				g_unichar_isalnum (g_utf8_get_char (options))))
 				options = g_utf8_next_char (options);
 			g_string_append_len (sname, p, options - p);
 			if (p == options)

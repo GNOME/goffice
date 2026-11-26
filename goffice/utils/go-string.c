@@ -194,9 +194,7 @@ go_string_new (char const *str)
 
 /**
  * go_string_new_nocopy:
- * @str: (nullable): string
- *
- * GOString takes ownership of @str
+ * @str: (transfer full) (nullable): string
  *
  * Returns: (transfer full) (nullable): a #GOString containing @str, or
  * %NULL if @str is %NULL
@@ -756,7 +754,9 @@ go_string_trim (GOString *gstr, gboolean internal)
 	}
 
 	if (internal) {
-		PangoAttrList *at = pango_attr_list_filter (attrs, find_shape_attr, NULL);
+		PangoAttrList *at = attrs
+			? pango_attr_list_filter (attrs, find_shape_attr, NULL)
+			: NULL;
 		char *tt = text;
 		if (at) pango_attr_list_unref (at);
 		while (NULL != (tt = strchr (tt, ' '))) {
