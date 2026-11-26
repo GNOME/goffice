@@ -427,20 +427,15 @@ static gboolean
 go_data_vector_val_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpointer user)
 {
 	GODataVectorVal *vec = GO_DATA_VECTOR_VAL (dat);
-	char sep, *end = (char*) str;
+	char *end = (char *) str;
+	char sep = 0;
 	double val;
 	GArray *values;
+	guint len;
 
 	g_return_val_if_fail (str != NULL, TRUE);
 
-	if (vec->notify && vec->val)
-		(*vec->notify) (vec->val);
-
-	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
-	sep = 0;
-	vec->val = NULL;
-	vec->n = 0;
-	vec->notify = (GDestroyNotify) g_free;
+	values = g_array_sized_new (FALSE, FALSE, sizeof (double), 16);
 	while (1) {
 		val = g_ascii_strtod (end, &end);
 		g_array_append_val (values, val);
@@ -451,10 +446,8 @@ go_data_vector_val_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpoi
 					if ((sep = go_locale_get_col_sep ()) != *end)
 						sep = go_locale_get_row_sep ();
 			}
-			if (*end != sep) {
-				g_array_free (values, TRUE);
-				return FALSE;
-			}
+			if (*end != sep)
+				goto error;
 			end++;
 		} else
 			break;
@@ -463,11 +456,18 @@ go_data_vector_val_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpoi
 		g_array_free (values, TRUE);
 		return TRUE;
 	}
-	vec->n = values->len;
-	vec->val = (double*) values->data;
-	g_array_free (values, FALSE);
-	go_data_emit_changed (GO_DATA (vec));
+
+	if (vec->notify && vec->val)
+		(*vec->notify) (vec->val);
+	len = values->len;
+	vec->n = len;
+	vec->val = (double *) g_array_free (values, FALSE);
+	vec->notify = (GDestroyNotify) g_free;
 	return TRUE;
+
+error:
+	g_array_free (values, TRUE);
+	return FALSE;
 }
 
 static void
@@ -616,64 +616,58 @@ static gboolean
 go_data_vector_str_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpointer user)
 {
 	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
-	char sep, *cur = (char*) str, *end, *val;
+	char *cur = (char *) str, *end;
+	char const *after;
+	char sep;
 	GArray *values;
+	char *val;
+	guint i, len;
 
 	g_return_val_if_fail (str != NULL, TRUE);
 
-	if (vec->notify && vec->str)
-		(*vec->notify) ((gpointer)vec->str);
-
-	values = g_array_sized_new (FALSE, FALSE, sizeof(char*), 16);
+	values = g_array_sized_new (FALSE, FALSE, sizeof (char *), 16);
 	/* search which separator has been used */
 	sep = go_locale_get_col_sep ();
 	end = strchr (cur, sep);
 	if (end == NULL) {
 		sep = go_locale_get_arg_sep ();
 		end = strchr (cur, sep);
-		if (end ==NULL)
+		if (end == NULL)
 			sep = go_locale_get_row_sep ();
 	}
-	vec->str = NULL;
-	vec->n = 0;
-	vec->notify = cb_strings_destroy_notify;
+
 	while (*cur) {
 		if (*cur == '\"') {
-			cur++;
-			end = strchr (cur, '\"');
-			if (end == NULL) {
-				g_array_free (values, TRUE);
-				return FALSE;
+			GString *unescaped = g_string_new (NULL);
+
+			after = go_strunescape (unescaped, cur);
+			if (after == NULL) {
+				g_string_free (unescaped, TRUE);
+				goto error;
 			}
-			val = g_strndup (cur, end - cur);
+			val = g_string_free (unescaped, FALSE);
 			g_array_append_val (values, val);
-			if (end[1] == 0)
+			if (*after == 0)
 				break;
-			if (end[1] != sep) {
-				g_array_free (values, TRUE);
-				return FALSE;
-			}
-			cur = end + 2;
+			if (*after != sep)
+				goto error;
+			cur = (char *) after + 1;
 		} else {
 			/* the string is not quotes delimited */
 			end = strchr (cur, sep);
 			if (end == NULL) {
-				if (strchr (cur, '\"')) {
-					/* string containing quotes are not allowed */
-					g_array_free (values, TRUE);
-					return FALSE;
-				}
+				if (strchr (cur, '\"'))
+					goto error;
 				val = g_strdup (cur);
 				g_array_append_val (values, val);
 				break;
 			}
 			val = g_strndup (cur, end - cur);
-			g_array_append_val (values, val);
 			if (strchr (val, '\"')) {
-				/* string containing quotes are not allowed */
-				g_array_free (values, TRUE);
-				return FALSE;
+				g_free (val);
+				goto error;
 			}
+			g_array_append_val (values, val);
 			cur = end + 1;
 		}
 	}
@@ -681,13 +675,22 @@ go_data_vector_str_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpoi
 		g_array_free (values, TRUE);
 		return TRUE;
 	}
-	vec->n = values->len;
+
+	if (vec->notify && vec->str)
+		(*vec->notify) ((gpointer)vec->str);
+	len = values->len;
 	val = NULL;
 	g_array_append_val (values, val);
-	vec->str = (char const*const*) values->data;
-	g_array_free (values, FALSE);
-	go_data_emit_changed (GO_DATA (vec));
+	vec->n = len;
+	vec->str = (char const * const *) g_array_free (values, FALSE);
+	vec->notify = cb_strings_destroy_notify;
 	return TRUE;
+
+error:
+	for (i = 0; i < values->len; i++)
+		g_free (g_array_index (values, char *, i));
+	g_array_free (values, TRUE);
+	return FALSE;
 }
 
 static void
@@ -1017,23 +1020,17 @@ static gboolean
 go_data_matrix_val_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpointer user)
 {
 	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
-	char row_sep, col_sep, *end = (char*) str;
+	char row_sep, col_sep, *end = (char *) str;
 	int i, j, columns;
 	double val;
 	GArray *values;
 
 	g_return_val_if_fail (str != NULL, TRUE);
 
-	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
+	values = g_array_sized_new (FALSE, FALSE, sizeof (double), 16);
 	col_sep = go_locale_get_col_sep ();
 	row_sep = go_locale_get_row_sep ();
 	i = j = columns = 0;
-	if (mat->notify && mat->val)
-		(*mat->notify) (mat->val);
-	mat->val = NULL;
-	mat->size.rows = 0;
-	mat->size.columns = 0;
-	mat->notify = g_free;
 	while (1) {
 		val = g_ascii_strtod (end, &end);
 		g_array_append_val (values, val);
@@ -1045,37 +1042,36 @@ go_data_matrix_val_unserialize (GOData *dat, char const *str, G_GNUC_UNUSED gpoi
 					if (j == columns - 1) {
 						i++;
 						j = 0;
-					} else {
-						g_array_free (values, TRUE);
-						return FALSE;
-					}
+					} else
+						goto error;
 				} else {
 					columns = j + 1;
 					i++;
 					j = 0;
 				}
-			} else {
-				g_array_free (values, TRUE);
-				return FALSE;
-			}
+			} else
+				goto error;
 			end++;
 		} else
 			break;
 	}
-	if (j != columns - 1) {
-		g_array_free (values, TRUE);
-		return FALSE;
-	}
-	if (columns == 0) {
-		g_array_free (values, TRUE);
-		return TRUE;
-	}
+	/* A single row never sees a row separator, so its width is still unset.  */
+	if (columns == 0)
+		columns = j + 1;
+	else if (j != columns - 1)
+		goto error;
+
+	if (mat->notify && mat->val)
+		(*mat->notify) (mat->val);
 	mat->size.columns = columns;
 	mat->size.rows = i + 1;
-	mat->val = (double*) values->data;
-	g_array_free (values, FALSE);
-	go_data_emit_changed (GO_DATA (mat));
+	mat->val = (double *) g_array_free (values, FALSE);
+	mat->notify = g_free;
 	return TRUE;
+
+error:
+	g_array_free (values, TRUE);
+	return FALSE;
 }
 
 static void

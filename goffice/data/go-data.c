@@ -265,6 +265,8 @@ go_data_serialize (GOData const *dat, gpointer user)
  * @user: a gpointer describing the context.
  *
  * De-serializes the source information returned from go_data_serialize.
+ * A successful call emits the "changed" signal.  On error the existing
+ * contents are left unchanged.
  *
  * Returns: %FALSE on error.
  **/
@@ -272,10 +274,16 @@ gboolean
 go_data_unserialize (GOData *dat, char const *str, gpointer user)
 {
 	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
+	gboolean res;
+
 	g_return_val_if_fail (klass != NULL, FALSE);
 	/* an empty string is not valid, see #46 */
 	g_return_val_if_fail (str && *str, FALSE);
-	return (*klass->unserialize) (dat, str, user);
+
+	res = (*klass->unserialize) (dat, str, user);
+	if (res)
+		go_data_emit_changed (dat);
+	return res;
 }
 
 /**
@@ -789,8 +797,12 @@ static double *
 _data_scalar_get_values (GOData *data)
 {
 	GODataScalar *scalar = (GODataScalar *) data;
+	double value = go_data_scalar_get_value (scalar);
 
-	go_data_scalar_get_value (scalar);
+	if (go_finite (value))
+		data->flags |= GO_DATA_CACHE_IS_VALID | GO_DATA_HAS_VALUE;
+	else
+		data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_HAS_VALUE);
 
 	return &scalar->value;
 }
@@ -825,8 +837,15 @@ _data_scalar_get_markup (GOData *data, G_GNUC_UNUSED unsigned int *coordinates)
 }
 
 static void
+_data_scalar_emit_changed (GOData *data)
+{
+	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_HAS_VALUE);
+}
+
+static void
 go_data_scalar_class_init (GODataClass *data_class)
 {
+	data_class->emit_changed = 	_data_scalar_emit_changed;
 	data_class->get_n_dimensions = 	_data_scalar_get_n_dimensions;
 	data_class->get_values =	_data_scalar_get_values;
 	data_class->get_bounds =	_data_scalar_get_bounds;
