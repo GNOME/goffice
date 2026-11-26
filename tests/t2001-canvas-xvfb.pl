@@ -87,12 +87,18 @@ sub start_x_server {
     {
 	my $sel = IO::Select->new ($rfd);
 	my $buf = '';
+	my $deadline = time () + 20;
 
-	if ($sel->can_read (20) &&
-	    defined (sysread ($rfd, $buf, 16)) &&
-	    $buf =~ /(\d+)/) {
-	    $display = $1;
+	# Some servers write the number and the terminating newline
+	# separately.  Read until the newline (or EOF): closing our end after
+	# the first piece would make the server's second write fail with
+	# EPIPE, which is fatal to it.
+	while ($buf !~ /\n/ && (my $left = $deadline - time ()) > 0) {
+	    last unless $sel->can_read ($left);
+	    my $n = sysread ($rfd, $buf, 16, length $buf);
+	    last unless $n;
 	}
+	$display = $1 if $buf =~ /^(\d+)/;
     }
     close $rfd;
 

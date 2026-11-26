@@ -334,11 +334,9 @@ go_data_vector_val_dup (GOData const *src)
 {
 	GODataVectorVal *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	GODataVectorVal const *src_val = (GODataVectorVal const *)src;
-	if (src_val->notify) {
-		dst->val = go_memdup_n (src_val->val, src_val->n, sizeof (double));
-		dst->notify = g_free;
-	} else
-		dst->val = src_val->val;
+	/* Always deep copy, also when the source borrows its array.  */
+	dst->val = go_memdup_n (src_val->val, src_val->n, sizeof (double));
+	dst->notify = g_free;
 	dst->n = src_val->n;
 	return GO_DATA (dst);
 }
@@ -925,11 +923,9 @@ go_data_matrix_val_dup (GOData const *src)
 {
 	GODataMatrixVal *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	GODataMatrixVal const *src_val = (GODataMatrixVal const *)src;
-	if (src_val->notify) {
-		dst->val = go_memdup_n (src_val->val, (size_t)src_val->size.rows * src_val->size.columns, sizeof (double));
-		dst->notify = g_free;
-	} else
-		dst->val = src_val->val;
+	/* Always deep copy, also when the source borrows its array.  */
+	dst->val = go_memdup_n (src_val->val, (size_t)src_val->size.rows * src_val->size.columns, sizeof (double));
+	dst->notify = g_free;
 	dst->size = src_val->size;
 	return GO_DATA (dst);
 }

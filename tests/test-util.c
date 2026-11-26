@@ -14084,12 +14084,17 @@ main (int argc, char **argv)
 	libgoffice_init ();
 #ifdef GOFFICE_WITH_GTK
 	/*
-	 * Using GtkText* requires GTK to be initialized first.  In particular,
-	 * GtkTextTag's deprecated GdkColor properties are looked up by name
-	 * when the class is initialized, and gtk_init_check() registers that
-	 * boxed type before any GtkTextTag is created.
+	 * Using GtkText* requires the GdkColor boxed type to exist:
+	 * GtkTextTag's deprecated "*-gdk" properties look it up by name when
+	 * the class is initialized, and get type 0 (a fatal critical) if it
+	 * has not been registered.  gtk_init_check() registers it, but only
+	 * when it manages to open a display, so register it explicitly for
+	 * headless runs.  The text buffer tests do not need a display.
 	 */
 	(void)gtk_init_check (NULL, NULL);
+	G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+	g_type_ensure (GDK_TYPE_COLOR);
+	G_GNUC_END_IGNORE_DEPRECATIONS
 #endif
 
 	register_geometry_tests ();

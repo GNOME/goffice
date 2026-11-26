@@ -45,8 +45,16 @@
  * @preferred_fmt: gets the preferred format.
  * @date_conv: gets the #GODateConventions.
  * @serialize: serializes.
- * @unserialize: unserializes.
- * @emit_changed: signals the data have changed.
+ * @unserialize: unserializes.  Implementations must not emit the
+ * "changed" signal themselves: go_data_unserialize() does that on success.
+ * On failure they must return %FALSE and leave the data unchanged.  If
+ * parsing is deferred (the string is only stored for later), the
+ * implementation should return %TRUE only if it is acceptable that
+ * "changed" is emitted now, and it must emit it again itself when the
+ * deferred parse actually happens.
+ * @emit_changed: invalidates cached state.  It is called by
+ * go_data_emit_changed() just before the "changed" signal is emitted, so
+ * subclasses that keep their own caches should drop them here.
  * @get_n_dimensions: gets the dimensions number.
  * @get_sizes: gets the sizes.
  * @get_values: gets the values.
@@ -265,8 +273,12 @@ go_data_serialize (GOData const *dat, gpointer user)
  * @user: a gpointer describing the context.
  *
  * De-serializes the source information returned from go_data_serialize.
- * A successful call emits the "changed" signal.  On error the existing
- * contents are left unchanged.
+ *
+ * A successful call emits the "changed" signal (via go_data_emit_changed),
+ * so GODataClass::unserialize implementations must not emit it themselves.
+ * Note that this includes implementations that merely record the string for
+ * later parsing.  On error the existing contents are left unchanged and no
+ * signal is emitted.
  *
  * Returns: %FALSE on error.
  **/
@@ -1371,6 +1383,12 @@ go_data_matrix_get_values (GODataMatrix *mat)
 double
 go_data_matrix_get_value (GODataMatrix *mat, unsigned i, unsigned j)
 {
+	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
+		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+		g_return_val_if_fail (klass != NULL, go_nan);
+		(*klass->load_size) (mat);
+		g_return_val_if_fail (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED, go_nan);
+	}
 	g_return_val_if_fail (((int)i < mat->size.rows) && ((int)j < mat->size.columns), go_nan);
 	if (! (mat->base.flags & GO_DATA_CACHE_IS_VALID)) {
 		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
