@@ -515,8 +515,8 @@ theme_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->theme ==  NULL) {
 		state->theme = g_object_new (GOG_TYPE_THEME, NULL);
 		for (; attrs && *attrs; attrs +=2)
-			if (!strcmp ((char const *) *attrs, "id")) {
-				state->theme->id = g_strdup ((char const *) attrs[1]);
+			if (!strcmp (CXML2C (*attrs), "id")) {
+				state->theme->id = g_strdup (CXML2C (attrs[1]));
 				break;
 			}
 	}

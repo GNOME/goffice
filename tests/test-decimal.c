@@ -749,7 +749,7 @@ test_oneargs (const Corpus *corpus)
 
 	start_section ("one-arg functions");
 
-	for (int f = 0; f < (int)G_N_ELEMENTS (funcs); f++) {
+	for (unsigned f = 0; f < G_N_ELEMENTS (funcs); f++) {
 		set_subsection (funcs[f].name);
 		for (int v = 0; v < corpus->nvals; v++) {
 			_Decimal64 x = corpus->vals[v], y;
@@ -1263,7 +1263,7 @@ test_encoding (void)
 	// scalbnD (x, 0) decodes and re-encodes; the result must be bit-for-bit
 	// what the compiler produced for the literal, so this checks decode64
 	// and make64 across the 2^53 mantissa boundary, denormals and extremes.
-	for (int i = 0; i < (int)G_N_ELEMENTS (vals); i++) {
+	for (unsigned i = 0; i < G_N_ELEMENTS (vals); i++) {
 		for (int sgn = 0; sgn < 2; sgn++) {
 			_Decimal64 x = sgn ? -vals[i] : vals[i];
 			_Decimal64 y = scalbnD (x, 0);
@@ -1282,7 +1282,7 @@ test_encoding (void)
 			   x, d64_bits (x), d64_bits (y));
 	}
 
-	for (int i = 0; i < (int)G_N_ELEMENTS (special); i++) {
+	for (unsigned i = 0; i < G_N_ELEMENTS (special); i++) {
 		_Decimal64 x = d64_from_bits (special[i].bits);
 		test_true (!!isnanD (x) == special[i].nan &&
 			   !!isfiniteD (x) == special[i].fin &&
@@ -2433,7 +2433,7 @@ test_log_accuracy (void)
 
 	start_section ("log accuracy on 16-digit arguments");
 
-	for (int i = 0; i < (int)G_N_ELEMENTS (tab); i++) {
+	for (unsigned i = 0; i < G_N_ELEMENTS (tab); i++) {
 		_Decimal64 x = tab[i].x;
 		char *what;
 

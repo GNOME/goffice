@@ -826,8 +826,8 @@ load_color_map (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogAxisColorMap *map = NULL;
 	for (; attrs && *attrs; attrs +=2)
-		if (!strcmp ((char const *) *attrs, "id")) {
-			map = GOG_AXIS_COLOR_MAP (gog_axis_color_map_get_from_id ((char const *) attrs[1]));
+		if (!strcmp (CXML2C (*attrs), "id")) {
+			map = GOG_AXIS_COLOR_MAP (gog_axis_color_map_get_from_id (CXML2C (attrs[1])));
 			break;
 		}
 	if (map)
@@ -839,8 +839,8 @@ load_theme (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogTheme *theme = NULL;
 	for (; attrs && *attrs; attrs +=2)
-		if (!strcmp ((char const *) *attrs, "id")) {
-			theme = GOG_THEME (gog_theme_registry_lookup ((char const *) attrs[1]));
+		if (!strcmp (CXML2C (*attrs), "id")) {
+			theme = GOG_THEME (gog_theme_registry_lookup (CXML2C (attrs[1])));
 			break;
 		}
 	if (theme)

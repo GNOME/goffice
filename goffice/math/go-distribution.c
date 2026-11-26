@@ -35,6 +35,8 @@
 
 #ifdef DEFINE_COMMON
 
+#define CXML2C(s) ((char const *)(s))
+
 // The scale and location are always double.  Maybe reconsider that.
 #define DIST_SCALE ((DOUBLE)(dist->scale))
 #define DIST_LOCATION ((DOUBLE)(dist->location))
@@ -296,8 +298,8 @@ go_distribution_persist_prep_sax (GOPersist *gp, G_GNUC_UNUSED GsfXMLIn *xin, xm
 {
 	GODistribution *dist = GO_DISTRIBUTION (gp);
 	while (*attrs) {
-		const char *attr = (const char *)(attrs[0]);
-		const char *val = (const char *)(attrs[1]);
+		const char *attr = CXML2C (attrs[0]);
+		const char *val = CXML2C (attrs[1]);
 		if (!strcmp (attr, "name") || !strcmp (attr, "type"))
 			; // Nothing
 		else if (!strcmp (attr, "location"))
@@ -308,7 +310,7 @@ go_distribution_persist_prep_sax (GOPersist *gp, G_GNUC_UNUSED GsfXMLIn *xin, xm
 			GParamSpec *spec = g_object_class_find_property (G_OBJECT_GET_CLASS (dist), attr);
 			if (spec == NULL)
 				g_warning ("unknown property `%s' for class `%s'",
-					   *attrs, G_OBJECT_TYPE_NAME (gp));
+					   attr, G_OBJECT_TYPE_NAME (gp));
 			else {
 				GType prop_type = G_PARAM_SPEC_VALUE_TYPE (spec);
 				switch G_TYPE_FUNDAMENTAL (prop_type) {

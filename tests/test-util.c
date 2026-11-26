@@ -55,6 +55,8 @@
 #endif
 
 #define CXML2C(s) ((char const *)(s))
+#define CC2XML(s) ((const xmlChar *)(s))
+
 
 #define EPS 1e-9
 
@@ -4552,7 +4554,8 @@ test_bezier_to_cairo (void)
 			cairo_path_t *cp;
 			Segments seg;
 			double sign = flip ? -1 : 1;
-			int i, k = 0;
+			unsigned i;
+			int k = 0;
 
 			segments_init (&seg, path);
 
@@ -4567,7 +4570,7 @@ test_bezier_to_cairo (void)
 			assert_cairo_close (cp->data[k + 1].point.y, seg.start.y);
 			k += cp->data[k].header.length;
 
-			for (i = 0; i < (int)seg.c1->len; i++) {
+			for (i = 0; i < seg.c1->len; i++) {
 				g_assert_cmpint (cp->data[k].header.type, ==, CAIRO_PATH_CURVE_TO);
 				assert_cairo_close (cp->data[k + 1].point.x, sign * SEG (&seg, c1, i).x);
 				assert_cairo_close (cp->data[k + 1].point.y, SEG (&seg, c1, i).y);
@@ -6632,7 +6635,7 @@ test_glib_extras_set_property_other (void)
 	TestObj *t = (TestObj *)obj;
 	GError *err = NULL;
 	GEnumClass *klass = g_type_class_ref (GO_TYPE_DIRECTION);
-	int i;
+	unsigned i;
 
 	/* Strings are taken as they are */
 	g_assert_false (go_object_set_property (obj, "name", "Name", "Some Name", &err, "Bad %s: %s"));
@@ -6642,7 +6645,7 @@ test_glib_extras_set_property_other (void)
 	g_assert_cmpstr (t->name, ==, "");
 
 	/* Enumerations by value name or by nick */
-	for (i = 0; i < (int)klass->n_values; i++) {
+	for (i = 0; i < klass->n_values; i++) {
 		const GEnumValue *v = &klass->values[i];
 		t->direction = (GODirection)-1;
 		g_assert_false (go_object_set_property (obj, "direction", "Direction",
@@ -7067,6 +7070,7 @@ test_cairo_rotate_deg (void)
 	cairo_matrix_t m, expected;
 	double x, y;
 	int k;
+	unsigned u;
 
 	/* Multiples of 90 degrees are exact */
 	static const struct { double deg, xx, yx; } exact[] = {
@@ -7074,14 +7078,14 @@ test_cairo_rotate_deg (void)
 		{ 360, 1, 0 }, { -90, 0, -1 }, { -180, -1, 0 }, { 450, 0, 1 },
 		{ 720, 1, 0 }, { -270, 0, 1 }
 	};
-	for (k = 0; k < (int)G_N_ELEMENTS (exact); k++) {
+	for (u = 0; u < G_N_ELEMENTS (exact); u++) {
 		cairo_identity_matrix (cr);
-		go_cairo_rotate_deg (cr, exact[k].deg);
+		go_cairo_rotate_deg (cr, exact[u].deg);
 		cairo_get_matrix (cr, &m);
-		g_assert_cmpfloat (m.xx, ==, exact[k].xx);
-		g_assert_cmpfloat (m.yx, ==, exact[k].yx);
-		g_assert_cmpfloat (m.xy, ==, -exact[k].yx);
-		g_assert_cmpfloat (m.yy, ==, exact[k].xx);
+		g_assert_cmpfloat (m.xx, ==, exact[u].xx);
+		g_assert_cmpfloat (m.yx, ==, exact[u].yx);
+		g_assert_cmpfloat (m.xy, ==, -exact[u].yx);
+		g_assert_cmpfloat (m.yy, ==, exact[u].xx);
 		g_assert_cmpfloat (m.x0, ==, 0);
 		g_assert_cmpfloat (m.y0, ==, 0);
 	}
@@ -8391,8 +8395,6 @@ register_regutf8_tests (void)
 /* go-libxml-extras.c                                                  */
 /* ------------------------------------------------------------------ */
 
-#define XML_STR(s) ((const xmlChar *)(s))
-
 static void
 xml_quiet (G_GNUC_UNUSED void *ctx, G_GNUC_UNUSED const char *msg, ...)
 {
@@ -8413,8 +8415,8 @@ static xmlNodePtr
 xml_new_root (xmlDocPtr *doc)
 {
 	xmlNodePtr root;
-	*doc = xmlNewDoc (XML_STR ("1.0"));
-	root = xmlNewDocNode (*doc, NULL, XML_STR ("root"), NULL);
+	*doc = xmlNewDoc (CC2XML ("1.0"));
+	root = xmlNewDocNode (*doc, NULL, CC2XML ("root"), NULL);
 	xmlDocSetRootElement (*doc, root);
 	return root;
 }
@@ -8435,7 +8437,7 @@ test_xml_parse_file (void)
 	doc = go_xml_parse_file (name);
 	g_assert_nonnull (doc);
 	root = xmlDocGetRootElement (doc);
-	g_assert_cmpstr ((const char *)root->name, ==, "top");
+	g_assert_cmpstr (CXML2C (root->name), ==, "top");
 	g_assert_nonnull (go_xml_get_child_by_name (root, "child"));
 	xmlFreeDoc (doc);
 
@@ -8536,7 +8538,7 @@ test_xml_set_cstr (void)
 
 	/* Without a name it is the content; text and children are replaced */
 	for (i = 0; i < G_N_ELEMENTS (values); i++) {
-		xmlNewChild (root, NULL, XML_STR ("kid"), XML_STR ("x"));
+		xmlNewChild (root, NULL, CC2XML ("kid"), CC2XML ("x"));
 		go_xml_node_set_cstr (root, NULL, values[i]);
 		if (values[i][0]) {
 			s = go_xml_node_get_cstr (root, NULL);
@@ -8840,9 +8842,9 @@ test_xml_enum (void)
 	xmlNodePtr root = xml_new_root (&doc);
 	GEnumClass *klass = g_type_class_ref (GO_TYPE_DIRECTION);
 	gint res;
-	int i;
+	unsigned i;
 
-	for (i = 0; i < (int)klass->n_values; i++) {
+	for (i = 0; i < klass->n_values; i++) {
 		const GEnumValue *v = &klass->values[i];
 		char *num = g_strdup_printf ("%d", v->value);
 		const char *spelled[3] = { v->value_name, v->value_nick, num };
@@ -9169,7 +9171,7 @@ test_xml_out_double (void)
 		}
 
 		root = xml_out_run (xml_out_double_fn, &d, &doc);
-		text = xmlGetProp (root, XML_STR ("v"));
+		text = xmlGetProp (root, CC2XML ("v"));
 		g_assert_nonnull (text);
 		/* Read back it must be the same number, exactly */
 		back = g_ascii_strtod (CXML2C (text), NULL);
@@ -9209,7 +9211,7 @@ test_xml_out_color (void)
 	for (i = 0; i < G_N_ELEMENTS (colors); i++) {
 		xmlDocPtr doc;
 		xmlNodePtr root = xml_out_run (xml_out_color_fn, &colors[i], &doc);
-		xmlChar *text = xmlGetProp (root, XML_STR ("c"));
+		xmlChar *text = xmlGetProp (root, CC2XML ("c"));
 		GOColor back = 12345;
 
 		g_assert_nonnull (text);
@@ -9240,7 +9242,7 @@ test_xml_out_long_double (void)
 	for (i = 0; i < G_N_ELEMENTS (values); i++) {
 		xmlDocPtr doc;
 		xmlNodePtr root = xml_out_run (xml_out_long_double_fn, &values[i], &doc);
-		xmlChar *text = xmlGetProp (root, XML_STR ("v"));
+		xmlChar *text = xmlGetProp (root, CC2XML ("v"));
 		long double back;
 
 		g_assert_nonnull (text);
@@ -9585,7 +9587,7 @@ test_image_vfunc_save (G_GNUC_UNUSED GOImage *image, GsfXMLOut *output)
 static void
 test_image_vfunc_load_attr (G_GNUC_UNUSED GOImage *image, const xmlChar *name, const xmlChar *value)
 {
-	g_string_append_printf (test_image_log.attrs, "%s=%s;", (const char *)name, (const char *)value);
+	g_string_append_printf (test_image_log.attrs, "%s=%s;", CXML2C (name), CXML2C (value));
 }
 
 static void
@@ -9973,8 +9975,8 @@ test_image_save_load (void)
 	{
 		TestImage *u = test_image_new (1, 1);
 		const xmlChar *attrs[] = {
-			XML_STR ("width"), XML_STR ("120"), XML_STR ("name"), XML_STR ("ignored here"),
-			XML_STR ("height"), XML_STR ("45"), XML_STR ("custom"), XML_STR ("value"), NULL
+			CC2XML ("width"), CC2XML ("120"), CC2XML ("name"), CC2XML ("ignored here"),
+			CC2XML ("height"), CC2XML ("45"), CC2XML ("custom"), CC2XML ("value"), NULL
 		};
 
 		test_image_reset_log ();
@@ -11145,16 +11147,17 @@ test_style_auto (void)
 
 	/* Any one of these not being automatic is enough to not be automatic */
 	{
+		unsigned u;
 		gboolean *relevant[] = {
 			&s->marker.auto_shape, &s->marker.auto_outline_color, &s->marker.auto_fill_color,
 			&s->line.auto_dash, &s->line.auto_color, &s->fill.auto_type, &s->fill.auto_fore,
 			&s->fill.auto_back, &s->font.auto_scale, &s->font.auto_color, &s->font.auto_font,
 			&s->text_layout.auto_angle
 		};
-		for (i = 0; i < (int)G_N_ELEMENTS (relevant); i++) {
-			*relevant[i] = FALSE;
+		for (u = 0; u < G_N_ELEMENTS (relevant); u++) {
+			*relevant[u] = FALSE;
 			g_assert_false (go_style_is_auto (s));
-			*relevant[i] = TRUE;
+			*relevant[u] = TRUE;
 			g_assert_true (go_style_is_auto (s));
 		}
 	}
@@ -12793,8 +12796,8 @@ test_persist_iface_prep_sax (GOPersist *gp, GsfXMLIn *xin,
 		return;
 	for (i = 0; attrs[i] != NULL; i += 2) {
 		g_assert_nonnull (attrs[i + 1]);
-		if (strcmp ((const char *)attrs[i], "key") == 0)
-			self->prepared_key = g_strdup ((const char *)attrs[i + 1]);
+		if (strcmp (CXML2C (attrs[i]), "key") == 0)
+			self->prepared_key = g_strdup (CXML2C (attrs[i + 1]));
 	}
 }
 
@@ -13437,14 +13440,13 @@ static void
 test_pango_gtk_buffer (void)
 {
 	GtkTextBuffer *buffer;
-
-	/* GdkColor's boxed type is only registered by GTK initialization.  */
-	(void)gtk_init_check (NULL, NULL);
-	buffer = gtk_text_buffer_new (NULL);
-	GtkTextTagTable *table = gtk_text_buffer_get_tag_table (buffer);
+	GtkTextTagTable *table;
 	GtkTextTag *bold, *italic;
 	GtkTextIter iter;
 	PangoAttrList *attrs = pango_attr_list_new ();
+
+	buffer = gtk_text_buffer_new (NULL);
+	table = gtk_text_buffer_get_tag_table (buffer);
 
 	go_create_std_tags_for_buffer (buffer);
 	bold = gtk_text_tag_table_lookup (table, "PANGO_WEIGHT_BOLD");
@@ -13747,7 +13749,7 @@ test_file_open_create (void)
 	input = go_file_open (uri, &err);
 	g_assert_no_error (err);
 	g_assert_nonnull (input);
-	g_assert_cmpint ((int)gsf_input_size (input), ==, (int)len);
+	g_assert_cmpint ((gint64)gsf_input_size (input), ==, (gint64)len);
 	data = gsf_input_read (input, len, NULL);
 	g_assert_nonnull (data);
 	g_assert_cmpmem (data, len, text, len);
@@ -14104,6 +14106,15 @@ main (int argc, char **argv)
 {
 	g_test_init (&argc, &argv, NULL);
 	libgoffice_init ();
+#ifdef GOFFICE_WITH_GTK
+	/*
+	 * Using GtkText* requires GTK to be initialized first.  In particular,
+	 * GtkTextTag's deprecated GdkColor properties are looked up by name
+	 * when the class is initialized, and gtk_init_check() registers that
+	 * boxed type before any GtkTextTag is created.
+	 */
+	(void)gtk_init_check (NULL, NULL);
+#endif
 
 	register_geometry_tests ();
 	register_color_tests ();
@@ -14130,10 +14141,7 @@ main (int argc, char **argv)
 	register_pango_extras_tests ();
 	register_file_tests ();
 
-	{
-		int res = g_test_run ();
-		/* Reports leaked strings, if any */
-		libgoffice_shutdown ();
-		return res;
-	}
+	int res = g_test_run ();
+	libgoffice_shutdown ();
+	return res;
 }

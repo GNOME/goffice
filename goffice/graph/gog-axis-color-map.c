@@ -256,8 +256,8 @@ map_start (GsfXMLIn *xin, xmlChar const **attrs)
 	 * its id still has to be read from the file */
 	if (state->map->id == NULL) {
 		for (; attrs && *attrs; attrs +=2)
-			if (!strcmp ((char const *) *attrs, "id")) {
-				state->map->id = g_strdup ((char const *) attrs[1]);
+			if (!strcmp (CXML2C (*attrs), "id")) {
+				state->map->id = g_strdup (CXML2C (attrs[1]));
 				break;
 			}
 	}

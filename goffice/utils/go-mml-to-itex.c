@@ -64,7 +64,7 @@ go_mathml_to_itex (char const *mml, char **buf, int *length, gboolean *compact, 
 		}
 	}
 	
-	doc = xmlParseDoc((xmlChar const *) mml);
+	doc = xmlParseDoc (CC2XML (mml));
 	if (!doc) {
 		if (gcc)
 			go_cmd_context_error_import (gcc, "MathML toI TeX: parsing MathML document failed");
