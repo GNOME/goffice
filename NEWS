@@ -23,6 +23,7 @@ Morten:
 	* Lots of canvas fixes.
 	* Canvas test suite.
 	* Improved math test suite.
+	* Improved util test suite.
 	* Graph test suite.
 	* Fix crash when duplicating an empty colour map.
 	* Fix graph equation crash on a leading `}`.
