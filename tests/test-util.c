@@ -26,6 +26,10 @@
  *   - go-locale.c
  *   - go-style.c
  *   - go-gradient.c
+ *   - go-rsm.c
+ *   - go-persist.c
+ *   - go-pango-extras.c
+ *   - go-file.c
  */
 
 #include <goffice/goffice.h>
@@ -41,6 +45,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 #include <glib/gstdio.h>
 #include <gsf/gsf-output-memory.h>
@@ -12651,6 +12656,1442 @@ register_gradient_tests (void)
 }
 
 /* ------------------------------------------------------------------ */
+/* go-rsm.c                                                           */
+/* ------------------------------------------------------------------ */
+
+static void
+test_rsm_lookup_missing (void)
+{
+	const char *id = "go:test-util/rsm/missing";
+	size_t len = 123;
+
+	g_assert_null (go_rsm_lookup (id, NULL));
+	g_assert_null (go_rsm_lookup (id, &len));
+	g_assert_cmpuint (len, ==, 123);
+}
+
+static void
+test_rsm_register_lookup (void)
+{
+	static const char data[] = { 'r', 's', 'm', 0, 1, 2 };
+	static const char empty[] = "";
+	const char *data_id = "go:test-util/rsm/data";
+	const char *empty_id = "go:test-util/rsm/empty";
+	gconstpointer ptr;
+	size_t len;
+
+	go_rsm_register_file (data_id, data, sizeof (data));
+	go_rsm_register_file (empty_id, empty, 0);
+
+	ptr = go_rsm_lookup (data_id, &len);
+	g_assert_true (ptr == data);
+	g_assert_cmpuint (len, ==, sizeof (data));
+	g_assert_cmpint (memcmp (ptr, data, sizeof (data)), ==, 0);
+
+	ptr = go_rsm_lookup (data_id, NULL);
+	g_assert_true (ptr == data);
+
+	len = 123;
+	ptr = go_rsm_lookup (empty_id, &len);
+	g_assert_true (ptr == empty);
+	g_assert_cmpuint (len, ==, 0);
+
+	ptr = go_rsm_lookup (empty_id, NULL);
+	g_assert_true (ptr == empty);
+
+	go_rsm_unregister_file (data_id);
+	go_rsm_unregister_file (empty_id);
+}
+
+static void
+test_rsm_unregister (void)
+{
+	static const char one[] = "one";
+	static const char two[] = "two";
+	const char *one_id = "go:test-util/rsm/unregister-one";
+	const char *two_id = "go:test-util/rsm/unregister-two";
+
+	go_rsm_register_file (one_id, one, sizeof (one));
+	go_rsm_register_file (two_id, two, sizeof (two));
+
+	go_rsm_unregister_file (one_id);
+	g_assert_null (go_rsm_lookup (one_id, NULL));
+	g_assert_true (go_rsm_lookup (two_id, NULL) == two);
+
+	go_rsm_unregister_file (two_id);
+	g_assert_null (go_rsm_lookup (two_id, NULL));
+	g_assert_null (go_rsm_lookup (one_id, NULL));
+}
+
+static void
+test_rsm_copies_id (void)
+{
+	char id[64];
+	const char *original = "go:test-util/rsm/copied-id";
+	const char *changed = "go:test-util/rsm/changed-id";
+	static const char data[] = "copied";
+
+	g_assert_cmpuint (strlen (original) + 1, <=, sizeof (id));
+	strcpy (id, original);
+	go_rsm_register_file (id, data, sizeof (data));
+
+	strcpy (id, changed);
+	g_assert_null (go_rsm_lookup (id, NULL));
+	g_assert_true (go_rsm_lookup (original, NULL) == data);
+
+	go_rsm_unregister_file (original);
+}
+
+static void
+register_rsm_tests (void)
+{
+	g_test_add_func ("/utils/go-rsm/lookup-missing", test_rsm_lookup_missing);
+	g_test_add_func ("/utils/go-rsm/register-lookup", test_rsm_register_lookup);
+	g_test_add_func ("/utils/go-rsm/unregister", test_rsm_unregister);
+	g_test_add_func ("/utils/go-rsm/copies-id", test_rsm_copies_id);
+}
+
+/* ------------------------------------------------------------------ */
+/* go-persist.c                                                       */
+/* ------------------------------------------------------------------ */
+
+typedef struct {
+	GObject parent;
+	int prepare_count;
+	int save_count;
+	GOPersist const *last_persist;
+	gpointer prep_user_state;
+	char *prepared_key;
+	GsfXMLOut *last_xml_out;
+	const char *message;
+} TestPersist;
+
+typedef struct {
+	GObjectClass parent_class;
+} TestPersistClass;
+
+GType test_persist_get_type (void);
+#define TEST_PERSIST(o) ((TestPersist *)(o))
+
+static void test_persist_interface_init (GOPersistClass *iface);
+
+G_DEFINE_TYPE_WITH_CODE (TestPersist, test_persist, G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (GO_TYPE_PERSIST, test_persist_interface_init))
+
+static void
+test_persist_iface_prep_sax (GOPersist *gp, GsfXMLIn *xin,
+			     xmlChar const **attrs)
+{
+	TestPersist *self = TEST_PERSIST (gp);
+	unsigned i;
+
+	self->prepare_count++;
+	self->last_persist = gp;
+	self->prep_user_state = xin->user_state;
+
+	if (!attrs)
+		return;
+	for (i = 0; attrs[i] != NULL; i += 2) {
+		g_assert_nonnull (attrs[i + 1]);
+		if (strcmp ((const char *)attrs[i], "key") == 0)
+			self->prepared_key = g_strdup ((const char *)attrs[i + 1]);
+	}
+}
+
+static void
+test_persist_iface_sax_save (GOPersist const *gp, GsfXMLOut *output)
+{
+	TestPersist *self = (TestPersist *)gp;
+
+	self->save_count++;
+	self->last_persist = gp;
+	self->last_xml_out = output;
+	gsf_xml_out_simple_element (output, "Message", self->message);
+}
+
+static void
+test_persist_interface_init (GOPersistClass *iface)
+{
+	iface->prep_sax = test_persist_iface_prep_sax;
+	iface->sax_save = test_persist_iface_sax_save;
+}
+
+static void
+test_persist_class_init (TestPersistClass *klass)
+{
+	(void)klass;
+}
+
+static void
+test_persist_init (TestPersist *self)
+{
+	self->message = "hello";
+}
+
+static void
+test_persist_interface_type (void)
+{
+	GType type = go_persist_get_type ();
+	TestPersist *obj;
+
+	g_assert_true (type != G_TYPE_INVALID);
+	g_assert_true (G_TYPE_IS_INTERFACE (type));
+	g_assert_cmpstr (g_type_name (type), ==, "GOPersist");
+	g_assert_true (go_persist_get_type () == type);
+
+	obj = g_object_new (test_persist_get_type (), NULL);
+	g_assert_true (GO_IS_PERSIST (obj));
+	g_assert_true (G_TYPE_CHECK_INSTANCE_TYPE (obj, type));
+	g_object_unref (obj);
+}
+
+static void
+test_persist_sax_save (void)
+{
+	TestPersist *obj = g_object_new (test_persist_get_type (), NULL);
+	GsfOutput *mem = gsf_output_memory_new ();
+	GsfXMLOut *xml = gsf_xml_out_new (mem);
+	char *saved;
+
+	gsf_xml_out_start_element (xml, "Root");
+	go_persist_sax_save (GO_PERSIST (obj), xml);
+	gsf_xml_out_end_element (xml);
+
+	g_assert_cmpint (obj->save_count, ==, 1);
+	g_assert_true (obj->last_persist == GO_PERSIST (obj));
+	g_assert_true (obj->last_xml_out == xml);
+
+	g_object_unref (xml);
+	gsf_output_close (mem);
+	saved = g_strndup ((const char *)gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (mem)),
+			   gsf_output_size (mem));
+	g_assert_nonnull (strstr (saved, "<Message>hello</Message>"));
+
+	g_free (saved);
+	g_object_unref (mem);
+	g_object_unref (obj);
+}
+
+static void
+test_persist_xml_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	go_persist_prep_sax (GO_PERSIST (xin->user_state), xin, attrs);
+}
+
+static void
+test_persist_prep_sax (void)
+{
+	static GsfXMLInNode const dtd[] = {
+		GSF_XML_IN_NODE (ROOT, ROOT, -1, "Root",
+				 GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (ROOT, PERSIST, -1, "Persist",
+				 GSF_XML_NO_CONTENT, test_persist_xml_start, NULL),
+		GSF_XML_IN_NODE_END
+	};
+	const char *xml = "<Root><Persist key=\"value\"/></Root>";
+	GsfXMLInDoc *doc = gsf_xml_in_doc_new (dtd, NULL);
+	GsfInput *in = gsf_input_memory_new ((const guint8 *)xml, strlen (xml), FALSE);
+	TestPersist *obj = g_object_new (test_persist_get_type (), NULL);
+
+	g_assert_true (gsf_xml_in_doc_parse (doc, in, obj));
+	g_assert_cmpint (obj->prepare_count, ==, 1);
+	g_assert_true (obj->last_persist == GO_PERSIST (obj));
+	g_assert_true (obj->prep_user_state == obj);
+	g_assert_cmpstr (obj->prepared_key, ==, "value");
+
+	g_free (obj->prepared_key);
+	g_object_unref (in);
+	gsf_xml_in_doc_free (doc);
+	g_object_unref (obj);
+}
+
+static void
+register_persist_tests (void)
+{
+	g_test_add_func ("/utils/go-persist/interface-type",
+			 test_persist_interface_type);
+	g_test_add_func ("/utils/go-persist/sax-save", test_persist_sax_save);
+	g_test_add_func ("/utils/go-persist/prep-sax", test_persist_prep_sax);
+}
+
+/* ------------------------------------------------------------------ */
+/* go-pango-extras.c                                                  */
+/* ------------------------------------------------------------------ */
+
+typedef struct {
+	int start, end;
+} TestPangoRange;
+
+static void
+insert_pango_attr (PangoAttrList *list, PangoAttribute *attr,
+		   int start, int end)
+{
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (list, attr);
+}
+
+static void
+add_pango_int_attr (PangoAttrList *list, PangoAttrType type, int value,
+		    int start, int end)
+{
+	PangoAttribute *attr;
+
+	switch (type) {
+	case PANGO_ATTR_STYLE:
+		attr = pango_attr_style_new (value);
+		break;
+	case PANGO_ATTR_WEIGHT:
+		attr = pango_attr_weight_new (value);
+		break;
+	case PANGO_ATTR_UNDERLINE:
+		attr = pango_attr_underline_new (value);
+		break;
+	case PANGO_ATTR_STRIKETHROUGH:
+		attr = pango_attr_strikethrough_new (value);
+		break;
+	case PANGO_ATTR_RISE:
+		attr = pango_attr_rise_new (value);
+		break;
+	case PANGO_ATTR_VARIANT:
+		attr = pango_attr_variant_new (value);
+		break;
+	case PANGO_ATTR_LETTER_SPACING:
+		attr = pango_attr_letter_spacing_new (value);
+		break;
+	case PANGO_ATTR_FALLBACK:
+		attr = pango_attr_fallback_new (value);
+		break;
+	case PANGO_ATTR_GRAVITY:
+		attr = pango_attr_gravity_new (value);
+		break;
+	case PANGO_ATTR_GRAVITY_HINT:
+		attr = pango_attr_gravity_hint_new (value);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+	insert_pango_attr (list, attr, start, end);
+}
+
+typedef struct {
+	PangoAttrType type;
+	GArray *ranges;
+} CollectRangesData;
+
+static gboolean
+collect_pango_range (PangoAttribute *attr, gpointer data)
+{
+	CollectRangesData *cd = data;
+
+	if (attr->klass->type == cd->type) {
+		TestPangoRange range = { attr->start_index, attr->end_index };
+		g_array_append_val (cd->ranges, range);
+	}
+	return FALSE;
+}
+
+static void
+assert_pango_ranges (PangoAttrList *list, PangoAttrType type,
+		     TestPangoRange const *expected, gsize n)
+{
+	CollectRangesData data;
+	PangoAttrList *copy;
+	gsize i;
+
+	data.type = type;
+	data.ranges = g_array_new (FALSE, FALSE, sizeof (TestPangoRange));
+	copy = pango_attr_list_copy (list);
+	(void)pango_attr_list_filter (copy, collect_pango_range, &data);
+	pango_attr_list_unref (copy);
+
+	g_assert_cmpuint (data.ranges->len, ==, n);
+	for (i = 0; i < n; i++) {
+		TestPangoRange const *got =
+			&g_array_index (data.ranges, TestPangoRange, i);
+		g_assert_cmpint (got->start, ==, expected[i].start);
+		g_assert_cmpint (got->end, ==, expected[i].end);
+	}
+	g_array_free (data.ranges, TRUE);
+}
+
+typedef struct {
+	PangoAttrType type;
+	gboolean found;
+	int ival;
+	double dval;
+	int start, end;
+} FindAttrData;
+
+static gboolean
+find_pango_attr_value (PangoAttribute *attr, gpointer data)
+{
+	FindAttrData *fd = data;
+
+	if (attr->klass->type != fd->type)
+		return FALSE;
+
+	fd->found = TRUE;
+	fd->start = attr->start_index;
+	fd->end = attr->end_index;
+	if (fd->type == PANGO_ATTR_SCALE)
+		fd->dval = ((PangoAttrFloat *)attr)->value;
+	else
+		fd->ival = ((PangoAttrInt *)attr)->value;
+	return FALSE;
+}
+
+static FindAttrData
+find_pango_attr (PangoAttrList *list, PangoAttrType type)
+{
+	FindAttrData data = { type, FALSE, 0, 0, 0, 0 };
+	PangoAttrList *copy = pango_attr_list_copy (list);
+
+	(void)pango_attr_list_filter (copy, find_pango_attr_value, &data);
+	pango_attr_list_unref (copy);
+	return data;
+}
+
+typedef struct {
+	PangoAttrType type;
+	gboolean found;
+} FindTypeData;
+
+static gboolean
+find_pango_attr_type (PangoAttribute *attr, gpointer data)
+{
+	FindTypeData *fd = data;
+
+	if (attr->klass->type == fd->type)
+		fd->found = TRUE;
+	return FALSE;
+}
+
+static gboolean
+pango_list_has_type (PangoAttrList *list, PangoAttrType type)
+{
+	FindTypeData data = { type, FALSE };
+	PangoAttrList *copy = pango_attr_list_copy (list);
+
+	(void)pango_attr_list_filter (copy, find_pango_attr_type, &data);
+	pango_attr_list_unref (copy);
+	return data.found;
+}
+
+static PangoAttrList *
+make_pango_splice_list (void)
+{
+	PangoAttrList *list = pango_attr_list_new ();
+
+	add_pango_int_attr (list, PANGO_ATTR_WEIGHT, PANGO_WEIGHT_BOLD, 0, 10);
+	add_pango_int_attr (list, PANGO_ATTR_UNDERLINE,
+			    PANGO_UNDERLINE_SINGLE, 2, 5);
+	add_pango_int_attr (list, PANGO_ATTR_STYLE, PANGO_STYLE_ITALIC, 6, 8);
+	add_pango_int_attr (list, PANGO_ATTR_STRIKETHROUGH, TRUE, 0, 2);
+	return list;
+}
+
+static void
+test_pango_attr_types (void)
+{
+	PangoAttrType sub = go_pango_attr_subscript_get_attr_type ();
+	PangoAttrType sup = go_pango_attr_superscript_get_attr_type ();
+	PangoAttribute *attr, *copy;
+
+	g_assert_true (sub != PANGO_ATTR_INVALID);
+	g_assert_true (sup != PANGO_ATTR_INVALID);
+	g_assert_true (sub != sup);
+	g_assert_true (go_pango_attr_subscript_get_attr_type () == sub);
+	g_assert_true (go_pango_attr_superscript_get_attr_type () == sup);
+
+	attr = go_pango_attr_subscript_new (TRUE);
+	g_assert_cmpint (attr->klass->type, ==, sub);
+	g_assert_true (((GOPangoAttrSubscript *)attr)->val);
+	copy = pango_attribute_copy (attr);
+	g_assert_true (copy != attr);
+	g_assert_true (pango_attribute_equal (attr, copy));
+	((GOPangoAttrSubscript *)copy)->val = FALSE;
+	g_assert_false (pango_attribute_equal (attr, copy));
+	pango_attribute_destroy (copy);
+	pango_attribute_destroy (attr);
+
+	attr = go_pango_attr_superscript_new (FALSE);
+	g_assert_cmpint (attr->klass->type, ==, sup);
+	g_assert_false (((GOPangoAttrSuperscript *)attr)->val);
+	copy = pango_attribute_copy (attr);
+	g_assert_true (pango_attribute_equal (attr, copy));
+	((GOPangoAttrSuperscript *)copy)->val = TRUE;
+	g_assert_false (pango_attribute_equal (attr, copy));
+	pango_attribute_destroy (copy);
+	pango_attribute_destroy (attr);
+}
+
+static void
+test_pango_attr_list_is_empty (void)
+{
+	PangoAttrList *list = pango_attr_list_new ();
+
+	g_assert_true (go_pango_attr_list_is_empty (NULL));
+	g_assert_true (go_pango_attr_list_is_empty (list));
+
+	add_pango_int_attr (list, PANGO_ATTR_WEIGHT, PANGO_WEIGHT_BOLD, 0, 3);
+	g_assert_false (go_pango_attr_list_is_empty (list));
+
+	pango_attr_list_unref (list);
+}
+
+static void
+test_pango_open_hole (void)
+{
+	PangoAttrList *list = make_pango_splice_list ();
+	TestPangoRange const weight[] = { { 0, 4 }, { 7, 13 } };
+	TestPangoRange const underline[] = { { 2, 4 }, { 7, 8 } };
+	TestPangoRange const italic[] = { { 9, 11 } };
+	TestPangoRange const strike[] = { { 0, 2 } };
+
+	go_pango_attr_list_open_hole (list, 4, 3);
+
+	assert_pango_ranges (list, PANGO_ATTR_WEIGHT,
+			     weight, G_N_ELEMENTS (weight));
+	assert_pango_ranges (list, PANGO_ATTR_UNDERLINE,
+			     underline, G_N_ELEMENTS (underline));
+	assert_pango_ranges (list, PANGO_ATTR_STYLE,
+			     italic, G_N_ELEMENTS (italic));
+	assert_pango_ranges (list, PANGO_ATTR_STRIKETHROUGH,
+			     strike, G_N_ELEMENTS (strike));
+
+	pango_attr_list_unref (list);
+}
+
+static void
+test_pango_erase (void)
+{
+	PangoAttrList *list = make_pango_splice_list ();
+	TestPangoRange const weight[] = { { 0, 7 } };
+	TestPangoRange const underline[] = { { 2, 4 } };
+	TestPangoRange const italic[] = { { 4, 5 } };
+	TestPangoRange const strike[] = { { 0, 2 } };
+
+	go_pango_attr_list_erase (list, 4, 3);
+
+	assert_pango_ranges (list, PANGO_ATTR_WEIGHT,
+			     weight, G_N_ELEMENTS (weight));
+	assert_pango_ranges (list, PANGO_ATTR_UNDERLINE,
+			     underline, G_N_ELEMENTS (underline));
+	assert_pango_ranges (list, PANGO_ATTR_STYLE,
+			     italic, G_N_ELEMENTS (italic));
+	assert_pango_ranges (list, PANGO_ATTR_STRIKETHROUGH,
+			     strike, G_N_ELEMENTS (strike));
+
+	pango_attr_list_unref (list);
+}
+
+static void
+test_pango_unset (void)
+{
+	PangoAttrList *list = make_pango_splice_list ();
+	TestPangoRange const weight[] = { { 0, 3 }, { 6, 10 } };
+	TestPangoRange const underline[] = { { 2, 5 } };
+	TestPangoRange const italic[] = { { 6, 8 } };
+	TestPangoRange const strike[] = { { 0, 2 } };
+
+	go_pango_attr_list_unset (list, 3, 6, PANGO_ATTR_WEIGHT);
+
+	assert_pango_ranges (list, PANGO_ATTR_WEIGHT,
+			     weight, G_N_ELEMENTS (weight));
+	assert_pango_ranges (list, PANGO_ATTR_UNDERLINE,
+			     underline, G_N_ELEMENTS (underline));
+	assert_pango_ranges (list, PANGO_ATTR_STYLE,
+			     italic, G_N_ELEMENTS (italic));
+	assert_pango_ranges (list, PANGO_ATTR_STRIKETHROUGH,
+			     strike, G_N_ELEMENTS (strike));
+
+	pango_attr_list_unref (list);
+}
+
+static void
+test_pango_translate_attributes (void)
+{
+	PangoAttrList *attrs, *translated;
+	PangoAttribute *attr;
+	FindAttrData scale, rise;
+
+	attrs = pango_attr_list_new ();
+	attr = go_pango_attr_superscript_new (TRUE);
+	insert_pango_attr (attrs, attr, 1, 3);
+	translated = go_pango_translate_attributes (attrs);
+
+	g_assert_true (translated != attrs);
+	g_assert_true (pango_list_has_type (attrs,
+					    go_pango_attr_superscript_get_attr_type ()));
+	g_assert_false (pango_list_has_type (translated,
+					     go_pango_attr_superscript_get_attr_type ()));
+	scale = find_pango_attr (translated, PANGO_ATTR_SCALE);
+	rise = find_pango_attr (translated, PANGO_ATTR_RISE);
+	g_assert_true (scale.found);
+	g_assert_true (rise.found);
+	g_assert_cmpint (scale.start, ==, 1);
+	g_assert_cmpint (scale.end, ==, 3);
+	assert_close (scale.dval, GO_SUPERSCRIPT_SCALE);
+	g_assert_cmpint (rise.start, ==, 1);
+	g_assert_cmpint (rise.end, ==, 3);
+	g_assert_cmpint (rise.ival, ==, GO_SUPERSCRIPT_RISE);
+
+	pango_attr_list_unref (translated);
+	pango_attr_list_unref (attrs);
+
+	attrs = pango_attr_list_new ();
+	attr = go_pango_attr_subscript_new (TRUE);
+	insert_pango_attr (attrs, attr, 1, 3);
+	translated = go_pango_translate_attributes (attrs);
+
+	scale = find_pango_attr (translated, PANGO_ATTR_SCALE);
+	rise = find_pango_attr (translated, PANGO_ATTR_RISE);
+	g_assert_true (scale.found);
+	g_assert_true (rise.found);
+	assert_close (scale.dval, GO_SUBSCRIPT_SCALE);
+	g_assert_cmpint (rise.ival, ==, GO_SUBSCRIPT_RISE);
+
+	pango_attr_list_unref (translated);
+	pango_attr_list_unref (attrs);
+
+	attrs = pango_attr_list_new ();
+	add_pango_int_attr (attrs, PANGO_ATTR_WEIGHT, PANGO_WEIGHT_BOLD, 0, 3);
+	translated = go_pango_translate_attributes (attrs);
+	g_assert_true (translated == attrs);
+	pango_attr_list_unref (translated);
+	pango_attr_list_unref (attrs);
+}
+
+static void
+test_pango_translate_layout (void)
+{
+	PangoContext *context = test_pango_context ();
+	PangoLayout *layout = pango_layout_new (context);
+	PangoAttrList *attrs = pango_attr_list_new ();
+	FindAttrData rise;
+
+	insert_pango_attr (attrs, go_pango_attr_subscript_new (TRUE), 1, 2);
+	pango_layout_set_text (layout, "abc", -1);
+	pango_layout_set_attributes (layout, attrs);
+	pango_attr_list_unref (attrs);
+
+	go_pango_translate_layout (layout);
+
+	attrs = pango_layout_get_attributes (layout);
+	g_assert_nonnull (attrs);
+	g_assert_false (pango_list_has_type (attrs,
+					     go_pango_attr_subscript_get_attr_type ()));
+	rise = find_pango_attr (attrs, PANGO_ATTR_RISE);
+	g_assert_true (rise.found);
+	g_assert_cmpint (rise.ival, ==, GO_SUBSCRIPT_RISE);
+
+	g_object_unref (layout);
+	g_object_unref (context);
+}
+
+static void
+test_pango_attrs_to_markup (void)
+{
+	static struct {
+		PangoAttrType type;
+		int value;
+		char const *markup;
+	} const cases[] = {
+		{ PANGO_ATTR_STYLE, PANGO_STYLE_ITALIC,
+		  "<span font_style=\"italic\">abc</span>" },
+		{ PANGO_ATTR_STYLE, PANGO_STYLE_OBLIQUE,
+		  "<span font_style=\"oblique\">abc</span>" },
+		{ PANGO_ATTR_STYLE, PANGO_STYLE_NORMAL,
+		  "<span font_style=\"normal\">abc</span>" },
+		{ PANGO_ATTR_WEIGHT, PANGO_WEIGHT_BOLD,
+		  "<span font_weight=\"700\">abc</span>" },
+		{ PANGO_ATTR_STRIKETHROUGH, TRUE,
+		  "<span strikethrough=\"true\">abc</span>" },
+		{ PANGO_ATTR_STRIKETHROUGH, FALSE,
+		  "<span strikethrough=\"false\">abc</span>" },
+		{ PANGO_ATTR_UNDERLINE, PANGO_UNDERLINE_SINGLE,
+		  "<span underline=\"single\">abc</span>" },
+		{ PANGO_ATTR_UNDERLINE, PANGO_UNDERLINE_NONE,
+		  "<span underline=\"none\">abc</span>" },
+		{ PANGO_ATTR_RISE, 1234,
+		  "<span rise=\"1234\">abc</span>" },
+		{ PANGO_ATTR_VARIANT, PANGO_VARIANT_SMALL_CAPS,
+		  "<span font_variant=\"smallcaps\">abc</span>" },
+		{ PANGO_ATTR_LETTER_SPACING, 100,
+		  "<span letter_spacing=\"100\">abc</span>" },
+		{ PANGO_ATTR_FALLBACK, FALSE,
+		  "<span fallback=\"false\">abc</span>" },
+		{ PANGO_ATTR_GRAVITY, PANGO_GRAVITY_EAST,
+		  "<span gravity=\"east\">abc</span>" },
+		{ PANGO_ATTR_GRAVITY_HINT, PANGO_GRAVITY_HINT_STRONG,
+		  "<span gravity_hint=\"strong\">abc</span>" }
+	};
+	PangoAttrList *attrs;
+	PangoFontDescription *desc;
+	PangoColor color = { 0xffff, 0, 0 };
+	char *markup, *expected, *str;
+	unsigned i;
+
+	g_assert_null (go_pango_attrs_to_markup (NULL, NULL));
+
+	attrs = pango_attr_list_new ();
+	markup = go_pango_attrs_to_markup (attrs, "a<b&c");
+	g_assert_cmpstr (markup, ==, "a&lt;b&amp;c");
+	g_free (markup);
+	pango_attr_list_unref (attrs);
+
+	for (i = 0; i < G_N_ELEMENTS (cases); i++) {
+		attrs = pango_attr_list_new ();
+		add_pango_int_attr (attrs, cases[i].type, cases[i].value, 0, 3);
+		markup = go_pango_attrs_to_markup (attrs, "abc");
+		g_assert_cmpstr (markup, ==, cases[i].markup);
+		g_free (markup);
+		pango_attr_list_unref (attrs);
+	}
+
+	attrs = pango_attr_list_new ();
+	insert_pango_attr (attrs, pango_attr_family_new ("Serif <&>"), 0, 3);
+	markup = go_pango_attrs_to_markup (attrs, "abc");
+	g_assert_cmpstr (markup, ==,
+			 "<span font_family=\"Serif &lt;&amp;&gt;\">abc</span>");
+	g_free (markup);
+	pango_attr_list_unref (attrs);
+
+	attrs = pango_attr_list_new ();
+	insert_pango_attr (attrs, pango_attr_size_new (12 * PANGO_SCALE), 0, 3);
+	markup = go_pango_attrs_to_markup (attrs, "abc");
+	expected = g_strdup_printf ("<span font_size=\"%i\">abc</span>",
+				    12 * PANGO_SCALE);
+	g_assert_cmpstr (markup, ==, expected);
+	g_free (expected);
+	g_free (markup);
+	pango_attr_list_unref (attrs);
+
+	attrs = pango_attr_list_new ();
+	insert_pango_attr (attrs, pango_attr_foreground_new (color.red,
+							     color.green,
+							     color.blue), 0, 3);
+	markup = go_pango_attrs_to_markup (attrs, "abc");
+	str = pango_color_to_string (&color);
+	expected = g_strdup_printf ("<span foreground=\"%s\">abc</span>", str);
+	g_free (str);
+	g_assert_cmpstr (markup, ==, expected);
+	g_free (expected);
+	g_free (markup);
+	pango_attr_list_unref (attrs);
+
+	attrs = pango_attr_list_new ();
+	desc = pango_font_description_from_string ("Sans Bold 12");
+	insert_pango_attr (attrs, pango_attr_font_desc_new (desc), 0, 3);
+	str = pango_font_description_to_string (desc);
+	{
+		char *escaped = g_markup_escape_text (str, -1);
+		expected = g_strdup_printf ("<span font_desc=\"%s\">abc</span>",
+					    escaped);
+		g_free (escaped);
+	}
+	g_free (str);
+	markup = go_pango_attrs_to_markup (attrs, "abc");
+	g_assert_cmpstr (markup, ==, expected);
+	g_free (expected);
+	g_free (markup);
+	pango_font_description_free (desc);
+	pango_attr_list_unref (attrs);
+
+	/* Unsupported attributes are ignored.  */
+	attrs = pango_attr_list_new ();
+	insert_pango_attr (attrs, pango_attr_scale_new (0.5), 0, 3);
+	markup = go_pango_attrs_to_markup (attrs, "abc");
+	g_assert_cmpstr (markup, ==, "abc");
+	g_free (markup);
+	pango_attr_list_unref (attrs);
+
+	attrs = pango_attr_list_new ();
+	insert_pango_attr (attrs, go_pango_attr_superscript_new (TRUE), 0, 3);
+	markup = go_pango_attrs_to_markup (attrs, "abc");
+	g_assert_cmpstr (markup, ==, "abc");
+	g_free (markup);
+	pango_attr_list_unref (attrs);
+}
+
+static void
+test_pango_measure_string (void)
+{
+	PangoContext *context = test_pango_context ();
+	PangoFontDescription *desc = pango_font_description_from_string ("Sans 12");
+	int empty = go_pango_measure_string (context, desc, "");
+	int one = go_pango_measure_string (context, desc, "i");
+	int many = go_pango_measure_string (context, desc, "iiiiiiii");
+
+	g_assert_cmpint (empty, >=, 0);
+	g_assert_cmpint (empty, <, one);
+	g_assert_cmpint (many, >, one);
+
+	pango_font_description_free (desc);
+	g_object_unref (context);
+}
+
+#ifdef GOFFICE_WITH_GTK
+static void
+test_pango_gtk_buffer (void)
+{
+	GtkTextBuffer *buffer;
+
+	/* GdkColor's boxed type is only registered by GTK initialization.  */
+	(void)gtk_init_check (NULL, NULL);
+	buffer = gtk_text_buffer_new (NULL);
+	GtkTextTagTable *table = gtk_text_buffer_get_tag_table (buffer);
+	GtkTextTag *bold, *italic;
+	GtkTextIter iter;
+	PangoAttrList *attrs = pango_attr_list_new ();
+
+	go_create_std_tags_for_buffer (buffer);
+	bold = gtk_text_tag_table_lookup (table, "PANGO_WEIGHT_BOLD");
+	italic = gtk_text_tag_table_lookup (table, "PANGO_STYLE_ITALIC");
+	g_assert_nonnull (bold);
+	g_assert_nonnull (italic);
+
+	/* "a\303\251bc": bytes 1..3 are the single character "é".  */
+	gtk_text_buffer_set_text (buffer, "a\303\251bc", -1);
+	insert_pango_attr (attrs, pango_attr_weight_new (PANGO_WEIGHT_BOLD),
+			   1, 3);
+	insert_pango_attr (attrs, pango_attr_style_new (PANGO_STYLE_ITALIC),
+			   0, 1);
+	go_load_pango_attributes_into_buffer (attrs, buffer, "a\303\251bc");
+
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
+	g_assert_true (gtk_text_iter_has_tag (&iter, bold));
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+	g_assert_true (gtk_text_iter_has_tag (&iter, italic));
+
+	pango_attr_list_unref (attrs);
+	g_object_unref (buffer);
+}
+#endif
+
+static void
+register_pango_extras_tests (void)
+{
+	g_test_add_func ("/utils/go-pango-extras/attr-types",
+			 test_pango_attr_types);
+	g_test_add_func ("/utils/go-pango-extras/attr-list-is-empty",
+			 test_pango_attr_list_is_empty);
+	g_test_add_func ("/utils/go-pango-extras/open-hole", test_pango_open_hole);
+	g_test_add_func ("/utils/go-pango-extras/erase", test_pango_erase);
+	g_test_add_func ("/utils/go-pango-extras/unset", test_pango_unset);
+	g_test_add_func ("/utils/go-pango-extras/translate-attributes",
+			 test_pango_translate_attributes);
+	g_test_add_func ("/utils/go-pango-extras/translate-layout",
+			 test_pango_translate_layout);
+	g_test_add_func ("/utils/go-pango-extras/attrs-to-markup",
+			 test_pango_attrs_to_markup);
+	g_test_add_func ("/utils/go-pango-extras/measure-string",
+			 test_pango_measure_string);
+#ifdef GOFFICE_WITH_GTK
+	g_test_add_func ("/utils/go-pango-extras/gtk-buffer",
+			 test_pango_gtk_buffer);
+#endif
+}
+
+/* ------------------------------------------------------------------ */
+/* go-file.c                                                          */
+/* ------------------------------------------------------------------ */
+
+static char *
+test_file_make_uri (char const *dir, char const *base, char const *contents,
+		    char **path_out)
+{
+	char *path = g_build_filename (dir, base, NULL);
+	char *uri;
+
+	g_assert_true (g_file_set_contents (path, contents, -1, NULL));
+	uri = go_filename_to_uri (path);
+	g_assert_nonnull (uri);
+	*path_out = path;
+	return uri;
+}
+
+static void
+test_file_filename_simplify (void)
+{
+	char *s, *dir, *sub, *path, *other, *expected;
+
+	s = go_filename_simplify ("/a/b//./c", GO_DOTDOT_SYNTACTIC, FALSE);
+	g_assert_cmpstr (s, ==, "/a/b/c");
+	g_free (s);
+
+	s = go_filename_simplify ("/../a", GO_DOTDOT_SYNTACTIC, FALSE);
+	g_assert_cmpstr (s, ==, "/a");
+	g_free (s);
+
+	s = go_filename_simplify ("/a/b/../c", GO_DOTDOT_SYNTACTIC, FALSE);
+	g_assert_cmpstr (s, ==, "/a/c");
+	g_free (s);
+
+	s = go_filename_simplify ("/a/b/../c", GO_DOTDOT_LEAVE, FALSE);
+	g_assert_cmpstr (s, ==, "/a/b/../c");
+	g_free (s);
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	sub = g_build_filename (dir, "sub", NULL);
+	g_assert_cmpint (g_mkdir (sub, 0700), ==, 0);
+
+	path = g_build_filename (dir, "sub", "..", "file", NULL);
+	expected = g_build_filename (dir, "file", NULL);
+	s = go_filename_simplify (path, GO_DOTDOT_TEST, FALSE);
+	g_assert_cmpstr (s, ==, expected);
+	g_free (s);
+	g_free (expected);
+	g_free (path);
+
+	other = g_build_filename (dir, "missing", "..", "file", NULL);
+	s = go_filename_simplify (other, GO_DOTDOT_TEST, FALSE);
+	g_assert_cmpstr (s, ==, other);
+	g_free (s);
+	g_free (other);
+
+	g_rmdir (sub);
+	g_rmdir (dir);
+	g_free (sub);
+	g_free (dir);
+
+#ifndef G_OS_WIN32
+	{
+		char *cwd = g_get_current_dir ();
+		expected = g_build_filename (cwd, "x", "y", NULL);
+		s = go_filename_simplify ("x//./y", GO_DOTDOT_LEAVE, TRUE);
+		g_assert_cmpstr (s, ==, expected);
+		g_free (s);
+		g_free (expected);
+		g_free (cwd);
+	}
+#endif
+}
+
+static void
+test_file_url_simplify (void)
+{
+	static struct {
+		char const *uri;
+		char const *result;
+	} const cases[] = {
+		{ "HTTP://example.com/a/./b", "http://example.com/a/b" },
+		{ "https://EXAMPLE.com/a/./b", "https://EXAMPLE.com/a/b" },
+		{ "FTP://host/a//b/./c", "ftp://host/a/b/c" },
+		{ "file:///tmp//./x", "file:///tmp/x" }
+	};
+	unsigned i;
+
+	for (i = 0; i < G_N_ELEMENTS (cases); i++) {
+		char *result = go_url_simplify (cases[i].uri);
+		g_assert_cmpstr (result, ==, cases[i].result);
+		g_free (result);
+	}
+}
+
+static void
+test_file_url_relative (void)
+{
+	static struct {
+		char const *ref, *rel, *result;
+	} const resolve_cases[] = {
+		{ "http://example.com/a/b/c", "./d",
+		  "http://example.com/a/b/d" },
+		{ "http://example.com/a/b/c", "d",
+		  "http://example.com/a/b/d" },
+		{ "http://example.com/a/b/c", "../d",
+		  "http://example.com/a/b/../d" },
+		{ "a/b", "c", "a/c" }
+	};
+	static struct {
+		char const *uri, *ref, *result;
+	} const relative_cases[] = {
+		{ "http://example.com/a/b/c", "http://example.com/a/x/y",
+		  "../b/c" },
+		{ "http://example.com/a/b/c", "http://example.com/a/b/c",
+		  "c" },
+		{ "file:///a/b/c", "file:///a/x/y", "../b/c" },
+		{ "http://example.com/a", "http://other.com/a", NULL },
+		{ "https://example.com/a", "http://example.com/a", NULL }
+	};
+	unsigned i;
+
+	for (i = 0; i < G_N_ELEMENTS (resolve_cases); i++) {
+		char *result = go_url_resolve_relative (resolve_cases[i].ref,
+							resolve_cases[i].rel);
+		g_assert_cmpstr (result, ==, resolve_cases[i].result);
+		g_free (result);
+	}
+
+	for (i = 0; i < G_N_ELEMENTS (relative_cases); i++) {
+		char *result = go_url_make_relative (relative_cases[i].uri,
+						    relative_cases[i].ref);
+		g_assert_cmpstr (result, ==, relative_cases[i].result);
+		g_free (result);
+	}
+}
+
+static void
+test_file_uri_conversions (void)
+{
+	char *dir, *path, *uri, *expected, *roundtrip;
+
+#ifndef G_OS_WIN32
+	uri = go_filename_from_uri ("file:///tmp/a%20b.txt");
+	g_assert_cmpstr (uri, ==, "/tmp/a b.txt");
+	g_free (uri);
+#endif
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	path = g_build_filename (dir, "plain.txt", NULL);
+
+	uri = go_filename_to_uri (path);
+	expected = g_filename_to_uri (path, NULL, NULL);
+	g_assert_cmpstr (uri, ==, expected);
+	roundtrip = go_filename_from_uri (uri);
+	g_assert_cmpstr (roundtrip, ==, path);
+
+	g_free (roundtrip);
+	g_free (expected);
+	g_free (uri);
+	g_free (path);
+	g_rmdir (dir);
+	g_free (dir);
+}
+
+static void
+test_file_shell_arg_to_uri (void)
+{
+	char *uri, *dir, *expected;
+
+	uri = go_shell_arg_to_uri ("fd://17");
+	g_assert_cmpstr (uri, ==, "fd://17");
+	g_free (uri);
+
+	uri = go_shell_arg_to_uri ("fd://17/");
+	g_assert_cmpstr (uri, ==, "fd://17/");
+	g_free (uri);
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	uri = go_shell_arg_to_uri (dir);
+	expected = go_filename_to_uri (dir);
+	g_assert_cmpstr (uri, ==, expected);
+	g_free (expected);
+	g_free (uri);
+	g_rmdir (dir);
+	g_free (dir);
+}
+
+static void
+test_file_uri_parts (void)
+{
+	char *dir, *path, *uri, *result, *expected;
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	uri = test_file_make_uri (dir, "a b.txt", "some text\n", &path);
+
+	result = go_basename_from_uri (uri);
+	g_assert_cmpstr (result, ==, "a b.txt");
+	g_free (result);
+
+	result = go_dirname_from_uri (uri, TRUE);
+	g_assert_cmpstr (result, ==, dir);
+	g_free (result);
+
+	expected = g_strconcat ("file://", dir, NULL);
+	result = go_dirname_from_uri (uri, FALSE);
+	g_assert_cmpstr (result, ==, expected);
+	g_free (expected);
+	g_free (result);
+
+	g_remove (path);
+	g_rmdir (dir);
+	g_free (path);
+	g_free (uri);
+	g_free (dir);
+}
+
+static void
+test_file_open_create (void)
+{
+	static char const text[] = "go-file test data\n";
+	char *dir, *path, *uri, *missing_path, *missing_uri;
+	gsize len = sizeof (text) - 1;
+	GError *err = NULL;
+	GsfOutput *output;
+	GsfInput *input;
+	guint8 const *data;
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	uri = test_file_make_uri (dir, "data.txt", text, &path);
+
+	output = go_file_create (uri, &err);
+	g_assert_no_error (err);
+	g_assert_nonnull (output);
+	g_assert_true (gsf_output_write (output, len, (guint8 const *)text));
+	g_assert_true (gsf_output_close (output));
+	g_object_unref (output);
+
+	input = go_file_open (uri, &err);
+	g_assert_no_error (err);
+	g_assert_nonnull (input);
+	g_assert_cmpint ((int)gsf_input_size (input), ==, (int)len);
+	data = gsf_input_read (input, len, NULL);
+	g_assert_nonnull (data);
+	g_assert_cmpmem (data, len, text, len);
+	g_object_unref (input);
+
+	missing_path = g_build_filename (dir, "missing.txt", NULL);
+	missing_uri = go_filename_to_uri (missing_path);
+	input = go_file_open (missing_uri, &err);
+	g_assert_null (input);
+	g_assert_nonnull (err);
+	g_clear_error (&err);
+
+	g_free (missing_uri);
+	g_free (missing_path);
+	g_remove (path);
+	g_rmdir (dir);
+	g_free (path);
+	g_free (uri);
+	g_free (dir);
+}
+
+static void
+test_file_split_urls (void)
+{
+	static char const data[] =
+		"# a comment\r\n"
+		"  http://example.com/a  \r\n"
+		"\n"
+		"file:///tmp/b\n"
+		"   \n"
+		"http://example.com/c";
+	GSList *urls = go_file_split_urls (data);
+
+	g_assert_cmpuint (g_slist_length (urls), ==, 3);
+	g_assert_cmpstr (g_slist_nth_data (urls, 0), ==, "http://example.com/a");
+	g_assert_cmpstr (g_slist_nth_data (urls, 1), ==, "file:///tmp/b");
+	g_assert_cmpstr (g_slist_nth_data (urls, 2), ==, "http://example.com/c");
+	g_slist_free_full (urls, g_free);
+}
+
+static void
+test_file_owner_group (void)
+{
+	char *dir, *path, *uri, *owner, *group;
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	uri = test_file_make_uri (dir, "owner.txt", "x", &path);
+
+	owner = go_file_get_owner_name (uri);
+	group = go_file_get_group_name (uri);
+
+	if (owner == NULL && group == NULL) {
+		g_test_skip ("owner and group names are unavailable");
+	} else {
+		if (owner != NULL) {
+			g_assert_true (g_utf8_validate (owner, -1, NULL));
+			g_assert_cmpstr (owner, ==, g_get_user_name ());
+		}
+		if (group != NULL) {
+			g_assert_true (g_utf8_validate (group, -1, NULL));
+			g_assert_cmpuint (strlen (group), >, 0);
+		}
+	}
+
+	g_free (group);
+	g_free (owner);
+	g_remove (path);
+	g_rmdir (dir);
+	g_free (path);
+	g_free (uri);
+	g_free (dir);
+}
+
+static void
+test_file_permissions (void)
+{
+	GOFilePermissions boxed = {
+		TRUE, FALSE, TRUE,
+		FALSE, TRUE, FALSE,
+		TRUE, FALSE, TRUE
+	};
+	GOFilePermissions wanted = {
+		TRUE, TRUE, FALSE,
+		TRUE, FALSE, FALSE,
+		FALSE, FALSE, FALSE
+	};
+	GType type = go_file_permissions_get_type ();
+	GValue value = G_VALUE_INIT, copy = G_VALUE_INIT;
+	GOFilePermissions *got;
+	char *dir, *path, *uri;
+
+	g_assert_true (G_TYPE_IS_BOXED (type));
+	g_value_init (&value, type);
+	g_value_set_boxed (&value, &boxed);
+	g_value_init (&copy, type);
+	g_value_copy (&value, &copy);
+	got = g_value_get_boxed (&copy);
+	g_assert_nonnull (got);
+	g_assert_true (got->owner_read);
+	g_assert_false (got->owner_write);
+	g_assert_true (got->owner_execute);
+	g_assert_false (got->group_read);
+	g_assert_true (got->group_write);
+	g_assert_false (got->group_execute);
+	g_assert_true (got->others_read);
+	g_assert_false (got->others_write);
+	g_assert_true (got->others_execute);
+	g_value_unset (&copy);
+	g_value_unset (&value);
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	uri = test_file_make_uri (dir, "perms.txt", "x", &path);
+
+	go_set_file_permissions (uri, &wanted);
+	got = go_get_file_permissions (uri);
+	g_assert_nonnull (got);
+	g_assert_true (got->owner_read);
+	g_assert_true (got->owner_write);
+	g_assert_false (got->owner_execute);
+#ifndef G_OS_WIN32
+	g_assert_true (got->group_read);
+	g_assert_false (got->group_write);
+	g_assert_false (got->group_execute);
+	g_assert_false (got->others_read);
+	g_assert_false (got->others_write);
+	g_assert_false (got->others_execute);
+#endif
+	g_free (got);
+
+	g_remove (path);
+	g_rmdir (dir);
+	g_free (path);
+	g_free (uri);
+	g_free (dir);
+}
+
+static void
+test_file_dates (void)
+{
+	char *dir, *path, *uri, *missing_path, *missing_uri;
+	time_t before = time (NULL) - 1;
+	time_t accessed, modified, changed;
+	GDateTime *modtime;
+	gint64 modtime_unix;
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	uri = test_file_make_uri (dir, "dates.txt", "x", &path);
+
+	modtime = go_file_get_modtime (uri);
+	g_assert_nonnull (modtime);
+	modtime_unix = g_date_time_to_unix (modtime);
+	g_assert_cmpint (modtime_unix, >=, (gint64)before);
+
+	accessed = go_file_get_date_accessed (uri);
+	modified = go_file_get_date_modified (uri);
+	changed = go_file_get_date_changed (uri);
+	g_assert_cmpint ((gint64)accessed, >=, (gint64)before);
+	g_assert_cmpint ((gint64)modified, >=, (gint64)before);
+	g_assert_cmpint ((gint64)changed, >=, (gint64)before);
+	g_assert_cmpint ((gint64)modified, ==, modtime_unix);
+
+	g_date_time_unref (modtime);
+
+	missing_path = g_build_filename (dir, "missing.txt", NULL);
+	missing_uri = go_filename_to_uri (missing_path);
+	g_assert_null (go_file_get_modtime (missing_uri));
+	g_assert_cmpint ((gint64)go_file_get_date_accessed (missing_uri), ==, -1);
+	g_assert_cmpint ((gint64)go_file_get_date_modified (missing_uri), ==, -1);
+	g_assert_cmpint ((gint64)go_file_get_date_changed (missing_uri), ==, -1);
+
+	g_free (missing_uri);
+	g_free (missing_path);
+	g_remove (path);
+	g_rmdir (dir);
+	g_free (path);
+	g_free (uri);
+	g_free (dir);
+}
+
+static void
+test_file_access (void)
+{
+	char *dir, *path, *uri, *missing_path, *missing_uri;
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	uri = test_file_make_uri (dir, "access.txt", "x", &path);
+
+	g_assert_cmpint (go_file_access (uri, GO_F_OK), ==, 0);
+	g_assert_cmpint (go_file_access (uri, GO_R_OK), ==, 0);
+	g_assert_cmpint (go_file_access (uri, GO_W_OK), ==, 0);
+
+	missing_path = g_build_filename (dir, "missing.txt", NULL);
+	missing_uri = go_filename_to_uri (missing_path);
+	g_assert_cmpint (go_file_access (missing_uri, GO_F_OK), ==, -1);
+	g_assert_cmpint (go_file_access ("http://example.com/a", GO_F_OK), ==, -1);
+
+	g_free (missing_uri);
+	g_free (missing_path);
+	g_remove (path);
+	g_rmdir (dir);
+	g_free (path);
+	g_free (uri);
+	g_free (dir);
+}
+
+static void
+test_file_url_encode (void)
+{
+	static struct {
+		int type;
+		char const *text;
+		char const *result;
+	} const cases[] = {
+		{ 0, "a b/c@d+e", "a%20b%2Fc@d%2Be" },
+		{ 1, "a b/c@d+e", "a%20b/c@d+e" }
+	};
+	unsigned i;
+
+	for (i = 0; i < G_N_ELEMENTS (cases); i++) {
+		char *result = go_url_encode (cases[i].text, cases[i].type);
+		g_assert_cmpstr (result, ==, cases[i].result);
+		g_free (result);
+	}
+}
+
+static void
+test_file_check_extension (void)
+{
+	static struct {
+		char const *uri;
+		char const *std_ext;
+		gboolean result;
+		char const *new_uri;
+	} const cases[] = {
+		{ "file:///tmp/a", "txt", TRUE, "file:///tmp/a.txt" },
+		{ "file:///tmp/a.txt", "txt", TRUE, "file:///tmp/a.txt" },
+		{ "file:///tmp/a.TXT", "txt", TRUE, "file:///tmp/a.TXT" },
+		{ "file:///tmp/a.odt", "txt", FALSE, "file:///tmp/a.odt" },
+		{ "file:///tmp/a", "", TRUE, "file:///tmp/a" },
+		{ "file:///tmp/a.txt", NULL, TRUE, "file:///tmp/a.txt" }
+	};
+	unsigned i;
+
+	for (i = 0; i < G_N_ELEMENTS (cases); i++) {
+		char *new_uri = NULL;
+		gboolean result = go_url_check_extension (cases[i].uri,
+							  cases[i].std_ext,
+							  &new_uri);
+		g_assert_cmpint (result, ==, cases[i].result);
+		g_assert_cmpstr (new_uri, ==, cases[i].new_uri);
+		g_free (new_uri);
+
+		/* The output argument is optional.  */
+		result = go_url_check_extension (cases[i].uri,
+						 cases[i].std_ext, NULL);
+		g_assert_cmpint (result, ==, cases[i].result);
+	}
+}
+
+static void
+test_file_mime_type (void)
+{
+	static char const text[] = "hello world\n";
+	char *dir, *path, *uri, *mime, *content_type, *expected, *description;
+
+	dir = g_dir_make_tmp ("test-util-XXXXXX", NULL);
+	g_assert_nonnull (dir);
+	uri = test_file_make_uri (dir, "notes.txt", text, &path);
+
+	mime = go_get_mime_type (uri);
+	g_assert_nonnull (mime);
+	g_assert_true (g_utf8_validate (mime, -1, NULL));
+	g_assert_cmpuint (strlen (mime), >, 0);
+
+#ifndef G_OS_WIN32
+	content_type = g_content_type_guess (NULL, (guchar const *)text,
+					     sizeof (text) - 1, NULL);
+	expected = content_type ? g_content_type_get_mime_type (content_type) : NULL;
+	g_free (content_type);
+	if (expected != NULL) {
+		g_free (mime);
+		mime = go_get_mime_type_for_data (text, sizeof (text) - 1);
+		g_assert_cmpstr (mime, ==, expected);
+	}
+	g_free (expected);
+#endif
+	g_free (mime);
+
+	content_type = g_content_type_from_mime_type ("text/plain");
+	expected = content_type ? g_content_type_get_description (content_type) : NULL;
+	g_free (content_type);
+	description = go_mime_type_get_description ("text/plain");
+	g_assert_cmpstr (description, ==, expected ? expected : "text/plain");
+	g_free (description);
+	g_free (expected);
+
+	g_remove (path);
+	g_rmdir (dir);
+	g_free (path);
+	g_free (uri);
+	g_free (dir);
+}
+
+static void
+test_file_shell_argv (void)
+{
+	gchar const *argv[] = { "one", "two", NULL };
+	gchar const **args = go_shell_argv_to_glib_encoding (2, argv);
+
+#ifdef G_OS_WIN32
+	g_assert_cmpstr (args[0], ==, "one");
+	g_assert_cmpstr (args[1], ==, "two");
+	g_assert_null (args[2]);
+#else
+	g_assert_true (args == argv);
+#endif
+	go_shell_argv_to_glib_encoding_free ();
+}
+
+static void
+register_file_tests (void)
+{
+	g_test_add_func ("/utils/go-file/filename-simplify",
+			 test_file_filename_simplify);
+	g_test_add_func ("/utils/go-file/url-simplify", test_file_url_simplify);
+	g_test_add_func ("/utils/go-file/url-relative",
+			 test_file_url_relative);
+	g_test_add_func ("/utils/go-file/uri-conversions",
+			 test_file_uri_conversions);
+	g_test_add_func ("/utils/go-file/shell-arg-to-uri",
+			 test_file_shell_arg_to_uri);
+	g_test_add_func ("/utils/go-file/uri-parts", test_file_uri_parts);
+	g_test_add_func ("/utils/go-file/open-create", test_file_open_create);
+	g_test_add_func ("/utils/go-file/split-urls", test_file_split_urls);
+	g_test_add_func ("/utils/go-file/owner-group", test_file_owner_group);
+	g_test_add_func ("/utils/go-file/permissions", test_file_permissions);
+	g_test_add_func ("/utils/go-file/dates", test_file_dates);
+	g_test_add_func ("/utils/go-file/access", test_file_access);
+	g_test_add_func ("/utils/go-file/url-encode", test_file_url_encode);
+	g_test_add_func ("/utils/go-file/check-extension",
+			 test_file_check_extension);
+	g_test_add_func ("/utils/go-file/mime-type", test_file_mime_type);
+	g_test_add_func ("/utils/go-file/shell-argv", test_file_shell_argv);
+}
+
+/* ------------------------------------------------------------------ */
 
 int
 main (int argc, char **argv)
@@ -12678,6 +14119,10 @@ main (int argc, char **argv)
 	register_locale_tests ();
 	register_style_tests ();
 	register_gradient_tests ();
+	register_rsm_tests ();
+	register_persist_tests ();
+	register_pango_extras_tests ();
+	register_file_tests ();
 
 	{
 		int res = g_test_run ();
