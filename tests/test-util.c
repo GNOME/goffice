@@ -5,31 +5,7 @@
  * gets its own section below with a function that registers the tests
  * for that file; test paths are of the form "/utils/<file>/<function>".
  *
- * Currently covered:
- *   - go-geometry.c
- *   - go-color.c
- *   - go-unit.c
- *   - datetime.c
- *   - go-string.c
- *   - go-line.c
- *   - go-undo.c
- *   - go-path.c
- *   - go-bezier.c
- *   - go-marker.c
- *   - go-pattern.c
- *   - go-glib-extras.c
- *   - go-cairo.c
- *   - regutf8.c
- *   - go-libxml-extras.c
- *   - go-image.c
- *   - go-font.c
- *   - go-locale.c
- *   - go-style.c
- *   - go-gradient.c
- *   - go-rsm.c
- *   - go-persist.c
- *   - go-pango-extras.c
- *   - go-file.c
+ * Note that go-format is covered in test-format.c
  */
 
 #include <goffice/goffice.h>
