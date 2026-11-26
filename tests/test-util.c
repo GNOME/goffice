@@ -13577,10 +13577,16 @@ test_file_url_simplify (void)
 		char const *uri;
 		char const *result;
 	} const cases[] = {
+		{ "http://host/./a", "http://host/a" },
+		{ "http://host/././a", "http://host/a" },
 		{ "HTTP://example.com/a/./b", "http://example.com/a/b" },
-		{ "https://EXAMPLE.com/a/./b", "https://EXAMPLE.com/a/b" },
+		{ "https://EXAMPLE.com/./a/./b", "https://EXAMPLE.com/a/b" },
 		{ "FTP://host/a//b/./c", "ftp://host/a/b/c" },
-		{ "file:///tmp//./x", "file:///tmp/x" }
+		{ "file:///tmp/./x", "file:///tmp/x" },
+		{ "file:///tmp//./x", "file:///tmp/x" },
+		/* ".." is left alone: an intermediate component may be a symlink.  */
+		{ "http://host/../a", "http://host/../a" },
+		{ "http://host/a/../b", "http://host/a/../b" }
 	};
 	unsigned i;
 

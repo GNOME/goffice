@@ -267,8 +267,10 @@ simplify_path (char const *uri)
 			continue;
 		}
 
-		if (p[0] == '/' && p[1] == '.' && p[2] == '/') {
-			/* "/./" -> "/".  */
+		if ((p[0] == '/' && p[1] == '.' && p[2] == '/') ||
+		    (q == simp && p[0] == '.' && p[1] == '/')) {
+			/* "/./" -> "/".  simplify_host_path strips the
+			 * first slash, so accept a leading "./" too.  */
 			p += 2;
 			continue;
 		}
@@ -279,7 +281,8 @@ simplify_path (char const *uri)
 				p += 3;
 				continue;
 			} else {
-				/* Leave alone */
+				/* Leave alone: a component before ".." could
+				 * be a symlink.  */
 			}
 		}
 
